@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Sailors">
+      <UniqueIdentifier>{258793ff-963d-4391-baf0-b9125e2047e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SailorsEditor">
+      <UniqueIdentifier>{19d72020-35cc-4a7c-9490-91ba7e3dd353}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{6745088b-d2d8-4eb9-adb2-630152dcd157}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Techniques">
+      <UniqueIdentifier>{9777002b-93b1-4d04-b5fe-8cbdc7ec6f0d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Sailors.cpp">
+      <Filter>Sailors</Filter>
+    </ClCompile>
+    <ClCompile Include="SailorsMain.cpp">
+      <Filter>Sailors</Filter>
+    </ClCompile>
+    <ClCompile Include="SailorsEditor.cpp">
+      <Filter>SailorsEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="SailorsMenu.cpp">
+      <Filter>SailorsEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="SailorsWayPoints.cpp">
+      <Filter>SailorsEditor</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Sailors.h">
+      <Filter>Sailors</Filter>
+    </ClInclude>
+    <ClInclude Include="d3dx8math.h">
+      <Filter>SailorsEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="SailorsEditor.h">
+      <Filter>SailorsEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="SailorsMenu.h">
+      <Filter>SailorsEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="SailorsWayPoints.h">
+      <Filter>SailorsEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Engine\Modules\Techniques\Sailors_Editor\editor.sha">
+      <Filter>Data\Techniques</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Sailors.rc" />
+  </ItemGroup>
+</Project>

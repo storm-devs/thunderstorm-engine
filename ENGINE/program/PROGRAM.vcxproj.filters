@@ -1,0 +1,2196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="BATTLE_INTERFACE">
+      <UniqueIdentifier>{633dce42-1de1-487e-816b-fcc85c134fc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CANNONS">
+      <UniqueIdentifier>{b85695e1-ed42-46c6-8063-91a40000da65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CHARACTERS">
+      <UniqueIdentifier>{11506de4-29db-4bb6-a69e-4f140fbd68fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CHARACTERS\RUSSIAN">
+      <UniqueIdentifier>{6bdd3c6b-c3f4-4c31-8fda-6a2115e3ab26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CHARACTERS\ENGLISH">
+      <UniqueIdentifier>{dc5490bd-8839-4775-b1a3-64ad4a8bd82b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CHARACTERS\FRENCH">
+      <UniqueIdentifier>{f622d964-7fb8-42bc-a4b1-ecb457d6e8f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CHARACTERS\GERMAN">
+      <UniqueIdentifier>{6acaa752-4a6b-4eb0-a684-b3d79424dbe8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CHARACTERS\ITALIAN">
+      <UniqueIdentifier>{c2aacde5-8ddc-4998-b5d6-1857e491da87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CHARACTERS\SPANISH">
+      <UniqueIdentifier>{d6ab3dca-1f37-4508-94e9-bfc1fa797482}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CHARACTERS\init">
+      <UniqueIdentifier>{925b46cf-5cc5-4430-8198-63bb2476c2b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="COLONIES">
+      <UniqueIdentifier>{c209b307-212b-4729-9e0f-34fac68e985c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CONTROLS">
+      <UniqueIdentifier>{4997cea1-b36a-47a4-9eb3-1b695c615f86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DIALOGS">
+      <UniqueIdentifier>{60b5f74e-c6af-4e17-a2a9-3998c0745ec3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DIALOGS\RUSSIAN">
+      <UniqueIdentifier>{736c89c4-407e-4e3c-b901-efa6d4925863}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DIALOGS\ENGLISH">
+      <UniqueIdentifier>{0f18585d-d593-45a6-91fa-e013f65c6560}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DIALOGS\FRENCH">
+      <UniqueIdentifier>{9b070708-6bcc-439f-800c-b3f1f9fe2b1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DIALOGS\GERMAN">
+      <UniqueIdentifier>{db17df17-c2de-405e-9962-6223ceb646d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DIALOGS\ITALIAN">
+      <UniqueIdentifier>{6f0fa151-a5ca-46cf-96b9-c81ef6460aa1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DIALOGS\SPANISH">
+      <UniqueIdentifier>{43fd9155-317b-4fea-be31-d253013b5912}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ENCOUNTERS">
+      <UniqueIdentifier>{bb363d84-3362-41a6-b165-cd9b2053b113}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="INTERFACE">
+      <UniqueIdentifier>{cb2231dc-878a-4f1c-92ed-4f08e98fc5b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="INTERFACE\PERKS">
+      <UniqueIdentifier>{58eec443-34a0-4031-b7f0-82a93e310836}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="INTERFACE\Utils">
+      <UniqueIdentifier>{9b1f99c4-e0e0-4239-9103-2186432a7ada}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ISLANDS">
+      <UniqueIdentifier>{159cd374-559b-4788-92a8-647f87a7807d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ITEMS">
+      <UniqueIdentifier>{b57c0d79-2d9e-415b-83cd-03d9c690fb3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LANDENCOUNTERS">
+      <UniqueIdentifier>{c9050a5d-eda0-4bae-a27d-fd5403c64157}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LOC_AI">
+      <UniqueIdentifier>{897f7b2f-0555-4604-930b-8d5c5ffcc6c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LOC_AI\DOC">
+      <UniqueIdentifier>{59ce44bf-27e2-4fde-9a2a-1f067e1ba316}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LOC_AI\TEMPLATES">
+      <UniqueIdentifier>{219d5af9-8018-45cc-88bf-124ae8019cba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LOC_AI\TYPES">
+      <UniqueIdentifier>{c08986b3-bfc9-4a58-aeaf-fa104130224d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LOCATIONS">
+      <UniqueIdentifier>{7a75aaed-fd41-40b1-a30e-e13c5a65c946}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LOCATIONS\INIT">
+      <UniqueIdentifier>{88c10360-8bb0-4cd9-a8e2-221875d1369b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NATIONS">
+      <UniqueIdentifier>{714a9274-67f6-45bd-b8ca-99343043870d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="QUESTS">
+      <UniqueIdentifier>{eb76d5e3-6a45-411d-99d1-2a9be013558f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SCRIPTS">
+      <UniqueIdentifier>{4a2ec433-53a0-4731-ac7c-7a6440aca150}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SCRIPTS\quests_lines">
+      <UniqueIdentifier>{dd9c7a01-fa70-4fa1-a3cb-3c5b85cf562d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SEA_AI">
+      <UniqueIdentifier>{14348e72-6f03-434c-8fe1-a8671d511718}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SEA_AI\AITASKS">
+      <UniqueIdentifier>{10dfbd25-027d-4bf2-bda4-e8b4f0996554}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SEA_AI\WALK">
+      <UniqueIdentifier>{e7301e2e-30c9-4a43-9690-0bd3702d07dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SHIPS">
+      <UniqueIdentifier>{1b8bc769-ad1c-4966-8a5c-8da7e2c69a98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SHIPS\RUSSIAN">
+      <UniqueIdentifier>{fa885cf6-e01b-4103-9779-4fb6f7bfe9de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SHIPS\ENGLISH">
+      <UniqueIdentifier>{96befa15-4b2e-4a26-8c09-8aaa5b483d7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SHIPS\FRENCH">
+      <UniqueIdentifier>{6b5b5a81-8508-40c5-8d80-206f02d908b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SHIPS\GERMAN">
+      <UniqueIdentifier>{58c1e572-1569-4b0f-bff0-93d4ccb072cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SHIPS\ITALIAN">
+      <UniqueIdentifier>{722291a2-4318-4c11-8d11-1ca2398bbe0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SHIPS\SPANISH">
+      <UniqueIdentifier>{709cd0b9-822e-426e-b4f3-e7ea8aca3cda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="STORE">
+      <UniqueIdentifier>{9a4a6a76-8ba5-4c76-a862-72539b3ec145}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WEATHER">
+      <UniqueIdentifier>{2f912f1a-c543-4551-8108-a96daf06c44b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WEATHER\INIT">
+      <UniqueIdentifier>{2bbf1f48-384a-48f6-a58f-b2a41d0fa0ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WORLDMAP">
+      <UniqueIdentifier>{2d299a32-9f28-4d08-8198-657e7894238e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NET">
+      <UniqueIdentifier>{5161f91b-a441-4bea-bbee-43753ab759c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NET\Client">
+      <UniqueIdentifier>{96396fae-c2a7-4af9-916a-6cb706e14ec7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NET\Client\Weather">
+      <UniqueIdentifier>{424b5c71-fccf-4eac-ba2e-6865b9d895a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NET\Server">
+      <UniqueIdentifier>{1be19c64-d366-4e99-8d93-843e98de3dd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NET\Server\Games">
+      <UniqueIdentifier>{2f7bbd1c-2925-4923-b1c2-eb8b8f96950b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NET\Server\Weather">
+      <UniqueIdentifier>{2dc739c5-88d7-4dd0-a35c-80468d1a61c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NET\Interfaces">
+      <UniqueIdentifier>{e3d0f7a8-c394-450e-807d-9e58ad661243}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NET\Interfaces\BattleInterface">
+      <UniqueIdentifier>{875078b4-1100-4077-afdc-55a7aa1e80a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NET\Common">
+      <UniqueIdentifier>{746778f6-d61f-4a1d-8f4d-149ae3a4ddf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BIManager">
+      <UniqueIdentifier>{e24ae180-d239-4773-a176-8a3aab0e1dab}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Battle_interface\ActivePerksShow.c">
+      <Filter>BATTLE_INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="battle_interface\backgroundtask.c">
+      <Filter>BATTLE_INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Battle_interface\BattleInterface.c">
+      <Filter>BATTLE_INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Battle_interface\fast_reload_table.c">
+      <Filter>BATTLE_INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Battle_interface\ispyglass.c">
+      <Filter>BATTLE_INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Battle_interface\LandInterface.c">
+      <Filter>BATTLE_INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Battle_interface\LogInterface.c">
+      <Filter>BATTLE_INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Battle_interface\reload_tables.c">
+      <Filter>BATTLE_INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Battle_interface\utils.c">
+      <Filter>BATTLE_INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="battle_interface\WmInterface.c">
+      <Filter>BATTLE_INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Cannons\Cannons.c">
+      <Filter>CANNONS</Filter>
+    </ClCompile>
+    <ClCompile Include="Cannons\Cannons_init.c">
+      <Filter>CANNONS</Filter>
+    </ClCompile>
+    <ClCompile Include="Characters\characters.c">
+      <Filter>CHARACTERS</Filter>
+    </ClCompile>
+    <ClCompile Include="Characters\characters_ai.c">
+      <Filter>CHARACTERS</Filter>
+    </ClCompile>
+    <ClCompile Include="Characters\characters_events.c">
+      <Filter>CHARACTERS</Filter>
+    </ClCompile>
+    <ClCompile Include="Characters\characters_face.c">
+      <Filter>CHARACTERS</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\characters_init.c">
+      <Filter>CHARACTERS</Filter>
+    </ClCompile>
+    <ClCompile Include="Characters\characters_login.c">
+      <Filter>CHARACTERS</Filter>
+    </ClCompile>
+    <ClCompile Include="Characters\characters_reload_check.c">
+      <Filter>CHARACTERS</Filter>
+    </ClCompile>
+    <ClCompile Include="Characters\Characters_tables.c">
+      <Filter>CHARACTERS</Filter>
+    </ClCompile>
+    <ClCompile Include="Characters\CharacterUtilite.c">
+      <Filter>CHARACTERS</Filter>
+    </ClCompile>
+    <ClCompile Include="Characters\Russian\Characters_names.c">
+      <Filter>CHARACTERS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\english\Characters_names.c">
+      <Filter>CHARACTERS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\french\characters_names.c">
+      <Filter>CHARACTERS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\german\characters_names.c">
+      <Filter>CHARACTERS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\italian\characters_names.c">
+      <Filter>CHARACTERS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\spanish\characters_names.c">
+      <Filter>CHARACTERS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\init\Antigua.c">
+      <Filter>CHARACTERS\init</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\init\Barbados.c">
+      <Filter>CHARACTERS\init</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\init\Curacao.c">
+      <Filter>CHARACTERS\init</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\init\Guadeloupe.c">
+      <Filter>CHARACTERS\init</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\init\IslaMona.c">
+      <Filter>CHARACTERS\init</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\init\Jamaica.c">
+      <Filter>CHARACTERS\init</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\init\LaVega.c">
+      <Filter>CHARACTERS\init</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\init\Martinique.c">
+      <Filter>CHARACTERS\init</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\init\Montserrat.c">
+      <Filter>CHARACTERS\init</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\init\Nevis.c">
+      <Filter>CHARACTERS\init</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\init\Other.c">
+      <Filter>CHARACTERS\init</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\init\PetitGoave.c">
+      <Filter>CHARACTERS\init</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\init\PuertoRico.c">
+      <Filter>CHARACTERS\init</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\init\SantoDomingo.c">
+      <Filter>CHARACTERS\init</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\init\StEustatius.c">
+      <Filter>CHARACTERS\init</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\init\StKitts.c">
+      <Filter>CHARACTERS\init</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\init\StMartin.c">
+      <Filter>CHARACTERS\init</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\init\StoryCharacters.c">
+      <Filter>CHARACTERS\init</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\init\Tortuga.c">
+      <Filter>CHARACTERS\init</Filter>
+    </ClCompile>
+    <ClCompile Include="characters\init\Usurers.c">
+      <Filter>CHARACTERS\init</Filter>
+    </ClCompile>
+    <ClCompile Include="Colonies\Colonies.c">
+      <Filter>COLONIES</Filter>
+    </ClCompile>
+    <ClCompile Include="Colonies\Colonies_init.c">
+      <Filter>COLONIES</Filter>
+    </ClCompile>
+    <ClCompile Include="Colonies\colonyupgradesinit.c">
+      <Filter>COLONIES</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\controls.c">
+      <Filter>CONTROLS</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\init_pc.c">
+      <Filter>CONTROLS</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls\init_xbox.c">
+      <Filter>CONTROLS</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\_shablon_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\AL_reef1.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\Alexander_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\Beltrop_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\Citizen_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\Duel_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\Enc_Companion_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\error_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\Habitue_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\Hovernor_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\ItemHolder_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\LL_citizen_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\LL_housethief_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\LL_Ignacio_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\LL_Master_trader_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\LL_Misc_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\LL_PRat_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\LL_Praymondo_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\LL_Redwood_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\Merchant_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\MiscStoryLineDialogs_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\Officer_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\Passenger_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\Patrol_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\Planter_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\Priest_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\Quest kill character_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\Ranger_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\RelationAgent_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\Shipyarder_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\SL Advisor_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\SL Beatrice_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\SL Blaze_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\SL Captain_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\SL map man_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\SL Pirate Boss_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\SL Pirate Guard_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\Smuggler_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\Soldier_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\Steal soldier dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\StoryFranceHovernor_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\TavernOwner_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\test_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\Trader_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\Usurer_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\Russian\Waitress_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\Zl_captain_Beatrice_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\Zl_captain_Blaze_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\Zl_Citizenaboutwife_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\Zl_Dock_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\russian\Zl_Planter_Idol_dialog.c">
+      <Filter>DIALOGS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\_shablon_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\Citizen_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\Duel_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\Enc_Companion_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\error_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\Habitue_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\Hovernor_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\Item Trader_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\ItemHolder_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\Merchant_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\Officer_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\Passenger_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\Patrol_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\Planter_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\Priest_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\Quest kill character_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\Ranger_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\RelationAgent_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\Shipyarder_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\english\SL Advisor_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\SL Beatrice_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\SL Blaze_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\english\SL Captain_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\SL map man_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\english\SL Pirate Boss_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\english\SL Pirate Guard_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\Smuggler_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\Soldier_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\Steal soldier dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\TavernOwner_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\test_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\Trader_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\Usurer_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\English\Waitress_dialog.c">
+      <Filter>DIALOGS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\_shablon_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\Citizen_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\Duel_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\Enc_Companion_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\error_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\Habitue_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\Hovernor_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\Item Trader_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\ItemHolder_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\Merchant_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\Officer_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\Passenger_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\Patrol_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\Planter_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\Priest_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\Quest kill character_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\Ranger_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\RelationAgent_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\Shipyarder_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\SL Advisor_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\SL Beatrice_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\SL Blaze_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\SL Captain_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\SL map man_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\SL Pirate Boss_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\SL Pirate Guard_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\Smuggler_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\Soldier_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\Steal soldier dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\TavernOwner_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\test_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\Trader_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\Usurer_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\french\Waitress_dialog.c">
+      <Filter>DIALOGS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\_shablon_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\Citizen_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\Duel_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\Enc_Companion_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\error_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\Habitue_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\Hovernor_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\Item Trader_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\ItemHolder_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\Merchant_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\Officer_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\Passenger_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\Patrol_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\Planter_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\Priest_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\Quest kill character_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\Ranger_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\RelationAgent_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\Shipyarder_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\SL Advisor_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\SL Beatrice_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\SL Blaze_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\SL Captain_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\SL map man_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\SL Pirate Boss_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\SL Pirate Guard_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\Smuggler_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\Soldier_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\Steal soldier dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\TavernOwner_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\test_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\Trader_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\Usurer_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\german\Waitress_dialog.c">
+      <Filter>DIALOGS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\_shablon_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\Citizen_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\Duel_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\Enc_Companion_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\error_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\Habitue_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\Hovernor_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\Item Trader_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\ItemHolder_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\Merchant_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\Officer_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\Passenger_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\Patrol_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\Planter_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\Priest_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\Quest kill character_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\Ranger_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\RelationAgent_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\Shipyarder_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\SL Advisor_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\SL Beatrice_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\SL Blaze_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\SL Captain_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\SL map man_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\SL Pirate Boss_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\SL Pirate Guard_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\Smuggler_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\Soldier_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\Steal soldier dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\TavernOwner_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\test_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\Trader_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\Usurer_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\italian\Waitress_dialog.c">
+      <Filter>DIALOGS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\_shablon_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\Citizen_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\Duel_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\Enc_Companion_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\error_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\Habitue_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\Hovernor_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\Item Trader_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\ItemHolder_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\Merchant_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\Officer_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\Passenger_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\Patrol_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\Planter_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\Priest_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\Quest kill character_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\Ranger_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\RelationAgent_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\Shipyarder_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\SL Advisor_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\SL Beatrice_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\SL Blaze_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\SL Captain_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\SL map man_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\SL Pirate Boss_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\SL Pirate Guard_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\Smuggler_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\Soldier_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\Steal soldier dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\TavernOwner_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\test_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\Trader_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\Usurer_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\spanish\Waitress_dialog.c">
+      <Filter>DIALOGS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="encounters\Encounters.c">
+      <Filter>ENCOUNTERS</Filter>
+    </ClCompile>
+    <ClCompile Include="encounters\Encounters_init.c">
+      <Filter>ENCOUNTERS</Filter>
+    </ClCompile>
+    <ClCompile Include="encounters\Encounters_map.c">
+      <Filter>ENCOUNTERS</Filter>
+    </ClCompile>
+    <ClCompile Include="encounters\Encounters_Quest.c">
+      <Filter>ENCOUNTERS</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\AskForHelp.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\BaseInterface.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\CareerMoney.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\character.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\ColonyInfo.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\ColonyManagement.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="interface\disease_alert.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\endgame.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\FoodInfo.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\fortcapture.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\game_menu.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\hirecrew.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\HireOfficer.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\interface.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\interface_utils.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\items.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\itemsbox.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\itemstrade.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\LanguageSelect.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\mainmenu.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\map.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\option_screen.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\option_sl.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\papermap.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\playgame.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\QuestBook.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="interface\quick_save.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\ransack_main.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\RiotResult.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\salary.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\save_load.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\select_menu.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\selectCharacter.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\ship.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\shipyard.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Speak.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\store.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\transfer_main.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\utilite.c">
+      <Filter>INTERFACE</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Perks\perks.c">
+      <Filter>INTERFACE\PERKS</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Perks\perks_init.c">
+      <Filter>INTERFACE\PERKS</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Utils\IconSelector.c">
+      <Filter>INTERFACE\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Utils\Interface.c">
+      <Filter>INTERFACE\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Utils\MessageBox.c">
+      <Filter>INTERFACE\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Islands\islands.c">
+      <Filter>ISLANDS</Filter>
+    </ClCompile>
+    <ClCompile Include="Islands\Islands_init.c">
+      <Filter>ISLANDS</Filter>
+    </ClCompile>
+    <ClCompile Include="Islands\Islands_loader.c">
+      <Filter>ISLANDS</Filter>
+    </ClCompile>
+    <ClCompile Include="Items\initItems.c">
+      <Filter>ITEMS</Filter>
+    </ClCompile>
+    <ClCompile Include="Items\itemLogic.c">
+      <Filter>ITEMS</Filter>
+    </ClCompile>
+    <ClCompile Include="Items\items_utilite.c">
+      <Filter>ITEMS</Filter>
+    </ClCompile>
+    <ClCompile Include="LandEncounters\LandEnc_init.c">
+      <Filter>LANDENCOUNTERS</Filter>
+    </ClCompile>
+    <ClCompile Include="LandEncounters\LandEncounters.c">
+      <Filter>LANDENCOUNTERS</Filter>
+    </ClCompile>
+    <ClCompile Include="LandEncounters\LEnc_login.c">
+      <Filter>LANDENCOUNTERS</Filter>
+    </ClCompile>
+    <ClCompile Include="LandEncounters\LEnc_monsters.c">
+      <Filter>LANDENCOUNTERS</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\LAi_boarding.c">
+      <Filter>LOC_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\LAi_character.c">
+      <Filter>LOC_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\LAi_defines.c">
+      <Filter>LOC_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\LAi_equip.c">
+      <Filter>LOC_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\LAi_events.c">
+      <Filter>LOC_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\LAi_fightparams.c">
+      <Filter>LOC_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\LAi_groups.c">
+      <Filter>LOC_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\LAi_init.c">
+      <Filter>LOC_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\LAi_location.c">
+      <Filter>LOC_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\LAi_login.c">
+      <Filter>LOC_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\LAi_monsters.c">
+      <Filter>LOC_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\LAi_sounds.c">
+      <Filter>LOC_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\LAi_templates.c">
+      <Filter>LOC_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\LAi_types.c">
+      <Filter>LOC_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\LAi_utilites.c">
+      <Filter>LOC_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\LAi_utils.c">
+      <Filter>LOC_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\templates\LAi_afraid.c">
+      <Filter>LOC_AI\TEMPLATES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\templates\LAi_animation.c">
+      <Filter>LOC_AI\TEMPLATES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\templates\LAi_dialog.c">
+      <Filter>LOC_AI\TEMPLATES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\templates\LAi_fight.c">
+      <Filter>LOC_AI\TEMPLATES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\templates\LAi_follow.c">
+      <Filter>LOC_AI\TEMPLATES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\templates\LAi_goto.c">
+      <Filter>LOC_AI\TEMPLATES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\templates\LAi_player.c">
+      <Filter>LOC_AI\TEMPLATES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\templates\LAi_runto.c">
+      <Filter>LOC_AI\TEMPLATES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\templates\LAi_stay.c">
+      <Filter>LOC_AI\TEMPLATES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\templates\LAi_walk.c">
+      <Filter>LOC_AI\TEMPLATES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\types\LAi_actor.c">
+      <Filter>LOC_AI\TYPES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\types\LAi_barman.c">
+      <Filter>LOC_AI\TYPES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\types\LAi_citizen.c">
+      <Filter>LOC_AI\TYPES</Filter>
+    </ClCompile>
+    <ClCompile Include="loc_ai\types\LAi_dead.c">
+      <Filter>LOC_AI\TYPES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\types\LAi_guardian.c">
+      <Filter>LOC_AI\TYPES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\types\LAi_huber.c">
+      <Filter>LOC_AI\TYPES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\types\LAi_huberstay.c">
+      <Filter>LOC_AI\TYPES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\types\LAi_merchant.c">
+      <Filter>LOC_AI\TYPES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\types\LAi_monkey.c">
+      <Filter>LOC_AI\TYPES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\types\LAi_officer.c">
+      <Filter>LOC_AI\TYPES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\types\LAi_patrol.c">
+      <Filter>LOC_AI\TYPES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\types\LAi_player.c">
+      <Filter>LOC_AI\TYPES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\types\LAi_poor.c">
+      <Filter>LOC_AI\TYPES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\types\LAi_priest.c">
+      <Filter>LOC_AI\TYPES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\types\LAi_sit.c">
+      <Filter>LOC_AI\TYPES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\types\LAi_stay.c">
+      <Filter>LOC_AI\TYPES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\types\LAi_waitress.c">
+      <Filter>LOC_AI\TYPES</Filter>
+    </ClCompile>
+    <ClCompile Include="Loc_ai\types\LAi_warrior.c">
+      <Filter>LOC_AI\TYPES</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\locations.c">
+      <Filter>LOCATIONS</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\locations_camera.c">
+      <Filter>LOCATIONS</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\locations_init.c">
+      <Filter>LOCATIONS</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\locations_loader.c">
+      <Filter>LOCATIONS</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\locators_test.c">
+      <Filter>LOCATIONS</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\particles.c">
+      <Filter>LOCATIONS</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\init\Antigua.c">
+      <Filter>LOCATIONS\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\init\Barbados.c">
+      <Filter>LOCATIONS\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\init\boarding.c">
+      <Filter>LOCATIONS\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\init\Curacao.c">
+      <Filter>LOCATIONS\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\init\Guadeloupe.c">
+      <Filter>LOCATIONS\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="locations\init\IslaMona.c">
+      <Filter>LOCATIONS\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\init\Jamaica.c">
+      <Filter>LOCATIONS\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\init\LaVega.c">
+      <Filter>LOCATIONS\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="locations\init\Margarita.c">
+      <Filter>LOCATIONS\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\init\Martinique.c">
+      <Filter>LOCATIONS\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\init\Montserrat.c">
+      <Filter>LOCATIONS\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\init\Nevis.c">
+      <Filter>LOCATIONS\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\init\PetitGoave.c">
+      <Filter>LOCATIONS\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\init\PuertoRico.c">
+      <Filter>LOCATIONS\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\init\QuestLocations.c">
+      <Filter>LOCATIONS\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\init\SantoDomingo.c">
+      <Filter>LOCATIONS\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\init\StEustatius.c">
+      <Filter>LOCATIONS\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\init\StKitts.c">
+      <Filter>LOCATIONS\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\init\StMartin.c">
+      <Filter>LOCATIONS\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Locations\init\Tortuga.c">
+      <Filter>LOCATIONS\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Nations\nations.c">
+      <Filter>NATIONS</Filter>
+    </ClCompile>
+    <ClCompile Include="Nations\nations_init.c">
+      <Filter>NATIONS</Filter>
+    </ClCompile>
+    <ClCompile Include="Quests\characters_task.c">
+      <Filter>QUESTS</Filter>
+    </ClCompile>
+    <ClCompile Include="Quests\quests.c">
+      <Filter>QUESTS</Filter>
+    </ClCompile>
+    <ClCompile Include="Quests\quests_abordage.c">
+      <Filter>QUESTS</Filter>
+    </ClCompile>
+    <ClCompile Include="Quests\quests_check.c">
+      <Filter>QUESTS</Filter>
+    </ClCompile>
+    <ClCompile Include="Quests\quests_movie.c">
+      <Filter>QUESTS</Filter>
+    </ClCompile>
+    <ClCompile Include="Quests\quests_reaction.c">
+      <Filter>QUESTS</Filter>
+    </ClCompile>
+    <ClCompile Include="Quests\quests_scenes.c">
+      <Filter>QUESTS</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\bountyhunters.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\career.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\colony.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\ColonyUpgrades.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\companions.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\crew.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\dialogs.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\duel.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\EuropeanTowns.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\fame.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\flag.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\food.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\free_adventure.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\gold_convoy.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\historyevents.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\idioms.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\islandships.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\officers.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\quest_capture_fort.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\quest_convoy.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\quest_defend_colony.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\quest_delivery_item.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\quest_delivery_passenger.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\quest_delivery_trade.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\quest_disease.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\quest_kill_character.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\quest_shablons.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\quest_sink_ship.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\quest_steal_item.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\rangers.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\rumours.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\seaspeak.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\shipfame.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\ShipsUtilites.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\shipupgrades.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\slaves.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\smuggling.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\sneaktotown.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\tavern.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\time_events.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\tutorial.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\utils.c">
+      <Filter>SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\quests_lines\addon_line.c">
+      <Filter>SCRIPTS\quests_lines</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\quests_lines\altman_lines.c">
+      <Filter>SCRIPTS\quests_lines</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\quests_lines\lokk_lines.c">
+      <Filter>SCRIPTS\quests_lines</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\quests_lines\main_storyline.c">
+      <Filter>SCRIPTS\quests_lines</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\quests_lines\starter.c">
+      <Filter>SCRIPTS\quests_lines</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts\quests_lines\zulus_lines.c">
+      <Filter>SCRIPTS\quests_lines</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\AIAbordage.c">
+      <Filter>SEA_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\AIBalls.c">
+      <Filter>SEA_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\AICameras.c">
+      <Filter>SEA_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\AICannon.c">
+      <Filter>SEA_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\AIFantom.c">
+      <Filter>SEA_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\AIFort.c">
+      <Filter>SEA_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\AIGroup.c">
+      <Filter>SEA_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\AIIsland.c">
+      <Filter>SEA_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\AISea.c">
+      <Filter>SEA_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\AISeaGoods.c">
+      <Filter>SEA_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\AIShip.c">
+      <Filter>SEA_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\CoastFoam.c">
+      <Filter>SEA_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\sea.c">
+      <Filter>SEA_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\shipBortFire.c">
+      <Filter>SEA_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\shipDead.c">
+      <Filter>SEA_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\ShipLights.c">
+      <Filter>SEA_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\shipWalk.c">
+      <Filter>SEA_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\telescope.c">
+      <Filter>SEA_AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\AITasks\AIAbordage.c">
+      <Filter>SEA_AI\AITASKS</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\AITasks\AIAttack.c">
+      <Filter>SEA_AI\AITASKS</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\AITasks\AIDefend.c">
+      <Filter>SEA_AI\AITASKS</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\AITasks\AIRunaway.c">
+      <Filter>SEA_AI\AITASKS</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\AITasks\AITasks.c">
+      <Filter>SEA_AI\AITASKS</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\BARQUE_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\Battleship_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\BLACKPEARL_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\Brig_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\CARAVEL2_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\Caravel_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\Corvette_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\FLEUT1_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\FLEUT2_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\Fleut_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\FRIGATE2_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\Frigate3_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\FRIGATE_sat_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\Frigate_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\GALEON1_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\GALEON2_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\GALEOTH1_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\GALEOTH2_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\LUGGER2_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\Lugger_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\MANOWAR1_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\MANOWAR2_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\MANOWAR_gub_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\Pinnace_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\prophecy_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\Schooner_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\SLOOP2_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\Sloop_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\Tartane_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\XEBEC1_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\XEBEC2_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\Xebec_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\YACHT1_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\YACHT2_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea_ai\walk\Yacht_walk.c">
+      <Filter>SEA_AI\WALK</Filter>
+    </ClCompile>
+    <ClCompile Include="ships\Sails_Init.c">
+      <Filter>SHIPS</Filter>
+    </ClCompile>
+    <ClCompile Include="Ships\Ships.c">
+      <Filter>SHIPS</Filter>
+    </ClCompile>
+    <ClCompile Include="Ships\Ships_init.c">
+      <Filter>SHIPS</Filter>
+    </ClCompile>
+    <ClCompile Include="Ships\Russian\ships_name.c">
+      <Filter>SHIPS\RUSSIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="ships\english\ships_name.c">
+      <Filter>SHIPS\ENGLISH</Filter>
+    </ClCompile>
+    <ClCompile Include="ships\french\ships_name.c">
+      <Filter>SHIPS\FRENCH</Filter>
+    </ClCompile>
+    <ClCompile Include="ships\german\ships_name.c">
+      <Filter>SHIPS\GERMAN</Filter>
+    </ClCompile>
+    <ClCompile Include="ships\italian\ships_name.c">
+      <Filter>SHIPS\ITALIAN</Filter>
+    </ClCompile>
+    <ClCompile Include="ships\spanish\ships_name.c">
+      <Filter>SHIPS\SPANISH</Filter>
+    </ClCompile>
+    <ClCompile Include="Store\initGoods.c">
+      <Filter>STORE</Filter>
+    </ClCompile>
+    <ClCompile Include="Store\initStore.c">
+      <Filter>STORE</Filter>
+    </ClCompile>
+    <ClCompile Include="Store\store_init.c">
+      <Filter>STORE</Filter>
+    </ClCompile>
+    <ClCompile Include="Store\storeName.c">
+      <Filter>STORE</Filter>
+    </ClCompile>
+    <ClCompile Include="Store\StoreUtilite.c">
+      <Filter>STORE</Filter>
+    </ClCompile>
+    <ClCompile Include="Weather\WhrAstronomy.c">
+      <Filter>WEATHER</Filter>
+    </ClCompile>
+    <ClCompile Include="Weather\WhrInit.c">
+      <Filter>WEATHER</Filter>
+    </ClCompile>
+    <ClCompile Include="Weather\WhrLightning.c">
+      <Filter>WEATHER</Filter>
+    </ClCompile>
+    <ClCompile Include="Weather\WhrRain.c">
+      <Filter>WEATHER</Filter>
+    </ClCompile>
+    <ClCompile Include="Weather\WhrSea.c">
+      <Filter>WEATHER</Filter>
+    </ClCompile>
+    <ClCompile Include="Weather\WhrSky.c">
+      <Filter>WEATHER</Filter>
+    </ClCompile>
+    <ClCompile Include="Weather\WhrSun.c">
+      <Filter>WEATHER</Filter>
+    </ClCompile>
+    <ClCompile Include="Weather\WhrTornado.c">
+      <Filter>WEATHER</Filter>
+    </ClCompile>
+    <ClCompile Include="Weather\WhrUtils.c">
+      <Filter>WEATHER</Filter>
+    </ClCompile>
+    <ClCompile Include="Weather\WhrWeather.c">
+      <Filter>WEATHER</Filter>
+    </ClCompile>
+    <ClCompile Include="Weather\Init\Common.c">
+      <Filter>WEATHER\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Weather\Init\Day.c">
+      <Filter>WEATHER\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Weather\Init\DayStorm.c">
+      <Filter>WEATHER\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Weather\Init\Evening.c">
+      <Filter>WEATHER\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Weather\Init\Morning.c">
+      <Filter>WEATHER\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Weather\Init\Night.c">
+      <Filter>WEATHER\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="Weather\Init\Special.c">
+      <Filter>WEATHER\INIT</Filter>
+    </ClCompile>
+    <ClCompile Include="worldmap\worldmap.c">
+      <Filter>WORLDMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="worldmap\worldmap_encgen.c">
+      <Filter>WORLDMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="worldmap\worldmap_events.c">
+      <Filter>WORLDMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="worldmap\worldmap_globals.c">
+      <Filter>WORLDMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="worldmap\worldmap_init.c">
+      <Filter>WORLDMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="worldmap\worldmap_reload.c">
+      <Filter>WORLDMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Net.c">
+      <Filter>NET</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\NetClient.c">
+      <Filter>NET</Filter>
+    </ClCompile>
+    <ClCompile Include="net\NetFile.c">
+      <Filter>NET</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\NetServer.c">
+      <Filter>NET</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Client\Cameras.c">
+      <Filter>NET\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="net\client\File.c">
+      <Filter>NET\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="net\client\Fort.c">
+      <Filter>NET\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Client\Island.c">
+      <Filter>NET\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Client\OnBall.c">
+      <Filter>NET\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Client\OnChat.c">
+      <Filter>NET\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Client\OnClient.c">
+      <Filter>NET\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Client\OnConnect.c">
+      <Filter>NET\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Client\OnNetMessage.c">
+      <Filter>NET\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Client\OnPing.c">
+      <Filter>NET\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Client\OnShip.c">
+      <Filter>NET\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Client\OnStart.c">
+      <Filter>NET\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Client\OnWeather.c">
+      <Filter>NET\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="net\client\PlayerInfo.c">
+      <Filter>NET\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Client\Rigging.c">
+      <Filter>NET\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="net\client\ServerInfo.c">
+      <Filter>NET\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Client\ShipLights.c">
+      <Filter>NET\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Client\Time.c">
+      <Filter>NET\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Client\Utils.c">
+      <Filter>NET\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Client\Weather\Astronomy.c">
+      <Filter>NET\Client\Weather</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Client\Weather\Lightning.c">
+      <Filter>NET\Client\Weather</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Client\Weather\Rain.c">
+      <Filter>NET\Client\Weather</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Client\Weather\Sea.c">
+      <Filter>NET\Client\Weather</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Client\Weather\Sky.c">
+      <Filter>NET\Client\Weather</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Client\Weather\Sun.c">
+      <Filter>NET\Client\Weather</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Client\Weather\Tornado.c">
+      <Filter>NET\Client\Weather</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Client\Weather\Weather.c">
+      <Filter>NET\Client\Weather</Filter>
+    </ClCompile>
+    <ClCompile Include="net\server\Buy.c">
+      <Filter>NET\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Server\DedicatedServer.c">
+      <Filter>NET\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="net\server\File.c">
+      <Filter>NET\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="net\server\Fort.c">
+      <Filter>NET\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Server\Island.c">
+      <Filter>NET\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Server\LocalServer.c">
+      <Filter>NET\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Server\OnBall.c">
+      <Filter>NET\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Server\OnCamera.c">
+      <Filter>NET\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Server\OnCommand.c">
+      <Filter>NET\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Server\OnConnect.c">
+      <Filter>NET\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Server\OnNetMessage.c">
+      <Filter>NET\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Server\OnPing.c">
+      <Filter>NET\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Server\OnSay.c">
+      <Filter>NET\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Server\OnShip.c">
+      <Filter>NET\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Server\OnStart.c">
+      <Filter>NET\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Server\Rigging.c">
+      <Filter>NET\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="net\server\ServerInfo.c">
+      <Filter>NET\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Server\Time.c">
+      <Filter>NET\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Server\Touch.c">
+      <Filter>NET\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Server\Utils.c">
+      <Filter>NET\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Server\Games\convoy.c">
+      <Filter>NET\Server\Games</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Server\Games\deathmatch.c">
+      <Filter>NET\Server\Games</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Server\Games\fort.c">
+      <Filter>NET\Server\Games</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Server\Games\naval.c">
+      <Filter>NET\Server\Games</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Server\Weather\Lightning.c">
+      <Filter>NET\Server\Weather</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Server\Weather\Sea.c">
+      <Filter>NET\Server\Weather</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Server\Weather\Weather.c">
+      <Filter>NET\Server\Weather</Filter>
+    </ClCompile>
+    <ClCompile Include="net\Interfaces\Buy.c">
+      <Filter>NET\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="net\Interfaces\Chat.c">
+      <Filter>NET\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="net\Interfaces\ChatString.c">
+      <Filter>NET\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="net\Interfaces\CreateGame.c">
+      <Filter>NET\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="net\interfaces\EndGame.c">
+      <Filter>NET\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="net\Interfaces\FindGame.c">
+      <Filter>NET\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="net\Interfaces\GameState.c">
+      <Filter>NET\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="net\interfaces\Interface.c">
+      <Filter>NET\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="net\interfaces\NetMenu.c">
+      <Filter>NET\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="net\interfaces\PlayerSettings.c">
+      <Filter>NET\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="net\Interfaces\TopList.c">
+      <Filter>NET\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="net\interfaces\BattleInterface\BattleInterface.c">
+      <Filter>NET\Interfaces\BattleInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Common\Cannons.c">
+      <Filter>NET\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Common\Goods.c">
+      <Filter>NET\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Common\Islands.c">
+      <Filter>NET\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Common\Perks.c">
+      <Filter>NET\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="net\common\Rewards.c">
+      <Filter>NET\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Common\Ships.c">
+      <Filter>NET\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\Common\Skills.c">
+      <Filter>NET\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="net\common\Upgrades.c">
+      <Filter>NET\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="BIManager\Base.c">
+      <Filter>BIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="animals.c" />
+    <ClCompile Include="calendar.c" />
+    <ClCompile Include="CheckDlgLoad.c" />
+    <ClCompile Include="dialog.c" />
+    <ClCompile Include="Dialog_func.c" />
+    <ClCompile Include="gameutils.c" />
+    <ClCompile Include="globals.c" />
+    <ClCompile Include="InitInterface.c" />
+    <ClCompile Include="lcorrect.c" />
+    <ClCompile Include="memtest.c" />
+    <ClCompile Include="particles.c" />
+    <ClCompile Include="ps.c" />
+    <ClCompile Include="reload.c" />
+    <ClCompile Include="Rumour_Data.c" />
+    <ClCompile Include="s.c" />
+    <ClCompile Include="seadogs.c" />
+    <ClCompile Include="seadogs_test.c" />
+    <ClCompile Include="situations.c" />
+    <ClCompile Include="sound.c" />
+    <ClCompile Include="StartInterface.c" />
+    <ClCompile Include="teleport.c" />
+    <ClCompile Include="test.c" />
+    <ClCompile Include="test1.c" />
+    <ClCompile Include="test_seg1.c" />
+    <ClCompile Include="test_seg2.c" />
+    <ClCompile Include="tr.c" />
+    <ClCompile Include="utils.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Battle_interface\log_msg.h">
+      <Filter>BATTLE_INTERFACE</Filter>
+    </ClInclude>
+    <ClInclude Include="Battle_interface\msg_control.h">
+      <Filter>BATTLE_INTERFACE</Filter>
+    </ClInclude>
+    <ClInclude Include="Cannons\Cannons.h">
+      <Filter>CANNONS</Filter>
+    </ClInclude>
+    <ClInclude Include="Characters\characters.h">
+      <Filter>CHARACTERS</Filter>
+    </ClInclude>
+    <ClInclude Include="encounters\Encounters.h">
+      <Filter>ENCOUNTERS</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\interface.h">
+      <Filter>INTERFACE</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\messages.h">
+      <Filter>INTERFACE</Filter>
+    </ClInclude>
+    <ClInclude Include="Items\items.h">
+      <Filter>ITEMS</Filter>
+    </ClInclude>
+    <ClInclude Include="Quests\Quest_Messages.h">
+      <Filter>QUESTS</Filter>
+    </ClInclude>
+    <ClInclude Include="Sea_ai\Script_Defines.h">
+      <Filter>SEA_AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Sea_ai\seaPeople.h">
+      <Filter>SEA_AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Ships\ships.h">
+      <Filter>SHIPS</Filter>
+    </ClInclude>
+    <ClInclude Include="Store\goods.h">
+      <Filter>STORE</Filter>
+    </ClInclude>
+    <ClInclude Include="Store\store.h">
+      <Filter>STORE</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\Common.h">
+      <Filter>NET</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\Extern.h">
+      <Filter>NET</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\Net_Defines.h">
+      <Filter>NET</Filter>
+    </ClInclude>
+    <ClInclude Include="net\Interfaces\Interface.h">
+      <Filter>NET\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="BIManager\messages.h">
+      <Filter>BIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Events.h" />
+    <ClInclude Include="messages.h" />
+    <ClInclude Include="sail_msg.h" />
+    <ClInclude Include="Sound.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Loc_ai\doc\character_type.txt">
+      <Filter>LOC_AI\DOC</Filter>
+    </Text>
+    <Text Include="Loc_ai\doc\functions.txt">
+      <Filter>LOC_AI\DOC</Filter>
+    </Text>
+    <Text Include="Loc_ai\doc\new_animation.txt">
+      <Filter>LOC_AI\DOC</Filter>
+    </Text>
+    <Text Include="Loc_ai\doc\sounds.txt">
+      <Filter>LOC_AI\DOC</Filter>
+    </Text>
+    <Text Include="Loc_ai\doc\tavern_locators.txt">
+      <Filter>LOC_AI\DOC</Filter>
+    </Text>
+    <Text Include="Net\Net.txt">
+      <Filter>NET</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

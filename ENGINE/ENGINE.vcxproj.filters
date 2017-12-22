@@ -1,0 +1,961 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{992742c3-48e0-45f2-ab80-2e00cd8e7be1}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{d541b1cc-3eaa-439b-acb0-da58e2868029}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{e9f9cdbe-41b0-4396-8385-190d9ed84ab5}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="common_h">
+      <UniqueIdentifier>{a4185f54-74aa-46d8-91f1-216a568fedea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common_h\SD2_H">
+      <UniqueIdentifier>{a2a47e12-d118-4acf-9e21-ad40a641a1fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common_h\templates">
+      <UniqueIdentifier>{8fe17444-2d96-4d69-bb1e-ce9c4be9e9e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Techniques">
+      <UniqueIdentifier>{390e1ea6-35bf-4341-8608-d12c741f2abb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Techniques\Effects">
+      <UniqueIdentifier>{e5bdc66a-649c-4d62-9eb7-72444209963c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Techniques\Temp">
+      <UniqueIdentifier>{eb4a756f-31f5-4e6d-beca-8393d174d3a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Techniques\Weather">
+      <UniqueIdentifier>{0fc75074-40a6-4b51-ac00-0809e6b6b40c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Techniques\Weather\Sea">
+      <UniqueIdentifier>{8973ae7d-365e-42e1-ad75-69bd00dfb226}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Techniques\Weather\Shaders">
+      <UniqueIdentifier>{da1a6cb2-d4cc-419f-b99c-17f037096df2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Techniques\GameUtils">
+      <UniqueIdentifier>{98f1bc34-b1de-4742-b7d0-ecb07d792f26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Techniques\Interfaces">
+      <UniqueIdentifier>{cc13209d-d681-4a6b-b95b-7af0160c6720}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Techniques\Island">
+      <UniqueIdentifier>{0167a941-1d8b-4204-a4b1-416174455220}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Techniques\Location">
+      <UniqueIdentifier>{689ebcc4-f93a-4d38-9b8c-468f1f1c673a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Techniques\Render">
+      <UniqueIdentifier>{6079e0a8-6c47-47b7-8a2a-5e8e04afb6ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Techniques\Shadow">
+      <UniqueIdentifier>{ef1fd1ca-923c-45ec-8e6d-cbfeb69d2736}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Techniques\Ship">
+      <UniqueIdentifier>{34ca62ae-fcf5-436d-afde-44ad97cb1653}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Techniques\AI">
+      <UniqueIdentifier>{58e292e8-65f5-43bf-a64e-da59addc4e89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZLib">
+      <UniqueIdentifier>{202a2f14-1efe-4a98-8aae-d5354be99a84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script Files">
+      <UniqueIdentifier>{23b77efd-bf6c-476a-9148-addf3606df6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script Files\h">
+      <UniqueIdentifier>{49ef7dae-6974-48c4-96cb-49f4a66b85a0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="sources\C_atom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\classes_table.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\control_stack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Core.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\ctp_names.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\entity_state_R.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\file_service.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\gdi_display.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\hashhold.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\ifs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\input.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\internal_modules.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\layer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\layer_service.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\loopstack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\mem_pool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\mem_utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\memory_service.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\modules_table.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\pcinput.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\services_list.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\stack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\stats.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\strings_list.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\system_api.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\system_log.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\token.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common_h\rands.cpp">
+      <Filter>common_h</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Zlib\adler32.c">
+      <Filter>ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Zlib\compress.c">
+      <Filter>ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Zlib\crc32.c">
+      <Filter>ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Zlib\deflate.c">
+      <Filter>ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Zlib\gzio.c">
+      <Filter>ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Zlib\infblock.c">
+      <Filter>ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Zlib\infcodes.c">
+      <Filter>ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Zlib\inffast.c">
+      <Filter>ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Zlib\inflate.c">
+      <Filter>ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Zlib\inftrees.c">
+      <Filter>ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Zlib\infutil.c">
+      <Filter>ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Zlib\maketree.c">
+      <Filter>ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Zlib\trees.c">
+      <Filter>ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Zlib\uncompr.c">
+      <Filter>ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Zlib\zutil.c">
+      <Filter>ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\compiler.cpp">
+      <Filter>Script Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\data.cpp">
+      <Filter>Script Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\expression.cpp">
+      <Filter>Script Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\internal_functions.cpp">
+      <Filter>Script Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\program.cpp">
+      <Filter>Script Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\s_classtab.cpp">
+      <Filter>Script Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\s_compress.cpp">
+      <Filter>Script Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\s_dbg_breaktable.cpp">
+      <Filter>Script Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\s_dbg_sourceview.cpp">
+      <Filter>Script Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\s_dbg_watcherlist.cpp">
+      <Filter>Script Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\s_debug.cpp">
+      <Filter>Script Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\s_deftab.cpp">
+      <Filter>Script Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\s_eventtab.cpp">
+      <Filter>Script Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\s_functab.cpp">
+      <Filter>Script Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\s_stack.cpp">
+      <Filter>Script Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\s_tstack.cpp">
+      <Filter>Script Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\s_vartab.cpp">
+      <Filter>Script Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\tm_list.cpp">
+      <Filter>Script Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="sources\C_atom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\classes_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\common_h.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\compiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\control_stack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\controls.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\Core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\d_types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\dat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\dstring_codec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\entity_id.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\entity_state.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\entity_state_R.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\Exs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\externs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\file_service.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\fsdata_list.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\gdi_display.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\hashhold.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\idwalker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\ifs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\internal_functions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\internal_modules.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\key_codes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\layer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\layer_service.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\loopstack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\mem_pool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\mem_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\memop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\memory_service.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\message.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\message_script.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\messages.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\modules_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\pcinput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\program.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\s_classtab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\s_compress.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\s_deftab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\s_eventmsg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\s_eventtab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\s_functab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\s_import_func.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\s_postevents.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\s_stack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\s_tstack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\s_vartab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\script_libriary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\service.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\services_list.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\sp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\sstring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\stack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\stats.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\string_codec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\strings_list.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\system_api.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\system_log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\tclass_list.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\tm_list.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\token.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\v_s_stack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\vapi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\vbuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\vdata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\vfile_service.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\vidwalker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\vmemory_service.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\vmodule_api.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\vstring_codec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\vsystem_api.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\Animation.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\attributes.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\Character.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\collide.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\Cvector.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\CVector4.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\defines.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\dx8render.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\Entity_x.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\geometry.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\geos.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\inlines.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common_h\Intel.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\Island_Base.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\light.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\mast_msg.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\math3D.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\Matrix.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\messages.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\model.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\object.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\rands.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\sail_base.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\sail_msg.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\sea_base.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\ship_base.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\ship_msg.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\ShipLights.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\stringService.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\templates.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\tga.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\triangle.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\types3d.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\v_udp_transport.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\vblast.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\vcontrols.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\vcube_service.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\vevent.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\VideoTexture.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\vmapi.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\vparticle_system.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\vparticles_system.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\vsail.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\vship.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\Weather_Base.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\Sd2_h\AIMessages.h">
+      <Filter>common_h\SD2_H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\Sd2_h\CannonTrace.h">
+      <Filter>common_h\SD2_H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\Sd2_h\SaveLoad.h">
+      <Filter>common_h\SD2_H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\Sd2_h\VAI_ObjBase.h">
+      <Filter>common_h\SD2_H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\templates\Array.h">
+      <Filter>common_h\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\templates\dsmooth.h">
+      <Filter>common_h\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\templates\dtimer.h">
+      <Filter>common_h\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\templates\HTable.h">
+      <Filter>common_h\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\templates\map.h">
+      <Filter>common_h\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\templates\stack.h">
+      <Filter>common_h\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\templates\string.h">
+      <Filter>common_h\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\templates\tcommon.h">
+      <Filter>common_h\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\Techniques\Weather\Shaders\reflect.h">
+      <Filter>Techniques\Weather\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Zlib\deflate.h">
+      <Filter>ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Zlib\infblock.h">
+      <Filter>ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Zlib\infcodes.h">
+      <Filter>ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Zlib\inffast.h">
+      <Filter>ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Zlib\inffixed.h">
+      <Filter>ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Zlib\inftrees.h">
+      <Filter>ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Zlib\infutil.h">
+      <Filter>ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Zlib\trees.h">
+      <Filter>ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Zlib\zconf.h">
+      <Filter>ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Zlib\zlib.h">
+      <Filter>ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Zlib\zutil.h">
+      <Filter>ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\data.h">
+      <Filter>Script Files\h</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\s_dbg_breaktable.h">
+      <Filter>Script Files\h</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\s_dbg_sourceview.h">
+      <Filter>Script Files\h</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\s_dbg_staticlist.h">
+      <Filter>Script Files\h</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\s_dbg_watcherlist.h">
+      <Filter>Script Files\h</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\s_debug.h">
+      <Filter>Script Files\h</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sources\arrow.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SOURCES\cursor1.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Sources\dragpoin.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Sources\nodrop.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Modules\Techniques\animation.sha">
+      <Filter>Techniques</Filter>
+    </None>
+    <None Include="Modules\Techniques\artifact.sha">
+      <Filter>Techniques</Filter>
+    </None>
+    <None Include="Modules\Techniques\blenditem.sha">
+      <Filter>Techniques</Filter>
+    </None>
+    <None Include="Modules\Techniques\butterfly.sha">
+      <Filter>Techniques</Filter>
+    </None>
+    <None Include="Modules\Techniques\geomdistanceblend.sha">
+      <Filter>Techniques</Filter>
+    </None>
+    <None Include="Modules\Techniques\mdebug.sha">
+      <Filter>Techniques</Filter>
+    </None>
+    <None Include="Modules\Techniques\new_seafoam.sha">
+      <Filter>Techniques</Filter>
+    </None>
+    <None Include="Modules\Techniques\randitem.sha">
+      <Filter>Techniques</Filter>
+    </None>
+    <None Include="Modules\Techniques\sink.sha">
+      <Filter>Techniques</Filter>
+    </None>
+    <None Include="Modules\Techniques\splash.sha">
+      <Filter>Techniques</Filter>
+    </None>
+    <None Include="Modules\Techniques\telescope.sha">
+      <Filter>Techniques</Filter>
+    </None>
+    <None Include="Modules\Techniques\waterring.sha">
+      <Filter>Techniques</Filter>
+    </None>
+    <None Include="Modules\Techniques\worldmap.sha">
+      <Filter>Techniques</Filter>
+    </None>
+    <None Include="Modules\Techniques\Effects\blade.sha">
+      <Filter>Techniques\Effects</Filter>
+    </None>
+    <None Include="Modules\Techniques\Effects\maineffects.sha">
+      <Filter>Techniques\Effects</Filter>
+    </None>
+    <None Include="Modules\Techniques\Effects\shark.sha">
+      <Filter>Techniques\Effects</Filter>
+    </None>
+    <None Include="Modules\Techniques\Effects\tornado.sha">
+      <Filter>Techniques\Effects</Filter>
+    </None>
+    <None Include="Modules\Techniques\Effects\worldmap.sha">
+      <Filter>Techniques\Effects</Filter>
+    </None>
+    <None Include="Modules\Techniques\Temp\SunFlare.sha">
+      <Filter>Techniques\Temp</Filter>
+    </None>
+    <None Include="Modules\Techniques\Weather\Bump.sha">
+      <Filter>Techniques\Weather</Filter>
+    </None>
+    <None Include="Modules\Techniques\Weather\Cloud.sha">
+      <Filter>Techniques\Weather</Filter>
+    </None>
+    <None Include="Modules\Techniques\Weather\CoastFoam.sha">
+      <Filter>Techniques\Weather</Filter>
+    </None>
+    <None Include="Modules\Techniques\Weather\Lightning.sha">
+      <Filter>Techniques\Weather</Filter>
+    </None>
+    <None Include="modules\techniques\weather\LightPillar.sha">
+      <Filter>Techniques\Weather</Filter>
+    </None>
+    <None Include="modules\techniques\weather\Planets.sha">
+      <Filter>Techniques\Weather</Filter>
+    </None>
+    <None Include="Modules\Techniques\Weather\rain.sha">
+      <Filter>Techniques\Weather</Filter>
+    </None>
+    <None Include="Modules\Techniques\Weather\Rainbow.sha">
+      <Filter>Techniques\Weather</Filter>
+    </None>
+    <None Include="Modules\Techniques\Weather\ShipFlare.sha">
+      <Filter>Techniques\Weather</Filter>
+    </None>
+    <None Include="Modules\Techniques\Weather\Sky.sha">
+      <Filter>Techniques\Weather</Filter>
+    </None>
+    <None Include="Modules\Techniques\Weather\Stars.sha">
+      <Filter>Techniques\Weather</Filter>
+    </None>
+    <None Include="Modules\Techniques\Weather\SunFlare.sha">
+      <Filter>Techniques\Weather</Filter>
+    </None>
+    <None Include="Modules\Techniques\Weather\SunGlow.sha">
+      <Filter>Techniques\Weather</Filter>
+    </None>
+    <None Include="Modules\Techniques\Weather\water.sha">
+      <Filter>Techniques\Weather</Filter>
+    </None>
+    <None Include="Modules\Techniques\Weather\WaterFlare.sha">
+      <Filter>Techniques\Weather</Filter>
+    </None>
+    <None Include="modules\techniques\weather\sea\G2MXSea.sha">
+      <Filter>Techniques\Weather\Sea</Filter>
+    </None>
+    <None Include="modules\techniques\weather\sea\G3Sea.sha">
+      <Filter>Techniques\Weather\Sea</Filter>
+    </None>
+    <None Include="modules\techniques\weather\sea\RadeonSea.sha">
+      <Filter>Techniques\Weather\Sea</Filter>
+    </None>
+    <None Include="modules\techniques\weather\sea\Sea2.sha">
+      <Filter>Techniques\Weather\Sea</Filter>
+    </None>
+    <None Include="modules\techniques\weather\sea\XBoxSea.sha">
+      <Filter>Techniques\Weather\Sea</Filter>
+    </None>
+    <None Include="Modules\Techniques\Weather\Shaders\ATIShaders.sha">
+      <Filter>Techniques\Weather\Shaders</Filter>
+    </None>
+    <None Include="Modules\Techniques\Weather\Shaders\GF3Shaders.sha">
+      <Filter>Techniques\Weather\Shaders</Filter>
+    </None>
+    <None Include="Modules\Techniques\Weather\Shaders\SeaFoam.sha">
+      <Filter>Techniques\Weather\Shaders</Filter>
+    </None>
+    <None Include="Modules\Techniques\GameUtils\islanded_points.sha">
+      <Filter>Techniques\GameUtils</Filter>
+    </None>
+    <None Include="Modules\Techniques\GameUtils\spritetest.sha">
+      <Filter>Techniques\GameUtils</Filter>
+    </None>
+    <None Include="Modules\Techniques\Interfaces\battle_interface.sha">
+      <Filter>Techniques\Interfaces</Filter>
+    </None>
+    <None Include="Modules\Techniques\Interfaces\game_interface.sha">
+      <Filter>Techniques\Interfaces</Filter>
+    </None>
+    <None Include="Modules\Techniques\Interfaces\TextureSequence.sha">
+      <Filter>Techniques\Interfaces</Filter>
+    </None>
+    <None Include="Modules\Techniques\Interfaces\videoplayer.sha">
+      <Filter>Techniques\Interfaces</Filter>
+    </None>
+    <None Include="Modules\Techniques\Island\island.sha">
+      <Filter>Techniques\Island</Filter>
+    </None>
+    <None Include="Modules\Techniques\location\loc_ambient.sha">
+      <Filter>Techniques\Location</Filter>
+    </None>
+    <None Include="Modules\Techniques\location\maineffects.sha">
+      <Filter>Techniques\Location</Filter>
+    </None>
+    <None Include="Modules\Techniques\Render\dialog.sha">
+      <Filter>Techniques\Render</Filter>
+    </None>
+    <None Include="Modules\Techniques\Render\EngineFont.sha">
+      <Filter>Techniques\Render</Filter>
+    </None>
+    <None Include="Modules\Techniques\Render\texturedialogfon.sha">
+      <Filter>Techniques\Render</Filter>
+    </None>
+    <None Include="Modules\Techniques\Shadow\shadow.sha">
+      <Filter>Techniques\Shadow</Filter>
+    </None>
+    <None Include="Modules\Techniques\Ship\Flag.sha">
+      <Filter>Techniques\Ship</Filter>
+    </None>
+    <None Include="Modules\Techniques\Ship\Rope.sha">
+      <Filter>Techniques\Ship</Filter>
+    </None>
+    <None Include="Modules\Techniques\Ship\Sail.sha">
+      <Filter>Techniques\Ship</Filter>
+    </None>
+    <None Include="Modules\Techniques\Ship\ship_reflect.sha">
+      <Filter>Techniques\Ship</Filter>
+    </None>
+    <None Include="Modules\Techniques\Ship\Track.sha">
+      <Filter>Techniques\Ship</Filter>
+    </None>
+    <None Include="Modules\Techniques\Ship\Vant.sha">
+      <Filter>Techniques\Ship</Filter>
+    </None>
+    <None Include="Modules\Techniques\Ai\baba.sha">
+      <Filter>Techniques\AI</Filter>
+    </None>
+    <None Include="Modules\Techniques\Ai\balls.sha">
+      <Filter>Techniques\AI</Filter>
+    </None>
+    <None Include="Modules\Techniques\Ai\crosshair.sha">
+      <Filter>Techniques\AI</Filter>
+    </None>
+    <None Include="Modules\Techniques\Ai\line.sha">
+      <Filter>Techniques\AI</Filter>
+    </None>
+    <None Include="Modules\Techniques\Ai\SeaLocatorsShow.sha">
+      <Filter>Techniques\AI</Filter>
+    </None>
+    <None Include="modules\techniques\ai\sprite.sha">
+      <Filter>Techniques\AI</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="SOURCES\icon1.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="SOURCES\install.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sources\storm.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Sources\resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Sources\core.txt" />
+    <Text Include="SOURCES\syntax.txt" />
+  </ItemGroup>
+</Project>

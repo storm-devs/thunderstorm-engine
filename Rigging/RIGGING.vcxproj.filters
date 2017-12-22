@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Flag">
+      <UniqueIdentifier>{1edb947f-e41a-4dd4-9b78-5b0a262e85f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sail">
+      <UniqueIdentifier>{b93680a3-df1c-43e9-a406-4e9231cc8a19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rope">
+      <UniqueIdentifier>{d6b64005-94bb-40be-87d7-8e140e8e1c97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vant">
+      <UniqueIdentifier>{e4652bc5-7d96-40e9-aea5-4c732b226db6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScriptFunctions">
+      <UniqueIdentifier>{402cf8be-ceda-4874-80d4-b817f0715981}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rig">
+      <UniqueIdentifier>{714349c6-7752-432a-bc3d-515f6209575e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{1c4f59fa-e946-45e0-864d-2f954cf9976f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Flag.cpp">
+      <Filter>Flag</Filter>
+    </ClCompile>
+    <ClCompile Include="sail.cpp">
+      <Filter>Sail</Filter>
+    </ClCompile>
+    <ClCompile Include="SAILONE.cpp">
+      <Filter>Sail</Filter>
+    </ClCompile>
+    <ClCompile Include="Rope.cpp">
+      <Filter>Rope</Filter>
+    </ClCompile>
+    <ClCompile Include="Vant.cpp">
+      <Filter>Vant</Filter>
+    </ClCompile>
+    <ClCompile Include="script_func.cpp">
+      <Filter>ScriptFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="rigging_main.cpp">
+      <Filter>rig</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Flag.h">
+      <Filter>Flag</Filter>
+    </ClInclude>
+    <ClInclude Include="sail.h">
+      <Filter>Sail</Filter>
+    </ClInclude>
+    <ClInclude Include="SAILONE.h">
+      <Filter>Sail</Filter>
+    </ClInclude>
+    <ClInclude Include="Rope.h">
+      <Filter>Rope</Filter>
+    </ClInclude>
+    <ClInclude Include="Vant.h">
+      <Filter>Vant</Filter>
+    </ClInclude>
+    <ClInclude Include="script_func.h">
+      <Filter>ScriptFunctions</Filter>
+    </ClInclude>
+    <ClInclude Include="rigging_define.h">
+      <Filter>rig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\sail_base.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\sail_msg.h">
+      <Filter>common</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

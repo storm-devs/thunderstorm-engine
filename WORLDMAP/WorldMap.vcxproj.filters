@@ -1,0 +1,296 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{04569b8f-504f-4197-9bd4-4be5eb6f1b4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Ships">
+      <UniqueIdentifier>{5b0b109c-830f-4970-8a02-d7221e3c0a2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Ships\Base ship">
+      <UniqueIdentifier>{c97f7513-eceb-4254-9dc9-67c63cc0d165}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Ships\Player ship">
+      <UniqueIdentifier>{da658932-1bb6-4fcf-bc15-547ee564f0a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Ships\Encounter ships">
+      <UniqueIdentifier>{edfc69d7-0b39-478e-b51d-98de48b6f1f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Ships\Encounter ships\Base enc. ship">
+      <UniqueIdentifier>{7f182f8a-6d8e-47af-9205-ac51aba85885}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Ships\Encounter ships\Merchant">
+      <UniqueIdentifier>{47b3d6fb-8409-4515-aa74-dc117715a456}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Ships\Encounter ships\Follow">
+      <UniqueIdentifier>{faeeade5-2906-4dd6-9956-2b4c0d2c5821}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Ships\Encounter ships\Warring">
+      <UniqueIdentifier>{4d81d06c-61de-42a6-9000-973fde78f429}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Camera">
+      <UniqueIdentifier>{9369b1f2-a49b-4987-8fe1-95889fd00ba4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface">
+      <UniqueIdentifier>{c69e7d58-424b-4287-8b76-3fb3f302e283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\Base interface">
+      <UniqueIdentifier>{94a22097-7787-4098-8a4b-0fe28de3b115}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\Icon">
+      <UniqueIdentifier>{a886c99f-19aa-4b51-8eb6-231f772b15db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\Counter">
+      <UniqueIdentifier>{7d34a0dc-6234-40ba-aef7-b006761e64e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\Wind rose">
+      <UniqueIdentifier>{2d8fc352-29d9-45ad-a921-cfdeae3190a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\Old interfaces">
+      <UniqueIdentifier>{3ddbb263-78fa-416a-9942-b80e19f87c22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\Old interfaces\Date label">
+      <UniqueIdentifier>{8232187f-f757-4c48-9b20-d5a528c3c581}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\Old interfaces\Event window">
+      <UniqueIdentifier>{acdd592c-b40e-4367-9ba3-e5a2fc6e44cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\Wind UI">
+      <UniqueIdentifier>{1da362ca-d2c3-401c-967f-3d60d941eb05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Islands">
+      <UniqueIdentifier>{a1727f34-c321-4077-a4b6-f5d7cf670f7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Clouds">
+      <UniqueIdentifier>{e022efd0-532d-4d94-88ce-25a455efff03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Clouds\Storm">
+      <UniqueIdentifier>{776a1650-c3b0-43f6-91e9-46b5c125e490}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Sea">
+      <UniqueIdentifier>{a91cf578-bc79-4364-aaa4-04411c1f845f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Base">
+      <UniqueIdentifier>{b59f322c-a682-432a-ac84-5326bae3a56c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Base\Base objects">
+      <UniqueIdentifier>{b4e88f24-5814-4987-9bcf-3eb8211e2430}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Base\Global">
+      <UniqueIdentifier>{8e3bb8b6-8268-4fe0-8789-a879591a293d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\templates">
+      <UniqueIdentifier>{61f3920e-9fbd-4998-ae26-5cd58dd8652e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\math">
+      <UniqueIdentifier>{c72bd0d0-5bf0-4bc8-813c-a9a4f3ce6607}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\PtcData">
+      <UniqueIdentifier>{d49c6844-8f88-4567-a45d-c31a36c93635}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Techniques">
+      <UniqueIdentifier>{0cdb95ff-fb01-479f-a937-50786a27c90f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="WdmShip.cpp">
+      <Filter>Source\Ships\Base ship</Filter>
+    </ClCompile>
+    <ClCompile Include="WdmPlayerShip.cpp">
+      <Filter>Source\Ships\Player ship</Filter>
+    </ClCompile>
+    <ClCompile Include="WdmEnemyShip.cpp">
+      <Filter>Source\Ships\Encounter ships\Base enc. ship</Filter>
+    </ClCompile>
+    <ClCompile Include="WdmMerchantShip.cpp">
+      <Filter>Source\Ships\Encounter ships\Merchant</Filter>
+    </ClCompile>
+    <ClCompile Include="WdmFollowShip.cpp">
+      <Filter>Source\Ships\Encounter ships\Follow</Filter>
+    </ClCompile>
+    <ClCompile Include="WdmWarringShip.cpp">
+      <Filter>Source\Ships\Encounter ships\Warring</Filter>
+    </ClCompile>
+    <ClCompile Include="WdmCamera.cpp">
+      <Filter>Source\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="WdmCameraStdCtrl.cpp">
+      <Filter>Source\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="WdmInterfaceObject.cpp">
+      <Filter>Source\Interface\Base interface</Filter>
+    </ClCompile>
+    <ClCompile Include="WdmIcon.cpp">
+      <Filter>Source\Interface\Icon</Filter>
+    </ClCompile>
+    <ClCompile Include="WdmCounter.cpp">
+      <Filter>Source\Interface\Counter</Filter>
+    </ClCompile>
+    <ClCompile Include="WdmWindRose.cpp">
+      <Filter>Source\Interface\Wind rose</Filter>
+    </ClCompile>
+    <ClCompile Include="WdmDateLabel.cpp">
+      <Filter>Source\Interface\Old interfaces\Date label</Filter>
+    </ClCompile>
+    <ClCompile Include="WdmEventWindow.cpp">
+      <Filter>Source\Interface\Old interfaces\Event window</Filter>
+    </ClCompile>
+    <ClCompile Include="WdmWindUI.cpp">
+      <Filter>Source\Interface\Wind UI</Filter>
+    </ClCompile>
+    <ClCompile Include="WdmIslands.cpp">
+      <Filter>Source\Islands</Filter>
+    </ClCompile>
+    <ClCompile Include="WdmClouds.cpp">
+      <Filter>Source\Clouds</Filter>
+    </ClCompile>
+    <ClCompile Include="WdmCloud.cpp">
+      <Filter>Source\Clouds\Storm</Filter>
+    </ClCompile>
+    <ClCompile Include="WdmStorm.cpp">
+      <Filter>Source\Clouds\Storm</Filter>
+    </ClCompile>
+    <ClCompile Include="WdmSea.cpp">
+      <Filter>Source\Sea</Filter>
+    </ClCompile>
+    <ClCompile Include="WoldMapMain.cpp">
+      <Filter>Source\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldMap.cpp">
+      <Filter>Source\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="WdmRenderModel.cpp">
+      <Filter>Source\Base\Base objects</Filter>
+    </ClCompile>
+    <ClCompile Include="WdmRenderObject.cpp">
+      <Filter>Source\Base\Base objects</Filter>
+    </ClCompile>
+    <ClCompile Include="WdmObjects.cpp">
+      <Filter>Source\Base\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="PtcData.cpp">
+      <Filter>Source\PtcData</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="WdmShip.h">
+      <Filter>Source\Ships\Base ship</Filter>
+    </ClInclude>
+    <ClInclude Include="WdmPlayerShip.h">
+      <Filter>Source\Ships\Player ship</Filter>
+    </ClInclude>
+    <ClInclude Include="WdmEnemyShip.h">
+      <Filter>Source\Ships\Encounter ships\Base enc. ship</Filter>
+    </ClInclude>
+    <ClInclude Include="WdmMerchantShip.h">
+      <Filter>Source\Ships\Encounter ships\Merchant</Filter>
+    </ClInclude>
+    <ClInclude Include="WdmFollowShip.h">
+      <Filter>Source\Ships\Encounter ships\Follow</Filter>
+    </ClInclude>
+    <ClInclude Include="WdmWarringShip.h">
+      <Filter>Source\Ships\Encounter ships\Warring</Filter>
+    </ClInclude>
+    <ClInclude Include="WdmCamera.h">
+      <Filter>Source\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="WdmCameraStdCtrl.h">
+      <Filter>Source\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="WdmInterfaceObject.h">
+      <Filter>Source\Interface\Base interface</Filter>
+    </ClInclude>
+    <ClInclude Include="WdmIcon.h">
+      <Filter>Source\Interface\Icon</Filter>
+    </ClInclude>
+    <ClInclude Include="WdmCounter.h">
+      <Filter>Source\Interface\Counter</Filter>
+    </ClInclude>
+    <ClInclude Include="WdmWindRose.h">
+      <Filter>Source\Interface\Wind rose</Filter>
+    </ClInclude>
+    <ClInclude Include="WdmDateLabel.h">
+      <Filter>Source\Interface\Old interfaces\Date label</Filter>
+    </ClInclude>
+    <ClInclude Include="WdmEventWindow.h">
+      <Filter>Source\Interface\Old interfaces\Event window</Filter>
+    </ClInclude>
+    <ClInclude Include="WdmWindUI.h">
+      <Filter>Source\Interface\Wind UI</Filter>
+    </ClInclude>
+    <ClInclude Include="WdmIslands.h">
+      <Filter>Source\Islands</Filter>
+    </ClInclude>
+    <ClInclude Include="WdmClouds.h">
+      <Filter>Source\Clouds</Filter>
+    </ClInclude>
+    <ClInclude Include="WdmCloud.h">
+      <Filter>Source\Clouds\Storm</Filter>
+    </ClInclude>
+    <ClInclude Include="WdmStorm.h">
+      <Filter>Source\Clouds\Storm</Filter>
+    </ClInclude>
+    <ClInclude Include="WdmSea.h">
+      <Filter>Source\Sea</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldMap.h">
+      <Filter>Source\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="WdmRenderModel.h">
+      <Filter>Source\Base\Base objects</Filter>
+    </ClInclude>
+    <ClInclude Include="WdmRenderObject.h">
+      <Filter>Source\Base\Base objects</Filter>
+    </ClInclude>
+    <ClInclude Include="WdmObjects.h">
+      <Filter>Source\Base\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="WdmObjectsWind.h">
+      <Filter>Source\Base\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\templates\Array.h">
+      <Filter>Source\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\templates\dtimer.h">
+      <Filter>Source\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\templates\HTable.h">
+      <Filter>Source\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\templates\map.h">
+      <Filter>Source\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\templates\stack.h">
+      <Filter>Source\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\templates\string.h">
+      <Filter>Source\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\templates\tcommon.h">
+      <Filter>Source\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\Cvector.h">
+      <Filter>Source\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\CVector4.h">
+      <Filter>Source\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\Matrix.h">
+      <Filter>Source\math</Filter>
+    </ClInclude>
+    <ClInclude Include="ptc.h">
+      <Filter>Source\PtcData</Filter>
+    </ClInclude>
+    <ClInclude Include="PtcData.h">
+      <Filter>Source\PtcData</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\ENGINE\Modules\Techniques\worldmap.sha">
+      <Filter>Techniques</Filter>
+    </None>
+    <None Include="..\Engine\Modules\Techniques\Effects\worldmap.sha">
+      <Filter>Techniques</Filter>
+    </None>
+  </ItemGroup>
+</Project>
