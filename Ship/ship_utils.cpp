@@ -61,7 +61,7 @@ BOOL SHIP::BuildContour(CVECTOR * vContour,long & iNumVContour)
 #endif
 	}
 	//Assert(fRes<=1.0f);
-	
+
 	//bDefaultContour = true;
 	if (!bDefaultContour)
 	{
@@ -120,7 +120,7 @@ BOOL SHIP::BuildContour(CVECTOR * vContour,long & iNumVContour)
 		// build keel contour
 		long iDZ = MAX_KEEL_POINTS / 2;
 		float fDZ = iDZ + 1.0f;
-		for (i=0; i<MAX_KEEL_POINTS; i++)
+		for (long i=0; i<MAX_KEEL_POINTS; i++)
 		{
 			float fZ;
 			if (i==iDZ) fZ = 0.0f;
@@ -135,7 +135,7 @@ BOOL SHIP::BuildContour(CVECTOR * vContour,long & iNumVContour)
 
 		bKeelContour = true;
 	}
-	
+
 	return true;
 }
 
@@ -171,10 +171,10 @@ bool SHIP::BuildMasts()
 
 			GEOS::INFO ginfo;
 			pNode->geo->GetInfo(ginfo);
-			
+
 			vBSize		= CVECTOR(ginfo.boxsize.x,ginfo.boxsize.y,ginfo.boxsize.z);
 			vBCenter	= CVECTOR(ginfo.boxcenter.x,ginfo.boxcenter.y,ginfo.boxcenter.z);
-			
+
 			vUp		= pNode->glob_mtx * (vBCenter + vBSize / 2.0f);
 			vDown	= pNode->glob_mtx * (vBCenter - vBSize / 2.0f);
 

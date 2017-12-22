@@ -19,7 +19,7 @@
 #include "..\Common_h\exs.h"
 
 
-#include <d3dx8.h>
+#include "..\Common_h\DirectX8\d3dx8.h"
 //============================================================================================
 
 #ifndef PI
@@ -65,7 +65,7 @@ public:
 //--------------------------------------------------------------------------------------------
 //Работа с костью
 //--------------------------------------------------------------------------------------------
-public:	
+public:
 	//Добавить кадры анимации
 	void BlendFrame(long frame, float kBlend, D3DXQUATERNION & res);
 	//void BlendFrame(float frame);
@@ -142,7 +142,7 @@ inline float Bone::LerpAng(float a, float b, float k)
 	float delta = b - a;
 	if(delta < -PI) delta = 2*PI + delta;
 	if(delta >  PI) delta =-2*PI + delta;
-	return a + k*delta;	
+	return a + k*delta;
 }
 
 

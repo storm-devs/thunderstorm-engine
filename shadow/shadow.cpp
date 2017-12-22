@@ -53,7 +53,7 @@ bool SHADOW::Init()
 
 	rs = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
 	if(!rs)	_THROW("No service: dx8render");
-	
+
 	if(ref==0)
 	{
 		rs->CreateTexture(TEXTURE_SIZE, TEXTURE_SIZE, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &shTex);
@@ -93,7 +93,8 @@ bool AddPoly(const CVECTOR *vr, long nverts)
 	if( d0*dl < 0.0f)	return true;
 
 	if(tot_verts + (nverts-2)*3>vbuff_size)	return false;
-	for(long v=0; v<3; v++)
+	long v;
+	for(v=0; v<3; v++)
 	{
 		shadvert[tot_verts].pos = vr[v];
 		float z = (trans.m[0][2]*vr[v].x + trans.m[1][2]*vr[v].y + trans.m[2][2]*vr[v].z + trans.m[3][2]);
@@ -190,7 +191,8 @@ void SHADOW::Realize(dword Delta_Time)
 		radius = 8.0f;
 	}
 
-	for(long p=0; p<4; p++)
+	long p;
+	for(p=0; p<4; p++)
 	{
 		float dist = cen.x*planes[p].Nx + cen.y*planes[p].Ny + cen.z*planes[p].Nz - planes[p].D;
 		if(dist>radius)	break;
@@ -355,10 +357,10 @@ void SHADOW::FindPlanes(const CMatrix &view, const CMatrix &proj)
 	//left
 	v[0].x = proj.m[0][0]; v[0].y = 0.0f; v[0].z = 1.0f;
 	//right
-	v[1].x = -proj.m[0][0]; v[1].y = 0.0f; v[1].z = 1.0f;		
+	v[1].x = -proj.m[0][0]; v[1].y = 0.0f; v[1].z = 1.0f;
 	//top
-	v[2].x = 0.0f; v[2].y = -proj.m[1][1]; v[2].z = 1.0f;	
-	//bottom	
+	v[2].x = 0.0f; v[2].y = -proj.m[1][1]; v[2].z = 1.0f;
+	//bottom
 	v[3].x = 0.0f; v[3].y = proj.m[1][1]; v[3].z = 1.0f;
 	v[0] = !v[0];
 	v[1] = !v[1];

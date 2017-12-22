@@ -1,11 +1,11 @@
 //============================================================================================
 //	Spirenkov Maxim aka Sp-Max Shaman, 2001
 //--------------------------------------------------------------------------------------------
-//	
+//
 //--------------------------------------------------------------------------------------------
 //	PtcData
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "PtcData.h"
@@ -19,19 +19,19 @@
 PtcData::PtcData()
 {
 	srand(GetTickCount());
-	data = null;	
+	data = null;
 	triangle = null;
-	numTriangles = 0;	
+	numTriangles = 0;
 	vertex = null;
-	numVerteces = 0;	
+	numVerteces = 0;
 	normal = null;
-	numNormals = 0;	
-	min = max = 0.0f;	
+	numNormals = 0;
+	min = max = 0.0f;
 	map = null;
 	l = w = 0;
-	ls = ws = 0.0f;	
+	ls = ws = 0.0f;
 	indeces = null;
-	numIndeces = 0;	
+	numIndeces = 0;
 	table = null;
 	lineSize = 0;
 	ctriangle = null;
@@ -98,7 +98,7 @@ bool PtcData::Load(const char * path)
 		delete buf;
 		return false;
 	}
-	if(hdr.numTriangles < 1 || 
+	if(hdr.numTriangles < 1 ||
 		hdr.numVerteces < 3 ||
 		hdr.numNormals < 1 ||
 		hdr.mapL < 1 ||
@@ -157,7 +157,7 @@ void PtcData::SFLB_PotectionLoad()
 	table = (byte *)(buf + tsize);
 	lineSize = hdr.lineSize;
 	//Материалы
-	if(hdr.ver == PTC_VERSION) materials = (PtcMaterials *)(table + lineSize*numTriangles);	
+	if(hdr.ver == PTC_VERSION) materials = (PtcMaterials *)(table + lineSize*numTriangles);
 	//Ищим среднюю точку
 	middle = 0.0f;
 	for(long i = 0; i < numVerteces; i++)
@@ -186,7 +186,8 @@ long PtcData::FindNode(const CVECTOR & pos, float & y)
 	{
 		PtcTriangle & trg = triangle[indeces[m.start + i]];
 		//Проверяем поподание в треугольник
-		for(long j = 0; j < 3; j++)
+		long j;
+		for(j = 0; j < 3; j++)
 		{
 			//Вершины ребра
 			CVECTOR & vs = *(CVECTOR *)&vertex[trg.i[j]];
@@ -214,7 +215,7 @@ long PtcData::FindNode(const CVECTOR & pos, float & y)
 				h = d;
 				node = indeces[m.start + i];
 			}
-		}		
+		}
 	}
 	y = h;
 	return node;
@@ -250,11 +251,13 @@ long PtcData::Move(long curNode, const CVECTOR & to, CVECTOR & pos, long depth)
 	float d = (nd | pos);
 	//Трейс пути
 	long fromNode = -2;	//Откуда пришли
-	for(long loopCounter = 0; loopCounter < 256; loopCounter++)
+	long loopCounter;
+	for(loopCounter = 0; loopCounter < 256; loopCounter++)
 	{
 		//Проверить нахождения точки прибытия на текущем треугольнике
 		word * trg = triangle[curNode].i;
-		for(long j = 0; j < 3; j++)
+		long j;
+		for(j = 0; j < 3; j++)
 		{
 			//Вершины ребра
 			CVECTOR & vs = *(CVECTOR *)&vertex[trg[j]];
@@ -263,7 +266,7 @@ long PtcData::Move(long curNode, const CVECTOR & to, CVECTOR & pos, long depth)
 			float nx = -(ve.z - vs.z);
 			float nz = (ve.x - vs.x);
 			float nl = sqrtf(nx*nx + nz*nz);
-			
+
 			if(!nl) continue;
 			nx /= nl; nz /= nl;
 
@@ -353,7 +356,7 @@ long PtcData::Move(long curNode, const CVECTOR & to, CVECTOR & pos, long depth)
 				p.y = float(vs.y + (ve.y - vs.y)*k);
 				p.z = float(vs.z + (ve.z - vs.z)*k);
 				//Проверка попадания на путь
-				d1 = dir | (p - ps); 
+				d1 = dir | (p - ps);
 				d2 = dir | (to - p);
 				if(d1 < -0.00001f) continue;
 				if(d2 < -0.00001f) continue;
@@ -517,7 +520,7 @@ CVECTOR PtcData::FindEdgePoint(const CVECTOR & vs, const CVECTOR & ve, const CVE
 		{
 			//Точка назначения за ребром
 			float dCur = (cur | nrm) - dist;
-			if(dCur - dTo == 0.0f) return (vs + ve)*0.5f;			
+			if(dCur - dTo == 0.0f) return (vs + ve)*0.5f;
 			float k = dCur/(dCur - dTo);
 			pos = cur + (to - cur)*k;
 			//Ограничиваем точку перемещения
@@ -541,7 +544,7 @@ CVECTOR PtcData::FindEdgePoint(const CVECTOR & vs, const CVECTOR & ve, const CVE
 	}else{
 		pos = (vs + ve)*0.5f;
 	}
-	return pos;	
+	return pos;
 }
 
 //Найти пересечение с патчём
@@ -741,7 +744,7 @@ void PtcData::DebugDraw(VDX8RENDER * rs, float dltTime)
 			dbgTriangles[i*3 + 1].c = dbgTriangles[i*3 + 0].c;
 			dbgTriangles[i*3 + 2].x = vertex[triangle[i].i[2]].x;
 			dbgTriangles[i*3 + 2].y = vertex[triangle[i].i[2]].y;
-			dbgTriangles[i*3 + 2].z = vertex[triangle[i].i[2]].z;			
+			dbgTriangles[i*3 + 2].z = vertex[triangle[i].i[2]].z;
 			dbgTriangles[i*3 + 2].c = dbgTriangles[i*3 + 0].c;
 		}
 	}

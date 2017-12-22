@@ -10,8 +10,8 @@
 #include "Technique.h"
 #include "font.h"
 
-#include <D3DX8.h>
-#include <D3DX8core.h>
+#include "..\common_h\DirectX8\d3dx8.h"
+#include "..\common_h\DirectX8\d3dx8core.h"
 
 #define MAX_STEXTURES	1024
 #define MAX_BUFFERS		1024
@@ -32,7 +32,7 @@ struct STEXTURE
 {
 	IDirect3DBaseTexture8	* d3dtex;
 	char					* name;
-	unsigned long			hash;		
+	unsigned long			hash;
 	long					ref;
 	dword					dwSize;
 	bool					isCubeMap;
@@ -118,7 +118,7 @@ class DX8RENDER  : public VDX8RENDER
 	long				nTextureDegradation;
 	float				aspectRatio;
 	float				m_fHeightDeformator;
-	
+
 	bool				bSafeRendering;
 	bool				bShowFps, bShowExInfo;
 	bool				bInsideScene;
@@ -190,7 +190,7 @@ class DX8RENDER  : public VDX8RENDER
 	D3DVIEWPORT8 OriginalViewPort;
 
 	void CreateRenderQuad (float fWidth, float fHeight, float fSrcWidth, float fSrcHeight, float fMulU = 1.0f, float fMulV = 1.0f);
-	
+
 	void ClearPostProcessSurface (IDirect3DSurface8* pSurf);
 	void BlurGlowTexture ();
 	void CopyGlowToScreen ();
@@ -208,8 +208,8 @@ class DX8RENDER  : public VDX8RENDER
 
 	bool bPostProcessEnabled;
 	bool bPostProcessError;
-	
-	
+
+
 	bool bSeaEffect;
 	float fSeaEffectSize;
 	float fSeaEffectSpeed;
@@ -270,9 +270,9 @@ public:
 	// DX8Render: Animation
 		virtual void RenderAnimation(long ib, void * src, long numVrts, long minv, long numv,  long startidx, long numtrg, bool isUpdateVB);
 
-	// DX8Render: Return d3d8 device 
-		virtual void * GetDevice() { return d3d8; };		
-		virtual void * GetD3DDevice() { return d3d8; };		
+	// DX8Render: Return d3d8 device
+		virtual void * GetDevice() { return d3d8; };
+		virtual void * GetD3DDevice() { return d3d8; };
 
 	// DX8Render: Render Target/Begin/End/Clear
 		virtual bool DX8Clear(long type);	//D3DCLEAR_STENCIL | D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER
@@ -340,7 +340,7 @@ public:
 		virtual void _cdecl DrawLines2D(RS_LINE2D * pRSL2D, dword dwLinesNum, const char * cBlockName = 0, dword dwNumParams = 0, ...);
 
 		virtual void _cdecl DrawBuffer(long vbuff, long stride, long ibuff, long minv, long numv, long startidx, long numtrg, const char *cBlockName = 0, dword dwNumParams = 0, ...);
-		virtual void _cdecl DrawIndexedPrimitiveNoVShader(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iIBuff, long iMinV, long iNumV, long iStartIdx, long iNumTrg, const char *cBlockName = 0, dword dwNumParams = 0, ...); 
+		virtual void _cdecl DrawIndexedPrimitiveNoVShader(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iIBuff, long iMinV, long iNumV, long iStartIdx, long iNumTrg, const char *cBlockName = 0, dword dwNumParams = 0, ...);
 		virtual void _cdecl DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iStartV, long iNumPT, const char *cBlockName = 0, dword dwNumParams = 0, ...);
 		virtual void _cdecl DrawPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, dword dwVertexBufferFormat, dword dwNumPT, void *pVerts, dword dwStride, const char *cBlockName = 0, dword dwNumParams = 0, ...);
 		virtual void _cdecl DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, dword dwMinIndex, dword dwNumVertices, dword dwPrimitiveCount, const void *pIndexData, D3DFORMAT IndexDataFormat, const void *pVertexData, dword dwVertexStride, const char *cBlockName = 0, dword dwNumParams = 0, ...);
@@ -382,7 +382,7 @@ public:
 		virtual HRESULT SetViewport(const D3DVIEWPORT8 * pViewport);
 		virtual HRESULT GetDeviceCaps(D3DCAPS8* pCaps);
 
-	// D3D 
+	// D3D
 		virtual HRESULT SetStreamSource(UINT StreamNumber, void * pStreamData, UINT Stride);
 		virtual HRESULT SetIndices(void * pIndexData, UINT BaseVertexIndex);
 		virtual HRESULT DrawPrimitive(D3DPRIMITIVETYPE PrimitiveType, UINT StartVertex, UINT PrimitiveCount);
@@ -452,10 +452,10 @@ public:
 
 	void ProcessScriptPosAng(CVECTOR & vPos, CVECTOR & vAng);
 	void FindPlanes(IDirect3DDevice8 * d3dDevice);
-	
+
 	/*bool InitDevice(bool windowed, HWND hwnd, long width, long height);
 	bool ReleaseDevice();
- 
+
 	bool DX8Clear(long type);	//D3DCLEAR_STENCIL | D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER
 	bool DX8BeginScene();
 	bool DX8EndScene();
@@ -502,7 +502,7 @@ public:
 	void SetTransform(long type, D3DMATRIX *mtx);
 	void GetTransform(long type, D3DMATRIX *mtx);
 
-	// fonts 
+	// fonts
 	//DX8FONTS Fonts;
 	long _cdecl Print(long x, long y,char * format,...);
 	long _cdecl Print(long nFontNum, DWORD color, long x, long y,char * format,...);
@@ -526,7 +526,7 @@ public:
 	HRESULT GetViewport(D3DVIEWPORT8 * pViewport);
 	HRESULT SetViewport(const D3DVIEWPORT8 * pViewport);
 
-	// 
+	//
 	dword SetRenderState(dword State, dword Value);
 	dword GetRenderState(dword State, dword* pValue);
 	dword SetTextureStageState(dword Stage,dword Type,dword Value);
@@ -615,7 +615,7 @@ public:
 	virtual void StartProgressView();
 	virtual void ProgressView();
 	virtual void EndProgressView();
-	
+
 	static const dword rectsVBuffer_SizeInRects;
 	IDirect3DVertexBuffer8	* rectsVBuffer;
 
@@ -628,7 +628,7 @@ public:
 	long progressTipsTexture;
 
 	long loadFrame;
-	long progressSafeCounter;	
+	long progressSafeCounter;
 	bool isInPViewProcess;
 	dword progressUpdateTime;
 	float progressFramesPosX;

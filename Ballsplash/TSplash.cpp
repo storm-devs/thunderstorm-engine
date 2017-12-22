@@ -21,7 +21,7 @@ long TSplash::texture       = 0;
 long TSplash::texture2		= 0;
 
 dword TSplash::lockTicks	= 0;
-dword TSplash::fillTicks	= 0; 
+dword TSplash::fillTicks	= 0;
 dword TSplash::unlockTicks  = 0;
 dword TSplash::realizeTicks = 0;
 dword TSplash::processCount = 0;
@@ -103,14 +103,14 @@ void TSplash::Initialize(INIFILE * _ini, IDirect3DDevice8 *_device, SEA_BASE *_s
 		texture2 = renderer->TextureCreate("splash.tga");
 
 		// INDEXES 1
-		WORD *indexes = /*iBuffer*/ (WORD *) renderer->LockIndexBuffer(iBuffer); 
+		WORD *indexes = /*iBuffer*/ (WORD *) renderer->LockIndexBuffer(iBuffer);
 
 		int startIndex = 0;
 		for (int i=0; i<MAX_SPLASHES; i++, startIndex += GRID_STEPS*GRID_STEPS)
 		for (int z=0; z < GRID_STEPS - 1; ++z)
 		for (int x=0; x < GRID_STEPS - 1; ++x)
 		{
-			
+
 			*(indexes++) = startIndex + GRID_STEPS * z     + x	 ;
 			*(indexes++) = startIndex + GRID_STEPS * (z+1) + x	 ;
 			*(indexes++) = startIndex + GRID_STEPS * (z+1) + x + 1;
@@ -123,11 +123,11 @@ void TSplash::Initialize(INIFILE * _ini, IDirect3DDevice8 *_device, SEA_BASE *_s
 
 		// INDEXES 2
 		startIndex = 0;
-		indexes = /*iBuffer2*/(WORD *) renderer->LockIndexBuffer(iBuffer2); 
-		for (i=0; i<MAX_SPLASHES; i++, startIndex += VPLANES_COUNT*4)
+		indexes = /*iBuffer2*/(WORD *) renderer->LockIndexBuffer(iBuffer2);
+		for (int i=0; i<MAX_SPLASHES; i++, startIndex += VPLANES_COUNT*4)
 		for (int j=0; j<VPLANES_COUNT; j++)
 		{
-			
+
 			*(indexes++) = startIndex + j*4 + 0;
 			*(indexes++) = startIndex + j*4 + 1;
 			*(indexes++) = startIndex + j*4 + 2;
@@ -175,7 +175,7 @@ float TSplash::HeightF(dword _time, float _r, float _k)
 	float tPhase = ((float) _time) * (2.f * PId2 / (SPLASH_FRAME_DELAY*SPLASH_FRAMES_COUNT));
 	float rK = (GRID_LENGTH - _r) / GRID_LENGTH;
 	float k = ((float) _time) / SPLASH_FADE_TIME;
-	if (k > 1.0f) 
+	if (k > 1.0f)
 		k = 1.0f;
 	k = 1.f - k;
 	return (.55f + k*fabsf(cosf(rK*10.f + _time/7e2f)))*rK*rK;
@@ -189,7 +189,7 @@ bool TSplash::Process(dword _dTime)
 
 	++TSplash::processCount;
 	time += _dTime;
-	
+
 	if (time > SPLASH_FADE_TIME)
 	{
 		enabled = false;
@@ -218,7 +218,7 @@ bool TSplash::Process(dword _dTime)
 	GRID_VERTEX *vertices = startVertices + topIndex*GRID_STEPS*GRID_STEPS;
 	float stepSize = ((float)GRID_LENGTH) / ((float)GRID_STEPS);
 	float halfSize = GRID_LENGTH / 2.0f;
-	CVECTOR curPos;	
+	CVECTOR curPos;
 	float localHeight;
 
 	//calculate alpha
@@ -384,12 +384,12 @@ void TSplash::Realize(dword _dTime)
 	renderer->SetTransform(D3DTS_WORLD, (D3DMATRIX *) m);
 	renderer->TextureSet(0, texture);
 
-	renderer->DrawBuffer(vBuffer, 
-						 sizeof(GRID_VERTEX), 
-						 iBuffer, 
-						 0, 
-						 GRID_STEPS*GRID_STEPS*topIndex, 
-						 0, 
+	renderer->DrawBuffer(vBuffer,
+						 sizeof(GRID_VERTEX),
+						 iBuffer,
+						 0,
+						 GRID_STEPS*GRID_STEPS*topIndex,
+						 0,
 						 TRIANGLES_COUNT*topIndex,
 						 "splash");
 
@@ -412,13 +412,13 @@ void TSplash::Realize2(dword _dTime)
 	renderer->TextureSet(0, texture2);
 	renderer->TextureSet(1, texture2);
 
-	renderer->DrawBuffer(vBuffer2, 
-						 sizeof(GRID_VERTEX2), 
-						 iBuffer2, 
-						 0, 
-						 VPLANES_COUNT*4*topIndex, 
-						 0, 
-						 VPLANES_COUNT*2*topIndex, 
+	renderer->DrawBuffer(vBuffer2,
+						 sizeof(GRID_VERTEX2),
+						 iBuffer2,
+						 0,
+						 VPLANES_COUNT*4*topIndex,
+						 0,
+						 VPLANES_COUNT*2*topIndex,
 						 0);
 
 	RDTSC_E(ticksRealize);

@@ -1,11 +1,11 @@
 //============================================================================================
 //	Spirenkov Maxim aka Sp-Max Shaman, 2001
 //--------------------------------------------------------------------------------------------
-//	
+//
 //--------------------------------------------------------------------------------------------
 //	Window
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "Window.h"
@@ -165,7 +165,7 @@ void Window::InitList(Lights & ls)
 	strcpy(list[6].name, str);
 	list[6].type = ListElement::t_savelight;
 	for(long i = 0; i < maxSize; i++) ls[i].isMark = false;
-	for(i = 0; i < maxSize; i++)
+	for(long i = 0; i < maxSize; i++)
 	{
 		if(ls[i].isMark) continue;
 		switch(ls[i].type)
@@ -241,7 +241,7 @@ void Window::InitList(Lights & ls)
 				list[numElements].name = NEW char[strlen(ls[i].group) + strlen(str) + 1];
 				list[numElements].name[0] = 0;
 				strcat(list[numElements].name, str);
-				strcat(list[numElements].name, ls[i].group);				
+				strcat(list[numElements].name, ls[i].group);
 				list[numElements].type = ListElement::t_glight;
 				list[numElements].c = ls[i].color;
 				list[numElements].st = 0.0f;
@@ -469,7 +469,7 @@ void Window::Draw(float dltTime)
 			{
 				LoadPreset(prs);
 				if(tracePrc < 1.0f) isTraceShadows = true;
-				if(smoothPrc < 1.0f) isSmoothShadows = true;				
+				if(smoothPrc < 1.0f) isSmoothShadows = true;
 			}
 			break;
 		case ListElement::t_trace:
@@ -535,7 +535,7 @@ void Window::Draw(float dltTime)
 			if(isOn != *le.isOn)
 			{
 				isUpdateLight = true;
-				updateLight = le.litIndex;				
+				updateLight = le.litIndex;
 			}
 			if(ColorPicker(6, 50.0f, le.c, le.st, *le.color)) UpdateLight(le.litIndex, false, false, false);
 			break;
@@ -627,7 +627,7 @@ void Window::Reset(bool isActive)
 	if(api->FindClass(&loc, "Location", 0))
 	{
 		api->Send_Message(loc, "ll", MSG_LOCATION_PAUSE, long(isActive));
-	}	
+	}
 	slidID = -1;
 	isPikerActive = false;
 	isActiveMouseState = false;
@@ -875,11 +875,11 @@ void Window::Checker(float x, float y, const char * text, bool & res)
 		DrawLine(winx + x, winy + y + h*0.5f - s*0.5f - 2.0f, winx + x + s*0.5f, winy + y + h*0.5f + s*0.5f - 2.0f, frmColor);
 		DrawLine(winx + x + s + 1.0f, winy + y + h*0.5f - s*0.5f - 5.0f, winx + x + s*0.5f, winy + y + h*0.5f + s*0.5f - 3.0f, frmColor);
 	}
-	Print(textColor, winx + x + s + 10.0f, winx + x + s + 10.0f, winy + y + (h - fontHeight*0.5f)*0.5f, 0.5f, false, text);	
+	Print(textColor, winx + x + s + 10.0f, winx + x + s + 10.0f, winy + y + (h - fontHeight*0.5f)*0.5f, 0.5f, false, text);
 }
 
 long Window::SelPreset()
-{	
+{
 	long prs = -1, ins = -1;
 	float vl = 40.0f;
 	Print(textColor, winx, winx + winw, vl, 0.6f, true, "Hours Outside");
@@ -996,7 +996,7 @@ void Window::SavePreset(long prs)
 			ini->WriteLong(sect, "smoothUseNormals", long(smoothNorm));
 			ini->WriteDouble(sect, "smoothRadius", smoothRad);
 			break;
-		case ListElement::t_blur:			
+		case ListElement::t_blur:
 			ini->WriteLong(sect, "blurTrace", long(isTraceBlur));
 			ini->WriteDouble(sect, "blurRadius", blurRad);
 			ini->WriteDouble(sect, "blurAtt", blurAtt);
@@ -1038,7 +1038,7 @@ void Window::SavePreset(long prs)
 			ini->WriteLong(sect, GenerateName(list[i].name, "_isOn"), long(*list[i].isOn));
 			break;
 		}
-	}	
+	}
 	delete ini;
 }
 
@@ -1092,7 +1092,7 @@ void Window::LoadPreset(long prs)
 			*list[i].shadow = float(ini->GetDouble(sect, GenerateName(list[i].name, "_shadow"), *list[i].shadow));
 			*list[i].bright = float(ini->GetDouble(sect, GenerateName(list[i].name, "_bright"), *list[i].bright));
 			*list[i].contr = float(ini->GetDouble(sect, GenerateName(list[i].name, "_contr"), *list[i].contr));
-			*list[i].gamma = float(ini->GetDouble(sect, GenerateName(list[i].name, "_gamma"), *list[i].gamma));			
+			*list[i].gamma = float(ini->GetDouble(sect, GenerateName(list[i].name, "_gamma"), *list[i].gamma));
 			*list[i].att0 = float(ini->GetDouble(sect, GenerateName(list[i].name, "_att0"), *list[i].att0));
 			*list[i].att1 = float(ini->GetDouble(sect, GenerateName(list[i].name, "_att1"), *list[i].att1));
 			*list[i].att2 = float(ini->GetDouble(sect, GenerateName(list[i].name, "_att2"), *list[i].att2));
@@ -1100,7 +1100,7 @@ void Window::LoadPreset(long prs)
 			*list[i].isOn = ini->GetLong(sect, GenerateName(list[i].name, "_isOn"), long(*list[i].isOn)) != 0;
 			break;
 		}
-	}	
+	}
 	delete ini;
 	UpdateColors();
 	UpdateLight(-1, true, true, true);

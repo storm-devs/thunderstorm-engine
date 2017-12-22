@@ -155,7 +155,6 @@
     <ClCompile Include="sources\gdi_display.cpp" />
     <ClCompile Include="sources\hashhold.cpp" />
     <ClCompile Include="sources\ifs.cpp" />
-    <ClCompile Include="sources\input.cpp" />
     <ClCompile Include="sources\internal_functions.cpp" />
     <ClCompile Include="sources\internal_modules.cpp" />
     <ClCompile Include="sources\layer.cpp" />

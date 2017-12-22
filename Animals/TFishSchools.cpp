@@ -42,7 +42,7 @@ void TFishSchools::Init()
 	LoadSettings();
 
 	renderService = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
-	if(!renderService)	
+	if(!renderService)
 		_THROW("!FishSchools: No service 'dx8render'");
 
 	_CORE_API->FindClass(&seaID, "sea", 0);
@@ -111,7 +111,7 @@ void TFishSchools::Execute(dword _dTime)
 	{
 		//respawn near camera if needed
 		fishPos = fishSchools[i]->GetXYZ();
-		if ((abs(fishPos.x - pos.x) + fabs(fishPos.x - pos.x)) > RESPAWN_DISTANCE)
+		if ((fabs(fishPos.x - pos.x) + fabs(fishPos.x - pos.x)) > RESPAWN_DISTANCE)
 			fishSchools[i]->TDynamicObject::Initialize(pos, maxDistance);
 
 		//recalculate all fishes

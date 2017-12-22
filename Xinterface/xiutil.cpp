@@ -34,7 +34,8 @@ COMMANDDESCR pCommandsList[COMMAND_QUANTITY] =
 
 int FindCommand(const char* comName)
 {
-	for(int i=0; i<COMMAND_QUANTITY; i++)
+	int i;
+	for(i=0; i<COMMAND_QUANTITY; i++)
 		if( !stricmp(comName,pCommandsList[i].sName) ) break;
 	if(i==COMMAND_QUANTITY) return -1;
 	else return i;
@@ -42,7 +43,8 @@ int FindCommand(const char* comName)
 
 int FindCommand(int comID)
 {
-	for(int i=0; i<COMMAND_QUANTITY; i++)
+	int i;
+	for(i=0; i<COMMAND_QUANTITY; i++)
 		if( pCommandsList[i].code==comID ) break;
 	if(i==COMMAND_QUANTITY) return -1;
 	else return i;

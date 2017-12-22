@@ -17,7 +17,7 @@ enum PointType { PT_TYPE_NORMAL, PT_TYPE_CANNON_L,
 								 PT_TYPE_MAST_1,
 								 PT_TYPE_MAST_2,
 								 PT_TYPE_MAST_3,
-								 PT_TYPE_MAST_4, 
+								 PT_TYPE_MAST_4,
 								 PT_TYPE_MAST_5, PT_TYPE_NOT_TARGETPOINT };
 
 
@@ -103,7 +103,7 @@ struct Point{
 struct Points
 {
 	array <Point> point;
-	
+
 	int count;
 	int selected;
 
@@ -133,7 +133,7 @@ public:
 	void DrawLinks(VDX8RENDER * rs);
 
     Path findPath(Path &path, int from, int to); // Посчитать путь
-   
+
 
 	void UpdateLinks(); //Обновить матрицу поиска пути
 
@@ -155,7 +155,7 @@ inline float Dest( const CVECTOR &_v1, const CVECTOR &_v2){
 inline bool Dest( const CVECTOR &_v1, const CVECTOR &_v2, float d){
 
 
-	return (abs(_v2.x- _v1.x)< d && abs(_v2.y- _v1.y)< d && abs(_v2.z- _v1.z)< d);
+	return (fabs(_v2.x- _v1.x)< d && fabs(_v2.y- _v1.y)< d && fabs(_v2.z- _v1.z)< d);
 };
 
 
@@ -167,4 +167,4 @@ inline float Vector2Angle(const CVECTOR &_v)
 	while (result<  0)    result+= PI*2;
 
 	return result;
-} 
+}

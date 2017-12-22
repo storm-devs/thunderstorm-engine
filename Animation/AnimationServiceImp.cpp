@@ -14,7 +14,7 @@
 
 
 //============================================================================================
-					
+
 //Время выгрузки неиспользуемой анимации
 #define ASRV_DOWNTIME	1
 //Наибольший временной отрезок, подаваемый в AnimationManager
@@ -80,7 +80,7 @@ AnimationServiceImp::~AnimationServiceImp()
 				_CORE_API->Trace("No release Animation pnt:0x%x for %s.ani", animation[i], animation[i]->GetAnimationInfo()->GetName());
 				delete animation[i];
 			}
-		delete animation;		
+		delete animation;
 	}
 	if(ainfo)
 	{
@@ -107,7 +107,7 @@ void AnimationServiceImp::RunStart()
 	dword dltTime = _CORE_API->GetDeltaTime();
 	if(dltTime > 1000) dltTime = 1000;
 	//Просмотрим все анимации
-	for(long i = 0; i < numInfos; i++) 
+	for(long i = 0; i < numInfos; i++)
 		if(ainfo[i])
 		{
 			ainfo[i]->AddDowntime(dltTime);
@@ -116,14 +116,15 @@ void AnimationServiceImp::RunStart()
 				//Выгружаем никем не используемую анимацию
 				//_CORE_API->Trace("Download animation %s", ainfo[i]->GetName());
 				delete ainfo[i];
-				ainfo[i] = null;				
+				ainfo[i] = null;
 			}
 		}
 	//Исполним все анимации
-	for(i = 0; i < numAnimations; i++)
+	for(int i = 0; i < numAnimations; i++)
 		if(animation[i])
 		{
-			for(long dt = dltTime; dt > ASRV_MAXDLTTIME; dt -= ASRV_MAXDLTTIME)
+			long dt;
+			for(dt = dltTime; dt > ASRV_MAXDLTTIME; dt -= ASRV_MAXDLTTIME)
 								animation[i]->Execute(ASRV_MAXDLTTIME);
 			if(dt > 0) animation[i]->Execute(dt);
 			//_CORE_API->Trace("Animation: 0x%.8x Time: %f", animation[i], animation[i]->Player(0).GetPosition());
@@ -139,11 +140,12 @@ void AnimationServiceImp::RunEnd()
 Animation * AnimationServiceImp::CreateAnimation(const char * animationName)
 {
 	//Ищем анимацию, если нет, то загружаем
-	for(long i = 0; i < numInfos; i++) 
+	long i;
+	for(i = 0; i < numInfos; i++)
 		if(ainfo[i])
 		{
 			if(ainfo[i][0] == animationName) break;
-		}	
+		}
 	if(i == numInfos)
 	{
 		i = LoadAnimation(animationName);
@@ -205,17 +207,17 @@ long AnimationServiceImp::LoadAnimation(const char * animationName)
 	}
 	//Описатель онимации
 	AnimationInfo * info = NEW AnimationInfo(animationName);
-	//Зачитаем кости	
+	//Зачитаем кости
 	if(!LoadAN(path, info))
 	{
 		delete ani;
 		delete info;
 		_CORE_API->Trace("Animation file %s is damaged!", path);
-		return -1;	
+		return -1;
 	}
 	//Глобальные пользовательские данные
 	LoadUserData(ani, null, info->GetUserData(), animationName);
-	//Зачитаем действия	
+	//Зачитаем действия
 	for(bool isHaveSection = ani->GetSectionName(path, 63);
 		isHaveSection;
 		isHaveSection = ani->GetSectionNameNext(path, 63))
@@ -238,7 +240,7 @@ long AnimationServiceImp::LoadAnimation(const char * animationName)
 		{
 			_CORE_API->Trace("Incorrect %s in action [%s] of animation file %s.ani", ASKW_ETIME, path, animationName);
 			continue;
-		}	
+		}
 		//Добавляем действие
 		ActionInfo * aci = info->AddAction(path, stime, etime);
 		if(aci == null)
@@ -290,7 +292,8 @@ long AnimationServiceImp::LoadAnimation(const char * animationName)
 					continue;
 				}
 				//Конец имени
-				for(long p = 1; key[p] && key[p] != '"'; p++);
+				long p;
+				for(p = 1; key[p] && key[p] != '"'; p++);
 				if(!key[p])
 				{
 					_CORE_API->Trace("Incorrect %s <%s> in action [%s] of animation file %s.ani\nNot found closed symbol '\"'\n", ASKW_EVENT, key + 257, path, animationName);
@@ -347,7 +350,7 @@ long AnimationServiceImp::LoadAnimation(const char * animationName)
 					for(p++; key[p]; p++)
 						if(!(key[p] >= 'A' &&  key[p] <= 'Z') &&
 							!(key[p] >= 'a' &&  key[p] <= 'z')) break;
-					key[p] = 0;					
+					key[p] = 0;
 					if(em[0] == 0)
 					{
 					}else
@@ -382,7 +385,8 @@ long AnimationServiceImp::LoadAnimation(const char * animationName)
 	//Закроем ini файл
 	delete ani;
 	//Ищем свободный указатель
-	for(long i = 0; i < numInfos; i++)
+	long i;
+	for(i = 0; i < numInfos; i++)
 					if(!ainfo[i]) break;
 	//Если нет такого, расширем массив
 	if(i == numInfos)
@@ -414,7 +418,8 @@ void AnimationServiceImp::LoadUserData(INIFILE * ani, const char * sectionName, 
 				continue;
 			}
 			//Конец имени
-			for(long p = 1; key[p] && key[p] != '"'; p++);
+			long p;
+			for(p = 1; key[p] && key[p] != '"'; p++);
 			if(!key[p])
 			{
 				if(sectionName)
@@ -461,7 +466,7 @@ void AnimationServiceImp::LoadUserData(INIFILE * ani, const char * sectionName, 
 			data.AddData(key + 1, uds);
 		}while(ani->ReadStringNext((char *)sectionName, ASKW_DATA, key, 1023));
 		data.FreeExtra();
-	}	
+	}
 }
 
 //Загрузить AN
@@ -474,7 +479,7 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 		{
 			_CORE_API->Trace("Cannot open file: %s", fname);
 			return false;
-		}		
+		}
 		//Читаем заголовок файла
 		ANFILE::HEADER header;
 		if(!_CORE_API->fio->_ReadFile(fl, &header, sizeof(ANFILE::HEADER), 0) || header.nFrames <= 0 || header.nJoints <= 0 || header.framesPerSec < 0.0f || header.framesPerSec > 1000.0f)
@@ -482,7 +487,7 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 			_CORE_API->Trace("Incorrect file header in animation file: %s", fname);
 			_CORE_API->fio->_CloseHandle(fl);
 			return false;
-		}	
+		}
 		//Установим время анимации
 		info->SetNumFrames(header.nFrames);
 		//Установим скорость анимации
@@ -514,7 +519,7 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 			_CORE_API->fio->_CloseHandle(fl);
 			return false;
 		}
-		for(i = 0; i < header.nJoints; i++)
+		for(long i = 0; i < header.nJoints; i++)
 		{
 			info->GetBone(i).SetNumFrames(header.nFrames, vrt[i], i == 0);
 		}
@@ -534,7 +539,7 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 
 		//Углы
 		D3DXQUATERNION *ang = NEW D3DXQUATERNION[header.nFrames];
-		for(i = 0; i < header.nJoints; i++)
+		for(long i = 0; i < header.nJoints; i++)
 		{
 			if(!_CORE_API->fio->_ReadFile(fl, ang, header.nFrames*sizeof(*ang), 0))
 			{
@@ -543,20 +548,20 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 				return false;
 			}
 			info->GetBone(i).SetAngles(ang, header.nFrames);
-		}		
+		}
 		delete ang;
 
 		//-----------------------------------------------
-		for(i = 0; i < header.nJoints; i++)
+		for(long i = 0; i < header.nJoints; i++)
 		{
 			info->GetBone(i).BuildStartMatrix();
 		}
-		for(i = 0; i < header.nJoints; i++)
+		for(long i = 0; i < header.nJoints; i++)
 		{
 			info->GetBone(i).start.Transposition();
 		}
 		//-----------------------------------------------
-	
+
 		//Закроем файл
 		_CORE_API->fio->_CloseHandle(fl);
 		return true;

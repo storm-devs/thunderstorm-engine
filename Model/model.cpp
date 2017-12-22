@@ -14,7 +14,7 @@ MODELR::MODELR()
 	LightPath[0] = 0;
 	lmPath[0] = 0;
 	ani = null;
-	memset(aniVerts, 0, sizeof(aniVerts));	
+	memset(aniVerts, 0, sizeof(aniVerts));
 	d3dDestVB = 0;
 	for(long i = 0; i < ANI_MAX_ACTIONS; i++) aniPos[i] = -1.0f;
 	root = null;
@@ -80,12 +80,12 @@ void *VBTransform(void *vb, long startVrt, long nVerts, long totVerts)
 			mov eax, src
 			mov ebx, dst
 vrt_loop:	prefetcht0 [eax]
-			prefetcht0 [eax + 32]			
+			prefetcht0 [eax + 32]
 			xor ecx, ecx
 			xor edx, edx
 			mov esi, bones
 			mov cl, [eax + 16]
-			mov dl, [eax + 17]			
+			mov dl, [eax + 17]
 			mov edi, esi
 			shl ecx, 6
 			shl edx, 6
@@ -99,7 +99,7 @@ vrt_loop:	prefetcht0 [eax]
 			movups xmm6, [edi + 0]				//m2.vx
 			subps  xmm1, xmm0					//xmm1 = (1 - w)(1 - w)(1 - w)(1 - w)
 			movups xmm5, [esi + 16]				//m1.vy
-			movups xmm7, [edi + 16]				//m2.vy			
+			movups xmm7, [edi + 16]				//m2.vy
 			mulps  xmm4, xmm0					//m1.vx*w
 			mulps  xmm6, xmm1					//m2.vx*(1 - w)
 			mulps  xmm5, xmm0					//m1.vy*w
@@ -132,10 +132,10 @@ vrt_loop:	prefetcht0 [eax]
 			movups [ebx + 0], xmm0				//Сохраняем позицию
 			shufps xmm2, xmm2, 01000000b		//0zzz
 			movss  xmm0, [eax + 20]				//000x
-			movss  xmm1, [eax + 24]				//000y			
+			movss  xmm1, [eax + 24]				//000y
 			mov    ecx, [eax + 36]				//vrt.tu0
 			mov    edx, [eax + 40]				//vrt.tv0
-			shufps xmm0, xmm0, 01000000b		//0xxx			
+			shufps xmm0, xmm0, 01000000b		//0xxx
 			shufps xmm1, xmm1, 01000000b		//0yyy
 			mov    [ebx + 28], ecx				//Сохраняем u
 			mulps  xmm0, xmm4					//0xxx*m.vx
@@ -172,7 +172,7 @@ vrt_loop:	prefetcht0 [eax]
 		mtx.matrix[2] = m1.matrix[2]*vrt.weight + m2.matrix[2]*wNeg;
 		mtx.matrix[4] = -(m1.matrix[4]*vrt.weight + m2.matrix[4]*wNeg);
 		mtx.matrix[5] = m1.matrix[5]*vrt.weight + m2.matrix[5]*wNeg;
-		mtx.matrix[6] = m1.matrix[6]*vrt.weight + m2.matrix[6]*wNeg;		
+		mtx.matrix[6] = m1.matrix[6]*vrt.weight + m2.matrix[6]*wNeg;
 		mtx.matrix[8] = -(m1.matrix[8]*vrt.weight + m2.matrix[8]*wNeg);
 		mtx.matrix[9] = m1.matrix[9]*vrt.weight + m2.matrix[9]*wNeg;
 		mtx.matrix[10] = m1.matrix[10]*vrt.weight + m2.matrix[10]*wNeg;
@@ -281,7 +281,7 @@ void MODELR::Realize(dword Delta_Time)
 
 		alreadyTransformed = true;
 		for(long i = 0; i < 2; i++)
-		{			
+		{
 			if(ani->Player(i).IsPlaying())
 			{
 				float ap = ani->Player(i).GetPosition();
@@ -304,7 +304,7 @@ void MODELR::Realize(dword Delta_Time)
 			aniPos[1] = -2.0f;
 		}
 	}else root->Draw();
-	
+
 	if(renderTuner) renderTuner->Restore(this, rs);
 
 	if (bSetupFog)
@@ -352,15 +352,15 @@ dword _cdecl MODELR::ProcessMessage(MESSAGE &message)
 				CVECTOR & vy = mtx.Vy();
 				CVECTOR & vz = mtx.Vz();
 				CVECTOR & vpos = mtx.Pos();
-				
+
 				vpos.x = message.Float();
 				vpos.y = message.Float();
 				vpos.z = message.Float();
-				
+
 				vx.x = message.Float();
 				vx.y = message.Float();
 				vx.z = message.Float();
-				
+
 				vy.x = message.Float();
 				vy.y = message.Float();
 				vy.z = message.Float();
@@ -417,12 +417,12 @@ dword _cdecl MODELR::ProcessMessage(MESSAGE &message)
 					return 0;
 				}
 			}
-		
+
 			root->Update(mtx, tmp);
 			api->fio->SetDrive();
 			return 1;
-			
-#endif		
+
+#endif
 			UNGUARD
 		break;
 		case MSG_MODEL_LOAD_ANI:		// set animation
@@ -443,12 +443,12 @@ dword _cdecl MODELR::ProcessMessage(MESSAGE &message)
 			GUARD(MSG_MODEL_SET_LIGHT_PATH)
 			message.String(255,LightPath);
 			UNGUARD
-		break;		
+		break;
 		case MSG_MODEL_SET_LIGHT_LMPATH:
 			GUARD(MSG_MODEL_SET_LIGHT_LMPATH)
 			message.String(255,lmPath);
 			UNGUARD
-		break;		
+		break;
 		case MSG_MODEL_RELEASE:
 			GUARD(MSG_MODEL_RELEASE)
 			if(root) root->ReleaseGeometry();
@@ -592,7 +592,7 @@ float MODELR::Trace(const CVECTOR &src, const CVECTOR &dst)
 			}
 
 			idxBuff = NEW unsigned short[nt*3];
-			for(vb=0; vb<gi.nvrtbuffs; vb++)
+			for(long vb=0; vb<gi.nvrtbuffs; vb++)
 			{
 				long avb = root->geo->GetVertexBuffer(vb);
 				VGEOMETRY::ANIMATION_VB gavb = GeometyService->GetAnimationVBDesc(avb);
@@ -699,10 +699,10 @@ void MODELR::FindPlanes(const CMatrix &view, const CMatrix &proj)
 	//left
 	v[0].x = proj.m[0][0]; v[0].y = 0.0f; v[0].z = 1.0f;
 	//right
-	v[1].x = -proj.m[0][0]; v[1].y = 0.0f; v[1].z = 1.0f;		
+	v[1].x = -proj.m[0][0]; v[1].y = 0.0f; v[1].z = 1.0f;
 	//top
-	v[2].x = 0.0f; v[2].y = -proj.m[1][1]; v[2].z = 1.0f;	
-	//bottom	
+	v[2].x = 0.0f; v[2].y = -proj.m[1][1]; v[2].z = 1.0f;
+	//bottom
 	v[3].x = 0.0f; v[3].y = proj.m[1][1]; v[3].z = 1.0f;
 	v[0] = !v[0];
 	v[1] = !v[1];

@@ -1,11 +1,11 @@
 //============================================================================================
 //	Spirenkov Maxim aka Sp-Max Shaman, 2001
 //--------------------------------------------------------------------------------------------
-//	
+//
 //--------------------------------------------------------------------------------------------
 //	Player
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "Player.h"
@@ -40,7 +40,7 @@ Player::Player()
 Player::~Player()
 {
 #ifndef _XBOX
-	ENTITY_ID peid;	
+	ENTITY_ID peid;
 	if(api->FindClass(&peid, "ShootGunParticles", 0)) api->DeleteEntity(peid);
 #endif
 }
@@ -63,7 +63,7 @@ void Player::Reset()
 void Player::Move(float dltTime)
 {
 #ifndef _XBOX
-	
+
 	kSMReload += dltTime*0.7f;
 	if(kSMReload > 1.0f) kSMReload = 1.0f;
 	if(!locCam)
@@ -80,7 +80,7 @@ void Player::Move(float dltTime)
 
 	bool oldSGMode = shootgunMode;
 	shootgunMode = false;
-	VDATA * vd = api->Event("EventSGMode", 0);	
+	VDATA * vd = api->Event("EventSGMode", 0);
 	if(vd)
 	{
 		long data = 0;
@@ -134,8 +134,8 @@ void Player::Move(float dltTime)
 					StrafeWhenMove(dltTime);
 				}else{
 					Recoil();
-				}					
-			}else{				
+				}
+			}else{
 				StopMove();
 				StrafeWhenStop(dltTime);
 			}
@@ -148,7 +148,7 @@ void Player::Move(float dltTime)
 			if(IsChangeFightMode())
 			{
 				isSetBlock = false;
-				SetFightMode(!IsFight());				
+				SetFightMode(!IsFight());
 			}
 			if(IsFight())
 			{
@@ -268,7 +268,7 @@ void Player::Update(float dltTime)
 			{
  				Character * chr = FindDialogCharacter();
 				if(chr)
-				{					
+				{
 					Assert(AttributesPointer);
 					Assert(chr->AttributesPointer);
 					long first = AttributesPointer->GetAttributeAsDword("index", -1);
@@ -322,7 +322,7 @@ void Player::Update(float dltTime)
 void Player::SetSaveData(ATTRIBUTES * sdata)
 {
 	if(!sdata) return;
-	sdata->SetAttributeUseDword("isFight", isFight);	
+	sdata->SetAttributeUseDword("isFight", isFight);
 }
 
 //Востанавить параметры
@@ -364,7 +364,7 @@ void Player::Rotate(float dltTime)
 				mtx.Vz().y = 0.0f;
 				mtx.Vx() = !CVECTOR(mtx.Vx());
 				mtx.Vz()= !CVECTOR(mtx.Vz());
-				mtx.Pos() = 0.0f;			
+				mtx.Pos() = 0.0f;
 				CVECTOR res = mtx*CVECTOR(dx, 0.0f, dz);
 				Turn(res.x, res.z);
 			}
@@ -373,7 +373,7 @@ void Player::Rotate(float dltTime)
 }
 
 bool Player::GoForward(float dltTime)
-{	
+{
 	CONTROL_STATE cs;
 	if(!isSpecialMode)
 	{
@@ -466,7 +466,7 @@ void Player::StrafeWhenMove(float dltTime)
 }
 
 void Player::StrafeWhenStop(float dltTime)
-{	
+{
 	StrafeWhenMove(dltTime);
 	if(IsFight())
 	{
@@ -608,11 +608,12 @@ Player * Player::FindAttackCharacter()
 	float minDst;
 	long task = -1;
 	bool isFgt = false;
-	bool isEnemy = false;	
+	bool isEnemy = false;
 	float enemyCos = -1.0f;
 	float cdx = sinf(ay);
 	float cdz = cosf(ay);
-	for(long i = 0, j = -1; i < num; i++)
+	long j = -1;
+	for(long i = 0; i < num; i++)
 	{
 		//Персонаж
 		Supervisor::FindCharacter & fc = fndCharacter[i];
@@ -625,8 +626,8 @@ Player * Player::FindAttackCharacter()
 		//Отсеиваем неинтересных
 		if(isEnemy)
 		{
-			if(chr->task.task != npct_fight || 
-				api->GetEntityPointer(&chr->task.target) != this) continue;			
+			if(chr->task.task != npct_fight ||
+				api->GetEntityPointer(&chr->task.target) != this) continue;
 		}else{
 			if(isFgt)
 			{
@@ -639,7 +640,7 @@ Player * Player::FindAttackCharacter()
 				}
 			}
 			/*
-			if(chr->task.task == npct_fight && 
+			if(chr->task.task == npct_fight &&
 				api->GetEntityPointer(&chr->task.target) == this)
 			{
 				j = -1;
@@ -694,7 +695,7 @@ void Player::FireFromShootgun()
 	location->GetRS()->GetTransform(D3DTS_VIEW, mtx);
 	mtx.Transposition();
 	CVECTOR src = mtx.Pos() + mtx.Vz()*0.7f;
-	api->Send_Message(effects, "sffffff", "SGFireParticles", src.x, src.y - 0.35f, src.z, mtx.Vz().x, mtx.Vz().y, mtx.Vz().z);	
+	api->Send_Message(effects, "sffffff", "SGFireParticles", src.x, src.y - 0.35f, src.z, mtx.Vz().x, mtx.Vz().y, mtx.Vz().z);
 	VIDWALKER * walker = _CORE_API->LayerGetWalker("sun_trace");
 	COLLIDE * collide = (COLLIDE *)_CORE_API->CreateService("COLL");
 	if(!walker) return;
@@ -727,7 +728,8 @@ void Player::FireFromShootgun()
 				ENTITY * e = api->GetEntityPointer(&collide->GetObjectID());
 				if(e && e != this)
 				{
-					for(long n = 0, nm = location->supervisor.numCharacters; n < nm; n++)
+					long n, nm;
+					for(n = 0, nm = location->supervisor.numCharacters; n < nm; n++)
 					{
 						Player * c = (Player *)location->supervisor.character[n].c;
 						if(c->Model() == e)
@@ -735,7 +737,8 @@ void Player::FireFromShootgun()
 							api->Send_Message(effects, "sffffff", "SGBloodParticles", dst.x, dst.y, dst.z, dir.x, dir.y, dir.z);
 							c->impulse -= dir*(1.5f + rand()*(1.0f/RAND_MAX));
 							c->impulse.y += 1.5f + rand()*(1.0f/RAND_MAX);
-							for(long j = 0; j < numChrs; j++)
+							long j;
+							for(j = 0; j < numChrs; j++)
 							{
 								if(chrs[j].chr == c)
 								{
@@ -757,7 +760,7 @@ void Player::FireFromShootgun()
 		}
 	}
 	delete walker;
-	for(i = 0; i < numChrs; i++)
+	for(long i = 0; i < numChrs; i++)
 	{
 		api->Event("Location_CharacterSGFire", "iif", GetID(), chrs[i].chr->GetID(), chrs[i].dmg);
 	}

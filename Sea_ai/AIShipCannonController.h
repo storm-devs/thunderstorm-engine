@@ -7,7 +7,7 @@ class AIShip;
 class VAI_INNEROBJ;
 // ============================================================================
 // master class AIShipCannonController
-// Contain base virtual functions 
+// Contain base virtual functions
 // ============================================================================
 class AIShipCannonController
 {
@@ -41,7 +41,7 @@ private:
 		//CVECTOR				vAngleVectors[2];		// fire cone (2d(x,z))
 		CVECTOR				vDirection;
 
-		array<AICannon>		aCannons;				// cannons container for this bort 
+		array<AICannon>		aCannons;				// cannons container for this bort
 
 		void ClearCharge() { fChargePercent = 0.0f; };
 		bool isCharged() { return fChargePercent >= 1.0f; };
@@ -51,10 +51,10 @@ private:
 			ClearCharge();
 			fOurBortFireHeight = 0.0f;
 		};
-		operator == (const char *pStr)
+		int operator == (const char *pStr) const
 		{
 			Assert(pStr && pStr[0]);
-			return (stricmp(sName.GetBuffer(),pStr)==0);
+			return (_stricmp(sName.GetBuffer(),pStr)==0);
 		}
 	};
 
@@ -62,12 +62,12 @@ private:
 		array<AISHIP_BORT>	aShipBorts;
 
 	// update borts parameters
-		bool	UpdateParameters();			
+		bool	UpdateParameters();
 
 		bool	ScanShipForCannons();
 
 		bool	Fire2Position(dword dwBort, CVECTOR & vFirePos, float fFireHeight);
-	
+
 		float	GetSpeedV0();
 
 public:
@@ -89,7 +89,7 @@ public:
 
 	// fire test
 		bool	isCanFirePos(CVECTOR & vFirePos);		// is we can fire to position
-		bool	isCanFire(AIShip * pEnemy);				// is we can fire to enemy ship	
+		bool	isCanFire(AIShip * pEnemy);				// is we can fire to enemy ship
 		bool	isCanFire(CVECTOR & vCamDir);			// is we can fire to camera direction
 
 	// fire section
@@ -98,7 +98,7 @@ public:
 		bool	Fire(CVECTOR & vFireCamPos, CVECTOR & vFireDir);	// manual fire
 
 	// reload section
-		void	Unload();							// unload cannons 
+		void	Unload();							// unload cannons
 		void	Reload();							// set flag to reload
 
 	// temp
@@ -108,7 +108,7 @@ public:
 	// Cannon boom check
 		void	CheckCannonsBoom(float fTmpCannonDamage, const CVECTOR & vPnt);
         void	ResearchCannons(); // boal 08.08.06 метод пересчета орудий на корабле
-        
+
 	// execute/realize section
 		void Execute(float fDeltaTime);
 		void Realize(float fDeltaTime);

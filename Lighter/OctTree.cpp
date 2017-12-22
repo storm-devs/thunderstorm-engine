@@ -1,11 +1,11 @@
 //============================================================================================
 //	Spirenkov Maxim aka Sp-Max Shaman, 2001
 //--------------------------------------------------------------------------------------------
-//	
+//
 //--------------------------------------------------------------------------------------------
 //	OctTree
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "OctTree.h"
@@ -50,7 +50,7 @@ OctTree::~OctTree()
 
 //Инициализировать дерево
 void OctTree::Init(LGeometry * g)
-{	
+{
 	vrt = g->vrt;
 	numVrt = g->numVrt;
 	root = NEW OTNode(g->min, g->max);
@@ -103,7 +103,8 @@ bool OctTree::AddVertex(OTNode * node, Vertex * v)
 			node->node[7] = NEW OTNode(CVECTOR(cnt.x, cnt.y, min.z), CVECTOR(max.x, max.y, cnt.z));
 			for(long n = 0; n < node->num; n++)
 			{
-				for(long c = 0; c < 8; c++)
+				long c;
+				for(c = 0; c < 8; c++)
 				{
 					if(AddVertex(node->node[c], node->vrt[n])) break;
 				}
@@ -115,11 +116,12 @@ bool OctTree::AddVertex(OTNode * node, Vertex * v)
 		}
 	}
 	//Добавляем детям
-	for(long c = 0; c < 8; c++)
+	long c;
+	for(c = 0; c < 8; c++)
 	{
 		if(AddVertex(node->node[c], v)) break;
 	}
-	Assert(c < 8);	
+	Assert(c < 8);
 	return true;
 }
 
@@ -138,7 +140,7 @@ void OctTree::Optimize(OTNode * node)
 					delete node->node[i];
 					node->node[i] = null;
 				}
-			}else Optimize(node->node[i]);			
+			}else Optimize(node->node[i]);
 		}
 	}
 }

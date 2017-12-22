@@ -21,7 +21,7 @@ LOCAL_COLLIDE *COLL::CreateLocalCollide(const char *layerName)
 	return NEW LCOLL(layerName, *_CORE_API);
 }
 //----------------------------------------------------------------------------------
-//Ray tracing 
+//Ray tracing
 //----------------------------------------------------------------------------------
 float COLL::Trace(ENTITY_ID &entity, const CVECTOR &src, const CVECTOR &dst)
 {
@@ -39,9 +39,10 @@ float COLL::Trace(VIDWALKER &walker, const CVECTOR &src, const CVECTOR &dst, con
 {
 	float best_res = 2.0f;
 	ENTITY_ID *eid = walker.GetID();
-	while(eid!=0)
+	while (eid != 0)
 	{
-		for(long e=0; e<entities; e++)
+		long e;
+		for(e=0; e<entities; e++)
 			if(*eid==exclude_list[e])	break;
 		if(e==entities)
 		{
@@ -75,7 +76,8 @@ bool COLL::Clip(VIDWALKER &walker, const PLANE *planes, long nplanes, const CVEC
 	ENTITY_ID *eid = walker.GetID();
 	while(eid!=0)
 	{
-		for(long e=0; e<entities; e++)
+		long e;
+		for(e=0; e<entities; e++)
 			if(*eid==exclude_list[e])	break;
 		if(e==entities)
 		{

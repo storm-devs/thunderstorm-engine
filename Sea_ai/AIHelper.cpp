@@ -58,7 +58,7 @@ ATTRIBUTES * AIHelper::GetMainCharacter(ATTRIBUTES * pACharacter)
 	dword dwIdx = aCharacters.Find(pACharacter);
 	if (dwIdx != INVALID_ARRAY_INDEX)
 		return aMainCharacters[dwIdx];
-	return null;	
+	return null;
 }
 
 void AIHelper::AddCharacter(ATTRIBUTES * pACharacter, ATTRIBUTES * pAMainCharacter)
@@ -143,7 +143,7 @@ VAI_INNEROBJ * AIHelper::FindAIInnerObj(ATTRIBUTES * pACharacter)
 	return pObj;
 }
 
-void AIHelper::Print(float x, float y, float fScale, char * pFormat, ...) 
+void AIHelper::Print(float x, float y, float fScale, char * pFormat, ...)
 {
 	char cBuffer[2048];
 
@@ -151,11 +151,11 @@ void AIHelper::Print(float x, float y, float fScale, char * pFormat, ...)
 	va_start(args,pFormat);
 	_vsnprintf(cBuffer, sizeof(cBuffer), pFormat, args);
 	va_end(args);
- 
+
 	pRS->ExtPrint(FONT_DEFAULT, 0xFFFFFFFF, 0x00000000, ALIGN_CENTER, 0, fScale, 0, 0, long(x), long(y), cBuffer);
 }
 
-void AIHelper::Print3D(CVECTOR vPos, float dy, float fScale, char * pFormat, ...) 
+void AIHelper::Print3D(CVECTOR vPos, float dy, float fScale, char * pFormat, ...)
 {
 	CMatrix			mtx, view, prj;
 	char			Buff_4k[2048];
@@ -194,7 +194,7 @@ void AIHelper::Save(CSaveLoad * pSL)
 	for (dword i=0; i<aCharacters.Size(); i++) pSL->SaveAPointer("character", aCharacters[i]);
 
 	pSL->SaveDword(aMainCharacters.Size());
-	for (i=0; i<aMainCharacters.Size(); i++) pSL->SaveAPointer("character", aMainCharacters[i]);
+	for (dword i=0; i<aMainCharacters.Size(); i++) pSL->SaveAPointer("character", aMainCharacters[i]);
 }
 
 void AIHelper::Load(CSaveLoad * pSL)
@@ -209,5 +209,5 @@ void AIHelper::Load(CSaveLoad * pSL)
 	for (dword i=0; i<dwNum; i++) aCharacters.Add(pSL->LoadAPointer("character"));
 
 	dwNum = pSL->LoadDword();
-	for (i=0; i<dwNum; i++) aMainCharacters.Add(pSL->LoadAPointer("character"));
+	for (dword i=0; i<dwNum; i++) aMainCharacters.Add(pSL->LoadAPointer("character"));
 }

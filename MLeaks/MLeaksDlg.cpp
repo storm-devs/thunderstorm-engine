@@ -14,7 +14,7 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
 
-char* SkipToken(char* str, char* cmp) 
+char* SkipToken(char* str, char* cmp)
 {
 	int flag;
 	char *str1,*cmp1;
@@ -46,7 +46,7 @@ char* SkipToken(char* str, char* cmp)
 		if (flag) break;
 		str++;
 	}
-	if (flag) 
+	if (flag)
 	{
 		while (*str == 32) str++;
 		return str;
@@ -54,7 +54,7 @@ char* SkipToken(char* str, char* cmp)
 	return NULL;
 }
 
-char* FindToken(char* str,char* cmp) 
+char* FindToken(char* str,char* cmp)
 {
 	int flag;
 	char *str1,*cmp1;
@@ -213,7 +213,7 @@ BOOL CMLeaksDlg::OnInitDialog()
 	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
-	
+
 	// TODO: Add extra initialization here
 	m_Leaks.InsertColumn(0, "File", LVCFMT_LEFT, 296);
 	m_Leaks.InsertColumn(1, "Blocks", LVCFMT_RIGHT, 80);
@@ -221,7 +221,7 @@ BOOL CMLeaksDlg::OnInitDialog()
 	m_Leaks.InsertColumn(3, "Delta", LVCFMT_RIGHT, 70);
 
 	m_Leaks.SetExtendedStyle(m_Leaks.GetExtendedStyle()|LVS_EX_GRIDLINES|LVS_EX_FULLROWSELECT);
-	
+
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -242,7 +242,7 @@ void CMLeaksDlg::OnSysCommand(UINT nID, LPARAM lParam)
 //  to draw the icon.  For MFC applications using the document/view model,
 //  this is automatically done for you by the framework.
 
-void CMLeaksDlg::OnPaint() 
+void CMLeaksDlg::OnPaint()
 {
 	if (IsIconic())
 	{
@@ -274,11 +274,11 @@ HCURSOR CMLeaksDlg::OnQueryDragIcon()
 	return (HCURSOR) m_hIcon;
 }
 
-void CMLeaksDlg::OnLoad() 
+void CMLeaksDlg::OnLoad()
 {
 	char str[2048], temp_str[2048], temp_str2[2048];
 	// TODO: Add your control notification handler code here
-	m_Leaks.DeleteAllItems();	
+	m_Leaks.DeleteAllItems();
 	CFileDialog fd(true, NULL, NULL);
 	fd.DoModal();
 	CString sFile = fd.GetPathName();
@@ -300,7 +300,7 @@ void CMLeaksDlg::OnLoad()
 			Tmp[dwTmp].fDelta = 0.0f;
 
 			m_Leaks.InsertItem(dwTmp, Tmp[dwTmp].sFile, 0);
-			
+
 			sprintf(str, "%.0f", Tmp[dwTmp].fBlocks);
 			m_Leaks.SetItem(dwTmp, 1, LVIF_TEXT, str, 0, 0, 0, 0);
 
@@ -311,17 +311,17 @@ void CMLeaksDlg::OnLoad()
 
 			dwTmp++;
 		}
-	} 
+	}
 	fclose(f);
 }
 
-void CMLeaksDlg::OnCompare() 
+void CMLeaksDlg::OnCompare()
 {
 	tmp_t tmp;
 	// TODO: Add your control notification handler code here
 	char str[2048], temp_str[2048], temp_str2[2048];
 	// TODO: Add your control notification handler code here
-	//m_Leaks.DeleteAllItems();	
+	//m_Leaks.DeleteAllItems();
 	CFileDialog fd(true, NULL, NULL);
 	fd.DoModal();
 	CString sFile = fd.GetPathName();
@@ -340,12 +340,13 @@ void CMLeaksDlg::OnCompare()
 			GetTokenWhile(SkipToken(temp_str, " in "), temp_str2, "b");
 			sscanf(temp_str2, "%f", &tmp.fBlocks);
 
-			for (dword i=0; i<dwTmp; i++) if (stricmp(tmp.sFile, Tmp[i].sFile) == 0) break;
+			dword i;
+			for (i=0; i<dwTmp; i++) if (stricmp(tmp.sFile, Tmp[i].sFile) == 0) break;
 
 			if (i == dwTmp)
 			{
 				m_Leaks.InsertItem(dwTmp, tmp.sFile, 0);
-				
+
 				sprintf(str, "%.0f", tmp.fBlocks);
 				m_Leaks.SetItem(dwTmp, 1, LVIF_TEXT, str, 0, 0, 0, 0);
 
@@ -367,7 +368,7 @@ void CMLeaksDlg::OnCompare()
 				m_Leaks.SetItem(i, 3, LVIF_TEXT, str, 0, 0, 0, 0);
 			}
 		}
-	} 
+	}
 	fclose(f);
-	
+
 }

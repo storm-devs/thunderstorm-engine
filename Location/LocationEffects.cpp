@@ -1,11 +1,11 @@
 //============================================================================================
 //	Spirenkov Maxim aka Sp-Max Shaman, 2001
 //--------------------------------------------------------------------------------------------
-//	
+//
 //--------------------------------------------------------------------------------------------
 //	LocationEffects
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "LocationEffects.h"
@@ -172,7 +172,8 @@ inline void LocationEffects::DrawParticles(void * prts, long num, long size, lon
 	rs->SetTransform(D3DTS_VIEW,CMatrix());
 	rs->SetTransform(D3DTS_WORLD,CMatrix());
 	rs->TextureSet(0, texture);
-	for(long i = 0, n = 0; i < num; i++)
+	long n = 0;
+	for(long i = 0; i < num; i++)
 	{
 		Particle * parts = (Particle *)prts;
 		prts = (char *)prts + size;
@@ -205,7 +206,7 @@ inline void LocationEffects::DrawParticles(void * prts, long num, long size, lon
 		buffer[n*6 + 3].pos = buffer[n*6 + 2].pos;
 		buffer[n*6 + 3].color = color;
 		buffer[n*6 + 3].u = u2;
-		buffer[n*6 + 3].v = 0.0f;		
+		buffer[n*6 + 3].v = 0.0f;
 		buffer[n*6 + 4].pos = buffer[n*6 + 1].pos;
 		buffer[n*6 + 4].color = color;
 		buffer[n*6 + 4].u = u1;
@@ -231,7 +232,8 @@ inline void LocationEffects::DrawParticles(void * prts, long num, long size, lon
 void LocationEffects::CreateSplash(const CVECTOR & pos, float power)
 {
 	//Выберим освободившийся блок
-	for(long i = 0; i < LFX_SPLASHES_NUM; i++) if(chrSplash[i].time < 0.0f) break;
+	long i;
+	for(i = 0; i < LFX_SPLASHES_NUM; i++) if(chrSplash[i].time < 0.0f) break;
 	if(i >= LFX_SPLASHES_NUM) return;
 	if(power < 0.0f) power = 0.0f;
 	if(power > 1.0f) power = 1.0f;
@@ -240,7 +242,7 @@ void LocationEffects::CreateSplash(const CVECTOR & pos, float power)
 	spl.time = 0.0f;
 	spl.kTime = 1.4f;
 	for(i = 0; i < LFX_SPLASHES_P_NUM; i++)
-	{	
+	{
 		float ang = rand()*(LFX_PI*2.0f/RAND_MAX);
 		float r = rand()*(2.0f*LFX_SPLASHES_SRAD/float(RAND_MAX));
 		float s = 1.0f + rand()*(3.0f/float(RAND_MAX));
@@ -306,7 +308,7 @@ void LocationEffects::AddLampFlys(CVECTOR & pos)
 	flys[numFlys].pos = pos;
 	flys[numFlys].radius = 0.6f;
 	flys[numFlys].start = numFly;
-	flys[numFlys].num = 1 + (rand() & 7);	
+	flys[numFlys].num = 1 + (rand() & 7);
 	numFly += flys[numFlys].num;
 	fly = (ParticleFly *)RESIZE(fly, numFly*sizeof(ParticleFly));
 	//Каждой мухи
@@ -350,7 +352,7 @@ void LocationEffects::ProcessedFlys(float dltTime)
 		if(k > 0.0f) dir *= 1.0f/k;
 		k = k/20.0f;
 		k = 3.0f*(1.0f - k);
-		if(k > 1.0f) k = 1.0f;		
+		if(k > 1.0f) k = 1.0f;
 		//Обновляем мух
 		ParticleFly * fl = fly + flys[i].start;
 		for(long j = 0; j < flys[i].num; j++)
@@ -412,7 +414,7 @@ void LocationEffects::SGRelease()
 	if(texSmoke >= 0) rs->TextureRelease(texSmoke);
 	if(texFlinders >= 0) rs->TextureRelease(texFlinders);
 	if(texBlood >= 0) rs->TextureRelease(texBlood);
-	if(texHor >= 0) rs->TextureRelease(texHor);	
+	if(texHor >= 0) rs->TextureRelease(texHor);
 	isShgInited = false;
 	texSmoke = -1;
 	texFlinders = -1;
@@ -540,7 +542,8 @@ void LocationEffects::ProcessedShotgun(float dltTime)
 	}else{
 		winDir *= 0.05f;
 	}
-	for(long i = 0, j = 0; i < numSmoke; i++)
+	long i, j;
+	for(i = 0, j = 0; i < numSmoke; i++)
 	{
 		smoke[i].pos += (smoke[i].spd + winDir)*dltTime;
 		float k = dltTime*10.0f;
@@ -620,7 +623,7 @@ void LocationEffects::ProcessedShotgun(float dltTime)
 		DrawParticles(smoke, numSmoke, sizeof(smoke[0]), texSmoke, "ShootParticles");
 	}
 	CMatrix mtx;
-	rs->GetTransform(D3DTS_VIEW, mtx);	
+	rs->GetTransform(D3DTS_VIEW, mtx);
 	mtx.Transposition();
 	Particle prt;
 	prt.pos = mtx.Pos() + mtx.Vz()*2.0f;

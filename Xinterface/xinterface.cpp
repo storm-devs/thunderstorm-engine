@@ -73,7 +73,8 @@ char * XI_ParseStr(char * inStr, char * buf, size_t bufSize, char devChar=',')
 	if(bufSize<=0 || buf==null) return inStr;
 	if(inStr==null) {buf[0]=0; return null;}
 	int curSize=0;
-	for(char* curStr=inStr; *curStr!=0; curStr++)
+	char* curStr;
+	for(curStr=inStr; *curStr!=0; curStr++)
 	{
 		if(*curStr==' ' && curSize==0) continue;
 		if(*curStr==devChar || *curStr==0) break;
@@ -190,7 +191,7 @@ bool XINTERFACE::Init()
 	UNGUARD
 	return true;
 }
- 
+
 void XINTERFACE::SetDevice()
 {
 	GUARD(XINTERFACE::SetDevice())
@@ -607,7 +608,8 @@ dword XINTERFACE::ProcessMessage(MESSAGE & message)
 			char param[256];
 			message.String(sizeof(param)-1,param);
 
-			for(int l=0; l<m_nStringQuantity; l++)
+			int l;
+			for(l=0; l<m_nStringQuantity; l++)
 			{
 				if(m_stringes[l].sStringName!=null && stricmp(m_stringes[l].sStringName,param)==0) break;
 			}
@@ -1534,7 +1536,8 @@ void XINTERFACE::DeleteNode(const char *pcNodeName)
 	if( !pcNodeName ) return;
 	// ищем нод по имени
 	CINODE* pPrevNod = 0;
-	for( CINODE* pNod=m_pNodes; pNod; pNod=pNod->m_next ) {
+	CINODE* pNod;
+	for( pNod=m_pNodes; pNod; pNod=pNod->m_next ) {
 		if( pNod->m_nodeName && stricmp(pNod->m_nodeName,pcNodeName)==0 ) break;
 		pPrevNod=pNod;
 	}
@@ -1779,8 +1782,10 @@ void XINTERFACE::RegistryExitKey( const char* pcKeyName )
 long XINTERFACE::StoreNodeLocksWithOff()
 {
 	long nStoreSlot = m_aLocksArray.Add();
-	for( long nStoreCode=0; nStoreCode<1000; nStoreCode++ ) {
-		for( long n=0; n<m_aLocksArray; n++ )
+	long nStoreCode;
+	for( nStoreCode=0; nStoreCode<1000; nStoreCode++ ) {
+		long n;
+		for( n=0; n<m_aLocksArray; n++ )
 			if( m_aLocksArray[n].nSaveCode == nStoreCode ) break;
 		if( n==m_aLocksArray ) break;
 	}
@@ -1797,7 +1802,8 @@ long XINTERFACE::StoreNodeLocksWithOff()
 
 void XINTERFACE::RestoreNodeLocks(long nStoreCode)
 {
-	for( long n=0; n<m_aLocksArray; n++ )
+	long n;
+	for( n=0; n<m_aLocksArray; n++ )
 		if( m_aLocksArray[n].nSaveCode == nStoreCode ) break;
 	if( n==m_aLocksArray ) return;
 	for( long i=0; i<m_aLocksArray[n].aNode; i++ ) {
@@ -2806,7 +2812,8 @@ void XINTERFACE::AddNodeToList(CINODE * nod,long priority)
 		m_pNodes = nod;
 		return;
 	}
-	for(CINODE* pnod=m_pNodes; pnod->m_next!=null; pnod=pnod->m_next)
+	CINODE* pnod;
+	for(pnod=m_pNodes; pnod->m_next!=null; pnod=pnod->m_next)
 		if(pnod->GetPriority()<=priority && pnod->m_next->GetPriority()>priority) break;
 	nod->m_next = pnod->m_next;
 	pnod->m_next = nod;
@@ -2837,7 +2844,8 @@ void XINTERFACE::ReleaseDinamicPic(char * sPicName)
 	if(sPicName==null) return;
 
 	IMAGE_ENTITY * prevImg = null;
-	for(IMAGE_ENTITY * findImg=m_imgLists; findImg!=null; findImg=findImg->next)
+	IMAGE_ENTITY * findImg;
+	for(findImg=m_imgLists; findImg!=null; findImg=findImg->next)
 	{
 		if(findImg->sImageName!=null && stricmp(findImg->sImageName,sPicName)==0)	break;
 		prevImg = findImg;
@@ -3286,7 +3294,8 @@ int XINTERFACE::LoadIsExist()
 		if( SFLB_GetSaveFileData(param, sizeof(datBuf), datBuf) )
 		{
 			int nLen = strlen(datBuf);
-			for(int i=strlen(datBuf); i>=0 && datBuf[i]!='@'; i--);
+			int i;
+			for(i=strlen(datBuf); i>=0 && datBuf[i]!='@'; i--);
 			if(i<0) i=0;
 			if(datBuf[i]=='@') i++;
 			if( stricmp(sCurLngName,&datBuf[i])==0 ) break;
@@ -3332,7 +3341,8 @@ void XINTERFACE::PrecreateDirForFile(const char* pcFullFileName)
 	if( !pcFullFileName ) return;
 	char path[MAX_PATH];
 	_snprintf(path,sizeof(path),"%s",pcFullFileName);
-	for(long n=strlen(pcFullFileName)-1; n>0; n--)
+	long n;
+	for(n=strlen(pcFullFileName)-1; n>0; n--)
 		if( path[n]=='\\' ) {
 			path[n]=0;
 			break;

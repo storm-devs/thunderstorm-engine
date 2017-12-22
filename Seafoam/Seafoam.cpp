@@ -18,7 +18,7 @@
 #include "SEAFOAM.h"
 
 INTERFACE_FUNCTION
-CREATE_CLASS(SEAFOAM)	
+CREATE_CLASS(SEAFOAM)
 
 //ENTITY_ID arrowModel;
 
@@ -154,14 +154,14 @@ void SEAFOAM::CreateTracePoints(tShipFoamInfo *_shipFoamInfo)
 
 	// <find_startZ>
 	curY = _shipFoamInfo->hullInfo.boxcenter.y + (_shipFoamInfo->hullInfo.boxsize.y / 2.0f);
-	
+
 	startSrcV.x = _shipFoamInfo->hullInfo.boxcenter.x;
 	startSrcV.z = _shipFoamInfo->hullInfo.boxcenter.z + _shipFoamInfo->hullInfo.boxsize.z / 2.0f;
-	
+
 	startDestV.x = _shipFoamInfo->hullInfo.boxcenter.x;
 	startDestV.z = _shipFoamInfo->hullInfo.boxcenter.z - _shipFoamInfo->hullInfo.boxsize.z / 2.0f;
-	
-	for (int y = 0; y < TRACE_STEPS_Y; y++, curY -= yStep)
+	int y;
+	for (y = 0; y < TRACE_STEPS_Y; y++, curY -= yStep)
 	{
 		startSrcV.y = curY;
 		startDestV.y = curY;
@@ -242,9 +242,9 @@ void SEAFOAM::InterpolateLeftParticle(tShipFoamInfo &_shipFoamInfo, int z, dword
 	{ // above sea
 		_shipFoamInfo.levelStarts[0][z] = _shipFoamInfo.hull[0][z].center[0];
 		CVECTOR tempVector;
-		_shipFoamInfo.shipModel->mtx.MulToInv(CVECTOR(highPoint.x, 
-													  (lowSeaY + highSeaY) * 0.5f, 
-													  highPoint.z), 
+		_shipFoamInfo.shipModel->mtx.MulToInv(CVECTOR(highPoint.x,
+													  (lowSeaY + highSeaY) * 0.5f,
+													  highPoint.z),
 											  tempVector);
 		_shipFoamInfo.levelStarts[0][z].y = tempVector.y;
 		return;
@@ -254,9 +254,9 @@ void SEAFOAM::InterpolateLeftParticle(tShipFoamInfo &_shipFoamInfo, int z, dword
 	{ // under sea
 		_shipFoamInfo.levelStarts[0][z] = _shipFoamInfo.hull[0][z].center[TRACE_STEPS_Y-1];
 		CVECTOR tempVector;
-		_shipFoamInfo.shipModel->mtx.MulToInv(CVECTOR(lowPoint.x, 
-													  (lowSeaY + highSeaY) * 0.5f, 
-													  lowPoint.z), 
+		_shipFoamInfo.shipModel->mtx.MulToInv(CVECTOR(lowPoint.x,
+													  (lowSeaY + highSeaY) * 0.5f,
+													  lowPoint.z),
 											  tempVector);
 		_shipFoamInfo.levelStarts[0][z].y = tempVector.y;
 		return;
@@ -314,9 +314,9 @@ void SEAFOAM::InterpolateRightParticle(tShipFoamInfo &_shipFoamInfo, int z, dwor
 	{ // above sea
 		_shipFoamInfo.levelStarts[1][z] = _shipFoamInfo.hull[1][z].center[1];
 		CVECTOR tempVector;
-		_shipFoamInfo.shipModel->mtx.MulToInv(CVECTOR(highPoint.x, 
-													  (lowSeaY + highSeaY) * 0.5f, 
-													  highPoint.z), 
+		_shipFoamInfo.shipModel->mtx.MulToInv(CVECTOR(highPoint.x,
+													  (lowSeaY + highSeaY) * 0.5f,
+													  highPoint.z),
 											  tempVector);
 		_shipFoamInfo.levelStarts[1][z].y = tempVector.y;
 		return;
@@ -326,9 +326,9 @@ void SEAFOAM::InterpolateRightParticle(tShipFoamInfo &_shipFoamInfo, int z, dwor
 	{ // under sea
 		_shipFoamInfo.levelStarts[1][z] = _shipFoamInfo.hull[1][z].center[TRACE_STEPS_Y-1];
 		CVECTOR tempVector;
-		_shipFoamInfo.shipModel->mtx.MulToInv(CVECTOR(lowPoint.x, 
-													  (lowSeaY + highSeaY) * 0.5f, 
-													  lowPoint.z), 
+		_shipFoamInfo.shipModel->mtx.MulToInv(CVECTOR(lowPoint.x,
+													  (lowSeaY + highSeaY) * 0.5f,
+													  lowPoint.z),
 											  tempVector);
 		_shipFoamInfo.levelStarts[1][z].y = tempVector.y;
 		return;
@@ -378,7 +378,7 @@ void SEAFOAM::RealizeShipFoam_Particles(tShipFoamInfo &_shipFoamInfo, dword _dTi
 			CVECTOR fPos = _shipFoamInfo.shipModel->mtx * (_shipFoamInfo.hull[0][z].center[y]);
 			arrow->mtx.BuildMatrix(CVECTOR(1.0f, 0.0f, 0.0f), fPos);
 			arrow->Realize(_dTime);
-			
+
 			fPos = _shipFoamInfo.shipModel->mtx * (_shipFoamInfo.levelStarts[0][z]);
 			arrow->mtx.BuildMatrix(CVECTOR(0.0f, 0.0f, 0.0f), fPos);
 			arrow->Realize(_dTime);
@@ -412,7 +412,7 @@ void SEAFOAM::RealizeShipFoam_Particles(tShipFoamInfo &_shipFoamInfo, dword _dTi
 	_shipFoamInfo.frontEmitter[1]->SetEmitter(_shipFoamInfo.shipModel->mtx * frontEmitterPos
 											 ,CVECTOR(0.f, 1.f, 0.f));
 	_shipFoamInfo.frontEmitter[1]->Realize(_dTime);
- 
+
 	frontEmitterPos.x -= FOAM_SHIFT_X;
 
 	if (isStorm)
@@ -505,7 +505,7 @@ dword _cdecl SEAFOAM::ProcessMessage(MESSAGE & message)
 void SEAFOAM::Realize(dword _dTime)
 {
 	GUARD(SEAFOAM::Realize)
-	
+
 	dword ticks = 0;
 	RDTSC_B(ticks)
 
@@ -532,7 +532,7 @@ void SEAFOAM::Realize(dword _dTime)
 			continue;
 		RealizeShipFoam_Mesh(*foamInfo, _dTime);
 	}
-	if(techniqueStarted) 
+	if(techniqueStarted)
 		while (renderer->TechniqueExecuteNext())
 			;
 
@@ -563,10 +563,10 @@ void SEAFOAM::Execute(dword _dTime)
 			speedA = shipSpeed / START_FADE_SPEED;
 
 		foamInfo->carcass[0]->SetSpeed(U_SPEED_K * shipSpeed / shipFoamInfo->hullInfo.boxsize.z
-									  ,V_SPEED_K * shipSpeed 
+									  ,V_SPEED_K * shipSpeed
 									  ,speedA);
 		foamInfo->carcass[1]->SetSpeed(U_SPEED_K * shipSpeed / shipFoamInfo->hullInfo.boxsize.z
-									  ,V_SPEED_K * shipSpeed 
+									  ,V_SPEED_K * shipSpeed
 									  ,speedA);
 	}
 

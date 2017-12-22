@@ -341,8 +341,8 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 	{
 		if(pUSB->nref<=0) continue;
 		long newID = OpenUsersStringFile(pUSB->fileName);
-
-		for(UsersStringBlock * pUTmp=m_pUsersBlocks; pUTmp!=null; pUTmp=pUTmp->next)
+		UsersStringBlock * pUTmp;
+		for(pUTmp=m_pUsersBlocks; pUTmp!=null; pUTmp=pUTmp->next)
 			if(pUTmp->blockID==newID) break;
 		if(pUTmp==null) {
 			api->Trace("Error: Can`t reinit user language file %s",pUSB->fileName);
@@ -354,10 +354,11 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 		if( pUTmp->nStringsQuantity != pUSB->nStringsQuantity )
 		{
 			api->Trace("Warning: user strings file %s have different size for new language %s",pUTmp->fileName, m_sLanguage);
-			for(int itmp1 = 0; itmp1<pUTmp->nStringsQuantity; itmp1++)
+			int itmp1, itmp2;;
+			for(itmp1 = 0; itmp1<pUTmp->nStringsQuantity; itmp1++)
 			{
 				if( pUTmp->psStrName[itmp1]==null ) continue;
-				for(int itmp2 = 0; itmp2<pUSB->nStringsQuantity; itmp2++)
+				for(itmp2 = 0; itmp2<pUSB->nStringsQuantity; itmp2++)
 				{
 					if( pUSB->psStrName[itmp2]==null ) continue;
 					if( stricmp(pUSB->psStrName[itmp2],pUTmp->psStrName[itmp1])==0 )
@@ -519,7 +520,8 @@ long STRSERVICE::OpenUsersStringFile(char * fileName)
 	if(fileName==null) return -1;
 
 	UsersStringBlock * pPrev = null;
-	for(UsersStringBlock * pUSB=m_pUsersBlocks; pUSB!=null; pUSB=pUSB->next)
+	UsersStringBlock * pUSB;
+	for(pUSB=m_pUsersBlocks; pUSB!=null; pUSB=pUSB->next)
 		if(pUSB->fileName!=null && stricmp(pUSB->fileName,fileName)==0) break;
 		else pPrev=pUSB;
 	if(pUSB!=null)
@@ -597,7 +599,8 @@ void STRSERVICE::CloseUsersStringFile(long id)
 	if(id==-1) return;
 
 	UsersStringBlock * pPrev = null;
-	for(UsersStringBlock * pUSB=m_pUsersBlocks; pUSB!=null; pUSB=pUSB->next)
+	UsersStringBlock * pUSB;
+	for(pUSB=m_pUsersBlocks; pUSB!=null; pUSB=pUSB->next)
 		if(pUSB->blockID == id) break;
 		else pPrev = pUSB;
 	if(pUSB==null) return;
@@ -630,8 +633,8 @@ char * STRSERVICE::TranslateFromUsers(long id, char * inStr)
 {
 	int i;
 	if(inStr==null || id==-1) return null;
-
-	for(UsersStringBlock * pUSB=m_pUsersBlocks; pUSB!=null; pUSB=pUSB->next)
+	UsersStringBlock * pUSB;
+	for(pUSB=m_pUsersBlocks; pUSB!=null; pUSB=pUSB->next)
 		if(pUSB->blockID == id) break;
 	if(pUSB==null) return null;
 
@@ -643,9 +646,11 @@ char * STRSERVICE::TranslateFromUsers(long id, char * inStr)
 
 long STRSERVICE::GetFreeUsersID()
 {
-	for(int id=0;;id++)
+	int id;
+	for(id=0;;id++)
 	{
-		for(UsersStringBlock * pUSB=m_pUsersBlocks; pUSB!=null; pUSB=pUSB->next)
+		UsersStringBlock * pUSB;
+		for(pUSB=m_pUsersBlocks; pUSB!=null; pUSB=pUSB->next)
 			if(pUSB->blockID == id) break;
 		if(pUSB==null) break;
 	}
@@ -851,7 +856,8 @@ DWORD __cdecl _LanguageGetFaderPic(VS_STACK * pS)
 	{
 		if(g_StringServicePointer->GetLanguage()!=null)
 		{
-			for(int nInLen=strlen(strPicName); nInLen>0; nInLen--)
+			int nInLen;
+			for(nInLen=strlen(strPicName); nInLen>0; nInLen--)
 				if(strPicName[nInLen-1]=='\\')
 					break;
 			if(nInLen>0) {

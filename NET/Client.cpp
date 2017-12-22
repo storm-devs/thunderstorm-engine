@@ -65,8 +65,8 @@ void NetClient::Send(packet * pPacket)
 void NetClient::Flush()
 {
 	if (aPackets.IsEmpty()) return;
-
-	for (long i=0; i<aPackets; i++)
+	long i;
+	for (i=0; i<aPackets; i++)
 	{
 		if (!aPackets[i]->bGarantedDelivery)
 		{
@@ -173,7 +173,7 @@ void NetClient::Realize(float fDeltaTime)
 	}
 
 	/*string str;
-	str.Format("Client: Send: %d, %.1f, %d, %.1f, Recv: %d, %.1f, %d, %.1f", 
+	str.Format("Client: Send: %d, %.1f, %d, %.1f, Recv: %d, %.1f, %d, %.1f",
 		dwTotalPacketsSend, fLastPSpS, dwTotalBytesSend + dwTotalPacketsSend * 26, fLastTBSpS + fLastPSpS * 26,
 		dwTotalPacketsRecv, fLastPRpS, dwTotalBytesRecv + dwTotalPacketsRecv * 26, fLastTBRpS + fLastPRpS * 26);
 
@@ -233,7 +233,7 @@ void NetClient::SendBroadcast(NMSend & nmSend)
 	target.sin_family = AF_INET;
 	target.sin_port = htons(wServerPort);
 	target.sin_addr.s_addr = htonl(INADDR_BROADCAST);
-	memset(&target.sin_zero, 0, sizeof(target.sin_zero)); 
+	memset(&target.sin_zero, 0, sizeof(target.sin_zero));
 
 	crc16.MakeCRC16(nmSend.GetDataBuffer(), nmSend.GetDataSize(), 0);
 	sendto(sock, crc16.GetDataBuffer(), crc16.GetDataSize(), 0, (struct sockaddr *)&target, sizeof(target));
@@ -259,11 +259,11 @@ void NetClient::SendMasterServerMessage(const char * pAddress, word wPort, NMSen
 	SOCKADDR_IN target;
 
 	hostent * he = gethostbyname(pAddress); if (!he) return;
-	
+
 	target.sin_family = AF_INET;
 	target.sin_port = htons(wPort);
 	target.sin_addr = *((struct in_addr *)he->h_addr);
-	memset(&target.sin_zero, 0, sizeof(target.sin_zero)); 
+	memset(&target.sin_zero, 0, sizeof(target.sin_zero));
 
 	crc16.MakeCRC16(nmSend.GetDataBuffer(), nmSend.GetDataSize(), 0);
 	int iResult = sendto(sock, crc16.GetDataBuffer(), crc16.GetDataSize(), 0, (struct sockaddr *)&target, sizeof(target));
@@ -283,7 +283,7 @@ void NetClient::UpdateServerAddress()
 	srv_sin.sin_family = AF_INET;
 	srv_sin.sin_port = htons (wServerPort);
 	srv_sin.sin_addr = *((struct in_addr *)he->h_addr);
-	memset(&srv_sin.sin_zero, 0, sizeof(srv_sin.sin_zero)); 
+	memset(&srv_sin.sin_zero, 0, sizeof(srv_sin.sin_zero));
 }
 
 void NetClient::ClearPacketsQueue()
@@ -295,7 +295,7 @@ void NetClient::ClearPacketsQueue()
 dword NetClient::AttributeChanged(ATTRIBUTES * pA)
 {
 	ATTRIBUTES * pAP = AttributesPointer;
-	
+
 	if (*pA == "ServerAddr") { sServerAddr = pA->GetThisAttr(); UpdateServerAddress(); return 0; }
 	if (*pA == "ServerPort") { wServerPort = (word)pA->GetAttributeAsDword(); UpdateServerAddress(); return 0; }
 

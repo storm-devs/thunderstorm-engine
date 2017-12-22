@@ -76,7 +76,10 @@ public:
 //-----------------------------------------------------------
 public:
 	///Пустой конструктор
-	Line();
+	//Line();
+	///Конструктор копирования
+	//Line(const Line & l) = default;
+	//Line& operator=(const Line&) = default;
 	///Заполнить числом
 	Line(float f);
 	///Заполнить векторами
@@ -109,7 +112,7 @@ public:
 //===========================================================
 
 //Пустой конструктор
-mathinline Line::Line(){}
+//mathinline Line::Line(){}
 
 //Заполнить числом
 mathinline Line::Line(float f)

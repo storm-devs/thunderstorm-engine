@@ -43,7 +43,7 @@ bool FLAG::Init()
 	UNGUARD
 	return true;
 }
- 
+
 void FLAG::SetDevice()
 {
     // получить сервис рендера
@@ -80,12 +80,12 @@ void FLAG::Execute(dword Delta_Time)
         // ≈сли был изменен ини-файл, то считать инфо из него
     	WIN32_FIND_DATA	wfd;
 	    HANDLE h = _CORE_API->fio->_FindFirstFile("resource\\ini\\rigging.ini",&wfd);
-    	if (INVALID_HANDLE_VALUE != h) 
+    	if (INVALID_HANDLE_VALUE != h)
 	    {
 		    FILETIME ft_new = wfd.ftLastWriteTime;
     		_CORE_API->fio->_FindClose(h);
 
-	    	if (CompareFileTime(&ft_old,&ft_new)!=0) 
+	    	if (CompareFileTime(&ft_old,&ft_new)!=0)
             {
                 LoadIni();
             }
@@ -270,7 +270,7 @@ void FLAG::DoMove(FLAGDATA *pr,float delta_time)
     CVECTOR cPos;
     cPos=  *pr->pMatWorld*pr->spos;
 
-    float xMul = globalWind.ang.x; 
+    float xMul = globalWind.ang.x;
     float zMul = globalWind.ang.z;
 
     if( (pr->Alfa+=(ALFA_DEPEND+ALFA_RAND*(float)rand()/(float)RAND_MAX)*delta_time)>PIm2 ) pr->Alfa=0.f;
@@ -362,7 +362,8 @@ void FLAG::AddLabel(GEOS::LABEL &gl, NODE *nod)
 
     grNum=atoi(&gl.group_name[4]);
 
-    for(int fn=0; fn<flagQuantity; fn++)
+	int fn;
+    for(fn=0; fn<flagQuantity; fn++)
         if( flist[fn]!=NULL &&
 			flist[fn]->HostGroup==groupQuantity-1 &&
             flist[fn]->grNum==grNum &&
@@ -470,7 +471,7 @@ void FLAG::LoadIni()
 	INIFILE * ini;
 	WIN32_FIND_DATA	wfd;
 	HANDLE h = _CORE_API->fio->_FindFirstFile("resource\\ini\\rigging.ini",&wfd);
-	if (INVALID_HANDLE_VALUE != h) 
+	if (INVALID_HANDLE_VALUE != h)
 	{
 		ft_old = wfd.ftLastWriteTime;
 		_CORE_API->fio->_FindClose(h);
@@ -495,7 +496,7 @@ void FLAG::LoadIni()
             texl=RenderService->TextureCreate(TextureName);
         }
     }
-    else 
+    else
     {
         TextureName=NEW char[strlen(param)+1];
         strcpy(TextureName,param);
@@ -791,14 +792,16 @@ void FLAG::SetAdd(int flagNum)
 void FLAG::MoveOtherHost(ENTITY_ID newm_id,long flagNum,ENTITY_ID oldm_id)
 {
     // найдем старую группу
-    for(int oldgn=0; oldgn<groupQuantity; oldgn++)
+	int oldgn;
+    for(oldgn=0; oldgn<groupQuantity; oldgn++)
         if(gdata[oldgn].model_id==oldm_id) break;
     // если нет такой группы, то пустой возврат
     if(oldgn==groupQuantity)
         return;
 
     // найдем новую группу
-    for(int newgn=0; newgn<groupQuantity; newgn++)
+	int newgn;
+    for(newgn=0; newgn<groupQuantity; newgn++)
         if(gdata[newgn].model_id==newm_id) break;
     // если нет новой группы, то создаем ее
     if(newgn==groupQuantity)
@@ -818,7 +821,8 @@ void FLAG::MoveOtherHost(ENTITY_ID newm_id,long flagNum,ENTITY_ID oldm_id)
     }
 
     // найдем нужный нам флаг
-    for(int fn=0; fn<flagQuantity; fn++)
+	int fn;
+    for(fn=0; fn<flagQuantity; fn++)
         if(flist[fn]!=NULL && flist[fn]->grNum==flagNum && flist[fn]->HostGroup==oldgn) break;
     // переназначим его хоз€ина на нового хоз€ина
     if(fn<flagQuantity)

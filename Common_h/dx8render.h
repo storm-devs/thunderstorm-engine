@@ -2,9 +2,9 @@
 #define __DX8RENDER_H__
 
 
-//#include <windows.h> 
+//#include <windows.h>
 #include "..\common_h\vmodule_api.h"
-#include <D3DX8.h>
+#include "..\Common_h\DirectX8\d3dx8.h"
 
 //#include "..\common_h\vmodule_api.h"
 #include "..\common_h\types3d.h"
@@ -162,7 +162,7 @@ public:
 		virtual void _cdecl DrawLines2D(RS_LINE2D * pRSL2D, dword dwLinesNum, const char * cBlockName = 0, dword dwNumParams = 0, ...) = 0;
 
 		virtual void _cdecl DrawBuffer(long vbuff, long stride, long ibuff, long minv, long numv, long startidx, long numtrg, const char *cBlockName = 0, dword dwNumParams = 0, ...)= 0;
-		virtual void _cdecl DrawIndexedPrimitiveNoVShader(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iIBuff, long iMinV, long iNumV, long iStartIdx, long iNumTrg, const char *cBlockName = 0, dword dwNumParams = 0, ...) = 0; 
+		virtual void _cdecl DrawIndexedPrimitiveNoVShader(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iIBuff, long iMinV, long iNumV, long iStartIdx, long iNumTrg, const char *cBlockName = 0, dword dwNumParams = 0, ...) = 0;
 		virtual void _cdecl DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iStartV, long iNumPT, const char *cBlockName = 0, dword dwNumParams = 0, ...) = 0;
 		virtual void _cdecl DrawPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, dword dwVertexBufferFormat, dword dwNumPT, void *pVerts, dword dwStride, const char *cBlockName = 0, dword dwNumParams = 0, ...) = 0;
 		virtual void _cdecl DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, dword dwMinIndex, dword dwNumVertices, dword dwPrimitiveCount, const void *pIndexData, D3DFORMAT IndexDataFormat, const void *pVertexData, dword dwVertexStride, const char *cBlockName = 0, dword dwNumParams = 0, ...) = 0;
@@ -204,7 +204,7 @@ public:
 		virtual HRESULT SetViewport(const D3DVIEWPORT8 * pViewport) = 0;
 		virtual HRESULT GetDeviceCaps(D3DCAPS8* pCaps) = 0;
 
-	// D3D 
+	// D3D
 		virtual HRESULT SetStreamSource(UINT StreamNumber, void * pStreamData, UINT Stride) = 0;
 		virtual HRESULT SetIndices(void * pIndexData, UINT BaseVertexIndex) = 0;
 		virtual HRESULT DrawPrimitive(D3DPRIMITIVETYPE PrimitiveType, UINT StartVertex, UINT PrimitiveCount) = 0;
@@ -278,7 +278,7 @@ public:
 		virtual IDirect3DBaseTexture8 * GetBaseTexture(long iTexture) = 0;
 
 		virtual IDirect3DBaseTexture8 * CreateTextureFromFileInMemory(const char * pFile, dword dwSize) = 0;
-		
+
 		virtual bool PushRenderTarget() = 0;
 		virtual bool PopRenderTarget() = 0;
 		virtual bool SetRenderTarget(IDirect3DCubeTexture8 * pCubeTex, dword dwFaceType, dword dwLevel, IDirect3DSurface8* pNewZStencil) = 0;

@@ -27,7 +27,7 @@ AnimationImp::AnimationImp(long id, AnimationInfo * animationInfo)
 	aniInfo = animationInfo;
 	aniInfo->AddRef();
 	thisID = id;
-	for(long i = 0; i < ANI_MAX_ACTIONS; i++) 
+	for(long i = 0; i < ANI_MAX_ACTIONS; i++)
 	{
 		action[i].SetAnimation(this, i);
 		timer[i].SetAnimation(this);
@@ -180,12 +180,12 @@ void AnimationImp::Execute(long dltTime)
 	for(long i = 0; i < ANI_MAX_ACTIONS; i++)
 						action[i].Execute(dltTime);
 	//Исполним таймеры
-	for(i = 0; i < ANI_MAX_ACTIONS; i++)
+	for(long i = 0; i < ANI_MAX_ACTIONS; i++)
 						timer[i].Execute(dltTime);
 	//Расчитаем матрицы анимации
 	BuildAnimationMatrices();
 }
-			
+
 //Расчитать матрицы анимации
 void AnimationImp::BuildAnimationMatrices()
 {
@@ -230,7 +230,7 @@ void AnimationImp::BuildAnimationMatrices()
 
 			float kBlend = 1.0f - action[0].kBlendCurrent*normBlend;
 			//-------------------------------------------------------------------------
-			for(long j = 0; j < nbones; j++)	
+			for(long j = 0; j < nbones; j++)
 			{
 				Bone &bn = aniInfo->GetBone(j);
 				CMatrix inmtx;
@@ -264,7 +264,7 @@ void AnimationImp::BuildAnimationMatrices()
 				}
 
 				//-------------------------------------------------------------------------
-				for(long j = 0; j < nbones; j++)	
+				for(long j = 0; j < nbones; j++)
 				{
 					Bone &bn = aniInfo->GetBone(j);
 					CMatrix inmtx;
@@ -291,7 +291,7 @@ void AnimationImp::BuildAnimationMatrices()
 					}
 
 					//-------------------------------------------------------------------------
-					for(long j = 0; j < nbones; j++)	
+					for(long j = 0; j < nbones; j++)
 					{
 						Bone &bn = aniInfo->GetBone(j);
 						CMatrix inmtx;

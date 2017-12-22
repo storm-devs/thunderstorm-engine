@@ -1,11 +1,11 @@
 //============================================================================================
 //	Spirenkov Maxim aka Sp-Max Shaman, 2001
 //--------------------------------------------------------------------------------------------
-//	
+//
 //--------------------------------------------------------------------------------------------
 //	CharactersGroups
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "CharactersGroups.h"
@@ -42,7 +42,7 @@ CharactersGroups::~CharactersGroups()
 {
 	if(groups)
 	{
-		for(long i = 0; i < numGroups; i++) 
+		for(long i = 0; i < numGroups; i++)
 		{
 			if(groups[i]->relations) delete groups[i]->relations;
 			delete groups[i];
@@ -174,19 +174,20 @@ void CharactersGroups::Execute(dword delta_time)
 			Relation & rl = FindRelation(playerGroup, i);
 			if(rl.curState != rs_enemy) continue;
 			if(playerAlarm < rl.alarm) playerAlarm = rl.alarm;
-			for(long n = 0; n < groups[i]->numChr; n++)
+			long n;
+			for(n = 0; n < groups[i]->numChr; n++)
 			{
 				Character * cg = (Character *)api->GetEntityPointer(&groups[i]->c[n]);
 				if(cg && cg->IsSetBlade()) break;
 			}
-			if(n >= groups[i]->numChr) continue;			
+			if(n >= groups[i]->numChr) continue;
 			if(rl.isActive) playerActive = true;
 		}
 	}
 	//Удалим все неправильные цели
 	if(isDeactivate) RemoveAllInvalidTargets();
 	//Сообщим о текущем положении дел у игрока
-	api->Event("CharacterGroup_UpdateAlarm", "fl", playerAlarm, playerActive);	
+	api->Event("CharacterGroup_UpdateAlarm", "fl", playerAlarm, playerActive);
 	//Исполняем персонажей
 	waveTime += dltTime;
 	if(curExecuteChr >= 0)
@@ -253,7 +254,7 @@ void CharactersGroups::FindEnemyFromFindList(Character * chr, Group * grp, long 
 	//Сообщим окружающим об обнаруженных целях
 	if(numTrg > 0 && location->supervisor.FindCharacters(fnd, num, chr, grp->say))
 	{
-		for(i = 0; i < num; i++)
+		for(long i = 0; i < num; i++)
 		{
 			Character * c = fnd[i].c;
 			//Если невидим, то пропустим его
@@ -295,7 +296,7 @@ bool CharactersGroups::AddEnemyTarget(Character * chr, Character * enemy, float 
 	Assert(!isSelf);
 	r.alarm = 1.0f;
 	if(r.alarm >= r.alarmmax) r.isActive = true;
-	if(r.isActive) r.curState = r.actState;	
+	if(r.isActive) r.curState = r.actState;
 	if(r.actState != rs_enemy) return false;
 	//Ищим среди добавленных
 	for(long i = 0; i < chr->numTargets; i++)
@@ -422,11 +423,11 @@ dword _cdecl CharactersGroups::ProcessMessage(MESSAGE & message)
 		return 1;
 	}else
 	if(stricmp(cmd, "SetGroupLook") == 0)
-	{		
+	{
 		return MsgSetGroupLook(message);
 	}else
 	if(stricmp(cmd, "SetGroupHear") == 0)
-	{		
+	{
 		return MsgSetGroupHear(message);
 	}else
 	if(stricmp(cmd, "SetGroupSay") == 0)
@@ -525,10 +526,11 @@ bool CharactersGroups::MsgGetOptimalTarget(MESSAGE & message)
 		{
 			//Указатель на персонажа
 			NPCharacter * nc = (NPCharacter *)api->GetEntityPointer(&c->grpTargets[i].chr);
-			if(!nc) continue;			
+			if(!nc) continue;
 			if(!nc->IsSetBlade()) continue;
 			//Соберём количество персонажей воюющих с этим хмырём
-			for(long j = 0, n = 0; j < numChr; j++)
+			long n = 0;
+			for(long j = 0; j < numChr; j++)
 			{
 				if(cEx[j].c == nc || cEx[j].c == c) continue;
 				if(((NPCharacter *)cEx[j].c)->GetAttackedCharacter() == nc) n++;
@@ -562,7 +564,7 @@ bool CharactersGroups::MsgGetOptimalTarget(MESSAGE & message)
 		vd->Set(long(c->AttributesPointer->GetAttributeAsDword("index", -1)));
 	}else{
 		vd->Set(long(-1));
-	}	
+	}
 	return true;
 }
 
@@ -635,7 +637,7 @@ void CharactersGroups::MsgAddTarget(MESSAGE & message)
 			//Группа найденного персонажа
 			Relation & r = FindRelation(g1, GetCharacterGroup(c));
 			if(r.curState != rs_friend) continue;
-			AddEnemyTarget(c, enemy);			
+			AddEnemyTarget(c, enemy);
 		}
 	}
 }
@@ -932,7 +934,7 @@ void CharactersGroups::RemoveCharacterFromAllGroups(ENTITY_ID * chr)
 				cid[j] = cid[--g->numChr];
 			}else j++;
 		}
-	}	
+	}
 }
 
 //Выгрузка персонажа
@@ -973,7 +975,7 @@ inline long CharactersGroups::FindGroupIndex(const char * name)
 	if(!name) return -1;
 	long l = String::GetLen(name);
 	long h = String::GetHash(name);
-	
+
 	//Ищем среди зарегистрированных
 	for(long i = 0; i < numGroups; i++)
 	{
@@ -1214,7 +1216,7 @@ void CharactersGroups::DumpRelations()
 	}
 	api->Trace("Groups info:");
 	api->Trace("");
-	for(i = 0; i < numGroups; i++)
+	for(long i = 0; i < numGroups; i++)
 	{
 		api->Trace("name: \"%s\"", groups[i]->name.name);
 		api->Trace("    look: %f", groups[i]->look);

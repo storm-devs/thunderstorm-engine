@@ -64,7 +64,7 @@ GEOM::GEOM(const char *fname, const char *lightname, GEOM_SERVICE &_srv, long fl
 	light = (LIGHT*)srv.malloc(sizeof LIGHT * rhead.nlights);
 	for(long l=0; l<rhead.nlights; l++)
 	{
-		
+
 		light[l].flags = rlig[l].flags;
 		light[l].type = (LIGHT_TYPE)rlig[l].type;
 		light[l].name = &globname[rlig[l].name];
@@ -129,7 +129,8 @@ GEOM::GEOM(const char *fname, const char *lightname, GEOM_SERVICE &_srv, long fl
 	RDF_VERTEXBUFF *rvb = (RDF_VERTEXBUFF*)srv.malloc(rhead.nvrtbuffs*sizeof RDF_VERTEXBUFF);
 	srv.ReadFile(file, rvb, rhead.nvrtbuffs*sizeof RDF_VERTEXBUFF);
 	vbuff = (VERTEX_BUFFER*)srv.malloc(rhead.nvrtbuffs*sizeof VERTEX_BUFFER);
-	for(long v=0; v<rhead.nvrtbuffs; v++)
+	long v;
+	for(v=0; v<rhead.nvrtbuffs; v++)
 	{
 		vbuff[v].type = rvb[v].type;
 		vbuff[v].stride = sizeof(RDF_VERTEX0) + (rvb[v].type&3)*8 + (rvb[v].type>>2)*8;
@@ -244,7 +245,8 @@ void GEOM::Draw(const PLANE *pl, long np, MATERIAL_FUNC mtf) const
 	{
 		if(!(object[o].flags&VISIBLE))	continue;
 		//clip by external planes
-		for(long cp=0; cp<np; cp++)
+		long cp;
+		for(cp=0; cp<np; cp++)
 		{
 			float dist = object[o].center.x*pl[cp].nrm.x + object[o].center.y*pl[cp].nrm.y + object[o].center.z*pl[cp].nrm.z - pl[cp].d;
 			if(dist>object[o].radius)	break;

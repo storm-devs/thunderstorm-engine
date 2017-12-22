@@ -1,11 +1,11 @@
 //============================================================================================
 //	Spirenkov Maxim aka Sp-Max Shaman, 2001
 //--------------------------------------------------------------------------------------------
-//	
+//
 //--------------------------------------------------------------------------------------------
 //	Debris
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "Debris.h"
@@ -125,7 +125,7 @@ void Debris::Draw(VDX8RENDER * rs)
 	{
 		//Позиция модельки
 		CVECTOR pos;
-		pos.x = pillar.GetX(fly[i].y) + fly[i].r*sinf(fly[i].a);		
+		pos.x = pillar.GetX(fly[i].y) + fly[i].r*sinf(fly[i].a);
 		pos.y = fly[i].y;
 		pos.z = pillar.GetZ(fly[i].y) + fly[i].r*cosf(fly[i].a);
 		fly[i].mdl->mtx.BuildMatrix(fly[i].ang, pos);
@@ -151,15 +151,15 @@ void Debris::AddModel(const char * modelName, float prt, float spd)
 	//Загружаем
 	try
 	{
-		_CORE_API->Send_Message(id, 
-								"ls", 
-								MSG_MODEL_LOAD_GEO, 
+		_CORE_API->Send_Message(id,
+								"ls",
+								MSG_MODEL_LOAD_GEO,
 								modelName);
-	}catch(...){	
+	}catch(...){
 		gs->SetTexturePath("");
 		_CORE_API->DeleteEntity(id);
 		return;
-	}	
+	}
 	gs->SetTexturePath("");
 	//Настраиваем
 	NODE * node = m->GetNode(0);
@@ -174,14 +174,15 @@ void Debris::NormalazedModels()
 {
 	float sum = 0.0f;
 	for(long i = 0; i < numModels; i++) sum += mdl[i].prt;
-	for(i = 0; i < numModels; i++) mdl[i].prt /= sum;
+	for(long i = 0; i < numModels; i++) mdl[i].prt /= sum;
 }
 
 MODEL * Debris::SelectModel(float & maxSpd)
 {
 	float rnd = rand()*(1.0f/RAND_MAX);
 	float sum = 0.0f;
-	for(long i = 0; i < numModels - 1; i++)
+	long i;
+	for(i = 0; i < numModels - 1; i++)
 	{
 		sum += mdl[i].prt;
 		if(rnd < sum)
@@ -196,7 +197,7 @@ MODEL * Debris::SelectModel(float & maxSpd)
 
 bool Debris::IsShip()
 {
-	ENTITY_ID id;	
+	ENTITY_ID id;
 	bool res = _CORE_API->FindClass(&id, null, shipcode);
 	if(!res) return false;
 	CVECTOR p(pillar.GetX(0.0f), 0.0f, pillar.GetZ(0.0f));

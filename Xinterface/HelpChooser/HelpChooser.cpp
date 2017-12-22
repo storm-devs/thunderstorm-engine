@@ -371,7 +371,8 @@ long HELPCHOOSER::GetRectangleLeft()
 	long	nRectNum = m_nCurRect;
 	while(true)
 	{
-		for(int i=0; i<m_nRectQ; i++)
+		int i;
+		for(i=0; i<m_nRectQ; i++)
 		{
 			if(i==m_nCurRect || m_pRectList[i].top>bottom || m_pRectList[i].bottom<top) continue;
 
@@ -407,7 +408,8 @@ long HELPCHOOSER::GetRectangleRight()
 	long	nRectNum = m_nCurRect;
 	while(true)
 	{
-		for(int i=0; i<m_nRectQ; i++)
+		int i;
+		for(i=0; i<m_nRectQ; i++)
 		{
 			if(i==m_nCurRect || m_pRectList[i].top>bottom || m_pRectList[i].bottom<top) continue;
 
@@ -443,7 +445,8 @@ long HELPCHOOSER::GetRectangleUp()
 	long	nRectNum = m_nCurRect;
 	while(true)
 	{
-		for(int i=0; i<m_nRectQ; i++)
+		int i;
+		for(i=0; i<m_nRectQ; i++)
 		{
 			if(i==m_nCurRect || m_pRectList[i].left>right || m_pRectList[i].right<left) continue;
 
@@ -479,7 +482,8 @@ long HELPCHOOSER::GetRectangleDown()
 	long	nRectNum = m_nCurRect;
 	while(true)
 	{
-		for(int i=0; i<m_nRectQ; i++)
+		int i;
+		for(i=0; i<m_nRectQ; i++)
 		{
 			if(i==m_nCurRect || m_pRectList[i].left>right || m_pRectList[i].right<left) continue;
 

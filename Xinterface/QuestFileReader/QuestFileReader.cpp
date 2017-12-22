@@ -113,7 +113,8 @@ void GetSubStringFromString(const char* &pInStr,char* pOutBuf,int bufSize)
 	// удал€ем предшествующие пробелы
 	while(IS_SPACE(*pInStr)) pInStr++;
 	// перепишем строку в буфер
-	for(int i=0;i<bufSize-1;i++,pInStr++)
+	int i;
+	for(i=0;i<bufSize-1;i++,pInStr++)
 	{
 		if(IS_SPACE(*pInStr)) break;
 		pOutBuf[i] = *pInStr;
@@ -129,7 +130,8 @@ static const char* GetNextString(const char* &pInStr)
 	{
 		bool bYesCurierReturn = false;
 		bool bEmptyString = true;
-		for(const char* pstart=pInStr; *pInStr!=0; pInStr++)
+		const char* pstart;
+		for(pstart=pInStr; *pInStr!=0; pInStr++)
 		{
 			if(IS_SPACE(*pInStr))	bEmptyString=false;
 			if(*pInStr==0x0D) bYesCurierReturn = true;
@@ -143,11 +145,11 @@ static const char* GetNextString(const char* &pInStr)
 	return NULL;
 }
 
-static char * GetTitleString(char* buf, char* &ptr, int &slen)
+static const char * GetTitleString(char* buf, const char* &ptr, int &slen)
 {
 	if(buf==NULL) {slen=0;return NULL;}
 	buf[0]=0;
-	char* startp = ptr;
+	const char* startp = ptr;
 	while(ptr!=NULL)
 	{
 		// ¬озмем очередную строку
@@ -161,7 +163,7 @@ static char * GetTitleString(char* buf, char* &ptr, int &slen)
 			{
 				// получим id этого квеста
 				GetSubStringFromString(tmpstr,buf,256);
-				char * retVal = ptr;
+				const char * retVal = ptr;
 				// найдем конец заголовка квеста
 				while(ptr!=NULL)
 				{

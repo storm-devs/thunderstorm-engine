@@ -14,7 +14,7 @@ extern const CVECTOR *clip_c;
 extern float clip_r;
 extern GEOS::ADD_POLYGON_FUNC clip_geosap;
 extern ADD_POLYGON_FUNC clip_ap;
-char nm[256]; 
+char nm[256];
 GEOS::PLANE clip_gp[256];
 NODE *bestTraceNode = null;
 GEOS *clipGeo;
@@ -96,7 +96,7 @@ float NODER::Update(CMatrix &mtx, CVECTOR &cnt)
 	center = geo_center;
 	radius = geo_radius;
 
-	for(long l=0; l<nnext; l++)	
+	for(long l=0; l<nnext; l++)
 		if(next[l]!=0)
 		{
 			CVECTOR cnt;
@@ -208,8 +208,8 @@ bool NODER::Init(const char *lightPath, const char *pname, const char *oname, CM
 	if(!geo)
 	{
 		delete sys_modelName; sys_modelName = 0;
-		delete sys_LightPath; sys_LightPath = 0; 
-		delete sys_lmPath; sys_lmPath = 0; 
+		delete sys_LightPath; sys_LightPath = 0;
+		delete sys_lmPath; sys_lmPath = 0;
 		return false;
 	}
 
@@ -296,7 +296,7 @@ void NODER::ReleaseGeometry()
 }
 
 void NODER::RestoreGeometry()
-{	
+{
 	if(!isReleaed) return;
 
 	const char * tPath = gs->GetTexturePath();
@@ -329,7 +329,8 @@ void NODER::Draw()
 	CVECTOR cnt = glob_mtx*center;
 
 	//visibility check
-	for(long p=0; p<4; p++)
+	long p;
+	for(p=0; p<4; p++)
 	{
 		float dist = cnt.x*ViewPlane[p].nrm.x + cnt.y*ViewPlane[p].nrm.y + cnt.z*ViewPlane[p].nrm.z - ViewPlane[p].d;
 		if(dist>radius)	break;
@@ -369,7 +370,8 @@ void NODER::Draw()
 	if(flags&VISIBLE)
 	{
 		//visibility check for geometry
-		for(long p=0; p<4; p++)
+		long p;
+		for(p=0; p<4; p++)
 		{
 			float dist = cnt.x*ViewPlane[p].nrm.x + cnt.y*ViewPlane[p].nrm.y + cnt.z*ViewPlane[p].nrm.z - ViewPlane[p].d;
 			if(dist>geo_radius)	break;

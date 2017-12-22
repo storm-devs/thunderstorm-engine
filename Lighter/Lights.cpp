@@ -1,11 +1,11 @@
 //============================================================================================
 //	Spirenkov Maxim aka Sp-Max Shaman, 2001
 //--------------------------------------------------------------------------------------------
-//	
+//
 //--------------------------------------------------------------------------------------------
 //	Lights
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "Lights.h"
@@ -19,7 +19,7 @@ Lights::Lights()
 	maxLights = 256;
 	numLights = 3;
 	light = (Light *)RESIZE(null, maxLights*sizeof(Light));
-	for(long i = 0; i < maxLights; i++) SetDefLightParam(i);	
+	for(long i = 0; i < maxLights; i++) SetDefLightParam(i);
 	light[0].type = Light::t_amb;
 	light[0].color = CVECTOR(0.2f, 0.2f, 0.2f);
 	light[0].group = null;
@@ -101,8 +101,9 @@ void Lights::PostInit()
 	for(long i = 0; i < numLights; i++)
 	{
 		if(!light[i].group) continue;
-		for(long j = 0; j < numGrp; j++)
-			if(stricmp(grp[j], light[i].group) == 0) break;
+		long j;
+		for(j = 0; j < numGrp; j++)
+			if(_stricmp(grp[j], light[i].group) == 0) break;
 		if(j == numGrp) grp[numGrp++] = light[i].group;
 	}
 	//ƒобавл€ем груповые источники освещени€
@@ -112,7 +113,7 @@ void Lights::PostInit()
 		light = (Light *)RESIZE(light, maxLights*sizeof(Light));
 	}
 	long num = numLights;
-	for(i = 0; i < numGrp; i++)
+	for(long i = 0; i < numGrp; i++)
 	{
 		memset(&light[numLights], 0, sizeof(light[numLights]));
 		light[numLights].group = NEW char[strlen(grp[i]) + 1];
@@ -123,7 +124,7 @@ void Lights::PostInit()
 		float nrm = 0.0f;
 		for(long j = 0; j < numLights; j++)
 		{
-			if(light[j].group && stricmp(light[j].group, grp[i]) == 0)
+			if(light[j].group && _stricmp(light[j].group, grp[i]) == 0)
 			{
 				nrm += 1.0f;
 				light[numLights].color += light[j].color;
@@ -172,7 +173,7 @@ void Lights::UpdateLights(long lit)
 	}
 	for(i = 0; i < numLights; i++)
 	{
-		
+
 		if(light[i].type == Light::t_group)
 		{
 			for(long j = 0; j < numLights; j++)
@@ -199,7 +200,7 @@ void Lights::UpdateLights(long lit)
 				}
 			}
 		}else{
-			if(i == lit) light[i].isMark = true;			
+			if(i == lit) light[i].isMark = true;
 		}
 	}
 }

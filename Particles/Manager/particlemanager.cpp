@@ -19,7 +19,7 @@ ParticleManager::ParticleManager (ParticleService* service) : IParticleManager (
 	pService = service;
 	ShowStat = false;
 	MDL_Processor = NEW ModelProcessor(this);
-	BB_Processor = NEW BillBoardProcessor; 
+	BB_Processor = NEW BillBoardProcessor;
 	GlobalDelete = false;
 	TimeFromLastStatUpdate = 100.0f;
 	pRS = (VDX8RENDER*)api->CreateService("DX8Render");
@@ -92,7 +92,7 @@ void ParticleManager::SetProjectTexture (const char* FileName)
 
 	TextureName = FileName;
 
-	
+
 }
 
 const char* ParticleManager::GetProjectTextureName ()
@@ -100,7 +100,7 @@ const char* ParticleManager::GetProjectTextureName ()
 	return TextureName.GetBuffer();
 }
 
-//Открыть проект 
+//Открыть проект
 bool ParticleManager::OpenProject (const char* FileName)
 {
   CloseProject ();
@@ -110,7 +110,7 @@ bool ParticleManager::OpenProject (const char* FileName)
 	LongFileName += FileName;
 	LongFileName.AddExtention(".prj");
 
-	
+
 	INIFILE* IniFile = api->fio->OpenIniFile((char*)LongFileName.GetBuffer());
 	if (!IniFile)
 	{
@@ -140,7 +140,7 @@ bool ParticleManager::OpenProject (const char* FileName)
 	}
 */
 
-	//Загружаем данные 
+	//Загружаем данные
 	for (int n = 0; n < 9999; n++)
 	{
 		string Section;
@@ -159,14 +159,14 @@ bool ParticleManager::OpenProject (const char* FileName)
 	return true;
 }
 
-//Получить имя проекта 
+//Получить имя проекта
 const char* ParticleManager::GetProjectFileName ()
 {
 	return ShortProjectName.GetBuffer();
 }
 
 
-//Закрыть проект 
+//Закрыть проект
 void ParticleManager::CloseProject ()
 {
 	BB_Processor->Clear ();
@@ -187,7 +187,7 @@ void ParticleManager::CloseProject ()
 	pDataCache->ResetCache();
 	pGeomCache->ResetCache();
 }
- 
+
 //Удалить из списка ресурсов (системная)
 void ParticleManager::RemoveResource (IParticleSystem* pResource)
 {
@@ -202,7 +202,7 @@ void ParticleManager::RemoveResource (IParticleSystem* pResource)
 	}
 }
 
-//Исполнить партиклы 
+//Исполнить партиклы
 void ParticleManager::Execute (float DeltaTime)
 {
 	GraphRead = 0;
@@ -290,7 +290,7 @@ void ParticleManager::Execute (float DeltaTime)
 		Sleep(100);
 	}
 
-	for (n = 0; n < DeleteQuery.Size(); n++)
+	for (DWORD n = 0; n < DeleteQuery.Size(); n++)
 	{
 		DeleteQuery[n]->Release();
 	}
@@ -298,20 +298,20 @@ void ParticleManager::Execute (float DeltaTime)
 	DeleteQuery.DelAll();
 }
 
-//Узнать доступна система или нет 
+//Узнать доступна система или нет
 bool ParticleManager::IsSystemAvailable (const char* FileName)
 {
 	if (pDataCache->GetParticleSystemDataSource (FileName)) return true;
 	return false;
 }
 
-//Получить глобальную текстуру проекта 
+//Получить глобальную текстуру проекта
 long ParticleManager::GetProjectTexture ()
 {
 	return pProjectTexture;
 }
- 
- 
+
+
 //Создать партикловую систему из файла (файл должен быть в проекте!!!!!)
 IParticleSystem* ParticleManager::CreateParticleSystemEx (const char* FileName, const char* File, int Line)
 {
@@ -440,7 +440,7 @@ const char* ParticleManager::GetFirstGeomName (const char* FileName)
 		{
 			DataString* pModelNames = pDesc->Particles[i].Fields.FindString(PARTICLE_GEOM_NAMES);
 			if (!pModelNames) continue;
-			
+
 			Parser.Tokenize(pModelNames->GetValue());
 
       DWORD TCount = Parser.GetTokensCount();
@@ -453,14 +453,14 @@ const char* ParticleManager::GetFirstGeomName (const char* FileName)
 				}
 			}
 		}
-		
+
 	}
 
 	if (EnumUsedGeom.Size() == 0) return NULL;
 	const char* FirstName = EnumUsedGeom[IteratorIndex].GetBuffer();
 	IteratorIndex++;
 	return FirstName;
-	
+
 }
 
 const char* ParticleManager::GetNextGeomName ()
@@ -512,7 +512,7 @@ void ParticleManager::WriteSystemCache (const char* FileName)
 	MemFile pMemSave;
 	pMemSave.OpenWrite(1048576);
 	pDataSource->Write(&pMemSave);
-	
+
 	string LongFileName = "resource\\particles\\";
 	LongFileName+=FileName;
 	LongFileName.AddExtention(".xps");
@@ -684,7 +684,7 @@ void ParticleManager::OpenDefaultProject ()
 
 	SetProjectTexture ("particles_list.tga");
 
-	
+
 	HANDLE foundFile;
 	WIN32_FIND_DATA	findData;
 	if ((foundFile = api->fio->_FindFirstFile("resource\\particles\\*.xps", &findData)) != INVALID_HANDLE_VALUE)

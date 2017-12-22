@@ -1,11 +1,11 @@
 //============================================================================================
 //	Spirenkov Maxim aka Sp-Max Shaman, 2001
 //--------------------------------------------------------------------------------------------
-//	
+//
 //--------------------------------------------------------------------------------------------
 //	Grass
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "Grass.h"
@@ -61,7 +61,7 @@ Grass::Grass()
 
 	quality = rq_full;
 	windAng = 0.0f;
-	initForce = 0;	
+	initForce = 0;
 
 	m_fDataScale = 1.0f;
 	m_fMaxWidth = GRASS_MAX_W;
@@ -86,7 +86,7 @@ Grass::~Grass()
 		}
 		if(ib >= 0) rs->ReleaseIndexBuffer(ib);
 	}
-	
+
 }
 
 
@@ -109,7 +109,7 @@ bool Grass::Init()
   		param->Get(isGrassLightsOn);
 	}
 	// boal выбор шайдера <--
-	
+
 	//DX8 render
 	rs = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
 	if(!rs) _THROW("No service: dx8render");
@@ -160,7 +160,7 @@ bool Grass::LoadData(const char * patchName)
 	texture = rs->TextureCreate(textureName);
 	//Уталим старое
 	if(miniMap) delete miniMap; miniMap = null;
-	if(block) delete block; block = null;	
+	if(block) delete block; block = null;
 	//Загружаем файл с данными
 	byte * load = null;
 	dword size = 0;
@@ -172,7 +172,7 @@ bool Grass::LoadData(const char * patchName)
 		if(hdr.id != GRASS_ID) throw "invalide file id";
 		if(hdr.ver != GRASS_VER) throw "invalide file version";
 		long minisize = hdr.miniX*hdr.miniZ;
-		long elements = hdr.numElements;	
+		long elements = hdr.numElements;
 		if(size != sizeof(GRSHeader) + minisize*sizeof(GRSMiniMapElement) + elements*sizeof(GRSMapElement)) throw "incorrect file data -> file size";
 		if(hdr.miniX <= 0 || hdr.miniX > 100000 || hdr.miniZ <= 0 || hdr.miniZ > 100000) throw "incorrect file data -> miniX, miniZ";
 		//Создаём миникарту
@@ -205,7 +205,7 @@ bool Grass::LoadData(const char * patchName)
 			b.h = translate[sb.h];
 			b.w = translate[sb.w];
 			b.ang = translate[sb.ang];
-		}		
+		}
 		startX = hdr.startX;
 		startZ = hdr.startZ;
 		numElements = elements;
@@ -224,7 +224,7 @@ bool Grass::LoadData(const char * patchName)
 					el[i].x += cx;
 					el[i].z += cz;
 				}
-				
+
 			}
 		}
 	}catch(const char * error){
@@ -304,7 +304,7 @@ void Grass::Execute(dword delta_time)
 		if(winForce > 1.0f) winForce = 1.0f;
 	}
 	//Фазы
-	float dltTime = delta_time*0.001f;	
+	float dltTime = delta_time*0.001f;
 	if(dltTime > 0.05f) dltTime = 0.05f;
 	phase[0] += dltTime*(0.3f + powf(winForce, 10.0f)*0.0f);
 	phase[1] += dltTime*0.21f;
@@ -331,7 +331,7 @@ void Grass::Realize(dword delta_time)
 {
 	if(quality == rq_off) return;
 	rs->SetTransform(D3DTS_WORLD, CMatrix());
-	//Уберём текстуры	
+	//Уберём текстуры
 	rs->TextureSet(0, -1);
 	rs->TextureSet(1, -1);
 	//Стейты
@@ -388,14 +388,14 @@ void Grass::Realize(dword delta_time)
 	rs->SetRenderState(D3DRS_ZENABLE, TRUE);
 
 
-	
+
 
 
 
 	//if(api->Controls->GetDebugAsyncKeyState('H') < 0) return;
 
 	//Если нет карты, то нет и рисования
-	if(!block) return;	
+	if(!block) return;
 	//Параметры источника освещения
 	BOOL isLight = FALSE;
 	rs->GetLightEnable(0, &isLight);
@@ -468,7 +468,7 @@ void Grass::Realize(dword delta_time)
 	consts[36].y = lDir.z;
 	consts[37].x = aColor.x;
 	consts[37].y = aColor.y;
-	consts[37].z = aColor.z;	
+	consts[37].z = aColor.z;
 	consts[37].w = 1.0f;
 	consts[38].x = lColor.x;
 	consts[38].y = lColor.y;
@@ -480,10 +480,10 @@ void Grass::Realize(dword delta_time)
 	float prs;
 	rs->GetCamera(pos, ang, prs);
 	//Планы отсечения
-	PLANE * pln = rs->GetPlanes();	
+	PLANE * pln = rs->GetPlanes();
 	PLANE plane[5];
 	plane[0].Nx = plane[0].Ny = plane[0].Nz = 0.0f;
-	for(i = 0; i < 4; i++)
+	for(long i = 0; i < 4; i++)
 	{
 		plane[i + 1] = pln[i];
 		plane[0].Nx += pln[i].Nx;
@@ -528,7 +528,7 @@ void Grass::Realize(dword delta_time)
 		for(mz = top; mz <= camz; mz++) RenderBlock(pos, plane, numPlanes, mx, mz);
 		for(mz = bottom; mz > camz; mz--) RenderBlock(pos, plane, numPlanes, mx, mz);
 	}
-	for(mx = right; mx > camx; mx--)
+	for(long mx = right, mz; mx > camx; mx--)
 	{
 		for(mz = top; mz <= camz; mz++) RenderBlock(pos, plane, numPlanes, mx, mz);
 		for(mz = bottom; mz > camz; mz--) RenderBlock(pos, plane, numPlanes, mx, mz);
@@ -538,7 +538,7 @@ void Grass::Realize(dword delta_time)
 
 	rs->SetRenderState(D3DRS_FOGDENSITY, dwOldFogDensity);
 
-	for(i = 0; i < numCharacters; i++)
+	for(long i = 0; i < numCharacters; i++)
 	{
 		if(characters[i].useCounter > 2)
 		{
@@ -692,7 +692,7 @@ inline void Grass::RenderBlock(GRSMiniMapElement & mme, float kLod)
 	//Цикл по травинкам
 	float alpha;
 	for(long i = 0; i < num; i++)
-	{		
+	{
 		//Альфа
 		if(i < lodNum){ alpha = 1.0f; }else{ alpha = kBlend; }
 		//Колыхание травы
@@ -816,7 +816,7 @@ __forceinline long Grass::GetColor(CVECTOR color)
 	if(color.x < 0.0f) color.x = 0.0f;
 	if(color.y > 1.0f) color.y = 1.0f;
 	if(color.y < 0.0f) color.y = 0.0f;
-	if(color.z > 1.0f) color.z = 1.0f;	
+	if(color.z > 1.0f) color.z = 1.0f;
 	if(color.z < 0.0f) color.z = 0.0f;
 	long r = long(color.z*255.0f);
 	long g = long(color.y*255.0f);

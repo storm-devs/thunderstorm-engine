@@ -1,11 +1,11 @@
 //============================================================================================
 //	Spirenkov Maxim aka Sp-Max Shaman, 2001
 //--------------------------------------------------------------------------------------------
-//	
+//
 //--------------------------------------------------------------------------------------------
 //	LightProcessor
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "LightProcessor.h"
@@ -51,7 +51,7 @@ void LightProcessor::Process()
 		{
 			CalcShadows();
 			window->tracePrc = shadowTriangle/float(geometry->numTrg);
-		}else shadowTriangle = -1;		
+		}else shadowTriangle = -1;
 		if(shadowTriangle == -1)
 		{
 			//Нормализуем результат
@@ -149,7 +149,7 @@ void LightProcessor::Process()
 		CalcLights();
 	}
 	if(window->isUpdateLight)
-	{		
+	{
 		CalcLights(window->updateLight, window->updateLightCos, window->updateLightAtt, window->updateLightSdw);
 		window->updateLight = -1;
 		window->updateLightCos = true;
@@ -219,7 +219,7 @@ void LightProcessor::UpdateLightsParam()
 			swh.csatt = float(swh.cs*swh.att);
 			swh.shw = 1.0f;
 		}
-	}	
+	}
 }
 
 //Расчитать затенения
@@ -319,14 +319,15 @@ void LightProcessor::SmoothShadows()
 		octtree->FindVerts(v.p, smoothRad);
 		OctFndVerts * verts = octtree->verts;
 		long numVerts = octtree->numVerts;
-		
+
 		if(false)
 		{
 			float r2 = smoothRad*smoothRad;
 			static Vertex * ov[16384];
 			long numV = 0;
 			long num = geometry->numVrt;
-			for(long n = 0; n < num; n++)
+			long n;
+			for(n = 0; n < num; n++)
 			{
 				float r = ~(vrt[n].p - v.p);
 				if(r < r2)
@@ -338,7 +339,8 @@ void LightProcessor::SmoothShadows()
 			if(numVerts != numV) api->Trace("numVerts(%i) != numV(%i)", numVerts, numV);
 			for(n = 0; n < numVerts; n++)
 			{
-				for(long k = 0; k < numV; k++)
+				long k;
+				for(k = 0; k < numV; k++)
 					if(verts[n].v == ov[k]) break;
 				if(k >= numV) api->Trace("k >= numV");
 			}
@@ -411,7 +413,7 @@ void LightProcessor::BlurLight()
 			dst = 1.0f/dst;
 			n *= float(dst*0.001);
 			if(isTrace && geometry->Trace(v.p + n, vs.p - n) <= 1.0f) continue;
-			css *= dst; csd *= dst;			
+			css *= dst; csd *= dst;
 			if(css > 1.0) css = 1.0;
 			if(csd > 1.0) csd = 1.0;
 			if(k <= 0.0) continue;
@@ -456,7 +458,7 @@ void LightProcessor::CalcLights(long lit, bool isCos, bool isAtt, bool isSdw)
 	{
 		Vertex & v = vrt[n];
 		if(!v.shadow) continue;
-		c = v.bc*(kBlur*kBlur*2.0f);		
+		c = v.bc*(kBlur*kBlur*2.0f);
 		float sw;
 		double vl;
 		for(long i = 0; i < num; i++)

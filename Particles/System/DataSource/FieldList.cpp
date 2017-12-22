@@ -581,7 +581,7 @@ void FieldList::Convert (DataDescripion* pDataDescriptor)
 		}
 	}
 
-	for (i = 0; i < Fields.Size(); i++)
+	for (DWORD i = 0; i < Fields.Size(); i++)
 	{
 		if (Fields[i].MarkForDelete)
 		{

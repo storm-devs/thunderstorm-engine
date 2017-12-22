@@ -278,12 +278,12 @@ void SAIL::Execute(dword Delta_Time)
         // ≈сли был изменен ини-файл, то считать инфо из него
 	    WIN32_FIND_DATA	wfd;
 	    HANDLE h = _CORE_API->fio->_FindFirstFile("resource\\ini\\rigging.ini",&wfd);
-	    if (INVALID_HANDLE_VALUE != h) 
+	    if (INVALID_HANDLE_VALUE != h)
 	    {
 		    FILETIME ft_new = wfd.ftLastWriteTime;
 		    _CORE_API->fio->_FindClose(h);
 
-		    if (CompareFileTime(&ft_old,&ft_new)!=0) 
+		    if (CompareFileTime(&ft_old,&ft_new)!=0)
             {
                 int oldWindQnt=WINDVECTOR_QUANTITY;
                 LoadSailIni();
@@ -817,7 +817,8 @@ dword _cdecl SAIL::ProcessMessage(MESSAGE & message)
             ENTITY_ID shipEI = message.EntityID();
             float *pMaxSpeed = (float*)message.Pointer();
             // найдем нужную группу парусов
-            for(int gn=0; gn<groupQuantity; gn++)
+			int gn;
+            for(gn=0; gn<groupQuantity; gn++)
                 if(gdata[gn].shipEI==shipEI) break;
             // запишем по указателю параметра значение дл€ него
             if(pMaxSpeed)
@@ -1055,7 +1056,7 @@ void SAIL::SetAllSails(int groupNum)
     {
         gdata[groupNum].sailIdx = NEW int[gdata[groupNum].sailQuantity];
         int idx=0;
-        for(i=0; i<sailQuantity; i++)
+        for(int i=0; i<sailQuantity; i++)
             if(slist[i]->HostNum==groupNum)
             {
                 gdata[groupNum].sailIdx[idx++]=i;
@@ -1077,7 +1078,7 @@ void SAIL::SetAllSails(int groupNum)
 				char param[256];
 				sprintf(param,"%d",gdata[groupNum].maxHole);
 				pA->SetValue(param);
-				for(i=0;i<(int)pA->GetAttributesNum();i++)
+				for(int i=0;i<(int)pA->GetAttributesNum();i++)
 				{
 					ATTRIBUTES * pAttr = pA->GetAttributeClass(i);
 					if(pAttr!=null) for(int j=0; j<(int)pAttr->GetAttributesNum(); j++)
@@ -1194,7 +1195,7 @@ void SAIL::LoadSailIni()
 	INIFILE * ini;
 	WIN32_FIND_DATA	wfd;
 	HANDLE h = _CORE_API->fio->_FindFirstFile("resource\\ini\\rigging.ini",&wfd);
-	if (INVALID_HANDLE_VALUE != h) 
+	if (INVALID_HANDLE_VALUE != h)
 	{
 		ft_old = wfd.ftLastWriteTime;
 		_CORE_API->fio->_FindClose(h);
@@ -1503,24 +1504,28 @@ void SAIL::DoSailToNewHost(ENTITY_ID newModelEI, ENTITY_ID newHostEI, int grNum,
     if(groupQuantity<1 || sailQuantity<1) return;
 
     // найдем старого хоз€ина
-    for(int oldg=0; oldg<groupQuantity; oldg++)
+	int oldg;
+    for(oldg=0; oldg<groupQuantity; oldg++)
         if(gdata[oldg].modelEI==oldModelEI && !gdata[oldg].bDeleted)  break;
     if(oldg==groupQuantity) return; // нет старой модели - возвращаемс€ ничего не сделав
 
     // найдем парус
-    for(int sn=0; sn<sailQuantity; sn++)
+	int sn;
+    for(sn=0; sn<sailQuantity; sn++)
         if( slist[sn]->hostNode==nod &&
             slist[sn]->HostNum==oldg &&
             (grNum==0 || slist[sn]->groupNum==grNum) )  break;
     if(sn==sailQuantity) return; // нет такого паруса - возвращаемс€ без результата
 
     // в старом хоз€ине найдем ссылку на наш парус
-    for(int idx=0; idx<gdata[oldg].sailQuantity; idx++)
+	int idx;
+    for(idx=0; idx<gdata[oldg].sailQuantity; idx++)
         if(gdata[oldg].sailIdx[idx]==sn) break;
     if(idx==gdata[oldg].sailQuantity) return; // нет паруса в группе - возврат без результата
 
     // найдем нового хоз€ина
-    for(int gn=0; gn<groupQuantity; gn++)
+	int gn;
+    for(gn=0; gn<groupQuantity; gn++)
         if(gdata[gn].modelEI==newModelEI) break;
     if(gn==groupQuantity) // нет такого хоз€ина - создаем нового
     {
@@ -1545,7 +1550,8 @@ void SAIL::DoSailToNewHost(ENTITY_ID newModelEI, ENTITY_ID newHostEI, int grNum,
     }
 
 	// поищем новый парус в новой группе
-	for(int i=0; i<gdata[gn].sailQuantity; i++)
+	int i;
+	for(i=0; i<gdata[gn].sailQuantity; i++)
 		if(gdata[gn].sailIdx[i]==sn) break;
 
 	if(m_nMastCreatedCharacter>=0 && slist[sn]!=null)
@@ -1759,7 +1765,8 @@ void SAIL::DoNoRopeSailToNewHost(ENTITY_ID newModel, ENTITY_ID newHost, ENTITY_I
     if(rb==null) return;
 
     // найдем группу старого хоз€ина
-    for(int ogn=0; ogn<groupQuantity; ogn++)
+	int ogn;
+    for(ogn=0; ogn<groupQuantity; ogn++)
         if(gdata[ogn].bYesShip && gdata[ogn].shipEI==oldHost && !gdata[ogn].bDeleted) break;
 	if(ogn==groupQuantity) return;
 
@@ -1772,10 +1779,10 @@ void SAIL::DoNoRopeSailToNewHost(ENTITY_ID newModel, ENTITY_ID newHost, ENTITY_I
     MODEL *omdl = (MODEL*)api->GetEntityPointer(&gdata[ogn].modelEI);
     if(omdl==null) return;
 
-    // в найденной группе пройдемс€ по парусам 
+    // в найденной группе пройдемс€ по парусам
     for(int si=0; si<gdata[ogn].sailQuantity; si++)
     {
-        int sn= gdata[ogn].sailIdx[si];
+        int sn=gdata[ogn].sailIdx[si];
         NODE *nod=null;
         for(int k=0; k<1000; k++)
         {
@@ -1849,7 +1856,7 @@ void _cdecl sailPrint(VDX8RENDER *rs, const CVECTOR & pos3D, float rad, long lin
 	//»щем позицию
 	long fh = rs->CharHeight(FONT_DEFAULT)/2;
 	vrt.y -= (line + 0.5f)*fh;
-	//ѕрозрачность	
+	//ѕрозрачность
 	long color = 0xffffffff;
 	const float kDist = 0.75f;
 	if(dist > kDist*kDist*rad*rad)

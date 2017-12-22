@@ -1,11 +1,11 @@
 //============================================================================================
 //	Spirenkov Maxim aka Sp-Max Shaman, 2001
 //--------------------------------------------------------------------------------------------
-//	
+//
 //--------------------------------------------------------------------------------------------
 //	NPCaracter
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "NPCharacter.h"
@@ -43,7 +43,7 @@
 //============================================================================================
 
 NPCharacter::NPCharacter()
-{	
+{
 	stackPointer = 0;
 	task.task = npct_stay;
 	lastSetTask = npct_unknow;
@@ -100,7 +100,7 @@ bool NPCharacter::PostInit()
 	if(vd && vd->Get(tmp)) attackCur = tmp;
 	vd = api->Event("NPC_Event_GetAttackWeightFast", "i", GetID());
 	tmp = attackPrbFast;
-	if(vd && vd->Get(tmp)) attackPrbFast = tmp;	
+	if(vd && vd->Get(tmp)) attackPrbFast = tmp;
 	vd = api->Event("NPC_Event_GetAttackWeightForce", "i", GetID());
 	tmp = attackPrbForce;
 	if(vd && vd->Get(tmp)) attackPrbForce = tmp;
@@ -196,7 +196,7 @@ void NPCharacter::Move(float dltTime)
 		break;
 	case npct_stay:
 		break;
-	case npct_gotopoint:		
+	case npct_gotopoint:
 		break;
 	case npct_followcharacter:
 		break;
@@ -453,10 +453,10 @@ void NPCharacter::UpdateFollowCharacter(float dltTime)
 	if(task.isFollowInit == 0)
 	{
 		task.isFollowInit = 1;
-		if(dst <= NPC_START_DIST_NPC*NPC_START_DIST_NPC) EndGotoCommand();		
+		if(dst <= NPC_START_DIST_NPC*NPC_START_DIST_NPC) EndGotoCommand();
 	}
 	if(command.cmd != aicmd_gotopoint)
-	{		
+	{
 		SetRunMode(false);
 		if(dst > NPC_START_DIST_NPC*NPC_START_DIST_NPC)
 		{
@@ -649,7 +649,7 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 			bool bFired = false;
 			if(bTryFire && wantToFire && isFireEnable)
 			{
-				if(dst < NPC_FIGHT_FIRE_DIST*NPC_FIGHT_FIRE_DIST && 
+				if(dst < NPC_FIGHT_FIRE_DIST*NPC_FIGHT_FIRE_DIST &&
 					(dst > NPC_FIGHT_GO_DIST*NPC_FIGHT_GO_DIST || fightLevel > 0.6f))
 				{
 					if(IsGunLoad())
@@ -742,7 +742,7 @@ void NPCharacter::DoFightAction(float dltTime, NPCharacter * enemy)
 	{
 		enemyFgtType = enemy->fgtCurType;
 		isFgtChanged = true;
-	}	
+	}
 	//Смотрим на текущее действие
 	if(blockTime > 0.0f)
 	{
@@ -764,7 +764,7 @@ void NPCharacter::DoFightAction(float dltTime, NPCharacter * enemy)
 
 //Поведение в бою - idle
 void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter * enemy)
-{	
+{
 	if(!enemy) return;
 	//Смотрим на свои желания
 	bool wishAttact = wantToAttack;
@@ -826,7 +826,7 @@ void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter * enemy)
 		enemies[enemyCounter].chr = chr;
 		//Куда смотрит враг и расположение относительно нас
 		if(fc.d2 > 0.0f)
-		{			
+		{
 			enemies[enemyCounter].look = -(sinf(chr->ay)*fc.dx + cosf(chr->ay)*fc.dz)/fc.d2;
 			enemies[enemyCounter].dir = (dir.x*fc.dx + dir.z*fc.dz)/fc.d2;
 		}else{
@@ -867,7 +867,7 @@ void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter * enemy)
 				if(kSel < k)
 				{
 					kSel = k;
-					enemy = es.chr;	
+					enemy = es.chr;
 				}
 			}else{
 				kSel = k;
@@ -1007,7 +1007,8 @@ void NPCharacter::DoFightAttack(Character * enemy, long enemyCounter, bool wishD
 	if(count == 0 || max <= 0.0f) return;
 	float r = rand()*(max/RAND_MAX);
 	float p = 0.0f;
-	for(long i = 0; i < count; i++)
+	long i;
+	for(i = 0; i < count; i++)
 	{
 		p += attack[i].prb;
 		if(r <= p) break;
@@ -1151,9 +1152,9 @@ bool NPCharacter::PopTask()
 	{
 	case npct_none:
 		return CmdNone();
-	case npct_stay:		
+	case npct_stay:
 		return CmdStay();
-	case npct_gotopoint:		
+	case npct_gotopoint:
 		SetRunMode(false);
 		return CmdGotoPoint(task.to.x, task.to.y, task.to.z, NPC_STOP_GOTODIST);
 	case npct_runtopoint:

@@ -1,11 +1,11 @@
 //============================================================================================
 //	Spirenkov Maxim aka Sp-Max Shaman, 2001
 //--------------------------------------------------------------------------------------------
-//	
+//
 //--------------------------------------------------------------------------------------------
 //	TornadoParticles
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "TornadoParticles.h"
@@ -29,9 +29,9 @@ TornadoParticles::TornadoParticles(Pillar & _pillar) : pillar(_pillar)
 		groundPrt[i].dt = 0.0f;
 		groundPrt[i].p = 1.5f + 2.5f*rand()/RAND_MAX;
 	}
-	for(i = 0; i < sizeof(pillarPrt)/sizeof(PillarParticle); i++)
+	for(long i = 0; i < sizeof(pillarPrt)/sizeof(PillarParticle); i++)
 	{
-		pillarPrt[i].ang = pillar.RandomPos(pillarPrt[i].pos);		
+		pillarPrt[i].ang = pillar.RandomPos(pillarPrt[i].pos);
 		pillarPrt[i].sz = pillarPrt[i].size = GetRand(10.0f, 0.3f);
 		pillarPrt[i].alpha = 0.7f;
 		pillarPrt[i].angle = rand()*2.0f*TRND_PI/RAND_MAX;
@@ -101,7 +101,7 @@ void TornadoParticles::Update(float dltTime)
 		//if(groundPrt[i].pos.y > 3.0f) groundPrt[i].alpha *= 1.0f - (groundPrt[i].pos.y - 3.0f)/(30.0f - 3.0f);
 	}
 	//Партиклы столба
-	for(i = 0; i < sizeof(pillarPrt)/sizeof(PillarParticle); i++)
+	for(long i = 0; i < sizeof(pillarPrt)/sizeof(PillarParticle); i++)
 	{
 		float kh = pillar.GetKHeight(pillarPrt[i].pos.y);
 		float k = pillarPrt[i].k;
@@ -137,7 +137,8 @@ void TornadoParticles::Draw(VDX8RENDER * rs)
 
 inline void TornadoParticles::DrawParticles(VDX8RENDER * rs, void * prts, long num, long size, long texture, const char * tech)
 {
-	for(long i = 0, n = 0; i < num; i++)
+	long n = 0;
+	for(long i = 0; i < num; i++)
 	{
 		Particle * parts = (Particle *)prts;
 		prts = (char *)prts + size;
@@ -161,7 +162,7 @@ inline void TornadoParticles::DrawParticles(VDX8RENDER * rs, void * prts, long n
 		buffer[n*6 + 3].pos = buffer[n*6 + 2].pos;
 		buffer[n*6 + 3].color = color;
 		buffer[n*6 + 3].u = 1.0f;
-		buffer[n*6 + 3].v = 0.0f;		
+		buffer[n*6 + 3].v = 0.0f;
 		buffer[n*6 + 4].pos = buffer[n*6 + 1].pos;
 		buffer[n*6 + 4].color = color;
 		buffer[n*6 + 4].u = 0.0f;

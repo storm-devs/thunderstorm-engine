@@ -34,7 +34,7 @@ void LocalClient::Send(packet * pPacket)
 	word wPacketIndex = pPacket->wPacketIndex | ((pPacket->bGarantedDelivery) ? (0x1 << 0xF) : 0x0);
 	crc16.MakeCRC16(pPacket->nmBuffer.GetDataBuffer(), pPacket->nmBuffer.GetDataSize(), wPacketIndex);
 	sendto(*pSocket, crc16.GetDataBuffer(), crc16.GetDataSize(), 0, (struct sockaddr *)&from, sizeof(from));
-	
+
 	dwTotalPacketsSend++;
 	dwTotalBytesSend += crc16.GetDataSize();
 }
@@ -44,7 +44,8 @@ void LocalClient::Flush()
 	Assert(pSocket);
 	if (aPackets.IsEmpty()) return;
 
-	for (long i=0; i<aPackets; i++)
+	long i;
+	for (i=0; i<aPackets; i++)
 	{
 		if (!aPackets[i]->bGarantedDelivery)
 		{
@@ -60,7 +61,7 @@ void LocalClient::Flush()
 			break;
 		}
 	}
-	
+
 	if (i > 0)
 		aPackets.DelRange(0, i - 1);
 }

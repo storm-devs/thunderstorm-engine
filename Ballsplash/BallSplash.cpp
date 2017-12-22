@@ -7,7 +7,7 @@
 #include "BALLSPLASH.h"
 
 INTERFACE_FUNCTION
-CREATE_CLASS(BALLSPLASH)	
+CREATE_CLASS(BALLSPLASH)
 
 //--------------------------------------------------------------------
 BALLSPLASH::BALLSPLASH()
@@ -64,11 +64,11 @@ dword _cdecl BALLSPLASH::ProcessMessage(MESSAGE & message)
 			dir.y = message.Float();
 			dir.z = message.Float();
 			*/
-			
+
 			dir.x = 0.0f;
 			dir.y = -1.0f;
 			dir.z = 0.0f;
-			
+
 			TryToAddSplash(pos, dir);
 		}
 		break;
@@ -87,13 +87,13 @@ void BALLSPLASH::Realize(dword _dTime)
 	RDTSC_B(ticks);
 
 	TSplash::lockTicks    = 0;
-	TSplash::fillTicks    = 0; 
+	TSplash::fillTicks    = 0;
 	TSplash::unlockTicks  = 0;
 	TSplash::realizeTicks = 0;
 	TSplash::processCount = 0;
 
 	// draw bottom part
-	TSplash::startRender = true;	
+	TSplash::startRender = true;
 	TSplash::topIndex    = 0;
 	int lastProcessed    = -1;
 	for (int i = 0; i < MAX_SPLASHES; ++i)
@@ -105,17 +105,17 @@ void BALLSPLASH::Realize(dword _dTime)
 
 	// draw top part
 	bool techniqueStarted = renderer->TechniqueExecuteStart("splash2");
-	TSplash::startRender = true;	
+	TSplash::startRender = true;
 	TSplash::topIndex    = 0;
 	lastProcessed		 = -1;
-	for (i = 0; i < MAX_SPLASHES; ++i)
+	for (int i = 0; i < MAX_SPLASHES; ++i)
 	{
 		if (splashes[i].Process2(_dTime))
 			lastProcessed = i;
 	}
 	splashes[lastProcessed].PostProcess2();
 	splashes[lastProcessed].Realize2(_dTime);
-	if(techniqueStarted) 
+	if(techniqueStarted)
 		while (renderer->TechniqueExecuteNext())
 			;
 

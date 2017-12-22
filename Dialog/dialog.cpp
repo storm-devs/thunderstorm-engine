@@ -100,7 +100,8 @@ void __declspec(noinline) __cdecl DIALOG::DlgTextDescribe::Init(VDX8RENDER* pRS,
 
 long DIALOG::DlgTextDescribe::GetShowHeight()
 {
-	for(long n=0; n<anPageEndIndex; n++)
+	long n;
+	for(n=0; n<anPageEndIndex; n++)
 		if( nStartIndex<anPageEndIndex[n] )
 			break;
 	if( n < anPageEndIndex ) n = anPageEndIndex[n] - nStartIndex;
@@ -130,7 +131,8 @@ void DIALOG::DlgTextDescribe::Show(long nY)
 
 bool DIALOG::DlgTextDescribe::IsLastPage()
 {
-	for( long n=0; n<anPageEndIndex; n++ )
+	long n;
+	for( n=0; n<anPageEndIndex; n++ )
 		if( anPageEndIndex[n]>nStartIndex ) break;
 	if( n>=anPageEndIndex || anPageEndIndex[n]>=asText ) return true;
 	return false;
@@ -138,7 +140,8 @@ bool DIALOG::DlgTextDescribe::IsLastPage()
 
 void DIALOG::DlgTextDescribe::PrevPage()
 {
-	for( long n=anPageEndIndex.Size()-1; n>=0; n-- )
+	long n;
+	for( n=anPageEndIndex.Size()-1; n>=0; n-- )
 		if( anPageEndIndex[n]<nStartIndex ) break;
 	if( n>=0 ) nStartIndex = anPageEndIndex[n];
 	else nStartIndex = 0;
@@ -146,7 +149,8 @@ void DIALOG::DlgTextDescribe::PrevPage()
 
 void DIALOG::DlgTextDescribe::NextPage()
 {
-	for( long n=0; n<anPageEndIndex; n++ )
+	long n;
+	for( n=0; n<anPageEndIndex; n++ )
 		if( anPageEndIndex[n]>nStartIndex ) break;
 	if( n<anPageEndIndex && anPageEndIndex[n]<asText )
 		nStartIndex = anPageEndIndex[n];
@@ -1037,8 +1041,8 @@ void DIALOG::UpdateDlgViewport()
 		m_BackParams.bShowDivider = true;
 		m_BackParams.nDividerOffsetY = nTextHeight;
 		nAllHeight += nLinksHeight + (long)m_BackParams.nDividerHeight;
-	} 
-	else 
+	}
+	else
 	{
 		m_BackParams.bShowDivider = false;
 	}

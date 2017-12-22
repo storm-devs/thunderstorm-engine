@@ -1,11 +1,11 @@
 //============================================================================================
 //	Spirenkov Maxim, 2001
 //--------------------------------------------------------------------------------------------
-//	
+//
 //--------------------------------------------------------------------------------------------
 //	Location
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "Location.h"
@@ -139,9 +139,9 @@ void Location::Execute(dword delta_time)
 void Location::Realize(dword delta_time)
 {
 	float fDeltaTime = float(delta_time) * 0.001f;
-	
+
 	fCausticFrame += fDeltaTime * fCausticSpeed;
-	
+
 	while (fCausticFrame >= 32.0f) fCausticFrame -= 32.0f;
 
 	//Отрисовка локаторов
@@ -170,7 +170,7 @@ void Location::Realize(dword delta_time)
 	//Обсчёт персонажей
 	if(isDebugView) Update(delta_time);
 	//Отрисовка сообщений
-	i = curMessage;
+	long i = curMessage;
 	for(long c = 0; c < sizeof(message)/sizeof(DmgMessage); c++, i--)
 	{
 		if(i < 0) i = sizeof(message)/sizeof(DmgMessage) - 1;
@@ -265,7 +265,7 @@ dword _cdecl Location::ProcessMessage(MESSAGE & message)
 	case MSG_LOCATION_MODEL_LAMPS:
 		if(lastLoadStaticModel < 0) return 0;
 		lights = (Lights *)_CORE_API->GetEntityPointer(&lightsid);
-		if(!lights) return 0;		
+		if(!lights) return 0;
 		return lights->AddLampModel(model.ID(lastLoadStaticModel));
 	case MSG_LOCATION_MODEL_REFLECTION:
 		if(lastLoadStaticModel < 0) return 0;
@@ -296,7 +296,7 @@ dword _cdecl Location::ProcessMessage(MESSAGE & message)
 #ifndef _XBOX
 		_CORE_API->Send_Message(lighter, "ss", "ModelsPath", model.modelspath);
 #endif
-		
+
 		return 1;
 	case MSG_LOCATION_TEXTURESPATH:
 		message.String(sizeof(model.texturespath), model.texturespath);
@@ -450,7 +450,8 @@ long Location::LoadStaticModel(const char * modelName, const char * tech, long l
 		g->GetLabel(i, label);
 		if(!label.group_name || !label.group_name[0]) continue;
 		long hash = LocatorArray::CalcHashString(label.group_name);
-		for(long j = 0; j < numLocators; j++)
+		long j;
+		for(j = 0; j < numLocators; j++)
 		{
 			if(locators[j]->CompareGroup(label.group_name, hash)) break;
 		}
@@ -676,7 +677,7 @@ void Location::UpdateLocators()
 			if(at)
 			{
 				for(long j = 0; j < locators[i]->Num(); j++)
-				{					
+				{
 					at->CreateSubAClass(at, locators[i]->Name(j));
 					ATTRIBUTES * a = at->FindAClass(at, locators[i]->Name(j));
 					if(a)
@@ -743,7 +744,7 @@ void Location::DrawLocators(LocatorArray * la)
 		//Стейты
 		if(!sphereNumTrgs) CreateSphere();
 		CMatrix mPos;
-		//Уберём текстуры	
+		//Уберём текстуры
 		rs->TextureSet(0, -1);
 		rs->TextureSet(1, -1);
 		//Стартуем технику
@@ -789,7 +790,7 @@ void Location::DrawLocators(LocatorArray * la)
 	float viewDst = la->viewDist*la->viewDist;
 	//Рисуем
 	for(long i = 0; i < la->Num(); i++)
-	{	
+	{
 		float lbh = la->GetLocatorRadius(i)*la->kViewRadius;
 		if(lbh <= 0.0f) continue;
 		if(lbh > 1.5f) lbh = 1.5f;
@@ -814,7 +815,7 @@ void Location::DrawLine(const CVECTOR & s, dword cs, const CVECTOR & d, dword cd
 	lineVertex[1].v = d;
 	lineVertex[1].c = cd;
 	rs->SetTransform(D3DTS_WORLD, CMatrix());
-	//Уберём текстуры	
+	//Уберём текстуры
 	rs->TextureSet(0, -1);
 	rs->TextureSet(1, -1);
 	//Установим Z
@@ -832,7 +833,7 @@ void Location::CreateSphere()
 #define CalcKColor(ind) {kColor = light | !CVECTOR(sphereVertex[t*3 + ind].v.x, sphereVertex[t*3 + ind].v.y, sphereVertex[t*3 + ind].v.z); if(kColor < 0.0f) kColor = 0.0f; }
 #define CLerp(c, min) (dword(c*(kColor*(1.0f - min) + min)))
 #define Color ((CLerp(255.0f, 0.5f) << 24) | (CLerp(255.0f, 0.7f) << 16) | (CLerp(255.0f, 0.7f) << 8) | (CLerp(255.0f, 0.7f) << 0));
-	
+
 	if(sphereVertex) return;
 
 	const float myPI = 3.1415926535897932f;
@@ -845,7 +846,8 @@ void Location::CreateSphere()
 	CVECTOR light = !CVECTOR(0.0f, 0.0f, 1.0f);
 	float kColor;
 	//Заполняем вершины
-	for(long i = 0, t = 0; i < a2; i++)
+	long t = 0;
+	for(long i = 0; i < a2; i++)
 	{
 		float r1 = sinf(myPI*i/float(a2));
 		float y1 = cosf(myPI*i/float(a2));
@@ -943,7 +945,7 @@ void _cdecl Location::Print(const CVECTOR & pos3D, float rad, long line, float a
 	//Ищем позицию
 	float fh = rs->CharHeight(FONT_DEFAULT)*0.8f;
 	vrt.y -= (line + 0.5f)*fh*scale;
-	//Прозрачность	
+	//Прозрачность
 	const float kDist = 0.75f;
 	if(alpha < 0.0f) alpha = 0.0f;
 	if(alpha > 1.0f) alpha = 1.0f;
@@ -1161,7 +1163,7 @@ void Location::CorrectBar(float v, float start, float end, BarVertex * vrt)
 	float du = vrt[1].u - vrt[0].u;
 	float startX = vrt[0].p.x + dx*start;
 	float startU = vrt[0].u + du*start;
-	float endX = vrt[0].p.x + dx*end;	
+	float endX = vrt[0].p.x + dx*end;
 	float endU = vrt[0].u + du*end;
 	vrt[0].p.x = startX; vrt[0].u = startU;
 	vrt[1].p.x = endX; vrt[1].u = endU;

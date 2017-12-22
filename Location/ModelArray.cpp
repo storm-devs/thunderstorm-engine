@@ -22,7 +22,7 @@ ModelArray::ModelArray()
 {
 	model = null;
 	numModels = 0;
-	maxModels = 0;	
+	maxModels = 0;
 	modelspath[0] = 0;
 	texturespath[0] = 0;
 	lightpath[0] = 0;
@@ -76,17 +76,17 @@ long ModelArray::CreateModel(const char * modelName, const char * technique, lon
 		return -1;
 	}
 	//Загружаем
-	_CORE_API->Send_Message(id, 
-							"ls", 
-							MSG_MODEL_SET_LIGHT_PATH, 
+	_CORE_API->Send_Message(id,
+							"ls",
+							MSG_MODEL_SET_LIGHT_PATH,
 							lightpath);
-	_CORE_API->Send_Message(id, 
-							"ls", 
+	_CORE_API->Send_Message(id,
+							"ls",
 							MSG_MODEL_SET_LIGHT_LMPATH,
 							shadowpath);
-	if(!_CORE_API->Send_Message(id, 
-							"ls", 
-							MSG_MODEL_LOAD_GEO, 
+	if(!_CORE_API->Send_Message(id,
+							"ls",
+							MSG_MODEL_LOAD_GEO,
 							resPath))
 	{
 		gs->SetTexturePath("");
@@ -142,7 +142,7 @@ void ModelArray::DeleteModel(long modelIndex)
 	if(model[modelIndex].rotator) delete model[modelIndex].rotator;
 	model[modelIndex].rotator = null;
 	if(model[modelIndex].reflection) delete model[modelIndex].reflection;
-	model[modelIndex].reflection = null;	
+	model[modelIndex].reflection = null;
 	//Удаляем модельку
 	_CORE_API->DeleteEntity(model[modelIndex].modelrealizer);
 	_CORE_API->DeleteEntity(model[modelIndex].id);
@@ -154,7 +154,7 @@ void ModelArray::DeleteModel(long modelIndex)
 bool ModelArray::SetAnimation(long modelIndex, const char * modelAni)
 {
 	Assert(modelIndex >= 0 && modelIndex < numModels);
-	return _CORE_API->Send_Message(model[modelIndex].id, 
+	return _CORE_API->Send_Message(model[modelIndex].id,
 									"ls",
 									MSG_MODEL_LOAD_ANI,
 									modelAni) != 0;
@@ -286,7 +286,7 @@ void ModelArray::Update(float dltTime)
 		{
 			CMatrix mtr(model[i].rotator->rx*dltTime, model[i].rotator->ry*dltTime, model[i].rotator->rz*dltTime);
 			MODEL * mdl = (MODEL *)_CORE_API->GetEntityPointer(&model[i].id);
-			if(mdl) mdl->mtx = CMatrix(mtr, mdl->mtx);			
+			if(mdl) mdl->mtx = CMatrix(mtr, mdl->mtx);
 		}
 	}
 }
@@ -359,7 +359,7 @@ void ModelArray::Relection::Set(MODEL * model, VDX8RENDER * rs)
 	rs->GetTransform(D3DTS_VIEW, mtx);
 	mtx.Transposition();
 	mtx.Pos() = 0.0f;
-	rs->SetTransform(D3DTS_TEXTURE1, mtx);	
+	rs->SetTransform(D3DTS_TEXTURE1, mtx);
 	rs->SetRenderState(D3DRS_TEXTUREFACTOR, tfactor);
 }
 
@@ -372,7 +372,8 @@ void ModelArray::Relection::Restore(MODEL * model, VDX8RENDER * rs)
 
 void ModelArray::UpdatePath(char * path)
 {
-	for(long i = 0, j = 0; path[i]; i++)
+	long j = 0;
+	for(long i = 0; path[i]; i++)
 	{
 		if(path[i] == '\\')
 		{
@@ -435,6 +436,6 @@ void ModelArray::Clip(PLANE * p, long numPlanes, CVECTOR & cnt, float rad, bool 
 			MODEL * mdl = (MODEL *)_CORE_API->GetEntityPointer(&model[i].id);
 			mdl->Clip(p, numPlanes, cnt, rad, fnc);
 		}
-	}	
+	}
 }
 

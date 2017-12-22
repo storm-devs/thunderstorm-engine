@@ -35,7 +35,7 @@ CVECTOR * AIShipTouchController::GetPentagonBox()
 {
 	CMatrix m;
 	CVECTOR vOurPos = GetAIShip()->GetPos();
-	
+
 	CVECTOR vBoxSize = GetAIShip()->GetBoxSize() / 2.0f;
 	m.BuildRotateY(GetAIShip()->GetAng().y);
 	vBox[0] = CVECTOR(-vBoxSize.x, 0.0f, -vBoxSize.z);
@@ -116,18 +116,18 @@ void AIShipTouchController::Execute(float fDeltaTime)
 	v[1] = m * CVECTOR(vBoxSize.x, 0.0f, -vBoxSize.z);
 	v[2] = m * CVECTOR(vBoxSize.x, 0.0f, vBoxSize.z);
 	v[3] = m * CVECTOR(-vBoxSize.x, 0.0f, vBoxSize.z);*/
-	
+
 	// reset
 	if (dtTouchTime.Update(fDeltaTime))
 	{
-		for (i=0; i<aTouchRays.Size(); i++) 
+		for (i=0; i<aTouchRays.Size(); i++)
 		{
 			aTouchRays[i].fMinDist = 10000.0f;
 			aTouchRays[i].fDist = 1.0f;
 		}
 
 		// test collision with ships
-		for (i=0;i<AIShip::AIShips.Size();i++) 
+		for (i=0;i<AIShip::AIShips.Size();i++)
 		{
 			TestCollision(AIShip::AIShips[i]);
 		}
@@ -186,7 +186,7 @@ void AIShipTouchController::Execute(float fDeltaTime)
 
 		// search new free direction
 
-		fRotateFactor = 0.0f; 
+		fRotateFactor = 0.0f;
 		if (dwMaxIdx != 0) fRotateFactor = (dwMaxIdx < aTouchRays.Size()/2) ? 2.5f : -2.5f;
 		//float fRotate = GetBestRotateDirection() * 2.5f;
 		GetAIShip()->GetRotateController()->AddRotate(fRotateFactor);
@@ -207,7 +207,7 @@ float AIShipTouchController::GetBestRotateDirection()
 {
 	float fLeft = 0.0f, fRight = 0.0f;
 	dword iBortNum = (aTouchRays.Size() - 1) / 2;
-	
+
 	for (dword i=0; i<aTouchRays.Size(); i++) if (i != 0)
 	{
 		if (i <= iBortNum) fRight += aTouchRays[i].fDist;
@@ -236,7 +236,7 @@ void AIShipTouchController::Realize(float fDeltaTime)
 				RS_LINE *pRL = &rsLines[rsLines.Add()];
 				pRL->dwColor = 0x7F7F7F;
 				pRL->vPos = vOurPos;
-				
+
 				pRL = &rsLines[rsLines.Add()];
 				pRL->dwColor = 0x3F3F3F;
 				float fDist = fRaySize * aTouchRays[i].fDist;
@@ -258,7 +258,7 @@ void AIShipTouchController::Realize(float fDeltaTime)
 			RS_LINE *pRL = &rsLines[rsLines.Add()];
 			pRL->dwColor = 0x00FF00;
 			pRL->vPos = vOurPos + v[i];
-			
+
 			pRL = &rsLines[rsLines.Add()];
 			pRL->dwColor = 0x00FF00;
 			pRL->vPos = vOurPos + v[(i==4) ? 0 : i + 1];
@@ -285,7 +285,7 @@ void AIShipTouchController::Save(CSaveLoad * pSL)
 	pSL->SaveFloat(fRaySize);
 	pSL->SaveFloat(fSpeedFactor);
 	pSL->SaveFloat(fRotateFactor);
-	for (i=0; i<5; i++) pSL->SaveVector(vBox[i]);
+	for (dword i=0; i<5; i++) pSL->SaveVector(vBox[i]);
 }
 
 void AIShipTouchController::Load(CSaveLoad * pSL)
@@ -303,5 +303,5 @@ void AIShipTouchController::Load(CSaveLoad * pSL)
 	fRaySize = pSL->LoadFloat();
 	fSpeedFactor = pSL->LoadFloat();
 	fRotateFactor = pSL->LoadFloat();
-	for (i=0; i<5; i++) vBox[i] = pSL->LoadVector();
+	for (dword i=0; i<5; i++) vBox[i] = pSL->LoadVector();
 }

@@ -1,11 +1,11 @@
 //============================================================================================
 //	Spirenkov Maxim aka Sp-Max Shaman, 2001
 //--------------------------------------------------------------------------------------------
-//	
+//
 //--------------------------------------------------------------------------------------------
 //	Sharks
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "Sharks.h"
@@ -89,7 +89,7 @@ bool Sharks::Shark::Init(float vp_x, float vp_z, bool isLoadModel)
 	spos = pos;
 	angs.y = SHARK_PI*rand()*(2.0f/RAND_MAX);
 	if(!isLoadModel) return true;
-	//Загружаем модельку	
+	//Загружаем модельку
 	if(!_CORE_API->CreateEntity(&model, "modelr")) return false;
 	//Путь для текстур
 	VGEOMETRY * gs = (VGEOMETRY *)_CORE_API->CreateService("geometry");
@@ -213,7 +213,7 @@ inline void Sharks::Shark::Coordination(float cam_x, float cam_z, float dltTime,
 		if(l > 20.0f*20.0f){ l = 20.0f/l; vx *= l; vz *= l; }
 		force.x += vx;
 		force.z += vz;
-	}	
+	}
 	//Перемещение по высоте
 	force.y += 0.4f*(yDir - pos.y);
 	//Шум
@@ -223,7 +223,7 @@ inline void Sharks::Shark::Coordination(float cam_x, float cam_z, float dltTime,
 	//Скорость перемещения
 	vel += accs*force*dltTime;
 	l = ~vel;
-	if(l > SHARK_MAX_RSPEED*SHARK_MAX_RSPEED) vel *= SHARK_MAX_RSPEED/sqrtf(l);	
+	if(l > SHARK_MAX_RSPEED*SHARK_MAX_RSPEED) vel *= SHARK_MAX_RSPEED/sqrtf(l);
 	//Позиция
 	pos += vel*dltTime;
 	if(pos.y > 0.1f) pos.y = 0.1f;
@@ -231,7 +231,7 @@ inline void Sharks::Shark::Coordination(float cam_x, float cam_z, float dltTime,
 	//Тенденция к высоте плаванья
 	dirTime -= dltTime;
 	if(dirTime <= 0.0f)
-	{		
+	{
 		float p = rand()*1.0f/RAND_MAX;
 		yDir = SHARK_MIN_Y + (SHARK_MAX_Y - SHARK_MIN_Y)*(1.0f - p*p);
 		dirTime = 5.0f + 10.0f*rand()*1.0f/RAND_MAX;
@@ -440,8 +440,8 @@ long Sharks::Shark::GenerateTrack(word * inds, Vertex * vrt, word base, SEA_BASE
 	vrt[6].u = 1.0f; vrt[6].v = 0.666f;
 	vrt[7].u = 0.0f; vrt[7].v = 1.0f;
 	vrt[8].u = 0.5f; vrt[8].v = 1.0f;
-	vrt[9].u = 1.0f; vrt[9].v = 1.0f;	
-	for(i = 0; i < 10; i++)
+	vrt[9].u = 1.0f; vrt[9].v = 1.0f;
+	for(long i = 0; i < 10; i++)
 	{
 		vrt[i].pos = mdl->mtx*CVECTOR(vrt[i].pos);
 		vrt[i].pos.y = sb->WaveXZ(vrt[i].pos.x, vrt[i].pos.z) + 0.001f;
@@ -484,7 +484,7 @@ bool Sharks::Init()
 		if(!shark[i].Init(0.0f, 0.0f)) return false;
 	//Лаера исполнения
 	char execute[64];
-	char realize[64];	
+	char realize[64];
 	const char * attr = AttributesPointer->GetAttribute("execute");
 	if(attr && attr[0]) strcpy(execute, attr); else strcpy(execute, "execute");
 	attr = AttributesPointer->GetAttribute("realize");
@@ -497,10 +497,10 @@ bool Sharks::Init()
 	//Установим уровни исполнения
 	_CORE_API->LayerAdd(execute, GetID(), eprt);
 	_CORE_API->LayerAdd(realize, GetID(), rprt);
-	for(i = 0; i < numShakes; i++)
+	for(long i = 0; i < numShakes; i++)
 	{
 		_CORE_API->LayerAdd(execute, shark[i].model, emdl);
-		_CORE_API->LayerAdd(realize, shark[i].model, rmdl);		
+		_CORE_API->LayerAdd(realize, shark[i].model, rmdl);
 	}
 	//Загрузим текстуру
 	trackTx = rs->TextureCreate("Animals\\SharkTrack.tga");
@@ -551,7 +551,7 @@ void Sharks::Execute(dword delta_time)
 	//Сбросим состояния
 	for(long i = 0; i < num; i++) shark[i].Reset(camPos.x, camPos.z);
 	//Разчитаем силы
-	for(i = 0; i < num - 1; i++)
+	for(long i = 0; i < num - 1; i++)
 		for(long j = i + 1; j < num; j++) shark[i].Repulsion(shark[j]);
 	//Учитываем корабли
 	ENTITY_ID id;
@@ -567,7 +567,7 @@ void Sharks::Execute(dword delta_time)
 		CVECTOR s = ship->GetBoxSize();
 		float rd2 = (s.x*s.x + s.z*s.z)*3.0f;
 		//Говорим акулам о короблях
-		for(i = 0; i < num; i++) shark[i].ShipApply(shipPos.x, shipPos.z, rd2);
+		for(long i = 0; i < num; i++) shark[i].ShipApply(shipPos.x, shipPos.z, rd2);
 	}
 	//Море
 	SEA_BASE * sb = (SEA_BASE *)_CORE_API->GetEntityPointer(&sea);
@@ -582,7 +582,7 @@ void Sharks::Execute(dword delta_time)
 		_CORE_API->FindClass(&island, "island", 0);
 	}
 	//Расчитываем новые позиции
-	for(i = 0; i < num; i++) shark[i].Coordination(camPos.x, camPos.z, dltTime, sb, ib);
+	for(long i = 0; i < num; i++) shark[i].Coordination(camPos.x, camPos.z, dltTime, sb, ib);
 	//Обрабатываем перископ
 	if(!ib)
 	{
@@ -608,7 +608,7 @@ void Sharks::Execute(dword delta_time)
 				periscope.time = -1.0f;
 				api->DeleteEntity(periscope.model);
 			}
-		}else{			
+		}else{
 			if(waitPTime > 0.0f)
 			{
 				waitPTime -= dltTime;
@@ -683,7 +683,7 @@ void Sharks::Realize(dword delta_time)
 			float h = -1000.0f;
 			ib->GetDepth(shark[i].spos.x, shark[i].spos.z, &h);
 			rs->Print(10, s, "Height = %f", h);
-			s += 20;			
+			s += 20;
 		}
 	}
 	rs->Print(10, 10, "MaxRad = %f", maxRad);

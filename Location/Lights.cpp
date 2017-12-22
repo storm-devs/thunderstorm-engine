@@ -1,11 +1,11 @@
 //============================================================================================
 //	Spirenkov Maxim aka Sp-Max Shaman, 2001
 //--------------------------------------------------------------------------------------------
-//	
+//
 //--------------------------------------------------------------------------------------------
 //	Lights
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "Lights.h"
@@ -70,9 +70,10 @@ bool Lights::Init()
 	while(res)
 	{
 		lName[sizeof(lName) - 1] = 0;
-		for(long i = 0; i < numTypes; i++)
+		long i;
+		for(i = 0; i < numTypes; i++)
 		{
-			if(stricmp(lName, types[i].name) == 0)
+			if(_stricmp(lName, types[i].name) == 0)
 			{
 				_CORE_API->Trace("Location lights redefinition light: %s", lName);
 				break;
@@ -91,8 +92,8 @@ bool Lights::Init()
 			//Сохраняем имя
 			types[numTypes].name = NEW char[strlen(lName) + 1];
 			strcpy(types[numTypes].name, lName);
-			//Зачитываем параметры			
-			types[numTypes].color.b = ini->GetFloat(lName, "b", 1.0f);			
+			//Зачитываем параметры
+			types[numTypes].color.b = ini->GetFloat(lName, "b", 1.0f);
 			types[numTypes].color.g = ini->GetFloat(lName, "g", 1.0f);
 			types[numTypes].color.r = ini->GetFloat(lName, "r", 1.0f);
 			types[numTypes].color.a = 1.0f;
@@ -125,7 +126,7 @@ bool Lights::Init()
 			if(types[numTypes].flicker <= 0.0f) types[numTypes].freq = 0.0f;
 			if(types[numTypes].flicker > 1.0f) types[numTypes].flicker = 1.0f;
 			if(types[numTypes].freq <= 0.0f) types[numTypes].flicker = 0.0f;
-			if(types[numTypes].freq > 0.0f) types[numTypes].p = 1.0f/types[numTypes].freq;			
+			if(types[numTypes].freq > 0.0f) types[numTypes].p = 1.0f/types[numTypes].freq;
 			if(types[numTypes].flickerSlow <= 0.0f) types[numTypes].freqSlow = 0.0f;
 			if(types[numTypes].flickerSlow > 1.0f) types[numTypes].flickerSlow = 1.0f;
 			if(types[numTypes].freqSlow <= 0.0f) types[numTypes].flickerSlow = 0.0f;
@@ -294,7 +295,7 @@ void Lights::Realize(dword delta_time)
 		buf[n*6 + 3].pos = buf[n*6 + 2].pos;
 		buf[n*6 + 3].color = c;
 		buf[n*6 + 3].u = 1.0f;
-		buf[n*6 + 3].v = 0.0f;		
+		buf[n*6 + 3].v = 0.0f;
 		buf[n*6 + 4].pos = buf[n*6 + 1].pos;
 		buf[n*6 + 4].color = c;
 		buf[n*6 + 4].u = 0.0f;
@@ -316,7 +317,7 @@ long Lights::FindLight(const char * name)
 {
 	if(!name || !name[0]) return -1;
 	for(long i = 0; i < numTypes; i++)
-		if(stricmp(name, types[i].name) == 0) return i;
+		if(_stricmp(name, types[i].name) == 0) return i;
 	return -1;
 }
 
@@ -346,7 +347,7 @@ void Lights::AddLight(long index, const CVECTOR & pos)
 	ENTITY_ID eid;
 	if(api->FindClass(&eid, null, lighter_code))
 	{
-		api->Send_Message(eid, "sffffffffffs", "AddLight", 
+		api->Send_Message(eid, "sffffffffffs", "AddLight",
 			pos.x,
 			pos.y,
 			pos.z,
@@ -381,9 +382,11 @@ void Lights::DelAllLights()
 //Добавить переносной источник
 long Lights::AddMovingLight(const char* type, const CVECTOR& pos)
 {
-	for(long idx = 0; idx<1000; idx++)
+	long idx;
+	for(idx = 0; idx<1000; idx++)
 	{
-		for(long n=0; n<aMovingLight; n++)
+		long n;
+		for(n=0; n<aMovingLight; n++)
 			if( aMovingLight[n].id == idx ) break;
 		if( n==aMovingLight.Size() ) break;
 	}
@@ -502,8 +505,8 @@ void Lights::UpdateLightTypes(long i)
 	if(!ini) return;
 	//Имя источника
 	char * lName = types[i].name;
-	//Зачитываем параметры			
-	types[i].color.b = ini->GetFloat(lName, "b", 1.0f);			
+	//Зачитываем параметры
+	types[i].color.b = ini->GetFloat(lName, "b", 1.0f);
 	types[i].color.g = ini->GetFloat(lName, "g", 1.0f);
 	types[i].color.r = ini->GetFloat(lName, "r", 1.0f);
 	types[i].color.a = 1.0f;
@@ -536,7 +539,7 @@ void Lights::UpdateLightTypes(long i)
 	if(types[i].flicker <= 0.0f) types[i].freq = 0.0f;
 	if(types[i].flicker > 1.0f) types[i].flicker = 1.0f;
 	if(types[i].freq <= 0.0f) types[i].flicker = 0.0f;
-	if(types[i].freq > 0.0f) types[i].p = 1.0f/types[i].freq;			
+	if(types[i].freq > 0.0f) types[i].p = 1.0f/types[i].freq;
 	if(types[i].flickerSlow <= 0.0f) types[i].freqSlow = 0.0f;
 	if(types[i].flickerSlow > 1.0f) types[i].flickerSlow = 1.0f;
 	if(types[i].freqSlow <= 0.0f) types[i].flickerSlow = 0.0f;

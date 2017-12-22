@@ -105,9 +105,6 @@
     <ClCompile Include="sources\ifs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sources\input.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sources\internal_modules.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -6,7 +6,7 @@
 
 #define STRING_DEFAULT_ADD		8
 
-class string 
+class string
 {
 private:
 	char	* pBuffer;
@@ -22,9 +22,9 @@ private:
 		dwAddSize = (_dwAdd==0) ? STRING_DEFAULT_ADD : _dwAdd;
 	}
 
-	inline void	SetZero()	
-	{ 
-		if (pBuffer) pBuffer[Len()] = 0; 
+	inline void	SetZero()
+	{
+		if (pBuffer) pBuffer[Len()] = 0;
 	};
 
 public:
@@ -34,8 +34,8 @@ public:
 	{
 		dword dwNewSize = dwAddSize * (1 + dwReserveSize / dwAddSize);
 		if (dwCurSize >= dwNewSize) return;
-		dwCurSize = dwNewSize;	
-		pBuffer = (char*)RESIZE(pBuffer, dwCurSize); 
+		dwCurSize = dwNewSize;
+		pBuffer = (char*)RESIZE(pBuffer, dwCurSize);
 	}
 
 	inline bool			IsEmpty()  	const { return (dwSize == 0); }
@@ -84,8 +84,8 @@ public:
 	// type conversion, to (const char *)
 	inline operator const char * () const { return GetBuffer(); }
 
-	string & operator = (const char * pText) 
-	{ 
+	string & operator = (const char * pText)
+	{
 		if (!pText || !pText[0]) { Empty(); return *this;}
 		dwSize = (dword)strlen(pText);
 
@@ -95,8 +95,8 @@ public:
 		return (*this);
 	}
 
-	string & operator = (const string & sText) 
-	{ 
+	string & operator = (const string & sText)
+	{
 		dwSize = sText.Len();
 		if (sText.IsEmpty()) { Empty(); return *this; }
 
@@ -106,18 +106,18 @@ public:
 		return *this;
 	}
 
-	string & operator += (const string & sText) 
+	string & operator += (const string & sText)
 	{
 		if (sText.IsEmpty()) return (*this);
 		dword dwNewSize = Len() + sText.Len();
 		Reserve(dwNewSize);
-		memcpy(&pBuffer[dwSize],sText,sText.Len()); 
+		memcpy(&pBuffer[dwSize],sText,sText.Len());
 		dwSize = dwNewSize;
 		SetZero();
 		return *this;
 	}
 
-	string & operator += (float fValue) 
+	string & operator += (float fValue)
 	{
 		char temp[20];
 		_gcvt(fValue,7,temp);
@@ -125,7 +125,7 @@ public:
 		return *this;
 	}
 
-	string & operator += (long lValue) 
+	string & operator += (long lValue)
 	{
 		char cBuffer[20];
 		itoa(lValue,cBuffer,10);
@@ -133,7 +133,7 @@ public:
 		return *this;
 	}
 
-	string & operator += (dword dwValue) 
+	string & operator += (dword dwValue)
 	{
 		char cBuffer[20];
 		_ultoa(dwValue, cBuffer, 10);
@@ -141,7 +141,7 @@ public:
 		return *this;
 	}
 
-	string & operator += (char cSym) 
+	string & operator += (char cSym)
 	{
 		Reserve(dwSize + 1);
 		pBuffer[dwSize] = cSym;
@@ -150,41 +150,41 @@ public:
 		return *this;
 	}
 
-	string & operator += (const char * pText) 
+	string & operator += (const char * pText)
 	{
 		if (!pText || !pText[0]) return *this;
 		dword dwSLen = (dword)strlen(pText);
 		dword dwNewSize = Len() + dwSLen;
 		Reserve(dwNewSize);
-		memcpy(&pBuffer[dwSize],pText,dwSLen); 
+		memcpy(&pBuffer[dwSize],pText,dwSLen);
 		dwSize = dwNewSize;
 		SetZero();
 		return *this;
 	}
 
-	friend string operator + (const string & s1, dword dwValue) 
+	friend string operator + (const string & s1, dword dwValue)
 	{
 		string sRes = s1; sRes += dwValue; return sRes;
 	}
 
-	friend string operator + (const string & s1, float fValue) 
+	friend string operator + (const string & s1, float fValue)
 	{
 		string sRes = s1; sRes += fValue; return sRes;
 	}
 
-	friend string operator + (const string & s1, long lValue) 
+	friend string operator + (const string & s1, long lValue)
 	{
 		string sRes = s1; sRes += (long)lValue; return sRes;
 	}
 
-	friend string operator + (const string s1, const string & s2) 
-	{		
+	friend string operator + (const string s1, const string & s2)
+	{
 		string sRes = s1; sRes += s2; return sRes;
 	}
 
-	friend string operator - (const string s1, const string & s2) 
-	{		
-		string sRes = s1; 
+	friend string operator - (const string s1, const string & s2)
+	{
+		string sRes = s1;
 		if (EqualPostfix(sRes.c_str(), s2.c_str()))
 		{
 			sRes.dwSize -= s2.Len();
@@ -193,7 +193,7 @@ public:
 		return sRes;
 	}
 
-	string & _cdecl Format(char *cFormat, ... ) 
+	string & _cdecl Format(char *cFormat, ... )
 	{
 		char	str[1024];
 		va_list args;
@@ -248,7 +248,7 @@ public:
 		while (dwCurr < Len())
 		{
 			pBuffer[dwReal] = pBuffer[dwCurr];
-			if (pBuffer[dwCurr] == '\\') 
+			if (pBuffer[dwCurr] == '\\')
 				while (pBuffer[dwCurr + 1] == '\\' && dwCurr < Len() - 1) dwCurr++;
 			dwReal++;
 			dwCurr++;
@@ -289,10 +289,10 @@ public:
 		if (pTemp == pBuffer + Len() - 1) return *this;
 
 		if (pTemp < pBuffer) dwSize = 0;
-		else 
-		{ 
-			dwSize = dword(pTemp - pBuffer) + 1; 
-			SetZero(); 
+		else
+		{
+			dwSize = dword(pTemp - pBuffer) + 1;
+			SetZero();
 		}
 		return *this;
 	}
@@ -331,7 +331,7 @@ public:
 	}
 
 	// char * constructor
-	string(const char * pText, dword _dwAdd = STRING_DEFAULT_ADD) 
+	string(const char * pText, dword _dwAdd = STRING_DEFAULT_ADD)
 	{
 		Init(_dwAdd);
 		if (!pText || !pText[0]) return;
@@ -342,7 +342,7 @@ public:
 	}
 
 	// string constructor
-	string(const string & sText, dword _dwAdd = STRING_DEFAULT_ADD) 
+	string(const string & sText, dword _dwAdd = STRING_DEFAULT_ADD)
 	{
 		Init(_dwAdd);
 		if (sText.IsEmpty()) return;
@@ -441,7 +441,8 @@ public:
 		}
 		const char * pStr = GetBuffer() + Len() - 1;
 		const char * pExt = ext + esize - 1;
-		for(dword c = 0; c < esize; c++)
+		dword c;
+		for(c = 0; c < esize; c++)
 		{
 			char cs = *pStr--;
 			char ce = *pExt--;
@@ -451,13 +452,14 @@ public:
 		}
 		if(c == esize) return *this;
 		*this += ext;
-		return *this;		
+		return *this;
 	}
-	// 
-	inline long LastChar(char c) const 
+	//
+	inline long LastChar(char c) const
 	{
 		const char * pStr = GetBuffer();
-		for(long i = Len() - 1; i >= 0; i--) if(pBuffer[i] == c) break;
+		long i;
+		for(i = Len() - 1; i >= 0; i--) if(pBuffer[i] == c) break;
 		return i;
 	}
 	// return relative path = this - relativePath, if can't return this
@@ -531,7 +533,7 @@ public:
 		return *this;
 	}
 	// return true if Filename - directory(last symbol must be '\')
-	inline bool IsDir() const 
+	inline bool IsDir() const
 	{
 		return (Len() && pBuffer[Len() - 1] == '\\');
 	}
@@ -541,7 +543,7 @@ public:
 	{
 		if (!Len() || !sMask.Len()) return false;
 		if (sMask == "*.*" || sMask == "*") return true;
-		
+
 		return tstFileMask(GetBuffer(), sMask.GetBuffer());
 	}
 

@@ -111,7 +111,7 @@ BEGIN_MESSAGE_MAP(CSetupDlg, CDialog)
 	ON_BN_CLICKED(ID_STARTGAME, OnStartgame)
 	ON_WM_HSCROLL()
 	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify)	
+	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify)
    //}}AFX_MSG_MAP
    ON_BN_CLICKED(IDC_FULLSCREEN, OnBnClickedFullscreen)
    ON_BN_CLICKED(IDC_GLOW, OnBnClickedGlow)
@@ -171,7 +171,7 @@ BOOL CSetupDlg::OnInitDialog()
 	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, true);			// Set big icon
 	SetIcon(m_hIcon, false);		// Set small icon
-	
+
 	Trace("OnInitDialog::EnableToolTips");
 	//EnableToolTips(true);
 	// TODO: Add extra initialization here
@@ -186,14 +186,14 @@ BOOL CSetupDlg::OnInitDialog()
 	}
 
 	Trace("OnInitDialog::LoadSettings");
-	if (!LoadSettings()) 
+	if (!LoadSettings())
 	{
 		LoadString(AfxGetResourceHandle(), IDS_INIMISSED, &txt[0], 256);
 		MessageBox(txt, "Error", MB_OK);
 		SendMessage(WM_CLOSE, 0, 0);
 		return false;
 	}
-	
+
 	Trace("OnInitDialog::End");
 	return true;  // return true  unless you set the focus to a control
 }
@@ -217,7 +217,7 @@ void CSetupDlg::OnSysCommand(UINT nID, LPARAM lParam)
 //  to draw the icon.  For MFC applications using the document/view model,
 //  this is automatically done for you by the framework.
 
-void CSetupDlg::OnPaint() 
+void CSetupDlg::OnPaint()
 {
 	if (IsIconic())
 	{
@@ -280,7 +280,7 @@ BOOL CSetupDlg::LoadSettings()
 		}
 	}
 
-	if (a) 
+	if (a)
 	{
 		char title[256];
 		// key not found
@@ -356,7 +356,7 @@ BOOL CSetupDlg::LoadSettings()
 	for (i=0; i<numdevices; i++) m_DeviceList.InsertString(i, Devices[i].Name);
 
 	currentdevice = 0;
-	
+
 	DWORD dwBPP = 32;
 
 	Trace("LoadSettings::FillDialogItems");
@@ -366,7 +366,7 @@ BOOL CSetupDlg::LoadSettings()
 		Trace("LoadSettings::FillDialogItem %d", i);
 		string_t * pS = &Strings[i];
 		// if first symbol is ';' skip string
-		for (j=0; j<strlen(pS->pName); j++) 
+		for (j=0; j<strlen(pS->pName); j++)
 		{
 			if (pS->pName[j] == ';') continue;
 			if (pS->pName[j] != ' ') break;
@@ -425,7 +425,7 @@ BOOL CSetupDlg::LoadSettings()
 			float volume;
 			sscanf(Strings[i].pValue,"%f",&volume);
 			m_MusicVol.SetPos(int(volume * VOLUME_MAX));
-		}		
+		}
 
 		if (stricmp(pS->pValue, "soundservice") == 0)
 		{
@@ -442,7 +442,7 @@ BOOL CSetupDlg::LoadSettings()
 	UpdateResolutions();
 
 	pD->currentresolution = 0;
-	for (i=0;i<pD->numresolutions;i++) 
+	for (i=0;i<pD->numresolutions;i++)
 	{
 		res_t * pR = &pD->Resolutions[i];
 		if (pR->width == dx && pR->height == dy && pR->bpp == dwBPP)
@@ -466,7 +466,7 @@ void CSetupDlg::UpdateResolutions()
 
 	device_t * pD = &Devices[currentdevice];
 
-	for (DWORD i=0;i<pD->numresolutions;i++) 
+	for (DWORD i=0;i<pD->numresolutions;i++)
 	{
 		char str[256];
 		res_t * pR = &pD->Resolutions[i];
@@ -503,7 +503,7 @@ BOOL WINAPI DDEnumCallback(LPGUID lpGUID,LPSTR lpDriverDescription,LPSTR lpDrive
 
 	This->numdevices++;
 	return DDENUMRET_OK;
-}					 								
+}
 
 BOOL CSetupDlg::EnumerateDevicesAndResolutions()
 {
@@ -525,7 +525,7 @@ BOOL CSetupDlg::EnumerateDevicesAndResolutions()
 
 		lpDD->Release();
 		lpDD=0;
-		//CoUninitialize(); 
+		//CoUninitialize();
 		flag = false;
 	}
 	if (flag)
@@ -536,7 +536,7 @@ BOOL CSetupDlg::EnumerateDevicesAndResolutions()
 	return true;
 }
 
-void CSetupDlg::OnDefaultsettings() 
+void CSetupDlg::OnDefaultsettings()
 {
 	// TODO: Add your control notification handler code here
 	m_Fullscreen = false;
@@ -557,7 +557,8 @@ void CSetupDlg::OnDefaultsettings()
 	// search resolution and set them
 
 	device_t * pD = &Devices[currentdevice];
-	for (DWORD i=0; i<pD->numresolutions; i++) 
+	DWORD i;
+	for (i=0; i<pD->numresolutions; i++)
 	{
 		res_t * pR = &pD->Resolutions[i];
 		if (pR->width == 800 && pR->height == 600 && pR->bpp == 16)
@@ -658,9 +659,9 @@ void CSetupDlg::SaveParameters()
 		if (dwNumSpace == strlen(str)) str[0] = 0;
 
 		if (((i+1) < (numstrings - 1) && Strings[i].dwFile == Strings[i+1].dwFile) || (i == numstrings - 2))
-			if (i != numstrings - 1) 
+			if (i != numstrings - 1)
 			{
-				if (Strings[i].dwFile == 1) 
+				if (Strings[i].dwFile == 1)
 					Strings[i].dwFile = 1;
 				strcat(str, (Files[Strings[i].dwFile].bLn) ? "\r\n" : "\n");
 			}
@@ -676,15 +677,15 @@ void CSetupDlg::SaveParameters()
 
 }
 
-void CSetupDlg::OnSave() 
+void CSetupDlg::OnSave()
 {
 	SaveParameters();
 	SendMessage(WM_CLOSE, 0, 0);
 }
 
 BOOL CSetupDlg::OnToolTipNotify( UINT id, NMHDR * pNMHDR, LRESULT * pResult )
-{    
-	TOOLTIPTEXT * pTTT = (TOOLTIPTEXT *)pNMHDR;    
+{
+	TOOLTIPTEXT * pTTT = (TOOLTIPTEXT *)pNMHDR;
 	UINT nID = pNMHDR->idFrom;
     if (pTTT->uFlags & TTF_IDISHWND)
 	{
@@ -700,14 +701,14 @@ BOOL CSetupDlg::OnToolTipNotify( UINT id, NMHDR * pNMHDR, LRESULT * pResult )
 	return false;
 }
 
-BOOL CSetupDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult) 
+BOOL CSetupDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 {
 	// TODO: Add your specialized code here and/or call the base class
-	
+
 	return CDialog::OnNotify(wParam, lParam, pResult);
 }
 
-void CSetupDlg::OnSelchangeDevicelist() 
+void CSetupDlg::OnSelchangeDevicelist()
 {
 	// TODO: Add your control notification handler code here
 	currentdevice = m_DeviceList.GetCurSel();
@@ -715,17 +716,17 @@ void CSetupDlg::OnSelchangeDevicelist()
 	m_ResList.SetCurSel(Devices[currentdevice].currentresolution);
 }
 
-void CSetupDlg::OnSelchangeResolutionlist() 
+void CSetupDlg::OnSelchangeResolutionlist()
 {
 	// TODO: Add your control notification handler code here
 	Devices[currentdevice].currentresolution = m_ResList.GetCurSel();
-	
+
 }
 
-void CSetupDlg::OnDestroy() 
+void CSetupDlg::OnDestroy()
 {
 	CDialog::OnDestroy();
-	
+
 	// TODO: Add your message handler code here
 	for (DWORD i=0; i<numstrings; i++)
 	{
@@ -735,10 +736,10 @@ void CSetupDlg::OnDestroy()
 		Strings[i].pName = 0;
 		Strings[i].pValue = 0;
 	}
-	
+
 }
 
-void CSetupDlg::OnStartgame() 
+void CSetupDlg::OnStartgame()
 {
 	PROCESS_INFORMATION		pi;
 	STARTUPINFO				si;
@@ -748,16 +749,16 @@ void CSetupDlg::OnStartgame()
 	si.cb = sizeof(si);
 
 	// TODO: Add your control notification handler code here
-	SaveParameters();	
+	SaveParameters();
 	BOOL bProcess = CreateProcess(InstallLocationExe, NULL, NULL, NULL, FALSE, NULL, NULL, InstallLocation, &si, &pi);
 	DWORD dw = GetLastError();
 	SendMessage(WM_CLOSE, 0, 0);
 }
 
-void CSetupDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) 
+void CSetupDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
 	// TODO: Add your message handler code here and/or call default
-	
+
 	int aTexQuality[3] = {IDS_TEXQUALITY_LOW, IDS_TEXQUALITY_MEDIUM, IDS_TEXQUALITY_HIGH};
 
 	if (pScrollBar->GetSafeHwnd() == m_TexQuality.GetSafeHwnd())

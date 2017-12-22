@@ -23,11 +23,11 @@ void TSink::Initialize(INIFILE * _ini, IDirect3DDevice8 *_device, SEA_BASE *_sea
 	sea = _sea;
 	renderer = _renderer;
 
-	ivManager = NEW TIVBufferManager(renderer, 
-									 SINK_FVF, 
-									 sizeof(SINK_VERTEX), 
-									 3*TRIANGLES_COUNT, 
-									 GRID_STEPS*GRID_STEPS, 
+	ivManager = NEW TIVBufferManager(renderer,
+									 SINK_FVF,
+									 sizeof(SINK_VERTEX),
+									 3*TRIANGLES_COUNT,
+									 GRID_STEPS*GRID_STEPS,
 									 MAX_SPLASHES);
 	texture = renderer->TextureCreate("explos.tga");
 	for (int i=0; i<MAX_SPLASHES; ++i)
@@ -36,7 +36,7 @@ void TSink::Initialize(INIFILE * _ini, IDirect3DDevice8 *_device, SEA_BASE *_sea
 		ivIndexes[i] = -1;
 	}
 
-	for (i=0; i<MAX_FLOTSAMS; ++i)
+	for (int i=0; i<MAX_FLOTSAMS; ++i)
 	{
 		flotsams[i].Initialize(sea);
 	}
@@ -74,7 +74,7 @@ void TSink::Start(const CVECTOR &_pos, float _radius)
 		//ivIndexes[i] = -1;
 	}
 
-	for (i = 0; i < MAX_FLOTSAMS; i++)
+	for (int i = 0; i < MAX_FLOTSAMS; i++)
 	{
 		flotsamTimes[i] = (long) rand(SINK_TIME);
 	}
@@ -147,7 +147,7 @@ void TSink::Process(dword _dTime)
 	}
 	ivManager->UnlockBuffers();
 
-	for (i = 0; i < MAX_FLOTSAMS; i++)
+	for (int i = 0; i < MAX_FLOTSAMS; i++)
 	{
 		if (flotsamTimes[i] > 0)
 			flotsamTimes[i] -= _dTime;
@@ -173,7 +173,7 @@ void TSink::Realize(dword _dTime)
 
 	renderer->SetTransform(D3DTS_WORLD, (D3DMATRIX *) m);
 	renderer->TextureSet(0, texture);
-	
+
 	renderer->GetRenderState(D3DRS_AMBIENT, &ambient);
 	ambient |= 0x55000000;
 	renderer->SetRenderState(D3DRS_TEXTUREFACTOR, ambient);
@@ -186,7 +186,7 @@ void TSink::Realize(dword _dTime)
 			splashes[i].AdditionalRealize(_dTime);
 	}
 
-	for (i = 0; i < MAX_FLOTSAMS; i++)
+	for (int i = 0; i < MAX_FLOTSAMS; i++)
 	{
 		if (flotsams[i].Enabled())
 			flotsams[i].Realize(_dTime);

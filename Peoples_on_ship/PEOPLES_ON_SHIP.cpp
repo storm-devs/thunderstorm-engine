@@ -46,7 +46,7 @@ bool PEOPLE_ON_SHIP::Init()
 
 	return true;
 	UNGUARD
-} 
+}
 
 
 //--------------------------------------------------------------------
@@ -125,7 +125,7 @@ void PEOPLE_ON_SHIP::Execute(DWORD _dTime)
 			case MAN_CRAWL_WALK_VANT:
 			case MAN_CRAWL_VANT_TOP:
 			case MAN_CRAWL_TOP_MARS:
-			case MAN_CRAWL_MARS:	
+			case MAN_CRAWL_MARS:
 			case MAN_CRAWL_MARS_TOP:
 			case MAN_CRAWL_TOP_VANT:
 			case MAN_CRAWL_VANT_WALK:
@@ -286,7 +286,7 @@ dword PEOPLE_ON_SHIP::ProcessMessage(MESSAGE &message)
 		break;
 	}
 
-	return outValue;   
+	return outValue;
 	UNGUARD
 }
 
@@ -320,14 +320,14 @@ void PEOPLE_ON_SHIP::AddShipWalk(ENTITY_ID &_shipID, int vCount, VDATA *vArray, 
 	int nElements = gArray->GetElementsNum();
 	long gCouple = 0;
 
-	for (i=0; i<nElements; i++)
+	for (int i=0; i<nElements; i++)
 	{
 		gArray->Get(gCouple, i);
 		long v1, v2;
 		v1 = (gCouple >> 8) & 0xFF;
 		v2 = gCouple & 0xFF;
 		if ((gCouple > 0) && (v1 < vCount) && (v2 < vCount))
-			shipWalk[shipsCount].graph.AddPair(v1, 
+			shipWalk[shipsCount].graph.AddPair(v1,
 											   v2,
 											   shipWalk[shipsCount].vertTypes[gCouple >> 8],
 											   shipWalk[shipsCount].vertTypes[gCouple & 0xFF]);
@@ -341,7 +341,7 @@ void PEOPLE_ON_SHIP::AddShipWalk(ENTITY_ID &_shipID, int vCount, VDATA *vArray, 
 		shipWalk[shipsCount].crewCount = MAX_PEOPLE;
 
 	// initialize crew
-	for (i=0; i<shipWalk[shipsCount].crewCount; i++)
+	for (int i=0; i<shipWalk[shipsCount].crewCount; i++)
 		InitShipMan(shipsCount, i);
 
 	// initialize ship states
@@ -360,7 +360,7 @@ void PEOPLE_ON_SHIP::AddShipWalk(ENTITY_ID &_shipID, int vCount, VDATA *vArray, 
 float PEOPLE_ON_SHIP::Vector2Angle(const CVECTOR &_v)
 {
 	return (float) atan2(_v.x, _v.z);
-} 
+}
 
 //--------------------------------------------------------------------
 void PEOPLE_ON_SHIP::InitShipMan(int _shipN, int _manN)
@@ -418,13 +418,13 @@ void PEOPLE_ON_SHIP::InitShipMan(int _shipN, int _manN)
 	//set unique properties
 	shipWalk[_shipN].crew[_manN].model = manModel;
 	shipWalk[_shipN].crew[_manN].visible = false;
-	shipWalk[_shipN].crew[_manN].sourceI = -1; 
+	shipWalk[_shipN].crew[_manN].sourceI = -1;
 }
 
 //--------------------------------------------------------------------
 bool PEOPLE_ON_SHIP::ProcessManWalk(tShipWalk *_shipWalk, tShipMan *_man, dword _dTime)
 {
-	float dNow = (float) 
+	float dNow = (float)
 				 SQR(_man->pos.x - _shipWalk->verts[_man->destI].x)
 				+SQR(_man->pos.y - _shipWalk->verts[_man->destI].y)
 				+SQR(_man->pos.z - _shipWalk->verts[_man->destI].z);
@@ -501,7 +501,8 @@ int getRandomByProbs(int _state, bool _allowCrawl)
 	{
 		int rN = rand() % 100;
 		int n = 0;
-		for (int i=0; i<MAN_STATE_COUNT; i++) 
+		int i;
+		for (i=0; i<MAN_STATE_COUNT; i++)
 		{
 			n += (int) (100.0f * probs[_state][i]);
 			if (rN < n)
@@ -544,12 +545,12 @@ void PEOPLE_ON_SHIP::ChooseNewAction(tShipWalk *_shipWalk, tShipMan *_man)
 	{
 		tManState oldState = _man->state;
 		int dstI = _shipWalk->graph.FindRandomLinkedAnyType(_man->sourceI);
-		if (_man->state != MAN_RELOAD) 
+		if (_man->state != MAN_RELOAD)
 			_man->state = (tManState) getRandomByProbs(_shipWalk->state,
 													   _shipWalk->vertTypes[dstI] == LOCATOR_VANT);
 
 		//handle cannon reload
-		if (   (_man->state == MAN_RELOAD) 
+		if (   (_man->state == MAN_RELOAD)
 			 &&(_shipWalk->vertTypes[_man->sourceI] == LOCATOR_CANNON)
 			 &&(!_shipWalk->vertBusy[_man->sourceI]))
 		{
@@ -731,10 +732,11 @@ void PEOPLE_ON_SHIP::SetShipState(tShipWalk *_shipWalk, int _newState)
 		_shipWalk->showCount = newShowCount;
 
 		// search doors
-		for (int vertIndex1=0; vertIndex1<_shipWalk->vertsCount; vertIndex1++)
+		int vertIndex1, vertIndex2;
+		for (vertIndex1=0; vertIndex1<_shipWalk->vertsCount; vertIndex1++)
 			if (_shipWalk->vertTypes[vertIndex1] == LOCATOR_SPAWN)
 				break;
-		for (int vertIndex2=_shipWalk->vertsCount; vertIndex2>=0; vertIndex2--)
+		for (vertIndex2=_shipWalk->vertsCount; vertIndex2>=0; vertIndex2--)
 			if (_shipWalk->vertTypes[vertIndex2] == LOCATOR_SPAWN)
 				break;
 
@@ -761,7 +763,7 @@ void PEOPLE_ON_SHIP::SetShipState(tShipWalk *_shipWalk, int _newState)
 		}
 
 		//others shall come out from door
-		for (i=_shipWalk->showCount; i < MAX_PEOPLE; i++)
+		for (int i=_shipWalk->showCount; i < MAX_PEOPLE; i++)
 			_shipWalk->crew[i].sourceI = vertIndex;
 	}
 }

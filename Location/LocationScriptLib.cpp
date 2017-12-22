@@ -43,7 +43,7 @@ struct LocationFindCacheElement
 
 	char * name;
 	long size;
-	long max;	
+	long max;
 	long index;
 	long use;
 };
@@ -73,7 +73,8 @@ void slAddToCache(LocationFindCacheElement * element, long size, const char * na
 	Assert(name);
 	Assert(name[0]);
 	//Ищем ячейку для записи
-	for(long i = 0, j = 0, min = element[i].use; i < size; i++)
+	long j = 0;
+	for(long i = 0, min = element[i].use; i < size; i++)
 	{
 		if(element[i].index < 0){ j = i; break; }
 		if(element[i].use < min){ j = i; min = element[i].use; }
@@ -112,7 +113,7 @@ dword slNativeFastFind(VS_STACK * pS, LocationFindCacheElement * cache, long cac
 	}
 	//Смотрим в кеше
 	bool res;
-	for(i = 0; i < cacheSize; i++)
+	for(long i = 0; i < cacheSize; i++)
 	{
 		if(cache[i].index < 0) continue;
 		if(!cache[i].Cmp(charactersFindBuf)) continue;
@@ -138,7 +139,7 @@ dword slNativeFastFind(VS_STACK * pS, LocationFindCacheElement * cache, long cac
 	}
 	//Придётся искать по массиву
 	long num = pArray->GetElementsNum();
-	for(i = 0; i < num; i++)
+	for(long i = 0; i < num; i++)
 	{
 		VDATA * vd = (VDATA *)pArray->GetArrayElement(i);
 		if(CheckID(vd, charactersFindBuf.name, res))
@@ -288,7 +289,7 @@ bool ScriptLocationLibrary::Init()
 	sIFuncInfo.pReturnValueName = "int";
 	sIFuncInfo.pFuncAddress = slNativeFindCharacter;
 	api->SetScriptFunction(&sIFuncInfo);
-	
+
 	sIFuncInfo.nArguments = 2;
 	sIFuncInfo.pFuncName = "NativeFindLocation";
 	sIFuncInfo.pReturnValueName = "int";
@@ -311,7 +312,7 @@ bool ScriptLocationLibrary::Init()
 	sIFuncInfo.pFuncName = "SetReloadNextTipsImage";
 	sIFuncInfo.pReturnValueName = "void";
 	sIFuncInfo.pFuncAddress = slNativeSetReloadNextTipsImage;
-	api->SetScriptFunction(&sIFuncInfo);	
+	api->SetScriptFunction(&sIFuncInfo);
 
 	sIFuncInfo.nArguments = 0;
 	sIFuncInfo.pFuncName = "ReloadProgressStart";

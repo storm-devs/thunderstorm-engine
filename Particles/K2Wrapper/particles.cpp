@@ -44,14 +44,14 @@ dword _cdecl PARTICLES::ProcessMessage(MESSAGE & message)
 
 	switch (code)
 	{
-	//Поставить все партиклы на паузу 
+	//Поставить все партиклы на паузу
 	// новые не пауженные рождаются...
 	case PS_PAUSEALL:
 		{
 			PauseAllActive (message.Long() != 0);
 			break;
 		}
-		
+
 	//Удалить конкретную систему
 	case PS_DELETE:
 		{
@@ -77,7 +77,7 @@ dword _cdecl PARTICLES::ProcessMessage(MESSAGE & message)
 			break;
 		}
 
-		
+
 
 	//Удалить все
 	case PS_CLEARALL:
@@ -163,7 +163,7 @@ dword _cdecl PARTICLES::ProcessMessage(MESSAGE & message)
 					angles.x = 0.0f;
 					angles.y = 0.0f;
 				}
-			
+
 			angles.z = 0.0f;
 
 			lifetime = message.Long();
@@ -220,10 +220,10 @@ PARTICLE_SYSTEM* PARTICLES::CreateSystem (const char* pFileName, dword LifeTime)
 	}
 
 	pSys->AutoDelete(false);
-	
+
 	PARTICLE_SYSTEM* pNewPS = NEW PARTICLE_SYSTEM(pSys);
 	pNewPS->SetManager(this);
-	
+
 
 
 	//api->Trace("PSYS Created ok");
@@ -312,7 +312,7 @@ void PARTICLES::Realize(dword Delta_Time)
 	}
 
 	//Удаляем умершие системы...
-	for (n = 0; n < CreatedSystems.Size(); n++)
+	for (dword n = 0; n < CreatedSystems.Size(); n++)
 	{
 		if (!CreatedSystems[n].pSystem->GetSystem()->IsAlive())
 		{
@@ -332,7 +332,7 @@ void PARTICLES::Execute(dword Delta_Time)
 
 void PARTICLES::PauseAllActive (bool bPaused)
 {
-	
+
 	for (dword n = 0; n < CreatedSystems.Size(); n++)
 	{
 		CreatedSystems[n].pSystem->GetSystem()->Restart(0);

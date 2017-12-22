@@ -34,7 +34,7 @@ bool InfoHandler::Init()
 	bool isOk = false;
 	D3DSURFACE_DESC desc;
 	if(m_pRenderTarget->GetDesc(&desc) == D3D_OK)
-	{			
+	{
 		if(m_rs->CreateImageSurface(desc.Width, desc.Height, desc.Format, &m_pSurface) == D3D_OK)
 		{
 			if( DoPreOut() )
@@ -230,7 +230,8 @@ char * InfoHandler::GetCutString( char * pstr, int nOutWidth, float fScale )
 	while(pstr && (*pstr==0x0A || *pstr==0x0D || *pstr==32) )	pstr++;
 
 	char * oldps = null;
-	for(char *ps=pstr; ps && *ps; ps++)
+	char *ps;
+	for(ps=pstr; ps && *ps; ps++)
 	{
 		if( *ps==0x0a || *ps==0x0d ) break;
 

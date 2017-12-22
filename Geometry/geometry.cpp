@@ -2,7 +2,7 @@
 #include "..\common_h\geos.h"
 
 INTERFACE_FUNCTION
-CREATE_SERVICE(GEOMETRY)	
+CREATE_SERVICE(GEOMETRY)
 
 char technique[256] = "";
 char RenderServiceName[] = "dx8render";
@@ -281,10 +281,10 @@ void GEOM_SERVICE_R::SetMaterial(const GEOS::MATERIAL &mt)
 	RenderService->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_TEXTURE);
 	RenderService->SetTextureStageState(2, D3DTSS_COLORARG1, D3DTA_CURRENT);
 	RenderService->SetTextureStageState(2, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
-	
+
 // блок для ВМЛ -->
 	//RenderService->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	
+
     RenderService->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 
     RenderService->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
@@ -318,7 +318,7 @@ void GEOM_SERVICE_R::SetMaterial(const GEOS::MATERIAL &mt)
 	RenderService->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_ANISOTROPIC);
 	RenderService->SetTextureStageState(0, D3DTSS_MIPFILTER, D3DTEXF_LINEAR);
 	RenderService->SetTextureStageState(0, D3DTSS_MAXANISOTROPY, 3);
-	
+
 	//unchanged texture stage states - both for base and detal texture
 	RenderService->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
 	RenderService->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_TEXTURE);
@@ -382,7 +382,8 @@ GEOS::ID GEOM_SERVICE_R::CreateVertexBuffer(long type, long size)
 	//animated vertices
 	if(type&4)
 	{
-		for(long a=0; a<AVB_MAX; a++)
+		long a;
+		for(a=0; a<AVB_MAX; a++)
 			if(avb[a].nvertices==0)
 				break;
 		avb[a].buff = NEW char[size];
@@ -451,7 +452,7 @@ void GEOM_SERVICE_R::ReleaseIndexBuffer(GEOS::ID ib)
 
 void GEOM_SERVICE_R::SetIndexBuffer(GEOS::ID ibuff)
 {
-	CurentIndexBuffer = ibuff;	
+	CurentIndexBuffer = ibuff;
 }
 
 void GEOM_SERVICE_R::SetVertexBuffer(long vsize, GEOS::ID vbuff)
@@ -508,7 +509,7 @@ void GEOM_SERVICE_R::DrawIndexedPrimitive(long minv, long numv, long vrtsize, lo
 		}
 		return;
 	}
-	if(CurentIndexBuffer != INVALID_BUFFER_ID) 
+	if(CurentIndexBuffer != INVALID_BUFFER_ID)
 	{
 		if (!bCaustic)
 			RenderService->DrawBuffer(CurentVertexBuffer,vrtsize,CurentIndexBuffer,minv,numv,startidx, numtrg, technique);

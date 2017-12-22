@@ -1,11 +1,11 @@
 //============================================================================================
 //	Spirenkov Maxim aka Sp-Max Shaman, 2001
 //--------------------------------------------------------------------------------------------
-//	
+//
 //--------------------------------------------------------------------------------------------
 //	Supervisor
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "Supervisor.h"
@@ -26,7 +26,7 @@ Supervisor::Supervisor()
 }
 
 Supervisor::~Supervisor()
-{	
+{
 	isDelete = true;
 	for(long i = 0; i < numCharacters; i++)
 	{
@@ -69,6 +69,7 @@ void Supervisor::Update(float dltTime)
 	}
 	//Вычисляем дистанции, и определяем взаимодействующих персонажей
 	long chr = 0;
+	long i;
 	for(i = 0; i < numCharacters - 1; i++)
 	{
 		//Пропустим мёртвых
@@ -104,7 +105,7 @@ void Supervisor::Update(float dltTime)
 			if(d >= r*r) continue;
 			if(d)
 			{
-				d = sqrtf(d); 
+				d = sqrtf(d);
 				d = (r - d)/d;
 				dx *= d; dz *= d;
 				ci->isCollision = true;
@@ -163,7 +164,7 @@ void Supervisor::Update(float dltTime)
 					}
 				}
 			}
-			
+
 		}
 		character[i].c->numColCharacter = chr - character[i].c->startColCharacter;
 	}
@@ -213,7 +214,7 @@ void Supervisor::PostUpdate(float dltTime)
 			}
 			curUpdate++;
 		}
-	}	
+	}
 }
 
 //Установить позиции для загрузки
@@ -302,7 +303,7 @@ bool Supervisor::FindCharacters(FindCharacter fndCharacter[MAX_CHARACTERS], long
 		float dy = character[i].c->curPos.y + character[i].c->height - testY;
 		if(dy < 0.0f && dy*dy > d*ax) continue;
 		dy = testY - character[i].c->curPos.y;
-		if(dy < 0.0f && dy*dy > d*ax) continue;		
+		if(dy < 0.0f && dy*dy > d*ax) continue;
 		//В плоскости xz
 		float dist1 = 0.0f;
 		float dist2 = 0.0f;
@@ -312,11 +313,11 @@ bool Supervisor::FindCharacters(FindCharacter fndCharacter[MAX_CHARACTERS], long
 			//Проверим расположение
 			float rad = !lookCenter ? -character[i].c->radius : 0.0f;
 			dist1 = (N1 | character[i].c->curPos) - d1;
-			if(dist1 < rad) continue;	
+			if(dist1 < rad) continue;
 			dist2 = (N2 | character[i].c->curPos) - d2;
-			if(dist2 < rad) continue;	
+			if(dist2 < rad) continue;
 			dist3 = (N3 | character[i].c->curPos) - d3;
-			if(dist3 < nearPlane) continue;	
+			if(dist3 < nearPlane) continue;
 		}
 		//Добавляем
 		fndCharacter[numFndCharacters].c = character[i].c;
@@ -330,7 +331,8 @@ bool Supervisor::FindCharacters(FindCharacter fndCharacter[MAX_CHARACTERS], long
 	{
 		for(long i = 0; i < numFndCharacters - 1; i++)
 		{
-			for(long j = i + 1, k = i; j < numFndCharacters; j++)
+			long k = i;
+			for(long j = i + 1; j < numFndCharacters; j++)
 			{
 				if(fndCharacter[k].d2 > fndCharacter[j].d2) k = j;
 			}
@@ -352,12 +354,13 @@ long Supervisor::FindForvardLocator(LocatorArray * la, const CVECTOR & pos, cons
 	long num = la->Num();
 	CVECTOR lpos;
 	float maxcs;
-	for(long i = 0, l = -1; i < num; i++)
+	long l = -1;
+	for(long i = 0; i < num; i++)
 	{
 		if(!la->GetLocatorPos(i, lpos.x, lpos.y, lpos.z)) continue;
 		if(lookChr)
 		{
-			if(!CheckPosition(lpos.x, lpos.y, lpos.z, null)) continue;			
+			if(!CheckPosition(lpos.x, lpos.y, lpos.z, null)) continue;
 		}
 		lpos -= pos; lpos.y = 0.0f;
 		float cs = lpos.x*lpos.x + lpos.z*lpos.z;
@@ -382,8 +385,8 @@ long Supervisor::FindForvardLocator(LocatorArray * la, const CVECTOR & pos, cons
 		{
 			return FindForvardLocator(la, pos, norm, true);
 		}
-	}	
-	return l;	
+	}
+	return l;
 }
 
 

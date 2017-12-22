@@ -60,7 +60,7 @@ dword _cdecl SEA_OPERATOR::ProcessMessage(MESSAGE & message)
 	long code = message.Long();
 	dword outValue = 0;
 
-	switch (code)	
+	switch (code)
 	{
 	case MSG_SEA_OPERATOR_FIRE:
 		{
@@ -146,7 +146,7 @@ void SEA_OPERATOR::Realize(dword _dTime)
 	if (enabled && active)
 	{
 		renderer->SetCamera(cameraPos, cameraTargetPos, upVector);
-		renderer->Print(0, 30, "cam: [%3.1f;%3.1f;%3.1f], tgt: [%3.1f;%3.1f;%3.1f]", 
+		renderer->Print(0, 30, "cam: [%3.1f;%3.1f;%3.1f], tgt: [%3.1f;%3.1f;%3.1f]",
 						cameraPos.x, cameraPos.y, cameraPos.z,
 						cameraTargetPos.x,cameraTargetPos.y,cameraTargetPos.z);
 		renderer->Print(0, 60, dbgs);
@@ -159,7 +159,7 @@ void SEA_OPERATOR::Execute(dword _dTime)
 	if (!enabled)
 		return;
 
-	if (   
+	if (
 		((rand() % IDLE_ACTION_SEED) == 1)
 		&& IsTimeToActivate()
 	   )
@@ -173,7 +173,7 @@ void SEA_OPERATOR::Execute(dword _dTime)
 void SEA_OPERATOR::FirstInit()
 {
 	ENTITY_ID seaID;
-	if (_CORE_API->FindClass(&seaID,"sea",0)) 
+	if (_CORE_API->FindClass(&seaID,"sea",0))
 		sea = (SEA_BASE*) _CORE_API->GetEntityPointer(&seaID);
 
 	ENTITY_ID shipID;
@@ -256,8 +256,8 @@ void SEA_OPERATOR::HandleShipHit()
 	tAction action;
 	action.timeK = 0.3f;
 	action.actionTime = 5000;
-	action.actionMethod = ShowBallAtMyShip;
-	actionBuffer.Push(action);	
+	action.actionMethod = &SEA_OPERATOR::ShowBallAtMyShip;
+	actionBuffer.Push(action);
 }
 
 //--------------------------------------------------------------------
@@ -273,9 +273,9 @@ void SEA_OPERATOR::HandleShipIdle()
 	action.direction = myShip->GetPos();
 	action.direction.z += startDistance*sinf(startAngle + myShip->GetAng().y);
 	action.direction.x += startDistance*cosf(startAngle + myShip->GetAng().y);
-	
-	action.actionMethod = ShowMyShipFromPoint;
-	actionBuffer.Push(action);	
+
+	action.actionMethod = &SEA_OPERATOR::ShowMyShipFromPoint;
+	actionBuffer.Push(action);
 }
 
 //--------------------------------------------------------------------
@@ -286,16 +286,16 @@ void SEA_OPERATOR::HandleShipFire (ENTITY_ID &_shipID, char *_bortName, const CV
 
 	if (!strcmp(_bortName, "cannonf"))
 		bort = BORT_FRONT;
-	else 
+	else
 	if (!strcmp(_bortName, "cannonb"))
 		bort = BORT_REAR;
-	else 
+	else
 	if (!strcmp(_bortName, "cannonl"))
 		bort = BORT_LEFT;
-	else 
+	else
 	if (!strcmp(_bortName, "cannonr"))
 		bort = BORT_RIGHT;
- 
+
 
 	tAction action;
 	//tTrack *track;
@@ -317,18 +317,18 @@ void SEA_OPERATOR::HandleShipFire (ENTITY_ID &_shipID, char *_bortName, const CV
 	action.attackerShip = ship;
 	action.direction = _direction;
 	action.destination = _destination;
-	action.actionMethod = ShowAttackerBort;
-	actionBuffer.Push(action);	
+	action.actionMethod = &SEA_OPERATOR::ShowAttackerBort;
+	actionBuffer.Push(action);
 
 	action.timeK = 0.7f;
 	action.actionTime = -1;
-	action.actionMethod = ShowFromBall;
-	actionBuffer.Push(action);	
+	action.actionMethod = &SEA_OPERATOR::ShowFromBall;
+	actionBuffer.Push(action);
 
 	action.timeK = 0.15f;
 	action.actionTime = 5000;
-	action.actionMethod = ShowAroundPoint;
-	actionBuffer.Push(action);	
+	action.actionMethod = &SEA_OPERATOR::ShowAroundPoint;
+	actionBuffer.Push(action);
 
 }
 

@@ -1,11 +1,11 @@
 //============================================================================================
 //	Spirenkov Maxim aka Sp-Max Shaman, 2001
 //--------------------------------------------------------------------------------------------
-//	
+//
 //--------------------------------------------------------------------------------------------
 //	Character
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 
@@ -88,7 +88,7 @@ byte Character::fightTbl[fgt_max][fgt_max] =
 	{ 0, 0,  0,  0,  0,  0,  0,   0, 1,   0,  0,  1,  1,  0, 0,  0,  0,  0,  0,  0 }, //fgt_strafe_r Отскок право
 };
 
-char * Character::fightNamesTbl[fgt_max] = 
+char * Character::fightNamesTbl[fgt_max] =
 {
 	"fgt_none",				//Нет никакого боевого действия
 	"fgt_attack_fast",		//Быстрый удар
@@ -314,7 +314,7 @@ void Character::RTuner::Restore(MODEL * model, VDX8RENDER * rs)
 	const char * chr = n->GetTechnique();
 	if(*((dword *)chr) != 'minA' || *((dword *)(chr + 4)) != 'oita') return;
 	n->SetTechnique("");
-	rs->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);	
+	rs->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 }
 
 float Character::RTuner::GetAlpha()
@@ -461,7 +461,7 @@ Character::Character()
 		_snprintf(buf, sizeof(buf) - 1, "attack_feint_%i", i + 1);
 		attackFeint[i].SetName(buf);
 		_snprintf(buf, sizeof(buf) - 1, "attack_feintc_%i", i + 1);
-		attackFeintC[i].SetName(buf);		
+		attackFeintC[i].SetName(buf);
 		_snprintf(buf, sizeof(buf) - 1, "hit_attack_%i", i + 1);
 		hit[i].SetName(buf);
 		_snprintf(buf, sizeof(buf) - 1, "parry_%i", i + 1);
@@ -509,7 +509,7 @@ Character::Character()
 	kSpd = 1.0f;
 	kSpdCur = 1.0f;
 	kSpdDlt = rand()*(0.1f/RAND_MAX) - 0.05f;
-	numDetectors = 0;	
+	numDetectors = 0;
 	startColCharacter = 0;
 	numColCharacter = 0;
 	isSlide = false;
@@ -646,7 +646,7 @@ dword _cdecl Character::ProcessMessage(MESSAGE & message)
 			}
 		}
 		return 0;
-	}	
+	}
 	switch(messageID)
 	{
 	case MSG_CHARACTER_SETMODEL:
@@ -670,7 +670,7 @@ dword _cdecl Character::ProcessMessage(MESSAGE & message)
 		return zTeleport(message, false);
 	case MSG_CHARACTER_TELEPORT_AY:
 		return zTeleport(message, true);
-	case MSG_CHARACTER_TELEPORT_TO_LOCATOR:		
+	case MSG_CHARACTER_TELEPORT_TO_LOCATOR:
 		return zTeleportL(message);
 	case MSG_CHARACTER_ADD_DETECTOR:
 		return zAddDetector(message);
@@ -718,7 +718,7 @@ dword _cdecl Character::ProcessMessage(MESSAGE & message)
 			api->Send_Message(blade, "ll", MSG_BLADE_HAND, 0);
 			api->Send_Message(blade, "ll", MSG_BLADE_HAND, 1);
 		}
-		return 1;	
+		return 1;
 	case MSG_CHARACTER_VIEWDAMAGE:
 		{
 			float hit = message.Float();
@@ -776,15 +776,16 @@ dword Character::AttributeChanged(ATTRIBUTES * apnt)
 		stsDownRunBack.ChangeName(apnt->GetAttribute("stsDownRunBack"));
 		swim.ChangeName(apnt->GetAttribute("swim"));
 		nfhit.ChangeName(apnt->GetAttribute("HitNoFight"));
-		//Читаем действия поворота		
+		//Читаем действия поворота
 		actionTurnL.ChangeName(apnt->GetAttribute("turnLeft"));
-		actionTurnR.ChangeName(apnt->GetAttribute("turnRight"));		
+		actionTurnR.ChangeName(apnt->GetAttribute("turnRight"));
 		//Читаем действия смерти
 		ATTRIBUTES * at = apnt->FindAClass(apnt, "dead");
 		if(at)
 		{
 			long num = at->GetAttributesNum();
-			for(long i = 0, j = 0; i < num && j < sizeof(actionDead)/sizeof(ActionDead); i++)
+			long j = 0;
+			for(long i = 0; i < num && j < sizeof(actionDead)/sizeof(ActionDead); i++)
 			{
 				const char * iname = at->GetAttribute(i);
 				if(!iname || !iname[0]) continue;
@@ -799,7 +800,8 @@ dword Character::AttributeChanged(ATTRIBUTES * apnt)
 		{
 			curIdleIndex = -1;
 			long num = at->GetAttributesNum();
-			for(long i = 0, j = 0; i < num && j < sizeof(actionIdle)/sizeof(ActionIdle); i++)
+			long j = 0;
+			for(long i = 0; i < num && j < sizeof(actionIdle)/sizeof(ActionIdle); i++)
 			{
 				const char * iname = at->GetAttribute(i);
 				if(!iname || !iname[0]) continue;
@@ -807,7 +809,7 @@ dword Character::AttributeChanged(ATTRIBUTES * apnt)
 			}
 			if(j < 1) j = 1;
 			numActionIdles = j;
-		}		
+		}
 		//Читаем действия в режиме боя
 		//Перемещение
 		fightwalk.ChangeName(apnt->GetAttribute("fightwalk"));
@@ -820,8 +822,8 @@ dword Character::AttributeChanged(ATTRIBUTES * apnt)
 		ReadFightActions(apnt->FindAClass(apnt, "attack_round"), attackRound, numAttackRound);
 		ReadFightActions(apnt->FindAClass(apnt, "attack_break"), attackBreak, numAttackBreak);
 		long fnt1, fnt2;
-		ReadFightActions(apnt->FindAClass(apnt, "attack_feint"), attackFeint, fnt1);		
-		ReadFightActions(apnt->FindAClass(apnt, "attack_feintc"), attackFeintC, fnt2);		
+		ReadFightActions(apnt->FindAClass(apnt, "attack_feint"), attackFeint, fnt1);
+		ReadFightActions(apnt->FindAClass(apnt, "attack_feintc"), attackFeintC, fnt2);
 		numAttackFeint = min(fnt1, fnt2);
 		ReadFightActions(apnt->FindAClass(apnt, "hit_attack"), hit, numHits);
 		ReadFightActions(apnt->FindAClass(apnt, "parry"), parry, numParry);
@@ -845,7 +847,8 @@ dword Character::AttributeChanged(ATTRIBUTES * apnt)
 		if(at)
 		{
 			long num = at->GetAttributesNum();
-			for(long i = 0, j = 0; i < num && j < sizeof(actionFightDead)/sizeof(ActionDead); i++)
+			long j = 0;
+			for(long i = 0; i < num && j < sizeof(actionFightDead)/sizeof(ActionDead); i++)
 			{
 				const char * iname = at->GetAttribute(i);
 				if(!iname || !iname[0]) continue;
@@ -859,7 +862,8 @@ dword Character::AttributeChanged(ATTRIBUTES * apnt)
 		if(at)
 		{
 			long num = at->GetAttributesNum();
-			for(long i = 0, j = 0; i < num && j < sizeof(actionFightIdle)/sizeof(ActionIdle); i++)
+			long j = 0;
+			for(long i = 0; i < num && j < sizeof(actionFightIdle)/sizeof(ActionIdle); i++)
 			{
 				const char * iname = at->GetAttribute(i);
 				if(!iname || !iname[0]) continue;
@@ -883,7 +887,7 @@ void Character::SetSignModel()
 	if(apnt)
 	{
 		signModelName = apnt->GetThisAttr();
-	}	
+	}
 	if(!signModelName) signModelName = "";
 	if(signName == signModelName)
 	{
@@ -907,9 +911,9 @@ void Character::SetSignModel()
 		if(gs) gs->SetTexturePath("");
 		return;
 	}
-	if(!_CORE_API->Send_Message(sign, 
-		"ls", 
-		MSG_MODEL_LOAD_GEO, 
+	if(!_CORE_API->Send_Message(sign,
+		"ls",
+		MSG_MODEL_LOAD_GEO,
 		path.GetBuffer()))
 	{
 		if(gs) gs->SetTexturePath("");
@@ -947,7 +951,8 @@ void Character::ReadFightActions(ATTRIBUTES * at, ActionCharacter actions[4], lo
 	if(at)
 	{
 		long num = at->GetAttributesNum();
-		for(long i = 0, j = 0; i < num && j < 4; i++)
+		long j = 0;
+		for(long i = 0; i < num && j < 4; i++)
 		{
 			const char * iname = at->GetAttribute(i);
 			if(!iname || !iname[0]) continue;
@@ -1038,7 +1043,7 @@ bool Character::Teleport(const char * group, const char * locator)
  // смотрим можем ли мы поставить в этот локатор чела
  CVECTOR pos = mtx.Pos();
  if (location->supervisor.CheckPosition(pos.x, pos.y, pos.z, this))
-  return Teleport(pos.x, pos.y, pos.z, float(vz)); 
+  return Teleport(pos.x, pos.y, pos.z, float(vz));
 
  // кто-то стоит рядом, пытаемся найти точку по небольшому радиусу
  float radius = 1.75f;
@@ -1057,11 +1062,11 @@ bool Character::Teleport(const char * group, const char * locator)
   // если точка свободна - телепортимся туда
   CVECTOR pnt = src + (dst - src) * k + CVECTOR(0.0f, 0.01f, 0.0f);
   if (location->supervisor.CheckPosition(pnt.x, pnt.y, pnt.z, this))
-   return Teleport(pnt.x, pnt.y, pnt.z, float(vz)); 
+   return Teleport(pnt.x, pnt.y, pnt.z, float(vz));
  }
 
  api->Trace("Character Teleport Error: Can't find free place near locator: %s, %s", group, locator);
- return Teleport(pos.x, pos.y, pos.z, float(vz)); 
+ return Teleport(pos.x, pos.y, pos.z, float(vz));
 }
 
 //Установить позиции для загрузки
@@ -1132,7 +1137,7 @@ void Character::Turn(float dx, float dz)
 	double vx = dx;
 	double vz = dz;
 	double l = vx*vx + vz*vz;
-	if(l <= 0.0) return;	
+	if(l <= 0.0) return;
 	vz = acos(vz/sqrt(l));
 	if(vx < 0) vz = -vz;
 	Turn(float(vz));
@@ -1140,7 +1145,7 @@ void Character::Turn(float dx, float dz)
 
 //Направить персонажа по углу
 void Character::Turn(float _ay)
-{	
+{
 	if(isTurnLock) return;
 	const float pi = 3.14159265359f;
 	nay = _ay;
@@ -1179,7 +1184,7 @@ bool Character::SetFightMode(bool _isFight, bool isPlayAni)
 	}
 	isNFHit = false;
 	bool old = isFight;
-	isFight = _isFight;	
+	isFight = _isFight;
 	if(isFight)
 	{
 		radius = radiusFgt;
@@ -1265,7 +1270,7 @@ void Character::Attack(Character * enemy, FightAction type)
 				isTurnLock = true;
 			}
 		}*/
-	}else memset(&enemyAttack, 0, sizeof(enemyAttack));	
+	}else memset(&enemyAttack, 0, sizeof(enemyAttack));
 	VDATA * res = null;
 	const char * aname = null;
 	switch(type)
@@ -1309,7 +1314,7 @@ void Character::Attack(Character * enemy, FightAction type)
 	case fgt_attack_feintc:
         fgtSetType =  fgt_attack_feintc;  // fix boal
         //fgtCurType =
-		if(fgtCurIndex >= 0 && fgtCurIndex < numAttackFeint) 
+		if(fgtCurIndex >= 0 && fgtCurIndex < numAttackFeint)
 		{
 			fgtSetIndex = fgtCurIndex;
 		}else{
@@ -1345,7 +1350,7 @@ void Character::Attack(Character * enemy, FightAction type)
 	}else{
 		fgtSetType = fgt_none;
 		fgtSetIndex = -1;
-	}	
+	}
 }
 
 //Блок
@@ -1410,7 +1415,7 @@ void Character::StrafeLeft()
 	if(!location->IsSwimming()) return;
 	strafeWait = 0.8f;
 	fgtSetType = fgt_strafe_l;
-	fgtSetIndex = 0;	
+	fgtSetIndex = 0;
 	isTurnLock = false;
 	//impulse += 15.0f*CVECTOR(-cosf(ay), 0.0f, sinf(ay));
 }
@@ -1424,7 +1429,7 @@ void Character::StrafeRight()
 	if(!location->IsSwimming()) return;
 	strafeWait = 0.8f;
 	fgtSetType = fgt_strafe_r;
-	fgtSetIndex = 0;	
+	fgtSetIndex = 0;
 	isTurnLock = false;
 	//impulse -= 15.0f*CVECTOR(-cosf(ay), 0.0f, sinf(ay));
 }
@@ -1603,11 +1608,12 @@ void Character::Dead()
 		p += CVECTOR(sn*0.5f, 0.0f, -cs*0.5f);
 		if(!location->VisibleTest(p, p + CVECTOR(cs, 0.0f, sn))) dead[i].p *= 0.9f;
 		p -= CVECTOR(sn*1.0f, 0.0f, -cs*1.0f);
-		if(!location->VisibleTest(p, p + CVECTOR(cs, 0.0f, sn))) dead[i].p *= 0.9f;		
+		if(!location->VisibleTest(p, p + CVECTOR(cs, 0.0f, sn))) dead[i].p *= 0.9f;
 	}
 	ay = _ay;
 	//Сумарный вероятностный отрезок
 	float sum = 0.0f;
+	long i;
 	for(i = 0; i < num; i++) sum += dead[i].p;
 	//Выбираем действия
 	if(sum > 0.0f)
@@ -1625,7 +1631,7 @@ void Character::Dead()
 	Assert(i < num);
 	//Ставим действие
 	deadName = dead[i].name;
-	api->Event("Event_ChrSnd_Dead", "i", GetID());	
+	api->Event("Event_ChrSnd_Dead", "i", GetID());
 }
 
 //Заход в локацию
@@ -2008,7 +2014,7 @@ void Character::Update(float dltTime)
 			if(fall.name && !isFight && !priorityAction.name)
 			{
 				if(TestJump(curPos + CVECTOR(0.001f*sinf(ay), -0.001f, 0.001f*cosf(ay))))
-				{	
+				{
 					PlaySound("recoil");
 					isJump = true;
 					isJumpSnd = true;
@@ -2022,13 +2028,13 @@ void Character::Update(float dltTime)
 	}else{
 		vy = 0.0f;
 	}
-	//SetSoundPosition(recoilSound);	
+	//SetSoundPosition(recoilSound);
 	//Высота волны в данной точке
 	CVECTOR chrPos = curPos;
 	if(isSwim && location->IsSwimming())
 	{
 		vy = 0.0f;
-		chrPos.y = seaY;	
+		chrPos.y = seaY;
 	}
 	//Ставим матрицу для модельки
 	m->mtx.BuildMatrix(CVECTOR(0.0f, ay + strafeAngle*3.1415f*0.25f*0.8f, 0.0f), chrPos);// - CVECTOR(0.0f, 0.14f, 0.0f));
@@ -2037,7 +2043,7 @@ void Character::Update(float dltTime)
 	CVECTOR nodeNorm;
 	ptc.GetNodeNormal(currentNode, nodeNorm);
 	float k = 10.0f*dltTime;
-	if(k > 1.0f) k = 1.0f;	
+	if(k > 1.0f) k = 1.0f;
 	movecs += (nodeNorm.y - movecs)*k;
 	isUp = nodeNorm.x*m->mtx.Vz().x + nodeNorm.z*m->mtx.Vz().z <= 0;
 	//Анимация
@@ -2598,9 +2604,9 @@ bool Character::zLoadModel(MESSAGE & message)
 		if(gs) gs->SetTexturePath("");
 		return false;
 	}
-	if(!_CORE_API->Send_Message(mdl, 
-							"ls", 
-							MSG_MODEL_LOAD_GEO, 
+	if(!_CORE_API->Send_Message(mdl,
+							"ls",
+							MSG_MODEL_LOAD_GEO,
 							mpath))
 	{
 		if(gs) gs->SetTexturePath("");
@@ -2608,7 +2614,7 @@ bool Character::zLoadModel(MESSAGE & message)
 		return false;
 	}
 	if(gs) gs->SetTexturePath("");
-	if(!_CORE_API->Send_Message(mdl, 
+	if(!_CORE_API->Send_Message(mdl,
 									"ls",
 									MSG_MODEL_LOAD_ANI,
 									ani) != 0)
@@ -3028,7 +3034,7 @@ bool Character::zPlaySound(MESSAGE & message)
 
 //Проверка возможности слететь
 bool Character::TestJump(CVECTOR pos)
-{	
+{
 	MODEL * jpm = location->JmpPatch();
 	if(!jpm) return false;
 	CVECTOR src(pos.x, pos.y + 1.0f, pos.z);
@@ -3041,7 +3047,7 @@ bool Character::TestJump(CVECTOR pos)
 	{
 		//Сохраняем позицию в треке
 		jumpTrack[i] = pos;
-		//Проверяем следующий отрезок 
+		//Проверяем следующий отрезок
 		CVECTOR dlt = v*CHARACTER_JUMP_TIMESTEP;
 		v.y -= 9.8f*CHARACTER_JUMP_TIMESTEP;
 		CVECTOR src = pos - dlt*0.001f;
@@ -3083,7 +3089,7 @@ bool Character::BuildJump(CVECTOR pos,float fAng)
 	{
 		//Сохраняем позицию в треке
 		jumpTrack[i] = pos;
-		//Проверяем следующий отрезок 
+		//Проверяем следующий отрезок
 		CVECTOR dlt = v*CHARACTER_JUMP_TIMESTEP;
 		v.y -= 9.8f*CHARACTER_JUMP_TIMESTEP;
 		CVECTOR src = pos - dlt*0.001f;
@@ -3149,7 +3155,7 @@ void Character::UpdateActionsData()
 	UpdateActionMoveData(walk, a);
 	UpdateActionMoveData(backwalk, a);
 	UpdateActionMoveData(run, a);
-	UpdateActionMoveData(backrun, a);	
+	UpdateActionMoveData(backrun, a);
 	UpdateActionMoveData(stsUp, a);
 	UpdateActionMoveData(stsDown, a);
 	UpdateActionMoveData(stsUpBack, a);
@@ -3163,13 +3169,14 @@ void Character::UpdateActionsData()
 	UpdateActionMoveData(fall_land, a);
 	UpdateActionMoveData(fall_water, a);
 	//Смерти
-	for(long i = 0; i < numActionDead; i++) UpdateActionDeadData(actionDead[i], a);
+	long i;
+	for(i = 0; i < numActionDead; i++) UpdateActionDeadData(actionDead[i], a);
 	for(i = 0; i < numActionFightDead; i++) UpdateActionDeadData(actionFightDead[i], a);
 	//Бой
 	UpdateActionMoveData(fightwalk, a);
 	UpdateActionMoveData(fightbackwalk, a);
 	UpdateActionMoveData(fightrun, a);
-	UpdateActionMoveData(fightbackrun, a); 
+	UpdateActionMoveData(fightbackrun, a);
 	for(i = 0; i < numAttackFast; i++) UpdateActionCharacterData(attackFast[i], a);
 	for(i = 0; i < numAttackForce; i++) UpdateActionCharacterData(attackForce[i], a);
 	for(i = 0; i < numAttackRound; i++) UpdateActionCharacterData(attackRound[i], a);
@@ -3201,7 +3208,7 @@ void Character::UpdateActionsData()
 }
 
 void Character::UpdateActionMoveData(ActionMove & am, Animation * a)
-{	
+{
 	const char * s;
 	if(!a) return;
 	//set player action
@@ -3330,7 +3337,7 @@ bool Character::SetAction(const char * actionName, float tblend, float movespeed
 			a->Timer(0).ResetTimer();
 			a->Timer(0).Start(tblend, start);
 			a->Timer(0).SetPlayer(0, true);
-			a->Player(0).SetAutoStop(true);			
+			a->Player(0).SetAutoStop(true);
 		}else{
 			a->Player(0).Stop();
 			a->Player(0).SetAction(null);
@@ -3346,7 +3353,7 @@ bool Character::SetAction(const char * actionName, float tblend, float movespeed
 	a->Timer(0).ResetTimer();
 	a->Timer(1).ResetTimer();
 	if(tblend)
-	{	
+	{
 		a->Timer(0).Start(tblend);
 		a->Player(0).SetAutoStop(false);
 		a->Player(1).SetAutoStop(true);
@@ -3392,7 +3399,7 @@ void Character::UpdateAnimation()
 		if(!isFight)
 		{
 			if(isNFHit)
-			{				
+			{
 				isNFHit = false;
 				curMove = null;
 				if (userIdle.name && (stricmp(userIdle.name, "Ground_SitDown")==0 || stricmp(userIdle.name, "Ground_StandUp")==0))
@@ -3651,8 +3658,8 @@ void Character::UpdateAnimation()
 					break;
 				case fgt_attack_force:	//Выпад и выпад с рубящим ударом
 					if(stricmp(pWeaponID, "topor") == 0 && fgtSetIndex == 3)
-					{	//если с топором, то выпад меняем на рубящий удар						
-						fgtSetIndex = rand() % 2; 
+					{	//если с топором, то выпад меняем на рубящий удар
+						fgtSetIndex = rand() % 2;
 					}
 					if(!(isSet = SetAction(attackForce[fgtSetIndex].name, attackForce[fgtSetIndex].tblend, 0.0f, 4.0f)))
 					{
@@ -3716,8 +3723,8 @@ void Character::UpdateAnimation()
 					priorityAction.tblend = shot.tblend;
 					priorityActionMoveSpd = 0.0f;
 					priorityActionRotSpd = 3.0f;
-					fgtCurType = fgtSetType = fgt_none;					
-					fgtSetIndex = -1;					
+					fgtCurType = fgtSetType = fgt_none;
+					fgtSetIndex = -1;
 					isFired = false;
 					break;
 				case fgt_hit_attack:	//Реакция попадания удара по персонажу вводящая его в stall
@@ -3769,7 +3776,7 @@ void Character::UpdateAnimation()
 						api->Trace("Character animation: not set fight fire hit action: \"%s\"", hitFire.name);
 					}
 					break;
-				case fgt_block:			//Защита саблей		
+				case fgt_block:			//Защита саблей
 					_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
 					if(stricmp(pWeaponID, "topor") == 0)
 					{
@@ -3846,7 +3853,7 @@ void Character::UpdateAnimation()
 				}
 				if(isSet)
 				{
-					fgtCurType = fgtSetType;					
+					fgtCurType = fgtSetType;
 					fgtCurIndex = fgtSetIndex;
 				}
 				fgtSetType = fgt_none;
@@ -3942,7 +3949,7 @@ void Character::UpdateAnimation()
 							curIdleIndex = -1;
 						}
 						curMove = null;
-					}			
+					}
 				}
 			}
 		}
@@ -3968,12 +3975,13 @@ const char * Character::FindIdleAnimation(float & tblend)
 			return null;
 		}
 		if(!isLockIdleForCamera)
-		{		
+		{
 			if(curIdleIndex < 0)
 			{
 				//Расчитываем текущии вероятности и сумарную вероятность
 				float allp = 0.0f;
-				for(long i = 0; i < numActionIdles; i++) allp += actionIdle[i].p;
+				long i;
+				for(i = 0; i < numActionIdles; i++) allp += actionIdle[i].p;
 				//Текущее действие
 				float rnd = rand()*allp/RAND_MAX;
 				//Выбираем из списка то которое будем проигрывать
@@ -3983,7 +3991,7 @@ const char * Character::FindIdleAnimation(float & tblend)
 					allp += actionIdle[i].p;
 					if(rnd < allp) break;
 				}
-				if(i >= numActionIdles) i = numActionIdles - 1;			
+				if(i >= numActionIdles) i = numActionIdles - 1;
 				curIdleIndex = i;
 			}
 		}else curIdleIndex = 0;
@@ -4018,7 +4026,8 @@ const char * Character::FindFightIdleAnimation(float & tblend)
 	{
 		//Расчитываем текущии вероятности и сумарную вероятность
 		float allp = 0.0f;
-		for(long i = 0; i < numFightActionIdles; i++) allp += actionFightIdle[i].p;
+		long i;
+		for(i = 0; i < numFightActionIdles; i++) allp += actionFightIdle[i].p;
 		//Текущее действие
 		float rnd = rand()*allp/RAND_MAX;
 		//Выбираем из списка то которое будем проигрывать
@@ -4029,7 +4038,7 @@ const char * Character::FindFightIdleAnimation(float & tblend)
 			if(rnd < allp) break;
 		}
 		if(i >= numFightActionIdles) i = numFightActionIdles - 1;
-		if(recoilLook) 
+		if(recoilLook)
 		{
 			curIdleIndex = 7; //проиграть дразнилку после отскока
 			recoilLook = false;
@@ -4039,7 +4048,7 @@ const char * Character::FindFightIdleAnimation(float & tblend)
 	if(fabsf(isTurn) <= (curIdleIndex >= 0 ? 0.8f : 0.1f)) isActiveState = false;
 	tblend = actionFightIdle[curIdleIndex].tblend;
 	return actionFightIdle[curIdleIndex].name;
-	/*		
+	/*
 	//Стандартная анимация
 	if(fabsf(isTurn) <= 0.0001f)
 	{
@@ -4093,7 +4102,8 @@ Character * Character::FindDialogCharacter()
 	if(!location->supervisor.FindCharacters(fndCharacter, num, this, 3.0f)) return null;
 	//Выбираем лутшего
 	float minDst;
-	for(long i = 0, j = -1; i < num; i++)
+	long j = -1;
+	for(long i = 0; i < num; i++)
 	{
 		//Персонаж
 		Supervisor::FindCharacter & fc = fndCharacter[i];
@@ -4103,8 +4113,8 @@ Character * Character::FindDialogCharacter()
 		if(fabsf(fc.dy) > 2.0f) continue;
 		float d = sqrtf(fc.d2);
 		//Углы
-		static const float testAng = cosf(0.5f*CHARACTER_DIALOG_ANG*(3.1415926535f/180.0f));		
-		float cs = -1.0f;		
+		static const float testAng = cosf(0.5f*CHARACTER_DIALOG_ANG*(3.1415926535f/180.0f));
+		float cs = -1.0f;
 		if(fc.d2 > 0.0f) cs = (fc.dx*sinf(ay) + fc.dz*cosf(ay))/d;
 		if(cs < testAng) continue;
 		//Дистанция с учётом угла
@@ -4133,7 +4143,7 @@ bool Character::SetPriorityAction(const char * action)
 	if(!m) return false;
 	Animation * a = m->GetAnimation();
 	if(!a) return false;
-	isResetAutoAction = true;	
+	isResetAutoAction = true;
 	priorityAction.SetName(action);
 	priorityAction.tblend = 0.0f;
 	priorityActionMoveSpd = 0.0f;
@@ -4251,10 +4261,10 @@ inline void Character::CheckAttackHit()
 			// boal 12.09.06 отжор энергии по факту удара -->
 			if (isUseEnergy && fgtCurType != fgt_attack_feintc)
 			{// для fgt_attack_feintc идет отжор в анимации, а тут будет "финт", а он стоит 0
-				api->Event("ChrFgtActApply", "is", GetID(), aname); 
+				api->Event("ChrFgtActApply", "is", GetID(), aname);
 				isUseEnergy = false;
 			}
-			// boal <--				 
+			// boal <--
 		}
 	}
 	if(isParry)
@@ -4281,7 +4291,8 @@ Character * Character::FindGunTarget(float & kDist, bool bOnlyEnemyTest)
 	static long num = 0;
 	if(!location->supervisor.FindCharacters(fndCharacter, num, this, CHARACTER_FIGHT_FIREDIST, CHARACTER_FIGHT_FIREANG, 0.4f, 30.0f, false)) return null;
 	float minDst;
-	for(long i = 0, j = -1; i < num; i++)
+	long j = -1;
+	for(long i = 0; i < num; i++)
 	{
 		Supervisor::FindCharacter & fc = fndCharacter[i];
 		if(fc.d2 <= 0.0f || fc.c->radius <= 0.0f) continue;
@@ -4308,7 +4319,7 @@ Character * Character::FindGunTarget(float & kDist, bool bOnlyEnemyTest)
 		}else{
 			minDst = dist;
 			j = i;
-		}		
+		}
 	}
 	if(j >= 0)
 	{
@@ -4345,7 +4356,8 @@ void Character::FindNearCharacters(MESSAGE & message)
 	if(!n) return;
 	if(n > long(array->GetElementsNum())) array->SetElementsNum(n);
 	char buf[64];
-	for(long i = 0, nn = 0; i < n; i++)
+	long nn = 0;
+	for(long i = 0; i < n; i++)
 	{
 		//Информация
 		Supervisor::FindCharacter & fc = fndCharacter[i];
@@ -4430,7 +4442,7 @@ CVECTOR Character::GetEnemyDirForImpulse()
 const char * Character::GetValueByPrefix(const char * str, const char * pref)
 {
 	if(!str || !str[0]) return 0;
-	if(!pref || !pref[0]) return 0;	
+	if(!pref || !pref[0]) return 0;
 	while(true)
 	{
 		if(*pref == 0) return str;

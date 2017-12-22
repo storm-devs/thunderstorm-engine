@@ -8,7 +8,7 @@
 #ifndef PARTICLES_MANAGER_INTERFACE
 #define PARTICLES_MANAGER_INTERFACE
 
-#include <d3d8.h>
+#include "..\DirectX8\d3dx8.h"
 #include "..\dx8render.h"
 
 class ParticleService;
@@ -33,40 +33,40 @@ protected:
 
 public:
 
-//Создание/удаление 
+//Создание/удаление
 	IParticleManager (ParticleService* service) {};
 	virtual bool Release () = 0;
 
-//Получить указатель на Render/FileService 
+//Получить указатель на Render/FileService
 	virtual VDX8RENDER* Render () = 0;
 
-//Открыть проект 
+//Открыть проект
 	virtual bool OpenProject (const char* FileName) = 0;
-//Закрыть проект 
+//Закрыть проект
 	virtual void CloseProject () = 0;
- 
+
 //Удалить из списка ресурсов (системная)
 	virtual void RemoveResource (IParticleSystem* pResource) = 0;
 
-//Исполнить партиклы 
+//Исполнить партиклы
 	virtual void Execute (float DeltaTime) = 0;
 
-//Узнать доступна система или нет 
+//Узнать доступна система или нет
 	virtual bool IsSystemAvailable (const char* FileName) = 0;
 
-//Получить глобальную текстуру проекта 
+//Получить глобальную текстуру проекта
 	virtual long GetProjectTexture () = 0;
-	
+
 	//Установить текстуру проекта
 	virtual void SetProjectTexture (const char* FileName = NULL) = 0;
 
 
- 
 
 
-//Получить имя проекта 
+
+//Получить имя проекта
  virtual const char* GetProjectFileName () = 0;
- 
+
 
  //Создать пустую партикловую систему, для редактора...
  virtual IParticleSystem* CreateEmptyParticleSystemEx  (const char* FileName, int Line) = 0;
@@ -100,8 +100,8 @@ public:
  virtual void OpenDefaultProject () = 0;
 
 
- 
-	
+
+
 };
 
 

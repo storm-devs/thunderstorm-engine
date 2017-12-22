@@ -15,7 +15,7 @@ DECK_CAMERA::DECK_CAMERA()
 	camera_pos.y = 1.0f;
 	ZeroMemory(&camera_ang,sizeof(camera_ang));
 	pACharacter = null;
-	pathNode = null;	
+	pathNode = null;
 	bLoad = false;
 }
 
@@ -142,7 +142,7 @@ void DECK_CAMERA::Move(DWORD DeltaTime)
 	if(cs.state == CST_ACTIVE) speed=speed0;
 
 	_CORE_API->Controls->GetControlState("DeckCamera_Backward",cs);
-    if(cs.state == CST_ACTIVE) 
+    if(cs.state == CST_ACTIVE)
     {
         speed=speed0;
         vShift.x*=-1.f;
@@ -286,11 +286,11 @@ void DECK_CAMERA::Move(DWORD DeltaTime)
 	RenderService->SetCamera(&s_pos,&s_ang,GetPerspective());
 }
 
-void DECK_CAMERA::SetCharacter(ATTRIBUTES *_pACharacter) 
-{ 
+void DECK_CAMERA::SetCharacter(ATTRIBUTES *_pACharacter)
+{
 	ENTITY_ID eidTemp;
 
-	pACharacter = _pACharacter; 
+	pACharacter = _pACharacter;
 }
 
 bool DECK_CAMERA::FindPath()
@@ -350,7 +350,8 @@ void DECK_CAMERA::SetStartPos()
 			if(root==NULL) break;
 			GEOS::INFO gi;
 			root->geo->GetInfo(gi);
-			for(int j=0; j<gi.nlabels; j++)
+			int j;
+			for(j=0; j<gi.nlabels; j++)
 			{
 				GEOS::LABEL gl;
 				root->geo->GetLabel(j,gl);
@@ -655,6 +656,6 @@ void DECK_CAMERA::Load(CSaveLoad * pSL)
 	SetPerspective(pSL->LoadFloat());
 	SetCharacter(pSL->LoadAPointer("character"));
 
-	if (isOn()) 
+	if (isOn())
 		bLoad = true;
 }

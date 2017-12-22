@@ -1,11 +1,11 @@
 //============================================================================================
 //	Spirenkov Maxim aka Sp-Max Shaman, 2001
 //--------------------------------------------------------------------------------------------
-//	
+//
 //--------------------------------------------------------------------------------------------
 //	Blots
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "Blots.h"
@@ -99,7 +99,8 @@ void Blots::Hit(MESSAGE & message)
 	//Ищем наличие свободного пятна и близость от других
 	CVECTOR lpos;
 	m->mtx.MulToInv(pos, lpos);
-	for(long i = 0, j = -1; i < BLOTS_MAX; i++)
+	long i, j = -1;
+	for(i = 0; i < BLOTS_MAX; i++)
 	{
 		if(blot[i].isUsed)
 		{
@@ -171,7 +172,7 @@ void Blots::AddBlot(long i, long rnd, const CVECTOR & lpos, const CVECTOR & dir,
 	Vertex * v = vrt + blot[i].startIndex;
 	numClipTriangles *= 3;
 	float baseU = 0.0f;
-	float baseV = 0.0f;	
+	float baseV = 0.0f;
 	if(rnd & 1) baseU += 0.5f;
 	if(rnd & 2) baseV += 0.5f;
 	for(long n = 0; n < numClipTriangles; n++)
@@ -296,7 +297,7 @@ void Blots::Realize(dword delta_time)
 	CVECTOR pos, ang;
 	rs->GetCamera(pos, ang, ang.x);
 	float dist = ~(pos - m->mtx.Pos());
-	if(dist >= BLOTS_DIST*BLOTS_DIST) return; 
+	if(dist >= BLOTS_DIST*BLOTS_DIST) return;
 	//Прозрачность от расстояния до корабля
 	dist = (sqrtf(dist/(BLOTS_DIST*BLOTS_DIST)) - 0.5f)/0.5f;
 	if(dist <= 0.0f) dist = 0.0f;
@@ -312,7 +313,7 @@ void Blots::Realize(dword delta_time)
 		//Пропустим неиспользуемых
 		if(!blot[i].isUsed) continue;
 		//Время жизни
-		
+
 		//!!!
 		//blot[i].liveTime += delta_time*0.001f;
 
@@ -322,7 +323,7 @@ void Blots::Realize(dword delta_time)
 			blot[i].isUsed = false;
 			long startIndex = blot[i].startIndex;
 			long numDelVerts = blot[i].numTrgs*3;
-			
+
 			//-----------------------------------------------
 			//!!! begin Проверки
 			blot[i].startIndex = -10000;
@@ -339,7 +340,8 @@ void Blots::Realize(dword delta_time)
 			//-----------------------------------------------
 
 			//Удаляем из массива треугольники
-			for(long j = 0; j < BLOTS_MAX; j++)
+			long j;
+			for(j = 0; j < BLOTS_MAX; j++)
 			{
 				if(!blot[j].isUsed) continue;
 				if(blot[j].startIndex > startIndex) blot[j].startIndex -= numDelVerts;
@@ -360,7 +362,7 @@ void Blots::Realize(dword delta_time)
 				Assert(blot[j].startIndex + blot[j].numTrgs*3 <= useVrt);
 			}
 			Assert(nnn == useVrt);
-			for(n = 0; n < BLOTS_MAX; n++)
+			for(long n = 0; n < BLOTS_MAX; n++)
 			{
 				if(!blot[n].isUsed) continue;
 				Vertex * v1 = vr + n*BLOTS_NTRGS*3;
@@ -385,7 +387,7 @@ void Blots::Realize(dword delta_time)
 		k = (k - 0.5f)/0.5f;
 		if(k < 0.0f) k = 0.0f;
 		if(k > 1.0f) k = 1.0f;
-		color = long((1.0f - k)*255.0f);		
+		color = long((1.0f - k)*255.0f);
 		if(color != blot[i].lastAlpha)
 		{
 			//Обновим вершины
@@ -396,7 +398,7 @@ void Blots::Realize(dword delta_time)
 			//Массив
 			Vertex * v = vrt + blot[i].startIndex;
 			for(long j = 0; j < numVrt; j++) v[j].c = color;
-		}	
+		}
 	}
 	//Рисуем
 	if(useVrt > 3) rs->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, useVrt/3, vrt, sizeof(Vertex), "Blot");

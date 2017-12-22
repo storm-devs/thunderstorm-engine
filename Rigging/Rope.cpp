@@ -66,7 +66,7 @@ bool ROPE::Init()
 	UNGUARD
 	return true;
 }
- 
+
 void ROPE::SetDevice()
 {
     // получить сервис рендера
@@ -281,7 +281,7 @@ dword _cdecl ROPE::ProcessMessage(MESSAGE & message)
 				_THROW("allocate memory error");
 			}
 			int idx=0;
-			for(rn=wFirstRope; rn<ropeQuantity; rn++)
+			for(int rn=wFirstRope; rn<ropeQuantity; rn++)
 				if(rlist[rn]->HostGroup==groupQuantity-1)
 					gdata[groupQuantity-1].ropeIdx[idx++]=rn;
 		}
@@ -491,7 +491,7 @@ void ROPE::DoMove(ROPEDATA *pr)
             for( int i=0; i<ROPE_EDGE; i++ )
                 vertBuf[vertnum+i].pos=cvb+pr->pos[i];
 
-            if( ++(pr->segnum)>pr->segquant ) 
+            if( ++(pr->segnum)>pr->segquant )
             {
                 float deepVal;
                 pr->segnum=0;
@@ -670,7 +670,7 @@ void ROPE::AddLabel(GEOS::LABEL &lbl,NODE *nod, bool bDontSage)
 				{
 					NODE* nd=mdl->GetNode(i);
 					if(nd==0) break;
-                
+
 					if( rd->btie && rd->bMatWorld==&nd->glob_mtx )
 						_CORE_API->Send_Message(sailEI,"lplpl",MSG_SAIL_ROPE_TIE,nd,rd->bgnum,&rd->pBeg,rd->ropeNum);
 					if( rd->etie && rd->eMatWorld==&nd->glob_mtx )
@@ -920,7 +920,7 @@ void ROPE::SetAdd(int firstNum)
             rlist[rn]->ropeWave=-ROPE_WAVE;
     }
 
-	for(rn=firstNum; rn<ropeQuantity; rn++)
+	for(int rn=firstNum; rn<ropeQuantity; rn++)
 	{
 		if( rlist[rn]->segquant > 100 || rlist[rn]->segquant<0 )
 			rlist[rn]->segquant = rlist[rn]->segquant;
@@ -938,8 +938,8 @@ void ROPE::DoDelete()
                 rlist[gdata[gn].ropeIdx[idx]]->bDeleted=true;
 
     // удалить удаленные веревки в списке веревок
-    int nrn=0;
-    for(int rn=0; rn<ropeQuantity; rn++)
+    int nrn=0, rn;
+    for(rn=0; rn<ropeQuantity; rn++)
     {
         if(rlist[rn]->bDeleted)
         {
@@ -955,7 +955,7 @@ void ROPE::DoDelete()
     ropeQuantity=nrn;
 
     // переделаем список групп
-    int ngn=0;
+    int ngn=0, gn;
     nIndx=0; nVert=0;
     for(gn=0; gn<groupQuantity; gn++)
     {
@@ -1045,7 +1045,8 @@ bool ROPE::IsAbsentRope(ENTITY_ID &mdl_id, int ropenum)
     bool retVal=true;
 
     // найдем нужную группу
-    for(int gn=0; gn<groupQuantity; gn++)
+	int gn;
+    for(gn=0; gn<groupQuantity; gn++)
         if(gdata[gn].modelEI==mdl_id) break;
 
     // пройдемся по всем веревкам и найдем нужную нам веревку
@@ -1062,7 +1063,8 @@ bool ROPE::IsAbsentRope(ENTITY_ID &mdl_id, int ropenum)
 
 void ROPE::DoDeleteUntie(ENTITY_ID &mdl_id, NODE *rnod, int gNum)
 {
-    for(int gn=0; gn<groupQuantity; gn++)
+	int gn;
+    for(gn=0; gn<groupQuantity; gn++)
         if(gdata[gn].modelEI==mdl_id) break;
 
     if(gn<groupQuantity)

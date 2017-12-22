@@ -42,7 +42,7 @@ void AnimationTimerImp::SetAnimation(AnimationImp * animation)
 
 //--------------------------------------------------------------------------------------------
 //AnimationTimer
-//--------------------------------------------------------------------------------------------	
+//--------------------------------------------------------------------------------------------
 
 //Запустить таймер (время в миллисекундах)
 void AnimationTimerImp::Start(float time, float startTime)
@@ -68,7 +68,8 @@ void AnimationTimerImp::Stop()
 	kTime = 0.0f;
 	value = 1.0f;
 	//Устанавливаем конечные значения и останавливаем анимацию, где просят
-	for(long i = 0; i < ANI_MAX_ACTIONS; i++)
+	long i;
+	for(i = 0; i < ANI_MAX_ACTIONS; i++)
 	{
 		if(playersMask[i >> 5] & (1 << (i & 31)))
 		{
@@ -168,7 +169,7 @@ float AnimationTimerImp::GetPlayerValue(long playerIndex)
 	{
 		if((inverseMask[playerIndex >> 5] & (1 << (playerIndex & 31))) != 0)
 		{
-			return kTime != 0 ? 1.0f - value : 0.0f;			
+			return kTime != 0 ? 1.0f - value : 0.0f;
 		}else return kTime != 0 ? value : 1.0f;
 	}
 	return 1.0f;
@@ -176,7 +177,7 @@ float AnimationTimerImp::GetPlayerValue(long playerIndex)
 
 //--------------------------------------------------------------------------------------------
 //AnimationTimerImp
-//--------------------------------------------------------------------------------------------	
+//--------------------------------------------------------------------------------------------
 
 //Исполнить
 void AnimationTimerImp::Execute(long dltTime)
@@ -200,7 +201,7 @@ void AnimationTimerImp::Execute(long dltTime)
 				}
 			}
 		}
-		//Может пора остановиться		
+		//Может пора остановиться
 		if(value == 1.0f) Stop();
 	}
 }

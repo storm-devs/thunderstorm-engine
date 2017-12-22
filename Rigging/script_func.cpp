@@ -42,7 +42,7 @@ DWORD __cdecl _GetAssembledString(VS_STACK * pS)
 		int accessStrSize = 0;
 		for(int i=0; ; i++)
 		{
-			if(formatStr[i]=='#' || !formatStr[i]) 
+			if(formatStr[i]=='#' || !formatStr[i])
 			{
 				accessString[accessStrSize] = 0;
 				if(bBuildAccessString)
@@ -159,7 +159,7 @@ DWORD __cdecl _RandomHole2Sail(VS_STACK * pS)
 	holeMask = _holeData;
 	while(holeArraySize>0 && _addHoleQ>0)
 	{
-		i = rand()%holeArraySize;
+		int i = rand()%holeArraySize;
 		holeMask |= 1<<holeIdx[i];
 		holeArraySize--;
 		_addHoleQ--;
@@ -214,7 +214,7 @@ DWORD __cdecl _DeleteOneSailHole(VS_STACK * pS)
 	holeMask = _holeData;
 	while(holeArraySize>0 && _delHoleQ>0)
 	{
-		i = rand()%holeArraySize;
+		int i = rand()%holeArraySize;
 		holeMask &= ~(1<<holeIdx[i]);
 		holeArraySize--;
 		_delHoleQ--;

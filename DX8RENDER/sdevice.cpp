@@ -1,13 +1,13 @@
 #include "sdevice.h"
 #include "stdio.h"
-#include "d3dx8math.h"
+#include "..\common_h\DirectX8\d3dx8math.h"
 #include "..\common_h\matrix.h"
 #include "texture.h"
 #include <io.h>
 
 #define POST_PROCESS_FVF D3DFVF_XYZRHW | D3DFVF_TEX4
 
-#define S_RELEASE(a,b) if (a) { ULONG refc = a->Release(); a = NULL;} 
+#define S_RELEASE(a,b) if (a) { ULONG refc = a->Release(); a = NULL;}
 
 class DX8RENDER_SCRIPT_LIBRIARY : public SCRIPT_LIBRIARY
 {
@@ -39,7 +39,7 @@ DWORD __cdecl DX8SetTexturePath(VS_STACK * pS)
 	}
 
 	VDATA * pVR = (VDATA*)pS->Push();
-	if (!pVR || iNumber<0 || iNumber>=4) 
+	if (!pVR || iNumber<0 || iNumber>=4)
 	{
 		pVR->Set(long(0));
 		return IFUNCRESULT_OK;
@@ -73,7 +73,7 @@ DWORD __cdecl SetGlowParams(VS_STACK * pS)
 	long BlurPasses = ((VDATA*)pS->Pop())->GetLong();
 
 	DX8RENDER::pRS->SetGLOWParams(fBlurBrushSize, Intensivity, BlurPasses);
-	
+
 	VDATA * pVR = (VDATA*)pS->Push();
 	pVR->Set(long(0));
 	return IFUNCRESULT_OK;
@@ -140,7 +140,7 @@ void CreateSphere()
 #define CalcKColor(ind) {kColor = light | !CVECTOR(DX8sphereVertex[t*3 + ind].v.x, DX8sphereVertex[t*3 + ind].v.y, DX8sphereVertex[t*3 + ind].v.z); if(kColor < 0.0f) kColor = 0.0f; }
 #define CLerp(c, min) (dword(c*(kColor*(1.0f - min) + min)))
 #define Color1 ((CLerp(255.0f, 0.5f) << 24) | (CLerp(255.0f, 0.7f) << 16) | (CLerp(255.0f, 0.7f) << 8) | (CLerp(255.0f, 0.7f) << 0));
-	
+
 	if(DX8sphereVertex) return;
 
 	const float myPI = 3.1415926535897932f;
@@ -199,7 +199,7 @@ void CreateSphere()
 	}
 }
 
-D3DERRORS D3D_ERRORS[] = 
+D3DERRORS D3D_ERRORS[] =
 {
 	{	D3D_OK,								"No error occurred"	},
 	{	D3DERR_CONFLICTINGRENDERSTATE,		"The currently set render states cannot be used together"	},
@@ -227,7 +227,7 @@ D3DERRORS D3D_ERRORS[] =
 	//{	E_INVALIDCALL,						"The method call is invalid For example, a method's parameter may have an invalid value"	},
 	{	E_OUTOFMEMORY,						"Direct3D could not allocate sufficient memory to complete the call"	},
 	{	S_OK,								"No error occurred"	},
-	{	0,									NULL} 
+	{	0,									NULL}
 };
 
 struct SD_TEXTURE_FORMAT
@@ -277,7 +277,7 @@ __forceinline bool DX8RENDER::ErrorHandler(char * message, HRESULT hres)
 const dword DX8RENDER::rectsVBuffer_SizeInRects = 512;
 
 //################################################################################
-DX8RENDER::DX8RENDER() : 
+DX8RENDER::DX8RENDER() :
 	stRenderTarget(_FL_),
 	aCaptureBuffers(_FL_)
 {
@@ -292,13 +292,13 @@ DX8RENDER::DX8RENDER() :
 	pPostProcessTexture = NULL;
 	pSmallPostProcessTexture = NULL;
 	pSmallPostProcessTexture2 = NULL;
-	
-	
+
+
 	pPostProcessSurface = NULL;
 	pSmallPostProcessSurface = NULL;
 	pSmallPostProcessSurface2 = NULL;
-	
-	
+
+
 	pOriginalScreenSurface = NULL;
 	pOriginalDepthSurface = NULL;
 
@@ -403,7 +403,7 @@ bool  DX8RENDER::Init()
 		fFarClipPlane = ini->GetFloat(0, "FarClipPlane", 4000.0f);
 		bBackBufferCanLock = ini->GetLong(0, "lockable_back_buffer", 0) != 0;
 		ini->ReadString(0, "screen_bpp", str, sizeof(str), "D3DFMT_R5G6B5");
-		screen_bpp = D3DFMT_R5G6B5; 
+		screen_bpp = D3DFMT_R5G6B5;
 		stencil_format = D3DFMT_D16;
 		if (stricmp(str, "D3DFMT_A8R8G8B8") == 0)	{ screen_bpp = D3DFMT_A8R8G8B8; stencil_format = D3DFMT_D24S8; }
 		if (stricmp(str, "D3DFMT_X8R8G8B8") == 0)	{ screen_bpp = D3DFMT_X8R8G8B8; stencil_format = D3DFMT_D24S8; }
@@ -504,7 +504,7 @@ bool  DX8RENDER::Init()
 			*pI++ = word( (y + 0) * 32 + x + 1 );
 			*pI++ = word( (y + 1) * 32 + x + 1 );
 			*pI++ = word( (y + 1) * 32 + x );
-		}	
+		}
 	}
 
 	UNGUARD
@@ -526,7 +526,7 @@ DX8RENDER::~DX8RENDER()
 	S_RELEASE(pSmallPostProcessTexture2, 5);
 	S_RELEASE(pPostProcessTexture, 6);
 	S_RELEASE(pSmallPostProcessTexture, 7);
-	
+
 	S_RELEASE(rectsVBuffer, 8);
 
 
@@ -678,7 +678,7 @@ bool DX8RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 	d3dpp.Windowed = windowed;
 	d3dpp.EnableAutoDepthStencil = TRUE;
 	d3dpp.AutoDepthStencilFormat = stencil_format;
-	
+
 
 	if(windowed)
 	{
@@ -689,7 +689,7 @@ bool DX8RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 		else d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
 		stencil_format = d3dpp.AutoDepthStencilFormat;
 		if( !bUseLargeBackBuffer )
-			if(d3ddm.Width < (DWORD)width || d3ddm.Height < (DWORD)height) 
+			if(d3ddm.Width < (DWORD)width || d3ddm.Height < (DWORD)height)
 			{
 				d3dpp.BackBufferWidth = d3ddm.Width;
 				d3dpp.BackBufferHeight = d3ddm.Height;
@@ -713,7 +713,7 @@ bool DX8RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 	}//*/
 
 
-	
+
 	if (bBackBufferCanLock) d3dpp.Flags = D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
 	else d3dpp.Flags = 0;
 	//d3dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
@@ -721,19 +721,19 @@ bool DX8RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 	//d3dpp.SwapEffect = D3DSWAPEFFECT_COPY;
 	//if(windowed) d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;//FLIP;
 	//else d3dpp.SwapEffect = D3DSWAPEFFECT_FLIP;
-	
+
 	if(!windowed)
 	{
 		d3dpp.FullScreen_PresentationInterval = D3DPRESENT_INTERVAL_ONE;
 		//d3dpp.FullScreen_PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 	}
-	
-	
+
+
 #ifndef _XBOX
 	if(d3d->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd, D3DCREATE_MIXED_VERTEXPROCESSING, &d3dpp, &d3d8)!=D3D_OK)
 	{
 		//if(ErrorHandler("InitDevice::CreateDevice", E_FAIL)==true)	return false;
-		if(ErrorHandler("InitDevice::CreateDevice", 
+		if(ErrorHandler("InitDevice::CreateDevice",
 			d3d->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &d3d8))==true)	return false;
 	}
 #else
@@ -772,7 +772,7 @@ bool DX8RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 		bPostProcessError = true;
 	}
 
-	
+
 	if (!bPostProcessError)
 	{
 		pPostProcessTexture->GetSurfaceLevel(0, &pPostProcessSurface);
@@ -852,7 +852,7 @@ bool DX8RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 	SetCamera(&CVECTOR(0.0f, 0.0f, 0.0f), &CVECTOR(0.0f, 0.0f, 0.0f), 1.0f);
 
 	D3DLIGHT8 l;
-	ZERO(l);	
+	ZERO(l);
 	l.Type = D3DLIGHT_POINT;
 	l.Range = 100.0f;
 	l.Attenuation0 = 1.0f;
@@ -960,10 +960,10 @@ void DX8RENDER::CreateRenderQuad (float fWidth, float fHeight, float fSrcWidth, 
 	float fNearU = fTexelU * 0.5f;
 	float fFarU = 1.0f - (fTexelU * 0.5f);
 
-	PostProcessQuad[0].v0 = fFarV;   PostProcessQuad[0].u0 = fNearU; 
-	PostProcessQuad[1].v0 = fNearV;  PostProcessQuad[1].u0 = fNearU; 
-	PostProcessQuad[2].v0 = fFarV;   PostProcessQuad[2].u0 = fFarU; 
-	PostProcessQuad[3].v0 = fNearV;  PostProcessQuad[3].u0 = fFarU; 
+	PostProcessQuad[0].v0 = fFarV;   PostProcessQuad[0].u0 = fNearU;
+	PostProcessQuad[1].v0 = fNearV;  PostProcessQuad[1].u0 = fNearU;
+	PostProcessQuad[2].v0 = fFarV;   PostProcessQuad[2].u0 = fFarU;
+	PostProcessQuad[3].v0 = fNearV;  PostProcessQuad[3].u0 = fFarU;
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -1043,10 +1043,10 @@ void DX8RENDER::CopyGlowToScreen ()
 	PostProcessQuad[2].vPos = Vector4 ( sx, sy, 0.0f, 1.0f );
 	PostProcessQuad[3].vPos = Vector4 ( sx,  0, 0.0f, 1.0f );
 
-	PostProcessQuad[0].v0 = 1.0f;  PostProcessQuad[0].u0 = 0.0f; 
-	PostProcessQuad[1].v0 = 0.0f;  PostProcessQuad[1].u0 = 0.0f; 
-	PostProcessQuad[2].v0 = 1.0f;  PostProcessQuad[2].u0 = 1.0f; 
-	PostProcessQuad[3].v0 = 0.0f;  PostProcessQuad[3].u0 = 1.0f; 
+	PostProcessQuad[0].v0 = 1.0f;  PostProcessQuad[0].u0 = 0.0f;
+	PostProcessQuad[1].v0 = 0.0f;  PostProcessQuad[1].u0 = 0.0f;
+	PostProcessQuad[2].v0 = 1.0f;  PostProcessQuad[2].u0 = 1.0f;
+	PostProcessQuad[3].v0 = 0.0f;  PostProcessQuad[3].u0 = 1.0f;
 
 
 
@@ -1080,10 +1080,10 @@ void DX8RENDER::CopyPostProcessToScreen()
 	PostProcessQuad[2].vPos = Vector4 ( sx, sy, 0.0f, 1.0f );
 	PostProcessQuad[3].vPos = Vector4 ( sx,  0, 0.0f, 1.0f );
 
-	PostProcessQuad[0].v0 = 1.0f;  PostProcessQuad[0].u0 = 0.0f; 
-	PostProcessQuad[1].v0 = 0.0f;  PostProcessQuad[1].u0 = 0.0f; 
-	PostProcessQuad[2].v0 = 1.0f;  PostProcessQuad[2].u0 = 1.0f; 
-	PostProcessQuad[3].v0 = 0.0f;  PostProcessQuad[3].u0 = 1.0f; 
+	PostProcessQuad[0].v0 = 1.0f;  PostProcessQuad[0].u0 = 0.0f;
+	PostProcessQuad[1].v0 = 0.0f;  PostProcessQuad[1].u0 = 0.0f;
+	PostProcessQuad[2].v0 = 1.0f;  PostProcessQuad[2].u0 = 1.0f;
+	PostProcessQuad[3].v0 = 0.0f;  PostProcessQuad[3].u0 = 1.0f;
 
 	d3d8->SetRenderTarget( pOriginalScreenSurface, pOriginalDepthSurface );
 
@@ -1164,8 +1164,9 @@ bool DX8RENDER::DX8EndScene()
 	dword	dwTotalTexNum = 0, dwTotalVB = 0, dwTotalIB = 0, dwTotalVBSize = 0, dwTotalIBSize = 0;
 
 	if(bShowFps)
-	{	
-		for(long t=0; t<MAX_STEXTURES; t++) if(Textures[t].ref>0) { dwTotalTexSize += Textures[t].dwSize; dwTotalTexNum++; }
+	{
+		long t;
+		for(t=0; t<MAX_STEXTURES; t++) if(Textures[t].ref>0) { dwTotalTexSize += Textures[t].dwSize; dwTotalTexNum++; }
 
 		for(t=0; t<MAX_BUFFERS; t++)
 		{
@@ -1188,13 +1189,13 @@ bool DX8RENDER::DX8EndScene()
 		Print(screen_size.x - 100,50,"%d fps",api->EngineFps());
 
 	if(bShowFps)
-	{	
+	{
 		MSTATE sms;
 		api->GetMemoryState(&sms);
 		Print(screen_size.x - 100,50,"%d",api->EngineFps());
 
 		//Print(80,50,"%d Kb",(ms.dwTotalPhys - ms.dwAvailPhys)/(1024));
-		
+
 		Print(80,50,"%.3f Mb",(ms.dwTotalPhys - ms.dwAvailPhys)/(1024.f*1024.f));
 		Print(80,80,"%.3f Mb in %d blocks",sms.nMemorySize/(1024.f*1024.f),sms.nBlocksNum);
 
@@ -1208,9 +1209,9 @@ bool DX8RENDER::DX8EndScene()
 			Print(80,150,"s: %d, %.3f, %.3f",dwSoundBuffersCount, dwSoundBytes / 1024.f, dwSoundBytesCached / 1024.f);
 		}
 	}
-		
+
 #ifdef _XBOX
-		
+
 #endif
 	}
 
@@ -1228,7 +1229,7 @@ bool DX8RENDER::DX8EndScene()
 	}
 
 	if (ErrorHandler("EndScene", d3d8->EndScene()))	return false;
-	
+
 #ifndef _XBOX
 	/*if (api->Controls->GetDebugAsyncKeyState(VK_SHIFT) < 0 && api->Controls->GetDebugAsyncKeyState(VK_F6) < 0)
 	{
@@ -1268,7 +1269,7 @@ bool DX8RENDER::DX8EndScene()
 static int totSize = 0;
 long DX8RENDER::TextureCreate(const char *fname)
 {
-	// start add texture path 
+	// start add texture path
 	if (dword(fname) == -1)
 	{
 		iSetupPath = 1;
@@ -1314,10 +1315,11 @@ long DX8RENDER::TextureCreate(const char *fname)
 		if (i>=0)
 		{
 			dword dwLen = strlen(fname);
-			
-			for (long j=dwLen-1; j>=0; j--)
+
+			long j;
+			for (j=dwLen-1; j>=0; j--)
 				if (fname[j] == '\\') break;
-			
+
 			_fname[0] = 0;
 			strncpy(_fname, fname, j + 1);
 			_fname[j + 1] = 0;
@@ -1341,7 +1343,8 @@ long DX8RENDER::TextureCreate(const char *fname)
 
 		unsigned long hf = hash_string(_fname);
 
-		for(long t=0; t<MAX_STEXTURES; t++)
+		long t;
+		for(t=0; t<MAX_STEXTURES; t++)
 			if(Textures[t].ref!=0)
 				if(Textures[t].name)
 				if(Textures[t].hash==hf && stricmp(Textures[t].name,_fname)==0)
@@ -1359,7 +1362,7 @@ long DX8RENDER::TextureCreate(const char *fname)
 			_THROW("allocate memory error");
 		strcpy(Textures[t].name,_fname);
 		Textures[t].isCubeMap = false;
-		Textures[t].loaded = false;	
+		Textures[t].loaded = false;
 		Textures[t].ref++;
 		if(TextureLoad(t)) return t;
 		Textures[t].ref--;
@@ -1387,7 +1390,7 @@ bool DX8RENDER::TextureLoad(long t)
 	//api->fio->SetDrive();
 	if(file == INVALID_HANDLE_VALUE)
 	{
-		if (bTrace) 
+		if (bTrace)
 		{
 			api->Trace("Can't load texture %s",fn);
 		}
@@ -1400,7 +1403,7 @@ bool DX8RENDER::TextureLoad(long t)
 	DWORD readingBytes = 0;
 	if(!api->fio->_ReadFile(file, &head, sizeof(head), &readingBytes) || readingBytes != sizeof(head))
 	{
-		if (bTrace) 
+		if (bTrace)
 		{
 			api->Trace("Can't load texture %s",fn);
 		}
@@ -1411,7 +1414,8 @@ bool DX8RENDER::TextureLoad(long t)
 	}
 	//Анализируем формат
 	D3DFORMAT d3dFormat = D3DFMT_UNKNOWN;
-	for(long textureFI = 0; textureFI < sizeof(textureFormats)/sizeof(SD_TEXTURE_FORMAT); textureFI++)
+	long textureFI;
+	for(textureFI = 0; textureFI < sizeof(textureFormats)/sizeof(SD_TEXTURE_FORMAT); textureFI++)
 		if(textureFormats[textureFI].txFormat == head.format) break;
 	if(textureFI == sizeof(textureFormats)/sizeof(SD_TEXTURE_FORMAT) || head.flags & TX_FLAGS_PALLETTE)
 	{
@@ -1436,7 +1440,7 @@ bool DX8RENDER::TextureLoad(long t)
 	//Загружаем текстуру
 	if(!(head.flags & TX_FLAGS_CUBEMAP))
 	{
-		//Загрузка обычной текстуры		
+		//Загрузка обычной текстуры
 		//Позиция в файле
 		if(seekposition) api->fio->_SetFilePointer(file, seekposition, 0, FILE_CURRENT);
 		//Создаём текстуру
@@ -1460,7 +1464,7 @@ bool DX8RENDER::TextureLoad(long t)
 			if(ErrorHandler("tex->GetSurfaceLevel", tex->GetSurfaceLevel(m, &surface))==true || !surface)
 			{
 				isError = true;
-			}else{			
+			}else{
 				//Зачитываем мип
 				isError = !LoadTextureSurface(file, surface, head.mip_size, head.width, head.height, isSwizzled);
 			}
@@ -1501,7 +1505,7 @@ bool DX8RENDER::TextureLoad(long t)
 			delete Textures[t].name;
 			Textures[t].name = 0;
 			api->fio->_CloseHandle(file);
-			return false;		
+			return false;
 		}
 		if(!(devcaps.TextureCaps & D3DPTEXTURECAPS_MIPCUBEMAP)) head.nmips = 1;
 		//Создаём текстуру
@@ -1513,7 +1517,7 @@ bool DX8RENDER::TextureLoad(long t)
 			Textures[t].name = 0;
 			api->fio->_CloseHandle(file);
 			return false;
-		}		
+		}
 		//Загружаем сторны
 		bool isError = false;
 		if(seekposition) api->fio->_SetFilePointer(file, seekposition, 0, FILE_CURRENT);
@@ -1578,7 +1582,7 @@ bool DX8RENDER::TextureLoad(long t)
 		api->fio->_WriteFile(fh,s,strlen(s),0);
 		api->fio->_FlushFileBuffers(fh);
 		api->fio->_CloseHandle(fh);
-		
+
 	}
 //#endif
 	dwTotalSize += Textures[t].dwSize;
@@ -1608,7 +1612,7 @@ dword DX8RENDER::LoadCubmapSide(HANDLE file, IDirect3DCubeTexture8 * tex, D3DCUB
 		if(ErrorHandler("tex->GetCubeMapSurface", tex->GetCubeMapSurface(face, m, &surface))==true || !surface)
 		{
 			isError = true;
-		}else{			
+		}else{
 			//Зачитываем мип
 			isError = !LoadTextureSurface(file, surface, mipSize, size, size, isSwizzled);
 		}
@@ -1668,7 +1672,7 @@ bool DX8RENDER::LoadTextureSurface(HANDLE file, IDirect3DSurface8 * suface, dwor
 		return false;
 	}
 	//Переформатирование
-	if(!isSwizzled) 
+	if(!isSwizzled)
 	{
 		byte * notAlignedBuffer = NEW byte[mipSize + 16];
 		byte * alignedBuffer = (byte *)(((dword)notAlignedBuffer + 15) & ~15);
@@ -1678,7 +1682,7 @@ bool DX8RENDER::LoadTextureSurface(HANDLE file, IDirect3DSurface8 * suface, dwor
 	}
 	//Освобождение поверхности
 	if(ErrorHandler("suface->UnlockRect", suface->UnlockRect())==true) return false;
-	//Освобождение буфера	
+	//Освобождение буфера
 	if(!isSwizzled) delete buffer;
 	return true;
 //------------------------------------------------------------------------------------------
@@ -1742,7 +1746,7 @@ bool DX8RENDER::TextureRelease(long texid)
 
 
 			HANDLE fh = api->fio->_CreateFile("texLoad.txt",GENERIC_READ|GENERIC_WRITE,FILE_SHARE_READ,OPEN_ALWAYS);
-			
+
 			FILE *flstat = fopen("texLoad.txt", "r+b");
 			totSize -= Textures[texid].dwSize;
 			int bytes = api->fio->_GetFileSize(fh,0);
@@ -1890,8 +1894,8 @@ void DX8RENDER::SetNearFarPlane(float fNear, float fFar)
 
 bool DX8RENDER::SetPerspective(float perspective, float fAspectRatio)
 {
-	float near_plane = fNearClipPlane; // Distance to near clipping 
-	float far_plane = fFarClipPlane;  // Distance to far clipping 
+	float near_plane = fNearClipPlane; // Distance to near clipping
+	float far_plane = fFarClipPlane;  // Distance to far clipping
 	float fov_horiz = perspective;  // Horizontal field of view  angle, in radians
 	if (fAspectRatio<0)
 	{
@@ -1969,12 +1973,13 @@ bool DX8RENDER::GetLight(DWORD dwIndex, D3DLIGHT8 * pLight)
 long DX8RENDER::CreateVertexBuffer(long type, long size, dword dwUsage)
 {
 	if (size <=0 ) return -1; // fix
-	for(long b=0; b<MAX_BUFFERS; b++)
+	long b;
+	for(b=0; b<MAX_BUFFERS; b++)
 		if(VertexBuffers[b].buff==NULL)	break;
 	if(b==MAX_BUFFERS)	return -1;
 
 	if(ErrorHandler("CreateVertexBuffer::CreateVertexBuffer",
-	d3d8->CreateVertexBuffer(size, dwUsage, 
+	d3d8->CreateVertexBuffer(size, dwUsage,
 		type, D3DPOOL_DEFAULT, &VertexBuffers[b].buff)
 		)==true)	return -1;
 
@@ -1999,7 +2004,8 @@ long DX8RENDER::GetVertexBufferFVF(long id)
 //################################################################################
 long DX8RENDER::CreateIndexBuffer(long size, dword dwUsage)
 {
-	for(long b=0; b<MAX_BUFFERS; b++)
+	long b;
+	for(b=0; b<MAX_BUFFERS; b++)
 		if(IndexBuffers[b].buff==NULL)	break;
 	if(b==MAX_BUFFERS)	return -1;
 
@@ -2014,7 +2020,7 @@ long DX8RENDER::CreateIndexBuffer(long size, dword dwUsage)
 	return b;
 }
 //################################################################################
-void DX8RENDER::DrawBuffer(long vbuff, long stride, long ibuff, long minv, 
+void DX8RENDER::DrawBuffer(long vbuff, long stride, long ibuff, long minv,
 												 long numv, long startidx, long numtrg, const char *cBlockName, dword dwNumParams, ...)
 {
 	bool bDraw = true;
@@ -2043,7 +2049,7 @@ void DX8RENDER::DrawBuffer(long vbuff, long stride, long ibuff, long minv,
 	} while (cBlockName && cBlockName[0] && TechniqueExecuteNext());
 }
 
-void DX8RENDER::DrawIndexedPrimitiveNoVShader(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iIBuff, long iMinV, 
+void DX8RENDER::DrawIndexedPrimitiveNoVShader(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iIBuff, long iMinV,
 												 long iNumV, long iStartIdx, long iNumTrg, const char *cBlockName, dword dwNumParams, ...)
 {
 	bool bDraw = true;
@@ -2105,7 +2111,7 @@ void DX8RENDER::DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, lon
 
 	if(ErrorHandler("DrawPrimitive::SetStreamSource",
 		d3d8->SetStreamSource(0, VertexBuffers[iVBuff].buff, iStride)
-		)==true)	return; 
+		)==true)	return;
 
 	if (cBlockName) bDraw = TechniqueSetParamsAndStart(cBlockName,dwNumParams,1 + &dwNumParams);
 	if (bDraw) do
@@ -2131,10 +2137,10 @@ void DX8RENDER::RenderAnimation(long ib, void * src, long numVrts, long minv, lo
 			aniVBuffer = null;
 			numAniVerteces = 0;
 			if(ErrorHandler("RenderAnimation::CreateVertexBuffer",
-				d3d8->CreateVertexBuffer(size, 
-											D3DUSAGE_WRITEONLY, 
+				d3d8->CreateVertexBuffer(size,
+											D3DUSAGE_WRITEONLY,
 											type,
-											D3DPOOL_MANAGED, 
+											D3DPOOL_MANAGED,
 											&aniVBuffer))==true) return;
 			numAniVerteces = numVrts;
 		}
@@ -2202,7 +2208,7 @@ void DX8RENDER::UnLockIndexBuffer(long id)
 	IndexBuffers[id].dwNumLocks--;
 	ErrorHandler("UnLockIndexBuffer::UnLockIndexBuffer",
 		IndexBuffers[id].buff->Unlock());
-} 
+}
 //################################################################################
 void DX8RENDER::ReleaseVertexBuffer(long id)
 {
@@ -2284,7 +2290,7 @@ bool DX8RENDER::LoadState(ENTITY_STATE * state)
 	//InitDevice(window,api->GetAppHWND(),screen_size.x,screen_size.y);
 	UNGUARD
 	return true;
-	
+
 }
 
 bool DX8RENDER::ResetDevice()
@@ -2354,7 +2360,7 @@ void DX8RENDER::RunStart()
 		case D3DERR_DEVICENOTRESET:
 			if (!ResetDevice()) return;
 		break;
-		case D3DERR_DEVICELOST: 
+		case D3DERR_DEVICELOST:
 			return;
 		break;
 	}
@@ -2404,7 +2410,7 @@ PlayToTexture();
 void DX8RENDER::RunEnd()
 {
 	MakePostProcess();
-	
+
 	bInsideScene = false;
 	DX8EndScene();
 	if(progressTexture >= 0)
@@ -2557,7 +2563,8 @@ long DX8RENDER::LoadFont(char * fontName)
 	fontName = strupr(sDup);
     unsigned long hashVal = hash_string(fontName);
 
-    for(long i=0; i<nFontQuantity; i++)
+	long i;
+    for(i=0; i<nFontQuantity; i++)
         if( FontList[i].hash==hashVal && stricmp(FontList[i].name,fontName)==0 )
         {
             if( FontList[i].ref>0 )
@@ -2718,7 +2725,7 @@ void DX8RENDER::func()
 	d3d8->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_EXP);
 
 	d3d8->SetRenderState(D3DRS_LIGHTING, TRUE);
-	d3d8->SetRenderState(D3DRS_LOCALVIEWER, FALSE); 
+	d3d8->SetRenderState(D3DRS_LOCALVIEWER, FALSE);
 	d3d8->SetRenderState(D3DRS_AMBIENT, 0x505050);
 	d3d8->SetRenderState(D3DRS_AMBIENTMATERIALSOURCE, D3DMCS_COLOR1);
 
@@ -2737,7 +2744,7 @@ void DX8RENDER::func()
 	d3d8->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_ANISOTROPIC);
 	d3d8->SetTextureStageState(0, D3DTSS_MIPFILTER, D3DTEXF_LINEAR);
 	d3d8->SetTextureStageState(0, D3DTSS_MAXANISOTROPY, 3);
-	
+
 	//unchanged texture stage states - both for base and detal texture
 	d3d8->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
 	d3d8->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_TEXTURE);
@@ -2841,7 +2848,7 @@ void DX8RENDER::MakeScreenShot()
 	IDirect3DSurface8 * renderTarget, * surface;
 
 	bMakeShoot = false;
-	
+
 	if(!(screen_bpp == D3DFMT_X8R8G8B8 || screen_bpp == D3DFMT_A8R8G8B8))
 	{
 		api->Trace("Can't make screenshots in non 32bit video modes");
@@ -2867,7 +2874,7 @@ void DX8RENDER::MakeScreenShot()
 		return;
 	}
 
-	if(FAILED(d3d8->CopyRects(renderTarget, null, 0, surface, null)) || 
+	if(FAILED(d3d8->CopyRects(renderTarget, null, 0, surface, null)) ||
 		FAILED(surface->LockRect(&lr, &r, 0)))
 	{
 		surface->Release();
@@ -2894,7 +2901,7 @@ void DX8RENDER::MakeScreenShot()
 		return;
 	}
 	fio->_WriteFile(fh,&Dhdr,sizeof(TGA_H),0);
-	
+
 	Surface = (DWORD*)lr.pBits;
 	Surface += lr.Pitch*screen_size.y>>2;
 	for(i=0;i<screen_size.y;i++)
@@ -2923,10 +2930,10 @@ void DX8RENDER::FindPlanes(IDirect3DDevice8 * d3dDevice)
 	//left
 	v[0].x = m.m[0][0]; v[0].y = 0.0f; v[0].z = 1.0f;
 	//right
-	v[1].x = -m.m[0][0]; v[1].y = 0.0f; v[1].z = 1.0f;		
+	v[1].x = -m.m[0][0]; v[1].y = 0.0f; v[1].z = 1.0f;
 	//top
-	v[2].x = 0.0f; v[2].y = -m.m[1][1]; v[2].z = 1.0f;	
-	//bottom	
+	v[2].x = 0.0f; v[2].y = -m.m[1][1]; v[2].z = 1.0f;
+	//bottom
 	v[3].x = 0.0f; v[3].y = m.m[1][1]; v[3].z = 1.0f;
 	v[0] = !v[0];
 	v[1] = !v[1];
@@ -3035,11 +3042,11 @@ void DX8RENDER::DrawRects(RS_RECT *pRSR, dword dwRectsNum, const char *cBlockNam
 			float sn = sinf(rect.fAngle);
 			float cs = cosf(rect.fAngle);
 			long color = rect.dwColor;
-			float u1, v1, u2, v2;			
+			float u1, v1, u2, v2;
 			if(!bUseSubTextures)
 			{
 				v1 = u1 = 0.0f;
-				v2 = u2 = 1.0f;				
+				v2 = u2 = 1.0f;
 			}else{
 				u1 = (rect.dwSubTexture % dwSubTexturesX)*du;
 				v1 = ((rect.dwSubTexture / dwSubTexturesX) % dwSubTexturesY)*dv;
@@ -3185,15 +3192,15 @@ HRESULT DX8RENDER::DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, UINT StartVer
 }
 
 #ifndef _XBOX
-HRESULT DX8RENDER::Release(IUnknown *pSurface) 
-{ 
-	if (pSurface) return pSurface->Release(); 
+HRESULT DX8RENDER::Release(IUnknown *pSurface)
+{
+	if (pSurface) return pSurface->Release();
 	return D3D_OK;
 }
 #else
-HRESULT DX8RENDER::Release(IDirect3DResource8 * pSurface) 
-{ 
-	if (pSurface) return pSurface->Release(); 
+HRESULT DX8RENDER::Release(IDirect3DResource8 * pSurface)
+{
+	if (pSurface) return pSurface->Release();
 	return D3D_OK;
 }
 #endif
@@ -3490,34 +3497,34 @@ HRESULT DX8RENDER::ImageBlt(long TextureID, RECT * pDstRect, RECT * pSrcRect)
 		dr.right = screen_size.x-1;
 		dr.bottom = screen_size.y-1;
 	}
-	
+
 	for(DWORD n=0;n<6;n++)
 	{
 		v[n].rhw = 1.0f;
 		v[n].z = 0.5f;
 	}
-	
-	v[0].x = (float)dr.left;	v[0].y = (float)dr.top;		
+
+	v[0].x = (float)dr.left;	v[0].y = (float)dr.top;
 	v[0].tu = 0.0f;				v[0].tv = 0.0f;
 
-	v[1].x = (float)dr.left;	v[1].y = (float)dr.bottom;		
+	v[1].x = (float)dr.left;	v[1].y = (float)dr.bottom;
 	v[1].tu = 0.0f;				v[1].tv = 1.0f;
 
-	v[2].x = (float)dr.right;	v[2].y = (float)dr.top;		
+	v[2].x = (float)dr.right;	v[2].y = (float)dr.top;
 	v[2].tu = 1.0f;				v[2].tv = 0.0f;
 
-	v[3].x = (float)dr.right;	v[3].y = (float)dr.top;		
+	v[3].x = (float)dr.right;	v[3].y = (float)dr.top;
 	v[3].tu = 1.0f;				v[3].tv = 0.0f;
 
-	v[4].x = (float)dr.left;	v[4].y = (float)dr.bottom;		
+	v[4].x = (float)dr.left;	v[4].y = (float)dr.bottom;
 	v[4].tu = 0.0f;				v[4].tv = 1.0f;
 
-	v[5].x = (float)dr.right;	v[5].y = (float)dr.bottom;		
+	v[5].x = (float)dr.right;	v[5].y = (float)dr.bottom;
 	v[5].tu = 1.0f;				v[5].tv = 1.0f;
 
-	
+
 	TextureSet(0,TextureID);
-	
+
 	bool bDraw = TechniqueExecuteStart("texturedialogfon");
 	if (bDraw) do
 	{
@@ -3525,7 +3532,7 @@ HRESULT DX8RENDER::ImageBlt(long TextureID, RECT * pDstRect, RECT * pSrcRect)
 		hRes = d3d8->DrawPrimitiveUP(D3DPT_TRIANGLELIST,2,&v,sizeof(F3DVERTEX));
 		dwNumDrawPrimitive++;
 	} while (TechniqueExecuteNext());
-	
+
 	return hRes;
 
 }
@@ -3631,7 +3638,7 @@ void DX8RENDER::ProgressView()
 	if(abs((long)(progressUpdateTime - time)) < 50) return;
 	progressUpdateTime = time;
 	isInPViewProcess = true;
-	progressSafeCounter = 0;	
+	progressSafeCounter = 0;
 	//Режим рисования
 	if(!bInsideScene) BeginScene();
 	//Заполняем вершины текстуры
@@ -3648,7 +3655,7 @@ void DX8RENDER::ProgressView()
 		v[i].color = 0xffffffff;
 	}
 	//Вычисляем прямоугольник в котором будем рисовать
-	D3DVIEWPORT8 vp;	
+	D3DVIEWPORT8 vp;
 	GetViewport(&vp);
 	v[0].x = 0.0f; v[0].y = 0.0f;
 	v[1].x = float(vp.Width); v[1].y = 0.0f;
@@ -3659,7 +3666,7 @@ void DX8RENDER::ProgressView()
 	v[2].u = 0.0f; v[2].v = 1.0f;
 	v[3].u = 1.0f; v[3].v = 1.0f;
 	TextureSet(0, backTexture);
-	if(backTexture < 0) for(i = 0; i < 4; i++) v[i].color = 0;
+	if(backTexture < 0) for(long i = 0; i < 4; i++) v[i].color = 0;
 	if(backTexture >= 0 && progressTipsTexture >= 0)
 	{
 		TextureSet(1, progressTipsTexture);
@@ -3667,7 +3674,7 @@ void DX8RENDER::ProgressView()
 	}else{
 		DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1, 2, v, sizeof(v[0]), "ProgressBackTech");
 	}
-	if(backTexture < 0) for(i = 0; i < 4; i++) v[i].color = 0xffffffff;	
+	if(backTexture < 0) for(long i = 0; i < 4; i++) v[i].color = 0xffffffff;
 	//Анимированный объект
 	CVECTOR pos(vp.Width*progressFramesPosX, vp.Height*progressFramesPosY, 0.0f);
 	CVECTOR size(vp.Width*progressFramesWidth, vp.Width*progressFramesHeight*m_fHeightDeformator, 0.0f);
@@ -3685,7 +3692,7 @@ void DX8RENDER::ProgressView()
 	v[1].u = (fx + 1.0f)/float(sizeX); v[1].v = fy/float(sizeY);
 	v[2].u = fx/float(sizeX); v[2].v = (fy + 1.0f)/float(sizeY);
 	v[3].u = (fx + 1.0f)/float(sizeX); v[3].v = (fy + 1.0f)/float(sizeY);
-	//Рисуем 
+	//Рисуем
 	TextureSet(0, progressTexture);
 	DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1, 2, v, sizeof(v[0]), "ProgressTech");
 	EndScene();
@@ -3737,7 +3744,7 @@ void DX8RENDER::MakeDrawVector(RS_LINE * pLines, dword dwNumSubLines, const CMat
 {
 	dword i;
     dword k;
-    
+
 	//for (i=0; i<dwNumSubLines * 2 + 2; i++) pLines[i].dwColor = dwColor;
 	k = dwNumSubLines * 2 + 2; // boal оптимизация, если фор крутит вычисления каждый проход.
 	for (i=0; i<k; i++)
@@ -3774,9 +3781,9 @@ void DX8RENDER::DrawVector(const CVECTOR & v1, const CVECTOR & v2, dword dwColor
 	CMatrix	mView;
 
 	float fScale = sqrtf(~(v2 - v1));
-	if (!mView.BuildViewMatrix(v1, v2, CVECTOR(0.0f, 1.0f, 0.0f))) 
+	if (!mView.BuildViewMatrix(v1, v2, CVECTOR(0.0f, 1.0f, 0.0f)))
 		if (!mView.BuildViewMatrix(v1, v2, CVECTOR(1.0f, 0.0f, 0.0f))) return;
-	
+
 	mView.Transposition();
 
 	MakeDrawVector(&lines[0], 50, mView, CVECTOR(1.0f, 1.0f, 0.0f), mView.Pos(), mView.Vz(), fScale, dwColor);
@@ -3798,7 +3805,7 @@ void DX8RENDER::DrawSphere(const CVECTOR & vPos, float fRadius, dword dwColor)
 
 	SetRenderState(D3DRS_TEXTUREFACTOR, dwColor);
 	SetTransform(D3DTS_WORLD, m);
-	DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE, DX8sphereNumTrgs, DX8sphereVertex, sizeof(DX8SphVertex), "DX8Sphere");	
+	DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE, DX8sphereNumTrgs, DX8sphereVertex, sizeof(DX8SphVertex), "DX8Sphere");
 }
 
 void DX8RENDER::SetLoadTextureEnable(bool bEnable)
@@ -3845,7 +3852,7 @@ bool DX8RENDER::PushRenderTarget()
 
 bool DX8RENDER::PopRenderTarget()
 {
-	if (!stRenderTarget.Size()) 
+	if (!stRenderTarget.Size())
 	{
 		api->Trace("DX8Error: Try to pop RenderTarget, but RenderTarget stack is empty");
 		return false;
@@ -3876,22 +3883,22 @@ void DX8RENDER::SetView(const CMatrix & mView)				{ SetTransform(D3DTS_VIEW, mVi
 void DX8RENDER::SetWorld(const CMatrix & mWorld)			{ SetTransform(D3DTS_WORLD, mWorld); }
 void DX8RENDER::SetProjection(const CMatrix & mProjection)	{ SetTransform(D3DTS_PROJECTION, mProjection); }
 
-const CMatrix & DX8RENDER::GetView() 
-{ 
+const CMatrix & DX8RENDER::GetView()
+{
 	GetTransform(D3DTS_VIEW, mView);
-	return mView; 
+	return mView;
 }
 
 const CMatrix & DX8RENDER::GetWorld()
-{ 
+{
 	GetTransform(D3DTS_WORLD, mWorld);
-	return mWorld; 
+	return mWorld;
 }
 
 const CMatrix & DX8RENDER::GetProjection()
-{ 
+{
 	GetTransform(D3DTS_PROJECTION, mProjection);
-	return mProjection; 
+	return mProjection;
 }
 
 IDirect3DBaseTexture8* DX8RENDER::GetTextureFromID(long nTextureID)

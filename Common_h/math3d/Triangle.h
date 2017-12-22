@@ -40,7 +40,7 @@ public:
 //-----------------------------------------------------------
 //Конструкторы
 //-----------------------------------------------------------
-public:	
+public:
 	///Пустой конструктор
 	Triangle();
 	Triangle(const Vector * v);
@@ -55,7 +55,7 @@ public:
 //-----------------------------------------------------------
 //Утилитные
 //-----------------------------------------------------------
-public:	
+public:
 	//Получить нормаль
 	Vector GetNormal() const;
 	//Получить среднюю точку
@@ -174,7 +174,7 @@ mathinline Vector Triangle::GetCenter() const
 //Получить треугольник
 mathinline Plane Triangle::GetPlane() const
 {
-	return Plane(GetNormal(), p1);	
+	return Plane(GetNormal(), p1);
 }
 
 //Плоскость проходящая через грань (p[start % 2], p[(start + 1) % 2])
@@ -324,10 +324,11 @@ mathinline Triangle::CoIntersectionResult Triangle::IsCoplanarIntersection(const
 mathinline long Triangle::z_sysClipTriangleEdgePlane(Plane plane, Vector src[8], Vector dst[8], long count)
 {
 	float ds = plane*src[0], de;
-	for(long s = 0, c = 0; s < count; s++, ds = de)
+	long c = 0;
+	for(long s = 0; s < count; s++, ds = de)
 	{
 		//Если в области, добавляем вершину
-		if(ds <= 0.0f) dst[c++] = src[s];		
+		if(ds <= 0.0f) dst[c++] = src[s];
 		//Индекс следующего
 		long e = s + 1 < count ? s + 1 : 0;
 		//Дистанции до плоскости

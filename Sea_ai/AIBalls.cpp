@@ -29,7 +29,7 @@ AIBalls::~AIBalls()
 	AIHelper::pRS->TextureRelease(dwTextureIndex);
 
 	for (i=0;i<aBallTypes.Size();i++)
-	{	
+	{
 		BALL_TYPE * pBallsType = &aBallTypes[i];
 		for (j=0;j<pBallsType->Balls.Size();j++)
 		{
@@ -107,8 +107,9 @@ void AIBalls::FireBallFromCamera()
 void AIBalls::AddBall(ATTRIBUTES * pABall)
 {
 	char *pBallName = pABall->GetAttribute("Type"); Assert(pBallName);
-	
-	for (dword i=0;i<aBallTypes.Size();i++) if (stricmp(aBallTypes[i].sName,pBallName)==0) break;
+
+	dword i;
+	for (i=0;i<aBallTypes.Size();i++) if (stricmp(aBallTypes[i].sName,pBallName)==0) break;
 	if (i == aBallTypes.Size()) return;
 
 	BALL_PARAMS * pBall = &aBallTypes[i].Balls[aBallTypes[i].Balls.Add()];
@@ -169,7 +170,7 @@ void AIBalls::Execute(dword Delta_Time)
 	float fDeltaTime = 0.001f * float(Delta_Time);
 
 	for (i=0;i<aBallTypes.Size();i++)
-	{	
+	{
 		BALL_TYPE * pBallsType = &aBallTypes[i];
 
 		AttributesPointer->SetAttributeUseDword("CurrentBallType", pBallsType->dwGoodIndex);
@@ -197,7 +198,7 @@ void AIBalls::Execute(dword Delta_Time)
 
 			if (pBall->sBallEvent.Len())
 				api->Event((char*)pBall->sBallEvent.GetBuffer(), "lllffffffs", pBall->iBallOwner, (dword)1, pBallsType->dwGoodIndex, pBall->vPos.x, pBall->vPos.y, pBall->vPos.z, vSrc.x, vSrc.y, vSrc.z);
-			
+
 			if (pBall->pParticle)
 			{
 				CVECTOR vDir = !(vSrc - vDst);
@@ -205,10 +206,10 @@ void AIBalls::Execute(dword Delta_Time)
 			}
 
 			float fRes = 2.0f;
-			
+
 			CVECTOR v1 = mView * vSrc;
 			CVECTOR v2 = mView * vDst;
-			
+
 			if (SIGN(v1.z) != SIGN(v2.z))
 			{
 				float fDelta = fabsf(v1.z / (v2.z - v1.z));
@@ -220,16 +221,16 @@ void AIBalls::Execute(dword Delta_Time)
 					CVECTOR vRes, v = fBallFlySoundStereoMultiplyer * CVECTOR(x, y, 0.0f);
 					mView.MulToInv(v, vRes);
 
-					api->Event(BALL_FLY_NEAR_CAMERA, "fff", vRes.x, vRes.y, vRes.z); 
+					api->Event(BALL_FLY_NEAR_CAMERA, "fff", vRes.x, vRes.y, vRes.z);
 				}
 			}
 
 			// sail trace
-			if (pSail) 
+			if (pSail)
 				pSail->Cannon_Trace(pBall->iBallOwner, vSrc, vDst);
 
 			// ship trace
-			if (pVWShips && (pEID = pVWShips->GetID()) != 0) do 
+			if (pVWShips && (pEID = pVWShips->GetID()) != 0) do
 			{
 				CANNON_TRACE_BASE * pShip = (CANNON_TRACE_BASE*)api->GetEntityPointer(pEID);
 				fRes = pShip->Cannon_Trace(pBall->iBallOwner, vSrc, vDst);
@@ -243,11 +244,11 @@ void AIBalls::Execute(dword Delta_Time)
 			}
 
 			// island trace
-			if (fRes>1.0f && pIsland) 
+			if (fRes>1.0f && pIsland)
 				fRes = pIsland->Cannon_Trace(pBall->iBallOwner, vSrc, vDst);
 
 			// sea trace
-			if (fRes>1.0f && pSea) 
+			if (fRes>1.0f && pSea)
 				fRes = pSea->Cannon_Trace(pBall->iBallOwner, vSrc, vDst);
 
 			// delete ball
@@ -257,7 +258,7 @@ void AIBalls::Execute(dword Delta_Time)
 				{
 					api->Event((char*)pBall->sBallEvent.GetBuffer(),"lllffffff", pBall->iBallOwner, (dword)0, pBallsType->dwGoodIndex, pBall->vPos.x, pBall->vPos.y, pBall->vPos.z, vSrc.x, vSrc.y, vSrc.z);
 					pBall->sBallEvent.DelAll();
-				} 
+				}
 
 				if (pBall->pParticle)
 				{
@@ -294,7 +295,7 @@ void AIBalls::Realize(dword Delta_Time)
 	dwFireBallFromCameraTime += Delta_Time;
 	/*
 #ifndef _XBOX
-	if (api->Controls->GetDebugAsyncKeyState('C') < 0 && dwFireBallFromCameraTime > 30 && AttributesPointer->GetAttributeAsDword("FireBallFromCamera", 0) != 0) 
+	if (api->Controls->GetDebugAsyncKeyState('C') < 0 && dwFireBallFromCameraTime > 30 && AttributesPointer->GetAttributeAsDword("FireBallFromCamera", 0) != 0)
 	{
 		dwFireBallFromCameraTime = 0;
 		FireBallFromCamera();
@@ -308,7 +309,7 @@ dword AIBalls::AttributeChanged(ATTRIBUTES * pAttributeChanged)
 	if (*pAttributeChanged == "clear")
 	{
 		for (dword i=0; i<aBallTypes.Size(); i++)
-		{	
+		{
 			BALL_TYPE * pBallsType = &aBallTypes[i];
 
 			for (dword j=0; j<pBallsType->Balls.Size(); j++)
@@ -327,7 +328,7 @@ dword AIBalls::AttributeChanged(ATTRIBUTES * pAttributeChanged)
 
 			pBallsType->Balls.DelAll();
 		}
-			
+
 		return 0;
 	}
 
@@ -346,17 +347,17 @@ dword AIBalls::AttributeChanged(ATTRIBUTES * pAttributeChanged)
 		sTextureName = AttributesPointer->GetAttribute("Texture");
 		dwSubTexX = AttributesPointer->GetAttributeAsDword("SubTexX");
 		dwSubTexY = AttributesPointer->GetAttributeAsDword("SubTexY");
-		
+
 		dwTextureIndex = AIHelper::pRS->TextureCreate(sTextureName);
 
-		// install balls 
+		// install balls
 		ATTRIBUTES *pAPBalls = AttributesPointer->GetAttributeClass("Balls");
 		dword dwIdx = 0;
 		while(pAPBalls && true)
 		{
 			char * pName = pAPBalls->GetAttributeName(dwIdx);		if (!pName) break;
 			ATTRIBUTES * pAP = pAPBalls->GetAttributeClass(pName);	if (!pAP) break;
-			
+
 			dword dwBallNum = aBallTypes.Add();
 
 			aBallTypes[dwBallNum].sName = pName;
@@ -367,7 +368,7 @@ dword AIBalls::AttributeChanged(ATTRIBUTES * pAttributeChanged)
 
 			if (pAP->GetAttribute("Particle"))
 				aBallTypes[dwBallNum].sParticleName = pAP->GetAttribute("Particle");
-			
+
 			dwIdx++;
 		}
 		return 0;
@@ -399,7 +400,7 @@ void AIBalls::Save(CSaveLoad * pSL)
 	for (dword i=0; i<aBallTypes.Size(); i++)
 	{
 		pSL->SaveDword(aBallTypes[i].Balls.Size());
-	
+
 		for (dword j=0; j<aBallTypes[i].Balls.Size(); j++)
 		{
 			pSL->SaveBuffer((const char *)&aBallTypes[i].Balls[j], sizeof(BALL_PARAMS));
@@ -412,7 +413,7 @@ void AIBalls::Load(CSaveLoad * pSL)
 	for (dword i=0; i<aBallTypes.Size(); i++)
 	{
 		dword dwNum = pSL->LoadDword();
-	
+
 		for (dword j=0; j<dwNum; j++)
 		{
 			BALL_PARAMS * pB = &aBallTypes[i].Balls[aBallTypes[i].Balls.Add()];
