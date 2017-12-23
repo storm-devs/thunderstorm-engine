@@ -57,7 +57,8 @@ int CXI_FOURIMAGE::CommandExecute(int wActCode)
 		case ACTION_DEACTIVATE:
 			break;
 		case ACTION_MOUSECLICK:
-			for(int i=0; i<4; i++)
+			int i;
+			for(i=0; i<4; i++)
 				if( m_MousePoint.x >= m_imgRect[i].left && m_MousePoint.x <= m_imgRect[i].right &&
 					m_MousePoint.y >= m_imgRect[i].top  && m_MousePoint.y <= m_imgRect[i].bottom )
 					break;
@@ -127,7 +128,7 @@ void CXI_FOURIMAGE::Draw(bool bSelected,dword Delta_Time)
 		}
 
 		// draw two picture
-		for(i=0; i<4; i++)
+		for(int i=0; i<4; i++)
 		{
 			if(m_twoTexID[i]==-1 || m_twoTexID[i]>=m_nTexturesQuantity) continue;
 			if(m_twoImgID[i]==-1) m_rs->TextureSet(0,m_twoBadTexture);
@@ -473,14 +474,14 @@ void CXI_FOURIMAGE::FillVertex()
 			pVert[idx].tv			= textRect1.top;
 			pVert[16+idx].tu		= textRect2.left;
 			pVert[16+idx].tv		= textRect2.top;
-			// left bottom vertex	
+			// left bottom vertex
 			pVert[idx+1].pos.x		= pVert[17+idx].pos.x	= (float)m_imgRect[i].left;
 			pVert[idx+1].pos.y		= pVert[17+idx].pos.y	= (float)m_imgRect[i].bottom;
 			pVert[idx+1].tu			= textRect1.left;
 			pVert[idx+1].tv			= textRect1.bottom;
 			pVert[17+idx].tu		= textRect2.left;
 			pVert[17+idx].tv		= textRect2.bottom;
-			// right top vertex		
+			// right top vertex
 			pVert[idx+2].pos.x		= pVert[18+idx].pos.x	= (float)m_imgRect[i].right;
 			pVert[idx+2].pos.y		= pVert[18+idx].pos.y	= (float)m_imgRect[i].top;
 			pVert[idx+2].tu			= textRect1.right;

@@ -5,7 +5,7 @@
 //--------------------------------------------------------------------------------------------
 //	WdmCloud
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "WdmCloud.h"
@@ -87,7 +87,7 @@ void WdmCloud::Update(float dltTime)
 	}
 	if(curMove >= numRects) curMove = 0;
 	//Скорость партикла
-	i = curMove++;
+	long i = curMove++;
 	//Центровое воздействие
 	dltTime = move[i].dTime;
 	move[i].dTime = 0.0f;
@@ -272,7 +272,7 @@ void WdmCloud::Render(VDX8RENDER * rs)
 	rs->TextureSet(1, light);
 	//Константы
 	CMatrix prj;
-	rs->GetTransform(D3DTS_PROJECTION, prj);	
+	rs->GetTransform(D3DTS_PROJECTION, prj);
 	rs->SetVertexShaderConstant(0, prj, 4);
 	prj.matrix[0] = view.matrix[1];
 	prj.matrix[1] = view.matrix[5];

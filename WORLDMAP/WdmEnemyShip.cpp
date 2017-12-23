@@ -1,11 +1,11 @@
 //============================================================================================
 //	Spirenkov Maxim aka Sp-Max Shaman, 2001
 //--------------------------------------------------------------------------------------------
-//	
+//
 //--------------------------------------------------------------------------------------------
 //	WdmEnemyShip
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "WdmEnemyShip.h"
@@ -231,7 +231,7 @@ void WdmEnemyShip::Move(float dltTime)
 	if(cs >= 0.0f)
 	{
 		speed += kMaxSpeed*WDM_SHIP_INER_ST*WDM_SHIP_SPEED*dltTime;
-	}else{		
+	}else{
 		if(speed > 0.1f)
 		{
 			speed -= kMaxSpeed*WDM_SHIP_INER_ST*WDM_SHIP_SPEED*dltTime;
@@ -272,7 +272,7 @@ void WdmEnemyShip::UpdateSaveData()
 	saveAttribute->SetAttributeUseFloat("slope", slope);
 	saveAttribute->SetAttributeUseDword("enc_id", type);
 	saveAttribute->SetAttributeUseDword("isEnableKill", isEnableKill);
-	saveAttribute->SetAttributeUseDword("isEnemy", isEnemy);	
+	saveAttribute->SetAttributeUseDword("isEnemy", isEnemy);
 	saveAttribute->SetAttributeUseDword("killMe", killMe);
 	saveAttribute->SetAttributeUseFloat("canSkip", canSkip);
 	saveAttribute->SetAttribute("sec", wdmObjects->attrSec);
@@ -349,7 +349,8 @@ bool WdmEnemyShip::GeneratePosition(float objRadius, float brnDltAng, float & x,
 		{
 			float angle = psay + brnDltAng*(0.5f - ang/31.0f);
 			//Определяем радиус
-			for(long rad = rand() & 7; field[ang] & (1 << rad); rad = rand() & 7);
+			long rad;
+			for(rad = rand() & 7; field[ang] & (1 << rad); rad = rand() & 7);
 			float radius = wdmObjects->enemyshipBrnDistMin + (wdmObjects->enemyshipBrnDistMax - wdmObjects->enemyshipBrnDistMin)*rad/7.0f;
 			//Координаты
 			x = psx + radius*sinf(angle);
@@ -359,6 +360,7 @@ bool WdmEnemyShip::GeneratePosition(float objRadius, float brnDltAng, float & x,
 			field[ang] |= 1 << rad;
 		}
 		//Проверка на возможность продолжения
+		long i;
 		for(i = 0; i < 32 && field[i] == 0xff; i++);
 		if(i == 32) return false;
 	}

@@ -5,7 +5,7 @@
 //--------------------------------------------------------------------------------------------
 //	WdmStorm
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "WdmStorm.h"
@@ -86,7 +86,7 @@ WdmStorm::WdmStorm()
 	//Раскидываем облака
 	long x, z;
 	bool globSign = (rand() & 1) != 0;
-	for(i = 0; i < num; i++)
+	for(long i = 0; i < num; i++)
 	{
 		cloud[i] = (WdmCloud *)wdmObjects->wm->AddObject(NEW WdmCloud(), 101);
 		if(cloud[i])
@@ -177,7 +177,7 @@ void WdmStorm::Update(float dltTime)
 	float alpha = (wdmObjects->camera->realHeight - pos.y - 10.0f)*0.01f;
 	if(alpha < 0.0f) alpha = 0.0f;
 	if(alpha > 1.0f) alpha = 1.0f;
-	//Альфа от удалённости от корабля	
+	//Альфа от удалённости от корабля
 	if(r < wdmObjects->stormViewDistMin) r = wdmObjects->stormViewDistMin;
 	if(r > wdmObjects->stormViewDistMax) r = wdmObjects->stormViewDistMax;
 	alpha *= 1.0f - (r - wdmObjects->stormViewDistMin)/(wdmObjects->stormViewDistMax - wdmObjects->stormViewDistMin);
@@ -228,8 +228,8 @@ void WdmStorm::Update(float dltTime)
 void WdmStorm::LRender(VDX8RENDER * rs)
 {
 	if(wdmObjects->isDebug)
-	{		
-		CMatrix mtr; 
+	{
+		CMatrix mtr;
 		mtr.Pos() = pos;
 		mtr.Pos().y = 0.1f;
 		wdmObjects->DrawCircle(mtr, wdmObjects->stormZone, 0x2f202040);
@@ -242,7 +242,8 @@ void WdmStorm::LRender(VDX8RENDER * rs)
 			}
 	}
 
-	for(long i = 0, count = 0; i < num; i++)
+	long count = 0;
+	for(long i = 0; i < num; i++)
 	{
 		if(cloud[i])
 		{
@@ -318,11 +319,11 @@ void WdmStorm::UpdateSaveData()
 	saveAttribute->SetAttributeUseFloat("liveTime", liveTime);
 	saveAttribute->SetAttributeUseFloat("liveAlpha", liveAlpha);
 	saveAttribute->SetAttributeUseFloat("speed", speed);
-	
+
 	saveAttribute->SetAttributeUseDword("isBrn", isBrn);
 	saveAttribute->SetAttributeUseDword("isKl", isKl);
 	saveAttribute->SetAttributeUseDword("isTornado", isTornado);
-	
+
 	saveAttribute->SetAttributeUseDword("num", num);
 
 	for(char i = 0; i < 8; i++)

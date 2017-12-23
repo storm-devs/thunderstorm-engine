@@ -5,7 +5,7 @@
 //--------------------------------------------------------------------------------------------
 //	WdmIslands
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "WdmIslands.h"
@@ -28,8 +28,8 @@ CMatrix WdmIslands::curMatrix;
 //Конструирование, деструктурирование
 //============================================================================================
 
-WdmIslands::WdmIslands() : labelSort(_FL_, 1024), 
-	islands(_FL_), 
+WdmIslands::WdmIslands() : labelSort(_FL_, 1024),
+	islands(_FL_),
 	labels(_FL_),
 	fonts(_FL_),
 	merchants(_FL_),
@@ -91,15 +91,16 @@ WdmIslands::WdmIslands() : labelSort(_FL_, 1024),
 	}
 	//Зачитываем острова
 	string name;
-	for(i = 0; i < ginfo.nlabels; i++)
+	for(long i = 0; i < ginfo.nlabels; i++)
 	{
 		//Получаем информацию
 		baseModel->geo->GetLabel(i, label);
 		if(!label.group_name || !label.group_name[0]) continue;
 		if(!label.name || !label.name[0]) continue;
-		if(stricmp(label.group_name, "islands") != 0) continue;		
+		if(stricmp(label.group_name, "islands") != 0) continue;
 		//Пропускаем, если добавленна
-		for(long j = 0; j < islands; j++)
+		long j;
+		for(j = 0; j < islands; j++)
 		{
 			if(islands[j].modelName == label.name) break;
 		}
@@ -194,13 +195,13 @@ bool WdmIslands::CollisionTest(CMatrix & objMtx, float length, float width, bool
 		Islands & island = islands[i];
 		//Матрица преобразования в локальную систему
 		CMatrix locMtx(objMtx, island.toLocal);
-		
+
 		//Проверяем поподание в круг острова
 		float dist2 = ~(locMtx.Pos() - island.model->center);
 		float maxDist = boxRadius + island.model->radius;
 		if(dist2 >= maxDist*maxDist) continue;
 		//Будем тестировать на уровне треугольников
-		GEOS::PLANE p[5];		
+		GEOS::PLANE p[5];
 		//Вектор направления
 		p[0].nrm.x = locMtx.Vz().x;
 		p[0].nrm.y = 0.0f;
@@ -227,7 +228,7 @@ bool WdmIslands::CollisionTest(CMatrix & objMtx, float length, float width, bool
 		GEOS::VERTEX v; v.x = locMtx.Pos().x; v.y = locMtx.Pos().y; v.z = locMtx.Pos().z;
 		curPos = locMtx.Pos();
 		//Матрица преобразования в мировые координаты
-		curMatrix = island.model->mtx;		
+		curMatrix = island.model->mtx;
 		//Ищем попадание полигонов
 		island.model->geo->Clip(p, heighTest ? 5 : 4, v, checkRadius, AddEdges);
 	}
@@ -260,7 +261,7 @@ bool _cdecl WdmIslands::AddEdges(const GEOS::VERTEX * vrt, long numVrt)
 	for(long i = 0; i < numVrt; i++)
 	{
 		centPos += curMatrix*CVECTOR(vrt[i].x, 0.0f, vrt[i].z);
-	}	
+	}
 	//Продолжим
 	return true;
 }
@@ -283,7 +284,7 @@ bool WdmIslands::ObstacleTest(float x, float z, float radius)
 		p[2].nrm.x = 1.0f; p[2].nrm.y = 0.0f; p[2].nrm.z = 0.0f; p[2].d = pos.x + radius;
 		p[3].nrm.x = -1.0f; p[3].nrm.y = 0.0f; p[3].nrm.z = 0.0f; p[3].d = -(pos.x - radius);
 		GEOS::VERTEX vrt;
-		vrt.x = pos.x;	
+		vrt.x = pos.x;
 		vrt.y = 0.0f;
 		vrt.z = pos.z;
 		if(island.model->geo->Clip(p, 4, vrt, 50.0f, 0)) return true;
@@ -324,10 +325,10 @@ void WdmIslands::SetIslandsData(ATTRIBUTES * apnt, bool isChange)
 		float pivotY = -0.5f;
 		float heightView = a->GetAttributeAsFloat("heightView", 250.0);
 		dword weight = a->GetAttributeAsDword("weight", 0);
-		//Проверяем на достаточность		
+		//Проверяем на достаточность
 		if(!id || !text || !locator || !locator[0])
 		{
-			api->Trace("World map: label \"%s\" will be skipping...", apnt->GetAttributeName(i));			
+			api->Trace("World map: label \"%s\" will be skipping...", apnt->GetAttributeName(i));
 			continue;
 		}
 		//Ищим метку среди существующих
@@ -349,7 +350,7 @@ void WdmIslands::SetIslandsData(ATTRIBUTES * apnt, bool isChange)
 			labelsEntry[iEntry] = index;
 			labels[index].locatorName = locator;
 			labels[index].alpha = 255.0f;
-			
+
 		}else{
 			if(stricmp(labels[index].locatorName, locator) != 0)
 			{
@@ -383,7 +384,7 @@ void WdmIslands::SetIslandsData(ATTRIBUTES * apnt, bool isChange)
 		labels[index].dl = labelX;
 		labels[index].dt = labelY;
 		labels[index].dr = labelX + labelWidth;
-		labels[index].db = labelY + labelHeight;		
+		labels[index].db = labelY + labelHeight;
 		if(labels[index].icon >= 0)
 		{
 			//Позиция картинки
@@ -400,7 +401,7 @@ void WdmIslands::SetIslandsData(ATTRIBUTES * apnt, bool isChange)
 			labels[index].textX = 0.0f;
 			labels[index].textY = 0.0f;
 		}
-	}	
+	}
 }
 
 void WdmIslands::LabelsReadIconParams(ATTRIBUTES * apnt)
@@ -504,9 +505,9 @@ void WdmIslands::LabelsRelease()
 	for(long i = 0; i < sizeof(labelsEntry)/sizeof(labelsEntry[0]); i++)
 	{
 		labelsEntry[i] = -1;
-	}	
+	}
 	//Удаляем все шрифты
-	for(i = 0; i < fonts; i++)
+	for(long i = 0; i < fonts; i++)
 	{
 		if(fonts[i].id != FONT_DEFAULT)
 		{
@@ -583,7 +584,7 @@ void WdmIslands::LRender(VDX8RENDER * rs)
 	icons.blend |= (icons.blend << 24) | (icons.blend << 16) | (icons.blend << 8);
 	if(icons.f[0] < 0) icons.f[0] = icons.frames - 1.0f;
 	if(icons.f[0] >= icons.frames) icons.f[0] = 0.0f;
-	icons.f[1] = icons.f[0] + 1;	
+	icons.f[1] = icons.f[0] + 1;
 	if(icons.f[1] < 0) icons.f[1] = icons.frames - 1.0f;
 	if(icons.f[1] >= icons.frames) icons.f[1] = 0.0f;
 	icons.f[0] *= icons.u;
@@ -637,7 +638,7 @@ void WdmIslands::LRender(VDX8RENDER * rs)
 	//Размещаем метки, чтобы не пересекались по порядку
 	//!!!
 	//Рисуем иконоки и пишем текст
-	for(i = 0; i < labelSort; i++)
+	for(long i = 0; i < labelSort; i++)
 	{
 		//Метка
 		Label & label = labels[labelSort[i]];
@@ -746,7 +747,7 @@ void WdmIslands::FindReaction(const CVECTOR & position, CVECTOR & reaction)
 	}else{
 		reaction = 0.0f;
 	}
-	
+
 }
 
 //Найти случайную точку для мерчанта
@@ -799,7 +800,8 @@ bool WdmIslands::CheckIslandArea(const char * islandName, float x, float z)
 void WdmIslands::GetNearPointToArea(const char * islandName, float & x, float & z)
 {
 	//Ищим область
-	for(long i = 0; i < islands; i++)
+	long i;
+	for(i = 0; i < islands; i++)
 	{
 		if(!islands[i].area) continue;
 		if(islands[i].modelName == islandName)
@@ -840,7 +842,7 @@ bool _cdecl WdmIslands::FindNearPoint(const GEOS::VERTEX * vrt, long numVrt)
 			centPos.x = vrt[i].x;
 			centPos.z = vrt[i].z;
 			centPos.y = dst;
-		}		
+		}
 	}
 	return true;
 }
@@ -887,7 +889,7 @@ void WdmIslandWaves::LRender(VDX8RENDER * rs)
 	float k = phase*(1.0f/fullPeriod);
 	if(k <= 1.0f)
 	{
-		Render(rs, k);		
+		Render(rs, k);
 	}
 	if(phase >= 0.5f)
 	{
@@ -898,7 +900,7 @@ void WdmIslandWaves::LRender(VDX8RENDER * rs)
 	k *= (1.0f/fullPeriod);
 	if(k <= 1.0f)
 	{
-		Render(rs, k);		
+		Render(rs, k);
 	}
 }
 

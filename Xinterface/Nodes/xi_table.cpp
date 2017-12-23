@@ -67,7 +67,8 @@ void XI_TableLineDescribe::SetData( long nRowIndex, ATTRIBUTES* pLA, bool bHeade
 		m_nHeight = pLA->GetAttributeAsDword("height",m_pTable->m_nNormalLineHeight);
 	} else m_nHeight = m_pTable->m_anRowsHeights[nRowIndex];
 
-	for( long c=0; c<10000; c++ )
+	long c;
+	for( c=0; c<10000; c++ )
 	{
 		sprintf( pcAttrName, "td%d", c+1 );
 		ATTRIBUTES* pA = (pLA ? pLA->GetAttributeClass( pcAttrName ) : 0);
@@ -632,7 +633,7 @@ void CXI_TABLE::SaveParametersToIni()
 
 	// save rows height
 	sTmp = "";
-	for( n=0; n<m_anRowsHeights; n++ )
+	for( long n=0; n<m_anRowsHeights; n++ )
 	{
 		if( n>0 ) sTmp += ",";
 		sTmp += m_anRowsHeights[n];
@@ -668,7 +669,7 @@ bool CXI_TABLE::GetInternalNameList( array<string>& aStr )
 		sTmp += (n+1);
 		aStr.Add( sTmp );
 	}
-	for( n=0; n<m_nRowQuantity; n++ )
+	for( long n=0; n<m_nRowQuantity; n++ )
 	{
 		sTmp = "row";
 		sTmp += (n+1);

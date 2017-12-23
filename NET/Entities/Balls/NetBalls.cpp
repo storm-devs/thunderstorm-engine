@@ -17,7 +17,7 @@ NetBalls::~NetBalls()
 	Render().TextureRelease(iTextureIndex);
 
 	for (dword i=0; i<aBallTypes.Size(); i++)
-	{	
+	{
 		BALL_TYPE * pBallsType = &aBallTypes[i];
 		for (dword j=0; j<pBallsType->Balls.Size(); j++)
 		{
@@ -64,7 +64,7 @@ void NetBalls::Execute(dword Delta_Time)
 	float fDeltaTime = 0.001f * float(Delta_Time);
 
 	for (i=0; i<aBallTypes.Size(); i++)
-	{	
+	{
 		BALL_TYPE * pBallsType = &aBallTypes[i];
 
 		AttributesPointer->SetAttribute("CurrentBallType", (char*)pBallsType->sName.GetBuffer());
@@ -110,7 +110,7 @@ void NetBalls::Execute(dword Delta_Time)
 						CVECTOR vRes, v = fBallFlySoundStereoMultiplyer * CVECTOR(x, y, 0.0f);
 						mView.MulToInv(v, vRes);
 
-						api->Event("NetClient_BallFlyNearCamera", "fff", vRes.x, vRes.y, vRes.z); 
+						api->Event("NetClient_BallFlyNearCamera", "fff", vRes.x, vRes.y, vRes.z);
 					}
 				}
 			}
@@ -123,11 +123,11 @@ void NetBalls::Execute(dword Delta_Time)
 				float fRes = 2.0f;
 
 				// sail trace
-				if (pSail) 
+				if (pSail)
 					pSail->Cannon_Trace(pBall->wBallOwner, vSrc, vDst);
 
 				// ship trace
-				if (pVWShips && (pEID = pVWShips->GetID()) != 0) do 
+				if (pVWShips && (pEID = pVWShips->GetID()) != 0) do
 				{
 					CANNON_TRACE_BASE * pShip = (CANNON_TRACE_BASE*)api->GetEntityPointer(pEID);
 					if (pShip && pShip->IsServer())
@@ -142,11 +142,11 @@ void NetBalls::Execute(dword Delta_Time)
 					pNetFort->Cannon_Trace(pBall->wBallOwner, vSrc, vDst);
 
 				// island trace
-				if (fRes > 1.0f && pIsland) 
+				if (fRes > 1.0f && pIsland)
 					fRes = pIsland->Cannon_Trace(pBall->wBallOwner, vSrc, vDst);
 
 				// sea trace
-				if (fRes > 1.0f && pSea) 
+				if (fRes > 1.0f && pSea)
 					fRes = pSea->Cannon_Trace(pBall->wBallOwner, vSrc, vDst);
 
 				// delete ball
@@ -188,7 +188,7 @@ void NetBalls::Realize(dword Delta_Time)
 void NetBalls::DelBall(dword dwBallIndex)
 {
 	for (dword i=0; i<aBallTypes.Size(); i++)
-	{	
+	{
 		BALL_TYPE * pBallsType = &aBallTypes[i];
 
 		for (dword j=0; j<pBallsType->Balls.Size(); j++)
@@ -212,7 +212,8 @@ void NetBalls::AddBall(ATTRIBUTES * pABall)
 {
 	char * pBallName = pABall->GetAttribute("Type"); Assert(pBallName);
 
-	for (dword i=0; i<aBallTypes.Size(); i++) if (stricmp(aBallTypes[i].sName, pBallName) == 0) break;
+	dword i;
+	for (i=0; i<aBallTypes.Size(); i++) if (stricmp(aBallTypes[i].sName, pBallName) == 0) break;
 	if (i == aBallTypes.Size()) return;
 
 	BALL_PARAMS * pBall = &aBallTypes[i].Balls[aBallTypes[i].Balls.Add()];
@@ -248,7 +249,7 @@ void NetBalls::AddBall(ATTRIBUTES * pABall)
 		{
 			ENTITY_ID eidTmp;
 			if (NetFindClass(IsServer(), &eidTmp, "NetShipLights"))
-				pShipsLights = (NetShipLights*)api->GetEntityPointer(&eidTmp); 
+				pShipsLights = (NetShipLights*)api->GetEntityPointer(&eidTmp);
 		}
 		if (pShipsLights) pShipsLights->AddDynamicLights(null, pBall->vPos);
 
@@ -286,7 +287,7 @@ dword NetBalls::AttributeChanged(ATTRIBUTES * pA)
 
 		iTextureIndex = (IsClient()) ? Render().TextureCreate(sTextureName) : -1;
 
-		// install balls 
+		// install balls
 		ATTRIBUTES * pAPBalls = AttributesPointer->GetAttributeClass("Balls");
 		dword dwIdx = 0;
 		while (pAPBalls && true)

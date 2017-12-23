@@ -221,7 +221,7 @@ void BIShipIcon::Init( ATTRIBUTES* pRoot, ATTRIBUTES* pA )
 		pcTmp = pA->GetAttribute( "gunchargeprogress" );
 		if( pcTmp ) {
 			do {
-				m_aClassProgress.Add( BIUtils::GetFromStr_Float(pcTmp,0.f) );
+				m_aClassProgress.Add( BIUtils::GetFromStr_Float((const char*&)pcTmp,0.f) );
 			} while( pcTmp[0] );
 		}
 

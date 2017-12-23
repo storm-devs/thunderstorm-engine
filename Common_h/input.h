@@ -6,13 +6,13 @@
 #else
 #include <xtl.h>
 #endif
-#include "..\..\common_h\d_types.h"
+#include "d_types.h"
 
-class INPUT 
+class IINPUT
 {
 public:
-	 INPUT(){};
-	virtual ~INPUT(){};
+	IINPUT(){};
+	virtual ~IINPUT(){};
 	virtual float GetKeyState(dword key_code, dword * value = 0)= 0;
 	virtual void ProcessKeyState(){};
 	virtual void SetKeyState(dword key_code, dword * value){};

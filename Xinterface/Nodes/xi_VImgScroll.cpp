@@ -667,7 +667,7 @@ float CXI_VIMAGESCROLL::ChangeDinamicParameters(float fYDelta)
 					pSTmp->imageNum--;
 			if(!bIncrement)
 				curImage--;
-			// 
+			//
 			if(curImage<0 || curImage>=m_nListSize) break;
 		}
 		if(curImage<0 || curImage>=m_nListSize) break;
@@ -1298,7 +1298,8 @@ int CXI_VIMAGESCROLL::FindClickedImageNum()
 	int i = 0;
 
 	FXYPOINT fp = ptrOwner->GetMousePoint();
-	for(SCROLLENTITY* pscroll=m_pScroll; pscroll!=null; pscroll = pscroll->next)
+	SCROLLENTITY* pscroll;
+	for(pscroll=m_pScroll; pscroll!=null; pscroll = pscroll->next)
 	{
 		float flx = .5f*pscroll->fCurScale*m_ImageSize.x;
 		float frx = pscroll->pCenter.x + flx;
@@ -1336,9 +1337,11 @@ int CXI_VIMAGESCROLL::GetBottomQuantity()
 	for(SCROLLENTITY* pscr=m_pScroll; pscr!=null; pscr=pscr->next) q++;
 
 	int i = m_pScroll->imageNum;
-	for( int n=0; n<q; n++ )
+	int n;
+	for( n=0; n<q; n++ )
 	{
-		for(int j=0; j<m_nSlotsQnt; j++)
+		int j;
+		for(j=0; j<m_nSlotsQnt; j++)
 		{
 			if( m_Image[i].img[j]!=-1 || m_Image[i].saveName[j]!=null ) break;
 		}
@@ -1358,9 +1361,11 @@ int CXI_VIMAGESCROLL::GetTopQuantity()
 	for(SCROLLENTITY* pscr=m_pScroll; pscr!=null; pscr=pscr->next) q++;
 
 	int i = m_pScroll->imageNum;
-	for( int n=0; n<q; n++ )
+	int n;
+	for( n=0; n<q; n++ )
 	{
-		for(int j=0; j<m_nSlotsQnt; j++)
+		int j;
+		for(j=0; j<m_nSlotsQnt; j++)
 		{
 			if( m_Image[i].img[j]!=-1 || m_Image[i].saveName[j]!=null ) break;
 		}
@@ -1381,7 +1386,8 @@ float CXI_VIMAGESCROLL::GetShiftDistance(int shiftIdx)
 	bool bNoFindBottom = true;
 	float fbottom = (float)m_pCenter.y;
 	SCROLLENTITY* pprev = m_pScroll;
-	for(SCROLLENTITY* pscr=m_pScroll; pscr!=null; pscr=pscr->next)
+	SCROLLENTITY* pscr;
+	for(pscr =m_pScroll; pscr!=null; pscr=pscr->next)
 	{
 		if(pscr->pCenter.y >= m_pCenter.y)	pprev = pscr;
 		else if(bNoFindBottom)

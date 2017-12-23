@@ -115,7 +115,8 @@ void BIImageMaterial::UpdateImageBuffers( long nStartIdx, long nEndIdx )
 	// get before
 	long nV = 0;
 	long nT = 0;
-	for( long n=0; n<nStartIdx; n++ )
+	long n;
+	for( n=0; n<nStartIdx; n++ )
 	{
 		nV += m_apImage[n]->GetVertexQuantity();
 		nT += m_apImage[n]->GetTriangleQuantity();
@@ -161,7 +162,8 @@ bool BIImageMaterial::GetOutputRangeByPrioritet(long nBegPrior,long nEndPrior, l
 	if( m_apImage[0]->GetPrioritet() > nEndPrior || m_apImage.LastE()->GetPrioritet() < nBegPrior ) return false;
 
 	nStartIndex = 0;
-	for( long n=0; n<m_apImage; n++ )
+	long n;
+	for( n=0; n<m_apImage; n++ )
 	{
 		if( m_apImage[n]->GetPrioritet() >= nBegPrior )
 			break;
@@ -199,7 +201,8 @@ void BIImageMaterial::InsertImageToList( BIImage* pImg )
 {
 	Assert(pImg);
 	long nPrior = pImg->GetPrioritet();
-	for( long n=0; n<m_apImage; n++ )
+	long n;
+	for( n=0; n<m_apImage; n++ )
 		if( m_apImage[n]->GetPrioritet() > nPrior )
 			break;
 	m_apImage.Insert( n );

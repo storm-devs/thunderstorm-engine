@@ -42,7 +42,9 @@ public:
 //-----------------------------------------------------------
 public:
 	///Пустой конструктор
-	Triangle();
+	Triangle() { };
+	///Конструктор копирования
+	Triangle(const Triangle & t);
 	Triangle(const Vector * v);
 
 //-----------------------------------------------------------
@@ -106,7 +108,12 @@ private:
 //===========================================================
 
 //Пустой конструктор
-mathinline Triangle::Triangle(){}
+mathinline Triangle::Triangle(const Triangle & t)
+{
+	p1 = t.p1;
+	p2 = t.p2;
+	p3 = t.p3;
+}
 
 ///Заполнить все компоненты
 mathinline Triangle::Triangle(const Vector * v)

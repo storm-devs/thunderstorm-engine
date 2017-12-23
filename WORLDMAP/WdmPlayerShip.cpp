@@ -5,7 +5,7 @@
 //--------------------------------------------------------------------------------------------
 //	WdmPlayerShip
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "WdmPlayerShip.h"
@@ -89,7 +89,7 @@ void WdmPlayerShip::Update(float dltTime)
 	//Ўторм
 	long i = TestInStorm();
 	if(i >= 0)
-	{		
+	{
 		if(stormEventTime <= 0.0f)
 		{
 			stormEventTime = 0.5f;
@@ -137,7 +137,7 @@ void WdmPlayerShip::Update(float dltTime)
 						wdmObjects->enableSkipEnemy = ((WdmEnemyShip *)wdmObjects->ships[i])->canSkip;
 					}
 				}
-			}else{				
+			}else{
 				if(wdmObjects->enemyShip == es)
 				{
 					es->isEntryPlayer = false;
@@ -156,7 +156,7 @@ void WdmPlayerShip::Update(float dltTime)
 						es->isEntryPlayer = true;
 						wdmObjects->enemyShip = es;
 					}
-				}else{					
+				}else{
 					if(wdmObjects->enemyShip == es)
 					{
 						es->isEntryPlayer = false;
@@ -217,7 +217,8 @@ void WdmPlayerShip::LRender(VDX8RENDER * rs)
 bool WdmPlayerShip::ExitFromMap()
 {
 	//»щем селектированные
-	for(long i = 0, finded = -1; i < wdmObjects->numShips; i++)
+	long found = -1;
+	for(long i = 0; i < wdmObjects->numShips; i++)
 	{
 		wdmObjects->ships[i]->isSelect = false;
 		if(wdmObjects->ships[i] == this) continue;
@@ -225,15 +226,15 @@ bool WdmPlayerShip::ExitFromMap()
 		if(wdmObjects->ships[i]->killMe) continue;
 		if(wdmObjects->ships[i] == wdmObjects->enemyShip)
 		{
-			finded = i;
+			found = i;
 			wdmObjects->ships[i]->isSelect = true;
 			//wdmObjects->enemyShip->isLive = false;
 			wdmObjects->enemyShip->isSelect = true;
 		}
 	}
-	if(finded < 0) return false;
+	if(found < 0) return false;
 	if(wdmObjects->enemyShip->attack) wdmObjects->enemyShip->attack->isSelect = true;
-	_CORE_API->Event("WorldMap_ShipEncounter", "fffl", mtx.Pos().x, mtx.Pos().z, ay, finded);
+	_CORE_API->Event("WorldMap_ShipEncounter", "fffl", mtx.Pos().x, mtx.Pos().z, ay, found);
 	return true;
 }
 

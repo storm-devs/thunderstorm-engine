@@ -5,7 +5,7 @@
 //--------------------------------------------------------------------------------------------
 //	WdmClouds
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "WdmClouds.h"
@@ -73,7 +73,7 @@ __forceinline bool WdmClouds::Cloud::Reset(bool isFirstTime)
 		alpha = 0.0f;
 	}else{
 		alpha = 1.0f;
-	}	
+	}
 	lifeTime = 80.0f + rand()*(80.0f/RAND_MAX);
 	return true;
 }
@@ -97,7 +97,7 @@ __forceinline void WdmClouds::Cloud::Update(float dltTime)
 		Cld & cld = cloud[i];
 		//Модифицируем направление
 		if(cld.index >= count) cld.index = 0;
-		CVECTOR dir = cloud[cld.index].pos - cld.pos;	//Направление	
+		CVECTOR dir = cloud[cld.index].pos - cld.pos;	//Направление
 		float dist = sqrtf(dir.x*dir.x + dir.z*dir.z);	//Получаем дистанцию
 		if(dist > minDist)
 		{
@@ -114,7 +114,7 @@ __forceinline void WdmClouds::Cloud::Update(float dltTime)
 			}
 			//Притягиваемся
 			if(dist > midDist)
-			{			
+			{
 				float nrm = 1.0f/dist;
 				dist = (dist - midDist)/(maxDist - midDist);
 				if(dist > 1.0f) dist = 1.0f;
@@ -142,7 +142,7 @@ __forceinline void WdmClouds::Cloud::Update(float dltTime)
 		if(cld.aspd < -1.0f) cld.aspd = -1.0f;
 		if(cld.aspd > 1.0f) cld.aspd = 1.0f;
 		cld.angle += cld.aspd*dltTime*0.2f;
-		//Позиция		
+		//Позиция
 		dir += cld.dir*0.5f;
 		cld.pos += dir*(dltTime*10.0f);
 		if(cld.pos.x < minWorldX || cld.pos.x > maxWorldX || cld.pos.z < minWorldZ || cld.pos.z > maxWorldZ)
@@ -181,7 +181,7 @@ __forceinline void WdmClouds::Cloud::Update(float dltTime)
 		if(alpha <= 0.0f)
 		{
 			alpha = 0.0f;
-			count = 0;			
+			count = 0;
 		}
 	}
 }
@@ -277,7 +277,7 @@ void WdmClouds::Update(float dltTime)
 		for(long j = i + 1; j < sizeof(clouds)/sizeof(Cloud); j++)
 		{
 			clouds[j].Kill(clouds[i]);
-		}		
+		}
 	}
 }
 
@@ -297,13 +297,15 @@ void WdmClouds::LRender(VDX8RENDER * rs)
 	if(alpha > 1.0f) alpha = 1.0f;
 	alpha *= alpha;
 	//Рисуем видимые
-	for(long i = 0, count = 0; i < sizeof(clouds)/sizeof(Cloud); i++)
+	long count;
+	for(long i = 0; i < sizeof(clouds)/sizeof(Cloud); i++)
 	{
 		//Получаем сферу
 		CVECTOR c;
-		float r = clouds[i].GetBound(c);		
+		float r = clouds[i].GetBound(c);
 		//Тестируем на видимость
-		for(long j = 0; j < 4; j++)
+		long j;
+		for(j = 0; j < 4; j++)
 		{
 			PLANE & p = plane[j];
 			float dist = c.x*p.Nx + c.y*p.Ny + c.z*p.Nz - p.D;
@@ -315,7 +317,7 @@ void WdmClouds::LRender(VDX8RENDER * rs)
 
 		cnt++;
 	}
-	if(count > 0) 
+	if(count > 0)
 	{
 		rs->TextureSet(0, texture);
 		rs->TextureSet(1, light);

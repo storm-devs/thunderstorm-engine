@@ -326,9 +326,6 @@
     <ClInclude Include="sources\ifs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sources\input.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common_h\input.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -11,7 +11,7 @@ public:
 		struct { float x,y,z; };
 		float v[3];
 	};
-	CVECTOR(){};
+	CVECTOR() = default;
 	CVECTOR(float a)	{	x = a;	y = a;	z = a;	};
 	CVECTOR(double a)	{	x = float(a);	y = float(a);	z = float(a);	};
 	CVECTOR(float _x, float _y, float _z)	{	x = _x;	y = _y;	z = _z;	};
@@ -61,7 +61,7 @@ public:
 	friend __forceinline CVECTOR operator ! (const CVECTOR& v)
 	{
 		double len = v.x*v.x + v.y*v.y + v.z*v.z;
-		if(len == 0.0) return CVECTOR(0.0f);		
+		if(len == 0.0) return CVECTOR(0.0f);
 		len = 1.0/sqrt(len);
 		return CVECTOR(v.x*len, v.y*len, v.z*len);
 	};
@@ -79,12 +79,12 @@ public:
 	//negative
 	friend __forceinline CVECTOR operator - (const CVECTOR& v)
 	{
-		return CVECTOR(-v.x, -v.y, -v.z);	
+		return CVECTOR(-v.x, -v.y, -v.z);
 	};
 	//sub
 	friend __forceinline CVECTOR operator - (const CVECTOR& v1, const CVECTOR& v2)
 	{
-		return CVECTOR(v1.x-v2.x, v1.y-v2.y, v1.z-v2.z);	
+		return CVECTOR(v1.x-v2.x, v1.y-v2.y, v1.z-v2.z);
 	};
 	//multiply each element by each
 	friend __forceinline CVECTOR operator * (const CVECTOR& v1, const CVECTOR& v2)
@@ -92,14 +92,14 @@ public:
 		return CVECTOR(v1.x*v2.x, v1.y*v2.y, v1.z*v2.z);
 	};
 	//multiply each element by float
-	friend __forceinline CVECTOR operator * (const CVECTOR& v1, float f)	
+	friend __forceinline CVECTOR operator * (const CVECTOR& v1, float f)
 	{
-		return CVECTOR(v1.x*f, v1.y*f, v1.z*f);	
+		return CVECTOR(v1.x*f, v1.y*f, v1.z*f);
 	};
 	//divide each element by each
 	friend __forceinline CVECTOR operator / (const CVECTOR& v1, const CVECTOR& v2)
 	{
-		return CVECTOR(v1.x/v2.x, v1.y/v2.y, v1.z/v2.z);	
+		return CVECTOR(v1.x/v2.x, v1.y/v2.y, v1.z/v2.z);
 	};
 	//divide each element by float
 	friend __forceinline CVECTOR operator / (const CVECTOR& v1, float f)
@@ -107,9 +107,9 @@ public:
 		double _f = 1.0/f;	return CVECTOR(v1.x*_f, v1.y*_f, v1.z*_f);
 	};
 	//cross product
-	friend __forceinline CVECTOR operator ^ (const CVECTOR& v1, const CVECTOR& v2)	
+	friend __forceinline CVECTOR operator ^ (const CVECTOR& v1, const CVECTOR& v2)
 	{
-		return CVECTOR(v1.y * v2.z - v1.z * v2.y,		v1.z * v2.x - v1.x * v2.z,	v1.x * v2.y - v1.y * v2.x);	
+		return CVECTOR(v1.y * v2.z - v1.z * v2.y,		v1.z * v2.x - v1.x * v2.z,	v1.x * v2.y - v1.y * v2.x);
 	}
 	//dot product
 	friend __forceinline float operator | (const CVECTOR& v1, const CVECTOR& v2)
@@ -178,12 +178,12 @@ public:
 	//negative
 	friend __forceinline DVECTOR operator - (const DVECTOR& v)
 	{
-		return DVECTOR(-v.x, -v.y, -v.z);	
+		return DVECTOR(-v.x, -v.y, -v.z);
 	};
 	//sub
 	friend __forceinline DVECTOR operator - (const DVECTOR& v1, const DVECTOR& v2)
 	{
-		return DVECTOR(v1.x-v2.x, v1.y-v2.y, v1.z-v2.z);	
+		return DVECTOR(v1.x-v2.x, v1.y-v2.y, v1.z-v2.z);
 	};
 	//multiply each element by each
 	friend __forceinline DVECTOR operator * (const DVECTOR& v1, const DVECTOR& v2)
@@ -191,14 +191,14 @@ public:
 		return DVECTOR(v1.x*v2.x, v1.y*v2.y, v1.z*v2.z);
 	};
 	//multiply each element by double
-	friend __forceinline DVECTOR operator * (const DVECTOR& v1, double f)	
+	friend __forceinline DVECTOR operator * (const DVECTOR& v1, double f)
 	{
-		return DVECTOR(v1.x*f, v1.y*f, v1.z*f);	
+		return DVECTOR(v1.x*f, v1.y*f, v1.z*f);
 	};
 	//divide each element by each
 	friend __forceinline DVECTOR operator / (const DVECTOR& v1, const DVECTOR& v2)
 	{
-		return DVECTOR(v1.x/v2.x, v1.y/v2.y, v1.z/v2.z);	
+		return DVECTOR(v1.x/v2.x, v1.y/v2.y, v1.z/v2.z);
 	};
 	//divide each element by double
 	friend __forceinline DVECTOR operator / (const DVECTOR& v1, double f)
@@ -206,9 +206,9 @@ public:
 		double _f = 1.0/f;	return DVECTOR(v1.x*_f, v1.y*_f, v1.z*_f);
 	};
 	//cross product
-	friend __forceinline DVECTOR operator ^ (const DVECTOR& v1, const DVECTOR& v2)	
+	friend __forceinline DVECTOR operator ^ (const DVECTOR& v1, const DVECTOR& v2)
 	{
-		return DVECTOR(v1.y * v2.z - v1.z * v2.y,		v1.z * v2.x - v1.x * v2.z,	v1.x * v2.y - v1.y * v2.x);	
+		return DVECTOR(v1.y * v2.z - v1.z * v2.y,		v1.z * v2.x - v1.x * v2.z,	v1.x * v2.y - v1.y * v2.x);
 	}
 	//dot product
 	friend __forceinline double operator | (const DVECTOR& v1, const DVECTOR& v2)

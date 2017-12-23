@@ -122,7 +122,7 @@ void BIManSign::Init( ATTRIBUTES* pRoot, ATTRIBUTES* pA )
 {
 	long n;
 	float fTmp;
-	char * pcTmp;
+	const char * pcTmp;
 	char param[256];
 
 	m_pARoot = pRoot;

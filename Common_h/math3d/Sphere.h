@@ -64,6 +64,14 @@ public:
 
 
 //-----------------------------------------------------------
+//Конструкторы
+//-----------------------------------------------------------
+public:
+	//Пустой конструктор
+	Sphere();
+	//Конструктор копирования
+	Sphere(const Sphere & s);
+//-----------------------------------------------------------
 //Утилитные
 //-----------------------------------------------------------
 public:
@@ -75,7 +83,7 @@ public:
 	bool Intersection(const Vector & orig, const Vector & normdir, float * res);
 	//Проверить пересечение сферы и сферы
 	bool Intersection(const Sphere & sph);
-	
+
 	//Установить сферу в точку с 0 радиусом
 	void Reset(const Vector & p);
 	//Включить в описывающую сферу точку
@@ -87,7 +95,21 @@ public:
 
 };
 
+//-----------------------------------------------------------
+//Конструкторы
+//-----------------------------------------------------------
 
+//Пустой конструктор
+mathinline Sphere::Sphere()
+{
+	v4 = Vector4();
+};
+
+//Конструктор копирования
+mathinline Sphere::Sphere(const Sphere & s)
+{
+	v4 = s.v4;
+};
 
 //===========================================================
 //Утилитные
@@ -172,7 +194,7 @@ mathinline bool Sphere::Intersection(const Vector & orig, const Vector & normdir
 	{
 		*res = distToOrtoPlane - sqrtf(distFromOrtoPlaneToSphere2);
 	}
-	return true;	
+	return true;
 }
 
 #pragma pack(pop)

@@ -30,7 +30,7 @@ void InterfaceBackScene::LightParam::UpdateParams( float fTime )
 		fColorTimer -= fColorPeriod + fAddPeriod;
 		fAddPeriod = FRAND(fAddPeriodMax);//(-0.6f+FRAND(3.0f))*fColorPeriod;
 		jjj++;
-		if (jjj > 10000) 
+		if (jjj > 10000)
 		{
 			api->Trace("jjj: %f, %f", fColorTimer, fColorPeriod);
 			_asm int 3
@@ -511,7 +511,8 @@ void InterfaceBackScene::CreateMenuList( long nStartIndex, ATTRIBUTES* pAMenu )
 
 void InterfaceBackScene::ChooseNextMenu()
 {
-	for( long n=m_nSelectMenuIndex+1; n<m_aMenuDescr; n++ )
+	long n;
+	for( n=m_nSelectMenuIndex+1; n<m_aMenuDescr; n++ )
 		if( m_aMenuDescr[n]->bSelectable )
 			break;
 	if( n<m_aMenuDescr ) m_nSelectMenuIndex = n;
@@ -519,7 +520,8 @@ void InterfaceBackScene::ChooseNextMenu()
 
 void InterfaceBackScene::ChoosePrevMenu()
 {
-	for( long n=m_nSelectMenuIndex-1; n>=0; n-- )
+	long n;
+	for( n=m_nSelectMenuIndex-1; n>=0; n-- )
 		if( m_aMenuDescr[n]->bSelectable )
 			break;
 	if( n>=0 ) m_nSelectMenuIndex = n;
@@ -770,7 +772,7 @@ void InterfaceBackScene::FlareShow(long idx)
 	buffer[3].pos = buffer[2].pos;
 	buffer[3].color = c;
 	buffer[3].u = 1.0f;
-	buffer[3].v = 0.0f;		
+	buffer[3].v = 0.0f;
 	buffer[4].pos = buffer[1].pos;
 	buffer[4].color = c;
 	buffer[4].u = 0.0f;
@@ -934,7 +936,7 @@ void InterfaceBackScene::ProcessedFlys(float dltTime)
 		if(k > 0.0f) dir *= 1.0f/k;
 		k = k/20.0f;
 		k = 3.0f*(1.0f - k);
-		if(k > 1.0f) k = 1.0f;		
+		if(k > 1.0f) k = 1.0f;
 		//Обновляем мух
 		ParticleFly * fl = fly + flys[i].start;
 		for(long j = 0; j < flys[i].num; j++)
@@ -984,7 +986,8 @@ void InterfaceBackScene::DrawParticles(void * prts, long num, long size, long te
 	m_pRS->SetTransform(D3DTS_VIEW,CMatrix());
 	m_pRS->SetTransform(D3DTS_WORLD,CMatrix());
 	m_pRS->TextureSet(0, texture);
-	for(long i = 0, n = 0; i < num; i++)
+	long n = 0;
+	for(long i = 0; i < num; i++)
 	{
 		Particle * parts = (Particle *)prts;
 		prts = (char *)prts + size;
@@ -1017,7 +1020,7 @@ void InterfaceBackScene::DrawParticles(void * prts, long num, long size, long te
 		buffer[n*6 + 3].pos = buffer[n*6 + 2].pos;
 		buffer[n*6 + 3].color = color;
 		buffer[n*6 + 3].u = u2;
-		buffer[n*6 + 3].v = 0.0f;		
+		buffer[n*6 + 3].v = 0.0f;
 		buffer[n*6 + 4].pos = buffer[n*6 + 1].pos;
 		buffer[n*6 + 4].color = color;
 		buffer[n*6 + 4].u = u1;

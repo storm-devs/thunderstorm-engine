@@ -83,7 +83,8 @@ void MESSAGE_ICONS::Update(DWORD deltaTime)
 				{
 					ATTRIBUTES * pA = m_pIconsAttr[i]->GetAttributeClass(n);
 					int picNum = pA->GetAttributeAsDword("pic");
-					for(int k=0; k<m_pMsgColumns[i].rowQ; k++)
+					int k;
+					for(k=0; k<m_pMsgColumns[i].rowQ; k++)
 						if(picNum == m_pMsgColumns[i].pRow[k].pic)
 						{
 							m_pMsgColumns[i].pRow[k].bDoBlend = false;
@@ -189,7 +190,8 @@ bool MESSAGE_ICONS::InitData(ENTITY_ID & host_eid, VDX8RENDER * _rs, ATTRIBUTES 
 	m_nMsgIconQnt = 0;
 	m_bShowMsgIcon = false;
 
-	for(int i=0; i<MESSAGE_ICONS_COLUMN_QUANTITY; i++)
+	int i;
+	for(i=0; i<MESSAGE_ICONS_COLUMN_QUANTITY; i++)
 	{
 		m_pMsgColumns[i].rowQ = 0;
 		m_pMsgColumns[i].startVertex = i*m_nMsgIconRowQnt;

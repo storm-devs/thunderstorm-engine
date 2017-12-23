@@ -5,7 +5,7 @@
 //--------------------------------------------------------------------------------------------
 //	WdmSea
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "..\common_h\matrix.h"
@@ -46,10 +46,10 @@ WdmSea::WdmSea()
 	ib = -1;
 	vb = -1;
 	for(long i = 0; i < sizeof(wh)/sizeof(WhiteHorses); i++) wh[i].textureIndex = -1;
-	for(i = 0; i < sizeof(aniTextures)/sizeof(long); i++) aniTextures[i] = -1;
+	for(long i = 0; i < sizeof(aniTextures)/sizeof(long); i++) aniTextures[i] = -1;
 	aniFrame = 0.0f;
 	baseTexture = -1;
-	for(i = 0; i < sizeof(whiteHorses)/sizeof(long); i++) whiteHorses[i] = -1;
+	for(long i = 0; i < sizeof(whiteHorses)/sizeof(long); i++) whiteHorses[i] = -1;
 	//Init
 	//Создаём буфер для индексов
 	ib = wdmObjects->rs->CreateIndexBuffer(WDM_SEA_NT*3*2);
@@ -64,7 +64,7 @@ WdmSea::WdmSea()
 		Triangle * trg = triangle + j*WDM_SEA_SECTIONS_X*2;
 		long base = j*(WDM_SEA_SECTIONS_X + 1);
 		for(long i = 0; i < WDM_SEA_SECTIONS_X; i++)
-		{			
+		{
 			trg[i*2 + 0].index[0] = word(base + i);
 			trg[i*2 + 0].index[1] = word(base + WDM_SEA_SECTIONS_X + 1 + i + 1);
 			trg[i*2 + 0].index[2] = word(base + WDM_SEA_SECTIONS_X + 1 + i);
@@ -118,19 +118,19 @@ WdmSea::WdmSea()
 	vertex[WDM_SEA_NV + 2].tv = 1.0f;
 	wdmObjects->rs->UnLockVertexBuffer(vb);
 	//Загружаем текстуры
-	char buf[256];	
+	char buf[256];
 	baseTexture = wdmObjects->rs->TextureCreate("\\WorldMap\\Sea\\sea.tga");
-	for(i = 0; i < sizeof(aniTextures)/sizeof(long); i++)
-	{		
+	for(long i = 0; i < sizeof(aniTextures)/sizeof(long); i++)
+	{
 		sprintf(buf, "\\WorldMap\\Sea\\Ani\\wave_%.4i.tga", i);
 		aniTextures[i] = wdmObjects->rs->TextureCreate(buf);
 	}
-	for(i = 0; i < sizeof(whiteHorses)/sizeof(long); i++)
+	for(long i = 0; i < sizeof(whiteHorses)/sizeof(long); i++)
 	{
 		sprintf(buf, "\\WorldMap\\Sea\\WhiteHorses\\wh%.3i.tga", i);
 		whiteHorses[i] = -1;//wdmObjects->rs->TextureCreate(buf);
 	}
-	for(i = 0; i < sizeof(flare)/sizeof(flare[0]); i++)
+	for(long i = 0; i < sizeof(flare)/sizeof(flare[0]); i++)
 	{
 		flare[i].index = -1;
 	}
@@ -149,11 +149,11 @@ WdmSea::~WdmSea()
 	if(flareTexture >= 0) wdmObjects->rs->TextureRelease(flareTexture);
 	ib = -1;
 	vb = -1;
-	for(i = 0; i < sizeof(wh)/sizeof(WhiteHorses); i++) wh[i].textureIndex = -1;
-	for(i = 0; i < sizeof(aniTextures)/sizeof(long); i++) aniTextures[i] = -1;
+	for(long i = 0; i < sizeof(wh)/sizeof(WhiteHorses); i++) wh[i].textureIndex = -1;
+	for(long i = 0; i < sizeof(aniTextures)/sizeof(long); i++) aniTextures[i] = -1;
 	aniFrame = 0.0f;
 	baseTexture = -1;
-	for(i = 0; i < sizeof(whiteHorses)/sizeof(long); i++) whiteHorses[i] = -1;
+	for(long i = 0; i < sizeof(whiteHorses)/sizeof(long); i++) whiteHorses[i] = -1;
 }
 
 void WdmSea::Update(float dltTime)
@@ -184,7 +184,7 @@ void WdmSea::Update(float dltTime)
 			if(rand() & 255) continue;
 			//Текстура
 			wh[i].textureIndex = rand() % (sizeof(whiteHorses)/sizeof(long));
-			//Позиция			
+			//Позиция
 			wh[i].x = seaSizeX*(0.5f - rand()*(1.0f/RAND_MAX));
 			wh[i].z = seaSizeZ*(0.5f - rand()*(1.0f/RAND_MAX));
 			//Направление
@@ -199,7 +199,8 @@ void WdmSea::Update(float dltTime)
 		}
 	}
 	//Блёстки
-	for(long i = 0; i < sizeof(flare)/sizeof(flare[0]); i++)
+	long i;
+	for(i = 0; i < sizeof(flare)/sizeof(flare[0]); i++)
 	{
 		Flare & f = flare[i];
 		if(f.index < 0) continue;
@@ -238,7 +239,7 @@ void WdmSea::Update(float dltTime)
 			}
 			if(i >= sizeof(flare)/sizeof(flare[0])) break;
 			Assert(flareCount < sizeof(flareRect)/sizeof(flareRect[0]));
-			//Заполняем новыми параметрами			
+			//Заполняем новыми параметрами
 			Flare & f = flare[i];
 			f.index = flareCount++;
 			f.time = 0.0f;

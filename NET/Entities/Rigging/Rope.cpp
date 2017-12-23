@@ -62,7 +62,7 @@ bool NetRope::Init()
 	UNGUARD
 	return true;
 }
- 
+
 void NetRope::SetDevice()
 {
     // получить сервис рендера
@@ -256,7 +256,8 @@ dword _cdecl NetRope::ProcessMessage(MESSAGE & message)
 			gdata[groupQuantity-1].st = nIndx;
 			gdata[groupQuantity-1].sv = nVert;
 			gdata[groupQuantity-1].ropeQuantity = 0;
-			for(int rn=wFirstRope; rn<ropeQuantity; rn++)
+			int rn;
+			for(rn=wFirstRope; rn<ropeQuantity; rn++)
 			{
 				if(rlist[rn]->HostGroup==groupQuantity-1)
 				{
@@ -484,7 +485,7 @@ void NetRope::DoMove(ROPEDATA *pr)
             for( int i=0; i<ROPE_EDGE; i++ )
                 vertBuf[vertnum+i].pos=cvb+pr->pos[i];
 
-            if( ++(pr->segnum)>pr->segquant ) 
+            if( ++(pr->segnum)>pr->segquant )
             {
                 float deepVal;
                 pr->segnum=0;
@@ -655,7 +656,7 @@ void NetRope::AddLabel(GEOS::LABEL &lbl,NODE *nod)
 				{
 					NODE* nd=mdl->GetNode(i);
 					if(nd==0) break;
-                
+
 					if( rd->btie && rd->bMatWorld==&nd->glob_mtx )
 						_CORE_API->Send_Message(sailEI,"lplpl",MSG_SAIL_ROPE_TIE,nd,rd->bgnum,&rd->pBeg,rd->ropeNum);
 					if( rd->etie && rd->eMatWorld==&nd->glob_mtx )
@@ -859,7 +860,8 @@ void NetRope::SetTextureGrid(ROPEDATA *pv)
 void NetRope::SetAdd(int firstNum)
 {
     // set vertex and index buffers
-    for(int rn=firstNum; rn<ropeQuantity; rn++)
+	int rn;
+    for(rn=firstNum; rn<ropeQuantity; rn++)
     {
         // удалить плохие веревки
         while( rlist[rn]->bMatWorld==0 || rlist[rn]->eMatWorld==0 )
@@ -936,7 +938,7 @@ void NetRope::DoDelete()
     // переделаем список групп
     int ngn=0;
     nIndx=0; nVert=0;
-    for(gn=0; gn<groupQuantity; gn++)
+    for(int gn=0; gn<groupQuantity; gn++)
     {
         // если группа удалена, то пропускаем ее
         if(gdata[gn].bDeleted)
@@ -954,7 +956,7 @@ void NetRope::DoDelete()
 
         // для всех веревок принадлежащих этой группе исправим номер хозяина
         int rq=0;
-        for(rn=0; rn<ropeQuantity; rn++)
+        for(int rn=0; rn<ropeQuantity; rn++)
             if(rlist[rn]->HostGroup==gn)
             {
                 rlist[rn]->HostGroup = ngn;
@@ -1024,7 +1026,8 @@ bool NetRope::IsAbsentRope(ENTITY_ID &mdl_id, int ropenum)
     bool retVal=true;
 
     // найдем нужную группу
-    for(int gn=0; gn<groupQuantity; gn++)
+	int gn;
+    for(gn=0; gn<groupQuantity; gn++)
         if(gdata[gn].modelEI==mdl_id) break;
 
     // пройдемся по всем веревкам и найдем нужную нам веревку
@@ -1041,7 +1044,8 @@ bool NetRope::IsAbsentRope(ENTITY_ID &mdl_id, int ropenum)
 
 void NetRope::DoDeleteUntie(ENTITY_ID &mdl_id, NODE *rnod, int gNum)
 {
-    for(int gn=0; gn<groupQuantity; gn++)
+	int gn;
+    for(gn=0; gn<groupQuantity; gn++)
         if(gdata[gn].modelEI==mdl_id) break;
 
     if(gn<groupQuantity)

@@ -5,7 +5,7 @@
 //--------------------------------------------------------------------------------------------
 //	WdmShip
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "WdmShip.h"
@@ -94,7 +94,7 @@ void WdmShip::GetPosition(float & x, float & z, float & ay)
 }
 
 void WdmShip::SetMaxSpeed(float k)
-{	
+{
 	if(k > 5.0f) k = 5.0f;
 	if(k < 0.0f) k = 0.0f;
 	kMaxSpeed = k;
@@ -114,7 +114,7 @@ void WdmShip::ShipUpdate(float dltTime)
 	//Сбросим флажёк для рендера
 	isWMRender = false;
 	//Сохраним предыдущую позицию
-	float oay = ay;	
+	float oay = ay;
 	CVECTOR opos = mtx.Pos();
 	//Ограничем скорости
 	if(speed > WDM_SHIP_MAX_SPEED*kMaxSpeed) speed = WDM_SHIP_MAX_SPEED*kMaxSpeed;
@@ -187,10 +187,10 @@ void WdmShip::ShipUpdate(float dltTime)
 				}
 				rspeed += pos*(-0.8f)*(k);
 				k = ~rspeed;
-				
+
 				mtx.MulToInvNorm(CVECTOR(pos), pos);
 				turnspd = -1.5f*2.0f*pos.x*pos.z*(pos.z > 0.0f ? 2.0f : 1.0f);
-				
+
 				//Ограничем скорость отдачи
 				if(k > 25.0f) rspeed *= 5.0f/k;
 			}
@@ -198,7 +198,7 @@ void WdmShip::ShipUpdate(float dltTime)
 			mtx.BuildMatrix(0.1f*sinf(ax), oay, 0.1f*sinf(az) + slope, opos.x, 0.0f, opos.z);
 			speed = 0.0f;
 			Collide();
-			
+
 		}else{
 			collisionCounter = 0;
 		}
@@ -316,7 +316,8 @@ bool WdmShip::CheckPosition(float x, float z, float objRadius)
 	if(z - objRadius < -0.5f*wdmObjects->worldSizeZ) return false;
 	if(z + objRadius > 0.5f*wdmObjects->worldSizeZ) return false;
 	//Корабли
-	for(long i = 0; i < wdmObjects->numShips; i++)
+	long i;
+	for(i = 0; i < wdmObjects->numShips; i++)
 	{
 		if(!wdmObjects->ships[i]->isLive) continue;
 		if(wdmObjects->ships[i]->killMe) continue;

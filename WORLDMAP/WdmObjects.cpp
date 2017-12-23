@@ -5,7 +5,7 @@
 //--------------------------------------------------------------------------------------------
 //	WdmObjects
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "WdmObjects.h"
@@ -233,7 +233,8 @@ void WdmObjects::DrawVector(const CVECTOR & start, const CVECTOR & end, dword co
 	float p = 0.9f*len;
 	float r = 0.03f*len;
 
-	for(long i = 0, imax = 8, t = 0; i < imax; i++)
+	long t = 0;
+	for(long i = 0, imax = 8; i < imax; i++)
 	{
 		float y1 = r*sinf(2.0f*WdmObjects_myPI*i/float(imax));
 		float x1 = r*cosf(2.0f*WdmObjects_myPI*i/float(imax));
@@ -271,7 +272,7 @@ void WdmObjects::DrawVector(const CVECTOR & start, const CVECTOR & end, dword co
 		//2,2,8
 		vertex[t*3 + 8].v.x = x2*0.3f;
 		vertex[t*3 + 8].v.y = y2*0.3f;
-		vertex[t*3 + 8].v.z = p;		
+		vertex[t*3 + 8].v.z = p;
 		vertex[t*3 + 8].c = color;
 		//3,0,9
 		vertex[t*3 + 10] = vertex[t*3 + 5];

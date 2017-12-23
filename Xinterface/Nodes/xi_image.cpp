@@ -121,8 +121,8 @@ void CXI_IMAGE::LoadAccordingToString( const char * pcImageParam )
 		break;
 		case InterfaceToken_picture_cut_uv:
 			m_bThisIsColorRectangle = false;
-			m_nLeftTopCutUV.x = CXI_UTILS::StringGetFloat( pcParam );
-			m_nLeftTopCutUV.y = CXI_UTILS::StringGetFloat( pcParam );
+			m_nLeftTopCutUV.x = CXI_UTILS::StringGetFloat( (const char *&)pcParam );
+			m_nLeftTopCutUV.y = CXI_UTILS::StringGetFloat( (const char *&)pcParam );
 			UpdateTexture();
 		break;
 		case InterfaceToken_size:

@@ -1,11 +1,11 @@
 //============================================================================================
 //	Spirenkov Maxim aka Sp-Max Shaman, 2001
 //--------------------------------------------------------------------------------------------
-//	
+//
 //--------------------------------------------------------------------------------------------
 //	WdmEventWindow
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "WdmEventWindow.h"
@@ -37,7 +37,7 @@ WdmEventWindow::WdmEventWindow()
 	text = null;
 	token = null;
 	numTokens = 0;
-	maxTokens = 0;	
+	maxTokens = 0;
 	textureBkg = wdmObjects->rs->TextureCreate("WorldMap\\Interfaces\\eventbkg.tga");
 	textureButton = wdmObjects->rs->TextureCreate("WorldMap\\Interfaces\\button.tga");
 	buttonPosY = 0;
@@ -60,7 +60,7 @@ WdmEventWindow::WdmEventWindow()
 			if(buttonFont < 0) buttonFont = FONT_DEFAULT;
 		}
 	}
-}	
+}
 
 WdmEventWindow::~WdmEventWindow()
 {
@@ -94,16 +94,17 @@ void WdmEventWindow::SplitText()
 {
 	if(!text[0]) return;
 	VDX8RENDER * rs = wdmObjects->wm->GetRS();
-	numTokens = 0;	
+	numTokens = 0;
 	long sw = 0;
 	long maxsw = 0;
 	//Ищем и выделяем заголовок
-	for(char * ht = text; *ht; ht++)
+	char *ht;
+	for(ht = text; *ht; ht++)
 		if(*ht == '#') break;
 	if(*ht)
 	{
 		*ht = 0;
-		headerWidth = rs->StringWidth(text, headerFont); 
+		headerWidth = rs->StringWidth(text, headerFont);
 		ht++;
 	}else{
 		headerWidth = 0;
@@ -156,7 +157,7 @@ void WdmEventWindow::SplitText()
 	wdmObjects->GetVPSize(scrw, scrh);
 	scrw -= 2*WDM_EW_SCRSPACE;
 	scrh -= 2*WDM_EW_SCRSPACE;
-	w += WDM_EW_WSPACE*2.0f;	
+	w += WDM_EW_WSPACE*2.0f;
 	if(w > scrw) w = scrw;
 	winX = (scrw - w)*0.5f;
 	winW = w;
@@ -167,7 +168,8 @@ void WdmEventWindow::SplitText()
 	{
 		//Смотрим сколько поместится на строке
 		long strW = -spaceW;
-		for(long j = i; j < numTokens && strW <= w; j++)
+		long j;
+		for(j = i; j < numTokens && strW <= w; j++)
 		{
 			token[j].y = long(y);
 			strW += token[j].w + spaceW;
@@ -197,8 +199,8 @@ void WdmEventWindow::SplitText()
 	winH = y + WDM_EW_UPSPACE + WDM_EW_DOWNSPACE;
 	buttonPosY = long(y);
 	winY = (scrh - winH)*0.5f;
-	y = winY + WDM_EW_UPSPACE;	
-	for(i = 0; i < numTokens; i++) token[i].y += long(y);
+	y = winY + WDM_EW_UPSPACE;
+	for(long i = 0; i < numTokens; i++) token[i].y += long(y);
 }
 
 //Установить варианты ответов
@@ -306,7 +308,7 @@ void WdmEventWindow::LRender(VDX8RENDER * rs)
 	if(yesWidth)
 	{
 		memset(buf, 0, sizeof(buf));
-		
+
 		FillSRectCoord(buf, byesx, by, float(bsize), WDM_EW_BUTTONH, WDM_EW_BSW);
 		FillSRectUV(buf, 0.0f, isYesActive ? 0.5f : 0.0f, 1.0f, 0.5f, WDM_EW_BTSW);
 		FillSRectColor(buf);
@@ -325,9 +327,9 @@ void WdmEventWindow::LRender(VDX8RENDER * rs)
 	}
 	//Текст
 	if(headerWidth) rs->Print(headerFont, 0xffffffff, long(winX + (winW - headerWidth)*0.5f), long(winY + WDM_EW_UPSPACE), text);
-	for(long i = 0; i < numTokens; i++) 
+	for(long i = 0; i < numTokens; i++)
 		rs->Print(textFont, 0xffffffff, token[i].x, token[i].y, token[i].string);
-	
+
 	//Подгонка размеров окна
 	//rs->Print(textFont, 0xffffffff, long(winX), long(winY), "HHHHHHH");
 	//rs->Print(textFont, 0xffffffff, long(winX + winW), long(winY), "HHHHHHH");

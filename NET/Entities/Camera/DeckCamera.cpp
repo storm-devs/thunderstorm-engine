@@ -11,7 +11,7 @@ NetDeckCamera::NetDeckCamera()
 	ZeroMemory(&camera_pos,sizeof(camera_pos));
 	camera_pos.y = 1.0f;
 	ZeroMemory(&camera_ang,sizeof(camera_ang));
-	pathNode = null;	
+	pathNode = null;
 
 	fDelta = 0.0f;
 	iCrosshairTex = -1;
@@ -77,7 +77,7 @@ void NetDeckCamera::Execute(dword Delta_Time)
 	float fStandartPerspective = AttributesPointer->GetAttributeAsFloat("Perspective");
 	float fMinimumPerspective = AttributesPointer->GetAttributeAsFloat("ZoomPerspective");
 	if (fCurrentPerspective < 0.0f) fCurrentPerspective = fStandartPerspective;
-	
+
 	CONTROL_STATE st;
 	api->Controls->GetControlState("TelescopeIn", st);
 	fCurrentPerspective += ((st.state == CST_ACTIVE) ? -1.0f : 1.0f) * 2.5f * fDeltaTime;
@@ -119,7 +119,7 @@ void NetDeckCamera::Realize(dword Delta_Time)
 		if (dwCurrentTargetRelation > 0)
 		{
 			fDelta += fDeltaTime * 4.0f;
-			while (fDelta > 2.0f) 
+			while (fDelta > 2.0f)
 				fDelta -= float(long(fDelta / 2.0f) * 2);
 		}
 		else
@@ -197,11 +197,11 @@ void NetDeckCamera::Move(DWORD DeltaTime)
 	camera_ang.y += fSensivityAzimuthAngle * 3.0f * (float)(cs.fValue);
 
 	api->Controls->GetControlState("DeckCamera_Left", cs);
-	if(cs.state == CST_ACTIVE) 
+	if(cs.state == CST_ACTIVE)
 		camera_ang.y -= fSensivityAzimuthAngle * 15.f * (float)(cs.fValue);
 
 	api->Controls->GetControlState("DeckCamera_Right", cs);
-	if (cs.state == CST_ACTIVE) 
+	if (cs.state == CST_ACTIVE)
 		camera_ang.y += fSensivityAzimuthAngle * 15.f * (float)(cs.fValue);
 
 	api->Controls->GetControlState("DeckCamera_Turn_V", cs);
@@ -247,7 +247,7 @@ void NetDeckCamera::Move(DWORD DeltaTime)
 	if(cs.state == CST_ACTIVE) speed=speed0;
 
 	api->Controls->GetControlState("DeckCamera_Backward",cs);
-    if(cs.state == CST_ACTIVE) 
+    if(cs.state == CST_ACTIVE)
     {
         speed=speed0;
         vShift.x *= -1.f;
@@ -394,7 +394,7 @@ bool NetDeckCamera::FindPath()
 	pModel = GetModelPointer(); Assert(pModel);
 
 	NODE * pNewPathNode = pModel->FindNode("path"); Assert(pNewPathNode);
-	
+
 	if (pathNode != pNewPathNode)
 	{
 		pathNode = pNewPathNode;
@@ -426,7 +426,8 @@ void NetDeckCamera::SetStartPos()
 			if(root==NULL) break;
 			GEOS::INFO gi;
 			root->geo->GetInfo(gi);
-			for(int j=0; j<gi.nlabels; j++)
+			int j;
+			for(j=0; j<gi.nlabels; j++)
 			{
 				GEOS::LABEL gl;
 				root->geo->GetLabel(j,gl);
@@ -584,8 +585,8 @@ dword NetDeckCamera::AttributeChanged(ATTRIBUTES * pAttr)
 	if (pAParent && *pAParent == "Telescope")
 	{
 		if (*pAttr == "Technique")	{ sTelescopeTechnique = pAttr->GetThisAttr(); return 0; }
-		if (*pAttr == "Texture")	
-		{ 
+		if (*pAttr == "Texture")
+		{
 			if (iTelescopeTex >= 0) Render().TextureRelease(iTelescopeTex);
 			iTelescopeTex = Render().TextureCreate(pAttr->GetThisAttr());
 		}
@@ -597,11 +598,11 @@ dword NetDeckCamera::AttributeChanged(ATTRIBUTES * pAttr)
 		if (*pAttr == "SubTexX")	{ dwCrosshairSubTexX = pAttr->GetAttributeAsDword(); return 0; }
 		if (*pAttr == "SubTexY")	{ dwCrosshairSubTexY = pAttr->GetAttributeAsDword(); return 0; }
 		if (*pAttr == "Size")		{ fCrosshairSize = pAttr->GetAttributeAsFloat(); return 0; }
-		if (*pAttr == "Texture")	
-		{ 
+		if (*pAttr == "Texture")
+		{
 			if (iCrosshairTex >= 0) Render().TextureRelease(iCrosshairTex);
 			iCrosshairTex = Render().TextureCreate(pAttr->GetThisAttr());
-			return 0; 
+			return 0;
 		}
 		return 0;
 	}

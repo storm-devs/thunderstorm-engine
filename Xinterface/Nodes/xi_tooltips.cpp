@@ -75,7 +75,7 @@ void CXI_ToolTip::SetByFormatString( XYRECT& rectOwner, INIFILE* pDefIni, const 
 		long nTokenCode = CXI_UTILS::StringGetTokenCode( tokenID );
 		if( CXI_UTILS::StringGetTokenString( pcParam, tokenString, sizeof(tokenString) ) )
 		{
-			char * pStr = tokenString;
+			const char * pStr = tokenString;
 			switch( nTokenCode )
 			{
 			case InterfaceToken_text:

@@ -124,7 +124,7 @@ void CXI_CHECKBUTTONS::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 	{
 		sprintf( pcKeyName, "section%d", n+1 );
 		if( !ReadIniString(ini1,name1, ini2,name2, pcKeyName, param, sizeof(param),"") ) break;
-		char* pTmpChar = param;
+		const char* pTmpChar = param;
 		bool bSelect = CXI_UTILS::StringGetLong( pTmpChar ) != 0;
 		bool bDisable = CXI_UTILS::StringGetLong( pTmpChar ) != 0;
 		AddButton( pTmpChar, bDisable, bSelect );
@@ -132,10 +132,10 @@ void CXI_CHECKBUTTONS::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 
 	// special positions for sections
 	if( m_bIndividualPos ) {
-		for( n=0; n<m_aButton; n++ ) {
+		for( long n=0; n<m_aButton; n++ ) {
 			sprintf( pcKeyName, "pos%d", n+1 );
 			if( ReadIniString(ini1,name1, ini2,name2, pcKeyName, param, sizeof(param),"") ) {
-				char* pTmpChar = param;
+				const char* pTmpChar = param;
 				m_aButton[n]->bSetPos = true;
 				m_aButton[n]->pos.x = (float)CXI_UTILS::StringGetLong( pTmpChar );
 				m_aButton[n]->pos.y = (float)CXI_UTILS::StringGetLong( pTmpChar );
@@ -152,12 +152,13 @@ void CXI_CHECKBUTTONS::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 
 	if( m_bExclusiveChoose )
 	{
+		long n;
 		for( n=0; n<m_aButton; n++ )
 			if( m_aButton[n]->bChoose ) break;
 		if( n == m_aButton ) // ни ондного не установлено
 			SetButtonOn(0); // по умолчанию первый вариант
 	}
-	for( n=0; n<m_aButton; n++ )
+	for( long n=0; n<m_aButton; n++ )
 		WriteToAttributeButtonState( n );
 
 	UpdateAllTextInfo();
@@ -365,7 +366,8 @@ void CXI_CHECKBUTTONS::CheckMouseClick( const FXYPOINT & pntMouse )
 		{
 			if( pntMouse.x < m_rect.left || pntMouse.x > m_rect.right ) return;
 			long nY = m_rect.top;
-			for( long n=0; n<m_aButton; n++ )
+			long n;
+			for( n=0; n<m_aButton; n++ )
 			{
 				long nHeight = (long)(m_aButton[n]->aStr.Size() * m_fTextLineHeight);
 				if( !m_aButton[n]->bDisable )
@@ -465,7 +467,7 @@ void CXI_CHECKBUTTONS::UpdateTextInfo( long nButtonNum )
 	CXI_UTILS::SplitStringByWidth( sAllText, m_nFontNum, m_fFontScale, nWidth, asOutStr );
 
 	m_aButton[nButtonNum]->aStr.DelAll();
-	for( n=0; n<asOutStr; n++ )
+	for(long n=0; n<asOutStr; n++ )
 	{
 		m_aButton[nButtonNum]->aStr.Add();
 		m_aButton[nButtonNum]->aStr[n].str = asOutStr[n];
