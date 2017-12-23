@@ -2,6 +2,7 @@
 #include "..\common_h\messages.h"
 #include "..\common_h\cvector4.h"
 #include "lights.h"
+#include "Character.h"
 
 //============================================================================================
 //Конструирование, деструктурирование
@@ -44,19 +45,26 @@ void LocModelRealizer::Realize(dword delta_time)
 		BOOL bLight0Enable;
 		dword dwLighting;
 		if (lights) {
-			lights->SetCharacterLights();
+			//Character * c = (Character *)_CORE_API->GetEntityPointer(&eid_model);
+			//CVECTOR pos;
+			//c->GetPosition(pos);
+			//lights->SetCharacterLights(pos);
+
 			rs->GetRenderState(D3DRS_LIGHTING, &dwLighting);
-			rs->SetRenderState(D3DRS_LIGHTING, !dwLighting);
 			rs->GetLightEnable(0, &bLight0Enable);
-			rs->LightEnable(0, !bLight0Enable);
+			lights->SetCharacterLights();
+			rs->SetRenderState(D3DRS_LIGHTING, TRUE);
+			rs->LightEnable(0, TRUE);
+			//rs->SetRenderState(D3DRS_LIGHTING, !dwLighting);
+			//rs->LightEnable(0, !bLight0Enable);
 		}
 
 		pE->Realize(delta_time);
 
 		if (lights) {
+			lights->DelCharacterLights();
 			rs->SetRenderState(D3DRS_LIGHTING, dwLighting);
 			rs->LightEnable(0, bLight0Enable);
-			//lights->DelCharacterLights();
 		}
 
 		if (bCausticEnable)

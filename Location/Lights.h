@@ -107,10 +107,10 @@ public:
 
 	//”становить дл€ персонажа источники освещени€
 	void SetCharacterLights(const CVECTOR & pos);
+	//”становить источники по последней позиции
+	void SetCharacterLights();
 	//«апретить установленные дл€ персонажа источники освещени€
 	void DelCharacterLights();
-	//”становить те же источники что и дл€ последнего расчета
-	void SetCharacterLights();
 
 	//ќбновить типы источников
 	void UpdateLightTypes(long i);
@@ -141,6 +141,9 @@ private:
 	long numLampModels;
 
 	Vertex buf[6*1];
+
+	//ƒл€ ModelRealizer
+	CVECTOR last_pos;
 };
 
 #endif

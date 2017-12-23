@@ -432,9 +432,10 @@ void Lights::DelMovingLight(long id)
 //”становить дл€ персонажа источники освещени€
 void Lights::SetCharacterLights(const CVECTOR & pos)
 {
-	long i,n;
+	last_pos = pos;
 
 	//«аполн€ем исходный array
+	long i;
 	array<long> aLightsSort(_FL);
 	for(i = 0; i < numLights; i++ )
 		aLightsSort.Add(i);
@@ -445,6 +446,7 @@ void Lights::SetCharacterLights(const CVECTOR & pos)
 	}
 
 	//—ортируем по дистанции
+	long n;
 	array<lt_elem> aLightsDstSort(_FL);
 	for (n = 0; n < aLightsSort; n++)
 	{
@@ -499,6 +501,12 @@ void Lights::SetCharacterLights(const CVECTOR & pos)
 	}
 }
 
+//”становить источники по последней позиции
+void Lights::SetCharacterLights()
+{
+	SetCharacterLights(last_pos);
+}
+
 //«апретить установленные дл€ персонажа источники освещени€
 void Lights::DelCharacterLights()
 {
@@ -507,26 +515,6 @@ void Lights::DelCharacterLights()
 		if(!lt[i].set) continue;
 		lt[i].set = false;
 		rs->LightEnable(i, false);
-	}
-}
-
-//”становить те же источники что и дл€ последнего расчета
-void Lights::SetCharacterLights()
-{
-	for(long n = 1; n < 8; n++)
-	{
-		if( lt[n].set ) continue;
-		if( lt[n].light < 0 ) continue;
-
-		long i = lt[n].light;
-		//”станавливаем источник
-		LightType & l = types[lights[i].type];
-		l.dxLight.Diffuse = lights[i].color;
-		l.dxLight.Position = lights[i].pos;
-		rs->SetLight(n, &l.dxLight);
-		rs->LightEnable(n, true);
-		lt[n].set = true;
-		n++;
 	}
 }
 
