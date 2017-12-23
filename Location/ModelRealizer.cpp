@@ -41,22 +41,22 @@ void LocModelRealizer::Realize(dword delta_time)
 	if( !bShow ) return;
 	ENTITY* pE = api->GetEntityPointer( &eid_model );
 	if( pE ) {
-		BOOL bLight0Enable = TRUE;
-		dword dwLighting = TRUE;
-		if(lights) {
+		BOOL bLight0Enable;
+		dword dwLighting;
+		if (lights) {
 			lights->SetCharacterLights();
-			rs->GetRenderState( D3DRS_LIGHTING, &dwLighting );
-			rs->SetRenderState( D3DRS_LIGHTING, TRUE );
-			rs->GetLightEnable(0,&bLight0Enable);
-			rs->LightEnable(0,true);
+			rs->GetRenderState(D3DRS_LIGHTING, &dwLighting);
+			rs->SetRenderState(D3DRS_LIGHTING, !dwLighting);
+			rs->GetLightEnable(0, &bLight0Enable);
+			rs->LightEnable(0, !bLight0Enable);
 		}
 
 		pE->Realize(delta_time);
 
-		if(lights) {
-			rs->SetRenderState( D3DRS_LIGHTING, dwLighting );
-			rs->LightEnable(0,bLight0Enable==TRUE);
-			lights->DelCharacterLights();
+		if (lights) {
+			rs->SetRenderState(D3DRS_LIGHTING, dwLighting);
+			rs->LightEnable(0, bLight0Enable);
+			//lights->DelCharacterLights();
 		}
 
 		if (bCausticEnable)

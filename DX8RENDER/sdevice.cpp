@@ -660,7 +660,7 @@ bool DX8RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 	bWindow = windowed;
 
 	hwnd = _hwnd;
-	api->Trace("Initializing DirectX 9");
+	api->Trace("Initializing DirectX 8");
 	d3d = Direct3DCreate8( D3D_SDK_VERSION );
 	if(d3d==NULL)
 	{

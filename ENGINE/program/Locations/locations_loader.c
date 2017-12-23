@@ -779,8 +779,8 @@ bool LocLoadModel(aref loc, string sat, string addition)
     attr = sat + ".level";
     if(CheckAttribute(loc, attr)) level = MakeInt(loc.(attr));
     attr = sat + ".lights";
-    int dynamicLightsOn = 0;
-    if(CheckAttribute(loc, attr)) dynamicLightsOn = MakeInt(loc.(attr));
+    int dynamicLightsOn = 1;
+    //if(CheckAttribute(loc, attr)) dynamicLightsOn = MakeInt(loc.(attr));
     //Грузим модельку
     res = SendMessage(loc, "lssll", MSG_LOCATION_ADD_MODEL, loc.(sat) + addition, tech, level, dynamicLightsOn);
 	if(res == 0) return 0;
