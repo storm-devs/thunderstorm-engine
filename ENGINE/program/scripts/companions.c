@@ -6,7 +6,6 @@ bool Ship_AutoAbordage(ref rCharacter, float fMinEnemyDistance)
     float	fDistance;
     bool    bSuccess = false;
 
-    //Log_SetStringToLog(" орабль " + rCharacter.Ship.Name + " cap="+rCharacter.id+" начинает абордаж " + Characters[sti(rCharacter.SeaAI.Task.Target)].Ship.Name+" cap="+Characters[sti(rCharacter.SeaAI.Task.Target)].id);
     if (fMinEnemyDistance < 70)
     {
 	    int   bGrapplingProfessional  = sti(rCharacter.TmpPerks.GrapplingProfessional);
@@ -62,11 +61,11 @@ bool Ship_AutoAbordage(ref rCharacter, float fMinEnemyDistance)
             { // победа
                 if (IsCompanion(rShipCharacter))
 			    {
-			        Log_SetStringToLog("Ќаш корабль " + rShipCharacter.Ship.Name + " вз€т на абордаж ");
+			        Log_SetStringToLog(xiStr("MSG_Companions_3") + rShipCharacter.Ship.Name + xiStr("MSG_Companions_4"));
 			    }
 			    else
 			    {
-			        Log_SetStringToLog(" орабль " + rShipCharacter.Ship.Name + " вз€т на абордаж ");
+			        Log_SetStringToLog(xiStr("MSG_Companions_1") + rShipCharacter.Ship.Name + xiStr("MSG_Companions_4"));
 			    }
 			    deadCrew = sti(rCharacter.Ship.Crew.Quantity) * fEnCrewFencing / (fOurCrewFencing*1.8);
 			    SetCrewQuantity(rCharacter, makeint(sti(rCharacter.Ship.Crew.Quantity) - deadCrew));
@@ -89,11 +88,11 @@ bool Ship_AutoAbordage(ref rCharacter, float fMinEnemyDistance)
             { // поражение
                 if (IsCompanion(rCharacter))
 			    {
-			        Log_SetStringToLog("Ќаш корабль " + rCharacter.Ship.Name + " проиграл абордаж ");
+			        Log_SetStringToLog(xiStr("MSG_Companions_3") + rCharacter.Ship.Name + xiStr("MSG_Companions_5"));
 			    }
 			    else
 			    {
-			        Log_SetStringToLog(" орабль " + rCharacter.Ship.Name + " проиграл абордаж ");
+			        Log_SetStringToLog(xiStr("MSG_Companions_1") + rCharacter.Ship.Name + xiStr("MSG_Companions_5"));
 			    }
 			    deadCrew = sti(rShipCharacter.Ship.Crew.Quantity) * fOurCrewFencing/ (fEnCrewFencing*1.8);
 			    SetCrewQuantity(rShipCharacter, makeint(sti(rShipCharacter.Ship.Crew.Quantity) - deadCrew));
@@ -167,7 +166,7 @@ void SeaExchangeCharactersShips(ref rOneChr, ref rSecChr, bool _showLog, bool _s
 	}
 	if (_showLog)
 	{
-		Log_SetStringToLog(GetFullName(rOneChr) + " обмен€л свой корабль на " +
+		Log_SetStringToLog(GetFullName(rOneChr) + xiStr("MSG_Companions_6") +
 						XI_ConvertString(RealShips[sti(rOneChr.Ship.Type)].BaseName) + " " + rOneChr.Ship.Name + ".");
 	}
 }
@@ -263,7 +262,7 @@ void LeaveAbordageShipDrift(int iDeadCharacterIndex, int iKillerCharacterIndex)
 	//....
 	ref rDeadChar = GetCharacter(iDeadCharacterIndex);
 
-	//ставим атрибут "захвачен" (дл€ дальнейшего грабежа) и индекс кем (дл€ статистики)
+	//ставим атрибут 'захвачен' (дл€ дальнейшего грабежа) и индекс кем (дл€ статистики)
 	rDeadChar.taken = true;
 	rDeadChar.taken.index = iKillerCharacterIndex;
 

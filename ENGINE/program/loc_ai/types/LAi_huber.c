@@ -26,13 +26,14 @@ void LAi_type_huber_Init(aref chr)
 //Процессирование типа персонажа
 void LAi_type_huber_CharacterUpdate(aref chr, float dltTime)
 {	
+	int num;
+	float locx, locy, locz;
 	if (CheckAttribute(chr, "standUp") && !LAi_IsCapturedLocation) //не при захвате колонии
 	{
-		int num = FindNearCharacters(chr, 15.0, -1.0, -1.0, 0.01, false, false);
+		num = FindNearCharacters(chr, 15.0, -1.0, -1.0, 0.01, false, false);
 		int iNumEnemy = LAi_type_huber_FindEnemy(chr, num);
 		if (iNumEnemy > 0) //есть враги
 		{
-            float locx, locy, locz;
 			GetCharacterPos(chr, &locx, &locy, &locz);			
             Pchar.quest.MayorSitBack.win_condition.l1 = "ExitFromLocation";
             Pchar.quest.MayorSitBack.win_condition.l1.location = pchar.location;
@@ -44,6 +45,29 @@ void LAi_type_huber_CharacterUpdate(aref chr, float dltTime)
 			EquipCharacterByItem(chr, FindCharacterItemByGroup(chr, GUN_ITEM_TYPE));
 			LAi_SetWarriorTypeNoGroup(chr); //ребрендинг и вперед на врага
 			ChangeCharacterAddressGroup(chr, chr.location, "goto", LAi_FindNearestFreeLocator("goto", locx, locy, locz));
+			LAi_group_Attack(chr, &characters[iNumEnemy]);
+			if (CheckAttribute(chr, "standUp.exitDisable")) chrDisableReloadToLocation = true;
+		}
+	}
+	//слежение залезания ГГ в боксы
+	if (CheckAttribute(chr, "watchBoxes")&& chr.chr_ai.tmpl != LAI_TMPL_DIALOG) 
+	{
+		num = FindNearCharacters(chr, 10.0, -1.0, 180.0, 0.01, true, true);
+		for(int i = 0; i < num; i++)
+		{
+			if(nMainCharacterIndex == sti(chrFindNearCharacters[i].index))
+			{					
+				//нашли ГГ, проверяем, не в сундуке ли.						
+				if (bMainCharacterInBox)
+				{
+					//Нападаем на новую цель
+					GetCharacterPos(chr, &locx, &locy, &locz);	
+					LAi_SetWarriorTypeNoGroup(chr); //ребрендинг и вперед на врага
+					ChangeCharacterAddressGroup(chr, chr.location, "goto", LAi_FindNearestFreeLocator("goto", locx, locy, locz));
+					LAi_group_Attack(chr, pchar);
+					if (CheckAttribute(chr, "watchBoxes.exitDisable")) chrDisableReloadToLocation = true;
+				}
+			}
 		}
 	}
 	if(chr.chr_ai.tmpl != LAI_TMPL_DIALOG)
@@ -119,12 +143,22 @@ void LAi_type_huber_Attacked(aref chr, aref by)
 //Найти врага
 int LAi_type_huber_FindEnemy(aref chr, int num)
 {
-	if(LAi_grp_playeralarm > 0 && num > 0)
+	if(num <= 0) return -1;
+	int i, idx;
+	if(LAi_grp_playeralarm > 0)
 	{
-		for(int i = 0; i < num; i++)
+		for(i = 0; i < num; i++)
 		{
-			int idx = sti(chrFindNearCharacters[i].index);
+			idx = sti(chrFindNearCharacters[i].index);
 			if(LAi_group_IsEnemy(chr, &Characters[idx])) return idx;
+		}
+	}
+	else
+	{		
+		for(i = 0; i < num; i++)
+		{
+			idx = sti(chrFindNearCharacters[i].index);
+			if(LAi_CheckFightMode(&Characters[idx])) return idx;
 		}
 	}
 	return -1;

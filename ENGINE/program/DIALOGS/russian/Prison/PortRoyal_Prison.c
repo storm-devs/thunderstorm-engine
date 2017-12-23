@@ -1,38 +1,38 @@
-// диалог по городам
+#include "TEXT\DIALOGS\Prison\PortRoyal_Prison.h"
 void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 {
  	switch(Dialog.CurrentNode)
 	{
         case "quests":
-            dialog.text = "Говорите, я слушаю.";
-			link.l1 = "Я ошибся. Прощайте.";
+            dialog.text = DLG_TEXT_PRS[0];
+			link.l1 = DLG_TEXT_PRS[1];
 			link.l1.go = "Exit";
             if (pchar.questTemp.State == "MorrisWillams_ArrestedToPrison")   // разговор по шестому квесту англ.линейки
             {
-    			link.l2 = "Лейтенант, не буду ходить вокруг да около. Я хочу, чтобы заключенный Моррис Уильямс был свободен.";
+    			link.l2 = DLG_TEXT_PRS[2];
     			link.l2.go = "Step_E6_1";
             }
             if (pchar.questTemp.State == "SaveFromMorgan_toPrison")   // испанка, квест №1
             {
-    			link.l2 = "Офицер, я знаю, что у вас содержаться три испанца, вроде был Морган их захватил.";
+    			link.l2 = DLG_TEXT_PRS[3];
     			link.l2.go = "Step_S1_1";
             }
 		break;
 
         case "Step_E6_1":
-            dialog.text = "Хм... Что ж, ценю вашу откровенность. Признаюсь, что мне тоже не по нраву арест и содержание джентльмена под стражей.\n"+
-                          "Но я человек военный и приказ нарушать не стану ни при каких обстоятельствах. Посоветую вам обратиться к генерал-губернатору и желаю удачи.";
-			link.l1 = "Почему именно к генерал-губернатору?";
+            dialog.text = DLG_TEXT_PRS[4]+
+                          DLG_TEXT_PRS[5];
+			link.l1 = DLG_TEXT_PRS[6];
 			link.l1.go = "Step_E6_2";
 		break;
         case "Step_E6_2":
-            dialog.text = "Потому, что Моррис Уильямс арестован по его письменному распоряжению.";
-			link.l1 = "Понятно... Скажите, лейтенант, а я могу поговорить с Уильямсом?";
+            dialog.text = DLG_TEXT_PRS[7];
+			link.l1 = DLG_TEXT_PRS[8];
 			link.l1.go = "Step_E6_3";
 		break;
         case "Step_E6_3":
-            dialog.text = "Думаю, да. Только именно сейчас, не позже. И будте немногословны.";
-			link.l1 = "Спасибо, лейтенант.";
+            dialog.text = DLG_TEXT_PRS[9];
+			link.l1 = DLG_TEXT_PRS[10];
 			link.l1.go = "exit";
 			pchar.questTemp.jailCanMove = true;
 			pchar.questTemp.State = "MorrisWillams_ArrestedToModiford";
@@ -40,18 +40,18 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 		break;
 
         case "Step_S1_1":
-            dialog.text = "И что?";
-			link.l1 = "Да ничего особенного. Просто я хочу дать им свободу.";
+            dialog.text = DLG_TEXT_PRS[11];
+			link.l1 = DLG_TEXT_PRS[12];
 			link.l1.go = "Step_S1_2";
 		break;
         case "Step_S1_2":
-            dialog.text = "Этот вопрос находится вне зоны моей компетенции.";
-			link.l1 = "А я полагаю, что вы должны быть крайне заинтересованы в этом. Иначе я убью вас.";
+            dialog.text = DLG_TEXT_PRS[13];
+			link.l1 = DLG_TEXT_PRS[14];
 			link.l1.go = "Step_S1_3";
 		break;
         case "Step_S1_3":
-            dialog.text = "Такого наглеца свет еще не видел. Взять его!!";
-			link.l1 = "Ну что же, вы сами напросились...";
+            dialog.text = DLG_TEXT_PRS[15];
+			link.l1 = DLG_TEXT_PRS[16];
 			link.l1.go = "fight";
 		break;
 	}

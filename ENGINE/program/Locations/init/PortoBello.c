@@ -528,13 +528,15 @@ int LocationInitPortoBello(int n)
 	//Always
 	locations[n].filespath.models = "locations\inside\BigHouse01_2Door";
 	locations[n].models.always.model = "BigHouse01_2Door";
+	locations[n].models.always.model.level = 65538;
 	locations[n].models.day.locators = "BigHouse01_2Door_locators";
 	locations[n].models.night.locators = "BigHouse01_2Door_Nlocators";
 	locations[n].models.always.window = "BigHouse01_2Door_windows";
 	locations[n].models.always.window.tech = "LocationWindows";
-	locations[n].models.always.window.level = 50;
+	locations[n].models.always.window.level = 65539;
 
 	locations[n].models.always.back = "..\inside_back";
+	locations[n].models.always.back.level = 65529;
 	//Day
 	locations[n].models.day.charactersPatch = "BigHouse01_2Door_patch";
 	//Night
@@ -693,7 +695,7 @@ int LocationInitPortoBello(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "PortoBello_ExitTown";
 	locations[n].id.label = "ExitTown";
-	locations[n].image = "loading\Gate.tga";
+	locations[n].image = "loading\Gate" + rand(1) + ".tga";
 	//Town sack
 	locations[n].townsack = "PortoBello";
 	//Sound
@@ -746,7 +748,7 @@ int LocationInitPortoBello(int n)
 
 	locations[n].reload.l3.name = "reload3";
 	locations[n].reload.l3.go = "PortoBello_town";
-	locations[n].reload.l1.emerge = "gate_back";
+	locations[n].reload.l3.emerge = "gate_back";
 	locations[n].reload.l3.autoreload = "0";
 	locations[n].reload.l3.label = "PortoBello";
 	n = n + 1;
@@ -756,7 +758,7 @@ int LocationInitPortoBello(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "PortoBello_Jungle_01";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle5.tga";
+	locations[n].image = "loading\outside\jungle.tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -812,7 +814,7 @@ int LocationInitPortoBello(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     locations[n].id = "PortoBello_Jungle_02";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle4.tga";
+	locations[n].image = "loading\outside\jungle2.tga";
  	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -868,7 +870,7 @@ int LocationInitPortoBello(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "PortoBello_CaveEntrance";
 	locations[n].id.label = "Cave entrance";
-	locations[n].image = "loading\outside\cave_ent.tga";
+	locations[n].image = "loading\outside\jungle2.tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -928,14 +930,13 @@ int LocationInitPortoBello(int n)
 	locations[n].models.always.DungeonDuffer2 = "DungeonDuffer2";
 	locations[n].models.always.locators = "DungeonDuffer2_locators";
 
-	Locations[n].models.always.duhi = "duhi";
-	Locations[n].models.always.duhi.locator.group = "item";
-	Locations[n].models.always.duhi.locator.name = "duhi1";
-	locations[n].models.always.duhi.tech = "LighthouseLight";
-	locations[n].models.always.duhi.level = 60;
-	Locations[n].models.always.duhi.uvslide.u0 = 0.15;
-	Locations[n].models.always.duhi.uvslide.v0 = 0.1;
 	locations[n].locators_radius.item.duhi1 = 1.3;
+	
+	Locations[n].models.always.rays = "DungeonDuffer2_rays";
+	Locations[n].models.always.rays.level = 49;
+	Locations[n].models.always.rays.tech= "LocVisRays";
+	Locations[n].models.always.rays.uvslide.u1 = -0.03;
+	Locations[n].models.always.rays.uvslide.v1 = -0.03;	
 	//Day
 	locations[n].models.day.charactersPatch = "DungeonDuffer2_patch";
 	//Night

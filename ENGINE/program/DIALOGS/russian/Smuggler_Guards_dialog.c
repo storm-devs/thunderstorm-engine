@@ -1,4 +1,5 @@
-void ProcessDialogEvent() 
+#include "TEXT\DIALOGS\Smuggler_Guards_dialog.h"
+void ProcessDialogEvent()
 {
 	ref NPChar;
 	aref Link, Diag;
@@ -27,9 +28,9 @@ void ProcessDialogEvent()
 		case "First time":			
 			chrDisableReloadToLocation = false;
    			LAi_LockFightMode(pchar, false);
-			dialog.text = RandPhraseSimple("Кажется, здесь происходит что-то незаконное.",
-                                     "Именем "+NationKingsName(npchar)+ ", прекратить творить беззаконие!!!");
-			Link.l1 = "Нет-нет, офицер. Мы с друзьями просто отдыхаем у моря.";
+			dialog.text = RandPhraseSimple(DLG_TEXT_BASE[0],
+                                     DLG_TEXT_BASE[1]+NationKingsName(npchar)+ DLG_TEXT_BASE[2]);
+			Link.l1 = DLG_TEXT_BASE[3];
 			if (makeint(Pchar.reputation) >= 70 && GetSummonSkillFromNameToOld(Pchar, SKILL_LEADERSHIP) >= 5)
 			{
 				Link.l1.go = "ThisTimeFree";
@@ -38,7 +39,7 @@ void ProcessDialogEvent()
 			{
 				Link.l1.go = "IDontBelieveYou";
 			}
-			Link.l2 = "Я раздаю золото. Это можно считать незаконным занятием?";
+			Link.l2 = DLG_TEXT_BASE[4];
 			if(makeint(Pchar.rank) >= 4 && GetSummonSkillFromNameToOld(Pchar, SKILL_COMMERCE) >= 5)
 			{
 				Link.l2.go = "GiveMeSomeMoneyToo";
@@ -47,7 +48,7 @@ void ProcessDialogEvent()
 			{
 				Link.l2.go = "TryingToGiveBribe";
 			}
-			Link.l3 = "Проваливай, солдафон. Это тебя это касается!";
+			Link.l3 = DLG_TEXT_BASE[5];
 			if(makeint(Pchar.reputation) <= 25 && GetSummonSkillFromNameToOld(Pchar, SKILL_FENCING) >= 8)
 			{
 				Link.l3.go = "GettingLostFromHere";
@@ -61,18 +62,18 @@ void ProcessDialogEvent()
 
 		case "ThisTimeFree":
 			dialog.snd = "Voice\COGU\COGU002";		
-			dialog.text = "Не морочьте нам голову, капитан " + Pchar.name + "! И кто мог подумать, что такой положительный и уважаемый всеми человек, как вы, займется контрабандой!";
-			Link.l1 = "Увы, все совершают ошибки. Но я уже раскаиваюсь!";
+			dialog.text = DLG_TEXT_BASE[6] + Pchar.name + DLG_TEXT_BASE[7];
+			Link.l1 = DLG_TEXT_BASE[8];
 			Link.l1.go = "ThisTimeFree_1";
-			Link.l2 = "Сейчас я отрежу тебе голову!";
+			Link.l2 = DLG_TEXT_BASE[9];
 			Link.l2.go = "ThisTimeFree_fight";				
 		break;
 
 		case "ThisTimeFree_1":	
 			dialog.snd = "Voice\COGU\COGU003";	
 			ChangeCharacterReputation(pchar, -40);
-			dialog.text = "Поскольку я слышал о вас только хорошее, в этот раз я отпускаю вас. А этих мерзавцев мы прихватим!";
-			Link.l1 = "Благодарю вас, офицер. Всего вам хорошего!";
+			dialog.text = DLG_TEXT_BASE[10];
+			Link.l1 = DLG_TEXT_BASE[11];
 			Link.l1.go = "ThisTimeFree_exit";
 		break;
 
@@ -121,15 +122,15 @@ void ProcessDialogEvent()
 
 		case "IDontBelieveYou":
 			dialog.snd = "Voice\COGU\COGU004";
-			dialog.text = "Что вы мне рассказываете! Я не слепой! Следуйте за нами - вы арестованы, а товар конфискован!";
-			Link.l1 = "Скорее, я выпущу вам кишки!";
+			dialog.text = DLG_TEXT_BASE[12];
+			Link.l1 = DLG_TEXT_BASE[13];
 			Link.l1.go = "ThisTimeFree_fight";
 		break;
 
 		case "GiveMeSomeMoneyToo":	
 			dialog.snd = "Voice\COGU\COGU005";		
-			dialog.text = "Вот как? Нет, конечно, это занятие совершенно правомочно...Если нам, конечно, тоже достанется. А по сколько вы раздаете?";
-			Link.l1 = "Думаю, что " + makeint(sti(Pchar.money)/10) + " пиастров будет достаточно.";
+			dialog.text = DLG_TEXT_BASE[14];
+			Link.l1 = DLG_TEXT_BASE[15] + makeint(sti(Pchar.money)/10) + DLG_TEXT_BASE[16];
 			if(makeint(Pchar.rank)*1000 <= makeint(sti(Pchar.money)/10))
 			{
 				Link.l1.go = "MoneyAccepted10";
@@ -139,7 +140,7 @@ void ProcessDialogEvent()
 				Link.l1.go = "TryingToGiveBribe";
 			}
 
-			Link.l2 = "Как насчет " + makeint(sti(Pchar.money)/5) + " пиастров?";
+			Link.l2 = DLG_TEXT_BASE[17] + makeint(sti(Pchar.money)/5) + DLG_TEXT_BASE[18];
 			if(makeint(Pchar.rank)*1000 <= makeint(sti(Pchar.money)/5))
 			{
 				Link.l2.go = "MoneyAccepted5";
@@ -149,7 +150,7 @@ void ProcessDialogEvent()
 				Link.l2.go = "TryingToGiveBribe";
 			}
 
-			Link.l3 = "Вам, офицер, я готов отдать " + makeint(sti(Pchar.money)/2) + " пиастров!";
+			Link.l3 = DLG_TEXT_BASE[19] + makeint(sti(Pchar.money)/2) + DLG_TEXT_BASE[20];
 			if(makeint(Pchar.rank)*1000 <= makeint(sti(Pchar.money)/2))
 			{
 				Link.l3.go = "MoneyAccepted2";
@@ -162,46 +163,46 @@ void ProcessDialogEvent()
 
 		case "TryingToGiveBribe":
 			dialog.snd = "Voice\COGU\COGU006";
-			dialog.text = "Ага, предлагаете взятку? Нет уж, мне честь мундира дороже! Извольте следовать за нами!";
-			Link.l1 = "Проклятье! Жаль вас разочаровывать, но вряд ли вы куда-либо сейчас пойдете!";
+			dialog.text = DLG_TEXT_BASE[21];
+			Link.l1 = DLG_TEXT_BASE[22];
 			Link.l1.go = "ThisTimeFree_fight";
 		break;
 
 		case "MoneyAccepted10":
 			dialog.snd = "Voice\COGU\COGU007";
-			dialog.text = "С радостью приму подояние. Раз уж вы занимаетесь благотворительностью.";
-			Link.l1 = "Всегда к вашим услугам.";
+			dialog.text = DLG_TEXT_BASE[23];
+			Link.l1 = DLG_TEXT_BASE[24];
 			Link.l1.go = "GettingLostFromHere_exit";
 			AddMoneyToCharacter(pchar, -makeint(sti(Pchar.money)/10));
 		break;
 		
 		case "MoneyAccepted5":
 			dialog.snd = "Voice\COGU\COGU007";
-			dialog.text = "С радостью приму подояние. Раз уж вы занимаетесь благотворительностью.";
-			Link.l1 = "Всегда к вашим услугам.";
+			dialog.text = DLG_TEXT_BASE[25];
+			Link.l1 = DLG_TEXT_BASE[26];
 			Link.l1.go = "GettingLostFromHere_exit";
 			AddMoneyToCharacter(pchar, -makeint(sti(Pchar.money)/5));
 		break;
 		
 		case "MoneyAccepted2":
 			dialog.snd = "Voice\COGU\COGU007";
-			dialog.text = "С радостью приму подояние. Раз уж вы занимаетесь благотворительностью.";
-			Link.l1 = "Всегда к вашим услугам.";
+			dialog.text = DLG_TEXT_BASE[27];
+			Link.l1 = DLG_TEXT_BASE[28];
 			Link.l1.go = "GettingLostFromHere_exit";
 			AddMoneyToCharacter(pchar, -makeint(sti(Pchar.money)/2));
 		break;
 
 		case "GettingLostFromHere":
 			dialog.snd = "Voice\COGU\COGU008";
-			dialog.text = "Но... Дьявол... Я же должен вас арестовать!";
-			Link.l1 = "Арргх! Ты еще здесь? Жить надоело?";
+			dialog.text = DLG_TEXT_BASE[29];
+			Link.l1 = DLG_TEXT_BASE[30];
 			Link.l1.go = "GettingLostFromHere_1";
 		break;
 
 		case "GettingLostFromHere_1":
 			dialog.snd = "Voice\COGU\COGU009";
-			dialog.text = "Я...Я буду жаловаться! Я этого так не оставлю...";
-			Link.l1 = "Пфф!";
+			dialog.text = DLG_TEXT_BASE[31];
+			Link.l1 = DLG_TEXT_BASE[32];
 			Link.l1.go = "GettingLostFromHere_exit";
 		break;
 
@@ -224,8 +225,8 @@ void ProcessDialogEvent()
 
 		case "howDareYou":
 			dialog.snd = "Voice\COGU\COGU010";
-			dialog.text = "Ах ты собака! Теперь тебе точно не отвертеться. Ты на этом берегу сдохнешь!";
-			Link.l1 = "Попробуй воплотить слова в жизнь, пустозвон!";
+			dialog.text = DLG_TEXT_BASE[33];
+			Link.l1 = DLG_TEXT_BASE[34];
 			Link.l1.go = "ThisTimeFree_fight";
 		break;
 	}

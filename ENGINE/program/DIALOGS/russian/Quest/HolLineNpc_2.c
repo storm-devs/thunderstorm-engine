@@ -1,4 +1,4 @@
-// диалоговый файл №2 на голландку
+#include "TEXT\DIALOGS\Quest\HolLineNpc_2.h"
 void ProcessDialogEvent()
 {
 	ref NPChar, sld;
@@ -14,46 +14,46 @@ void ProcessDialogEvent()
     switch (Dialog.CurrentNode)
     {
         case "First time":
-            dialog.text = "Если вы это видите, то это бага. Надо срочно сообщить Эдди!";
-            link.l1 = "...";
+			dialog.text = DLG_TEXT_Q[0];
+			link.l1 = DLG_TEXT_Q[1];
             link.l1.go = "exit";
 
 //>>>>>>>>>>>>========= Разброс диалогов по персонажам =====================
             if (pchar.questTemp.State == "DelivLettTortuga_NotFoundLetter")// кэп пиратов, вывезший де Барраса из Тортуги
             {
-    			dialog.text = "Ты победил! Я сдаюсь...";
-    			link.l1 = "Я хочу знать, где этот чертов Антонио?! Отвечай!!!";
+    			dialog.text = DLG_TEXT_Q[2];
+    			link.l1 = DLG_TEXT_Q[3];
     			link.l1.go = "Step_H7_1";
             }
             if (npchar.id == "LoranDeGraf")// Лоран де Граф, квест №8
             {
-    			dialog.text = "Сударь, сейчас не время для разговоров! Идет бой.";
-    			link.l1 = "Да-да, я знаю...";
+    			dialog.text = DLG_TEXT_Q[4];
+    			link.l1 = DLG_TEXT_Q[5];
     			link.l1.go = "exit";
             }
 			if (pchar.questTemp.State == "SeekBible_WeWon" && npchar.id == "LoranDeGraf")// Лоран де Граф, квест №8
             {
-    			dialog.text = "Я в крайней степени благодарен вам за помощь, сударь. Вы подоспели как нельзя вовремя. Позвольте представиться, меня зовут Лоран де Граф.";
-    			link.l1 = "Знаю, я как раз искал встречи с вами сначала на Бермудах, затем на Тортуге.";
+    			dialog.text = DLG_TEXT_Q[6];
+    			link.l1 = DLG_TEXT_Q[7];
     			link.l1.go = "Step_H8_10";
             }
             if (pchar.questTemp.State == "SeekBible_IHaveMap")
             {
-    			dialog.text = "Мне кажется, что наша сделка завершена, сударь.";
-    			link.l1 = "Верно, завершена.";
+    			dialog.text = DLG_TEXT_Q[8];
+    			link.l1 = DLG_TEXT_Q[9];
     			link.l1.go = "exit";
             }
             if (pchar.questTemp.State == "SeekBible_SeekMoney")
             {
-    			dialog.text = "Вы уже нашли деньги, сударь?";
+    			dialog.text = DLG_TEXT_Q[10];
                 if (sti(pchar.money) >= 235000)
                 {
-                    link.l1 = "Да, нашел. И готов их выложить тебе...";
+                    link.l1 = DLG_TEXT_Q[11];
         			link.l1.go = "Step_H8_13";
                 }
                 else
                 {
-                    link.l1 = "Нет еще, я в поиске...";
+                    link.l1 = DLG_TEXT_Q[12];
         			link.l1.go = "exit";
                 }
             }
@@ -67,19 +67,19 @@ void ProcessDialogEvent()
 
 //********************************* Диалоги кэпа, который увез де Барраса из Тортуги **********************************
  		case "Step_H7_1":
-			dialog.text = "Антонио де Баррас? Я высадил его по дороге сюда на испанский военный галеон.";
-			link.l1 = "Дьявол! Как назывался этот галеон и куда он ушел?";
+			dialog.text = DLG_TEXT_Q[13];
+			link.l1 = DLG_TEXT_Q[14];
 			link.l1.go = "Step_H7_2";
 		break;
   		case "Step_H7_2":
-			dialog.text = "Галеон  'Изабелла', ушел курсом на Мейн к Санта-Каталине. Антонио говорил мне, что ему обязательно и срочно нужно именно туда.";
-			link.l1 = "А-а-а, черт! Слушай, ты же пират, какого дьявола ты яшкаешься с ипанцами?!";
+			dialog.text = DLG_TEXT_Q[15];
+			link.l1 = DLG_TEXT_Q[16];
 			link.l1.go = "Step_H7_3";
 		break;
   		case "Step_H7_3":
-			dialog.text = "Не твое собачье дело, каррамба...\n"+
-                          "Хей, вы как нельзя вовремя, ребята! Валим этого пижона, надоел он мне...";
-			link.l1 = "Аргх...";
+			dialog.text = DLG_TEXT_Q[17]+
+                          DLG_TEXT_Q[18];
+			link.l1 = DLG_TEXT_Q[19];
 			link.l1.go = "Step_H7_4";
 		break;
   		case "Step_H7_4":
@@ -108,38 +108,38 @@ void ProcessDialogEvent()
 		break;
 
 		case "Step_H8_10":
-			dialog.text = "Кто вы и чем я могу помочь?";
-			link.l1 = "Меня зовут " + GetFullName(pchar) + ", я хотел бы купить у вас книгу, которую вы предлагали к продаже в обществе Джекмена.";
+			dialog.text = DLG_TEXT_Q[20];
+			link.l1 = DLG_TEXT_Q[21] + GetFullName(pchar) + DLG_TEXT_Q[22];
 			link.l1.go = "Step_H8_11";
     	break;
 		case "Step_H8_11":
-			dialog.text = "А-а-а, вот как? Хорошо, это можно устроить. Книгу я продать не смог и, собственно, спрятал ее в надежном месте. Предлагаю такие условия сделки: вы платите мне 235 тысяч и я даю вам карту того места, где лежит книга.";
-			link.l1 = "А не слишком ли много - 235 тысяч?";
+			dialog.text = DLG_TEXT_Q[23];
+			link.l1 = DLG_TEXT_Q[24];
 			link.l1.go = "Step_H8_12";
     	break;
 		case "Step_H8_12":
-			dialog.text = "Нет. Дело в том, что в том схроне еще кое-что лежит. Так что это цена за все, за весь клад.";
+			dialog.text = DLG_TEXT_Q[25];
             if (sti(pchar.money) >= 235000)
             {
-                link.l1 = "Договорились, сударь. Вот ваши деньги!";
+                link.l1 = DLG_TEXT_Q[26];
     			link.l1.go = "Step_H8_13";
     			AddMoneyToCharacter(pchar, -235000);
             }
             else
             {
-                link.l1 = "Нет таких денег у меня сейчас. Придется заглянуть к тебе позже.";
+                link.l1 = DLG_TEXT_Q[27];
     			link.l1.go = "Step_H8_15";
             }
     	break;
 		case "Step_H8_13":
-			dialog.text = "Извольте плучить карту. Послушайте, я рад, что сумел наконец продать эту бесполезную для меня вещь. Но будте так добры, скажите мне, зачем она вам?";
-			link.l1 = "Я действую по поручению голландских властей, так что мне особо рассуждать не приходится.";
+			dialog.text = DLG_TEXT_Q[28];
+			link.l1 = DLG_TEXT_Q[29];
 			link.l1.go = "Step_H8_14";
             GiveItem2Character(pchar, "LegransMap");
     	break;
 		case "Step_H8_14":
-			dialog.text = "А-а-а, понял. Ну что же, выгодная сделка для нас обоих.";
-			link.l1 = "Это точно. Я благодарен вам, Лоран де Граф. Надеюсь, еще увидимся.";
+			dialog.text = DLG_TEXT_Q[30];
+			link.l1 = DLG_TEXT_Q[31];
 			link.l1.go = "exit";
             AddQuestRecord("Hol_Line_8_SeekBible", "9");
             NPChar.LifeDay = 2;
@@ -151,14 +151,14 @@ void ProcessDialogEvent()
             pchar.GenQuestBox.Terks_Grot.box1.items.blade28 = 1;
             pchar.GenQuestBox.Terks_Grot.box1.items.blade34 = 1;
             pchar.GenQuestBox.Terks_Grot.box1.items.blade32 = 1;
-            pchar.GenQuestBox.Terks_Grot.box1.items.arm1 = 1;
+            pchar.GenQuestBox.Terks_Grot.box1.items.blade23 = 1;
             pchar.GenQuestBox.Terks_Grot.box1.items.pistol5 = 1;
             pchar.GenQuestBox.Terks_Grot.box1.items.pistol4 = 1;
             pchar.GenQuestBox.Terks_Grot.box1.items.pistol6 = 1;
             pchar.GenQuestBox.Terks_Grot.box1.items.potion2 = 5;
             pchar.GenQuestBox.Terks_Grot.box1.items.indian18 = 1;
             pchar.GenQuestBox.Terks_Grot.box1.items.jewelry7 = 5;
-            pchar.GenQuestBox.Terks_Grot.box1.items.lead1 = 1;
+            pchar.GenQuestBox.Terks_Grot.box1.items.blade5 = 1;
             pchar.GenQuestBox.Terks_Grot.box1.items.potion2 = 10;
             pchar.GenQuestBox.Terks_Grot.box1.items.potionwine = 3;
             pchar.GenQuestBox.Terks_Grot.box1.items.jewelry2 = 20;
@@ -172,8 +172,8 @@ void ProcessDialogEvent()
             pchar.GenQuestBox.Terks_Grot.box1.items.Bible = 1;
         break;
 		case "Step_H8_15":
-			dialog.text = "Прекрасно, сударь. Вы сможете найти меня на Тортуге таверне.";
-			link.l1 = "Хорошо, скоро буду у тебя, жди.";
+			dialog.text = DLG_TEXT_Q[32];
+			link.l1 = DLG_TEXT_Q[33];
 			link.l1.go = "exit";
 			pchar.questTemp.State = "SeekBible_SeekMoney";
 			pchar.quest.SeekBible_DeGrafToTavern.win_condition.l1 = "MapEnter";

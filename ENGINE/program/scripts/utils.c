@@ -99,7 +99,7 @@ void ChangeNationRelationFromRelationAgentComplete(string sQuest)
 	sNation = "RelationAgent" + GetNationNameByType(iNation);
     Pchar.GenQuest.(sNation) = false;
     
-	Log_Info("Дипломат выполнил свою работу.");
+	Log_Info(xiStr("Agent done work"));
 }
 
 int CalculateRelationSum(int iNation)
@@ -164,9 +164,30 @@ void GiveItemToTrader(aref ch)
 	}
 
 	// издевательство -->
-	irand = rand(3);
-    if (sti(pchar.rank) == 1 && irand == 1) {TakeNItems(ch,"sculMa3", 1);}
-    // издевательство <--
+
+    if (sti(pchar.rank) == 1 && rand(3) == 1) TakeNItems(ch,"sculMa3", 1);
+	if (sti(pchar.rank) == 1 && rand(10) == 1 && !CheckMainHeroTotem("Totem_13")) TakeNItems(ch,"Totem_13", 1);
+	if (sti(pchar.rank) == 1 && rand(10) == 1 && !CheckMainHeroTotem("Totem_8")) TakeNItems(ch,"Totem_8", 1);
+	if (sti(pchar.rank) == 1 && rand(10) == 1 && !CheckMainHeroTotem("Totem_2")) TakeNItems(ch,"Totem_2", 1);
+	// издевательство <--
+
+	//дача карты ГПК в магазин Йоста -->
+	 if (ch.id == "LSC_Trader") 
+	 {
+		if (!CheckAttribute(ch, "quest.takeMap") || ch.quest.takeMap != "changePrice")
+		{
+			TakeNItems(ch, "map_LSC", 1);
+			if (ch.quest.takeMap != "discount") ch.quest.takeMap = "mapIsToken";
+		}
+		else
+		{			
+			ref itm = ItemsFromID("map_LSC");
+			itm.price = 1000;
+			TakeNItems(ch, "map_LSC", 1);
+			ch.quest.takeMap = "smallPrice";
+		}
+	 }
+	//<-- дача карты ГПК в магазин Йоста 
 
 	irand = rand(3);
     if (irand == 1) {TakeNItems(ch,"blade5", Rand(2)+1);} // кинжал
@@ -315,10 +336,10 @@ void GiveItemToTrader(aref ch)
     {
 	    TakeNItems(ch,"potion2", Rand(7)+1);
 	}
-	irand = rand(5);
+	irand = rand(1);
     if (irand == 1)
     {
-	    TakeNItems(ch,"potion3", Rand(3)+1);
+	    TakeNItems(ch,"potion3", Rand(4)+1);
 	}
 	irand = rand(5);
 	if (irand == 1)
@@ -457,6 +478,19 @@ void GiveItemToTrader(aref ch)
 	irand = rand(19);
 	if (irand == 2) {TakeNItems(ch,"map_cumana", 1);}
 	// boal 270904 карты <--
+	//тотемы
+	if (rand(200) == 1 && !CheckMainHeroTotem("Totem_1")) TakeNItems(ch,"Totem_1", 1);
+	if (rand(200) == 1 && !CheckMainHeroTotem("Totem_2")) TakeNItems(ch,"Totem_2", 1);
+	if (rand(200) == 1 && !CheckMainHeroTotem("Totem_3")) TakeNItems(ch,"Totem_3", 1);
+	if (rand(200) == 1 && !CheckMainHeroTotem("Totem_4")) TakeNItems(ch,"Totem_4", 1);
+	if (rand(200) == 1 && !CheckMainHeroTotem("Totem_5")) TakeNItems(ch,"Totem_5", 1);
+	if (rand(200) == 1 && !CheckMainHeroTotem("Totem_6")) TakeNItems(ch,"Totem_6", 1);
+	if (rand(200) == 1 && !CheckMainHeroTotem("Totem_7")) TakeNItems(ch,"Totem_7", 1);
+	if (rand(200) == 1 && !CheckMainHeroTotem("Totem_8")) TakeNItems(ch,"Totem_8", 1);
+	if (rand(200) == 1 && !CheckMainHeroTotem("Totem_9")) TakeNItems(ch,"Totem_9", 1);
+	if (rand(200) == 1 && !CheckMainHeroTotem("Totem_10")) TakeNItems(ch,"Totem_10", 1);
+	if (rand(200) == 1 && !CheckMainHeroTotem("Totem_13")) TakeNItems(ch,"Totem_13", 1);
+	if (rand(200) == 1 && !CheckMainHeroTotem("Totem_14")) TakeNItems(ch,"Totem_14", 1);
 }
 
 string PlaceCharacter(aref ch, string group, string location) //boal change
@@ -1025,6 +1059,8 @@ int GetRandomNationForMapEncounter(string sIslandID, bool bMerchant)
 	}
 	else
 	{
+		if (rand(2) == 1) return HOLLAND; //голланцев на карту
+		
 		if(fProbablyNation >= fFrance && fProbablyNation < fSpain)
 		{
 			return FRANCE;
@@ -1272,7 +1308,7 @@ ref GetOurSailor(string _id) // моежт быть нужно несколько
     
 	i = NPC_GenerateCharacter(_id, smodel, "man", ani, 10, sti(pchar.nation), 0, true);
 	CrOur = GetCharacter(i);
-	CrOur.name     = "Матрос";
+	CrOur.name     = xiStr("Sailor");;
 	CrOur.lastname = "";
 	
 	return CrOur;

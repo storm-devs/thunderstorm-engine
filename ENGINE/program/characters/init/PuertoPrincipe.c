@@ -11,8 +11,8 @@ int CreatePuertoPrincipeCharacters(int n)
 	ch.id		= "Richard_Soukins";
 	ch.sex = "man";
 	ch.model = "head_pir";
-	ch.name = "Ричард";
-	ch.lastname = "Соукинс";
+	ch.name = xiDStr("Richard");
+	ch.lastname = xiDStr("Sawkins");
 	ch.City = "PuertoPrincipe";
 	ch.location	= "PuertoPrincipe_townhall";
 	ch.location.group = "sit";
@@ -88,8 +88,8 @@ int CreatePuertoPrincipeCharacters(int n)
 
 	makeref(ch,Characters[n]);			//Торговец
 	ch.id		= "PuertoPrincipe_trader";
-	ch.name		= "Джон";
-	ch.lastname = "Нортон";
+	ch.name		= xiDStr("John");
+	ch.lastname = xiDStr("Norton");
 	ch.model	= "trader_7";
 	ch.greeting = "tra_common";
 	ch.sex = "man";

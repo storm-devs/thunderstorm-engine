@@ -33,7 +33,7 @@ int CreateSentMartinCharacters(int n)
 	makeref(ch,Characters[n]);			//Священик
 	ch.id		= "Marigo_Priest";
 	ch.model	= "priest_4";
-	ch.model.animation = "man3"; 
+	ch.model.animation = "man"; 
 	ch.sex = "man";
 	ch.City = "Marigo";
 	ch.location	= "Marigo_church";
@@ -135,6 +135,7 @@ int CreateSentMartinCharacters(int n)
 	ch.location.locator = "stay";
 	ch.Dialog.Filename = "Usurer_dialog.c";
 	ch.nation = HOLLAND;
+	ch.greeting = "Gr_bankeer";
 	ch.quest.shiping = "0";
 	ch.UsurerDeposit = 7000; // *1000 денег
 	LAi_SetOwnerType(ch);
@@ -152,6 +153,7 @@ int CreateSentMartinCharacters(int n)
 	ch.location.locator = "sit1";
 	ch.Dialog.Filename = "Common_Portman.c";
 	ch.nation = HOLLAND;
+	ch.greeting = "portmans";
 	LAi_SetHuberType(ch);
 	LAi_group_MoveCharacter(ch, "HOLLAND_CITIZENS");
 	LAi_SetImmortal(ch, true);
@@ -160,7 +162,7 @@ int CreateSentMartinCharacters(int n)
 
 	makeref(ch,Characters[n]);			//Хозяйка борделя
 	ch.id		= "Marigo_Hostess";
-	ch.name		= "Иоланта"
+	ch.name		= xiDStr("Iolanta");
 	ch.lastname = "";
 	ch.model	= "lady06";
 	ch.sex = "woman";
@@ -177,7 +179,7 @@ int CreateSentMartinCharacters(int n)
 	n = n + 1;
 
     makeref(ch,Characters[n]);
-	ch.name 	= "Контрабандист";
+	ch.name 	= xiDStr("Smuggler");
 	ch.lastname = "";
 	ch.id		= "Marigo_Smuggler";
 	ch.model    = "pirate_1";

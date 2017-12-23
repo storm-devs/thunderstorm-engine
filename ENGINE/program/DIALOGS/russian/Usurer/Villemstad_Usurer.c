@@ -1,4 +1,4 @@
-// диалог по городам
+#include "TEXT\DIALOGS\Usurer\Villemstad_Usurer.h"
 void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 {
     ref sld;
@@ -6,50 +6,50 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
     switch (Dialog.CurrentNode)
 	{
 		case "quests":
-			dialog.text = NPCStringReactionRepeat(RandPhraseSimple("Какие вопросы?", "Что вам угодно?"), "Совсем недавно вы пытались задать мне вопрос...", "М-да, позвольте угадаю... Опять ничего существенного?",
-                          "Послушайте, я финансами оперирую, а не на вопросы отвечаю...", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat(RandPhraseSimple("Я передумал...", "Сейчас мне не о чем говорить"), "Хм, что-то с памятью моей стало...",
-                      "Вы угадали, простите...", "Я понимаю...", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(RandPhraseSimple(DLG_TEXT_USR[0], DLG_TEXT_USR[1]), DLG_TEXT_USR[2], DLG_TEXT_USR[3],
+                          DLG_TEXT_USR[4], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(RandPhraseSimple(DLG_TEXT_USR[5], DLG_TEXT_USR[6]), DLG_TEXT_USR[7],
+                      DLG_TEXT_USR[8], DLG_TEXT_USR[9], npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
             // ==> англ.линейка квест №4 Разведмиссию в Кюрасао
 			if (pchar.questTemp.State == "Intelligence_Curacao_toYozef")
             {
-                link.l1 = "Я хотел бы попросить у вас помощи в одном деле. Эта помощь будет щедро оплачена.";
+                link.l1 = DLG_TEXT_USR[10];
                 link.l1.go = "Step_E4_1";
             }
 			if (pchar.questTemp.State == "Intelligence_Curacao_NoMoney_Yozef")
             {
-                link.l1 = "Я хотел бы поговорить о том деле на 100000 монет.";
+                link.l1 = DLG_TEXT_USR[11];
                 link.l1.go = "no_money";
             }
             if (pchar.questTemp.State == "Inquisition_toCuracao" || pchar.questTemp.State == "Inquisition_afterFrancisco" )// квест №2 голл. линейки.
             {
                 if (!CheckAttribute(pchar, "questTemp.State.Usurer"))
                 {
-        			dialog.text = "Что вам нужно?";
-        			link.l1 = "Святая инквизиция предоставляет вам прощение Папы всего за 50 тысяч. Что такое? Почему я не вижу слез радости на глазах?";
+        			dialog.text = DLG_TEXT_USR[12];
+        			link.l1 = DLG_TEXT_USR[13];
         			link.l1.go = "Step_S2_1";
                 }
                 else
                 {
                     if (CheckPassengerInCharacter(pchar, "JansenDeFonceicao"))
                     {
-                        dialog.text = "Это опять ты! Вон отсюда!";
-            			link.l1 = "Ты мне надоел! Закрой свою пасть. Условия теперь диктую я, а ты внимательно слушаешь, осмысливаешь, и уже начинаешь сожалеть о том, что сразу не внял моим словам.";
+                        dialog.text = DLG_TEXT_USR[14];
+            			link.l1 = DLG_TEXT_USR[15];
             			link.l1.go = "Step_S2_5";
                     }
                     else
                     {
                         if (pchar.questTemp.State.Usurer != "Ok")
                         {
-                            dialog.text = "Что, ты еще не все мне сказки рассказал про прощение Папы?";
-                			link.l1 = "Ладно, Йозеф, поговорим еще...";
+                            dialog.text = DLG_TEXT_USR[16];
+                			link.l1 = DLG_TEXT_USR[17];
                 			link.l1.go = "exit";
                         }
                         else
                         {
-                            dialog.text = "Что еще тебе нужно, проклятый кровопийца, иезуитский прихвостень...";
-                			link.l1 = "Какие эмоции, какой кураж! Великолепно...";
+                            dialog.text = DLG_TEXT_USR[18];
+                			link.l1 = DLG_TEXT_USR[19];
                 			link.l1.go = "exit";
                         }
                     }
@@ -58,36 +58,36 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			//пиратка, квест №5
 			if (pchar.questTemp.piratesLine == "PL5Hunter_toVillemstad")
             {
-				link.l1 = "Папаша, долги вытрясти с кого-нибудь не надо?!";
+				link.l1 = DLG_TEXT_USR[20];
 				link.l1.go = "Step_P5_1";
 			}
 		break;
-//********************** Английская линейка, квест №4 "Разведка в Кюрасао" ************************
+//********************** Английская линейка, квест №4 DLG_TEXT_USR[21] ************************
 		case "Step_E4_1":
-			dialog.text = "Говори, что тебе нужно?";
-			link.l1 = "Я готов дорого заплатить за информацию. Мне нужно знать о планах генерал-губернатора Кюрасао в отношении англичан.";
+			dialog.text = DLG_TEXT_USR[22];
+			link.l1 = DLG_TEXT_USR[23];
 			link.l1.go = "Step_E4_2";
 		break;
 		case "Step_E4_2":
-			dialog.text = "Надеюсь, вы понимаете, о чем просите.";
-			link.l1 = "Надеюсь, и вы понимаете, что я буду очень щедр.";
+			dialog.text = DLG_TEXT_USR[24];
+			link.l1 = DLG_TEXT_USR[25];
 			link.l1.go = "Step_E4_3";
 		break;
 		case "Step_E4_3":
-			dialog.text = "100000 монет и я расскажу вам все, что знаю.";
-			link.l1 = "Я готов внести требуемую сумму.";
+			dialog.text = DLG_TEXT_USR[26];
+			link.l1 = DLG_TEXT_USR[27];
 			link.l1.go = "agree_to_pay";
-			link.l2 = "У меня нет с собой таких денег, но я обязательно вернусь позже.";
+			link.l2 = DLG_TEXT_USR[28];
 			link.l2.go = "no_money_now";
-			link.l3 = "Не слишком ли жирно, грязная свинья?";
+			link.l3 = DLG_TEXT_USR[29];
 			link.l3.go = "fack_yozef";
 		break;
 		case "agree_to_pay":
             if (sti(pchar.money) >= 100000)
             {
-        		dialog.text = "Что ж, могу вам доложить следующее: около часа тому назад в резиденции Питера Стэвезанта, генерал-губернатора этого острова, закончился военный совет по поводу как раз вашего вопроса - участие голландских колоний в торговой войне с Англией. На самом совещании я не присутствовал, но знаю, что по результатам оного вестовой генерал-губернатора отправляется куда-то по срочному поручению. На рейде вестового ожидает бриг.\n"+
-                         "Вы по виду пират и вам не составит труда взять голландский бриг. Так что поторопитесь, пока тот не скрылся за горизонтом. И еще... я вас не знаю. Прощайте.";
-        		link.l1 = "Вот ваши деньги. И я не знаю вас также, да и знать не хочу. Прощайте.";
+        		dialog.text = DLG_TEXT_USR[30]+
+                         DLG_TEXT_USR[31];
+        		link.l1 = DLG_TEXT_USR[32];
         		link.l1.go = "exit";
         		AddMoneyToCharacter(pchar, -100000);
         		AddQuestRecord("Eng_Line_4_Intelligence_Curacao", "3");
@@ -95,20 +95,20 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
                 Pchar.quest.Intelligence_Curacao_GoToShore.win_condition.l1 = "location";
                 Pchar.quest.Intelligence_Curacao_GoToShore.win_condition.l1.location = "Curacao";
                 Pchar.quest.Intelligence_Curacao_GoToShore.win_condition = "Intelligence_Curacao_GoToShore";
-                Log_QuestInfo("Бриг установлен в бухте.");
+                Log_QuestInfo(DLG_TEXT_USR[33]);
             }
             else
             {
-        		dialog.text = "Хмм, похоже таких денег у вас все-таки нет. Впредь, прошу вас, не морочьте мне голову. Жду вас с требуемой суммой.";
-        		link.l1 = "Хорошо, я вас понял.";
+        		dialog.text = DLG_TEXT_USR[34];
+        		link.l1 = DLG_TEXT_USR[35];
         		link.l1.go = "exit";
         		pchar.questTemp.State = "Intelligence_Curacao_NoMoney_Yozef";
         		//ChangeCharacterReputation(pchar, -1); TO_DO eddy
             }
 		break;
 		case "no_money_now":
-			dialog.text = "Ну что, обзаведитесь требуемой суммой. Я буду ждать вас.";
-			link.l1 = "Думаю, я скоро управлюсь.";
+			dialog.text = DLG_TEXT_USR[36];
+			link.l1 = DLG_TEXT_USR[37];
 			link.l1.go = "exit";
             if (pchar.questTemp.State != "Intelligence_Curacao_NoMoney_Yozef")
             {
@@ -117,22 +117,22 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
             pchar.questTemp.State = "Intelligence_Curacao_NoMoney_Yozef";
 		break;
 		case "no_money":
-			dialog.text = "Вы раздобыли деньги? Где мои 100000?";
-			link.l1 = "Да, деньги у меня и я готов их вам вручить. Так что же вам удалось узнать?";
+			dialog.text = DLG_TEXT_USR[38];
+			link.l1 = DLG_TEXT_USR[39];
 			link.l1.go = "agree_to_pay";
-			link.l2 = "Нет еще, но я обязательно достану их и вернусь позже.";
+			link.l2 = DLG_TEXT_USR[40];
 			link.l2.go = "no_money_now";
-			link.l3 = "Не слишком ли жирно, грязная свинья?";
+			link.l3 = DLG_TEXT_USR[41];
 			link.l3.go = "fack_yozef";
 		break;
 		case "fack_yozef":    // посыл Йозефа с попыткой замочить
-			dialog.text = "Да ты нахал! Попрошу убраться из моего дома немедленно!";
-			link.l1 = "Черт тебя побери, проклятый кровопийца! Сейчас я тебе выпущу кишки!";
+			dialog.text = DLG_TEXT_USR[42];
+			link.l1 = DLG_TEXT_USR[43];
 			link.l1.go = "Step_E4_4";
 		break;
 		case "Step_E4_4":
-			dialog.text = "Не тут то было, ублюдок. Охрана, ко мне!!!";
-			link.l1 = "Проклятье!";
+			dialog.text = DLG_TEXT_USR[44];
+			link.l1 = DLG_TEXT_USR[45];
 			link.l1.go = "Step_E4_5"; 
 		break;
 		case "Step_E4_5":
@@ -160,22 +160,22 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
             Pchar.quest.Intelligence_Curacao_GoToShore.win_condition = "Intelligence_Curacao_GoToShore";
 			DialogExit();
 		break;
-//********************** Испанская линейка, квест №2 "Инквизиция" ************************
+//********************** Испанская линейка, квест №2 DLG_TEXT_USR[46] ************************
 		case "Step_S2_1":
-			dialog.text = "Вы меня с кем-то перепутали. За мной нет никакой вины!";
-			link.l1 = "Это вы так считаете, а орден другого мнения. Так что деньги вам придется заплатить.";
+			dialog.text = DLG_TEXT_USR[47];
+			link.l1 = DLG_TEXT_USR[48];
 			link.l1.go = "Step_S2_2";
 		break;
 		case "Step_S2_2":
-			dialog.text = "Я вам ничего платить не буду! И если вы сейчас же не уберетесь из моего дома, то я позову слуг!";
-			link.l1 = "Ты слишком самонадеян. Но это лечится. И у меня как раз есть средство - моя шпага.";
+			dialog.text = DLG_TEXT_USR[49];
+			link.l1 = DLG_TEXT_USR[50];
 			link.l1.go = "Step_S2_3";
-			link.l2 = "Ну как знаешь, тебе же хуже будет...";
+			link.l2 = DLG_TEXT_USR[51];
 			link.l2.go = "Step_S2_4";
 		break;
 		case "Step_S2_3":
-			dialog.text = "Убивают!!! Эндрю, ко мне!";
-			link.l1 = "Эрндрю?..";
+			dialog.text = DLG_TEXT_USR[52];
+			link.l1 = DLG_TEXT_USR[53];
 			link.l1.go = "Step_S2_fihgt";
 		break;
 		case "Step_S2_fihgt":
@@ -201,25 +201,25 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			DialogExit();
 		break;
 		case "Step_S2_4":
-			dialog.text = "Ты что же, угрожать мне вздумал?";
-			link.l1 = "Да нет, почему же. Все нормально, Иозеф...";
+			dialog.text = DLG_TEXT_USR[54];
+			link.l1 = DLG_TEXT_USR[55];
 			link.l1.go = "exit";
 			AddQuestRecord("Spa_Line_2_Inquisition", "5");
 			pchar.questTemp.State.Usurer = 1;
 		break;
 		case "Step_S2_5":
-			dialog.text = "И с чего это я должен выслушивать бред, который ты несешь?";
-			link.l1 = "Все просто, Йозеф - твой сын в моих руках. Я убедительно говорю? Или тебе предъявить доказательства? Ну к примеру я могу принести отрезанный палец, или ухо твоего сына. Хочешь?";
+			dialog.text = DLG_TEXT_USR[56];
+			link.l1 = DLG_TEXT_USR[57];
 			link.l1.go = "Step_S2_6";
 		break;
 		case "Step_S2_6":
-			dialog.text = "Ты... Не надо, я верю... Если я сейчас отдам деньги, то где гарантия, что вы не расправитесь с ним?";
-			link.l1 = "А такой гарантии нет. Побудь хоть немного в шкуре тех, кого ты доводил до отчаяния. Узнай, почем фунт лиха. И хватит болтать, давай деньги.";
+			dialog.text = DLG_TEXT_USR[58];
+			link.l1 = DLG_TEXT_USR[59];
 			link.l1.go = "Step_S2_7";
 		break;
 		case "Step_S2_7":
-			dialog.text = "Забирай. Но я этого не забуду.";
-			link.l1 = "Нет проблем. Помни. О том, что Орден следит за тобой, тоже помни...";
+			dialog.text = DLG_TEXT_USR[60];
+			link.l1 = DLG_TEXT_USR[61];
 			link.l1.go = "Step_S2_8";
 		break;
 		case "Step_S2_8":
@@ -232,19 +232,19 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 		break;
 //********************** Пиратская линейка, квест №5 ОГЗ ************************
 		case "Step_P5_1":
-			dialog.text = "Нет. Не надо.\nХе, вы, так называемые вытрясыватели долгов, одинаковые, как однояйцевые близнецы. Вот и Эйвори точно так же разговаривает...";
-			link.l1 = "Джон Эйвори?! Так это мой приятель. Он еще в городе? Где его можно отыскать?";
+			dialog.text = DLG_TEXT_USR[62];
+			link.l1 = DLG_TEXT_USR[63];
 			link.l1.go = "Step_P5_2";
 		break;	
 		case "Step_P5_2":
-			dialog.text = "Понятия не имею. Он вольный человек, ходит, где заблагорассудится. А насчет того, что он еще в Виллемстаде, это вряд ли, здесь для него работы не осталось. Вы же приятель Джона, должны понимать, что искать его надо там, где ром льется рекой - в тавернах!";
-			link.l1 = "Ха! Ну конечно, кто бы сомневался... Но ты точно ничего такого не припомнишь, куда он мог податься? Может чего-то сказал?..";
+			dialog.text = DLG_TEXT_USR[64];
+			link.l1 = DLG_TEXT_USR[65];
 			link.l1.go = "Step_P5_3";
 		break;
 		case "Step_P5_3":
 			pchar.questTemp.piratesLine.Q5.city_1 = GetQuestNationsCity(ENGLAND); 
-			dialog.text = "Сказал, что теперь к англичанам собиратеся. Вроде о " + XI_ConvertString("Colony" + pchar.questTemp.piratesLine.Q5.city_1 + "Dat") + " шла речь, но точно не скажу.";
-			link.l1 = "А говорил, что понятия не имеешь. Ну спасибо тебе!";
+			dialog.text = DLG_TEXT_USR[66] + XI_ConvertString("Colony" + pchar.questTemp.piratesLine.Q5.city_1 + "Dat") + DLG_TEXT_USR[67];
+			link.l1 = DLG_TEXT_USR[68];
 			link.l1.go = "exit";
 			AddQuestRecord("Pir_Line_5_Hunter", "2");
 			AddQuestUserData("Pir_Line_5_Hunter", "sCity", XI_ConvertString("Colony" + pchar.questTemp.piratesLine.Q5.city_1));

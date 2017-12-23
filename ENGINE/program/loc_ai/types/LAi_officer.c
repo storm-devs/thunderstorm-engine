@@ -18,6 +18,8 @@ void LAi_type_officer_Init(aref chr)
 	DeleteAttribute(chr, "location.follower");
 	DeleteAttribute(chr, "chr_ai.type");
 	chr.chr_ai.type = LAI_TYPE_OFFICER;
+	chr.chr_ai.type.bottle = rand(10)+2;
+	chr.chr_ai.type.checkTarget = 0;
 	if(CheckAttribute(chr, "chr_ai.tmpl"))
 	{
 		if (chr.chr_ai.tmpl != LAI_TMPL_STAY)//команда ждать!
@@ -37,7 +39,30 @@ void LAi_type_officer_Init(aref chr)
      	LAi_tmpl_SetFollow(chr, pchar, -1.0);
 	}
 	//”становим анимацию персонажу
-	LAi_SetDefaultStayAnimation(chr);
+	if (chr.model.animation == "mushketer" && !CheckAttribute(chr, "isMusketer.weapon"))
+	{
+        while (FindCharacterItemByGroup(chr, BLADE_ITEM_TYPE) != "")
+        {
+            TakeItemFromCharacter(chr, FindCharacterItemByGroup(chr, BLADE_ITEM_TYPE));
+        }
+        while (FindCharacterItemByGroup(chr, GUN_ITEM_TYPE) != "")
+        {             
+            TakeItemFromCharacter(chr, FindCharacterItemByGroup(chr, GUN_ITEM_TYPE));
+        }		
+		GiveItem2Character(chr, "unarmed");
+		EquipCharacterbyItem(chr, "unarmed");
+		GiveItem2Character(chr, "mushket2x2");
+		EquipCharacterbyItem(chr, "mushket2x2");
+		chr.items.bullet = 300;
+		chr.isMusketer = true;
+		if (!CheckAttribute(chr, "MusketerDistance"))
+			chr.MusketerDistance = 5.0 + frand(10.0);
+		chr.isMusketer.weapon = true;
+	}
+	else
+	{
+		LAi_SetDefaultStayAnimation(chr);
+	}
 	SendMessage(&chr, "lsl", MSG_CHARACTER_EX_MSG, "SetFightWOWeapon", false);
 }
 
@@ -59,8 +84,10 @@ void LAi_type_officer_CharacterUpdate(aref chr, float dltTime)
 	if(chr.chr_ai.tmpl == LAI_TMPL_DIALOG) return;
 	string btl = "";
 	//ѕри отравлении детравимс€
+	float fCheck = stf(chr.chr_ai.type.bottle) - dltTime;
 	if(CheckAttribute(chr, "chr_ai.poison"))
 	{
+		chr.chr_ai.type.bottle = 6.0;
 		if(LAi_GetCharacterRelHP(chr) < 0.8)
 		{
 			bool antidotUse = false;
@@ -85,27 +112,37 @@ void LAi_type_officer_CharacterUpdate(aref chr, float dltTime)
 	float dist = 0.0;
 	float dhlt;
 	if(!GetCharacterDistByChr3D(chr, pchar, &dist)) dist = -1.0;
-	if(!LAi_IsBottleWork(chr))
+	if(fCheck < 0)	
 	{
-		if(LAi_GetCharacterRelHP(chr) < 0.7)
+		chr.chr_ai.type.bottle = 6.0;
+		if(!LAi_IsBottleWork(chr))
 		{
-			dhlt = LAi_GetCharacterMaxHP(chr) - LAi_GetCharacterHP(chr);
-			btl = FindHealthForCharacter(&Characters[sti(chr.index)], dhlt);
-			DoCharacterUsedItem(&Characters[sti(chr.index)], btl);
+			if(LAi_GetCharacterRelHP(chr) < 0.7)
+			{
+				dhlt = LAi_GetCharacterMaxHP(chr) - LAi_GetCharacterHP(chr);
+				btl = FindHealthForCharacter(&Characters[sti(chr.index)], dhlt);
+				DoCharacterUsedItem(&Characters[sti(chr.index)], btl);
+			}
 		}
 	}
+	else chr.chr_ai.type.bottle = fCheck;
 	//Log_Info("LAi_type_officer_CharacterUpdate "+chr.chr_ai.tmpl);
 	if (chr.chr_ai.tmpl == LAI_TMPL_STAY) return; // приказ ему сто€ть. ¬рага не ищем 18.06.05
 	
+	if (CheckAttribute(loadedLocation, "noFight")) return;
+
 	//ƒистанци€ до главного персонажа
-	if(!GetCharacterDistByChr3D(chr, GetMainCharacter(), &dist)) dist = -1.0;
-	if (dist < 0.0 || dist > 30)
+	if (chr.chr_ai.tmpl != LAI_TMPL_FIGHT)
 	{
-        //if( SendMessage(GetMainCharacter(),"ls",MSG_CHARACTER_EX_MSG,"IsFightMode") == 0)
-        //{
-            LAi_tmpl_SetFollow(chr, GetMainCharacter(), -1.0);
-    		return;
-		//}
+		if(!GetCharacterDistByChr3D(chr, GetMainCharacter(), &dist)) dist = -1.0;
+		if (dist < 0.0 || dist > 30)
+		{
+			if( SendMessage(GetMainCharacter(),"ls",MSG_CHARACTER_EX_MSG,"IsFightMode") == 0)
+			{
+				LAi_tmpl_SetFollow(chr, GetMainCharacter(), -1.0);
+    			return;
+			}
+		}
 	}
 	LAi_type_officer_FindTarget(chr);   // fix
 	//“екущее действие
@@ -118,22 +155,6 @@ void LAi_type_officer_CharacterUpdate(aref chr, float dltTime)
 	}else{
 		if(chr.chr_ai.tmpl == LAI_TMPL_FIGHT)
 		{
-			//—мотрим на использование бутылочки
-			/*if(!LAi_IsBottleWork(chr)) //никогда ветка не сработает, тк выше пьем уже
-			{
-				if(rand(100) < (50 + 49*LAi_GetCharacterFightLevel(chr)))
-				{
-					float hlt = MinHealthPotionForCharacter(&Characters[sti(chr.index)]);
-					if(LAi_GetCharacterRelHP(chr) < 0.5) hlt = dhlt;
-					dhlt = LAi_GetCharacterMaxHP(chr) - LAi_GetCharacterHP(chr);
-					if(hlt <= dhlt)
-					{
-						btl = FindHealthForCharacter(&Characters[sti(chr.index)], dhlt);
-						DoCharacterUsedItem(&Characters[sti(chr.index)], btl);
-					}					
-				}
-			}  */
-			//
 			if(LAi_tmpl_fight_LostTarget(chr))
 			{
 				LAi_type_officer_FindTarget(chr);
@@ -147,6 +168,16 @@ void LAi_type_officer_CharacterUpdate(aref chr, float dltTime)
                         {
 						    LAi_tmpl_SetFollow(chr, GetMainCharacter(), -1.0);
 						}
+					}
+				}
+				else
+				{
+					//пробуем сменить цель, может уже есть кто ближе
+					fCheck = stf(chr.chr_ai.type.checkTarget) - dltTime;
+					chr.chr_ai.type.checkTarget = fCheck;
+					if (stf(LAi_grp_relations.distance) > 2.0 && fCheck < 0) //цель далеко, попробуем сменить на ближайшую
+					{
+						LAi_type_officer_FindTarget(chr);
 					}
 				}
 			}
@@ -274,6 +305,8 @@ void LAi_type_officer_Fire(aref attack, aref enemy, float kDist, bool isFindedEn
 //ѕерсонаж атакован
 void LAi_type_officer_Attacked(aref chr, aref by)
 {
+	//если нанос€щий удар уже таргет, нефиг крутить код и переназначать цель
+	if (LAi_tmpl_fight_GetTarget(chr) == sti(by.index)) return;	
 	//—воих пропускаем
 	if(!LAi_group_IsEnemy(chr, by)) return;
 	float dist = -1.0;
@@ -310,18 +343,23 @@ void LAi_type_officer_FindTarget(aref chr)
 {
 	//ѕроверим наличие врагов
 	int trg = LAi_group_GetTarget(chr);
-	if(trg >= 0)
+	if(trg >= 0 && LAi_IsSetBale(&Characters[trg]))
 	{
 		if(LAi_type_officer_CheckDists(chr, &Characters[trg]))
 		{
-			if(LAi_tmpl_SetFight(chr, &Characters[trg])) return;
+			if(LAi_tmpl_SetFight(chr, &Characters[trg])) 
+			{
+				chr.chr_ai.type.checkTarget = rand(3) + 2; //таймер на провер€лку рассто€ни€ до таргета
+				return;
+			}
 		}
 	}
 	trg = LAi_group_GetTarget(pchar);
-	if(trg >= 0)
+	if(trg >= 0  && LAi_IsSetBale(&Characters[trg]))
 	{
 		if(LAi_type_officer_CheckDists(chr, &Characters[trg]))
 		{
+			chr.chr_ai.type.checkTarget = rand(3) + 2; //таймер на провер€лку рассто€ни€ до таргета
 			if(!LAi_tmpl_SetFight(chr, &Characters[trg]))
 			{
 				//Ќесмогли инициировать шаблон

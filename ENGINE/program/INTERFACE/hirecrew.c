@@ -192,8 +192,8 @@ void SetVariable()
 	// на одном корабле
 	SetFoodShipInfo(refCharacter, "FOOD_SHIP");
 	
-	SetFormatedText("INFO_SHIP", XI_ConvertString(refBaseShip.BaseName) + ", класс " + refBaseShip.Class +", команда: мин. "+GetMinCrewQuantity(refCharacter) + ", макс. " + GetOptCrewQuantity(refCharacter));
-	SetFormatedText("MONEY_SHIP", "Содержание корабля: " + NewStr() + FindRussianMoneyString(GetSalaryForShip(refCharacter)));
+	SetFormatedText("INFO_SHIP", XI_ConvertString(refBaseShip.BaseName) + xiStr("MSG_HireCrew_1") + refBaseShip.Class +xiStr("MSG_HireCrew_2")+GetMinCrewQuantity(refCharacter) + xiStr("MSG_HireCrew_3") + GetOptCrewQuantity(refCharacter));
+	SetFormatedText("MONEY_SHIP", xiStr("MSG_HireCrew_4") + NewStr() + FindRussianMoneyString(GetSalaryForShip(refCharacter)));
 	////  заполнялка города
 	SetCrewExpTable(refTown, "TABLE_CREW2", "BAR_Sailors2", "BAR_Cannoners2", "BAR_Soldiers2");
 	
@@ -201,7 +201,7 @@ void SetVariable()
 	SetNewGroupPicture("CREW_MORALE_PIC2", "MORALE_SMALL", GetMoraleGroupPicture(stf(refTown.ship.crew.morale)));
 	SetFormatedText("CREW_MORALE_TEXT2", XI_ConvertString("CrewMorale") + ": " + XI_ConvertString(GetMoraleName(sti(refTown.Ship.crew.morale))));
 	iPriceSailor = GetCrewPriceForTavern(refTown.id);
-	SetFormatedText("TAVERN_PRICE", "Стоимость найма одного матроса " + FindRussianMoneyString(iPriceSailor));
+	SetFormatedText("TAVERN_PRICE", xiStr("MSG_HireCrew_5") + FindRussianMoneyString(iPriceSailor));
 }
 
 void ProcessFrame()
@@ -389,7 +389,7 @@ void ChangeQTY_EDIT()
 		        GameInterface.qty_edit.str = GetCrewQuantity(refCharacter);
 		    }
 		    // проверка на колво доступное <--
-		    SetFormatedText("QTY_TypeOperation", "Уволить");
+		    SetFormatedText("QTY_TypeOperation", xiStr("MSG_HireCrew_6"));
 		    SetFormatedText("QTY_Result", "");
 		}
 		else
@@ -411,8 +411,8 @@ void ChangeQTY_EDIT()
 		    }
 		    // проверка на колво доступное <--
 
-			SetFormatedText("QTY_TypeOperation", "Нанять");
-			SetFormatedText("QTY_Result", "Стоимость найма " + makeint(iPriceSailor*stf(GameInterface.qty_edit.str)));
+			SetFormatedText("QTY_TypeOperation", xiStr("MSG_HireCrew_7"));
+			SetFormatedText("QTY_Result", xiStr("MSG_HireCrew_8") + makeint(iPriceSailor*stf(GameInterface.qty_edit.str)));
 		}
 		// если получили ноль
 		if (sti(GameInterface.qty_edit.str) == 0)

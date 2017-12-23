@@ -33,7 +33,7 @@ int CreateSantoDomingoCharacters(int n)
 	makeref(ch,Characters[n]);			//Священик
 	ch.id		= "SantoDomingo_Priest";
 	ch.model	= "priest_1";
-	ch.model.animation = "man3";
+	ch.model.animation = "man";
 	ch.sex = "man";
 	ch.City = "SantoDomingo";
 	ch.location	= "SantoDomingo_church";
@@ -135,6 +135,7 @@ int CreateSantoDomingoCharacters(int n)
 	ch.location.locator = "stay";
 	ch.Dialog.Filename = "Usurer_dialog.c";
 	ch.nation = SPAIN;
+	ch.greeting = "Gr_bankeer";
 	ch.quest.shiping = "0";
 	ch.UsurerDeposit = 8000; // *1000 денег
 	LAi_SetOwnerType(ch);
@@ -152,6 +153,7 @@ int CreateSantoDomingoCharacters(int n)
 	ch.location.locator = "sit1";
 	ch.Dialog.Filename = "Common_Portman.c";
 	ch.nation = SPAIN;
+	ch.greeting = "portmans";
 	LAi_SetHuberType(ch);
 	LAi_group_MoveCharacter(ch, "SPAIN_CITIZENS");
 	LAi_SetImmortal(ch, true);
@@ -160,7 +162,7 @@ int CreateSantoDomingoCharacters(int n)
 
 	makeref(ch,Characters[n]);			//Хозяйка борделя
 	ch.id		= "SantoDomingo_Hostess";
-	ch.name		= "Милантра"
+	ch.name		= xiDStr("Milantra");
 	ch.lastname = "";
 	ch.model	= "lady03";
 	ch.sex = "woman";
@@ -177,7 +179,7 @@ int CreateSantoDomingoCharacters(int n)
 	n = n + 1;
 
     makeref(ch,Characters[n]);
-	ch.name 	= "Контрабандист";
+	ch.name 	= xiDStr("Smuggler");
 	ch.lastname = "";
 	ch.id		= "SantoDomingo_Smuggler";
 	ch.model    = "pirate_1";

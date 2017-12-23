@@ -183,8 +183,9 @@ void LAi_tmpl_dialog_CharacterUpdate(aref chr, float dltTime)
 		return;
 	}
 	//если диалоговый нпс сидит
-	if (chr.chr_ai.type == LAI_TYPE_SIT && !CheckAttribute(chr, "nonTable"))
+	if (chr.chr_ai.type == LAI_TYPE_SIT)
 	{
+		if (CheckAttribute(chr, "nonTable")) return; //режеми диалоговые анимации сидунам не за столом
 		time = stf(chr.chr_ai.tmpl.phrasetime) - dltTime;
 		if(time < 0.0)
 		{			
@@ -254,7 +255,15 @@ void LAi_tmpl_dialog_CharacterUpdate(aref chr, float dltTime)
 			{
 				if(CheckAttribute(chr,"sex"))
 				{
-					if(chr.sex == "woman") sTemp = "dialog_stay" + (rand(8)+1);
+					if(chr.sex == "woman") 
+					{
+						if (characters[sti(chr.chr_ai.tmpl.dialog)].sex == "man" && !CheckAttribute(chr, "chr_ai.tmpl.poklon"))
+						{
+							sTemp = "knicksen";
+							chr.chr_ai.tmpl.poklon = true;
+						}						
+						else sTemp = "dialog_stay" + (rand(8)+1);
+					}
 					else 
 					{
 						if (characters[sti(chr.chr_ai.tmpl.dialog)].sex == "woman" && !CheckAttribute(chr, "chr_ai.tmpl.poklon"))

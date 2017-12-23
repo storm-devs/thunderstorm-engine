@@ -2,7 +2,7 @@
 #include "scripts\Rumour_templates.c"
 #include "scripts\Rumour_func.c"
 #include "scripts\Rumour_generate.c"
-#include "scripts\Rumour_Data.h"
+#include "TEXT\scripts\Rumour_Data.h"
 #include "scripts\GoldFleet.c"
 
 object	Rumour[MAX_RUMOURS]; // стек слухов
@@ -42,17 +42,28 @@ void SetRumourDefaults()// заполняем стек начальными - простыми слухами
 		CurrentRumour.tip = "poor"; // типаж
 		CurrentRumour.rep = "none" // репутация
 		CurrentRumour.starttime = (DateToInt(0));// через сколько дней активировать слух
-		CurrentRumour.actualtime = (DateToInt(100));// Как долго могут ходить слухи = 40 дней
+		CurrentRumour.actualtime = (DateToInt(300));// Как долго могут ходить слухи = 300 дней
 		CurrentRumour.event = "none"; // Действие - нет
 		CurrentRumour.next = "none"; // Продолжение - нет
 		id_counter++; // счетчик слухов
 	}
+	makeref(CurrentRumour, Rumour[i]);
+	CurrentRumour.id = id_counter;  // ID слуха
+	CurrentRumour.text = xiDStr("Rummor_1");
+	CurrentRumour.state = "1"; // Сколько раз может повторять ся один и тот же слух
+	CurrentRumour.tip = "citizen"; // типаж
+	CurrentRumour.City = "PortSpein";
+	CurrentRumour.rep = "none" // репутация
+	CurrentRumour.starttime = (DateToInt(0));// через сколько дней активировать слух
+	CurrentRumour.actualtime = (DateToInt(500));
+	CurrentRumour.event = "none"; // Действие - нет
+	CurrentRumour.next = "none"; // Продолжение - нет
+	id_counter++; // счетчик слухов
 }
 
 void RumourInit();
 {
-	//Log_SetStringToLog("Слухи!");
-	trace("Слухи!");
+	trace("RumourInit!");
 	TemplateLoad();
 	SetRumourDefaults();
 	// ==> отметка времени для осад homo 05/11/06

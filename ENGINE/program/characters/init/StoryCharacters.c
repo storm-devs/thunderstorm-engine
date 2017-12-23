@@ -4,11 +4,11 @@ int CreateStoryCharacters(int n)
     ref ch;
     ///////////////////////////////////
     makeref(ch,Characters[n]);		// ГУБЕРНАТОР Англия
-	ch.name 	= "Томас";
-	ch.lastname = "Мэдифорд";
+	ch.name 	= xiDStr("Tomas");
+	ch.lastname = xiDStr("Modyford");
 	ch.id		= "eng_guber";
 	ch.model	= "Modyford";
-	ch.model.animation	= "man3";
+	ch.model.animation	= "man";
 	ch.sex = "man";
 	ch.location	= "PortRoyal_townhall";
 	ch.location.group = "sit";
@@ -22,16 +22,16 @@ int CreateStoryCharacters(int n)
 	LAi_group_MoveCharacter(ch, "ENGLAND_CITIZENS");
 	LAi_SetHP(ch, 100.0, 100.0);
 	LAi_SetImmortal(ch, true);
-	ch.greeting = "eng_gov_common";
+	ch.greeting = "Gr_Hovernor";
 	n = n + 1;
 
 	makeref(ch,Characters[n]);		// ГУБЕРНАТОР Испания
-	ch.name 	= "Франсиско";
+	ch.name 	= xiDStr("Francisko");
 	//ch.middlename = "";
-	ch.lastname = "Орегон-и-Гаскон";
+	ch.lastname = xiDStr("Oregon Gaskon");
 	ch.id		= "spa_guber";
 	ch.model	= "Gaskon";
-	ch.model.animation	= "man3";
+	ch.model.animation	= "man";
 	ch.sex = "man";
 	ch.location	= "Muelle_Residence";
 	ch.location.group = "sit";
@@ -45,12 +45,12 @@ int CreateStoryCharacters(int n)
 	LAi_group_MoveCharacter(ch, "SPAIN_CITIZENS");
 	LAi_SetHP(ch, 100.0, 100.0);
 	LAi_SetImmortal(ch, true);
-	ch.greeting = "spa_gov_common";
+	ch.greeting = "Gr_Hovernor";
 	n = n + 1;
 
 	makeref(ch,Characters[n]);		// ГУБЕРНАТОР Франция
-	ch.name 	= "Бертран";
-	ch.lastname = "д'Ожерон";
+	ch.name 	= xiDStr("Bertran");
+	ch.lastname = xiDStr("d Ogeron");
 	ch.id		= "fra_guber";
 	ch.model	= "dOgeron";
 	ch.sex = "man";
@@ -66,12 +66,12 @@ int CreateStoryCharacters(int n)
 	LAi_group_MoveCharacter(ch, "FRANCE_CITIZENS");
 	LAi_SetHP(ch, 100.0, 100.0);
 	LAi_SetImmortal(ch, true);
-	ch.greeting = "fra_gov_common";
+	ch.greeting = "Gr_Hovernor";
 	n = n + 1;
 
 	makeref(ch,Characters[n]);		// ГУБЕРНАТОР Голландия
-	ch.name 	= "Петер";
-	ch.lastname = "Стэвезант";
+	ch.name 	= xiDStr("Peter");
+	ch.lastname = xiDStr("Stuvesant");
 	ch.id		= "hol_guber";
 	ch.model	= "stuvesant";
 	ch.sex = "man";
@@ -87,17 +87,17 @@ int CreateStoryCharacters(int n)
 	LAi_group_MoveCharacter(ch, "HOLLAND_CITIZENS");
 	LAi_SetHP(ch, 100.0, 100.0);
 	LAi_SetImmortal(ch, true);
-	ch.greeting = "hol_gov_common";
+	ch.greeting = "Gr_Hovernor";
 	ch.notMoveAble = true; //не переезжать
 	n = n + 1;
 
 //============== Генри Морган! Всем трепетать. =================
     makeref(ch,Characters[n]);
-	ch.name 	= "Генри";
-	ch.lastname = "Морган";
+	ch.name 	= xiDStr("Henry");
+	ch.lastname = xiDStr("Morgan");
 	ch.id		= "Henry Morgan";
 	ch.model	= "Morgan";
-	ch.model.animation = "man3"; 
+	ch.model.animation = "man"; 
 	ch.sex = "man";
 	ch.location	= "PortRoyal_houseS1";
 	ch.location.group = "sit";
@@ -143,13 +143,13 @@ int CreateStoryCharacters(int n)
 	LAi_SetLoginTime(ch, 0.0, 24.0);
 	LAi_SetImmortal(ch, true);
 	LAi_SetHP(ch, 230.0, 230.0);
-	ch.greeting = "pirat_common";
+	ch.greeting = "Gr_Morgan";
 	n = n + 1;
 
 //============== Секретать Моргана, можно расслабиться. =================
 	makeref(ch,Characters[n]);
-	ch.name 	= "Оливер";
-	ch.lastname = "Грин";
+	ch.name 	= xiDStr("Oliver");
+	ch.lastname = xiDStr("Green");
 	ch.id		= "Oliver_Green";
 	ch.model	= "Helper";
 	ch.sex = "man";
@@ -161,21 +161,21 @@ int CreateStoryCharacters(int n)
     SetRandSPECIAL(ch);
     SetSelfSkill(ch, 90, 90, 90, 60, 70);
     SetShipSkill(ch, 100, 10, 100, 100, 90, 60, 80, 90, 50);
-	ch.greeting = "pirat_guard";
+	ch.greeting = "Gr_OliverGreen";
 	ch.nation = PIRATE;
 	ch.rank 	= 20;
 	LAi_NoRebirthDisable(ch);
 	LAi_RemoveLoginTime(ch);
 	LAi_SetHuberType(ch);
-	ch.standUp = true; //вставать и нападать на врага
+	//ch.standUp = true; //вставать и нападать на врага
 	LAi_group_MoveCharacter(ch, "ENGLAND_CITIZENS");
 	LAi_SetHP(ch, 100.0, 100.0);
 	n=n+1;
 
     //............................. квест Изабеллы ...........................................
 	makeref(ch,Characters[n]);		// Любовь понимашь...
-	ch.name 	= "Изабелла";
-	ch.lastname = "Олеварес";
+	ch.name 	= xiDStr("Isabella");
+	ch.lastname = xiDStr("Olevares");
 	ch.id		= "Isabella";
 	ch.model	= "liza";
 	ch.sex = "woman";
@@ -199,7 +199,7 @@ int CreateStoryCharacters(int n)
 
 	//////////////////=====>>>> Магический квест Аскольда.
     makeref(ch,Characters[n]);		// Аскольд
-	ch.name 	= "Аскольд";
+	ch.name 	= xiDStr("Ascold");
 	ch.lastname = "";
 	ch.id		= "Ascold";
 	ch.model	= "Corsair1_2";
@@ -219,15 +219,15 @@ int CreateStoryCharacters(int n)
 	LAi_SetLoginTime(ch, 0.0, 24.0);
 	LAi_SetHP(ch, 200.0, 200.0);
 	LAi_SetImmortal(ch, true);
-	ch.greeting = "Ascold";
+	ch.greeting = "Gr_Ascold";
 	n = n+1;
 
 //============== Капитан Шарп =================
     makeref(ch,Characters[n]);
-	ch.name 	= "Бартоломью";
-	ch.lastname = "Шарп";
+	ch.name 	= xiDStr("Bartholomew");
+	ch.lastname = xiDStr("Sharp");
 	ch.id		= "Sharp";
-	ch.model	= "officer_2";
+	ch.model	= "Sharp";
 	ch.sex = "man";
 	ch.location	= "none";
 	ch.location.group = "";
@@ -241,7 +241,7 @@ int CreateStoryCharacters(int n)
 	GiveItem2Character(ch, "blade25");
 	ch.equip.blade = "blade25";
 	// ==> Кораблик 
-	ch.Ship.Name = "Шарпоносец";
+	ch.Ship.Name = xiDStr("Sharpy");
 	ch.Ship.Type = GenerateShip(SHIP_BRIG, true);
 	ch.Ship.Stopped = true;
    	ch.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS16;
@@ -272,7 +272,7 @@ int CreateStoryCharacters(int n)
 	SetCharacterPerk(ch, "Sliding");
 	LAi_SetStayType(ch);
 	LAi_SetLoginTime(ch, 0.0, 24.0);
-	ch.greeting = "pirat_guard";
+	ch.greeting = "Gr_MiddPirate";
 	LAi_group_MoveCharacter(ch, LAI_GROUP_PLAYER_OWN);
 	n = n + 1;
 

@@ -689,7 +689,7 @@ int LocationInitPuertoRico(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "SanJuan_ExitTown";
 	locations[n].id.label = "ExitTown";
-	locations[n].image = "loading\Gate.tga";
+	locations[n].image = "loading\Gate" + rand(1) + ".tga";
 	//Town sack
 	locations[n].townsack = "SanJuan";
 	//Sound
@@ -859,7 +859,7 @@ int LocationInitPuertoRico(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "SanJuan_Jungle_02";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle4.tga";
+	locations[n].image = "loading\outside\jungle2.tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "PuertoRico";
@@ -914,7 +914,7 @@ int LocationInitPuertoRico(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "SanJuan_CaveEntrance";
 	locations[n].id.label = "Cave entrance";
-	locations[n].image = "loading\outside\cave_ent.tga";
+	locations[n].image = "loading\outside\jungle2.tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "PuertoRico";
@@ -973,17 +973,19 @@ int LocationInitPuertoRico(int n)
 	//Always
 	locations[n].filespath.models = "locations\inside\cavernMedium1";
 	locations[n].models.always.cavernMedium1 = "cavernMedium1";
+	locations[n].models.always.cavernMedium1.sea_reflection = 1;
+	
 	locations[n].models.always.lamps = "cavernMedium1_lamps";	
 	locations[n].models.always.locators = "cavernMedium1_locators";	
 
-	Locations[n].models.always.duhi = "duhi";
-	Locations[n].models.always.duhi.locator.group = "item";
-	Locations[n].models.always.duhi.locator.name = "duhi1";
-	locations[n].models.always.duhi.tech = "LighthouseLight";
-	locations[n].models.always.duhi.level = 60;
-	Locations[n].models.always.duhi.uvslide.u0 = 0.15;
-	Locations[n].models.always.duhi.uvslide.v0 = 0.1;
 	locations[n].locators_radius.item.duhi1 = 1.3;
+	
+	Locations[n].models.always.rays = "cavernMedium1_rays";
+	Locations[n].models.always.rays.level = 49;
+	Locations[n].models.always.rays.tech= "LocVisRays";
+	Locations[n].models.always.rays.uvslide.u1 = -0.03;
+	Locations[n].models.always.rays.uvslide.v1 = -0.03;
+	
 	//Day
 	locations[n].models.day.charactersPatch = "cavernMedium1_patch";
 	Locations[n].models.day.jumpPatch = "CavernMedium1_jump";
@@ -1015,7 +1017,7 @@ int LocationInitPuertoRico(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "SanJuan_Jungle_03";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle3.tga";
+	locations[n].image = "loading\outside\jungle.tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "PuertoRico";
@@ -1039,6 +1041,7 @@ int LocationInitPuertoRico(int n)
 	locations[n].models.always.well_small = "well_big";
 	Locations[n].models.always.well_small.locator.group = "reload";
 	Locations[n].models.always.well_small.locator.name ="reloadW_back";	
+	Locations[n].models.always.well_small.tech = "DLightModel";
 	//Day
 	locations[n].models.day.charactersPatch = "jungle1_pPuerto03";
 	//Night

@@ -1,4 +1,4 @@
-
+#include "TEXT\DIALOGS\Quest\Banders_dialog.h"
 void ProcessDialogEvent()
 {
 	ref NPChar;
@@ -31,40 +31,40 @@ void ProcessDialogEvent()
 		break;
 
 		case "First time":
-			dialog.text = "Ты кто такой?!";
-			link.l1 = "Тихо, фраер, кипиша не поднимай. Меня послал к тебе твой кореш, что на киче томится. " + pchar.questTemp.jailCanMove.Deliver.name + ", знаешь такого?";
+			dialog.text = DLG_TEXT_Q[0];
+			link.l1 = DLG_TEXT_Q[1] + pchar.questTemp.jailCanMove.Deliver.name + DLG_TEXT_Q[2];
 			link.l1.go = "Step_1";			
 			NextDiag.TempNode = "Second time";
 		break;
 		case "Step_1":
-			dialog.text = "Чем за базар ответишь?";
-			link.l1 = "Маляву велено передать.";
+			dialog.text = DLG_TEXT_Q[3];
+			link.l1 = DLG_TEXT_Q[4];
 			link.l1.go = "Step_2";
 			TakeItemFromCharacter(pchar, "Malyava");
 		break;
 		case "Step_2":
 			if (sti(pchar.questTemp.jailCanMove.Deliver.good))
 			{
-				dialog.text = "За маляву спасибо. Что там у тебя в карманах? Давай, выкладывай, нам деньги нужны.";
-				link.l1 = "Ты в своем уме?! Это вы мне денег должны за помощь!";
+				dialog.text = DLG_TEXT_Q[5];
+				link.l1 = DLG_TEXT_Q[6];
 				link.l1.go = "Step_fight";
 			}
 			else
 			{
-				dialog.text = "Очень хорошо! За такое дело положена награда - " + FindRussianMoneyString(sti(pchar.questTemp.jailCanMove.Deliver.price)) + ".";
-				link.l1 = "Спасибо, неплохо.";
+				dialog.text = DLG_TEXT_Q[7] + FindRussianMoneyString(sti(pchar.questTemp.jailCanMove.Deliver.price)) + ".";
+				link.l1 = DLG_TEXT_Q[8];
 				link.l1.go = "Step_good";
 			}
 		break;
 		case "Step_fight":
-			dialog.text = "Мы тебе ничего не должны. Пиастры на бочку, иначе живым отсюда не выйдешь.";
-			link.l1 = "Ну, это мы еще поглядим...";
+			dialog.text = DLG_TEXT_Q[9];
+			link.l1 = DLG_TEXT_Q[10];
 			link.l1.go = "quest_fight";
 		break;
 
 		case "Step_good":
-			dialog.text = "Забирай и вали отсюда.";
-			link.l1 = "Всего хорошего.";
+			dialog.text = DLG_TEXT_Q[11];
+			link.l1 = DLG_TEXT_Q[12];
 			link.l1.go = "Step_good_exit";
 		break;
         case "Step_good_exit":
@@ -80,14 +80,14 @@ void ProcessDialogEvent()
 		break;
 
         case "Man_FackYou":
-			dialog.text = "Ты чё, крыса, вообще нюх потерял?!";
-			link.l1 = LinkRandPhrase("Дъявол!!", "Каррамба!!", "А-ать, черт!");
+			dialog.text = DLG_TEXT_Q[13];
+			link.l1 = LinkRandPhrase(DLG_TEXT_Q[14], DLG_TEXT_Q[15], DLG_TEXT_Q[16]);
 			link.l1.go = "fight";
 		break;
 
 		case "Second time":
-			dialog.text = "Не о чем базарить, вали отсюда по-тихому.";
-			link.l1 = "Ладно, ладно...";
+			dialog.text = DLG_TEXT_Q[17];
+			link.l1 = DLG_TEXT_Q[18];
 			link.l1.go = "exit";			
 			NextDiag.TempNode = "Second time";
 		break;

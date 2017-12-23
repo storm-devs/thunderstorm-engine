@@ -1,4 +1,4 @@
-// диалоговый файл №1 на голландку
+#include "TEXT\DIALOGS\Quest\AntonioDeSouza.h"
 void ProcessDialogEvent()
 {
 	ref NPChar, sld;
@@ -15,35 +15,35 @@ void ProcessDialogEvent()
     switch (Dialog.CurrentNode)
     {
         case "First time":
-            dialog.text = NPCStringReactionRepeat("Что тебе сын мой?",
-                         "Опять ты? Что-то забыл сказать?", "Сын мой, что тебя гложет, почему ты в который раз за сегодня приходишь ко мне и ничего не говоришь?",
-                         "Послушай, " + GetFullName(pchar) + ", если тебе нечего сказать, то и не надо сюда ходить.", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat("Да ничего особенного, падре...",
-                                               "Да нет, просто так...",
-                                               "Сказать нечего, падре...",
-                                               "Хорошо, падре...", npchar, Dialog.CurrentNode);
+            dialog.text = NPCStringReactionRepeat(DLG_TEXT_Q[0],
+                         DLG_TEXT_Q[1], DLG_TEXT_Q[2],
+                         DLG_TEXT_Q[3] + GetFullName(pchar) + DLG_TEXT_Q[4], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(DLG_TEXT_Q[5],
+                                               DLG_TEXT_Q[6],
+                                               DLG_TEXT_Q[7],
+                                               DLG_TEXT_Q[8], npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
 //>>>>>>>>>>>>========= Разброс диалогов =====================
 			if (pchar.questTemp.State == "Inquisition_toDeSouza")//Квест №2, базар с гл.Инквизитором
 			{
-                dialog.text = "Добро пожаловать в лоно церкви, сын мой.";
-    			link.l1 = "Падре, я к вам по приказу сеньора генерал-губернатора...";
+                dialog.text = DLG_TEXT_Q[9];
+    			link.l1 = DLG_TEXT_Q[10];
     			link.l1.go = "Step_S2_1";
             }
 			if (pchar.questTemp.State == "Inquisition_toCuracao")
 			{
                 if (CheckAttribute(pchar, "questTemp.State.Store") || CheckAttribute(pchar, "questTemp.State.Usurer"))
                 {
-                    dialog.text = "Рад видеть тебя, " + GetFullName(pchar) + ". Ты готов отчитаться по заданию?";
-        			link.l1 = "Падре, я навестил всех, указанных вами людей.";
+                    dialog.text = DLG_TEXT_Q[11] + GetFullName(pchar) + DLG_TEXT_Q[12];
+        			link.l1 = DLG_TEXT_Q[13];
         			link.l1.go = "Step_S2_12";
-        			link.l2 = "Пожалуй, нет еще, монсеньор. Я еще поработаю над этим...";
+        			link.l2 = DLG_TEXT_Q[14];
         			link.l2.go = "exit";
                 }
                 else
                 {
-                    dialog.text = "Ты получил задание, сын мой. Приступай к выполнению.";
-        			link.l1 = "Хорошо, монсеньор...";
+                    dialog.text = DLG_TEXT_Q[15];
+        			link.l1 = DLG_TEXT_Q[16];
         			link.l1.go = "exit";
                 }
             }
@@ -51,29 +51,29 @@ void ProcessDialogEvent()
 			{
                 if (CheckAttribute(pchar, "questTemp.State.Store") || CheckAttribute(pchar, "questTemp.State.Usurer"))
                 {
-                    dialog.text = "Рад видеть тебя, " + GetFullName(pchar) + ". Ты готов отчитаться по заднию?";
-        			link.l1 = "Монсеньор, я навестил всех указанных вами людей.";
+                    dialog.text = DLG_TEXT_Q[17] + GetFullName(pchar) + DLG_TEXT_Q[18];
+        			link.l1 = DLG_TEXT_Q[19];
         			link.l1.go = "Step_S2_12";
-        			link.l2 = "Пожалуй, нет еще, монсеньор. Я еще поработаю над этим...";
+        			link.l2 = DLG_TEXT_Q[20];
         			link.l2.go = "exit";
                 }
                 else
                 {
-                    dialog.text = "Что случилось, сын мой? Ты нуждаешься в искуплении грехов?";
-        			link.l1 = "Нет, монсеньор. Я вернулся не за этим. Сейчас ко мне подошел некий Франциско де Сан-Агостиньо и соловьиными трелями начал заливал про мораль вашего задания. Он знает, куда я еду, зачем еду. Вы не находите это странным?";
+                    dialog.text = DLG_TEXT_Q[21];
+        			link.l1 = DLG_TEXT_Q[22];
         			link.l1.go = "Step_S2_11";
                 }
             }
 			if (pchar.questTemp.State == "Inquisition_backAllGood" || pchar.questTemp.State == "Inquisition_backPartGood" || pchar.questTemp.State == "Inquisition_backBad")
 			{
-                dialog.text = "Сын мой, ты можешь возвращаться в Гавану. Мне ты больше не нужен...";
-    			link.l1 = "Хорошо, монсеньор.";
+                dialog.text = DLG_TEXT_Q[23];
+    			link.l1 = DLG_TEXT_Q[24];
     			link.l1.go = "exit";
             }
 			if (pchar.questTemp.State == "TakeRockBras_RockTaken")
 			{
-                dialog.text = "Слушаю тебя, сын мой. Зачем пожаловал?";
-    			link.l1 = "Монсеньор, согласно полученному распоряжению генерал-губернатора Гаваны дона Франсиско Орегон-и-Гаскона, я передаю Святой Инквизиции известного ладрона Рока Бразильца, схваченного мной в жаркой битве у Маракайбо.";
+                dialog.text = DLG_TEXT_Q[25];
+    			link.l1 = DLG_TEXT_Q[26];
     			link.l1.go = "Step_S3_1";
             }
 
@@ -87,58 +87,58 @@ void ProcessDialogEvent()
 
 //********************************* Задания Инквизиции. Квест №2 **********************************
  		case "Step_S2_1":
-			dialog.text = "Я знаю, сын мой, знаю. Я ждал тебя. Итак, о твоей миссии.\n"+
-                          "Есть несколько людей, живущих в темноте, и мы пока не в силах помочь им прозреть. Это флорентийские негоцианты Джоао Ильхайо, Йозеф Нунен де Фонкесао, и Яков Лопез де Фонсека. Нам удалось выяснить, что они попали под влияние еретического учения Янсения.\n"+
-                          "Души приверженцев секты янсенистов мы освобождаем от нечестивых уз путем сожжения их тел на костре. Но они не ценят этого, не ценят спасения своей души, которые мы им даем...";
-			link.l1 = "Простите, монсеньор, у меня есть вопрос. Если вы, конечно, разрешите его задать.";
+			dialog.text = DLG_TEXT_Q[27]+
+                          DLG_TEXT_Q[28]+
+                          DLG_TEXT_Q[29];
+			link.l1 = DLG_TEXT_Q[30];
 			link.l1.go = "Step_S2_2";
 		break;
  		case "Step_S2_2":
-			dialog.text = "Спрашивай, сын мой.";
-			link.l1 = "Я слышал, что янсенисты веруют во Христа точно так же, как и католики. Зачем же их сжигать, если они такие же христиане?";
+			dialog.text = DLG_TEXT_Q[31];
+			link.l1 = DLG_TEXT_Q[32];
 			link.l1.go = "Step_S2_3";
 		break;
  		case "Step_S2_3":
-			dialog.text = "Янсений извратил догмы Церкви, мы имеем разногласия в вопросе примирения существования свободной человеческой воли и необходимости божественной благодати, без участия которой невозможно спасение человека.";
-			link.l1 = "А прийти к согласию, то есть разрешить разногласия путем переговоров, никак не удается?";
+			dialog.text = DLG_TEXT_Q[33];
+			link.l1 = DLG_TEXT_Q[34];
 			link.l1.go = "Step_S2_4";
 		break;
  		case "Step_S2_4":
-			dialog.text = "Это невозможно, сын мой. Враги Церкви только и ждут того, чтобы увести заблудшие души от Пастыря своего. Никому не позволено трактовать постулаты христианской веры произвольно, а тем более подвергать их сомнению. Никому!\n"+
-                          "К тому же, янсенисты запятнали себя преступлением, которому никогда не будет прощения. Около двадцати лет назад, один из первых последователей этой секты Самуэль Кохэно выкрал древние церковные документы из наших архивов в Севилье!";
-			link.l1 = "Вот это да! Всегда полагал, что Святая Инквизиция безупречна. Как же такое могло случиться?";
+			dialog.text = DLG_TEXT_Q[35]+
+                          DLG_TEXT_Q[36];
+			link.l1 = DLG_TEXT_Q[37];
 			link.l1.go = "Step_S2_5";
 		break;
  		case "Step_S2_5":
-			dialog.text = "С помощью врага рода человеческого, сын мой! Мы противостоим его козням каждую минуту, но порой он одерживает верх над кем-то из наших братьев. Так случилось и в этот раз, наш севильский архивариус пал жертвой смертного греха - алчности...";
-			link.l1 = "Он во всем сознался?";
+			dialog.text = DLG_TEXT_Q[38];
+			link.l1 = DLG_TEXT_Q[39];
 			link.l1.go = "Step_S2_6";
 		break;
  		case "Step_S2_6":
-			dialog.text = "Сознался, раскаялся и очистил свою душу, как же иначе? Мы рады, что сумели помочь ему. Уверен, что Господь принял его душу...";
-			link.l1 = "Аминь... Так в чем же будет заключаться мое задание?";
+			dialog.text = DLG_TEXT_Q[40];
+			link.l1 = DLG_TEXT_Q[41];
 			link.l1.go = "Step_S2_7";
 		break;
  		case "Step_S2_7":
-			dialog.text = "Вам нужно навестить бежавших негоциантов с определенной целью.";
-			link.l1 = "А вам известно, где они сейчас находятся?";
+			dialog.text = DLG_TEXT_Q[42];
+			link.l1 = DLG_TEXT_Q[43];
 			link.l1.go = "Step_S2_8";
 		break;
  		case "Step_S2_8":
-			dialog.text = "Конечно, сын мой. Сначала они бежали в Нидерланды, но там не прижились - ересь кальвинистов очень ревнива к другой ереси.\n"+
-                          "Затем они выехали в Новый Свет, и сейчас организовали сектантскую общину на острове Кюрасао. Ваша задача заключается в том, чтобы данные негоцианты, кстати, очень богатые люди, купили прощение Папы.\n"+
-                          "Индульгенция будет стоить 50 тысяч с каждого. И если они откажутся, то ради вящей Славы Божьей, я даю разрешение на крайние меры.";
-			link.l1 = "С каждого по 50 тысяч, и в случае неповиновения я могу делать с ними все, что угодно. Я правильно понял?";
+			dialog.text = DLG_TEXT_Q[44]+
+                          DLG_TEXT_Q[45]+
+                          DLG_TEXT_Q[46];
+			link.l1 = DLG_TEXT_Q[47];
 			link.l1.go = "Step_S2_9";
 		break;
  		case "Step_S2_9":
-			dialog.text = "Да, сын мой, ты все правильно понял...";
-			link.l1 = "Но разве 50 тысяч способны искупить грехи янсенистов перед Господом?";
+			dialog.text = DLG_TEXT_Q[48];
+			link.l1 = DLG_TEXT_Q[49];
 			link.l1.go = "Step_S2_10";
 		break;
  		case "Step_S2_10":
-			dialog.text = "Нет, конечно. Но мы должны с чего-то начинать. Нам нужно обратить их взор к Господу, этим вы и займетесь. Вам все понятно, вы готовы к выполнению миссии?";
-			link.l1 = "Да, монсеньор, приступаю немедленно!!";
+			dialog.text = DLG_TEXT_Q[50];
+			link.l1 = DLG_TEXT_Q[51];
 			link.l1.go = "exit";
     		pchar.questTemp.State = "Inquisition_toCuracao";
             AddQuestRecord("Spa_Line_2_Inquisition", "2");
@@ -147,40 +147,40 @@ void ProcessDialogEvent()
             Pchar.quest.Inquisition_MeetFrancisco.win_condition = "Inquisition_MeetFrancisco";
 		break;
  		case "Step_S2_11":
-			dialog.text = "Спасибо за предупреждение, сын мой. Излишняя мягкотелость по отношению к еретикам приводит только к увеличению страданий их душ. Я позабочусь о Франциско, он больше не будет тебе докучать. Возьмите это в знак признательности. Полагаю, тебе это пригодится...";
-			link.l1 = "Спасибо, святой отец.";
+			dialog.text = DLG_TEXT_Q[52];
+			link.l1 = DLG_TEXT_Q[53];
 			link.l1.go = "exit";
 			pchar.questTemp.State = "Inquisition_toCuracao";
             GiveItem2Character(pchar,"DeSouzaCross");
 		break;
  		case "Step_S2_12":
-			dialog.text = "И каковы результаты, сын мой?";
-			link.l1 = "Мне не удалось получить деньги ни с одного из этих людей.";
+			dialog.text = DLG_TEXT_Q[54];
+			link.l1 = DLG_TEXT_Q[55];
 			link.l1.go = "Step_S2_NotMoney";
             if (pchar.questTemp.State.Usurer == "Ok")
             {
-    			link.l1 = "Деньги мне удалось получить только с Йозефа Нунена де Фонкесао, ростовщика Кюрасао.";
+    			link.l1 = DLG_TEXT_Q[56];
     			link.l1.go = "Step_S2_OnlyUsurer";
             }
             if (pchar.questTemp.State.Store == "Ok")
             {
-    			link.l1 = "Деньги мне удалось получить только с Джоао Ильхайо, хозяина магазина в Кюрасао, и его компаньона Якова Лопез де Фонсека.";
+    			link.l1 = DLG_TEXT_Q[57];
     			link.l1.go = "Step_S2_OnlyStore";
             }
             if (pchar.questTemp.State.Store == "Ok" && pchar.questTemp.State.Usurer == "Ok")
             {
-    			link.l1 = "Задние выполнено полностью, святой отец. Деньги мне удалось получить со всех троих указанных вами янсенистов.";
+    			link.l1 = DLG_TEXT_Q[58];
     			link.l1.go = "Step_S2_All";
             }
 		break;
  		case "Step_S2_NotMoney":
-			dialog.text = "Твои слова ввергли в печаль мою душу... Ты не смог выполнить простейшего задания.";
-			link.l1 = "Святой отец, я старался изо всех сил...";
+			dialog.text = DLG_TEXT_Q[59];
+			link.l1 = DLG_TEXT_Q[60];
 			link.l1.go = "Step_S2_13";
 		break;
  		case "Step_S2_13":
-			dialog.text = "Я понимаю, старание - величашая добродетель людская... Ступай в Гавану, сын мой, ты мне больше не нужен...";
-			link.l1 = "Хорошо, монсеньор. Прощайте...";
+			dialog.text = DLG_TEXT_Q[61];
+			link.l1 = DLG_TEXT_Q[62];
 			link.l1.go = "exit";
             pchar.questTemp.State = "Inquisition_backBad";
             AddQuestRecord("Spa_Line_2_Inquisition", "15");
@@ -191,26 +191,26 @@ void ProcessDialogEvent()
  		case "Step_S2_OnlyUsurer":
             if (sti(pchar.money) >= 50000)
             {
-                dialog.text = "Ну что же, частично выполненное задание - это хорошо, сын мой... Но могло быть и лучше.";
-    			link.l1 = "Святой отец, я старался изо всех сил...";
+                dialog.text = DLG_TEXT_Q[63];
+    			link.l1 = DLG_TEXT_Q[64];
     			link.l1.go = "Step_S2_14";
             }
             else
             {
-                dialog.text = "Э-э-э, задание выполнено, а где же 50 тысяч? Ступай, сын мой, и приходи с деньгами для отчета по заданию.";
-    			link.l1 = "Прошу прощения, монсеньор, забыл на корабле. Я мигом...";
+                dialog.text = DLG_TEXT_Q[65];
+    			link.l1 = DLG_TEXT_Q[66];
     			link.l1.go = "exit";
                 NextDiag.TempNode = "Step_S2_OnlyUsurer";
             }
 		break;
  		case "Step_S2_14":
-			dialog.text = "Ну, ладно, ладно... Итак, давай посчитаем. Согласно установлению Папской канцелярии, взыскание денег с должника приравнивается к нахождению клада. Нашедшему клад причитается от 20 до 30 процентов от его стоимости по рыночной цене, в зависимости от ценности клада.\n"+
-                          "С вырученных денег взимается церковная десятина - 10 процентов, именно поэтому она десятиной и называется, хе-хе. Итого твоя награда составляет... составляет... 9 тысяч пиастров. Получи, сын мой, распишись - и можешь быть свободен.";
-			link.l1 = "Спасибо, монсеньор. Прощайте...";
+			dialog.text = DLG_TEXT_Q[67]+
+                          DLG_TEXT_Q[68];
+			link.l1 = DLG_TEXT_Q[69];
 			link.l1.go = "exit";
             if (CheckCharacterItem(pchar, "Bible"))
             {
-    			link.l2 = "Подождите, монсеньор. У меня еще кое-что есть для вас...";
+    			link.l2 = DLG_TEXT_Q[70];
     			link.l2.go = "Step_S2_17";
             }
 			pchar.questTemp.State = "Inquisition_backPartGood";
@@ -224,26 +224,26 @@ void ProcessDialogEvent()
  		case "Step_S2_OnlyStore":
             if (sti(pchar.money) >= 100000)
             {
-                dialog.text = "Ну что же, частично выполненное задание - это хорошо, сын мой... Но могло быть и лучше.";
-    			link.l1 = "Святой отец, я старался изо всех сил...";
+                dialog.text = DLG_TEXT_Q[71];
+    			link.l1 = DLG_TEXT_Q[72];
     			link.l1.go = "Step_S2_15";
             }
             else
             {
-                dialog.text = "Э-э-э, задание выполнено, а где же 100 тысяч? Ступай, сын мой, и приходи с деньгами для отчета по заданию.";
-    			link.l1 = "Прошу прощения, монсеньор, забыл на корабле. Я мигом...";
+                dialog.text = DLG_TEXT_Q[73];
+    			link.l1 = DLG_TEXT_Q[74];
     			link.l1.go = "exit";
                 NextDiag.TempNode = "Step_S2_OnlyStore";
             }
 		break;
  		case "Step_S2_15":
-			dialog.text = "Ну, ладно, ладно... Итак, давай посчитаем. Согласно установлению Папской канцелярии, взыскание денег с должника приравнивается к нахождению клада. Нашедшему клад причитается от 20 до 30 процентов от его стоимости по рыночной цене, в зависимости от ценности клада.\n"+
-                          "С вырученных денег взимается церковная десятина - 10 процентов, именно поэтому она десятиной и называется, хе-хе. Итого твою награда составляет... составляет... 18 тысяч пиастров. Получи, сын мой, распишись - и можешь быть свободен.";
-			link.l1 = "Спасибо, монсеньор. Прощайте...";
+			dialog.text = DLG_TEXT_Q[75]+
+                          DLG_TEXT_Q[76];
+			link.l1 = DLG_TEXT_Q[77];
 			link.l1.go = "exit";
             if (CheckCharacterItem(pchar, "Bible"))
             {
-    			link.l2 = "Подождите, падре. У меня еще кое-что есть для вас...";
+    			link.l2 = DLG_TEXT_Q[78];
     			link.l2.go = "Step_S2_17";
             }
 			pchar.questTemp.State = "Inquisition_backPartGood";
@@ -257,26 +257,26 @@ void ProcessDialogEvent()
  		case "Step_S2_All":
             if (sti(pchar.money) >= 150000)
             {
-                dialog.text = "Прекрасно, сын мой! 150 тысяч - значительный вклад в дело нашего Ордена. Мы благодарны тебе...";
-    			link.l1 = "Святой отец, я старался изо всех сил...";
+                dialog.text = DLG_TEXT_Q[79];
+    			link.l1 = DLG_TEXT_Q[80];
     			link.l1.go = "Step_S2_16";
             }
             else
             {
-                dialog.text = "Э-э-э, задание выполнено, а где же 150 тысяч? Ступай, сын мой, и приходи с деньгами для отчета по заданию.";
-    			link.l1 = "Прошу прощения, монесеньор, забыл на корабле. Я мигом...";
+                dialog.text = DLG_TEXT_Q[81];
+    			link.l1 = DLG_TEXT_Q[82];
     			link.l1.go = "exit";
                 NextDiag.TempNode = "Step_S2_All";
             }
 		break;
  		case "Step_S2_16":
-			dialog.text = "Ну, ладно, ладно... Итак, давай посчитаем. Согласно установлению Папской канцелярии, взыскание денег с должника приравнивается к нахождению клада. Нашедшему клад причитается от 20 до 30 процентов от его стоимости по рыночной цене, в зависимости от ценности клада.\n"+
-                          "С вырученных денег взимается церковная десятина - 10 процентов, именно поэтому она десятиной и называется, хе-хе. Итого твою награда составляет... составляет... 27 тысяч пиастров. Получи, сын мой, распишись - и можешь быть свободен.";
-			link.l1 = "Спасибо, монсеньор. Прощайте...";
+			dialog.text = DLG_TEXT_Q[83]+
+                          DLG_TEXT_Q[84];
+			link.l1 = DLG_TEXT_Q[85];
 			link.l1.go = "exit";
             if (CheckCharacterItem(pchar, "Bible"))
             {
-    			link.l2 = "Подождите, монсеньор. У меня еще кое-что есть для вас...";
+    			link.l2 = DLG_TEXT_Q[86];
     			link.l2.go = "Step_S2_17";
             }
 			pchar.questTemp.State = "Inquisition_backAllGood";
@@ -288,36 +288,36 @@ void ProcessDialogEvent()
 			NextDiag.TempNode = "First time";
 		break;
  		case "Step_S2_17":
-			dialog.text = "И что же это такое, сын мой?";
-			link.l1 = "Святой отец, помнится, вы мне рассказывали о неком Самуэле Кохэно, который выкрал древние церковные документы из ваших архивов в Севилье...";
+			dialog.text = DLG_TEXT_Q[87];
+			link.l1 = DLG_TEXT_Q[88];
 			link.l1.go = "Step_S2_18";
 		break;
  		case "Step_S2_18":
-			dialog.text = "Было такое, и что?";
-			link.l1 = "А не выкрал ли он некое Евангелие одного из Первопристольных Апостолов, но не самого достойного, скорей наоборот...";
+			dialog.text = DLG_TEXT_Q[89];
+			link.l1 = DLG_TEXT_Q[90];
 			link.l1.go = "Step_S2_19";
 		break;
  		case "Step_S2_19":
-			dialog.text = "Об этом запрещено даже говорить! Но ты продолжай, сын мой, ибо очень меня удивил...";
-			link.l1 = "Так вот, монсеньор, я нашел эту книгу. Вот она.";
+			dialog.text = DLG_TEXT_Q[91];
+			link.l1 = DLG_TEXT_Q[92];
 			link.l1.go = "Step_S2_20";
 		break;
  		case "Step_S2_20":
-			dialog.text = "Святая Богородица, Матерь Божья!!! О такой удаче мы даже и мечтать не могли! Только и думали о том, где появится этот еретический пасквиль и что будем предпринимать в связи с этим.\n"+
-                          "Какой груз с плеч долой!.. Сын мой, в награду за такой поступок я отпускаю тебе все грехи и еще три авансом!";
-			link.l1 = "Я искренне рад, что сумел помочь вам, святой отец...";
+			dialog.text = DLG_TEXT_Q[93]+
+                          DLG_TEXT_Q[94];
+			link.l1 = DLG_TEXT_Q[95];
 			link.l1.go = "Step_S2_21";
 			TakeItemFromCharacter(pchar, "Bible");
 		break;
  		case "Step_S2_21":
-			dialog.text = "Это еще не все, сын мой. В знак признательности за содеянные заслуги Святая Инквизиция дарует тебе вот этот великолепный защитный доспех, инкрустированный золотом.\n"+
-                          "Однако ценность этой кирасы - не в инкрустации. Ее истинная ценность - в величайшей надежности, что тебе и нужно более всего, как я полагаю...";
-			link.l1 = "Именно так, падре. Своей шкурой я как-то дорожу... Ну что же, спасибо и за это. А теперь позвольте откланяться, святой отец.";
+			dialog.text = DLG_TEXT_Q[96]+
+                          DLG_TEXT_Q[97];
+			link.l1 = DLG_TEXT_Q[98];
 			link.l1.go = "Step_S2_22";
 		break;
  		case "Step_S2_22":
-			dialog.text = "Да, да, кончено. Я тоже побегу, отпишу о радостной новости в Севилью!";
-			link.l1 = "Прощайте, монсеньор.";
+			dialog.text = DLG_TEXT_Q[99];
+			link.l1 = DLG_TEXT_Q[100];
 			link.l1.go = "exit";
             GiveItem2Character(pchar, "cirass5");
 		break;
@@ -325,20 +325,20 @@ void ProcessDialogEvent()
  		case "Step_S3_1":
             if (CheckPassengerInCharacter(pchar, "RockBrasilian"))
             {
-    			dialog.text = "Великолепная работа, сын мой! Я в восхищении!";
-    			link.l1 = "Могу сказать без ложной скромности - схватить мерзавца было нелегко. Для этого мне пришлось взять на абордаж корвет, битком набитый пиратским сбродом из Тортуги.";
+    			dialog.text = DLG_TEXT_Q[101];
+    			link.l1 = DLG_TEXT_Q[102];
     			link.l1.go = "Step_S3_2";
             }
             else
             {
-    			dialog.text = "Однако, у тебя в трюме его нет! Сын мой, иди и приведи мне Рока Бразильца.";
-    			link.l1 = "Хорошо, монсеньор...";
+    			dialog.text = DLG_TEXT_Q[103];
+    			link.l1 = DLG_TEXT_Q[104];
     			link.l1.go = "exit";
             }
 		break;
  		case "Step_S3_2":
-			dialog.text = "Ну что же, прикажите доставить этого ладрона ко мне немедленно, мне не терпится начать следствие. И прошу вас зайти также к генерал-губернатору.";
-			link.l1 = "Хорошо, монсеньор.";
+			dialog.text = DLG_TEXT_Q[105];
+			link.l1 = DLG_TEXT_Q[106];
 			link.l1.go = "exit";
 			NPChar.LifeDay = 10;
     	    SaveCurrentNpcQuestDateParam(NPChar, "LifeTimeCreate");

@@ -90,7 +90,7 @@ void CalculateEndSiegeCity()
 {
     string sTemp =  GetNationNameByType(iNation);
     
-	totalInfo = "Город " + GetCityName(sCity) + " захвачен войсками " + XI_ConvertString(sTemp + "Gen") + ".";
+	totalInfo = xiStr("MSG_ColonyInfo_1") + GetCityName(sCity) + xiStr("MSG_ColonyInfo_2") + XI_ConvertString(sTemp + "Gen") + ".";
 
     SetNewGroupPicture("Nat1", "NATIONS",  sTemp);
     SetFormatedText("INFO_TEXT",totalInfo);
@@ -102,11 +102,11 @@ void CalculateSiegeCity()
     
 	if (!isCityHasFort(sCity)) // сухопутный город
 	{
-	    totalInfo = "Десант "+XI_ConvertString(sTemp + "Gen")+" осадил город "+GetCityName(sCity)+". У вас есть "+FindRussianDaysString(iDay)+" для снятия осады.";
+	    totalInfo = xiStr("MSG_ColonyInfo_3")+XI_ConvertString(sTemp + "Gen")+xiStr("MSG_ColonyInfo_4")+GetCityName(sCity)+ xiStr("MSG_ColonyInfo_5") +FindRussianDaysString(iDay)+ xiStr("MSG_ColonyInfo_6");
 	}
 	else
 	{
-		totalInfo = "Эскадра "+XI_ConvertString(sTemp + "Gen")+" осадила город "+GetCityName(sCity)+". У вас есть "+FindRussianDaysString(iDay)+" для снятия осады.";
+		totalInfo = xiStr("MSG_ColonyInfo_7") +XI_ConvertString(sTemp + "Gen")+ xiStr("MSG_ColonyInfo_8") +GetCityName(sCity)+ xiStr("MSG_ColonyInfo_5") +FindRussianDaysString(iDay)+ xiStr("MSG_ColonyInfo_6");
 	}
     SetNewGroupPicture("Nat1", "NATIONS",  sTemp);
     SetFormatedText("INFO_TEXT",totalInfo);
@@ -115,7 +115,7 @@ void CalculateSiegeCity()
 void CalculateCapturedCity()
 {
 
-    totalInfo = "Над городом " + XI_ConvertString("Colony" + sCity) + " поднят новый флаг.";
+    totalInfo = xiStr("MSG_ColonyInfo_9") + XI_ConvertString("Colony" + sCity) + xiStr("MSG_ColonyInfo_10");
 
     SetNewGroupPicture("Nat1", "NATIONS",  GetNationNameByType(iNation));
     SetFormatedText("INFO_TEXT",totalInfo);

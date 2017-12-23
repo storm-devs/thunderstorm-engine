@@ -39,6 +39,8 @@
 #include "Loc_ai\types\LAi_carrier.c"
 //Жители ГПК, не внутрянка
 #include "Loc_ai\types\LAi_LSCout.c"
+//Сидящий не земле
+#include "Loc_ai\types\LAi_groundSit.c"
 
 //------------------------------------------------------------------------------------------
 //Player
@@ -400,7 +402,7 @@ void LAi_SetCarrierTypeNoGroup(aref chr)
 //LSCout
 //------------------------------------------------------------------------------------------
 
-//Установить персонажу тип хозяина дома/комнаты
+//Установить персонажу тип гражданина ГПК
 void LAi_SetLSCoutType(aref chr)
 {
 	chr.chr_ai.type = LAI_DEFAULT_TYPE;
@@ -408,9 +410,28 @@ void LAi_SetLSCoutType(aref chr)
 	LAi_group_MoveCharacter(chr, "");
 }
 
-//Установить персонажу тип хозятна комнаты без перемещения в группу
+//Установить персонажу тип гражданина ГПК без перемещения в группу
 void LAi_SetLSCoutTypeNoGroup(aref chr)
 {
 	chr.chr_ai.type = LAI_DEFAULT_TYPE;
 	LAI_type_LSCout_Init(chr);
+}
+
+//------------------------------------------------------------------------------------------
+//GroundSit
+//------------------------------------------------------------------------------------------
+
+//Установить персонажу тип сидящего на земле
+void LAi_SetGroundSitType(aref chr)
+{
+	chr.chr_ai.type = LAI_DEFAULT_TYPE;
+	LAI_type_GroundSit_Init(chr);
+	LAi_group_MoveCharacter(chr, "");
+}
+
+//Установить персонажу тип сидящего на земле без перемещения в группу
+void LAi_SetGroundSitTypeNoGroup(aref chr)
+{
+	chr.chr_ai.type = LAI_DEFAULT_TYPE;
+	LAI_type_GroundSit_Init(chr);
 }

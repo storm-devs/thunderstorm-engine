@@ -2,613 +2,434 @@ newLine {
 
 
 }
+HelpChooser {Choose Help Section}
+MainInterface {Interface Settings}
+DialogControls {Dialog}
+WorldMapControls {World Map}
+BattleInterfaceControls {Control Settings}
+Sailing1Pers {First-Person Sea View}
+Sailing3Pers {Third-Person Sea View}
+FightModeControls {Battle Mode}
+PrimaryLand {Land Controls }
+ChrCamTurnV {
+ Character Camera (Y-Axis) 
 
-HelpChooser {Выбор раздела помощи}
-MainInterface {Управление в интерфейсах}
-DialogControls {Диалог}
-WorldMapControls {Карта мира}
-BattleInterfaceControls {Управление в интерфейсах}
-Sailing1Pers {Море от 1го лица}
-Sailing3Pers {Море от 3го лица}
-FightModeControls {Режим боя}
-PrimaryLand {Управление на земле}
-
-
-
-ChrCamTurnV
-{
-Вертикальное перемещение камеры за персонажем
-
 }
-ChrCamTurnH
-{
-Горизонтальное перемещение камеры за персонажем
+ChrCamTurnH {
+ Character Camera (X-Axis) 
 
 }
-ChrCamCameraSwitch
-{
-Изменение режима камеры "за персонажем"\"вид из глаз"
+ChrCamCameraSwitch {
+ Toggle First/Third-Person Camera 
 
 }
-ChrCamNormalize
-{
-Центрирование камеры
+ChrCamNormalize {
+ Center the Camera 
 
 }
+ShipCamera_Turn_V {
+ Ship Camera (Y-Axis) 
 
-
-
-
-ShipCamera_Turn_V
-{
-Вертикальное перемещение камеры за кораблем
-
 }
-ShipCamera_Turn_H
-{
-Горизонтальное перемещение камеры за кораблем
+ShipCamera_Turn_H {
+ Ship Camera (X-Axis) 
 
 }
-ShipCamera_Forward
-{
-Приближение камеры к кораблю
+ShipCamera_Forward {
+ Zoom In Ship Camera 
 
 }
-ShipCamera_Backward
-{
-Удаление камеры от корабля
+ShipCamera_Backward {
+ Zoom Out Ship Camera 
 
 }
-
+DeckCamera_Turn_V {
+ Deck Camera (Y-Axis) 
 
-
-
-
-
-
-DeckCamera_Turn_V
-{
-Вертикальный поворот камеры (вид с палубы)
-
 }
-DeckCamera_Turn_H
-{
-Горизонтальный поворот камеры (вид с палубы)
+DeckCamera_Turn_H {
+ Deck Camera (X-Axis) 
 
 }
-DeckCamera_Forward
-{
-Вперед (вид с палубы)
+DeckCamera_Forward {
+ Zoom In Deck Camera 
 
 }
-DeckCamera_Backward
-{
-Назад (вид с палубы)
+DeckCamera_Backward {
+ Zoom Out Deck Camera 
 
 }
-DeckCamera_Left
-{
-Левый стрейф (вид с палубы)
+DeckCamera_Left {
+ Left Strafe (deck view) 
 
 }
-DeckCamera_Right
-{
-Правый стрейф (вид с палубы)
+DeckCamera_Right {
+ Right Strafe (deck view) 
 
 }
-
-
-
+ChrTurnH {
+ Turn Character 
 
-
-
-
-
-ChrTurnH
-{
-Поворот персонажа
-
 }
-ChrTurnV
-{
-Движение персонажа
+ChrTurnV {
+ Move Character 
 
 }
-ChrTurnHL
-{
-Поворот персонажа влево
+ChrTurnHL {
+ Turn Character Left 
 
 }
-ChrTurnHR
-{
-Поворот персонажа вправо
+ChrTurnHR {
+ Turn Character Right 
 
 }
-ChrAction
-{
-Выполнить действие
+ChrAction {
+ Action 
 
 }
-ChrForward
-{
-Идти вперед
+ChrForward {
+ Move Forward 
 
 }
-ChrForward1
-{
-Идти вперед
+ChrForward1 {
+ Move Forward 
 
 }
-ChrForward2
-{
-Идти вперед (альтернативная)
+ChrForward2 {
+ Move Forward (alternate) 
 
 }
-ChrBackward
-{
-Идти назад
+ChrBackward {
+ Move Backward 
 
 }
-ChrBackward1
-{
-Идти назад
+ChrBackward1 {
+ Move Backward 
 
 }
-ChrRun
-{
-Перейти на бег
+ChrRun {
+ Toggle Run 
 
 }
-ChrRunStick
-{
-Перейти на бег
+ChrRunStick {
+ Toggle Run 
 
 }
-
-ChrBlock
-{
-Блок
+ChrBlock {
+ Block 
 
 }
-ChrRecoil
-{
-Отскок
+ChrRecoil {
+ Recoil 
 
 }
-ChrParry
-{
-Парирование
+ChrParry {
+ Parry 
 
 }
+ChrAttackForce {
+ Fall Back 
 
-ChrAttackForce
-{
-Рубящий удар
-
 }
-ChrAttackFast
-{
-Колющий удар
+ChrAttackFast {
+ Slash 
 
 }
-ChrAttackRound
-{
-Круговой удар
+ChrAttackRound {
+ Swing 
 
 }
-ChrAttackBreak
-{
-Пробивающий удар
+ChrAttackBreak {
+ Thrust 
 
 }
-ChrAttackFient
-{
-Финт
+ChrAttackFient {
+ Feint 
 
 }
+ChrAttackBreakBase {
+ Thrust and Feint 
 
-ChrAttackBreakBase
-{
-Пробивающий удар / Финт
-
 }
-
-ChrAttackRoundBase
-{
-Круговой удар
+ChrAttackRoundBase {
+ Swing 
 
 }
+ChrAttackChoseBase {
+ Switch Attack 
 
-ChrAttackChoseBase
-{
-Переключатель ударов
-
 }
-
-ChrBlockBase
-{
-Блок
+ChrBlockBase {
+ Block 
 
 }
-ChrAttackBase
-{
-Рубящий удар / Парирование
+ChrAttackBase {
+ Fall Back and Parry 
 
 }
-ChrAltAttackBase
-{
-Колющий удар / Круговой удар
+ChrAltAttackBase {
+ Slash and Swing 
 
 }
+ChrFire {
+ Fire Gun 
 
-ChrFire
-{
-Выстрел из пистолета
-
 }
-
-ChrFightMode
-{
-Включение/выключение боевого режима
+ChrFightMode {
+ Toggle Attack Mode 
 
 }
-BOAL_UsePotion
-{
-Выпить элексир здоровья
+BOAL_UsePotion {
+ Drink Health Elixir 
 
 }
-BOAL_ActivateRush
-{
-Включить режим 'Берсерк'
+BOAL_ActivateRush {
+ Go Berserk 
 
 }
-BOAL_DeadSearch
-{
-Обыск трупа
+BOAL_DeadSearch {
+ Search Body 
 
 }
+Ship_TurnLeft {
+ Turn Ship Left 
 
-
-
-
-Ship_TurnLeft
-{
-Поворот корабля влево
-
 }
-Ship_TurnRight
-{
-Поворот корабля вправо
+Ship_TurnRight {
+ Turn Ship Right 
 
 }
-Ship_SailUp
-{
-Поднять паруса
+Ship_SailUp {
+ Raise Sails 
 
 }
-Ship_SailDown
-{
-Убрать паруса
+Ship_SailDown {
+ Lower Sails 
 
 }
-Ship_Fire
-{
-Произвести пушечный залп 
+Ship_Fire {
+ Fire Cannons 
 
 }
-
-Sea_CameraSwitch
-{
-Переключение камеры "за кораблем"/"на палубе"
+Sea_CameraSwitch {
+ Toggle Ship Camera 
 
 }
-Telescope
-{
-Включить/выключить подзорную трубу
+Telescope {
+ Toggle Spyglass 
 
 }
-TelescopeIn
-{
-Включить/приблизить подзорную трубу
+TelescopeIn {
+ Spyglass Zoom 
 
 }
-TelescopeOut
-{
-Выключить/удалить подзорную трубу
+TelescopeOut {
+ Exit Spyglass View 
 
 }
+BI_MapEnter {
+ Enter Map View 
 
-BI_MapEnter
-{
-Выход на карту
-
 }
-
-
-
-WMapTurnH
-{
-Вращение камеры вокруг корабля (в режиме карты)
+WMapTurnH {
+ Turn Camera (Map View) 
 
 }
-WMapTurnV
-{
-Высота камеры (в режиме карты)
+WMapTurnV {
+ Adjust Camera Height (Map View) 
 
 }
-WMapCameraRotate
-{
-Включение режима скольжения/вращения камеры
+WMapCameraRotate {
+ Toggle Sliding Mode (Map View) 
 
 }
-WMapForward
-{
-Приближение камеры
+WMapForward {
+ Zoom In Camera 
 
 }
-WMapBackward
-{
-Удаление камеры
+WMapBackward {
+ Zoom Out Camera 
 
 }
-WMapCameraSwitch
-{
-Переключение режима обзора
+WMapCameraSwitch {
+ Switch Camera Mode 
 
 }
-WMapShipSailUp
-{
-Плыть вперед
+WMapShipSailUp {
+ Sail Forward 
 
 }
-WMapShipSailDown
-{
-Плыть назад
+WMapShipSailDown {
+ Sail Backward 
 
 }
-WMapShipTurnLeft
-{
-Поворот влево
+WMapShipTurnLeft {
+ Turn Left 
 
 }
-WMapShipTurnRight
-{
-Поворот вправо
+WMapShipTurnRight {
+ Turn Right 
 
 }
-WMapCancel
-{
-Выход из карты в море
+WMapCancel {
+ Exit to Sea View 
 
 }
-
-
-
-
-
+Interface {
+ Interface Settings 
 
-Interface
-{
-Вызов интерфейса игры
-
 }
-MainMenu
-{
-Вызов главного меню
+MainMenu {
+ Main Menu 
 
 }
-MainMenuDouble
-{
-Вызов главного меню
+MainMenuDouble {
+ Main Menu 
 
 }
-Help
-{
-Вызов справки по игре
+Help {
+ Help 
 
 }
-
-
-
+BICommandsActivate {
+ Command Menu 
 
-
-BICommandsActivate
-{
-Вызвать командное меню 
-
 }
-LICommandsActivate
-{
-Вызвать командное меню 
+LICommandsActivate {
+ Command Menu 
 
 }
-BICommandsConfirm
-{
-Выбрать команду  
+BICommandsConfirm {
+ Confirm Command 
 
 }
-BICommandsCancel
-{
-Отменить команду  
+BICommandsCancel {
+ Cancel Command 
 
 }
-BICommandsLeft
-{
-Движение по командному меню влево
+BICommandsLeft {
+ Shift Menu Leftward 
 
 }
-BICommandsRight
-{
-Движение по командному меню вправо
+BICommandsRight {
+ Shift Menu Rightward 
 
 }
-MiniMapZoomIn
-{
-Увеличить масштаб миникарты
+MiniMapZoomIn {
+ Zoom In Map 
 
 }
-MiniMapZoomOut
-{
-Уменьшить масштаб миникарты
+MiniMapZoomOut {
+ Zoom Out Map 
 
 }
-BIFastCommand
-{
-Выполнить "быструю" команду
+BIFastCommand {
+ Fast Command 
 
 }
-
-
-
+HelpChooser_Cancel {
+ Exit Help Menu 
 
-
-HelpChooser_Cancel
-{
-Выход из справки
-
 }
-HelpChooser_Action
-{
-Показать справку по текущему элементу
+HelpChooser_Action {
+ Help With This Item 
 
 }
-HelpChooser_Next
-{
-Переход к следующему элементу справки
+HelpChooser_Next {
+ Next Tip 
 
 }
-HelpChooser_Prev
-{
-Переход к предыдущему элементу справки
+HelpChooser_Prev {
+ Previous Tip 
 
 }
-HelpChooser_Left
-{
-Влево (в режиме справки)
+HelpChooser_Left {
+ Left (Help Menu) 
 
 }
-HelpChooser_Right
-{
-Вправо (в режиме справки)
+HelpChooser_Right {
+ Right (Help Menu) 
 
 }
-HelpChooser_Up
-{
-Вверх (в режиме справки)
+HelpChooser_Up {
+ Up (Help Menu) 
 
 }
-HelpChooser_Down
-{
-Вниз (в режиме справки)
+HelpChooser_Down {
+ Down (Help Menu) 
 
 }
-
-
-
-
-
-
-
-DlgAction
-{
-Выбор ответа в диалоге
+DlgAction {
+ Choose Response 
 
 }
-DlgAction1
-{
-Выбор ответа в диалоге
+DlgAction1 {
+ Choose Response 
 
 }
-DlgUp
-{
-Перейти к предыдущему варианту ответа в диалоге
+DlgUp {
+ Previous Dialog Option 
 
 }
-DlgDown
-{
-Перейти к следующему варианту ответа в диалоге
+DlgDown {
+ Next Dialog Option 
 
 }
-DlgScrollUp
-{
-Пролистать строки диалога вниз
+DlgScrollUp {
+ Scroll Down Dialog Text 
 
 }
-DlgScrollDown
-{
-Пролистать строки диалога вверх
+DlgScrollDown {
+ Scroll Up Dialog Text 
 
 }
+hk_charge1 {
+ Arm with Cannonballs 
 
-hk_charge1
-{
-Зарядить пушки ядрами
-
 }
-hk_charge2
-{
-Зарядить пушки картечью
+hk_charge2 {
+ Arm with Grape shot 
 
 }
-hk_charge3
-{
-Зарядить пушки книпеллями
+hk_charge3 {
+ Arm with Chain shot 
 
 }
-hk_charge4
-{
-Зарядить пушки бомбами
+hk_charge4 {
+ Arm with Exploding shot 
 
 }
-
-hk_Cure
-{
-Использовать микстуру лечения
+hk_Cure {
+ Use Heath Elixir 
 
 }
+hk_Rush {
+ Use Rage Skill 
 
-hk_Rush
-{
-Использовать способность 'Ярость'
-
 }
+hk_ImmediateReload {
+ Initiate Quick Reload 
 
-hk_ImmediateReload
-{
-Включить ускоренную перезарядку
-
 }
-
-hk_LightRepair
-{
-Включить легкую починку
+hk_LightRepair {
+ Initiate Light Repairs 
 
 }
+hk_InstantRepair {
+ Initiate Quick Repairs 
 
-hk_InstantRepair
-{
-Включить починку
-
 }
-
-hk_Turn180
-{
-Разворот на 180
+hk_Turn180 {
+ 180-Degree Turn 
 
 }
+hk_SandbankManeuver {
+ Sandbank Turn Maneuver 
 
-hk_SandbankManeuver
-{
-Включить маневры на мели
-
 }
-
-ChrStrafeLeft
-{
-Шаг влево
+ChrStrafeLeft {
+ Move Left 
 }
-
-ChrStrafeRight
-{
-Шаг вправо
+ChrStrafeRight {
+ Move Right 
 }

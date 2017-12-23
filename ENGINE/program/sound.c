@@ -222,7 +222,10 @@ void SetSchemeForLocation (ref loc)
 			break;
 		case "tavern":
 			SetSoundScheme("tavern");
-			SetMusicAlarm("music_tavern");
+			if (loc.id == "Pirates_tavern")
+				SetMusicAlarm("music_pir_tavern");
+			else
+				SetMusicAlarm("music_tavern");
 			break;
 		case "shop":
 			SetSoundScheme("shop");
@@ -301,15 +304,23 @@ void SetSchemeForLocation (ref loc)
 			break;
 		case "LostShipsCity":
 			SetWeatherScheme("LostShipsCity");
-			SetMusicAlarm("music_spokplavanie");
+			SetMusicAlarm("music_LostShipsCity");
 			break;
 		case "LSC_inside":
 			SetWeatherScheme("LSC_inside");
-			SetMusicAlarm("music_spokplavanie");
+			SetMusicAlarm("music_LostShipsCity");
 			break;
 		case "underwater":
-			//SetWeatherScheme("LSC_inside");
-			SetMusicAlarm("music_underwater");
+			SetSoundScheme("underwater");
+			//SetMusicAlarm("music_underwater");
+			break;
+		case "teno":
+			SetWeatherScheme("land");
+			SetMusicAlarm("music_teno");
+			break;
+		case "teno_inside":
+			SetSoundScheme("teno_inside");
+			SetMusicAlarm("music_teno_inside");
 			break;
 		}
 	}
@@ -431,7 +442,7 @@ string musicName = "";
 string oldMusicName = "";
 void SetMusic(string name)
 {
-	//return;
+	if (pchar.location == "UnderWater") return; //не играть музон под водой
 	InitSound();
 	//Trace("SETTING MUSIC: " + name);
 
@@ -536,7 +547,7 @@ int oldAlarmed = 0;
 bool seaAlarmed = false;
 bool oldSeaAlarmed = false;
 void SetMusicAlarm(string name)
-{
+{	
 	if (alarmed == 0)
 	{
 		SetMusic(name);

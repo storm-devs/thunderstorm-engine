@@ -477,17 +477,26 @@ void selectEngland()
 
 void selectFrance()
 {
-	SelectNation(FRANCE);
+    //homo блокировка нации для Питера Блада
+    if (startHeroType == 1) SelectNation(ENGLAND);
+	else SelectNation(FRANCE);
+
 }
 
 void selectSpain()
 {
-	SelectNation(SPAIN);
+    //homo блокировка нации для Питера Блада
+    if (startHeroType == 1) SelectNation(ENGLAND);
+	else SelectNation(SPAIN);
+
 }
 
 void selectHolland()
 {
-	SelectNation(HOLLAND);
+    //homo блокировка нации для Питера Блада
+    if (startHeroType == 1) SelectNation(ENGLAND);
+	else SelectNation(HOLLAND);
+
 }
 
 void selectPirate()

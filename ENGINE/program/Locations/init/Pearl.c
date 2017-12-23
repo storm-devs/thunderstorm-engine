@@ -177,7 +177,7 @@ int LocationInitPearl(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Pearl_Jungle_01";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle4.tga";
+	locations[n].image = "loading\outside\jungle2.tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -287,7 +287,7 @@ int LocationInitPearl(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Pearl_Jungle_02";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle5.tga";
+	locations[n].image = "loading\outside\jungle.tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -399,7 +399,7 @@ int LocationInitPearl(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Pearl_GrotEntrance";
 	locations[n].id.label = "Cave entrance";
-	locations[n].image = "loading\outside\cave_ent.tga";
+	locations[n].image = "loading\outside\jungle2.tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -451,7 +451,7 @@ int LocationInitPearl(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Pearl_Grot";
 	locations[n].id.label = "Grot";
-    locations[n].image = "loading\inside\grotto.tga";
+    locations[n].image = "loading\inside\cave.tga";
 	//Sound
 	locations[n].type = "cave";
 	locations[n].islandId = "Mein";
@@ -466,14 +466,13 @@ int LocationInitPearl(int n)
 	locations[n].models.always.chest = "chest";	
 	locations[n].models.always.locators = "grotto1_locators";
 
-	Locations[n].models.always.duhi = "duhi";
-	Locations[n].models.always.duhi.locator.group = "item";
-	Locations[n].models.always.duhi.locator.name = "duhi1";
-	locations[n].models.always.duhi.tech = "LighthouseLight";
-	locations[n].models.always.duhi.level = 60;
-	Locations[n].models.always.duhi.uvslide.u0 = 0.15;
-	Locations[n].models.always.duhi.uvslide.v0 = 0.1;
 	locations[n].locators_radius.item.duhi1 = 1.3;
+	
+	Locations[n].models.always.rays = "grotto1_rays";
+	Locations[n].models.always.rays.level = 49;
+	Locations[n].models.always.rays.tech= "LocVisRays";
+	Locations[n].models.always.rays.uvslide.u1 = -0.03;
+	Locations[n].models.always.rays.uvslide.v1 = -0.03;	
 	//Day
 	locations[n].models.day.charactersPatch = "grotto1_patch";
 	//Night
@@ -656,7 +655,7 @@ int LocationInitPearl(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Pearl_CaveEntrance";
 	locations[n].id.label = "Cave entrance";
-	locations[n].image = "loading\outside\cave_ent.tga";
+	locations[n].image = "loading\outside\jungle2.tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -708,7 +707,7 @@ int LocationInitPearl(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     Locations[n].id = "Pearl_town_2";
 	locations[n].id.label = "Village";
-	Locations[n].image = "loading\towns\pearl2.tga";
+	locations[n].image = "loading\towns\pearl1.tga";
 	locations[n].pearlVillage = true;
 	//Sound
 	locations[n].type = "jungle";

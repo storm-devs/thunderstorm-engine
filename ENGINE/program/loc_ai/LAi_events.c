@@ -380,7 +380,15 @@ void LAi_Character_Dead_Process(aref chr)
 		//Доигрались...
 		if(!LAi_IsBoardingProcess())
 		{
-			PostEvent("LAi_event_GameOver", 5000, "s", "land");
+			if (loadedLocation.type == "town")
+				PostEvent("LAi_event_GameOver", 5000, "s", "town");
+			else
+			{
+				if (loadedLocation.type == "underwater")
+					PostEvent("LAi_event_GameOver", 5000, "s", "sea");
+				else
+					PostEvent("LAi_event_GameOver", 5000, "s", "land");
+			}
 		}
 		else
 		{
@@ -471,7 +479,7 @@ void LAi_Character_FreePos_Event()
 			if(idx != index)
 			{
 				float dist;
-				if(GetCharacterDistByLoc(&Characters[idx], group, locator, dist))
+				if(GetCharacterDistByLoc(&Characters[idx], group, locator, &dist))
 				{
 					if(dist < 0.8)
 					{
@@ -577,7 +585,7 @@ void LAi_TieItemToCharacter(aref chr, int nItemIndex)
 {
 	if( nItemIndex<0 ) return;
 
-	string sModel = "kocherg";
+	string sModel = "HandsItems\cup";
 	string sLocator = "Saber_hand";
 
 	string sitm = "TiedItems.itm"+nItemIndex;

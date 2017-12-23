@@ -74,7 +74,7 @@ int     MAX_CHARACTERS   = 10;
 #define TOTAL_CHARACTERS			1000  // прописать в BOAT_CHARACTER  TOTAL_CHARACTERS - 1
 #define BOAT_CHARACTER               999
 
-#define MAX_LOCATIONS		690 // boal
+#define MAX_LOCATIONS		700 // boal
 #define MAX_ISLANDS   30
 #define MAX_COLONIES  34
 
@@ -184,7 +184,7 @@ int EventReturn_isGrassLightsOn()
 		return 0;
 	}
 	
-	if (GetHour() >= 9 && GetHour() <= 19)
+	if (GetHour() >= 9 && GetHour() <= 18)
 	{
 	    return 1;
 	}

@@ -459,7 +459,7 @@ void SetShipToFantom(ref _chr, string _type, bool _setgoods)
 			}
 			if (Rank >= 11 && Rank <= 20)
 			{
-				if (Nation == SPAIN) ShipType = RandFromThreeDight(SHIP_CARAVEL, SHIP_CARAVEL, SHIP_BARQUE);
+				if (Nation == SPAIN) ShipType = RandFromThreeDight(SHIP_CARAVEL, SHIP_BARKENTINE, SHIP_BARQUE);
 				else ShipType = RandFromThreeDight(SHIP_FLEUT, SHIP_BARQUE, SHIP_GALEON_L);
 			}
 			if (Rank > 20)

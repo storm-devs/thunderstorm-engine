@@ -1,3 +1,4 @@
+#include "TEXT\DIALOGS\Smuggler Agent_dialog.h"
 void ProcessDialogEvent()
 {
 	ref NPChar, her;
@@ -62,59 +63,59 @@ void ProcessDialogEvent()
 		case "First time":			
 			if(NPChar.quest.meeting == "0")
 			{
-				Dialog.Text = "Что вам надо, капитан? Я не знаю вашего имени, и не могу назвать вам свое.";
-				Link.l1 = "Я капитан " + GetFullName(pchar) + ".";
+				Dialog.Text = DLG_TEXT_BASE[0];
+				Link.l1 = DLG_TEXT_BASE[1] + GetFullName(pchar) + ".";
 				Link.l1.go = "meeting";
 				NPChar.quest.meeting = "1"; 
 			}
 			else
 			{
-				Dialog.Text = "Что вы привезли на этот раз, капитан?";
+				Dialog.Text = DLG_TEXT_BASE[2];
 				if (LAi_group_GetPlayerAlarm() > 0)
 				{
-	       			Dialog.Text = RandPhraseSimple("Говори быстрей, приятель, что тебе надо? А то, знаешь ли, погоня за тобой!", "Не медли, бытрее излагай суть дела! За тобой солдатня бегает, не до долгих бесед, знаешь ли...");
+	       			Dialog.Text = RandPhraseSimple(DLG_TEXT_BASE[3], DLG_TEXT_BASE[4]);
 				}
 				if(FindFirstContrabandGoods(PChar) != -1)
 				{
-					Link.l1 = "Я привез немного товаров на продажу.";
+					Link.l1 = DLG_TEXT_BASE[5];
 					Link.l1.go = "Meeting_3";
 				}
 
 				if (CheckAttribute(pchar, "GenQuest.contraTravel.active") && sti(pchar.GenQuest.contraTravel.active) == true)
-					Link.l2 = "На счет поездки...";
+					Link.l2 = DLG_TEXT_BASE[6];
 				else
-					Link.l2 = "Мне нужно добраться кое-куда.";
+					Link.l2 = DLG_TEXT_BASE[7];
 				Link.l2.go = "Travel";
 				
-				Link.l3 = "Ничего. До встречи.";
+				Link.l3 = DLG_TEXT_BASE[8];
 				Link.l3.go = "Exit";				
 			}
 		break;
 
 		case "Meeting":
-			Dialog.Text = "Чем могу быть полезен вам, капитан?";
+			Dialog.Text = DLG_TEXT_BASE[9];
 			if(FindFirstContrabandGoods(PChar) != -1)
 			{
-				Link.l1 = "Я хочу кое-что продать.";
+				Link.l1 = DLG_TEXT_BASE[10];
 				Link.l1.go = "Meeting_1";
 			}
-			Link.l2 = "Мне нужно добраться кое-куда.";
+			Link.l2 = DLG_TEXT_BASE[11];
 			Link.l2.go = "Travel";				
-			Link.l3 = "Ничем. Удачи!";
+			Link.l3 = DLG_TEXT_BASE[12];
 			Link.l3.go = "Exit";				
 		break;
 
 		case "Meeting_1":
-			Dialog.Text = "Хм... Причем здесь я? Наверное, вы не туда зашли, капитан. Идите в магазин - там с радостью купят то, что вы привезли.";
-			Link.l1 = "Боюсь, что мне нужны именно вы.";
+			Dialog.Text = DLG_TEXT_BASE[13];
+			Link.l1 = DLG_TEXT_BASE[14];
 			Link.l1.go = "Meeting_2";				
-			Link.l2 = "Спасибо за совет. Всего хорошего.";
+			Link.l2 = DLG_TEXT_BASE[15];
 			Link.l2.go = "exit";				
 		break;
 
 		case "Meeting_2":
-			Dialog.Text = "Зачем же?";
-			Link.l1 = "Я хочу продать то, что не купит ни один торговец на этом острове.";
+			Dialog.Text = DLG_TEXT_BASE[16];
+			Link.l1 = DLG_TEXT_BASE[17];
 			Link.l1.go = "Meeting_3";				
 		break;
 
@@ -134,8 +135,8 @@ void ProcessDialogEvent()
 //navy --> PGG
 			if (CheckFreeServiceForNPC(NPChar, "Smugglers") != -1)
 			{
-				Dialog.Text = "Извини парень, у нас уже есть дела. Зайди через пару дней.";
-				Link.l1 = "Жаль...";
+				Dialog.Text = DLG_TEXT_BASE[18];
+				Link.l1 = DLG_TEXT_BASE[19];
 				Link.l1.go = "Exit";		
 				break;
 			}
@@ -143,8 +144,8 @@ void ProcessDialogEvent()
 
 			if (bOk || bOk2)
 			{
-				Dialog.Text = "Может, стоит завершить одно дело прежде, чем браться за другое?";
-				Link.l1 = "Пожалуй, ты прав.";
+				Dialog.Text = DLG_TEXT_BASE[20];
+				Link.l1 = DLG_TEXT_BASE[21];
 				Link.l1.go = "Exit";				
 			}
 			else
@@ -160,33 +161,33 @@ void ProcessDialogEvent()
                         {
                             if (ChangeContrabandRelation(pchar, 0) >= 70)
                             {
-                                Dialog.Text = "Я знаю, с тобой можно иметь дело. Мы будем ждать тебя в месте, называющемся " + GetConvertStr(Pchar.quest.contraband.CurrentPlace, "LocLables.txt") + ".";
+                                Dialog.Text = DLG_TEXT_BASE[22] + GetConvertStr(Pchar.quest.contraband.CurrentPlace, "LocLables.txt") + ".";
                             }
                             else
                             {
-            				    Dialog.Text = "Хм... Возможно, покупатель и найдется. Мы будем ждать вас в месте, называющемся " + GetConvertStr(Pchar.quest.contraband.CurrentPlace, "LocLables.txt") + ".";
+            				    Dialog.Text = DLG_TEXT_BASE[23] + GetConvertStr(Pchar.quest.contraband.CurrentPlace, "LocLables.txt") + ".";
             				}
-            				Link.l1 = "Хорошо. До встречи.";
+            				Link.l1 = DLG_TEXT_BASE[24];
             				Link.l1.go = "Smuggling_exit";
         				}
         				else
         				{   //boal fix
-                            Dialog.Text = "Сегодня сделок больше не будет. Приходи завтра.";
-            				Link.l1 = "Хорошо.";
+                            Dialog.Text = DLG_TEXT_BASE[25];
+            				Link.l1 = DLG_TEXT_BASE[26];
             				Link.l1.go = "Exit";
         				}
     				}
     				else
     				{
-                        Dialog.Text = "И после всего ты думаешь, что кто-то захочет работать с тобой? Радуйся, что мы еще не послали наемных убийц за твоей головой. Убирайся!";
-        				Link.l1 = "Эх.. значит не судьба мне стать контрабандистом.";
+                        Dialog.Text = DLG_TEXT_BASE[27];
+        				Link.l1 = DLG_TEXT_BASE[28];
         				Link.l1.go = "Exit";
     				}
 				}
 				else
 				{
-                    Dialog.Text = "Сегодня сделок больше не будет. Приходи завтра.";
-    				Link.l1 = "Хорошо.";
+                    Dialog.Text = DLG_TEXT_BASE[29];
+    				Link.l1 = DLG_TEXT_BASE[30];
     				Link.l1.go = "Exit";
 				}
 			}
@@ -198,8 +199,8 @@ void ProcessDialogEvent()
 //navy --> PGG
 			if (CheckFreeServiceForNPC(NPChar, "Smugglers") != -1)
 			{
-				Dialog.Text = "Извини парень, у нас уже есть дела. Зайди через пару дней.";
-				Link.l1 = "Жаль...";
+				Dialog.Text = DLG_TEXT_BASE[31];
+				Link.l1 = DLG_TEXT_BASE[32];
 				Link.l1.go = "Exit";		
 				break;
 			}
@@ -213,34 +214,34 @@ void ProcessDialogEvent()
 					//платил уже
 					if (CheckAttribute(pchar, "GenQuest.contraTravel.payed") && sti(pchar.GenQuest.contraTravel.payed) == true)
 					{
-						Dialog.Text = "Мы кажется уже договорились?";
-						Link.l2 = "Да, точно!";
+						Dialog.Text = DLG_TEXT_BASE[33];
+						Link.l2 = DLG_TEXT_BASE[34];
 					}
 					//не платил, значит можно запалатить пока не вышел срок.
 					else
 					{
 						if(GetQuestPastDayParam("contraTravel") == sti(PChar.GenQuest.contraTravel.days))
 						{
-							Dialog.Text = "Принес деньги?";
-							Link.l1 = "Да.";
+							Dialog.Text = DLG_TEXT_BASE[35];
+							Link.l1 = DLG_TEXT_BASE[36];
 							Link.l1.go = "Travel_pay";
-							Link.l3 = "Я передумал....";
+							Link.l3 = DLG_TEXT_BASE[37];
 							Link.l3.go = "Travel_abort";
-							Link.l2 = "Нет пока.";
+							Link.l2 = DLG_TEXT_BASE[38];
 						}
 						else
 						{
                             if (GetQuestPastDayParam("contraTravel") < sti(PChar.GenQuest.contraTravel.days))
 							{
-								Dialog.Text = "Я тебе уже все сказал.";
-								Link.l2 = "Точно.";
-								Link.l1 = "Я передумал....";
+								Dialog.Text = DLG_TEXT_BASE[39];
+								Link.l2 = DLG_TEXT_BASE[40];
+								Link.l1 = DLG_TEXT_BASE[41];
 								Link.l1.go = "Travel_abort";
 							}
 							else // просрочка
 							{
-							    Dialog.Text = "Сегодня я ничем не могу помочь. Приходи через пару дней, может что будет.";
-								Link.l2 = "Жаль.";
+							    Dialog.Text = DLG_TEXT_BASE[42];
+								Link.l2 = DLG_TEXT_BASE[43];
 								DeleteAttribute(PChar, "GenQuest.contraTravel");
 								CloseQuestHeader("Gen_ContrabandTravel");
 							}
@@ -271,27 +272,27 @@ void ProcessDialogEvent()
 							SetNPCQuestDate(npchar, "Travel_Talk");
 							SaveCurrentQuestDateParam("contraTravel");
 
-							Dialog.Text = "Что ж, можем доставить тебя до места " + GetConvertStr(locations[FindLocation(pchar.GenQuest.contraTravel.destination.loc)].id, "LocLables.txt") + " близ " +
-								XI_ConvertString("Colony" + pchar.GenQuest.contraTravel.destination + "Gen") + " за " + pchar.GenQuest.contraTravel.price + " золотых. Принесешь деньги через " +
-								FindRussianDaysString(nDay) + ". Корабль будет ждать тебя в месте под названием " +
-								GetConvertStr(locations[FindLocation(Pchar.GenQuest.contraTravel.CurrentPlace)].id, "LocLables.txt") + " ровно сутки.";
+							Dialog.Text = DLG_TEXT_BASE[44] + GetConvertStr(locations[FindLocation(pchar.GenQuest.contraTravel.destination.loc)].id, "LocLables.txt") + DLG_TEXT_BASE[45] +
+								XI_ConvertString("Colony" + pchar.GenQuest.contraTravel.destination + "Gen") + DLG_TEXT_BASE[46] + pchar.GenQuest.contraTravel.price + DLG_TEXT_BASE[47] +
+								FindRussianDaysString(nDay) + DLG_TEXT_BASE[48] +
+								GetConvertStr(locations[FindLocation(Pchar.GenQuest.contraTravel.CurrentPlace)].id, "LocLables.txt") + DLG_TEXT_BASE[49];
 
 							pchar.GenQuest.contraTravel.days = nDay;
-							Link.l1 = "Хорошо, меня устраивает.";
+							Link.l1 = DLG_TEXT_BASE[50];
 							Link.l1.go = "Travel_agree";
-							Link.l2 = "Нет, спасибо.";
+							Link.l2 = DLG_TEXT_BASE[51];
 						}
 						else
 						{
-							Dialog.Text = "Сегодня я ничем не могу помочь. Приходи через пару дней, может что будет.";
-							Link.l2 = "Жаль.";
+							Dialog.Text = DLG_TEXT_BASE[52];
+							Link.l2 = DLG_TEXT_BASE[53];
 						}
 					}
 					//нет, посылаем в сад
 					else
 					{
-                        Dialog.Text = "И после всего ты думаешь, что кто-то захочет работать с тобой? Радуйся, что мы еще не послали наемных убийц за твоей головой. Убирайся!";
-        				Link.l2 = "Эх.. значит не судьба.";
+                        Dialog.Text = DLG_TEXT_BASE[54];
+        				Link.l2 = DLG_TEXT_BASE[55];
 					}
 
 				}
@@ -301,13 +302,13 @@ void ProcessDialogEvent()
 			{
 				if(GetPassengersQuantity(pchar) != 0)
 				{
-					Dialog.Text = "Нет, мы не повезем вас. Только одного.";
-					Link.l2 = RandSwear() + " И не нужно!";
+					Dialog.Text = DLG_TEXT_BASE[56];
+					Link.l2 = RandSwear() + DLG_TEXT_BASE[57];
 				}
 				else
 				{
-					Dialog.Text = "А свой корабль тебе зачем? Нет, мы этим не занимаемся.";
-					Link.l2 = "Видно не судьба...";
+					Dialog.Text = DLG_TEXT_BASE[58];
+					Link.l2 = DLG_TEXT_BASE[59];
 				}
 			}
 			Link.l2.go = "Exit";
@@ -318,7 +319,7 @@ void ProcessDialogEvent()
 			ChangeContrabandRelation(pchar, -2);
 			DeleteAttribute(PChar, "GenQuest.contraTravel");
 			CloseQuestHeader("Gen_ContrabandTravel");
-			Dialog.Text = "Ну как хочешь...";
+			Dialog.Text = DLG_TEXT_BASE[60];
 			Link.l1 = "";
 			Link.l1.go = "Exit";
 			break;
@@ -348,8 +349,8 @@ void ProcessDialogEvent()
 				AddMoneyToCharacter(pchar, -1*Sum);
 				//ставим флаг оплаты
 				pchar.GenQuest.contraTravel.payed = true;
-				Dialog.Text = "Приятно иметь с тобой дело. Корабль ждет, не опоздай.";
-				Link.l1 = "Постараюсь.";
+				Dialog.Text = DLG_TEXT_BASE[61];
+				Link.l1 = DLG_TEXT_BASE[62];
 				AddQuestRecord("Gen_ContrabandTravel", "2");
 				
 				//ставим контру.
@@ -370,8 +371,8 @@ void ProcessDialogEvent()
 			//нет, посылаем в сад...
 			else
 			{
-				Dialog.Text = "Похоже у тебя проблемы с наличностью."
-				Link.l1 = "Жаль, приду позже.";
+				Dialog.Text = DLG_TEXT_BASE[63]
+				Link.l1 = DLG_TEXT_BASE[64];
 			}
 			Link.l1.go = "Exit";
 			break;  

@@ -477,7 +477,7 @@ void InitShips()
 	refship.SpeedDependWeight			= 0.15;
 	refship.SubSeaDependWeight			= 0.8;
 	refship.TurnDependWeight			= 0.2;
-	refship.WindAgainstSpeed   = 5.0;//boal
+	refship.WindAgainstSpeed   = 3.6;//boal
 	
 	refship.InertiaAccelerationX	= 4.0;	refship.InertiaBrakingX		= 4.0;
 	refship.InertiaAccelerationY	= 4;	refship.InertiaBrakingY		= 4.0;
@@ -538,7 +538,7 @@ void InitShips()
 	refship.SpeedDependWeight			= 0.15;
 	refship.SubSeaDependWeight			= 0.6;
 	refship.TurnDependWeight			= 0.2;
-	refship.WindAgainstSpeed   = 4.5;//boal
+	refship.WindAgainstSpeed   = 4.0;//boal
 	
 	refship.InertiaAccelerationX	= 3.0;	refship.InertiaBrakingX		= 3.0;
 	refship.InertiaAccelerationY	= 3;	refship.InertiaBrakingY		= 3;
@@ -560,8 +560,146 @@ void InitShips()
 	refship.Track2.Width	= "5.0, 7.0";
 	refship.Track2.Speed	= "0.15, 0.25";
 
-	
+	///////////////////////////////////////////////////////////////////////////
+	/// Barkentine
+	///////////////////////////////////////////////////////////////////////////
+	makeref(refShip,ShipsTypes[SHIP_BARKENTINE]);
+	refShip.Name            			= "Barkentine";
+	refship.Soundtype					= "lugger";
+	refShip.Class						= 4;
+	refShip.Cannon          			= CANNON_TYPE_CANNON_LBS16;
+	refShip.MaxCaliber      			= 16;
+	refShip.Weight						= Tonnes2CWT(350);
+	refShip.Capacity       				= 2200;
+	refShip.CannonsQuantity				= 16;
+	refShip.rcannon 				= 6;
+	refShip.lcannon 				= 6;
+	refShip.fcannon 				= 2;
+	refShip.bcannon 				= 2;
+	refShip.MaxCrew         			= 180;
+	refShip.MinCrew         			= 25;
+	refShip.BoardingCrew						= 95;
+	refShip.GunnerCrew							= 20;
+	refShip.CannonerCrew				= 38;
+	refShip.SailorCrew					= 180;
+	refShip.SpeedRate       			= 10.4;
+	refShip.TurnRate        			= 40.0;
+	refShip.Price           			= 35000;
+	refShip.HP              			= 2400;
+	refShip.SP              			= 100;
+	//refShip.AbordageLocation			= "Boarding Deck_02";
+	refship.Type.Merchant					= false;
+	refship.Type.War						= true;
+	refShip.fWindAgainstSpeed				= 2.0;
+	refShip.sea_enchantment					= 1.8;
+	refShip.lowpolycrew = 12;
+	refShip.buildtime = 60;
 
+	refship.Rocking.y = 0.5;
+	refship.Rocking.az = 0.04;
+	
+	refship.WaterLine							= 1.15;
+	refship.SpeedDependWeight			= 0.27;
+	refship.SubSeaDependWeight			= 0.6;
+	refship.TurnDependWeight			= 0.3;
+	refship.WindAgainstSpeed   = 8.5;//boal
+	refship.CabinType          = "Cabin_Medium"; // boal 28.03.05
+	
+	refship.InertiaAccelerationX	= 5.5;	refship.InertiaBrakingX		= 5.5;
+	refship.InertiaAccelerationY	= 8;	refship.InertiaBrakingY		= 8;
+	refship.InertiaAccelerationZ	= 6.0;	refship.InertiaBrakingZ		= 6.0;
+	
+	refShip.Height.Bombs.Y				= 1.0;		refShip.Height.Bombs.DY		= 1.0;
+	refShip.Height.Grapes.Y				= 2.0;		refShip.Height.Grapes.DY	= 1.0;
+	refShip.Height.Knippels.Y			= 15.0;		refShip.Height.Knippels.DY	= 10.0;
+	refShip.Height.Balls.Y				= 1.0;		refShip.Height.Balls.DY		= 1.0;
+	
+	refShip.GeraldSails.rey_b2		= 1;
+	refShip.GeraldSails.rey_b3		= 1;
+	refShip.GeraldSails.rey_b2.vscale		= 0.8;
+	refShip.GeraldSails.rey_b3.vscale		= 0.8;
+	
+	refship.Track.Enable	= true;
+	refship.Track1.ZStart	= 0.20;
+	refship.Track1.LifeTime = 12;
+	refship.Track1.Width	= "2.0, 3.0";
+	refship.Track1.Speed	= "6.0, 8.0";
+
+	refship.Track2.ZStart	= -0.15;
+	refship.Track2.LifeTime = 7.5;
+	refship.Track2.Width	= "4.0, 6.0";
+	refship.Track2.Speed	= "0.15, 0.25";	
+
+	///////////////////////////////////////////////////////////////////////////
+	/// Brigantine
+	///////////////////////////////////////////////////////////////////////////
+	makeref(refShip,ShipsTypes[SHIP_BRIGANTINE]);
+	refShip.Name            			= "Brigantine";
+	refship.Soundtype					= "corvette";
+	refShip.Class						= 4;
+	refShip.Cannon          			= CANNON_TYPE_CANNON_LBS16;
+	refShip.MaxCaliber      			= 16;
+	refShip.Weight								= Tonnes2CWT(350);
+	refShip.Capacity        			= 1400;
+	refShip.CannonsQuantity				= 16;
+	refShip.rcannon 							= 6;
+	refShip.lcannon 							= 6;
+	refShip.fcannon 							= 2;
+	refShip.bcannon 							= 2;
+	refShip.MaxCrew         			= 140;
+	refShip.MinCrew         			= 25;
+	refShip.BoardingCrew						= 80;
+	refShip.GunnerCrew							= 16;
+	refShip.CannonerCrew				= 26;
+	refShip.SailorCrew					= 120;
+	refShip.SpeedRate       			= 15.5;
+	refShip.TurnRate        			= 50.0;
+	refShip.Price           			= 42000;
+	refShip.HP              			= 2300;
+	refShip.SP              			= 100;
+	//refShip.AbordageLocation			= "Boarding Deck_02";
+	refship.Type.Merchant					= false;
+	refship.Type.War						= true;
+	refShip.fWindAgainstSpeed				= 2.0;
+	refShip.sea_enchantment					= 1.8;
+	refShip.lowpolycrew = 12;
+	refShip.buildtime = 60;
+
+	refship.Rocking.y = 0.5;
+	refship.Rocking.az = 0.04;
+	
+	refship.WaterLine							= 0.1;
+	refship.SpeedDependWeight			= 0.27;
+	refship.SubSeaDependWeight			= 0.6;
+	refship.TurnDependWeight			= 0.3;
+	refship.WindAgainstSpeed   = 9.1;//boal
+	refship.CabinType          = "Cabin_Medium"; // boal 28.03.05
+	
+	refship.InertiaAccelerationX	= 5.5;	refship.InertiaBrakingX		= 5.5;
+	refship.InertiaAccelerationY	= 8;	refship.InertiaBrakingY		= 8;
+	refship.InertiaAccelerationZ	= 6.0;	refship.InertiaBrakingZ		= 6.0;
+	
+	refShip.Height.Bombs.Y				= 1.0;		refShip.Height.Bombs.DY		= 1.0;
+	refShip.Height.Grapes.Y				= 2.0;		refShip.Height.Grapes.DY	= 1.0;
+	refShip.Height.Knippels.Y			= 15.0;		refShip.Height.Knippels.DY	= 10.0;
+	refShip.Height.Balls.Y				= 1.0;		refShip.Height.Balls.DY		= 1.0;
+	
+	refShip.GeraldSails.rey_b2		= 1;
+	refShip.GeraldSails.rey_b3		= 1;
+	refShip.GeraldSails.rey_b2.vscale		= 0.8;
+	refShip.GeraldSails.rey_b3.vscale		= 0.8;
+	
+	refship.Track.Enable	= true;
+	refship.Track1.ZStart	= 0.20;
+	refship.Track1.LifeTime = 12;
+	refship.Track1.Width	= "2.0, 3.0";
+	refship.Track1.Speed	= "6.0, 8.0";
+
+	refship.Track2.ZStart	= -0.15;
+	refship.Track2.LifeTime = 7.5;
+	refship.Track2.Width	= "4.0, 6.0";
+	refship.Track2.Speed	= "0.15, 0.25";
+    
 	///////////////////////////////////////////////////////////////////////////
 	/// Fleut 
 	///////////////////////////////////////////////////////////////////////////
@@ -604,7 +742,7 @@ void InitShips()
 	refship.SpeedDependWeight			= 0.15;
 	refship.SubSeaDependWeight			= 0.8;
 	refship.TurnDependWeight			= 0.25;
-	refship.WindAgainstSpeed   = 4.8;//boal
+	refship.WindAgainstSpeed   = 4.0;//boal
 	refship.CabinType          = "Cabin_Medium"; // boal 28.03.05
 	refship.DeckType           = "Medium";
 	
@@ -630,7 +768,7 @@ void InitShips()
 	refShip.Name            			= "Brig";
 	refship.Soundtype					= "lugger";
 	refShip.Class					= 4;
-	refShip.Cannon          			= CANNON_TYPE_CANNON_LBS12;
+	refShip.Cannon          			= CANNON_TYPE_CANNON_LBS16;
 	refShip.MaxCaliber      			= 16;
 	refShip.Weight								= Tonnes2CWT(400);
 	refShip.Capacity        			= 1800;
@@ -644,7 +782,7 @@ void InitShips()
 	refShip.BoardingCrew						= 90;
 	refShip.GunnerCrew							= 16;
 	refShip.CannonerCrew				= 32;
-	refShip.SailorCrew					= 180;
+	refShip.SailorCrew					= 160;
 	refShip.SpeedRate       			= 14.5;
 	refShip.TurnRate        			= 45.0;
 	refShip.Price           			= 45000;
@@ -665,7 +803,7 @@ void InitShips()
 	refship.SpeedDependWeight			= 0.27;
 	refship.SubSeaDependWeight			= 0.6;
 	refship.TurnDependWeight			= 0.3;
-	refship.WindAgainstSpeed   = 6.0;//boal
+	refship.WindAgainstSpeed   = 3.3;//boal
 	refship.CabinType          = "Cabin_Medium"; // boal 28.03.05
 	
 	refship.InertiaAccelerationX	= 5.5;	refship.InertiaBrakingX		= 5.5;
@@ -735,7 +873,7 @@ void InitShips()
 	refship.SpeedDependWeight			= 0.15;
 	refship.SubSeaDependWeight			= 0.95;
 	refship.TurnDependWeight			= 0.2;
-	refship.WindAgainstSpeed   = 3.5;//boal
+	refship.WindAgainstSpeed   = 3.2;//boal
 	refship.CabinType          = "Cabin_Medium"; // boal 28.03.05
 	refship.DeckType           = "Medium";
 	
@@ -869,7 +1007,7 @@ void InitShips()
 	refship.SpeedDependWeight			= 0.3;
 	refship.SubSeaDependWeight			= 0.7;
 	refship.TurnDependWeight			= 0.35;
-	refship.WindAgainstSpeed   = 5.7;//boal
+	refship.WindAgainstSpeed   = 4.8;//boal
 	refship.CabinType          = "Cabin_Medium"; // boal 28.03.05
 	
 	refship.InertiaAccelerationX	= 8.0;	refship.InertiaBrakingX		= 8.0;
@@ -1172,6 +1310,7 @@ void InitShips()
 	refship.Track2.LifeTime = 7.5;
 	refship.Track2.Width	= "8.0, 10.0";
 	refship.Track2.Speed	= "1.0, 2.0";
+
 	///////////////////////////////////////////////////////////////////////////
 	/// Battleship 
 	///////////////////////////////////////////////////////////////////////////
@@ -1379,6 +1518,7 @@ void InitShips()
 	refship.Track2.ZStart	= -0.15;
 	refship.Track2.LifeTime = 10.5;
 	refship.Track2.Width	= "16.0, 18.0";
+
 	//////////////////////////////////////////////////////////////////////////
 	// BrigQeen
 	//////////////////////////////////////////////////////////////////////////
@@ -1415,7 +1555,7 @@ void InitShips()
 	refShip.lowpolycrew			= 12;
 	refShip.buildtime			= 60;
 
-	refship.WindAgainstSpeed   = 7.0;//boal
+	refship.WindAgainstSpeed   = 4.5;//boal
 
 	refship.Rocking.y	= 0.5;
 	refship.Rocking.az	= 0.04;
@@ -1461,9 +1601,9 @@ void InitShips()
 	refShip.MaxCaliber  = 24;
 	refShip.Weight		= Tonnes2CWT(400);
 	refShip.Capacity   	= 2000;
-	refShip.CannonsQuantity		= 22;
-	refShip.rcannon 			= 9;
-	refShip.lcannon 			= 9;
+	refShip.CannonsQuantity		= 24;
+	refShip.rcannon 			= 10;
+	refShip.lcannon 			= 10;
 	refShip.fcannon 			= 2;
 	refShip.bcannon 			= 2;
 	refShip.MaxCrew        		= 190;
@@ -1486,7 +1626,7 @@ void InitShips()
 	refShip.lowpolycrew			= 12;
 	refShip.buildtime			= 60;
 
-	refship.WindAgainstSpeed   = 6.5;//boal
+	refship.WindAgainstSpeed   = 4.2;//boal
 
 	refship.Rocking.y	= 0.5;
 	refship.Rocking.az	= 0.04;
@@ -1562,7 +1702,7 @@ void InitShips()
 	refship.Rocking.y	= 0.5;
 	refship.Rocking.az	= 0.04;
 	
-	refship.WaterLine	= -0.80;
+	refship.WaterLine	= -0.10;
 	refship.SpeedDependWeight		= 0.3;
 	refship.SubSeaDependWeight		= 0.6;
 	refship.TurnDependWeight		= 0.3;
@@ -1634,7 +1774,7 @@ void InitShips()
 	refship.SpeedDependWeight			= 0.3;
 	refship.SubSeaDependWeight			= 0.7;
 	refship.TurnDependWeight			= 0.35;
-	refship.WindAgainstSpeed   = 6.9;//boal
+	refship.WindAgainstSpeed   = 6.0;//boal
 	refship.CabinType          = "Cabin_Medium"; // boal 28.03.05
 	
 	refship.InertiaAccelerationX	= 8.0;	refship.InertiaBrakingX		= 8.0;
@@ -1699,7 +1839,7 @@ void InitShips()
 	refship.SpeedDependWeight			= 0.3;
 	refship.SubSeaDependWeight			= 1.0;
 	refship.TurnDependWeight			= 0.3;
-	refship.WindAgainstSpeed   = 4.7;//boal
+	refship.WindAgainstSpeed   = 4.5;//boal
 	refship.CabinType          = "Cabin"; // boal 28.03.05
 	refship.DeckType           = "Big";
 	
@@ -1729,6 +1869,76 @@ void InitShips()
 	refship.Track2.LifeTime = 8.5;
 	refship.Track2.Width	= "8.0, 9.0";
 	refship.Track2.Speed	= "0.15, 0.25";
+
+	///////////////////////////////////////////////////////////////////////////
+	/// Flyingdutchman 
+	///////////////////////////////////////////////////////////////////////////
+	makeref(refShip,ShipsTypes[SHIP_FLYINGDUTCHMAN]);
+	refShip.Name            			= "Flyingdutchman";  // หร
+	refship.Soundtype					= "lineship";
+	refShip.Class					= 1;
+	refShip.Cannon          			= CANNON_TYPE_CANNON_LBS32;
+	refShip.MaxCaliber      			= 32;
+	refShip.Weight								= Tonnes2CWT(2500);
+	refShip.Capacity        			= 5000;
+	refShip.CannonsQuantity						= 60;
+	refShip.rcannon 							= 24;
+	refShip.lcannon 							= 24;
+	refShip.fcannon 							= 4;
+	refShip.bcannon 							= 8;
+	refShip.MaxCrew         			= 500;
+	refShip.MinCrew         			= 80;
+	refShip.BoardingCrew						= 250;
+	refShip.GunnerCrew							= 50;
+	refShip.CannonerCrew				= 136;
+	refShip.SailorCrew					= 500;
+	refShip.SpeedRate					= 13.0;
+	refShip.TurnRate        			= 45.0;
+	refShip.Price           			= 500000;
+	refShip.HP              			= 7500;
+	refShip.SP              			= 100;
+	refship.EmblemedSails.normalTex = "ships\parus_common_torn.tga";
+	//refShip.AbordageLocation			= "Boarding Deck_01";
+	refship.Type.Merchant					= false;
+	refship.Type.War						= true;
+	refShip.fWindAgainstSpeed				= 1.0;
+	refShip.sea_enchantment					= 1.1;
+	refShip.lowpolycrew = 24;
+	refShip.buildtime = 120;
+
+	refship.Rocking.y = 0.5;
+	refship.Rocking.az = 0.035;
+	
+	refship.WaterLine							= 0.5;
+
+	refship.SpeedDependWeight			= 0.35;
+	refship.SubSeaDependWeight			= 1.0;
+	refship.TurnDependWeight			= 0.4;
+	refship.WindAgainstSpeed   = 3.8;//boal
+	refship.CabinType          = "CabineFDM"; // boal 28.03.05
+	refship.DeckType           = "Big";
+	
+	refship.InertiaAccelerationX	= 4.0;	refship.InertiaBrakingX		= 3.5;
+	refship.InertiaAccelerationY	= 3.0;		refship.InertiaBrakingY		= 2.5;
+	refship.InertiaAccelerationZ	= 4.0;	refship.InertiaBrakingZ		= 3.5;
+	
+	refShip.GeraldSails.rey_b2		= 1;
+	refShip.GeraldSails.rey_b3		= 1;
+	refShip.GeraldSails.rey_b1		= 1;
+	refShip.GeraldSails.rey_b1.vscale		= 0.8;
+	refShip.GeraldSails.rey_b2.vscale		= 0.65;
+	refShip.GeraldSails.rey_b3.vscale		= 0.55;
+
+	refship.Track.Enable	= true;
+	refship.Track1.ZStart	= 0.25;
+	refship.Track1.LifeTime = 9.5;
+	refship.Track1.Width	= "7.0, 7.5";
+	refship.Track1.Speed	= "8.0, 9.0";
+
+	refship.Track2.ZStart	= -0.15;
+	refship.Track2.LifeTime = 7.5;
+	refship.Track2.Width	= "8.0, 10.0";
+	refship.Track2.Speed	= "1.0, 2.0";
 
 	///////////////////////////////////////////////////////////////////////////
 	/// FORT

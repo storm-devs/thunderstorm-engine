@@ -840,6 +840,10 @@ void initFastReloadTable()
 	curTable.l4.pic = FRP_RESIDENCE;
 	curTable.l4.tex = FRT_RESIDENCE;
 	curTable.l4.location = "SanAugustineResidence";
+	// usurer
+	curTable.l5.pic = FRP_USURER;
+	curTable.l5.tex = FRT_USURER;
+	curTable.l5.location = "CarolineBank";
 	// chucrh
 	curTable.l6.pic = FRP_CHURCH;
 	curTable.l6.tex = FRT_CHURCH;

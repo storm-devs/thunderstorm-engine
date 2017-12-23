@@ -48,7 +48,7 @@ void Table_Clear(string sTableControl, bool bClearHeader, bool bClearContent, bo
 
 	if (bClearContent)
 	{
-		for (int i=1; i<100000; i++) 
+		for (int i=1; i<2000; i++) 
 		{
 			string sA = sTableControl + "." + "tr" + i;
 			if (!CheckAttribute(&GameInterface, sA)) { break; }

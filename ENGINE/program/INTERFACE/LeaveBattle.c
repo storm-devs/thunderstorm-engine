@@ -98,13 +98,13 @@ void CalculateInfoData()
 	
 	if (GetAttributesNum(rootItems) > 1)
 	{
-		totalInfo = "Ќаши корабли ";
-		sEnd = " наход€тс€ в контакте с противником." 
+		totalInfo = xiStr("MSG_LeaveBattle_1");
+		sEnd = xiStr("MSG_LeaveBattle_2");
 	}
 	else
 	{
-		totalInfo = "Ќаш корабль ";
-		sEnd = " находитс€ в контакте с противником." 
+		totalInfo = xiStr("MSG_LeaveBattle_3");
+		sEnd = xiStr("MSG_LeaveBattle_4");
 	}
 	cn = sti(GetAttributeValue(GetAttributeN(rootItems, 0)));
 	if (cn != -1) 

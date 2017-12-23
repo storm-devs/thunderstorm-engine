@@ -1,4 +1,4 @@
-// это всякая мелочь по изабелле: кэп брига, брат, офицер при аресте и пр.
+#include "TEXT\DIALOGS\Quest\Isabella\BrigCaptain.h"
 void ProcessDialogEvent()
 {
 	ref NPChar, sld;
@@ -15,10 +15,10 @@ void ProcessDialogEvent()
 	{
 		case "First time":
             NextDiag.TempNode = "First time";
-			dialog.text = "Буэнос диас, сеньор! Не вы ли капитан того корабля, что стоит на рейде?";
-			link.l1 = "А вы - капитан 'Пять ран Христовых'?";
+			dialog.text = DLG_TEXT_QB[0];
+			link.l1 = DLG_TEXT_QB[1];
 			link.l1.go = "ShipToDomingoTavenr_2";
-			link.l2 = "Нет, это не я.";
+			link.l2 = DLG_TEXT_QB[2];
 			link.l2.go = "exit";
 		break;
 		
@@ -28,16 +28,16 @@ void ProcessDialogEvent()
 		break;
 
 		case "ShipToDomingoTavenr_2":
-			dialog.text = "Он самый, сеньор.  Проклятый шторм!  Мой бриг еще долго не выйдет в море.  Каррамба!  А я, как на грех, взял пассажира.  Уж как он ругается, Матерь Божья!\n"+
-				          "Обещает шкуру с меня спустить, да ведь я своим задом все одно всех щелей в днище не заткну.  Позарез ему надо в Сан-Хуан, а ни одно судно туда не идет. Сеньор благородный, знатный, рад бы ему услужить, да не могу!";
-			link.l1 = "Пассажир ваш, случайно, не дон Мигель де Вальдес? Я мог бы доставить его на Сан-Хуан.";
+			dialog.text = DLG_TEXT_QB[3]+
+				          DLG_TEXT_QB[4];
+			link.l1 = DLG_TEXT_QB[5];
 			link.l1.go = "ShipToDomingoTavenr_3";
 		break;
 		
 		case "ShipToDomingoTavenr_3":
             NextDiag.TempNode = "ShipToDomingoTavenr_Temp";
-			dialog.text = "Да, сеньор! Именно! Дон Мигель де Вальдес!  О, сеньор, да благословит вас Господь!";
-			link.l1 = "Ну, так скорей обрадуй его и направь его на мой корабль. Буду ждать его в порту.";
+			dialog.text = DLG_TEXT_QB[6];
+			link.l1 = DLG_TEXT_QB[7];
 			link.l1.go = "exit";
 			Pchar.quest.Romantic_Brother.win_condition.l1           = "location";
         	Pchar.quest.Romantic_Brother.win_condition.l1.location  = "Cumana_town";
@@ -50,15 +50,15 @@ void ProcessDialogEvent()
 		
 		case "ShipToDomingoTavenr_Temp":
             NextDiag.TempNode = "ShipToDomingoTavenr_Temp";
-            dialog.text = "О, сеньор, да благословит вас Господь!";
-			link.l1 = "Всяко бывает. Сочтемся.";
+            dialog.text = DLG_TEXT_QB[8];
+			link.l1 = DLG_TEXT_QB[9];
 			link.l1.go = "exit";
 		break;
 		// братан Изабеллы
 		case "Romantic_Brother_1":
             NextDiag.TempNode = "Romantic_Brother_2";
-            dialog.text = "Добрый день! Вы капитан "+GetFullName(Pchar)+"? Я дон Мигель де Вальдес. Я направляюсь в Сан-Хуан";
-			link.l1 = "Добро пожаловать на борт, дон Мигель. Да, я капитан "+GetFullName(Pchar)+". Я надеюсь, путешествие будет для вас приятным.";
+            dialog.text = DLG_TEXT_QB[10]+GetFullName(Pchar)+DLG_TEXT_QB[11];
+			link.l1 = DLG_TEXT_QB[12]+GetFullName(Pchar)+DLG_TEXT_QB[13];
 			link.l1.go = "Step_1";
 		break;
 		case "Step_1":
@@ -83,15 +83,15 @@ void ProcessDialogEvent()
 
 		case "Romantic_Brother_2":
             NextDiag.TempNode = "Romantic_Brother_2";
-            dialog.text = "Спасибо за помощь!";
-			link.l1 = "Поверьте, мне это совсем не в тягость.";
+            dialog.text = DLG_TEXT_QB[14];
+			link.l1 = DLG_TEXT_QB[15];
 			link.l1.go = "exit";
 		break;
 		
 		case "Romantic_Brother_port_1":
             NextDiag.TempNode = "Romantic_Brother_2";
-            dialog.text = "Спасибо. А теперь пойдем навестим мою сестру.";
-			link.l1 = "Пожалуйста. Конечно.";
+            dialog.text = DLG_TEXT_QB[16];
+			link.l1 = DLG_TEXT_QB[17];
 			link.l1.go = "Step_2";
 		break;
 		case "Step_2":
@@ -108,24 +108,24 @@ void ProcessDialogEvent()
 
 		case "Romantic_Brother_Thanks":
             NextDiag.TempNode = "Romantic_Brother_Thanks";
-            dialog.text = "Капитан, огромное вам спасибо за оказанную услугу. Как здорово, что вы оказались в Кумане. От Сальватора помощи ждать не приходится...";
-			link.l1 = "Не берите в голову, Мигель. Все в порядке. Главное, чтобы ваша сестра была счастлива...";
+            dialog.text = DLG_TEXT_QB[18];
+			link.l1 = DLG_TEXT_QB[19];
 			link.l1.go = "Step_3";
 		break;
 		case "Step_3":
-            dialog.text = "Мы будем рады увидеть вас сегодня вечером, капитан.";
-			link.l1 = "Обязательно буду, Мигель.";
+            dialog.text = DLG_TEXT_QB[20];
+			link.l1 = DLG_TEXT_QB[21];
 			link.l1.go = "exit";
 		break;
 		//разборки Сальватора с братом
 		case "TalkNearHouse_1":
-            dialog.text = "Мошенник! Это ты украл деньги моей сестры по фальшивым векселям! Вор и убийца!";
-			link.l1 = "Да, это я! Мне чертовски были нужны деньги! А ты придержи язык, щенок, а не то я тебе быстро его подрежу! И твоей сестрице тоже...";
+            dialog.text = DLG_TEXT_QB[22];
+			link.l1 = DLG_TEXT_QB[23];
 			link.l1.go = "TalkNearHouse_2";
 		break;
 		case "TalkNearHouse_2":
-            dialog.text = "Если тебя до этого не вздернут, негодяй! С такими, как ты, здесь церемониться не будут! Ты завтра же будешь за решеткой!";
-			link.l1 = "Ты сам выбрал свою судьбу, щенок!";
+            dialog.text = DLG_TEXT_QB[24];
+			link.l1 = DLG_TEXT_QB[25];
 			link.l1.go = "TalkNearHouse_3";
 		break;
 		case "TalkNearHouse_3":		
@@ -137,49 +137,49 @@ void ProcessDialogEvent()
 			ref rColony = GetColonyByIndex(FindColony("SanJuan"));
 			if (sti(rColony.HeroOwn))
 			{
-				dialog.text = "Капитан ?!.. Извините, нам донесли, что здесь находится убийца!";
-				link.l1 = "Расслабьтесь. Убийца как раз только что ускользнул. Если бы вы не пытались меня задержать...";
+				dialog.text = DLG_TEXT_QB[26];
+				link.l1 = DLG_TEXT_QB[27];
 				link.l1.go = "ArrestInHome_5";
 			}
 			else
 			{
-				dialog.text = "Капитан " + GetFullName(pchar) + ", именем закона вы арестованы!";
-				link.l1 = "Офицер, этот негодяй Сальватор Олеварес и есть настоящий убийца. По подложным векселям он разорил свою жену!";
+				dialog.text = DLG_TEXT_QB[28] + GetFullName(pchar) + DLG_TEXT_QB[29];
+				link.l1 = DLG_TEXT_QB[30];
 				link.l1.go = "ArrestInHome_3";
 			}
 		break;
 		case "ArrestInHome_3":
-			dialog.text = "У вас есть доказательства? Где эти векселя?";
+			dialog.text = DLG_TEXT_QB[31];
 			if (CheckCharacterItem(pchar, "Order"))
 			{
-				link.l1 = "Они у меня, офицер!";
+				link.l1 = DLG_TEXT_QB[32];
 				link.l1.go = "ArrestInHome_Have";				
 			}
 			else
 			{
-				link.l1 = "О них говорил Мигель, я сам слышал...";
+				link.l1 = DLG_TEXT_QB[33];
 				link.l1.go = "ArrestInHome_NotHave";
 			}
 		break;
 		case "ArrestInHome_Have":
-			dialog.text = "Хорошо, разберемся. Полагаю, они будут приняты к рассмотрению. А пока сдайте свое оружие и следуйте за мной!";
-			link.l1 = "Сдаваться на милость?! Нет уж, есть у меня серьезные сомнения в том, что все будет рассмотрено верно.";
+			dialog.text = DLG_TEXT_QB[34];
+			link.l1 = DLG_TEXT_QB[35];
 			link.l1.go = "ArrestInHome_4";
 		break;
 		case "ArrestInHome_4":
-			dialog.text = "В таком случае, капитан, я буду вынужден применить силу.";
-			link.l1 = "А я, в таком случае, буду вынужден оказать сопротивление незаконному аресту.";
+			dialog.text = DLG_TEXT_QB[36];
+			link.l1 = DLG_TEXT_QB[37];
 			link.l1.go = "FightInHouse";
 		break;
 
 		case "ArrestInHome_NotHave":
-			dialog.text = "Капитан, ваши показания будут заслушаны комендантом. А сейчас сдайте оружие и следуйте за мной!";
-			link.l1 = "Каррамба, кажется, дела мои плохи - кроме моего слова у меня ничего нет!";
+			dialog.text = DLG_TEXT_QB[38];
+			link.l1 = DLG_TEXT_QB[39];
 			link.l1.go = "ArrestInHome_4";
 		break;
 		case "ArrestInHome_4":
-			dialog.text = "Это решит суд... Сдайте оружие немедленно!";
-			link.l1 = "Хм... Да нет, офицер, я предпочту удалиться. И не советую пытаться меня остановить...";
+			dialog.text = DLG_TEXT_QB[40];
+			link.l1 = DLG_TEXT_QB[41];
 			link.l1.go = "FightInHouse";
 		break;
 
@@ -192,20 +192,20 @@ void ProcessDialogEvent()
 		break;
 
 		case "ArrestInHome_5":
-			dialog.text = "Простите, но я не мог знать, что это вы. Еще раз сожалею...";
-			link.l1 = "Да ладно, попытаюсь нагнать этого негодяя. Ну, а вы свободны!";
+			dialog.text = DLG_TEXT_QB[42];
+			link.l1 = DLG_TEXT_QB[43];
 			link.l1.go = "exit";
 			AddQuestRecord("Romantic_Line", "31");
 		break;
 		//засада в доме Сальватора, диалог с наемным убийцей
 		case "AmbushBandit":
-			dialog.text = "Так-так... Кажется, мы дождались...";
-			link.l1 = "Меня вы дождались? А с кем имею честь разговаривать?";
+			dialog.text = DLG_TEXT_QB[44];
+			link.l1 = DLG_TEXT_QB[45];
 			link.l1.go = "AmbushBandit_1";
 		break;
 		case "AmbushBandit_1":
-			dialog.text = "Тебя дождались, родимый, тебя...";
-			link.l1 = "Как приятно, когда тебя кто-то ждет...";
+			dialog.text = DLG_TEXT_QB[46];
+			link.l1 = DLG_TEXT_QB[47];
 			link.l1.go = "AmbushBandit_fight";
 		break;
 		case "AmbushBandit_fight":
@@ -221,23 +221,23 @@ void ProcessDialogEvent()
 		break;
 		//абордаж брига, где Изабеллу типа держат
 		case "BrigAbordage":
-			dialog.text = "Проклятье! Какого черта ты напал на мой корабль?!!";
-			link.l1 = "У тебя, капитан, две проблемы: не с тем связался и не ту взял на борт.";
+			dialog.text = DLG_TEXT_QB[48];
+			link.l1 = DLG_TEXT_QB[49];
 			link.l1.go = "BrigAbordage_1";
 		break;
 		case "BrigAbordage_1":
-			dialog.text = "Выражайся ясней...";
-			link.l1 = "Я забираю Изабеллу Олеварес и ты рассказываешь мне, где Сальватор. В этом случае ты остаешься жив.";
+			dialog.text = DLG_TEXT_QB[50];
+			link.l1 = DLG_TEXT_QB[51];
 			link.l1.go = "BrigAbordage_2";
 		break;
 		case "BrigAbordage_2":
-			dialog.text = "А иначе?";
-			link.l1 = "Иначе я сейчас же прикончу тебя, каналья!";
+			dialog.text = DLG_TEXT_QB[52];
+			link.l1 = DLG_TEXT_QB[53];
 			link.l1.go = "BrigAbordage_3";
 		break;
 		case "BrigAbordage_3":
-			dialog.text = "Ну, это мы еще посмотрим, кто кого прикончит...";
-			link.l1 = "Хм, предыдущей схватки тебе оказалось мало? Ну, давай посмотрим...";
+			dialog.text = DLG_TEXT_QB[54];
+			link.l1 = DLG_TEXT_QB[55];
 			link.l1.go = "BrigAbordage_4";
 		break;
   		case "BrigAbordage_4":
@@ -251,38 +251,38 @@ void ProcessDialogEvent()
 		break;
 		//засада в Порто Белло
 		case "AmbushPotroBello":
-			dialog.text = "Наконец-то, мы уже заждались! Приветствую кэпа брига 'Восторженный'. А где дамочка?";
-			link.l1 = "Изабелла?";
+			dialog.text = DLG_TEXT_QB[56];
+			link.l1 = DLG_TEXT_QB[57];
 			link.l1.go = "AmbushPotroBello_1";
 		break;
 		case "AmbushPotroBello_1":
-			dialog.text = "Ага, Изабелла.";
-			link.l1 = "У меня на корабле.";
+			dialog.text = DLG_TEXT_QB[58];
+			link.l1 = DLG_TEXT_QB[59];
 			link.l1.go = "AmbushPotroBello_2";
 		break;
 		case "AmbushPotroBello_2":
-			dialog.text = "Так веди ее сюда... Или подожди, не надо - лучше сами пойдем к тебе на корабль и по-тихому ее придушим. Нечего ей по городу разгуливать.";
-			link.l1 = "Зачем было ее сюда тащить из Сан-Хуана?";
+			dialog.text = DLG_TEXT_QB[60];
+			link.l1 = DLG_TEXT_QB[61];
 			link.l1.go = "AmbushPotroBello_3";
 		break;
 		case "AmbushPotroBello_3":
-			dialog.text = "Не тебе решать это, приятель...";
-			link.l1 = "Хм, верно, это Сальватора дела. А сам Сальватор где? Попрощаться с женой не желает?";
+			dialog.text = DLG_TEXT_QB[62];
+			link.l1 = DLG_TEXT_QB[63];
 			link.l1.go = "AmbushPotroBello_4";
 		break;
 		case "AmbushPotroBello_4":
-			dialog.text = "Нет его здесь, по делам уехал. Так что мы свое дело делаем - и свободны.";
-			link.l1 = "Понятно... А где дела у Сальватора? Как найти мне его?";
+			dialog.text = DLG_TEXT_QB[64];
+			link.l1 = DLG_TEXT_QB[65];
 			link.l1.go = "AmbushPotroBello_5";
 		break;
 		case "AmbushPotroBello_5":
-			dialog.text = "Сальватор сам находит тех, кто ему нужен, а где сейчас Сальватор - знает только сам Сальватор... Эй, что-то ты не по делу любопытен!";
-			link.l1 = "Верно, я ведь не капитан брига 'Восторженный', а капитан, который пустил бриг 'Восторженный' на дно...";
+			dialog.text = DLG_TEXT_QB[66];
+			link.l1 = DLG_TEXT_QB[67];
 			link.l1.go = "AmbushPotroBello_6";
 		break;
 		case "AmbushPotroBello_6":
-			dialog.text = "Это ж надо было так лопухнуться! Ну все, приятель, тебе пора на тот свет...";
-			link.l1 = "Спасибо, но я, пожалуй, задержусь до поры...";
+			dialog.text = DLG_TEXT_QB[68];
+			link.l1 = DLG_TEXT_QB[69];
 			link.l1.go = "AmbushPotroBello_7";
 		break;
 		case "AmbushPotroBello_7":
@@ -297,38 +297,38 @@ void ProcessDialogEvent()
 		break;
 		//доставка Изабеллы Росите в Белиз
 		case "Rosita":
-			dialog.text = "Приветствую вас в моем доме, сеньор. Кто вы?";
-			link.l1 = "Здравствуйте, сеньора. Меня зовут капитан " + GetFullName(pchar) + ", полагаю, мое имя вам ничего не скажет.";
+			dialog.text = DLG_TEXT_QB[70];
+			link.l1 = DLG_TEXT_QB[71] + GetFullName(pchar) + DLG_TEXT_QB[72];
 			link.l1.go = "Rosita_1";
 		break;
 		case "Rosita_1":
-			dialog.text = "Да, оно мне не известно. Так чему я обязана чести видеть вас в моем доме?";
-			link.l1 = "Сеньора, я действую по поручению вашей кузины - Изабеллы Олеварес.";
+			dialog.text = DLG_TEXT_QB[73];
+			link.l1 = DLG_TEXT_QB[74];
 			link.l1.go = "Rosita_2";
 		break;
 		case "Rosita_2":
-			dialog.text = "Продолжайте, сеньор.";
-			link.l1 = "Сеньора Изабелла изъявила желание прибыть к вам, и я с удовольствием исполнил эту ее просьбу.";
+			dialog.text = DLG_TEXT_QB[75];
+			link.l1 = DLG_TEXT_QB[76];
 			link.l1.go = "Rosita_3";
 		break;
 		case "Rosita_3":
-			dialog.text = "Господи, капитан, неужели вы привезли сюда Изабеллу живой и невредимой?!";
-			link.l1 = "Именно так, сеньора. Она на моем корабле и сейчас готовится сойти на берег.";
+			dialog.text = DLG_TEXT_QB[77];
+			link.l1 = DLG_TEXT_QB[78];
 			link.l1.go = "Rosita_4";
 		break;
 		case "Rosita_4":
-			dialog.text = "Ах, сеньор, я даже не знаю, как вас благодарить! Цепь трагических несчастий обрушилась на Изабеллу, она потеряла отца и брата, а муж исчез! Вы себе представить не можете...";
-			link.l1 = "Отнюдь, сеньора, мне все это известно. Скажите, а Сальватор Олеварес не появлялся у вас?";
+			dialog.text = DLG_TEXT_QB[79];
+			link.l1 = DLG_TEXT_QB[80];
 			link.l1.go = "Rosita_5";
 		break;
 		case "Rosita_5":
-			dialog.text = "Нет, его здесь не было, он бесследно исчез. А почему вы спрашиваете о нем, капитан?";
-			link.l1 = "Полагаю, лучше будет, если сама Изабелла все вам расскажет. Я убедился, что ваш дом для Изабеллы безопасен и сейчас отправлю ее к вам. Берегите ее, сеньора, ей здорово досталось за последнее время...";
+			dialog.text = DLG_TEXT_QB[81];
+			link.l1 = DLG_TEXT_QB[82];
 			link.l1.go = "Rosita_6";
 		break;
 		case "Rosita_6":
-			dialog.text = "Спасибо вам за все, что вы сделали для Изабеллы, сеньор " + pchar.name + ". Я буду молиться за вас...";
-			link.l1 = "Хорошо, сеньора Росита, я не буду против - молитесь.";
+			dialog.text = DLG_TEXT_QB[83] + pchar.name + DLG_TEXT_QB[84];
+			link.l1 = DLG_TEXT_QB[85];
 			link.l1.go = "exit";
 			NextDiag.TempNode = "Rosita_after";
             Pchar.quest.Romantic_BelizCityTalk.win_condition.l1 = "location";
@@ -339,30 +339,30 @@ void ProcessDialogEvent()
 			pchar.quest.Romantic_AmbushInPortoBello.over = "yes";
 		break;
 		case "Rosita_after":
-			dialog.text = "Капитан " + GetFullName(pchar) + ", я рада вас видеть.";
-			link.l1 = "Взаимно, сеньора.";
+			dialog.text = DLG_TEXT_QB[86] + GetFullName(pchar) + DLG_TEXT_QB[87];
+			link.l1 = DLG_TEXT_QB[88];
 			link.l1.go = "exit";
 			NextDiag.TempNode = "Rosita_after";
 		break;
 		//Росита переживает, что Изабелла пропала
 		case "BackRosita":
-			dialog.text = "Ах, это вы, капитан " + pchar.name + ". Как вовремя! Слава Господу, что он послал вас!";
-			link.l1 = "Что случилось, Росита? Сальватор был здесь?";
+			dialog.text = DLG_TEXT_QB[89] + pchar.name + DLG_TEXT_QB[90];
+			link.l1 = DLG_TEXT_QB[91];
 			link.l1.go = "BackRosita_1";
 		break;
 		case "BackRosita_1":
-			dialog.text = "Нет, Сальватора не было. Но с Изабеллой что-то случилось! Она пропала!";
-			link.l1 = "Как пропала? Когда?";
+			dialog.text = DLG_TEXT_QB[92];
+			link.l1 = DLG_TEXT_QB[93];
 			link.l1.go = "BackRosita_2";
 		break;
 		case "BackRosita_2":
-			dialog.text = "Вчера утром она отправилась на рынок со служанкой, и с тех пор ее никто не видел!";
-			link.l1 = "Сеньора Росита, я сейчас же отправляюсь на поиски!";
+			dialog.text = DLG_TEXT_QB[94];
+			link.l1 = DLG_TEXT_QB[95];
 			link.l1.go = "BackRosita_3";
 		break;
 		case "BackRosita_3":
-			dialog.text = "Да поможет вам святой Франциск!";
-			link.l1 = "Хорошо...";
+			dialog.text = DLG_TEXT_QB[96];
+			link.l1 = DLG_TEXT_QB[97];
 			link.l1.go = "exit";
 			NextDiag.TempNode = "BackRosita_after";
 			pchar.RomanticQuest = "SeekIsabella";
@@ -392,157 +392,157 @@ void ProcessDialogEvent()
 			pchar.quest.Romantic_BanditIsDead.win_condition = "Romantic_BanditIsDead";
 		break;
 		case "BackRosita_after":
-			dialog.text = "Вы нашли Изабеллу?!";
-			link.l1 = "Пока нет, сеньора, я ищу...";
+			dialog.text = DLG_TEXT_QB[98];
+			link.l1 = DLG_TEXT_QB[99];
 			link.l1.go = "exit";
 		break;
 		//если Изабелла погибла где-нить при похищении
 		case "IsabellaIsDead_Beliz":
-			dialog.text = "Капитан, вы нашли Изабеллу?";
-			link.l1 = "Да, Росита, нашел. Но по дороге в город на нас напали и Изабелла погибла...";
+			dialog.text = DLG_TEXT_QB[100];
+			link.l1 = DLG_TEXT_QB[101];
 			link.l1.go = "IsabellaIsDead_Beliz_1";
 			NextDiag.TempNode = "IsabellaIsDead_Beliz_after";
 		break;
 		case "IsabellaIsDead_Beliz_1":
-			dialog.text = "Поверить не могу... Она так на вас надеялась! Упокой Господь ее душу...";
-			link.l1 = "Росита, я умираю от горя!!";
+			dialog.text = DLG_TEXT_QB[102];
+			link.l1 = DLG_TEXT_QB[103];
 			link.l1.go = "exit";
 		break;
 		case "IsabellaIsDead_Beliz_after":
-			dialog.text = "Капитан, я не хочу вас видеть, прощайте.";
-			link.l1 = "Прощайте, Росита...";
+			dialog.text = DLG_TEXT_QB[104];
+			link.l1 = DLG_TEXT_QB[105];
 			link.l1.go = "exit";
 		break;
 		//после спасения Изабеллы в пещере
 		case "SavedIsabella":
-			dialog.text = "Изабелла!!";
-			link.l1 = "Росита!";
+			dialog.text = DLG_TEXT_QB[106];
+			link.l1 = DLG_TEXT_QB[107];
 			link.l1.go = "SavedIsabella_1";
 		break;
 		case "SavedIsabella_1":
-			dialog.text = "Ты в порядке! Слава Господу!";
-			link.l1 = "Ныне, и присно, и вовеки веков...";
+			dialog.text = DLG_TEXT_QB[108];
+			link.l1 = DLG_TEXT_QB[109];
 			link.l1.go = "SavedIsabella_2";
 		break;
 		case "SavedIsabella_2":
-			dialog.text = "Что же произошло? Где ты пропадала? И где Канчита?";
-			link.l1 = "Росита, меня похитил Сальватор. А Канчита мертва - ее убил мой муж...";
+			dialog.text = DLG_TEXT_QB[110];
+			link.l1 = DLG_TEXT_QB[111];
 			link.l1.go = "SavedIsabella_3";
 		break;
 		case "SavedIsabella_3":
-			dialog.text = "Мерзавец! Нужно обо всем доложить губернатору, чтобы он немедленно арестовал Сальватора!";
-			link.l1 = "Сальватор тоже мертв. Меня нашел и вызволил из плена мой ангел-хранитель... Сальватор напал и на него, но был убит у меня на глазах.";
+			dialog.text = DLG_TEXT_QB[112];
+			link.l1 = DLG_TEXT_QB[113];
 			link.l1.go = "SavedIsabella_4";
 		break;
 		case "SavedIsabella_4":
-			dialog.text = "Изабелла, неужели этот кошмар наконец-то закончился?";
-			link.l1 = "Да, Росита, все кончено...";
+			dialog.text = DLG_TEXT_QB[114];
+			link.l1 = DLG_TEXT_QB[115];
 			link.l1.go = "SavedIsabella_5";
 		break;
 		case "SavedIsabella_5":
-			dialog.text = "И вновь все проблемы решил твой верный рыцарь... Изабелла, тебе крупно повезло, что у тебя есть такой почитатель!";
-			link.l1 = "Ах, кузина, это действительно так! Росита, чуть позже я тебе расскажу и о других новостях, а сейчас давай не будем задерживать моего спасителя.";
+			dialog.text = DLG_TEXT_QB[116];
+			link.l1 = DLG_TEXT_QB[117];
 			link.l1.go = "exit";
 			NextDiag.TempNode = "SavedIsabella_after";			
 			AddDialogExitQuest("Romantic_DelivToRosita_2");
 		break;
 		case "SavedIsabella_after":
-			dialog.text = "Капитан, вы действительно настоящий мужчина!";
-			link.l1 = "Хм, Росита, спасибо за комплимент...";
+			dialog.text = DLG_TEXT_QB[118];
+			link.l1 = DLG_TEXT_QB[119];
 			link.l1.go = "exit";
 			NextDiag.TempNode = "SavedIsabella_after";
 		break;
 		//Нападения на ГГ и Изабеллу в церкви
 		case "AmbushInChurch":
-			dialog.text = "Капитан, тебе привет от Сальватора!";
-			link.l1 = "Сальватор мертв, угомонитесь...";
+			dialog.text = DLG_TEXT_QB[120];
+			link.l1 = DLG_TEXT_QB[121];
 			link.l1.go = "AmbushInChurch_1";
 		break;
 		case "AmbushInChurch_1":
-			dialog.text = "К сожалению, веселье оплачено, кэп, и отменить все может только заказчик...";
-			link.l1 = "Еще раз повторяю: Сальватор мертв! Для вас что, нет ничего святого? Это же венчание в храме Божьем!";
+			dialog.text = DLG_TEXT_QB[122];
+			link.l1 = DLG_TEXT_QB[123];
 			link.l1.go = "AmbushInChurch_2";
 		break;
 		case "AmbushInChurch_2":
-			dialog.text = "Все, время на разговоры вышло...";
-			link.l1 = "Аргх!..";
+			dialog.text = DLG_TEXT_QB[124];
+			link.l1 = DLG_TEXT_QB[125];
 			link.l1.go = "exit";
 			AddDialogExitQuest("Romantic_fightInChurch_1");
 		break;
 		//базар с Роситой после убийства Изабеллы
 		case "IsabellaIsDead":
-			dialog.text = "Капитан " + GetFullName(pchar) + ", рада видеть вас. Какие новости? Вы уже обвенчались с Изабеллой?";
-			link.l1 = "Новости хуже некуда, Росита. Изабелла мертва, ее убили в церкви прямо на алтаре. Нападавших было слишком много...";
+			dialog.text = DLG_TEXT_QB[126] + GetFullName(pchar) + DLG_TEXT_QB[127];
+			link.l1 = DLG_TEXT_QB[128];
 			link.l1.go = "IsabellaIsDead_1";
 		break;
 		case "IsabellaIsDead_1":
-			dialog.text = "О, Господи, бедная Изабелла!! Она так страдала, ей так не повезло с мужем.\n"+
-				          "Потом появились вы и я подумала, что ее судьба наконец-то изменилась к лучшему. Но от судьбы, видимо, не уйдешь...";
-			link.l1 = "Ох, Росита, как мне тяжело!..";
+			dialog.text = DLG_TEXT_QB[129]+
+				          DLG_TEXT_QB[130];
+			link.l1 = DLG_TEXT_QB[131];
 			link.l1.go = "IsabellaIsDead_2";
 		break;
 		case "IsabellaIsDead_2":
-			dialog.text = "Я понимаю вас, капитан... Простите, я должна известить всех родных - нам нужно одеть траур...";
-			link.l1 = "Да, Росита, понимаю...";
+			dialog.text = DLG_TEXT_QB[132];
+			link.l1 = DLG_TEXT_QB[133];
 			link.l1.go = "exit";
 			npchar.LifeDay = 0;
 			NextDiag.TempNode = "IsabellaIsDead_after";
 		break;
 		case "IsabellaIsDead_after":
-			dialog.text = "Капитан, что вы хотели?";
-			link.l1 = "Ничего, Росита, просто хотел навестить кузину моей Изабеллы...";
+			dialog.text = DLG_TEXT_QB[134];
+			link.l1 = DLG_TEXT_QB[135];
 			link.l1.go = "exit";
 			NextDiag.TempNode = "IsabellaIsDead_after";
 		break;
 		//базар с Роситой, если ГГ отбился в церкви
 		case "IsabellaIsMyWife":
-			dialog.text = "Сеньор " + pchar.name + ", рада вас видеть! Мы теперь родственники!";
-			link.l1 = "Да, сеньора Росита. Мы обвенчались с Изабеллой...";
+			dialog.text = DLG_TEXT_QB[136] + pchar.name + DLG_TEXT_QB[137];
+			link.l1 = DLG_TEXT_QB[138];
 			link.l1.go = "IsabellaIsMyWife_1";
 		break;
 		case "IsabellaIsMyWife_1":
-			dialog.text = "Это прекрасно, капитан. Изабелла достойна большего, нежели этот негодяй Сальватор!";
-			link.l1 = "Совершенно с вами согласен. А о Сальваторе даже и вспоминать не желаю, я отправил его к праотцам и очень этим доволен...";
+			dialog.text = DLG_TEXT_QB[139];
+			link.l1 = DLG_TEXT_QB[140];
 			link.l1.go = "IsabellaIsMyWife_2";
 		break;
 		case "IsabellaIsMyWife_2":
-			dialog.text = "Сеньор " + pchar.name + ", вы настоящий рыцарь! Берегите Изабеллу... Кстати, если у вас будут с ней проблемы, поссоритесь, к примеру, то всегда пожалуйста ко мне - буду рада помочь.";
-			link.l1 = "Хорошо, кузина Росита...";
+			dialog.text = DLG_TEXT_QB[141] + pchar.name + DLG_TEXT_QB[142];
+			link.l1 = DLG_TEXT_QB[143];
 			link.l1.go = "exit";
 			NextDiag.TempNode = "IsabellaIsMyWife_after";
 		break;
 		case "IsabellaIsMyWife_after":
-			dialog.text = "Рада вас видеть, кузен " + pchar.name + "!";
-			link.l1 = "Взаимно, сеньора Росита.";
+			dialog.text = DLG_TEXT_QB[144] + pchar.name + "!";
+			link.l1 = DLG_TEXT_QB[145];
 			link.l1.go = "exit";
 			NextDiag.TempNode = "IsabellaIsMyWife_after";
 		break;
 		//семейная жизнь ГГ
 		case "IsabellaIsWife":
-			dialog.text = NPCStringReactionRepeat("Здравствуйте, кузен. Я так рада вас видеть! Как поживает Изабелла?", 
-				"Вы опять ко мне, кузен? Мы же только что поговорили.", 
-				"Кузен, что опять?! Ничего нового вы от меня не услышите!", 
-				"Послушайте, капитан, если вы и дома такой зануда, то мне жаль бедную мою кузину Изабеллу!", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat("Здравствуйте, кузина Росита. Изабелла в порядке.", 
-				"Да, верно, только что... Извините меня, Росита, не буду вас отвлекать...", 
-				"Да? Ну тогда ладно...", 
-				"Нет, Росита, дома я - ангел во плоти...", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(DLG_TEXT_QB[146], 
+				DLG_TEXT_QB[147], 
+				DLG_TEXT_QB[148], 
+				DLG_TEXT_QB[149], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(DLG_TEXT_QB[150], 
+				DLG_TEXT_QB[151], 
+				DLG_TEXT_QB[152], 
+				DLG_TEXT_QB[153], npchar, Dialog.CurrentNode);
 			link.l1.go = DialogGoNodeRepeat("IsabellaIsWife_1", "none", "none", "none", npchar, Dialog.CurrentNode);
 			NextDiag.TempNode = "IsabellaIsWife";
 		break;
 		case "IsabellaIsWife_1":
-			dialog.text = "Вы что-то хотели у меня узнать, капитан?";
-			link.l1 = "Да нет, Росита, просто зашел проведать.";
+			dialog.text = DLG_TEXT_QB[154];
+			link.l1 = DLG_TEXT_QB[155];
 			link.l1.go = "exit";				
 			if (pchar.RomanticQuest == "over")
 			{
-				link.l2 = "Росита, даже не знаю как сказать... Изабелла закрыла дверь в доме и не пускает меня!";
+				link.l2 = DLG_TEXT_QB[156];
 				link.l2.go = "HorseCheck";	
 				break;
 			}			
 			if (pchar.RomanticQuest == "TheDoosIsClosed")
 			{
-				link.l2 = "Росита, даже не знаю как сказать... Изабелла закрыла дверь в доме и не пускает меня!";
+				link.l2 = DLG_TEXT_QB[157];
 				link.l2.go = "TheDoosIsClosed";			
 			}
 			sld = characterFromID("Isabella");
@@ -550,34 +550,34 @@ void ProcessDialogEvent()
 			{
 				if (sld.angry.name == "NewLife_Budget_Pay")
 				{
-					link.l3 = "Ты знаешь, Росита, у меня тут с деньгами проблемы были и Изабелла здорово на меня обиделать...";
+					link.l3 = DLG_TEXT_QB[158];
 					link.l3.go = "Budget";			
 				}
 				if (sld.angry.name == "NewLife_KnowPirates")
 				{
-					link.l4 = "Ты представляешь, Росита, Изабелла каким-то образом узнала о том, что я не совсем бросил каперство, как обещал перед свадьбой...";
+					link.l4 = DLG_TEXT_QB[159];
 					link.l4.go = "KnowPirates";			
 				}
 				if (sld.angry.name == "NewLife_Present")
 				{
-					link.l5 = "Росита, тут такое дело... В общем, Изабелла здорово надулась на меня, не хочет общаться с мужем. Вот так!";
+					link.l5 = DLG_TEXT_QB[160];
 					link.l5.go = "Present";			
 				}
 			}
 		break;
 		case "TheDoosIsClosed":
-			dialog.text = "Понятно... Вы, видимо, серьезно провинились, капитан. Вы что, долго не были дома?";
-			link.l1 = "Хм, ну как сказать... В общем-то, да. Но я же моряк, Росита, и моя работа - это постоянные выходы в море.";
+			dialog.text = DLG_TEXT_QB[161];
+			link.l1 = DLG_TEXT_QB[162];
 			link.l1.go = "TheDoosIsClosed_1";	
 		break;
 		case "TheDoosIsClosed_1":
-			dialog.text = "Я понимаю, капитан... Ну что же, я смогу уладить это дело. Отправляйтесь домой, все будет нормально...";
-			link.l1 = "Росита, вы просто чудо!";
+			dialog.text = DLG_TEXT_QB[163];
+			link.l1 = DLG_TEXT_QB[164];
 			link.l1.go = "TheDoosIsClosed_2";	
 		break;
 		case "TheDoosIsClosed_2":
-			dialog.text = "Не перехвалите меня, " + pchar.name + ". Я бы вам посоветовала взяться за ум и чаще бывать дома.";
-			link.l1 = "Кузина, я обязательно поступлю именно так. До свидания...";
+			dialog.text = DLG_TEXT_QB[165] + pchar.name + DLG_TEXT_QB[166];
+			link.l1 = DLG_TEXT_QB[167];
 			link.l1.go = "exit";
 			AddQuestRecord("Romantic_Line", "30");
 			LocatorReloadEnterDisable("SanJuan_town", "houseSp6", false);
@@ -585,88 +585,88 @@ void ProcessDialogEvent()
 		break;
 
 		case "Budget":
-			dialog.text = "Что, такие долги?";
-			link.l1 = "Да, Росита. Изабелла просила меня несколько раз погасить задолженность, но у меня, как назло, не было тогда денег.";
+			dialog.text = DLG_TEXT_QB[168];
+			link.l1 = DLG_TEXT_QB[169];
 			link.l1.go = "Budget_1";	
 		break;
 		case "Budget_1":
-			dialog.text = "Хм, плохо... Ну ладно, подскажу тебе, что нужно сделать. Принеси ей в подарок изумруды: кольцо, ожерелье и просто камень. Она очень любит эти камни и, полагаю, растает...";
-			link.l1 = "Пожалуй, так и сделаю! Спасибо тебе, Росита. До свидания.";
+			dialog.text = DLG_TEXT_QB[170];
+			link.l1 = DLG_TEXT_QB[171];
 			link.l1.go = "exit";	
 		break;
 
 		case "KnowPirates":
-			dialog.text = "Хм, кузен, вы меня простите за вопрос, но 'не совсем' - это как?";
-			link.l1 = "Ну, понимаешь, нападают на меня сами, а мне что остается делать? Атаковать, конечно!";
+			dialog.text = DLG_TEXT_QB[172];
+			link.l1 = DLG_TEXT_QB[173];
 			link.l1.go = "KnowPirates_1";	
 		break;
 		case "KnowPirates_1":
-			dialog.text = "Хм, понятно... Значит вы, капитан, совершенно ни при чем?";
-			link.l1 = "Именно так, кузина, совершенно точное определение моей причастности к пиратству!";
+			dialog.text = DLG_TEXT_QB[174];
+			link.l1 = DLG_TEXT_QB[175];
 			link.l1.go = "KnowPirates_2";	
 		break;
 		case "KnowPirates_2":
-			dialog.text = "Ясно... Ну что же, единственно могу посоветовать задобрить кузину Изабеллу.";
-			link.l1 = "Да это пожалуйста, но чем?";
+			dialog.text = DLG_TEXT_QB[176];
+			link.l1 = DLG_TEXT_QB[177];
 			link.l1.go = "KnowPirates_3";	
 		break;
 		case "KnowPirates_3":
-			dialog.text = "Разных камней и побольше. Я бы, например, подарила сапфир, алмаз, рубин, большую жемчужину, ну и золотое кольцо с рубином в придачу...";
-			link.l1 = "Хм, а это мысль!.. Спасибо тебе, Росита, я так и сделаю, кузина! Прощай...";
+			dialog.text = DLG_TEXT_QB[178];
+			link.l1 = DLG_TEXT_QB[179];
 			link.l1.go = "exit";	
 		break;
 
 		case "Present":
-			dialog.text = "А что произошло?";
-			link.l1 = "Да так, ничего особенного... Я тут решил подарок ей сделать, но подходящего ничего не нашлось.";
+			dialog.text = DLG_TEXT_QB[180];
+			link.l1 = DLG_TEXT_QB[181];
 			link.l1.go = "Present_1";	
 		break;
 		case "Present_1":
-			dialog.text = "Хм, ничего страшного... Кузен, вы что-то не договариваете.";
-			link.l1 = "Да я что-то забегался и забыл, что уже предлагал ей подарок... В общем, снова предложил. И так четыре раза...";
+			dialog.text = DLG_TEXT_QB[182];
+			link.l1 = DLG_TEXT_QB[183];
 			link.l1.go = "Present_2";	
 		break;
 		case "Present_2":
-			dialog.text = "Это вы хватили лишку, капитан! Кто же это стерпит такое?!";
-			link.l1 = "Понятно, что переборщил, но что делать то теперь?";
+			dialog.text = DLG_TEXT_QB[184];
+			link.l1 = DLG_TEXT_QB[185];
 			link.l1.go = "Present_3";	
 		break;
 		case "Present_3":
-			dialog.text = "Делать вот что: сделайте ей, наконец, подарок. Возьмите три золотых самородка и пять серебряных слитков. Я думаю, Изабелла растает...";
-			link.l1 = "Ох, кузина Росита, что бы я без вас делал! Побегу искать злато-серебро. Прощайте...";
+			dialog.text = DLG_TEXT_QB[186];
+			link.l1 = DLG_TEXT_QB[187];
 			link.l1.go = "exit";	
 		break;
 
 		case "HorseCheck":
-			dialog.text = "Да, мне это известно. А вам я хочу сказать следующее, капитан - ваш брак расторгнут в одностороннем порядке.";
-			link.l1 = "Это что за дела такие? Уж не сам ли папа римский расторгнул?";
+			dialog.text = DLG_TEXT_QB[188];
+			link.l1 = DLG_TEXT_QB[189];
 			link.l1.go = "HorseCheck_1";	
 		break;
 		case "HorseCheck_1":
-			dialog.text = "Брак расторгнут де-факто, вы больше никогда не увидите Изабеллу.";
-			link.l1 = "Ничего не понимаю, да что же это делается?";
+			dialog.text = DLG_TEXT_QB[190];
+			link.l1 = DLG_TEXT_QB[191];
 			link.l1.go = "HorseCheck_2";	
 		break;
 		case "HorseCheck_2":
-			dialog.text = "А вы не знаете? Ну тогда я вам скажу, в чем дело.";
-			link.l1 = "Да, будьте так добры.";
+			dialog.text = DLG_TEXT_QB[192];
+			link.l1 = DLG_TEXT_QB[193];
 			link.l1.go = "HorseCheck_3";	
 		break;
 		case "HorseCheck_3":
-			dialog.text = "Вам нужно было меньше бегать по борделям, дорогой мой! Изабелла может много простить, но измену - никогда!";
-			link.l1 = "Черт!! А кто ей сказал? Меня оговорили!";
+			dialog.text = DLG_TEXT_QB[194];
+			link.l1 = DLG_TEXT_QB[195];
 			link.l1.go = "HorseCheck_4";	
 		break;
 		case "HorseCheck_4":
-			dialog.text = "Не нужно лицемерить, полученные Изабеллой сведения более чем достоверны. Прощайте, капитан...";
-			link.l1 = "Эх... Прощайте, Росита...";
+			dialog.text = DLG_TEXT_QB[196];
+			link.l1 = DLG_TEXT_QB[197];
 			link.l1.go = "exit";
 			npchar.LifeDay = 0;
 			NextDiag.TempNode = "HorseCheck_Bue";
 			CloseQuestHeader("Romantic_Line");
 		break;
 		case "HorseCheck_Bue":
-			dialog.text = "Я не желаю более с вами говорить.";
+			dialog.text = DLG_TEXT_QB[198];
 			link.l1 = "...";
 			link.l1.go = "exit";
 			NextDiag.TempNode = "HorseCheck_Bue";

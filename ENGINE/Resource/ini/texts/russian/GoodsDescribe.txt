@@ -1,302 +1,192 @@
-newline{
+newline {
 
 }
-
-
-Balls	{Ядра}
-Balls_descr
-{
-Обычные ядра - самый дешевый, простой и надежный вид боеприпасов, подходящий почти для всех целей, как защитного, так и атакующего огня. Но наиболее целесообразно использовать ядра для стрельбы по корпусу корабля врага и при обстреле фортов. Наносят урон: корпусу - #f.2DamageHull#, парусам-#f.2DamageRig#, команде-#f.2DamageCrew#
+Balls {Cannonballs}
+Balls_descr {
+ Regular munitions - simple, cheap, and reliable. Useful for almost all targets, both defensive and offensive fire. Best used for ship hulls or for bombarding forts. 
+ Damage: hull - #f.2DamageHull#; sails-#f.2DamageRig#; crew-#f.2DamageCrew# 
 }
-
-
-Grapes	{Картечь}
-Grapes_descr
-{
-Картечь - маленькие бронзовые шарики, которые засыпаются в орудийное дуло и при выстреле наносят ужасающий урон команде. Поскольку дальность полета картечи невысока, то использовать картечь рекомендуется на коротком расстоянии перед абордажем. Наносит урон: корпусу - #f.2DamageHull#, парусам - #f.2DamageRig#, команде - #f.2DamageCrew#
+Grapes {Grape shot}
+Grapes_descr {
+ Small metal balls, poured into the cannon barrel to deal horrible losses to personnel. As the range is not the best, it's advised to use grape shot at a close range, in preparation for boarding. 
+ Damage: hull - #f.2DamageHull#; sails - #f.2DamageRig#; crew - #f.2DamageCrew# 
 }
-
-
-Knippels {Книппели}
-Knippels_descr
-{
-Книппели были созданы для уничтожения оснастки и парусов противника. Эти снаряды являют собой два бронзовых ядра, соединенные цепью или шестом. В полете книппель вращается, наматывая на себя оснастку и паруса, и сшибает мачты противника. Наносит урон: корпусу-#f.2DamageHull#, парусам-#f.2DamageRig#, команде-#f.2DamageCrew#
+Knippels {Chain shot}
+Knippels_descr {
+ Comprised of two metal balls, linked by a chain or wire, chain shot was made to damage enemy sails and rigging. Chain shot whirls through the air, wrapping itself around what it strikes, destroying the opponents' masts. 
+ Damage: hull-#f.2DamageHull#; sails-#f.2DamageRig#; crew-#f.2DamageCrew# 
 }
-
-
-Bombs {Бомбы}
-Bombs_descr
-{
-Бомбы - самые дорогие и самые разрушительные снаряды, представляющие собой чугунный шар с порохом внутри, в который воткнут фитиль. После выстрела бомба разрывается, поражая команду осколками, поджигая оснастку и ломая корпус ударной волной. Наносят урон: корпусу-#f.2DamageHull#, парусам-#f.2DamageRig#, команде-#f.2DamageCrew#
+Bombs {Exploding shot}
+Bombs_descr {
+ The most destructive, and the most expensive, munitions around; essentially an iron pot filled with gunpowder, affixed with a fuse. After being fired, the bomb explodes in midair, raining shrapnel on the crew, igniting the rigging, and shattering the hull with its shock wave. 
+ Damage: hull-#f.2DamageHull#; sails-#f.2DamageRig#; crew-#f.2DamageCrew# 
 }
-
-
-Sailcloth {Парусина}
-Sailcloth_descr
-{
-Изготовленное из льна, произрастающего на островах архипелага, это толстое, плотное полотно пригодно для пошива чего угодно, от рубашек и камзолов, вплоть до парусов.
+Sailcloth {Canvas}
+Sailcloth_descr {
+ Made from linen on the islands of the archipelago, this thick, coarse cloth is good for making anything, from shirts to camisoles, all the way up to sails. 
 }
-
-
-Planks {Доски}
-Planks_descr
-{
-Уже распиленные доски из древесины необходимы для починки корпуса корабля.
+Planks {Planks}
+Planks_descr {
+ Wooden boards, necessary for repairing ships. 
 }
-
-
-Wheat {Пшеница}
-Wheat_descr
-{
-На плодородных землях Нового Света пшеница приносит по три урожая в год. Теперь торговля пшеницей оказалась для купцов довольно прибыльным делом. Мука из пшеницы, выращенной здесь, пригодна для выпечки самых сдобных и воздушных булочек и пирожков.
+Wheat {Wheat}
+Wheat_descr {
+ On the fertile soils of the New World, wheat brings three harvests a year. Now the trade of wheat has become a rather profitable business for merchants. Flour from the wheat grown here is good for the fluffiest and most delicious cakes and rolls. 
 }
-
-
-Ebony {Черное дерево}
-Ebony_descr
-{
-Дорогое и тяжелое черное дерево очень ценится за свою твердость, устойчивость к огню и экзотический черный цвет. Из черного дерева часто изготовляли мебель для богатых и знатных господ, а также вырезали скульптуры и украшения. Благодаря всему этому, торговля черным деревом процветает.
+Ebony {Ebony}
+Ebony_descr {
+ A heavy and expensive black wood, prized for its hardness, endurance to fire, and exotic black luster. Often used in furniture for the rich and the famous, as well as sculptures and decorations. Thanks to its status, ebony sales are booming. 
 }
-
-Chocolate {Какао}
-Chocolate_descr
-{
-Одним из самых значительных открытий стала скромная пальма какао. Из нее стали изготавливать шоколад, столь ценимый за оригинальный сладкий вкус, особенно любимый знатными дамами. Торговля какао стала популярна на многих островах.
+Chocolate {Cacao}
+Chocolate_descr {
+ One of the most important discoveries in the Americas has been this humble plant, the source of a sweetmeat known as chocolate. Prized for its sweet and exotic flavor, chocolate is especially favored by well-to-do ladies. Trading in cacao has become popular on many islands. 
 }
-
-
-Sugar {Сахар}
-Sugar_descr
-{
-После появления в Новом Свете плантаций сахарного тростника сахар стал одним из экспортируемых в Европу товаров. Возможно, тростниковый сахар не столь хорош, как свекольный, но он гораздо дешевле.
+Sugar {Sugar}
+Sugar_descr {
+ Since the discovery of sugar cane in the New World, it has become one the staple exports to Europe. Though cane sugar may not be as good as beat sugar, it is certainly a whole lot cheaper. 
 }
-
-
-Wine {Вино}
-Wine_descr
-{
-Колонистам удалось вырастить виноград на плодородных землях Нового света. Теперь экспортируемое вино ценится даже в Европе. Хотя ему не хватает тонкого, деликатного вкуса европейских вин, оно обладает сильным приятным ароматом и крепостью.
+Wine {Wine}
+Wine_descr {
+ Colonists have learned to grow grapes in the fertile soils of the New World. Now these exported wines are prized even in Europe. While they lack the fine, delicate flavors of European wines, they do possess a pleasantly powerful aroma and full body.
 }
-
-
-Linen {Полотно}
-Linen_descr
-{
-Ткань, изготовленная в здешних землях, из которой делают одежду.
+Linen {Linen}
+Linen_descr {
+ Cloth woven in these lands, from which clothes are sewn. 
 }
-
-
-Rum {Ром}
-Rum_descr
-{
-Крепкий, душистый ром стал любимым напитком моряков. Торговля ромом очень выгодна, потому что его дешево производить и на него никогда не падает спрос. Недостаток этого прекрасного напитка в дальнем плавании может легко привести к мятежу, наличие же его на борту повышает мораль команды.
+Rum {Rum}
+Rum_descr {
+ Hard, aromatic rum soon became a sailor's choice beverage. Rum-running is a highly profitable trade, as the drink is easy to produce and demand never falters. On long journeys, a scarcity of rum can easily lead to mutiny, while having plenty in stock raises the morale of one's crew. 
 }
-
-
-Tobacco {Табак}
-Tobacco_descr
-{
-Ароматные табачные листья... Издавна верным спутником моряка стала трубка. Курение прочно завоевало свое место, как расслабляющее и успокаивающее занятие. Естественно, что табак стал очень популярным товаром.
+Tobacco {Tobacco}
+Tobacco_descr {
+ Aromatic leaves. For a good while, the pipe has been a regular accessory to the serious seaman. Smoking has spread widely as a relaxing and calming hobby. As a matter of course, tobacco has become a popular item. 
 }
-
-
-Coffee {Кофе}
-Coffee_descr
-{
-Благодаря своему экзотическому вкусу, приятному аромату и бодрящему воздействию, кофе быстро стал очень популярным товаром. Несмотря на все трудности его изготовления, производство кофе растет с каждым годом, отвечая на требования континентальной Европы. 
+Coffee {Coffee}
+Coffee_descr {
+ Thanks to its exotic taste, pleasant aroma, and bold effect, coffee quickly became a popular item. Ignoring the difficulty of making it, coffee production grows with every year, responding the demands of continental Europe. 
 }
-
-
-Mahogany {Красное дерево}
-Mahogany_descr
-{
-Очень дорогая и прочная древесина, используемая для изготовления дорогой мебели. Красное дерево очень ценится за свою необычность и красоту. Оно не гниет, не коробится и его трудно поджечь. Хоть и редко, но иногда его использовали и для изготовления корпусов кораблей.
+Mahogany {Mahogany}
+Mahogany_descr {
+ A very expensive and durable red wood, used for preparing expensive furniture. Mahogany is highly prized for its oddness and beauty. It doesn't rot, doesn't corrode, and is difficult to set afire. Rare as is it is, it is sometimes used in the construction of ship hulls. 
 }
-
-
-Cinnamon {Корица}
-Cinnamon_descr
-{
-Высушенная кора лавровых деревьев, использующаяся как пряность. Целые народы были стерты с лица земли только лишь ради обладания ей.
+Cinnamon {Cinnamon}
+Cinnamon_descr {
+The dried bark of laurel trees, treated as a spice. Whole nations have been wiped from the earth just to obtain it. 
 }
-
-
-Copra {Копра}
-Copra_descr
-{
-Раздробленные и высушенные семена кокосовых плодов. Копра используется для приготовления кокосового масла, а жмыхи идут на корм скоту.
+Copra {Copra}
+Copra_descr {
+ Mashed and dried coconut meat. Copra is used to make coconut butter, while the byproduct - known as "cake" - is used to feed livestock. 
 }
-
-
-Paprika {Паприка}
-Paprika_descr
-{
-Сладкий перец, ингредиент множества салатов.
+Paprika {Paprika}
+Paprika_descr {
+ A sweet spice, used in many salads. 
 }
-
-
-Fruits {Фрукты}
-Fruits_descr
-{
-С прибытием в Новый Свет европейцы открыли великое множество растений, плоды которых пригодны в пищу или используются как лакомство - манго, лимоны, авокадо и т.д.
+Fruits {Fruits}
+Fruits_descr {
+ With their arrival in the New World, Europeans have discovered a large array of nutritious and delicious plants -- mangoes, lemons, avocados, and so on. 
 }
-
-
-Ale {Эль}
-Ale_descr
-{
-Слабый алкогольный напиток, сваренный из солода и хмеля. Наряду с ромом и вином - самый популярный напиток в Новом Свете.
+Ale {Ale}
+Ale_descr {
+ A weak alcoholic beverage, made from malt and yeast. Behind rum and wine, the most popular drink in the New World. 
 }
-
-
-Silk {Шелк}
-Silk_descr
-{
-Тонкая, легкая и очень дорогая ткань, впервые изобретенная в Китае. Не так давно европейцы разгадали секрет шелка, хранимый китайцами более 2000 лет, поэтому он производится в Новом Свете. Вы можете продеть её даже через тончайшие отверстия, настолько уникальна эта ткань.
+Silk {Silk}
+Silk_descr {
+ Thin, light, and very expensive cloth, first perfected in China then guarded for over 2000 years. Not long ago, Europeans decoded the secrets of silk production, so now it may be spun in the New World. So unique is this fabric, you can pass it through even the smallest slits. 
 }
-
-
-Clothes {Одежда}
-Clothes_descr
-{
-Грубая холщовая одежда, неказистая, но все же широко распространенная среди населения дальних колоний благодаря своей прочности, которая просто необходима в таком климате.
+Clothes {Clothes}
+Clothes_descr {
+ Rough, canvas clothes. Not pretty, but due to their durability, quite widespread amongst the commoners of the far colonies. 
 }
-
-
-Cotton {Хлопок}
-Cotton_descr
-{
-Сырье для производства тканей. Его производство требует постоянного труда и огромного количества рабочих рук, что стало одной из причин популярности рабства.
+Cotton {Cotton}
+Cotton_descr {
+ Raw materials for clothmaking. Its production takes constant labor and a huge number of working hands, one of the reasons for the popularity of slavery.
 }
-
-
-Sandal {Сандал}
-Sandal_descr
-{
-Ценная порода дерева. Используется для отделки и производства благовоний.
+Sandal {Sandalwood}
+Sandal_descr {
+ A prized type of wood. Used to treat and produce incense. 
 }
-
-
-Leather {Кожа}
-Leather_descr
-{
-Выделанные шкуры животных, используемые для изготовления самых разных изделий - ремней, обуви и т.д.
+Leather {Leather}
+Leather_descr {
+ Processed animal skins. Used for a wide variety of products, from belts to shoes. 
 }
-
-
-Oil {Масло}
-Oil_descr
-{
-Известное ещё со времен древней Греции, оливковое масло используется для приготовления множества разных блюд, придавая им приятный вкус и аромат.
+Oil {Oil}
+Oil_descr {
+ From the times of ancient Greece, olive oil has been used to prepare a variety of different meals, lending them a pleasant taste and aroma. 
 }
-
-Slaves {Рабы}
-Slaves_descr
-{
-Живой товар, который пользуется большим спросом в Архипелаге. Обычно рабами становятся негры, привезенные из Африки, либо пленённые матросы вражеских судов. Продавая их на невольничьих рынках, можно хорошо заработать. Рабский труд - основа рабочей силы европейских поселений Нового Света.
+Slaves {Slaves}
+Slaves_descr {
+ Live cargo, much in demand throughout the archipelago. Usually consists of African captives, or imprisoned sailors from enemy ships. Sale on the open market can make a good profit. Slave labor is the primary work force in the settlements of the New World. 
 }
-
-Powder {Порох}
-Powder_descr
-{
-Изобретенный китайцами, порох просто необходим для выстрела корабельных орудий. Без него они будут молчать как рыбы и не сделают ни единого выстрела. Внимательно следите за наличием пороха в трюме, и регулярно пополняйте запас.
+Powder {Gunpowder}
+Powder_descr {
+ Invented by the Chinese, gunpowder is required to fire cannons. Without it, they will just sit on the decks like big metal fish. Make sure to watch the supply of powder in the hold, and regularly replenish your stocks. 
 }
-
-Food {Провиант}
-Food_descr
-{
-Здесь все необходимое для питания экипажа и перевозимых рабов во время плавания: рыба, мясо, лепешки, пресная вода. Отсутствие провианта на борту приводит к голоду, смерти экипажа и резкому падению морали. Потребляется 1ед на 10 матросов и 1ед на 20 рабов в день.
+Food {Rations}
+Food_descr {
+Everything you need to feed crew and slaves while at sea. A lack of rations leads to hunger, decrease in morale, and eventually to death. Each day at sea, 1 unit of food is consumed for every 10 sailors, and every 20 slaves. 
 }
-
-Weapon {Оружие}
-Weapon_descr
-{
-Оружие требуется для вооружения экипажа корабля. Каждому матросу нужно оружие. Отсутствие оружия у части команды в момент абордажа ведет к увеличению ваших потерь. Гибель матроса приводит к уменьшению запасов оружия.
+Weapon {Weapons}
+Weapon_descr {
+ You need weapons to arm your crew; one for each and every hand. A lack of weapons during a boarding action will increase your losses. A sailor's death leads to a depletion of weapon supply. 
 }
-
-Gold {Золото}
-Gold_descr
-{
-Неочищенная золотая руда, добываемая в шахтах Нового Света, из которой затем выплавляют золотые слитки для чеканки монет и изготовления различных изделий. Захватить корабль с таким грузом на борту - мечта любого капитана. 
+Gold {Piasters}
+Gold_descr {
+ Unrefined gold ore, harvested in the mines of the New World, from which gold is smelted, to manufacture an array of trinkets and tender. To ensnare a ship filled up with this cargo is any captain's dream. 
 }
-
-Silver {Серебро}
-Silver_descr
-{
-Неочищенная серебряная руда, добываемая в шахтах Нового Света, из которой затем выплавляют серебряные слитки для чеканки монет и изготовления различных изделий. Основная масса серебра добывается в месте, известном как "серебряная гора", находящемся вблизи Потоси. 
+Silver {Silver}
+Silver_descr {
+ Unrefined silver ore, harvested in the mines of the New World, from which gold is smelted, to manufacture an array of trinkets and tender. The main vein of silver runs through a place called "silver mountain", located not far from Potosy. 
 }
-
-Brick {Кирпичи}
-Brick_descr
-{
-Большие строительные блоки, изготовленные из глины и камней. Применяются для строительства фортов и городских зданий.
+Brick {Bricks}
+Brick_descr {
+ Big blocks of clay and stone. Used to build city buildings and forts. 
 }
-
-Medicament {Лекарства}
-Medicament_descr
-{
-Необходимый набор для лечения практически любой болезни. Банки, склянки, порошки, бинты, примочки - все то, что спасает человеческие жизни. Наличие на борту корабля поможет спасти раненых в боях и больных во время плавания.
+Medicament {Medicine}
+Medicament_descr {
+ A necessary assortment of remedies: bottles, vials, powders, bands, lotions - everything that may save a human life. Having them on board will help salvage the wounded, at sea or at battle. 
 }
-
-Cannon_12 {Пушки 12 фунтовые}
-Cannon_12_descr
-{
-Небольная пушка. Повсеместно применяется на малых судах.
-Дальность - #dFireRange#, урон - x#f.1DamageMultiply#, перезарядка - #dReloadTime# сек.
+Cannon_12 {12-lb cannons}
+Cannon_12_descr {
+ Small cannons. Fired with the help of black powder, cast-iron cannon balls, exploding shot, grapeshot, and chain shot. Used on small vessels everywhere. 
+ Range - #dFireRange#; damage - x#f.1DamageMultiply#; reload - #dReloadTime# sec. 
 }
-
-Cannon_16 {Пушки 16 фунтовые}
-Cannon_16_descr
-{
-Среднее орудие.
-Дальность - #dFireRange#, урон - x#f.1DamageMultiply#, перезарядка - #dReloadTime# сек.
+Cannon_16 {16-lb cannons}
+Cannon_16_descr {
+ Medium-sized cannons. 
+ Range - #dFireRange#; damage - x#f.1DamageMultiply#; reload - #dReloadTime# sec. 
 }
-
-Cannon_24 {Пушки 24 фунтовые}
-Cannon_24_descr
-{
-Серьезное орудие для серьезных боев.
-Дальность - #dFireRange#, урон - x#f.1DamageMultiply#, перезарядка - #dReloadTime# сек.
+Cannon_24 {24-lb cannons}
+Cannon_24_descr {
+ Serious cannons for serious battles. 
+ Range - #dFireRange#; damage - x#f.1DamageMultiply#; reload - #dReloadTime# sec. 
 }
-
-Cannon_32 {Пушки 32 фунтовые}
-Cannon_32_descr
-{
-Огромное орудие для нанесение большого ущерба.
-Дальность - #dFireRange#, урон - x#f.1DamageMultiply#, перезарядка - #dReloadTime# сек.
+Cannon_32 {32-lb cannons}
+Cannon_32_descr {
+ Huge weapons, for delivering massive damage. Used to sink military vessels and bomb structures. Very difficult to use. 
+ Range - #dFireRange#; damage - x#f.1DamageMultiply#; reload - #dReloadTime# sec. 
 }
-
-Cannon_42 {Пушки 42 фунтовые}
-Cannon_42_descr
-{
-Фортовое орудие, которое может ставиться на очень крупные корабли.
-Дальность - #dFireRange#, урон - x#f.1DamageMultiply#, перезарядка - #dReloadTime# сек.
+Cannon_42 {42-lb cannons}
+Cannon_42_descr {
+ Intended for forts, yet may be mounted on very large ships. 
+ Range - #dFireRange#; damage - x#f.1DamageMultiply#; reload - #dReloadTime# sec. 
 }
-
-Culverine_12 {Кулеврины 12 фунтовые}
-Culverine_12_descr
-{
-Небольная пушка. Повсеместно применяется на малых судах.
-Дальность - #dFireRange#, урон - x#f.1DamageMultiply#, перезарядка - #dReloadTime# сек.
+Culverine_12 {12-lb culverins}
+Culverine_12_descr {
+ Small cannons of light construction, with relatively long barrels. Used on small ships everywhere. 
+ Range - #dFireRange#; damage - x#f.1DamageMultiply#; reload - #dReloadTime# sec. 
 }
-
-Culverine_16 {Кулеврины 16 фунтовые}
-Culverine_16_descr
-{
-Среднее орудие.
-Дальность - #dFireRange#, урон - x#f.1DamageMultiply#, перезарядка - #dReloadTime# сек.
+Culverine_16 {16-lb culverins}
+Culverine_16_descr {
+ Medium weapons, of superior range. 
+ Range - #dFireRange#; damage - x#f.1DamageMultiply#; reload - #dReloadTime# sec. 
 }
-
-Culverine_24 {Кулеврины 24 фунтовые}
-Culverine_24_descr
-{
-Серьезное орудие для серьезных боев.
-Дальность - #dFireRange#, урон - x#f.1DamageMultiply#, перезарядка - #dReloadTime# сек.
+Culverine_24 {24-lb culverins}
+Culverine_24_descr {
+ Serious weapons for serious battles. The length of the barrel makes reloading harder, but gives an advantage to the range of effectiveness. 
+ Range - #dFireRange#; damage - x#f.1DamageMultiply#; reload - #dReloadTime# sec. 
 }
-
-Culverine_32 {Кулеврины 32 фунтовые}
-Culverine_32_descr
-{
-Огромное орудие для нанесение большого ущерба.
-Дальность - #dFireRange#, урон - x#f.1DamageMultiply#, перезарядка - #dReloadTime# сек.
+Culverine_32 {32-lb culverins}
+Culverine_32_descr {
+ A huge weapon, to deal big damage over big distances. He who shoots first is the valiant. 
+ Range - #dFireRange#; damage - x#f.1DamageMultiply#; reload - #dReloadTime# sec. 
 }

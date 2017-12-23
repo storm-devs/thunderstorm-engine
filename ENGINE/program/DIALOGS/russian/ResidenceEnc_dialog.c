@@ -1,4 +1,4 @@
-
+#include "TEXT\DIALOGS\ResidenceEnc_dialog.h"
 void ProcessDialogEvent()
 {
 	ref NPChar;
@@ -37,20 +37,20 @@ void ProcessDialogEvent()
 			NextDiag.TempNode = "ResWoman";
 			if (isBadReputation(pchar, 40))
 			{
-				dialog.text = LinkRandPhrase("Шел бы ты отсюда, " + GetAddress_Form(NPChar) + ". Нечего шляться такому типу в доме у губернатора...", "Уходи, разбойник! Как вообще ты сюда попал?..", "Ну и времена настали. Всякая мерзость шастает по дому губернатора " + XI_ConvertString("Colony" + npchar.city + "Gen") + "!");
-				link.l1 = RandPhraseSimple("Полегче, дура...", "Аккуратней в выражениях...");
+				dialog.text = LinkRandPhrase(DLG_TEXT_BASE[0] + GetAddress_Form(NPChar) + DLG_TEXT_BASE[1], DLG_TEXT_BASE[2], DLG_TEXT_BASE[3] + XI_ConvertString("Colony" + npchar.city + "Gen") + "!");
+				link.l1 = RandPhraseSimple(DLG_TEXT_BASE[4], DLG_TEXT_BASE[5]);
 				link.l1.go = "exit";
 			}
 			else
 			{
-				dialog.text = LinkRandPhrase("Здравствуйте. Я прислуживаю губернатору. Меня зовут " + GetFullName(NPChar) + ".", "Я занимаюсь уборкой в этой комнате, " + GetAddress_Form(NPChar) + ".", "Вы знаете, " + GetAddress_Form(NPChar) + ", наш губернатор - хороший человек, и неплохо платит прислуге...");
-				link.l1 = RandPhraseSimple("Очень хорошо.", "Хм, прекрасно...");
+				dialog.text = LinkRandPhrase(DLG_TEXT_BASE[6] + GetFullName(NPChar) + ".", DLG_TEXT_BASE[7] + GetAddress_Form(NPChar) + ".", DLG_TEXT_BASE[8] + GetAddress_Form(NPChar) + DLG_TEXT_BASE[9]);
+				link.l1 = RandPhraseSimple(DLG_TEXT_BASE[10], DLG_TEXT_BASE[11]);
 				link.l1.go = "exit";
 			}
 		break;
 		case "Woman_FackYou":
-			dialog.text = "Ой, что же это делается?! А я-то дура, хожу, ничего не замечаю... Охрана!!";
-			link.l1 = "Заткнись, дура...";
+			dialog.text = DLG_TEXT_BASE[12];
+			link.l1 = DLG_TEXT_BASE[13];
 			link.l1.go = "exit_setOwner";
 			LAi_group_Attack(NPChar, Pchar);
 			if (rand(3) != 1) SetNationRelation2MainCharacter(sti(npchar.nation), RELATION_ENEMY);
@@ -60,20 +60,20 @@ void ProcessDialogEvent()
 			NextDiag.TempNode = "ResMan";
 			if (isBadReputation(pchar, 40))
 			{
-				dialog.text = LinkRandPhrase("Пошел вон отсюда, мерзавец!", "Немедленно убрайся из дома губернатора, негодяй!", "Мне нет дела до того, что тебе нужно в доме губернатора " + XI_ConvertString("Colony" + npchar.city + "Gen") + ". Но дам тебе совет - убирайся отсюда!");
-				link.l1 = RandPhraseSimple("Полегче, родной...", "Смотри не подавись своими словами!");
+				dialog.text = LinkRandPhrase(DLG_TEXT_BASE[14], DLG_TEXT_BASE[15], DLG_TEXT_BASE[16] + XI_ConvertString("Colony" + npchar.city + "Gen") + DLG_TEXT_BASE[17]);
+				link.l1 = RandPhraseSimple(DLG_TEXT_BASE[18], DLG_TEXT_BASE[19]);
 				link.l1.go = "exit";
 			}
 			else
 			{
-				dialog.text = LinkRandPhrase("Здравствуйте. Я - слуга губернатора. Меня зовут " + GetFullName(NPChar) + ".", "Я присматриваю здесь за порядком, " + GetAddress_Form(NPChar) + ".", "Вы знаете, " + GetAddress_Form(NPChar) + ", наш губернатор - хороший человек, и неплохо платит прислуге...");
-				link.l1 = RandPhraseSimple("Очень хорошо.", "Хм, прекрасно...");
+				dialog.text = LinkRandPhrase(DLG_TEXT_BASE[20] + GetFullName(NPChar) + ".", DLG_TEXT_BASE[21] + GetAddress_Form(NPChar) + ".", DLG_TEXT_BASE[22] + GetAddress_Form(NPChar) + DLG_TEXT_BASE[23]);
+				link.l1 = RandPhraseSimple(DLG_TEXT_BASE[24], DLG_TEXT_BASE[25]);
 				link.l1.go = "exit";
 			}
 		break;
 		case "Man_FackYou":
-			dialog.text = "Да ты никак вздумал обворовать губернатора?! С ума сошел!.. Охрана, держи вора!!";
-			link.l1 = "Закрой пасть...";
+			dialog.text = DLG_TEXT_BASE[26];
+			link.l1 = DLG_TEXT_BASE[27];
 			link.l1.go = "fight";
 			LAi_group_Attack(NPChar, Pchar);
 			if (rand(3) != 1) SetNationRelation2MainCharacter(sti(npchar.nation), RELATION_ENEMY);
@@ -83,14 +83,14 @@ void ProcessDialogEvent()
 			NextDiag.TempNode = "ResGuard";
 			if (isBadReputation(pchar, 40))
 			{
-				dialog.text = LinkRandPhrase("Шел бы отсюда, приятель...", "Проваливай отсюда!", "Ты, часом, дверью не ошибся? Это дом губернатора " + XI_ConvertString("Colony" + npchar.city + "Gen") + ". Тебе лучше уйти!");
-				link.l1 = RandPhraseSimple("Уйду, когда захочу!", "Не лезь не в свое дело...");
+				dialog.text = LinkRandPhrase(DLG_TEXT_BASE[28], DLG_TEXT_BASE[29], DLG_TEXT_BASE[30] + XI_ConvertString("Colony" + npchar.city + "Gen") + DLG_TEXT_BASE[31]);
+				link.l1 = RandPhraseSimple(DLG_TEXT_BASE[32], DLG_TEXT_BASE[33]);
 				link.l1.go = "exit";
 			}
 			else
 			{
-				dialog.text = LinkRandPhrase("Сегодня меня поставили в наряд к губернатору. Неплохое место...", "Я охраняю дом губернатора, " + GetAddress_Form(NPChar) + ".", "Моя задача - охранять дом губернатора.");
-				link.l1 = RandPhraseSimple("Здорово.", "Хм, понятно...");
+				dialog.text = LinkRandPhrase(DLG_TEXT_BASE[34], DLG_TEXT_BASE[35] + GetAddress_Form(NPChar) + ".", DLG_TEXT_BASE[36]);
+				link.l1 = RandPhraseSimple(DLG_TEXT_BASE[37], DLG_TEXT_BASE[38]);
 				link.l1.go = "exit";
 			}
 		break;

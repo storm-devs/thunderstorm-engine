@@ -1602,7 +1602,7 @@ void procInfoShow()
 						objInfoList[nInfoIdx].picfilename = "loading\start_loading.tga";
 					break;
 					case 1 :
-						objInfoList[nInfoIdx].picfilename = "loading\load_rat.tga";
+						objInfoList[nInfoIdx].picfilename = "loading\seaStand.tga";
 					break;
 					case 2 :
 						objInfoList[nInfoIdx].picfilename = "loading\battle.tga";
@@ -1611,7 +1611,7 @@ void procInfoShow()
 						objInfoList[nInfoIdx].picfilename = "loading\shipcannon.tga";
 					break;
 					case 4 :
-						objInfoList[nInfoIdx].picfilename = "loading\tavern_fight.tga";
+						objInfoList[nInfoIdx].picfilename = "loading\rescue.tga";
 					break;
 				}
 			break;
@@ -2057,7 +2057,7 @@ void MakeQuickSave()
 	// boal 09.07.06 -->
 	if (!QuickSaveGameEnabledHardcore())
 	{
-        Log_Info("—охранение в данной игре возможно только в церкв€х.");
+        Log_Info(MsgIS("SaveLimit"));
 		return;
 	}
 	SetTimeScale(1.0);
@@ -2212,12 +2212,13 @@ string GetPlayTime()
 	int hours = sti( InterfaceStates.GameTime.hour );
 	int days = hours / 24;
 	hours = hours - days*24;
+	int idLngFile = LanguageOpenFile("save_load.txt");
 
 	string sPlayTime = "";
 	if( days>0 ) {
-		sPlayTime = days + "days - ";
+		sPlayTime = days + LanguageConvertString(idLngFile, "Days");
 	}
-	sPlayTime += InterfaceStates.GameTime.hour + " hours " + InterfaceStates.GameTime.min + " min.";
+	sPlayTime += InterfaceStates.GameTime.hour + LanguageConvertString(idLngFile, "Hours") + InterfaceStates.GameTime.min + LanguageConvertString(idLngFile, "Min");
 	return sPlayTime;
 }
 

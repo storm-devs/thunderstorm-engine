@@ -567,7 +567,9 @@ int LocationInitMaracaibo(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Maracaibo_ExitTown";
 	locations[n].id.label = "ExitTown";
-	locations[n].image = "loading\Gate.tga";
+	locations[n].image = "loading\Gate" + rand(1) + ".tga";
+	//Town sack
+	locations[n].townsack = "Maracaibo";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -677,7 +679,7 @@ int LocationInitMaracaibo(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Maracaibo_CaveEntrance";
 	locations[n].id.label = "Cave entrance";
-	locations[n].image = "loading\outside\cave_ent.tga";
+	locations[n].image = "loading\outside\jungle2.tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -741,14 +743,13 @@ int LocationInitMaracaibo(int n)
 	locations[n].models.always.lamps = "cavernMedium2_lamps";	
 	locations[n].models.always.locators = "cavernMedium2_locators";	
 
-	Locations[n].models.always.duhi = "duhi";
-	Locations[n].models.always.duhi.locator.group = "item";
-	Locations[n].models.always.duhi.locator.name = "duhi1";
-	locations[n].models.always.duhi.tech = "LighthouseLight";
-	locations[n].models.always.duhi.level = 60;
-	Locations[n].models.always.duhi.uvslide.u0 = 0.15;
-	Locations[n].models.always.duhi.uvslide.v0 = 0.1;
 	locations[n].locators_radius.item.duhi1 = 1.3;
+	
+	Locations[n].models.always.rays = "cavernMedium2_rays";
+	Locations[n].models.always.rays.level = 49;
+	Locations[n].models.always.rays.tech= "LocVisRays";
+	Locations[n].models.always.rays.uvslide.u1 = -0.03;
+	Locations[n].models.always.rays.uvslide.v1 = -0.03	
 	//Day
 	locations[n].models.day.charactersPatch = "cavernMedium2_patch";
 	//Night
@@ -829,7 +830,7 @@ int LocationInitMaracaibo(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     locations[n].id = "Maracaibo_jungle_02";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle3.tga";
+	locations[n].image = "loading\outside\jungle.tga";
  	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -878,7 +879,7 @@ int LocationInitMaracaibo(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Maracaibo_CaveEntrance_02";
 	locations[n].id.label = "Cave entrance";
-	locations[n].image = "loading\outside\cave_ent.tga";
+	locations[n].image = "loading\outside\jungle2.tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -927,7 +928,7 @@ int LocationInitMaracaibo(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore_ship3";
 	locations[n].id.label = "Shore_ship3";
-	locations[n].image = "loading\outside\broken_ship.tga";
+	locations[n].image = "loading\outside\harbor3.tga";
 	locations[n].worldmap = "Shore_ship3";
 	//Sound
 	locations[n].type = "seashore";
@@ -958,7 +959,7 @@ int LocationInitMaracaibo(int n)
 	locations[n].environment.sea = "true";
 	//Reload map
 	locations[n].reload.l1.name = "reload1";
-	locations[n].reload.l1.go = "Common_jungle_01";
+	locations[n].reload.l1.go = "DesMoines_town";
 	locations[n].reload.l1.emerge = "reload1";
 	locations[n].reload.l1.autoreload = "1";
 	locations[n].reload.l1.label = "Jungle";
@@ -970,6 +971,118 @@ int LocationInitMaracaibo(int n)
 	locations[n].reload.l2.autoreload = "0";
 	locations[n].reload.l2.label = "Sea";
     locations[n].locators_radius.reload.boat = 9.0;
+	n = n + 1;
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Дес-Мойнес. Зачарованный городок рыбаков.
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    Locations[n].id = "DesMoines_town";
+	locations[n].id.label = "DesMoines";
+	Locations[n].image = "loading\towns\pearl1.tga";
+	//Sound
+	locations[n].type = "jungle";
+	locations[n].islandId = "Mein";
+	locations[n].islandIdAreal = "Maracaibo";
+	//Models
+	//Always
+	Locations[n].filespath.models = "locations\Outside\pirateFort";
+	Locations[n].models.always.pirateFort = "pirateFort";	
+	Locations[n].models.always.locators = "pirateFort_locators";		
+	Locations[n].models.always.grassPatch = "pirateFort_grass";
+	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga.tx";	
+	Locations[n].models.always.l1 = "plan1";
+	Locations[n].models.always.l1.level = 9;
+	Locations[n].models.always.l1.tech = "LocationModelBlend";
+	Locations[n].models.always.l2 = "plan2";
+	Locations[n].models.always.l2.level = 8;
+	Locations[n].models.always.l2.tech = "LocationModelBlend";
+	Locations[n].models.always.l3 = "plan3";
+	Locations[n].models.always.l3.level = 7;
+	Locations[n].models.always.l3.tech = "LocationModelBlend";	
+	//Day
+	locations[n].models.day.charactersPatch = "pirateFort_patch";
+	locations[n].models.day.fonars = "pirateFort_fd";
+	//Night
+	locations[n].models.night.charactersPatch = "pirateFort_patch";
+	locations[n].models.night.fonars = "pirateFort_fn";	
+	//Environment
+	locations[n].environment.weather = "true";
+	locations[n].environment.sea = "false";
+	//Reload map
+	Locations[n].reload.l1.name = "reload1_back";
+	Locations[n].reload.l1.go = "Shore_ship3";
+	Locations[n].reload.l1.emerge = "reload1";
+	Locations[n].reload.l1.label = "Shore_ship3";
+	Locations[n].reload.l1.autoreload = 1;
+	Locations[n].locators_radius.reload.reload1_back = 2;
+
+	Locations[n].reload.l2.name = "reload2";
+	Locations[n].reload.l2.go = "CommonHut";
+	Locations[n].reload.l2.emerge = "reload1";
+	Locations[n].reload.l2.label = "house";
+
+	Locations[n].reload.l3.name = "reload3";
+	Locations[n].reload.l3.go = "CommonRoom_MH";
+	Locations[n].reload.l3.emerge = "reload1";
+	Locations[n].reload.l3.label = "house";
+
+	Locations[n].reload.l4.name = "reload4";
+	Locations[n].reload.l4.go = "CommonHut";
+	Locations[n].reload.l4.emerge = "reload1";
+	Locations[n].reload.l4.label = "house";
+
+	Locations[n].reload.l5.name = "reload5";
+	Locations[n].reload.l5.go = "CommonHut";
+	Locations[n].reload.l5.emerge = "reload1";
+	Locations[n].reload.l5.label = "house";
+
+	Locations[n].reload.l6.name = "reload6";
+	Locations[n].reload.l6.go = "DesMoines_Townhall";
+	Locations[n].reload.l6.emerge = "reload1";
+	Locations[n].reload.l6.label = "house";
+	n = n + 1;
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Резиденция
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	locations[n].id = "DesMoines_Townhall";
+	locations[n].id.label = "House";
+	locations[n].image = "loading\inside\mediumhouse02.tga";
+	//Town sack
+	locations[n].townsack = "DesMoines_town";
+	locations[n].lockWeather = "Inside";
+	//Sound
+	locations[n].type = "house";
+	locations[n].islandId = "Mein";
+	locations[n].islandIdAreal = "Maracaibo";
+	//Models
+	//Always
+	locations[n].filespath.models = "locations\inside\mediumhouse02";
+	locations[n].models.always.mediumhouse02 = "mediumhouse02";
+	locations[n].models.always.mediumhouse02.level = 65538;
+	locations[n].models.day.locators = "mediumhouse02_locators";
+	locations[n].models.night.locators = "mediumhouse02_Nlocators";
+
+	Locations[n].models.always.mediumhouse02windows = "mediumhouse02_windows";
+	Locations[n].models.always.mediumhouse02windows.tech = "LocationWindows";
+	locations[n].models.always.mediumhouse02windows.level = 65539;
+
+	locations[n].models.always.back = "..\inside_back";
+	locations[n].models.always.back.level = 65529;
+	//Day
+	Locations[n].models.always.mediumhouse02rand= "mediumhouse02_rand";
+	locations[n].models.day.charactersPatch = "mediumhouse02_patch";
+	//Night
+	locations[n].models.night.charactersPatch = "mediumhouse02_patch";
+	//Environment
+	locations[n].environment.weather = "true";
+	locations[n].environment.sea = "false";
+	//Reload map
+	locations[n].reload.l1.name = "reload1";
+	locations[n].reload.l1.go = "DesMoines_town";
+	locations[n].reload.l1.emerge = "reload6";
+	locations[n].reload.l1.autoreload = "0";
+	locations[n].reload.l1.label = "Street";
 	n = n + 1;
 
 	return n;

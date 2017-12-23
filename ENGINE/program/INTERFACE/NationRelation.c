@@ -118,7 +118,7 @@ void InitInterface(string iniName)
 
     CalculateHunter();
     
-    CreateString(true,"Flag1","Флаг на корабле","DIALOG2",COLOR_NORMAL,630,432,SCRIPT_ALIGN_LEFT,1.0);
+    CreateString(true,"Flag1", xiStr("MSG_NationLegend_5"), "DIALOG2",COLOR_NORMAL,630,432,SCRIPT_ALIGN_LEFT,1.0);
     curNationIdx = sti(chref.nation);
     SetNewNation(0);
     XI_RegistryExitKey("IExit_F2");

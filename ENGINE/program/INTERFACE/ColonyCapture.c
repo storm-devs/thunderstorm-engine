@@ -29,7 +29,7 @@ void InitInterface_R(string iniName, ref pStore)
 	}
 	GameInterface.TABLE_LIST.hr.td1.str = XI_ConvertString("In the hold");
 	GameInterface.TABLE_LIST.hr.td1.scale = 0.9;
-	GameInterface.TABLE_LIST.hr.td2.str = "Вес";
+	GameInterface.TABLE_LIST.hr.td2.str = MsgIS("Weight");
 	GameInterface.TABLE_LIST.hr.td2.scale = 0.9;
 	GameInterface.TABLE_LIST.hr.td3.str = XI_ConvertString("Good name");
 	GameInterface.TABLE_LIST.hr.td3.scale = 0.9;
@@ -42,9 +42,9 @@ void InitInterface_R(string iniName, ref pStore)
 		GameInterface.TABLE_LIST.hr.td4.str = XI_ConvertString("In the store");
 	}
 	GameInterface.TABLE_LIST.hr.td4.scale = 0.9;
-	GameInterface.TABLE_LIST.hr.td5.str = "Пачка";
+	GameInterface.TABLE_LIST.hr.td5.str = MsgIS("Pack");
 	GameInterface.TABLE_LIST.hr.td5.scale = 0.9;
-	GameInterface.TABLE_LIST.hr.td6.str = "Вес пачки";
+	GameInterface.TABLE_LIST.hr.td6.str = MsgIS("Pack weight");
 	GameInterface.TABLE_LIST.hr.td6.scale = 0.9;
 
     FillShipsScroll();
@@ -86,11 +86,11 @@ void InitInterface_R(string iniName, ref pStore)
 
 	if(refStore.Colony == "none")
 	{
-		SetFormatedText("STORECAPTION1", "Корабль: '" + refShipChar.ship.name + "'");
+		SetFormatedText("STORECAPTION1", MsgIS("Ship__") + refShipChar.ship.name + "'");
 	}
 	else
 	{
-		SetFormatedText("STORECAPTION1", XI_ConvertString("Colony" + refStore.Colony) + ": Грабёж");
+		SetFormatedText("STORECAPTION1", XI_ConvertString("Colony" + refStore.Colony) + MsgIS("_Robbery"));
 	}
 
  	if (refStore.Colony == "none")
@@ -347,16 +347,12 @@ void ShowHelpHint()
 	
 	if (!bShowChangeWin)
 	{// покажем помощь по работе с формой
-        sHeader = "Интерфейс грабежа города";
-		sText1 = "Двойной клик мыши или Enter по строкам таблицы вызывает форму перемещения товара. "+ newStr() +
-		         "Shift + лево/право на строках таблицы автоматически вызывают форму с предустановленным количеством на максимальное. "+ newStr() +
-				 "Ввод положительного количества с клавиатуры устанавливает взятие товара, а отрицательного (с минусом) обратное перемещение."+ newStr() +
-				 "Стрелки лево/право изменяют количество по пачкам, а Shift + лево/право на максимально доступное. Нажатие Enter на форме равносильно ОК, а Esc - Отмена." + newStr() +
-				 "Находясь в режиме формы и мотая список в таблице стрелкам вверх/вниз, можно просматривать описание товара под курсором таблицы.";
+        sHeader = MsgIS("Robbery_interface");
+		sText1  = MsgIS("Robbery_interface_hint_1");
 				 
-        sText2 = "Быстрое взятие всего: стрелками вверх/вниз по списку, Shift + право, Enter";
+        sText2  = MsgIS("Robbery_interface_hint_2");
         
-        sText3 = "Цвета: красный - контрабанда, синий - импорт, зеленый - экспорт";
+        sText3  = MsgIS("Trade_interface_hint_3");
         
 		CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,192,192,192), sText3, argb(255,255,255,255), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 64, 64);
 	}
@@ -462,7 +458,7 @@ void SetVariable()
 	}
 	else
 	{
-	    sMaxGoodsStore = "Город";
+	    sMaxGoodsStore = MsgIS("City");
 	}
 	SetFormatedText("STORE_CAPACITY", sMaxGoodsStore);
 
@@ -544,7 +540,7 @@ void ShowGoodsInfo(int iGoodIndex)
     iCurGoodsIdx = iGoodIndex;
 	string goodsDescr = GetAssembledString( LanguageConvertString(lngFileID,goodName+"_descr"), &Goods[iGoodIndex]);
     goodsDescr += newStr() + XI_ConvertString("weight") + " " + Goods[iGoodIndex].weight + " " + XI_ConvertString("cwt") +
-	              ", пачка " + Goods[iGoodIndex].Units + " " + XI_ConvertString("units");
+	              MsgIS("__pack") +" " + Goods[iGoodIndex].Units + " " + XI_ConvertString("units");
 
 	iUnits  = sti(Goods[iGoodIndex].Units);
 	fWeight = stf(Goods[iGoodIndex].weight);
@@ -692,8 +688,8 @@ void ChangeQTY_EDIT()
 		        GameInterface.qty_edit.str = makeint(iWeight / fWeight * iUnits ); // округдение
 		    }
 		    // проверка на колво доступное <--
-		    SetFormatedText("QTY_TypeOperation", "Оставить");
-		    SetFormatedText("QTY_Result", "Вес " + iWeight + " ц");
+		    SetFormatedText("QTY_TypeOperation", MsgIS("Leave"));
+		    SetFormatedText("QTY_Result", MsgIS("Weight") + " " + iWeight + " " + MsgIS("cwt"));
 		}
 		else
 		{
@@ -714,8 +710,8 @@ void ChangeQTY_EDIT()
 		    }
 		    // проверка на колво доступное <--
 
-			SetFormatedText("QTY_TypeOperation", "Взять");
-			SetFormatedText("QTY_Result", "Вес " + iWeight + " ц");
+			SetFormatedText("QTY_TypeOperation", MsgIS("Take"));
+			SetFormatedText("QTY_Result", MsgIS("Weight") + " " + iWeight + " " + MsgIS("cwt"));
 		}
 	}
 	// если получили ноль

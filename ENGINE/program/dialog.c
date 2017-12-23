@@ -107,9 +107,21 @@ void StartDialogMain()
 	{
 		if(CharacterRef.greeting != "")
 		{
-			dialogGreetingSound = CharacterRef.greeting;
-			dialogWaitGreetingSound = 0;
-			SetEventHandler("frame", "DialogPlayGreeting", 1);
+			if (!CheckAttribute(CharacterRef, "greeting.minute"))
+			{
+				dialogGreetingSound = CharacterRef.greeting;
+				dialogWaitGreetingSound = 0;
+				SetEventHandler("frame", "DialogPlayGreeting", 1);
+			}
+			else
+			{
+				if (sti(CharacterRef.greeting.minute) != sti(Environment.date.min))
+				{
+					dialogGreetingSound = CharacterRef.greeting;
+					dialogWaitGreetingSound = 0;
+					SetEventHandler("frame", "DialogPlayGreeting", 1);
+				}
+			}
 		}
 	}
 
@@ -139,6 +151,7 @@ void DialogPlayGreeting()
 	DelEventHandler("frame", "DialogPlayGreeting");
 	//Dialog.greeting = LanguageGetLanguage() + " " + CharacterRef.greeting;
 	Dialog.greeting = CharacterRef.greeting;
+	CharacterRef.greeting.minute = GetMinute();
 	//Dialog.greeting = "Gr_Barmen";
 }
 

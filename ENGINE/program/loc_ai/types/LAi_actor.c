@@ -45,7 +45,7 @@ void LAi_type_actor_Init(aref chr)
 		if(!CheckAttribute(chr, "chr_ai.type.mode")) chr.chr_ai.type.mode = "stay";
 	}
 	//Установим анимацию персонажу
-	if (chr.model.animation == "mushketer")
+	if (chr.model.animation == "mushketer" && !CheckAttribute(chr, "isMusketer.weapon"))
 	{
         while (FindCharacterItemByGroup(chr, BLADE_ITEM_TYPE) != "")
         {
@@ -57,8 +57,14 @@ void LAi_type_actor_Init(aref chr)
         }		
 		GiveItem2Character(chr, "unarmed");
 		EquipCharacterbyItem(chr, "unarmed");
-		GiveItem2Character(chr, "mushket");
-		EquipCharacterbyItem(chr, "mushket");
+		string sMush = "mushket";
+		if (chr.model == "MusketeerEnglish_2") sMush = "mushket2x2";
+		GiveItem2Character(chr, sMush);
+		EquipCharacterbyItem(chr, sMush);
+		chr.items.bullet = 300;
+		chr.isMusketer = true;
+		if (!CheckAttribute(chr, "MusketerDistance"))
+			chr.MusketerDistance = 10.0 + frand(10.0);
 	}
 	else
 	{
@@ -94,6 +100,47 @@ void LAi_type_actor_CharacterUpdate(aref chr, float dltTime)
 			}
 		}
 	}
+	if (CheckAttribute(chr, "reactionOnFightModeOn"))
+	{
+		int num = FindNearCharacters(chr, 5.0, -1.0, -1.0, 0.01, true, true);
+		if(num > 0)
+		{
+			for(int i = 0; i < num; i++)
+			{
+				int idx = sti(chrFindNearCharacters[i].index);
+				ref by = &Characters[idx];
+				if (LAi_CheckFightMode(by))
+				{
+					LAi_group_FightGroups(chr.chr_ai.group, by.chr_ai.group, true);
+					//линейка ГПК, каспер-любовничек идет на свиданку. вызывать ли подкрепление
+					if (pchar.questTemp.LSC == "toSeekMechanik")
+					{
+						LSC_CheckCasperDistance(chr);
+					}
+				}
+				else
+				{					
+					if (CheckAttribute(chr, "checkChrDistance"))
+					{
+						float time, dist;
+						time = stf(chr.checkChrDistance.time) - dltTime;
+						chr.checkChrDistance.time = time;
+						if (time < 0)
+						{	
+							GetCharacterDistByChr(sld, characterFromId(by.id), &dist);
+							if (by.id == chr.checkChrDistance.id && dist <= stf(chr.checkChrDistance))
+							{
+								if (CheckAttribute(chr, "checkChrDistance.node")) chr.dialog.currentnode = chr.checkChrDistance.node;
+								LAi_ActorDialog(chr, by, "", 0.0, 0);
+								chr.checkChrDistance.time = 10.0;
+							}
+						}
+					}
+				}
+			}
+		}		
+	}
+
 }
 
 //Загрузка персонажа в локацию
@@ -225,6 +272,11 @@ void LAi_type_actor_Attacked(aref chr, aref by)
 	if (CheckAttribute(chr, "BreakTmplAndFight"))
 	{
 		LAi_SetWarriorTypeNoGroup(chr);
+		//линейка ГПК, каспер-любовничек идет на свиданку. вызывать ли подкрепление
+		if (pchar.questTemp.LSC == "toSeekMechanik")
+		{
+			LSC_CheckCasperDistance(chr);
+		}
 	}
 	if (CheckAttribute(chr, "BreakTmplAndFightGroup"))
 	{

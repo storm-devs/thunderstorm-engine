@@ -1,4 +1,4 @@
-// диалог по городам
+#include "TEXT\DIALOGS\Mayor\Cumana_Mayor.h"
 void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 {
 	ref sld;
@@ -6,36 +6,36 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
     switch (Dialog.CurrentNode)
 	{
 		case "quests":
-			dialog.text = NPCStringReactionRepeat(RandPhraseSimple("Что вы хотели? Спрашивайте.", "Я слушаю вас, что за вопрос?"), "Второй раз за день вы пытаетесь задать ворпос...", "В третий раз за день вы опять пытаетесь задать вопрос...",
-                          "Да когда же это кончится?! У меня дел полно по управлению делами города, а ты все вопросы пытаешься задать!", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat(RandPhraseSimple("Я передумал...", "Не сейчас, не место и не время..."), "Да, верно... Но не сейчас, позже...",
-                      "Задам, задам... Только позже...", "Извините, " + GetAddress_FormToNPC(NPChar) + "...", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(RandPhraseSimple(DLG_TEXT_MR[0], DLG_TEXT_MR[1]), DLG_TEXT_MR[2], DLG_TEXT_MR[3],
+                          DLG_TEXT_MR[4], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(RandPhraseSimple(DLG_TEXT_MR[5], DLG_TEXT_MR[6]), DLG_TEXT_MR[7],
+                      DLG_TEXT_MR[8], DLG_TEXT_MR[9] + GetAddress_FormToNPC(NPChar) + "...", npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
 			if (pchar.questTemp.State == "Sp8SaveCumana_GoodWork")//квест №8 испанки.
 			{
-				dialog.text = RandPhraseSimple("Сеньор, весь город благодарен вам по гроб жизни. Если бы не вы, даже страшно себе представить, что могло произойти...", "Весь город наблюдал за сражением - это была великая битва. Мы вам очень благодарны за спасение от грязных пиратов.");
-				link.l1 = RandPhraseSimple("Да уж, от ладронов пощады ждать не приходится...", "Этих ладронов нужно уничтожать повсеместно...");
+				dialog.text = RandPhraseSimple(DLG_TEXT_MR[10], DLG_TEXT_MR[11]);
+				link.l1 = RandPhraseSimple(DLG_TEXT_MR[12], DLG_TEXT_MR[13]);
 				link.l1.go = "exit";			
 			}
 		break;
 
 		case "Cupture_after":
-            dialog.text = RandPhraseSimple("Вы уже все забрали. Что вам еще нужно?", "Неужели осталось еще что-то, что вы не прихватили?");
-            link.l1 = RandPhraseSimple("Осматриваюсь напоследок...", "Проверяю, может забыл что забрать...");
+            dialog.text = RandPhraseSimple(DLG_TEXT_MR[14], DLG_TEXT_MR[15]);
+            link.l1 = RandPhraseSimple(DLG_TEXT_MR[16], DLG_TEXT_MR[17]);
             link.l1.go = "exit";
             NextDiag.TempNode = "Cupture_after";
 		break;
 		//************************** Квестовые штрумы ************************	
         //==> Одиннадцатый квест англ.линейки: захват Каракаса и Куманы.
         case "EngLine11Quest_OccupyMein":
-			dialog.text = "Все, мы прекратили сопротивление. Город ваш. Что теперь будет?";
-			link.l1 = "Данной мне генерал-губернатором Ямайки властью объявляю данный город владением Карла II Стюарта.";
+			dialog.text = DLG_TEXT_MR[18];
+			link.l1 = DLG_TEXT_MR[19];
 			link.l1.go = "Step_E10_1";
 			AfterTownBattle();
         break;
         case "Step_E10_1":
-			dialog.text = "Т-а-ак...";
-			link.l1 = "Теперь город Кумана находится под протекторатом Англии. Все налоговые сборы, торговые пошлины и прочее населению надлежит платить новой английской администрации.";
+			dialog.text = DLG_TEXT_MR[20];
+			link.l1 = DLG_TEXT_MR[21];
 			link.l1.go = "exit";
             AddQuestRecord("Eng_Line_11_OccupyMein", "3");
             pchar.questTemp.Q11_Cumana = 1;
@@ -52,42 +52,43 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
         break;
         //==> Шестой квест фр.линейки: захват Куманы с Олоне.
  		case "FraLine6Quest_Attack":
-			dialog.text = "Наш город пал... Я готов выслушать ваши требования.";
-			link.l1 = "Нам стало известно, что в Кумане находится 200 тысяч реалов... Мы пришли сюда за этими деньгами.";
+			dialog.text = DLG_TEXT_MR[22];
+			link.l1 = DLG_TEXT_MR[23];
 			link.l1.go = "Step_F6_1";
 			group_DeleteGroup("Spa_Attack");
 			AfterTownBattle();
 		break;		
 		case "Step_F6_1":
-            dialog.text = "Хм, понятно... А если я скажу, что денег нет?";
-			link.l1 = "Послушайте, сеньор, вы знаете кто такой Франсуа Олоне?";
+            dialog.text = DLG_TEXT_MR[24];
+			link.l1 = DLG_TEXT_MR[25];
             link.l1.go = "Step_F6_2";
         break;
 		case "Step_F6_2":
-            dialog.text = "Мне доводилось слышать имя этого дьявольского отродья...";
-			link.l1 = "Так вот, Олоне - мой компаньон, он брал город вместе со мной. И поверьте мне - если вы будете упорствовать, то половина жителей вашего города лишится головы. И отсечет головы Олоне собственноручно на глазах остальных людей. Как вам такая перспектива?";
+            dialog.text = DLG_TEXT_MR[26];
+			link.l1 = DLG_TEXT_MR[27];
             link.l1.go = "Step_F6_3";
         break;
 		case "Step_F6_3":
 			if (GetQuestPastDayParam("questTemp") < 14)
 			{
-				dialog.text = "Я слышал, что такое он уже проделывал... Ну что же, я не буду строить из себя героя, тем более, что пострадают совершенно невинные люди... Все реалы в соседней комнате в секретере. Забирайте и будте прокляты!";
-				link.l1 = "Осторожней в выражениях, сударь. Я хоть и не Олоне, но с удовольствием отрежу твой поганый язык...";
+				dialog.text = DLG_TEXT_MR[28];
+				link.l1 = DLG_TEXT_MR[29];
 				link.l1.go = "Step_F6_exit";
          		pchar.GenQuestBox.Cumana_TownhallRoom = true;
 				pchar.GenQuestBox.Cumana_TownhallRoom.box1.money = 200000;
+				LocatorReloadEnterDisable("Cumana_townhall", "reload2", false);
 				pchar.questTemp.State = "Fr5Olone_FoundMoney";
 			}
 			else
 			{
-				dialog.text = "Я слышал, что такое он уже проделывал и нисколько не сомневаюсь, что сможет проделать еще. Но денег нет, это правда. Пять дней тому назад за ними пришла эскадра. Деньги на пути в новый свет.";
-				link.l1 = "Тогда мы будем пытать население города...";
+				dialog.text = DLG_TEXT_MR[30];
+				link.l1 = DLG_TEXT_MR[31];
 				link.l1.go = "Step_F6_4";
 			}
         break;
 		case "Step_F6_4":
-            dialog.text = "Сеньор, совершенно ясно, что мы в вашей власти. Я, как губернатор этого города, совершенно четко осознаю, в какой ситуации мы находимся. Забирайте все, что найдете, но денег, за которыми вы сюда пришли, здесь уже нет. Вы опоздали...";
-			link.l1 = "Каррамба!! Я должен обсудить судьбу города со своими компаньонами!";
+            dialog.text = DLG_TEXT_MR[32];
+			link.l1 = DLG_TEXT_MR[33];
             link.l1.go = "Step_F6_exit";
 			pchar.questTemp.State = "Fr5Olone_WeLate";
         break;

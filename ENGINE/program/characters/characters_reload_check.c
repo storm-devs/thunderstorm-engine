@@ -65,6 +65,10 @@ bool chrCheckReload(ref loc, string reloadLocatorName)
 			{
 				if(GetTime()>21.0 || GetTime()<6.0) disableVal++;
 			}
+   			if(CheckAttribute(at, "open_for_day") && sti(at.open_for_day)>0)
+			{
+				if(GetTime()<10.0 || GetTime()>19.0) disableVal++;
+			}
 			return disableVal <= 0;
 		}
 	}

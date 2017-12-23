@@ -122,8 +122,8 @@ int LocationInitCommonLoc(int n)
 	locations[n].models.always.window = "StoneHouse_window";
 	locations[n].models.always.window.tech = "LocationWindows";
 	locations[n].models.always.window.level = 65539;
-	locations[n].models.day.locators = "StoneHouse_locators";
-	locations[n].models.night.locators = "StoneHouse_Nlocators";
+    locations[n].models.day.locators = "StoneHouse_lPrivate"; // homo for CapBloodLine
+    locations[n].models.night.locators = "StoneHouse_lPrivateN";
 
 	locations[n].models.always.back = "..\inside_back";
 	locations[n].models.always.back.level = 65529;
@@ -146,6 +146,7 @@ int LocationInitCommonLoc(int n)
 	locations[n].reload.l2.emerge = "reload1";
 	locations[n].reload.l2.autoreload = "0";
 	locations[n].reload.l2.label = "Room";
+    locations[n].locators_radius.box.box2 = 1.6;
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -461,7 +462,7 @@ int LocationInitCommonLoc(int n)
 
 	Locations[n].models.always.mediumhouse09windows = "mediumhouse09_windows";
 	Locations[n].models.always.mediumhouse09windows.tech = "LocationWindows";
-	locations[n].models.always.back.mediumhouse09windows = 65539;
+	locations[n].models.always.mediumhouse09windows.level = 65539;
 
 	locations[n].models.always.back = "..\inside_back";
 	locations[n].models.always.back.level = 65529;

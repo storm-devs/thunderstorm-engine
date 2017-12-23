@@ -1,31 +1,31 @@
-// диалог по городам
+#include "TEXT\DIALOGS\Store\Villemstad_Store.h"
 void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 {
 
 	switch (Dialog.CurrentNode)
 	{
 		case "quests":
-			dialog.text = NPCStringReactionRepeat("Спрашивай, чего ты хочешь?",
-                          "Мы только что поднимали это тему. Вы, вероятно, запамятовали...", "Сегодня вы уже третий раз говорите о каком-то вопросе...",
-                          "Послушай, это магазин, здесь люди покупают что-то. Не отвлекай меня!", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat("Знаешь, " + NPChar.name + ", как-нибудь в следующий раз.", "Точно, забыл что-то...",
-                      "Да уж, действительно в третий раз...", "Гм, не буду...", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(DLG_TEXT_STR[0],
+                          DLG_TEXT_STR[1], DLG_TEXT_STR[2],
+                          DLG_TEXT_STR[3], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(DLG_TEXT_STR[4] + NPChar.name + DLG_TEXT_STR[5], DLG_TEXT_STR[6],
+                      DLG_TEXT_STR[7], DLG_TEXT_STR[8], npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
             // ==> Проверяем поле состояния квестов.
             if (pchar.questTemp.State == "Inquisition_toCuracao" || pchar.questTemp.State == "Inquisition_afterFrancisco")// квест №2 голл. линейки.
             {
                 if (!CheckAttribute(pchar, "questTemp.State.Store"))
                 {
-                    dialog.text = "Вы не похожи на простого покупателя. Что вам нужно?";
-        			link.l1 = "Меня зовут " + GetFullName(pchar) + ". Вы грешны, друг мой, очень грешны. Меня послала Святая Инквизиция , вам предлагается прощение Папы, индульгенция обойдется в 50 тысяч.";
+                    dialog.text = DLG_TEXT_STR[9];
+        			link.l1 = DLG_TEXT_STR[10] + GetFullName(pchar) + DLG_TEXT_STR[11];
         			link.l1.go = "Step_S2_1";
                 }
                 else
                 {
                     if (CheckPassengerInCharacter(pchar, "JacowDeFonseka"))
                     {
-                        dialog.text = "Вы сделали это! Я очень благодарен вам! Вот требуемая сумма 100 тысяч за нас двоих.";
-            			link.l1 = "Ну что же, прекрасно. Могу вас поздравить, что все так удачно разрешилось.";
+                        dialog.text = DLG_TEXT_STR[12];
+            			link.l1 = DLG_TEXT_STR[13];
             			link.l1.go = "Step_S2_7";
                         AddMoneyToCharacter(pchar, 100000);
                         pchar.questTemp.State.Store = "Ok";
@@ -36,14 +36,14 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
                     {
                         if (pchar.questTemp.State.Store != "Ok")
                         {
-                            dialog.text = "Вы что-нибудь узнали о Якове?";
-                			link.l1 = "Пока нет, но я этим занимаюсь.";
+                            dialog.text = DLG_TEXT_STR[14];
+                			link.l1 = DLG_TEXT_STR[15];
                 			link.l1.go = "exit";
                 		}
                 		else
                 		{
-                            dialog.text = "Мы с Яковом благодарны вам. Хотя вы и появились с недобрыми вестями, тем не менее оказали нам большую услугу. Спасибо.";
-                			link.l1 = "Да нет проблем.";
+                            dialog.text = DLG_TEXT_STR[16];
+                			link.l1 = DLG_TEXT_STR[17];
                 			link.l1.go = "exit";
                 		}
                     }
@@ -53,35 +53,35 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 		break;
 //*************************** Квест №2 испанки, задание Инквизиции ***************************
  		case "Step_S2_1":
-    		dialog.text = "Даже при более удачных обстоятельствах для развития моего дела, я не в силах заплатить такую сумму. Я не обманываю людей и не наживаюсь на этом. Все мои деньги сейчас в обороте.";
-    		link.l1 = "Значит, вы отказываетесь платить?";
+    		dialog.text = DLG_TEXT_STR[18];
+    		link.l1 = DLG_TEXT_STR[19];
     		link.l1.go = "Step_S2_2";
  		break;
  		case "Step_S2_2":
-    		dialog.text = "Если бы в моем распоряжении была такая сумма, я бы заплатил.";
-    		link.l1 = "Я вижу, ты не в полной мере понимаешь суть происходящего, друг мой. Даже если допустить, что я сжалюсь над тобой, из-за чего могу запросто распрощаться со своей карьерой, то инквизиторы не оставят тебя в покое, куда бы ты не уехал, и как бы ты не скрывался. Если они внесли тебя в свой черный список, то ты обречен. В любом случае, если ты не заплатишь, то мне придется тебя убить.";
+    		dialog.text = DLG_TEXT_STR[20];
+    		link.l1 = DLG_TEXT_STR[21];
     		link.l1.go = "Step_S2_3";
  		break;
  		case "Step_S2_3":
-    		dialog.text = "Я уже кажется объяснил вам, что у меня нет таких денег.";
-    		link.l1 = "Если твоя шкура тебе не дорога, и ты не оцениваешь ее даже в 50 тысяч, нет проблем, я заберу твою шкуру.";
+    		dialog.text = DLG_TEXT_STR[22];
+    		link.l1 = DLG_TEXT_STR[23];
     		link.l1.go = "Step_S2_4";
  		break;
  		case "Step_S2_4":
-    		dialog.text = "Позвольте полюбопытствовать, а я один удостоен такой чести или еще есть кандидаты на индульгенцию?";
-    		link.l1 = "Хм, какой уместный вопрос! Я как раз хотел спросить, где находится твой компаньон, Яков Лопез де Фонсека!?";
+    		dialog.text = DLG_TEXT_STR[24];
+    		link.l1 = DLG_TEXT_STR[25];
     		link.l1.go = "Step_S2_5";
  		break;
  		case "Step_S2_5":
-    		dialog.text = "Я тоже хотел бы это знать... Подождите, мне кажется, я нашел выход из ситуации, приемлемый для нас обоих.\n"+
-                          "На данный момент у меня не будет даже половины этой суммы. Но если Вы согласитесь выполнить одну мою просьбу, то к тому времени я соберу требуемые деньги.";
-    		link.l1 = "Говори.";
+    		dialog.text = DLG_TEXT_STR[26]+
+                          DLG_TEXT_STR[27];
+    		link.l1 = DLG_TEXT_STR[28];
     		link.l1.go = "Step_S2_6";
  		break;
  		case "Step_S2_6":
-    		dialog.text = "Мой компаньон, Яков Лопез де Фонсека, уехал по торговым делам в Панаму и пропал. Он честный и хороший человек. Я переживаю за него.\n"+
-                          "Если вы его разыщите, то наши семьи вместе смогут собрать требуемую сумму.";
-    		link.l1 = "Хм, пожалуй, соглашусь... Готовь 50 тысяч за себя и столько же за компаньона. До встречи.";
+    		dialog.text = DLG_TEXT_STR[29]+
+                          DLG_TEXT_STR[30];
+    		link.l1 = DLG_TEXT_STR[31];
     		link.l1.go = "exit";
             AddQuestRecord("Spa_Line_2_Inquisition", "3");
             pchar.questTemp.State.Store = 1;
@@ -90,43 +90,43 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
             Pchar.quest.Inquisition_fightForJacow.win_condition = "Inquisition_fightForJacow";
  		break;
  		case "Step_S2_7":
-    		dialog.text = "Да, действительно. Вы оказали нам большую услугу, отыскав Якова. Спасибо вам.";
-    		link.l1 = "Да нет проблем. Прощайте.";
+    		dialog.text = DLG_TEXT_STR[32];
+    		link.l1 = DLG_TEXT_STR[33];
     		link.l1.go = "exit";
             if (CheckCharacterItem(pchar, "Bible"))
             {
-        		link.l2 = "Послушайте, Яков просил меня раздобыть некую книгу, очень дорогое для вас Евангелие, от Иуды вроде бы...";
+        		link.l2 = DLG_TEXT_STR[34];
         		link.l2.go = "Step_S2_8";
             }
  		break;
  		case "Step_S2_8":
-    		dialog.text = "И что?";
-    		link.l1 = "Хм, так я сумел это сделать. Евангелие у меня.";
+    		dialog.text = DLG_TEXT_STR[35];
+    		link.l1 = DLG_TEXT_STR[36];
     		link.l1.go = "Step_S2_9";
-    		link.l2 = "Да так, ничего особенного... Прощайте.";
+    		link.l2 = DLG_TEXT_STR[37];
     		link.l2.go = "exit";
  		break;
  		case "Step_S2_9":
-    		dialog.text = "Вот это да!!! Послушайте, я прошу вас отдать ее мне. Для нашей общины янсенистов это очень важно, вы себе не представляете, через какие лишения прошли янсенисты, чтобы обладать этим Евангелием...";
-    		link.l1 = "Ну почему же, очень даже представляю. Забирайте.";
+    		dialog.text = DLG_TEXT_STR[38];
+    		link.l1 = DLG_TEXT_STR[39];
     		link.l1.go = "Step_S2_10";
  		break;
  		case "Step_S2_10":
-    		dialog.text = "О Господи Всемогущий, это ОНО, Евангелие от Иуды Искариота!!!\n"+
-                          "Послушайте, вы должны знать, что награда за розыск этой святыни составляет один миллион...";
-    		link.l1 = "Чего?!!";
+    		dialog.text = DLG_TEXT_STR[40]+
+                          DLG_TEXT_STR[41];
+    		link.l1 = DLG_TEXT_STR[42];
     		link.l1.go = "Step_S2_11";
     		TakeItemFromCharacter(pchar, "Bible");
  		break;
  		case "Step_S2_11":
-    		dialog.text = "Да-да, один миллион. И я с радостью вручаю его вам!";
-    		link.l1 = "С радостью забираю его нам... Пожалуй, я пойду, что-то у меня голова идет кругом...";
+    		dialog.text = DLG_TEXT_STR[43];
+    		link.l1 = DLG_TEXT_STR[44];
     		link.l1.go = "Step_S2_12";
     		AddMoneyToCharacter(pchar, 1000000);
  		break;
  		case "Step_S2_12":
-    		dialog.text = "Идите, друг мой. Прощайте, вся наша община вам благодарна по гроб жизни! Ах, я представляю себе, что сейчас начнется, когда все узнают, что пропавший артефакт Самуэля Коханэ найден...";
-    		link.l1 = "Прощайте, не буду вам мешать...";
+    		dialog.text = DLG_TEXT_STR[45];
+    		link.l1 = DLG_TEXT_STR[46];
     		link.l1.go = "exit";
  		break;
 

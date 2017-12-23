@@ -114,13 +114,13 @@ void FillPriceListTown(string _tabName)
     
     // шапка -->
     GameInterface.(_tabName).select = 0;
-    GameInterface.(_tabName).hr.td1.str = "Нация";
+    GameInterface.(_tabName).hr.td1.str = MsgIS("Nation");
     GameInterface.(_tabName).hr.td1.scale = 0.77
-	GameInterface.(_tabName).hr.td2.str = "Город";
+	GameInterface.(_tabName).hr.td2.str = MsgIS("City");
 	GameInterface.(_tabName).hr.td2.scale = 0.8;
-	GameInterface.(_tabName).hr.td3.str = "Местоположение";
+	GameInterface.(_tabName).hr.td3.str = MsgIS("Place");
 	GameInterface.(_tabName).hr.td3.scale = 0.7;
-	GameInterface.(_tabName).hr.td4.str = "Актуальность";
+	GameInterface.(_tabName).hr.td4.str = MsgIS("Actuality");
 	GameInterface.(_tabName).hr.td4.scale = 0.7;
     // <--
     nulChr = &NullCharacter;
@@ -177,7 +177,7 @@ void FillPriceList(string _tabName, string  attr1)
     GameInterface.(_tabName).select = 0;
     GameInterface.(_tabName).hr.td1.str = XI_ConvertString("Good name");
     GameInterface.(_tabName).hr.td1.scale = 0.8;
-    GameInterface.(_tabName).hr.td2.str = "Тип";
+    GameInterface.(_tabName).hr.td2.str = MsgIS("Type");
     GameInterface.(_tabName).hr.td2.scale = 0.85;
 	GameInterface.(_tabName).hr.td3.str = XI_ConvertString("Price sell");
 	GameInterface.(_tabName).hr.td3.scale = 0.8;
@@ -185,9 +185,9 @@ void FillPriceList(string _tabName, string  attr1)
 	GameInterface.(_tabName).hr.td4.scale = 0.8;
 	GameInterface.(_tabName).hr.td5.str = XI_ConvertString("In the store");
 	GameInterface.(_tabName).hr.td5.scale = 0.8;
-	GameInterface.(_tabName).hr.td6.str = "Пачка";
+	GameInterface.(_tabName).hr.td6.str = MsgIS("Pack");
 	GameInterface.(_tabName).hr.td6.scale = 0.8;
-	GameInterface.(_tabName).hr.td7.str = "Вес пачки";
+	GameInterface.(_tabName).hr.td7.str = MsgIS("Pack weight");
 	GameInterface.(_tabName).hr.td7.scale = 0.8;
 	if (attr1 != "")
 	{
@@ -257,7 +257,7 @@ void TableSelectChange()
     CurRow   =  "tr" + (iSelected);
  	//NullSelectTable("TABLE_CITY");
     NullSelectTable("TABLE_GOODS");
-    // перерисуем "прайс"
+    // перерисуем прайс
     if (CurTable == "TABLE_CITY")
     {
     	FillPriceList("TABLE_GOODS", GameInterface.(CurTable).(CurRow).UserData.CityID);
@@ -291,7 +291,7 @@ void ShowInfoWindow()
 		    sHeader = XI_ConvertString(GameInterface.(CurTable).(CurRow).UserData.ID);
 		    iItem = sti(GameInterface.(CurTable).(CurRow).UserData.IDX);
 		    sText1  = GetAssembledString(GetConvertStr(GameInterface.(CurTable).(CurRow).UserData.ID + "_descr", "GoodsDescribe.txt"), &Goods[iItem]);
-		    sText2  = "Цвета: красный - контрабанда, синий - импорт, зеленый - экспорт";
+		    sText2  = MsgIS("Trade_interface_hint_3");
 		break;
 	}
 	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 64, 64);

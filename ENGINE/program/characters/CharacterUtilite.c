@@ -1159,6 +1159,7 @@ int GetOfficersIndex(ref _refCharacter,int _OfficerNum)
 	}
 	return sti(_refCharacter.Fellows.Passengers.Officers.(compName));
 }
+
 int SetOfficersIndex(ref _refCharacter,int _OfficerNum, int _OfficerIdx)
 {
 	int i;
@@ -1238,13 +1239,13 @@ int AddMoneyToCharacter(ref _refCharacter,int _Money)
 	{
 		if (_Money > 0)
 		{
-			Log_Info("Добавлено " + _Money + " золотых");
+			Log_Info(xiStr("MSG_RPG_4") + _Money + xiStr("MSG_RPG_5"));
 		}
 		else
 		{
 		    if (_Money < 0)
 			{
-				Log_Info("Потрачено " + abs(_Money) + " золотых");
+				Log_Info(xiStr("MSG_RPG_6") + abs(_Money) + xiStr("MSG_RPG_5"));
 			}
 		}
 	}
@@ -1566,6 +1567,11 @@ bool TakeNItems(ref _refCharacter,string itemName, int n)
 		_refCharacter.Money = q;
 		return true;
 	}
+	//блокируем получения тотемов вторично
+	if (n>0 && findsubstr(itemName, "Totem_" , 0) != -1 && GetCharacterItem(_refCharacter,itemName) > 0 && !CheckAttribute(arItm, "shown.used"))
+	{
+		return true;
+	}
 	if( CheckAttribute(arItm,"price") && sti(arItm.price)==0 )
 	{
 		if(sti(_refCharacter.index)==GetMainCharacterIndex() && IsEntity(_refCharacter))
@@ -1715,7 +1721,7 @@ string FindCharacterItemByGroup(ref chref, string groupID)
     float  maxBladeValue, curBladeValue;
     string resultItemId;
     // boal 17.06.05 офицерам даем кулаки -->
-	if (groupID == BLADE_ITEM_TYPE && IsOfficer(chref) && IsEquipCharacterByItem(chref, "unarmed"))
+	if (groupID == BLADE_ITEM_TYPE && IsOfficer(chref) && IsEquipCharacterByItem(chref, "unarmed") && !CheckAttribute(chref, "isMusketer"))
 	{
         RemoveCharacterEquip(chref, BLADE_ITEM_TYPE);
         TakeItemFromCharacter(chref, "unarmed");
@@ -1773,7 +1779,7 @@ string FindCharacterItemByGroup(ref chref, string groupID)
         return resultItemId;
 	}
 	// boal 17.06.05 офицерам даем кулаки -->
-	if (groupID == BLADE_ITEM_TYPE && IsOfficer(chref) && sti(chref.index) != GetMainCharacterIndex())
+	if (groupID == BLADE_ITEM_TYPE && IsOfficer(chref) && sti(chref.index) != GetMainCharacterIndex() && !CheckAttribute(chref, "isMusketer"))
 	{
         GiveItem2Character(chref, "unarmed");
         EquipCharacterByItem(chref, "unarmed");
@@ -1784,6 +1790,7 @@ string FindCharacterItemByGroup(ref chref, string groupID)
 
 bool IsEquipCharacterByItem(ref chref, string itemID)
 {
+
 	aref arEquip;
 	makearef(arEquip,chref.equip);
 	int q = GetAttributesNum(arEquip);
@@ -1989,17 +1996,26 @@ void EquipCharacterByItem(ref chref, string itemID)
 	string groupName = arItm.groupID;
 	string oldItemID = GetCharacterEquipByGroup(chref, groupName);
 	if(oldItemID==itemID) return;
-	chref.equip.(groupName) = itemID;
-
+	
 	if (chref.model.animation == "mushketer")
 	{
-		if (groupName == BLADE_ITEM_TYPE) return;
-		if (groupName == GUN_ITEM_TYPE && itemID != "mushket") return;
+		if (groupName == BLADE_ITEM_TYPE && itemID != "unarmed") return;
+		if (chref.id == "OffMushketer")
+		{
+			if (groupName == GUN_ITEM_TYPE && itemID != "mushket2x2") return;
+		}
+		else
+		{
+			if (groupName == GUN_ITEM_TYPE && itemID != "mushket") return;
+		}
 	}
 	else
 	{
 		if (groupName == GUN_ITEM_TYPE && itemID == "mushket") return;
+		if (groupName == GUN_ITEM_TYPE && itemID == "mushket2x2") return;
 	}
+
+	chref.equip.(groupName) = itemID;
 
 	if(IsEntity(chref))
 	{	SetEquipedItemToCharacter(chref, groupName, itemID);
@@ -2558,7 +2574,7 @@ int GetTroopersCrewQuantity(ref _refCharacter)
                 {
 	                RemoveCharacterGoodsSelf(officer, GOOD_WEAPON, makeint(compCrew/2 + 0.5));
 	                SetCrewQuantity(officer, GetCrewQuantity(officer) - compCrew);
-                	Log_SetStringToLog("Десант корабля " + officer.Ship.Name + " составляет " + compCrew + " человек.");
+                	Log_SetStringToLog(xiStr("MSG_RPG_7") + officer.Ship.Name + xiStr("MSG_RPG_8") + compCrew + xiStr("MSG_RPG_9"));
                 	AddCharacterExpToSkill(officer, "Defence", makeint(compCrew / 2 + 0.5)); //качаем защиту
                 	AddCharacterExpToSkill(officer, "Grappling", makeint(compCrew / 2 + 0.5));
                 	sumCrew = sumCrew + compCrew;
@@ -2583,7 +2599,7 @@ int GetTroopersCrewQuantity(ref _refCharacter)
 		        {
 		           compCrew = 0;
 		        }
-		        Log_SetStringToLog("Десант корабля " + officer.Ship.Name + " составляет " + compCrew + " человек.");
+		        Log_SetStringToLog(xiStr("MSG_RPG_7") + officer.Ship.Name + xiStr("MSG_RPG_8") + compCrew + xiStr("MSG_RPG_9"));
                 if (compCrew > 0)
                 {
                 	sumCrew = sumCrew + compCrew;
@@ -2685,7 +2701,7 @@ int RecalculateSquadronCargoLoad(ref _refCharacter)
 // из Боф_реакшн
 void LoansMoneyAvenger(ref _loan)
 {
-    Log_SetStringToLog("Срок Вашего займа истек");
+    Log_SetStringToLog(xiStr("MSG_RPG_10"));
 
     LoansMoneyAvengerAmount(_loan, 25);
 }

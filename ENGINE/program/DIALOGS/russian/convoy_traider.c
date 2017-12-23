@@ -1,4 +1,4 @@
-//#include "DIALOGS\convoy_traider.h"
+#include "TEXT\DIALOGS\convoy_traider.h"
 void ProcessDialogEvent()
 {
 	ref NPChar, d;
@@ -22,31 +22,31 @@ void ProcessDialogEvent()
 		case "prepare_convoy_quest":
 			if (isBadReputation(pchar, 40)) 
 			{
-				dialog.text = RandPhraseSimple("О-о-о, черт!! Я знаю, кто ты такой! Только законченный кретин может нанять тебя в сопровождение своего корабля. Прощай!", "А-а, я знаю кто ты есть! Тебя нанять в качестве сопровождающего?! Ищи дурака...");
-				link.l1 = RandPhraseSimple("Хех, боязливый какой...", "Пугливый какой народ пошел!");
+				dialog.text = RandPhraseSimple(DLG_TEXT_BASE[0], DLG_TEXT_BASE[1]);
+				link.l1 = RandPhraseSimple(DLG_TEXT_BASE[2], DLG_TEXT_BASE[3]);
 				link.l1.go = "convoy_refused";
 			}
 			else
 			{
-				dialog.text = TimeGreeting() + ", "+GetAddress_Form(NPChar) + "! Я "+ GetFullName(NPChar) + ", торговец. Я слышал, что вы ищете работу?";
-				link.l1 = "Что-то вроде того. А вы, как я слышал, ищете капитана, который бы сопроводил вас и ваше судно к месту назначения?";
+				dialog.text = TimeGreeting() + ", "+GetAddress_Form(NPChar) + DLG_TEXT_BASE[4]+ GetFullName(NPChar) + DLG_TEXT_BASE[5];
+				link.l1 = DLG_TEXT_BASE[6];
 				link.l1.go = "prepare_convoy_quest_2";
 			}
 		break;
 		
 		case "prepare_convoy_quest_2":
-			dialog.text = "Совершенно верно. Более того, думаю, что вы мне подходите в качестве сопровождающего. Что скажете?";
-			link.l1 = "Я скажу - назови мне сумму и, возможно, мы договоримся.";
+			dialog.text = DLG_TEXT_BASE[7];
+			link.l1 = DLG_TEXT_BASE[8];
 			link.l1.go = "prepare_convoy_quest_3";
 		break;
 		
 		case "prepare_convoy_quest_3":
 			GenerateConvoyQuest(npchar);
-			dialog.text = "Мне нужно, чтобы меня сопроводили до " + XI_ConvertString("Colony" + pchar.quest.destination + "Gen") + ", что на " + XI_ConvertString(GetIslandByCityName(pchar.quest.destination) + "Dat") +
-				", за " + FindRussianDaysString(sti(pchar.ConvoyQuest.iDay)) +", и за это я заплачу вам " + FindRussianMoneyString(sti(pchar.ConvoyQuest.convoymoney)) + ". Что скажете?";
-			link.l1 = "Я согласен.";
+			dialog.text = DLG_TEXT_BASE[9] + XI_ConvertString("Colony" + pchar.quest.destination + "Gen") + DLG_TEXT_BASE[10] + XI_ConvertString(GetIslandByCityName(pchar.quest.destination) + "Dat") +
+				DLG_TEXT_BASE[11] + FindRussianDaysString(sti(pchar.ConvoyQuest.iDay)) +DLG_TEXT_BASE[12] + FindRussianMoneyString(sti(pchar.ConvoyQuest.convoymoney)) + DLG_TEXT_BASE[13];
+			link.l1 = DLG_TEXT_BASE[14];
 			link.l1.go = "convoy_agreeded";
-			link.l2 = "Не думаю, что мне это интересно.";
+			link.l2 = DLG_TEXT_BASE[15];
 			link.l2.go = "convoy_refused";
 		break;
 		
@@ -67,13 +67,13 @@ void ProcessDialogEvent()
 		break;
 		
 		case "complete_convoy_quest":
-			dialog.text = "О! Спасибо вам. Под вашей защитой я чувствовал себя как никогда спокойно. Вот ваша награда.";
-			Link.l1 = "Благодарю вас.";
+			dialog.text = DLG_TEXT_BASE[16];
+			Link.l1 = DLG_TEXT_BASE[17];
 			link.l1.go = "exit";
 			//слухи
-			AddSimpleRumour(LinkRandPhrase("Некий торговый кэп по имени " + GetFullName(npchar) + " говорит, что можно доверять " + GetMainCharacterNameDat() + " в плане сопровождения торговых судов.", 
-				"Негоциант по имени " + GetFullName(npchar) + " говорит, что капитану " + GetMainCharacterNameDat() + " можно верить. Тот защищал его корабль наилучшим образом при сопровождении до " + XI_ConvertString("Colony" + pchar.quest.destination + "Gen") + ".", 
-				"Я слышал, что вы держите слово по сопровождению кораблей, данное торговым капитанам. Некий торговец по имени " + GetFullName(npchar) + " очень хорошо о вас отзывается."), sti(npchar.nation), 40, 1);
+			AddSimpleRumour(LinkRandPhrase(DLG_TEXT_BASE[18] + GetFullName(npchar) + DLG_TEXT_BASE[19] + GetMainCharacterNameDat() + DLG_TEXT_BASE[20], 
+				DLG_TEXT_BASE[21] + GetFullName(npchar) + DLG_TEXT_BASE[22] + GetMainCharacterNameDat() + DLG_TEXT_BASE[23] + XI_ConvertString("Colony" + pchar.quest.destination + "Gen") + ".", 
+				DLG_TEXT_BASE[24] + GetFullName(npchar) + DLG_TEXT_BASE[25]), sti(npchar.nation), 40, 1);
 			pchar.quest.generate_convoy_quest_progress = "completed";
 			chrDisableReloadToLocation = false;
 			npchar.LifeDay = 0;
@@ -90,10 +90,10 @@ void GenerateConvoyQuest(ref npchar)
 	DeleteAttribute(NPChar, "Ship");
     SetShipToFantom(NPChar, "trade", true);
 
-	iTradeMoney = sti(PChar.rank)*200 + sti(NPChar.rank)*250 + rand(30)*20;
+	iTradeMoney = sti(PChar.rank)*100 + sti(NPChar.rank)*170 + cRand(30)*20;
 
 	pchar.ConvoyQuest.convoymoney = iTradeMoney;
-	pchar.ConvoyQuest.iDay  = 20 + rand(10);
+	pchar.ConvoyQuest.iDay  = 20 + cRand(10);
 
 	SetTimerCondition("generate_convoy_quest_timer", 0, 0, sti(pchar.ConvoyQuest.iDay), false);
 

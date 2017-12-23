@@ -40,7 +40,7 @@ void TavernWaitDate_LSC(string date)
 	}
 	else
 	{
-		if (iTime < 24) iAddtime = 24 - iTime;
+		if (iTime < 24) iAddtime = 23 - iTime;
 	}
 	WaitDate("",0,0,0,iAddtime,5);
 	DoReloadCharacterToLocation("FleuronTavern",  "quest", "bed");

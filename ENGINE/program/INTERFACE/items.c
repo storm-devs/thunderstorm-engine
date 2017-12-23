@@ -181,13 +181,13 @@ void FillItemsTable(int _mode) // 1 - все 2 - оружие 3 - остальное
 	aref rootItems, arItem;
 	aref  curItem;
 	
-	GameInterface.TABLE_ITEMS.hr.td1.str = "Наименование предметов";
+	GameInterface.TABLE_ITEMS.hr.td1.str = MsgIS("Item name");
 	GameInterface.TABLE_ITEMS.hr.td1.scale = 0.8;
-	GameInterface.TABLE_ITEMS.hr.td2.str = "Вес шт.";
+	GameInterface.TABLE_ITEMS.hr.td2.str = MsgIS("Weight pcs");
 	GameInterface.TABLE_ITEMS.hr.td2.scale = 0.8;
-	GameInterface.TABLE_ITEMS.hr.td3.str = "Кол-во";
+	GameInterface.TABLE_ITEMS.hr.td3.str = MsgIS("Qty");
 	GameInterface.TABLE_ITEMS.hr.td3.scale = 0.8;
-	GameInterface.TABLE_ITEMS.hr.td4.str = "Вес";
+	GameInterface.TABLE_ITEMS.hr.td4.str = MsgIS("Weight");
 	GameInterface.TABLE_ITEMS.hr.td4.scale = 0.8;
 	GameInterface.TABLE_ITEMS.select = 0;
 	GameInterface.TABLE_ITEMS.top = 0;
@@ -302,10 +302,8 @@ void ShowInfoWindow()
 			sText1 = GetRPGText("Nation_hint");
 		break;   */
 	}
-	sHeader = "Предметы";
-	sText1  = "В этом интерфейсе Вы можете просмотреть и назначить герою саблю, пистолет, подзорную трубу и кирасу. "+
-	          "Так же можно посмотреть состояние инвентаря офицеров, компаньонов и пассажиров. Выбор оружия они делают сами при экипировке их новым снаряжением. "+
-			  "Обмен предметами со своими офицерами осуществляется на суше через команду обмен.";
+	sHeader = MsgIS("Items");
+	sText1  = MsgIS("Items_hint_1");
 	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 64, 64);
 
 }
@@ -458,6 +456,10 @@ bool ThisItemCanBeEquip( aref arItem )
 			return false;
 		}
 		if (arItem.id == "mushket")
+		{
+			return false;
+		}
+		if (arItem.id == "mushket2x2")
 		{
 			return false;
 		}

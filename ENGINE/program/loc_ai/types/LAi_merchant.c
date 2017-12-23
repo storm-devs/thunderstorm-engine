@@ -40,7 +40,7 @@ void LAi_type_merchant_CharacterUpdate(aref chr, float dltTime)
 		if(num > 0)
 		{
 			if(LAi_type_merchant_FindEnemy(chr, num) < 0)
-			{
+			{				
 				int ichr = sti(chrFindNearCharacters[0].index);
 				//Трепимся с подошедшим
 				time = time + dltTime;
@@ -220,12 +220,22 @@ void LAi_type_merchant_RestoreAngle(aref chr)
 //Найти врага
 int LAi_type_merchant_FindEnemy(aref chr, int num)
 {
+	int i, idx;
 	if(LAi_grp_alarmactive == true)
 	{
-		for(int i = 0; i < num; i++)
+		for(i = 0; i < num; i++)
 		{
-			int idx = sti(chrFindNearCharacters[i].index);
+			idx = sti(chrFindNearCharacters[i].index);
 			if(LAi_group_IsEnemy(chr, &Characters[idx])) return idx;
+		}
+	}
+	else
+	{
+		for(i = 0; i < num; i++)
+		{
+			idx = sti(chrFindNearCharacters[i].index);
+			ref by = &Characters[idx];
+			if (LAi_CheckFightMode(by)) return idx;
 		}
 	}
 	return -1;

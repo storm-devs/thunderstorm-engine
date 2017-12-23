@@ -1,4 +1,4 @@
-
+#include "TEXT\DIALOGS\Quest\Isabella\Atilla.h"
 void ProcessDialogEvent()
 {
 	ref NPChar, sld;
@@ -18,8 +18,8 @@ void ProcessDialogEvent()
 		break;
 	
 		case "First time":
-			dialog.text = "Чтоб мне лопнуть! Старина " + GetFullName(PChar) + "!";
-			link.l1 = "Атилла! Здорово, старый морской черт!";
+			dialog.text = DLG_TEXT_QB[0] + GetFullName(PChar) + "!";
+			link.l1 = DLG_TEXT_QB[1];
 			link.l1.go = "port_1";		
 			NextDiag.TempNode = "First time";
 			DeleteAttribute(npchar, "talker"); //снимаем говорилку
@@ -27,22 +27,22 @@ void ProcessDialogEvent()
 
 		case "port_1":
 		    sld = characterFromID("Atilla");
-			dialog.text = "Ты гляди, разоделся, что твой дон!  Небось, и в карманах ветер не свищет! Не предложишь выпивку старому знакомому?";
+			dialog.text = DLG_TEXT_QB[2];
 			if (pchar.RomanticQuest == "")
 			{
-			    link.l1 = "Я чертовски рад тебя видеть, но сейчас не могу, дружище. В другой раз...";
+			    link.l1 = DLG_TEXT_QB[3];
 				link.l1.go = "Exit";
 			}
 			else
 			{
-				link.l1 = "Ха-ха-ха! За такую встречу грех не опрокинуть по кружке доброго ямайского рома!";
+				link.l1 = DLG_TEXT_QB[4];
 				link.l1.go = "port_1_1";
 			}
 		break;
 
 		case "port_1_1":
-			dialog.text = "Лопни моя селезнка, за такую встречу выпить надо! Немедленно в таверну...";
-			link.l1 = "Согласен - в таверну!";
+			dialog.text = DLG_TEXT_QB[5];
+			link.l1 = DLG_TEXT_QB[6];
 			link.l1.go = "port_toTavern";
 		break;
 
@@ -58,38 +58,38 @@ void ProcessDialogEvent()
 
 		case "Tavern_1":
 			LAi_SetSitType(Pchar);
-			dialog.text = "Черт возьми, "+GetFullName(PChar)+"! Славное дельце мы с тобой провернули тогда в Каракасе, разрази меня гром!";
-			link.l1 = "Да уж... Многих каталонских дьяволов ты отправил к праотцам в том бою. За ту лихую рубку тебе и дали это прозвище - Атилла... С тех пор тебе, я вижу, не часто улыбалась удача.";
+			dialog.text = DLG_TEXT_QB[7]+GetFullName(PChar)+DLG_TEXT_QB[8];
+			link.l1 = DLG_TEXT_QB[9];
 			link.l1.go = "Tavern_2";
 		break;
 		
 		case "Tavern_2":
-			dialog.text = "Аррргх! Вот что я тебе скажу - никогда не верь этим каталонским донам! Ходил я с одним. Взяли как-то раз французскую посудину. Среди пассажиров ювелир оказался.  До бумажек его - векселей всяких - мне дела нет, а в побрякушках-то я знаю толк. Матерь Божья, стоили они столько, что можно было купить половину Эспаньолы и губернаторский дом с самим губернатором впридачу. Ну, поделили все честь по чести, нашли в трюме пять бочонков рома, напились на радостях...";
-			link.l1 = "Хех, ну как всегда...";
+			dialog.text = DLG_TEXT_QB[10];
+			link.l1 = DLG_TEXT_QB[11];
 			link.l1.go = "Tavern_3";
 		break;
 		
 		case "Tavern_3":
-			dialog.text = "Так-то оно так, но вот наутро оказалось, что приятель мой не лыком шит. Отвязал ночью ялик, прихватил все цацки и был таков.";
-			link.l1 = "И ты спустил ему это с рук? Чтоб меня акула проглотила! Да я бы...";
+			dialog.text = DLG_TEXT_QB[12];
+			link.l1 = DLG_TEXT_QB[13];
 			link.l1.go = "Tavern_4";
 		break;
 		
 		case "Tavern_4":
-			dialog.text = "Что ты бы, салага?! Бежал-то он на испанский остров. А мне туда пути заказаны. Ну, да Бог с ним. Мог ведь просто глотку мне, дурню пьяному, перерезать - и никто бы слова не сказал.";
-			link.l1 = "Хм, что-то ты стал больно меланхоличен, дружище.";
+			dialog.text = DLG_TEXT_QB[14];
+			link.l1 = DLG_TEXT_QB[15];
 			link.l1.go = "Tavern_5";
 		break;
 		
 		case "Tavern_5":
-			dialog.text = "Время идет, да и я старею. Не так просто мне уже отправить человека на тот свет...  А Сальватор, говорят, на мои денежки свадебку сыграл. Живет теперь в Сан-Хуане...";
-			link.l1 = "Черт меня побери!  Атилла, дружище, а не навестить ли мне это тихое семейное гнездышко? Глядишь, в жениной шкатулке твои побрякушки отыщутся, а?";
+			dialog.text = DLG_TEXT_QB[16];
+			link.l1 = DLG_TEXT_QB[17];
 			link.l1.go = "Tavern_6";
 		break;
 		
 		case "Tavern_6":
-			dialog.text = "Ха-ха-ха! Сдается мне, ты не ради побрякушек в ее спальню пробраться надумал!  Да нет, приятель, раз уплыла добыча из моих рук - видно, так тому и быть... Ну, пора мне. Даст Бог - еще свидимся.";
-			link.l1 = "Прощай, Атилла.";
+			dialog.text = DLG_TEXT_QB[18];
+			link.l1 = DLG_TEXT_QB[19];
 			link.l1.go = "Tavern_Out";
 		break;
 		
@@ -101,80 +101,80 @@ void ProcessDialogEvent()
 
 		case "Tavern_Bye":
             NextDiag.TempNode = "Tavern_Bye";
-			dialog.text = "Сейчас допью и пойду на корабль...";
-			link.l1 = "Не буду мешать.";
+			dialog.text = DLG_TEXT_QB[20];
+			link.l1 = DLG_TEXT_QB[21];
 			link.l1.go = "exit";
 		break;
 		//доводим новости до сведения Атиллы
 		case "TalkingNews":
-			dialog.text = "Ох, кого я вижу! " + GetFullName(pchar) + " собственной персоной!";
-			link.l1 = "Здорово, Атилла! Дела у тебя, похоже, налаживаются потихоньку - дом купил...";
+			dialog.text = DLG_TEXT_QB[22] + GetFullName(pchar) + DLG_TEXT_QB[23];
+			link.l1 = DLG_TEXT_QB[24];
 			link.l1.go = "TalkingNews_1";
 		break;
 		case "TalkingNews_1":
-			dialog.text = "Появились деньжата, вот и решил вложить в недвижимость. Хотя, по чести сказать, дом здесь - это далеко не дом на Тортуге...";
-			link.l1 = "Ну, тоже крыша.";
+			dialog.text = DLG_TEXT_QB[25];
+			link.l1 = DLG_TEXT_QB[26];
 			link.l1.go = "TalkingNews_2";
 		break;
 		case "TalkingNews_2":
-			dialog.text = "Хм, верно! Ну, говори, зачем пожаловал ко мне?";
-			link.l1 = "Да ты знаешь, тут такое дело, что в двух словах не расскажешь... В общем, навестил я твоего приятеля Сальватора Олевареса.";
+			dialog.text = DLG_TEXT_QB[27];
+			link.l1 = DLG_TEXT_QB[28];
 			link.l1.go = "TalkingNews_3";
 		break;
 		case "TalkingNews_3":
-			dialog.text = "Хех, вот это новость! Как поживает этот проходимец? Правду говорили - женился?";
-			link.l1 = "Да, правду. Жена его, Изабелла - очень красивая женщина... И порядочная, к тому же.";
+			dialog.text = DLG_TEXT_QB[29];
+			link.l1 = DLG_TEXT_QB[30];
 			link.l1.go = "TalkingNews_4";
 		break;
 		case "TalkingNews_4":
-			dialog.text = "Хех, это с чего ты так решил? Женщины - народ коварный, за внешней красотой может скрываться большое зло.";
-			link.l1 = "Зло - это Сальватор! Я тебе не рассказал о случившемся, так что послушай.";
+			dialog.text = DLG_TEXT_QB[31];
+			link.l1 = DLG_TEXT_QB[32];
 			link.l1.go = "TalkingNews_5";
 		break;
 		case "TalkingNews_5":
-			dialog.text = "С удовольствием...";
-			link.l1 = "В общем, прибыл я на Сан-Хуан после разговора с тобой и начал выяснять, что к чему. Много чего там случилось, но в итоге оказалось, что Сальватор обокрал свою жену и у меня на глазах убил ее брата.";
+			dialog.text = DLG_TEXT_QB[33];
+			link.l1 = DLG_TEXT_QB[34];
 			link.l1.go = "TalkingNews_6";
 		break;
 		case "TalkingNews_6":
-			dialog.text = "Да уж, разошелся, мерзавец...";
-			link.l1 = "Он меня оклеветал и меня пытались арестовать... Когда мне удалось ситуацию урегулировать как-то - Сальватор как в воду канул. А Изабелла в доме закрылась, никого не пускает...";
+			dialog.text = DLG_TEXT_QB[35];
+			link.l1 = DLG_TEXT_QB[36];
 			link.l1.go = "TalkingNews_7";
 		break;
 		case "TalkingNews_7":
-			dialog.text = "Ну что же, друг, спасибо тебе за попытку восстановить справедливость. Что думаешь дальше делать?";
-			link.l1 = "Думаю найти Сальватора и выпустить ему кишки. Еще с Изабеллой нужно объясниться... Она думает, что это я убил ее брата.";
+			dialog.text = DLG_TEXT_QB[37];
+			link.l1 = DLG_TEXT_QB[38];
 			link.l1.go = "TalkingNews_8";
 		break;
 		case "TalkingNews_8":
-			dialog.text = "У-у-у, приятель, а тебе не все равно?";
-			link.l1 = "Нет, Атилла, уже нет...";
+			dialog.text = DLG_TEXT_QB[39];
+			link.l1 = DLG_TEXT_QB[40];
 			link.l1.go = "TalkingNews_9";
 		break;
 		case "TalkingNews_9":
 			dialog.text = "L'amour... Qu'ici faire?..";
-			link.l1 = "Чего?..";
+			link.l1 = DLG_TEXT_QB[41];
 			link.l1.go = "TalkingNews_10";
 		break;
 		case "TalkingNews_10":
-			dialog.text = "Это французский... Ничего, все в порядке..\n"+
-				          "И где искать-то думаешь?";
-			link.l1 = "Не знаю, ума просто не приложу.";
+			dialog.text = DLG_TEXT_QB[42]+
+				          DLG_TEXT_QB[43];
+			link.l1 = DLG_TEXT_QB[44];
 			link.l1.go = "TalkingNews_11";
 		break;
 		case "TalkingNews_11":
-			dialog.text = "Послушай, ты выкурил Сальватора из Сан-Хуана, и это очень хорошо. Теперь я могу подключиться к поискам.";
-			link.l1 = "И ты сможешь найти его?";
+			dialog.text = DLG_TEXT_QB[45];
+			link.l1 = DLG_TEXT_QB[46];
 			link.l1.go = "TalkingNews_12";
 		break;
 		case "TalkingNews_12":
-			dialog.text = "Думаю, да. Не ты один с уважением относишься к Атилле, есть и еще у этого пирата друзья...";
-			link.l1 = "Ну что же, было бы здорово. А мне что делать?";
+			dialog.text = DLG_TEXT_QB[47];
+			link.l1 = DLG_TEXT_QB[48];
 			link.l1.go = "TalkingNews_13";
 		break;
 		case "TalkingNews_13":
-			dialog.text = "Занимайся своими делами пока, ну а я прямо сейчас займусь поисками. Помочь ты мне ничем не сможешь, только помешаешь. Через два месяца встретимся здесь, у меня в доме. Тогда и расскажу тебе все, что сумел узнать.";
-			link.l1 = "Хорошо, Атилла. Ну что же, удачи тебе.";
+			dialog.text = DLG_TEXT_QB[49];
+			link.l1 = DLG_TEXT_QB[50];
 			link.l1.go = "TalkingNews_14";
 		break;
 		case "TalkingNews_14":
@@ -194,43 +194,43 @@ void ProcessDialogEvent()
 		break;
 		//через два месяца по завершению поисков
 		case "AtillaInHouse":
-			dialog.text = "А, вот и ты, " + GetFullName(pchar) + ". Проходи, рад тебя видеть.";
-			link.l1 = "Атилла, ну как у тебя дела? Узнал что-нибудь новое о нашем большом друге?";
+			dialog.text = DLG_TEXT_QB[51] + GetFullName(pchar) + DLG_TEXT_QB[52];
+			link.l1 = DLG_TEXT_QB[53];
 			link.l1.go = "AtillaInHouse_1";
 		break;
 		case "AtillaInHouse_1":
-			dialog.text = "Узнал, " + pchar.name + ", как же иначе?.. В общем, Сальватора ты здорово растормошил. Тот не сидит теперь на одном месте, постоянно перемещается.";
-			link.l1 = "И как же его теперь отловить?";
+			dialog.text = DLG_TEXT_QB[54] + pchar.name + DLG_TEXT_QB[55];
+			link.l1 = DLG_TEXT_QB[56];
 			link.l1.go = "AtillaInHouse_2";
 		break;
 		case "AtillaInHouse_2":
-			dialog.text = "Подумать надо...";
-			link.l1 = "Послушай, а про Изабеллу что-нибудь известно?";
+			dialog.text = DLG_TEXT_QB[57];
+			link.l1 = DLG_TEXT_QB[58];
 			link.l1.go = "AtillaInHouse_3";
 		break;
 		case "AtillaInHouse_3":
-			dialog.text = "Известно, приятель. Похоже, что Сальватор выманил ее из Сан-Хуана. Он прислал за ней пиратский бриг 'Восторженный' и, по слухам, кэп взял курс на Порто Белло.";
-			link.l1 = "И зачем она ему? Он уже разорил ее...";
+			dialog.text = DLG_TEXT_QB[59];
+			link.l1 = DLG_TEXT_QB[60];
 			link.l1.go = "AtillaInHouse_4";
 		break;
 		case "AtillaInHouse_4":
-			dialog.text = "Полагаю, чтобы спрятать концы в воду, приятель. Не жить твоей Изабелле, если она попадет в руки Сальватора.";
-			link.l1 = "Аргх, когда бриг вышел из Сан-Хуана? Я должен успеть перехватить его!";
+			dialog.text = DLG_TEXT_QB[61];
+			link.l1 = DLG_TEXT_QB[62];
 			link.l1.go = "AtillaInHouse_5";
 		break;
 		case "AtillaInHouse_5":
-			dialog.text = "Если хочешь увидеть Изабеллу живой - то да. Бриг вышел из Сан-Хуана три дня тому назад. По моим расчетам, он будет у Порто Белло дней через пятнадцать-шестнадцать, не более.";
-			link.l1 = "Значит, мне надо торопится... Спасибо тебе, Атилла!";
+			dialog.text = DLG_TEXT_QB[63];
+			link.l1 = DLG_TEXT_QB[64];
 			link.l1.go = "AtillaInHouse_6";
 		break;
 		case "AtillaInHouse_6":
-			dialog.text = "Приятель, ты не забудь ма-а-аленкую деталь - где-то в Порто Белло должен находиться и сам Сальватор. Он ждет там Изабеллу.";
-			link.l1 = "Хех, а ведь верно! Атилла, я должен спешить. Если все сложится нормально, то я верну тебе потерянные драгоценности.";
+			dialog.text = DLG_TEXT_QB[65];
+			link.l1 = DLG_TEXT_QB[66];
 			link.l1.go = "AtillaInHouse_7";
 		break;
 		case "AtillaInHouse_7":
-			dialog.text = "Хорошо, " + pchar.name + ". Удачи тебе!";
-			link.l1 = "Спасибо, Атилла.";
+			dialog.text = DLG_TEXT_QB[67] + pchar.name + DLG_TEXT_QB[68];
+			link.l1 = DLG_TEXT_QB[69];
 			link.l1.go = "exit";
 			NextDiag.TempNode = "AtillaInHouse_Again";
 			AddQuestRecord("Romantic_Line", "13");
@@ -241,102 +241,102 @@ void ProcessDialogEvent()
 			SetTimerCondition("Romantic_BrigTimeOver", 0, 0, 16, false);
 		break;
 		case "AtillaInHouse_Again":
-			dialog.text = "Ну, как успехи?";
-			link.l1 = "Пока никак...";
+			dialog.text = DLG_TEXT_QB[70];
+			link.l1 = DLG_TEXT_QB[71];
 			link.l1.go = "exit";
 		break;
 		// после погони за бригом Восторженный, если не догнал его вообще
 		case "Brig_Late":
-			dialog.text = "Ну, рассказывай, как у тебя дела?";
-			link.l1 = "Дела неважно... Не сумел я догнать этот бриг, даже кормы не видел...";
+			dialog.text = DLG_TEXT_QB[72];
+			link.l1 = DLG_TEXT_QB[73];
 			link.l1.go = "Brig_Late_1";
 		break;
 		case "Brig_Late_1":
-			dialog.text = "Хм, плохо... Похоже, что Изабеллы уже нет в живых...";
-			link.l1 = "Наверное, ты прав. Как подумаю об этом - сердце разрывается на части...";
+			dialog.text = DLG_TEXT_QB[74];
+			link.l1 = DLG_TEXT_QB[75];
 			link.l1.go = "Brig_Late_2";
 		break;
 		case "Brig_Late_2":
-			dialog.text = "Слезами горю не помочь, чего уж теперь-то убиваться? Это приключение для тебя закончено, надо жить дальше.";
-			link.l1 = "Ты прав, Атилла. Спасибо тебе за поддержку. Прощай...";
+			dialog.text = DLG_TEXT_QB[76];
+			link.l1 = DLG_TEXT_QB[77];
 			link.l1.go = "exit";
 			NextDiag.TempNode = "Last_Talk";
 			CloseQuestHeader("Romantic_Line");
 			DeleteAttribute(pchar, "RomanticQuest");
 		break;
 		case "Last_Talk":
-			dialog.text = "Скоро и я должен буду выйти в море - надо на что-то жить...";
-			link.l1 = "Удачи тебе, Атилла.";
+			dialog.text = DLG_TEXT_QB[78];
+			link.l1 = DLG_TEXT_QB[79];
 			link.l1.go = "exit";
 			NextDiag.TempNode = "Last_Talk";
 		break;
 		// если догнал бриг свалил или ГГ ушел на карту
 		case "Brig_DieHard":
-			dialog.text = "Ну, что, приятель, какие новости?";
-			link.l1 = "Новости плохие. У Порто Белло нагнал я бриг, но взять его на абордаж не сумел...";
+			dialog.text = DLG_TEXT_QB[80];
+			link.l1 = DLG_TEXT_QB[81];
 			link.l1.go = "Brig_DieHard_1";
 		break;
 		case "Brig_DieHard_1":
-			dialog.text = "М-да, это очень плохо. Изабеллы, поди, уже и нет в живых...";
-			link.l1 = "Каррамба! По всей видимости, так оно и есть... Не могу об этом думать без слез...";
+			dialog.text = DLG_TEXT_QB[82];
+			link.l1 = DLG_TEXT_QB[83];
 			link.l1.go = "Brig_Late_2";
 		break;
 		// если догнал бриг, но утопил его
 		case "Brig_Sunk":
-			dialog.text = "Ну, рассказывай, как у тебя дела?";
-			link.l1 = "Дела неважно... У Порто Белло нагнал я бриг, но взять его на абордаж не сумел - тот пошел ко дну во время боя. Никто не выжил...";
+			dialog.text = DLG_TEXT_QB[84];
+			link.l1 = DLG_TEXT_QB[85];
 			link.l1.go = "Brig_Sunk_1";
 		break;
 		case "Brig_Sunk_1":
-			dialog.text = "Да уж, приятель, плохо дело... Не позавидуешь тебе - потерял женщину, которая тебе нравилась...";
-			link.l1 = "Не могу об этом говорить - сердце разрывается на части...";
+			dialog.text = DLG_TEXT_QB[86];
+			link.l1 = DLG_TEXT_QB[87];
 			link.l1.go = "Brig_Late_2";
 		break;
 		// если Изабелла утонула с бригом, нет векселей
 		case "Isabella_Sink":
-			dialog.text = "Ну, рассказывай, как у тебя дела?";
-			link.l1 = "Дела неважно... У Порто Белло нагнал я бриг, и взял его на абордаж.";
+			dialog.text = DLG_TEXT_QB[88];
+			link.l1 = DLG_TEXT_QB[89];
 			link.l1.go = "Isabella_Sink_1";
 		break;
 		case "Isabella_Sink_1":
-			dialog.text = "Что, твоей Изабеллы там не было?";
-			link.l1 = "Была, вот только не поверила она мне. И забрать ее с тонущего корабля не смог, она предпочла пойти ко дну вместе с бригом. Вот так, Атилла...";
+			dialog.text = DLG_TEXT_QB[90];
+			link.l1 = DLG_TEXT_QB[91];
 			link.l1.go = "Brig_Late_2";
 		break;
 		// узнать что-нибудь новое о Сальватора
 		case "SalvatorNews":
-			dialog.text = "Кого я вижу? " + GetFullName(pchar) + " собственной персоной!";
-			link.l1 = "Здравствуй, Атилла! Как дела, приятель?";
+			dialog.text = DLG_TEXT_QB[92] + GetFullName(pchar) + DLG_TEXT_QB[93];
+			link.l1 = DLG_TEXT_QB[94];
 			link.l1.go = "SalvatorNews_1";
 		break;
 		case "SalvatorNews_1":
-			dialog.text = "У меня все в порядке. Как у тебя дела двигаются?";
-			link.l1 = "С переменным успехом. Не могу найти Сальватора, только на подручных его натыкаюсь.";
+			dialog.text = DLG_TEXT_QB[95];
+			link.l1 = DLG_TEXT_QB[96];
 			link.l1.go = "SalvatorNews_2";
 		break;
 		case "SalvatorNews_2":
-			dialog.text = "Понятно...";
-			link.l1 = "Слушай, ты сам ничего о нем не слышал?";
+			dialog.text = DLG_TEXT_QB[97];
+			link.l1 = DLG_TEXT_QB[98];
 			link.l1.go = "SalvatorNews_3";
 		break;
 		case "SalvatorNews_3":
-			dialog.text = "Конкретного мало. Нанимает всякий сброд по притонам, платит им за работу, ну а сам исчезает. Трудно его отловить.";
-			link.l1 = "Хм, да уж... Ума не приложу, что делать?";
+			dialog.text = DLG_TEXT_QB[99];
+			link.l1 = DLG_TEXT_QB[100];
 			link.l1.go = "SalvatorNews_4";
 		break;
 		case "SalvatorNews_4":
-			dialog.text = "Идти к Белизу и искать его там.";
-			link.l1 = "А почему к Белизу?";
+			dialog.text = DLG_TEXT_QB[101];
+			link.l1 = DLG_TEXT_QB[102];
 			link.l1.go = "SalvatorNews_5";
 		break;
 		case "SalvatorNews_5":
-			dialog.text = "Потому, что Сальватор туда направился. Это последнее, что я о нем слышал буквально пару дней назад.";
-			link.l1 = "Дьявол! Я же отвез в Белиз Изабеллу!!!";
+			dialog.text = DLG_TEXT_QB[103];
+			link.l1 = DLG_TEXT_QB[104];
 			link.l1.go = "SalvatorNews_6";
 		break;
 		case "SalvatorNews_6":
-			dialog.text = "А-а-а, ну теперь понятно, что ему там понадобилось. Я бы на твоем месте времени даром не терял...";
-			link.l1 = "А я и не буду... Прощай, Атилла, спасибо за помощь!";
+			dialog.text = DLG_TEXT_QB[105];
+			link.l1 = DLG_TEXT_QB[106];
 			link.l1.go = "exit";
 			NextDiag.TempNode = "AtillaInHouse_Again";
 			AddQuestRecord("Romantic_Line", "20");
@@ -350,118 +350,117 @@ void ProcessDialogEvent()
 		break;
 		//Изабелла убита в церкви.
 		case "IsabellaIsDead":
-			dialog.text = "О-о-о, капитан " + GetFullName(pchar) + ". Ну как дела, приятель?";
-			link.l1 = "Атилла, я потерял Изабеллу...";
+			dialog.text = DLG_TEXT_QB[107] + GetFullName(pchar) + DLG_TEXT_QB[108];
+			link.l1 = DLG_TEXT_QB[109];
 			link.l1.go = "IsabellaIsDead_1";
 		break;
 		case "IsabellaIsDead_1":
-			dialog.text = "Что случилось?";
-			link.l1 = "Я убил Сальватора и мы должны были обвенчаться с Изабеллой в Сан-Хуане. На церемонии в церковь воралась толпа головорезов, и они убили ее... Их нанял Сальватор, когда был еще жив.";
+			dialog.text = DLG_TEXT_QB[110];
+			link.l1 = DLG_TEXT_QB[111];
 			link.l1.go = "IsabellaIsDead_2";
 		break;
 		case "IsabellaIsDead_2":
-			dialog.text = "М-да, соболезную. Но что поделать? Надо как-то жить дальше...";
-			link.l1 = "Да, Атилла, верно...";
+			dialog.text = DLG_TEXT_QB[112];
+			link.l1 = DLG_TEXT_QB[113];
 			link.l1.go = "exit";
 			npchar.LifeDay = 0;
 			NextDiag.TempNode = "IsabellaIsDead_after";
 			CloseQuestHeader("Romantic_Line");
 		break;
 		case "IsabellaIsDead_after":
-			dialog.text = "Эх, Атилла, как мне тяжко...";
-			link.l1 = "Понимаю, приятель...";
+			dialog.text = DLG_TEXT_QB[114];
+			link.l1 = DLG_TEXT_QB[115];
 			link.l1.go = "exit";
 			NextDiag.TempNode = "IsabellaIsDead_after";
 			npchar.lifeDay = 0;
 		break;
 		//если ГГ отбился в церкви
 		case "IsabellaIsMyWife":
-			dialog.text = "Здорово, приятель! Как жизнь?";
-			link.l1 = "Жизнь прекрасна, Атилла! Все великолепно! Мы обвенчались с Изабеллой, теперь я женат.";
+			dialog.text = DLG_TEXT_QB[116];
+			link.l1 = DLG_TEXT_QB[117];
 			link.l1.go = "IsabellaIsMyWife_1";
 			npchar.lifeDay = 0;
 		break;
 		case "IsabellaIsMyWife_1":
-			dialog.text = "Могу поздравить, это дело хорошее. А то ведь жизнь пирата не очень длинна, надо вовремя остановиться...";
-			link.l1 = "Да, это верно. Изабелла вышла замуж при условии, что я завяжу с каперством.";
+			dialog.text = DLG_TEXT_QB[118];
+			link.l1 = DLG_TEXT_QB[119];
 			link.l1.go = "IsabellaIsMyWife_2";
 		break;
 		case "IsabellaIsMyWife_2":
-			dialog.text = "Ну, может оно и верно, приятель...";
-			link.l1 = "Наверное, да, Атилла. Ну, прощай...";
+			dialog.text = DLG_TEXT_QB[120];
+			link.l1 = DLG_TEXT_QB[121];
 			link.l1.go = "exit";
-			link.l2 = "Атилла, тут такое дело... Я хочу отблагодарить тебя за все.";
+			link.l2 = DLG_TEXT_QB[122];
 			link.l2.go = "IsabellaIsMyWife_3";
 			NextDiag.TempNode = "IsabellaIsMyWife_after";
 			pchar.RomanticQuest.Atilla = "YouAreBaster";
 			npchar.LifeDay = 0;
 		break;
 		case "IsabellaIsMyWife_after":
-			dialog.text = "Опять кэп " + pchar.name + " пожаловал. Что тебе нужно от Атиллы на этот раз?";
-			link.l1 = "Ничего особенного, просто так заглянул, приятель...";
+			dialog.text = DLG_TEXT_QB[123] + pchar.name + DLG_TEXT_QB[124];
+			link.l1 = DLG_TEXT_QB[125];
 			link.l1.go = "exit";
 			NextDiag.TempNode = "IsabellaIsMyWife_after";
 		break;
 		case "IsabellaIsMyWife_3":
-			dialog.text = "За что именно?";
-			link.l1 = "Ну как, за твою помощь, сколько раз ты меня выручал! Да и вообще, я с Изабеллой познакомился по твой наводке, так сказать...";
+			dialog.text = DLG_TEXT_QB[126];
+			link.l1 = DLG_TEXT_QB[127];
 			link.l1.go = "IsabellaIsMyWife_4";
 		break;
 		case "IsabellaIsMyWife_4":
-			dialog.text = "Хех, отказываться не буду, приятель...";
+			dialog.text = DLG_TEXT_QB[128];
 			if (sti(pchar.money) >= 1000)
 			{
-				link.l1 = "Ну, тогда прими тысячу монет, Атилла!";
+				link.l1 = DLG_TEXT_QB[129];
 				link.l1.go = "AddRepa_1";
 			}
 			if (sti(pchar.money) >= 70000)
 			{
-				link.l2 = "Я приготовил для тебя 70 тысяч монет.";
+				link.l2 = DLG_TEXT_QB[130];
 				link.l2.go = "AddRepa_2";
 			}
 			if (sti(pchar.money) >= 150000)
 			{
-				link.l3 = "Твоя доля в этом деле составляет 150 тысяч монет.";
+				link.l3 = DLG_TEXT_QB[131];
 				link.l3.go = "AddRepa_3";
 			}
 			if (sti(pchar.money) >= 300000)
 			{
-				link.l4 = "Твоя доля в этом деле составляет 300 тысяч монет.";
+				link.l4 = DLG_TEXT_QB[132];
 				link.l4.go = "AddRepa_4";
 			}
 		break;
 		case "AddRepa_1":
-			dialog.text = "Удивил, " + pchar.name + "... Ну что же, спасибо и на этом. Дареному коню, как извесно, в зубы не глядят...";
-			link.l1 = "Да не за что, приятель! Будь здоров...";
+			dialog.text = DLG_TEXT_QB[133] + pchar.name + DLG_TEXT_QB[134];
+			link.l1 = DLG_TEXT_QB[135];
 			link.l1.go = "exit";
 			AddMoneyToCharacter(pchar, -1000);
 			ChangeCharacterReputation(pchar, -10);
 		break;	
 		case "AddRepa_2":
-			dialog.text = "Ну, здорово! Я благодарен тебе, " + GetFullName(pchar) + ".";
-			link.l1 = "Все нормально, Атилла. Будь здоров...";
+			dialog.text = DLG_TEXT_QB[136] + GetFullName(pchar) + ".";
+			link.l1 = DLG_TEXT_QB[137];
 			link.l1.go = "exit";
 			AddMoneyToCharacter(pchar, -70000);
 			pchar.RomanticQuest.Atilla = "YouAreNormal";
 			ChangeCharacterReputation(pchar, 5);
 		break;	
 		case "AddRepa_3":
-			dialog.text = "Ох ты, здорово! Хоть я особо и не напрягался...";
-			link.l1 = "Атилла, ты, может, и не особо напрягался, зато все твои усилия были очень даже по делу! Будь здоров...";
+			dialog.text = DLG_TEXT_QB[138];
+			link.l1 = DLG_TEXT_QB[139];
 			link.l1.go = "exit";
 			AddMoneyToCharacter(pchar, -150000);
 			pchar.RomanticQuest.Atilla = "YouAreNormal";
 			ChangeCharacterReputation(pchar, 15);
 		break;
 		case "AddRepa_4":
-			dialog.text = "Эх, черт меня дери!! Это ж какие деньжищи!\n"+
-				          "Ну, спасибо, приятель, удружил - так удружил. Куплю теперь себе конуру поприличней... Да нет, наверное, в Старый Свет вернусь, засиделся здесь...";
-			link.l1 = "Делай, как знаешь, приятель! Будь здоров...";
+			dialog.text = DLG_TEXT_QB[140]+
+				          DLG_TEXT_QB[141];
+			link.l1 = DLG_TEXT_QB[142];
 			link.l1.go = "exit";
 			AddMoneyToCharacter(pchar, -300000);
 			pchar.RomanticQuest.Atilla = "YouAreGood";
 			ChangeCharacterReputation(pchar, 30);
 		break;	
-
 	}
 }

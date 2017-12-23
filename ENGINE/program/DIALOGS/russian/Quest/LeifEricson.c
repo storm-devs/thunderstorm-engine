@@ -1,4 +1,4 @@
-// Квестовые атакующий кэпа, 10 штук в комплекте.
+#include "TEXT\DIALOGS\Quest\LeifEricson.h"
 void ProcessDialogEvent()
 {
 	ref NPChar, sld;
@@ -17,52 +17,52 @@ void ProcessDialogEvent()
 		case "First time":
             if (pchar.questTemp.Ascold == "Ascold_MummyIsLive")
             {
-            	dialog.text = "Ты справился с моими слугами, это хорошо. А теперь скажи мне, какой сейчас год?";
-        		link.l1 = environment.date.year + "-й... Черт возьми, что происходит?!!";
+            	dialog.text = DLG_TEXT_Q[0];
+        		link.l1 = environment.date.year + DLG_TEXT_Q[1];
         		link.l1.go = "Step_8";
             }
             if (pchar.questTemp.Ascold == "Ascold_BodyChange")
             {
-            	dialog.text = "Ну вот, теперь все в порядке. Ты готов выполнить свое предназначение?";
-        		link.l1 = "Что ты натворил?!! Слушай, Лейф, мать твою Эриксон, мир за это время здорово изменился. Белых людей здесь теперь очень много.";
+            	dialog.text = DLG_TEXT_Q[2];
+        		link.l1 = DLG_TEXT_Q[3];
         		link.l1.go = "Step_25";
             }
             if (pchar.questTemp.Ascold == "Ascold_SkelSlave")
             {
-            	dialog.text = "Теперь ты готов. Я разрешаю тебе покинуть гробницу.";
-        		link.l1 = "А что будет с моим телом?";
+            	dialog.text = DLG_TEXT_Q[4];
+        		link.l1 = DLG_TEXT_Q[5];
         		link.l1.go = "Step_27";
             }
             if (pchar.questTemp.Ascold == "Ascold_ImMummy")
             {
-            	dialog.text = "Выполняй свою работу, капер.";
-        		link.l1 = "Хорошо, Лейф.";
+            	dialog.text = DLG_TEXT_Q[6];
+        		link.l1 = DLG_TEXT_Q[7];
         		link.l1.go = "exit";
             }
             if (pchar.questTemp.Ascold == "Ascold_MummyFoundItems")
             {
-            	dialog.text = "А-а-а, вот и ты наконец! Где предметы, за которыми я тебя посылал?";
+            	dialog.text = DLG_TEXT_Q[8];
                 if  (CheckCharacterItem(pchar, "sculMa1") && CheckCharacterItem(pchar, "sculMa2") && CheckCharacterItem(pchar, "sculMa3") && CheckCharacterItem(pchar, "indian22"))
                 {
-                	link.l1 = "Они у меня. Забирай и отдай мне мое тело!";
+                	link.l1 = DLG_TEXT_Q[9];
             		link.l1.go = "Step_29";
                 }
                 else
                 {
-                	link.l1 = "Их нет у меня, я их не нашел...";
+                	link.l1 = DLG_TEXT_Q[10];
             		link.l1.go = "Step_30";
                 }
             }
             if (pchar.questTemp.Ascold == "Ascold_BackMyBody")
             {
-            	dialog.text = "Теперь я освобождаю тебя. Ты можешь идти, выход свободен.";
-        		link.l1 = "Спасибо. Надеюсь, больше не свидимся.";
+            	dialog.text = DLG_TEXT_Q[11];
+        		link.l1 = DLG_TEXT_Q[12];
         		link.l1.go = "Step_31";
             }
             if (pchar.questTemp.Ascold == "Ascold_ReturnToAscold")
             {
-            	dialog.text = "Прощай, капер...";
-        		link.l1 = "Прощай, Лейф.";
+            	dialog.text = DLG_TEXT_Q[13];
+        		link.l1 = DLG_TEXT_Q[14];
         		link.l1.go = "exit";
             }
 		break;
@@ -74,17 +74,17 @@ void ProcessDialogEvent()
 		break;
 
         case "Step_8":
-        	dialog.text = "Сейчас происходит следующее - мы с тобой разговариваем.\n"+
-                          "А уже произошло великое событие, ожидаемое мной на прояжении шести столетий - я восстал ото сна.";
-    		link.l1 = "(про себя) Чтоб меня разорвало! (вслух) И похоже, это я тебя разбудил...";
+        	dialog.text = DLG_TEXT_Q[15]+
+                          DLG_TEXT_Q[16];
+    		link.l1 = DLG_TEXT_Q[17];
     		link.l1.go = "Step_9";
 		break;
 
         case "Step_9":
-        	dialog.text = "Как тебя зовут и кто ты? Отвечай и будешь жить.";
-    		link.l1 = "Меня зовут " + GetFullName(pchar) + ". Я - капер.";
+        	dialog.text = DLG_TEXT_Q[18];
+    		link.l1 = DLG_TEXT_Q[19] + GetFullName(pchar) + DLG_TEXT_Q[20];
     		link.l1.go = "Step_10";
-    		link.l2 = "Не слишком ли высокий тон для облезлой черепушки?";
+    		link.l2 = DLG_TEXT_Q[21];
     		link.l2.go = "ToDeath";
 		break;
 
@@ -100,105 +100,105 @@ void ProcessDialogEvent()
 		break;
 
         case "Step_10":
-        	dialog.text = "Что значит 'капер'?";
-    		link.l1 = "Капер - это корсар... Флибустьер, пират...";
+        	dialog.text = DLG_TEXT_Q[22];
+    		link.l1 = DLG_TEXT_Q[23];
     		link.l1.go = "Step_11";
 		break;
 
         case "Step_11":
-        	dialog.text = "Что такое 'флибустьер', 'пират'?";
-    		link.l1 = "Ну, как тебе объяснить... Я свободный моряк и свободный воин. У меня свой корабль и я делаю то, что считаю нужным.";
+        	dialog.text = DLG_TEXT_Q[24];
+    		link.l1 = DLG_TEXT_Q[25];
     		link.l1.go = "Step_12";
 		break;
 
         case "Step_12":
-        	dialog.text = "Ха-ха! Да мы с тобой братья по крови! Я счастлив, что мой замысел осуществила родственная душа. Это знак большой удачи для меня...";
-    		link.l1 = "Какой замысел?";
+        	dialog.text = DLG_TEXT_Q[26];
+    		link.l1 = DLG_TEXT_Q[27];
     		link.l1.go = "Step_13";
 		break;
 
         case "Step_13":
-        	dialog.text = "Какой замысел? Ха-ха-ха.... Ты здесь и разговариваешь со мной, с человеком, умершим более шести столетий назад!\n"+
-                          "В этом и заключается мой замысел. Значит, мое послание потомкам было найдено...";
-    		link.l1 = "Что... Кто ты?";
+        	dialog.text = DLG_TEXT_Q[28]+
+                          DLG_TEXT_Q[29];
+    		link.l1 = DLG_TEXT_Q[30];
     		link.l1.go = "Step_14";
 		break;
 
         case "Step_14":
-        	dialog.text = "Меня зовут Лейф Эриксон. Я, так же как и ты, моряк и воин, сам себе хозяин.\n"+
-                          "Только я бороздил моря северней этого места.";
-    		link.l1 = "Когда я направлялся сюда, я слышал, что здесь похоронен Лейф Счастливый. Это и есть ты?";
+        	dialog.text = DLG_TEXT_Q[31]+
+                          DLG_TEXT_Q[32];
+    		link.l1 = DLG_TEXT_Q[33];
     		link.l1.go = "Step_15";
 		break;
 
         case "Step_15":
-        	dialog.text = "Да. Я - Лейф Счасливый, сын Эрика Рыжего, потомок древних свионов, викинг и йорсалирсфари.";
-    		link.l1 = "Так ты викинг, один из нации варваров, что разоряли Европу шестьсот лет назад?";
+        	dialog.text = DLG_TEXT_Q[34];
+    		link.l1 = DLG_TEXT_Q[35];
     		link.l1.go = "Step_16";
 		break;
 
         case "Step_16":
-        	dialog.text = "Викинг - это не нация, корсар. Викинг - это образ жизни, профессия моряка и воина.\n"+
-                          "И ты, свободный воин, называешь нас варварами? Шестьсот лет назад мы были лучшими войнами и моряками на земле. Я был в Йорсалире и участвовал в походе на Рим, а мой брат владел Гардарикой!";
-    		link.l1 = "Но как ты оказался в Америке? Америку же открыл Христофор Колумб 150 лет назад!";
+        	dialog.text = DLG_TEXT_Q[36]+
+                          DLG_TEXT_Q[37];
+    		link.l1 = DLG_TEXT_Q[38];
     		link.l1.go = "Step_17";
 		break;
 
         case "Step_17":
-        	dialog.text = "Америкой ты называешь эти большие земли? Ха-ха-ха. Слушай меня, свободный корсар.\n"+
-                          "Летом 986 года от РХ норвежский викинг Бьярни Херьюльфсон, направлявшийся в Гренландию, был отнесен к новой неведомой земле, но не пристал к ней.\n"+
-                          "В 1000 году я, Лейф Эриксон, отправился на поиски этой земли. Я нашел остров Хеллюланд (Баффинова земля), затем Маркланд (Лабрадор) и Винланд (Ньюфаундленд). На Винланде я образовал поселение.\n"+
-                          "Через два года я отправился дальше и нашел эту большую землю. Я пристал к ней гораздо северней.";
-    		link.l1 = "Не может быть! Так Америка была открыта еще шесть столетий назад...";
+        	dialog.text = DLG_TEXT_Q[39]+
+                          DLG_TEXT_Q[40]+
+                          DLG_TEXT_Q[41]+
+                          DLG_TEXT_Q[42];
+    		link.l1 = DLG_TEXT_Q[43];
     		link.l1.go = "Step_18";
 		break;
 
         case "Step_18":
-        	dialog.text = "Эта земля была окрыта мной в 1002 году.\n"+
-                          "Затем я пошел вглубь земли и увидел, что земля эта бесконечна и заселена краснокожими людьми.";
-    		link.l1 = "Индейцы...";
+        	dialog.text = DLG_TEXT_Q[44]+
+                          DLG_TEXT_Q[45];
+    		link.l1 = DLG_TEXT_Q[46];
     		link.l1.go = "Step_19";
 		break;
 
         case "Step_19":
-        	dialog.text = "Нет, каждое племя называет себя по разному.\n"+
-                          "Двадцать лет я прожил в племени тольтеков, которые почитали меня, белого человека, за божество. Через двадцать лет я вернулся в основанное мной поселение на Винланде и оставил там завещание потомкам.\n"+
-                          "Через шестьсот лет оно было исполнено. Исполнено тобой.";
-    		link.l1 = "Здорово! Ну, я пошел?";
+        	dialog.text = DLG_TEXT_Q[47]+
+                          DLG_TEXT_Q[48]+
+                          DLG_TEXT_Q[49];
+    		link.l1 = DLG_TEXT_Q[50];
     		link.l1.go = "Step_20";
 		break;
 
         case "Step_20":
-        	dialog.text = "Не торопись, сначала я сделаю тебе бесценный подарок за свое освобождение.";
-    		link.l1 = "О-о-о, это дело я люблю. И что это за подарок?";
+        	dialog.text = DLG_TEXT_Q[51];
+    		link.l1 = DLG_TEXT_Q[52];
     		link.l1.go = "Step_21";
 		break;
 
         case "Step_21":
-        	dialog.text = "Твоя жизнь. Я дарю ее тебе в качестве благодарности.";
-    		link.l1 = "Здорово... Ну, я пошел?";
+        	dialog.text = DLG_TEXT_Q[53];
+    		link.l1 = DLG_TEXT_Q[54];
     		link.l1.go = "Step_22";
 		break;
 
         case "Step_22":
-        	dialog.text = "Не торопись. За мой подарок ты кое-что сделаешь для меня.";
-    		link.l1 = "Хм, и что я должен сделать?";
+        	dialog.text = DLG_TEXT_Q[55];
+    		link.l1 = DLG_TEXT_Q[56];
     		link.l1.go = "Step_23";
-    		link.l2 = "Черта с два, гнилая обезьяна! Отведай-ка лучше вкус стали...";
+    		link.l2 = DLG_TEXT_Q[57];
     		link.l2.go = "ToDeath";
 		break;
 
         case "Step_23":
-        	dialog.text = "Я чувствую, что здесь рядом стоит большой город. Там, у самого главного человека в городе, находятся нужные мне вещи, я ощущаю их присутствие.\n"+
-                          "Ты должен доставить мне три хрустальных черепа тольтеков - белый, розовый и голубой, а также древний предмет, именуемый странной вещью. Тогда я стану сильней и смогу восстановить свое тело. Мир ждет своего властителя...";
-    		link.l1 = "(про себя) Мне бы только выбраться из этого склепа, а уж таскать сюда я ничего не буду, ищи дурака... (вслух) Хорошо, я могу идти?";
+        	dialog.text = DLG_TEXT_Q[58]+
+                          DLG_TEXT_Q[59];
+    		link.l1 = DLG_TEXT_Q[60];
     		link.l1.go = "Step_24";
 		break;
 
         case "Step_24":
-        	dialog.text = "В общем, да. Только еще одно ма-а-аленькое дельце, для того, чтобы ты побыстрей возвращался.\n"+
-                          "На время я беру твое тело, а тебе даю свое. Тоже на время.";
-    		link.l1 = "Что?!!!";
+        	dialog.text = DLG_TEXT_Q[61]+
+                          DLG_TEXT_Q[62];
+    		link.l1 = DLG_TEXT_Q[63];
     		link.l1.go = "Body_Change";
 		break;
 
@@ -239,18 +239,18 @@ void ProcessDialogEvent()
 		break;
 
         case "Step_25":
-        	dialog.text = "Ну и что?";
-    		link.l1 = "А то, что город на острове - французский, а не тольтеков, ацтеков и прочих краснокожих бестий. И я не могу разгуливать по французскому городу в таком виде!";
+        	dialog.text = DLG_TEXT_Q[64];
+    		link.l1 = DLG_TEXT_Q[65];
     		link.l1.go = "Step_26";
 		break;
 
         case "Step_26":
-        	dialog.text = "Разгуливать не надо, город нужно захватить. А в помощь я тебе дам своих слуг, их будет достаточно, чтобы взять город.";
+        	dialog.text = DLG_TEXT_Q[66];
     		link.l1 = "...";
     		link.l1.go = "exit";
             for (i=1; i<=6; i++)
             {
-				sld = GetCharacter(NPC_GenerateCharacter("MySkel"+i, "Skel"+(rand(3)+1), "man", "man", 30, PIRATE, 0, true));	
+				sld = GetCharacter(NPC_GenerateCharacter("MySkel"+i, "Skel"+(rand(3)+1), "skeleton", "man", 30, PIRATE, 0, true));	
 				FantomMakeCoolFighter(sld, 20, 70, 70, "topor2", "pistol3", 50);  
 				ChangeCharacterAddressGroup(sld, pchar.location, "goto",  "goto"+(rand(2)+1));
 				LAi_SetActorType(sld);
@@ -260,9 +260,9 @@ void ProcessDialogEvent()
 		break;
 		
         case "Step_27":
-        	dialog.text = "За это не волнуйся, я тебе его верну в целости. Твое тело мне не нужно, оно мне не нравится.\n"+
-                          "Все, ты можешь идти.";
-    		link.l1 = "Хорошо, все это я принесу тебе. А ты пока будь очень острожен.";
+        	dialog.text = DLG_TEXT_Q[67]+
+                          DLG_TEXT_Q[68];
+    		link.l1 = DLG_TEXT_Q[69];
     		link.l1.go = "Step_28";
 		break;
 
@@ -332,14 +332,14 @@ void ProcessDialogEvent()
 		break;
 		
         case "Step_30":
-        	dialog.text = "Пока не найдешь, своего тела обратно не получишь.";
-    		link.l1 = "Я буду искать...";
+        	dialog.text = DLG_TEXT_Q[70];
+    		link.l1 = DLG_TEXT_Q[71];
     		link.l1.go = "exit";
 		break;
 
         case "Step_31":
-        	dialog.text = "Это в твоих интересах. Больше бесценных подарков я тебе делать не намерен.";
-    		link.l1 = "Понял. Ну, будь здоров, если можно так сказать...";
+        	dialog.text = DLG_TEXT_Q[72];
+    		link.l1 = DLG_TEXT_Q[73];
     		link.l1.go = "exit";
     		chrDisableReloadToLocation = false; // открыть выход из локации.
 			bDisableFastReload = false; 

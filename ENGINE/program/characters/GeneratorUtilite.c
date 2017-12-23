@@ -209,7 +209,7 @@ void SetFantomParamCommon(ref _pchar)
     DeleteAttribute(_pchar, "Items");
     // тут трем накопивщиеся сабли и корабли 290704 BOAL <--
     LAi_NPC_Equip(_pchar, sti(_pchar.rank), true, true);
-    AntiCheat(_pchar);
+    //AntiCheat(_pchar);
 }
 
 void SetFantomParamEncout(ref _pchar)  // выдача сабель и НР отдельно
@@ -224,7 +224,7 @@ void SetFantomParamEncout(ref _pchar)  // выдача сабель и НР отдельно
 	//GiveItem2Character(_pchar, "unarmed");
 	//EquipCharacterByItem(_pchar, "unarmed");
     // тут трем накопивщиеся сабли и корабли 290704 BOAL <--
-    AntiCheat(_pchar);
+    //AntiCheat(_pchar);
 }
 
 void SetSeaFantomParam(ref _pchar, string type)
@@ -245,7 +245,7 @@ void SetSeaFantomParam(ref _pchar, string type)
 
 	SetFantomHP(_pchar);
 	LAi_NPC_Equip(_pchar, sti(_pchar.rank), true, true);
-	AntiCheat(_pchar);
+	//AntiCheat(_pchar);
 }
 /////////////////////////////////////////////////////
 // из AIFantom.c
@@ -434,12 +434,30 @@ void SetFantomParamAbordOur(ref _pchar)
 	DeleteAttribute(_pchar, "RankBonus");
 	DeleteAttribute(_pchar, "OurMan");
 }
+void SetMushketerParamAbordOur(ref _pchar)
+{
+	_pchar.RankBonus = m_rank_bonus;
+	_pchar.OurMan = true;
+    CalculateAppropriateSkills(_pchar);
+    SetFantomHP(_pchar);
+	DeleteAttribute(_pchar, "RankBonus");
+	DeleteAttribute(_pchar, "OurMan");
+}
 // наши в форте НР не меняем
 void SetFantomParamFortOur(ref _pchar)
 {
 	_pchar.RankBonus = m_rank_bonus;
 	_pchar.OurMan = true;
 	SetFantomParamCommon(_pchar);
+	DeleteAttribute(_pchar, "RankBonus");
+	DeleteAttribute(_pchar, "OurMan");
+}
+void SetMushketerParamFortOur(ref _pchar)
+{
+	_pchar.RankBonus = m_rank_bonus;
+	_pchar.OurMan = true;
+    CalculateAppropriateSkills(_pchar);
+    SetFantomHP(_pchar);
 	DeleteAttribute(_pchar, "RankBonus");
 	DeleteAttribute(_pchar, "OurMan");
 }
@@ -459,6 +477,20 @@ void SetFantomParamAbordEnemy(ref _pchar)
 	DeleteAttribute(_pchar, "BaseRank");
 	DeleteAttribute(_pchar, "RankBonus");
 }
+void SetMushketerParamAbordEnemy(ref _pchar)
+{
+	ref MChar;
+	MChar = GetMainCharacter();
+	if (CheckAttribute(MChar, "EnemyRank"))
+	{
+		_pchar.BaseRank = MChar.EnemyRank;
+	}
+	_pchar.RankBonus = e_rank_bonus;
+    CalculateAppropriateSkills(_pchar);
+    SetFantomHP(_pchar);
+	DeleteAttribute(_pchar, "BaseRank");
+	DeleteAttribute(_pchar, "RankBonus");
+}
 // враги в форте НР меняем потом на GetBoarding_enemy_hp(LAi_GetCharacterMaxHP(НПС))
 void SetFantomParamFortEnemy(ref _pchar)
 {
@@ -472,6 +504,20 @@ void SetFantomParamFortEnemy(ref _pchar)
 	_pchar.RankBonus = e_rank_bonus;
 
 	SetFantomParamCommon(_pchar);
+	DeleteAttribute(_pchar, "BaseRank");
+	DeleteAttribute(_pchar, "RankBonus");
+}
+void SetMushketerParamFortEnemy(ref _pchar)
+{
+	ref MChar;
+	MChar = GetMainCharacter();
+	if (CheckAttribute(MChar, "EnemyRank"))
+	{
+		_pchar.BaseRank = MChar.EnemyRank;
+	}
+	_pchar.RankBonus = e_rank_bonus;
+    CalculateAppropriateSkills(_pchar);
+    SetFantomHP(_pchar);
 	DeleteAttribute(_pchar, "BaseRank");
 	DeleteAttribute(_pchar, "RankBonus");
 }

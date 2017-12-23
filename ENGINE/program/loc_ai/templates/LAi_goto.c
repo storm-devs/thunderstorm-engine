@@ -273,7 +273,10 @@ void LAi_tmpl_goto_ColThreshold(aref chr)
 	}
 	if (chr.chr_ai.type == LAI_TYPE_LSCOUT)
 	{
-		LAI_TYPE_LSCout_Goto(chr);
+		if (rand(1))
+			LAI_TYPE_LSCout_Goto(chr);
+		else
+			LAI_TYPE_LSCout_Stay(chr);
 	}
 	else LAi_tmpl_goto_Restart(chr); 
 }

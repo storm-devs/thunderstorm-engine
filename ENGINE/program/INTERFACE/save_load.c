@@ -627,9 +627,10 @@ void ShowDataForSave(int nSlot, string picname, int picpointer, string strdata)
 	}
 	SetSelectable( nodname, bClickable );
 
-	string fileSystemTime = "";
+    int idLngFile = LanguageOpenFile("save_load.txt");
+    string fileSystemTime = "";
 	string fileSystemDate = "";
-	string sSystemTimeString = "No Time";
+	string sSystemTimeString = LanguageConvertString(idLngFile, "NoTime");
 	if (CheckAttribute(&g_oSaveList[nSlot], "savefile") && g_oSaveList[nSlot].savefile != "" ) //fix boal
 	{
 		SendMessage(&GameInterface,"lsee",MSG_INTERFACE_GETTIME, "SAVE\"+currentProfile+"\"+g_oSaveList[nSlot].savefile, &fileSystemTime, &fileSystemDate);
@@ -646,14 +647,14 @@ void ShowDataForSave(int nSlot, string picname, int picpointer, string strdata)
 			g_oSaveList[nSlot].faceinfo = facestr;
 			g_oSaveList[nSlot].playtime = playtime;
 		} else {
-			SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+1, "#Unknown" );
-			SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+2, "#No Time" );
+			SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+1, "#" + LanguageConvertString(idLngFile, "Unknown"));
+			SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+2, "#" + LanguageConvertString(idLngFile, "NoTime"));
 			g_oSaveList[nSlot].faceinfo = "";
 			g_oSaveList[nSlot].playtime = "";
 		}
 	} else {
-		SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+1, "#Unknown" );
-		SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+2, "#No Time" );
+		SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+1, "#" + LanguageConvertString(idLngFile, "Unknown") );
+		SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+2, "#" + LanguageConvertString(idLngFile, "NoTime") );
 		g_oSaveList[nSlot].faceinfo = "";
 		g_oSaveList[nSlot].playtime = "";
 	}

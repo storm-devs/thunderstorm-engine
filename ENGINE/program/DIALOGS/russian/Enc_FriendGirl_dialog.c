@@ -1,3 +1,4 @@
+#include "TEXT\DIALOGS\Enc_FriendGirl_dialog.h"
 void ProcessDialogEvent()
 {	
 	ref NPChar, sld;
@@ -18,31 +19,31 @@ void ProcessDialogEvent()
 		break;
 
 		case "First time":
-			dialog.text = LinkRandPhrase("Господи, как хорошо, что я вас встретила!",
-				"Наконец-то хоть кто-то повяился здесь!!",
-				"Боже мой, как я рада вас видеть!");
-			Link.l1 = LinkRandPhrase("Что случилось, крошка?",
-				"Какие проблемы, дорогуша?",
-				"Не надо так волноваться, это вредно для женского организма. Расскажи-ка мне быстренько, что там у тебя стряслось?");
+			dialog.text = LinkRandPhrase(DLG_TEXT_BASE[0],
+				DLG_TEXT_BASE[1],
+				DLG_TEXT_BASE[2]);
+			Link.l1 = LinkRandPhrase(DLG_TEXT_BASE[3],
+				DLG_TEXT_BASE[4],
+				DLG_TEXT_BASE[5]);
 			Link.l1.go = "Step_1";			
 		break;
 		case "Step_1":
-			dialog.text = LinkRandPhrase("Моя подруга - такая бесстрашная, она полезла в заброшенный колодец!",
-				"Моя подруга полезла в заброшенный колодец и уже несколько часов ее нет!",
-				"Моя подруга исчезла в заброшенном колодце!");
-			Link.l1 = "Какого черта она полезла туда?!";
+			dialog.text = LinkRandPhrase(DLG_TEXT_BASE[6],
+				DLG_TEXT_BASE[7],
+				DLG_TEXT_BASE[8]);
+			Link.l1 = DLG_TEXT_BASE[9];
 			Link.l1.go = "Step_2";			
 		break;
 		case "Step_2":
-			dialog.text = "Ах, она ничего не боиться! Она услышала где-то, что там внизу есть подземелье, в котором можно отыскать золото, вот и полезла. Но я не такая дура, я туда ни ногой...";
-			Link.l1 = "И это правильно, не женское это дело.";
+			dialog.text = DLG_TEXT_BASE[10];
+			Link.l1 = DLG_TEXT_BASE[11];
 			Link.l1.go = "Step_3";			
 		break;		
 		case "Step_3":
-			dialog.text = "Что же мне теперь делать? Прошу вас, ради всего святого, помогите ей!";
-			Link.l1 = "Хорошо, я разберусь с этим. А ты иди домой, нечего тут прохлаждаться одной.";
+			dialog.text = DLG_TEXT_BASE[12];
+			Link.l1 = DLG_TEXT_BASE[13];
 			Link.l1.go = "Step_agree";
-			Link.l2 = "Это ваши проблемы, мне до них дела нет. Прощай...";
+			Link.l2 = DLG_TEXT_BASE[14];
 			Link.l2.go = "Step_disAgree";
 		break;
 
@@ -113,24 +114,24 @@ void ProcessDialogEvent()
 		break;			
 		case "FackYou":
             NextDiag.TempNode = "FackYou";
-            dialog.text = "Не хочу разговаривать с такими бездушным болваном. Проваливай отсюда!";
-			Link.l1 = "Хех, стерва...";
+            dialog.text = DLG_TEXT_BASE[15];
+			Link.l1 = DLG_TEXT_BASE[16];
 			Link.l1.go = "exit";
 		break;
 
 		case "Underground0": //девка реально заблудилась
-            dialog.text = "Боже мой, как я рада вас видеть!!";
-			Link.l1 = "Что случилось, красавица?";
+            dialog.text = DLG_TEXT_BASE[17];
+			Link.l1 = DLG_TEXT_BASE[18];
 			Link.l1.go = "Underground0_1";
 		break;
 		case "Underground0_1": 
-            dialog.text = "Я заблудилась здесь! Господи, как же мне было страшно!!";
-			Link.l1 = "Ну, теперь-то все в порядке. Иди за мной, я выведу тебя. Как окажешься на поверхности - быстро домой, и чтобы больше я тебя не видел!";
+            dialog.text = DLG_TEXT_BASE[19];
+			Link.l1 = DLG_TEXT_BASE[20];
 			Link.l1.go = "Underground0_2";
 		break;
 		case "Underground0_2": 
-            dialog.text = "Как скажете, " + GetAddress_Form(NPChar) + ".";
-			Link.l1 = "Хорошо.";
+            dialog.text = DLG_TEXT_BASE[21] + GetAddress_Form(NPChar) + ".";
+			Link.l1 = DLG_TEXT_BASE[22];
 			Link.l1.go = "exit";
 			npchar.LifeDay = 0;
 			LAi_SetActorType(npchar);
@@ -139,39 +140,39 @@ void ProcessDialogEvent()
 		break;
 
 		case "Underground1": //крутая мочалка
-            dialog.text = "Надо же, еще кому-то дело есть до этого подземелья!";
-			Link.l1 = "Красавица, ты что тут делаешь?";
+            dialog.text = DLG_TEXT_BASE[23];
+			Link.l1 = DLG_TEXT_BASE[24];
 			Link.l1.go = "Underground1_1";
 		break;
 		case "Underground1_1": 
-            dialog.text = "Не твое дело!";
-			Link.l1 = "Ого, ответ на миллион пиастров...";
+            dialog.text = DLG_TEXT_BASE[25];
+			Link.l1 = DLG_TEXT_BASE[26];
 			Link.l1.go = "Underground1_2";
 		break;
 		case "Underground1_2": 
-            dialog.text = "На два миллиона... Шел бы ты отсюда своей дорогой, до тебя мне дела нет.";
-			Link.l1 = "Хех, и мне до тебя тоже, собственно, да вот только подруга твоя панику подняла наверху...";
+            dialog.text = DLG_TEXT_BASE[27];
+			Link.l1 = DLG_TEXT_BASE[28];
 			Link.l1.go = "Underground1_3";
 		break;
 		case "Underground1_3": 
-            dialog.text = "Вот ведь дуреха! Сама от страха обделаться готова, и думает, что я такая же.";
-			Link.l1 = "Да уж, ты явно не такая же. Черт в юбке!";
+            dialog.text = DLG_TEXT_BASE[29];
+			Link.l1 = DLG_TEXT_BASE[30];
 			Link.l1.go = "Underground1_4";
 		break;
 		case "Underground1_4": 
-            dialog.text = "Полегче с эпитетами! Да и вообще, проваливай и дело с концом.";
-			Link.l1 = "Ну ладно, раз тебе моя помощь не нужна...";
+            dialog.text = DLG_TEXT_BASE[31];
+			Link.l1 = DLG_TEXT_BASE[32];
 			Link.l1.go = "Underground1_5";
 		break;
 		case "Underground1_5": 
-            dialog.text = "Не нужна!";
-			Link.l1 = "Тогда прощай и будь здорова.";
+            dialog.text = DLG_TEXT_BASE[33];
+			Link.l1 = DLG_TEXT_BASE[34];
 			Link.l1.go = "exit";
 			NextDiag.TempNode = "Underground1_again";
 		break;
 		case "Underground1_again": 
-            dialog.text = "Опять ты? Проваливай, надоел уже...";
-			Link.l1 = "Хм...";
+            dialog.text = DLG_TEXT_BASE[35];
+			Link.l1 = DLG_TEXT_BASE[36];
 			Link.l1.go = "exit";
 			NextDiag.TempNode = "Underground1_again";
 		break;

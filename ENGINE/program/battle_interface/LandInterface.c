@@ -439,14 +439,14 @@ void BLI_SetObjectData()
 	objLandInterface.Commands.DeadBox.selPicNum		= 4;
 	objLandInterface.Commands.DeadBox.texNum		= 0;
 	objLandInterface.Commands.DeadBox.event			= "BI_DeadBox";
-	objLandInterface.Commands.DeadBox.note			= "Обыск тела";
+	objLandInterface.Commands.DeadBox.note			= LanguageConvertString(idLngFile, "land_DeadBox");
 	// диалог сам с собой -->
 	objLandInterface.Commands.TalkSelf.enable	= true;
  	objLandInterface.Commands.TalkSelf.picNum	 	= 18;
 	objLandInterface.Commands.TalkSelf.selPicNum	= 2;
 	objLandInterface.Commands.TalkSelf.texNum		= 0;
 	objLandInterface.Commands.TalkSelf.event		= "BI_TalkSelf";
-	objLandInterface.Commands.TalkSelf.note		= "Мысли вслух";
+	objLandInterface.Commands.TalkSelf.note		    = LanguageConvertString(idLngFile, "land_TalkSelf");
 	// диалог сам с собой <--
 	objLandInterface.Commands.ActivateRush.enable	= true;
 	objLandInterface.Commands.ActivateRush.picNum	= 28;
@@ -725,9 +725,10 @@ void BLI_SetPossibleCommands()
 		if (!CheckAttribute(loadedLocation,"fastreload")) bTmpBool = false;  // в каюте некуда переходить
 		if (bTmpBool) // все еще можно переходить, проверяем город враг
 		{
-		    i = sti(Colonies[FindColony(loadedLocation.fastreload)].nation);
-			if (i > 0)
+		    string sNation = Colonies[FindColony(loadedLocation.fastreload)].nation;
+			if (sNation != "none")
 			{
+				i = sti(sNation);
 				bTmpBool = (GetNationRelation2MainCharacter(i) == RELATION_ENEMY) || GetRelation2BaseNation(i) == RELATION_ENEMY;
 				if (bTmpBool && (i != PIRATE))// && !CheckAttribute(pchar, "CheckStateOk"))
 				{

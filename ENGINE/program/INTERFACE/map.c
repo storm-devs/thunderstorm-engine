@@ -225,7 +225,7 @@ void wdmRecalcReloadToSea()
 			}
 			if(sti(rEncounter.Nation) < 0)
 			{
-        			totalInfo = totalInfo + "ÁÀÃÀ -1.";
+        			totalInfo = totalInfo + "Error: rEncounter.Nation < 0.";
       		}
 	        
 			switch(sti(rEncounter.Nation))

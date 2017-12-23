@@ -1,5 +1,4 @@
-// boal 27.03.2004 Муж Изабелы Армани
-
+#include "TEXT\DIALOGS\Quest\Isabella\Husband.h"
 void ProcessDialogEvent()
 {
 	ref NPChar, d, sld;
@@ -43,42 +42,42 @@ void ProcessDialogEvent()
 			{
 	            if (CheckAttribute(NPChar, "quest.NiceMeet"))
 				{
-					dialog.text = "Хм, однако, ты позволяешь себе слишком много - заходить в спальню без спроса хозяина дома...";
-					link.l1 = "Извини, приятель, заплутал просто...";
+					dialog.text = DLG_TEXT_QB[0];
+					link.l1 = DLG_TEXT_QB[1];
 					link.l1.go = "Good_exit";
 				}
 				else
 				{
-					dialog.text = "Какого черта ты шастаешь у меня дома? Защищайся, мерзавец!";
-					link.l1 = "Ну хорошо...";
+					dialog.text = DLG_TEXT_QB[2];
+					link.l1 = DLG_TEXT_QB[3];
 					link.l1.go = "Romantic_Battle_in_Bedroom_2";
 				}
 				DeleteAttribute(pchar, "quest.wasInBeedroom");
 			}
 			else
 			{				
-				dialog.text = "Приветствую вас, незнакомец! Могу я узнать, кто вы и чему обязан чести видеть вас у себя дома?";
-				link.l1 = "Мое имя - " + PChar.Name + " " + PChar.LastName +
-						", я капитан.";
+				dialog.text = DLG_TEXT_QB[4];
+				link.l1 = DLG_TEXT_QB[5] + PChar.Name + " " + PChar.LastName +
+						DLG_TEXT_QB[6];
 				link.l1.go = "Next_1";
-				link.l2 = "Прошу меня простить. Я ошибся адресом.";
+				link.l2 = DLG_TEXT_QB[7];
 				link.l2.go = "Good_exit";
 			}
 		break;
 		
         case "Next_1":
             NextDiag.TempNode = "Usual_1";
-			dialog.text = "Капитан или все-таки корсар? Судя по вашему виду, сеньор, скорее - второе. Ну что ж, в наше время не один достопочтенный дон сколотил таким образом приличное состояние. И я - не исключение.";
-			link.l1 = "Вы были корсаром?!";
+			dialog.text = DLG_TEXT_QB[8];
+			link.l1 = DLG_TEXT_QB[9];
 			link.l1.go = "Next_2";
-			link.l2 = "Прошу меня простить... дела!";
+			link.l2 = DLG_TEXT_QB[10];
 			link.l2.go = "Good_exit";
 		break;
 		
 		case "Next_2":
 		    NextDiag.TempNode = "Usual_1";
-			dialog.text = "А что в этом удивительного? Это очень быстрый и надежный способ разбогатеть. Но после удачной женитьбы я решил остепениться, чего и вам желаю.";
-			link.l1 = "Понятно. Спасибо за совет. Непременно последую ему при случае...";
+			dialog.text = DLG_TEXT_QB[11];
+			link.l1 = DLG_TEXT_QB[12];
 			link.l1.go = "Good_exit";
 			NPChar.quest.NiceMeet = true;
 		break;
@@ -87,29 +86,29 @@ void ProcessDialogEvent()
 			chrDisableReloadToLocation = false;
 			bDisableFastReload = false;
 		    NextDiag.TempNode = "Usual_1";
-			dialog.text = "Приятно увидеться с вами вновь. Что привело вас ко мне на сей раз?";
-			link.l1 = "Ничего особенного. Просто зашел навестить.";
+			dialog.text = DLG_TEXT_QB[13];
+			link.l1 = DLG_TEXT_QB[14];
 			link.l1.go = "Good_exit";
 			if (CheckAttribute(pchar, "quest.VisitStep"))
 			{
 				if (sti(pchar.quest.VisitStep)>2 && !CheckAttribute(pchar, "quest.wasInBeedroom"))
 				{
-					dialog.text = "О, "+ GetFullName(pchar)+" опять у меня дома. Ну что же, приятно видеть тебя вновь. Зачем пожаловал?";
-					link.l1 = "Сальватор, я хочу пообщаться с твоей женой. Можно?";
+					dialog.text = DLG_TEXT_QB[15]+ GetFullName(pchar)+DLG_TEXT_QB[16];
+					link.l1 = DLG_TEXT_QB[17];
 					link.l1.go = "Step_2";
 				}				
 				if (sti(pchar.quest.VisitStep)>2 && CheckAttribute(pchar, "quest.wasInBeedroom"))
 				{					
 					if (!CheckAttribute(pchar, "quest.already"))
 					{
-						dialog.text = "Не слишком ли ты зачастил к моей жене, приятель?";
-						link.l1 = "Да все нормально, друг Сальватор. Я знаком с ее родственниками, так что не волнуйся.";
+						dialog.text = DLG_TEXT_QB[18];
+						link.l1 = DLG_TEXT_QB[19];
 						link.l1.go = "Step_1";
 					}
 					else
 					{
-						dialog.text = "Передал все, что нужно?";
-						link.l1 = "Да, Сальватор, все нормально.";
+						dialog.text = DLG_TEXT_QB[20];
+						link.l1 = DLG_TEXT_QB[21];
 						link.l1.go = "Good_exit";
 						LocatorReloadEnterDisable("SanJuan_houseSp6", "reload2", true);
 					}
@@ -118,25 +117,25 @@ void ProcessDialogEvent()
 			}
 		break;
 		case "Step_1":
-			dialog.text = "Все это хорошо, но впредь изволь просить разрешения навестить ее, как это делается в приличных домах.";
-			link.l1 = "Хорошо, Сальватор, как скажешь.";
+			dialog.text = DLG_TEXT_QB[22];
+			link.l1 = DLG_TEXT_QB[23];
 			link.l1.go = "Good_exit";
 			LocatorReloadEnterDisable("SanJuan_houseSp6", "reload2", true);
 			pchar.quest.already = true;
 		break;
 		case "Step_2":
-			dialog.text = "А зачем тебе это?";
-			link.l1 = "Хочу передать ей весточку от родных.";
+			dialog.text = DLG_TEXT_QB[24];
+			link.l1 = DLG_TEXT_QB[25];
 			link.l1.go = "Step_3";
 		break;
 		case "Step_3":
-			dialog.text = "Ну ладно, разрешаю.";
-			link.l1 = "Спасибо, Сальватор. Я мигом.";
+			dialog.text = DLG_TEXT_QB[26];
+			link.l1 = DLG_TEXT_QB[27];
 			link.l1.go = "Good_exit";
 			if (pchar.RomanticQuest == "DelivMigel")
 			{
-				dialog.text = "Ты вытащил ее братца Мигеля из Куманы, поэтому ты, вроде как, друг семьи теперь. Так что проходи, нет проблем.";
-				link.l1 = "Хм, я понял, Сальватор. Спасибо тебе.";			
+				dialog.text = DLG_TEXT_QB[28];
+				link.l1 = DLG_TEXT_QB[29];			
 			}
 			LocatorReloadEnterDisable("SanJuan_houseSp6", "reload2", false);
 		break;
@@ -144,21 +143,21 @@ void ProcessDialogEvent()
 		case "Romantic_Battle_in_Bedroom":
 		    if (CheckAttribute(NPChar, "quest.NiceMeet"))
 		    {
-			    dialog.text = PChar.Name + " " + PChar.LastName +", вы уже успели познакомиться с моей супругой? " + Characters[GetCharacterIndex("Isabella")].Name + ", если нет возражений, я вернусь к своим делам. Жду вас внизу...";
-			    link.l1 = "О, да. Теперь я по-другому смотрю на ваш совет.";
+			    dialog.text = PChar.Name + " " + PChar.LastName +DLG_TEXT_QB[30] + Characters[GetCharacterIndex("Isabella")].Name + DLG_TEXT_QB[31];
+			    link.l1 = DLG_TEXT_QB[32];
 			    link.l1.go = "Romantic_Battle_in_Bedroom_3";
 			}
 			else
 			{
-			    dialog.text = "Что! Вы! Делаете! В спальне моей жены?!";
-			    link.l1 = "Я... Я попал сюда по ошибке... У меня и в мыслях не было...";
+			    dialog.text = DLG_TEXT_QB[33];
+			    link.l1 = DLG_TEXT_QB[34];
 			    link.l1.go = "Romantic_Battle_in_Bedroom_1";
 			}
 		break;
 		
 		case "Romantic_Battle_in_Bedroom_1":
-			dialog.text = "Защищайся, глупец, сейчас ты умрешь!";
-			link.l1 = "Что??? Ну, это мы еще поглядим!";
+			dialog.text = DLG_TEXT_QB[35];
+			link.l1 = DLG_TEXT_QB[36];
 			link.l1.go = "Romantic_Battle_in_Bedroom_2";
 		break;
 		
@@ -176,15 +175,15 @@ void ProcessDialogEvent()
 
 		case "WeWaitYouTonight":
 			NextDiag.CurrentNode = "WeWaitYouTonight";
-			dialog.text = "Мы с супругой будем рады увидеть вас сегодня вечером, капитан.";
-			link.l1 = "Буду обязательно, Сальватор.";
+			dialog.text = DLG_TEXT_QB[37];
+			link.l1 = DLG_TEXT_QB[38];
 			link.l1.go = "exit";
 			chrDisableReloadToLocation = false;
 			bDisableFastReload = false;
 		break;
 
 		case "SeenMainHero":
-			dialog.text = "Хех, вы как нельзя вовремя, " + GetFullName(pchar) + "... Убейте эту грязную свинью. Пусть все подумают, что они друг друга зарезали.";
+			dialog.text = DLG_TEXT_QB[39] + GetFullName(pchar) + DLG_TEXT_QB[40];
 			link.l1 = "...";
 			link.l1.go = "SeenMainHero_1";
 		break;
@@ -200,9 +199,9 @@ void ProcessDialogEvent()
 		break;
 
 		case "ArrestInHome_1":
-			dialog.text = "Ага, вот и ты.\n"+
-				          "Офицер, этот человек убил несчастного дона Мигеля де Вальдеса! А сейчас, наверное, собирался убить меня и мою жену! Смотрите! У него руки в крови!";
-			link.l1 = "Подлый обманщик! Это ты убил дона Мигеля де Вальдеса!";
+			dialog.text = DLG_TEXT_QB[41]+
+				          DLG_TEXT_QB[42];
+			link.l1 = DLG_TEXT_QB[43];
 			link.l1.go = "ArrestInHome_2";
 		break;
 		case "ArrestInHome_2":
@@ -212,33 +211,33 @@ void ProcessDialogEvent()
 		break;
 		//базар в пещере
 		case "TalkInCave":
-			dialog.text = "О-о-о, прямо как голубки воркуют! Я вам не мешаю?";
-			link.l1 = "Напротив, Сальватор, ты как раз вовремя! Если бы ты знал, как я рад тебя видеть!";
+			dialog.text = DLG_TEXT_QB[44];
+			link.l1 = DLG_TEXT_QB[45];
 			link.l1.go = "TalkInCave_1";
 		break;
 		case "TalkInCave_1":
-			dialog.text = "Неужели?";
-			link.l1 = "Да-да, не сомневайся даже. По всем Карибам тебя ищу... Жаровню-то принес?";
+			dialog.text = DLG_TEXT_QB[46];
+			link.l1 = DLG_TEXT_QB[47];
 			link.l1.go = "TalkInCave_2";
 		break;
 		case "TalkInCave_2":
-			dialog.text = "Нет пока, позже...";
-			link.l1 = "Боюсь, другого шанса для барбекю у тебя не будет, приятель. Сеньоре Изабелле пора стать вдовой.";
+			dialog.text = DLG_TEXT_QB[48];
+			link.l1 = DLG_TEXT_QB[49];
 			link.l1.go = "TalkInCave_3";
 		break;
 		case "TalkInCave_3":
-			dialog.text = "И уж не ты ли тот герой?";
-			link.l1 = "Я, Сальватор, я...";
+			dialog.text = DLG_TEXT_QB[50];
+			link.l1 = DLG_TEXT_QB[51];
 			link.l1.go = "TalkInCave_4";
 		break;
 		case "TalkInCave_4":
-			dialog.text = "Тогда приступим! Добро пожаловать в ад, " + GetFullName(pchar) + "!";
-			link.l1 = "Пожалуй, пропущу тебя вперед... Да, и еще - мне очень нравится твоя жена, Сальватор. Можно, после твоей смерти она не будет ходить в трауре? Мы торопимся обвенчаться...";
+			dialog.text = DLG_TEXT_QB[52] + GetFullName(pchar) + "!";
+			link.l1 = DLG_TEXT_QB[53];
 			link.l1.go = "TalkInCave_5";
 		break;
 		case "TalkInCave_5":
-			dialog.text = "Агрх, эту мерзавку я отправлю следом за тобой!";
-			link.l1 = "Нехорошо так говорить о собственной жене...";
+			dialog.text = DLG_TEXT_QB[54];
+			link.l1 = DLG_TEXT_QB[55];
 			link.l1.go = "TalkInCave_6";
 		break;
 		case "TalkInCave_6":

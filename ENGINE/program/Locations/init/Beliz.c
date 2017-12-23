@@ -686,9 +686,9 @@ int LocationInitBeliz(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	Locations[n].id = "Beliz_ExitTown";
 	locations[n].id.label = "ExitTown";
-	locations[n].image = "loading\Gate.tga";
+	locations[n].image = "loading\Gate" + rand(1) + ".tga";
 	//Town sack
-	Locations[n].townsack = "Isla Muelle";
+	Locations[n].townsack = "Beliz";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -750,7 +750,7 @@ int LocationInitBeliz(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Beliz_Jungle_01";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle4.tga";
+	locations[n].image = "loading\outside\jungle2.tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -806,7 +806,7 @@ int LocationInitBeliz(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Beliz_CaveEntrance_1";
 	locations[n].id.label = "Cave entrance";
-	locations[n].image = "loading\outside\cave_ent.tga";
+	locations[n].image = "loading\outside\jungle2.tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -864,17 +864,19 @@ int LocationInitBeliz(int n)
 	//Always
 	locations[n].filespath.models = "locations\inside\cavernMedium1";
 	locations[n].models.always.cavernMedium1 = "cavernMedium1";
+	locations[n].models.always.cavernMedium1.sea_reflection = 1;
+	
 	locations[n].models.always.lamps = "cavernMedium1_lamps";	
 	locations[n].models.always.locators = "cavernMedium1_locators";	
 
-	Locations[n].models.always.duhi = "duhi";
-	Locations[n].models.always.duhi.locator.group = "item";
-	Locations[n].models.always.duhi.locator.name = "duhi1";
-	locations[n].models.always.duhi.tech = "LighthouseLight";
-	locations[n].models.always.duhi.level = 60;
-	Locations[n].models.always.duhi.uvslide.u0 = 0.15;
-	Locations[n].models.always.duhi.uvslide.v0 = 0.1;
 	locations[n].locators_radius.item.duhi1 = 1.3;
+	
+	Locations[n].models.always.rays = "cavernMedium1_rays";
+	Locations[n].models.always.rays.level = 49;
+	Locations[n].models.always.rays.tech= "LocVisRays";
+	Locations[n].models.always.rays.uvslide.u1 = -0.03;
+	Locations[n].models.always.rays.uvslide.v1 = -0.03;
+	
 	//Day
 	locations[n].models.day.charactersPatch = "cavernMedium1_patch";
 	Locations[n].models.day.jumpPatch = "CavernMedium1_jump";
@@ -903,7 +905,7 @@ int LocationInitBeliz(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Beliz_CaveEntrance_2";
 	locations[n].id.label = "Cave entrance";
-	locations[n].image = "loading\outside\cave_ent.tga";
+	locations[n].image = "loading\outside\jungle2.tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -966,14 +968,13 @@ int LocationInitBeliz(int n)
 	locations[n].models.always.DungeonDuffer2 = "DungeonDuffer2";
 	locations[n].models.always.locators = "DungeonDuffer2_locators";
 
-	Locations[n].models.always.duhi = "duhi";
-	Locations[n].models.always.duhi.locator.group = "item";
-	Locations[n].models.always.duhi.locator.name = "duhi1";
-	locations[n].models.always.duhi.tech = "LighthouseLight";
-	locations[n].models.always.duhi.level = 60;
-	Locations[n].models.always.duhi.uvslide.u0 = 0.15;
-	Locations[n].models.always.duhi.uvslide.v0 = 0.1;
 	locations[n].locators_radius.item.duhi1 = 1.3;
+	
+	Locations[n].models.always.rays = "DungeonDuffer2_rays";
+	Locations[n].models.always.rays.level = 49;
+	Locations[n].models.always.rays.tech= "LocVisRays";
+	Locations[n].models.always.rays.uvslide.u1 = -0.03;
+	Locations[n].models.always.rays.uvslide.v1 = -0.03;	
 	//Day
 	locations[n].models.day.charactersPatch = "DungeonDuffer2_patch";
 	//Night
@@ -998,7 +999,7 @@ int LocationInitBeliz(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore_ship2";
 	locations[n].id.label = "Shore_ship2";
-	locations[n].image = "loading\outside\broken_ship.tga";
+	locations[n].image = "loading\outside\harbor3.tga";
 	locations[n].worldmap = "Shore_ship2";
 	//Sound
 	locations[n].type = "seashore";
@@ -1212,7 +1213,7 @@ int LocationInitBeliz(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     locations[n].id = "Beliz_jungle_03";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle3.tga";
+	locations[n].image = "loading\outside\jungle.tga";
  	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -1261,7 +1262,7 @@ int LocationInitBeliz(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Beliz_CaveEntrance_3";
 	locations[n].id.label = "Cave entrance";
-	locations[n].image = "loading\outside\cave_ent.tga";
+	locations[n].image = "loading\outside\jungle2.tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -1455,7 +1456,7 @@ int LocationInitBeliz(int n)
 	locations[n].locators_radius.reload.reload1_back = 2.0;
 
 	locations[n].reload.l2.name = "reload2_back";
-	locations[n].reload.l2.go = "Tenotchitlan_Jungle_03";   //на теночитлан
+	locations[n].reload.l2.go = "Tenotchitlan_Jungle_03";   //на теночитлан, где пирамида
 	locations[n].reload.l2.emerge = "reload1";
 	locations[n].reload.l2.autoreload = "1";
 	locations[n].reload.l2.label = "Jungle";

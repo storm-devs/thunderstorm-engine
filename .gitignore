@@ -263,3 +263,7 @@ __pycache__/
 *.exp
 *.dll
 *.exe
+/ENGINE/PROGRAM
+/ENGINE/RESOURCE
+/ENGINE/SAVE
+/ENGINE/options

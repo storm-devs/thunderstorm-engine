@@ -1,4 +1,4 @@
-
+#include "TEXT\DIALOGS\error_dialog.h"
 void ProcessDialogEvent()
 {
 	ref NPChar;
@@ -15,10 +15,10 @@ void ProcessDialogEvent()
 		// -----------------------------------Диалог первый - первая встреча
 		case "First time":
 			
-			dialog.text = "Ошибка открытия файла диалога.";
+			dialog.text = DLG_TEXT_BASE[0];
 			if(CheckAttribute(CharacterRef, "Dialog.Filename"))
 			{
-				dialog.text = "Не удается открыть файл диалога " + CharacterRef.Dialog.Filename + ", назначенный этому персонажу.";
+				dialog.text = DLG_TEXT_BASE[1] + CharacterRef.Dialog.Filename + DLG_TEXT_BASE[2];
 			}
 			link.l1 = "ok";
 			link.l1.go = "Exit";

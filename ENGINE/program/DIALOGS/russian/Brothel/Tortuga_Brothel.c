@@ -1,50 +1,50 @@
-// диалог по городам
+#include "TEXT\DIALOGS\Brothel\Tortuga_Brothel.h"
 void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 {
     ref sld;     
 	switch (Dialog.CurrentNode)
 	{
 		case "quests":
-			dialog.text = NPCStringReactionRepeat(RandPhraseSimple("Какие вопросы, молодой человек?", "Чего ты хочешь, красавчик? Ну хоть задай его."), "Опять вопросы?", "Хи-хи, третий раз на дню одно и то же - вопросы...",
-                          "Хм, может ты выберешь какую-нибудь красотку себе? А то у меня уже складывается в отношении тебя вполне определенное мнение...", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat(RandPhraseSimple("Я передумал...", "Хм, да ничего..."), "Не могу... Нет вопросов...",
-                      "Да уж, действительно в третий раз... Извини.", "Не сейчас... В другой раз...", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(RandPhraseSimple(DLG_TEXT_BR[0], DLG_TEXT_BR[1]), DLG_TEXT_BR[2], DLG_TEXT_BR[3],
+                          DLG_TEXT_BR[4], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(RandPhraseSimple(DLG_TEXT_BR[5], DLG_TEXT_BR[6]), DLG_TEXT_BR[7],
+                      DLG_TEXT_BR[8], DLG_TEXT_BR[9], npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
 			//==> Голл. №3, узнаем о Пеьере Пикардийце.
             if (pchar.questTemp.State == "WormEnglPlans_WormPicarder")
             {
-                link.l1 = "Послушай, Пьера Пикардийца нет у тебя в заведении?";
+                link.l1 = DLG_TEXT_BR[10];
                 link.l1.go = "Step_H3_1";
 			}
             // ==> квест Аззи.
             if (CheckAttribute(pchar, "questTemp.Azzy.AddSpecial"))
             {
-                dialog.text = "Что вам угодно, Сэр?";
-    			Link.l1 = "Меня прислал к вам Аззи. Он сказал мне...";
+                dialog.text = DLG_TEXT_BR[11];
+    			Link.l1 = DLG_TEXT_BR[12];
     			Link.l1.go = "Step_1";
             }
             if (pchar.questTemp.Azzy == "HowToKnowAzzy" && !CheckAttribute(pchar, "questTemp.Azzy.AddSpecial"))
             {
-                dialog.text = NPCStringReactionRepeat("Что вам угодно, Сэр?", "Опять вы?", "Снова по этому же вопросу?", "Ну что еще?", "block", 0, npchar, Dialog.CurrentNode);
-    			Link.l1 = HeroStringReactionRepeat("Послушай, мне срочно нужно найти Аззи!", "Да, опять я! Мне нужен Аззи.", "Снова по этому же вопросу.", "То же самое. Мне нужен Аззи.", npchar, Dialog.CurrentNode);
+                dialog.text = NPCStringReactionRepeat(DLG_TEXT_BR[13], DLG_TEXT_BR[14], DLG_TEXT_BR[15], DLG_TEXT_BR[16], "block", 0, npchar, Dialog.CurrentNode);
+    			Link.l1 = HeroStringReactionRepeat(DLG_TEXT_BR[17], DLG_TEXT_BR[18], DLG_TEXT_BR[19], DLG_TEXT_BR[20], npchar, Dialog.CurrentNode);
     			Link.l1.go = DialogGoNodeRepeat("Step_15", "none", "none", "none", npchar, Dialog.CurrentNode);
             }
             if (pchar.questTemp.Azzy == "DestrContract")
             {
-                dialog.text = "О-о-о, кого я вижу?!";
-    			Link.l1 = "Меня, Екатерина. Но на этот раз я пришел с конкретным предложением.";
+                dialog.text = DLG_TEXT_BR[21];
+    			Link.l1 = DLG_TEXT_BR[22];
     			Link.l1.go = "Step_17";
             }
             if (pchar.questTemp.Azzy == "2DestrContract")
             {
-                dialog.text = "Опять ты?";
-    			Link.l1 = "Опять я. Как насчет вызова Аззи?";
+                dialog.text = DLG_TEXT_BR[23];
+    			Link.l1 = DLG_TEXT_BR[24];
     			Link.l1.go = "Step_20";
             }
 			//жемчужный генератор Шарпа
 			if (pchar.questTemp.Sharp == "seekSharp" && GetNpcQuestPastDayWOInit(npchar, "quest.SharpTime") > 7 && !LAi_IsDead(&characters[GetCharacterIndex("Sharp")]))
 			{
-				link.l1 = "Послушай, " + npchar.name + ", я ищу Шарпа. Ты не знаешь, где он?";
+				link.l1 = DLG_TEXT_BR[25] + npchar.name + DLG_TEXT_BR[26];
 				link.l1.go = "SharpPearl_1";
 				SaveCurrentNpcQuestDateParam(npchar, "quest.SharpTime");
 			}
@@ -52,85 +52,85 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 		break;
 		//==>Голландская линейка, квест №3.
  	 	case "Step_H3_1":
-			dialog.text = NPCStringReactionRepeat("Сейчас нет, но будет сегодня точно.", "Красавчик, ты спрашивал уже меня о Пьере", "Опять о Пьере?", "Послушай, милий мой, хватит уже рассуждать о Пьере. Осмотрись, развлекись...", "block", 0, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat("А откуда ты знаешь?", "Да, точно...", "Хм, опять...", "Это обязательно, но, к сожалению, не сейчас...", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(DLG_TEXT_BR[27], DLG_TEXT_BR[28], DLG_TEXT_BR[29], DLG_TEXT_BR[30], "block", 0, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(DLG_TEXT_BR[31], DLG_TEXT_BR[32], DLG_TEXT_BR[33], DLG_TEXT_BR[34], npchar, Dialog.CurrentNode);
 			link.l1.go = DialogGoNodeRepeat("Step_H3_2", "none", "none", "none", npchar, Dialog.CurrentNode);
         break;
  	 	case "Step_H3_2":
-			dialog.text = "Милый мой, мне ли не знать?! Не было еще дня с момента его возвращения, когда он не появлялся у меня. И каждый день берет новую девку, хоть за такое непостоянство я и увеличиваю тарифы вдвое. Так что, если хочешь его застать, то просто подожди.";
-			link.l1 = "Спасибо, но я, пожалуй, побегу.";
+			dialog.text = DLG_TEXT_BR[35];
+			link.l1 = DLG_TEXT_BR[36];
 			link.l1.go = "exit";
             pchar.questTemp.Talks.Brothel = true;
             AddQuestRecord("Hol_Line_3_WormEnglishPlans", "11");
         break;
 		//==> Квест Аззи
         case "Step_1":
-			dialog.text = "Простите, что перебиваю... Назовите свое имя.";
-			Link.l1 = "Меня зовут " + GetFullName(pchar) + ".";
+			dialog.text = DLG_TEXT_BR[37];
+			Link.l1 = DLG_TEXT_BR[38] + GetFullName(pchar) + ".";
 			Link.l1.go = "Step_2";
 		break;
         case "Step_2":
-			dialog.text = "Я ждала тебя, красавчик. Аззи меня уведомил о том, что я должна кое-что сделать для тебя.";
-			Link.l1 = "Да, верно. Даже не знаю, как высказать это 'кое-что'...";
+			dialog.text = DLG_TEXT_BR[39];
+			Link.l1 = DLG_TEXT_BR[40];
 			Link.l1.go = "Step_3";
 		break;
         case "Step_3":
-			dialog.text = "А почему такое замешательство? Ты же знаешь, кто я. Знаешь, и кто такой Аззи.";
-			Link.l1 = "Аззи сказал, что ты ведьма!";
+			dialog.text = DLG_TEXT_BR[41];
+			Link.l1 = DLG_TEXT_BR[42];
 			Link.l1.go = "Step_4";
 		break;
         case "Step_4":
-			dialog.text = "И довольно неплохая, могу признаться... А ты кем Аззи прходишься, что он так печется о тебе?";
-			Link.l1 = "Знакомый просто...";
+			dialog.text = DLG_TEXT_BR[43];
+			Link.l1 = DLG_TEXT_BR[44];
 			Link.l1.go = "Step_5";
 		break;
         case "Step_5":
-			dialog.text = "А-а-а, понятно... Я то думала, что ты серьезный человек в нашей иерархии. А ты так, мимоходом прикоснулся.\n"+
-                     "Давай приступим к делу, красавчик. Аззи сказал, что я должна исправить твое тело под определенные нужды. Чего ты хочешь?";
-			Link.l1 = "Хм, знаешь, для начала я бы тебя в таверну пригласил на коктейль... Ты сегодня вечером свободна?";
+			dialog.text = DLG_TEXT_BR[45]+
+                     DLG_TEXT_BR[46];
+			Link.l1 = DLG_TEXT_BR[47];
 			Link.l1.go = "Step_6";
 		break;
         case "Step_6":
-			dialog.text = "Даже и не мечтай, ты мне не интересен. Буду я шашни крутить со знакомым Аззи, когда есть САМ Аззи.\n"+
-                     "В общем так, давай быстро и по делу. Я могу сделать тебя сильней, ловчей, повысить твое восприятие, обаяние, выносливость или интеллект.\n"+
-                     "Так как должна я поменять твое тело?";
-			Link.l1 = "Чтобы я был сильней, ловчей, восприимчивей, харизматичней, умней - в общем, весь набор хочу.";
+			dialog.text = DLG_TEXT_BR[48]+
+                     DLG_TEXT_BR[49]+
+                     DLG_TEXT_BR[50];
+			Link.l1 = DLG_TEXT_BR[51];
 			Link.l1.go = "Step_7";
 		break;
         case "Step_7":
-			dialog.text = "Весь набор не получится.";
-			Link.l1 = "Как это не получится?! Мало того, что доброму молодцу баньку не истопила, спать не уложила, она еще и жульничает! Аззи сказал...";
+			dialog.text = DLG_TEXT_BR[52];
+			Link.l1 = DLG_TEXT_BR[53];
 			Link.l1.go = "Step_8";
 		break;
         case "Step_8":
-			dialog.text = "Слушай меня внимательно, добрый молодец! Для того, чтобы сделать тебя сильней, мне нужно приладить к твоему телу новые большие мышцы.\n"+
-                     "Для того, чтобы сделать тебя ловчей, мне нужно сменить твои сухожилия на более эластичные.\n"+
-                     "Для того, чтобы сделать тебя выносливей, мне нужно заменить твои связки на другие, очень прочные.\n"+
-                     "И так далее по каждому пункту. Если все сделать разом, то работать вообще ничего толком не будет. Исключением является удача - это как раз разумное сочетание различных характеристик тела, позволяющее выходить из различных сложных ситуации с честью. То есть, быть удачливым.\n"+
-                     "Поэтому не дури, выбирай что-нибудь одно. Пока я добрая...";
-			Link.l1 = "Понятно, значит я должен выбрать?";
+			dialog.text = DLG_TEXT_BR[54]+
+                     DLG_TEXT_BR[55]+
+                     DLG_TEXT_BR[56]+
+                     DLG_TEXT_BR[57]+
+                     DLG_TEXT_BR[58];
+			Link.l1 = DLG_TEXT_BR[59];
 			Link.l1.go = "Step_9";
 		break;
         case "Step_9":
-			dialog.text = "Точно. Говори, какую характеристику твоего тела повысить?";
-            Link.l1 = "Силу";
+			dialog.text = DLG_TEXT_BR[60];
+            Link.l1 = DLG_TEXT_BR[61];
 			Link.l1.go = "Strength";
-            Link.l2 = "Восприятие";
+            Link.l2 = DLG_TEXT_BR[62];
 			Link.l2.go = "Perception";
-            Link.l3 = "Реакцию";
+            Link.l3 = DLG_TEXT_BR[63];
 			Link.l3.go = "Agility";
-            Link.l4 = "Лидерство";
+            Link.l4 = DLG_TEXT_BR[64];
 			Link.l4.go = "Charisma";
-            Link.l5 = "Обучаемость";
+            Link.l5 = DLG_TEXT_BR[65];
 			Link.l5.go = "Intellect";
-			Link.l6 = "Выносливость";
+			Link.l6 = DLG_TEXT_BR[66];
 			Link.l6.go = "Endurance";
-            Link.l7 = "Удачу";
+            Link.l7 = DLG_TEXT_BR[67];
 			Link.l7.go = "Luck";
 		break;
         case "Strength":
-			dialog.text =  "Сила, хороший выбор. Ну что ж, готовим мышцы - и будем менять. Полагаю, откладывать нет смысла, приступаем прямо сейчас.";
-			Link.l1 = "Приступаем к чему?";
+			dialog.text =  DLG_TEXT_BR[68];
+			Link.l1 = DLG_TEXT_BR[69];
 			Link.l1.go = "Step_10";
 			if (AddSPECIALValue(pchar, SPECIAL_S, 0) == SPECIAL_MAX)
 			{
@@ -142,8 +142,8 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			}
 		break;
         case "Perception":
-			dialog.text =  "Восприятие, очень хорошо. Ну что ж, готовим новые органы чувств - и будем менять. Полагаю, откладывать нет смысла, приступаем прямо сейчас.";
-			Link.l1 = "Приступаем к чему?";
+			dialog.text =  DLG_TEXT_BR[70];
+			Link.l1 = DLG_TEXT_BR[71];
 			Link.l1.go = "Step_10";
 			if (AddSPECIALValue(pchar, SPECIAL_P, 0) == SPECIAL_MAX)
 			{
@@ -155,8 +155,8 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			}
 		break;
         case "Endurance":
-			dialog.text =  "Вынослвивость, хорошо. Ну что ж, готовим сверхпрочные связки - и будем менять. Полагаю, откладывать нет смысла, приступаем прямо сейчас.";
-			Link.l1 = "Приступаем к чему?";
+			dialog.text =  DLG_TEXT_BR[72];
+			Link.l1 = DLG_TEXT_BR[73];
 			Link.l1.go = "Step_10";
 			if (AddSPECIALValue(pchar, SPECIAL_E, 0) == SPECIAL_MAX)
 			{
@@ -168,8 +168,8 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			}
 		break;
         case "Charisma":
-			dialog.text =  "Обояние? Хм, хороший выбор, красавчик! Ну что ж, готовим симпатичную мордашку с мужественными чертами лица - и будем менять. Полагаю, откладывать нет смысла, приступаем прямо сейчас.";
-			Link.l1 = "Приступаем к чему?";
+			dialog.text =  DLG_TEXT_BR[74];
+			Link.l1 = DLG_TEXT_BR[75];
 			Link.l1.go = "Step_10";
 			if (AddSPECIALValue(pchar, SPECIAL_C, 0) == SPECIAL_MAX)
 			{
@@ -181,8 +181,8 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			}
 		break;
         case "Intellect":
-			dialog.text =  "Интеллект, хороший выбор. Ну что ж, готовим новые хорошие мозги - и будем менять. Не бойся, твою память останется при тебе. Полагаю, откладывать нет смысла, приступаем прямо сейчас.";
-			Link.l1 = "Приступаем к чему?";
+			dialog.text =  DLG_TEXT_BR[76];
+			Link.l1 = DLG_TEXT_BR[77];
 			Link.l1.go = "Step_10";
 			if (AddSPECIALValue(pchar, SPECIAL_I, 0) == SPECIAL_MAX)
 			{
@@ -194,8 +194,8 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			}
 		break;
         case "Agility":
-			dialog.text =  "Ловкость, хорошо. Ну что ж, готовим новые сверхэластичные связки - и будем менять. Полагаю, откладывать нет смысла, приступаем прямо сейчас.";
-			Link.l1 = "Приступаем к чему?";
+			dialog.text =  DLG_TEXT_BR[78];
+			Link.l1 = DLG_TEXT_BR[79];
 			Link.l1.go = "Step_10";
 			if (AddSPECIALValue(pchar, SPECIAL_A, 0) == SPECIAL_MAX)
 			{
@@ -207,8 +207,8 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			}
 		break;
         case "Luck":
-			dialog.text =  "Хочешь быть удачливым, пират? И правильно. Ну что ж, готовим все новое - мышцы, связки, сухожилия, глаза, уши - в общем все. Каждое не с выдающимим характеристиками, но очень даже ничего. Полагаю, откладывать нет смысла, приступаем прямо сейчас.";
-			Link.l1 = "Приступаем к чему?";
+			dialog.text =  DLG_TEXT_BR[80];
+			Link.l1 = DLG_TEXT_BR[81];
 			Link.l1.go = "Step_10";
 			if (AddSPECIALValue(pchar, SPECIAL_L, 0) == SPECIAL_MAX)
 			{
@@ -220,78 +220,78 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			}
 		break;
         case "Step_10":
-			dialog.text =  "Как к чему? К операции, красавчик. Резать тебя будем! Ха-ха-ха!!";
-			Link.l1 = "Что-то все это мне не нравится...";
+			dialog.text =  DLG_TEXT_BR[82];
+			Link.l1 = DLG_TEXT_BR[83];
 			Link.l1.go = "Step_11";
 		break;
         case "Step_11":
-			dialog.text =  "Да ты не бойся, боли не будет. Так что, быстренько тебе печень меняем, складочки подрезаем...";
-			Link.l1 = "И что, я за этим еще и наблюдать должен?!";
+			dialog.text =  DLG_TEXT_BR[84];
+			Link.l1 = DLG_TEXT_BR[85];
 			Link.l1.go = "Step_12";
 		break;
         case "Step_12":
-			dialog.text =  "Экий ты корсар мнительный. Стольких людей на тот свет отправил, а своей крови боишься.";
-			Link.l1 = "Слушай, ведьма, я ничего и никого не боюсь! Так что ты аккуратней в выражениях. А опасаюсь я за свой рассудок, умом тронутся можно - на такие вещи смотреть!";
+			dialog.text =  DLG_TEXT_BR[86];
+			Link.l1 = DLG_TEXT_BR[87];
 			Link.l1.go = "Step_13";
 		break;
         case "Step_13":
-			dialog.text =  "Ну ладно, сделаем все под наркозом, ха-ха-ха! Вот, выпей настой. Очнешься ровно через два дня - будет твой заказ выполнен. И имей в виду, что впредь я знать тебя не знаю.";
-			Link.l1 = "Эх, где наша не пропадала! Давай свою отраву. И осторожней там со мной...";
+			dialog.text =  DLG_TEXT_BR[88];
+			Link.l1 = DLG_TEXT_BR[89];
 			Link.l1.go = "exit";
 			AddDialogExitQuest("Azzy_PlusSkill");
 		break;
         case "NotPosblAdd":
-			dialog.text =  "Давай посмотрим, что ты имеешь... Нет красавчик, достойной замены у меня нет. Извини, складские запасы ограничены, да и тебе грех жаловаться на то, что есть... Выбирай что-нибудь другое.";
-			Link.l1 = "Хм, я польщен... Так что, могу опять подумать над выбором?";
+			dialog.text =  DLG_TEXT_BR[90];
+			Link.l1 = DLG_TEXT_BR[91];
 			Link.l1.go = "Step_9";
 		break;
         case "Step_15":
-			dialog.text =  "Я не знаю, о ком вы говорите.";
-			Link.l1 = "Хватит издеваться надо мной! Мне нужен Аззи. Как я могу найти его?";
+			dialog.text =  DLG_TEXT_BR[92];
+			Link.l1 = DLG_TEXT_BR[93];
 			Link.l1.go = "Step_16";
 		break;
         case "Step_16":
-			dialog.text =  "Не кричите на весь город, сударь! Аззи нельзя найти, лично я смогу его увидеть только в Вальпургиеву ночь. Я ничем не могу вам помочь.";
-			Link.l1 = "Чертова ведьма!";
+			dialog.text =  DLG_TEXT_BR[94];
+			Link.l1 = DLG_TEXT_BR[95];
 			Link.l1.go = "exit";
 		break;
         case "Step_17":
-			dialog.text =  "Интересно послушать.";
-			Link.l1 = "Я предлагаю тебе вызвать Аззи с помощью трех хрустальных черепов тольтеков.";
+			dialog.text =  DLG_TEXT_BR[96];
+			Link.l1 = DLG_TEXT_BR[97];
 			Link.l1.go = "Step_18";
 		break;
         case "Step_18":
-			dialog.text =  "Хм, я слышала об этих вещицах. Используются тольтеками для мистических ритуалов. Но для вызова демона нужен еще один предмет - странная вещь.";
-			Link.l1 = "Об этом я знаю. Так ты готова провести ритуал?";
+			dialog.text =  DLG_TEXT_BR[98];
+			Link.l1 = DLG_TEXT_BR[99];
 			Link.l1.go = "Step_19";
 		break;
         case "Step_19":
-			dialog.text =  "Я могу проести его, если у тебя есть эти предметы. Но только предметы эти я потом оставлю себе в качестве платы за работу.  И еще, демоны не любят, когда их дергают не по делу. Так можно и исчезнуть навсегда...";
-			Link.l1 = "По поводу Аззи не беспокойся, у меня есть его обещание не трогать меня в случае его вызова. И предметы я оставляю тебе.";
+			dialog.text =  DLG_TEXT_BR[100];
+			Link.l1 = DLG_TEXT_BR[101];
 			Link.l1.go = "Step_20";
 		break;
         case "Step_20":
-			dialog.text =  "Я готова провести ритуал. Предметы у тебя?";
+			dialog.text =  DLG_TEXT_BR[102];
             if (CheckCharacterItem(pchar, "sculMa1") && CheckCharacterItem(pchar, "sculMa2") && CheckCharacterItem(pchar, "sculMa3") && CheckCharacterItem(pchar, "indian22"))
             {
-    			Link.l1 = "Да, они у меня. Приступай прямо сейчас!";
+    			Link.l1 = DLG_TEXT_BR[103];
     			Link.l1.go = "Step_22";
             }
             else
             {
-    			Link.l1 = "Нет, я ищу.";
+    			Link.l1 = DLG_TEXT_BR[104];
     			Link.l1.go = "Step_21";
             }
 		break;
         case "Step_21":
-			dialog.text =  "Найдешь - приходи, все сделаем.";
-			Link.l1 = "Понял, буду искать.";
+			dialog.text =  DLG_TEXT_BR[105];
+			Link.l1 = DLG_TEXT_BR[106];
 			Link.l1.go = "exit";
 			pchar.questTemp.Azzy = "2DestrContract";
 		break;
         case "Step_22":
-			dialog.text =  "Итак, начнем! Ха-ха-ха (читает заклинание)";
-			Link.l1 = "Эх, ну и корявый же язык...";
+			dialog.text =  DLG_TEXT_BR[107];
+			Link.l1 = DLG_TEXT_BR[108];
 			Link.l1.go = "Step_23";
 		break;
         case "Step_23":
@@ -314,8 +314,8 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				{	//футболим геймера в город
 					pchar.questTemp.Sharp.City = GetSharpCity();
 					pchar.questTemp.Sharp.City.rumour = true; //флаг дачи слуха
-					dialog.text = "Насколько мне известно, капитан Шарп отправился в " + XI_ConvertString("Colony" + pchar.questTemp.Sharp.City + "Acc") + ".";
-					link.l1 = "Хех! Благодарю тебя, " + npchar.name + ". Ты мне здорово помогла!";
+					dialog.text = DLG_TEXT_BR[109] + XI_ConvertString("Colony" + pchar.questTemp.Sharp.City + "Acc") + ".";
+					link.l1 = DLG_TEXT_BR[110] + npchar.name + DLG_TEXT_BR[111];
 					link.l1.go = "exit";
 					pchar.questTemp.Sharp = "toSharp_going"; //в бордели больше не заходить
 					ReOpenQuestHeader("SharpPearl");
@@ -324,7 +324,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 					AddQuestUserData("SharpPearl", "sTarget", XI_ConvertString("Colony" + pchar.questTemp.Sharp.City + "Acc"));
 					if (GetIslandByCityName(pchar.questTemp.Sharp.City) != pchar.questTemp.Sharp.City)
 					{
-						AddQuestUserData("SharpPearl", "sAreal", ", что находится на " + XI_ConvertString(GetIslandByCityName(pchar.questTemp.Sharp.City) + "Dat"));
+						AddQuestUserData("SharpPearl", "sAreal", DLG_TEXT_BR[112] + XI_ConvertString(GetIslandByCityName(pchar.questTemp.Sharp.City) + "Dat"));
 					}
 					//запускаем энкаунтер Шарпа на карте
 					group_DeleteGroup("Sharp_Group");
@@ -337,29 +337,29 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 					Group_SetGroupCommander(sGroup, sld.id);
 					sld.mapEnc.type = "trade";
 					sld.mapEnc.worldMapShip = "quest_ship";
-					sld.mapEnc.Name = "бриг 'Шарпоносец'";
+					sld.mapEnc.Name = DLG_TEXT_BR[113];
 					string sColony= SelectAnyColony(npchar.city); //колония, откуда плывет Шарп
 					int daysQty = GetMaxDaysFromIsland2Island(GetArealByCityName(sColony), GetArealByCityName(pchar.questTemp.Sharp.City))+3; //дней доехать даем с запасом
 					Map_CreateTrader(sColony, pchar.questTemp.Sharp.City, sld.id, daysQty);
-					Log_TestInfo("Шарпоносец установлен из " + sColony + "  в " + pchar.questTemp.Sharp.City);
+					Log_TestInfo(DLG_TEXT_BR[114] + sColony + DLG_TEXT_BR[115] + pchar.questTemp.Sharp.City);
 				}
 				else
 				{	//чудо, Шарп здесь, в борделе!
-					dialog.text = "Знаю. Он у меня в заведении отдыхает. Могу позвать, если он тебе срочно нужен.";
-					link.l1 = "Сделай, одолжение, " + npchar.name + "...";
+					dialog.text = DLG_TEXT_BR[116];
+					link.l1 = DLG_TEXT_BR[117] + npchar.name + "...";
 					link.l1.go = "SharpPearl_2";
 				}
 			}
 			else
 			{
-				dialog.text = "Не знаю, у меня его давно уже не было.";
-				link.l1 = "Понятно... Ну что же, спасибо тебе, " + npchar.name + ".";
+				dialog.text = DLG_TEXT_BR[118];
+				link.l1 = DLG_TEXT_BR[119] + npchar.name + ".";
 				link.l1.go = "exit";
 			}
 		break;
 		case "SharpPearl_2":
-			dialog.text = "Барталомью-ю-ша! Зайди ко мне, дорогой, тебя тут спрашивают!";
-			link.l1 = "Хех, а Шарп у вас в почете, как я погляжу...";
+			dialog.text = DLG_TEXT_BR[120];
+			link.l1 = DLG_TEXT_BR[121];
 			link.l1.go = "SharpPearl_3";
 		break;
 		case "SharpPearl_3":

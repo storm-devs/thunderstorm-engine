@@ -124,6 +124,24 @@ void SelectAction(ref rid) //CASE с действиями для слухов
 		case "Citiz_SeekCap_rum":
 			CitizSeekCap_writeQuestBook(rid);
 		break;
+		//линейка ГПК, узнавание о смерти Хилла Брюннера из слухов
+		case "LSC_HillBrunnerDead":
+			if (pchar.questTemp.LSC == "barmenIsDead")
+			{
+				pchar.questTemp.LSC = "barmenIsDeadYouKnow";
+			}
+		break;
+		//линейка ГПК, освободить мужа Элис Тейлор
+		case "LSC_rumourElisHusband":
+			LSC_rumourElisHusband();
+		break;
+		//линейка ГПК, базар о Лейтоне Декстере
+		case "LSC_rumourLostDecster":
+			LSC_rumourLostDecster();
+		break;
+		case "LSC_rumourAdmiralLostKey":
+			LSC_rumourAdmiralLostKey();
+		break;
 	}
 
 	if (CurrentRumour.next != "none" ) // если слух с продолжением
@@ -230,18 +248,24 @@ bool RumourCheker(ref rRumour, string key, aref arPrm)
     }
 
 //navy --> проверка по городам...
-    if (CheckAttribute(rRumour, "City") && CheckAttribute(arPrm, "City"))  // homo 06/11/06 Теперь можно задавать отрицание "!город"
+    if (CheckAttribute(rRumour, "City"))  // homo 06/11/06 Теперь можно задавать отрицание "!город"
 	{                                    // т.е. слух ходит во всех городах кроме заданного
-        if (findsubstr(rRumour.City, "!" , 0) != -1)
+
+        if (CheckAttribute(arPrm, "City"))  // fix homo 15/03/07 (homo перенес из КВЛ 06/02/08)
         {
-            if(findsubstr(rRumour.City, arPrm.City, 0) != -1)
-            a = false;
+            if (findsubstr(rRumour.City, "!" , 0) != -1)
+            {
+                if(findsubstr(rRumour.City, arPrm.City, 0) != -1)
+                a = false;
+            }
+            else
+            {
+                if (rRumour.City != arPrm.City)
+                a = false;
+            }
         }
-        else
-        {
-            if (rRumour.City != arPrm.City)
-            a = false;
-        }
+        else a = false; // fix homo 15/03/07 (homo перенес из КВЛ 06/02/08)
+
 	}
 //navy <--
 	if ((CheckAttribute(rRumour, "onlynation")) && sti(rRumour.onlynation) != iNation ){ a = false;}
@@ -295,7 +319,13 @@ string SelectRumourEx(string key, aref arChr) // Получить рандомный слух по типа
             rnd=rand(i - 1);
             it++;
         }
-        if (it == 7) return NO_RUMOUR_TEXT[rand(4)];
+        if (it == 7) 
+		{
+			if (key == "LSC")
+				return NO_RUMOUR_LSC_TEXT[rand(4)];// нету слухов
+			else
+				return NO_RUMOUR_TEXT[rand(4)];
+		}
         int pin = FindRumour(TEMP[rnd].id);
         Rumour[pin].LastNPC = arChr.id;
         //<-
@@ -309,9 +339,77 @@ string SelectRumourEx(string key, aref arChr) // Получить рандомный слух по типа
         return TEMP[rnd].text;
 
     }
-    return NO_RUMOUR_TEXT[rand(4)];// нету слухов
+	return NO_RUMOUR_TEXT[rand(4)];// нету слухов
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+string SelectRumourExSpecial(string key, aref arChr) // Получить рандомный слух по типажу из очереди
+{                              // key - ключ спец. слуха
+    int Rumour_Index,i,rnd;
+    int st;
+    ref CurrentRumour;
+    object TEMP[MAX_RUMOURS];
+    i = 0;
+    for(Rumour_Index = 0; Rumour_Index < MAX_RUMOURS; Rumour_Index++)
+    {
+        makeref(CurrentRumour, Rumour[Rumour_Index]);
+        string tip = CurrentRumour.tip;
+        st =  CurrentRumour.state;
 
+        //15/09/06 homo теперь можно перечислять несколько типажей через запятую
+        if( findsubstr(tip, key , 0) != -1)  // слух только специальный 
+        {
+            if (sti(CurrentRumour.actualtime) >= DateToInt(0) && st > 0 && CurrentRumour.text != "" )  // непросроченный
+            {
+                // homo 03/09/06 fix В массив идут только валидные слухи!
+                if (RumourCheker(CurrentRumour, key, arChr))
+                {
+                    TEMP[i] = CurrentRumour;
+                    i++;
+                }
 
+            }
+            else
+            {
+                if (CheckAttribute(CurrentRumour, "care") && CurrentRumour.care > 0) SelectAction(CurrentRumour);
+                DeleteRumor(FindRumour(CurrentRumour.id)); // просроченные сразу трем
+            }
+        }
+    }
+    if (i > 0)// есть ли подходящие слухи
+    {
+        rnd=rand(i - 1);
+        //-> homo чтоб одинаковые слухи подряд не выпадали
+        int it =0;
+        
+        while (it < 7 && CheckAttribute(&TEMP[rnd], "LastNPC") && TEMP[rnd].LastNPC == arChr.id)
+        {
+            rnd=rand(i - 1);
+            it++;
+        }
+        if (it == 7) 
+		{
+			if (key == "LSC")
+				return NO_RUMOUR_LSC_TEXT[rand(4)];// нету слухов
+			else
+				return NO_RUMOUR_TEXT[rand(4)];
+		}
+        int pin = FindRumour(TEMP[rnd].id);
+        Rumour[pin].LastNPC = arChr.id;
+        //<-
+        AddRumourLogInfo(TEMP[rnd].id);
+        SelectAction(&TEMP[rnd]); // если слух с действием, то выполняем
+        st = TEMP[rnd].state;
+
+        st--;  //n раз сказал и все!
+        makeref(CurrentRumour, Rumour[pin]);
+        CurrentRumour.state = st;
+        return TEMP[rnd].text;
+
+    }
+    if (key == "LSC")
+		return NO_RUMOUR_LSC_TEXT[rand(4)];// нету слухов
+	else
+		return NO_RUMOUR_TEXT[rand(4)];// нету слухов
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 int AddRumor(string Text, string Status, string Key, string Repa, string Start, string Period, string action, string Next)//Добавляем слух в очередь слухов

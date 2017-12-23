@@ -62,7 +62,7 @@ int LocationInitPuertoPrincipe(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "PuertoPrincipe_ExitTown";
 	locations[n].id.label = "ExitTown";
-	locations[n].image = "loading\Gate.tga";
+	locations[n].image = "loading\Gate" + rand(1) + ".tga";
 	//Town sack
 	locations[n].townsack = "PuertoPrincipe";
 	//Sound
@@ -122,7 +122,7 @@ int LocationInitPuertoPrincipe(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "PuertoPrincipe_town";
 	locations[n].id.label = "Street";
-	locations[n].image = "loading\towns\PuertoPrincipe.tga";
+	locations[n].image = "loading\towns\pearl1.tga";
 	locations[n].worldmap = "PuertoPrincipe_town";
 	locations[n].citizens = true;
 	locations[n].soldiers = true;

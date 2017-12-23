@@ -32,7 +32,7 @@ int CreateTrinidadCharacters(int n)
 	makeref(ch,Characters[n]);			//Священик
 	ch.id		= "PortSpein_Priest";
 	ch.model	= "priest_3";
-	ch.model.animation	= "man3";
+	ch.model.animation	= "man";
 	ch.sex = "man";
 	ch.City = "PortSpein";
 	ch.location	= "PortSpein_church";
@@ -134,6 +134,7 @@ int CreateTrinidadCharacters(int n)
 	ch.location.locator = "stay";
 	ch.Dialog.Filename = "Usurer_dialog.c";
 	ch.nation = ENGLAND;
+	ch.greeting = "Gr_bankeer";
 	ch.quest.shiping = "0";
 	ch.UsurerDeposit = 5000; // *1000 денег
 	LAi_SetOwnerType(ch);
@@ -151,6 +152,7 @@ int CreateTrinidadCharacters(int n)
 	ch.location.locator = "sit1";
 	ch.Dialog.Filename = "Common_Portman.c";
 	ch.nation = ENGLAND;
+	ch.greeting = "portmans";
 	LAi_SetHuberType(ch);
 	LAi_group_MoveCharacter(ch, "ENGLAND_CITIZENS");
 	LAi_SetImmortal(ch, true);
@@ -158,7 +160,7 @@ int CreateTrinidadCharacters(int n)
 	n = n + 1;
 
     makeref(ch,Characters[n]);
-	ch.name 	= "Контрабандист";
+	ch.name 	= xiDStr("Smuggler");
 	ch.lastname = "";
 	ch.id		= "PortSpein_Smuggler";
 	ch.model    = "pirate_1";

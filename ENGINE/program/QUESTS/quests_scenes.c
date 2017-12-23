@@ -344,13 +344,13 @@ void StartSceneExecute(aref character)
 	break;
 
 	case "Escape":
-		trace("WARNING!!!  Escape не реализована!");
+		trace("WARNING!!!  Escape not execute!");
 		PostEvent("qprocTaskEnd",1,"a",character); // !!!
 		return;
 	break;
 
 	case "Dead":
-		trace("WARNING!!!  Dead не реализована!");
+		trace("WARNING!!!  Dead not execute!");
 		PostEvent("qprocTaskEnd",1,"a",character); // !!!
 		return;
 	break;
@@ -399,7 +399,7 @@ void StartSceneExecute(aref character)
 	break;
 
 	case "BladeToHand":
-		trace("WARNING!!! BladeToHand функция не реализована!!!"); // !!!
+		trace("WARNING!!! BladeToHand function not execute!!!"); // !!!
 		PostEvent("qprocTaskEnd",1,"a",character); // !!!
 		return;
 	break;
@@ -429,7 +429,7 @@ void StartSceneExecute(aref character)
 	break;
 
 	case "AttackGroup":
-		trace( "WARNING!!! AttackGroup не реализована" ); // !!!
+		trace( "WARNING!!! AttackGroup not execute" ); // !!!
 		PostEvent("qprocTaskEnd",1,"a",character); // !!!
 		return;
 	break;

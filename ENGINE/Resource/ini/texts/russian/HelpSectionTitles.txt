@@ -1,44 +1,35 @@
-sea_minimap
-{
-  Навигационная мини карта.
+sea_minimap {
+ Navigational mini-map 
 
 }
-ship_commands
-{
-  Команды управления своим кораблем и кораблями компаньонов.
+ship_commands {
+ Commands for your ship and companion ships 
 
 }
-fast_commands
-{
-  Текущая команда в быстром доступе.
+fast_commands {
+ Current hotkey command 
 
 }
-sea_aim
-{
-  Прицел стрельбы из корабельных пушек.
+sea_aim {
+ Current aim of the ship's cannons 
 
 }
-alarm_indicator
-{
-  Индикатор тревоги.
+alarm_indicator {
+ Alarm indicator 
 
 }
-land_commands
-{
-  Команды действия на земле.
+land_commands {
+ Land commands 
 
 }
-WorldMap_Date_Clock
-{
-  Индикатор даты и времени суток в карте.
+WorldMap_Date_Clock {
+ World map date and time 
 
 }
-WorldMap_Compas
-{
-  Компас в карте.
+WorldMap_Compas {
+ Map compass 
 
 }
-Dialog_window
-{
-  Окно диалога.
+Dialog_window {
+ Dialog window 
 }

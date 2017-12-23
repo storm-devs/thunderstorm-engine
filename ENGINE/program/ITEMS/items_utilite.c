@@ -30,6 +30,9 @@ void DoCharacterUsedItem(ref chref, string itmID)
 		if(sti(chref.index)==GetMainCharacterIndex()) {
 			Log_SetStringToLog( XI_ConvertString("You are cured from poison") );
 		}
+		else{
+			Log_SetStringToLog(GetFullName(chref) + XI_ConvertString("are cured from poison") );
+		}
 	}
 	if( CheckAttribute(arItm,"potion.sound") )
 	{
@@ -214,7 +217,7 @@ void QuestCheckEnterLocItem(aref _location, string _locator) /// <<<проверка вхо
 	ref sld;
 	int i;
 	//======> Генератор инквизиции.
-	if (_location.id == "Santiago_Incquisitio" && CheckNPCQuestDate(_location, "AttackGuard_date") && sti(Colonies[FindColony(_location.fastreload)].nation) == SPAIN) 
+	if (_location.id == "Santiago_Incquisitio" && CheckNPCQuestDate(_location, "AttackGuard_date") && sti(Colonies[FindColony(_location.fastreload)].nation) == SPAIN && findsubstr(_locator, "detector" , 0) != -1) 
 	{
 		SetNPCQuestDate(_location, "AttackGuard_date"); //одна засада в день.
 		LAi_group_AttackGroup("SPAIN_CITIZENS", LAI_GROUP_PLAYER);
@@ -282,6 +285,40 @@ void QuestCheckEnterLocItem(aref _location, string _locator) /// <<<проверка вхо
 			string slai_group = GetNationNameByType(GetCityNation(_location.parent_colony)) + "_citizens";
 			LAi_group_AttackGroup(slai_group, LAI_GROUP_PLAYER);
 			LAi_SetFightMode(pchar, true);
+		}
+	}
+	//======> установка метки нахождения в локаторе item1 в погребке
+	if (pchar.questTemp.LSC == "toInterception" && _location.id == "FleuronTavern" && _locator == "detector1")
+	{
+        pchar.questTemp.LSC.itemState = true;
+	}
+	//======> скафандр
+	if (pchar.questTemp.LSC == "toUnderwater" && _location.id == "FenixPlatform")
+	{        
+		if (pchar.model == "protocusto")
+		{	//смена со скафандра на норму
+			bDisableFastReload = false;
+			i = FindLocation("FenixPlatform");
+			Locations[i].models.always.inside = "FenixPlatform";
+			pchar.model = pchar.questTemp.LSC.immersions.model;
+			pchar.model.animation = "man";
+			LocatorReloadEnterDisable("LostShipsCity_town", "reload58", false);
+			LocatorReloadEnterDisable("LostShipsCity_town", "reload73", true);
+			DoQuestReloadToLocation("LostShipsCity_town", "reload", "reload72", "");
+		}
+		else
+		{	//смена с нормы на скафандр
+			if (sti(pchar.questTemp.LSC.immersions.pay))
+			{
+				bDisableFastReload = true;
+				i = FindLocation("FenixPlatform");
+				Locations[i].models.always.inside = "FenixPlatform_wout";
+				pchar.model = "protocusto";
+				pchar.model.animation = "armor";
+				LocatorReloadEnterDisable("LostShipsCity_town", "reload58", true);
+				LocatorReloadEnterDisable("LostShipsCity_town", "reload73", false);
+				DoQuestReloadToLocation("LostShipsCity_town", "reload", "reload72", "");
+			}
 		}
 	}
 }
@@ -361,9 +398,14 @@ void QuestCheckExitLocItem(aref _location, string _locator) /// <<<проверка выхо
 		SetActorDialogAny2Pchar("Aivory", "", 3.0, 0.0);
 		LAi_ActorFollow(PChar, CharacterFromID("Aivory"), "ActorDialog_Any2Pchar", 4.0);
 	}
+	//======> установка метки нахождения в локаторе item1 в погребке
+	if (pchar.questTemp.LSC == "toInterception" && _location.id == "FleuronTavern" && _locator == "detector1")
+	{        
+		pchar.questTemp.LSC.itemState = false;
+	}
 }
 
-void QuestCheckUseButton(aref _location, string _locator) /// <<< квестовые действия при установке предметов в button <<<
+void QuestCheckUseButton(aref _location, string _locator, string _itemId) /// <<< квестовые действия при установке предметов в button <<<
 {
     //==> Квест Аскольда, установка скрижалей для открытия входа в пещеру к гробнице.
     if (_location.id == "Guadeloupe_Cave" && _locator == "button01")
@@ -372,7 +414,7 @@ void QuestCheckUseButton(aref _location, string _locator) /// <<< квестовые дейс
 		_location.reload.l1.name = "reload3_back";
 		locations[FindLocation("Guadeloupe_CaveEntrance")].reload.l1.emerge = "reload3"; 
 		//==> перемещаемся на reload5
-		DoQuestCheckDelay("Ascold_OpenTheGrave", 1.5);
+		DoQuestFunctionDelay("Ascold_OpenTheGrave", 1.5);
     }
     //==> Квест Аскольда, вскрытие гробницы кочергой.
     if (_location.id == "Guadeloupe_Cave" && _locator == "button02" && pchar.questTemp.Ascold == "Ascold_WateringMummy")
@@ -380,7 +422,7 @@ void QuestCheckUseButton(aref _location, string _locator) /// <<< квестовые дейс
         ref sld;
 		for (int i=1; i<=3; i++)
         {
-			sld = GetCharacter(NPC_GenerateCharacter("Enemy_"+i, "Skel"+i, "man", "man", 30, PIRATE, 0, true));	
+			sld = GetCharacter(NPC_GenerateCharacter("Enemy_"+i, "Skel"+i, "skeleton", "man", 30, PIRATE, 0, true));	
 			FantomMakeCoolFighter(sld, 30, 85, 85, "topor2", "pistol3", 100);  
             LAi_SetWarriorType(sld);				
 			LAi_group_MoveCharacter(sld, "EnemyFight");				
@@ -408,6 +450,18 @@ void QuestCheckUseButton(aref _location, string _locator) /// <<< квестовые дейс
 		loc.reload.l2.label = "Street";
 		DoQuestFunctionDelay("PQ7_loadToRecidence", 2.0);
 	}
+	//установки тотемов в храмах
+    if (findsubstr(_itemId, "Totem_" , 0) != -1)
+    {
+		SetItemModelOnLocation(_location, _itemId, _locator);
+		SetAztecUsedTotem(_location, _itemId, _locator);
+	}
+	//открываем доступ в храм к шотгану
+    if (_itemId == "KnifeAztec")
+    {
+		SetItemModelOnLocation(_location, _itemId, _locator);
+		LocatorReloadEnterDisable("Tenochtitlan", "reloadTemple31", false);
+	}
 }
 //проверка взятия предметов из локатора item
 void QuestCheckTakeItem(aref _location, string _itemId)
@@ -416,7 +470,7 @@ void QuestCheckTakeItem(aref _location, string _itemId)
 	if (_itemId == "ShipyardsMap")
 	{		
 		AddQuestRecord("ShipyardsMap", "2");
-		if (IsLoginTime())
+		if (IsLoginTime() && !IsLocationCaptured(_location.id))
 		{
 			ref sld = characterFromId(_location.fastreload + "_shipyarder");
 			sld.dialog.currentnode = "Allarm";	
@@ -433,8 +487,8 @@ void QuestCheckTakeItem(aref _location, string _itemId)
 	//квест поиска драгоценного камня ростовщика
 	if (_itemId == "UsurersJew")
 	{
-		string sTitle = _location.townsack + "UrurersJewel";
-		AddQuestRecordEx(sTitle, "SeekUrurersJewel", "2");
+		string sTitle = _location.townsack + "UsurersJewel";
+		AddQuestRecordEx(sTitle, "SeekUsurersJewel", "2");
 	}
 	//пиратка, квест №7
 	if (_itemId == "OpenBook")
@@ -449,7 +503,9 @@ void QuestCheckTakeItem(aref _location, string _itemId)
 	if (_itemId == "letter_LSC")
 	{
 		AddQuestRecord("ISS_PoorsMurder", "11");
+		AddQuestUserData("ISS_PoorsMurder", "sName", pchar.questTemp.LSC.poorName);
 		pchar.questTemp.LSC = "readyGoLSC";
+		DeleteAttribute(pchar, "questTemp.LSC.poorName");
 		int n = FindIsland("LostShipsCity");
 		Islands[n].visible = true;
 		Islands[n].reload_enable = true;
@@ -468,6 +524,29 @@ void QuestCheckTakeItem(aref _location, string _itemId)
 			pchar.quest.PQ8_afterFight.win_condition = "OpenTheDoors";
 		}
 	}
+	//линейка ГПК, квест со скелетом Декстера. найденный ключ адмирала
+	if (_itemId == "keyPanama" && CheckAttribute(pchar, "questTemp.LSC.lostDecster") && pchar.questTemp.LSC.lostDecster == "admiralLostKey")
+	{
+		pchar.quest.LSC_admiralFoundOwnKey.over = "yes"; //снимаем таймер
+		AddQuestRecord("LSC_findDekster", "12");
+		CloseQuestHeader("LSC_findDekster");
+		pchar.questTemp.LSC.lostDecster = "over";
+	}
+	//меняем сеабед у Тено, снимаем 11 тотем
+	if (_itemId == "Totem_11")
+	{
+		_location.models.always.seabed = "TenochtitlanWout_sb";
+	}
+	//взятие нефритового черепа
+	if (_itemId == "SkullAztec")
+	{
+		LoginDeadmansGod();
+	}
+	//взятие шотгана
+	if (_itemId == "pistol7")
+	{
+		LoginShotgunGuards();
+	}
 }
 
 void StartIncquisitioAttack()
@@ -481,4 +560,12 @@ void StartIncquisitioAttack()
         LAi_group_MoveCharacter(sld, "SPAIN_CITIZENS");            
         ChangeCharacterAddressGroup(sld, "Santiago_Incquisitio", "goto", LAi_FindRandomLocator("goto"));
     }
+}
+
+void SetItemModelOnLocation(ref loc, string model, string locator)
+{
+	loc.models.always.totem = model;
+	loc.models.always.totem.locator.group = "item";
+	loc.models.always.totem.locator.name = locator;
+	loc.models.always.totem.tech = "DLightModel";
 }

@@ -49,7 +49,7 @@ void LAi_type_guardian_Init(aref chr)
 		}
 	}
 	//Установим анимацию персонажу
-	if (chr.model.animation == "mushketer")
+	if (chr.model.animation == "mushketer" && !CheckAttribute(chr, "isMusketer.weapon"))
 	{
         while (FindCharacterItemByGroup(chr, BLADE_ITEM_TYPE) != "")
         {
@@ -61,8 +61,14 @@ void LAi_type_guardian_Init(aref chr)
         }		
 		GiveItem2Character(chr, "unarmed");
 		EquipCharacterbyItem(chr, "unarmed");
-		GiveItem2Character(chr, "mushket");
-		EquipCharacterbyItem(chr, "mushket");
+		string sMush = "mushket";
+		if (chr.model == "MusketeerEnglish_2") sMush = "mushket2x2";
+		GiveItem2Character(chr, sMush);
+		EquipCharacterbyItem(chr, sMush);
+		chr.items.bullet = 300;
+		chr.isMusketer = true;
+		if (!CheckAttribute(chr, "MusketerDistance"))
+			chr.MusketerDistance = 5.0 + frand(5.0);
 	}
 	else
 	{	

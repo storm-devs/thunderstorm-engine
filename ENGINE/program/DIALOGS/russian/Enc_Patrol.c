@@ -1,3 +1,4 @@
+#include "TEXT\DIALOGS\Enc_Patrol.h"
 void ProcessDialogEvent()
 {
 	ref NPChar, sld;
@@ -59,48 +60,48 @@ void ProcessDialogEvent()
 			{
     			if (pchar.nation == npchar.nation)
 				{
-					dialog.text = RandPhraseSimple("А-а-а, кажется, этот мерзавец поднял тревогу в " + XI_ConvertString("Colony" + npchar.city + "Dat") + "! Схватить его!!", "Хех, вы только полюбуйтесь! Некоторые " + NationNamePeople(sti(pchar.nation))+ " умудряются быть во вражде с " + NationNameAblative(sti(npchar.nation)) + "! Схватить негодяя!!");
+					dialog.text = RandPhraseSimple(DLG_TEXT_BASE[0] + XI_ConvertString("Colony" + npchar.city + "Dat") + DLG_TEXT_BASE[1], DLG_TEXT_BASE[2] + NationNamePeople(sti(pchar.nation))+ DLG_TEXT_BASE[3] + NationNameAblative(sti(npchar.nation)) + DLG_TEXT_BASE[4]);
 				}
 				else
 				{
-					dialog.text = RandPhraseSimple("Вражеский агент в близ " + XI_ConvertString("Colony" + npchar.city + "Gen") + "! Взять его!!", "Смотрите-ка, " + NationNamePeople(sti(pchar.nation))+ " разгуливают чуть ли не в " + XI_ConvertString("Colony" + npchar.city + "Dat") + "! Немедленно схватить!!");
+					dialog.text = RandPhraseSimple(DLG_TEXT_BASE[5] + XI_ConvertString("Colony" + npchar.city + "Gen") + DLG_TEXT_BASE[6], DLG_TEXT_BASE[7] + NationNamePeople(sti(pchar.nation))+ DLG_TEXT_BASE[8] + XI_ConvertString("Colony" + npchar.city + "Dat") + DLG_TEXT_BASE[9]);
 				}
-				link.l1 = RandPhraseSimple("Попробуйте, здесь мы в одиночестве...", "Хех, здесь вам помощи ждать неоткуда.");
+				link.l1 = RandPhraseSimple(DLG_TEXT_BASE[10], DLG_TEXT_BASE[11]);
 				link.l1.go = "exit_fight"; 				
 			}
 			else
 			{				
-				dialog.text = LinkRandPhrase("Имею честь представиться! Я начальник патруля из " + XI_ConvertString("Colony" + npchar.city + "Gen") + ", мы разыскиваем беглого каторжника.",
-					"Здравствуйте, я начальник этого патруля. Мы разыскиваем сбежавшего из " + XI_ConvertString("Colony" + npchar.city + "Gen") + " раба.",
-					"Приветствую вас, " + GetAddress_Form(NPChar) + ". Мое подразделение осуществляет патрулирование территории близ " + XI_ConvertString("Colony" + npchar.city + "Gen") + ".");
-				Link.l1 = LinkRandPhrase("Прекрасно. Чем я могу вам помочь?",
-				"Очень хорошо. Могу ли я быть вам чем-нибудь полезен, " + GetAddress_Form(NPChar) + "?",
-				"Великолепно. Что лично я могу для вас сделать?");
+				dialog.text = LinkRandPhrase(DLG_TEXT_BASE[12] + XI_ConvertString("Colony" + npchar.city + "Gen") + DLG_TEXT_BASE[13],
+					DLG_TEXT_BASE[14] + XI_ConvertString("Colony" + npchar.city + "Gen") + DLG_TEXT_BASE[15],
+					DLG_TEXT_BASE[16] + GetAddress_Form(NPChar) + DLG_TEXT_BASE[17] + XI_ConvertString("Colony" + npchar.city + "Gen") + ".");
+				Link.l1 = LinkRandPhrase(DLG_TEXT_BASE[18],
+				DLG_TEXT_BASE[19] + GetAddress_Form(NPChar) + "?",
+				DLG_TEXT_BASE[20]);
 				Link.l1.go = "Node_2";
 			}
 		break;
 		
 		case "Node_2":
-			dialog.text = RandPhraseSimple("Вы не видели ничего подозрительного в округе?",
-				"Встречался ли вам кто-нибудь, внушающий подозрения, " + GetAddress_Form(NPChar) + "?");
-			Link.l1 = RandPhraseSimple("Нет, ничего такого.", "Нет, офицер, все спокойно.");
+			dialog.text = RandPhraseSimple(DLG_TEXT_BASE[21],
+				DLG_TEXT_BASE[22] + GetAddress_Form(NPChar) + "?");
+			Link.l1 = RandPhraseSimple(DLG_TEXT_BASE[23], DLG_TEXT_BASE[24]);
 			Link.l1.go = "Node_3";		
 		break;
 
 		case "Node_3":
 			Diag.TempNode = "GoodBye";
-			dialog.text = RandPhraseSimple("Ну что же, не смею вас задерживать. Прощайте, " + GetAddress_Form(NPChar) + ".",
-				"Понятно. В таком случае, прощайте.");
-			Link.l1 = "Удачи вам.";
+			dialog.text = RandPhraseSimple(DLG_TEXT_BASE[25] + GetAddress_Form(NPChar) + ".",
+				DLG_TEXT_BASE[26]);
+			Link.l1 = DLG_TEXT_BASE[27];
 			Link.l1.go = "exit_noFight";
 		break;
 
 		case "GoodBye":
 			Diag.TempNode = "GoodBye";
-			dialog.text = LinkRandPhrase("Не отвлекайте нас от несения службы.",
-				"Я прошу вас не мешать нам!",
-				"А, это опять вы... Идите своей дорогой, не мешайте нам.");
-			Link.l1 = "Хорошо.";
+			dialog.text = LinkRandPhrase(DLG_TEXT_BASE[28],
+				DLG_TEXT_BASE[29],
+				DLG_TEXT_BASE[30]);
+			Link.l1 = DLG_TEXT_BASE[31];
 			Link.l1.go = "Exit";			
 		break;
 	}

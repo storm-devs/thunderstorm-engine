@@ -1,52 +1,52 @@
-// диалог по городам
+#include "TEXT\DIALOGS\Church\SanJuan_Church.h"
 void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 {
     switch (Dialog.CurrentNode)
 	{
 		case "quests":
-			dialog.text = NPCStringReactionRepeat(RandPhraseSimple("Какие вопросы, сын мой?", "Спрашивай, я слушаю тебя..."), "Я слушаю тебя, говори, сын мой...", "И в третий раз говорю тебе, сын мой: задавай свой вопрос.",
-                          "Столько обязанностей у церковнослужителя, а тут еще и ты донимаешь, сын мой...", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat(RandPhraseSimple("Я передумал...", "Не сейчас, падре..."), "Да, пока особо и нечего сказать...",
-                      "Задам, задам... Только позже...", "Простите, святой отец...", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(RandPhraseSimple(DLG_TEXT_CHR[0], DLG_TEXT_CHR[1]), DLG_TEXT_CHR[2], DLG_TEXT_CHR[3],
+                          DLG_TEXT_CHR[4], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(RandPhraseSimple(DLG_TEXT_CHR[5], DLG_TEXT_CHR[6]), DLG_TEXT_CHR[7],
+                      DLG_TEXT_CHR[8], DLG_TEXT_CHR[9], npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
 			//============= Изабелла Росселини ================
             if (CheckAttribute(Pchar, "RomanticQuest.PriestAsk"))
 			{
-				link.l2 = "Могу я узнать, часто ли ходит в церковь жена дона Сальватора?";
+				link.l2 = DLG_TEXT_CHR[10];
 				link.l2.go = "Romantic_1";
 			}
 		break;
 
         case "Romantic_1":
-			dialog.text = "Сальвотора Олеварес? Да, сын мой, часто, это достойная прихожанка... А в чем дело?";
-			link.l1 = "Да просто так спросил, падре. До свидания...";
+			dialog.text = DLG_TEXT_CHR[11];
+			link.l1 = DLG_TEXT_CHR[12];
 			link.l1.go = "exit";
 			DeleteAttribute(Pchar, "RomanticQuest.PriestAsk");
 		break;
 
         case "Romantic_2":
-			dialog.text = GetFullName(pchar) + ", берешь ли ты в жены Изабеллу де Вальдес и клянешься жить с ней в мире и согласии, пока смерть не разлучит вас?";
-			link.l1 = "Да, падре.";
+			dialog.text = GetFullName(pchar) + DLG_TEXT_CHR[13];
+			link.l1 = DLG_TEXT_CHR[14];
 			link.l1.go = "Romantic_3";
 		break;
         case "Romantic_3":	
 			locCameraToPos(3.64, 3.25, -7.84, false);
 			LAi_SetActorType(npchar);
 			LAi_ActorTurnToLocator(npchar, "goto", "goto5");
-			dialog.text = "А ты, Изабелла де Вальдес, берешь ли ты в мужья " + GetMainCharacterNameGen() + " и клянешься жить с ним в мире и согласии, пока смерть не разлучит вас?";
-			link.l1 = "Да, падре.";
+			dialog.text = DLG_TEXT_CHR[15] + GetMainCharacterNameGen() + DLG_TEXT_CHR[16];
+			link.l1 = DLG_TEXT_CHR[17];
 			link.l1.go = "Romantic_4";
 		break;
         case "Romantic_4":	
 			locCameraToPos(-0.75, 3.85, -10.60, false);
 			LAi_SetActorType(npchar);
 			LAi_ActorTurnToLocator(npchar, "goto", "goto5");
-			dialog.text = "Если кто-то из присутсвующих знает причину, по которой этот мужчина и эта женщина не могут быть вместе - пусть скажет это прямо сейчас или молчит вечно.";
+			dialog.text = DLG_TEXT_CHR[18];
 			link.l1 = "...";
 			link.l1.go = "Romantic_5";
 		break;
         case "Romantic_5":		
-			dialog.text = "Отныне вы муж и жена!";
+			dialog.text = DLG_TEXT_CHR[19];
 			link.l1 = "...";
 			link.l1.go = "exit";
 			NextDiag.TempNode = "First time";

@@ -1,3 +1,4 @@
+#include "TEXT\DIALOGS\MayorQuests_dialog.h"
 void ProcessDialogEvent()
 {
 	ref NPChar, sld;
@@ -30,28 +31,28 @@ void ProcessDialogEvent()
 				LAi_RemoveCheckMinHP(sld);
 			}
 			sTemp = GetFullName(&characters[GetCharacterIndex(pchar.GenQuest.DestroyGang.MayorId)]);
-			dialog.text = LinkRandPhrase("Деньги на бочку приятель! Меня зовут " + GetFullName(npchar) + ", и я не терплю возражений в свой адрес...",
-				"Покажи-ка мне содержимое своего кошелька, приятель, и побыстрее! Меня зовут " + GetFullName(npchar) + ", и, я надеюсь, ты слышал обо мне...",
-				"Выкладывай все ценное, что у тебя есть, я реквизирую содержимое твоего кошелька. И побыстрей, так как я, " + GetFullName(npchar) + ", не очень терпелив. Но зато очччень кровожаден!");
-			Link.l1 = LinkRandPhrase("Хех, так ты и есть самый " + GetFullName(npchar) + ", о котором местный губернатор " + sTemp + " только и говорит?",
-				"О-о, так ты и есть тот самый бандит, за которым охотится местный губернатор " + sTemp + " ?!", 
-				"Рад видеть тебя, " + GetFullName(npchar) + ". Местный губернатор, " + sTemp + ", только о тебе и говорит...");
+			dialog.text = LinkRandPhrase(DLG_TEXT_BASE[0] + GetFullName(npchar) + DLG_TEXT_BASE[1],
+				DLG_TEXT_BASE[2] + GetFullName(npchar) + DLG_TEXT_BASE[3],
+				DLG_TEXT_BASE[4] + GetFullName(npchar) + DLG_TEXT_BASE[5]);
+			Link.l1 = LinkRandPhrase(DLG_TEXT_BASE[6] + GetFullName(npchar) + DLG_TEXT_BASE[7] + sTemp + DLG_TEXT_BASE[8],
+				DLG_TEXT_BASE[9] + sTemp + " ?!", 
+				DLG_TEXT_BASE[10] + GetFullName(npchar) + DLG_TEXT_BASE[11] + sTemp + DLG_TEXT_BASE[12]);
 			Link.l1.go = "DestroyGang_1";
 		break;		
 		case "DestroyGang_1":
-			dialog.text = LinkRandPhrase("Да, я известен в этих краях, хе-хе.. Стоп, а ты не очередной ли пес губернатора, которого он пытается натравить на меня?",
-				"Губернатор - мой большой друг, чего скрывать? Ха, а не очередной ли ты герой, отправленный им за моей головой?",
-				"'Дружеское' расположение губернатора ко мне - факт, хе-хе. А ты откуда об этом знаешь? Может, он послал тебя по мою душу?");
-			Link.l1 = LinkRandPhrase("Точно так, мерзавец. Готовься к смерти!", "Надо же, какой ты догадливый. Ну что же, пора приступать к твоей ликвидации. Поговорили, хватит уже...", "Да, это я и есть. Доставай оружие, приятель! Посмотрим какого цвета у тебя кровь.");
+			dialog.text = LinkRandPhrase(DLG_TEXT_BASE[13],
+				DLG_TEXT_BASE[14],
+				DLG_TEXT_BASE[15]);
+			Link.l1 = LinkRandPhrase(DLG_TEXT_BASE[16], DLG_TEXT_BASE[17], DLG_TEXT_BASE[18]);
 			Link.l1.go = "DestroyGang_ExitFight";	
-			Link.l2 = LinkRandPhrase("Да нет, что ты! Мне эти проблемы совершенно ни к чему...", "Нет, я за такие дела не берусь, не герой, в общем...", "Нет-нет, ни в коем разе! Мне проблемы ни к чему...");
+			Link.l2 = LinkRandPhrase(DLG_TEXT_BASE[19], DLG_TEXT_BASE[20], DLG_TEXT_BASE[21]);
 			Link.l2.go = "DestroyGang_2";	
 		break;
 		case "DestroyGang_2":
-			dialog.text = LinkRandPhrase("Так-то лучше, дружище... А теперь проваливай!",
-				"И это правильное решение, знал бы ты, сколько героев я отправил на тот свет... Ладно, меньше лирики. Вали отсюда, мешок с дерьмом!",
-				"Молодец, хвалю! Очень мудрая жизненная позиция - не лезть куда не просят... Ладно, проваливай, приятель.");
-			Link.l1 = "До свидания, желаю здравствовать...";
+			dialog.text = LinkRandPhrase(DLG_TEXT_BASE[22],
+				DLG_TEXT_BASE[23],
+				DLG_TEXT_BASE[24]);
+			Link.l1 = DLG_TEXT_BASE[25];
 			Link.l1.go = "DestroyGang_ExitAfraid";	
 		break;
 
@@ -91,23 +92,23 @@ void ProcessDialogEvent()
 		//----------------- поиски лазутчика в коммонах ----------------------
 		case "SeekSpy_house":
 			chrDisableReloadToLocation = false;
-			dialog.text = "Что вам нужно, " + GetAddress_Form(PChar) + "?";
-			Link.l1 = "Мне нужно узнать, кто ты такой. Немедленно говори, кто ты и что ты здесь делаешь?";
+			dialog.text = DLG_TEXT_BASE[26] + GetAddress_Form(PChar) + "?";
+			Link.l1 = DLG_TEXT_BASE[27];
 			Link.l1.go = "SeekSpy_1";	
 		break;
 		case "SeekSpy_1":
-			dialog.text = "Ну, а сам-то ты кто такой, чтобы я отвечал на твои вопросы?";
-			Link.l1 = "Я действую по поручению губернатора, ищу вражеского лазутчика!";
+			dialog.text = DLG_TEXT_BASE[28];
+			Link.l1 = DLG_TEXT_BASE[29];
 			Link.l1.go = "SeekSpy_2";	
 		break;
 		case "SeekSpy_2":
-			dialog.text = "Ну а я здесь при чем?";
-			Link.l1 = "Может и не при чем, но давай-ка, для начала, пройдем в комендатуру. Там разберемся...";
+			dialog.text = DLG_TEXT_BASE[30];
+			Link.l1 = DLG_TEXT_BASE[31];
 			Link.l1.go = "SeekSpy_3";	
 		break;
 		case "SeekSpy_3":
-			dialog.text = "Нет, в комендатуру я не пойду. Считай, что нашел лазутчика. Ну а теперь попробуй выйти отсюда живым.";
-			Link.l1 = "Хех, да уж выйду как нибудь...";
+			dialog.text = DLG_TEXT_BASE[32];
+			Link.l1 = DLG_TEXT_BASE[33];
 			Link.l1.go = "SeekSpy_fight";	
 		break;
 		case "SeekSpy_fight":
@@ -123,122 +124,122 @@ void ProcessDialogEvent()
 		case "SeekSpy_street":
 			Diag.TempNode = "SeekSpy_street";
             dialog.Text = NPCharRepPhrase(npchar,
-		            PCharRepPhrase(LinkRandPhrase("А, это ты, "+GetFullName(Pchar)
-                    +", старый пройдоха", "Рад тебя видеть старина "
-                    + Pchar.name, "О, да это же сам капитан "
+		            PCharRepPhrase(LinkRandPhrase(DLG_TEXT_BASE[34]+GetFullName(Pchar)
+                    +DLG_TEXT_BASE[35], DLG_TEXT_BASE[36]
+                    + Pchar.name, DLG_TEXT_BASE[37]
                         +GetFullName(Pchar))
-                                    +LinkRandPhrase(". Думал тебя уже нет на этом свете!", ". И, наверное, как всегда пьян.", ". И, как вижу, еще на свободе!")
-                                    +LinkRandPhrase(" Ну, говори чего тебе нужно?", " Чего тебе на этот раз?", " Опять тревожишь меня по пустякам?"),
-                                    LinkRandPhrase(TimeGreeting() + ", капитан ", "Здравствуйте "+GetAddress_Form(NPChar)+" ", "Приветствую вас, капитан ")+GetFullName(Pchar)
-                                    +LinkRandPhrase(". Что может быть нужно, такому почтенному человеку как вы от меня?", ". Зачем вы пришли?", ". Что на этот раз вы хотите узнать?")
+                                    +LinkRandPhrase(DLG_TEXT_BASE[38], DLG_TEXT_BASE[39], DLG_TEXT_BASE[40])
+                                    +LinkRandPhrase(DLG_TEXT_BASE[41], DLG_TEXT_BASE[42], DLG_TEXT_BASE[43]),
+                                    LinkRandPhrase(TimeGreeting() + DLG_TEXT_BASE[44], DLG_TEXT_BASE[45]+GetAddress_Form(NPChar)+" ", DLG_TEXT_BASE[46])+GetFullName(Pchar)
+                                    +LinkRandPhrase(DLG_TEXT_BASE[47], DLG_TEXT_BASE[48], DLG_TEXT_BASE[49])
                                     ),
                                     
-                    PCharRepPhrase(LinkRandPhrase("Здравствуйте капитан ", "Приветствую, ах это вы "+GetAddress_Form(NPChar)+" ", "А, капитан ")
+                    PCharRepPhrase(LinkRandPhrase(DLG_TEXT_BASE[50], DLG_TEXT_BASE[51]+GetAddress_Form(NPChar)+" ", DLG_TEXT_BASE[52])
                                     +GetFullName(Pchar)
-                                    +LinkRandPhrase(" я думал"+NPCharSexPhrase(NPChar, " ", "а ")+"мы больше с вами не встретимся,",
-                                                        " не скажу, что рад"+NPCharSexPhrase(NPChar, " ", "а ")+"вас видеть, но", " вижу, вы еще живы, прискорбно, а")
-                                    +LinkRandPhrase(" что вам нужно?", " зачем вы пришли?", " чем могу быть "+NPCharSexPhrase(NPChar, "полезен?", "полезна?")),
-                                    LinkRandPhrase(TimeGreeting() + ", капитан " + GetFullName(Pchar) + ". Чем могу помочь?",
-                                    "О, да это же сам капитан " + GetFullName(Pchar) + "! Что вы хотите узнать на этот раз?",
-                                    "Здравствуйте, " + GetAddress_Form(NPChar) + " " + Pchar.lastname + ". Вы что-то хотели?"))
+                                    +LinkRandPhrase(DLG_TEXT_BASE[53]+NPCharSexPhrase(NPChar, " ", DLG_TEXT_BASE[54])+DLG_TEXT_BASE[55],
+                                                        DLG_TEXT_BASE[56]+NPCharSexPhrase(NPChar, " ", DLG_TEXT_BASE[57])+DLG_TEXT_BASE[58], DLG_TEXT_BASE[59])
+                                    +LinkRandPhrase(DLG_TEXT_BASE[60], DLG_TEXT_BASE[61], DLG_TEXT_BASE[62]+NPCharSexPhrase(NPChar, DLG_TEXT_BASE[63], DLG_TEXT_BASE[64])),
+                                    LinkRandPhrase(TimeGreeting() + DLG_TEXT_BASE[65] + GetFullName(Pchar) + DLG_TEXT_BASE[66],
+                                    DLG_TEXT_BASE[67] + GetFullName(Pchar) + DLG_TEXT_BASE[68],
+                                    DLG_TEXT_BASE[69] + GetAddress_Form(NPChar) + " " + Pchar.lastname + DLG_TEXT_BASE[70]))
                                     );                  
                         
-	   		link.l1 = PCharRepPhrase(RandPhraseSimple("Тебе послышалось, я пойду.", "Нет, ничего - просто шел в таверну."),
-                                    RandPhraseSimple("Ладно, ничего. Удачи!", "Просто осматриваю город. До свидания."));
+	   		link.l1 = PCharRepPhrase(RandPhraseSimple(DLG_TEXT_BASE[71], DLG_TEXT_BASE[72]),
+                                    RandPhraseSimple(DLG_TEXT_BASE[73], DLG_TEXT_BASE[74]));
 			link.l1.go = "exit";
-			link.l2 = RandPhraseSimple("У меня есть вопрос к тебе.", "Мне нужна информация.");
+			link.l2 = RandPhraseSimple(DLG_TEXT_BASE[75], DLG_TEXT_BASE[76]);
 			link.l2.go = "exit";//(перессылка в файл города)
 			// --> квестовый генератор мэра, поиск шпиёна на улице. eddy
 			if (CheckAttribute(pchar, "GenQuest.SeekSpy.City") && pchar.location == (npchar.city + "_town"))
 	        {
-				link.l4 = NPCharSexPhrase(npchar, LinkRandPhrase("Стойте! Немедленно скажите мне, кто вы такой?! Я ищу вражеского лазутчика по поручению губернатора " + XI_ConvertString("Colony"+characters[GetCharacterIndex(pchar.GenQuest.SeekSpy.MayorId)].city+"Gen") + "!", 
-					"Немедленно стой! Я действую в интересах города " + XI_ConvertString("Colony"+characters[GetCharacterIndex(pchar.GenQuest.SeekSpy.MayorId)].city+"Gen") + " по поручению губернатора. Ищу городе вражеского агента.", 
-					"Стоять, приятель! Местный губернатор " + characters[GetCharacterIndex(pchar.GenQuest.SeekSpy.MayorId)].lastname + " очень хочет разыскать шпиона в городе."), 
-					LinkRandPhrase("Женщина, стойте! Немедленно скажите мне, кто вы такая?! Я ищу вражеского лазутчика по поручению губернатора " + XI_ConvertString("Colony"+characters[GetCharacterIndex(pchar.GenQuest.SeekSpy.MayorId)].city+"Gen") + "!", 
-					"Женщина, я должен вас задержать! Я действую в интересах города " + XI_ConvertString("Colony"+characters[GetCharacterIndex(pchar.GenQuest.SeekSpy.MayorId)].city+"Gen") + " по поручению губернатора. Ищу городе вражеского агента.", 
-					"Постой, красавица! Местный губернатор " + characters[GetCharacterIndex(pchar.GenQuest.SeekSpy.MayorId)].lastname + " очень хочет разыскать шпиона в городе..."));
+				link.l4 = NPCharSexPhrase(npchar, LinkRandPhrase(DLG_TEXT_BASE[77] + XI_ConvertString("Colony"+characters[GetCharacterIndex(pchar.GenQuest.SeekSpy.MayorId)].city+"Gen") + "!", 
+					DLG_TEXT_BASE[78] + XI_ConvertString("Colony"+characters[GetCharacterIndex(pchar.GenQuest.SeekSpy.MayorId)].city+"Gen") + DLG_TEXT_BASE[79], 
+					DLG_TEXT_BASE[80] + characters[GetCharacterIndex(pchar.GenQuest.SeekSpy.MayorId)].lastname + DLG_TEXT_BASE[81]), 
+					LinkRandPhrase(DLG_TEXT_BASE[82] + XI_ConvertString("Colony"+characters[GetCharacterIndex(pchar.GenQuest.SeekSpy.MayorId)].city+"Gen") + "!", 
+					DLG_TEXT_BASE[83] + XI_ConvertString("Colony"+characters[GetCharacterIndex(pchar.GenQuest.SeekSpy.MayorId)].city+"Gen") + DLG_TEXT_BASE[84], 
+					DLG_TEXT_BASE[85] + characters[GetCharacterIndex(pchar.GenQuest.SeekSpy.MayorId)].lastname + DLG_TEXT_BASE[86]));
 				link.l4.go = "SitySpy";
 			}
 			// <-- квестовый генератор мэра, поиск шпиёна на улице
-			link.l5 = PCharRepPhrase("Хотел кое-что узнать об этом городишке!", "Хотел узнать кое-что о городе.");
+			link.l5 = PCharRepPhrase(DLG_TEXT_BASE[87], DLG_TEXT_BASE[88]);
 			link.l5.go = "new question";
 		break;
 
 		case "new question":
             dialog.text = NPCharRepPhrase(npchar,
-		                PCharRepPhrase(LinkRandPhrase("О, да я рад"+NPCharSexPhrase(NPChar, " ", "а ")+" тебе как выпивке, спрашивай, чего хочешь.", "Любишь поболтать, капитан? Что ж, я тоже... Особенно за кружечкой рома.", "Да, " + PChar.name + "?"),
-                                        LinkRandPhrase("Ну, чего тебе еще?", "Вижу, капитан "+PChar.name+", ты охотник поболтать? ", "Замучил вопросами, капитан, лучше бы угостил ромом.")),
-		                PCharRepPhrase(LinkRandPhrase("Что вы хотели узнать "+ GetAddress_Form(NPChar) + "?", "Я вас слушаю капитан.", "Мне нужно идти, поэтому спрашивайте скорее капитан."),
-                                        LinkRandPhrase("Всегда рад"+NPCharSexPhrase(NPChar, " ", "а ")+" приятному собеседнику, " + GetAddress_Form(NPChar) + " " + PChar.lastname + ". Говорите.",
-                                                        "Да, " + GetAddress_Form(NPChar) + "?",
-                                                        "Любите поболтать, капитан? Что ж, я тоже..."))
+		                PCharRepPhrase(LinkRandPhrase(DLG_TEXT_BASE[89]+NPCharSexPhrase(NPChar, " ", DLG_TEXT_BASE[90])+DLG_TEXT_BASE[91], DLG_TEXT_BASE[92], DLG_TEXT_BASE[93] + PChar.name + "?"),
+                                        LinkRandPhrase(DLG_TEXT_BASE[94], DLG_TEXT_BASE[95]+PChar.name+DLG_TEXT_BASE[96], DLG_TEXT_BASE[97])),
+		                PCharRepPhrase(LinkRandPhrase(DLG_TEXT_BASE[98]+ GetAddress_Form(NPChar) + "?", DLG_TEXT_BASE[99], DLG_TEXT_BASE[100]),
+                                        LinkRandPhrase(DLG_TEXT_BASE[101]+NPCharSexPhrase(NPChar, " ", DLG_TEXT_BASE[102])+DLG_TEXT_BASE[103] + GetAddress_Form(NPChar) + " " + PChar.lastname + DLG_TEXT_BASE[104],
+                                                        DLG_TEXT_BASE[105] + GetAddress_Form(NPChar) + "?",
+                                                        DLG_TEXT_BASE[106]))
                             );
 
             // homo 25/06/06
-			link.l1 = LinkRandPhrase ("Какие байки в ходу в здешней таверне?",
-                                    "Что новенького в этих краях?",
-                                    "Как течет жизнь на суше?");
+			link.l1 = LinkRandPhrase (DLG_TEXT_BASE[107],
+                                    DLG_TEXT_BASE[108],
+                                    DLG_TEXT_BASE[109]);
 			link.l1.go = "rumours_citizen";
-			link.l2 = LinkRandPhrase("Не объясните мне дороги?", "Что-то я никак не найду дороги кое-куда...", "Подскажите дорогу...");
+			link.l2 = LinkRandPhrase(DLG_TEXT_BASE[110], DLG_TEXT_BASE[111], DLG_TEXT_BASE[112]);
 			link.l2.go = "exit";  //(перессылка в файл города)
-			link.l3 = "Расскажите мне о вашей колонии.";
+			link.l3 = DLG_TEXT_BASE[113];
 			link.l3.go = "colony";
-            link.l4 = RandPhraseSimple("Есть важное дело!", "У меня к вам дело.");
+            link.l4 = RandPhraseSimple(DLG_TEXT_BASE[114], DLG_TEXT_BASE[115]);
 			link.l4.go = "exit";  //(перессылка в файл города)
-			link.l5 = PCharRepPhrase(RandPhraseSimple("Тебе послышалось, я пойду.", "Нет, ничего - просто шел в таверну."),
-                                        RandPhraseSimple("Ладно, ничего. Удачи!", "Просто осматриваю город. До свидания."));
+			link.l5 = PCharRepPhrase(RandPhraseSimple(DLG_TEXT_BASE[116], DLG_TEXT_BASE[117]),
+                                        RandPhraseSimple(DLG_TEXT_BASE[118], DLG_TEXT_BASE[119]));
 			link.l5.go = "exit";
 		break;
 		
 		case "colony":
-			dialog.text = LinkRandPhrase("Честно говоря, я не слишком-то разбираюсь в этом. Но кое-что могу рассказать.",
-                           "Что же вас интересует в нашей колонии?", "Всегда пожалуйста. О чем вы хотите услышать?");
+			dialog.text = LinkRandPhrase(DLG_TEXT_BASE[120],
+                           DLG_TEXT_BASE[121], DLG_TEXT_BASE[122]);
             switch(Rand(1))
 			{
 				case 0:
-					link.l1 = "Что это за город?";
+					link.l1 = DLG_TEXT_BASE[123];
 					link.l1.go = "colony_town";
 				break;
 
 				case 1:
-					link.l1 = "Что вы знаете о форте, защищающем город?";
+					link.l1 = DLG_TEXT_BASE[124];
 					link.l1.go = "fort";
 				break;
             }
-			link.l2 = "Поговорим о чем-нибудь другом.";
+			link.l2 = DLG_TEXT_BASE[125];
 			link.l2.go = "new question";
 		break;
 	  // to_do
 		case "colony_town":
-            dialog.text = "О, да вы издеваетесь? Или шутите? Посмотрите в правый угол экрана.";
-			link.l1 = "Точно, туплю.";
+            dialog.text = DLG_TEXT_BASE[126];
+			link.l1 = DLG_TEXT_BASE[127];
 		    link.l1.go = "exit";
 		break;
 		
 		case "fort":
-            dialog.text = "Ничего про это не знаю.";
-			link.l1 = "Жаль.";
+            dialog.text = DLG_TEXT_BASE[128];
+			link.l1 = DLG_TEXT_BASE[129];
 		    link.l1.go = "exit";
 		break;
 		//==> поймал засланца
 		case "SitySpy":
-			dialog.text = "Ну а я здесь при чем? Я местный житель!";
-			link.l1 = "Кто может подтвердить твои слова?";
+			dialog.text = DLG_TEXT_BASE[130];
+			link.l1 = DLG_TEXT_BASE[131];
 		    link.l1.go = "SitySpy_1";
 		break;
 		case "SitySpy_1":
-			dialog.text = "Все могут подтвердить, все!!",
-			link.l1 = "Все - это кто? Назови имя хотя бы одного горожанина " + XI_ConvertString("Colony"+characters[GetCharacterIndex(pchar.GenQuest.SeekSpy.MayorId)].city+"Gen") + "!";
+			dialog.text = DLG_TEXT_BASE[132],
+			link.l1 = DLG_TEXT_BASE[133] + XI_ConvertString("Colony"+characters[GetCharacterIndex(pchar.GenQuest.SeekSpy.MayorId)].city+"Gen") + "!";
 			link.l1.go = "SitySpy_3";
 		break;
 		case "SitySpy_3":
-            dialog.text = "Эээ.. Сейчас... Ммм..";
-			link.l1 = "Все ясно, приятель, тебя то я и ищу! Следуй за мной, иначе я прикончу тебя на месте. Тебе все понятно?!";
+            dialog.text = DLG_TEXT_BASE[134];
+			link.l1 = DLG_TEXT_BASE[135];
 		    link.l1.go = "SitySpy_4";
 		break;
 		case "SitySpy_4":
-            dialog.text = "Черт! Надо же было так глупо вляпаться!.. Все ясно, буду следовать за тобой - мне моя жизнь еще дорога...";
-			link.l1 = "Ну вот и славно. Мы идем губернатору, он хотел тебя видеть...";
+            dialog.text = DLG_TEXT_BASE[136];
+			link.l1 = DLG_TEXT_BASE[137];
 		    link.l1.go = "SitySpy_5";
 		break;
 		case "SitySpy_5":
@@ -247,8 +248,8 @@ void ProcessDialogEvent()
 			AddQuestUserData("MayorsQuestsList", "ColonyName", XI_ConvertString("Colony"+characters[GetCharacterIndex(pchar.GenQuest.SeekSpy.MayorId)].city+"Gen"));
 			AddQuestUserData("MayorsQuestsList", "MayorName", sTemp);
 			// слухи
-			AddSimpleRumour(RandPhraseSimple("Вы знаете, губернатор " + sTemp + " поручил некоему капитану " + GetMainCharacterNameGen() + " найти в городе вражеского лазутчика. И вы знаете, он его нашел прямо на улицах!", 
-				"Наш губернатор зал задание капитану " + GetMainCharacterNameGen() + " разыскать в городе вражеского агента. И этот капитан нашел лазутчика среди горожан!"), sti(characters[sti(pchar.GenQuest.SeekSpy.MayorId)].nation), 5, 1);			
+			AddSimpleRumour(RandPhraseSimple(DLG_TEXT_BASE[138] + sTemp + DLG_TEXT_BASE[139] + GetMainCharacterNameGen() + DLG_TEXT_BASE[140], 
+				DLG_TEXT_BASE[141] + GetMainCharacterNameGen() + DLG_TEXT_BASE[142]), sti(characters[sti(pchar.GenQuest.SeekSpy.MayorId)].nation), 5, 1);			
 			pchar.quest.AllMayorsQuests_Late.over = "yes"; //снимаем общий таймер
 			pchar.GenQuest.SeekSpy = "FoundSpy"; //флаг нашел шпиона
 			DeleteAttribute(pchar, "GenQuest.SeekSpy.City"); //не опрашивать более в городе
@@ -263,25 +264,25 @@ void ProcessDialogEvent()
 		case "DestroyPirate_Abordage": //абордаж
 			if (CheckAttribute(pchar, "GenQuest.DestroyPirate.wasTalkInDeck"))
 			{
-				dialog.text = "Ты все-таки решил вернуться...";
-				Link.l1 = "Да, забыл кое-что...";
+				dialog.text = DLG_TEXT_BASE[143];
+				Link.l1 = DLG_TEXT_BASE[144];
 				Link.l1.go = "DP_Abordage_1";
 			}
 			else
 			{
-				dialog.text = "Кто ты такой, черт тебя дери?!";
-				Link.l1 = "Я пришел за твоей головой, приятель. Губернатор " + XI_ConvertString("Colony"+pchar.GenQuest.DestroyPirate.MayorId+"Gen") + " хочет видеть ее прибитой к городским воротам.";
+				dialog.text = DLG_TEXT_BASE[145];
+				Link.l1 = DLG_TEXT_BASE[146] + XI_ConvertString("Colony"+pchar.GenQuest.DestroyPirate.MayorId+"Gen") + DLG_TEXT_BASE[147];
 				Link.l1.go = "DP_Abordage_2";
 			}
 		break;
 		case "DP_Abordage_1":
-			dialog.text = "Дьявол, недооценил я тебя сразу.\nНу что, продолжим, пожалуй?..";
-			Link.l1 = "Продолжим, приятель!";
+			dialog.text = DLG_TEXT_BASE[148];
+			Link.l1 = DLG_TEXT_BASE[149];
 			Link.l1.go = "DP_Abordage_fight";	
 		break;
 		case "DP_Abordage_2":
-			dialog.text = "Хех, понятно... Ну, я уж постараюсь не доставить ему такого удовольствия!";
-			Link.l1 = "Постарайся...";
+			dialog.text = DLG_TEXT_BASE[150];
+			Link.l1 = DLG_TEXT_BASE[151];
 			Link.l1.go = "DP_Abordage_fight";	
 		break;
  		case "DP_Abordage_fight":
@@ -293,23 +294,23 @@ void ProcessDialogEvent()
 		//разговор на палубе
 		case "DestroyPirate_Deck":
 			pchar.GenQuest.DestroyPirate.wasTalkInDeck = true; //флаг на палубный базар
-			dialog.text = "Рад видеть тебя на моем корабле, приятель. Зачем пожаловал?";
-			Link.l1 = "Я действую по поручению губернатора " + XI_ConvertString("Colony"+pchar.GenQuest.DestroyPirate.MayorId+"Gen") + ", разыскиваю пирата, орудующего в здешних водах в последнее время.";
+			dialog.text = DLG_TEXT_BASE[152];
+			Link.l1 = DLG_TEXT_BASE[153] + XI_ConvertString("Colony"+pchar.GenQuest.DestroyPirate.MayorId+"Gen") + DLG_TEXT_BASE[154];
 			Link.l1.go = "DestroyPirate_1";	
 		break;
 		case "DestroyPirate_1":
-			dialog.text = "Не могу сказать, что это достойное занятие для капитана...";
-			Link.l1 = "Что это значит?!";
+			dialog.text = DLG_TEXT_BASE[155];
+			Link.l1 = DLG_TEXT_BASE[156];
 			Link.l1.go = "DestroyPirate_2";	
 		break;
 		case "DestroyPirate_2":
-			dialog.text = "Ровно то, что я сейчас тебе говорю. Ловить свободных корсаров, чтобы потом местный губернатор увешал нашими трупами окрестности города - занятие недостойное капитана корабля.";
-			Link.l1 = "Так вы и есть те самые пираты...";
+			dialog.text = DLG_TEXT_BASE[157];
+			Link.l1 = DLG_TEXT_BASE[158];
 			Link.l1.go = "DestroyPirate_3";	
 		break;
 		case "DestroyPirate_3":
-			dialog.text = "Именно так, губернаторская шестерка.\nДа уж, положеньице у тебя незавидное - один, на моем корабле...";
-			Link.l1 = "Ну, и что ты собираешься делать дальше?";
+			dialog.text = DLG_TEXT_BASE[159];
+			Link.l1 = DLG_TEXT_BASE[160];
 			Link.l1.go = "DestroyPirate_4";	
 		break;
 		case "DestroyPirate_4":
@@ -320,18 +321,18 @@ void ProcessDialogEvent()
 				sld = characterFromId(pchar.GenQuest.DestroyPirate.MayorId);
 				lngFileID = LanguageOpenFile("LocLables.txt");
 				sTemp = LanguageConvertString(lngFileID, pchar.GenQuest.DestroyPirate.outShoreId);
-				dialog.text = "Хм, дальше... Я слишком близко подошел к форту, поэтому не буду рисковать и придержу тебя на время здесь. Своим ты скажешь, что пойдешь на моем корабле до места, под названием " + sTemp + ", а они пусть ждут тебя в " + XI_ConvertString("Colony"+sld.city+"Dat") + 
-					". В этом случае я оставлю тебе жизнь. Иначе тебе вспорят брюхо прямо здесь, на палубе.\nКак перспективы на будущее?";
-				Link.l1 = "Не скажу, что заманчивые. Откуда мне знать, что ты сдержишь слово, когда форт тебя не достанет?";
+				dialog.text = DLG_TEXT_BASE[161] + sTemp + DLG_TEXT_BASE[162] + XI_ConvertString("Colony"+sld.city+"Dat") + 
+					DLG_TEXT_BASE[163];
+				Link.l1 = DLG_TEXT_BASE[164];
 				Link.l1.go = "DestroyPirate_5";					
 				break;
 			}
 			if (GetCompanionQuantity(pchar) == 1 && makeint(pchar.GenQuest.DestroyPirate.shipState) > 1)
 			{
-				dialog.text = "Пожалуй, я отпущу тебя, губернаторский пес. Заплатишь за мое великодушие своей наличностью.\nВ общем, проваливай, пока я добрый...";
-				Link.l1 = "Спасибо и на этом. Прощай...";
+				dialog.text = DLG_TEXT_BASE[165];
+				Link.l1 = DLG_TEXT_BASE[166];
 				Link.l1.go = "DP_WithoutFight";	
-				Link.l2 = "Знаешь что, я пожалуй перережу тебе глотку лучше, пока вся твоя команда не сбежалась...";
+				Link.l2 = DLG_TEXT_BASE[167];
 				Link.l2.go = "DP_FightInDeck";	
 			}
 			else
@@ -340,44 +341,44 @@ void ProcessDialogEvent()
 				sld = characterFromId(pchar.GenQuest.DestroyPirate.MayorId);
 				lngFileID = LanguageOpenFile("LocLables.txt");
 				sTemp = LanguageConvertString(lngFileID, pchar.GenQuest.DestroyPirate.outShoreId);
-				dialog.text = "А дальше ты скажешь своим, что пойдешь на моем корабле до места, под названием " + sTemp + ", а они пусть ждут тебя в " + XI_ConvertString("Colony"+sld.city+"Dat") + 
-					". В этом случае я оставлю тебе жизнь. Иначе тебе вспорят брюхо прямо здесь, на палубе.\nКак перспективы на будущее?";
-				Link.l1 = "Не скажу, что заманчивые. Откуда мне знать, что ты сдержишь слово, когда я буду совсем один?";
+				dialog.text = DLG_TEXT_BASE[168] + sTemp + DLG_TEXT_BASE[169] + XI_ConvertString("Colony"+sld.city+"Dat") + 
+					DLG_TEXT_BASE[170];
+				Link.l1 = DLG_TEXT_BASE[171];
 				Link.l1.go = "DestroyPirate_5";	
 			}
 		break;
 		case "DestroyPirate_5":
-			dialog.text = "Хех, знать ты не можешь, но у тебя будет мое слово. А так тебя ждет смерть прямо сейчас. Мне кажется, выбор очевиден...";
-			Link.l1 = "Хм, ну что же, я согласен. Надеюсь, ты сдержись слово...";
+			dialog.text = DLG_TEXT_BASE[172];
+			Link.l1 = DLG_TEXT_BASE[173];
 			Link.l1.go = "DP_toShore";	
-			Link.l2 = "По мне, так оно и есть. И выбор этот - дать бой, здесь и прямо сейчас. К оружию, мерзавцы!";
+			Link.l2 = DLG_TEXT_BASE[174];
 			Link.l2.go = "DP_FightInDeck";	
 		break;
 
 		case "DP_toShore":
-			dialog.text = "Сдержу, не бойся.";
-			Link.l1 = "Тогда я готов. За дело.";
+			dialog.text = DLG_TEXT_BASE[175];
+			Link.l1 = DLG_TEXT_BASE[176];
 			Link.l1.go = "exit";
 			AddDialogExitQuest("DestroyPirate_toShore");
 		break;
 
 		case "DP_WithoutFight":
-			dialog.text = "Еще раз увижу тебя - будешь болтаться на рее, имей в виду...";
-			Link.l1 = "Понятно...";
+			dialog.text = DLG_TEXT_BASE[177];
+			Link.l1 = DLG_TEXT_BASE[178];
 			Link.l1.go = "exit";
 			Diag.TempNode = "DP_WithoutFight_again";
 			AddDialogExitQuest("DestroyPirate_WithoutFight");
 		break;
 		case "DP_WithoutFight_again":
-			dialog.text = "Ты еще здесь? Я бы на твоем месте не стал здесь задерживаться...";
-			Link.l1 = "Ухожу.";
+			dialog.text = DLG_TEXT_BASE[179];
+			Link.l1 = DLG_TEXT_BASE[180];
 			Link.l1.go = "exit";
 			Diag.TempNode = "DP_WithoutFight_again";
 		break;
 
 		case "DP_FightInDeck":
-			dialog.text = "Надо же, какой храбрец! Ценю смелость, жаль будет тебя убивать...\nЭй, на палубе, валите этого выскочку аккуратно, я пока подготовлю корабль к бою. Только без лишнего шума!";
-			Link.l1 = "Жаль, что ты нас покидаешь...";
+			dialog.text = DLG_TEXT_BASE[181];
+			Link.l1 = DLG_TEXT_BASE[182];
 			Link.l1.go = "DP_FightInDeck_1";
 		break;
 		case "DP_FightInDeck_1":

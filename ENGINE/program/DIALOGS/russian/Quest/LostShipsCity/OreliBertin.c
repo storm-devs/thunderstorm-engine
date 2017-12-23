@@ -1,7 +1,8 @@
-
+#include "DIALOGS\russian\Rumours\Common_rumours.c"
+#include "TEXT\DIALOGS\Quest\LostShipsCity\OreliBertin.h"
 void ProcessDialogEvent()
 {
-	ref NPChar;
+	ref NPChar, sld;
 	aref Link, NextDiag;
 
 	DeleteAttribute(&Dialog,"Links");
@@ -10,6 +11,8 @@ void ProcessDialogEvent()
 	makearef(Link, Dialog.Links);
 	makearef(NextDiag, NPChar.Dialog);
 
+	ProcessCommonDialogRumors(NPChar, Link, NextDiag);//homo 25/06/06
+
 	string NodeName = Dialog.CurrentNode;
 	string NodePrevName = "";
 	if (CheckAttribute(NextDiag, "PrevNode")) NodePrevName = NextDiag.PrevNode;
@@ -17,31 +20,58 @@ void ProcessDialogEvent()
 	switch(Dialog.CurrentNode)
 	{
 		case "First time":
-			NextDiag.TempNode = "First time";			
+			NextDiag.TempNode = "First time";	
+			//если Сесил Галард замочили, то это оставшийся шанс узнать о Механике
+			if (pchar.questTemp.LSC == "SessilIsDead")
+			{
+				dialog.text = DLG_TEXT_LSC[0];
+				link.l1 = DLG_TEXT_LSC[1];
+				link.l1.go = "SessilDead";
+				npchar.quest.meeting = "1";
+				break;
+			}
+
 			if (npchar.quest.meeting == "0")
 			{
 				npchar.quest.meeting = "1";
 				if (CheckAttribute(loadedLocation, "storm"))
 				{
-					dialog.text = "Боже мой, как шторм!.. Здравствуйте, меня зовут " + GetFullName(npchar) + ", я хозяйка этого дома.";
-					link.l1 = "Очень приятно. А я - капитан " + GetFullName(pchar) + ". Вернее, бывший капитан. А все из-за этого дьявльского шторма!";
+					if (npchar.location == "FurieShipInside2") dialog.text = DLG_TEXT_LSC[2] + GetFullName(npchar) + DLG_TEXT_LSC[3];
+					else dialog.text = DLG_TEXT_LSC[4] + GetFullName(npchar) + ".";
+					link.l1 = DLG_TEXT_LSC[5] + GetFullName(pchar) + DLG_TEXT_LSC[6];
 					link.l1.go = "FS_1";
 				}
 				else
 				{
-					dialog.text = "Здравствуйте, меня зовут " + GetFullName(npchar) + ", я хозяйка этого дома.";
-					link.l1 = "Очень приятно. А я - капитан " + GetFullName(pchar) + ". Вернее, бывший капитан...";
+					if (npchar.location == "FurieShipInside2") dialog.text = DLG_TEXT_LSC[7] + GetFullName(npchar) + DLG_TEXT_LSC[8];
+					else dialog.text = DLG_TEXT_LSC[9] + GetFullName(npchar) + ".";
+					link.l1 = DLG_TEXT_LSC[10] + GetFullName(pchar) + DLG_TEXT_LSC[11];
 					link.l1.go = "FT_1";
 				}
 			}
 			else
 			{
-				dialog.text = "Что вам нужно, месье?";
-				link.l1 = "Вы знаете, я ищу одного человека. Не поможете мне?";
+				dialog.text = DLG_TEXT_LSC[12];
+				link.l1 = DLG_TEXT_LSC[13];
 				link.l1.go = "SeekCitizen";
-				link.l2 = "Я хотел задать вам вопрос.";
+				link.l2 = DLG_TEXT_LSC[14];
 				link.l2.go = "int_quests";
-				link.l10 = "Ничего...";
+				link.l3 = LinkRandPhrase(DLG_TEXT_LSC[15], 
+					DLG_TEXT_LSC[16], DLG_TEXT_LSC[17]);
+				link.l3.go = "rumours_LSC";
+				//поиск товаров на корвет
+				if (pchar.questTemp.LSC == "toSeekGoods")
+				{
+					link.l8 = DLG_TEXT_LSC[18];
+					link.l8.go = "SeekGoods";
+				}
+				//поиски команды на корвет
+				if (pchar.questTemp.LSC == "toSeekPeopleInCrew")
+				{
+					link.l8 = DLG_TEXT_LSC[19];
+					link.l8.go = "SeekCrew";
+				}
+				link.l10 = DLG_TEXT_LSC[20];
 				link.l10.go = "exit";
 			}
 		break;
@@ -51,18 +81,66 @@ void ProcessDialogEvent()
 			DialogExit();
 		break;
 		case "FS_1":
-			dialog.text = "Не поминайте нечистого, а то появится!! И находясь у меня дома, извольте не сквернословить!";
-			link.l1 = "О-о, простите...";
+			dialog.text = DLG_TEXT_LSC[21];
+			link.l1 = DLG_TEXT_LSC[22];
 			link.l1.go = "exit";
 		break;
 		case "FT_1":
-			dialog.text = "Ну, не стоит так переживать. В конце-концов, вы живы, а это уже очень даже неплохо!";
-			link.l1 = "Да, вы правы. Проще прощения за минутную слабость, недостойную мужчины...";
+			dialog.text = DLG_TEXT_LSC[23];
+			link.l1 = DLG_TEXT_LSC[24];
 			link.l1.go = "exit";
 		break;
+
+		//обнаружение ГГ в сундуках
+		case "fight":
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			DialogExit();
+			LAi_SetOwnerTypeNoGroup(npchar);
+			LAi_group_Attack(NPChar, Pchar);
+			AddDialogExitQuest("MainHeroFightModeOn");
+		break;
+		case "exit_setOwner":
+			LAi_SetOwnerTypeNoGroup(npchar);
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			DialogExit();
+		break;
+		case "Man_FackYou":
+			dialog.text = LinkRandPhrase(DLG_TEXT_LSC[25], DLG_TEXT_LSC[26], DLG_TEXT_LSC[27]);
+			link.l1 = DLG_TEXT_LSC[28];
+			link.l1.go = "fight";
+		break;
+		case "Woman_FackYou":
+			dialog.text = DLG_TEXT_LSC[29];
+			link.l1 = DLG_TEXT_LSC[30];
+			link.l1.go = "exit_setOwner";
+			LAi_group_Attack(NPChar, Pchar);
+		break;
+		//замечение по обнаженному оружию
+		case "LSCNotBlade":
+			dialog.text = LinkRandPhrase(DLG_TEXT_LSC[31], DLG_TEXT_LSC[32], DLG_TEXT_LSC[33]);
+			link.l1 = LinkRandPhrase(DLG_TEXT_LSC[34], DLG_TEXT_LSC[35], DLG_TEXT_LSC[36]);
+			link.l1.go = "exit";
+			NextDiag.TempNode = "First Time";
+		break;		
+		case "CitizenNotBlade":
+			if (loadedLocation.type == "town")
+			{
+				dialog.text = NPCharSexPhrase(NPChar, DLG_TEXT_LSC[37], DLG_TEXT_LSC[38]);
+				link.l1 = LinkRandPhrase(DLG_TEXT_LSC[39], DLG_TEXT_LSC[40], DLG_TEXT_LSC[41]);
+			}
+			else
+			{
+				dialog.text = NPCharSexPhrase(NPChar, DLG_TEXT_LSC[42], DLG_TEXT_LSC[43]);
+				link.l1 = RandPhraseSimple(DLG_TEXT_LSC[44], DLG_TEXT_LSC[45]);
+			}
+			link.l1.go = "exit";
+			NextDiag.TempNode = "First Time";
+		break;
+
+
 		//ищем человека
 		case "SeekCitizen":
-			dialog.text = "С удовольствием вам помогу, если смогу, конечно. Так кого вы ищете?";
+			dialog.text = DLG_TEXT_LSC[46];
 			Link.l1.edit = 3;
 			Link.l1 = "";
 			Link.l1.go = "SeekCitizen_Choice_1";
@@ -71,44 +149,44 @@ void ProcessDialogEvent()
 			sld = CheckLSCCitizen();
 			if (sld.id == "none")
 			{
-				dialog.text = "Простите, но я совершенно не понимаю, о ком вы говорите. Чтобы вам помочь, мне нужны имя и фамилия.";
-				Link.l1 = "Хм. Давайте я попробую еще раз их назвать.";
+				dialog.text = DLG_TEXT_LSC[47];
+				Link.l1 = DLG_TEXT_LSC[48];
 				Link.l1.go = "SeekCitizen_Choice_2";				
-				Link.l2 = "Благодарю вас, но лучше я сам поищу.";
+				Link.l2 = DLG_TEXT_LSC[49];
 				Link.l2.go = "exit";	
 			}
 			else
 			{
 				if (sld.id == npchar.id)
 				{
-					dialog.text = "Хм, простите, но вы ищете меня. Это я.";
-					link.l1 = "Надо же!";
+					dialog.text = DLG_TEXT_LSC[50];
+					link.l1 = DLG_TEXT_LSC[51];
 					link.l1.go = "exit";
 					break;
 				}				
 				if (sld.sex == "man")
 				{
-					dialog.text = GetFullName(sld) + ", вы его имеете ввиду?";
-					Link.l1 = "Именно его.";
+					dialog.text = GetFullName(sld) + DLG_TEXT_LSC[52];
+					Link.l1 = DLG_TEXT_LSC[53];
 					Link.l1.go = "SeekCitizen_agree";				
-					Link.l2 = "Нет, я имел ввиду другого.";
+					Link.l2 = DLG_TEXT_LSC[54];
 					Link.l2.go = "SeekCitizen_Choice_2";
 				}
 				else
 				{
-					dialog.text = GetFullName(sld) + ", вы о ней говорили?";
-					Link.l1 = "Точно, именно о ней.";
+					dialog.text = GetFullName(sld) + DLG_TEXT_LSC[55];
+					Link.l1 = DLG_TEXT_LSC[56];
 					Link.l1.go = "SeekCitizen_agree";				
-					Link.l2 = "Нет, не о ней. Может, я еще раз попробую назвать?";
+					Link.l2 = DLG_TEXT_LSC[57];
 					Link.l2.go = "SeekCitizen_Choice_2";
 				}
-				Link.l3 = "Вы знаете, я вам очень благодарен, но я не хочу больше ни о ком спрашивать.";
+				Link.l3 = DLG_TEXT_LSC[58];
 				Link.l3.go = "exit";
 				npchar.quest.seekIdx = sld.index;
 			}
 		break;
         case "SeekCitizen_Choice_2":
-			dialog.text = "Тогда вам придется еще раз назвать имя и фамилию.";
+			dialog.text = DLG_TEXT_LSC[59];
 			Link.l1.edit = 3;
 			Link.l1 = "";
 			Link.l1.go = "SeekCitizen_Choice_1";
@@ -121,14 +199,14 @@ void ProcessDialogEvent()
 			{
 				if (sld.sex == "man")
 				{
-					dialog.text = LinkRandPhrase("Понятия не имею, где он.", "Ни малейшего представления не имею, где он сейчас.", "Я не видела его уже прилично по времени. Так что не могу знать.");
-					link.l1 = RandPhraseSimple("Понятно.", "Ясно... Что же, спасибо.");
+					dialog.text = LinkRandPhrase(DLG_TEXT_LSC[60], DLG_TEXT_LSC[61], DLG_TEXT_LSC[62]);
+					link.l1 = RandPhraseSimple(DLG_TEXT_LSC[63], DLG_TEXT_LSC[64]);
 					link.l1.go = "exit";
 				}
 				else
 				{
-					dialog.text = LinkRandPhrase("Понятия не имею, где она.", "Ни малейшего представления не имею, где он сейчас.", "Я не видела ее уже прилично по времени. Так что не могу знать.");
-					link.l1 = RandPhraseSimple("Понятно.", "Ясно... Что же, спасибо.");
+					dialog.text = LinkRandPhrase(DLG_TEXT_LSC[65], DLG_TEXT_LSC[66], DLG_TEXT_LSC[67]);
+					link.l1 = RandPhraseSimple(DLG_TEXT_LSC[68], DLG_TEXT_LSC[69]);
 					link.l1.go = "exit";
 				}
 			}
@@ -142,25 +220,25 @@ void ProcessDialogEvent()
 						string Str2 = sld.location.locator;
 						if (npchar.location == sld.location && strcut(Str1, 0, 5) == strcut(Str2, 0, 5))
 						{
-							dialog.text = LinkRandPhrase("Он здесь, на этом корабле. Смотрите внимательней, пожалуйста.", "Хм, так ведь он сейчас на этом корабле...", "Он на этом корабле, странно, что вы еще встретились.");
+							dialog.text = LinkRandPhrase(DLG_TEXT_LSC[70], DLG_TEXT_LSC[71], DLG_TEXT_LSC[72]);
 						}
 						else
 						{
-							dialog.text = LinkRandPhrase("Я видела его совсем недавно " + npchar.quest.seekIdx.where + ".", "Вы знаете, я недавно встретила его " + npchar.quest.seekIdx.where + ". Так что ищите его там.", "Насколько мне известно, сейчас он находится " + npchar.quest.seekIdx.where + ".");
+							dialog.text = LinkRandPhrase(DLG_TEXT_LSC[73] + npchar.quest.seekIdx.where + ".", DLG_TEXT_LSC[74] + npchar.quest.seekIdx.where + DLG_TEXT_LSC[75], DLG_TEXT_LSC[76] + npchar.quest.seekIdx.where + ".");
 						}
 					}
 					else
 					{
 						if (npchar.location == sld.location)
 						{
-							dialog.text = LinkRandPhrase("Простите, но он находится прямо здесь, " + npchar.quest.seekIdx.where + ". Вам нужно быть внимательным.", "Хм, он ведь здесь, среди нас!", "Если бы вы посмотрели вокруг более внимательно, то наверняка уже увидели его...");
+							dialog.text = LinkRandPhrase(DLG_TEXT_LSC[77] + npchar.quest.seekIdx.where + DLG_TEXT_LSC[78], DLG_TEXT_LSC[79], DLG_TEXT_LSC[80]);
 						}
 						else
 						{
-							dialog.text = LinkRandPhrase("Я видела его совсем недавно " + npchar.quest.seekIdx.where + ".", "Недавно встретила его " + npchar.quest.seekIdx.where + ". Так что вы сможете увидеть его там.", "Насколько мне известно, сейчас он находится " + npchar.quest.seekIdx.where + ".");
+							dialog.text = LinkRandPhrase(DLG_TEXT_LSC[81] + npchar.quest.seekIdx.where + ".", DLG_TEXT_LSC[82] + npchar.quest.seekIdx.where + DLG_TEXT_LSC[83], DLG_TEXT_LSC[84] + npchar.quest.seekIdx.where + ".");
 						}
 					}
-					link.l1 = RandPhraseSimple("Ага, понятно. Спасибо вам!", "Спасибо вам огромное.");
+					link.l1 = RandPhraseSimple(DLG_TEXT_LSC[85], DLG_TEXT_LSC[86]);
 					link.l1.go = "exit";
 				}
 				else
@@ -171,56 +249,177 @@ void ProcessDialogEvent()
 						string Str4 = sld.location.locator;
 						if (npchar.location == sld.location && strcut(Str3, 0, 5) == strcut(Str4, 0, 5))
 						{
-							dialog.text = LinkRandPhrase("Она здесь, на этом корабле. Смотрите внимательней, пожалуйста.", "Хм, так ведь она сейчас на этом корабле...", "Она на этом корабле, странно, что вы еще встретились.");
+							dialog.text = LinkRandPhrase(DLG_TEXT_LSC[87], DLG_TEXT_LSC[88], DLG_TEXT_LSC[89]);
 						}
 						else
 						{
-								dialog.text = LinkRandPhrase("Я видела ее совсем недавно " + npchar.quest.seekIdx.where + ".", "Вы знаете, я недавно встретила ее " + npchar.quest.seekIdx.where + ". Так что ищите ее там.", "Насколько мне известно, сейчас она находится " + npchar.quest.seekIdx.where + ".");
+								dialog.text = LinkRandPhrase(DLG_TEXT_LSC[90] + npchar.quest.seekIdx.where + ".", DLG_TEXT_LSC[91] + npchar.quest.seekIdx.where + DLG_TEXT_LSC[92], DLG_TEXT_LSC[93] + npchar.quest.seekIdx.where + ".");
 						}
 					}
 					else
 					{
 						if (npchar.location == sld.location)
 						{
-							dialog.text = LinkRandPhrase("Простите, но она находится прямо здесь, " + npchar.quest.seekIdx.where + ". Вам нужно быть внимательным.", "Хм, она ведь здесь, среди нас!", "Если бы вы посмотрели вокруг более внимательно, то наверняка уже увидели ее...");
+							dialog.text = LinkRandPhrase(DLG_TEXT_LSC[94] + npchar.quest.seekIdx.where + DLG_TEXT_LSC[95], DLG_TEXT_LSC[96], DLG_TEXT_LSC[97]);
 						}
 						else
 						{
-							dialog.text = LinkRandPhrase("Я видела ее совсем недавно " + npchar.quest.seekIdx.where + ".", "Недавно встретила ее " + npchar.quest.seekIdx.where + ". Так что вы сможете увидеть ее там.", "Насколько мне известно, сейчас она находится " + npchar.quest.seekIdx.where + ".");
+							dialog.text = LinkRandPhrase(DLG_TEXT_LSC[98] + npchar.quest.seekIdx.where + ".", DLG_TEXT_LSC[99] + npchar.quest.seekIdx.where + DLG_TEXT_LSC[100], DLG_TEXT_LSC[101] + npchar.quest.seekIdx.where + ".");
 						}
 					}
-					link.l1 = RandPhraseSimple("Ага, понятно. Спасибо вам!", "Спасибо вам огромное.");
+					link.l1 = RandPhraseSimple(DLG_TEXT_LSC[102], DLG_TEXT_LSC[103]);
 					link.l1.go = "exit";
 				}
 			}
 		break;	
 		//вопросы
 		case "int_quests":
-			dialog.text = "Внимательно вас слушаю.";
+			dialog.text = DLG_TEXT_LSC[104];
 			if (!CheckAttribute(NextDiag, NodeName+".l1"))
 			{
-				link.l1 = "Давно вы здесь?";
+				link.l1 = DLG_TEXT_LSC[105];
 				link.l1.go = "ansewer_1";
 			}
 			if (!CheckAttribute(NextDiag, NodeName+".l2"))
 			{
-				link.l2 = "Скучаете?";
+				link.l2 = DLG_TEXT_LSC[106];
 				link.l2.go = "ansewer_2";
 			}
-			link.l10 = "У меня нет к вам вопросов, извините.";
+			if (!CheckAttribute(NextDiag, NodeName+".l3") && pchar.questTemp.LSC == "toSeekOldCitizen")
+			{
+				link.l3 = DLG_TEXT_LSC[107];
+				link.l3.go = "ansewer_3";
+			}
+			link.l10 = DLG_TEXT_LSC[108];
 			link.l10.go = "exit";
 		break;
 		case "ansewer_1":
-			dialog.text = "Я лично... хм, не припоминаю уже. Но если вам интересно, давно ли этот город стоит здесь, то... очень давно. Очень.";
-			link.l1 = "Ясно.";
-			link.l1.go = "exit";
+			dialog.text = DLG_TEXT_LSC[109];
+			link.l1 = DLG_TEXT_LSC[110];
+			link.l1.go = "int_quests";
 			NextDiag.(NodePrevName).l1 = true;
 		break;
 		case "ansewer_2":
-			dialog.text = "По родным землям? Конечно... Но приходится мириться с обстоятельствами. Человек может приспосабливаться, что и требуется от нас.";
-			link.l1 = "Что-то не горю желанием.";
-			link.l1.go = "exit";
+			dialog.text = DLG_TEXT_LSC[111];
+			link.l1 = DLG_TEXT_LSC[112];
+			link.l1.go = "int_quests";
 			NextDiag.(NodePrevName).l2 = true;
+		break;
+		case "ansewer_3":
+			dialog.text = DLG_TEXT_LSC[113];
+			link.l1 = DLG_TEXT_LSC[114];
+			link.l1.go = "ansewer_3_1";
+			NextDiag.(NodePrevName).l3 = true;
+		break;
+		case "ansewer_3_1":
+			dialog.text = DLG_TEXT_LSC[115];
+			link.l1 = DLG_TEXT_LSC[116];
+			link.l1.go = "exit";
+			AddQuestRecord("ISS_MainLine", "30");
+		break;
+
+		case "SessilDead":
+			dialog.text = DLG_TEXT_LSC[117];
+			link.l1 = DLG_TEXT_LSC[118];
+			link.l1.go = "SessilDead_1";
+		break;
+		case "SessilDead_1":
+			dialog.text = DLG_TEXT_LSC[119];
+			link.l1 = DLG_TEXT_LSC[120];
+			link.l1.go = "SessilDead_2";
+		break;
+		case "SessilDead_2":
+			dialog.text = DLG_TEXT_LSC[121];
+			link.l1 = DLG_TEXT_LSC[122];
+			link.l1.go = "SessilDead_3";
+		break;
+		case "SessilDead_3":
+			dialog.text = DLG_TEXT_LSC[123];
+			link.l1 = DLG_TEXT_LSC[124];
+			link.l1.go = "SessilDead_4";
+		break;
+		case "SessilDead_4":
+			dialog.text = DLG_TEXT_LSC[125];
+			link.l1 = DLG_TEXT_LSC[126];
+			link.l1.go = "SessilDead_5";
+		break;
+		case "SessilDead_5":
+			dialog.text = DLG_TEXT_LSC[127]+
+				DLG_TEXT_LSC[128];	
+			link.l1 = DLG_TEXT_LSC[129];
+			link.l1.go = "SessilDead_6";
+		break;
+		case "SessilDead_6":
+			dialog.text = DLG_TEXT_LSC[130];
+			link.l1 = DLG_TEXT_LSC[131];
+			link.l1.go = "SessilDead_7";
+		break;
+		case "SessilDead_7":
+			dialog.text = DLG_TEXT_LSC[132];
+			link.l1 = DLG_TEXT_LSC[133];
+			link.l1.go = "exit";
+			pchar.questTemp.LSC = "toSeekMechanik";
+			AddQuestRecord("ISS_MainLine", "32");
+			pchar.quest.LSC_enterCasper.win_condition.l1 = "location";
+			pchar.quest.LSC_enterCasper.win_condition.l1.location = "SanGabrielMechanic";
+			pchar.quest.LSC_enterCasper.function = "LSC_enterCasper"; 
+			sld = characterFromID("Casper_head");
+			LAi_SetImmortal(sld, false);
+			for (int i=1; i<=11; i++)
+			{
+				sld = characterFromID("Casper_"+i);
+				LAi_SetImmortal(sld, false);
+			}
+		break;
+		//поиск товаров на корвет
+		case "SeekGoods":
+			dialog.text = NPCStringReactionRepeat(DLG_TEXT_LSC[134], 
+				DLG_TEXT_LSC[135], 
+				DLG_TEXT_LSC[136],
+                DLG_TEXT_LSC[137], "block", 0, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(DLG_TEXT_LSC[138], 
+				DLG_TEXT_LSC[139],
+                DLG_TEXT_LSC[140], 
+				DLG_TEXT_LSC[141], npchar, Dialog.CurrentNode);
+			link.l1.go = DialogGoNodeRepeat("SeekGoods_1", "", "", "", npchar, Dialog.CurrentNode);
+		break;
+		case "SeekGoods_1":
+			dialog.text = DLG_TEXT_LSC[142];
+			link.l1 = DLG_TEXT_LSC[143];
+			link.l1.go = "SeekGoods_2";
+		break;
+		case "SeekGoods_2":
+			dialog.text = DLG_TEXT_LSC[144];
+			link.l1 = DLG_TEXT_LSC[145];
+			link.l1.go = "SeekGoods_3";
+		break;
+		case "SeekGoods_3":
+			dialog.text = DLG_TEXT_LSC[146];
+			link.l1 = DLG_TEXT_LSC[147];
+			link.l1.go = "exit";
+			pchar.questTemp.LSC.additional.knippels = true;
+			AddQuestRecord("ISS_MainLine", "51");
+		break;
+		//найм команды
+		case "SeekCrew":
+			dialog.text = DLG_TEXT_LSC[148];
+			link.l1 = DLG_TEXT_LSC[149];
+			link.l1.go = "SeekCrew_1";
+		break;
+		case "SeekCrew_1":
+			dialog.text = DLG_TEXT_LSC[150];
+			link.l1 = DLG_TEXT_LSC[151];
+			link.l1.go = "SeekCrew_2";
+		break;
+		case "SeekCrew_2":
+			dialog.text = DLG_TEXT_LSC[152];
+			link.l1 = DLG_TEXT_LSC[153];
+			link.l1.go = "SeekCrew_3";
+		break;
+		case "SeekCrew_3":
+			dialog.text = DLG_TEXT_LSC[154];
+			link.l1 = DLG_TEXT_LSC[155];
+			link.l1.go = "SeekCrew_all";
 		break;
 	}
 	NextDiag.PrevNode = NodeName;

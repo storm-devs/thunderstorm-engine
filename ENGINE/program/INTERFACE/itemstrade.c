@@ -21,19 +21,19 @@ void InitInterface_R(string iniName, ref pTrader)
 	refCharacter = pchar;
 	refStoreChar = pTrader;
 	//GameInterface.TABLE_LIST.hr.height = 36;
-	GameInterface.TABLE_LIST.hr.td1.str = "Предметов";
+	GameInterface.TABLE_LIST.hr.td1.str = MsgIS("Items2");
 	GameInterface.TABLE_LIST.hr.td1.scale = 0.9;
-	GameInterface.TABLE_LIST.hr.td2.str = "Вес";
+	GameInterface.TABLE_LIST.hr.td2.str = MsgIS("Weight");
 	GameInterface.TABLE_LIST.hr.td2.scale = 0.9;
 	GameInterface.TABLE_LIST.hr.td3.str = XI_ConvertString("Price sell");
 	GameInterface.TABLE_LIST.hr.td3.scale = 0.9;
-	GameInterface.TABLE_LIST.hr.td4.str = "Наименование предметов";
+	GameInterface.TABLE_LIST.hr.td4.str = MsgIS("Item name");
 	GameInterface.TABLE_LIST.hr.td4.scale = 0.9;
 	GameInterface.TABLE_LIST.hr.td5.str = XI_ConvertString("Price buy");
 	GameInterface.TABLE_LIST.hr.td5.scale = 0.9;
-	GameInterface.TABLE_LIST.hr.td6.str = "Предметов торговца";//XI_ConvertString("In the store");
+	GameInterface.TABLE_LIST.hr.td6.str = MsgIS("Trader items");
 	GameInterface.TABLE_LIST.hr.td6.scale = 0.9;
-	GameInterface.TABLE_LIST.hr.td7.str = "Вес шт.";
+	GameInterface.TABLE_LIST.hr.td7.str = MsgIS("Weight pcs");
 	GameInterface.TABLE_LIST.hr.td7.scale = 0.9;
 
     FillCharactersScroll();
@@ -300,14 +300,10 @@ void ShowHelpHint()
 	if (!bShowChangeWin)
 	{// покажем помощь по работе с формой
         sHeader = XI_ConvertString("titleItemsTrade");
-		sText1 = "Двойной клик мыши или Enter по строкам таблицы вызывает форму покупки/продажи предмета. "+ newStr() +
-		         "Shift + лево/право на строках таблицы автоматически вызывают форму с предустановленным количеством покупки/продажи на максимальное. "+ newStr() +
-				 "Ввод положительного количества с клавиатуры устанавливает покупку предмета, а отрицательного (с минусом) продажу."+ newStr() +
-				 "Стрелки лево/право изменяют количество по одному, а Shift + лево/право на максимально доступное. Нажатие Enter на форме равносильно ОК, а Esc - Отмена." + newStr() +
-				 "Находясь в режиме формы и мотая список в таблице стрелкам вверх/вниз, можно просматривать описание предмета под курсором таблицы.";
+		sText1  = MsgIS("Trader_items_hint_1");
 
-        sText3 = "В списке на продажу отсутствуют экипированные персонажем предметы.";
-		sText2 = "Быстрая продажа всего: стрелками вверх/вниз по списку, Shift + право, Enter";
+        sText3 = MsgIS("Trader_items_hint_2");
+		sText2 = MsgIS("Trade_interface_hint_2");
 
 		CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,192,192,192), sText3, argb(255,255,255,255), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 64, 64);
 	}
@@ -418,7 +414,7 @@ void SetVariable()
 
 	iTotalSpace = iMaxGoodsStore;
 	string sMaxGoodsStore;
-    sMaxGoodsStore = "Торговец"; //XI_ConvertString("store");
+    sMaxGoodsStore = MsgIS("Trader");
 	SetFormatedText("STORE_CAPACITY", sMaxGoodsStore);
 
 	sText = XI_ConvertString("OurMoney") + " " + FindRussianMoneyString(sti(pchar.money));
@@ -596,9 +592,9 @@ void ChangeQTY_EDIT()
 		        GameInterface.qty_edit.str = 0;
 		    }
 		    // квестовые не продать <--
-		    SetFormatedText("QTY_TypeOperation", "Продать");
-		    SetFormatedText("QTY_Result", "Золото " + makeint(iStorePrice*stf(GameInterface.qty_edit.str) + 0.5) +
-			                ", вес " + FloatToString(iWeight, 1) );
+		    SetFormatedText("QTY_TypeOperation", MsgIS("Sell"));
+		    SetFormatedText("QTY_Result", MsgIS("Gold") +" " + makeint(iStorePrice*stf(GameInterface.qty_edit.str) + 0.5) +
+			                MsgIS("__weight") +" " + FloatToString(iWeight, 1) );
 		}
 		else
 		{
@@ -624,9 +620,9 @@ void ChangeQTY_EDIT()
 		    }
 		    // проверка на колво доступное <--
 
-			SetFormatedText("QTY_TypeOperation", "Купить");
-			SetFormatedText("QTY_Result", "Золото " + makeint(iCharPrice*stf(GameInterface.qty_edit.str) + 0.5) +
-			                ", вес " + FloatToString(iWeight, 1) );
+			SetFormatedText("QTY_TypeOperation", MsgIS("Buy"));
+			SetFormatedText("QTY_Result", MsgIS("Gold") + " " + makeint(iCharPrice*stf(GameInterface.qty_edit.str) + 0.5) +
+			                MsgIS("__weight")+ " " + FloatToString(iWeight, 1) );
 		}
 	}
 	// если получили ноль

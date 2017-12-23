@@ -1,3 +1,4 @@
+
 int InitItems()
 {
 	InitButtons();
@@ -151,7 +152,7 @@ int InitItems()
 	n++;
 	// boal 21.05.2004 <--
 
-    makeref(itm,Items[n]);
+    /*makeref(itm,Items[n]);
 	itm.id = "Lead1"; // кастет
 	itm.groupID = BLADE_ITEM_TYPE;
 	itm.name = "itmname_lead1";
@@ -173,7 +174,7 @@ int InitItems()
 	itm.param.colorend = argb(0, 32, 32, 32);
 	itm.FencingType = "FencingLight";
 	itm.ItemType = "WEAPON";
-	n++;
+	n++;*/
 	
 	makeref(itm,Items[n]);
 	itm.id = "blade5";  //Кинжал
@@ -202,7 +203,7 @@ int InitItems()
 	n++;
 
     makeref(itm,Items[n]);
-	itm.id = "blade2";  //Мушкетерская рапира.   "Бретта"
+	itm.id = "blade2";  //Мушкетерская рапира.   Бретта
 	itm.groupID = BLADE_ITEM_TYPE;
 	itm.name = "itmname_blade2";
 	itm.describe = "itmdescr_blade2";
@@ -383,7 +384,7 @@ int InitItems()
 	itm.ItemType = "WEAPON";
 	n++;
 	
-    makeref(itm,Items[n]);
+    /*makeref(itm,Items[n]);
 	itm.id = "arm1"; //Боевые когти
 	itm.groupID = BLADE_ITEM_TYPE;
 	itm.name = "itmname_arm1";
@@ -407,7 +408,7 @@ int InitItems()
 	itm.param.colorend = argb(0, 32, 32, 32);
 	itm.FencingType = "FencingLight";
 	itm.ItemType = "WEAPON";
-	n++;
+	n++;*/
 	
 	makeref(itm,Items[n]);
 	itm.id = "blade27"; //Клинок Генри Моргана
@@ -1321,38 +1322,14 @@ int InitItems()
 	// boal 19.01.2004 <--
 	itm.chargeQ = 1;
 	itm.chargespeed = 10;
-	itm.dmg_min = 100.0;
-	itm.dmg_max = 300.0;
-	itm.accuracy = 70;
-	itm.minlevel = 1;
-	itm.rare = 0.0001;
-	itm.ItemType = "WEAPON";
-	n++;
-	
-    makeref(itm,Items[n]);
-	itm.id = "pistol7";  //шотган
-	itm.groupID = GUN_ITEM_TYPE;
-	itm.name = "itmname_pistol7";
-	itm.describe = "itmdescr_pistol7";
-	itm.folder = "items";
-	itm.model = "pistol7";
-	itm.picIndex = 16;
-	itm.picTexture = "ITEMS_8";
-	itm.shown = 1;
-	itm.price = 25000;
-	// boal 19.01.2004 -->
-	itm.Weight = 9;
-	// boal 19.01.2004 <--
-	itm.chargeQ = 4;
-	itm.chargespeed = 52;
-	itm.dmg_min = 100.0;
-	itm.dmg_max = 300.0;
+	itm.dmg_min = 85.0;
+	itm.dmg_max = 270.0;
 	itm.accuracy = 80;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.ItemType = "WEAPON";
 	n++;
-	
+
 	// <<<< ---------------  QUEST ITEMS  --------------------
 
 	makeref(itm,Items[n]);
@@ -1611,9 +1588,10 @@ int InitItems()
 	itm.model = "pursel";
 	itm.picIndex = 1;
 	itm.picTexture = "ITEMS_12";
-	itm.shown = 0;
+	//itm.shown = 0;
 	// boal 19.01.2004 -->
 	itm.Weight = 0.5;
+	itm.price = 0;
 	// boal 19.01.2004 <--
 	itm.ItemType = "QUESTITEMS";
 	n++;
@@ -1692,6 +1670,98 @@ int InitItems()
 	itm.ItemType = "QUESTITEMS";
 	n++;
 
+    makeref(itm,Items[n]);
+	itm.id = "mushket2x2"; //Квестовый мушкетон, двуствольный
+	itm.groupID = GUN_ITEM_TYPE;
+	itm.name = "itmname_questMushket";
+	itm.describe = "itmdescr_questMushket";
+	itm.folder = "items";
+	itm.model = "mushket2x2";
+	itm.picIndex = 16;
+	itm.picTexture = "ITEMS_13";
+	// boal 19.01.2004 -->
+	itm.price = 100000;
+	itm.Weight = 17;
+	// boal 19.01.2004 <--
+	itm.chargeQ = 2;
+	itm.chargespeed = 12;
+	itm.dmg_min = 90.0;
+	itm.dmg_max = 290.0;
+	itm.accuracy = 80;
+	itm.minlevel = 20;
+	itm.rare = 0.0001;
+	itm.ItemType = "WEAPON";
+	n++;
+
+    makeref(itm,Items[n]);
+	itm.id = "toporAZ"; //Макуауитль
+	itm.groupID = BLADE_ITEM_TYPE;
+	itm.name = "itmname_toporAZ";
+	itm.describe = "itmdescr_toporAZ";
+	itm.folder = "items";
+	itm.model = "maquahuitl";
+	itm.picIndex = 12;
+	itm.picTexture = "ITEMS_13";
+	// boal 19.01.2004 -->
+	itm.price = 17500;
+	itm.Weight = 15.0;
+	// boal 19.01.2004 <--
+	itm.dmg_min = 45.0;
+	itm.dmg_max = 140.0;
+	itm.piercing = 95.0;
+	itm.minlevel = 1;
+	itm.rare = 0.0001;
+	itm.block = 30.0;
+	itm.param.time = 0.1;
+	itm.param.colorstart = argb(64, 64, 64, 64);
+	itm.param.colorend = argb(0, 32, 32, 32);
+	itm.FencingType = "FencingHeavy";
+	itm.ItemType = "WEAPON";
+	n++;
+
+	makeref(itm,Items[n]);
+	itm.id = "map_LSC";
+	itm.groupID = MAPS_ITEM_TYPE;
+	itm.name = "itmname_map_LSC";
+	itm.describe = "itmdescr_map_LSC";
+	itm.model = "";
+	itm.picIndex = 10;
+	itm.picTexture = "ITEMS_13";
+	itm.price = 200000;
+	itm.Weight = 0.2;
+	itm.imageTga = "LostShipsCity";
+	itm.imageType = "";
+	itm.MapIsland = "";
+	itm.ItemType = "MAP";
+	n++;
+
+	//homo
+    makeref(itm,Items[n]);
+	itm.id = "Griffins_Weapon"; // оружие Гриффина
+	itm.name = "itmname_Griffins_Weapon";
+	itm.describe = "itmdescr_Griffins_Weapon";
+	itm.model = "";
+	itm.picIndex =14;
+	itm.picTexture = "ITEMS_13";
+	itm.shown = 0;
+	itm.Weight = 3.4;
+	itm.price = 0;
+	itm.ItemType = "QUESTITEMS";
+	n++;
+	//homo
+    makeref(itm,Items[n]);
+	itm.id = "Weapon_for_escape"; //оружие для побега Блада
+	itm.name = "itmname_Weapon_for_escape";
+	itm.describe = "itmdescr_Weapon_for_escape";
+	itm.model = "";
+	itm.picIndex = 13;
+	itm.picTexture = "ITEMS_13";
+	itm.shown = 0;
+	itm.Weight = 10;
+	itm.price = 0;
+	itm.ItemType = "QUESTITEMS";
+	n++;
+
 	////////////////////////////////////////////////////////////////////////////////////////////		
 	//здесь начинаются квестовые предметы, заюзаные в локаторах item
 	//оформлять эти предметы ТОЛЬКО ЗДЕСЬ, до конца сектора квестовых предметов
@@ -1708,7 +1778,7 @@ int InitItems()
 	itm.picTexture = "ITEMS_4";
 	itm.shown = 0; //сначала скрижали невидимы, т.е. взять их нельзя до прох.квеста Аскольда.
 	string PutLocation, PutLocator;   //рендом скрижалей.
-    int WherePut = rand(0);
+    int WherePut = rand(4);
     switch(WherePut)
     {
         case 0:
@@ -1754,6 +1824,7 @@ int InitItems()
 	itm.useLocator = "button01";
 	// boal 19.01.2004 -->
 	itm.Weight = 2.5;
+	itm.price = 0;
 	// boal 19.01.2004 <--
 	itm.ItemType = "QUESTITEMS";
 	n++;
@@ -1765,7 +1836,7 @@ int InitItems()
 	itm.model = "shipyardsMap";
 	itm.picIndex = 11;
 	itm.picTexture = "ITEMS_12";
-	itm.price = 5000;
+	itm.price = 0;
 	itm.Weight = 0.1;
 	itm.ItemType = "QUESTITEMS";
 	n++;
@@ -1791,7 +1862,7 @@ int InitItems()
 	itm.picTexture = "ITEMS_2";
 	itm.Weight = 0.1;
 	itm.price = 0;
-	itm.JevelType = "бриллиант";
+	itm.JevelType = xiDStr("diamond");
 	itm.ItemType = "QUESTITEMS";
 	n++;
 
@@ -1865,9 +1936,6 @@ int InitItems()
 	itm.model = "keygrand";
 	itm.picIndex = 15;
 	itm.picTexture = "ITEMS_12";
-	itm.shown = 0; //сначала ключ невидим
-	itm.startLocation = "Panama_prison";
-	itm.startLocator = "item1";
 	itm.Weight = 0.0;
 	itm.price = 0;
 	itm.ItemType = "QUESTITEMS";
@@ -1910,6 +1978,7 @@ int InitItems()
 	itm.picTexture = "ITEMS_1";
 	itm.shown = 0;
 	itm.Weight = 0.4;
+	itm.price = 0;
 	itm.ItemType = "QUESTITEMS";
 	n++;
 	//homo
@@ -1922,33 +1991,52 @@ int InitItems()
 	itm.picTexture = "ITEMS_7";
 	itm.shown = 0;
 	itm.Weight = 0.4;
-	itm.ItemType = "QUESTITEMS";
-	n++;
-	//homo
-    makeref(itm,Items[n]);
-	itm.id = "Griffins_Weapon"; // оружие Гриффина
-	itm.name = "itmname_Griffins_Weapon";
-	itm.describe = "itmdescr_Griffins_Weapon";
-	itm.model = "";
-	itm.picIndex =14;
-	itm.picTexture = "ITEMS_13";
-	itm.shown = 0;
-	itm.Weight = 3.4;
-	itm.ItemType = "QUESTITEMS";
-	n++;
-	//homo
-    makeref(itm,Items[n]);
-	itm.id = "Weapon_for_escape"; //оружие для побега Блада
-	itm.name = "itmname_Weapon_for_escape";
-	itm.describe = "itmdescr_Weapon_for_escape";
-	itm.model = "";
-	itm.picIndex = 13;
-	itm.picTexture = "ITEMS_13";
-	itm.shown = 0;
-	itm.Weight = 10;
+	itm.price = 0;
 	itm.ItemType = "QUESTITEMS";
 	n++;
 
+	makeref(itm,Items[n]);	//шестеренка
+	itm.id = "Pinion";
+	itm.name = "itmname_pinion";
+	itm.describe = "itmdescr_pinion";
+	itm.model = "Pinion";
+	itm.picIndex = 16;
+	itm.picTexture = "ITEMS_12";
+	itm.shown = 1; 
+	itm.startLocation = "UnderWater";
+	itm.startLocator = "item" + (rand(4)+1);
+	itm.price = 0;
+	itm.Weight = 0.1;
+	itm.ItemType = "QUESTITEMS";
+	n++;
+
+    makeref(itm,Items[n]);
+	itm.id = "pistol7";  //шотган
+	itm.groupID = GUN_ITEM_TYPE;
+	itm.name = "itmname_pistol7";
+	itm.describe = "itmdescr_pistol7";
+	itm.folder = "items";
+	itm.model = "pistol7";
+	itm.picIndex = 16;
+	itm.picTexture = "ITEMS_8";
+	itm.shown = 1;
+	itm.price = 25000;
+	//ложим в храм
+	itm.shown = 1; 
+	itm.startLocation = "Temple_round";
+	itm.startLocator = "item1";
+	// boal 19.01.2004 -->
+	itm.Weight = 9;
+	// boal 19.01.2004 <--
+	itm.chargeQ = 4;
+	itm.chargespeed = 52;
+	itm.dmg_min = 100.0;
+	itm.dmg_max = 300.0;
+	itm.accuracy = 80;
+	itm.minlevel = 1;
+	itm.rare = 0.0001;
+	itm.ItemType = "WEAPON";
+	n++;
 
     makeref(itm,Items[n]);
 	itm.id = "Ascold_rabble"; // монтировка
@@ -1962,11 +2050,335 @@ int InitItems()
 	itm.useLocator = "button02";
 	// boal 19.01.2004 -->
 	itm.Weight = 1;
+	itm.price = 0;
 	// boal 19.01.2004 <--
 	itm.ItemType = "QUESTITEMS";
+	n++;
+
+	//для проверки тотемов начальный номер 
+	Totems_start = n;
+
+	makeref(itm,Items[n]);
+	itm.id = "Totem_1";
+	itm.name = "itmname_Totem_1";
+	itm.describe = "itmdescr_Totem_1";
+	itm.model = "Totem_1";
+	itm.picIndex = 10;
+	itm.picTexture = "ITEMS_AZTEC";
+	itm.shown = true; 
+	itm.startLocation = "Shore_ship1";
+	itm.startLocator = "item1";
+	itm.useLocation = "Temple_1";
+	itm.useLocator = "button01";
+	itm.price = (rand(8)+1)*1000;
+	// boal 19.01.2004 -->
+	itm.Weight = 0.3;
+	// boal 19.01.2004 <--
+	itm.ItemType = "QUESTITEMS";
+	n++;  
+
+	makeref(itm,Items[n]);
+	itm.id = "Totem_2";
+	itm.name = "itmname_Totem_2";
+	itm.describe = "itmdescr_Totem_2";
+	itm.model = "Totem_2";
+	itm.picIndex = 9;
+	itm.picTexture = "ITEMS_AZTEC";
+	itm.shown = true; 
+	itm.startLocation = "Shore55";
+	itm.startLocator = "item1";
+	itm.useLocation = "Temple_2";
+	itm.useLocator = "button01";
+	itm.price = (rand(8)+1)*1000;
+	// boal 19.01.2004 -->
+	itm.Weight = 0.3;
+	// boal 19.01.2004 <--
+	itm.ItemType = "QUESTITEMS";
+	n++; 
+
+	makeref(itm,Items[n]);
+	itm.id = "Totem_3";
+	itm.name = "itmname_Totem_3";
+	itm.describe = "itmdescr_Totem_3";
+	itm.model = "Totem_3";
+	itm.picIndex = 7;
+	itm.picTexture = "ITEMS_AZTEC";
+	itm.shown = true; 
+	itm.startLocation = "Marigo_Cave";
+	itm.startLocator = "item1";
+	itm.useLocation = "Temple_3";
+	itm.useLocator = "button01";
+	itm.price = (rand(8)+1)*1000;
+	// boal 19.01.2004 -->
+	itm.Weight = 0.3;
+	// boal 19.01.2004 <--
+	itm.ItemType = "QUESTITEMS";
+	n++; 
+
+	makeref(itm,Items[n]);
+	itm.id = "Totem_4";
+	itm.name = "itmname_Totem_4";
+	itm.describe = "itmdescr_Totem_4";
+	itm.model = "Totem_4";
+	itm.picIndex = 8;
+	itm.picTexture = "ITEMS_AZTEC";
+	itm.shown = true; 
+	itm.startLocation = "PortSpein_town";
+	itm.startLocator = "item1";
+	itm.useLocation = "Temple_4";
+	itm.useLocator = "button01";
+	itm.price = (rand(8)+1)*1000;
+	// boal 19.01.2004 -->
+	itm.Weight = 0.3;
+	// boal 19.01.2004 <--
+	itm.ItemType = "QUESTITEMS";
+	n++; 
+
+	makeref(itm,Items[n]);
+	itm.id = "Totem_5";
+	itm.name = "itmname_Totem_5";
+	itm.describe = "itmdescr_Totem_5";
+	itm.model = "Totem_5";
+	itm.picIndex = 6;
+	itm.picTexture = "ITEMS_AZTEC";
+	itm.shown = true; 
+	itm.startLocation = "FortFrance_Dungeon";
+	itm.startLocator = "item1";
+	itm.useLocation = "Temple_5";
+	itm.useLocator = "button01";
+	itm.price = (rand(8)+1)*1000;
+	// boal 19.01.2004 -->
+	itm.Weight = 0.3;
+	// boal 19.01.2004 <--
+	itm.ItemType = "QUESTITEMS";
+	n++; 
+
+	makeref(itm,Items[n]);
+	itm.id = "Totem_6";
+	itm.name = "itmname_Totem_6";
+	itm.describe = "itmdescr_Totem_6";
+	itm.model = "Totem_6";
+	itm.picIndex = 2;
+	itm.picTexture = "ITEMS_AZTEC";
+	itm.shown = true; 
+	itm.startLocation = "Tortuga_town";
+	itm.startLocator = "item1";
+	itm.useLocation = "Temple_6";
+	itm.useLocator = "button01";
+	itm.price = (rand(8)+1)*1000;
+	// boal 19.01.2004 -->
+	itm.Weight = 0.3;
+	// boal 19.01.2004 <--
+	itm.ItemType = "QUESTITEMS";
+	n++; 
+
+	makeref(itm,Items[n]);
+	itm.id = "Totem_7";
+	itm.name = "itmname_Totem_7";
+	itm.describe = "itmdescr_Totem_7";
+	itm.model = "Totem_7";
+	itm.picIndex = 1;
+	itm.picTexture = "ITEMS_AZTEC";
+	itm.shown = true; 
+	itm.startLocation = "Villemstad_townhall";
+	itm.startLocator = "item1";
+	itm.useLocation = "Temple_7";
+	itm.useLocator = "button01";
+	itm.price = (rand(8)+1)*1000;
+	// boal 19.01.2004 -->
+	itm.Weight = 0.3;
+	// boal 19.01.2004 <--
+	itm.ItemType = "QUESTITEMS";
+	n++; 
+
+	makeref(itm,Items[n]);
+	itm.id = "Totem_8";
+	itm.name = "itmname_Totem_8";
+	itm.describe = "itmdescr_Totem_8";
+	itm.model = "Totem_8";
+	itm.picIndex = 4;
+	itm.picTexture = "ITEMS_AZTEC";
+	itm.shown = true; 
+	itm.startLocation = "Mayak8";
+	itm.startLocator = "item1";
+	itm.useLocation = "Temple_8";
+	itm.useLocator = "button01";
+	itm.price = (rand(8)+1)*1000;
+	// boal 19.01.2004 -->
+	itm.Weight = 0.3;
+	// boal 19.01.2004 <--
+	itm.ItemType = "QUESTITEMS";
+	n++; 
+
+	makeref(itm,Items[n]);
+	itm.id = "Totem_9";
+	itm.name = "itmname_Totem_9";
+	itm.describe = "itmdescr_Totem_9";
+	itm.model = "Totem_9";
+	itm.picIndex = 3;
+	itm.picTexture = "ITEMS_AZTEC";
+	itm.shown = true; 
+	itm.startLocation = "Santiago_Incquisitio";
+	itm.startLocator = "item1";
+	itm.useLocation = "Temple_9";
+	itm.useLocator = "button01";
+	itm.price = (rand(8)+1)*1000;
+	// boal 19.01.2004 -->
+	itm.Weight = 0.3;
+	// boal 19.01.2004 <--
+	itm.ItemType = "QUESTITEMS";
+	n++; 
+
+	makeref(itm,Items[n]);
+	itm.id = "Totem_10";
+	itm.name = "itmname_Totem_10";
+	itm.describe = "itmdescr_Totem_10";
+	itm.model = "Totem_10";
+	itm.picIndex = 5;
+	itm.picTexture = "ITEMS_AZTEC";
+	itm.shown = true; 
+	itm.startLocation = "Temple";
+	itm.startLocator = "item1";
+	itm.useLocation = "Temple_10";
+	itm.useLocator = "button01";
+	itm.price = (rand(8)+1)*1000;
+	// boal 19.01.2004 -->
+	itm.Weight = 0.3;
+	// boal 19.01.2004 <--
+	itm.ItemType = "QUESTITEMS";
+	n++;
+
+	makeref(itm,Items[n]);
+	itm.id = "Totem_11";	//единый тотем на снятие огня
+	itm.name = "itmname_Totem_11";
+	itm.describe = "itmdescr_Totem_11";
+	itm.model = "Totem_11";
+	itm.picIndex = 11;
+	itm.picTexture = "ITEMS_AZTEC";
+	itm.shown = true; 
+	itm.startLocation = "Tenochtitlan";
+	itm.startLocator = "item1";
+	itm.useLocation = "Tenochtitlan";
+	itm.useLocator = "button04";
+	itm.price = (rand(8)+1)*1000;
+	// boal 19.01.2004 -->
+	itm.Weight = 0.3;
+	// boal 19.01.2004 <--
+	itm.ItemType = "QUESTITEMS";
+	n++;  
+
+	makeref(itm,Items[n]);
+	itm.id = "Totem_12";	//открывалка на каменный сундук с кинжалом
+	itm.name = "itmname_Totem_12";
+	itm.describe = "itmdescr_Totem_12";
+	itm.model = "Totem_12";
+	itm.picIndex = 12;
+	itm.picTexture = "ITEMS_AZTEC";
+	itm.shown = 0; 
+	itm.useLocation = "Temple_great";
+	itm.useLocator = "button01";
+	itm.price = (rand(8)+1)*1000;
+	// boal 19.01.2004 -->
+	itm.Weight = 0.3;
+	// boal 19.01.2004 <--
+	itm.ItemType = "QUESTITEMS";
+	n++; 
+
+	makeref(itm,Items[n]);
+	itm.id = "Totem_13";    //один из двух тотемов на снятие огня
+	itm.name = "itmname_Totem_13";
+	itm.describe = "itmdescr_Totem_13";
+	itm.model = "Totem_13";
+	itm.picIndex = 13;
+	itm.picTexture = "ITEMS_AZTEC";
+	itm.shown = true; 
+	itm.startLocation = "Tenotchitlan_Jungle_06";
+	itm.startLocator = "item1";
+	itm.useLocation = "Tenochtitlan";
+	itm.useLocator = "button02";
+	itm.price = (rand(8)+1)*1000;
+	// boal 19.01.2004 -->
+	itm.Weight = 0.3;
+	// boal 19.01.2004 <--
+	itm.ItemType = "QUESTITEMS";
+	n++; 
+
+	makeref(itm,Items[n]);
+	itm.id = "Totem_14";	//один из двух тотемов на снятие огня
+	itm.name = "itmname_Totem_14";
+	itm.describe = "itmdescr_Totem_14";
+	itm.model = "Totem_14";
+	itm.picIndex = 14;
+	itm.picTexture = "ITEMS_AZTEC";
+	itm.shown = true; 
+	itm.startLocation = "Panama_jungle_02";
+	itm.startLocator = "item1";
+	itm.useLocation = "Tenochtitlan";
+	itm.useLocator = "button03";
+	itm.price = (rand(8)+1)*1000;
+	// boal 19.01.2004 -->
+	itm.Weight = 0.3;
+	// boal 19.01.2004 <--
+	itm.ItemType = "QUESTITEMS";
+	n++; 
+
+	makeref(itm,Items[n]);
+	itm.id = "Totem_15";	//открывалка на второй каменный сундук
+	itm.name = "itmname_Totem_15";
+	itm.describe = "itmdescr_Totem_15";
+	itm.model = "Totem_15";
+	itm.picIndex = 15;
+	itm.picTexture = "ITEMS_AZTEC";
+	itm.shown = true; 
+	itm.startLocation = "Temple_Inside";
+	itm.startLocator = "item1";
+	itm.useLocation = "Temple_great";
+	itm.useLocator = "button02";
+	itm.price = (rand(8)+1)*1000;
+	// boal 19.01.2004 -->
+	itm.Weight = 0.3;
+	// boal 19.01.2004 <--
+	itm.ItemType = "QUESTITEMS";
+	n++; 
+
+	Totems_end = n;
+	//для проверки тотемов конечный номер 
+
+	makeref(itm,Items[n]);
+	itm.id = "SkullAztec";
+	itm.name = "itmname_SkullAztec";
+	itm.describe = "itmdescr_SkullAztec";
+	itm.model = "SkullAztec";
+	itm.picIndex = 16;
+	itm.picTexture = "ITEMS_AZTEC";
+	itm.shown = 1; 
+	itm.startLocation = "Temple_great";
+	itm.startLocator = "item1";
+	itm.price = 100000;
+	// boal 19.01.2004 -->
+	itm.Weight = 0.3;
+	// boal 19.01.2004 <--
+	itm.ItemType = "QUESTITEMS";
+	n++;
+
+	makeref(itm,Items[n]);
+	itm.id = "KnifeAztec";
+	itm.name = "itmname_KnifeAztec";
+	itm.describe = "itmdescr_KnifeAztec";
+	itm.model = "KnifeAztec";
+	itm.picIndex = 11;
+	itm.picTexture = "ITEMS_13";
+	itm.shown = 0; 
+	itm.useLocation = "Tenochtitlan";
+	itm.useLocator = "button01";
+	itm.price = 25000;
+	// boal 19.01.2004 -->
+	itm.Weight = 0.3;
+	// boal 19.01.2004 <--
+	itm.ItemType = "QUESTITEMS";
+	n++;
 
 	ItemsForLocators_end = n; //конечный номер для спец. предметов
-	n++;
 
 	// <<<< ---------------  QUEST ITEMS  --------------------
 
@@ -2409,7 +2821,6 @@ int InitItems()
 	itm.MapIsland = "";
 	itm.ItemType = "MAP";
 	n++;
-	
 	// boal 270904 <--
 	
     // boal карты генератора клада -->

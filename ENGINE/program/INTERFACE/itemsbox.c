@@ -34,7 +34,7 @@ void InitInterface_RS(string iniName,ref itemsRef,string faceID)
     if(faceID=="")
 	{
 		GameInterface.title = "titleItemsBox";
-		QuestCheckTakeBoxes(itemsRef); //перехват
+		if (!LAi_boarding_process) QuestCheckTakeBoxes(itemsRef); //перехват
 	}
 	else
 	{
@@ -47,20 +47,21 @@ void InitInterface_RS(string iniName,ref itemsRef,string faceID)
 		}
 		else {GameInterface.title = "titleExchangeItems";}
 		// boal <--
-    // boal -->
-      if(!CheckAttribute(itemsRef, "HoldEquip") && CheckAttribute(itemsRef, "rank"))
-      {
-          if (sti(itemsRef.rank) < sti(mchref.rank)) // только, если ранг больше
-          {
-              RemoveCharacterEquip(itemsRef, GUN_ITEM_TYPE);
-              if (!IsEquipCharacterByItem(itemsRef, "unarmed"))
-              {
-                  RemoveCharacterEquip(itemsRef, BLADE_ITEM_TYPE);
-              }
-              RemoveCharacterEquip(itemsRef, CIRASS_ITEM_TYPE); //броня 081004 boal
-          }
-      }
-    // boal <--
+
+		// boal -->
+		if(!CheckAttribute(itemsRef, "HoldEquip") && CheckAttribute(itemsRef, "rank"))
+		{
+			if (sti(itemsRef.rank) < sti(mchref.rank)) // только, если ранг больше
+			{
+				RemoveCharacterEquip(itemsRef, GUN_ITEM_TYPE);
+				if (!IsEquipCharacterByItem(itemsRef, "unarmed"))
+				{
+					RemoveCharacterEquip(itemsRef, BLADE_ITEM_TYPE);
+				}
+				RemoveCharacterEquip(itemsRef, CIRASS_ITEM_TYPE); //броня 081004 boal
+			}
+		}
+		// boal <--
 	}
 	g_refItems = itemsRef;
 
@@ -83,6 +84,13 @@ void InitInterface_RS(string iniName,ref itemsRef,string faceID)
 	GameInterface.pictures.OtherPic.tex = "";
 	GameInterface.pictures.OtherPic.pic = "";
 	//SetNodeUsing( "FACEPICT", faceID!="" );
+	
+	SetNodeUsing("SKULL_BUTTON", false);
+	if (CheckCharacterItem(pchar, "SkullAztec") && IsAztecSkullOfficer(g_refItems) && LAi_IsDead(characters[sti(g_refItems.index)]) && CheckNPCQuestDate(pchar, "AztecSkull"))
+	{
+		SetNodeUsing("SKULL_BUTTON", true);
+	}
+	
 	if(faceID=="")
 	{
 		g_bIBoxUsed = true;
@@ -456,11 +464,26 @@ void ProcInterfaceCommand()
 		if(comName=="upstep") {GoToTopScroll();}
 		if(comName=="downstep") {GoToBottomScroll();}
 		if(comName=="leftstep") {SelectButtonLeft("ALLUP_BUTTON");}
+		if(comName=="rightstep") {SelectButtonRight("SKULL_BUTTON");}
 		if(comName=="activate" || comName=="click")	{GiveItemsCollection();}
 		if(comName=="deactivate")	{SetCurrentNode(oldCurScrollName);}
 		// boal 19.01.2004 -->
 		SetWeightToChar();
 		// boal 19.01.2004 <--
+	break;
+
+	case "SKULL_BUTTON":
+		if(comName=="upstep") {GoToTopScroll();}
+		if(comName=="downstep") {GoToBottomScroll();}
+		if(comName=="leftstep") {SelectButtonLeft("ALLDOWN_BUTTON");}
+		if(comName=="activate" || comName=="click")
+		{
+			SetNPCQuestDate(pchar, "AztecSkull"); //запомним день
+			OfficerReincarnation(&characters[sti(g_refItems.index)]);
+			Dead_DelLoginedCharacter(g_refItems);
+			ProcessCancelExit();
+		}
+		if(comName=="deactivate")	{SetCurrentNode(oldCurScrollName);}
 	break;
 
 	case "ONE_ITEMSLIST":
@@ -475,14 +498,6 @@ void ProcInterfaceCommand()
 	case "DELBODY_BUTTON":
 	    if(comName=="activate" || comName=="click")
 	    {
-			//оставил только на DEV версии... Алекс, только на тебя надежда, что в длл-ке поправишь.
-			/*if (MOD_BETTATESTMODE == "On")
-			{
-	            Dead_DelLoginedCharacter(g_refItems);
-				CharacterExitFromLocation(&Characters[sti(g_refItems.index)]);
-			}*/
-			//все равно падает.. не понятно :(
-			//PostEvent("LAi_event_Character_Dead", 10, "i", &Characters[sti(g_refItems.index)]);
 			Dead_DelLoginedCharacter(g_refItems);
 			ProcessCancelExit();
 		}
@@ -840,6 +855,7 @@ void SelectButtonLeft(string startBtnNode)
 		case "SWAP_BUTTON":		SelectButtonLeft("ONEUP_BUTTON"); break;
 		case "ALLUP_BUTTON":	SelectButtonLeft("SWAP_BUTTON"); break;
 		case "ALLDOWN_BUTTON":	SelectButtonLeft("ALLUP_BUTTON"); break;
+		case "SKULL_BUTTON":	SelectButtonLeft("ALLDOWN_BUTTON"); break;
 		}
 	}
 }
@@ -856,6 +872,7 @@ void SelectButtonRight(string startBtnNode)
 		case "ONEUP_BUTTON":	SelectButtonRight("SWAP_BUTTON"); break;
 		case "SWAP_BUTTON":		SelectButtonRight("ALLUP_BUTTON"); break;
 		case "ALLUP_BUTTON":	SelectButtonRight("ALLDOWN_BUTTON"); break;
+		case "ALLDOWN_BUTTON":	SelectButtonRight("SKULL_BUTTON"); break;
 		}
 	}
 }
@@ -995,29 +1012,6 @@ void ShowItemInfo()
 		sHeader = Items[iItem].name;
 		sText1 = GetItemDescribe(iItem);
 		sHeader = LanguageConvertString(idLngFile,sHeader);
-		
-		/*if (CheckAttribute(&Items[iItem], "groupID"))
-		{
-			string sGroupID = Items[iItem].groupID;
-			sGroup = Items[iItem].picTexture;
-			sGroupPicture = "itm" + Items[iItem].picIndex;
-			if(sGroupID == BLADE_ITEM_TYPE)
-			{
-				ShowBladeInfo(iItem, &sHeader, &sText1, &sText2, &sText3);
-			}
-			if(sGroupID == GUN_ITEM_TYPE)
-			{
-				ShowGunInfo(iItem, &sHeader, &sText1, &sText2, &sText3);
-			}
-			if(sGroupID == SPYGLASS_ITEM_TYPE)
-			{
-				ShowSpyglassInfo(iItem, &sHeader, &sText1, &sText2, &sText3);
-			}
-		}	
-		// boal 19.01.2004 -->
-		sText1 += NewStr()+"Вес: " + FloatToString(stf(Items[iItem].Weight), 1);
-		// boal 19.01.2004 <--
-		*/
 	}
 
 	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 64, 64);
@@ -1045,13 +1039,7 @@ void ShowBladeInfo(int iItem, aref sHeader, aref sText1, aref sText2, aref sText
 	// boal <--
 	sText2 += XI_ConvertString("WeaponDamage") + sti(Items[iItem].dmg_min) + " - " + sti(Items[iItem].dmg_max);
 	sText2 = sText2 + "\n";
-	//sText2 = sText2 + XI_ConvertString("WeaponBlock") + sti(Items[iItem].block) + "%";
-	//sText2 = sText2 + "\n";
-	//sText2 = sText2 + XI_ConvertString("WeaponPiercing") + sti(Items[iItem].piercing) + "%";
-	//sText2 = sText2 + "\n";
-	//sText2 = sText2 + XI_ConvertString("WeaponRank") + sti(Items[iItem].minlevel);
 
-	//sText3 = sText3 + XI_ConvertString("WeaponRarity") + sti(Items[iItem].rare) + "%";
 	sText3 = sText3 + "\n";
 	if(CheckAttribute(&Items[iItem], "uniq") && sti(Items[iItem].uniq) == 1)
 	{
@@ -1064,8 +1052,6 @@ void ShowBladeInfo(int iItem, aref sHeader, aref sText1, aref sText2, aref sText
 
 void ShowSpyglassInfo(int iItem, aref sHeader, aref sText1, aref sText2, aref sText3)
 {
-	//idLngFile = LanguageOpenFile("ItemsDescribe.txt");
-
 	sHeader = Items[iItem].name;
 	sText1 = Items[iItem].describe;
 
@@ -1096,8 +1082,6 @@ void ShowSpyglassInfo(int iItem, aref sHeader, aref sText1, aref sText2, aref sT
 		sText2 = sText2 + XI_ConvertString("SpyGlassShowSkills");
 	}
 
-	//sText3 = sText3 + XI_ConvertString("WeaponRarity") + sti(Items[iItem].rare) + "%";
-	//sText3 = sText3 + "\n";
 	if(CheckAttribute(&Items[iItem], "uniq") && sti(Items[iItem].uniq) == 1)
 	{
 		sText3 = sText3 + XI_ConvertString("WeaponUnic");
@@ -1105,13 +1089,10 @@ void ShowSpyglassInfo(int iItem, aref sHeader, aref sText1, aref sText2, aref sT
 
 	sHeader = LanguageConvertString(idLngFile,sHeader);
 	sText1 = LanguageConvertString(idLngFile,sText1);
-	//LanguageCloseFile(idLngFile);
 }
 
 void ShowGunInfo(int iItem, aref sHeader, aref sText1, aref sText2, aref sText3)
 {
-	//idLngFile = LanguageOpenFile("ItemsDescribe.txt");
-
 	sHeader = Items[iItem].name;
 	sText1 = Items[iItem].describe;
 
@@ -1121,12 +1102,7 @@ void ShowGunInfo(int iItem, aref sHeader, aref sText1, aref sText2, aref sText3)
 	sText2 = sText2 + "\n";
 	sText2 = sText2 + XI_ConvertString("GunCharges") + sti(Items[iItem].chargeQ);
 	sText2 = sText2 + "\n";
-	//sText2 = sText2 + XI_ConvertString("WeaponRank") + sti(Items[iItem].minlevel);
 
-	//sText3 = XI_ConvertString("WeaponPrice") + sti(Items[iItem].price);
-	//sText3 = sText3 + "\n";
-	//sText3 = sText3 + XI_ConvertString("WeaponRarity") + sti(Items[iItem].rare) + "%";
-	//sText3 = sText3 + "\n";
 	if(CheckAttribute(&Items[iItem], "uniq") && sti(Items[iItem].uniq) == 1)
 	{
 		sText3 = sText3 + XI_ConvertString("WeaponUnic");
@@ -1134,5 +1110,24 @@ void ShowGunInfo(int iItem, aref sHeader, aref sText1, aref sText2, aref sText3)
 
 	sHeader = LanguageConvertString(idLngFile,sHeader);
 	sText1 = LanguageConvertString(idLngFile,sText1);
-	//LanguageCloseFile(idLngFile);
+}
+
+void OfficerReincarnation(ref rPassanger);
+{
+	ref rOff = GetCharacter(NPC_GenerateCharacter("Clon", "none", rPassanger.sex, rPassanger.model.animation, 1, sti(rPassanger.nation), -1, false));
+	ChangeAttributesFromCharacter(rOff, rPassanger, true);
+	rOff.id = rPassanger.id;
+    LAi_SetCurHPMax(rOff);
+	RemoveCharacterEquip(rOff, BLADE_ITEM_TYPE);
+	RemoveCharacterEquip(rOff, GUN_ITEM_TYPE);
+	RemoveCharacterEquip(rOff, SPYGLASS_ITEM_TYPE);
+	RemoveCharacterEquip(rOff, PATENT_ITEM_TYPE);
+	RemoveCharacterEquip(rOff, CIRASS_ITEM_TYPE);
+	RemoveCharacterEquip(rOff, MAPS_ITEM_TYPE);
+	DeleteAttribute(rOff, "items");
+	rOff.items = "";
+	DeleteAttribute(rOff, "isMusketer.weapon");
+	DeleteAttribute(pchar, "items.mushket2x2");
+	AddPassenger(pchar, rOff, false);
+	Log_Info(xiStr("MSG_ITMBOX_1") + GetFullName(rOff) + xiStr("MSG_ITMBOX_2"));		
 }

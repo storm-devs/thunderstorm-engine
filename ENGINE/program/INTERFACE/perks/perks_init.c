@@ -301,7 +301,7 @@ void extrnInitPerks()
 	ChrPerksList.list.SailingProfessional.descr = "perkSailingProfessional";   // штурман
 	ChrPerksList.list.SailingProfessional.condition.SandbankManeuver = true;
 	ChrPerksList.list.SailingProfessional.condition.StormProfessional = true;
-	ChrPerksList.list.SailingProfessional.condition.WindCatcher = true;
+	ChrPerksList.list.SailingProfessional.condition.Turn180 = true;
 	ChrPerksList.list.SailingProfessional.BaseType = "ship";
 	ChrPerksList.list.SailingProfessional.OfficerType = "navigator";
     // список из ВМЛ <--

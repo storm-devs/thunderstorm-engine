@@ -319,8 +319,11 @@ void LAi_ApplyCharacterDamage(aref chr, int dmg)
 	chr.chr_ai.hp = hp;
 	//Проверим квест
 	LAi_ProcessCheckMinHP(chr);
-
-	LaunchBlood(chr, 1.0, false);
+	
+	bool bloodSize = false;
+	if (damage > 30.0) bloodSize = true;
+	float fRange = 1.0 + frand(0.6);
+	LaunchBlood(chr, fRange, bloodSize);
 
 	if(sti(pchar.index) == sti(chr.index)) 
 	{
@@ -693,7 +696,8 @@ void LAi_SetHuberSitAnimation(aref chr)
 	if(IsEntity(chr))
 	{
 		BeginChangeCharacterActions(chr);
-		SetHuberAnimation(chr);		
+		SetHuberAnimation(chr);	
+		SetDefaultSitDead(chr);
 		EndChangeCharacterActions(chr);
 	}
 }
@@ -862,7 +866,7 @@ void Dead_AddLoginedCharacter(aref chr)
                 //TakeNItems(chref, "Coins", Rand(9) + 3);
                 // обыск скелетов давал вылет, даем сразу в ГГ
                 TakeNItems(pchar, "Coins", Rand(9) + 3);
-                Log_Info("Собраны черные жемчужины");
+                Log_Info(xiDStr("LAi_utils_1"));
 		    }
 		    else
 		    // матрос с ЧЖ <--
@@ -1010,6 +1014,11 @@ void Dead_LaunchCharacterItemChange(ref chref)
 
 void MakePoisonAttack(aref attack, aref enemy)
 {
+	if (!CheckAttribute(enemy, "chr_ai.poison"))
+	{
+		if (enemy.index == GetMainCharacterIndex()) Log_SetStringToLog(XI_ConvertString("You've been poisoned"));
+		else Log_SetStringToLog(GetFullName(enemy) + XI_ConvertString("is poisoned"));
+	}
 	//Отравляем персонажа
 	float poison = 0.0;
 	if(CheckAttribute(enemy, "chr_ai.poison"))
@@ -1018,19 +1027,13 @@ void MakePoisonAttack(aref attack, aref enemy)
 		if(poison < 1.0) poison = 1.0;
 	}
 	enemy.chr_ai.poison = poison + 30 + rand(20);
-
-	if (enemy.index == GetMainCharacterIndex()) // fix boal
-	{
-		Log_SetStringToLog(XI_ConvertString("You've been poisoned"));
-	}
 }
 
-void MakePoisonAttackByMummy(aref attack, aref enemy)
+void MakePoisonAttackCheckSex(aref attacked, aref enemy)
 {
-	if (attack.model == "mummy" && rand(1000) < 150)
+	if (enemy.sex == "skeleton" || enemy.sex == "crab")
 	{
-		//Отравляем персонажа
-  		MakePoisonAttack(attack, enemy);
+		if (rand(1000) < 150) MakePoisonAttack(enemy, attacked);
 	}
 }
 
@@ -1084,14 +1087,22 @@ void LaunchBlood(aref chr, float addy, bool isBig)
 {
 	float x, y, z;
 	GetCharacterPos(chr, &x, &y, &z);
-	y = y + addy;
-	if(isBig == true)
+	if (loadedLocation.type == "underwater")
 	{
-		CreateParticleSystem("blood_big", x, y, z, 0,1.0,0,0);
+		y = y + 0.9;
+		CreateParticleSystem("bloodUnderwater", x, y, z, 0,1.0,0,0);
 	}
 	else
 	{
-		CreateParticleSystem("blood", x, y, z, 0,1.0,0,0);
+		y = y + addy;
+		if(isBig == true)
+		{
+			CreateParticleSystem("blood_big", x, y, z, 0,1.0,0,0);
+		}
+		else
+		{
+			CreateParticleSystem("blood", x, y, z, 0,1.0,0,0);
+		}
+		SendMessage(loadedLocation, "lsfff", MSG_LOCATION_EX_MSG, "AddBlood", x,y,z);
 	}
-	SendMessage(loadedLocation, "lsfff", MSG_LOCATION_EX_MSG, "AddBlood", x,y,z);
 }

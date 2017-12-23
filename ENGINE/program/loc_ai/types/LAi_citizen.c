@@ -79,10 +79,24 @@ void LAi_type_citizen_CharacterUpdate(aref chr, float dltTime)
 				{
 					idx = sti(chrFindNearCharacters[i].index);
 					by = &Characters[idx];
-					chr.chr_ai.type.checkFight = 2.0;
-					if (by.chr_ai.tmpl == LAI_TMPL_FIGHT)
+					chr.chr_ai.type.checkFight = 1.5;
+					if (LAi_CheckFightMode(by))
 					{
-						LAi_tmpl_afraid_SetAfraidCharacter(chr, by, true);
+						if (LAi_IsSetBale(chr))
+						{
+							//ѕытаемс€ начать диалог
+							LAi_SetFightMode(by, false);
+							if(LAi_Character_CanDialog(chr, by))
+							{
+								chr.chr_ai.type.state = "dialog";
+								if (by.id == "Blaze") chr.Dialog.CurrentNode = "CitizenNotBlade";
+								LAi_tmpl_SetDialog(chr, by, -1.0);
+							}
+						}
+						else
+						{
+							LAi_tmpl_afraid_SetAfraidCharacter(chr, by, true);
+						}
 					}
 				}
 			}

@@ -1,115 +1,115 @@
-// диалог по городам
+#include "TEXT\DIALOGS\Tavern\Villemstad_Tavern.h"
 void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 {
     switch (Dialog.CurrentNode)
 	{
 		case "quests":
-			dialog.text = NPCStringReactionRepeat("Все сплетни города "+ GetCityName(npchar.city) +" к вашим услугам. Что бы вы хотели узнать?",
-                          "Мы только что поднимали это тему. Вы, вероятно, запамятовали...", "Сегодня вы уже третий раз говорите о каком-то вопросе...",
-                          "Что ты заладил как попугай одно и то же...", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat("Знаешь, " + NPChar.name + ", как-нибудь в следующий раз.", "Точно, забыл что-то...",
-                      "Да уж, действительно в третий раз...", "Да уж...", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(DLG_TEXT_TV[0]+ GetCityName(npchar.city) +DLG_TEXT_TV[1],
+                          DLG_TEXT_TV[2], DLG_TEXT_TV[3],
+                          DLG_TEXT_TV[4], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(DLG_TEXT_TV[5] + NPChar.name + DLG_TEXT_TV[6], DLG_TEXT_TV[7],
+                      DLG_TEXT_TV[8], DLG_TEXT_TV[9], npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
 			// ==> Проверяем поле состояния квестов.
 			switch(pchar.questTemp.State)
 			{
 			case "Intelligence_Curacao_tavern":
-				link.l1 = "Послушай, мне нужно узнать кое-что...";
+				link.l1 = DLG_TEXT_TV[10];
 				link.l1.go = "Step_E4_1";
 				break;
 			case "Intelligence_Curacao_dWant_pay_tavern":
-				dialog.text = "Созрел?";
-				link.l1 = "Созрел. Держи свою тысячу.";
+				dialog.text = DLG_TEXT_TV[11];
+				link.l1 = DLG_TEXT_TV[12];
 				link.l1.go = "E4_OK_pay";
-				link.l2 = "Тысячу монет за два слова?! Это слишком много!";
+				link.l2 = DLG_TEXT_TV[13];
 				link.l2.go = "E4_dWant_pay";
 				break;
 			case "Intelligence_Curacao_NoMoney_tavern":
-				dialog.text = "Подкопил деньжат?";
-				link.l1 = "Да, вроде бы, подкопил.";
+				dialog.text = DLG_TEXT_TV[14];
+				link.l1 = DLG_TEXT_TV[15];
 				link.l1.go = "E4_OK_pay";
 				break;
 			case "Inquisition_toCuracao":
-				dialog.text = "Я слушаю тебя.";
-				link.l1 = "Меня интересуют люди: Джоао Ильхайо, Йозеф Нунен де Фонкесао, и Яков Лопез де Фонсека. Что ты можешь сказать про них?";
+				dialog.text = DLG_TEXT_TV[16];
+				link.l1 = DLG_TEXT_TV[17];
 				link.l1.go = "Step_S2_1";
 				break;
 			case "Inquisition_afterFrancisco":
-				dialog.text = "Я слушаю тебя.";
-				link.l1 = "Меня интересуют люди: Джоао Ильхайо, Йозеф Нунен де Фонкесао, и Яков Лопез де Фонсека. Что ты можешь сказать про них?";
+				dialog.text = DLG_TEXT_TV[18];
+				link.l1 = DLG_TEXT_TV[19];
 				link.l1.go = "Step_S2_1";
 				break;
 			case "Fr2Letter_SeekProblems":
-				dialog.text = "Внимательно слушаю дорогого французского гостя!";
-				link.l1 = "Я хочу понять, какого черта генерал-губернатор Стэвезант засадил за решетку официального курьера Франции. Что у вас тут, разрази дьявол, происходит?";
+				dialog.text = DLG_TEXT_TV[20];
+				link.l1 = DLG_TEXT_TV[21];
 				link.l1.go = "Step_F2_1";
 				break;
 			}
 			if (pchar.questTemp.LSC == "toVillemstadTavern")
 			{
-				dialog.text = "Я слушаю тебя.";
-				link.l1 = "Послушай, мне тут надо ключик заказать к сундуку.";
+				dialog.text = DLG_TEXT_TV[22];
+				link.l1 = DLG_TEXT_TV[23];
 				link.l1.go = "MasterKeys";
 			}
 			if (pchar.questTemp.LSC == "toMasterKeysNoMoney")
 			{
-				dialog.text = "Внимательно слушаю тебя.";
-				link.l1 = "Слушай, мне нужен мастер ключей, ты не видел его?";
+				dialog.text = DLG_TEXT_TV[24];
+				link.l1 = DLG_TEXT_TV[25];
 				link.l1.go = "MasterKeysNM";
 			}
 			if (pchar.questTemp.LSC == "toTalkStuvesant")
 			{
-				dialog.text = "Внимательно слушаю.";
-				link.l1 = "Послушай, ты не знал такого бродягу - Тизера Дэна? Говорят, что он жил у вас в городе некоторое время.";
+				dialog.text = DLG_TEXT_TV[26];
+				link.l1 = DLG_TEXT_TV[27];
 				link.l1.go = "TizerFind";
 			}
             // <== Проверяем поле состояния квестов.
  		break;
 //*************************** Квест №4 английки, разведка в Кюрасао ***************************
  		case "Step_E4_1":
-    		dialog.text = "Чем смогу - помогу. Спрашивай.";
-    		link.l1 = "У меня скопилось кое-какое барахло, золотишко, камни... Нужно сдать, только тихо. В общем, мне нужен человек не особо щепетильный.";
+    		dialog.text = DLG_TEXT_TV[28];
+    		link.l1 = DLG_TEXT_TV[29];
     		link.l1.go = "Step_E4_2";
  		break;
  		case "Step_E4_2":
-    		dialog.text = "Хм, 1000 монет и ты узнаешь его имя.";
-    		link.l1 = "А не слишком ли много просишь за два слова?";
+    		dialog.text = DLG_TEXT_TV[30];
+    		link.l1 = DLG_TEXT_TV[31];
     		link.l1.go = "E4_dWant_pay";
-    		link.l2 = "Держи свою тысячу.";
+    		link.l2 = DLG_TEXT_TV[32];
     		link.l2.go = "E4_OK_pay";
  		break;
  		case "E4_dWant_pay":
-    		dialog.text = "Нет, слишком мало. Не хочешь платить - попробуй в другом месте узнать. Все равно придешь.";
-    		link.l1 = "Что ж, последую твоему совету. Попробую узнать в другом месте.";
+    		dialog.text = DLG_TEXT_TV[33];
+    		link.l1 = DLG_TEXT_TV[34];
     		link.l1.go = "exit";
     		pchar.questTemp.State = "Intelligence_Curacao_dWant_pay_tavern";
  		break;
  		case "E4_OK_pay":
             if (sti(pchar.money) >= 1000)
             {
-        		dialog.text = "Этого человека зовут Йозеф Нунен де Фонкесао. Он негоциант, прибыл сюда с теми янсенистами, которые организовали здесь довольно многочисленную общину, Йозеф и является главным ее организатором и руководителем.\n"+
-                         "Но если все эти янсенисты - люди как люди, то этот человек совести не имеет, он сразу стал ростовщиком в городе. Деньги дает охотно и любые, но если не вернул ему долга день в день, то будешь сидеть в тюрьме следующим утром.\n"+
-                         "На его совести уже не одна голодная смерть и не одно самоубийство, а ему все нипочем.";
-        		link.l1 = "А что же генерал-губернатор?";
+        		dialog.text = DLG_TEXT_TV[35]+
+                         DLG_TEXT_TV[36]+
+                         DLG_TEXT_TV[37];
+        		link.l1 = DLG_TEXT_TV[38];
         		link.l1.go = "Step_E4_3";
             }
             else
             {
-        		dialog.text = "Хех, братец, денег нет? Что ж ты мне голову морочишь? Приходи, когда будут.";
-        		link.l1 = "Да, не пустят на банкет, когда в кармане баксов нет...";
+        		dialog.text = DLG_TEXT_TV[39];
+        		link.l1 = DLG_TEXT_TV[40];
         		link.l1.go = "exit";
         		pchar.questTemp.State = "Intelligence_Curacao_NoMoney_tavern";
         		//ChangeCharacterReputation(pchar, -1); TO_DO eddy
             }
  		break;
  		case "Step_E4_3":
-    		dialog.text = "Наш генерал-губернатор, по всему видать, помогает Йозефу в выколачивании долгов. Йозеф - желанный гость в его доме.";
-    		link.l1 = "Так если он с властями дружит, то мне опасно с ним связываться!";
+    		dialog.text = DLG_TEXT_TV[41];
+    		link.l1 = DLG_TEXT_TV[42];
     		link.l1.go = "Step_E4_4";
  		break;
  		case "Step_E4_4":
-    		dialog.text = "Совсем не опасно. Прикупит он у тебя твое барахло, конечно, не по ценам магазина, но и сдавать не будет. Так что иди смело, тебя не первого отправляю к нему.";
-    		link.l1 = "Что ж, спасибо.";
+    		dialog.text = DLG_TEXT_TV[43];
+    		link.l1 = DLG_TEXT_TV[44];
     		link.l1.go = "exit";
     		pchar.questTemp.State = "Intelligence_Curacao_toYozef";
     		AddMoneyToCharacter(pchar, -1000);
@@ -117,50 +117,50 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
  		break;
 //*************************** Квест №2 испанки, задания Инквизиции ***************************
  		case "Step_S2_1":
-    		dialog.text =  NPCStringReactionRepeat("Джоао Ильхайо - хороший человек, торгует честно, товар дешевый, деньги под процент не ссужает. Яков Лопез де Фонсека - компаньон Джоао Ильхайо, они содержат магазин вместе. А вот Йозеф Нунен де Фонкесао - ростовщик, на его совести не одно самоубийство людей, которых он разорил.",
-            "На эту тему мы уже говорили...", "Опять двадцать пять?", "Хм, ну сколько можно, а?...", "block", 0, npchar, Dialog.CurrentNode);
-    		link.l1 = HeroStringReactionRepeat("Прямо дьявол во плоти!", "Да, точно", "Нет, извини...", "Пардон...", npchar, Dialog.CurrentNode);
+    		dialog.text =  NPCStringReactionRepeat(DLG_TEXT_TV[45],
+            DLG_TEXT_TV[46], DLG_TEXT_TV[47], DLG_TEXT_TV[48], "block", 0, npchar, Dialog.CurrentNode);
+    		link.l1 = HeroStringReactionRepeat(DLG_TEXT_TV[49], DLG_TEXT_TV[50], DLG_TEXT_TV[51], DLG_TEXT_TV[52], npchar, Dialog.CurrentNode);
     		link.l1.go = DialogGoNodeRepeat("Step_S2_2", "none", "none", "none", npchar, Dialog.CurrentNode);
  		break;
  		case "Step_S2_2":
-    		dialog.text = "Может и не сам дьявол, но на подручного тянет вполне.";
-    		link.l1 = "Спасибо, дружище, ты мне очень помог.";
+    		dialog.text = DLG_TEXT_TV[53];
+    		link.l1 = DLG_TEXT_TV[54];
     		link.l1.go = "exit";
  		break;
 //*************************** Квест №2 фр.линейки, доставка письма Стэвезанту ***************************
  		case "Step_F2_1":
-    		dialog.text =  NPCStringReactionRepeat("И неудивительно. Шутка ли, за месяц пираты на галеоне уже девятнадцать наших кораблей ограбили и на дно пустили. Из них два - с товарами самого генерал-губернатора. Вот он и смотрит на всех незнакомцев волком!",
-            "На эту тему мы уже говорили...", "Опять двадцать пять?", "Хм, ну сколько можно, а?...", "block", 0, npchar, Dialog.CurrentNode);
-    		link.l1 = HeroStringReactionRepeat("А что, я оказался самым подозрительным из всех?", "Да, точно.", "Нет, извини...", "Пардон...", npchar, Dialog.CurrentNode);
+    		dialog.text =  NPCStringReactionRepeat(DLG_TEXT_TV[55],
+            DLG_TEXT_TV[56], DLG_TEXT_TV[57], DLG_TEXT_TV[58], "block", 0, npchar, Dialog.CurrentNode);
+    		link.l1 = HeroStringReactionRepeat(DLG_TEXT_TV[59], DLG_TEXT_TV[60], DLG_TEXT_TV[61], DLG_TEXT_TV[62], npchar, Dialog.CurrentNode);
     		link.l1.go = DialogGoNodeRepeat("Step_F2_2", "none", "none", "none", npchar, Dialog.CurrentNode);
  		break;
  		case "Step_F2_2":
-    		dialog.text = "Да вы, скорее всего, просто под горячую руку подвернулись. Встречаются и более странные типы.\n"+
-				          "Вон, кстати, смотрите, за тем столиком в углу, справа от тебя, сидят двое. Что за люди? Впервые их вижу, а стражу вызывать вроде не за что - я дорожу репутацией своего заведения. Потолкуйте с ними, если хотите!";
-    		link.l1 = "Спасибо, дружище, ты мне очень помог.";
+    		dialog.text = DLG_TEXT_TV[63]+
+				          DLG_TEXT_TV[64];
+    		link.l1 = DLG_TEXT_TV[65];
     		link.l1.go = "exit";
  		break;
 //*************************** ГПК, Мастер Ключей ***************************
 		case "MasterKeys":
-			dialog.text = "А-а, ну это тебе к Мастеру Ключей надо.";
-			link.l1 = "Что за Мастер Ключей?";
+			dialog.text = DLG_TEXT_TV[66];
+			link.l1 = DLG_TEXT_TV[67];
 			link.l1.go = "MasterKeys_1";
 		break;
 		case "MasterKeys_1":
-			dialog.text = "Так называет Хилла Корнера за то, что он на сундуки и двери замки делает с ключами.";
-			link.l1 = "Хм, а это местный мастер?";
+			dialog.text = DLG_TEXT_TV[68];
+			link.l1 = DLG_TEXT_TV[69];
 			link.l1.go = "MasterKeys_2";
 		break;
 		case "MasterKeys_2":
-			dialog.text = "Ага. Вот он сидит, справа от тебя за круглым столиком.";
-			link.l1 = "Понял, спасибо.";
+			dialog.text = DLG_TEXT_TV[70];
+			link.l1 = DLG_TEXT_TV[71];
 			link.l1.go = "exit";
 			pchar.questTemp.LSC = "toMasterKeys";
 		break;
 
 		case "MasterKeysNM":
-			dialog.text = "Да вот же он, на своем обычном месте справа от тебя за столиком.";
-			link.l1 = "А-а-а, спасибо...";
+			dialog.text = DLG_TEXT_TV[72];
+			link.l1 = DLG_TEXT_TV[73];
 			link.l1.go = "exit";
 			if (!LAi_CheckLocatorFree("sit", "sit1"))
 			{
@@ -170,74 +170,74 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 		break;
 		//ищем Тизера
 		case "TizerFind":
-			dialog.text = NPCStringReactionRepeat("Как не знать, его весь город знал! Знатный был выдумщик...", 
-				"Слушай, я тебу уже рассказывал об этом.", 
-				"Мы уже говорили об этом.",
-                "Прошу прощения, но на столь длинное повествование у меня больше нет времени.", "block", 0, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat("Как понять?", 
-				"А-а, да, я помню.",
-                "Да, конечно.", 
-				"Понимаю...", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(DLG_TEXT_TV[74], 
+				DLG_TEXT_TV[75], 
+				DLG_TEXT_TV[76],
+                DLG_TEXT_TV[77], "block", 0, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(DLG_TEXT_TV[78], 
+				DLG_TEXT_TV[79],
+                DLG_TEXT_TV[80], 
+				DLG_TEXT_TV[81], npchar, Dialog.CurrentNode);
 			link.l1.go = DialogGoNodeRepeat("TizerFind_1", "", "", "", npchar, Dialog.CurrentNode);
 		break;
 		case "TizerFind_1":
-			dialog.text = "Ну, понимаешь, он неплохо зарабатывал сказками о своих приключениях. Сейчас это очень модно - путешествия и открытие новых земель у всех на устах!";
-			link.l1 = "Про остров, небось, рассказывал?";
+			dialog.text = DLG_TEXT_TV[82];
+			link.l1 = DLG_TEXT_TV[83];
 			link.l1.go = "TizerFind_2";
 		break;
 		case "TizerFind_2":
-			dialog.text = "И про остров тоже! В общем, с ним было весело. Вот, бывало, скажет: 'Вы не были на Таити?' - и народ начинает собираться вокруг. А уж рассказчик он был что надо! Жаль уехал от нас.";
-			link.l1 = "Куда?";
+			dialog.text = DLG_TEXT_TV[84];
+			link.l1 = DLG_TEXT_TV[85];
 			link.l1.go = "TizerFind_3";
 		break;
 		case "TizerFind_3":
-			dialog.text = "Не знаю, никому не сказал. Просто в один день я его у себя в таверне не увидел - и все. Могу больше сказать - искали его коллеги, так сказать, бродяги, то есть. Не знаю, нашли или нет...";
-			link.l1 = "Нет, не нашли.";
+			dialog.text = DLG_TEXT_TV[86];
+			link.l1 = DLG_TEXT_TV[87];
 			link.l1.go = "TizerFind_4";
 		break;
 		case "TizerFind_4":
-			dialog.text = "Жаль, хороший был человек, хоть и бродяга. Знаешь, бывают люди с обостренным чувством справделивости. Вот Тизер был из таких, да еще жизнь его изрядно побила. Рассказы об Острове Справедливости были его любимой темой.";
-			link.l1 = "Хм, и что говорил-то?";
+			dialog.text = DLG_TEXT_TV[88];
+			link.l1 = DLG_TEXT_TV[89];
 			link.l1.go = "TizerFind_5";
 		break;
 		case "TizerFind_5":
-			dialog.text = "Что есть где-то рядом остров, состоящий из кораблей! Что люди там живут очень неплохо, и все равны между собой. Ну, рай на земле, в общем. Утопия.";
-			link.l1 = "А генерал-губернатор ваш как к нищим относится?";
+			dialog.text = DLG_TEXT_TV[90];
+			link.l1 = DLG_TEXT_TV[91];
 			link.l1.go = "TizerFind_6";
 		break;
 		case "TizerFind_6":
-			dialog.text = "Ты знаешь, очень плохо. Тизер рассказывал, что был продан в рабство, а наш Стэвезант рабов за людей не считает, и бывших тоже.";
-			link.l1 = "Ясно. Слушай, говорят, Стэвезант дела имеет с Голландской Вест-Индской компанией, и...";
+			dialog.text = DLG_TEXT_TV[92];
+			link.l1 = DLG_TEXT_TV[93];
 			link.l1.go = "TizerFind_7";
 		break;
 		case "TizerFind_7":
-			dialog.text = "Т-с-с!! Тихо, приятель. Об этих связях нашего Петера говорить не принято. И спрашивать тоже не рекомендую - отгребешь неприятностей по самое небалуйся!";
-			link.l1 = "А в чем дело то?";
+			dialog.text = DLG_TEXT_TV[94];
+			link.l1 = DLG_TEXT_TV[95];
 			link.l1.go = "TizerFind_8";
 		break;
 		case "TizerFind_8":
-			dialog.text = "Эта компания шутить не любит, приятель. И ты не смотри, что конторы их в основном расположены в Европе и Индийском океане. Здесь они тоже присутствуют, но не так явно...";
-			link.l1 = "Черт!.. А где же их можно найти?";
+			dialog.text = DLG_TEXT_TV[96];
+			link.l1 = DLG_TEXT_TV[97];
 			link.l1.go = "TizerFind_9";
 		break;
 		case "TizerFind_9":
-			dialog.text = "А зачем они тебе?";
-			link.l1 = "Хочу предложить свои услуги в грузовых перевозках.";
+			dialog.text = DLG_TEXT_TV[98];
+			link.l1 = DLG_TEXT_TV[99];
 			link.l1.go = "TizerFind_10";
 		break;
 		case "TizerFind_10":
-			dialog.text = "Знаешь, приятель, компания эта свои дела делает без участия таких, как ты. Поговаривают, что сам Кюрасао принадлежит ей, да и не только этот остров!..";
-			link.l1 = "Вот дьявол! Серьезная контора.";
+			dialog.text = DLG_TEXT_TV[100];
+			link.l1 = DLG_TEXT_TV[101];
 			link.l1.go = "TizerFind_11";
 		break;
 		case "TizerFind_11":
-			dialog.text = "Ага. Мой тебе совет - не пытайся делать с ними дела, здесь они работают только с нашим Петером. Понял?";
-			link.l1 = "Понял... Ну, дружище, спасибо тебе за столь подробное изложение. Очень было интересно.";
+			dialog.text = DLG_TEXT_TV[102];
+			link.l1 = DLG_TEXT_TV[103];
 			link.l1.go = "TizerFind_12";
 		break;
 		case "TizerFind_12":
-			dialog.text = "Да не за что. Я и сам рад поболтать.";
-			link.l1 = "Будь здоров.";
+			dialog.text = DLG_TEXT_TV[104];
+			link.l1 = DLG_TEXT_TV[105];
 			link.l1.go = "exit";
 			AddQuestRecord("ISS_PoorsMurder", "8");
 		break;

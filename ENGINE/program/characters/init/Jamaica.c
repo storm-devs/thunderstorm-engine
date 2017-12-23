@@ -33,7 +33,7 @@ int CreateJamaicaCharacters(int n)
 	makeref(ch,Characters[n]);			//Священик
 	ch.id		= "PortRoyal_Priest";
 	ch.model	= "priest_1";
-	ch.model.animation = "man3";
+	ch.model.animation = "man";
 	ch.sex = "man";
 	ch.City = "PortRoyal";
 	ch.location	= "PortRoyal_church";
@@ -134,6 +134,7 @@ int CreateJamaicaCharacters(int n)
 	ch.location.locator = "stay";
 	ch.Dialog.Filename = "Usurer_dialog.c";
 	ch.nation = ENGLAND;
+	ch.greeting = "Gr_bankeer";
 	ch.quest.shiping = "0";
 	ch.UsurerDeposit = 9000; // *1000 денег
 	LAi_SetOwnerType(ch);
@@ -151,6 +152,7 @@ int CreateJamaicaCharacters(int n)
 	ch.location.locator = "sit1";
 	ch.Dialog.Filename = "Common_Portman.c";
 	ch.nation = ENGLAND;
+	ch.greeting = "portmans";
 	LAi_SetHuberType(ch);
 	LAi_group_MoveCharacter(ch, "ENGLAND_CITIZENS");
 	LAi_SetImmortal(ch, true);
@@ -159,7 +161,7 @@ int CreateJamaicaCharacters(int n)
 
 	makeref(ch,Characters[n]);			//Хозяйка борделя
 	ch.id		= "PortRoyal_Hostess";
-	ch.name		= "Литисия"
+	ch.name		= xiDStr("Liticia");
 	ch.lastname = "";
 	ch.model	= "lady03";
 	ch.sex = "woman";
@@ -176,7 +178,7 @@ int CreateJamaicaCharacters(int n)
 	n = n + 1;
 
     makeref(ch,Characters[n]);
-	ch.name 	= "Контрабандист";
+	ch.name 	= xiDStr("Smuggler");
 	ch.lastname = "";
 	ch.id		= "PortRoyal_Smuggler";
 	ch.model    = "pirate_1";
@@ -205,6 +207,7 @@ int CreateJamaicaCharacters(int n)
 	ch.Dialog.Filename = "Common_Mayor.c";
 	ch.nation = HOLLAND;
 	ch.quest.type = "hovernor";
+	ch.greeting = "eng_gov_common";
 	GiveItem2Character(ch, GUN_COMMON);
 	GiveItem2Character(ch, BLADE_LONG);
 	SetRandSPECIAL(ch);
@@ -270,7 +273,7 @@ int CreateJamaicaCharacters(int n)
 	n = n + 1;
 
     makeref(ch,Characters[n]);
-	ch.name 	= "Контрабандист";
+	ch.name 	= xiDStr("Smuggler");
 	ch.lastname = "";
 	ch.id		= "FortOrange_Smuggler";
 	ch.model    = "pirate_1";

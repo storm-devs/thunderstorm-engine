@@ -33,7 +33,7 @@ int CreateGuadeloupeCharacters(int n)
 	makeref(ch,Characters[n]);			//Священик
 	ch.id		= "BasTer_Priest";
 	ch.model	= "priest_1";
-	ch.model.animation = "man3";
+	ch.model.animation = "man";
 	ch.sex = "man";
 	ch.City = "BasTer";
 	ch.location	= "BasTer_church";
@@ -135,6 +135,7 @@ int CreateGuadeloupeCharacters(int n)
 	ch.location.locator = "stay";
 	ch.Dialog.Filename = "Usurer_dialog.c";
 	ch.nation = FRANCE;
+	ch.greeting = "Gr_bankeer";
 	ch.quest.shiping = "0";
 	ch.UsurerDeposit = 10000; // *1000 денег
 	LAi_SetOwnerType(ch);
@@ -152,6 +153,7 @@ int CreateGuadeloupeCharacters(int n)
 	ch.location.locator = "sit1";
 	ch.Dialog.Filename = "Common_Portman.c";
 	ch.nation = FRANCE;
+	ch.greeting = "portmans";
 	LAi_SetHuberType(ch);
 	LAi_group_MoveCharacter(ch, "FRANCE_CITIZENS");
 	LAi_SetImmortal(ch, true);
@@ -159,7 +161,7 @@ int CreateGuadeloupeCharacters(int n)
 	n = n + 1;
 
     makeref(ch,Characters[n]);
-	ch.name 	= "Контрабандист";
+	ch.name 	= xiDStr("Smuggler");
 	ch.lastname = "";
 	ch.id		= "BasTer_Smuggler";
 	ch.model    = "pirate_1";

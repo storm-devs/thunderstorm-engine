@@ -1,44 +1,44 @@
-// диалог по городам
+#include "TEXT\DIALOGS\Shipyard\SantoDomingo_Shipyard.h"
 void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 {
     switch (Dialog.CurrentNode)
 	{
 		case "quests":
-			dialog.text = NPCStringReactionRepeat(RandPhraseSimple("Какие вопросы?", "Что вам угодно?"), "Совсем недавно вы пытались задать мне вопрос...", "В у себя на верфи, а и вообще в городе, я таких однообразно любознательных не видал.",
-                          "Ну что за вопросы? Мое дело - корабли строить, давайте этим и займемся.", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat(RandPhraseSimple("Я передумал...", "Сейчас мне не о чем говорить"), "Хм, что-то с памятью моей стало...",
-                      "Хм, однако...", "Давайте...", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(RandPhraseSimple(DLG_TEXT_SHY[0], DLG_TEXT_SHY[1]), DLG_TEXT_SHY[2], DLG_TEXT_SHY[3],
+                          DLG_TEXT_SHY[4], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(RandPhraseSimple(DLG_TEXT_SHY[5], DLG_TEXT_SHY[6]), DLG_TEXT_SHY[7],
+                      DLG_TEXT_SHY[8], DLG_TEXT_SHY[9], npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
 			if (pchar.questTemp.piratesLine == "Soukins_toSantoDomingo")
 			{
-				link.l1 = "Мне сказали, что у тебя продается шхуна 'Ласточка', это так?";
+				link.l1 = DLG_TEXT_SHY[10];
 				link.l1.go = "PL_Q7_1";
 			}
 		break;
 		//пиратка, квест №7
 		case "PL_Q7_1":
-			dialog.text = "Нет, не так. Не продается, а уже продал. Пришел покупатель и так он мне понравился, что отдал я ему эту шхуну буквально за гроши...";
-			link.l1 = "Меня интересует не покупатель, а продавец. Кто продал тебе шхуну?";
+			dialog.text = DLG_TEXT_SHY[11];
+			link.l1 = DLG_TEXT_SHY[12];
 			link.l1.go = "PL_Q7_2";
 		break;
 		case "PL_Q7_2":
-			dialog.text = "Продал? Продал... Человек какой-то продал...";
-			link.l1 = "Да я понимаю, что не лошадь. Кто этот человек, как его зовут?";
+			dialog.text = DLG_TEXT_SHY[13];
+			link.l1 = DLG_TEXT_SHY[14];
 			link.l1.go = "PL_Q7_3";
 		break;
 		case "PL_Q7_3":
-			dialog.text = "Как зовут - не знаю, я больше на корабль смотрел...";
-			link.l1 = "Не темни, приятель, это опасно для твоего здоровья.";
+			dialog.text = DLG_TEXT_SHY[15];
+			link.l1 = DLG_TEXT_SHY[16];
 			link.l1.go = "PL_Q7_4";
 		break;
 		case "PL_Q7_4":
-			dialog.text = "Черт! Я так и знал, что эта покупка мне боком выйдет. Но уж очень хорошая цена была предложена... Скажу по секрету, что, возможно, это кто-то из пиратов... Но я могу и ошибаться.";
-			link.l1 = "Скорей всего, ты не ошибаешься. А где мне его найти?";
+			dialog.text = DLG_TEXT_SHY[17];
+			link.l1 = DLG_TEXT_SHY[18];
 			link.l1.go = "PL_Q7_5";
 		break;
 		case "PL_Q7_5":
-			dialog.text = "В море. Вчера он вышел в море на фрегате 'Леон', насколько мне известно. Сам то я этого фрегата не видел, этот тип был очень острожен, но его видел один из моих рабочих и рассказал мне. Ищи его где-то у берегов Эспаньолы. Не думаю, что он далеко ушел, сам понимаешь - волка ноги кормят...";
-			link.l1 = "Пожалуй, последую твоему совету.";
+			dialog.text = DLG_TEXT_SHY[19];
+			link.l1 = DLG_TEXT_SHY[20];
 			link.l1.go = "exit";
 			pchar.questTemp.piratesLine = "Soukins_seekLeon";
 			AddQuestRecord("Pir_Line_7_Soukins", "6");

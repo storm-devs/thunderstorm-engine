@@ -1,5 +1,6 @@
-#define I_MIN_MORALE	10
+#include "TEXT\scripts\Food.h"
 
+#define I_MIN_MORALE	10
 // boal -->
 #define FOOD_BY_CREW       10.0
 #define FOOD_BY_SLAVES     20.0
@@ -88,9 +89,9 @@ void DailyRatsEatGoodsUpdate(ref chref)
         iQuantity = 1+ rand(makeint(iQuantity / (3+GetSummonSkillFromNameToOld(chref, SKILL_REPAIR) + GetSummonSkillFromNameToOld(chref,SKILL_FORTUNE))));
         RemoveCharacterGoodsSelf(chref, iGoods, iQuantity);
         //PlaySound("interface\notebook.wav");
-        Log_SetStringToLog(RandSwear() + " Крысы на корабле " +
-                           chref.Ship.Name + LinkRandPhrase(" испортили ", " сожрали ", " уничтожили ") +
-                           iQuantity + " шт. " + LanguageConvertString(iSeaGoods, "seg_" + Goods[iGoods].Name));
+        Log_SetStringToLog(RandSwear() + FOOD_TEXT[0] +
+                           chref.Ship.Name + LinkRandPhrase(FOOD_TEXT[1], FOOD_TEXT[2], FOOD_TEXT[3]) +
+                           iQuantity + FOOD_TEXT[4] + LanguageConvertString(iSeaGoods, "seg_" + Goods[iGoods].Name));
 
         AddCharacterExpToSkill(chref, SKILL_REPAIR, 7);
         AddCharacterExpToSkill(chref, SKILL_FORTUNE, 2);
@@ -164,7 +165,7 @@ void DailyEatCrewUpdate()   // сюда пихаю все что в 1 день
                 {
 					if (GetCargoGoods(chref, GOOD_MEDICAMENT) < 1)
 				    {
-				        Log_Info("На корабле " + chref.Ship.Name + " от болезней умерло " + FindRussianSailorString(cn, "No"));
+				        Log_Info(FOOD_TEXT[5] + chref.Ship.Name + FOOD_TEXT[6] + FindRussianSailorString(cn, "No"));
 				        crew = crew - cn;
 				        chref.Ship.Crew.Quantity = crew;
 				        // мораль в минус
@@ -179,7 +180,7 @@ void DailyEatCrewUpdate()   // сюда пихаю все что в 1 день
 					    RemoveCharacterGoodsSelf(chref, GOOD_MEDICAMENT, cn);
 					    if (GetCargoGoods(chref, GOOD_MEDICAMENT) < 16)
 					    {
-					        Log_Info("На корабле " + chref.Ship.Name + " осталось мало медикаментов");
+					        Log_Info(FOOD_TEXT[7] + chref.Ship.Name + FOOD_TEXT[8]);
 					    }
 					}
 			    }
@@ -192,7 +193,7 @@ void DailyEatCrewUpdate()   // сюда пихаю все что в 1 день
                 {
 					if (GetCargoGoods(chref, GOOD_MEDICAMENT) < 1)
 				    {
-				        Log_SetStringToLog("На корабле " + chref.Ship.Name + " от болезней умерло " + FindRussianSlavesString(cn, "No"));
+				        Log_SetStringToLog(FOOD_TEXT[9] + chref.Ship.Name + FOOD_TEXT[10] + FindRussianSlavesString(cn, "No"));
             			RemoveCharacterGoodsSelf(chref, GOOD_SLAVES, cn);
 				    }
 					else
@@ -217,7 +218,7 @@ void DailyEatCrewUpdate()   // сюда пихаю все что в 1 день
 	                cn = makeint(GetCargoGoods(chref, GOOD_RUM) / crew);
 	                if (cn < 1)
 	                {
-	                   Log_SetStringToLog("На корабле " + chref.Ship.Name + " весь ром выпит");
+	                   Log_SetStringToLog(FOOD_TEXT[11] + chref.Ship.Name + FOOD_TEXT[12]);
 	                }
 	                // поднимем мораль
 	                AddCrewMorale(chref, 2);
@@ -246,8 +247,8 @@ void DailyEatCrewUpdate()   // сюда пихаю все что в 1 день
                cn = makeint(GetCargoGoods(chref, GOOD_FOOD) / crew);
                if (cn < 4)
                {
-                  Log_SetStringToLog("На корабле " + chref.Ship.Name + " продовольствия осталось на " + FindRussianDaysString(cn));
-                  Log_SetStringToLog("Нужно срочно пополнить запасы!");
+                  Log_SetStringToLog(FOOD_TEXT[13] + chref.Ship.Name + FOOD_TEXT[14] + FindRussianDaysString(cn));
+                  Log_SetStringToLog(FOOD_TEXT[15]);
                   PlaySound("interface\notebook.wav");
                }
                // возможный бунт рабов
@@ -261,7 +262,7 @@ void DailyEatCrewUpdate()   // сюда пихаю все что в 1 день
                     	{
                             chref.GenQuest.SlavesMunity = true;
 
-                            Log_Info("Рабы подняли восстание!");
+                            Log_Info(FOOD_TEXT[16]);
                             MunityOnShip("SlavesMunity");
                         }
                     }
@@ -273,7 +274,7 @@ void DailyEatCrewUpdate()   // сюда пихаю все что в 1 день
 			    RemoveCharacterGoodsSelf(chref, GOOD_FOOD, crew);
 			    PlaySound("interface\notebook.wav");
 
-			    Log_SetStringToLog("На корабле " + chref.Ship.Name + " матросы голодают. Мораль команды падает!");
+			    Log_SetStringToLog(FOOD_TEXT[17] + chref.Ship.Name + FOOD_TEXT[18]);
 
 			    if (sti(chref.index) == GetMainCharacterIndex())
                 {
@@ -284,13 +285,13 @@ void DailyEatCrewUpdate()   // сюда пихаю все что в 1 день
 			    if (cn > 1)
 			    {
 			       chref.Ship.Crew.Quantity = cn - makeint(cn/10 +0.5);
-			       Log_SetStringToLog("Матросы умирают от голода");
+			       Log_SetStringToLog(FOOD_TEXT[19]);
 			    }
 			    cn = GetCargoGoods(chref, GOOD_SLAVES);
 			    if (cn > 0)
 			    {
 			       RemoveCharacterGoodsSelf(chref, GOOD_SLAVES, makeint(cn/5 + 0.5));
-			       Log_SetStringToLog("Рабы умирают от голода");
+			       Log_SetStringToLog(FOOD_TEXT[20]);
 			    }
                 morale = sti(chref.Ship.Crew.Morale);
 
@@ -309,21 +310,21 @@ void DailyEatCrewUpdate()   // сюда пихаю все что в 1 день
 					int locidx = FindLocation(chref.location);
 				    if(IsEntity(worldMap) && GetCrewQuantity(chref) > 0)
 					{
-				        Log_SetStringToLog("Бунт на корабле " + chref.Ship.Name + "!!!! ");
+				        Log_SetStringToLog(FOOD_TEXT[21] + chref.Ship.Name + "!!!! ");
 				        MunityOnShip("ShipMunity");
 				    }
 			    }
 			}
 			else
 			{
-				if (GetShipRemovable(chref))  // ПГГ не бунтует
+				if (GetShipRemovable(chref) && !CheckAttribute(chref, "OfficerWantToGo.DontGo")) // ПГГ и квестовые оффы не бунтуют
 				{
 					if (sti(chref.Ship.Crew.Morale) <= MORALE_MIN || sti(chref.loyality) <= 0) // допуск, что лояльность есть у всех офов
 				    {
 				        if (GetCrewQuantity(chref) > 0)
 				        {
-							Log_SetStringToLog("Бунт на корабле " + chref.Ship.Name + "!!!! ");
-					        Log_SetStringToLog("Корабль выходит из эскадры");
+							Log_SetStringToLog(FOOD_TEXT[22] + chref.Ship.Name + "!!!! ");
+					        Log_SetStringToLog(FOOD_TEXT[23]);
 					        Statistic_AddValue(mainCh, "ShipMunity", 1);
 					        RemoveCharacterCompanion(mainCh, chref);
 					        //fix  ПГГ

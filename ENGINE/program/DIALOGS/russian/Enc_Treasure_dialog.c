@@ -1,6 +1,6 @@
 //navy
 #include "DIALOGS\russian\Common_Duel.c" 
-// boal 29.05.04 даем карту клада
+#include "TEXT\DIALOGS\Enc_Treasure_dialog.h"
 void ProcessDialogEvent()
 {
 	ref NPChar;
@@ -37,16 +37,16 @@ void ProcessDialogEvent()
 		break;
 
         case "Map_NotBuy":
-            dialog.Text = "Разбогатеешь, заверну и в тряпочку, и в платочек носовой.";
-			Link.l1 = "Сиди тут я мигом!";
+            dialog.Text = DLG_TEXT_BASE[0];
+			Link.l1 = DLG_TEXT_BASE[1];
 			Link.l1.go = "exit";
 		break;
 		
 		case "First time":
 			Diag.TempNode = "First time";
 
-			dialog.Text = "Псс... слушай сюда. У меня есть кое-что для тебя...";
-			Link.l1 = "Ты про что?";
+			dialog.Text = DLG_TEXT_BASE[2];
+			Link.l1 = DLG_TEXT_BASE[3];
 			Link.l1.go = "map_treasure_1";
 		break;
 		
@@ -54,25 +54,25 @@ void ProcessDialogEvent()
             ok = (GetCharacterItem(Pchar, "map_part1")>0)  && (GetCharacterItem(Pchar, "map_part2")>0);
             if (GetCharacterItem(Pchar, "map_full") > 0 || ok)
             {
-                dialog.Text = "Это выпивка!! И-ик... выпей со мной!";
-    			Link.l1 = "Да ну тебя. Я думал, ты серьезно.";
+                dialog.Text = DLG_TEXT_BASE[4];
+    			Link.l1 = DLG_TEXT_BASE[5];
     			Link.l1.go = "exit";
             }
             else
             {
-                dialog.Text = "Есть у меня одна вещица специально для тебя по сходной цене.";
-    			Link.l1 = "И что же это?";
+                dialog.Text = DLG_TEXT_BASE[6];
+    			Link.l1 = DLG_TEXT_BASE[7];
     			Link.l1.go = "map_treasure_2";
-    			Link.l2 = "Да ну тебя. Некогда мне.";
+    			Link.l2 = DLG_TEXT_BASE[8];
     			Link.l2.go = "exit";
 			}
 		break;
 		
 		case "map_treasure_2":
-            dialog.Text = "Это отличная карта. Такую в магазине не найти. На ней указано, где зарыты сокровища! Сам я туда не доберусь, но карта точно подлинная. Клянусь.";
-			Link.l1 = "Очень интересно. Сколько просишь?";
+            dialog.Text = DLG_TEXT_BASE[9];
+			Link.l1 = DLG_TEXT_BASE[10];
 			Link.l1.go = "map_treasure_3";
-			Link.l2 = "Да ну тебя. Некогда мне.";
+			Link.l2 = DLG_TEXT_BASE[11];
 			Link.l2.go = "exit";
 		break;
 		
@@ -81,8 +81,8 @@ void ProcessDialogEvent()
 		    {
                 npchar.quest.trade_date      = lastspeak_date;
             }
-            dialog.Text = "Стоит всего "+Pchar.GenQuest.TreasureMoney+" золотых.";
-			Link.l1 = "Давай, заверни в красивую тряпочку.";
+            dialog.Text = DLG_TEXT_BASE[12]+Pchar.GenQuest.TreasureMoney+DLG_TEXT_BASE[13];
+			Link.l1 = DLG_TEXT_BASE[14];
 			if (sti(Pchar.Money) >= sti(Pchar.GenQuest.TreasureMoney))
 			{
 			   Link.l1.go = "map_treasure_buy";
@@ -91,13 +91,13 @@ void ProcessDialogEvent()
 			{
 			   Link.l1.go = "Map_NotBuy";
 			}
-			Link.l2 = "Дорого очень. Не нужно.";
+			Link.l2 = DLG_TEXT_BASE[15];
 			Link.l2.go = "exit";
 		break;
 		
 		case "map_treasure_buy":
-            dialog.Text = "Забирай. Теперь ты обязательно разбогатеешь!";
-			Link.l1 = "Спасибо!";
+            dialog.Text = DLG_TEXT_BASE[16];
+			Link.l1 = DLG_TEXT_BASE[17];
 			Link.l1.go = "exit";
 			AddMoneyToCharacter(pchar, -sti(Pchar.GenQuest.TreasureMoney));
 			GiveItem2Character(pchar, "map_full");
@@ -108,23 +108,23 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Temp_treasure":
-            dialog.Text = "Давай выпьем? И-ик.. Хороший тут ром!";
-			Link.l1 = "Некогда!";
+            dialog.Text = DLG_TEXT_BASE[18];
+			Link.l1 = DLG_TEXT_BASE[19];
 			Link.l1.go = "exit";
 			ok = (GetCharacterItem(Pchar, "map_part1")>0)  || (GetCharacterItem(Pchar, "map_part2")>0);
             if (GetCharacterItem(Pchar, "map_full") == 0 && !ok)
             {
-    			Link.l2 = "Ты продал мне фальшивку!!";
+    			Link.l2 = DLG_TEXT_BASE[20];
     			Link.l2.go = "Temp_treasure_1";
 			}
 			Diag.TempNode = "Temp_treasure";
 		break;
 		
 		case "Temp_treasure_1":
-            dialog.Text = "А ты кто? И-ик.. Я тя не знаю и уже не хочу знать.";
-			Link.l1 = "Ну и не надо!";
+            dialog.Text = DLG_TEXT_BASE[21];
+			Link.l1 = DLG_TEXT_BASE[22];
 			Link.l1.go = "exit";
-			Link.l2 = "Да ты мне продал эту подделку!!! Я тебе счас...";
+			Link.l2 = DLG_TEXT_BASE[23];
 //			Link.l2.go = "tavern_keeper";
 //			Diag.TempNode = "Temp_treasure";
 			Link.l2.go = "outraged"; //navy -- дуэли!!!

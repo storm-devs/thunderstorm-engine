@@ -23,11 +23,11 @@
 #define MAPS_ITEM_TYPE		    "maps"//Добавлена новая группа
 
 // indexes for items` array
-#define ITEMS_QUANTITY			  201  // не забываем менять номер
+#define ITEMS_QUANTITY			  220  // не забываем менять номер
 #define MAX_BUTTONS               64
 #define RANDITEMS_QUANTITY    	  45
 #define BUTTON_ACTIVATION_TIME	  1000
-#define ITEMS_LAYER				  50
+#define ITEMS_LAYER				  65549
 #define MAX_LOADED_RANDITEMS      10
 #define MAX_HANDLED_BOXES 		  25
 #define ITEM_PROBABILITY		  0.5

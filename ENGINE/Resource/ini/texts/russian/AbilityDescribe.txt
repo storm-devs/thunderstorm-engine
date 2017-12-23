@@ -1,371 +1,243 @@
-newline  {
+newline {
 
 }
-
-BasicDefense	{Навык основной защиты}
-perkBasicDefense
-{
-Повреждения, наносимые персонажу, уменьшаются на 10%.
+BasicDefense {Basic Defensive Arts}
+perkBasicDefense {
+ Received damage decreases by 10%. 
 }
-
-AdvancedDefense	{Навык продвинутой защиты}
-perkAdvancedDefense
-{
-Повреждения, наносимые персонажу, уменьшаются на 20%.
+AdvancedDefense {Advanced Defensive Arts}
+perkAdvancedDefense {
+ Received damage decreases by 20%. 
 }
-
-CriticalHit	{Критический удар}
-perkCriticalHit
-{
-Персонаж получает возможность нанести критический удар противнику. Вероятность 5%.
+CriticalHit {Critical Hit}
+perkCriticalHit {
+ Gain a 5% chance to deliver a critical hit when attacking. 
 }
-
-Ciras	{Кираса}
-perkCiras
-{
-Этот навык позволяет использовать кирасы.
+Ciras {Cuirass}
+perkCiras {
+ Allows one to equip a cuirass. 
 }
-
-SwordplayProfessional	{Профессиональный фехтовальщик}
-perkSwordplayProfessional
-{
-Вероятность нанесения критического удара 20%. Повреждения, наносимые персонажу, уменьшаются на 30%.
+SwordplayProfessional {Elite Fencing }
+perkSwordplayProfessional {
+ 20% chance of landing a critical hit. Received damage decreases by 30%. 
 }
-
-
-Grus	{Дополнительный вес}
-perkGrus
-{
-Данная способность позволяет поднимать дополнительно 30 фунтов.
+Grus {Strongman}
+perkGrus {
+ Lift an extra 30 lbs. 
 }
-
-
-Rush	{Берсерк}
-perkRush
-{
-На период 20 секунд мощность атак игрока увеличивается многократно, а полученные раны наносят меньше урона. Следующее использование только через минуту.
+Rush {Berserk}
+perkRush {
+ For a period of 10 seconds, both attack and defensive strength rise exponentially. Recharge period of 1 minute. 
 }
-
-Tireless	{Неутомимость}
-perkTireless
-{
-Во время боя к вам приходит второе дыхание, и вам легче сопротивляться усталости. (Скорость восстановления энергии +15%).
+Tireless {Adrenaline Rush}
+perkTireless {
+ You get a second wind in battle, and it becomes easier to withstand exhaustion. (Energy recovers 15% faster.) 
 }
-
-HardHitter	{Тяжелая рука}
-perkHardHitter
-{
-Вы наносите удары такой силы, что они ошеломляют противника, заставляя терять его боевую энергию.
+HardHitter {Heavy Hand}
+perkHardHitter {
+ Your blows overwhelm the opponent, draining him of the strength to fight. 
 }
-
-BladeDancer	{Танец с саблями}
-perkBladeDancer
-{
-Вы наконец-то осознали, как правильно наносится круговой удар. (Бонус к повреждениям кругового удара 35%).
+BladeDancer {Sword Dancer}
+perkBladeDancer {
+ At last you grasp how to properly swing a sword. (30% bonus to swing attacks.) 
 }
-
-Sliding	{Неотразимый удар}
-perkSliding
-{
-Ваши удары имеют дополнительный 20% шанс пробить блок противника.
+Sliding {Battering Ram}
+perkSliding {
+Your hits have an added 20% chance of breaking the enemy's guard. 
 }
-
-Gunman {Стрелок}
-perkGunman
-{
-Персонаж лучше обращается с пистолетами. Перезарядка пистолета становится быстрее на 10%. Точность выстрела увеличивается на 10%. Появляется возможность использования двухзарядных пистолетов.
+Gunman {The Shootist}
+perkGunman {
+ Firearms skill increases. Guns reload 10% faster. Accuracy is up by 10%. You can now use two-barrel pistols. 
 }
-
-GunProfessional {Меткий стрелок}
-perkGunProfessional
-{
-Увеличение скорости перезарядки пистолетов на 25%. Точность +25%. Использование четырехзарядных пистолетов.
+GunProfessional {Clever Shot}
+perkGunProfessional {
+ Pistols reload 25% faster. Accuracy is up 25%. You can use four-barreled pistols. 
 }
-
-IronWill	{Железная воля}
-perkIronWill
-{
-На корабле снижается вероятность мятежа от невыплат зарплаты и голода.
+IronWill {Iron Will}
+perkIronWill {
+ Lowers the potential for mutiny due to non-payment and hunger.
 }
-
-
-SharedExperience	{Обмен опытом}
-perkSharedExperience
-{
-Персонаж может обмениваться предметами с офицерами во время абордажа. 
-Опыт, получаемый в умения героя, идет пассажирам, офицерам и компаньонам в два раза больше и становится 10%, 50% и 33% соответственно.
+SharedExperience {Experience Exchange}
+perkSharedExperience {
+ Share items amongst officers during boarding attack. 
+ Double the experience shared amongst passengers (10%), officers (50%), and companions (33%). 
 }
-
-Medic	{Отменное здоровье}
-perkMedic
-{
-Способность позволяет восстановить здоровье быстрее, если за день не наносятся серьезные раны. Снижает падение, если раны были. Во время плавания работает, но не так сильно.
+Medic {Iron Constitution}
+perkMedic {
+ Recover health faster, provided you avoid major injury for 24 hours. Reduces severity of any injuries received. Effect is weaker at sea. 
 }
-
-HPPlus	{Растущая жизнь}
-perkHPPlus
-{
-Данная способность увеличивает максимальную жизнь героя на одно дополнительное очко с каждым ростом ранга.
+HPPlus {Tree of Life}
+perkHPPlus {
+ Maximum life goes up by one point with every increase in rank. 
 }
-
-EnergyPlus	{Растущая энергия}
-perkEnergyPlus
-{
-Данная способность увеличивает максимальную энергию героя на одно очко с каждым ростом ранга.
+EnergyPlus {Dynamo}
+perkEnergyPlus {
+ Maximum energy goes up by one point with every increase in rank. 
 }
-
-ByWorker	{Совместитель}
-perkByWorker
-{
-Данный персонаж обладает способностями занимать сразу две офицерские должности.
+ByWorker {Multitasking}
+perkByWorker {
+ Hold two officer's positions at once. 
 }
-
-ByWorker2	{Совместитель-универсал}
-perkByWorker2
-{
-Данный персонаж обладает способностями занимать сразу три офицерские должности.
+ByWorker2 {Jack of All Trades}
+perkByWorker2 {
+ Hold three officer's positions at once. 
 }
-
-Trustworthy	{Вызывающий доверие}
-perkTrustworthy
-{
-Отрицательная репутация героя перестает влиять на принятие решения о найме большинством работодателей, так как обаяние героя вводит их в заблуждение.
+Trustworthy {Honest Face}
+perkTrustworthy {
+ Potential clients are not swayed by a negative reputation. 
 }
-
-ShipEscape	{Спасение на шлюпке}
-perkShipEscape
-{
-Спасение на шлюпке с тонущего корабля героя на один из кораблей его эскадры.
-Данная способность позволяет во время боя при корпусе корабля < 15% через меню трюм обменяться или переселиться на другой корабль эскадры.
-Если способность имеется у компаньона, то он спасется с тонущего корабля или брандера, вернувшись пассажиром на корабль героя.
+ShipEscape {Lifeboat Rescue}
+perkShipEscape {
+ If ship is critically damaged (< 15% integrity), escape by lifeboat to another ship in your squadron. 
+ Any companions with this skill will move to their leader's vessel. 
 }
-
-
-
-
-
-FastReload {Быстрая перезарядка}
-perkFastReload
-{
-Скорость перезарядки пушек увеличивается на 10%.
+FastReload {Quick Reload}
+perkFastReload {
+ Cannons reload 10% faster. 
 }
-
-ImmediateReload	{Предварительная перезарядка}
-perkImmediateReload
-{
-При выборе данной возможности следующая перезарядка произойдет на 50% быстрее. После использования возможность блокируется на 5 минут.
+ImmediateReload {Foresight}
+perkImmediateReload {
+ Next reload is 50% faster. 5-minute downtime between uses. 
 }
-
-HullDamageUp	{Увеличенные повреждения корпусу}
-perkHullDamageUp
-{
-Повреждения корпусу вражеского корабля увеличиваются на 15%.
+HullDamageUp {Wrecker}
+perkHullDamageUp {
+ Increase damage to enemy hulls by 15%. 
 }
-
-SailsDamageUp	{Увеличенные повреждения парусам}
-perkSailsDamageUp
-{
-Повреждения парусам вражеского корабля увеличиваются на 15%.
+SailsDamageUp {The Shredder}
+perkSailsDamageUp {
+ Increase damage to enemy sails by 15%. 
 }
-
-CrewDamageUp {Увеличенные повреждения команде}
-perkCrewDamageUp
-{
-Повреждения команде вражеского корабля увеличиваются на 15%.
+CrewDamageUp {God of Death}
+perkCrewDamageUp {
+ Increase damage to enemy crew by 15%. 
 }
-
-CriticalShoot	{Критический выстрел}
-perkCriticalShoot
-{
-Персонаж получает возможность нанести критический залп по противнику. Вероятность 5%.
+CriticalShoot {Critical Shot}
+perkCriticalShoot {
+ 5% chance to deliver a critical shot to the enemy. 
 }
-
-LongRangeShoot	{Увеличенное расстояние выстрела}
-perkLongRangeShoot
-{
-Дальность действия орудий увеличивается на 15%.
+LongRangeShoot {Distant Fire}
+perkLongRangeShoot {
+ Cannon range increased by 15%. 
 }
-
-CannonProfessional	{Профессиональный канонир}
-perkCannonProfessional
-{
-Повреждения, наносимые любой части корабля, увеличиваются на 30%. Вероятность нанесения критического удара 15%.
+CannonProfessional {Pro Cannoneer}
+perkCannonProfessional {
+ 30% better attack damage to any ship part. 15% chance of landing a critical hit. 
 }
-
-LongRangeGrappling	{Абордаж с большого расстояния}
-perkLongRangeGrappling
-{
-Расстояние, с которого можно брать вражеское судно на абордаж, увеличивается на 15%.
+LongRangeGrappling {Longer Plank}
+perkLongRangeGrappling {
+ Boarding range increases by 15%. 
 }
-
-MusketsShoot	{Мушкетный залп}
-perkMusketsShoot
-{
-Непосредственно перед абордажем производится мушкетный залп, который наносит до 25% повреждения команде противника, но не более числа стреляющих.
+MusketsShoot {Musket Volley}
+perkMusketsShoot {
+Before boarding, a musket volley is conducted, for 25% damage to the enemy crew, but no greater than the number of shooters.
 }
-
-GrapplingProfessional	{Мастерский абордаж}
-perkGrapplingProfessional
-{
-Расстояние, с которого можно брать вражеское судно на абордаж, увеличивается на 25%. Брать на абордаж можно под любым углом захода и скорости судна.
+GrapplingProfessional {Master Boarder}
+perkGrapplingProfessional {
+Boarding range increases by 25%. Boarding can be conducted at any speed, and from any angle.
 }
-
-BasicBattleState	{Основная защита корабля}
-perkBasicBattleState
-{
-Общие повреждения, наносимые кораблю, снижаются на 15%.
+BasicBattleState {Basic Naval Defense}
+perkBasicBattleState {
+ General damage received down by 15%.
 }
-
-AdvancedBattleState	{Продвинутая защита корабля}
-perkAdvancedBattleState
-{
-Общие повреждения, наносимые кораблю, снижаются на 25%.
+AdvancedBattleState {Advanced Naval Defense}
+perkAdvancedBattleState {
+ General damage received down by 25%.
 }
-
-ShipDefenseProfessional	{Профессионал по защите корабля}
-perkShipDefenseProfessional
-{
-Общие повреждения, наносимые кораблю, снижаются на 35%. Вероятность получения критического удара уменьшается на 70%.
+ShipDefenseProfessional {Elite Naval Defense}
+perkShipDefenseProfessional {
+ General damage received ship down by 25%. Chance of receiving critical hit down by 70%. 
 }
-
-
-LightRepair	{Легкий ремонт}
-perkLightRepair
-{
-Медленная починка повреждений корабля без использования ресурсов. Починить можно не более 10% Hp. Без этой способности при значении Hp корпуса меньше 10% кораблю медленно, но постоянно наносится слабые повреждения - корабль тонет.
-Работает 60с. каждые 3 минуты.
+LightRepair {Light Repair}
+perkLightRepair {
+ Repair ship slowly (over 60 seconds), yet without spending resources. Good for up to 10% of the ship's HP. Also prevents a ship with less than 10% of its HP from sinking. 
+ Can be used once every 3 minutes. 
 }
-
-InstantRepair	{Быстрая починка}
-perkInstantRepair
-{
-Быстрая починка корабля в бою. Необходимо наличие досок для корпуса и парусины - для парусов. Нельзя восстанавливать упавшие мачты и пополнять команду. Максимальное восстановление - до 65%. Повтор - не ранее, чем через 90 сек.
+InstantRepair {Quick Repair}
+perkInstantRepair {
+ Repair ship quickly. Requires wood for hull, and canvas for sails. Cannot restore fallen masts or depleted crew. Good for up to 65% of the ship's HP. Can be used once every 90 seconds. 
 }
-
-ShipSpeedUp	{Увеличение скорости корабля}
-perkShipSpeedUp
-{
-Увеличение максимальной скорости корабля на 15%.
+ShipSpeedUp {Increased Naval Speed}
+perkShipSpeedUp {
+ Increase maximum ship speed by 15%. 
 }
-
-ShipTurnRateUp	{Увеличение маневренности корабля}
-perkShipTurnRateUp
-{
-Увеличение маневренности корабля на 15%.
+ShipTurnRateUp {Increased Naval Maneuverability}
+perkShipTurnRateUp {
+ Increase ship maneuverability by 15%. 
 }
-
-StormProfessional	{Плавание в штормах}
-perkStormProfessional
-{
-Уменьшение повреждений, наносимых штормом, на 30%.
+StormProfessional {Batten the Hatches}
+perkStormProfessional {
+ Decrease storm damage by 30%. 
 }
-
-Turn180	{Маневренный разворот корабля}
-perkTurn180
-{
-Маневр корабля - быстрый разворот на 180 градусов. Повтор не ранее, чем через 3 минуты.
+Turn180 {Quick Turn}
+perkTurn180 {
+ Ship turns 8x faster, for 1 minute. Reset time of 3 minutes.
 }
-
-SandbankManeuver	{Маневры на мелководье}
-perkSandbankManeuver
-{
-На 60 секунд кораблю не наносится повреждения от ударов о скалы, рифы и мели, и он имеет возможность выйти из опасной зоны без значительных повреждений.
+SandbankManeuver {Sandbank Maneuver}
+perkSandbankManeuver {
+ Negates contact damage from cliffs, reefs, and shallows, for 60 seconds. May allow safe escape from dangerous circumstances. 
 }
-
-SailingProfessional	{Опытный мореплаватель}
-perkSailingProfessional
-{
-Увеличение скорости и маневренности корабля на 20%. В 100% случаев на карте мира можно пропустить встречу с обычными кораблями.
+SailingProfessional {Old Sea Dog}
+perkSailingProfessional {
+ Ship maneuvers 20% faster. Will miss all regular ship encounters. 
 }
-
-FlagPir	{Флаг пиратов}
-perkFlagPir
-{
-Возможность сменить свой флаг на Веселого Роджера.
+FlagPir {Pirate's Pride}
+perkFlagPir {
+ Change your flag to the Jolly Roger. 
 }
-
-FlagEng	{Флаг Англии}
-perkFlagEng
-{
-Возможность сменить свой флаг на флаг Англии. Вероятность того, что обман будет раскрыт, зависит от скрытности, класса и числа кораблей в эскадре, числа кораблей противника и награды за голову.
+FlagEng {Union Jack}
+perkFlagEng {
+ Fly the flag of England. Probability of being outed depends on stealth, class, number of ships in squadron, number of enemy ships, and any price on your head. 
 }
-
-FlagFra	{Флаг Франции}
-perkFlagFra
-{
-Возможность сменить свой флаг на флаг Франции. Вероятность того, что обман будет раскрыт, зависит от скрытности, класса и числа кораблей в эскадре, числа кораблей противника и награды за голову.
+FlagFra {French Flag}
+perkFlagFra {
+ Fly the flag of France. Probability of being outed depends on stealth, class, number of ships in squadron, number of enemy ships, and any price on your head. 
 }
-
-FlagSpa	{Флаг Испании}
-perkFlagSpa
-{
-Возможность сменить свой флаг на флаг Испании. Вероятность того, что обман будет раскрыт, зависит от скрытности, класса и числа кораблей в эскадре, числа кораблей противника и награды за голову.
+FlagSpa {Spanish Flag}
+perkFlagSpa {
+ Fly the flag of Spain. Probability of being outed depends on stealth, class, number of ships in squadron, number of enemy ships, and any price on your head. 
 }
-
-FlagHol	{Флаг Голландии}
-perkFlagHol
-{
-Возможность сменить свой флаг на флаг Голландии. Вероятность того, что обман будет раскрыт, зависит от скрытности, класса и числа кораблей в эскадре, числа кораблей противника и награды за голову.
+FlagHol {Dutch Flag}
+perkFlagHol {
+ Fly the Dutch flag. Probability of being outed depends on stealth, class, number of ships in squadron, number of enemy ships, and any price on your head. 
 }
-
-Brander	{Брандер}
-perkBrander
-{
-Возможность послать союзный корабль взорваться рядом с вражеским судном, нанеся ему огромный урон.
+Brander {Brander}
+perkBrander {
+ Send out an allied ship to explode near an enemy vessel, doing massive damage. 
 }
-
-Troopers	{Высадка десанта союзных кораблей}
-perkTroopers
-{
-Возможность объединить команды подчиненных вам кораблей перед штурмом форта и общим числом атаковать форт.
+Troopers {Allied Troop Landing}
+perkTroopers {
+ Before storming a fort, unite the teams of your various ships, and attack as one group. 
 }
-
-BasicCommerce	{Базовая торговля}
-perkBasicCommerce
-{
-Скидка на товары в магазинах 10%.
+BasicCommerce {Basic Commerce}
+perkBasicCommerce {
+ 10% discount on store-bought goods.
 }
-
-AdvancedCommerce	{Продвинутая торговля}
-perkAdvancedCommerce
-{
-Скидка на товары в магазинах 20%. Цена покупки +5%.
+AdvancedCommerce {Advanced Commerce}
+perkAdvancedCommerce {
+ 20% discount on store-bought goods. 5% boost to resell rates. 
 }
-
-Carpenter	{Плотник}
-perkCarpenter
-{
-Увеличивает максимально возможный эффект починки на 10%.
+Carpenter {Carpenter}
+perkCarpenter {
+ Any repairs are up to 10% more effective. 
 }
-
-Builder	{Кораблестроитель}
-perkBuilder
-{
-Уменьшает расход досок и парусины во время ремонта на 10%.
+Builder {Shipbuilder}
+perkBuilder {
+ Decreases by 10% the supplies used during repairs. 
 }
-
-WindCatcher	{Увеличение динамики}
-perkWindCatcher
-{
-Вы чувствуете самое маленькое изменение в потоке ветра и умеете его использовать. (+10% к динамике набора скорости вашим кораблем)
+WindCatcher {Windwatcher}
+perkWindCatcher {
+ You sense the slightest change in airflow, and understand how to use it. (Acceleration increases by 10%.) 
+ }
+SailsMan {Super Sails}
+perkSailsMan {
+ Thanks to the latest carrot-and-stick technology, you've contrived all sailing operations to move 10% faster. 
 }
-
-SailsMan	{Быстрые паруса}
-perkSailsMan
-{
-Благодаря использованию новейших методов кнута и пряника, вы добились того, что все операции с парусами производятся на 10% быстрее.
+Doctor1 {Medic}
+perkDoctor1 {
+ Lowers by 10% casualties from sea battles, wounds, and grapeshot. 
 }
-
-Doctor1	{Врач}
-perkDoctor1
-{
-Уменьшает потери команды во время морского боя от ран и картечи на 10%.
+Doctor2 {Life Saver}
+perkDoctor2 {
+ Lowers by 20% casualties from sea battles, wounds, and grapeshot. 
 }
-
-Doctor2	{Спаситель жизни}
-perkDoctor2
-{
-Уменьшает потери команды во время морского боя от ран и картечи на 20%.
-}
-
-InstantBoarding {Читовый абордаж}
+InstantBoarding {Cheat Boarding}

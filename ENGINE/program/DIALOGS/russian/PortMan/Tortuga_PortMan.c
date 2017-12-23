@@ -1,57 +1,57 @@
-// диалог по городам
+#include "TEXT\DIALOGS\PortMan\Tortuga_PortMan.h"
 void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 {
     switch (Dialog.CurrentNode)
 	{
 		case "quests":
-			dialog.text = NPCStringReactionRepeat(RandPhraseSimple("Какие вопросы?", "Что вам угодно, " + GetAddress_Form(NPChar) + "?"), "Совсем недавно вы пытались задать мне вопрос " + GetAddress_Form(NPChar) + "...", "В течение этого дня вы уже третий раз говорите о каком-то вопросе...",
-                          "Послушайте, если вы не по делам порта, то не стоит меня вопросами донимать.", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat(RandPhraseSimple("Я передумал...", "Сейчас мне не о чем говорить"), "Хм, что-то с памятью моей стало...",
-                      "Да уж, действительно в третий раз...", "Извините, но портовые дела меня сейчас не интересуют.", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(RandPhraseSimple(DLG_TEXT_PRT[0], DLG_TEXT_PRT[1] + GetAddress_Form(NPChar) + "?"), DLG_TEXT_PRT[2] + GetAddress_Form(NPChar) + "...", DLG_TEXT_PRT[3],
+                          DLG_TEXT_PRT[4], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(RandPhraseSimple(DLG_TEXT_PRT[5], DLG_TEXT_PRT[6]), DLG_TEXT_PRT[7],
+                      DLG_TEXT_PRT[8], DLG_TEXT_PRT[9], npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
             // ==> квест №7 голл.линейки, догнать похитителей депеши
             if (pchar.questTemp.State == "DelivLettTortuga_toPortMan")
             {
-    			link.l1 = "Д'Ожерон отправил меня к тебе, чтобы ты немедленно указал мне, что за судно покинуло воды Тортуги в течение ближайших двух часов!";
+    			link.l1 = DLG_TEXT_PRT[10];
     			link.l1.go = "Step_H7_1";
             }
             if (pchar.questTemp.State == "Sp6TakeMess_toTotuga")
             {
-                link.l1 = "Я уполномочен засвидетельствовать вам свое почтение и ознакомить с моими документами. Извольте прочесть мою торговую доверенность Французской Ост-Индской компании.";
+                link.l1 = DLG_TEXT_PRT[11];
                 link.l1.go = "Step_S6_1";
             }
             if (pchar.questTemp.State == "Sp6TakeMess_waitMessanger")
             {
-                link.l1 = "Послушайте, не было еще ожидаемого мной голландского корабля?";
+                link.l1 = DLG_TEXT_PRT[12];
                 link.l1.go = "Step_S6_6";
             }
             if (pchar.questTemp.State == "Fr4SoleiRoyal_toPortMan")
             {
-                link.l1 = "Согласно предписанию д'Ожерона вам нужно передать в мое распоряжение линейный корабль первого класса 'Солей Руаяль'.";
+                link.l1 = DLG_TEXT_PRT[13];
                 link.l1.go = "Step_F4_1";
             }
 		break;
 
 //************************************* Голл. линейка, квест №7, доставка депеши *******************************
 		case "Step_H7_1":
-            dialog.text = "Только одно - бриг 'Ла Рошель'. Он ушел на Пуэрто-Рико по направлению к Сан-Хуану. С ним ушел и торговый представитель Французской Ост-Индской компании.";
-			link.l1 = "Какой представитель?!";
+            dialog.text = DLG_TEXT_PRT[14];
+			link.l1 = DLG_TEXT_PRT[15];
 			link.l1.go = "Step_H7_2";
 		break;
 		case "Step_H7_2":
-            dialog.text = "Я же говорю: представитель Французской Ост-Индской компании. Он прибыл сюда несколько дней назад и сразу предъявил доверенность компании. Дела свои он сделал и хотел отправиться отсюда сразу к вам, на Кюрасао, для чего искал попутное судно. Я и направил его к вам.\n"+
-                          "Но в последний момент планы у него, видимо, изменились, и он ушел с бригом, на котором и пришел на Тортугу, собственно.";
-			link.l1 = "Черт возьми, похоже, что это и есть Антонио...";
+            dialog.text = DLG_TEXT_PRT[16]+
+                          DLG_TEXT_PRT[17];
+			link.l1 = DLG_TEXT_PRT[18];
 			link.l1.go = "Step_H7_3";
 		break;
 		case "Step_H7_3":
-            dialog.text = "Совершенно правильно, Анотио де... де... Не вспомню уже.";
-			link.l1 = "Я должен немедленно догнать этот проклятый бриг. Это вопрос жизни и смерти.";
+            dialog.text = DLG_TEXT_PRT[19];
+			link.l1 = DLG_TEXT_PRT[20];
 			link.l1.go = "Step_H7_4";
 		break;
 		case "Step_H7_4":
-            dialog.text = "Неужели? Что же, это возможно. В таком случае не теряйте времени.";
-			link.l1 = "Спасибо тебе за инфомацию, хотя чувства благодарности за встречу с Антонио у меня к тебе нет...";
+            dialog.text = DLG_TEXT_PRT[21];
+			link.l1 = DLG_TEXT_PRT[22];
 			link.l1.go = "exit";
             AddQuestRecord("Hol_Line_7_DelivLettTortuga", "5");
 			pchar.questTemp.State = "DelivLettTortuga_NotFoundLetter";
@@ -62,30 +62,30 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 		break;
 //************************************* Испанская линейка, квест №6, перехват вестового *******************************
 		case "Step_S6_1":
-            dialog.text = NPCStringReactionRepeat("Хм, вижу. Но какое это отношение имеет ко мне? Я не занимаюсь торговыми операциями...",
-                          "Да, да, я знаю уже...", "Что? Опять вы?", "Ну сколько можно? Показывали вы мне свою бумагу...", "block", 0, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat("Я это знаю. У меня к вам просьба другого свойства... Дело в том, что я практически закончил здесь дела, по которым прибыл. Далее я должен прибыть в Виллемстад, что на острове Кюрасао. Так вот, я бы хотел сделать это на попутном судне. Может вы подскажете мне, нет ли у вас в порту достаточно быстроходных судов, идущих на Кюрасао?",
-                     "А-а-а, ну ладно...", "Да, я...", "Да? Ну хорошо...", npchar, Dialog.CurrentNode);
+            dialog.text = NPCStringReactionRepeat(DLG_TEXT_PRT[23],
+                          DLG_TEXT_PRT[24], DLG_TEXT_PRT[25], DLG_TEXT_PRT[26], "block", 0, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(DLG_TEXT_PRT[27],
+                     DLG_TEXT_PRT[28], DLG_TEXT_PRT[29], DLG_TEXT_PRT[30], npchar, Dialog.CurrentNode);
 			link.l1.go = DialogGoNodeRepeat("Step_S6_2", "none", "none", "none", npchar, Dialog.CurrentNode);
 		break;
  		case "Step_S6_2":
-            dialog.text = "Хм, пока нет. Но, полагаю, в скором времени появятся - голландцы из Виллемстада здесь довольно часто бывают.";
-			link.l1 = "Торговцы?";
+            dialog.text = DLG_TEXT_PRT[31];
+			link.l1 = DLG_TEXT_PRT[32];
 			link.l1.go = "Step_S6_3";
 		break;
  		case "Step_S6_3":
-            dialog.text = "Бывают и торговцы, но я бы вам порекомендовал подождать корабль с вестовым из Кюрасао. Они никогда не задерживаются здесь надолго, час-два в резиденции у нашего генерал-губернатора - и сразу обратно в Виллемстад. И наш генерал-губернатор за это время никого не принимает...";
-			link.l1 = "О, это прекрасно, идеальный вариант для меня. Не будете ли вы так любезны сообщить мне, когда такой корабль войдет в порт Тортуги?";
+            dialog.text = DLG_TEXT_PRT[33];
+			link.l1 = DLG_TEXT_PRT[34];
 			link.l1.go = "Step_S6_4";
 		break;
  		case "Step_S6_4":
-            dialog.text = "Хорошо. Где вы остановились, месье?";
-			link.l1 = "Я снял комнату в таверне.";
+            dialog.text = DLG_TEXT_PRT[35];
+			link.l1 = DLG_TEXT_PRT[36];
 			link.l1.go = "Step_S6_5";
 		break;
  		case "Step_S6_5":
-            dialog.text = "Прекрасно. Как только голландский корабль бросит якорь у нас в порту, я немедленно отошлю к вам в таверну посыльного с этой информацией.";
-			link.l1 = "Очень хорошо. Огромное вам спасибо, месье. Вы оказали услугу нашей компании, мы этого не забудем.";
+            dialog.text = DLG_TEXT_PRT[37];
+			link.l1 = DLG_TEXT_PRT[38];
 			link.l1.go = "exit";
             AddQuestRecord("Spa_Line_6_TakeMessangeer", "2");
             pchar.questTemp.State = "Sp6TakeMess_waitMessanger";
@@ -100,22 +100,22 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
             }
 		break;
  		case "Step_S6_6":
-            dialog.text = "Нет, еще не было. Я же сказал вам, что отправлю посыльного. Не беспокойтесь, я помню о вас.";
-			link.l1 = "Спасибо, месье. И простите за назойливость...";
+            dialog.text = DLG_TEXT_PRT[39];
+			link.l1 = DLG_TEXT_PRT[40];
 			link.l1.go = "exit";
 		break;
-//************************************* Французская линейка, квест №4, Сулей Руаяль *******************************
+//************************************* Французская линейка, квест №4, Солей Руаяль *******************************
  		case "Step_F4_1":
     		if (GetCompanionQuantity(pchar) == 1)
             {
-                dialog.text = "Да, я уже уведомлен, месье. Принимайте командование. По чести сказать, командовать таким кораблем - счастье даже для адмирала...";
-    			link.l1 = "Полностью согласен с этим утверждением, сударь... А теперь позвольте откланяться - дела.";
+                dialog.text = DLG_TEXT_PRT[41];
+    			link.l1 = DLG_TEXT_PRT[42];
     			link.l1.go = "Step_F4_2";
             }
             else
             {
-                dialog.text = "Вам необходимо избавится от дополнительных судов в вашей эскадре. Потом вы можете принимать любые меры, которые считаете нужными, однако на момент передачи корабля вы должны быть свободными от сторонних обязательств.";
-    			link.l1 = "Хорошо, я все сделаю.";
+                dialog.text = DLG_TEXT_PRT[43];
+    			link.l1 = DLG_TEXT_PRT[44];
     			link.l1.go = "exit";
             }
 		break;	
@@ -125,7 +125,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			AddQuestRecord("Fra_Line_4_SoleiRoyal", "2");
 			ref sld = GetCharacter(NPC_GenerateCharacter("SoleiRoyalCaptain", "off_fra_2", "man", "man", 35, FRANCE, -1, true));
 			sld.Ship.Type = CreateBaseShip(SHIP_SOLEYRU);
-			sld.Ship.Name = "Сулей Руаяль";
+			sld.Ship.Name = DLG_TEXT_PRT[45];
 			SetBaseShipData(sld);
 			SetCrewQuantityFull(sld);
 			Fantom_SetBalls(sld, "pirate");	

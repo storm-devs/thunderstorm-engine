@@ -62,7 +62,7 @@ int LocationInitLaVega(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "LaVega_ExitTown";
 	locations[n].id.label = "ExitTown";
-	locations[n].image = "loading\Gate.tga";
+	locations[n].image = "loading\Gate" + rand(1) + ".tga";
 	//Town sack
 	locations[n].townsack = "LaVega";
 	//Sound
@@ -122,7 +122,7 @@ int LocationInitLaVega(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "LaVega_town";
 	locations[n].id.label = "Street";
-	locations[n].image = "loading\towns\LaVega.tga";
+	locations[n].image = "loading\towns\pearl1.tga";
 	locations[n].worldmap = "LaVega_town";
 	locations[n].citizens = true;
 	locations[n].soldiers = true;	
@@ -248,6 +248,7 @@ int LocationInitLaVega(int n)
 	locations[n].reload.l2.autoreload = "0";
 	locations[n].reload.l2.label = "Tavern upstairs";
 	locations[n].reload.l2.disable = 1; // закроем, но связку сделаем для квестовых нужд.
+	LAi_LocationFightDisable(&locations[n], true);
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

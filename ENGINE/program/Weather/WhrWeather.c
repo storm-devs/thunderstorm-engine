@@ -28,6 +28,7 @@ float	fWeatherAngle, fWeatherSpeed;
 float	fFogDensity;
 int		iShadowDensity[2];
 int		iPrevWeather = -1;
+int		sunIsShine = true;
 bool	bWeatherLoaded = false;
 bool	bWeatherIsNight = false;
 bool	bWeatherIsLight = false;
@@ -128,13 +129,13 @@ void CreateWeatherEnvironment()
 	if (CheckAttribute(&WeatherParams,"Rain")) { bRain = sti(WeatherParams.Rain); } 
 	if (!CheckAttribute(&WeatherParams, "Rain.ThisDay")) WeatherParams.Rain.ThisDay = false;
 
-	if (iHour >= 5 && iHour <= 15 && !sti(WeatherParams.Rain.ThisDay))
+	if (/*iHour >= 5 && iHour <= 15 &&*/ !sti(WeatherParams.Rain.ThisDay))
 	{
 		//шанс.
 		iChance = 0;
 		//Ха... эта строчка сезон дождей!!!! ифсЁ! Собственно 50/50 шансы, надо будет посмотреть - добавить/убрать
 		if (iMonth > 4 && iMonth < 9) iChance = 30;
-		bRain = ((rand(50) + rand(50)) < (5 + iChance));
+		bRain = false; //((rand(50) + rand(50)) < (5 + iChance));
 
 		if (bRain || CheckAttribute(pchar, "questTemp.StartRain"))
 		{
@@ -260,6 +261,7 @@ void CreateWeatherEnvironment()
 	bool bQuestlockWeather;
 	
 	bQuestlockWeather = false;
+	sunIsShine = true; 
 
 	if(CheckAttribute(pchar, "location"))
 	{
@@ -274,6 +276,7 @@ void CreateWeatherEnvironment()
 			{
 				bWhrTornado = 1;
 			}
+			//малый шторм в локациях
 			if(CheckAttribute(&locations[iCurLocation], "alwaysStorm"))
 			{
 				if (GetTime() >= 6.0 && GetTime() < 10.0) locations[iCurLocation].QuestlockWeather = "Storm01_add";
@@ -283,6 +286,16 @@ void CreateWeatherEnvironment()
 				if (GetTime() >= 0 && GetTime() < 6.0) locations[iCurLocation].QuestlockWeather = "Storm04_add";
 				if (CheckAttribute(&locations[iCurLocation], "alwaysStorm.WaveHeigh")) locations[iCurLocation].MaxWaveHeigh = 2.5; //установим уровень воды
 			}
+			//большой шторм в локациях
+			if(CheckAttribute(&locations[iCurLocation], "alwaysStorm_2"))
+			{
+				if (GetTime() >= 6.0 && GetTime() < 10.0) locations[iCurLocation].QuestlockWeather = "Storm01";
+				if (GetTime() >= 10.0 && GetTime() < 18.0) locations[iCurLocation].QuestlockWeather = "Storm02";
+				if (GetTime() >= 18.0 && GetTime() < 22.0) locations[iCurLocation].QuestlockWeather = "Storm03";
+				if (GetTime() >= 22.0 && GetTime() <= 23.99) locations[iCurLocation].QuestlockWeather = "Storm04";
+				if (GetTime() >= 0 && GetTime() < 6.0) locations[iCurLocation].QuestlockWeather = "Storm04";
+				if (CheckAttribute(&locations[iCurLocation], "alwaysStorm_2.WaveHeigh")) locations[iCurLocation].MaxWaveHeigh = 40.0; //установим уровень воды
+			}
 			if(CheckAttribute(&locations[iCurLocation], "QuestlockWeather"))
 			{
 				iTestWeather = FindWeather(locations[iCurLocation].QuestlockWeather);
@@ -290,11 +303,15 @@ void CreateWeatherEnvironment()
 				{
 					iCurWeatherNum = iTestWeather;
 					bQuestlockWeather = true;
+					if (CheckAttribute(&locations[iCurLocation], "lockWeather") && locations[iCurLocation].lockWeather == "Inside")
+					{
+						sunIsShine = false; //выключить солнце
+					}
 				}
 			}
 		}
 		if(iCurLocation == -1)
-		{
+		{		
 			iCurLocation = FindIsland(pchar.location);
 			if(iCurLocation != -1)
 			{
@@ -329,14 +346,35 @@ void CreateWeatherEnvironment()
 	bWeatherIsStorm = bWhrStorm;
 	bCurWeatherStorm = bWhrStorm;
 
-	//if (!bQuestlockWeather)
-	//{
+	if (!bQuestlockWeather)
+	{
 		iBlendWeatherNum = FindBlendWeather(iCurWeatherNum);
-	//}
-	//else
-	//{
-		//iBlendWeatherNum = -1; // залоченная погода
-	//}
+	}
+	else
+	{
+		iBlendWeatherNum = -1; // залоченная погода
+	}
+
+	//ставим погоду, сгенеренную в главном меню
+	if (bMainMenu)
+	{
+		iTestWeather = sti(InterfaceStates.mainmenuweather);
+		if(iTestWeather != -1)
+		{
+			iCurWeatherNum = iTestWeather;
+			bQuestlockWeather = true;
+		}
+	}
+	if (startGameWeather)
+	{
+		iTestWeather = sti(InterfaceStates.startGameWeather);
+		if(iTestWeather != -1)
+		{
+			iCurWeatherNum = iTestWeather;
+			bQuestlockWeather = true;
+		}
+		startGameWeather = false;
+	}
 
 	// create main module Weather
 	DeleteAttribute(&Weather,"");
@@ -386,11 +424,11 @@ void CreateWeatherEnvironment()
 
 	FillWeatherData(iCurWeatherNum, iBlendWeatherNum);
 
-	if (iBlendWeatherNum < 0 && !bQuestlockWeather) 
+	if (iBlendWeatherNum < 0 || bQuestlockWeather) 
 	{
-		Weather.Time.time = GetHour();
-		Weather.Time.speed = 0.0; // количество секунд на смену погоды
-		Weather.Time.updatefrequence = 0.0; // количество обновлений на смену погоды
+		Weather.Time.time = GetTime();
+		Weather.Time.speed = 350.0; // количество секунд на смену погоды
+		Weather.Time.updatefrequence = 12; // количество обновлений на смену погоды
 	} else {
 		Weather.Time.time = GetTime();
 		Weather.Time.speed = 450;
@@ -874,11 +912,11 @@ void Whr_ChangeDayNight()
 }
 
 void FillWeatherData(int nw1, int nw2)
-{
+{	
 	if( nw1<0 || nw1>=MAX_WEATHERS ) {return;}
 
 	string sCurFog = Whr_GetCurrentFog();
-	if( nw2<0 )
+	if( nw2<0)
 	{
 		Weather.Fog.Enable = Whr_GetLong(&Weathers[nw1], sCurFog + ".Enable");
 		Weather.Fog.Start = Whr_GetFloat(&Weathers[nw1], sCurFog + ".Start");

@@ -1,37 +1,37 @@
-// диалог по городам
+#include "TEXT\DIALOGS\Mayor\BasTer_Mayor.h"
 void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 {
     switch (Dialog.CurrentNode)
 	{
 		case "quests":
-			dialog.text = NPCStringReactionRepeat(RandPhraseSimple("Что вы хотели? Спрашивайте.", "Я слушаю вас, что за вопрос?"), "Второй раз за день вы пытаетесь задать ворпос...", "В третий раз за день вы опять пытаетесь задать вопрос...",
-                          "Да когда же это кончится?! У меня дел полно по управлению делами города, а ты все вопросы пытаешься задать!", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat(RandPhraseSimple("Я передумал...", "Не сейчас, не место и не время..."), "Да, верно... Но не сейчас, позже...",
-                      "Задам, задам... Только позже...", "Извините, " + GetAddress_FormToNPC(NPChar) + "...", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(RandPhraseSimple(DLG_TEXT_MR[0], DLG_TEXT_MR[1]), DLG_TEXT_MR[2], DLG_TEXT_MR[3],
+                          DLG_TEXT_MR[4], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(RandPhraseSimple(DLG_TEXT_MR[5], DLG_TEXT_MR[6]), DLG_TEXT_MR[7],
+                      DLG_TEXT_MR[8], DLG_TEXT_MR[9] + GetAddress_FormToNPC(NPChar) + "...", npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
 			if (pchar.questTemp.State == "Fr4SoleiRoyal_GoodWork")
 			{
-				dialog.text = "Я слушаю вас, капитан.";
-				link.l1 = "Сударь, генерал-губернатором Тортуги мне поручено сопроводить линейный корабль первого класса 'Солей Руаяль' до острова Доминика. Там меня должна была ожидать эскадра Гваделупы, но ее не оказалось на месте. Вы можете как-то прояснить ситуацию?";
+				dialog.text = DLG_TEXT_MR[10];
+				link.l1 = DLG_TEXT_MR[11];
 				link.l1.go = "Step_F4_1";		
 			}
 		break;
 		//************************** Фр.линкейка, квест №4. Солей Руаяль ************************
 		case "Step_F4_1":
-            dialog.text = "Дело в том, что я получил распоряжение о выдвижении эскадры к Доминике только вчера - курьер сильно опоздал. Таким образом, я не успел подготовить эскадру. Я полагаю, что вы как раз из Доминики...";
-			link.l1 = "Верно. Мне пришлось принять бой с испанской эскадрой некоего Хуана Галено. Он выследил и пытался захватить 'Солей Руаяль'.";
+            dialog.text = DLG_TEXT_MR[12];
+			link.l1 = DLG_TEXT_MR[13];
             link.l1.go = "Step_F4_2";
         break;
 		case "Step_F4_2":
-            dialog.text = "И где сейчас этот Хуан Галено с его эскадрой?";
-			link.l1 = "На дне, месье...";
+            dialog.text = DLG_TEXT_MR[14];
+			link.l1 = DLG_TEXT_MR[15];
             link.l1.go = "Step_F4_3";
         break;
 		case "Step_F4_3":
 			if (CheckCompanionInCharacter(pchar, "SoleiRoyalCaptain"))
 			{
-				dialog.text = "Ха-ха, прекрасная работа! Ну что же, ваша задача выполнена - вы сумели доставить 'Солей Руаяль' до места назначения и с честью справились с непростой ситуацией. Прекрасная работа, капитан. Сейчас я принимаю у вас командование 'Солей Руаялем'.";
-				link.l1 = "Прекрасно, сударь. Не буду вас задерживать - дела... Прощайте, месье.";
+				dialog.text = DLG_TEXT_MR[16];
+				link.l1 = DLG_TEXT_MR[17];
 				link.l1.go = "exit";
 				RemoveCharacterCompanion(pchar, characterFromId("SoleiRoyalCaptain"));
 				pchar.questTemp.State = "Fr4SoleiRoyal_backTortuga";
@@ -39,8 +39,8 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			}
 			else
 			{
-				dialog.text = "Но вы не сумели сохранить 'Солей Руаяль'! Это плохо, сударь, очень плохо... Теперь вам надлежит явиться к генерал-губернатору Тортуги с докладом о провале вашей миссии. Прощайте.";
-				link.l1 = "Прощайте, месье...";
+				dialog.text = DLG_TEXT_MR[18];
+				link.l1 = DLG_TEXT_MR[19];
 				link.l1.go = "exit";
 				pchar.questTemp.State = "Fr4SoleiRoyal_SoleiRoyalSunk";
 				AddQuestRecord("Fra_Line_4_SoleiRoyal", "7");
@@ -48,26 +48,26 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
         break;
 		//************************** Квестовые штрумы ************************
 		case "Cupture_after":
-            dialog.text = RandPhraseSimple("Вы уже все забрали. Что вам еще нужно?", "Неужели осталось еще что-то, что вы не прихватили?");
-            link.l1 = RandPhraseSimple("Осматриваюсь напоследок...", "Проверяю, может забыл что забрать...");
+            dialog.text = RandPhraseSimple(DLG_TEXT_MR[20], DLG_TEXT_MR[21]);
+            link.l1 = RandPhraseSimple(DLG_TEXT_MR[22], DLG_TEXT_MR[23]);
             link.l1.go = "exit";
             NextDiag.TempNode = "Cupture_after";
 		break;
 		//Квест Аскольда, штурм в обличие мумии
         case "Ascold_MummyAttack":         
-			dialog.text = "А-а-а-а!!!";
-			Link.l1 = "Хватит орать, идиот. Я здесь по делу и не причиню тебе вреда.";
+			dialog.text = DLG_TEXT_MR[24];
+			Link.l1 = DLG_TEXT_MR[25];
 			Link.l1.go = "Step_Asc1";
 			AfterTownBattle();
         break;
         case "Step_Asc1":
-            dialog.text = "Мумия говорит!!! А-а-а-а!!!";
-			Link.l1 = "Слушай меня, несчастный трус. Я знаю, что у тебя есть четыре предмета: три хрустальных черепа тольтеков разного цвета и странный индейский предмет, похожий на погремушку. Отдай мне эти предметы и мы уберемся из города.";
+            dialog.text = DLG_TEXT_MR[26];
+			Link.l1 = DLG_TEXT_MR[27];
 			Link.l1.go = "Step_Asc2";
         break;
         case "Step_Asc2":
-            dialog.text = "Они в шкафу слева от меня, в одном из закрытых ящиков. Вот ключ, можешь все забирать...";
-			Link.l1 = "Еще бы ты мне запрещал, червяк...";
+            dialog.text = DLG_TEXT_MR[28];
+			Link.l1 = DLG_TEXT_MR[29];
 			Link.l1.go = "exit";
 			NextDiag.TempNode = "Cupture_after";
 			Locations[FindLocation(pchar.location)].box1.items.sculMa1 = 1;

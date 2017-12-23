@@ -14,7 +14,7 @@ int LocationInitLostShipsCity(int n)
  	locations[n].islandId = "LostShipsCity";
 	
 	locations[n].filespath.models = "locations\LostShipsCity\";
-	//locations[n].image = "loading\towns\PortSpein.tga";
+	locations[n].image = "loading\OutsideLSC.tga";
 	//Sound
 	locations[n].type = "LostShipsCity";
 	//locations[n].houseEnc = true; //для энкаунтеров в домах
@@ -45,7 +45,7 @@ int LocationInitLostShipsCity(int n)
 	Locations[n].models.always.locators = "LostShipsCity_locators";
 	
 	Locations[n].models.always.grassPatch = "LostShipsCity_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga.tx";					
+	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga.tx";	
 	//Day
 	locations[n].models.day.charactersPatch = "LostShipsCity_patch_day";
 	Locations[n].models.day.jumpPatch = "LostShipsCity_jump_patch";
@@ -77,7 +77,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].reload.l2.autoreload = "0";
 	locations[n].reload.l2.label = "Sea";
 	locations[n].reload.l2.disable = true; 
-	locations[n].locators_radius.reload.reload2_back = 1.8;
+	locations[n].locators_radius.reload.reload2_back = 6.0;
 
 	////////  Галеон Эва AvaShipInside3 //////////
 	locations[n].reload.l3.name = "reload41";
@@ -178,7 +178,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].reload.l16.emerge = "reload7";
 	locations[n].reload.l16.autoreload = "0";
 	locations[n].reload.l16.label = "CeresSmithy cabin";
-	locations[n].reload.l5.close_for_night = 1;
+	locations[n].reload.l16.close_for_night = 1;
 
 	//////// Галеон Эсмеральда   EsmeraldaStoreBig ////////
 	locations[n].reload.l17.name = "reload45";
@@ -235,6 +235,8 @@ int LocationInitLostShipsCity(int n)
 	locations[n].reload.l231.emerge = "reload1";
 	locations[n].reload.l231.autoreload = "0";
 	locations[n].reload.l231.label = "UnderWater";
+	locations[n].reload.l231.disable = true;
+	locations[n].reload.l231.open_for_day = true;
 
 	//////// Флейт Фернандо Диффиндур   FernandaDiffIndoor ////////
 	locations[n].reload.l24.name = "reload74";
@@ -466,7 +468,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].reload.l57.emerge = "reload1";
 	locations[n].reload.l57.autoreload = "0";
 	locations[n].reload.l57.label = "SanGabrielMechanic cabin";
-	locations[n].reload.l57.disable = true;  //закрыто навсегда, можно только выйти из Сан Габриэля
+	locations[n].reload.l57.disable = true;  //закрыто до уничтожения касперов, можно только выйти из Сан Габриэля
 
 	locations[n].reload.l58.name = "reload56";
 	locations[n].reload.l58.go = "SanGabrielMechanic";
@@ -570,24 +572,25 @@ int LocationInitLostShipsCity(int n)
 	locations[n].reload.l73.autoreload = "0";
 	locations[n].reload.l73.label = "VelascoShipInside1 cabin";
 	locations[n].reload.l73.close_for_night = 1;
+
 	//ключи для сундуков и предметы внутри
 	locations[n].private1.key = "key3";		//внутри резиденции в трюме
-	locations[n].private1.items.indian1 = 15;
-	locations[n].private1.items.indian2 = 17;
-	locations[n].private1.items.indian3 = 10;
-	locations[n].private1.items.indian4 = 25;
-	locations[n].private1.items.indian5 = 27;
-	locations[n].private1.items.indian6 = 11;
-	locations[n].private1.items.indian7 = 13;
-	locations[n].private1.items.indian8 = 8;
-	locations[n].private1.items.indian9 = 12;	
-	locations[n].private1.items.statue1 = 4;
+	locations[n].private1.items.indian1 = 1;
+	locations[n].private1.items.indian2 = 2;
+	locations[n].private1.items.indian3 = 3;
+	locations[n].private1.items.indian4 = 1;
+	locations[n].private1.items.indian5 = 1;
+	locations[n].private1.items.indian6 = 2;
+	locations[n].private1.items.indian7 = 1;
+	locations[n].private1.items.indian8 = 1;
+	locations[n].private1.items.indian9 = 2;	
+	locations[n].private1.items.statue1 = 1;
 
 	locations[n].private2.key = "key1";
 	locations[n].private2.items.Mineral5 = 3;
 	locations[n].private2.items.Mineral6 = 6;
 	locations[n].private2.items.rabble = 4;
-	locations[n].private2.items.lead1 = 1;
+	locations[n].private2.items.blade5 = 1;
 	locations[n].private2.items.jewelry1 = 4;
 
 	locations[n].private3.key = "key2";
@@ -631,7 +634,7 @@ int LocationInitLostShipsCity(int n)
 
 	locations[n].private7.key = "key1";
 	locations[n].private7.items.blade5 = 30;
-	locations[n].private7.items.lead1 = 2;
+	locations[n].private7.items.blade5 = 2;
 	locations[n].private7.items.suit_1 = 1;
 	locations[n].private7.items.spyglass1 = 1;
 	locations[n].private7.items.jewelry1 = 1;
@@ -654,20 +657,21 @@ int LocationInitLostShipsCity(int n)
 	locations[n].private9.items.blade24 = 5;
 	locations[n].private9.items.bullet = 20;
 
-	locations[n].private10.key = "key_admiral";	//у скелета
-	locations[n].private10.items.indian10 = 5;
-	locations[n].private10.items.indian11 = 7;
-	locations[n].private10.items.indian12 = 13;
-	locations[n].private10.items.indian13 = 10;
-	locations[n].private10.items.indian14 = 5;
-	locations[n].private10.items.indian15 = 7;
-	locations[n].private10.items.indian16 = 11;
-	locations[n].private10.items.indian17 = 9;
-	locations[n].private10.items.indian18 = 4;
+	locations[n].private10.key = "keyPanama";	//у скелета
+	locations[n].private10.money = 353002;
+	locations[n].private10.items.indian10 = 1;
+	locations[n].private10.items.indian11 = 2;
+	locations[n].private10.items.indian12 = 1;
+	locations[n].private10.items.indian13 = 1;
+	locations[n].private10.items.indian14 = 2;
+	locations[n].private10.items.indian15 = 1;
+	locations[n].private10.items.indian16 = 1;
+	locations[n].private10.items.indian17 = 2;
+	locations[n].private10.items.indian18 = 1;
 	locations[n].private10.items.indian19 = 3;
-	locations[n].private10.items.indian20 = 13;
-	locations[n].private10.items.indian21 = 4;
-	locations[n].private10.items.indian22 = 12;
+	locations[n].private10.items.indian20 = 1;
+	locations[n].private10.items.indian21 = 1;
+	locations[n].private10.items.indian22 = 1;
 	locations[n].private10.items.sculMa1 = 2;
 	locations[n].private10.items.sculMa2 = 2;
 	locations[n].private10.items.sculMa3 = 2;
@@ -701,7 +705,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "AvaShipInside3";
 	locations[n].id.label = "Ava Cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\AvaShipInside3";
-	//locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\InsideLSC.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -713,6 +717,7 @@ int LocationInitLostShipsCity(int n)
 	//Always	
 	Locations[n].models.always.inside = "AvaShipInside3";
 	Locations[n].models.always.inside.level = 65538;
+	Locations[n].models.always.seabed = "AvaShipInside3_sb";
 	Locations[n].models.always.outdoor = "AvaShipInside3_outdoor";		
 	Locations[n].models.always.reflect = "AvaShipInside3_reflect";
 	Locations[n].models.always.reflect.level = 65531;
@@ -771,6 +776,27 @@ int LocationInitLostShipsCity(int n)
 	locations[n].reload.l4.emerge = "reload42";
 	locations[n].reload.l4.autoreload = "0";
 	locations[n].reload.l4.label = "LSC Town";
+
+	//ключи для сундуков и предметы внутри
+	locations[n].private1.key = "key3";
+	locations[n].private1.money = 51670;
+	locations[n].private1.items.indian2 = 1;
+	locations[n].private1.items.jewelry1 = 2;
+	locations[n].private1.items.jewelry2 = 1
+
+	locations[n].private2.key = "key1";
+	locations[n].private2.items.Mineral5 = 8;
+	locations[n].private2.items.Mineral6 = 5;
+	locations[n].private2.items.rabble = 1;
+	locations[n].private2.items.blade5 = 5;
+	locations[n].private2.items.jewelry1 = 23;
+
+	locations[n].private3.key = "key2";
+	locations[n].private3.items.potionrum = 3;
+	locations[n].private3.items.potionwine = 5;
+	locations[n].private3.items.Mineral3 = 1;
+	locations[n].private3.items.Mineral4 = 2;
+
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -779,7 +805,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "CarolineBank";
 	locations[n].id.label = "Caroline cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\CarolineBank";
-	//locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\inside\bank.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -843,6 +869,18 @@ int LocationInitLostShipsCity(int n)
 	locations[n].reload.l3.emerge = "reload25";
 	locations[n].reload.l3.autoreload = "0";
 	locations[n].reload.l3.label = "LSC Town";
+
+	//ключи для сундуков и предметы внутри
+	locations[n].private1.key = "key3";
+	locations[n].private1.money = 134000;
+
+	locations[n].private2.key = "key2";
+	locations[n].private2.items.jewelry1 = 12;
+	locations[n].private2.items.jewelry2 = 6;
+	locations[n].private2.items.jewelry3 = 13;
+	locations[n].private2.items.jewelry4 = 21;
+	locations[n].private2.items.jewelry5 = 24;
+	locations[n].private2.items.jewelry17 = 57;
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -851,7 +889,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "CeresSmithy";
 	locations[n].id.label = "CeresSmithy cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\CeresSmithy";
-	//locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\InsideLSC.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -863,6 +901,7 @@ int LocationInitLostShipsCity(int n)
 	//Always	
 	Locations[n].models.always.inside = "CeresSmithy";
 	Locations[n].models.always.inside.level = 65538;
+	Locations[n].models.always.seabed = "CeresSmithy_sb";
 	Locations[n].models.always.outdoor = "CeresSmithy_outdoor";		
 	Locations[n].models.always.reflect = "CeresSmithy_reflect";
 	Locations[n].models.always.reflect.level = 65531;
@@ -939,6 +978,28 @@ int LocationInitLostShipsCity(int n)
 	locations[n].reload.l7.emerge = "reload61";
 	locations[n].reload.l7.autoreload = "0";
 	locations[n].reload.l7.label = "LSC Town";
+
+	//ключи для сундуков и предметы внутри
+	locations[n].private1.key = "key1";
+	locations[n].private1.items.spyglass1 = 102;
+	locations[n].private1.items.mineral6 = 418;
+	locations[n].private1.items.mineral5 = 1;
+
+	locations[n].private2.key = "key2";
+	locations[n].private2.items.Statue1 = 2;
+	locations[n].private2.items.spyglass2 = 23;
+	locations[n].private2.items.mineral10 = 13;
+	locations[n].private2.items.mineral9 = 1;
+	locations[n].private2.items.mineral8 = 1;
+
+	locations[n].private3.key = "key3";
+	locations[n].private3.money = 12834;
+	locations[n].private3.items.coins = 13;
+	locations[n].private3.items.indian3 = 6;
+	locations[n].private3.items.suit_3 = 1;
+	locations[n].private3.items.cirass1 = 21;
+	locations[n].private3.items.jewelry16 = 4;
+	locations[n].private3.items.bullet = 505;
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -947,7 +1008,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "EsmeraldaStoreBig";
 	locations[n].id.label = "EsmeraldaStoreBig cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\EsmeraldaStoreBig";
-	//locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\inside\shop.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -959,6 +1020,7 @@ int LocationInitLostShipsCity(int n)
 	//Always	
 	Locations[n].models.always.inside = "EsmeraldaStoreBig";
 	Locations[n].models.always.inside.level = 65538;
+	Locations[n].models.always.seabed = "EsmeraldaStoreBig_sb";
 	Locations[n].models.always.outdoor = "EsmeraldaStoreBig_outdoor";		
 	Locations[n].models.always.reflect = "EsmeraldaStoreBig_reflect";
 	Locations[n].models.always.reflect.level = 65531;
@@ -1029,6 +1091,31 @@ int LocationInitLostShipsCity(int n)
 	locations[n].reload.l6.emerge = "reload47";
 	locations[n].reload.l6.autoreload = "0";
 	locations[n].reload.l6.label = "LSC Town";
+
+	locations[n].locators_radius.item.item1 = 1.2;
+
+	//ключи для сундуков и предметы внутри
+	locations[n].private1.key = "key2";
+	locations[n].private1.money = 138620;
+	locations[n].private1.items.potion5 = 25;
+	locations[n].private1.items.jewelry6 = 13;
+	locations[n].private1.items.jewelry7 = 17;
+	locations[n].private1.items.jewelry10 = 12;
+	locations[n].private1.items.jewelry18 = 7;
+	locations[n].private1.items.suit_2 = 1;
+
+	locations[n].private2.key = "key1";	
+	locations[n].private2.money = 3520;
+	locations[n].private2.items.pistol4 = 2;
+	locations[n].private2.items.blade17 = 1;
+	locations[n].private2.items.blade17 = 1;
+	locations[n].private2.items.jewelry9 = 2;
+	locations[n].private2.items.jewelry8 = 6;
+	locations[n].private2.items.mineral2 = 2;
+	locations[n].private2.items.mineral3 = 400;
+
+	locations[n].private3.key = "key3";
+	locations[n].private3.money = 270300;
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1037,7 +1124,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "FenixPlatform";
 	locations[n].id.label = "FenixPlatform cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\FenixPlatform";
-	//locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\InsideLSC.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -1089,6 +1176,18 @@ int LocationInitLostShipsCity(int n)
 	locations[n].reload.l1.emerge = "reload72";
 	locations[n].reload.l1.autoreload = "0";
 	locations[n].reload.l1.label = "LSC Town";
+
+	locations[n].locators_radius.item.armor = 1.3;
+
+	//ключи для сундуков и предметы внутри
+	locations[n].private1.key = "key1";
+	locations[n].private1.money = 1220;
+	locations[n].private1.items.potion2 = 5;
+	locations[n].private1.items.potion5 = 2;
+	locations[n].private1.items.potionrum = 4;
+	locations[n].private1.items.potionwine = 3;
+	locations[n].private1.items.suit_1 = 12;
+	locations[n].private1.items.indian20 = 7;
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1097,7 +1196,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "FernandaDiffIndoor";
 	locations[n].id.label = "FernandaDiffIndoor cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\FernandaDiffIndoor";
-	//locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\InsideLSC.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -1109,6 +1208,7 @@ int LocationInitLostShipsCity(int n)
 	//Always	
 	Locations[n].models.always.inside = "FernandaDiffIndoor";
 	Locations[n].models.always.inside.level = 65538;
+	Locations[n].models.always.seabed = "FernandaDiffIndoor_sb";
 	Locations[n].models.always.outdoor = "FernandaDiffIndoor_outdoor";		
 	Locations[n].models.always.reflect = "FernandaDiffIndoor_reflect";
 	Locations[n].models.always.reflect.level = 65531;
@@ -1150,15 +1250,19 @@ int LocationInitLostShipsCity(int n)
 	locations[n].reload.l1.autoreload = "0";
 	locations[n].reload.l1.label = "LSC Town";
 
+	//ключи для сундуков и предметы внутри
 	locations[n].private1.key = "key1";
 	locations[n].private1.money = 23;
 	locations[n].private1.items.Mineral9 = 1;
-	locations[n].private1.items.Mineral10 = 1;
+	locations[n].private1.items.Mineral2 = 1;
+	locations[n].private1.items.potion5 = 20;
 	locations[n].private1.items.jewelry16 = 1;
+
 	locations[n].private2.key = "key2";
 	locations[n].private2.items.mineral3 = 1;
 	locations[n].private2.items.Mineral7 = 1;
 	locations[n].private2.items.potionwine = 1;
+	locations[n].private2.items.Mineral10 = 12;
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1213,6 +1317,7 @@ int LocationInitLostShipsCity(int n)
 	//locations[n].environment.weather.rain = false;
 	locations[n].alwaysStorm = true; //живем в штормах
 	locations[n].storm = true;
+	LAi_LocationFightDisable(&locations[n], true);
 	//Reload map
 	locations[n].reload.l1.name = "reload1";
 	locations[n].reload.l1.go = "LostShipsCity_town";
@@ -1255,8 +1360,29 @@ int LocationInitLostShipsCity(int n)
 	locations[n].reload.l7.emerge = "reload40";
 	locations[n].reload.l7.autoreload = "0";
 	locations[n].reload.l7.label = "LSC Town";
-	locations[n].locators_radius.quest.quest1 = 1.5;
+	locations[n].locators_radius.item.detector1 = 0.3;
 
+	//ключи для сундуков и предметы внутри
+	locations[n].private1.key = "key1";
+	locations[n].private1.items.potion2 = 2;
+	locations[n].private1.items.potion5 = 4;
+	locations[n].private1.items.potionrum = 2;
+	locations[n].private1.items.potionwine = 3;	
+	locations[n].private1.items.rabble = 1;	
+	locations[n].private1.items.topor3 = 1;	
+	locations[n].private1.items.mineral9 = 26;	
+	locations[n].private1.items.topor10 = 1;	
+	locations[n].private1.items.mineral3 = 2;	
+
+	locations[n].private2.key = "key2";
+	locations[n].private2.money = 34920;
+	locations[n].private2.items.potion4 = 5;
+	locations[n].private2.items.potion2 = 2;
+	locations[n].private2.items.potionrum = 2;
+	locations[n].private2.items.potionwine = 3;
+	locations[n].private2.items.blade13 = 3;
+	locations[n].private2.items.map_martiniqua = 1;
+	
 	locations[n].private3.key = "key3";
 	locations[n].private3.items.potion1 = 231;
 	locations[n].private3.items.potion2 = 84;
@@ -1265,6 +1391,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].private3.items.potion5 = 134;
 	locations[n].private3.items.potionrum = 161;
 	locations[n].private3.items.potionwine = 140;
+	locations[n].private3.items.mineral10 = 35;
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1273,7 +1400,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "FurieShipInside2";
 	locations[n].id.label = "FurieShipInside2 cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\FurieShipInside2";
-	//locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\InsideLSC.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -1285,6 +1412,7 @@ int LocationInitLostShipsCity(int n)
 	//Always	
 	Locations[n].models.always.inside = "FurieShipInside2";
 	Locations[n].models.always.inside.level = 65538;
+	Locations[n].models.always.seabed = "FurieShipInside2_sb";
 	Locations[n].models.always.outdoor = "FurieShipInside2_outdoor";		
 	Locations[n].models.always.reflect = "FurieShipInside2_reflect";
 	Locations[n].models.always.reflect.level = 65531;
@@ -1355,6 +1483,25 @@ int LocationInitLostShipsCity(int n)
 	locations[n].reload.l6.emerge = "reload47";
 	locations[n].reload.l6.autoreload = "0";
 	locations[n].reload.l6.label = "LSC Town";
+
+	//ключи для сундуков и предметы внутри
+	locations[n].private1.key = "key1";
+	locations[n].private1.money = 7473;
+	locations[n].private1.items.map_guad = 1;
+	locations[n].private1.items.spyglass3 = 1;
+	locations[n].private1.items.potion4 = 12;	
+	locations[n].private1.items.rabble = 1;	
+	locations[n].private1.items.topor3 = 2;	
+	locations[n].private1.items.jewelry8 = 10;
+
+	locations[n].private2.key = "key2";
+	locations[n].private2.money = 125;
+	locations[n].private2.items.jewelry11 = 61;
+	locations[n].private2.items.jewelry12 = 128;
+	locations[n].private2.items.potionrum = 1;
+	locations[n].private2.items.potionwine = 3;
+	locations[n].private2.items.jewelry16 = 3;
+	locations[n].private2.items.jewelry13 = 1;
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1363,7 +1510,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "GloriaChurch";
 	locations[n].id.label = "GloriaChurch cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\GloriaChurch";
-	//locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\InsideLSC.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -1375,6 +1522,7 @@ int LocationInitLostShipsCity(int n)
 	//Always	
 	Locations[n].models.always.inside = "GloriaChurch";	
 	Locations[n].models.always.inside.level = 65538;
+	Locations[n].models.always.seabed = "GloriaChurch_sb";	
 	Locations[n].models.always.outdoor = "GloriaChurch_outdoor";		
 	Locations[n].models.always.reflect = "GloriaChurch_reflect";
 	Locations[n].models.always.reflect.level = 65531;
@@ -1394,7 +1542,7 @@ int LocationInitLostShipsCity(int n)
 	Locations[n].models.always.plan2.level = 65532;	
 	Locations[n].models.always.locators = "GloriaChurch_locators";	
 	Locations[n].models.always.grassPatch = "GloriaChurch_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga.tx";					
+	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga.tx";		
 	//Day
 	locations[n].models.day.charactersPatch = "GloriaChurch_patch_day";
 	//Locations[n].models.day.jumpPatch = "GloriaChurch_jump_patch";
@@ -1439,6 +1587,13 @@ int LocationInitLostShipsCity(int n)
 	locations[n].reload.l5.emerge = "reload19";
 	locations[n].reload.l5.autoreload = "0";
 	locations[n].reload.l5.label = "LSC Town";
+
+	//ключи для сундуков и предметы внутри
+	locations[n].private1.key = "key3";
+	locations[n].private1.money = 12;
+	locations[n].private1.items.mineral3 = 12;
+	locations[n].private1.items.mineral5 = 2;
+	locations[n].private1.items.mineral8 = 1;
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1447,7 +1602,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "PlutoStoreSmall";
 	locations[n].id.label = "PlutoStoreSmall cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\PlutoStoreSmall";
-	//locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\InsideLSC.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -1459,6 +1614,7 @@ int LocationInitLostShipsCity(int n)
 	//Always	
 	Locations[n].models.always.inside = "PlutoStoreSmall";	
 	Locations[n].models.always.inside.level = 65538;
+	Locations[n].models.always.seabed = "PlutoStoreSmall_sb";
 	Locations[n].models.always.outdoor = "PlutoStoreSmall_outdoor";		
 	Locations[n].models.always.reflect = "PlutoStoreSmall_reflect";
 	Locations[n].models.always.reflect.level = 65531;
@@ -1523,6 +1679,27 @@ int LocationInitLostShipsCity(int n)
 	locations[n].reload.l5.emerge = "reload14";
 	locations[n].reload.l5.autoreload = "0";
 	locations[n].reload.l5.label = "LSC Town";
+
+	//ключи для сундуков и предметы внутри
+	locations[n].private1.key = "key3";
+	locations[n].private1.money = 51290;
+	locations[n].private1.items.cirass2 = 1;
+	locations[n].private1.items.jewelry14 = 7;
+	locations[n].private1.items.jewelry17 = 1;
+	locations[n].private1.items.mineral2 = 1;
+	locations[n].private1.items.map_maine_1 = 1;
+
+	locations[n].private2.key = "key2";
+	locations[n].private2.money = 172;
+	locations[n].private2.items.indian15 = 3;
+	locations[n].private2.items.indian16 = 5;
+	locations[n].private2.items.indian17 = 1;
+
+	locations[n].private3.key = "key1";
+	locations[n].private3.money = 9;
+	locations[n].private3.items.mineral7 = 2;
+	locations[n].private3.items.indian9 = 1;
+	locations[n].private3.items.indian13 = 3;
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1531,7 +1708,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "ProtectorFisher";
 	locations[n].id.label = "ProtectorFisher cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\ProtectorFisher";
-	//locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\InsideLSC.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -1583,6 +1760,15 @@ int LocationInitLostShipsCity(int n)
 	locations[n].reload.l1.emerge = "reload33";
 	locations[n].reload.l1.autoreload = "0";
 	locations[n].reload.l1.label = "LSC Town";
+
+	//ключи для сундуков и предметы внутри
+	locations[n].private1.key = "key1";
+	locations[n].private1.money = 1;
+	locations[n].private1.items.map_maine_2 = 1;
+	locations[n].private1.items.potion2 = 2;
+	locations[n].private1.items.potion5 = 3;
+	locations[n].private1.items.mineral5 = 1;
+	locations[n].private1.items.mineral4 = 89;
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1591,7 +1777,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "SanAugustineResidence";
 	locations[n].id.label = "SanAugustineResidence cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\SanAugustineResidence";
-	//locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\InsideLSC.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -1685,6 +1871,60 @@ int LocationInitLostShipsCity(int n)
 	locations[n].reload.l8.emerge = "reload2";
 	locations[n].reload.l8.autoreload = "0";
 	locations[n].reload.l8.label = "LSC Town";
+
+	//ключи для сундуков и предметы внутри
+	locations[n].private1.key = "key1";
+	locations[n].private1.money = 521;
+	locations[n].private1.items.map_terks = 1;
+	locations[n].private1.items.potion1 = 5;
+	locations[n].private1.items.potion3 = 3;
+	locations[n].private1.items.blade14 = 1;
+	locations[n].private1.items.bullet = 189;
+	locations[n].private1.items.pistol1 = 2;
+
+	locations[n].private2.key = "key2";
+	locations[n].private2.money = 30230;
+	locations[n].private2.items.potion1 = 15;
+	locations[n].private2.items.potion3 = 2;
+	locations[n].private2.items.blade30 = 1;
+	locations[n].private2.items.blade31 = 1;
+	locations[n].private2.items.spyglass3 = 1;
+
+	locations[n].private3.key = "key1";
+	locations[n].private3.money = 2194;
+	locations[n].private3.items.map_nevis = 1;
+	locations[n].private3.items.potionwine = 1;
+	locations[n].private3.items.potion5 = 1;
+	locations[n].private3.items.blade18 = 1;
+	locations[n].private3.items.bullet = 2;
+	locations[n].private3.items.topor1 = 1;
+
+	locations[n].private4.key = "key1";
+	locations[n].private4.money = 3412;
+	locations[n].private4.items.map_trinidad = 1;
+	locations[n].private4.items.potion2 = 2;
+	locations[n].private4.items.pistol2 = 1;
+	locations[n].private4.items.bullet = 11;
+	locations[n].private4.items.blade4 = 2;
+	locations[n].private4.items.blade5 = 3;
+
+	locations[n].private5.key = "key3";
+	locations[n].private5.money = 72368;
+	locations[n].private5.items.map_TORTUGA = 1;
+	locations[n].private5.items.jewelry7 = 5;
+	locations[n].private5.items.mineral3 = 1;
+	locations[n].private5.items.bullet = 121;
+	locations[n].private5.items.spyglass4 = 1;
+	locations[n].private5.items.blade28 = 1;
+
+	locations[n].private6.key = "key3";
+	locations[n].private6.money = 91120;
+	locations[n].private6.items.map_cayman = 1;
+	locations[n].private6.items.potion1 = 12;
+	locations[n].private6.items.pistol2 = 21;
+	locations[n].private6.items.topor2 = 11;
+	locations[n].private6.items.potionwine = 12;
+	locations[n].private6.items.potionrum = 13;
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1693,7 +1933,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "SanGabrielMechanic";
 	locations[n].id.label = "SanGabrielMechanic cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\SanGabrielMechanic";
-	//locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\InsideLSC.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -1705,6 +1945,7 @@ int LocationInitLostShipsCity(int n)
 	//Always	
 	Locations[n].models.always.inside = "SanGabrielMechanic";
 	Locations[n].models.always.inside.level = 65538;
+	Locations[n].models.always.seabed = "SanGabrielMechanic_sb";
 	Locations[n].models.always.outdoor = "SanGabrielMechanic_outdoor";		
 	Locations[n].models.always.reflect = "SanGabrielMechanic_reflect";
 	Locations[n].models.always.reflect.level = 65531;
@@ -1779,6 +2020,24 @@ int LocationInitLostShipsCity(int n)
 	locations[n].reload.l6.emerge = "reload53";
 	locations[n].reload.l6.autoreload = "0";
 	locations[n].reload.l6.label = "LSC Town";
+
+	//ключи для сундуков и предметы внутри
+	locations[n].private1.key = "key1";
+	locations[n].private1.money = 5;
+	locations[n].private1.items.key3 = 1;
+	locations[n].private1.items.map_jam = 1;
+	locations[n].private1.items.mineral8 = 5;
+	locations[n].private1.items.potion1 = 11;
+	locations[n].private1.items.potion2 = 10;
+	locations[n].private1.items.potion3 = 4;
+	locations[n].private1.items.mineral3 = 2;
+	locations[n].private1.items.mineral7 = 1;
+
+	locations[n].private2.key = "key3";
+	locations[n].private2.money = 366430;
+	locations[n].private2.items.indian2 = 2;
+	locations[n].private2.items.indian8 = 1;
+	locations[n].private2.items.indian14 = 1;
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1787,7 +2046,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "SantaFlorentinaShipInside4";
 	locations[n].id.label = "SantaFlorentinaShipInside4 cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\SantaFlorentinaShipInside4";
-	//locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\InsideLSC.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -1799,13 +2058,11 @@ int LocationInitLostShipsCity(int n)
 	//Always	
 	Locations[n].models.always.inside = "SantaFlorentinaShipInside4";	
 	Locations[n].models.always.inside.level = 65538;
+	Locations[n].models.always.seabed = "SantaFlorentinaShipInside4_sb";	
 	Locations[n].models.always.outdoor = "SantaFlorentinaShipInside4_outdoor";		
 	Locations[n].models.always.reflect = "SantaFlorentinaShipInside4_reflect";
-	Locations[n].models.always.reflect.level = 65531;
-	Locations[n].models.always.reflect.sea_reflection = 1;	
-	Locations[n].models.always.reflTrum = "SantaFlorentinaShipInside4_refl_trum";
-	Locations[n].models.always.reflTrum.level = 65539;
-	Locations[n].models.always.reflTrum.sea_reflection = 1;	
+	Locations[n].models.always.reflect.level = 65541;
+	Locations[n].models.always.reflect.sea_reflection = 1;		
 	Locations[n].models.always.windows = "SantaFlorentinaShipInside4_windows";
 	Locations[n].models.always.windows.tech = "LocationWindows";
 	Locations[n].models.always.windows.level = 65540;	
@@ -1866,6 +2123,36 @@ int LocationInitLostShipsCity(int n)
 	locations[n].reload.l5.emerge = "reload23";
 	locations[n].reload.l5.autoreload = "0";
 	locations[n].reload.l5.label = "LSC Town";
+
+	//ключи для сундуков и предметы внутри
+	locations[n].private1.key = "key2";
+	locations[n].private1.money = 23969;
+	locations[n].private1.items.map_bermudas = 1;
+	locations[n].private1.items.potion1 = 5;
+	locations[n].private1.items.potion3 = 3;
+	locations[n].private1.items.blade14 = 1;
+	locations[n].private1.items.bullet = 189;
+	locations[n].private1.items.pistol1 = 2;
+
+	locations[n].private2.key = "key1";
+	locations[n].private2.items.blade5 = 16;
+	locations[n].private2.items.blade5 = 12;
+	locations[n].private2.items.topor3 = 1;
+	locations[n].private2.items.mineral8 = 3;
+	locations[n].private2.items.indian4 = 23;
+	locations[n].private2.items.indian2 = 1;
+
+	locations[n].private3.key = "key3";
+	locations[n].private3.money = 72700;
+	locations[n].private3.items.map_Pearl = 1;
+	locations[n].private3.items.potionwine = 9;
+	locations[n].private3.items.potion5 = 3;
+	locations[n].private3.items.indian1 = 1;
+	locations[n].private3.items.mineral10 = 2;
+	locations[n].private3.items.jewelry7 = 5;
+	locations[n].private3.items.jewelry9 = 15;
+	locations[n].private3.items.jewelry2 = 2;
+	locations[n].private3.items.jewelry15 = 5;
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1874,7 +2161,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "TartarusPrison";
 	locations[n].id.label = "TartarusPrison cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\TartarusPrison";
-	//locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\inside\prison.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -1886,6 +2173,7 @@ int LocationInitLostShipsCity(int n)
 	//Always	
 	Locations[n].models.always.inside = "TartarusPrison";
 	Locations[n].models.always.inside.level = 65538;
+	Locations[n].models.always.seabed = "TartarusPrison_sb";
 	Locations[n].models.always.outdoor = "TartarusPrison_outdoor";		
 	Locations[n].models.always.reflect = "TartarusPrison_reflect";
 	Locations[n].models.always.reflect.level = 65531;
@@ -1936,6 +2224,24 @@ int LocationInitLostShipsCity(int n)
 	locations[n].reload.l2.autoreload = "0";
 	locations[n].reload.l2.label = "LSC Town";
 	locations[n].reload.l2.disable = true;
+
+	//ключи для сундуков и предметы внутри
+	locations[n].private1.key = "key1";
+	locations[n].private1.items.potion1 = 1;
+	locations[n].private1.items.potion3 = 1;
+	locations[n].private1.items.blade1 = 10;
+	locations[n].private1.items.bullet = 3;
+	locations[n].private1.items.pistol1 = 1;
+
+	locations[n].private2.key = "key3";
+	locations[n].private2.money = 52450;
+	locations[n].private2.items.jewelry11 = 5;
+	locations[n].private2.items.jewelry12 = 12;
+	locations[n].private2.items.jewelry10 = 1;
+	locations[n].private2.items.jewelry13 = 1;
+	locations[n].private2.items.jewelry14 = 1;
+	locations[n].private2.items.jewelry15 = 1;
+	locations[n].private2.items.jewelry17 = 41;
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1944,7 +2250,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "VelascoShipInside1";
 	locations[n].id.label = "VelascoShipInside1 cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\VelascoShipInside1";
-	//locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\InsideLSC.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -1956,6 +2262,7 @@ int LocationInitLostShipsCity(int n)
 	//Always	
 	Locations[n].models.always.inside = "VelascoShipInside1";	
 	Locations[n].models.always.inside.level = 65538;
+	Locations[n].models.always.seabed = "VelascoShipInside1_sb";
 	Locations[n].models.always.outdoor = "VelascoShipInside1_outdoor";		
 	Locations[n].models.always.reflect = "VelascoShipInside1_reflect";
 	Locations[n].models.always.reflect.level = 65531;
@@ -2017,6 +2324,39 @@ int LocationInitLostShipsCity(int n)
 	locations[n].reload.l4.emerge = "reload69";
 	locations[n].reload.l4.autoreload = "0";
 	locations[n].reload.l4.label = "LSC Town";
+
+	locations[n].locators_radius.item.item1 = 1.1;
+
+	//ключи для сундуков и предметы внутри
+	locations[n].private1.key = "key1";
+	locations[n].private1.items.mineral = 1;
+	locations[n].private1.items.mineral = 1;
+	locations[n].private1.items.mineral = 10;
+	locations[n].private1.items.mineral = 3;
+	locations[n].private1.items.mineral = 1;
+	locations[n].private1.items.potion5 = 21;
+
+	locations[n].private2.key = "key2";
+	locations[n].private2.money = 10;
+	locations[n].private2.items.potion5 = 5;
+	locations[n].private2.items.potionwine = 12;
+	locations[n].private2.items.potionrum = 5;
+	locations[n].private2.items.potion1 = 4;
+	locations[n].private2.items.potion2 = 2;
+	locations[n].private2.items.map_dominica = 1;
+	locations[n].private2.items.pistol5 = 2;
+	locations[n].private2.items.blade33 = 1;
+
+	locations[n].private3.key = "key3";
+	locations[n].private3.money = 277410;
+	locations[n].private3.items.jewelry11 = 20;
+	locations[n].private3.items.jewelry12 = 12;
+	locations[n].private3.items.jewelry10 = 13;
+	locations[n].private3.items.jewelry13 = 11;
+	locations[n].private3.items.jewelry14 = 9;
+	locations[n].private3.items.jewelry15 = 15;
+	locations[n].private3.items.jewelry5 = 35;
+	locations[n].private2.items.map_hisp = 1;
 	n = n + 1;
 
 	return n;

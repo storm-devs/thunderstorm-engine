@@ -550,7 +550,7 @@ void BI_LaunchCommand()
         }
         else
         {
-            Log_SetStringToLog("Выход на карту закрыт.");
+            Log_SetStringToLog(xiStr("Map is Closes"));
         }
 		break;
 	case "BI_Moor":
@@ -1076,14 +1076,14 @@ void BI_InitializeCommands()
 	BattleInterface.Commands.Boat.selPicNum	= 10;
 	BattleInterface.Commands.Boat.texNum	= BI_ICONS_TEXTURE_COMMAND;
 	BattleInterface.Commands.Boat.event	= "BI_Boat";
-	BattleInterface.Commands.Boat.note	= "Выслать шлюпку";
+	BattleInterface.Commands.Boat.note	= LanguageConvertString(idLngFile, "sea_Boat");
 	
 	BattleInterface.Commands.Cabin.enable	= false;
 	BattleInterface.Commands.Cabin.picNum	= 27;
 	BattleInterface.Commands.Cabin.selPicNum	= 11;
 	BattleInterface.Commands.Cabin.texNum	= BI_ICONS_TEXTURE_COMMAND;
 	BattleInterface.Commands.Cabin.event	= "BI_Cabin";
-	BattleInterface.Commands.Cabin.note	    = "Каюта";
+	BattleInterface.Commands.Cabin.note	    = LanguageConvertString(idLngFile, "sea_Cabin");
 	
 	BattleInterface.Commands.ImmediateDeath.enable	= false;
 	BattleInterface.Commands.ImmediateDeath.picNum	= 43;    // это чит
@@ -1272,13 +1272,25 @@ void SetShipPictureDataByShipTypeName(string sType)
 		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
 		break;
 
+	case "barkentine":
+		BI_intNRetValue[0] = 2+2*8;
+		BI_intNRetValue[1] = 2+2*8 + 1;
+		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+
+	case "brig":
+		BI_intNRetValue[0] = 2+2*8;
+		BI_intNRetValue[1] = 2+2*8 + 1;
+		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+
 	case "fleut":
 		BI_intNRetValue[0] = 2+1*8;
 		BI_intNRetValue[1] = 2+1*8 + 1;
 		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
 		break;
 
-	case "brig":
+	case "brigantine":
 		BI_intNRetValue[0] = 2+2*8;
 		BI_intNRetValue[1] = 2+2*8 + 1;
 		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
@@ -1371,6 +1383,12 @@ void SetShipPictureDataByShipTypeName(string sType)
 	case "ArabellaShip":
 		BI_intNRetValue[0] = 4+3*8;
 		BI_intNRetValue[1] = 4+3*8 + 1;
+		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+
+	case "Flyingdutchman":
+		BI_intNRetValue[0] = 6+1*8;
+		BI_intNRetValue[1] = 6+1*8 + 1;
 		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
 		break;
 	}

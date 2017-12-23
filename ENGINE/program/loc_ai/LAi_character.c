@@ -424,6 +424,12 @@ void LAi_LockFightMode(aref chr, bool isLockFightMode)
 	SendMessage(&chr, "lsl", MSG_CHARACTER_EX_MSG, "LockFightMode", isLockFightMode);
 }
 
+//Получить режим боя (вытащена ли сабля)
+bool LAi_CheckFightMode(aref chr)
+{
+	return SendMessage(&chr, "ls", MSG_CHARACTER_EX_MSG, "CheckFightMode");
+}
+
 //------------------------------------------------------------------------------------------
 //Weapons
 //------------------------------------------------------------------------------------------
@@ -652,6 +658,11 @@ void LAi_AllCharactersUpdate(float dltTime)
 					DeleteAttribute(chr_ai, "poison");
 				}else{
 					hp = hp - dltTime*2.0;
+					if (!CheckAttribute(chr, "poison.hp") || hp < sti(chr.poison.hp)-1.0)
+					{
+						chr.poison.hp = hp;
+						SendMessage(chr, "lfff", MSG_CHARACTER_VIEWDAMAGE, hp, MakeFloat(MakeInt(chr.chr_ai.hp)), MakeFloat(MakeInt(chr.chr_ai.hp_max)));
+					}
 				}
 			}
 			if(LAi_IsImmortal(chr))
@@ -680,8 +691,8 @@ void LAi_AllCharactersUpdate(float dltTime)
 			{
 				if(sti(chr_ai.chargeprc))
 				{
-					// boal 22/07/05 зарядка не в бою
-					if (bRechargePistolOnLine || !LAi_IsFightMode(chr))
+					// boal 22/07/05 зарядка не в бою. eddy.но если мушкетер, то пофиг
+					if (bRechargePistolOnLine || !LAi_IsFightMode(chr) || chr.model.animation == "mushketer")
 					{
 						float charge = stf(chr_ai.charge);
 	                    // boal сюда добавть проверку на наличие пуль gun bullet-->

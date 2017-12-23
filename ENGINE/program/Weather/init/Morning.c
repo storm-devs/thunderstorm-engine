@@ -64,6 +64,15 @@ int Whr_InitMorning(int n)
 	Weathers[n].Rain.MaxBlend = 49;
 	Weathers[n].Rain.TimeBlend = 2000;
 
+	Weathers[n].Rain.DropsNearNum = 500;
+	Weathers[n].Rain.DropsFarNum = 500;
+	Weathers[n].Rain.DropsNearRadius = 25.0;
+	Weathers[n].Rain.DropsFarRadius = 75.0;
+	Weathers[n].Rain.DropsLifeTime = 0.25;
+	Weathers[n].Rain.DropsSize = 0.06;
+	Weathers[n].Rain.DropsTexture = "weather\rain_drops.tga";
+	Weathers[n].Rain.DropsColor = argb(48, 255, 255, 255);
+
 	Weathers[n].Rainbow.Enable = false;
 	Weathers[n].Rainbow.Texture = "weather\rainbow\rainbow.tga";
 
@@ -217,13 +226,13 @@ int Whr_InitMorning(int n)
 	Weathers[n].Stars.SunFade = 1.0;
 	Weathers[n].Stars.VisualMagnitude = 8.0;
 
-		Weathers[n].Fog.Enable = true;
-		Weathers[n].Fog.Height = 2000;
-		Weathers[n].Fog.Start = 1;
-		Weathers[n].Fog.Density = 0.01;
-		Weathers[n].Fog.IslandDensity = 0.003;
-		Weathers[n].Fog.SeaDensity = 0.001
-		Weathers[n].Fog.Color = argb(0,60,70,80);
+	Weathers[n].Fog.Enable = true;
+	Weathers[n].Fog.Height = 2000;
+	Weathers[n].Fog.Start = 1;
+	Weathers[n].Fog.Density = 0.01;
+	Weathers[n].Fog.IslandDensity = 0.003;
+	Weathers[n].Fog.SeaDensity = 0.001
+	Weathers[n].Fog.Color = argb(0,60,70,80);
 	
 	Weathers[n].Rain.NumDrops = 0;
 	Weathers[n].Rain.Color = argb(0,73,73,73);
@@ -235,6 +244,15 @@ int Whr_InitMorning(int n)
 	Weathers[n].Rain.WindSpeedJitter = 0.5;
 	Weathers[n].Rain.MaxBlend = 49;
 	Weathers[n].Rain.TimeBlend = 2000;
+
+	Weathers[n].Rain.DropsNearNum = 500;
+	Weathers[n].Rain.DropsFarNum = 500;
+	Weathers[n].Rain.DropsNearRadius = 25.0;
+	Weathers[n].Rain.DropsFarRadius = 75.0;
+	Weathers[n].Rain.DropsLifeTime = 0.25;
+	Weathers[n].Rain.DropsSize = 0.06;
+	Weathers[n].Rain.DropsTexture = "weather\rain_drops.tga";
+	Weathers[n].Rain.DropsColor = argb(50, 255, 255, 255);
 
 	Weathers[n].Rainbow.Enable = false;
 	Weathers[n].Rainbow.Texture = "weather\rainbow\rainbow.tga";
@@ -387,13 +405,13 @@ int Whr_InitMorning(int n)
 	Weathers[n].Stars.SunFade = 1.0;
 	Weathers[n].Stars.VisualMagnitude = 8.0;
 	
-		Weathers[n].Fog.Enable = true;
-		Weathers[n].Fog.Height = 2000;
-		Weathers[n].Fog.Start = 1;
-		Weathers[n].Fog.Density = 0.01;
-		Weathers[n].Fog.IslandDensity = 0.003;
-		Weathers[n].Fog.SeaDensity = 0.001;
-		Weathers[n].Fog.Color = argb(0,85,85,105);
+	Weathers[n].Fog.Enable = true;
+	Weathers[n].Fog.Height = 2000;
+	Weathers[n].Fog.Start = 1;
+	Weathers[n].Fog.Density = 0.01;
+	Weathers[n].Fog.IslandDensity = 0.003;
+	Weathers[n].Fog.SeaDensity = 0.001;
+	Weathers[n].Fog.Color = argb(0,85,85,105);
 	
 	Weathers[n].Rain.NumDrops = 0;
 	Weathers[n].Rain.Color = argb(0,73,73,73);
@@ -405,6 +423,15 @@ int Whr_InitMorning(int n)
 	Weathers[n].Rain.WindSpeedJitter = 0.5;
 	Weathers[n].Rain.MaxBlend = 49;
 	Weathers[n].Rain.TimeBlend = 2000;
+
+	Weathers[n].Rain.DropsNearNum = 500;
+	Weathers[n].Rain.DropsFarNum = 500;
+	Weathers[n].Rain.DropsNearRadius = 25.0;
+	Weathers[n].Rain.DropsFarRadius = 75.0;
+	Weathers[n].Rain.DropsLifeTime = 0.25;
+	Weathers[n].Rain.DropsSize = 0.06;
+	Weathers[n].Rain.DropsTexture = "weather\rain_drops.tga";
+	Weathers[n].Rain.DropsColor = argb(55, 255, 255, 255);
 
 	Weathers[n].Rainbow.Enable = false;
 	Weathers[n].Rainbow.Texture = "weather\rainbow\rainbow.tga";
@@ -567,13 +594,13 @@ int Whr_InitMorning(int n)
 	Weathers[n].Stars.SunFade = 1.0;
 	Weathers[n].Stars.VisualMagnitude = 8.0;
 	
-		Weathers[n].Fog.Enable = true;
-		Weathers[n].Fog.Height = 2000;
-		Weathers[n].Fog.Start = 1;
-		Weathers[n].Fog.Density = 0.008;
-		Weathers[n].Fog.IslandDensity = 0.002;
-		Weathers[n].Fog.SeaDensity = 0.001;
-		Weathers[n].Fog.Color = argb(0,90,90,100);
+	Weathers[n].Fog.Enable = true;
+	Weathers[n].Fog.Height = 2000;
+	Weathers[n].Fog.Start = 1;
+	Weathers[n].Fog.Density = 0.008;
+	Weathers[n].Fog.IslandDensity = 0.002;
+	Weathers[n].Fog.SeaDensity = 0.001;
+	Weathers[n].Fog.Color = argb(0,90,90,100);
 	
 	Weathers[n].Rain.NumDrops = 0;
 	Weathers[n].Rain.Color = argb(0,73,73,73);
@@ -585,6 +612,15 @@ int Whr_InitMorning(int n)
 	Weathers[n].Rain.WindSpeedJitter = 0.5;
 	Weathers[n].Rain.MaxBlend = 49;
 	Weathers[n].Rain.TimeBlend = 2000;
+
+	Weathers[n].Rain.DropsNearNum = 500;
+	Weathers[n].Rain.DropsFarNum = 500;
+	Weathers[n].Rain.DropsNearRadius = 25.0;
+	Weathers[n].Rain.DropsFarRadius = 75.0;
+	Weathers[n].Rain.DropsLifeTime = 0.25;
+	Weathers[n].Rain.DropsSize = 0.06;
+	Weathers[n].Rain.DropsTexture = "weather\rain_drops.tga";
+	Weathers[n].Rain.DropsColor = argb(59, 255, 255, 255);
 
 	Weathers[n].Rainbow.Enable = false;
 	Weathers[n].Rainbow.Texture = "weather\rainbow\rainbow.tga";
@@ -766,6 +802,15 @@ int Whr_InitMorning(int n)
 	Weathers[n].Rain.WindSpeedJitter = 0.5;
 	Weathers[n].Rain.MaxBlend = 49;
 	Weathers[n].Rain.TimeBlend = 2000;
+
+	Weathers[n].Rain.DropsNearNum = 500;
+	Weathers[n].Rain.DropsFarNum = 500;
+	Weathers[n].Rain.DropsNearRadius = 25.0;
+	Weathers[n].Rain.DropsFarRadius = 75.0;
+	Weathers[n].Rain.DropsLifeTime = 0.25;
+	Weathers[n].Rain.DropsSize = 0.06;
+	Weathers[n].Rain.DropsTexture = "weather\rain_drops.tga";
+	Weathers[n].Rain.DropsColor = argb(61, 255, 255, 255);
 
 	Weathers[n].Rainbow.Enable = false;
 	Weathers[n].Rainbow.Texture = "weather\rainbow\rainbow.tga";

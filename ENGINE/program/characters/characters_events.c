@@ -110,9 +110,29 @@ void chrCharacterEntryToLocator()
 		break;
 	case "box":	
 		Box_EnterToLocator(loc, locator);
+		//<<-- линейка ГПК, обнаружение сундука со скелетом
+		if (loc.id == "LostShipsCity_town" && locator == "private10")
+		{
+			LSC_enterAdmiralBox();
+		}		
 		break;
-	case "goto":	
-		//if (chr.index == "1") Log_SetStringToLog("Вхождение в локатор " + locator);	
+	case "teleport":	
+		if (CheckAttribute(loc, "gotoFire")) 
+		{
+			bMainCharacterInFire = true;
+			aref locator_group;
+			makearef(locator_group, loc.locators.teleport.(locator));
+			CreateParticleSystem("shipfire",stf(locator_group.x),stf(locator_group.y),stf(locator_group.z),0,0,0,0);
+			CreateParticleSystem("shipfire",stf(locator_group.x)-1.4,stf(locator_group.y),stf(locator_group.z)-1.4,0,0,0,0);
+			CreateParticleSystem("shipfire",stf(locator_group.x)+1.4,stf(locator_group.y),stf(locator_group.z)-1.4,0,0,0,0);
+			CreateParticleSystem("shipfire",stf(locator_group.x)-1.4,stf(locator_group.y),stf(locator_group.z)+1.4,0,0,0,0);
+			CreateParticleSystem("shipfire",stf(locator_group.x)+1.4,stf(locator_group.y),stf(locator_group.z)+1.4,0,0,0,0);
+			loc.gotoFire = SendMessage(Sound, "lsllllllfff", MSG_SOUND_PLAY, "fortfire", SOUND_WAV_3D, VOLUME_FX, 0, 1, 0, 0, stf(locator_group.x), stf(locator_group.y), stf(locator_group.z));
+			float hp    = stf(chr.chr_ai.hp);
+			chr.chr_ai.hp = sti(chr.chr_ai.hp) - (15+MOD_SKILL_ENEMY_RATE);
+			LAi_CheckKillCharacter(chr);
+			SendMessage(chr, "lfff", MSG_CHARACTER_VIEWDAMAGE, (15+MOD_SKILL_ENEMY_RATE), MakeFloat(MakeInt(hp)), MakeFloat(MakeInt(chr.chr_ai.hp_max)));
+		}
 		break;
 	}
 	
@@ -173,14 +193,20 @@ bool chrCheckCamLocatorSkip(aref loc,string locator)
 
 void chrCharacterInLocator()
 {
+	if (bMainCharacterInFire)
+	{
+		aref loc = GetEventData();			
+		aref chr = GetEventData();
+		if (LAi_IsDead(chr) && LAi_IsImmortal(chr)) return;
+		float hp    = stf(chr.chr_ai.hp);		
+		chr.chr_ai.hp = sti(chr.chr_ai.hp) - (15+MOD_SKILL_ENEMY_RATE);
+		LAi_CheckKillCharacter(chr);
+		SendMessage(chr, "lfff", MSG_CHARACTER_VIEWDAMAGE, (15+MOD_SKILL_ENEMY_RATE), MakeFloat(MakeInt(hp)), MakeFloat(MakeInt(chr.chr_ai.hp_max)));
+	}
 	return;
-
-	aref loc = GetEventData();	
-	aref chr = GetEventData();
 	string group = GetEventData();
 	string locator = GetEventData();
 	float timeInLocator = GetEventData();
-
 }
 
 void chrCharacterExitFromLocator()
@@ -214,6 +240,15 @@ void chrCharacterExitFromLocator()
 		break;
 	case "box":
 		Box_ExitFromLocator(loc, locator);
+		break;
+	case "teleport":	
+		if (CheckAttribute(loc, "gotoFire"))
+		{
+			DeleteParticles();
+			StopSound(sti(loc.gotoFire), 0);
+			ReleaseSound(0);
+			bMainCharacterInFire = false;
+		}
 		break;
 	}
 
@@ -289,11 +324,14 @@ bool chrIsNowEnableReload()
 string g_strRetParam;
 ref funcGetWeaponID()
 {
+	g_strRetParam = "blade";
 	string nCharIdx = GetEventData();
-	ref chr = characterFromId(nCharIdx);
-	string bladeId = chr.equip.blade; 
-	if (findsubstr(bladeId, "topor" , 0) != -1)	g_strRetParam = "topor";
-	else g_strRetParam = "blade";
+	int iTemp = GetCharacterIndex(nCharIdx);
+	if (iTemp != -1)
+	{
+		string bladeId = characters[iTemp].equip.blade; 
+		if (findsubstr(bladeId, "topor" , 0) != -1)	g_strRetParam = "topor";
+	}	
 	return &g_strRetParam;
 }
 
@@ -319,3 +357,4 @@ bool chrIsEnableReload()
 	if(qmIsNoReload() != false) return false;
 	return true;
 }
+

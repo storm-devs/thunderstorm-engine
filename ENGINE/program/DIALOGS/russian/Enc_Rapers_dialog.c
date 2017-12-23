@@ -1,3 +1,4 @@
+#include "TEXT\DIALOGS\Enc_Rapers_dialog.h"
 void ProcessDialogEvent()
 {
 	ref NPChar, sld;
@@ -59,31 +60,31 @@ void ProcessDialogEvent()
 				LAi_RemoveCheckMinHP(sld);
 			}
 			Diag.TempNode = "OnceAgain";
-			dialog.text = LinkRandPhrase("Убирайся отсюда! Не мешай нам развлекаться!",
-				"Проваливай, приятель! Не ввязывайся не в свое дело! Подумаешь, мы чуть позабавимся!",
-				"Иди своей дорогой, незнакомец! Она потом нам сама будет благодарна. А ты целее будешь!");
-			Link.l1 = LinkRandPhrase("Нет уж, мне придется вмешаться.",
-				"Я не позволю свершиться этому преступлению!",
-				"Бросьте свое дурное дело!");
+			dialog.text = LinkRandPhrase(DLG_TEXT_BASE[0],
+				DLG_TEXT_BASE[1],
+				DLG_TEXT_BASE[2]);
+			Link.l1 = LinkRandPhrase(DLG_TEXT_BASE[3],
+				DLG_TEXT_BASE[4],
+				DLG_TEXT_BASE[5]);
 			Link.l1.go = "Node_2";
-			Link.l2 = LinkRandPhrase("Я пойду. Простите, что помешал.",
-				"Извините, что побеспокоил. Счастливо оставаться.",
-				"Я все понял. До свидания!");
+			Link.l2 = LinkRandPhrase(DLG_TEXT_BASE[6],
+				DLG_TEXT_BASE[7],
+				DLG_TEXT_BASE[8]);
 			Link.l2.go = "Exit_NoFight";
 		break;
 		
 		case "Node_2":
-			dialog.text = "Ну, тогда пеняй на себя! Пощекочем его ребра сталью, ребята!";
-			Link.l1 = "Помолитесь перед смертью!";
+			dialog.text = DLG_TEXT_BASE[9];
+			Link.l1 = DLG_TEXT_BASE[10];
 			Link.l1.go = "Exit_Fight";
 		break;
 
 		case "OnceAgain":
 			Diag.TempNode = "OnceAgain";
-			dialog.text = "Что, захотелось присоединиться? Иди к черту - нам самим мало!";
-			Link.l1 = "Раз так, не буду вам мешать.";
+			dialog.text = DLG_TEXT_BASE[11];
+			Link.l1 = DLG_TEXT_BASE[12];
 			Link.l1.go = "Exit_NoFight";
-			Link.l2 = "Я не позволю насилию случиться на моих глазах!";
+			Link.l2 = DLG_TEXT_BASE[13];
 			Link.l2.go = "Node_2";
 		break;
 				

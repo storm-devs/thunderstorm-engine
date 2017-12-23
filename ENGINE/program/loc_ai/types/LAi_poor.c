@@ -112,6 +112,7 @@ void LAi_type_poor_CharacterUpdate(aref chr, float dltTime)
 			{
 				idx = sti(chrFindNearCharacters[i].index);
 				if(LAi_group_IsEnemy(chr, &Characters[idx])) break;
+				if(LAi_CheckFightMode(&Characters[idx])) break;
 			}
 			//есть враги
 			if(i < num)
@@ -301,19 +302,27 @@ void LAi_type_poor_Attacked(aref chr, aref by)
 
 int LAi_type_poor_FindNearEnemy(aref chr)
 {
+	int i, idx;
+	int num = FindNearCharacters(chr, 5.0, -1.0, -1.0, 0.001, false, true);
+	if(num <= 0)
+	{
+		chrFindNearCharacters[0].index = "-1";
+		return -1;
+	}
 	if(LAi_grp_alarmactive == true)
 	{
-		int num = FindNearCharacters(chr, 5.0, -1.0, -1.0, 0.001, false, true);
-		if(num <= 0)
+		for(i = 0; i < num; i++)
 		{
-			chrFindNearCharacters[0].index = "-1";
-			return -1;
-		}
-		int cnt = 0;
-		for(int i = 0; i < num; i++)
-		{
-			int idx = sti(chrFindNearCharacters[i].index);
+			idx = sti(chrFindNearCharacters[i].index);
 			if(LAi_group_IsEnemy(chr, &Characters[idx])) return idx;
+		}
+	}
+	else
+	{
+		for(i = 0; i < num; i++)
+		{
+			idx = sti(chrFindNearCharacters[i].index);
+			if(LAi_CheckFightMode(&Characters[idx])) return idx;	
 		}
 	}
 	return -1;

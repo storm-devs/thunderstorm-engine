@@ -61,7 +61,7 @@ void LAi_type_warrior_Init(aref chr)
 		if(!CheckAttribute(chr, "chr_ai.type.dialog")) chr.chr_ai.type.dialog = "1"; 
 	}
 	//Установим анимацию персонажу
-	if (chr.model.animation == "mushketer")
+	if (chr.model.animation == "mushketer" && !CheckAttribute(chr, "isMusketer.weapon"))
 	{
         while (FindCharacterItemByGroup(chr, BLADE_ITEM_TYPE) != "")
         {
@@ -73,8 +73,14 @@ void LAi_type_warrior_Init(aref chr)
         }		
 		GiveItem2Character(chr, "unarmed");
 		EquipCharacterbyItem(chr, "unarmed");
-		GiveItem2Character(chr, "mushket");
-		EquipCharacterbyItem(chr, "mushket");
+		string sMush = "mushket";
+		if (chr.model == "MusketeerEnglish_2") sMush = "mushket2x2";
+		GiveItem2Character(chr, sMush);
+		EquipCharacterbyItem(chr, sMush);
+		chr.items.bullet = 300;
+		chr.isMusketer = true;
+		if (!CheckAttribute(chr, "MusketerDistance"))
+			chr.MusketerDistance = 10.0 + frand(10.0);
 	}
 	else
 	{
@@ -170,7 +176,27 @@ void LAi_type_warrior_CharacterUpdate(aref chr, float dltTime)
 				//Стоим и ждём цели
 				LAi_type_warrior_SetWateState(chr);
 			}
-
+			//слежение залезания ГГ в боксы
+			if (CheckAttribute(chr, "watchBoxes")) 
+			{
+				int num = FindNearCharacters(chr, 10.0, -1.0, 180.0, 0.01, true, true);
+				for(int i = 0; i < num; i++)
+				{
+					if(nMainCharacterIndex == sti(chrFindNearCharacters[i].index))
+					{					
+						//нашли ГГ, проверяем, не в сундуке ли.						
+						if (bMainCharacterInBox)
+						{
+							//Нападаем на новую цель
+							LAi_group_Attack(chr, Pchar);
+							if(rand(100) > 95)
+							{
+								LAi_type_warrior_PlaySound(chr);
+							}	
+						}
+					}
+				}
+			}
 		}
 	}	
 }
@@ -234,6 +260,12 @@ void LAi_type_warrior_Fire(aref attack, aref enemy, float kDist, bool isFindedEn
 //Персонаж атакован
 void LAi_type_warrior_Attacked(aref chr, aref by)
 {
+	//--> линейка ГПК, завал касперов по одному
+	if (CheckAttribute(chr, "quest.checkCasper"))
+	{
+		LSC_CheckCasperDistance(chr);
+	}
+	//<-- линейка ГПК, завал касперов по одному
 	//если наносящий удар уже таргет, нефиг крутить код и переназначать цель
 	if (LAi_tmpl_fight_GetTarget(chr) == sti(by.index)) return;
 	//Своих пропускаем
@@ -329,7 +361,7 @@ void LAi_type_warrior_questPanama(ref chr)
 	}
 	else
 	{
-		Log_SetStringToLog("Ричард Соукинс заметил, что вы подло напали на него. Теперь его пираты будут атаковать вас.");
+		Log_SetStringToLog(xiDStr("LAi_warrior_1"));
 		int iTemp;
 		LAi_group_MoveCharacter(chr, LAI_GROUP_PLAYER_OWN);
 		LAi_tmpl_fight_SetTarget(chr, pchar);

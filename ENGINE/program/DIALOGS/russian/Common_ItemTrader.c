@@ -1,4 +1,4 @@
-
+#include "TEXT\DIALOGS\Common_ItemTrader.h"
 void ProcessDialogEvent()
 {
  	ref NPChar;
@@ -51,20 +51,39 @@ void ProcessDialogEvent()
 		break;
 
   		case "First time":
-			dialog.text = NPCharSexPhrase(npchar, "Хотите прикупить снаряжение для себя или своих офицеров, капитан? Тогда вы обратились по адресу!", "Ой, капитан, я так и знала, что вы подойдете именно ко мне!.. Могу предложить снаряжение для вас и ваших офицеров, а также множество других необходимых вещей.");
-			link.l1 = "Покажи, что там у тебя есть.";
+			//зачарованный город -->
+			if (pchar.questTemp.MC == "toCaracas" && npchar.city == "Caracas")
+			{
+				dialog.text = LinkRandPhrase(DLG_TEXT_BASE[0], 
+					DLG_TEXT_BASE[1], 
+					DLG_TEXT_BASE[2]);
+				link.l1 = DLG_TEXT_BASE[3];
+				link.l1.go = "exit";
+				break;
+			}
+			if (pchar.questTemp.MC == "toCaracasPadre" || pchar.questTemp.MC == "toCaracasTavern")
+			{
+				dialog.text = DLG_TEXT_BASE[4];
+				link.l1 = DLG_TEXT_BASE[5];
+				link.l1.go = "exit";
+				break;
+			}
+			//<-- зачарованный город 
+
+			dialog.text = NPCharSexPhrase(npchar, DLG_TEXT_BASE[6], DLG_TEXT_BASE[7]);
+			link.l1 = DLG_TEXT_BASE[8];
 			link.l1.go = "Trade_exit";
 			
-   			link.l2 = "Я по другому делу.";
+   			link.l2 = DLG_TEXT_BASE[9];
 			link.l2.go = "quests";
 			//--> eddy. Аскольд, перехват на рендомного перца
 			if (pchar.questTemp.Ascold == "Seek_powder")
 			{
-   				link.l4 = LinkRandPhrase("Тебе не встречалась такая вещь - порошок мумии?", "У тебя в продаже есть порошок мумии?", "Послушай, ты не знаешь где можно достать порошок мумии?");
+   				link.l4 = LinkRandPhrase(DLG_TEXT_BASE[10], DLG_TEXT_BASE[11], DLG_TEXT_BASE[12]);
 				link.l4.go = "AscoldMerchant";
 			}
 			//<-- eddy. Аскольд, перехват на рендомного перца
-			link.l3 = "Спасибо, не интересует.";
+			link.l3 = DLG_TEXT_BASE[13];
 			link.l3.go = "exit";
 
 			NextDiag.TempNode = "First time";
@@ -82,8 +101,8 @@ void ProcessDialogEvent()
 		break;
 		//=================== ноды квеста мэра. поиск шпиона на улице, опрос свидетеля ==================
 		case "SeekSpy_Checking":
-			dialog.text = "Да, я подтверждаю, " + NPCharSexPhrase(&characters[sti(pchar.GenQuest.SeekSpy.BaseIdx)], "он действительно местный житель.", "она действительно местная жительница.");
-			link.l1 = RandPhraseSimple("Я понял. Спасибо за помощь.", "Все ясно. Спасибо за помощь.");
+			dialog.text = DLG_TEXT_BASE[14] + NPCharSexPhrase(&characters[sti(pchar.GenQuest.SeekSpy.BaseIdx)], DLG_TEXT_BASE[15], DLG_TEXT_BASE[16]);
+			link.l1 = RandPhraseSimple(DLG_TEXT_BASE[17], DLG_TEXT_BASE[18]);
 			link.l1.go = "SeekSpy_Checking_1";
 		break;
 		case "SeekSpy_Checking_1":
@@ -100,61 +119,61 @@ void ProcessDialogEvent()
 		break;
 		//Квест Аскольда. Базары с уличными торговцами
 		case "AscoldMerchant": 
-			dialog.text = NPCStringReactionRepeat(LinkRandPhrase("Порошок мумии? Я не знаю, что такое мумия.", "Порошок чего? Мумии? Что это такое?", "Порошок мумии? Что за вещица такая?"),
-                     LinkRandPhrase("Опять ты спрашиваешь меня об этом?", "Снова ты начинаешь разговор о том же...", "И опять об этом порошке?"),
-                     LinkRandPhrase(NPCharSexPhrase(npchar, "Я же ответил тебе на этот вопрос! Чего ты еще хочешь?", "Я же ответила тебе на этот вопрос! Чего ты еще хочешь?"),
-                                    NPCharSexPhrase(npchar, "Я уже сказал тебе все, что считаю нужным. Опять эти странные вопросы?", "Я уже сказала тебе все, что считаю нужным. Опять эти странные вопросы?"),
-                                    "Опять эти странные вопросы? Мне нечего добавить к сказанному ранее!"),
-                     LinkRandPhrase("Опять?!! Опять?!!", "Слов просто нет!!! Опять?!", "Снова ты об этом проклятом порошке?!"), "quest", 10, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat("Это бальзамированное тело усопшего много тысячилетий назад египтянина.",
-                                               "Ага, спрашиваю. Может забылось что-нибудь?",
-                                               "Еще раз спрашиваю, может, изменилось что...",
-                                               "Ага, снова спрашиваю.", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(LinkRandPhrase(DLG_TEXT_BASE[19], DLG_TEXT_BASE[20], DLG_TEXT_BASE[21]),
+                     LinkRandPhrase(DLG_TEXT_BASE[22], DLG_TEXT_BASE[23], DLG_TEXT_BASE[24]),
+                     LinkRandPhrase(NPCharSexPhrase(npchar, DLG_TEXT_BASE[25], DLG_TEXT_BASE[26]),
+                                    NPCharSexPhrase(npchar, DLG_TEXT_BASE[27], DLG_TEXT_BASE[28]),
+                                    DLG_TEXT_BASE[29]),
+                     LinkRandPhrase(DLG_TEXT_BASE[30], DLG_TEXT_BASE[31], DLG_TEXT_BASE[32]), "quest", 10, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(DLG_TEXT_BASE[33],
+                                               DLG_TEXT_BASE[34],
+                                               DLG_TEXT_BASE[35],
+                                               DLG_TEXT_BASE[36], npchar, Dialog.CurrentNode);
             link.l1.go = DialogGoNodeRepeat("AscoldMerchant_2", "AscoldMerchant_3", "AscoldMerchant_4", "", npchar, Dialog.CurrentNode);
 		break;
 		
 		case "AscoldMerchant_2":
-			dialog.text = LinkRandPhrase("Не-е-ет, такого добра нам не надо. Не доводилось встречать. И вообще, и ты первый, кто спрашивает такой странный товар. Не думаю, что торговля такими предметами понравится Святой Церкви. Это, знаешь ли, не шутки...",
-                     NPCharSexPhrase(npchar, "Нет, не было такого товара. Даже если бы встретился, то не взял бы. Я регулярно посещаю церковь, не думаю, что Инквизиции понравится торговля такими вещами.", "Нет, не было такого товара. Даже если бы встретился, то не взяла бы. Я исправная прихожанка, не думаю, что Инквизиции понравится торговля такими вещами."),
-                     NPCharSexPhrase(npchar, "Не встречал ничего подобного. И, полагаю, это к лучшему. Если моя жена узнает, то сразу же побежит к инквизиторам...", "Не встречала ничего подобного. И, полагаю, это к лучшему. Мой муж не будет в восторге от такой моей торговли..."));
-			Link.l1 = "Да? Ну ладно, нет - так нет...";
+			dialog.text = LinkRandPhrase(DLG_TEXT_BASE[37],
+                     NPCharSexPhrase(npchar, DLG_TEXT_BASE[38], DLG_TEXT_BASE[39]),
+                     NPCharSexPhrase(npchar, DLG_TEXT_BASE[40], DLG_TEXT_BASE[41]));
+			Link.l1 = DLG_TEXT_BASE[42];
 			Link.l1.go = "exit";
 		break;
 		
 		case "AscoldMerchant_3":
-			dialog.text = LinkRandPhrase(NPCharSexPhrase(npchar, "Ничего я не запамятовал. Не знаю я ничего ни о каких мумиях и знать не желаю. И тебе не рекомендую этим промышлять. А то часом обвинят в колдовстве, от церкви отлучат...", "Ничего я не запамятовала. Не знаю я ничего ни о каких мумиях и знать не желаю. И тебе не рекомендую этим промышлять. А то часом обвинят в колдовстве, от церкви отлучат..."),
-                                    "Все я прекрасно помню. Но о мумиях говорить не хочу. Святой Инквизиции бы этим делом заняться...",
-                                    NPCharSexPhrase(npchar, "Все я помню хорошо. М-да, знала бы моя жена о таких предложениях - давно бы Святая Инквизиция занималась этим...", "Я все помню хорошо. И думаю, что надо бы мужа позвать..."));
-			Link.l1 = "Агарх!! Странные вещи говоришь. Ну да ладно...";
+			dialog.text = LinkRandPhrase(NPCharSexPhrase(npchar, DLG_TEXT_BASE[43], DLG_TEXT_BASE[44]),
+                                    DLG_TEXT_BASE[45],
+                                    NPCharSexPhrase(npchar, DLG_TEXT_BASE[46], DLG_TEXT_BASE[47]));
+			Link.l1 = DLG_TEXT_BASE[48];
 			Link.l1.go = "exit";
 		break;
 		
 		case "AscoldMerchant_4":
-			dialog.text = LinkRandPhrase(NPCharSexPhrase(npchar, "Ничего не изменилось, ровным счетом ничего!!! Не видел я египетских покойников забальзамированных ни в целом, ни в истолченном виде!", "Ничего не изменилось, ровным счетом ничего!!! Не видела я египетских покойников забальзамированных ни в целом, ни в истолченном виде!"),
-                                    NPCharSexPhrase(npchar, "Абсолютно ничего не изменилось - никаких истолченных трупов я не видел и, надеюсь, не увижу.", "Абсолютно ничего не изменилось - никаких истолченных трупов я не видела и, надеюсь, не увижу. А будешь приставать с идиотскими вопросам - мужа позову..."),
-                                    NPCharSexPhrase(npchar, "Изменилось?!! Послушай, я же ясно выразился! Неужели не понятно, что с покойниками, истолченными или целыми, я не связываюсь?!!", "Изменилось?!! Послушайте, я же все совершенно ясно сказала! Неужели не понятно, что с покойниками, истолченными или целыми, я не связываюсь?!!"));
-			Link.l1 = NPCharSexPhrase(npchar, "Да ты не нервничай так. Успокойся, не видел - так не видел...", "Да ты не нервничай так. Успокойся, не видела - так не видела...");
+			dialog.text = LinkRandPhrase(NPCharSexPhrase(npchar, DLG_TEXT_BASE[49], DLG_TEXT_BASE[50]),
+                                    NPCharSexPhrase(npchar, DLG_TEXT_BASE[51], DLG_TEXT_BASE[52]),
+                                    NPCharSexPhrase(npchar, DLG_TEXT_BASE[53], DLG_TEXT_BASE[54]));
+			Link.l1 = NPCharSexPhrase(npchar, DLG_TEXT_BASE[55], DLG_TEXT_BASE[56]);
 			Link.l1.go = "exit";
 		break;
 
 // ======================== блок нод angry ===============>>>>>>>>>>>>>>>
 		case "AngryQuest_AscoldMerchant":
-            Dialog.text = RandPhraseSimple("Я не хочу с тобой больше иметь дело.", "Больше я тебе ничего продавать не буду.");
-			Link.l1 = RandPhraseSimple("Ну как знаешь. По всему видать, деньги тебе не нужны.", "Невелика потеря...");
+            Dialog.text = RandPhraseSimple(DLG_TEXT_BASE[57], DLG_TEXT_BASE[58]);
+			Link.l1 = RandPhraseSimple(DLG_TEXT_BASE[59], DLG_TEXT_BASE[60]);
 		    Link.l1.go = "AngryExitAgain";
 		    //===>> квест Аскольда, розыск порошка мумии.
             if (pchar.questTemp.Ascold == "Seek_powder" && npchar.city == pchar.questTemp.Ascold.MerchantColony && npchar.location.locator == "merchant1")
             {
-                Dialog.text =  "Ты очень настойчив, видимо этот порошок тебе действительно нужен.";
-    			Link.l1 = "Именно так. А теперь я хочу знать, есть ли он у тебя на самом деле. И не бойся, все останется между нами.";
+                Dialog.text =  DLG_TEXT_BASE[61];
+    			Link.l1 = DLG_TEXT_BASE[62];
     		    Link.l1.go = "AngStep_1";
             }
             if (CheckAttribute(npchar, "angry.terms")) //мирилка по квесту Аскольда через 10 дней.
             {
                 if (GetNpcQuestPastDayParam(npchar, "angry.terms") > sti(npchar.angry.terms) && pchar.questTemp.Ascold != "Seek_powder")
                 {
-         			Dialog.text = NPCharSexPhrase(npchar, "Очень рассчитываю на то, что ты не будешь меня утомлять странными просьбами. Пожалуй, я готов вести дела с тобой.", "Очень надеюсь на то, что ты не будешь приставать ко мне с этими ужасными трупными покупками. Пожалуй, я готова торговать с тобой.");
-        			Link.l1 = RandPhraseSimple("Здорово!", "Превосходно!");
+         			Dialog.text = NPCharSexPhrase(npchar, DLG_TEXT_BASE[63], DLG_TEXT_BASE[64]);
+        			Link.l1 = RandPhraseSimple(DLG_TEXT_BASE[65], DLG_TEXT_BASE[66]);
         			Link.l1.go = "First time";
         			CharacterDelAngry(npchar);
                 }
@@ -167,10 +186,10 @@ void ProcessDialogEvent()
 		break;
 
 		case "AngStep_1":
-            Dialog.text = "Есть, но не для всех, сам понимаешь. Но тебе продам. Тысяча монет, и он твой.";
+            Dialog.text = DLG_TEXT_BASE[67];
             if (sti(pchar.money) >= 1000)
             {
-    			Link.l1 = "Хорошо, вот твои деньги.";
+    			Link.l1 = DLG_TEXT_BASE[68];
     		    Link.l1.go = "AngryExitAgain";
     		    pchar.questTemp.Ascold = "PowderWasSeek";
     		    CharacterDelAngry(npchar);
@@ -179,7 +198,7 @@ void ProcessDialogEvent()
             }
             else
             {
-    			Link.l1 = "Сейчас у меня с собой нет такой суммы. Как только соберу - сразу же навещу тебя.";
+    			Link.l1 = DLG_TEXT_BASE[69];
     		    Link.l1.go = "AngryExitAgain";
             }
     	break;

@@ -1,4 +1,5 @@
 // boal 25/04/04 общий диалог солдат
+#include "TEXT\DIALOGS\Common_Soldier.h"
 void ProcessDialogEvent()
 {
 	ref NPChar;
@@ -50,13 +51,13 @@ void ProcessDialogEvent()
 				// заглушка на пирата
 				if (sti(pchar.nation) == PIRATE)
 				{
-    				dialog.text = RandPhraseSimple("Пираты в городе?! Ну дела... Хватай его!!", "Это пират!! Держи его!!!");
-					link.l1 = RandPhraseSimple("Пират, ну и что?..", "Хех, попробуйте схватить.");
+    				dialog.text = RandPhraseSimple(DLG_TEXT_BASE[0], DLG_TEXT_BASE[1]);
+					link.l1 = RandPhraseSimple(DLG_TEXT_BASE[2], DLG_TEXT_BASE[3]);
 					link.l1.go = "fight"; 
 					break;
 				} 
-				dialog.text = RandPhraseSimple("Шпион? Сдать оружие!! Следовать за мной!", "Вражеский агент!! Немедленно схватить его!");
-				link.l1 = RandPhraseSimple("Заткнись, малахольный!", "Как бы не так!");
+				dialog.text = RandPhraseSimple(DLG_TEXT_BASE[4], DLG_TEXT_BASE[5]);
+				link.l1 = RandPhraseSimple(DLG_TEXT_BASE[6], DLG_TEXT_BASE[7]);
 				link.l1.go = "fight"; 
 				// ==> eddy. Засада, если опознали в инквизиции.
 				if (Pchar.location == "Santiago_Incquisitio") StartIncquisitioAttack();
@@ -66,19 +67,19 @@ void ProcessDialogEvent()
 				// eddy. проверяем, не казачок ли. -->
 				if (GetNationRelation(sti(NPChar.nation), GetBaseHeroNation()) == RELATION_ENEMY && sti(NPChar.nation) != PIRATE)
 				{
-					dialog.text = RandPhraseSimple("Кто ты и что тебе здесь нужно?", "Стой! Кто ты? На каком основании пытаешься войти в город?");
+					dialog.text = RandPhraseSimple(DLG_TEXT_BASE[8], DLG_TEXT_BASE[9]);
 					//==> по лицензии
 					if (CheckNationLicence(sti(npchar.nation)))
 					{
-						link.l1 = "Офицер, у меня имеется " + GetRusNameNationLicence(sti(npchar.nation)) + ", так что, я нахожусь здесь на законных основаниях. Прошу ознакомиться...";
+						link.l1 = DLG_TEXT_BASE[10] + GetRusNameNationLicence(sti(npchar.nation)) + DLG_TEXT_BASE[11];
 						link.l1.go = "LicenceOk";
 						if (findsubstr(pchar.location.from_sea, "_town" , 0) != -1) //если причалил в городе
 						{
-							link.l2 = "Ты что, не видишь, как на моем корабле развивается флаг " + NationNameGenitive(sti(pchar.nation)) + "?!";
+							link.l2 = DLG_TEXT_BASE[12] + NationNameGenitive(sti(pchar.nation)) + "?!";
 						}
 						else //если причалил не в городе
 						{
-							link.l2 = "Я бросил якорь у " + XI_ConvertString(GetIslandByCityName(npchar.city)+"Gen") + " под флагом " + NationNameGenitive(sti(pchar.nation)) + ". Что тебе еще не ясно?";
+							link.l2 = DLG_TEXT_BASE[13] + XI_ConvertString(GetIslandByCityName(npchar.city)+"Gen") + DLG_TEXT_BASE[14] + NationNameGenitive(sti(pchar.nation)) + DLG_TEXT_BASE[15];
 						}
 						if (GetSummonSkillFromName(pchar, SKILL_SNEAK) < (20+rand(50)+rand(50)))
 						{
@@ -95,18 +96,18 @@ void ProcessDialogEvent()
 						// заглушка на пирата
 						if (sti(pchar.nation) == PIRATE)
 						{
-    						dialog.text = RandPhraseSimple("Пираты в городе?! Ну дела... Хватай его!!", "Это пират!! Держи его!!!");
-							link.l1 = RandPhraseSimple("Да, пират, ну и что?..", "Хех, попробуйте схватить...");
+    						dialog.text = RandPhraseSimple(DLG_TEXT_BASE[16], DLG_TEXT_BASE[17]);
+							link.l1 = RandPhraseSimple(DLG_TEXT_BASE[18], DLG_TEXT_BASE[19]);
 							link.l1.go = "fight"; 
 							break;
 						}
 						if (findsubstr(pchar.location.from_sea, "_town" , 0) != -1) //если причалил в городе
 						{
-							link.l1 = "Ты что, не видишь, как на моем корабле развивается флаг " + NationNameGenitive(sti(pchar.nation)) + "?!";
+							link.l1 = DLG_TEXT_BASE[20] + NationNameGenitive(sti(pchar.nation)) + "?!";
 						}
 						else //если причалил не в городе
 						{
-							link.l1 = "Я бросил якорь у " + XI_ConvertString(GetIslandByCityName(npchar.city)+"Gen") + " под флагом " + NationNameGenitive(sti(pchar.nation)) + ". Что тебе еще не ясно?";
+							link.l1 = DLG_TEXT_BASE[21] + XI_ConvertString(GetIslandByCityName(npchar.city)+"Gen") + DLG_TEXT_BASE[22] + NationNameGenitive(sti(pchar.nation)) + DLG_TEXT_BASE[23];
 						}
 						if (GetSummonSkillFromName(pchar, SKILL_SNEAK) < (20+rand(50)+rand(50)))
 						{
@@ -128,81 +129,81 @@ void ProcessDialogEvent()
 			         		switch (rand(10))
 							{
 								case 0:
-									dialog.text = "Эх капитан, как славно было с вами в море! Сколько кораблей мы потопили под вашей командой! А тут...";
-									link.l1 = "А тут, друг мой, перед вами постоянно мелькают очаровательные женщины, которых в море не бывает.";
+									dialog.text = DLG_TEXT_BASE[24];
+									link.l1 = DLG_TEXT_BASE[25];
 									link.l1.go = "exit";
 								break;
 
 								case 1:
-									dialog.text = "Капитан, за что такое наказание?! Мы ведь не сухопутные крысы!";
-									link.l1 = "Спокойно, моряк! Вы на важном и почетном посту, так что не нойте.";
+									dialog.text = DLG_TEXT_BASE[26];
+									link.l1 = DLG_TEXT_BASE[27];
 									link.l1.go = "exit";
 								break;
 
 								case 2:
-									dialog.text = "Как там в море, капитан? Мы когда-нибудь снова увидим его?";
-									link.l1 = "Конечно, матрос! Сменитесь с караула, выйдете на пирс и наслаждайтесь морем сколько угодно.";
+									dialog.text = DLG_TEXT_BASE[28];
+									link.l1 = DLG_TEXT_BASE[29];
 									link.l1.go = "exit";
 								break;
 
 								case 3:
-									dialog.text = "Спешу пожаловаться, капитан: мы все стремимся снова в море. Эта служба на суше просто поперек горла стоит!";
-									link.l1 = "Я устал от этого нытья! Выпивки вам хватает и на земле! Служи там, где тебя поставил капитан! А то кое-кого придется вздернуть для примера.";
+									dialog.text = DLG_TEXT_BASE[30];
+									link.l1 = DLG_TEXT_BASE[31];
 									link.l1.go = "exit";
 								break;
 
 								case 4:
-									dialog.text = "Скажу вам по секрету, капитан, новый губернатор - взяточник и казнокрад. Но это, конечно, не мое дело…";
-									link.l1 = "Ты прав, корсар: твое дело - стоять на посту и следить за порядком. Ну а вздернуть губернатора на нок рее - это уже занятие для меня. Молодец!";
+									dialog.text = DLG_TEXT_BASE[32];
+									link.l1 = DLG_TEXT_BASE[33];
 									link.l1.go = "exit";
 								break;
 
 								case 5:
-									dialog.text = "Спасибо, что не забываете о нас капитан! Мы для вас и в огонь и в воду!";
-									link.l1 = "Знаю я вас, проходимцев! Любите только золото. Сегодня в таверне попойка, я угощаю. Не забудь заглянуть.";
+									dialog.text = DLG_TEXT_BASE[34];
+									link.l1 = DLG_TEXT_BASE[35];
 									link.l1.go = "exit";
 								break;
 
 								case 6:
-									dialog.text = "Эх, капитан! Как давно мы не были в кровавой драке! Ну, какие из корсаров копы?!";
-									link.l1 = "Не расслабляйся, корсар! Вражеские армады рыщут вокруг наших островов, так что кровавая баня может приключиться в любой момент.";
+									dialog.text = DLG_TEXT_BASE[36];
+									link.l1 = DLG_TEXT_BASE[37];
 									link.l1.go = "exit";
 								break;
 
 								case 7:
-									dialog.text = "Капитан, говорят королевские власти снова посылают сюда эскадру?";
-									link.l1 = "Конечно, корсар. Пока мы живы, мира не будет никогда. И даже в Аду станем сражаться с чертями!";
+									dialog.text = DLG_TEXT_BASE[38];
+									link.l1 = DLG_TEXT_BASE[39];
 									link.l1.go = "exit";
 								break;
 
 								case 8:
-									dialog.text = "Йо-хо-хо! Какая знатная вчера у нас была попойка, капитан! Жалко, что вас не было.";
-									link.l1 = "Ничего, я свое еще наверстаю. И вам, ребята, я не завидую.";
+									dialog.text = DLG_TEXT_BASE[40];
+									link.l1 = DLG_TEXT_BASE[41];
 									link.l1.go = "exit";
 								break;
 
 								case 9:
-									dialog.text = "Скажу вам по секрету, капитан, поскольку вы нас никогда не обижали, завалили мы вчера с ребятами здесь одну телочку...";
-									link.l1 = "Эх, корсар, плачет по вам петля!";
+									dialog.text = DLG_TEXT_BASE[42];
+									link.l1 = DLG_TEXT_BASE[43];
 									link.l1.go = "exit";
 								break;
 
 								case 10:
-									dialog.text = "Кэп! Освободите вы меня от этой проклятой повинности! Ну, не могу я здесь блюстителя порядка разыгрывать!";
-									link.l1 = "Ты лучше вспомни: ночную вахту на корабле стоять тоже не легко. Служба, брат, она везде служба.";
+									dialog.text = DLG_TEXT_BASE[44];
+									link.l1 = DLG_TEXT_BASE[45];
 									link.l1.go = "exit";
 								break;
 							}
-							link.l2 = RandPhraseSimple("Есть важное дело!", "У меня к тебе дело.");
+							link.l2 = RandPhraseSimple(DLG_TEXT_BASE[46], DLG_TEXT_BASE[47]);
 							link.l2.go = "quests";//(перессылка в файл города)
 							break;
 						}
 						else
 						{ // пираты, не наши
-							dialog.text = RandPhraseSimple("Чего тебе? Проходи мимо.", "Хватит загораживать дорогу, отвали.");
-							link.l1 = RandPhraseSimple("Уже ушёл.", "Не нужно мне грубить. До свидания.");
+							dialog.text = RandPhraseSimple(DLG_TEXT_BASE[48], DLG_TEXT_BASE[49]);
+							link.l1 = RandPhraseSimple(DLG_TEXT_BASE[50], DLG_TEXT_BASE[51]);
 							link.l1.go = "exit";
-							link.l2 = RandPhraseSimple("Всего один маленький вопросик.", "Минутку внимания, я по делу.");
+							link.l2 = RandPhraseSimple(DLG_TEXT_BASE[52], DLG_TEXT_BASE[53]);
 							link.l2.go = "quests";//(перессылка в файл города)
 							break;
 						}
@@ -211,143 +212,161 @@ void ProcessDialogEvent()
 					{ //если негодяй, имеющий НЗГ к дружественной или нейтральной нации
 						if (ChangeCharacterNationReputation(pchar, sti(NPChar.nation), 0) <= -15)
 						{
-							dialog.text = RandPhraseSimple("Вы посмотрите, каков мерзавец! Посмел явится в " + XI_ConvertString("Colony" + npchar.city)+ ". Держи его!!", "Ха, я узнал тебя, негодяй! Хватай его!!");
-							link.l1 = RandPhraseSimple("Аргх!..", "Ну вы сами напросились...");
+							dialog.text = RandPhraseSimple(DLG_TEXT_BASE[54] + XI_ConvertString("Colony" + npchar.city)+ DLG_TEXT_BASE[55], DLG_TEXT_BASE[56]);
+							link.l1 = RandPhraseSimple(DLG_TEXT_BASE[57], DLG_TEXT_BASE[58]);
 							link.l1.go = "fight";
 							break;						
 						}
 					}
+					//зачарованный город -->
+					if (pchar.questTemp.MC == "toCaracas" && npchar.city == "Caracas")
+					{
+						dialog.text = LinkRandPhrase(DLG_TEXT_BASE[59], 
+							DLG_TEXT_BASE[60], 
+							DLG_TEXT_BASE[61]);
+						link.l1 = DLG_TEXT_BASE[62];
+						link.l1.go = "exit";
+						break;
+					}
+					if (pchar.questTemp.MC == "toCaracasPadre" || pchar.questTemp.MC == "toCaracasTavern")
+					{
+						dialog.text = DLG_TEXT_BASE[63];
+						link.l1 = DLG_TEXT_BASE[64];
+						link.l1.go = "exit";
+						break;
+					}
+					//<-- зачарованный город 
 					switch (rand(10))
 					{
 						case 0: ////////////////////////////////////////
-							dialog.text = "Не видишь, я на посту! Не отвлекай меня.";
-							link.l1 = "Хорошо, хорошо...";
+							dialog.text = DLG_TEXT_BASE[65];
+							link.l1 = DLG_TEXT_BASE[66];
 							link.l1.go = "exit";
 						break;
 
 						case 1:
-							dialog.text = "Ты хочешь сообщить мне о каких-то нарушениях?";
-							link.l1 = "Нет, ничего такого, к тому же я капитан. Вижу, ты уже не слушаешь? Прощай.";
+							dialog.text = DLG_TEXT_BASE[67];
+							link.l1 = DLG_TEXT_BASE[68];
 							link.l1.go = "exit";
 						break;
 
 						case 2: ///////////////////////////////////////////
-							dialog.text = "Запомни, драки на улицах запрещены! Ты можешь обнажать свое оружие только если на тебя кто-то нападет.";
-							link.l1 = "Хорошо, я приму это к сведению.";
+							dialog.text = DLG_TEXT_BASE[69];
+							link.l1 = DLG_TEXT_BASE[70];
 							link.l1.go = "exit";
 						break;
 
 						case 3:
-							dialog.text = "Какая погода, а я вынужден стоять здесь. Мое единственное развлечение заключается в отгонянии мух от своего лица.";
-							link.l1 = "Сочувствую. Но ничем не могу помочь, работа у тебя такая.";
+							dialog.text = DLG_TEXT_BASE[71];
+							link.l1 = DLG_TEXT_BASE[72];
 							link.l1.go = "exit";
 						break;
 
 						case 4: ///////////////////////////////////////////
-							dialog.text = "Если вам хочется поболтать, то найдите себе кого-нибудь другого, а я должен следить за порядком, и мне некогда чесать с вами языком.";
-							link.l1 = "Да нет, я просто проверял, жив ли ты еще, а то стоишь, как статуя.";
+							dialog.text = DLG_TEXT_BASE[73];
+							link.l1 = DLG_TEXT_BASE[74];
 							link.l1.go = "exit";
 						break;
 
 						case 5: ////////////////////////////////////////////
-							dialog.text = "Вот вы думаете, что поддерживать порядок это такая легкая работа? Как бы не так! Это очень ответственный и опасный труд. Вот помнится...";
-							link.l1 = "Расскажешь свою историю как-нибудь в другой раз, а сейчас я спешу.";
+							dialog.text = DLG_TEXT_BASE[75];
+							link.l1 = DLG_TEXT_BASE[76];
 							link.l1.go = "exit";
 						break;
 
 						case 6: ////////////////////////////////////////////
-							dialog.text = "Проходи своей дорогой, и не отвлекай меня.";
-							link.l1 = "Как скажешь, солдат.";
+							dialog.text = DLG_TEXT_BASE[77];
+							link.l1 = DLG_TEXT_BASE[78];
 							link.l1.go = "exit";
 						break;
 
 						case 7:
-							dialog.text = "Эй! Не принесешь ли мне стаканчик вина из таверны? Умираю от жажды.";
-							link.l1 = "Да, а потом меня вздернут за спаивание солдат. Нет уж, дотерпи до смены, а там уж пей, сколько в тебя влезет.";
+							dialog.text = DLG_TEXT_BASE[79];
+							link.l1 = DLG_TEXT_BASE[80];
 							link.l1.go = "exit";
 						break;
 
 						case 8://///////////////////////////////////////////
-							dialog.text = "Ну почему ко мне подходят только такие неотесанные мужланы вроде тебя?! Неужели в нашем городе не осталось красивых девушек, с аппетитными ножками?";
-							link.l1 = "И это называется 'нести службу'? Смотри, проворонишь какого-нибудь нарушителя спокойствия, вроде меня. Ха-ха!";
+							dialog.text = DLG_TEXT_BASE[81];
+							link.l1 = DLG_TEXT_BASE[82];
 							link.l1.go = "exit";
 						break;
 
 						case 9://///////////////////////////////////////////
-							dialog.text = "Ты выглядишь крепким парнем! Не хочешь поступить на службу? У нас просторная казарма, и двухразовое питание, плюс выпивка бесплатна.";
-							link.l1 = "Соблазнительно, черт побери, но я вынужден отказаться. Казарменная муштра не для меня.";
+							dialog.text = DLG_TEXT_BASE[83];
+							link.l1 = DLG_TEXT_BASE[84];
 							link.l1.go = "exit";
 						break;
 
 						case 10:
-							dialog.text = "Эта жара... Я бы пол жизни отдал, что бы снова оказаться в Европе.";
-							link.l1 = "Да, смотрю, для здешнего климата ты здоровьем не вышел.";
+							dialog.text = DLG_TEXT_BASE[85];
+							link.l1 = DLG_TEXT_BASE[86];
 							link.l1.go = "exit";
 						break;
 					}
-					link.l3 = "Нда... ясно. Я вот что хотел спросить...";
+					link.l3 = DLG_TEXT_BASE[87];
 					link.l3.go = "quests";//(перессылка в файл города)
 				}
 			}
 		break;
 		//============================== ноды на разборки при распознавании =========================
 		case "PegYou":
-			dialog.text = RandPhraseSimple("Сдается мне, что это обман... Давай-ка пройдем в комендатуру, голубчик, там разберемся...", "Хм, что-то подсказывает мне, что ты не тот, за кого себя выдаешь... Немедленно сдайте оружие, " + GetAddress_Form(npchar) + ", и следуте за мной для дальнейшего разбирательства!");
-			link.l1 = RandPhraseSimple("Как бы не так!", "После дождичка, в четверг...");
+			dialog.text = RandPhraseSimple(DLG_TEXT_BASE[88], DLG_TEXT_BASE[89] + GetAddress_Form(npchar) + DLG_TEXT_BASE[90]);
+			link.l1 = RandPhraseSimple(DLG_TEXT_BASE[91], DLG_TEXT_BASE[92]);
 			link.l1.go = "fight";
 			AddCharacterExpToSkill(pchar, SKILL_SNEAK, 80); // враг, которого узнали - потом будет умнее - бонус в скрытность
 		break;
 		case "NotPegYou":
-			dialog.text = RandPhraseSimple("А-а-а, вижу... Все в порядке, вы можете идти, " + GetAddress_Form(pchar) + ".", "Что-то я немного подустал в карауле... Все в порядке, " + GetAddress_Form(pchar) + ", прошу прощения.");
-			link.l1 = "Так-то!";
+			dialog.text = RandPhraseSimple(DLG_TEXT_BASE[93] + GetAddress_Form(pchar) + ".", DLG_TEXT_BASE[94] + GetAddress_Form(pchar) + DLG_TEXT_BASE[95]);
+			link.l1 = DLG_TEXT_BASE[96];
 			link.l1.go = "exit";
 		break;
 		case "LicenceOk":
 			iTemp = GetDaysContinueNationLicence(sti(npchar.nation));
 			if (iTemp == -1)
 			{
-				dialog.text = "Ваша лицензия подлежит изъятию, так как просрочена и поэтому недействительна. Сдайте оружие и следуйте за мной для последующих разбирательств!";
-				link.l1 = RandPhraseSimple("Как бы не так!", "После дождичка, в четверг...");
+				dialog.text = DLG_TEXT_BASE[97];
+				link.l1 = RandPhraseSimple(DLG_TEXT_BASE[98], DLG_TEXT_BASE[99]);
 				link.l1.go = "fight";	
 				TakeNationLicence(sti(npchar.nation));
 				AddCharacterExpToSkill(pchar, SKILL_SNEAK, 20); // враг, которого узнали - потом будет умнее - бонус в скрытность
 			}
 			if (iTemp == 0)
 			{
-				dialog.text = "Хм, все верно. Однако позволю себе заметить, что срок действия вашей лицензии сегодня истекает. Я пропущу вас сейчас, но вам нужно будет сменить лицензию на действительную.";
-				link.l1 = "Спасибо, я обзаведусь новой при первой же возможности.";
+				dialog.text = DLG_TEXT_BASE[100];
+				link.l1 = DLG_TEXT_BASE[101];
 				link.l1.go = "exit";			
 			}
 			if (iTemp > 0 && iTemp <= 10)
 			{
-				dialog.text = "Хм, все верно. Однако позволю себе заметить, что срок действия вашей лицензии вскоре истекает - она действительна еще только " + FindRussianDaysString(iTemp) + ". Так что имейте в виду, " + GetAddress_Form(npchar) + ".";
-				link.l1 = "Спасибо, я обзаведусь новой при первой же возможности.";
+				dialog.text = DLG_TEXT_BASE[102] + FindRussianDaysString(iTemp) + DLG_TEXT_BASE[103] + GetAddress_Form(npchar) + ".";
+				link.l1 = DLG_TEXT_BASE[104];
 				link.l1.go = "exit";			
 			}
 			if (iTemp > 10)
 			{
-				dialog.text = LinkRandPhrase("Ну что же, очень хорошо, ваша лицензия действует еще " + FindRussianDaysString(iTemp) + ". Вы можете пройти.", "Все ясно, "+GetAddress_Form(npchar)+". Вы можете свободно проходить в город, ваша лицензия действует еще " + FindRussianDaysString(iTemp) + ". Прошу прощения за беспокойство.", "Все в порядке, " + GetAddress_Form(npchar) + ", не смею вас задерживать.");
-				link.l1 = RandPhraseSimple("Отлично. Всего хорошего.", "Спасибо, офицер.");
+				dialog.text = LinkRandPhrase(DLG_TEXT_BASE[105] + FindRussianDaysString(iTemp) + DLG_TEXT_BASE[106], DLG_TEXT_BASE[107]+GetAddress_Form(npchar)+DLG_TEXT_BASE[108] + FindRussianDaysString(iTemp) + DLG_TEXT_BASE[109], DLG_TEXT_BASE[110] + GetAddress_Form(npchar) + DLG_TEXT_BASE[111]);
+				link.l1 = RandPhraseSimple(DLG_TEXT_BASE[112], DLG_TEXT_BASE[113]);
 				link.l1.go = "exit";
 			}
 		break;
 		//============================== ноды маяка Порт Рояля =========================
 		case "PortRoyal_Mayak":
-			dialog.text = RandPhraseSimple("Эй, приятель, смотри ничего не сломай на маяке.", "Маяк - очень важный объект для города. Будь осторожен!");
-			link.l1 = RandPhraseSimple("Хорошо, не переживай.", "Все будет в порядке.");
+			dialog.text = RandPhraseSimple(DLG_TEXT_BASE[114], DLG_TEXT_BASE[115]);
+			link.l1 = RandPhraseSimple(DLG_TEXT_BASE[116], DLG_TEXT_BASE[117]);
 			link.l1.go = "exit";
 			NextDiag.TempNode = "PortRoyal_Mayak";
 		break;
 		case "PortRoyal_Gans":
-			dialog.text = LinkRandPhrase("Не нужно ходить возле орудий - это военный объект!", "Доступ к орудиям посторонних лиц категорически запрещен!", "Если я замечу, что ты ошиваешься возле орудий - тебе конец!");
-			link.l1 = RandPhraseSimple("Я понял тебя.", "Хорошо, я все понял.");
+			dialog.text = LinkRandPhrase(DLG_TEXT_BASE[118], DLG_TEXT_BASE[119], DLG_TEXT_BASE[120]);
+			link.l1 = RandPhraseSimple(DLG_TEXT_BASE[121], DLG_TEXT_BASE[122]);
 			link.l1.go = "exit";
 			NextDiag.TempNode = "PortRoyal_Gans";
 		break;
 		//=================== ноды квеста мэра. поиск шпиона на улице ==================
 		case "SeekSpy_Checking":
-			dialog.text = "Да, я подтверждаю. " + NPCharSexPhrase(&characters[sti(pchar.GenQuest.SeekSpy.BaseIdx)], "Он действительно местный житель.", "Она действительно местная жительница.");
-			link.l1 = RandPhraseSimple("Я понял. Спасибо за помощь.", "Все ясно. Спасибо за помощь.");
+			dialog.text = DLG_TEXT_BASE[123] + NPCharSexPhrase(&characters[sti(pchar.GenQuest.SeekSpy.BaseIdx)], DLG_TEXT_BASE[124], DLG_TEXT_BASE[125]);
+			link.l1 = RandPhraseSimple(DLG_TEXT_BASE[126], DLG_TEXT_BASE[127]);
 			link.l1.go = "SeekSpy_Checking_1";
 		break;
 		case "SeekSpy_Checking_1":
@@ -363,6 +382,16 @@ void ProcessDialogEvent()
 			DialogExit();
 		break;
 
+		//замечение по обнаженному оружию
+		case "SoldierNotBlade":
+			dialog.text = LinkRandPhrase(DLG_TEXT_BASE[128], DLG_TEXT_BASE[129], DLG_TEXT_BASE[130]);
+			link.l1 = LinkRandPhrase(DLG_TEXT_BASE[131], DLG_TEXT_BASE[132], DLG_TEXT_BASE[133]);
+			link.l1.go = "exit";
+			link.l2 = LinkRandPhrase(DLG_TEXT_BASE[134], DLG_TEXT_BASE[135], DLG_TEXT_BASE[136]);
+			link.l2.go = "fight";
+			npchar.greeting = "soldier_common";
+			NextDiag.TempNode = "First Time";
+		break;
 
 	}
 }

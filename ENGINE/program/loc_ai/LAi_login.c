@@ -250,10 +250,18 @@ void LAi_CharacterPostLogin(ref location)
 		CreateJail(location);
 		CreateFortsNPC(location);
 		CreateLostShipsCity(location);
+		CreatPlantation(location); // homo плантация
+		CreatUnderwater(location);
+		CreatTenochtitlan(location);
+		CreatTenochtitlanInside(location);
+		CreatDesMoines(location);
 		//Расставляем квестовых энкоунтеров
 		LAi_CreateEncounters(location); //eddy. монстры не нужны здесь
 		/// ОЗГи
 		LandHunterReactionResult(location);
+		//обновить базу абордажников для нефритового черепа
+		CopyPassForAztecSkull();
+
 	}
 }
 

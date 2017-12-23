@@ -49,47 +49,74 @@ void LAi_GenerateFantomFromMe(aref chr)
 	object tmp;
 	CopyAttributes(&tmp, chr);
 	//—оздаЄм фантома	
-	ref fnt = LAi_CreateFantomCharacterEx(model, ani, LAi_CharacterReincarnationGroup(chr), "");
-	string curidx = fnt.index;
-	//”станавливаем параметры предыдущего персонажа
-	CopyAttributes(fnt, &tmp);
-	// boal оружие дать! 19.01.2004 -->
-    // фантомы точные клоны SetFantomParam(fnt);  
-	//--> eddy. шаг на увеличение ранга фантома.
-    if (CheckAttribute(chr, "chr_ai.reincarnation.step"))
+	if(ani == "mushketer")
 	{
-		SetFantomParamFromRank(fnt, sti(chr.rank) + sti(chr.chr_ai.reincarnation.step), true); // бравые орлы
-		characters[sti(fnt.baseIndex)].rank = fnt.rank; //в структуру прародител€ ранг с наворотом
+		ref sld = GetCharacter(NPC_GenerateCharacter("GenChar_", model, "man", "mushketer", chr.rank, sti(chr.nation), sti(chr.lifeDay), false));
+		sld.id = "GenChar_" + sld.index;
+		sld.reputation = chr.reputation;
+		sld.City = chr.City;
+        sld.CityType = chr.CityType;
+		sld.RebirthPhantom = true; 
+		sld.dialog.filename = "Common_Soldier.c";
+		sld.dialog.currentnode = "first time";
+		LAi_CharacterReincarnation(sld, true, true);
+		LAi_SetReincarnationRankStep(sld, MOD_SKILL_ENEMY_RATE+2); //задаем шаг на увеличение ранга фантомам на реинкарнацию
+		if (CheckAttribute(chr, "chr_ai.reincarnation.step"))
+		{
+			SetFantomParamFromRank(sld, sti(chr.rank) + sti(chr.chr_ai.reincarnation.step), true); // бравые орлы
+		}
+		LAi_SetLoginTime(sld, 6.0, 23.0); //а ночью будет беготн€ от патрул€ :)		
+		sld.dialog.filename = chr.dialog.filename;
+		sld.dialog.currentnode = chr.dialog.currentnode;
+		SetRandomNameToCharacter(sld);
+		LAi_SetPatrolType(sld);
+		LAi_group_MoveCharacter(sld, chr.chr_ai.group);
+		PlaceCharacter(sld, "patrol", "random_free");
 	}
-	else //не даем падать рангу от SetFantomParam
+	else
 	{
-	    LAi_NPC_Equip(fnt, sti(fnt.rank), true, true);
-	    LAi_SetCurHPMax(fnt);
+		ref fnt = LAi_CreateFantomCharacterEx(model, ani, LAi_CharacterReincarnationGroup(chr), "");
+		string curidx = fnt.index;
+		//”станавливаем параметры предыдущего персонажа
+		CopyAttributes(fnt, &tmp);
+		// boal оружие дать! 19.01.2004 -->
+		// фантомы точные клоны SetFantomParam(fnt);  
+		//--> eddy. шаг на увеличение ранга фантома.
+		if (CheckAttribute(chr, "chr_ai.reincarnation.step"))
+		{
+			SetFantomParamFromRank(fnt, sti(chr.rank) + sti(chr.chr_ai.reincarnation.step), true); // бравые орлы
+			characters[sti(fnt.baseIndex)].rank = fnt.rank; //в структуру прародител€ ранг с наворотом
+		}
+		else //не даем падать рангу от SetFantomParam
+		{
+			LAi_NPC_Equip(fnt, sti(fnt.rank), true, true);
+			LAi_SetCurHPMax(fnt);
+		}
+		// boal 19.01.2004 <--
+		if(CheckAttribute(fnt, "chr_ai.group"))
+		{
+			LAi_group_MoveCharacter(fnt, fnt.chr_ai.group);
+		}else{
+			LAi_group_MoveCharacter(fnt, "");
+		}
+		//—охран€ем модельку и анимацию
+		fnt.model = model;
+		fnt.model.animation = ani;
+		//»нициализируем тип
+		if(!CheckAttribute(fnt, "chr_ai.type")) fnt.chr_ai.type = "";
+		string chrtype = fnt.chr_ai.type;
+		SetRandomNameToCharacter(fnt);
+		fnt.id = tmp.id;
+		fnt.index = curidx;
+		LAi_tmpl_stay_InitTemplate(fnt);
+		fnt.chr_ai.type = "";
+		if(chrtype != "")
+		{
+			chrtype = "LAi_type_" + chrtype + "_Init";
+			call chrtype(fnt);
+		}
+		SetNewModelToChar(fnt);   // fix
 	}
-	// boal 19.01.2004 <--
-	if(CheckAttribute(fnt, "chr_ai.group"))
-	{
-		LAi_group_MoveCharacter(fnt, fnt.chr_ai.group);
-	}else{
-		LAi_group_MoveCharacter(fnt, "");
-	}
-	//—охран€ем модельку и анимацию
-	fnt.model = model;
-	fnt.model.animation = ani;
-	//»нициализируем тип
-	if(!CheckAttribute(fnt, "chr_ai.type")) fnt.chr_ai.type = "";
-	string chrtype = fnt.chr_ai.type;
-	SetRandomNameToCharacter(fnt);
-	fnt.id = tmp.id;
-	fnt.index = curidx;
-	LAi_tmpl_stay_InitTemplate(fnt);
-	fnt.chr_ai.type = "";
-	if(chrtype != "")
-	{
-		chrtype = "LAi_type_" + chrtype + "_Init";
-		call chrtype(fnt);
-	}
-	SetNewModelToChar(fnt);   // fix
 }
 
 bool LAi_CreateEncounters(ref location)
@@ -146,7 +173,7 @@ bool LAi_CreateEncounters(ref location)
 	{
 		//------------------ Ѕанда рейдеров типа дежурит на грабежах ----------------------
 		case 0:
-			if (rand(10) > 7) return false;
+			if (rand(10) > 6) return false;
 			num = GetAttributesNum(grp) - rand(3); //кол-во человек в банде
 			if (num <= 0 ) num = 1; //если локаторов меньше четырех
 			str = "Gang"+ location.index + "_";
@@ -342,7 +369,7 @@ bool LAi_CreateEncounters(ref location)
 		//------------------ ѕраздношатающиес€ перцы ----------------------
 		case 2:
 			LAi_group_Delete("LandEncGroup");
-			if (rand(10) > 9) return false;	
+			if (rand(10) > 7) return false;	
 			locator = GetAttributeName(GetAttributeN(grp, 0));
 			//Ќачинаем перебирать локаторы и логинить фантомов
 			if (rand(5) > 3 && location.id.label == "ExitTown")
@@ -364,7 +391,7 @@ bool LAi_CreateEncounters(ref location)
 		break;
 		//------------------ ¬оенный патруль ----------------------
 		case 3:
-			if (rand(10) > 4) return false;
+			if (rand(10) > 3) return false;
 			//--> генерим ранг. военному патрулю палец в рот не клади и на начальных уровн€х.
 			num = GetAttributesNum(grp); //кол-во человек в патруле
 			if (num <= 0) num = 1;
@@ -398,13 +425,13 @@ bool LAi_CreateEncounters(ref location)
 				chr.CityType = "soldier";				
 				chr.greeting = "soldier_arest";
 				chr.dialog.filename = "Enc_Patrol.c";
-				//ѕолучим локатор дл€ логина
-				locator = GetAttributeName(GetAttributeN(grp, i));
-				ChangeCharacterAddressGroup(chr, location.id, encGroup, locator);
 				chr.EncQty = num;
 				LAi_SetStayType(chr);
 				LAi_SetCheckMinHP(chr, LAi_GetCharacterHP(chr)-1, false, "LandEnc_PatrolBeforeDialog");
 				LAi_group_MoveCharacter(chr, sGroup);
+				//ѕолучим локатор дл€ логина
+				locator = GetAttributeName(GetAttributeN(grp, i));
+				ChangeCharacterAddressGroup(chr, location.id, encGroup, locator);
 			}
 			LAi_group_SetLookRadius(sGroup, 100);
 			LAi_group_SetHearRadius(sGroup, 100);

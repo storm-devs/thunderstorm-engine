@@ -1,4 +1,4 @@
-// диалоговый файл №1 на фр. линейку
+#include "TEXT\DIALOGS\Quest\FraLineNpc_1.h"
 void ProcessDialogEvent()
 {
 	ref NPChar, sld;
@@ -16,138 +16,138 @@ void ProcessDialogEvent()
     switch (Dialog.CurrentNode)
     {
         case "First time":
-            dialog.text = "Если вы это видите, то это бага. Надо срочно сообщить Эдди!";
-            link.l1 = "...";
+			dialog.text = DLG_TEXT_Q[0];
+			link.l1 = DLG_TEXT_Q[1];
             link.l1.go = "exit";
 
 //>>>>>>>>>>>>========= Разброс диалогов по персонажам =====================
             //Квест №1, сопровождение Леграна.
             if (pchar.questTemp.State == "Fr1Legran_toTavern")// квест №1, Легран в таверне
             {
-    			dialog.text = "Слушаю вас, что вы хотите?";
-    			link.l1 = "Месье, насколько я знаю, вы - Пьер Легран.";
+    			dialog.text = DLG_TEXT_Q[2];
+    			link.l1 = DLG_TEXT_Q[3];
     			link.l1.go = "Step_F1_1";
             }
             if (pchar.questTemp.State == "Fr1Legran_afterFightBand")// квест №1, Легаран после боя.
             {
-    			dialog.text = "Мне надо поторапливаться, нет времени...";
-    			link.l1 = "Месье, я доставил вас до бухты, моя задача выполнена...";
+    			dialog.text = DLG_TEXT_Q[4];
+    			link.l1 = DLG_TEXT_Q[5];
     			link.l1.go = "Step_F1_3";
-    			link.l2 = "А мы уже пришли! Я решил, что твои денежки мне самому пригодятся.";
+    			link.l2 = DLG_TEXT_Q[6];
     			link.l2.go = "Step_F1_5";
             } 
             //Квест №2, доставка письма на Тортугу
 			if (pchar.questTemp.State == "Fr2Letter_SeekProblems")// квест №2, странные типы в таверне
             {
-    			dialog.text = "...на Пальмовый берег.";
-				link.l1 = "(про себя) так-так, Пальмовый берег...";
+    			dialog.text = DLG_TEXT_Q[7];
+				link.l1 = DLG_TEXT_Q[8];
     			link.l1.go = "Step_F2_1";
             }
 			if (pchar.questTemp.State == "Fr2Letter_SeekProblems" && pchar.location == "Shore22")// квест №2, странные типы в бухте
             {
-    			dialog.text = "...наш галеон уже должен быть здесь.";
-				link.l1 = "(про себя) так-так, галеон...";
+    			dialog.text = DLG_TEXT_Q[9];
+				link.l1 = DLG_TEXT_Q[10];
     			link.l1.go = "Step_F2_5";
             }
 			if (npchar.id == "DeLeiva")// квест №3, база с мужем донны Анны
             {
-    			dialog.text = "Ну что же, вот мы и дождались нашего гостя. Добро пожаловать на ужин, месье. Главным блюдом для вас сегодня - добрая толледская сталь!";
-				link.l1 = "Вот так встреча! А в чем дело?!";
+    			dialog.text = DLG_TEXT_Q[11];
+				link.l1 = DLG_TEXT_Q[12];
     			link.l1.go = "Step_F3_1";
             }
 			if (npchar.id == "AnnaDeLeiva" && pchar.questTemp.State == "Fr5AnnaHant_toAnna")// квест №5, донна Анна в резиденции Тортуги
             {
-    			dialog.text = "Вас прислал сеньор д'Ожерон?";
-    			link.l1 = "Да, мадам. Чем могу быть полезен?";
+    			dialog.text = DLG_TEXT_Q[13];
+    			link.l1 = DLG_TEXT_Q[14];
     			link.l1.go = "Step_F5_1";
             }
 			if (npchar.id == "AnnaDeLeiva" && pchar.questTemp.State == "Fr5AnnaHant_toHavana")
             {
-    			dialog.text = "Рассказывайте, сеньор, что вы узнали?";
-    			link.l1 = "Пока ничего. Но я занимаюсь этим делом, не беспокойтесь, мадам...";
+    			dialog.text = DLG_TEXT_Q[15];
+    			link.l1 = DLG_TEXT_Q[16];
     			link.l1.go = "exit";
             }
 			if (npchar.id == "AnnaDeLeiva" && pchar.questTemp.State == "Fr5AnnaHant_SeekHoseBrothers")
             {
-    			dialog.text = "Рассказывайте, сеньор, что вы узнали?";
-    			link.l1 = "Пока ничего. Но я занимаюсь этим делом, не беспокойтесь, мадам...";
+    			dialog.text = DLG_TEXT_Q[17];
+    			link.l1 = DLG_TEXT_Q[18];
     			link.l1.go = "exit";
             }
 			if (npchar.id == "DeLeivaBrother_1" || npchar.id == "DeLeivaBrother_2")// квест №5, братья де Лейва
             {
-    			dialog.text = "Что тебе здесь нужно?";
-    			link.l1 = "Сеньоры, не вы ли родственники дона Хосе Рамиреса де Лейва?";
+    			dialog.text = DLG_TEXT_Q[19];
+    			link.l1 = DLG_TEXT_Q[20];
     			link.l1.go = "Step_F5_2";
             }
 			if (npchar.id == "AnnaDeLeiva" && pchar.questTemp.State == "Fr5AnnaHant_GoodWork")// квест №5, донна Анна после выполнения задачи
             {
-				dialog.text = NPCStringReactionRepeat("Сеньор, вы уже второй раз спасаете мою жизнь. Знайте, что в моем лице вы обрели верного друга.",
-					         "Здравствуйте снова, капитан. Рада вас видеть.", "И еще раз здравствуйте капитан...", "Который раз на дню: здравствуйте, капитан...", "block", 0, npchar, Dialog.CurrentNode);
-				link.l1 = HeroStringReactionRepeat("Сеньора, совершенно случайно близ Гаваны мне встретились два кастильских дворянина, и знали бы вы, как они о вас выражались... По всему видать, донна Анна, что память о вас бережно хранится в Кастилии.", 
-					      "И я вас рад видеть так же.", "И еще раз я рад вас видеть...", "Здраствуйте, сеньора...", npchar, Dialog.CurrentNode);
+				dialog.text = NPCStringReactionRepeat(DLG_TEXT_Q[21],
+					         DLG_TEXT_Q[22], DLG_TEXT_Q[23], DLG_TEXT_Q[24], "block", 0, npchar, Dialog.CurrentNode);
+				link.l1 = HeroStringReactionRepeat(DLG_TEXT_Q[25], 
+					      DLG_TEXT_Q[26], DLG_TEXT_Q[27], DLG_TEXT_Q[28], npchar, Dialog.CurrentNode);
 				link.l1.go = DialogGoNodeRepeat("Step_F5_8", "none", "none", "none", npchar, Dialog.CurrentNode);
 
             }
 			if (npchar.id == "AnnaDeLeiva" && pchar.questTemp.State == "empty")// квест №5, донна Анна после выполнения задачи
             {
-				dialog.text = NPCStringReactionRepeat("Сеньор, вы уже второй раз спасаете мою жизнь. Знайте, что в моем лице вы обрели верного друга.",
-					         "Здравствуйте снова, капитан. Рада вас видеть.", "И еще раз здравствуйте капитан...", "Который раз на дню: здравствуйте, капитан...", "block", 0, npchar, Dialog.CurrentNode);
-				link.l1 = HeroStringReactionRepeat("Сеньора, совершенно случайно близ Гаваны мне встретились два кастильских дворянина, и знали бы вы, как они о вас выражались... По всему видать, донна Анна, что память о вас бережно хранится в Кастилии.", 
-					      "И я вас рад видеть так же.", "И еще раз я рад вас видеть...", "Здраствуйте, сеньора...", npchar, Dialog.CurrentNode);
+				dialog.text = NPCStringReactionRepeat(DLG_TEXT_Q[29],
+					         DLG_TEXT_Q[30], DLG_TEXT_Q[31], DLG_TEXT_Q[32], "block", 0, npchar, Dialog.CurrentNode);
+				link.l1 = HeroStringReactionRepeat(DLG_TEXT_Q[33], 
+					      DLG_TEXT_Q[34], DLG_TEXT_Q[35], DLG_TEXT_Q[36], npchar, Dialog.CurrentNode);
 				link.l1.go = DialogGoNodeRepeat("Step_F5_8", "none", "none", "none", npchar, Dialog.CurrentNode);
             }
 			if (npchar.id == "Olone" && pchar.questTemp.State == "Fr5Olone_toGuadeloupe")// квест №6, базар в доме Олоне
             {
-				dialog.text = NPCStringReactionRepeat("Сударь, вас что, поучить хорошим манерам?! Ко мне в дом без приглашения не смеет входить никто!",
-					         "Мы вроде бы все обсудили...", "Еще что-то?", "Опять то же самое, сколько можно?!", "block", 0, npchar, Dialog.CurrentNode);
-				link.l1 = HeroStringReactionRepeat("Мое приглашение при мне. Вот оно - это срочный пакет от генерал-губернатора д'Ожерона.", 
-					      "Да, точно...", "Да нет, все нормально...", "Да ладно тебе, не кипятись...", npchar, Dialog.CurrentNode);
+				dialog.text = NPCStringReactionRepeat(DLG_TEXT_Q[37],
+					         DLG_TEXT_Q[38], DLG_TEXT_Q[39], DLG_TEXT_Q[40], "block", 0, npchar, Dialog.CurrentNode);
+				link.l1 = HeroStringReactionRepeat(DLG_TEXT_Q[41], 
+					      DLG_TEXT_Q[42], DLG_TEXT_Q[43], DLG_TEXT_Q[44], npchar, Dialog.CurrentNode);
 				link.l1.go = DialogGoNodeRepeat("Step_F6_1", "none", "none", "none", npchar, Dialog.CurrentNode);
             }
 			if (npchar.id == "Olone" && pchar.questTemp.State == "Fr5Olone_FoundMoney") //успели к деньгам
             {
-    			dialog.text = "Ты нашел наши реалы?";
-    			link.l1 = "Да, все в порядке. К счастью, мы успели вовремя - деньги у меня.";
+    			dialog.text = DLG_TEXT_Q[45];
+    			link.l1 = DLG_TEXT_Q[46];
     			link.l1.go = "Step_F6_14";
 				LAi_LocationDisableOfficersGen("Cumana_town", false); //офицеров пускать
             }
 			if (npchar.id == "Olone" && pchar.questTemp.State == "Fr5Olone_WeLate") //деньги ушли
             {
-    			dialog.text = "Ты нашел наши реалы?";
-    			link.l1 = "Нет, Франусуа...";
+    			dialog.text = DLG_TEXT_Q[47];
+    			link.l1 = DLG_TEXT_Q[48];
     			link.l1.go = "Step_F6_10";
 				LAi_LocationDisableOfficersGen("Cumana_town", false); //офицеров пускать
             }
 			if (npchar.id == "Bonrepo" && pchar.questTemp.State == "Fr8ThreeCorsairs_toBonrepo") //Квест №8. Маркиз Бонрепо в Бас-Тере
             {
-    			dialog.text = "С кем имею честь?..";
-    			link.l1 = "Капитан " + GetFullName(pchar) + ". Я прибыл к вам по распоряжению генерал-губернатора д`Ожерона.";
+    			dialog.text = DLG_TEXT_Q[49];
+    			link.l1 = DLG_TEXT_Q[50] + GetFullName(pchar) + DLG_TEXT_Q[51];
     			link.l1.go = "Step_F8_1";
             }
 			if (npchar.id == "Bonrepo" && pchar.questTemp.State == "Fr8ThreeCorsairs_toSeek") 
             {
-    			dialog.text = "Итак, как успешно продвигается ваша миссия?";
+    			dialog.text = DLG_TEXT_Q[52];
     			if (sti(pchar.questTemp.Count) == 3)
 				{
-					link.l1 = "Она выполнена. Все трое не будут участвовать в войне на стороне Англии.";
+					link.l1 = DLG_TEXT_Q[53];
     				link.l1.go = "Step_F8_9";
 				}
 				else
 				{
-					link.l1 = "Пока мне не удалось встретиться со всеми, но я работаю над этим.";
+					link.l1 = DLG_TEXT_Q[54];
     				link.l1.go = "exit";
 				}
             }
 			if (npchar.id == "Bonrepo" && pchar.questTemp.State == "Fr12EndWar_toBorepo")
             {
-    			dialog.text = "А-а-а, барон! Рад вас видеть. Скажу больше - я ждал вас...";
-    			link.l1 = "Рад вас видеть так же, маркиз.";
+    			dialog.text = DLG_TEXT_Q[55];
+    			link.l1 = DLG_TEXT_Q[56];
     			link.l1.go = "Step_F12_1";
             }
 			if (npchar.id == "Bonrepo" && pchar.questTemp.State == "EndOfQuestLine")
             {
-    			dialog.text = "Все, барон, я вас больше не задерживаю. Прощайте...";
-    			link.l1 = "Прощайте, маркиз...";
+    			dialog.text = DLG_TEXT_Q[57];
+    			link.l1 = DLG_TEXT_Q[58];
     			link.l1.go = "exit";
             }
 		break;
@@ -159,13 +159,13 @@ void ProcessDialogEvent()
 
 //********************************* Доставка Леграна до Мартиники. Квест №1 **********************************
  		case "Step_F1_1":
-			dialog.text = "Да, это так.";
-			link.l1 = "Меня зовут "+ GetFullName(pchar) +". Я прислан к вам генерал-губернатором д'Ожероном. Имею поручение тихо и незаметно доставить вас до Мартиники в бухту Ле Марен.";
+			dialog.text = DLG_TEXT_Q[59];
+			link.l1 = DLG_TEXT_Q[60]+ GetFullName(pchar) +DLG_TEXT_Q[61];
 			link.l1.go = "Step_F1_2";
 		break;
  		case "Step_F1_2":
-			dialog.text = "Если вам доверяет генерал-губернатор, то доверяю и я. Когда мы отправляемся?";
-			link.l1 = "Как можно скорее. Ждите меня на моем корабле.";
+			dialog.text = DLG_TEXT_Q[62];
+			link.l1 = DLG_TEXT_Q[63];
 			link.l1.go = "Step_F1_exit";
 		break;
  		case "Step_F1_exit":
@@ -185,14 +185,14 @@ void ProcessDialogEvent()
             DialogExit();
 		break;
  		case "Step_F1_3":
-			dialog.text = "Да, да, бесспорно, вы полностью выполнили взятые на себя обязательства. Позвольте отблагодарить вас должным образом: сумма в 20000 золотых смотрится, полагаю, весьма достойно?";
-			link.l1 = "Вполне...";
+			dialog.text = DLG_TEXT_Q[64];
+			link.l1 = DLG_TEXT_Q[65];
 			link.l1.go = "Step_F1_4";
 		break;
  		case "Step_F1_4":
-			dialog.text = "Эти деньги ваши, извольте получить.\n"+
-				          "Прощайте и будте здоровы, месье.";
-			link.l1 = "Прощайте, сударь. Я желаю вам удачной дороги домой, во Францию... Прощайте!";
+			dialog.text = DLG_TEXT_Q[66]+
+				          DLG_TEXT_Q[67];
+			link.l1 = DLG_TEXT_Q[68];
 			link.l1.go = "Step_F1_4_exit";
 		break;
 		case "Step_F1_4_exit":
@@ -208,8 +208,8 @@ void ProcessDialogEvent()
             DialogExit();
 		break;
  		case "Step_F1_5":
-			dialog.text = "Ах ты, мерзавец! Я сообщу генерал-губернатору, какой негодяй втерся к нему в доверие!";
-			link.l1 = "Сначала останься в живых, тюфяк!";
+			dialog.text = DLG_TEXT_Q[69];
+			link.l1 = DLG_TEXT_Q[70];
 			link.l1.go = "Step_F1_6";
 		break;
  		case "Step_F1_6":
@@ -226,18 +226,18 @@ void ProcessDialogEvent()
 		break;
 //********************************* Арест ГГ у Стэвезанта. Квест №2 **********************************
  		case "Step_F2_1":
-			dialog.text = "Эй, тебе чего здесь надо, чего встал? Мы тебя выпить не приглашали.";
-			link.l1 = "Меня зовут капитан " + GetFullName(pchar) + ", я из только что с Тортуги... Не желаете ко мне в команду?";
+			dialog.text = DLG_TEXT_Q[71];
+			link.l1 = DLG_TEXT_Q[72] + GetFullName(pchar) + DLG_TEXT_Q[73];
     		link.l1.go = "Step_F2_2";
 		break;
  		case "Step_F2_2":
-			dialog.text = "Нет, не желаем!";
-			link.l1 = "У меня хорошие условия, подумайте... Может выпьем? Давайте-ка я к вам подсяду...";
+			dialog.text = DLG_TEXT_Q[74];
+			link.l1 = DLG_TEXT_Q[75];
 			link.l1.go = "Step_F2_3";
 		break;
  		case "Step_F2_3":
-			dialog.text = "Садись и выпивай, капитан. Ну а нам пора.";
-			link.l1 = "А-а-а, ну ладно...";
+			dialog.text = DLG_TEXT_Q[76];
+			link.l1 = DLG_TEXT_Q[77];
 			link.l1.go = "Step_F2_4";
 		break;
  		case "Step_F2_4":
@@ -261,33 +261,33 @@ void ProcessDialogEvent()
 		break;
 
  		case "Step_F2_5":
-			dialog.text = "Опять ты? И что это ты делаешь здесь?";
-			link.l1 = "Хочу узнать кое-что. Вы тут говорили про какой-то ваш галеон...";
+			dialog.text = DLG_TEXT_Q[78];
+			link.l1 = DLG_TEXT_Q[79];
     		link.l1.go = "Step_F2_6";
 		break;
  		case "Step_F2_6":
-			dialog.text = "У тебя острый слух. Хорошие уши...";
-			link.l1 = "Я жду ответа!";
+			dialog.text = DLG_TEXT_Q[80];
+			link.l1 = DLG_TEXT_Q[81];
     		link.l1.go = "Step_F2_7";
 		break;
  		case "Step_F2_7":
-			dialog.text = "А кто ты такой, чтобы требовать ответа?";
-			link.l1 = "Я уж представлялся, если мне не изменяет память. Или вам неизвестно, что такое Тортуга и кто такой флибустьер?!";
+			dialog.text = DLG_TEXT_Q[82];
+			link.l1 = DLG_TEXT_Q[83];
     		link.l1.go = "Step_F2_8";
 		break;
  		case "Step_F2_8":
-			dialog.text = "Кто такой флибустьер - нам известно. Мы называем вас ладронами.";
-			link.l1 = "Так нас называют только испанцы...";
+			dialog.text = DLG_TEXT_Q[84];
+			link.l1 = DLG_TEXT_Q[85];
     		link.l1.go = "Step_F2_9";
 		break;
  		case "Step_F2_9":
-			dialog.text = "Верно... Амиго, святой Антоний предоставил нам возможность причастить капитана ладронов - благо он один. Не будем терять времени...";
-			link.l1 = "Вот те на, испанцы! А что за ваш галеон, вы не ответили!";
+			dialog.text = DLG_TEXT_Q[86];
+			link.l1 = DLG_TEXT_Q[87];
     		link.l1.go = "Step_F2_10";
 		break;
  		case "Step_F2_10":
-			dialog.text = "Мы ждем наш галеон здесь, он вот-вот должен бросить якорь. Теперь ты знаешь все, но знание это тебе не пригодится...";
-			link.l1 = "Ну, это как сказать. Пожалуй, пора посмотреть на цвет кастильской крови...";
+			dialog.text = DLG_TEXT_Q[88];
+			link.l1 = DLG_TEXT_Q[89];
     		link.l1.go = "Step_F2_11";
 		break;
  		case "Step_F2_11":
@@ -314,14 +314,14 @@ void ProcessDialogEvent()
 		break;
 //********************************* Драка с мужем де Лейва. Квест №3 **********************************
  		case "Step_F3_1":
-			dialog.text = "Нет, ну как вам нравится... В чужой дом посреди ночи вламывается мужчина, а потом спрашивает: 'А в чем дело?!'\n"+
-				          "Не стройте из себя идиота! Моя жена заперта, я нашел у нее это чертово кольцо д’Ожерона.";
-			link.l1 = "Все ясно... Ну что же, приложу все силы для того, чтобы угостить вас блюдом, которое вы уготовили мне сегодня.";
+			dialog.text = DLG_TEXT_Q[90]+
+				          DLG_TEXT_Q[91];
+			link.l1 = DLG_TEXT_Q[92];
     		link.l1.go = "Step_F3_2";
 		break;
  		case "Step_F3_2":
-			dialog.text = "Начнем трапезу!";
-			link.l1 = "Начнем, пожалуй...";
+			dialog.text = DLG_TEXT_Q[93];
+			link.l1 = DLG_TEXT_Q[94];
     		link.l1.go = "Step_F3_3";
 		break;
  		case "Step_F3_3":
@@ -336,42 +336,43 @@ void ProcessDialogEvent()
 		break;
 //********************************* Месть Анне де Лейва. Квест №5 **********************************
  		case "Step_F5_1":
-			dialog.text = "Я получила письмо из Гаваны от моей подруги Инес де лас Сьеррас. генерал-губернатор Гаваны предпринял расследование смерти моего мужа и убежден, что в этом повинна я. Ах, так оно и есть! Но мои соотечественники замыслили месть, мне грозит гибель или похищение, и я не знаю, что страшнее.\n"+
-				          "Сударь, я прошу вас отправиться в Гавану и выяснить, насколько это серьезно.";
-			link.l1 = "Мадам, вы можете рассчитывать на меня.";
+			dialog.text = DLG_TEXT_Q[95]+
+				          DLG_TEXT_Q[96];
+			link.l1 = DLG_TEXT_Q[97];
     		link.l1.go = "exit";
     		pchar.questTemp.State = "Fr5AnnaHant_toHavana";
 			AddQuestRecord("Fra_Line_5_KillAnnaHanters", "2");			
 			sld = GetCharacter(NPC_GenerateCharacter("InesDeLasCierras", "girl_8", "woman", "towngirl", 10, SPAIN, -1, false));
 			sld.Dialog.Filename = "Quest\FraLineNpc_2.c";
-			sld.name = "Инес";
-			sld.lastname = "де Лас Сьеррас";
+			sld.name = DLG_TEXT_Q[98];
+			sld.lastname = DLG_TEXT_Q[99];
+			sld.greeting = "Gr_Dama";
 			LAi_SetStayType(sld);
 			ChangeCharacterAddressGroup(sld, "Havana_houseSp2", "goto","goto2");
 		break;
  		case "Step_F5_2":
-			dialog.text = "Какое тебе до этого дело?";
-			link.l1 = "Не было бы дела, не спрашивал, поверьте уж...";
+			dialog.text = DLG_TEXT_Q[100];
+			link.l1 = DLG_TEXT_Q[101];
     		link.l1.go = "Step_F5_3";
 		break;
  		case "Step_F5_3":
-			dialog.text = "Возможно. И что тебе нужно от нас?";
-			link.l1 = "Я так понял, вы замыслили отомстить за дона Хосе?";
+			dialog.text = DLG_TEXT_Q[102];
+			link.l1 = DLG_TEXT_Q[103];
     		link.l1.go = "Step_F5_4";
 		break;
  		case "Step_F5_4":
-			dialog.text = "Немедленно говори, кто ты. Иначе я отрежу тебе твой длинный язык.";
-			link.l1 = "Я тот, кто отправил уважаемого дона Хосе на тот свет. Еще и слуг его отправил туда же вслед за хозяином.";
+			dialog.text = DLG_TEXT_Q[104];
+			link.l1 = DLG_TEXT_Q[105];
     		link.l1.go = "Step_F5_5";
 		break;
  		case "Step_F5_5":
-			dialog.text = "Аргх, удача сегодня с нами! Пол дела сделано, брат, осталось найти эту бестию Анну и мы можем возвращаться домой.";
-			link.l1 = "А как же я?!";
+			dialog.text = DLG_TEXT_Q[106];
+			link.l1 = DLG_TEXT_Q[107];
     		link.l1.go = "Step_F5_6";
 		break;
  		case "Step_F5_6":
-			dialog.text = "А тебя уже нет... Вперед брат, покончим с этим мерзавцем!";
-			link.l1 = "Я с такой трактовкой моего бытия не согласен. Я есть! Ну, давайте начнем...";
+			dialog.text = DLG_TEXT_Q[108];
+			link.l1 = DLG_TEXT_Q[109];
     		link.l1.go = "Step_F5_7";
 		break;
  		case "Step_F5_7":
@@ -389,45 +390,45 @@ void ProcessDialogEvent()
 			DialogExit();
 		break;
  		case "Step_F5_8":
-			dialog.text = "От такого рода почитания я бы с удовольствием отказалась.";
-			link.l1 = "Вам ничего более не грозит, поверьте мне. Я сумел переубедить этих храбрых кастильцев...";
+			dialog.text = DLG_TEXT_Q[110];
+			link.l1 = DLG_TEXT_Q[111];
     		link.l1.go = "Step_F5_9";
 		break;
  		case "Step_F5_9":
-			dialog.text = "Ах, сеньор " + pchar.name + ", как я могу отблагодарить вас?";
-			link.l1 = "Донна Анна, я прошу вас заботиться о месье д’Ожероне, он того заслуживает.";
+			dialog.text = DLG_TEXT_Q[112] + pchar.name + DLG_TEXT_Q[113];
+			link.l1 = DLG_TEXT_Q[114];
     		link.l1.go = "Step_F5_10";
 		break;
  		case "Step_F5_10":
-			dialog.text = "Непременно исполню вашу просьбу, о душевном здоровье Бертрана вы можете более не переживать.";
-			link.l1 = "Мадам, вы оказали всем флибустьерам огромную услугу. Полагаю, мы в расчете.";
+			dialog.text = DLG_TEXT_Q[115];
+			link.l1 = DLG_TEXT_Q[116];
     		link.l1.go = "exit";
 			npchar.LifeDay = 0;
 		break;
 //********************************* Франсуа Олоне. Квест №6 **********************************
  		case "Step_F6_1":
-			dialog.text = "А-a-a! Ну, это меняет дело. Располагайтесь, пока я прочту письмо.";
-			link.l1 = "Между прочим, месье, хочу сообщить вам, что этим письмом крайне интересовались испанцы. Они даже отрядили военный корабль, чтобы перехватить мой корабль.";
+			dialog.text = DLG_TEXT_Q[117];
+			link.l1 = DLG_TEXT_Q[118];
     		link.l1.go = "Step_F6_2";
             TakeItemFromCharacter(pchar, "letter_1");
             BackItemDescribe("letter_1");
 		break;
  		case "Step_F6_2":
-			dialog.text = "Полагаю, раз вы здесь, значит, испанцы не скоро дождутся своего военного корабля, ха-ха! Да, они спят и видят, как бы доказать связи французского генерал-губернатора с флибустьерами. Так что, доставив письмо в целости, вы оказали и мне, и месье д`Ожерону немалую услугу. Награда будет соответствующей. Кстати, как вы предпочитаете ее получить?";
-			link.l1 = "В каком смысле?";
+			dialog.text = DLG_TEXT_Q[119];
+			link.l1 = DLG_TEXT_Q[120];
     		link.l1.go = "Step_F6_3";
 		break;
  		case "Step_F6_3":
-			dialog.text = "Я могу вручить вам мешочек с золотом. А могу предложить участие в интересном дельце. В этом письме генерал-губернатор сообщает, что в форте Куманы сейчас находится золото на сумму не меньше двухсот тысяч реалов. В моей флотилии три корабля, их капитаны - мои компаньоны. Присоединяйтесь – и добычу, согласно законам братства, поделим на четверых. Ну, как?";
-			link.l1 = "Я предпочту первый вариант.";
+			dialog.text = DLG_TEXT_Q[121];
+			link.l1 = DLG_TEXT_Q[122];
     		link.l1.go = "Step_F6_WantMoney";
-			link.l2 = "Какой же корсар откажется от жаркого, но выгодного дела! Разумеется, я с вами!";
+			link.l2 = DLG_TEXT_Q[123];
     		link.l2.go = "Step_F6_4";
 			SaveCurrentQuestDateParam("questTemp");
 		break;
  		case "Step_F6_WantMoney":
-			dialog.text = "Как скажете. Вот ваша награда.";
-			link.l1 = "Спасибо, Франсуа. Ну а теперь, я, пожалуй, отбуду на Тортугу...";
+			dialog.text = DLG_TEXT_Q[124];
+			link.l1 = DLG_TEXT_Q[125];
     		link.l1.go = "exit";
 			NextDiag.TempNode = "First time";
 			AddMoneyToCharacter(pchar, 10000);
@@ -439,35 +440,35 @@ void ProcessDialogEvent()
             {
 				if (GetQuestPastDayParam("questTemp") < 6)
 				{
-					dialog.text = "Ну что же, ты готов к тому, чтобы занять место в нашей эскадре. Добро пожаловать и вперед к Кумане!";
-					link.l1 = "Очень хорошо! Франсуа, каков план действий на эту компанию?";
+					dialog.text = DLG_TEXT_Q[126];
+					link.l1 = DLG_TEXT_Q[127];
     				link.l1.go = "Step_F6_5";
 				}
 				else
 				{
-					dialog.text = "Ну, и где ты пропадал столько времени?";
-					link.l1 = "Да вот, избавлялся от кораблей, как ты и сказал.";
+					dialog.text = DLG_TEXT_Q[128];
+					link.l1 = DLG_TEXT_Q[129];
     				link.l1.go = "Step_F6_7";
 				}
             }
             else
             {
-				dialog.text = "Коллега, я тебя одного могу взять в это на условиях, что твоя доля - четвертая часть. Больше мне компаньоны не требуются. Поэтому избавься от лишних кораблей, если хочешь участвовать. И побыстрей!";
-				link.l1 = "Хорошо, Франсуа, я скоро вернусь.";
+				dialog.text = DLG_TEXT_Q[130];
+				link.l1 = DLG_TEXT_Q[131];
     			link.l1.go = "exit";
-				link.l2 = "Не, на такой расклад я не согласен. Поэтому я, пожалуй, лучше возьму таки свои деньги... ";
+				link.l2 = DLG_TEXT_Q[132];
     			link.l2.go = "Step_F6_WantMoney";
 				NextDiag.TempNode = "Step_F6_4";
              }
 		break;
  		case "Step_F6_5":
-			dialog.text = "План достаточно прост. Мы приходим туда и берем Куману штурмом. Затем находим золото, делим и разбегаемся каждый по своим делам.";
-			link.l1 = "Превосходно. Ну что же, я готов.";
+			dialog.text = DLG_TEXT_Q[133];
+			link.l1 = DLG_TEXT_Q[134];
     		link.l1.go = "Step_F6_6";
 		break;
  		case "Step_F6_6":
-			dialog.text = "Тогда вперед на Куману, и как можно быстрей!";
-			link.l1 = "Очень хорошо, начинаем...";
+			dialog.text = DLG_TEXT_Q[135];
+			link.l1 = DLG_TEXT_Q[136];
     		link.l1.go = "Step_F6_GoOn";
 		break;
 		case "Step_F6_GoOn": 
@@ -499,43 +500,43 @@ void ProcessDialogEvent()
 			DialogExit();
 		break;
 		case "Step_F6_7":
-			dialog.text = "Избавился?";
-			link.l1 = "Да, конечно.";
+			dialog.text = DLG_TEXT_Q[137];
+			link.l1 = DLG_TEXT_Q[138];
     		link.l1.go = "Step_F6_8";
 		break;
  		case "Step_F6_8":
-			dialog.text = "Я тебя поздравляю с успешным избавлением, но похода на Куману не будет.";
-			link.l1 = "Как не будет?!";
+			dialog.text = DLG_TEXT_Q[139];
+			link.l1 = DLG_TEXT_Q[140];
     		link.l1.go = "Step_F6_9";
 		break;
  		case "Step_F6_9":
-			dialog.text = "Очень просто, мон шер. Золота в Кумане уже нет, его вывезли. Так что в нашем случае потерянное время стоило нам 200 тысяч реалов. Вот так-то...";
-			link.l1 = "Черт возьми, досадно... Ну что же, тогда я заберу те деньги, которые мне причитаются за доставку письма.";
+			dialog.text = DLG_TEXT_Q[141];
+			link.l1 = DLG_TEXT_Q[142];
     		link.l1.go = "Step_F6_WantMoney";
 		break;
  		case "HaveHotBussines":
-			dialog.text = "Капитан, нам нельзя терять времени, нужно срочно брать Куману пока золото не испарилось.";
-			link.l1 = "Да, Франсуа, мы обязательно успеем...";
+			dialog.text = DLG_TEXT_Q[143];
+			link.l1 = DLG_TEXT_Q[144];
     		link.l1.go = "exit";
 		break;
  		case "Step_F6_10":
-			dialog.text = "Что-то мне не нравится твой ответ, " + pchar.name + ".";
-			link.l1 = "Мы опоздали, Франсуа. Дело в том, что деньги уже ушли в Старый Свет с неделю тому назад. Все было бесполезно...";
+			dialog.text = DLG_TEXT_Q[145] + pchar.name + ".";
+			link.l1 = DLG_TEXT_Q[146];
     		link.l1.go = "Step_F6_11";
 		break;
  		case "Step_F6_11":
-			dialog.text = "Я так не думаю, мон шер. А думаю я то, что это из-за тебя не успели вовремя!";
-			link.l1 = "Спорное утверждение, друг Олоне. Очень спорное...";
+			dialog.text = DLG_TEXT_Q[147];
+			link.l1 = DLG_TEXT_Q[148];
     		link.l1.go = "Step_F6_12";
 		break;
  		case "Step_F6_12":
-			dialog.text = "Полагаю, пришло время разрешить все споры. К оружию, сударь! Попробуем твою кровь на вкус...";
-			link.l1 = "Видит Бог, я не хочу с тобой драться!";
+			dialog.text = DLG_TEXT_Q[149];
+			link.l1 = DLG_TEXT_Q[150];
     		link.l1.go = "Step_F6_13";
 		break;
  		case "Step_F6_13":
-			dialog.text = "Тогда я убью тебя как трусливого пса! Последний шанс - берись за оружие.";
-			link.l1 = "Ну хорошо, Франсуа или как там тебя... Ты сам напросился.";
+			dialog.text = DLG_TEXT_Q[151];
+			link.l1 = DLG_TEXT_Q[152];
     		link.l1.go = "Step_F6_fight";
 			LAi_group_Delete("EnemyFight");
 			AddQuestRecord("Fra_Line_6_Olone", "4");
@@ -561,22 +562,22 @@ void ProcessDialogEvent()
  		case "Step_F6_14":
 			if (sti(pchar.money) >= 200000)
 			{
-				dialog.text = "Отлично, компаньон! Делим деньги - и по домам.";
-				link.l1 = "Прощай, Олоне. Я похозяйничаю еще немного в городе...";
+				dialog.text = DLG_TEXT_Q[153];
+				link.l1 = DLG_TEXT_Q[154];
     			link.l1.go = "Step_F6_15";
-				link.l2 = "А я вот думаю, что не обязан с тобой делиться. Все работу сделал я!!";
+				link.l2 = DLG_TEXT_Q[155];
     			link.l2.go = "Step_F6_20";
 			}
 			else
 			{
-				dialog.text = "Деньги ты нашел, а у тебя их нет в наличии. Хитрить вздумал?!";
-				link.l1 = "Да ты что, Франусуа?!";
+				dialog.text = DLG_TEXT_Q[156];
+				link.l1 = DLG_TEXT_Q[157];
     			link.l1.go = "Step_F6_17";			
 			}
 		break;
  		case "Step_F6_15":
-			dialog.text = "Похозяйничай, но только надолго не задерживайся - рядом могут быть испанцы.";
-			link.l1 = "Хорошо, Франусуа. Будь здоров...";
+			dialog.text = DLG_TEXT_Q[158];
+			link.l1 = DLG_TEXT_Q[159];
     		link.l1.go = "Step_F6_16";
 			AddMoneyToCharacter(pchar, -150000);
 		break;
@@ -602,13 +603,13 @@ void ProcessDialogEvent()
             DialogExit();
 		break;
  		case "Step_F6_17":
-			dialog.text = "А я так думаю, хитришь, приятель... Но есть способ это выяснить - доставай свой клинок.";
-			link.l1 = "Схватка?";
+			dialog.text = DLG_TEXT_Q[160];
+			link.l1 = DLG_TEXT_Q[161];
     		link.l1.go = "Step_F6_18";
 		break;
  		case "Step_F6_18":			
-			dialog.text = "Именно так. Крысу надо наказать...";
-			link.l1 = "Ну ладно, ты сам напросился.";
+			dialog.text = DLG_TEXT_Q[162];
+			link.l1 = DLG_TEXT_Q[163];
     		link.l1.go = "Step_F6_fight";
 			LAi_group_Delete("EnemyFight");
 			AddQuestRecord("Fra_Line_6_Olone", "6");
@@ -627,8 +628,8 @@ void ProcessDialogEvent()
 			}
 		break;
  		case "Step_F6_20":
-			dialog.text = "Вот значит как?! Ну тогда готовься к худжему...";
-			link.l1 = "Всегда готов, Франсуа...";
+			dialog.text = DLG_TEXT_Q[164];
+			link.l1 = DLG_TEXT_Q[165];
     		link.l1.go = "Step_F6_21";
 		break;
  		case "Step_F6_21":
@@ -661,39 +662,39 @@ void ProcessDialogEvent()
 		break;
 //********************************* Маркиз Бонрепо. Квест №8 **********************************
  		case "Step_F8_1":
-			dialog.text = "Ага, наконец-то! А я уже начал волноваться. генерал-губернатор д'Ожерон сообщил мне о вас много лестного. Я надеюсь, что вы полностью оправдаете его и мое доверие. И учтите: все, что вы здесь услышите, никогда не должно стать известным кому-либо, кроме вас.";
-			link.l1 = "Я предупрежден об этом...";
+			dialog.text = DLG_TEXT_Q[166];
+			link.l1 = DLG_TEXT_Q[167];
     		link.l1.go = "Step_F8_2";
 		break;
  		case "Step_F8_2":
-			dialog.text = "Великолепно! Итак, к делу.\n"+
-				          "Сейчас в европейской политике очень сложное положение. Назревает очередная торговая война между Англией и Голландией, а наш великий Король-Солнце Людовик XIV начинает деволюционную войну с Испанией.";
-			link.l1 = "Простите, маркиз... Какую войну? Революционную?!";
+			dialog.text = DLG_TEXT_Q[168]+
+				          DLG_TEXT_Q[169];
+			link.l1 = DLG_TEXT_Q[170];
     		link.l1.go = "Step_F8_3";
 		break;
  		case "Step_F8_3":
-			dialog.text = "Гм... Ну да, откуда же знать простому каперу.\n"+
-				          "Деволюционная война - это война за наследственное право на некоторые территории. Такой для Франции, несомненно, является часть Фландрии и Бургундия, находящиеся сейчас под испанским владычеством. Это благое дело, поскольку голландцы вот уже сотню лет стремятся сбросить иго испанских дьяволов, рядящихся в церковные рясы.\n"+
-						  "Для успешного ведения войны мы в крайней степени нуждаемся в деньгах голландцев, так что необходимо помешать нападению англичан на их колонии. Задание контролирует лично Жан-Батист Кольбер, надеюсь, вы знаете, кто это...";
-			link.l1 = "Каким образом я должен это сделать?";
+			dialog.text = DLG_TEXT_Q[171]+
+				          DLG_TEXT_Q[172]+
+						  DLG_TEXT_Q[173];
+			link.l1 = DLG_TEXT_Q[174];
     		link.l1.go = "Step_F8_4";
 		break;
  		case "Step_F8_4":
-			dialog.text = "Голландцы в состоянии постоять за себя, если генерал-губернатор Ямайки сэр Томас Мэдифорд не получит подкреплений. А в этих водах они могут рассчитывать только на помощь известных корсаров, имеющих вес и авторитет в Береговом братстве.\n"+
-				          "Таких, кто мог бы серьезно повлиять на ход войны, всего трое: Генри Морган на Ямайке, Джекмен - в пиратском поселении на Бермудах, Джон Моррис на Тринидаде. Ваша задача – встретиться с каждым из них и убедить ни в коем случае не нападать на голландские колонии и суда. Для этой братии главное - выгода, так что средств не жалейте!";
-			link.l1 = "И где же я должен взять эти средства?";
+			dialog.text = DLG_TEXT_Q[175]+
+				          DLG_TEXT_Q[176];
+			link.l1 = DLG_TEXT_Q[177];
     		link.l1.go = "Step_F8_5";
 		break;
  		case "Step_F8_5":
-			dialog.text = "Признаюсь, вы меня удивили. Вас рекомендовали мне, как на редкость умного и находчивого человека! Если бы эти средства у меня были - зачем, спрашивается, понадобилась бы ваша помощь? Впрочем, вы вправе отказаться, но...";
-			link.l1 = "Но что тогда?";
+			dialog.text = DLG_TEXT_Q[178];
+			link.l1 = DLG_TEXT_Q[179];
     		link.l1.go = "Step_F8_6";
 		break;
  		case "Step_F8_6":
-			dialog.text = "Тогда мне придется отправить вас в тюрьму. Вы ведь, милейший, стали обладателем государственной тайны! С такими знаниями нелояльные люди на свободе не разгуливают.";
-			link.l1 = "Сначала надо меня задержать, а это не так-то просто!";
+			dialog.text = DLG_TEXT_Q[180];
+			link.l1 = DLG_TEXT_Q[181];
     		link.l1.go = "Step_F8_Fight";
-			link.l2 = "Ну что ж, если король не может обойтись без моих пиастров, так и быть, я помогу ему!";
+			link.l2 = DLG_TEXT_Q[182];
     		link.l2.go = "Step_F8_7";
 		break;
  		case "Step_F8_Fight":
@@ -717,8 +718,8 @@ void ProcessDialogEvent()
 			AddDialogExitQuest("MainHeroFightModeOn");
 		break;
  		case "Step_F8_7":
-			dialog.text = "Вот прекрасно! Д'Ожерон в вас не ошибался. Итак, я жду вас с хорошими новостями.";
-			link.l1 = "Я все сделаю, маркиз.";
+			dialog.text = DLG_TEXT_Q[183];
+			link.l1 = DLG_TEXT_Q[184];
     		link.l1.go = "exit";
 			AddQuestRecord("Fra_Line_8_ThreeCorsairs", "3");
 			pchar.questTemp.State = "Fr8ThreeCorsairs_toSeek";
@@ -732,9 +733,10 @@ void ProcessDialogEvent()
             LAi_SetLoginTime(sld, 0.0, 24.0);
             // ==>  Генерим и помещаем Джона Морриса в Бриджтаун и даем ноду доступа к квестам
             sld = GetCharacter(NPC_GenerateCharacter("John Morris", "bocman", "man", "man", 38, PIRATE, -1, false));
-        	sld.name 	= "Джон";
-        	sld.lastname = "Моррис";
+        	sld.name 	= DLG_TEXT_Q[185];
+        	sld.lastname = DLG_TEXT_Q[186];
             sld.Dialog.Filename = "Quest\JohnMorris.c"; 
+			sld.greeting = "Gr_HeadPirates";
            	LAi_SetHuberType(sld);
 			LAi_group_MoveCharacter(sld, "PeaceGroup");
         	LAi_SetLoginTime(sld, 0.0, 24.0);
@@ -748,14 +750,14 @@ void ProcessDialogEvent()
             pchar.questTemp.Count = "0";
 		break;
  		case "Step_F8_9":
-			dialog.text = "Должен заметить, что это было одно из самых непростых дипломатических поручений, которые я давал кому-либо. Человеку, который так блестяще справляется с подобными делами, просто не пристало ходить в простолюдинах. По счастью, мне даны полномочия пожаловать вам баронский титул! Такие люди, как вы, нужны Франции!";
-			link.l1 = "Э-э... а... Баронский титул? А как быть с тратами, которые я понес?..";
+			dialog.text = DLG_TEXT_Q[187];
+			link.l1 = DLG_TEXT_Q[188];
     		link.l1.go = "Step_F8_10";
 		break;
  		case "Step_F8_10":
-			dialog.text = "Ох, пират всегда останется пиратом! Ха-ха!\n"+
-				          "Поверьте, милейший, я даю вам гораздо больше, чем презренный металл! Я даю вам честь и уважение самого короля! А сейчас не смею вас задерживать, вас ждет генерал-губернатор д'Ожерон. Кажется, у него для вас опять какое-то важное дело... Прощайте.";
-			link.l1 = "Прощайте, интендант Бонрепо...";
+			dialog.text = DLG_TEXT_Q[189]+
+				          DLG_TEXT_Q[190];
+			link.l1 = DLG_TEXT_Q[191];
     		link.l1.go = "Step_F8_11";
 		break;
  		case "Step_F8_11":
@@ -763,56 +765,56 @@ void ProcessDialogEvent()
 			AddQuestRecord("Fra_Line_8_ThreeCorsairs", "8");
             LAi_SetActorType(npchar);
             LAi_ActorGoToLocation(NPChar, "reload", "reload1", "none", "", "", "", 6.0);
-			pchar.name = "барон " + pchar.name;
+			pchar.name = DLG_TEXT_Q[192] + pchar.name;
             DialogExit();
 		break;
 //********************************* Конец войне. Квест №12 **********************************
  		case "Step_F12_1":
-			dialog.text = "Итак, как вы уже знаете, деволюционная война с Испанией закончена. Испания повержена!";
-			link.l1 = "Да, маркиз, превосходная новость.";
+			dialog.text = DLG_TEXT_Q[193];
+			link.l1 = DLG_TEXT_Q[194];
     		link.l1.go = "Step_F12_2";
 		break;
  		case "Step_F12_2":
-			dialog.text = "Ваши заслуги оценены по достоинству - о вас теперь знает сам Людовик...";
-			link.l1 = "Маркиз, честно говоря, мне бы хотелось несколько иной оценке моих заслуг перед Францией.";
+			dialog.text = DLG_TEXT_Q[195];
+			link.l1 = DLG_TEXT_Q[196];
     		link.l1.go = "Step_F12_3";
 		break;
  		case "Step_F12_3":
-			dialog.text = "Что вы имеете в виду?";
-			link.l1 = "Я говорю о денежной компенсации своих затрат в этой войне. Я на своих плечах вынес бремя боевых действий с испанцами и хотел бы получить компенсацию.";
+			dialog.text = DLG_TEXT_Q[197];
+			link.l1 = DLG_TEXT_Q[198];
     		link.l1.go = "Step_F12_4";
 		break;
  		case "Step_F12_4":
-			dialog.text = "Послушайте, вы стали дворянином, о вас знает Лувр! Вам этого мало?!";
-			link.l1 = "Для моего самолюбия - это больше, чем много. Но я о другом говорю - о деньгах...";
+			dialog.text = DLG_TEXT_Q[199];
+			link.l1 = DLG_TEXT_Q[200];
     		link.l1.go = "Step_F12_5";
 		break;
  		case "Step_F12_5":
-			dialog.text = "Барон, не делайте из меня идиота, я же не требую с вас отчета о захваченных в городах трофеях. Это и есть ваш гонорар.";
-			link.l1 = "Хм, теперь ясно...";
+			dialog.text = DLG_TEXT_Q[201];
+			link.l1 = DLG_TEXT_Q[202];
     		link.l1.go = "Step_F12_6";
 		break;
  		case "Step_F12_6":
-			dialog.text = "Очень хорошо, что мы прояснили все нюансы, барон. А теперь к делу - 'Солей Руаяль' выводится из состава вашей эскадры.";
-			link.l1 = "Понятно...";
+			dialog.text = DLG_TEXT_Q[203];
+			link.l1 = DLG_TEXT_Q[204];
     		link.l1.go = "Step_F12_7";
 		break;
  		case "Step_F12_7":
-			dialog.text = "Через месяц я отправляю этот великолепный корабль в Старый Свет. Так что я благодарен вам за то, что вы сохранили его в надлежащем виде.";
-			link.l1 = "Спасибо за благодарность, маркиз...";
+			dialog.text = DLG_TEXT_Q[205];
+			link.l1 = DLG_TEXT_Q[206];
     		link.l1.go = "Step_F12_8";
 		break;
  		case "Step_F12_8":
-			dialog.text = "Не стоит, барон... Ну что же, не смею вас задерживать более, до свидания.";
-			link.l1 = "Всего хорошего, маркиз.";
+			dialog.text = DLG_TEXT_Q[207];
+			link.l1 = DLG_TEXT_Q[208];
     		link.l1.go = "exit";
 			npchar.LifeDay = 0;
 			pchar.questTemp.State = "EndOfQuestLine";
 			bWorldAlivePause   = false; // Конец линейки
-			AddQuestRecord("Fr12EndWar_toBorepo", "2");
-			CloseQuestHeader("Fr12EndWar_toBorepo");
+			AddQuestRecord("Fra_Line_12_EndOfWar", "2");
+			CloseQuestHeader("Fra_Line_12_EndOfWar");
             DeleteAttribute(pchar, "questTemp.Waiting_time");
-			//==> в течение месяца Сулей Руаяль можно взять себе.			
+			//==> в течение месяца Солей Руаяль можно взять себе.			
 			sld = characterFromId("SoleiRoyalCaptain");
 			RemoveCharacterCompanion(pchar, sld);
 			SetCrewQuantityFull(sld);
@@ -835,7 +837,7 @@ void ProcessDialogEvent()
 			AddCharacterExpToSkill(pchar, "Accuracy", 520);
 			AddCharacterExpToSkill(pchar, "Grappling", 750);
 			//слухи
-			AddSimpleRumour("Говорят, что вы теперь маркиз! Вы баловень судьбы, капитан...", sti(npchar.nation), 5, 1);
+			AddSimpleRumour(DLG_TEXT_Q[209], sti(npchar.nation), 5, 1);
 		break;
     }
 }

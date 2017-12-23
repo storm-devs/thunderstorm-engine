@@ -2274,8 +2274,8 @@ void InitIslands()
 		Islands[n].filespath.models = "islands\LostShipsCity";
 		Islands[n].refl_model = "LostShipsCity_refl";
 		Islands[n].locators = "LostShipsCity_locators";
-		Islands[n].visible = true;
-		Islands[n].reload_enable = true;
+		Islands[n].visible = false;
+		Islands[n].reload_enable = false;
 		//Islands[n].LoadGroup.g1 = "IslandShips1";
 		Islands[n].TexturePath = "LostShipsCity";
 

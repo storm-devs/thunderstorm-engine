@@ -177,6 +177,7 @@ void Item_OnPickItem()
 	int langFile = LanguageOpenFile("ItemsDescribe.txt");
 	string displayItemName, youvegotString;
 	youvegotString = LanguageConvertString(langFile, "youve_got");
+	PlayStereoSound("interface\important_item.wav");
 
 	if (chr.activeRandItem == true)
 	{
@@ -222,7 +223,7 @@ void Item_OnUseItem()
 	// boal баг! нет предмета, а он работает!!!
     if (!CheckCharacterItem(chr, Items[activeItem].id))
     {
-        Log_Info("Нет нужного предмета");
+		Log_SetStringToLog(XI_ConvertString("You have not need item"));
         PlaySound("interface\knock.wav");
         return;
     }
@@ -230,6 +231,7 @@ void Item_OnUseItem()
 	//Log_SetStringToLog("Using "+Items[activeItem].id);
 	//Trace("ItemLogic: using item "+Items[activeItem].id);
 	Items[activeItem].shown = true;
+	Items[activeItem].shown.used = true; //использован
 	Items_LoadModel(&itemModels[activeItem], &Items[activeItem]);
 
 	FindLocator(activeLocation.id, chr.activeLocator, &al, true);
@@ -241,8 +243,16 @@ void Item_OnUseItem()
 	Items[activeItem].startLocator = "";
 	al.active = true;
 	al.timePassed = 0;
+
+	int langFile = LanguageOpenFile("ItemsDescribe.txt");
+	string displayItemName, youvegotString;
+	youvegotString = LanguageConvertString(langFile, "used_item");
+	displayItemName = LanguageConvertString(langFile, Items[activeItem].name);
+	Log_SetStringToLog(youvegotString+" "+displayItemName+"!");
+    PlaySound("interface\sobitie_na_karte_001.wav");
+
     // ===> перехват на метод обрабоки для квестовых нужд при опускании предмета в локаторы button. Эдди.
-    QuestCheckUseButton(activeLocation, chr.activeLocator);
+    QuestCheckUseButton(activeLocation, chr.activeLocator, Items[activeItem].id);
     // <===
 	DeleteAttribute(chr,"activeItem");
 	
@@ -531,7 +541,7 @@ void Box_EnterToLocator(aref loc, string locName)
 		{
 			if (CheckAttribute(loc, locName+".key")) 
 			{
-				if (CheckCharacterItem(pchar, loc.(locName).key))
+				if (CheckCharacterItem(pchar, loc.(locName).key)) //проверяем ключ
 				{
 					loc.(locName).opened = true;
 					PlaySound("interface\key.wav");
@@ -543,6 +553,17 @@ void Box_EnterToLocator(aref loc, string locName)
 				else 
 				{
 					bOk = false;	
+					Log_SetStringToLog(XI_ConvertString("You have not need key"));
+					PlaySound("interface\box_locked.wav");
+				}
+			}
+			else
+			{	
+				if (CheckAttribute(loc, locName+".closed")) //проверяем, не закрыт ли сундук
+				{
+					bOk = false;
+					Log_SetStringToLog(XI_ConvertString("Box is closed"));
+					PlaySound("interface\door_locked.wav");
 				}
 			}
 		}
@@ -552,11 +573,6 @@ void Box_EnterToLocator(aref loc, string locName)
 		pchar.boxname = locName;
 		Log_SetActiveAction("OpenBox");
 		BLI_RefreshCommandMenu();
-	}
-	else
-	{
-        Log_Info("Нет нужного ключа");
-        PlaySound("interface\box_locked.wav");
 	}
 }
 
@@ -585,7 +601,7 @@ void OpenBoxProcedure()
 	// токо сундуки и дома
 	if (sti(chr.GenQuest.God_hit_us) == 1 && rand(100) >= (85 + GetCharacterSkillToOld(chr, SKILL_FORTUNE)))
 	{
-		Log_Info("Ловушка!");
+		Log_Info(xiDStr("ItemLogic_2"));
 		PlaySound("people\clothes1.wav");
 		DoQuestCheckDelay("God_hit_us", 0.2);
 	}

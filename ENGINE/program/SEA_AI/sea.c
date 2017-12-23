@@ -394,27 +394,27 @@ void Sea_MapLoad()
             if (GetCargoLoad(chref) > GetCargoMaxSpace(chref))
             {
                 ok = false;
-                Log_SetStringToLog("Корабль '" +  chref.Ship.Name + "' перегружен.");
+                Log_SetStringToLog(xiStr("MSG_sea_1") +  chref.Ship.Name + xiStr("MSG_sea_2"));
             }
             if (MOD_SKILL_ENEMY_RATE > 2) // халява и юнга - послабление
     		{
 	            if (i > 0 && GetMinCrewQuantity(chref) > GetCrewQuantity(chref))
 	            {
 	                ok = false;
-	                Log_SetStringToLog("На корабле '" +  chref.Ship.Name + "' нет минимального экипажа.");
+	                Log_SetStringToLog(xiStr("MSG_sea_3") +  chref.Ship.Name + xiStr("MSG_sea_4"));
 	            }
 			}
 			
             if (GetMaxCrewQuantity(chref) < GetCrewQuantity(chref))
             {
                 ok = false;
-                Log_SetStringToLog("На корабле '" +  chref.Ship.Name + "' перегруз экипажа больше допустимого.");
+                Log_SetStringToLog(xiStr("MSG_sea_3") +  chref.Ship.Name + xiStr("MSG_sea_5"));
             }  
         }
     }
     if (!ok)
     {
-        Log_Info("Выход на карту невозможен.");
+        Log_Info(xiStr("MSG_sea_6"));
         PlaySound("interface\knock.wav");
         return;
     }
@@ -1209,13 +1209,13 @@ void Sea_Reload()
 	Login.PlayerGroup.z = 0.0;
 	Login.Island = pchar.location;
 
-	SeaLogin(&Login);
+	SeaLogin(&Login);	
 }
 
 void Sea_ReloadStart()
 {
 	if (!bSeaActive) { return; }
-	ShipsInit();
+	ShipsInit();	
 	//characters[1].ship.type = GenerateShip(SHIP_barque, 1);
 	DeleteSeaEnvironment();
 	SetEventHandler("Sea_Reload", "Sea_Reload", 0);

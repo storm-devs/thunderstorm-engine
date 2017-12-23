@@ -1,4 +1,5 @@
 #include "DIALOGS\russian\Rumours\Common_rumours.c"  //homo 25/06/06
+#include "TEXT\DIALOGS\Common_Portman.h"
 void ProcessDialogEvent()
 {
 	ref NPChar, sld;
@@ -58,58 +59,77 @@ void ProcessDialogEvent()
 			if (LAi_grp_playeralarm > 0)
 			{
        			dialog.text = NPCharRepPhrase(pchar, 
-					LinkRandPhrase("В городе поднята тревога, тебя всюду ищут! На твоем месте я бы не стал здесь задерживаться.", "Вся городская стража рыщет по городу в поисках тебя. Я не идиот и разговаривать с тобой не буду!", "Беги приятель, пока солдаты не сделали из тебя решето..."), 
-					LinkRandPhrase("Что тебе нужно, негодяй?! Городская стража уже взяла твой след, далеко тебе не уйти, грязный пират!", "Грязный убийца, вон из моего дома! Стража!!", "Я не боюсь тебя, мерзавец! Скоро тебя повесят в нашем форте, далеко тебе не уйти..."));
+					LinkRandPhrase(DLG_TEXT_BASE[0], DLG_TEXT_BASE[1], DLG_TEXT_BASE[2]), 
+					LinkRandPhrase(DLG_TEXT_BASE[3], DLG_TEXT_BASE[4], DLG_TEXT_BASE[5]));
 				link.l1 = NPCharRepPhrase(pchar,
-					RandPhraseSimple("Хех, тревога для меня не проблема...", "Им меня ни за что не поймать."), 
-					RandPhraseSimple("Заткни свою пасть, " + GetWorkTypeOfMan(npchar, "") + ", а не то вырву твой поганый язык!", "Хех, " + GetWorkTypeOfMan(npchar, "") + ", а все туда же - пиратов ловить! Вот что я тебе скажу, приятель: сиди тихо и будешь жить..."));
+					RandPhraseSimple(DLG_TEXT_BASE[6], DLG_TEXT_BASE[7]), 
+					RandPhraseSimple(DLG_TEXT_BASE[8] + GetWorkTypeOfMan(npchar, "") + DLG_TEXT_BASE[9], DLG_TEXT_BASE[10] + GetWorkTypeOfMan(npchar, "") + DLG_TEXT_BASE[11]));
 				link.l1.go = "fight";
 				break;
 			}
-			
+			//провека защиты -->
+			/*if (GetEngineVersion() != iScriptVersion)
+			{
+       			dialog.text = DLG_TEXT_BASE[12];
+				link.l1 = "...";
+				link.l1.go = "exit";
+				break;
+			} */
+			//<-- провека защиты
+			//homo Линейка Блада
+            if (Pchar.questTemp.CapBloodLine == true )
+            {
+                dialog.Text = LinkRandPhrase(DLG_TEXT_BASE[13] + TimeGreeting() + ".",
+                                    DLG_TEXT_BASE[14],
+                                    DLG_TEXT_BASE[15] + GetFullName(pchar) + DLG_TEXT_BASE[16]);
+                Link.l1 = DLG_TEXT_BASE[17] + NPChar.name + DLG_TEXT_BASE[18];
+				Link.l1.go = "exit";
+				break;
+            }
+			//homo
 			if(NPChar.quest.meeting == "0")
 			{
 				NPChar.quest.meeting = "1";
-				dialog.text = "Приветствую вас, " + GetAddress_Form(NPChar) + ". Мы, кажется, не знакомы. Я "  + GetFullName(npchar)+ " - начальник порта.";
-				Link.l1 = "Здравствуйте, " + GetFullName(NPChar) + ". Я " + GetFullName(PChar) + ", капитан корабля '" + PChar.ship.name + "'.";
+				dialog.text = DLG_TEXT_BASE[19] + GetAddress_Form(NPChar) + DLG_TEXT_BASE[20]  + GetFullName(npchar)+ DLG_TEXT_BASE[21];
+				Link.l1 = DLG_TEXT_BASE[22] + GetFullName(NPChar) + DLG_TEXT_BASE[23] + GetFullName(PChar) + DLG_TEXT_BASE[24] + PChar.ship.name + ".";
 			}
 			else
 			{
-				dialog.text = LinkRandPhrase("Приветствую вас, " + GetAddress_Form(NPChar) + ". Вы ко мне по делу?",
-                                    "Здравствуйте, " + GetFullName(Pchar) + ". Я видел, как ваш корабль вошел в порт, и был уверен, что вы ко мне зайдете.",
-                                    "А, капитан " + GetFullName(Pchar) + ". Что привело вас ко мне?");
-				Link.l1 = "Здравствуйте, " + GetFullName(NPChar) + ". Я хочу с вами поговорить.";
+				dialog.text = LinkRandPhrase(DLG_TEXT_BASE[25] + GetAddress_Form(NPChar) + DLG_TEXT_BASE[26],
+                                    DLG_TEXT_BASE[27] + GetFullName(Pchar) + DLG_TEXT_BASE[28],
+                                    DLG_TEXT_BASE[29] + GetFullName(Pchar) + DLG_TEXT_BASE[30]);
+				Link.l1 = DLG_TEXT_BASE[31] + GetFullName(NPChar) + DLG_TEXT_BASE[32];
 			}
 			Link.l1.go = "node_2";
 		break;
 		
 		case "node_2":
-			dialog.text = "Прекрасно. Я к вашим услугам, " + GetFullName(PChar) + ".";
-			Link.l2 = "Здесь можно подыскать работу? Или контракт?";
+			dialog.text = DLG_TEXT_BASE[33] + GetFullName(PChar) + ".";
+			Link.l2 = DLG_TEXT_BASE[34];
 			Link.l2.go = "node_4";
-			Link.l3 = "Могу я оставить один из своих кораблей на время?";
+			Link.l3 = DLG_TEXT_BASE[35];
 			Link.l3.go = "ShipStock_1";
 			if (sti(NPChar.Portman) > 0)
 			{
-                Link.l4 = "Я хочу забрать свой корабль обратно.";
+                Link.l4 = DLG_TEXT_BASE[36];
     			Link.l4.go = "ShipStockReturn_1";
 			}
 			if (CheckAttribute(pchar, "GenQuest.LoanChest.TakeChest") && sti(pchar.GenQuest.LoanChest.TargetIdx) == sti(NPChar.index))
 			{
-				link.l5 = "Я к вам по финансовым делам.";
+				link.l5 = DLG_TEXT_BASE[37];
 				link.l5.go = "LoanForAll";//(перессылка в кредитный генератор)	
 			}
   			if (CheckAttribute(pchar, "GenQuest.Intelligence") && pchar.GenQuest.Intelligence.SpyId == npchar.id && pchar.GenQuest.Intelligence == "") //квест мэра - на связь с нашим шпионом
 			{
-				link.l7 = RandPhraseSimple("Я здесь по поручению одного человека. Его зовут губернатор " + GetFullName(characterFromId(pchar.GenQuest.Intelligence.MayorId)) + ".", 
-					GetFullName(characterFromId(pchar.GenQuest.Intelligence.MayorId)) + " прислал меня к вам. Я должен кое-что забрать...");
+				link.l7 = RandPhraseSimple(DLG_TEXT_BASE[38] + GetFullName(characterFromId(pchar.GenQuest.Intelligence.MayorId)) + ".", 
+					GetFullName(characterFromId(pchar.GenQuest.Intelligence.MayorId)) + DLG_TEXT_BASE[39]);
 				link.l7.go = "IntelligenceForAll";
 			}
-			link.l6 = "Меня интересуют капитаны, которые отмечались в вашем портовом управлении.";
+			link.l6 = DLG_TEXT_BASE[40];
 			link.l6.go = "CapitainList";
-			link.l8 = "Я по другому вопросу.";
+			link.l8 = DLG_TEXT_BASE[41];
 			link.l8.go = "quests";
-			Link.l9 = "Благодарю. До свидания.";
+			Link.l9 = DLG_TEXT_BASE[42];
 			Link.l9.go = "exit";
 		break;
 
@@ -117,23 +137,23 @@ void ProcessDialogEvent()
 			//--> проверка миниквестов начальника порта. 
 			if (npchar.quest == "PortmansJornal") //взят квест на судовой журнал
 			{
-				dialog.text = "Вы должны были найти капитана по имени " + npchar.quest.PortmansJornal.capName + " и вернуть ему судовой журнал. Вы сделали это?";
-				link.l1 = "Нет, не получилось пока...";
+				dialog.text = DLG_TEXT_BASE[43] + npchar.quest.PortmansJornal.capName + DLG_TEXT_BASE[44];
+				link.l1 = DLG_TEXT_BASE[45];
 				link.l1.go = "PortmanQuest_NF";
 				break;
 			}
 			if (npchar.quest == "PortmansSeekShip" || npchar.quest == "SeekShip_sink") //взят квест на поиски украденного корабля
 			{
-				dialog.text = "Вы подвязались разыскать украденный " + GetStrSmallRegister(XI_ConvertString(npchar.quest.PortmansSeekShip.shipTapeName)) + " '" + npchar.quest.PortmansSeekShip.shipName + "'. Пока вы не выполните это задание, ни о какие других поручениях не может быть и речи.";
-				link.l1 = "Я продолжу поиски, ждите.";
+				dialog.text = DLG_TEXT_BASE[46] + GetStrSmallRegister(XI_ConvertString(npchar.quest.PortmansSeekShip.shipTapeName)) + " " + npchar.quest.PortmansSeekShip.shipName + DLG_TEXT_BASE[47];
+				link.l1 = DLG_TEXT_BASE[48];
 				link.l1.go = "exit";
-				link.l2 = "Хочу отказаться от выполнения вашего поручения.";
+				link.l2 = DLG_TEXT_BASE[49];
 				link.l2.go = "SeekShip_break";
 				break;
 			}
 			if (npchar.quest == "SeekShip_success") //украденный корабль взят на абордаж
 			{
-				dialog.text = "Вы обещали мне разыскать украденный " + GetStrSmallRegister(XI_ConvertString(npchar.quest.PortmansSeekShip.shipTapeName)) + " '" + npchar.quest.PortmansSeekShip.shipName + "'. Вы сделали это?";
+				dialog.text = DLG_TEXT_BASE[50] + GetStrSmallRegister(XI_ConvertString(npchar.quest.PortmansSeekShip.shipTapeName)) + " " + npchar.quest.PortmansSeekShip.shipName + DLG_TEXT_BASE[51];
 				bool bOk = false;
 				for (i=0; i<=COMPANION_MAX; i++)
 				{
@@ -162,15 +182,15 @@ void ProcessDialogEvent()
 				}				
 				if (bOk)
 				{
-					link.l1 = "Да, я нашел его, стоит в порту на рейде. Можете забирать.";
+					link.l1 = DLG_TEXT_BASE[52];
 					link.l1.go = "SeekShip_good";
 				}
 				else
 				{
-					link.l1 = "Я продолжу поиски, ждите.";
+					link.l1 = DLG_TEXT_BASE[53];
 					link.l1.go = "exit";
 				}
-				link.l2 = "Хочу отказаться от выполнения вашего поручения.";
+				link.l2 = DLG_TEXT_BASE[54];
 				link.l2.go = "SeekShip_break";
 				break;
 			}
@@ -179,51 +199,51 @@ void ProcessDialogEvent()
 			//--> дача миниквестов начальника порта. 
 			if (rand(2) < 2 && pchar.questTemp.different == "free" && GetNpcQuestPastDayWOInit(npchar, "quest.meeting") > 7)
 			{
-				dialog.text = LinkRandPhrase("Да, черт возьми! У меня есть для вас работа!", 
-					"Ха! Вы как нельзя вовремя! У меня есть одна проблема, требующая разрешения.", 
-					"Еще бы! Конечно, у меня есть работа! Проблемы, знаете ли, просто задавили...");
-				link.l1 = "Излагайте суть дела, " + GetAddress_Form(NPChar) + ".";
+				dialog.text = LinkRandPhrase(DLG_TEXT_BASE[55], 
+					DLG_TEXT_BASE[56], 
+					DLG_TEXT_BASE[57]);
+				link.l1 = DLG_TEXT_BASE[58] + GetAddress_Form(NPChar) + ".";
 				link.l1.go = "PortmanQuest";
 				SaveCurrentNpcQuestDateParam(npchar, "quest.meeting");
 				break;
 			}			
 			//<-- дача миниквестов начальника порта.
 
-			dialog.text = "Губернатор радеет за благополучие города - у него всегда есть работа. Потом, в таверне могут быть заинтересованные купцы, ну и магазин иногда фрахтует капитанов.";
-			Link.l1 = "Еще один вопрос.";
+			dialog.text = DLG_TEXT_BASE[59];
+			Link.l1 = DLG_TEXT_BASE[60];
 			Link.l1.go = "node_2";
-			Link.l2 = "Благодарю. До свидания.";
+			Link.l2 = DLG_TEXT_BASE[61];
 			Link.l2.go = "exit";
 		break;
 		case "PortmanQuest_NF":
-			dialog.text = "Хм, это плохо. В таком случае, ни о какой новой работе у меня не может быть и речи.";
-			link.l1 = "Понятно. Вот еще что хотел сказать...";
+			dialog.text = DLG_TEXT_BASE[62];
+			link.l1 = DLG_TEXT_BASE[63];
 			link.l1.go = "node_2";
 		break;
 
 		//--> миниквесты портмана
 		case "PortmanQuest":
-			if (rand(1))
+			if (cRand(2) == 2)
 			{	//квест догнать и передать судовой журнал
-				dialog.text = "У меня забыл судовой журнал один капитан. Это же надо быть таким разиней!.. В общем, нужно его догнать и вернуть пропажу.";
-				link.l1 = "Ну, это можно... За эту работу я берусь!";
+				dialog.text = DLG_TEXT_BASE[64];
+				link.l1 = DLG_TEXT_BASE[65];
 				link.l1.go = "PortmanQuest_1";
-				link.l2 = "Нет, не хочу этим заниматься. Это его проблемы, собственно...";
+				link.l2 = DLG_TEXT_BASE[66];
 				link.l2.go = "node_2";
 			}
 			else
 			{	//квест разыскать украденный корабль
-				dialog.text = "У меня со стоянки кораблей был украден корабль. Я хочу, чтобы вы разыскали и вернули его мне.";
-				link.l1 = "Хм, ну что же, я готов взяться за розыски.";
+				dialog.text = DLG_TEXT_BASE[67];
+				link.l1 = DLG_TEXT_BASE[68];
 				link.l1.go = "SeekShip_1";
-				link.l2 = "Простите, но розыском кораблей я не занимаюсь.";
+				link.l2 = DLG_TEXT_BASE[69];
 				link.l2.go = "node_2";
 			}
 		break;
 		// -------------------------------- квест доставки судового журнала до рассеяного кэпа --------------------------
 		case "PortmanQuest_1":
-			dialog.text = "Отлично, вот его журнал... Уф-ф, прямо груз с плеч долой! Потеря судового журнала - штука неприятная, переживаю я за таких капитанов.";
-			link.l1 = "Это точно, переживать стоит! Ну, а теперь расскажите мне подробней об этом рассеянном капитане.";
+			dialog.text = DLG_TEXT_BASE[70];
+			link.l1 = DLG_TEXT_BASE[71];
 			link.l1.go = "PortmanQuest_2";
 			pchar.questTemp.different = "PortmansJornal";
 			SetTimerFunction("SmallQuests_free", 0, 0, 1); //освобождаем разрешалку на миниквесты
@@ -231,15 +251,16 @@ void ProcessDialogEvent()
 			GiveItem2Character(pchar, "PortmansBook");
 		break;
 		case "PortmanQuest_2":
-			dialog.text = "Да, конечно! Его зовут " + npchar.quest.PortmansJornal.capName + ", он капитан " + GetStrSmallRegister(XI_ConvertString(npchar.quest.PortmansJornal.shipTapeName + "Acc")) + " с именем '" + npchar.quest.PortmansJornal.shipName + "'. Вышел он в море недавно, а направился в " + XI_ConvertString("Colony" + npchar.quest.PortmansJornal.city + "Acc") + ".";
-			link.l1 = "Понятно. Ну что же, я его обязательно найду. Как быть с оплатой?";
+			dialog.text = DLG_TEXT_BASE[72] + npchar.quest.PortmansJornal.capName + DLG_TEXT_BASE[73] + GetStrSmallRegister(XI_ConvertString(npchar.quest.PortmansJornal.shipTapeName + "Acc")) + DLG_TEXT_BASE[74] + npchar.quest.PortmansJornal.shipName + DLG_TEXT_BASE[75] + XI_ConvertString("Colony" + npchar.quest.PortmansJornal.city + "Acc") + ".";
+			link.l1 = DLG_TEXT_BASE[76];
 			link.l1.go = "PortmanQuest_3";
 		break;
 		case "PortmanQuest_3":
-			dialog.text = npchar.quest.PortmansJornal.capName + " сам с вами рассчитается, это в его интересах. Только постарайтесь найти его быстрей, и все будет нормально.";
-			link.l1 = "Ясно. Ну, я пошел...";
+			dialog.text = npchar.quest.PortmansJornal.capName + DLG_TEXT_BASE[77];
+			link.l1 = DLG_TEXT_BASE[78];
 			link.l1.go = "exit";
 			sTitle = npchar.id + "PortmansBook_Delivery";
+			ReOpenQuestHeader(sTitle);
 			AddQuestRecordEx(sTitle, "PortmansBook_Delivery", "1");
 			AddQuestUserDataForTitle(sTitle, "sCapName", npchar.quest.PortmansJornal.capName);
 			AddQuestUserDataForTitle(sTitle, "sCity", XI_ConvertString("Colony" + npchar.city + "Gen"));
@@ -251,45 +272,44 @@ void ProcessDialogEvent()
 			AddQuestUserData(sTitle, "sTargetCity", XI_ConvertString("Colony" + npchar.quest.PortmansJornal.city + "Acc"));
 			if (GetIslandByCityName(npchar.quest.PortmansJornal.city) != npchar.quest.PortmansJornal.city)
 			{
-				AddQuestUserData(sTitle, "sAreal", ", что находится на " + XI_ConvertString(GetIslandByCityName(npchar.quest.PortmansJornal.city) + "Dat"));
+				AddQuestUserData(sTitle, "sAreal", DLG_TEXT_BASE[79] + XI_ConvertString(GetIslandByCityName(npchar.quest.PortmansJornal.city) + "Dat"));
 			}			
 		break;
 		// -------------------------------- квест розыска украденного корабля ----------------------------------
 		case "SeekShip_1":
-			dialog.text = "Прекрасно! Вы знаете, украденный корабль принадлежит не последнему человеку, так что он очень важен для меня. Я неплохо заплачу за работу...";
-			link.l1 = "Понятно. Расскажите подробней, что за корабль, при каких обстоятельствах был украден.";
+			dialog.text = DLG_TEXT_BASE[80];
+			link.l1 = DLG_TEXT_BASE[81];
 			link.l1.go = "SeekShip_2";
 			pchar.questTemp.different = "PortmansSeekShip";
 			SetTimerFunction("SmallQuests_free", 0, 0, 1); //освобождаем разрешалку на миниквесты
 			SetSeekShipCapParam(npchar);
 		break;
 		case "SeekShip_2":
-			dialog.text = XI_ConvertString(npchar.quest.PortmansSeekShip.shipTapeName) + " с именем '" + npchar.quest.PortmansSeekShip.shipName + "'. Украден был ночью " + FindRussianDaysString(rand(5)+10) + " назад. Вахтенный убит.";
-			link.l1 = "Хм, они уже успели уйти, небось, прилично. В общем, о горячих следах говорить не приходится...";
+			dialog.text = XI_ConvertString(npchar.quest.PortmansSeekShip.shipTapeName) + DLG_TEXT_BASE[82] + npchar.quest.PortmansSeekShip.shipName + DLG_TEXT_BASE[83] + FindRussianDaysString(rand(5)+10) + DLG_TEXT_BASE[84];
+			link.l1 = DLG_TEXT_BASE[85];
 			link.l1.go = "SeekShip_3";
 		break;
 		case "SeekShip_3":
-			dialog.text = "Да, верно. Но и смысла мне сразу панику поднимать не было. Военные если и догонят, то разнесут корабль в щепки, а это не совсем то, что мне нужно.";
-			link.l1 = "Понятно. Ну что же, приступаю к поискам. Надеюсь, мне повезет.";
+			dialog.text = DLG_TEXT_BASE[86];
+			link.l1 = DLG_TEXT_BASE[87];
 			link.l1.go = "exit";
 			sTitle = npchar.id + "Portmans_SeekShip";
+			ReOpenQuestHeader(sTitle);
 			AddQuestRecordEx(sTitle, "Portmans_SeekShip", "1");
-			AddQuestUserDataForTitle(sTitle, "sShipTypeName", GetStrSmallRegister(XI_ConvertString(npchar.quest.PortmansSeekShip.shipTapeName)));
 			AddQuestUserDataForTitle(sTitle, "sCity", XI_ConvertString("Colony" + npchar.city + "Gen"));
 			AddQuestUserData(sTitle, "sCity", XI_ConvertString("Colony" + npchar.city + "Gen"));
 			AddQuestUserData(sTitle, "sShipTypeName", GetStrSmallRegister(XI_ConvertString(npchar.quest.PortmansSeekShip.shipTapeName)));
-			AddQuestUserData(sTitle, "sShipTypeName2", GetStrSmallRegister(XI_ConvertString(npchar.quest.PortmansSeekShip.shipTapeName)));
 			AddQuestUserData(sTitle, "sShipName", npchar.quest.PortmansSeekShip.shipName);
 		break;
 
 		case "SeekShip_break":
-			dialog.text = "Хм, ну что же, очень жаль. Хотя, на успех сложно было рассчитывать...";
-			link.l1 = "Да, слишком много времени прошло с момента кражи.";
+			dialog.text = DLG_TEXT_BASE[88];
+			link.l1 = DLG_TEXT_BASE[89];
 			link.l1.go = "SeekShip_break_1";
 		break;
 		case "SeekShip_break_1":
-			dialog.text = "Ну что же, спасибо за оказанную помощь, хоть она и не увенчалась успехом.";
-			link.l1 = "Не за что...";
+			dialog.text = DLG_TEXT_BASE[90];
+			link.l1 = DLG_TEXT_BASE[91];
 			link.l1.go = "exit";
 			sTemp = "SeekShip_checkAbordage" + npchar.index;
 			pchar.quest.(sTemp).over = "yes"; //снимаем прерывание на абордаж
@@ -312,8 +332,8 @@ void ProcessDialogEvent()
 		case "SeekShip_good":
 			if (npchar.quest == "SeekShip_sink")
 			{
-				dialog.text = "Отлично! Однако, полагаю, что это не совсем тот корабль, что был украден... Хотя, собственно, все равно! Я беру его у вас.";
-				link.l1 = "Да, действительно...";
+				dialog.text = DLG_TEXT_BASE[92];
+				link.l1 = DLG_TEXT_BASE[93];
 				npchar.quest.money = makeint(sti(npchar.quest.money) / 4); //снижаем оплату
 				ChangeCharacterReputation(pchar, 5);
 				ChangeCharacterNationReputation(pchar, sti(NPChar.nation), 10);
@@ -324,8 +344,8 @@ void ProcessDialogEvent()
 			}
 			else
 			{
-				dialog.text = "Превосходно! Вы мне очень помогли. Представляю, насколько это было сложно.";
-				link.l1 = "Да, действительно...";
+				dialog.text = DLG_TEXT_BASE[94];
+				link.l1 = DLG_TEXT_BASE[95];
 				ChangeCharacterReputation(pchar, 10);
 				ChangeCharacterNationReputation(pchar, sti(NPChar.nation), 20);
                 AddCharacterExpToSkill(GetMainCharacter(), "Leadership", 100);
@@ -335,8 +355,8 @@ void ProcessDialogEvent()
 			link.l1.go = "SeekShip_good_1";
 		break;
 		case "SeekShip_good_1":
-			dialog.text = "Я готов выплатить вам вознаграждение. Оно составляет " + FindRussianMoneyString(sti(npchar.quest.money)) + ". Больше я заплатить не могу, к сожалению.";
-			link.l1 = "Ну что же, этого тоже достаточно. Спасибо и всего хорошего.";
+			dialog.text = DLG_TEXT_BASE[96] + FindRussianMoneyString(sti(npchar.quest.money)) + DLG_TEXT_BASE[97];
+			link.l1 = DLG_TEXT_BASE[98];
 			link.l1.go = "exit";
 			AddMoneyToCharacter(pchar, sti(npchar.quest.money));
 			sTitle = npchar.id + "Portmans_SeekShip";
@@ -353,7 +373,7 @@ void ProcessDialogEvent()
 		case "CapitainList":
 			if (sti(npchar.quest.qty) > 0)
 			{
-				dialog.text = "Есть отметившиеся капитаны. Кто конкретно вас интересует?";
+				dialog.text = DLG_TEXT_BASE[99];
 				makearef(arCapBase, npchar.quest.capitainsList); 
 				for (i=0; i<sti(npchar.quest.qty); i++)
 				{
@@ -361,14 +381,14 @@ void ProcessDialogEvent()
 					sCapitainId = GetAttributeName(arCapLocal);
 					sld = characterFromId(sCapitainId);
 					attrL = "l" + i;
-					link.(attrL) = GetFullName(sld) + ", капитан " + GetStrSmallRegister(XI_ConvertString(RealShips[sti(sld.Ship.Type)].BaseName + "Acc")) + " '" + sld.Ship.name + "'.";
+					link.(attrL) = GetFullName(sld) + DLG_TEXT_BASE[100] + GetStrSmallRegister(XI_ConvertString(RealShips[sti(sld.Ship.Type)].BaseName + "Acc")) + " " + sld.Ship.name + ".";
 					link.(attrL).go = "CapList_"+attrL;
 				}
 			}
 			else
 			{
-				dialog.text = "У меня в списках нет капитанов, способных вас заинтересовать.";
-				link.l1 = "Понятно. Спасибо за информацию.";
+				dialog.text = DLG_TEXT_BASE[101];
+				link.l1 = DLG_TEXT_BASE[102];
 				link.l1.go = "node_2";
 			}
 		break;
@@ -377,11 +397,11 @@ void ProcessDialogEvent()
     		arCapLocal = GetAttributeN(arCapBase,  0);
 			sCapitainId = GetAttributeName(arCapLocal);
 			sld = characterFromId(sCapitainId);
-			dialog.text = LinkRandPhrase("Та-а-ак, давайте посмотрим... Ага, есть! ", "Так-так... Ага, нашел! ", "Значит, так. ") +
-				"Капитан " + GetFullName(sld) + " " + arCapLocal.date + " года ушел из нашего порта в " + XI_ConvertString("Colony" + arCapLocal + "Acc") + ".";
-			link.l1 = "Спасибо. Хотелось бы посмотреть список дальше...";
+			dialog.text = LinkRandPhrase(DLG_TEXT_BASE[103], DLG_TEXT_BASE[104], DLG_TEXT_BASE[105]) +
+				DLG_TEXT_BASE[106] + GetFullName(sld) + " " + arCapLocal.date + DLG_TEXT_BASE[107] + XI_ConvertString("Colony" + arCapLocal + "Acc") + ".";
+			link.l1 = DLG_TEXT_BASE[108];
 			link.l1.go = "CapitainList";
-			link.l2 = "Все, капитаны меня более не интересуют.";
+			link.l2 = DLG_TEXT_BASE[109];
 			link.l2.go = "node_2";
 			//заносим запись в СЖ
 			AddQuestRecordEx(arCapLocal.QBString1, arCapLocal.QBString2, arCapLocal.QBQty);
@@ -393,7 +413,7 @@ void ProcessDialogEvent()
 			AddQuestUserData(arCapLocal.QBString1, "sTargetCity", XI_ConvertString("Colony" + arCapLocal + "Acc"));
 			if (GetIslandByCityName(arCapBase.(sCapitainId)) != arCapBase.(sCapitainId))
 			{
-				AddQuestUserData(arCapLocal.QBString1, "sAreal", ", что находится на " + XI_ConvertString(GetIslandByCityName(arCapBase.(sCapitainId)) + "Dat"));
+				AddQuestUserData(arCapLocal.QBString1, "sAreal", DLG_TEXT_BASE[110] + XI_ConvertString(GetIslandByCityName(arCapBase.(sCapitainId)) + "Dat"));
 			}
 			//убираем из списка
 			DeleteAttribute(arCapBase, sCapitainId); 
@@ -403,11 +423,11 @@ void ProcessDialogEvent()
     		arCapLocal = GetAttributeN(arCapBase,  1);
 			sCapitainId = GetAttributeName(arCapLocal);
 			sld = characterFromId(sCapitainId);
-			dialog.text = LinkRandPhrase("Та-а-ак, давайте посмотрим... Ага, есть! ", "Так-так... Ага, нашел! ", "Значит, так. ") +
-				"Капитан " + GetFullName(sld) + " " + arCapLocal.date + " года ушел из нашего порта в " + XI_ConvertString("Colony" + arCapLocal + "Acc") + ".";
-			link.l1 = "Спасибо. Хотелось бы посмотреть список дальше...";
+			dialog.text = LinkRandPhrase(DLG_TEXT_BASE[111], DLG_TEXT_BASE[112], DLG_TEXT_BASE[113]) +
+				DLG_TEXT_BASE[114] + GetFullName(sld) + " " + arCapLocal.date + DLG_TEXT_BASE[115] + XI_ConvertString("Colony" + arCapLocal + "Acc") + ".";
+			link.l1 = DLG_TEXT_BASE[116];
 			link.l1.go = "CapitainList";
-			link.l2 = "Все, капитаны меня более не интересуют.";
+			link.l2 = DLG_TEXT_BASE[117];
 			link.l2.go = "node_2";
 			//заносим запись в СЖ
 			AddQuestRecordEx(arCapLocal.QBString1, arCapLocal.QBString2, arCapLocal.QBQty);
@@ -419,7 +439,7 @@ void ProcessDialogEvent()
 			AddQuestUserData(arCapLocal.QBString1, "sTargetCity", XI_ConvertString("Colony" + arCapLocal + "Acc"));
 			if (GetIslandByCityName(arCapBase.(sCapitainId)) != arCapBase.(sCapitainId))
 			{
-				AddQuestUserData(arCapLocal.QBString1, "sAreal", ", что находится на " + XI_ConvertString(GetIslandByCityName(arCapBase.(sCapitainId)) + "Dat"));
+				AddQuestUserData(arCapLocal.QBString1, "sAreal", DLG_TEXT_BASE[118] + XI_ConvertString(GetIslandByCityName(arCapBase.(sCapitainId)) + "Dat"));
 			}
 			//убираем из списка
 			DeleteAttribute(arCapBase, sCapitainId); 
@@ -429,11 +449,11 @@ void ProcessDialogEvent()
     		arCapLocal = GetAttributeN(arCapBase,  2);
 			sCapitainId = GetAttributeName(arCapLocal);
 			sld = characterFromId(sCapitainId);
-			dialog.text = LinkRandPhrase("Та-а-ак, давайте посмотрим... Ага, есть! ", "Так-так... Ага, нашел! ", "Значит, так. ") +
-				"Капитан " + GetFullName(sld) + " " + arCapLocal.date + " года ушел из нашего порта в " + XI_ConvertString("Colony" + arCapLocal + "Acc") + ".";
-			link.l1 = "Спасибо. Хотелось бы посмотреть список дальше...";
+			dialog.text = LinkRandPhrase(DLG_TEXT_BASE[119], DLG_TEXT_BASE[120], DLG_TEXT_BASE[121]) +
+				DLG_TEXT_BASE[122] + GetFullName(sld) + " " + arCapLocal.date + DLG_TEXT_BASE[123] + XI_ConvertString("Colony" + arCapLocal + "Acc") + ".";
+			link.l1 = DLG_TEXT_BASE[124];
 			link.l1.go = "CapitainList";
-			link.l2 = "Все, капитаны меня более не интересуют.";
+			link.l2 = DLG_TEXT_BASE[125];
 			link.l2.go = "node_2";
 			//заносим запись в СЖ
 			AddQuestRecordEx(arCapLocal.QBString1, arCapLocal.QBString2, arCapLocal.QBQty);
@@ -445,7 +465,7 @@ void ProcessDialogEvent()
 			AddQuestUserData(arCapLocal.QBString1, "sTargetCity", XI_ConvertString("Colony" + arCapLocal + "Acc"));
 			if (GetIslandByCityName(arCapBase.(sCapitainId)) != arCapBase.(sCapitainId))
 			{
-				AddQuestUserData(arCapLocal.QBString1, "sAreal", ", что находится на " + XI_ConvertString(GetIslandByCityName(arCapBase.(sCapitainId)) + "Dat"));
+				AddQuestUserData(arCapLocal.QBString1, "sAreal", DLG_TEXT_BASE[126] + XI_ConvertString(GetIslandByCityName(arCapBase.(sCapitainId)) + "Dat"));
 			}
 			//убираем из списка
 			DeleteAttribute(arCapBase, sCapitainId); 
@@ -455,11 +475,11 @@ void ProcessDialogEvent()
     		arCapLocal = GetAttributeN(arCapBase,  3);
 			sCapitainId = GetAttributeName(arCapLocal);
 			sld = characterFromId(sCapitainId);
-			dialog.text = LinkRandPhrase("Та-а-ак, давайте посмотрим... Ага, есть! ", "Так-так... Ага, нашел! ", "Значит, так. ") +
-				"Капитан " + GetFullName(sld) + " " + arCapLocal.date + " года ушел из нашего порта в " + XI_ConvertString("Colony" + arCapLocal + "Acc") + ".";
-			link.l1 = "Спасибо. Хотелось бы посмотреть список дальше...";
+			dialog.text = LinkRandPhrase(DLG_TEXT_BASE[127], DLG_TEXT_BASE[128], DLG_TEXT_BASE[129]) +
+				DLG_TEXT_BASE[130] + GetFullName(sld) + " " + arCapLocal.date + DLG_TEXT_BASE[131] + XI_ConvertString("Colony" + arCapLocal + "Acc") + ".";
+			link.l1 = DLG_TEXT_BASE[132];
 			link.l1.go = "CapitainList";
-			link.l2 = "Все, капитаны меня более не интересуют.";
+			link.l2 = DLG_TEXT_BASE[133];
 			link.l2.go = "node_2";
 			//заносим запись в СЖ
 			AddQuestRecordEx(arCapLocal.QBString1, arCapLocal.QBString2, arCapLocal.QBQty);
@@ -471,7 +491,7 @@ void ProcessDialogEvent()
 			AddQuestUserData(arCapLocal.QBString1, "sTargetCity", XI_ConvertString("Colony" + arCapLocal + "Acc"));
 			if (GetIslandByCityName(arCapBase.(sCapitainId)) != arCapBase.(sCapitainId))
 			{
-				AddQuestUserData(arCapLocal.QBString1, "sAreal", ", что находится на " + XI_ConvertString(GetIslandByCityName(arCapBase.(sCapitainId)) + "Dat"));
+				AddQuestUserData(arCapLocal.QBString1, "sAreal", DLG_TEXT_BASE[134] + XI_ConvertString(GetIslandByCityName(arCapBase.(sCapitainId)) + "Dat"));
 			}
 			//убираем из списка
 			DeleteAttribute(arCapBase, sCapitainId); 
@@ -481,11 +501,11 @@ void ProcessDialogEvent()
     		arCapLocal = GetAttributeN(arCapBase,  4);
 			sCapitainId = GetAttributeName(arCapLocal);
 			sld = characterFromId(sCapitainId);
-			dialog.text = LinkRandPhrase("Та-а-ак, давайте посмотрим... Ага, есть! ", "Так-так... Ага, нашел! ", "Значит, так. ") +
-				"Капитан " + GetFullName(sld) + " " + arCapLocal.date + " года ушел из нашего порта в " + XI_ConvertString("Colony" + arCapLocal + "Acc") + ".";
-			link.l1 = "Спасибо. Хотелось бы посмотреть список дальше...";
+			dialog.text = LinkRandPhrase(DLG_TEXT_BASE[135], DLG_TEXT_BASE[136], DLG_TEXT_BASE[137]) +
+				DLG_TEXT_BASE[138] + GetFullName(sld) + " " + arCapLocal.date + DLG_TEXT_BASE[139] + XI_ConvertString("Colony" + arCapLocal + "Acc") + ".";
+			link.l1 = DLG_TEXT_BASE[140];
 			link.l1.go = "CapitainList";
-			link.l2 = "Все, капитаны меня более не интересуют.";
+			link.l2 = DLG_TEXT_BASE[141];
 			link.l2.go = "node_2";
 			//заносим запись в СЖ
 			AddQuestRecordEx(arCapLocal.QBString1, arCapLocal.QBString2, arCapLocal.QBQty);
@@ -497,7 +517,7 @@ void ProcessDialogEvent()
 			AddQuestUserData(arCapLocal.QBString1, "sTargetCity", XI_ConvertString("Colony" + arCapLocal + "Acc"));
 			if (GetIslandByCityName(arCapBase.(sCapitainId)) != arCapBase.(sCapitainId))
 			{
-				AddQuestUserData(arCapLocal.QBString1, "sAreal", ", что находится на " + XI_ConvertString(GetIslandByCityName(arCapBase.(sCapitainId)) + "Dat"));
+				AddQuestUserData(arCapLocal.QBString1, "sAreal", DLG_TEXT_BASE[142] + XI_ConvertString(GetIslandByCityName(arCapBase.(sCapitainId)) + "Dat"));
 			}
 			//убираем из списка
 			DeleteAttribute(arCapBase, sCapitainId); 
@@ -507,8 +527,8 @@ void ProcessDialogEvent()
 		case "ShipStock_1":
             if (sti(NPChar.Portman) >= 3)
 			{
-                dialog.text = "Вообще-то, да. Но сейчас я не могу принять корабль. Нет мест в доках.";
-    			Link.l1 = "Очень жаль.";
+                dialog.text = DLG_TEXT_BASE[143];
+    			Link.l1 = DLG_TEXT_BASE[144];
     			Link.l1.go = "exit";
 			}
             else
@@ -516,7 +536,7 @@ void ProcessDialogEvent()
     			ok = (sFrom_sea == "") || (Pchar.location.from_sea == sFrom_sea);
 			    if (sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok)
 				{
-					dialog.text = "Какой именно корабль вы хотите оставить?";
+					dialog.text = DLG_TEXT_BASE[145];
 	    			for(i=1; i<COMPANION_MAX; i++)
 	                {
 	        	        cn = GetCompanionIndex(PChar, i);
@@ -530,13 +550,13 @@ void ProcessDialogEvent()
 	        		        Link.(attrL).go = "ShipStockMan_" + i;
 	        		    }
 	        	    }
-	    			Link.l9 = "Спасибо, не нужно.";
+	    			Link.l9 = DLG_TEXT_BASE[146];
 	    			Link.l9.go = "exit";
     			}
     			else
     			{
-					dialog.text = "Хм. Я не вижу ваших корабле в порту.";
-	    			Link.l1 = "Да, я просто хотел узнать о возможности стоянки.";
+					dialog.text = DLG_TEXT_BASE[147];
+	    			Link.l1 = DLG_TEXT_BASE[148];
 	    			Link.l1.go = "exit";
 				}
 			}
@@ -544,46 +564,46 @@ void ProcessDialogEvent()
 
 		case "ShipStockMan_1":
             NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 1);
-			dialog.text = "Посмотрим, что это за корабль.";
-			Link.l1 = "Хорошо.";
+			dialog.text = DLG_TEXT_BASE[149];
+			Link.l1 = DLG_TEXT_BASE[150];
 			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал.";
+			Link.l2 = DLG_TEXT_BASE[151];
 			Link.l2.go = "exit";
 		break;
 
 		case "ShipStockMan_2":
             NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 2);
-			dialog.text = "Посмотрим что это за корабль.";
-			Link.l1 = "Хорошо.";
+			dialog.text = DLG_TEXT_BASE[152];
+			Link.l1 = DLG_TEXT_BASE[153];
 			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал.";
+			Link.l2 = DLG_TEXT_BASE[154];
 			Link.l2.go = "exit";
 		break;
 
 		case "ShipStockMan_3":
             NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 3);
-			dialog.text = "Посмотрим что это за корабль.";
-			Link.l1 = "Хорошо.";
+			dialog.text = DLG_TEXT_BASE[155];
+			Link.l1 = DLG_TEXT_BASE[156];
 			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал.";
+			Link.l2 = DLG_TEXT_BASE[157];
 			Link.l2.go = "exit";
 		break;
 		
 		case "ShipStockMan_4":
             NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 4);
-			dialog.text = "Посмотрим что это за корабль.";
-			Link.l1 = "Хорошо.";
+			dialog.text = DLG_TEXT_BASE[158];
+			Link.l1 = DLG_TEXT_BASE[159];
 			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал.";
+			Link.l2 = DLG_TEXT_BASE[160];
 			Link.l2.go = "exit";
 		break;
 
 		case "ShipStock_2":
             chref = GetCharacter(sti(NPChar.ShipToStoreIdx));
             NPChar.MoneyForShip =  (8-sti(RealShips[sti(chref.Ship.Type)].Class)) * sti(NPChar.PortManPrice);
-			dialog.text = XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " " + chref.Ship.Name + ", класс " + RealShips[sti(chref.Ship.Type)].Class +
-                     ", стоимость стоянки " + NPChar.MoneyForShip;
-			Link.l1 = "Да. Это меня устраивает.";
+			dialog.text = XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " " + chref.Ship.Name + DLG_TEXT_BASE[161] + RealShips[sti(chref.Ship.Type)].Class +
+                     DLG_TEXT_BASE[162] + NPChar.MoneyForShip;
+			Link.l1 = DLG_TEXT_BASE[163];
 			if (sti(Pchar.Money) >= sti(NPChar.MoneyForShip))
 			{
 			    Link.l1.go = "ShipStock_3";
@@ -592,13 +612,13 @@ void ProcessDialogEvent()
 			{
                 Link.l1.go = "ShipStock_NoMoney";
 			}
-			Link.l2 = "Нет, я передумал.";
+			Link.l2 = DLG_TEXT_BASE[164];
 			Link.l2.go = "exit";
 		break;
 
 		case "ShipStock_NoMoney":
-			dialog.text = "Меня тоже все устроит, если у вас будет нужная сумма.";
-			Link.l1 = "Упс.. зайду позже.";
+			dialog.text = DLG_TEXT_BASE[165];
+			Link.l1 = DLG_TEXT_BASE[166];
 			Link.l1.go = "exit";
 		break;
 
@@ -615,8 +635,8 @@ void ProcessDialogEvent()
             NPChar.Portman    = sti(NPChar.Portman) + 1;
             pchar.ShipInStock = sti(pchar.ShipInStock) + 1;
 
-			dialog.text = "Хорошо. Заберете, когда будет нужно.";
-			Link.l1 = "Спасибо.";
+			dialog.text = DLG_TEXT_BASE[167];
+			Link.l1 = DLG_TEXT_BASE[168];
 			Link.l1.go = "exit";
 		break;
 
@@ -626,7 +646,7 @@ void ProcessDialogEvent()
 			{
 				if (GetCompanionQuantity(pchar) < COMPANION_MAX)
 	            {
-	                dialog.text = "Какой именно корабль вы заберете?";
+	                dialog.text = DLG_TEXT_BASE[169];
 	                cn = 1;
 	                for(i=1; i<MAX_CHARACTERS; i++)
 	            	{
@@ -645,48 +665,48 @@ void ProcessDialogEvent()
 	            		}
 	                }
 	
-	    			Link.l9 = "Нет, я передумал.";
+	    			Link.l9 = DLG_TEXT_BASE[170];
 	    			Link.l9.go = "exit";
 				}
 				else
 				{
-	                dialog.text = "Нет у вас места для еще одного корабля.";
-	    			Link.l1 = "Да, точно. Спасибо.";
+	                dialog.text = DLG_TEXT_BASE[171];
+	    			Link.l1 = DLG_TEXT_BASE[172];
 	    			Link.l1.go = "exit";
 				}
 			}
 			else
 			{
-				dialog.text = "Хм. Я не вижу вашего флагмана в порту. А забрать свои корабли вы можете только здесь.";
-    			Link.l1 = "Хорошо, я прибуду за ними позднее.";
+				dialog.text = DLG_TEXT_BASE[173];
+    			Link.l1 = DLG_TEXT_BASE[174];
     			Link.l1.go = "exit";
 			}
 		break;
 
         case "ShipStockManBack_1":
             NPChar.ShipToStoreIdx = sti(NPChar.Temp.ShipToStoreId1);
-			dialog.text = "Забираете?";
-			Link.l1 = "Да.";
+			dialog.text = DLG_TEXT_BASE[175];
+			Link.l1 = DLG_TEXT_BASE[176];
 			Link.l1.go = "ShipStockManBack";
-			Link.l2 = "Нет, я передумал.";
+			Link.l2 = DLG_TEXT_BASE[177];
 			Link.l2.go = "exit";
 		break;
 
 		case "ShipStockManBack_2":
             NPChar.ShipToStoreIdx = sti(NPChar.Temp.ShipToStoreId2);
-            dialog.text = "Забираете?";
-			Link.l1 = "Да.";
+            dialog.text = DLG_TEXT_BASE[178];
+			Link.l1 = DLG_TEXT_BASE[179];
 			Link.l1.go = "ShipStockManBack";
-			Link.l2 = "Нет, я передумал.";
+			Link.l2 = DLG_TEXT_BASE[180];
 			Link.l2.go = "exit";
 		break;
 
 		case "ShipStockManBack_3":
             NPChar.ShipToStoreIdx = sti(NPChar.Temp.ShipToStoreId3);
-            dialog.text = "Забираете?";
-			Link.l1 = "Да.";
+            dialog.text = DLG_TEXT_BASE[181];
+			Link.l1 = DLG_TEXT_BASE[182];
 			Link.l1.go = "ShipStockManBack";
-			Link.l2 = "Нет, я передумал.";
+			Link.l2 = DLG_TEXT_BASE[183];
 			Link.l2.go = "exit";
 		break;
 
@@ -744,15 +764,27 @@ void SetJornalCapParam(ref npchar)
 	sld.quest.targetCity = npchar.quest.PortmansJornal.city; //продублируем колонию-цель в структуру кэпа
 	sld.quest.firstCity = npchar.city; //капитану знать откуда вышел в самом начале
 	sld.quest.stepsQty = 1; //количество выходов в море
-	sld.quest.money = ((sti(RealShips[sti(sld.Ship.Type)].basetype)+1) * 1000) + (sti(pchar.rank)*300); //вознаграждение
+	sld.quest.money = ((sti(RealShips[sti(sld.Ship.Type)].basetype)+1) * 150) + (sti(pchar.rank)*150); //вознаграждение
+	Log_TestInfo(DLG_TEXT_BASE[184] + sld.id + DLG_TEXT_BASE[185] + sld.quest.targetCity);
 	//определим бухту, куда ставить энкаунтер. чтобы сразу не генерился перед ГГ у города
 	string sTemp = GetArealByCityName(npchar.city);
+	sld.quest.baseShore = GetIslandRandomShoreId(sTemp);
 	//на карту
 	sld.mapEnc.type = "trade";
 	sld.mapEnc.worldMapShip = "ranger";
-	sld.mapEnc.Name = XI_ConvertString(npchar.quest.PortmansJornal.shipTapeName) + " '" + npchar.quest.PortmansJornal.shipName + "'";
+	sld.mapEnc.Name = XI_ConvertString(npchar.quest.PortmansJornal.shipTapeName) + " " + npchar.quest.PortmansJornal.shipName;
 	int daysQty = GetMaxDaysFromIsland2Island(sTemp, GetArealByCityName(sld.quest.targetCity))+5; //дней доехать даем с запасом
-	Map_CreateTrader(GetIslandRandomShoreId(sTemp), npchar.quest.PortmansJornal.city, sld.id, daysQty);
+	Map_CreateTrader(sld.quest.baseShore, sld.quest.targetCity, sld.id, daysQty);
+	//заносим Id кэпа в базу нпс-кэпов
+	sTemp = sld.id;
+	NullCharacter.capitainBase.(sTemp).quest = "jornal"; //идентификатор квеста
+	NullCharacter.capitainBase.(sTemp).questGiver = "none"; //запомним Id квестодателя для затирки в случае чего
+	NullCharacter.capitainBase.(sTemp).Tilte1 = npchar.id + "PortmansBook_Delivery"; //заголовок квестбука
+	NullCharacter.capitainBase.(sTemp).Tilte2 = "PortmansBook_Delivery"; //имя квеста в квестбуке
+	NullCharacter.capitainBase.(sTemp).checkTime = daysQty + 5;
+    NullCharacter.capitainBase.(sTemp).checkTime.control_day = GetDataDay();
+    NullCharacter.capitainBase.(sTemp).checkTime.control_month = GetDataMonth();
+    NullCharacter.capitainBase.(sTemp).checkTime.control_year = GetDataYear();
 }
 //проверить список отметившихся квестовых кэпов
 int CheckCapitainsList(ref npchar)
@@ -775,6 +807,8 @@ int CheckCapitainsList(ref npchar)
 		else
 		{
 			DeleteAttribute(arCapBase, sCapitainId);
+			i--;
+			Qty--;
 		}
     }
 	if (bResult > 5) bResult = 5;
@@ -834,16 +868,16 @@ void SetSeekShipCapParam(ref npchar)
 	npchar.quest.PortmansSeekShip.shipName = sld.Ship.name; //имя украденного корабля
 	npchar.quest.PortmansSeekShip.shipTapeName = RealShips[sti(sld.Ship.Type)].BaseName; //название украденного корабля
 	npchar.quest.PortmansSeekShip.shipTape = RealShips[sti(sld.Ship.Type)].basetype; //тип украденного корабля
-	npchar.quest.money = ((sti(RealShips[sti(sld.Ship.Type)].basetype)+1) * 1500) + (sti(pchar.rank)*500); //вознаграждение
+	npchar.quest.money = ((sti(RealShips[sti(sld.Ship.Type)].basetype)+1) * 1000) + (sti(pchar.rank)*500); //вознаграждение
 	sld.quest = "InMap"; //личный флаг кэпа-вора
 	sld.city = SelectAnyColony(npchar.city); //определим колонию, откуда кэп-вор выйдет
 	sld.quest.targetCity = SelectAnyColony2(npchar.city, sld.city); //определим колонию, куда он придет
-	Log_TestInfo("Кэп-вор " + npchar.quest.PortmansSeekShip.capName + " вышел из: " + sld.city + " и направился в: " + sld.quest.targetCity);
+	Log_TestInfo(DLG_TEXT_BASE[186] + sld.id + DLG_TEXT_BASE[187] + sld.city + DLG_TEXT_BASE[188] + sld.quest.targetCity);
 	sld.quest.cribCity = npchar.city; //город, откуда кэп-вор спер корабль
 	//на карту
 	sld.mapEnc.type = "trade";
 	sld.mapEnc.worldMapShip = "Galleon_red";
-	sld.mapEnc.Name = XI_ConvertString(npchar.quest.PortmansSeekShip.shipTapeName) + " '" + npchar.quest.PortmansSeekShip.shipName + "'";
+	sld.mapEnc.Name = XI_ConvertString(npchar.quest.PortmansSeekShip.shipTapeName) + " " + npchar.quest.PortmansSeekShip.shipName;
 	int daysQty = GetMaxDaysFromIsland2Island(GetArealByCityName(sld.quest.targetCity), GetArealByCityName(sld.city))+3; //дней доехать даем с запасом
 	Map_CreateTrader(sld.city, sld.quest.targetCity, sld.id, daysQty);
 	//прерывание на абордаж
@@ -858,4 +892,14 @@ void SetSeekShipCapParam(ref npchar)
 	pchar.quest.(sTemp).win_condition.l1.character = sld.id;
 	pchar.quest.(sTemp).function = "SeekShip_checkSink";
 	pchar.quest.(sTemp).CapId = sld.id;
+	//заносим Id кэпа в базу нпс-кэпов
+	sTemp = sld.id;
+	NullCharacter.capitainBase.(sTemp).quest = "robber"; //идентификатор квеста
+	NullCharacter.capitainBase.(sTemp).questGiver = "none"; //запомним Id квестодателя для затирки в случае чего
+	NullCharacter.capitainBase.(sTemp).Tilte1 = npchar.id + "Portmans_SeekShip"; //заголовок квестбука
+	NullCharacter.capitainBase.(sTemp).Tilte2 = "Portmans_SeekShip"; //имя квеста в квестбуке
+	NullCharacter.capitainBase.(sTemp).checkTime = daysQty + 5;
+    NullCharacter.capitainBase.(sTemp).checkTime.control_day = GetDataDay();
+    NullCharacter.capitainBase.(sTemp).checkTime.control_month = GetDataMonth();
+    NullCharacter.capitainBase.(sTemp).checkTime.control_year = GetDataYear();
 }

@@ -1,5 +1,6 @@
 #include "DIALOGS\russian\Common_Duel.c" //navy
 #include "DIALOGS\russian\Rumours\Common_rumours.c"  //homo 25/06/06
+#include "TEXT\DIALOGS\Habitue_dialog.h"
 void ProcessDialogEvent()
 {
     ref NPChar, d;
@@ -46,34 +47,34 @@ void ProcessDialogEvent()
 		break;
 
         case "Beta_test":
-            dialog.text = "Это меню выбора типа пьяни (бетатест)";
-			link.l1 = "Пусть будет алкаш";
+            dialog.text = DLG_TEXT_BASE[0];
+			link.l1 = DLG_TEXT_BASE[1];
 			link.l1.go = "Beta_test_alc";
-            link.l2 = "Игрок в карты";
+            link.l2 = DLG_TEXT_BASE[2];
 			link.l2.go = "Beta_test_card";
-			link.l3 = "Игрок в кости";
+			link.l3 = DLG_TEXT_BASE[3];
 			link.l3.go = "Beta_test_dice";
 		break;
 		
 		case "Beta_test_alc":
-            dialog.text = "Алкаш выбран";
-			link.l1 = "Продолжить";
+            dialog.text = DLG_TEXT_BASE[4];
+			link.l1 = DLG_TEXT_BASE[5];
 			link.l1.go = "First time";
 			npchar.quest.last_theme = 0;
 		    npchar.quest.last_theme_game = 0;
 		break;
 		
 		case "Beta_test_card":
-            dialog.text = "Игрок в карты (30%% что пошлет с первого раза)";
-			link.l1 = "Продолжить";
+            dialog.text = DLG_TEXT_BASE[6];
+			link.l1 = DLG_TEXT_BASE[7];
 			link.l1.go = "First time";
 			npchar.quest.last_theme = 1;
 		    npchar.quest.last_theme_game = 0;
 		break;
 		
 		case "Beta_test_dice":
-            dialog.text = "Игрок в кости (30%% что пошлет с первого раза)";
-			link.l1 = "Продолжить";
+            dialog.text = DLG_TEXT_BASE[8];
+			link.l1 = DLG_TEXT_BASE[9];
 			link.l1.go = "First time";
 			npchar.quest.last_theme = 1;
 		    npchar.quest.last_theme_game = 1;
@@ -82,33 +83,33 @@ void ProcessDialogEvent()
 		case "First time":
 			if (LAi_grp_playeralarm > 0)
 			{
-       			dialog.text = LinkRandPhrase("Я, может, и пьян, но в своем уме. Сейчас вот выпью с тобой, а солдаты и меня загребут! Не-е-ет...", "Я не враг городу, в котором живу. Не буду с тобой пить!" , "Приятель, тебе лучше бы убраться отсюда подобру-поздорову...");
-				link.l1 = RandPhraseSimple("Ну как знаешь...", "Хех, больно надо глаза заливать! Не то время."); 
+       			dialog.text = LinkRandPhrase(DLG_TEXT_BASE[10], DLG_TEXT_BASE[11] , DLG_TEXT_BASE[12]);
+				link.l1 = RandPhraseSimple(DLG_TEXT_BASE[13], DLG_TEXT_BASE[14]); 
 				link.l1.go = "exit";
 				break;
 			}
             ok = CheckFreeSitFront(npchar); //checkAttribute(npchar, "Default.ToLocator"); // есть куда сесть
             
-            dialog.text = "Не загораживай мне свет, мух в кружке не видно!";
-            link.l1 = "Уже отошёл...";
+            dialog.text = DLG_TEXT_BASE[15];
+            link.l1 = DLG_TEXT_BASE[16];
 		    link.l1.go = "exit";
 		    if (!chrDisableReloadToLocation)
 		    {
 	            switch (npchar.quest.last_theme)
 				{
 					case "0": //пьяный.
-						dialog.text = "И-ик! О, парень, ты выглядишь бывалым морским волком! Может, купишь мне стаканчик рома?";
-						link.l1 = "Может я и морской волк, только это не значит, что я буду поить всякую рвань...";
+						dialog.text = DLG_TEXT_BASE[17];
+						link.l1 = DLG_TEXT_BASE[18];
 						link.l1.go = "exit";
 
 						if (makeint(pchar.money) >= 100 && ok) // только старые острова окучены на сесть
 						{
-							link.l2 = "Я и сам с радостью присоединюсь к тебе, за компанию.";
+							link.l2 = DLG_TEXT_BASE[19];
 							link.l2.go = "talk_with_alchogol";
 						}
 						else
 						{
-	                        link.l2 = "Это еще почему?";
+	                        link.l2 = DLG_TEXT_BASE[20];
 							link.l2.go = "talk_with_alchogol_song";
 						}
 					break;
@@ -122,18 +123,18 @@ void ProcessDialogEvent()
 									// Игра в карты boal 20/05/05 -->
 	                                if (CheckNPCQuestDate(npchar, "Card_date_begin"))
 									{
-										Dialog.text = RandPhraseSimple("Сыграем в карты, очень интересная игра?", "Предлагаю перекинуться в картишки. Ты как?");
-										link.l1 = "Отчего же не сыграть? Давай сыграем.";
+										Dialog.text = RandPhraseSimple(DLG_TEXT_BASE[21], DLG_TEXT_BASE[22]);
+										link.l1 = DLG_TEXT_BASE[23];
 										link.l1.go = "Cards_begin";
-										link.l2 = "А правила у игры какие?";
+										link.l2 = DLG_TEXT_BASE[24];
 										link.l2.go = "Cards_Rule";
-										link.l3 = "Не сейчас.";
+										link.l3 = DLG_TEXT_BASE[25];
 										link.l3.go = "exit";
 									}
 									else
 					    			{
-										Dialog.text = "Нет, не хочу я больше играть с тобой в карты.";
-						    			link.l1 = "Ну и не надо.";
+										Dialog.text = DLG_TEXT_BASE[26];
+						    			link.l1 = DLG_TEXT_BASE[27];
 						    			link.l1.go = "exit";
 									}
 			                        // Игра в карты boal 20/05/05 <--
@@ -144,25 +145,25 @@ void ProcessDialogEvent()
 		    						// Игра в кости boal 13/07/05 -->
 	                                if (CheckNPCQuestDate(npchar, "Dice_date_begin"))
 									{
-										Dialog.text = RandPhraseSimple("Сыграем в кости, очень интересная игра?", "Предлагаю постучать костяшками. Ты как?");
-										link.l1 = "Отчего же не сыграть? Давай сыграем.";
+										Dialog.text = RandPhraseSimple(DLG_TEXT_BASE[28], DLG_TEXT_BASE[29]);
+										link.l1 = DLG_TEXT_BASE[30];
 										link.l1.go = "Dice_begin";
-										link.l2 = "А правила у игры какие?";
+										link.l2 = DLG_TEXT_BASE[31];
 										link.l2.go = "Dice_Rule";
-										link.l3 = "Не сейчас.";
+										link.l3 = DLG_TEXT_BASE[32];
 										link.l3.go = "exit";
 									}
 									else
 					    			{
-										Dialog.text = "Нет, не хочу я больше играть с тобой в кости.";
-					    				link.l1 = "Ну и не надо.";
+										Dialog.text = DLG_TEXT_BASE[33];
+					    				link.l1 = DLG_TEXT_BASE[34];
 					    				link.l1.go = "exit";
 									}
 			                        // Игра в кости boal 13/07/05 <--
 			                        //navy --> Дуэли
 									if (CheckAttribute(NPchar, "Quest.DiceCheats") && sti(NPchar.Quest.DiceCheats) >= 1) // && sti(NPChar.Quest.HeroLose))
 									{
-					    				link.l9 = RandSwear() + " Ты жульничал!!!";
+					    				link.l9 = RandSwear() + DLG_TEXT_BASE[35];
 					    				link.l9.go = "outraged";
 									}
 									//navy <--
@@ -171,10 +172,10 @@ void ProcessDialogEvent()
 						}
 	        			else
 	        			{
-	                        dialog.text = RandPhraseSimple("Убирайся от моего стола ко всем чертям!", " А.. чего? Кто это?.. и-ик.. Отвали!");
-	                        link.l1 = RandPhraseSimple("Пьянство губит твою грешную душу - опомнись!", "Не нужно мне грубить.");
+	                        dialog.text = RandPhraseSimple(DLG_TEXT_BASE[36], DLG_TEXT_BASE[37]);
+	                        link.l1 = RandPhraseSimple(DLG_TEXT_BASE[38], DLG_TEXT_BASE[39]);
 	        			    link.l1.go = "exit";
-	        			    link.l2 = RandPhraseSimple("Как ты со мной разговариваешь, скотина! Сейчас я научу тебя хорошим манерам.", "Вот я тресну тебя сейчас по башке, вмиг протрезвеешь.");
+	        			    link.l2 = RandPhraseSimple(DLG_TEXT_BASE[40], DLG_TEXT_BASE[41]);
 	        	            link.l2.go = "tavern_keeper";
 	        			}
 					break;
@@ -185,10 +186,10 @@ void ProcessDialogEvent()
 	    
 	    // карты -->
 	    case "Cards_Rule":
-   			dialog.text = CARDS_RULE;
-			link.l1 = "Что ж, давай начнем!";
+   			dialog.text = GetConvertStr("CARDS_RULE", "MiniGames.txt");
+			link.l1 = DLG_TEXT_BASE[42];
 			link.l1.go = "Cards_begin";
-			link.l3 = "Нет, это не для меня...";
+			link.l3 = DLG_TEXT_BASE[43];
 			link.l3.go = "exit";
 		break;
 		
@@ -203,40 +204,40 @@ void ProcessDialogEvent()
 		case "Cards_Node":
 			Diag.tempNode = "first time";
 
-			Dialog.text = "Давай определимся со ставкой.";
-			link.l1 = "Играем по 100 монет";
+			Dialog.text = DLG_TEXT_BASE[44];
+			link.l1 = DLG_TEXT_BASE[45];
 			link.l1.go = "Cards_Node_100";
-			link.l2 = "Давай по 500 золотых";
+			link.l2 = DLG_TEXT_BASE[46];
 			link.l2.go = "Cards_Node_500";
-			link.l3 = "Пожалуй, мне пора.";
+			link.l3 = DLG_TEXT_BASE[47];
 			link.l3.go = "exit_sit";
 		break;
 		
 		case "Cards_Node_100":
             if (!CheckCardsGameSmallRate())
 		    {
-                dialog.text = "О тебе ходит слава непревзойденного шулера. Я не буду с тобой играть в карты вообще.";
-                link.l1 = "Все врут! Ну и не нужно.";
+                dialog.text = DLG_TEXT_BASE[48];
+                link.l1 = DLG_TEXT_BASE[49];
 			    link.l1.go = "exit_sit";
 			    break;
 		    }
 		    
 			if (sti(pchar.Money) < 300)
 		    {
-                dialog.text = "Да ты, дружок, на мели. Разбогатеешь, приходи.";
-                link.l1 = "Ладно.";
+                dialog.text = DLG_TEXT_BASE[50];
+                link.l1 = DLG_TEXT_BASE[51];
 			    link.l1.go = "exit_sit";
 			    break;
 		    }
 		    if (sti(npchar.Money) < 300)
 		    {
-                dialog.text = "Я уже проигрался в пух и прах, не мой день.";
-                link.l1 = "Ладно.";
+                dialog.text = DLG_TEXT_BASE[52];
+                link.l1 = DLG_TEXT_BASE[53];
 			    link.l1.go = "exit_sit";
 			    break;
 		    }
-   			dialog.text = "Хорошо, играем по 100 монет.";
-			link.l1 = "Сдавай!";
+   			dialog.text = DLG_TEXT_BASE[54];
+			link.l1 = DLG_TEXT_BASE[55];
 			link.l1.go = "Cards_begin_go";
 			pchar.GenQuest.Cards.npcharIdx = npchar.index;
             pchar.GenQuest.Cards.iRate     = 100;
@@ -246,37 +247,37 @@ void ProcessDialogEvent()
 		case "Cards_Node_500":
             if (!CheckCardsGameSmallRate())
 		    {
-                dialog.text = "О тебе ходит слава непревзойденного шулера. Я не буду с тобой играть в карты вообще.";
-                link.l1 = "Все врут! Ну и не нужно.";
+                dialog.text = DLG_TEXT_BASE[56];
+                link.l1 = DLG_TEXT_BASE[57];
 			    link.l1.go = "exit_sit";
 			    break;
 		    }
 			if (!CheckCardsGameBigRate())
 		    {
-                dialog.text = "Я слышал, что ты очень хорошо играешь. Я не буду играть с тобой по таким большим ставкам.";
-                link.l1 = "Давай по более низким?";
+                dialog.text = DLG_TEXT_BASE[58];
+                link.l1 = DLG_TEXT_BASE[59];
 			    link.l1.go = "Cards_Node_100";
-				link.l2 = "Ну и не нужно.";
+				link.l2 = DLG_TEXT_BASE[60];
 			    link.l2.go = "exit_sit";
 			    break;
 		    }
 		    
 			if (sti(pchar.Money) < 1500)
 		    {
-                dialog.text = "Да ты, дружок, на мели. Разбогатеешь, приходи.";
-                link.l1 = "Ладно.";
+                dialog.text = DLG_TEXT_BASE[61];
+                link.l1 = DLG_TEXT_BASE[62];
 			    link.l1.go = "exit_sit";
 			    break;
 		    }
 		    if (sti(npchar.Money) < 1500)
 		    {
-                dialog.text = "Я уже проигрался для таких больших ставок, явно не мой день.";
-                link.l1 = "Жаль.";
+                dialog.text = DLG_TEXT_BASE[63];
+                link.l1 = DLG_TEXT_BASE[64];
 			    link.l1.go = "exit_sit";
 			    break;
 		    }
-   			dialog.text = "Хорошо, играем по 500 монет.";
-			link.l1 = "Сдавай!";
+   			dialog.text = DLG_TEXT_BASE[65];
+			link.l1 = DLG_TEXT_BASE[66];
 			link.l1.go = "Cards_begin_go";
 			pchar.GenQuest.Cards.npcharIdx = npchar.index;
             pchar.GenQuest.Cards.iRate     = 500;
@@ -292,10 +293,10 @@ void ProcessDialogEvent()
 	    // карты <--
 	    // КОСТИ -->
 	    case "Dice_Rule":
-   			dialog.text = DICE_RULE;
-			link.l1 = "Что ж, давай начнем!";
+   			dialog.text = GetConvertStr("DICE_RULE", "MiniGames.txt");
+			link.l1 = DLG_TEXT_BASE[67];
 			link.l1.go = "Dice_begin";
-			link.l3 = "Нет, это не для меня...";
+			link.l3 = DLG_TEXT_BASE[68];
 			link.l3.go = "exit";
 		break;
 
@@ -310,40 +311,40 @@ void ProcessDialogEvent()
 		case "Dice_Node":
 		    Diag.tempNode = "first time";
 		    
-			Dialog.text = "Давай определимся со ставкой.";
-			link.l1 = "Играем по 50 монет за кубик";
+			Dialog.text = DLG_TEXT_BASE[69];
+			link.l1 = DLG_TEXT_BASE[70];
 			link.l1.go = "Dice_Node_100";
-			link.l2 = "Давай по 200 золотых за кубик";
+			link.l2 = DLG_TEXT_BASE[71];
 			link.l2.go = "Dice_Node_500";
-			link.l3 = "Пожалуй, мне пора.";
+			link.l3 = DLG_TEXT_BASE[72];
 			link.l3.go = "exit_sit";
 		break;
 
 		case "Dice_Node_100":
             if (!CheckDiceGameSmallRate())
 		    {
-                dialog.text = "О тебе ходит слава непревзойденного шулера. Я не буду с тобой играть в кубики вообще.";
-                link.l1 = "Все врут! Ну и не нужно.";
+                dialog.text = DLG_TEXT_BASE[73];
+                link.l1 = DLG_TEXT_BASE[74];
 			    link.l1.go = "exit_sit";
 			    break;
 		    }
 
 			if (sti(pchar.Money) < 300)
 		    {
-                dialog.text = "Да ты, дружок, на мели. Разбогатеешь, приходи.";
-                link.l1 = "Ладно.";
+                dialog.text = DLG_TEXT_BASE[75];
+                link.l1 = DLG_TEXT_BASE[76];
 			    link.l1.go = "exit_sit";
 			    break;
 		    }
 		    if (sti(npchar.Money) < 300)
 		    {
-                dialog.text = "Я уже проигрался в пух и прах, не мой день.";
-                link.l1 = "Ладно.";
+                dialog.text = DLG_TEXT_BASE[77];
+                link.l1 = DLG_TEXT_BASE[78];
 			    link.l1.go = "exit_sit";
 			    break;
 		    }
-   			dialog.text = "Хорошо, играем по 50 монет.";
-			link.l1 = "Поехали!";
+   			dialog.text = DLG_TEXT_BASE[79];
+			link.l1 = DLG_TEXT_BASE[80];
 			link.l1.go = "Dice_begin_go";
 			pchar.GenQuest.Dice.npcharIdx = npchar.index;
             pchar.GenQuest.Dice.iRate     = 50;
@@ -353,37 +354,37 @@ void ProcessDialogEvent()
 		case "Dice_Node_500":
             if (!CheckDiceGameSmallRate())
 		    {
-                dialog.text = "О тебе ходит слава непревзойденного шулера. Я не буду с тобой играть в кости вообще.";
-                link.l1 = "Все врут! Ну и не нужно.";
+                dialog.text = DLG_TEXT_BASE[81];
+                link.l1 = DLG_TEXT_BASE[82];
 			    link.l1.go = "exit_sit";
 			    break;
 		    }
 			if (!CheckDiceGameBigRate())
 		    {
-                dialog.text = "Я слышал, что ты очень хорошо играешь. Я не буду играть с тобой по таким большим ставкам.";
-                link.l1 = "Давай по более низким?";
+                dialog.text = DLG_TEXT_BASE[83];
+                link.l1 = DLG_TEXT_BASE[84];
 			    link.l1.go = "Dice_Node_100";
-				link.l2 = "Ну и не нужно.";
+				link.l2 = DLG_TEXT_BASE[85];
 			    link.l2.go = "exit_sit";
 			    break;
 		    }
 
 			if (sti(pchar.Money) < 1500)
 		    {
-                dialog.text = "Да ты, дружок, на мели. Разбогатеешь, приходи.";
-                link.l1 = "Ладно.";
+                dialog.text = DLG_TEXT_BASE[86];
+                link.l1 = DLG_TEXT_BASE[87];
 			    link.l1.go = "exit_sit";
 			    break;
 		    }
 		    if (sti(npchar.Money) < 1500)
 		    {
-                dialog.text = "Я уже проигрался для таких больших ставок, явно не мой день.";
-                link.l1 = "Жаль.";
+                dialog.text = DLG_TEXT_BASE[88];
+                link.l1 = DLG_TEXT_BASE[89];
 			    link.l1.go = "exit_sit";
 			    break;
 		    }
-   			dialog.text = "Хорошо, играем по 200 монет.";
-			link.l1 = "Поехали!";
+   			dialog.text = DLG_TEXT_BASE[90];
+			link.l1 = DLG_TEXT_BASE[91];
 			link.l1.go = "Dice_begin_go";
 			pchar.GenQuest.Dice.npcharIdx = npchar.index;
             pchar.GenQuest.Dice.iRate     = 200;
@@ -402,8 +403,8 @@ void ProcessDialogEvent()
 	    //case "Find_Merchant_1":
             //if (pchar.GenQuest.Find_Merchant.lastspeak_date == LastSpeakDate())
             //{
-            //    dialog.text = "А че это ты интересуешся? И-ик! Уж не пират ли ты?";
-    		//	link.l1 = "Забудь! Тебе послышалось.";
+            //    dialog.text = DLG_TEXT_BASE[92];
+    		//	link.l1 = DLG_TEXT_BASE[93];
     	//		link.l1.go = "exit_sit";
             /*}    // to_do
             else
@@ -411,9 +412,9 @@ void ProcessDialogEvent()
                 pchar.GenQuest.Find_Merchant.lastspeak_date = LastSpeakDate();
                 MerchantOnMap();
                 sld = characterFromID("Quest_Merchant");
-       			dialog.text = "Слыхал я один " + RandPhraseSimple("торгаш", "купец") + " на корабле '" + sld.Ship.Name +
-                              "' под флагом " + NationNameGenitive(sti(sld.nation)) + " везет полный трюм " + GetGoodsNameAlt(sti(sld.QuestGoodsIdx)) + ".";
-    			link.l1 = "Спасибо, браток! Пора мне в море, засиделся я тут.";
+       			dialog.text = DLG_TEXT_BASE[94] + RandPhraseSimple(DLG_TEXT_BASE[95], DLG_TEXT_BASE[96]) + DLG_TEXT_BASE[97] + sld.Ship.Name +
+                              DLG_TEXT_BASE[98] + NationNameGenitive(sti(sld.nation)) + DLG_TEXT_BASE[99] + GetGoodsNameAlt(sti(sld.QuestGoodsIdx)) + ".";
+    			link.l1 = DLG_TEXT_BASE[100];
     			link.l1.go = "exit_sit";
 			} */
 		//break;
@@ -421,20 +422,20 @@ void ProcessDialogEvent()
 	    case "GhostShip_Speak_1":
             npchar.GhostShip_Speak_Yet = true;
             pchar.GenQuest.GhostShip.lastspeak_date = LastSpeakDate();
-   			dialog.text = "Ну... И-ик! Видел я страшное - корабль-призрак, а на нем сплошные мертвецы... Говорят, он тут со времен Колумба плавает...";
-			link.l1 = "Да врешь небось!";
+   			dialog.text = DLG_TEXT_BASE[101];
+			link.l1 = DLG_TEXT_BASE[102];
 			link.l1.go = "GhostShip_Speak_1_2";
 		break;
 		
 		case "GhostShip_Speak_1_2":
-			dialog.text = "Я вру? И-ик! Да я вторую неделю пью, чтоб забыть, что видел... как он на черных рваных парусах входил в бухту...";
-			link.l1 = "И как же ты уцелел?";
+			dialog.text = DLG_TEXT_BASE[103];
+			link.l1 = DLG_TEXT_BASE[104];
 			link.l1.go = "GhostShip_Speak_1_3";
 		break;
 		
 		case "GhostShip_Speak_1_3":
-			dialog.text = "Да я как увидал, что они к берегу пристают, аж штаны испачкал И-ик!... А ты не смейся - сам бы испачкал! И бегом, значит, оттудова...";
-			link.l1 = "Нда.. врун ты изрядный, совсем голову пропил";
+			dialog.text = DLG_TEXT_BASE[105];
+			link.l1 = DLG_TEXT_BASE[106];
 			link.l1.go = "exit_sit";
 			pchar.GenQuest.GhostShip.AskAbout = "1";
 			AddQuestRecord("GhostShipQuest", pchar.GenQuest.GhostShip.AskAbout);
@@ -443,20 +444,20 @@ void ProcessDialogEvent()
 		case "GhostShip_Speak_2":
             npchar.GhostShip_Speak_Yet = true;
             pchar.GenQuest.GhostShip.lastspeak_date = LastSpeakDate();
-            dialog.text = "Деется? Да че тут деется?.. А вот говорят Летучий голландец опять золотой караван пустил на дно.";
-			link.l1 = "Какой еще голландец?";
+            dialog.text = DLG_TEXT_BASE[107];
+			link.l1 = DLG_TEXT_BASE[108];
 			link.l1.go = "GhostShip_Speak_2_2";
 		break;
 
 		case "GhostShip_Speak_2_2":
-			dialog.text = "'Летучий'! Так корабль-призрак опять появился в архипелаге. Вроде пропадал на много лет... в преисподней был не иначе. А то как прокляты все на нем и пуля их не берет.";
-			link.l1    = "И что же, их убить нельзя?";
+			dialog.text = DLG_TEXT_BASE[109];
+			link.l1    = DLG_TEXT_BASE[110];
 			link.l1.go = "GhostShip_Speak_2_3";
 		break;
 
 		case "GhostShip_Speak_2_3":
-			dialog.text = "Бывало, города брали штурмом, весь гарнизон форта вырезали, а солдат-то в форте тыщи! Хотя, я слышал, топили их как-то, но чё им, покойникам сделается - по дну до берега дотащат корабль, починятся кое-как и опять зверствуют.";
-			link.l1 = "Эх, до чего люди горазды выдумывать... 'По дну тащат' - надо же. Хотя, спасибо, интересная история.";
+			dialog.text = DLG_TEXT_BASE[111];
+			link.l1 = DLG_TEXT_BASE[112];
 			link.l1.go = "exit_sit";
 			pchar.GenQuest.GhostShip.AskAbout = "2";
 			AddQuestRecord("GhostShipQuest", "2");
@@ -472,39 +473,39 @@ void ProcessDialogEvent()
                             !CheckAttribute(pchar, "GenQuest.GhostShipWorkId")      &&
                             rand(2) == 1)
             {
-                dialog.text = "Как же, говорят они опять умыслили форт ограбить. Какой не знаю, поспрошай градоначальников, может кому помощь нужна.";
-                link.l1 = "О как! Спасибо, мне пора.";
+                dialog.text = DLG_TEXT_BASE[113];
+                link.l1 = DLG_TEXT_BASE[114];
     			link.l1.go = "exit_sit";
                 break;
             }
 
-            dialog.text = "Летучий голландец? Да есть такой корабль, хотя многие не верят.";
+            dialog.text = DLG_TEXT_BASE[115];
             if (sti(PChar.GenQuest.GhostShip.KillMe) > 0 || sti(PChar.GenQuest.GhostShip.DeadByMe) > 0)
             {
-                link.l1 = "Да я сам его видел! Еле жив остался. Где его найти?";
+                link.l1 = DLG_TEXT_BASE[116];
             }
             else
             {
-				link.l1 = "Ладно, я верю. Где его найти?";
+				link.l1 = DLG_TEXT_BASE[117];
 			}
 			link.l1.go = "GhostShip_Speak_3_2";
 		break;
 
 		case "GhostShip_Speak_3_2":
-			dialog.text = "Мне местные контрабандисты говорили, что вчера он в нашу бухту заходил.";
-			link.l1    = "Прямо здесь, рядом? Он еще там?";
+			dialog.text = DLG_TEXT_BASE[118];
+			link.l1    = DLG_TEXT_BASE[119];
 			link.l1.go = "GhostShip_Speak_3_3";
 		break;
 
 		case "GhostShip_Speak_3_3":
-			dialog.text = "Откуда мне знать, в море ушел наверное. Контрабандисты сами убежали, весь товар потеряли...";
+			dialog.text = DLG_TEXT_BASE[120];
     		if (sti(PChar.GenQuest.GhostShip.KillMe) > 0 || sti(PChar.GenQuest.GhostShip.DeadByMe) > 0)
             {
-                link.l1 = "Что же, попробую его нагнать, наш разговор с ним не закончен!";
+                link.l1 = DLG_TEXT_BASE[121];
             }
             else
             {
-				link.l1 = "Что же, попробую его нагнать, посмотреть что это за призрак.";
+				link.l1 = DLG_TEXT_BASE[122];
 			}
 			link.l1.go = "exit_sit";
 			pchar.GenQuest.GhostShip.AskAbout = "2";// вечный генератор
@@ -513,24 +514,24 @@ void ProcessDialogEvent()
 		break;
 		/////////////////////////////////////////////
         case "talk_with_alchogol_song":
-			dialog.text = "Ну... И-ик! Бывает все на свете хорошо.. И-ик! В чем дело сразу не поймешь.. И-ик! А просто славно ром пошел.. И-ик! ямайский черный ром.. И-ик!\n Подставляй, наливай!";
-			link.l1 = "А дальше?";
+			dialog.text = DLG_TEXT_BASE[123];
+			link.l1 = DLG_TEXT_BASE[124];
 			link.l1.go = "talk_with_alchogol_song_2";
-			link.l2 = "Да ну тебя!";
+			link.l2 = DLG_TEXT_BASE[125];
 			link.l2.go = "exit";
 		break;
 		
 		case "talk_with_alchogol_song_2":
-			dialog.text = "Мелькают кружки, лица, каблуки.. И-ик! И полом по башке. Я пью всегда со всеми и везде.. И-ик! Где выпивка? Нужна!";
-			link.l1 = "А дальше?";
+			dialog.text = DLG_TEXT_BASE[126];
+			link.l1 = DLG_TEXT_BASE[127];
 			link.l1.go = "talk_with_alchogol_song_3";
-			link.l2 = "Да ну тебя!";
+			link.l2 = DLG_TEXT_BASE[128];
 			link.l2.go = "exit";
 		break;
 		
 		case "talk_with_alchogol_song_3":
-			dialog.text = "Когда на сердце тяжесть и холодно в груди, ты пару кружек рома на грудь себе прими! И без забот и фальши все станет вдруг вокруг. Поймешь ты, что я лучший тебе я самый друг!";
-			link.l1 = "Да ну тебя!";
+			dialog.text = DLG_TEXT_BASE[129];
+			link.l1 = DLG_TEXT_BASE[130];
 			link.l1.go = "exit";
 		break;
 		
@@ -545,35 +546,35 @@ void ProcessDialogEvent()
 		case "begin_sit":
 			Diag.TempNode = "first time";
 			dialog.snd = "Voice\HADI\HADI028";
-			dialog.text = "Ик! Вот, это я понимаю! Вот это по-нашему! Ну, так чего? Поставишь мне кружечку рома?";
-			link.l1 = "Да запросто! Трактирщик, рома!";
+			dialog.text = DLG_TEXT_BASE[131];
+			link.l1 = DLG_TEXT_BASE[132];
 			link.l1.go = "sit_2";
 		break;
 
 		case "sit_2":
 			AddMoneyToCharacter(pchar, -2);
 			WaitDate("",0,0,0, 0, 30);
-			dialog.text = LinkRandPhrase("Ты настоящий друг! Давай за знакомство!",
-			                             "Ик! Какой ром! Ну... вздрогнем!",
-										 "За твое здоровье, и за твою щедрость!");
-			link.l1 = "Эх, забористый ром. Ладно, мне уже пора, удачно посидеть.";
+			dialog.text = LinkRandPhrase(DLG_TEXT_BASE[133],
+			                             DLG_TEXT_BASE[134],
+										 DLG_TEXT_BASE[135]);
+			link.l1 = DLG_TEXT_BASE[136];
 			link.l1.go = "exit_sit";
 			if (makeint(pchar.money) >=2)
 			{
-				link.l2 = "Давай еще по одной кружечке.";
+				link.l2 = DLG_TEXT_BASE[137];
 				link.l2.go = "sit_3";
 			}
 			// homo 01/08/06 to_del
             // наводка на товар - перенес в слухи
 			//if (sti(pchar.reputation) < 41)
             //{
-            //    link.l3 = "Что интересного можешь сказать про 'честных' купцов в этих водах?";
+            //    link.l3 = DLG_TEXT_BASE[138];
 			//	link.l3.go = "Find_Merchant_1";
             //}
             //homo 15/06/06 слухи
-            link.l4 = LinkRandPhrase("Кажется, что провел в море целую вечность. Что новенького в ваших краях?",
-                                    "Расскажи-ка мне, о чем теперь болтают? Не зря же я пою тебя ромом...",
-                                    "Скажи мне, братец, какие байки ходят по тавернам?");
+            link.l4 = LinkRandPhrase(DLG_TEXT_BASE[139],
+                                    DLG_TEXT_BASE[140],
+                                    DLG_TEXT_BASE[141]);
 		    link.l4.go = "rumours_habitue";
 		    //homo
 		break;
@@ -583,67 +584,67 @@ void ProcessDialogEvent()
 			switch (iSituation)
 			{
 				case 0:
-					dialog.text = "О! Здравая идея!";
-					link.l1 = "Трактирщик! Рома!";
+					dialog.text = DLG_TEXT_BASE[142];
+					link.l1 = DLG_TEXT_BASE[143];
 					link.l1.go = "sit_2";
 				break;
 
 				case 1:
-					dialog.text = "Ик! Под... подонок! Ты х-хочешь меня споить, ик! И украсть мои деньги!";
-					link.l1 = "Спокойней! Ты чего забыл? Я твой единственный настоящий друг!";
+					dialog.text = DLG_TEXT_BASE[144];
+					link.l1 = DLG_TEXT_BASE[145];
 					link.l1.go = "sit_case_2_friend";
-					link.l2 = "А! Заткнись, крыса, пока я тебе горло не перерезал!";
+					link.l2 = DLG_TEXT_BASE[146];
 					link.l2.go = "sit_case_2_enemy";
 				break;
 
 				case 2:
-					dialog.text = "Слушай! Ты х-хороший человек! М-может быть, т-ты поможешь мне в... в... в одном дельце?";
-					link.l1 = "Нет пожалуй, мне уже пора идти.";
+					dialog.text = DLG_TEXT_BASE[147];
+					link.l1 = DLG_TEXT_BASE[148];
 					link.l1.go = "exit_sit";
-					link.l2 = "К-конечно! Ведь мы же ик... друзья!";
+					link.l2 = DLG_TEXT_BASE[149];
 					link.l2.go = "sit_case_3";
 				break;
 
 				case 3:
-					dialog.text = "...И тогда я схв-схватил его шпагу за л-лезвие и...";
-					link.l1 = "... а она мне и говорит...";
+					dialog.text = DLG_TEXT_BASE[150];
+					link.l1 = DLG_TEXT_BASE[151];
 					link.l1.go = "sit_case_4_exit";
 				break;
 
 				case 4:
-					dialog.text = "За тебя! А, дьявол! Кто это?!";
-					link.l1 = "А? Что? Где? Показалось видать.";
+					dialog.text = DLG_TEXT_BASE[152];
+					link.l1 = DLG_TEXT_BASE[153];
 					link.l1.go = "sit_2";// to_do "sit_case_5_exit";
 				break;
 				
                 case 5:
                     if (!CheckAttribute(pchar , "GenQuest.GhostShip.LastBattleEnd") && !checkAttribute(npchar, "GhostShip_Speak_Yet") && pchar.GenQuest.GhostShip.lastspeak_date != LastSpeakDate())
 					{
-                        dialog.text = "Давай еще по одной кружечке.";
-                        link.l1 = "Эх, забористый ром. Ладно, мне уже пора, удачно посидеть.";
+                        dialog.text = DLG_TEXT_BASE[154];
+                        link.l1 = DLG_TEXT_BASE[155];
 						link.l1.go = "exit_sit";
 						switch (sti(pchar.GenQuest.GhostShip.AskAbout))
 						{
 							case 0 :
-								link.l2 = "Какие байки ходят по тавернам?";
+								link.l2 = DLG_TEXT_BASE[156];
 								link.l2.go = "GhostShip_Speak_1";
 							break;
 
 							case 1 :
-								link.l2 = "Что интересного в этих водах делается?";
+								link.l2 = DLG_TEXT_BASE[157];
 								link.l2.go = "GhostShip_Speak_2";
 							break;
 
 							case 2 :
-								link.l2 = "Скажи мне, братец, что ты знаешь про корабль-призрак - 'Летучий голландец'?";
+								link.l2 = DLG_TEXT_BASE[158];
 								link.l2.go = "GhostShip_Speak_3";
 							break;
 						}
 					}
 					else
 					{
-	         			dialog.text = "Пить так пить! Еще давай?";
-						link.l1 = "Наливай!";
+	         			dialog.text = DLG_TEXT_BASE[159];
+						link.l1 = DLG_TEXT_BASE[160];
 						link.l1.go = "sit_2";
 					}
                 break;
@@ -665,33 +666,33 @@ void ProcessDialogEvent()
 
 		case "sit_case_3":
 			dialog.snd = "Voice\HADI\HADI037";
-			dialog.text = "Делов т-том, что м-меня оскорбил один из с-солдат. В-вот!";
-			link.l1 = "С-солдат? Н-нет, я пожалуй пас.";
+			dialog.text = DLG_TEXT_BASE[161];
+			link.l1 = DLG_TEXT_BASE[162];
 			link.l1.go = "exit_sit";
-			link.l2 = "Спокойней! Ты чего забыл? Я твой единственный настоящий друг!";
+			link.l2 = DLG_TEXT_BASE[163];
 			link.l2.go = "sit_2";
 		break;
 
 		case "sit_case_2_friend":
 			dialog.snd = "Voice\HADI\HADI038";
-			dialog.text = "Ты? К-какой ты мне друг?! Н-нет! Ты хочешь... ик...  ты хочешь меня убить! В-вот!";
-			link.l1 = "Ладно, вижу, тебе уже хватит на сегодня. Прощай.";
+			dialog.text = DLG_TEXT_BASE[164];
+			link.l1 = DLG_TEXT_BASE[165];
 			link.l1.go = "exit_sit";
-			link.l2 = "Что? Да я тебе сейчас докажу, что я не хочу тебя убивать! Я тебе сейчас руку... ик... отрежу!";
+			link.l2 = DLG_TEXT_BASE[166];
 			link.l2.go = "sit_case_2_friend_2";
 		break;
 
 		case "sit_case_2_friend_2":
 			dialog.snd = "Voice\HADI\HADI039";
-			dialog.text = "А-а-а! Уберите его от меня!!";
-			link.l1 = "Да ты успокойся... ик... больно не будет!";
+			dialog.text = DLG_TEXT_BASE[167];
+			link.l1 = DLG_TEXT_BASE[168];
 			link.l1.go = "tavern_keeper";
 		break;
 
 		case "sit_case_2_enemy":
 			dialog.snd = "Voice\HADI\HADI040";
-			dialog.text = "Агрх! Я тебя разделаю, как свинью!";
-			link.l1 = "Это мы еще посмотрим!";
+			dialog.text = DLG_TEXT_BASE[169];
+			link.l1 = DLG_TEXT_BASE[170];
 //			link.l1.go = "tavern_keeper";
 			link.l1.go = "fight_right_now"; //navy -- битва в таверне без базаров! :)
 		break;

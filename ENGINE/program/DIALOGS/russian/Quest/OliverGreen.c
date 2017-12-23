@@ -1,4 +1,4 @@
-// Секретать Моргана и актер для сложных диалогов с действиями.
+#include "TEXT\DIALOGS\Quest\OliverGreen.h"
 void ProcessDialogEvent()
 {
 	ref NPChar, sld;
@@ -18,20 +18,20 @@ void ProcessDialogEvent()
 		case "First time":
             if (sld.location == pchar.location && bWorldAlivePause)
             {
-    			dialog.text = "Если ты к адмиралу, то пройди чуть дальше. Он сейчас в резиденции.";
-    			link.l1 = "Хорошо, пойду поговорю с ним.";
+    			dialog.text = DLG_TEXT_Q[0];
+    			link.l1 = DLG_TEXT_Q[1];
             }
             else
             {
     			if (pchar.questTemp.piratesLine == "Panama_inEngland" || pchar.questTemp.piratesLine == "Panama_backToShip")
 				{
-					dialog.text = "Адмирал отправился в Лондон. Он будет здесь не раньше, чем через год.";
-    				link.l1 = "Понятно...";
+					dialog.text = DLG_TEXT_Q[2];
+    				link.l1 = DLG_TEXT_Q[3];
 				}
 				else
 				{
-					dialog.text = "Адмирала нет на месте - отсутствует по делам. А сейчас не доставай меня, я очень занят.";
-    				link.l1 = "Если Моргана нет, то мне в этом доме делать нечего.";
+					dialog.text = DLG_TEXT_Q[4];
+    				link.l1 = DLG_TEXT_Q[5];
 				}
             }
 			link.l1.go = "exit";
@@ -39,38 +39,38 @@ void ProcessDialogEvent()
 
 			if (npchar.quest.meeting == "0")
 			{
-				dialog.text = "Меня зовут " + GetFullName(npchar) + ". Я секретать Генри Моргана.";
-				link.l1 = "Мое имя " + GetFullName(pchar) + ".";
+				dialog.text = DLG_TEXT_Q[6] + GetFullName(npchar) + DLG_TEXT_Q[7];
+				link.l1 = DLG_TEXT_Q[8] + GetFullName(pchar) + ".";
 				link.l1.go = "First time";
 				npchar.quest.meeting = "1";
 			}
             //============>>>>>>>>> перехват квестовых диалогов
             if (pchar.questTemp.State == "WormEnglPlans_toMorgan")  // HolLine_3, переадресовка в Антигуа.
             {
-    			link.l1 = "Послушай, мне нужен Морган, и очень срочно.";
+    			link.l1 = DLG_TEXT_Q[9];
     			link.l1.go = "Step_H3_1";
             }
             if (pchar.questTemp.State == "Fr8ThreeCorsairs_toSeek")  // FraLine_8, переадресовка в Антигуа.
             {
-    			link.l1 = "Месье, я хотел бы поговорить с Генри Морганом. Где я могу его застать?";
+    			link.l1 = DLG_TEXT_Q[10];
     			link.l1.go = "Step_F8_1";
             }
             // квест Аскольда. Пасхалка на получение индейских предметов.
             if (pchar.questTemp.Ascold == "SeekThreeObject" && !CheckAttribute(pchar, "questTemp.Ascold.Oliver"))
             {
-    			link.l2 = "Послушай, ты дела Моргана ведешь. Не встречались ли тебе в призовых бухгалтерских отчетах различные индейские предметы?";
+    			link.l2 = DLG_TEXT_Q[11];
     			link.l2.go = "Step_As_1";
             }
             if (pchar.questTemp.Ascold == "SeekThreeObject" && CheckAttribute(pchar, "questTemp.Ascold.Oliver"))
             {
-    			link.l2 = "Оливер, может, ты передумаешь насчет цены тех индейских предметов, о которых я тебе говорил?";
+    			link.l2 = DLG_TEXT_Q[12];
     			link.l2.go = "Step_As_7";
             }
             if (pchar.questTemp.Azzy == "DestrContract" || pchar.questTemp.Azzy == "2DestrContract")
             {
                 if (!CheckAttribute(pchar, "questTemp.Azzy.Oliver"))
                 {
-        			link.l2 = "Оливер, послушай, хочу у тебя попросить помощи. Мне позарез нужны индейские побрякушки. Речь идет о трех хрустальных черепах тольтеков и странной вещи, похожей на погремушку.";
+        			link.l2 = DLG_TEXT_Q[13];
         			link.l2.go = "Step_As_9";
         		}
             }
@@ -83,96 +83,96 @@ void ProcessDialogEvent()
         break;
 		//********************* Голландская линейка *********************
         case "Step_H3_1":
-            dialog.text = "А кто ты такой и зачем тебе понадобился Генри?";
-            link.l1 = "Меня зовут " + GetFullName(pchar) + ", к Моргану меня отправил Эдвард Мэнсфилд.";
+            dialog.text = DLG_TEXT_Q[14];
+            link.l1 = DLG_TEXT_Q[15] + GetFullName(pchar) + DLG_TEXT_Q[16];
             link.l1.go = "Step_H3_2";
         break;
         case "Step_H3_2":
-            dialog.text = "Голландец?... Ты - голландец?";
-            link.l1 = "Какое тебе дело, какой я нации? У меня дело к Моргану от Мэнсфилда, чего тебе еще не ясно?";
+            dialog.text = DLG_TEXT_Q[17];
+            link.l1 = DLG_TEXT_Q[18];
             link.l1.go = "Step_H3_3";
         break;
         case "Step_H3_3":
-            dialog.text = "Не кипятись, минхер, все нормально. Голландцев среди пиратов много, а вот в Порт Рояле тебе сейчас находиться небезопасно.\n"+
-                          "Поэтому вот что я тебе скажу: Морган на Антигуа, в своем доме. Там тоже будь аккуратнее - если я в тебе признал голландца, то это не будет тайной и для других.\n"+
-                          "И еще - в дом к Моргану так просто не попасть, дверь работает только на выход, хе-хе... Ищи подземелье под Сент-Джонсом, оно приведет тебя к Генри...";
-            link.l1 = "Спасибо, Оливер.";
+            dialog.text = DLG_TEXT_Q[19]+
+                          DLG_TEXT_Q[20]+
+                          DLG_TEXT_Q[21];
+            link.l1 = DLG_TEXT_Q[22];
             link.l1.go = "exit";
             pchar.questTemp.State = "WormEnglPlans_toMorganAntigua";
             AddQuestRecord("Hol_Line_3_WormEnglishPlans", "3");
         break;
 		//********************* Французская линейка *********************
  	 	case "Step_F8_1":
-			dialog.text = NPCStringReactionRepeat("Кто вы такой, сэр?", "Я уже ответил вам...", 
-				          "Повторяю, я уже ответил вам на этот вопрос.", "Вам не стоит надоедать мне, я более ничего не скажу.", "block", 0, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat("Меня зовут " + GetFullName(pchar) + ", я действую по поручения французского правительства.", "Да, верно...", "Да, я помню...", "Хорошо.", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(DLG_TEXT_Q[23], DLG_TEXT_Q[24], 
+				          DLG_TEXT_Q[25], DLG_TEXT_Q[26], "block", 0, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(DLG_TEXT_Q[27] + GetFullName(pchar) + DLG_TEXT_Q[28], DLG_TEXT_Q[29], DLG_TEXT_Q[30], DLG_TEXT_Q[31], npchar, Dialog.CurrentNode);
 			link.l1.go = DialogGoNodeRepeat("Step_F8_2", "none", "none", "none", npchar, Dialog.CurrentNode);
         break;  
         case "Step_F8_2":
-            dialog.text = "А по какому делу французскому правительству понадобился Генри Морган?";
-            link.l1 = "Послушай, милейший, тебе не кажется, что для секретаря ты слишком разговорчив?";
+            dialog.text = DLG_TEXT_Q[32];
+            link.l1 = DLG_TEXT_Q[33];
             link.l1.go = "Step_F8_3";
         break;
         case "Step_F8_3":
-            dialog.text = "Ладно, ладно, месье... Морган сейчас находится в своем доме на Антигуа.";
-            link.l1 = "Ну вот и славно. Немедленно отправляюсь туда!";
+            dialog.text = DLG_TEXT_Q[34];
+            link.l1 = DLG_TEXT_Q[35];
             link.l1.go = "Step_F8_4";
         break;
         case "Step_F8_4":
-            dialog.text = "Месье, имейте в виду, что в дом к Моргану в Сент-Джонсе так просто не попасть, дверь там всегда на замке. Вход - через подземелье...";
-            link.l1 = "Разберемся...";
+            dialog.text = DLG_TEXT_Q[36];
+            link.l1 = DLG_TEXT_Q[37];
             link.l1.go = "exit";
         break;
 		//********************* Квест Асокльда *********************
    		case "Step_As_1":
-			dialog.text = "Что за вопросы такие странные?! Может, и доводилось, а почему я тебе об этом должен говорить?";
-			link.l1 = "Ты не кипятись. Все дело в том, что я ищу три предмета индейского культа. Для покупки. Все одно - вы либо выбрасываете эту дрянь, либо продаете за бесценок. Я готов заплатить щедро за эти вещи, если они у вас есть.";
+			dialog.text = DLG_TEXT_Q[38];
+			link.l1 = DLG_TEXT_Q[39];
 			link.l1.go = "Step_As_2";
 		break;
    		case "Step_As_2":
-			dialog.text = "А что за вещи?";
-			link.l1 = "Индейская статуэтка бога ацтеков Тлалока, церемониальный сосуд и церемониальный нож.";
+			dialog.text = DLG_TEXT_Q[40];
+			link.l1 = DLG_TEXT_Q[41];
 			link.l1.go = "Step_As_3";
 		break;
    		case "Step_As_3":
-			dialog.text = "Хех, все эти вещи - из драгоценных металлов. Мы переплаваляем их в слитки и отправляем в Европу ювелирам для работы. Большой спрос, знаешь ли, хорошие цены...";
-			link.l1 = "Я понимаю. Я готов заплатить две цены за эти индейские побрякушки, только в непереплавленном виде, так сказать... А вообще, эти вещи у тебя есть? Или мы бестолковый разговор ведем?";
+			dialog.text = DLG_TEXT_Q[42];
+			link.l1 = DLG_TEXT_Q[43];
 			link.l1.go = "Step_As_4";
 		break;
    		case "Step_As_4":
-			dialog.text = "Эти вещи у меня есть. И, в принципе, я готов буду тебе их продать. Но только две цены - не предмет для серьезного разговора. Слишком мало.";
-			link.l1 = "И сколько ты хочешь?";
+			dialog.text = DLG_TEXT_Q[44];
+			link.l1 = DLG_TEXT_Q[45];
 			link.l1.go = "Step_As_5";
 		break;
    		case "Step_As_5":
-			dialog.text = "Миллион.";
-			link.l1 = "Что?!!! Ты рехнулся?!";
+			dialog.text = DLG_TEXT_Q[46];
+			link.l1 = DLG_TEXT_Q[47];
 			link.l1.go = "Step_As_6";
 		break;
    		case "Step_As_6":
-			dialog.text = "Нисколько. Ты что думаешь, за какие-то две цены, размером в три тысячи, я буду из приза Моргана изымать что-то? Это ты рехнулся, друг мой, если не знаешь, чем это может для меня кончиться. Не нравится - иди в магазины, попробуй там купить.";
-			link.l1 = "Черт возьми, Оливер!";
+			dialog.text = DLG_TEXT_Q[48];
+			link.l1 = DLG_TEXT_Q[49];
 			link.l1.go = "Step_As_7";
 			pchar.questTemp.Ascold.Oliver = 1;
 		break;
    		case "Step_As_7":
-			dialog.text = "Ладно, хватит болтать. Берешь или нет?";
-			link.l1 = RandPhraseSimple("Да ни за что! За такие деньги я весь Порт Рояль куплю!", "За миллион? Да ну что ты! Нет, конечно.");
+			dialog.text = DLG_TEXT_Q[50];
+			link.l1 = RandPhraseSimple(DLG_TEXT_Q[51], DLG_TEXT_Q[52]);
 			link.l1.go = "exit";
             if (sti(pchar.money) >= 1000000)
             {
-    			link.l2 = "Эх, беру! И заверни мне это в подарочную упаковку!";
+    			link.l2 = DLG_TEXT_Q[53];
     			link.l2.go = "Step_As_8";
             }
             else
             {
-    			link.l2 = "Я бы взял, да таких денег нет. Пойду, может заработаю еще...";
+    			link.l2 = DLG_TEXT_Q[54];
     			link.l2.go = "exit";
             }
 		break;
    		case "Step_As_8":
-			dialog.text = GetFullName(pchar) + ", с тобой приятно иметь дело. Получай свои бесценные артефакты! Надеюсь, они принесут тебе удачу, раз ты готов платить на них такие деньги...";
-			link.l1 = "Я тоже надеюсь, Оливер.";
+			dialog.text = GetFullName(pchar) + DLG_TEXT_Q[55];
+			link.l1 = DLG_TEXT_Q[56];
 			link.l1.go = "exit";
 			AddMoneyToCharacter(pchar, -1000000);
 			DeleteAttribute(pchar, "questTemp.Ascold.Oliver");
@@ -182,23 +182,23 @@ void ProcessDialogEvent()
     		GiveItem2Character(pchar, "indian21");
 		break;
    		case "Step_As_9":
-			dialog.text = "Есть у меня такие предметы. Пять миллионов - и они твои.";
-			link.l1 = RandPhraseSimple("Пять миллионов?!!", "Пять миллионов... Хорошая сумма!");
+			dialog.text = DLG_TEXT_Q[57];
+			link.l1 = RandPhraseSimple(DLG_TEXT_Q[58], DLG_TEXT_Q[59]);
 			link.l1.go = "exit";
             if (sti(pchar.money) >= 5000000)
             {
-    			link.l2 = "Похоже, что у меня нет другого выхода. Надо брать. Забирай деньги и давай поскорей предметы!";
+    			link.l2 = DLG_TEXT_Q[60];
     			link.l2.go = "Step_As_10";
             }
             else
             {
-    			link.l2 = "Они мне очень нужны, но таких денег у меня нет...";
+    			link.l2 = DLG_TEXT_Q[61];
     			link.l2.go = "exit";
             }
 		break;		
    		case "Step_As_10":
-			dialog.text = GetFullName(pchar) + ", с тобой приятно иметь дело. Получай свои бесценные артефакты!";
-			link.l1 = "Спасибо, Оливер! Ты мне буквально жизнь спас...";
+			dialog.text = GetFullName(pchar) + DLG_TEXT_Q[62];
+			link.l1 = DLG_TEXT_Q[63];
 			link.l1.go = "exit";
 			AddMoneyToCharacter(pchar, -5000000);
     		GiveItem2Character(pchar, "sculMa1");
@@ -209,18 +209,18 @@ void ProcessDialogEvent()
 		break;
 
 		case "PL_Q8_over":
-			dialog.text = "Приветствую капитана " + GetFullName(pchar) + ".";
-			link.l1 = "Слушай, Оливер, мне нужне Морган!";
+			dialog.text = DLG_TEXT_Q[64] + GetFullName(pchar) + ".";
+			link.l1 = DLG_TEXT_Q[65];
 			link.l1.go = "PL_Q8_over_1";
 		break;
 		case "PL_Q8_over_1":
-			dialog.text = "А его нет, он ушел на Панаму без тебя. А тебе велено передать, что ты можешь загорать на пляжах.";
-			link.l1 = "Чего?!";
+			dialog.text = DLG_TEXT_Q[66];
+			link.l1 = DLG_TEXT_Q[67];
 			link.l1.go = "PL_Q8_over_2";
 		break;
 		case "PL_Q8_over_2":
-			dialog.text = "Того! Перевожу специально для тебя. Ты не успел к сроку, и теперь ты не нужен. Прости...";
-			link.l1 = "Дьявол!!! Да ладно, сам виноват...";
+			dialog.text = DLG_TEXT_Q[68];
+			link.l1 = DLG_TEXT_Q[69];
 			link.l1.go = "exit";
 			NextDiag.TempNode = "First time";
 		break;

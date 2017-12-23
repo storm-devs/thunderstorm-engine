@@ -114,13 +114,13 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 			}
 		}
 		// упрощение игры новичкам 
-		/*if (MOD_SKILL_ENEMY_RATE == 1 && CheckAttribute(enemy, "chr_ai.group"))	
+		if (MOD_SKILL_ENEMY_RATE == 1 && CheckAttribute(enemy, "chr_ai.group"))	
 		{
 			if (enemy.chr_ai.group == LAI_GROUP_PLAYER) 
 			{
-				dmg = dmg * 0.5;
+				dmg = dmg / MOD_Complexity_1_DMG;
 			}
-		}  */
+		}  
 		if (MOD_SKILL_ENEMY_RATE < 5 && sti(enemy.index) == GetMainCharacterIndex())	
 		{
 			dmg = dmg * (4.0 + MOD_SKILL_ENEMY_RATE) / 10.0;
@@ -310,13 +310,13 @@ float LAi_GunCalcDamage(aref attack, aref enemy)
 		dmg = dmg * (1.0 + 0.7 * (aSkill - eSkill));
 	}
 	// упрощение игры новичкам 
-	/*if (MOD_SKILL_ENEMY_RATE == 1 && CheckAttribute(enemy, "chr_ai.group"))	
+	if (MOD_SKILL_ENEMY_RATE == 1 && CheckAttribute(enemy, "chr_ai.group"))	
 	{
 		if (enemy.chr_ai.group == LAI_GROUP_PLAYER) 
 		{
-			dmg = dmg * 0.5;
+			dmg = dmg * MOD_Complexity_1_DMG;
 		}
-	}   */
+	}   
 	if (MOD_SKILL_ENEMY_RATE < 5 && sti(enemy.index) == GetMainCharacterIndex())	
 	{
 		dmg = dmg * (4.0 + MOD_SKILL_ENEMY_RATE) / 10.0;
@@ -467,7 +467,7 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 		if(sti(attack.index) == GetMainCharacterIndex())
 		{
 			Log_SetStringToLog(XI_ConvertString("Critical Hit"));
-			Log_TestInfo(" " + critical + " хитов");
+			Log_TestInfo(" " + critical + " HP");
 		}
 	}
 	kDmg = 1.0;
@@ -487,6 +487,8 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 		LAi_ApplyCharacterDamage(enemy, MakeInt(dmg + 0.5));
 		//Проверим на смерть
 		LAi_CheckKillCharacter(enemy);
+		//проверим на отравление
+		MakePoisonAttackCheckSex(enemy, attack);
 	}
 	//Есть ли оружие у цели
 	bool isSetBalde = (CheckAttribute(enemy, "equip.blade") == true);//(SendMessage(enemy, "ls", MSG_CHARACTER_EX_MSG, "IsSetBalde") != 0);

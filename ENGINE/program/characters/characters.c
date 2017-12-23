@@ -9,6 +9,7 @@
 #include "characters\GeneratorUtilite.c" //boal
 #include "characters\TravelMap.c" //navy
 #include "characters\QuestsUtilite.c" //boal
+#include "characters\LSC_Q2Utilite.c" 
 
 
 object chrFindNearCharacters[MAX_CHARS_IN_LOC];
@@ -537,4 +538,5 @@ void SetHuberAnimation(ref character)
 	character.actions.idle.i4 = "Gov_think_1";
 	character.actions.idle.i5 = "Gov_think_2";
 	character.actions.idle.i6 = "Gov_think_3";
+	character.actions.HitNoFight = "HitNoFightSit";
 }

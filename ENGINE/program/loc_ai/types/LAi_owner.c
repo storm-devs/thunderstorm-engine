@@ -55,7 +55,7 @@ void LAi_type_owner_CharacterUpdate(aref chr, float dltTime)
 	{
 		if (chr.chr_ai.tmpl.animation == "")
 		{	//если враг рядом - еще боимся
-			num = FindNearCharacters(chr, 5.0, -1.0, 180.0, 0.01, true, true);
+			num = FindNearCharacters(chr, 20.0, -1.0, 180.0, 0.01, true, true);
 			iNumEnemy = LAi_type_owner_FindEnemy(chr, num);
 			if (iNumEnemy < 0) LAi_type_owner_SetGoto(chr);
 			else
@@ -67,7 +67,7 @@ void LAi_type_owner_CharacterUpdate(aref chr, float dltTime)
 		}
 		else return; //режем анимацию
 	}
-	num = FindNearCharacters(chr, 5.0, -1.0, 180.0, 0.01, true, true);
+	num = FindNearCharacters(chr, 20.0, -1.0, 180.0, 0.01, true, true);
 	iNumEnemy = LAi_type_owner_FindEnemy(chr, num);
 	if(iNumEnemy < 0)
 	{	//нет врагов
@@ -103,13 +103,35 @@ void LAi_type_owner_CharacterUpdate(aref chr, float dltTime)
 							if (chr.sex == "man") chr.greeting = "VOICE\Russian\soldier_arest_1.wav";
 							else chr.greeting = "VOICE\Russian\Gr_Woman_Citizen_11.wav";
 							chr.dialog.currentnode = chr.sex  + "_FackYou";
-							LAi_SetActorTypeNoGroup(chr); //временно актер, чтобы теплейт диалога не слетал. кодить это еще и в этом типе - геморой. 
+							LAi_SetActorTypeNoGroup(chr); //временно актер, чтобы темплейт диалога не слетал. кодить это еще и в этом типе - геморой. 
 							LAi_ActorDialog(chr, pchar, "", 0.0, 0);			
 						}
 						else
 						{
 							if(chr.chr_ai.tmpl == LAI_TMPL_STAY)
 							{
+								//проверка на обнаженку оружия -->
+								if (LAi_CheckFightMode(pchar))
+								{
+									if (LAi_IsSetBale(chr))
+									{	//Нападаем
+										chr.chr_ai.type.state = "fight";
+										if(!LAi_tmpl_SetFight(chr, pchar))
+										{
+											//Несмогли инициировать шаблон
+											LAi_tmpl_stay_InitTemplate(chr);
+											chr.chr_ai.type.state = "stay";
+										}
+									}
+									else
+									{
+										LAi_tmpl_ani_PlayAnimation(chr, "afraid", -1.0);
+										LAi_SetAfraidDead(chr);
+										CharacterTurnByChr(chr, pchar);
+									}							
+									return;
+								}
+								//<-- проверка на обнаженку оружия
 								if(stf(chrFindNearCharacters[i].dist) < 2.0)
 								{ //поворачиваемся фейсом к ГГ
 									CharacterTurnByChr(chr, &Characters[sti(chrFindNearCharacters[i].index)]);				
@@ -133,7 +155,7 @@ void LAi_type_owner_CharacterUpdate(aref chr, float dltTime)
 		if(chr.chr_ai.tmpl != LAI_TMPL_ANI)
 		{
 			//атакуем
-			if (chr.sex == "man" && CheckAttribute(chr, "equip.blade") && chr.equip.blade != "")
+			if (chr.sex == "man" && LAi_IsSetBale(chr))
 			{
 				chr.chr_ai.type.state = "fight";
 				if(!LAi_tmpl_SetFight(chr, &Characters[sti(chrFindNearCharacters[iNumEnemy].index)]))

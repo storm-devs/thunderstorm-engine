@@ -1,29 +1,29 @@
-// диалог по городам
+#include "TEXT\DIALOGS\Store\SanJuan_Store.h"
 void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 {
 
 	switch (Dialog.CurrentNode)
 	{
 		case "quests":
-			dialog.text = NPCStringReactionRepeat("Спрашивай, чего ты хочешь?",
-                          "Мы только что поднимали это тему. Вы, вероятно, запамятовали...", "Сегодня вы уже третий раз говорите о каком-то вопросе...",
-                          "Послушай, это магазин, здесь люди покупают что-то. Не отвлекай меня!", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat("Знаешь, " + NPChar.name + ", как-нибудь в следующий раз.", "Точно, забыл что-то...",
-                      "Да уж, действительно в третий раз...", "Гм, не буду...", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(DLG_TEXT_STR[0],
+                          DLG_TEXT_STR[1], DLG_TEXT_STR[2],
+                          DLG_TEXT_STR[3], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(DLG_TEXT_STR[4] + NPChar.name + DLG_TEXT_STR[5], DLG_TEXT_STR[6],
+                      DLG_TEXT_STR[7], DLG_TEXT_STR[8], npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
 		break;
 
 		case "Romantic_1":
-            dialog.Text = "(Изабелле):  Так вы будете платить или мне позвать солдат?";
-			Link.l1 = "Да как ты смеешь, мерзавец!  Немедленно извинись перед сеньорой, или я проткну твое толстое брюхо!";
+            dialog.Text = DLG_TEXT_STR[9];
+			Link.l1 = DLG_TEXT_STR[10];
 		    Link.l1.go = "exit";
 		    NextDiag.TempNode = "Second time";
 		    AddDialogExitQuest("Romantic_TalkInShop_2");
 		break;
 		
 		case "Romantic_2":
-            dialog.Text = "Конечно, конечно, сеньор капитан.";
-			Link.l1 = "Вот, другой разговор.";
+            dialog.Text = DLG_TEXT_STR[11];
+			Link.l1 = DLG_TEXT_STR[12];
 		    Link.l1.go = "exit";
 		    NextDiag.TempNode = "Second time";
 		    AddDialogExitQuest("Romantic_TalkInShop_2");

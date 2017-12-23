@@ -1,49 +1,49 @@
-// диалог по городам
+#include "TEXT\DIALOGS\Mayor\SanJuan_Mayor.h"
 void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 {
     switch (Dialog.CurrentNode)
 	{
 		case "quests":
-			dialog.text = NPCStringReactionRepeat(RandPhraseSimple("Что вы хотели? Спрашивайте.", "Я слушаю вас, что за вопрос?"), "Второй раз за день вы пытаетесь задать ворпос...", "В третий раз за день вы опять пытаетесь задать вопрос...",
-                          "Да когда же это кончится?! У меня дел полно по управлению делами города, а ты все вопросы пытаешься задать!", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat(RandPhraseSimple("Я передумал...", "Не сейчас, не место и не время..."), "Да, верно... Но не сейчас, позже...",
-                      "Задам, задам... Только позже...", "Извините, " + GetAddress_FormToNPC(NPChar) + "...", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(RandPhraseSimple(DLG_TEXT_MR[0], DLG_TEXT_MR[1]), DLG_TEXT_MR[2], DLG_TEXT_MR[3],
+                          DLG_TEXT_MR[4], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(RandPhraseSimple(DLG_TEXT_MR[5], DLG_TEXT_MR[6]), DLG_TEXT_MR[7],
+                      DLG_TEXT_MR[8], DLG_TEXT_MR[9] + GetAddress_FormToNPC(NPChar) + "...", npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
 			if (CheckAttribute(pchar, "RomanticQuest.MayorOk"))
 			{
-				link.l1 = "Сеньор губернаор, я капитан " + GetFullName(pchar) + ". Это я венчался в церкви города с вдовой Изабеллой Олеварес, урожденной де Вальдес.";
+				link.l1 = DLG_TEXT_MR[10] + GetFullName(pchar) + DLG_TEXT_MR[11];
 				link.l1.go = "Romantic_1";
 			}
 		break;
 		case "Romantic_1":
-			dialog.text = "Вы как нельзя вовремя, капитан! Я уже посылал за вами коменданта.\n"+
-				          "Ну, а раз уж вы здесь, расскажите мне, ради всего святого, что за ужасную резню вы устроили в нашей церкви!";
-			link.l1 = "Сеньор " + npchar.lastname + ", я попросту защищал свою жизнь, честь и Изабеллу, мою жену...";
+			dialog.text = DLG_TEXT_MR[12]+
+				          DLG_TEXT_MR[13];
+			link.l1 = DLG_TEXT_MR[14] + npchar.lastname + DLG_TEXT_MR[15];
 			link.l1.go = "Romantic_2";
 		break;
 		case "Romantic_2":
-			dialog.text = "Звучит прекрасно, капитан. Но только я жду подробностей того, что взбудоражило весь город!";
-			link.l1 = "Сеньор губернатор, покойный муж Изабеллы - Сальватор Олеварес - был изрядным мерзавцем. За ним тянется целый шлейф мерзких преступлений, среди которых немало убийств...";
+			dialog.text = DLG_TEXT_MR[16];
+			link.l1 = DLG_TEXT_MR[17];
 			link.l1.go = "Romantic_3";
 		break;
 		case "Romantic_3":
-			dialog.text = "Это мне известно. По приезду из Белиза от своей кузины Фернандес, Изабелла была у меня на приеме и рассказала обо всем этом. Так вы и есть ее спаситель?";
-			link.l1 = "Да, сеньор губернатор. Полагаю, ничего удивительного нет в том, что мы с Изабеллой решили обвенчаться сразу же, как только это стало возможным. Однако мерзавец Сальватор, еще до того как погибнуть, нанял целую шайку омерзительного отребья со всего Карибского моря для того, чтобы уничтожить нас.";
+			dialog.text = DLG_TEXT_MR[18];
+			link.l1 = DLG_TEXT_MR[19];
 			link.l1.go = "Romantic_4";
 		break;
 		case "Romantic_4":
-			dialog.text = "И в церкви были те самые наемники?";
-			link.l1 = "Именно так, сеньор губернатор. Полагаю, я сделал много полезного для всего региона, уничтожив сразу столько бандитов...";
+			dialog.text = DLG_TEXT_MR[20];
+			link.l1 = DLG_TEXT_MR[21];
 			link.l1.go = "Romantic_5";
 		break;
 		case "Romantic_5":
-			dialog.text = "Бесспорно, капитан, так оно и есть. Ну что же, теперь мне все достаточно ясно. Полагаю, мы проведем обряд освещения церкви за общественный счет.";
-			link.l1 = "Сеньор губернатор, огромное вам спасибо за понимание ситуации...";
+			dialog.text = DLG_TEXT_MR[22];
+			link.l1 = DLG_TEXT_MR[23];
 			link.l1.go = "Romantic_6";
 		break;
 		case "Romantic_6":
-			dialog.text = "Разбираться в таких делах - мой долг, капитан! Ну, что же, я желаю вам счастья со своей супругой. Примите поздравления.";
-			link.l1 = "Спасибо, сеньор губернатор!";
+			dialog.text = DLG_TEXT_MR[24];
+			link.l1 = DLG_TEXT_MR[25];
 			link.l1.go = "exit";
 			AddQuestRecord("Romantic_Line", "27");
 			DeleteAttribute(pchar, "RomanticQuest.MayorOk");

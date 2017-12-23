@@ -11,10 +11,10 @@ void AIRunaway_GroupRunaway(string sGroupID, string sGroupAwayFrom)
 	ref rCommander = Group_GetGroupCommander(sGroupAwayFrom);
  	if (!CheckAttribute(rCommander, "index"))
 	{
-		trace("AIRunaway_GroupRunaway нет rCommander.index для sGroupID = " + sGroupID);
+		trace("AIRunaway_GroupRunaway can't find rCommander.index for sGroupID = " + sGroupID);
 		if (MOD_BETTATESTMODE == "On")
 		{
-		    Log_Info("AIRunaway_GroupRunaway нет rCommander.index для sGroupID = " + sGroupID);
+		    Log_Info("AIRunaway_GroupRunaway can't find rCommander.index for sGroupID = " + sGroupID);
 		}
 		return;
 	}

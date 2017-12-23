@@ -144,7 +144,7 @@ int CreateBaseShip(int iBaseType)
     }
 	rRealShip.ship.upgrades.sails = 1;
 	
-    rRealShip.BaseName = rRealShip.name; // запоминалка для нужд, тк далее идет "странное"
+    rRealShip.BaseName = rRealShip.name; // запоминалка для нужд, тк далее идет 'странное'
 	if (rRealShip.name != "Fort" && rRealShip.name != "Boat") // не знаю зачем :(
 	{
 		rRealShip.name = rRealShip.name + "1"; // без этого вылет, но почему!!!!!!!!!!!!!!

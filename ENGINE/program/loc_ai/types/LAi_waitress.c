@@ -311,23 +311,3 @@ void LAi_type_waitress_Reset(aref chr)
 	chr.chr_ai.type.task = "wait";
 	chr.chr_ai.type.time = "20";
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

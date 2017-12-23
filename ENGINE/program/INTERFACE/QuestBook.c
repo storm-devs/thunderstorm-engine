@@ -477,77 +477,77 @@ void InitTableHeader()
 	int    i;
 	string row;
 	
-	GameInterface.TABLE_SHIPCLASS.hr.td1.str = "Корабли";
+	GameInterface.TABLE_SHIPCLASS.hr.td1.str = MsgIS("Ships");
 	GameInterface.TABLE_SHIPCLASS.hr.td1.scale = 0.9;
-	GameInterface.TABLE_SHIPCLASS.hr.td2.str = "Потоплено орудиями";
+	GameInterface.TABLE_SHIPCLASS.hr.td2.str = MsgIS("Stat_1");
 	GameInterface.TABLE_SHIPCLASS.hr.td2.scale = 0.7;
-	GameInterface.TABLE_SHIPCLASS.hr.td3.str = "Потоплено абордажем";
+	GameInterface.TABLE_SHIPCLASS.hr.td3.str = MsgIS("Stat_2");
 	GameInterface.TABLE_SHIPCLASS.hr.td3.scale = 0.7;
-	GameInterface.TABLE_SHIPCLASS.hr.td4.str = "Захвачено абордажем";
+	GameInterface.TABLE_SHIPCLASS.hr.td4.str = MsgIS("Stat_3");
 	GameInterface.TABLE_SHIPCLASS.hr.td4.scale = 0.7;
 	
     for (i = 1; i< 7; i++)
 	{
         row = "tr" + i;
-        GameInterface.TABLE_SHIPCLASS.(row).td1.str = "Класс " + i;
+        GameInterface.TABLE_SHIPCLASS.(row).td1.str = MsgIS("Class") + " " + i;
 		GameInterface.TABLE_SHIPCLASS.(row).td2.str = Statistic_AddValue(pchar, "KillShip_" + i, 0);
 		GameInterface.TABLE_SHIPCLASS.(row).td3.str = Statistic_AddValue(pchar, "KillAbordShip_" + i, 0);
 		GameInterface.TABLE_SHIPCLASS.(row).td4.str = Statistic_AddValue(pchar, "AbordShip_" + i, 0);
 	}
 
-	GameInterface.TABLE_HUMAN.hr.td1.str = "Убито";
+	GameInterface.TABLE_HUMAN.hr.td1.str = MsgIS("Killed");
 	GameInterface.TABLE_HUMAN.hr.td1.scale = 0.9;
-	GameInterface.TABLE_HUMAN.hr.td2.str = "Саблями";
+	GameInterface.TABLE_HUMAN.hr.td2.str = MsgIS("Stat_4");
 	GameInterface.TABLE_HUMAN.hr.td2.scale = 0.7;
-	GameInterface.TABLE_HUMAN.hr.td3.str = "Пистолетами";
+	GameInterface.TABLE_HUMAN.hr.td3.str = MsgIS("Stat_5");
 	GameInterface.TABLE_HUMAN.hr.td3.scale = 0.7;
 	
-	GameInterface.TABLE_HUMAN.tr1.td1.str = "Солдаты";
+	GameInterface.TABLE_HUMAN.tr1.td1.str = MsgIS("Stat_6");
 	GameInterface.TABLE_HUMAN.tr1.td2.str = Statistic_AddValue(pchar, "Solder_s", 0);
 	GameInterface.TABLE_HUMAN.tr1.td3.str = Statistic_AddValue(pchar, "Solder_g", 0);
 	
-	GameInterface.TABLE_HUMAN.tr2.td1.str = "Горожане";
+	GameInterface.TABLE_HUMAN.tr2.td1.str = MsgIS("Stat_7");
 	GameInterface.TABLE_HUMAN.tr2.td2.str = Statistic_AddValue(pchar, "Citizen_s", 0);
 	GameInterface.TABLE_HUMAN.tr2.td3.str = Statistic_AddValue(pchar, "Citizen_g", 0);
 	
-	GameInterface.TABLE_HUMAN.tr3.td1.str = "Нечисть";
+	GameInterface.TABLE_HUMAN.tr3.td1.str = MsgIS("Stat_8");
 	GameInterface.TABLE_HUMAN.tr3.td2.str = Statistic_AddValue(pchar, "Monster_s", 0);
 	GameInterface.TABLE_HUMAN.tr3.td3.str = Statistic_AddValue(pchar, "Monster_g", 0);
 	
-	GameInterface.TABLE_HUMAN.tr4.td1.str = "Остальные";
+	GameInterface.TABLE_HUMAN.tr4.td1.str = MsgIS("Stat_9");
 	GameInterface.TABLE_HUMAN.tr4.td2.str = Statistic_AddValue(pchar, "Warrior_s", 0);
 	GameInterface.TABLE_HUMAN.tr4.td3.str = Statistic_AddValue(pchar, "Warrior_g", 0);
 	
-	GameInterface.TABLE_HUMAN.tr5.td1.str = "Итого";
+	GameInterface.TABLE_HUMAN.tr5.td1.str = MsgIS("Total");
 	GameInterface.TABLE_HUMAN.tr5.td2.str = Statistic_AddValue(pchar, "Solder_s", 0) + Statistic_AddValue(pchar, "Citizen_s", 0) + Statistic_AddValue(pchar, "Monster_s", 0) + Statistic_AddValue(pchar, "Warrior_s", 0);
 	GameInterface.TABLE_HUMAN.tr5.td3.str = Statistic_AddValue(pchar, "Solder_g", 0) + Statistic_AddValue(pchar, "Citizen_g", 0) + Statistic_AddValue(pchar, "Monster_g", 0) + Statistic_AddValue(pchar, "Warrior_g", 0);
 	
-	GameInterface.TABLE_OTHER.hr.td1.str = "События";
+	GameInterface.TABLE_OTHER.hr.td1.str = MsgIS("Stat_11");
 	GameInterface.TABLE_OTHER.hr.td1.scale = 0.9;
-	GameInterface.TABLE_OTHER.hr.td2.str = "Значение";
+	GameInterface.TABLE_OTHER.hr.td2.str = MsgIS("Stat_12");
 	GameInterface.TABLE_OTHER.hr.td2.scale = 0.9;
 	
-	GameInterface.TABLE_OTHER.tr1.td1.str = "Кораблей продано";
+	GameInterface.TABLE_OTHER.tr1.td1.str = MsgIS("Stat_13");
 	GameInterface.TABLE_OTHER.tr1.td1.scale = 0.9;
 	GameInterface.TABLE_OTHER.tr1.td2.str = Statistic_AddValue(PChar, "SellShip", 0);
 	
-	GameInterface.TABLE_OTHER.tr2.td1.str = "Кораблей куплено";
+	GameInterface.TABLE_OTHER.tr2.td1.str = MsgIS("Stat_14");
 	GameInterface.TABLE_OTHER.tr2.td1.scale = 0.9;
 	GameInterface.TABLE_OTHER.tr2.td2.str = Statistic_AddValue(PChar, "BuyShip", 0);
 	
-	GameInterface.TABLE_OTHER.tr3.td1.str = "Бунтов на корабле";
+	GameInterface.TABLE_OTHER.tr3.td1.str = MsgIS("Stat_15");
 	GameInterface.TABLE_OTHER.tr3.td1.scale = 0.9;
 	GameInterface.TABLE_OTHER.tr3.td2.str = Statistic_AddValue(PChar, "ShipMunity", 0);
 	
-	GameInterface.TABLE_OTHER.tr4.td1.str = "Восстания рабов";
+	GameInterface.TABLE_OTHER.tr4.td1.str = MsgIS("Stat_16");
 	GameInterface.TABLE_OTHER.tr4.td1.scale = 0.9;
 	GameInterface.TABLE_OTHER.tr4.td2.str = Statistic_AddValue(PChar, "SlavesMunity", 0);
 	
-	GameInterface.TABLE_OTHER.tr5.td1.str = "Кораблей отпущено";
+	GameInterface.TABLE_OTHER.tr5.td1.str = MsgIS("Stat_24");
 	GameInterface.TABLE_OTHER.tr5.td1.scale = 0.9;
 	GameInterface.TABLE_OTHER.tr5.td2.str = Statistic_AddValue(PChar, "AbordShipFree", 0);
 	
-	GameInterface.TABLE_NATION.hr.td1.str = "События";
+	GameInterface.TABLE_NATION.hr.td1.str = MsgIS("Stat_17");
 	GameInterface.TABLE_NATION.hr.td1.scale = 0.9;
  	GameInterface.TABLE_NATION.hr.td2.icon.group = "NATIONS"
 	GameInterface.TABLE_NATION.hr.td2.icon.image      = Nations[0].Name;
@@ -559,8 +559,6 @@ void InitTableHeader()
 	GameInterface.TABLE_NATION.hr.td3.icon.width = 32;
     GameInterface.TABLE_NATION.hr.td3.icon.height = 32;
     GameInterface.TABLE_NATION.hr.td3.icon.offset = "10, 2";
-	//GameInterface.TABLE_NATION.hr.td3.str = "Англия";
-	//GameInterface.TABLE_NATION.hr.td3.scale = 0.9;
  	GameInterface.TABLE_NATION.hr.td4.icon.group = "NATIONS"
 	GameInterface.TABLE_NATION.hr.td4.icon.image      = Nations[2].Name;
 	GameInterface.TABLE_NATION.hr.td4.icon.width = 32;
@@ -576,10 +574,10 @@ void InitTableHeader()
 	GameInterface.TABLE_NATION.hr.td6.icon.width = 32;
     GameInterface.TABLE_NATION.hr.td6.icon.height = 32;
     GameInterface.TABLE_NATION.hr.td6.icon.offset = "10, 2";
-	GameInterface.TABLE_NATION.hr.td7.str = "Итого";
+	GameInterface.TABLE_NATION.hr.td7.str = MsgIS("Total");
 	GameInterface.TABLE_NATION.hr.td7.scale = 0.9;
 	
-	GameInterface.TABLE_NATION.tr1.td1.str = "Фортов разгромлено";
+	GameInterface.TABLE_NATION.tr1.td1.str = MsgIS("Stat_18");
 	GameInterface.TABLE_NATION.tr1.td1.scale = 0.9;
 	GameInterface.TABLE_NATION.tr1.td2.str = Statistic_AddValue(PChar, "eng_KillFort", 0);
 	GameInterface.TABLE_NATION.tr1.td3.str = Statistic_AddValue(PChar, "fra_KillFort", 0);
@@ -592,7 +590,7 @@ void InitTableHeader()
              Statistic_AddValue(PChar, "spa_KillFort", 0) +
              Statistic_AddValue(PChar, "hol_KillFort", 0));
              
-    GameInterface.TABLE_NATION.tr2.td1.str = "Городов захвачено";
+    GameInterface.TABLE_NATION.tr2.td1.str = MsgIS("Stat_19");
 	GameInterface.TABLE_NATION.tr2.td1.scale = 0.9;
 	GameInterface.TABLE_NATION.tr2.td2.str = Statistic_AddValue(PChar, "eng_TakeTown", 0);
 	GameInterface.TABLE_NATION.tr2.td3.str = Statistic_AddValue(PChar, "fra_TakeTown", 0);
@@ -605,7 +603,7 @@ void InitTableHeader()
              Statistic_AddValue(PChar, "spa_TakeTown", 0) +
              Statistic_AddValue(PChar, "hol_TakeTown", 0));
              
-    GameInterface.TABLE_NATION.tr3.td1.str = "Городов разграблено";
+    GameInterface.TABLE_NATION.tr3.td1.str = MsgIS("Stat_20");
 	GameInterface.TABLE_NATION.tr3.td1.scale = 0.9;
 	GameInterface.TABLE_NATION.tr3.td2.str = Statistic_AddValue(PChar, "eng_GrabbingTown", 0);
 	GameInterface.TABLE_NATION.tr3.td3.str = Statistic_AddValue(PChar, "fra_GrabbingTown", 0);
@@ -618,7 +616,7 @@ void InitTableHeader()
              Statistic_AddValue(PChar, "spa_GrabbingTown", 0) +
              Statistic_AddValue(PChar, "hol_GrabbingTown", 0));
              
-    GameInterface.TABLE_NATION.tr4.td1.str = "Кораблей захвачено";
+    GameInterface.TABLE_NATION.tr4.td1.str = MsgIS("Stat_21");
 	GameInterface.TABLE_NATION.tr4.td1.scale = 0.9;
 	GameInterface.TABLE_NATION.tr4.td2.str = Statistic_AddValue(PChar, "eng_AbordShip", 0);
 	GameInterface.TABLE_NATION.tr4.td3.str = Statistic_AddValue(PChar, "fra_AbordShip", 0);
@@ -631,7 +629,7 @@ void InitTableHeader()
              Statistic_AddValue(PChar, "spa_AbordShip", 0) +
              Statistic_AddValue(PChar, "hol_AbordShip", 0));
              
-    GameInterface.TABLE_NATION.tr5.td1.str = "Кораблей потоплено";
+    GameInterface.TABLE_NATION.tr5.td1.str = MsgIS("Stat_22");
 	GameInterface.TABLE_NATION.tr5.td1.scale = 0.9;
 	GameInterface.TABLE_NATION.tr5.td2.str = Statistic_AddValue(PChar, "eng_KillShip", 0);
 	GameInterface.TABLE_NATION.tr5.td3.str = Statistic_AddValue(PChar, "fra_KillShip", 0);
@@ -651,13 +649,13 @@ void InitTableHeader()
     Table_UpdateWindow("TABLE_NATION");
     
     //  ростовщики
-    GameInterface.TABLE_CREDIT.hr.td1.str = "Кредит в городе";
+    GameInterface.TABLE_CREDIT.hr.td1.str = MsgIS("Stat_23");
 	GameInterface.TABLE_CREDIT.hr.td1.scale = 0.9;
-	GameInterface.TABLE_CREDIT.hr.td2.str = "Сумма";
+	GameInterface.TABLE_CREDIT.hr.td2.str = MsgIS("Summ");
 	GameInterface.TABLE_CREDIT.hr.td2.scale = 0.9;
-	GameInterface.TABLE_CREDIT.hr.td3.str = "Дата";
+	GameInterface.TABLE_CREDIT.hr.td3.str = MsgIS("Date");
 	GameInterface.TABLE_CREDIT.hr.td3.scale = 0.9;
-	GameInterface.TABLE_CREDIT.hr.td4.str = "Срок (мес.)";
+	GameInterface.TABLE_CREDIT.hr.td4.str = MsgIS("Stat_26");
 	GameInterface.TABLE_CREDIT.hr.td4.scale = 0.9;
 	GameInterface.TABLE_CREDIT.hr.td5.str = "%";
 	GameInterface.TABLE_CREDIT.hr.td5.scale = 0.9;
@@ -698,11 +696,11 @@ void InitTableHeader()
     }
 	Table_UpdateWindow("TABLE_CREDIT");
 	
-	GameInterface.TABLE_DEBIT.hr.td1.str = "Вклад в городе";
+	GameInterface.TABLE_DEBIT.hr.td1.str = MsgIS("Stat_27");
 	GameInterface.TABLE_DEBIT.hr.td1.scale = 0.9;
-	GameInterface.TABLE_DEBIT.hr.td2.str = "Сумма";
+	GameInterface.TABLE_DEBIT.hr.td2.str = MsgIS("Summ");
 	GameInterface.TABLE_DEBIT.hr.td2.scale = 0.9;
-	GameInterface.TABLE_DEBIT.hr.td3.str = "Дата";
+	GameInterface.TABLE_DEBIT.hr.td3.str = MsgIS("Date");
 	GameInterface.TABLE_DEBIT.hr.td3.scale = 0.9;
 	GameInterface.TABLE_DEBIT.hr.td4.str = "%";
 	GameInterface.TABLE_DEBIT.hr.td4.scale = 0.9;

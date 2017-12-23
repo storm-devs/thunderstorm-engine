@@ -227,10 +227,10 @@ int Reload(aref reload_group, string locator_name, string current_location)
 	{
 		if(!CheckAttribute(mc, "todeck"))
 		{
-		SendMessage(&reload_fader, "ls",FADER_PICTURE,"loading\sea.tga");
-	}
-	else
-	{
+			SendMessage(&reload_fader, "ls",FADER_PICTURE,"loading\seaStand.tga");
+		}
+		else
+		{
 			SendMessage(&reload_fader, "ls",FADER_PICTURE,"loading\cabine.tga");
 		}
 	}
@@ -242,7 +242,13 @@ int Reload(aref reload_group, string locator_name, string current_location)
 		{		
 			if(CheckAttribute(&Locations[loc_pict_index],"image"))
 			{
-				SendMessage(&reload_fader, "ls", FADER_PICTURE, Locations[loc_pict_index].image);
+				if (sGlobalTemp == "afterFDsink")
+				{
+					SendMessage(&reload_fader, "ls",FADER_PICTURE,"loading\rescue.tga");
+					sGlobalTemp = "";
+				}
+				else
+					SendMessage(&reload_fader, "ls", FADER_PICTURE, Locations[loc_pict_index].image);
 			}
 		}
 	}		
@@ -436,6 +442,14 @@ int ReloadToLocation(int location_index, aref reload_data)
 	                {
 	                    arLocator.label  = "";
 	                }
+	                if (CheckAttribute(&Locations[reload_cur_location_index], "townsack"))
+	                {
+	                    Locations[location_index].townsack = Locations[reload_cur_location_index].townsack;
+	                }
+	                else
+	                {
+	                    DeleteAttribute(&Locations[location_index], "townsack");
+	                }
 	                if (CheckAttribute(&Locations[reload_cur_location_index], "islandId"))
 	                {
 	                    Locations[location_index].islandId = Locations[reload_cur_location_index].islandId;
@@ -478,6 +492,11 @@ int ReloadToLocation(int location_index, aref reload_data)
 	{
 		mc.location.group = reload_xaddress.group;
 		mc.location.locator = reload_xaddress.locator;
+	}
+	//сменить анимацию перед загрузкой локации, нужно для подводных храмов.
+	if (CheckAttribute(&locations[location_index], "changeAnimation")) 
+	{
+		mc.model.animation = locations[location_index].changeAnimation;	
 	}
 	if(IsEntity(&chrAnimationKipper) == false) CreateEntity(&chrAnimationKipper, "CharacterAnimationKipper");
 

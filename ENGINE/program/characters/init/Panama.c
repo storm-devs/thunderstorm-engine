@@ -33,7 +33,7 @@ int CreatePanamaCharacters(int n)
 	makeref(ch,Characters[n]);			//Священик
 	ch.id		= "Panama_Priest";
 	ch.model	= "priest_4";
-	ch.model.animation = "man3";
+	ch.model.animation = "man";
 	ch.sex = "man";
 	ch.City = "Panama";
 	ch.location	= "Panama_church";
@@ -102,7 +102,7 @@ int CreatePanamaCharacters(int n)
 	ch.item_date = "";
 	n = n + 1;
 
-	makeref(ch,Characters[n]);			//Корабел
+	/*makeref(ch,Characters[n]);			//Корабел
 	ch.id		= "Panama_shipyarder";
 	ch.model	= "shipowner_16";
 	ch.greeting = "Gr_shipyarder";
@@ -123,7 +123,7 @@ int CreatePanamaCharacters(int n)
 	LAi_SetHuberType(ch);
 	LAi_group_MoveCharacter(ch, "SPAIN_CITIZENS");
 	LAi_SetImmortal(ch, true);
-	n = n + 1;
+	n = n + 1;*/
 
 	makeref(ch,Characters[n]);			//Банкир
 	ch.id		= "Panama_usurer";
@@ -135,6 +135,7 @@ int CreatePanamaCharacters(int n)
 	ch.location.locator = "stay";
 	ch.Dialog.Filename = "Usurer_dialog.c";
 	ch.nation = SPAIN;
+	ch.greeting = "Gr_bankeer";
 	ch.quest.shiping = "0";
 	ch.UsurerDeposit = 18000; // *1000 денег
 	LAi_SetOwnerType(ch);
@@ -160,7 +161,7 @@ int CreatePanamaCharacters(int n)
 
 	makeref(ch,Characters[n]);			//Хозяйка борделя
 	ch.id		= "Panama_Hostess";
-	ch.name		= "Симона"
+	ch.name		= xiDStr("Simona");
 	ch.lastname = "";
 	ch.model	= "lady06";
 	ch.sex = "woman";

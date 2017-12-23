@@ -464,7 +464,7 @@ int LocationInitTortuga(int n)
 	locations[n].id = "Tortuga_Brothel_room";
 	locations[n].id.label = "Brothel Room";
 	locations[n].filespath.models = "locations\inside\Brothel_room\";
-	locations[n].image = "loading\inside\brothell_hall.tga";
+	locations[n].image = "loading\inside\brothell_room.tga";
 	//Town sack
 	locations[n].townsack = "Tortuga";
 	locations[n].lockWeather = "Inside";
@@ -881,11 +881,11 @@ int LocationInitTortuga(int n)
 	locations[n].reload.l3.label = "Room";
 	n = n + 1;
 
- 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Пещера Тортуги с выходом в бухту
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Tortuga_Cave";
-	locations[n].image = "loading\inside\dungeon2.tga";
+	locations[n].image = "loading\inside\dungeon.tga";
 	locations[n].id.label = "dungeon";
 	//Sound
 	locations[n].townsack = "Tortuga";
@@ -898,14 +898,13 @@ int LocationInitTortuga(int n)
 	locations[n].models.always.InquisitionDungeonVault1Fonars = "DungeonVault1_fonars";
 	locations[n].models.always.locators = "DungeonVault1_locators";	
 
-	Locations[n].models.always.duhi = "duhi";
-	Locations[n].models.always.duhi.locator.group = "item";
-	Locations[n].models.always.duhi.locator.name = "duhi1";
-	locations[n].models.always.duhi.tech = "LighthouseLight";
-	locations[n].models.always.duhi.level = 60;
-	Locations[n].models.always.duhi.uvslide.u0 = 0.15;
-	Locations[n].models.always.duhi.uvslide.v0 = 0.1;
 	locations[n].locators_radius.item.duhi1 = 1.3;
+	
+	Locations[n].models.always.rays = "DungeonVault1_rays";
+	Locations[n].models.always.rays.level = 49;
+	Locations[n].models.always.rays.tech= "LocVisRays";
+	Locations[n].models.always.rays.uvslide.u1 = -0.03;
+	Locations[n].models.always.rays.uvslide.v1 = -0.03;	
 	//Day
 	locations[n].models.day.charactersPatch = "DungeonVault1_patch";
 	//Night
@@ -932,7 +931,7 @@ int LocationInitTortuga(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Tortuga_ExitTown";
 	locations[n].id.label = "ExitTown";
-	locations[n].image = "loading\Gate.tga";
+	locations[n].image = "loading\Gate" + rand(1) + ".tga";
 	//Town sack
 	locations[n].townsack = "Tortuga";
 	//Sound
@@ -1142,7 +1141,7 @@ int LocationInitTortuga(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Tortuga_CaveEntrance";
 	locations[n].id.label = "Cave entrance";
-	locations[n].image = "loading\outside\cave_ent.tga";
+	locations[n].image = "loading\outside\jungle2.tga";
 	//Sound
 	locations[n].type = "jungle";
  	locations[n].islandId = "Tortuga";
@@ -1193,7 +1192,7 @@ int LocationInitTortuga(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Tortuga_Grot";
 	locations[n].id.label = "Grot";
-    locations[n].image = "loading\inside\grotto.tga";
+    locations[n].image = "loading\inside\cave.tga";
 	//Sound
 	locations[n].type = "cave";
  	locations[n].islandId = "Tortuga";
@@ -1207,14 +1206,13 @@ int LocationInitTortuga(int n)
 	locations[n].models.always.grotto2alpha.level = 65532;	
 	locations[n].models.always.locators = "grotto2_locators";	
 
-	Locations[n].models.always.duhi = "duhi";
-	Locations[n].models.always.duhi.locator.group = "item";
-	Locations[n].models.always.duhi.locator.name = "duhi1";
-	locations[n].models.always.duhi.tech = "LighthouseLight";
-	locations[n].models.always.duhi.level = 60;
-	Locations[n].models.always.duhi.uvslide.u0 = 0.15;
-	Locations[n].models.always.duhi.uvslide.v0 = 0.1;
 	locations[n].locators_radius.item.duhi1 = 1.3;
+	
+	Locations[n].models.always.rays = "grotto2_rays";
+	Locations[n].models.always.rays.level = 49;
+	Locations[n].models.always.rays.tech= "LocVisRays";
+	Locations[n].models.always.rays.uvslide.u1 = -0.03;
+	Locations[n].models.always.rays.uvslide.v1 = -0.03;
 	//Day
 	locations[n].models.day.charactersPatch = "grotto2_patch";
 	//Night

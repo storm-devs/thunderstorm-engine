@@ -403,12 +403,12 @@ void StartGame()
 	if (dir_i == -1) // комп первый
 	{
         PlaySound("interface\dice_mix.wav");
-		SetFormatedText("INFO_TEXT","Я первый.");
+		SetFormatedText("INFO_TEXT", lMsg("Dice_1"));
 		PostEvent("My_eventMoveImg", 100);
     }
 	else
 	{
-	    SetFormatedText("INFO_TEXT","Ты первый. Ходи, не задерживай.");
+	    SetFormatedText("INFO_TEXT", lMsg("Dice_2"));
 	    bLockClick = false;
 	}
 	// оба ставят
@@ -442,11 +442,11 @@ void NewGameBegin(bool _newGame)
     bStartGame = 0;
     if (_newGame)
     {
-    	SetFormatedText("INFO_TEXT","Начинаем игру. "+NewStr()+"Делаем ставки.");
+    	SetFormatedText("INFO_TEXT", lMsg("Dice_3") + NewStr() + lMsg("Dice_4"));
     }
     else
     {
-        SetFormatedText("INFO_TEXT","Продолжаем игру. "+NewStr()+"Делаем ставки.");
+        SetFormatedText("INFO_TEXT", lMsg("Dice_5") + NewStr() + lMsg("Dice_6"));
     }
     bSetRandDice = true;
     PostEvent("My_eStartGame", 1000);
@@ -655,11 +655,11 @@ bool CheckGame()
 		bLockClick = false;
 		if (bStartGame <1 )// первый заход
 		{
-			SetFormatedText("INFO_TEXT","Теперь твой ход. Ходи, не задерживай.");
+			SetFormatedText("INFO_TEXT", lMsg("Dice_7"));
 		}
 		else
 		{
-			SetFormatedText("INFO_TEXT","Делай свой выбор. Решай, что перебросить.");
+			SetFormatedText("INFO_TEXT", lMsg("Dice_8"));
 		}
 	}
 	else
@@ -668,7 +668,7 @@ bool CheckGame()
         bLockClick = true;
 		if (bStartGame <1 )// первый заход
 		{
-			SetFormatedText("INFO_TEXT","Так, теперь мой ход.");
+			SetFormatedText("INFO_TEXT", lMsg("Dice_9"));
 			move_i = 0;
 	        PlaySound("interface\dice_mix.wav");
 	        PostEvent("My_eventMoveImg", 500);
@@ -678,7 +678,7 @@ bool CheckGame()
 			if (bStartGame <3)
 			{
 				// решаем ходить ли вообще
-	            SetFormatedText("INFO_TEXT","Так, подожди... я решаю, что перебросить.");
+	            SetFormatedText("INFO_TEXT", lMsg("Dice_10"));
 	            PostEvent("My_eCompTurn", 800);
             }
         }
@@ -1037,20 +1037,20 @@ bool EndTurnGame()
     bool  ret = true;
 
 	ok = GetResult();
-	sTemp = "У меня " + GetTypeName(sti(DiceState.Comp.Result.Type)) + ". У тебя " + GetTypeName(sti(DiceState.Hero.Result.Type)) + ".";
+	sTemp = lMsg("Dice_11") + " " + GetTypeName(sti(DiceState.Comp.Result.Type)) + lMsg("Dice_12") + " " + GetTypeName(sti(DiceState.Hero.Result.Type)) + ".";
     if (ok == 0)
     {
-        sTemp += NewStr() + "Ха! Да у нас ничья!! Продолжим.";
+        sTemp += NewStr() + lMsg("Dice_13");
 		ret = false;
     }
     if (ok == -1)
     {
-        sTemp += NewStr() + "Я выиграл.";
+        sTemp += NewStr() + lMsg("Dice_14");
         iHeroLose++;
     }
     if (ok == 1)
     {
-        sTemp += NewStr() +  RandSwear() + "Ты выиграл.";
+        sTemp += NewStr() +  RandSwear() + lMsg("Dice_15");
         iHeroWin++;
     }
     EndGameCount(ok);
@@ -1071,14 +1071,14 @@ void ContinueGame()
 	{
         if (iRate*6 > iMoneyP)
     	{
-    	    ResultStr = "Ты на мели, я выиграл!" + NewStr() + "Все, с меня хватит!";
+    	    ResultStr = lMsg("Dice_16") + NewStr() + lMsg("Dice_17");
 			SetFormatedText("INFO_TEXT",ResultStr);
     	    EndGameCount(-1);
     	    iHeroLose++;
     	}
 		else//if (iRate*6 > iMoneyN)
 	    {
-	        ResultStr = "Я на мели, ты выиграл!" + NewStr() + "Все, с меня хватит!";
+	        ResultStr = lMsg("Dice_18") + NewStr() + lMsg("Dice_19");
 	        SetFormatedText("INFO_TEXT",ResultStr);
 	        EndGameCount(1);
 	        iHeroWin++;
@@ -1095,12 +1095,12 @@ void NewNextGame()
     openExit = true;
 	if (CheckNextGame() && rand(10) < 10) // есть деньги на игру
     {
-        ResultStr += NewStr() + "Еще разок?";
+        ResultStr += NewStr() + lMsg("Dice_20");
 		bLockClick = false;
 	}
 	else
 	{
-        ResultStr += NewStr() + "Все, с меня хватит!";
+        ResultStr += NewStr() + lMsg("Dice_21");
 		bLockClick = true;
 	}
 	SetFormatedText("INFO_TEXT",ResultStr);
@@ -1108,36 +1108,36 @@ void NewNextGame()
 
 string GetTypeName(int _type)
 {
-	string ret = "ничего нет";
+	string ret = lMsg("Dice_22");
 	
 	switch (_type)
 	{
 	    case 1:
-	        ret = "покер";
+	        ret = lMsg("Dice_23");
 	    break;
 	    
 	    case 2:
-	        ret = "стрит";
+	        ret = lMsg("Dice_24");
 	    break;
 	    
 	    case 3:
-	        ret = "каре";
+	        ret = lMsg("Dice_25");
 	    break;
 	    
 	    case 4:
-	        ret = "фул";
+	        ret = lMsg("Dice_26");
 	    break;
 	    
 	    case 5:
-	        ret = "триада";
+	        ret = lMsg("Dice_27");
 	    break;
 	    
 	    case 6:
-	        ret = "две пары";
+	        ret = lMsg("Dice_28");
 	    break;
 	    
 	    case 7:
-	        ret = "пара";
+	        ret = lMsg("Dice_29");
 	    break;
 	}
 	return ret;
@@ -1173,7 +1173,7 @@ void CompTurn()
     	if (sti(DiceState.Comp.Result.Type) == 8 && sti(DiceState.Hero.Result.Type) >= 2)
     	{
             //перебросим всегда первую фишку (это 100% 1)
-            SetFormatedText("INFO_TEXT","Я переброшу один кубик...");
+            SetFormatedText("INFO_TEXT", lMsg("Dice_30"));
     		// for test
     		ClickCompDice(1);
     		move_i = 0;
@@ -1197,7 +1197,7 @@ void CompTurn()
         if (ok || ok2 || ok3)
         {
             ok = false;
-            SetFormatedText("INFO_TEXT","Я переброшу эти...");
+            SetFormatedText("INFO_TEXT",lMsg("Dice_31"));
             for (i = 1; i<=6; i++)
     		{
     	        sGlobalTemp = "d"+i;
@@ -1233,7 +1233,7 @@ void CompTurn()
 			if (!CheckAttribute(npchar, "Quest.DiceCheats")) npchar.Quest.DiceCheats = 0;
 			npchar.Quest.DiceCheats = sti(npchar.Quest.DiceCheats) + 1;
 			//navy <--
-            SetFormatedText("INFO_TEXT","Я переброшу эти...");
+            SetFormatedText("INFO_TEXT",lMsg("Dice_32"));
             ok = false;
             if (sti(DiceState.Hero.Result.Type) == 1)
             {
@@ -1266,7 +1266,7 @@ void CompTurn()
         // жухло!!!!! <--
     }
 	// решаем не перебрасывать
-	SetFormatedText("INFO_TEXT","Не буду перебрасывать.");
+	SetFormatedText("INFO_TEXT",lMsg("Dice_33"));
 	PostEvent("My_eCheckGame", 800);
 }
 
@@ -1309,4 +1309,9 @@ void RecalcAIDice(string _whom)
         sTemp       = "d" + sti(DiceState.(_whom).(sGlobalTemp));
         DiceState.(_whom).Result.(sTemp) = sti(DiceState.(_whom).Result.(sTemp)) + 1;
 	}
+}
+
+string lMsg(string _str)
+{
+	return GetConvertStr(_str, "MiniGames.txt");
 }

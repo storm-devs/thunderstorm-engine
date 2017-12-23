@@ -14,6 +14,7 @@
 #include "Loc_ai\LAi_equip.c"
 #include "Loc_ai\LAi_sounds.c"
 #include "Loc_ai\LAi_utilites.c"
+#include "Loc_ai\LAi_zLoadUtils.c"
 
 
 bool LAi_IsInitedAI = false;

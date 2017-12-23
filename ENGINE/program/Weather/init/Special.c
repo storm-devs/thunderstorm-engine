@@ -203,10 +203,10 @@ int Whr_InitSpecial(int n)
 	Weathers[n].Fog.Enable = true;
 	Weathers[n].Fog.Height = 2000;
 	Weathers[n].Fog.Start = 1;
-	Weathers[n].Fog.Density = 0.08;
+	Weathers[n].Fog.Density = 0.15;
 	Weathers[n].Fog.IslandDensity = 0.002;
-	Weathers[n].Fog.SeaDensity = 0.003;//0.001;
-	Weathers[n].Fog.Color = argb(0,60,120,160);
+	Weathers[n].Fog.SeaDensity = 0.006;
+	Weathers[n].Fog.Color = argb(0,26,64,59);
 	
 	Weathers[n].Rain.NumDrops = 0;
 	Weathers[n].Rain.Color = argb(0,73,73,73);
@@ -233,8 +233,8 @@ int Whr_InitSpecial(int n)
 
 	Weathers[n].Planets.Enable = false;
 
-	Weathers[n].Sun.Color = argb(0,160,140,190);
-	Weathers[n].Sun.Ambient = argb(0,95,100,110);
+	Weathers[n].Sun.Color = argb(0,10,40,43); //eddy
+	Weathers[n].Sun.Ambient = argb(0,134,199,209);
 	Weathers[n].Sun.AzimuthAngle = Degree2Radian(160.0);
 	Weathers[n].Sun.HeightAngle = 0.45;
 	//Weathers[n].Sun.AzimuthAngle = Degree2Radian(0.0);
@@ -248,7 +248,7 @@ int Whr_InitSpecial(int n)
 	Weathers[n].Sun.Glow.TechniqueNoZ = "sunglow_noz";
 	Weathers[n].Sun.Glow.TechniqueZ = "sunglow_z";
 	Weathers[n].Sun.Glow.Color = argb(0,255,255,255);
-	Weathers[n].Sun.Overflow.Enable = true;
+	Weathers[n].Sun.Overflow.Enable = false;
 	Weathers[n].Sun.Overflow.Texture = "Weather\lightning\flash.tga";
 	Weathers[n].Sun.Overflow.Color = argb(0, 100, 100, 100);
 	Weathers[n].Sun.Overflow.Size = 5500.0;
@@ -299,7 +299,7 @@ int Whr_InitSpecial(int n)
 	Weathers[n].Sea.Harmonics.h3 = "45.0, 2.0, 3.0, 0.0, 150.0";
 	Weathers[n].Sea.Harmonics.h4 = "90.0, 4.0, 2.5, 0.0, 10.0";
 
-	Weathers[n].Sun.Reflection.Enable = true;
+	Weathers[n].Sun.Reflection.Enable = false;
 	Weathers[n].Sun.Reflection.Texture = "weather\sun\reflection\refl_evening.tga";
 	Weathers[n].Sun.Reflection.Technique = "sunreflection";
 	Weathers[n].Sun.Reflection.Dist = 3500.0;

@@ -53,6 +53,7 @@ extern void ActiveF7Control(); // boal debuger
 extern void ActiveF10Control(); // boal debuger
 extern void ActiveF12Control(); // boal debuger
 extern void ActiveINSERTControl(); // boal debuger
+extern void ExecuteConsole();
 
 native float Bring2RangeNoCheck(float fMin1, float fMax1, float fMin2, float fMax2, float fValue);
 native float Bring2Range(float fMin1, float fMax1, float fMin2, float fMax2, float fValue);
@@ -106,15 +107,15 @@ void ProcessVersionCheck() // boal 271004
         
         if (!CheckAttribute(mc, "VersionNumber"))
     	{
-            Log_Info("Загружена старая сохраненная запись.");
-            Log_Info("Возможна нестабильная работа программы.");
+            Log_Info(XI_ConvertString("MSG_seadogs_1"));
+            Log_Info(XI_ConvertString("MSG_seadogs_2"));
     	}
         else
         {
             if (sti(mc.VersionNumberCompatibility) < VERSION_NUM_PRE && mc.VersionNumber != GetVerNum())
             {
-                Log_Info("Загружена сохраненная запись версии " + mc.VersionNumber +".");
-                Log_Info("Возможна нестабильная работа программы.");
+                Log_Info(XI_ConvertString("MSG_seadogs_3") + mc.VersionNumber +".");
+                Log_Info(XI_ConvertString("MSG_seadogs_2"));
             }
         }
     }
@@ -354,15 +355,20 @@ void Main_LogoVideo()
 	{
 	case 0:
 		InterfaceStates.videoIdx = 1;
-		StartPostVideo("AkellaLogo",1);
+		StartPostVideo("PLogo",1);
 	break;
 
 	case 1:
 		InterfaceStates.videoIdx = 2;
-		StartPostVideo("Seaward",1);
+		StartPostVideo("AkellaLogo",1);
 	break;
 
 	case 2:
+		InterfaceStates.videoIdx = 3;
+		StartPostVideo("Seaward",1);
+	break;
+
+	case 3:
 		InterfaceStates.videoIdx = 4;
 		StartPostVideo("Title",1);
 	break;
@@ -470,7 +476,7 @@ void LoadGame()
 			loadScr = "loading\start_loading.tga";
 		break;
 		case 1 :
-			loadScr = "loading\load_rat.tga";
+			loadScr = "loading\seaStand.tga";
 		break;
 		case 2 :
 			loadScr = "loading\battle.tga";
@@ -479,7 +485,7 @@ void LoadGame()
 			loadScr = "loading\shipcannon.tga";
 		break;
 		case 4 :
-			loadScr = "loading\tavern_fight.tga";
+			loadScr = "loading\rescue.tga";
 		break;
 	}
 				
@@ -853,7 +859,7 @@ void NewGame()
 
 	CreateEntity(&LanguageObject,"obj_strservice");
 	CreateEntity(&reload_fader, "fader");
-	SendMessage(&reload_fader, "ls",FADER_PICTURE, "loading\load_rat.tga"); //"loading\new_game.tga");
+	SendMessage(&reload_fader, "ls",FADER_PICTURE, RandPhraseSimple("loading\battle.tga", "loading\Start_Loading.tga"));
 	SendMessage(&reload_fader, "lfl", FADER_IN, RELOAD_TIME_FADE_IN, true);
 
 	SetEventHandler("frame","NewGame_continue",1);
@@ -912,9 +918,11 @@ void NewGame_continue()
 	ReloadProgressUpdate();
 	
 	//LoadMainCharacterInFirstLocation(sTeleportLocName, sTeleportLocator, sTeleportLocName);
+	startGameWeather = true;
 	if (Pchar.questTemp.CapBloodLine != true)//21/07/07 homo для Блада даем другое начало
 	{
-        LoadMainCharacterInFirstLocationGroup("Ship_deck_Low", "goto", "goto4");
+		InterfaceStates.startGameWeather = FindWeather("11 Hour");
+		LoadMainCharacterInFirstLocationGroup("Ship_deck_Low", "goto", "goto4");
     }
     else
     {
@@ -926,7 +934,8 @@ void NewGame_continue()
 		RemoveCharacterEquip(pchar, CIRASS_ITEM_TYPE);
 		RemoveCharacterEquip(pchar, MAPS_ITEM_TYPE);
 		DeleteAttribute(pchar, "items");
-        LoadMainCharacterInFirstLocationGroup("Estate", "reload", "reload1");
+		InterfaceStates.startGameWeather = FindWeather("20 Hour");
+		LoadMainCharacterInFirstLocationGroup("Estate", "reload", "reload1");
     }
 	ReloadProgressUpdate();
 	
@@ -1087,7 +1096,8 @@ void ProcessControls()
     // boal 27.11.03 time -->
   	if (ControlName=="TimeScaleFaster" || ControlName == "TimeScaleSlower")
   	{
-        DeleteAttribute(pchar, "pause");
+        if (loadedLocation.type == "underwater") return; //запрет ускорения под водой.
+		DeleteAttribute(pchar, "pause");
 		if (ControlName == "TimeScaleFaster")
      	{
 			if (TimeScaleCounter >= 12)
@@ -1178,6 +1188,7 @@ void ProcessControls()
 	{
         case "TimeScale":
             DeleteAttribute(pchar, "pause");
+			if (loadedLocation.type == "Underwater") return; //запрет ускорения под водой.
 			if(IsPerkIntoList("TimeSpeed"))
 			{
 				SetTimeScale(1.0);
@@ -1256,7 +1267,8 @@ void ProcessControls()
 			      if( EnablePotionUsing(pchar, arItm) )
 			      {
 				     DoCharacterUsedItem(pchar, arItm.id);
-				     Log_SetStringToLog("Use potion");
+				     int idLngFile = LanguageOpenFile("save_load.txt");
+				     Log_SetStringToLog(LanguageConvertString(idLngFile, "Potion"));
 				     break;
 			      }
 			      itmIdx = FindPotionFromChr(pchar, &arItm, itmIdx+1);
@@ -1288,7 +1300,7 @@ void ProcessControls()
 				}
 				else
 				{
-                    Log_Info("Некого обыскивать");
+                    Log_Info(XI_ConvertString("MSG_seadogs_4"));
 				}
 		    }
 	    break;
@@ -1366,6 +1378,11 @@ void ProcessControls()
         break;
 
         case "BOAL_ControlDebug": // VK_INSERT
+			if(LoadSegment("Console.c"))
+			{
+				ExecuteConsole();
+				UnloadSegment("Console.c");
+			}
             if (MOD_BETTATESTMODE == "On")
 		    {
                 if(LoadSegment("Debuger.c"))
@@ -1493,18 +1510,23 @@ void GameOver(string sName)
 		break;
 
 		case "boarding":
-			//StartPostVideo("skeleton_on_beach",1);
 			StartPictureAsVideo( "loading\seadeath.tga", 3.5 );
 		break;
 
 		case "land":
-			//StartPostVideo("blaze_land_dead",1);
 			StartPictureAsVideo( "loading\death.tga", 3.5 );
 		break;
 
 		case "mutiny":
-			//StartPostVideo("blaze_mutiny_dead",1);
-			StartPictureAsVideo( "loading\death.tga", 3.5 );
+			StartPictureAsVideo( "loading\finalbad2.tga", 3.5 );
+		break;
+
+		case "town":
+			StartPictureAsVideo( "loading\finalbad1.tga", 3.5 );
+		break;
+
+		case "blood":
+			StartPictureAsVideo( "loading\finalbad2.tga", 3.5 );
 		break;
 	}
 }
@@ -1533,7 +1555,7 @@ bool QuickSaveGameEnabledHardcore()
 	    {
 	        if (CheckAttribute(&Locations[idxLoadLoc], "type"))
 	        {
-	            if (Locations[idxLoadLoc].type == "church")
+	            if (Locations[idxLoadLoc].type == "church" || Locations[idxLoadLoc].id == "GloriaChurch")
 	            {
 	                TmpBool = true;
 	            }

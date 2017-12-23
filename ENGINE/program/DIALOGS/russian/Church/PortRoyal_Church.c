@@ -1,39 +1,39 @@
-// диалог по городам
+#include "TEXT\DIALOGS\Church\PortRoyal_Church.h"
 void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 {
     switch (Dialog.CurrentNode)
 	{
 		case "quests":
-			dialog.text = NPCStringReactionRepeat(RandPhraseSimple("Какие вопросы, сын мой?", "Спрашивай, я слушаю тебя..."), "Я слушаю тебя, говори, сын мой...", "И в третий раз говорю тебе, сын мой: задавай свой вопрос.",
-                          "Столько обязанностей у церковнослужителя, а тут еще и ты донимаешь, сын мой...", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat(RandPhraseSimple("Я передумал...", "Не сейчас, падре..."), "Да, пока особо и нечего сказать...",
-                      "Задам, задам... Только позже...", "Простите, святой отец...", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(RandPhraseSimple(DLG_TEXT_CHR[0], DLG_TEXT_CHR[1]), DLG_TEXT_CHR[2], DLG_TEXT_CHR[3],
+                          DLG_TEXT_CHR[4], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(RandPhraseSimple(DLG_TEXT_CHR[5], DLG_TEXT_CHR[6]), DLG_TEXT_CHR[7],
+                      DLG_TEXT_CHR[8], DLG_TEXT_CHR[9], npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
 			if (pchar.questTemp.State == "MorrisWillams_ArrestedSeekInfo" || pchar.questTemp.State == "MorrisWillams_ArrestedSeekInfoFather")
             {
-                link.l1 = "Святой отец, скажите мне, местный ростовщик ваш прихожанин?";
+                link.l1 = DLG_TEXT_CHR[10];
                 link.l1.go = "Step_E6_1";
             }
 		break;
 
         case "Step_E6_1":
-			dialog.text = "Да, он посещает церковь, но очень редко.";
-			link.l1 = "Что он за человек?";
+			dialog.text = DLG_TEXT_CHR[11];
+			link.l1 = DLG_TEXT_CHR[12];
 			link.l1.go = "Step_E6_2";
 		break;
 
         case "Step_E6_2":
-			dialog.text = "Мне сложно говорить о людях плохо.\n"+
-                          "Я бы посоветовал тебе обратиться к одной нашей прихожанке Джиллиан Эттербери. Мне известно, что у нее серьезные проблемы как раз с этим человеком. Возможно, вы сможете ей даже в чем-то помочь.\n"+
-                          "Джиллиан хорошая прихожанка, как правило она бывает в церкви часов с одиннадцати утра ежедневно и молится в течение двух-трех часов.\n"+
-                          "А вообще ее в городе можно встретить.";
-			link.l1 = "Спасибо, святой отец.";
+			dialog.text = DLG_TEXT_CHR[13]+
+                          DLG_TEXT_CHR[14]+
+                          DLG_TEXT_CHR[15]+
+                          DLG_TEXT_CHR[16];
+			link.l1 = DLG_TEXT_CHR[17];
 			link.l1.go = "exit";
 			pchar.questTemp.State = "MorrisWillams_ArrestedSeekInfoWomen";
 			AddQuestRecord("Eng_Line_6_MorrisWillams", "19");
             ref sld = GetCharacter(NPC_GenerateCharacter("Gillian Atterbury", "girl_8", "woman", "towngirl", 5, ENGLAND, 100, false));
-        	sld.name 	= "Джиллиан";
-        	sld.lastname = "Эттербери";
+        	sld.name 	= DLG_TEXT_CHR[18];
+        	sld.lastname = DLG_TEXT_CHR[19];
         	LAi_SetCitizenType(sld);
             sld.Dialog.Filename = "Quest\EngLineNpc_2.c";
             LAi_group_MoveCharacter(sld, "ENGLAND_CITIZENS");

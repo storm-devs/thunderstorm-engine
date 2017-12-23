@@ -21,8 +21,8 @@ void CreateCharacters()
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	makeref(ch,Characters[1]);		//Blaze Sharp
-	ch.name 	= "Блэйз";
-	ch.lastname = "Шарп";
+	ch.name 	= "";
+	ch.lastname = "";
 	ch.id		= "Blaze";
 	ch.nation	= ENGLAND;
 	ch.model	= "devlin";
@@ -42,7 +42,7 @@ void CreateCharacters()
 	ch.pause = 0;
 	ch.shotgun = "0";
 	ch.Ship.Type = GenerateShip(SHIP_LUGGER, 0); // переопределяется ниже по коду от выбора гг
-	ch.Ship.Name = "Быстрый вепрь";
+	ch.Ship.Name = xiDStr("StartShip");
 	ch.Ship.Stopped = true;
 	ch.FaceId = 1;
 	ch.ShipSlot1.Type=SHIP_NOTUSED;

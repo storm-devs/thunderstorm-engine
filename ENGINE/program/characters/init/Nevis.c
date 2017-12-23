@@ -33,7 +33,7 @@ int CreateNevisCharacters(int n)
 	makeref(ch,Characters[n]);			//Священик
 	ch.id		= "Charles_Priest";
 	ch.model	= "priest_2";
-	ch.model.animation = "man3";
+	ch.model.animation = "man";
 	ch.sex = "man";
 	ch.City = "Charles";
 	ch.location	= "Charles_church";
@@ -135,6 +135,7 @@ int CreateNevisCharacters(int n)
 	ch.location.locator = "stay";
 	ch.Dialog.Filename = "Usurer_dialog.c";
 	ch.nation = ENGLAND;
+	ch.greeting = "Gr_bankeer";
 	ch.quest.shiping = "0";
 	ch.UsurerDeposit = 4000; // *1000 денег
 	LAi_SetOwnerType(ch);
@@ -152,6 +153,7 @@ int CreateNevisCharacters(int n)
 	ch.location.locator = "sit1";
 	ch.Dialog.Filename = "Common_Portman.c";
 	ch.nation = ENGLAND;
+	ch.greeting = "portmans";
 	LAi_SetHuberType(ch);
 	LAi_group_MoveCharacter(ch, "ENGLAND_CITIZENS");
 	LAi_SetImmortal(ch, true);
@@ -160,7 +162,7 @@ int CreateNevisCharacters(int n)
 
 	makeref(ch,Characters[n]);			//Хозяйка борделя
 	ch.id		= "Charles_Hostess";
-	ch.name		= "Вивьен"
+	ch.name		= xiDStr("Viven");
 	ch.lastname = "";
 	ch.model	= "lady02";
 	ch.sex = "woman";
@@ -177,7 +179,7 @@ int CreateNevisCharacters(int n)
 	n = n + 1;
 
     makeref(ch,Characters[n]);
-	ch.name 	= "Контрабандист";
+	ch.name 	= xiDStr("Smuggler");
 	ch.lastname = "";
 	ch.id		= "Charles_Smuggler";
 	ch.model    = "pirate_1";

@@ -234,6 +234,47 @@ void CreateParticles(ref Location)
 		}
 	}
 
+//Ursus
+	if(CheckAttribute(Location, "locators.bubbles"))
+	{
+		makearef(locator_group, location.locators.bubbles);
+		num = GetAttributesNum(locator_group);
+		for(n = 0; n < num; n++)
+		{
+			locator = GetAttributeN(locator_group, n);
+			CreateParticleSystemX("bubbles",stf(locator.x),stf(locator.y),stf(locator.z),
+				stf(locator.vz.x),stf(locator.vz.y),stf(locator.vz.z),0);
+		}
+	}
+	
+		if(CheckAttribute(Location, "locators.fishblue"))
+	{
+		makearef(locator_group, location.locators.fishblue);
+		num = GetAttributesNum(locator_group);
+		for(n = 0; n < num; n++)
+		{
+			locator = GetAttributeN(locator_group, n);
+			CreateParticleSystemX("fishblue",stf(locator.x),stf(locator.y),stf(locator.z),
+				stf(locator.vz.x),stf(locator.vz.y),stf(locator.vz.z),0);
+		}
+	}
+	
+		{
+		makearef(locator_group, location.locators.shadowstar);
+		num = GetAttributesNum(locator_group);
+		for(n = 0; n < num; n++)
+		{
+			locator = GetAttributeN(locator_group, n);
+			CreateParticleSystemX("shadowstar",stf(locator.x),stf(locator.y),stf(locator.z),
+				stf(locator.vz.x),stf(locator.vz.y),stf(locator.vz.z),0);
+		}
+	}
+	
+//Ursus
+
+
+
+
 
 /*	if(CheckAttribute(Location, "locators.reload"))
 	{

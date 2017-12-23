@@ -72,7 +72,7 @@ void InitInterface(string iniName)
 	}
 	oldMusicID = 0;
 	musicName = "";
-	SetMusic("Music_main_theme");
+	SetMusic("music_MainMenu");
 }
 
 void NewGamePress()
@@ -171,6 +171,15 @@ void CreateBackEnvironment()
 		return;
 	}
 
+	// сбрасываем цвет фона на 0
+	Render.BackColor = 0;
+	// выключаем эффект моря
+	Render.SeaEffect = false;
+	// 14.07.2007 - отключаем подводную часть
+	Sea.UnderWater = false;
+	bMainCharacterInFire = false;
+	bMainMenu = true;
+
 	// create weather
 	ICreateWeather();
 
@@ -239,6 +248,7 @@ void CreateBackEnvironment()
 		InitParticles();
 		CreateParticleSystem("candle", stf(InterfaceBackScene.lightpos.x),stf(InterfaceBackScene.lightpos.y),stf(InterfaceBackScene.lightpos.z), 0.0,0.0,0.0, 0);
 	}
+	bMainMenu = false;
 }
 
 void MainMenu_CreateShip()

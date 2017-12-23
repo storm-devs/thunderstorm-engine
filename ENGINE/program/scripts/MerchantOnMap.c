@@ -1,3 +1,5 @@
+#include "TEXT\scripts\MerchantOnMap.h"
+
 object MerchantParam;
 bool trap = false;
 
@@ -33,7 +35,7 @@ string CreateMerchant(int ination)
     Group_SetGroupCommander(sGroup, chref.id);
 
     chref.mapEnc.type = "trade";
-    chref.mapEnc.Name = "торговец";
+    chref.mapEnc.Name = MerchMap_TEXT[0];
     //chref.mapEnc.Task = AITASK_MOVE; // ?
 
 
@@ -325,7 +327,7 @@ void SetMerchantShip(ref Cap, int igoods)
         int iSpace = GetCharacterFreeSpace(Cap, igoods);
     
         Log_TestInfo("irank = "+irank);
-        float del = makefloat(7-irank+rand(1))/5;
+        float del = makefloat(7-irank+rand(1))/10; //eddy. товаров меньше
         if (del > 1.0 ) del = 1;
         Log_TestInfo("goods load = "+iSpace+"/"+makeint(iSpace*del));
         iSpace = makeint(iSpace*del); // чтоб не так жирно было
@@ -365,8 +367,8 @@ void CaptureMerchant(string temp)
     {
         qind = 6;
         Log_TestInfo("TRADER_TRAP!!!");
-        string stext1 = "ѕрошел слух, что лихой пират - "+GetFullName(pchar)+", угодил в западню, в которую его заманили "+NationNameSK(sti(MerPrm.ination))+"ие власти. ќни подослали к нему ''торговое'' судно, в трюме которого, спр€тались вооруженные до зубов "+NationNameSK(sti(MerPrm.ination))+"ие  солдаты. Ќо "+pchar.name+" не растер€лс€, он их попросту перебил - всех до единого! ¬от какой удалой пират наш "+GetFullName(pchar)+".";
-        string stext2 = "Ћюди говор€т, что дерзкий пират - "+GetFullName(pchar)+", повадилс€ грабить "+NationNameSK(sti(MerPrm.ination))+"ие торговые корабли. » тогда наш √енерал-губернатор решил покончить с ним. ќн снар€ди  корабль, замаскированный под торговца с несколькими дес€тками хорошо обученных солдат, из ≈вропы, и подослал к нему. Ќо кровожадный пират перебил их всех и вновь улизнул от правосуди€!";
+        string stext1 = MerchMap_TEXT[1] +GetFullName(pchar)+ MerchMap_TEXT[2] +NationNameSK(sti(MerPrm.ination))+ MerchMap_TEXT[3] +NationNameSK(sti(MerPrm.ination))+ MerchMap_TEXT[4] +pchar.name+ MerchMap_TEXT[5] +GetFullName(pchar)+".";
+        string stext2 = MerchMap_TEXT[6] +GetFullName(pchar)+ MerchMap_TEXT[7] +NationNameSK(sti(MerPrm.ination))+ MerchMap_TEXT[8];
         AddSimpleRumour(stext1, sti(MerPrm.ination)+10, 30, 3);
         AddSimpleRumour(stext2, sti(MerPrm.ination), 30, 3);
 

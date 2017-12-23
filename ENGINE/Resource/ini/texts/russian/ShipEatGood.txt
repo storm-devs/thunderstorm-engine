@@ -1,39 +1,37 @@
-Ship_got_good		{%1 ц %2 поднято на борт}
-Ship_cant_got_good	{Нет места для %1}
-
-seg_Balls		{ядер}
-seg_Grapes		{картечи}
-seg_Knippels	{книппелей}
-seg_Bombs		{бомб}
-seg_Sailcloth	{парусины}
-seg_Planks		{досок}
-seg_Slaves		{рабов}
-seg_Wheat		{пшеницы}
-seg_Ebony		{черного дерева}
-seg_Chocolate	{какао}
-seg_Sugar		{сахара}
-seg_Wine		{вина}
-seg_Linen		{полотна}
-seg_Rum		    {рома}
-seg_Tobacco	    {табака}
-seg_Coffee		{кофе}
-seg_Mahogany	{красного дерева}
-seg_Cinnamon	{корицы}
-seg_Copra		{копры}
-seg_Paprika		{паприки}
-seg_Fruits		{фруктов}
-seg_Ale			{эля}
-seg_Silk        {шелка}
-seg_Clothes		{одежды}
-seg_Cotton		{хлопка}
-seg_Sandal		{сандала}
-seg_Leather		{кожи}
-seg_Oil			{масла}
-seg_Food 	    {провианта}
-seg_Weapon  	{оружия}
-seg_Gold		{золота}
-seg_Silver		{серебра}
-seg_Powder		{пороха}
-seg_Brick		{кирпичей}
-seg_Medicament	{лекарства}
-
+Ship_got_good {%1 units of %2 salvaged}
+Ship_cant_got_good {no room for %1!}
+seg_Balls {Cannonballs}
+seg_Grapes {Grape shot}
+seg_Knippels {Chain shot}
+seg_Bombs {Exploding shot}
+seg_Sailcloth {Canvas}
+seg_Planks {Planks}
+seg_Slaves {Slaves}
+seg_Wheat {Wheat}
+seg_Ebony {Ebony}
+seg_Chocolate {Cacao}
+seg_Sugar {Sugar}
+seg_Wine {Wine}
+seg_Linen {Linen}
+seg_Rum {Rum}
+seg_Tobacco {Tobacco}
+seg_Coffee {Coffee}
+seg_Mahogany {Mahogany}
+seg_Cinnamon {Cinnamon}
+seg_Copra {Copra}
+seg_Paprika {Paprika}
+seg_Fruits {Fruits}
+seg_Ale {Ale}
+seg_Silk {Silk}
+seg_Clothes {Clothes}
+seg_Cotton {Cotton}
+seg_Sandal {Sandalwood}
+seg_Leather {Leather}
+seg_Oil {Oil}
+seg_Food {Rations}
+seg_Weapon {Weapons}
+seg_Gold {Gold}
+seg_Silver {Silver}
+seg_Powder {Powder}
+seg_Brick {Bricks}
+seg_Medicament {Medicines}

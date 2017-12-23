@@ -64,10 +64,10 @@ int LocationInitQuestLocations(int n)
 	Locations[n].models.always.locators = "deckMedium_locators";
 	//Day
 	locations[n].models.day.charactersPatch = "deckMedium_patch";
-	Locations[n].models.always.deckMediumFonarsDay = "deckMedium_fd";
+	Locations[n].models.day.deckMediumFonarsDay = "deckMedium_fd";
 	//Night
 	locations[n].models.night.charactersPatch = "deckMedium_patch";
-	Locations[n].models.always.deckMediumFonarsNight= "deckMedium_fn";
+	Locations[n].models.night.deckMediumFonarsNight= "deckMedium_fn";
 	//Environment
 	locations[n].environment.weather = "true";
 	locations[n].environment.sea = "true";
@@ -119,7 +119,7 @@ int LocationInitQuestLocations(int n)
 	locations[n].models.always.estate = "estate";
 	
 	locations[n].models.always.windows = "estate_windows";
-	Locations[n].models.always.windows.tech = "LocationWindows";
+	Locations[n].models.always.windows.tech = "LocationWindows";	
 	Locations[n].models.always.windows.level = 66532;	
 	//VolumeLight	
 	Locations[n].models.always.vlight = "estate_vlight";
@@ -303,17 +303,29 @@ int LocationInitQuestLocations(int n)
 	locations[n].id = "UnderWater";
 	locations[n].id.label = "UnderWater";
 	locations[n].filespath.models = "locations\UnderWater";	
+	locations[n].image = "loading\underwater.tga";
 	//Sound	
 	locations[n].type = "underwater";
+	locations[n].type.LSC = true; //локация ГПК
 	//Models
 	//Always	
 	Locations[n].models.always.UnderWater = "UnderWater";
+	Locations[n].models.always.UnderWater.tech = "DLightModel";	
+	
 	Locations[n].models.always.outside = "UnderWater_outside";
+	Locations[n].models.always.outside.tech = "DLightModel";
 			
 	Locations[n].models.always.reflect = "UnderWater_reflect";
+	Locations[n].models.always.reflect .tech = "DLightModel";	
 	Locations[n].models.always.reflect.sea_reflection = 1;
 		
-	Locations[n].models.always.sails = "UnderWater_sails";
+	Locations[n].models.always.sails = "UnderWater_sails";	
+	Locations[n].models.always.sails.tech = "DLightModel";
+		
+	Locations[n].models.always.plants = "UnderWater_plants";	
+	Locations[n].models.always.plants.tech = "DLightModel";
+	//Locations[n].models.always.plants.tech = "LocationWindows";
+	//Locations[n].models.always.plants.level = 66532;
 		
 	Locations[n].models.always.plan1 = "Plan1";
 	Locations[n].models.always.plan1.sea_reflection = 1;
@@ -340,6 +352,84 @@ int LocationInitQuestLocations(int n)
 	locations[n].reload.l1.emerge = "reload73";
 	locations[n].reload.l1.autoreload = "0";
 	locations[n].reload.l1.label = "LSC Town";
+
+	locations[n].locators_radius.reload.reload1 = 2.0;
+	locations[n].locators_radius.item.item1 = 0.6;
+	locations[n].locators_radius.item.item2 = 0.6;
+	locations[n].locators_radius.item.item3 = 0.6;
+	locations[n].locators_radius.item.item4 = 0.6;
+	locations[n].locators_radius.item.item5 = 0.6;
+
+	//в сундуках
+	locations[n].private1.money = 174366;
+	locations[n].private1.items.indian1 = 1;
+	locations[n].private1.items.indian2 = 1;
+	locations[n].private1.items.indian3 = 2;
+	locations[n].private1.items.indian4 = 2;
+	locations[n].private1.items.indian5 = 1;
+	locations[n].private1.items.indian6 = 1;
+	locations[n].private1.items.indian7 = 1;
+	locations[n].private1.items.indian8 = 2;
+	locations[n].private1.items.indian9 = 1;	
+	locations[n].private1.items.statue1 = 5;
+	locations[n].private1.items.potion2 = 21;
+
+	locations[n].private2.money = 72890;
+	locations[n].private2.items.potion1 = 59;
+	locations[n].private2.items.potionrum = 100;
+	locations[n].private2.items.potionwine = 200;
+	locations[n].private2.items.potion4 = 41;
+	locations[n].private2.items.jewelry1 = 4;
+	locations[n].private2.items.jewelry3 = 19;
+	locations[n].private2.items.jewelry2 = 72;
+
+	locations[n].private3.money = 375000;
+	locations[n].private3.items.indian10 = 1;
+	locations[n].private3.items.indian11 = 2;
+	locations[n].private3.items.indian12 = 1;
+	locations[n].private3.items.indian13 = 2;
+	locations[n].private3.items.indian15 = 1;
+	locations[n].private3.items.indian16 = 1;
+	locations[n].private3.items.indian18 = 1;
+	locations[n].private3.items.indian20 = 2;
+	locations[n].private3.items.indian21 = 1;
+	locations[n].private3.items.indian22 = 1;
+	locations[n].private3.items.potion2 = 21;
+
+	locations[n].private4.money = 69720;
+	locations[n].private4.items.Mineral2 = 2;
+	locations[n].private4.items.Mineral3 = 59332;
+	locations[n].private4.items.Mineral5 = 1;
+	locations[n].private4.items.Mineral6 = 61;
+	locations[n].private4.items.Mineral7 = 5;
+	locations[n].private4.items.Mineral8 = 63;
+	locations[n].private4.items.Mineral9 = 2;
+	locations[n].private4.items.indian15 = 1;
+	locations[n].private4.items.indian17 = 2;
+	locations[n].private4.items.indian19 = 1;
+
+	locations[n].private5.money = 275900;
+	locations[n].private5.items.jewelry5 = 126;
+	locations[n].private5.items.jewelry17 = 332;
+
+	locations[n].private6.money = 395100;
+	locations[n].private6.items.potion1 = 4;
+	locations[n].private6.items.jewelry18 = 14;
+	locations[n].private6.items.jewelry16 = 28;
+	locations[n].private6.items.jewelry15 = 23;
+	locations[n].private6.items.jewelry14 = 34;
+	locations[n].private6.items.jewelry13 = 11;
+	locations[n].private6.items.jewelry10 = 27;
+	locations[n].private6.items.blade27 = 1;
+
+	locations[n].private7.money = 53670;
+	locations[n].private7.items.jewelry7 = 10;
+	locations[n].private7.items.jewelry11 = 123;
+	locations[n].private7.items.jewelry12 = 345;
+	locations[n].private7.items.potion1 = 14;
+	locations[n].private7.items.potion2 = 21;
+	locations[n].private7.items.potion4 = 27;
+
 	n = n + 1;
 
 	return n;

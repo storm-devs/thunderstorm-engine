@@ -30,7 +30,7 @@ void SeaHunterCheck()
                 sld.AlwaysEnemy = true;
                 sld.DontRansackCaptain = true;
                 sld.mapEnc.type = "war";
-                sld.mapEnc.Name = "Охотники за головами";
+                sld.mapEnc.Name = xiStr("Hunters");
 				//sld.mapEnc.worldMapShip = "Manowar_gold";
                 Group_AddCharacter(sGroup, sCapId + i);
                 
@@ -128,7 +128,7 @@ void LandHunterReactionResult(ref loc)  // отработает после входа в локацию, но 
 	            {
 	                sld = GetCharacter(NPC_GenerateCharacter(sCapId + i, "off_hol_2", "man", "man", 5, j, 0, true));
 	                SetFantomParamHunter(sld); //крутые парни
-	                sld.name 	= "Охотник за головами";
+	                sld.name 	= xiStr("Hunter");;
 	                sld.lastname 	= "";
 	                sld.Dialog.CurrentNode = "First time";
 	                sld.dialog.filename = "Hunter_dialog.c";

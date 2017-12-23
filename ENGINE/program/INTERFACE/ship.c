@@ -59,15 +59,15 @@ void InitInterface_R(string iniName, ref _chr) // _chr нужно для читового просмо
     
     SetFormatedText("Money_TEXT", MakeMoneyShow(sti(pchar.Money), MONEY_SIGN,MONEY_DELIVER));
     
-    GameInterface.TABLE_LIST.hr.td1.str = "Товары в трюме";
+    GameInterface.TABLE_LIST.hr.td1.str = xiStr("MSG_SHP_4");
 	GameInterface.TABLE_LIST.hr.td1.scale = 0.9;
-	GameInterface.TABLE_LIST.hr.td2.str = "Кол-во";
+	GameInterface.TABLE_LIST.hr.td2.str = MsgIS("Qty");
 	GameInterface.TABLE_LIST.hr.td2.scale = 0.9;
-	GameInterface.TABLE_LIST.hr.td3.str = "Вес";
+	GameInterface.TABLE_LIST.hr.td3.str = MsgIS("Weight");
 	GameInterface.TABLE_LIST.hr.td3.scale = 0.9;
-	GameInterface.TABLE_LIST.hr.td4.str = "Пачка";
+	GameInterface.TABLE_LIST.hr.td4.str = MsgIS("Pack");
 	GameInterface.TABLE_LIST.hr.td4.scale = 0.9;
-	GameInterface.TABLE_LIST.hr.td5.str = "Вес пачки";
+	GameInterface.TABLE_LIST.hr.td5.str = MsgIS("Pack weight");
 	GameInterface.TABLE_LIST.hr.td5.scale = 0.9;
 	GameInterface.TABLE_LIST.select = 0;
 	SetCurrentNode("SHIPS_SCROLL");
@@ -328,7 +328,7 @@ void FillShipsScroll()
 				shipName = ShipsTypes[iShipType].Name;
 
 				GameInterface.SHIPS_SCROLL.(attributeName).character = cn;
-				GameInterface.SHIPS_SCROLL.(attributeName).str1 = "#"+"Класс "+ShipsTypes[iShipType].Class;
+				GameInterface.SHIPS_SCROLL.(attributeName).str1 = "#"+ xiStr("Class_") +ShipsTypes[iShipType].Class;
 				GameInterface.SHIPS_SCROLL.(attributeName).str2 = shipName;
 				GameInterface.SHIPS_SCROLL.(attributeName).img1 = "ship";
 				GameInterface.SHIPS_SCROLL.(attributeName).tex1 = FindFaceGroupNum("SHIPS_SCROLL.ImagesGroup","SHIPS_"+shipName);
@@ -449,7 +449,7 @@ void OnShipScrollChange()
 		// в эскадре
 		if (GetCompanionQuantity(pchar) > 1) // больше 1 ГГ
 		{
-			sText = "Провианта в эскадре на ";
+			sText = xiStr("MSG_SHP_5");
 			iFood = CalculateFood();
 			sText = sText + FindRussianDaysString(iFood);
 			SetFormatedText("FOOD", sText);
@@ -474,7 +474,7 @@ void OnShipScrollChange()
 		if (GetRemovable(xi_refCharacter)) // считаем только своих, а то вских сопровождаемых кормить!!!
 		{
 		    // для каждого корабля учитываем класс и считаем отдельно
-		    SetFormatedText("MONEY_SHIP", "Содержание корабля: " + NewStr() + FindRussianMoneyString(GetSalaryForShip(xi_refCharacter)));
+		    SetFormatedText("MONEY_SHIP", xiStr("MSG_HireCrew_4") + NewStr() + FindRussianMoneyString(GetSalaryForShip(xi_refCharacter)));
 		}
 		SetFormatedText("CREW_QTY", ""+GetCrewQuantity(xi_refCharacter));
 		if (GetCrewQuantity(xi_refCharacter) > GetOptCrewQuantity(xi_refCharacter) || GetCrewQuantity(xi_refCharacter) < GetMinCrewQuantity(xi_refCharacter))
@@ -595,29 +595,29 @@ void ShowInfoWindow()
 		    if (GameInterface.(CurTable).(CurRow).UserData.ID == "CannonType" && sti(xi_refCharacter.Ship.Cannons.Type) != CANNON_TYPE_NONECANNON)
 		    {
 		    	ref Cannon = GetCannonByType(sti(xi_refCharacter.Ship.Cannons.Type));
-		    	sText2 = "Тип: " + XI_ConvertString(GetCannonType(sti(xi_refCharacter.Ship.Cannons.Type)));
-		    	sText2 = sText2 + NewStr() + "Калибр: " + XI_ConvertString("caliber" + GetCannonCaliber(sti(xi_refCharacter.Ship.Cannons.Type)));
-		    	sText2 = sText2 + NewStr() + "Дальность: "  + sti(Cannon.FireRange);
-		    	sText2 = sText2 + NewStr() + "Урон: x"  + FloatToString(stf(Cannon.DamageMultiply), 1);
-		    	sText2 = sText2 + NewStr() + "Перезарядка: "  + sti(GetCannonReloadTime(Cannon)) + " сек.";
-		    	sText2 = sText2 + NewStr() + "Вес: "  + sti(Cannon.Weight) + " ц.";
+		    	sText2 = xiStr("MSG_Transfer_3") + XI_ConvertString(GetCannonType(sti(xi_refCharacter.Ship.Cannons.Type)));
+		    	sText2 = sText2 + NewStr() + xiStr("MSG_Transfer_4") + XI_ConvertString("caliber" + GetCannonCaliber(sti(xi_refCharacter.Ship.Cannons.Type)));
+		    	sText2 = sText2 + NewStr() + xiStr("MSG_Transfer_5")  + sti(Cannon.FireRange);
+		    	sText2 = sText2 + NewStr() + xiStr("MSG_Transfer_6")  + FloatToString(stf(Cannon.DamageMultiply), 1);
+		    	sText2 = sText2 + NewStr() + xiStr("MSG_Transfer_7")  + sti(GetCannonReloadTime(Cannon)) + xiStr("MSG_Transfer_8");
+		    	sText2 = sText2 + NewStr() + xiStr("MSG_Transfer_9")  + sti(Cannon.Weight) + xiStr("MSG_Transfer_10");
 		    	
 		    	sGroup = "GOODS";
 				sGroupPicture = GetCannonType(sti(xi_refCharacter.Ship.Cannons.Type)) + "_" + GetCannonCaliber(sti(xi_refCharacter.Ship.Cannons.Type));
 				
-				sText3 = "Двойной клик или Enter по этому полю вызывает интерфейс экипировки орудий по бортам, где можно снять или установить пушки из запасов в трюме.";
+				sText3 = xiStr("MSG_SHP_6");
 		    }
 		    if (GameInterface.(CurTable).(CurRow).UserData.ID == "Crew" && sti(xi_refCharacter.ship.type) != SHIP_NOTUSED)
 			{
-				sText2 = "Команды может быть больше максимальной, но это вызывает перегруз и условия жизни на корабле становятся ужасными, что влечет ежедневное падение морали. В среднем можно взять на борт до 25% больше матросов."; 
-				sText2 = sText2 + NewStr() + "Максимальное количество экипажа с учетом перегруза: " + GetMaxCrewQuantity(xi_refCharacter);
+				sText2 = xiStr("MSG_Transfer_11");
+				sText2 = sText2 + NewStr() + xiStr("MSG_Transfer_12") + GetMaxCrewQuantity(xi_refCharacter);
 			} 
 			// процент ремонта
 			if (GameInterface.(CurTable).(CurRow).UserData.ID == "Hull" && sti(xi_refCharacter.ship.type) != SHIP_NOTUSED)
 			{
                 if (GetHullPercent(xi_refCharacter)<100.0 )
                 {
-					sText2 = "Ремонт " + FloatToString(GetHullRepairDay(xi_refCharacter, false),2) + " % в день, расход " + makeint(GetHullRepairDay(xi_refCharacter, true)) + " шт. досок";
+					sText2 = xiStr("MSG_SHP_20") + FloatToString(GetHullRepairDay(xi_refCharacter, false),2) + xiStr("MSG_SHP_21") + makeint(GetHullRepairDay(xi_refCharacter, true)) + xiStr("MSG_SHP_22");
 				}
 				sText3 = xiStr("Hull") + ": " + FloatToString(GetHullPercent(xi_refCharacter), 1)  + " %";
 			}
@@ -625,14 +625,14 @@ void ShowInfoWindow()
 			{
                 if (GetSailPercent(xi_refCharacter)<100.0 )
                 {
-					sText2 = "Ремонт " + FloatToString(GetSailRepairDay(xi_refCharacter, false),2) + " % в день, расход " + makeint(GetSailRepairDay(xi_refCharacter, true))+ " шт. парусины";
+					sText2 = xiStr("MSG_SHP_20") + FloatToString(GetSailRepairDay(xi_refCharacter, false),2) + xiStr("MSG_SHP_21") + makeint(GetSailRepairDay(xi_refCharacter, true))+ xiStr("MSG_SHP_23");
 				}
 				sText3 = xiStr("Sails") + ": " + FloatToString(GetSailPercent(xi_refCharacter), 1) + " %";
 			}
 			// трюм
 			if (GameInterface.(CurTable).(CurRow).UserData.ID == "Capacity" && sti(xi_refCharacter.ship.type) != SHIP_NOTUSED)
 			{
-				sText3 = "Занято: " + FloatToString((stf(GetCargoLoad(xi_refCharacter))  /  stf(GetCargoMaxSpace(xi_refCharacter))) * 100.0, 1)+ " %";
+				sText3 = xiStr("MSG_Transfer_20") + FloatToString((stf(GetCargoLoad(xi_refCharacter))  /  stf(GetCargoMaxSpace(xi_refCharacter))) * 100.0, 1)+ " %";
 			}
 		break; 
 	}
@@ -777,7 +777,7 @@ void ShowGoodsInfo(int iGoodIndex)
     iCurGoodsIdx = iGoodIndex;
 	string goodsDescr = GetAssembledString( LanguageConvertString(lngFileID,goodName+"_descr"), &Goods[iGoodIndex]);
     goodsDescr += newStr() + XI_ConvertString("weight") + " " + Goods[iGoodIndex].weight + " " + XI_ConvertString("cwt") +
-	              ", пачка " + Goods[iGoodIndex].Units + " " + XI_ConvertString("units");
+	              xiStr("MSG_SHP_7") + Goods[iGoodIndex].Units + " " + XI_ConvertString("units");
 
 	iUnits  = sti(Goods[iGoodIndex].Units);
 	//fWeight = stf(Goods[iGoodIndex].weight);
@@ -788,7 +788,7 @@ void ShowGoodsInfo(int iGoodIndex)
 		goodsDescr += NewStr() + XI_ConvertString("YouNeedToDelivery") + sTradeQ + XI_ConvertString("QuantityOfGoodsToColony") + XI_ConvertString("Colony"+sColony) + ".";
 	}
 
-    SetFormatedText("QTY_TypeOperation", "Выкинуть?");
+    SetFormatedText("QTY_TypeOperation", xiStr("MSG_SHP_8"));
     SetFormatedText("QTY_Result", "");
     GameInterface.qty_edit.str = "0";
 
@@ -801,8 +801,8 @@ void ShowGoodsInfo(int iGoodIndex)
     SetFormatedText("QTY_INFO_SHIP_QTY", its(iShipQty))
     SetFormatedText("QTY_INFO_STORE_QTY", its(GetGoodWeightByType(iGoodIndex, iShipQty)));
     
-    SetFormatedText("QTY_INFO_STORE_PRICE", "Вес в трюме");
-    SetFormatedText("QTY_INFO_SHIP_PRICE",  "Количество в трюме");
+    SetFormatedText("QTY_INFO_STORE_PRICE", xiStr("MSG_SHP_9"));
+    SetFormatedText("QTY_INFO_SHIP_PRICE",  xiStr("MSG_SHP_10"));
 }
 
 void TransactionOK()
@@ -929,27 +929,27 @@ void ShipChange()
 	if (xi_refCharacter.id != pchar.id && sti(pchar.ship.type) != SHIP_NOTUSED)
 	{
 		SetFormatedText("REMOVE_WINDOW_CAPTION", XI_ConvertString("companionship"));
-		SetFormatedText("REMOVE_WINDOW_TEXT", "Перейти в режим обмена между кораблями?");
+		SetFormatedText("REMOVE_WINDOW_TEXT", xiStr("MSG_SHP_11"));
 		SetSelectable("REMOVE_ACCEPT_OFFICER", true);
 		bOk = !bSeaActive && LAi_grp_alarmactive;
 		if (bDisableMapEnter || bOk || chrDisableReloadToLocation)
 		{
-			SetFormatedText("REMOVE_WINDOW_TEXT", "Во время боя обмен с кораблями возможен только борт к борту.");
+			SetFormatedText("REMOVE_WINDOW_TEXT", xiStr("MSG_SHP_12"));
 			SetSelectable("REMOVE_ACCEPT_OFFICER", false);	
 		}
 		if (bSeaActive && GetShipEscape())
 		{
-			SetFormatedText("REMOVE_WINDOW_TEXT", "Использование способности 'спасение на шлюпке' позволяет обмениваться с кораблями в бою. Продолжить?");
+			SetFormatedText("REMOVE_WINDOW_TEXT", xiStr("MSG_SHP_13"));
 			SetSelectable("REMOVE_ACCEPT_OFFICER", true);	
 		}
 		if (!GetRemovable(xi_refCharacter))
 		{
-			SetFormatedText("REMOVE_WINDOW_TEXT", "Обмен с кораблем этого компаньона невозможен.");
+			SetFormatedText("REMOVE_WINDOW_TEXT", xiStr("MSG_SHP_14"));
 			SetSelectable("REMOVE_ACCEPT_OFFICER", false);
 		}
 		if (sti(pchar.ship.type) == SHIP_NOTUSED)
 		{
-			SetFormatedText("REMOVE_WINDOW_TEXT", "Обмен невозможен. У героя нет корабля.");
+			SetFormatedText("REMOVE_WINDOW_TEXT", xiStr("MSG_SHP_15"));
 			SetSelectable("REMOVE_ACCEPT_OFFICER", false);
 		}
 		sMessageMode = "ShipChange";
@@ -1291,15 +1291,15 @@ void FillCannonsTable()
 
 	n = 1;
 	Table_Clear("CANNONS_TABLE", false, true, false);
-	GameInterface.CANNONS_TABLE.hr.td1.str = "Орудий в трюме";
+	GameInterface.CANNONS_TABLE.hr.td1.str = xiStr("MSG_SHP_16");
 	GameInterface.CANNONS_TABLE.hr.td1.scale = 0.8;
-	GameInterface.CANNONS_TABLE.hr.td2.str = "Кол-во";
+	GameInterface.CANNONS_TABLE.hr.td2.str = xiStr("QuantityShort");
 	GameInterface.CANNONS_TABLE.hr.td2.scale = 0.8;
-	GameInterface.CANNONS_TABLE.hr.td3.str = "Дистан.";
+	GameInterface.CANNONS_TABLE.hr.td3.str = xiStr("MSG_SHP_17");
 	GameInterface.CANNONS_TABLE.hr.td3.scale = 0.8;
-	GameInterface.CANNONS_TABLE.hr.td4.str = "Урон";
+	GameInterface.CANNONS_TABLE.hr.td4.str = xiStr("MSG_SHP_18");
 	GameInterface.CANNONS_TABLE.hr.td4.scale = 0.8;
-	GameInterface.CANNONS_TABLE.hr.td5.str = "Время";
+	GameInterface.CANNONS_TABLE.hr.td5.str = xiStr("MSG_SHP_19");
 	GameInterface.CANNONS_TABLE.hr.td5.scale = 0.8;
 	
 	if (!CheckAttribute(&GameInterface, "CANNONS_TABLE.BackUp"))

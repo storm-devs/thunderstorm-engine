@@ -1,4 +1,4 @@
-// Эдвард Мэнсфилд, глава буканьеров и авторитетный пират, английская линейка
+#include "TEXT\DIALOGS\Mayor\EdwardMansfield.h"
 void ProcessDialogEvent()
 {
 	ref NPChar;
@@ -36,13 +36,13 @@ void ProcessDialogEvent()
 	switch(Dialog.CurrentNode)
 	{
 		case "First time":
-            dialog.text = NPCStringReactionRepeat("У тебя ко мне дело? Нет? Тогда выметайся отсюда!",
-                         "Я кажется ясно выразился...", "Хотя я выразился и ясно, но ты продолжаешь отвлекать меня!",
-                         "Хм, да ты не в меру хамовит, мон шер...", "repeat", 30, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat("Уже ухожу.",
-                                               "Да, " + npchar.name + ", совершенно ясно.",
-                                               "Извини, " + npchar.name + "...",
-                                               "Ай, ай...", npchar, Dialog.CurrentNode);
+            dialog.text = NPCStringReactionRepeat(DLG_TEXT_MR[0],
+                         DLG_TEXT_MR[1], DLG_TEXT_MR[2],
+                         DLG_TEXT_MR[3], "repeat", 30, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(DLG_TEXT_MR[4],
+                                               DLG_TEXT_MR[5] + npchar.name + DLG_TEXT_MR[6],
+                                               DLG_TEXT_MR[7] + npchar.name + "...",
+                                               DLG_TEXT_MR[8], npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
 			NextDiag.TempNode = "First time";
 		break;
@@ -54,38 +54,38 @@ void ProcessDialogEvent()
 		
 		//********************* Английская линейка *********************
  		case "EngLine_quests":
-			dialog.text = "Я слушаю вас, капитан.";
-			link.l1 = "Я прибыл к вам по поручению генерал-губернатора Ямайки сэра Томаса Мэдифорда.";
+			dialog.text = DLG_TEXT_MR[9];
+			link.l1 = DLG_TEXT_MR[10];
 			link.l1.go = "Step_1";
   		break;
  		case "Step_1":
-			dialog.text = "Слушаю внимательно.";
-			link.l1 = "Сэр Томас Мэдифорд просит вас собрать каперскую эскадру, возглавить ее и атаковать голландский форпост в Карибском море - город Кюрасао.";
+			dialog.text = DLG_TEXT_MR[11];
+			link.l1 = DLG_TEXT_MR[12];
 			link.l1.go = "Step_2";
   		break;
  		case "Step_2":
-			dialog.text = "Хм... А в чем причина такого решения? Признаюсь, оно выглядит странным. Англичане не нападают на голландцев. Да, у государств есть противоречия в торговой экспансии, но они распространяются на Индийский океан. Здесь же - Новый свет.";
-			link.l1 = "Сэр, между Англией и Голландией разразилась очередная торговая война. Более того, британский военный флот совершил нападение на голландцев у берегов Европы, но был отбит.";
+			dialog.text = DLG_TEXT_MR[13];
+			link.l1 = DLG_TEXT_MR[14];
 			link.l1.go = "Step_3";
   		break;
  		case "Step_3":
-			dialog.text = "Понятно. Благодарю за информацию. Я этого не знал.";
-			link.l1 = "Итак, я жду вашего согласия на экспедицию.";
+			dialog.text = DLG_TEXT_MR[15];
+			link.l1 = DLG_TEXT_MR[16];
 			link.l1.go = "Step_4";
   		break;
  		case "Step_4":
-			dialog.text = "Друг мой, я не могу вам дать положительного ответа на просьбу генерал-губернатора Ямайки.";
-			link.l1 = "Теперь МНЕ кажется ваш ответ весьма странным.";
+			dialog.text = DLG_TEXT_MR[17];
+			link.l1 = DLG_TEXT_MR[18];
 			link.l1.go = "Step_5";
   		break;
  		case "Step_5":
-			dialog.text = "Ничего странного. Моя настоящая фамилия - Эдвард Мансвельт. Я - голландец.";
-			link.l1 = "Но вы английский капер и пользуетесь покровительством сэра Томаса Мэдифорда. Мне кажется неразумным такой категоричный отказ от его просьбы.";
+			dialog.text = DLG_TEXT_MR[19];
+			link.l1 = DLG_TEXT_MR[20];
 			link.l1.go = "Step_6";
   		break;
  		case "Step_6":
-			dialog.text = "Вам может казаться все, что угодно. Я действительно имею английский каперский патент, но это отнюдь не означает того, что я буду резать глотки моим соотечественникам. Право выбора действий всегда за мной. Я ответил вам, более мне нечего сказать. Прощайте.";
-			link.l1 = "Что ж, если вам больше нечего сказать, то прощайте.";
+			dialog.text = DLG_TEXT_MR[21];
+			link.l1 = DLG_TEXT_MR[22];
 			link.l1.go = "exit";
             NextDiag.TempNode = "First time";
             AddQuestRecord("Eng_Line_2_Talking", "3");
@@ -97,76 +97,76 @@ void ProcessDialogEvent()
 			}
   		break;
  		case "No_Mansfield_first_time":
-			dialog.text = "Добрый день, меня зовут Алистер Гуд. После гибели Мансфилда я выбран главой буканьеров.";
-			link.l1 = "Будем знакомы, Алистер.";
+			dialog.text = DLG_TEXT_MR[23];
+			link.l1 = DLG_TEXT_MR[24];
 			link.l1.go = "exit";
 			NextDiag.TempNode = "No_Mansfield";
   		break;
  		case "No_Mansfield":
-			dialog.text = "Мне сейчас некогда с тобой разговаривать. Зайди позже.";
-			link.l1 = "Я уже ухожу.";
+			dialog.text = DLG_TEXT_MR[25];
+			link.l1 = DLG_TEXT_MR[26];
 			link.l1.go = "exit";
   		break;
 		//********************* Голландская линейка *********************
   		case "HolLine3_WormEngPlans":
-			dialog.text = "Что привело тебя ко мне?";
-			link.l1 = "Я прибыл к вам по поручению генерал-губернатора Кюрасао Питера Стэвезанта.";
+			dialog.text = DLG_TEXT_MR[27];
+			link.l1 = DLG_TEXT_MR[28];
 			link.l1.go = "Step_H3_1";
         break;
  		case "Step_H3_1":
-			dialog.text = "Очень хорошо. Что нужно от меня генерал-губернатору Стэвезанту?";
-			link.l1 = "Эдвард, англичане напали на Нидерланды, началась очередная торговая война.";
+			dialog.text = DLG_TEXT_MR[29];
+			link.l1 = DLG_TEXT_MR[30];
 			link.l1.go = "Step_H3_2";
   		break;
  		case "Step_H3_2":
-			dialog.text = "Печальная новость, у меня дела в Порт Рояле...";
-			link.l1 = "Вот пакет от Стэвезанта, прошу ознакомиться.";
+			dialog.text = DLG_TEXT_MR[31];
+			link.l1 = DLG_TEXT_MR[32];
 			link.l1.go = "Step_H3_3";
   		break;
  		case "Step_H3_3":
-			dialog.text = "Так, ну давай посмотрим... Хм, он просит меня информировать его о том, что хочет предпринять Мэдифорд на Карибах в рамках участия в войне.";
-			link.l1 = "Совершенно верно. Знать это - жизненная необходимость для голландских поселений.";
+			dialog.text = DLG_TEXT_MR[33];
+			link.l1 = DLG_TEXT_MR[34];
 			link.l1.go = "Step_H3_4";
             TakeItemFromCharacter(pchar, "letter_1");
             BackItemDescribe("letter_1");
   		break;
  		case "Step_H3_4":
-			dialog.text = "Все дело в том, что я не знаю ничего о планах Мэдифорда по этой войне. У меня с ним дела другого порядка, политика здесь ни при чем.";
-			link.l1 = "И что мне ответить Стэвезанту? Что вы ничего не знаете и ничем не сможете помочь своей родине в трудный час?";
+			dialog.text = DLG_TEXT_MR[35];
+			link.l1 = DLG_TEXT_MR[36];
 			link.l1.go = "Step_H3_5";
   		break;
  		case "Step_H3_5":
-			dialog.text = "Не надо пафосных выражений, молодой человек, я знаю, кто я такой. Но я действительно ничего не ведаю о планах Мэдифорда. Однако, вот что я тебе расскажу.\n"+
-                          "Буквально на прошлой неделе ко мне заявился некий посланец от Мэдифорда, который уговаривал меня организовать экспедицию на Кюрасао. Я, естественно, отказался. Отказались также Морган, Джекмен и Джон Моррис.\n"+
-                          "Итого получается, что известный пройдоха Томас Мэдифорд пытался открыть боевые действия против Нидерландов с помощью пиратов. Хитер, что тут еще скажешь...";
-			link.l1 = "Получается, что Мэдифорд планирует напасть на Кюрасао?";
+			dialog.text = DLG_TEXT_MR[37]+
+                          DLG_TEXT_MR[38]+
+                          DLG_TEXT_MR[39];
+			link.l1 = DLG_TEXT_MR[40];
 			link.l1.go = "Step_H3_6";
   		break;
  		case "Step_H3_6":
-			dialog.text = "Планировать нападение на Кюрасао он может, а вот выполнить данное мероприятие - вряд ли. У него недостаточно сил для такой операции, не от хорошей жизни он пытался привлечь корсарство.\n"+
-                          "Да и вообще, самой надежной охраной Порт Рояля от тех же испанцев является постоянное присутствие некоторого количества пиратов на рейде Ямайки. Так что нет, Кюрасао сейчас ему не по зубам.";
-			link.l1 = "Ну что же, все ясно, нападения можно не опасаться...";
+			dialog.text = DLG_TEXT_MR[41]+
+                          DLG_TEXT_MR[42];
+			link.l1 = DLG_TEXT_MR[43];
 			link.l1.go = "Step_H3_7";
   		break;
  		case "Step_H3_7":
-			dialog.text = "Я бы так категорично не мыслил. Дело в том, что раз попытка привлечения корсаров к нападению была, значит Мэдифорд все-таки имеет приказ открыть боевые действия. Так что мира здесь между Англией и Голландией не будет точно.\n"+
-                          "Вот что я тебе предложу сделать - отправляйся немедленно в Порт Рояль к Генри Моргану.";
-			link.l1 = "К Генри Моргану, адмиралу корсаров?";
+			dialog.text = DLG_TEXT_MR[44]+
+                          DLG_TEXT_MR[45];
+			link.l1 = DLG_TEXT_MR[46];
 			link.l1.go = "Step_H3_8";
   		break;
  		case "Step_H3_8":
-			dialog.text = "Да, именно так. И не беспокойся, адмиралом он стал не без моего участия. Если быть точным, то этот титул именно я ему и передал. Попросишь его от моего имени помочь тебе.";
-			link.l1 = "И он поможет?";
+			dialog.text = DLG_TEXT_MR[47];
+			link.l1 = DLG_TEXT_MR[48];
 			link.l1.go = "Step_H3_9";
   		break;
  		case "Step_H3_9":
-			dialog.text = "Если сможет помочь, то сделает это.";
-			link.l1 = "Эдвард, вы не напишите мне письмо для Моргана, чтобы он поверил моим словам?";
+			dialog.text = DLG_TEXT_MR[49];
+			link.l1 = DLG_TEXT_MR[50];
 			link.l1.go = "Step_H3_10";
   		break;
  		case "Step_H3_10":
-			dialog.text = "Нет, это не обязательно. Вряд ли кто-то в своем уме будет вводить в заблуждение Моргана, такой человек долго не проживет. Он тебе поверит.";
-			link.l1 = "Эдвард Мансвельд, вы настоящий сын своего Отечества. Спасибо вам за помощь!";
+			dialog.text = DLG_TEXT_MR[51];
+			link.l1 = DLG_TEXT_MR[52];
 			link.l1.go = "exit";
 			NextDiag.TempNode = "First time";
     		pchar.questTemp.State = "WormEnglPlans_toMorgan";
@@ -179,15 +179,15 @@ void ProcessDialogEvent()
 
 // ======================== блок нод angry ===============>>>>>>>>>>>>>>>
 		case "AngryRepeat_1":
-            dialog.text = RandPhraseSimple("Пошел вон отсюда!", "Вон из моего дома!");
-			link.l1 = "Ой-ой-ой...";
+            dialog.text = RandPhraseSimple(DLG_TEXT_MR[53], DLG_TEXT_MR[54]);
+			link.l1 = DLG_TEXT_MR[55];
 		    link.l1.go = "AngryExitAgainWithOut";
             if (CheckAttribute(npchar, "angry.terms")) //примиряемся с Мэнсфилдом через 30 дней.
             {
                 if (GetNpcQuestPastDayParam(npchar, "angry.terms") > sti(npchar.angry.terms))
                 {
-         			dialog.text = "Тебе не стоит доставать меня, запомни это.";
-        			link.l1 = "Я понял, Эдвард, больше не буду.";
+         			dialog.text = DLG_TEXT_MR[56];
+        			link.l1 = DLG_TEXT_MR[57];
         			link.l1.go = NextDiag.TempNode;
         			CharacterDelAngry(npchar);
                 }

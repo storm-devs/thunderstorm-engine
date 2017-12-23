@@ -257,7 +257,7 @@ void FillShipsScroll()
 				shipName = ShipsTypes[iShipType].Name;
 
 				GameInterface.SHIPS_SCROLL.(attributeName).character = cn;
-				GameInterface.SHIPS_SCROLL.(attributeName).str1 = "#"+"Класс "+ShipsTypes[iShipType].Class;
+				GameInterface.SHIPS_SCROLL.(attributeName).str1 = "#"+ xiStr("Class_") +ShipsTypes[iShipType].Class;
 				GameInterface.SHIPS_SCROLL.(attributeName).str4 = shipName;
 				GameInterface.SHIPS_SCROLL.(attributeName).str3 = "#" + MakeMoneyShow(GetSellPrice(&characters[cn]), MONEY_SIGN,MONEY_DELIVER);
 				GameInterface.SHIPS_SCROLL.(attributeName).img1 = "ship";
@@ -481,22 +481,22 @@ void ShowInfoWindow()
 		    if (GameInterface.(CurTable).(CurRow).UserData.ID == "CannonType" && sti(rChr.Ship.Cannons.Type) != CANNON_TYPE_NONECANNON)
 		    {
 		    	ref Cannon = GetCannonByType(sti(rChr.Ship.Cannons.Type));
-		    	sText2 = "Тип: " + XI_ConvertString(GetCannonType(sti(rChr.Ship.Cannons.Type)));
-		    	sText2 = sText2 + NewStr() + "Калибр: " + XI_ConvertString("caliber" + GetCannonCaliber(sti(rChr.Ship.Cannons.Type)));
-		    	sText2 = sText2 + NewStr() + "Дальность: "  + sti(Cannon.FireRange);
-		    	sText2 = sText2 + NewStr() + "Урон: x"  + FloatToString(stf(Cannon.DamageMultiply), 1);
-		    	sText2 = sText2 + NewStr() + "Перезарядка: "  + sti(GetCannonReloadTime(Cannon)) + " сек.";
-		    	sText2 = sText2 + NewStr() + "Вес: "  + sti(Cannon.Weight) + " ц.";
+		    	sText2 = xiStr("MSG_Transfer_3") + XI_ConvertString(GetCannonType(sti(rChr.Ship.Cannons.Type)));
+		    	sText2 = sText2 + NewStr() + xiStr("MSG_Transfer_4") + XI_ConvertString("caliber" + GetCannonCaliber(sti(rChr.Ship.Cannons.Type)));
+		    	sText2 = sText2 + NewStr() + xiStr("MSG_Transfer_5")  + sti(Cannon.FireRange);
+		    	sText2 = sText2 + NewStr() + xiStr("MSG_Transfer_6")  + FloatToString(stf(Cannon.DamageMultiply), 1);
+		    	sText2 = sText2 + NewStr() + xiStr("MSG_Transfer_7")  + sti(GetCannonReloadTime(Cannon)) + xiStr("MSG_Transfer_8");
+		    	sText2 = sText2 + NewStr() + xiStr("MSG_Transfer_9")  + sti(Cannon.Weight) + xiStr("MSG_Transfer_10");
 
 		    	sGroup = "GOODS";
 				sGroupPicture = GetCannonType(sti(rChr.Ship.Cannons.Type)) + "_" + GetCannonCaliber(sti(rChr.Ship.Cannons.Type));
 
-				sText3 = "Двойной клик или Enter по этому полю вызывает просмотр экипировки орудий по бортам.";
+				sText3 = xiStr("MSG_SHP_1");
 		    }
 		    if (GameInterface.(CurTable).(CurRow).UserData.ID == "Crew" && sti(rChr.ship.type) != SHIP_NOTUSED)
 			{
-				sText2 = "Команды может быть больше максимальной, но это вызывает перегруз и условия жизни на корабле становятся ужасными, что влечет ежедневное падение морали. В среднем можно взять на борт до 25% больше матросов.";
-				sText2 = sText2 + NewStr() + "Максимальное количество экипажа с учетом перегруза: " + GetMaxCrewQuantity(rChr);
+				sText2 = xiStr("MSG_Transfer_11");
+				sText2 = sText2 + NewStr() + xiStr("MSG_Transfer_12") + GetMaxCrewQuantity(rChr);
 			}
 			// процент ремонта
 			if (GameInterface.(CurTable).(CurRow).UserData.ID == "Hull" && sti(rChr.ship.type) != SHIP_NOTUSED)
@@ -510,7 +510,7 @@ void ShowInfoWindow()
 			// трюм
 			if (GameInterface.(CurTable).(CurRow).UserData.ID == "Capacity" && sti(rChr.ship.type) != SHIP_NOTUSED)
 			{
-				sText3 = "Занято: " + FloatToString((stf(GetCargoLoad(rChr))  /  stf(GetCargoMaxSpace(rChr))) * 100.0, 1)+ " %";
+				sText3 = xiStr("MSG_Transfer_20") + FloatToString((stf(GetCargoLoad(rChr))  /  stf(GetCargoMaxSpace(rChr))) * 100.0, 1)+ " %";
 			}
 		break;
 		case "TABLE_SHIPYARD" :
@@ -728,15 +728,15 @@ void FillShipyardTable()
 {
     Table_Clear("TABLE_SHIPYARD", false, true, false);
 
-	GameInterface.TABLE_SHIPYARD.hr.td1.str = "Корабль";
+	GameInterface.TABLE_SHIPYARD.hr.td1.str = xiStr("Ship");
 	GameInterface.TABLE_SHIPYARD.hr.td1.scale = 0.9;
-	GameInterface.TABLE_SHIPYARD.hr.td2.str = "Класс";
+	GameInterface.TABLE_SHIPYARD.hr.td2.str = xiStr("ShipClass");
 	GameInterface.TABLE_SHIPYARD.hr.td2.scale = 0.9;
-	GameInterface.TABLE_SHIPYARD.hr.td3.str = "Пушки";
+	GameInterface.TABLE_SHIPYARD.hr.td3.str = xiStr("Cannons");
 	GameInterface.TABLE_SHIPYARD.hr.td3.scale = 0.9;
-	GameInterface.TABLE_SHIPYARD.hr.td4.str = "Трюм";
+	GameInterface.TABLE_SHIPYARD.hr.td4.str = xiStr("Capacity");
 	GameInterface.TABLE_SHIPYARD.hr.td4.scale = 0.9;
-	GameInterface.TABLE_SHIPYARD.hr.td5.str = "Цена";
+	GameInterface.TABLE_SHIPYARD.hr.td5.str = xiStr("Cost");
 	GameInterface.TABLE_SHIPYARD.hr.td5.scale = 0.9;
 	GameInterface.TABLE_SHIPYARD.select = 0;
 	GameInterface.TABLE_SHIPYARD.top = 0;
@@ -957,7 +957,7 @@ void FillPassengerScroll()
 			}
 		}
 	}
-	GameInterface.PASSENGERSLIST.ListSize = m + 2; // не знаю зачем, но для совместимости с "было"
+	GameInterface.PASSENGERSLIST.ListSize = m + 2; // не знаю зачем, но для совместимости с 'было'
 }
 // рефреш скилов офа и ГГ, если офа сняли для компаньона
 void DelBakSkill()
@@ -1001,13 +1001,13 @@ void ShowMessageInfo()
 	if (bBuy)
 	{
 		if (iMoney < 0) add = "-";
-		SetFormatedText("MSG_WINDOW_TEXT", "Купить корабль за " + add + FindRussianMoneyString(abs(iMoney)) + "?");
+		SetFormatedText("MSG_WINDOW_TEXT", xiStr("MSG_SHP_2") + add + FindRussianMoneyString(abs(iMoney)) + "?");
 		SetSelectable("MSG_OK", true);
 		sMessageMode = "ShipBuy";
 	}
 	else
 	{
-	    SetFormatedText("MSG_WINDOW_TEXT", "Продать корабль за " + add + FindRussianMoneyString(abs(iMoney)) + "?");
+	    SetFormatedText("MSG_WINDOW_TEXT", xiStr("MSG_SHP_3") + add + FindRussianMoneyString(abs(iMoney)) + "?");
 		SetSelectable("MSG_OK", true);
 		sMessageMode = "ShipSell";
 	}
@@ -1061,7 +1061,7 @@ void DoSellShip(bool _refresh)
 				{
 					chref.Payment = true;
 					DeleteAttribute(chref, "PGGAi.OwnShip")
-					Log_Info("Деньги за свой корабль забрал компаньон.");
+					Log_Info(xiStr("MSG_Transfer_21"));
 					AddMoneyToCharacter(pchar, -(sellPrice));
 				}
 				//navy <--

@@ -60,11 +60,14 @@ void IDoExit(int exitCode)
 	{
 		xi_refCharacter.skill.FreeSPECIAL = 0; // если не все распределил, сам дурак
 		
-		ref sld = characterFromID("Sailor_1");
-		LAi_SetActorTypeNoGroup(pchar);
-	    LAi_SetActorTypeNoGroup(sld);
-	    SetActorDialogAny2Pchar(sld.id, "", 0.0, 0.0);
-	    LAi_ActorFollow(pchar, sld, "ActorDialog_Any2Pchar", 0.5);
+		if (Pchar.questTemp.CapBloodLine != true)//09/08/07 homo для Блада даем другое начало
+		{
+    		ref sld = characterFromID("Sailor_1");
+    		LAi_SetActorTypeNoGroup(pchar);
+    	    LAi_SetActorTypeNoGroup(sld);
+    	    SetActorDialogAny2Pchar(sld.id, "", 0.0, 0.0);
+    	    LAi_ActorFollow(pchar, sld, "ActorDialog_Any2Pchar", 0.5);
+        }//homo
     }
 		    
 	DelEventHandler("InterfaceBreak","ProcessExitCancel");
@@ -570,7 +573,7 @@ void FillSkillTables()
     }
     else
     {
-        GameInterface.TABLE_OTHER.tr8.td3.str = "нет звания";
+        GameInterface.TABLE_OTHER.tr8.td3.str = GetConvertStr("Title_0", "globals.txt");
     }
 
 	GameInterface.TABLE_OTHER.tr9.UserData.ID = "NextExp";
@@ -959,7 +962,7 @@ void ChoosePerk()
 
     if (CheckAttribute(&ChrPerksList, "list." + perkName + ".OfficerType"))
     {
-        descr += "\n\n Способность будет работать и в том случае, если назначен офицер " + XI_ConvertString(ChrPerksList.list.(perkName).OfficerType)+ ", у которого она есть.";
+        descr += xiStr("MSG_Chr_2") + XI_ConvertString(ChrPerksList.list.(perkName).OfficerType)+ xiStr("MSG_Chr_3");
     }
     SetFormatedText("PERK_WINDOW_TEXT", descr);
     SetVAligmentFormatedText("PERK_WINDOW_TEXT");
@@ -1073,8 +1076,8 @@ void ExitMsgMenu()
 
 void ShowMsgMenu()
 {
-	SetFormatedText("MSG_WINDOW_CAPTION", "Создать своего героя");
-	SetFormatedText("MSG_WINDOW_TEXT", "Для изменения параметров героя укажите характеристику и стрелками перераспределите очки. Умения автоматически пересчитаются от выбранных PIRATES. Закройте форму крестиком или Esc, когда распределение будет завершено.");
+	SetFormatedText("MSG_WINDOW_CAPTION", xiStr("MSG_Chr_4"));
+	SetFormatedText("MSG_WINDOW_TEXT", xiStr("MSG_Chr_5"));
 	
 	XI_WindowShow("MSG_WINDOW", true);
 	XI_WindowDisable("MSG_WINDOW", false);

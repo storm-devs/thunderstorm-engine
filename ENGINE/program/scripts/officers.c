@@ -65,7 +65,7 @@ void OfficersReactionResult()
 		if (iPassenger != -1)
 		{
 			sld = GetCharacter(iPassenger);
-			if (CheckAttribute(sld, "loyality") && !CheckAttribute(sld,"prisoned") && GetRemovable(sld))
+			if (CheckAttribute(sld, "loyality") && !CheckAttribute(sld,"prisoned") && GetRemovable(sld) && !CheckAttribute(sld, "OfficerWantToGo.DontGo"))
 			{
 				if (sti(sld.loyality) < 1)
 				{
@@ -99,7 +99,7 @@ void OfficersReactionResult()
 			if (iPassenger != -1)
 			{
 				sld = GetCharacter(iPassenger);
-				if (!CheckAttribute(sld,"prisoned") && GetRemovable(sld) && rand(10) == 5 && GetNpcQuestPastDayParam(sld, "HiredDate") > 60)
+				if (!CheckAttribute(sld,"prisoned") && !CheckAttribute(sld, "OfficerWantToGo.DontGo") && GetRemovable(sld) && rand(10) == 5 && GetNpcQuestPastDayParam(sld, "HiredDate") > 60)
 				{
 					if (sld.dialog.filename == "Enc_Officer_dialog.c") // квестовые не достают
 					{
@@ -232,7 +232,7 @@ void SetOfficerParam(ref Npchar, int _type)
 	{
 		case 0:
 			Npchar.quest.officertype = "boatswain";
-			Npchar.quest.officertype_2 = RandPhraseSimple("Могу и доктором побыть, если припрет. ", "Еще умею матросов беречь, кости им вправлять, когда подранят. ");
+			Npchar.quest.officertype_2 = RandPhraseSimple(xiStr("MSG_Officers_1"), xiStr("MSG_Officers_2"));
 			Npchar.quest.LeadershipModify     = frandSmall(2.0);
 			Npchar.quest.FencingModify     = Rand(1);
 			Npchar.quest.GrapplingModify   = frandSmall(2.0) + 2;
@@ -254,7 +254,7 @@ void SetOfficerParam(ref Npchar, int _type)
 		break;
 
 		case 2:
-			Npchar.quest.officertype_2 = RandPhraseSimple("Могу и корабль починить помочь. ", "Еще умею с пилой и рубанком обращаться. ");
+			Npchar.quest.officertype_2 = RandPhraseSimple(xiStr("MSG_Officers_3"), xiStr("MSG_Officers_4"));
 			Npchar.quest.officertype = "treasurer";
 			Npchar.quest.RepairModify        = frandSmall(2.0) + 3;
 			Npchar.quest.CommerceModify      = frandSmall(2.0) + 2;
@@ -265,7 +265,7 @@ void SetOfficerParam(ref Npchar, int _type)
 		break;
 
 		case 3:
-			Npchar.quest.officertype_2 = RandPhraseSimple("Еще поверхностно медицину знаю. ", "Врачем, конечно, не считаюсь, но подскажу и в этом. ");
+			Npchar.quest.officertype_2 = RandPhraseSimple(xiStr("MSG_Officers_5"), xiStr("MSG_Officers_6"));
 			Npchar.quest.officertype = "navigator";
 			Npchar.quest.SailingModify        = frandSmall(2.0) + 2;
 			Npchar.quest.DefenseModify        = frandSmall(2.0) + 1.3;
@@ -386,6 +386,8 @@ void LandEnc_OfficerHired()
 
 	sld.location = "None";
 	sld.Dialog.CurrentNode = "hired";
+	/*if (sld.sex == "man") sld.greeting = "Gr_officer";
+	else sld.greeting = "Gr_Danielle";*/
 	// boal новый учет зп -->
 	sld.Payment = true;  // признак офицера для +1 предметов  
 	sld.DontClearDead = true;  // не убирать труп

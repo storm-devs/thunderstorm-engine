@@ -41,6 +41,16 @@ void LAi_type_player_Init(aref chr)
 void LAi_type_player_CharacterUpdate(aref chr, float dltTime)
 {
 	float time;
+	if (CheckAttribute(chr, "showTimer")) 
+	{
+		chr.showTimer = stf(chr.showTimer) - dltTime;
+		if (sti(chr.showTimer) <= 0.0)
+		{
+			DeleteAttribute(chr, "showTimer");
+			DoQuestFunctionDelay("LSC_underwaterDeathTimer", 0.1);
+		}
+		else Log_SetEternalString("" + sti(chr.showTimer));
+	}
 	if(SendMessage(chr, "ls", MSG_CHARACTER_EX_MSG, "IsActive") != 0)
 	{
 		chr.chr_ai.type.weapontime = "0";
@@ -125,5 +135,4 @@ void LAi_type_player_Fire(aref attack, aref enemy, float kDist, bool isFindedEne
 //Персонаж атакован
 void LAi_type_player_Attacked(aref chr, aref by)
 {
-	
 }

@@ -214,43 +214,43 @@ void SetSpyGlassData()
 		switch (sti(chref.Ship.Cannons.Type))
 		{
 			case  CANNON_TYPE_CANNON_LBS12:
-			      CannonTypeName = " ѕушки 12ф";
-			      break;
+			     CannonTypeName = " " + xiDStr("CannonTypeName_12");
+			     break;
 			      
 			case  CANNON_TYPE_CANNON_LBS16:
-			      CannonTypeName = " ѕушки 16ф";
-			      break;
+			     CannonTypeName = " " + xiDStr("CannonTypeName_16");
+			     break;
 			      
 			case  CANNON_TYPE_CANNON_LBS24:
-			      CannonTypeName = " ѕушки 24ф";
-			      break;
+			     CannonTypeName = " " + xiDStr("CannonTypeName_24");
+			     break;
 			      
 			case  CANNON_TYPE_CANNON_LBS32:
-			      CannonTypeName = " ѕушки 32ф";
-			      break;
+			     CannonTypeName = " " + xiDStr("CannonTypeName_32");
+			     break;
 			      
 		    case CANNON_TYPE_CANNON_LBS42:
-		         CannonTypeName = " ѕушки 42ф";
+		         CannonTypeName = " " + xiDStr("CannonTypeName_42");
 			     break;
 			     
 			case CANNON_TYPE_CANNON_LBS48:
-		         CannonTypeName = " ѕушки 48ф";
+		         CannonTypeName = " " + xiDStr("CannonTypeName_48");
 			     break;     
 			     
 			case CANNON_TYPE_CULVERINE_LBS12:
-			     CannonTypeName = "  улеврины 12ф";
+			     CannonTypeName = " " + xiDStr("CulTypeName_12");
 			     break;
 			     
 			case CANNON_TYPE_CULVERINE_LBS16:
-			     CannonTypeName = "  улеврины 16ф";
+			     CannonTypeName = " " + xiDStr("CulTypeName_16");
 			     break;
 			     
 			case CANNON_TYPE_CULVERINE_LBS24:
-			     CannonTypeName = "  улеврины 24ф";
+			     CannonTypeName = " " + xiDStr("CulTypeName_24");
 			     break;
 			     
 		    case CANNON_TYPE_CULVERINE_LBS32:
-		         CannonTypeName = "  улеврины 32ф";
+		         CannonTypeName = " " + xiDStr("CulTypeName_32");
 			     break;
 		}
 		sCaptainName = CannonTypeName + "       " + sCaptainName;

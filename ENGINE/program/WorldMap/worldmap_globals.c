@@ -503,7 +503,7 @@ void  wdmUpdateAllEncounterLivetime()
 		ihours = GetQuestPastTimeParam("WordMapEncounters_DailyUpdate");
 		if (ihours > 0)
 		{
-            Log_TestInfo("Прошло дней : "+makeint(ihours/24.0));
+            Log_TestInfo("Days past : "+makeint(ihours/24.0));
             float timeOutInSec = ihours/stf(worldMap.date.hourPerSec);
 
             makearef(encs, worldMap.encounters);
@@ -527,11 +527,13 @@ void  wdmUpdateAllEncounterLivetime()
                     if (sti(enc.livetime)<=0)
                     {
                         //Map_ReleaseQuestEncounter(enc.quest.chrID);
+						Map_TraderSucces_quest(enc.quest.chrID); //на обрабоку нпс-кэпов eddy
                	        sdel  = "encounters."+GetAttributeName(enc);
                         DeleteAttribute(&worldMap, sdel);
                         pchar.worldmap.shipcounter = sti(pchar.worldmap.shipcounter) - 1;
-                    }
-
+						num--;
+						i--;
+					}
                 }
             }
 		}

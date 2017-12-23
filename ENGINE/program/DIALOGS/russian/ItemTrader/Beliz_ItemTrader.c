@@ -1,13 +1,13 @@
-// диалог по городам
+#include "TEXT\DIALOGS\ItemTrader\Beliz_ItemTrader.h"
 void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 {
     switch (Dialog.CurrentNode)
 	{
 		case "quests":
-			dialog.text = NPCStringReactionRepeat(RandPhraseSimple("Какие вопросы?", "Что вам угодно, " + GetAddress_Form(NPChar) + "?"), "Опять вопросы, " + GetAddress_Form(NPChar) + "...", "Вопросы, вопросы... Может торговлей займемся, " + GetAddress_Form(NPChar) + "?",
-                          "Послушайте, ну сколько можно пустые разговоры вести?", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat(RandPhraseSimple("Нет вопросов...", "Сейчас мне не о чем говорить"), "Эх, опять...",
-                      "Да, действительно лучше торговаться...", "Хм, извини, торговец...", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(RandPhraseSimple(DLG_TEXT_ITR[0], DLG_TEXT_ITR[1] + GetAddress_Form(NPChar) + "?"), DLG_TEXT_ITR[2] + GetAddress_Form(NPChar) + "...", DLG_TEXT_ITR[3] + GetAddress_Form(NPChar) + "?",
+                          DLG_TEXT_ITR[4], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(RandPhraseSimple(DLG_TEXT_ITR[5], DLG_TEXT_ITR[6]), DLG_TEXT_ITR[7],
+                      DLG_TEXT_ITR[8], DLG_TEXT_ITR[9], npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
 		break;
 	}

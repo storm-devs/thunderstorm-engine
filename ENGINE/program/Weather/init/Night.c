@@ -68,6 +68,15 @@ int Whr_InitNight(int n)
 	Weathers[n].Rain.MaxBlend = 49;
 	Weathers[n].Rain.TimeBlend = 2000;
 
+	Weathers[n].Rain.DropsNearNum = 500;
+	Weathers[n].Rain.DropsFarNum = 500;
+	Weathers[n].Rain.DropsNearRadius = 25.0;
+	Weathers[n].Rain.DropsFarRadius = 75.0;
+	Weathers[n].Rain.DropsLifeTime = 0.25;
+	Weathers[n].Rain.DropsSize = 0.06;
+	Weathers[n].Rain.DropsTexture = "weather\rain_drops.tga";
+	Weathers[n].Rain.DropsColor = argb(43, 255, 255, 255);
+
 	Weathers[n].Planets.enable = true;
 
 	Weathers[n].Rainbow.Enable = false;
@@ -239,6 +248,15 @@ int Whr_InitNight(int n)
 	Weathers[n].Rain.WindSpeedJitter = 0.5;
 	Weathers[n].Rain.MaxBlend = 49;
 	Weathers[n].Rain.TimeBlend = 2000;
+
+	Weathers[n].Rain.DropsNearNum = 500;
+	Weathers[n].Rain.DropsFarNum = 500;
+	Weathers[n].Rain.DropsNearRadius = 25.0;
+	Weathers[n].Rain.DropsFarRadius = 75.0;
+	Weathers[n].Rain.DropsLifeTime = 0.25;
+	Weathers[n].Rain.DropsSize = 0.06;
+	Weathers[n].Rain.DropsTexture = "weather\rain_drops.tga";
+	Weathers[n].Rain.DropsColor = argb(43, 255, 255, 255);
 
 	Weathers[n].Planets.enable = true;
 
@@ -412,6 +430,15 @@ int Whr_InitNight(int n)
 	Weathers[n].Rain.MaxBlend = 49;
 	Weathers[n].Rain.TimeBlend = 2000;
 
+	Weathers[n].Rain.DropsNearNum = 500;
+	Weathers[n].Rain.DropsFarNum = 500;
+	Weathers[n].Rain.DropsNearRadius = 25.0;
+	Weathers[n].Rain.DropsFarRadius = 75.0;
+	Weathers[n].Rain.DropsLifeTime = 0.25;
+	Weathers[n].Rain.DropsSize = 0.06;
+	Weathers[n].Rain.DropsTexture = "weather\rain_drops.tga";
+	Weathers[n].Rain.DropsColor = argb(43, 255, 255, 255);
+
 	Weathers[n].Planets.enable = true;
 
 	Weathers[n].Rainbow.Enable = false;
@@ -583,6 +610,15 @@ int Whr_InitNight(int n)
 	Weathers[n].Rain.WindSpeedJitter = 0.5;
 	Weathers[n].Rain.MaxBlend = 49;
 	Weathers[n].Rain.TimeBlend = 2000;
+
+	Weathers[n].Rain.DropsNearNum = 500;
+	Weathers[n].Rain.DropsFarNum = 500;
+	Weathers[n].Rain.DropsNearRadius = 25.0;
+	Weathers[n].Rain.DropsFarRadius = 75.0;
+	Weathers[n].Rain.DropsLifeTime = 0.25;
+	Weathers[n].Rain.DropsSize = 0.06;
+	Weathers[n].Rain.DropsTexture = "weather\rain_drops.tga";
+	Weathers[n].Rain.DropsColor = argb(43, 255, 255, 255);
 
 	Weathers[n].Planets.enable = true;
 
@@ -756,6 +792,15 @@ int Whr_InitNight(int n)
 	Weathers[n].Rain.MaxBlend = 49;
 	Weathers[n].Rain.TimeBlend = 2000;
 
+	Weathers[n].Rain.DropsNearNum = 500;
+	Weathers[n].Rain.DropsFarNum = 500;
+	Weathers[n].Rain.DropsNearRadius = 25.0;
+	Weathers[n].Rain.DropsFarRadius = 75.0;
+	Weathers[n].Rain.DropsLifeTime = 0.25;
+	Weathers[n].Rain.DropsSize = 0.06;
+	Weathers[n].Rain.DropsTexture = "weather\rain_drops.tga";
+	Weathers[n].Rain.DropsColor = argb(43, 255, 255, 255);
+
 	Weathers[n].Planets.enable = true;
 
 	Weathers[n].Rainbow.Enable = false;
@@ -927,6 +972,15 @@ int Whr_InitNight(int n)
 	Weathers[n].Rain.WindSpeedJitter = 0.5;
 	Weathers[n].Rain.MaxBlend = 49;
 	Weathers[n].Rain.TimeBlend = 2000;
+
+	Weathers[n].Rain.DropsNearNum = 500;
+	Weathers[n].Rain.DropsFarNum = 500;
+	Weathers[n].Rain.DropsNearRadius = 25.0;
+	Weathers[n].Rain.DropsFarRadius = 75.0;
+	Weathers[n].Rain.DropsLifeTime = 0.25;
+	Weathers[n].Rain.DropsSize = 0.06;
+	Weathers[n].Rain.DropsTexture = "weather\rain_drops.tga";
+	Weathers[n].Rain.DropsColor = argb(43, 255, 255, 255);
 
 	Weathers[n].Planets.enable = true;
 

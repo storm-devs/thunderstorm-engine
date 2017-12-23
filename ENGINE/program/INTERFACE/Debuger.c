@@ -70,7 +70,7 @@ void DoPostExit()
 void CalculateInfoData()
 {
 	// тут высчитываем нужную информацию и выводим в totalInfo - Инициализация -->
-	totalInfo = "Это отладчик. Позволяет выполнять заданные скриптологом функции. Кнопки: "+NewStr();
+	totalInfo = "This is debugger. Allows to use some functions. Buttons: "+NewStr();
 	totalInfo = totalInfo + "F1 - " + descF1 + NewStr() +
 	                        "F2 - " + descF2 + NewStr() +
 	                        "F3 - " + descF3 + NewStr() +
@@ -324,7 +324,7 @@ void ProcCommand()
 }
 
 ////////////////////////////////////////////////////////////////////////
-string descF1 = "Золото + 50 000";
+string descF1 = "Gold + 50 000";
 
 void CalculateInfoDataF1()
 {
@@ -336,10 +336,10 @@ void CalculateInfoDataF1()
                 Pchar.quest.SetTreasureHunter.win_condition             = "SetTreasureHunter";
       */
 	//Characters[GetCharacterIndex("Luisa Drake")].perks.list.Ciras = "1";
-	totalInfo = totalInfo + GetAssembledString(" Денег у #sName#а теперь #dmoney#",	Pchar);
+	totalInfo = totalInfo + GetAssembledString(" #sName#а has #dmoney# money ",	Pchar);
     // тут высчитываем нужную информацию и выводим в totalInfo <--
     totalInfo = totalInfo + NewStr() + NewStr() +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 ////////////////////////////////////////////////////////////////////////
@@ -353,13 +353,13 @@ void CalculateInfoDataF2()
 	CreateSiege("");
     // <
     totalInfo = totalInfo + NewStr() + NewStr() +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     SetFormatedText("INFO_TEXT",totalInfo);
 
 	ProcessCancelExit();
 }
 ////////////////////////////////////////////////////////////////////////
-string descF3 = "ID текущей локации +коорд     ";
+string descF3 = "ID current location and position     ";
 
 void CalculateInfoDataF3()
 {
@@ -385,7 +385,7 @@ void CalculateInfoDataF3()
 	                              stf(worldMap.islands.(sTemp).position.rx),
 	                              stf(worldMap.islands.(sTemp).position.rz));
 
-	            totalInfo = totalInfo + "         Координаты для карты radius= " + r1 + "   GetDistance2D= " + d2 + "      ";
+	            totalInfo = totalInfo + "         Position for map: radius= " + r1 + "   GetDistance2D= " + d2 + "      ";
 	        }
 		}
 	}
@@ -409,11 +409,11 @@ void CalculateInfoDataF3()
 	
     // <
     totalInfo = totalInfo + NewStr() + NewStr() +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 ////////////////////////////////////////////////////////////////////////
-string descF4 = "Опыт команды +10";
+string descF4 = "Command skill +10";
 
 void CalculateInfoDataF4()
 {
@@ -433,11 +433,11 @@ void CalculateInfoDataF4()
 	//ddCharacterExp(mc, 3000);
     // <
     totalInfo = totalInfo + NewStr() + NewStr() +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 ////////////////////////////////////////////////////////////////////////
-string descF5 = "Ранг +1 (35 скилов)";
+string descF5 = "Rang +1 (35 skills)";
 int BOAL_debug_num = 1;
 void CalculateInfoDataF5()
 {
@@ -450,12 +450,12 @@ void CalculateInfoDataF5()
       */
     pchar.Skill.FreeSkill = sti(pchar.Skill.FreeSkill) + 35;
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     LanguageCloseFile(idLngFile);
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 ////////////////////////////////////////////////////////////////////////
-string descF6 = "Супер подзорная труба, пистоль х2, сабля, мефисто, репутация герой, идол в магазине";
+string descF6 = "Goog spyglass, pistol х2, blade, manowar, hero reputation, idol in shop";
 
 void CalculateInfoDataF6()
 {
@@ -463,9 +463,9 @@ void CalculateInfoDataF6()
 	// -->
 	totalInfo = descF6;
 	ref mc = GetMainCharacter();
-    mc.Ship.Type = GenerateShip(SHIP_CORVETTE_QUEST, true);
+    mc.Ship.Type = GenerateShip(SHIP_MANOWAR, true);
     SetBaseShipData(mc);
-    mc.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS32;
+    mc.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS16;
     SetCrewQuantityFull(mc);
 
     SetCharacterGoods(mc,GOOD_FOOD,2000);
@@ -491,7 +491,7 @@ void CalculateInfoDataF6()
 	arItm.dmg_min = 1600.0;
 	arItm.dmg_max = 2650.0;
 
-	GiveItem2Character(mc,"blade32");
+	GiveItem2Character(mc,"blade15");
 	//GiveItem2Character(mc,"indian11");
 	//GiveItem2Character(mc,"cirass5");
 	TakeNItems(mc,"bullet", 180);
@@ -512,12 +512,12 @@ void CalculateInfoDataF6()
  	//EquipCharacterbyItem(mc, "map_good");
     // <
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     LanguageCloseFile(idLngFile);
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 ////////////////////////////////////////////////////////////////////////
-string descF7 = "Получить следующий квест.";
+string descF7 = "Give next line quest.";
 
 void CalculateInfoDataF7()
 {
@@ -536,15 +536,15 @@ void CalculateInfoDataF7()
     {
         pchar.questTemp.CurQuestNumber = "2";
     }
-    Log_SetStringToLog("Вы можете получить у Мэдифорда квест " + pchar.questTemp.CurQuestNumber + ".");
+    Log_SetStringToLog("You can take nation line quest " + pchar.questTemp.CurQuestNumber + ".");
     // <
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     LanguageCloseFile(idLngFile);
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 ////////////////////////////////////////////////////////////////////////
-string descF8 = "телепорт по тавернам";
+string descF8 = "teleport to tavern";
 
 void CalculateInfoDataF8()
 {
@@ -582,12 +582,12 @@ void CalculateInfoDataF8()
     }
 	// <
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     LanguageCloseFile(idLngFile);
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 ////////////////////////////////////////////////////////////////////////
-string descF9 = "Ветер == 9.5"//"DumpAttributes(&Weather)";//"Репутация в минус";
+string descF9 = "Wind == 9.5"//"DumpAttributes(&Weather)";//"Репутация в минус";
 
 void CalculateInfoDataF9()
 {
@@ -619,12 +619,12 @@ void CalculateInfoDataF9()
 	*/
     // <
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     LanguageCloseFile(idLngFile);
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 ////////////////////////////////////////////////////////////////////////
-string descF10 = "Бессмертие вкл/выкл";
+string descF10 = "God mode on/off";
 
 void CalculateInfoDataF10()
 {
@@ -643,12 +643,12 @@ void CalculateInfoDataF10()
 			}
     // <--
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     LanguageCloseFile(idLngFile);
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 ////////////////////////////////////////////////////////////////////////
-string descF11 = "Репутация в плюс";
+string descF11 = "add reputation";
 
 void CalculateInfoDataF11()
 {
@@ -671,13 +671,13 @@ void CalculateInfoDataF11()
 	}
     // <
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     LanguageCloseFile(idLngFile);
     SetFormatedText("INFO_TEXT",totalInfo);
     //
 }
 ////////////////////////////////////////////////////////////////////////
-string descF12 = "НЗГ у всех наций +50";//Заменить текущий корабль на ЧА";  //"LaunchMunityCapture";;
+string descF12 = "award for a head for all nation +50";//Заменить текущий корабль на ЧА";  //"LaunchMunityCapture";;
 
 void CalculateInfoDataF12()
 {
@@ -715,7 +715,7 @@ void CalculateInfoDataF12()
 
     // <
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
-                "Команда отработала успешно! ";
+                "The command is executed successfully! ";
     LanguageCloseFile(idLngFile);
     SetFormatedText("INFO_TEXT",totalInfo);
 }
@@ -750,7 +750,7 @@ void CalculateInfoDataF13()
 	}
     // <--
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     LanguageCloseFile(idLngFile);
     SetFormatedText("INFO_TEXT",totalInfo);
 }
@@ -772,12 +772,12 @@ void CalculateInfoDataF14()
 	}
     // <
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
-                "Команда отработала успешно! Qfreze=";
+                "The command is executed successfully! Qfreze=";
     LanguageCloseFile(idLngFile);
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 
-string descF15 = "Вызвать смену отношений наций";
+string descF15 = "call change relations of the nations";
 
 void CalculateInfoDataF15()
 {
@@ -788,13 +788,13 @@ void CalculateInfoDataF15()
     DoQuestCheckDelay("Nation_Legend_Map", 2.0);
     // <
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     LanguageCloseFile(idLngFile);
     SetFormatedText("INFO_TEXT",totalInfo);
     ProcessCancelExit();
 }
 
-string descF16 = "+5 дней";
+string descF16 = "add 5 day";
 
 void CalculateInfoDataF16()
 {
@@ -809,12 +809,12 @@ void CalculateInfoDataF16()
 	}
     // <
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     LanguageCloseFile(idLngFile);
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 
-string descF17 = "Список квестов в pchar";
+string descF17 = "quest list to PCHAR";
 
 void CalculateInfoDataF17()
 {
@@ -881,12 +881,12 @@ void CalculateInfoDataF17()
     if (i <= remInt*60) remInt = 0;
     // <
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     LanguageCloseFile(idLngFile);
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 
-string descF18 = "ChangeShowIntarface - для скринов без надписей";
+string descF18 = "ChangeShowIntarface - for screenshot without interface inscriptions";
 
 void CalculateInfoDataF18()
 {
@@ -905,12 +905,12 @@ void CalculateInfoDataF18()
 	ChangeShowIntarface();
     // <
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     LanguageCloseFile(idLngFile);
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 
-string descF19 = "Офицеру-шкиперу +1 ранг (35 очков скилов)";
+string descF19 = "Officer-skipper +1 rang (35 skills)";
 void CalculateInfoDataF19()
 {
     totalInfo = descF19;
@@ -923,15 +923,15 @@ void CalculateInfoDataF19()
     }
     else
     {
-        totalInfo = "Нет офицера";
+        totalInfo = "No officer";
     }
     // <--
     totalInfo = totalInfo + NewStr() + NewStr() +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 
-string descF20 = "Кач НПС Н307";
+string descF20 = "Add skills Н307";
 void CalculateInfoDataF20()
 {
     totalInfo = descF20;
@@ -941,11 +941,11 @@ void CalculateInfoDataF20()
 	chr.Skill.FreeSkill  = sti(chr.Skill.FreeSkill) + 35;
     // <--
     totalInfo = totalInfo + NewStr() + NewStr() +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 
-string descF21 = "Пустить Золотой флот";
+string descF21 = "To start gold fleet";
 void CalculateInfoDataF21()
 {
     totalInfo = descF21;
@@ -961,37 +961,37 @@ void CalculateInfoDataF21()
     StartGoldFleet("");
     // <--
     totalInfo = totalInfo + NewStr() + NewStr() +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 
-string descF22 = "Аскольд инфо";
+string descF22 = "Ascold info";
 void CalculateInfoDataF22()
 {
     totalInfo = descF22;
 	// -->
     {
-		totalInfo = "Рендомный хозяин магаза: " + pchar.questTemp.Ascold.TraderId + NewStr() +
-					"Рендомный мерчант(колония): " + pchar.questTemp.Ascold.MerchantColony + NewStr() +
-					"Рендомный верфист: " + pchar.questTemp.Ascold.ShipyarderId + NewStr()+
-					"Скрижали локация: " + Items[GetItemIndex("Rock_letter")].startLocation + NewStr()+
-					"Скрижали локатор: " + Items[GetItemIndex("Rock_letter")].startLocator;
+		totalInfo = "Random shop owner: " + pchar.questTemp.Ascold.TraderId + NewStr() +
+					"Random trader (colony): " + pchar.questTemp.Ascold.MerchantColony + NewStr() +
+					"Random shipyarder: " + pchar.questTemp.Ascold.ShipyarderId + NewStr()+
+					"Annals location: " + Items[GetItemIndex("Rock_letter")].startLocation + NewStr()+
+					"Annals locator: " + Items[GetItemIndex("Rock_letter")].startLocator;
 					if (pchar.questTemp.BlueBird.City != "")
 					{
-						totalInfo = totalInfo + NewStr()+ "Где будут слухи по флейту торговца: " + pchar.questTemp.BlueBird.City;
+						totalInfo = totalInfo + NewStr()+ "Here will be hearings on a flute of the trader: " + pchar.questTemp.BlueBird.City;
 					}
 					else
 					{
-						totalInfo = totalInfo + NewStr()+ "Слухи по флейтам торговцев еще не активированы.";
+						totalInfo = totalInfo + NewStr()+ "Hearings on a flute of the trader not activated.";
 					}
     }
     // <--
     totalInfo = totalInfo + NewStr() + NewStr() +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 
-string descF23 = "Патент";
+string descF23 = "Patent";
 void CalculateInfoDataF23()
 {
     totalInfo = descF23;
@@ -1022,15 +1022,15 @@ void CalculateInfoDataF23()
 	  }      
 	  GiveItem2Character(pchar, "patent_" + pchar.PatentNation);
       EquipCharacterbyItem(pchar, "patent_" + pchar.PatentNation);
-	  totalInfo = "Патент: " + pchar.PatentNation + NewStr();
+	  totalInfo = "Patent: " + pchar.PatentNation + NewStr();
 	}
     // <--
     totalInfo = totalInfo + NewStr() + NewStr() +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 
-string descF24 = "Лицензия";
+string descF24 = "Licence";
 void CalculateInfoDataF24()
 {
     totalInfo = descF24;
@@ -1038,18 +1038,18 @@ void CalculateInfoDataF24()
     GiveNationLicence(sti(pchar.nation), 30);
     // <--
     totalInfo = totalInfo + NewStr() + NewStr() +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 
-string descF25 = "Перегруз локации - для КОЛОВ";
+string descF25 = "Reload location - for CALLS";
 void CalculateInfoDataF25()
 {
     totalInfo = descF25;
 	// -->
     // <--
     totalInfo = totalInfo + NewStr() + NewStr() +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     SetFormatedText("INFO_TEXT",totalInfo);
     
     ProcessCancelExit();
@@ -1063,29 +1063,29 @@ void CalculateInfoDataF25()
 	}
 }
 
-string descF26 = "пусто";
+string descF26 = "empty";
 void CalculateInfoDataF26()
 {
     totalInfo = descF26;
 	// -->
     // <--
     totalInfo = totalInfo + NewStr() + NewStr() +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 
-string descF27 = "пусто";
+string descF27 = "empty";
 void CalculateInfoDataF27()
 {
     totalInfo = descF27;
 	// -->
     // <--
     totalInfo = totalInfo + NewStr() + NewStr() +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 
-string descF28 = "Пустить ЛГ на карте";
+string descF28 = "To start FD to map";
 void CalculateInfoDataF28()
 {
     totalInfo = descF28;
@@ -1093,11 +1093,11 @@ void CalculateInfoDataF28()
 	GhostShipOnMap();
     // <--
     totalInfo = totalInfo + NewStr() + NewStr() +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 
-string descF29 = "НЗГ у всех наций -50";
+string descF29 = "award for a head for all nation -50";
 void CalculateInfoDataF29()
 {
     totalInfo = descF29;
@@ -1108,11 +1108,11 @@ void CalculateInfoDataF29()
     }
     // <--
     totalInfo = totalInfo + NewStr() + NewStr() +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 
-string descF30 = "+20 дней";
+string descF30 = "add 20 days";
 void CalculateInfoDataF30()
 {
     totalInfo = descF30;
@@ -1121,7 +1121,7 @@ void CalculateInfoDataF30()
 	AddDataToCurrent(0, 0, 20);
     // <--
     totalInfo = totalInfo + NewStr() + NewStr() +
-                "Команда отработала успешно!";
+                "The command is executed successfully!";
     SetFormatedText("INFO_TEXT",totalInfo);
 }
 
@@ -1156,7 +1156,7 @@ void ReloadByStr()
     }
     else
     {
-        Log_Info("Нет локации");
+        Log_Info("No locations");
     }
 }
 

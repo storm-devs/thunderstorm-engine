@@ -9,7 +9,7 @@ int CreateBermudesCharacters(int n)
 
 	makeref(ch,Characters[n]);			//Глава пиратов
 	ch.id		= "Jackman";
-	ch.name 	= "Джекмен";
+	ch.name 	= xiDStr("Jackman");
 	ch.rank = 30;
     ch.lastname = "";
 	ch.model	= "capitan";
@@ -30,7 +30,7 @@ int CreateBermudesCharacters(int n)
 	ch.equip.gun = GUN_COMMON;
 	GiveItem2Character(ch, BLADE_LONG);
 	ch.equip.blade = BLADE_LONG;
-	ch.Ship.Name = "Манчестер";
+	ch.Ship.Name = xiDStr("Manchester");
 	ch.Ship.Type = GenerateShip(SHIP_CORVETTE, true);
 	ch.Ship.Stopped = true;
    	ch.Ship.Cannons.Type = CANNON_TYPE_CULVERINE_LBS24;
@@ -39,7 +39,7 @@ int CreateBermudesCharacters(int n)
 	ch.rank 	= 20;
 	ch.reputation = "25";
 	ch.money = "25000";
-	ch.greeting = "pirat_common";
+	ch.greeting = "Gr_HeadPirates";
 	SetCharacterPerk(ch, "FastReload");
 	SetCharacterPerk(ch, "HullDamageUp");
 	SetCharacterPerk(ch, "SailsDamageUp");
@@ -102,8 +102,8 @@ int CreateBermudesCharacters(int n)
 
 	makeref(ch,Characters[n]);			//Торговец
 	ch.id		= "Pirates_trader";
-	ch.name		= "Паскаль";
-	ch.lastname = "Вуазье";
+	ch.name 	= xiDStr("Pascal");
+    ch.lastname = xiDStr("Viwasie");
 	ch.model	= "trader_1";
 	ch.greeting = "tra_common";
 	ch.sex = "man";
@@ -128,8 +128,8 @@ int CreateBermudesCharacters(int n)
 	ch.id		= "Pirates_shipyarder";
 	ch.model	= "trader_15";
 	ch.greeting = "Gr_shipyarder";
-	ch.name 	= "Мастер";
-    ch.lastname = "Алексус";
+	ch.name 	= xiDStr("Master");
+    ch.lastname = xiDStr("Alexus");
 	ch.sex = "man";
 	ch.City = "Pirates";
 	ch.location	= "Pirates_Shipyard";

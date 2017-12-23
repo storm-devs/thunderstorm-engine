@@ -132,13 +132,13 @@ bool LoadLocation(ref loc)
 	
 	if(CheckAttribute(loc, "QuestlockWeather"))
 	{		
-		//SetNextWeather(loc.QuestlockWeather);
 		if (CheckAttribute(loc, "QuestlockWeather.hours") && CheckAttribute(loc, "QuestlockWeather.minutes"))
 		{
 			SetCurrentTime(sti(loc.QuestlockWeather.hours), sti(loc.QuestlockWeather.minutes));
 			DeleteAttribute(loc, "QuestlockWeather.hours");
 			DeleteAttribute(loc, "QuestlockWeather.minutes");
 		}
+		//SetNextWeather(loc.QuestlockWeather);
 	}
 
 	
@@ -159,7 +159,10 @@ bool LoadLocation(ref loc)
 		if(loc.environment.sea == "true") 
 		{
 			CreateSea("execute","realize");
-			CreateCoastFoamEnvironment(loc.id, "execute", "realize");
+			if (!CheckAttribute(loc, "notCrateFoam"))
+			{
+				CreateCoastFoamEnvironment(loc.id, "execute", "realize");
+			}
 		}
 		//Weather
 		if(loc.environment.weather == "true") CreateWeather("execute","realize");//CreateEntity(&locWeather, "weather");
@@ -617,7 +620,7 @@ bool LoadLocation(ref loc)
 			// включаем эффект воды
 			Render.SeaEffect = true;
 			// я не помню, тут 0.02 или 0.002 должно быть, если сильно колбасит - то надо уменьшить :)
-			Render.SeaEffectSize = 0.002;
+			Render.SeaEffectSize = 0.003;
 			Render.SeaEffectSpeed = 3.0;
 			// ставим цвет фона равным цвету тумана
 			Render.BackColor = arWeather.Fog.Color;
@@ -625,10 +628,11 @@ bool LoadLocation(ref loc)
 			// 14.07.2007 - включаем подводную часть в море
 			Sea.UnderWater = true;
 
-			Loc.Caustic.scale = 1.0;
-			Loc.Caustic.fogdensity = 0.001;
+			Loc.Caustic.scale = 0.2;
+			Loc.Caustic.fogdensity = 0.00;
+			Loc.Caustic.distance = 30.0;
 			Loc.Caustic.color = argb(128, 255, 255, 255);
-			Loc.Caustic.speed = 0.3;
+			Loc.Caustic.speed = 10.0;
 			
 			SendMessage(loc, "ls", MSG_LOCATION_EX_MSG, "LoadCaustic");
 			SendMessage(loc, "lsl", MSG_LOCATION_EX_MSG, "EnableCaustic", 1);

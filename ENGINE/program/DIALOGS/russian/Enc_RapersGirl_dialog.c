@@ -1,3 +1,4 @@
+#include "TEXT\DIALOGS\Enc_RapersGirl_dialog.h"
 void ProcessDialogEvent()
 {
 	ref NPChar, sld;
@@ -32,28 +33,28 @@ void ProcessDialogEvent()
 				sld = CharacterFromID("GangMan_" + i);
 				LAi_type_actor_Reset(sld);
 			}
-			dialog.text = LinkRandPhrase("Помогите! Помогите! Эти люди преследуют меня! Спасите!",
-				"А-а! На помощь, незнакомец! Спасите меня от этих мерзавцев!",
-				"Будьте милосердны, защитите меня от этих негодяев! Прошу вас!");
-			Link.l1 = LinkRandPhrase("Что происходит?",
-				"В чем дело?",
-				"Что случилось?");
+			dialog.text = LinkRandPhrase(DLG_TEXT_BASE[0],
+				DLG_TEXT_BASE[1],
+				DLG_TEXT_BASE[2]);
+			Link.l1 = LinkRandPhrase(DLG_TEXT_BASE[3],
+				DLG_TEXT_BASE[4],
+				DLG_TEXT_BASE[5]);
 			Link.l1.go = "Node_2";			
 		break;        
 
 		case "Node_2":
-			dialog.text = LinkRandPhrase("Они...они хотят надругаться надо мной! Умоляю вас, не позволяйте им этого! Спасите меня!",
-				"Эти звери...они хотят сделать что-то ужасное... Защитите меня от них, пожалуйста!",
-				"Во имя Господа нашего - защитите меня от этих похотливых чудовищ! Они хотят обесчестить меня!");
-			Link.l1 = "Так, сейчас разберемся.";
+			dialog.text = LinkRandPhrase(DLG_TEXT_BASE[6],
+				DLG_TEXT_BASE[7],
+				DLG_TEXT_BASE[8]);
+			Link.l1 = DLG_TEXT_BASE[9];
 			Link.l1.go = "exit_1";			
 		break;
 
 		case "ThanksForHelp":
-			dialog.text = LinkRandPhrase("О! Благодарю вас за помощь!",
-				"Вы спасли меня! Я так вам благодарна!",
-				"Вы настоящий рыцарь! Спасибо вам!");
-			Link.l1 = "Только так и надлежит поступать с такими мерзавцами!";
+			dialog.text = LinkRandPhrase(DLG_TEXT_BASE[10],
+				DLG_TEXT_BASE[11],
+				DLG_TEXT_BASE[12]);
+			Link.l1 = DLG_TEXT_BASE[13];
 			Link.l1.go = "ThanksForHelp_1";			
 		break;
 		
@@ -61,23 +62,23 @@ void ProcessDialogEvent()
 			Diag.TempNode = "ThanksAgain";
 			if(makeint(Pchar.reputation) >= 80)
 			{
-				dialog.text = "У меня есть немного денег. Возьмите их в знак моей благодарности!";
-				Link.l1 = "Спасибо. Будьте осторожнее в следующий раз.";
+				dialog.text = DLG_TEXT_BASE[14];
+				Link.l1 = DLG_TEXT_BASE[15];
 				Link.l1.go = "exit";
 			}
 			else 
 			{
 				if(Rand(1) == 0)
 				{
-					dialog.text = "Я всем расскажу, что вы меня спасли! Пусть все знают, какой вы храбрый и добрый человек!";
-					Link.l1 = "Спасибо. Теперь вам лучше отправляться домой.";
+					dialog.text = DLG_TEXT_BASE[16];
+					Link.l1 = DLG_TEXT_BASE[17];
 					Link.l1.go = "exit";
 				}
 				else
 				{
 					addMoneyToCharacter(Pchar, makeint(PChar.rank)*100);
-					dialog.text = "У меня есть немного денег. Возьмите их в знак моей благодарности!";
-					Link.l1 = "Спасибо. Будьте осторожнее в следующий раз.";
+					dialog.text = DLG_TEXT_BASE[18];
+					Link.l1 = DLG_TEXT_BASE[19];
 					Link.l1.go = "exit";
 				}
 			}
@@ -85,8 +86,8 @@ void ProcessDialogEvent()
 
 		case "ThanksAgain":
             Diag.TempNode = "ThanksAgain";
-            dialog.text = "Я всем расскажу, что вы меня спасли! Пусть все знают, какой вы храбрый и добрый человек!";
-			Link.l1 = "Спасибо. Теперь вам лучше отправляться домой.";
+            dialog.text = DLG_TEXT_BASE[20];
+			Link.l1 = DLG_TEXT_BASE[21];
 			Link.l1.go = "exit";
 		break;
 	}

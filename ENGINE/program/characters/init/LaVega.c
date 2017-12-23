@@ -9,8 +9,8 @@ int CreateLaVegaCharacters(int n)
 
 	makeref(ch,Characters[n]);			//Мэнсфилд
 	ch.id		= "Edward Mansfield";
-	ch.name 	= "Эдвард";
-	ch.lastname = "Мэнсфилд";
+	ch.name 	= xiDStr("Edward");
+	ch.lastname = xiDStr("Mansfield");
 	ch.model	= "Mansfield";
     ch.rank     = 35;
 	ch.sex = "man";
@@ -20,7 +20,7 @@ int CreateLaVegaCharacters(int n)
 	ch.location.group = "sit";
 	ch.location.locator = "sit1";
 	ch.Dialog.Filename = "Mayor\EdwardMansfield.c";
-	ch.greeting = "pirat_common";
+	ch.greeting = "Gr_HeadPirates";
 	ch.nation = PIRATE;
 	ch.quest.type = "hovernor";
 	GiveItem2Character(ch, GUN_COMMON);

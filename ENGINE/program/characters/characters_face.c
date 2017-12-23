@@ -256,6 +256,21 @@ void FaceMaker(aref rCharacter)
 		case "Youngman":		rCharacter.FaceId = 220; break;
 		case "Blood5":			rCharacter.FaceId = 221; break;
 		case "blood_bomj":		rCharacter.FaceId = 221; break;
+		case "Mechanic":		rCharacter.FaceId = 222; break;
+		case "capitan_2":		rCharacter.FaceId = 223; break;
+		case "capitan_3":		rCharacter.FaceId = 224; break;
+		case "MusketeerEnglish_1":		rCharacter.FaceId = 225; break;
+		case "MusketeerEnglish_2":		rCharacter.FaceId = 225; break;
+		case "Dragoon_1":		rCharacter.FaceId = 226; break;
+		case "Hobart":			rCharacter.FaceId = 227; break;
+		case "Sharp":			rCharacter.FaceId = 228; break;
+		case "SoldierEnglish_1":		rCharacter.FaceId = 229; break;
+		case "Pitt":			rCharacter.FaceId = 230; break;
+		case "skeletcap":		rCharacter.FaceId = 231; break;
+		case "girl_9":			rCharacter.FaceId = 232; break;
+	    case "girl_10":			rCharacter.FaceId = 233; break;	
+	    case "Chard3a":			rCharacter.FaceId = 234; break;
+		case "Danielle":		rCharacter.FaceId = 235; break;
 	}
 }
 

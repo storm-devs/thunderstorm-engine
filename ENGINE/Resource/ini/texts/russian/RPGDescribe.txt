@@ -1,289 +1,193 @@
 _info {
-Файл - описание РПГ системы
-Создан: ALexusB 17.08.05
+ File - RPG system description
+Created: ALexusB 17.08.05
 }
-
 newline {
 
 }
-
-Strength
-{
-(Power) Сила. Нужна для того, чтобы крепко ударить, далеко кинуть и много утащить. Влияет на переносимый вес и количество очков жизни. Определяющая характеристика для умений, требующих больших физических усилий, особенно тяжелое и среднее оружие, орудийные навыки.
+Strength {
+ (Power) Strength - Needed to hit hard, throw far, and carry a lot. Influences Weight points (carrying ability) and Life points. The defining characteristic for skills that take lots of physical exertion, especially heavy and medium weapons, and general weapon skills. 
 }
-
-Perception
-{
-(Impression) Восприятие. Способность видеть и слышать. Без хорошего глазомера ядра пушек вряд ли полетят в сторону противника. Особенно сильно влияет на умения меткость, скрытность.
+Perception {
+ (Insight) Perception - The talent for clear sight and hearing. Without a good eye, the cannonballs will hardly fly in the enemy's direction. Particularly influences the skills Accuracy and Stealth. 
 }
-
-Agility
-{
-(Reaction) Реакция. Координация движений и проворство рук. У неловкого человека сабля застрянет в ножнах, а абордажный крюк зацепится за штаны своего владельца. Необходима для таких умений как легкое и среднее оружие, пистолеты, абордаж. Влияет на количество максимальной энергии.
+Agility {
+ (Reaction) Agility - Hand-eye coordination. An awkward man would get his sword stuck in its scabbard, and the boarding hook would get stuck on the pants of its owner. Required for such skills as Light Weapons, Medium Weapons, Pistols and Boarding. Affects maximum amount of energy. 
 }
-
-Charisma
-{
-(Authority) Лидерство. Результат сочетания мужественной израненной физиономии и хорошо подвешенного языка. Лидеру не надо прибегать к силе, чтобы завладеть товаром удачливого торговца - он отдаст его сам. За ним пойдут лучшие люди, а красивейшие женщины будут поджидать в каждом порту. Лидерство - необходимый атрибут для таких умений как авторитет и коммерция. Влияет на количество присоединяющихся офицеров.
+Charisma {
+ (Authority) Charisma - The sum of a manly, wounded physiognomy and a nicely balanced tongue. A leader doesn't have to turn to force to gain the goods of successful trader - he'll give them himself. The best people will follow him, and the most beautiful women will wait for him at every port. Leadership is a required attribute for such skills as Authority and Trade. Affects the number of joining officers. 
 }
-
-Intellect
-{
-(Talent) Обучаемость. Знание, мудрость и способность принимать решения быстро. Для умного персонажа не составит труда как быстро перезарядить оружие, так и сбросить цены в магазине. Обращение с навигационными приборами тоже требует ума. Влияет на коммерцию, пушки, навигацию и, главное, на скорость роста ранга героя и получения им новых способностей.
+Intellect {
+ (Talent) Intellect - Knowledge, wisdom, and the ability to make quick decisions. A smart character won't have trouble quickly reloading a weapon or dropping prices at a store. Using navigational items also requires smarts. Affects the skills Trade, Cannons, Navigation, and - especially - the rapidity with which a man raises in Rank and learns new Personal Abilities and Ship Abilities. 
 }
-
-Endurance
-{
-(Endurance) Выносливость. Крайне необходима для выживания людям тяжелой пиратской профессии. Не меньше нужна и их потенциальным клиентам. Ремонт и защита сильнее всего зависят от этой характеристики, так же как прирост очков жизни и переносимый вес.
+Endurance {
+ (Endurance) Constitution - Really needed for a hero to survive the difficult pirate profession. And it is needed no less by potential clients. Repair and Defense are most affected by this Capability, as is Life point gain and Weight. 
 }
-
-Luck
-{
-(Success) Что можно сказать об удаче? Мы джентльмены, если есть удача, а без удачи джентльменов нет. Помогает там, где бесполезно все остальное. Пуля пролетит мимо, а враг пройдет рядом и не заметит. Влияет на умения пистолеты, везение, скрытность.
+Luck {
+ (Success) Luck - What can we say about luck? If there's luck, we're gentlemen. If not, we'll come to naught. Helps where nothing else will. A bullet will pass you by, and an enemy will walk past without noticing you. Affects the skills Pistols, Luck, and Stealth. 
 }
-
-
-
-FencingLight
-{
-Умение обращаться с легким оружием - преимущественно рапирами и небольшими по размеру инструментами убийства. Зависит от реакции и восприятия. (R*0.9+I*0.1)
+FencingLight {
+ Ability to use light weapons - mostly rapiers and small-sized murder weapons. Depends on Reaction and Insight. (R*0.9+I*0.1) 
 }
-Fencing
-{
-Способность управляться с саблями - оружием, которое требует не только силы, но и определенной сноровки. Зависит от силы и реакции. (P*0.6+R*0.4)
+Fencing {
+ Ability to use sabers - weapons that take not just strength, but a certain skill. Depends on Power and Reaction. (P*0.6+R*0.4) 
 }
-FencingHeavy
-{
-Владение тяжелыми палашами, топорами и мечами требует недюжинной физической силы. Зависит от силы и выносливости. (P*0.9+E*0.1)
+FencingHeavy {
+ Use of heavy broadswords, axes and swords requires quite a lot of physical strength. Depends on Power and Endurance. (P*0.9+E*0.1) 
 }
-Pistol
-{
-Умение использовать высокотехнологичные устройства, способные посылать маленькие свинцовые шарики на большое расстояние. Требует ловкости и определенной удачи. Кто ее знает, куда эта пуля полетит... Зависит от реакции и удачи. (R*0.5+S*0.5)
+Pistol {
+ The skill to use high-technology devices, that can send small leaden balls over a big distance. Demands deftness and a certain luck. Who knows where that bullet will fly... Depends on Reaction and Success.(R*0.5+S*0.5) 
 }
-Fortune
-{
-Фортуна. Она же - везение. Нужна везде. Зависит от удачи.(S)
+Fortune {
+ Luck - basically having good fortune. Needed everywhere. Depends on Success. (S) 
 }
-
-Leadership
-{
-Авторитет. Когда люди видят, что с вами не пропадешь в любой переделке, они начинают в вас верить, и вот уже таверны полны желающими присоединиться к вам в походах, а неприятельские суда сдаются, едва завидев ваш флаг. И если авторитет высок, можете быть уверены - ваши люди возьмут на абордаж самого морского дьявола. Зависит от лидерства и обучаемости. (A*0.9+T*0.1)
+Leadership {
+ Leadership. When every person sees that with you they won't go down in any conflict, they start to believe in you, and the taverns start to fill with those that want to join your marches. Enemy ships start to surrender when they just see your flag. And if your authority is high, your men will board the sea devil himself. Depends on Authority and Talent. (A*0.9+T*0.1) 
 }
-
-Commerce
-{
-Торговля. Умение подороже продать то, что вчера купил подешевле. Знание выгодных торговых маршрутов, деловая хватка и приятельские отношения с владельцами магазинов - все это наполняет карманы приятной тяжестью и позволяет не думать о таких мелочах, как зарплата команде или нехватка парусины в трюме. Требуются ум и определенное обаяние лидера. (T*0.8+A*0.2)
+Commerce {
+ Trade. The skill of making a killing off something you bought for a pittance the day before. You need to know the juicy trade routes, to have an informed grasp on the market, and to hold good relations with storeowners. All of that fills the pockets with pleasant weight, and frees a man from such trifling concerns as paying his team or a lack of canvas in the stores. Needs Talent, and the confident Authority of a leader. (T*0.8+A*0.2) 
 }
-
-Accuracy
-{
-Меткость. Одно из самых необходимых качеств для бороздящих морские просторы. Настоящий капитан не станет тратить порох и ядра на то, чтобы распугать всю рыбу в округе, каждый залп - точно в цель! И когда соленый ветер развеет пороховой дым над капитанским мостиком, горизонт должен быть чист от неприятельских лоханок! Без восприятия и определенного везения здесь не обойтись. (I*0.8+S*0.2)
+Accuracy {
+ Accuracy. One of the most essential qualities for a wanderer of the boundless sea. A real captain won't waste powder and munitions on all the fish in the neighborhood. Every volley must be straight and to the point! And when the salt air clears the fog of war, the horizon must be clear of any debris! You're useless without good Insight and a certain degree of Success. (I*0.8+S*0.2) 
 }
-
-Cannons
-{
-Орудия. Быстро снарядить орудие, быстро подкатить, и пока отголоски выстрела еще не стихли среди переборок - снова чистить, забивать, наводить, не забыть вовремя окатить пушку водой, чтобы не перегревалась... Среди грохота и пламени смертельной баталии  - ничего лишнего - зарядить, подкатить, залп! Требует знаний и силы. (T*0.6+P*0.4)
+Cannons {
+ Cannons. Quick, now! Ready and position your arms - then before your ears even stop ringing, clean again, pack again, and aim. Don't forget to douse 'em in water, lest they overheat... There's no time for distraction, amongst the thunder and flame of mortal battle. Just load up, roll up, and volley! Requires Talent and Power. (T*0.6+P*0.4) 
 }
-
-Sailing
-{
-Навигация. Способность привести корабль в порт сквозь шторм и туман. Умение пользоваться навигационными приборами и управлять эскадрами. Самый большой и грозный корабль полетит, будто птица, легко повинуясь твердой руке опытного шкипера. Зависит от восприятия и обучаемости. (I*0.2+T*0.8)
-Недостаток навигации приводит к минусам во все умения и характеристики героя.
-класс 1 требует 95
-класс 2 требует 80
-класс 3 требует 65
-класс 4 требует 40
-класс 5 требует 25
-класс 6 требует 1
-Разница между текущим и требуемым значением навигации будет значением минуса от класса корабля.
+Sailing {
+ Navigation. The ability to bring a ship to port, through storm or mist. The skill to read navigational tools and command squadrons. In the hands of a skillful skipper, even the biggest and most terrifying ship will fly like a bird. Depends on Insight and Talent. (I*0.2+T*0.8) 
+ A lack of navigational skill leads to penalties in all skills and characteristics of the hero. 
+ class 1 requires 95 
+ class 2 requires 80 
+ class 3 requires 65 
+ class 4 requires 40 
+ class 5 requires 25 
+ class 6 requires 1 
+ The difference between the current and required level navigational skill will be deducted from the class of ship. 
 }
-
-Repair
-{
-Починка. Когда противник обрушивает на ваш корабль град ядер, разнося в щепки борта и превращая паруса в решето, когда под ударами шквала трещит корпус, а ветер рвет снасти, как нитки - починка становится самым важным из корабельных умений. Здесь главное - выносливость, но и без наблюдательности не обойтись. (E*0.8+I*0.2)
+Repair {
+ Repair. When the enemy is crashing a hail of shells on your ship, turning the deck to sawdust and the sails to rags; when the downpour the hull cracks, and the wind rips the links apart like threads - this is when repair becomes the most important skill. The most important thing here is Endurance, but you can't do much without Insight either. (E*0.8+I*0.2) 
 }
-
-Grappling
-{
-Абордаж. Точно подвести корабль к неприятельскому борту, с первого раза забросить кошки и лавиной обрушиться на трепещущего противника, ураганом пронестись по палубам и взять вражеский корабль, как заслуженный приз - все это требует немалой сноровки и опыта, но богатая добыча легко окупит все усилия. Нужны реакция и смекалка. (R*0.7+T*0.3)
+Grappling {
+ Grappling. To position the ship accurately across from the enemy deck, to throw an accurate catwalk on your first try, then to ram the trembling enemy, sweep through the decks like a hurricane and take the enemy ship for your much deserved prize - this all takes quite the knack and experience. Still, the richness of the reward makes up for all the effort. Requires Reaction and Talent. (R*0.7+T*0.3) 
 }
-
-Defence
-{
-Защита. День за днем срастается команда со своим кораблем, и вот каждый матрос уже стоит десятка салаг из таверны. Защитить своих людей во время боя, не дать им глупо и бессмысленно погибнуть - задача хорошего капитана. Выносливость и чуткое руководство лидера одинаково важны в мобилизации экипажа на защиту корабля. (E*0.5+A*0.5)
+Defence {
+ Defense. As the days roll by, the crew bonds with its ship, until each hardened sailor is worth ten greenhorns from the tavern. A good captain, therefore, takes pains to protect his men from stupid and pointless death in battle. Endurance and good Authority are equally important in mobilizing the crew to defend the ship. (E*0.5+A*0.5) 
 }
-
-Sneak
-{
-Скрытность. Незамеченным пройти мимо вражеского охранения, скрыться в бескрайней океанской пустыне от преследователей или как гром среди ясного неба обрушиться на беспечного неприятеля - хороший капитан должен владеть этим умением. Такое невозможно без высокой удачи и наблюдательности. (S*0.5+I*0.5)
+Sneak {
+ Stealth. To slink pass an enemy structure, hide from pursuers in the wide open ocean, or set on a clueless enemy like thunder from the clear sky, this is a skill no adventurer can go without. Impossible without exceptional Success and Insight. (S*0.5+I*0.5) 
 }
-
-Loyality
-{
-Лояльность офицера определяется Вашими делами. Офицеры с хорошей репутацией не смогут долго работать на негодяя, а мошенники долго не вытерпят честной жизни.
+Loyality {
+ An officer's loyalty is determined by your actions. Officers with a good reputation won't work long for a scoundrel, while villains won't have much patience for a honest life. 
 }
-
-Ship_abilities
-{
-Способности, влияющие на эффективность управления кораблем.
-Число показывает нераспределенное количество способностей.
+Ship_abilities {
+ Abilities that affect the effectiveness of controlling a ship. 
+ The number shows how many skills have yet to be assigned. 
 }
-
-Personal_abilities
-{
-Способности, расширяющие возможности персонажа.
-Число показывает нераспределенное количество способностей.
+Personal_abilities {
+ Abilities that expand a character's abilities. 
+ The number shows how many skills have yet to be assigned. 
 }
-
-Rank
-{
-Ранг - это показатель уровня развития персонажа в игре. Ранг изменяется ступенчато с приобретением опыта. Вместе с Рангом героя растет также Жизнь героя на величину, зависящую от Выносливости.
-С повышением Ранга у героя ему будут чаще попадаться более сильные противники и новые предметы.
+Rank {
+ Rank - the level of a character's in-game development. As skill increases, so the rank raises in level. As rank goes up, so too does the character's life (depending on Endurance). 
+ With a rise in rank, the hero will attract stronger enemies and more sophisticated items. 
 }
-Life
-{
-Жизнь - это показатель устойчивости персонажа к физическим повреждениям. Чем больше жизнь персонажа, тем больше колотых, резаных, рубленых и огнестрельных ран нужно нанести, чтобы его убить.
-Каждое прибавление ранга увеличивает величину жизни на значение, зависимое от характеристики Выносливость.
+Life {
+ Life - the character's hardiness, as concerns physical damage. The bigger the character's life, then the more injury he must take to give it up. 
+ Every increase in rank extends the length of his life, dependent on his Endurance. 
+ }
+Health {
+ Health - the general physical condition of the hero. The worse his health, the more reduced his Abilities. Health worsens with further wounds, and recovers more quickly if the hero can avoid hand-to-hand combat. 
 }
-Health
-{
-Здоровье - это показатель общего физического состояния героя. Чем хуже здоровье, тем хуже становятся показатели героя в игре. Здоровье ухудшается, если герой получает много ранений, и восстанавливается, если герой не участвует длительное время в рукопашных схватках.
+Energy {
+ Energy - the character's steadiness in a hand-to-hand fight. All attacking motions cost a certain amount of energy. If a character should tire in the course of battle, he will need a breather to recover his strength. 
+ A hero's energy limit depends on his level of Reaction. 
 }
-Energy
-{
-Энергия - это показатель и запас выносливости персонажа в рукопашной схватке. Все атакующие действия в рукопашной схватке требуют затрат энергии персонажа. Другими словами, в процессе схватки персонаж устает и для восполнения сил ему требуется передышка.
-Максимальное значение энергии зависит от текущей величины реакции персонажа.
+Money {
+Money - everybody loves money; that's why they call it money! Doubloons, piasters, talers, guineas... What's the difference? It's all gold! 
 }
-Money
-{
-Деньги - это деньги. Дублоны, пиастры, луидоры, талеры, гинеи... Какая разница, если все это разнообразие - золото!
+Reputation {
+ Reputation - an indicator of how others may treat you. Reputation can be high (positive), neutral, or low (negative). You earn repute through your actions, which will affect how others interpret your further actions throughout the game.  
+ A hero's renown fades over time, and actions disappear from memory. The bad is remembered better, while the good is forgotten. If you just sit idle, then in time your reputation will slide back to "regular sailor". 
 }
-Reputation
-{
-Репутация - это показатель того, как к персонажу относятся другие персонажи. Репутация бывает высокой (положительной), нейтральной и низкой (отрицательной). Она зарабатывается поступками персонажа и влияет на то, как персонажа воспринимают другие действующие лица в игре.
+weight {
+ Weight - the maximum weight that a character can lug around before he starts to lose mobility. 
+ Depends on Power and Endurance. 
+ }
+Title {
+Title - an Honorary Title that serves as an indicator of how much good the character has brought to the empire he serves.
 }
-weight
-{
-Переносимый вес - это максимально возможная суммарная масса груза, которую персонаж может переносить без потери своих двигательных функций и с сохранением уровня умений.
-Зависит от силы и выносливости.
+NextExp {
+ The experience threshold shows your current Rank, accumulation of Abilities, the skill points you have earned, and how many points remain before your next level. You earn skill points through your actions. For example, every accurate pistol shot racks up points for your firearms skill. In turn, these points are funneled into your overall Rank experience and Personal Abilities or Ship Abilities (depending on the skills and their linked Abilities). Crossing the threshold of a rank or skill moves you up to the next level, thereby raising your life and skill points, which you may dole out at will.}
+TABLE_PERKS {Hero's abilities}
+TABLE_PERKS_desc {
+ You may add to your Abilities if there are points in Personal Abilities or Ship Abilities. 
+ Double-click on the chosen ability, to spend a free point on it. 
+ Due to some interdependencies, some abilities cannot be initially chosen. At the start, you need to pick the most basic Abilities. From there, more advanced Abilities will become available to you. 
 }
-Title
-{
-Звание - это показатель того, как много пользы принес персонаж державе, на службе которой он состоит.
+PERK_TABLE_NEED {Skill Requirements}
+PERK_TABLE_NEED_desc {
+ To choose the selected skill, the hero needs all the following proficiencies. 
 }
-NextExp
-{
-Порог опыта показывает, сколько очков в выбранном в данный момент умении, ранге, способности накоплено и сколько осталось до получения следующего очка.
-Умения растут от действий. За каждый, например, меткий выстрел из пистолета начисляются очки опыта в умение пистолеты. Полученные очки умений, в свою очередь, попадают в опыт ранга и личных/корабельных способностей (в зависимости от типа умения).
-Переход порога опыта ранга и способностей дает новый ранг, а, значит, увеличиваются жизнь героя и очки способностей, которые игрок может распределить по своему усмотрению.
+Nation_hint {
+ Hero's nation - the nation you chose at the game's start, or otherwise the nation of your current patent. You can see it in the "Character" menu. On the "Nation" menu, you can see your ship's current flag, which can be changed at sea to hide your true identity. But enemies of the empire might be spotted at sea, or by the guards at port. The hero's stealth affects the success of the ruse. If the hero has a price on his head from his chosen nation, then he is considered its enemy as well. 
+ Any enemy detection keeps in mind the relationship between countries and the number of bounties in the player's name. 
+ Quick pass doesn't work in enemy cities. 
 }
-
-TABLE_PERKS {Способности героя}
-
-TABLE_PERKS_desc
-{
-Распределение способностей возможно, если есть очки в личных или корабельных умениях.
-Дважды кликните по выбранной способности, чтобы посмотреть описание и потратить на нее свободное очко.
-Некоторые способности не получится выбрать для героя, так как они зависят от других. В начале нужно выбрать более младшую способность, затем станет доступна более старшая.
+England_descr {
+ England. If anyone may squeeze Spain out of the New World, it will be England. While back in the Old World, France actively engages Escorial with yet another war for the Spanish throne, England is methodically taking over one Spanish colony after another, in effort to build the greatest naval empire in history. 
 }
-
-PERK_TABLE_NEED {Необходимые способности}
-
-PERK_TABLE_NEED_desc
-{
-Для выбора данной способности герою необходимо иметь активными все способности из этого списка.
+France_descr {
+ France. Since rising to the throne, Louis XIV has actively built up his military presence in the New World. A great colonial power, that considers no interests save its own. 
 }
-
-Nation_hint
-{
-Нация героя - это нация, выбранная в начале игры, или нация выданного в данный момент патента (герой на службе). Её видно на форме "Персонаж". На форме же "Нации" виден текущий флаг на корабле героя, который можно менять только в море для того, чтобы скрыть свою истинную суть. Но врага державы могут распознать как корабли в море, так и стражники в порту. Скрытность героя влияет на успех обмана. Если же у героя есть награда за голову от своей основной нации, то он считается врагом даже ей. Столбец отношений героя на форме "Нации", таким образом, показывает текущие отношения к флагу на корабле, а не к самому герою.
-Распознавание врага происходит с учетом отношений самих стран и наград за голову от их имени.
-Быстрый переход в городах-врагах герою не работает до момента проверки его патрулем.
+Holland_descr {
+ The Netherlands. A young nation, striving towards trade supremacy. An active ally with France against their common enemy Spain. As regards everyone else, the Dutch remain solidly neutral. 
 }
-
-England_descr
-{
-Англия. Если кому и суждено потеснить Испанию в Новом Свете - то это британцы. Пока Франция в Старом Свете активно ослабляет Эскориал очередной войной за испанское наследство, Англия планомерно захватывает одну испанскую колонию за другой. Величайшая в истории морская держава.
+Spain_descr {
+Spain. A great colonial power, presiding over the largest share of the New World. Under constant pressure from the other two great powers, England and France, who actively strive to enlarge their own share of the New World. 
 }
-
-France_descr
-{
-Франция. С воцарением на французском престоле Людовик XIV активно наращивает военное присутсвие в Новом Свете. Великая колониальная держава, не считающаяся ни с чьими интересами, кроме своих собственных.
+Pirate_descr {
+ Pirates - folks who choose not to recognize national differences, who live only by the laws of the Brotherhood of the Coast. Not that this stops them from hanging out and peddling their loot in Port Royal or Tortuga. They may side with any of the powers on a whim, though they are united in one thing - hatred for Escorial. 
+ In any case, for any patrol in the colonies, a pirate flag is as good as a red one. A rogue, or a secret agent? Such is the lot of a pirate. 
 }
-
-Holland_descr
-{
-Голландия. Недавно образованная Республика Соединенных Провинций, молодая нация, стремящаяся к торговому могуществу. Активно помогает Франции в борьбе против общего врага - Испании. В остальном - нейтральная держава.
+Hunter_hint {
+ Your relationship with the empire, by way of its soldiers and citizenry. Deeds for the good of the nation raise one's internal reputation; bad deeds can put a prince on your head. And that means an eternal hunt, across land and sea, since there's no shortage of bounty hunters in the Caribbean. You can lower your bounty, however, by your deeds or by putting money in the right hands. You scratch the Empire's back, it refrains from shooting you in yours. 
 }
-
-Spain_descr
-{
-Испания. Великая колониальная держава, владеющая Северной Америкой. Подвергается постоянному давлению двух других великих держав - Англии и Франции, активно стремящихся урвать свой кусок Нового Света.
+LevelComplexity {Difficulty}
+LevelComplexity_desc {
+ The game's difficulty shifts from 'sailor' to 'impossible', through a total of ten grades. 'Captain' is the medium one. Affects the rate of level growth of the characters, money, and much more. 
 }
-
-Pirate_descr
-{
-Пираты. Люди, не признающие национальной принадлежности и живущие только по законам Берегового Братства. Что, в прочем, не мешает им ошиваться и производить сбыт награбленного в таких колониях, как Порт Рояль и Тортуга. В зависимости от собственных сиюминутных интересов могут выступать на стороне какой-либо из держав, однако всех их объединяет одно - ненависть к Эскориалу.
-Впрочем, любой патруль в колониях прореагирует на пиратский флаг как бык на красную тряпку. Доля изгоя или очень скрытного дельца - вот удел пирата.
+RechargePistolOnLine {Auto reload pistols}
+RechargePistolOnLine_desc {
+ In this mode, pistols automatically reload during battles. Otherwise, when you're power is dry, all you've got is the sword in your sheath. 
+ This mode affects all the residents of the game world.}
+HardcoreGame {Hardcore Game}
+HardcoreGame_desc {
+ Not enough adrenaline in the game? Want to feel like a real corsair, feel the rush of action and consequence? In this mode, you can only save your game on land, in churches. Whatever mistakes you make, you'll have to live with. How much of a man are you, really? 
 }
-
-Hunter_hint
-{
-Отношение к Вам державы, её граждан и солдат. Хорошие поступки во благо страны повышают репутацию у нации, плохие же могут привести к награде за голову героя. А это - вечное преследование на суше и море, так как всегда найдутся охотники за буйными головами.
-Награду за голову можно не только получить, но и уменьшить делами своими или прямым подкупом, вернув, таким образом, дружеское расположение державы.
+ArcadeSailMode_desc {
+ The speed and dynamism of sea battles. Do you prefer fast action and task juggling, or slow tactical contemplation? 
 }
-
-LevelComplexity {Сложность}
-
-LevelComplexity_desc
-{
-Сложность игры колеблется от "матроса" до "невозможного" - всего 10 градаций, "капитан" - средняя из них. Влияет на скорость развития героя, силу противников, доход и многое другое.
+EncountersRate_desc {
+ The frequency of enemy encounters in the game, particularly as regards ships on the world map. 
 }
-
-RechargePistolOnLine {Дозарядка пистолей}
-RechargePistolOnLine_desc
-{
-В этом режиме перезарядка пистолетов идет во время боя, иначе - только при убранной в ножны сабле.
-Режим распространяется на всех жителей игры.
+WorldAlivePause {Charge of the Empires}
+WorldAlivePause_desc {
+ This mode gives the player a chance to complete one of the quest scenarios for an empire, yet freezes the "live world" - movings of the governor-generals, city invasions by countries, the ability for the hero to keep the city - before the game's end. 
+ The living world resumes its function only after the scenario is completed. 
 }
-
-HardcoreGame {HardcoreGame}
-HardcoreGame_desc
-{
-Мало адреналина от игры? Хотите почувствовать себя настоящим корсаром, осознать всю реальность своих поступков? В этом режиме запись игры возможна только на святой земле - в церквях. Вам придется делать все сразу без надежды на многократные перегрузки сохраненной игры.
+Prisoner {Prisoner}
+Prisoner_desc {
+ A prisoner can be interrogated in the ship's hold, to discern his identity. Then you can ransom him from his empire. 
+ The biggest ransoms will be paid by the governors of the same nation as the prisoner, though the price may vary from city to city. 
 }
-
-ArcadeSailMode_desc
-{
-Скорость и динамика боев в море. Быстрый маневр, скорость и перезарядка орудий или неторопливое обдумывания своего тактического хода.
+shipChoose_hint {
+ Clicking on a companion's ship calls up a friendly trading mode with its crew. Works on land and sea. If you need to trade in battle, you need to steer right up next to the ship. 
 }
-
-EncountersRate_desc
-{
-Частота событий в игре, особенно - числа кораблей на карте мира.
+GoodsCargo_hint {
+ A list of the goods in the ship's hold. 
+ Double-clicking on an item brings up a description of the item with the option of discarding it. 
 }
-
-WorldAlivePause {Квесты за нации}
-WorldAlivePause_desc
-{
-Данный режим дает возможность пройти одну из сценарных квестовых линеек за державу, но останавливает до ее оконцания "живой мир" игры - переезды генерал-губернаторов, захваты городов странами, возможность оставить город герою.
-Живой мир заработает лишь после завершения сценарной истории.
-}
-
-Prisoner {Пленник}
-Prisoner_desc
-{
-Пленника можно допросить в трюме корабля, а также узнать его личность. Затем можно получить выкуп у властей его державы.
-Наибольшую сумму выкупа дает губернатор той же нации, что и пленник, но и у них есть разброс цен по разным городам.
-}
-
-shipChoose_hint
-{
-Клик по кораблю компаньона вызывает режим обмена товарами и экипажем с ним. Работает на суше или в море, но не в бою. В бою нужно подойти вплотную к кораблю и тогда обмен будет доступен.
-}
-
-GoodsCargo_hint
-{
-Список товаров в трюме корабля. 
-Двойной клик по товару открывает диалог с описанием товара и опцией "выкинуть товар".
+EXP_SLIDE {Experience rate }
+EXP_SLIDE_desc {
+ Here you can set the speed of experience gain by the hero and his officers. The higher the speed, the faster that skill points are accumulated - meaning new level and abilities. 
 }

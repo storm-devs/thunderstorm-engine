@@ -44,6 +44,7 @@ void LAi_type_carrier_Init(aref chr)
 void LAi_type_carrier_CharacterUpdate(aref chr, float dltTime)
 {	
 	float time;
+	float locx, locy, locz;
 	if(chr.chr_ai.tmpl == LAI_TMPL_GOTO)
 	{
 		if (chr.chr_ai.tmpl.state == "goto" && CheckAttribute(chr, "checkMove"))
@@ -52,18 +53,31 @@ void LAi_type_carrier_CharacterUpdate(aref chr, float dltTime)
 			chr.chr_ai.tmpl.time = time;
 			if (time > 1.0)
 			{
-				float locx, locy, locz;
 				GetCharacterPos(chr, &locx, &locy, &locz);
 				if (locx == stf(chr.checkMove.locx) && locy == stf(chr.checkMove.locy) && locz == stf(chr.checkMove.locz))
 				{
 					ChangeCharacterAddressGroup(chr, chr.location, "reload", "gate");
 					LAi_tmpl_goto_Complite(chr);
+					DeleteAttribute(chr, "checkMove");
 				}
 				else
 				{
-					chr.chr_ai.tmpl.time = 0;
-				}
-				DeleteAttribute(chr, "checkMove");
+					if (!CheckAttribute(chr, "chr_ai.tmpl.time.time"))
+					{
+						chr.chr_ai.tmpl.time = 0;
+						chr.chr_ai.tmpl.time.time = 1;
+						GetCharacterPos(chr, &locx, &locy, &locz);
+						chr.checkMove.locx = locx;
+						chr.checkMove.locy = locy;
+						chr.checkMove.locz = locz;
+					}
+					else 
+					{
+						chr.chr_ai.tmpl.time = 0;
+						DeleteAttribute(chr, "checkMove");
+						DeleteAttribute(chr, "chr_ai.tmpl.time.time");
+					}
+				}				
 			}
 		}
 		if (chr.chr_ai.tmpl.state == "falure")
@@ -116,11 +130,11 @@ void LAi_type_carrier_CharacterUpdate(aref chr, float dltTime)
 	{
 		time = stf(chr.chr_ai.tmpl.wait) + dltTime;
 		chr.chr_ai.tmpl.wait = time;
-		if (time > 0.5)
+		if (time > stf(chr.firstLoc.timer))
 		{
+			ChangeCharacterAddressGroup(chr, chr.location, "reload", chr.firstLoc);
 			LAi_tmpl_goto_InitTemplate(chr);
 			LAi_type_carrier_GoTo(chr);
-			chr.chr_ai.tmpl.wait = 0;
 		}
 	}
 }
@@ -202,36 +216,42 @@ int LAi_type_carrier_FindNearEnemy(aref chr)
 
 void LAi_type_carrier_GoTo(aref chr)
 {
-	float locx, locy, locz;
-	GetCharacterPos(chr, &locx, &locy, &locz);
-	chr.chr_ai.tmpl.wait = 0;
-	chr.checkMove.locx = locx;
-	chr.checkMove.locy = locy;
-	chr.checkMove.locz = locz;
-	chr.chr_ai.tmpl.baseLocator = LAi_type_carrier_SetPath(chr) + "_back";
-	LAi_tmpl_goto_InitTemplate(chr);
-	LAi_tmpl_goto_SetLocator(chr, "reload", chr.chr_ai.tmpl.baseLocator, -1.0);
+	if (!LAi_grp_alarmactive)
+	{
+		float locx, locy, locz;
+		GetCharacterPos(chr, &locx, &locy, &locz);
+		chr.chr_ai.tmpl.wait = 0;
+		chr.checkMove.locx = locx;
+		chr.checkMove.locy = locy;
+		chr.checkMove.locz = locz;
+		if (chr.location == "Bridgetown_Plantation")
+			chr.chr_ai.tmpl.baseLocator = FindCharacterOptLocator(chr, "reload");
+		else
+			chr.chr_ai.tmpl.baseLocator = LAi_type_carrier_SetPath(chr) + "_back";
+		LAi_tmpl_goto_InitTemplate(chr);
+		LAi_tmpl_goto_SetLocator(chr, "reload", chr.chr_ai.tmpl.baseLocator, -1.0);
+		chr.location.locator = "gate";
+	}
 }
 
 string LAi_type_carrier_SetPath(aref chr)
 {
 	//определим маршрут
-	string locReload[8];
+	string locReload[7];
 	locReload[0] = "reload4";
 	locReload[1] = "reload5";
 	locReload[2] = "reload6";
 	locReload[3] = "reload7";
 	locReload[4] = "reload8";
 	locReload[5] = "reload10";
-	locReload[6] = "reload3";
-	locReload[7] = "reload9";
+	locReload[6] = "reload9";
 	ref loc = &locations[reload_location_index];
 	aref aLocator;
 	makearef(aLocator, loc.locators.reload);
 	int iNum;
 	for (int i=0; i<10; i++)
 	{
-		iNum = rand(7);
+		iNum = rand(6);
 		if (CheckAttribute(aLocator, locReload[iNum]) && locReload[iNum] != chr.location.locator) break;
 	}
 	return locReload[iNum];

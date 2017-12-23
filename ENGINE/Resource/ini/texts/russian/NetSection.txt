@@ -1,17 +1,17 @@
-Net_ShipDieFromPlayer				{%1 <%2> пустил ко дну %3 <%4>.}
-Net_ShipDieFromCollisionLiveShip	{%1 <%2> протаранил %3 <%4>.}
-Net_ShipDieFromCollisionDeadShip	{%1 <%2> пошел на корм рыбам! Горе такому шкиперу!}
-Net_ShipDieFromCollisionIsland		{%1 <%2> разбился о скалы! Позор такому шкиперу!}
-Net_ShipDieFromLighting				{Господь разгневался на %1 <%2> и покарал его своей десницей!}
-Net_ShipDieFromCriticalHit			{%1 <%2> разнес %3 <%4> в щепки!}
-Net_CriticalHit	 					{%1 <%2> всадил ядро в бочонок с порохом на палубе %3 <%4>!}
-Net_MastFallFromHit					{%1 <%2> сбил мачту %3 <%4>.}
-Net_MastFallFromCollision			{%1 <%2> потерял мачту в результате столкновения.}
-Net_FireActivation					{%1 <%2> поджег %3 <%4>}
-NetFG_ServerIsFull					{Сервер заполнен. Присоединение еще одного игрока невозможно.}
-NetFG_NeedUserPassword				{Введенный пароль не совпадает с хранящимся для этого пользователя паролем на сервере, попробуйте еще раз.}
-NetFG_NeedServerPassword			{Вы ввели неправильный пароль для доступа на сервер, попробуйте еще раз.}
-NetFG_RejectedUnknown				{По неизвестным причинам не удается подключиться к этому серверу.}
-NetFG_Banned						{Вам запретили доступ на этот сервер.}
-NetEG_DeathMatch					{Сражение завершено.\n \n%1 победил!}
-NetEG_Team							{Сражение завершено.\n \n"%1" команда победила!}
+Net_ShipDieFromPlayer {%1 <%2> sent %3 <%4> to the bottom.}
+Net_ShipDieFromCollisionLiveShip {%1 <%2> rammed %3 <%4>.}
+Net_ShipDieFromCollisionDeadShip {%1 <%2> has gone to feed the fishes! What a sad end for such a skipper!}
+Net_ShipDieFromCollisionIsland {%1 <%2> has crashed on the cliffs! Shame on such a skipper!}
+Net_ShipDieFromLighting {The Lord has become angered at %1 <%2>, and has slapped him with his right hand!}
+Net_ShipDieFromCriticalHit {%1 <%2> has blown %3 <%4> to bits!}
+Net_CriticalHit {%1 <%2> has landed a cannonball into the powder barrel on the deck of %3 <%4>!}
+Net_MastFallFromHit {%1 <%2> has blown off the mast of %3 <%4>.}
+Net_MastFallFromCollision {%1 <%2> has lost his mast as a result of a crash.}
+Net_FireActivation {%1 <%2> has set %3 <%4> on fire.}
+NetFG_ServerIsFull {Sever is full. Unable to connect another player.}
+NetFG_NeedUserPassword {The passport you entered doesn't match any saved users on the server. Go on and try again, won't you?}
+NetFG_NeedServerPassword {You've entered the wrong password for this server. Please try again.}
+NetFG_RejectedUnknown {For reasons unknown to God or man, you can't seem to connect to this server.}
+NetFG_Banned {You're forbidden from this server.}
+NetEG_DeathMatch {Battle concluded. \n \n %1 is the victor!}
+NetEG_Team {Battle concluded. \n \n Team %1 is the victor!}

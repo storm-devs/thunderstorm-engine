@@ -795,7 +795,7 @@ int LocationInitHavana(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Havana_ExitTown";
 	locations[n].id.label = "ExitTown";
-	locations[n].image = "loading\Gate.tga";
+	locations[n].image = "loading\Gate" + rand(1) + ".tga";
 	//Town sack
 	locations[n].townsack = "Havana";
 	//Sound
@@ -1008,7 +1008,7 @@ int LocationInitHavana(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Cuba_jungle_11";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle4.tga";
+	locations[n].image = "loading\outside\jungle2.tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Cuba";
@@ -1118,7 +1118,7 @@ int LocationInitHavana(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Cuba_jungle_12";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle5.tga";
+	locations[n].image = "loading\outside\jungle.tga";
 	//Sound
 	locations[n].type = "jungle";
  	locations[n].islandId = "Cuba";
@@ -1228,7 +1228,7 @@ int LocationInitHavana(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     locations[n].id = "Cuba_jungle_13";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle3.tga";
+	locations[n].image = "loading\outside\jungle.tga";
  	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Cuba";

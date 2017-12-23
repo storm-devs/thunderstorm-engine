@@ -1,1192 +1,1020 @@
-new_string	{
+new_string {
 
 }
-
-Potion parameters{Ёмкость}
-health value{hp}
-weapon blade parameters{Оружие: урон мин/макс #ddmg_min#/#ddmg_max#}
-weapon blade type {Тип: #sFencingTypeName#}
-weapon gun parameters{Оружие: урон мин/макс #ddmg_min#/#ddmg_max#, время перезарядки #dchargespeed# сек., точность #daccuracy#%}
-
-
-youve_got {Найден предмет - }
-
-itmname_gold	{Золото}
-itmdescr_gold
-{
-Золото. Желтая мечта любого пирата.
+Potion parameters {Effect}
+health value {HP}
+weapon blade parameters {Weapon: damage min/max #ddmg_min#/#ddmg_max#}
+weapon blade type {Type #sFencingTypeName#}
+weapon gun parameters {Weapon: damage min/max #ddmg_min#/#ddmg_max#; reload time #dchargespeed# sec.; accuracy #daccuracy#%}
+youve_got {Item found: }
+used_item {Item used: }
+itmname_gold {Piasters}
+itmdescr_gold {
+ Gold: the yellow fever dream of every pirate. 
 }
-
-itmname_chest	{Сундук}
-itmdescr_chest
-{
-Запертый сундук. В нем, очевидно, золото.
+itmname_chest {Chest}
+itmdescr_chest {
+ Locked chest. Filled with gold, obviously. 
 }
-
-itmname_coins	{Проклятые монеты}
-itmdescr_coins
-{
-Широкие золотые монеты с изображенным на них черепом. Улыбочка у него та еще (-50 везение).
+itmname_coins {Cursed pearls}
+itmdescr_coins {
+ Rare black pearl. Sacred to some, cursed to others (-50 luck). 
 }
-
-itmname_incas_idol	{Золотой идол}
-itmdescr_incas_idol
-{
-Золотой идол - ключ от храма Инков. Согласно легенде, должен открыть проход к артефакту. Вещь явно проклятая... (-30 фехтование, -30 удача, -30 защита, -30 меткость, -20 пистолеты, -20 авторитет).
+itmname_incas_idol {Golden idol}
+itmdescr_incas_idol {
+ Golden idol - key to the Aztec temple. According to the legend, it should open the door to the artifact. An obviously cursed item... (-30 fencing, - 30 luck, - 30 defense, - 30 accuracy, - 20 pistols, - 20 authority). 
 }
-
-itmname_incas_collection	{Сокровища}
-itmdescr_incas_collection
-{
-Разнообразный набор дорогих сердцу и кошельку предметов из золота и драгоценных камней.
+itmname_incas_collection {Treasure}
+itmdescr_incas_collection {
+ A variety of items, dear to the heart and wallet, of gold and valuable stones. 
 }
-
-itmname_piece_of_legend	{Скрижаль}
-itmdescr_piece_of_legend
-{
-Половинка глиняной таблички, покрытой древними письменами инков.
+itmname_piece_of_legend {Tablet}
+itmdescr_piece_of_legend {
+ Half of a clay tablet, covered in ancient Aztec writing. 
 }
-
-itmname_notes_of_legend	{Запись легенды}
-itmdescr_notes_of_legend
-{
-Текст древней индейской легенды, переписанный на бумагу.
+itmname_notes_of_legend {Legend record}
+itmdescr_notes_of_legend {
+ The text of an ancient Indian legend, written on parchment. 
 }
-
-itmname_copyes_of_legend	{Копия легенды}
-itmdescr_copyes_of_legend
-{
-Копия текста древней индейской легенды.
+itmname_copyes_of_legend {Copy of the legend}
+itmdescr_copyes_of_legend {
+ Copy of the text of the ancient legend. 
 }
-
-itmname_letter_1	{Запечатанное письмо}
-itmdescr_letter_1
-{
-Письмо запечатано, чтобы узнать его содержание - нужно его прочесть, но для этого его придется вскрыть.
-}
-itmdescr_letter_1_EngLineQ4
-{
-Пакет, скрепленный печатью генерал-губернатора Кюрасао. Адресован лично в руки коменданту форта Оранж.
-}
-itmdescr_letter_1_HolLineQ3
-{
-Письмо генерал-губернатора Кюрасао Петера Стэвезанта, адресованное лично в руки главе буканьеров Эдварду Мэнсфилду.
-}
-itmdescr_letter_1_HolLineQ7
-{
-Совершенно секретная государственная депеша генерал-губернатора французской Тортуги Бертрана д'Ожерона, адресованна лично в руки губернатору Кюрасао Петеру Стэвезанту.
-}
-itmdescr_letter_1_SpaLineQ10
-{
-Письмо, адресованное губернатору Порто Белло. Написано собственноручно губернатором Гаваны доном Франсиско Орегон-и-Гасконом.
-}
-itmdescr_letter_1_FraLineQ1
-{
-Письмо, адресованное губернатору голландских провиниций Петеру Стэвезанту. Написано собственноручно губернатором Тортуги Бертраном д'Ожероном.
-}
-itmdescr_letter_1_FraLineQ6
-{
-Письмо, адресованное Жану Давиду. Написано собственноручно губернатором Тортуги Бертраном д'Ожероном.
+itmname_letter_1 {Sealed letter}
+itmdescr_letter_1 {
+ The letter is sealed. To learn its contents, you must read it. To do that, it must be opened. 
 }
-
-
-itmname_letter_2	{Запечатанное письмо}
-itmdescr_letter_2
-{
-Письмо запечатано, чтобы узнать его содержание - нужно его прочесть, но для этого его придется вскрыть.
-}
-itmdescr_letter_2_EngLineQ8
-{
-Написанное по-испански письмо. Подписано Маноэлем Риверо Пардалем, адресовано губернатору Сантьяго Хосе Санчо Хименесу.
-}
-itmdescr_letter_2_HolLineQ7
-{
-Совершенно секретная государственная депеша за подписью генерал-губернатора Кюрасао Петера Стэвезанта, адресованна лично в руку губернатору Тортуги Бертрану д'Ожерону. В случае возникновения любой опасности - немедленно уничтожить.
+itmdescr_letter_1_EngLineQ4 {
+ A packet bound by the seal of the governor-general of Curacao, personally addressed to the commandant of Fort Orange. 
 }
-
-itmname_letter_open	{Вскрытое письмо}
-itmdescr_letter_open
-{
-Письмо выглядит так, словно его уже читали. Возможно, адресат этого и не заметит.
-}
-itmdescr_letter_open_EngLineQ4
-{
-Я, Петер Стэвезант, предоставленной мне властью приказываю в срочном порядке усилить фортификационные сооружения форта и принять все необходимые меры, требуемые для успешного отражения возможного нападения англичан...
-}
-itmdescr_letter_open_EngLineQ8
-{
-Сеньор, наша экспедиция увенчалась успехом - Ла Вега уничтожена. Ко всему прочему мы взяли хорошую добычу - 600 тыс. в золотых дублонах. Отряженный Вами галеон с отрядом гарнизонных солдат я отправляю обратно в Сантьяго. Сам же буду у Вас позже...
-}
-itmdescr_letter_open_FraLineQ3
-{
-Я все поняла. Я готова следовать за вами куда бы то ни было. Сегодня, после двенадцати ночи, я отворю дверь нашего дома, вам нужно будет острожно пробраться в дом и забрать меня. Я жду.
+itmdescr_letter_1_HolLineQ3 {
+ A letter from Governor-General Peter Stuyvesant of Curacao, personally addressed to head buccaneer Edward Mansfield. 
 }
-
-itmname_letter_notes	{Недописанное письмо}
-itmdescr_letter_notes
-{
-Прости меня, Хуан, я должна следовать зову своего сердца. Сегодня я получила известие о прибытии человека, который заберет меня к нему...
+itmdescr_letter_1_HolLineQ7 {
+ A top secret government dispatch from Governor-General Bertran d'Ogeron of French Tortuga, personally addressed to Governor-General Peter Stuyvesant of Curacao. 
 }
-
-itmname_order	{Вексель}
-itmdescr_order
-{
-Фальшивый вексель, обеспеченный всем движимым и недвижимым имуществом Изабеллы. С помощью этих векселей Сальватор украл деньги жены.
+itmdescr_letter_1_SpaLineQ10 {
+ A letter addressed to governor of Portobelo, written personally by Governor don Francisco Oregon y Gascon of Havana. 
 }
-
-itmname_letter_Albermal	{Письмо, подписанное герцогом Альбермалем де Монком}
-itmdescr_letter_Albermal
-{
-Письмо, подписанное герцогом Альбермалем и скрепленное печатью английского парламента. Адресовано губернатору Ямайки, сэру Томасу Мэдифорду, лично в руки.
+itmdescr_letter_1_FraLineQ1 {
+ A letter addressed to Governor Peter Stuyvesant of the Dutch provinces, written personally by Governor Bertran d'Ogeron of Tortuga. 
 }
-
-itmname_EngTradeLicence	{Лицензия Английской Ост-Индской компании}
-itmdescr_EngTradeLicence
-{
-Лицензия Английской Ост-Индской компании, позволяющая посещать города и порты британских колоний. Выдана #sAction_date#г. и действует в течение #sValidity#.
+itmdescr_letter_1_FraLineQ6 {
+ A letter addressed to Jean David, written personally by Governor Bertran d'Ogeron of Tortuga. 
 }
-
-itmname_FraTradeLicence	{Лицензия Французской Ост-Индской компании}
-itmdescr_FraTradeLicence
-{
-Лицензия Французской Ост-Индской компании, позволяющая посещать города и порты французских колоний. Выдана #sAction_date#г. и действует в течение #sValidity#.
+itmname_letter_2 {Sealed letter}
+itmdescr_letter_2 {
+ The letter is sealed. To learn its contents, you must read it. To do that, it must be opened. 
 }
-
-itmname_SpaTradeLicence	{Испанская торговая лицензия}
-itmdescr_SpaTradeLicence
-{
-Испанская торговая лицензия, выданная Эскориалом и позволяющая посещать города и порты испанских колоний. Выдана #sAction_date#г. и действует в течение #sValidity#.
+itmdescr_letter_2_EngLineQ8 {
+ A letter written in Spanish, addressed to Governor Santiago Josй Sancho Jimйnez and signed by Manuel Rivero Pardal. 
 }
-
-itmname_HolTradeLicence	{Лицензия Голландской Вест-Индской компании}
-itmdescr_HolTradeLicence
-{
-Лицензия Голландской Вест-Индской компании, позволяющая посещать города и порты голландских колоний. Выдана #sAction_date#г. и действует в течение #sValidity#.
+itmdescr_letter_2_HolLineQ7 {
+ A top secret government dispatch, signed by Governor-General Peter Stuyvesant of Curacao, personally addressed to Governor-General Bertran d'Ogeron of French Tortuga. In case of danger, destroy immediately. 
 }
-
-itmname_Trust	{Верительная грамота}
-itmdescr_Trust
-{
-Верительная грамота.
-}
-itmdescr_Trust_HolLineQ2
-{
-Верительная грамота коменданту форта Оранж от генерал-губернатора Кюрасао Петера Стэвезанта. Выдана для подтверждения полномочий к закупке и перевозке партии кофе, черного, красного и сандалового дерева в Виллемстад. Гарантирует льготные цены на закупку.
+itmname_letter_open {Opened letter}
+itmdescr_letter_open {
+ The letter appears to have already been read. It's possible that the addressee won't notice. 
 }
-
-itmname_sicretLetter	{Тайная депеша.}
-itmdescr_sicretLetter
-{
-Пакет документов для губернатора #sCity#. #sMayor# ожидает его как можно быстрей.
+itmdescr_letter_open_EngLineQ4 {
+ I, Peter Stuyvesant, by the authority vested in me, order to strengthen the fortifications of the fort and take all necessary measures to successfully resist an English attack... 
 }
-
-itmname_statue1	{Статуя}
-itmdescr_statue1
-{
-Каменная статуя, простая и неказистая, идол - покровитель ремесленников. Она, конечно, не очень большая, но всё же каменная, и чертовски тяжёлая. (+30 ремонт).
+itmdescr_letter_open_EngLineQ8 {
+ Seсor, our expedition has gone successfully; Le Vega is destroyed. We've gotten a good haul to add to that: 600,000 in gold doubloons The Galleon and the garrison soldiers you provided, I am now returning to Santiago. I shall be at your place, presently... 
 }
-
-itmname_statue2	{Статуя}
-itmdescr_statue2
-{
-Небольшая каменная статуя.
+itmdescr_letter_open_FraLineQ3 {
+ I understand everything. I'm ready to follow you wherever. Today, after twelve at night, I'll open the door to your house. You''l have to carefully come into my house and take me. I'm waiting. 
 }
-
-itmname_statue3	{Статуя}
-itmdescr_statue3
-{
-Небольшая каменная статуя.
+itmname_letter_LSC {Opened letter}
+itmname_letter_LSC_1 {Letter of Oliver Trust, to command}
+itmname_letter_LSC_2 {Epistle of Teaser Dan, in chest}
+itmdescr_letter_LSC {
+ ... Now, about the question we discussed earlier. It turns out that rumors about the island have a basis in fact. It is clear that the possible falling of prices will create a considerable dent in our profits, which is why the Dutch East India Company considers it necessary to take measures to liquidate all the bums in the Caribbean Sea... 
 }
-
-itmname_massoni_papers	{Бумаги Валентина Массони}
-itmdescr_massoni_papers
-{
-Бумаги, из которых следует, что барк с боеприпасами сейчас находится на Фале де Флер, и ждет конвойное судно.
+itmdescr_letter_LSC_1 {
+ ... The poor will soon be eliminated, and thereby be unable to further rumors about the Island. I think it's possible to organize an expedition to the northwest, to the area of the island's rumored location - north of Cabo Catoche, and west of Havana. I have no doubt that the expedition must be reinforced by a armed group to take the treasures from the Island's inhabitants without obstruction... 
 }
-
-itmname_artefact	{Артефакт}
-itmdescr_artefact
-{
-Загадочный артефакт, который вы нашли в древнем храме. Когда вы держите его в руках, кожу ощутимо покалывает.
+itmdescr_letter_LSC_2 {
+ Tomorrow I sail for the City of Abandoned Ships. My endeavor might seem dangerous, yet it must end well, as we have been preparing in earnest for far too long. I shall close this chest with a key, which I will take with me to the New World. Should one of the citizens of the city find this letter, then I ask that soul to wish all the best to the rest of the citizens. 
 }
-
-itmname_story_gramota	{Документы}
-itmdescr_story_gramota
-{
-
+itmname_letter_notes {Unfinished letter}
+itmdescr_letter_notes {
+ Forgive me, Juan. I must follow the call of my heart. Today I got news of the coming of a man who will take me with him... 
 }
-
-itmname_map_jam {Карта Ямайки}
-itmdescr_map_jam
-{
-Карта, на которой обозначены все поселения острова и маршруты.
+itmname_order {Promissory note}
+itmdescr_order {
+ A false promissory note, with Isabella's entire estate as collateral. With the help of these notes, Salvatore stole his wife's money. 
 }
-
-itmname_map_cuba {Карта Кубы}
-itmdescr_map_cuba
-{
-Карта составлена по заметкам известного путешественника Johnsson`а .
+itmname_letter_Albermal {A letter signed by Duke Albermal de Monk}
+itmdescr_letter_Albermal {
+ A letter signed by Duke Albermal, held together by the stamp of the English parliament. Personally addressed to Governor Thomas Modyford of Jamaica. 
 }
-
-itmname_map_hisp {Карта Эспаньолы}
-itmdescr_map_hisp
-{
-Как добраться до города и до любого укромного места на острове, Вы поймете из этой карты.
+itmname_EngTradeLicence {License from the English East India Company}
+itmdescr_EngTradeLicence {
+ A license from the English East India Company, allowing you to visit the ports and settlements of all British colonies. Issued #sAction_date#, valid for #sValidity#. 
 }
-
-itmname_map_antigua {Карта Антигуа}
-itmdescr_map_antigua
-{
-Совершенно бесполезная вещь, так как заблудиться на этом острове невозможно.
+itmname_FraTradeLicence {License from the French East India Company}
+itmdescr_FraTradeLicence {
+ A license from the French East India Company, allowing you to visit the ports and settlements of all French colonies. Issued #sAction_date#; valid for #sValidity#. 
 }
-
-itmname_map_barbados {Карта Барбадоса}
-itmdescr_map_barbados
-{
-Не очень точная карта острова.
+itmname_SpaTradeLicence {Spanish trade license}
+itmdescr_SpaTradeLicence {
+ A Spanish trade license, issued by Escorial, allowing you to visit the ports and settlements of all Spanish colonies. Issued #sAction_date#; valid for #sValidity#. 
 }
-
-
-itmname_map_cayman {Карта Каймана}
-itmdescr_map_cayman
-{
-Карта необитаемого острова.
+itmname_HolTradeLicence {License from the Dutch East India Company}
+itmdescr_HolTradeLicence {
+ A license from the Dutch East India Company, allowing you to visit the ports and settlements of all Dutch colonies. Issued #sAction_date#; valid for #sValidity#. 
 }
-
-itmname_map_Curacao {Карта Кюрасао}
-itmdescr_map_Curacao
-{
-Приблизительная карта острова, но путешествовать с ней можно.
+itmname_Trust {Letter of Trust}
+itmdescr_Trust {
+Letter of Trust.
 }
-
-
-itmname_map_guad {Карта Гваделупы}
-itmdescr_map_guad
-{
-Все достопримечательности острова показаны на карте.
+itmdescr_Trust_HolLineQ2 {
+ A letter of trust to the commandant of Fort Orange, from Governor-General Peter Stuyvesant of Curacao. Issued to prove the right to buy and transport a shipment of coffee, ebony, mahogany, and sandalwood to Willemstad. Guarantees sale prices for the buy. 
 }
-
-itmname_map_isla {Карта Исла Муерта}
-itmdescr_map_isla
-{
-Карта заброшенного и совершенно дикого острова, хранящего древние тайны.
+itmname_sicretLetter {Secret Dispatch}
+itmdescr_sicretLetter {
+ A packet of documents for the governor of #sCity#. #sMayor# is awaiting its imminent arrival. 
 }
-
-itmname_map_martiniqua {Карта Мартиники}
-itmdescr_map_martiniqua
-{
-Карта, имея которую, Вы не заблудитесь.
+itmname_statue1 {Statue}
+itmdescr_statue1 {
+A stone mask. Looks very ancient, yet flawlessly crafted by real master craftsmen. (+30 repair). 
 }
-
-itmname_map_nevis {Карта Невиса}
-itmdescr_map_nevis
-{
-Карта пиратского острова для начинающих путешественников.
+itmname_statue2 {Statue}
+itmdescr_statue2 {
+ A small limestone statue. 
 }
-
-itmname_map_sm {Карта Сан Мартина}
-itmdescr_map_sm
-{
-Используя эту карту, Вы без труда доберетесь до нужного места.
+itmname_statue3 {Statue}
+itmdescr_statue3 {
+ A small granite statue. 
 }
-
-itmname_map_terks {Карта Теркса}
-itmdescr_map_terks
-{
-Карта дикого острова, составленная неизвестным.
+itmname_massoni_papers {The papers of Valentine Massoni}
+itmdescr_massoni_papers {
+ Papers that dictate that a wooden barge with ammunition is currently at Fale de Fleur, and is awaiting a convoy vessel. 
 }
-
-itmname_map_venesuela {Карта Венесуэлы}
-itmdescr_map_venesuela
-{
-Весьма приблизительная карта, дающая только общее представление об острове.
+itmname_artefact {Artifact}
+itmdescr_artefact {
+ A puzzling artifact that you found in an ancient temple. When you hold it in your hands, you can feel your skin tingle. 
 }
+itmname_story_gramota {Documents}
+itmdescr_story_gramota {
 
-itmname_map_puerto {Карта Пуэрто Рико}
-itmdescr_map_puerto
-{
-Карта, отображающая расположение самых важных мест на острове.
 }
-
-itmname_map_full	{Карта сокровищ}
-itmdescr_map_full
-{
-На этой карте отмечено место, где ,якобы, находится клад. Но узнать это можно, только побывав там.
+itmname_map_Pearl {Map of Pearl Divers}
+itmdescr_map_Pearl {
+ A map, denotating known pearl diving spots. 
 }
-
-itmname_map_part1	{Часть карты сокровищ}
-itmdescr_map_part1
-{
-Это кусок карты, где указано место клада. Узнать, где это, можно, только найдя недостающие части карты.
+itmname_map_beliz {Map of Belize}
+itmdescr_map_beliz {
+ A map, marking the areas around Belize. 
 }
-
-itmname_map_part2	{Часть карты сокровищ}
-itmdescr_map_part2
-{
-Это кусок карты, где указано место клада. Узнать, где это, можно, только найдя недостающие части карты.
+itmname_map_santa {Map of Santa Catalina}
+itmdescr_map_santa {
+ A map, marking the areas around Santa Catalina. 
 }
-
-itmname_map	{Карта}
-itmdescr_map
-{
-Загадочная карта со странными метками. По слухам, она принадлежала знаменитому головорезу д'Оллоне, который ,якобы, пиратствовал в этих краях.
-}
-itmdescr_map_HolLineQ8
-{
-Карта с обозначением местоположения клада Лорана де Графа. Здесь указано, что клад находится в гроте на необитаемом острове Теркс.
+itmname_map_bermudas {Map of Bermuda}
+itmdescr_map_bermudas {
+ A map, marking all the roads and settlements on the island. 
 }
-
-itmname_map1	{Половина карты}
-itmdescr_map1
-{
-Половина загадочной карты, купленная у Грегора Самсы. На ней нанесены координаты одного места, но где это место - неизвестно.
+itmname_map_jam {Map of Jamaica}
+itmdescr_map_jam {
+ A map, marking all the roads and settlements on the island. 
 }
-
-itmname_map2	{Половина карты}
-itmdescr_map2
-{
-Половина загадочной карты. На ней нанесены координаты одного места, но где это место - неизвестно.
+itmname_map_cuba {Map of Cuba}
+itmdescr_map_cuba {
+ A map, marking all the roads and settlements on the island. 
 }
-
-
-itmname_patent_england	{Патент Англии}
-itmdescr_patent_england
-{
-Патент, выданный канцелярией Его Величества Карла II Стюарта, подтверждает, что вы находитесь на службе Англии. Это накладывает на Вас обязательства по защите интересов государства и содержании корабля в соответствии с уставом.
+itmname_map_hisp {Map of Hispaniola}
+itmdescr_map_hisp {
+ How to get to the city and any secluded place on the island: this, you'll understand from this map. 
 }
-
-itmname_patent_portugal	{Патент Португалии}
-itmdescr_patent_portugal
-{
-Патент на захват торговых кораблей других государств.
+itmname_map_antigua {Map of Antigua}
+itmdescr_map_antigua {
+ A rough map of the island; close enough to find your way around, anyway. 
 }
-
-itmname_patent_holland	{Патент Голландии}
-itmdescr_patent_holland
-{
-Патент, выданный канцелярией Его Величества Вильгельма III Оранского, подтверждает, что вы находитесь на службе Голландии. Это накладывает на Вас обязательства по защите интересов государства и содержании корабля в соответствии с уставом.
+itmname_map_barbados {Map of Barbados}
+itmdescr_map_barbados {
+ An extremely rough map of the island. 
 }
-
-itmname_patent_france	{Патент Франции}
-itmdescr_patent_france
-{
-Патент, выданный канцелярией Его Величества Людовика XIV, подтверждает, что вы находитесь на службе Франции. Это накладывает на Вас обязательства по защите интересов государства и содержании корабля в соответствии с уставом.
-}
-itmname_patent_spain	{Патент Испании}
-itmdescr_patent_spain
-{
-Патент, выданный канцелярией Его Величества Карла II Габсбурга, подтверждает, что вы находитесь на службе Испании. Это накладывает на Вас обязательства по защите интересов государства и содержании корабля в соответствии с уставом.
+itmname_map_cayman {Map of Cayman Island}
+itmdescr_map_cayman {
+ A map of this desolate place. 
 }
-
-itmname_map_bad	{Дешевая карта}
-itmdescr_map_bad
-{
-Карта, сделанная первооткрывателями Нового Света. Нечеткие очертания островов на пожелтевшем со временем пергаменте не позволяют точно определить нынешнее местоположение.
+itmname_map_Curacao {Map of Curacao}
+itmdescr_map_Curacao {
+ A rough map of the island; close enough to find your way around, anyway. 
 }
-
-itmname_map_normal	{Обычная карта}
-itmdescr_map_normal
-{
-Эта карта сделана руками обычных торговцев. Названия крупных городов и четкие координаты островов - это все, что требуется для ведения торговли в этих водах.
+itmname_map_guad {Map of Guadelupa}
+itmdescr_map_guad {
+ A map, marking all the sights of the island. 
 }
-
-itmname_map_good	{Отличная карта}
-itmdescr_map_good
-{
-Копия карты легендарного пирата Френсиса Дрейка. На ней есть почти все, что нужно настоящему морскому волку.
+itmname_map_TORTUGA {Map of Tortuga}
+itmdescr_map_TORTUGA {
+ A map, marking all the sights of the island. 
 }
-
-itmname_bible	{Библия}
-itmdescr_bible
-{
-Загадочная библейская книга, написанная на неизвестном языке.
+itmname_map_dominica {Map of Dominique}
+itmdescr_map_dominica {
+ A map of this uninhabited island. 
 }
-
-itmname_ShipsJournal	{Судовой журнал}
-itmdescr_ShipsJournal
-{
-Судовой журнал капитана Гея.
-}
-itmdescr_ShipsJournal_Ascold
-{
-Инвентарная опись отправки ценностей в Испанию.
+itmname_map_martiniqua {Map of Martinique}
+itmdescr_map_martiniqua {
+ A map, to prevent your getting lost. 
 }
-
-itmname_Powder_mummie	{Порошок мумии}
-itmdescr_Powder_mummie
-{
-Измельченная в порошок часть мумии. Для этой части света - большая редкость.
+itmname_map_trinidad {Map of Trinidad and Tobago}
+itmdescr_map_trinidad {
+ A map, to prevent your getting lost. 
 }
-
-itmname_Rock_letter	{Скрижали}
-itmdescr_Rock_letter
-{
-Каменные скрижали с руническими письменами.
+itmname_map_nevis {Map of Nevis}
+itmdescr_map_nevis {
+ An island map, for novice explorers. 
 }
-
-itmname_Azzy_bottle	{Лампа}
-itmdescr_Azzy_bottle
-{
-Древняя восточная лампа. Надежно запаяна со всех сторон, на оловянной пайке продавлены неизвестные рунические символы. Странная вещь, очень легкая для металлического предмета.
+itmname_map_sm {Map of San Martin}
+itmdescr_map_sm {
+ Using this map, you should reach your destination without difficulty. 
 }
-
-itmname_unarmed	{Безоружный}
-itmdescr_unarmed
-{
-Умение постоять за себя при помощи того, что есть всегда - своих кулаков.
+itmname_map_terks {Map of Turks}
+itmdescr_map_terks {
+ A map of this wild island, graphed by an unknown hand. 
 }
-
-itmname_Ascold_rabble	{Кочерга}
-itmdescr_Ascold_rabble
-{
-Старая, ржавая кочерга. Ее с трудом можно назвать оружием, но она достаточна тяжела и имеет крепкую рукоятку. Можно использовать как инструмент.
+itmname_map_maine_1 {Map of West Main}
+itmdescr_map_maine_1 {
+ A unique map, that documents a significant chunk of land. 
 }
-
-itmname_rabble	{Кочерга}
-itmdescr_rabble
-{
-Старая, ржавая кочерга. Ее с трудом можно назвать оружием, но она достаточна тяжела и имеет крепкую рукоятку.
+itmname_map_maine_2 {Map of the South Main}
+itmdescr_map_maine_2 {
+ A unique map, that documents a significant chunk of land. 
 }
-
-itmname_lead1	{Кастет}
-itmdescr_lead1
-{
-Острые шипы и удобная хватка позволяют этому кастету служить неплохим орудием в руках мастера.
+itmname_map_panama {Map of Panama}
+itmdescr_map_panama {
+ A map of the Panama Isthmus. 
 }
-
-itmname_blade1	{Дюсак}
-itmdescr_blade1
-{
-Просто ржавая железяка; даже скоба, когда-то защищавшая руку, отвалилась от старости...
+itmname_map_maracaibo {Map of the Center Main}
+itmdescr_map_maracaibo {
+ A map of the portion of Main that covers the cities of Cartagena, Maracaibo, and Caracas. 
 }
-
-itmname_blade2	{Бретта}
-itmdescr_blade2
-{
-Мушкетерская рапира. Такое оружие использовали мушкетеры, состоящие на военной службе у различных государств.
+itmname_map_cumana {Map of Cumana}
+itmdescr_map_cumana {
+ A map of the part of Main that covers the city of Cumana. 
 }
-
-itmname_blade3	{Малкус}
-itmdescr_blade3
-{
-Стальная сабля с тяжелым лезвием, способная разрубить любую кольчугу.
+itmname_map_puerto {Map of Puerto Rico}
+itmdescr_map_puerto {
+ A map documenting the most important places on the island. 
 }
-
-itmname_blade4	{Кутлас}
-itmdescr_blade4
-{
-Сабля с коротким, широким лезвием. Идеальное оружие для абордажных схваток. И ,все-таки, это оружие простого пирата, а не офицера, и ,тем более, не капитана.
+itmname_map_full {Treasure map}
+itmdescr_map_full {
+ This map marks a purported treasure. You'll never know unless you go and look! 
 }
-
-itmname_blade5	{Кинжал}
-itmdescr_blade5
-{
-Обычный кинжал, который хорошо подходит только для ближнего боя с безоружным противником.
+itmname_map_part1 {Partial map (A)}
+itmdescr_map_part1 {
+ A section of a map, pointing to a hidden treasure cache. To find your way, you need to track down the other map piece. 
 }
-
-itmname_blade6	{Скьявона}
-itmdescr_blade6
-{
-Изящный и смертельно опасный меч венецианских наемников из Далмации.
+itmname_map_part2 {Partial map (B)}
+itmdescr_map_part2 {
+ A section of a map, pointing to a hidden treasure cache. To find your way, you need to track down the other map piece. 
 }
-
-itmname_blade7	{Сабля}
-itmdescr_blade7
-{
-Обычная солдатская сабля. Оружие простое, но рубит неплохо.
+itmname_LegransMap {Loran de Graf's map}
+itmdescr_LegransMap {
+ A map showing the location of Loran de Graf's treasure. It is marked here that the treasure is located on the uninhabited island of Turks. 
 }
-
-itmname_blade8	{Мальтийский меч}
-itmdescr_blade8
-{
-Меч рыцарей Мальтийского ордена. Этот меч хорош как для атаки, так и для защиты.
+itmname_patent_england {English patent}
+itmdescr_patent_england {
+ A patent issued by the chancellery of His Majesty Karl II Stuart, proving your service to England. This gives you the responsibility of protecting the interests of the government and protecting the ships according to the charter. 
 }
-
-itmname_blade9	{Итальянская рапира}
-itmdescr_blade9
-{
-Изящная рапира итальянских мастеров. Красивое и в то же время опасное оружие в умелых руках.
+itmname_patent_portugal {Portuguese patent}
+itmdescr_patent_portugal {
+ A patent for capturing trade ships of opposing governments. 
 }
-
-itmname_blade10	{Катцбальгер}
-itmdescr_blade10
-{
-Короткий меч германских наемников. Использовался, в основном, для бесчинств и дебошей, поэтому неочень пригоден для защиты.
+itmname_patent_holland {Dutch patent}
+itmdescr_patent_holland {
+ A patent issued by the chancellery of His Majesty Wilhelm III of Orange, proving your service to the Netherlands. This gives you the responsibility of protecting the interests of the government and protecting the ships according to the charter. 
 }
-
-itmname_blade11	{Шотландский палаш}
-itmdescr_blade11
-{
-Разновидность палаша, распространенная в Шотландии. Отлично приспособлен как для защиты, так и для атаки.
+itmname_patent_france {French patent}
+itmdescr_patent_france {
+ A patent issued by the chancellery of His Majesty Louis XIV, proving your service to France. This gives you the responsibility of protecting the interests of the government and protecting the ships according to the charter. 
 }
-
-
-itmname_blade12	{Морской тесак}
-itmdescr_blade12
-{
-Оружие, распространенное среди военных моряков. Вещь довольно обычная, но сделанная на совесть.
+itmname_patent_spain {Spanish patent}
+itmdescr_patent_spain {
+ A patent issued by the chancellery of His Majesty Karl II Hapsburg, proving your service to Spain. This gives you the responsibility of protecting the interests of the government and protecting the ships according to the charter. 
 }
-
-itmname_blade13	{Эсток}
-itmdescr_blade13
-{
-Этим мечом можно с легкостью пробить любой блок; и даже самые крепкие доспехи неспособны защитить от его мощного колющего удара.
+itmname_map_bad {Old map}
+itmdescr_map_bad {
+ A chart drafted by the first discoverers of the New World. Hazy doodles on an ancient yellowed parchment do not aid in an accurate assessment of your  location. 
 }
-
-itmname_blade14	{Французская рапира}
-itmdescr_blade14
-{
-Легкость клинка этой рапиры позволяет наносить противнику молниеносные уколы. Весьма эффективное оружие как для дуэльных поединков, так и для схватки с несколькими врагами.
+itmname_map_normal {Regular map}
+itmdescr_map_normal {
+ This map is made by and for everyday tradesmen. Between its large, well-labeled cities and detailed island coordinates, it details everything a man needs to trade in these waters. 
 }
-
-itmname_blade15	{Итальянский меч}
-itmdescr_blade15
-{
-Этому мечу уже больше сотни лет, но это никоим образом не отразилось на нем. Что и говорить, итальянские оружейники знали свое дело.
+itmname_map_good {Excellent map}
+itmdescr_map_good {
+ A copy of the map of the legendary pirate Francis Drake. It's nearly all a real seadog might need. 
 }
-
-itmname_blade16	{Испанский меч}
-itmdescr_blade16
-{
-Мечи такого типа зачастую предпочитали носить испанцы. На клинке этого меча стоит клеймо одного из лучших мастеров Толедо.
+itmname_bible {Bible}
+itmdescr_bible {
+ A mysterious religious text, written in an unknown language. 
 }
-
-itmname_blade17	{Фламберг}
-itmdescr_blade17
-{
-Германский меч, одинаково приспособленный как для колющих, так и для рубящих ударов.
+itmname_ShipsJournal {Ship log}
+itmdescr_ShipsJournal {
+ The log of Captain Gray. 
 }
-
-itmname_blade18	{Кракемарт}
-itmdescr_blade18
-{
-Оружие, популярное среди английских и французских моряков. Для сабли, пожалуй, немного тяжеловата.
+itmdescr_ShipsJournal_Ascold {
+ An inventory of goods to be shipped to Spain. 
 }
-
-itmname_blade19	{Германская рапира}
-itmdescr_blade19
-{
-Простая, но эффективная рапира, выкованная в Германии.
+itmname_Powder_mummie {Mummy powder}
+itmdescr_Powder_mummie {
+ The pulverized remains of a preserved Egyptian. Very rare, in this part of the world. 
 }
-
-itmname_blade20	{Морской офицерский палаш}
-itmdescr_blade20
-{
-До безумия острый клинок этого прекрасного оружия способен прорубить почти любую преграду на своем пути.
+itmname_Rock_letter {Tablets}
+itmdescr_Rock_letter {
+ Stone tablets with runic letters. 
 }
-
-itmname_blade21	{Фальчион}
-itmdescr_blade21
-{
-Тяжелый рыцарский меч. Мало найдется людей, способных выдержать его мощный удар.
+itmname_Azzy_bottle {Lamp}
+itmdescr_Azzy_bottle {
+ An ancient eastern gas lamp, welded shut on all sides. The pewter base is inscribed with odd runic symbols. A queer thing all around. Very light for a metal trinket.
 }
-
-itmname_blade22 {Английская рапира}
-itmdescr_blade22
-{
-Рапиры, подобные этой, изготовлялись в Англии для аристократов и дворян. Зачастую использовались как дуэльное или наградное оружие.
+itmname_Malyava {Thief's note}
+itmdescr_Malyava {
+ A note written by a thief. 
 }
-
-itmname_blade23 {Испанская рапира}
-itmdescr_blade23
-{
-Рапира толедских мастеров с легким, но довольно прочным клинком. Излюбленное оружие испанских дуэлянтов.
+itmname_unarmed {Fisticuffs}
+itmdescr_unarmed {
+ The skill of standing up for yourself with your one guaranteed weapon: your fists. 
 }
-
-itmname_blade24 {Ураган}
-itmdescr_blade24
-{
-Очень сбалансированный клинок, позволяющий ураганом проходить через строй неприятеля.
+itmname_Ascold_rabble {Small crowbar}
+itmdescr_Ascold_rabble {
+ A small iron pry bar, for household use. Though you can't turn the world with it, you can budge some heavy objects using the sharp, pointed end. 
 }
-
-itmname_blade25 {Испанская сабля}
-itmdescr_blade25
-{
-Этот клинок - выходец из славных кузниц Толедо, который пробивает не только практически любую защиту, но и хорошо защищает своего владельца.
+itmname_rabble {Poker}
+itmdescr_rabble {
+An old, rusty piece of fireplace iron. Though not really a weapon as such, it's heavy enough and has a sturdy handle. 
 }
-
-itmname_blade26 {Цербер}
-itmdescr_blade26
-{
-Достаточно редкий клинок на Архипелаге, и неизвестно, откуда пошло его название. Впрочем, этот короткий клинок всегда предпочитали безрассудные храбрецы и авантюристы, ибо он превосходен не только в атаке, но и в защите...
+itmname_lead1 {Brass knuckles}
+itmdescr_lead1 {
+ Sharp spikes and a comfortable grip allow these brass knuckles to serve as a good weapon in the hands of a pro. 
 }
-
-itmname_blade27 {Рапира Моргана}
-itmdescr_blade27
-{
-Рапира известного пирата, не она ли залог его успехов? Острое как бритва лезвие, отличная балансировка - все это позволяет выживать в любых заварушках.
+itmname_blade1 {Dusak}
+itmdescr_blade1 {
+ Originally a sort of a machete. Now, just a rusty piece of metal. Even the guard, which once protected the hand, has fallen off from age... 
 }
-
-itmname_blade28 {Танат}
-itmdescr_blade28
-{
-Меч служителей ордена Дагона. По преданию, прототип этого меча был выкован из метеорита, упавшего с небес.
-}
-itmname_blade30 {Кавалерийская сабля}
-itmdescr_blade30
-{
-Весьма и весьма неплохой образец вооружения французской кавалерии.
-}
-itmname_blade31 {Голландская пехотная сабля}
-itmdescr_blade31
-{
-Превосходный образец оружия. Не всякий сумеет устоять против его молниеносных рубящих ударов.
-}
-itmname_blade32 {Хаудеген}
-itmdescr_blade32
-{
-Очень хорошая тяжелая однолезвийная шпага. Это - настоящая редкость: на всем архипелаге таких всего несколько штук найдется.
-}
-itmname_blade33 {Французский меч}
-itmdescr_blade33
-{
-Одно из лучших произведений французских мастеров. Прекрасное коллекционное оружие.
-}
-itmname_blade34 {Кортелас}
-itmdescr_blade34
-{
-Генуезский меч. Когда-то такими мечами вооружались профессиональные фехтовальщики в Италии.
-}
-itmname_blade35 {Палаш}
-itmdescr_blade35
-{
-Тяжелое и мощное оружие - не самое лучшее решение для быстрой атаки, а тем более защиты. Однако, это с лихвой компенсируется уроном, который он наносит.
+itmname_blade2 {Beretta saber}
+itmdescr_blade2 {
+ A musketeer's saber. This weapon was used by musketeers in the service of different governments. 
 }
-
-itmname_topor1 {Топор}
-itmdescr_topor1
-{
-Абордажный топор. Мощное оружие при атаке, но для защиты почти бесполезно.
-}
-itmname_topor2 {Секира}
-itmdescr_topor2
-{
-Эффективное оружие для уничтожения такелажа, а также для рукопашных и абордажных схваток. Острый выступ на обухе способен с легкостью пробивать любые доспехи.
+itmname_blade3 {Malkus}
+itmdescr_blade3 {
+ A steel sword with a heavy blade, capable of rending any chainmail. 
 }
-
-itmname_topor3 {Топорик}
-itmdescr_topor3
-{
-Абордажный топорик. Эффективен только при внезапной атаке.
+itmname_blade4 {Cutlass}
+itmdescr_blade4 {
+ A short, wide blade, ideal for boarding expeditions. Overall, a weapon for a simple pirate. Unsuitable for an officer, and surely not a captain's weapon.
 }
-
-itmname_arm1 {Боевые когти}
-itmdescr_arm1
-{
-Ряд смертоносных лезвий, острых как бритва, оставит после себя неизгладимый след на остывающем теле своей жертвы...
+itmname_blade5 {Dagger}
+itmdescr_blade5 {
+ A standard dagger, best used only for close combat with an unarmed opponent. 
 }
-
-itmname_pistol1	{Пистолет}
-itmdescr_pistol1
-{
-Маленький дешевый пистолет. Опасен только на очень небольшом расстоянии.
+itmname_blade6 {Schiavona}
+itmdescr_blade6 {
+ A delicate and fatally dangerous sword, carried by the Venetian mercenaries from Dalmatia. 
 }
-
-itmname_pistol2	{Длинноствольный пистолет}
-itmdescr_pistol2
-{
-Обычный длинноствольный пистолет. Приличные дальность и убойная сила, но он долго перезаряжается и не слишком точен.
+itmname_blade7 {Saber}
+itmdescr_blade7 {
+ A regular soldier's sword. Though a simple weapon, it cuts well enough. 
 }
-
-itmname_pistol3	{Мортира}
-itmdescr_pistol3
-{
-Настоящая ручная пушка. Большая убойная сила, но дальность и точность оставляют желать лучшего.
+itmname_blade8 {Maltese sword}
+itmdescr_blade8 {
+ Sword of the Knights Hospitaller. This sword is good for both offense and defense. 
 }
-
-itmname_pistol4	{Четырехствольный пистолет}
-itmdescr_pistol4
-{
-Четыре пистолета в одном. Перезаряжается долго, но оно того стоит. Использование этого пистолета требует навыка 'Меткий Стрелок'.
+itmname_blade9 {Italian rapier}
+itmdescr_blade9 {
+ A delicate rapier of the Italian masters. A beautiful weapon, yet dangerous in the right hands. 
 }
-
-itmname_pistol5	{Бретерский пистолет}
-itmdescr_pistol5
-{
-Этот пистолет - настоящее произведение искусства. Отличные дальность и точность стрельбы, быстрая перезарядка, высокая убойная сила - весомый аргумент в любом споре.
+itmname_blade10 {Katzbalger }
+itmdescr_blade10 {
+ An sword used by German mercenaries - mostly for debauches and atrocities. Not very useful for defense. 
 }
-
-itmname_pistol6	{Двуствольный пистолет}
-itmdescr_pistol6
-{
-Отличный пистолет с двумя стволами. Для тех случаев, когда одной пули недостаточно. Использование этого пистолета требует навыка 'Стрелок'.
+itmname_blade11 {Claymore}
+itmdescr_blade11 {
+ A popular two-handed sword, from Scotland. Excellent for both defense and offense. 
 }
-
-itmname_pistol8	{Мушкетон}
-itmdescr_pistol8
-{
-Мощный, убойный, довольно тяжелый и редкий инструмент убийства в этих водах.
+itmname_blade12 {Naval broadsword}
+itmdescr_blade12 {
+A weapon common among military sailors. Standard fare, but well-crafted. 
 }
-
-itmname_pistol7	{Шотган}
-itmdescr_pistol7
-{
-По легендам Инков, к ним приходили пришельцы из других миров. В одно из своих пришествий они оставили им это мощное оружие, обладающее необыкновенной разрушительной силой. Использование шотгана требует навыка 'Меткий стрелок'.
+itmname_blade13 {Estoc}
+itmdescr_blade13 {
+ A long, stiff piercing weapon, useful against even the heaviest armor. 
 }
-
-itmname_cirass1	{Обычная кираса}
-itmdescr_cirass1
-{
-Такую кирасу носили обычные солдаты. Хорошей защиты она не дает, но все же способна уменьшить силу удара на 10 процентов.
+itmname_blade14 {French rapier}
+itmdescr_blade14 {
+ The lightness of the blade allows this rapier to deliver lightning hits to the enemy. A rather effective weapon, whether for dueling or group combat. 
 }
-
-itmname_cirass2	{Португальская кираса}
-itmdescr_cirass2
-{
-Португальцы занимались, в основном, торговлей и не стремились воевать с другими нациями. Их кираса не идеальна, но достойна внимания при встрече с пиратами. Уменьшает повреждение от удара сабли на 20 процентов.
+itmname_blade15 {Italian sword}
+itmdescr_blade15 {
+ Although this sword is over a hundred years old, age has had no effect on it. What can we say? Italian armorers knew their business. 
 }
-
-itmname_cirass3	{Испанская кираса}
-itmdescr_cirass3
-{
-Кираса, сделанная лучшими мастерами Кастилии. Способна выдержать хороший удар абордажной саблей, снижая урон на 25 процентов. Позволить себе носить ее могли только офицеры.
+itmname_blade16 {Spanish sword}
+itmdescr_blade16 {
+ Spaniards often prefer to carry swords of this type. On the blade of this sword is the brand of one of the greatest masters of Toledo. 
 }
-
-itmname_cirass4	{Голландская кираса}
-itmdescr_cirass4
-{
-Кираса голландских офицеров. Уменьшает повреждение от сабельного удара на 22 процента.
+itmname_blade17 {Flambard}
+itmdescr_blade17 {
+ A German sword with an undulating blade, useful both for thrusting and for cutting. 
 }
-
-itmname_cirass5	{Дорогая кираса}
-itmdescr_cirass5
-{
-Кираса из позолоченного металла. Знак богатства и процветания. Прекрасно сдерживает любой удар, уменьшая силу удара на 35 процентов.
+itmname_blade18 {Sailor's sword}
+itmdescr_blade18 {
+ A weapon popular amongst English and French sailors. Pretty heavy for a saber. 
 }
-
-itmname_nocirass {Без кирасы}
-itmdescr_nocirass
-{
-Иногда очень устаешь, когда долгое время носишь кирасу. Снимите ее, запритесь в каюте и выпейте чашечку горячего кофе.
+itmname_blade19 {German rapier}
+itmdescr_blade19 {
+ A simple yet effective rapier, tempered in Germany. 
 }
-
-itmname_spyglass1	{Дешевая подзорная труба}
-itmdescr_spyglass1
-{
-  Простая подзорная труба с поцарапанными стеклами. Этой рухляди не место в кармане уважающего себя капитана.
-  Через нее можно рассмотреть только тип, название и скорость корабля.
+itmname_blade20 {Atill}
+itmdescr_blade20 {
+ The insanely sharp blade of this magnificent weapon is able to cut almost anything in its path. 
 }
-
-itmname_spyglass2	{Обычная подзорная труба}
-itmdescr_spyglass2
-{
-Обычная подзорная труба. Линзы вполне приличные, хотя бывает и лучше.
-Через нее можно рассмотреть только тип, название, скорость корабля и степень повреждения парусов.
+itmname_blade21 {Falchion}
+itmdescr_blade21 {
+ The heavy sword of a knight. Few can withstand its mighty blow. 
 }
-
-itmname_spyglass3	{Хорошая подзорная труба}
-itmdescr_spyglass3
-{
-Дорогая подзорная труба с отличными линзами. Позволяет за милю рассмотреть ухмылку на роже вражеского боцмана.
-Через нее можно рассмотреть: тип, название, скорость корабля, количество пушек и степень его повреждения.
+itmname_blade22 {English rapier}
+itmdescr_blade22 {
+ Rapiers of this sort were made in England for aristocrats and courtiers. Often used as a dueling or sport weapon. 
 }
-
-itmname_spyglass4	{Отличная подзорная труба}
-itmdescr_spyglass4
-{
-Подзорная труба работы мастера, с линзами из чистейшего горного хрусталя. Лучше может быть только эксклюзивный вариант.
-Через нее можно рассмотреть: тип, название и скорость корабля, степень его повреждения, количество команды, орудий, и то, чем они заряжены.
+itmname_blade23 {Spanish rapier}
+itmdescr_blade23 {
+ Rapier of the Toledo masters, with a light yet rather sturdy blade. Favored weapon of Spanish duelists. 
 }
-
-itmname_spyglass5	{Эксклюзивная подзорная труба}
-itmdescr_spyglass5
-{
-Этот оптический инструмент больше напоминает телескоп, нежели подзорную трубу. Линзы из чистейшего горного хрусталя, имеющие идеальную подгонку, а также использование треноги, позволяющее избежать подергиваний рук, позволяют рассмотреть абсолютно все, даже тип орудий на корабле или в форте.
+itmname_blade24 {Hurricane}
+itmdescr_blade24 {
+ A very balanced dagger, allowing to pass through enemies like a hurricane. 
 }
-
-
-itmname_potion1	{Лечебное зелье}
-itmdescr_potion1
-{
-Настой лекарственных трав, излечивающий легкие раны.
+itmname_blade25 {Spanish saber}
+itmdescr_blade25 {
+A blade from the glorious smithies of Toledo, which may cut through almost any defense, yet also defends its owner well. 
 }
-
-itmname_potion2	{Эликсир}
-itmdescr_potion2
-{
-Сваренный из более чем сотни редких трав, этот эликсир может вылечить даже самые страшные раны.
+itmname_blade26 {Cerber}
+itmdescr_blade26 {
+ A rather rare blade on the Archipelago, with a name of unknown origin. In any case, this short dagger is preferred by foolhardy boys and adventurers, as it is good for not just for attacking, but defense as well... 
 }
-
-itmname_jewelry1	{Сапфир}
-itmdescr_jewelry1
-{
-Светлый, цвета чистой воды камень. Великолепная ровная огранка.
+itmname_blade27 {Morgan's rapier}
+itmdescr_blade27 {
+ Rapier of the famed pirate. Could it be the source of his success? Sharp as a razor and excellent balance, allowing its bearer to live through the most chaotic of situations. 
 }
-
-itmname_jewelry2	{Алмаз}
-itmdescr_jewelry2
-{
-Настоящее произведение ювелирного искусства. Говорят, в блеске граней этого магического камня вы можете увидеть ваше будущее.
+itmname_blade28 {Tanat}
+itmdescr_blade28 {
+ Sword of the members of the Order of Dagon. Legends say that the prototype of this sword was forged from a meteorite fallen from the sky. 
 }
-
-itmname_jewelry3	{Рубин}
-itmdescr_jewelry3
-{
-Яркий, цвета крови, рубин. Украсит Вашу шпагу и придаст Вашей руке твердости в следующем бою.
+itmname_blade30 {Cavalier saber}
+itmdescr_blade30 {
+ A rather good example of French cavalry arms. 
 }
-
-itmname_jewelry4	{Изумруд}
-itmdescr_jewelry4
-{
-Изумруд. Зеленый камень, при взгляде на который у самого отпетого негодяя в душе возникают воспоминания о красавице с зелеными глазами, которую он оставил дома. (+10 авторитет)
+itmname_blade31 {Dutch infantry saber}
+itmdescr_blade31 {
+ An excellent arms specimen. Not many can stand up to its lightning cuts. 
 }
-
-itmname_jewelry5	{Золотой самородок}
-itmdescr_jewelry5
-{
-Золотой самородок - ради этого красивого металла люди убивают друг друга. Что можно сказать - золото правит миром.
+itmname_blade32 {Haudegen}
+itmdescr_blade32 {
+ A very heavy one-sided blade. This is a real rarity: you'll only find a few on the whole archipelago. 
 }
-
-itmname_jewelry6	{Серебряное кольцо с сапфиром}
-itmdescr_jewelry6
-{
-Серебро и сапфир - недорогое сочетание, но сколько в этом кольце благородства!...
+itmname_blade33 {French sword}
+itmdescr_blade33 {
+ One of the best examples of the French masters. A wonderful collector's weapon. 
 }
-
-itmname_jewelry7	{Золотое кольцо с изумрудом}
-itmdescr_jewelry7
-{
-Золото и изумруд - смотрится броско, но ведь Вы не боитесь излишнего блеска.
+itmname_blade34 {Cortelas}
+itmdescr_blade34 {
+ A Genoan blade. Some time ago, pro fencers used these in Italy. 
 }
-
-itmname_jewelry8	{Бронзовое кольцо}
-itmdescr_jewelry8
-{
-Бронзовое кольцо - на счастье. Ваш талисман. (+10 к везению)
+itmname_blade35 {Claymore}
+itmdescr_blade35 {
+ A mighty, heavy weapon. Not the best choice for defense, or a quick strike, yet the trade-off in damage may be worth it. 
 }
-
-itmname_jewelry9	{Бронзовый крестик}
-itmdescr_jewelry9
-{
-Помните Спасителя. В бою, быть может, именно маленький крестик придаст вам силы. (+10 к везению)
+itmname_topor1 {Axe}
+itmdescr_topor1 {
+ Boarding axe. A powerful offensive weapon, though useless in defense. 
 }
-
-itmname_DeSouzaCross	{Крест Антониу де Соуза}
-itmdescr_DeSouzaCross
-{
-Иезуитский крест. (+30 к везению, +20 к авторитету, +10 к торговле)
+itmname_topor2 {Poleaxe}
+itmdescr_topor2 {
+ Effective for eliminating rigging, for boarding, and for hand-to-hand combat. The sharp spot on the tip is capable of easily piercing any armor. 
 }
-
-itmname_jewelry10	{Золотое кольцо с сапфиром}
-itmdescr_jewelry10
-{
-Немногие достойны такой роскоши, ещё меньше могут позволить себе её.
+itmname_topor3 {Small axe}
+itmdescr_topor3 {
+ Boarding axe. Effective for sudden attacks. 
 }
-
-itmname_DOjeronRing	{Кольцо Бертрана д'Ожерона}
-itmdescr_DOjeronRing
-{
-По нему донна Анна должна узнать человека, посланного д'Ожероном.
+itmname_toporAZ {Macuahuitl}
+itmdescr_toporAZ {
+The Aztecs' famed obsidian sword with the unpronounceable name. Good, heavy weapons are always valuable, even if crafted of wood and stone.
 }
-
-itmname_jewelry11	{Большая жемчужина}
-itmdescr_jewelry11
-{
-Дар морей, привезенный сюда из далеких плаваний. Говорят, этой жемчужине больше сотни лет.
+itmname_arm1 {Battle claws}
+itmdescr_arm1 {
+A row of razor-sharp death-dealing blades will make an impressive mark on the cool body of their victim... 
 }
-
-itmname_jewelry12	{Маленькая жемчужина}
-itmdescr_jewelry12
-{
-Простая, красивая жемчужина.
+itmname_pistol1 {Pistol}
+itmdescr_pistol1 {
+ Small, cheap pistol. Dangerous only at very short distances. 
 }
-
-itmname_jewelry13	{Камея}
-itmdescr_jewelry13
-{
-Камея. Подарите ее любой красотке - и она будет носить ее до конца жизни, вспоминая вас.
+itmname_pistol2 {Long-barreled pistol}
+itmdescr_pistol2 {
+ A standard pistol with a longer barrel, to increase range and power. Still difficult to reload, and woefully inaccurate. 
 }
-
-itmname_jewelry14	{Золотая брошь}
-itmdescr_jewelry14
-{
-Да, эту вещицу просто красотке не подаришь. Ну, может быть, королеве. Но только на время.
+itmname_pistol3 {Mortar}
+itmdescr_pistol3 {
+ A real hand-cannon. Big power, but range and accuracy leave much to be desired. 
 }
-
-itmname_jewelry15	{Изумрудные подвески}
-itmdescr_jewelry15
-{
-Дьявол Вас побери, если за такое украшение Вы не добьетесь благосклонности любой женщины!!! (+10 к скрытности)
+itmname_pistol4 {Four-barrel pistol.}
+itmdescr_pistol4 {
+ Four pistols in one! An age to reload, but it's worth it. Using this pistol requires the "Clever Shot" skill. 
 }
-
-itmname_jewelry16	{Ожерелье}
-itmdescr_jewelry16
-{
-Казалось бы, простое украшение. Но и этому любая будет рада. Вот и подарите его любой.
+itmname_pistol5 {Beretta pistol}
+itmdescr_pistol5 {
+ This pistol is a real work of art. Excellent range and accuracy, quick reloading, and high force. Always a good argument, in any disagreement. 
 }
-
-itmname_jewelry17	{Серебряный слиток}
-itmdescr_jewelry17
-{
-Серебро - драгоценный металл. Его использовали для чеканки монет и для изготовления церковной утвари.
+itmname_pistol6 {Double-barreled pistol}
+itmdescr_pistol6 {
+ An excellent pistol with two barrels, for those situations where one bullet is not enough. Use requires "The Shootist" skill. 
 }
-
-itmname_jewelry18	{Золотое кольцо с рубином}
-itmdescr_jewelry18
-{
-Яркий, цвета крови, рубин придает золоту своеобразную изысканность.
+itmname_mushket {Musketoon}
+itmdescr_mushket {
+ A short-barreled musket: heavy, powerful, and a rather rare killing instrument in these waters. 
 }
-
-
-
-itmname_indian1	{Идол Иргантахула}
-itmdescr_indian1
-{
-Фигурка индейского божества. Покровитель очага. (+10 авторитет и скрытность, -20 пистолеты).
+itmname_questMushket {Double-Barreled Musketoon}
+itmdescr_questMushket {
+An excellent example of an English firearm. A marvelous blunderbuss, for a master marksman.
 }
-
-itmname_indian2	{Статуэтка странного животного}
-itmdescr_indian2
-{
-Кто знает, что это? Кажется, это игрушка для маленьких индейцев. (-10 авторитет)
+itmname_pistol7 {Shotgun}
+itmdescr_pistol7 {
+ A weapon of a different era. How it got here is a mystery. Using the shotgun requires the "Clever Shot" skill. 
 }
-
-itmname_indian3	{Маленькая мозаика}
-itmdescr_indian3
-{
-Потрясающе красивая вещь, секрет производства таких мозаик уже утерян. В Европе такая вещь стоила бы целое состояние. А здесь продается за бесценок. (+10 торговля).
+itmname_cirass1 {Regular cuirass}
+itmdescr_cirass1 {
+Regular soldiers carried such a cuirass into battle. Though its defense is wanting, it is still capable of reducing by 10% any damage received. 
 }
-
-itmname_indian4	{Глиняный кувшин}
-itmdescr_indian4
-{
-Красивый расписной сосуд.
+itmname_cirass2 {French cuirass}
+itmdescr_cirass2 {
+ Not the best cuirass in the archipelago, yet worth attention in pirate engagements. Reduces by by 20% any damage from sword attacks. 
 }
-
-itmname_indian5	{Маска Маркуханкату}
-itmdescr_indian5
-{
-Маска веселого божества. Кстати, она золотая. (+10 скрытность)
+itmname_cirass3 {Spanish cuirass}
+itmdescr_cirass3 {
+ Cuirass made by the best masters of Castille. Able to withstand a good hit from a boarding saber, reducing damage by 25%. Only suitable for officers to wear. 
 }
-
-itmname_indian6	{Статуэтка Акумаларту}
-itmdescr_indian6
-{
-Золотая фигурка бога войны местных индейцев. (+10 среднее оружие)
+itmname_cirass4 {Dutch cuirass}
+itmdescr_cirass4 {
+ Cuirass of the Dutch officers. Reduces sword damage by 22%. 
 }
-
-itmname_indian7	{Идол Пикахуатла}
-itmdescr_indian7
-{
-Идол - изображение Матери Земли. Символ плодородия и удачи. (+10 к везению)
+itmname_cirass5 {Expensive cuirass}
+itmdescr_cirass5 {
+ A decorative cuirass, made from a golden material. A sign of wealth and prosperity. And yet, it wonderfully holds back any attack, reducing damage by 35%. 
 }
-
-itmname_indian8	{Королевская Плевательница}
-itmdescr_indian8
-{
-Ритуальный предмет. С помощью этого кубка совершались обряды при инкском дворе. Кстати, можно использовать и в хозяйстве.
+itmname_nocirass {No sword}
+itmdescr_nocirass {
+ Sometimes you get very tired when you wear your cuirass for a long time. Take it off, lock yourself in the cabin, and have a nice hot cup of coffee. 
 }
-
-itmname_indian9	{Идол Бакахукта}
-itmdescr_indian9
-{
-Изображение бога, а кроме того и кубок. Удобная вещица, согласитесь.
+itmname_spyglass1 {Cheap spyglass}
+itmdescr_spyglass1 {
+  A regular spyglass, with a scratched lens. This junk has no place in a the pocket of a self-respecting captain. 
+ Through it, one can see just the type, the name, and the speed of a ship. 
 }
-
-itmname_indian10	{Идол Йкстоикхатлу}
-itmdescr_indian10
-{
-Потрясающе красивая фигурка божества из чистого золота с инкрустацией. Покровитель охотников. (+20 пистолеты, +10 меткость, -20 скрытность).
+itmname_spyglass2 {Regular spyglass}
+itmdescr_spyglass2 {
+ Your typical spyglass. The lenses are respectable, though there are better. 
+ Through it, one can see just the name, speed, and sail damage of a ship. 
 }
-
-itmname_indian11	{Крысиный бог}
-itmdescr_indian11
-{
-Фигурка этого бога способна уберечь капитана корабля от нашествия крыс и порчи ими товаров.
+itmname_spyglass3 {Good spyglass}
+itmdescr_spyglass3 {
+ An expensive spyglass, with excellent lenses. Allows you to see the smirk on a navigator's face, from a mile away. 
+ Through it you can judge the type, name, speed, number of cannons, and damage level of a ship. 
 }
-
-itmname_indian12	{Идол Морхахтулака}
-itmdescr_indian12
-{
-Золотая голова идола. Да, золота на эту голову ушло много... Кстати, идол - покровитель воинов. (+10 тяжелое оружие)
+itmname_spyglass4 {Excellent spyglass}
+itmdescr_spyglass4 {
+ A spyglass made by a master, from pure mountain crystal. Only the exclusive version could be better. 
+ Through it you can see the type, name, and speed of ship; its damage level and crew numbers; its weapons, and what they're loaded with. 
 }
-
-itmname_indian13	{Древняя курительница}
-itmdescr_indian13
-{
-Сосуд для индейских воскурений.
+itmname_spyglass5 {Exclusive spyglass}
+itmdescr_spyglass5 {
+ This optical instrument more resembles a telescope than a spyglass. Lenses made from pure mountain crystal, with an ideal zoom. An included tripod allows for hands-free use. Through it, you can see everything down to the type of cannons on a ship or fort. 
 }
-
-itmname_indian14	{Идол Ихтилокстумба}
-itmdescr_indian14
-{
-Золотой идол, выполненный в очень необычном стиле. Божество - покровитель торговцев (+20 торговля, -20 авторитет).
+itmname_potion1 {Medical herbs}
+itmdescr_potion1 {
+ A mix of different leaves and concoctions, to salve light wounds. 
 }
-
-itmname_indian15	{Ритуальная ванна}
-itmdescr_indian15
-{
-Ритуальная ванна - один из главных элементов инкского ритуала. Для омовения тел верховных священнослужителей культа её наполняли кровью жертв. (+10 авторитет и защита, -10 везение)
+itmname_potion2 {Elixir}
+itmdescr_potion2 {
+ Made from over a hundred rare plants, this elixir can cure even the most horrible wounds. 
 }
-
-itmname_indian16	{Раскрашенный горшок}
-itmdescr_indian16
-{
-Красочный, расписанный в инкском стиле сосуд. К сожалению, это всего лишь стилизация...
+itmname_jewelry1 {Sapphire}
+itmdescr_jewelry1 {
+ A brilliant stone, the color of blue water. Polished to a wonderful shine. 
 }
-
-itmname_indian17	{Статуэтка тигра}
-itmdescr_indian17
-{
-Вероятно, эта статуэтка китайского происхождения. Как её сюда занесло? (+10 скрытность)
+itmname_jewelry2 {Diamond}
+itmdescr_jewelry2 {
+ A real piece of jeweler's art. They say that in its shine you can see your future. 
 }
-
-itmname_indian18	{Идол древнего божества}
-itmdescr_indian18
-{
-Культ индейцев малопонятен для выходцев из Европы... В частности, этот идол олицетворяет собой языческое божество, управляющее стихиями. (+20 навигация, -20 скрытность)
+itmname_jewelry3 {Ruby}
+itmdescr_jewelry3 {
+ A bright stone, the color of blood. 
 }
-
-itmname_indian19	{Маска из красного золота}
-itmdescr_indian19
-{
-Ритуальная маска, символизирующая бога, извергавшего на непокорных ему огонь и молнии. (+20 меткость, +10 орудия, -20 скрытность)
+itmname_jewelry4 {Emerald}
+itmdescr_jewelry4 {
+ A green stone, by looking at which even the most hardened villain may remember the green-eyed beauty he left behind. (+10 authority) 
 }
-
-itmname_indian20	{Скипетр жреца}
-itmdescr_indian20
-{
-Один из атрибутов верховной власти инкских жрецов. (+20 авторитет и -10 везение)
+itmname_jewelry5 {Gold ingot}
+itmdescr_jewelry5 {
+ Ah, gold - for the sake of this beautiful metal, men will kill each other. What can we say, but gold rules the world. 
 }
-
-itmname_indian21	{Церемониальный сосуд}
-itmdescr_indian21
-{
-Сколько сотен лет этому сосуду, уже, наверное, навсегда останется тайной. Но то, что в него было пролито море крови - неоспоримо. Инкские боги были кровожадны. (+20 авторитет, -10 скрытность)
+itmname_jewelry6 {Silver sapphire ring}
+itmdescr_jewelry6 {
+ Silver and sapphire - an inexpensive pair, yet how honorable! 
 }
-
-itmname_indian22	{Странная вещь}
-itmdescr_indian22
-{
-Этот идол - один из древнейших. До нас не дошло даже имени бога, которого он символизирует, но, по преданиям, он - Защитник. (+20 защита, +10 легкое оружие, -10 авторитет и везение)
+itmname_jewelry7 {Gold emerald ring}
+itmdescr_jewelry7 {
+ Gold and emerald - looks tacky, but some extra style never hurt a man. 
 }
-
-itmname_potion3		{Противоядие}
-itmdescr_potion3
-{
-Эта жидкость - отвар из редких трав, являющийся противоядием. Вкус - отвратительный, но если захочется жить, и не такое выпьешь.
+itmname_jewelry8 {Bronze ring}
+itmdescr_jewelry8 {
+ A bronze ring, for happiness. Your talisman. (+10 luck) 
 }
-
-
-itmname_potion4		{Микстура}
-itmdescr_potion4
-{
-Эта микстура не только лечит отравление, но и восстанавливает здоровье.
+itmname_jewelry9 {Bronze cross}
+itmdescr_jewelry9 {
+ Remember the savior. In battle, this cross may well lend you strength. (+10 to luck) 
 }
-
-itmname_potionrum	{Бутылка рома}
-itmdescr_potionrum
-{
-Никакой ром не способен свалить Вас с ног, так что пейте быстрее... Кстати, если Вы ранены, то спирт, содержащийся в нём, поможет залечить раны.
+itmname_DeSouzaCross {Cross of Antonio de Souza}
+itmdescr_DeSouzaCross {
+ Jesuit cross. (+30 to luck, +20 authority, +10 trade) 
 }
-
-itmname_potionwine	{Отличное вино}
-itmdescr_potionwine
-{
-Превосходнейшее французское вино на Карибах. Его расслабляющее действие поможет организму восстановить силы и убьет вредоносные бактерии.
+itmname_jewelry10 {Gold sapphire ring}
+itmdescr_jewelry10 {
+ Few are worthy of such luxury; fewer still can afford it. 
 }
-
-itmname_potion5 	{Виноград}
-itmdescr_potion5
-{
-Сочные ягоды винограда быстро восстановят силы и утолят самую сильную жажду.
+itmname_DOjeronRing {Ring of Bertran d'Ogeron}
+itmname_DOjeronRingNarval {Narwhal Clan Ring}
+itmdescr_DOjeronRing {
+ By it, Doсa Anna must recognize the person sent by d'Ogeron. 
+}
+itmdescr_DOjeronRingNarval {
+Every Narwhal has a specially-engraved clan ring. Sort of a fraternal arrangement.
 }
-
-itmname_bullet	{Пули}
-itmdescr_bullet
-{
- Пули подходят пистолетам любого типа и являют собой маленькие, но очень смертоносные свинцовые шарики.
- Следите за их наличием, так как без них выстрел невозможен.
- Ущерб, наносимый пулей, сильно зависит от типа пистолета.
+itmname_jewelry11 {Big Pearl}
+itmdescr_jewelry11 {
+A gift of the sea, carried hence from far-off lands. They say this pearl is over a century old.
 }
-
-itmname_Mineral2	{Гранат}
-itmdescr_Mineral2
-{
-Очень редкий и в то же время очень дорогой кристалл. Продав его торговцу, Вы получите хорошие деньги.
+itmname_jewelry12 {Small Pearl}
+itmdescr_jewelry12 {
+A simple, beautiful pearl.
 }
-
-itmname_Mineral3	{Хризоберилл}
-itmdescr_Mineral3
-{
-Практически невозможно найти вещь, подобную этой. По слухам, этот камень защищает от привидений и прочей нечисти. (+10 скрытность)
+itmname_jewelry13 {Cameo}
+itmdescr_jewelry13 {
+A cameo. Give this to any pretty girl, and she will wear it for the rest of her life, in remembrance of you.
 }
-
-itmname_Mineral4	{Баклан}
-itmdescr_Mineral4
-{
-Большая неожиданность - отыскать в сундуке дохлого баклана, но все же лучше от него избавиться поскорее - сделать чучело или похоронить.
-(-10 авторитет и  -10 скрытность)
+itmname_jewelry14 {Golden brooch}
+itmdescr_jewelry14 {
+ Ah, you can't give such a thing to just any beauty. Well, maybe to a Queen. And only for a bit. 
 }
-
-itmname_Mineral5	{Горный хрусталь}
-itmdescr_Mineral5
-{
-Этот редкий и уникальный кристалл иногда можно встретить в горных пещерах и гротах. Из него делают стекла для дорогих подзорных труб.
+itmname_jewelry15 {Emerald pendant}
+itmdescr_jewelry15 {
+ Devil take you, if such a jewel fails to win the favor of any woman! (+10 stealth) 
 }
-
-itmname_Mineral6	{Коралл}
-itmdescr_Mineral6
-{
-Эта вещь очень часто встречается в здешних местах, так как острова Архипелага, в основном, кораллового происхождения.
+itmname_jewelry16 {Necklace}
+itmdescr_jewelry16 {
+ It seems like simple jewelry, yet anyone would be happy with it. So give it to anyone. 
 }
-
-itmname_Mineral7	{Топаз}
-itmdescr_Mineral7
-{
-Не особо драгоценный минерал, несколько неказистый и далекий от совершенства. Но все же блики на его поверхности радуют взор.
+itmname_jewelry17 {Silver ingot}
+itmdescr_jewelry17 {
+ Such a valuable metal, silver. Used for making coins and church utensils. 
 }
-
-itmname_Mineral8	{Черный кварц}
-itmdescr_Mineral8
-{
-Этот темный камень некроманты используют для контакта с мертвыми. (-10 везение, +20 абордаж)
+itmname_jewelry18 {Gold ruby ring }
+itmdescr_jewelry18 {
+ A bright stone, the color of blood, the ruby gives its gold setting a certain exquisite feeling. 
 }
-
-itmname_Mineral9	{Турмалин}
-itmdescr_Mineral9
-{
-Приятно смотреть на переливы цветов этого камня. Возможно, за него дадут хорошую цену.
+itmname_indian1 {Acamapichtli Idol}
+itmdescr_indian1 {
+Acamapichtli was the first ruler of the Aztec empire. (+10 authority and stealth, -20 pistols).
 }
-
-itmname_Mineral10	{Каменная соль}
-itmdescr_Mineral10
-{
-Этот минерал используют для приготовления порошка, который придает пищи довольно оригинальный привкус.
+itmname_indian2 {Strange Animal Statuette}
+itmdescr_indian2 {
+A clay whistle, shaped like a dog... or perhaps a coyote with a stupid smile. (-10 authority)
 }
-
-itmname_sculMa1 	{Белый хрустальный череп}
-itmdescr_sculMa1
-{
-Один из трех черепов Тольтеков. Собранные вместе три черепа дают силу и мудрость. (+30 навигация, +20 авторитет, +20 меткость, +20 абордаж)
+itmname_indian3 {Aztec Calendar}
+itmdescr_indian3 {
+A miniature depiction of the Aztec calendar. This would cost a fortune in Europe - and yet here it is, sold for a pittance. (+10 commerce).
 }
-
-itmname_sculMa2 	{Розовый хрустальный череп}
-itmdescr_sculMa2
-{
-Один из трех черепов Тольтеков. Собранные вместе три черепа дают силу и мудрость. (+30 навигация, +20 авторитет, +20 меткость, +20 абордаж)
+itmname_indian4 {Clay Jug}
+itmdescr_indian4 {
+Quite the ticket for storing water or wine.
 }
-
-itmname_sculMa3 	{Голубой хрустальный череп}
-itmdescr_sculMa3
-{
-Один из трех черепов Тольтеков. Собранные вместе три черепа дают силу и мудрость. (+30 навигация, +20 авторитет, +20 меткость, +20 абордаж)
+itmname_indian5 {Coxcoxtli Statuette}
+itmdescr_indian5 {
+An ancient golden figurine of the great and noble lord. (+10 stealthiness)
 }
-
-itmname_suit_1 	{Обноски}
-itmdescr_suit_1
-{
-Такая одежда к лицу только профессиональному бродяжке. Давно не стиранная, она источает отвратительный запах, способный отпугнуть любого человека в здравом уме. (+20 скрытности при ношении)
+itmname_indian6 {Chimalpopoca Disk}
+itmdescr_indian6 {
+An image of the Aztec chieftain Chimalpopoca, ruler of Tenochtitlan. (+10 medium weapons)
 }
-
-itmname_suit_2 	{Одежда купца}
-itmdescr_suit_2
-{
-Хорошего покроя, сделанная из модного материала, такая одежда к лицу состоятельному господину и только ему по карману. (+20 торговля при ношении)
+itmname_indian7 {Idol of the Great Mother}
+itmdescr_indian7 {
+A clay figurine of a guardian, from one of the minor local tribes. (+10 success)
+}
+itmname_indian8 {Silver Cup}
+itmdescr_indian8 {
+A beautiful silver cup, engraved with images of Indian gods.
+}
+itmname_indian9 {Stone Vessel}
+itmdescr_indian9 {
+A stone vessel, shaped like a human head - Olmec's, I gather. It looks to be many centuries old.
+}
+itmname_indian10 {Chac-Mool Idol}
+itmdescr_indian10 {
+An image of the god Chac-Mool, worshiped by the Maya people. He was their god of fire and thunder. (+20 pistols, +10 accuracy, -20 stealthiness).
+}
+itmname_indian11 {Rat God}
+itmdescr_indian11 {
+A strange stone figurine, shaped like a head of a cat on a man's shoulders. Though its purpose it rather unclear, rats are cascading away, as if it were aflame.
+In holding this item, a Captain will protect his ship and cargo from infestation.
+}
+itmname_indian12 {Image of the Jaguar-Warrior}
+itmdescr_indian12 {
+A golden Aztec copy of the ancient Olmec stone axe. Shaped like a head of the jaguar-warrior. As it happens, rather heavy for a replication. (+10 heavy weapons)
+}
+itmname_indian13 {Ancient Censer}
+itmdescr_indian13 {
+An Indian vessel, used for burning incense
+}
+itmname_indian14 {Image of Yacatecuhtli}
+itmdescr_indian14 {
+A shard of a tile, with an image of Yacatecuhtli, the Aztec god of merchants. (+20 commerce, -20 authority).
+}
+itmname_indian15 {Big stone disc}
+itmdescr_indian15 {
+ This Aztec rock is either for coronation or for sacrifice. It looks awful, and weighs a ton. All adorned with suspicious brown bloches. (+10 authority and defense, -10 luck) 
+}
+itmname_indian16 {Colored container}
+itmdescr_indian16 {
+ A colorful box, painted in the Aztec style. Unfortunately, this is just a replication... 
+}
+itmname_indian17 {Dog Figurine}
+itmdescr_indian17 {
+Probably of Chinese origin. How did it get here? (+10 stealthiness)
+}
+itmname_indian18 {Ancient Idol}
+itmdescr_indian18 {
+Ehecatl was the Aztec patron of the wind. This god's figurine will be handy for seafarers. (+20 navigation, -20 stealthiness)
+}
+itmname_indian19 {Achcuahzin Figurine}
+itmdescr_indian19 {
+Achcuahzin is an Aztec messenger who declares war. (+20 accuracy, +10 cannons, -20 stealthiness)
+}
+itmname_indian20 {Ceremonial Knife}
+itmdescr_indian20 {
+A knife of the Mayan priests; a symbol of power over humans, and a link to the gods. (+20 authority, -10 success)
+}
+itmname_indian21 {Ceremonial Vessel}
+itmdescr_indian21 {
+A beautiful Indian vessel, with a dark history - the savages used to fill it with the blood of sacrifice. (+20 authority, -10 stealthiness)
+}
+itmname_indian22 {Atlantic Warrior}
+itmdescr_indian22 {
+An ancient Toltec figurine, found on the Atlantic coast of the mainland. (+20 defense, +10 light weapons, -10 authority and success)
+}
+itmname_potion3 {Antidote}
+itmdescr_potion3 {
+ The brew of various plants known to counteract a variety of poisons. Tastes horrible, but if you like to live, you could drink far worse. 
+}
+itmname_potion4 {Mixture}
+itmdescr_potion4 {
+ This mixture doesn't just heal poisons; it also restores health. 
+}
+itmname_potionrum {Bottle of rum}
+itmdescr_potionrum {
+ No rum can knock a pirate such as you off your feet, so chug it down... By the way, if you're wounded then the alcohol contained in it can help to heal wounds. 
+}
+itmname_potionwine {Great wine}
+itmdescr_potionwine {
+ Some of the best French wine in the Caribbean. Its relaxing effect will help the body restore its strength. 
+}
+itmname_potion5 {Grapes}
+itmdescr_potion5 {
+ Juicy grapes quickly restore strength, and will quench the strongest thirsts. 
+}
+itmname_bullet {Bullets}
+itmdescr_bullet {
+ Small but very deadly lead balls, these bullets are good for any pistol type. 
+ Keep track of them, since shooting without them is impossible. 
+ Damage dealt by the bullet depends on the type of pistol. 
+}
+itmname_Mineral2 {Lute}
+itmdescr_Mineral2 {
+A musical instrument.
+}
+itmname_Mineral3 {Candles}
+itmdescr_Mineral3 {
+ Thick sticks of raw light energy, forged from tallow and fat. 
+}
+itmname_Mineral4 {Cormorant}
+itmdescr_Mineral4 {
+ What a surprise - to find a dead cormorant in a chest! Better to be rid of him at once. Either bury it or make a scarecrow. 
+ (-10 authority and -10 stealth) 
+}
+itmname_Mineral5 {Old bucket}
+itmdescr_Mineral5 {
+ In this bucket, you can hold only big items, since it's filled with holes. 
+}
+itmname_Mineral6 {Coral}
+itmdescr_Mineral6 {
+ This stuff turns up very often in these parts, since the islands of the Archipelago are mostly built out of it. 
+}
+itmname_Mineral7 {Pipe}
+itmdescr_Mineral7 {
+ An old smoking pipe, carved from a beautiful red rock. 
+}
+itmname_Mineral8 {Shoe}
+itmdescr_Mineral8 {
+ Wearing just one shoe is a bad habit. (-10 luck) 
+}
+itmname_Mineral9 {Mug}
+itmdescr_Mineral9 {
+ A good tin mug with a silver lip. 
+}
+itmname_Mineral10 {Bag of salt}
+itmdescr_Mineral10 {
+ This white crystal powder gives food an original flavor. 
+}
+itmname_sculMa1 {White crystal skull}
+itmdescr_sculMa1 {
+ One of the three Toltec skulls. Collecting all three skulls lends the bearer strength and wisdom. (+30 navigation, +20 authority, +20 accuracy, +20 boarding) 
+}
+itmname_sculMa2 {Pink crystal skull}
+itmdescr_sculMa2 {
+ One of the three Toltec skulls. Collecting all three skulls lends the bearer strength and wisdom. (+30 navigation, +20 authority, +20 accuracy, +20 boarding) 
+}
+itmname_sculMa3 {Blue crystal skull}
+itmdescr_sculMa3 {
+ One of the three Toltec skulls. Collecting all three skulls lends the bearer strength and wisdom. (+30 navigation, +20 authority, +20 accuracy, +20 boarding) 
+}
+itmname_suit_1 {Rags}
+itmdescr_suit_1 {
+ These clothes are only good for a professional bum. Not washed in ages, they give off a horrible scent, capable of scaring off any man in good health. (+20 stealth while wearing) 
+}
+itmname_suit_2 {Merchants' clothes}
+itmdescr_suit_2 {
+ A good covering, made from fashionable materials, these clothes fit a respectable gentlemen and his pocketbook. (+20 trade while wearing) 
+}
+itmname_suit_3 {Courtiers' clothes}
+itmdescr_suit_3 {
+ To create a good first impression - that's the goal of these sought-after clothes. (+20 authority while wearing) 
+}
+itmname_Term_arm {Metal hand}
+itmdescr_Term_arm {
+ A strange and mysterious object, flung ashore. Looks like skeletal hand, but forged of metal. The hand stuck out of the wreckage of a ship. Now it's covered in seaweed. It's been tossed by the waves for a while now. Looking closely, an imprint is visible - "SD2022". What that means, and what genius made it, is unclear. 
+}
+itmname_BlackLabel {Black Spot}
+itmdescr_BlackLabel {
+A Black Spot for Edward Low. Herald of death.
+}
+itmname_ShipyardsMap {Blueprints}
+itmdescr_ShipyardsMap {
+Building plans for the #sShipName#.
+}
+itmname_MayorsRing {Engagement Ring}
+itmdescr_MayorsRing {
+The engagement ring of the governor of #sCityName#.
+}
+itmname_UsurersJew {Precious Stone}
+itmdescr_UsurersJew {
+A marvelous #sJevelType#, belonging to a moneylender in #sCityName#.
+}
+itmname_OpenBook {Richard Sawkins' Ship Log}
+itmdescr_OpenBook {
+This log contains detailed plans for the upcoming attack on the Spanish squadron. The galleons left Panama, passed Cape Horn, and are now en route for Europe.
+}
+itmname_Ladder {Ladder}
+itmdescr_Ladder {
+A stepladder.
+}
+itmname_PortmansBook {A Ship's Log}
+itmdescr_PortmansBook {
+A logbook left behind at a port authority by an addlepated Captain. I imagine he'd like it back.
+}
+itmname_Key1 {Simple Key}
+itmdescr_Key1 {
+A key for a simple lock.
 }
-
-itmname_suit_3 	{Одежда дворянина}
-itmdescr_suit_3
-{
-Встречают по одежке, провожают по уму. Создать прекрасное первое впечатление - вот задача этой изысканной одежды. (+20 авторитет при ношении)
+itmname_Key2 {Average Key}
+itmdescr_Key2 {
+A nondescript key for boring locks.
+}
+itmname_Key3 {Complex Key}
+itmdescr_Key3 {
+A key for complex locks.
+}
+itmname_keyPanama {Chest Key}
+itmname_keyPanama_LSC {Admiral's Key}
+itmdescr_keyPanama {
+A key for a chest in the Residence at Panama.
+}
+itmdescr_keyPanama_LSC {
+The key the Admiral happened to misplace.
+}
+itmname_keyQuestLSC {Key}
+itmname_keyQuestLSC_Tizer {Diffindur's Key}
+itmdescr_keyQuestLSC {
+The key to a chest belonging to Curacao's Governor-General Peter Stuyvesant.
+}
+itmdescr_keyQuestLSC_Tizer {
+The mysterious key of Teaser Dan, apparently from the enigmatic Island. Its purpose is unknown.
+}
+itmname_migraine_potion {Migraine Medicine}
+itmdescr_migraine_potion {
+This mixture soothes sharp head pains.
+}
+itmname_MsStid_ring {Strange Ring}
+itmdescr_MsStid_ring {
+A simple and unremarkable finger-bangle.
+}
+itmname_Weapon_for_escape {Weapon Bundle}
+itmdescr_Weapon_for_escape {
+A bundle of boarding sabers and pistols, without any weapons master's marks.
+}
+itmname_Griffins_Weapon {Mister Griffin's Weapon Samples}
+itmdescr_Griffins_Weapon {
+A few swords, engraved with the name of Master Griffin.
+}
+itmname_HugtorpRing {Hagthorpe's Engagement Ring}
+itmdescr_HugtorpRing {
+On a severed finger, no less. Charming.
+}
+itmname_pinion {Cog}
+itmdescr_pinion {
+A cog for the winch mechanism.
+}
+itmname_map_LSC {Map of the City of Abandoned Ships}
+itmdescr_map_LSC {
+A map of the City of Abandoned Ships. Of great use, at times!
+}
+itmname_Totem_1 {Xochiquetzal Totem}
+itmdescr_Totem_1 {
+Xochiquetzal, goddess of flowers and love. (+20 success)
+}
+itmname_Totem_2 {Mictlantecuhtli Totem}
+itmdescr_Totem_2 {
+Mictlantecuhtli, god of kingdom of the dead. (+20 stealthiness)
+}
+itmname_Totem_3 {Quetzalcoatl Totem}
+itmdescr_Totem_3 {
+Quetzalcoatl; god of the morning star, ruler of the elements. (+20 defense)
+}
+itmname_Totem_4 {Mixcoatl Totem}
+itmdescr_Totem_4 {
+Mixcoatl, the god of hunting. (+20 accuracy)
+}
+itmname_Totem_5 {Tezcatlipoca Totem}
+itmdescr_Totem_5 {
+Tezcatlipoca; guardian of priests, flailer of criminals. (+20 pistols)
+}
+itmname_Totem_6 {Chalchiuhtlicue Totem}
+itmdescr_Totem_6 {
+Chalchiuhtlicue, goddess of lake and sea. (+20 authority)
+}
+itmname_Totem_7 {Huitzilopochtli Totem}
+itmdescr_Totem_7 {
+Huitzilopochtli, god of clear blue skies. (+20 medium weapons)
+}
+itmname_Totem_8 {Tlaloc Totem}
+itmdescr_Totem_8 {
+Tlaloc; god of rain and thunder, lord of vegetables. (+20 light weapons)
+}
+itmname_Totem_9 {Mayahuel Totem}
+itmdescr_Totem_9 {
+Mayahuel, the goddess of fertility. Also the world's first barkeep. (+20 heavy weapons)
+}
+itmname_Totem_10 {Tonacatecuhtli Totem}
+itmdescr_Totem_10 {
+Tonacatecuhtli, the creator god who feeds mankind. (+20 commerce)
+}
+itmname_SkullAztec {Jade Skull}
+itmdescr_SkullAztec {
+An artifact of Mictlantecuhtli, god of the kingdom of the dead. (-20 success, +10 authority)
+}
+itmdescr_SkullAztecAdd {
+An artifact of Mictlantecuhtli, god of the kingdom of the dead. To use: approach the slain, conduct a search, then finally present the skull. (-30 success)
+}
+itmname_Totem_11 {Camaxtli Totem}
+itmdescr_Totem_11 {
+Camaxtli: god of stars, hunting, war, and fate. Creator of flames.
+}
+itmname_Totem_12 {Centeotl Totem}
+itmdescr_Totem_12 {
+Centeotl, the young god of maize. (+20 navigation)
+}
+itmname_Totem_13 {Tlazolteotl Totem}
+itmdescr_Totem_13 {
+Tlazolteotl: goddess, devourer of filth, cleanser of unhealthy lust.
+}
+itmname_Totem_14 {Tonatiuh Totem}
+itmdescr_Totem_14 {
+Tonatiuh, the god of sky and sun.
+}
+itmname_Totem_15 {Xipe Totec Totem}
+itmdescr_Totem_15 {
+Xipe Totec: god of sowing; guardian of goldsmiths. (+20 repairs)
+}
+itmname_KnifeAztec {Ceremonial Obsidian Knife}
+itmdescr_KnifeAztec {
+Probably sacrificial. Hearts and all. Very messy. (-30 pistols, -20 all weapon types)
 }

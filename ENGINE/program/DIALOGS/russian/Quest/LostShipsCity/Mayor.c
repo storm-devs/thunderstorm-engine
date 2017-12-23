@@ -1,7 +1,7 @@
-
+#include "TEXT\DIALOGS\Quest\LostShipsCity\Mayor.h"
 void ProcessDialogEvent()
 {
-	ref NPChar;
+	ref NPChar, sld;
 	aref Link, NextDiag;
 
 	DeleteAttribute(&Dialog,"Links");
@@ -17,9 +17,18 @@ void ProcessDialogEvent()
 	switch(Dialog.CurrentNode)
 	{
 		case "First time":
-			dialog.text = "Что ты хотел? Не задерживай меня по пустякам, я занят.";
-			link.l1 = "Извини, так просто заскочил к тебе.";
-			link.l1.go = "exit";
+			if (npchar.location == "SanAugustineResidence")
+			{
+				dialog.text = DLG_TEXT_LSC[0];
+				link.l1 = DLG_TEXT_LSC[1];
+				link.l1.go = "exit";
+			}
+			else
+			{
+				dialog.text = DLG_TEXT_LSC[2];
+				link.l1 = DLG_TEXT_LSC[3];
+				link.l1.go = "NRes_1";
+			}
 			NextDiag.TempNode = "First time";
 			if (npchar.quest.meeting == "0")
 			{
@@ -27,28 +36,74 @@ void ProcessDialogEvent()
 				pchar.questTemp.LSC = "AdmiralFoundHero";
 				if (CheckAttribute(loadedLocation, "storm"))
 				{
-					dialog.text = "А-а-а, вот и ты. Это хорошо, что ты сам пришел ко мне. Не люблю, когда от меня бегают, да еще в такой шторм...";
-					link.l1 = "Ни от кого бегать не намерен. Меня зовут " + GetFullName(pchar) + ".";
+					dialog.text = DLG_TEXT_LSC[4];
+					link.l1 = DLG_TEXT_LSC[5] + GetFullName(pchar) + ".";
 					link.l1.go = "FT_1";
 					PChar.quest.LSC_admiralOwnFind.over = "yes";
 				}
 				else
 				{
-					dialog.text = "А-а-а, вот и ты. Я ждал, когда ты явишься ко мне.";
-					link.l1 = "Приветствую. Меня зовут " + GetFullName(pchar) + ".";
+					dialog.text = DLG_TEXT_LSC[6];
+					link.l1 = DLG_TEXT_LSC[7] + GetFullName(pchar) + ".";
 					link.l1.go = "FT_1";
 				}
+				break;
 			}
-			//квестовые ноды
+			//квестовые ноды по главной линейке
 			if (pchar.questTemp.LSC == "toAdmNarvalRing" && CheckCharacterItem(pchar, "DOjeronRing"))
 			{
-				link.l4 = "Адмирал, у меня есть для тебя важная информация. Гм, как мне кажется...";
+				link.l4 = DLG_TEXT_LSC[8];
 				link.l4.go = "NarvalRing_1";
 			}
 			if (pchar.questTemp.LSC == "NarvalDestroyed")
 			{
-				link.l4 = "Я все сделал, клан 'Нарвал' уничтожен. Вырезал там всех под корень, никто не ушел!";
+				link.l4 = DLG_TEXT_LSC[9];
 				link.l4.go = "DestrNarval_1";
+			}
+			if (pchar.questTemp.LSC == "toAdmiralBarmenDead")
+			{
+				link.l4 = DLG_TEXT_LSC[10];
+				link.l4.go = "BarmenDead_1";
+			}
+			if (pchar.questTemp.LSC == "fromMechanicToAdmiral")
+			{
+				link.l4 = DLG_TEXT_LSC[11];
+				link.l4.go = "CasperDead_1";
+			}
+			//дополнительные квестовые ноды
+			//муж Элис Тейлор
+			if (CheckAttribute(pchar, "questTemp.LSC.ElisHusband") && pchar.questTemp.LSC != "AdmiralIsWaiting" && pchar.questTemp.LSC.ElisHusband == "toElis")
+			{
+				link.l5 = DLG_TEXT_LSC[12];
+				link.l5.go = "ELTHusb_begin";
+			}
+			if (CheckAttribute(pchar, "questTemp.LSC.ElisHusband") && pchar.questTemp.LSC.ElisHusband == "toAdmiral")
+			{
+				link.l5 = DLG_TEXT_LSC[13];
+				link.l5.go = "ELTHusb_SF";
+			}
+			if (CheckAttribute(pchar, "questTemp.LSC.ElisHusband") && pchar.questTemp.LSC.ElisHusband == "toAdmiralGood")
+			{
+				link.l5 = DLG_TEXT_LSC[14];
+				link.l5.go = "ELTHusb_good";
+			}
+			//квест со скелетом Декстера
+			if (CheckAttribute(pchar, "questTemp.LSC.lostDecster") && pchar.questTemp.LSC != "AdmiralIsWaiting" && pchar.questTemp.LSC.lostDecster == "toAdmiral")
+			{
+				link.l6 = DLG_TEXT_LSC[15];
+				link.l6.go = "LostDecster";
+			}	
+			//поиск товаров на корвет
+			if (pchar.questTemp.LSC == "toSeekGoods")
+			{
+				link.l8 = DLG_TEXT_LSC[16];
+				link.l8.go = "SeekGoods";
+			}
+			//найм команды
+			if (pchar.questTemp.LSC == "toSeekPeopleInCrew")
+			{
+				link.l8 = DLG_TEXT_LSC[17];
+				link.l8.go = "SeekCrew";
 			}
 		break;
 
@@ -57,156 +112,123 @@ void ProcessDialogEvent()
 			DialogExit();
 		break;
 
+		case "NRes_1":
+			dialog.text = DLG_TEXT_LSC[18];
+			link.l1 = DLG_TEXT_LSC[19];
+			link.l1.go = "exit";
+		break;
+
 		case "FT_1":
-			dialog.text = "Очень хорошо, приятель, просто замечательно... А меня зовут " + GetFullName(npchar) + ", я адмирал этого Города Потерянных Кораблей!"; 
-			link.l1 = "Ха, а ведь слышал о тебе! Ты тот самый пиратский капитан, что вышел за призом на 'Ужасе Мейна' и пропал. Так вот куда ты задевался!";
+			dialog.text = DLG_TEXT_LSC[20] + GetFullName(npchar) + DLG_TEXT_LSC[21]; 
+			link.l1 = DLG_TEXT_LSC[22];
 			link.l1.go = "FT_1_1";
 		break;
 		case "FT_1_1":
-			dialog.text = "Да, обо мне еще помнят в Карибском море... Видишь, как получилось. Два дня мы гнались за испанским галеоном, а в ночь на третьи сутки оказались здесь... Дьявол, вся моя команда пошла код дну, выбраться смогли только я, Уоркман и Форе.";
-			link.l1 = "Сожалею...";
+			dialog.text = DLG_TEXT_LSC[23];
+			link.l1 = DLG_TEXT_LSC[24];
 			link.l1.go = "FT_1_2";
 		break;
 		case "FT_1_2":
-			dialog.text = "По правде сказать, дермо была команда тогда. Так что, можно и не горевать особо, тем более, что дело прошлое... Ну, сейчас мы не об этом!";
-			link.l1 = "Говори, что нужно. Я внимательно слушаю, " + npchar.name + ".";
+			dialog.text = DLG_TEXT_LSC[25];
+			link.l1 = DLG_TEXT_LSC[26] + npchar.name + ".";
 			link.l1.go = "FT_2";
 		break;
 		case "FT_2":
-			dialog.text = "Значит так! С того момента, как ты влез с моря на палубу нашего острова, ты стал гражданином Города, и теперь обязан подчинятся его Закону. Это тебе понятно?";
-			link.l1 = "Вполне. И что за Закон, как с ним можно ознакомиться?";
+			dialog.text = DLG_TEXT_LSC[27];
+			link.l1 = DLG_TEXT_LSC[28];
 			link.l1.go = "FT_3";
 		break;
 		case "FT_3":
-			dialog.text = "С Законом знакомлю тебя я в данный конкретный момент. На скрижалях он не выбит, так как с камнем у нас напряженка, ха-ха... А Закон по сути своей заключается в следующих пунктах\n"+
-				"Первое: все граждане Города Потерянных Кораблей имеют право на жизнь. Это право обеспечиват гарнизон милиции, который находится в распоряжении адмирала, то есть в моем распоряжении... Кстати, а ты не хочешь записаться в милицию?";
-			link.l1 = "Там посмотрим. Сначала нужно обжиться, как-то устроится здесь, а потом уже решать такие вопросы.";
+			dialog.text = DLG_TEXT_LSC[29]+
+				DLG_TEXT_LSC[30];
+			link.l1 = DLG_TEXT_LSC[31];
 			link.l1.go = "FT_4";
 		break;
 		case "FT_4":
-			dialog.text = "Ты по виду парень неслабый. Кем был в Большом мире?";
-			link.l1 = "Да так, знаешь ли, странствовал... Был свободным капитаном, таким же, как и ты, в общем.";
+			dialog.text = DLG_TEXT_LSC[32];
+			link.l1 = DLG_TEXT_LSC[33];
 			link.l1.go = "FT_5";
 		break;
 		case "FT_5":
-			dialog.text = "Понятно... Но сейчас, собственно, мне до этого дела нет. Будь ты до попадания сюда испанцем или французом, ангелом или чертом лысым - здесь все равны. Теперь ты стал гражданином Города, со своими правами, важнейшим из которых является право на жизнь! Хех, как завернул!..";
-			link.l1 = "Да, неплохо. Всеобщая справедливость. Кстати, в Карибском море ходят слухи о каком-то Острове Справедливости. Полагаю, что это и есть ваш Город.";
+			dialog.text = DLG_TEXT_LSC[34];
+			link.l1 = DLG_TEXT_LSC[35];
 			link.l1.go = "FT_6";
 		break;
 		case "FT_6":
-			dialog.text = "Нет, это не может быть. Путь отсюда заказан... Ну, продолжим. Итак, с правами все, теперь о твоих обязанностях. Второе: ты не можешь покушаться на жизнь граждан Города. Если ты убьешь кого-то, то тебя убью я. Это ясно?";
-			link.l1 = "Хм, ясно...";
+			dialog.text = DLG_TEXT_LSC[36];
+			link.l1 = DLG_TEXT_LSC[37];
 			link.l1.go = "FT_7";
 		break;
 		case "FT_7":
-			dialog.text = "Небольшой нюанс. У нас тут в Городе есть два сообщества, так называемые кланы 'Нарвал' и 'Каспер'. В общем, там собрались люди, которым жизнь добропорядочного человека - что кость в горле. Мы им выделили два корабля под постоянное место дислокации - это барк 'Сан Габриэль' и галеон 'Веласко'. Корабли эти стоят на отшибе, поэтому кланы жизни Города не мешают\n"+
-				"Так вот, заходить внурь этих кораблей гражданам не стоит - опасно для жизни. Внутренние помещения данных судов переданы в собственность кланов, и на этой территории у них действуют свои законы. Поэтому не лезь туда или пеняй на себя. Понятно?";
-			link.l1 = "Понятно.";
+			dialog.text = DLG_TEXT_LSC[38]+
+				DLG_TEXT_LSC[39];
+			link.l1 = DLG_TEXT_LSC[40];
 			link.l1.go = "FT_7_1";
 		break;
 		case "FT_7_1":
-			dialog.text = "Пойдем дальше. Третье: запрещается строить корабли, плоты и прочие плавсредства. Выбраться отсюда все равно невозможно, а разрушать Город нельзя.";
-			link.l1 = "И это понятно.";
+			dialog.text = DLG_TEXT_LSC[41];
+			link.l1 = DLG_TEXT_LSC[42];
 			link.l1.go = "FT_7_2";
 		break;
 		case "FT_7_2":
-			dialog.text = "Четвертое: за воровство в Городе полагается смертная казнь. Если тебя застукают копающемся в чужом сундуке - ты автоматически лишаешься гражданства и становишься вне Закона. А это значит, что права на жизнь у тебя больше нет...";
-			link.l1 = "Звучит заманчиво... Ну что же, это ясно. Что дальше?";
+			dialog.text = DLG_TEXT_LSC[43];
+			link.l1 = DLG_TEXT_LSC[44];
 			link.l1.go = "FT_8";
 		break;
 		case "FT_8":
-			dialog.text = "Ну и пятое: все материальные средства, которые попали в Город, принадележат Городу.";
-			link.l1 = "Хм, а вот по этому пункту подробней, пожалуйста.";
+			dialog.text = DLG_TEXT_LSC[45];
+			link.l1 = DLG_TEXT_LSC[46];
 			link.l1.go = "FT_9";
 		break;
 		case "FT_9":
-			dialog.text = "Хех, ну что ж тут непонятного? Вот, к примеру, ты, как физическое лицо, попал в Город. И заметь, сразу стал его гражданином!\nА вот твое имущество, как материальные средства, становятся собственностью Города. Так что все твое теперь наше общее!";
-			link.l1 = "Погодите!! Я с таким раскладом не согласен!";
+			dialog.text = DLG_TEXT_LSC[47];
+			link.l1 = DLG_TEXT_LSC[48];
 			link.l1.go = "FT_10";
 		break;
 		case "FT_10":
 			if (pchar.questTemp.LSC == "AdmiralFoundHero")
 			{
-				dialog.text = "Вот чудак-человек! Твоего согласия не требуется, мы просто забираем, и все... Но у меня есть и хорошая новость. Тебе, как полноправному гражданину Города, полагается 1/50 часть!";
-				link.l1 = "От моего же имущества!!";
+				dialog.text = DLG_TEXT_LSC[49];
+				link.l1 = DLG_TEXT_LSC[50];
 				link.l1.go = "FT_11";
 				pchar.money = makeint(sti(pchar.money) / 50);
 			}
 			else
 			{
-				dialog.text = "А твоего согласия никто не спрашивает. Вообще-то Закон обязывает включать бывшего хозяина добра в число дольщиков при разделе. Но так как ты нарушил Закон, а именно не явился ко мне вовремя по прибытии в Город, данный пункт Закона в отношении тебя утрачивает свою силу. То есть тебе не достается ничего.";
-				link.l1 = "Мне все это очень сильно не нравится!";
+				dialog.text = DLG_TEXT_LSC[51];
+				link.l1 = DLG_TEXT_LSC[52];
 				link.l1.go = "FT_12";
 				pchar.money = 0;
 			}
 		break;
 		case "FT_11":
-			dialog.text = "Именно! Ну вот, ты начинаешь понимать... Вообще-то, тебе все одно это барахло тут ни к чему, а нам всем приятно будет...";
-			link.l1 = "Мне все это очень сильно не нравится!";
+			dialog.text = DLG_TEXT_LSC[53];
+			link.l1 = DLG_TEXT_LSC[54];
 			link.l1.go = "FT_12";
 		break;
 		case "FT_12":
-			dialog.text = "Не ты первый, приятель, кому это не нравится. Но только, уж поверь мне, все это в твоих интересах. Чем быстрей ты избавишься всего того, что тебя связывает с большим миром, тем быстрей ты вольешься в нашу размеренную жизнь.\nА так можешь сойти с ума, такое бывает. И, скажу я тебе, с такими мы не церемонимся - груз на шею, и на дно!";
-			link.l1 = "Да уж, справедливость так и прет...";
+			dialog.text = DLG_TEXT_LSC[55];
+			link.l1 = DLG_TEXT_LSC[56];
 			link.l1.go = "FT_13";
 		break;
 		case "FT_13":
-			dialog.text = "За хамство я лишаю тебя оружия, да и вообще карманы твои почищу! И имей ввиду, что в следующий раз, если ты мне не понравишься, я тебя просто прикончу.";
-			link.l1 = "М-да... Ну что же, придется смириться. Похоже, у меня нет другого выхода.";
+			dialog.text = DLG_TEXT_LSC[57];
+			link.l1 = DLG_TEXT_LSC[58];
 			link.l1.go = "FT_14";
 		break;
 		case "FT_14":
-			dialog.text = "Это верно. И не советую тебе его искать, это запрещено Законом!";
-			link.l1 = "Я помню...";
+			dialog.text = DLG_TEXT_LSC[59];
+			link.l1 = DLG_TEXT_LSC[60];
 			link.l1.go = "FT_15";
 		break;
 		case "FT_15":
-			dialog.text = "Ну вот и отлично... А теперь ты свободен и теперь можешь перемещаться по Городу как угодно. Делай, что хочешь, наслаждайся жизнью в Городе.";
-			link.l1 = "Так и поступлю, Чад.";
+			dialog.text = DLG_TEXT_LSC[61];
+			link.l1 = DLG_TEXT_LSC[62];
 			link.l1.go = "FT_16";
 		break;
 		case "FT_16":
-			chrDisableReloadToLocation = false;
-			//bDisableFastReload = false; //откроем фастрелоады
-			//откроем кланы
-			ref rLoc = &locations[FindLocation("LostShipsCity_town")];
-			DeleteAttribute(rLoc, "reload.l61.disable");
-			DeleteAttribute(rLoc, "reload.l70.disable");
-			DeleteAttribute(rLoc, "reload.l72.disable");
-			pchar.questTemp.LSC = "AfterAdmiral";
-			RemoveCharacterEquip(pchar, BLADE_ITEM_TYPE);
-			RemoveCharacterEquip(pchar, GUN_ITEM_TYPE);
-			RemoveCharacterEquip(pchar, SPYGLASS_ITEM_TYPE);
-			RemoveCharacterEquip(pchar, PATENT_ITEM_TYPE);
-			RemoveCharacterEquip(pchar, CIRASS_ITEM_TYPE);
-			RemoveCharacterEquip(pchar, MAPS_ITEM_TYPE);	
-			//сносим все предметы, кроме квестовых -->
-            aref arItems;
-			string sName;
-    		makearef(arItems, pchar.items);
-    		int	Qty = GetAttributesNum(arItems);
-    		for (int a=0; a<Qty; a++)
-    		{
-                sName = GetAttributeName(GetAttributeN(arItems, a));
-				rLoc = ItemsFromID(sName);
-				if (rLoc.ItemType == "QUESTITEMS")
-				{
-					pchar.questTemp.items = sName;
-				}
-    		}
-			DeleteAttribute(pchar, "items");
-			pchar.items = "";
-			makearef(arItems, pchar.questTemp.items);
-    		Qty = GetAttributesNum(arItems);
-    		for (a=0; a<Qty; a++)
-    		{
-                sName = GetAttributeName(GetAttributeN(arItems, a));
-				GiveItem2Character(pchar, sName);
-    		}
-			DeleteAttribute(pchar, "questTemp.items");
-			//<-- сносим все предметы, кроме квестовых	
-			AddQuestRecord("ISS_MainLine", "3");
 			if (npchar.chr_ai.type == LAI_TYPE_ACTOR) LAi_SetLSCoutTypeNoGroup(npchar);
+			AddDialogExitQuestFunction("LSC_admiralTakeAll");
 			NextDiag.TempNode = "First time";
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
@@ -217,192 +239,625 @@ void ProcessDialogEvent()
 			npchar.quest.meeting = "1";
 			NextDiag.TempNode = "First time";
 			pchar.questTemp.LSC = "AdmiralNotFoundHero";
-			dialog.text = "Ага, вот значит и ты, выживший в последнем шторме. Скажи-ка мне, приятель, какого это черта я должен искать тебя по всему Городу? Ты что, не знаешь наших порядков?";
-			link.l1 = "Приветствую. Каких порядков?";
+			dialog.text = DLG_TEXT_LSC[63];
+			link.l1 = DLG_TEXT_LSC[64];
 			link.l1.go = "FoundHero_1";
 		break;
 		case "FoundHero_1":
-			dialog.text = "Хочешь сказать, что ты не знал о том, что ко мне нужно явится сразу же, как только оказался в Городе?";
-			link.l1 = "Не знал...";
+			dialog.text = DLG_TEXT_LSC[65];
+			link.l1 = DLG_TEXT_LSC[66];
 			link.l1.go = "FoundHero_2";
 		break;
 		case "FoundHero_2":
-			dialog.text = "Незнание Закона не освобождает от ответственности! А теперь говори, кто ты.";
-			link.l1 = "Я прошу прощения за опоздание, я еще не изучил Законов Города. Надеюсь, что дальше будет лучше... Меня зовут " + GetFullName(pchar) + ".";
+			dialog.text = DLG_TEXT_LSC[67];
+			link.l1 = DLG_TEXT_LSC[68] + GetFullName(pchar) + ".";
 			link.l1.go = "FT_1";
 		break;
 
-		//ГГ принес кольцо нарвалов
+		//ГГ принес амулет нарвалов
 		case "NarvalRing_1":
-			dialog.text = "Говори.";
-			link.l1 = "Я тут недавно забрел в каюту корвета 'Протектор', и совершенно случайно нашел там интересный предмет...";
+			dialog.text = DLG_TEXT_LSC[69];
+			link.l1 = DLG_TEXT_LSC[70];
 			link.l1.go = "NarvalRing_2";
 		break;
 		case "NarvalRing_2":
-			dialog.text = "Что за предмет? Говори быстрей, не тяни!";
-			link.l1 = "Это кольцо. Вот оно, посмотри.";
+			dialog.text = DLG_TEXT_LSC[71];
+			link.l1 = DLG_TEXT_LSC[72];
 			link.l1.go = "NarvalRing_3";
 		break;
 		case "NarvalRing_3":
-			dialog.text = "Хо-хо, да это же кольцо 'нарвала'! Так, где ты его нашел, говоришь?";
-			link.l1 = "В каюте 'Протектора'.";
+			dialog.text = DLG_TEXT_LSC[73];
+			link.l1 = DLG_TEXT_LSC[74];
 			link.l1.go = "NarvalRing_4";
 			TakeItemFromCharacter(pchar, "DOjeronRing");
+			BackItemName("DOjeronRing");
+			BackItemDescribe("DOjeronRing");
+			ref itm;
+			itm = ItemsFromID("DOjeronRing");
+			itm.picIndex = 2;
+			itm.picTexture = "ITEMS_9";
 		break;
 		case "NarvalRing_3":
-			dialog.text = "А тебе известно, что там было совершено убийство миллиционера и плотника Андрэ Лабора?";
-			link.l1 = "Слышал...";
+			dialog.text = DLG_TEXT_LSC[75];
+			link.l1 = DLG_TEXT_LSC[76];
 			link.l1.go = "NarvalRing_4";
 		break;
 		case "NarvalRing_4":
-			dialog.text = "М-да, твоя находка ясно показывает, кто это сделал... А ты знаком с 'нарвалами'?";
-			link.l1 = "Нет, Чад. Они же к себе никого не пускают. Чуть что - сразу нападают без разговоров.";
+			dialog.text = DLG_TEXT_LSC[77];
+			link.l1 = DLG_TEXT_LSC[78];
 			link.l1.go = "NarvalRing_5";
 		break;
 		case "NarvalRing_5":
-			dialog.text = "Да уж, это правда. На своей территории они могут делать, что хотят. Там у них свои законы. А ты знаешь, как получилось, что образовались кланы?";
-			link.l1 = "Расскажи, пожалуйста. С удовольствием послушаю.";
+			dialog.text = DLG_TEXT_LSC[79];
+			link.l1 = DLG_TEXT_LSC[80];
 			link.l1.go = "NarvalRing_6";
 		break;
 		case "NarvalRing_6":
-			dialog.text = "Хм, хорошо... Дело в том, что наряду с обычными людим, в Город попадает всякое отребье. Жить с остальными они не могут в мире, поэтому и было принято решение отдать таким людям два корабля в собственность. К тому времени образовалось две группировки головорезов, они и образовали кланы 'Нарвал' и 'Каспер'.";
-			link.l1 = "Понятно... А что теперь делать? Ведь получается, что 'нарвалы' причастны к убийству официального представителя власти!";
+			dialog.text = DLG_TEXT_LSC[81];
+			link.l1 = DLG_TEXT_LSC[82];
 			link.l1.go = "NarvalRing_7";
 		break;
 		case "NarvalRing_7":
-			dialog.text = "Пора избавиться от клана 'Нарвал', утомили они своей отмороженностью.";
-			link.l1 = "Правильное решение, адмирал!";
+			dialog.text = DLG_TEXT_LSC[83];
+			link.l1 = DLG_TEXT_LSC[84];
 			link.l1.go = "NarvalRing_8";
 		break;
 		case "NarvalRing_8":
-			dialog.text = "Без сомнения! И я поручаю это тебе.";
-			link.l1 = "Хм, что поручаешь?";
+			dialog.text = DLG_TEXT_LSC[85];
+			link.l1 = DLG_TEXT_LSC[86];
 			link.l1.go = "NarvalRing_9";
 		break;
 		case "NarvalRing_9":
-			dialog.text = "Уничтожение 'нарвалов', приятель. Кому же, как не тебе, выполнить это дело? Ведь это благодаря тебе мы узнали правду!";
-			link.l1 = "Черт! Я как-то на такой поворот сюжета не рассчитывал...";
+			dialog.text = DLG_TEXT_LSC[87];
+			link.l1 = DLG_TEXT_LSC[88];
 			link.l1.go = "NarvalRing_10";
 		break;
 		case "NarvalRing_10":
-			dialog.text = "Никак сдрейфил? Ты же пиратский кэп, что что с тобой?!";
-			link.l1 = "Их много, просто. А я хоть и был пираским капитаном, но не самоубийца.";
+			dialog.text = DLG_TEXT_LSC[89];
+			link.l1 = DLG_TEXT_LSC[90];
 			link.l1.go = "NarvalRing_11";
 		break;
 		case "NarvalRing_11":
-			dialog.text = "А-а, ну это мы решим. Я даю тебе троих моих людей в помощь.";
-			link.l1 = "Ну, это меняет дело. Я согласен.";
+			dialog.text = DLG_TEXT_LSC[91];
+			link.l1 = DLG_TEXT_LSC[92];
 			link.l1.go = "NarvalRing_12";
 		break;
 		case "NarvalRing_12":
-			dialog.text = "Отлично! Так отправляйся на 'Веласко' прямо сейчас и поработай там как следует...";
-			link.l1 = "Хорошо, Чад, все сделаю в лучшем виде.";
+			dialog.text = DLG_TEXT_LSC[93];
+			link.l1 = DLG_TEXT_LSC[94];
 			link.l1.go = "NarvalRing_13";
 		break;
 		case "NarvalRing_13":
 			AddQuestRecord("ISS_MainLine", "12");
 			pchar.questTemp.LSC = "toDestoyAllNarval";
-			LocatorReloadEnterDisable("LostShipsCity_town", "reload54", true); //закроем касперов, на всякий случай
-			int iQty = GetOfficersQuantity(pchar);
-			int iNum = 1;
 			int idxMent;
-			while(iQty < 4)
+			pchar.questTemp.LSC.qtyOfficers = 0;
+			string sOffName;
+			for (i=1 ; i<=3; i++)
 			{
-				idxMent = GetCharacterIndex("Ment_" + iNum);
+				idxMent = GetCharacterIndex("Ment_" + i);
 				if (idxMent != -1)
 				{
-					//ChangeCharacterAddressGroup(sld, pchar.location, "reload", "reload5");
-					SetOfficersIndex(pchar, -1, idxMent);
+					ChangeCharacterAddressGroup(&characters[idxMent], "LostShipsCity_town", "officers", "officer_"+i);
+					characters[idxMent].Dialog.CurrentNode = "OffNarval";
+					characters[idxMent].cityTape = "quest"; //тип нпс
+					LAi_SetStayTypeNoGroup(&characters[idxMent]);
+					pchar.questTemp.LSC.qtyOfficers = sti(pchar.questTemp.LSC.qtyOfficers) + 1;
 				}
-				iNum++;
-				iQty = GetOfficersQuantity(pchar);
-				if (iNum > 6) break;
 			}
-			pchar.questTemp.LSC.qtyOfficers = iQty; //запомним кол-во офицеров, для понта
-			LAi_group_SetCheck("EnemyFight", "NarvalDestroyed");
+			pchar.quest.NavalEnterOfficers.win_condition.l1 = "location";
+			pchar.quest.NavalEnterOfficers.win_condition.l1.location = "VelascoShipInside1";
+			pchar.quest.NavalEnterOfficers.function = "NavalEnterOfficers";
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
 		break;
 		//клан Нарвал уничтожен
 		case "DestrNarval_1":
-			dialog.text = "Ну что же, это хорошо. А как там мои люди?";
-			iTemp = GetPassengersQuantity(pchar);
+			dialog.text = DLG_TEXT_LSC[95];
+			iTemp = 0;
+			for (i=1 ; i<=3; i++)
+			{
+				if (GetCharacterIndex("Ment_" + i) != -1)
+				{
+					iTemp++;
+				}
+			}
 			if (iTemp == 0)
 			{
-				link.l1 = "Все погибли, к сожалению. Мне очень жаль...";
+				link.l1 = DLG_TEXT_LSC[96];
 				link.l1.go = "DestrNarval_Bad";
 			}
 			else
 			{
 				if (iTemp == sti(pchar.questTemp.LSC.qtyOfficers))
 				{
-					link.l1 = "Да все нормально. Все живы и здоровы, возвращаю их тебе в целости и сохранности.";
+					link.l1 = DLG_TEXT_LSC[97];
 					link.l1.go = "DestrNarval_Ok";
 				}
 				else
 				{
-					link.l1 = "Потери имеются, но погибли не все. Оставшихся в живых возвращаю.";
+					link.l1 = DLG_TEXT_LSC[98];
 					link.l1.go = "DestrNarval_BadOk";
 				}
+				DeleteAttribute(pchar, "questTemp.LSC.qtyOfficers");
 			}
 		break;
 		case "DestrNarval_Bad":
-			dialog.text = "М-да, печально... Однако, задача выполнена, 'нарвалы' уничтожены, а это главное. Так что все в порядке.";
-			link.l1 = "Ну да, все путем, как говорится...";
+			dialog.text = DLG_TEXT_LSC[99];
+			link.l1 = DLG_TEXT_LSC[100];
 			link.l1.go = "DestrNarval_Bad1";
 		break;
 		case "DestrNarval_Bad1":
-			dialog.text = "Ну что же, отлично. Я тебя больше не задерживаю, ты можешь идти.";
-			link.l1 = "Хм... Ну, спасибо, адмирал...";
+			dialog.text = DLG_TEXT_LSC[101];
+			link.l1 = DLG_TEXT_LSC[102];
 			link.l1.go = "exit";
 			pchar.questTemp.LSC = "toTavernNarvalDestroyed";
 			AddQuestRecord("ISS_MainLine", "16");
-			for (i=0; i<=PASSENGERS_MAX; i++)
-			{
-				iTemp = GetPassenger(pchar, i);
-				if(iTemp != -1)
-				{
-					sld = &characters[iTemp];
-					RemovePassenger(pchar, sld);
-					LAi_SetWarriorType(sld);
-					LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER_OWN);
-					SaveCurrentNpcQuestDateParam(sld, "location");
-					ChangeCharacterAddressGroup(sld, "LostShipsCity_town", "foto",  sld.location.baseLocator);
-				}
-			}
 		break;
 		case "DestrNarval_Ok":
-			dialog.text = "Отлично! За хорошо сделанную работу, я, пожалуй, подкину тебе деньжат. Сто тысяч золотых! Забирай, они твои.";
-			link.l1 = "Хм, мне здесь пока деньги не нужны, но все равно спасибо тебе.";
+			dialog.text = DLG_TEXT_LSC[103];
+			link.l1 = DLG_TEXT_LSC[104];
 			link.l1.go = "DestrNarval_Ok1";
 			AddQuestRecord("ISS_MainLine", "14");
 			AddMoneyToCharacter(pchar, 100000);
 		break;
 		case "DestrNarval_Ok1":
-			dialog.text = "Не за что! Ну, я тебя больше не задерживаю, так что можешь смело заниматься своим делами.";
-			link.l1 = "Хм... Хорошо.";
+			dialog.text = DLG_TEXT_LSC[105];
+			link.l1 = DLG_TEXT_LSC[106];
 			link.l1.go = "exit";
 			pchar.questTemp.LSC = "toTavernNarvalDestroyed";
-			for (i=0; i<=PASSENGERS_MAX; i++)
-			{
-				iTemp = GetPassenger(pchar, i);
-				if(iTemp != -1)
-				{
-					sld = &characters[iTemp];
-					RemovePassenger(pchar, sld);
-					LAi_SetWarriorType(sld);
-					LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER_OWN);
-					SaveCurrentNpcQuestDateParam(sld, "location");
-					ChangeCharacterAddressGroup(sld, "LostShipsCity_town", "foto",  sld.location.baseLocator);
-				}
-			}
 		break;
 		case "DestrNarval_BadOk":
-			dialog.text = "М-да, неприятно несколько... Ну да ладно, все-таки это была резня, а не легкая прогулка по палубе. В общем, я рад, что все кончилось хорошо. Хочу подкинуть тебе деньжат за работу. Десять тысяч золотых!";
-			link.l1 = "Ну, деньги здесь особо не нужны... Но все равно спасибо.";
+			dialog.text = DLG_TEXT_LSC[107];
+			link.l1 = DLG_TEXT_LSC[108];
 			link.l1.go = "DestrNarval_Ok1";
 			AddQuestRecord("ISS_MainLine", "15");
 			AddMoneyToCharacter(pchar, 10000);
 		break;
+		//подслушивание в погребке
+		case "Interception":
+			sld = characterFromId("Blaze");
+			bool bOk = false;
+			float fAng;
+			GetCharacterAy(sld, &fAng);
+			if (fAng > -1.35 && fAng < -0.28) bOk = true;
+			if (fAng > 1.8 && fAng < 2.9) bOk = true;
+			if (sti(sld.questTemp.LSC.itemState) && bOk)
+			{
+				dialog.text = DLG_TEXT_LSC[109];
+				link.l1 = DLG_TEXT_LSC[110];
+				link.l1.go = "Interception_1";				
+				sld.questTemp.LSC = "InterceptionOk";
+				sld.questTemp.LSC.knowMechanic = true; //флаг ГГ знает о Механике
+			}
+			else
+			{
+				dialog.text = DLG_TEXT_LSC[111];
+				link.l1 = DLG_TEXT_LSC[112];
+				link.l1.go = "exit";				
+				sld.questTemp.LSC = "InterceptionYouSeen";
+				AddDialogExitQuestFunction("LCS_EndScriptInterception");
+			}
+		break;
+		case "Interception_1":
+			dialog.text = DLG_TEXT_LSC[113];
+			link.l1 = DLG_TEXT_LSC[114];
+			link.l1.go = "Interception_2";
+		break;
+		case "Interception_2":
+			sld = characterFromId("Blaze");
+			dialog.text = DLG_TEXT_LSC[115];
+			link.l1 = DLG_TEXT_LSC[116] + GetFullName(sld) + DLG_TEXT_LSC[117];
+			link.l1.go = "Interception_4";
+		break;
+		case "Interception_4":
+			dialog.text = DLG_TEXT_LSC[118];
+			link.l1 = DLG_TEXT_LSC[119];
+			link.l1.go = "Interception_5";
+		break;
+		case "Interception_5":
+			dialog.text = DLG_TEXT_LSC[120];
+			link.l1 = DLG_TEXT_LSC[121];
+			link.l1.go = "Interception_6";
+		break;
+		case "Interception_6":
+			dialog.text = DLG_TEXT_LSC[122];
+			link.l1 = DLG_TEXT_LSC[123];
+			link.l1.go = "Interception_7";
+		break;
+		case "Interception_7":
+			dialog.text = DLG_TEXT_LSC[124];
+			link.l1 = DLG_TEXT_LSC[125];
+			link.l1.go = "Interception_8";
+		break;
+		case "Interception_8":
+			dialog.text = DLG_TEXT_LSC[126];
+			link.l1 = DLG_TEXT_LSC[127];
+			link.l1.go = "Interception_9";
+		break;
+		case "Interception_9":
+			dialog.text = DLG_TEXT_LSC[128];
+			link.l1 = DLG_TEXT_LSC[129];
+			link.l1.go = "Interception_10";
+		break;
+		case "Interception_10":
+			dialog.text = DLG_TEXT_LSC[130];
+			link.l1 = DLG_TEXT_LSC[131];
+			link.l1.go = "Interception_11";
+		break;
+		case "Interception_11":
+			dialog.text = DLG_TEXT_LSC[132];
+			link.l1 = DLG_TEXT_LSC[133];
+			link.l1.go = "Interception_12";
+		break;
+		case "Interception_12":
+			dialog.text = DLG_TEXT_LSC[134];
+			link.l1 = DLG_TEXT_LSC[135];
+			link.l1.go = "exit";
+			AddDialogExitQuestFunction("LCS_EndScriptInterception");
+		break;
+
+		case "BarmenDead_1":
+			dialog.text = DLG_TEXT_LSC[136];
+			link.l1 = DLG_TEXT_LSC[137];
+			link.l1.go = "BarmenDead_2";
+		break;
+		case "BarmenDead_2":
+			dialog.text = DLG_TEXT_LSC[138];
+			link.l1 = DLG_TEXT_LSC[139];
+			link.l1.go = "BarmenDead_3";
+		break;
+		case "BarmenDead_3":
+			dialog.text = DLG_TEXT_LSC[140];
+			link.l1 = DLG_TEXT_LSC[141];
+			link.l1.go = "BarmenDead_4";
+		break;
+		case "BarmenDead_4":
+			dialog.text = DLG_TEXT_LSC[142];
+			link.l1 = DLG_TEXT_LSC[143];
+			link.l1.go = "BarmenDead_5";
+		break;
+		case "BarmenDead_5":
+			dialog.text = DLG_TEXT_LSC[144];
+			link.l1 = DLG_TEXT_LSC[145];
+			link.l1.go = "BarmenDead_6";
+		break;
+		case "BarmenDead_6":
+			dialog.text = DLG_TEXT_LSC[146];
+			link.l1 = DLG_TEXT_LSC[147];
+			link.l1.go = "exit";
+			pchar.questTemp.LSC = "toSeekOldCitizen";
+			AddQuestRecord("ISS_MainLine", "27");
+			pchar.quest.LSC_SaveSesilGalard.win_condition.l1          = "location";
+			pchar.quest.LSC_SaveSesilGalard.win_condition.l1.location = "AvaShipInside3";
+			pchar.quest.LSC_SaveSesilGalard.function                  = "LSC_SaveSesilGalard";
+		break;
+		//замочили касперов
+		case "CasperDead_1":
+			dialog.text = DLG_TEXT_LSC[148];
+			link.l1 = DLG_TEXT_LSC[149];
+			link.l1.go = "CasperDead_2";
+		break;
+		case "CasperDead_2":
+			dialog.text = DLG_TEXT_LSC[150];
+			link.l1 = DLG_TEXT_LSC[151];
+			link.l1.go = "CasperDead_3";
+		break;
+		case "CasperDead_3":
+			dialog.text = DLG_TEXT_LSC[152];
+			link.l1 = DLG_TEXT_LSC[153];
+			link.l1.go = "CasperDead_4";
+		break;
+		case "CasperDead_4":
+			dialog.text = DLG_TEXT_LSC[154];
+			link.l1 = DLG_TEXT_LSC[155];
+			link.l1.go = "CasperDead_5";
+		break;
+		case "CasperDead_5":
+			dialog.text = DLG_TEXT_LSC[156];
+			link.l1 = DLG_TEXT_LSC[157];
+			link.l1.go = "CasperDead_6";
+		break;
+		case "CasperDead_6":
+			dialog.text = DLG_TEXT_LSC[158];
+			link.l1 = DLG_TEXT_LSC[159];
+			link.l1.go = "CasperDead_7";
+		break;
+		case "CasperDead_7":
+			dialog.text = DLG_TEXT_LSC[160];
+			link.l1 = DLG_TEXT_LSC[161];
+			link.l1.go = "CasperDead_8";
+		break;
+		case "CasperDead_8":
+			dialog.text = DLG_TEXT_LSC[162];
+			link.l1 = DLG_TEXT_LSC[163];
+			link.l1.go = "CasperDead_9";
+		break;
+		case "CasperDead_9":
+			dialog.text = DLG_TEXT_LSC[164];
+			link.l1 = DLG_TEXT_LSC[165];
+			link.l1.go = "CasperDead_10";
+		break;
+		case "CasperDead_10":
+			dialog.text = DLG_TEXT_LSC[166];
+			link.l1 = DLG_TEXT_LSC[167];
+			link.l1.go = "CasperDead_11";
+		break;
+		case "CasperDead_11":
+			dialog.text = DLG_TEXT_LSC[168];
+			link.l1 = DLG_TEXT_LSC[169];
+			link.l1.go = "CasperDead_12";
+		break;
+		case "CasperDead_12":
+			dialog.text = DLG_TEXT_LSC[170];
+			link.l1 = DLG_TEXT_LSC[171];
+			link.l1.go = "CasperDead_13";
+		break;
+		case "CasperDead_13":
+			dialog.text = DLG_TEXT_LSC[172];
+			link.l1 = DLG_TEXT_LSC[173];
+			link.l1.go = "CasperDead_14";
+		break;
+		case "CasperDead_14":
+			dialog.text = DLG_TEXT_LSC[174];
+			link.l1 = DLG_TEXT_LSC[175];
+			link.l1.go = "exit";
+			pchar.questTemp.LSC = "seekMillionAndHalf";
+		break;
+		//поиск товаров на корвет
+		case "SeekGoods":
+			dialog.text = NPCStringReactionRepeat(DLG_TEXT_LSC[176], 
+				DLG_TEXT_LSC[177], 
+				DLG_TEXT_LSC[178],
+                DLG_TEXT_LSC[179], "block", 0, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(DLG_TEXT_LSC[180], 
+				DLG_TEXT_LSC[181],
+                DLG_TEXT_LSC[182], 
+				DLG_TEXT_LSC[183], npchar, Dialog.CurrentNode);
+			link.l1.go = DialogGoNodeRepeat("SeekGoods_1", "", "", "", npchar, Dialog.CurrentNode);
+		break;
+		case "SeekGoods_1":
+			dialog.text = DLG_TEXT_LSC[184];
+			link.l1 = DLG_TEXT_LSC[185];
+			link.l1.go = "SeekGoods_2";
+		break;
+		case "SeekGoods_2":
+			dialog.text = DLG_TEXT_LSC[186];
+			link.l1 = DLG_TEXT_LSC[187];
+			link.l1.go = "SeekGoods_3";
+		break;
+		case "SeekGoods_3":
+			dialog.text = DLG_TEXT_LSC[188];
+			link.l1 = DLG_TEXT_LSC[189];
+			link.l1.go = "SeekGoods_4";
+		break;
+		case "SeekGoods_4":
+			dialog.text = DLG_TEXT_LSC[190];
+			link.l1 = DLG_TEXT_LSC[191];
+			link.l1.go = "SeekGoods_5";
+		break;
+		case "SeekGoods_5":
+			dialog.text = DLG_TEXT_LSC[192];
+			link.l1 = DLG_TEXT_LSC[193];
+			link.l1.go = "SeekGoods_6";
+		break;
+		case "SeekGoods_6":
+			dialog.text = DLG_TEXT_LSC[194];
+			link.l1 = DLG_TEXT_LSC[195];
+			link.l1.go = "SeekGoods_7";
+		break;
+		case "SeekGoods_7":
+			dialog.text = DLG_TEXT_LSC[196];
+			link.l1 = DLG_TEXT_LSC[197];
+			link.l1.go = "SeekGoods_8";
+		break;
+		case "SeekGoods_8":
+			dialog.text = DLG_TEXT_LSC[198];
+			link.l1 = DLG_TEXT_LSC[199];
+			link.l1.go = "SeekGoods_9";
+		break;
+		case "SeekGoods_9":
+			dialog.text = DLG_TEXT_LSC[200];
+			link.l1 = DLG_TEXT_LSC[201];
+			link.l1.go = "SeekGoods_10";
+		break;
+		case "SeekGoods_10":
+			dialog.text = DLG_TEXT_LSC[202];
+			link.l1 = DLG_TEXT_LSC[203];
+			link.l1.go = "exit";
+			AddQuestRecord("ISS_MainLine", "57")
+			pchar.questTemp.LSC.additional.powder = true; //флаг на дачу квеста ментом
+		break;
+		//найм команды
+		case "SeekCrew":
+			dialog.text = NPCStringReactionRepeat(DLG_TEXT_LSC[204], 
+				DLG_TEXT_LSC[205], 
+				DLG_TEXT_LSC[206],
+                DLG_TEXT_LSC[207], "block", 0, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(DLG_TEXT_LSC[208], 
+				DLG_TEXT_LSC[209],
+                DLG_TEXT_LSC[210], 
+				DLG_TEXT_LSC[211], npchar, Dialog.CurrentNode);
+			link.l1.go = DialogGoNodeRepeat("SeekCrew_1", "", "", "", npchar, Dialog.CurrentNode);
+		break;
+		case "SeekCrew_1":
+			dialog.text = DLG_TEXT_LSC[212];
+			link.l1 = DLG_TEXT_LSC[213];
+			link.l1.go = "SeekCrew_2";
+		break;
+		case "SeekCrew_2":
+			dialog.text = DLG_TEXT_LSC[214];
+			link.l1 = DLG_TEXT_LSC[215];
+			link.l1.go = "SeekCrew_3";
+		break;
+		case "SeekCrew_3":
+			dialog.text = DLG_TEXT_LSC[216];
+			link.l1 = DLG_TEXT_LSC[217];
+			link.l1.go = "SeekCrew_4";
+		break;
+		case "SeekCrew_4":
+			dialog.text = DLG_TEXT_LSC[218];
+			link.l1 = DLG_TEXT_LSC[219];
+			link.l1.go = "SeekCrew_5";
+		break;
+		case "SeekCrew_5":
+			dialog.text = DLG_TEXT_LSC[220];
+			link.l1 = DLG_TEXT_LSC[221];
+			link.l1.go = "SeekCrew_6";
+		break;
+		case "SeekCrew_6":
+			dialog.text = DLG_TEXT_LSC[222];
+			link.l1 = DLG_TEXT_LSC[223];
+			link.l1.go = "SeekCrew_7";
+		break;
+		case "SeekCrew_7":
+			dialog.text = DLG_TEXT_LSC[224];
+			link.l1 = DLG_TEXT_LSC[225];
+			link.l1.go = "exit";
+			AddQuestRecord("ISS_MainLine", "60");
+		break;
+		//финальный диалог
+		case "fightTalking":
+			dialog.text = DLG_TEXT_LSC[226];
+			link.l1 = DLG_TEXT_LSC[227];
+			link.l1.go = "fightTalking_1";
+		break;
+		case "fightTalking_1":
+			dialog.text = DLG_TEXT_LSC[228];
+			link.l1 = DLG_TEXT_LSC[229];
+			link.l1.go = "fightTalking_2";
+		break;
+		case "fightTalking_2":
+			dialog.text = DLG_TEXT_LSC[230];
+			link.l1 = DLG_TEXT_LSC[231];
+			link.l1.go = "fightTalking_3";
+		break;
+		case "fightTalking_3":
+			LAi_LocationFightDisable(loadedLocation, false);
+			LAi_SetWarriorTypeNoGroup(NPChar);
+			//LAi_group_Attack(NPChar, Pchar);
+			AddDialogExitQuestFunction("LSC_figtInResidence");
+            DialogExit();
+		break;
+
+		//освободить мужа Элис Тейлор
+		case "ELTHusb_begin":
+			dialog.text = NPCStringReactionRepeat(DLG_TEXT_LSC[232], 
+				DLG_TEXT_LSC[233], 
+				DLG_TEXT_LSC[234],
+                DLG_TEXT_LSC[235], "block", 0, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(DLG_TEXT_LSC[236], 
+				DLG_TEXT_LSC[237],
+                DLG_TEXT_LSC[238], 
+				DLG_TEXT_LSC[239], npchar, Dialog.CurrentNode);
+			link.l1.go = DialogGoNodeRepeat("ELTHusb_begin_1", "", "", "", npchar, Dialog.CurrentNode);
+		break;
+		case "ELTHusb_begin_1":
+			dialog.text = DLG_TEXT_LSC[240];
+			link.l1 = DLG_TEXT_LSC[241];
+			link.l1.go = "ELTHusb_begin_2";
+		break;
+		case "ELTHusb_begin_2":
+			dialog.text = DLG_TEXT_LSC[242];
+			link.l1 = DLG_TEXT_LSC[243];
+			link.l1.go = "exit";
+		break;
+
+		case "ELTHusb_SF":
+			dialog.text = DLG_TEXT_LSC[244];
+			link.l1 = DLG_TEXT_LSC[245];
+			link.l1.go = "ELTHusb_SF_1";
+		break;		
+		case "ELTHusb_SF_1":
+			dialog.text = DLG_TEXT_LSC[246];
+			link.l1 = DLG_TEXT_LSC[247];
+			link.l1.go = "ELTHusb_SF_2";
+		break;
+		case "ELTHusb_SF_2":
+			dialog.text = DLG_TEXT_LSC[248];
+			link.l1 = DLG_TEXT_LSC[249];
+			link.l1.go = "ELTHusb_SF_3";
+		break;
+		case "ELTHusb_SF_3":
+			dialog.text = DLG_TEXT_LSC[250];
+			link.l1 = DLG_TEXT_LSC[251];
+			link.l1.go = "ELTHusb_SF_4";
+		break;
+		case "ELTHusb_SF_4":
+			dialog.text = DLG_TEXT_LSC[252];
+			link.l1 = DLG_TEXT_LSC[253];
+			link.l1.go = "ELTHusb_SF_5";
+		break;
+		case "ELTHusb_SF_5":
+			dialog.text = DLG_TEXT_LSC[254];
+			link.l1 = DLG_TEXT_LSC[255];
+			link.l1.go = "exit";
+			pchar.questTemp.LSC.ElisHusband = "toWaitress";
+			AddQuestRecord("ISS_ElisHusband", "7");
+		break;
+
+		case "ELTHusb_good":
+			dialog.text = DLG_TEXT_LSC[256];
+			link.l1 = DLG_TEXT_LSC[257];
+			link.l1.go = "ELTHusb_good_1";
+		break;
+		case "ELTHusb_good_1":
+			dialog.text = DLG_TEXT_LSC[258];
+			link.l1 = DLG_TEXT_LSC[259];
+			link.l1.go = "ELTHusb_good_2";
+		break;
+		case "ELTHusb_good_2":
+			dialog.text = DLG_TEXT_LSC[260];
+			link.l1 = DLG_TEXT_LSC[261];
+			link.l1.go = "ELTHusb_good_3";
+		break;
+		case "ELTHusb_good_3":
+			dialog.text = DLG_TEXT_LSC[262];
+			link.l1 = DLG_TEXT_LSC[263];
+			link.l1.go = "exit";
+			pchar.questTemp.LSC.ElisHusband = "toElisGood";
+			AddQuestRecord("ISS_ElisHusband", "10");
+			sld = characterFromId("MaximTailor");
+			ChangeCharacterAddress(sld, "none", "");
+		break;
+		//квест со скелетом Декстера
+		case "LostDecster":
+			dialog.text = DLG_TEXT_LSC[264];
+			link.l1 = DLG_TEXT_LSC[265];
+			link.l1.go = "LostDecster_1";
+		break;
+		case "LostDecster_1":
+			dialog.text = DLG_TEXT_LSC[266];
+			link.l1 = DLG_TEXT_LSC[267];
+			link.l1.go = "LostDecster_2";
+		break;
+		case "LostDecster_2":
+			dialog.text = DLG_TEXT_LSC[268];
+			link.l1 = DLG_TEXT_LSC[269];
+			link.l1.go = "LostDecster_3";
+		break;
+		case "LostDecster_3":
+			dialog.text = DLG_TEXT_LSC[270];
+			link.l1 = DLG_TEXT_LSC[271];
+			link.l1.go = "LostDecster_4";
+		break;
+		case "LostDecster_4":
+			dialog.text = DLG_TEXT_LSC[272];
+			link.l1 = DLG_TEXT_LSC[273];
+			link.l1.go = "LostDecster_5";
+		break;
+		case "LostDecster_5":
+			dialog.text = DLG_TEXT_LSC[274];
+			link.l1 = DLG_TEXT_LSC[275];
+			link.l1.go = "LostDecster_6";
+		break;
+		case "LostDecster_6":
+			dialog.text = DLG_TEXT_LSC[276];
+			link.l1 = DLG_TEXT_LSC[277];
+			link.l1.go = "exit";
+			pchar.questTemp.LSC.lostDecster = "seekBox";
+			AddQuestRecord("LSC_findDekster", "5");	
+		break;
+
 	}
 }

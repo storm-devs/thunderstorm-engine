@@ -6,13 +6,13 @@ void ActiveINSERTControl()
 {
     //DoReloadCharacterToLocation(Pchar.location, "goto", "goto2");
     //DoReloadCharacterToLocation("PlutoStoreSmall", "reload", "reload1");
-	DoReloadCharacterToLocation("UnderWater", "reload", "reload1");
+	//DoReloadCharacterToLocation("SantaFlorentinaShipInside4", "goto", "goto1");
 }
 
 void ActiveF4Control()
 {
-	Log_Info("Test F4 button");
-    SetRandGeraldSail(pchar, rand(4));
+	/*Log_Info("Test F4 button");
+    SetRandGeraldSail(pchar, rand(4));*/
 }
 
 void ActiveF5Control()
@@ -22,76 +22,6 @@ void ActiveF5Control()
 
 void ActiveF7Control()
 {
-	ref sld, npchar;
-	int   iTemp, i, ShipType, Rank; // нужно для вычислений любых целых (нации)
-    float locx, locy, locz, fTemp;
-    string  attrName, Model, Blade, Gun, sTemp; // любые строки для вычислений
-
-	/*int iTimer = GetPastTime("day", sti(pchar.questTemp.control_year), sti(pchar.questTemp.control_month), sti(pchar.questTemp.control_day), 0,GetDataYear(), GetDataMonth(), GetDataDay(), 0);
-    Log_SetStringToLog("Год взятия" + pchar.questTemp.control_year + "  Месяц взятия" + pchar.questTemp.control_month + "  День взятия" + pchar.questTemp.control_day);
-    Log_SetStringToLog("Прошло дней: " + iTimer);
-    Log_SetStringToLog("Состояние квеста: " + pchar.questTemp.State);
-    Log_SetStringToLog("Счетчик текущего квеста: " + pchar.questTemp.CurQuestNumber);
-    Log_SetStringToLog("Ждем дней до получения следующего квеста: " + pchar.questTemp.Waiting_time);    
-	Log_SetStringToLog("pchar.questTemp.NationQuest: " + pchar.questTemp.NationQuest);
-	Log_SetStringToLog("Состояние квеста Изабеллы: " + Pchar.RomanticQuest);
-	Log_SetStringToLog("CheckBudgetMoney: " + IsabellaCheckBudgetMoney());*/
-    /*Log_SetStringToLog("Pchar.location: " + Pchar.location);
-	Log_SetStringToLog("Pchar.locator: " + Pchar.location.locator);
-	Log_SetStringToLog("Pchar.location.from_sea: " + Pchar.location.from_sea);	
-	Log_SetStringToLog("Нация ГГ: " + pchar.nation);
-	Log_SetStringToLog("Базовая Нация ГГ: " + GetBaseHeroNation());*/
-    /*Log_SetStringToLog("Состояние квеста Аскольда: " + pchar.questTemp.Ascold);
-	Log_SetStringToLog("Состояние квеста Аззи: " + pchar.questTemp.Azzy);
-    Log_SetStringToLog("Рендомный хозяин магаза: " + pchar.questTemp.Ascold.TraderId);
-	Log_SetStringToLog("Рендомный мерчант(колония): " + pchar.questTemp.Ascold.MerchantColony);
-	Log_SetStringToLog("Рендомный верфист: " + pchar.questTemp.Ascold.ShipyarderId);
-	Log_SetStringToLog("Скрижали локация: " + Items[GetItemIndex("Rock_letter")].startLocation);
-	Log_SetStringToLog("Скрижали локатор: " + Items[GetItemIndex("Rock_letter")].startLocator);*/
-
-    //SetNationRelation2MainCharacter(SPAIN, RELATION_ENEMY);
-
-            /*sld = GetCharacter(NPC_GenerateCharacter("SoleiRoyalCaptain", "off_fra_2", "man", "man", 35, FRANCE, -1, true));
-            FantomMakeCoolSailor(sld, SHIP_MANOWAR, "Солей Руаяль", CANNON_TYPE_CANNON_LBS42, 95, 80, 90);
-            FantomMakeCoolFighter(sld, 35, 80, 70, BLADE_LONG, "pistol3", 100);*/
-	
-			//GiveNationLicence(ENGLAND, 30);   
-			//WaitDate("", 0, 0, 43, 1, 0);
-	
-			//Log_SetEternalString("бухта: " +  pchar.chr_ai.type); 
-
-			/*sld = &locations[FindLocation(pchar.location)];
-			dumpattributes(sld);*/
-			/*sld = &Islands[FindIsland("Martinique")];
-			dumpattributes(sld);*/
-
-	/*sld = GetCharacter(NPC_GenerateCharacter("SoleiRoyalCaptain1", "officer_8", "man", "man", 35, ENGLAND, -1, false));
-	ChangeCharacterAddressGroup(sld, pchar.location, "goto", "goto1");
-	LAi_SetStayType(sld);
-	LAi_group_MoveCharacter(sld, "ENGLAND_CITIZENS");*/
-
-	/*sld = GetCharacter(NPC_GenerateCharacter("SoleiRoyalCaptain2", "pirate_1N", "man", "man", 35, ENGLAND, -1, false));
-	ChangeCharacterAddressGroup(sld, pchar.location, "sit", "sit1");
-	LAi_SetHuberType(sld);
-	LAi_group_MoveCharacter(sld, "ENGLAND_CITIZENS");*/
-
-	//FreeSitLocator("PortRoyal_tavern", "sit1");
-
-	/*SetCharacterPerk(pchar, "FlagSpa");
-	SetCharacterPerk(pchar, "FlagEng");
-	SetCharacterPerk(pchar, "FlagHol");
-	SetCharacterPerk(pchar, "FlagFra");*/
-
-		//CreateParticleSystem("shipfire", -29.7, -0.12, -0.77, 0, 0, 0, 0);
-		//DeleteParticles();
-		//PauseParticles(false);
-		//DeleteParticleSystem(0);
-
-	//bDisableLandEncounters = true;	
-
-	/*aref	aCurWeather = GetCurrentWeather();
-	Log_SetStringToLog("Погода: " + aCurWeather.id);*/
-	//bDisableFastReload = false; //закроем релоады
 
 
 }
@@ -130,6 +60,10 @@ void ActiveF12Control()
             {
                 Log_SetStringToLog("Blade= " + findCh.equip.blade);
             }
+            if (CheckAttribute(findCh, "equip.pistol"))
+            {
+                Log_SetStringToLog("Pistol= " + findCh.equip.pistol);
+            }
             Log_SetStringToLog("model= " + findCh.model);
             Log_SetStringToLog("face= " + findCh.faceId);
             Log_SetStringToLog("chr_ai.type= " + findCh.chr_ai.type);
@@ -163,6 +97,7 @@ void ActiveF12Control()
 			Log_SetStringToLog("Группа: " + findCh.chr_ai.group);
 			Log_SetStringToLog("Темплейт: " + findCh.chr_ai.tmpl);
 			Log_SetStringToLog("Стейт: " + findCh.chr_ai.tmpl.state);
+			dumpattributes(findCh);
 
             mainCh.SystemInfo.OnlyShowCharacter = true;
 			LaunchCharacter(findCh);

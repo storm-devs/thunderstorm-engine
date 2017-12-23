@@ -30,6 +30,20 @@ int InitWeather()
 		if (!CheckAttribute(&Weathers[i], "Sun.Reflection.Enable")) { Weathers[i].Sun.Reflection.Enable = false; }
 		if (!CheckAttribute(&Weathers[i], "Sounds.Sea.Postfix")) { Weathers[i].Sounds.Sea.Postfix = ""; }
 		if (!CheckAttribute(&Weathers[i], "Sun.Moon")) { Weathers[i].Sun.Moon = false; }
+
+		if (!CheckAttribute(&Weathers[i], "Rain.DropsNearNum")) { Weathers[i].Rain.DropsNearNum = 0; };
+		if (!CheckAttribute(&Weathers[i], "Rain.DropsFarNum")) { Weathers[i].Rain.DropsFarNum = 0; };
+		if (!CheckAttribute(&Weathers[i], "Rain.DropsNearRadius")) { Weathers[i].Rain.DropsNearRadius = 12.0; };
+		if (!CheckAttribute(&Weathers[i], "Rain.DropsFarRadius")) { Weathers[i].Rain.DropsFarRadius = 55.0; };
+		if (!CheckAttribute(&Weathers[i], "Rain.DropsLifeTime")) { Weathers[i].Rain.DropsLifeTime = 0.25; };
+		if (!CheckAttribute(&Weathers[i], "Rain.DropsSize")) { Weathers[i].Rain.DropsSize = 0.07; };
+		if (!CheckAttribute(&Weathers[i], "Rain.DropsTexture")) { Weathers[i].Rain.DropsTexture = "weather\rain_drops.tga"; };
+		if (!CheckAttribute(&Weathers[i], "Rain.DropsColor")) { Weathers[i].Rain.DropsColor = argb(63, 255, 255, 255); };
+
+		if (!CheckAttribute(&Weathers[i], "Sea2.FoamK")) { Weathers[i].Sea2.FoamK = 0.0; };
+		if (!CheckAttribute(&Weathers[i], "Sea2.FoamV")) { Weathers[i].Sea2.FoamV = 3.0; };
+		if (!CheckAttribute(&Weathers[i], "Sea2.FoamUV")) { Weathers[i].Sea2.FoamUV = 3.0; };
+		if (!CheckAttribute(&Weathers[i], "Sea2.FoamTexDisturb")) { Weathers[i].Sea2.FoamTexDisturb = 0.7; };
 	}
 
 	return n;

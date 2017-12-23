@@ -1,8 +1,6 @@
 #include "scripts\utils.c"
 
 // boal -->
-#define CARDS_RULE  "Правила простые. Играем в 'двадцать одно'. В колоде 36 карт, от тузов до шестерок. Туз -11, король - 4, дама - 3, валет - 2, остальные как написано. Нужно набрать 21 очко. \n Раздаем по одной карте, далее набираем себе недостающие (клик по колоде). Ход передается кликом по портрету с профилем в правом верхнем углу окошка. Если перебор, то игра заканчивается. Каждая карта - это наша ставка. Начать игру можно, если у тебя есть деньги хотя бы для трех ставок. Повтор игры клик по колоде, выход - крестик или Esc."
-#define DICE_RULE   "Играем в 'покер-джокер'. Пять кубиков у каждого, бросаем по очереди все пять. Можно перебросить любое число кубиков, сделав ставку за каждый, но только один раз. Нужно выкинуть максимальный результат. \n Результаты по возрастанию: одна пара (2), две пары (2+2), триада (3), фул (3+2), каре (4), стрит (кубики подряд) и покер (5). Если одинаково выпало, то победил тот, у кого старше комбинация. \n Управление: клик по стакану - бросок кубиков, клик по кубику - на переброс (деньги на ставку должны быть), клик по портрету - передать ход (когда переброс не нужен)."
 #define MAX_TITLENEXTRATE   13 // счетчик для званий
 #define MAX_TITLE           5
 // boal <--
@@ -16,150 +14,133 @@ void Set_inDialog_Attributes()
 	The_Character_is = GetMainCharacter();
     if (!CheckAttribute(The_Character_is, "sex") || The_Character_is.sex == "man")
 	{
-		Address_Form.Spa = "сеньор";
-		Address_Form.Fra = "месье";
-		Address_Form.Eng = "сэр";
-		Address_Form.Hol = "минхер";
-		Address_Form.Pir = "сэр";
+		Address_Form.Spa = GetConvertStr("Address_FormSpa", "globals.txt");
+		Address_Form.Fra = GetConvertStr("Address_FormFra", "globals.txt");
+		Address_Form.Eng = GetConvertStr("Address_FormEng", "globals.txt");
+		Address_Form.Hol = GetConvertStr("Address_FormHol", "globals.txt");
+		Address_Form.Pir = GetConvertStr("Address_FormPir", "globals.txt");
     }
     else
     {
-		Address_Form.Spa = "сеньорита";
-		Address_Form.Fra = "мадмуазэль";
-		Address_Form.Eng = "мисс";
-		Address_Form.Hol = "госпожа";
-		Address_Form.Pir = "мисс";
+		Address_Form.Spa = GetConvertStr("Address_FormFSpa", "globals.txt");
+		Address_Form.Fra = GetConvertStr("Address_FormFFra", "globals.txt");
+		Address_Form.Eng = GetConvertStr("Address_FormFEng", "globals.txt");
+		Address_Form.Hol = GetConvertStr("Address_FormFHol", "globals.txt");
+		Address_Form.Pir = GetConvertStr("Address_FormFPir", "globals.txt");
 	}
-	Address_Form.Spa.Title1 = "Корсар";
-	Address_Form.Fra.Title1 = "Приватир";
-	Address_Form.Eng.Title1 = "Капер";
-	Address_Form.Hol.Title1 = "Флибустьер";
-	Address_Form.Pir.Title1 = "Пират";
+	Address_Form.Spa.Title1 = GetConvertStr("Title_1_Spa", "globals.txt");
+	Address_Form.Fra.Title1 = GetConvertStr("Title_1_Fra", "globals.txt");
+	Address_Form.Eng.Title1 = GetConvertStr("Title_1_Eng", "globals.txt");
+	Address_Form.Hol.Title1 = GetConvertStr("Title_1_Hol", "globals.txt");
+	Address_Form.Pir.Title1 = GetConvertStr("Title_1_Pir", "globals.txt");
 
-    Address_Form.Spa.Title2 = "Коммандер";
-	Address_Form.Fra.Title2 = "Коммандер";
-	Address_Form.Eng.Title2 = "Коммандер";
-	Address_Form.Hol.Title2 = "Коммандер";
-	Address_Form.Pir.Title2 = "Коммандер";
+    Address_Form.Spa.Title2 = GetConvertStr("Title_2", "globals.txt");
+	Address_Form.Fra.Title2 = GetConvertStr("Title_2", "globals.txt");
+	Address_Form.Eng.Title2 = GetConvertStr("Title_2", "globals.txt");
+	Address_Form.Hol.Title2 = GetConvertStr("Title_2", "globals.txt");
+	Address_Form.Pir.Title2 = GetConvertStr("Title_2", "globals.txt");
 	
-	Address_Form.Spa.Title3 = "Капитан";
-	Address_Form.Fra.Title3 = "Капитан";
-	Address_Form.Eng.Title3 = "Капитан";
-	Address_Form.Hol.Title3 = "Капитан";
-	Address_Form.Pir.Title3 = "Капитан";
+	Address_Form.Spa.Title3 = GetConvertStr("Title_3", "globals.txt");
+	Address_Form.Fra.Title3 = GetConvertStr("Title_3", "globals.txt");
+	Address_Form.Eng.Title3 = GetConvertStr("Title_3", "globals.txt");
+	Address_Form.Hol.Title3 = GetConvertStr("Title_3", "globals.txt");
+	Address_Form.Pir.Title3 = GetConvertStr("Title_3", "globals.txt");
 
-	Address_Form.Spa.Title4 = "Коммодор";
-	Address_Form.Fra.Title4 = "Коммодор";
-	Address_Form.Eng.Title4 = "Коммодор";
-	Address_Form.Hol.Title4 = "Коммодор";
-	Address_Form.Pir.Title4 = "Коммодор";
+	Address_Form.Spa.Title4 = GetConvertStr("Title_4", "globals.txt");
+	Address_Form.Fra.Title4 = GetConvertStr("Title_4", "globals.txt");
+	Address_Form.Eng.Title4 = GetConvertStr("Title_4", "globals.txt");
+	Address_Form.Hol.Title4 = GetConvertStr("Title_4", "globals.txt");
+	Address_Form.Pir.Title4 = GetConvertStr("Title_4", "globals.txt");
 
-	Address_Form.Spa.Title5 = "Адмирал";
-	Address_Form.Fra.Title5 = "Адмирал";
-	Address_Form.Eng.Title5 = "Адмирал";
-	Address_Form.Hol.Title5 = "Адмирал";
-	Address_Form.Pir.Title5 = "Адмирал";
+	Address_Form.Spa.Title5 = GetConvertStr("Title_5", "globals.txt");
+	Address_Form.Fra.Title5 = GetConvertStr("Title_5", "globals.txt");
+	Address_Form.Eng.Title5 = GetConvertStr("Title_5", "globals.txt");
+	Address_Form.Hol.Title5 = GetConvertStr("Title_5", "globals.txt");
+	Address_Form.Pir.Title5 = GetConvertStr("Title_5", "globals.txt");
 
-	Address_Form.Spa.woman = "сеньора";
-	Address_Form.Fra.woman = "мадам";
-	Address_Form.Eng.woman = "миссис";
-	Address_Form.Hol.woman = "госпожа";
-	Address_Form.Pir.woman = "мисис";
+	Address_Form.Spa.woman = GetConvertStr("Address_FormSpaW", "globals.txt");
+	Address_Form.Fra.woman = GetConvertStr("Address_FormFraW", "globals.txt");
+	Address_Form.Eng.woman = GetConvertStr("Address_FormEngW", "globals.txt");
+	Address_Form.Hol.woman = GetConvertStr("Address_FormHolW", "globals.txt");
+	Address_Form.Pir.woman = GetConvertStr("Address_FormPirW", "globals.txt");
 
-	Address_Form.Spa.man = "сеньор";
-	Address_Form.Fra.man = "месье";
-	Address_Form.Eng.man = "сэр";
-	Address_Form.Hol.man = "минхер";
-	Address_Form.Pir.man = "сэр";
-	/*switch (The_Character_is.id)
-	{	
-		case "Blaze":
-			
-			Address_Form.Spa = GlobalStringConvert("Address_Form_Spa");
-			Address_Form.Fra = GlobalStringConvert("Address_Form_Fra");
-			Address_Form.Eng = GlobalStringConvert("Address_Form_Eng");
-			Address_Form.Por = GlobalStringConvert("Address_Form_Por");
-			Address_Form.Hol = GlobalStringConvert("Address_Form_Hol");
-			return;
-		break;
-
-		case "Beatriss":
-
-			Address_Form.Spa = "Senorita";
-			Address_Form.Fra = "Mademoiselle";
-			Address_Form.Eng = "Miss";
-			Address_Form.Por = "Senhorita";
-			Address_Form.Hol = "Juffrouw";
-			return;
-		break;
-	}
-	trace("ERROR: Player Character is not defined - can't select address form");
-	*/
+	Address_Form.Spa.man = GetConvertStr("Address_FormSpa", "globals.txt");
+	Address_Form.Fra.man = GetConvertStr("Address_FormFra", "globals.txt");
+	Address_Form.Eng.man = GetConvertStr("Address_FormEng", "globals.txt");
+	Address_Form.Hol.man = GetConvertStr("Address_FormHol", "globals.txt");
+	Address_Form.Pir.man = GetConvertStr("Address_FormPir", "globals.txt");
 }
 
 // boal -->
 
 string RandSwear()
 {
-	switch (rand(8))
+	string ret;
+	
+	switch (rand(9))
 	{
 		case 0:
-			return "Карамба! ";
+			ret = GetConvertStr("Swear_1", "globals.txt");
 		break;
 
 		case 1:
-			return "Проклятье! ";
+			ret = GetConvertStr("Swear_2", "globals.txt");
 		break;
 
 		case 2:
-			return "Дьявол! ";
+			ret = GetConvertStr("Swear_3", "globals.txt");
 		break;
 
 		case 3:
-			return "Черт! ";
+			ret = GetConvertStr("Swear_4", "globals.txt");
 		break;
 
 		case 4:
-			return "Якорь мне в ..! ";
+			ret = GetConvertStr("Swear_5", "globals.txt");
 		break;
 
 		case 5:
-			return "Тысяча акул! ";
+			ret = GetConvertStr("Swear_6", "globals.txt");
 		break;
 
 		case 6:
-			return "Аргкх!!! ";
+			ret = GetConvertStr("Swear_7", "globals.txt");
 		break;
 
 		case 7:
-			return "Тысяча чертей! ";
+			ret = GetConvertStr("Swear_8", "globals.txt");
 		break;	 
 		
 		case 8:
-			return "Алле Хагель! ";	// стандартное пиратское "твою мать"
+			ret = GetConvertStr("Swear_9", "globals.txt");
 		break;
-
+		
+		case 9:
+			ret = GetConvertStr("Swear_10", "globals.txt");
+		break;
 	}
+	return ret + " "; // пробел для диалогов
 }
 
 //navy --> вынес простые восклицания,
-//т.к. "О, Боже!!! Я вырежу тебе сердце" звучит мягко говоря странно :)
 string RandExclamation()
 {
+    string ret;
 	switch(rand(2))
 	{
 		case 0:
-			return "О, Боже!! ";
+			ret = GetConvertStr("Swear_11", "globals.txt");
 		break;
 
 		case 1:
-			return "О, Небеса! ";
+			ret = GetConvertStr("Swear_12", "globals.txt");
 		break;
 
 		case 2:
-			return "Святая Мадонна! ";
+			ret = GetConvertStr("Swear_13", "globals.txt");
 		break;
 	}
+	return ret + " "; // пробел для диалогов
 }
 //navy <--
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -215,19 +196,19 @@ string NationKingsCrown(ref Character)
     switch(sti(Character.nation))
 	{
 		case ENGLAND:
-            return "Английскому престолу";
+            return GetConvertStr("NationKingsCrownEng", "globals.txt");
 		break;
 		case FRANCE:
-            return "Французской короне";
+            return GetConvertStr("NationKingsCrownFra", "globals.txt");
 		break;
 		case SPAIN:
-            return "Испанской короне";
+            return GetConvertStr("NationKingsCrownSpa", "globals.txt");
 		break;
 		case HOLLAND:
-			return "Королевству Нидерланды";
+			return GetConvertStr("NationKingsCrownHol", "globals.txt");
 		break;
 		case PIRATE:
-			return "Береговому братству";
+			return GetConvertStr("NationKingsCrownPir", "globals.txt");
 		break;
 	}
 }
@@ -236,19 +217,19 @@ string NationKingsName(ref NPChar)
     switch(sti(NPChar.nation))
 	{
 		case ENGLAND:
-            return "Его Величества Карла II Стюарта";
+            return GetConvertStr("NationKingsNameEng", "globals.txt");
 		break;
 		case FRANCE:
-            return "Его Величества Людовика XIV";
+            return GetConvertStr("NationKingsNameFra", "globals.txt");
 		break;
 		case SPAIN:
-            return "Его Католического Величества Карла II Габсбурга";
+            return GetConvertStr("NationKingsNameSpa", "globals.txt");
 		break;
 		case HOLLAND:
-			return "Его Величества Вильгельма III Оранского";
+			return GetConvertStr("NationKingsNameHol", "globals.txt");
 		break;
 		case PIRATE:
-			return "берегового пиратского братства";
+			return GetConvertStr("NationKingsNamePir", "globals.txt");
 		break;
 	}
 }
@@ -258,41 +239,41 @@ string NationNameMan(int pNation)
     switch(pNation)
 	{
 		case ENGLAND:
-            return "англичанин";
+            return GetConvertStr("NationNameManEng", "globals.txt");
 		break;
 		case FRANCE:
-            return "француз";
+            return GetConvertStr("NationNameManFra", "globals.txt");
 		break;
 		case SPAIN:
-            return "испанец";
+            return GetConvertStr("NationNameManSpa", "globals.txt");
 		break;
 		case HOLLAND:
-			return "голландец";
+			return GetConvertStr("NationNameManHol", "globals.txt");
 		break;
 		case PIRATE:
-			return "пират";
+			return GetConvertStr("NationNameManPir", "globals.txt");
 		break;
 	}
 }
-// boal 13.03.2004 <--
+
 string NationNamePeople(int pNation)
 {
     switch(pNation)
 	{
 		case ENGLAND:
-            return "англичане";
+            return GetConvertStr("NationNamePeopleEng", "globals.txt");
 		break;
 		case FRANCE:
-            return "французы";
+            return GetConvertStr("NationNamePeopleFra", "globals.txt");
 		break;
 		case SPAIN:
-            return "испанцы";
+            return GetConvertStr("NationNamePeopleSpa", "globals.txt");
 		break;
 		case HOLLAND:
-			return "голландцы";
+			return GetConvertStr("NationNamePeopleHol", "globals.txt");
 		break;
 		case PIRATE:
-			return "пираты";
+			return GetConvertStr("NationNamePeoplePir", "globals.txt");
 		break;
 	}
 }
@@ -301,20 +282,20 @@ string NationNamePeopleAcc(int pNation)
 {
     switch(pNation)
 	{
-		case ENGLAND:
-            return "англичанами";
+  case ENGLAND:
+            return GetConvertStr("NationNamePeopleEngAcc", "globals.txt");
 		break;
 		case FRANCE:
-            return "французами";
+            return GetConvertStr("NationNamePeopleFraAcc", "globals.txt");
 		break;
 		case SPAIN:
-            return "испанцами";
+            return GetConvertStr("NationNamePeopleSpaAcc", "globals.txt");
 		break;
 		case HOLLAND:
-			return "голландцами";
+			return GetConvertStr("NationNamePeopleHolAcc", "globals.txt");
 		break;
 		case PIRATE:
-			return "паратами";
+			return GetConvertStr("NationNamePeoplePirAcc", "globals.txt");
 		break;
 	}
 }
@@ -324,19 +305,19 @@ string NationNameAblative(int iNation) //творительный падеж
     switch(iNation)
 	{
 		case ENGLAND:
-            return "Англией";
+            return GetConvertStr("NationNameAblativeEng", "globals.txt");
 		break;
 		case FRANCE:
-            return "Францией";
+            return GetConvertStr("NationNameAblativeFra", "globals.txt");
 		break;
 		case SPAIN:
-            return "Испанией";
+            return GetConvertStr("NationNameAblativeSpa", "globals.txt");
 		break;
 		case HOLLAND:
-			return "Голландией";
+			return GetConvertStr("NationNameAblativeHol", "globals.txt");
 		break;
 		case PIRATE:
-			return "пиратами";
+			return GetConvertStr("NationNameAblativePir", "globals.txt");
 		break;
 	}
 }
@@ -346,19 +327,19 @@ string NationNameNominative(int iNation) //именительный падеж
     switch(iNation)
 	{
 		case ENGLAND:
-            return "Англия";
+            return GetConvertStr("NationNameNominativeEng", "globals.txt");
 		break;
 		case FRANCE:
-            return "Франция";
+            return GetConvertStr("NationNameNominativeFra", "globals.txt");
 		break;
 		case SPAIN:
-            return "Испания";
+            return GetConvertStr("NationNameNominativeSpa", "globals.txt");
 		break;
 		case HOLLAND:
-			return "Голландия";
+			return GetConvertStr("NationNameNominativeHol", "globals.txt");
 		break;
 		case PIRATE:
-			return "Береговое братство";
+			return GetConvertStr("NationNameNominativePir", "globals.txt");
 		break;
 	}
 }
@@ -368,19 +349,19 @@ string NationNameGenitive(int iNation) // родительный падеж
     switch(iNation)
 	{
 		case ENGLAND:
-            return "Англии";
+            return GetConvertStr("NationNameGenitiveEng", "globals.txt");
 		break;
 		case FRANCE:
-            return "Франции";
+            return GetConvertStr("NationNameGenitiveFra", "globals.txt");
 		break;
 		case SPAIN:
-            return "Испании";
+            return GetConvertStr("NationNameGenitiveSpa", "globals.txt");
 		break;
 		case HOLLAND:
-			return "Голландии";
+			return GetConvertStr("NationNameGenitiveHol", "globals.txt");
 		break;
 		case PIRATE:
-			return "пиратов";
+			return GetConvertStr("NationNameGenitivePir", "globals.txt");
 		break;
 	}
 }
@@ -391,19 +372,19 @@ string NationEuropaTown(int iNation)
     switch(iNation)
 	{
 		case ENGLAND:
-            return "Лондон";
+            return GetConvertStr("NationEuropaTownEng", "globals.txt");
 		break;
 		case FRANCE:
-            return "Ля Рошель";
+            return GetConvertStr("NationEuropaTownFra", "globals.txt");
 		break;
 		case SPAIN:
-            return "Севилью";
+            return GetConvertStr("NationEuropaTownSpa", "globals.txt");
 		break;
         case PIRATE:
-	    	return "Тортугу";
+	    	return GetConvertStr("NationEuropaTownPir", "globals.txt");
 		break;
 		case HOLLAND:
-	    	return "Амстердам";
+	    	return GetConvertStr("NationEuropaTownHol", "globals.txt");
 		break;
 	}
 }
@@ -832,21 +813,21 @@ string TimeGreeting()
 {
     if (GetHour() >= 18 && GetHour() < 23)
     {
-       return "Добрый вечер";
+       return GetConvertStr("TimeGreeting_1", "globals.txt");
     }
     if (GetHour() >= 6 && GetHour() < 12)
     {
-       return "Доброе утро";
+       return GetConvertStr("TimeGreeting_2", "globals.txt");
     }
     if (GetHour() >= 12 && GetHour() < 18)
     {
-       return "Добрый день";
+       return GetConvertStr("TimeGreeting_3", "globals.txt");
     }
     if (GetHour() >= 23 || GetHour() < 6)
     {
-       return "Доброй ночи";
+       return GetConvertStr("TimeGreeting_4", "globals.txt");
     }
-    return "Здрасте";
+    return GetConvertStr("TimeGreeting_5", "globals.txt");
 }
 
 // выбор фразы от репутации
@@ -944,7 +925,7 @@ string GetAddress_FormTitle(int nation, int num)
 {
     string attr  =  NationShortName(nation);
     string attr2 =  "Title" + num;
-    string ret   =  "нет звания";
+    string ret   =  GetConvertStr("Title_0", "globals.txt"); 
     if (CheckAttribute(address_form, attr + "." + attr2))
     {
         ret = address_form.(attr).(attr2);

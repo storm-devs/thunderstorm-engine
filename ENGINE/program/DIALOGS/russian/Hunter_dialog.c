@@ -1,3 +1,4 @@
+#include "TEXT\DIALOGS\Hunter_dialog.h"
 void ProcessDialogEvent()
 {
 	ref NPChar, TempChar;
@@ -11,7 +12,7 @@ void ProcessDialogEvent()
 
 	switch(Dialog.CurrentNode)
 	{
-		// -----------------------------------Диалог первый - первая встреча
+		// -----------------------------------Aeaeia ia?aue - ia?aay ano?a?a
 		case "exit":
 			Diag.CurrentNode = Diag.TempNode;
 			DialogExit();
@@ -21,32 +22,32 @@ void ProcessDialogEvent()
 			chrDisableReloadToLocation = false;
 			//Lai_SetPlayerType(pchar);
 			
-			dialog.text = GetFullName(PChar) + "! "+"Мы выслеживали тебя долгое время и вот, наконец, ты у нас в руках.";
-			Link.l1 = "Кто вы такие и что вам от меня нужно?";
+			dialog.text = GetFullName(PChar) + "! "+DLG_TEXT_BASE[0];
+			Link.l1 = DLG_TEXT_BASE[1];
 			Link.l1.go = "meeting"; 
 			
 			PChar.GenQuest.HunterStart = true;
 		break;
 
 		case "meeting":
-			dialog.text = XI_ConvertString(Nations[sti(NPChar.nation)].Name) + " заплатила за твою голову хорошую цену, неважно живым мы тебя доставим или мертвым.";
-			Link.l1 = "Я готов заплатить вам еще, лишь бы вы оставили меня в покое.";
+			dialog.text = XI_ConvertString(Nations[sti(NPChar.nation)].Name) + DLG_TEXT_BASE[2];
+			Link.l1 = DLG_TEXT_BASE[3];
 			Link.l1.go = "Cost_Head"; 
             // boal 08.04.04 -->
             if (GetSummonSkillFromNameToOld(PChar, SKILL_SNEAK) > 2 || bBettaTestMode)
             {
     			TempChar = characterFromID("Bug Fixer");
     			SetRandomNameToCharacter(TempChar);
-    			Link.l2 = "Позвольте, но похоже вы обознались. Я "+ GetFullName(TempChar) + " - известный в этих краях торговец.";
+    			Link.l2 = DLG_TEXT_BASE[4]+ GetFullName(TempChar) + DLG_TEXT_BASE[5];
     			Link.l2.go = "lier";
 			}
-            Link.l3 = "Ну что же, испытайте свою удачу.";
+            Link.l3 = DLG_TEXT_BASE[6];
 			Link.l3.go = "battle";
 			// to_do
             /*PChar.GenQuest.ToPrisonCmdIdx = GetCharIDXByParam("PrisonCommander", "nation", NPChar.nation);
             if (sti(PChar.GenQuest.ToPrisonCmdIdx) > 0)
             {
-                Link.l4 = "Хорошо, я проследую с вами. Я сам уже собирался все уладить.";
+                Link.l4 = DLG_TEXT_BASE[7];
     			Link.l4.go = "ToPrison";
             }*/
 		break;
@@ -54,8 +55,8 @@ void ProcessDialogEvent()
 		/*case "ToPrison":
             AddDialogExitQuest("Hunters_GoToPrison");
             
-            if (CheckAttribute(PChar, "GenQuest.HunterStart")) // только ОЗГи, а не кладоисатели
-            {   // запись в СЖ
+            if (CheckAttribute(PChar, "GenQuest.HunterStart")) // oieuei ICAe, a ia eeaaienaoaee
+            {   // caienu a N?
 	            AddQuestRecord("HeadHunter", "HeadHunter_GiveUp");
 				AddQuestUserData("HeadHunter", "sNation", NationNameGenitive(sti(NPChar.Nation)));
 				AddQuestUserData("HeadHunter", "sLoc", GetLocHunterName());
@@ -67,17 +68,17 @@ void ProcessDialogEvent()
         case "lier":
             if (GetSummonSkillFromNameToOld(PChar, SKILL_SNEAK) > rand(15) || bBettaTestMode)
             {
-                dialog.text = "О! Наверно мы ошиблись, простите нас, "+ GetAddress_Form(NPChar) + ".";
-                Link.l1 = "Конечно, бывает..";
+                dialog.text = DLG_TEXT_BASE[8]+ GetAddress_Form(NPChar) + ".";
+                Link.l1 = DLG_TEXT_BASE[9];
                 Link.l1.go = "lier_2";
                 AddCharacterExpToSkill(pchar, SKILL_SNEAK, 30);
             }
             else
             {
-                dialog.text = "Похоже, ты врешь!";
-                Link.l1 = "Я готов заплатить вам еще, лишь бы вы оставили меня в покое.";
+                dialog.text = DLG_TEXT_BASE[10];
+                Link.l1 = DLG_TEXT_BASE[11];
 			    Link.l1.go = "Cost_Head";
-			    Link.l2 = "Ну что же, испытайте свою удачу.";
+			    Link.l2 = DLG_TEXT_BASE[12];
 			    Link.l2.go = "battle";
             }
             
@@ -85,8 +86,8 @@ void ProcessDialogEvent()
         
         case "lier_2":
             AddDialogExitQuest("GoAway_Hunters_Land");
-            if (CheckAttribute(PChar, "GenQuest.HunterStart")) // только ОЗГи, а не кладоисатели
-            {   // запись в СЖ
+            if (CheckAttribute(PChar, "GenQuest.HunterStart")) // oieuei ICAe, a ia eeaaienaoaee
+            {   // caienu a N?
 	            AddQuestRecord("HeadHunter", "HeadHunter_free");
 				AddQuestUserData("HeadHunter", "sNation", NationNameGenitive(sti(NPChar.Nation)));
 				AddQuestUserData("HeadHunter", "sLoc", GetLocHunterName());
@@ -97,9 +98,9 @@ void ProcessDialogEvent()
         // boal <--
         
         case "battle":
-            AddDialogExitQuest("Battle_Hunters_Land");    // BOAL Весь код я перенес сюда по всем нациям, просто не переименовал
-            if (CheckAttribute(PChar, "GenQuest.HunterStart")) // только ОЗГи, а не кладоисатели
-            {   // запись в СЖ
+            AddDialogExitQuest("Battle_Hunters_Land");    // BOAL Aanu eia y ia?aian n?aa ii anai iaoeyi, i?inoi ia ia?aeiaiiaae
+            if (CheckAttribute(PChar, "GenQuest.HunterStart")) // oieuei ICAe, a ia eeaaienaoaee
+            {   // caienu a N?
 	            AddQuestRecord("HeadHunter", "HeadHunter_battle");
 				AddQuestUserData("HeadHunter", "sNation", NationNameGenitive(sti(NPChar.Nation)));
 				AddQuestUserData("HeadHunter", "sLoc", GetLocHunterName());
@@ -113,8 +114,8 @@ void ProcessDialogEvent()
 
             AddDialogExitQuest("GoAway_Hunters_Land"); 
             
-            if (CheckAttribute(PChar, "GenQuest.HunterStart")) // только ОЗГи, а не кладоисатели
-            {   // запись в СЖ
+            if (CheckAttribute(PChar, "GenQuest.HunterStart")) // oieuei ICAe, a ia eeaaienaoaee
+            {   // caienu a N?
 	            AddQuestRecord("HeadHunter", "HeadHunter_Buy");
 				AddQuestUserData("HeadHunter", "sNation", NationNameGenitive(sti(NPChar.Nation)));
 				AddQuestUserData("HeadHunter", "sLoc", GetLocHunterName());
@@ -124,54 +125,54 @@ void ProcessDialogEvent()
         break;
 
         case "Cost_Head":
-			dialog.text = "Я думаю, что " + PChar.HunterCost + " пиастров нас устроит.";
+			dialog.text = DLG_TEXT_BASE[13] + PChar.HunterCost + DLG_TEXT_BASE[14];
             if(makeint(Pchar.money) < sti(PChar.HunterCost))
             {
-                Link.l1 = "У меня нет таких денег.";
+                Link.l1 = DLG_TEXT_BASE[15];
                 Link.l1.go = "NoMoney";
             }else{
-                Link.l1 = "Вот ваши деньги, забирайте и проваливайте.";
+                Link.l1 = DLG_TEXT_BASE[16];
                 Link.l1.go = "Cost_Head2";
-                Link.l2 = "Такую сумму вам, подонкам.... Уж лучше я вас всех здесь перережу!!!";
+                Link.l2 = DLG_TEXT_BASE[17];
                 Link.l2.go = "battle";
             }
 		break;
 
 
         case "NoMoney":
-			dialog.text = "В таком случае разговор окончен!";
-			Link.l1 = "Живым вам меня не взять.";
+			dialog.text = DLG_TEXT_BASE[18];
+			Link.l1 = DLG_TEXT_BASE[19];
 			Link.l1.go = "battle"; 
 		break;
 		
 		case "TreasureHunter":
-			dialog.text = "Постой-ка, приятель... Сдается, у тебя есть кое-что интересное. Нужно делиться с близкими найдеными сокровищами.";
-            Link.l1 = "Хорошо, я готов заплатить вам, лишь бы вы оставили меня в покое.";
+			dialog.text = DLG_TEXT_BASE[20];
+            Link.l1 = DLG_TEXT_BASE[21];
 			Link.l1.go = "Cost_Head";
             // boal 08.04.04 -->
             if (GetSummonSkillFromNameToOld(PChar, SKILL_SNEAK) > 3)
             {
     			TempChar = characterFromID("Bug Fixer");
     			SetRandomNameToCharacter(TempChar);
-    			Link.l2 = "Позвольте, но похоже вы обознались. Я "+ GetFullName(TempChar) + " - известная в этих краях личность, а не искатель сокровищ!";
+    			Link.l2 = DLG_TEXT_BASE[22]+ GetFullName(TempChar) + DLG_TEXT_BASE[23];
     			Link.l2.go = "TreasureHunterLier";
 			}
-            Link.l3 = "Ну что же, пришло время отделиться вашим головам от тела.";
+            Link.l3 = DLG_TEXT_BASE[24];
 			Link.l3.go = "battle";
 		break;
 		
 		case "TreasureHunterLier":
             if (GetSummonSkillFromNameToOld(PChar, SKILL_SNEAK) > rand(15))
             {
-                dialog.text = "О! Наверно мы ошиблись, простите нас, "+ GetAddress_Form(NPChar)+".";
-                Link.l1 = "Конечно, бывает..";
+                dialog.text = DLG_TEXT_BASE[25]+ GetAddress_Form(NPChar)+".";
+                Link.l1 = DLG_TEXT_BASE[26];
                 Link.l1.go = "lier_2";
                 AddCharacterExpToSkill(pchar, SKILL_SNEAK, 20);
             }
             else
             {
-                dialog.text = "Похоже ты врешь!";
-			    Link.l1 = "Тогда послушайте как поет моя сабля.";
+                dialog.text = DLG_TEXT_BASE[27];
+			    Link.l1 = DLG_TEXT_BASE[28];
 			    Link.l1.go = "battle";
             }
         break;
@@ -190,11 +191,11 @@ string GetLocHunterName()
 		{
 			if (locations[nLoc].islandId != "Mein")
 			{
-				ret = "острова " + LanguageConvertString(nFile, locations[nLoc].islandId);
+				ret = DLG_TEXT_BASE[29] + LanguageConvertString(nFile, locations[nLoc].islandId);
 			}
 			else
 			{
-				ret = "материка";
+				ret = DLG_TEXT_BASE[30];
 			}
 		}
 		//

@@ -14,7 +14,7 @@ int LocationInitBermudes(int n)
  	locations[n].islandId = "Bermudes";
 	
 	locations[n].filespath.models = "locations\Town_IslaMona\Town\";
-	locations[n].image = "loading\Town.tga";
+	locations[n].image = "loading\towns\pearl1.tga";
 	locations[n].citizens = true;
 	locations[n].soldiers = true;
 
@@ -435,12 +435,12 @@ int LocationInitBermudes(int n)
 	locations[n].reload.l2.label = "Room";
 	n = n + 1;
 
- 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Подземелье Бермудов
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Bermudes_Dungeon";
 	locations[n].id.label = "Dungeon";
-	locations[n].image = "loading\inside\dungeon2.tga";
+	locations[n].image = "loading\inside\dungeon.tga";
 	//Town sack
 	locations[n].townsack = "Pirates";
 	//Sound
@@ -453,14 +453,13 @@ int LocationInitBermudes(int n)
 	locations[n].models.always.InquisitionDungeonVault1Fonars = "DungeonVault1_fonars";
 	locations[n].models.always.locators = "DungeonVault1_locators";	
 
-	Locations[n].models.always.duhi = "duhi";
-	Locations[n].models.always.duhi.locator.group = "item";
-	Locations[n].models.always.duhi.locator.name = "duhi1";
-	locations[n].models.always.duhi.tech = "LighthouseLight";
-	locations[n].models.always.duhi.level = 60;
-	Locations[n].models.always.duhi.uvslide.u0 = 0.15;
-	Locations[n].models.always.duhi.uvslide.v0 = 0.1;
 	locations[n].locators_radius.item.duhi1 = 1.3;
+	
+	Locations[n].models.always.rays = "DungeonVault1_rays";
+	Locations[n].models.always.rays.level = 49;
+	Locations[n].models.always.rays.tech= "LocVisRays";
+	Locations[n].models.always.rays.uvslide.u1 = -0.03;
+	Locations[n].models.always.rays.uvslide.v1 = -0.03;	
 	//Day
 	locations[n].models.day.charactersPatch = "DungeonVault1_patch";
 	//Night
@@ -598,7 +597,7 @@ int LocationInitBermudes(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Bermudes_CaveEntrance";
 	locations[n].id.label = "Cave entrance";
-	locations[n].image = "loading\outside\cave_ent.tga";
+	locations[n].image = "loading\outside\jungle2.tga";
 	//Sound
 	locations[n].type = "jungle";
  	locations[n].islandId = "Bermudes";
@@ -644,6 +643,7 @@ int LocationInitBermudes(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Сковозная пещера
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	locations[n].id = "Bermudes_Cavern";
 	locations[n].id.label = "Cave";
 	locations[n].image = "loading\inside\cave.tga";
@@ -654,6 +654,7 @@ int LocationInitBermudes(int n)
 	//Always
 	locations[n].filespath.models = "locations\inside\cavernLow1";
 	locations[n].models.always.cavernLow1 = "cavernLow1";
+		
 	locations[n].models.always.cavernLow1Lamps = "cavernLow1_lamps";
 	locations[n].models.always.cavernLow1Crystals = "cavernLow1_crystals";
 	locations[n].models.always.cavernLow1Crystals.tech = "EnvironmentShader";
@@ -663,24 +664,24 @@ int LocationInitBermudes(int n)
 	locations[n].models.always.Waterfall.uvslide.v0 = 0.0;
 	locations[n].models.always.Waterfall.uvslide.v1 = 0.0;
 	locations[n].models.always.Waterfall.tech = "LocationWaterFall";
-	locations[n].models.always.Waterfall.level = 50;
+	locations[n].models.always.Waterfall.level = 51;
 
 	locations[n].models.always.Cfall = "cfall";
 	locations[n].models.always.Cfall.uvslide.v0 = 0.3;
-    locations[n].models.always.Cfall.uvslide.v1 = 0.0;
+    	locations[n].models.always.Cfall.uvslide.v1 = 0.0;
 	locations[n].models.always.Cfall.tech = "LocationWaterFall";
-	locations[n].models.always.Cfall.level = 50
-
+	locations[n].models.always.Cfall.level = 50;
+	
 	locations[n].models.always.locators = "cavernLow1_locators";
 
-	Locations[n].models.always.duhi = "duhi";
-	Locations[n].models.always.duhi.locator.group = "item";
-	Locations[n].models.always.duhi.locator.name = "duhi1";
-	locations[n].models.always.duhi.tech = "LighthouseLight";
-	locations[n].models.always.duhi.level = 60;
-	Locations[n].models.always.duhi.uvslide.u0 = 0.15;
-	Locations[n].models.always.duhi.uvslide.v0 = 0.1;
 	locations[n].locators_radius.item.duhi1 = 1.3;
+	
+	Locations[n].models.always.rays = "cavernLow1_rays";
+	Locations[n].models.always.rays.level = 49;
+	Locations[n].models.always.rays.tech= "LocVisRays";
+	Locations[n].models.always.rays.uvslide.u1 = -0.03;
+	Locations[n].models.always.rays.uvslide.v1 = -0.03;
+	
 	//Day
 	locations[n].models.day.charactersPatch = "cavernLow1_patch";
 	//Night
@@ -710,7 +711,7 @@ int LocationInitBermudes(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore_ship1";
 	locations[n].id.label = "Shore_ship1";
-	locations[n].image = "loading\outside\broken_ship.tga";
+	locations[n].image = "loading\outside\harbor3.tga";
 	locations[n].worldmap = "Shore_ship1";
     //Sound
 	locations[n].type = "seashore";

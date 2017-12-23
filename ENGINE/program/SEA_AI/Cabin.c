@@ -569,7 +569,7 @@ void SetSailorDeck_Ships(ref Chref)
 		sld = &Characters[cn];
         LAi_SetWarriorType(sld); // участвуют в расстреле - переинитим тип
     	LAi_warrior_DialogEnable(sld, true);
-	    sld.name    = "Матрос";
+	    sld.name    = xiStr("Sailor");
 	    sld.lastname = "";
         sld.Dialog.Filename = "Quest\sailors_dialog.c";
     	sld.Dialog.CurrentNode = "On_Deck";

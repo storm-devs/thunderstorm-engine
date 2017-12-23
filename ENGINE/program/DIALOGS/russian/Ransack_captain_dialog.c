@@ -1,4 +1,4 @@
-// BOAL диалог пленников - в трюме
+#include "TEXT\DIALOGS\Ransack_captain_dialog.h"
 void ProcessDialogEvent()
 {
 	ref NPChar;
@@ -21,30 +21,30 @@ void ProcessDialogEvent()
 		case "First time":
 			if (sti(NPChar.nation) == PIRATE)
 			{
-                dialog.text = RandSwear() + "Я Ваш пленник, " + GetAddress_Form(NPChar) + ". Но должен сказать, что " + NationNameNominative(sti(NPChar.nation)) + " никогда не выкупает своих -  каждый сам за себя.";
-				link.l2 = "Нда... На тебе не заработать, только если сдать тебя как преступника в каком-нибудь порту за выкуп. А может взять тебя к себе офицером?";
+                dialog.text = RandSwear() + DLG_TEXT_BASE[0] + GetAddress_Form(NPChar) + DLG_TEXT_BASE[1] + NationNameNominative(sti(NPChar.nation)) + DLG_TEXT_BASE[2];
+				link.l2 = DLG_TEXT_BASE[3];
 			    link.l2.go = "free_to_officer";
 			}
 			else
 			{
-			    dialog.text = RandSwear() + "Я Ваш пленник, " + GetAddress_Form(NPChar) + ". " + NationNameNominative(sti(NPChar.nation)) + " заплатит хорошую сумму за мою свободу.";
+			    dialog.text = RandSwear() + DLG_TEXT_BASE[4] + GetAddress_Form(NPChar) + ". " + NationNameNominative(sti(NPChar.nation)) + DLG_TEXT_BASE[5];
 			}
 			attrLoc = Sea_FindNearColony();
 			if (attrLoc != "none") 
 			{
-                link.l1 = "Мы сейчас близ города " + GetConvertStr(attrLoc +" Town", "LocLables.txt") + ". Я мог бы тебя тут высадить.";
+                link.l1 = DLG_TEXT_BASE[6] + GetConvertStr(attrLoc +" Town", "LocLables.txt") + DLG_TEXT_BASE[7];
 			    link.l1.go = "free_withoutFee";
 			}
 			else
 			{
-                link.l1 = "Я вот подумал и решил проявить милосердие. Я отпускаю тебя на все четыре стороны, " + GetFullName(NPChar) + ". Можешь убираться с моего корабля.";
+                link.l1 = DLG_TEXT_BASE[8] + GetFullName(NPChar) + DLG_TEXT_BASE[9];
 			    link.l1.go = "free_in_sea";
 			}
-			link.l3 = "Мне не нужены пленники - мне нужны хорошие рабы!";
+			link.l3 = DLG_TEXT_BASE[10];
 			link.l3.go = "Slave_1";
-			link.l4 = "Молчать, пока тебя не спросили!!";
+			link.l4 = DLG_TEXT_BASE[11];
 			link.l4.go = "PunishmentAction";
-			link.l99 = "Я в курсе!";
+			link.l99 = DLG_TEXT_BASE[12];
 			link.l99.go = "exit";
 			NextDiag.TempNode = "first time";
 		break;
@@ -61,10 +61,10 @@ void ProcessDialogEvent()
         break;
 		
         case "Slave_1":
-			dialog.text = "Но " + GetAddress_Form(NPChar) + ", я же сдался на Вашу милость в бою и достоен лучшей участи.";
-            link.l1 = "Что!? Это мое дело решать твою участь. Быть тебе рабом!";
+			dialog.text = DLG_TEXT_BASE[13] + GetAddress_Form(NPChar) + DLG_TEXT_BASE[14];
+            link.l1 = DLG_TEXT_BASE[15];
 			link.l1.go = "Slave_2";
-			link.l99 = "Э... Ну ладно, сиди пока в трюме.";
+			link.l99 = DLG_TEXT_BASE[16];
 			link.l99.go = "exit";
 		break;
 		
@@ -72,8 +72,8 @@ void ProcessDialogEvent()
             OfficersReaction("bad");
             if (rand(5) == 1)
             {
-    			dialog.text = "Нет!! нет!! Я лучше покончу собой прямо здесь, чем стану рабом!";
-                link.l1 = "Отставить! Я приказываю! Эй.. кто-нибудь уберите тут эту кучу дерьма.";
+    			dialog.text = DLG_TEXT_BASE[17];
+                link.l1 = DLG_TEXT_BASE[18];
     			link.l1.go = "free_in_sea_4";
 			}
             else
@@ -82,19 +82,19 @@ void ProcessDialogEvent()
                 {
                     if (GetPrisonerQty() > 1 && rand(1) == 1)
                     {
-                        dialog.text = "А ну-ка, парни, покажем этому 'хозяину' чей это корабль на самом деле!!";
-                        link.l1 = "Что!? Бунт!? Отставить!";
+                        dialog.text = DLG_TEXT_BASE[19];
+                        link.l1 = DLG_TEXT_BASE[20];
             			link.l1.go = "free_in_sea_battle_all";
             			break;
                     }
-                    dialog.text = "Я предпочту умереть в бою!";
-                    link.l1 = "Я с удовольствием предоставлю тебе такую возможность!";
+                    dialog.text = DLG_TEXT_BASE[21];
+                    link.l1 = DLG_TEXT_BASE[22];
         			link.l1.go = "free_in_sea_battle_1";
     			}
     			else
     			{
-                    dialog.text = "Хорошо. Это ужасно, но мне ничего не остается - я Ваш раб!";
-                    link.l1 = "Вот и славно. Добро пожаловать на борт в качестве живого груза.";
+                    dialog.text = DLG_TEXT_BASE[23];
+                    link.l1 = DLG_TEXT_BASE[24];
         			link.l1.go = "Slave_3";
     			}
 			}
@@ -110,18 +110,18 @@ void ProcessDialogEvent()
         break;
         
         case "free_in_sea":
-			dialog.text = "Но, " + GetAddress_Form(NPChar) + ", мы же в открытом море!!! Куда я пойду?";
-            link.l1 = "А мне-то что! Я сказал. Ты свободен. Убирайся прочь!";
+			dialog.text = DLG_TEXT_BASE[25] + GetAddress_Form(NPChar) + DLG_TEXT_BASE[26];
+            link.l1 = DLG_TEXT_BASE[27];
 			link.l1.go = "free_in_sea_2";
-			link.l99 = "Э.. ну ладно, сиди пока в трюме.";
+			link.l99 = DLG_TEXT_BASE[28];
 			link.l99.go = "exit";
 		break;
 		
 		case "free_in_sea_2":
-			dialog.text = "Это же равносильно моей казни. Вы просто хотите бросить меня на корм акулам?";
-            link.l1 = "Мне плевать, доплывешь ты до берега или нет! Вон с моего корабля!";
+			dialog.text = DLG_TEXT_BASE[29];
+            link.l1 = DLG_TEXT_BASE[30];
 			link.l1.go = "free_in_sea_3";
-			link.l99 = "Пожалуй, ты прав. Оставайся пока.";
+			link.l99 = DLG_TEXT_BASE[31];
 			link.l99.go = "exit";
 		break;
 
@@ -129,8 +129,8 @@ void ProcessDialogEvent()
             OfficersReaction("bad");
             if (rand(5) == 1)
             {
-    			dialog.text = "Нет!! нет!! Я лучше покончу собой прямо здесь, чем буду кормить акул!";
-                link.l1 = "Отставить! Я приказываю! Эй.. кто-нибудь уберите тут эту кучу дерьма.";
+    			dialog.text = DLG_TEXT_BASE[32];
+                link.l1 = DLG_TEXT_BASE[33];
     			link.l1.go = "free_in_sea_4";
 			}
             else
@@ -139,19 +139,19 @@ void ProcessDialogEvent()
                 {
                     if (GetPrisonerQty() > 1 && rand(1) == 1)
                     {
-                        dialog.text = "А ну-ка, парни, покажем этому 'хозяину' чей это корабль на самом деле!!";
-                        link.l1 = "Что!? Бунт!? Отставить!";
+                        dialog.text = DLG_TEXT_BASE[34];
+                        link.l1 = DLG_TEXT_BASE[35];
             			link.l1.go = "free_in_sea_battle_all";
             			break;
                     }
-                    dialog.text = "Я предпочту умереть в бою!";
-                    link.l1 = "Я с удовольствием предоставлю тебе такую возможность!";
+                    dialog.text = DLG_TEXT_BASE[36];
+                    link.l1 = DLG_TEXT_BASE[37];
         			link.l1.go = "free_in_sea_battle_1";
     			}
     			else
     			{
-                    dialog.text = "Хорошо. Я ухожу. Если мы еще когда-нибудь встретимся я отомщу!";
-                    link.l1 = "Ну-ну. Наверное ты прекрасный пловец?";
+                    dialog.text = DLG_TEXT_BASE[38];
+                    link.l1 = DLG_TEXT_BASE[39];
         			link.l1.go = "free_in_sea_5";
     			}
 			}
@@ -219,16 +219,16 @@ void ProcessDialogEvent()
         break;
         
 		case "free_withoutFee":
-			dialog.text = "О, " + GetAddress_Form(NPChar) + ", Вы столь добры, что отпускаете меня без выкупа?";
-            link.l1 = "Да, отпускаю. Ты свободен, " + GetFullName(NPChar);
+			dialog.text = DLG_TEXT_BASE[40] + GetAddress_Form(NPChar) + DLG_TEXT_BASE[41];
+            link.l1 = DLG_TEXT_BASE[42] + GetFullName(NPChar);
 			link.l1.go = "free_withoutFee_2";
-			link.l99 = "Хм.. да ты прав! Я не столь добр, что бы выкидывать живые деньги. Посиди-ка в трюме еще.";
+			link.l99 = DLG_TEXT_BASE[43];
 			link.l99.go = "exit";
 		break;
 		
 		case "free_withoutFee_2":
-			dialog.text = "Спасибо, "+GetFullName(PChar) + "!!!";
-            link.l1 = "Ладно, проваливай, пока я не передумал.";
+			dialog.text = DLG_TEXT_BASE[44]+GetFullName(PChar) + "!!!";
+            link.l1 = DLG_TEXT_BASE[45];
 			link.l1.go = "free_withoutFee_3";
 			OfficersReaction("good");
 		break;
@@ -244,16 +244,16 @@ void ProcessDialogEvent()
         case "free_to_officer":
             if (rand(12) > GetSummonSkillFromNameToOld(PChar, SKILL_LEADERSHIP) || FindFreeRandomOfficer() < 0)
             {
-    			dialog.text = "Преступника? Вы наверное шутите, " + GetAddress_Form(NPChar) + "! Служить у вас? Нет уж, лучше кормить акул!";
-                link.l1 = "Но-но! Договоришься, могу ведь так и сделать!";
+    			dialog.text = DLG_TEXT_BASE[46] + GetAddress_Form(NPChar) + DLG_TEXT_BASE[47];
+                link.l1 = DLG_TEXT_BASE[48];
     			link.l1.go = "exit";
 			}
 			else
 			{
-    			dialog.text = "Офицером, " + GetAddress_Form(NPChar) + "? Пожалуй, я согласен, т.к. другого выхода у меня просто нет!";
-                link.l1 = "Договорились! Приступай к своим обязанностям немедленно.";
+    			dialog.text = DLG_TEXT_BASE[49] + GetAddress_Form(NPChar) + DLG_TEXT_BASE[50];
+                link.l1 = DLG_TEXT_BASE[51];
     			link.l1.go = "free_to_officer_Hire";
-    			link.l2 = "А зачем ты мне сдался? У меня и так полный комплект.";
+    			link.l2 = DLG_TEXT_BASE[52];
     			link.l2.go = "exit";
 			}
 

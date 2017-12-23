@@ -157,18 +157,18 @@ void CalculateNationRelat()
     {
         SetNationRelation2MainCharacter(Nation1, RelatNat);
     }
-    totalInfo = XI_ConvertString(GetNationNameByType(Nation1)) + " и " + XI_ConvertString(GetNationNameByType(Nation2));
+    totalInfo = XI_ConvertString(GetNationNameByType(Nation1)) + xiStr("MSG_NationLegend_1") + XI_ConvertString(GetNationNameByType(Nation2));
     if(RelatNat == RELATION_FRIEND)
     {
-        totalInfo = totalInfo + " стали союзниками.";
+        totalInfo = totalInfo + xiStr("MSG_NationLegend_2");
     }
     if(RelatNat == RELATION_ENEMY)
     {
-        totalInfo = totalInfo + " перешли в состояние войны.";
+        totalInfo = totalInfo + xiStr("MSG_NationLegend_3");
     }
     if(RelatNat == RELATION_NEUTRAL)
     {
-        totalInfo = totalInfo + " перешли к нейтральным отношениям.";
+        totalInfo = totalInfo + xiStr("MSG_NationLegend_4");
     }
     Log_SetStringToLog(totalInfo); // boal fix tavern
     SetNewGroupPicture("Nat1", "NATIONS",  GetNationNameByType(Nation1));

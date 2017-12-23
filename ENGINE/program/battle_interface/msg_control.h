@@ -59,7 +59,7 @@
 #define BIDT_SHIPPICTURE		0 // "l" (characterIdx)
 #define BIDT_GERALD_DATA		1 // "l" (characterIdx)
 
-// команды "земного" интерфейса
+// команды земного интерфейса
 #define MSG_BATTLE_LAND_START			46100 // ""
 #define MSG_BATTLE_LAND_END				46101 // ""
 #define MSG_BATTLE_LAND_SET_SHOW		46102 // "l" commandos show

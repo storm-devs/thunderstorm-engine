@@ -1,13 +1,14 @@
-// диалог по городам
+#include "TEXT\DIALOGS\Soldier\PortRoyal_Soldier.h"
 void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 {
-    switch (Dialog.CurrentNode)
+    ref sld;
+	switch (Dialog.CurrentNode)
 	{
 		case "quests":
-			dialog.text = NPCStringReactionRepeat(RandPhraseSimple("Какие имеете вопросы к солдату?", "У солдата жизнь расписана - караулы, разводы... Что вам угодно, " + GetAddress_Form(NPChar) + "?"), "Не пристало приставать к солдату с глупыми вопросами, " + GetAddress_Form(NPChar) + "...", "Третий раз за сегодня вы пытаетесь задать вопрос...",
-                          "Солдатская доля и без того непроста, а тут еще и ты, недоносок, выводишь из себя...", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat(RandPhraseSimple("Я передумал...", "Сейчас мне не о чем говорить"), "Не пристало...",
-                      "Да уж, действительно в третий раз...", "Извиняюсь...", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(RandPhraseSimple(DLG_TEXT_SLD[0], DLG_TEXT_SLD[1] + GetAddress_Form(NPChar) + "?"), DLG_TEXT_SLD[2] + GetAddress_Form(NPChar) + "...", DLG_TEXT_SLD[3],
+                          DLG_TEXT_SLD[4], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(RandPhraseSimple(DLG_TEXT_SLD[5], DLG_TEXT_SLD[6]), DLG_TEXT_SLD[7],
+                      DLG_TEXT_SLD[8], DLG_TEXT_SLD[9], npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
 		break;
 	}

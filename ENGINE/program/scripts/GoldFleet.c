@@ -65,8 +65,8 @@ void GoldFleet()
             Fantom_SetBalls(sld, "trade");
 
             int iSpace = GetCharacterFreeSpace(sld, GOOD_GOLD)
-            iSpace = iSpace / 3;
-            Fantom_SetCharacterGoods(sld, GOOD_GOLD, (2*iSpace));
+            iSpace = iSpace / 5;
+            Fantom_SetCharacterGoods(sld, GOOD_GOLD, ((rand(1)+1)*iSpace));
             Fantom_SetCharacterGoods(sld, GOOD_SILVER, iSpace);
             SetFantomParamHunter(sld); //крутые парни
             SetCaptanModelByEncType(sld, "trade");//

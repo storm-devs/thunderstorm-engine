@@ -1,13 +1,13 @@
-// диалог по городам
+#include "TEXT\DIALOGS\Fort\Maracaibo_Fort.h"
 void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 {
     switch (Dialog.CurrentNode)
 	{
 		case "quests":
-			dialog.text = NPCStringReactionRepeat(RandPhraseSimple("Как вам наш форт? Неплохо, да? И гарнизон под стать, хе-хе...", "У солдата в форте жизнь скучна - караулы, разводы. То ли дело в городе... Что вам угодно, " + GetAddress_Form(NPChar) + "?"), "Не пристало приставать к солдату с глупыми вопросами, " + GetAddress_Form(NPChar) + "...", "Третий раз за сегодня вы пытаетесь задать вопрос...",
-                          "Солдатская доля и без того непроста, а тут еще и ты, недоносок, выводишь из себя. Смотри, как бы не оказаться в нижнем помещении форта...", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat(RandPhraseSimple("Я передумал...", "Сейчас мне не о чем говорить"), "Не пристало...",
-                      "Да уж, действительно в третий раз...", "Извиняюсь...", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(RandPhraseSimple(DLG_TEXT_FT[0], DLG_TEXT_FT[1] + GetAddress_Form(NPChar) + "?"), DLG_TEXT_FT[2] + GetAddress_Form(NPChar) + "...", DLG_TEXT_FT[3],
+                          DLG_TEXT_FT[4], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(RandPhraseSimple(DLG_TEXT_FT[5], DLG_TEXT_FT[6]), DLG_TEXT_FT[7],
+                      DLG_TEXT_FT[8], DLG_TEXT_FT[9], npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
 		break;
 	}

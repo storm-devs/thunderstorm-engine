@@ -1,18 +1,18 @@
 // BOAL 07.09.03  Mods on_off mode
 // здесь и далее ник boal - это разработческий ник ALexusB
 
-#define VERSION_NUMBER1       "Корсары: Возвращение Легенды  "
-#define VERSION_NUMBER2       "ver. 1.1.8.0608"
+#define VERSION_NUMBER1       "Sea Dogs: City of Abandoned Ships  "
+#define VERSION_NUMBER2       "ver.1.3.0"
 #define VERSION_NUMBER3       "Seaward.Ru" // ALexusB&Co
 
-#define VERSION_NUM      80608  // текущий номер
-#define VERSION_NUM_PRE  80608  // последний совместмый
+#define VERSION_NUM      99910  // текущий номер
+#define VERSION_NUM_PRE  99910  // последний совместмый
 
 //Сайт: http://seadogs.4fans.org
 #define VERSION_WWW     "http://www.seaward.ru"
 
 // Show special message for test game statment
-#define MOD_BETTATESTMODE			"On"  // On -DEV version; Test - TST ver; Off - relize
+#define MOD_BETTATESTMODE			"Off"  // On -DEV version; Test - TST ver; Off - relize
 
 // гловальная строковая переменная
 string sGlobalTemp;
@@ -47,8 +47,16 @@ bool bPGGLogShow = false;
 bool bMonstersGen = false;
 // флаг генерации сухопутных энкаунтеров
 bool bLandEncountersGen = true;
-// флаг "в сундуке"
+// флаг в сундуке
 bool bMainCharacterInBox = false;
+// флаг в огне
+bool bMainCharacterInFire = false;
+// главное меню
+bool bMainMenu = false;
+//загрузка начала игры
+bool startGameWeather = false;
+
+int iScriptVersion = 54128;       //54128  --  15650
 
 // Генератор фантомов - альтернатива
 bool    bNewFantomGenerator       = true;  // резерв "новый фехт"
@@ -66,8 +74,8 @@ bool    bHardcoreGame             = false;
 int MOD_EXP_RATE           = 10; // это база... + (сложность)
 //int Level_Complexity       = 5; // by default только настройка
 //  complexity of fantom skill
-int MOD_SKILL_ENEMY_RATE   = 5; // 1- easy; 2; 3; 4;  5-medium; 6; 7; 8; 9;  10 - hard (please, do not set more 10 or less 1 it mays crash game
-
+int MOD_SKILL_ENEMY_RATE   = 1; // 1- easy; 2; 3; 4;  5-medium; 6; 7; 8; 9;  10 - hard (please, do not set more 10 or less 1 it mays crash game
+#define MOD_Complexity_1_DMG  3.0
 
 // Killed body clear
 #define MOD_DEAD_CLEAR           "On"
@@ -86,7 +94,6 @@ int MOD_SKILL_ENEMY_RATE   = 5; // 1- easy; 2; 3; 4;  5-medium; 6; 7; 8; 9;  10 
 
 // boal 23.01.2004 доработка 091004 сколь угодно героев -->
 int    startHeroType = 1;
-//int    heroFaceId    = 1;
 // boal 23.01.2004 <--
 
 int ItemDeadStartCount = 0; // заполняется в itemInit порог для заполения трупов (оптимизация)
@@ -94,9 +101,6 @@ int ItemDeadStartCount = 0; // заполняется в itemInit порог для заполения трупов
 #define STARTGAME_YEAR       1665
 #define STARTGAME_MONTH      1
 #define STARTGAME_DAY        1
-
-// пасхалка Кукурузина
-#define FUNY_SHIP_NAME    "Кукурузина"
 
 int TimeScaleCounter = 0;
 // запрет перехода
@@ -106,10 +110,7 @@ bool bIsFortAtIsland = false;
 float fFort_x, fFort_z;
 int iFortNation, iFortCommander;
 //начало и конец предметов для локаторов item
-int ItemsForLocators_start, ItemsForLocators_end;
+int ItemsForLocators_start, ItemsForLocators_end, Totems_start, Totems_end;
 
-int iScriptVersion = 74632; //движок проверяет эту переменную, должна равной #define ENGINE_SCRIPT_VERSION в core.h
-//==> проверка скриптами движка на наличие метода. если он есть, то возможное несоответствие движка и
-//==> скриптов отсечет сам двиг, если нет - вылет. 74632 - адонный номер.
 GetEngineVersion();
 /////////////////////////////

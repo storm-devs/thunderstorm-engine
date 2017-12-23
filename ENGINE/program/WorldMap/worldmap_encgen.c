@@ -141,80 +141,34 @@ void Map_WarriorEnd()
 void Map_TraderSucces()
 {
 	if(!CheckAttribute(pchar, "worldmap.shipcounter"))
-	{
+	{		
 		return;
 	}
 	pchar.worldmap.shipcounter = sti(pchar.worldmap.shipcounter) - 1;
 	if(sti(pchar.worldmap.shipcounter) < 0)
 	{
-		sti(pchar.worldmap.shipcounter) = 0;
+		pchar.worldmap.shipcounter = 0;
 	}
 	string sChar = GetEventData();
+
+	Map_TraderSucces_quest(sChar); //обработка квестов по поиску кэпов
+
 	//homo 03/08/06 Наводка на купца
 	if (findsubstr(sChar, "_QuestMerchant" , 0) != -1)
 	{
         Map_ReleaseQuestEncounter(sChar);
         Group_DeleteGroup("Sea_"+sChar);
         CloseQuestHeader("MerchantOnMap");
-		return;
 	}
     // homo 07/10/06 GoldFleet
     if (sChar == "Head_of_Gold_Squadron")
 	{
         RouteGoldFleet();
-		return;
 	}
 	
 	if (findsubstr(sChar, "SiegeCap_" , 0) != -1)
 	{
         SiegeProgress();
-		return;
-	}
-	//пиратка, квест №7
-	if (sChar == "LeonCapitain")
-	{
-		pchar.questTemp.piratesLine = "Soukins_LeonNotFound";
-		QuestSetCurrentNode("Henry Morgan", "PL_Q7_LeonNotFound"); //нода, ничего не узнал
-		AddQuestRecord("Pir_Line_7_Soukins", "14");
-		Log_TestInfo("Фрегат Леон удален.");
-		Map_ReleaseQuestEncounter("LeonCapitain");
-		group_DeleteGroup("Leon_Group");
-	}
-	//пиратка, квест №7
-	if (sChar == "QuestCap_PL7")
-	{
-		pchar.questTemp.piratesLine = "Soukins_battlshipNotFound";
-		AddQuestRecord("Pir_Line_7_Soukins", "12");
-		Log_TestInfo("Энкаунтер баттлшипа удален.");
-		Map_ReleaseQuestEncounter("QuestCap_PL7");
-		group_DeleteGroup("Quest_Ship");
-	}
-	//розыск и отдача кэпу судового журнала
-	if (findsubstr(sChar, "PortmansCap_" , 0) != -1 && characters[GetCharacterIndex(sChar)].quest == "InMap")
-	{
-		SetCapitainFromSeaToCity(sChar);
-	}
-	//поиски кэпа-вора
-	if (findsubstr(sChar, "SeekCap_" , 0) != -1 && characters[GetCharacterIndex(sChar)].quest == "InMap")
-	{
-		SetRobberFromMapToSea(sChar);
-		Log_TestInfo("Энканутер кэпа-вора " + sChar + " дошел до места назначения.");
-	}
-	//поиски кэпа, квест дают горожане
-	if (findsubstr(sChar, "SeekCitizCap_" , 0) != -1)
-	{
-		int iChar = GetCharacterIndex(sChar);
-		if (characters[iChar].quest == "InMap")
-		{
-			CitizCapFromMapToCity(sChar);
-			Log_TestInfo("Энканутер кэпа " + sChar + " дошел до места назначения.");
-		}
-		if (characters[iChar].quest == "outMap")
-		{
-			string sTemp = "SCQ_" + characters[iChar].index;
-			pchar.quest.(sTemp).over = "yes"; //снимаем прерывание смерть кэпа
-			characters[iChar].lifeDay = 0;
-		}
 	}
 	/*if(GetCharacterIndex(sChar) != -1)  // типа пример
 	{
@@ -252,4 +206,67 @@ void Map_TraderSucces()
 
 		return;
 	}  */
+}
+
+void Map_TraderSucces_quest(string sChar)
+{
+	//пиратка, квест №7
+	if (sChar == "LeonCapitain")
+	{
+		pchar.questTemp.piratesLine = "Soukins_LeonNotFound";
+		QuestSetCurrentNode("Henry Morgan", "PL_Q7_LeonNotFound"); //нода, ничего не узнал
+		AddQuestRecord("Pir_Line_7_Soukins", "14");
+		Log_TestInfo("Фрегат Леон удален.");
+		Map_ReleaseQuestEncounter("LeonCapitain");
+		group_DeleteGroup("Leon_Group");
+	}
+	//пиратка, квест №7
+	if (sChar == "QuestCap_PL7")
+	{
+		pchar.questTemp.piratesLine = "Soukins_battlshipNotFound";
+		AddQuestRecord("Pir_Line_7_Soukins", "12");
+		Log_TestInfo("Энкаунтер баттлшипа удален.");
+		Map_ReleaseQuestEncounter("QuestCap_PL7");
+		group_DeleteGroup("Quest_Ship");
+	}
+	//розыск и отдача кэпу судового журнала
+	if (findsubstr(sChar, "PortmansCap_" , 0) != -1 && characters[GetCharacterIndex(sChar)].quest == "InMap")
+	{
+		SetCapitainFromSeaToCity(sChar);
+		Log_TestInfo("Энканутер рассеянного кэпа " + sChar + " дошел до места назначения.");
+	}
+	//поиски кэпа-вора
+	if (findsubstr(sChar, "SeekCap_" , 0) != -1 && characters[GetCharacterIndex(sChar)].quest == "InMap")
+	{
+		SetRobberFromMapToSea(sChar);
+		Log_TestInfo("Энканутер кэпа-вора " + sChar + " дошел до места назначения.");
+	}
+	//поиски кэпа, квест дают горожане
+	if (findsubstr(sChar, "SeekCitizCap_" , 0) != -1)
+	{
+		int iChar = GetCharacterIndex(sChar);
+		if (characters[iChar].quest == "InMap")
+		{
+			CitizCapFromMapToCity(sChar);
+			Log_TestInfo("Энканутер кэпа " + sChar + " дошел до места назначения.");
+		}
+		if (characters[iChar].quest == "outMap")
+		{
+			string sTemp = "SCQ_" + characters[iChar].index;
+			pchar.quest.(sTemp).over = "yes"; //снимаем прерывание смерть кэпа
+			characters[iChar].lifeDay = 0;
+		}
+	}
+	//поиски бригантины с мушкетом
+	if (sChar == "MushketCap" && characters[GetCharacterIndex(sChar)].quest == "InMap")
+	{
+		SetMushketFromMapToSea();
+		Log_TestInfo("Энканутер кэпа с мушкетом дошел до места назначения.");
+	}
+	//поиски брига Королева
+	if (sChar == "Danielle" && characters[GetCharacterIndex(sChar)].quest == "InMap")
+	{
+		SetDanielleFromMapToSea();
+		Log_TestInfo("Энканутер кэпа брига Queen дошел до места назначения.");
+	}
 }

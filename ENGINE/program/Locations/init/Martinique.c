@@ -457,7 +457,7 @@ int LocationInitMartinique(int n)
 	locations[n].id = "FortFrance_Brothel_room";
 	locations[n].id.label = "Brothel Room";
 	locations[n].filespath.models = "locations\inside\Brothel_room\";
-	locations[n].image = "loading\inside\brothell_hall.tga";
+	locations[n].image = "loading\inside\brothell_room.tga";
 	//Town sack
 	locations[n].townsack = "FortFrance";
 	locations[n].lockWeather = "Inside";
@@ -768,12 +768,12 @@ int LocationInitMartinique(int n)
 	locations[n].reload.l2.label = "";
 	n = n + 1;
 
- 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Подземелье Форт де Франс
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "FortFrance_Dungeon";
 	locations[n].id.label = "Dungeon";
-	locations[n].image = "loading\inside\dungeon2.tga";
+	locations[n].image = "loading\inside\dungeon.tga";
 	//Town sack
 	locations[n].type = "Dungeon";
 	locations[n].townsack = "FortFrance";
@@ -785,14 +785,13 @@ int LocationInitMartinique(int n)
 	locations[n].models.always.InquisitionDungeonVault2Fonars = "DungeonVault2_fonars";
 	locations[n].models.always.locators = "DungeonVault2_locators";
 
-	Locations[n].models.always.duhi = "duhi";
-	Locations[n].models.always.duhi.locator.group = "item";
-	Locations[n].models.always.duhi.locator.name = "duhi1";
-	locations[n].models.always.duhi.tech = "LighthouseLight";
-	locations[n].models.always.duhi.level = 60;
-	Locations[n].models.always.duhi.uvslide.u0 = 0.15;
-	Locations[n].models.always.duhi.uvslide.v0 = 0.1;
 	locations[n].locators_radius.item.duhi1 = 1.3;
+	
+	Locations[n].models.always.rays = "DungeonVault2_rays";
+	Locations[n].models.always.rays.level = 49;
+	Locations[n].models.always.rays.tech= "LocVisRays";
+	Locations[n].models.always.rays.uvslide.u1 = -0.03;
+	Locations[n].models.always.rays.uvslide.v1 = -0.03;	
 	//Day
 	locations[n].models.day.charactersPatch = "DungeonVault2_patch";
 	//Night
@@ -817,7 +816,9 @@ int LocationInitMartinique(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "FortFrance_ExitTown";
 	locations[n].id.label = "ExitTown";
-	locations[n].image = "loading\Gate.tga";
+	locations[n].image = "loading\Gate" + rand(1) + ".tga";
+	//Town sack
+	locations[n].townsack = "FortFrance";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Martinique";
@@ -1040,7 +1041,7 @@ int LocationInitMartinique(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Martinique_jungle_03";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle3.tga";
+	locations[n].image = "loading\outside\jungle.tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Martinique";
@@ -1197,7 +1198,7 @@ int LocationInitMartinique(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "LeFransua_ExitTown";
 	locations[n].id.label = "ExitTown";
-	locations[n].image = "loading\Gate.tga";
+	locations[n].image = "loading\Gate" + rand(1) + ".tga";
 	//Town sack
 	locations[n].townsack = "LeFransua";
 	//Sound
@@ -1257,7 +1258,7 @@ int LocationInitMartinique(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "LeFransua_town";
 	locations[n].id.label = "Street";
-	locations[n].image = "loading\towns\LeFransua.tga";
+	locations[n].image = "loading\towns\pearl1.tga";
 	locations[n].worldmap = "Martinique";
 	locations[n].citizens = true;
 	locations[n].soldiers = true;

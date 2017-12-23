@@ -140,8 +140,9 @@ ref GetFortCommander(string _city)
 	 return GetCharacter(ind);
 }
 
-#define MAX_TOWN_CREW 12 // мах колво реальных солдат в локации (в сумме 32 мах)
+#define MAX_TOWN_CREW 9 // мах колво реальных солдат в локации (в сумме 32 мах)
 #define MAX_ESCADRA_CREW 5 // помощь эскадре - наши солдаты
+#define MAX_TOWN_MUSHKETER 3 //мушкетеры в городе
 
 void SetCrewBackAfterBattle()
 {
@@ -161,14 +162,14 @@ void SetCrewBackAfterBattle()
             iTemp = iTemp - GetCargoGoods(Pchar, GOOD_MEDICAMENT); // умерли от ран
 			RemoveCharacterGoodsSelf(Pchar, GOOD_MEDICAMENT, GetCargoGoods(Pchar, GOOD_MEDICAMENT)); // все нулим
 			i += iTemp; // трупов больше
-			Log_Info("Из-за нехватки медикаментов от ран умерли " + iTemp + " матросов");
+			Log_Info(xiStr("MSG_Colony_1") + iTemp + xiStr("MSG_Colony_2"));
 	    }
 	    else
 	    {
 	        RemoveCharacterGoodsSelf(Pchar, GOOD_MEDICAMENT, iTemp);
 	        if (GetCargoGoods(Pchar, GOOD_MEDICAMENT) < 16)
 		    {
-		        Log_Info("На корабле " + Pchar.Ship.Name + " осталось мало медикаментов");
+		        Log_Info(xiStr("MSG_Colony_3") + Pchar.Ship.Name + xiStr("MSG_Colony_4"));
 		    }
 	    }
 	}
@@ -342,7 +343,7 @@ ref SetFantomSlaves(string group, string locator, string enemygroup)
 		switch (rand(3))
         {
             case 0: blade = "rabble";   break;
-            case 1: blade = "Lead1"; break;
+            case 1: blade = "blade1"; break;
             case 2: blade = "blade5";       break;
             case 3: blade = "topor3";   break;
         }
@@ -444,6 +445,7 @@ void TWN_FreeCaptureForts() // уберем солдат, откроем входы (на всяк случай) при
     if (CheckAttribute(Builder, "Default"))
     {
         SetLocationCapturedState(Builder.Default, false); // тк может быть убит или в тюрме - берем его резиденцию всегда
+		Builder.greeting = "spa_gov_common";
     }
 }
 
@@ -522,7 +524,7 @@ void TWN_FightInTown()
 {
     ref sld, Builder;
     int j, i, natEsc;
-    string sTemp, snCity;
+    string sTemp, snCity, sModel;
     aref aData;  //  homo
     makearef(aData, NullCharacter.Siege);   // homo
     
@@ -574,7 +576,6 @@ void TWN_FightInTown()
             //Pchar.GenQuestFort.MunityCharacterIdx = sld.index;
             //DoQuestCheckDelay("LaunchMunityCapture", 1.0);
 
-            //Log_Info("Мятеж в городе " + GetCityName(sld.City) + " подавлен.");
             SetCaptureTownByHero(sld.City);
             Statistic_AddValue(Pchar, NationShortName(sti(sld.nation)) + "_TakeTown", 1);
         }
@@ -622,6 +623,7 @@ void TWN_FightInTown()
                 }
 				else Builder.dialog.CurrentNode = "CAPTURE_Main";
 				LAi_SetImmortal(Builder, true);
+				Builder.greeting = "mayor_capture";
 				chrDisableReloadToLocation = true;
 				if (!isCityHasFort(Builder.City))   // вернуть жителей
 	            {
@@ -685,6 +687,32 @@ void TWN_FightInTown()
             	Pchar.GenQuestFort.TownCrew = sti(Pchar.GenQuestFort.TownCrew) - 1;
             	chrDisableReloadToLocation = true; // не везде есть локаторы
             }
+			//вражеские мушкетеры
+			if (pchar.questTemp.Ascold != "Ascold_ImMummy")
+			{
+				for (i = 0; i < MAX_TOWN_MUSHKETER; i++)
+				{				
+					if (sti(Pchar.GenQuestFort.TownCrew) < 1) break;
+					if(natEsc == PIRATE)
+					{
+						sModel = "mushketer_" + (rand(4)+1);
+					}
+					else
+					{
+						sModel = NationShortName(natEsc) + "_mush_" + i;
+					}				
+					sld = GetCharacter(NPC_GenerateCharacter("GenChar_", sModel, "man", "mushketer", 5, natEsc, 0, false));
+					sld.id = "GenChar_" + sld.index;
+					LAi_NoRebirthEnable(sld); //не показывать убитых при входе в локацию
+					LAi_LoginInCaptureTown(sld, true); // для записи игры
+					SetMushketerParamFortEnemy(sld);
+					LAi_SetWarriorType(sld);
+					LAi_group_MoveCharacter(sld, "TOWN_BATTLE_SOLDIERS");			    
+					ChangeCharacterAddressGroup(sld, loadedLocation.id, "rld", sTemp);
+					Pchar.GenQuestFort.TownCrew = sti(Pchar.GenQuestFort.TownCrew) - 1;
+				}
+			}
+
             if (chrDisableReloadToLocation)
             {
 	            // наши
@@ -696,7 +724,32 @@ void TWN_FightInTown()
 					SetFantomOurAttackForts("rld", sTemp);
 	            	Pchar.GenQuestFort.PlayerCrew = sti(Pchar.GenQuestFort.PlayerCrew) - 1;
 	            }
-	            // помощь эскадре
+				if (pchar.questTemp.Ascold != "Ascold_ImMummy")
+				{
+					//наши мушкетеры
+					for (i = 0; i < MAX_TOWN_MUSHKETER; i++)
+					{				
+						if (sti(Pchar.GenQuestFort.PlayerCrew) < 1) break;
+						if(sti(pchar.nation) == PIRATE)
+						{
+							sModel = "mushketer_" + (rand(4)+1);
+						}
+						else
+						{
+							sModel = NationShortName(sti(pchar.nation)) + "_mush_" + i;
+						}				
+						sld = GetCharacter(NPC_GenerateCharacter("GenChar_", sModel, "man", "mushketer", 5, sti(pchar.nation), 0, false));
+						sld.id = "GenChar_" + sld.index;
+						LAi_NoRebirthEnable(sld); //не показывать убитых при входе в локацию
+						LAi_LoginInCaptureTown(sld, true); // для записи игры
+						SetMushketerParamFortOur(sld);
+						LAi_SetWarriorType(sld);
+						LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
+						ChangeCharacterAddressGroup(sld, loadedLocation.id, "rld", sTemp);
+						//Pchar.GenQuestFort.PlayerCrew = sti(Pchar.GenQuestFort.PlayerCrew) - 1;
+					}
+				}
+				// помощь эскадре
 		        if (CheckQuestAttribute("Union_with_Escadra", "Yes") && CheckAttribute(aData, "Colony") && snCity == aData.Colony) //fix homo
 	            {
 
@@ -741,7 +794,7 @@ void TWN_FightInTown_OpenNext()
     }
     chrDisableReloadToLocation = false;
     LAi_SetFightMode(Pchar, false);
-    Log_Info("Силы противника подавлены! Путь свободен.");
+    Log_Info(xiStr("MSG_Colony_5"));
     PlaySound("interface\door_locked.wav");
     // подсчет живых матросов
     Log_TestInfo("Old boarding_player_crew: " + Pchar.GenQuestFort.PlayerCrew);
@@ -753,7 +806,7 @@ void TWN_FightInTown_OpenNext()
 			if(j != GetMainCharacterIndex())
 			{
 				sld = &Characters[j];
-				if(LAi_IsDead(sld) == false && !IsOfficer(sld)) // не нужны офицеры для матросов
+				if(LAi_IsDead(sld) == false && !IsOfficer(sld) && sld.model.animation != "mushketer") // не нужны офицеры для матросов
 				{
 					if (sld.chr_ai.group == LAI_GROUP_PLAYER)
 					{
@@ -1268,7 +1321,7 @@ void TWN_Siege_Any(string city)
     {
 	    sld = GetFortCommander(city);
 
-	    Log_Info("Наш город " + GetCityName(city) + " в осаде!");
+	    Log_Info(xiStr("MSG_Colony_6") + GetCityName(city) + xiStr("MSG_Colony_7"));
 
 	    sTemp = "Enemy_" + city;
 	    iDay = 9 + rand(15);
@@ -1389,7 +1442,7 @@ void TWN_End_Siege_Any(string city)
     PChar.Quest.(sTemp).CityId   = city;
 	PChar.Quest.(sTemp).function = "TWN_Siege_Any";
 			
-    Log_Info("Осада снята!");
+    Log_Info(xiStr("MSG_Colony_9"));
 }
 ///////////////////////////////
 // сухопутная осада
@@ -1401,7 +1454,7 @@ void TWN_SiegeLand_Any(string city)
 
     sld = GetFortCommander(city);
 
-    Log_Info("Наш город " + GetCityName(city) + " в осаде!");
+    Log_Info(xiStr("MSG_Colony_6") + GetCityName(city) + xiStr("MSG_Colony_7"));
 
     sTemp = "Enemy_" + city;
     i = 9 + rand(15);
@@ -1492,7 +1545,7 @@ void TWN_Enemy_Any(string city)
 		PChar.GenQuest.CallFunctionParam = "LaunchColonyInfoScreen";
 		DoQuestCheckDelay("CallFunctionParam", 2.0);
 	}
-	Log_Info("Наш город " + GetCityName(city) + " захвачен.");
+	Log_Info(xiStr("MSG_Colony_6") + GetCityName(city) + xiStr("MSG_Colony_8"));
 	makeref(rColony, Colonies[FindColony(city)]);
     DeleteAttribute(rColony, "DontSetShipInPort"); //возвращаем жизнь
 }

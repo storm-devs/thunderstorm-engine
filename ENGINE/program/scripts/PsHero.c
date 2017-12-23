@@ -37,6 +37,7 @@ void InitPsHeros()
 			ch.greeting = "Gr_PsHero";
 			//navy -->
 			ch.SaveItemsForDead = true; //сохраняем все вещи
+			ch.DontClearDead = true;  // не убирать труп через 200с
 			ch.DontRansackCaptain = true; //квестовые не сдаются
 			ch.AlwaysSandbankManeuver = true;  // тупым запрет тонуть об берег
 			ch.perks.list.ByWorker = "1";
@@ -737,10 +738,10 @@ void PGG_UpdateEquip(ref chr)
         					}
 							else
 							{
-								if (sti(chr.rank) > 12) 
+								if (sti(chr.rank) > 9) 
 								{
-									GiveItem2Character(chr, "pistol4");
-            						EquipCharacterByItem(chr, "pistol4");
+									GiveItem2Character(chr, "pistol8");
+            						EquipCharacterByItem(chr, "pistol8");
         						}
         					}
     					}
@@ -1065,7 +1066,7 @@ void PGG_SetRelation2OtherAsNormal(ref pgg)
 void PGG_AddRumour(ref chr, string _idTmpl)
 {
 	int iCol;
-	//фильтруем действия.. хотя функция AddTemplRumour сейчас защищена от "дурака"
+	//фильтруем действия.. хотя функция AddTemplRumour сейчас защищена от дурака
 	if (_idTmpl != PGG_TASK_WAITINTAVERN && _idTmpl != PGG_TASK_WORKONMAYOR &&
 		_idTmpl != PGG_TASK_SAILTOISLAND && _idTmpl != PGG_TASK_WORKONSTORE &&
 		_idTmpl != PGG_TASK_WORKWITHCONTRA) return;
@@ -1113,8 +1114,8 @@ void PGG_OnInit_SailToIsland(ref rTmpl)
 	ref chr = GetCharacter(sti(pchar.questTemp.PGG_Rumour));
 
 	oPrm.PsHero_Name = GetFullName(chr);
-	oPrm.To = "в";
-	if (chr.PGGAi.Task.Target == "Tortuga") oPrm.To = "на";
+	oPrm.To = xiStr("PsHero_1");
+	if (chr.PGGAi.Task.Target == "Tortuga") oPrm.To = xiStr("PsHero_2");
 	oPrm.Town_Name = XI_ConvertString("Colony" + chr.PGGAi.Task.Target + "Acc");
 	ttttstr = GetAssembledString(ttttstr, &oPrm);
 
@@ -1223,7 +1224,7 @@ void PGG_BecomeHiredOfficer()
 	AddPassenger(pchar, chr, false);
 
 	chr.location = "None";
-	chr.PGGAi.location.town = "Офицер";
+	chr.PGGAi.location.town = xiStr("Officer");
 	chr.PGGAi.IsPGG = false;
 	chr.Dialog.CurrentNode = "hired";
 	chr.Dialog.FileName = "Enc_Officer_dialog.c";
@@ -1550,6 +1551,9 @@ void PGG_Q1CheckStartState(string qName)
 
 	PChar.GenQuest.PGG_Quest.Stage = 3;
 	PChar.Quest.PGGQuest1_Time2Late.Over = "yes";
+	PChar.Quest.PGGQuest1_Time2Late_01.Over = "Yes";
+	PChar.Quest.PGGQuest1_Time2Late_02.Over = "Yes";
+
 	if (sti(PChar.GenQuest.PGG_Quest.Template)) 
 	{
 		SetTimerCondition("PGGQuest1_Time2Fight", 0, 0, 2, false);
@@ -1667,6 +1671,8 @@ void PGG_Q1AfterBattle(string qName)
 	PChar.Quest.PGGQuest1_PGGDead.Over = "yes";
 	PChar.Quest.PGGQuest1_GroupDead.Over = "yes";
 	PChar.Quest.PGGQuest1_Time2Fight.Over = "yes";
+	PChar.Quest.PGGQuest1_Time2Late_01.Over = "Yes";
+	PChar.Quest.PGGQuest1_Time2Late_02.Over = "Yes";
 
 	chrDisableReloadToLocation = true;
 }
@@ -1719,6 +1725,10 @@ void PGG_Q1EndClear(string qName)
      
 	PChar.Quest.PGGQuest1_EndExitSea.Over = "Yes";
 	PChar.Quest.PGGQuest1_EndExitLoc.Over = "Yes";
+	PChar.Quest.PGGQuest1_Time2Late_01.Over = "Yes";
+	PChar.Quest.PGGQuest1_Time2Late_02.Over = "Yes";
+
+	LAi_LocationFightDisable(&Locations[FindLocation("Ship_deck")], false);
 
 	DeleteAttribute(chr, "PGGAi.ActiveQuest");
 	DeleteAttribute(chr, "AlwaysFriend");

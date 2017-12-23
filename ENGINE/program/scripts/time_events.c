@@ -152,8 +152,8 @@ void Tut_Continue()
     LAi_LockFightMode(pchar, true);
     
 	sld = GetCharacter(NPC_GenerateCharacter("Sailor_1", "Pirate_9", "man", "man", 1, PIRATE, 0, false));
-    sld.name 	= "Сандро";
-    sld.lastname 	= "Торн";
+    sld.name 	= xiDStr("Sandro");
+    sld.lastname 	= xiDStr("Torn");
     sld.Dialog.CurrentNode = "First time";
     sld.dialog.filename = "Quest\StartGame_dialog.c";
     sld.greeting = "Teacher_pirat";
@@ -172,8 +172,8 @@ void Tut_Continue()
 
 	// генерим второго матроса, но пока не ставим
 	sld = GetCharacter(NPC_GenerateCharacter("Sailor_2", "shipowner_2", "man", "man", 1, PIRATE, 0, false));
-    sld.name 	= "Джим";
-    sld.lastname 	= "Хопкинс";
+    sld.name 	= xiDStr("Jim");
+    sld.lastname 	= xiDStr("Hopkince");
 
     SetSPECIAL(sld, 8,10,9,3,6,10,4);
     InitStartParam(sld);
@@ -281,6 +281,10 @@ void SetQuestsCharacters()
 		case 1: sTown = "Tortuga";	break;
 		case 2:	sTown = "Havana";	break;
 		case 3:	sTown = "Villemstad"; break;
+		case 4:	
+			sTown = "PortRoyal"; 
+			iNation = ENGLAND;
+		break;
 	}
 	//заказчик убийства нищих
 	sld = characterFromId("PoorKillSponsor");

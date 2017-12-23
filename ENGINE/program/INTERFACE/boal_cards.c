@@ -205,13 +205,13 @@ void ProcessCommandExecute()
                     if (dir_i == 1 && (iMoneyP - iRate) < 0)
                     {
                         PlaySound("interface\knock.wav");
-                        SetFormatedText("INFO_TEXT", "Что, денежки кончились? Бедненький :)");
+                        SetFormatedText("INFO_TEXT", lMsg("Cards_1"));
                         break;
                     }
                     if (dir_i == -1 && (iMoneyN - iRate) < 0)
                     {
                         PlaySound("interface\knock.wav");
-                        SetFormatedText("INFO_TEXT", "Я на мели!!! Вот не пруха!");
+                        SetFormatedText("INFO_TEXT", lMsg("Cards_2"));
                         break;
                     }
                     
@@ -255,13 +255,13 @@ void ProcessCommandExecute()
                     SetNextTip();
                     if (dir_i_start == -1)// комп начинал игру первый
                     {
-                        SetFormatedText("INFO_TEXT", "Открываемся!!!");
+                        SetFormatedText("INFO_TEXT", lMsg("Cards_3"));
                         bStartGame = 100;
                         PostEvent("My_eOpenCards", 2000);
                     }
                     else
                     {// комп должен себе набрать
-                        SetFormatedText("INFO_TEXT", "Так, теперь мне карту.");
+                        SetFormatedText("INFO_TEXT", lMsg("Cards_4"));
                         
                         move_i = 0;
                         PlaySound("interface\took_item.wav");
@@ -432,22 +432,22 @@ void SetNextTip()
     {
         if (bStartGame <2)
         {
-            SetFormatedText("INFO_TEXT","Теперь тебе карту."+NewStr()+"Делай ставку!");
+            SetFormatedText("INFO_TEXT",lMsg("Cards_5")+NewStr()+lMsg("Cards_6"));
         }
         else
         {
-            SetFormatedText("INFO_TEXT",LinkRandPhrase("Твой ход!", "Давай, не тяни кота за хвост...", RandSwear() + "Бери карту себе! Не задерживай!"));
+            SetFormatedText("INFO_TEXT",LinkRandPhrase(lMsg("Cards_7"), lMsg("Cards_8"), RandSwear() + lMsg("Cards_9")));
         }
     }
     else
     {
         if (bStartGame <2)
         {
-            SetFormatedText("INFO_TEXT","Теперь мне карту."+NewStr()+"Кладу монету!");
+            SetFormatedText("INFO_TEXT",lMsg("Cards_10")+NewStr()+lMsg("Cards_11"));
         }
         else
         {
-            SetFormatedText("INFO_TEXT",LinkRandPhrase("Мой ход!", "Посмотрим, что там за карта...", "Ну-ка, опять шиперки..."));
+            SetFormatedText("INFO_TEXT",LinkRandPhrase(lMsg("Cards_12"), lMsg("Cards_13"), lMsg("Cards_14")));
         }
     }
 }
@@ -547,13 +547,13 @@ bool CheckGame()
     if (CountCardsP() > 21)
     {
         ok = -1;
-        sTemp = "Ха! Да у тебя ПЕРЕБОР! Я выиграл.";
+        sTemp = lMsg("Cards_15");
         iHeroLose++;
     }
     if (CountCardsN() > 21)
     {
         ok = 1;
-        sTemp = RandSwear() + "У меня ПЕРЕБОР! Ты выиграл.";
+        sTemp = RandSwear() + lMsg("Cards_16");
         iHeroWin++;
     }
     if (ok != 0)
@@ -563,12 +563,12 @@ bool CheckGame()
         
         if (CheckNextGame() && rand(10) < 10) // есть деньги на игру
         {
-            sTemp += NewStr() + RandPhraseSimple("Повторим?","Еще разок?");
+            sTemp += NewStr() + RandPhraseSimple(lMsg("Cards_17"),lMsg("Cards_18"));
         }
         else
         {
             bStartGame = 100;//признах запрета новой игры
-            sTemp += NewStr() + "Все, с меня хватит!";
+            sTemp += NewStr() + lMsg("Cards_19");
         }
         SetFormatedText("INFO_TEXT", sTemp);
         ret = true;
@@ -594,7 +594,7 @@ bool CheckGame()
         {
             if (dir_i == -1 && dir_i_start == 1)// комп ходит последним
             {
-                SetFormatedText("INFO_TEXT", "Мне хватит. Открываемся!");
+                SetFormatedText("INFO_TEXT", lMsg("Cards_20"));
                 bStartGame = 100;
                 PostEvent("My_eOpenCards", 2000);
                 ret = true;
@@ -602,7 +602,7 @@ bool CheckGame()
             if (dir_i == -1 && dir_i_start == -1)// комп начинает
             {
                 dir_i = 1;
-                SetFormatedText("INFO_TEXT", "Теперь ты себе! Мне хватит.");
+                SetFormatedText("INFO_TEXT", lMsg("Cards_21"));
                 ret = true;
             }
         }
@@ -634,7 +634,7 @@ void NewGameBegin()
 {
     RedrawDeck(); // новая игра
     bStartGame = 0;
-    SetFormatedText("INFO_TEXT","Сдаем карты. "+NewStr()+"Делаем ставки.");
+    SetFormatedText("INFO_TEXT",lMsg("Cards_22")+NewStr()+lMsg("Cards_23"));
     PostEvent("My_eStartGame", 1000);
 }
 
@@ -659,24 +659,24 @@ void OpenCards();
     if (CountCardsP() > makefloat(CountCardsN() + 0.1*dir_i_start)) // преимущество тому, кто сдает (те ходит последним)
     {
         EndGameCount(1);
-        sTemp = RandSwear() + "Ты выиграл. У тебя " + CountCardsP() +", у меня " + CountCardsN()+"." ;
+        sTemp = RandSwear() + lMsg("Cards_24") + " " + CountCardsP() +lMsg("Cards_25") + " " + CountCardsN()+"." ;
         iHeroWin++;
     }
     else
     {
         EndGameCount(-1);
-        sTemp = "Удача на моей стороне. У меня " + CountCardsN() +", у тебя " + CountCardsP()+". Я победил!";
+        sTemp = lMsg("Cards_26") + " " + CountCardsN() +lMsg("Cards_27") + " " + CountCardsP()+lMsg("Cards_28");
         iHeroLose++;
     }
     if (CheckNextGame() && rand(10) < 10) // есть деньги на игру
     {
-        sTemp += NewStr() + RandPhraseSimple("Повторим?","Еще разок?");
+        sTemp += NewStr() + RandPhraseSimple(lMsg("Cards_29"), lMsg("Cards_30"));
         bStartGame = 2;
     }
     else
     {
         bStartGame = 100;//признах запрета новой игры
-        sTemp += NewStr() + "Все, с меня хватит!";
+        sTemp += NewStr() + lMsg("Cards_31");
     }
     SetFormatedText("INFO_TEXT", sTemp);
     RedrawCards();
@@ -688,4 +688,9 @@ bool CheckNextGame()
     if (iRate*3 > iMoneyP) ret = false;
     
     return ret;
+}
+
+string lMsg(string _str)
+{
+	return GetConvertStr(_str, "MiniGames.txt");
 }

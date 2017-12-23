@@ -261,7 +261,7 @@ void FillBoxForTreasure(ref item, int i)
 	        }
 	        if (rand(2) == 1)
 	        {
-            	item.BoxTreasure.Lead1 = 1;
+            	item.BoxTreasure.blade5 = 1;
 	        }
 	        if (rand(2) == 1)
 	        {
@@ -378,6 +378,9 @@ void FillBoxForTreasureAddition(ref item)
 		    item.BoxTreasure.sculMa3 = 1;
 		break;
 	}
+	//добавим тотемы
+	string sName = "Totem_" + (rand(9)+1);
+	if (!CheckMainHeroTotem(sName) && rand(20)==1) item.BoxTreasure.(sName) = 1;
 }
 
 void FillBoxForTreasureSuper(ref item)
@@ -404,7 +407,7 @@ void FillBoxForTreasureSuper(ref item)
         			itmName = "blade32";
 				break;
 				case 3:
-        			itmName = "arm1";
+        			itmName = "blade23";
 				break;
 				case 4:
         			itmName = "pistol4";
@@ -465,7 +468,7 @@ void SetTreasureBoxFromMap()
 
     if (GetCharacterItem(Pchar, "map_full")>0 )
     {
-        Log_Info("Сокровища где-то рядом!");
+        Log_Info(xiDStr("Tresure_1"));
         PlaySound("interface\notebook.wav");
         // немного веселой жизни
         TraderHunterOnMap();
@@ -521,7 +524,7 @@ void  TraderHunterOnMap()
         sld.AlwaysEnemy = true;
         sld.DontRansackCaptain = true;
         sld.mapEnc.type = "war";
-        sld.mapEnc.Name = "Джентльмены удачи";
+        sld.mapEnc.Name = xiDStr("Tresure_2");
         Group_AddCharacter(sGroup, sCapId + i);
     }
 
@@ -554,7 +557,7 @@ void SetTreasureHunter(string temp)
         SetFantomParamHunter(sld); //крутые парни
         sld.Dialog.CurrentNode = "TreasureHunter";
         sld.dialog.filename = "Hunter_dialog.c";
-        sld.greeting = "Enc_Raiders";
+        sld.greeting = "Gr_HUNTER";
         sld.location = "none"; // вот где порылась собака!!!!!!!!!!!
 
         SetModelPirate(sld);
@@ -653,11 +656,9 @@ void  GhostShipOnMap()
     if (CheckAttribute(pchar , "GenQuest.GhostShip.LastBattle"))
     {
 		rRealShip = GetRealShip(sti(sld.Ship.Type));
-		rRealShip.EmblemedSails.normalTex =  "ships\parus_common_torn.tga";
-
 		rRealShip.MaxCaliber = 32;
 	    rRealShip.Cannon     = CANNON_TYPE_CANNON_LBS32;
-	    rRealShip.HP         = 7000;
+	    rRealShip.HP         = 7500;
 	    rRealShip.WindAgainstSpeed = 3.0;
 		rRealShip.TurnRate   = 45.0;
 	
@@ -675,7 +676,7 @@ void  GhostShipOnMap()
 
     SetCrewQuantityOverMax(sld, 666);
     sld.mapEnc.type = "war";
-    sld.mapEnc.Name = "Летучий голландец";
+    sld.mapEnc.Name = xiDStr("GhostShipName");
 	sld.mapEnc.worldMapShip = "pirates_manowar";
 				
     sld.ship.Crew.Morale = 90;
@@ -809,7 +810,7 @@ void Survive_In_Sea_Go2Land()
     
     pchar.Health.Damg = stf(pchar.chr_ai.hp_max)*40;
 	// дает лог в + и - AddCharacterHealth(pchar, -30);
-	Log_Info("О чудо! Я жив!");
+	Log_Info(xiDStr("Tresure_3"));
 	if (sti(PChar.GenQuest.GhostShip.KillMe) <= 1)
 	{
 		AddQuestRecord("GhostShipQuest", "Survive_1");
@@ -820,15 +821,16 @@ void Survive_In_Sea_Go2Land()
 	    // добавить предмет Т102
 	    if (sti(PChar.GenQuest.GhostShip.KillMe) == 2)
 		{
-			Log_Info("Вы нашли очень странный предмет.");
+			Log_Info(xiDStr("Tresure_4"));
 			TakeNItems(Pchar, "term_arm", 1);
 	    	pchar.QuestTemp.TakeShotgun = true;
 	    }
 	}
+	sGlobalTemp = "afterFDsink";
 	bDisableMapEnter           = false;   // мир, был бой с ЛГ
 	
-	SetLaunchFrameFormParam("Прошло " + iDay + " дней." + NewStr() +
-	                        "Остров " + GetConvertStr(ch.islandLable, "LocLables.txt")+","+ NewStr() +
+	SetLaunchFrameFormParam(xiStr("MSG_Tresure_1") + iDay + xiStr("MSG_Tresure_2") + NewStr() +
+	                        xiStr("MSG_Tresure_3") + GetConvertStr(ch.islandLable, "LocLables.txt")+","+ NewStr() +
 							"" + GetConvertStr(pchar.location, "LocLables.txt") + ".",
 						                        "Reload_To_Location", 0.1, 7.0);
     SetLaunchFrameReloadLocationParam(pchar.location, "Smugglers", "Smuggler01", "");
@@ -839,11 +841,11 @@ void GhostShipInit()
 {
 	ref sld;
 	//============> Капитан призрака
-	sld = GetCharacter(NPC_GenerateCharacter("GhostCapt", "officer_7", "man", "man", 55, PIRATE, -1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("GhostCapt", "skeletcap", "skeleton", "man", 55, PIRATE, -1, true));
 	sld.dialog.filename      = "Quest\GhostShip_dialog.c";
 	sld.dialog.currentnode   = "GhostCapt";
-	sld.name 	= "Деви";
-	sld.lastname = "Джонс";
+	sld.name 	= xiDStr("GhostCapName");
+	sld.lastname = xiDStr("GhostCapLastname");
 	sld.reputation = 15;
 	sld.RebirthPhantom     = true;
 	sld.AlwaysEnemy        = true;
@@ -870,14 +872,11 @@ void GhostShipInit()
 	LAi_SetLoginTime(sld, 6.0, 21.99);
 	LAi_SetCitizenType(sld);
 	LAi_group_MoveCharacter(sld, "TmpEnemy");
-	sld.Ship.Type = CreateBaseShip(SHIP_LINESHIP);
-	sld.Ship.Name = "Летучий голландец";
+	sld.Ship.Type = CreateBaseShip(SHIP_FLYINGDUTCHMAN);
+	sld.Ship.Name = xiDStr("GhostShipName");
 	
 	ref rRealShip = GetRealShip(sti(sld.Ship.Type));
-	rRealShip.ship.upgrades.hull  = 4;
-	rRealShip.ship.upgrades.sails = 3;
-	rRealShip.EmblemedSails.normalTex =  "ships\parus_common_torn.tga";
-	sld.ship.sailscolor = argb(255,60,60,60);
+	//sld.ship.sailscolor = argb(255,60,60,60);
 	rRealShip.MaxCaliber = 48;
     rRealShip.Cannon     = CANNON_TYPE_CANNON_LBS48;
     rRealShip.MaxCrew    = 525;

@@ -1,3 +1,4 @@
+#include "TEXT\DIALOGS\MainHero_dialog.h"
 void ProcessDialogEvent()
 {
 	ref NPChar;
@@ -23,13 +24,13 @@ void ProcessDialogEvent()
 		case "First time":
 	      	NextDiag.TempNode = "First time";
 
-	        Dialog.Text = "Если вы читаете эти строки, то где-то явный баг в коде";
-			Link.l1 = "Выход";
+	        Dialog.Text = DLG_TEXT_BASE[0];
+			Link.l1 = DLG_TEXT_BASE[1];
 			Link.l1.go = "exit";
  			//===> Квесты мэра, базар после боевки на палубе
 			if (CheckAttribute(pchar, "quest.DestroyPirate_PirateIsOut"))
 			{
-				dialog.text = "Пора сваливать отсюда, пока кэп не вернулся с остальной командой...";
+				dialog.text = DLG_TEXT_BASE[2];
 				Link.l1 = "...";
     			Link.l1.go = "exit";
 				pchar.quest.Munity = "Deads";
@@ -37,7 +38,7 @@ void ProcessDialogEvent()
 			// ==> Английская линейка, квест №8: в поселении буканьеров
    	    	if (pchar.questTemp.State == "ToMansfield_GoOn")
     		{
-    		    dialog.text = "Дьявол!!! Что здесь произошло? Нужно попытаться найти хоть кого-нибудь живого...";
+    		    dialog.text = DLG_TEXT_BASE[3];
     			link.l1 = "...";
     			link.l1.go = "exit";
 				Pchar.quest.ToMansfield_OutFromFort.win_condition.l1 = "location";
@@ -47,7 +48,7 @@ void ProcessDialogEvent()
             // ==> Исп. линейка, квест №4: в спальне донны Анны
             if (pchar.questTemp.State == "Sp4Detection_toMirderPlace")
     		{
-    		    dialog.text = "Хм, странное письмо. Она получила известие о прибытии человека... А кто мог ее известить? Тот, кто своим визитом не привлечет внимания у слуг! Это может быть только местный житель. Мне нужно найти и допросить местного жителя, который известил донну Анну.";
+    		    dialog.text = DLG_TEXT_BASE[4];
     			link.l1 = "...";
     			link.l1.go = "exit";
                 pchar.questTemp.State = "Sp4Detection_FoundLetter";
@@ -56,7 +57,7 @@ void ProcessDialogEvent()
             // ==> Французская линейка, квест №2: в таверне Тортуги
    	    	if (pchar.questTemp.State == "Fr2Letter_SeekProblems")
     		{
-    		    dialog.text = "Странная парочка, однако... Пожалуй, стоит проследить, куда это они направились...";
+    		    dialog.text = DLG_TEXT_BASE[5];
     			link.l1 = "...";
     			link.l1.go = "exit";
 				pchar.questTemp.Out = 1;
@@ -65,7 +66,7 @@ void ProcessDialogEvent()
 			// ==> Изабелла, нашли мертвую служанку
    	    	if (pchar.RomanticQuest == "SeekIsabella" && pchar.location == "Beliz_ExitTown")
     		{
-    		    dialog.text = "Похоже, это и есть служанка Роситы... Дела Сальватора угадать легко - повсюду трупы невинных. Значит, я на верном пути.";
+    		    dialog.text = DLG_TEXT_BASE[6];
     			link.l1 = "...";
     			link.l1.go = "exit";
 				pchar.RomanticQuest = "FoundServantGirl";
@@ -74,21 +75,21 @@ void ProcessDialogEvent()
 			// ==> Квест Аскольда, обнаружение входа в пещеру к гробнице
 			if (pchar.questTemp.Ascold == "Ascold_NotEnterFoundGrave")
 			{
-				dialog.text = "Ага, здесь явно вход во что-то. Но он закрыт плитой. Войти не удается.";
+				dialog.text = DLG_TEXT_BASE[7];
 				link.l1 = "";
 				link.l1.go = "exit";
 			}
 			//===> Квест Аскольда, попытка вскрыть лампу.
 			if (pchar.questTemp.Azzy == "Azzy_IHaveLamp" && locations[reload_location_index].type == "shipyard")
 			{
-				dialog.text = "Ага, вот и то, что мне нужно: паяльная лампа, коловорот, ножницы для жести... Можно приступать к операции...";
-				Link.l1 = "Применить инструменты.";
+				dialog.text = DLG_TEXT_BASE[8];
+				Link.l1 = DLG_TEXT_BASE[9];
     			Link.l1.go = "FreedomAzzy";
 			}
-			//===> щебека Синяя Птица
+			//===> шебека Синяя Птица
 			if (pchar.questTemp.BlueBird == "seenCarriers")
 			{
-				dialog.text = "Та-а-ак, слышу какой-то шум. Постою здесь, посмотрю, что будет дальше...";
+				dialog.text = DLG_TEXT_BASE[10];
 				Link.l1 = "...";
     			Link.l1.go = "exit";
 				AddDialogExitQuestFunction("BlueBird_endCaveDialog");
@@ -100,26 +101,26 @@ void ProcessDialogEvent()
 //navy --> after duel in tavern
 			if (CheckAttribute(pchar, "questTemp.LocationClone"))
 			{
-				Dialog.Text = RandPhraseSimple("Жаркая была схватка...  Теперь можно позвать разбежавшихся трусов...", "Ха! Это было просто. А эти сухопутные крысы разбежались...");
+				Dialog.Text = RandPhraseSimple(DLG_TEXT_BASE[11], DLG_TEXT_BASE[12]);
 				link.l1 = "...";
 				link.l1.go = "exit";
 				DeleteAttribute(pchar, "questTemp.LocationClone");
 				break;
 			}
 //navy <--
-	        Dialog.Text = RandPhraseSimple("Хм... Что бы мне сейчас хотелось сделать?", "Чем бы заняться?");
+	        Dialog.Text = RandPhraseSimple(DLG_TEXT_BASE[13], DLG_TEXT_BASE[14]);
 	        if (!bDisableMapEnter && pchar.location == Get_My_Cabin())
 	        {
 	            if (makeint(environment.time) >= 22.0 || makeint(environment.time) < 10.0)
 	    		{
-	    			link.l1 = "Отдыхать до утра.";
+	    			link.l1 = DLG_TEXT_BASE[15];
 	    			link.l1.go = "TalkSelf_room_day";
 	    		}
 	    		else
 	    		{
-	    			link.l1 = "Отдыхать до ночи.";
+	    			link.l1 = DLG_TEXT_BASE[16];
 	    			link.l1.go = "TalkSelf_room_night";
-	    			link.l2 = "Отдыхать до следующего утра.";
+	    			link.l2 = DLG_TEXT_BASE[17];
 					link.l2.go = "TalkSelf_room_day";
 	    		}
 			}
@@ -129,38 +130,38 @@ void ProcessDialogEvent()
 				{
 					if (makeint(environment.time) >= 22.0 || makeint(environment.time) < 10.0)
 	    			{
-	    				link.l1 = "Отдыхать до утра.";
+	    				link.l1 = DLG_TEXT_BASE[18];
 	    				link.l1.go = "TalkSelf_room_day";
 	    			}
 	    			else
 	    			{
-	    				link.l1 = "Отдыхать до ночи.";
+	    				link.l1 = DLG_TEXT_BASE[19];
 	    				link.l1.go = "TalkSelf_room_night";
-	    				link.l2 = "Отдыхать до следующего утра.";
+	    				link.l2 = DLG_TEXT_BASE[20];
 						link.l2.go = "TalkSelf_room_day";
 	    			}
 				}
 			}
 	        /*if (CheckAttribute(pchar, "Quest.Loans") || CheckAttribute(pchar, "Quest.Deposits"))
 	        {
-	    		Link.l4 = "Кассовая книга.";
+	    		Link.l4 = DLG_TEXT_BASE[21];
 	    		Link.l4.go = "TalkSelf_CashBook";
 			}*/
 	        if (!bDisableMapEnter)//боя в море нет
 	        {
 	            if (GetCargoGoods(pchar, GOOD_SLAVES) > 0)
 	            {
-	                Link.l5 = "Зачислить рабов в команду";
+	                Link.l5 = DLG_TEXT_BASE[22];
 	        		Link.l5.go = "TalkSelf_SlavesToCrew";
 	    		}
 	        }
 	        // захват города
 	        if (GetCharIDXForTownAttack(pchar.location) != -1)
 	        {
-	            Link.l6 = "Начать захват ближайшего города.";
+	            Link.l6 = DLG_TEXT_BASE[23];
 	    		Link.l6.go = "TalkSelf_TownAttack";
 	        }
-			Link.l10 = RandPhraseSimple("Не сейчас. Нет времени.", "Некогда. Дела ждут.");
+			Link.l10 = RandPhraseSimple(DLG_TEXT_BASE[24], DLG_TEXT_BASE[25]);
 			Link.l10.go = "exit";
 		break;
 		
@@ -185,7 +186,7 @@ void ProcessDialogEvent()
 	            chr = GetCharacter(GetCharIDXForTownAttack(pchar.location));
 	            if (chr.from_sea == Pchar.location.from_sea)
 	            {
-					Dialog.Text = "Начать захват, конечно, можно, да вот только корабль под залпами форта долго не продержится. И десант высадить не успеем.";
+					Dialog.Text = DLG_TEXT_BASE[26];
 	    			Link.l1 = "...";
 	    			Link.l1.go = "exit";
 	            }
@@ -193,23 +194,23 @@ void ProcessDialogEvent()
 	            {
 	                if (pchar.location == "Panama_ExitTown")
 					{
-						Dialog.Text = "Не-е-ет, я не сумасшедший. Это же Панама! Взять ее НЕВОЗМОЖНО!! Надо валить отсюда, а то точно дождусь черной метки...";
+						Dialog.Text = DLG_TEXT_BASE[27];
 	    				Link.l1 = "...";
 	    				Link.l1.go = "exit";
 					}
 					else
 					{
-						Dialog.Text = "Напасть на город " + GetCityName(chr.City) + ".";
-		    			Link.l1 = "К оружию!";
+						Dialog.Text = DLG_TEXT_BASE[28] + GetCityName(chr.City) + ".";
+		    			Link.l1 = DLG_TEXT_BASE[29];
 		    			Link.l1.go = "TalkSelf_TownAttack_Start";
-		    			Link.l2 = "Отставить!";
+		    			Link.l2 = DLG_TEXT_BASE[30];
 		    			Link.l2.go = "exit";
 					}
 	    		}
 	        }
 	        else
 	        {
-	            Dialog.Text = "Эх! Команды маловато, нужно хотя бы 500 человек.";
+	            Dialog.Text = DLG_TEXT_BASE[31];
 	    		Link.l1 = "...";
 	    		Link.l1.go = "exit";
 			}
@@ -237,16 +238,16 @@ void ProcessDialogEvent()
 		case "TalkSelf_SlavesToCrew":
 	        if (GetCurCrewEscadr() >= GetMaxCrewAble())
 	        {
-	            Dialog.Text = "Никто из рабов не хочет идти в команду.";
-	            Link.l1 = "Ну и не нужно!";
+	            Dialog.Text = DLG_TEXT_BASE[32];
+	            Link.l1 = DLG_TEXT_BASE[33];
 	    		Link.l1.go = "exit";
 	        }
 	        else
 	        {
 	            if (GetCrewQuantity(pchar) >= GetMaxCrewQuantity(pchar))
 	            {
-	                Dialog.Text = "На корабле нет места для новых матросов";
-	                Link.l1 = "Эх! Нужно переместить часть экипажа на другой корабль.";
+	                Dialog.Text = DLG_TEXT_BASE[34];
+	                Link.l1 = DLG_TEXT_BASE[35];
 	        		Link.l1.go = "exit";
 	            }
 	            else
@@ -259,10 +260,10 @@ void ProcessDialogEvent()
 	                {
 	                    pchar.GenQuest.SlavesToCrew = GetCargoGoods(pchar, GOOD_SLAVES);
 	                }
-	                Dialog.Text = "В команду желают пойти " + pchar.GenQuest.SlavesToCrew+ " рабов. Взять их?";
-	                Link.l1 = "Да";
+	                Dialog.Text = DLG_TEXT_BASE[36] + pchar.GenQuest.SlavesToCrew+ DLG_TEXT_BASE[37];
+	                Link.l1 = DLG_TEXT_BASE[38];
 	        		Link.l1.go = "TalkSelf_SlavesToCrew_1";
-	        		Link.l2 = "Нет";
+	        		Link.l2 = DLG_TEXT_BASE[39];
 	        		Link.l2.go = "exit";
 	    		}
 			}
@@ -298,8 +299,8 @@ void ProcessDialogEvent()
 //navy CONTRABAND METRO -->
 		case "GenTravel_Main":
 			NextDiag.TempNode = "First time";
-			dialog.Text = "Теперь этот отличный корабль мой и я здесь капитан! Жаль пришлось вырезать всю команду.";
-			Link.l1 = "Пора на берег...";
+			dialog.Text = DLG_TEXT_BASE[40];
+			Link.l1 = DLG_TEXT_BASE[41];
 			Link.l1.go = "exit";
 
 			chr = CharacterFromID("Abracham_Gray");
@@ -324,8 +325,8 @@ void ProcessDialogEvent()
 		// Квест Аскольда, освобождение Аззи.
 		case "FreedomAzzy":
 			chr = GetCharacter(NPC_GenerateCharacter("Azzy", "Azzy", "man", "man", 22, PIRATE, -1, false));
-			chr.name = "демон";
-			chr.lastname = "Аззи";
+			chr.name = DLG_TEXT_BASE[42];
+			chr.lastname = DLG_TEXT_BASE[43];
 			chr.Dialog.Filename = "Quest\Azzy_dialog.c";
 			GiveItem2Character(chr, "blade28");// сабля Моргана
 			chr.equip.blade = "blade28";
@@ -337,7 +338,7 @@ void ProcessDialogEvent()
 			LAi_SetActorType(chr);
 			LAi_SetLoginTime(chr, 0.0, 24.0);
 			LAi_SetHP(chr, 10000.0, 10000.0);
-			chr.greeting = "Azzy";
+			chr.greeting = "Gr_Azzy";
 			ChangeCharacterAddressGroup(chr, pchar.location, "officers", "reload1_1");
 			DoQuestCheckDelay("Ascold_AzzyIsFree", 4.0);
 			pchar.questTemp.Azzy = "Azzy_Freedom";

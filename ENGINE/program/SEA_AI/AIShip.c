@@ -873,7 +873,7 @@ void Ship_OnBortReloaded()
 	string sBort = GetEventData();
 
 	if (!bSeaLoaded || bAbordageStarted) { return; }  // fix
-	// далее по коду была глупость, тк прерывание шло по всем НПС, звуков таких не было вовсе в ресурсах, те мина была в игре. "Сапер boal"
+	// далее по коду была глупость, тк прерывание шло по всем НПС, звуков таких не было вовсе в ресурсах, те мина была в игре. 'Сапер boal'
 	if (sti(aCharacter.index) != nMainCharacterIndex) { return; } // fix
 	/*{
 		if (sBort == "cannonl" || sBort == "cannonr") { Ship_PlaySound3D(aCharacter, "bortreloaded_" + sBort, 1.0);	}
@@ -1059,8 +1059,7 @@ void Ship_CheckSituation()
 		}
 	} 
 
-    //to_del log
-	//if (rCharacter.id == "prisoner_327") Log_SetEternalString("Charge: " + rCharacter.Sea_AI.cannon.charge + "   Time: " + rCharacter.Sea_AI.cannon.charge.lasttime + "   Тип: " + rCharacter.Ship.Cannons.Charge + "   Проверка_r: " + rCharacter.Ship.Cannons.borts.cannonr.ChargeRatio + "   Проверка_l: " + rCharacter.Ship.Cannons.borts.cannonl.ChargeRatio);
+    
 
 	bool bIsCompanion = IsCompanion(rCharacter);
 
@@ -1079,14 +1078,13 @@ void Ship_CheckSituation()
 				{
 					// fire ship
 					Ship_SetExplosion(rCharacter, rShipObject); //boal 27.09.05
-					Log_Info("" + XI_ConvertString(rBaseShip.BaseName) + " '" + rCharacter.Ship.Name + "' " + GetShipSexWord(rBaseShip.BaseName, "взорвал", "взорвала") + " крюйт камеру.");
+					Log_Info("" + XI_ConvertString(rBaseShip.BaseName) + " '" + rCharacter.Ship.Name + "' " + GetShipSexWord(rBaseShip.BaseName, xiStr("MSG_AIShip_1"), xiStr("MSG_AIShip_2")) + xiStr("MSG_AIShip_3"));
 					return;
 				}
 				//Trace("test1 rCharacter2Brander = " + rCharacter2Brander.index);
 			break;
 			case AITASK_ATTACK:
-				//to_del log
-				//Log_SetStringToLog("Дистанция: " + Ship_GetDistance2D(rCharacter, &characters[sti(rCharacter.SeaAI.Task.Target)]) + "   Атаки: " + rCharacter.Ship.SeaAI.Init.AttackDistance);
+				
 				//-->> если есть цель для Атаки, то оптимизируем оптимальное расстояние для стрельбы	
 				//только при полном боекомплекте на первом такте ожидания
 				if (CheckAttribute(rCharacter, "Sea_AI.cannon.charge.lasttime") && sti(rCharacter.Sea_AI.cannon.charge.lasttime) == 1) 
@@ -1143,7 +1141,7 @@ void Ship_CheckSituation()
 						{
 							Ship_SetTaskRunaway(SECONDARY_TASK, sti(rCharacter.index), iFortCommander);
 							rCharacter.Tmp.fWatchFort.Qty = 200; //не лочим таск, но увеличиваем паузу срабатывания
-							//Log_SetStringToLog("Я ("+rCharacter.id+") ухожу от форта."); 
+							
 						}
 					}
 					else
@@ -1345,7 +1343,7 @@ void Ship_CheckSituation()
 							int BigPearlQty = rand(150) + 50;
 							TakeNItems(pchar, "jewelry12", SmallPearlQty);
 							TakeNItems(pchar, "jewelry11", BigPearlQty);
-							Log_SetStringToLog("Ловцы жемчуга на тартане " + rCharacter.ship.name + " отдали вам " + SmallPearlQty + " малых и " + BigPearlQty + " больших жемчужин.");
+							Log_SetStringToLog(xiStr("MSG_AIShip_14") + rCharacter.ship.name + xiStr("MSG_AIShip_15") + SmallPearlQty + xiStr("MSG_AIShip_16") + BigPearlQty + xiStr("MSG_AIShip_17"));
 							rCharacter.PearlTartane = false; //уже ограбили
 							pchar.questTemp.Sharp.PearlAreal.SmallPearlQty = sti(pchar.questTemp.Sharp.PearlAreal.SmallPearlQty) + SmallPearlQty;
 							pchar.questTemp.Sharp.PearlAreal.BigPearlQty = sti(pchar.questTemp.Sharp.PearlAreal.BigPearlQty) + BigPearlQty;
@@ -1560,7 +1558,7 @@ void Ship_CheckFlagEnemy(ref rCharacter)
 	        SetNationToOfficers(iNationToChange);
 	        SetNationRelation2MainCharacter(sti(rCharacter.nation), RELATION_ENEMY);
 	        */
-			Log_Info("Сойти за друга не удалось - "+ NationNamePeople(sti(rCharacter.nation)) + " распознали в нас врага.");
+			Log_Info(xiStr("MSG_AIShip_4")+ NationNamePeople(sti(rCharacter.nation)) + xiStr("MSG_AIShip_5"));
 			SetCharacterRelationBoth(sti(rCharacter.index), GetMainCharacterIndex(), RELATION_ENEMY);
 			DoQuestCheckDelay(NationShortName(iNationToChange) + "_flag_rise", 0.1); // применение нац отношений флага
 			AddCharacterExpToSkill(mChar, SKILL_SNEAK, 100);
@@ -1831,12 +1829,16 @@ void Ship_Ship2ShipCollision()
 }
 
 void Ship_ApplyCrewHitpoints(ref rOurCharacter, float fCrewHP)
-{         // че-то распук метод "неподецки" - переделал 29.07.06 boal
+{         // че-то распук метод 'неподецки' - переделал 29.07.06 boal
 	if (LAi_IsImmortal(rOurCharacter)) 
 	{ 
 		return; 
 	}
-
+    // упрощение игры новичкам 
+	if (MOD_SKILL_ENEMY_RATE == 1 && sti(rOurCharacter.index) == GetMainCharacterIndex())	
+	{
+		fCrewHP = fCrewHP / MOD_Complexity_1_DMG;
+	} 
 	ref rBaseShip = GetRealShip(GetCharacterShipType(rOurCharacter));
 	float fMultiply = 1.0 - (0.75 * stf(rOurCharacter.TmpSkill.Defence)); // было 0.05 - что полная хрень, тк скил 0..1
 
@@ -1889,6 +1891,11 @@ void Ship_ApplyHullHitpoints(ref rOurCharacter, float fHP, int iKillStatus, int 
 	//float fAccuracy = 0.0;
 	
     if (bSeaReloadStarted) { return; }
+    // упрощение игры новичкам 
+	if (MOD_SKILL_ENEMY_RATE == 1 && sti(rOurCharacter.index) == GetMainCharacterIndex())	
+	{
+		fHP = fHP / MOD_Complexity_1_DMG;
+	}  
 	if (fHP <= 0.0) { return; }
 	if (LAi_IsDead(rOurCharacter) || !CheckAttribute(rOurCharacter, "Ship.HP")) { return; }   // fix
 	
@@ -2094,17 +2101,17 @@ void ShipDead(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacterInde
 		}
 		if (bCompanion && !bDeadCompanion && bRealKill)
 		{
-            sSunkString = sSunkShipType + " '" + rDead.Ship.Name + "' " + GetShipSexWord(rBaseShip.BaseName, "был потоплен ", "была потоплена ") + GetFullName(rKillerCharacter);
+            sSunkString = sSunkShipType + " '" + rDead.Ship.Name + "' " + GetShipSexWord(rBaseShip.BaseName, xiStr("MSG_AIShip_6"), xiStr("MSG_AIShip_7")) + GetFullName(rKillerCharacter);
         }
         else
         {
             if (sKillShipName == "")
             {
-            	sSunkString = sSunkShipType + " '" + rDead.Ship.Name + "' " + GetShipSexWord(rBaseShip.BaseName, "был потоплен.", "была потоплена.");
+            	sSunkString = sSunkShipType + " '" + rDead.Ship.Name + "' " + GetShipSexWord(rBaseShip.BaseName, xiStr("MSG_AIShip_8"), xiStr("MSG_AIShip_9"));
             }
             else
             {
-				sSunkString = sSunkShipType + " '" + rDead.Ship.Name + "' " +GetShipSexWord(rBaseShip.BaseName, "был потоплен ", "была потоплена ") + sKillShipType + " '" + sKillShipName + "'";
+				sSunkString = sSunkShipType + " '" + rDead.Ship.Name + "' " + GetShipSexWord(rBaseShip.BaseName, xiStr("MSG_AIShip_6"), xiStr("MSG_AIShip_7")) + sKillShipType + " '" + sKillShipName + "'";
 			}
         }
 		Log_SetStringToLog(sSunkString);
@@ -2159,7 +2166,7 @@ void ShipDead(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacterInde
             //homo 22/06/07
             AISeaGoods_AddGood(rDead, "boat", "lo_boat", 1000.0, 1);
             RemoveCharacterCompanion(pchar, rDead);
-            Log_Info(GetFullName(rDead) + " спасся на шлюпке.");
+            Log_Info(GetFullName(rDead) + xiStr("MSG_AIShip_18"));
         }
 	}
 	// спасем офицеров boal 07/02/05
@@ -2217,7 +2224,7 @@ void ShipTaken(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacterInd
 
 		if(bCompanion && !bDeadCompanion)
 		{
-            Log_SetStringToLog(sSunkShipType + " '" + rDead.Ship.Name + "' " + "был захвачен!");
+            Log_SetStringToLog(sSunkShipType + " '" + rDead.Ship.Name + "' " + xiStr("MSG_AIShip_10"));
         }
 	}
     if (rand(8) < 3 && !bDeadCompanion && sti(rDead.nation) != PIRATE)  // 30% повышаем награду
@@ -2264,7 +2271,7 @@ void ShipTakenFree(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacte
 		string sSunkShipType = XI_ConvertString(rBaseShip.BaseName);
 		string sKillShipType = XI_ConvertString(rKillerBaseShip.BaseName);
 
-        Log_SetStringToLog(sSunkShipType + " '" + rDead.Ship.Name + "' " + "был захвачен, но отпущен после грабежа.");
+        Log_SetStringToLog(sSunkShipType + " '" + rDead.Ship.Name + "' " + xiStr("MSG_AIShip_11"));
 	}
     if (rand(20) < 3 && sti(rDead.nation) != PIRATE)  // 14% повышаем награду
     {
@@ -2438,7 +2445,7 @@ void Ship_HullHitEvent()
 		if ((GetCargoGoods(rOurCharacter, GOOD_POWDER) / 20.0) > (GetCargoMaxSpace(rOurCharacter) * 0.25) && rand(1) == 1)
 		{
 			Ship_SetExplosion(rOurCharacter, rShipObject);
-			Log_Info("На корабле " + rOurCharacter.Ship.Name + " сдетонировал весь пороховой запас.");
+			Log_Info(xiStr("MSG_AIShip_12") + rOurCharacter.Ship.Name + xiStr("MSG_AIShip_13"));
 		}
 		//boal 27.09.05 <--
 	}

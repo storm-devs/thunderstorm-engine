@@ -1,4 +1,4 @@
-
+#include "TEXT\DIALOGS\Incquistors.h"
 void ProcessDialogEvent()
 {
 	ref NPChar;
@@ -14,32 +14,41 @@ void ProcessDialogEvent()
 		case "First time":
 			if (GetNationRelation2MainCharacter(sti(NPChar.nation)) == RELATION_ENEMY)
 			{
-					dialog.text = RandPhraseSimple("Братья, в Инквизиции враг!!!", "Поднимайте тревогу, братья!!");
-					link.l1 = "Да уж, враги Инквизиции не дремлют...";
+					dialog.text = RandPhraseSimple(DLG_TEXT_BASE[0], DLG_TEXT_BASE[1]);
+					link.l1 = DLG_TEXT_BASE[2];
 					link.l1.go = "fight";			
 			}
 			else
 			{
-				dialog.text = NPCStringReactionRepeat(RandPhraseSimple("Здравствуй, сын мой. Какими судьбами у нас?..", "Рад видеть тебя в нашей обители, сын мой. Зачем пожаловал?"),
-							"Сын мой, мы уже говорили с тобой сегодня. Тебе нужно что-то еще?", "Сын мой, послушников нашего ордена не отличает терпение. Еще раз тебя спрашиваю: тебе что-нибудь нужно?",
-							RandPhraseSimple("Негоже находится в праздности самому и отвлекать других от работы. Более я не произнесу ни слова...", "Сын мой, я не желаю вести бессмысленные разговоры. Тебе я не скажу более ни слова."), "block", 1, npchar, Dialog.CurrentNode);
-				link.l1 = HeroStringReactionRepeat(RandPhraseSimple("Да так, заскочил по делам, святой отец...", "Все по делам, падре. Тружусь, аки пчела - весь в заботах..."), 
-							"Да нет, святой отец...", "Нет, падре, просто хотел поболтать...", RandPhraseSimple("Хм...", "Ну, как знаете, святой отец..."), npchar, Dialog.CurrentNode);
+				if (pchar.questTemp.MC == "toByeBye" && findsubstr(npchar.id, "Incquisitor_", 0) != -1)
+				{
+					dialog.text = DLG_TEXT_BASE[3];
+					link.l1 = DLG_TEXT_BASE[4];
+					link.l1.go = "MCIncq";
+					pchar.questTemp.MC = "Incquisitio";
+					break;
+				}
+				
+				dialog.text = NPCStringReactionRepeat(RandPhraseSimple(DLG_TEXT_BASE[5], DLG_TEXT_BASE[6]),
+							DLG_TEXT_BASE[7], DLG_TEXT_BASE[8],
+							RandPhraseSimple(DLG_TEXT_BASE[9], DLG_TEXT_BASE[10]), "block", 1, npchar, Dialog.CurrentNode);
+				link.l1 = HeroStringReactionRepeat(RandPhraseSimple(DLG_TEXT_BASE[11], DLG_TEXT_BASE[12]), 
+							DLG_TEXT_BASE[13], DLG_TEXT_BASE[14], RandPhraseSimple(DLG_TEXT_BASE[15], DLG_TEXT_BASE[16]), npchar, Dialog.CurrentNode);
 				link.l1.go = DialogGoNodeRepeat("exit", "none", "none", "NoMoreTalkExit", npchar, Dialog.CurrentNode);				
 			}
 			if (CheckAttribute(npchar, "protector.CheckAlways")) //гарды на камерах
 			{
 				if (GetNationRelation2MainCharacter(sti(NPChar.nation)) == RELATION_ENEMY)
 				{					
-					dialog.text = "Черт возьми, это шпион! Держи его!!!";
-					link.l1 = "Каррамба!!";
+					dialog.text = DLG_TEXT_BASE[17];
+					link.l1 = DLG_TEXT_BASE[18];
 					link.l1.go = "fight";
 					StartIncquisitioAttack();
 				}
 				else
 				{
-					dialog.text = LinkRandPhrase("Это охраняемая камера, вход сюда категорически запрещен!!!", "Даже и не думай сюда входить - карается смертью.", "Один шаг внутрь этой камеры - и тебе конец...");
-					link.l1 = RandPhraseSimple("Ясно, солдат.", "Понятно...");	
+					dialog.text = LinkRandPhrase(DLG_TEXT_BASE[19], DLG_TEXT_BASE[20], DLG_TEXT_BASE[21]);
+					link.l1 = RandPhraseSimple(DLG_TEXT_BASE[22], DLG_TEXT_BASE[23]);	
 					link.l1.go = "exit";
 				}
 			}
@@ -47,26 +56,26 @@ void ProcessDialogEvent()
 			{
 				if (LAi_group_IsActivePlayerAlarm())
 				{
-					dialog.text = LinkRandPhrase("Хо-хо, до чего же весело смотреть, как 'святоши' отправляются прямиком в ад!", "Господи, неужели хоть кто-то осмелился бросить им вызов!!", "Я уже не жилец на этом свете - пытки... Но ты доставил мне последнее удовольствие в жизни. Спасибо...");
-					link.l1 = RandPhraseSimple("Хех!", "Аргх...");
+					dialog.text = LinkRandPhrase(DLG_TEXT_BASE[24], DLG_TEXT_BASE[25], DLG_TEXT_BASE[26]);
+					link.l1 = RandPhraseSimple(DLG_TEXT_BASE[27], DLG_TEXT_BASE[28]);
 					link.l1.go = "exit";
 					//==> квест №7, базар о Роке Бразильце. 
 					if (pchar.questTemp.State == "Fr7RockBras_toSeekPlace")
 					{
-						link.l1 = "Послушай, ты не знаешь здесь такого человека - Рок Бразилец?";
+						link.l1 = DLG_TEXT_BASE[29];
 						link.l1.go = "Step_F7_2";
 					}
 					//<== квест №7, базар о Роке Бразильце. 
 				}
 				else
 				{
-					dialog.text = LinkRandPhrase("Нет ничего людского у этих 'святош'. Попомни мое слово - гореть им в аду за наши муки...", "Ежедневные истязания и пытки! А ведь я же ни в чем не виноват перед Господом!!!", "Вчера умер мой сосед по камере, они два дня пытали его на дыбе... А сколько мне осталось?..");
-					link.l1 = RandPhraseSimple("Хм... Ну, не знаю...", "Что же, понимаю...");
+					dialog.text = LinkRandPhrase(DLG_TEXT_BASE[30], DLG_TEXT_BASE[31], DLG_TEXT_BASE[32]);
+					link.l1 = RandPhraseSimple(DLG_TEXT_BASE[33], DLG_TEXT_BASE[34]);
 					link.l1.go = "exit";
 					//==> квест №7, базар о Роке Бразильце. 
 					if (pchar.questTemp.State == "Fr7RockBras_toSeekPlace")
 					{
-						link.l1 = "Послушай, ты не знаешь здесь такого человека - Рок Бразилец?";
+						link.l1 = DLG_TEXT_BASE[35];
 						link.l1.go = "Step_F7_1";
 					}
 					//<== квест №7, базар о Роке Бразильце. 
@@ -92,15 +101,38 @@ void ProcessDialogEvent()
 
 //**************************** Фр. линейка. Квест №7, спасение Рока Бразильца ********************************
  		case "Step_F7_1":
-			dialog.text = "Знаю, в крайней камере сидит, под охраной вон того солдата. Особенное место...";
-			link.l1 = "Спасибо тебе!";
+			dialog.text = DLG_TEXT_BASE[36];
+			link.l1 = DLG_TEXT_BASE[37];
 			link.l1.go = "exit";
 		break;
  		case "Step_F7_2":
-			dialog.text = "В крайней камере справа от входа, там где стоял часовой, пока ты его не убил...";
-			link.l1 = "Ага, понятно... Спасибо тебе.";
+			dialog.text = DLG_TEXT_BASE[38];
+			link.l1 = DLG_TEXT_BASE[39];
 			link.l1.go = "exit";
 		break;
-
+		
+//**************************** сдаем зачарованный Дес-Мойнес ********************************
+		case "MCIncq":
+			dialog.text = DLG_TEXT_BASE[40];
+			link.l1 = DLG_TEXT_BASE[41];
+			link.l1.go = "MCIncq_1";
+		break;
+		case "MCIncq_1":
+			dialog.text = DLG_TEXT_BASE[42];
+			link.l1 = DLG_TEXT_BASE[43];
+			link.l1.go = "MCIncq_2";
+		break;
+		case "MCIncq_2":
+			dialog.text = DLG_TEXT_BASE[44];
+			link.l1 = DLG_TEXT_BASE[45];
+			link.l1.go = "MCIncq_3";
+		break;
+		case "MCIncq_3":
+			dialog.text = DLG_TEXT_BASE[46];
+			link.l1 = DLG_TEXT_BASE[47];
+			link.l1.go = "exit";
+			AddMoneyToCharacter(pchar, 10000);
+			ChangeCharacterReputation(pchar, -10);
+		break;
 	}
 }

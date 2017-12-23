@@ -830,16 +830,25 @@ int GetCharacterSkillSimple(ref _refCharacter, string skillName)
     	// Emerald Pendant +1 удача
     	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "jewelry15", 1);
 
-    	// Pikachuatl Idol (-3 фехт -3 удача, -3 защита, -3 меткость, -2 пистолеты, -2 авторитет).
-    	/*skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "Idol", -3);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "Idol", -3);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_DEFENCE, "Idol", -3);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_ACCURACY, "Idol", -3);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_PISTOL, "Idol", -2);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "Idol", -2);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FENCING, "Idol", -3);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_F_LIGHT, "Idol", -3);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_F_HEAVY, "Idol", -3); */
+    	// Тотемы ацтеков
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "Totem_1", 2);
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "Totem_2", 2);
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_DEFENCE, "Totem_3", 2);
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_ACCURACY, "Totem_4", 2);
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_PISTOL, "Totem_5", 2);
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "Totem_6", 2);
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FENCING, "Totem_7", 2);
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_F_LIGHT, "Totem_8", 2);
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_F_HEAVY, "Totem_9", 2); 
+		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_COMMERCE, "Totem_10", 2); 
+		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SAILING, "Totem_12", 2);
+		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_REPAIR, "Totem_15", 2);
+		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "SkullAztec", -2);
+		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "SkullAztec", 1);
+		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_PISTOL, "KnifeAztec", -3);
+		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_F_LIGHT, "KnifeAztec", -2);
+		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FENCING, "KnifeAztec", -2);
+		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_F_HEAVY, "KnifeAztec", -2);
 
     	// itmname_jewelry8	{Bronze Ring} +1 удача
     	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "jewelry8", 1);
@@ -1395,7 +1404,7 @@ string GetCharType(aref _enemy)  //TO_DO переделать на тип в НПС
 		break;
 
 		case LAI_TYPE_WARRIOR : // to_do преверить тип
-		    if (model == "mummy" || model == "Skel1" || model == "Skel2" || model == "Skel3" || model == "Skel4" )
+		    if (model == "mummy" || model == "Skel1" || model == "Skel2" || model == "Skel3" || model == "Skel4" || model == "skeletcap" )
 		    {
 		        name = "Monster";
 		    }
@@ -1453,22 +1462,22 @@ string GetHealthName(ref ch)
     switch (GetHealthNum(ch))
     {
         case 1:
-            name = "УЖАСНОЕ";
+            name = xiStr("Health_1");
         break;
         case 2:
-            name = "ПЛОХОЕ";
+            name = xiStr("Health_2");
         break;
         case 3:
-            name = "НЕВАЖНОЕ";
+            name = xiStr("Health_3");
         break;
         case 4:
-            name = "СРЕДНЕЕ";
+            name = xiStr("Health_4");
         break;
         case 5:
-            name = "ХОРОШЕЕ";
+            name = xiStr("Health_5");
         break;
         case 6:
-            name = "ОТЛИЧНОЕ";
+            name = xiStr("Health_6");
         break;
     }
     return name;
@@ -1481,22 +1490,22 @@ string GetHealthNameMaxSmall(ref ch)
     switch (GetHealthMaxNum(ch))
     {
         case 1:
-            name = "ужасное";
+            name = xiStr("sHealth_1");
         break;
         case 2:
-            name = "плохое";
+            name = xiStr("sHealth_2");
         break;
         case 3:
-            name = "неважное";
+            name = xiStr("sHealth_3");
         break;
         case 4:
-            name = "среднее";
+            name = xiStr("sHealth_4");
         break;
         case 5:
-            name = "хорошее";
+            name = xiStr("sHealth_5");
         break;
         case 6:
-            name = "отличное";
+            name = xiStr("sHealth_6");
         break;
     }
     return name;
@@ -1570,12 +1579,12 @@ void AddCharacterHealth(ref mainChr, float add)
 
     if (GetHealthNum(mainChr) > remHP)
     {
-        Log_Info("Здоровье стало лучше");
+        Log_Info(xiStr("MSG_Health_1"));
     }
 
     if (GetHealthNum(mainChr) < remHP)
     {
-        Log_Info("Здоровье стало хуже");
+        Log_Info(xiStr("MSG_Health_2"));
     }
 }
 
@@ -1622,12 +1631,12 @@ int ChangeCharacterHunterScore(ref chref, string _huntName, int incr)
 	{
 	 	if (prevVal < newVal)
 		{
-			Log_SetStringToLog(XI_ConvertString(_huntName) + " увеличила награду за Вашу голову");
+			Log_SetStringToLog(XI_ConvertString(_huntName) + xiStr("MSG_RPG_1"));
 		}
 
 	    if (prevVal > newVal)
 		{
-	        Log_SetStringToLog(XI_ConvertString(_huntName) + " снизила награду за Вашу голову");
+	        Log_SetStringToLog(XI_ConvertString(_huntName) + xiStr("MSG_RPG_2"));
 		}
 	}
 	else
@@ -1666,14 +1675,14 @@ string GetNationReputation(ref chref, int _Nation)
 
 string GetNationReputationName(int _Nation, int i)
 {
-	if (i <= -10)  return "Награда за голову " + (-i*1000);
-    if (i < 0 )    return "Враждебная";
-    if (i <= 20 )  return "Нейтральная";
-    if (i <= 50 )  return "Хорошая";
-    if (i <= 80 )  return "Отличная";
-    if (i <= 100 ) return "Восхищение";
+	if (i <= -10)  return xiStr("MSG_RPG_3") + (-i*1000);
+    if (i < 0 )    return xiStr("NationRel_1");
+    if (i <= 20 )  return xiStr("NationRel_2");
+    if (i <= 50 )  return xiStr("NationRel_3");
+    if (i <= 80 )  return xiStr("NationRel_4");
+    if (i <= 100 ) return xiStr("NationRel_5");
 
-    return "Отличная";
+    return xiStr("NationRel_6");
 }
 // boal 04.04.04
 string NationShortName(int iNation)
@@ -1853,6 +1862,14 @@ void ChangeAttributesFromCharacter(ref CopyChref, ref PastChref, bool _dialogCop
     {
         DeleteAttribute(CopyChref, "DontClearDead");
     }
+    if (CheckAttribute(PastChref, "OfficerWantToGo.DontGo"))
+    {
+        CopyChref.OfficerWantToGo.DontGo   =   true;
+    }
+	else
+    {
+        DeleteAttribute(CopyChref, "OfficerWantToGo.DontGo");
+    }
     // skill
     DeleteAttribute(CopyChref, "skill");
     CopyChref.skill = "";
@@ -2012,7 +2029,7 @@ void initNewMainCharacter()
     //MOD_EXP_RATE =  10;  задаем в начале игры (выбор, от 5 до 15, 10 - середина по умолчанию)
     //MOD_EXP_RATE =  MOD_EXP_RATE + (MOD_SKILL_ENEMY_RATE)*6; // разные уровни для всех
     MOD_EXP_RATE =  makeint(MOD_EXP_RATE + MOD_SKILL_ENEMY_RATE * MOD_EXP_RATE / 1.666666666); // разные уровни для всех
-    if (MOD_EXP_RATE < 10) MOD_EXP_RATE = 10; // иначе будет развал целостности данных, порог релиховой версии бля всех сложностей.
+    if (MOD_EXP_RATE < 10) MOD_EXP_RATE = 10; // иначе будет развал целостности данных, порог релизовой версии для всех сложностей.
     
     // куда плывем
     if (rand(10) != 4)
@@ -2052,7 +2069,16 @@ void initNewMainCharacter()
 	AddQuestRecordInfo("Tutorial_Fra", "1");
 	AddQuestRecordInfo("Tutorial_Spa", "1");
 	AddQuestRecordInfo("Tutorial_Hol", "1");
-	AddQuestRecordInfo("Tutorial_Sharp", "1");
+	//AddQuestRecordInfo("Tenochtitlan_info", "9");
+	//AddQuestRecordInfo("Tenochtitlan_info", "8");
+	//AddQuestRecordInfo("Tenochtitlan_info", "7");
+	//AddQuestRecordInfo("Tenochtitlan_info", "6");
+	//AddQuestRecordInfo("Tenochtitlan_info", "5");
+	//AddQuestRecordInfo("Tenochtitlan_info", "4");
+	//AddQuestRecordInfo("Tenochtitlan_info", "3");
+	//AddQuestRecordInfo("Tenochtitlan_info", "2");
+	//AddQuestRecordInfo("Tenochtitlan_info", "1");
+	//AddQuestRecordInfo("Tutorial_Sharp", "1");
 	AddQuestRecordInfo("Tutorial_Fight_Info", "1");
 
 	ReloadProgressUpdate();
@@ -2135,13 +2161,13 @@ void initNewMainCharacter()
     DeleteAttribute(pchar, "Ship");
     pchar.Ship.Type = GenerateShip((SHIP_LUGGER + rand(2) - 1), 0);
 	SetBaseShipData(pchar);
-	pchar.Ship.Name = "Быстрый вепрь";
+	pchar.Ship.Name = xiDStr("StartShip");
 	// коцаем корабль
 	pchar.ship.SP = sti(pchar.ship.SP) - 10;
 	pchar.ship.HP = sti(pchar.ship.HP) - makeint(sti(pchar.ship.HP)/2);
 	SetCrewQuantity(pchar, GetMinCrewQuantity(pchar));
 	//Tutorial - НАЧАЛО ИГРЫ
-    if(Pchar.questTemp.CapBloodLine == true && Pchar.name == "Питер" && Pchar.lastname == "Блад") //21/07/07 homo для Блада даем другое начало
+    if (startHeroType == 1) //21/07/07 homo для Блада даем другое начало
     {
     	pchar.quest.Tut_start.win_condition.l1          = "location";
     	pchar.quest.Tut_start.win_condition.l1.location = "Estate";
@@ -2212,8 +2238,8 @@ void initMainCharacterItem()
 	    break;
 
 	    case "SecretAgent":
-            GiveItem2Character(Pchar, "Lead1");
-            EquipCharacterbyItem(Pchar, "Lead1");
+            GiveItem2Character(Pchar, "blade5");
+            EquipCharacterbyItem(Pchar, "blade5");
 	        if(CheckCharacterItem(Pchar, "Spyglass1") == 0) GiveItem2Character(Pchar, "Spyglass1");
 	        EquipCharacterbyItem(Pchar, "Spyglass1");
 	    break;
@@ -2277,7 +2303,7 @@ int GetNewMainCharacterNation(int _startHeroType)
 
     switch(totalInfo)
 	{
-		case "Англия":
+		case "Англия":    // не выность в метки, это для языка написания ХероДескрайб
             return ENGLAND;
 		break;
 		case "Франция":
@@ -2318,7 +2344,7 @@ string GetNewMainCharacterType(int _startHeroType)
 
     switch (ret) // нужно по английски для квестбука
 	{
-        case "Торговец":
+        case "Торговец":    // не выность в метки, это для языка написания ХероДескрайб
     	    ret = "Merchant";
 	    break;
 

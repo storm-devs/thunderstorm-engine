@@ -71,11 +71,34 @@ void LAI_TYPE_LSCout_CharacterUpdate(aref chr, float dltTime)
 			if(stf(chr.chr_ai.type.look_around) < 0.0)
 			{
 				chr.chr_ai.type.look_around = 1.0; //время частоты сканирования
-				int num = FindNearCharacters(chr, 3.0, -1.0, 180.0, 0.1, true, true);
+				int num = FindNearCharacters(chr, 4.0, -1.0, -1.0, 0.01, true, true);
 				if(num > 0)
 				{
 					for(int i = 0; i < num; i++)
 					{
+						//--> проверяем не врагов, но дерущихся. 
+						int idx = sti(chrFindNearCharacters[i].index);
+						by = &Characters[idx];
+						if (LAi_CheckFightMode(by))
+						{
+							if (LAi_IsSetBale(chr))
+							{
+								//Пытаемся начать диалог
+								LAi_SetFightMode(by, false);
+								if(LAi_Character_CanDialog(chr, by))
+								{
+									chr.chr_ai.type.state = "dialog";
+									if (by.id == "Blaze") chr.Dialog.CurrentNode = "LSCNotBlade";
+									LAi_tmpl_SetDialog(chr, by, -1.0);
+								}
+							}
+							else
+							{
+								LAi_tmpl_afraid_SetAfraidCharacter(chr, by, true);
+							}							
+							return;
+						}
+						//<-- проверяем не врагов, но дерущихся.
 						if(nMainCharacterIndex == sti(chrFindNearCharacters[i].index))
 						{
 							break;

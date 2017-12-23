@@ -1,54 +1,54 @@
-// диалог по городам
+#include "TEXT\DIALOGS\Store\Pirates_Store.h"
 void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 {
 
 	switch (Dialog.CurrentNode)
 	{
 		case "quests":
-			dialog.text = NPCStringReactionRepeat("Спрашивай, чего ты хочешь?",
-                          "Мы только что поднимали это тему. Вы, вероятно, запамятовали...", "Сегодня вы уже третий раз говорите о каком-то вопросе...",
-                          "Послушай, это магазин, здесь люди покупают что-то. Не отвлекай меня!", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat("Знаешь, " + NPChar.name + ", как-нибудь в следующий раз.", "Точно, забыл что-то...",
-                      "Да уж, действительно в третий раз...", "Гм, не буду...", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(DLG_TEXT_STR[0],
+                          DLG_TEXT_STR[1], DLG_TEXT_STR[2],
+                          DLG_TEXT_STR[3], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(DLG_TEXT_STR[4] + NPChar.name + DLG_TEXT_STR[5], DLG_TEXT_STR[6],
+                      DLG_TEXT_STR[7], DLG_TEXT_STR[8], npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
 			if (pchar.questTemp.BlueBird == "toBermudes")
 			{
-				link.l1 = "Уважаемый, я ищу один необычный корабль, щебеку 'Синяя Птица'. Ничего о ней не слышали? За любую информацию о ней я готов заплатить...";
+				link.l1 = DLG_TEXT_STR[9];
 				link.l1.go = "BlueBird_1";
 			}
 			if (pchar.questTemp.BlueBird == "weWon")
 			{
-				link.l1 = "Хотел вам сказать, что я добрался таки до 'Синей Птицы'. Больше она вам служить не будет.";
+				link.l1 = DLG_TEXT_STR[10];
 				link.l1.go = "BlueBird_3";
 			}
 		break;
 		case "BlueBird_1":
-			dialog.text = NPCStringReactionRepeat("Я ничего не знаю об этом корабле. Если это все, что вы хотели, то уходите.", 
-				"Опять? Я все вам сказал.", 
-				"Что, снова про то же?",
-                "Да когда же это кончится?! Прошу вас, не отвлекайте меня от работы!", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat("Что-то не очень вы любезны, милейший!", 
-				"Да-да, я помню...",
-                "Ага.", 
-				"Хорошо, хорошо...", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(DLG_TEXT_STR[11], 
+				DLG_TEXT_STR[12], 
+				DLG_TEXT_STR[13],
+                DLG_TEXT_STR[14], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(DLG_TEXT_STR[15], 
+				DLG_TEXT_STR[16],
+                DLG_TEXT_STR[17], 
+				DLG_TEXT_STR[18], npchar, Dialog.CurrentNode);
 			link.l1.go = DialogGoNodeRepeat("BlueBird_2", "exit", "exit", "exit", npchar, Dialog.CurrentNode);
 		break;
 		case "BlueBird_2":
-			dialog.text = "Я вам не милейший, ром хлестать и под забором с вами валяться не имел удовольствия.";
-			link.l1 = "О как! Да я просто спросил. Ну ладно, спасибо и на этом...";
+			dialog.text = DLG_TEXT_STR[19];
+			link.l1 = DLG_TEXT_STR[20];
 			link.l1.go = "exit";
 			AddQuestRecord("Xebeca_BlueBird", "2");
 		break;
 
 		case "BlueBird_3":
-			dialog.text = NPCStringReactionRepeat("Пошел вон отсюда, идиот...", 
-				"Утомил...", 
-				"Хм, кажется ты потерял рассудок...",
-                "Опять о том же? Я-то здесь при чем?", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat("У-у-у, какие эпитеты!", 
-				"Да-да.",
-                "Все у меня в порядке!", 
-				"Может и ни при чем, а может и при чем-то.", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(DLG_TEXT_STR[21], 
+				DLG_TEXT_STR[22], 
+				DLG_TEXT_STR[23],
+                DLG_TEXT_STR[24], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(DLG_TEXT_STR[25], 
+				DLG_TEXT_STR[26],
+                DLG_TEXT_STR[27], 
+				DLG_TEXT_STR[28], npchar, Dialog.CurrentNode);
 			link.l1.go = DialogGoNodeRepeat("exit", "", "", "", npchar, Dialog.CurrentNode);
 		break;
 	}

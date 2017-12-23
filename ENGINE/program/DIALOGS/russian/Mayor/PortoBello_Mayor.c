@@ -1,24 +1,24 @@
-// диалог по городам
+#include "TEXT\DIALOGS\Mayor\PortoBello_Mayor.h"
 void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 {
     switch (Dialog.CurrentNode)
 	{
 		case "quests":
-			dialog.text = NPCStringReactionRepeat(RandPhraseSimple("Что вы хотели? Спрашивайте.", "Я слушаю вас, что за вопрос?"), "Второй раз за день вы пытаетесь задать ворпос...", "В третий раз за день вы опять пытаетесь задать вопрос...",
-                          "Да когда же это кончится?! У меня дел полно по управлению делами города, а ты все вопросы пытаешься задать!", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat(RandPhraseSimple("Я передумал...", "Не сейчас, не место и не время..."), "Да, верно... Но не сейчас, позже...",
-                      "Задам, задам... Только позже...", "Извините, " + GetAddress_FormToNPC(NPChar) + "...", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(RandPhraseSimple(DLG_TEXT_MR[0], DLG_TEXT_MR[1]), DLG_TEXT_MR[2], DLG_TEXT_MR[3],
+                          DLG_TEXT_MR[4], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(RandPhraseSimple(DLG_TEXT_MR[5], DLG_TEXT_MR[6]), DLG_TEXT_MR[7],
+                      DLG_TEXT_MR[8], DLG_TEXT_MR[9] + GetAddress_FormToNPC(NPChar) + "...", npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
 			if (pchar.questTemp.State == "Sp9SaveCumana_toPortoBello")//квест №9 испанки.
 			{
-				dialog.text = "Кто вы и что вам нужно?";
-				link.l1 = "Меня зовут " + GetFullName(pchar) + ", прошу ознакомиться с данным документом. Это верительное письмо на мое имя за подписью генерал-губернатора Франсиско Орегон-и-Гаскона.";
+				dialog.text = DLG_TEXT_MR[10];
+				link.l1 = DLG_TEXT_MR[11] + GetFullName(pchar) + DLG_TEXT_MR[12];
 				link.l1.go = "Step_S10_1";			
 			}
 			if (pchar.questTemp.State == "Sp9SaveCumana_toCompOut")//квест №9 испанки, после того, как 0 компаньонов.
 			{
-				dialog.text = "Та-а-ак, капитан, рад вас видеть. Что скажете?";
-				link.l1 = "Я по поводу задания. Вы готовы передать в мое распоряжение названные галеоны?";
+				dialog.text = DLG_TEXT_MR[13];
+				link.l1 = DLG_TEXT_MR[14];
 				link.l1.go = "Step_S10_5";			
 			}
 			if (pchar.questTemp.piratesLine == "Panama_toPortoBello")//пиратка, штурм Панамы
@@ -30,46 +30,46 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 		break;
         //==> Девятый квест исп.линейки: сопроводить четыре золотых галеона.
         case "Step_S10_1":
-			dialog.text = "Та-а-ак, вижу. Очень хорошо, я давно жду вас. Вы в курсе того, какова цель вашего визита сюда?";
-			link.l1 = "В общих чертах, я вроде бы должен сопроводить куда-то некие корабли...";
+			dialog.text = DLG_TEXT_MR[15];
+			link.l1 = DLG_TEXT_MR[16];
 			link.l1.go = "Step_S10_2";
   			TakeItemFromCharacter(pchar, "letter_1");
             BackItemDescribe("letter_1");
         break;
         case "Step_S10_2":
-			dialog.text = "Хм, правильно. Я даю вам в распоряжение четыре галеона, груженые золотом. Вам необходимо доставить их в целости и сохранности до необитаемого острова Кайман. Вам все ясно?";
-			link.l1 = "Не совсем... Если позволите, я выскажу свое мнение по данному поводу.";
+			dialog.text = DLG_TEXT_MR[17];
+			link.l1 = DLG_TEXT_MR[18];
 			link.l1.go = "Step_S10_3";
         break;
         case "Step_S10_3":
-			dialog.text = "Да, конечно.";
-			link.l1 = "Я понимаю, когда речь идет о доставке золотых галеонов в укрепленный город, под защиту мощного форта. Но везти их к необитаемому острову...";
+			dialog.text = DLG_TEXT_MR[19];
+			link.l1 = DLG_TEXT_MR[20];
 			link.l1.go = "Step_S10_4";
         break;
         case "Step_S10_4":
-			dialog.text = "Это место сбора большой эскадры, которая отправляется в Старый Свет. Там вас будет ожидать мощный испанский флот, прибывающий из Белиза. Так что нет никаких причин для беспокойства, это наша новая тактическая уловка для борьбы с ладронами: раньше они караулили подступы к Белизу, а в этот раз оттуда выйдут только усиленные военные галеоны, которые пиратам не по зубам.\n"+
-				          "Теперь вам все ясно?";
-			link.l1 = "Почти. А где эти галеоны, где их капитаны?";
+			dialog.text = DLG_TEXT_MR[21]+
+				          DLG_TEXT_MR[22];
+			link.l1 = DLG_TEXT_MR[23];
 			link.l1.go = "Step_S10_5";
         break;
         case "Step_S10_5":
 			if (GetCompanionQuantity(pchar) > 1)
 			{
-				dialog.text = "Капитаны будут переданы в ваше распоряжение как только вы избавитесь от лишних кораблей в составе вашей эскадры. Вы должны иметь только один ваш корабль.";
-				link.l1 = "Я понял. Буду у вас позже, как только утрясу со своей эскадрой...";
+				dialog.text = DLG_TEXT_MR[24];
+				link.l1 = DLG_TEXT_MR[25];
 				link.l1.go = "exit";
 				pchar.questTemp.State = "Sp9SaveCumana_toCompOut";
 			}
 			else
 			{
-				dialog.text = "Галеоны находятся на рейде Порто Белло, а капитаны сию же минуту передаются в ваше распоряжение. Собственно, вы можете приступать к выполнению задания немедленно.";
-				link.l1 = "Очень хорошо. Я каким-то образом ограничен в сроках?";
+				dialog.text = DLG_TEXT_MR[26];
+				link.l1 = DLG_TEXT_MR[27];
 				link.l1.go = "Step_S10_6";
 			}
         break;
         case "Step_S10_6":
-			dialog.text = "Нет, главное - чтобы все галеоны добрались до Каймана в целости и с тем же содержимым трюма, что и сейчас. Я имею в виду золото. Сейчас его в трюмах кораблей 5000 штук, что в мерах веса составляет 10000 центнеров.";
-			link.l1 = "Я понимаю. Ну что же, я приступаю к выполнению.";
+			dialog.text = DLG_TEXT_MR[28];
+			link.l1 = DLG_TEXT_MR[29];
 			link.l1.go = "Step_S10_7";
         break;
         case "Step_S10_7":
@@ -101,26 +101,26 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
         break;
 		//************************** Квестовые штрумы ************************
 		case "Cupture_after":
-            dialog.text = RandPhraseSimple("Вы уже все забрали. Что вам еще нужно?", "Неужели осталось еще что-то, что вы не прихватили?");
-            link.l1 = RandPhraseSimple("Осматриваюсь напоследок...", "Проверяю, может забыл что забрать...");
+            dialog.text = RandPhraseSimple(DLG_TEXT_MR[30], DLG_TEXT_MR[31]);
+            link.l1 = RandPhraseSimple(DLG_TEXT_MR[32], DLG_TEXT_MR[33]);
             link.l1.go = "exit";
             NextDiag.TempNode = "Cupture_after";
 		break;
         //==> пиратка, штурм Панамы
         case "PQ8_MayorPortoBello":
-			dialog.text = "Дьявол!!! Как быстро вы сумели взять город!";
-			link.l1 = "Ха! Понимаю ваше удивление. Но это только начало...";
+			dialog.text = DLG_TEXT_MR[34];
+			link.l1 = DLG_TEXT_MR[35];
 			link.l1.go = "Step_P1_1";
 			AfterTownBattle();
         break;
         case "Step_P1_1":
-			dialog.text = "Нам было известно, что пираты собираются напасть на Панаму. Мой город вам взять удалось, но Панаму... Джунгли убьют вас, сеньор, поверьте мне.";
-			link.l1 = "Будет трудно, но мы справимся, сеньор губернатор. Не извольте беспокоиться, так сказать... Кстати, а откуда вы узнали о нашем походе?";
+			dialog.text = DLG_TEXT_MR[36];
+			link.l1 = DLG_TEXT_MR[37];
 			link.l1.go = "Step_P1_2";
         break;
         case "Step_P1_2":
-			dialog.text = "Я? От генерал-губернатора. А откуда он узнал - понятия не имею.";
-			link.l1 = "Ясно. Ну что же, это уже интересно...";
+			dialog.text = DLG_TEXT_MR[38];
+			link.l1 = DLG_TEXT_MR[39];
 			link.l1.go = "exit";
             NextDiag.TempNode = "Cupture_after";
             Statistic_AddValue(Pchar, NationShortName(sti(NPChar.nation)) + "_TakeTown", 1);

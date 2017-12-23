@@ -1,33 +1,33 @@
-// диалог по городам
+#include "TEXT\DIALOGS\Mayor\Villemstad_Mayor.h"
 void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 {
     switch (Dialog.CurrentNode)
 	{
 		case "quests":
-			dialog.text = NPCStringReactionRepeat(RandPhraseSimple("Что вы хотели? Спрашивайте.", "Я слушаю вас, что за вопрос?"), "Второй раз за день вы пытаетесь задать ворпос...", "В третий раз за день вы опять пытаетесь задать вопрос...",
-                          "Да когда же это кончится?! У меня дел полно по управлению делами города, а ты все вопросы пытаешься задать!", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat(RandPhraseSimple("Я передумал...", "Не сейчас, не место и не время..."), "Да, верно... Но не сейчас, позже...",
-                      "Задам, задам... Только позже...", "Извините, " + GetAddress_FormToNPC(NPChar) + "...", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(RandPhraseSimple(DLG_TEXT_MR[0], DLG_TEXT_MR[1]), DLG_TEXT_MR[2], DLG_TEXT_MR[3],
+                          DLG_TEXT_MR[4], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(RandPhraseSimple(DLG_TEXT_MR[5], DLG_TEXT_MR[6]), DLG_TEXT_MR[7],
+                      DLG_TEXT_MR[8], DLG_TEXT_MR[9] + GetAddress_FormToNPC(NPChar) + "...", npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
 		break;
 
 		case "Cupture_after":
-            dialog.text = RandPhraseSimple("Вы уже все забрали. Что вам еще нужно?", "Неужели осталось еще что-то, что вы не прихватили?");
-            link.l1 = RandPhraseSimple("Осматриваюсь напоследок...", "Проверяю, может забыл что забрать...");
+            dialog.text = RandPhraseSimple(DLG_TEXT_MR[10], DLG_TEXT_MR[11]);
+            link.l1 = RandPhraseSimple(DLG_TEXT_MR[12], DLG_TEXT_MR[13]);
             link.l1.go = "exit";
             NextDiag.TempNode = "Cupture_after";
 		break;
 
         //==> Одиннадцатый квест исп.линейки: разорение Виллемстада и Мариго.
         case "SpaLine11Quest_DestrHol":
-			dialog.text = "Черт возьми, проклятые испанцы!! Вы разорили город!";
-			link.l1 = "Это наказание.";
+			dialog.text = DLG_TEXT_MR[14];
+			link.l1 = DLG_TEXT_MR[15];
 			link.l1.go = "Step_S11_1";
 			AfterTownBattle();
         break;
         case "Step_S11_1":
-			dialog.text = "Наказание за что?";
-			link.l1 = "За тайное участие в деволюционной войне на стороне французов. Это будет вам уроком...";
+			dialog.text = DLG_TEXT_MR[16];
+			link.l1 = DLG_TEXT_MR[17];
 			link.l1.go = "exit";
             AddQuestRecord("Spa_Line_11_DestrHolland", "2");
             pchar.questTemp.Q11_Villemstad = 1;

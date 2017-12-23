@@ -628,12 +628,13 @@ int LocationInitAntigua(int n)
 	locations[n].islandId = "Antigua";
 	//Models
 	//Always
-	locations[n].models.always.locators = "FlamHouse_locators";
 	locations[n].models.always.tavern = "FlamHouse";
 	locations[n].models.always.tavern.level = 65538;
 	locations[n].models.always.window = "FlamHouse_window";
 	locations[n].models.always.window.tech = "LocationWindows";
 	locations[n].models.always.window.level = 65539;
+	locations[n].models.day.locators = "FlamHouse_locators";
+	locations[n].models.night.locators = "FlamHouse_Nlocators";
 
 	locations[n].models.always.back = "..\inside_back";
 	locations[n].models.always.back.level = 65529;
@@ -671,7 +672,7 @@ int LocationInitAntigua(int n)
 	LAi_LocationFightDisable(&locations[n], true);
 	n = n + 1;
 
-    //////////////////////////  ¬ход в подземелье јнтигуа
+	//////////////////////////  ¬ход в подземелье јнтигуа
 	locations[n].id = "SentJons_TownCave";
 	locations[n].image = "loading\inside\dungeon.tga";
 	locations[n].id.label = "Dungeon";
@@ -686,14 +687,13 @@ int LocationInitAntigua(int n)
 	locations[n].models.always.DungeonDuffer1Stuff = "DungeonDuffer1_stuff";
 	locations[n].models.always.locators = "DungeonDuffer1_locators";
 
-	Locations[n].models.always.duhi = "duhi";
-	Locations[n].models.always.duhi.locator.group = "item";
-	Locations[n].models.always.duhi.locator.name = "duhi1";
-	locations[n].models.always.duhi.tech = "LighthouseLight";
-	locations[n].models.always.duhi.level = 60;
-	Locations[n].models.always.duhi.uvslide.u0 = 0.15;
-	Locations[n].models.always.duhi.uvslide.v0 = 0.1;
 	locations[n].locators_radius.item.duhi1 = 1.3;
+	
+	Locations[n].models.always.rays = "DungeonDuffer1_rays";
+	Locations[n].models.always.rays.level = 49;
+	Locations[n].models.always.rays.tech= "LocVisRays";
+	Locations[n].models.always.rays.uvslide.u1 = -0.03;
+	Locations[n].models.always.rays.uvslide.v1 = -0.03;	
 	//Day
 	locations[n].models.day.charactersPatch = "DungeonDuffer1_patch";
 	//Night
@@ -720,7 +720,7 @@ int LocationInitAntigua(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     locations[n].id = "SentJons_ExitTown";
 	locations[n].id.label = "ExitTown";
-	locations[n].image = "loading\Gate.tga";
+	locations[n].image = "loading\Gate" + rand(1) + ".tga";
 	//Town sack
 	locations[n].townsack = "SentJons";
 	//Sound
@@ -782,7 +782,7 @@ int LocationInitAntigua(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Antigua_Jungle_01";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle4.tga";
+	locations[n].image = "loading\outside\jungle2.tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Antigua";
@@ -837,7 +837,7 @@ int LocationInitAntigua(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Antigua_jungle_02";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle5.tga";
+	locations[n].image = "loading\outside\jungle.tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Antigua";
@@ -892,7 +892,7 @@ int LocationInitAntigua(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Antigua_CaveEntrance";
 	locations[n].id.label = "Cave entrance";
-	locations[n].image = "loading\outside\cave_ent.tga";
+	locations[n].image = "loading\outside\jungle2.tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Antigua";
@@ -940,7 +940,7 @@ int LocationInitAntigua(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Antigua_Grot";
 	locations[n].id.label = "Grot";
-    locations[n].image = "loading\inside\grotto.tga";
+    locations[n].image = "loading\inside\cave.tga";
 	//Sound
 	locations[n].type = "cave";
 	locations[n].islandId = "Antigua";
@@ -954,14 +954,13 @@ int LocationInitAntigua(int n)
 	locations[n].models.always.chest = "chest";	
 	locations[n].models.always.locators = "grotto1_locators";
 
-	Locations[n].models.always.duhi = "duhi";
-	Locations[n].models.always.duhi.locator.group = "item";
-	Locations[n].models.always.duhi.locator.name = "duhi1";
-	locations[n].models.always.duhi.tech = "LighthouseLight";
-	locations[n].models.always.duhi.level = 60;
-	Locations[n].models.always.duhi.uvslide.u0 = 0.15;
-	Locations[n].models.always.duhi.uvslide.v0 = 0.1;
 	locations[n].locators_radius.item.duhi1 = 1.3;
+	
+	Locations[n].models.always.rays = "grotto1_rays";
+	Locations[n].models.always.rays.level = 49;
+	Locations[n].models.always.rays.tech= "LocVisRays";
+	Locations[n].models.always.rays.uvslide.u1 = -0.03;
+	Locations[n].models.always.rays.uvslide.v1 = -0.03;	
 	//Day
 	locations[n].models.day.charactersPatch = "grotto1_patch";
 	//Night

@@ -145,6 +145,12 @@ int LocationInitTrinidad(int n)
 	locations[n].reload.l11.label = "Morris's House";
 	locations[n].reload.l11.close_for_night = 1;
 
+	locations[n].reload.l12.name = "houseH3";
+	locations[n].reload.l12.go = "PortSpein_houseH3";
+	locations[n].reload.l12.emerge = "reload1";
+	locations[n].reload.l12.autoreload = "0";
+	locations[n].reload.l12.label = "House";
+
     // --> Комоны, загрушки. Номера с начинаются с 20.
 	locations[n].reload.l20.name = "houseS1";
 	locations[n].reload.l20.go = "CommonCobHouse";
@@ -205,12 +211,6 @@ int LocationInitTrinidad(int n)
 	locations[n].reload.l29.emerge = "reload1";
 	locations[n].reload.l29.autoreload = "0";
 	locations[n].reload.l29.label = "House";
-
-	locations[n].reload.l30.name = "houseH3";
-	locations[n].reload.l30.go = "CommonRoom_MH3";
-	locations[n].reload.l30.emerge = "reload1";
-	locations[n].reload.l30.autoreload = "0";
-	locations[n].reload.l30.label = "House";
 
 	locations[n].reload.l31.name = "houseF3";
 	locations[n].reload.l31.go = "CommonRoom_MH2";
@@ -641,11 +641,53 @@ int LocationInitTrinidad(int n)
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Дом несчастного мушкетера
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	locations[n].id = "PortSpein_houseH3";
+	locations[n].id.label = "Room";
+	locations[n].image = "loading\inside\mediumhouse10.tga";
+	//Town sack
+	locations[n].townsack = "PortSpein";
+	locations[n].lockWeather = "Inside";
+ 	locations[n].islandId = "Trinidad";
+	//Sound
+	locations[n].type = "house";
+	locations[n].fastreload = "PortSpein";
+	//Models
+	//Always
+	locations[n].filespath.models = "locations\inside\mediumhouse03_2";
+	locations[n].models.always.mediumhouse03 = "mediumhouse03_2";
+	locations[n].models.always.mediumhouse03.level = 65538;
+	locations[n].models.always.locators = "mediumhouse03_2_locators";
+
+	Locations[n].models.always.mediumhouse03windows = "mediumhouse03_2_windows";
+	Locations[n].models.always.mediumhouse03windows.tech = "LocationWindows";
+	locations[n].models.always.mediumhouse03windows.level = 65539;
+
+	locations[n].models.always.back = "..\inside_back";
+	locations[n].models.always.back.level = 65529;
+	//Day
+	locations[n].models.day.charactersPatch = "mediumhouse03_2_patch";
+	//Night
+	locations[n].models.night.charactersPatch = "mediumhouse03_2_patch";
+	//Environment
+	locations[n].environment.weather = "true";
+	locations[n].environment.sea = "false";
+	//Reload map
+	locations[n].reload.l1.name = "reload1";
+	locations[n].reload.l1.go = "PortSpein_town";
+	locations[n].reload.l1.emerge = "houseH3";
+	locations[n].reload.l1.autoreload = "0";
+	locations[n].reload.l1.label = "Street";
+	LAi_LocationFightDisable(&locations[n], true);
+	n = n + 1;
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Выход из города
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "PortSpein_ExitTown";
 	locations[n].id.label = "ExitTown";
-	locations[n].image = "loading\Gate.tga";
+	locations[n].image = "loading\Gate" + rand(1) + ".tga";
 	//Town sack
 	locations[n].townsack = "PortSpein";
 	//Sound
@@ -714,7 +756,7 @@ int LocationInitTrinidad(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Trinidad_Jungle_01";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle5.tga";
+	locations[n].image = "loading\outside\jungle.tga";
 	//Sound
 	locations[n].type = "jungle";
  	locations[n].islandId = "Trinidad";
@@ -855,7 +897,7 @@ int LocationInitTrinidad(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Trinidad_CaveEntrance";
 	locations[n].id.label = "Cave entrance";
-	locations[n].image = "loading\outside\cave_ent.tga";
+	locations[n].image = "loading\outside\jungle2.tga";
 	//Sound
 	locations[n].type = "jungle";
  	locations[n].islandId = "Trinidad";
@@ -899,11 +941,11 @@ int LocationInitTrinidad(int n)
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Пещера
+	// Грот
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Trinidad_Grot";
 	locations[n].id.label = "Grot";
-	locations[n].image = "loading\inside\grotto.tga";
+	locations[n].image = "loading\inside\cave.tga";
 	//Sound
 	locations[n].type = "cave";
  	locations[n].islandId = "Trinidad";
@@ -917,14 +959,13 @@ int LocationInitTrinidad(int n)
 	locations[n].models.always.grotto2alpha.level = 65532;	
 	locations[n].models.always.locators = "grotto2_locators";	
 
-	Locations[n].models.always.duhi = "duhi";
-	Locations[n].models.always.duhi.locator.group = "item";
-	Locations[n].models.always.duhi.locator.name = "duhi1";
-	locations[n].models.always.duhi.tech = "LighthouseLight";
-	locations[n].models.always.duhi.level = 60;
-	Locations[n].models.always.duhi.uvslide.u0 = 0.15;
-	Locations[n].models.always.duhi.uvslide.v0 = 0.1;
 	locations[n].locators_radius.item.duhi1 = 1.3;
+	
+	Locations[n].models.always.rays = "grotto2_rays";
+	Locations[n].models.always.rays.level = 49;
+	Locations[n].models.always.rays.tech= "LocVisRays";
+	Locations[n].models.always.rays.uvslide.u1 = -0.03;
+	Locations[n].models.always.rays.uvslide.v1 = -0.03;
 	//Day
 	locations[n].models.day.charactersPatch = "grotto2_patch";
 	//Night
@@ -944,7 +985,7 @@ int LocationInitTrinidad(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Trinidad_Jungle_02";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle3.tga";
+	locations[n].image = "loading\outside\jungle.tga";
 	//Sound
 	locations[n].type = "jungle";
  	locations[n].islandId = "Trinidad";

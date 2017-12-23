@@ -1,18 +1,18 @@
-// диалог по городам
+#include "TEXT\DIALOGS\Brothel\Charles_Brothel.h"
 void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 {
     ref sld;
 	switch (Dialog.CurrentNode)
 	{
 		case "quests":
-			dialog.text = NPCStringReactionRepeat(RandPhraseSimple("Какие вопросы, молодой человек?", "Чего ты хочешь, красавчик? Ну хоть задай его."), "Опять вопросы?", "Хи-хи, третий раз на дню одно и то же - вопросы...",
-                          "Хм, может ты выберешь какую-нибудь красотку себе? А то у меня уже складывается в отношении тебя вполне определенное мнение...", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat(RandPhraseSimple("Я передумал...", "Хм, да ничего..."), "Не могу... Нет вопросов...",
-                      "Да уж, действительно в третий раз... Извини.", "Не сейчас... В другой раз...", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(RandPhraseSimple(DLG_TEXT_BR[0], DLG_TEXT_BR[1]), DLG_TEXT_BR[2], DLG_TEXT_BR[3],
+                          DLG_TEXT_BR[4], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(RandPhraseSimple(DLG_TEXT_BR[5], DLG_TEXT_BR[6]), DLG_TEXT_BR[7],
+                      DLG_TEXT_BR[8], DLG_TEXT_BR[9], npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
 			if (pchar.questTemp.Sharp == "seekSharp" && GetNpcQuestPastDayWOInit(npchar, "quest.SharpTime") > 7 && !LAi_IsDead(&characters[GetCharacterIndex("Sharp")]))
 			{
-				link.l1 = "Послушай, " + npchar.name + ", я ищу Шарпа. Ты не знаешь, где он?";
+				link.l1 = DLG_TEXT_BR[10] + npchar.name + DLG_TEXT_BR[11];
 				link.l1.go = "SharpPearl_1";
 				SaveCurrentNpcQuestDateParam(npchar, "quest.SharpTime");
 			}
@@ -25,8 +25,8 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				{	//футболим геймера в город
 					pchar.questTemp.Sharp.City = GetSharpCity();
 					pchar.questTemp.Sharp.City.rumour = true; //флаг дачи слуха
-					dialog.text = "Насколько мне известно, капитан Шарп отправился в " + XI_ConvertString("Colony" + pchar.questTemp.Sharp.City + "Acc") + ".";
-					link.l1 = "Хех! Благодарю тебя, " + npchar.name + ". Ты мне здорово помогла!";
+					dialog.text = DLG_TEXT_BR[12] + XI_ConvertString("Colony" + pchar.questTemp.Sharp.City + "Acc") + ".";
+					link.l1 = DLG_TEXT_BR[13] + npchar.name + DLG_TEXT_BR[14];
 					link.l1.go = "exit";
 					pchar.questTemp.Sharp = "toSharp_going"; //в бордели больше не заходить
 					ReOpenQuestHeader("SharpPearl");
@@ -35,7 +35,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 					AddQuestUserData("SharpPearl", "sTarget", XI_ConvertString("Colony" + pchar.questTemp.Sharp.City + "Acc"));
 					if (GetIslandByCityName(pchar.questTemp.Sharp.City) != pchar.questTemp.Sharp.City)
 					{
-						AddQuestUserData("SharpPearl", "sAreal", ", что находится на " + XI_ConvertString(GetIslandByCityName(pchar.questTemp.Sharp.City) + "Dat"));
+						AddQuestUserData("SharpPearl", "sAreal", DLG_TEXT_BR[15] + XI_ConvertString(GetIslandByCityName(pchar.questTemp.Sharp.City) + "Dat"));
 					}
 					//запускаем энкаунтер Шарпа на карте
 					group_DeleteGroup("Sharp_Group");
@@ -48,29 +48,29 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 					Group_SetGroupCommander(sGroup, sld.id);
 					sld.mapEnc.type = "trade";
 					sld.mapEnc.worldMapShip = "quest_ship";
-					sld.mapEnc.Name = "бриг 'Шарпоносец'";
+					sld.mapEnc.Name = DLG_TEXT_BR[16];
 					string sColony= SelectAnyColony(npchar.city); //колония, откуда плывет Шарп
 					int daysQty = GetMaxDaysFromIsland2Island(GetArealByCityName(sColony), GetArealByCityName(pchar.questTemp.Sharp.City))+3; //дней доехать даем с запасом
 					Map_CreateTrader(sColony, pchar.questTemp.Sharp.City, sld.id, daysQty);
-					Log_TestInfo("Шарпоносец установлен из " + sColony + "  в " + pchar.questTemp.Sharp.City);
+					Log_TestInfo(DLG_TEXT_BR[17] + sColony + DLG_TEXT_BR[18] + pchar.questTemp.Sharp.City);
 				}
 				else
 				{	//чудо, Шарп здесь, в борделе!
-					dialog.text = "Знаю. Он у меня в заведении отдыхает. Могу позвать, если он тебе срочно нужен.";
-					link.l1 = "Сделай, одолжение, " + npchar.name + "...";
+					dialog.text = DLG_TEXT_BR[19];
+					link.l1 = DLG_TEXT_BR[20] + npchar.name + "...";
 					link.l1.go = "SharpPearl_2";
 				}
 			}
 			else
 			{
-				dialog.text = "Не знаю, у меня его давно уже не было.";
-				link.l1 = "Понятно... Ну что же, спасибо тебе, " + npchar.name + ".";
+				dialog.text = DLG_TEXT_BR[21];
+				link.l1 = DLG_TEXT_BR[22] + npchar.name + ".";
 				link.l1.go = "exit";
 			}
 		break;
 		case "SharpPearl_2":
-			dialog.text = "Барталомью-ю-ша! Зайди ко мне, дорогой, тебя тут спрашивают!";
-			link.l1 = "Хех, а Шарп у вас в почете, как я погляжу...";
+			dialog.text = DLG_TEXT_BR[23];
+			link.l1 = DLG_TEXT_BR[24];
 			link.l1.go = "SharpPearl_3";
 		break;
 		case "SharpPearl_3":

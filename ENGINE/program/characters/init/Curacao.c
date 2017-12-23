@@ -33,7 +33,7 @@ int CreateCuracaoCharacters(int n)
 	makeref(ch,Characters[n]);			//Священик
 	ch.id		= "Villemstad_Priest";
 	ch.model	= "priest_4";
-	ch.model.animation = "man3";
+	ch.model.animation = "man";
 	ch.sex = "man";
 	ch.City = "Villemstad";
 	ch.location	= "Villemstad_church";
@@ -51,8 +51,8 @@ int CreateCuracaoCharacters(int n)
 	makeref(ch,Characters[n]);		// ОФициантка
 	ch.id		= "Villemstad_waitress";
 	ch.model	= "girl_4";
-	ch.name 	= "Таннекен";
-	ch.lastname = "Клеменс";
+	ch.name 	= xiDStr("Tanneken");
+	ch.lastname = xiDStr("Clemence");
 	ch.sex = "woman";
 	ch.City = "Villemstad";
 	ch.location	= "Villemstad_tavern";
@@ -88,8 +88,8 @@ int CreateCuracaoCharacters(int n)
 	makeref(ch,Characters[n]);			//Торговец
 	ch.id		= "Villemstad_trader";
 	ch.model	= "trader_4";
-	ch.name 	= "Джоао";
-	ch.lastname = "Ильхайо";
+	ch.name 	= xiDStr("Joao");
+	ch.lastname = xiDStr("Ilhaio");
 	ch.greeting = "tra_common";
 	ch.sex = "man";
 	ch.City = "Villemstad";
@@ -130,8 +130,8 @@ int CreateCuracaoCharacters(int n)
 
 	makeref(ch,Characters[n]);			//Банкир
 	ch.id		= "Villemstad_usurer";
-	ch.name 	= "Йозеф Нунен";
-	ch.lastname 	= "де Фонкесао";
+	ch.name 	= xiDStr("Yozef Nunen");
+	ch.lastname 	= xiDStr("de Fonkesao");
 	ch.model	= "usurer_2";
 	ch.sex = "man";
 	ch.City = "Villemstad";
@@ -140,6 +140,7 @@ int CreateCuracaoCharacters(int n)
 	ch.location.locator = "stay";
 	ch.Dialog.Filename = "Usurer_dialog.c";
 	ch.nation = HOLLAND;
+	ch.greeting = "Gr_bankeer";
 	ch.quest.shiping = "0";
 	ch.UsurerDeposit = 11000; // *1000 денег
 	LAi_SetOwnerType(ch);
@@ -156,6 +157,7 @@ int CreateCuracaoCharacters(int n)
 	ch.location.locator = "sit1";
 	ch.Dialog.Filename = "Common_Portman.c";
 	ch.nation = HOLLAND;
+	ch.greeting = "portmans";
 	LAi_SetHuberType(ch);
 	LAi_group_MoveCharacter(ch, "HOLLAND_CITIZENS");
 	LAi_SetImmortal(ch, true);
@@ -163,7 +165,7 @@ int CreateCuracaoCharacters(int n)
 	n = n + 1;
 	
 	makeref(ch,Characters[n]);
-	ch.name 	= "Контрабандист";
+	ch.name 	= xiDStr("Smuggler");
 	ch.lastname = "";
 	ch.id		= "Villemstad_Smuggler";
 	ch.model    = "pirate_1";

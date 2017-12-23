@@ -34,7 +34,7 @@ int CreateMartiniqueCharacters(int n)
 	makeref(ch,Characters[n]);			//Священик
 	ch.id		= "FortFrance_Priest";
 	ch.model	= "priest_4";
-	ch.model.animation = "man3";
+	ch.model.animation = "man";
 	ch.sex = "man";
 	ch.City = "FortFrance";
 	ch.location	= "FortFrance_church";
@@ -136,6 +136,7 @@ int CreateMartiniqueCharacters(int n)
 	ch.location.locator = "stay";
 	ch.Dialog.Filename = "Usurer_dialog.c";
 	ch.nation = FRANCE;
+	ch.greeting = "Gr_bankeer";
 	ch.quest.shiping = "0";
 	ch.UsurerDeposit = 7000; // *1000 денег
 	LAi_SetOwnerType(ch);
@@ -153,6 +154,7 @@ int CreateMartiniqueCharacters(int n)
 	ch.location.locator = "sit1";
 	ch.Dialog.Filename = "Common_Portman.c";
 	ch.nation = FRANCE;
+	ch.greeting = "portmans";
 	LAi_SetHuberType(ch);
 	LAi_group_MoveCharacter(ch, "FRANCE_CITIZENS");
 	LAi_SetImmortal(ch, true);
@@ -161,7 +163,7 @@ int CreateMartiniqueCharacters(int n)
 
 	makeref(ch,Characters[n]);			//Хозяйка борделя
 	ch.id		= "FortFrance_Hostess";
-	ch.name		= "Анжелика"
+	ch.name		= xiDStr("Angelica");
 	ch.lastname = "";
 	ch.model	= "lady04";
 	ch.sex = "woman";
@@ -178,7 +180,7 @@ int CreateMartiniqueCharacters(int n)
 	n = n + 1;
 
     makeref(ch,Characters[n]);
-	ch.name 	= "Контрабандист";
+	ch.name 	= xiDStr("Smuggler");
 	ch.lastname = "";
 	ch.id		= "FortFrance_Smuggler";
 	ch.model    = "pirate_1";
@@ -206,6 +208,7 @@ int CreateMartiniqueCharacters(int n)
 	ch.location.locator = "sit1";
 	ch.Dialog.Filename = "Common_Mayor.c";
 	ch.nation = PIRATE;
+	ch.greeting = "pirat_common";
 	ch.quest.type = "hovernor";
 	GiveItem2Character(ch, GUN_COMMON);
 	GiveItem2Character(ch, BLADE_LONG);

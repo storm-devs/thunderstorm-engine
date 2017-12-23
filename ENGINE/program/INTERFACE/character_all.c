@@ -357,7 +357,7 @@ void ShowInfoWindow()
 				iItem = GetMoneyForOfficerFull(rchr);
 				if (iItem > 0)
 				{
-				    sText2 = "ќплата " + FindRussianMoneyString(iItem) + " в мес€ц";
+				    sText2 = xiStr("MSG_Chr_6") + FindRussianMoneyString(iItem) + xiStr("MSG_Chr_7");
 				}
 				if(FindFellowtravellers(pchar,rchr) != FELLOWTRAVEL_COMPANION)
 				{
@@ -386,7 +386,7 @@ void ShowInfoWindow()
 			{
 				sPicture = "interfaces/portraits/128/" + sHeader + ".tga";
 			}
-            sText3 = " лик по списку - назначение или съем офицера.";
+            sText3 = xiStr("MSG_Chr_8");
             if (bBettaTestMode)
             {
                 sText3 += "   " +  Characters[iCharacter].id;
@@ -731,7 +731,7 @@ void FillSkillTables()
     }
     else
     {
-        GameInterface.TABLE_OTHER.tr8.td3.str = "нет звани€";
+        GameInterface.TABLE_OTHER.tr8.td3.str = GetConvertStr("Title_0", "globals.txt");
     }
 	
 	GameInterface.TABLE_OTHER.tr9.UserData.ID = "NextExp";
@@ -760,7 +760,7 @@ void CS_TableSelectChange()
     NullSelectTable("TABLE_SKILL_2");
     NullSelectTable("TABLE_PERKS");
     NullSelectTable("TABLE_OTHER");
-    // перерисует "порог опыта"
+    // перерисует порог опыта
     GameInterface.TABLE_OTHER.tr9.td3.str = "";
     if (CurTable == "TABLE_OTHER" && CurRow == "tr1")
     {
@@ -997,7 +997,7 @@ void FillPassengerScroll()
 			}
 		}
 	}
-	GameInterface.PASSENGERSLIST.ListSize = m + 2; // не знаю зачем, но дл€ совместимости с "было"
+	GameInterface.PASSENGERSLIST.ListSize = m + 2; // не знаю зачем, но дл€ совместимости с 'было'
 }
 
 void ExitOfficerMenu()
@@ -1362,7 +1362,7 @@ void ChoosePerk()
     
     if (CheckAttribute(&ChrPerksList, "list." + perkName + ".OfficerType"))
     {
-        descr += "\n\n —пособность будет работать и в том случае, если назначен офицер " + XI_ConvertString(ChrPerksList.list.(perkName).OfficerType)+ ", у которого она есть.";
+        descr += xiStr("MSG_Chr_2") + XI_ConvertString(ChrPerksList.list.(perkName).OfficerType)+ xiStr("MSG_Chr_3");
     }
     SetFormatedText("PERK_WINDOW_TEXT", descr);
     SetVAligmentFormatedText("PERK_WINDOW_TEXT");

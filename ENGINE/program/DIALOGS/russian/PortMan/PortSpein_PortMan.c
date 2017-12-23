@@ -1,13 +1,13 @@
-// диалог по городам
+#include "TEXT\DIALOGS\PortMan\PortSpein_PortMan.h"
 void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 {
     switch (Dialog.CurrentNode)
 	{
 		case "quests":
-			dialog.text = NPCStringReactionRepeat(RandPhraseSimple(" акие вопросы?", "„то вам угодно, " + GetAddress_Form(NPChar) + "?"), "—овсем недавно вы пытались задать мне вопрос " + GetAddress_Form(NPChar) + "...", "¬ течение этого дн€ вы уже третий раз говорите о каком-то вопросе...",
-                          "ѕослушайте, если вы не по делам порта, то не стоит мен€ вопросами донимать.", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat(RandPhraseSimple("я передумал...", "—ейчас мне не о чем говорить"), "’м, что-то с пам€тью моей стало...",
-                      "ƒа уж, действительно в третий раз...", "»звините, но портовые дела мен€ сейчас не интересуют.", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(RandPhraseSimple(DLG_TEXT_PRT[0], DLG_TEXT_PRT[1] + GetAddress_Form(NPChar) + "?"), DLG_TEXT_PRT[2] + GetAddress_Form(NPChar) + "...", DLG_TEXT_PRT[3],
+                          DLG_TEXT_PRT[4], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(RandPhraseSimple(DLG_TEXT_PRT[5], DLG_TEXT_PRT[6]), DLG_TEXT_PRT[7],
+                      DLG_TEXT_PRT[8], DLG_TEXT_PRT[9], npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
 		break;
 

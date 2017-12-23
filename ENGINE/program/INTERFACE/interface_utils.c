@@ -660,7 +660,7 @@ void SetFoodShipInfo(ref chr, string _textName)
 	SetFormatedText(_textName, "");
 	if (sti(chr.ship.type) != SHIP_NOTUSED)
 	{
-		sText = "Провианта на корабле на ";
+		sText = MsgIS("FoodLimit") + " ";
 		iFood = CalculateShipFood(chr);
 		sText = sText + FindRussianDaysString(iFood);
 		SetFormatedText(_textName, sText);

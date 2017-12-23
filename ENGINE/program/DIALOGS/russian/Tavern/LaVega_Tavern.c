@@ -1,25 +1,25 @@
-// диалог по городам
+#include "TEXT\DIALOGS\Tavern\LaVega_Tavern.h"
 void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 {
     switch (Dialog.CurrentNode)
 	{
 		case "quests":
-			dialog.text = NPCStringReactionRepeat("Все сплетни города "+ GetCityName(npchar.city) +" к вашим услугам. Что бы вы хотели узнать?",
-                          "Мы только что поднимали это тему. Вы, вероятно, запамятовали...", "Сегодня вы уже третий раз говорите о каком-то вопросе...",
-                          "Что ты заладил как попугай одно и то же...", "block", 1, npchar, Dialog.CurrentNode);
-			link.l1 = HeroStringReactionRepeat("Знаешь, " + NPChar.name + ", как-нибудь в следующий раз.", "Точно, забыл что-то...",
-                      "Да уж, действительно в третий раз...", "Да уж...", npchar, Dialog.CurrentNode);
+			dialog.text = NPCStringReactionRepeat(DLG_TEXT_TV[0]+ GetCityName(npchar.city) +DLG_TEXT_TV[1],
+                          DLG_TEXT_TV[2], DLG_TEXT_TV[3],
+                          DLG_TEXT_TV[4], "block", 1, npchar, Dialog.CurrentNode);
+			link.l1 = HeroStringReactionRepeat(DLG_TEXT_TV[5] + NPChar.name + DLG_TEXT_TV[6], DLG_TEXT_TV[7],
+                      DLG_TEXT_TV[8], DLG_TEXT_TV[9], npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
 			//пиратка, квест №7
 			if (pchar.questTemp.piratesLine == "Soukins_toLaVega")
 			{
-				link.l1 = "Хозяин, я ищу Стива Линнея, не подскажешь, заходил ли он к тебе?";
+				link.l1 = DLG_TEXT_TV[10];
 				link.l1.go = "PL_Q7_1";
 			}
 		break;
 		case "PL_Q7_1":
-			dialog.text = "Бывал он здесь, все со своим приятелем сидел, а куда потом девался, не заметил. Приятель его на люггере, сейчас с острова отплыл, если поторопишься, успеешь в море перехватить. Вот у него и спросишь, куда Линней подевался.";
-			link.l1 = "Спасибо!";
+			dialog.text = DLG_TEXT_TV[11];
+			link.l1 = DLG_TEXT_TV[12];
 			link.l1.go = "exit";
 			pchar.questTemp.piratesLine = "Soukins_toLaVegaSea";
 			SaveCurrentQuestDateParam("questTemp.piratesLine");

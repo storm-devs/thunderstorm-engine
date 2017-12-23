@@ -1,3 +1,4 @@
+#include "TEXT\DIALOGS\Smuggler_Ship_dialog.h"
 void ProcessDialogEvent()
 {
 	ref NPChar;
@@ -22,34 +23,34 @@ void ProcessDialogEvent()
 		break;
 
 		case "start":
-			dialog.text = "Просыпайся, " + Pchar.name + "! Мы наконец добрались до "+ Pchar.HeroParam.Land +" после всех этих штормов!"+
-                          " Что собираешься делать? Корабля-то у тебя больше нет.";
-			link.l1 = "Не в первый раз! Удача - переменчивая штука.";
+			dialog.text = DLG_TEXT_BASE[0] + Pchar.name + DLG_TEXT_BASE[1]+ Pchar.HeroParam.Land +DLG_TEXT_BASE[2]+
+                          DLG_TEXT_BASE[3];
+			link.l1 = DLG_TEXT_BASE[4];
 			link.l1.go = "start1";
-			link.l2 = "Хочешь мне предложить работу, Абрахам?";
+			link.l2 = DLG_TEXT_BASE[5];
 			link.l2.go = "start2";
 		break;
 
 		case "start1":
-			dialog.text = "Надеюсь, тебе повезет больше чем с 'Меркурием'. Прощай.";
-			link.l1 = "Не сомневаюсь. Прощай, капитан!";
+			dialog.text = DLG_TEXT_BASE[6];
+			link.l1 = DLG_TEXT_BASE[7];
 			link.l1.go = "game_begin";
 		break;
 		
 		case "start2":
-            ret = Pchar.name + ", я контрабандист, а не мэр города. Какая у меня для тебя работа?";
+            ret = Pchar.name + DLG_TEXT_BASE[8];
             if (sti(Pchar.nation) == PIRATE)
             {
-                dialog.text = ret + " Загляни в таверну к Инес. Она знает всех на этом острове."+
-                              " Зайди к Юрксену, он здесь у пиратов вместо губернатора. Но сначала поговори с простыми пиратами.";
+                dialog.text = ret + DLG_TEXT_BASE[9]+
+                              DLG_TEXT_BASE[10];
             }
             else
             {
-                dialog.text = ret + " Займи где-нибудь денег, продай что-нибудь. Не мне тебя учить.";
+                dialog.text = ret + DLG_TEXT_BASE[11];
             }
-            link.l1 = "Ладно, спасибо за совет. Прощай.";
+            link.l1 = DLG_TEXT_BASE[12];
 			link.l1.go = "game_begin";
-			link.l2 = "Знаешь, Абрахам, я, пожалуй, реквизирую твой корабль. Мне он очень понравился!";
+			link.l2 = DLG_TEXT_BASE[13];
 			link.l2.go = "start3";
 		break;
 		
@@ -59,23 +60,23 @@ void ProcessDialogEvent()
 		break;
 		
 		case "start3":
-			dialog.text = "Ты плохо шутишь, приятель.";
-			link.l1 = "Не бери в голову, старик. Прощай!";
+			dialog.text = DLG_TEXT_BASE[14];
+			link.l1 = DLG_TEXT_BASE[15];
 			link.l1.go = "game_begin";
-			link.l2 = "А кто сказал, что я шучу? Ты скажешь команде, что продал мне свою посудину. А я оставлю тебе жизнь. Договорились?";
+			link.l2 = DLG_TEXT_BASE[16];
 			link.l2.go = "start4";
 		break;
 		
 		case "start4":
-			dialog.text = "Говорили, что ты убил своего учителя Малькольма Хатчера из-за паршивой сабли. Не верил, а зря. Сегодня ты будешь кормить рыб. У тебя нет ни шанса, приятель.";
-			link.l1 = "Неужели?!";
+			dialog.text = DLG_TEXT_BASE[17];
+			link.l1 = DLG_TEXT_BASE[18];
 			link.l1.go = "exit";
 			addDialogExitQuest("Tut_KillOnShip");
 		break;
 
 		case "First time":
 			dialog.text = "";
-			Link.l1 = "Упс...";
+			Link.l1 = DLG_TEXT_BASE[19];
 			Link.l1.go = "exit";
 		break;
 
@@ -88,18 +89,18 @@ void ProcessDialogEvent()
 			int iRnd = (rand(100) == 30);
 			if (iRnd)
 			{
-				dialog.text = "Мы тут подумали, что может стоит продать тебя на рудники. Ха... деньги лишними не бывают.";
-				link.l1 = "Что вы говорите?";
+				dialog.text = DLG_TEXT_BASE[20];
+				link.l1 = DLG_TEXT_BASE[21];
 				//заглушка, пока нет рудников.
 				link.l1.go = "Travel_fight";
 				//"Travel_mine"; //Собственно тоже можно боевку организовать, ГГ сопротивляется.
 			}
 			else
 			{
-				dialog.text = "Мы приблыли на место, прощай.";
-				link.l1 = "Прощай.";
+				dialog.text = DLG_TEXT_BASE[22];
+				link.l1 = DLG_TEXT_BASE[23];
 				link.l1.go = "Travel_end";
-				link.l2 = "Я тут подумал, нравится мне твой корабль. Хочу оставить его себе.";
+				link.l2 = DLG_TEXT_BASE[24];
 				link.l2.go = "Travel_fight";
 			}
 		break;

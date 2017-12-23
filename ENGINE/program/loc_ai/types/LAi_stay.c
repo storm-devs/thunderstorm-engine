@@ -20,7 +20,7 @@ void LAi_type_stay_Init(aref chr)
 	chr.chr_ai.type.time = 0;
 	LAi_tmpl_stay_InitTemplate(chr);
 	//Установим анимацию персонажу
-	if (chr.model.animation == "mushketer")
+	if (chr.model.animation == "mushketer" && !CheckAttribute(chr, "isMusketer.weapon"))
 	{
         while (FindCharacterItemByGroup(chr, BLADE_ITEM_TYPE) != "")
         {
@@ -32,8 +32,14 @@ void LAi_type_stay_Init(aref chr)
         }		
 		GiveItem2Character(chr, "unarmed");
 		EquipCharacterbyItem(chr, "unarmed");
-		GiveItem2Character(chr, "mushket");
-		EquipCharacterbyItem(chr, "mushket");
+		string sMush = "mushket";
+		if (chr.model == "MusketeerEnglish_2") sMush = "mushket2x2";
+		GiveItem2Character(chr, sMush);
+		EquipCharacterbyItem(chr, sMush);
+		chr.items.bullet = 300;
+		chr.isMusketer = true;
+		if (!CheckAttribute(chr, "MusketerDistance"))
+			chr.MusketerDistance = 10.0 + frand(10.0);
 	}
 	else
 	{
@@ -45,7 +51,7 @@ void LAi_type_stay_Init(aref chr)
 //Процессирование типа персонажа
 void LAi_type_stay_CharacterUpdate(aref chr, float dltTime)
 {
-	int num = FindNearCharacters(chr, 5.0, -1.0, -1.0, 0.001, false, true);
+	int num = FindNearCharacters(chr, 5.0, -1.0, -1.0, 0.001, true, true);
 	int idx;
 	bool bVis = false;	
 	if(num > 0)

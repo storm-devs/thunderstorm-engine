@@ -552,8 +552,8 @@ ref CharacterFromID(string characterID)
     int i = GetCharacterIndex(characterID);
     if (i < 0 && MOD_BETTATESTMODE == "On")
 	{
-		Log_Info("Error: Не найдет НПС с characterID = "+characterID);
-		trace("Error: Не найдет НПС с characterID = "+characterID);
+		Log_Info("Error: Not found NPC characterID = "+characterID);
+		trace("Error: Not found NPC characterID = "+characterID);
 	}
     if (i>=0)
     {
@@ -1650,4 +1650,4 @@ bool isLocationFreeForQuests(string loc_id)
 	}
 	return bEnableEncounters;
 }
-// boal <--
+// boal <-- <--

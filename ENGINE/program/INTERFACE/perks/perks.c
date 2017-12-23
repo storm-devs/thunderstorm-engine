@@ -105,17 +105,20 @@ bool GetOfficersPerkUsing(ref chref, string perkName)
 	bool  okDelay = true;
 	int   cn;
 	if (GetCharacterPerkUsing(chref, perkName)) {return true;} // босс отдельно
-	for(int i=1; i<=6; i++)
+	if (!CheckAttribute(chref,"perks.list."+perkName))  // у гг нет перка вообще, тогда смотрим офов, иначе выход
 	{
-		sOfficerType = GetOfficerTypeByNum(i);
-		if (CheckAttribute(&ChrPerksList, "list." + perkName + ".OfficerType") && ChrPerksList.list.(perkName).OfficerType == sOfficerType)
+		for(int i=1; i<=6; i++)
 		{
-			cn = sti(chref.Fellows.Passengers.(sOfficerType));
-			if(cn<0) {continue;}
-			offc = &Characters[cn];
-			if (CheckAttribute(offc, "perks.list."+perkName) )          ok = true;
-			if (CheckAttribute(offc, "perks.list."+perkName+".delay") ) okDelay = false;
-			//if (GetCharacterPerkUsing(chref, perkName) return true;
+			sOfficerType = GetOfficerTypeByNum(i);
+			if (CheckAttribute(&ChrPerksList, "list." + perkName + ".OfficerType") && ChrPerksList.list.(perkName).OfficerType == sOfficerType)
+			{
+				cn = sti(chref.Fellows.Passengers.(sOfficerType));
+				if(cn<0) {continue;}
+				offc = &Characters[cn];
+				if (CheckAttribute(offc, "perks.list."+perkName) )          ok = true;
+				if (CheckAttribute(offc, "perks.list."+perkName+".delay") ) okDelay = false;
+				//if (GetCharacterPerkUsing(chref, perkName) return true;
+			}
 		}
 	}
 	return (ok) && (okDelay);
@@ -169,7 +172,7 @@ void CharacterPerkOff(ref chref, string perkName)
 }
 
 bool CheckOfficersPerk(ref chref, string perkName)
-{
+{ // активность перка в данный момент, для временных - режим активности, а не задержки
 	bool ret = CheckOfficersPerkWOSelf(chref, perkName);
 
 	if (ret) return true;

@@ -37,11 +37,12 @@ void LAi_type_sit_CharacterUpdate(aref chr, float dltTime)
 	{		
 		ref chrTarget;
 		string snd = "male-sit";
-		int iTemp;
+		int iTemp, i;
 		float fAng;
 		aref tmpl;
 		float xAng = 0;
 		float zAng = 0;
+		float   locx, locy, locz;
 		if(CheckAttribute(chr,"sex"))
 		{
 			if(chr.sex == "woman")
@@ -53,11 +54,11 @@ void LAi_type_sit_CharacterUpdate(aref chr, float dltTime)
 		{
 			LAi_CharacterPlaySound(chr, snd);
 		}
-		if(chr.chr_ai.tmpl != LAI_TMPL_DIALOG)
+		if(chr.chr_ai.tmpl != LAI_TMPL_DIALOG && !CheckAttribute(chr, "nonTable"))
 		{
 			time = 20;
-			int num = FindNearCharacters(chr, 2.5, -1.0, 0.0, 0.0, false, true);
-			for(int i = 0; i < num; i++)
+			int num = FindNearCharacters(chr, 2.3, -1.0, 0.0, 0.0, false, true);
+			for(i = 0; i < num; i++)
 			{
 				iTemp = chrFindNearCharacters[i].index;
 				chrTarget = &characters[iTemp];
@@ -77,6 +78,39 @@ void LAi_type_sit_CharacterUpdate(aref chr, float dltTime)
 							break;
 						}
 						else time = 30.0;
+					}
+				}
+			}
+			if (CheckAttribute(chr, "standUp") && !LAi_IsCapturedLocation) //не при захвате колонии
+			{
+				num = FindNearCharacters(chr, 15.0, -1.0, -1.0, 0.01, false, false);
+				int iNumEnemy = LAi_type_sit_FindEnemy(chr, num);
+				if (iNumEnemy > 0) //есть враги
+				{
+					//Нападаем на новую цель
+					GetCharacterPos(chr, &locx, &locy, &locz);	
+					LAi_SetWarriorTypeNoGroup(chr); //ребрендинг и вперед на врага
+					ChangeCharacterAddressGroup(chr, chr.location, "goto", LAi_FindNearestFreeLocator("goto", locx, locy, locz));
+					LAi_group_Attack(chr, pchar);
+				}
+			}
+			//слежение залезания ГГ в боксы
+			if (CheckAttribute(chr, "watchBoxes") && chr.chr_ai.tmpl != LAI_TMPL_DIALOG) 
+			{
+				num = FindNearCharacters(chr, 10.0, -1.0, 180.0, 0.01, true, true);
+				for(i = 0; i < num; i++)
+				{
+					if(nMainCharacterIndex == sti(chrFindNearCharacters[i].index))
+					{					
+						//нашли ГГ, проверяем, не в сундуке ли.						
+						if (bMainCharacterInBox)
+						{
+							//Нападаем на новую цель
+							GetCharacterPos(chr, &locx, &locy, &locz);	
+							LAi_SetWarriorTypeNoGroup(chr); //ребрендинг и вперед на врага
+							ChangeCharacterAddressGroup(chr, chr.location, "goto", LAi_FindNearestFreeLocator("goto", locx, locy, locz));
+							LAi_group_Attack(chr, pchar);
+						}
 					}
 				}
 			}
@@ -150,4 +184,25 @@ void LAi_type_sit_Attacked(aref chr, aref by)
 	
 }
 
-
+int LAi_type_sit_FindEnemy(aref chr, int num)
+{
+	if(num <= 0) return -1;
+	int i, idx;
+	if(LAi_grp_playeralarm > 0)
+	{
+		for(i = 0; i < num; i++)
+		{
+			idx = sti(chrFindNearCharacters[i].index);
+			if(LAi_group_IsEnemy(chr, &Characters[idx])) return idx;
+		}
+	}
+	else
+	{		
+		for(i = 0; i < num; i++)
+		{
+			idx = sti(chrFindNearCharacters[i].index);
+			if(LAi_CheckFightMode(&Characters[idx])) return idx;
+		}
+	}
+	return -1;
+}

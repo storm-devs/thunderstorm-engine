@@ -1,177 +1,113 @@
-new_string	{
+new_string {
 
 }
-
-Tartane
-{
-Тартана появилась впервые в Средиземном море. Изначально это была небольшая рыбачья лодка с треугольным парусом, но хорошие ходовые характеристики сделали тартану очень популярным кораблем, используемым для каботажных плаваний и торговли между близко расположенными поселениями.
+Tartane {
+ The tartane is a small fishing vessel with a triangular sail, that first appeared in Mediterranean waters. Soon, the tartane's excellent sailing characteristics made it a very popular ship, used for coastal sailing and trading between close settlements. 
 }
-
-WarTartane
-{
-Баркас - большая лодка, на которую устанавливают малые пушки. Серьезным кораблем никогда не станет, но для пиратских или контрабандных вылазок широко применяется по всему миру.
+WarTartane {
+A War Tartane is a large tartane with small cannons on board. It shall never be considered a serious ship, but it is widely used in the whole world for pirate and smuggling raids.
 }
-
-Lugger
-{
-Люггер - небольшой корабль, созданный для перевозки грузов и охраны небольших конвоев. Несмотря на то, что вооружение люггера - слабое, а команда - небольшая, он специально сконструирован как для торговли, так и для сражений. Многие капитаны ценят люггер за его скорость и маневренность. Небольшие размеры не позволяют ему совершать дальние морские плавания.
+Lugger {
+ Lugger - a small ship, made for transporting cargo and protecting small convoys. Although the lugger is modestly armed and crewed, it is specially designed for trade and battle. Many captains value the lugger for its speed and maneuverability. The small size prevents its use on long sea journeys. 
 }
-
-Sloop
-{
-Используя небольшую осадку шлюпа и его великолепные ходовые качества за образец, конструкторы создали быстрый шлюп как высокоэффективный разведывательный корабль, пригодный для берегового патрулирования и торговли.
+Sloop {
+ With its small hull and great sailing properties, the sloop is a very effective recon ship, good for coastal patrolling and trade. 
 }
-
-Barque
-{
-Барк - корабль, приспособленный для дальних плаваний. Обладая увеличенным объемом трюма и усиленной огневой мощью, барк считается одним из лучших кораблей в своем классе. Однако, большие размеры не позволяют ему развивать высокую скорость и быстро маневрировать, поэтому барк проигрывает по ходовым характеристикам более легким кораблям его класса.
+Barque {
+ Barque - a ship made for long journeys. With its roomy cargo hold and formidable firepower, the barque is considered one the best ships in its class. However, the big size does not allow for great speed or maneuverability, so it loses out in sailing to lighter ships in its class. 
 }
-
-Schooner
-{
-Хорошие ходовые качества этого корабля, вкупе с вместительным трюмом сделали его одним из самых привлекательных в качестве торгового судна у торговцев средней руки, которые не могут позволить себе приобрести флейт.
+Schooner {
+ The schooner's solid sailing characteristics and a roomy hold have made it one of the most attractive medium-grade trading ships. Perfect for those unable to afford a flute.
 }
-
-Caravel
-{
-Необычная форма палубы каравеллы позволяет легко опознать этот корабль с большого расстояния по его очертаниям. Каравеллы выгодно использовать для перевозки больших грузов, тем более что в качестве боевых кораблей они проявили себя неважно.
+Caravel {
+The distinctive, unusually-shaped decks of the caravel make its profile easy to identify across even the longest distance. Since caravels fare rather poorly in battle, they have generally been consigned to freighter duty. On the plus side, they do carry a lot of cargo. 
 }
-
-Fleut
-{
-Флейт - корабль достаточно прочный и большой для дальних плаваний, однако использовать его в военных целях неразумно. Флейт хорош в качестве торгового корабля, так как по размеру трюма и прочности корпуса соперника флейту в его классе найти трудно.
+Fleut {
+ Though the flute is big and sturdy enough for long sea journeys, it is unwise to rely on in battle. Still, it is a solid trade ship, as there is little equal to the size of its hold. 
 }
-
-Brig
-{
-Бриг часто используется как торговое судно, но еще чаще - как военный корабль. Высокая скорость и маневренность делают его одним из самых гармоничных судов.
+Brig {
+ Brigs are often used as trade vessels, though more often as warships. High speed and maneuverability make them amongst the most balanced vessels. The weapons do affect maneuverability, however. 
 }
-
-Galeon_l
-{
-Галеон, несомненно, - самый знаменитый тип корабля в истории. Близкий родственник каравеллы, галеон - неуклюжий и надежный корабль, служивший морякам на протяжении двухсот лет. Легкая добыча для настоящего пирата.
+Galeon_l {
+ The galleon is, without a doubt, the most ship class in history. A close relative to the caravel, the galleon is a clumsy yet dependable vessel, serving sailors for almost two hundred years. Easy prey for a real pirate. 
 }
-
-Corvette
-{
-Корвет был спроектирован как судно, имеющее мощное вооружение, но при этом максимально быстрое и легкое. Как следствие корветты обладают слабым корпусом, но способны догнать более легкие суда и вести успешный бой с более тяжелыми. Как правило корвет использовался в качестве патрульного судна, а так же вспомогательно-военный корабля.
+Corvette {
+ The corvette was designed as a highly-armed, yet light and fast vessel. Trade-offs being trade-offs, corvettes therefore have a weak hull. Still, they are able to keep up with lighter vessels and trade blows with heavier ones. As a rule, the corvette is used for patrol and escort missions. 
 }
-
-Galeon_h
-{
-Тяжёлый галеон - это мощный военный корабль. Орудия 32 калибра, прочный корпус и многочисленная команда обеспечивают надежную защиту любому грузу.
+Galeon_h {
+ The heavy galleon is a massive warship. Large caliber cannons, a solid hull, and a huge crew make it a reliable defense for any cargo. 
 }
-
-Pinnace
-{
-Пинас достаточно велик и крепок для дальних морских плаваний, вместимость его трюма позволяет перевозить большое количество груза, а вооружение достаточно сильно. Тем не менее, в бою ему очень не хватает маневренности и скорости настоящего военного корабля.
+Pinnace {
+ A pinnace is big and sturdy enough for long sea voyage, the hold can carry a decent supply of cargo, and it's armed rather well. All that said, it lacks maneuverability in battle, and is slower than a real war ship. 
 }
-
-Frigate
-{
-Быстрые и маневренные фрегаты нравятся очень многим за свои высокие ходовые качества и огневую мощь. Эскадра фрегатов вполне может разгромить форт и разграбить город.
+Frigate {
+ The fast and maneuverable frigate is liked by many for its nice sailing properties and its firepower. A squadron of frigates can easily destroy a fort and loot a city. 
 }
-
-LineShip
-{
-Военный корабль, превосходя количеством орудий фрегат, проигрывает ему в скорости и маневренности. Однако, за счет усиления корпуса и увеличения размеров корабля на некоторые военные корабли можно ставить самые мощные орудия.
+LineShip {
+ A warship, with more cannons than a frigate, will lose out to it in speed and maneuverability - yet because of the reinforced hull and larger frame, some warships can carry even mightiest of cannons.}
+Battleship {
+ The battleship is a progression of the warship: bigger, and even more well-reinforced. Huge and unwieldy, it carries a few batteries of heavy cannons and is manned by an enormous crew.
 }
-
-Battleship
-{
-Боевой корабль - развитие военного корабля за счет увеличения размеров и усиления корпуса. Громадный и неповоротливый, он несет на себе 70 тяжелых орудий и обслуживается многочисленной командой.
+Warship {
+ The ship-of-the-line presents itself as a terrible force. Armed with the mightiest and longest-range cannons to protect its sturdy hull, it can stand up to any ship in the sea and easily destroy shore fortifications. 
 }
-
-Warship
-{
-Линейный корабль представляет собой грозную силу. Вооруженный самыми мощными и дальнобойными орудиями, с очень прочным корпусом, он способен успешно противостоять любому кораблю в море и уничтожать береговые укрепления.
+Manowar {
+ The man-o-war is the mightiest vessel born of man. Amongst its three decks it holds a hundred heavy cannons, and its hull is nigh-on impervious to shells. Unfortunately, the huge size and displacement limits its use to big naval battles and fort bombardment. 
 }
-
-Manowar
-{
-Ман-о-вар является самым мощным из всех созданных человеком морских судов. На своих трех палубах он несет сотню тяжелых орудий, а его корпус почти непробиваем для ядер. К сожалению, огромные размеры и водоизмещение ман-о-вара ограничивают его применение большими морскими сражениям и бомбардировкой фортов.
+SoleyRu {
+ A royal line ship, first class: horrifying firepower, mixed with a refined hull and inspiring sailing properties. A grand ship for the ages. 
 }
-
-NoneBoat
-{
-Нет корабля. Герой стал сухопутной крысой и не может именовать себя капитаном, пока не получит корабль.
+NoneBoat {
+ No ship. The hero has become a land rat, until he scrapes up a ship for himself can no longer call himself a captain. 
 }
-
-Hull
-{
-Корпус - показывает текущее и максимальное количество повреждений, которые может выдержать корпус корабля.
+Hull {
+ Hull - the current and maximum damage that the hull can sustain. 
 }
-
-Sails
-{
-Паруса - показывают текущее и максимальное количество повреждений, которые могут выдержать паруса.
+Sails {
+ Sails - the current and maximum damage that the sails can sustain. 
 }
-
-Speed
-{
-Скорость - показывает максимальную скорость корабля на данный момент с учетом всех факторов (груз, умения капитана, повреждения кораблю) и максимально достижимую скорость корабля.
+Speed {
+ Speed - shows the ship's current maximum speed, all things considered (cargo, captain's skills, damage to ship, etc.), against the ship's overall maximum. 
 }
-
-Maneuver
-{
-Манёвренность - показывает манёвренность корабля на данный момент с учетом всех факторов (груз, умения капитана, повреждения кораблю) и максимально достижимую манёвренность корабля.
+Maneuver {
+ Maneuverability - shows the ship's current maximum speed, all things (cargo, captain's skills, damage to ship) considered, against the ship's overall maximum. 
 }
-
-AgainstWind
-{
-Характеристика, отражающая способность корабля плавать под минимальным углом к ветру. Чем больше значение, тем круче к ветру ходит корабль. Корабли с косыми парусами лучше приспособлены к движению при встречных ветрах.
+AgainstWind {
+ Characteristics, showing the ability of the ship to sail under the minimum angle of wind. The higher the rating, then the closer to the wind the ship sails. Ships with sloped sails are better suited to moving in conflicting winds.
 }
-
-Capacity
-{
-Трюм - показано текущее и полное значение вместимости трюма. Чем меньше свободного места в трюме, тем неповоротливее и тихоходнее делается корабль.
-Если товара в трюме нет, но место все равно занято, то это считаются орудия, установленные на корабле. Их можно снять в интерфейсе "Корабль", выбрав строку с текущими пушками в списке параметров корабля.
+Capacity {
+ Hold - shows the current and maximum volume in the cargo hold. The less free space there is, the slower and less maneuverable the ship becomes. 
+ Any weapons installed also have an effect on cargo area. You can put them off the ship if you need to make more room for cargo. For that, you need to go to the bottom of this interface and double-click on 'Cannons'. 
 }
-
-Crew
-{
-Матросы - показано текущее число матросов, а также минимальное и максимальное их число для данного корабля.
+Crew {
+ Crew - shows the current tally of seamen, along with the minimum and maximum number allowance, for the selected ship. 
 }
-
-CannonType
-{
-Тип орудий - показан тип (пушки или кулеврины), текущий калибр и число установленных орудий
+CannonType {
+ Cannon Type - shows the class (cannon or culverin), caliber, and number of installed cannons 
 }
-
-sCannons
-{
-Показаны максимально допустимый калибр и максимально возможное количество орудий на корабле.
+sCannons {
+ Shows the maximum caliber and maximum number of cannons that can fit on a ship. 
 }
-
-Crew_Exp {Опыт команды}
-
-Crew_Exp_hint
-{
-Опыт команды делится на три категории: морскую - влияет на управляемость кораблем, канонирскую - скорость перезарядки и точность наведения орудий и абордажную - умения команды в рукопашных схватках. 
-Опытная команда на корабле в меньшем составе может быть более эффективна, чем перегруженный салагами корабль.
-Опыт приобретается со временем при применении навыков, но и теряется при долгом неиспользовании усвоенных уроков. 
+Crew_Exp {Crew experience}
+Crew_Exp_hint {
+ Crew experience is divided into three categories: sea (affecting a ship's control), cannoneer (affecting the speed of reloading, and accuracy of, cannons), and grappling (the effectiveness of the team in hand to hand combat). 
+ A small but experienced crew can be more effective than a shipload of greenhorns. 
+ The team gathers experience in all three categories while doing their respective jobs (Maneuverability, Cannons, Grappling), but also experience can be lost if the crew don't get a chance to practice their skills for a long while.}
+TakeAllGoods_hint {
+ The button 'Transfer cargo' handles shifting the goods onto the character's ship, in relation to its middle price. The most valuable items are loaded first, and then the less expensive ones in turn, until there's no free space in the hold. 
 }
-
-TakeAllGoods_hint
-{
-Кнопка "Перегрузить все товары" забирает в начале ценные товары, потом менее ценные, пока не кончится место в трюме.
+GoodsKeys_hint {
+ Using the right and left arrow keys on the keyboard, you can shift goods by the bundle. If you press the arrow keys while holding the [Shift] key, you will select the maximum quantities possible. Click the right mouse button on an item to select ten packets at a time.
 }
-
-GoodsKeys_hint
-{
-Стрелки лево-право на клавиатуре и Shift+стрелки обеспечивают премещение по пачкам и всего товара, соответственно, в выбранной табличной строке.
-Правый клик по стрелкам на строке переносит по 10*Пачка за раз.
+Shipyard_hint {
+ You can buy, repair, or sell ships at the shipyard. 
+ The hero can't sell his ship if he has companions. You also can't buy a ship for a companion if the hero doesn't have his own ship. 
+ To change the hero's or companion's ship, while saving all the cargo in the hold and the crew, you need to go to the list of the ships in the hero's squadron (over on the left of the screen), and pick the ship that will be exchanged for a new one. Then, in the list of ships being sold at the dockyard (over on the right, now), pick the desired one. Finally, go hit the "Buy" button. To buy a new ship (and appoint a companion), you should first buy an empty slot for the list on the left. 
 }
-
-Shipyard_hint
-{
-На верфи можно купить новый корабль, отремонтировать или продать свой.
-Герой не может продать свой корабль, пока у него есть компаньоны. И не может купить компаньонам корабли, пока у него нет своего.
-Для того, что бы сменить корабль, сохранив все содержимое трюма и экипаж, выберите желаемый на верфи и нажмите кнопку купить, когда слева выбран текущий корабль героя или его компаньона.
-Для того, что бы купить новый корабль (назначить нового компаньона), выберите слева пустой слот и купите корабль туда.
+NoneBoat2 {
+ No ship. 
 }
-
-NoneBoat2
-{
-Нет корабля.
-}
+DLG_TEXT_BASE[456] {, it is in }
+DLG_TEXT_BASE[457] {. You must hurry, please complete the delivery within }
+ {}
+ {}
