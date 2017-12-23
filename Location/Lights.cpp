@@ -433,26 +433,55 @@ void Lights::DelMovingLight(long id)
 void Lights::SetCharacterLights(const CVECTOR & pos)
 {
 	long i,n;
-	long num = 1;
 
 	array<long> aLightsSort(_FL);
 	for(i = 0; i < numLights; i++ )
 		aLightsSort.Add(i);
-	for(i = 0; i < aMovingLight; i++ ) {
+	for(i = 0; i < aMovingLight; i++ )
+	{
 		aLightsSort.Del( aMovingLight[i].light );
 		aLightsSort.Insert( aMovingLight[i].light, 0 );
 	}
 
-	for(n = 0; n < aLightsSort && num < 8; n++)
+	struct arr_elem { long idx; float dst; };
+	array<arr_elem> aLightsDstSort(_FL);
+	for (n = 0; n < aLightsSort; n++)
 	{
 		i = aLightsSort[n];
+
 		//Смотрим дистанцию
 		float dx = (pos.x - lights[i].pos.x);
 		float dy = (pos.y - lights[i].pos.y);
 		float dz = (pos.z - lights[i].pos.z);
-		float dst = dx*dx + dy*dy + dz*dz + 2.0f;
+		float dst = dx * dx + dy * dy + dz * dz + 2.0f;
 		float rng = types[lights[i].type].dxLight.Range;
-		if(dst > rng*rng) continue;
+
+		if (dst <= rng * rng)
+		{
+			int j;
+			for (j = 0; j < aLightsDstSort; j++)
+			{
+				arr_elem it = aLightsDstSort[j];
+
+				if (dst < it.dst)
+					break;
+			}
+
+			if (j == aLightsDstSort)
+				aLightsDstSort.Add(arr_elem{ i, dst });
+			else
+				aLightsDstSort.Insert(arr_elem{ i, dst }, j);
+
+			if (aLightsDstSort == 8)
+				aLightsDstSort.Extract(7);
+		}
+	}
+
+	int num = 1;
+	for (n = 0; n < aLightsDstSort; n++)
+	{
+		i = aLightsDstSort[n].idx;
+
 		//Устанавливаем источник
 		LightType & l = types[lights[i].type];
 		l.dxLight.Diffuse = lights[i].color;
@@ -464,7 +493,15 @@ void Lights::SetCharacterLights(const CVECTOR & pos)
 		num++;
 	}
 
-	for(; num<8; num++) {lt[num].light = -1; lt[num].set = false;}
+	if(num < 7)
+	{
+		for (int i = 7 - num; i > 0; i--)
+		{
+			lt[++n].light = -1;
+			lt[n].set = false;
+		}
+	}
+	//for(; num<8; num++) {lt[num].light = -1; lt[num].set = false;}
 }
 
 //Запретить установленные для персонажа источники освещения
