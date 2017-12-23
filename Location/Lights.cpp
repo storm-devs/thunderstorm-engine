@@ -434,6 +434,7 @@ void Lights::SetCharacterLights(const CVECTOR & pos)
 {
 	long i,n;
 
+	//Заполняем исходный array
 	array<long> aLightsSort(_FL);
 	for(i = 0; i < numLights; i++ )
 		aLightsSort.Add(i);
@@ -443,8 +444,8 @@ void Lights::SetCharacterLights(const CVECTOR & pos)
 		aLightsSort.Insert( aMovingLight[i].light, 0 );
 	}
 
-	struct arr_elem { long idx; float dst; };
-	array<arr_elem> aLightsDstSort(_FL);
+	//Сортируем по дистанции
+	array<lt_elem> aLightsDstSort(_FL);
 	for (n = 0; n < aLightsSort; n++)
 	{
 		i = aLightsSort[n];
@@ -461,23 +462,21 @@ void Lights::SetCharacterLights(const CVECTOR & pos)
 			int j;
 			for (j = 0; j < aLightsDstSort; j++)
 			{
-				arr_elem it = aLightsDstSort[j];
-
-				if (dst < it.dst)
+				if (dst < aLightsDstSort[j].dst)
 					break;
 			}
 
+			lt_elem le = { i, dst };
 			if (j == aLightsDstSort)
-				aLightsDstSort.Add(arr_elem{ i, dst });
+				aLightsDstSort.Add(le);
 			else
-				aLightsDstSort.Insert(arr_elem{ i, dst }, j);
+				aLightsDstSort.Insert(le, j);
 
 			if (aLightsDstSort == 8)
 				aLightsDstSort.Extract(7);
 		}
 	}
 
-	int num = 1;
 	for (n = 0; n < aLightsDstSort; n++)
 	{
 		i = aLightsDstSort[n].idx;
@@ -486,22 +485,18 @@ void Lights::SetCharacterLights(const CVECTOR & pos)
 		LightType & l = types[lights[i].type];
 		l.dxLight.Diffuse = lights[i].color;
 		l.dxLight.Position = lights[i].pos;
-		rs->SetLight(num, &l.dxLight);
-		rs->LightEnable(num, true);
-		lt[num].light = i;
-		lt[num].set = true;
-		num++;
+		rs->SetLight(n+1, &l.dxLight);
+		rs->LightEnable(n + 1, true);
+		lt[n + 1].light = i;
+		lt[n + 1].set = true;
 	}
 
-	if(num < 7)
+	//Выключаем остальное
+	while(++n < 8)
 	{
-		for (int i = 7 - num; i > 0; i--)
-		{
-			lt[++n].light = -1;
-			lt[n].set = false;
-		}
+		lt[n].light = -1;
+		lt[n].set = false;
 	}
-	//for(; num<8; num++) {lt[num].light = -1; lt[num].set = false;}
 }
 
 //Запретить установленные для персонажа источники освещения

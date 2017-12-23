@@ -15,7 +15,6 @@
 #include "..\common_h\matrix.h"
 #include "..\common_h\dx8render.h"
 #include "..\common_h\collide.h"
-#include "LocationEffects.h"
 #include "..\common_h\templates\array.h"
 
 class Lights : public ENTITY
@@ -66,6 +65,13 @@ class Lights : public ENTITY
 		CVECTOR pos;
 		dword color;
 		float u, v;
+	};
+
+	//ƒл€ сортировки дл€ по дистанции
+	struct lt_elem
+	{
+		long idx;
+		float dst;
 	};
 
 
@@ -127,14 +133,14 @@ private:
 	long maxLights;
 	long lighter_code;
 
-	Vertex buf[6*1];
-
 	//переносные источники света
 	array<MovingLight> aMovingLight;
 
 	//ћодельки фонарей
 	ENTITY_ID lampModels[16];
 	long numLampModels;
+
+	Vertex buf[6*1];
 };
 
 #endif
