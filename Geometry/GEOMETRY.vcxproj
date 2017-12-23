@@ -79,6 +79,7 @@
       <ProgramDatabaseFile>.\Release/GEOMETRY.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Release/GEOMETRY.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -117,6 +118,7 @@
       <ProgramDatabaseFile>.\Debug/GEOMETRY.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Debug/GEOMETRY.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

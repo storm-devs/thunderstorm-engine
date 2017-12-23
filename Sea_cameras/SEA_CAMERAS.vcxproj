@@ -78,6 +78,7 @@
       <ProgramDatabaseFile>.\Release/SEA_CAMERAS.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Release/SEA_CAMERAS.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -114,6 +115,7 @@
       <ProgramDatabaseFile>.\Debug/SEA_CAMERAS.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Debug/SEA_CAMERAS.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

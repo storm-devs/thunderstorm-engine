@@ -78,6 +78,7 @@
       <ProgramDatabaseFile>.\Release/SOUND.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Release/SOUND.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -113,6 +114,7 @@
       <ProgramDatabaseFile>.\Debug/SOUND.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Debug/SOUND.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

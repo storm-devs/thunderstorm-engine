@@ -75,6 +75,7 @@
       <ProgramDatabaseFile>.\Debug/locator.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Debug/locator.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -114,6 +115,7 @@
       <ProgramDatabaseFile>.\Release/locator.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Release/locator.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

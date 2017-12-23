@@ -79,6 +79,7 @@
       <ProgramDatabaseFile>.\Release/DIALOG.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Release/DIALOG.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -115,6 +116,7 @@
       <ProgramDatabaseFile>.\Debug/DIALOG.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Debug/DIALOG.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

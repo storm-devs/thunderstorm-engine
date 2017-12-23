@@ -78,6 +78,7 @@
       <ProgramDatabaseFile>.\Release/Tornado.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Release/Tornado.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -114,6 +115,7 @@
       <ProgramDatabaseFile>.\Debug/Tornado.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Debug/Tornado.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

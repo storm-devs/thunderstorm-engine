@@ -75,6 +75,7 @@
       <ProgramDatabaseFile>.\Debug/touch.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Debug/touch.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -114,6 +115,7 @@
       <ProgramDatabaseFile>.\Release/touch.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Release/touch.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

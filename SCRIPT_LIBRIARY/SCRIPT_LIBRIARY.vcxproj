@@ -75,6 +75,7 @@
       <ProgramDatabaseFile>.\Debug/SCRIPT_LIBRIARY.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Debug/SCRIPT_LIBRIARY.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -114,6 +115,7 @@
       <ProgramDatabaseFile>.\Release/SCRIPT_LIBRIARY.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Release/SCRIPT_LIBRIARY.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

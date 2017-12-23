@@ -78,6 +78,7 @@
       <StackReserveSize>10000000</StackReserveSize>
       <ImportLibrary>.\Debug/sea.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -119,6 +120,7 @@
       <ProgramDatabaseFile>.\Release/sea.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Release/sea.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
       <FixedBaseAddress>false</FixedBaseAddress>
     </Link>
     <Midl>

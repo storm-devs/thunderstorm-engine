@@ -78,6 +78,7 @@
       <ProgramDatabaseFile>.\Release/animals.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Release/animals.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -113,6 +114,7 @@
       <ProgramDatabaseFile>.\Debug/animals.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Debug/animals.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

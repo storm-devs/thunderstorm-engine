@@ -77,6 +77,7 @@
       <ProgramDatabaseFile>.\Debug/XINTERFACE.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Debug/XINTERFACE.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -118,6 +119,7 @@
       <ProgramDatabaseFile>.\Release/XINTERFACE.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Release/XINTERFACE.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

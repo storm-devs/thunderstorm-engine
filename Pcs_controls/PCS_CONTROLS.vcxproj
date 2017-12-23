@@ -78,6 +78,7 @@
       <ProgramDatabaseFile>.\Release/PCS_CONTROLS.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Release/PCS_CONTROLS.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -114,6 +115,7 @@
       <ProgramDatabaseFile>.\Debug/PCS_CONTROLS.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Debug/PCS_CONTROLS.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

@@ -74,6 +74,7 @@
       <ProgramDatabaseFile>.\Debug/sink_effect.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Debug/sink_effect.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -113,6 +114,7 @@
       <ProgramDatabaseFile>.\Release/sink_effect.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Release/sink_effect.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

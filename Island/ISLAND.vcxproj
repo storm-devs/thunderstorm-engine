@@ -81,6 +81,7 @@
       <ProgramDatabaseFile>.\Release/ISLAND.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Release/ISLAND.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -118,6 +119,7 @@
       <ProgramDatabaseFile>.\Debug/ISLAND.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Debug/ISLAND.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

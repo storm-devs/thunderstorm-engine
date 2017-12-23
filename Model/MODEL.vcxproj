@@ -76,6 +76,7 @@
       <ProgramDatabaseFile>.\Debug/MODEL.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Debug/MODEL.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -115,6 +116,7 @@
       <ProgramDatabaseFile>.\Release/MODEL.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Release/MODEL.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

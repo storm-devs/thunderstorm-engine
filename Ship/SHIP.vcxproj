@@ -76,6 +76,7 @@
       <ProgramDatabaseFile>.\Debug/ship.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Debug/ship.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -116,6 +117,7 @@
       <ProgramDatabaseFile>.\Release/ship.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Release/ship.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

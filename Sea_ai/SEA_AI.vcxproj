@@ -75,6 +75,7 @@
       <ProgramDatabaseFile>.\Debug/sea_ai.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Debug/sea_ai.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -115,6 +116,7 @@
       <ProgramDatabaseFile>.\Release/sea_ai.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Release/sea_ai.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

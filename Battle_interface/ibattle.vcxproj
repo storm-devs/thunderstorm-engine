@@ -79,6 +79,7 @@
       <ProgramDatabaseFile>.\Release/battle_interface.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Release/battle_interface.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -115,6 +116,7 @@
       <ProgramDatabaseFile>.\Debug/battle_interface.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Debug/battle_interface.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

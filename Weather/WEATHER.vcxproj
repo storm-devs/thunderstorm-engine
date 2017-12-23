@@ -77,6 +77,7 @@
       <ProgramDatabaseFile>.\Debug/WEATHER.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Debug/WEATHER.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -118,6 +119,7 @@
       <ProgramDatabaseFile>.\Release/WEATHER.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Release/WEATHER.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

@@ -79,6 +79,7 @@
       <ProgramDatabaseFile>.\Release/PEOPLES_ON_SHIP.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Release/PEOPLES_ON_SHIP.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -115,6 +116,7 @@
       <ProgramDatabaseFile>.\..\ENGINE\MODULES/PEOPLES_ON_SHIP.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\..\ENGINE\MODULES/PEOPLES_ON_SHIP.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

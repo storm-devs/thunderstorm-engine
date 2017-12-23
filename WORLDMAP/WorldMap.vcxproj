@@ -75,6 +75,7 @@
       <ProgramDatabaseFile>.\Debug/WorldMap.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Debug/WorldMap.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -116,6 +117,7 @@
       <ProgramDatabaseFile>.\Release/WorldMap.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Release/WorldMap.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
