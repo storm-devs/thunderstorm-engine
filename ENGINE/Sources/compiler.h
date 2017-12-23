@@ -41,7 +41,7 @@ struct SEGMENT_DESC
 	char * pCode;
 	DWORD BCode_Program_size;
 	DWORD BCode_Buffer_size;
- 
+
 	STRINGS_LIST * Files_list;
 };
 
@@ -93,7 +93,7 @@ enum COMPILER_STAGE
 class CORE;
 class COMPILER : public VIRTUAL_COMPILER
 {
-	friend CORE; 
+	friend CORE;
 #ifndef _XBOX
 	friend S_DEBUG;
 #endif
@@ -127,9 +127,9 @@ class COMPILER : public VIRTUAL_COMPILER
 	//TCLASS_LIST<S_EVENTMSG> EventMsg;
 	POSTEVENTS_LIST EventMsg;
 	TCLASS_LIST<SLIBHOLDER> LibriaryFuncs;
-	
+
 	STRING_CODEC SCodec;
-	
+
 	bool bRuntimeLog;
 	DWORD nRuntimeLogEventsBufferSize;
 	DWORD nRuntimeLogEventsNum;
@@ -149,7 +149,7 @@ class COMPILER : public VIRTUAL_COMPILER
 
 	bool bDebugExpressionRun;
 	bool bTraceMode;
-	
+
 	bool bEventsBreak;
 
 	char DebugTraceFileName[MAX_PATH];
@@ -184,7 +184,7 @@ public:
 	void	SetWarning(char * data_PTR, ...);
 	bool    CreateProgram(char * file_name);
 	bool	AddProgramFile(char * file_name);
-	
+
 	void	UnloadSegment(char * segment_name);
 	DWORD	GetSegmentIndex(DWORD segment_id);
 
@@ -202,10 +202,10 @@ public:
 	void	ExitProgram();
 	void	ClearEvents();
 
-	
+
 	DWORD  GetIntFunctionCode(char * func_name);
 	DATA * BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD arguments);
-	
+
 	DWORD  GetIntFunctionsNum();
 	bool   InitInternalFunctions();
 
@@ -282,7 +282,7 @@ public:
 	bool ReadVariable(char * name, /*DWORD code,*/ bool bdim = false, DWORD a_index = 0);
 	bool FindReferencedVariable(DATA * pRef, DWORD & var_index, DWORD & array_index);
 	bool FindReferencedVariableByRootA(ATTRIBUTES * pA, DWORD & var_index, DWORD & array_index);
-	ATTRIBUTES * TraceARoot(ATTRIBUTES * pA, char * & pAccess);
+	static ATTRIBUTES * TraceARoot(ATTRIBUTES * pA, char * & pAccess);
 	void SaveAttributesData(ATTRIBUTES * pRoot);
 	void ReadAttributesData(ATTRIBUTES * pRoot, ATTRIBUTES * pParent);
 	void WriteVDword(DWORD v);

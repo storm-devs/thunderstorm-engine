@@ -33,7 +33,7 @@ friend COMPILER;
 	long   lValue;
 	float  fValue;
 	char * sValue;
-	
+
 	bool   bEntity;
 	ENTITY_ID object_id;
 	DWORD Segment_id;
@@ -60,12 +60,14 @@ public:
 	{
 		return ::operator new(size,pf,line);
 	};
-	void operator delete(void * p, char * pf, DWORD line) 
+	void operator delete(void * p, char * pf, DWORD line)
 	{
 		::operator delete (p,pf,line);
 	};
 
 	ATTRIBUTES * AttributesClass;
+	ATTRIBUTES * AttributesClassRoot; // invalid aref fix
+	char * pRootString; // invalid aref fix
 	//ATTRIBUTES Attributes;
 	DATA * GetReference();
 	void  SetReference(DATA * pRef);
@@ -94,7 +96,7 @@ public:
 	bool Get(long & value, DWORD index);
 	bool Get(float & value, DWORD index);
 	bool Get(char * & value, DWORD index);
-	
+
 	bool Set(char * attribute_name, char * attribute_value, DWORD index);
 	bool Get(char * attribute_name, char * & value, DWORD index);
 
