@@ -17,9 +17,6 @@ extern char ENGINE_INI_FILE_NAME[256];
 extern bool bDebugWindow, bAcceleration;
 extern bool bNetActive;
 
-#define RDTSCB(x)	{ _asm rdtsc _asm mov x,eax }
-#define RDTSCE(x)	{ _asm rdtsc _asm sub eax,x _asm mov x,eax }
-
 // system layer flags
 
 extern bool bActive;
@@ -2310,11 +2307,11 @@ void CORE::ProcessExecute()
 				if(!Atoms_PTR[eid_PTR->atom_position]->as.Deleted)
 				{
 				//trace("Ex St: %s",eid_PTR->pName);
-				RDTSCB(ticks)
+				ticks = __rdtsc();
 				PUSH_CONTROL(eid_PTR->pointer,eid_PTR->class_code,CTP_EXECUTE)
 				((ENTITY *)eid_PTR->pointer)->Execute(deltatime);
 				POP_CONTROL(0)
-				RDTSCE(ticks)
+				ticks = __rdtsc() - ticks;
 				//trace("Ex En: %s",eid_PTR->pName);
 
 				pAs = &Atoms_PTR[eid_PTR->atom_position]->as;
@@ -2360,11 +2357,11 @@ void CORE::ProcessRealize()
 				if(!Atoms_PTR[eid_PTR->atom_position]->as.Deleted)
 				{
 				//trace("Re St: %s",eid_PTR->pName);
-				RDTSCB(ticks)
+				ticks = __rdtsc();
 				PUSH_CONTROL(eid_PTR->pointer,eid_PTR->class_code,CTP_REALIZE)
 				((ENTITY *)eid_PTR->pointer)->Realize(deltatime);
 				POP_CONTROL(0)
-				RDTSCE(ticks)
+				ticks = __rdtsc() - ticks;
 				//trace("Re En: %s",eid_PTR->pName);
 
 				pAs = &Atoms_PTR[eid_PTR->atom_position]->as;

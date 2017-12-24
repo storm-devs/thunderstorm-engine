@@ -432,6 +432,7 @@ void Lights::DelMovingLight(long id)
 //Установить для персонажа источники освещения
 void Lights::SetCharacterLights(const CVECTOR & pos)
 {
+	//Запоминаем последнюю позицию
 	last_pos = pos;
 
 	//Заполняем исходный array
