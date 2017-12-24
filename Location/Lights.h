@@ -106,9 +106,8 @@ public:
 	void DelMovingLight(long id);
 
 	//”становить дл€ персонажа источники освещени€
-	void SetCharacterLights(const CVECTOR & pos);
-	//”становить источники по последней позиции
-	void SetCharacterLights();
+	void SetCharacterLights(const CVECTOR * const pos = nullptr);
+
 	//«апретить установленные дл€ персонажа источники освещени€
 	void DelCharacterLights();
 
@@ -142,8 +141,8 @@ private:
 
 	Vertex buf[6*1];
 
-	//ƒл€ ModelRealizer
-	CVECTOR last_pos;
+	//ќтсортированный массив источников дл€ последнего расчета
+	array<lt_elem> aLightsDstSort;
 };
 
 #endif

@@ -302,7 +302,7 @@ void Character::RTuner::Set(MODEL * model, VDX8RENDER * rs)
 		}
 	}
 	Lights * ls = character->location->GetLights();
-	if(ls) ls->SetCharacterLights(character->curPos);
+	if(ls) ls->SetCharacterLights(&character->curPos);
 }
 
 void Character::RTuner::Restore(MODEL * model, VDX8RENDER * rs)
