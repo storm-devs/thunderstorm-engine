@@ -86,7 +86,7 @@ void KEY_NODE::SetRightNode(KEY_NODE * node)
 
 void KEY_NODE::Add(KEY_NODE * * Root,KEY_NODE * * Top)
 {
-	if(*Root == 0) 
+	if(*Root == 0)
 	{
 		// first node, root and top pointed to this node
 		*Root = this;
@@ -215,7 +215,7 @@ KEY_NODE * SECTION::FindKey(KEY_NODE * from, char * key_name, char * key_value)
 	if(key_name == 0) return 0;
 
 	if(from == 0) node = Root;	else node = from;
-	
+
 	while(node)
 	{
 		flags = node->SetFlags(0);
@@ -269,7 +269,7 @@ void SECTION::SetRightNode(SECTION * node)
 
 void SECTION::Add(SECTION * * SRoot,SECTION * * STop)
 {
-	if(*SRoot == 0) 
+	if(*SRoot == 0)
 	{
 		*SRoot = this;
 		*STop = this;
@@ -352,19 +352,19 @@ bool IFS::LoadFile(const char * _file_name)
 	dword file_size;
 	dword name_size;
 	char * file_data;
-	
+
 	if(_file_name == null) return false;
 	fh = fs->_CreateFile(_file_name,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 	if(fh == INVALID_HANDLE_VALUE) return false;
 
 	file_size = fs->_GetFileSize(fh,0);
 	if(file_size == INVALID_FILE_SIZE) {fs->_CloseHandle(fh); return false;}
-	
+
 
 	file_data = NEW char[file_size + 1];	// +1 for zero at the end
 	if(file_data == 0) {fs->_CloseHandle(fh); return false;}
 	file_data[file_size] = 0;
-	
+
 	fs->_ReadFile(fh,file_data,file_size,&dwR);
 	if(file_size != dwR) {delete file_data; fs->_CloseHandle(fh); return false;}
 
@@ -377,7 +377,7 @@ bool IFS::LoadFile(const char * _file_name)
 	if(FileName == null) {delete file_data; fs->_CloseHandle(fh); return false;}
 	FileName[name_size] = 0;
 	strcpy(FileName,_file_name);
-	
+
 	Format(file_data,file_size + 1);
 
 	delete file_data;
@@ -397,7 +397,7 @@ void IFS::Format(char * file_data, long file_size)
 	bool keyname_set;
 	KEY_NODE * node;
 	SECTION * Current_Section;
-	
+
 
 
 	Current_Section = NEW SECTION;
@@ -409,7 +409,7 @@ void IFS::Format(char * file_data, long file_size)
 	// terminate each line by zero symbol
 	for(n = 0;n < file_size; n++)
 	{
-		if(file_data[n] == INI_LINEFEED[0] || file_data[n] == INI_LINEFEED[1] || file_data[n] == INI_LINEFEED[2]) 
+		if(file_data[n] == INI_LINEFEED[0] || file_data[n] == INI_LINEFEED[1] || file_data[n] == INI_LINEFEED[2])
 		{
 			file_data[n] = 0;
 			if(file_data[n-1] != 0) lines++;
@@ -431,14 +431,14 @@ void IFS::Format(char * file_data, long file_size)
 			if(file_data[n + 1] == 0) continue; // separator zero
 			data_PTR = file_data + n + 1;
 		}
-		
-		
+
+
 
 		// add new key object ------------------------------------------------------
 		// (file_data + n + 1) - start of the line
-		
-		
-		
+
+
+
 		offset = 0;	for(;data_PTR[offset];offset++){}
 
 		for(i = 0; data_PTR[i]; i++)
@@ -446,7 +446,7 @@ void IFS::Format(char * file_data, long file_size)
 			if(VoidSym(data_PTR[i])) continue;	// skip void syms
 
 			if(data_PTR[i] == SECTION_A)
-			{ 
+			{
 				// section header
 				for(z = i + 1; data_PTR[z]; z++)
 				{
@@ -459,7 +459,7 @@ void IFS::Format(char * file_data, long file_size)
 						Current_Section = NEW SECTION;
 						Current_Section->Add(&SectionRoot,&SectionTop);
 						Current_Section->SetName(&data_PTR[i+1]);
-						break; 
+						break;
 					}
 				}
 				break;
@@ -470,12 +470,12 @@ void IFS::Format(char * file_data, long file_size)
 			//if(node == 0) throw "node creation error";
 			//node->Add(&Root,&Top);
 
-			if(data_PTR[i] == COMMENT) 
-			{ 
+			if(data_PTR[i] == COMMENT)
+			{
 				// add as commentary
 				node->SetName(&data_PTR[i]);
 				node->SetFlags(KNF_COMMENTARY);
-				break; 
+				break;
 			}
 
 			keyname_set = false;
@@ -501,7 +501,7 @@ void IFS::Format(char * file_data, long file_size)
 					for(;data_PTR[z];z++)
 					{
 						if(VoidSym(data_PTR[z])) continue;
-						else 
+						else
 						{
 							keyval_found = true;
 							break;
@@ -537,7 +537,7 @@ bool IFS::FlushFile()
 	HANDLE fh;
 
 	if(bDataChanged == false) return true;
-	
+
 	fs->_SetFileAttributes(FileName,FILE_ATTRIBUTE_NORMAL);
 	fs->_DeleteFile(FileName);
 	fh = fs->_CreateFile(FileName,GENERIC_WRITE,FILE_SHARE_READ,CREATE_ALWAYS);
@@ -569,7 +569,7 @@ bool IFS::FlushFile()
 			if(dwR != 2) { THROW;}
 
 		}
-		
+
 		node = section_node->GetRoot();
 		while(node)
 		{
@@ -676,7 +676,7 @@ SECTION * IFS::FindSection(char * section_name, SECTION * snode)
 	SECTION * node;
 
 	if(SectionRoot == 0) return 0;
-	
+
 	// atempt to search by section node pointer
 	node = SectionRoot;
 	while(node)
@@ -693,7 +693,7 @@ SECTION * IFS::FindSection(char * section_name, SECTION * snode)
 			}
 			break;
 		}
-		
+
 		node = node->GetRightNode();
 	}
 
@@ -733,7 +733,7 @@ void IFS::DeleteSection(char * section_name)
 	if(!node) return;
 	if(SectionSNode == node)
 	{
-		SectionSNode = SectionSNode->GetRightNode(); 
+		SectionSNode = SectionSNode->GetRightNode();
 	}
 	node->Deattach(&SectionRoot,&SectionTop);
 	delete node;
@@ -772,7 +772,7 @@ void IFS::DeleteKey(char * section_name, char * key_name, char * key_value)
 	if(node)
 	{
 		knode = node->FindKey(key_name,key_value);
-		if(knode) 
+		if(knode)
 		{
 			node->DelNode(knode);
 			bDataChanged = true;
@@ -805,13 +805,13 @@ bool IFS::ReadString(SEARCH_DATA * sd, char * section_name, char * key_name, cha
 		if(buffer) strcpy(buffer,def_string);
 		return false;
 	}
-	
+
 	sd->Key = node;
 	sd->Section = FindSection(section_name);
 
 	if(buffer == 0) _THROW(zero buffer);
 	char_PTR = node->GetValue();
-	if(char_PTR == 0) 
+	if(char_PTR == 0)
 	{
 		if(def_string == 0) _THROW(no key value);
 		strcpy(buffer,def_string);
@@ -846,12 +846,12 @@ bool IFS::ReadStringNext(SEARCH_DATA * sd, char * section_name, char * key_name,
 		if(start == true)
 		{
 			//if(CompareStrings(node->GetName(),key_name) == 0)
-			if(stricmp(node->GetName(),key_name) == 0) 
+			if(stricmp(node->GetName(),key_name) == 0)
 			{
 				if(buffer == 0) _THROW(zero buffer);
 
 				char_PTR = node->GetValue();
-				if(char_PTR == 0) 
+				if(char_PTR == 0)
 				{
 					buffer[0] = 0;
 					return true;
@@ -875,18 +875,17 @@ bool IFS::ReadStringNext(SEARCH_DATA * sd, char * section_name, char * key_name,
 	return false;
 }
 
-
 long IFS::GetLong(SEARCH_DATA * sd, char * section_name, char * key_name)
 {
 	char buffer[256];
 	ReadString(sd,section_name,key_name,buffer,sizeof(buffer));
-	return atol(buffer);
+	return strtoul(buffer, nullptr, 10);
 }
 
 long IFS::GetLong(SEARCH_DATA * sd, char * section_name, char * key_name, long def_val)
 {
 	char buffer[256];
-	if(ReadString(sd,section_name,key_name,buffer,sizeof(buffer),"")) return atol(buffer);
+	if(ReadString(sd,section_name,key_name,buffer,sizeof(buffer),"")) return strtoul(buffer, nullptr, 10);
 	return def_val;
 }
 
@@ -955,7 +954,7 @@ void IFS::AddString(char * section_name, char * key_name, char * string)
 {
 	KEY_NODE * node;
 	SECTION * snode;
-	
+
 	if(key_name == 0) _THROW(zero key);
 	snode = FindSection(section_name);
 	if(snode == 0) CreateSection(section_name);
@@ -979,7 +978,7 @@ void IFS::WriteString(char * section_name, char * key_name, char * string)
 	snode = CreateSection(section_name);
 	if(snode == 0) _THROW(section create error);
 	node = snode->FindKey(key_name);
-	if(node != 0) 
+	if(node != 0)
 	{
 		node->SetValue(string);
 		bDataChanged = true;
@@ -1047,7 +1046,7 @@ bool IFS::GetSectionNameNext(char * section_name_buffer, long buffer_size)
 		if(node == SectionSNode)
 		{
 			node = node->GetRightNode();
-			if(node == 0) 
+			if(node == 0)
 			{
 				SectionSNode = 0;
 				return false;
