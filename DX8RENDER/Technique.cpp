@@ -2,7 +2,7 @@
 #include "..\common_h\defines.h"
 
 #ifdef _XBOX
-#include <D3dx8.h>
+#include <d3dx9shader.h>
 #endif
 
 #define SHA_DIR		"modules\\Techniques"
@@ -82,17 +82,17 @@
 #define INVALID_SHADER_INDEX	0xFFFFFFFF
 #define INVALID_SHADER_HANDLE	0xFFFFFFFF
 
-// 
+//
 #define FLAGS_CODE_RESTORE		(0x1 << 0x10)
 #define FLAGS_CODE_IN_PARAM		(0x1 << 0x11)		// use [in] parameter
 #define FLAGS_CODE_NUMBER		(0x1 << 0x12)		// use [in] parameter
 
 // parameters flags
 
-// common defines 
+// common defines
 #define SAVED_STATES_ADD		128
 
-char* SkipToken(char* str, char* cmp) 
+char* SkipToken(char* str, char* cmp)
 {
 	int flag;
 	char *str1,*cmp1;
@@ -124,7 +124,7 @@ char* SkipToken(char* str, char* cmp)
 		if (flag) break;
 		str++;
 	}
-	if (flag) 
+	if (flag)
 	{
 		while (*str == 32) str++;
 		return str;
@@ -132,7 +132,7 @@ char* SkipToken(char* str, char* cmp)
 	return NULL;
 }
 
-char* FindToken(char* str,char* cmp) 
+char* FindToken(char* str,char* cmp)
 {
 	int flag;
 	char *str1,*cmp1;
@@ -233,8 +233,8 @@ SRSPARAM	MYD3DFILL[] = {
 SRSPARAM	MYD3DSHADE[] = {
 	{ "flat", D3DSHADE_FLAT },
 	{ "gouraud", D3DSHADE_GOURAUD }
-#ifndef _XBOX	
-	,{ "phong", D3DSHADE_PHONG } 
+#ifndef _XBOX
+	,{ "phong", D3DSHADE_PHONG }
 #endif
 };
 
@@ -250,9 +250,9 @@ SRSPARAM	MYD3DBLEND[] = {
 	{ "destcolor", D3DBLEND_DESTCOLOR },
 	{ "invdestcolor", D3DBLEND_INVDESTCOLOR },
 	{ "srcalphasat", D3DBLEND_SRCALPHASAT },
-#ifndef _XBOX	
+#ifndef _XBOX
 	{ "bothsrcalpha", D3DBLEND_BOTHSRCALPHA },
-	{ "bothinvsrcalpha", D3DBLEND_BOTHINVSRCALPHA } 
+	{ "bothinvsrcalpha", D3DBLEND_BOTHINVSRCALPHA }
 #endif
 };
 
@@ -262,10 +262,10 @@ SRSPARAM	MYD3DCULL[] = {
 	{ "ccw", D3DCULL_CCW } };
 
 SRSPARAM	MYD3DBLENDOP[] = {
-	{ "add", D3DBLENDOP_ADD }, 
-	{ "subtract", D3DBLENDOP_SUBTRACT }, 
-	{ "revsubtract", D3DBLENDOP_REVSUBTRACT }, 
-	{ "min", D3DBLENDOP_MIN }, 
+	{ "add", D3DBLENDOP_ADD },
+	{ "subtract", D3DBLENDOP_SUBTRACT },
+	{ "revsubtract", D3DBLENDOP_REVSUBTRACT },
+	{ "min", D3DBLENDOP_MIN },
 	{ "max", D3DBLENDOP_MAX } };
 
 SRSPARAM	MYD3DCMPFUNC[] = {
@@ -304,9 +304,9 @@ SRSPARAM	MYD3DVERTEXBLENDFLAGS[] = {
 	{ "1weights", D3DVBF_1WEIGHTS },
 	{ "2weights", D3DVBF_2WEIGHTS },
 	{ "3weights", D3DVBF_3WEIGHTS },
-#ifndef _XBOX	
+#ifndef _XBOX
 	{ "tweening", D3DVBF_TWEENING }
-	,{ "0WEIGHTS ", D3DVBF_0WEIGHTS } 
+	,{ "0WEIGHTS ", D3DVBF_0WEIGHTS }
 #endif
 };
 
@@ -336,12 +336,12 @@ SRS	RenderStates[] = {
 	{ DEFSIZE(MYD3DZB)	, SRS_DWORD, "ZEnable",						D3DRS_ZENABLE},
 	{ DEFSIZE(MYD3DFILL) , SRS_DWORD, "FillMode",					D3DRS_FILLMODE},
 	{ DEFSIZE(MYD3DSHADE) , SRS_DWORD, "ShadeMode",					D3DRS_SHADEMODE},
-#ifndef _XBOX	
-	{ DEFSIZE(0) , SRS_DWORD, "LinePattern",						D3DRS_LINEPATTERN },
+#ifndef _XBOX
+	//{ DEFSIZE(0) , SRS_DWORD, "LinePattern",						D3DRS_LINEPATTERN },
 #endif
 	{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "ZWriteEnable",				D3DRS_ZWRITEENABLE },
 	{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "AlphaTestEnable",			D3DRS_ALPHATESTENABLE },
-#ifndef _XBOX	
+#ifndef _XBOX
 	{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "LastPixel",				D3DRS_LASTPIXEL },
 #endif
 	{ DEFSIZE(MYD3DBLEND) , SRS_DWORD, "SrcBlend",					D3DRS_SRCBLEND },
@@ -354,16 +354,16 @@ SRS	RenderStates[] = {
 	{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "AlphaBlendEnable",			D3DRS_ALPHABLENDENABLE },
 	{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "FogEnable",				D3DRS_FOGENABLE },
 	{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "SpecularEnable",			D3DRS_SPECULARENABLE },
-#ifndef _XBOX	
-	{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "ZVisible",					D3DRS_ZVISIBLE },
+#ifndef _XBOX
+	//{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "ZVisible",					D3DRS_ZVISIBLE },
 #endif
 	{ DEFSIZE(0) , SRS_DWORD, "FogColor",							D3DRS_FOGCOLOR },
 	{ DEFSIZE(MYD3DFOGMODE) , SRS_DWORD, "FogTableMode",			D3DRS_FOGTABLEMODE },
 	{ DEFSIZE(0) , SRS_FLOAT, "FogStart",							D3DRS_FOGSTART },
 	{ DEFSIZE(0), SRS_FLOAT, "FogEnd",								D3DRS_FOGEND },
 	{ DEFSIZE(0), SRS_FLOAT, "FogDensity",							D3DRS_FOGDENSITY },
-	{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "EdgeAntialias",			D3DRS_EDGEANTIALIAS },
-	{ DEFSIZE(0), SRS_DWORD, "Zbias",								D3DRS_ZBIAS },
+	//{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "EdgeAntialias",			D3DRS_EDGEANTIALIAS },
+	//{ DEFSIZE(0), SRS_DWORD, "Zbias",								D3DRS_ZBIAS },
 	{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "RangeFogEnable",			D3DRS_RANGEFOGENABLE },
 	{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "StencilEnable",			D3DRS_STENCILENABLE },
 	{ DEFSIZE(MYD3DSTENCILOP) , SRS_DWORD, "StencilFail",			D3DRS_STENCILFAIL },
@@ -378,7 +378,7 @@ SRS	RenderStates[] = {
 	{ DEFSIZE(MYD3DWRAP) , SRS_DWORD, "Wrap1",						D3DRS_WRAP1 },
 	{ DEFSIZE(MYD3DWRAP) , SRS_DWORD, "Wrap2",						D3DRS_WRAP2 },
 	{ DEFSIZE(MYD3DWRAP) , SRS_DWORD, "Wrap3",						D3DRS_WRAP3 },
-#ifndef _XBOX	
+#ifndef _XBOX
 	{ DEFSIZE(MYD3DWRAP) , SRS_DWORD, "Wrap4",						D3DRS_WRAP4 },
 	{ DEFSIZE(MYD3DWRAP) , SRS_DWORD, "Wrap5",						D3DRS_WRAP5 },
 	{ DEFSIZE(MYD3DWRAP) , SRS_DWORD, "Wrap6",						D3DRS_WRAP6 },
@@ -400,7 +400,7 @@ SRS	RenderStates[] = {
 	{ DEFSIZE(MYD3DVERTEXBLENDFLAGS) , SRS_DWORD, "VertexBlend",	D3DRS_VERTEXBLEND },
 #ifndef _XBOX
 	{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "ClipPlaneEnable",			D3DRS_CLIPPLANEENABLE },
-	{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "SoftwareVertexProcessing",	D3DRS_SOFTWAREVERTEXPROCESSING },
+	//{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "SoftwareVertexProcessing",	D3DRS_SOFTWAREVERTEXPROCESSING },
 #endif
 	{ DEFSIZE(0), SRS_FLOAT, "PointSize",							D3DRS_POINTSIZE },
 	{ DEFSIZE(0), SRS_FLOAT, "PointSize_Min",						D3DRS_POINTSIZE_MIN },
@@ -412,7 +412,7 @@ SRS	RenderStates[] = {
 	{ DEFSIZE(0), SRS_FLOAT, "PointScale_C",						D3DRS_POINTSCALE_C },
 	{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "MultiSampleAntialias",		D3DRS_MULTISAMPLEANTIALIAS },
 	{ DEFSIZE(0), SRS_DWORD, "MultiSampleMask",						D3DRS_MULTISAMPLEMASK },
-	{ DEFSIZE(0), SRS_FLOAT, "PatchSegments",						D3DRS_PATCHSEGMENTS },
+	//{ DEFSIZE(0), SRS_FLOAT, "PatchSegments",						D3DRS_PATCHSEGMENTS },
 	{ DEFSIZE(MYD3DPATCHEDGESTYLE) , SRS_DWORD, "PatchEdgeStyle",	D3DRS_PATCHEDGESTYLE },
 #ifndef _XBOX
 	{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "IndexedVertexBlendEnable",	D3DRS_INDEXEDVERTEXBLENDENABLE },
@@ -487,8 +487,8 @@ SRSPARAM	MYD3DTEXTUREADDRESS[] = {
 	{ "mirror", D3DTADDRESS_MIRROR },
 	{ "clamp", D3DTADDRESS_CLAMP },
 	{ "border", D3DTADDRESS_BORDER },
-#ifndef _XBOX	
-	{ "mirroronce", D3DTADDRESS_MIRRORONCE } 
+#ifndef _XBOX
+	{ "mirroronce", D3DTADDRESS_MIRRORONCE }
 #endif
 };
 
@@ -497,10 +497,11 @@ SRSPARAM	MYD3DTEXTUREFILTERTYPE[] = {
 	{ "point", D3DTEXF_POINT },
 	{ "linear", D3DTEXF_LINEAR },
 	{ "anisotropic", D3DTEXF_ANISOTROPIC },
-#ifndef _XBOX	
-	{ "flatcubic", D3DTEXF_FLATCUBIC },
+#ifndef _XBOX
+	//{ "flatcubic", D3DTEXF_FLATCUBIC },
 #endif
-	{ "gaussiancubic", D3DTEXF_GAUSSIANCUBIC } };
+	//{ "gaussiancubic", D3DTEXF_GAUSSIANCUBIC } };
+};
 
 SRSPARAM	MYD3DTEXTURETRANSFORMFLAGS[] = {
 	{ "disable", D3DTTFF_DISABLE },
@@ -522,7 +523,7 @@ STSS TexturesStageStates[] = {
     { DEFSIZE(0), SRS_FLOAT, "bumpenvmat10",					D3DTSS_BUMPENVMAT10 },
     { DEFSIZE(0), SRS_FLOAT, "bumpenvmat11",					D3DTSS_BUMPENVMAT11 },
     { DEFSIZE(MYD3DTEXCOORDINDEX) , SRS_DWORD, "texcoordindex", D3DTSS_TEXCOORDINDEX },
-    { DEFSIZE(MYD3DTEXTUREADDRESS) , SRS_DWORD, "addressu",		D3DTSS_ADDRESSU },
+   /* { DEFSIZE(MYD3DTEXTUREADDRESS) , SRS_DWORD, "addressu",		D3DTSS_ADDRESSU },
     { DEFSIZE(MYD3DTEXTUREADDRESS) , SRS_DWORD, "addressv",		D3DTSS_ADDRESSV },
     { DEFSIZE(0), SRS_DWORD, "bordercolor",						D3DTSS_BORDERCOLOR },
     { DEFSIZE(MYD3DTEXTUREFILTERTYPE) , SRS_DWORD, "magfilter", D3DTSS_MAGFILTER },
@@ -530,11 +531,11 @@ STSS TexturesStageStates[] = {
     { DEFSIZE(MYD3DTEXTUREFILTERTYPE) , SRS_DWORD, "mipfilter", D3DTSS_MIPFILTER },
     { DEFSIZE(0), SRS_FLOAT, "mipmaplodbias",					D3DTSS_MIPMAPLODBIAS },
     { DEFSIZE(0), SRS_DWORD, "maxmiplevel",						D3DTSS_MAXMIPLEVEL },
-    { DEFSIZE(0), SRS_DWORD, "maxanisotropy",					D3DTSS_MAXANISOTROPY },
+    { DEFSIZE(0), SRS_DWORD, "maxanisotropy",					D3DTSS_MAXANISOTROPY },*/
     { DEFSIZE(0), SRS_FLOAT, "bumpenvlscale",					D3DTSS_BUMPENVLSCALE },
     { DEFSIZE(0), SRS_FLOAT, "bumpenvloffset",					D3DTSS_BUMPENVLOFFSET },
     { DEFSIZE(MYD3DTEXTURETRANSFORMFLAGS) , SRS_DWORD, "texturetransformflags", D3DTSS_TEXTURETRANSFORMFLAGS },
-    { DEFSIZE(MYD3DTEXTUREADDRESS) , SRS_DWORD, "addressw", D3DTSS_ADDRESSW },
+   // { DEFSIZE(MYD3DTEXTUREADDRESS) , SRS_DWORD, "addressw", D3DTSS_ADDRESSW },
     { DEFSIZE(MYD3DTAFLAGS) , SRS_DWORD, "colorarg0",			D3DTSS_COLORARG0 },
     { DEFSIZE(MYD3DTAFLAGS) , SRS_DWORD, "alphaarg0",			D3DTSS_ALPHAARG0 },
     { DEFSIZE(MYD3DTAFLAGS) , SRS_DWORD, "resultarg",			D3DTSS_RESULTARG } };
@@ -549,11 +550,11 @@ SRSPARAM	TRANSFORM_TYPES[] = {
 	{ "tex1", D3DTS_TEXTURE1 },
 	{ "tex2", D3DTS_TEXTURE2 },
 	{ "tex3", D3DTS_TEXTURE3 },
-#ifndef _XBOX	
+#ifndef _XBOX
 	{ "tex4", D3DTS_TEXTURE4 },
 	{ "tex5", D3DTS_TEXTURE5 },
 	{ "tex6", D3DTS_TEXTURE6 },
-	{ "tex7", D3DTS_TEXTURE7 } 
+	{ "tex7", D3DTS_TEXTURE7 }
 #endif
 };
 
@@ -594,7 +595,7 @@ CTechnique::CTechnique(VDX8RENDER * _pRS) : htBlocks(_FL_)
 	pCurParams = null;
 
 	pRS = _pRS;
-	
+
 	ZERO(sDelimTable);
 	char sDelimeters[] = " ,.[]-+\0\n\r\t";
 	for (dword i=0;i<strlen(sDelimeters);i++) sDelimTable[sDelimeters[i]] = 1;
@@ -785,7 +786,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 			}
 
 		// restore states check
-			if (pTemp = SkipToken(*pStr,RESTORE_STATES_CHECK))	
+			if (pTemp = SkipToken(*pStr,RESTORE_STATES_CHECK))
 			{
 				*pPass++ = CODE_RESTORE;
 				*pPass++ = GetCode(pTemp,RESTORE_TYPES,sizeof(RESTORE_TYPES)/sizeof(SRSPARAM),false);
@@ -854,7 +855,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 				Assert(dwSTSSIndex!=INVALID_STSS_INDEX);
 				if (TexturesStageStates[dwSTSSIndex].bUse && TexturesStageStates[dwSTSSIndex].dwUseSubCode & (1 << dwTextureIndex) && dwAdditionalFlags & FLAGS_CODE_RESTORE)
 					api->Trace("WARN: STSS: dup restore param type <%s[%d]> in <%s> file, technique <%s>", temp, dwTextureIndex, sCurrentFileName, sCurrentBlockName);
-				if (dwAdditionalFlags & FLAGS_CODE_RESTORE) 
+				if (dwAdditionalFlags & FLAGS_CODE_RESTORE)
 				{
 					TexturesStageStates[dwSTSSIndex].bUse = true;
 					TexturesStageStates[dwSTSSIndex].dwUseSubCode |= (1 << dwTextureIndex);
@@ -872,7 +873,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 			}
 
 		// PIXEL_SHADER, VERTEX_SHADER
-			if (SkipToken(*pStr,PIXEL_SHADER))	
+			if (SkipToken(*pStr,PIXEL_SHADER))
 			{
 				*pPass++ = CODE_SPS;
 				GetTokenWhile(SkipToken(*pStr,"\""),temp,"\"");
@@ -880,7 +881,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 				SKIP3;
 			}
 
-			if (SkipToken(*pStr,VERTEX_SHADER))	
+			if (SkipToken(*pStr,VERTEX_SHADER))
 			{
 				*pPass++ = CODE_SVS;
 				GetTokenWhile(SkipToken(*pStr,"\""),temp,"\"");
@@ -889,7 +890,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 			}
 
 		// RENDER
-			if (SkipToken(*pStr,RENDER_CHECK))	
+			if (SkipToken(*pStr,RENDER_CHECK))
 			{
 				*pPass++ = CODE_RENDER;
 				*pPass++ = SUBCODE_RENDER_DRAW;
@@ -897,9 +898,9 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 			}
 
 		// transform
-			if (SkipToken(*pStr,TRANSFORM_CHECK))	
+			if (SkipToken(*pStr,TRANSFORM_CHECK))
 			{
-				// 
+				//
 				GetTokenWhile(SkipToken(*pStr,"."),temp,"=");
 				dword dwCode = GetCode(temp,TRANSFORM_TYPES,sizeof(TRANSFORM_TYPES)/sizeof(SRSPARAM), false);
 				if (dwCode==0xFFFFFFFF)	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -916,7 +917,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 			}
 
 		// SetRenderState
-			if (SkipToken(*pStr,"="))	
+			if (SkipToken(*pStr,"="))
 			{
 				// get left side of expression
 				GetTokenWhile(*pStr, temp, "=");
@@ -938,7 +939,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 				}
 				SKIP3;
 			}
-		
+
 		// other skip
 			SKIP3;
 	}
@@ -1038,11 +1039,11 @@ char *CTechnique::GetToken(char *pToken, char *pResult, bool & bToken)
 	while (*pToken && !sDelimTable[*pToken]) pToken++;
 	pResult[pToken - pStart] = 0;
 	if (pToken - pStart == 0 && *pToken == 0) return null;
-	if (pToken - pStart == 0 && sDelimTable[*pToken]) 
+	if (pToken - pStart == 0 && sDelimTable[*pToken])
 	{
 		bToken = true;
 		pResult[0] = *pToken;
-		pResult[1] = 0; 
+		pResult[1] = 0;
 		return pToken+1;
 	}
 	strncpy(pResult,pStart,pToken - pStart);
@@ -1064,7 +1065,7 @@ char *CTechnique::Preprocessor(char *pBuffer, dword & dwSize)
 	dword		dwNewSize;
 
 	// change all 0xd 0xa to 0x0
-	for (i=0;i<dwSize;i++) 
+	for (i=0;i<dwSize;i++)
 	{
 		if (pBuffer[i] == 0xa || pBuffer[i] == 0xd) pBuffer[i] = 0;
 		if (pBuffer[i] == 0x9) pBuffer[i] = ' ';
@@ -1176,7 +1177,7 @@ dword CTechnique::ProcessShaderAsm(shader_t * pS, char *pFile, dword dwSize, cha
 		dwTotalLen += iLen + 2;
 		DELETE(pTempBuffer);
 		TOTAL_SKIP;
-	}	
+	}
 #ifndef _XBOX
 	ID3DXBuffer * CompiledShader = null, * ErrorShader = null;
 #else
@@ -1283,8 +1284,8 @@ dword CTechnique::ProcessBlock(char * pFile, dword dwSize, char **pStr)
 		GetTokenWhile(pName,&temp[0],"(");
 		pB->dwHashBlockName = hash_string(temp);
 		COPY_STRING(pB->pBlockName,temp);
-		for (i=0;i<dwNumBlocks;i++) 
-			if (pBlocks[i].dwHashBlockName == pB->dwHashBlockName && (stricmp(pBlocks[i].pBlockName,pBlocks[i].pBlockName)==0)) 
+		for (i=0;i<dwNumBlocks;i++)
+			if (pBlocks[i].dwHashBlockName == pB->dwHashBlockName && (stricmp(pBlocks[i].pBlockName,pBlocks[i].pBlockName)==0))
 			{
 				api->Trace("ERROR: Techniques: Find duplicate technique name: %s",pB->pBlockName);
 				break;
@@ -1311,7 +1312,7 @@ dword CTechnique::ProcessBlock(char * pFile, dword dwSize, char **pStr)
 			dwNumParams++;
 			pB->dwNumParams++;
 		}
-	
+
 	// search for technique and '}'
 	while (0 != (*pStr = GetString(pFile,dwSize,*pStr)))
 	{
@@ -1330,7 +1331,7 @@ dword CTechnique::ProcessBlock(char * pFile, dword dwSize, char **pStr)
 	DELETE(pParams);
 
 	sCurrentBlockName[0] = 0;
-	
+
 	return BLOCK_OK;
 }
 
@@ -1342,7 +1343,7 @@ void CTechnique::ClearSRS_STSS_bUse()
 	for (i=0; i<dwNumParam; i++) RenderStates[i].bUse = false;
 
 	dwNumParam = sizeof(TexturesStageStates) / sizeof(STSS);
-	for (i=0; i<dwNumParam; i++) 
+	for (i=0; i<dwNumParam; i++)
 	{
 		TexturesStageStates[i].bUse = false;
 		TexturesStageStates[i].dwUseSubCode = 0;
@@ -1356,7 +1357,7 @@ void CTechnique::DecodeFiles(char *sub_dir)
 	pPassStorage = NEW dword[16384];
 
 	InnerDecodeFiles(sub_dir);
-	
+
 	DELETE(pPassStorage);
 	RDTSC_E(dwRDTSC);
 	api->Trace("Techniques: %d shaders compiled.",dwNumShaders);
@@ -1376,22 +1377,22 @@ void CTechnique::InnerDecodeFiles(char *sub_dir)
 	sprintf(file_mask,"%s\\*.*",sCurrentDir);
 
 	HANDLE hFile = fio->_FindFirstFile(file_mask,&wfd);
-	if (hFile != INVALID_HANDLE_VALUE) 
+	if (hFile != INVALID_HANDLE_VALUE)
 	{
-		do 
-		{ 
+		do
+		{
 			if (wfd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)
 			{
 				if (wfd.cFileName[0] == '.') continue;
 				sprintf(file_mask,"%s\\%s",(sub_dir) ? sub_dir : "",wfd.cFileName);
 				InnerDecodeFiles(file_mask);
-			}	
+			}
 			else
 			{
-				if (SkipToken(wfd.cFileName,SHA_EXT)) 
+				if (SkipToken(wfd.cFileName,SHA_EXT))
 				{
 					sprintf(file_mask,"%s\\%s",(sub_dir) ? sub_dir : "",wfd.cFileName);
-					DecodeFile(file_mask); 
+					DecodeFile(file_mask);
 				}
 			}
 		} while (fio->_FindNextFile(hFile,&wfd));
@@ -1414,7 +1415,7 @@ bool CTechnique::DecodeFile(char *sname)
 	fio->_CloseHandle(hFile);
 
 	// change 0xd and 0xa to 0x0
-	for (dword i=0;i<dwSize;i++) 
+	for (dword i=0;i<dwSize;i++)
 	{
 		if (pFile[i]==0xD || pFile[i]==0xA) pFile[i] = 0x0;
 		if (pFile[i]==0x9) pFile[i] = ' ';
@@ -1450,11 +1451,11 @@ bool CTechnique::DecodeFile(char *sname)
 	}
 
 	DELETE(pFile);
-	return true;		
+	return true;
 }
 
 // return true for drawbuffer, and false for exit
-bool CTechnique::ExecutePassStart()	
+bool CTechnique::ExecutePassStart()
 {
 	// search block
 	if (!htBlocks.Find(dwHashCode, sCurrentBlockName, dwCurBlock)) return false;
@@ -1465,7 +1466,7 @@ bool CTechnique::ExecutePassStart()
 
 	block_t *pB = &pBlocks[dwCurBlock];
 	if (pB->dwNumTechniques==0) return false; // not found any techniques
-	
+
 	// search first validated technique and execute
 	// while execute technique 0
 	dwCurTechnique = 0;
@@ -1474,14 +1475,14 @@ bool CTechnique::ExecutePassStart()
 
 	dwCurPass = 0;
 
-	// clear old saved states 
+	// clear old saved states
 	ClearSavedStates();
 
 	return ExecutePass(true);
 }
 
 // return true for drawbuffer, and false for exit
-bool CTechnique::ExecutePassNext()	
+bool CTechnique::ExecutePassNext()
 {
 	bool bExecute = ExecutePass(false);
 	if (bExecute) return true;	// if once again render in these pass
@@ -1489,7 +1490,7 @@ bool CTechnique::ExecutePassNext()
 	return ExecutePass(true);
 }
 
-bool CTechnique::ExecutePassClose()	
+bool CTechnique::ExecutePassClose()
 {
 	ClearSavedStates();
 	pRS->SetPixelShader(0);
@@ -1498,7 +1499,7 @@ bool CTechnique::ExecutePassClose()
 
 dword CTechnique::GetPassParameter(dword dwParam, dword dwFlags)
 {
-	if (dwFlags&FLAGS_CODE_IN_PARAM) 
+	if (dwFlags&FLAGS_CODE_IN_PARAM)
 	{
 		if (dwParam>=dwCurNumParams) THROW("Technique: Exceeded parameter numbers!");
 		return pCurParams[dwParam];
@@ -1507,13 +1508,13 @@ dword CTechnique::GetPassParameter(dword dwParam, dword dwFlags)
 	return dwParam;
 }
 
-bool CTechnique::ExecutePass(bool bStart)	
+bool CTechnique::ExecutePass(bool bStart)
 {
 	dword	dwStage, dwValue, dwSaveValue;
 	dword	dwCode, dwSubCode, dwRenderSubCode, dwRestoreSubCode;
 	bool	bSave;
 
-	if (dwCurPass >= dwCurNumPass) 
+	if (dwCurPass >= dwCurNumPass)
 	{
 		ExecutePassClose();
 		return false;
@@ -1537,7 +1538,7 @@ bool CTechnique::ExecutePass(bool bStart)
 		dwSubCode = dwCode&0xFFFF0000;
 		dwCode &= 0xFFFF;
 		bSave = (dwSubCode&FLAGS_CODE_RESTORE) ? true : false;
-		
+
 		switch(dwCode)
 		{
 // SRS	type:	CODE_SRS,State index,value
@@ -1578,7 +1579,7 @@ bool CTechnique::ExecutePass(bool bStart)
 				{
 					dword dwTextureIndex = *pPass++;
 					long iTextureIndex = (long)*pPass++;
-					if (iTextureIndex>=0) iTextureIndex = (long)GetPassParameter(*pPass++,dwSubCode); 
+					if (iTextureIndex>=0) iTextureIndex = (long)GetPassParameter(*pPass++,dwSubCode);
 					pRS->TextureSet(dwTextureIndex,iTextureIndex);
 				}
 			break;
@@ -1634,7 +1635,7 @@ bool CTechnique::ExecutePass(bool bStart)
 
 							D3DXMatrixMultiply(&matTemp, &matWorld, &matView);
 							D3DXMatrixMultiply(&matWorldViewProj, &matTemp, &matProj);
-							
+
 							// Projection to clip space
 							D3DXMatrixTranspose(&matWorldViewProj, &matWorldViewProj);
 							pRS->SetFVFConstant(dwShaderConstIndex, &matWorldViewProj(0, 0), 4);
@@ -1655,7 +1656,7 @@ bool CTechnique::ExecutePass(bool bStart)
 						pRS->SetPixelShader(pShaders[dwShaderIndex].dwShaderHandle);
 				}
 			break;
-			case CODE_RESTORE:		// restore states 
+			case CODE_RESTORE:		// restore states
 				dwRestoreSubCode = *pPass++;
 				switch(dwRestoreSubCode)
 				{
@@ -1669,7 +1670,7 @@ bool CTechnique::ExecutePass(bool bStart)
 			break;
 		}
 	}
-	
+
 	dwCurPassPos = pPass - pPassStart;
 	return false;
 }
@@ -1725,8 +1726,8 @@ void CTechnique::ClearSavedStates()
 void CTechnique::RestoreSavedStates()
 {
 	dword dwCode,dwValue;
-	// restore saved render states and texture stage states	
-	
+	// restore saved render states and texture stage states
+
 	// for walking
 	dword dwTempSavedStatesPos = 0;
 
@@ -1768,7 +1769,7 @@ void CTechnique::SetCurrentBlock(const char * name, dword _dwNumParams, void * p
 {
 	if(name && name[0])
 	{
-		
+
 	strcpy(sCurrentBlockName,name);	_strlwr(sCurrentBlockName);
 	dwHashCode = hash_string(sCurrentBlockName);
 	dwCurNumParams = _dwNumParams;
@@ -1779,7 +1780,7 @@ void CTechnique::SetCurrentBlock(const char * name, dword _dwNumParams, void * p
 		pCurParams = (dword*)RESIZE(pCurParams, sizeof(dword) * dwCurParamsMax);
 	}
 
-	for (dword i=0; i<_dwNumParams; i++) 
+	for (dword i=0; i<_dwNumParams; i++)
 		pCurParams[i] = ((dword*)pParams)[i];
 	}
 	else
