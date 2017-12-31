@@ -3331,7 +3331,7 @@ HRESULT DX8RENDER::GetSurfaceLevel( IDirect3DTexture9* ppTexture, UINT Level, ID
 
 HRESULT DX8RENDER::CopyRects( IDirect3DSurface9* pSourceSurface, CONST RECT* pSourceRectsArray, UINT cRects, IDirect3DSurface9* pDestinationSurface, CONST POINT* pDestPointsArray )
 {
-	return d3d8->CopyRects( pSourceSurface, pSourceRectsArray, cRects, pDestinationSurface, pDestPointsArray );
+	return d3d8->UpdateSurface( pSourceSurface, pSourceRectsArray, pDestinationSurface, pDestPointsArray );
 }
 
 HRESULT DX8RENDER::DeletePixelShader( DWORD Handle )
@@ -3736,7 +3736,7 @@ void DX8RENDER::SetColorParameters(float fGamma, float fBrightness, float fContr
 		ramp.blue[i] = WORD(fRamp);
 #endif
 	}
-	d3d8->SetGammaRamp(D3DSGR_NO_CALIBRATION , &ramp);
+	d3d8->SetGammaRamp(0, D3DSGR_NO_CALIBRATION , &ramp);
 }
 
 void DX8RENDER::MakeDrawVector(RS_LINE * pLines, dword dwNumSubLines, const CMatrix & mMatrix, CVECTOR vUp, CVECTOR v1, CVECTOR v2, float fScale, dword dwColor)
@@ -3819,7 +3819,7 @@ IDirect3DBaseTexture9 * DX8RENDER::CreateTextureFromFileInMemory(const char * pF
 	IDirect3DTexture9 * pTexture = null;
 	TGA_H * pTga = (TGA_H *)pFile;
 	D3DFORMAT d3dFormat = (pTga->bpp == 16) ? D3DFMT_DXT1 : D3DFMT_DXT3;
-	D3DXCreateTextureFromFileInMemoryEx((LPDIRECT3DDEVICE8)GetD3DDevice(), pFile, dwSize, D3DX_DEFAULT, D3DX_DEFAULT, 1, 0, d3dFormat, D3DPOOL_MANAGED, D3DX_DEFAULT, D3DX_DEFAULT, 0, null, null, &pTexture);
+	D3DXCreateTextureFromFileInMemoryEx((LPDIRECT3DDEVICE9)GetD3DDevice(), pFile, dwSize, D3DX_DEFAULT, D3DX_DEFAULT, 1, 0, d3dFormat, D3DPOOL_MANAGED, D3DX_DEFAULT, D3DX_DEFAULT, 0, null, null, &pTexture);
 
 	return pTexture;
 }
@@ -3827,7 +3827,7 @@ IDirect3DBaseTexture9 * DX8RENDER::CreateTextureFromFileInMemory(const char * pF
 IDirect3DVolumeTexture9 * DX8RENDER::CreateVolumeTexture(dword Width, dword Height, dword Depth, dword Levels, dword Usage, D3DFORMAT Format, D3DPOOL Pool)
 {
 	IDirect3DVolumeTexture9 * pVolumeTexture = null;
-	d3d8->CreateVolumeTexture(Width, Height, Depth, Levels, Usage, Format, Pool, &pVolumeTexture);
+	d3d8->CreateVolumeTexture(Width, Height, Depth, Levels, Usage, Format, Pool, &pVolumeTexture, NULL);
 	return pVolumeTexture;
 }
 
@@ -3843,7 +3843,7 @@ bool DX8RENDER::PushRenderTarget()
 	stRenderTarget.Top().pDepthSurface = null;
 	stRenderTarget.Top().ViewPort = vp;
 
-	d3d8->GetRenderTarget(&stRenderTarget.Top().pRenderTarget);
+	GetRenderTarget(&stRenderTarget.Top().pRenderTarget);
 	d3d8->GetDepthStencilSurface(&stRenderTarget.Top().pDepthSurface);
 
 	return true;
@@ -3858,7 +3858,7 @@ bool DX8RENDER::PopRenderTarget()
 	}
 
 
-	d3d8->SetRenderTarget(stRenderTarget.Top().pRenderTarget, stRenderTarget.Top().pDepthSurface);
+	SetRenderTarget(stRenderTarget.Top().pRenderTarget, stRenderTarget.Top().pDepthSurface);
 
 	SetViewport(&stRenderTarget.Top().ViewPort);
 
