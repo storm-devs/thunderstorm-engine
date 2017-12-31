@@ -979,11 +979,16 @@ dword CTechnique::ProcessTechnique(char *pFile, dword dwSize, char **pStr)
 
 #define TOTAL_SKIP	{ (*pStr)++; continue; }
 
-dword* AddDeclElement(shader_t *pS)
+void AddDeclElement(shader_t *pS)
 {
 	pS->dwDeclSize++;
-	pS->pDecl = (dword*)RESIZE(pS->pDecl,sizeof(dword) * pS->dwDeclSize);
-	return &pS->pDecl[pS->dwDeclSize-1];
+	pS->pDecl = (D3DVERTEXELEMENT9*)RESIZE(pS->pDecl,sizeof(D3DVERTEXELEMENT9) * pS->dwDeclSize);
+	pS->pDecl->Method = D3DDECLMETHOD_DEFAULT;
+}
+
+D3DVERTEXELEMENT9 * CurDeclElement(shader_t *pS)
+{
+	return &pS->pDecl[pS->dwDeclSize - 1];
 }
 
 dword CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSize, char **pStr)
@@ -997,8 +1002,10 @@ dword CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSi
 		if (isEndBracket(*pStr)) break;		// end of declaration
 		if (SkipToken(*pStr,VDECL_STREAM_CHECK))
 		{
+			AddDeclElement(pS);
 			sscanf(SkipToken(*pStr,"["),"%d",&dwTemp);
-			*AddDeclElement(pS) = D3DVSD_STREAM(dwTemp);
+			//*AddDeclElement(pS) = D3DVSD_STREAM(dwTemp);
+			CurDeclElement(pS)->Stream = dwTemp;
 		}
 		if (SkipToken(*pStr,VDECL_FLOAT_CHECK))
 		{
@@ -1011,24 +1018,32 @@ dword CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSi
 				case 3: dwTemp = D3DDECLTYPE_FLOAT3; break;
 				case 4: dwTemp = D3DDECLTYPE_FLOAT4; break;
 			}
-			*AddDeclElement(pS) = D3DVSD_REG(dwTemp1, dwTemp);
+			//*AddDeclElement(pS) = D3DVSD_REG(dwTemp1, dwTemp);
+			CurDeclElement(pS)->Usage = dwTemp1;
+			CurDeclElement(pS)->Type = dwTemp;
 		}
 		if (SkipToken(*pStr,VDECL_COLOR_CHECK))
 		{
 			sscanf(SkipToken(*pStr,"v"),"%d",&dwTemp1);
-			*AddDeclElement(pS) = D3DVSD_REG(dwTemp1, D3DDECLTYPE_D3DCOLOR);
+			//*AddDeclElement(pS) = D3DVSD_REG(dwTemp1, D3DDECLTYPE_D3DCOLOR);
+			CurDeclElement(pS)->Usage = dwTemp1;
+			CurDeclElement(pS)->Type = D3DDECLTYPE_D3DCOLOR;
 		}
 		if (SkipToken(*pStr,VDECL_UBYTE4_CHECK))
 		{
 			sscanf(SkipToken(*pStr,"v"),"%d",&dwTemp1);
 #ifndef _XBOX
-			*AddDeclElement(pS) = D3DVSD_REG(dwTemp1, D3DDECLTYPE_UBYTE4);
+			//*AddDeclElement(pS) = D3DVSD_REG(dwTemp1, D3DDECLTYPE_UBYTE4);
 #endif
+			CurDeclElement(pS)->Usage = dwTemp1;
+			CurDeclElement(pS)->Type = D3DDECLTYPE_UBYTE4;
 		}
 		TOTAL_SKIP;
 	}
+	//*AddDeclElement(pS) = D3DVSD_END();
 
-	*AddDeclElement(pS) = D3DVSD_END();
+	AddDeclElement(pS);
+	*CurDeclElement(pS) = D3DDECL_END();
 	return 0;
 }
 
@@ -1203,7 +1218,8 @@ dword CTechnique::ProcessShaderAsm(shader_t * pS, char *pFile, dword dwSize, cha
 		return 0;
 	}
 	if (dwShaderType == CODE_SVS)
-		hr = pRS->CreateVertexShader(pS->pDecl,(const dword*)CompiledShader->GetBufferPointer(),&pS->dwShaderHandle,0);
+		hr = pRS->CreateVertexShader((const dword*)CompiledShader->GetBufferPointer(), pS->pDecl);
+		//hr = pRS->CreateVertexShader(pS->pDecl,(const dword*)CompiledShader->GetBufferPointer(),&pS->dwShaderHandle,0);
 	else
 	{
 #ifndef _XBOX

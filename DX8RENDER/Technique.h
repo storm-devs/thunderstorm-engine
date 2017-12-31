@@ -30,7 +30,7 @@ struct block_t
 {
 	dword			dwHashBlockName;	// hash code for block name
 	char			*pBlockName;		// block name
-	
+
 	// parameters section
 	dword			dwNumParams;		// number of parameters
 	dword			*pParams;			// parameters block
@@ -46,7 +46,7 @@ struct shader_t		// pixel/vertex shader structure
 	dword	dwHashName;			// hash code for shader name
 	dword	dwShaderType;
 
-	dword	*pDecl;				// declarations for vertex shader
+	D3DVERTEXELEMENT9 *pDecl;				// declarations for vertex shader
 	dword	dwDeclSize;
 	dword	dwShaderHandle;		// shader handle
 };
@@ -83,7 +83,7 @@ protected:
 	dword		dwNumParams;
 	SRSPARAM	* pParams;
 	dword		* pPassStorage;
-	
+
 // executed technique section
 
 	dword		*pCurParams;
@@ -101,7 +101,7 @@ protected:
 
 	char		sCurrentBlockName[256];	// current block name
 	char		sCurrentFileName[256];	// current block name
-	char		sCurrentDir[256];		// current directory 
+	char		sCurrentDir[256];		// current directory
 	char		sDelimTable[256];
 
 // saved states section
@@ -110,7 +110,7 @@ protected:
 	dword		dwCurSavedStatesPos;	//
 	dword		dwCurMaxSavedSize;		//
 	dword		*pSavedStates;			// saved states
-	
+
 	dword		ProcessTechnique(char *pFile, dword dwSize, char **pStr);
 	dword		ProcessBlock(char *pFile, dword dwSize, char **pStr);
 	dword		ProcessPass(char *pFile, dword dwSize, char **pStr);
@@ -122,7 +122,7 @@ protected:
 
 	dword		AddShader(char *pShaderName);
 	char		*Preprocessor(char *pBuffer, dword & dwSize);
-	
+
 	dword		GetPassParameter(dword dwParam, dword dwFlags);
 
 	void		RestoreSavedStates();
@@ -144,7 +144,7 @@ protected:
 	void		ClearSRS_STSS_bUse();
 
 public:
-	
+
 	void		SetCurrentBlock(const char *name, dword _dwNumParams, void *pParams);
 
 	bool		DecodeFile(char *sname);

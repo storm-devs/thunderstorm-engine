@@ -3265,9 +3265,10 @@ HRESULT DX8RENDER::CreateDepthStencilSurface( UINT Width, UINT Height, D3DFORMAT
 	return d3d8->CreateDepthStencilSurface( Width, Height, Format, MultiSample, 0, TRUE, ppSurface, NULL );
 }
 
-HRESULT DX8RENDER::CreateVertexShader(CONST DWORD * pDeclaration, CONST DWORD * pFunction, DWORD * pHandle, DWORD Usage )
+HRESULT DX8RENDER::CreateVertexShader(CONST DWORD * pFunction, CONST D3DVERTEXELEMENT9 * pDeclaration )
 {
-	return d3d8->CreateVertexShader( pDeclaration, pFunction, pHandle, Usage );
+	//return d3d8->CreateVertexShader(pDeclaration, pFunction, pHandle, Usage);
+	return d3d8->CreateVertexShader(  pFunction, &pDeclaration );
 }
 
 HRESULT DX8RENDER::CreatePixelShader(CONST DWORD * pFunction, DWORD * pHandle)

@@ -235,7 +235,7 @@ public:
 
 	// D3D Pixel/Vertex Shaders Section
 		virtual HRESULT CreatePixelShader(CONST DWORD * pFunction, DWORD * pHandle) = 0;
-		virtual HRESULT CreateVertexShader(CONST DWORD * pDeclaration, CONST DWORD * pFunction, DWORD * pHandle, DWORD Usage) = 0;
+		virtual HRESULT CreateVertexShader(CONST DWORD * pFunction, CONST D3DVERTEXELEMENT9 * pDeclaration) = 0;
 		virtual HRESULT DeletePixelShader( DWORD Handle ) = 0;
 		virtual HRESULT DeleteVertexShader( DWORD Handle ) = 0;
 		virtual HRESULT SetPixelShader( DWORD Handle ) = 0;
