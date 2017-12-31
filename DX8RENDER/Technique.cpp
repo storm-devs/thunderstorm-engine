@@ -1,9 +1,8 @@
 #include "Technique.h"
 #include "..\common_h\defines.h"
-
-#ifdef _XBOX
+#include <d3dx9.h>
 #include <d3dx9shader.h>
-#endif
+
 
 #define SHA_DIR		"modules\\Techniques"
 #define SHA_EXT		".sha"
@@ -1007,27 +1006,28 @@ dword CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSi
 			sscanf(SkipToken(*pStr,"["),"%d",&dwTemp);
 			switch (dwTemp)
 			{
-				case 1: dwTemp = D3DVSDT_FLOAT1; break;
-				case 2: dwTemp = D3DVSDT_FLOAT2; break;
-				case 3: dwTemp = D3DVSDT_FLOAT3; break;
-				case 4: dwTemp = D3DVSDT_FLOAT4; break;
+				case 1: dwTemp = D3DDECLTYPE_FLOAT1; break;
+				case 2: dwTemp = D3DDECLTYPE_FLOAT2; break;
+				case 3: dwTemp = D3DDECLTYPE_FLOAT3; break;
+				case 4: dwTemp = D3DDECLTYPE_FLOAT4; break;
 			}
 			*AddDeclElement(pS) = D3DVSD_REG(dwTemp1, dwTemp);
 		}
 		if (SkipToken(*pStr,VDECL_COLOR_CHECK))
 		{
 			sscanf(SkipToken(*pStr,"v"),"%d",&dwTemp1);
-			*AddDeclElement(pS) = D3DVSD_REG(dwTemp1, D3DVSDT_D3DCOLOR);
+			*AddDeclElement(pS) = D3DVSD_REG(dwTemp1, D3DDECLTYPE_D3DCOLOR);
 		}
 		if (SkipToken(*pStr,VDECL_UBYTE4_CHECK))
 		{
 			sscanf(SkipToken(*pStr,"v"),"%d",&dwTemp1);
 #ifndef _XBOX
-			*AddDeclElement(pS) = D3DVSD_REG(dwTemp1, D3DVSDT_UBYTE4);
+			*AddDeclElement(pS) = D3DVSD_REG(dwTemp1, D3DDECLTYPE_UBYTE4);
 #endif
 		}
 		TOTAL_SKIP;
 	}
+
 	*AddDeclElement(pS) = D3DVSD_END();
 	return 0;
 }
@@ -1186,7 +1186,7 @@ dword CTechnique::ProcessShaderAsm(shader_t * pS, char *pFile, dword dwSize, cha
 	HRESULT hr;
 	pBuffer = Preprocessor(pBuffer, dwTotalLen);
 #ifndef _XBOX
-	hr = D3DXAssembleShader(pBuffer, dwTotalLen, 0, 0, &CompiledShader, &ErrorShader);
+	hr = D3DXAssembleShader(pBuffer, dwTotalLen, NULL, 0, 0, &CompiledShader, &ErrorShader);
 #else
 	hr = XGAssembleShader(0, pBuffer, dwTotalLen, 0, 0, &CompiledShader, &ErrorShader, 0, 0, 0, 0);//D3DXAssembleShader(pBuffer,dwTotalLen,0,0,&CompiledShader,&ErrorShader);
 #endif
