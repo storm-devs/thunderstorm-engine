@@ -19,13 +19,13 @@ extern VSYSTEM_API * _VSYSTEM_API;
 
 enum XTYPE { FATAL, NON_FATAL};
 
-class _EXS 
+class _EXS
 {
 public:
-	_EXS(XTYPE type,char * _szdata) 
+	_EXS(XTYPE type,char * _szdata)
 	{
 		xtype = type;
-		if(_szdata) strcpy(string,_szdata); 
+		if(_szdata) strcpy(string,_szdata);
 		else strcpy(string,"EXS( unknown )");
 	};
 	~_EXS(){};
@@ -43,8 +43,8 @@ public:
 
 #ifdef EX_OFF
 
-#define GUARD(block)	
-#define UNGUARD			
+#define GUARD(block)
+#define UNGUARD
 
 #else
 
@@ -82,7 +82,7 @@ inline void __Storm_Assert__(bool expression, const char * file, long line, cons
 			_VSYSTEM_API->Trace("Assert failed in %s line %d", file, line);
 		}
 #ifdef EX_OFF
-		_asm int 3;
+		__debugbreak();
 #else
 		throw "assert";
 #endif

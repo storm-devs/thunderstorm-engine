@@ -176,7 +176,7 @@ void SAILONE::FillIndex(WORD* pt)
     int   xIdx[5],yIdx[5];
     int   tmpx,tmpy;
 
-    _asm rdtsc	_asm mov rtm,eax
+	RDTSC_B(rtm);
     switch(m_dwCol)
     {
         case 13:
@@ -396,7 +396,8 @@ void SAILONE::FillIndex(WORD* pt)
         ss.nnormIndx=(noholeStart-ss.sIndx)/3;
     }
 
-    _asm rdtsc	_asm sub eax,rtm	_asm mov rtm,eax
+    //_asm rdtsc	_asm sub eax,rtm	_asm mov rtm,eax
+	RDTSC_E(rtm);
     tm.idx=rtm;
 }
 

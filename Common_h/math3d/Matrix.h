@@ -37,7 +37,7 @@ public:
 	union
 	{
 		///Линейный массив
-		float matrix[16];
+		alignas(16) float matrix[16]; // espkk # remove inline asm # 30/Dec/2017
 		///Двумерный массив
 		float m[4][4];
 		struct
@@ -98,7 +98,7 @@ public:
 	//Перемножить матрицы
 	Matrix & operator *= (const Matrix & mtx);
 
-	
+
 //-----------------------------------------------------------
 //Заполнение матрицы
 //-----------------------------------------------------------
@@ -108,7 +108,7 @@ public:
 
 	///Установить матрицу
 	Matrix & Set(const Matrix & matrix);
-	
+
 	///Посчитать матрицу M = rotZ*rotX*rotY*Pos
 	Matrix & Build(float angX, float angY, float angZ, float x, float y, float z);
 	///Посчитать матрицу M = rotZ*rotX*rotY
@@ -168,7 +168,7 @@ public:
 	Matrix & Rotate(float angX, float angY, float angZ);
 	///Повернуть вокруг ZXY
 	Matrix & Rotate(const Vector & ang);
-	
+
 	///Переместить
 	Matrix & Move(float dX, float dY, float dZ);
 	///Переместить
@@ -186,7 +186,7 @@ public:
 	Matrix & Scale(const Vector & scale);
 	///Отмасштабировать матрицу поворота
 	Matrix & Scale3x3(const Vector & scale);
-	
+
 	///Расчёт обратной матрицы
 	Matrix & Inverse();
 	///Расчёт обратной матрицы из другой
@@ -236,7 +236,7 @@ public:
 	void GetAngles(float & ax, float & ay, float & az);
 	//Получить углы из нескалированной матрицы поворота
 	void GetAngles(Vector & ang);
-	
+
 	///Доступиться до элементов матрицы через скобки
 	float & operator () (long i, long j);
 
@@ -370,7 +370,7 @@ mathinline Vector operator * (const Vector & v, const Matrix & mtx)
 {
 	return mtx.MulVertex(v);
 }
-	
+
 //===========================================================
 //Заполнение матрицы
 //===========================================================
@@ -378,7 +378,24 @@ mathinline Vector operator * (const Vector & v, const Matrix & mtx)
 //Установить единичную матрицу
 mathinline Matrix & Matrix::SetIdentity()
 {
-	_asm
+	matrix[0] = 1.f;
+	matrix[1] = 0;
+	matrix[2] = 0;
+	matrix[3] = 0;
+	matrix[4] = 0;
+	matrix[5] = 1.f;
+	matrix[6] = 0;
+	matrix[7] = 0;
+	matrix[8] = 0;
+	matrix[9] = 0;
+	matrix[10] = 1.f;
+	matrix[11] = 0;
+	matrix[12] = 0;
+	matrix[13] = 0;
+	matrix[14] = 0;
+	matrix[15] = 1.f;
+
+	/*_asm
 	{
 		mov		eax, this
 		mov		ecx, 0x3f800000
@@ -399,14 +416,31 @@ mathinline Matrix & Matrix::SetIdentity()
 		mov		[eax + 13*4], ebx
 		mov		[eax + 14*4], ebx
 		mov		[eax + 15*4], ecx
-	}
+	}*/
 	return *this;
 }
 
 //Установить матрицу
 mathinline Matrix & Matrix::Set(const Matrix & matrix)
 {
-	_asm
+	this->matrix[0] = matrix.matrix[0];
+	this->matrix[1] = matrix.matrix[1];
+	this->matrix[2] = matrix.matrix[2];
+	this->matrix[3] = matrix.matrix[3];
+	this->matrix[4] = matrix.matrix[4];
+	this->matrix[5] = matrix.matrix[5];
+	this->matrix[6] = matrix.matrix[6];
+	this->matrix[7] = matrix.matrix[7];
+	this->matrix[8] = matrix.matrix[8];
+	this->matrix[9] = matrix.matrix[9];
+	this->matrix[10] = matrix.matrix[10];
+	this->matrix[11] = matrix.matrix[11];
+	this->matrix[12] = matrix.matrix[12];
+	this->matrix[13] = matrix.matrix[13];
+	this->matrix[14] = matrix.matrix[14];
+	this->matrix[15] = matrix.matrix[15];
+
+/*	_asm
 	{
 		mov		esi, matrix
 		mov		edi, this
@@ -442,7 +476,7 @@ mathinline Matrix & Matrix::Set(const Matrix & matrix)
 		mov		[edi + 13*4], ebx
 		mov		[edi + 14*4], ecx
 		mov		[edi + 15*4], edx
-	}
+	}*/
 	return *this;
 }
 
@@ -455,7 +489,7 @@ mathinline Matrix & Matrix::Build(float angX, float angY, float angZ, float x, f
 	float sinAy = sinf(angY);
 	float cosAy = cosf(angY);
 	float sinAz = sinf(angZ);
-	float cosAz = cosf(angZ);	
+	float cosAz = cosf(angZ);
 	//Создаём матрицу с порядком вращений rz*rx*ry
 	m[0][0] = cosAz*cosAy + sinAz*sinAx*sinAy;		//vx.x
 	m[0][1] = sinAz*cosAx;							//vx.y
@@ -534,7 +568,7 @@ mathinline Matrix & Matrix::BuildRotateX(float ang)
 	SetIdentity();
 	m[1][1] = cosf(ang);
 	m[1][2] = sinf(ang);
-	m[2][1] = -sinf(ang);	
+	m[2][1] = -sinf(ang);
 	m[2][2] = cosf(ang);
 	return *this;
 }
@@ -543,7 +577,7 @@ mathinline Matrix & Matrix::BuildRotateX(float ang)
 mathinline Matrix & Matrix::BuildRotateY(float ang)
 {
 	SetIdentity();
-	m[0][0] = cosf(ang);	
+	m[0][0] = cosf(ang);
 	m[0][2] = -sinf(ang);
 	m[2][0] = sinf(ang);
 	m[2][2] = cosf(ang);
@@ -554,7 +588,7 @@ mathinline Matrix & Matrix::BuildRotateY(float ang)
 mathinline Matrix & Matrix::BuildRotateZ(float ang)
 {
 	SetIdentity();
-	m[0][0] = cosf(ang);	
+	m[0][0] = cosf(ang);
 	m[0][1] = sinf(ang);
 	m[1][0] = -sinf(ang);
 	m[1][1] = cosf(ang);
@@ -610,7 +644,24 @@ mathinline Matrix & Matrix::BuildScale(const Vector & scale)
 mathinline Matrix & Matrix::BuildProjection(float viewAngle, float vpWidth, float vpHeight, float zNear, float zFar)
 {
 	//Обнулим массив
-	_asm
+	matrix[0] = 0;
+	matrix[1] = 0;
+	matrix[2] = 0;
+	matrix[3] = 0;
+	matrix[4] = 0;
+	matrix[5] = 0;
+	matrix[6] = 0;
+	matrix[7] = 0;
+	matrix[8] = 0;
+	matrix[9] = 0;
+	matrix[10] = 0;
+	matrix[11] = 0;
+	matrix[12] = 0;
+	matrix[13] = 0;
+	matrix[14] = 0;
+	matrix[15] = 0;
+
+/*	_asm
 	{
 		mov		eax, this
 		xor		ebx, ebx
@@ -631,7 +682,7 @@ mathinline Matrix & Matrix::BuildProjection(float viewAngle, float vpWidth, floa
 		mov		[eax + 13*4], edx
 		mov		[eax + 14*4], ebx
 		mov		[eax + 15*4], edx
-	}
+	}*/
 	//Заполняем матрицу
 	double Q = double(zFar)/double(zFar - zNear);
 	m[0][0] = float(1.0/tan(viewAngle*0.5));
@@ -646,7 +697,23 @@ mathinline Matrix & Matrix::BuildProjection(float viewAngle, float vpWidth, floa
 mathinline Matrix & Matrix::BuildOrtoProjection(float vpWidth, float vpHeight, float zNear, float zFar)
 {
 	//Обнулим массив
-	_asm
+	matrix[0] = 0;
+	matrix[1] = 0;
+	matrix[2] = 0;
+	matrix[3] = 0;
+	matrix[4] = 0;
+	matrix[5] = 0;
+	matrix[6] = 0;
+	matrix[7] = 0;
+	matrix[8] = 0;
+	matrix[9] = 0;
+	matrix[10] = 0;
+	matrix[11] = 0;
+	matrix[12] = 0;
+	matrix[13] = 0;
+	matrix[14] = 0;
+	matrix[15] = 0;
+/*	_asm
 	{
 		mov		eax, this
 			xor		ebx, ebx
@@ -667,7 +734,7 @@ mathinline Matrix & Matrix::BuildOrtoProjection(float vpWidth, float vpHeight, f
 			mov		[eax + 13*4], edx
 			mov		[eax + 14*4], ebx
 			mov		[eax + 15*4], edx
-	}
+	}*/
 	//Заполняем матрицу
 	double Q = 1.0/double(zFar - zNear);
 	m[0][0] = 2.0f/vpWidth;
@@ -681,7 +748,23 @@ mathinline Matrix & Matrix::BuildOrtoProjection(float vpWidth, float vpHeight, f
 mathinline Matrix & Matrix::BuildShadowProjection(float viewAngle, float vpWidth, float vpHeight, float zNear, float zFar)
 {
 	//Обнулим массив
-	_asm
+	matrix[0] = 0;
+	matrix[1] = 0;
+	matrix[2] = 0;
+	matrix[3] = 0;
+	matrix[4] = 0;
+	matrix[5] = 0;
+	matrix[6] = 0;
+	matrix[7] = 0;
+	matrix[8] = 0;
+	matrix[9] = 0;
+	matrix[10] = 0;
+	matrix[11] = 0;
+	matrix[12] = 0;
+	matrix[13] = 0;
+	matrix[14] = 0;
+	matrix[15] = 0;
+/*	_asm
 	{
 		mov		eax, this
 			xor		ebx, ebx
@@ -702,7 +785,7 @@ mathinline Matrix & Matrix::BuildShadowProjection(float viewAngle, float vpWidth
 			mov		[eax + 13*4], edx
 			mov		[eax + 14*4], ebx
 			mov		[eax + 15*4], edx
-	}
+	}*/
 	//Заполняем матрицу
 	double Q = 1.0/double(zFar - zNear);
 	m[0][0] = float(1.0/tan(viewAngle*0.5));
@@ -742,7 +825,7 @@ mathinline bool Matrix::BuildView(Vector lookFrom, Vector lookTo, Vector upVecto
 		m[2][1] = upVector.z;
 		m[0][2] = lookTo.x;
 		m[1][2] = lookTo.y;
-		m[2][2] = lookTo.z;	
+		m[2][2] = lookTo.z;
 	}else{
 		//Ставим позицию для неповёрнутой матрици
 		pos = -lookFrom;
@@ -801,7 +884,7 @@ mathinline bool Matrix::BuildOriented(Vector position, Vector lookTo, Vector upV
 		vy = Vector(0.0f, 1.0f , 0.0f); wy = 0.0f;
 		vz = Vector(0.0f, 0.0f , 1.0f); wz = 0.0f;
 		pos = position; w = 1.0f;
-		return false;		
+		return false;
 	}
 	vy = lookTo ^ vx; wy = 0.0f;
 	vz = lookTo; wz = 0.0f;
@@ -826,7 +909,7 @@ mathinline Matrix & Matrix::BuildMirror(float Nx, float Ny, float Nz, float D)
 	m[2][3] = 0.0f;
 	m[3][0] = -Nx*2.0f*-D;
 	m[3][1] = -Ny*2.0f*-D;
-	m[3][2] = -Nz*2.0f*-D;	
+	m[3][2] = -Nz*2.0f*-D;
 	m[3][3] = 1.0f;
 	return *this;
 }
@@ -972,7 +1055,17 @@ mathinline Matrix & Matrix::Inverse()
 mathinline Matrix & Matrix::Inverse(const Matrix & mtx)
 {
 	pos = Vector(-(mtx.pos | mtx.vx), -(mtx.pos | mtx.vy), -(mtx.pos | mtx.vz));
-	_asm
+	matrix[0] = mtx.matrix[0];
+	matrix[1] = mtx.matrix[4];
+	matrix[2] = mtx.matrix[8];
+	matrix[4] = mtx.matrix[1];
+	matrix[5] = mtx.matrix[5];
+	matrix[6] = mtx.matrix[9];
+	matrix[8] = mtx.matrix[2];
+	matrix[9] = mtx.matrix[6];
+	matrix[10] = mtx.matrix[10];
+
+/*	_asm
 	{
 		mov		eax, mtx
 		mov		ebx, this
@@ -994,7 +1087,7 @@ mathinline Matrix & Matrix::Inverse(const Matrix & mtx)
 		mov		[ebx + 2*4], edx
 		mov		[ebx + 6*4], ecx
 		mov		[ebx + 10*4], esi
-	}
+	}*/
 	return *this;
 }
 
@@ -1036,7 +1129,27 @@ mathinline Matrix & Matrix::InverseWhithScale()
 //Транспанирование матрицы
 mathinline Matrix & Matrix::Transposition()
 {
-	_asm
+	float tmp;
+	tmp = matrix[1];
+	matrix[1] = matrix[4];
+	matrix[4] = tmp;
+	tmp = matrix[2];
+	matrix[2] = matrix[8];
+	matrix[8] = tmp;
+	tmp = matrix[3];
+	matrix[3] = matrix[12];
+	matrix[12] = tmp;
+	tmp = matrix[6];
+	matrix[6] = matrix[9];
+	matrix[9] = tmp;
+	tmp = matrix[7];
+	matrix[7] = matrix[13];
+	matrix[13] = tmp;
+	tmp = matrix[11];
+	matrix[11] = matrix[14];
+	matrix[14] = tmp;
+
+/*	_asm
 	{
 		mov		eax, this
 		mov		ebx, [eax + 1*4]
@@ -1063,14 +1176,25 @@ mathinline Matrix & Matrix::Transposition()
 		mov		[eax + 14*4], ecx
 		mov		[eax + 7*4], esi
 		mov		[eax + 11*4], edi
-	}
+	}*/
 	return *this;
 }
 
 //Транспанирование элементов поворота
 mathinline Matrix & Matrix::Transposition3X3()
 {
-	_asm
+	float tmp;
+	tmp = matrix[1];
+	matrix[1] = matrix[4];
+	matrix[4] = tmp;
+	tmp = matrix[2];
+	matrix[2] = matrix[8];
+	matrix[8] = tmp;
+	tmp = matrix[6];
+	matrix[6] = matrix[9];
+	matrix[9] = tmp;
+
+/*	_asm
 	{
 		mov		eax, this
 		mov		ebx, [eax + 4*4]
@@ -1082,10 +1206,10 @@ mathinline Matrix & Matrix::Transposition3X3()
 		mov		[eax + 4*4], esi
 		mov		[eax + 8*4], edi
 		mov		ebx, [eax + 6*4]
-		mov		esi, [eax + 9*4]				
+		mov		esi, [eax + 9*4]
 		mov		[eax + 9*4], ebx
 		mov		[eax + 6*4], esi
-	}
+	}*/
 	return *this;
 }
 
@@ -1099,7 +1223,17 @@ mathinline Matrix & Matrix::Transposition3X3()
 //Считать только вращение
 mathinline Matrix & Matrix::SetRotate(const Matrix & mtx)
 {
-	_asm
+	matrix[0] = mtx.matrix[0];
+	matrix[1] = mtx.matrix[1];
+	matrix[2] = mtx.matrix[2];
+	matrix[4] = mtx.matrix[4];
+	matrix[5] = mtx.matrix[5];
+	matrix[6] = mtx.matrix[6];
+	matrix[8] = mtx.matrix[8];
+	matrix[9] = mtx.matrix[9];
+	matrix[10] = mtx.matrix[10];
+
+/*	_asm
 	{
 		mov		esi, mtx
 		mov		edi, this
@@ -1121,7 +1255,7 @@ mathinline Matrix & Matrix::SetRotate(const Matrix & mtx)
 		mov		[edi + 8*4], ebx
 		mov		[edi + 9*4], ecx
 		mov		[edi + 10*4], edx
-	}
+	}*/
 	return *this;
 }
 
@@ -1134,7 +1268,7 @@ mathinline Matrix & Matrix::EqMultiply(const Matrix & m1, const Matrix & m2)
 	Set(m);
 	return *this;
 }
-	
+
 //Перемножить матрицы и результат поместить в текущую m1 != this && m2 != this
 mathinline Matrix & Matrix::EqMultiplyFast(const Matrix & m1, const Matrix & m2)
 {
@@ -1282,7 +1416,7 @@ mathinline void Matrix::Projection(Vector4 * dstArray, Vector * srcArray, long n
 
 //Получить углы из нескалированной матрицы поворота
 mathinline void Matrix::GetAngles(float & ax, float & ay, float & az)
-{	
+{
 	if(vz.y < 1.0f)
 	{
 		if(vz.y > -1.0f)

@@ -33,7 +33,7 @@ void InterfaceBackScene::LightParam::UpdateParams( float fTime )
 		if (jjj > 10000)
 		{
 			api->Trace("jjj: %f, %f", fColorTimer, fColorPeriod);
-			_asm int 3
+			__debugbreak();
 		}
 	}
 	float fPer = fColorPeriod + fAddPeriod;

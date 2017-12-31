@@ -125,7 +125,7 @@ void WdmObjects::DelShip(WdmShip * ship)
 			ships[i] = ships[--numShips];
 			return;
 		}
-	_asm int 3;
+	__debugbreak();
 }
 
 void WdmObjects::AddStorm(WdmStorm * storm)
@@ -148,7 +148,7 @@ void WdmObjects::DelStorm(WdmStorm * storm)
 			storms[i] = storms[--numStorms];
 			return;
 		}
-	_asm int 3;
+	__debugbreak();
 }
 
 //Создать геометрию

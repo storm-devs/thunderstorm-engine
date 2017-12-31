@@ -45,7 +45,7 @@ bool NetVant::Init()
 	UNGUARD
 	return true;
 }
- 
+
 void NetVant::SetDevice()
 {
     // получить сервис рендера
@@ -81,12 +81,12 @@ void NetVant::Execute(dword Delta_Time)
         // Если был изменен ини-файл, то считать инфо из него
         WIN32_FIND_DATA	wfd;
 	    HANDLE h = _CORE_API->fio->_FindFirstFile("resource\\ini\\rigging.ini",&wfd);
-        if (INVALID_HANDLE_VALUE != h) 
+        if (INVALID_HANDLE_VALUE != h)
 	    {
 		    FILETIME ft_new = wfd.ftLastWriteTime;
     	    _CORE_API->fio->_FindClose(h);
 
-	        if (CompareFileTime(&ft_old,&ft_new)!=0) 
+	        if (CompareFileTime(&ft_old,&ft_new)!=0)
             {
                 LoadIni();
             }
@@ -100,9 +100,7 @@ void NetVant::Realize(dword Delta_Time)
 {
     if(bUse)
     {
-        DWORD rtm;
-
-        _asm rdtsc _asm mov rtm,eax
+		//DWORD rtm = __rdtsc();
 
         RenderService->TextureSet(0,texl);
 		DWORD ambient;
@@ -121,13 +119,13 @@ void NetVant::Realize(dword Delta_Time)
             {
 				((SHIP_BASE*)gdata[gn].shipEI.pointer)->SetLightAndFog(true);
 				((SHIP_BASE*)gdata[gn].shipEI.pointer)->SetLights();
-				
+
                 RenderService->SetTransform(D3DTS_WORLD,(D3DXMATRIX*)gdata[gn].pMatWorld);
 			    RenderService->DrawBuffer(vBuf, sizeof(VANTVERTEX), iBuf, 0, nVert, gdata[gn].sIndx, gdata[gn].nIndx);
 
 				((SHIP_BASE*)gdata[gn].shipEI.pointer)->UnSetLights();
 				((SHIP_BASE*)gdata[gn].shipEI.pointer)->RestoreLightAndFog();
-				_asm rdtsc  _asm sub eax,rtm _asm mov rtm,eax
+				//rtm = __rdtsc() - rtm;
 			}
 		while (RenderService->TechniqueExecuteNext()) {};
     	//RenderService->Print(0,200,"Vants vert=%d, tr=%d, time=%d",nVert,nIndx,rtm);
@@ -560,7 +558,7 @@ void NetVant::LoadIni()
 	INIFILE * ini;
 	WIN32_FIND_DATA	wfd;
 	HANDLE h = _CORE_API->fio->_FindFirstFile("resource\\ini\\rigging.ini",&wfd);
-	if (INVALID_HANDLE_VALUE != h) 
+	if (INVALID_HANDLE_VALUE != h)
 	{
 		ft_old = wfd.ftLastWriteTime;
 		_CORE_API->fio->_FindClose(h);

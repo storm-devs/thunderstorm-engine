@@ -53,7 +53,7 @@ bool NetShipCannonController::Fire2Position(dword dwBort, CVECTOR & vFirePos, fl
 		pCannon->Fire(pBort->fSpeedV0, vTempFirePos);
 	}
 	pBort->ClearCharge();	// FIX-ME
-	
+
 	return true;
 }
 
@@ -61,7 +61,7 @@ bool NetShipCannonController::Fire(CVECTOR & vFireCamPos, CVECTOR & vFireDir)
 {
 	CVECTOR vOurPos = GetShip()->GetPos();
 	float fSpeedV0 = GetSpeedV0();
-	
+
 	CVECTOR vTempDir = !CVECTOR(vFireDir.x,0.0f,vFireDir.z);
 	float fAngle = safeACos(Clamp(vTempDir | vFireDir));
 	if (vFireDir.y<0) fAngle = -fAngle;
@@ -73,7 +73,7 @@ bool NetShipCannonController::Fire(CVECTOR & vFireCamPos, CVECTOR & vFireDir)
 	{
 		float fMaxDist = NetCannon::CalcMaxFireDistance(aShipBorts[dwBort].fOurBortFireHeight + vOurPos.y, fSpeedV0, fAngle);
 
-		CVECTOR vFirePos = vFireCamPos + fMaxDist * !vFireDir; 
+		CVECTOR vFirePos = vFireCamPos + fMaxDist * !vFireDir;
 		vFirePos.y = 0.0f;
 
 		Fire2Position(dwBort, vFirePos, 0.0f);
@@ -128,8 +128,8 @@ void NetShipCannonController::Execute(float fDeltaTime)
 	if (bReload)
 	{
 		bNotEnoughBalls = false;
-		
-		for (i=0; i<aShipBorts.Size(); i++) 
+
+		for (i=0; i<aShipBorts.Size(); i++)
 		{
 			bool bEnoughBalls = isHaveEnoughtBallsForBort(i);
 			if (!bEnoughBalls) bNotEnoughBalls = true;
@@ -145,14 +145,14 @@ void NetShipCannonController::Execute(float fDeltaTime)
 	}
 
 	bNotEnoughBalls = false;
-	for (i=0; i<aShipBorts.Size(); i++) 
+	for (i=0; i<aShipBorts.Size(); i++)
 	{
 		if (isHaveEnoughtBallsForBort(i)) continue;
 		bNotEnoughBalls = true;
 		break;
 	}
 
-	ATTRIBUTES * pAPlayer = GetShip()->GetACharacter(); 
+	ATTRIBUTES * pAPlayer = GetShip()->GetACharacter();
 	ATTRIBUTES * pABorts = pAPlayer->FindAClass(pAPlayer, "Ship.Cannons.Borts"); Assert(pABorts);
 
 	for (i=0; i<aShipBorts.Size(); i++) if (aShipBorts[i].aCannons.Size())
@@ -168,7 +168,7 @@ void NetShipCannonController::Execute(float fDeltaTime)
 			pBort->fChargePercent += pC->GetRechargePercent();
 		}
 		pBort->fChargePercent /= GetBortIntactCannonsNum(i);//pBort->aCannons.Size();
-		
+
 		pABorts->SetAttribute((char*)pBort->sName.GetBuffer(), "");
 		ATTRIBUTES * pACurBort = pABorts->FindAClass(pABorts, (char*)pBort->sName.GetBuffer()); Assert(pACurBort);
 
@@ -196,7 +196,7 @@ float NetShipCannonController::GetBortHeightAngle(long iBortIndex)
 	CVECTOR v,vZ;
 
 	GetShip()->GetMatrix()->Get3X3(&m);
-	
+
 	v.y = 0.0f;
 	v.x = sinf(aShipBorts[iBortIndex].fFireDir);
 	v.z = cosf(aShipBorts[iBortIndex].fFireDir);
@@ -281,7 +281,7 @@ CVECTOR NetShipCannonController::GetFirePos(CVECTOR & vFireDir, float fDistance)
 
 	CVECTOR vPos = vOurPos + fDistance * vTempDir + CVECTOR(0.0f, y, 0.0f);
 
-	return vPos; 
+	return vPos;
 }
 
 CVECTOR NetShipCannonController::GetFirePos(CVECTOR & vFireDir)
@@ -298,7 +298,7 @@ CVECTOR NetShipCannonController::GetFirePos(CVECTOR & vFireDir)
 	dword dwBort = GetFirstFireBort(vTempFirePos);
 	if (dwBort == INVALID_BORT_INDEX)		// FIX-ME
 	{
-		_asm int 3			 
+		__debugbreak();
 		bTempFlag = true;
 		dwBort = GetFirstFireBort(vTempFirePos);
 		Assert(dwBort != INVALID_BORT_INDEX);
@@ -306,7 +306,7 @@ CVECTOR NetShipCannonController::GetFirePos(CVECTOR & vFireDir)
 
 	float fMaxDist = NetCannon::CalcMaxFireDistance(aShipBorts[dwBort].fOurBortFireHeight + vOurPos.y, fSpeedV0, fAngle);
 
-	return vOurPos + fMaxDist * !vFireDir; 
+	return vOurPos + fMaxDist * !vFireDir;
 }
 
 bool NetShipCannonController::isCanFire(CVECTOR & vCamDir)
@@ -317,7 +317,7 @@ bool NetShipCannonController::isCanFire(CVECTOR & vCamDir)
 		if (aShipBorts[i].isBortDamaged()) continue;
 
 		AISHIP_BORT * pBort = &aShipBorts[i];
-	
+
 		// check angle limit
 		float fY0;
 		fY0 = vEnemyDir | pBort->vDirection;
@@ -349,8 +349,8 @@ bool NetShipCannonController::isCanFireBort(dword dwBort, CVECTOR & vFirePos, fl
 	float fFireDist = sqrtf(~(vFirePos - GetShip()->GetPos()));
 
 	// check distance limit
-	if (fFireDist > pBort->fMaxFireDistance) return false;	
-	
+	if (fFireDist > pBort->fMaxFireDistance) return false;
+
 	// check angle limit
 	float fY0;//,fY1;
 	fY0 = vFireDir | pBort->vDirection;
@@ -383,7 +383,7 @@ dword NetShipCannonController::GetBestFireBortOnlyDistance(CVECTOR vFirePos, flo
 
 		float fSpeedV0 = GetSpeedV0();
 		float fMaxFireDistance = NetCannon::CalcMaxFireDistance(pBort->fOurBortFireHeight + vOurPos.y, fSpeedV0, GetBortHeightAngle(i) + pBort->fFireAngMax);
-		if (fFireDist > fMaxFireDistance) continue;	
+		if (fFireDist > fMaxFireDistance) continue;
 		if (fMaxFireDistance - fFireDist < fZapasDistance) continue;
 
 		CVECTOR vBortDir = GetBortDirection(i);
@@ -526,7 +526,7 @@ bool NetShipCannonController::ScanShipForCannons()
 	for (i=0;i<aShipBorts.Size();i++) if (aShipBorts[i].aCannons.Size())
 	{
 		aShipBorts[i].fOurBortFireHeight /= float(aShipBorts[i].aCannons.Size());
-		
+
 		bool bHaveEnoughBalls = isHaveEnoughtBallsForBort(i);
 		if (!bHaveEnoughBalls) bNotEnoughBalls = true;
 
@@ -576,9 +576,9 @@ bool NetShipCannonController::isHaveEnoughtBallsForBort(dword dwBortIdx)
 void NetShipCannonController::Unload()
 {
 	dword i, j;
-	for (i=0; i<aShipBorts.Size(); i++) 
+	for (i=0; i<aShipBorts.Size(); i++)
 	{
-		for (j=0; j<aShipBorts[i].aCannons.Size(); j++) 
+		for (j=0; j<aShipBorts[i].aCannons.Size(); j++)
 		{
 			NetCannon * pC = &aShipBorts[i].aCannons[j];
 			if (!pC->isDamaged()) pC->Unload();
@@ -600,7 +600,7 @@ void NetShipCannonController::Reload()
 	ATTRIBUTES	* pACharacter = GetShip()->GetACharacter();
 	ATTRIBUTES	* pABorts = pACharacter->FindAClass(pACharacter, "Ship.Cannons.Borts"); Assert(pABorts);
 
-	for (i=0; i<aShipBorts.Size(); i++) 
+	for (i=0; i<aShipBorts.Size(); i++)
 	{
 		AISHIP_BORT * pBort = &aShipBorts[i];
 
@@ -608,7 +608,7 @@ void NetShipCannonController::Reload()
 		ATTRIBUTES * pADamages = pABorts->FindAClass(pABorts, str); Assert(pADamages);
 		ATTRIBUTES * pACurBort = pABorts->FindAClass(pABorts, (char*)pBort->sName.GetBuffer()); Assert(pACurBort);
 
-		for (j=0; j<pBort->aCannons.Size(); j++) 
+		for (j=0; j<pBort->aCannons.Size(); j++)
 		{
 			NetCannon * pC = &pBort->aCannons[j];
 			if (pC->isDamaged()) continue;
@@ -619,7 +619,7 @@ void NetShipCannonController::Reload()
 			VDATA * pVData = api->Event(CANNON_DAMAGE, "affffff", GetShip()->GetACharacter(), fTmpCannonDamage, pC->GetDamage(), fDistance, vPnt.x, vPnt.y, vPnt.z);
 
 			sprintf(str, "c%d", j);
-			
+
 			pC->SetDamage(pVData->GetFloat());
 			pADamages->SetAttributeUseFloat(str, pC->GetDamage());
 			if (pC->isDamaged())

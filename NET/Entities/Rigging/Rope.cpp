@@ -91,7 +91,7 @@ FILETIME ft_old;
 void NetRope::Execute(dword Delta_Time)
 {
     DWORD rtm;
-    _asm rdtsc _asm mov rtm,eax
+	RDTSC_B(rtm);
 
     if(bFirstRun)
         FirstRun();
@@ -122,7 +122,7 @@ void NetRope::Execute(dword Delta_Time)
 	    }
     }
 
-    _asm rdtsc  _asm sub eax,rtm _asm mov rtm,eax
+	RDTSC_E(rtm);
     execute_tm=rtm;
 }
 
@@ -132,7 +132,7 @@ void NetRope::Realize(dword Delta_Time)
     {
         DWORD rtm;
 
-        _asm rdtsc _asm mov rtm,eax
+		RDTSC_B(rtm);
 	    if (Delta_Time==0)
     	{
 	    	// draw mirror rope
@@ -162,7 +162,7 @@ void NetRope::Realize(dword Delta_Time)
 						}
 			if (bDraw) while (RenderService->TechniqueExecuteNext()) {};
 
-            _asm rdtsc  _asm sub eax,rtm _asm mov rtm,eax
+			RDTSC_E(rtm);
             realize_tm=rtm;
             //RenderService->Print(0,10,"exec=%d, real=%d",execute_tm,realize_tm);
 			/*if(GetAsyncKeyState('M')<0)

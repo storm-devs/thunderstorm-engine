@@ -32,8 +32,8 @@ public:
 	HTDELEMENT HTable[DHASH_TABLE_SIZE];
 	DSTRING_CODEC(){nStringsNum = 0;pSymbol[0] = 0; pSymbol[1] = 0;};
 	~DSTRING_CODEC(){Release();};
-	
-	
+
+
 	DWORD GetNum() {return nStringsNum;};
 
 	void Release()
@@ -49,7 +49,7 @@ public:
 			HTable[m].ppDat = 0; HTable[m].nStringsNum = 0;
 		}
 	}
-	
+
 	DWORD Convert(const char * pString, DWORD nDataSize, bool & bNew)
 	{
 		DWORD nHash;
@@ -65,7 +65,7 @@ public:
 			bNew = true;
 			if(nStringCode >= 0xffffff)
 				{
-					_asm int 3;
+					__debugbreak();
 				}
 			return nStringCode;
 		}
@@ -73,24 +73,24 @@ public:
 		nHash = MakeHashValue(pString,nDataSize);
 		nTableIndex = nHash%DHASH_TABLE_SIZE;
 
-		
+
 		for(n=0;n<HTable[nTableIndex].nStringsNum;n++)
 		{
 			if(nDataSize != HTable[nTableIndex].ppDat[n].nSize) continue;
-			
-			if(memcmp(pString,HTable[nTableIndex].ppDat[n].pDString,nDataSize)==0) 
+
+			if(memcmp(pString,HTable[nTableIndex].ppDat[n].pDString,nDataSize)==0)
 			{
 				//nStringCode = (nTableIndex<<16)| (n & 0xffff);
 				nStringCode = ((n<<8) & 0xffffff00)| (nTableIndex & 0xff);
 				bNew = false;
 				if(nStringCode >= 0xffffff)
 				{
-					_asm int 3;
+					__debugbreak();
 				}
 				return nStringCode;
 			}
 		}
-		
+
 		n = HTable[nTableIndex].nStringsNum;
 		HTable[nTableIndex].nStringsNum++;
 		HTable[nTableIndex].ppDat = (HTSUBELEMENT*)RESIZE(HTable[nTableIndex].ppDat,HTable[nTableIndex].nStringsNum * sizeof(HTSUBELEMENT));
@@ -123,11 +123,11 @@ public:
 		}
 		//n = code & 0xffff;
 		n = code >> 8;
-		if(n >= HTable[nTableIndex].nStringsNum) 
+		if(n >= HTable[nTableIndex].nStringsNum)
 		{
 			return 0;
 		}
-		nSize = HTable[nTableIndex].ppDat[n].nSize; 
+		nSize = HTable[nTableIndex].ppDat[n].nSize;
 		return HTable[nTableIndex].ppDat[n].pDString;
 	}
 	DWORD MakeHashValue(const char * ps, DWORD nSize)

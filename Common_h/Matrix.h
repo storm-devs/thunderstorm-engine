@@ -218,7 +218,6 @@ __forceinline CMatrix::CMatrix(CMatrix & m1, CMatrix & m2)
 //Create identity matrix
 __forceinline void CMatrix::SetIdentity()
 {
-	// espkk # remove inline asm # 30/Dec/2017
 	matrix[0] = 1.f;
 	matrix[1] = 0;
 	matrix[2] = 0;
@@ -378,7 +377,6 @@ __forceinline void CMatrix::BuildPosition(float x, float y, float z)
 //Equal
 __forceinline void CMatrix::operator = (const CMatrix & matrix)
 {
-	// espkk # remove inline asm # 30/Dec/2017
 	this->matrix[0] = matrix.matrix[0];
 	this->matrix[1] = matrix.matrix[1];
 	this->matrix[2] = matrix.matrix[2];
@@ -493,7 +491,6 @@ __forceinline void CMatrix::Transposition()
 
 __forceinline void CMatrix::Transposition3X3()
 {
-	// espkk # remove inline asm # 30/Dec/2017
 	float tmp;
 	tmp = matrix[1];
 	matrix[1] = matrix[4];
@@ -525,7 +522,6 @@ __forceinline void CMatrix::Transposition3X3()
 
 __forceinline CMatrix & __fastcall CMatrix::Transposition4x4()
 {
-	// espkk # remove inline asm # 30/Dec/2017
 	float tmp;
 	tmp = matrix[1];
 	matrix[1] = matrix[4];
@@ -666,7 +662,6 @@ __forceinline float & CMatrix::operator () (long i, long j)
 //Create only rotate matrix
 __forceinline void CMatrix::Get3X3(CMatrix & mtr)
 {
-	// espkk # remove inline asm # 30/Dec/2017
 	mtr.matrix[0] = matrix[0];
 	mtr.matrix[1] = matrix[1];
 	mtr.matrix[2] = matrix[2];
@@ -704,14 +699,12 @@ __forceinline void CMatrix::Get3X3(CMatrix & mtr)
 
 __forceinline void CMatrix::Get3X3(CMatrix * mtr)
 {
-	// espkk # remove inline asm # 30/Dec/2017
 	Get3X3(*mtr);
 }
 
 //Projection
 __forceinline CMatrix & CMatrix::BuildProjectionMatrix(float viewAngle, float vpWidth, float vpHeight, float zNear, float zFar)
 {
-	// espkk # remove inline asm # 30/Dec/2017
 	matrix[0] = 0;
 	matrix[1] = 0;
 	matrix[2] = 0;

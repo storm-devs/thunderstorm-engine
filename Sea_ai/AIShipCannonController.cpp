@@ -52,7 +52,7 @@ bool AIShipCannonController::Fire2Position(dword dwBort, CVECTOR & vFirePos, flo
 		pCannon->Fire(pBort->fSpeedV0, vTempFirePos);
 	}
 	pBort->ClearCharge();	// FIX-ME
-	
+
 	return true;
 }
 
@@ -60,7 +60,7 @@ bool AIShipCannonController::Fire(CVECTOR & vFireCamPos, CVECTOR & vFireDir)
 {
 	CVECTOR vOurPos = GetAIShip()->GetPos();
 	float fSpeedV0 = GetSpeedV0();
-	
+
 	CVECTOR vTempDir = !CVECTOR(vFireDir.x,0.0f,vFireDir.z);
 	float fAngle = acosf(Clamp(vTempDir | vFireDir));
 	if (vFireDir.y<0) fAngle = -fAngle;
@@ -72,7 +72,7 @@ bool AIShipCannonController::Fire(CVECTOR & vFireCamPos, CVECTOR & vFireDir)
 	{
 		float fMaxDist = AICannon::CalcMaxFireDistance(aShipBorts[dwBort].fOurBortFireHeight + vOurPos.y, fSpeedV0, fAngle);
 
-		CVECTOR vFirePos = vFireCamPos + fMaxDist * !vFireDir; 
+		CVECTOR vFirePos = vFireCamPos + fMaxDist * !vFireDir;
 		vFirePos.y = 0.0f;
 
 		Fire2Position(dwBort, vFirePos, 0.0f);
@@ -127,8 +127,8 @@ void AIShipCannonController::Execute(float fDeltaTime)
 	if (bReload)
 	{
 		bNotEnoughBalls = false;
-		
-		for (i=0; i<aShipBorts.Size(); i++) 
+
+		for (i=0; i<aShipBorts.Size(); i++)
 		{
 			bool bEnoughBalls = isHaveEnoughtBallsForBort(i);
 			if (!bEnoughBalls) bNotEnoughBalls = true;
@@ -146,7 +146,7 @@ void AIShipCannonController::Execute(float fDeltaTime)
 	if (GetAIShip()->isMainCharacter())
 	{
 		bNotEnoughBalls = false;
-		for (i=0; i<aShipBorts.Size(); i++) 
+		for (i=0; i<aShipBorts.Size(); i++)
 		{
 			if (isHaveEnoughtBallsForBort(i)) continue;
 			bNotEnoughBalls = true;
@@ -158,14 +158,14 @@ void AIShipCannonController::Execute(float fDeltaTime)
 	for (i=0; i<aShipBorts.Size(); i++) if (aShipBorts[i].aCannons.Size())
 	{
 		AISHIP_BORT * pBort = &aShipBorts[i];
-		
+
 		// set maximum MaxFireDistance for all cannons
 		float fMaxBortFireDistance = AICannon::CalcMaxFireDistance(pBort->fOurBortFireHeight + vOurPos.y, GetSpeedV0(), pBort->fFireAngMax);
 		for (dword j=0; j<pBort->aCannons.Size(); j++)
 		{
 			pBort->aCannons[j].SetMaxFireDistance(fMaxBortFireDistance);
 		}
-		
+
 		bool bReloaded = pBort->fChargePercent < 0.999f;
 
 		long dwReadyCannonsAfter = 0, dwReadyCannonsBefore = 0;
@@ -191,11 +191,11 @@ void AIShipCannonController::Execute(float fDeltaTime)
 			api->Event(SHIP_BORT_RELOADED, "as", GetAIShip()->GetACharacter(), pBort->sName.c_str());
 			// api->Trace("%s bort is reloaded", pBort->sName.c_str());
 		}
-		
+
 		// update borts parameters for script
 		// if (GetAIShip()->isMainCharacter())
 		{
-			ATTRIBUTES * pAPlayer = GetAIShip()->GetACharacter(); 
+			ATTRIBUTES * pAPlayer = GetAIShip()->GetACharacter();
 			ATTRIBUTES * pABorts = pAPlayer->FindAClass(pAPlayer, "Ship.Cannons.Borts"); Assert(pABorts);
 			pABorts->SetAttribute((char*)pBort->sName.GetBuffer(), "");
 			ATTRIBUTES * pACurBort = pABorts->FindAClass(pABorts, (char*)pBort->sName.GetBuffer()); Assert(pACurBort);
@@ -214,15 +214,15 @@ struct tr_vertex
 };
 
 array<tr_vertex> Verts(_FL_);
-#define TR_FORMAT	(D3DFVF_XYZ|D3DFVF_DIFFUSE) 
+#define TR_FORMAT	(D3DFVF_XYZ|D3DFVF_DIFFUSE)
 
 void AIShipCannonController::AddTrg(CVECTOR *pVerts, dword dwColor)
 {
 	tr_vertex *pV;
 	for (dword i=0;i<3;i++)
 	{
-		pV = &Verts[Verts.Add()]; 
-		pV->vPos = pVerts[i]; 
+		pV = &Verts[Verts.Add()];
+		pV->vPos = pVerts[i];
 		pV->dwColor = dwColor;
 	}
 }
@@ -234,7 +234,7 @@ float AIShipCannonController::GetBortHeightAngle(long iBortIndex)
 	CVECTOR v,vZ;
 
 	GetAIShip()->GetMatrix()->Get3X3(&m);
-	
+
 	v.y = 0.0f;
 	v.x = sinf(aShipBorts[iBortIndex].fFireDir);
 	v.z = cosf(aShipBorts[iBortIndex].fFireDir);
@@ -317,7 +317,7 @@ CVECTOR AIShipCannonController::GetFirePos(CVECTOR & vFireDir, float fDistance)
 	CVECTOR vTempFirePos = vOurPos + !vTempDir; vTempFirePos.y = 0.0f;
 
 	dword dwBort = GetFirstFireBort(vTempFirePos);
-	if (dwBort == INVALID_BORT_INDEX)	
+	if (dwBort == INVALID_BORT_INDEX)
 	{
 		return CVECTOR(1e5f, 0.0f, 1e5f);
 		Assert(dwBort != INVALID_BORT_INDEX);
@@ -331,7 +331,7 @@ CVECTOR AIShipCannonController::GetFirePos(CVECTOR & vFireDir, float fDistance)
 
 	CVECTOR vPos = vOurPos + fDistance * vTempDir + CVECTOR(0.0f, y, 0.0f);
 
-	return vPos; 
+	return vPos;
 }
 
 CVECTOR AIShipCannonController::GetFirePos(CVECTOR & vFireDir)
@@ -350,7 +350,7 @@ CVECTOR AIShipCannonController::GetFirePos(CVECTOR & vFireDir)
 	{
 		return CVECTOR(1e5f, 0.0f, 1e5f);
 
-		_asm int 3			 
+		__debugbreak();
 		bTempFlag = true;
 		dwBort = GetFirstFireBort(vTempFirePos);
 		Assert(dwBort != INVALID_BORT_INDEX);
@@ -358,7 +358,7 @@ CVECTOR AIShipCannonController::GetFirePos(CVECTOR & vFireDir)
 
 	float fMaxDist = AICannon::CalcMaxFireDistance(aShipBorts[dwBort].fOurBortFireHeight + vOurPos.y, fSpeedV0, fAngle);
 
-	return vOurPos + fMaxDist * !vFireDir; 
+	return vOurPos + fMaxDist * !vFireDir;
 }
 
 bool AIShipCannonController::isCanFire(CVECTOR & vCamDir)
@@ -369,7 +369,7 @@ bool AIShipCannonController::isCanFire(CVECTOR & vCamDir)
 		if (aShipBorts[i].isBortDamaged()) continue;
 
 		AISHIP_BORT * pBort = &aShipBorts[i];
-	
+
 		// check angle limit
 		float fY0;//, fY1;
 		fY0 = vEnemyDir | pBort->vDirection;
@@ -404,8 +404,8 @@ bool AIShipCannonController::isCanFireBort(dword dwBort, CVECTOR & vFirePos, flo
 	float fFireDist = sqrtf(~(vFirePos - pOurAIShip->GetPos()));
 
 	// check distance limit
-	if (fFireDist > pBort->fMaxFireDistance) return false;	
-	
+	if (fFireDist > pBort->fMaxFireDistance) return false;
+
 	// check angle limit
 	float fY0;//,fY1;
 	fY0 = vFireDir | pBort->vDirection;
@@ -438,7 +438,7 @@ dword AIShipCannonController::GetBestFireBortOnlyDistance(CVECTOR vFirePos, floa
 
 		float fSpeedV0 = GetSpeedV0();
 		float fMaxFireDistance = AICannon::CalcMaxFireDistance(pBort->fOurBortFireHeight + vOurPos.y, fSpeedV0, GetBortHeightAngle(i) + pBort->fFireAngMax);
-		if (fFireDist > fMaxFireDistance) continue;	
+		if (fFireDist > fMaxFireDistance) continue;
 		if (fMaxFireDistance - fFireDist < fZapasDistance) continue;
 
 		CVECTOR vBortDir = GetBortDirection(i);
@@ -493,11 +493,11 @@ void AIShipCannonController::Realize(float fDeltaTime)
 
 	return;
 
-	for (i=0; i<aShipBorts.Size(); i++) 
+	for (i=0; i<aShipBorts.Size(); i++)
 	{
 		AISHIP_BORT * pBort = &aShipBorts[i];
 
-		for (j=0; j<pBort->aCannons.Size(); j++) 
+		for (j=0; j<pBort->aCannons.Size(); j++)
 		{
 			AICannon * pC = &pBort->aCannons[j];
 			if (pC->isDamaged()) continue;
@@ -540,7 +540,7 @@ void AIShipCannonController::Realize(float fDeltaTime)
 				float R = fDist;
 				v[0].x = vPosTemp.x;
 				v[0].z = vPosTemp.z;
-				
+
 				v[1].x = R * sinf(fAng);
 				v[1].z = R * cosf(fAng);
 				RotateAroundY(v[1].x,v[1].z,vZ.z,vZ.x);
@@ -641,7 +641,7 @@ bool AIShipCannonController::ScanShipForCannons()
 	for (i=0;i<aShipBorts.Size();i++) if (aShipBorts[i].aCannons.Size())
 	{
 		aShipBorts[i].fOurBortFireHeight /= float(aShipBorts[i].aCannons.Size());
-		
+
 		bool bHaveEnoughBalls = isHaveEnoughtBallsForBort(i);
 		if (!bHaveEnoughBalls) bNotEnoughBalls = true;
 
@@ -683,9 +683,9 @@ bool AIShipCannonController::isHaveEnoughtBallsForBort(dword dwBortIdx)
 void AIShipCannonController::Unload()
 {
 	dword i, j;
-	for (i=0; i<aShipBorts.Size(); i++) 
+	for (i=0; i<aShipBorts.Size(); i++)
 	{
-		for (j=0; j<aShipBorts[i].aCannons.Size(); j++) 
+		for (j=0; j<aShipBorts[i].aCannons.Size(); j++)
 		{
 			AICannon * pC = &aShipBorts[i].aCannons[j];
 			if (!pC->isDamaged()) pC->Unload();
@@ -707,7 +707,7 @@ void AIShipCannonController::CheckCannonsBoom(float fTmpCannonDamage, const CVEC
 	ATTRIBUTES	* pACharacter = GetAIShip()->GetACharacter();
 	ATTRIBUTES	* pABorts = pACharacter->FindAClass(pACharacter, "Ship.Cannons.Borts"); Assert(pABorts);
 
-	for (i=0; i<aShipBorts.Size(); i++) 
+	for (i=0; i<aShipBorts.Size(); i++)
 	{
 		AISHIP_BORT * pBort = &aShipBorts[i];
 
@@ -715,7 +715,7 @@ void AIShipCannonController::CheckCannonsBoom(float fTmpCannonDamage, const CVEC
 		ATTRIBUTES * pADamages = pABorts->FindAClass(pABorts, str); Assert(pADamages);
 		ATTRIBUTES * pACurBort = pABorts->FindAClass(pABorts, (char*)pBort->sName.GetBuffer()); Assert(pACurBort);
 
-		for (j=0; j<pBort->aCannons.Size(); j++) 
+		for (j=0; j<pBort->aCannons.Size(); j++)
 		{
 			AICannon * pC = &pBort->aCannons[j];
 			if (pC->isDamaged()) continue;
@@ -726,7 +726,7 @@ void AIShipCannonController::CheckCannonsBoom(float fTmpCannonDamage, const CVEC
 			VDATA * pVData = api->Event(CANNON_DAMAGE, "affffff", GetAIShip()->GetACharacter(), fTmpCannonDamage, pC->GetDamage(), fDistance, vPnt.x, vPnt.y, vPnt.z);
 
 			sprintf(str, "c%d", j);
-			
+
 			pC->SetDamage(pVData->GetFloat());
 			pADamages->SetAttributeUseFloat(str, pC->GetDamage());
 			if (pC->isDamaged())
@@ -747,7 +747,7 @@ void AIShipCannonController::ResearchCannons()
 	ATTRIBUTES	* pACharacter = GetAIShip()->GetACharacter();
 	ATTRIBUTES	* pABorts = pACharacter->FindAClass(pACharacter, "Ship.Cannons.Borts"); Assert(pABorts);
 
-	for (i=0; i<aShipBorts.Size(); i++) 
+	for (i=0; i<aShipBorts.Size(); i++)
 	{
 		AISHIP_BORT * pBort = &aShipBorts[i];
 
@@ -755,8 +755,8 @@ void AIShipCannonController::ResearchCannons()
 		ATTRIBUTES * pADamages = pABorts->FindAClass(pABorts, str); Assert(pADamages);
 		ATTRIBUTES * pACurBort = pABorts->FindAClass(pABorts, (char*)pBort->sName.GetBuffer()); Assert(pACurBort);
         pBort->dwNumDamagedCannons = 0;   // нигде не используется, может рудимент?
-        
-		for (j=0; j<pBort->aCannons.Size(); j++) 
+
+		for (j=0; j<pBort->aCannons.Size(); j++)
 		{
 			AICannon * pC = &pBort->aCannons[j];
 			sprintf(str, "c%d", j);
@@ -783,7 +783,7 @@ void AIShipCannonController::Save(CSaveLoad * pSL)
 	for (dword i=0; i<aShipBorts.Size(); i++)
 	{
 		AISHIP_BORT & B = aShipBorts[i];
-		
+
 		pSL->SaveString(B.sName);
 		pSL->SaveFloat(B.fFireZone);
 		pSL->SaveFloat(B.fFireAngMin);
@@ -799,7 +799,7 @@ void AIShipCannonController::Save(CSaveLoad * pSL)
 		pSL->SaveVector(B.vDirection);
 
 		pSL->SaveDword(B.aCannons.Size());
-		for (dword j=0; j<B.aCannons.Size(); j++) 
+		for (dword j=0; j<B.aCannons.Size(); j++)
 			B.aCannons[j].Save(pSL);
 	}
 }
@@ -814,7 +814,7 @@ void AIShipCannonController::Load(CSaveLoad * pSL)
 	for (dword i=0; i<dwNum; i++)
 	{
 		AISHIP_BORT & B = aShipBorts[aShipBorts.Add()];
-		
+
 		B.sName = pSL->LoadString();
 		B.fFireZone = pSL->LoadFloat();
 		B.fFireAngMin = pSL->LoadFloat();
@@ -830,7 +830,7 @@ void AIShipCannonController::Load(CSaveLoad * pSL)
 		B.vDirection = pSL->LoadVector();
 
 		dword dwNumCannons = pSL->LoadDword();
-		for (dword j=0; j<dwNumCannons; j++) 
+		for (dword j=0; j<dwNumCannons; j++)
 			B.aCannons[B.aCannons.Add()].Load(pSL, GetAIShip(), GetAIShip()->GetShipEID());
 	}
 }

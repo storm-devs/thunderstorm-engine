@@ -114,7 +114,7 @@ void NetFlag::Realize(dword Delta_Time)
     {
         DWORD rtm;
 
-        _asm rdtsc _asm mov rtm,eax
+        //_asm rdtsc _asm mov rtm,eax
 
         RenderService->TextureSet(0,texl);
 		DWORD ambient;
@@ -132,7 +132,7 @@ void NetFlag::Realize(dword Delta_Time)
 				RenderService->DrawBuffer(vBuf, sizeof(FLAGLXVERTEX), iBuf, 0, nVert, flist[fn]->st, flist[fn]->nt, "ShipFlag");
 			}
 		}
-        _asm rdtsc  _asm sub eax,rtm _asm mov rtm,eax
+        //_asm rdtsc  _asm sub eax,rtm _asm mov rtm,eax
         // Print info
         // RenderService->Print(0,220,"Flags tics= %d",rtm);
     }
