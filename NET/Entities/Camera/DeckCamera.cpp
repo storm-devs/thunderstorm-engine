@@ -165,14 +165,14 @@ void NetDeckCamera::Realize(dword Delta_Time)
 			float fHP = pA->FindAClass(pA, "Ship.HP")->GetAttributeAsFloat();
 			float fCrew = pA->FindAClass(pA, "Ship.Crew.Quantity")->GetAttributeAsFloat();
 
-			D3DVIEWPORT8 vp;
+			D3DVIEWPORT9 vp;
 			Render().GetViewport(&vp);
 
 			Render().ExtPrint(FONT_DEFAULT, 0xFFFFFFFF, 0x00000000, ALIGN_CENTER, 0, 0.85f, 0, 0, long(vp.Width) / 2, long(vp.Height) / 2 - vp.Height / 6, "%s, HP: %.1f, Crew: %.1f", sName.GetBuffer(), fHP, fCrew);
 		}*/
 
 		// Draw telescope texture
-		D3DVIEWPORT8 vp; Render().GetViewport(&vp);
+		D3DVIEWPORT9 vp; Render().GetViewport(&vp);
 		float w = float(vp.Width);
 		float h = float(vp.Height);
 		RS_SPRITE spr[4];

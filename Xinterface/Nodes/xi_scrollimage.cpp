@@ -4,11 +4,11 @@
 
 #define MAXIMAGEQUANTITY 100
 
-IDirect3DTexture8 * GetTexFromEvent(VDATA * vdat)
+IDirect3DTexture9 * GetTexFromEvent(VDATA * vdat)
 {
 	if(vdat==NULL) return null;
 	DWORD dwTmp = vdat->GetLong();
-	return (IDirect3DTexture8*)dwTmp;
+	return (IDirect3DTexture9*)dwTmp;
 }
 
 CXI_SCROLLIMAGE::CXI_SCROLLIMAGE()
@@ -512,7 +512,7 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 			{
 				m_Image[i].bUseSpecTechnique =  NEW bool[m_nSlotsQnt];
 				m_Image[i].img = NEW long[m_nSlotsQnt];
-				m_Image[i].ptex = NEW IDirect3DTexture8*[m_nSlotsQnt];
+				m_Image[i].ptex = NEW IDirect3DTexture9*[m_nSlotsQnt];
 				m_Image[i].saveName = NEW char*[m_nSlotsQnt];
 				m_Image[i].tex = NEW long[m_nSlotsQnt];
 				if( !m_Image[i].bUseSpecTechnique || !m_Image[i].img ||
@@ -1234,7 +1234,7 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 			if(m_nSlotsQnt>0) {
 				m_Image[i].bUseSpecTechnique =  NEW bool[m_nSlotsQnt];
 				m_Image[i].img = NEW long[m_nSlotsQnt];
-				m_Image[i].ptex = NEW IDirect3DTexture8*[m_nSlotsQnt];
+				m_Image[i].ptex = NEW IDirect3DTexture9*[m_nSlotsQnt];
 				m_Image[i].saveName = NEW char*[m_nSlotsQnt];
 				m_Image[i].tex = NEW long[m_nSlotsQnt];
 				if( !m_Image[i].bUseSpecTechnique || !m_Image[i].img ||

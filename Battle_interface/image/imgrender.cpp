@@ -169,7 +169,7 @@ void BIImageRender::CutPrioritetRangeByStrings()
 
 void BIImageRender::SetBaseScreenSize(long nHSize, long nVSize, long nHOffset, long nVOffset)
 {
-	D3DVIEWPORT8 vp;
+	D3DVIEWPORT9 vp;
 	m_pRS->GetViewport( &vp );
 
 	if( vp.Width==nHSize && nHOffset==0 ) {

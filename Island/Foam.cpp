@@ -47,7 +47,7 @@ void CoastFoam::Execute(dword Delta_Time)
 	float fDeltaTime = float(Delta_Time) * 0.001f;
 }
 
-void CoastFoam::ExtractRay (const D3DVIEWPORT8 & viewport, float fCursorX, float fCursorY, CVECTOR & raystart, CVECTOR & rayend)
+void CoastFoam::ExtractRay (const D3DVIEWPORT9 & viewport, float fCursorX, float fCursorY, CVECTOR & raystart, CVECTOR & rayend)
 {
 	CMatrix matProj = Render().GetProjection();
 	CVECTOR v;
@@ -81,7 +81,7 @@ void CoastFoam::Realize(dword Delta_Time)
 	}
 
 	float fDeltaTime = float(Delta_Time) * 0.001f;
-	D3DVIEWPORT8 vp;
+	D3DVIEWPORT9 vp;
 	Render().GetViewport(&vp);
 
 	CMatrix mWorld; mWorld.SetIdentity(); //Render().GetWorld();

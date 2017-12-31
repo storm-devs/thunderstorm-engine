@@ -1775,7 +1775,7 @@ void _cdecl sailPrint(VDX8RENDER *rs, const CVECTOR & pos3D, float rad, long lin
 	buf[sizeof(buf) - 1] = 0;
 	//»щем позицию точки на экране
 	static CMatrix mtx, view, prj;
-	static D3DVIEWPORT8 vp;
+	static D3DVIEWPORT9 vp;
 	MTX_PRJ_VECTOR vrt;
 	rs->GetTransform(D3DTS_VIEW, view);
 	rs->GetTransform(D3DTS_PROJECTION, prj);
@@ -1828,7 +1828,7 @@ void NetSail::SetSailTextures(long grNum, VDATA* pvd)
 	// основна€ текстура
 	char* pcNormalName = pA->GetAttribute("normalTex");
 	// герб текстуры
-	IDirect3DTexture8* pGeraldTexture = (IDirect3DTexture8*)pA->GetAttributeAsDword("geraldTexPointer",0);
+	IDirect3DTexture9* pGeraldTexture = (IDirect3DTexture9*)pA->GetAttributeAsDword("geraldTexPointer",0);
 	char* pcGeraldName = pA->GetAttribute("geraldTex");
 	//
 	gdata[grNum].dwSailsColor = pA->GetAttributeAsDword("sailscolor",0xFFFFFFFF);

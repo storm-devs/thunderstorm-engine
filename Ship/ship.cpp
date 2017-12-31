@@ -900,7 +900,7 @@ void SHIP::SetLightAndFog(bool bSetLight)
 		pRS->SetRenderState(D3DRS_AMBIENT, ARGB((dwSaveAmbient >> 24L), vAmbient.x, vAmbient.y, vAmbient.z));
 
 		// light
-		D3DLIGHT8 newLight;
+		D3DLIGHT9 newLight;
 		pRS->GetLight(0, &saveLight);
 		newLight = saveLight;
 		newLight.Diffuse.r *= fScale;	newLight.Diffuse.g *= fScale;	newLight.Diffuse.b *= fScale;	newLight.Diffuse.a *= fScale; 

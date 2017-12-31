@@ -72,7 +72,7 @@ void __declspec(noinline) __cdecl DIALOG::DlgTextDescribe::ChangeText(const char
 	nSelectLine = -1;
 }
 
-void __declspec(noinline) __cdecl DIALOG::DlgTextDescribe::Init(VDX8RENDER* pRS, D3DVIEWPORT8& vp, INIFILE* pIni)
+void __declspec(noinline) __cdecl DIALOG::DlgTextDescribe::Init(VDX8RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni)
 {
 	Assert(pRS);
 	rs = pRS;
@@ -186,7 +186,7 @@ void __declspec(noinline) __cdecl DIALOG::DlgLinkDescribe::ChangeText(ATTRIBUTES
 	fCursorCurrentTime = 0.f;
 }
 
-void __declspec(noinline) __cdecl DIALOG::DlgLinkDescribe::Init(VDX8RENDER* pRS, D3DVIEWPORT8& vp, INIFILE* pIni)
+void __declspec(noinline) __cdecl DIALOG::DlgLinkDescribe::Init(VDX8RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni)
 {
 	Assert(pRS);
 	rs = pRS;
@@ -604,7 +604,7 @@ void DIALOG::LoadFromIni()
 	if( fpScrSize.y <= 0 ) fpScrSize.y = 600.f;
 	m_nScrBaseWidth = (long)fpScrSize.x;
 	m_nScrBaseHeight = (long)fpScrSize.y;
-	D3DVIEWPORT8 vp;
+	D3DVIEWPORT9 vp;
 	RenderService->GetViewport( &vp );
 	m_frScreenData.right = vp.Width / (fpScrSize.x+fpScrOffset.x);
 	m_frScreenData.bottom = vp.Height / (fpScrSize.y+fpScrOffset.y);

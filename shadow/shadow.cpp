@@ -21,8 +21,8 @@ CREATE_CLASS(SHADOW)
 static const long vbuff_size = 1024;
 static long ref=0;
 #define TEXTURE_SIZE 128
-IDirect3DTexture8 *shTex = null, *blurTex = null;
-IDirect3DVertexBuffer8 *vbuff;
+IDirect3DTexture9 *shTex = null, *blurTex = null;
+IDirect3DVertexBuffer9 *vbuff;
 
 
 SHADOW::SHADOW()
@@ -131,7 +131,7 @@ void SHADOW::Realize(dword Delta_Time)
 	HEAD_DENSITY = ((VDATA*)pV->GetArrayElement(0))->GetLong();
 	DENSITY = ((VDATA*)pV->GetArrayElement(1))->GetLong();
 
-	D3DVIEWPORT8 vp;
+	D3DVIEWPORT9 vp;
 	rs->GetViewport(&vp);
 
 	pV = api->Event("EWhr_GetFogDensity");
@@ -147,7 +147,7 @@ void SHADOW::Realize(dword Delta_Time)
 	CVECTOR headPos = objPos;
 	headPos.y += gi.radius;
 
-	D3DLIGHT8 dLight;
+	D3DLIGHT9 dLight;
 	BOOL bOk = false;
 	rs->GetLightEnable(0,&bOk);
 	if(bOk) rs->GetLight(0, &dLight); else return;
@@ -263,7 +263,7 @@ void SHADOW::Realize(dword Delta_Time)
 	rs->GetTransform(D3DTS_VIEW, prev_view);
 	rs->GetTransform(D3DTS_PROJECTION, prev_proj);
 
-	IDirect3DSurface8 *backbuff, *zbuff;
+	IDirect3DSurface9 *backbuff, *zbuff;
 	rs->GetRenderTarget( &backbuff );
 	rs->GetDepthStencilSurface( &zbuff );
 	rs->EndScene();
@@ -271,7 +271,7 @@ void SHADOW::Realize(dword Delta_Time)
 	rs->SetTransform(D3DTS_PROJECTION, proj);
 	rs->SetTransform(D3DTS_VIEW, lightmtx);
 
-	IDirect3DSurface8 *texsurf;
+	IDirect3DSurface9 *texsurf;
 	shTex->GetSurfaceLevel( 0, &texsurf );
 	rs->SetRenderTarget( texsurf, 0 );
 	rs->Release(texsurf);
@@ -419,7 +419,7 @@ void SHADOW::Smooth()
 	vrt[0].diffuse = vrt[3].diffuse = HEAD_DENSITY;
 	vrt[1].diffuse = vrt[2].diffuse = 0xFFFFFFFF;
 
-	IDirect3DSurface8 *texsurf;
+	IDirect3DSurface9 *texsurf;
 	blurTex->GetSurfaceLevel( 0, &texsurf );
 	rs->SetRenderTarget( texsurf, 0 );
 	rs->Release(texsurf);

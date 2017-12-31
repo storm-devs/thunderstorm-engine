@@ -1,6 +1,6 @@
 #include "sdevice.h"
 #include "stdio.h"
-#include "..\common_h\DirectX8\d3dx8math.h"
+#include <d3dx9math.h>
 #include "..\common_h\matrix.h"
 #include "texture.h"
 #include <io.h>
@@ -559,7 +559,7 @@ DX8RENDER::~DX8RENDER()
 
 //################################################################################
 #ifdef _XBOX
-bool getBestVideoMode(IDirect3D8 *d3, D3DPRESENT_PARAMETERS &d3dpp, bool bpp32)
+bool getBestVideoMode(IDirect3D9 *d3, D3DPRESENT_PARAMETERS &d3dpp, bool bpp32)
 {
 	memset( &d3dpp, 0, sizeof(d3dpp) );
 
@@ -660,12 +660,12 @@ bool DX8RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 	bWindow = windowed;
 
 	hwnd = _hwnd;
-	api->Trace("Initializing DirectX 8");
-	d3d = Direct3DCreate8( D3D_SDK_VERSION );
+	api->Trace("Initializing DirectX 9");
+	d3d = Direct3DCreate9( D3D_SDK_VERSION );
 	if(d3d==NULL)
 	{
-		//MessageBox(hwnd, "Direct3DCreate8 error", "InitDevice::Direct3DCreate8", MB_OK);
-		api->Trace("Direct3DCreate8 error : InitDevice::Direct3DCreate8");
+		//MessageBox(hwnd, "Direct3DCreate9 error", "InitDevice::Direct3DCreate9", MB_OK);
+		api->Trace("Direct3DCreate9 error : InitDevice::Direct3DCreate9");
 		return false;
 	}
 
@@ -851,7 +851,7 @@ bool DX8RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 
 	SetCamera(&CVECTOR(0.0f, 0.0f, 0.0f), &CVECTOR(0.0f, 0.0f, 0.0f), 1.0f);
 
-	D3DLIGHT8 l;
+	D3DLIGHT9 l;
 	ZERO(l);
 	l.Type = D3DLIGHT_POINT;
 	l.Range = 100.0f;
@@ -1105,7 +1105,7 @@ void DX8RENDER::CopyPostProcessToScreen()
 	}
 }
 
-void DX8RENDER::ClearPostProcessSurface (IDirect3DSurface8* pSurf)
+void DX8RENDER::ClearPostProcessSurface (IDirect3DSurface9* pSurf)
 {
 	HRESULT hr = d3d8->SetRenderTarget( pSurf, NULL );
 	hr = d3d8->BeginScene();
@@ -1444,7 +1444,7 @@ bool DX8RENDER::TextureLoad(long t)
 		//Позиция в файле
 		if(seekposition) api->fio->_SetFilePointer(file, seekposition, 0, FILE_CURRENT);
 		//Создаём текстуру
-		IDirect3DTexture8 * tex = null;
+		IDirect3DTexture9 * tex = null;
 		if(ErrorHandler("CreateTexture", d3d8->CreateTexture(head.width, head.height, head.nmips, 0, d3dFormat, D3DPOOL_MANAGED, &tex))==true || !tex)
 		{
 			if (bTrace) api->Trace("Texture %s is not created (width: %i, height: %i, num mips: %i, format: %s), not loading it.", fn, head.width, head.height, head.nmips, formatTxt);
@@ -1460,7 +1460,7 @@ bool DX8RENDER::TextureLoad(long t)
 			Textures[t].dwSize += head.mip_size;
 			//Получаем поверхность мипа
 			bool isError = false;
-			IDirect3DSurface8 * surface = null;
+			IDirect3DSurface9 * surface = null;
 			if(ErrorHandler("tex->GetSurfaceLevel", tex->GetSurfaceLevel(m, &surface))==true || !surface)
 			{
 				isError = true;
@@ -1498,7 +1498,7 @@ bool DX8RENDER::TextureLoad(long t)
 			return false;
 		}
 		//Количество мипов
-		D3DCAPS8 devcaps;
+		D3DCAPS9 devcaps;
 		if(ErrorHandler("d3d8->GetDeviceCaps", d3d8->GetDeviceCaps(&devcaps)))
 		{
 			if (bTrace) api->Trace("Cube map texture %s is not created (size: %i, num mips: %i, format: %s), not loading it.", fn, head.width, head.nmips, formatTxt);
@@ -1509,7 +1509,7 @@ bool DX8RENDER::TextureLoad(long t)
 		}
 		if(!(devcaps.TextureCaps & D3DPTEXTURECAPS_MIPCUBEMAP)) head.nmips = 1;
 		//Создаём текстуру
-		IDirect3DCubeTexture8 * tex = null;
+		IDirect3DCubeTexture9 * tex = null;
 		if(ErrorHandler("d3d8->CreateCubeTexture", d3d8->CreateCubeTexture(head.width, head.nmips, 0, d3dFormat, D3DPOOL_MANAGED, &tex))==true || !tex)
 		{
 			if (bTrace) api->Trace("Cube map texture %s is not created (size: %i, num mips: %i, format: %s), not loading it.", fn, head.width, head.nmips, formatTxt);
@@ -1593,12 +1593,12 @@ bool DX8RENDER::TextureLoad(long t)
 	return true;
 }
 
-IDirect3DBaseTexture8 * DX8RENDER::GetBaseTexture(long iTexture)
+IDirect3DBaseTexture9 * DX8RENDER::GetBaseTexture(long iTexture)
 {
 	return (iTexture >= 0) ? Textures[iTexture].d3dtex : null;
 }
 
-dword DX8RENDER::LoadCubmapSide(HANDLE file, IDirect3DCubeTexture8 * tex, D3DCUBEMAP_FACES face, dword numMips, dword mipSize, dword size, bool isSwizzled)
+dword DX8RENDER::LoadCubmapSide(HANDLE file, IDirect3DCubeTexture9 * tex, D3DCUBEMAP_FACES face, dword numMips, dword mipSize, dword size, bool isSwizzled)
 {
 	dword texsize = 0;
 	//Заполняем уровни
@@ -1608,7 +1608,7 @@ dword DX8RENDER::LoadCubmapSide(HANDLE file, IDirect3DCubeTexture8 * tex, D3DCUB
 		texsize += mipSize;
 		//Получаем поверхность мипа
 		bool isError = false;
-		IDirect3DSurface8 * surface = null;
+		IDirect3DSurface9 * surface = null;
 		if(ErrorHandler("tex->GetCubeMapSurface", tex->GetCubeMapSurface(face, m, &surface))==true || !surface)
 		{
 			isError = true;
@@ -1631,7 +1631,7 @@ dword DX8RENDER::LoadCubmapSide(HANDLE file, IDirect3DCubeTexture8 * tex, D3DCUB
 	return texsize;
 }
 
-bool DX8RENDER::LoadTextureSurface(HANDLE file, IDirect3DSurface8 * suface, dword mipSize, dword width, dword height, bool isSwizzled)
+bool DX8RENDER::LoadTextureSurface(HANDLE file, IDirect3DSurface9 * suface, dword mipSize, dword width, dword height, bool isSwizzled)
 {
 #ifndef _XBOX
 //------------------------------------------------------------------------------------------
@@ -1931,15 +1931,15 @@ bool DX8RENDER::SetCurrentMatrix(D3DMATRIX *mtx)
 	return true;
 }
 
-bool DX8RENDER::SetMaterial(D3DMATERIAL8 &m)
+bool DX8RENDER::SetMaterial(D3DMATERIAL9 &m)
 {
 	if (ErrorHandler("SetMaterial::SetMaterial", d3d8->SetMaterial(&m))) return false;
 	return true;
 }
-bool DX8RENDER::SetLight(dword dwIndex, const D3DLIGHT8 * pLight)
+bool DX8RENDER::SetLight(dword dwIndex, const D3DLIGHT9 * pLight)
 {
 	// Set the property information for the first light.
-	D3DLIGHT8 tmpLight = *pLight;
+	D3DLIGHT9 tmpLight = *pLight;
 	tmpLight.Position.x += vWordRelationPos.x;
 	tmpLight.Position.y += vWordRelationPos.y;
 	tmpLight.Position.z += vWordRelationPos.z;
@@ -1959,7 +1959,7 @@ bool DX8RENDER::GetLightEnable(DWORD dwIndex, BOOL * pEnable)
 	return true;
 }
 
-bool DX8RENDER::GetLight(DWORD dwIndex, D3DLIGHT8 * pLight)
+bool DX8RENDER::GetLight(DWORD dwIndex, D3DLIGHT9 * pLight)
 {
 	if (ErrorHandler("LightEnable::LightEnable", d3d8->GetLight(dwIndex, pLight))) return false;
 	pLight->Position.x -= vWordRelationPos.x;
@@ -1989,7 +1989,7 @@ long DX8RENDER::CreateVertexBuffer(long type, long size, dword dwUsage)
 	return b;
 }
 
-IDirect3DVertexBuffer8 * DX8RENDER::GetVertexBuffer(long id)
+IDirect3DVertexBuffer9 * DX8RENDER::GetVertexBuffer(long id)
 {
 	if(id < 0 || id >= MAX_BUFFERS) return null;
 	return VertexBuffers[id].buff;
@@ -2512,7 +2512,7 @@ long _cdecl DX8RENDER::ExtPrint(long nFontNum,DWORD foreColor, DWORD backColor, 
 
     pFont->StoreFontParameters();
 
-	IDirect3DSurface8 * pRenderTarget;
+	IDirect3DSurface9 * pRenderTarget;
 	GetRenderTarget(&pRenderTarget);
 	D3DSURFACE_DESC dscrSurface;
 	pRenderTarget->GetDesc(&dscrSurface);
@@ -2775,12 +2775,12 @@ void DX8RENDER::func()
 
 }
 
-HRESULT DX8RENDER::GetViewport(D3DVIEWPORT8 * pViewport)
+HRESULT DX8RENDER::GetViewport(D3DVIEWPORT9 * pViewport)
 {
 	return d3d8->GetViewport(pViewport);
 }
 
-HRESULT DX8RENDER::SetViewport(const D3DVIEWPORT8 * pViewport)
+HRESULT DX8RENDER::SetViewport(const D3DVIEWPORT9 * pViewport)
 {
 	return d3d8->SetViewport(pViewport);
 }
@@ -2845,7 +2845,7 @@ void DX8RENDER::MakeScreenShot()
 	RECT r;
 	D3DLOCKED_RECT lr;
 	POINT p;
-	IDirect3DSurface8 * renderTarget, * surface;
+	IDirect3DSurface9 * renderTarget, * surface;
 
 	bMakeShoot = false;
 
@@ -2922,7 +2922,7 @@ PLANE * DX8RENDER::GetPlanes()
 	return viewplane;
 }
 
-void DX8RENDER::FindPlanes(IDirect3DDevice8 * d3dDevice)
+void DX8RENDER::FindPlanes(IDirect3DDevice9 * d3dDevice)
 {
 	D3DMATRIX m;
 	CVECTOR v[4];
@@ -3154,18 +3154,18 @@ void DX8RENDER::DrawLines2D(RS_LINE2D *pRSL2D, dword dwLinesNum, const char *cBl
 
 
 //-----------------------
-HRESULT DX8RENDER::CreateVertexBuffer(UINT Length, DWORD Usage, DWORD FVF, D3DPOOL Pool, IDirect3DVertexBuffer8** ppVertexBuffer)
+HRESULT DX8RENDER::CreateVertexBuffer(UINT Length, DWORD Usage, DWORD FVF, D3DPOOL Pool, IDirect3DVertexBuffer9** ppVertexBuffer)
 {
 	return d3d8->CreateVertexBuffer(Length, Usage, FVF, Pool, ppVertexBuffer);
 }
 
-HRESULT DX8RENDER::VBLock(IDirect3DVertexBuffer8 * pVB, UINT OffsetToLock,UINT SizeToLock,BYTE** ppbData, DWORD Flags)
+HRESULT DX8RENDER::VBLock(IDirect3DVertexBuffer9 * pVB, UINT OffsetToLock,UINT SizeToLock,BYTE** ppbData, DWORD Flags)
 {
 	dwNumLV++;
 	return pVB->Lock(OffsetToLock, SizeToLock, ppbData, Flags);
 }
 
-void DX8RENDER::VBUnlock(IDirect3DVertexBuffer8 * pVB)
+void DX8RENDER::VBUnlock(IDirect3DVertexBuffer9 * pVB)
 {
 	pVB->Unlock();
 }
@@ -3177,12 +3177,12 @@ HRESULT DX8RENDER::SetVertexShader(DWORD handle)
 
 HRESULT DX8RENDER::SetStreamSource(UINT StreamNumber, void * pStreamData, UINT Stride)
 {
-	return d3d8->SetStreamSource(StreamNumber,(IDirect3DVertexBuffer8*)pStreamData,Stride);
+	return d3d8->SetStreamSource(StreamNumber,(IDirect3DVertexBuffer9*)pStreamData,Stride);
 }
 
 HRESULT DX8RENDER::SetIndices(void * pIndexData, UINT BaseVertexIndex)
 {
-	return d3d8->SetIndices((IDirect3DIndexBuffer8*)pIndexData,BaseVertexIndex);
+	return d3d8->SetIndices((IDirect3DIndexBuffer9*)pIndexData,BaseVertexIndex);
 }
 
 HRESULT DX8RENDER::DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, UINT StartVertex, UINT PrimitiveCount)
@@ -3205,22 +3205,22 @@ HRESULT DX8RENDER::Release(IDirect3DResource8 * pSurface)
 }
 #endif
 
-HRESULT DX8RENDER::GetRenderTarget(IDirect3DSurface8** ppRenderTarget)
+HRESULT DX8RENDER::GetRenderTarget(IDirect3DSurface9** ppRenderTarget)
 {
 	return d3d8->GetRenderTarget(ppRenderTarget);
 }
 
-HRESULT DX8RENDER::GetDepthStencilSurface( IDirect3DSurface8** ppZStencilSurface )
+HRESULT DX8RENDER::GetDepthStencilSurface( IDirect3DSurface9** ppZStencilSurface )
 {
 	return d3d8->GetDepthStencilSurface(ppZStencilSurface);
 }
 
-HRESULT DX8RENDER::GetCubeMapSurface( IDirect3DCubeTexture8* ppCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level, IDirect3DSurface8** ppCubeMapSurface )
+HRESULT DX8RENDER::GetCubeMapSurface( IDirect3DCubeTexture9* ppCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level, IDirect3DSurface9** ppCubeMapSurface )
 {
 	return ppCubeTexture->GetCubeMapSurface( FaceType, Level, ppCubeMapSurface);
 }
 
-HRESULT DX8RENDER::SetRenderTarget( IDirect3DSurface8* pRenderTarget, IDirect3DSurface8* pNewZStencil )
+HRESULT DX8RENDER::SetRenderTarget( IDirect3DSurface9* pRenderTarget, IDirect3DSurface9* pNewZStencil )
 {
 	return d3d8->SetRenderTarget( pRenderTarget, pNewZStencil );
 }
@@ -3246,22 +3246,22 @@ HRESULT DX8RENDER::SetClipPlane( DWORD Index, CONST float* pPlane )
 	return D3D_OK;
 }
 
-HRESULT DX8RENDER::CreateTexture( UINT Width, UINT Height, UINT  Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DTexture8** ppTexture )
+HRESULT DX8RENDER::CreateTexture( UINT Width, UINT Height, UINT  Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DTexture9** ppTexture )
 {
 	return d3d8->CreateTexture( Width, Height, Levels, Usage, Format, Pool, ppTexture );
 }
 
-HRESULT DX8RENDER::CreateCubeTexture( UINT EdgeLength, UINT Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DCubeTexture8** ppCubeTexture )
+HRESULT DX8RENDER::CreateCubeTexture( UINT EdgeLength, UINT Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DCubeTexture9** ppCubeTexture )
 {
 	return d3d8->CreateCubeTexture( EdgeLength, Levels, Usage, Format, Pool, ppCubeTexture );
 }
 
-HRESULT DX8RENDER::CreateImageSurface( UINT Width, UINT Height, D3DFORMAT Format, IDirect3DSurface8 * * ppSurface)
+HRESULT DX8RENDER::CreateImageSurface( UINT Width, UINT Height, D3DFORMAT Format, IDirect3DSurface9 * * ppSurface)
 {
 	return d3d8->CreateImageSurface( Width, Height, Format, ppSurface);
 }
 
-HRESULT DX8RENDER::CreateDepthStencilSurface( UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, IDirect3DSurface8** ppSurface )
+HRESULT DX8RENDER::CreateDepthStencilSurface( UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, IDirect3DSurface9** ppSurface )
 {
 	return d3d8->CreateDepthStencilSurface( Width, Height, Format, MultiSample, ppSurface );
 }
@@ -3290,47 +3290,47 @@ HRESULT DX8RENDER::GetPixelShader(DWORD * pHandle)
 	return d3d8->GetPixelShader(pHandle);
 }
 
-HRESULT DX8RENDER::SetTexture(DWORD Stage, IDirect3DBaseTexture8* pTexture )
+HRESULT DX8RENDER::SetTexture(DWORD Stage, IDirect3DBaseTexture9* pTexture )
 {
 	return d3d8->SetTexture(Stage, pTexture );
 }
 
-HRESULT DX8RENDER::GetLevelDesc( IDirect3DTexture8* ppTexture, UINT Level, D3DSURFACE_DESC* pDesc )
+HRESULT DX8RENDER::GetLevelDesc( IDirect3DTexture9* ppTexture, UINT Level, D3DSURFACE_DESC* pDesc )
 {
 	return ppTexture->GetLevelDesc( Level, pDesc );
 }
 
-HRESULT DX8RENDER::GetLevelDesc( IDirect3DCubeTexture8* ppCubeTexture, UINT Level, D3DSURFACE_DESC* pDesc )
+HRESULT DX8RENDER::GetLevelDesc( IDirect3DCubeTexture9* ppCubeTexture, UINT Level, D3DSURFACE_DESC* pDesc )
 {
 	return ppCubeTexture->GetLevelDesc( Level, pDesc );
 }
 
-HRESULT DX8RENDER::LockRect( IDirect3DCubeTexture8* ppCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level, D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, DWORD Flags )
+HRESULT DX8RENDER::LockRect( IDirect3DCubeTexture9* ppCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level, D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, DWORD Flags )
 {
 	return ppCubeTexture->LockRect( FaceType, Level, pLockedRect, pRect, Flags );
 }
 
-HRESULT DX8RENDER::LockRect( IDirect3DTexture8* ppTexture, UINT Level, D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, DWORD Flags )
+HRESULT DX8RENDER::LockRect( IDirect3DTexture9* ppTexture, UINT Level, D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, DWORD Flags )
 {
 	return ppTexture->LockRect( Level, pLockedRect, pRect, Flags );
 }
 
-HRESULT DX8RENDER::UnlockRect( IDirect3DCubeTexture8 *pCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level )
+HRESULT DX8RENDER::UnlockRect( IDirect3DCubeTexture9 *pCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level )
 {
 	return pCubeTexture->UnlockRect( FaceType, Level );
 }
 
-HRESULT DX8RENDER::UnlockRect( IDirect3DTexture8 *pTexture, UINT Level )
+HRESULT DX8RENDER::UnlockRect( IDirect3DTexture9 *pTexture, UINT Level )
 {
 	return pTexture->UnlockRect( Level );
 }
 
-HRESULT DX8RENDER::GetSurfaceLevel( IDirect3DTexture8* ppTexture, UINT Level, IDirect3DSurface8** ppSurfaceLevel )
+HRESULT DX8RENDER::GetSurfaceLevel( IDirect3DTexture9* ppTexture, UINT Level, IDirect3DSurface9** ppSurfaceLevel )
 {
 	return ppTexture->GetSurfaceLevel( Level, ppSurfaceLevel );
 }
 
-HRESULT DX8RENDER::CopyRects( IDirect3DSurface8* pSourceSurface, CONST RECT* pSourceRectsArray, UINT cRects, IDirect3DSurface8* pDestinationSurface, CONST POINT* pDestPointsArray )
+HRESULT DX8RENDER::CopyRects( IDirect3DSurface9* pSourceSurface, CONST RECT* pSourceRectsArray, UINT cRects, IDirect3DSurface9* pDestinationSurface, CONST POINT* pDestPointsArray )
 {
 	return d3d8->CopyRects( pSourceSurface, pSourceRectsArray, cRects, pDestinationSurface, pDestPointsArray );
 }
@@ -3360,7 +3360,7 @@ HRESULT DX8RENDER::SetPixelShaderConstant( DWORD Register, CONST void* pConstant
 	return d3d8->SetPixelShaderConstant( Register, pConstantData, ConstantCount );
 }
 
-HRESULT DX8RENDER::GetDeviceCaps(D3DCAPS8 * pCaps)
+HRESULT DX8RENDER::GetDeviceCaps(D3DCAPS9 * pCaps)
 {
 	return d3d8->GetDeviceCaps(pCaps);
 }
@@ -3655,7 +3655,7 @@ void DX8RENDER::ProgressView()
 		v[i].color = 0xffffffff;
 	}
 	//Вычисляем прямоугольник в котором будем рисовать
-	D3DVIEWPORT8 vp;
+	D3DVIEWPORT9 vp;
 	GetViewport(&vp);
 	v[0].x = 0.0f; v[0].y = 0.0f;
 	v[1].x = float(vp.Width); v[1].y = 0.0f;
@@ -3813,11 +3813,11 @@ void DX8RENDER::SetLoadTextureEnable(bool bEnable)
 	bLoadTextureEnabled = bEnable;
 }
 
-IDirect3DBaseTexture8 * DX8RENDER::CreateTextureFromFileInMemory(const char * pFile, dword dwSize)
+IDirect3DBaseTexture9 * DX8RENDER::CreateTextureFromFileInMemory(const char * pFile, dword dwSize)
 {
 	if (!pFile || !dwSize) return null;
 
-	IDirect3DTexture8 * pTexture = null;
+	IDirect3DTexture9 * pTexture = null;
 	TGA_H * pTga = (TGA_H *)pFile;
 	D3DFORMAT d3dFormat = (pTga->bpp == 16) ? D3DFMT_DXT1 : D3DFMT_DXT3;
 	D3DXCreateTextureFromFileInMemoryEx((LPDIRECT3DDEVICE8)GetD3DDevice(), pFile, dwSize, D3DX_DEFAULT, D3DX_DEFAULT, 1, 0, d3dFormat, D3DPOOL_MANAGED, D3DX_DEFAULT, D3DX_DEFAULT, 0, null, null, &pTexture);
@@ -3825,17 +3825,17 @@ IDirect3DBaseTexture8 * DX8RENDER::CreateTextureFromFileInMemory(const char * pF
 	return pTexture;
 }
 
-IDirect3DVolumeTexture8 * DX8RENDER::CreateVolumeTexture(dword Width, dword Height, dword Depth, dword Levels, dword Usage, D3DFORMAT Format, D3DPOOL Pool)
+IDirect3DVolumeTexture9 * DX8RENDER::CreateVolumeTexture(dword Width, dword Height, dword Depth, dword Levels, dword Usage, D3DFORMAT Format, D3DPOOL Pool)
 {
-	IDirect3DVolumeTexture8 * pVolumeTexture = null;
+	IDirect3DVolumeTexture9 * pVolumeTexture = null;
 	d3d8->CreateVolumeTexture(Width, Height, Depth, Levels, Usage, Format, Pool, &pVolumeTexture);
 	return pVolumeTexture;
 }
 
 bool DX8RENDER::PushRenderTarget()
 {
-	IDirect3DSurface8 * pD3DRenderTarget = null, * pD3DDepthSurface = null;
-	D3DVIEWPORT8 vp;
+	IDirect3DSurface9 * pD3DRenderTarget = null, * pD3DDepthSurface = null;
+	D3DVIEWPORT9 vp;
 
 	GetViewport(&vp);
 
@@ -3870,9 +3870,9 @@ bool DX8RENDER::PopRenderTarget()
 	return true;
 }
 
-bool DX8RENDER::SetRenderTarget(IDirect3DCubeTexture8 * pRenderTarget, dword FaceType, dword dwLevel, IDirect3DSurface8 * pZStencil)
+bool DX8RENDER::SetRenderTarget(IDirect3DCubeTexture9 * pRenderTarget, dword FaceType, dword dwLevel, IDirect3DSurface9 * pZStencil)
 {
-	IDirect3DSurface8 * pSurface;
+	IDirect3DSurface9 * pSurface;
 	pRenderTarget->GetCubeMapSurface((D3DCUBEMAP_FACES)FaceType, dwLevel, &pSurface);
 	bool bSuccess = D3D_OK == SetRenderTarget(pSurface, pZStencil);
 	Release(pSurface);
@@ -3901,7 +3901,7 @@ const CMatrix & DX8RENDER::GetProjection()
 	return mProjection;
 }
 
-IDirect3DBaseTexture8* DX8RENDER::GetTextureFromID(long nTextureID)
+IDirect3DBaseTexture9* DX8RENDER::GetTextureFromID(long nTextureID)
 {
 	if( nTextureID<0 ) return null;
 	return Textures[nTextureID].d3dtex;

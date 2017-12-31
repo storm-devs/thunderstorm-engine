@@ -83,7 +83,7 @@ bool Window::Init(VDX8RENDER * rs)
 	if(font < 0) font = FONT_DEFAULT;
 	fontHeight = float(rs->CharHeight(font));
 	//Получим текущие размеры vp
-	D3DVIEWPORT8 vp;
+	D3DVIEWPORT9 vp;
 	rs->GetViewport(&vp);
 	sw = float(vp.Width);
 	sh = float(vp.Height);

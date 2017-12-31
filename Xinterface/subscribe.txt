@@ -214,7 +214,7 @@ fontlistN			= font_name_N	  // без етого атрибута используетс€ стандартный шрифт
 	GameInterface.<им€ элемента>.hr.td1.icon.image - им€ самой картинки в группе
 	GameInterface.<им€ элемента>.hr.td1.icon.texture - им€ файла с текстурой (uv => 0,0 - 1,1)
 	GameInterface.<им€ элемента>.hr.td1.icon.uv - UV-coordinates (left,top,right,bottom)
-	GameInterface.<им€ элемента>.hr.td1.icon.texturepointer - указатель на класс текстуры (IDirect3DTexture8*)
+	GameInterface.<им€ элемента>.hr.td1.icon.texturepointer - указатель на класс текстуры (IDirect3DTexture9*)
 	GameInterface.<им€ элемента>.hr.td1.icon.width - ширина/высота картинки (необ€зательный - по умолчанию размер исходной картинки)
 	GameInterface.<им€ элемента>.hr.td1.icon.height
 	GameInterface.<им€ элемента>.hr.td1.icon.cellsize = 1 - использовать ширину и высоту €чйки дл€ размера иконки
@@ -294,7 +294,7 @@ blindMaxColor = 255,168,168,168
 	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"им€ элемента", 5, bSetBlind );
 	// установить новую картинку заданную именем группы и именем картинки
 	SendMessage(&GameInterface,"lslss",MSG_INTERFACE_MSG_TO_NODE,"им€ элемента", 6, groupName, pictureName );
-	// установить новую картинку из указател€ на тексуру (IDirect3DTexture8*)
+	// установить новую картинку из указател€ на тексуру (IDirect3DTexture9*)
 	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"им€ элемента", 6, pTexture );
 
 [STRINGCOLLECTION]

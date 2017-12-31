@@ -68,7 +68,7 @@ class CTechnique
 {
 protected:
 	VDX8RENDER			* pRS;
-	IDirect3DDevice8	* d3d8;
+	IDirect3DDevice9	* d3d8;
 
 	// shaders
 	dword			dwNumShaders;

@@ -360,7 +360,7 @@ void WdmObjects::DrawBox2D(CMatrix & mtx, float l, float w, dword color)
 void WdmObjects::GetVPSize(float & w, float & h)
 {
 	//Получим текущие размеры vp
-	D3DVIEWPORT8 vp;
+	D3DVIEWPORT9 vp;
 	rs->GetViewport(&vp);
 	w = float(vp.Width);
 	h = float(vp.Height);

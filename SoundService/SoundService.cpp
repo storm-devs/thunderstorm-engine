@@ -1449,7 +1449,7 @@ void _cdecl SoundService::DebugPrint3D(const CVECTOR & pos3D, float rad, long li
 	buf[sizeof(buf) - 1] = 0;
 	//»щем позицию точки на экране
 	static CMatrix mtx, view, prj;
-	static D3DVIEWPORT8 vp;
+	static D3DVIEWPORT9 vp;
 	MTX_PRJ_VECTOR vrt;
 	pRS->GetTransform(D3DTS_VIEW, view);
 	pRS->GetTransform(D3DTS_PROJECTION, prj);

@@ -353,7 +353,7 @@ void GEOM_SERVICE_R::SetMaterial(const GEOS::MATERIAL &mt)
 	RenderService->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
 	RenderService->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);//*/
 
-	D3DMATERIAL8 m;
+	D3DMATERIAL9 m;
 	m.Diffuse.r = m.Diffuse.g = m.Diffuse.b = mt.diffuse;	m.Diffuse.a = 1.0f;
 	m.Ambient.r = m.Ambient.g = m.Ambient.b = m.Ambient.a = 0.0f;
 	m.Specular.r = m.Specular.g = m.Specular.b = mt.specular;	m.Specular.a = 1.0f;
@@ -494,7 +494,7 @@ void GEOM_SERVICE_R::DrawIndexedPrimitive(long minv, long numv, long vrtsize, lo
 	{
 		VGEOMETRY::ANIMATION_VB *cavb = &avb[CurentVertexBuffer-SHIFT_VALUE];
 
-		IDirect3DVertexBuffer8 *transformed_vb = (IDirect3DVertexBuffer8*)transform_func(cavb->buff, minv, numv, cavb->nvertices);
+		IDirect3DVertexBuffer9 *transformed_vb = (IDirect3DVertexBuffer9*)transform_func(cavb->buff, minv, numv, cavb->nvertices);
 		if (!bCaustic)
 		{
 			RenderService->SetStreamSource(0, transformed_vb, cavb->stride);

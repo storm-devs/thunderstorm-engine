@@ -23,7 +23,7 @@ class Lights : public ENTITY
 	struct LightType
 	{
 		char * name;
-		D3DLIGHT8 dxLight;
+		D3DLIGHT9 dxLight;
 		D3DCOLORVALUE color;
 		float flicker;
 		float flickerSlow;

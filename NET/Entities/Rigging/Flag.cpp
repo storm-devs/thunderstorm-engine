@@ -482,7 +482,7 @@ void NetFlag::SetAll()
 			flist[fn]->texNum = 0;
 			VDATA * pvdat = api->Event("NetClient_GetRiggingData","sa","GetFlagTexPointer",gdata[flist[fn]->HostGroup].char_attributes);
 			if( pvdat ) {
-				flist[fn]->pTexture = (IDirect3DBaseTexture8*)pvdat->GetLong();
+				flist[fn]->pTexture = (IDirect3DBaseTexture9*)pvdat->GetLong();
 				if( flist[fn]->pTexture ) flist[fn]->pTexture->AddRef();
 			} else
 				flist[fn]->pTexture = 0;
@@ -833,7 +833,7 @@ void NetFlag::SetAdd(int flagNum)
 			flist[fn]->texNum = 0;
 			VDATA * pvdat = api->Event("NetClient_GetRiggingData","sa","GetFlagTexPointer",gdata[flist[fn]->HostGroup].char_attributes);
 			if( pvdat ) {
-				flist[fn]->pTexture = (IDirect3DBaseTexture8*)pvdat->GetLong();
+				flist[fn]->pTexture = (IDirect3DBaseTexture9*)pvdat->GetLong();
 				if( flist[fn]->pTexture ) flist[fn]->pTexture->AddRef();
 			} else
 				flist[fn]->pTexture = 0;

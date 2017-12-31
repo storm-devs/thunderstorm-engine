@@ -272,7 +272,7 @@ void XI_TableCellDescribe::LoadImageParam(ImgDescribe* pImg,ATTRIBUTES* pA)
 			pImg->pImage->LoadFromFile( pA->GetAttribute("texture") );
 
 		if( pA->GetAttribute("texturepointer") )
-			pImg->pImage->SetPointerToTexture( (IDirect3DTexture8*)pA->GetAttributeAsDword("texturepointer") );
+			pImg->pImage->SetPointerToTexture( (IDirect3DTexture9*)pA->GetAttributeAsDword("texturepointer") );
 
 		float fL=0.f, fT=0.f, fR=1.f, fB=1.f;
 		if( pA->GetAttribute("uv") )

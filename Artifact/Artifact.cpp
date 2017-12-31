@@ -110,7 +110,7 @@ void Artifact::Realize(dword _dTime)
 	float lightK = lightK1 - (lightK1 - lightKOld)*(LIGHT_CHANGE - secTime) / LIGHT_CHANGE;
 	//lightK += randCentered(0.02f);
 
-	D3DLIGHT8 light;
+	D3DLIGHT9 light;
 	light.Type		= D3DLIGHT_POINT;
 	light.Diffuse.r = 0.9f;
 	light.Diffuse.g = 0.8f;

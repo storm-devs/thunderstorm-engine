@@ -44,7 +44,7 @@ bool ILogAndActions::Init()
 	{
 		_THROW("Can`t create render service");
 	}
-	D3DVIEWPORT8 vp;
+	D3DVIEWPORT9 vp;
 	rs->GetViewport(&vp);
 #ifndef _XBOX
 	api->Event("SetWindowSize","lll",vp.Width,vp.Height,false);

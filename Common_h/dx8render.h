@@ -1,12 +1,9 @@
 #ifndef __DX8RENDER_H__
 #define __DX8RENDER_H__
 
+#include <d3d9.h>
 
-//#include <windows.h>
 #include "..\common_h\vmodule_api.h"
-#include "..\Common_h\DirectX8\d3dx8.h"
-
-//#include "..\common_h\vmodule_api.h"
 #include "..\common_h\types3d.h"
 #include "..\common_h\Matrix.h"
 #ifdef _XBOX
@@ -101,11 +98,11 @@ public:
 		virtual bool DX8EndScene() = 0;
 
 	// DX8Render: Materials/Lights Section
-		virtual bool	SetLight(dword dwIndex, const D3DLIGHT8 * pLight) = 0;
+		virtual bool	SetLight(dword dwIndex, const D3DLIGHT9 * pLight) = 0;
 		virtual bool	LightEnable(dword dwIndex, bool bOn) = 0;
-		virtual bool	SetMaterial(D3DMATERIAL8 & material) = 0;
+		virtual bool	SetMaterial(D3DMATERIAL9 & material) = 0;
 		virtual bool	GetLightEnable(DWORD dwIndex, BOOL * pEnable) = 0;
-		virtual bool	GetLight(DWORD dwIndex, D3DLIGHT8 * pLight) = 0;
+		virtual bool	GetLight(DWORD dwIndex, D3DLIGHT9 * pLight) = 0;
 
 	// DX8Render: Screenshot Section
 		virtual void SaveShoot() = 0;
@@ -176,7 +173,7 @@ public:
 		virtual long CreateVertexBuffer(long type, long nverts,dword usage) = 0;
 		virtual long CreateIndexBuffer(long ntrgs, dword dwUsage = D3DUSAGE_WRITEONLY) = 0;
 
-		virtual IDirect3DVertexBuffer8 * GetVertexBuffer(long id) = 0;
+		virtual IDirect3DVertexBuffer9 * GetVertexBuffer(long id) = 0;
 		virtual long	GetVertexBufferFVF(long id) = 0;
 		virtual void *	LockVertexBuffer(long id, dword dwFlags = 0) = 0;
 		virtual void	UnLockVertexBuffer(long id) = 0;
@@ -200,9 +197,9 @@ public:
 // ===============================================================================================
 
 	// D3D Device/Viewport Section
-		virtual HRESULT GetViewport(D3DVIEWPORT8 * pViewport) = 0;
-		virtual HRESULT SetViewport(const D3DVIEWPORT8 * pViewport) = 0;
-		virtual HRESULT GetDeviceCaps(D3DCAPS8* pCaps) = 0;
+		virtual HRESULT GetViewport(D3DVIEWPORT9 * pViewport) = 0;
+		virtual HRESULT SetViewport(const D3DVIEWPORT9 * pViewport) = 0;
+		virtual HRESULT GetDeviceCaps(D3DCAPS9* pCaps) = 0;
 
 	// D3D
 		virtual HRESULT SetStreamSource(UINT StreamNumber, void * pStreamData, UINT Stride) = 0;
@@ -215,26 +212,26 @@ public:
 #endif
 
 	// Vertex/Index Buffers Section
-		virtual HRESULT CreateVertexBuffer(UINT Length, DWORD Usage, DWORD FVF, D3DPOOL Pool, IDirect3DVertexBuffer8 * * ppVertexBuffer)=0;
-		virtual HRESULT VBLock(IDirect3DVertexBuffer8 * pVB, UINT OffsetToLock, UINT SizeToLock, BYTE * * ppbData, DWORD Flags)=0;
-		virtual void VBUnlock(IDirect3DVertexBuffer8 * pVB)=0;
+		virtual HRESULT CreateVertexBuffer(UINT Length, DWORD Usage, DWORD FVF, D3DPOOL Pool, IDirect3DVertexBuffer9 * * ppVertexBuffer)=0;
+		virtual HRESULT VBLock(IDirect3DVertexBuffer9 * pVB, UINT OffsetToLock, UINT SizeToLock, BYTE * * ppbData, DWORD Flags)=0;
+		virtual void VBUnlock(IDirect3DVertexBuffer9 * pVB)=0;
 
 	// D3D Textures/Surfaces Section
-		virtual HRESULT GetDepthStencilSurface( IDirect3DSurface8** ppZStencilSurface ) = 0;
-		virtual HRESULT GetCubeMapSurface( IDirect3DCubeTexture8* ppCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level, IDirect3DSurface8** ppCubeMapSurface ) = 0;
-		virtual HRESULT CreateTexture( UINT Width, UINT Height, UINT  Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DTexture8** ppTexture ) = 0;
-		virtual HRESULT CreateCubeTexture( UINT EdgeLength, UINT Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DCubeTexture8** ppCubeTexture ) = 0;
-		virtual HRESULT CreateImageSurface( UINT Width, UINT Height, D3DFORMAT Format, IDirect3DSurface8 * * ppSurface) = 0;
-		virtual HRESULT CreateDepthStencilSurface( UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, IDirect3DSurface8** ppSurface ) = 0;
-		virtual HRESULT SetTexture(DWORD Stage, IDirect3DBaseTexture8* pTexture ) = 0;
-		virtual HRESULT GetLevelDesc( IDirect3DTexture8* ppTexture, UINT Level, D3DSURFACE_DESC* pDesc ) = 0;
-		virtual HRESULT GetLevelDesc( IDirect3DCubeTexture8* ppCubeTexture, UINT Level, D3DSURFACE_DESC* pDesc ) = 0;
-		virtual HRESULT LockRect( IDirect3DCubeTexture8* ppCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level, D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, DWORD Flags ) = 0;
-		virtual HRESULT LockRect( IDirect3DTexture8* ppTexture, UINT Level, D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, DWORD Flags ) = 0;
-		virtual HRESULT UnlockRect( IDirect3DCubeTexture8 *pCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level ) = 0;
-		virtual HRESULT UnlockRect( IDirect3DTexture8 *pTexture, UINT Level ) = 0;
-		virtual HRESULT GetSurfaceLevel( IDirect3DTexture8* ppTexture, UINT Level, IDirect3DSurface8** ppSurfaceLevel ) = 0;
-		virtual HRESULT CopyRects( IDirect3DSurface8* pSourceSurface, CONST RECT* pSourceRectsArray, UINT cRects, IDirect3DSurface8* pDestinationSurface, CONST POINT* pDestPointsArray ) = 0;
+		virtual HRESULT GetDepthStencilSurface( IDirect3DSurface9** ppZStencilSurface ) = 0;
+		virtual HRESULT GetCubeMapSurface( IDirect3DCubeTexture9* ppCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level, IDirect3DSurface9** ppCubeMapSurface ) = 0;
+		virtual HRESULT CreateTexture( UINT Width, UINT Height, UINT  Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DTexture9** ppTexture ) = 0;
+		virtual HRESULT CreateCubeTexture( UINT EdgeLength, UINT Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DCubeTexture9** ppCubeTexture ) = 0;
+		virtual HRESULT CreateImageSurface( UINT Width, UINT Height, D3DFORMAT Format, IDirect3DSurface9 * * ppSurface) = 0;
+		virtual HRESULT CreateDepthStencilSurface( UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, IDirect3DSurface9** ppSurface ) = 0;
+		virtual HRESULT SetTexture(DWORD Stage, IDirect3DBaseTexture9* pTexture ) = 0;
+		virtual HRESULT GetLevelDesc( IDirect3DTexture9* ppTexture, UINT Level, D3DSURFACE_DESC* pDesc ) = 0;
+		virtual HRESULT GetLevelDesc( IDirect3DCubeTexture9* ppCubeTexture, UINT Level, D3DSURFACE_DESC* pDesc ) = 0;
+		virtual HRESULT LockRect( IDirect3DCubeTexture9* ppCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level, D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, DWORD Flags ) = 0;
+		virtual HRESULT LockRect( IDirect3DTexture9* ppTexture, UINT Level, D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, DWORD Flags ) = 0;
+		virtual HRESULT UnlockRect( IDirect3DCubeTexture9 *pCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level ) = 0;
+		virtual HRESULT UnlockRect( IDirect3DTexture9 *pTexture, UINT Level ) = 0;
+		virtual HRESULT GetSurfaceLevel( IDirect3DTexture9* ppTexture, UINT Level, IDirect3DSurface9** ppSurfaceLevel ) = 0;
+		virtual HRESULT CopyRects( IDirect3DSurface9* pSourceSurface, CONST RECT* pSourceRectsArray, UINT cRects, IDirect3DSurface9* pDestinationSurface, CONST POINT* pDestPointsArray ) = 0;
 
 	// D3D Pixel/Vertex Shaders Section
 		virtual HRESULT CreatePixelShader(CONST DWORD * pFunction, DWORD * pHandle) = 0;
@@ -250,8 +247,8 @@ public:
 
 
 	// D3D Render Target/Begin/End/Clear
-		virtual HRESULT GetRenderTarget(IDirect3DSurface8** ppRenderTarget) = 0;
-		virtual HRESULT SetRenderTarget( IDirect3DSurface8* pRenderTarget, IDirect3DSurface8* pNewZStencil ) = 0;
+		virtual HRESULT GetRenderTarget(IDirect3DSurface9** ppRenderTarget) = 0;
+		virtual HRESULT SetRenderTarget( IDirect3DSurface9* pRenderTarget, IDirect3DSurface9* pNewZStencil ) = 0;
 		virtual HRESULT Clear( DWORD Count, CONST D3DRECT* pRects, DWORD Flags, D3DCOLOR Color, float Z, DWORD Stencil ) = 0;
 		virtual HRESULT BeginScene() = 0;
 		virtual HRESULT EndScene() = 0;
@@ -275,13 +272,13 @@ public:
 		virtual void SetNearFarPlane(float fNear, float fFar) = 0;
 
 		virtual void SetLoadTextureEnable(bool bEnable = true) = 0;
-		virtual IDirect3DBaseTexture8 * GetBaseTexture(long iTexture) = 0;
+		virtual IDirect3DBaseTexture9 * GetBaseTexture(long iTexture) = 0;
 
-		virtual IDirect3DBaseTexture8 * CreateTextureFromFileInMemory(const char * pFile, dword dwSize) = 0;
+		virtual IDirect3DBaseTexture9 * CreateTextureFromFileInMemory(const char * pFile, dword dwSize) = 0;
 
 		virtual bool PushRenderTarget() = 0;
 		virtual bool PopRenderTarget() = 0;
-		virtual bool SetRenderTarget(IDirect3DCubeTexture8 * pCubeTex, dword dwFaceType, dword dwLevel, IDirect3DSurface8* pNewZStencil) = 0;
+		virtual bool SetRenderTarget(IDirect3DCubeTexture9 * pCubeTex, dword dwFaceType, dword dwLevel, IDirect3DSurface9* pNewZStencil) = 0;
 		virtual void SetView(const CMatrix & mView) = 0;
 		virtual void SetWorld(const CMatrix & mView) = 0;
 		virtual void SetProjection(const CMatrix & mView) = 0;
@@ -289,12 +286,12 @@ public:
 		virtual const CMatrix & GetWorld() = 0;
 		virtual const CMatrix & GetProjection() = 0;
 
-		virtual IDirect3DVolumeTexture8 * CreateVolumeTexture(dword Width, dword Height, dword Depth, dword Levels, dword Usage, D3DFORMAT Format, D3DPOOL Pool) = 0;
+		virtual IDirect3DVolumeTexture9 * CreateVolumeTexture(dword Width, dword Height, dword Depth, dword Levels, dword Usage, D3DFORMAT Format, D3DPOOL Pool) = 0;
 
 		virtual void MakePostProcess() = 0;
 		virtual void SetGLOWParams (float _fBlurBrushSize, long _GlowIntensity, long _GlowPasses) = 0;
 
-		virtual IDirect3DBaseTexture8* GetTextureFromID(long nTextureID) = 0;
+		virtual IDirect3DBaseTexture9* GetTextureFromID(long nTextureID) = 0;
 };
 
 #endif

@@ -159,7 +159,7 @@ void AIHelper::Print3D(CVECTOR vPos, float dy, float fScale, char * pFormat, ...
 {
 	CMatrix			mtx, view, prj;
 	char			Buff_4k[2048];
-	D3DVIEWPORT8	vp;
+	D3DVIEWPORT9	vp;
 	MTX_PRJ_VECTOR	vrt;
 
 	pRS->GetTransform(D3DTS_VIEW, view);

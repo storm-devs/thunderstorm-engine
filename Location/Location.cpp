@@ -777,7 +777,7 @@ void Location::DrawLocators(LocatorArray * la)
 	rs->GetTransform(D3DTS_PROJECTION, prj);
 	mtx.EqMultiply(view, prj);
 	//Получим текущие размеры vp
-	static D3DVIEWPORT8 vp;
+	static D3DVIEWPORT9 vp;
 	rs->GetViewport(&vp);
 	float w = vp.Width*0.5f;
 	float h = vp.Height*0.5f;
@@ -930,7 +930,7 @@ void _cdecl Location::Print(const CVECTOR & pos3D, float rad, long line, float a
 	buf[sizeof(buf) - 1] = 0;
 	//Ищем позицию точки на экране
 	static CMatrix mtx, view, prj;
-	static D3DVIEWPORT8 vp;
+	static D3DVIEWPORT9 vp;
 	MTX_PRJ_VECTOR vrt;
 	rs->GetTransform(D3DTS_VIEW, view);
 	rs->GetTransform(D3DTS_PROJECTION, prj);
@@ -1051,7 +1051,7 @@ void Location::DrawEnemyBars()
 	const float alphaThresholdRelativeDist = 0.8f;
 	//Текущии параметры сцены
 	static CMatrix mtx, view, prj;
-	static D3DVIEWPORT8 vp;
+	static D3DVIEWPORT9 vp;
 	struct SortElement
 	{
 		MTX_PRJ_VECTOR vrt;

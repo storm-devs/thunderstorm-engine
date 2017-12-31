@@ -666,7 +666,7 @@ void InterfaceBackScene::InitLight( ATTRIBUTES* pAParam )
 void InterfaceBackScene::SetLight()
 {
 	long nFreeLightIndex=0;
-	D3DCAPS8 d3dcaps;	m_pRS->GetDeviceCaps(&d3dcaps);
+	D3DCAPS9 d3dcaps;	m_pRS->GetDeviceCaps(&d3dcaps);
 
 	for( long n=0; n<m_aLights; n++ )
 	{

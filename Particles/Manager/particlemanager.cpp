@@ -254,7 +254,7 @@ void ParticleManager::Execute (float DeltaTime)
 		pSysFont->Release();
 		*/
 
-		D3DVIEWPORT8 ViewPort;
+		D3DVIEWPORT9 ViewPort;
 		pRS->GetViewport(&ViewPort);
 		RS_SPRITE spr[4];
 		float x1 = -1.0f;

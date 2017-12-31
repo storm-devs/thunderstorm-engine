@@ -77,12 +77,12 @@ private:
 
 	long					iVSeaBuffer, iISeaBuffer;
 
-	IDirect3DVolumeTexture8	* pVolumeTexture;
-	IDirect3DCubeTexture8	* pEnvMap, * pSunRoadMap;
-	IDirect3DSurface8		* pZStencil;
+	IDirect3DVolumeTexture9	* pVolumeTexture;
+	IDirect3DCubeTexture9	* pEnvMap, * pSunRoadMap;
+	IDirect3DSurface9		* pZStencil;
 
-	IDirect3DTexture8		* pReflection, * pReflectionSunroad;
-	IDirect3DSurface8		* pReflectionSurfaceDepth;
+	IDirect3DTexture9		* pReflection, * pReflectionSunroad;
+	IDirect3DSurface9		* pReflectionSurfaceDepth;
 
 	bool		bSimpleSea;
 
@@ -110,8 +110,8 @@ private:
 
 	CVECTOR4		v4SeaColor, v4SkyColor, v4SeaParameters;
 
-	array<IDirect3DTexture8*>	aBumpMaps;
-	IDirect3DTexture8			* pRenderTargetBumpMap;
+	array<IDirect3DTexture9*>	aBumpMaps;
+	IDirect3DTexture9			* pRenderTargetBumpMap;
 
 	float * pSeaFrame1, * pSeaFrame2, * pSeaNormalsFrame1, * pSeaNormalsFrame2;
 

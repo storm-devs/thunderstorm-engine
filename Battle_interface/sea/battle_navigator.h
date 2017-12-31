@@ -135,7 +135,7 @@ protected:
 	long	m_idChargeTexture; // текущий тип заряда пушек
 	long	m_idWindTexture; // скорость ветра
 	long	m_idSailTexture; // положение парусов/скорость корабля
-	IDirect3DTexture8 * m_pIslandTexture;
+	IDirect3DTexture9 * m_pIslandTexture;
 
 	DWORD	m_dwSeaColor;	// цвет моря на миникарте
 	DWORD	m_dwFireZoneColor; // цвет зоны огня на миникарте

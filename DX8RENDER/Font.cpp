@@ -31,7 +31,7 @@ FONT::~FONT()
         textureName = NULL;
     }
 	if(VBuffer) VBuffer->Release();
-	if(RenderService) 
+	if(RenderService)
 	{
 		if(TextureID >= 0) RenderService->TextureRelease(TextureID);
 		//api->FreeService("dx8render");
@@ -75,7 +75,7 @@ bool FONT::MakeLong(char * * pDataPointer, long * result)
 	return false;
 }
 
-bool FONT::Init(char * font_name, char * iniName, IDirect3DDevice8 * _device, VDX8RENDER * _render)
+bool FONT::Init(char * font_name, char * iniName, IDirect3DDevice9 * _device, VDX8RENDER * _render)
 {
 	INIFILE * ini;
 	char key_name[MAX_PATH];
@@ -170,7 +170,7 @@ bool FONT::Init(char * font_name, char * iniName, IDirect3DDevice8 * _device, VD
 
 	RenderService = _render;
 	Device = _device;
-	
+
 	IMAGE_VERTEX * pVertex;
 	Device->CreateVertexBuffer(sizeof(IMAGE_VERTEX)*MAX_SYMBOLS*SYM_VERTEXS,D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, IMAGE_FVF, D3DPOOL_SYSTEMMEM, &VBuffer);
 	if(VBuffer == 0) _THROW(vbuffer error);
@@ -179,8 +179,8 @@ bool FONT::Init(char * font_name, char * iniName, IDirect3DDevice8 * _device, VD
 	{
 		pVertex[n].pos.z = 0.5f;
 	}
-	VBuffer->Unlock();	
-	
+	VBuffer->Unlock();
+
 	fScale = fOldScale = 1.f;
 	Color = oldColor = 0xFFFFFFFF;
 
@@ -190,7 +190,7 @@ bool FONT::Init(char * font_name, char * iniName, IDirect3DDevice8 * _device, VD
 		_CORE_API->Trace("Not Found Texture: %s",textureName);
         return false;
     }
-	
+
 	return true;
 }
 
@@ -241,7 +241,7 @@ long FONT::GetStringWidth(const char * Text)
 		{
 			pos.x1 = pos.x2 = pos.y1 = pos.y2 = 0;
 			xoffset += Spacebar*fScale;
-		}		
+		}
 	}
 
 	return (long)xoffset;
@@ -257,7 +257,7 @@ long FONT::UpdateVertexBuffer(long x, long y, char * data_PTR)
 	FLOAT_RECT pos;
 	FLOAT_RECT tuv;
 	IMAGE_VERTEX * pVertex;
-	
+
 	s_num = strlen(data_PTR);
 
 	VBuffer->Lock(0,sizeof(IMAGE_VERTEX)*s_num*SYM_VERTEXS,(byte**)&pVertex,0);
@@ -267,7 +267,7 @@ long FONT::UpdateVertexBuffer(long x, long y, char * data_PTR)
 	for(i=0;i<s_num;i++)
 	{
 		sym = data_PTR[i];
-		
+
 		n = i * 6;
 		pos = CharT[sym].Pos;
 		if(fScale!=1.f)
@@ -285,7 +285,7 @@ long FONT::UpdateVertexBuffer(long x, long y, char * data_PTR)
 			pos.x1 = pos.x2 = pos.y1 = pos.y2 = 0;
 			xoffset += Spacebar*fScale;
 		}
-		
+
 		pVertex[n + 0].pos.x = pos.x1;
 		pVertex[n + 1].pos.x = pos.x1;
 		pVertex[n + 2].pos.x = pos.x2;
@@ -358,7 +358,7 @@ long FONT::Print(long x, long y, char * data_PTR)
 
 			Device->DrawPrimitive( D3DPT_TRIANGLELIST,0,s_num*2);
 		}
-		
+
 		xoffset = UpdateVertexBuffer(x, y,data_PTR);
 
 		Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ZERO);
@@ -377,7 +377,7 @@ long FONT::Print(long x, long y, char * data_PTR)
 
 			Device->DrawPrimitive( D3DPT_TRIANGLELIST,0,s_num*2);
 		}
-		
+
 		xoffset = UpdateVertexBuffer(x, y,data_PTR);
 
 		Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);

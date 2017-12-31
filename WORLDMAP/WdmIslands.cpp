@@ -595,7 +595,7 @@ void WdmIslands::LRender(VDX8RENDER * rs)
 	rs->GetTransform(D3DTS_PROJECTION, prj);
 	mtx.EqMultiply(view, prj);
 	//Получим текущие размеры vp
-	static D3DVIEWPORT8 vp;
+	static D3DVIEWPORT9 vp;
 	rs->GetViewport(&vp);
 	float w = (float)vp.Width;
 	float h = (float)vp.Height;

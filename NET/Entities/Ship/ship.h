@@ -159,7 +159,7 @@ public:
 // inherit functions SHIP_BASE
 	bool			bSetLightAndFog;
 	dword			dwSaveAmbient, dwSaveFogColor;
-	D3DLIGHT8		saveLight;
+	D3DLIGHT9		saveLight;
 
 	virtual void	SetLightAndFog(bool bSetLight);
 	virtual void	RestoreLightAndFog();

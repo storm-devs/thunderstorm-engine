@@ -401,7 +401,7 @@ void SEA::BuildVolumeTexture()
 		{
 			D3DSURFACE_DESC		d3dsd;
 			D3DLOCKED_RECT		d3dlr;
-			IDirect3DTexture8	* * pBumpMap;
+			IDirect3DTexture9	* * pBumpMap;
 			HRESULT				hr;
 
 	  		pBumpMap = &aBumpMaps[aBumpMaps.Add()];
@@ -1389,7 +1389,7 @@ void SEA::Realize(dword dwDeltaTime)
 
 	if (!pVolumeTexture && aBumpMaps.Size())
 	{
-		IDirect3DSurface8	* pFace;
+		IDirect3DSurface9	* pFace;
 
 		static float fBumpMapFrame = 0.0f;
 		fBumpMapFrame += float(fDeltaTime) * fBumpSpeed * 48.0f;
@@ -1557,10 +1557,10 @@ void SEA::Realize(dword dwDeltaTime)
 			Render().SetVertexShaderConstant(GC_FREE + 8, &mTexProjection, 4);			// Matrix!!
 
 			//Render().SetTexture(0, pVolumeTexture);
-			Render().SetTexture(0, (pVolumeTexture) ? (IDirect3DBaseTexture8*)pVolumeTexture : (IDirect3DBaseTexture8*)pRenderTargetBumpMap);
+			Render().SetTexture(0, (pVolumeTexture) ? (IDirect3DBaseTexture9*)pVolumeTexture : (IDirect3DBaseTexture9*)pRenderTargetBumpMap);
 			Render().SetTexture(1, pReflection);
 			//Render().SetTexture(2, pVolumeTexture);
-			Render().SetTexture(2, (pVolumeTexture) ? (IDirect3DBaseTexture8*)pVolumeTexture : (IDirect3DBaseTexture8*)pRenderTargetBumpMap);
+			Render().SetTexture(2, (pVolumeTexture) ? (IDirect3DBaseTexture9*)pVolumeTexture : (IDirect3DBaseTexture9*)pRenderTargetBumpMap);
 			Render().SetTexture(3, pReflectionSunroad);
 
 			Render().SetTextureStageState(1, D3DTSS_BUMPENVMAT00, F2DW(0.08f));
@@ -1577,14 +1577,14 @@ void SEA::Realize(dword dwDeltaTime)
 		}
 		else
 		{
-			D3DCAPS8 d3dCaps;
+			D3DCAPS9 d3dCaps;
 			Render().GetDeviceCaps(&d3dCaps);
 			dword dwPSVersionLo = LOBYTE(d3dCaps.PixelShaderVersion);
 			dword dwPSVersionHi = HIBYTE(d3dCaps.PixelShaderVersion);
 
 			Render().SetVertexShaderConstant(GC_FREE + 8, &CMatrix(0.0f, 0.0f, PId2), 4);			// Matrix!!
 
-			Render().SetTexture(0, (pVolumeTexture) ? (IDirect3DBaseTexture8*)pVolumeTexture : (IDirect3DBaseTexture8*)pRenderTargetBumpMap);
+			Render().SetTexture(0, (pVolumeTexture) ? (IDirect3DBaseTexture9*)pVolumeTexture : (IDirect3DBaseTexture9*)pRenderTargetBumpMap);
 			Render().SetTexture(3, pEnvMap);
 			Render().DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, iVSeaBuffer, sizeof(SeaVertex), iISeaBuffer, 0, iVStart, 0, iTStart, "Sea2");
 
@@ -1594,11 +1594,11 @@ void SEA::Realize(dword dwDeltaTime)
 				Render().SetPixelShaderConstant(0, &CVECTOR4(fFoamTextureDisturb, 0.0f, 0.0f, 0.0f), 1);
 
 				Render().TextureSet(0, iFoamTexture);
-				Render().SetTexture(4, (pVolumeTexture) ? (IDirect3DBaseTexture8*)pVolumeTexture : (IDirect3DBaseTexture8*)pRenderTargetBumpMap);
+				Render().SetTexture(4, (pVolumeTexture) ? (IDirect3DBaseTexture9*)pVolumeTexture : (IDirect3DBaseTexture9*)pRenderTargetBumpMap);
 				Render().DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, iVSeaBuffer, sizeof(SeaVertex), iISeaBuffer, 0, iVStart, 0, iTStart, "Foam_14");
 			}
 
-			Render().SetTexture(0, (pVolumeTexture) ? (IDirect3DBaseTexture8*)pVolumeTexture : (IDirect3DBaseTexture8*)pRenderTargetBumpMap);
+			Render().SetTexture(0, (pVolumeTexture) ? (IDirect3DBaseTexture9*)pVolumeTexture : (IDirect3DBaseTexture9*)pRenderTargetBumpMap);
 			Render().SetTexture(3, pSunRoadMap);
 			Render().DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, iVSeaBuffer, sizeof(SeaVertex), iISeaBuffer, 0, iVStart, 0, iTStart, "Sea2_SunRoad");
 		}
@@ -1614,7 +1614,7 @@ void SEA::Realize(dword dwDeltaTime)
 	//Render().Print(30, 140, "rdtsc = %d", dwBlockRDTSC);
 	//Render().Print(30, 160, "Intel CPU: %s, SSE: %s, HyperThreading: %s", (bIntel) ? "Yes" : "No", (bSSE) ? "On" : "Off", (bHyperThreading) ? "On" : "Off");
 
-	/*D3DVIEWPORT8 vp; Render().GetViewport(&vp);
+	/*D3DVIEWPORT9 vp; Render().GetViewport(&vp);
 	float w = 256;
 	float h = 256;
 	RS_SPRITE spr[4];

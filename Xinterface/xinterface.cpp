@@ -2521,7 +2521,7 @@ bool __declspec(dllexport) __cdecl XINTERFACE::SFLB_DoSaveFileData(char * saveNa
 
 	ENTITY_ID ei;
 	if( !api->FindClass(&ei,"SCRSHOTER",0) ) return false;
-	IDirect3DTexture8 * ptex = (IDirect3DTexture8*)api->Send_Message(ei,"l",MSG_SCRSHOT_MAKE);
+	IDirect3DTexture9 * ptex = (IDirect3DTexture9*)api->Send_Message(ei,"l",MSG_SCRSHOT_MAKE);
 	if(ptex==null) return false;
 
 	D3DSURFACE_DESC dscr;

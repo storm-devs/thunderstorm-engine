@@ -624,12 +624,12 @@ D3DXVECTOR3* WINAPI D3DXVec3TransformNormal
 
 // Project vector from object space into screen space
 D3DXVECTOR3* WINAPI D3DXVec3Project
-    ( D3DXVECTOR3 *pOut, CONST D3DXVECTOR3 *pV, CONST D3DVIEWPORT8 *pViewport,
+    ( D3DXVECTOR3 *pOut, CONST D3DXVECTOR3 *pV, CONST D3DVIEWPORT9 *pViewport,
       CONST D3DXMATRIX *pProjection, CONST D3DXMATRIX *pView, CONST D3DXMATRIX *pWorld);
 
 // Project vector from screen space into object space
 D3DXVECTOR3* WINAPI D3DXVec3Unproject
-    ( D3DXVECTOR3 *pOut, CONST D3DXVECTOR3 *pV, CONST D3DVIEWPORT8 *pViewport,
+    ( D3DXVECTOR3 *pOut, CONST D3DXVECTOR3 *pV, CONST D3DVIEWPORT9 *pViewport,
       CONST D3DXMATRIX *pProjection, CONST D3DXMATRIX *pView, CONST D3DXMATRIX *pWorld);
 
 #ifdef __cplusplus

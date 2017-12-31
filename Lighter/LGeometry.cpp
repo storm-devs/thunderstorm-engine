@@ -156,7 +156,7 @@ bool LGeometry::Process(VDX8RENDER * rs, long numLights)
 			vbuffer[numVBuffers].vbID = vbID;
 			vbuffer[numVBuffers++].start = numVrt;
 			//Получаем вершины
-			IDirect3DVertexBuffer8 * vbuf = rs->GetVertexBuffer(vbID);
+			IDirect3DVertexBuffer9 * vbuf = rs->GetVertexBuffer(vbID);
 			D3DVERTEXBUFFER_DESC desc;
 			if(!vbuf || vbuf->GetDesc(&desc) != D3D_OK)
 			{

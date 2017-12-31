@@ -215,7 +215,7 @@ bool HELPCHOOSER::RunChooser(char * ChooserGroup)
 	texHeight = ini->GetFloat(ChooserGroup,"TextureHeight",512.f);
 
 	// ѕолучим размер поверхности вывода (размер окна)
-	IDirect3DSurface8 * pRenderTarget;
+	IDirect3DSurface9 * pRenderTarget;
 	rs->GetRenderTarget(&pRenderTarget);
 	D3DSURFACE_DESC dscrSurface;
 	pRenderTarget->GetDesc(&dscrSurface);

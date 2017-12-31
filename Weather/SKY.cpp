@@ -574,8 +574,8 @@ float SKY::CalculateAlphaForSun(const CVECTOR& vSunPos, float fSunSize)
 		// ищем альфу в текстуре
 		if( nTexNum != -1 )
 		{
-			DWORD dwCol1 = GetPixelColor((IDirect3DTexture8*)pRS->GetTextureFromID(TexturesID[nTexNum]), fu,fv);
-			DWORD dwCol2 = GetPixelColor((IDirect3DTexture8*)pRS->GetTextureFromID(TexturesNextID[nTexNum]), fu,fv);
+			DWORD dwCol1 = GetPixelColor((IDirect3DTexture9*)pRS->GetTextureFromID(TexturesID[nTexNum]), fu,fv);
+			DWORD dwCol2 = GetPixelColor((IDirect3DTexture9*)pRS->GetTextureFromID(TexturesNextID[nTexNum]), fu,fv);
 
 			float fK = fTimeFactor - (long)fTimeFactor;
 			float fAlpha = (1.f-fK) * (dwCol1 >> 24) / 255.f + fK * (dwCol2 >> 24) / 255.f;
@@ -587,7 +587,7 @@ float SKY::CalculateAlphaForSun(const CVECTOR& vSunPos, float fSunSize)
 	return 1.f;
 }
 
-DWORD SKY::GetPixelColor(IDirect3DTexture8* pTex, float fu, float fv)
+DWORD SKY::GetPixelColor(IDirect3DTexture9* pTex, float fu, float fv)
 {
 	HRESULT hok;
 	DWORD dwCol = 0xFFFFFFFF;

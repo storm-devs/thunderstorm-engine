@@ -83,7 +83,7 @@ private:
 		virtual ~DlgTextDescribe() {Release();}
 		virtual void Release() {TextDescribe::Release();}
 		void __declspec(dllexport) __cdecl ChangeText(const char* pcText);
-		void __declspec(dllexport) __cdecl Init(VDX8RENDER* pRS, D3DVIEWPORT8& vp, INIFILE* pIni);
+		void __declspec(dllexport) __cdecl Init(VDX8RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni);
 		long GetShowHeight();
 		void Show(long nY);
 		bool IsLastPage();
@@ -106,7 +106,7 @@ private:
 		virtual ~DlgLinkDescribe() {Release();}
 		virtual void Release() {TextDescribe::Release();}
 		void __declspec(dllexport) __cdecl ChangeText(ATTRIBUTES* pALinks);
-		void __declspec(dllexport) __cdecl Init(VDX8RENDER* pRS, D3DVIEWPORT8& vp, INIFILE* pIni);
+		void __declspec(dllexport) __cdecl Init(VDX8RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni);
 		long GetShowHeight();
 		void Show(long nY);
 		void __declspec(dllexport) __cdecl ShowEditMode(long nX, long nY, long nTextIdx);
@@ -206,7 +206,7 @@ private:
 	VSoundService *snd;
 	ENTITY_ID charId, persId;
 	ENTITY_ID charMdl, persMdl;
-	D3DVIEWPORT8 textViewport;
+	D3DVIEWPORT9 textViewport;
 
 	long curSnd;
 	char soundName[256];

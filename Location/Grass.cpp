@@ -399,7 +399,7 @@ void Grass::Realize(dword delta_time)
 	//Параметры источника освещения
 	BOOL isLight = FALSE;
 	rs->GetLightEnable(0, &isLight);
-	D3DLIGHT8 light;
+	D3DLIGHT9 light;
 	if(isLight && rs->GetLight(0, &light))
 	{
 		//Установленный источник

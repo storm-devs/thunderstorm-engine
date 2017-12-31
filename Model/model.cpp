@@ -6,7 +6,7 @@
 INTERFACE_FUNCTION
 CREATE_CLASS(MODELR)
 
-IDirect3DVertexBuffer8 *dest_vb;
+IDirect3DVertexBuffer9 *dest_vb;
 
 MODELR::MODELR()
 {

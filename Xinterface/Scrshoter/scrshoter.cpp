@@ -104,12 +104,12 @@ bool SCRSHOTER::MakeScreenShot()
 
 	// получим данные о старой поверхности рендера
 	D3DSURFACE_DESC desc;
-	IDirect3DSurface8 * pOldRenderTarg = null;
+	IDirect3DSurface9 * pOldRenderTarg = null;
 	if( hr==D3D_OK ) hr = rs->GetRenderTarget(&pOldRenderTarg);
 	if( hr==D3D_OK ) hr = pOldRenderTarg->GetDesc(&desc);
 
 	// получим копию рендер буфера
-	IDirect3DSurface8 * pRenderTarg = null;
+	IDirect3DSurface9 * pRenderTarg = null;
 	if( hr==D3D_OK ) hr = rs->CreateImageSurface(desc.Width, desc.Height, desc.Format, &pRenderTarg);
 	if( hr==D3D_OK ) hr = rs->CopyRects( pOldRenderTarg, null, 0, pRenderTarg, null );
 	if( pOldRenderTarg!=null ) pOldRenderTarg->Release();
@@ -193,7 +193,7 @@ bool SCRSHOTER::MakeScreenShot()
 	int nTextureID = rs->TextureCreate("interfaces\\EmptyBorder.tga");
 	if(nTextureID>=0)
 	{
-		IDirect3DTexture8 * pScrShotTex = null;
+		IDirect3DTexture9 * pScrShotTex = null;
 		if( D3D_OK == rs->CreateTexture(SS_TEXTURE_WIDTH,SS_TEXTURE_HEIGHT,1,D3DUSAGE_RENDERTARGET,D3DFMT_A8R8G8B8,D3DPOOL_DEFAULT,&pScrShotTex) )
 		{
 			DWORD BI_SCRSHOTER_VERTEX_FORMAT = (D3DFVF_XYZRHW|D3DFVF_TEX1|D3DFVF_TEXTUREFORMAT2);
@@ -217,7 +217,7 @@ bool SCRSHOTER::MakeScreenShot()
 			pRenderTarg = null;
 			if( rs->GetRenderTarget(&pOldRenderTarg)==S_OK )
 			{
-				IDirect3DSurface8 * pStencil = null;
+				IDirect3DSurface9 * pStencil = null;
 				rs->GetDepthStencilSurface(&pStencil);
 				pScrShotTex->GetSurfaceLevel(0,&pRenderTarg);
 				if( rs->SetRenderTarget(pRenderTarg,NULL) == S_OK )
@@ -232,7 +232,7 @@ bool SCRSHOTER::MakeScreenShot()
 				if(pStencil) pStencil->Release();
 				if(pOldRenderTarg) pOldRenderTarg->Release();
 			}
-			IDirect3DSurface8 *pSurf1=null, *pSurf2=null;
+			IDirect3DSurface9 *pSurf1=null, *pSurf2=null;
 			rs->GetSurfaceLevel(m_pScrShotTex,0,&pSurf1);
 			rs->GetSurfaceLevel(pScrShotTex,0,&pSurf2);
 			rs->CopyRects(pSurf2,null,0,pSurf1,null);
@@ -261,7 +261,7 @@ dword _cdecl SCRSHOTER::ProcessMessage(MESSAGE & message)
 			message.String(sizeof(param2)-1,param2);
 			pvdat = message.ScriptVariablePointer();
 
-			IDirect3DTexture8 * pRetTex = AddSaveTexture(param,param2);
+			IDirect3DTexture9 * pRetTex = AddSaveTexture(param,param2);
 			char * strDat = FindSaveData(param2);
 			if(pvdat)
 				if(!strDat) pvdat->Set("\0");
@@ -280,7 +280,7 @@ dword _cdecl SCRSHOTER::ProcessMessage(MESSAGE & message)
 	return 0;
 }
 
-IDirect3DTexture8 * SCRSHOTER::FindSaveTexture(char * fileName)
+IDirect3DTexture9 * SCRSHOTER::FindSaveTexture(char * fileName)
 {
 	if(!fileName) return null;
 	SAVETEXTURES * ps = m_list;
@@ -300,10 +300,10 @@ char * SCRSHOTER::FindSaveData(char * fileName)
 	return null;
 }
 
-IDirect3DTexture8 * SCRSHOTER::AddSaveTexture(char * dirName, char * fileName)
+IDirect3DTexture9 * SCRSHOTER::AddSaveTexture(char * dirName, char * fileName)
 {
 	if(fileName==null) return null;
-	IDirect3DTexture8 * rval = FindSaveTexture(fileName);
+	IDirect3DTexture9 * rval = FindSaveTexture(fileName);
 	if(rval) return rval;
 	if(stricmp(fileName,"newsave")==0) return m_pScrShotTex;
 	SAVETEXTURES * ps = NEW SAVETEXTURES;
@@ -344,11 +344,11 @@ void SCRSHOTER::DelSaveTexture(char * fileName)
 		}
 }
 
-IDirect3DTexture8 * SCRSHOTER::GetTexFromSave(char * fileName, char **pDatStr)
+IDirect3DTexture9 * SCRSHOTER::GetTexFromSave(char * fileName, char **pDatStr)
 {
 	HRESULT hr = D3D_OK;
 	D3DLOCKED_RECT outRect;
-	IDirect3DTexture8 * pt = null;
+	IDirect3DTexture9 * pt = null;
 	*pDatStr = 0;
 
 	long datSize = 0;
