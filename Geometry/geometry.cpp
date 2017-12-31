@@ -482,8 +482,8 @@ void GEOM_SERVICE_R::DrawIndexedPrimitive(long minv, long numv, long vrtsize, lo
 		// 0 - World * View * Projection
 		// 4 - World
 
-		RenderService->SetVertexShaderConstant(0, &mWVP, 4);
-		RenderService->SetVertexShaderConstant(4, &mWorld, 4);
+		RenderService->SetFVFConstant(0, &mWVP, 4);
+		RenderService->SetFVFConstant(4, &mWorld, 4);
 
 		RenderService->GetRenderState(D3DRS_ZBIAS, &oldZBias);
 		RenderService->SetRenderState(D3DRS_ZBIAS, 1);
@@ -498,7 +498,7 @@ void GEOM_SERVICE_R::DrawIndexedPrimitive(long minv, long numv, long vrtsize, lo
 		if (!bCaustic)
 		{
 			RenderService->SetStreamSource(0, transformed_vb, cavb->stride);
-			RenderService->SetVertexShader(cavb->fvf);
+			RenderService->SetFVF(cavb->fvf);
 
 			RenderService->DrawBuffer(-1, cavb->stride,CurentIndexBuffer,minv,numv,startidx, numtrg, technique);
 		}

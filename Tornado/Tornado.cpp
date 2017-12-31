@@ -127,7 +127,7 @@ void Tornado::Realize(dword delta_time)
 	rs->TextureSet(0, -1);
 	pillar.FillVertexBuffer(vrt);
 	rs->UnLockVertexBuffer(vb);
-	rs->SetVertexShader(D3DFVF_XYZ | D3DFVF_DIFFUSE);
+	rs->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE);
 	rs->DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, vb, sizeof(Pillar::Vertex), ib, 0, pillar.GetNumVerteces(), 0, pillar.GetNumTriangles(), "TornadoPillar");
 	//Системы частиц
 	particles.Draw(rs);

@@ -69,12 +69,12 @@ void LocModelRealizer::Realize(dword delta_time)
 			// 13 - (0, 0, 0, 0)
 
 			fCausticDelta = fCausticFrame - long(fCausticFrame);
-			Render().SetVertexShaderConstant(10, &CVECTOR4(fCausticScale, fCausticDelta, 0.0f, 0.0f), 1);
-			Render().SetVertexShaderConstant(11, &v4CausticColor, 1);
-			Render().SetVertexShaderConstant(12, &CVECTOR4(fFogDensity, 0.0f, 0.0f, 0.0f), 1);
-			Render().SetVertexShaderConstant(13, &CVECTOR4(0.0f, 0.0f, 0.0f, 0.0f), 1);
-			Render().SetVertexShaderConstant(14, &CVECTOR4(0.0f, 1.0f, 0.0f, 0.0f), 1);
-			Render().SetVertexShaderConstant(15, &CVECTOR4(1.0f / fCausticDistance, 1.0f, 0.0f, 0.0f), 1);
+			Render().SetFVFConstant(10, &CVECTOR4(fCausticScale, fCausticDelta, 0.0f, 0.0f), 1);
+			Render().SetFVFConstant(11, &v4CausticColor, 1);
+			Render().SetFVFConstant(12, &CVECTOR4(fFogDensity, 0.0f, 0.0f, 0.0f), 1);
+			Render().SetFVFConstant(13, &CVECTOR4(0.0f, 0.0f, 0.0f, 0.0f), 1);
+			Render().SetFVFConstant(14, &CVECTOR4(0.0f, 1.0f, 0.0f, 0.0f), 1);
+			Render().SetFVFConstant(15, &CVECTOR4(1.0f / fCausticDistance, 1.0f, 0.0f, 0.0f), 1);
 
 			Render().TextureSet(1, iCausticTex[long(fCausticFrame) % 32]);
 			Render().TextureSet(2, iCausticTex[(long(fCausticFrame) + 1) % 32]);

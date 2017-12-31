@@ -327,7 +327,7 @@ void SHADOW::Realize(dword Delta_Time)
 	long shade = long(fabsf(shading*255.0f));
 
 	rs->SetRenderState(D3DRS_TEXTUREFACTOR, (shade<<16)|(shade<<8)|(shade<<0));
-	rs->SetVertexShader(SHADOW_FVF);
+	rs->SetFVF(SHADOW_FVF);
 	rs->SetIndices(0,0);
 	rs->SetStreamSource(0, vbuff, sizeof(SHADOW_VERTEX));
 

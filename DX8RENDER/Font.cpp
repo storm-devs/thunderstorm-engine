@@ -343,7 +343,7 @@ long FONT::Print(long x, long y, char * data_PTR)
 	if (!bDraw) return xoffset;
 
 	RenderService->TextureSet(0,TextureID);
-	Device->SetVertexShader(IMAGE_FVF);
+	Device->SetFVF(IMAGE_FVF);
 	Device->SetStreamSource(0,VBuffer,sizeof(IMAGE_VERTEX));
 	Device->SetIndices(0,0);
 

@@ -325,7 +325,7 @@ void WdmClouds::LRender(VDX8RENDER * rs)
 		CMatrix prj;
 		rs->GetTransform(D3DTS_PROJECTION, prj);
 		view.Transposition();
-		rs->SetVertexShaderConstant(0, prj, 4);
+		rs->SetFVFConstant(0, prj, 4);
 		prj.matrix[0] = view.matrix[1];
 		prj.matrix[1] = view.matrix[5];
 		prj.matrix[2] = view.matrix[9];
@@ -334,7 +334,7 @@ void WdmClouds::LRender(VDX8RENDER * rs)
 		prj.matrix[5] = 0.0f;
 		prj.matrix[6] = (WdmCloudsSizeMax - WdmCloudsSizeMin)*1.4f;
 		prj.matrix[7] = 0.5f;
-		rs->SetVertexShaderConstant(4, prj, 2);
+		rs->SetFVFConstant(4, prj, 2);
 		rs->DrawRects(rects, count, "WdmClouds", 2, 2);
 	}
 	//rs->Print(20, 200, "Visible clouds = %i, Visible particles = %i", cnt, count);

@@ -499,8 +499,8 @@ void Grass::Realize(dword delta_time)
 	rs->TextureSet(0, texture);
 	rs->TextureSet(1, texture);
 	//Ставим константы
-	rs->SetVertexShaderConstant(0, consts, sizeof(consts)/sizeof(VSConstant));
-	//rs->SetVertexShaderConstant(0, consts, 40);
+	rs->SetFVFConstant(0, consts, sizeof(consts)/sizeof(VSConstant));
+	//rs->SetFVFConstant(0, consts, 40);
 	//Позиция камеры на карте
 	long camx = long((pos.x/m_fDataScale - startX)/GRASS_BLK_DST);
 	long camz = long((pos.z/m_fDataScale - startZ)/GRASS_BLK_DST);

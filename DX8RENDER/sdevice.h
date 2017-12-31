@@ -384,7 +384,7 @@ public:
 
 	// D3D
 		virtual HRESULT SetStreamSource(UINT StreamNumber, void * pStreamData, UINT Stride);
-		virtual HRESULT SetIndices(void * pIndexData, UINT BaseVertexIndex);
+		virtual HRESULT SetIndices(void * pIndexData);
 		virtual HRESULT DrawPrimitive(D3DPRIMITIVETYPE PrimitiveType, UINT StartVertex, UINT PrimitiveCount);
 #ifndef _XBOX
 		virtual HRESULT Release(IUnknown *pSurface);
@@ -420,9 +420,9 @@ public:
 		virtual HRESULT DeletePixelShader( DWORD Handle );
 		virtual HRESULT DeleteVertexShader( DWORD Handle );
 		virtual HRESULT SetPixelShader( DWORD Handle );
-		virtual HRESULT SetVertexShaderConstant(DWORD Register, CONST void* pConstantData, DWORD  ConstantCount );
+		virtual HRESULT SetFVFConstant(DWORD Register, CONST void* pConstantData, DWORD  ConstantCount );
 		virtual HRESULT SetPixelShaderConstant( DWORD Register, CONST void* pConstantData, DWORD ConstantCount );
-		virtual HRESULT SetVertexShader(DWORD handle);
+		virtual HRESULT SetFVF(DWORD handle);
 		virtual HRESULT GetVertexShader(DWORD * pHandle);
 		virtual HRESULT GetPixelShader(DWORD * pHandle);
 
@@ -562,7 +562,7 @@ public:
 	void VertexBufferRelease(void * VB_pointer);
 	HRESULT VertexBufferLock(void * VB_pointer, UINT OffsetToLock,UINT SizeToLock,BYTE** ppbData, DWORD Flags);
 	void VertexBufferUnlock(void * VB_pointer);
-	HRESULT SetVertexShader(DWORD handle);
+	HRESULT SetFVF(DWORD handle);
 	HRESULT SetStreamSource(UINT StreamNumber, void * pStreamData, UINT Stride);
 	HRESULT SetIndices(void * pIndexData, UINT BaseVertexIndex);
 	HRESULT DrawPrimitive(D3DPRIMITIVETYPE PrimitiveType, UINT StartVertex, UINT PrimitiveCount);
@@ -593,7 +593,7 @@ public:
 	HRESULT DeletePixelShader( DWORD Handle );
 	HRESULT DeleteVertexShader( DWORD Handle );
 	HRESULT SetPixelShader( DWORD Handle );
-	HRESULT SetVertexShaderConstant(DWORD Register, CONST void* pConstantData, DWORD  ConstantCount );
+	HRESULT SetFVFConstant(DWORD Register, CONST void* pConstantData, DWORD  ConstantCount );
 	HRESULT SetPixelShaderConstant( DWORD Register, CONST void* pConstantData, DWORD ConstantCount );
 	HRESULT GetVertexShader(DWORD * pHandle);
 	HRESULT GetPixelShader(DWORD * pHandle);

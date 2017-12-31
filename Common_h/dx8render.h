@@ -239,9 +239,9 @@ public:
 		virtual HRESULT DeletePixelShader( DWORD Handle ) = 0;
 		virtual HRESULT DeleteVertexShader( DWORD Handle ) = 0;
 		virtual HRESULT SetPixelShader( DWORD Handle ) = 0;
-		virtual HRESULT SetVertexShaderConstant(DWORD Register, CONST void* pConstantData, DWORD  ConstantCount ) = 0;
+		virtual HRESULT SetFVFConstant(DWORD Register, CONST void* pConstantData, DWORD  ConstantCount ) = 0;
 		virtual HRESULT SetPixelShaderConstant( DWORD Register, CONST void* pConstantData, DWORD ConstantCount ) = 0;
-		virtual HRESULT SetVertexShader(DWORD handle) = 0;
+		virtual HRESULT SetFVF(DWORD handle) = 0;
 		virtual HRESULT GetVertexShader(DWORD * pHandle) = 0;
 		virtual HRESULT GetPixelShader(DWORD * pHandle) = 0;
 

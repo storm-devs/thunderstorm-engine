@@ -665,7 +665,7 @@ void Sharks::Realize(dword delta_time)
 	{
 		rs->TextureSet(0, trackTx);
 		rs->SetTransform(D3DTS_WORLD, CMatrix());
-		rs->SetVertexShader(D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1);
+		rs->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1);
 		rs->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, num, num, indeces, D3DFMT_INDEX16, vrt, sizeof(Vertex), "SharkTrack");
 	}
 

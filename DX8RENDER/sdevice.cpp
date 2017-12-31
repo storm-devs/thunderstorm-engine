@@ -1092,7 +1092,7 @@ void DX8RENDER::CopyPostProcessToScreen()
 
 	if (bSeaEffect)
 	{
-		d3d8->SetVertexShader(POST_PROCESS_FVF);
+		d3d8->SetFVF(POST_PROCESS_FVF);
 		DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, 32 * 32, 31 * 31 * 2, qi, D3DFMT_INDEX16, qv, sizeof(QuadVertex), "PostProcess");
 	}
 	else
@@ -1103,7 +1103,7 @@ void DX8RENDER::CopyPostProcessToScreen()
 
 void DX8RENDER::ClearPostProcessSurface (IDirect3DSurface9* pSurf)
 {
-	HRESULT hr = d3d8->SetRenderTarget( pSurf, NULL );
+	HRESULT hr = d3d8->SetRenderTarget( 0, pSurf );
 	hr = d3d8->BeginScene();
 	hr = d3d8->Clear(0, NULL, D3DCLEAR_TARGET, 0x0, 0.0f, 0x0);
 	hr = d3d8->EndScene();
@@ -1111,13 +1111,15 @@ void DX8RENDER::ClearPostProcessSurface (IDirect3DSurface9* pSurf)
 
 void DX8RENDER::SetScreenAsRenderTarget ()
 {
-	HRESULT hr = d3d8->SetRenderTarget( pOriginalScreenSurface, pOriginalDepthSurface );
+	d3d8->SetRenderTarget(0, pOriginalScreenSurface);
+	d3d8->SetDepthStencilSurface(pOriginalDepthSurface);
 	SetViewport(&OriginalViewPort);
 }
 
 void DX8RENDER::SetPostProcessTextureAsRenderTarget ()
 {
-	HRESULT hr = d3d8->SetRenderTarget( pPostProcessSurface, pOriginalDepthSurface );
+	d3d8->SetRenderTarget(0, pPostProcessSurface);
+	d3d8->SetDepthStencilSurface(pOriginalDepthSurface);
 	SetViewport(&OriginalViewPort);
 }
 
@@ -1128,9 +1130,9 @@ void DX8RENDER::MakePostProcess()
 	if (!bSeaEffect && !bPostProcessEnabled) return;
 	if (!bNeedCopyToScreen) return;
 
-	DWORD dwToken;
-	d3d8->CreateStateBlock(D3DSBT_ALL, &dwToken);
-	d3d8->CaptureStateBlock(dwToken);
+	IDirect3DStateBlock9* pStateBlock = nullptr;
+	d3d8->CreateStateBlock(D3DSBT_ALL, &pStateBlock);
+	pStateBlock->Capture();
 
 	bNeedCopyToScreen = false;
 
@@ -1138,8 +1140,8 @@ void DX8RENDER::MakePostProcess()
 	BlurGlowTexture();
 	CopyGlowToScreen();
 
-	d3d8->ApplyStateBlock(dwToken);
-	d3d8->DeleteStateBlock(dwToken);
+	pStateBlock->Apply();
+	pStateBlock->Release();
 
 	SetScreenAsRenderTarget();
 /*
@@ -1215,12 +1217,12 @@ bool DX8RENDER::DX8EndScene()
 	if (bDropVideoConveyor && pDropConveyorVBuffer)
 	{
 		CVECTOR * pV;
-		pDropConveyorVBuffer->Lock(0, 0, (BYTE**)&pV, 0);
+		pDropConveyorVBuffer->Lock(0, 0, (VOID**)&pV, 0);
 		for (long i=0; i<2; i++)
 			pV[i] = CVECTOR(1e6f, 1e6f, 1e6f);
 		pDropConveyorVBuffer->Unlock();
-		d3d8->SetStreamSource(0, pDropConveyorVBuffer, sizeof(CVECTOR));
-		d3d8->SetVertexShader(D3DFVF_XYZ);
+		d3d8->SetStreamSource(0, pDropConveyorVBuffer, 0, sizeof(CVECTOR));
+		d3d8->SetFVF(D3DFVF_XYZ);
 		DrawPrimitive(D3DPT_LINELIST, 0, 1);
 	}
 
@@ -1441,7 +1443,7 @@ bool DX8RENDER::TextureLoad(long t)
 		if(seekposition) api->fio->_SetFilePointer(file, seekposition, 0, FILE_CURRENT);
 		//Создаём текстуру
 		IDirect3DTexture9 * tex = null;
-		if(ErrorHandler("CreateTexture", d3d8->CreateTexture(head.width, head.height, head.nmips, 0, d3dFormat, D3DPOOL_MANAGED, &tex))==true || !tex)
+		if(ErrorHandler("CreateTexture", d3d8->CreateTexture(head.width, head.height, head.nmips, 0, d3dFormat, D3DPOOL_MANAGED, &tex, NULL))==true || !tex)
 		{
 			if (bTrace) api->Trace("Texture %s is not created (width: %i, height: %i, num mips: %i, format: %s), not loading it.", fn, head.width, head.height, head.nmips, formatTxt);
 			delete Textures[t].name;
@@ -1506,7 +1508,7 @@ bool DX8RENDER::TextureLoad(long t)
 		if(!(devcaps.TextureCaps & D3DPTEXTURECAPS_MIPCUBEMAP)) head.nmips = 1;
 		//Создаём текстуру
 		IDirect3DCubeTexture9 * tex = null;
-		if(ErrorHandler("d3d8->CreateCubeTexture", d3d8->CreateCubeTexture(head.width, head.nmips, 0, d3dFormat, D3DPOOL_MANAGED, &tex))==true || !tex)
+		if(ErrorHandler("d3d8->CreateCubeTexture", d3d8->CreateCubeTexture(head.width, head.nmips, 0, d3dFormat, D3DPOOL_MANAGED, &tex, NULL))==true || !tex)
 		{
 			if (bTrace) api->Trace("Cube map texture %s is not created (size: %i, num mips: %i, format: %s), not loading it.", fn, head.width, head.nmips, formatTxt);
 			delete Textures[t].name;
@@ -1976,7 +1978,7 @@ long DX8RENDER::CreateVertexBuffer(long type, long size, dword dwUsage)
 
 	if(ErrorHandler("CreateVertexBuffer::CreateVertexBuffer",
 	d3d8->CreateVertexBuffer(size, dwUsage,
-		type, D3DPOOL_DEFAULT, &VertexBuffers[b].buff)
+		type, D3DPOOL_DEFAULT, &VertexBuffers[b].buff, NULL)
 		)==true)	return -1;
 
 	VertexBuffers[b].type = type;
@@ -2008,7 +2010,7 @@ long DX8RENDER::CreateIndexBuffer(long size, dword dwUsage)
 	if(ErrorHandler("CreateIndexBuffer::CreateIndexBuffer",
 	//d3d8->CreateIndexBuffer(size, D3DUSAGE_WRITEONLY, D3DFMT_INDEX16,
 	d3d8->CreateIndexBuffer(size, dwUsage, D3DFMT_INDEX16,
-		D3DPOOL_DEFAULT, &IndexBuffers[b].buff)
+		D3DPOOL_DEFAULT, &IndexBuffers[b].buff, NULL)
 		)==true)	return -1;
 
 	IndexBuffers[b].ntrgs = size;
@@ -2022,17 +2024,17 @@ void DX8RENDER::DrawBuffer(long vbuff, long stride, long ibuff, long minv,
 	bool bDraw = true;
 
 	if(vbuff>=0)
-		if(ErrorHandler("DrawBuffer::SetVertexShader",
-			d3d8->SetVertexShader(VertexBuffers[vbuff].type))==true)	return;
+		if(ErrorHandler("DrawBuffer::SetFVF",
+			d3d8->SetFVF(VertexBuffers[vbuff].type))==true)	return;
 	//else VertexBuffer already set
 
 	if(ErrorHandler("DrawBuffer::SetIndices",
-		d3d8->SetIndices(IndexBuffers[ibuff].buff, minv)
+		d3d8->SetIndices(IndexBuffers[ibuff].buff)
 		)==true)	return;
 
 	if(vbuff>=0)
 		if(ErrorHandler("DrawBuffer::SetStreamSource",
-			d3d8->SetStreamSource(0, VertexBuffers[vbuff].buff, stride)
+			d3d8->SetStreamSource(0, VertexBuffers[vbuff].buff, 0, stride)
 			)==true)	return;
 	//else VertexBuffer already set
 
@@ -2041,7 +2043,7 @@ void DX8RENDER::DrawBuffer(long vbuff, long stride, long ibuff, long minv,
 	{
 		dwNumDrawPrimitive++;
 		ErrorHandler("DrawBuffer::DrawIndexedPrimitive",
-			d3d8->DrawIndexedPrimitive( D3DPT_TRIANGLELIST, 0, numv,  startidx, numtrg));
+			d3d8->DrawIndexedPrimitive( D3DPT_TRIANGLELIST, minv, 0, numv,  startidx, numtrg));
 	} while (cBlockName && cBlockName[0] && TechniqueExecuteNext());
 }
 
@@ -2051,13 +2053,13 @@ void DX8RENDER::DrawIndexedPrimitiveNoVShader(D3DPRIMITIVETYPE dwPrimitiveType, 
 	bool bDraw = true;
 
 	if(ErrorHandler("DrawIndexedPrimitiveNoVShader::SetIndices",
-		d3d8->SetIndices(IndexBuffers[iIBuff].buff, iMinV)
+		d3d8->SetIndices(IndexBuffers[iIBuff].buff)
 		)==true)	return;
 
 	if (iVBuff >= 0)
 	{
 		if(ErrorHandler("DrawIndexedPrimitiveNoVShader::SetStreamSource",
-			d3d8->SetStreamSource(0, VertexBuffers[iVBuff].buff, iStride)
+			d3d8->SetStreamSource(0, VertexBuffers[iVBuff].buff, 0, iStride)
 			)==true)	return;
 	}
 
@@ -2066,7 +2068,7 @@ void DX8RENDER::DrawIndexedPrimitiveNoVShader(D3DPRIMITIVETYPE dwPrimitiveType, 
 	{
 		dwNumDrawPrimitive++;
 		ErrorHandler("DrawIndexedPrimitiveNoVShader::DrawIndexedPrimitive",
-			d3d8->DrawIndexedPrimitive( dwPrimitiveType, 0, iNumV,  iStartIdx, iNumTrg));
+			d3d8->DrawIndexedPrimitive( dwPrimitiveType, iMinV, 0, iNumV,  iStartIdx, iNumTrg));
 	} while (cBlockName && TechniqueExecuteNext());
 }
 
@@ -2086,8 +2088,8 @@ void DX8RENDER::DrawPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, dword dwVertex
 {
 	bool bDraw = true;
 
-	if(ErrorHandler("DrawPrimitiveUP::SetVertexShader",
-		d3d8->SetVertexShader(dwVertexBufferFormat))==true)	return;
+	if(ErrorHandler("DrawPrimitiveUP::SetFVF",
+		d3d8->SetFVF(dwVertexBufferFormat))==true)	return;
 
 	if (cBlockName) bDraw = TechniqueSetParamsAndStart(cBlockName,dwNumParams,1 + &dwNumParams);
 	if (bDraw) do
@@ -2102,11 +2104,11 @@ void DX8RENDER::DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, lon
 {
 	bool bDraw = true;
 
-	if(ErrorHandler("DrawPrimitive::SetVertexShader",
-		d3d8->SetVertexShader(VertexBuffers[iVBuff].type))==true)	return;
+	if(ErrorHandler("DrawPrimitive::SetFVF",
+		d3d8->SetFVF(VertexBuffers[iVBuff].type))==true)	return;
 
 	if(ErrorHandler("DrawPrimitive::SetStreamSource",
-		d3d8->SetStreamSource(0, VertexBuffers[iVBuff].buff, iStride)
+		d3d8->SetStreamSource(0, VertexBuffers[iVBuff].buff, 0, iStride)
 		)==true)	return;
 
 	if (cBlockName) bDraw = TechniqueSetParamsAndStart(cBlockName,dwNumParams,1 + &dwNumParams);
@@ -2137,14 +2139,14 @@ void DX8RENDER::RenderAnimation(long ib, void * src, long numVrts, long minv, lo
 											D3DUSAGE_WRITEONLY,
 											type,
 											D3DPOOL_MANAGED,
-											&aniVBuffer))==true) return;
+											&aniVBuffer, NULL))==true) return;
 			numAniVerteces = numVrts;
 		}
 		//Copy verteces
 		BYTE *ptr;
 	RDTSC_B(_rdtsc);
 		if(ErrorHandler("RenderAnimation::LockVertexBuffer",
-			aniVBuffer->Lock(0, size, &ptr, 0)
+			aniVBuffer->Lock(0, size, (VOID**)&ptr, 0)
 			)==true) return;
 	dwNumLV++;
 	RDTSC_E(_rdtsc);
@@ -2153,19 +2155,19 @@ void DX8RENDER::RenderAnimation(long ib, void * src, long numVrts, long minv, lo
 			aniVBuffer->Unlock());
 	}
 	//Render
-	if(ErrorHandler("RenderAnimation::SetVertexShader",
-		d3d8->SetVertexShader(type))==true)	return;
+	if(ErrorHandler("RenderAnimation::SetFVF",
+		d3d8->SetFVF(type))==true)	return;
 
 	if(ErrorHandler("RenderAnimation::SetIndices",
-		d3d8->SetIndices(IndexBuffers[ib].buff, minv)
+		d3d8->SetIndices(IndexBuffers[ib].buff)
 		)==true)	return;
 
 	if(ErrorHandler("RenderAnimation::SetStreamSource",
-		d3d8->SetStreamSource(0, aniVBuffer, sizeof(FVF_VERTEX))
+		d3d8->SetStreamSource(0, aniVBuffer, 0, sizeof(FVF_VERTEX))
 		)==true)	return;
 
 	ErrorHandler("RenderAnimation::DrawIndexedPrimitive",
-		d3d8->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, numv,  startidx, numtrg));
+		d3d8->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, minv, 0, numv,  startidx, numtrg));
 
 	dwNumDrawPrimitive++;
 }
@@ -2175,7 +2177,7 @@ void * DX8RENDER::LockVertexBuffer(long id, dword dwFlags)
 {
 	BYTE * ptr;
 	VertexBuffers[id].dwNumLocks++;
-	if (ErrorHandler("DX8RENDER::LockVertexBuffer", VertexBuffers[id].buff->Lock(0, VertexBuffers[id].size, &ptr, dwFlags)))	return 0;
+	if (ErrorHandler("DX8RENDER::LockVertexBuffer", VertexBuffers[id].buff->Lock(0, VertexBuffers[id].size, (VOID**)&ptr, dwFlags)))	return 0;
 	dwNumLV++;
 	return ptr;
 }
@@ -2193,7 +2195,7 @@ void * DX8RENDER::LockIndexBuffer(long id, dword dwFlags)
 	BYTE * ptr = null;
 	IndexBuffers[id].dwNumLocks++;
 	if(ErrorHandler("LockIndexBuffer::LockIndexBuffer",
-		IndexBuffers[id].buff->Lock(0, IndexBuffers[id].ntrgs, &ptr, dwFlags)
+		IndexBuffers[id].buff->Lock(0, IndexBuffers[id].ntrgs, (VOID**)&ptr, dwFlags)
 		)==true)	return 0;
 	dwNumLI++;
 	return ptr;
@@ -2714,9 +2716,9 @@ void DX8RENDER::func()
 
 	d3d8->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	d3d8->SetRenderState(D3DRS_ALPHABLENDENABLE, true );
-	d3d8->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-	d3d8->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-	d3d8->SetTextureStageState(0, D3DTSS_MIPFILTER, D3DTEXF_LINEAR);
+	d3d8->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	d3d8->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	d3d8->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 	d3d8->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_EXP);
 
@@ -2736,10 +2738,10 @@ void DX8RENDER::func()
 
 	// *****************************************************************88
 	//texture filtering
-	d3d8->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-	d3d8->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_ANISOTROPIC);
-	d3d8->SetTextureStageState(0, D3DTSS_MIPFILTER, D3DTEXF_LINEAR);
-	d3d8->SetTextureStageState(0, D3DTSS_MAXANISOTROPY, 3);
+	d3d8->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	d3d8->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_ANISOTROPIC);
+	d3d8->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+	d3d8->SetSamplerState(0, D3DSAMP_MAXANISOTROPY, 3);
 
 	//unchanged texture stage states - both for base and detal texture
 	d3d8->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
@@ -2858,19 +2860,19 @@ void DX8RENDER::MakeScreenShot()
 	surface = null;
 
 	//Получаем картинку
-	if(FAILED(d3d8->GetRenderTarget(&renderTarget)))
+	if(FAILED(d3d8->GetRenderTarget(0, &renderTarget)))
 	{
 		api->Trace("Falure get render target for make screenshot");
 		return;
 	}
-	if(FAILED(d3d8->CreateImageSurface(screen_size.x, screen_size.y, D3DFMT_X8R8G8B8, &surface)))
+	if(FAILED(d3d8->CreateOffscreenPlainSurface(screen_size.x, screen_size.y, D3DFMT_X8R8G8B8, D3DPOOL_SCRATCH, &surface, NULL)))
 	{
 		renderTarget->Release();
 		api->Trace("Falure create buffer for make screenshot");
 		return;
 	}
 
-	if(FAILED(d3d8->CopyRects(renderTarget, null, 0, surface, null)) ||
+	if(FAILED(d3d8->UpdateSurface(renderTarget, null, surface, null)) ||
 		FAILED(surface->LockRect(&lr, &r, 0)))
 	{
 		surface->Release();
@@ -3024,7 +3026,7 @@ void DX8RENDER::DrawRects(RS_RECT *pRSR, dword dwRectsNum, const char *cBlockNam
 		if(drawCount > rectsVBuffer_SizeInRects) drawCount = rectsVBuffer_SizeInRects;
 		//Буфер
 		RECT_VERTEX * data = null;
-		if(rectsVBuffer->Lock(0, drawCount*6*sizeof(RECT_VERTEX), (BYTE **)&data, D3DLOCK_DISCARD) != D3D_OK) return;
+		if(rectsVBuffer->Lock(0, drawCount*6*sizeof(RECT_VERTEX), (VOID**)&data, D3DLOCK_DISCARD) != D3D_OK) return;
 		if(!data) return;
 		//Заполняем буфер
 		for(dword i = 0; i < drawCount; i++)
@@ -3077,7 +3079,7 @@ void DX8RENDER::DrawRects(RS_RECT *pRSR, dword dwRectsNum, const char *cBlockNam
 		}
 		//Рисуем буфер
 		rectsVBuffer->Unlock();
-		ErrorHandler("SetCamera::GetTransform -> SetVertexShader", SetVertexShader(RS_RECT_VERTEX_FORMAT));
+		ErrorHandler("SetCamera::GetTransform -> SetFVF", SetFVF(RS_RECT_VERTEX_FORMAT));
 		if (cBlockName) bDraw = TechniqueSetParamsAndStart(cBlockName,dwNumParams,1 + &dwNumParams);
 		if (bDraw) do
 		{
@@ -3103,7 +3105,7 @@ void DX8RENDER::DrawSprites(RS_SPRITE * pRSS, dword dwSpritesNum, const char * c
 		pIndices[i*6 + 3] = WORD(i * 4 + 0); pIndices[i * 6 + 4] = WORD(i * 4 + 2); pIndices[i * 6 + 5] = WORD(i * 4 + 1);
 	}
 
-	SetVertexShader(RS_SPRITE_VERTEX_FORMAT);
+	SetFVF(RS_SPRITE_VERTEX_FORMAT);
 
 	bool bDraw = true;
 	if (cBlockName) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
@@ -3152,13 +3154,13 @@ void DX8RENDER::DrawLines2D(RS_LINE2D *pRSL2D, dword dwLinesNum, const char *cBl
 //-----------------------
 HRESULT DX8RENDER::CreateVertexBuffer(UINT Length, DWORD Usage, DWORD FVF, D3DPOOL Pool, IDirect3DVertexBuffer9** ppVertexBuffer)
 {
-	return d3d8->CreateVertexBuffer(Length, Usage, FVF, Pool, ppVertexBuffer);
+	return d3d8->CreateVertexBuffer(Length, Usage, FVF, Pool, ppVertexBuffer, NULL);
 }
 
 HRESULT DX8RENDER::VBLock(IDirect3DVertexBuffer9 * pVB, UINT OffsetToLock,UINT SizeToLock,BYTE** ppbData, DWORD Flags)
 {
 	dwNumLV++;
-	return pVB->Lock(OffsetToLock, SizeToLock, ppbData, Flags);
+	return pVB->Lock(OffsetToLock, SizeToLock, (VOID**)ppbData, Flags);
 }
 
 void DX8RENDER::VBUnlock(IDirect3DVertexBuffer9 * pVB)
@@ -3166,19 +3168,19 @@ void DX8RENDER::VBUnlock(IDirect3DVertexBuffer9 * pVB)
 	pVB->Unlock();
 }
 
-HRESULT DX8RENDER::SetVertexShader(DWORD handle)
+HRESULT DX8RENDER::SetFVF(DWORD handle)
 {
-	return d3d8->SetVertexShader(handle);
+	return d3d8->SetFVF(handle);
 }
 
 HRESULT DX8RENDER::SetStreamSource(UINT StreamNumber, void * pStreamData, UINT Stride)
 {
-	return d3d8->SetStreamSource(StreamNumber,(IDirect3DVertexBuffer9*)pStreamData,Stride);
+	return d3d8->SetStreamSource(StreamNumber,(IDirect3DVertexBuffer9*)pStreamData, 0, Stride);
 }
 
-HRESULT DX8RENDER::SetIndices(void * pIndexData, UINT BaseVertexIndex)
+HRESULT DX8RENDER::SetIndices(void * pIndexData)
 {
-	return d3d8->SetIndices((IDirect3DIndexBuffer9*)pIndexData,BaseVertexIndex);
+	return d3d8->SetIndices((IDirect3DIndexBuffer9*)pIndexData);
 }
 
 HRESULT DX8RENDER::DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, UINT StartVertex, UINT PrimitiveCount)
@@ -3203,7 +3205,7 @@ HRESULT DX8RENDER::Release(IDirect3DResource8 * pSurface)
 
 HRESULT DX8RENDER::GetRenderTarget(IDirect3DSurface9** ppRenderTarget)
 {
-	return d3d8->GetRenderTarget(ppRenderTarget);
+	return d3d8->GetRenderTarget(0, ppRenderTarget);
 }
 
 HRESULT DX8RENDER::GetDepthStencilSurface( IDirect3DSurface9** ppZStencilSurface )
@@ -3218,7 +3220,8 @@ HRESULT DX8RENDER::GetCubeMapSurface( IDirect3DCubeTexture9* ppCubeTexture, D3DC
 
 HRESULT DX8RENDER::SetRenderTarget( IDirect3DSurface9* pRenderTarget, IDirect3DSurface9* pNewZStencil )
 {
-	return d3d8->SetRenderTarget( pRenderTarget, pNewZStencil );
+	d3d8->SetRenderTarget(0, pRenderTarget);
+	return d3d8->SetDepthStencilSurface(pNewZStencil);
 }
 
 HRESULT DX8RENDER::Clear( DWORD Count, CONST D3DRECT* pRects, DWORD Flags, D3DCOLOR Color, float Z, DWORD Stencil )
@@ -3244,22 +3247,22 @@ HRESULT DX8RENDER::SetClipPlane( DWORD Index, CONST float* pPlane )
 
 HRESULT DX8RENDER::CreateTexture( UINT Width, UINT Height, UINT  Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DTexture9** ppTexture )
 {
-	return d3d8->CreateTexture( Width, Height, Levels, Usage, Format, Pool, ppTexture );
+	return d3d8->CreateTexture( Width, Height, Levels, Usage, Format, Pool, ppTexture, NULL );
 }
 
 HRESULT DX8RENDER::CreateCubeTexture( UINT EdgeLength, UINT Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DCubeTexture9** ppCubeTexture )
 {
-	return d3d8->CreateCubeTexture( EdgeLength, Levels, Usage, Format, Pool, ppCubeTexture );
+	return d3d8->CreateCubeTexture( EdgeLength, Levels, Usage, Format, Pool, ppCubeTexture, NULL );
 }
 
 HRESULT DX8RENDER::CreateImageSurface( UINT Width, UINT Height, D3DFORMAT Format, IDirect3DSurface9 * * ppSurface)
 {
-	return d3d8->CreateImageSurface( Width, Height, Format, ppSurface);
+	return d3d8->CreateOffscreenPlainSurface( Width, Height, Format, D3DPOOL_SCRATCH, ppSurface, NULL);
 }
 
 HRESULT DX8RENDER::CreateDepthStencilSurface( UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, IDirect3DSurface9** ppSurface )
 {
-	return d3d8->CreateDepthStencilSurface( Width, Height, Format, MultiSample, ppSurface );
+	return d3d8->CreateDepthStencilSurface( Width, Height, Format, MultiSample, 0, TRUE, ppSurface, NULL );
 }
 
 HRESULT DX8RENDER::CreateVertexShader(CONST DWORD * pDeclaration, CONST DWORD * pFunction, DWORD * pHandle, DWORD Usage )
@@ -3346,9 +3349,9 @@ HRESULT DX8RENDER::SetPixelShader( DWORD Handle )
 	return d3d8->SetPixelShader( Handle );
 }
 
-HRESULT DX8RENDER::SetVertexShaderConstant(DWORD Register, CONST void* pConstantData, DWORD  ConstantCount )
+HRESULT DX8RENDER::SetFVFConstant(DWORD Register, CONST void* pConstantData, DWORD  ConstantCount )
 {
-	return d3d8->SetVertexShaderConstant( Register, pConstantData, ConstantCount );
+	return d3d8->SetFVFConstant( Register, pConstantData, ConstantCount );
 }
 
 HRESULT DX8RENDER::SetPixelShaderConstant( DWORD Register, CONST void* pConstantData, DWORD ConstantCount )
@@ -3524,7 +3527,7 @@ HRESULT DX8RENDER::ImageBlt(long TextureID, RECT * pDstRect, RECT * pSrcRect)
 	bool bDraw = TechniqueExecuteStart("texturedialogfon");
 	if (bDraw) do
 	{
-		d3d8->SetVertexShader(D3DFVF_XYZRHW | D3DFVF_TEX1 | D3DFVF_TEXTUREFORMAT2);
+		d3d8->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX1 | D3DFVF_TEXTUREFORMAT2);
 		hRes = d3d8->DrawPrimitiveUP(D3DPT_TRIANGLELIST,2,&v,sizeof(F3DVERTEX));
 		dwNumDrawPrimitive++;
 	} while (TechniqueExecuteNext());

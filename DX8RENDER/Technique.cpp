@@ -65,7 +65,7 @@
 #define CODE_SVSCONST		8		// Set vertex shader constant
 #define CODE_SPSCONST		9		// Set pixel shader constant
 
-// SetVertexShaderConstant subcodes
+// SetFVFConstant subcodes
 #define SUBCODE_SVSCONST_WORLDVIEWPROJ		0
 
 // render subcodes
@@ -216,7 +216,7 @@ typedef struct
 
 // ---------------------------------------------------------------------------------
 
-SRSPARAM MYSETVERTEXSHADERCONSTANT[] = {
+SRSPARAM MYSetFVFCONSTANT[] = {
 	{ "worldviewproj", SUBCODE_SVSCONST_WORLDVIEWPROJ } };
 
 // SetRenderState parameters
@@ -820,7 +820,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 				sscanf(temp,"%d",&dwIndex);
 				*pPass++ = dwIndex;
 				GetTokenWhile(SkipToken(*pStr,"="),temp,";");
-				*pPass++ = GetCode(temp,&MYSETVERTEXSHADERCONSTANT[0],sizeof(MYSETVERTEXSHADERCONSTANT) / sizeof(SRSPARAM),null,false);
+				*pPass++ = GetCode(temp,&MYSetFVFCONSTANT[0],sizeof(MYSetFVFCONSTANT) / sizeof(SRSPARAM),null,false);
 				SKIP3;
 			}
 
@@ -1609,7 +1609,7 @@ bool CTechnique::ExecutePass(bool bStart)
 						AddState2Restore2(dwCode,dwSaveValue);
 					}
 					if (dwShaderIndex != INVALID_SHADER_INDEX && pShaders[dwShaderIndex].dwShaderHandle != INVALID_SHADER_HANDLE)
-						pRS->SetVertexShader(pShaders[dwShaderIndex].dwShaderHandle);
+						pRS->SetFVF(pShaders[dwShaderIndex].dwShaderHandle);
 				}
 			break;
 			case CODE_SPSCONST:
@@ -1637,7 +1637,7 @@ bool CTechnique::ExecutePass(bool bStart)
 							
 							// Projection to clip space
 							D3DXMatrixTranspose(&matWorldViewProj, &matWorldViewProj);
-							pRS->SetVertexShaderConstant(dwShaderConstIndex, &matWorldViewProj(0, 0), 4);
+							pRS->SetFVFConstant(dwShaderConstIndex, &matWorldViewProj(0, 0), 4);
 						}
 						break;
 					}
@@ -1756,7 +1756,7 @@ void CTechnique::RestoreSavedStates()
 			break;
 			case CODE_SVS:
 					dwValue = pSavedStates[dwTempSavedStatesPos++];
-					pRS->SetVertexShader(dwValue);
+					pRS->SetFVF(dwValue);
 			break;
 		}
 	}

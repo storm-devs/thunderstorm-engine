@@ -283,7 +283,7 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 	mWorld.BuildPosition(vCamPos.x, vCamPos.y, vCamPos.z);
 	Astronomy::pRS->SetTransform(D3DTS_WORLD, mWorld);
 	Astronomy::pRS->TextureSet(0, iTexture);
-	Astronomy::pRS->SetVertexShader(dwShader);
+	Astronomy::pRS->SetFVF(dwShader);
 	Astronomy::pRS->SetStreamSource(0, Astronomy::pRS->GetVertexBuffer(iVertexBuffer), sizeof(CVECTOR));
 	Astronomy::pRS->SetStreamSource(1, Astronomy::pRS->GetVertexBuffer(iVertexBufferColors), sizeof(dword));
 
