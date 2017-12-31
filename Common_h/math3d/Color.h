@@ -9,9 +9,9 @@
 
 #pragma pack(push, 1)
 
-
 #include "Vector.h"
 #include "Vector4.h"
+#include "../math3D.h"
 
 
 ///Класс представления цвета (float)
@@ -149,7 +149,7 @@ public:
 	Color & operator /= (const Vector4 & v);
 	///Покомпонентное деление с присваиванием
 	Color & operator /= (const Color & c);
-	
+
 	///Скалярное перемножение rgb, результат копируется во все компоненты
 	Color & operator |= (const Color & c);
 
@@ -263,7 +263,7 @@ public:
 	//Получить long
 	operator dword () const;
 };
-	
+
 
 //===========================================================
 //Конструкторы
@@ -1196,10 +1196,18 @@ mathinline Color & Color::SwapRB()
 //Получить запакованный цвет в dword
 mathinline unsigned long Color::GetDword() const
 {
-	long l;
+/*	long l;*/
 	DColor color;
-	float k = 255.0f;
-	_asm
+	const float k = 255.0f;
+
+	color.r = byte(fftoi(r*k));
+	color.g = byte(fftoi(g*k));
+	color.b = byte(fftoi(b*k));
+	color.a = byte(fftoi(a*k));
+
+	return color.c;
+
+	/*_asm
 	{
 		mov		eax, this
 		fld		[eax]this.r
@@ -1226,8 +1234,7 @@ mathinline unsigned long Color::GetDword() const
 		fistp	l
 		mov		ebx, l
 		mov		color.a, bl
-	};
-	return color.c;
+	};*/
 }
 
 //Преобразование A8R8G8B8 в R5G6B5

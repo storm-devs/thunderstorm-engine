@@ -297,7 +297,7 @@ void WdmClouds::LRender(VDX8RENDER * rs)
 	if(alpha > 1.0f) alpha = 1.0f;
 	alpha *= alpha;
 	//Рисуем видимые
-	long count;
+	long count = 0;
 	for(long i = 0; i < sizeof(clouds)/sizeof(Cloud); i++)
 	{
 		//Получаем сферу

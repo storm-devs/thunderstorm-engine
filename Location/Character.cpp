@@ -3004,11 +3004,11 @@ dword Character::zExMessage(MESSAGE & message)
 				const char * id = AttributesPointer->GetAttribute("id");
 				if(id)
 				{
-					if(strcmp(id, characterID) != 0) _asm int 3;
-					if(strcmp(id, msg) != 0) _asm int 3;
+					if(strcmp(id, characterID) != 0) __debugbreak();
+					if(strcmp(id, msg) != 0) __debugbreak();
 				}
 			}
-			if(strcmp(msg, characterID) != 0) _asm int 3;
+			if(strcmp(msg, characterID) != 0) __debugbreak();
 	#endif
 	#endif
 			return 1;

@@ -33,7 +33,7 @@ void MapZipper::DoZip(byte * pSrc, dword _dwSizeX)
 	dwDX = dwSizeX >> dwBlockShift;
 
 	dwShiftNumBlocksX = Number2Shift(dwDX);
-	
+
 	pWordTable = NEW word[dwDX * dwDX];
 	pRealData = NEW byte[dwSizeX * dwSizeX];
 	for (i=0; i<dwDX * dwDX; i++)
@@ -41,7 +41,7 @@ void MapZipper::DoZip(byte * pSrc, dword _dwSizeX)
 		y = i / dwDX;
 		x = i - y * dwDX;
 		dword dwStart = (y << dwBlockShift) * dwSizeX + (x << dwBlockShift);
-		
+
 		bool bTest = true;
 		byte byTest;
 		for (j=0; j<dwBlockSize * dwBlockSize; j++)
@@ -74,7 +74,7 @@ void MapZipper::DoZip(byte * pSrc, dword _dwSizeX)
 		for (x=0; x<_dwSizeX; x++)
 		{
 			if (Get(x,y) != pSrc[x + y * _dwSizeX])
-				_asm int 3
+				__debugbreak();
 		}
 }
 

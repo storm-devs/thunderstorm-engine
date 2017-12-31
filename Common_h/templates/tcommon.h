@@ -28,7 +28,7 @@
 		#undef SQR
 	#endif
 
-	inline void __XxX_Assert__(bool expression) { if (!expression) _asm int 3 }
+	inline void __XxX_Assert__(bool expression) { if (!expression) __debugbreak(); }
 
 	#define FRAND(x)		( (x) * (float)rand()/(float)RAND_MAX )
 
@@ -49,10 +49,10 @@ template<class _T1, class _T2> class pair
 {
 public:
 	pair() : first(_T1()), second(_T2()) {}
-	
+
 	pair(const _T1 & _V1, const _T2 & _V2) : first(_V1), second(_V2) {}
-	
-	template<class U, class V> pair(const pair<U, V> &p) 
+
+	template<class U, class V> pair(const pair<U, V> &p)
 		: first(p.first), second(p.second) {}
 
 	_T1 first;
@@ -67,7 +67,7 @@ public:
 	// copy constructor
 	allocator(const _Mal & _A)			// FIX-ME ????
 	{
-		pE = null; 
+		pE = null;
 		dwAddElements = _A.dwAddElements;
 		dwMaxElements = 0;
 		dwNumElements = 0;
@@ -83,7 +83,7 @@ public:
 	// constructor
 	allocator(const char * pFileName, long iFileLine, dword _dwAdd)
 	{
-		pE = null; 
+		pE = null;
 		Assert(_dwAdd != 0);
 		dwAddElements = _dwAdd;
 		dwMaxElements = 0;
@@ -94,7 +94,7 @@ public:
 	}
 
 	// default destructor
-	~allocator() 
+	~allocator()
 	{
 		DelAll();
 	};
@@ -102,7 +102,7 @@ public:
 	// return number of elements
 	__forceinline dword Size() const { return dwNumElements; };
 	// very dangerous function
-	__forceinline void Empty() { dwNumElements = 0; }		
+	__forceinline void Empty() { dwNumElements = 0; }
 	// construct new element
 	__forceinline void Construct(dword dwIndex)
 	{
@@ -115,7 +115,7 @@ public:
 	}
 	// delete all elementd
 	__forceinline void DelAll()
-	{	
+	{
 		for (dword i=0; i<dwNumElements; i++) Destroy(i);
 
 		dwMaxElements = 0;
@@ -130,9 +130,9 @@ public:
 	{
 		dwAddElements = dwAdd;
 	}
-	// reserve elements 
+	// reserve elements
 	__forceinline void Reserve(dword dwNum)
-	{	
+	{
 		dword dwNewSize = dwAddElements * (((dwNum-1) / dwAddElements) + 1);
 		if (dwMaxElements == dwNewSize) return;
 		pE = (_Ty*)resize(pE, sizeof(_Ty) * dwNewSize, (char*)pFileName, (dword)iFileLine);
@@ -140,20 +140,20 @@ public:
 		dwMaxElements = dwNewSize;
 	}
 	// decrease elements number
-	__forceinline void DecSize() 
-	{		
-		//Assert(dwNumElements > 0); 
-		dwNumElements--; 
-		Reserve(dwNumElements); 
+	__forceinline void DecSize()
+	{
+		//Assert(dwNumElements > 0);
+		dwNumElements--;
+		Reserve(dwNumElements);
 	}
 	// increase elements number
 	__forceinline void IncSize() {	dwNumElements++; }
 
-	// Setup filename and line for memory allocation 
-	__forceinline void SetFileLine(const char * pFileName, long iFileLine) 
-	{ 
+	// Setup filename and line for memory allocation
+	__forceinline void SetFileLine(const char * pFileName, long iFileLine)
+	{
 		this->pFileName = pFileName;
-		this->iFileLine = iFileLine; 
+		this->iFileLine = iFileLine;
 	}
 	__forceinline dword GetMaxElements() { return dwMaxElements; }
 
@@ -161,7 +161,7 @@ public:
 
 protected:
 	dword	dwNumElements;		// number of elements
-	dword	dwAddElements;		// number elements 
+	dword	dwAddElements;		// number elements
 	dword	dwMaxElements;		// current maximum elements
 
 	const char * pFileName;

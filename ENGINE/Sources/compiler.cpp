@@ -3837,7 +3837,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 		switch(Token_type)
 		{
 			case ARGS_NUM:
-				_asm int 3;
+				__debugbreak();
 			break;
 			case STACK_COMPARE:
 				pV = SStack.Read();
@@ -5462,7 +5462,7 @@ void COMPILER::SaveData(const void * data_PTR, DWORD data_size)
 		dwMaxSize = dwNewAllocate;
 	}
 
-	if (data_size < 16)
+/*	if (data_size < 16)
 	{
 		char * pWriteBuffer = &pBuffer[dwCurPointer];
 		_asm
@@ -5474,8 +5474,8 @@ void COMPILER::SaveData(const void * data_PTR, DWORD data_size)
 			rep movsb
 		}
 	}
-	else
-		memcpy(&pBuffer[dwCurPointer], data_PTR, data_size);
+	else*/
+	memcpy(&pBuffer[dwCurPointer], data_PTR, data_size);
 
 	dwCurPointer += data_size;
 }
@@ -5489,7 +5489,7 @@ bool COMPILER::ReadData(void * data_PTR, DWORD data_size)
 	}
 	if (dwCurPointer + data_size > dwMaxSize) return false;
 
-	if (data_size < 16)
+/*	if (data_size < 16)
 	{
 		char * pReadBuffer = &pBuffer[dwCurPointer];
 		_asm
@@ -5501,8 +5501,8 @@ bool COMPILER::ReadData(void * data_PTR, DWORD data_size)
 			rep movsb
 		}
 	}
-	else
-		memcpy(data_PTR, &pBuffer[dwCurPointer], data_size);
+	else*/
+	memcpy(data_PTR, &pBuffer[dwCurPointer], data_size);
 
 	dwCurPointer += data_size;
 

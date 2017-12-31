@@ -17,8 +17,8 @@
 // SetAttributeUseDword(attribute_name, DWORD val) - create or modify attribute, converted from dword to string
 // SetAttributeUseFloat(attribute_name, FLOAT val) - create or modify attribute, converted from float to string
 
-#define RDTSC_B(x)	{ _asm rdtsc _asm mov x,eax }
-#define RDTSC_E(x)	{ _asm rdtsc _asm sub eax,x _asm mov x,eax }
+#define RDTSC_B(x)	{ x = __rdtsc(); }
+#define RDTSC_E(x)	{ x = __rdtsc() - x; }
 
 class ATTRIBUTES
 {
@@ -53,7 +53,7 @@ class ATTRIBUTES
 	ATTRIBUTES * * pAttributes;
 	ATTRIBUTES * pParent;
 	bool bBreak;
-	
+
 	inline void SetParent(ATTRIBUTES * pP) {pParent = pP;};
 
 	ATTRIBUTES * CreateNewAttribute(dword name_code)
@@ -103,22 +103,22 @@ public:
 	};
 
 	__forceinline char * GetThisName()
-	{ 
+	{
 		return pVStringCodec->Convert(nNameCode);
 	}
 
 	__forceinline char * GetThisAttr() { return Attribute; };
 
-	__forceinline void SetName(const char * _name) 
+	__forceinline void SetName(const char * _name)
 	{
 		if (_name) nNameCode = pVStringCodec->Convert(_name);
 	};
 
-	void SetValue(const char * _val) 
+	void SetValue(const char * _val)
 	{
-		if(_val == 0) 
+		if(_val == 0)
 		{
-			if(Attribute) delete Attribute; 
+			if(Attribute) delete Attribute;
 			Attribute = 0;
 			return;
 		}
@@ -132,7 +132,7 @@ public:
 	void Release()
 	{
 		/*DWORD n;
-		if(Attribute) delete Attribute; 
+		if(Attribute) delete Attribute;
 		Attribute = 0;
 		if(pAttributes)
 		{
@@ -143,7 +143,7 @@ public:
 		Attributes_num = 0;*/
 		if (bBreak) pVStringCodec->VariableChanged();
 		ReleaseLeafs();
-		if(Attribute) delete Attribute; 
+		if(Attribute) delete Attribute;
 		Attribute = 0;
 	};
 
@@ -153,7 +153,7 @@ public:
 		if(pAttributes)
 		{
 			for (n=0; n<Attributes_num; n++) delete pAttributes[n];
-			delete pAttributes; 
+			delete pAttributes;
 		}
 		pAttributes = 0;
 		Attributes_num = 0;
@@ -206,7 +206,7 @@ public:
 		{
 			pAttribute = GetAttribute(name);
 			if (pAttribute) vDword = atol(pAttribute);
-		} 
+		}
 		else
 		{
 			vDword = atol(Attribute);
@@ -259,17 +259,17 @@ public:
 		DWORD len;
 		if(name == 0) return 0;
 		pAttributes = (ATTRIBUTES **)RESIZE(pAttributes,GetALen(Attributes_num + 1) * sizeof(ATTRIBUTES *));
-		
+
 		pAttributes[Attributes_num] = NEW ATTRIBUTES(pVStringCodec);
 		pAttributes[Attributes_num]->SetParent(this);
 		pAttributes[Attributes_num]->SetName(name);
-		
-		if(attribute) 
+
+		if(attribute)
 		{
 			len = strlen(attribute);
 			pAttributes[Attributes_num]->Attribute = NEW char[GetLen(len + 1)];
 			strcpy(pAttributes[Attributes_num]->Attribute,attribute);
-		} 
+		}
 		else pAttributes[Attributes_num]->Attribute = 0;
 		Attributes_num++;
 		return pAttributes[Attributes_num-1];
@@ -296,12 +296,12 @@ public:
 	{
 		DWORD n,i;
 		if(pA == 0) return false;
-		if(pA == this) 
+		if(pA == this)
 		{
 			if(pAttributes)
 			{
 				for(n=0;n<Attributes_num;n++) delete pAttributes[n];
-				delete pAttributes; 
+				delete pAttributes;
 				pAttributes = 0;
 				Attributes_num = 0;
 			}
@@ -317,7 +317,7 @@ public:
 					{
 						pAttributes[i] = pAttributes[i+1];
 					}
-					
+
 					Attributes_num--;
 					pAttributes = (ATTRIBUTES **)RESIZE(pAttributes,GetALen(Attributes_num) * sizeof(ATTRIBUTES *));
 					return true;
@@ -405,11 +405,11 @@ public:
 	{
 		DWORD len;
 		pAttributes = (ATTRIBUTES **)RESIZE(pAttributes,GetALen(Attributes_num + 1) * sizeof(ATTRIBUTES *));
-		
+
 		pAttributes[Attributes_num] = NEW ATTRIBUTES(pVStringCodec);
 		pAttributes[Attributes_num]->SetParent(this);
 		pAttributes[Attributes_num]->nNameCode = name_code;
-		if(attribute) 
+		if(attribute)
 		{
 			len = strlen(attribute);
 			pAttributes[Attributes_num]->Attribute = NEW char[GetLen(len + 1)];
@@ -420,12 +420,12 @@ public:
 	};
 
 	__forceinline dword GetALen(dword dwLen)
-	{ 
+	{
 		return (pParent) ? (1 + dwLen / 2) * 2 : (1 + dwLen / 8) * 8;
 	}
 
 	__forceinline dword GetLen(dword dwLen, dword dwAlign = 8)
-	{ 
+	{
 		return (1 + dwLen / dwAlign) * dwAlign;
 	}
 
@@ -434,7 +434,7 @@ public:
 		DWORD n;
 		DWORD len;
 		//xtrace("1");
-		
+
 //		dword dw1;
 //		RDTSC_B(dw1);
 
@@ -442,7 +442,7 @@ public:
 		{
 			if(pAttributes[n]->nNameCode == name_code)
 			{
-				if(attribute) 
+				if(attribute)
 				{
 					len = strlen(attribute);
 					pAttributes[n]->Attribute = (char *)RESIZE(pAttributes[n]->Attribute, GetLen(len + 1));
@@ -450,7 +450,7 @@ public:
 				}
 				else
 				{
-					if(pAttributes[n]->Attribute) 
+					if(pAttributes[n]->Attribute)
 					{
 						delete pAttributes[n]->Attribute;
 					}
@@ -461,16 +461,16 @@ public:
 		}
 
 		pAttributes = (ATTRIBUTES **)RESIZE(pAttributes,GetALen(Attributes_num + 1) * sizeof(ATTRIBUTES *));
-		
+
 		pAttributes[Attributes_num] = NEW ATTRIBUTES(pVStringCodec);
 		pAttributes[Attributes_num]->SetParent(this);
 		pAttributes[Attributes_num]->nNameCode = name_code;
-		if(attribute) 
+		if(attribute)
 		{
 			len = strlen(attribute);
 			pAttributes[n]->Attribute = NEW char[GetLen(len + 1)];
 			strcpy(pAttributes[n]->Attribute,attribute);
-		} 
+		}
 		else pAttributes[Attributes_num]->Attribute = 0;
 		Attributes_num++;
 
@@ -481,11 +481,11 @@ public:
 	};
 
 	__forceinline DWORD GetThisNameCode()
-	{ 
+	{
 		return nNameCode;
 	}
 	__forceinline void SetNameCode(DWORD n)
-	{ 
+	{
 		nNameCode = n;
 	}
 
@@ -497,7 +497,7 @@ public:
 
 		if (level >= 128) level = 127;
 		if (level != 0) memset(buffer,' ',level); buffer[level] = 0;
-		
+
 		for(n=0;n<pA->GetAttributesNum();n++)
 		{
 			xtrace("%s%s = %s", buffer, pA->GetAttributeName(n), pA->GetAttribute(n));

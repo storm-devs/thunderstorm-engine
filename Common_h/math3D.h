@@ -7,27 +7,20 @@
 #ifndef _Math3D_h_
 #define _Math3D_h_
 
+#include <xmmintrin.h> // espkk # remove inline asm # 30/Dec/2017
 #include "d_types.h"
 
 #define mathinline __forceinline
 
 #include "Math3D\Vector.h"
-#include "Math3D\Vector4.h"
-#include "Math3D\Matrix.h"
-#include "Math3D\Quaternion.h"
-#include "Math3D\Color.h"
-#include "Math3D\Plane.h"
-#include "Math3D\Box.h"
-#include "Math3D\Line.h"
-#include "Math3D\Sphere.h"
-#include "Math3D\Triangle.h"
-#include "Math3D\Capsule.h"
 
 
 ///Быстрое приведение числа с плавающей точкой к целому с отбрасыванием дробной части
 mathinline long fftol(float f)
 {
-	long l;
+	return  _mm_cvttss_si32(_mm_load_ss(&f));
+
+	/*long l;
 	static const float cnt[2] = {-0.4999999f, 0.4999999f};
 	_asm
 	{
@@ -37,25 +30,29 @@ mathinline long fftol(float f)
 		fadd	dword ptr [cnt + eax*4]
 		fistp	l
 	}
-	return l;
+	return l;*/
 }
 
 ///Быстрое приведение числа с плавающей точкой к целому с округлением к ближайшему
 mathinline long fftoi(float f)
 {
-	long l;
+	return  _mm_cvtss_si32(_mm_load_ss(&f));
+
+	/*long l;
 	_asm
 	{
 		fld		f
 		fistp	l
 	}
-	return l;
+	return l;*/
 }
 
 ///Fast floor
 mathinline long ffloor(float f)
 {
-	long l;
+	return  _mm_cvtss_si32(_mm_add_ss(_mm_load_ss(&f), _mm_set_ss(-0.5f)));
+
+	/*long l;
 	static const float c = -0.5f;
 	_asm
 	{
@@ -63,13 +60,15 @@ mathinline long ffloor(float f)
 		fadd	c
 		fistp	l
 	}
-	return l;
+	return l;*/
 }
 
 ///Fast ceil
 mathinline long fceil(float f)
 {
-	long l;
+	return  _mm_cvtss_si32(_mm_add_ss(_mm_load_ss(&f), _mm_set_ss(0.5f)));
+
+	/*long l;
 	static const float c = 0.5f;
 	_asm
 	{
@@ -77,7 +76,7 @@ mathinline long fceil(float f)
 		fadd	c
 		fistp	l
 	}
-	return l;
+	return l;*/
 }
 
 ///Fast fasb in memory
@@ -159,5 +158,17 @@ mathinline float safeASin(float ang)
 }
 
 #define ARRSIZE(ar)		(sizeof(ar)/sizeof(ar[0]))
+
+
+#include "Math3D\Vector4.h"
+#include "Math3D\Matrix.h"
+#include "Math3D\Quaternion.h"
+#include "Math3D\Color.h"
+#include "Math3D\Plane.h"
+#include "Math3D\Box.h"
+#include "Math3D\Line.h"
+#include "Math3D\Sphere.h"
+#include "Math3D\Triangle.h"
+#include "Math3D\Capsule.h"
 
 #endif

@@ -11,8 +11,8 @@
 #define PId2	(PI / 2.0f)
 #define PId4	(PI / 4.0f)
 
-#define RDTSC_B(x)	{ _asm rdtsc _asm mov x,eax }
-#define RDTSC_E(x)	{ _asm rdtsc _asm sub eax,x _asm mov x,eax }
+#define RDTSC_B(x)	{ x = __rdtsc(); }
+#define RDTSC_E(x)	{ x = __rdtsc() - x; }
 
 // Defines
 #ifdef RGB
@@ -35,7 +35,8 @@ inline DWORD F2DW( FLOAT f ) { return *((DWORD*)&f); }
 #define IS_XBOX(a,b)		b
 #endif
 
-#define FTOL(l,f)			{ __asm fld dword ptr [f] __asm fistp dword ptr l }
+//#define FTOL(l,f)			{ __asm fld dword ptr [f] __asm fistp dword ptr l }
+#define FTOL(l,f)			{ l = _mm_cvt_ss2si(_mm_load_ss(&f)); }
 #define GET_DATA(x,p)		{ memcpy(&(x),p,sizeof(x));p+=sizeof(x); }
 #define FREE(x)				{ if (x) free(x); x=0; }
 #define DELETE(x)			{ if (x) delete x; x=0; }
