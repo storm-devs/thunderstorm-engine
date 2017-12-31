@@ -482,8 +482,8 @@ bool  DX8RENDER::Init()
 
 	pDropConveyorVBuffer = null;
 	rectsVBuffer = null;
-	d3d8->CreateVertexBuffer(2 * sizeof(CVECTOR), D3DUSAGE_WRITEONLY, D3DFVF_XYZ, D3DPOOL_MANAGED, &pDropConveyorVBuffer);
-	d3d8->CreateVertexBuffer(rectsVBuffer_SizeInRects*6*sizeof(RECT_VERTEX), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, RS_RECT_VERTEX_FORMAT, D3DPOOL_DEFAULT, &rectsVBuffer);//D3DPOOL_MANAGED
+	d3d8->CreateVertexBuffer(2 * sizeof(CVECTOR), D3DUSAGE_WRITEONLY, D3DFVF_XYZ, D3DPOOL_MANAGED, &pDropConveyorVBuffer, NULL);
+	d3d8->CreateVertexBuffer(rectsVBuffer_SizeInRects*6*sizeof(RECT_VERTEX), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, RS_RECT_VERTEX_FORMAT, D3DPOOL_DEFAULT, &rectsVBuffer, NULL);//D3DPOOL_MANAGED
 	if(!pDropConveyorVBuffer || !rectsVBuffer)
 	{
 		return false;
@@ -724,8 +724,8 @@ bool DX8RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 
 	if(!windowed)
 	{
-		d3dpp.FullScreen_PresentationInterval = D3DPRESENT_INTERVAL_ONE;
-		//d3dpp.FullScreen_PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+		d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
+		//d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 	}
 
 
@@ -753,7 +753,7 @@ bool DX8RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 
 
 //Создаем рендерtargetы для POST PROCESS эффектов...
-	d3d8->GetRenderTarget(&pOriginalScreenSurface);
+	d3d8->GetRenderTarget(0, &pOriginalScreenSurface);
 	d3d8->GetDepthStencilSurface(&pOriginalDepthSurface);
 
 	fSmallWidth = 128;
@@ -761,9 +761,9 @@ bool DX8RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 
 	//if (bPostProcessEnabled)
 	{
-		d3d8->CreateTexture(width, height, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pPostProcessTexture);
-		d3d8->CreateTexture((int)fSmallWidth, (int)fSmallHeight, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pSmallPostProcessTexture);
-		d3d8->CreateTexture((int)(fSmallWidth*2.0f), (int)(fSmallHeight*2.0f), 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pSmallPostProcessTexture2);
+		d3d8->CreateTexture(width, height, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pPostProcessTexture, NULL);
+		d3d8->CreateTexture((int)fSmallWidth, (int)fSmallHeight, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pSmallPostProcessTexture, NULL);
+		d3d8->CreateTexture((int)(fSmallWidth*2.0f), (int)(fSmallHeight*2.0f), 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pSmallPostProcessTexture2, NULL);
 	}
 
 	if (!pPostProcessTexture || !pSmallPostProcessTexture || !pSmallPostProcessTexture2)
@@ -836,9 +836,9 @@ bool DX8RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 		d3d8->SetTextureStageState(s, D3DTSS_TEXCOORDINDEX, s);
 
 		//texture filtering
-		d3d8->SetTextureStageState(s, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-		d3d8->SetTextureStageState(s, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-		d3d8->SetTextureStageState(s, D3DTSS_MIPFILTER, D3DTEXF_LINEAR);
+		d3d8->SetSamplerState(s, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+		d3d8->SetSamplerState(s, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+		d3d8->SetSamplerState(s, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 	}
 
 	//set base texture and diffuse+specular lighting
@@ -877,7 +877,7 @@ bool DX8RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 	}
 #endif*/
 
-	d3d8->GetGammaRamp(&DefaultRamp);
+	d3d8->GetGammaRamp(0, &DefaultRamp);
 #ifdef _XBOX
 	for (i=0; i<256; i++)
 	{
@@ -912,7 +912,7 @@ bool DX8RENDER::ReleaseDevice()
 			if( Textures[t].name!=NULL )	delete Textures[t].name;
 		}
 
-	if (d3d8) d3d8->SetGammaRamp(D3DSGR_NO_CALIBRATION, &DefaultRamp);
+	if (d3d8) d3d8->SetGammaRamp(0, D3DSGR_NO_CALIBRATION, &DefaultRamp);
 
 	if (d3d8!=NULL && ErrorHandler("Release d3d8", d3d8->Release())==false)	res = false;
 	d3d8 = NULL;
@@ -997,7 +997,7 @@ void DX8RENDER::BlurGlowTexture ()
 	SetTexture (1, pPostProcessTexture);
 	SetTexture (2, pPostProcessTexture);
 	SetTexture (3, pPostProcessTexture);
-	d3d8->SetRenderTarget( pSmallPostProcessSurface2, NULL );
+	d3d8->SetRenderTarget( 0, pSmallPostProcessSurface2 );
 	DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, POST_PROCESS_FVF, 2, PostProcessQuad, sizeof(QuadVertex), "PostProcessBlur");
 
 
@@ -1010,7 +1010,7 @@ void DX8RENDER::BlurGlowTexture ()
 		SetTexture (1, pSmallPostProcessTexture2);
 		SetTexture (2, pSmallPostProcessTexture2);
 		SetTexture (3, pSmallPostProcessTexture2);
-		d3d8->SetRenderTarget( pSmallPostProcessSurface, NULL );
+		d3d8->SetRenderTarget( 0, pSmallPostProcessSurface );
 		DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, POST_PROCESS_FVF, 2, PostProcessQuad, sizeof(QuadVertex), "PostProcessBlur");
 
 		CreateRenderQuad(fSmallWidth*2.0f, fSmallHeight*2.0f, fSmallWidth, fSmallHeight);
@@ -1019,7 +1019,7 @@ void DX8RENDER::BlurGlowTexture ()
 		SetTexture (1, pSmallPostProcessTexture);
 		SetTexture (2, pSmallPostProcessTexture);
 		SetTexture (3, pSmallPostProcessTexture);
-		d3d8->SetRenderTarget( pSmallPostProcessSurface2, NULL );
+		d3d8->SetRenderTarget( 0, pSmallPostProcessSurface2 );
 		DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, POST_PROCESS_FVF, 2, PostProcessQuad, sizeof(QuadVertex), "PostProcessBlur");
 	}
 
@@ -1029,7 +1029,7 @@ void DX8RENDER::BlurGlowTexture ()
 	SetTexture (1, pSmallPostProcessTexture2);
 	SetTexture (2, pSmallPostProcessTexture2);
 	SetTexture (3, pSmallPostProcessTexture2);
-	d3d8->SetRenderTarget( pSmallPostProcessSurface, NULL );
+	d3d8->SetRenderTarget( 0, pSmallPostProcessSurface );
 	DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, POST_PROCESS_FVF, 2, PostProcessQuad, sizeof(QuadVertex), "PostProcessBlur");
 }
 
@@ -1048,12 +1048,8 @@ void DX8RENDER::CopyGlowToScreen ()
 	PostProcessQuad[2].v0 = 1.0f;  PostProcessQuad[2].u0 = 1.0f;
 	PostProcessQuad[3].v0 = 0.0f;  PostProcessQuad[3].u0 = 1.0f;
 
-
-
-	d3d8->SetRenderTarget( pOriginalScreenSurface, pOriginalDepthSurface );
-
-
-
+	d3d8->SetRenderTarget( 0, pOriginalScreenSurface );
+	d3d8->SetDepthStencilSurface(pOriginalDepthSurface);
 
 	if (GlowIntensity < 0) GlowIntensity = 0;
 	if (GlowIntensity > 255) GlowIntensity = 255;
@@ -1085,8 +1081,8 @@ void DX8RENDER::CopyPostProcessToScreen()
 	PostProcessQuad[2].v0 = 1.0f;  PostProcessQuad[2].u0 = 1.0f;
 	PostProcessQuad[3].v0 = 0.0f;  PostProcessQuad[3].u0 = 1.0f;
 
-	d3d8->SetRenderTarget( pOriginalScreenSurface, pOriginalDepthSurface );
-
+	d3d8->SetRenderTarget(0, pOriginalScreenSurface);
+	d3d8->SetDepthStencilSurface(pOriginalDepthSurface);
 
 	//Оригинальный экран рисуем....
 	SetTexture (0, pPostProcessTexture);
