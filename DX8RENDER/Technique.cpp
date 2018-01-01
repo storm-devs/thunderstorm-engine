@@ -63,6 +63,7 @@
 #define CODE_SPS			7		// Set pixel shader
 #define CODE_SVSCONST		8		// Set vertex shader constant
 #define CODE_SPSCONST		9		// Set pixel shader constant
+#define CODE_SAMP			10		// SetSamplerState
 
 // SetFVFConstant subcodes
 #define SUBCODE_SVSCONST_WORLDVIEWPROJ		0
@@ -880,14 +881,14 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 				}
 				// SetTextureStageState
 				dword *pPassCode = pPass;
-				*pPass++ = CODE_STSS | dwAdditionalFlags;
-				*pPass++ = dwTextureIndex;
 
 				// get left side of expression
 				GetTokenWhile(*pStr,temp,"[");
 				dword dwIndex = GetSTSSIndex(temp);
 				if (dwIndex != INVALID_INDEX)
 				{
+					*pPass++ = CODE_STSS | dwAdditionalFlags;
+					*pPass++ = dwTextureIndex;
 					if (TexturesStageStates[dwIndex].bUse && TexturesStageStates[dwIndex].dwUseSubCode & (1 << dwTextureIndex) && dwAdditionalFlags & FLAGS_CODE_RESTORE)
 						api->Trace("WARN: STSS: dup restore param type <%s[%d]> in <%s> file, technique <%s>", temp, dwTextureIndex, sCurrentFileName, sCurrentBlockName);
 					if (dwAdditionalFlags & FLAGS_CODE_RESTORE)
@@ -907,6 +908,8 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 				}
 				else
 				{
+					*pPass++ = CODE_SAMP | dwAdditionalFlags;
+					*pPass++ = dwTextureIndex;
 					dwIndex = GetSAMPIndex(temp);
 					Assert(dwIndex != INVALID_INDEX);
 					if (SampleStates[dwIndex].bUse && SampleStates[dwIndex].dwUseSubCode & (1 << dwTextureIndex) && dwAdditionalFlags & FLAGS_CODE_RESTORE)
@@ -1666,6 +1669,21 @@ bool CTechnique::ExecutePass(bool bStart)
 					pRS->SetTextureStageState(dwStage,StageState,dwValue);
 				}
 			break;
+				case CODE_SAMP:			// SetTextureStageState(
+				{
+					dwStage = *pPass++;
+					D3DSAMPLERSTATETYPE StageState = (D3DSAMPLERSTATETYPE)(*pPass++);
+					dwValue = GetPassParameter(*pPass++, dwSubCode);
+					if (bSave)
+					{
+						pRS->GetSamplerState(dwStage, StageState, &dwSaveValue);
+						if (dwSaveValue == dwValue) break;
+						AddState2Restore3(dwCode, dwStage, StageState);
+						AddState2Restore(dwSaveValue);
+					}
+					pRS->SetSamplerState(dwStage, StageState, dwValue);
+				}
+				break;
 			case CODE_TEXTURE:		// SetTexture(
 				{
 					dword dwTextureIndex = *pPass++;
@@ -1707,7 +1725,7 @@ bool CTechnique::ExecutePass(bool bStart)
 			case CODE_SPSCONST:
 				{
 					dword dwShaderConstIndex = *pPass++;
-					pRS->SetPixelShaderConstantI(dwShaderConstIndex, (const int *)GetPassParameter(*pPass++, dwSubCode), 1);
+					pRS->SetPixelShaderConstantF(dwShaderConstIndex, (const int *)GetPassParameter(*pPass++, dwSubCode), 1);
 				}
 			break;
 			case CODE_SVSCONST:
@@ -1731,7 +1749,7 @@ bool CTechnique::ExecutePass(bool bStart)
 							// Projection to clip space
 							D3DXMatrixTranspose(&matWorldViewProj, &matWorldViewProj);
 							//pRS->SetFVFConstant(dwShaderConstIndex, &matWorldViewProj(0, 0), 4);
-							pRS->SetVertexShaderConstantI(dwShaderConstIndex, (const int*)&matWorldViewProj(0, 0), 1);
+							pRS->SetVertexShaderConstantF(dwShaderConstIndex, (const int*)&matWorldViewProj(0, 0), 1);
 						}
 						break;
 					}
@@ -1837,12 +1855,20 @@ void CTechnique::RestoreSavedStates()
 				}
 			break;
 			case CODE_STSS:
-				{
-					dword dwStage = pSavedStates[dwTempSavedStatesPos++];
-					D3DTEXTURESTAGESTATETYPE StageState = (D3DTEXTURESTAGESTATETYPE)pSavedStates[dwTempSavedStatesPos++];
-					dwValue = pSavedStates[dwTempSavedStatesPos++];
-					pRS->SetTextureStageState(dwStage,StageState,dwValue);
-				}
+			{
+				dword dwStage = pSavedStates[dwTempSavedStatesPos++];
+				D3DTEXTURESTAGESTATETYPE StageState = (D3DTEXTURESTAGESTATETYPE)pSavedStates[dwTempSavedStatesPos++];
+				dwValue = pSavedStates[dwTempSavedStatesPos++];
+				pRS->SetTextureStageState(dwStage, StageState, dwValue);
+			}
+			break;
+			case CODE_SAMP:
+			{
+				dword dwStage = pSavedStates[dwTempSavedStatesPos++];
+				D3DSAMPLERSTATETYPE StageState = (D3DSAMPLERSTATETYPE)pSavedStates[dwTempSavedStatesPos++];
+				dwValue = pSavedStates[dwTempSavedStatesPos++];
+				pRS->SetSamplerState(dwStage, StageState, dwValue);
+			}
 			break;
 			case CODE_SPS:
 					dwValue = pSavedStates[dwTempSavedStatesPos++];

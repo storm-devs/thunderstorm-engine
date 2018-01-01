@@ -24,7 +24,7 @@ Astronomy::STARS::~STARS()
 	if (iTexture >= 0) Astronomy::pRS->TextureRelease(iTexture);
 	if (iVertexBuffer >= 0) Astronomy::pRS->ReleaseVertexBuffer(iVertexBuffer);
 	if (iVertexBufferColors >= 0) Astronomy::pRS->ReleaseVertexBuffer(iVertexBufferColors);
-	if (dwShader) Astronomy::pRS->DeleteVertexShader(dwShader);
+	//!!if (dwShader) Astronomy::pRS->DeleteVertexShader(dwShader);
 }
 
 void Astronomy::STARS::Init(ATTRIBUTES * pAP)
@@ -34,7 +34,7 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 	if (iTexture >= 0) Astronomy::pRS->TextureRelease(iTexture);
 	if (iVertexBuffer >= 0) Astronomy::pRS->ReleaseVertexBuffer(iVertexBuffer);
 	if (iVertexBufferColors >= 0) Astronomy::pRS->ReleaseVertexBuffer(iVertexBufferColors);
-	if (dwShader) Astronomy::pRS->DeleteVertexShader(dwShader);
+	//!!if (dwShader) Astronomy::pRS->DeleteVertexShader(dwShader);
 
 	bEnable = false;
 

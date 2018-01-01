@@ -273,7 +273,7 @@ void WdmCloud::Render(VDX8RENDER * rs)
 	//Константы
 	CMatrix prj;
 	rs->GetTransform(D3DTS_PROJECTION, prj);
-	rs->SetFVFConstant(0, prj, 4);
+	rs->SetVertexShaderConstantF(0, (const int*)&prj, 4);
 	prj.matrix[0] = view.matrix[1];
 	prj.matrix[1] = view.matrix[5];
 	prj.matrix[2] = view.matrix[9];
@@ -286,7 +286,7 @@ void WdmCloud::Render(VDX8RENDER * rs)
 	prj.matrix[9] = 0.6f;
 	prj.matrix[10] = 1.0f;
 	prj.matrix[11] = 1.0f;
-	rs->SetFVFConstant(4, prj, 3);
+	rs->SetVertexShaderConstantF(4, (const int*)&prj, 3);
 	//Render
 	rs->DrawRects(rect, numRects, "WdmClouds", 2, 2);
 }

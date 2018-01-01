@@ -20,13 +20,13 @@
 #define UV_TY1 3
 #define UV_TY2 1
 
-/* 
+/*
 	 Коэфицент лодирования партиклов, чем выше тем меньше нагрузка на Filrate
    Должен быть > 0 !!!!!!
 	 0.001 нет лодов .. 10000000 супер лоды (все партиклы в 1 пиксель)
 */
 //=============================================================
-#define PLOD 5.0f 
+#define PLOD 5.0f
 //=============================================================
 
 
@@ -63,9 +63,9 @@ BillBoardProcessor::BillBoardProcessor () : Particles(_FL_, MAX_BILLBOARDS)
 		pTrgs[i * 6 + 5] = WORD(i * 4 + 3);
 	}
 	pRS->UnLockIndexBuffer(pIBuffer);
-	
+
 }
- 
+
 BillBoardProcessor::~BillBoardProcessor ()
 {
 
@@ -77,7 +77,7 @@ BillBoardProcessor::~BillBoardProcessor ()
 	pVBuffer = -1;
 	pIBuffer = -1;
 
-} 
+}
 
 
 //"Выделить" память для хранения партикла
@@ -139,8 +139,8 @@ void BillBoardProcessor::AddParticle (ParticleSystem* pSystem, const Vector& vel
 	pData->ElapsedTime = 0.0f;
 	pData->matWorld = matWorld;
 
-	
-	
+
+
 	pData->Angle = 0.0f;
 	pData->RenderAngle = 0.0f;
 	pData->ExternalForce = Vector(0.0f, 0.0f, 0.0f);
@@ -170,7 +170,7 @@ void BillBoardProcessor::AddParticle (ParticleSystem* pSystem, const Vector& vel
 	pData->graph_GravK = pFields->FindGraph(PARTICLE_GRAVITATION_K);
 	pData->graph_AddPower = pFields->FindGraph(PARTICLE_ADDPOWER);
 
-	
+
 
 
 
@@ -188,10 +188,10 @@ void BillBoardProcessor::AddParticle (ParticleSystem* pSystem, const Vector& vel
 	pData->KTrackX = FRAND (1.0f);
 	pData->KTrackY = FRAND (1.0f);
 	pData->KTrackZ = FRAND (1.0f);
-	
 
 
-	
+
+
 	const char* pEmitterName = pFields->GetString(ATTACHEDEMITTER_NAME);
 	if (stricmp (pEmitterName, "none") == 0)
 	{
@@ -289,7 +289,7 @@ void BillBoardProcessor::Process (float DeltaTime)
 			Particles[n]->AttachedEmitter->Teleport(Matrix(Particles[n]->OldRenderAngle, Particles[n]->OldRenderPos));
 			Particles[n]->AttachedEmitter->SetTransform(Matrix(Particles[n]->RenderAngle, Particles[n]->RenderPos));
 			Particles[n]->AttachedEmitter->BornParticles(DeltaTime);
-			
+
 			//if (n < Particles.Size()-1)	Particles[n]->AttachedEmitter->RestoreTime();
 		}
 	}
@@ -308,7 +308,7 @@ DWORD BillBoardProcessor::CalcDistanceToCamera ()
 	for (DWORD j = 0; j <  Particles.Size(); j++)
 	{
 		Particles[j]->CamDistance = Vector(Particles[j]->RenderPos * mView).z;
-		
+
 //		_mm_prefetch ((const char *)Particles[j+1], _MM_HINT_T0);
 
 		if (Particles[j]->CamDistance > 0)
@@ -346,7 +346,7 @@ void BillBoardProcessor::Draw()
 	for (DWORD j = 0; j <  Particles.Size(); j++)
 	{
 		BB_ParticleData* pR = Particles[j];
-		
+
 		if (!pR->Visible) continue;
 
 		bool SpeedOriented = pR->SpeedOriented;
@@ -355,7 +355,7 @@ void BillBoardProcessor::Draw()
 
 //		_mm_prefetch ((const char *)Particles[j+1], _MM_HINT_T0);
 
-		
+
 		float fAngle = pR->RenderAngle;
 		Vector vPos = pR->RenderPos;
 		DWORD dwColor = pR->Graph_Color->GetValue(pR->ElapsedTime, pR->LifeTime, pR->ColorK);
@@ -376,8 +376,8 @@ void BillBoardProcessor::Draw()
 
 		//AddPower = 0.0f;
 
-		
-		
+
+
 
 		float FrameIndex = pR->Graph_Frames->GetValue(pR->ElapsedTime, pR->LifeTime, pR->FrameK);
 		long FrameIndexLong = fftol(FrameIndex);
@@ -393,10 +393,10 @@ void BillBoardProcessor::Draw()
 
 		RECT_VERTEX	* pV = &pVerts[Index * 4];
 		Index++;
-	 
+
 		float DirAngle = 0.0f;
 		float ScaleF = 1.0f;
-		
+
 		if (SpeedOriented)
 		{
 			Matrix matView;
@@ -406,7 +406,7 @@ void BillBoardProcessor::Draw()
 			SpeedVector = matView.MulNormal(SpeedVector);
 			SpeedVector.Normalize();
 			ScaleF = 1.0f - fabsf (SpeedVector.z);
-			
+
 			if (ScaleF < 0.3f) ScaleF = 0.3f;
 			Alpha *= ScaleF;
 
@@ -415,7 +415,7 @@ void BillBoardProcessor::Draw()
 
 			pR->OldRenderAngle = DirAngle;
 		}
-		
+
 		DWORD dwAlpha = (BYTE)Alpha << 24;
 		dwColor = dwColor & 0x00FFFFFF;
 		dwColor = dwColor | dwAlpha;
@@ -427,13 +427,13 @@ void BillBoardProcessor::Draw()
 		pV[0].dwColor = dwColor;
 		pV[0].tu1 = UV_WH1.v4[UV_TX1]; pV[0].tv1 = UV_WH1.v4[UV_TY1];
 		pV[0].tu2 = UV_WH2.v4[UV_TX1]; pV[0].tv2 = UV_WH2.v4[UV_TY1];
-		pV[0].angle = fAngle; 
+		pV[0].angle = fAngle;
 		pV[0].BlendK = FrameBlendK;
 		pV[0].vParticlePos = vPos;
 		pV[0].AddPowerK = AddPower;
 
 
-		//if (SpeedOriented) pV[0].DirK = 0.0f; else pV[0].DirK = 1.0f; 
+		//if (SpeedOriented) pV[0].DirK = 0.0f; else pV[0].DirK = 1.0f;
 
 		if (SpeedOriented)
 		{
@@ -441,18 +441,18 @@ void BillBoardProcessor::Draw()
 			pV[0].vRelativePos.y *= ScaleF;
 		}
 
-		
+
 
 
 		pV[1].vRelativePos = Vector(-fSize, fSize, 0.0f);
 		pV[1].dwColor = dwColor;
 		pV[1].tu1 = UV_WH1.v4[UV_TX1]; pV[1].tv1 = UV_WH1.v4[UV_TY2];
 		pV[1].tu2 = UV_WH2.v4[UV_TX1]; pV[1].tv2 = UV_WH2.v4[UV_TY2];
-		pV[1].angle = fAngle; 
+		pV[1].angle = fAngle;
 		pV[1].BlendK = FrameBlendK;
 		pV[1].vParticlePos = vPos;
 		pV[1].AddPowerK = AddPower;
-		//if (SpeedOriented) pV[1].DirK = 0.0f; else pV[1].DirK = 1.0f; 
+		//if (SpeedOriented) pV[1].DirK = 0.0f; else pV[1].DirK = 1.0f;
 
 		if (SpeedOriented)
 		{
@@ -467,11 +467,11 @@ void BillBoardProcessor::Draw()
 		pV[2].dwColor = dwColor;
 		pV[2].tu1 = UV_WH1.v4[UV_TX2]; pV[2].tv1 = UV_WH1.v4[UV_TY2];
 		pV[2].tu2 = UV_WH2.v4[UV_TX2]; pV[2].tv2 = UV_WH2.v4[UV_TY2];
-		pV[2].angle = fAngle; 
+		pV[2].angle = fAngle;
 		pV[2].BlendK = FrameBlendK;
 		pV[2].vParticlePos = vPos;
 		pV[2].AddPowerK = AddPower;
-		//if (SpeedOriented) pV[2].DirK = 0.0f; else pV[2].DirK = 1.0f; 
+		//if (SpeedOriented) pV[2].DirK = 0.0f; else pV[2].DirK = 1.0f;
 
 		if (SpeedOriented)
 		{
@@ -485,11 +485,11 @@ void BillBoardProcessor::Draw()
 		pV[3].dwColor = dwColor;
 		pV[3].tu1 = UV_WH1.v4[UV_TX2]; pV[3].tv1 = UV_WH1.v4[UV_TY1];
 		pV[3].tu2 = UV_WH2.v4[UV_TX2]; pV[3].tv2 = UV_WH2.v4[UV_TY1];
-		pV[3].angle = fAngle; 
+		pV[3].angle = fAngle;
 		pV[3].BlendK = FrameBlendK;
 		pV[3].vParticlePos = vPos;
 		pV[3].AddPowerK = AddPower;
-		//if (SpeedOriented) pV[3].DirK = 0.0f; else pV[3].DirK = 1.0f; 
+		//if (SpeedOriented) pV[3].DirK = 0.0f; else pV[3].DirK = 1.0f;
 
 		if (SpeedOriented)
 		{
@@ -509,10 +509,10 @@ void BillBoardProcessor::Draw()
 	Vector4 cGlobal(0.0f, 1.0f, 0.5f, 0.0f);
 
 
-	pRS->SetFVFConstant(0, const1.v4, 1);
-	pRS->SetFVFConstant(1, const2.v4, 1);
-	pRS->SetFVFConstant(2, const3.v4, 1);
-	pRS->SetFVFConstant(13, cGlobal.v4, 1);
+	pRS->SetVertexShaderConstantF(0, (const int*)const1.v4, 1);
+	pRS->SetVertexShaderConstantF(1, (const int*)const2.v4, 1);
+	pRS->SetVertexShaderConstantF(2, (const int*)const3.v4, 1);
+	pRS->SetVertexShaderConstantF(13, (const int*)cGlobal.v4, 1);
 
 	Matrix matOldView, matView, matProjection;
 	pRS->GetTransform(D3DTS_VIEW, matView);
@@ -522,8 +522,8 @@ void BillBoardProcessor::Draw()
 	matView.Transposition();
 	matProjection.Transposition();
 
-	pRS->SetFVFConstant(3, matView.matrix, 4);
-	pRS->SetFVFConstant(7, matProjection.matrix, 4);
+	pRS->SetVertexShaderConstantF(3, (const int*)matView.matrix, 4);
+	pRS->SetVertexShaderConstantF(7, (const int*)matProjection.matrix, 4);
 
 
 	pRS->SetTransform(D3DTS_VIEW, Matrix());

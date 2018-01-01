@@ -3349,7 +3349,6 @@ HRESULT DX8RENDER::GetSurfaceLevel( IDirect3DTexture9* ppTexture, UINT Level, ID
 
 HRESULT DX8RENDER::UpdateSurface( IDirect3DSurface9* pSourceSurface, CONST RECT* pSourceRectsArray, UINT cRects, IDirect3DSurface9* pDestinationSurface, CONST POINT* pDestPointsArray )
 {
-	//return d3d8->StretchRect(pSourceSurface, pSourceRectsArray, pDestinationSurface, pDestPointsArray)
 	return d3d8->UpdateSurface( pSourceSurface, pSourceRectsArray, pDestinationSurface, pDestPointsArray );
 }
 
@@ -3358,17 +3357,6 @@ HRESULT DX8RENDER::GetRenderTargetData(IDirect3DSurface9 * pRenderTarget, IDirec
 	return d3d8->GetRenderTargetData(pRenderTarget, pDestSurface);
 }
 
-HRESULT DX8RENDER::DeletePixelShader( DWORD Handle )
-{
-	//return d3d8->DeletePixelShader( Handle );
-	return NULL;
-}
-
-HRESULT DX8RENDER::DeleteVertexShader( DWORD Handle )
-{
-	//return d3d8->DeleteVertexShader( Handle );
-	return NULL;
-}
 HRESULT DX8RENDER::SetVertexShader(IDirect3DVertexShader9 * pShader)
 {
 	return d3d8->SetVertexShader(pShader);
@@ -3379,21 +3367,15 @@ HRESULT DX8RENDER::SetPixelShader(IDirect3DPixelShader9 * pShader)
 	return d3d8->SetPixelShader(pShader);
 }
 
-HRESULT DX8RENDER::SetFVFConstant(DWORD Register, CONST void * pConstantData, DWORD  ConstantCount )
+HRESULT DX8RENDER::SetVertexShaderConstantF(UINT StartRegister, CONST float * pConstantData, UINT Vector4iCount)
 {
-	//return d3d8->SetFVFConstant( Register, pConstantData, ConstantCount );
-	return NULL;
-}
-
-HRESULT DX8RENDER::SetVertexShaderConstantI(UINT StartRegister, CONST int * pConstantData, UINT Vector4iCount)
-{
-	return d3d8->SetVertexShaderConstantI(StartRegister, pConstantData, Vector4iCount);
+	return d3d8->SetVertexShaderConstantF(StartRegister, pConstantData, Vector4iCount);
 }
 
 
-HRESULT DX8RENDER::SetPixelShaderConstantI(UINT StartRegister, CONST int * pConstantData, UINT Vector4iCount)
+HRESULT DX8RENDER::SetPixelShaderConstantF(UINT StartRegister, CONST float * pConstantData, UINT Vector4iCount)
 {
-	d3d8->SetPixelShaderConstantI(StartRegister, pConstantData, Vector4iCount);
+	d3d8->SetPixelShaderConstantF(StartRegister, pConstantData, Vector4iCount);
 	return NULL;
 }
 
