@@ -482,8 +482,8 @@ void GEOM_SERVICE_R::DrawIndexedPrimitive(long minv, long numv, long vrtsize, lo
 		// 0 - World * View * Projection
 		// 4 - World
 
-		RenderService->SetVertexShaderConstantF(0, (const int*)&mWVP, 4);
-		RenderService->SetVertexShaderConstantF(4, (const int*)&mWorld, 4);
+		RenderService->SetVertexShaderConstantF(0, mWVP, 4);
+		RenderService->SetVertexShaderConstantF(4, mWorld, 4);
 
 		RenderService->GetRenderState(D3DRS_DEPTHBIAS, &oldZBias);
 		RenderService->SetRenderState(D3DRS_DEPTHBIAS, 1);

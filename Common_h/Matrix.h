@@ -163,6 +163,7 @@ public:
 	//D3D extends (return (D3DXMATRIX *)pointer)
 	operator D3DXMATRIX * () const;
 	operator D3DMATRIX * () const;
+	operator const float * () const;
 };
 
 //============================================================================================
@@ -846,6 +847,11 @@ __forceinline CMatrix::operator D3DXMATRIX * () const
 __forceinline CMatrix::operator D3DMATRIX * () const
 {
 	return ((D3DMATRIX*)matrix);
+};
+
+__forceinline CMatrix::operator const float * () const
+{
+	return ((const float*)matrix);
 };
 //============================================================================================
 

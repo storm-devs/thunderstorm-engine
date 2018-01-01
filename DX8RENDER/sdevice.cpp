@@ -3180,6 +3180,8 @@ void DX8RENDER::VBUnlock(IDirect3DVertexBuffer9 * pVB)
 
 HRESULT DX8RENDER::SetFVF(DWORD handle)
 {
+	//!!
+	d3d8->SetVertexShader(NULL);
 	return d3d8->SetFVF(handle);
 }
 

@@ -509,10 +509,10 @@ void BillBoardProcessor::Draw()
 	Vector4 cGlobal(0.0f, 1.0f, 0.5f, 0.0f);
 
 
-	pRS->SetVertexShaderConstantF(0, (const int*)const1.v4, 1);
-	pRS->SetVertexShaderConstantF(1, (const int*)const2.v4, 1);
-	pRS->SetVertexShaderConstantF(2, (const int*)const3.v4, 1);
-	pRS->SetVertexShaderConstantF(13, (const int*)cGlobal.v4, 1);
+	pRS->SetVertexShaderConstantF(0, (const float*)const1.v4, 1);
+	pRS->SetVertexShaderConstantF(1, (const float*)const2.v4, 1);
+	pRS->SetVertexShaderConstantF(2, (const float*)const3.v4, 1);
+	pRS->SetVertexShaderConstantF(13, (const float*)cGlobal.v4, 1);
 
 	Matrix matOldView, matView, matProjection;
 	pRS->GetTransform(D3DTS_VIEW, matView);
@@ -522,8 +522,8 @@ void BillBoardProcessor::Draw()
 	matView.Transposition();
 	matProjection.Transposition();
 
-	pRS->SetVertexShaderConstantF(3, (const int*)matView.matrix, 4);
-	pRS->SetVertexShaderConstantF(7, (const int*)matProjection.matrix, 4);
+	pRS->SetVertexShaderConstantF(3, (const float*)matView.matrix, 4);
+	pRS->SetVertexShaderConstantF(7, (const float*)matProjection.matrix, 4);
 
 
 	pRS->SetTransform(D3DTS_VIEW, Matrix());

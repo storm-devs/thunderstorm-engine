@@ -1000,26 +1000,26 @@ void NetSea::Realize(dword __dwDeltaTime)
 		fTmp += fCurrentDeltaTime * fBumpSpeed;
 		while (fTmp >= 1.0f) fTmp -= 1.0f;
 
-		Render().SetVertexShaderConstantF(GC_CONSTANT, (const int*)&CVECTOR4(0.0f, 1.0f, 0.5f, -0.04f), 1);
-		Render().SetVertexShaderConstantF(GC_CONSTANT2, (const int*)&CVECTOR4(2.0f, -1.0f, 0.00036621652552071f, (bFogEnable) ? fFogSeaDensity : 0.0f), 1);
-		Render().SetVertexShaderConstantF(GC_ANIMATION, (const int*)&CVECTOR4(fTmp, fTmp, fTmp, fTmp), 1);
-		Render().SetVertexShaderConstantF(GC_CAMERA_POS, (const int*)&CVECTOR4(vCamPos.x, vCamPos.y, vCamPos.z, 1.0f), 1);
-		Render().SetVertexShaderConstantF(GC_MTX_WVP, (const int*)&mWorldViewProj, 4);
+		Render().SetVertexShaderConstantF(GC_CONSTANT, (const float*)&CVECTOR4(0.0f, 1.0f, 0.5f, -0.04f), 1);
+		Render().SetVertexShaderConstantF(GC_CONSTANT2, (const float*)&CVECTOR4(2.0f, -1.0f, 0.00036621652552071f, (bFogEnable) ? fFogSeaDensity : 0.0f), 1);
+		Render().SetVertexShaderConstantF(GC_ANIMATION, (const float*)&CVECTOR4(fTmp, fTmp, fTmp, fTmp), 1);
+		Render().SetVertexShaderConstantF(GC_CAMERA_POS, (const float*)&CVECTOR4(vCamPos.x, vCamPos.y, vCamPos.z, 1.0f), 1);
+		Render().SetVertexShaderConstantF(GC_MTX_WVP, (const float*)&mWorldViewProj, 4);
 
-		Render().SetVertexShaderConstantF(GC_FREE, (const int*)&v4SeaParameters, 1);
-		Render().SetVertexShaderConstantF(GC_FREE + 1, (const int*)&v4SeaColor, 1);
-		Render().SetVertexShaderConstantF(GC_FREE + 2, (const int*)&v4SkyColor, 1);
+		Render().SetVertexShaderConstantF(GC_FREE, (const float*)&v4SeaParameters, 1);
+		Render().SetVertexShaderConstantF(GC_FREE + 1, (const float*)&v4SeaColor, 1);
+		Render().SetVertexShaderConstantF(GC_FREE + 2, (const float*)&v4SkyColor, 1);
 
-		Render().SetVertexShaderConstantF(GC_FREE + 5, (const int*)&CVECTOR4(1.0f, 0.0f, 0.0f, 1.0f), 1);
-		Render().SetVertexShaderConstantF(GC_FREE + 6, (const int*)&CVECTOR4(fFrenel, 1.0f, 0.5f, 1.0f), 1);		// Frenel K, Frenel Max
-		Render().SetVertexShaderConstantF(GC_FREE + 7, (const int*)&CVECTOR4(1.0f, 0.0f, 0.0f, 1.0f), 1);
+		Render().SetVertexShaderConstantF(GC_FREE + 5, (const float*)&CVECTOR4(1.0f, 0.0f, 0.0f, 1.0f), 1);
+		Render().SetVertexShaderConstantF(GC_FREE + 6, (const float*)&CVECTOR4(fFrenel, 1.0f, 0.5f, 1.0f), 1);		// Frenel K, Frenel Max
+		Render().SetVertexShaderConstantF(GC_FREE + 7, (const float*)&CVECTOR4(1.0f, 0.0f, 0.0f, 1.0f), 1);
 
 		CVECTOR vTmp = !CVECTOR(0.0f, 1.0f, 0.0f);
-		Render().SetVertexShaderConstantF(GC_FREE + 30, (const int*)&CVECTOR4(vTmp.x, vTmp.y, vTmp.z, 1.0f), 1);
+		Render().SetVertexShaderConstantF(GC_FREE + 30, (const float*)&CVECTOR4(vTmp.x, vTmp.y, vTmp.z, 1.0f), 1);
 
 		if (bSimpleSea)
 		{
-			Render().SetVertexShaderConstantF(GC_FREE + 8, (const int*)&mTexProjection, 4);			// Matrix!!
+			Render().SetVertexShaderConstantF(GC_FREE + 8, (const float*)&mTexProjection, 4);			// Matrix!!
 
 			Render().SetTexture(0, pVolumeTexture);
 			Render().SetTexture(1, pReflection);
@@ -1040,7 +1040,7 @@ void NetSea::Realize(dword __dwDeltaTime)
 		}
 		else
 		{
-			Render().SetVertexShaderConstantF(GC_FREE + 8, (const int*)&CMatrix(0.0f, 0.0f, PId2), 4);			// Matrix!!
+			Render().SetVertexShaderConstantF(GC_FREE + 8, (const float*)&CMatrix(0.0f, 0.0f, PId2), 4);			// Matrix!!
 
 			Render().SetTexture(0, pVolumeTexture);
 			Render().SetTexture(3, pEnvMap);
