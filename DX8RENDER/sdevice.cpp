@@ -3369,6 +3369,10 @@ HRESULT DX8RENDER::DeleteVertexShader( DWORD Handle )
 	//return d3d8->DeleteVertexShader( Handle );
 	return NULL;
 }
+HRESULT DX8RENDER::SetVertexShader(IDirect3DVertexShader9 * pShader)
+{
+	return d3d8->SetVertexShader(pShader);
+}
 
 HRESULT DX8RENDER::SetPixelShader(IDirect3DPixelShader9 * pShader)
 {

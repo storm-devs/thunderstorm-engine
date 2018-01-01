@@ -187,7 +187,7 @@ block Blot()
 	{
 		pass p0
 		{
-			SSZbias = -0.6;
+			SSZbias = 1;
 			lighting = false;
 			ZEnable = true;
 			ZWriteEnable = false;
@@ -299,7 +299,7 @@ block Blood()
 	{
 		pass p0
 		{
-			SSZbias = -0.6;
+			SSZbias = 1;
 			lighting = false;
 			ZEnable = true;
 			ZWriteEnable = false;

@@ -244,6 +244,7 @@ public:
 		virtual HRESULT CreateVertexShader(CONST DWORD * pFunction, IDirect3DVertexShader9 ** ppShader) = 0;
 		virtual HRESULT DeletePixelShader( DWORD Handle ) = 0;
 		virtual HRESULT DeleteVertexShader( DWORD Handle ) = 0;
+		virtual HRESULT SetVertexShader(IDirect3DVertexShader9 * pShader) = 0;
 		virtual HRESULT SetPixelShader(IDirect3DPixelShader9 * pShader) = 0;
 		virtual HRESULT SetFVFConstant(DWORD Register, CONST void * pConstantData, DWORD  ConstantCount ) = 0;
 		virtual HRESULT SetVertexShaderConstantI(UINT StartRegister, CONST int * pConstantData, UINT Vector4iCount) = 0;

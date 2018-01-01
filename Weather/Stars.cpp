@@ -141,8 +141,8 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 		D3DDECL_END()
 		};
 
-		IDirect3DVertexDeclaration9 *VertexDecl;
-		Astronomy::pRS->CreateVertexDeclaration(VertexElem, &VertexDecl);
+		//!!
+		Astronomy::pRS->CreateVertexDeclaration(VertexElem, (IDirect3DVertexDeclaration9**)&dwShader);
 
 		iVertexBuffer = Astronomy::pRS->CreateVertexBuffer(0, dwSize * sizeof(CVECTOR), D3DUSAGE_DYNAMIC);
 		iVertexBufferColors = Astronomy::pRS->CreateVertexBuffer(0, dwSize * sizeof(dword), D3DUSAGE_DYNAMIC);
@@ -290,7 +290,7 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 	mWorld.BuildPosition(vCamPos.x, vCamPos.y, vCamPos.z);
 	Astronomy::pRS->SetTransform(D3DTS_WORLD, mWorld);
 	Astronomy::pRS->TextureSet(0, iTexture);
-	Astronomy::pRS->SetFVF(dwShader);
+	Astronomy::pRS->SetVertexDeclaration((IDirect3DVertexDeclaration9*)dwShader);
 	Astronomy::pRS->SetStreamSource(0, Astronomy::pRS->GetVertexBuffer(iVertexBuffer), sizeof(CVECTOR));
 	Astronomy::pRS->SetStreamSource(1, Astronomy::pRS->GetVertexBuffer(iVertexBufferColors), sizeof(dword));
 

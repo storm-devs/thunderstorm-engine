@@ -373,8 +373,8 @@ SRS	RenderStates[] = {
 	{ DEFSIZE(0), SRS_FLOAT, "FogEnd",								D3DRS_FOGEND },
 	{ DEFSIZE(0), SRS_FLOAT, "FogDensity",							D3DRS_FOGDENSITY },
 	{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "EdgeAntialias",			D3DRS_ANTIALIASEDLINEENABLE },
-	{ DEFSIZE(0), SRS_FLOAT, "Zbias",								D3DRS_DEPTHBIAS },
-	{ DEFSIZE(0), SRS_FLOAT, "SSZbias",								D3DRS_SLOPESCALEDEPTHBIAS },
+	{ DEFSIZE(0), SRS_DWORD, "Zbias",								D3DRS_DEPTHBIAS },
+	{ DEFSIZE(0), SRS_DWORD, "SSZbias",								D3DRS_SLOPESCALEDEPTHBIAS },
 	{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "RangeFogEnable",			D3DRS_RANGEFOGENABLE },
 	{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "StencilEnable",			D3DRS_STENCILENABLE },
 	{ DEFSIZE(MYD3DSTENCILOP) , SRS_DWORD, "StencilFail",			D3DRS_STENCILFAIL },
@@ -644,13 +644,13 @@ CTechnique::~CTechnique()
 	{
 		DELETE(pShaders[i].pName);
 		DELETE(pShaders[i].pDecl);
-		if (pShaders[i].dwShaderHandle != INVALID_SHADER_HANDLE)
+		/*//!!if (pShaders[i].dwShaderHandle != INVALID_SHADER_HANDLE)
 		{
-			if (pShaders[i].dwShaderType == CODE_SVS )
-				pRS->DeleteVertexShader(pShaders[i].dwShaderHandle);
+			if (pShaders[i].dwShaderType == CODE_SVS)
+				;//!! pRS->DeleteVertexShader(pShaders[i].dwShaderHandle);
 			if (pShaders[i].dwShaderType == CODE_SPS)
-				pRS->DeletePixelShader(pShaders[i].dwShaderHandle);
-		}
+				;//!! pRS->DeletePixelShader(pShaders[i].dwShaderHandle);
+		}*/
 	}
 	DELETE(pShaders);
 	DELETE(pBlocks);
@@ -773,7 +773,9 @@ dword CTechnique::AddShader(char *pShaderName)
 	ZERO(pShaders[dwNumShaders]);
 	COPY_STRING(pS->pName,pShaderName);
 	pS->dwHashName = hash_string(pShaderName);
-	pS->dwShaderHandle = INVALID_SHADER_HANDLE;
+	//pS->dwShaderHandle = INVALID_SHADER_HANDLE;
+	pS->pVertexShader = null;
+	pS->pPixelShader = null;
 	dwNumShaders++;
 	return (dwNumShaders-1);
 }
@@ -884,7 +886,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 				// get left side of expression
 				GetTokenWhile(*pStr,temp,"[");
 				dword dwIndex = GetSTSSIndex(temp);
-				if (dwIndex != INVALID_STSS_INDEX)
+				if (dwIndex != INVALID_INDEX)
 				{
 					if (TexturesStageStates[dwIndex].bUse && TexturesStageStates[dwIndex].dwUseSubCode & (1 << dwTextureIndex) && dwAdditionalFlags & FLAGS_CODE_RESTORE)
 						api->Trace("WARN: STSS: dup restore param type <%s[%d]> in <%s> file, technique <%s>", temp, dwTextureIndex, sCurrentFileName, sCurrentBlockName);
@@ -906,7 +908,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 				else
 				{
 					dwIndex = GetSAMPIndex(temp);
-					Assert(dwIndex != INVALID_STSS_INDEX);
+					Assert(dwIndex != INVALID_INDEX);
 					if (SampleStates[dwIndex].bUse && SampleStates[dwIndex].dwUseSubCode & (1 << dwTextureIndex) && dwAdditionalFlags & FLAGS_CODE_RESTORE)
 						api->Trace("WARN: SAMP: dup restore param type <%s[%d]> in <%s> file, technique <%s>", temp, dwTextureIndex, sCurrentFileName, sCurrentBlockName);
 					if (dwAdditionalFlags & FLAGS_CODE_RESTORE)
@@ -1263,7 +1265,7 @@ dword CTechnique::ProcessShaderAsm(shader_t * pS, char *pFile, dword dwSize, cha
 		if(dwShaderType == CODE_SVS)
 			hr = D3DXCompileShader(pBuffer, dwTotalLen, 0, 0, "main", "vs_3_0", D3DXSHADER_OPTIMIZATION_LEVEL3, &CompiledShader, &ErrorShader, 0);
 		else
-			hr = D3DXCompileShader(pBuffer, dwTotalLen, 0, 0, "main", "vs_3_0", D3DXSHADER_OPTIMIZATION_LEVEL3, &CompiledShader, &ErrorShader, 0);
+			hr = D3DXCompileShader(pBuffer, dwTotalLen, 0, 0, "main", "ps_3_0", D3DXSHADER_OPTIMIZATION_LEVEL3, &CompiledShader, &ErrorShader, 0);
 	}
 	else
 		hr = D3DXAssembleShader(pBuffer, dwTotalLen, NULL, 0, 0, &CompiledShader, &ErrorShader);
@@ -1285,15 +1287,15 @@ dword CTechnique::ProcessShaderAsm(shader_t * pS, char *pFile, dword dwSize, cha
 		return 0;
 	}
 	if (dwShaderType == CODE_SVS)
-		hr = pRS->CreateVertexShader((const dword*)CompiledShader->GetBufferPointer(), &pS->ppVertexShader);
+		hr = pRS->CreateVertexShader((dword*)CompiledShader->GetBufferPointer(), &pS->pVertexShader);
 	else
-	{
-#ifndef _XBOX
-		hr = pRS->CreatePixelShader((dword*)CompiledShader->GetBufferPointer(), &pS->ppPixelShader);
+		hr = pRS->CreatePixelShader((dword*)CompiledShader->GetBufferPointer(), &pS->pPixelShader);
+
+/*#ifndef _XBOX
 #else
 		hr = pRS->CreatePixelShader((dword*)(D3DPIXELSHADERDEF *)CompiledShader->GetBufferPointer(),&pS->dwShaderHandle);
-#endif
-	}
+#endif*/
+
 	RELEASE(CompiledShader);
 	RELEASE(ErrorShader);
 	DELETE(pBuffer);
@@ -1429,6 +1431,13 @@ void CTechnique::ClearSRS_STSS_bUse()
 	{
 		TexturesStageStates[i].bUse = false;
 		TexturesStageStates[i].dwUseSubCode = 0;
+	}
+
+	dwNumParam = sizeof(SampleStates) / sizeof(SAMP);
+	for (i = 0; i<dwNumParam; i++)
+	{
+		SampleStates[i].bUse = false;
+		SampleStates[i].dwUseSubCode = 0;
 	}
 }
 
@@ -1688,11 +1697,11 @@ bool CTechnique::ExecutePass(bool bStart)
 					dword dwShaderIndex = *pPass++;
 					if (bSave)
 					{
-						//!!RS->GetVertexShader(&pShader);
+						pRS->GetVertexShader((IDirect3DVertexShader9**)&dwSaveValue);
 						AddState2Restore2(dwCode,dwSaveValue);
 					}
-					if (dwShaderIndex != INVALID_SHADER_INDEX && pShaders[dwShaderIndex].dwShaderHandle != INVALID_SHADER_HANDLE)
-						pRS->SetFVF(pShaders[dwShaderIndex].dwShaderHandle);
+					if (dwShaderIndex != INVALID_SHADER_INDEX && pShaders[dwShaderIndex].pVertexShader != nullptr)
+						pRS->SetVertexShader(pShaders[dwShaderIndex].pVertexShader);
 				}
 			break;
 			case CODE_SPSCONST:
@@ -1703,6 +1712,7 @@ bool CTechnique::ExecutePass(bool bStart)
 			break;
 			case CODE_SVSCONST:
 				{
+					//!!
 					dword dwShaderConstIndex = *pPass++;
 					dword dwCode = *pPass++;
 					switch (dwCode)
@@ -1720,7 +1730,8 @@ bool CTechnique::ExecutePass(bool bStart)
 
 							// Projection to clip space
 							D3DXMatrixTranspose(&matWorldViewProj, &matWorldViewProj);
-							pRS->SetFVFConstant(dwShaderConstIndex, &matWorldViewProj(0, 0), 4);
+							//pRS->SetFVFConstant(dwShaderConstIndex, &matWorldViewProj(0, 0), 4);
+							pRS->SetVertexShaderConstantI(dwShaderConstIndex, (const int*)&matWorldViewProj(0, 0), 1);
 						}
 						break;
 					}
@@ -1731,12 +1742,11 @@ bool CTechnique::ExecutePass(bool bStart)
 					dword dwShaderIndex = *pPass++;
 					if (bSave)
 					{
-						//!!pRS->GetPixelShader(&dwSaveValue);
+						pRS->GetPixelShader((IDirect3DPixelShader9**)&dwSaveValue);
 						AddState2Restore2(dwCode,dwSaveValue);
 					}
-					if (dwShaderIndex != INVALID_SHADER_INDEX && pShaders[dwShaderIndex].dwShaderHandle != INVALID_SHADER_HANDLE)
-						;
-						//!!pRS->SetPixelShader(pShaders[dwShaderIndex].dwShaderHandle);
+					if (dwShaderIndex != INVALID_SHADER_INDEX && pShaders[dwShaderIndex].pPixelShader != nullptr)
+						pRS->SetPixelShader(pShaders[dwShaderIndex].pPixelShader);
 				}
 			break;
 			case CODE_RESTORE:		// restore states
@@ -1836,11 +1846,11 @@ void CTechnique::RestoreSavedStates()
 			break;
 			case CODE_SPS:
 					dwValue = pSavedStates[dwTempSavedStatesPos++];
-					//!!pRS->SetPixelShader(dwValue);
+					pRS->SetPixelShader((IDirect3DPixelShader9*)dwValue);
 			break;
 			case CODE_SVS:
 					dwValue = pSavedStates[dwTempSavedStatesPos++];
-					pRS->SetFVF(dwValue);
+					pRS->SetVertexShader((IDirect3DVertexShader9*)dwValue);
 			break;
 		}
 	}
