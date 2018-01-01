@@ -110,8 +110,8 @@ bool SCRSHOTER::MakeScreenShot()
 
 	// получим копию рендер буфера
 	IDirect3DSurface9 * pRenderTarg = null;
-	if( hr==D3D_OK ) hr = rs->CreateImageSurface(desc.Width, desc.Height, desc.Format, &pRenderTarg);
-	if( hr==D3D_OK ) hr = rs->CopyRects( pOldRenderTarg, null, 0, pRenderTarg, null );
+	if( hr==D3D_OK ) hr = rs->CreateOffscreenPlainSurface(desc.Width, desc.Height, desc.Format, &pRenderTarg);
+	if( hr==D3D_OK ) hr = rs->GetRenderTargetData( pOldRenderTarg, pRenderTarg );
 	if( pOldRenderTarg!=null ) pOldRenderTarg->Release();
 
 	// создадим новый скрин шот
@@ -235,7 +235,7 @@ bool SCRSHOTER::MakeScreenShot()
 			IDirect3DSurface9 *pSurf1=null, *pSurf2=null;
 			rs->GetSurfaceLevel(m_pScrShotTex,0,&pSurf1);
 			rs->GetSurfaceLevel(pScrShotTex,0,&pSurf2);
-			rs->CopyRects(pSurf2,null,0,pSurf1,null);
+			rs->UpdateSurface(pSurf2,null,0,pSurf1,null);
 			if(pSurf1) rs->Release(pSurf1);
 			if(pSurf2) rs->Release(pSurf2);
 			rs->Release(pScrShotTex);

@@ -5,12 +5,40 @@ VertexShader SeaVS_ATIReflect
         stream[0];
 
         float v0[3];	// Position
-        float v1[3];	// Normal
-        float v2[2];	// Tex coord 0
+        float v3[3];	// Normal
+        float v5[2];	// Tex coord 0
     }
 	asm
 	{
 		 vs.1.1
+
+		//Example
+		//dcl_position v0
+		//dcl_texcoord v7
+		//dcl_blendweight v3
+		//dcl_normal v4
+		//This is the same value as the members of D3DDECLUSAGE without the D3DDECLUSAGE prefix.
+		//All dcl_usage instructions must appear before the first executable instruction.
+		// D3DDECLUSAGE_POSITION      = 0,
+ 		// D3DDECLUSAGE_BLENDWEIGHT   = 1,
+ 		// D3DDECLUSAGE_BLENDINDICES  = 2,
+ 		// D3DDECLUSAGE_NORMAL        = 3,
+ 		// D3DDECLUSAGE_PSIZE         = 4,
+ 		// D3DDECLUSAGE_TEXCOORD      = 5,
+  		// D3DDECLUSAGE_TANGENT       = 6,
+  		// D3DDECLUSAGE_BINORMAL      = 7,
+  		// D3DDECLUSAGE_TESSFACTOR    = 8,
+  		// D3DDECLUSAGE_POSITIONT     = 9,
+  		// D3DDECLUSAGE_COLOR         = 10,
+  		// D3DDECLUSAGE_FOG           = 11,
+  		// D3DDECLUSAGE_DEPTH         = 12,
+  		// D3DDECLUSAGE_SAMPLE        = 13
+		
+		dcl_position v0
+		dcl_normal v3
+		dcl_texcoord v5
+
+	
 		def c45, 5.0f, 0.5f, 0.04f, 1.0f
 
 		m4x4 r0, v0, c[24 ]
@@ -19,9 +47,10 @@ VertexShader SeaVS_ATIReflect
 		mul r11.z, r0.z, c[1  ].w  
 		expp r11.z, r11.z  
 		rcp r11.z, r11.z  
-		mov oFog.x, r11.z
+		//mov oFog.x, r11.z
+		mov oFog, r11.z
 
-		mov r4, v1
+		mov r4, v3
 		 
 		dp3 r4.w, r4, r4 
 		rsq r4.w, r4.w 
@@ -68,14 +97,14 @@ VertexShader SeaVS_ATIReflect
 		dp3 oT2.y, r11,  c[28 + 10]
 		dp3 oT2.z, r9,  c[28 + 10]
 	 
-		mul oT3.xy, v2, c[3].z
+		mul oT3.xy, v5, c[3].z
 
 		sub r0.z, v0.y, c[3].x
 		mul r0.z, r0.z, c[3].y
 		max oT3.z, r0.z, c[0].x
 	 
 		mov oT4.z, c[2].x
-		mov oT4.xy, v2
+		mov oT4.xy, v5
 	}
 }
 
@@ -97,7 +126,8 @@ PixelShader SeaPS_ATIReflect
 		dp3		r5.g, r1, r4_bx2		; 3nd row of matrix multiply
 		dp3		r5.b, r2, r4_bx2		; 2nd row of matrix multiply
 
-		mul r5.rgb, r5, c[0].rrr
+		//mul r5.rgb, r5, c[0].rrr
+		mul r5.rgb, r5, c0.rrr
 
 		mov r1.rgb, r3
 		;add r1.r, r1.r, c2.g
@@ -109,4 +139,5 @@ PixelShader SeaPS_ATIReflect
 		texld r0, r1
 
 		mov r0.a, r3.b
+	}
 }

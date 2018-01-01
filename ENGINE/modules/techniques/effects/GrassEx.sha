@@ -7,14 +7,41 @@ VertexShader GrassExVS
         float v0[3];	//Position
 		color v1;		//Params
 		color v2;		//Offset
-		float v3[3];	//Wind direction//float v4[1];	//Vertex alpha		
+		float v5[3];	//Wind direction//float v4[1];	//Vertex alpha		
     }
     
 	asm
 	{
 		vs.1.1
 
-		mul r0.xy, v3, c36
+		//Example
+		//dcl_position v0
+		//dcl_texcoord v7
+		//dcl_blendweight v5
+		//dcl_normal v4
+		//This is the same value as the members of D3DDECLUSAGE without the D3DDECLUSAGE prefix.
+		//All dcl_usage instructions must appear before the first executable instruction.
+		// D3DDECLUSAGE_POSITION      = 0,
+ 		// D3DDECLUSAGE_BLENDWEIGHT   = 1,
+ 		// D3DDECLUSAGE_BLENDINDICES  = 2,
+ 		// D3DDECLUSAGE_NORMAL        = 3,
+ 		// D3DDECLUSAGE_PSIZE         = 4,
+ 		// D3DDECLUSAGE_TEXCOORD      = 5,
+  		// D3DDECLUSAGE_TANGENT       = 6,
+  		// D3DDECLUSAGE_BINORMAL      = 7,
+  		// D3DDECLUSAGE_TESSFACTOR    = 8,
+  		// D3DDECLUSAGE_POSITIONT     = 9,
+  		// D3DDECLUSAGE_COLOR         = 10,
+  		// D3DDECLUSAGE_FOG           = 11,
+  		// D3DDECLUSAGE_DEPTH         = 12,
+  		// D3DDECLUSAGE_SAMPLE        = 13
+		
+		dcl_position v0
+		dcl_color v1
+		dcl_color1 v2
+		dcl_texcoord v5
+
+		mul r0.xy, v5, c36
 		add r0.w, r0.y, r0.x
 		max r0.w, -r0.w, c40.y
 		mul r2.xw, v1.zyzw, c40.x
@@ -24,7 +51,7 @@ VertexShader GrassExVS
 		mul r1.w, r0.y, c40.w
 		mad r0.w, r0.w, c39.x, r1.w
 		mul r1.w, r0.w, v2.y
-		mul r0.xy, v3, v3
+		mul r0.xy, v5, v5
 		add r0.w, r0.y, r0.x
 		mad r0.xy, v1, c41, c41.zwzw
 		mul r1.w, r1.w, c39.y
@@ -41,7 +68,7 @@ VertexShader GrassExVS
 		mul r1.xy, r0, -r3.w //
 		mad r1.xy, v0.xzzw, c38.w, r1.xy //
 		mul r0, r0.w, c33
-		mad r2.xy, v3, r3.y, r1
+		mad r2.xy, v5, r3.y, r1
 		mov r1.xyz, c38
 		mad oD0.xyz, r1, r1.w, c37
 		mad r0, c32, r2.x, r0
@@ -50,7 +77,7 @@ VertexShader GrassExVS
 		mad oT0.xy, r3, r1.zwzw, c[a0.x + 16]
 		mad r0, c34, r2.y, r0
 		add oPos, r0, c35
-		mov oD0.w, v3.z
+		mov oD0.w, v5.z
 	}
 }
 

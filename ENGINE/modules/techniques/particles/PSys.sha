@@ -17,8 +17,37 @@ VertexShader VS_Particles
 
  asm
  {
-	vs.1.0
+	vs.1.1
 
+		//Example
+		//dcl_position v0
+		//dcl_texcoord v7
+		//dcl_blendweight v3
+		//dcl_normal v4
+		//This is the same value as the members of D3DDECLUSAGE without the D3DDECLUSAGE prefix.
+		//All dcl_usage instructions must appear before the first executable instruction.
+		// D3DDECLUSAGE_POSITION      = 0,
+ 		// D3DDECLUSAGE_BLENDWEIGHT   = 1,
+ 		// D3DDECLUSAGE_BLENDINDICES  = 2,
+ 		// D3DDECLUSAGE_NORMAL        = 3,
+ 		// D3DDECLUSAGE_PSIZE         = 4,
+ 		// D3DDECLUSAGE_TEXCOORD      = 5,
+  		// D3DDECLUSAGE_TANGENT       = 6,
+  		// D3DDECLUSAGE_BINORMAL      = 7,
+  		// D3DDECLUSAGE_TESSFACTOR    = 8,
+  		// D3DDECLUSAGE_POSITIONT     = 9,
+  		// D3DDECLUSAGE_COLOR         = 10,
+  		// D3DDECLUSAGE_FOG           = 11,
+  		// D3DDECLUSAGE_DEPTH         = 12,
+  		// D3DDECLUSAGE_SAMPLE        = 13
+	dcl_position v0
+	dcl_color v1
+	dcl_texcoord v2
+	dcl_texcoord1 v3
+	dcl_tangent v4
+	dcl_blendweight v5
+	dcl_texcoord2 v6
+	dcl_texcoord3 v7
 
 //-----------------------------------------------
 

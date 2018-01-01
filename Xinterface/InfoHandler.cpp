@@ -35,11 +35,11 @@ bool InfoHandler::Init()
 	D3DSURFACE_DESC desc;
 	if(m_pRenderTarget->GetDesc(&desc) == D3D_OK)
 	{
-		if(m_rs->CreateImageSurface(desc.Width, desc.Height, desc.Format, &m_pSurface) == D3D_OK)
+		if(m_rs->CreateOffscreenPlainSurface(desc.Width, desc.Height, desc.Format, &m_pSurface) == D3D_OK)
 		{
 			if( DoPreOut() )
 			{
-				if(m_rs->CopyRects(m_pRenderTarget, null, 0, m_pSurface, null) == D3D_OK)
+				if(m_rs->GetRenderTargetData(m_pRenderTarget, m_pSurface) == D3D_OK)
 				{
 					isOk = true;
 				}
@@ -72,7 +72,7 @@ void InfoHandler::Realize(dword delta_time)
 	if(m_pSurface==null || m_pRenderTarget==null) return;
 	m_rs->MakePostProcess();
 	// Поддерживаем постоянный экран
-	if(m_rs->CopyRects(m_pSurface, null, 0, m_pRenderTarget, null) != D3D_OK)
+	if(m_rs->UpdateSurface(m_pSurface, null, 0, m_pRenderTarget, null) != D3D_OK)
 	{
 		api->Trace("Can't copy fader screen shot to render target!");
 	}

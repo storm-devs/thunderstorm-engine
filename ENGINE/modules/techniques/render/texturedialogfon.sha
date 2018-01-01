@@ -21,6 +21,7 @@ block TextureDialogFon()
                         AlphaArg2[0] = current;
 
 			ColorOp[1] = disable;
+			AlphaOp[1] = disable;
 
 			Render.Draw
 

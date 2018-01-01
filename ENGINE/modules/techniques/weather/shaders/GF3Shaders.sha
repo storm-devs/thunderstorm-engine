@@ -8,7 +8,7 @@ VertexShader SeaVS_GF3Reflect
         float v1[3];	// S vector
 		color v2;		// diffuse
 		color v3;		// specular
-        float v4[2];	// Tex coord 0
+        float v4[2];	// Tex coord 1
         float v5[3];	// T vector
     }
 	asm
@@ -29,7 +29,36 @@ VertexShader SeaVS_GF3Reflect
 		#define EYE_VECTOR      r4
 		#define TEMP			r5
 
-		vs.1.0
+		vs.1.1
+
+		//Example
+		//dcl_position v0
+		//dcl_texcoord v7
+		//dcl_blendweight v3
+		//dcl_normal v4
+		//This is the same value as the members of D3DDECLUSAGE without the D3DDECLUSAGE prefix.
+		//All dcl_usage instructions must appear before the first executable instruction.
+		// D3DDECLUSAGE_POSITION      = 0,
+ 		// D3DDECLUSAGE_BLENDWEIGHT   = 1,
+ 		// D3DDECLUSAGE_BLENDINDICES  = 2,
+ 		// D3DDECLUSAGE_NORMAL        = 3,
+ 		// D3DDECLUSAGE_PSIZE         = 4,
+ 		// D3DDECLUSAGE_TEXCOORD      = 5,
+  		// D3DDECLUSAGE_TANGENT       = 6,
+  		// D3DDECLUSAGE_BINORMAL      = 7,
+  		// D3DDECLUSAGE_TESSFACTOR    = 8,
+  		// D3DDECLUSAGE_POSITIONT     = 9,
+  		// D3DDECLUSAGE_COLOR         = 10,
+  		// D3DDECLUSAGE_FOG           = 11,
+  		// D3DDECLUSAGE_DEPTH         = 12,
+  		// D3DDECLUSAGE_SAMPLE        = 13
+		
+		dcl_position v0
+		dcl_texcoord v1
+		dcl_color v2
+		dcl_color1 v3
+		dcl_texcoord1 v4
+		dcl_texcoord2 v5
 
 		; Transform position to clip space and output it
 		dp4 oPos.x, V_POSITION, c[CV_WORLDVIEWPROJ_0]
@@ -102,7 +131,8 @@ VertexShader SeaVS_GF3Reflect
 		max TEMP.z,c[CV_ZERO].x,TEMP.z				; clamp to zero
 		mul TEMP.z,TEMP.z,c[CV_FOG].x				; dist * density
 		expp TEMP.z,TEMP.z							; res = e^(dist * density)
-		rcp oFog.x,TEMP.z							; res = 1 / e^(dist * density)
+		//rcp oFog.x,TEMP.z							; res = 1 / e^(dist * density)
+		rcp oFog,TEMP.z							; res = 1 / e^(dist * density)
 
 		mov oT0.xy, V_TEXTURE
 	}

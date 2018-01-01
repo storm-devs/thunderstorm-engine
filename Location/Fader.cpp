@@ -1,11 +1,11 @@
 //============================================================================================
 //	Spirenkov Maxim aka Sp-Max Shaman, 2001
 //--------------------------------------------------------------------------------------------
-//	
+//
 //--------------------------------------------------------------------------------------------
 //	Fader
 //--------------------------------------------------------------------------------------------
-//	
+//
 //============================================================================================
 
 #include "Fader.h"
@@ -38,7 +38,7 @@ Fader::~Fader()
 {
 	if(surface) rs->Release(surface);
 	if(renderTarget) renderTarget->Release();
-	surface = null;	
+	surface = null;
 	renderTarget = null;
 	if(rs)
 	{
@@ -184,7 +184,7 @@ void Fader::Execute(dword delta_time)
 		deleteMe++;
 		if(deleteMe >= 3) _CORE_API->DeleteEntity(GetID());
 	}
-	if(eventStart) 
+	if(eventStart)
 	{
 		eventStart = false;
 		if(!fadeIn)
@@ -215,7 +215,7 @@ void Fader::Execute(dword delta_time)
 void Fader::Realize(dword delta_time)
 {
 	if(!isWork) return;
-	if(isStart) eventStart = true;	
+	if(isStart) eventStart = true;
 	//Снятие и рисование стартового кадра
 	if(!endFade)
 	{
@@ -227,10 +227,10 @@ void Fader::Realize(dword delta_time)
 				bool isOk = false;
 				D3DSURFACE_DESC desc;
 				if(renderTarget->GetDesc(&desc) == D3D_OK)
-				{			
-					if(rs->CreateImageSurface(desc.Width, desc.Height, desc.Format, &surface) == D3D_OK)
+				{
+					if(rs->CreateOffscreenPlainSurface(desc.Width, desc.Height, desc.Format, &surface) == D3D_OK)
 					{
-						if(rs->CopyRects(renderTarget, null, 0, surface, null) == D3D_OK)
+						if(rs->GetRenderTargetData(renderTarget, surface) == D3D_OK)
 						{
 							isOk = true;
 						}
@@ -239,7 +239,7 @@ void Fader::Realize(dword delta_time)
 				if(!isOk) _CORE_API->Trace("Screen shot for fader not created!");
 			}else{
 				//Копируем шот
-				if(rs->CopyRects(surface, null, 0, renderTarget, null) != D3D_OK)
+				if(rs->UpdateSurface(surface, null, 0, renderTarget, null) != D3D_OK)
 				{
 					_CORE_API->Trace("Can't copy fader screen shot to render target!");
 				}

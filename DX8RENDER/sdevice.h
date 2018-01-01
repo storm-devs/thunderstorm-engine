@@ -404,8 +404,8 @@ public:
 		virtual HRESULT GetCubeMapSurface( IDirect3DCubeTexture9* ppCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level, IDirect3DSurface9** ppCubeMapSurface );
 		virtual HRESULT CreateTexture( UINT Width, UINT Height, UINT  Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DTexture9** ppTexture );
 		virtual HRESULT CreateCubeTexture( UINT EdgeLength, UINT Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DCubeTexture9** ppCubeTexture );
-		virtual HRESULT CreateImageSurface( UINT Width, UINT Height, D3DFORMAT Format, IDirect3DSurface9 * * ppSurface);
-		virtual HRESULT CreateDepthStencilSurface( UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, IDirect3DSurface9** ppSurface );
+		virtual HRESULT CreateOffscreenPlainSurface( UINT Width, UINT Height, D3DFORMAT Format, IDirect3DSurface9 ** ppSurface);
+		virtual HRESULT CreateDepthStencilSurface( UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, IDirect3DSurface9 ** ppSurface );
 		virtual HRESULT SetTexture(DWORD Stage, IDirect3DBaseTexture9* pTexture );
 		virtual HRESULT GetLevelDesc( IDirect3DTexture9* ppTexture, UINT Level, D3DSURFACE_DESC* pDesc );
 		virtual HRESULT GetLevelDesc( IDirect3DCubeTexture9* ppCubeTexture, UINT Level, D3DSURFACE_DESC* pDesc );
@@ -414,7 +414,8 @@ public:
 		virtual HRESULT UnlockRect( IDirect3DCubeTexture9 *pCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level );
 		virtual HRESULT UnlockRect( IDirect3DTexture9 *pTexture, UINT Level );
 		virtual HRESULT GetSurfaceLevel( IDirect3DTexture9* ppTexture, UINT Level, IDirect3DSurface9** ppSurfaceLevel );
-		virtual HRESULT CopyRects( IDirect3DSurface9* pSourceSurface, CONST RECT* pSourceRectsArray, UINT cRects, IDirect3DSurface9* pDestinationSurface, CONST POINT* pDestPointsArray );
+		virtual HRESULT UpdateSurface( IDirect3DSurface9* pSourceSurface, CONST RECT* pSourceRectsArray, UINT cRects, IDirect3DSurface9* pDestinationSurface, CONST POINT* pDestPointsArray );
+		virtual HRESULT GetRenderTargetData(IDirect3DSurface9 *pRenderTarget, IDirect3DSurface9 *pDestSurface);
 
 	// D3D Pixel/Vertex Shaders Section
 		virtual HRESULT CreatePixelShader(CONST DWORD * pFunction, DWORD * pHandle);
@@ -591,7 +592,7 @@ public:
 	HRESULT UnlockRect( IDirect3DCubeTexture9 *pCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level );
 	HRESULT UnlockRect( IDirect3DTexture9 *pTexture, UINT Level );
 	HRESULT GetSurfaceLevel( IDirect3DTexture9* ppTexture, UINT Level, IDirect3DSurface9** ppSurfaceLevel );
-	HRESULT CopyRects( IDirect3DSurface9* pSourceSurface, CONST RECT* pSourceRectsArray, UINT cRects, IDirect3DSurface9* pDestinationSurface, CONST POINT* pDestPointsArray );
+	HRESULT UpdateSurface( IDirect3DSurface9* pSourceSurface, CONST RECT* pSourceRectsArray, UINT cRects, IDirect3DSurface9* pDestinationSurface, CONST POINT* pDestPointsArray );
 	HRESULT DeletePixelShader( DWORD Handle );
 	HRESULT DeleteVertexShader( DWORD Handle );
 	HRESULT SetPixelShader( DWORD Handle );

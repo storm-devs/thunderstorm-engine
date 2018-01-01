@@ -71,7 +71,7 @@ block sea_rain_drops()
 			FogEnable = false;
 			Lighting = false;
 			CullMode = none;
-			ZBias = 2;
+			SSZbias = -0.6;
 			AlphaTestEnable = false;
 			AlphaBlendEnable = true;
 			SrcBlend = srcalpha;

@@ -3265,12 +3265,14 @@ HRESULT DX8RENDER::CreateCubeTexture( UINT EdgeLength, UINT Levels, DWORD Usage,
 	return d3d8->CreateCubeTexture( EdgeLength, Levels, Usage, Format, Pool, ppCubeTexture, NULL );
 }
 
-HRESULT DX8RENDER::CreateImageSurface( UINT Width, UINT Height, D3DFORMAT Format, IDirect3DSurface9 * * ppSurface)
+HRESULT DX8RENDER::CreateOffscreenPlainSurface( UINT Width, UINT Height, D3DFORMAT Format, IDirect3DSurface9 ** ppSurface)
 {
-	return d3d8->CreateOffscreenPlainSurface( Width, Height, Format, D3DPOOL_SCRATCH, ppSurface, NULL);
+	return d3d8->CreateOffscreenPlainSurface( Width, Height, Format, D3DPOOL_SYSTEMMEM, ppSurface, NULL);
+	//D3DERR_OUTOFVIDEOMEMORY
+	//GetAvailableTextureMem
 }
 
-HRESULT DX8RENDER::CreateDepthStencilSurface( UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, IDirect3DSurface9** ppSurface )
+HRESULT DX8RENDER::CreateDepthStencilSurface( UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, IDirect3DSurface9 ** ppSurface )
 {
 	return d3d8->CreateDepthStencilSurface( Width, Height, Format, MultiSample, 0, TRUE, ppSurface, NULL );
 }
@@ -3278,18 +3280,18 @@ HRESULT DX8RENDER::CreateDepthStencilSurface( UINT Width, UINT Height, D3DFORMAT
 HRESULT DX8RENDER::CreateVertexShader(CONST DWORD * pFunction, CONST D3DVERTEXELEMENT9 * pDeclaration )
 {
 	//return d3d8->CreateVertexShader(pDeclaration, pFunction, pHandle, Usage);
-	IDirect3DVertexShader9 *vsh;
-	return d3d8->CreateVertexShader(  pFunction, &	vsh);
+	//return d3d8->CreateVertexShader(  pFunction, &	vsh);
+	return NULL;
 }
 
 HRESULT DX8RENDER::CreatePixelShader(CONST DWORD * pFunction, DWORD * pHandle)
 {
-	IDirect3DPixelShader9 *vsh;
 #ifndef _XBOX
-	return d3d8->CreatePixelShader( pFunction, &vsh );
+	//return d3d8->CreatePixelShader( pFunction, &vsh );
 #else
 	return d3d8->CreatePixelShader( (D3DPIXELSHADERDEF*)(pFunction /*+ 1*/), pHandle );
 #endif
+	return NULL;
 }
 
 HRESULT DX8RENDER::GetVertexShader(DWORD * pHandle)
@@ -3344,9 +3346,15 @@ HRESULT DX8RENDER::GetSurfaceLevel( IDirect3DTexture9* ppTexture, UINT Level, ID
 	return ppTexture->GetSurfaceLevel( Level, ppSurfaceLevel );
 }
 
-HRESULT DX8RENDER::CopyRects( IDirect3DSurface9* pSourceSurface, CONST RECT* pSourceRectsArray, UINT cRects, IDirect3DSurface9* pDestinationSurface, CONST POINT* pDestPointsArray )
+HRESULT DX8RENDER::UpdateSurface( IDirect3DSurface9* pSourceSurface, CONST RECT* pSourceRectsArray, UINT cRects, IDirect3DSurface9* pDestinationSurface, CONST POINT* pDestPointsArray )
 {
+	//return d3d8->StretchRect(pSourceSurface, pSourceRectsArray, pDestinationSurface, pDestPointsArray)
 	return d3d8->UpdateSurface( pSourceSurface, pSourceRectsArray, pDestinationSurface, pDestPointsArray );
+}
+
+HRESULT DX8RENDER::GetRenderTargetData(IDirect3DSurface9 * pRenderTarget, IDirect3DSurface9 * pDestSurface)
+{
+	return d3d8->GetRenderTargetData(pRenderTarget, pDestSurface);
 }
 
 HRESULT DX8RENDER::DeletePixelShader( DWORD Handle )

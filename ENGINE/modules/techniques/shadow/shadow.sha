@@ -34,8 +34,10 @@ block shadow_draw()
 			Lighting = false;
 			ZWriteEnable = false;
 			CullMode = ccw;
-			ZBias = 1;
-		
+			;Added support in Technique.cpp for dividing ZBias by 1000 float
+			;and applying  D3DRS_SLOPESCALEDEPTHBIAS to remove shadow artifacts
+			SSZbias = -0.6;
+
 			ColorOp[0] = modulate2x;
 			ColorArg1[0] = texture;
 			ColorArg2[0] = tfactor;
@@ -63,7 +65,7 @@ block shadow_smooth()
 			Lighting = false;
 			ZEnable = false;
 			CullMode = none;
-		
+
 			ColorOp[0] = modulate;
 			ColorArg1[0] = texture;
 			ColorArg2[0] = tfactor;

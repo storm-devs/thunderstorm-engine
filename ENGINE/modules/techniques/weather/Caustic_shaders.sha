@@ -4,14 +4,41 @@ VertexShader VS_Caustic
 	{
         stream[0];
 
-        float v0[3];	
+	float v0[3];	
         float v1[3];	
 	color v2;
         float v3[2];	
     }
 	asm
 	{
-		vs.1.0
+		vs.1.1
+
+		//Example
+		//dcl_position v0
+		//dcl_texcoord v7
+		//dcl_blendweight v3
+		//dcl_normal v4
+		//This is the same value as the members of D3DDECLUSAGE without the D3DDECLUSAGE prefix.
+		//All dcl_usage instructions must appear before the first executable instruction.
+		// D3DDECLUSAGE_POSITION      = 0,
+ 		// D3DDECLUSAGE_BLENDWEIGHT   = 1,
+ 		// D3DDECLUSAGE_BLENDINDICES  = 2,
+ 		// D3DDECLUSAGE_NORMAL        = 3,
+ 		// D3DDECLUSAGE_PSIZE         = 4,
+ 		// D3DDECLUSAGE_TEXCOORD      = 5,
+  		// D3DDECLUSAGE_TANGENT       = 6,
+  		// D3DDECLUSAGE_BINORMAL      = 7,
+  		// D3DDECLUSAGE_TESSFACTOR    = 8,
+  		// D3DDECLUSAGE_POSITIONT     = 9,
+  		// D3DDECLUSAGE_COLOR         = 10,
+  		// D3DDECLUSAGE_FOG           = 11,
+  		// D3DDECLUSAGE_DEPTH         = 12,
+  		// D3DDECLUSAGE_SAMPLE        = 13
+		
+		dcl_position v0
+		dcl_texcoord0 v1
+		dcl_color v2
+		dcl_texcoord1 v3
 
 		; Transform position to clip space and output it
 		m4x4 r3, v0, c[0]
@@ -45,7 +72,7 @@ VertexShader VS_Caustic
 		max r3.z, c[13].x, r3.z				; clamp to zero
 		mul r3.z, r3.z, c[12].x				; dist * density
 		expp r3.z, r3.z							; res = e^(dist * density)
-		rcp oFog.x, r3.z							; res = 1 / e^(dist * density)
+		rcp oFog, r3.z							; res = 1 / e^(dist * density)
 
 	}
 }
