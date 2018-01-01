@@ -24,10 +24,10 @@ AICannon::~AICannon()
 
 void AICannon::Execute(float fDeltaTime)
 {
-	if (fTime2Action>=0.0f) 
+	if (fTime2Action>=0.0f)
 	{
-		if (isRecharged() && (!bCanRecharge || isEmpty()))  
-			; 
+		if (isRecharged() && (!bCanRecharge || isEmpty()))
+			;
 		else
 			fTime2Action -= fDeltaTime;
 	}
@@ -70,7 +70,7 @@ float AICannon::CalcHeightFireAngle(float _fSpeedV0, CVECTOR & vOur, CVECTOR & v
 	t2 = sqrt(x2);
 
 	double T = (CannonType == CANNONTYPE_MORTAR) ? t1 : t2;
-	
+
 	double fTemp = fDistance / (_fSpeedV0 * T);
 	double fAlpha = acos(Clamp(fTemp));
 
@@ -79,8 +79,8 @@ float AICannon::CalcHeightFireAngle(float _fSpeedV0, CVECTOR & vOur, CVECTOR & v
 	return (fabs(sy0 - fHeight) < fabs(sy1 - fHeight)) ? float(fAlpha) : float(-fAlpha);
 }
 
-VAI_OBJBASE	* AICannon::GetAIObjPointer() const 
-{ 
+VAI_OBJBASE	* AICannon::GetAIObjPointer() const
+{
 	return (VAI_OBJBASE*)api->GetEntityPointer(&GetParentEID());
 }
 
@@ -222,7 +222,7 @@ void AICannon::Init(AIAttributesHolder * _pAHolder, const ENTITY_ID & eid, GEOS:
 	eidParent = eid;
 
 	CMatrix m;
-	memcpy(&m[0][0], &lbl.m[0][0], sizeof(m));
+	memcpy(&m.m[0][0], &lbl.m[0][0], sizeof(m));
 
 	vPos = m.Pos();
 	vDir = CVECTOR(m.Vz().x, 0.0f, m.Vz().z);

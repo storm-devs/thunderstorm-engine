@@ -89,14 +89,16 @@ void BATTLE_NAVIGATOR::Draw()
 
 	// set world matrix
 	CMatrix matw;
-	rs->SetTransform(D3DTS_WORLD,(D3DXMATRIX*)&matw);
+	rs->SetTransform(D3DTS_WORLD, matw);
 
 	// градиентная подложка
 	//rs->DrawPrimitive(D3DPT_TRIANGLEFAN,m_idGradBackVBuf,sizeof(BI_COLORONLY_VERTEX),0,1,"battle_only_color");
 
 	// остров
-	rs->SetTextureStageState(0,D3DTSS_ADDRESSU,D3DTADDRESS_CLAMP);
-	rs->SetTextureStageState(0,D3DTSS_ADDRESSV,D3DTADDRESS_CLAMP);
+	rs->SetSamplerState(0, D3DSAMP_ADDRESSU,D3DTADDRESS_CLAMP);
+	rs->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+
+	rs->SetSamplerState(0, D3DSAMP_ADDRESSV,D3DTADDRESS_CLAMP);
 	if(m_idIslandTexture>=0)
 		rs->TextureSet(0,m_idIslandTexture);
 	if(m_pIslandTexture!=NULL)
@@ -108,8 +110,8 @@ void BATTLE_NAVIGATOR::Draw()
 		rs->SetRenderState(D3DRS_TEXTUREFACTOR,m_dwSeaColor);
 		rs->DrawPrimitive(D3DPT_TRIANGLEFAN,m_idMapVBuf,sizeof(BI_ONETEXTURE_VERTEX),0,RADIAL_QUANTITY,"battle_only_tfactor");
 	}
-	rs->SetTextureStageState(0,D3DTSS_ADDRESSU,D3DTADDRESS_WRAP);
-	rs->SetTextureStageState(0,D3DTSS_ADDRESSV,D3DTADDRESS_WRAP);
+	rs->SetSamplerState(0, D3DSAMP_ADDRESSU,D3DTADDRESS_WRAP);
+	rs->SetSamplerState(0, D3DSAMP_ADDRESSV,D3DTADDRESS_WRAP);
 
 	// корабли
 	if(m_nvShips>0)
@@ -1153,16 +1155,16 @@ void BATTLE_NAVIGATOR::SetIsland()
 					if( rs->SetRenderTarget(pRenderTarg,NULL) == D3D_OK )
 					{
 						CMatrix matw,matv,oldmatv;
-						D3DXMATRIX matp,oldmatp;
+						D3DMATRIX matp,oldmatp;
 						matv.BuildViewMatrix(posCenter+CVECTOR(0.f,islSize/2.f,0.f),posCenter,CVECTOR(0.f,0.f,1.f));
-						rs->GetTransform(D3DTS_VIEW,(D3DXMATRIX*)&oldmatv);
-					    rs->SetTransform(D3DTS_VIEW,(D3DXMATRIX*)&matv);
-						rs->GetTransform(D3DTS_PROJECTION,&oldmatp);
+						rs->GetTransform(D3DTS_VIEW, oldmatv);
+					    rs->SetTransform(D3DTS_VIEW, matv);
+						rs->GetTransform(D3DTS_PROJECTION, &oldmatp);
 						ZERO(matp);
 						matp._11 = matp._22 = 2.f/islSize;
 						matp._33 = 1.f/islSize;
 						matp._44 = 1.f;
-						rs->SetTransform(D3DTS_PROJECTION,(D3DXMATRIX*)&matp);
+						rs->SetTransform(D3DTS_PROJECTION, &matp);
 						// fill fone color
 						rs->Clear(0,NULL,D3DCLEAR_TARGET,m_dwSeaColor,1.f,0);
 						// show island
@@ -1172,7 +1174,7 @@ void BATTLE_NAVIGATOR::SetIsland()
 							while(rs->TechniqueExecuteNext());
 						}
 						rs->SetRenderTarget(pOldRenderTarg,pStencil);
-						rs->SetTransform(D3DTS_VIEW,(D3DXMATRIX*)&oldmatv);
+						rs->SetTransform(D3DTS_VIEW, oldmatv);
 						rs->SetTransform(D3DTS_PROJECTION,&oldmatp);
 					}
 					pStencil->Release();

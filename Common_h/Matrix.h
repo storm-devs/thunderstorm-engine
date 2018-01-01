@@ -3,7 +3,8 @@
 
 
 #include "cvector.h"
-
+#include <d3d9.h>
+#include <d3dx9.h>
 
 //============================================================================================
 
@@ -21,8 +22,6 @@ struct MTX_PRJ_VECTOR
 	float x, y, z;
 	float rhw;
 };
-
-struct D3DXMATRIX;
 
 //============================================================================================
 
@@ -163,7 +162,7 @@ public:
 
 	//D3D extends (return (D3DXMATRIX *)pointer)
 	operator D3DXMATRIX * () const;
-
+	operator D3DMATRIX * () const;
 };
 
 //============================================================================================
@@ -843,6 +842,11 @@ __forceinline CMatrix::operator D3DXMATRIX * () const
 	return ((D3DXMATRIX*)matrix);
 };
 
+//D3D extends (return (D3DMATRIX *)pointer)
+__forceinline CMatrix::operator D3DMATRIX * () const
+{
+	return ((D3DMATRIX*)matrix);
+};
 //============================================================================================
 
 __forceinline CMatrix & CMatrix::BuildScale(float scale)

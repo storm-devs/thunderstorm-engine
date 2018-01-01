@@ -303,33 +303,33 @@ void GEOM_SERVICE_R::SetMaterial(const GEOS::MATERIAL &mt)
 	/*if(GetAsyncKeyState(0xc0)<0)
 	{
 		//RenderService->TextureSet(0, 0);
-		RenderService->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_POINT);
-		RenderService->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_NONE);
-		RenderService->SetTextureStageState(0, D3DTSS_MIPFILTER, D3DTEXF_POINT);
+		RenderService->SetTextureStageState(0, D3DSAMP_COLOROPP_MAGFILTER, D3DTEXF_POINT);
+		RenderService->SetTextureStageState(0, D3DSAMP_COLOROPP_MINFILTER, D3DTEXF_NONE);
+		RenderService->SetTextureStageState(0, D3DSAMP_COLOROPP_MIPFILTER, D3DTEXF_POINT);
 	}
 	else
 	{
-		RenderService->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-		RenderService->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_ANISOTROPIC);
-		RenderService->SetTextureStageState(0, D3DTSS_MIPFILTER, D3DTEXF_LINEAR);
+		RenderService->SetTextureStageState(0, D3DSAMP_COLOROPP_MAGFILTER, D3DTEXF_LINEAR);
+		RenderService->SetTextureStageState(0, D3DSAMP_COLOROPP_MINFILTER, D3DTEXF_ANISOTROPIC);
+		RenderService->SetTextureStageState(0, D3DSAMP_COLOROPP_MIPFILTER, D3DTEXF_LINEAR);
 	}*/
 
-	/*RenderService->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-	RenderService->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_ANISOTROPIC);
-	RenderService->SetTextureStageState(0, D3DTSS_MIPFILTER, D3DTEXF_LINEAR);
-	RenderService->SetTextureStageState(0, D3DTSS_MAXANISOTROPY, 3);
+	/*RenderService->SetTextureStageState(0, D3DSAMP_COLOROPP_MAGFILTER, D3DTEXF_LINEAR);
+	RenderService->SetTextureStageState(0, D3DSAMP_COLOROPP_MINFILTER, D3DTEXF_ANISOTROPIC);
+	RenderService->SetTextureStageState(0, D3DSAMP_COLOROPP_MIPFILTER, D3DTEXF_LINEAR);
+	RenderService->SetTextureStageState(0, D3DSAMP_COLOROPP_MAXANISOTROPY, 3);
 
 	//unchanged texture stage states - both for base and detal texture
-	RenderService->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
-	RenderService->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_TEXTURE);
+	RenderService->SetTextureStageState(0, D3DSAMP_COLOROPP_COLORARG1, D3DTA_DIFFUSE);
+	RenderService->SetTextureStageState(0, D3DSAMP_COLOROPP_COLORARG2, D3DTA_TEXTURE);
 	RenderService->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_CURRENT);
 	RenderService->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_TEXTURE);
 	RenderService->SetTextureStageState(2, D3DTSS_COLORARG1, D3DTA_CURRENT);
 	RenderService->SetTextureStageState(2, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
 
-	RenderService->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
-	RenderService->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TEXTURE);
-	RenderService->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+	RenderService->SetTextureStageState(0, D3DSAMP_COLOROPP_ALPHAARG1, D3DTA_DIFFUSE);
+	RenderService->SetTextureStageState(0, D3DSAMP_COLOROPP_ALPHAARG2, D3DTA_TEXTURE);
+	RenderService->SetTextureStageState(0, D3DSAMP_COLOROPP_ALPHAOP, D3DTOP_DISABLE);
 
 	//general
 	RenderService->SetRenderState(D3DRS_FOGENABLE, false);
@@ -349,8 +349,8 @@ void GEOM_SERVICE_R::SetMaterial(const GEOS::MATERIAL &mt)
 	RenderService->SetRenderState(D3DRS_SPECULARENABLE, FALSE);//TRUE);
 
 	//path BASE texture through
-	RenderService->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
-	RenderService->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+	RenderService->SetTextureStageState(0, D3DSAMP_COLOROPP_COLORARG1, D3DTA_DIFFUSE);
+	RenderService->SetTextureStageState(0, D3DSAMP_COLOROPP_COLOROP, D3DTOP_SELECTARG1);
 	RenderService->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);//*/
 
 	D3DMATERIAL9 m;
@@ -485,8 +485,8 @@ void GEOM_SERVICE_R::DrawIndexedPrimitive(long minv, long numv, long vrtsize, lo
 		RenderService->SetFVFConstant(0, &mWVP, 4);
 		RenderService->SetFVFConstant(4, &mWorld, 4);
 
-		RenderService->GetRenderState(D3DRS_ZBIAS, &oldZBias);
-		RenderService->SetRenderState(D3DRS_ZBIAS, 1);
+		RenderService->GetRenderState(D3DRS_DEPTHBIAS, &oldZBias);
+		RenderService->SetRenderState(D3DRS_DEPTHBIAS, 1);
 	}
 
 	//draw animation
@@ -519,7 +519,7 @@ void GEOM_SERVICE_R::DrawIndexedPrimitive(long minv, long numv, long vrtsize, lo
 
 	if (bCaustic)
 	{
-		RenderService->SetRenderState(D3DRS_ZBIAS, oldZBias);
+		RenderService->SetRenderState(D3DRS_DEPTHBIAS, oldZBias);
 	}
 }
 

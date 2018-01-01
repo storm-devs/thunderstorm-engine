@@ -66,8 +66,8 @@ bool Artifact::Init()
 	iBuffer = renderService->CreateIndexBuffer(6*sizeof(WORD), D3DUSAGE_WRITEONLY);
 	vBuffer = renderService->CreateVertexBuffer(ARTIFACT_FVF,4*sizeof(ARTIFACT_VERTEX), D3DUSAGE_WRITEONLY);
 
-	
-	WORD *indexes = (WORD *) renderService->LockIndexBuffer(iBuffer); 
+
+	WORD *indexes = (WORD *) renderService->LockIndexBuffer(iBuffer);
 	*(indexes++) = 0;
 	*(indexes++) = 1;
 	*(indexes++) = 2;
@@ -153,7 +153,7 @@ void Artifact::Realize(dword _dTime)
 	*/
 	rotationZ += _dTime * 1e-4f;
 
-	ARTIFACT_VERTEX *vertices = (ARTIFACT_VERTEX *) renderService->LockVertexBuffer(vBuffer); 
+	ARTIFACT_VERTEX *vertices = (ARTIFACT_VERTEX *) renderService->LockVertexBuffer(vBuffer);
 	vertices->pos.x =  - GRID_WIDTH / 2.f;
 	vertices->pos.y =  + GRID_HEIGHT / 2.f;
 	vertices->pos.z = 0.f;
@@ -193,7 +193,7 @@ void Artifact::Realize(dword _dTime)
 	vertices->tu2 = u + dU*2;
 	vertices->tv2 = 0.f;
 	++vertices;
-	renderService->UnLockVertexBuffer(vBuffer); 
+	renderService->UnLockVertexBuffer(vBuffer);
 
 	//CMatrix m;
 	//renderService->SetTransform(D3DTS_WORLD, (D3DMATRIX *) m);
@@ -207,25 +207,25 @@ void Artifact::Realize(dword _dTime)
 	iMatrix.BuildMatrix(CVECTOR(0.f, 0.f, rotationZ), pos);
 	renderService->SetTransform(D3DTS_WORLD,iMatrix);
 
-	renderService->DrawBuffer(vBuffer, 
-						 sizeof(ARTIFACT_VERTEX), 
-						 iBuffer, 
-						 0, 
-						 4, 
-						 0, 
-						 2, 
+	renderService->DrawBuffer(vBuffer,
+						 sizeof(ARTIFACT_VERTEX),
+						 iBuffer,
+						 0,
+						 4,
+						 0,
+						 2,
 						 "Artifact");
 
 	iMatrix.BuildMatrix(CVECTOR(0.f, 0.f, -0.1f * rotationZ), pos);
 	renderService->SetTransform(D3DTS_WORLD,iMatrix);
 
-	renderService->DrawBuffer(vBuffer, 
-						 sizeof(ARTIFACT_VERTEX), 
-						 iBuffer, 
-						 0, 
-						 4, 
-						 0, 
-						 2, 
+	renderService->DrawBuffer(vBuffer,
+						 sizeof(ARTIFACT_VERTEX),
+						 iBuffer,
+						 0,
+						 4,
+						 0,
+						 2,
 						 "Artifact");
 
   renderService->SetTransform(D3DTS_VIEW,cameraMatrix);

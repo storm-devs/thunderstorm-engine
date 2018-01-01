@@ -2793,6 +2793,16 @@ dword DX8RENDER::GetRenderState(dword State, dword * pValue)
 	return d3d8->GetRenderState((D3DRENDERSTATETYPE)State,pValue);
 }
 
+dword DX8RENDER::GetSamplerState(dword Sampler, D3DSAMPLERSTATETYPE  Type, dword * pValue)
+{
+	return d3d8->GetSamplerState(Sampler, Type, pValue);
+}
+
+dword  DX8RENDER::SetSamplerState(dword Sampler, D3DSAMPLERSTATETYPE Type, dword Value)
+{
+	return d3d8->SetSamplerState(Sampler, Type, Value);
+}
+
 dword DX8RENDER::SetTextureStageState(dword Stage,dword Type,dword Value)
 {
 	return d3d8->SetTextureStageState(Stage,(D3DTEXTURESTAGESTATETYPE)Type,Value);
@@ -3268,13 +3278,15 @@ HRESULT DX8RENDER::CreateDepthStencilSurface( UINT Width, UINT Height, D3DFORMAT
 HRESULT DX8RENDER::CreateVertexShader(CONST DWORD * pFunction, CONST D3DVERTEXELEMENT9 * pDeclaration )
 {
 	//return d3d8->CreateVertexShader(pDeclaration, pFunction, pHandle, Usage);
-	return d3d8->CreateVertexShader(  pFunction, &pDeclaration );
+	IDirect3DVertexShader9 *vsh;
+	return d3d8->CreateVertexShader(  pFunction, &	vsh);
 }
 
 HRESULT DX8RENDER::CreatePixelShader(CONST DWORD * pFunction, DWORD * pHandle)
 {
+	IDirect3DPixelShader9 *vsh;
 #ifndef _XBOX
-	return d3d8->CreatePixelShader( pFunction, pHandle );
+	return d3d8->CreatePixelShader( pFunction, &vsh );
 #else
 	return d3d8->CreatePixelShader( (D3DPIXELSHADERDEF*)(pFunction /*+ 1*/), pHandle );
 #endif
@@ -3282,12 +3294,14 @@ HRESULT DX8RENDER::CreatePixelShader(CONST DWORD * pFunction, DWORD * pHandle)
 
 HRESULT DX8RENDER::GetVertexShader(DWORD * pHandle)
 {
-	return d3d8->GetVertexShader(pHandle);
+	return d3d8->GetVertexShader(NULL);
+	//return d3d8->GetVertexShader(pHandle);
 }
 
 HRESULT DX8RENDER::GetPixelShader(DWORD * pHandle)
 {
-	return d3d8->GetPixelShader(pHandle);
+	return d3d8->GetPixelShader(NULL);
+	//return d3d8->GetPixelShader(pHandle);
 }
 
 HRESULT DX8RENDER::SetTexture(DWORD Stage, IDirect3DBaseTexture9* pTexture )
@@ -3337,27 +3351,32 @@ HRESULT DX8RENDER::CopyRects( IDirect3DSurface9* pSourceSurface, CONST RECT* pSo
 
 HRESULT DX8RENDER::DeletePixelShader( DWORD Handle )
 {
-	return d3d8->DeletePixelShader( Handle );
+	//return d3d8->DeletePixelShader( Handle );
+	return NULL;
 }
 
 HRESULT DX8RENDER::DeleteVertexShader( DWORD Handle )
 {
-	return d3d8->DeleteVertexShader( Handle );
+	//return d3d8->DeleteVertexShader( Handle );
+	return NULL;
 }
 
 HRESULT DX8RENDER::SetPixelShader( DWORD Handle )
 {
-	return d3d8->SetPixelShader( Handle );
+	//return d3d8->SetPixelShader( Handle );
+	return NULL;
 }
 
 HRESULT DX8RENDER::SetFVFConstant(DWORD Register, CONST void* pConstantData, DWORD  ConstantCount )
 {
-	return d3d8->SetFVFConstant( Register, pConstantData, ConstantCount );
+	//return d3d8->SetFVFConstant( Register, pConstantData, ConstantCount );
+	return NULL;
 }
 
 HRESULT DX8RENDER::SetPixelShaderConstant( DWORD Register, CONST void* pConstantData, DWORD ConstantCount )
 {
-	return d3d8->SetPixelShaderConstant( Register, pConstantData, ConstantCount );
+	//return d3d8->SetPixelShaderConstant( Register, pConstantData, ConstantCount );
+	return NULL;
 }
 
 HRESULT DX8RENDER::GetDeviceCaps(D3DCAPS9 * pCaps)

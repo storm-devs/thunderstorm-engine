@@ -466,8 +466,8 @@ void NetSail::Realize(dword Delta_Time)
 					} else RenderService->TextureSet( 1, m_nEmptyGerbTex );
 					// Draw hole texture sail
 					dword dwOld;
-					RenderService->GetTextureStageState(2,D3DTSS_ADDRESSU,&dwOld);
-					RenderService->SetTextureStageState(2,D3DTSS_ADDRESSU,D3DTADDRESS_MIRROR);
+					RenderService->GetSamplerState(2,D3DSAMP_ADDRESSU,&dwOld);
+					RenderService->SetSamplerState(2,D3DSAMP_ADDRESSU,D3DTADDRESS_MIRROR);
 					//slist[i]->FillIndex(pt);
 #ifndef _XBOX
 					WORD* pt=(WORD*)RenderService->LockIndexBuffer(sg.indxBuf,D3DLOCK_DISCARD);
@@ -486,7 +486,7 @@ void NetSail::Realize(dword Delta_Time)
 							slist[i]->ss.sVert, slist[i]->ss.nVert, slist[i]->ss.sholeIndx, slist[i]->ss.nholeIndx);
 					}
 					// Draw normal texture sail
-					RenderService->SetTextureStageState(2,D3DTSS_ADDRESSU,dwOld);
+					RenderService->SetSamplerState(2,D3DSAMP_ADDRESSU,dwOld);
 					if(slist[i]->ss.nnormIndx!=0) {
 						RenderService->DrawBuffer(sg.vertBuf, sizeof(SAILVERTEX), sg.indxBuf,
 							slist[i]->ss.sVert, slist[i]->ss.nVert, slist[i]->ss.sIndx, slist[i]->ss.nnormIndx);

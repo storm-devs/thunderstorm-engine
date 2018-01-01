@@ -339,12 +339,12 @@ void XINTERFACE::Realize(dword Delta_Time)
 	if(pRenderService->TechniqueExecuteStart("iStartTechnique")) while(pRenderService->TechniqueExecuteNext());
 
 	// Get old transformation
-	pRenderService->GetTransform(D3DTS_VIEW,(D3DXMATRIX*)&moldv);
-    pRenderService->GetTransform(D3DTS_PROJECTION,(D3DXMATRIX*)&moldp);
+	pRenderService->GetTransform(D3DTS_VIEW, moldv);
+    pRenderService->GetTransform(D3DTS_PROJECTION, moldp);
 	// Set new transformation
-    pRenderService->SetTransform(D3DTS_WORLD,(D3DXMATRIX*)&matw);
-    pRenderService->SetTransform(D3DTS_VIEW,(D3DXMATRIX*)&matv);
-    pRenderService->SetTransform(D3DTS_PROJECTION,(D3DXMATRIX*)&matp);
+    pRenderService->SetTransform(D3DTS_WORLD, matw);
+    pRenderService->SetTransform(D3DTS_VIEW, matv);
+    pRenderService->SetTransform(D3DTS_PROJECTION, matp);
 
 	DrawNode(m_pNodes,Delta_Time,0,80);
 
@@ -433,8 +433,8 @@ void XINTERFACE::Realize(dword Delta_Time)
 	pRenderService->SetRenderState(D3DRS_FOGENABLE,dwFogFlag);
 
 	// Restore old transformation
-    pRenderService->SetTransform(D3DTS_VIEW,(D3DXMATRIX*)&moldv);
-    pRenderService->SetTransform(D3DTS_PROJECTION,(D3DXMATRIX*)&moldp);
+    pRenderService->SetTransform(D3DTS_VIEW, moldv);
+    pRenderService->SetTransform(D3DTS_PROJECTION, moldp);
 }
 
 long oldCurNum = -1L;
@@ -2526,20 +2526,20 @@ bool __declspec(dllexport) __cdecl XINTERFACE::SFLB_DoSaveFileData(char * saveNa
 
 	D3DSURFACE_DESC dscr;
 	ptex->GetLevelDesc(0,&dscr);
-	long nAllSize = sizeof(SAVE_DATA_HANDLE) + dscr.Size + slen;
+	long nAllSize = sizeof(SAVE_DATA_HANDLE) + dscr.Width*dscr.Height * 8 + slen;
 	char * pdat = NEW char[nAllSize];
 	if(pdat==null)	{ THROW("allocate memory error"); }
 
 	((SAVE_DATA_HANDLE*)pdat)->StringDataSize = slen;
 	if(slen>0) memcpy( &pdat[sizeof(SAVE_DATA_HANDLE)], saveData, slen );
 
-	((SAVE_DATA_HANDLE*)pdat)->SurfaceDataSize = dscr.Size;
-	if(dscr.Size>0)
+	((SAVE_DATA_HANDLE*)pdat)->SurfaceDataSize = dscr.Width*dscr.Height * 8;
+	if(dscr.Width*dscr.Height * 8>0)
 	{
 		D3DLOCKED_RECT lockRect;
 		if( ptex->LockRect(0,&lockRect,null,0) == D3D_OK )
 		{
-			memcpy( &pdat[sizeof(SAVE_DATA_HANDLE)+slen], lockRect.pBits, dscr.Size );
+			memcpy( &pdat[sizeof(SAVE_DATA_HANDLE)+slen], lockRect.pBits, dscr.Width*dscr.Height * 8);
 			ptex->UnlockRect(0);
 		}
 		else api->Trace("Can`t lock screenshot texture");

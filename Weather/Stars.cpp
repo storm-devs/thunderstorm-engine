@@ -51,7 +51,7 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 		{
 			ATTRIBUTES * pAS = pASpectrs->GetAttributeClass(i);
 			char str[2];
-			str[0] = pAS->GetThisName()[0]; str[1] = 0; 
+			str[0] = pAS->GetThisName()[0]; str[1] = 0;
 			strupr(str); Spectr[str[0]] = pAS->GetAttributeAsDword();
 			strlwr(str); Spectr[str[0]] = pAS->GetAttributeAsDword();
 		}
@@ -126,16 +126,22 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 		dword dwSize;
 		fio->_ReadFile(hFile, &dwSize, sizeof(dwSize), null);
 
-		DWORD decl[] =
+/*		DWORD decl[] =
 		{
 			D3DVSD_STREAM( 0 ),
 				D3DVSD_REG( D3DVSDE_POSITION, D3DVSDT_FLOAT3 ),
 			D3DVSD_STREAM( 1 ),
 				D3DVSD_REG( D3DVSDE_DIFFUSE, D3DVSDT_D3DCOLOR ),
 			D3DVSD_END()
+		};*/
+
+		D3DVERTEXELEMENT9 decl[] = {
+		{ 0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },
+		{ 1, 8, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR, 0 },
+		D3DDECL_END()
 		};
 
-		Astronomy::pRS->CreateVertexShader( decl, NULL, &dwShader, 0 );
+		Astronomy::pRS->CreateVertexShader( null, decl );
 
 		iVertexBuffer = Astronomy::pRS->CreateVertexBuffer(0, dwSize * sizeof(CVECTOR), D3DUSAGE_WRITEONLY);
 		iVertexBufferColors = Astronomy::pRS->CreateVertexBuffer(0, dwSize * sizeof(dword), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
@@ -345,24 +351,24 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 		CVECTOR vPos1 = mView * vPos;
 		//if (vPos.z < 0.0f) continue;
 		dword dwAlpha; FTOL(dwAlpha, fAlpha);
-		dword dwStarsColor = (dwAlpha << 24L) | dwColor;		
+		dword dwStarsColor = (dwAlpha << 24L) | dwColor;
 		float fStarsSize = fSize * fFV;
 
 		pV[0].vPos = vPos1 + CVECTOR(-fStarsSize, -fStarsSize * fScaleY, 0.0f);
 		pV[0].dwColor = dwStarsColor;
-		pV[0].tu = s.fTexX; pV[0].tv = s.fTexY; 
+		pV[0].tu = s.fTexX; pV[0].tv = s.fTexY;
 
 		pV[1].vPos = vPos1 + CVECTOR(-fStarsSize, fStarsSize * fScaleY, 0.0f);
 		pV[1].dwColor = dwStarsColor;
-		pV[1].tu = s.fTexX; pV[1].tv = s.fTexY + fTexDY; 
+		pV[1].tu = s.fTexX; pV[1].tv = s.fTexY + fTexDY;
 
 		pV[2].vPos = vPos1 + CVECTOR(fStarsSize, -fStarsSize * fScaleY, 0.0f);
 		pV[2].dwColor = dwStarsColor;
-		pV[2].tu = s.fTexX + fTexDX; pV[2].tv = s.fTexY; 
+		pV[2].tu = s.fTexX + fTexDX; pV[2].tv = s.fTexY;
 
 		pV[3].vPos = vPos1 + CVECTOR(fStarsSize, fStarsSize * fScaleY, 0.0f);
 		pV[3].dwColor = dwStarsColor;
-		pV[3].tu = s.fTexX + fTexDX; pV[3].tv = s.fTexY + fTexDY; 
+		pV[3].tu = s.fTexX + fTexDX; pV[3].tv = s.fTexY + fTexDY;
 
 		pV += 4;
 
@@ -385,7 +391,7 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 	RDTSC_E(dw1);
 
 	fPrevFov = fFov;
-	
+
 	//api->Trace("RDTSC = %d", dw1);
 	//Astronomy::pRS->SetTransform(D3DTS_VIEW, mView);
 }

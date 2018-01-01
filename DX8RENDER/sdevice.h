@@ -367,6 +367,8 @@ public:
 	// DX8Render: Render/Texture States Section
 		virtual dword SetRenderState(dword State, dword Value);
 		virtual dword GetRenderState(dword State, dword * pValue);
+		virtual dword GetSamplerState(dword Sampler, D3DSAMPLERSTATETYPE  Type, dword * pValue);
+		virtual dword SetSamplerState(dword Sampler, D3DSAMPLERSTATETYPE Type, dword Value);
 		virtual dword SetTextureStageState(dword Stage, dword Type, dword Value);
 		virtual dword GetTextureStageState(dword Stage, dword Type, dword * pValue);
 
@@ -662,7 +664,7 @@ public:
 	bool ResetDevice();
 
 	void MakeDrawVector(RS_LINE * pLines, dword dwNumSubLines, const CMatrix & mMatrix, CVECTOR vUp, CVECTOR v1, CVECTOR v2, float fScale, dword dwColor);
-	void DrawVector(const CVECTOR & v1, const CVECTOR & v2, dword dwColor, const char * pTechniqueName, dword dwNumParams = 0, ...);
+	void _cdecl DrawVector(const CVECTOR & v1, const CVECTOR & v2, dword dwColor, const char * pTechniqueName = "DX8Vector", dword dwNumParams = 0, ...);
 	IDirect3DBaseTexture9 * GetBaseTexture(long iTexture);
 
 	virtual IDirect3DBaseTexture9 * CreateTextureFromFileInMemory(const char * pFile, dword dwSize);

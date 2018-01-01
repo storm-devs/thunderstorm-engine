@@ -186,6 +186,8 @@ public:
 	// DX8Render: Render/Texture States Section
 		virtual dword SetRenderState(dword State, dword Value) = 0;
 		virtual dword GetRenderState(dword State, dword * pValue) = 0;
+		virtual dword GetSamplerState(dword Sampler, D3DSAMPLERSTATETYPE  Type, dword * pValue) = 0;
+		virtual dword SetSamplerState(dword Sampler, D3DSAMPLERSTATETYPE Type, dword Value) = 0;
 		virtual dword SetTextureStageState(dword Stage, dword Type, dword Value) = 0;
 		virtual dword GetTextureStageState(dword Stage, dword Type, dword * pValue) = 0;
 
@@ -203,7 +205,7 @@ public:
 
 	// D3D
 		virtual HRESULT SetStreamSource(UINT StreamNumber, void * pStreamData, UINT Stride) = 0;
-		virtual HRESULT SetIndices(void * pIndexData, UINT BaseVertexIndex) = 0;
+		virtual HRESULT SetIndices(void * pIndexData) = 0;
 		virtual HRESULT DrawPrimitive(D3DPRIMITIVETYPE PrimitiveType, UINT StartVertex, UINT PrimitiveCount) = 0;
 #ifndef _XBOX
 		virtual HRESULT Release(IUnknown *pSurface) = 0;

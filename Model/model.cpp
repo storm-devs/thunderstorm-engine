@@ -61,9 +61,9 @@ void *VBTransform(void *vb, long startVrt, long nVerts, long totVerts)
 
 	GEOS::VERTEX0 *dst;
 #ifndef _XBOX
-	dest_vb->Lock(0, 0, (unsigned char**)&dst, D3DLOCK_DISCARD|D3DLOCK_NOSYSLOCK);
+	dest_vb->Lock(0, 0, (VOID**)&dst, D3DLOCK_DISCARD|D3DLOCK_NOSYSLOCK);
 #else
-	dest_vb->Lock(0, 0, (unsigned char**)&dst, 0);
+	dest_vb->Lock(0, 0, (VOID**)&dst, 0);
 #endif
 
 	//dest_vb->Lock(sizeof(GEOS::VERTEX0)*startVrt, sizeof(GEOS::VERTEX0)*nVerts, (unsigned char**)&dst, D3DLOCK_DISCARD|D3DLOCK_NOSYSLOCK);

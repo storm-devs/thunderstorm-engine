@@ -193,7 +193,7 @@ bool LGeometry::Process(VDX8RENDER * rs, long numLights)
 			}
 			//Копируем
 			byte * pnt = null;
-			if(vbuf->Lock(0, desc.Size, &pnt, 0) != D3D_OK)
+			if(vbuf->Lock(0, desc.Size, (VOID**)&pnt, 0) != D3D_OK)
 			{
 				api->Trace("Location lighter: vertex buffer no locked, model %s, vbID %i", object[i].nameReal, vbID);
 				return false;

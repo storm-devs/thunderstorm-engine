@@ -1,6 +1,4 @@
-
-
-#include "D3DX8Math.h"
+#include <d3dx9math.h>
 #include "SailorsWayPoints.h"
 
 //--------------------------------------------------------------------------------------------------------------
@@ -21,14 +19,14 @@ bool Point :: IsCannon()
 	return 	(pointType== PT_TYPE_CANNON_L ||
 			 pointType== PT_TYPE_CANNON_R ||
 			 pointType== PT_TYPE_CANNON_F ||
-			 pointType== PT_TYPE_CANNON_B);	
+			 pointType== PT_TYPE_CANNON_B);
 };
 
 //--------------------------------------------------------------------------------------------------------------
 
 bool Point :: IsNormal()
 {
-	return 	(pointType== PT_TYPE_NORMAL);	
+	return 	(pointType== PT_TYPE_NORMAL);
 };
 
 //--------------------------------------------------------------------------------------------------------------
@@ -85,7 +83,7 @@ void SailorsPoints :: Draw(VDX8RENDER * rs, bool pointmode)
 
 	for (int i= 0; i< points.count; i++){
 
-		pRSR.vPos= CVECTOR(points.point[i].x,points.point[i].y,points.point[i].z);	
+		pRSR.vPos= CVECTOR(points.point[i].x,points.point[i].y,points.point[i].z);
 
 		pRSR.fSize= 0.15f;
 		if (pointmode){
@@ -95,17 +93,17 @@ void SailorsPoints :: Draw(VDX8RENDER * rs, bool pointmode)
 		pRSR.dwColor= COLOR_SHADOW_SELECTED;
 
 		rs->DrawRects(&pRSR,1,"sh_Editor_back");
-		
+
 		pRSR.fSize= 0.15f;
-		pRSR.dwColor= COLOR_POINT; 
+		pRSR.dwColor= COLOR_POINT;
 
 		if (pointmode)
 		rs->DrawRects(&pRSR,1,"sh_Editor_front");
 	};
 
 
-	if (points.selected>= 0 && pointmode){		
-		pRSR.vPos= CVECTOR(points.point[points.selected].x,points.point[points.selected].y,points.point[points.selected].z);	
+	if (points.selected>= 0 && pointmode){
+		pRSR.vPos= CVECTOR(points.point[points.selected].x,points.point[points.selected].y,points.point[points.selected].z);
 
 		pRSR.fSize= 0.25f;
 		pRSR.dwColor= COLOR_SHADOW;
@@ -116,15 +114,15 @@ void SailorsPoints :: Draw(VDX8RENDER * rs, bool pointmode)
 		rs->DrawRects(&pRSR,1,"sh_Editor_back");
 
 		pRSR.fSize= 0.20f;
-		pRSR.dwColor= COLOR_SELECTED; 
+		pRSR.dwColor= COLOR_SELECTED;
 
 
-		rs->DrawRects(&pRSR,1,"sh_Editor_front");	
-	
+		rs->DrawRects(&pRSR,1,"sh_Editor_front");
+
 //		rs->DrawSphere(CVECTOR(points.point[points.selected].x,points.point[points.selected].y,points.point[points.selected].z),0.5f,0xFFFFFFFF);
 
 	};
-	
+
 
 	if (!pointmode) return;
 
@@ -147,14 +145,14 @@ void SailorsPoints :: Draw(VDX8RENDER * rs, bool pointmode)
 			pRSL[0].dwColor= COLOR_SHADOW;
 			pRSL[1].dwColor= COLOR_SHADOW;
 
-			rs->DrawLines(&pRSL[0],1,"sh_Editor_back");		
+			rs->DrawLines(&pRSL[0],1,"sh_Editor_back");
 
 
 
 			pRSL[0].dwColor= COLOR_GRAY;
 			pRSL[1].dwColor= COLOR_GRAY;
 
-			rs->DrawLines(&pRSL[0],1,"sh_Editor_front");	
+			rs->DrawLines(&pRSL[0],1,"sh_Editor_front");
 		};
 
 };
@@ -170,7 +168,7 @@ void SailorsPoints :: Draw_(VDX8RENDER * rs, bool pointmode)
 
 	for (int i= 0; i< points.count; i++){
 
-		pRSR.vPos= CVECTOR(points.point[i].x,points.point[i].y,points.point[i].z);	
+		pRSR.vPos= CVECTOR(points.point[i].x,points.point[i].y,points.point[i].z);
 
 		pRSR.fSize= 0.15f;
 		pRSR.dwColor= COLOR_SHADOW;
@@ -178,7 +176,7 @@ void SailorsPoints :: Draw_(VDX8RENDER * rs, bool pointmode)
 		rs->DrawRects(&pRSR,1,"sh_Editor_back");
 
 		pRSR.fSize= 0.15f;
-		pRSR.dwColor= COLOR_GRAY; 
+		pRSR.dwColor= COLOR_GRAY;
 
 		rs->DrawRects(&pRSR,1,"sh_Editor_front");
 	};
@@ -201,14 +199,14 @@ void SailorsPoints :: Draw_(VDX8RENDER * rs, bool pointmode)
 		pRSL[0].dwColor= COLOR_SHADOW;
 		pRSL[1].dwColor= COLOR_SHADOW;
 
-		rs->DrawLines(&pRSL[0],1,"sh_Editor_back");		
+		rs->DrawLines(&pRSL[0],1,"sh_Editor_back");
 
 
 
 		pRSL[0].dwColor= COLOR_GRAY;
 		pRSL[1].dwColor= COLOR_GRAY;
 
-		rs->DrawLines(&pRSL[0],1,"sh_Editor_front");	
+		rs->DrawLines(&pRSL[0],1,"sh_Editor_front");
 	};
 
 };
@@ -227,14 +225,14 @@ void SailorsPoints :: DrawLinks(VDX8RENDER * rs)
 		_v1= CVECTOR(points.point[links.link[m].first].x, points.point[links.link[m].first].y,points.point[links.link[m].first].z);
 		_v2= CVECTOR(points.point[links.link[m].next].x, points.point[links.link[m].next].y,points.point[links.link[m].next].z);
 
-	
+
 		pRSL[0].vPos= _v1;
 		pRSL[1].vPos= _v2;
 
 		pRSL[0].dwColor= COLOR_SHADOW;
 		pRSL[1].dwColor= COLOR_SHADOW;
 
-		rs->DrawLines(&pRSL[0],1,"sh_Editor_back");		
+		rs->DrawLines(&pRSL[0],1,"sh_Editor_back");
 
 
 		if (links.selected== m){
@@ -255,57 +253,57 @@ void SailorsPoints :: DrawLinks(VDX8RENDER * rs)
 			pRSL[1].dwColor= COLOR_POINT;
 			rs->DrawLines(&pRSL[0],1,"sh_Editor_front");
 		};
-	
+
 	};
 
 };
 
 //--------------------------------------------------------------------------------------------------------------
 
-Path  SailorsPoints :: getPath(int src, int dst, int l)   
+Path  SailorsPoints :: getPath(int src, int dst, int l)
 {
-    Path mPath;   
+    Path mPath;
 	Path x;
 
-    mPath.min= -1;                          
-    mPath.point[l]= src;                 
+    mPath.min= -1;
+    mPath.point[l]= src;
 
     if (src== dst){
-        mPath.length= l;                     
+        mPath.length= l;
         mPath.min= 0;
-        return mPath;                         
+        return mPath;
     };
 
-    if (PointsPassed[src]== 1) return mPath;     
+    if (PointsPassed[src]== 1) return mPath;
     PointsPassed[src]= 1;
 
     for (int i= 0; i< points.count; i++){
-        
-		if (matrix[src][i]== 0) continue; 
+
+		if (matrix[src][i]== 0) continue;
 
 
-        x= getPath(i,dst,l+ 1);            
+        x= getPath(i,dst,l+ 1);
 
-        if (x.min== -1) continue;           
+        if (x.min== -1) continue;
 
-                                            
-		x.min+= matrix[src][i];				
 
-        x.point[l]= src;                    
+		x.min+= matrix[src][i];
+
+        x.point[l]= src;
 
         if (mPath.min== -1 || x.min < mPath.min)
-            mPath= x;               
+            mPath= x;
      }
 
 
-    PointsPassed[src]= 0;    
+    PointsPassed[src]= 0;
 
     return mPath;
 };
 
 //--------------------------------------------------------------------------------------------------------------
 
-Path  SailorsPoints :: findPath(Path &path, int from, int to)  
+Path  SailorsPoints :: findPath(Path &path, int from, int to)
 {
 
     path= getPath(from, to, 0);
@@ -324,7 +322,7 @@ Path  SailorsPoints :: findPath(Path &path, int from, int to)
 //--------------------------------------------------------------------------------------------------------------
 
 void SailorsPoints :: UpdateLinks(){
-	
+
 	for (int m= 0; m< points.count; m++)
 	for (int i= 0; i< points.count; i++)
 	matrix[i][m]= false;
@@ -332,16 +330,16 @@ void SailorsPoints :: UpdateLinks(){
 
 	for (int m= 0; m< points.count; m++)
 	for (int i= 0; i< points.count; i++)
-	
+
 		for (int _l= 0; _l< links.count; _l++)
 		if (//!links.link[_l].disabled &&
            ((links.link[_l].first== m && links.link[_l].next== i)||
             (links.link[_l].first== i && links.link[_l].next== m))){
 
-			matrix[i][m]= Dest(CVECTOR(points.point[i].x,points.point[i].y,points.point[i].z), 
+			matrix[i][m]= Dest(CVECTOR(points.point[i].x,points.point[i].y,points.point[i].z),
 				               CVECTOR(points.point[m].x,points.point[m].y,points.point[m].z));
 			break;
-        };	
+        };
 };
 //--------------------------------------------------------------------------------------------------------------
 
@@ -412,7 +410,7 @@ int SailorsPoints :: ReadFromFile(string fileName)
 		return 0;
 	}
 
-	pIni->ReadString("SIZE","points",param,sizeof(param)-1); 
+	pIni->ReadString("SIZE","points",param,sizeof(param)-1);
 	sscanf(param,"%d", &points.count);
 
 	float x,y,z;
@@ -432,7 +430,7 @@ int SailorsPoints :: ReadFromFile(string fileName)
 		points.point[i].pointType= PointType(type);
 	};
 
-	pIni->ReadString("SIZE","links",param,sizeof(param)-1); 
+	pIni->ReadString("SIZE","links",param,sizeof(param)-1);
 	sscanf(param,"%d", &links.count);
 
 	int first,next;

@@ -35,9 +35,6 @@
     <ClInclude Include="Sailors.h">
       <Filter>Sailors</Filter>
     </ClInclude>
-    <ClInclude Include="d3dx8math.h">
-      <Filter>SailorsEditor</Filter>
-    </ClInclude>
     <ClInclude Include="SailorsEditor.h">
       <Filter>SailorsEditor</Filter>
     </ClInclude>

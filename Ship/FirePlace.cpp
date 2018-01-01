@@ -95,7 +95,7 @@ void FirePlace::Execute(float fDeltaTime)
 	if (!isActive()) return;
 
 	CVECTOR vCurPos = GetPos();
-	
+
 	fRunTime -= fDeltaTime;
 	if (fRunTime < 0)// || pSea->WaveXZ(vCurPos.x, vCurPos.z) > vCurPos.y)
 	{
@@ -113,7 +113,7 @@ void FirePlace::Init(SEA_BASE * _pSea, SHIP_BASE * _pShip, GEOS::LABEL & label)
 	pSea = _pSea;
 
 	CMatrix m;
-	memcpy(&m[0][0], &label.m[0][0], sizeof(m));
+	memcpy(&m.m[0][0], &label.m[0][0], sizeof(m));
 
 	SetPos(m.Pos());
 }

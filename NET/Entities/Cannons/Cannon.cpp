@@ -20,10 +20,10 @@ NetCannon::~NetCannon()
 
 void NetCannon::Execute(float fDeltaTime)
 {
-	if (fTime2Action>=0.0f) 
+	if (fTime2Action>=0.0f)
 	{
-		if (isRecharged() && (!bCanRecharge || isEmpty()))  
-			; 
+		if (isRecharged() && (!bCanRecharge || isEmpty()))
+			;
 		else
 			fTime2Action -= fDeltaTime;
 	}
@@ -175,7 +175,7 @@ void NetCannon::Load()
 		pAGood->SetAttributeUseDword(null, dwGoodNum - 1);
 		bEmpty = false;
 	}
-	else 
+	else
 		bEmpty = true;
 
 	//VDATA * pVData = api->Event(CANNON_LOAD, "a", GetACharacter()); Assert(pVData);
@@ -230,7 +230,7 @@ void NetCannon::Init(VAI_OBJBASE * pAIObj, GEOS::LABEL & lbl)
 	this->pAIObj = pAIObj;
 
 	CMatrix m;
-	memcpy(&m[0][0], &lbl.m[0][0], sizeof(m));
+	memcpy(&m.m[0][0], &lbl.m[0][0], sizeof(m));
 
 	vPos = m.Pos();
 	vDir = CVECTOR(m.Vz().x, 0.0f, m.Vz().z);
