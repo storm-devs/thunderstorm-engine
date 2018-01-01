@@ -136,6 +136,7 @@ protected:
 	dword		GetCode(char *pStr, SRSPARAM *pParam, dword dwNumParam, dword *pPassCode = 0, bool bCanBeNumber = false);
 	dword		GetSRSIndex(char *pStr);
 	dword		GetSTSSIndex(char *pStr);
+	dword		GetSAMPIndex(char *pStr);
 	dword		GetIndex(char *pStr, SRSPARAM *pParam, dword dwNumParam, bool bCanBeNumber);
 
 	char		*GetToken(char *pToken, char *pResult, bool & bToken);

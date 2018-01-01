@@ -210,6 +210,17 @@ typedef struct
 	D3DTEXTURESTAGESTATETYPE	State;
 } STSS;
 
+typedef struct
+{
+	SRSPARAM					*pParam;
+	dword						dwParamNum;
+	bool						bUse;
+	long						dwUseSubCode;
+	dword						SrsType;
+	char						*cName;
+	D3DSAMPLERSTATETYPE			State;
+} SAMP;
+
 #define SRS_DWORD			0
 #define SRS_FLOAT			1
 
@@ -361,8 +372,8 @@ SRS	RenderStates[] = {
 	{ DEFSIZE(0) , SRS_FLOAT, "FogStart",							D3DRS_FOGSTART },
 	{ DEFSIZE(0), SRS_FLOAT, "FogEnd",								D3DRS_FOGEND },
 	{ DEFSIZE(0), SRS_FLOAT, "FogDensity",							D3DRS_FOGDENSITY },
-	//{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "EdgeAntialias",			D3DRS_EDGEANTIALIAS },
-	//{ DEFSIZE(0), SRS_DWORD, "Zbias",								D3DRS_ZBIAS },
+	{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "EdgeAntialias",			D3DRS_ANTIALIASEDLINEENABLE },
+	{ DEFSIZE(0), SRS_DWORD, "Zbias",								D3DRS_DEPTHBIAS },
 	{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "RangeFogEnable",			D3DRS_RANGEFOGENABLE },
 	{ DEFSIZE(MYTRUEFALSE) , SRS_DWORD, "StencilEnable",			D3DRS_STENCILENABLE },
 	{ DEFSIZE(MYD3DSTENCILOP) , SRS_DWORD, "StencilFail",			D3DRS_STENCILFAIL },
@@ -539,6 +550,18 @@ STSS TexturesStageStates[] = {
     { DEFSIZE(MYD3DTAFLAGS) , SRS_DWORD, "alphaarg0",			D3DTSS_ALPHAARG0 },
     { DEFSIZE(MYD3DTAFLAGS) , SRS_DWORD, "resultarg",			D3DTSS_RESULTARG } };
 
+SAMP SampleStates[] = {
+	{ DEFSIZE(MYD3DTEXTUREADDRESS) , SRS_DWORD, "addressu",		D3DSAMP_ADDRESSU },
+	{ DEFSIZE(MYD3DTEXTUREADDRESS) , SRS_DWORD, "addressv",		D3DSAMP_ADDRESSV },
+	{ DEFSIZE(0), SRS_DWORD, "bordercolor",						D3DSAMP_BORDERCOLOR },
+	{ DEFSIZE(MYD3DTEXTUREFILTERTYPE) , SRS_DWORD, "magfilter", D3DSAMP_MAGFILTER },
+	{ DEFSIZE(MYD3DTEXTUREFILTERTYPE) , SRS_DWORD, "minfilter", D3DSAMP_MINFILTER },
+	{ DEFSIZE(MYD3DTEXTUREFILTERTYPE) , SRS_DWORD, "mipfilter", D3DSAMP_MIPFILTER },
+	{ DEFSIZE(0), SRS_FLOAT, "mipmaplodbias",					D3DSAMP_MIPMAPLODBIAS },
+	{ DEFSIZE(0), SRS_DWORD, "maxmiplevel",						D3DSAMP_MAXMIPLEVEL },
+	{ DEFSIZE(0), SRS_DWORD, "maxanisotropy",					D3DSAMP_MAXANISOTROPY },
+	{ DEFSIZE(MYD3DTEXTUREADDRESS) , SRS_DWORD, "addressw",		D3DSAMP_ADDRESSW } };
+
 // ---------------------------------------------------------------------------------
 // transform block
 SRSPARAM	TRANSFORM_TYPES[] = {
@@ -693,9 +716,18 @@ dword CTechnique::GetSTSSIndex(char *pStr)
 {
 	dword dwNumParam = sizeof(TexturesStageStates) / sizeof(STSS);
 	for (dword i=0;i<dwNumParam;i++) if (stricmp(pStr,TexturesStageStates[i].cName)==0) return i;
-	api->Trace("ERROR: SetTextureStageState: unknown parameter type <%s> in <%s> file, technique <%s>",pStr,sCurrentFileName,sCurrentBlockName);
+	//api->Trace("ERROR: SetTextureStageState: unknown parameter type <%s> in <%s> file, technique <%s>",pStr,sCurrentFileName,sCurrentBlockName);
 	//THROW;
-	return INVALID_STSS_INDEX;
+	return INVALID_INDEX;
+}
+
+dword CTechnique::GetSAMPIndex(char *pStr)
+{
+	dword dwNumParam = sizeof(SampleStates) / sizeof(SAMP);
+	for (dword i = 0; i<dwNumParam; i++) if (stricmp(pStr, SampleStates[i].cName) == 0) return i;
+	//api->Trace("ERROR: SetTextureStageState: unknown parameter type <%s> in <%s> file, technique <%s>", pStr, sCurrentFileName, sCurrentBlockName);
+	//THROW;
+	return INVALID_INDEX;
 }
 
 dword CTechnique::GetIndex(char *pStr, SRSPARAM *pParam, dword dwNumParam, bool bCanBeNumber)
@@ -850,23 +882,46 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 
 				// get left side of expression
 				GetTokenWhile(*pStr,temp,"[");
-				dword dwSTSSIndex = GetSTSSIndex(temp);
-				Assert(dwSTSSIndex!=INVALID_STSS_INDEX);
-				if (TexturesStageStates[dwSTSSIndex].bUse && TexturesStageStates[dwSTSSIndex].dwUseSubCode & (1 << dwTextureIndex) && dwAdditionalFlags & FLAGS_CODE_RESTORE)
-					api->Trace("WARN: STSS: dup restore param type <%s[%d]> in <%s> file, technique <%s>", temp, dwTextureIndex, sCurrentFileName, sCurrentBlockName);
-				if (dwAdditionalFlags & FLAGS_CODE_RESTORE)
+				dword dwIndex = GetSTSSIndex(temp);
+				if (dwIndex != INVALID_STSS_INDEX)
 				{
-					TexturesStageStates[dwSTSSIndex].bUse = true;
-					TexturesStageStates[dwSTSSIndex].dwUseSubCode |= (1 << dwTextureIndex);
-				}
-				*pPass++ = (DWORD)TexturesStageStates[dwSTSSIndex].State;
+					if (TexturesStageStates[dwIndex].bUse && TexturesStageStates[dwIndex].dwUseSubCode & (1 << dwTextureIndex) && dwAdditionalFlags & FLAGS_CODE_RESTORE)
+						api->Trace("WARN: STSS: dup restore param type <%s[%d]> in <%s> file, technique <%s>", temp, dwTextureIndex, sCurrentFileName, sCurrentBlockName);
+					if (dwAdditionalFlags & FLAGS_CODE_RESTORE)
+					{
+						TexturesStageStates[dwIndex].bUse = true;
+						TexturesStageStates[dwIndex].dwUseSubCode |= (1 << dwTextureIndex);
+					}
+					*pPass++ = (DWORD)TexturesStageStates[dwIndex].State;
 
-				if (bIn) *pPass++ = dwInParamIndex;
+					if (bIn) *pPass++ = dwInParamIndex;
+					else
+					{
+						// get right side of expression
+						GetTokenWhile(SkipToken(*pStr, "="), temp, ";");
+						*pPass++ = GetCode(temp, TexturesStageStates[dwIndex].pParam, TexturesStageStates[dwIndex].dwParamNum, pPassCode, true);
+					}
+				}
 				else
 				{
-					// get right side of expression
-					GetTokenWhile(SkipToken(*pStr,"="),temp,";");
-					*pPass++ = GetCode(temp,TexturesStageStates[dwSTSSIndex].pParam,TexturesStageStates[dwSTSSIndex].dwParamNum,pPassCode,true);
+					dwIndex = GetSAMPIndex(temp);
+					Assert(dwIndex != INVALID_STSS_INDEX);
+					if (SampleStates[dwIndex].bUse && SampleStates[dwIndex].dwUseSubCode & (1 << dwTextureIndex) && dwAdditionalFlags & FLAGS_CODE_RESTORE)
+						api->Trace("WARN: STSS: dup restore param type <%s[%d]> in <%s> file, technique <%s>", temp, dwTextureIndex, sCurrentFileName, sCurrentBlockName);
+					if (dwAdditionalFlags & FLAGS_CODE_RESTORE)
+					{
+						SampleStates[dwIndex].bUse = true;
+						SampleStates[dwIndex].dwUseSubCode |= (1 << dwTextureIndex);
+					}
+					*pPass++ = (DWORD)SampleStates[dwIndex].State;
+
+					if (bIn) *pPass++ = dwInParamIndex;
+					else
+					{
+						// get right side of expression
+						GetTokenWhile(SkipToken(*pStr, "="), temp, ";");
+						*pPass++ = GetCode(temp, SampleStates[dwIndex].pParam, SampleStates[dwIndex].dwParamNum, pPassCode, true);
+					}
 				}
 				SKIP3;
 			}
