@@ -345,7 +345,7 @@ long FONT::Print(long x, long y, char * data_PTR)
 	RenderService->TextureSet(0,TextureID);
 	Device->SetFVF(IMAGE_FVF);
 	Device->SetStreamSource(0,VBuffer,0,sizeof(IMAGE_VERTEX));
-	//Device->SetIndices(0,0);
+	//Device->SetIndices(0);
 
 	if(bInverse)
 	{

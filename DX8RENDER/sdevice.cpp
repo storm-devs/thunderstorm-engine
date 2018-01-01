@@ -1973,7 +1973,7 @@ long DX8RENDER::CreateVertexBuffer(long type, long size, dword dwUsage)
 	if(b==MAX_BUFFERS)	return -1;
 
 	if(ErrorHandler("CreateVertexBuffer::CreateVertexBuffer",
-	d3d8->CreateVertexBuffer(size, dwUsage | D3DUSAGE_WRITEONLY,
+	d3d8->CreateVertexBuffer(size, dwUsage,
 		type, D3DPOOL_DEFAULT, &VertexBuffers[b].buff, NULL)
 		)==true)	return -1;
 
@@ -3160,7 +3160,7 @@ void DX8RENDER::DrawLines2D(RS_LINE2D *pRSL2D, dword dwLinesNum, const char *cBl
 //-----------------------
 HRESULT DX8RENDER::CreateVertexBuffer(UINT Length, DWORD Usage, DWORD FVF, D3DPOOL Pool, IDirect3DVertexBuffer9** ppVertexBuffer)
 {
-	return d3d8->CreateVertexBuffer(Length, Usage, FVF, Pool, ppVertexBuffer, NULL);
+	return d3d8->CreateVertexBuffer(Length, Usage, FVF, D3DPOOL_DEFAULT, ppVertexBuffer, NULL);
 }
 
 HRESULT DX8RENDER::VBLock(IDirect3DVertexBuffer9 * pVB, UINT OffsetToLock,UINT SizeToLock,BYTE** ppbData, DWORD Flags)
@@ -3176,8 +3176,8 @@ void DX8RENDER::VBUnlock(IDirect3DVertexBuffer9 * pVB)
 
 HRESULT DX8RENDER::SetFVF(DWORD handle)
 {
-	HRESULT hr = d3d8->SetVertexShader(NULL);
-	return hr | d3d8->SetFVF(handle);
+	return ErrorHandler("SetFVF::SetVertexShader", d3d8->SetVertexShader(NULL)) ||
+		ErrorHandler("SetFVF::SetVertexShader", d3d8->SetFVF(handle));;
 }
 
 HRESULT DX8RENDER::SetStreamSource(UINT StreamNumber, void * pStreamData, UINT Stride)
