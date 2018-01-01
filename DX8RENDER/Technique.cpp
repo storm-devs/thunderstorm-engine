@@ -227,7 +227,7 @@ typedef struct
 
 // ---------------------------------------------------------------------------------
 
-SRSPARAM MYSetFVFCONSTANT[] = {
+SRSPARAM MYSETVERTEXSHADERCONSTANT[] = {
 	{ "worldviewproj", SUBCODE_SVSCONST_WORLDVIEWPROJ } };
 
 // SetRenderState parameters
@@ -859,7 +859,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 				sscanf(temp,"%d",&dwIndex);
 				*pPass++ = dwIndex;
 				GetTokenWhile(SkipToken(*pStr,"="),temp,";");
-				*pPass++ = GetCode(temp,&MYSetFVFCONSTANT[0],sizeof(MYSetFVFCONSTANT) / sizeof(SRSPARAM),null,false);
+				*pPass++ = GetCode(temp,&MYSETVERTEXSHADERCONSTANT[0],sizeof(MYSETVERTEXSHADERCONSTANT) / sizeof(SRSPARAM),null,false);
 				SKIP3;
 			}
 
@@ -1728,7 +1728,7 @@ bool CTechnique::ExecutePass(bool bStart)
 			case CODE_SPSCONST:
 				{
 					dword dwShaderConstIndex = *pPass++;
-					pRS->SetPixelShaderConstantF(dwShaderConstIndex, (const float *)GetPassParameter(*pPass++, dwSubCode), 1);
+					pRS->SetPixelShaderConstantI(dwShaderConstIndex, (const int *)GetPassParameter(*pPass++, dwSubCode), 1);
 				}
 			break;
 			case CODE_SVSCONST:
@@ -1750,7 +1750,7 @@ bool CTechnique::ExecutePass(bool bStart)
 
 							// Projection to clip space
 							D3DXMatrixTranspose(&matWorldViewProj, &matWorldViewProj);
-							pRS->SetVertexShaderConstantF(dwShaderConstIndex,&matWorldViewProj(0, 0), 1);
+							pRS->SetVertexShaderConstantF(dwShaderConstIndex,&matWorldViewProj(0, 0), 4);
 						}
 						break;
 					}

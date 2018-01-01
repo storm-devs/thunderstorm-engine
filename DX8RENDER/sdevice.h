@@ -428,7 +428,7 @@ public:
 		virtual HRESULT SetPixelShader(IDirect3DPixelShader9 * pShader);
 		/*virtual HRESULT SetFVFConstant(DWORD Register, CONST void* pConstantData, DWORD  ConstantCount );*/
 		virtual HRESULT SetVertexShaderConstantF(UINT StartRegister, CONST float * pConstantData, UINT Vector4iCount);
-		virtual HRESULT SetPixelShaderConstantF(UINT StartRegister, CONST float * pConstantData, UINT Vector4iCount);
+		virtual HRESULT SetPixelShaderConstantI(UINT StartRegister, CONST int * pConstantData, UINT Vector4iCount);
 		virtual HRESULT SetFVF(DWORD handle);
 		virtual HRESULT GetVertexShader(IDirect3DVertexShader9** ppShader);
 		virtual HRESULT GetPixelShader(IDirect3DPixelShader9** ppShader);
