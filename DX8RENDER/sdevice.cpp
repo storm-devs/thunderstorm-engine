@@ -997,7 +997,7 @@ void DX8RENDER::BlurGlowTexture ()
 	SetTexture (1, pPostProcessTexture);
 	SetTexture (2, pPostProcessTexture);
 	SetTexture (3, pPostProcessTexture);
-	d3d8->SetRenderTarget( 0, pSmallPostProcessSurface2 );
+	SetRenderTarget( pSmallPostProcessSurface2, NULL );
 	DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, POST_PROCESS_FVF, 2, PostProcessQuad, sizeof(QuadVertex), "PostProcessBlur");
 
 
@@ -1010,7 +1010,7 @@ void DX8RENDER::BlurGlowTexture ()
 		SetTexture (1, pSmallPostProcessTexture2);
 		SetTexture (2, pSmallPostProcessTexture2);
 		SetTexture (3, pSmallPostProcessTexture2);
-		d3d8->SetRenderTarget( 0, pSmallPostProcessSurface );
+		SetRenderTarget( pSmallPostProcessSurface, NULL );
 		DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, POST_PROCESS_FVF, 2, PostProcessQuad, sizeof(QuadVertex), "PostProcessBlur");
 
 		CreateRenderQuad(fSmallWidth*2.0f, fSmallHeight*2.0f, fSmallWidth, fSmallHeight);
@@ -1019,7 +1019,7 @@ void DX8RENDER::BlurGlowTexture ()
 		SetTexture (1, pSmallPostProcessTexture);
 		SetTexture (2, pSmallPostProcessTexture);
 		SetTexture (3, pSmallPostProcessTexture);
-		d3d8->SetRenderTarget( 0, pSmallPostProcessSurface2 );
+		SetRenderTarget( pSmallPostProcessSurface2, NULL);
 		DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, POST_PROCESS_FVF, 2, PostProcessQuad, sizeof(QuadVertex), "PostProcessBlur");
 	}
 
@@ -1029,7 +1029,7 @@ void DX8RENDER::BlurGlowTexture ()
 	SetTexture (1, pSmallPostProcessTexture2);
 	SetTexture (2, pSmallPostProcessTexture2);
 	SetTexture (3, pSmallPostProcessTexture2);
-	d3d8->SetRenderTarget( 0, pSmallPostProcessSurface );
+	SetRenderTarget( pSmallPostProcessSurface, NULL);
 	DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, POST_PROCESS_FVF, 2, PostProcessQuad, sizeof(QuadVertex), "PostProcessBlur");
 }
 
@@ -1048,8 +1048,7 @@ void DX8RENDER::CopyGlowToScreen ()
 	PostProcessQuad[2].v0 = 1.0f;  PostProcessQuad[2].u0 = 1.0f;
 	PostProcessQuad[3].v0 = 0.0f;  PostProcessQuad[3].u0 = 1.0f;
 
-	d3d8->SetRenderTarget( 0, pOriginalScreenSurface );
-	d3d8->SetDepthStencilSurface(pOriginalDepthSurface);
+	SetRenderTarget(pOriginalScreenSurface, pOriginalDepthSurface);
 
 	if (GlowIntensity < 0) GlowIntensity = 0;
 	if (GlowIntensity > 255) GlowIntensity = 255;
@@ -1081,8 +1080,7 @@ void DX8RENDER::CopyPostProcessToScreen()
 	PostProcessQuad[2].v0 = 1.0f;  PostProcessQuad[2].u0 = 1.0f;
 	PostProcessQuad[3].v0 = 0.0f;  PostProcessQuad[3].u0 = 1.0f;
 
-	d3d8->SetRenderTarget(0, pOriginalScreenSurface);
-	d3d8->SetDepthStencilSurface(pOriginalDepthSurface);
+	SetRenderTarget(pOriginalScreenSurface, pOriginalDepthSurface);
 
 	//Оригинальный экран рисуем....
 	SetTexture (0, pPostProcessTexture);
@@ -1092,7 +1090,7 @@ void DX8RENDER::CopyPostProcessToScreen()
 
 	if (bSeaEffect)
 	{
-		d3d8->SetFVF(POST_PROCESS_FVF);
+		SetFVF(POST_PROCESS_FVF);
 		DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, 32 * 32, 31 * 31 * 2, qi, D3DFMT_INDEX16, qv, sizeof(QuadVertex), "PostProcess");
 	}
 	else
@@ -1103,7 +1101,7 @@ void DX8RENDER::CopyPostProcessToScreen()
 
 void DX8RENDER::ClearPostProcessSurface (IDirect3DSurface9* pSurf)
 {
-	HRESULT hr = d3d8->SetRenderTarget( 0, pSurf );
+	HRESULT hr = SetRenderTarget( pSurf, NULL );
 	hr = d3d8->BeginScene();
 	hr = d3d8->Clear(0, NULL, D3DCLEAR_TARGET, 0x0, 0.0f, 0x0);
 	hr = d3d8->EndScene();
@@ -1111,15 +1109,13 @@ void DX8RENDER::ClearPostProcessSurface (IDirect3DSurface9* pSurf)
 
 void DX8RENDER::SetScreenAsRenderTarget ()
 {
-	d3d8->SetRenderTarget(0, pOriginalScreenSurface);
-	d3d8->SetDepthStencilSurface(pOriginalDepthSurface);
+	SetRenderTarget(pOriginalScreenSurface, pOriginalDepthSurface);
 	SetViewport(&OriginalViewPort);
 }
 
 void DX8RENDER::SetPostProcessTextureAsRenderTarget ()
 {
-	d3d8->SetRenderTarget(0, pPostProcessSurface);
-	d3d8->SetDepthStencilSurface(pOriginalDepthSurface);
+	SetRenderTarget(pPostProcessSurface, pOriginalDepthSurface);
 	SetViewport(&OriginalViewPort);
 }
 
@@ -1222,7 +1218,7 @@ bool DX8RENDER::DX8EndScene()
 			pV[i] = CVECTOR(1e6f, 1e6f, 1e6f);
 		pDropConveyorVBuffer->Unlock();
 		d3d8->SetStreamSource(0, pDropConveyorVBuffer, 0, sizeof(CVECTOR));
-		d3d8->SetFVF(D3DFVF_XYZ);
+		SetFVF(D3DFVF_XYZ);
 		DrawPrimitive(D3DPT_LINELIST, 0, 1);
 	}
 
@@ -2025,7 +2021,7 @@ void DX8RENDER::DrawBuffer(long vbuff, long stride, long ibuff, long minv,
 
 	if(vbuff>=0)
 		if(ErrorHandler("DrawBuffer::SetFVF",
-			d3d8->SetFVF(VertexBuffers[vbuff].type))==true)	return;
+			SetFVF(VertexBuffers[vbuff].type))==true)	return;
 	//else VertexBuffer already set
 
 	if(ErrorHandler("DrawBuffer::SetIndices",
@@ -2089,7 +2085,7 @@ void DX8RENDER::DrawPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, dword dwVertex
 	bool bDraw = true;
 
 	if(ErrorHandler("DrawPrimitiveUP::SetFVF",
-		d3d8->SetFVF(dwVertexBufferFormat))==true)	return;
+		SetFVF(dwVertexBufferFormat))==true)	return;
 
 	if (cBlockName) bDraw = TechniqueSetParamsAndStart(cBlockName,dwNumParams,1 + &dwNumParams);
 	if (bDraw) do
@@ -2105,7 +2101,7 @@ void DX8RENDER::DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, lon
 	bool bDraw = true;
 
 	if(ErrorHandler("DrawPrimitive::SetFVF",
-		d3d8->SetFVF(VertexBuffers[iVBuff].type))==true)	return;
+		SetFVF(VertexBuffers[iVBuff].type))==true)	return;
 
 	if(ErrorHandler("DrawPrimitive::SetStreamSource",
 		d3d8->SetStreamSource(0, VertexBuffers[iVBuff].buff, 0, iStride)
@@ -2156,7 +2152,7 @@ void DX8RENDER::RenderAnimation(long ib, void * src, long numVrts, long minv, lo
 	}
 	//Render
 	if(ErrorHandler("RenderAnimation::SetFVF",
-		d3d8->SetFVF(type))==true)	return;
+		SetFVF(type))==true)	return;
 
 	if(ErrorHandler("RenderAnimation::SetIndices",
 		d3d8->SetIndices(IndexBuffers[ib].buff)
@@ -3180,8 +3176,8 @@ void DX8RENDER::VBUnlock(IDirect3DVertexBuffer9 * pVB)
 
 HRESULT DX8RENDER::SetFVF(DWORD handle)
 {
-	d3d8->SetVertexShader(NULL);
-	return d3d8->SetFVF(handle);
+	HRESULT hr = d3d8->SetVertexShader(NULL);
+	return hr | d3d8->SetFVF(handle);
 }
 
 HRESULT DX8RENDER::SetStreamSource(UINT StreamNumber, void * pStreamData, UINT Stride)
@@ -3231,8 +3227,10 @@ HRESULT DX8RENDER::GetCubeMapSurface( IDirect3DCubeTexture9* ppCubeTexture, D3DC
 
 HRESULT DX8RENDER::SetRenderTarget( IDirect3DSurface9* pRenderTarget, IDirect3DSurface9* pNewZStencil )
 {
-	d3d8->SetRenderTarget(0, pRenderTarget);
-	return d3d8->SetDepthStencilSurface(pNewZStencil);
+	HRESULT hr = d3d8->SetRenderTarget(0, pRenderTarget);
+	hr |= d3d8->SetDepthStencilSurface(pNewZStencil);
+
+	return hr;
 }
 
 HRESULT DX8RENDER::Clear( DWORD Count, CONST D3DRECT* pRects, DWORD Flags, D3DCOLOR Color, float Z, DWORD Stencil )
@@ -3548,7 +3546,7 @@ HRESULT DX8RENDER::ImageBlt(long TextureID, RECT * pDstRect, RECT * pSrcRect)
 	bool bDraw = TechniqueExecuteStart("texturedialogfon");
 	if (bDraw) do
 	{
-		d3d8->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX1 | D3DFVF_TEXTUREFORMAT2);
+		SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX1 | D3DFVF_TEXTUREFORMAT2);
 		hRes = d3d8->DrawPrimitiveUP(D3DPT_TRIANGLELIST,2,&v,sizeof(F3DVERTEX));
 		dwNumDrawPrimitive++;
 	} while (TechniqueExecuteNext());
