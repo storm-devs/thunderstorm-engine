@@ -645,13 +645,16 @@ CTechnique::~CTechnique()
 	{
 		DELETE(pShaders[i].pName);
 		DELETE(pShaders[i].pDecl);
-		/*//!!if (pShaders[i].dwShaderHandle != INVALID_SHADER_HANDLE)
+		if (pShaders[i].pPixelShader != nullptr)
 		{
-			if (pShaders[i].dwShaderType == CODE_SVS)
-				;//!! pRS->DeleteVertexShader(pShaders[i].dwShaderHandle);
-			if (pShaders[i].dwShaderType == CODE_SPS)
-				;//!! pRS->DeletePixelShader(pShaders[i].dwShaderHandle);
-		}*/
+			pShaders[i].pPixelShader->Release();
+			pShaders[i].pPixelShader = nullptr;
+		}
+		if (pShaders[i].pVertexShader != nullptr)
+		{
+			pShaders[i].pVertexShader->Release();
+			pShaders[i].pVertexShader = nullptr;
+		}
 	}
 	DELETE(pShaders);
 	DELETE(pBlocks);
@@ -1730,7 +1733,6 @@ bool CTechnique::ExecutePass(bool bStart)
 			break;
 			case CODE_SVSCONST:
 				{
-					//!!
 					dword dwShaderConstIndex = *pPass++;
 					dword dwCode = *pPass++;
 					switch (dwCode)

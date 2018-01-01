@@ -75,7 +75,7 @@ private:
 		long iTexture;
 		bool bEnable;
 		long iVertexBuffer, iVertexBufferColors;
-		dword dwShader;
+		IDirect3DVertexDeclaration9 *pDecl;
 		float fPrevFov;
 
 		struct Star

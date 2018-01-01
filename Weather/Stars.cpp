@@ -5,7 +5,7 @@ Astronomy::STARS::STARS() : aStars(_FL_, 16384)
 {
 	bEnable = false;
 
-	dwShader = 0;
+	pDecl = nullptr;
 	iTexture = -1;
 	iVertexBuffer = -1;
 	iVertexBufferColors = -1;
@@ -24,7 +24,11 @@ Astronomy::STARS::~STARS()
 	if (iTexture >= 0) Astronomy::pRS->TextureRelease(iTexture);
 	if (iVertexBuffer >= 0) Astronomy::pRS->ReleaseVertexBuffer(iVertexBuffer);
 	if (iVertexBufferColors >= 0) Astronomy::pRS->ReleaseVertexBuffer(iVertexBufferColors);
-	//!!if (dwShader) Astronomy::pRS->DeleteVertexShader(dwShader);
+	if (pDecl != nullptr)
+	{
+		pDecl->Release();
+		pDecl = nullptr;
+	}
 }
 
 void Astronomy::STARS::Init(ATTRIBUTES * pAP)
@@ -34,7 +38,11 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 	if (iTexture >= 0) Astronomy::pRS->TextureRelease(iTexture);
 	if (iVertexBuffer >= 0) Astronomy::pRS->ReleaseVertexBuffer(iVertexBuffer);
 	if (iVertexBufferColors >= 0) Astronomy::pRS->ReleaseVertexBuffer(iVertexBufferColors);
-	//!!if (dwShader) Astronomy::pRS->DeleteVertexShader(dwShader);
+	if (pDecl != nullptr)
+	{
+		pDecl->Release();
+		pDecl = nullptr;
+	}
 
 	bEnable = false;
 
@@ -141,8 +149,7 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 		D3DDECL_END()
 		};
 
-		//!!
-		Astronomy::pRS->CreateVertexDeclaration(VertexElem, (IDirect3DVertexDeclaration9**)&dwShader);
+		Astronomy::pRS->CreateVertexDeclaration(VertexElem, &pDecl);
 
 		iVertexBuffer = Astronomy::pRS->CreateVertexBuffer(0, dwSize * sizeof(CVECTOR), D3DUSAGE_DYNAMIC);
 		iVertexBufferColors = Astronomy::pRS->CreateVertexBuffer(0, dwSize * sizeof(dword), D3DUSAGE_DYNAMIC);
@@ -290,7 +297,7 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 	mWorld.BuildPosition(vCamPos.x, vCamPos.y, vCamPos.z);
 	Astronomy::pRS->SetTransform(D3DTS_WORLD, mWorld);
 	Astronomy::pRS->TextureSet(0, iTexture);
-	Astronomy::pRS->SetVertexDeclaration((IDirect3DVertexDeclaration9*)dwShader);
+	Astronomy::pRS->SetVertexDeclaration(pDecl);
 	Astronomy::pRS->SetStreamSource(0, Astronomy::pRS->GetVertexBuffer(iVertexBuffer), sizeof(CVECTOR));
 	Astronomy::pRS->SetStreamSource(1, Astronomy::pRS->GetVertexBuffer(iVertexBufferColors), sizeof(dword));
 
