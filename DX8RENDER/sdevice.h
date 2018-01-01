@@ -418,16 +418,19 @@ public:
 		virtual HRESULT GetRenderTargetData(IDirect3DSurface9 *pRenderTarget, IDirect3DSurface9 *pDestSurface);
 
 	// D3D Pixel/Vertex Shaders Section
-		virtual HRESULT CreatePixelShader(CONST DWORD * pFunction, DWORD * pHandle);
-		virtual HRESULT CreateVertexShader(CONST DWORD * pFunction, CONST D3DVERTEXELEMENT9 * pDeclaration);
+		virtual HRESULT CreateVertexDeclaration(CONST D3DVERTEXELEMENT9 *pVertexElements, IDirect3DVertexDeclaration9 ** ppDecl);
+		virtual HRESULT SetVertexDeclaration(IDirect3DVertexDeclaration9 * pDecl);
+		virtual HRESULT CreatePixelShader(CONST DWORD * pFunction, IDirect3DPixelShader9 ** ppShader);
+		virtual HRESULT CreateVertexShader(CONST DWORD * pFunction, IDirect3DVertexShader9 ** ppShader);
 		virtual HRESULT DeletePixelShader( DWORD Handle );
 		virtual HRESULT DeleteVertexShader( DWORD Handle );
-		virtual HRESULT SetPixelShader( DWORD Handle );
+		virtual HRESULT SetPixelShader(IDirect3DPixelShader9 * pShader);
 		virtual HRESULT SetFVFConstant(DWORD Register, CONST void* pConstantData, DWORD  ConstantCount );
-		virtual HRESULT SetPixelShaderConstant( DWORD Register, CONST void* pConstantData, DWORD ConstantCount );
+		virtual HRESULT SetVertexShaderConstantI(UINT StartRegister, CONST int * pConstantData, UINT Vector4iCount);
+		virtual HRESULT SetPixelShaderConstantI(UINT StartRegister, CONST int * pConstantData, UINT Vector4iCount);
 		virtual HRESULT SetFVF(DWORD handle);
-		virtual HRESULT GetVertexShader(DWORD * pHandle);
-		virtual HRESULT GetPixelShader(DWORD * pHandle);
+		virtual HRESULT GetVertexShader(IDirect3DVertexShader9** ppShader);
+		virtual HRESULT GetPixelShader(IDirect3DPixelShader9** ppShader);
 
 
 	// D3D Render Target/Begin/End/Clear

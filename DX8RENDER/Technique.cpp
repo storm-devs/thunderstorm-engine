@@ -908,7 +908,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 					dwIndex = GetSAMPIndex(temp);
 					Assert(dwIndex != INVALID_STSS_INDEX);
 					if (SampleStates[dwIndex].bUse && SampleStates[dwIndex].dwUseSubCode & (1 << dwTextureIndex) && dwAdditionalFlags & FLAGS_CODE_RESTORE)
-						api->Trace("WARN: STSS: dup restore param type <%s[%d]> in <%s> file, technique <%s>", temp, dwTextureIndex, sCurrentFileName, sCurrentBlockName);
+						api->Trace("WARN: SAMP: dup restore param type <%s[%d]> in <%s> file, technique <%s>", temp, dwTextureIndex, sCurrentFileName, sCurrentBlockName);
 					if (dwAdditionalFlags & FLAGS_CODE_RESTORE)
 					{
 						SampleStates[dwIndex].bUse = true;
@@ -1059,6 +1059,7 @@ dword CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSi
 		if (SkipToken(*pStr,VDECL_STREAM_CHECK))
 		{
 			AddDeclElement(pS);
+			CurDeclElement(pS)->Offset = 0; // ???
 			sscanf(SkipToken(*pStr,"["),"%d",&dwTemp);
 			//*AddDeclElement(pS) = D3DVSD_STREAM(dwTemp);
 			CurDeclElement(pS)->Stream = dwTemp;
@@ -1212,7 +1213,7 @@ char *CTechnique::Preprocessor(char *pBuffer, dword & dwSize)
 	return pProgram;
 }
 
-dword CTechnique::ProcessShaderAsm(shader_t * pS, char *pFile, dword dwSize, char **pStr, dword dwShaderType)
+dword CTechnique::ProcessShaderAsm(shader_t * pS, char *pFile, dword dwSize, char **pStr, dword dwShaderType, bool HLSL)
 {
 	dword dwFileSize;
 	dword dwTotalLen = 0;
@@ -1256,11 +1257,21 @@ dword CTechnique::ProcessShaderAsm(shader_t * pS, char *pFile, dword dwSize, cha
 #endif
 	HRESULT hr;
 	pBuffer = Preprocessor(pBuffer, dwTotalLen);
-#ifndef _XBOX
-	hr = D3DXAssembleShader(pBuffer, dwTotalLen, NULL, 0, 0, &CompiledShader, &ErrorShader);
-#else
+
+	if(HLSL)
+	{
+		if(dwShaderType == CODE_SVS)
+			hr = D3DXCompileShader(pBuffer, dwTotalLen, 0, 0, "main", "vs_3_0", D3DXSHADER_OPTIMIZATION_LEVEL3, &CompiledShader, &ErrorShader, 0);
+		else
+			hr = D3DXCompileShader(pBuffer, dwTotalLen, 0, 0, "main", "vs_3_0", D3DXSHADER_OPTIMIZATION_LEVEL3, &CompiledShader, &ErrorShader, 0);
+	}
+	else
+		hr = D3DXAssembleShader(pBuffer, dwTotalLen, NULL, 0, 0, &CompiledShader, &ErrorShader);
+
+//#ifndef _XBOX
+/*#else
 	hr = XGAssembleShader(0, pBuffer, dwTotalLen, 0, 0, &CompiledShader, &ErrorShader, 0, 0, 0, 0);//D3DXAssembleShader(pBuffer,dwTotalLen,0,0,&CompiledShader,&ErrorShader);
-#endif
+#endif*/
 	if (D3D_OK != hr && ErrorShader)
 	{
 		char * pErrStr = NEW char[ErrorShader->GetBufferSize() + 1];
@@ -1274,12 +1285,11 @@ dword CTechnique::ProcessShaderAsm(shader_t * pS, char *pFile, dword dwSize, cha
 		return 0;
 	}
 	if (dwShaderType == CODE_SVS)
-		hr = pRS->CreateVertexShader((const dword*)CompiledShader->GetBufferPointer(), pS->pDecl);
-		//hr = pRS->CreateVertexShader(pS->pDecl,(const dword*)CompiledShader->GetBufferPointer(),&pS->dwShaderHandle,0);
+		hr = pRS->CreateVertexShader((const dword*)CompiledShader->GetBufferPointer(), &pS->ppVertexShader);
 	else
 	{
 #ifndef _XBOX
-		hr = pRS->CreatePixelShader((dword*)CompiledShader->GetBufferPointer(),&pS->dwShaderHandle);
+		hr = pRS->CreatePixelShader((dword*)CompiledShader->GetBufferPointer(), &pS->ppPixelShader);
 #else
 		hr = pRS->CreatePixelShader((dword*)(D3DPIXELSHADERDEF *)CompiledShader->GetBufferPointer(),&pS->dwShaderHandle);
 #endif
@@ -1678,7 +1688,7 @@ bool CTechnique::ExecutePass(bool bStart)
 					dword dwShaderIndex = *pPass++;
 					if (bSave)
 					{
-						pRS->GetVertexShader(&dwSaveValue);
+						//!!RS->GetVertexShader(&pShader);
 						AddState2Restore2(dwCode,dwSaveValue);
 					}
 					if (dwShaderIndex != INVALID_SHADER_INDEX && pShaders[dwShaderIndex].dwShaderHandle != INVALID_SHADER_HANDLE)
@@ -1688,7 +1698,7 @@ bool CTechnique::ExecutePass(bool bStart)
 			case CODE_SPSCONST:
 				{
 					dword dwShaderConstIndex = *pPass++;
-					pRS->SetPixelShaderConstant(dwShaderConstIndex, (const void *)GetPassParameter(*pPass++, dwSubCode), 1);
+					pRS->SetPixelShaderConstantI(dwShaderConstIndex, (const int *)GetPassParameter(*pPass++, dwSubCode), 1);
 				}
 			break;
 			case CODE_SVSCONST:
@@ -1721,11 +1731,12 @@ bool CTechnique::ExecutePass(bool bStart)
 					dword dwShaderIndex = *pPass++;
 					if (bSave)
 					{
-						pRS->GetPixelShader(&dwSaveValue);
+						//!!pRS->GetPixelShader(&dwSaveValue);
 						AddState2Restore2(dwCode,dwSaveValue);
 					}
 					if (dwShaderIndex != INVALID_SHADER_INDEX && pShaders[dwShaderIndex].dwShaderHandle != INVALID_SHADER_HANDLE)
-						pRS->SetPixelShader(pShaders[dwShaderIndex].dwShaderHandle);
+						;
+						//!!pRS->SetPixelShader(pShaders[dwShaderIndex].dwShaderHandle);
 				}
 			break;
 			case CODE_RESTORE:		// restore states
@@ -1825,7 +1836,7 @@ void CTechnique::RestoreSavedStates()
 			break;
 			case CODE_SPS:
 					dwValue = pSavedStates[dwTempSavedStatesPos++];
-					pRS->SetPixelShader(dwValue);
+					//!!pRS->SetPixelShader(dwValue);
 			break;
 			case CODE_SVS:
 					dwValue = pSavedStates[dwTempSavedStatesPos++];

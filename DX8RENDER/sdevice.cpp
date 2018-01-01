@@ -1977,7 +1977,7 @@ long DX8RENDER::CreateVertexBuffer(long type, long size, dword dwUsage)
 	if(b==MAX_BUFFERS)	return -1;
 
 	if(ErrorHandler("CreateVertexBuffer::CreateVertexBuffer",
-	d3d8->CreateVertexBuffer(size, dwUsage,
+	d3d8->CreateVertexBuffer(size, dwUsage | D3DUSAGE_WRITEONLY,
 		type, D3DPOOL_DEFAULT, &VertexBuffers[b].buff, NULL)
 		)==true)	return -1;
 
@@ -3277,33 +3277,34 @@ HRESULT DX8RENDER::CreateDepthStencilSurface( UINT Width, UINT Height, D3DFORMAT
 	return d3d8->CreateDepthStencilSurface( Width, Height, Format, MultiSample, 0, TRUE, ppSurface, NULL );
 }
 
-HRESULT DX8RENDER::CreateVertexShader(CONST DWORD * pFunction, CONST D3DVERTEXELEMENT9 * pDeclaration )
+HRESULT DX8RENDER::CreateVertexDeclaration(CONST D3DVERTEXELEMENT9 * pVertexElements, IDirect3DVertexDeclaration9 ** ppDecl)
 {
-	//return d3d8->CreateVertexShader(pDeclaration, pFunction, pHandle, Usage);
-	//return d3d8->CreateVertexShader(  pFunction, &	vsh);
-	return NULL;
+	return d3d8->CreateVertexDeclaration(pVertexElements, ppDecl);
 }
 
-HRESULT DX8RENDER::CreatePixelShader(CONST DWORD * pFunction, DWORD * pHandle)
+HRESULT DX8RENDER::SetVertexDeclaration(IDirect3DVertexDeclaration9 *pDecl)
 {
-#ifndef _XBOX
-	//return d3d8->CreatePixelShader( pFunction, &vsh );
-#else
-	return d3d8->CreatePixelShader( (D3DPIXELSHADERDEF*)(pFunction /*+ 1*/), pHandle );
-#endif
-	return NULL;
+	return d3d8->SetVertexDeclaration(pDecl);
 }
 
-HRESULT DX8RENDER::GetVertexShader(DWORD * pHandle)
+HRESULT DX8RENDER::CreateVertexShader(CONST DWORD * pFunction, IDirect3DVertexShader9 ** ppShader)
 {
-	return d3d8->GetVertexShader(NULL);
-	//return d3d8->GetVertexShader(pHandle);
+	return d3d8->CreateVertexShader(pFunction, ppShader);
 }
 
-HRESULT DX8RENDER::GetPixelShader(DWORD * pHandle)
+HRESULT DX8RENDER::CreatePixelShader(CONST DWORD * pFunction, IDirect3DPixelShader9 ** ppShader)
 {
-	return d3d8->GetPixelShader(NULL);
-	//return d3d8->GetPixelShader(pHandle);
+	return d3d8->CreatePixelShader(pFunction, ppShader);
+}
+
+HRESULT DX8RENDER::GetVertexShader(IDirect3DVertexShader9** ppShader)
+{
+	return d3d8->GetVertexShader(ppShader);
+}
+
+HRESULT DX8RENDER::GetPixelShader(IDirect3DPixelShader9** ppShader)
+{
+	return d3d8->GetPixelShader(ppShader);
 }
 
 HRESULT DX8RENDER::SetTexture(DWORD Stage, IDirect3DBaseTexture9* pTexture )
@@ -3369,21 +3370,26 @@ HRESULT DX8RENDER::DeleteVertexShader( DWORD Handle )
 	return NULL;
 }
 
-HRESULT DX8RENDER::SetPixelShader( DWORD Handle )
+HRESULT DX8RENDER::SetPixelShader(IDirect3DPixelShader9 * pShader)
 {
-	//return d3d8->SetPixelShader( Handle );
-	return NULL;
+	return d3d8->SetPixelShader(pShader);
 }
 
-HRESULT DX8RENDER::SetFVFConstant(DWORD Register, CONST void* pConstantData, DWORD  ConstantCount )
+HRESULT DX8RENDER::SetFVFConstant(DWORD Register, CONST void * pConstantData, DWORD  ConstantCount )
 {
 	//return d3d8->SetFVFConstant( Register, pConstantData, ConstantCount );
 	return NULL;
 }
 
-HRESULT DX8RENDER::SetPixelShaderConstant( DWORD Register, CONST void* pConstantData, DWORD ConstantCount )
+HRESULT DX8RENDER::SetVertexShaderConstantI(UINT StartRegister, CONST int * pConstantData, UINT Vector4iCount)
 {
-	//return d3d8->SetPixelShaderConstant( Register, pConstantData, ConstantCount );
+	return d3d8->SetVertexShaderConstantI(StartRegister, pConstantData, Vector4iCount);
+}
+
+
+HRESULT DX8RENDER::SetPixelShaderConstantI(UINT StartRegister, CONST int * pConstantData, UINT Vector4iCount)
+{
+	d3d8->SetPixelShaderConstantI(StartRegister, pConstantData, Vector4iCount);
 	return NULL;
 }
 

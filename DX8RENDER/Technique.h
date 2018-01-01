@@ -47,6 +47,8 @@ struct shader_t		// pixel/vertex shader structure
 	dword	dwShaderType;
 
 	D3DVERTEXELEMENT9 *pDecl;				// declarations for vertex shader
+	IDirect3DVertexShader9 *ppVertexShader;
+	IDirect3DPixelShader9 *ppPixelShader;
 	dword	dwDeclSize;
 	dword	dwShaderHandle;		// shader handle
 };
@@ -118,7 +120,7 @@ protected:
 	dword		ProcessVertexShader(char *pFile, dword dwSize, char **pStr);
 	dword		ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSize, char **pStr);
 	dword		ProcessPixelShader(char *pFile, dword dwSize, char **pStr);
-	dword		ProcessShaderAsm(shader_t *pS, char *pFile, dword dwSize, char **pStr, dword dwShaderType);
+	dword		ProcessShaderAsm(shader_t *pS, char *pFile, dword dwSize, char **pStr, dword dwShaderType, bool HLSL = false);
 
 	dword		AddShader(char *pShaderName);
 	char		*Preprocessor(char *pBuffer, dword & dwSize);

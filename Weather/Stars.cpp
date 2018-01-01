@@ -135,16 +135,17 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 			D3DVSD_END()
 		};*/
 
-		D3DVERTEXELEMENT9 decl[] = {
+		static D3DVERTEXELEMENT9 VertexElem[] = {
 		{ 0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },
-		{ 1, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR, 0 },
+		{ 1, 0, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR, 0 }, // offset = 12
 		D3DDECL_END()
 		};
 
-		Astronomy::pRS->CreateVertexShader( null, decl );
+		IDirect3DVertexDeclaration9 *VertexDecl;
+		Astronomy::pRS->CreateVertexDeclaration(VertexElem, &VertexDecl);
 
-		iVertexBuffer = Astronomy::pRS->CreateVertexBuffer(0, dwSize * sizeof(CVECTOR), D3DUSAGE_WRITEONLY);
-		iVertexBufferColors = Astronomy::pRS->CreateVertexBuffer(0, dwSize * sizeof(dword), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
+		iVertexBuffer = Astronomy::pRS->CreateVertexBuffer(0, dwSize * sizeof(CVECTOR), D3DUSAGE_DYNAMIC);
+		iVertexBufferColors = Astronomy::pRS->CreateVertexBuffer(0, dwSize * sizeof(dword), D3DUSAGE_DYNAMIC);
 
 		CVECTOR * pVPos = (CVECTOR *)Astronomy::pRS->LockVertexBuffer(iVertexBuffer);
 		dword * pVColors = (dword *)Astronomy::pRS->LockVertexBuffer(iVertexBufferColors);
