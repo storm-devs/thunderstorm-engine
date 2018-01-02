@@ -1654,7 +1654,10 @@ bool CTechnique::ExecutePass(bool bStart)
 						if (dwSaveValue == dwValue) break;
 						AddState2Restore3(dwCode,State,dwSaveValue);
 					}
-					pRS->SetRenderState(State,dwValue);
+					if (State == D3DRS_SLOPESCALEDEPTHBIAS && dwValue < 100)
+						pRS->SetRenderState(State, F2DW(dwValue*-0.001));
+					else
+						pRS->SetRenderState(State, dwValue);
 				}
 			break;
 			case CODE_STSS:			// SetTextureStageState(
@@ -1716,13 +1719,16 @@ bool CTechnique::ExecutePass(bool bStart)
 			case CODE_SVS:
 				{
 					dword dwShaderIndex = *pPass++;
-					if (bSave)
-					{
-						pRS->GetVertexShader((IDirect3DVertexShader9**)&dwSaveValue);
-						AddState2Restore2(dwCode,dwSaveValue);
-					}
 					if (dwShaderIndex != INVALID_SHADER_INDEX && pShaders[dwShaderIndex].pVertexShader != nullptr)
+					{
+						if (bSave)
+						{
+							pRS->GetVertexShader((IDirect3DVertexShader9**)&dwSaveValue);
+							AddState2Restore2(dwCode, dwSaveValue);
+						}
+
 						pRS->SetVertexShader(pShaders[dwShaderIndex].pVertexShader);
+					}
 				}
 			break;
 			case CODE_SPSCONST:
@@ -1759,13 +1765,16 @@ bool CTechnique::ExecutePass(bool bStart)
 			case CODE_SPS:
 				{
 					dword dwShaderIndex = *pPass++;
-					if (bSave)
-					{
-						pRS->GetPixelShader((IDirect3DPixelShader9**)&dwSaveValue);
-						AddState2Restore2(dwCode,dwSaveValue);
-					}
 					if (dwShaderIndex != INVALID_SHADER_INDEX && pShaders[dwShaderIndex].pPixelShader != nullptr)
+					{
+						if (bSave)
+						{
+							pRS->GetPixelShader((IDirect3DPixelShader9**)&dwSaveValue);
+							AddState2Restore2(dwCode, dwSaveValue);
+						}
+
 						pRS->SetPixelShader(pShaders[dwShaderIndex].pPixelShader);
+					}
 				}
 			break;
 			case CODE_RESTORE:		// restore states

@@ -3227,8 +3227,8 @@ HRESULT DX8RENDER::GetCubeMapSurface( IDirect3DCubeTexture9* ppCubeTexture, D3DC
 
 HRESULT DX8RENDER::SetRenderTarget( IDirect3DSurface9* pRenderTarget, IDirect3DSurface9* pNewZStencil )
 {
-	HRESULT hr = d3d8->SetRenderTarget(0, pRenderTarget);
-	hr |= d3d8->SetDepthStencilSurface(pNewZStencil);
+	HRESULT hr = d3d8->SetDepthStencilSurface(pNewZStencil);
+	hr |= d3d8->SetRenderTarget(0, pRenderTarget);
 
 	return hr;
 }

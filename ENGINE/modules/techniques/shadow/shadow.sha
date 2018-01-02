@@ -36,7 +36,7 @@ block shadow_draw()
 			CullMode = ccw;
 			;Added support in Technique.cpp for dividing ZBias by 1000 float
 			;and applying  D3DRS_SLOPESCALEDEPTHBIAS to remove shadow artifacts
-			//SSZbias = 1;
+			SSZbias = 600;
 
 			ColorOp[0] = modulate2x;
 			ColorArg1[0] = texture;
