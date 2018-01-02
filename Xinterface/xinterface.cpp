@@ -2526,26 +2526,30 @@ bool __declspec(dllexport) __cdecl XINTERFACE::SFLB_DoSaveFileData(char * saveNa
 
 	D3DSURFACE_DESC dscr;
 	ptex->GetLevelDesc(0,&dscr);
-	long nAllSize = sizeof(SAVE_DATA_HANDLE) + dscr.Width*dscr.Height * 8 + slen;
-	char * pdat = NEW char[nAllSize];
+	long size = 0;
+	//!@
+	//long nAllSize = sizeof(SAVE_DATA_HANDLE) + size + slen;
+	char * pdat = NEW char[sizeof(SAVE_DATA_HANDLE) + dscr.Width*dscr.Height * 100 + slen];
 	if(pdat==null)	{ THROW("allocate memory error"); }
 
 	((SAVE_DATA_HANDLE*)pdat)->StringDataSize = slen;
 	if(slen>0) memcpy( &pdat[sizeof(SAVE_DATA_HANDLE)], saveData, slen );
 
-	((SAVE_DATA_HANDLE*)pdat)->SurfaceDataSize = dscr.Width*dscr.Height * 8;
-	if(dscr.Width*dscr.Height * 8>0)
+	//((SAVE_DATA_HANDLE*)pdat)->SurfaceDataSize = size;
+	if(dscr.Height>0)
 	{
 		D3DLOCKED_RECT lockRect;
 		if( ptex->LockRect(0,&lockRect,null,0) == D3D_OK )
 		{
-			memcpy( &pdat[sizeof(SAVE_DATA_HANDLE)+slen], lockRect.pBits, dscr.Width*dscr.Height * 8);
+			size = lockRect.Pitch*dscr.Height;
+			((SAVE_DATA_HANDLE*)pdat)->SurfaceDataSize = size;
+			memcpy( &pdat[sizeof(SAVE_DATA_HANDLE)+slen], lockRect.pBits, size);
 			ptex->UnlockRect(0);
 		}
 		else api->Trace("Can`t lock screenshot texture");
 	}
 
-	api->SetSaveData(saveName,pdat,nAllSize);
+	api->SetSaveData(saveName,pdat, sizeof(SAVE_DATA_HANDLE) + slen + size);
 	delete pdat;
 	return true;
 }

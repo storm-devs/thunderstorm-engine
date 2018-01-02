@@ -47,6 +47,7 @@ struct shader_t		// pixel/vertex shader structure
 	dword	dwShaderType;
 
 	D3DVERTEXELEMENT9 *pDecl;				// declarations for vertex shader
+	IDirect3DVertexDeclaration9 *pVertexDecl;
 	IDirect3DVertexShader9 *pVertexShader;
 	IDirect3DPixelShader9 *pPixelShader;
 	dword	dwDeclSize;

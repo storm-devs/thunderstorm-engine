@@ -778,6 +778,7 @@ dword CTechnique::AddShader(char *pShaderName)
 	COPY_STRING(pS->pName,pShaderName);
 	pS->dwHashName = hash_string(pShaderName);
 	//pS->dwShaderHandle = INVALID_SHADER_HANDLE;
+	pS->pVertexDecl = null;
 	pS->pVertexShader = null;
 	pS->pPixelShader = null;
 	dwNumShaders++;
@@ -1048,6 +1049,7 @@ void AddDeclElement(shader_t *pS)
 	pS->dwDeclSize++;
 	pS->pDecl = (D3DVERTEXELEMENT9*)RESIZE(pS->pDecl,sizeof(D3DVERTEXELEMENT9) * pS->dwDeclSize);
 	pS->pDecl->Method = D3DDECLMETHOD_DEFAULT;
+	pS->pDecl->Usage = D3DDECLUSAGE_POSITION;
 }
 
 D3DVERTEXELEMENT9 * CurDeclElement(shader_t *pS)
@@ -1058,6 +1060,7 @@ D3DVERTEXELEMENT9 * CurDeclElement(shader_t *pS)
 dword CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSize, char **pStr)
 {
 	dword dwTemp,dwTemp1;
+	dword dwStream = 0, dwOffset = 0;
 	while (0 != (*pStr = GetString(pFile,dwSize,*pStr)))
 	{
 		*pStr = _strlwr(*pStr);
@@ -1066,49 +1069,59 @@ dword CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSi
 		if (isEndBracket(*pStr)) break;		// end of declaration
 		if (SkipToken(*pStr,VDECL_STREAM_CHECK))
 		{
-			AddDeclElement(pS);
-			CurDeclElement(pS)->Offset = 0; // ???
 			sscanf(SkipToken(*pStr,"["),"%d",&dwTemp);
-			//*AddDeclElement(pS) = D3DVSD_STREAM(dwTemp);
-			CurDeclElement(pS)->Stream = dwTemp;
+			dwStream = dwTemp;
 		}
 		if (SkipToken(*pStr,VDECL_FLOAT_CHECK))
 		{
 			sscanf(SkipToken(*pStr,"v"),"%d",&dwTemp1);
 			sscanf(SkipToken(*pStr,"["),"%d",&dwTemp);
+			dword dwSize;
 			switch (dwTemp)
 			{
-				case 1: dwTemp = D3DDECLTYPE_FLOAT1; break;
-				case 2: dwTemp = D3DDECLTYPE_FLOAT2; break;
-				case 3: dwTemp = D3DDECLTYPE_FLOAT3; break;
-				case 4: dwTemp = D3DDECLTYPE_FLOAT4; break;
+			case 1: dwTemp = D3DDECLTYPE_FLOAT1; dwSize = 4; break;
+			case 2: dwTemp = D3DDECLTYPE_FLOAT2; dwSize = 8;  break;
+			case 3: dwTemp = D3DDECLTYPE_FLOAT3; dwSize = 12; break;
+			case 4: dwTemp = D3DDECLTYPE_FLOAT4; dwSize = 16; break;
+
 			}
-			//*AddDeclElement(pS) = D3DVSD_REG(dwTemp1, dwTemp);
-			CurDeclElement(pS)->Usage = dwTemp1;
+			AddDeclElement(pS);
+			CurDeclElement(pS)->Offset = dwOffset;
+			CurDeclElement(pS)->Stream = dwStream;
+			CurDeclElement(pS)->UsageIndex = dwTemp1;
 			CurDeclElement(pS)->Type = dwTemp;
+			dwOffset += dwSize;
 		}
 		if (SkipToken(*pStr,VDECL_COLOR_CHECK))
 		{
 			sscanf(SkipToken(*pStr,"v"),"%d",&dwTemp1);
-			//*AddDeclElement(pS) = D3DVSD_REG(dwTemp1, D3DDECLTYPE_D3DCOLOR);
-			CurDeclElement(pS)->Usage = dwTemp1;
+			AddDeclElement(pS);
+			CurDeclElement(pS)->Offset = dwOffset;
+			CurDeclElement(pS)->Stream = dwStream;
+			CurDeclElement(pS)->UsageIndex = dwTemp1;
 			CurDeclElement(pS)->Type = D3DDECLTYPE_D3DCOLOR;
+			dwOffset += 4;
 		}
+		int n = sizeof(D3DCOLOR);
 		if (SkipToken(*pStr,VDECL_UBYTE4_CHECK))
 		{
 			sscanf(SkipToken(*pStr,"v"),"%d",&dwTemp1);
-#ifndef _XBOX
-			//*AddDeclElement(pS) = D3DVSD_REG(dwTemp1, D3DDECLTYPE_UBYTE4);
-#endif
-			CurDeclElement(pS)->Usage = dwTemp1;
+			AddDeclElement(pS);
+			CurDeclElement(pS)->Offset = dwOffset;
+			CurDeclElement(pS)->Stream = dwStream;
+			CurDeclElement(pS)->UsageIndex = dwTemp1;
 			CurDeclElement(pS)->Type = D3DDECLTYPE_UBYTE4;
+			dwOffset += 4;
 		}
 		TOTAL_SKIP;
 	}
-	//*AddDeclElement(pS) = D3DVSD_END();
 
 	AddDeclElement(pS);
 	*CurDeclElement(pS) = D3DDECL_END();
+
+	HRESULT hr = pRS->CreateVertexDeclaration(pS->pDecl, &pS->pVertexDecl);
+	api->Trace("%d", hr);
+
 	return 0;
 }
 
@@ -1727,9 +1740,27 @@ bool CTechnique::ExecutePass(bool bStart)
 							AddState2Restore2(dwCode, dwSaveValue);
 						}
 
+						if(pShaders[dwShaderIndex].pVertexDecl != nullptr)
+							pRS->SetVertexDeclaration(pShaders[dwShaderIndex].pVertexDecl);
+
 						pRS->SetVertexShader(pShaders[dwShaderIndex].pVertexShader);
 					}
 				}
+			break;
+			case CODE_SPS:
+			{
+				dword dwShaderIndex = *pPass++;
+				if (dwShaderIndex != INVALID_SHADER_INDEX && pShaders[dwShaderIndex].pPixelShader != nullptr)
+				{
+					if (bSave)
+					{
+						pRS->GetPixelShader((IDirect3DPixelShader9**)&dwSaveValue);
+						AddState2Restore2(dwCode, dwSaveValue);
+					}
+
+					pRS->SetPixelShader(pShaders[dwShaderIndex].pPixelShader);
+				}
+			}
 			break;
 			case CODE_SPSCONST:
 				{
@@ -1759,21 +1790,6 @@ bool CTechnique::ExecutePass(bool bStart)
 							pRS->SetVertexShaderConstantF(dwShaderConstIndex,&matWorldViewProj(0, 0), 4);
 						}
 						break;
-					}
-				}
-			break;
-			case CODE_SPS:
-				{
-					dword dwShaderIndex = *pPass++;
-					if (dwShaderIndex != INVALID_SHADER_INDEX && pShaders[dwShaderIndex].pPixelShader != nullptr)
-					{
-						if (bSave)
-						{
-							pRS->GetPixelShader((IDirect3DPixelShader9**)&dwSaveValue);
-							AddState2Restore2(dwCode, dwSaveValue);
-						}
-
-						pRS->SetPixelShader(pShaders[dwShaderIndex].pPixelShader);
 					}
 				}
 			break;
