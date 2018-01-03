@@ -1,7 +1,6 @@
 #include "Technique.h"
 #include "..\common_h\defines.h"
 #include <d3dx9.h>
-#include <d3dx9shader.h>
 
 
 #define SHA_DIR		"modules\\Techniques"
@@ -1048,8 +1047,7 @@ void AddDeclElement(shader_t *pS)
 {
 	pS->dwDeclSize++;
 	pS->pDecl = (D3DVERTEXELEMENT9*)RESIZE(pS->pDecl,sizeof(D3DVERTEXELEMENT9) * pS->dwDeclSize);
-	pS->pDecl->Method = D3DDECLMETHOD_DEFAULT;
-	pS->pDecl->Usage = D3DDECLUSAGE_POSITION;
+	pS->pDecl[pS->dwDeclSize - 1].Method = D3DDECLMETHOD_DEFAULT;
 }
 
 D3DVERTEXELEMENT9 * CurDeclElement(shader_t *pS)
@@ -1059,8 +1057,10 @@ D3DVERTEXELEMENT9 * CurDeclElement(shader_t *pS)
 
 dword CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSize, char **pStr)
 {
-	dword dwTemp,dwTemp1;
+	dword dwTemp, dwTemp1;;
 	dword dwStream = 0, dwOffset = 0;
+	dword dwIndexes[14] = { 0 };
+
 	while (0 != (*pStr = GetString(pFile,dwSize,*pStr)))
 	{
 		*pStr = _strlwr(*pStr);
@@ -1075,14 +1075,13 @@ dword CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSi
 		if (SkipToken(*pStr,VDECL_FLOAT_CHECK))
 		{
 			sscanf(SkipToken(*pStr,"v"),"%d",&dwTemp1);
-			sscanf(SkipToken(*pStr,"["),"%d",&dwTemp);
-			dword dwSize;
+			sscanf(SkipToken(*pStr, "["), "%d", &dwTemp);
 			switch (dwTemp)
 			{
-			case 1: dwTemp = D3DDECLTYPE_FLOAT1; dwSize = 4; break;
-			case 2: dwTemp = D3DDECLTYPE_FLOAT2; dwSize = 8;  break;
-			case 3: dwTemp = D3DDECLTYPE_FLOAT3; dwSize = 12; break;
-			case 4: dwTemp = D3DDECLTYPE_FLOAT4; dwSize = 16; break;
+			case 1: dwTemp = D3DDECLTYPE_FLOAT1; break;
+			case 2: dwTemp = D3DDECLTYPE_FLOAT2; break;
+			case 3: dwTemp = D3DDECLTYPE_FLOAT3; break;
+			case 4: dwTemp = D3DDECLTYPE_FLOAT4; break;
 
 			}
 			AddDeclElement(pS);
@@ -1090,7 +1089,7 @@ dword CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSi
 			CurDeclElement(pS)->Stream = dwStream;
 			CurDeclElement(pS)->UsageIndex = dwTemp1;
 			CurDeclElement(pS)->Type = dwTemp;
-			dwOffset += dwSize;
+			dwOffset += 4 * (dwTemp + 1);
 		}
 		if (SkipToken(*pStr,VDECL_COLOR_CHECK))
 		{
@@ -1109,10 +1108,19 @@ dword CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSi
 			AddDeclElement(pS);
 			CurDeclElement(pS)->Offset = dwOffset;
 			CurDeclElement(pS)->Stream = dwStream;
+			//CurDeclElement(pS)->UsageIndex = dwTemp1;
 			CurDeclElement(pS)->UsageIndex = dwTemp1;
 			CurDeclElement(pS)->Type = D3DDECLTYPE_UBYTE4;
 			dwOffset += 4;
 		}
+		if (SkipToken(*pStr, "."))
+		{
+			sscanf(SkipToken(*pStr, "."), "%d", &dwTemp);
+			CurDeclElement(pS)->Usage = dwTemp;
+			CurDeclElement(pS)->UsageIndex = dwIndexes[dwTemp];
+			dwIndexes[dwTemp]++;
+		}
+
 		TOTAL_SKIP;
 	}
 
@@ -1120,7 +1128,8 @@ dword CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSi
 	*CurDeclElement(pS) = D3DDECL_END();
 
 	HRESULT hr = pRS->CreateVertexDeclaration(pS->pDecl, &pS->pVertexDecl);
-	api->Trace("%d", hr);
+	if (hr != S_OK)
+		api->Trace("Invalid shader declaration: %s", pS->pName);
 
 	return 0;
 }
@@ -1668,7 +1677,7 @@ bool CTechnique::ExecutePass(bool bStart)
 						AddState2Restore3(dwCode,State,dwSaveValue);
 					}
 					if (State == D3DRS_SLOPESCALEDEPTHBIAS && dwValue < 100)
-						pRS->SetRenderState(State, F2DW(dwValue*-0.001));
+						pRS->SetRenderState(State, 0);//F2DW(dwValue*10));
 					else
 						pRS->SetRenderState(State, dwValue);
 				}
@@ -1688,7 +1697,7 @@ bool CTechnique::ExecutePass(bool bStart)
 					pRS->SetTextureStageState(dwStage,StageState,dwValue);
 				}
 			break;
-				case CODE_SAMP:			// SetTextureStageState(
+				case CODE_SAMP:			// SetSamplerState(
 				{
 					dwStage = *pPass++;
 					D3DSAMPLERSTATETYPE StageState = (D3DSAMPLERSTATETYPE)(*pPass++);

@@ -4,10 +4,10 @@ VertexShader GrassExVS
 	{
         stream[0];
 
-        float v0[3];	//Position
-		color v1;		//Params
-		color v2;		//Offset
-		float v5[3];	//Wind direction//float v4[1];	//Vertex alpha		
+        float v0[3].0;	//Position
+		color v1.10;		//Params
+		color v2.10;		//Offset
+		float v5[3].5;	//Wind direction//float v4[1];	//Vertex alpha		
     }
     
 	asm

@@ -486,7 +486,8 @@ void GEOM_SERVICE_R::DrawIndexedPrimitive(long minv, long numv, long vrtsize, lo
 		RenderService->SetVertexShaderConstantF(4, mWorld, 4);
 
 		RenderService->GetRenderState(D3DRS_SLOPESCALEDEPTHBIAS, &oldZBias);
-		RenderService->SetRenderState(D3DRS_SLOPESCALEDEPTHBIAS, 1);
+		float SSBias = -0.6;
+		RenderService->SetRenderState(D3DRS_SLOPESCALEDEPTHBIAS, *(int*)&SSBias);
 	}
 
 	//draw animation
