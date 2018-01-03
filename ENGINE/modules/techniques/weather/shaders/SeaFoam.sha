@@ -5,8 +5,8 @@ VertexShader SeaVS_Foam
         stream[0];
 
         float v0[3].0;	// Position
-		color v10.10;		// diffuse
-        float v5[2].5;	// Tex coord 0
+		color v1.10;		// diffuse
+        float v2[2].5;	// Tex coord 0
     }
 	asm
 	{
@@ -16,36 +16,14 @@ VertexShader SeaVS_Foam
 		#define CV_WORLDVIEWPROJ_3	3
  
 		#define V_POSITION 		v0
-		#define V_DIFFUSE 		v10
-		#define V_TEXTURE 		v5
+		#define V_DIFFUSE 		v1
+		#define V_TEXTURE 		v2
 
 		vs.1.0
 
-		//Example
-		//dcl_position v0
-		//dcl_texcoord v7
-		//dcl_blendweight v3
-		//dcl_normal v4
-		//This is the same value as the members of D3DDECLUSAGE without the D3DDECLUSAGE prefix.
-		//All dcl_usage instructions must appear before the first executable instruction.
-		// D3DDECLUSAGE_POSITION      = 0,
- 		// D3DDECLUSAGE_BLENDWEIGHT   = 1,
- 		// D3DDECLUSAGE_BLENDINDICES  = 2,
- 		// D3DDECLUSAGE_NORMAL        = 3,
- 		// D3DDECLUSAGE_PSIZE         = 4,
- 		// D3DDECLUSAGE_TEXCOORD      = 5,
-  		// D3DDECLUSAGE_TANGENT       = 6,
-  		// D3DDECLUSAGE_BINORMAL      = 7,
-  		// D3DDECLUSAGE_TESSFACTOR    = 8,
-  		// D3DDECLUSAGE_POSITIONT     = 9,
-  		// D3DDECLUSAGE_COLOR         = 10,
-  		// D3DDECLUSAGE_FOG           = 11,
-  		// D3DDECLUSAGE_DEPTH         = 12,
-  		// D3DDECLUSAGE_SAMPLE        = 13
-		
 		dcl_position v0
-		dcl_color v10
-		dcl_texcoord v5
+		dcl_color v1
+		dcl_texcoord v2
 
 		; Transform position to clip space and output it
 		dp4 oPos.x, V_POSITION, c[CV_WORLDVIEWPROJ_0]

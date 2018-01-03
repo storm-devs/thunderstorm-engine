@@ -4,7 +4,7 @@ block island()
 	{
 		pass p0
 		{
-			CullMode = ccw;
+CullMode = ccw;
 			!AlphaTestEnable = true;
 			!AlphaBlendEnable = true;
 			SrcBlend = srcalpha;

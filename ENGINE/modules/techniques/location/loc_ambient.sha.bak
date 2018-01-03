@@ -1,3 +1,4 @@
+//These are deprecated and no longer used...they never had any effect in the game, anyway
 block amb_cave()
 {
 	technique t0

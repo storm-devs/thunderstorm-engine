@@ -5,44 +5,16 @@ VertexShader vs_Sea2
         stream[0];
 
         float v0[3].0;	// Position
-        float v3[3].3;	// Normal
-        float v5[2].5;	// Tex coord 0
+        float v1[3].3;	// Normal
+        float v2[2].5;	// Tex coord 0
     }
 	asm
 	{
-		 vs.1.1
+		vs.1.1
 
-		//Example
-		//dcl_position v0
-		//dcl_texcoord v7
-		//dcl_blendweight v3
-		//dcl_normal v4
-		//This is the same value as the members of D3DDECLUSAGE without the D3DDECLUSAGE prefix.
-		//All dcl_usage instructions must appear before the first executable instruction.
-		// D3DDECLUSAGE_POSITION      = 0,
- 		// D3DDECLUSAGE_BLENDWEIGHT   = 1,
- 		// D3DDECLUSAGE_BLENDINDICES  = 2,
- 		// D3DDECLUSAGE_NORMAL        = 3,
- 		// D3DDECLUSAGE_PSIZE         = 4,
- 		// D3DDECLUSAGE_TEXCOORD      = 5,
-  		// D3DDECLUSAGE_TANGENT       = 6,
-  		// D3DDECLUSAGE_BINORMAL      = 7,
-  		// D3DDECLUSAGE_TESSFACTOR    = 8,
-  		// D3DDECLUSAGE_POSITIONT     = 9,
-  		// D3DDECLUSAGE_COLOR         = 10,
-  		// D3DDECLUSAGE_FOG           = 11,
-  		// D3DDECLUSAGE_DEPTH         = 12,
-  		// D3DDECLUSAGE_SAMPLE        = 13
-
-		//Register Type	Required Write Mask
-		//oFog	no explicit write mask is allowed on this scalar register
-		//oPts	no explicit write mask is allowed on this scalar register
-		//oPos	.xyzw(which is the default)
-		//oT#	combined mask: .x | .xy | .xyz | .xyzw (which is the default)
-		
 		dcl_position v0
-		dcl_normal v3
-		dcl_texcoord v5
+		dcl_normal v1
+		dcl_texcoord v2
 		
 		m4x4 r0, v0, c[24 ]
 		mov  oPos, r0
@@ -54,7 +26,7 @@ VertexShader vs_Sea2
 		//Boyer change per above no mask allowed on oFog
 		mov oFog, r11.z
 
-		mov r4, v3
+		mov r4, v1
 		 
 		dp3 r4.w, r4, r4 
 		rsq r4.w, r4.w 
@@ -150,7 +122,7 @@ VertexShader vs_Sea2
 		mov oT3.w, -r1.z
 		 
 		mov oT0.z, c[2  ].x
-		mov oT0.xy, v5
+		mov oT0.xy, v2
 	}
 }
 
@@ -161,38 +133,16 @@ VertexShader vs_Sea2Sunroad
         stream[0];
 
         float v0[3].0;	// Position
-        float v3[3].3;	// Normal
-        float v5[2].5;	// Tex coord 0
+        float v1[3].3;	// Normal
+        float v2[2].5;	// Tex coord 0
     }
 	asm
 	{
 		 vs.1.1
 
-		//Example
-		//dcl_position v0
-		//dcl_texcoord v7
-		//dcl_blendweight v3
-		//dcl_normal v4
-		//This is the same value as the members of D3DDECLUSAGE without the D3DDECLUSAGE prefix.
-		//All dcl_usage instructions must appear before the first executable instruction.
-		// D3DDECLUSAGE_POSITION      = 0,
- 		// D3DDECLUSAGE_BLENDWEIGHT   = 1,
- 		// D3DDECLUSAGE_BLENDINDICES  = 2,
- 		// D3DDECLUSAGE_NORMAL        = 3,
- 		// D3DDECLUSAGE_PSIZE         = 4,
- 		// D3DDECLUSAGE_TEXCOORD      = 5,
-  		// D3DDECLUSAGE_TANGENT       = 6,
-  		// D3DDECLUSAGE_BINORMAL      = 7,
-  		// D3DDECLUSAGE_TESSFACTOR    = 8,
-  		// D3DDECLUSAGE_POSITIONT     = 9,
-  		// D3DDECLUSAGE_COLOR         = 10,
-  		// D3DDECLUSAGE_FOG           = 11,
-  		// D3DDECLUSAGE_DEPTH         = 12,
-  		// D3DDECLUSAGE_SAMPLE        = 13
-		
 		dcl_position v0
-		dcl_normal v3
-		dcl_texcoord v5
+		dcl_normal v1
+		dcl_texcoord v2
 		
 		m4x4 r0, v0, c[24 ]
 		mov  oPos, r0
@@ -204,7 +154,7 @@ VertexShader vs_Sea2Sunroad
 		//Boyer change per above no mask allowed on oFog
 		mov oFog, r11.z
 
-		mov r4, v3
+		mov r4, v1
 		 
 		dp3 r4.w, r4, r4 
 		rsq r4.w, r4.w 
@@ -256,7 +206,7 @@ VertexShader vs_Sea2Sunroad
 		mov oT3.w, -r1.z
 		 
 		mov oT0.z, c[2  ].x
-		mov oT0.xy, v5
+		mov oT0.xy, v2
 	}
 }
 
@@ -357,38 +307,16 @@ VertexShader vs_Sea3
         stream[0];
 
         float v0[3].0;	// Position
-        float v3[3].3;	// Normal
-        float v5[2].5;	// Tex coord 0
+        float v1[3].3;	// Normal
+        float v2[2].5;	// Tex coord 0
     }
 	asm
 	{
 		 vs.1.1
 
-		//Example
-		//dcl_position v0
-		//dcl_texcoord v7
-		//dcl_blendweight v3
-		//dcl_normal v4
-		//This is the same value as the members of D3DDECLUSAGE without the D3DDECLUSAGE prefix.
-		//All dcl_usage instructions must appear before the first executable instruction.
-		// D3DDECLUSAGE_POSITION      = 0,
- 		// D3DDECLUSAGE_BLENDWEIGHT   = 1,
- 		// D3DDECLUSAGE_BLENDINDICES  = 2,
- 		// D3DDECLUSAGE_NORMAL        = 3,
- 		// D3DDECLUSAGE_PSIZE         = 4,
- 		// D3DDECLUSAGE_TEXCOORD      = 5,
-  		// D3DDECLUSAGE_TANGENT       = 6,
-  		// D3DDECLUSAGE_BINORMAL      = 7,
-  		// D3DDECLUSAGE_TESSFACTOR    = 8,
-  		// D3DDECLUSAGE_POSITIONT     = 9,
-  		// D3DDECLUSAGE_COLOR         = 10,
-  		// D3DDECLUSAGE_FOG           = 11,
-  		// D3DDECLUSAGE_DEPTH         = 12,
-  		// D3DDECLUSAGE_SAMPLE        = 13
-		
 		dcl_position v0
-		dcl_normal v3
-		dcl_texcoord v5
+		dcl_normal v1
+		dcl_texcoord v2
 		
 		m4x4 r0, v0, c[24 ]
 		mov  oPos, r0
@@ -400,7 +328,7 @@ VertexShader vs_Sea3
 		//Boyer change per above no mask allowed on oFog
 		mov oFog, r11.z
 
-		mov r4, v3
+		mov r4, v1
 		 
 		dp3 r4.w, r4, r4 
 		rsq r4.w, r4.w 
@@ -468,15 +396,15 @@ VertexShader vs_Sea3
 
  		mov oT3, r0
 
-		add r0.xy, r0.xy, v3.xz
+		add r0.xy, r0.xy, v1.xz
  		
  		mov oT1, r0
 
 		mov oT0.z, c[2].x
-		mov oT0.xy, v5
+		mov oT0.xy, v2
 
 		mov oT2.z, c[2].x
-		mov oT2.xy, v5
+		mov oT2.xy, v2
 	}
 }
 

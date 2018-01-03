@@ -720,7 +720,7 @@ dword CTechnique::GetSTSSIndex(char *pStr)
 {
 	dword dwNumParam = sizeof(TexturesStageStates) / sizeof(STSS);
 	for (dword i=0;i<dwNumParam;i++) if (stricmp(pStr,TexturesStageStates[i].cName)==0) return i;
-	//api->Trace("ERROR: SetTextureStageState: unknown parameter type <%s> in <%s> file, technique <%s>",pStr,sCurrentFileName,sCurrentBlockName);
+	api->Trace("ERROR: SetTextureStageState: unknown parameter type <%s> in <%s> file, technique <%s>",pStr,sCurrentFileName,sCurrentBlockName);
 	//THROW;
 	return INVALID_INDEX;
 }
@@ -729,7 +729,7 @@ dword CTechnique::GetSAMPIndex(char *pStr)
 {
 	dword dwNumParam = sizeof(SampleStates) / sizeof(SAMP);
 	for (dword i = 0; i<dwNumParam; i++) if (stricmp(pStr, SampleStates[i].cName) == 0) return i;
-	//api->Trace("ERROR: SetTextureStageState: unknown parameter type <%s> in <%s> file, technique <%s>", pStr, sCurrentFileName, sCurrentBlockName);
+	api->Trace("ERROR: SetSamplerState: unknown parameter type <%s> in <%s> file, technique <%s>", pStr, sCurrentFileName, sCurrentBlockName);
 	//THROW;
 	return INVALID_INDEX;
 }
@@ -776,10 +776,9 @@ dword CTechnique::AddShader(char *pShaderName)
 	ZERO(pShaders[dwNumShaders]);
 	COPY_STRING(pS->pName,pShaderName);
 	pS->dwHashName = hash_string(pShaderName);
-	//pS->dwShaderHandle = INVALID_SHADER_HANDLE;
-	pS->pVertexDecl = null;
-	pS->pVertexShader = null;
-	pS->pPixelShader = null;
+	pS->pVertexDecl = nullptr;
+	pS->pVertexShader = nullptr;
+	pS->pPixelShader = nullptr;
 	dwNumShaders++;
 	return (dwNumShaders-1);
 }
@@ -801,7 +800,6 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 #define SKIP3	{ (*pStr)++; continue; }
 		*pStr = _strlwr(*pStr);
 		ClearComment(*pStr);
-		//if (isComment(*pStr)) SKIP3;
 		if (isEndBracket(*pStr)) break;		// end of pass
 
 		// check right side of expression for [in] parameters
