@@ -1103,6 +1103,9 @@ dword CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSi
 			CurDeclElement(pS)->Offset = dwOffset;
 			CurDeclElement(pS)->Stream = dwStream;
 			CurDeclElement(pS)->Type = dwTemp;
+			dwOffset += 4 * (dwTemp + 1);
+
+			// Usage
 			dwTemp = ~0;
 			for (int i = 0; i < _countof(MYDECLUSAGE); i++)
 			{
@@ -1115,7 +1118,6 @@ dword CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSi
 			CurDeclElement(pS)->Usage = dwTemp;
 			if(dwTemp != ~0)
 				CurDeclElement(pS)->UsageIndex = dwIndexes[dwTemp]++;
-			dwOffset += 4 * (dwTemp + 1);
 		}
 		if (SkipToken(*pStr,VDECL_COLOR_CHECK))
 		{
