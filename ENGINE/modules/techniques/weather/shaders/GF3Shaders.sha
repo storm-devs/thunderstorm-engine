@@ -4,12 +4,12 @@ VertexShader SeaVS_GF3Reflect
 	{
         stream[0];
 
-        float v0[3].0;	// Position
-        float v1[3].5;	// S vector
-		color v2.10;	// diffuse
-		color v3.10;	// specular
-        float v4[2].5;	// Tex coord 1
-        float v5[3].5;	// T vector
+        float position[3];	// Position
+        float texcoord[3];	// S vector
+		color;				// diffuse
+		color;				// specular
+        float texcoord[2];	// Tex coord 1
+        float texcoord[3];	// T vector
     }
 	asm
 	{

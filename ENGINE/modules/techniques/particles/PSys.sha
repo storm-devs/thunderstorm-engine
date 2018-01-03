@@ -5,14 +5,14 @@ VertexShader VS_Particles
 	{
 		stream[0];
 
-		float v0[3].0; // #vRelativePos
-		color v1.10;   // #dwColor
-		float v2[2].5; // #vTexCoord1
-		float v3[2].5; // #vTexCoord2
-		float v4[1].6; // #fAngle   
-		float v5[1].1; // #fBlend
-		float v6[3].5; // #vParticlePos
-		float v7[1].5; // #AddPowerK
+		float position[3]; 		// #vRelativePos
+		color;   				// #dwColor
+		float texcoord[2]; 		// #vTexCoord1
+		float texcoord[2]; 		// #vTexCoord2
+		float tangent[1]; 		// #fAngle   
+		float blendweight[1]; 	// #fBlend
+		float texcoord[3]; 		// #vParticlePos
+		float texcoord[1]; 		// #AddPowerK
 	}
 
 	asm

@@ -4,9 +4,9 @@ VertexShader vs_Sea2
 	{
         stream[0];
 
-        float v0[3].0;	// Position
-        float v1[3].3;	// Normal
-        float v2[2].5;	// Tex coord 0
+        float position[3];	// Position
+        float normal[3];	// Normal
+        float texcoord[2];	// Tex coord 0
     }
 	asm
 	{
@@ -132,9 +132,9 @@ VertexShader vs_Sea2Sunroad
 	{
         stream[0];
 
-        float v0[3].0;	// Position
-        float v1[3].3;	// Normal
-        float v2[2].5;	// Tex coord 0
+        float position[3];	// Position
+        float normal[3];	// Normal
+        float texcoord[2];	// Tex coord 0
     }
 	asm
 	{
@@ -306,9 +306,9 @@ VertexShader vs_Sea3
 	{
         stream[0];
 
-        float v0[3].0;	// Position
-        float v1[3].3;	// Normal
-        float v2[2].5;	// Tex coord 0
+        float position[3];	// Position
+        float normal[3];	// Normal
+        float texcoord[2];	// Tex coord 0
     }
 	asm
 	{

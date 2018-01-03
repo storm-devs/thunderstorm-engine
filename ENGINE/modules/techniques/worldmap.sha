@@ -143,9 +143,9 @@ VertexShader WdmCloudsVS
 	{
         stream[0];
 
-        float v0[3].0;	//Position
-		color v1.10;	//color
-		float v2[2].5;	//uv1
+        float position[3];	//Position
+		color;				//color
+		float texcoord[2];	//uv1
     }
     
 	asm

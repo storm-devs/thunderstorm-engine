@@ -4,9 +4,9 @@ VertexShader SeaVS_Foam
 	{
         stream[0];
 
-        float v0[3].0;	// Position
-		color v1.10;		// diffuse
-        float v2[2].5;	// Tex coord 0
+        float position[3];	// Position
+		color;					// diffuse
+        float texcoord[2];	// Tex coord 0
     }
 	asm
 	{

@@ -4,10 +4,10 @@ VertexShader VS_Caustic
 	{
         stream[0];
 
-		float v0[3].0;	
-		float v1[3].5;	
-		color v2.10;
-		float v3[2].5;	
+		float position[3];	
+		float texcoord[3];	
+		color;
+		float texcoord[2];	
     }
 	asm
 	{

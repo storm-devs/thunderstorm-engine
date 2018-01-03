@@ -226,6 +226,22 @@ typedef struct
 
 // ---------------------------------------------------------------------------------
 
+SRSPARAM MYDECLUSAGE[] = {
+	{ "position",		D3DDECLUSAGE_POSITION },
+	{ "blendweight",	D3DDECLUSAGE_BLENDWEIGHT },
+	{ "blendindices",	D3DDECLUSAGE_BLENDINDICES },
+	{ "normal",			D3DDECLUSAGE_NORMAL },
+	{ "psize",			D3DDECLUSAGE_PSIZE },
+	{ "texcoord",		D3DDECLUSAGE_TEXCOORD },
+	{ "tangent",		D3DDECLUSAGE_TANGENT },
+	{ "binormal",		D3DDECLUSAGE_BINORMAL },
+	{ "tessfactor",		D3DDECLUSAGE_TESSFACTOR },
+	{ "positiont",		D3DDECLUSAGE_POSITIONT },
+	{ "color",			D3DDECLUSAGE_COLOR },
+	{ "fog",			D3DDECLUSAGE_FOG },
+	{ "depth",			D3DDECLUSAGE_DEPTH },
+	{ "sample",			D3DDECLUSAGE_SAMPLE } };
+
 SRSPARAM MYSETVERTEXSHADERCONSTANT[] = {
 	{ "worldviewproj", SUBCODE_SVSCONST_WORLDVIEWPROJ } };
 
@@ -720,7 +736,7 @@ dword CTechnique::GetSTSSIndex(char *pStr)
 {
 	dword dwNumParam = sizeof(TexturesStageStates) / sizeof(STSS);
 	for (dword i=0;i<dwNumParam;i++) if (stricmp(pStr,TexturesStageStates[i].cName)==0) return i;
-	api->Trace("ERROR: SetTextureStageState: unknown parameter type <%s> in <%s> file, technique <%s>",pStr,sCurrentFileName,sCurrentBlockName);
+	//api->Trace("ERROR: SetTextureStageState: unknown parameter type <%s> in <%s> file, technique <%s>",pStr,sCurrentFileName,sCurrentBlockName);
 	//THROW;
 	return INVALID_INDEX;
 }
@@ -729,7 +745,7 @@ dword CTechnique::GetSAMPIndex(char *pStr)
 {
 	dword dwNumParam = sizeof(SampleStates) / sizeof(SAMP);
 	for (dword i = 0; i<dwNumParam; i++) if (stricmp(pStr, SampleStates[i].cName) == 0) return i;
-	api->Trace("ERROR: SetSamplerState: unknown parameter type <%s> in <%s> file, technique <%s>", pStr, sCurrentFileName, sCurrentBlockName);
+	//api->Trace("ERROR: SetSamplerState: unknown parameter type <%s> in <%s> file, technique <%s>", pStr, sCurrentFileName, sCurrentBlockName);
 	//THROW;
 	return INVALID_INDEX;
 }
@@ -912,23 +928,27 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 					*pPass++ = CODE_SAMP | dwAdditionalFlags;
 					*pPass++ = dwTextureIndex;
 					dwIndex = GetSAMPIndex(temp);
-					Assert(dwIndex != INVALID_INDEX);
-					if (SampleStates[dwIndex].bUse && SampleStates[dwIndex].dwUseSubCode & (1 << dwTextureIndex) && dwAdditionalFlags & FLAGS_CODE_RESTORE)
-						api->Trace("WARN: SAMP: dup restore param type <%s[%d]> in <%s> file, technique <%s>", temp, dwTextureIndex, sCurrentFileName, sCurrentBlockName);
-					if (dwAdditionalFlags & FLAGS_CODE_RESTORE)
+					if (dwIndex != INVALID_INDEX)
 					{
-						SampleStates[dwIndex].bUse = true;
-						SampleStates[dwIndex].dwUseSubCode |= (1 << dwTextureIndex);
-					}
-					*pPass++ = (DWORD)SampleStates[dwIndex].State;
+						if (SampleStates[dwIndex].bUse && SampleStates[dwIndex].dwUseSubCode & (1 << dwTextureIndex) && dwAdditionalFlags & FLAGS_CODE_RESTORE)
+							api->Trace("WARN: SAMP: dup restore param type <%s[%d]> in <%s> file, technique <%s>", temp, dwTextureIndex, sCurrentFileName, sCurrentBlockName);
+						if (dwAdditionalFlags & FLAGS_CODE_RESTORE)
+						{
+							SampleStates[dwIndex].bUse = true;
+							SampleStates[dwIndex].dwUseSubCode |= (1 << dwTextureIndex);
+						}
+						*pPass++ = (DWORD)SampleStates[dwIndex].State;
 
-					if (bIn) *pPass++ = dwInParamIndex;
-					else
-					{
-						// get right side of expression
-						GetTokenWhile(SkipToken(*pStr, "="), temp, ";");
-						*pPass++ = GetCode(temp, SampleStates[dwIndex].pParam, SampleStates[dwIndex].dwParamNum, pPassCode, true);
+						if (bIn) *pPass++ = dwInParamIndex;
+						else
+						{
+							// get right side of expression
+							GetTokenWhile(SkipToken(*pStr, "="), temp, ";");
+							*pPass++ = GetCode(temp, SampleStates[dwIndex].pParam, SampleStates[dwIndex].dwParamNum, pPassCode, true);
+						}
 					}
+					else
+						api->Trace("ERROR: unknown parameter type <%s> in <%s> file, technique <%s>", pStr, sCurrentFileName, sCurrentBlockName);
 				}
 				SKIP3;
 			}
@@ -1055,15 +1075,14 @@ D3DVERTEXELEMENT9 * CurDeclElement(shader_t *pS)
 
 dword CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSize, char **pStr)
 {
-	dword dwTemp, dwTemp1;;
+	dword dwTemp;;
 	dword dwStream = 0, dwOffset = 0;
-	dword dwIndexes[14] = { 0 };
+	dword dwIndexes[_countof(MYDECLUSAGE)] = { 0 };
 
 	while (0 != (*pStr = GetString(pFile,dwSize,*pStr)))
 	{
 		*pStr = _strlwr(*pStr);
 		ClearComment(*pStr);
-		//if (isComment(*pStr)) SKIP2;
 		if (isEndBracket(*pStr)) break;		// end of declaration
 		if (SkipToken(*pStr,VDECL_STREAM_CHECK))
 		{
@@ -1072,7 +1091,6 @@ dword CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSi
 		}
 		if (SkipToken(*pStr,VDECL_FLOAT_CHECK))
 		{
-			sscanf(SkipToken(*pStr,"v"),"%d",&dwTemp1);
 			sscanf(SkipToken(*pStr, "["), "%d", &dwTemp);
 			switch (dwTemp)
 			{
@@ -1080,43 +1098,34 @@ dword CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSi
 			case 2: dwTemp = D3DDECLTYPE_FLOAT2; break;
 			case 3: dwTemp = D3DDECLTYPE_FLOAT3; break;
 			case 4: dwTemp = D3DDECLTYPE_FLOAT4; break;
-
 			}
 			AddDeclElement(pS);
 			CurDeclElement(pS)->Offset = dwOffset;
 			CurDeclElement(pS)->Stream = dwStream;
-			CurDeclElement(pS)->UsageIndex = dwTemp1;
 			CurDeclElement(pS)->Type = dwTemp;
+			dwTemp = ~0;
+			for (int i = 0; i < _countof(MYDECLUSAGE); i++)
+			{
+				if (SkipToken(*pStr, MYDECLUSAGE[i].cName))
+				{
+					dwTemp = MYDECLUSAGE[i].dwCode;
+					break;
+				}
+			}
+			CurDeclElement(pS)->Usage = dwTemp;
+			if(dwTemp != ~0)
+				CurDeclElement(pS)->UsageIndex = dwIndexes[dwTemp]++;
 			dwOffset += 4 * (dwTemp + 1);
 		}
 		if (SkipToken(*pStr,VDECL_COLOR_CHECK))
 		{
-			sscanf(SkipToken(*pStr,"v"),"%d",&dwTemp1);
 			AddDeclElement(pS);
 			CurDeclElement(pS)->Offset = dwOffset;
 			CurDeclElement(pS)->Stream = dwStream;
-			CurDeclElement(pS)->UsageIndex = dwTemp1;
 			CurDeclElement(pS)->Type = D3DDECLTYPE_D3DCOLOR;
+			CurDeclElement(pS)->Usage = D3DDECLUSAGE_COLOR;
+			CurDeclElement(pS)->UsageIndex = dwIndexes[D3DDECLUSAGE_COLOR]++;
 			dwOffset += 4;
-		}
-		int n = sizeof(D3DCOLOR);
-		if (SkipToken(*pStr,VDECL_UBYTE4_CHECK))
-		{
-			sscanf(SkipToken(*pStr,"v"),"%d",&dwTemp1);
-			AddDeclElement(pS);
-			CurDeclElement(pS)->Offset = dwOffset;
-			CurDeclElement(pS)->Stream = dwStream;
-			//CurDeclElement(pS)->UsageIndex = dwTemp1;
-			CurDeclElement(pS)->UsageIndex = dwTemp1;
-			CurDeclElement(pS)->Type = D3DDECLTYPE_UBYTE4;
-			dwOffset += 4;
-		}
-		if (SkipToken(*pStr, "."))
-		{
-			sscanf(SkipToken(*pStr, "."), "%d", &dwTemp);
-			CurDeclElement(pS)->Usage = dwTemp;
-			CurDeclElement(pS)->UsageIndex = dwIndexes[dwTemp];
-			dwIndexes[dwTemp]++;
 		}
 
 		TOTAL_SKIP;
@@ -1127,7 +1136,7 @@ dword CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSi
 
 	HRESULT hr = pRS->CreateVertexDeclaration(pS->pDecl, &pS->pVertexDecl);
 	if (hr != S_OK)
-		api->Trace("Invalid shader declaration: %s", pS->pName);
+		api->Trace("ERROR: invalid shader declaration <%s>", pS->pName);
 
 	return 0;
 }
