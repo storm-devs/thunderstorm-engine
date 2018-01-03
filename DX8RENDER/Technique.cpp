@@ -1676,8 +1676,8 @@ bool CTechnique::ExecutePass(bool bStart)
 						if (dwSaveValue == dwValue) break;
 						AddState2Restore3(dwCode,State,dwSaveValue);
 					}
-					if (State == D3DRS_SLOPESCALEDEPTHBIAS && dwValue < 100)
-						pRS->SetRenderState(State, 0);//F2DW(dwValue*10));
+					if (State == D3DRS_SLOPESCALEDEPTHBIAS && dwValue > 100)
+						pRS->SetRenderState(State, F2DW(dwValue*-0.001));
 					else
 						pRS->SetRenderState(State, dwValue);
 				}

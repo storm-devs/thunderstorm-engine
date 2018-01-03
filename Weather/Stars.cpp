@@ -134,18 +134,9 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 		dword dwSize;
 		fio->_ReadFile(hFile, &dwSize, sizeof(dwSize), null);
 
-/*		DWORD decl[] =
-		{
-			D3DVSD_STREAM( 0 ),
-				D3DVSD_REG( D3DVSDE_POSITION, D3DVSDT_FLOAT3 ),
-			D3DVSD_STREAM( 1 ),
-				D3DVSD_REG( D3DVSDE_DIFFUSE, D3DVSDT_D3DCOLOR ),
-			D3DVSD_END()
-		};*/
-
 		static D3DVERTEXELEMENT9 VertexElem[] = {
 		{ 0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },
-		{ 1, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR, 0 }, // offset = 12
+		{ 1, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR, 0 },
 		D3DDECL_END()
 		};
 
@@ -297,8 +288,7 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 	mWorld.BuildPosition(vCamPos.x, vCamPos.y, vCamPos.z);
 	Astronomy::pRS->SetTransform(D3DTS_WORLD, mWorld);
 	Astronomy::pRS->TextureSet(0, iTexture);
-	//Astronomy::pRS->SetVertexDeclaration(pDecl);
-	//@!pRS->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE);
+	Astronomy::pRS->SetVertexDeclaration(pDecl);
 	Astronomy::pRS->SetStreamSource(0, Astronomy::pRS->GetVertexBuffer(iVertexBuffer), sizeof(CVECTOR));
 	Astronomy::pRS->SetStreamSource(1, Astronomy::pRS->GetVertexBuffer(iVertexBufferColors), sizeof(dword));
 
