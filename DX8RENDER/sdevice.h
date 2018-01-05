@@ -415,6 +415,7 @@ public:
 		virtual HRESULT UnlockRect( IDirect3DTexture9 *pTexture, UINT Level );
 		virtual HRESULT GetSurfaceLevel( IDirect3DTexture9* ppTexture, UINT Level, IDirect3DSurface9** ppSurfaceLevel );
 		virtual HRESULT UpdateSurface( IDirect3DSurface9* pSourceSurface, CONST RECT* pSourceRectsArray, UINT cRects, IDirect3DSurface9* pDestinationSurface, CONST POINT* pDestPointsArray );
+		virtual HRESULT StretchRect(IDirect3DSurface9 *pSourceSurface, const RECT *pSourceRect, IDirect3DSurface9 *pDestSurface, const RECT *pDestRect, D3DTEXTUREFILTERTYPE Filter);
 		virtual HRESULT GetRenderTargetData(IDirect3DSurface9 *pRenderTarget, IDirect3DSurface9 *pDestSurface);
 
 	// D3D Pixel/Vertex Shaders Section

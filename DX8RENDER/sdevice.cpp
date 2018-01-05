@@ -2190,9 +2190,9 @@ void * DX8RENDER::LockIndexBuffer(long id, dword dwFlags)
 {
 	BYTE * ptr = null;
 	IndexBuffers[id].dwNumLocks++;
-	if(ErrorHandler("LockIndexBuffer::LockIndexBuffer",
-		IndexBuffers[id].buff->Lock(0, IndexBuffers[id].ntrgs, (VOID**)&ptr, dwFlags)
-		)==true)	return 0;
+		if(ErrorHandler("LockIndexBuffer::LockIndexBuffer",
+			IndexBuffers[id].buff->Lock(0, IndexBuffers[id].ntrgs, (VOID**)&ptr, dwFlags)
+			)==true)	return 0;
 	dwNumLI++;
 	return ptr;
 }
@@ -3349,6 +3349,11 @@ HRESULT DX8RENDER::GetSurfaceLevel( IDirect3DTexture9* ppTexture, UINT Level, ID
 HRESULT DX8RENDER::UpdateSurface( IDirect3DSurface9* pSourceSurface, CONST RECT* pSourceRectsArray, UINT cRects, IDirect3DSurface9* pDestinationSurface, CONST POINT* pDestPointsArray )
 {
 	return d3d8->UpdateSurface( pSourceSurface, pSourceRectsArray, pDestinationSurface, pDestPointsArray );
+}
+
+HRESULT DX8RENDER::StretchRect(IDirect3DSurface9 *pSourceSurface, const RECT *pSourceRect, IDirect3DSurface9 *pDestSurface, const RECT *pDestRect, D3DTEXTUREFILTERTYPE Filter)
+{
+	return d3d8->StretchRect( pSourceSurface, pSourceRect, pDestSurface, pDestRect, Filter );
 }
 
 HRESULT DX8RENDER::GetRenderTargetData(IDirect3DSurface9 * pRenderTarget, IDirect3DSurface9 * pDestSurface)
