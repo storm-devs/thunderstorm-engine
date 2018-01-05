@@ -422,7 +422,7 @@ int SailorsPoints :: ReadFromFile(string fileName)
 		_snprintf(str, sizeof(str), "%s%d", "point ", i);
 		pIni->ReadString("POINT_DATA",str,param,sizeof(param)-1);
 
-		sscanf(param,"%f,%f,%f,%d", &x, &y, &z, &type);
+		sscanf(param,"%f,%f,%f,%p", &x, &y, &z, &type);
 
 		points.point[i].x= x;
 		points.point[i].y= y;

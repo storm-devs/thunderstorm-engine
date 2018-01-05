@@ -326,7 +326,7 @@ bool WorldMap::Init()
 					if(a1)
 					{
 						char * modelName1 = a1->GetAttribute("modelName");
-						if(modelName1 || modelName1[0])
+						if(modelName1 && modelName1[0])
 						{
 							if(!CreateWarringShips(modelName, modelName1, -1.0f, a, a1))
 							{
