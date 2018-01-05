@@ -19,7 +19,7 @@ GDI_DISPLAY::GDI_DISPLAY()
 	width = 0;
 	height = 0;
 	memset(buffer,0,BUFFER_SIZE);
-	ms_PTR = 0;	
+	ms_PTR = 0;
 	MS_Count = 0;
 	Log_File = true;
 	hwnd = 0;
@@ -40,10 +40,10 @@ void GDI_DISPLAY::Release()
 
 void GDI_DISPLAY::Switch(bool on)
 {
-	
+
 	long xs,ys;
-	gdi_off = !on; 
-	if(on) 
+	gdi_off = !on;
+	if(on)
 	{
 		xs = GetSystemMetrics(SM_CXSCREEN);
 		ys = GetSystemMetrics(SM_CYSCREEN);
@@ -66,7 +66,7 @@ void GDI_DISPLAY::Init(HINSTANCE hInstance, HWND _hwnd, long w, long h)
 	hBitmap =  LoadBitmap(hInstance,MAKEINTRESOURCE(storm_logo_bmp));
 	InvalidateRect(hwnd,0,true);
 	ShowWindow(hwnd,SW_SHOWNORMAL);
-	
+
 	hFont = CreateFont(FONT_SIZE,0,0,0,FW_BOLD,1,false,false,DEFAULT_CHARSET,
 		OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,ANTIALIASED_QUALITY,VARIABLE_PITCH,FONT_NAME);
 
@@ -86,13 +86,13 @@ void GDI_DISPLAY::On_Paint(HWND hwnd)
 	if(gdi_off) return;
 
 	long dis = 2;
-	
+
 
 	if(hBitmap == 0) return;
 
 	dc = BeginPaint(hwnd,&PS);
 	dcmem = CreateCompatibleDC(dc);
-	
+
 	hBitmap_old = SelectObject(dcmem,hBitmap);
 	hFont_old = SelectObject(dc,hFont);
 
@@ -105,46 +105,46 @@ void GDI_DISPLAY::On_Paint(HWND hwnd)
 	ptOrg.x = 0;
 	ptOrg.y = 0;
 	DPtoLP(dcmem,&ptOrg,1);
-	
+
 	Res = BitBlt(dc,0,0,width,height,dcmem,0,0,SRCCOPY);
-	
-	
+
+
 	SetBkMode(dc,TRANSPARENT);
-	
+
 	SetTextColor(dc,RGB(0,0,0));
 		TextOut(dc,LEFT_OFFSET + dis,TOP_OFFSET + dis,HEADER_TEXT,strlen(HEADER_TEXT));
 	SetTextColor(dc,RGB(255,255,222));
 		TextOut(dc,LEFT_OFFSET,TOP_OFFSET,HEADER_TEXT,strlen(HEADER_TEXT));
-	
-	RECT r;	
+
+	RECT r;
 	GetClientRect(hwnd,&r);
-	
+
 	SetTextColor(dc,RGB(0,0,0));
-		TextOut(dc,LEFT_OFFSET + dis,r.bottom - TOP_OFFSET - FONT_SIZE + dis,buffer,strlen(buffer)); 
+		TextOut(dc,LEFT_OFFSET + dis,r.bottom - TOP_OFFSET - FONT_SIZE + dis,buffer,strlen(buffer));
 	SetTextColor(dc,RGB(255,255,222));
-		TextOut(dc,LEFT_OFFSET,r.bottom - TOP_OFFSET - FONT_SIZE,buffer,strlen(buffer)); 
-	
+		TextOut(dc,LEFT_OFFSET,r.bottom - TOP_OFFSET - FONT_SIZE,buffer,strlen(buffer));
+
 	long n;
 	for(n=0;n<MS_Count;n++)
 	{
 		SetTextColor(dc,RGB(0,0,0));
 		TextOut(dc,2 * LEFT_OFFSET + dis,TOP_OFFSET + FONT_SIZE*(n + 2) + dis,
-			ms_PTR + n*BUFFER_SIZE,strlen(ms_PTR + n*BUFFER_SIZE)); 
+			ms_PTR + n*BUFFER_SIZE,strlen(ms_PTR + n*BUFFER_SIZE));
 		SetTextColor(dc,RGB(255,255,222));
 		TextOut(dc,2 * LEFT_OFFSET,TOP_OFFSET + FONT_SIZE*(n + 2),
-			ms_PTR + n*BUFFER_SIZE,strlen(ms_PTR + n*BUFFER_SIZE)); 
-		
+			ms_PTR + n*BUFFER_SIZE,strlen(ms_PTR + n*BUFFER_SIZE));
+
 	}
 
 	SelectObject(dc,hFont_old);
 	SelectObject(dcmem,hBitmap_old);
 	DeleteDC(dcmem);
 	EndPaint(hwnd,&PS);
-	
+
 
 }
 
-	
+
 void GDI_DISPLAY::Set_Text(char * text_PTR,...)
 {
 	if(gdi_off) return;
@@ -153,7 +153,7 @@ void GDI_DISPLAY::Set_Text(char * text_PTR,...)
 	va_start(args,text_PTR);
 	vsprintf(buffer,text_PTR,args);
 	va_end(args);
-	RECT r;	
+	RECT r;
 	GetClientRect(hwnd,&r);
  	r.bottom -= TOP_OFFSET; r.top = r.bottom - FONT_SIZE;
 	InvalidateRect(hwnd,&r,false);
@@ -182,7 +182,7 @@ void GDI_DISPLAY::Print(char * text_PTR,...)
 
 	char * copy_PTR;
 	long size;
-	
+
 	if(ms_PTR == null) Set_Message_Stack(DEFAULT_DISPLAY_STACK_SIZE);
 	if(ms_PTR == null) return;
 
@@ -195,8 +195,9 @@ void GDI_DISPLAY::Print(char * text_PTR,...)
 
 	size = strlen(buffer);
 	memset(copy_PTR,0,BUFFER_SIZE);
-	if(size >= BUFFER_SIZE) memcpy(copy_PTR,buffer,(BUFFER_SIZE - 1));
-	else memcpy(copy_PTR,buffer,size);
+	//if(size >= BUFFER_SIZE) memcpy(copy_PTR,buffer,(BUFFER_SIZE - 1));
+	//else
+	memcpy(copy_PTR,buffer,size);
 	MS_Count++;
 	if(MS_Count >= MS_Lines) MS_Count = MS_Lines;
 
@@ -214,7 +215,7 @@ void GDI_DISPLAY::Print(char * text_PTR,...)
 	InvalidateRect(hwnd,&r,false);
 	UpdateWindow(hwnd);
 
-	
+
 
 }
 
@@ -226,7 +227,7 @@ void GDI_DISPLAY::Print_Add(char * text_PTR,...)
 	va_start(args,text_PTR);
 	vsprintf(buffer,text_PTR,args);
 	va_end(args);
-	
+
 	if(ms_PTR == null) Set_Message_Stack(DEFAULT_DISPLAY_STACK_SIZE);
 	if(ms_PTR == null) return;
 

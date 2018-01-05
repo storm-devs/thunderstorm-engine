@@ -30,11 +30,11 @@ S_FUNCTAB::~S_FUNCTAB()
 void  S_FUNCTAB::Release()
 {
 	dword n,i;
-	if(pTable) 
+	if(pTable)
 	{
-		for(n=0;n<Func_num;n++)	
-		{ 
-			if(pTable[n].name) delete pTable[n].name;	
+		for(n=0;n<Func_num;n++)
+		{
+			if(pTable[n].name) delete pTable[n].name;
 			if(pTable[n].pLocal)
 			{
 				for(i=0;i<pTable[n].var_num;i++)
@@ -64,7 +64,7 @@ bool S_FUNCTAB::GetFunc(FUNCINFO& fi,dword func_code)
 
 	if(pTable[func_code].segment_id == IMPORTED_SEGMENT_ID)
 	{
-		if(pTable[func_code].pImportedFunc == 0) 
+		if(pTable[func_code].pImportedFunc == 0)
 		{
 			return false;
 		}
@@ -93,30 +93,31 @@ dword S_FUNCTAB::AddFunc(FUNCINFO& fi)
 	DWORD hash_index;
 
 	if(fi.name == 0) return INVALID_FUNC_CODE;
+	size_t file_name_len = strlen(fi.decl_file_name) + 1;
 	hash = MakeHashValue(fi.name);
 	hash_index = MAKEHASHINDEX(hash);
-	
+
 	for(n=0;n<Func_num;n++)
 	{
 		if(pTable[n].hash != hash) continue;
 		if(stricmp(pTable[n].name,fi.name)!=0) continue;
-		
+
 		// function with such name already registred,
 		if(pTable[n].offset == INVALID_FUNC_OFFSET)
 		{
 			// but offset isnt set (function segment unloaded)
 			// - set function segment and offset info
-			
+
 			pTable[n].fTimeUsage = 0;
 			pTable[n].nNumberOfCalls = 0;
 			pTable[n].offset = fi.offset;
 			pTable[n].segment_id = fi.segment_id;
 			pTable[n].decl_line = fi.decl_line;
 			pTable[n].pImportedFunc = fi.pImportedFunc;
-			
+
 			if(pTable[n].decl_file_name) delete pTable[n].decl_file_name;
 
-			pTable[n].decl_file_name = NEW char[strlen(fi.decl_file_name) + 1];
+			pTable[n].decl_file_name = NEW char[file_name_len];
 			strcpy(pTable[n].decl_file_name,fi.decl_file_name);
 			pTable[n].code = n;
 			UpdateHashTable(n,hash,true);
@@ -125,11 +126,11 @@ dword S_FUNCTAB::AddFunc(FUNCINFO& fi)
 		else
 		{
 			// and already exist
-			// this is 'double function name' error 
+			// this is 'double function name' error
 			// (possible becose hash function error), user must rename function
 			return INVALID_FUNC_CODE;
 		}
-		
+
 	}
 	// function not found, add anew one
 	// adjust buffer size
@@ -216,14 +217,14 @@ void S_FUNCTAB::InvalidateBySegmentID(dword segment_id)
 		pTable[n].arguments = 0;
 		if(pTable[n].decl_file_name) delete pTable[n].decl_file_name;
 		pTable[n].decl_file_name = 0;
-		
+
 	}
 }
 
 void S_FUNCTAB::InvalidateFunction(dword nFuncHandle)
 {
 	dword n,i;
-	
+
 	if(nFuncHandle < Func_num)
 	{
 		n = nFuncHandle;
@@ -259,13 +260,13 @@ dword S_FUNCTAB::FindFunc(char * func_name)
 	for(n=0;n<nNum;n++)
 	{
 		ni = HashLine[hash_index].pElements[n];
-		if(pTable[ni].hash == hash) 
+		if(pTable[ni].hash == hash)
 		if(stricmp(pTable[ni].name,func_name)== 0) return ni;
 	}
 
 /*	for(n=0;n<Func_num;n++)
 	{
-		if(pTable[n].hash == hash) 
+		if(pTable[n].hash == hash)
 		if(stricmp(pTable[n].name,func_name)== 0) return n;
 	}
 */
@@ -285,7 +286,7 @@ bool S_FUNCTAB::SetFuncOffset(char * func_name, dword offset)
 	hash = MakeHashValue(func_name);
 	for(n=0;n<Func_num;n++)
 	{
-		if(pTable[n].hash == hash) 
+		if(pTable[n].hash == hash)
 		{
 			pTable[n].offset = offset;
 			return true;
@@ -302,7 +303,7 @@ bool S_FUNCTAB::AddFuncVar(dword func_code, LVARINFO & lvi)
 	dword n;
 	if(func_code >= Func_num) return false;
 	if(lvi.name == 0) return false;
-	
+
 	hash = MakeHashValue(lvi.name);
 	for(n=0;n<pTable[func_code].var_num;n++)
 	{

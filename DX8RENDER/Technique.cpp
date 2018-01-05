@@ -637,7 +637,8 @@ CTechnique::CTechnique(VDX8RENDER * _pRS) : htBlocks(_FL_)
 
 	ZERO(sDelimTable);
 	char sDelimeters[] = " ,.[]-+\0\n\r\t";
-	for (dword i=0;i<strlen(sDelimeters);i++) sDelimTable[sDelimeters[i]] = 1;
+	size_t len = strlen(sDelimeters);
+	for (dword i=0;i<len;i++) sDelimTable[sDelimeters[i]] = 1;
 }
 
 CTechnique::~CTechnique()
@@ -851,7 +852,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 				dword dwIndex = 0;
 				*pPass++ = CODE_SPSCONST | dwAdditionalFlags;
 				GetTokenWhile(SkipToken(*pStr,"["),&temp[0],"]");
-				sscanf(temp,"%d",&dwIndex);
+				sscanf(temp,"%p", &dwIndex);
 				*pPass++ = dwIndex;
 				if (bIn)
 				{
@@ -870,7 +871,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 				dword dwIndex = 0;
 				*pPass++ = CODE_SVSCONST | dwAdditionalFlags;
 				GetTokenWhile(SkipToken(*pStr,"["),&temp[0],"]");
-				sscanf(temp,"%d",&dwIndex);
+				sscanf(temp,"%p", &dwIndex);
 				*pPass++ = dwIndex;
 				GetTokenWhile(SkipToken(*pStr,"="),temp,";");
 				*pPass++ = GetCode(temp,&MYSETVERTEXSHADERCONSTANT[0],sizeof(MYSETVERTEXSHADERCONSTANT) / sizeof(SRSPARAM),null,false);
@@ -882,7 +883,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 			{
 				// get index = [index]
 				GetTokenWhile(pTemp,&temp[0],"]");
-				sscanf(temp,"%d",&dwTextureIndex);
+				sscanf(temp,"%p", &dwTextureIndex);
 
 				// check for "texture["
 				if (SkipToken(*pStr,TEXTURE_CHECK))
@@ -988,7 +989,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 				{
 					// maybe world0-world256
 					if (0==(pTemp = SkipToken(*pStr,WORLD_TRANSFORM_CHECK))) THROW("transform. error!");
-					sscanf(pTemp,"%d",&dwCode);
+					sscanf(pTemp,"%p", &dwCode);
 					dwCode = (DWORD)D3DTS_WORLDMATRIX(dwCode);
 				}
 				*pPass++ = CODE_TRANSFORM;
@@ -1086,12 +1087,12 @@ dword CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSi
 		if (isEndBracket(*pStr)) break;		// end of declaration
 		if (SkipToken(*pStr,VDECL_STREAM_CHECK))
 		{
-			sscanf(SkipToken(*pStr,"["),"%d",&dwTemp);
+			sscanf(SkipToken(*pStr,"["),"%p", &dwTemp);
 			dwStream = dwTemp;
 		}
 		if (SkipToken(*pStr,VDECL_FLOAT_CHECK))
 		{
-			sscanf(SkipToken(*pStr, "["), "%d", &dwTemp);
+			sscanf(SkipToken(*pStr, "["), "%p", &dwTemp);
 			switch (dwTemp)
 			{
 			case 1: dwTemp = D3DDECLTYPE_FLOAT1; break;
@@ -1406,7 +1407,7 @@ dword CTechnique::ProcessBlock(char * pFile, dword dwSize, char **pStr)
 		pB->dwHashBlockName = hash_string(temp);
 		COPY_STRING(pB->pBlockName,temp);
 		for (i=0;i<dwNumBlocks;i++)
-			if (pBlocks[i].dwHashBlockName == pB->dwHashBlockName && (stricmp(pBlocks[i].pBlockName,pBlocks[i].pBlockName)==0))
+			if (pBlocks[i].dwHashBlockName == pB->dwHashBlockName && (stricmp(pBlocks[i].pBlockName,pB->pBlockName)==0))
 			{
 				api->Trace("ERROR: Techniques: Find duplicate technique name: %s",pB->pBlockName);
 				break;

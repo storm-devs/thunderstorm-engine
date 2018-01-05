@@ -433,6 +433,9 @@ public:
 	{
 		DWORD n;
 		DWORD len;
+		if(attribute)
+			len = strlen(attribute);
+
 		//xtrace("1");
 
 //		dword dw1;
@@ -444,7 +447,6 @@ public:
 			{
 				if(attribute)
 				{
-					len = strlen(attribute);
 					pAttributes[n]->Attribute = (char *)RESIZE(pAttributes[n]->Attribute, GetLen(len + 1));
 					strcpy(pAttributes[n]->Attribute,attribute);
 				}
@@ -467,7 +469,6 @@ public:
 		pAttributes[Attributes_num]->nNameCode = name_code;
 		if(attribute)
 		{
-			len = strlen(attribute);
 			pAttributes[n]->Attribute = NEW char[GetLen(len + 1)];
 			strcpy(pAttributes[n]->Attribute,attribute);
 		}

@@ -594,7 +594,8 @@ private:
 
 		if (pF[iF] == '\0' && pM[iM])
 		{
-			for (dword i=iM; i<strlen(pM); i++)
+			size_t len = strlen(pM);
+			for (dword i=iM; i<len; i++)
 				if (pM[i] != '*') return false;
 			return true;
 		}

@@ -742,6 +742,8 @@ mathinline Matrix & Matrix::BuildOrtoProjection(float vpWidth, float vpHeight, f
 	m[2][2] = float(Q);
 	m[3][2] = float(-Q*zNear);
 	m[3][3] = 1.0f;
+
+	return *this;
 }
 
 //Посчитать матрицу проекции для тени

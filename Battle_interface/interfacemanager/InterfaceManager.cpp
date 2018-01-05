@@ -149,7 +149,7 @@ long BI_InterfaceManager::MsgDeleteNode(MESSAGE & message)
 {
 	BI_ManagerNodeBase* pNod = (BI_ManagerNodeBase*)message.Long();
 	if( !pNod ) return 0;
-	if( m_aNodes.Find(pNod) >=0 ) {
+	if( m_aNodes.Find(pNod) != INVALID_ARRAY_INDEX ) {
 		DELETE(pNod);
 	}
 	return 0;

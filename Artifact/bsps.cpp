@@ -515,11 +515,6 @@ void BSPS_PS::Realize(dword DeltaTime)
 		}
 	}
 
-	CVECTOR p,a;
-
-	p.x = p.y = p.z = 0; p.z = 0;
-	a.z = a.y = a.z = 0;
-
 	RenderService->GetTransform(D3DTS_VIEW,Matrix);
 
 	//Camera_EmitterPos = Matrix * Emitter;

@@ -3262,14 +3262,16 @@ void CORE::DumpEntitiesInfo()
 		if(Atoms_PTR[n] == null) continue;
 
 		pClass = FindVMA(Atoms_PTR[n]->atom_id.class_code);
-		if(pClass) ptr = pClass->GetName();
-		//ptr = Classes_Table.GetString(Atoms_PTR[n]->atom_id.class_code);
-		if(ptr)
+		if(pClass)
 		{
-			trace("Class: %s", ptr);
-			trace("     : Realize:  Cur( %d ) Max( %d )", Atoms_PTR[n]->as.Realize_ticks_av,Atoms_PTR[n]->as.Realize_ticks_max);
-			trace("     : Execute:  Cur( %d ) Max( %d )", Atoms_PTR[n]->as.Execute_ticks_av,Atoms_PTR[n]->as.Execute_ticks_max);
-
+			ptr = pClass->GetName();
+			//ptr = Classes_Table.GetString(Atoms_PTR[n]->atom_id.class_code);
+			if(ptr)
+			{
+				trace("Class: %s", ptr);
+				trace("     : Realize:  Cur( %d ) Max( %d )", Atoms_PTR[n]->as.Realize_ticks_av,Atoms_PTR[n]->as.Realize_ticks_max);
+				trace("     : Execute:  Cur( %d ) Max( %d )", Atoms_PTR[n]->as.Execute_ticks_av,Atoms_PTR[n]->as.Execute_ticks_max);
+			}
 		}
 	}
 

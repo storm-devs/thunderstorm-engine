@@ -1301,6 +1301,8 @@ long DX8RENDER::TextureCreate(const char *fname)
 
 	if (!bLoadTextureEnabled) return -1;
 
+	size_t fname_len =  strlen(fname);
+
 	for (long i=3; i>=-1; i--)
 	{
 		char _fname[256];
@@ -1327,7 +1329,7 @@ long DX8RENDER::TextureCreate(const char *fname)
 			strcpy(_fname, fname);
 		}
 
-		if (strlen(_fname) > strlen(".tx"))
+		if (strlen(_fname) > _countof(".tx") - 1)
 		{
 			if (stricmp(&_fname[strlen(_fname) - 3], ".tx") == 0)
 				_fname[strlen(_fname) - 3] = 0;
@@ -1741,7 +1743,6 @@ bool DX8RENDER::TextureRelease(long texid)
 
 			HANDLE fh = api->fio->_CreateFile("texLoad.txt",GENERIC_READ|GENERIC_WRITE,FILE_SHARE_READ,OPEN_ALWAYS);
 
-			FILE *flstat = fopen("texLoad.txt", "r+b");
 			totSize -= Textures[texid].dwSize;
 			int bytes = api->fio->_GetFileSize(fh,0);
 			char *buf = NEW char[bytes+1];

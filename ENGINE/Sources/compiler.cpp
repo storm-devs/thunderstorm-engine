@@ -6850,6 +6850,7 @@ void COMPILER::FormatDialog(char * file_name)
 						//Core.fio->_WriteFile(fhH,sFileName,strlen(sFileName),&dwR);
 						//Core.fio->_WriteFile(fhH,sNewLine,strlen(sNewLine),&dwR);
 
+						size_t newline_len = strlen(sNewLine);
 						do
 						{
 							Token_type = Token.FormatGet();
@@ -6882,8 +6883,8 @@ void COMPILER::FormatDialog(char * file_name)
 								else
 								{
 									Core.fio->_WriteFile(fhH,Token.GetData(),strlen(Token.GetData()),&dwR);
-									Core.fio->_WriteFile(fhH,",",strlen(","),&dwR);
-									Core.fio->_WriteFile(fhH,sNewLine,strlen(sNewLine),&dwR);
+									Core.fio->_WriteFile(fhH,",",_countof(",")-1,&dwR);
+									Core.fio->_WriteFile(fhH,sNewLine,newline_len,&dwR);
 									wsprintf(sFileName,"DLG_TEXT[%d]",nTxt);
 									Core.fio->_WriteFile(fh,sFileName,strlen(sFileName),&dwR);
 									nTxt++;
@@ -6929,6 +6930,7 @@ void COMPILER::FormatDialog(char * file_name)
 							}
 							if(Token_type != DOT)
 							{
+								size_t newline_len = strlen(sNewLine);
 								do
 								{
 									Token_type = Token.FormatGet();
@@ -6961,8 +6963,8 @@ void COMPILER::FormatDialog(char * file_name)
 										else
 										{
 											Core.fio->_WriteFile(fhH,Token.GetData(),strlen(Token.GetData()),&dwR);
-											Core.fio->_WriteFile(fhH,",",strlen(","),&dwR);
-											Core.fio->_WriteFile(fhH,sNewLine,strlen(sNewLine),&dwR);
+											Core.fio->_WriteFile(fhH,",",_countof(",")-1,&dwR);
+											Core.fio->_WriteFile(fhH,sNewLine, newline_len,&dwR);
 											wsprintf(sFileName,"DLG_TEXT[%d]",nTxt);
 											Core.fio->_WriteFile(fh,sFileName,strlen(sFileName),&dwR);
 											nTxt++;
