@@ -237,7 +237,7 @@ void SEAFOAM::InterpolateLeftParticle(tShipFoamInfo &_shipFoamInfo, int z, dword
 	lowSeaY = sea->WaveXZ(lowPoint.x, lowPoint.z);
 	highSeaY = sea->WaveXZ(highPoint.x, highPoint.z);
 
-	seaK = (highSeaY - lowSeaY) / (_shipFoamInfo.hull[0][z].center[0].y - _shipFoamInfo.hull[0][z].center[TRACE_STEPS_Y].y); // k < 0
+	seaK = (highSeaY - lowSeaY) / (_shipFoamInfo.hull[0][z].center[0].y - _shipFoamInfo.hull[0][z].center[TRACE_STEPS_Y-1].y); // k < 0
 	if ((lowSeaY > lowPoint.y) && (highSeaY > highPoint.y))
 	{ // above sea
 		_shipFoamInfo.levelStarts[0][z] = _shipFoamInfo.hull[0][z].center[0];
@@ -309,7 +309,7 @@ void SEAFOAM::InterpolateRightParticle(tShipFoamInfo &_shipFoamInfo, int z, dwor
 	lowSeaY = sea->WaveXZ(lowPoint.x, lowPoint.z);
 	highSeaY = sea->WaveXZ(highPoint.x, highPoint.z);
 
-	seaK = (highSeaY - lowSeaY) / (_shipFoamInfo.hull[1][z].center[1].y - _shipFoamInfo.hull[1][z].center[TRACE_STEPS_Y].y); // k < 0
+	seaK = (highSeaY - lowSeaY) / (_shipFoamInfo.hull[1][z].center[1].y - _shipFoamInfo.hull[1][z].center[TRACE_STEPS_Y-1].y); // k < 0
 	if ((lowSeaY > lowPoint.y) && (highSeaY > highPoint.y))
 	{ // above sea
 		_shipFoamInfo.levelStarts[1][z] = _shipFoamInfo.hull[1][z].center[1];
