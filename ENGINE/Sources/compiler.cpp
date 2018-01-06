@@ -1509,7 +1509,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 				switch(Token.GetType())
 				{
 					case NUMBER:
-						lvalue = atol(Token.GetData());
+						lvalue = (long)atoll(Token.GetData());
 						if(bMinus) lvalue = - lvalue;
 						memcpy(&di.data4b,&lvalue,sizeof(long));
 					break;
@@ -1658,7 +1658,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 									SetError("Invalid array (%s) size", vi.name);
 									return false;
 								}
-							} else lvalue = atol(Token.GetData());
+							} else lvalue = (long)atoll(Token.GetData());
 							vi.elements = lvalue;
 							vi.bArray = true;
 							Token.Get();	// SQUARE_CLOSE_BRACKET
@@ -1726,7 +1726,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 											if(bNeg)
 											vi.pDClass->Set(-atol(Token.GetData()),aindex);
 												else
-											vi.pDClass->Set(atol(Token.GetData()),aindex);
+											vi.pDClass->Set((long)atoll(Token.GetData()));
 											aindex++;
 										break;
 										case FLOAT_NUMBER:
@@ -1795,7 +1795,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 										if(bNeg)
 										vi.pDClass->Set(-atol(Token.GetData()));
 											else
-										vi.pDClass->Set(atol(Token.GetData()));
+										vi.pDClass->Set((long)atoll(Token.GetData()));
 									break;
 									case FLOAT_NUMBER:
 										if(vi.type != VAR_FLOAT) break;
@@ -1881,7 +1881,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 								SetError("Invalid array (%s) size", lvi.name);
 								return false;
 							}
-						} else lvalue = atol(Token.GetData());
+						} else lvalue = (long)atoll(Token.GetData());
 						lvi.elements = lvalue;
 						lvi.bArray = true;
 						Token.Get();	// SQUARE_CLOSE_BRACKET
@@ -1959,7 +1959,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 							switch(Token.Get())	// array dimension
 							{
 								case NUMBER:
-									cc.nElements = atol(Token.GetData());
+									cc.nElements = (long)atoll(Token.GetData());
 								break;
 								case UNKNOWN:
 									if(!DefTab.GetDef(di,DefTab.FindDef(Token.GetData())))
@@ -5262,7 +5262,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 void COMPILER::CompileNumber(SEGMENT_DESC& Segment)
 {
 	long lvalue;
-	lvalue = atol(Token.GetData());
+	lvalue = (long)atoll(Token.GetData());
 	CompileToken(Segment,NUMBER,1,(char *)&lvalue,sizeof(long));
 }
 

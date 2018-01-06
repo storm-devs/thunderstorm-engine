@@ -757,7 +757,7 @@ bool DATA::Convert(S_TOKEN_TYPE type)
 			case VAR_FLOAT: Data_type = type; fValue = (float)lValue; return true;
 			case VAR_STRING:
 				Data_type = type;
-				itoa(lValue,buffer,10);
+				_ltoa(lValue,buffer,10);
 				Set(buffer);
 			return true;
 			default: Error(INVALID_CONVERSATION); return false;
@@ -789,7 +789,7 @@ bool DATA::Convert(S_TOKEN_TYPE type)
 			case NUMBER:
 			case VAR_INTEGER:
 				Data_type = VAR_INTEGER;
-				lValue = atoi(sValue);
+				lValue = (long)atoll(sValue);
 			return true;
 			case FLOAT_NUMBER:
 			case VAR_FLOAT:
@@ -826,7 +826,7 @@ bool DATA::Convert(S_TOKEN_TYPE type)
 				Set(AttributesClass->GetThisAttr());
 				AttributesClass = 0;
 				Data_type = VAR_INTEGER;
-				lValue = atoi(sValue);
+				lValue = (long)atoll(sValue);
 			return true;
 			case FLOAT_NUMBER:
 			case VAR_FLOAT:
@@ -1311,7 +1311,7 @@ bool DATA::Plus(DATA * pV)
 					delete sTemp;
 				break;
 				case VAR_INTEGER:
-					ltoa(pV->lValue,buffer,10);
+					_ltoa(pV->lValue,buffer,10);
 					if(sValue!=0)
 					{
 						size = strlen(sValue) + strlen(buffer) + 1;

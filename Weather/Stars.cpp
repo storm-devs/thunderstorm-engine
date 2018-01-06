@@ -247,11 +247,11 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 	Astronomy::pRS->GetCamera(vCamPos, vCamAng, fFov);
 
 	dword dw1;
-	RDTSC_B(dw1);
+	//RDTSC_B(dw1);
 
 	float fMaxMag = Bring2Range(fTelescopeMagnitude, fVisualMagnitude, 0.14f, 1.285f, fFov);
 
-	//if (fabsf(fFov - fPrevFov) > 1e-5f)
+	if (fabsf(fFov - fPrevFov) > 1e-5f)
 	{
 		float fTmpK[5];
 		float fTmpRnd[7];
@@ -264,7 +264,8 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 		fTmpK[4] = 0.85f + 0.15f * sinf(m_fTwinklingTime*7.f);
 		for (long n=0; n<7; n++) fTmpRnd[n] = 0.8f + FRAND(0.2f);
 		dword * pVColors = (dword *)Astronomy::pRS->LockVertexBuffer(iVertexBufferColors, D3DLOCK_DISCARD);
-		for (dword i=0; i<aStars.Size(); i++)
+		size_t size = aStars.Size();
+		for (dword i=0; i<size; i++)
 		{
 			Star & s = aStars[i];
 
@@ -387,7 +388,7 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 		Astronomy::pRS->UnLockVertexBuffer(iVertexBuffer);
 		Astronomy::pRS->DrawBuffer(iVertexBuffer, sizeof(StarVertex), iIndexBuffer, 0, idx * 4, 0, idx * 2, "Stars");
 	}*/
-	RDTSC_E(dw1);
+	//RDTSC_E(dw1);
 
 	fPrevFov = fFov;
 

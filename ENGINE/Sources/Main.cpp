@@ -24,7 +24,7 @@ CORE Core;
 VAPI * _CORE_API;
 VMA * _pModuleClassRoot = 0;
 
-VAPI * api = 0; 
+VAPI * api = 0;
 VFILE_SERVICE * fio = 0;
 
 bool bBackspaceExit = false;
@@ -70,23 +70,23 @@ bool WriteDirs(INIFILE * ini,char * pRootName)
 	// write directory name
 	ini->AddString("makedir","dir",sDirName);
 	strcat(sDirName,mask);
-	
-	
-	
+
+
+
 	// write subdirs
 	WIN32_FIND_DATA findData;
 	HANDLE fh = FindFirstFile(sDirName, &findData);
-	if(fh == INVALID_HANDLE_VALUE) 
+	if(fh == INVALID_HANDLE_VALUE)
 	{
 		if(sDirName) delete sDirName;
 		return false;
 	}
-	
-	
+
+
 
 	do
 	{
-		if(findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) 
+		if(findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 		{
 			if(!strcmp(findData.cFileName, "."))	continue;
 			if(!strcmp(findData.cFileName, "..")) continue;
@@ -101,7 +101,7 @@ bool WriteDirs(INIFILE * ini,char * pRootName)
 	} while(FindNextFile(fh,&findData) == TRUE);
 	/*{
 		if(findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) WriteDirs(ini,findData.cFileName);
-		
+
 	}*/
 
 	FindClose(fh);
@@ -126,7 +126,7 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,PSTR szCmdLine,in
 
 
 
-	if(szCmdLine) 
+	if(szCmdLine)
 	{
 		if(szCmdLine[0])
 		{
@@ -162,7 +162,7 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,PSTR szCmdLine,in
 		{
 			// write root dir
 			WriteDirs(ini,sDirName);
-			
+
 			while(ini->ReadStringNext("cache","dir",sDirName,sizeof(sDirName)))
 			{
 				WriteDirs(ini,sDirName);
@@ -179,7 +179,7 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,PSTR szCmdLine,in
 	}
 	Memory_Service.CollectInfo(bValue);
 	Memory_Service.ProcessMemProfile(sMemProfileFileName);
-	
+
 	if( bFirstLaunch )
 	{
 		char InstallLocationExe[MAX_PATH];
@@ -205,7 +205,7 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,PSTR szCmdLine,in
 
 	//_CORE_API->SetExceptions(_X_NO_MEM|_X_NO_FILE|_X_NO_FILE_READ);
 	_CORE_API->SetExceptions(_X_NO_MEM|_X_NO_FILE_READ);
-	
+
 	Control_Stack.Init();
 
 	HWND hwnd;
@@ -232,7 +232,7 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,PSTR szCmdLine,in
 		//WS_POPUP|WS_CAPTION|WS_BORDER,
 		0,0,def_width,def_height,NULL,NULL,hInstance,NULL);
 	hMain = hwnd;
-	
+
 	gdi_display.Init(hInstance,hwnd,def_width,def_height);
 
 
@@ -241,7 +241,7 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,PSTR szCmdLine,in
 	//SetProcessAffinityMask(GetCurrentProcess(), 0x3);
 
 	bool Run_result;
-	
+
 	dword dwOldTime = GetTickCount();
 	#ifndef EX_OFF
 	try {
@@ -306,10 +306,10 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,PSTR szCmdLine,in
 					switch(xobj.xtype)
 					{
 						case FATAL:	EmergencyExit(); break;
-						case NON_FATAL:	
+						case NON_FATAL:
 							Core.TraceCurrent();
 							System_Api.SetXNF();
-							gdi_display.Print("EXCEPTION( non fatal ) : %s",xobj.string); 
+							gdi_display.Print("EXCEPTION( non fatal ) : %s",xobj.string);
 							break;
 					}
 					trace("");
@@ -322,7 +322,7 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,PSTR szCmdLine,in
 			}
 		}
 	#ifndef EX_OFF
-	} 
+	}
 	catch(...)
 	{
 		trace("FATAL ERROR: %d", 0);
@@ -330,7 +330,7 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,PSTR szCmdLine,in
 	}
 	#endif
 
-	if(Memory_Service.bCollectInfo) 
+	if(Memory_Service.bCollectInfo)
 	{
 		Memory_Service.MemStat.Report();
 		ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
@@ -347,11 +347,11 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,PSTR szCmdLine,in
     ClipCursor(0);
 	trace("System exit and cleanup:");
 	trace("Mem state: User memory: %d  MSSystem: %d  Blocks: %d",Memory_Service.Allocated_memory_user,Memory_Service.Allocated_memory_system,Memory_Service.Blocks);
-	
-	
+
+
 	Memory_Service.GlobalFree();
-	
-	
+
+
 	return msg.wParam;
 }
 
@@ -372,19 +372,19 @@ LRESULT CALLBACK WndProc(HWND hwnd,UINT iMsg,WPARAM wParam,LPARAM lParam)
 			gdi_display.On_Paint(hwnd);
 		break;
 
-		case WM_SYSKEYUP: 
-		case WM_SYSKEYDOWN: 
+		case WM_SYSKEYUP:
+		case WM_SYSKEYDOWN:
 			if (wParam == VK_F6) { return 0; }
 
 		break;
-		case WM_ACTIVATE: 
-			wActive = LOWORD(wParam);           
+		case WM_ACTIVATE:
+			wActive = LOWORD(wParam);
 			bActive = (wActive == WA_CLICKACTIVE || wActive == WA_ACTIVE);
 			Core.AppState(bActive);
 		break;
 
-		case WM_KEYDOWN: 
-			if (bDebugWindow) ProcessKeys(hwnd,(int)wParam,0);	
+		case WM_KEYDOWN:
+			if (bDebugWindow) ProcessKeys(hwnd,(int)wParam,0);
 		//case WM_ACTIVATE:
 		case WM_KEYUP:
 		case WM_RBUTTONUP:
@@ -417,7 +417,7 @@ LRESULT CALLBACK WndProc(HWND hwnd,UINT iMsg,WPARAM wParam,LPARAM lParam)
 			Control_Stack.Release();
 			File_Service.Close();
 			CDebug.CloseDebugWindow();
-			
+
 			//trace("System exit and cleanup:");
 			//trace("Mem state: User memory: %d  MSSystem: %d  Blocks: %d",Memory_Service.Allocated_memory_user,Memory_Service.Allocated_memory_system,Memory_Service.Blocks);
 			InvalidateRect(0,0,0);
@@ -439,7 +439,7 @@ LRESULT CALLBACK WndProc(HWND hwnd,UINT iMsg,WPARAM wParam,LPARAM lParam)
 	{
 		gdi_display.Print("ERROR in WndProc: System halted");
 		System_Hold = true;
-		
+
 	}//*/
 	#endif
 
@@ -459,7 +459,7 @@ void ProcessKeys(HWND hwnd,int code, int Press)
 		break;
 		case VK_F5:
 			if(!CDebug.IsDebug()) CDebug.OpenDebugWindow(hInst);
-			else 
+			else
 			{
 				ShowWindow(CDebug.GetWindowHandle(),SW_NORMAL);
 				SetFocus(CDebug.SourceView->hOwn);

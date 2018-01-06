@@ -260,7 +260,7 @@ bool CORE::Run()
 	GUARD(CORE::Run())
 
 #ifndef _XBOX
-	if (bDebugWindow && api->Controls && api->Controls->GetDebugAsyncKeyState(VK_F9)<0) DumpEntitiesInfo(); // boal
+	if (bDebugWindow && api->Controls && api->Controls->GetDebugAsyncKeyState(VK_F7)<0) DumpEntitiesInfo(); // boal
 	dwNumberScriptCommandsExecuted = 0;
 #endif
 
