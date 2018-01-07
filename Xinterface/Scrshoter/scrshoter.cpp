@@ -61,8 +61,8 @@ bool SCRSHOTER::Init()
 void SCRSHOTER::SetDevice()
 {
     // получить сервис рендера
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
-	if(!rs){_THROW("No service: dx8render")}
+	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	if(!rs){_THROW("No service: dx9render")}
 
 }
 
