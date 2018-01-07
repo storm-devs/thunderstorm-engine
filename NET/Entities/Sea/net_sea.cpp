@@ -83,16 +83,16 @@ NetSea::NetSea() :
 
 NetSea::~NetSea()
 {
-	Render().Release(pReflection);
-	Render().Release(pReflectionSunroad);
-	Render().Release(pEnvMap);
-	Render().Release(pSunRoadMap);
-	Render().Release(pZStencil);
-	Render().Release(pReflectionSurfaceDepth);
-	Render().Release(pVolumeTexture);
+	rs->Release(pReflection);
+	rs->Release(pReflectionSunroad);
+	rs->Release(pEnvMap);
+	rs->Release(pSunRoadMap);
+	rs->Release(pZStencil);
+	rs->Release(pReflectionSurfaceDepth);
+	rs->Release(pVolumeTexture);
 
-	if (iVSeaBuffer >= 0) Render().ReleaseVertexBuffer(iVSeaBuffer); iVSeaBuffer = -1;
-	if (iISeaBuffer >= 0) Render().ReleaseIndexBuffer(iISeaBuffer); iISeaBuffer = -1;
+	if (iVSeaBuffer >= 0) rs->ReleaseVertexBuffer(iVSeaBuffer); iVSeaBuffer = -1;
+	if (iISeaBuffer >= 0) rs->ReleaseIndexBuffer(iISeaBuffer); iISeaBuffer = -1;
 
 	DELETE(pIndices);
 
@@ -108,28 +108,29 @@ NetSea::~NetSea()
 
 bool NetSea::Init()
 {
+	rs = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
 	bSimpleSea = AttributesPointer->GetAttributeAsDword("SimpleSea", 0);
 
-	iVSeaBuffer = Render().CreateVertexBuffer(0, NUM_VERTEXS * sizeof(SeaVertex), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
-	iISeaBuffer = Render().CreateIndexBuffer(NUM_INDICES * 3 * sizeof(word), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
+	iVSeaBuffer = rs->CreateVertexBuffer(0, NUM_VERTEXS * sizeof(SeaVertex), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
+	iISeaBuffer = rs->CreateIndexBuffer(NUM_INDICES * 3 * sizeof(word), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
 
 	pIndices = NEW dword[NUM_VERTEXS];
 
-	pVolumeTexture = Render().CreateVolumeTexture(XWIDTH, YWIDTH, FRAMES, 4, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED);
-	/*pAnimTexture = Render().CreateAnimationTexture(pVolumeTexture, _FL_);
+	pVolumeTexture = rs->CreateVolumeTexture(XWIDTH, YWIDTH, FRAMES, 4, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED);
+	/*pAnimTexture = rs->CreateAnimationTexture(pVolumeTexture, _FL_);
 	pAnimTexture->SetAnimSpeed(20.0f);*/
 
 	if (!bSimpleSea)
 	{
-		Render().CreateCubeTexture(128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pEnvMap);
-		Render().CreateCubeTexture(128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pSunRoadMap);
-		Render().CreateDepthStencilSurface(128, 128, D3DFMT_D24S8, D3DMULTISAMPLE_NONE, &pZStencil);
+		rs->CreateCubeTexture(128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pEnvMap);
+		rs->CreateCubeTexture(128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pSunRoadMap);
+		rs->CreateDepthStencilSurface(128, 128, D3DFMT_D24S8, D3DMULTISAMPLE_NONE, &pZStencil);
 	}
 	else
 	{
-		Render().CreateTexture(128, 128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pReflection);
-		Render().CreateTexture(128, 128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pReflectionSunroad);
-		Render().CreateDepthStencilSurface(128, 128, D3DFMT_D24S8, D3DMULTISAMPLE_NONE, &pReflectionSurfaceDepth);
+		rs->CreateTexture(128, 128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pReflection);
+		rs->CreateTexture(128, 128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pReflectionSunroad);
+		rs->CreateDepthStencilSurface(128, 128, D3DFMT_D24S8, D3DMULTISAMPLE_NONE, &pReflectionSurfaceDepth);
 	}
 
 	byte bMin = 0xFF;
@@ -922,7 +923,7 @@ void NetSea::Realize(dword __dwDeltaTime)
 	RDTSC_B(dwTotalRDTSC);
 
 	CMatrix mView, mIView;
-	Render().GetTransform(D3DTS_VIEW, mView);
+	rs->GetTransform(D3DTS_VIEW, mView);
 	mIView = mView; mIView.Transposition();
 
 	vCamPos = mIView.Pos();
@@ -938,7 +939,7 @@ void NetSea::Realize(dword __dwDeltaTime)
 		SunRoad_Render();
 	}
 
-	pFrustumPlanes = Render().GetPlanes();
+	pFrustumPlanes = rs->GetPlanes();
 
 	float fBlockSize = 256.0f * fGridStep;
 	long iNumBlocks = (long)dwMaxDim / (256 * 2);
@@ -975,21 +976,21 @@ void NetSea::Realize(dword __dwDeltaTime)
 		}
 	}
 
-	pVSea = (SeaVertex*)Render().LockVertexBuffer(iVSeaBuffer, D3DLOCK_DISCARD | D3DLOCK_NOSYSLOCK);
-	pTriangles = (word*)Render().LockIndexBuffer(iISeaBuffer, D3DLOCK_DISCARD | D3DLOCK_NOSYSLOCK);
+	pVSea = (SeaVertex*)rs->LockVertexBuffer(iVSeaBuffer, D3DLOCK_DISCARD | D3DLOCK_NOSYSLOCK);
+	pTriangles = (word*)rs->LockIndexBuffer(iISeaBuffer, D3DLOCK_DISCARD | D3DLOCK_NOSYSLOCK);
 
 	for (i=0; i<aBlocks(); i++) SetBlock(i);
 
-	Render().UnLockVertexBuffer(iVSeaBuffer);
-	Render().UnLockIndexBuffer(iISeaBuffer);
+	rs->UnLockVertexBuffer(iVSeaBuffer);
+	rs->UnLockIndexBuffer(iISeaBuffer);
 
 	if (iVStart && iTStart)
 	{
 		CMatrix mWorldView, mWorldViewProj;
 
-		CMatrix mView = Render().GetView();
-		CMatrix mWorld; mWorld.SetIdentity();// = Render().GetWorld();
-		CMatrix mProjection = Render().GetProjection();
+		CMatrix mView = rs->GetView();
+		CMatrix mWorld; mWorld.SetIdentity();// = rs->GetWorld();
+		CMatrix mProjection = rs->GetProjection();
 
 		mWorldView.EqMultiply(mWorld, mView);
 		mWorldViewProj.EqMultiply(mWorldView, mProjection);
@@ -1000,60 +1001,60 @@ void NetSea::Realize(dword __dwDeltaTime)
 		fTmp += fCurrentDeltaTime * fBumpSpeed;
 		while (fTmp >= 1.0f) fTmp -= 1.0f;
 
-		Render().SetVertexShaderConstantF(GC_CONSTANT, (const float*)&CVECTOR4(0.0f, 1.0f, 0.5f, -0.04f), 1);
-		Render().SetVertexShaderConstantF(GC_CONSTANT2, (const float*)&CVECTOR4(2.0f, -1.0f, 0.00036621652552071f, (bFogEnable) ? fFogSeaDensity : 0.0f), 1);
-		Render().SetVertexShaderConstantF(GC_ANIMATION, (const float*)&CVECTOR4(fTmp, fTmp, fTmp, fTmp), 1);
-		Render().SetVertexShaderConstantF(GC_CAMERA_POS, (const float*)&CVECTOR4(vCamPos.x, vCamPos.y, vCamPos.z, 1.0f), 1);
-		Render().SetVertexShaderConstantF(GC_MTX_WVP, (const float*)&mWorldViewProj, 4);
+		rs->SetVertexShaderConstantF(GC_CONSTANT, (const float*)&CVECTOR4(0.0f, 1.0f, 0.5f, -0.04f), 1);
+		rs->SetVertexShaderConstantF(GC_CONSTANT2, (const float*)&CVECTOR4(2.0f, -1.0f, 0.00036621652552071f, (bFogEnable) ? fFogSeaDensity : 0.0f), 1);
+		rs->SetVertexShaderConstantF(GC_ANIMATION, (const float*)&CVECTOR4(fTmp, fTmp, fTmp, fTmp), 1);
+		rs->SetVertexShaderConstantF(GC_CAMERA_POS, (const float*)&CVECTOR4(vCamPos.x, vCamPos.y, vCamPos.z, 1.0f), 1);
+		rs->SetVertexShaderConstantF(GC_MTX_WVP, (const float*)&mWorldViewProj, 4);
 
-		Render().SetVertexShaderConstantF(GC_FREE, (const float*)&v4SeaParameters, 1);
-		Render().SetVertexShaderConstantF(GC_FREE + 1, (const float*)&v4SeaColor, 1);
-		Render().SetVertexShaderConstantF(GC_FREE + 2, (const float*)&v4SkyColor, 1);
+		rs->SetVertexShaderConstantF(GC_FREE, (const float*)&v4SeaParameters, 1);
+		rs->SetVertexShaderConstantF(GC_FREE + 1, (const float*)&v4SeaColor, 1);
+		rs->SetVertexShaderConstantF(GC_FREE + 2, (const float*)&v4SkyColor, 1);
 
-		Render().SetVertexShaderConstantF(GC_FREE + 5, (const float*)&CVECTOR4(1.0f, 0.0f, 0.0f, 1.0f), 1);
-		Render().SetVertexShaderConstantF(GC_FREE + 6, (const float*)&CVECTOR4(fFrenel, 1.0f, 0.5f, 1.0f), 1);		// Frenel K, Frenel Max
-		Render().SetVertexShaderConstantF(GC_FREE + 7, (const float*)&CVECTOR4(1.0f, 0.0f, 0.0f, 1.0f), 1);
+		rs->SetVertexShaderConstantF(GC_FREE + 5, (const float*)&CVECTOR4(1.0f, 0.0f, 0.0f, 1.0f), 1);
+		rs->SetVertexShaderConstantF(GC_FREE + 6, (const float*)&CVECTOR4(fFrenel, 1.0f, 0.5f, 1.0f), 1);		// Frenel K, Frenel Max
+		rs->SetVertexShaderConstantF(GC_FREE + 7, (const float*)&CVECTOR4(1.0f, 0.0f, 0.0f, 1.0f), 1);
 
 		CVECTOR vTmp = !CVECTOR(0.0f, 1.0f, 0.0f);
-		Render().SetVertexShaderConstantF(GC_FREE + 30, (const float*)&CVECTOR4(vTmp.x, vTmp.y, vTmp.z, 1.0f), 1);
+		rs->SetVertexShaderConstantF(GC_FREE + 30, (const float*)&CVECTOR4(vTmp.x, vTmp.y, vTmp.z, 1.0f), 1);
 
 		if (bSimpleSea)
 		{
-			Render().SetVertexShaderConstantF(GC_FREE + 8, (const float*)&mTexProjection, 4);			// Matrix!!
+			rs->SetVertexShaderConstantF(GC_FREE + 8, (const float*)&mTexProjection, 4);			// Matrix!!
 
-			Render().SetTexture(0, pVolumeTexture);
-			Render().SetTexture(1, pReflection);
-			Render().SetTexture(2, pVolumeTexture);
-			Render().SetTexture(3, pReflectionSunroad);
+			rs->SetTexture(0, pVolumeTexture);
+			rs->SetTexture(1, pReflection);
+			rs->SetTexture(2, pVolumeTexture);
+			rs->SetTexture(3, pReflectionSunroad);
 
-			Render().SetTextureStageState(1, D3DTSS_BUMPENVMAT00, F2DW(0.08f));
-			Render().SetTextureStageState(1, D3DTSS_BUMPENVMAT10, F2DW(0.0f));
-			Render().SetTextureStageState(1, D3DTSS_BUMPENVMAT01, F2DW(0.0f));
-			Render().SetTextureStageState(1, D3DTSS_BUMPENVMAT11, F2DW(0.08f));
+			rs->SetTextureStageState(1, D3DTSS_BUMPENVMAT00, F2DW(0.08f));
+			rs->SetTextureStageState(1, D3DTSS_BUMPENVMAT10, F2DW(0.0f));
+			rs->SetTextureStageState(1, D3DTSS_BUMPENVMAT01, F2DW(0.0f));
+			rs->SetTextureStageState(1, D3DTSS_BUMPENVMAT11, F2DW(0.08f));
 
-			Render().SetTextureStageState(3, D3DTSS_BUMPENVMAT00, F2DW(0.05f));
-			Render().SetTextureStageState(3, D3DTSS_BUMPENVMAT10, F2DW(0.0f));
-			Render().SetTextureStageState(3, D3DTSS_BUMPENVMAT01, F2DW(0.0f));
-			Render().SetTextureStageState(3, D3DTSS_BUMPENVMAT11, F2DW(0.05f));
+			rs->SetTextureStageState(3, D3DTSS_BUMPENVMAT00, F2DW(0.05f));
+			rs->SetTextureStageState(3, D3DTSS_BUMPENVMAT10, F2DW(0.0f));
+			rs->SetTextureStageState(3, D3DTSS_BUMPENVMAT01, F2DW(0.0f));
+			rs->SetTextureStageState(3, D3DTSS_BUMPENVMAT11, F2DW(0.05f));
 
-			Render().DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, iVSeaBuffer, sizeof(SeaVertex), iISeaBuffer, 0, iVStart, 0, iTStart, "Sea3");
+			rs->DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, iVSeaBuffer, sizeof(SeaVertex), iISeaBuffer, 0, iVStart, 0, iTStart, "Sea3");
 		}
 		else
 		{
-			Render().SetVertexShaderConstantF(GC_FREE + 8, (const float*)&CMatrix(0.0f, 0.0f, PId2), 4);			// Matrix!!
+			rs->SetVertexShaderConstantF(GC_FREE + 8, (const float*)&CMatrix(0.0f, 0.0f, PId2), 4);			// Matrix!!
 
-			Render().SetTexture(0, pVolumeTexture);
-			Render().SetTexture(3, pEnvMap);
+			rs->SetTexture(0, pVolumeTexture);
+			rs->SetTexture(3, pEnvMap);
 
-			Render().DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, iVSeaBuffer, sizeof(SeaVertex), iISeaBuffer, 0, iVStart, 0, iTStart, "Sea2");
+			rs->DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, iVSeaBuffer, sizeof(SeaVertex), iISeaBuffer, 0, iVStart, 0, iTStart, "Sea2");
 
-			Render().SetTexture(3, pSunRoadMap);
-			Render().DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, iVSeaBuffer, sizeof(SeaVertex), iISeaBuffer, 0, iVStart, 0, iTStart, "Sea2_SunRoad");
+			rs->SetTexture(3, pSunRoadMap);
+			rs->DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, iVSeaBuffer, sizeof(SeaVertex), iISeaBuffer, 0, iVStart, 0, iTStart, "Sea2_SunRoad");
 		}
 	}
 
 	RDTSC_E(dwTotalRDTSC);
-	//Render().Print(50, 300, 0xFFFFFFFF, "%d, %d, %d", iVStart, iTStart, dwTotalRDTSC);
+	//rs->Print(50, 300, 0xFFFFFFFF, "%d, %d, %d", iVStart, iTStart, dwTotalRDTSC);
 }
 
 float NetSea::Trace(const CVECTOR & vSrc, const CVECTOR & vDst)

@@ -22,7 +22,7 @@ private:
 	struct SeaBlock
 	{
 		long iX1, iX2, iY1, iY2;			// result rectangle(in units)
-		long iSize0;						// 
+		long iSize0;						//
 
 		long iTX, iTY;
 		long iSize;
@@ -34,6 +34,8 @@ private:
 		static bool QSort(const SeaBlock & b1, const SeaBlock & b2) { return (b1.iLOD > b2.iLOD); }
 		inline bool operator < (const SeaBlock & B) const { return (B.iLOD < iLOD); };
 	};
+
+	VDX8RENDER *rs;
 
 	dword			dwMaxDim, dwMinDim;
 	float			fMaxSeaHeight;

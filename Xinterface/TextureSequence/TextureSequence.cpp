@@ -32,7 +32,7 @@ void GetRectFromNum(FRECT & texRect,int xq,int yq,int curNum, bool bHorzFlip,boo
 	else	texRect.bottom = height + (texRect.top = y*height);
 }
 
-TextureSequence::TextureSequence() 
+TextureSequence::TextureSequence()
 {
 	m_pTexture=NULL;
 	m_AllTex=-1;
@@ -80,7 +80,7 @@ IDirect3DTexture9* TextureSequence::Initialize(VDX8RENDER *pRS, const char* cTSf
 
 	m_pTexture=null;
 	// create output texture
-	if( S_OK != m_pRS->CreateTexture(m_texWidth,m_texHeight,1,D3DUSAGE_RENDERTARGET,D3DFMT_A8R8G8B8,D3DPOOL_DEFAULT,&m_pTexture) )
+	if( S_OK != m_pRS->CreateTexture(m_texWidth,m_texHeight,1,D3DUSAGE_RENDERTARGET,D3DFMT_A8R8G8B8,D3DPOOL_MANAGED,&m_pTexture) )
 	{
 		m_pTexture=null;
 		_CORE_API->Trace("Can`t create texture");
@@ -132,7 +132,7 @@ void TextureSequence::ToTextureRender(float blendValue)
 				m_pRS->SetTransform(D3DTS_WORLD,(D3DMATRIX*)&matw);
 				m_pRS->TextureSet(0,m_AllTex);
 				m_pRS->TextureSet(1,m_AllTex);
-				
+
 				FRECT m_rectTex;
 				TS_VERTEX v[4];
 				for(int i=0; i<4; i++)
@@ -186,10 +186,10 @@ void TextureSequence::Release()
 
 void TextureSequence::LostRender()
 {
-	m_pRS->Release(m_pTexture);
+	//m_pRS->Release(m_pTexture);
 }
 
 void TextureSequence::RestoreRender()
 {
-	m_pRS->CreateTexture(m_texWidth,m_texHeight,1,D3DUSAGE_RENDERTARGET,D3DFMT_A8R8G8B8,D3DPOOL_DEFAULT,&m_pTexture);
+	//m_pRS->CreateTexture(m_texWidth,m_texHeight,1,D3DUSAGE_RENDERTARGET,D3DFMT_A8R8G8B8,D3DPOOL_DEFAULT,&m_pTexture);
 }

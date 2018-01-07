@@ -43,6 +43,7 @@ struct STEXTURE
 struct VERTEX_BUFFER
 {
 	dword					dwNumLocks;
+	dword					dwUsage;
 	long					type;
 	long					size;
 	IDirect3DVertexBuffer9	* buff;
@@ -51,7 +52,8 @@ struct VERTEX_BUFFER
 struct INDEX_BUFFER
 {
 	dword					dwNumLocks;
-	long					ntrgs;
+	dword					dwUsage;
+	long					size;
 	IDirect3DIndexBuffer9	* buff;
 };
 
@@ -250,7 +252,7 @@ class DX8RENDER  : public VDX8RENDER
 	stack<RenderTarget>		stRenderTarget;
 
 	bool TextureLoad(long texid);
-	bool ErrorHandler(char *message, HRESULT hres);
+	bool ErrorHandler(HRESULT hr, const char * file, unsigned line, const char * func, const char * expr);
 
 	bool MakeCapture();
 	void SaveCaptureBuffers();

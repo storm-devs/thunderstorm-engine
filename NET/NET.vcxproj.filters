@@ -246,9 +246,6 @@
     <ClCompile Include="Entities\Sea\EnvMap.cpp">
       <Filter>Entities\NetSea</Filter>
     </ClCompile>
-    <ClCompile Include="Entities\Sea\sea.cpp">
-      <Filter>Entities\NetSea</Filter>
-    </ClCompile>
     <ClCompile Include="Entities\Weather\Weather.cpp">
       <Filter>Entities\NetWeather</Filter>
     </ClCompile>
@@ -314,6 +311,9 @@
     </ClCompile>
     <ClCompile Include="entities\lightpillar\pillar.cpp">
       <Filter>Entities\NetLightPillar</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Sea\net_sea.cpp">
+      <Filter>Entities\NetSea</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

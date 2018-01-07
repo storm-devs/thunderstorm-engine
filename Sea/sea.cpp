@@ -136,27 +136,27 @@ SEA::~SEA()
 
 	if (hEventCalcMaps) CloseHandle(hEventCalcMaps);
 
-	Render().Release(pReflection);
-	Render().Release(pReflectionSunroad);
-	Render().Release(pEnvMap);
-	Render().Release(pSunRoadMap);
-	Render().Release(pZStencil);
-	Render().Release(pReflectionSurfaceDepth);
-	Render().Release(pVolumeTexture);
-	Render().Release(pRenderTargetBumpMap);
+	rs->Release(pReflection);
+	rs->Release(pReflectionSunroad);
+	rs->Release(pEnvMap);
+	rs->Release(pSunRoadMap);
+	rs->Release(pZStencil);
+	rs->Release(pReflectionSurfaceDepth);
+	rs->Release(pVolumeTexture);
+	rs->Release(pRenderTargetBumpMap);
 
-	Render().TextureRelease(iSeaTrashTexture);
-	Render().TextureRelease(iSeaLightTexture);
+	rs->TextureRelease(iSeaTrashTexture);
+	rs->TextureRelease(iSeaLightTexture);
 
-	if (iVSeaBuffer >= 0) Render().ReleaseVertexBuffer(iVSeaBuffer); iVSeaBuffer = -1;
-	if (iISeaBuffer >= 0) Render().ReleaseIndexBuffer(iISeaBuffer); iISeaBuffer = -1;
+	if (iVSeaBuffer >= 0) rs->ReleaseVertexBuffer(iVSeaBuffer); iVSeaBuffer = -1;
+	if (iISeaBuffer >= 0) rs->ReleaseIndexBuffer(iISeaBuffer); iISeaBuffer = -1;
 
-	if (iFoamTexture >= 0) Render().TextureRelease(iFoamTexture); iFoamTexture = -1;
+	if (iFoamTexture >= 0) rs->TextureRelease(iFoamTexture); iFoamTexture = -1;
 
 	DELETE(pIndices);
 	DELETE(pVSea);
 
-	for (long i=0; i<aBumpMaps.Size(); i++) Render().Release(aBumpMaps[i]);
+	for (long i=0; i<aBumpMaps.Size(); i++) rs->Release(aBumpMaps[i]);
 
 	for (long i=0; i<aBumps; i++) DELETE(aBumps[i]);
 	for (long i=0; i<aNormals; i++) DELETE(aNormals[i]);
@@ -170,8 +170,8 @@ SEA::~SEA()
 
 void SEA::SFLB_CreateBuffers()
 {
-	iVSeaBuffer = Render().CreateVertexBuffer(0, NUM_VERTEXS * sizeof(SeaVertex), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
-	iISeaBuffer = Render().CreateIndexBuffer(NUM_INDICES * 3 * sizeof(word), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
+	iVSeaBuffer = rs->CreateVertexBuffer(0, NUM_VERTEXS * sizeof(SeaVertex), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
+	iISeaBuffer = rs->CreateIndexBuffer(NUM_INDICES * 3 * sizeof(word), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
 
 	pIndices = NEW dword[NUM_VERTEXS*3];
 	pVSea = NEW SeaVertex[NUM_VERTEXS];
@@ -179,6 +179,7 @@ void SEA::SFLB_CreateBuffers()
 
 bool SEA::Init()
 {
+	rs = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
 	INIFILE * pEngineIni = fio->OpenIniFile(api->EngineIniFileName());
 	bool bDisableHyperThreading = (pEngineIni) ? pEngineIni->GetLong(null, "HyperThreading", 1) == 0 : false;
 	bDisableSSE = (pEngineIni) ? pEngineIni->GetLong(null, "DisableSSE", 0) != 0 : false;
@@ -218,26 +219,26 @@ bool SEA::Init()
 		bHyperThreading = dwNumThreads > 0;
 	}
 
-	iFoamTexture = Render().TextureCreate("weather\\sea\\pena\\pena.tga");
+	iFoamTexture = rs->TextureCreate("weather\\sea\\pena\\pena.tga");
 
-	Render().CreateTexture( XWIDTH, YWIDTH, MIPSLVLS, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pRenderTargetBumpMap);
+	rs->CreateTexture( XWIDTH, YWIDTH, MIPSLVLS, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pRenderTargetBumpMap);
 
 	SFLB_CreateBuffers();
 
-	pVolumeTexture = Render().CreateVolumeTexture(XWIDTH, YWIDTH, FRAMES, 4, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED);
-	/*pAnimTexture = Render().CreateAnimationTexture(pVolumeTexture, _FL_);
+	pVolumeTexture = rs->CreateVolumeTexture(XWIDTH, YWIDTH, FRAMES, 4, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED);
+	/*pAnimTexture = rs->CreateAnimationTexture(pVolumeTexture, _FL_);
 	pAnimTexture->SetAnimSpeed(20.0f);*/
 
-	Render().CreateCubeTexture(128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pEnvMap);
-	Render().CreateCubeTexture(128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pSunRoadMap);
-	Render().CreateDepthStencilSurface(128, 128, D3DFMT_D24S8, D3DMULTISAMPLE_NONE, &pZStencil);
+	rs->CreateCubeTexture(128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pEnvMap);
+	rs->CreateCubeTexture(128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pSunRoadMap);
+	rs->CreateDepthStencilSurface(128, 128, D3DFMT_D24S8, D3DMULTISAMPLE_NONE, &pZStencil);
 
-	Render().CreateTexture(128, 128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pReflection);
-	Render().CreateTexture(128, 128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pReflectionSunroad);
-	Render().CreateDepthStencilSurface(128, 128, D3DFMT_D24S8, D3DMULTISAMPLE_NONE, &pReflectionSurfaceDepth);
+	rs->CreateTexture(128, 128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pReflection);
+	rs->CreateTexture(128, 128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pReflectionSunroad);
+	rs->CreateDepthStencilSurface(128, 128, D3DFMT_D24S8, D3DMULTISAMPLE_NONE, &pReflectionSurfaceDepth);
 
-	iSeaTrashTexture = Render().TextureCreate("seatrash.tga");
-	iSeaLightTexture = Render().TextureCreate("sealight.tga");
+	iSeaTrashTexture = rs->TextureCreate("seatrash.tga");
+	iSeaLightTexture = rs->TextureCreate("sealight.tga");
 
 	byte bMin = 0xFF;
 	byte bMax = 0;
@@ -324,7 +325,7 @@ void SEA::BuildVolumeTexture()
 	for (i=0; i<4; i++)
 		pVolumeTexture->LockBox(i, &box[i], 0, 0);
 
-	for (i=0; i<aBumpMaps.Size(); i++) Render().Release(aBumpMaps[i]);
+	for (i=0; i<aBumpMaps.Size(); i++) rs->Release(aBumpMaps[i]);
 	aBumpMaps.DelAll();
 
 	dword dwTexelSize = 4;
@@ -405,7 +406,7 @@ void SEA::BuildVolumeTexture()
 			HRESULT				hr;
 
 	  		pBumpMap = &aBumpMaps[aBumpMaps.Add()];
-			hr = Render().CreateTexture( XWIDTH, YWIDTH, MIPSLVLS, 0, D3DFMT_X8R8G8B8, D3DPOOL_MANAGED, pBumpMap);
+			hr = rs->CreateTexture( XWIDTH, YWIDTH, MIPSLVLS, 0, D3DFMT_X8R8G8B8, D3DPOOL_MANAGED, pBumpMap);
 
 			// generate mip levels for random bump
 			for (dword lev=0; lev<MIPSLVLS; lev++)
@@ -1342,7 +1343,7 @@ void SEA::Realize(dword dwDeltaTime)
 	RDTSC_B(dwTotalRDTSC);
 
 	CMatrix mView, mIView;
-	Render().GetTransform(D3DTS_VIEW, mView);
+	rs->GetTransform(D3DTS_VIEW, mView);
 	mIView = mView; mIView.Transposition();
 
 	vCamPos = mIView.Pos();
@@ -1374,7 +1375,7 @@ void SEA::Realize(dword dwDeltaTime)
 		SunRoad_Render();
 	}
 
-	pFrustumPlanes = Render().GetPlanes();
+	pFrustumPlanes = rs->GetPlanes();
 
 	float fBlockSize = 256.0f * fGridStep;
 	long iNumBlocks = (long)dwMaxDim / (256 * 2);
@@ -1398,22 +1399,22 @@ void SEA::Realize(dword dwDeltaTime)
 		dword dw2 = long(fBumpMapFrame + 1.0f) % aBumpMaps.Size();
 
 		float fAlpha = 255.0f * (fBumpMapFrame - float(long(fBumpMapFrame)));
-		Render().SetRenderState(D3DRS_TEXTUREFACTOR, ARGB(fAlpha, 0, 0, 0));
+		rs->SetRenderState(D3DRS_TEXTUREFACTOR, ARGB(fAlpha, 0, 0, 0));
 
-		Render().SetTexture(0, aBumpMaps[dw1]);
-		Render().SetTexture(1, aBumpMaps[dw2]);
+		rs->SetTexture(0, aBumpMaps[dw1]);
+		rs->SetTexture(1, aBumpMaps[dw2]);
 
-		Render().EndScene();
-		Render().PushRenderTarget();
+		rs->EndScene();
+		rs->PushRenderTarget();
 		for (dword i=0; i<MIPSLVLS; i++)
 		{
 			HRESULT hr = pRenderTargetBumpMap->GetSurfaceLevel(i, &pFace);
-			Render().SetRenderTarget(pFace, null);
+			rs->SetRenderTarget(pFace, null);
 			pFace->Release();
 			float w, h;
 			w = h = float(XWIDTH >> i);
 
-			Render().BeginScene();
+			rs->BeginScene();
 
 			RS_SPRITE spr[4];
 			FillSpriteVertex(spr[0], 0, 0, 0.1f, 0xFFFFFFFF, 0.0f, 0.0f);
@@ -1421,12 +1422,12 @@ void SEA::Realize(dword dwDeltaTime)
 			FillSpriteVertex(spr[2], w, h, 0.1f, 0xFFFFFFFF, 1.0f, 1.0f);
 			FillSpriteVertex(spr[3], w, 0, 0.1f, 0xFFFFFFFF, 1.0f, 0.0f);
 
-			Render().DrawSprites(spr, 1, "bump_interpolate");
+			rs->DrawSprites(spr, 1, "bump_interpolate");
 
-			Render().EndScene();
+			rs->EndScene();
 		}
-		Render().PopRenderTarget();
-		Render().BeginScene();
+		rs->PopRenderTarget();
+		rs->BeginScene();
 	}
 
 	memset(pIndices, 0xFF, NUM_VERTEXS * sizeof(pIndices[0]) * 3);
@@ -1458,8 +1459,8 @@ void SEA::Realize(dword dwDeltaTime)
 		}
 	}
 
-	SeaVertex * pVSea2 = (SeaVertex*)Render().LockVertexBuffer(iVSeaBuffer, D3DLOCK_DISCARD | D3DLOCK_NOSYSLOCK);
-	pTriangles = (word*)Render().LockIndexBuffer(iISeaBuffer, D3DLOCK_DISCARD | D3DLOCK_NOSYSLOCK);
+	SeaVertex * pVSea2 = (SeaVertex*)rs->LockVertexBuffer(iVSeaBuffer, D3DLOCK_DISCARD | D3DLOCK_NOSYSLOCK);
+	pTriangles = (word*)rs->LockIndexBuffer(iISeaBuffer, D3DLOCK_DISCARD | D3DLOCK_NOSYSLOCK);
 
 	for (i=0; i<aBlocks(); i++) PrepareIndicesForBlock(i);
 	//for (i=0; i<aBlocks(); i++) SetBlock(i);
@@ -1511,16 +1512,16 @@ void SEA::Realize(dword dwDeltaTime)
 	if (iVStart && iTStart)
 		memcpy(pVSea2, pVSea, iVStart * sizeof(SeaVertex));
 
-	Render().UnLockVertexBuffer(iVSeaBuffer);
-	Render().UnLockIndexBuffer(iISeaBuffer);
+	rs->UnLockVertexBuffer(iVSeaBuffer);
+	rs->UnLockIndexBuffer(iISeaBuffer);
 
 	if (iVStart && iTStart)
 	{
 		CMatrix mWorldView, mWorldViewProj;
 
-		CMatrix mView = Render().GetView();
-		CMatrix mWorld; mWorld.SetIdentity();// = Render().GetWorld();
-		CMatrix mProjection = Render().GetProjection();
+		CMatrix mView = rs->GetView();
+		CMatrix mWorld; mWorld.SetIdentity();// = rs->GetWorld();
+		CMatrix mProjection = rs->GetProjection();
 
 #ifndef OLD_WORLD_POS
 		mView.MoveInversePosition(-vWorldOffset.x,0.f,-vWorldOffset.z);
@@ -1534,87 +1535,87 @@ void SEA::Realize(dword dwDeltaTime)
 		fTmp += fDeltaTime * fBumpSpeed;
 		while (fTmp >= 1.0f) fTmp -= 1.0f;
 
-		Render().SetVertexShaderConstantF(GC_CONSTANT, (const float*)&CVECTOR4(0.0f, 1.0f, 0.5f, -0.04f), 1);
-		Render().SetVertexShaderConstantF(GC_CONSTANT2, (const float*)&CVECTOR4(2.0f, -1.0f, 0.00036621652552071f, (bFogEnable) ? fFogSeaDensity : 0.0f), 1);
-		Render().SetVertexShaderConstantF(GC_SHADOW_CONST1, (const float*)&CVECTOR4(fFoamV, fFoamK, fFoamUV, 6.0f), 1);
-		Render().SetVertexShaderConstantF(GC_ANIMATION, (const float*)&CVECTOR4(fTmp, fTmp, fTmp, fTmp), 1);
-		Render().SetVertexShaderConstantF(GC_CAMERA_POS, (const float*)&CVECTOR4(vCamPos.x-vWorldOffset.x, vCamPos.y, vCamPos.z-vWorldOffset.z, 1.0f), 1);
-		Render().SetVertexShaderConstantF(GC_MTX_WVP, (const float*)&mWorldViewProj, 4);
+		rs->SetVertexShaderConstantF(GC_CONSTANT, (const float*)&CVECTOR4(0.0f, 1.0f, 0.5f, -0.04f), 1);
+		rs->SetVertexShaderConstantF(GC_CONSTANT2, (const float*)&CVECTOR4(2.0f, -1.0f, 0.00036621652552071f, (bFogEnable) ? fFogSeaDensity : 0.0f), 1);
+		rs->SetVertexShaderConstantF(GC_SHADOW_CONST1, (const float*)&CVECTOR4(fFoamV, fFoamK, fFoamUV, 6.0f), 1);
+		rs->SetVertexShaderConstantF(GC_ANIMATION, (const float*)&CVECTOR4(fTmp, fTmp, fTmp, fTmp), 1);
+		rs->SetVertexShaderConstantF(GC_CAMERA_POS, (const float*)&CVECTOR4(vCamPos.x-vWorldOffset.x, vCamPos.y, vCamPos.z-vWorldOffset.z, 1.0f), 1);
+		rs->SetVertexShaderConstantF(GC_MTX_WVP, (const float*)&mWorldViewProj, 4);
 
-		Render().SetVertexShaderConstantF(GC_FREE, (const float*)&v4SeaParameters, 1);
-		Render().SetVertexShaderConstantF(GC_FREE + 1, (const float*)&v4SeaColor, 1);
-		Render().SetVertexShaderConstantF(GC_FREE + 2, (const float*)&v4SkyColor, 1);
+		rs->SetVertexShaderConstantF(GC_FREE, (const float*)&v4SeaParameters, 1);
+		rs->SetVertexShaderConstantF(GC_FREE + 1, (const float*)&v4SeaColor, 1);
+		rs->SetVertexShaderConstantF(GC_FREE + 2, (const float*)&v4SkyColor, 1);
 
-		Render().SetVertexShaderConstantF(GC_FREE + 5, (const float*)&CVECTOR4(1.0f, 0.0f, 0.0f, 1.0f), 1);
-		Render().SetVertexShaderConstantF(GC_FREE + 6, (const float*)&CVECTOR4(fFrenel, 1.0f, 0.5f, 1.0f), 1);		// Frenel K, Frenel Max
-		Render().SetVertexShaderConstantF(GC_FREE + 7, (const float*)&CVECTOR4(1.0f, 0.0f, 0.0f, 1.0f), 1);
+		rs->SetVertexShaderConstantF(GC_FREE + 5, (const float*)&CVECTOR4(1.0f, 0.0f, 0.0f, 1.0f), 1);
+		rs->SetVertexShaderConstantF(GC_FREE + 6, (const float*)&CVECTOR4(fFrenel, 1.0f, 0.5f, 1.0f), 1);		// Frenel K, Frenel Max
+		rs->SetVertexShaderConstantF(GC_FREE + 7, (const float*)&CVECTOR4(1.0f, 0.0f, 0.0f, 1.0f), 1);
 
 		CVECTOR vTmp = !CVECTOR(0.0f, 1.0f, 0.0f);
-		Render().SetVertexShaderConstantF(GC_FREE + 30, (const float*)&CVECTOR4(vTmp.x, vTmp.y, vTmp.z, 1.0f), 1);
+		rs->SetVertexShaderConstantF(GC_FREE + 30, (const float*)&CVECTOR4(vTmp.x, vTmp.y, vTmp.z, 1.0f), 1);
 
 		if (bSimpleSea)
 		{
-			Render().SetVertexShaderConstantF(GC_FREE + 8, (const float*)&mTexProjection, 4);			// Matrix!!
+			rs->SetVertexShaderConstantF(GC_FREE + 8, (const float*)&mTexProjection, 4);			// Matrix!!
 
-			//Render().SetTexture(0, pVolumeTexture);
-			Render().SetTexture(0, (pVolumeTexture) ? (IDirect3DBaseTexture9*)pVolumeTexture : (IDirect3DBaseTexture9*)pRenderTargetBumpMap);
-			Render().SetTexture(1, pReflection);
-			//Render().SetTexture(2, pVolumeTexture);
-			Render().SetTexture(2, (pVolumeTexture) ? (IDirect3DBaseTexture9*)pVolumeTexture : (IDirect3DBaseTexture9*)pRenderTargetBumpMap);
-			Render().SetTexture(3, pReflectionSunroad);
+			//rs->SetTexture(0, pVolumeTexture);
+			rs->SetTexture(0, (pVolumeTexture) ? (IDirect3DBaseTexture9*)pVolumeTexture : (IDirect3DBaseTexture9*)pRenderTargetBumpMap);
+			rs->SetTexture(1, pReflection);
+			//rs->SetTexture(2, pVolumeTexture);
+			rs->SetTexture(2, (pVolumeTexture) ? (IDirect3DBaseTexture9*)pVolumeTexture : (IDirect3DBaseTexture9*)pRenderTargetBumpMap);
+			rs->SetTexture(3, pReflectionSunroad);
 
-			Render().SetTextureStageState(1, D3DTSS_BUMPENVMAT00, F2DW(0.08f));
-			Render().SetTextureStageState(1, D3DTSS_BUMPENVMAT10, F2DW(0.0f));
-			Render().SetTextureStageState(1, D3DTSS_BUMPENVMAT01, F2DW(0.0f));
-			Render().SetTextureStageState(1, D3DTSS_BUMPENVMAT11, F2DW(0.08f));
+			rs->SetTextureStageState(1, D3DTSS_BUMPENVMAT00, F2DW(0.08f));
+			rs->SetTextureStageState(1, D3DTSS_BUMPENVMAT10, F2DW(0.0f));
+			rs->SetTextureStageState(1, D3DTSS_BUMPENVMAT01, F2DW(0.0f));
+			rs->SetTextureStageState(1, D3DTSS_BUMPENVMAT11, F2DW(0.08f));
 
-			Render().SetTextureStageState(3, D3DTSS_BUMPENVMAT00, F2DW(0.05f));
-			Render().SetTextureStageState(3, D3DTSS_BUMPENVMAT10, F2DW(0.0f));
-			Render().SetTextureStageState(3, D3DTSS_BUMPENVMAT01, F2DW(0.0f));
-			Render().SetTextureStageState(3, D3DTSS_BUMPENVMAT11, F2DW(0.05f));
+			rs->SetTextureStageState(3, D3DTSS_BUMPENVMAT00, F2DW(0.05f));
+			rs->SetTextureStageState(3, D3DTSS_BUMPENVMAT10, F2DW(0.0f));
+			rs->SetTextureStageState(3, D3DTSS_BUMPENVMAT01, F2DW(0.0f));
+			rs->SetTextureStageState(3, D3DTSS_BUMPENVMAT11, F2DW(0.05f));
 
-			Render().DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, iVSeaBuffer, sizeof(SeaVertex), iISeaBuffer, 0, iVStart, 0, iTStart, "Sea3");
+			rs->DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, iVSeaBuffer, sizeof(SeaVertex), iISeaBuffer, 0, iVStart, 0, iTStart, "Sea3");
 		}
 		else
 		{
 			D3DCAPS9 d3dCaps;
-			Render().GetDeviceCaps(&d3dCaps);
+			rs->GetDeviceCaps(&d3dCaps);
 			dword dwPSVersionLo = LOBYTE(d3dCaps.PixelShaderVersion);
 			dword dwPSVersionHi = HIBYTE(d3dCaps.PixelShaderVersion);
 
-			Render().SetVertexShaderConstantF(GC_FREE + 8, (const float*)&CMatrix(0.0f, 0.0f, PId2), 4);			// Matrix!!
+			rs->SetVertexShaderConstantF(GC_FREE + 8, (const float*)&CMatrix(0.0f, 0.0f, PId2), 4);			// Matrix!!
 
-			Render().SetTexture(0, (pVolumeTexture) ? (IDirect3DBaseTexture9*)pVolumeTexture : (IDirect3DBaseTexture9*)pRenderTargetBumpMap);
-			Render().SetTexture(3, pEnvMap);
-			Render().DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, iVSeaBuffer, sizeof(SeaVertex), iISeaBuffer, 0, iVStart, 0, iTStart, "Sea2");
+			rs->SetTexture(0, (pVolumeTexture) ? (IDirect3DBaseTexture9*)pVolumeTexture : (IDirect3DBaseTexture9*)pRenderTargetBumpMap);
+			rs->SetTexture(3, pEnvMap);
+			rs->DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, iVSeaBuffer, sizeof(SeaVertex), iISeaBuffer, 0, iVStart, 0, iTStart, "Sea2");
 
 			if (fFoamK > 0.0f && bFoamEnable && bIniFoamEnable && (dwPSVersionHi >= 2 || (dwPSVersionHi==1 && dwPSVersionLo >= 4)))
 			{
 				//Render sea foam
-				Render().SetPixelShaderConstantF(0, (const float*)&CVECTOR4(fFoamTextureDisturb, 0.0f, 0.0f, 0.0f), 1);
+				rs->SetPixelShaderConstantF(0, (const float*)&CVECTOR4(fFoamTextureDisturb, 0.0f, 0.0f, 0.0f), 1);
 
-				Render().TextureSet(0, iFoamTexture);
-				Render().SetTexture(4, (pVolumeTexture) ? (IDirect3DBaseTexture9*)pVolumeTexture : (IDirect3DBaseTexture9*)pRenderTargetBumpMap);
-				Render().DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, iVSeaBuffer, sizeof(SeaVertex), iISeaBuffer, 0, iVStart, 0, iTStart, "Foam_14");
+				rs->TextureSet(0, iFoamTexture);
+				rs->SetTexture(4, (pVolumeTexture) ? (IDirect3DBaseTexture9*)pVolumeTexture : (IDirect3DBaseTexture9*)pRenderTargetBumpMap);
+				rs->DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, iVSeaBuffer, sizeof(SeaVertex), iISeaBuffer, 0, iVStart, 0, iTStart, "Foam_14");
 			}
 
-			Render().SetTexture(0, (pVolumeTexture) ? (IDirect3DBaseTexture9*)pVolumeTexture : (IDirect3DBaseTexture9*)pRenderTargetBumpMap);
-			Render().SetTexture(3, pSunRoadMap);
-			Render().DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, iVSeaBuffer, sizeof(SeaVertex), iISeaBuffer, 0, iVStart, 0, iTStart, "Sea2_SunRoad");
+			rs->SetTexture(0, (pVolumeTexture) ? (IDirect3DBaseTexture9*)pVolumeTexture : (IDirect3DBaseTexture9*)pRenderTargetBumpMap);
+			rs->SetTexture(3, pSunRoadMap);
+			rs->DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, iVSeaBuffer, sizeof(SeaVertex), iISeaBuffer, 0, iVStart, 0, iTStart, "Sea2_SunRoad");
 		}
 	}
 
 	RDTSC_E(dwTotalRDTSC);
-	//Render().Print(50, 300, "Total ticks with rendering %d", /*iVStart, iTStart, */dwTotalRDTSC);
-	/*Render().Print(50, 320, "calc blk%s: %d", (bHT) ? " (HT)" : "", dwBlockRDTSC);
-	Render().Print(50, 340, "Blocks in 1st thread: %d", iB1);
+	//rs->Print(50, 300, "Total ticks with rendering %d", /*iVStart, iTStart, */dwTotalRDTSC);
+	/*rs->Print(50, 320, "calc blk%s: %d", (bHT) ? " (HT)" : "", dwBlockRDTSC);
+	rs->Print(50, 340, "Blocks in 1st thread: %d", iB1);
 	for (long i=0; i<aThreadsTest; i++)
-		Render().Print(50, 360 + 20 * i, "Blocks in thread %d: %d", i + 1, aThreadsTest[i]);
+		rs->Print(50, 360 + 20 * i, "Blocks in thread %d: %d", i + 1, aThreadsTest[i]);
 	*/
-	//Render().Print(30, 140, "rdtsc = %d", dwBlockRDTSC);
-	//Render().Print(30, 160, "Intel CPU: %s, SSE: %s, HyperThreading: %s", (bIntel) ? "Yes" : "No", (bSSE) ? "On" : "Off", (bHyperThreading) ? "On" : "Off");
+	//rs->Print(30, 140, "rdtsc = %d", dwBlockRDTSC);
+	//rs->Print(30, 160, "Intel CPU: %s, SSE: %s, HyperThreading: %s", (bIntel) ? "Yes" : "No", (bSSE) ? "On" : "Off", (bHyperThreading) ? "On" : "Off");
 
-	/*D3DVIEWPORT9 vp; Render().GetViewport(&vp);
+	/*D3DVIEWPORT9 vp; rs->GetViewport(&vp);
 	float w = 256;
 	float h = 256;
 	RS_SPRITE spr[4];
@@ -1622,9 +1623,9 @@ void SEA::Realize(dword dwDeltaTime)
 	FillSpriteVertex(spr[1], 0, h, 0.1f, 0xFFFFFFFF, 0.0f, 1.0f);
 	FillSpriteVertex(spr[2], w, h, 0.1f, 0xFFFFFFFF, 1.0f, 1.0f);
 	FillSpriteVertex(spr[3], w, 0, 0.1f, 0xFFFFFFFF, 1.0f, 0.0f);
-	//Render().SetTexture(0, pReflection);
-	Render().SetTexture(0, pReflectionSunroad);
-	Render().DrawSprites(spr, 1, "Telescope");*/
+	//rs->SetTexture(0, pReflection);
+	rs->SetTexture(0, pReflectionSunroad);
+	rs->DrawSprites(spr, 1, "Telescope");*/
 
 	if (bUnderSea && bUnderSeaEnable)
 	{
@@ -1703,8 +1704,8 @@ void SEA::Realize(dword dwDeltaTime)
 
 		if (aTrashRects.Len())
 		{
-			Render().TextureSet(0, iSeaTrashTexture);
-			Render().DrawRects(&aTrashRects[0], aTrashRects.Size(), "seatrash", 2, 2);
+			rs->TextureSet(0, iSeaTrashTexture);
+			rs->DrawRects(&aTrashRects[0], aTrashRects.Size(), "seatrash", 2, 2);
 		}
 
 		// Рисуем стаи рыб
@@ -1760,8 +1761,8 @@ void SEA::Realize(dword dwDeltaTime)
 
 		if (aLightsRects.Len())
 		{
-			Render().TextureSet(0, iSeaLightTexture);
-			Render().DrawRects(&aLightsRects[0], aLightsRects.Size(), "seatrash", 2, 2, 0.5f);
+			rs->TextureSet(0, iSeaLightTexture);
+			rs->DrawRects(&aLightsRects[0], aLightsRects.Size(), "seatrash", 2, 2, 0.5f);
 		}
 
 		bUnderSeaStarted = true;
@@ -1894,18 +1895,18 @@ dword SEA::AttributeChanged(ATTRIBUTES * pAttribute)
 
 void SEA::LostRender()
 {
-	Render().Release(pReflection);
-	Render().Release(pReflectionSunroad);
-	Render().Release(pEnvMap);
-	Render().Release(pSunRoadMap);
-	Render().Release(pRenderTargetBumpMap);;
+	rs->Release(pReflection);
+	rs->Release(pReflectionSunroad);
+	rs->Release(pEnvMap);
+	rs->Release(pSunRoadMap);
+	rs->Release(pRenderTargetBumpMap);;
 }
 
 void SEA::RestoreRender()
 {
-	Render().CreateTexture(XWIDTH, YWIDTH, MIPSLVLS, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pRenderTargetBumpMap);
-	Render().CreateCubeTexture(128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pEnvMap);
-	Render().CreateCubeTexture(128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pSunRoadMap);
-	Render().CreateTexture(128, 128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pReflection);
-	Render().CreateTexture(128, 128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pReflectionSunroad);
+	rs->CreateTexture(XWIDTH, YWIDTH, MIPSLVLS, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pRenderTargetBumpMap);
+	rs->CreateCubeTexture(128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pEnvMap);
+	rs->CreateCubeTexture(128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pSunRoadMap);
+	rs->CreateTexture(128, 128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pReflection);
+	rs->CreateTexture(128, 128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pReflectionSunroad);
 }

@@ -47,13 +47,13 @@
     <OutDir>.\Debug\</OutDir>
     <IntDir>.\Debug\</IntDir>
     <LinkIncremental>true</LinkIncremental>
-  <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>.\Release\</OutDir>
     <IntDir>.\Release\</IntDir>
     <LinkIncremental>true</LinkIncremental>
-  <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -79,7 +79,7 @@
       <ProgramDatabaseFile>.\Debug/net.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Debug/net.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -123,7 +123,7 @@
       <ProgramDatabaseFile>.\Release/net.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Release/net.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -207,7 +207,7 @@
     <ClCompile Include="Entities\Rigging\SAILONE.cpp" />
     <ClCompile Include="Entities\Rigging\Vant.cpp" />
     <ClCompile Include="Entities\Sea\EnvMap.cpp" />
-    <ClCompile Include="Entities\Sea\sea.cpp" />
+    <ClCompile Include="Entities\Sea\net_sea.cpp" />
     <ClCompile Include="Entities\Ship\CannonController.cpp" />
     <ClCompile Include="Entities\Ship\FirePlace.cpp" />
     <ClCompile Include="Entities\Ship\ship.cpp" />
