@@ -2265,6 +2265,9 @@ bool DX9RENDER::ResetDevice()
 	if (api->GetEntity(&eid)) do { ((ENTITY*)eid.pointer)->LostRender(); } while (api->GetEntityNext(&eid));
 
 	//this LostRender
+	//d3d9->SetRenderTarget(NULL, NULL);
+	Release(pOriginalScreenSurface);
+	Release(pOriginalDepthSurface);
 	Release(rectsVBuffer);
 	for (long b = 0; b<MAX_BUFFERS; b++)
 	{
@@ -2276,10 +2279,14 @@ bool DX9RENDER::ResetDevice()
 				__debugbreak();
 	}
 
+	//RESET
 	if (CHECKD3DERR(d3d9->Reset(&d3dpp)))
 		return false;
 
 	//this RestoreRender
+	d3d9->GetRenderTarget(0, &pOriginalScreenSurface);
+	d3d9->GetDepthStencilSurface(&pOriginalDepthSurface);
+	ClearPostProcessSurface(pOriginalScreenSurface);
 	d3d9->CreateVertexBuffer(rectsVBuffer_SizeInRects * 6 * sizeof(RECT_VERTEX), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, RS_RECT_VERTEX_FORMAT, D3DPOOL_DEFAULT, &rectsVBuffer, NULL);
 	for (long b = 0; b<MAX_BUFFERS; b++)
 	{
