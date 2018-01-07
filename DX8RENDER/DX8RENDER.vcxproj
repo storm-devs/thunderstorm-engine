@@ -77,7 +77,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>legacy_stdio_definitions.lib;odbc32.lib;odbccp32.lib;d3d9.lib;d3dx9.lib;dxerr.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>..\\engine\\modules\\DX8RENDER.dll</OutputFile>
+      <OutputFile>..\\engine\\modules\\DX9RENDER.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Debug/DX8RENDER.pdb</ProgramDatabaseFile>
@@ -121,7 +121,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>legacy_stdio_definitions.lib;odbc32.lib;odbccp32.lib;d3d9.lib;d3dx9.lib;dxerr.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>..\\engine\\modules\\DX8RENDER.dll</OutputFile>
+      <OutputFile>..\\engine\\modules\\DX9RENDER.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ProgramDatabaseFile>.\Release/DX8RENDER.pdb</ProgramDatabaseFile>
       <ImportLibrary>.\Release/DX8RENDER.lib</ImportLibrary>
