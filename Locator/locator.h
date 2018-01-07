@@ -19,7 +19,7 @@ class LOCATOR : public ENTITY
 		_XYZ_ = _X_|_Y_|_Z_
 	};
 	VGEOMETRY * gs;
-	VDX8RENDER * rs;
+	VDX9RENDER * rs;
 	GEOS * geo;
 	long groupID;
 	long stringIndex;

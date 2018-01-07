@@ -37,7 +37,7 @@ public:
 	TSplash();
 	virtual ~TSplash();
 
-	void Initialize(INIFILE * _ini, IDirect3DDevice9 *_device, SEA_BASE *sea, VDX8RENDER *_renderer);
+	void Initialize(INIFILE * _ini, IDirect3DDevice9 *_device, SEA_BASE *sea, VDX9RENDER *_renderer);
 	void Release();
 	void Start(const CVECTOR &_pos, const CVECTOR &_dir);
 	bool Process(dword _dTime);
@@ -56,7 +56,7 @@ private:
 
 	bool enabled;
 
-	static VDX8RENDER *renderer;
+	static VDX9RENDER *renderer;
 	SEA_BASE *sea;
 	IDirect3DDevice9 *device;
 

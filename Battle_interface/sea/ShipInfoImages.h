@@ -14,7 +14,7 @@ struct SII_VERTEX
 class ShipInfoImages
 {
 public:
-	ShipInfoImages(VDX8RENDER* rs,ATTRIBUTES* pAttr);
+	ShipInfoImages(VDX9RENDER* rs,ATTRIBUTES* pAttr);
 	~ShipInfoImages();
 
 	void Draw();
@@ -37,7 +37,7 @@ protected:
 	void WriteSquareVertex(SII_VERTEX* pV,const CVECTOR& center,const CVECTOR& offset,const FPOINT& size,const FRECT& uv, float fProgress);
 
 protected:
-	VDX8RENDER *pRS;
+	VDX9RENDER *pRS;
 	bool m_bVisible;
 
 	long m_idRelationTexture;

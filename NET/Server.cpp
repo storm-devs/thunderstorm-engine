@@ -2,7 +2,7 @@
 #include "LocalClient.h"
 
 NetServer * NetServer::pServer = null;
-VDX8RENDER * NetServer::pRS = null;
+VDX9RENDER * NetServer::pRS = null;
 float NetServer::fDeltaTime = 0.0f;
 float NetServer::fGravity = 9.81f;
 

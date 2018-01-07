@@ -404,7 +404,7 @@ bool CINODE::CheckCommandUsed(int comCode)
 	return m_pCommands[i].bUse;
 }
 
-bool CINODE::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX8RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize)
+bool CINODE::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize)
 {
 	char param[512];
 	if(!rs) return false;

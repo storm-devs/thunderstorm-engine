@@ -27,7 +27,7 @@ LocModelRealizer::~LocModelRealizer()
 //Инициализация
 bool LocModelRealizer::Init()
 {
-	rs = (VDX8RENDER*)api->CreateService("dx8render");
+	rs = (VDX9RENDER*)api->CreateService("dx8render");
 	gs = (VGEOMETRY *)api->CreateService("geometry");
 	return true;
 }

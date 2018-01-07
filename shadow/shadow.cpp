@@ -51,7 +51,7 @@ bool SHADOW::Init()
 
 	_CORE_API->LayerAdd("realize",GetID(),900);
 
-	rs = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
 	if(!rs)	_THROW("No service: dx8render");
 
 	if(ref==0)

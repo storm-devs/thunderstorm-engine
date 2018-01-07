@@ -30,7 +30,7 @@ bool NetLightning::Init()
 
 void NetLightning::SetDevice()
 {
-	pRS = (VDX8RENDER *)_CORE_API->CreateService("dx8render"); Assert(pRS);
+	pRS = (VDX9RENDER *)_CORE_API->CreateService("dx8render"); Assert(pRS);
 	pCollide = (COLLIDE*)_CORE_API->CreateService("COLL"); Assert(pCollide);
 }
 

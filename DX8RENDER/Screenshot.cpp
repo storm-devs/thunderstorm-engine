@@ -4,7 +4,7 @@
 #include "sdevice.h"
 #include "..\common_h\tga.h"
 
-void DX8RENDER::PrepareCapture()
+void DX9RENDER::PrepareCapture()
 {
 	hDesktopDC = GetDC(api->GetAppHWND());
 	hCaptureDC = CreateCompatibleDC(hDesktopDC);
@@ -20,7 +20,7 @@ void DX8RENDER::PrepareCapture()
 	bPreparedCapture = true;
 }
 
-void DX8RENDER::SaveCaptureBuffers()
+void DX9RENDER::SaveCaptureBuffers()
 {
 	dword Written;
 	char cFileName[256];
@@ -50,7 +50,7 @@ void DX8RENDER::SaveCaptureBuffers()
 	dwCaptureBuffersReady = 0;
 }
 
-bool DX8RENDER::MakeCapture()
+bool DX9RENDER::MakeCapture()
 {
 	if (aCaptureBuffers.IsEmpty()) return false;
 

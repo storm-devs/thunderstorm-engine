@@ -50,7 +50,7 @@ class VANT : public ENTITY
     bool bRunFirstTime;
     bool bYesDeleted;
     int  wVantLast;
-	VDX8RENDER  *RenderService;
+	VDX9RENDER  *RenderService;
     char* TextureName;
     long texl;
 

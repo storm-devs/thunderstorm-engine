@@ -20,11 +20,11 @@ public:
 	virtual bool IsMouseMoveReaction() {return false;}
 
 	BI_ManagerBase* Manager() {return m_pManager;}
-	VDX8RENDER* Render() {return m_pRS;}
+	VDX9RENDER* Render() {return m_pRS;}
 
 protected:
 	BI_ManagerBase* m_pManager;
-	VDX8RENDER* m_pRS;
+	VDX9RENDER* m_pRS;
 };
 
 #endif

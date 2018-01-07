@@ -31,9 +31,9 @@ public:
 	//Расчёты
 	void Update(float dltTime);
 
-	void PRender(VDX8RENDER * rs){};
-	void MRender(VDX8RENDER * rs){};
-	void LRender(VDX8RENDER * rs);
+	void PRender(VDX9RENDER * rs){};
+	void MRender(VDX9RENDER * rs){};
+	void LRender(VDX9RENDER * rs);
 
 //--------------------------------------------------------------------------------------------
 //Инкапсуляция

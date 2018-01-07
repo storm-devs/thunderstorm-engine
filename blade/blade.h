@@ -40,7 +40,7 @@ class BLADE : public ENTITY
 
 		BLADE_INFO();
 		~BLADE_INFO();
-		void DrawBlade(VDX8RENDER * rs,unsigned int blendValue,MODEL *mdl,NODE *manNode);
+		void DrawBlade(VDX9RENDER * rs,unsigned int blendValue,MODEL *mdl,NODE *manNode);
 		bool LoadBladeModel(MESSAGE &message);
 	};
 
@@ -53,11 +53,11 @@ class BLADE : public ENTITY
 		TIEITEM_INFO() {nItemIndex=-1; locatorName=0;}
 		~TIEITEM_INFO() {Release();}
 		void Release();
-		void DrawItem(VDX8RENDER * rs,unsigned int blendValue,MODEL *mdl,NODE *manNode);
+		void DrawItem(VDX9RENDER * rs,unsigned int blendValue,MODEL *mdl,NODE *manNode);
 		bool LoadItemModel(const char* mdlName,const char* locName);
 	};
 
-	VDX8RENDER * rs;
+	VDX9RENDER * rs;
 	COLLIDE *col;
 	ENTITY_ID man;
 	unsigned int blendValue;

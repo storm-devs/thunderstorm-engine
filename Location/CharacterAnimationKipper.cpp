@@ -49,7 +49,7 @@ bool CharacterAnimationKipper::Init()
 			return false;
 		}
 	}
-	rs = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
 	if(!rs) _THROW("No service: dx8render");
 	AnimationService * asr = (AnimationService *)_CORE_API->CreateService("AnimationServiceImp");
 	if(!asr) _THROW("Anumation service not created!");

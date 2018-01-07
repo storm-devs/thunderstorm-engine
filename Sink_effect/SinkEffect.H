@@ -37,7 +37,7 @@ private:
 	TSink *TryToAddSink(const CVECTOR &_pos, float _r);
 
 	TSink    sinks[MAX_SINKS];
-	VDX8RENDER *renderer;
+	VDX9RENDER *renderer;
 	SEA_BASE *sea;
 };
 

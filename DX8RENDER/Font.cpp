@@ -75,7 +75,7 @@ bool FONT::MakeLong(char * * pDataPointer, long * result)
 	return false;
 }
 
-bool FONT::Init(char * font_name, char * iniName, IDirect3DDevice9 * _device, VDX8RENDER * _render)
+bool FONT::Init(char * font_name, char * iniName, IDirect3DDevice9 * _device, VDX9RENDER * _render)
 {
 	INIFILE * ini;
 	char key_name[MAX_PATH];

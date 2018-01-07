@@ -3,7 +3,7 @@
 #include "..\ENGINE\PROGRAM\SEA_AI\script_defines.h"
 
 
-void Menu :: Draw(VDX8RENDER * rs, SailorsPoints &sailorsPoints)
+void Menu :: Draw(VDX9RENDER * rs, SailorsPoints &sailorsPoints)
 {
 
 	for (int i= 0; i< count; i++)

@@ -108,7 +108,7 @@ class BSPS_PS
 	bool bTrackAngle;
 
 	VAPI * api;
-	VDX8RENDER * RenderService;
+	VDX9RENDER * RenderService;
 	VGEOMETRY * gs;
 
 	long TextureID[MAX_PS_TEXTURES];

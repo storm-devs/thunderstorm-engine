@@ -1,5 +1,5 @@
-#ifndef __DX8RENDER_H__
-#define __DX8RENDER_H__
+#ifndef __DX9RENDER_H__
+#define __DX9RENDER_H__
 
 #include <d3d9.h>
 
@@ -75,43 +75,43 @@ class ICubeTexture
 {
 };
 
-class VDX8RENDER : public SERVICE
+class VDX9RENDER : public SERVICE
 {
 public:
-	// DX8Render: Construct/Destruct
-		virtual ~VDX8RENDER() {};
+	// DX9Render: Construct/Destruct
+		virtual ~VDX9RENDER() {};
 
-	// DX8Render: Init/Release
+	// DX9Render: Init/Release
 		virtual bool InitDevice(bool windowed, HWND hwnd, long width, long height) = 0;
 		virtual bool ReleaseDevice() = 0;
 
-	// DX8Render: Animation
+	// DX9Render: Animation
 		virtual void RenderAnimation(long ib, void * src, long numVrts, long minv, long numv,  long startidx, long numtrg, bool isUpdateVB) = 0;
 
-	// DX8Render: Return d3d8 device
+	// DX9Render: Return d3d9 device
 		//virtual void * GetDevice() = 0;			// (very bad function/don't use!!!)
 		virtual void * GetD3DDevice() = 0;			// (very bad function/don't use!!!)
 
-	// DX8Render: Render Target/Begin/End/Clear
-		virtual bool DX8Clear(long type) = 0;	// D3DCLEAR_STENCIL | D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER
-		virtual bool DX8BeginScene() = 0;
-		virtual bool DX8EndScene() = 0;
+	// DX9Render: Render Target/Begin/End/Clear
+		virtual bool DX9Clear(long type) = 0;	// D3DCLEAR_STENCIL | D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER
+		virtual bool DX9BeginScene() = 0;
+		virtual bool DX9EndScene() = 0;
 
-	// DX8Render: Materials/Lights Section
+	// DX9Render: Materials/Lights Section
 		virtual bool	SetLight(dword dwIndex, const D3DLIGHT9 * pLight) = 0;
 		virtual bool	LightEnable(dword dwIndex, bool bOn) = 0;
 		virtual bool	SetMaterial(D3DMATERIAL9 & material) = 0;
 		virtual bool	GetLightEnable(DWORD dwIndex, BOOL * pEnable) = 0;
 		virtual bool	GetLight(DWORD dwIndex, D3DLIGHT9 * pLight) = 0;
 
-	// DX8Render: Screenshot Section
+	// DX9Render: Screenshot Section
 		virtual void SaveShoot() = 0;
 
-	// DX8Render: Clip Planes Section
+	// DX9Render: Clip Planes Section
 		virtual HRESULT SetClipPlane( DWORD Index, CONST float * pPlane ) = 0;
 		virtual PLANE * GetPlanes() = 0;
 
-	// DX8Render: Camera Section
+	// DX9Render: Camera Section
 		virtual void SetTransform(long type, D3DMATRIX * mtx) = 0;
 		virtual void GetTransform(long type, D3DMATRIX * mtx) = 0;
 
@@ -123,12 +123,12 @@ public:
 
 		virtual bool SetCurrentMatrix(D3DMATRIX * mtx) = 0;
 
-	// DX8Render: Textures Section
+	// DX9Render: Textures Section
 		virtual long TextureCreate(const char * fname) = 0;
 		virtual bool TextureSet(long stage, long texid) = 0;
 		virtual bool TextureRelease(long texid) = 0;
 
-	// DX8Render: Fonts Section
+	// DX9Render: Fonts Section
 		virtual long _cdecl Print(long x, long y,char * format,...) = 0;
 		virtual long _cdecl Print(long nFontNum, DWORD color, long x, long y,char * format,...) = 0;
 		virtual long _cdecl ExtPrint(long nFontNum, DWORD foreColor, DWORD backColor, int wAlignment,
@@ -146,16 +146,16 @@ public:
 		virtual char * GetFontIniFileName() = 0;
 		virtual bool SetFontIniFileName(char * iniName) = 0;
 
-	// DX8Render: Techniques Section
+	// DX9Render: Techniques Section
 		virtual bool TechniqueSetParamsAndStart(const char * cBlockName, dword _dwNumParams = 0, void * pParams = null) = 0;
 		virtual bool _cdecl TechniqueExecuteStart(const char * cBlockName, dword _dwNumParams = 0, ...) = 0;
 		virtual bool TechniqueExecuteNext() = 0;
 
-	// DX8Render: Draw Section
+	// DX9Render: Draw Section
 		virtual void _cdecl DrawRects(RS_RECT * pRSR, dword dwRectsNum, const char * cBlockName = 0, dword dwSubTexturesX = 1, dword dwSubTexturesY = 1, float fScaleX = 1.0f, float fScaleY = 1.0f, dword dwNumParams = 0, ...) = 0;
 		virtual void _cdecl DrawSprites(RS_SPRITE * pRSS, dword dwSpritesNum, const char * cBlockName = 0, dword dwNumParams = 0, ...) = 0;
 		virtual void _cdecl DrawLines(RS_LINE * pRSL, dword dwLinesNum, const char * cBlockName = 0, dword dwNumParams = 0, ...) = 0;
-		virtual void _cdecl DrawVector(const CVECTOR & v1, const CVECTOR & v2, dword dwColor, const char * pTechniqueName = "DX8Vector", dword dwNumParams = 0, ...) = 0;
+		virtual void _cdecl DrawVector(const CVECTOR & v1, const CVECTOR & v2, dword dwColor, const char * pTechniqueName = "DX9Vector", dword dwNumParams = 0, ...) = 0;
 		virtual void _cdecl DrawLines2D(RS_LINE2D * pRSL2D, dword dwLinesNum, const char * cBlockName = 0, dword dwNumParams = 0, ...) = 0;
 
 		virtual void _cdecl DrawBuffer(long vbuff, long stride, long ibuff, long minv, long numv, long startidx, long numtrg, const char *cBlockName = 0, dword dwNumParams = 0, ...)= 0;
@@ -164,12 +164,12 @@ public:
 		virtual void _cdecl DrawPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, dword dwVertexBufferFormat, dword dwNumPT, void *pVerts, dword dwStride, const char *cBlockName = 0, dword dwNumParams = 0, ...) = 0;
 		virtual void _cdecl DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, dword dwMinIndex, dword dwNumVertices, dword dwPrimitiveCount, const void *pIndexData, D3DFORMAT IndexDataFormat, const void *pVertexData, dword dwVertexStride, const char *cBlockName = 0, dword dwNumParams = 0, ...) = 0;
 
-   	// DX8Render: Video Section
+   	// DX9Render: Video Section
 		virtual void				PlayToTexture() = 0;
 		virtual CVideoTexture *		GetVideoTexture(char * sVideoName) = 0;
 		virtual void				ReleaseVideoTexture(CVideoTexture * pVTexture) = 0;
 
-	// DX8Render: Vertex/Index Buffers Section
+	// DX9Render: Vertex/Index Buffers Section
 		virtual long CreateVertexBuffer(long type, long nverts,dword usage) = 0;
 		virtual long CreateIndexBuffer(long ntrgs, dword dwUsage = D3DUSAGE_WRITEONLY) = 0;
 
@@ -183,7 +183,7 @@ public:
 		virtual void	ReleaseVertexBuffer(long id) = 0;
 		virtual void	ReleaseIndexBuffer(long id) = 0;
 
-	// DX8Render: Render/Texture States Section
+	// DX9Render: Render/Texture States Section
 		virtual dword SetRenderState(dword State, dword Value) = 0;
 		virtual dword GetRenderState(dword State, dword * pValue) = 0;
 		virtual dword GetSamplerState(dword Sampler, D3DSAMPLERSTATETYPE  Type, dword * pValue) = 0;

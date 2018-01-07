@@ -94,7 +94,7 @@ void WdmWindUI::SetAttributes(ATTRIBUTES * apnt)
 }
 
 //Отрисовка
-void WdmWindUI::LRender(VDX8RENDER * rs)
+void WdmWindUI::LRender(VDX9RENDER * rs)
 {
 	if(wdmObjects->isNextDayUpdate)
 	{

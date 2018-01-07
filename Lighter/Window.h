@@ -67,7 +67,7 @@ public:
 	Window();
 	virtual ~Window();
 
-	bool Init(VDX8RENDER * rs);
+	bool Init(VDX9RENDER * rs);
 	void InitList(Lights & ls);
 	void Draw(float dltTime);
 	void Reset(bool isVis);
@@ -128,7 +128,7 @@ private:
 
 private:
 	//
-	VDX8RENDER * rs;
+	VDX9RENDER * rs;
 	//Размер экранна
 	float sw, sh;
 	//Параметры окон

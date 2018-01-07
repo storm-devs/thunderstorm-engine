@@ -43,7 +43,7 @@ BLADE::BLADE_INFO::~BLADE_INFO()
 	api->DeleteEntity(eid);
 }
 
-void BLADE::BLADE_INFO::DrawBlade(VDX8RENDER * rs,unsigned int blendValue,MODEL *mdl,NODE *manNode)
+void BLADE::BLADE_INFO::DrawBlade(VDX9RENDER * rs,unsigned int blendValue,MODEL *mdl,NODE *manNode)
 {
 	MODEL *obj = (MODEL*)api->GetEntityPointer(&eid);
 	if(obj!=0)
@@ -215,7 +215,7 @@ bool BLADE::Init()
 
 	_CORE_API->LayerAdd("realize",GetID(),65550);
 
-	rs = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
 	if(!rs)	_THROW("No service: dx8render");
 	
 	UNGUARD
@@ -567,7 +567,7 @@ void BLADE::TIEITEM_INFO::Release()
 		if(locatorName) delete locatorName; locatorName=0;
 	}
 }
-void BLADE::TIEITEM_INFO::DrawItem(VDX8RENDER * rs,unsigned int blendValue,MODEL *mdl,NODE *manNode)
+void BLADE::TIEITEM_INFO::DrawItem(VDX9RENDER * rs,unsigned int blendValue,MODEL *mdl,NODE *manNode)
 {
 	MODEL *obj = (MODEL*)api->GetEntityPointer(&eid);
 	if(obj!=0)

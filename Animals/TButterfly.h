@@ -56,7 +56,7 @@ public:
 
 	void Draw(HDC _dc);
 	void Draw(TIVBufferManager *_ivManager);
-	void Draw(VDX8RENDER *_renderer, MODEL *_model);
+	void Draw(VDX9RENDER *_renderer, MODEL *_model);
 
 private:
 	CVECTOR centerPosition, centerVelocity, oldPos;

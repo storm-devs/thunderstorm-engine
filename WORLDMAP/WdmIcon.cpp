@@ -95,7 +95,7 @@ void WdmIcon::Update(float dltTime)
 }
 
 //Отрисовка
-void WdmIcon::LRender(VDX8RENDER * rs)
+void WdmIcon::LRender(VDX9RENDER * rs)
 {
 	return;
 	Vertex vrt[6];

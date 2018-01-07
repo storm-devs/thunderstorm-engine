@@ -47,7 +47,7 @@ int   MinSegmentQuantity;
 
     bool bUse;
     bool bFirstRun;
-	VDX8RENDER  *RenderService;
+	VDX9RENDER  *RenderService;
     char *TextureName;
     long texl;
     struct WIND

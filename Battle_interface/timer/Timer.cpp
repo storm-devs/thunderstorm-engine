@@ -95,7 +95,7 @@ void BITimer::SetBeginData()
 	m_fCurTimerCounter = 0.f;
 	m_fMaxTimerCounter = 0.f;
 
-	m_pRender = (VDX8RENDER*)api->CreateService("dx8render");
+	m_pRender = (VDX9RENDER*)api->CreateService("dx8render");
 	Assert( m_pRender );
 	m_pImgRndr = NEW BIImageRender( m_pRender );
 	m_pBackImage = 0;

@@ -40,7 +40,7 @@ ILogAndActions::~ILogAndActions()
 
 bool ILogAndActions::Init()
 {
-	if( (rs=(VDX8RENDER *)_CORE_API->CreateService("dx8render")) == NULL )
+	if( (rs=(VDX9RENDER *)_CORE_API->CreateService("dx8render")) == NULL )
 	{
 		_THROW("Can`t create render service");
 	}

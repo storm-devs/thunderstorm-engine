@@ -66,7 +66,7 @@ void MAST::SetDevice()
 {
 	GUARD(MAST::SetDevice())
 
-	RenderService = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	RenderService = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
     if(!RenderService) _THROW("No service: dx8render");
 
 	pCollide = (COLLIDE*)_CORE_API->CreateService("COLL");

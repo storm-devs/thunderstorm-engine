@@ -1,7 +1,7 @@
 #include "Ship.h"
 #include "ShipLights.h"
 
-VDX8RENDER * NetShipLights::pRS = null;
+VDX9RENDER * NetShipLights::pRS = null;
 COLLIDE * NetShipLights::pCollide = null;
 
 NetShipLights::NetShipLights() : aLights(_FL_, 128), aLightTypes(_FL_), aSelectedLights(_FL_)
@@ -36,7 +36,7 @@ bool NetShipLights::Init()
 {
 	ENTITY_ID sea_id;
 
-	pRS = (VDX8RENDER *)api->CreateService("dx8render");	Assert(pRS);
+	pRS = (VDX9RENDER *)api->CreateService("dx8render");	Assert(pRS);
 	pCollide = (COLLIDE *)api->CreateService("coll");		Assert(pCollide);
 	if (api->FindClass(&sea_id, "sea", 0)) pSea = (SEA_BASE*)api->GetEntityPointer(&sea_id);
 	return true;

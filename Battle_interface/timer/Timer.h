@@ -31,7 +31,7 @@ protected: // data
 	float m_fMaxTimerCounter;
 	string m_sEventName;
 
-	VDX8RENDER* m_pRender;
+	VDX9RENDER* m_pRender;
 	BIImageRender* m_pImgRndr;
 	IBIImage* m_pBackImage;
 	IBIImage* m_pForeImage;

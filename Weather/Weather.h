@@ -14,7 +14,7 @@
 class WEATHER : public WEATHER_BASE
 {
 private:
-	VDX8RENDER			* pRS;
+	VDX9RENDER			* pRS;
 
 	float				fFloats[MAX_FLOAT_PARAMS];
 	long				iLongs[MAX_LONG_PARAMS];

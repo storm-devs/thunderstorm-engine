@@ -45,7 +45,7 @@ struct FONT_SYMBOL
 class FONT
 {
 	VAPI * api;
-	VDX8RENDER * RenderService;
+	VDX9RENDER * RenderService;
 	IDirect3DDevice9 * Device;
 	IDirect3DVertexBuffer9 * VBuffer;
     char *techniqueName;
@@ -73,7 +73,7 @@ class FONT
 public:
 	FONT();
 	~FONT();
-	bool Init(char * font_name, char * iniName, IDirect3DDevice9 * _device, VDX8RENDER * _render);
+	bool Init(char * font_name, char * iniName, IDirect3DDevice9 * _device, VDX9RENDER * _render);
     void TempUnload();
     void RepeatInit();
 	void Realize(DWORD DeltaTime);

@@ -42,7 +42,7 @@ class LIGHTNING : public ENTITY
 	long			iFlickerTime;
 
 	WEATHER_BASE	* pWeather;
-	VDX8RENDER		* pRS;
+	VDX9RENDER		* pRS;
 	COLLIDE			* pCollide;
 	VIDWALKER		* pVWSunTrace;
 

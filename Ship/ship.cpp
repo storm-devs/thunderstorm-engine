@@ -12,7 +12,7 @@ CREATE_CLASS(ShipTracks)
 string	SHIP::sExecuteLayer;
 string	SHIP::sRealizeLayer;
 
-VDX8RENDER					* SHIP::pRS = null;
+VDX9RENDER					* SHIP::pRS = null;
 SEA_BASE					* SHIP::pSea = null;
 ISLAND_BASE					* SHIP::pIsland = null;
 COLLIDE						* SHIP::pCollide = null;
@@ -116,7 +116,7 @@ void SHIP::LoadServices()
 	pGS = null;
 
 	pGS = (VGEOMETRY *)api->CreateService("geometry");						Assert(pGS);
-	pRS = (VDX8RENDER *)api->CreateService("dx8render");	Assert(pRS);
+	pRS = (VDX9RENDER *)api->CreateService("dx8render");	Assert(pRS);
 	pCollide = (COLLIDE *)api->CreateService("coll");						Assert(pCollide);
 
 	api->FindClass(&touch_id, "touch", 0);

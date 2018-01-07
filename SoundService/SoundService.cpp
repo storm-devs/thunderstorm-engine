@@ -9,7 +9,7 @@
 //для debug
 #include "..\common_h\dx8render.h"
 #include "DebugEntity.h"
-VDX8RENDER* pRS = NULL;
+VDX9RENDER* pRS = NULL;
 
 INTERFACE_FUNCTION
 CREATE_SERVICE(SoundService)	
@@ -86,7 +86,7 @@ SoundService::~SoundService()
 //static TSD_ID i5 = 0;
 bool SoundService::Init()
 {
-	pRS = (VDX8RENDER *) _CORE_API->CreateService("DX8RENDER");
+	pRS = (VDX9RENDER *) _CORE_API->CreateService("DX9RENDER");
 
 	status = FMOD::System_Create(&fmod_system);
 	FMOD_ERROR("FMOD:System_Create", status);

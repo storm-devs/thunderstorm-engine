@@ -357,7 +357,7 @@ bool CORE::Run()
 		Timer.Delta_Time = 0;
 		Timer.fDeltaTime = 0.f;
 
-		VDX8RENDER* pRender = (VDX8RENDER*)CreateService("DX8RENDER");
+		VDX9RENDER* pRender = (VDX9RENDER*)CreateService("DX9RENDER");
 		CVECTOR pos,ang;
 		float fPersp;
 		pRender->GetCamera(pos,ang,fPersp);

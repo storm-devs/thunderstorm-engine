@@ -32,7 +32,7 @@ public:
 	CVECTOR center;
 
 	static VGEOMETRY *gs;
-	static VDX8RENDER *rs;
+	static VDX9RENDER *rs;
 
 	bool Init(const char *lightPath, const char *pname, const char *oname, CMatrix &m, CMatrix &globm, NODER *par, const char *lmPath);
 	NODER();
@@ -76,7 +76,7 @@ class MODELR : public MODEL
 	};
 
 
-	VDX8RENDER *rs;
+	VDX9RENDER *rs;
 	VGEOMETRY * GeometyService;
 	Animation *ani;
 	float aniPos[ANI_MAX_ACTIONS];

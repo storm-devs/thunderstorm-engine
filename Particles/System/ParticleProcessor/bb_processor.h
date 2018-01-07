@@ -39,7 +39,7 @@ class BillBoardProcessor
 		float AddPowerK;
 	};
 
-	VDX8RENDER* pRS;
+	VDX9RENDER* pRS;
 	//Буферы для рендера билбордов
 	long pVBuffer;
 	long pIBuffer;

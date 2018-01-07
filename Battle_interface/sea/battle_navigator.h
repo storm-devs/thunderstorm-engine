@@ -13,7 +13,7 @@
 
 class BATTLE_NAVIGATOR
 {
-	VDX8RENDER * rs;
+	VDX9RENDER * rs;
 	ENTITY* m_pOwnerEI;
 
 public:
@@ -22,7 +22,7 @@ public:
 
 	void	Draw();
 	void	Update();
-	void	Init(VDX8RENDER *RenderService,ENTITY* pOwnerEI);
+	void	Init(VDX9RENDER *RenderService,ENTITY* pOwnerEI);
 	void	SetIsland();
 	void	DecrementScale() {m_fCurScale-=m_fScaleStep; if(m_fCurScale<m_fMinScale) m_fCurScale=m_fMinScale;}
 	void	IncrementScale() {m_fCurScale+=m_fScaleStep; if(m_fCurScale>m_fMaxScale) m_fCurScale=m_fMaxScale;}

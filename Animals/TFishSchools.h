@@ -45,7 +45,7 @@ public:
 private:
 	void LoadSettings();
 
-	VDX8RENDER *renderService;
+	VDX9RENDER *renderService;
 	ENTITY_ID  fishSchoolModel;
 	TFishSchool *fishSchools[FISHSCHOOL_COUNT];
 	long shipsCount;

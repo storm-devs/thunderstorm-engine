@@ -59,7 +59,7 @@ public:
 	void SetSea();
 
 	void Update(float dltTime);
-	void Draw(VDX8RENDER * rs);
+	void Draw(VDX9RENDER * rs);
 
 	long txtPillarPrts;
 	long txtGroundPrts;
@@ -70,7 +70,7 @@ public:
 //»нкапсул€ци€
 //--------------------------------------------------------------------------------------------
 private:
-	void DrawParticles(VDX8RENDER * rs, void * prts, long num, long size, long texture, const char * tech);
+	void DrawParticles(VDX9RENDER * rs, void * prts, long num, long size, long texture, const char * tech);
 	static float GetRand(float r, float dev = 0.5f);//dev = 0..1, return 0..r
 
 private:

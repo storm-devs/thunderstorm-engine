@@ -40,7 +40,7 @@ BillBoardProcessor::BillBoardProcessor () : Particles(_FL_, MAX_BILLBOARDS)
 		pMemArray[n].Free = true;
 	}
 
-	pRS = (VDX8RENDER*)api->CreateService("DX8Render");
+	pRS = (VDX9RENDER*)api->CreateService("DX9Render");
 	Assert (pRS);
 
 	int RectVertexSize =  sizeof(RECT_VERTEX);

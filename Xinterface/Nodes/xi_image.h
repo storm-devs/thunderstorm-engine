@@ -49,7 +49,7 @@ public:
 	void DisableDraw( bool bDisable ) {m_bDisableDraw=bDisable;}
 
 protected:
-	VDX8RENDER * m_rs;
+	VDX9RENDER * m_rs;
 
 	bool m_bDisableDraw;
 	char * m_pcPictureListName;

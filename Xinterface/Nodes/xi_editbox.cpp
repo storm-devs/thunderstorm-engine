@@ -101,7 +101,7 @@ void CXI_EDITBOX::Draw(bool bSelected,dword Delta_Time)
 	if(tmpstr) m_rs->ExtPrint(m_nStrFontNum,0xFFFFFFFF,0,ALIGN_CENTER,true,m_fStrScale,m_screenSize.x,m_screenSize.y,(m_rect.left+m_rect.right)/2,m_nTopStringPos,"%s",tmpstr);
 }
 
-bool CXI_EDITBOX::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX8RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize)
+bool CXI_EDITBOX::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize)
 {
 	if( !CINODE::Init(ini1,name1, ini2,name2, rs,hostRect,ScreenSize) ) return false;
 	SetGlowCursor(false);

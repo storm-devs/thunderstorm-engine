@@ -17,7 +17,7 @@
 
 #define PTCDATA_MAXSTEPS	32
 
-class VDX8RENDER;
+class VDX9RENDER;
 
 
 class PtcData
@@ -75,7 +75,7 @@ public:
 	CVECTOR middle;
 
 	//Отладочная отрисовка
-	void DebugDraw(VDX8RENDER * rs, float dltTime);
+	void DebugDraw(VDX9RENDER * rs, float dltTime);
 
 
 //--------------------------------------------------------------------------------------------

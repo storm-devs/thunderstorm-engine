@@ -43,7 +43,7 @@ protected:
 	GIEditorList* m_pSubNameList;
 
 public:
-	VDX8RENDER* m_pRS;
+	VDX9RENDER* m_pRS;
 	XINTERFACE* m_pGIOwner;
 
 	void _cdecl ChangeNodeName();

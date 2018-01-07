@@ -33,7 +33,7 @@ public:
 
 	//Расчёты
 	virtual void Update(float dltTime);
-	virtual void LRender(VDX8RENDER * rs);
+	virtual void LRender(VDX9RENDER * rs);
 
 	const char * GetID();
 

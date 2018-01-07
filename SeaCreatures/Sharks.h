@@ -101,7 +101,7 @@ private:
 	bool LoadPeriscopeModel();
 
 private:
-	VDX8RENDER * rs;
+	VDX9RENDER * rs;
 	Shark shark[6];
 	long numShakes;
 	Periscope periscope;

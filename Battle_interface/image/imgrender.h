@@ -6,7 +6,7 @@
 class BIImageRender
 {
 public:
-	BIImageRender( VDX8RENDER* pRS );
+	BIImageRender( VDX9RENDER* pRS );
 	~BIImageRender();
 
 	void Render();
@@ -43,7 +43,7 @@ protected:
 	long m_nBeginOutputPrioritet;
 	long m_nEndOutputPrioritet;
 
-	VDX8RENDER * m_pRS;
+	VDX9RENDER * m_pRS;
 	array<BIImageMaterial*> m_apMaterial;
 	array<IBIString*> m_apStrings;
 	//bool m_bDeleteEverythink;

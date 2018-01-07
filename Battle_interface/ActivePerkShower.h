@@ -6,7 +6,7 @@
 
 class	ActivePerkShower : public ENTITY
 {
-	VDX8RENDER *rs;
+	VDX9RENDER *rs;
 
 public:
 	ActivePerkShower();

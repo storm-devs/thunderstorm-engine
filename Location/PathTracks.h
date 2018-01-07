@@ -26,7 +26,7 @@ public:
 	//Загрузить трек в PathTracks
 	bool Load(const char * fileName);
 	//Нарисовать трек
-	void Draw(VDX8RENDER* render);
+	void Draw(VDX9RENDER* render);
 	//Получить точку трека
 	bool GetPoint(float index, Vector & cp, Quaternion & cq);
 

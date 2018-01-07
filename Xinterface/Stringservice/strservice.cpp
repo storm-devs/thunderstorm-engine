@@ -233,7 +233,7 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 	//==========================================================================
 	// reread fonts
 	//==========================================================================
-	VDX8RENDER * RenderService = (VDX8RENDER *)api->CreateService("dx8render");
+	VDX9RENDER * RenderService = (VDX9RENDER *)api->CreateService("dx8render");
 	if(RenderService)
 	{
 		char fullIniPath[512];
@@ -891,7 +891,7 @@ DWORD __cdecl _SetColorCorrection(VS_STACK * pS)
 	VDATA * pContrast = (VDATA*)pS->Pop();	if (!pContrast) return IFUNCRESULT_FAILED;
 	float fContrast = 1.f;	pContrast->Get(fContrast);
 
-	VDX8RENDER * pVR = (VDX8RENDER *)api->CreateService("dx8render");
+	VDX9RENDER * pVR = (VDX9RENDER *)api->CreateService("dx8render");
 	if( !pVR ) return IFUNCRESULT_FAILED;
 
 	pVR->SetColorParameters(fGamma,fBright,fContrast);

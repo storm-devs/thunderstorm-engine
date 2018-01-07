@@ -11,7 +11,7 @@ NetWeather::~NetWeather()
 
 void NetWeather::SetDevice()
 {
-	pRS = (VDX8RENDER *)api->CreateService("dx8render"); Assert(pRS);
+	pRS = (VDX9RENDER *)api->CreateService("dx8render"); Assert(pRS);
 }
 
 bool NetWeather::Init()

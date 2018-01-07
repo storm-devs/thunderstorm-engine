@@ -1,7 +1,7 @@
 #include "string.h"
 #include "imgrender.h"
 
-BIString::BIString( BIImageRender* pImgRender, VDX8RENDER* rs )
+BIString::BIString( BIImageRender* pImgRender, VDX9RENDER* rs )
 {
 	m_pImgRender = pImgRender; Assert(m_pImgRender);
 	m_pRS = rs; Assert(m_pRS);

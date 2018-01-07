@@ -57,8 +57,8 @@ bool Tornado::Init()
 	_CORE_API->LayerAdd("execute", GetID(), 70000);
 	_CORE_API->LayerAdd("realize", GetID(), 70000);
 
-	//DX8 render
-	rs = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	//DX9 render
+	rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
 	if(!rs) _THROW("No service: dx8render");
 
 	//Создаём буфера для столба

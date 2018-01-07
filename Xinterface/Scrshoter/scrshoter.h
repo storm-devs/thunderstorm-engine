@@ -5,7 +5,7 @@
 
 class SCRSHOTER : public ENTITY
 {
-	VDX8RENDER  *rs;
+	VDX9RENDER  *rs;
 
 	struct SAVETEXTURES
 	{

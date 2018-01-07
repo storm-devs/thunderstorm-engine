@@ -39,7 +39,7 @@ private:
 
 	float		fRainHeight,fRainRadius;
 	dword		dwNumDrops;
-	VDX8RENDER	* pRS;
+	VDX9RENDER	* pRS;
 
 	long		iVertexBuffer;
 

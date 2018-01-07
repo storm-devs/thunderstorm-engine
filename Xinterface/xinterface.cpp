@@ -200,7 +200,7 @@ void XINTERFACE::SetDevice()
 	m_UtilContainer.Init();
 
     // получить сервис рендера
-	pRenderService = (VDX8RENDER *)api->CreateService("dx8render");
+	pRenderService = (VDX9RENDER *)api->CreateService("dx8render");
 	if(!pRenderService)
 	{
 		THROW("No service: dx8render");
@@ -2863,7 +2863,7 @@ void XINTERFACE::ReleaseDinamicPic(char * sPicName)
 	else prevImg->next = findImg->next;
 }
 
-long FindMaxStrForWidth(VDX8RENDER * pVR, int nW, char * str, int nFontID, float fScale )
+long FindMaxStrForWidth(VDX9RENDER * pVR, int nW, char * str, int nFontID, float fScale )
 {
 	if(!pVR || !str || str[0]=='\0') return 0;
 	int nPrev = -1;

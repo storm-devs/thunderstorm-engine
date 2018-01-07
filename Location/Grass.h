@@ -133,7 +133,7 @@ private:
 
 private:
 	//Сервис рендера
-	VDX8RENDER * rs;
+	VDX9RENDER * rs;
 	//Буфера
 	long vb, ib;
 	long numPoints;

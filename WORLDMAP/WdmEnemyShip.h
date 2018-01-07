@@ -27,7 +27,7 @@ public:
 	virtual void Update(float dltTime);
 
 	//Отрисовка дебажной информации
-	virtual void LRender(VDX8RENDER * rs);
+	virtual void LRender(VDX9RENDER * rs);
 
 	//Найти позицию для корабля относительно игрока
 	static bool GeneratePosition(float objRadius, float brnDltAng, float & x, float & z);

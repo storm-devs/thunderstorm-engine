@@ -29,7 +29,7 @@ public:
 	~XSERVICE();
 
 	// initialization of service
-	void Init(VDX8RENDER* pRS,long lWidth,long lHight);
+	void Init(VDX9RENDER* pRS,long lWidth,long lHight);
 
 	// get texture identificator for image group
 	long GetTextureID(const char* sImageListName);
@@ -54,7 +54,7 @@ protected:
 	void			LoadAllPicturesInfo();
 
 protected:
-	VDX8RENDER	    *m_pRS;
+	VDX9RENDER	    *m_pRS;
 
 	long			m_dwListQuantity;
 	long			m_dwImageQuantity;
@@ -71,7 +71,7 @@ protected:
 
 class ComboString
 {
-	VDX8RENDER	    *m_pRS;
+	VDX9RENDER	    *m_pRS;
 
 	struct STRING_DESCR
 	{

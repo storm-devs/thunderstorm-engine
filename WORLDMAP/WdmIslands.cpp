@@ -560,7 +560,7 @@ void WdmIslands::Update(float dltTime)
 
 }
 
-void WdmIslands::LRender(VDX8RENDER * rs)
+void WdmIslands::LRender(VDX9RENDER * rs)
 {
 	//Рисуем патч если надо
 	if(wdmObjects->isDebug)
@@ -883,7 +883,7 @@ void WdmIslandWaves::Update(float dltTime)
 	while(phase > 1.0f) phase -= 1.0f;
 }
 
-void WdmIslandWaves::LRender(VDX8RENDER * rs)
+void WdmIslandWaves::LRender(VDX9RENDER * rs)
 {
 	const float fullPeriod = 0.8f;
 	float k = phase*(1.0f/fullPeriod);
@@ -904,7 +904,7 @@ void WdmIslandWaves::LRender(VDX8RENDER * rs)
 	}
 }
 
-void WdmIslandWaves::Render(VDX8RENDER * rs, float k)
+void WdmIslandWaves::Render(VDX9RENDER * rs, float k)
 {
 	//Ставим матрицу для текстуры
 	//k = 0.5f + 0.5f*sinf(k*2.0f*PI);

@@ -70,7 +70,7 @@ private:
 	byte				* pDepthMap;
 	byte				* pShadowMap;
 
-	VDX8RENDER			* pRS;
+	VDX9RENDER			* pRS;
 	VGEOMETRY			* pGS;
 	COLLIDE				* pCollide;
 	VIDWALKER			* pIslandTraceWalker;

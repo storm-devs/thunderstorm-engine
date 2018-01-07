@@ -36,7 +36,7 @@ public:
 //»нкапсул€ци€
 //--------------------------------------------------------------------------------------------
 private:
-	VDX8RENDER * rs;
+	VDX9RENDER * rs;
 	IDirect3DSurface9 * renderTarget;
 	IDirect3DSurface9 * surface;
 

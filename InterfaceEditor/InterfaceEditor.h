@@ -18,7 +18,7 @@ public:
 	virtual void Realize( dword dwDeltaTime );
 
 protected:
-	VDX8RENDER* m_pRender;
+	VDX9RENDER* m_pRender;
 	XINTERFACE* m_pInterface;
 
 	EditorManager* m_pManager;

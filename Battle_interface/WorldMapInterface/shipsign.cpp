@@ -2,7 +2,7 @@
 #include "shipcommand.h"
 #include "..\utils.h"
 
-WMShipIcon::WMShipIcon( ENTITY_ID& BIEntityID, VDX8RENDER* pRS ) :
+WMShipIcon::WMShipIcon( ENTITY_ID& BIEntityID, VDX9RENDER* pRS ) :
 	BISignIcon(BIEntityID, pRS)
 {
 }

@@ -54,7 +54,7 @@ public:
 	virtual float Trace(const CVECTOR &src, const CVECTOR &dst) = 0;
 };
 
-class VDX8RENDER;
+class VDX9RENDER;
 
 
 class MODEL : public COLLISION_OBJECT
@@ -66,8 +66,8 @@ public:
 	public:
 		RenderTuner(){};
 		virtual ~RenderTuner(){};
-		virtual void Set(MODEL * model, VDX8RENDER * rs){};
-		virtual void Restore(MODEL * model, VDX8RENDER * rs){};
+		virtual void Set(MODEL * model, VDX9RENDER * rs){};
+		virtual void Restore(MODEL * model, VDX9RENDER * rs){};
 	};
 	void SetRenderTuner(RenderTuner * rt){ renderTuner = rt; };
 	RenderTuner * GetRenderTuner(RenderTuner * rt){ return renderTuner; };

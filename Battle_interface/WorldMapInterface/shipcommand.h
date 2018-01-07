@@ -6,7 +6,7 @@
 class WMShipCommandList : public BICommandList
 {
 public:
-	WMShipCommandList( ENTITY_ID& eid, ATTRIBUTES* pA, VDX8RENDER* rs );
+	WMShipCommandList( ENTITY_ID& eid, ATTRIBUTES* pA, VDX9RENDER* rs );
 	virtual ~WMShipCommandList();
 
 	virtual void FillIcons();

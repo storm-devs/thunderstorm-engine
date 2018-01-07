@@ -212,7 +212,7 @@ void WdmShip::ShipUpdate(float dltTime)
 	UpdateWaterMark(dltTime);
 }
 
-void WdmShip::LRender(VDX8RENDER * rs)
+void WdmShip::LRender(VDX9RENDER * rs)
 {
 	if(wmtexture >= 0 && isWMRender)
 	{

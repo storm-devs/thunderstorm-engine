@@ -32,9 +32,9 @@ public:
 
 	virtual bool Load(const char * modelName);
 
-	void PRender(VDX8RENDER * rs);
-	void MRender(VDX8RENDER * rs);
-	void LRender(VDX8RENDER * rs);
+	void PRender(VDX9RENDER * rs);
+	void MRender(VDX9RENDER * rs);
+	void LRender(VDX9RENDER * rs);
 
 	void SetTech(const char * t, const char * ta);
 	long GetTexture(long stage);
@@ -45,7 +45,7 @@ public:
 	float alpha;
 
 public:
-	void Render(VDX8RENDER * rs);
+	void Render(VDX9RENDER * rs);
 
 	GEOS *geo;
 	const char * tech;

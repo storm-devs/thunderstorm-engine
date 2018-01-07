@@ -136,7 +136,7 @@ class Sailors : public ENTITY
 {
 public:
 
-	VDX8RENDER *rs;
+	VDX9RENDER *rs;
 
 	array <ShipWalk> shipWalk;
 	bool editorMode;

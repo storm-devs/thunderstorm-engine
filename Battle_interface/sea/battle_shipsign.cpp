@@ -3,7 +3,7 @@
 #include "battle_shipcommand.h"
 #include "..\utils.h"
 
-BIShipIcon::BIShipIcon( ENTITY_ID& BIEntityID, VDX8RENDER* pRS ) :
+BIShipIcon::BIShipIcon( ENTITY_ID& BIEntityID, VDX9RENDER* pRS ) :
 	m_aClassProgress(_FL)
 {
 	Assert( pRS );

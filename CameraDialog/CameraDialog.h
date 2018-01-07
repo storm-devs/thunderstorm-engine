@@ -6,7 +6,7 @@
 
 class CameraDialog : public ENTITY
 {
-	VDX8RENDER * rs;
+	VDX9RENDER * rs;
 	COLLIDE *col;
 	CVECTOR pos, ang;
 	float fov;

@@ -28,7 +28,7 @@ BI_InterfaceManager::~BI_InterfaceManager()
 
 bool BI_InterfaceManager::Init()
 {
-	m_pRS = (VDX8RENDER*)api->CreateService("DX8RENDER"); Assert(m_pRS);
+	m_pRS = (VDX9RENDER*)api->CreateService("DX9RENDER"); Assert(m_pRS);
 	m_pImgRender = NEW BIImageRender(m_pRS); Assert(m_pImgRender);
 	m_pMouse = NEW MousePointer(this,AttributesPointer); Assert(m_pMouse);
 

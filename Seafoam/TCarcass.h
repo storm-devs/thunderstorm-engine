@@ -41,7 +41,7 @@ struct tMeasure
 class TCarcass  
 {
 public:
-	TCarcass(int _levelsCount, int _measurePointsCount, VDX8RENDER *_renderer, bool _normalsInverted = false);
+	TCarcass(int _levelsCount, int _measurePointsCount, VDX9RENDER *_renderer, bool _normalsInverted = false);
 	virtual ~TCarcass();
 
 	void InitCircleMeasure(float _d, float _kx, float _ky);
@@ -65,7 +65,7 @@ private:
 	dword    time;
 
 	float uSpeed, vSpeed, speedA;
-	VDX8RENDER *renderer;
+	VDX9RENDER *renderer;
 	int iBuffer, vBuffer;
 };
 

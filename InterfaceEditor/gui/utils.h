@@ -12,7 +12,7 @@ public:
 	static void DrawColorSprite( const EdRect& erPlace, dword dwColor, long nTexture, const EdRect& erUV );
 
 public:
-	static VDX8RENDER* m_pRender;
+	static VDX9RENDER* m_pRender;
 };
 
 #endif

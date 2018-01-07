@@ -18,7 +18,7 @@ BATTLE_LAND_INTERFACE::~BATTLE_LAND_INTERFACE()
 
 bool BATTLE_LAND_INTERFACE::Init()
 {
-	m_pRS=(VDX8RENDER *)api->CreateService("dx8render");
+	m_pRS=(VDX9RENDER *)api->CreateService("dx8render");
 	if( !m_pRS ) {
 		_THROW("Can`t create render service");
 	}

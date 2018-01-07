@@ -43,7 +43,7 @@ private:
 
 private:
 
-	VDX8RENDER * rs;
+	VDX9RENDER * rs;
 
 	LGeometry geometry;
 	OctTree octTree;

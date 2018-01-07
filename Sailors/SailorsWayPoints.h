@@ -128,9 +128,9 @@ public:
 	Points points;
 	Links  links;
 
-	void Draw(VDX8RENDER * rs, bool pointmode);
-	void Draw_(VDX8RENDER * rs, bool pointmode);
-	void DrawLinks(VDX8RENDER * rs);
+	void Draw(VDX9RENDER * rs, bool pointmode);
+	void Draw_(VDX9RENDER * rs, bool pointmode);
+	void DrawLinks(VDX9RENDER * rs);
 
     Path findPath(Path &path, int from, int to); // Посчитать путь
 

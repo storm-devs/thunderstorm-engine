@@ -16,7 +16,7 @@ void TOUCH::SetDevices()
 {
 	ENTITY_ID ent;
 
-	pRS = (VDX8RENDER*)api->CreateService("dx8render");
+	pRS = (VDX9RENDER*)api->CreateService("dx8render");
 }
 
 bool TOUCH::Init()

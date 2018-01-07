@@ -1,6 +1,6 @@
 #include "battle_mancommand.h"
 
-BIManCommandList::BIManCommandList( ENTITY_ID& eid, ATTRIBUTES* pA, VDX8RENDER* rs ) :
+BIManCommandList::BIManCommandList( ENTITY_ID& eid, ATTRIBUTES* pA, VDX9RENDER* rs ) :
 	BICommandList(eid,pA,rs)
 {
 	Init();

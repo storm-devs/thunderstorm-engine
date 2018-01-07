@@ -131,7 +131,7 @@ private:
 	float Vector2Angle(const CVECTOR &_v);
 	void SetManVisible (tShipMan *_man, bool _visible);
 
-	VDX8RENDER *renderer;
+	VDX9RENDER *renderer;
 
 	PLANE clipPlanes[4];
 	CVECTOR cameraPosition;

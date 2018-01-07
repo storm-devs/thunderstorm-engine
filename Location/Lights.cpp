@@ -55,8 +55,8 @@ Lights::~Lights()
 //Инициализация
 bool Lights::Init()
 {
-	//DX8 render
-	rs = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	//DX9 render
+	rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
 	if(!rs) _THROW("No service: dx8render");
 	collide = (COLLIDE *)_CORE_API->CreateService("COLL");
 	//Зачитаем параметры

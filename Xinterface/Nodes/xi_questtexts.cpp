@@ -92,7 +92,7 @@ bool GetNextIdFromList(char* &sptr, char* bufQuestID,size_t nSizeBufQuestID, cha
 	return true;
 }
 
-static void SubRightWord(char* buf,int fontNum,int width,VDX8RENDER *rs)
+static void SubRightWord(char* buf,int fontNum,int width,VDX9RENDER *rs)
 {
 	if(buf==NULL) return;
 	long bufSize = strlen(buf);
@@ -184,7 +184,7 @@ void CXI_QUESTTEXTS::Draw(bool bSelected,dword Delta_Time)
 	}
 }
 
-bool CXI_QUESTTEXTS::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX8RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize)
+bool CXI_QUESTTEXTS::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize)
 {
 	if( !CINODE::Init(ini1,name1, ini2,name2, rs,hostRect,ScreenSize) ) return false;
 	SetGlowCursor(false);

@@ -35,7 +35,7 @@ private:
 		inline bool operator < (const SeaBlock & B) const { return (B.iLOD < iLOD); };
 	};
 
-	VDX8RENDER *rs;
+	VDX9RENDER *rs;
 
 	dword			dwMaxDim, dwMinDim;
 	float			fMaxSeaHeight;

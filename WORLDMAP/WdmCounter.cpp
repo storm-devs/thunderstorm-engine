@@ -114,7 +114,7 @@ void WdmCounter::Update(float dltTime)
 
 }
 
-void WdmCounter::LRender(VDX8RENDER * rs)
+void WdmCounter::LRender(VDX9RENDER * rs)
 {
 	//Матрица камеры
 	static CMatrix view, prj, oldPrj;
@@ -250,7 +250,7 @@ bool WdmCounter::LoadModel(WdmRenderModel * & pnt, const char * name, const char
 	return true;
 }
 
-void WdmCounter::DrawNum(VDX8RENDER * rs, WdmRenderModel * m, float u, float v)
+void WdmCounter::DrawNum(VDX9RENDER * rs, WdmRenderModel * m, float u, float v)
 {
 	CMatrix mtx;
 	mtx.m[0][0] = 0.25f;

@@ -56,8 +56,8 @@ public:
 	//Расчёты
 	virtual void Update(float dltTime);
 	//Отрисовка
-	virtual void PRender(VDX8RENDER * rs);
-	virtual void LRender(VDX8RENDER * rs);
+	virtual void PRender(VDX9RENDER * rs);
+	virtual void LRender(VDX9RENDER * rs);
 
 	virtual void Move(float dltTime);
 
@@ -94,7 +94,7 @@ protected:
 	float rainBurnTime;
 
 private:
-	void Render(VDX8RENDER * rs);
+	void Render(VDX9RENDER * rs);
 	void FindPartPos(CVECTOR & v);
 	float Rnd();
 	

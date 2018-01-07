@@ -8,7 +8,7 @@ class BIImageRender;
 class BIString : public IBIString
 {
 public:
-	BIString( BIImageRender* pImgRender, VDX8RENDER* rs );
+	BIString( BIImageRender* pImgRender, VDX9RENDER* rs );
 	~BIString();
 
 	long GetPrioritet() {return m_nPrioritet;}
@@ -29,7 +29,7 @@ protected:
 	void UpdateString();
 
 	BIImageRender* m_pImgRender;
-	VDX8RENDER* m_pRS;
+	VDX9RENDER* m_pRS;
 	FRECT m_BasePos;
 	long m_nPrioritet;
 	string m_sText;

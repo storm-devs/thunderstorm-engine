@@ -34,7 +34,7 @@ public:
 
 	static	ATTRIBUTES		* pASeaCameras;
 	static	ISLAND_BASE		* pIsland;
-	static	VDX8RENDER		* pRS;
+	static	VDX9RENDER		* pRS;
 	static	COLLIDE			* pCollide;
 
 	static	float			fGravity;

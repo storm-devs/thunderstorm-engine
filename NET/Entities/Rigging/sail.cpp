@@ -7,7 +7,7 @@
 
 #define WIND_SPEED_MAX 12.f
 
-void _cdecl sailPrint(VDX8RENDER *rs, const CVECTOR & pos3D, float rad, long line, const char * format, ...);
+void _cdecl sailPrint(VDX9RENDER *rs, const CVECTOR & pos3D, float rad, long line, const char * format, ...);
 int traceSail = -1;
 long g_iBallOwnerIdx = -1;
 
@@ -173,7 +173,7 @@ void NetSail::SetDevice()
     mtx.SetIdentity();
 
     // получить сервис рендера
-	RenderService = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	RenderService = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
 	if(!RenderService)
 	{
 		_THROW("No service: dx8render");
@@ -1767,7 +1767,7 @@ void NetSail::DoNoRopeSailToNewHost(ENTITY_ID newModel, ENTITY_ID newHost, ENTIT
     }
 }
 
-void _cdecl sailPrint(VDX8RENDER *rs, const CVECTOR & pos3D, float rad, long line, const char * format, ...)
+void _cdecl sailPrint(VDX9RENDER *rs, const CVECTOR & pos3D, float rad, long line, const char * format, ...)
 {
 	static char buf[256];
 	//Печатаем в буфер

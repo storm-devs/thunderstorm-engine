@@ -11,7 +11,7 @@
 class TIVBufferManager  
 {
 public:
-	TIVBufferManager(VDX8RENDER *_renderer, long _vType, long _vSize, long _iCount, long _vCount, long _count);
+	TIVBufferManager(VDX9RENDER *_renderer, long _vType, long _vSize, long _iCount, long _vCount, long _count);
 	virtual ~TIVBufferManager();
 
 	long ReserveElement();
@@ -23,7 +23,7 @@ public:
 	void DrawBuffers(char *_technique);
 
 private:
-	VDX8RENDER *renderer;
+	VDX9RENDER *renderer;
 	long vBuffer, iBuffer;
 	long vType, vSize, iCount, vCount, elementsCount;
 	bool *used;

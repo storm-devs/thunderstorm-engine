@@ -63,7 +63,7 @@ bool SEAFOAM::Init()
 		sea = (SEA_BASE*) _CORE_API->GetEntityPointer(&seaID);
 	}
 
-	renderer = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	renderer = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
 	soundService = (VSoundService *)_CORE_API->CreateService("SoundService");
 
 	psIni = _CORE_API->fio->OpenIniFile("resource\\ini\\particles.ini");

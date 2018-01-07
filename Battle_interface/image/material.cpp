@@ -2,7 +2,7 @@
 #include "image.h"
 #include "imgrender.h"
 
-BIImageMaterial::BIImageMaterial( VDX8RENDER* pRS, BIImageRender* pImgRender ) :
+BIImageMaterial::BIImageMaterial( VDX9RENDER* pRS, BIImageRender* pImgRender ) :
 	m_apImage(_FL)
 {
 	m_pRS = pRS;

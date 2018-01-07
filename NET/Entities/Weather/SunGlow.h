@@ -87,7 +87,7 @@ private:
 	sunflares_t		Flares;
 	reflection_t	Reflection;
 	COLLIDE			* pCollide;
-	VDX8RENDER		* pRS;
+	VDX9RENDER		* pRS;
 	VIDWALKER		* pVWSunTrace, * pVWSailsTrace;
 
 	array<RS_RECT>	aRSR;

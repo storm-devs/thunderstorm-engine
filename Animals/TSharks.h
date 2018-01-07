@@ -50,7 +50,7 @@ public:
 private:
 	void LoadSettings();
 
-	VDX8RENDER *renderService;
+	VDX9RENDER *renderService;
 	ENTITY_ID  sharkModel;
 	TShark *sharks[SHARK_COUNT];
 	TShip  *ships[SHARK_MAX_SHIPS];

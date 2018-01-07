@@ -15,7 +15,7 @@ InterfaceEditor::~InterfaceEditor()
 
 bool InterfaceEditor::Init()
 {
-	m_pRender = (VDX8RENDER*)api->CreateService( "DX8Render" );
+	m_pRender = (VDX9RENDER*)api->CreateService( "DX9Render" );
 	Assert( m_pRender );
 	EdUtils::m_pRender = m_pRender;
 

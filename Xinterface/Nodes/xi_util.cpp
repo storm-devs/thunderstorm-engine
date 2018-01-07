@@ -279,7 +279,7 @@ long CXI_UTILS::SplitStringByWidth( const char* pcText, long nFontID, float fFon
 	long nMaxUsingWidth = 0;
 	const char * pcSrcStr = pcText;
 	if( pcSrcStr == 0 ) return nMaxUsingWidth;
-	VDX8RENDER * rs = (VDX8RENDER*)api->CreateService("dx8render");
+	VDX9RENDER * rs = (VDX9RENDER*)api->CreateService("dx8render");
 	asOutStr.DelAll();
 
 	long nSrc = 0;
@@ -407,7 +407,7 @@ void CXI_UTILS::WriteSquareToVertexBuffer( XI_ONETEX_VERTEX *pv, dword color, FX
 	pv[3].tv = uv.bottom;
 }
 
-void CXI_UTILS::PrintTextIntoWindow(VDX8RENDER* pRender,
+void CXI_UTILS::PrintTextIntoWindow(VDX9RENDER* pRender,
 									long nFont, dword dwColor, long wAlignment, bool bShadow, float fScale,
 									long scrWidth, long scrHeight, long x, long y,
 									const char* pcString, long left,long top, long width,long height)

@@ -37,7 +37,7 @@ bool SEA_OPERATOR::Init()
 	_CORE_API->LayerAdd("execute", GetID(), 0);
 	//_CORE_API->SystemMessages(GetID(),true);
 
-	renderer = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	renderer = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
 
 	return true;
 }

@@ -32,7 +32,7 @@ class VSoundService;
 
 class DIALOG : public ENTITY
 {
-	static VDX8RENDER * RenderService;
+	static VDX9RENDER * RenderService;
 public:
 	 DIALOG();
 	~DIALOG();
@@ -52,7 +52,7 @@ private:
 
 	struct TextDescribe
 	{
-		VDX8RENDER* rs;
+		VDX9RENDER* rs;
 		POINT offset;
 		long nWindowWidth;
 		long nFontID;
@@ -83,7 +83,7 @@ private:
 		virtual ~DlgTextDescribe() {Release();}
 		virtual void Release() {TextDescribe::Release();}
 		void __declspec(dllexport) __cdecl ChangeText(const char* pcText);
-		void __declspec(dllexport) __cdecl Init(VDX8RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni);
+		void __declspec(dllexport) __cdecl Init(VDX9RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni);
 		long GetShowHeight();
 		void Show(long nY);
 		bool IsLastPage();
@@ -106,7 +106,7 @@ private:
 		virtual ~DlgLinkDescribe() {Release();}
 		virtual void Release() {TextDescribe::Release();}
 		void __declspec(dllexport) __cdecl ChangeText(ATTRIBUTES* pALinks);
-		void __declspec(dllexport) __cdecl Init(VDX8RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni);
+		void __declspec(dllexport) __cdecl Init(VDX9RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni);
 		long GetShowHeight();
 		void Show(long nY);
 		void __declspec(dllexport) __cdecl ShowEditMode(long nX, long nY, long nTextIdx);

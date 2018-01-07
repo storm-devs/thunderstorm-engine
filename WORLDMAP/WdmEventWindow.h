@@ -36,7 +36,7 @@ public:
 	//Расчёты
 	virtual void Update(float dltTime);
 	//Отрисовка
-	virtual void LRender(VDX8RENDER * rs);
+	virtual void LRender(VDX9RENDER * rs);
 
 //--------------------------------------------------------------------------------------------
 //Инкапсуляция

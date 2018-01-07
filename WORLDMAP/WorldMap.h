@@ -21,7 +21,7 @@
 
 class WdmRenderObject;
 class WdmRenderModel;
-class VDX8RENDER;
+class VDX9RENDER;
 class WdmCamera;
 class WdmEventWindow;
 class WdmWaitMenu;
@@ -83,7 +83,7 @@ public:
 
 //--------------------------------------------------------------------------------------------
 
-	VDX8RENDER * GetRS();
+	VDX9RENDER * GetRS();
 
 //--------------------------------------------------------------------------------------------
 //Инкапсуляция
@@ -119,7 +119,7 @@ private:
 
 private:
 	//Сервис рендера
-	VDX8RENDER * rs;
+	VDX9RENDER * rs;
 	WdmCamera * camera;
 
 	ATTRIBUTES * aStorm;
@@ -159,7 +159,7 @@ public:
 	static long month[];
 };
 
-inline VDX8RENDER * WorldMap::GetRS()
+inline VDX9RENDER * WorldMap::GetRS()
 {
 	return rs;
 }

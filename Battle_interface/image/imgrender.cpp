@@ -1,7 +1,7 @@
 #include "imgrender.h"
 #include "string.h"
 
-BIImageRender::BIImageRender(VDX8RENDER* pRS) :
+BIImageRender::BIImageRender(VDX9RENDER* pRS) :
 	m_apMaterial(_FL),
 	m_apStrings(_FL)
 {

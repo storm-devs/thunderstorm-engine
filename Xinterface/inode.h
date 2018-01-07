@@ -83,7 +83,7 @@ public:
 	virtual QUEST_FILE_READER * QuestFileReader() = 0;
 	virtual VXSERVICE *			PictureService() = 0;
 	virtual VSTRSERVICE *		StringService() = 0;
-	virtual VDX8RENDER *		RenderService() = 0;
+	virtual VDX9RENDER *		RenderService() = 0;
 	virtual void *				GetCurrentNode() = 0;
 	virtual FXYPOINT			GetMousePoint() = 0;
 	virtual long				PrintIntoWindow(long wl,long wr, long idFont, DWORD dwFCol, DWORD dwBCol, long align, bool shadow, float scale, long sxs, long sys, long left, long top, char * str, int nWidthForScaleCorrecting=-1, int nSplit=0) = 0;
@@ -137,7 +137,7 @@ public:
 	CINODE();
 	virtual ~CINODE();
 	virtual void	Draw(bool bSelected,dword Delta_Time) = 0;
-	virtual bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX8RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
+	virtual bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
 	virtual void	ReleaseAll() = 0;
 	CINODE*			DoAction(int wActCode,bool &bBreakPress,bool bFirstPress);
 	virtual int		CommandExecute(int wActCode) = 0;
@@ -203,7 +203,7 @@ public:
 
 	XINTERFACE_BASE * ptrOwner;
 
-	VDX8RENDER *m_rs;
+	VDX9RENDER *m_rs;
 	XYPOINT     m_screenSize;
 	XYRECT      m_rect;
 	XYRECT      m_hostRect;

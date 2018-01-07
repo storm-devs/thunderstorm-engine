@@ -39,7 +39,7 @@ public:
 	BI_ManagerBase() {}
 	~BI_ManagerBase() {}
 
-	VDX8RENDER* GetDX8Render() {return m_pRS;}
+	VDX9RENDER* GetDX9Render() {return m_pRS;}
 	BIImageRender* GetImageRender() {return m_pImgRender;}
 	BI_MousePointerBase* GetMouse() {return m_pMouse;}
 
@@ -48,7 +48,7 @@ public:
 	virtual void DeleteNode(BI_ManagerNodeBase* pNod) = 0;
 
 protected:
-	VDX8RENDER *m_pRS;
+	VDX9RENDER *m_pRS;
 	BIImageRender *m_pImgRender;
 	BI_MousePointerBase *m_pMouse;
 };

@@ -1,7 +1,7 @@
 #include "TIVBufferManager.h"
 
 //--------------------------------------------------------------------
-TIVBufferManager::TIVBufferManager(VDX8RENDER *_renderer, long _vType, long _vSize, long _iCount, long _vCount, long _count)
+TIVBufferManager::TIVBufferManager(VDX9RENDER *_renderer, long _vType, long _vSize, long _iCount, long _vCount, long _count)
 	:renderer(_renderer)
 	,vBuffer(0)
 	,iBuffer(0)

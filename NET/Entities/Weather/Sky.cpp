@@ -36,7 +36,7 @@ bool NetSky::Init()
  
 void NetSky::SetDevice()
 {
-	pRS = (VDX8RENDER *)_CORE_API->CreateService("dx8render"); Assert(pRS);
+	pRS = (VDX9RENDER *)_CORE_API->CreateService("dx8render"); Assert(pRS);
 }
 
 dword NetSky::CalcFogDiffuse(CVECTOR & vPos)

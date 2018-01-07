@@ -50,8 +50,8 @@ Blots::~Blots()
 bool Blots::Init()
 {
 	GUARD(Blots::Init())
-	//DX8 render
-	rs = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	//DX9 render
+	rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
 	if(!rs) _THROW("No service: dx8render");
 	//Layers
 	//_CORE_API->LayerCreate("realize", true, false);

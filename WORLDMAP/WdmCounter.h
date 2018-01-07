@@ -31,9 +31,9 @@ public:
 	//Расчёты
 	void Update(float dltTime);
 
-	void PRender(VDX8RENDER * rs){};
-	void MRender(VDX8RENDER * rs){};
-	void LRender(VDX8RENDER * rs);
+	void PRender(VDX9RENDER * rs){};
+	void MRender(VDX9RENDER * rs){};
+	void LRender(VDX9RENDER * rs);
 
 
 //--------------------------------------------------------------------------------------------
@@ -41,7 +41,7 @@ public:
 //--------------------------------------------------------------------------------------------
 private:
 	bool LoadModel(WdmRenderModel * & pnt, const char * name, const char * tech);
-	void DrawNum(VDX8RENDER * rs, WdmRenderModel * m, float u, float v);
+	void DrawNum(VDX9RENDER * rs, WdmRenderModel * m, float u, float v);
 
 
 private:

@@ -110,8 +110,8 @@ bool Grass::Init()
 	}
 	// boal выбор шайдера <--
 
-	//DX8 render
-	rs = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	//DX9 render
+	rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
 	if(!rs) _THROW("No service: dx8render");
 	//Буфер для динамических данных
 	vb = rs->CreateVertexBuffer(0, GRASS_MAX_POINTS*4*sizeof(Vertex), D3DUSAGE_DYNAMIC);

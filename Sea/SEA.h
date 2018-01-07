@@ -57,7 +57,7 @@ private:
 		float		fTime;
 	};
 
-	VDX8RENDER		* rs;
+	VDX9RENDER		* rs;
 	static SEA		* pSea;
 
 	dword			dwMaxDim, dwMinDim;

@@ -60,8 +60,8 @@ public:
 
 	void Update(float dltTime);
 
-	virtual void PRender(VDX8RENDER * rs);
-	virtual void LRender(VDX8RENDER * rs);
+	virtual void PRender(VDX9RENDER * rs);
+	virtual void LRender(VDX9RENDER * rs);
 
 
 //--------------------------------------------------------------------------------------------
@@ -69,9 +69,9 @@ public:
 //--------------------------------------------------------------------------------------------
 private:
 	//Нарисовать
-	void Render(VDX8RENDER * rs, const char * tech = null);
+	void Render(VDX9RENDER * rs, const char * tech = null);
 	//Настроить преобразования текстурных координат
-	void PresetMain(VDX8RENDER * rs);
+	void PresetMain(VDX9RENDER * rs);
 
 private:
 	//Буфера для геометрии

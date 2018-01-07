@@ -32,7 +32,7 @@ bool BLAST::Init()
 {	
 	gs = (VGEOMETRY *)_CORE_API->CreateService("geometry");
 	if(!gs) return false;
-	rs = (VDX8RENDER*)_CORE_API->CreateService("dx8render");
+	rs = (VDX9RENDER*)_CORE_API->CreateService("dx8render");
 	if(!rs) return false;
 
 	long RandomNum;

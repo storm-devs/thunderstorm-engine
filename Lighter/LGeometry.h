@@ -46,11 +46,11 @@ public:
 	//Добавить объект
 	void AddObject(const char * name, ENTITY_ID & model);
 	//Обработать данные
-	bool Process(VDX8RENDER * rs, long numLights);
+	bool Process(VDX9RENDER * rs, long numLights);
 	//Нарисовать нормали
-	void DrawNormals(VDX8RENDER * rs);
+	void DrawNormals(VDX9RENDER * rs);
 	//Обновить цвета в буферах
-	void UpdateColors(VDX8RENDER * rs);
+	void UpdateColors(VDX9RENDER * rs);
 	//Протрейсить луч через все модели
 	float Trace(CVECTOR & src, CVECTOR & dst);
 	//Сохранить освещение

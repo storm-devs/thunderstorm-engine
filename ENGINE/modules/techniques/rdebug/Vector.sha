@@ -1,4 +1,4 @@
-block DX8Vector()
+block DX9Vector()
 {
 	technique t0
 	{
@@ -23,7 +23,7 @@ block DX8Vector()
 	}
 }
 
-block DX8Sphere()
+block DX9Sphere()
 {
 	technique t0
 	{

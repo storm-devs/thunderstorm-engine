@@ -12,7 +12,7 @@ class BIManCommandList;
 class BIManSign
 {
 public:
-	BIManSign( ENTITY_ID& BIEntityID, VDX8RENDER* pRS );
+	BIManSign( ENTITY_ID& BIEntityID, VDX9RENDER* pRS );
 	~BIManSign();
 
 	void Draw();
@@ -57,7 +57,7 @@ protected:
 	__forceinline bool BoolACompare(ATTRIBUTES* pA, const char* attrName, bool & bCompareVal);
 	__forceinline dword GetColorByFactor(dword dwLowColor,dword dwHighColor, float fFactor);
 
-	VDX8RENDER* m_pRS;
+	VDX9RENDER* m_pRS;
 	ATTRIBUTES* m_pARoot;
 	BIManCommandList* m_pCommandList;
 	ENTITY_ID m_idHostEntity;

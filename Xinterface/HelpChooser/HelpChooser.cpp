@@ -31,7 +31,7 @@ HELPCHOOSER::~HELPCHOOSER()
 void HELPCHOOSER::SetDevice()
 {
     // получить сервис рендера
-	rs = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
 	if(!rs){_THROW("No service: dx8render")}
 }
 

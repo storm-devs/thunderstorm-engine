@@ -40,7 +40,7 @@ void WATERFLARE::SetDevice()
 {
 	GUARD(void WATERFLARE::SetDevice())
 
-	RS = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	RS = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
 	if (!RS) _THROW("No service: dx8render");
 
 	ENTITY_ID	ent;

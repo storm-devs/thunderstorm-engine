@@ -8,7 +8,7 @@ class BIImageMaterial;
 class BIImage : public IBIImage
 {
 public:
-	BIImage( VDX8RENDER* rs, BIImageMaterial* pMaterial );
+	BIImage( VDX9RENDER* rs, BIImageMaterial* pMaterial );
 	~BIImage();
 
 	long GetVertexQuantity() {return m_nVertexQuantity;}
@@ -34,7 +34,7 @@ protected:
 	float CalculateMidPos( float fMin, float fMax, float fK ) {return fMin + fK * (fMax - fMin);}
 	void Release();
 
-	VDX8RENDER* m_pRS;
+	VDX9RENDER* m_pRS;
 	BIImageMaterial* m_pMaterial;
 
 	long m_nVertexQuantity;

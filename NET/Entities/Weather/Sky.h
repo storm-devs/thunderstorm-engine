@@ -45,7 +45,7 @@ private:
 	dword		dwSkyColor;
 	float		fSkySpeedRotate, fSkySize, fAngleY, fSkyAngle;
 
-	VDX8RENDER	* pRS;
+	VDX9RENDER	* pRS;
 	long		TexturesID[SKY_NUM_TEXTURES];
 
 	long		iSkyVertsID, iSkyIndexID;

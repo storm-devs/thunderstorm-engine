@@ -119,7 +119,7 @@ private:
 	bool SetLabel(ShipLight * pL, MODEL * pModel, const char * pStr);
 
 public:
-	static VDX8RENDER * pRS;
+	static VDX9RENDER * pRS;
 	static COLLIDE * pCollide;
 
 	ShipLights();

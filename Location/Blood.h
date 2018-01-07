@@ -53,7 +53,7 @@ public:
 	static bool AddClipPoligon(const CVECTOR * v, long nv);
 
 protected:
-	VDX8RENDER* pRS;
+	VDX9RENDER* pRS;
 	COLLIDE* pCol;
 	long texID;
 

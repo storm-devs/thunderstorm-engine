@@ -17,7 +17,7 @@ public:
 
 public:
 	static NetClient * pClient;
-	static VDX8RENDER * pRS;
+	static VDX9RENDER * pRS;
 	static float fDeltaTime;	// current delta time
 
 	// add packet to queue

@@ -21,7 +21,7 @@ protected:
 	QUEST_FILE_READER *	pQuestService;
 	VXSERVICE *			pPictureService;
 	VSTRSERVICE *		pStringService;
-	VDX8RENDER *		pRenderService;
+	VDX9RENDER *		pRenderService;
 
 	CXI_UTILS m_UtilContainer;
 
@@ -99,12 +99,12 @@ public:
 	static QUEST_FILE_READER *	GetQuestFileReader() {return pThis->pQuestService;}
 	static VXSERVICE *			GetPictureService() {return pThis->pPictureService;}
 	static VSTRSERVICE *		GetStringService() {return pThis->pStringService;}
-	static VDX8RENDER *			GetRenderService() {return pThis->pRenderService;}
+	static VDX9RENDER *			GetRenderService() {return pThis->pRenderService;}
 
 	virtual QUEST_FILE_READER * QuestFileReader() {return pQuestService;}
 	virtual VXSERVICE *			PictureService() {return pPictureService;}
 	virtual VSTRSERVICE *		StringService() {return pStringService;}
-	virtual VDX8RENDER *		RenderService() {return pRenderService;}
+	virtual VDX9RENDER *		RenderService() {return pRenderService;}
 
 	void *						GetCurrentNode() {return m_pCurNode;}
 	FXYPOINT					GetMousePoint() {return FXYPOINT(fXMousePos+m_lXMouse,fYMousePos+m_lYMouse);}

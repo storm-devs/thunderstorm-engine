@@ -4,7 +4,7 @@
 
 AIHelper		Helper;
 
-VDX8RENDER		* AIHelper::pRS = null;
+VDX9RENDER		* AIHelper::pRS = null;
 ISLAND_BASE		* AIHelper::pIsland = null;
 COLLIDE			* AIHelper::pCollide = null;
 ATTRIBUTES		* AIHelper::pASeaCameras = null;
@@ -36,7 +36,7 @@ bool AIHelper::Uninit()
 
 bool AIHelper::SetDevice()
 {
-	pRS = (VDX8RENDER *)api->CreateService("dx8render"); Assert(pRS);
+	pRS = (VDX9RENDER *)api->CreateService("dx8render"); Assert(pRS);
 	pCollide = (COLLIDE*)api->CreateService("COLL"); Assert(pCollide);
 
 	return true;

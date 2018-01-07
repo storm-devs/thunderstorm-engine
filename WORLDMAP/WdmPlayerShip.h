@@ -28,7 +28,7 @@ public:
 
 	//Расчёты
 	virtual void Update(float dltTime);
-	virtual void LRender(VDX8RENDER * rs);
+	virtual void LRender(VDX9RENDER * rs);
 
 	//Проверка при выходе из карты
 	bool ExitFromMap();

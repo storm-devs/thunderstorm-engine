@@ -48,7 +48,7 @@ public:
 private:
 	void UpdateGrid(int _ringI, WORD *iPointer, RING_VERTEX *vPointer, long vOffset);
 
-	VDX8RENDER       *renderService;
+	VDX9RENDER       *renderService;
 	SEA_BASE		 *sea;
 	TIVBufferManager *ivManager;
 	long             ringTexture;

@@ -37,7 +37,7 @@ public:
 //»нкапсул€ци€
 //--------------------------------------------------------------------------------------------
 private:
-	VDX8RENDER * rs;
+	VDX9RENDER * rs;
 
 	VSoundService * soundService;
 	long sID;

@@ -32,7 +32,7 @@ bool WideScreen::Init()
 	_CORE_API->LayerCreate("realize", true, false);
 	_CORE_API->LayerSetRealize("realize", true);
 	_CORE_API->LayerAdd("realize", GetID(), -257);
-	rs = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
 	if(!rs) _THROW("No service: dx8render");
 	D3DVIEWPORT9 vp;
 	rs->GetViewport(&vp);

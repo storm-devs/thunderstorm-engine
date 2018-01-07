@@ -53,7 +53,7 @@ void GEOMETRY::SetVBConvertFunc(VERTEX_TRANSFORM _transform_func)
 static bool geoLog = false;
 bool GEOMETRY::Init()
 {
-	RenderService = (VDX8RENDER *)_CORE_API->CreateService(RenderServiceName);
+	RenderService = (VDX9RENDER *)_CORE_API->CreateService(RenderServiceName);
 	if(!RenderService)
 	{
 		_CORE_API->Trace("No service: %s",RenderServiceName);
@@ -169,7 +169,7 @@ void GEOMETRY::DeleteGeometry(GEOS * gid)
 // Block 2
 //=================================================================================================
 
-void GEOM_SERVICE_R::SetRenderService(VDX8RENDER * render_service)
+void GEOM_SERVICE_R::SetRenderService(VDX9RENDER * render_service)
 {
 	bCaustic = false;
 	RenderService = render_service;

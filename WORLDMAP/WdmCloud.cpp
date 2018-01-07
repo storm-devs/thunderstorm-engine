@@ -199,12 +199,12 @@ void WdmCloud::Update(float dltTime)
 	}
 }
 
-void WdmCloud::PRender(VDX8RENDER * rs)
+void WdmCloud::PRender(VDX9RENDER * rs)
 {
 //	LRender(rs);
 }
 
-void WdmCloud::LRender(VDX8RENDER * rs)
+void WdmCloud::LRender(VDX9RENDER * rs)
 {
 	Render(rs);
 }
@@ -233,7 +233,7 @@ long WdmCloud::FillRain(RS_RECT * rainRect, long rcnt)
 	return rcnt;
 }
 
-void WdmCloud::Render(VDX8RENDER * rs)
+void WdmCloud::Render(VDX9RENDER * rs)
 {
 	//Инверсная матрица камеры
 	CMatrix view;

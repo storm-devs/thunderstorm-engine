@@ -65,7 +65,7 @@ private:
 
 	bool enabled, active;
 	SEA_BASE *sea;
-	VDX8RENDER *renderer;
+	VDX9RENDER *renderer;
 	SHIP_BASE *myShip, *enemyShip;
 	long actionTime;
 	bool ballTracked;

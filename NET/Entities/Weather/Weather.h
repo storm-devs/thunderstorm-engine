@@ -15,7 +15,7 @@ private:
 	dword dwSunColor, dwSunAmbient;
 	dword dwFogColor;
 	bool bFogEnable;
-	VDX8RENDER * pRS;
+	VDX9RENDER * pRS;
 
 	void	SetCommonStates();
 	void	CleanUP();

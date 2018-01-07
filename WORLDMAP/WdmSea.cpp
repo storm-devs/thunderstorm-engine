@@ -260,7 +260,7 @@ void WdmSea::Update(float dltTime)
 }
 
 
-void WdmSea::PRender(VDX8RENDER * rs)
+void WdmSea::PRender(VDX9RENDER * rs)
 {
 	//Предворительная отрисовка подложки
 	//Textures
@@ -270,7 +270,7 @@ void WdmSea::PRender(VDX8RENDER * rs)
 	Render(rs, "WdmSeaDraw1");
 }
 
-void WdmSea::LRender(VDX8RENDER * rs)
+void WdmSea::LRender(VDX9RENDER * rs)
 {
 	//Дорисовка подложки
 	//Textures
@@ -323,7 +323,7 @@ void WdmSea::LRender(VDX8RENDER * rs)
 	}
 }
 
-void WdmSea::Render(VDX8RENDER * rs, const char * tech)
+void WdmSea::Render(VDX9RENDER * rs, const char * tech)
 {
 	static CMatrix identity;
 	if(vb < 0 || ib < 0) return;
@@ -332,7 +332,7 @@ void WdmSea::Render(VDX8RENDER * rs, const char * tech)
 }
 
 //Настроить преобразования текстурных координат
-void WdmSea::PresetMain(VDX8RENDER * rs)
+void WdmSea::PresetMain(VDX9RENDER * rs)
 {
 	//Матрица для текстур
 	CMatrix mtx;

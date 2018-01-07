@@ -25,7 +25,7 @@ protected:
 	void ReplaceRectangle( long x, long y );
 
 protected:
-	VDX8RENDER* m_rs;
+	VDX9RENDER* m_rs;
 	XI_ONETEX_VERTEX* m_pV;
 	WORD* m_pI;
 	long m_nSquareQ;

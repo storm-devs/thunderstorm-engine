@@ -1,6 +1,6 @@
 #include "shipcommand.h"
 
-WMShipCommandList::WMShipCommandList( ENTITY_ID& eid, ATTRIBUTES* pA, VDX8RENDER* rs ) :
+WMShipCommandList::WMShipCommandList( ENTITY_ID& eid, ATTRIBUTES* pA, VDX9RENDER* rs ) :
 	BICommandList(eid,pA,rs)
 {
 	Init();

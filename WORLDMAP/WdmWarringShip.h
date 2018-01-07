@@ -34,7 +34,7 @@ public:
 	virtual void Update(float dltTime);
 
 	//Отрисовка
-	virtual void LRender(VDX8RENDER * rs);
+	virtual void LRender(VDX9RENDER * rs);
 
 protected:
 	//Все расчёты то перемещению вместе

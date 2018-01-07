@@ -6,7 +6,7 @@
 #include "rigging_define.h"
 #include <stdio.h>
 
-extern void _cdecl sailPrint(VDX8RENDER *rs, const CVECTOR & pos3D, float rad, long line, const char * format, ...);
+extern void _cdecl sailPrint(VDX9RENDER *rs, const CVECTOR & pos3D, float rad, long line, const char * format, ...);
 
 ROPE::ROPE()
 {
@@ -70,7 +70,7 @@ bool ROPE::Init()
 void ROPE::SetDevice()
 {
     // получить сервис рендера
-	RenderService = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	RenderService = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
 	if(!RenderService)
 	{
 		_THROW("No service: dx8render");

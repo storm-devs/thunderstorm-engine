@@ -1,7 +1,7 @@
 #include "battle_sign.h"
 #include "utils.h"
 
-BISignIcon::BISignIcon( ENTITY_ID& BIEntityID, VDX8RENDER* pRS )
+BISignIcon::BISignIcon( ENTITY_ID& BIEntityID, VDX9RENDER* pRS )
 {
 	Assert( pRS );
 

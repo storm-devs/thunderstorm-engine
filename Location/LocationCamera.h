@@ -85,7 +85,7 @@ private:
 	
 
 private:
-	VDX8RENDER * rs;
+	VDX9RENDER * rs;
 	//Море
 	ENTITY_ID sea;
 	//Параметры камеры

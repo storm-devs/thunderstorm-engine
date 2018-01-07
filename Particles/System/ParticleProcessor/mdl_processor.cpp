@@ -27,7 +27,7 @@ ModelProcessor::ModelProcessor (ParticleManager* pManager) : Particles(_FL_, MAX
 		pMemArray[n].Free = true;
 	}
 
-	pRS = (VDX8RENDER*)api->CreateService("DX8Render");
+	pRS = (VDX9RENDER*)api->CreateService("DX9Render");
 	Assert (pRS);
 
 }

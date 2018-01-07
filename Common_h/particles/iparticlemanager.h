@@ -38,7 +38,7 @@ public:
 	virtual bool Release () = 0;
 
 //Получить указатель на Render/FileService
-	virtual VDX8RENDER* Render () = 0;
+	virtual VDX9RENDER* Render () = 0;
 
 //Открыть проект
 	virtual bool OpenProject (const char* FileName) = 0;

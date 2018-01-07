@@ -1,6 +1,6 @@
 #include "Track.h"
 
-VDX8RENDER * ShipTracks::ShipTrack::pRS = null;
+VDX9RENDER * ShipTracks::ShipTrack::pRS = null;
 SEA_BASE * ShipTracks::ShipTrack::pSea = null;
 long ShipTracks::ShipTrack::iRefCount = 0;
 dword ShipTracks::ShipTrack::dwMaxBufferSize1 = 0, ShipTracks::ShipTrack::dwMaxBufferSize2 = 0;
@@ -20,7 +20,7 @@ bool ShipTracks::Init()
 {
 	ENTITY_ID sea_id;
 
-	ShipTrack::pRS = (VDX8RENDER *)api->CreateService("dx8render");	Assert(ShipTrack::pRS);
+	ShipTrack::pRS = (VDX9RENDER *)api->CreateService("dx8render");	Assert(ShipTrack::pRS);
 	if (api->FindClass(&sea_id, "sea", 0)) ShipTrack::pSea = (SEA_BASE*)api->GetEntityPointer(&sea_id);
 	return true;
 }

@@ -40,7 +40,7 @@ bool MODELR::Init()
 {
 	GUARD(MODELR::Init)
 
-	rs = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
 	if(!rs)	_THROW("No service: dx8render");
 
 	GeometyService = (VGEOMETRY *)_CORE_API->CreateService("geometry");

@@ -93,7 +93,7 @@ public:
 	static void WriteSquareToVertexBuffer( XI_ONETEX_VERTEX *pv, dword color, FXYRECT& uv, XYRECT& rect );
 	static void WriteSquareToVertexBuffer( XI_ONETEX_VERTEX *pv, dword color, FXYRECT& uv, long left,long top,long right,long bottom );
 
-	static void PrintTextIntoWindow(VDX8RENDER* pRender,
+	static void PrintTextIntoWindow(VDX9RENDER* pRender,
 		long nFont, dword dwColor, long wAlignment, bool bShadow, float fScale,
 		long scrWidth, long scrHeight, long x, long y,
 		const char* pcString, long left,long top, long width,long height);

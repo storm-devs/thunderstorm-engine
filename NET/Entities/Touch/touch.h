@@ -28,7 +28,7 @@ protected:
 		long			iNumVContour;			// num points in contour
 	};
 
-	VDX8RENDER	* pRS;
+	VDX9RENDER	* pRS;
 	ISLAND_BASE	* pIslandBase;
 
 	bool		bUseTouch;

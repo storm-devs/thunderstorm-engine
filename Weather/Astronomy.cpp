@@ -1,6 +1,6 @@
 #include "Astronomy.h"
 
-VDX8RENDER * Astronomy::pRS = null;
+VDX9RENDER * Astronomy::pRS = null;
 VGEOMETRY * Astronomy::pGS = null;
 
 Astronomy::Astronomy()
@@ -22,7 +22,7 @@ bool Astronomy::Init()
 
 void Astronomy::SetDevice()
 {
-	pRS = (VDX8RENDER *)api->CreateService("dx8render"); Assert(pRS);
+	pRS = (VDX9RENDER *)api->CreateService("dx8render"); Assert(pRS);
 	pGS = (VGEOMETRY *)api->CreateService("geometry");
 }
 

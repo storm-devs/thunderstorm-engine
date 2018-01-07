@@ -42,7 +42,7 @@ bool PEOPLE_ON_SHIP::Init()
 {
 	GUARD(PEOPLE_ON_SHIP::Init)
 
-	renderer = (VDX8RENDER *) _CORE_API->CreateService("dx8render");
+	renderer = (VDX9RENDER *) _CORE_API->CreateService("dx8render");
 
 	return true;
 	UNGUARD

@@ -2,7 +2,7 @@
 #include "battle_mancommand.h"
 #include "..\utils.h"
 
-BIManSign::BIManSign( ENTITY_ID& BIEntityID, VDX8RENDER* pRS ) :
+BIManSign::BIManSign( ENTITY_ID& BIEntityID, VDX9RENDER* pRS ) :
 	m_aChargeProgress(_FL)
 {
 	Assert( pRS );

@@ -123,7 +123,7 @@ void TornadoParticles::Update(float dltTime)
 	}
 }
 
-void TornadoParticles::Draw(VDX8RENDER * rs)
+void TornadoParticles::Draw(VDX9RENDER * rs)
 {
 	rs->GetTransform(D3DTS_VIEW, camMtx);
 	rs->SetTransform(D3DTS_VIEW,CMatrix());
@@ -135,7 +135,7 @@ void TornadoParticles::Draw(VDX8RENDER * rs)
 	rs->SetTransform(D3DTS_VIEW, camMtx);
 }
 
-inline void TornadoParticles::DrawParticles(VDX8RENDER * rs, void * prts, long num, long size, long texture, const char * tech)
+inline void TornadoParticles::DrawParticles(VDX9RENDER * rs, void * prts, long num, long size, long texture, const char * tech)
 {
 	long n = 0;
 	for(long i = 0; i < num; i++)

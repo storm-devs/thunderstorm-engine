@@ -37,7 +37,7 @@ private:
 	TSplash *TryToAddSplash(const CVECTOR &_pos, const CVECTOR &_dir);
 
 	TSplash    splashes[MAX_SPLASHES];
-	VDX8RENDER *renderer;
+	VDX9RENDER *renderer;
 	SEA_BASE   *sea;
 };
 

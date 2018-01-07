@@ -18,7 +18,7 @@ TSink::~TSink()
 }
 
 //--------------------------------------------------------------------
-void TSink::Initialize(INIFILE * _ini, IDirect3DDevice9 *_device, SEA_BASE *_sea, VDX8RENDER *_renderer)
+void TSink::Initialize(INIFILE * _ini, IDirect3DDevice9 *_device, SEA_BASE *_sea, VDX9RENDER *_renderer)
 {
 	sea = _sea;
 	renderer = _renderer;

@@ -29,7 +29,7 @@ class ISPYGLASS : public ENTITY
 
 	struct TextParam
 	{
-		VDX8RENDER* rs;
+		VDX9RENDER* rs;
 		long nFontID;
 		POINT pos;
 		float fScale;
@@ -40,7 +40,7 @@ class ISPYGLASS : public ENTITY
 		TextParam() {rs=0; nFontID=-1;}
 		~TextParam() {Release();}
 		void Release() {if(rs && nFontID>=0) rs->UnloadFont(nFontID); nFontID=-1;}
-		void LoadFromAttr(VDX8RENDER* rs,ATTRIBUTES* pA,const char* pcDefText,long nDefXPos,long nDefYPos);
+		void LoadFromAttr(VDX9RENDER* rs,ATTRIBUTES* pA,const char* pcDefText,long nDefXPos,long nDefYPos);
 		void Print();
 	};
 
@@ -68,7 +68,7 @@ public:
     dword _cdecl ProcessMessage(MESSAGE & message);
 
 protected:
-	VDX8RENDER *rs;
+	VDX9RENDER *rs;
 	BIImageRender* m_pImgRender;
 
 	// telescope lens

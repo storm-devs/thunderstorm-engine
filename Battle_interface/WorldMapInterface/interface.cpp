@@ -23,7 +23,7 @@ WM_INTERFACE::~WM_INTERFACE()
 
 bool WM_INTERFACE::Init()
 {
-	rs = (VDX8RENDER*)api->CreateService("DX8RENDER");
+	rs = (VDX9RENDER*)api->CreateService("DX9RENDER");
 	Assert(rs);
 
 	LoadIniFile();

@@ -10,7 +10,7 @@ class WATERFLARE : public ENTITY
 	float			*pfAlpha;
 	long			iFlareTex,iFlaresNum;
 	WEATHER_BASE	*pWeather;
-	VDX8RENDER		*RS;
+	VDX9RENDER		*RS;
 
 
 	void	GenerateFlares();

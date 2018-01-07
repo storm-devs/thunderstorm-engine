@@ -264,7 +264,7 @@ Character::RTuner::RTuner()
 	isVisible = true;
 }
 
-void Character::RTuner::Set(MODEL * model, VDX8RENDER * rs)
+void Character::RTuner::Set(MODEL * model, VDX9RENDER * rs)
 {
 	NODE * n = model->GetNode(0);
 	if(!n) return;
@@ -305,7 +305,7 @@ void Character::RTuner::Set(MODEL * model, VDX8RENDER * rs)
 	if(ls) ls->SetCharacterLights(&character->curPos);
 }
 
-void Character::RTuner::Restore(MODEL * model, VDX8RENDER * rs)
+void Character::RTuner::Restore(MODEL * model, VDX9RENDER * rs)
 {
 	Lights * ls = character->location->GetLights();
 	if(ls) ls->DelCharacterLights();
@@ -2556,7 +2556,7 @@ void Character::SetSoundPosition(long id)
 	CVECTOR pos = curPos + CVECTOR(0.0f, 1.0f, 0.0f);
 	if(location->supervisor.player)
 	{
-		VDX8RENDER * rs = location->GetRS();
+		VDX9RENDER * rs = location->GetRS();
 		if(rs)
 		{
 			static CMatrix view, cur;

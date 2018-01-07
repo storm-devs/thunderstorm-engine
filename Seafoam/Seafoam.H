@@ -65,7 +65,7 @@ private:
 	void InterpolateRightParticle(tShipFoamInfo &_shipFoamInfo, int z, dword _dTime);
 	void AddShip(ENTITY_ID * pShipEID);
 
-	VDX8RENDER *renderer;
+	VDX9RENDER *renderer;
 	ENTITY_ID seaID;
 	SEA_BASE *sea;
 	tShipFoamInfo shipFoamInfo[MAX_SHIPS];

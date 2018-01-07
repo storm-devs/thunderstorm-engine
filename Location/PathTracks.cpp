@@ -77,7 +77,7 @@ bool PathTracks::Load(const char * fileName)
 }
 
 //Нарисовать трек
-void PathTracks::Draw(VDX8RENDER* render)
+void PathTracks::Draw(VDX9RENDER* render)
 {
 	/*render.FlushBufferedLines();
 	for(long i = 0; i < numPoints - 1; i++)

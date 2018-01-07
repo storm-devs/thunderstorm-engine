@@ -55,7 +55,7 @@ void WdmCamera::Init(float defAy, float defHeight)
 	realHeight = pos.y;
 }
 
-void WdmCamera::Move(float dltTime, VDX8RENDER * rs)
+void WdmCamera::Move(float dltTime, VDX9RENDER * rs)
 {
 	const float pi = 3.14159265f;
 	if(dltTime > 0.1f) dltTime = 0.1f;

@@ -282,7 +282,7 @@ void WdmClouds::Update(float dltTime)
 }
 
 //Рисование
-void WdmClouds::LRender(VDX8RENDER * rs)
+void WdmClouds::LRender(VDX9RENDER * rs)
 {
 	long cnt = 0;
 	//Получаем фрустум камеры

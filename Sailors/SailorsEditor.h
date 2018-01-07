@@ -22,7 +22,7 @@ class SailorsEditor : public ENTITY
 	virtual void Realize(dword dltTime);
 
 
-	VDX8RENDER * rs;
+	VDX9RENDER * rs;
 	ENTITY_ID sailors;
 	ENTITY_ID shipID;
 	ENTITY_ID pointID;

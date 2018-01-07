@@ -33,7 +33,7 @@ public:
 private:
 	void LoadSettings();
 
-	VDX8RENDER *renderService;
+	VDX9RENDER *renderService;
 	COLLIDE *collide;
 	VIDWALKER *walker;
 	TIVBufferManager *ivManager;

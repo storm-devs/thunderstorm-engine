@@ -8,7 +8,7 @@
 #define WIDEN_K			 3.0f
 
 //--------------------------------------------------------------------
-TCarcass::TCarcass(int _levelsCount, int _measurePointsCount, 	VDX8RENDER *_renderer, bool _normalsInverted /*= false*/)
+TCarcass::TCarcass(int _levelsCount, int _measurePointsCount, 	VDX9RENDER *_renderer, bool _normalsInverted /*= false*/)
 	:levelsCount(_levelsCount)
 	,indexesCreated(false)
 	,time(0)

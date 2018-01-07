@@ -65,8 +65,8 @@ LocationEffects::~LocationEffects()
 //Инициализация
 bool LocationEffects::Init()
 {
-	//DX8 render
-	rs = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	//DX9 render
+	rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
 	if(!rs) _THROW("No service: dx8render");
 
 	_CORE_API->LayerCreate("execute", true, false);

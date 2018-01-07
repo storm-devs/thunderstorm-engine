@@ -726,7 +726,7 @@ inline float PtcData::FindHeight(long trgID, float x, float z)
 }
 
 //Отладочная отрисовка
-void PtcData::DebugDraw(VDX8RENDER * rs, float dltTime)
+void PtcData::DebugDraw(VDX9RENDER * rs, float dltTime)
 {
 	if(numTriangles <= 0) return;
 	if(!dbgTriangles)

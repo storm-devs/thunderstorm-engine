@@ -43,7 +43,7 @@ bool FREE_CAMERA::Init()
 
 void FREE_CAMERA::SetDevice()
 {
-	pRS = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	pRS = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
 	Assert(pRS);
 	pCollide		= (COLLIDE*)_CORE_API->CreateService("COLL");
 	Assert(pCollide);

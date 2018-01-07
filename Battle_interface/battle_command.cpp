@@ -3,7 +3,7 @@
 #include "sea\ships_list.h"
 #include "utils.h"
 
-BICommandList::BICommandList( ENTITY_ID& eid, ATTRIBUTES* pA, VDX8RENDER* rs ) :
+BICommandList::BICommandList( ENTITY_ID& eid, ATTRIBUTES* pA, VDX9RENDER* rs ) :
 	m_aTexture(_FL),
 	m_aUsedCommand(_FL),
 	m_aCooldownUpdate(_FL)

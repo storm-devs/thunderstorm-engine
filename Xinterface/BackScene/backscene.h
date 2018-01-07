@@ -56,7 +56,7 @@ public:
 	dword _cdecl ProcessMessage(MESSAGE & message);
 
 protected:
-	VDX8RENDER* m_pRS;
+	VDX9RENDER* m_pRS;
 
 	ENTITY_ID m_eiModel;
 	MODEL* m_pModel;

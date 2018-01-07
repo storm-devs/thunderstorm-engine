@@ -68,7 +68,7 @@ public:
 	//Расчёты
 	virtual void Update(float dltTime);
 	//Рисование
-	virtual void LRender(VDX8RENDER * rs);
+	virtual void LRender(VDX9RENDER * rs);
 	
 
 	long texture, light;

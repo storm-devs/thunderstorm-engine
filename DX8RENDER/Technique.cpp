@@ -616,7 +616,7 @@ SRSPARAM	RESTORE_TYPES[] = {
 	{ "states", SUBCODE_RESTORE_STATES },
 	{ "clear", SUBCODE_RESTORE_CLEAR } };
 
-CTechnique::CTechnique(VDX8RENDER * _pRS) : htBlocks(_FL_)
+CTechnique::CTechnique(VDX9RENDER * _pRS) : htBlocks(_FL_)
 {
 	dwNumBlocks = 0;
 	dwNumShaders = 0;

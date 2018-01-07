@@ -49,7 +49,7 @@ void TSharks::Init()
 {
 	LoadSettings();
 
-	renderService = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	renderService = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
 	if(!renderService)
 		_THROW("!Sharks: No service 'dx8render'");
 

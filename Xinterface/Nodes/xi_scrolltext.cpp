@@ -47,7 +47,7 @@ void CXI_SCROLLTEXT::Draw(bool bSelected,dword Delta_Time)
 	}
 }
 
-bool CXI_SCROLLTEXT::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX8RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize)
+bool CXI_SCROLLTEXT::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize)
 {
 	if( !CINODE::Init(ini1,name1, ini2,name2, rs,hostRect,ScreenSize) ) return false;
 	SetText("proba string ^fnormal continue proba string one, two, three etc. Continue next stringes from full screen filling");

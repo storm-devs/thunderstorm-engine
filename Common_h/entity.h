@@ -33,7 +33,7 @@
 class CORE;
 
 extern VSYSTEM_API * _VSYSTEM_API;
-class VDX8RENDER;
+class VDX9RENDER;
 class VGEOMETRY;
 class COLLIDE;
 
@@ -44,7 +44,7 @@ private:
 	ENTITY_ID Entity_ID;
 	bool bServer, bFirstTestServer;
 	VGEOMETRY * __pGeoService;
-	VDX8RENDER * __pRenderService;
+	VDX9RENDER * __pRenderService;
 	COLLIDE * __pCollideService;
 	dword dwNetID;
 
@@ -78,7 +78,7 @@ public:
 	virtual bool CreateState(ENTITY_STATE_GEN * state_gen)		{return true;};
 	virtual dword AttributeChanged(ATTRIBUTES *)				{return 0;};
 
-	virtual VDX8RENDER & Render() { if (!__pRenderService) __pRenderService = (VDX8RENDER*)_VSYSTEM_API->CreateService("dx8render"); return *__pRenderService; };
+	virtual VDX9RENDER & Render() { if (!__pRenderService) __pRenderService = (VDX9RENDER*)_VSYSTEM_API->CreateService("dx8render"); return *__pRenderService; };
 	virtual VGEOMETRY & Geometry() { if (!__pGeoService) __pGeoService = (VGEOMETRY *)_VSYSTEM_API->CreateService("geometry"); return *__pGeoService; };
 	virtual COLLIDE & Collide() { if (!__pCollideService) __pCollideService = (COLLIDE *)_VSYSTEM_API->CreateService("coll"); return *__pCollideService; };
 

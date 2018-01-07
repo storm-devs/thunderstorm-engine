@@ -17,7 +17,7 @@ public:
 
 public:
 	static NetServer * pServer;
-	static VDX8RENDER * pRS;
+	static VDX9RENDER * pRS;
 	static float fDeltaTime;	// current delta time
 	static float fGravity;
 	

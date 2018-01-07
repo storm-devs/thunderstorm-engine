@@ -35,7 +35,7 @@ public:
 
 private:
 
-	VDX8RENDER       *renderService;
+	VDX9RENDER       *renderService;
 	SEA_BASE		 *sea;
 	BSPS_PS          *particles;
 	SHIP_BASE		 *myShip;

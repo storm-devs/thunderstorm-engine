@@ -94,7 +94,7 @@ public:
 	
 	Lights * GetLights();
 
-	VDX8RENDER * GetRS();
+	VDX9RENDER * GetRS();
 	void DrawLine(const CVECTOR & s, dword cs, const CVECTOR & d, dword cd, bool useZ = true);
 	//Написать текст
 	void _cdecl Print(const CVECTOR & pos3D, float rad, long line, float alpha, dword color, float scale, const char * format, ...);
@@ -150,7 +150,7 @@ private:
 	bool isPause;
 	bool isDebugView;
 
-	VDX8RENDER * rs;
+	VDX9RENDER * rs;
 	
 	//Все модельки
 	ModelArray model;
@@ -202,7 +202,7 @@ inline MODEL * Location::JmpPatch()
 	return model[patchJump];	
 }
 
-inline VDX8RENDER * Location::GetRS()
+inline VDX9RENDER * Location::GetRS()
 {
 	return rs;
 }

@@ -15,7 +15,7 @@
 INTERFACE_FUNCTION
 CREATE_CLASS(DIALOG)
 
-VDX8RENDER * DIALOG::RenderService = 0;
+VDX9RENDER * DIALOG::RenderService = 0;
 FRECT DIALOG::m_frScreenData;
 
 inline void SetVerticesForSquare(XI_TEX_VERTEX* pV, FRECT uv, float left,float top, float right,float bottom)
@@ -72,7 +72,7 @@ void __declspec(noinline) __cdecl DIALOG::DlgTextDescribe::ChangeText(const char
 	nSelectLine = -1;
 }
 
-void __declspec(noinline) __cdecl DIALOG::DlgTextDescribe::Init(VDX8RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni)
+void __declspec(noinline) __cdecl DIALOG::DlgTextDescribe::Init(VDX9RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni)
 {
 	Assert(pRS);
 	rs = pRS;
@@ -186,7 +186,7 @@ void __declspec(noinline) __cdecl DIALOG::DlgLinkDescribe::ChangeText(ATTRIBUTES
 	fCursorCurrentTime = 0.f;
 }
 
-void __declspec(noinline) __cdecl DIALOG::DlgLinkDescribe::Init(VDX8RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni)
+void __declspec(noinline) __cdecl DIALOG::DlgLinkDescribe::Init(VDX9RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni)
 {
 	Assert(pRS);
 	rs = pRS;
@@ -757,7 +757,7 @@ bool DIALOG::Init()
 	api->SetTimeScale(0.f);
 	unfadeTime = 0;
 
-	RenderService = (VDX8RENDER *)api->CreateService("dx8render");
+	RenderService = (VDX9RENDER *)api->CreateService("dx8render");
 	Assert( RenderService );
 
 	snd = (VSoundService *)api->CreateService("SoundService");

@@ -28,7 +28,7 @@ SailorsEditor :: ~SailorsEditor()
 
 bool SailorsEditor :: Init()
 {
-	rs = (VDX8RENDER *) _CORE_API->CreateService("dx8render");
+	rs = (VDX9RENDER *) _CORE_API->CreateService("dx8render");
 
 	bool result= api->CreateEntity(&sailors, "Sailors");
 

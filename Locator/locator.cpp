@@ -20,7 +20,7 @@ LOCATOR::~LOCATOR()
 
 bool LOCATOR::Init() 
 {	
-	rs = (VDX8RENDER *)api->CreateService("dx8render");
+	rs = (VDX9RENDER *)api->CreateService("dx8render");
 	gs = (VGEOMETRY *)api->CreateService("geometry");
 	if(!gs) return false;
 	

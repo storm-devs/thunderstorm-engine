@@ -108,8 +108,8 @@ class Character : public ENTITY
 
 	class RTuner : public MODEL::RenderTuner
 	{
-		virtual void Set(MODEL * model, VDX8RENDER * rs);
-		virtual void Restore(MODEL * model, VDX8RENDER * rs);
+		virtual void Set(MODEL * model, VDX9RENDER * rs);
+		virtual void Restore(MODEL * model, VDX9RENDER * rs);
 	public:
 		RTuner();
 		float alpha;

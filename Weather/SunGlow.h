@@ -91,7 +91,7 @@ private:
 	COLLIDE			* pCollide;
 	WEATHER_BASE	* pWeather;
 	SKY				* pSky;
-	VDX8RENDER		* pRS;
+	VDX9RENDER		* pRS;
 	VIDWALKER		* pVWSunTrace, * pVWSailsTrace;
 	long			idRectBuf;
 

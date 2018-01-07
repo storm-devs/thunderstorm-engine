@@ -106,7 +106,7 @@ void LGeometry::AddObject(const char * name, ENTITY_ID & model)
 
 
 //Обработать данные
-bool LGeometry::Process(VDX8RENDER * rs, long numLights)
+bool LGeometry::Process(VDX9RENDER * rs, long numLights)
 {
 	//Подготовка данных для освещения
 	for(long i = 0; i < numObjects; i++)
@@ -345,7 +345,7 @@ bool LGeometry::Process(VDX8RENDER * rs, long numLights)
 }
 
 //Нарисовать нормали
-void LGeometry::DrawNormals(VDX8RENDER * rs)
+void LGeometry::DrawNormals(VDX9RENDER * rs)
 {
 	if(!drawbuf) drawbuf = NEW CVECTOR[1024];
 	rs->SetRenderState(D3DRS_TEXTUREFACTOR, 0xff00ff00);
@@ -368,7 +368,7 @@ void LGeometry::DrawNormals(VDX8RENDER * rs)
 }
 
 //Обновить цвета в буферах
-void LGeometry::UpdateColors(VDX8RENDER * rs)
+void LGeometry::UpdateColors(VDX9RENDER * rs)
 {
 	long lockedVB = -1;
 	byte * pnt = null;

@@ -71,7 +71,7 @@ void Points :: Delete(int Index)
 
 //--------------------------------------------------------------------------------------------------------------
 
-void SailorsPoints :: Draw(VDX8RENDER * rs, bool pointmode)
+void SailorsPoints :: Draw(VDX9RENDER * rs, bool pointmode)
 {
 	//D3DXVec3TransformCoord(0,0,0);
 
@@ -158,7 +158,7 @@ void SailorsPoints :: Draw(VDX8RENDER * rs, bool pointmode)
 };
 
 //--------------------------------------------------------------------------------------------------------------
-void SailorsPoints :: Draw_(VDX8RENDER * rs, bool pointmode)
+void SailorsPoints :: Draw_(VDX9RENDER * rs, bool pointmode)
 {
 	if (!points.count || !links.count) return;
 
@@ -212,7 +212,7 @@ void SailorsPoints :: Draw_(VDX8RENDER * rs, bool pointmode)
 };
 
 //--------------------------------------------------------------------------------------------------------------
-void SailorsPoints :: DrawLinks(VDX8RENDER * rs)
+void SailorsPoints :: DrawLinks(VDX9RENDER * rs)
 {
 
 	CVECTOR _v2,_v1;

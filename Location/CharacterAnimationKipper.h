@@ -15,7 +15,7 @@
 #include "..\common_h\vmodule_api.h"
 #include "..\common_h\animation.h"
 
-class VDX8RENDER;
+class VDX9RENDER;
 
 class CharacterAnimationKipper : public ENTITY
 {
@@ -34,7 +34,7 @@ public:
 //»нкапсул€ци€
 //--------------------------------------------------------------------------------------------
 private:
-	VDX8RENDER * rs;
+	VDX9RENDER * rs;
 
 	AnimationService * asr;
 	Animation * aniMan;

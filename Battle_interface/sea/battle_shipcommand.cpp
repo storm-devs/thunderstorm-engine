@@ -2,7 +2,7 @@
 #include "ships_list.h"
 #include "island_descr.h"
 
-BIShipCommandList::BIShipCommandList( ENTITY_ID& eid, ATTRIBUTES* pA, VDX8RENDER* rs ) :
+BIShipCommandList::BIShipCommandList( ENTITY_ID& eid, ATTRIBUTES* pA, VDX9RENDER* rs ) :
 	BICommandList(eid,pA,rs),
 	m_aChargeQuantity(_FL)
 {

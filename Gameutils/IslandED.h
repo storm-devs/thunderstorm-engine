@@ -50,7 +50,7 @@ private:
 	TGA_H					Header;
 	BYTE					* pRaw;
 	IDirect3DTexture9		* pIslandTexture;
-	VDX8RENDER				* pRS;
+	VDX9RENDER				* pRS;
 
 	dword	GetNearestPointIdx(CVECTOR vSrc);
 	float	Trace(spoint *p1, spoint *p2);

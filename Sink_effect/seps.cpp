@@ -195,7 +195,7 @@ bool SEPS_PS::Init(INIFILE * ini, char * psname)
 	bool bRes;
 
 	// load render service -----------------------------------------------------
-	RenderService = (VDX8RENDER *)api->CreateService("dx8render");
+	RenderService = (VDX9RENDER *)api->CreateService("dx8render");
 	if(!RenderService)	_THROW("No service: dx8render");
 
 	gs = (VGEOMETRY *)_CORE_API->CreateService("geometry");

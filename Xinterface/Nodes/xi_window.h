@@ -9,7 +9,7 @@ public:
 	CXI_WINDOW();
 	~CXI_WINDOW();
 
-	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX8RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
+	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
 	void	ChangePosition( XYRECT &rNewPos );
 	void	SaveParametersToIni();
 

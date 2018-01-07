@@ -72,8 +72,8 @@ bool Fader::Init()
 	_CORE_API->LayerCreate("fader_execute", true, false);
 	_CORE_API->LayerSetExecute("fader_execute", true);
 	_CORE_API->LayerAdd("fader_execute", GetID(), -256);
-	//DX8 render
-	rs = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	//DX9 render
+	rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
 	if(!rs) _THROW("No service: dx8render");
 	D3DVIEWPORT9 vp;
 	rs->GetViewport(&vp);

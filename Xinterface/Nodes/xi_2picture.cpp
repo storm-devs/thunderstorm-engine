@@ -47,7 +47,7 @@ void CXI_TWOPICTURE::Draw(bool bSelected,dword Delta_Time)
 	}
 }
 
-bool CXI_TWOPICTURE::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX8RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize)
+bool CXI_TWOPICTURE::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize)
 {
 	if( !CINODE::Init(ini1,name1, ini2,name2, rs,hostRect,ScreenSize) ) return false;
 	return true;

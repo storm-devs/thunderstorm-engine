@@ -27,7 +27,7 @@ public:
 		keyPressed= false;
 	};
 
-	void Draw(VDX8RENDER * rs, SailorsPoints &sailorsPoints);
+	void Draw(VDX9RENDER * rs, SailorsPoints &sailorsPoints);
 	void OnKeyPress(SailorsPoints &sailorsPoints);
 	void ChangeControl(int key, SailorsPoints &sailorsPoints);
 

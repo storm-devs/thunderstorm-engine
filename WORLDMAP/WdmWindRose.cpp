@@ -37,7 +37,7 @@ void WdmWindRose::Update(float dltTime)
 
 }
 
-void WdmWindRose::LRender(VDX8RENDER * rs)
+void WdmWindRose::LRender(VDX9RENDER * rs)
 {
 	static CMatrix view, prj, oldView, oldPrj;
 	rs->GetTransform(D3DTS_VIEW, view);

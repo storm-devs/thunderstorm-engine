@@ -29,7 +29,7 @@ private:
 	class ShipTrack
 	{
 	public:
-		static VDX8RENDER * pRS;
+		static VDX9RENDER * pRS;
 		static SEA_BASE * pSea;
 		static long iVTmpBuffer1, iVTmpBuffer2;
 		static long iITmpBuffer1, iITmpBuffer2;

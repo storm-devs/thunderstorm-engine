@@ -305,7 +305,7 @@ void TButterfly::Draw(TIVBufferManager *_ivManager)
 }
 
 //--------------------------------------------------------------------
-void TButterfly::Draw(VDX8RENDER *_renderer, MODEL *_model)
+void TButterfly::Draw(VDX9RENDER *_renderer, MODEL *_model)
 {
 	CMatrix moveToPos, rightWingRotate, leftWingRotate;
 	moveToPos.BuildPosition(centerPosition.x, centerPosition.y, centerPosition.z);

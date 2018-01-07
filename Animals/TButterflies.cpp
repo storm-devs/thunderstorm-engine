@@ -46,7 +46,7 @@ void TButterflies::Init()
 {
 	LoadSettings();
 
-	renderService = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	renderService = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
 	if(!renderService)	
 		_THROW("!Butterflies: No service 'dx8render'");
 

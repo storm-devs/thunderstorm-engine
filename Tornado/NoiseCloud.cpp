@@ -87,7 +87,7 @@ void NoiseCloud::Update(float dltTime)
 	}
 }
 
-void NoiseCloud::Draw(VDX8RENDER * rs)
+void NoiseCloud::Draw(VDX9RENDER * rs)
 {
 	rs->TextureSet(0, texture);
 	for(long i = 0; i < sizeof(rect)/sizeof(Rect); i++)

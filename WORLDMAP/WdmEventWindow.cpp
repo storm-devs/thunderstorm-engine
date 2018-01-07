@@ -93,7 +93,7 @@ void WdmEventWindow::ActivateEvent(const char * etext, const char * _yes, const 
 void WdmEventWindow::SplitText()
 {
 	if(!text[0]) return;
-	VDX8RENDER * rs = wdmObjects->wm->GetRS();
+	VDX9RENDER * rs = wdmObjects->wm->GetRS();
 	numTokens = 0;
 	long sw = 0;
 	long maxsw = 0;
@@ -277,7 +277,7 @@ void WdmEventWindow::Update(float dltTime)
 }
 
 //Отрисовка
-void WdmEventWindow::LRender(VDX8RENDER * rs)
+void WdmEventWindow::LRender(VDX9RENDER * rs)
 {
 	if(!text || !text[0]) return;
 	Vertex buf[(3*2)*3];

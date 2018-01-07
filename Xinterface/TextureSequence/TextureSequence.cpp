@@ -45,7 +45,7 @@ TextureSequence::~TextureSequence()
 	Release();
 }
 
-IDirect3DTexture9* TextureSequence::Initialize(VDX8RENDER *pRS, const char* cTSfileName, bool bCicled)
+IDirect3DTexture9* TextureSequence::Initialize(VDX9RENDER *pRS, const char* cTSfileName, bool bCicled)
 {
 	m_bCicled = bCicled;
 	if(pRS==null || cTSfileName==null) return null;

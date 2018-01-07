@@ -44,7 +44,7 @@ bool NetFlag::Init()
 void NetFlag::SetDevice()
 {
     // получить сервис рендера
-	RenderService = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	RenderService = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
 	if(!RenderService)
 	{
 		_THROW("No service: dx8render");

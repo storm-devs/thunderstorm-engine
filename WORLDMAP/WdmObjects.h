@@ -74,7 +74,7 @@ public:
 	//Энжиновский орбъект, заведующий всем
 	WorldMap * wm;
 	//Сервис рендера
-	VDX8RENDER * rs;
+	VDX9RENDER * rs;
 	//Сервис геометриии
 	VGEOMETRY * gs;
 	//Камера

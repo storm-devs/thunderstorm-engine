@@ -103,7 +103,7 @@ void WdmWarringShip::Update(float dltTime)
 }
 
 //Отрисовка
-void WdmWarringShip::LRender(VDX8RENDER * rs)
+void WdmWarringShip::LRender(VDX9RENDER * rs)
 {
 	WdmEnemyShip::LRender(rs);
 	//Дым

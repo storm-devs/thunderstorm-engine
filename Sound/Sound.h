@@ -36,7 +36,7 @@ public:
 
 private:
 	VSoundService *soundService;
-	VDX8RENDER	  *renderer;
+	VDX9RENDER	  *renderer;
 };
 
 //API_MODULE_START("Sound")

@@ -63,7 +63,7 @@ class ParticleManager : public IParticleManager
 	//Сервис который родил систему
 	ParticleService* pService;
 
-  VDX8RENDER* pRS;
+  VDX9RENDER* pRS;
 
 	void DeleteAllSystems ();
 
@@ -98,7 +98,7 @@ public:
  virtual bool Release ();
 
 //Получить указатель на Render/FileService 
- virtual VDX8RENDER* Render ();
+ virtual VDX9RENDER* Render ();
 
 //Открыть проект 
  virtual bool OpenProject (const char* FileName);

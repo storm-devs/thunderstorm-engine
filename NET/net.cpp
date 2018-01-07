@@ -26,14 +26,14 @@
 class NET_SCRIPT_LIBRIARY : public SCRIPT_LIBRIARY
 {
 public:
-	static VDX8RENDER * pRS;
+	static VDX9RENDER * pRS;
 
 	NET_SCRIPT_LIBRIARY() {};
 	~NET_SCRIPT_LIBRIARY() {};
 	virtual bool Init();
 };
 
-VDX8RENDER * NET_SCRIPT_LIBRIARY::pRS = null;
+VDX9RENDER * NET_SCRIPT_LIBRIARY::pRS = null;
 
 #include "Script\NetFile.inl"
 #include "Script\NetMessage.inl"
@@ -95,7 +95,7 @@ bool NET_SCRIPT_LIBRIARY::Init()
 {
 	IFUNCINFO fi;
 
-	pRS = (VDX8RENDER *)api->CreateService("dx8render"); Assert(pRS);
+	pRS = (VDX9RENDER *)api->CreateService("dx8render"); Assert(pRS);
 
 	// ===================================
 	// Net native function
@@ -208,7 +208,7 @@ bool Net::Init()
 {
 	if (!WSAStartup(1, 1)) return false;
 
-	VDX8RENDER * pRS = (VDX8RENDER *)api->CreateService("dx8render"); Assert(pRS);
+	VDX9RENDER * pRS = (VDX9RENDER *)api->CreateService("dx8render"); Assert(pRS);
 	
 	NetServer::pRS = pRS;
 	NetClient::pRS = pRS;

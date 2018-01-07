@@ -10,7 +10,7 @@
 //-------------------------------------------------------------------
 class GEOMETRY  : public VGEOMETRY
 {
-	VDX8RENDER * RenderService;
+	VDX9RENDER * RenderService;
 public:
 	GEOMETRY();
 	virtual ~GEOMETRY();
@@ -32,13 +32,13 @@ public:
 
 class GEOM_SERVICE_R : public GEOM_SERVICE
 {
-	VDX8RENDER * RenderService;
+	VDX9RENDER * RenderService;
 	GEOS::ID CurentIndexBuffer;
 	GEOS::ID CurentVertexBuffer;
 	dword	 CurentVertexBufferSize;
 	bool	bCaustic;
 public:
-	void SetRenderService(VDX8RENDER * render_service);
+	void SetRenderService(VDX9RENDER * render_service);
 
 
 	virtual ~GEOM_SERVICE_R();

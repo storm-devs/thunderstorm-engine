@@ -70,7 +70,7 @@ struct ship_point_t
 	ENTITY_ID		sail_id, rope_id, flag_id, cannon_id,
 					vant_id, touch_id, sea_id, blots_id;
 
-	static VDX8RENDER		* pRS;
+	static VDX9RENDER		* pRS;
 	static SEA_BASE			* pSea;
 	static ISLAND_BASE		* pIsland;
 	static COLLIDE			* pCollide;

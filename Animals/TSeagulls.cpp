@@ -58,7 +58,7 @@ void TSeagulls::Init()
 	startY = 0.f;
 	LoadSettings();
 
-	renderService = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	renderService = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
 	soundService = (VSoundService *)_CORE_API->CreateService("SoundService");
 
 	if(!renderService)	

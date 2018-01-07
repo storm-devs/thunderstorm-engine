@@ -9,7 +9,7 @@
 
 class SHADOW : public ENTITY
 {
-	VDX8RENDER * rs;
+	VDX9RENDER * rs;
 	COLLIDE *col;
 	void FindPlanes(const CMatrix &view, const CMatrix &proj);
 	PLANE planes[6];

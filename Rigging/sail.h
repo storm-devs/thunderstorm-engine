@@ -73,7 +73,7 @@ float *WindVect;
 
     friend SAILONE;
     bool bUse;
-	VDX8RENDER * RenderService;
+	VDX9RENDER * RenderService;
     D3DMATERIAL9 mat;
     FILETIME ft_old;
     long texl;

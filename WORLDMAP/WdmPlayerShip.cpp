@@ -204,7 +204,7 @@ void WdmPlayerShip::Update(float dltTime)
 		api->Event("WM_UpdateCurrentAction");
 }
 
-void WdmPlayerShip::LRender(VDX8RENDER * rs)
+void WdmPlayerShip::LRender(VDX9RENDER * rs)
 {
 	WdmShip::LRender(rs);
 	if(wdmObjects->isDebug)

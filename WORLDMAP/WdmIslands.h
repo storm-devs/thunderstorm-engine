@@ -21,8 +21,8 @@ public:
 	WdmIslandWaves();
 
 	virtual void Update(float dltTime);
-	virtual void LRender(VDX8RENDER * rs);
-	void Render(VDX8RENDER * rs, float k);
+	virtual void LRender(VDX9RENDER * rs);
+	void Render(VDX9RENDER * rs, float k);
 
 private:
 	float phase;
@@ -117,7 +117,7 @@ public:
 
 	
 	virtual void Update(float dltTime);
-	virtual void LRender(VDX8RENDER * rs);
+	virtual void LRender(VDX9RENDER * rs);
 
 //--------------------------------------------------------------------------------------------
 //»нкапсул€ци€

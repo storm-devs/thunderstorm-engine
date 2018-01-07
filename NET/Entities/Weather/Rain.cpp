@@ -34,7 +34,7 @@ void NetRain::GenerateRandomDrop(CVECTOR *vPos)
 
 void NetRain::SetDevice()
 {
-	pRS = (VDX8RENDER *)api->CreateService("dx8render"); Assert(pRS);
+	pRS = (VDX9RENDER *)api->CreateService("dx8render"); Assert(pRS);
 
 	VDATA * pSVWeather = (VDATA *)api->GetScriptVariable((IsServer()) ? "NSWeather" : "NCWeather"); Assert(pSVWeather);
 	pAWeather = pSVWeather->GetAClass(); Assert(pAWeather);

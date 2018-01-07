@@ -56,7 +56,7 @@ public:
 	virtual bool Load(const char * modelName);
 	//Расчёты
 	virtual void Update(float dltTime);
-	virtual void LRender(VDX8RENDER * rs);
+	virtual void LRender(VDX9RENDER * rs);
 
 	//true если свободно
 	static bool CheckPosition(float x, float z, float objRadius);

@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 VGEOMETRY *NODER::gs=0;
-VDX8RENDER *NODER::rs=0;
+VDX9RENDER *NODER::rs=0;
 static long nlab=0;
 long NODER::depth=-1;
 long NODER::node;

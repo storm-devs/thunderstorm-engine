@@ -6,7 +6,7 @@
 
 class ILogAndActions : public ENTITY
 {
-	VDX8RENDER *rs;
+	VDX9RENDER *rs;
 	struct STRING_DESCR
 	{
 		char *	str;

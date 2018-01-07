@@ -41,7 +41,7 @@ private:
 	SEA_BASE	*	pSea;
 	ISLAND_BASE *	pIsland;
 	long			lIlsInitCnt;
-	VDX8RENDER	*	pRS;
+	VDX9RENDER	*	pRS;
 
 	void Move(float fDeltaTime);
 

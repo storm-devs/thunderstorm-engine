@@ -20,7 +20,7 @@
 //		...					/
 //
 //   Remarks:
-//		TEXTURE_FORMAT equal of a DX8 D3DFORMAT
+//		TEXTURE_FORMAT equal of a DX9 D3DFORMAT
 //		pallette color TX_PALETTE_COLOR equal of a PALETTEENTRY (std. windows structure)
 //	CubeMap:
 //		always is quads

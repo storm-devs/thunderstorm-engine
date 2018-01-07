@@ -15,7 +15,7 @@
 #include "..\common_h\vmodule_api.h"
 #include "..\common_h\matrix.h"
 
-class VDX8RENDER;
+class VDX9RENDER;
 
 #define LFX_SPLASHES_SECT	16
 
@@ -109,7 +109,7 @@ private:
 
 
 private:
-	VDX8RENDER * rs;
+	VDX9RENDER * rs;
 
 
 	//---------------------------------------------------

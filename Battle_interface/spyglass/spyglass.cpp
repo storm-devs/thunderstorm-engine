@@ -39,7 +39,7 @@ void ISPYGLASS::ImageParam::ChangeIcon(BIImageRender* pImgRender, const char* pc
 	}
 }
 
-void ISPYGLASS::TextParam::LoadFromAttr(VDX8RENDER* rs,ATTRIBUTES* pA,const char* pcDefText,long nDefXPos,long nDefYPos)
+void ISPYGLASS::TextParam::LoadFromAttr(VDX9RENDER* rs,ATTRIBUTES* pA,const char* pcDefText,long nDefXPos,long nDefYPos)
 {
 	this->rs = rs;
 	nFontID = BIUtils::GetFontIDFromAttr(pA,"font",rs,"interface_normal");
@@ -80,7 +80,7 @@ ISPYGLASS::~ISPYGLASS()
 
 bool ISPYGLASS::Init()
 {
-	if( (rs=(VDX8RENDER *)api->CreateService("dx8render")) == null ) {
+	if( (rs=(VDX9RENDER *)api->CreateService("dx8render")) == null ) {
 		_THROW("Can`t create render service");
 	}
 

@@ -331,7 +331,7 @@ dword ModelArray::CalcHashString(const char * str)
   return hval;
 }
 
-void ModelArray::UVSlider::Set(MODEL * model, VDX8RENDER * rs)
+void ModelArray::UVSlider::Set(MODEL * model, VDX9RENDER * rs)
 {
 	static CMatrix mtx;
 	mtx.m[2][0] = u0;
@@ -344,7 +344,7 @@ void ModelArray::UVSlider::Set(MODEL * model, VDX8RENDER * rs)
 	rs->SetTextureStageState(1, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_COUNT2);
 }
 
-void ModelArray::UVSlider::Restore(MODEL * model, VDX8RENDER * rs)
+void ModelArray::UVSlider::Restore(MODEL * model, VDX9RENDER * rs)
 {
 	static CMatrix mtx;
 	rs->SetTransform(D3DTS_TEXTURE0, mtx);
@@ -353,7 +353,7 @@ void ModelArray::UVSlider::Restore(MODEL * model, VDX8RENDER * rs)
 	rs->SetTextureStageState(1, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE);
 }
 
-void ModelArray::Relection::Set(MODEL * model, VDX8RENDER * rs)
+void ModelArray::Relection::Set(MODEL * model, VDX9RENDER * rs)
 {
 	CMatrix mtx;
 	rs->GetTransform(D3DTS_VIEW, mtx);
@@ -363,7 +363,7 @@ void ModelArray::Relection::Set(MODEL * model, VDX8RENDER * rs)
 	rs->SetRenderState(D3DRS_TEXTUREFACTOR, tfactor);
 }
 
-void ModelArray::Relection::Restore(MODEL * model, VDX8RENDER * rs)
+void ModelArray::Relection::Restore(MODEL * model, VDX9RENDER * rs)
 {
 	CMatrix mtx;
 	rs->SetTransform(D3DTS_TEXTURE1, mtx);

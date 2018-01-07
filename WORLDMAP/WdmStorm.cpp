@@ -225,7 +225,7 @@ void WdmStorm::Update(float dltTime)
 	UpdateSaveData();
 }
 
-void WdmStorm::LRender(VDX8RENDER * rs)
+void WdmStorm::LRender(VDX9RENDER * rs)
 {
 	if(wdmObjects->isDebug)
 	{

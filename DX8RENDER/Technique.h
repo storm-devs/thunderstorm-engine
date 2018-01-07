@@ -70,8 +70,8 @@ struct shader_find_t
 class CTechnique
 {
 protected:
-	VDX8RENDER			* pRS;
-	IDirect3DDevice9	* d3d8;
+	VDX9RENDER			* pRS;
+	IDirect3DDevice9	* d3d9;
 
 	// shaders
 	dword			dwNumShaders;
@@ -158,7 +158,7 @@ public:
 	bool		ExecutePassNext();
 	bool		ExecutePass(bool bStart);
 
-	CTechnique(VDX8RENDER * _pRS);
+	CTechnique(VDX9RENDER * _pRS);
 	~CTechnique();
 
 };

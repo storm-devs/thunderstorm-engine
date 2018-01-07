@@ -41,7 +41,7 @@ class DECK_CAMERA : public COMMON_CAMERA
     CVECTOR g_gv0, g_gv1, g_gv2;
 
 	MODEL * pModel; 
-	VDX8RENDER * RenderService;
+	VDX9RENDER * RenderService;
 	CVECTOR camera_pos, camera_ang;
     float h_eye;
 	RECT Screen_Rect;

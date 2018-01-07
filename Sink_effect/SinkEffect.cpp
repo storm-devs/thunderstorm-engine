@@ -33,7 +33,7 @@ bool SINKEFFECT::Init()
 	_CORE_API->FindClass(&seaID, "sea", 0);
 	sea = (SEA_BASE*) _CORE_API->GetEntityPointer(&seaID);
 
-	renderer = (VDX8RENDER *) _CORE_API->CreateService("dx8render");
+	renderer = (VDX9RENDER *) _CORE_API->CreateService("dx8render");
 
 	InitializeSinks();
 

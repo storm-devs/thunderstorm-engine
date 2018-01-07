@@ -38,7 +38,7 @@ bool Artifact::Init()
 	if (!sea)
 		return false;
 
-	renderService = (VDX8RENDER *)_CORE_API->CreateService("dx8render");
+	renderService = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
 	if(!renderService)	_THROW("No service: dx8render");
 
 	//particles

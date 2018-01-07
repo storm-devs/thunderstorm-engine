@@ -44,7 +44,7 @@ CAviPlayer::~CAviPlayer()
 
 bool CAviPlayer::Init()
 {
-	if( (rs=(VDX8RENDER *)_CORE_API->CreateService("dx8render")) == NULL )
+	if( (rs=(VDX9RENDER *)_CORE_API->CreateService("dx8render")) == NULL )
 	{
 		_THROW("Can`t create render service");
 	}
@@ -221,14 +221,14 @@ bool CAviPlayer::PlayMedia(char * fileName)
 	dstRect.right += dstRect.left;
 	dstRect.bottom += dstRect.top;
 
-	D3DSURFACE_DESC d3d8surf_desc;
+	D3DSURFACE_DESC d3d9surf_desc;
 
 	IDirect3DSurface9 * pd3dsurf = null;
 	rs->GetRenderTarget(&pd3dsurf);
-	pd3dsurf->GetDesc(&d3d8surf_desc);
+	pd3dsurf->GetDesc(&d3d9surf_desc);
 	pd3dsurf->Release();
 
-	hr = rs->CreateTexture(AVI_GetTextureSize(srcWidth), AVI_GetTextureSize(srcHeight), 1, 0, d3d8surf_desc.Format, D3DPOOL_MANAGED, &pTex);
+	hr = rs->CreateTexture(AVI_GetTextureSize(srcWidth), AVI_GetTextureSize(srcHeight), 1, 0, d3d9surf_desc.Format, D3DPOOL_MANAGED, &pTex);
 	if (FAILED(hr)) {
 		api->Trace("Video Error!!! Can`t create texture for this video");
 		return false;

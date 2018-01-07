@@ -81,9 +81,9 @@ public:
 	virtual bool IsServer() { return bServer; };
 	virtual bool IsClient() { return !IsServer(); };
 
-	virtual VDX8RENDER & Render() 
+	virtual VDX9RENDER & Render() 
 	{ 
-		if (!pRenderService) pRenderService = (VDX8RENDER *)api->CreateService("dx8render");	
+		if (!pRenderService) pRenderService = (VDX9RENDER *)api->CreateService("dx8render");	
 		return *pRenderService; 
 	};
 	virtual VGEOMETRY & Geometry() 
@@ -100,7 +100,7 @@ public:
 private:
 	bool bServer;
 	VGEOMETRY * pGeoService;
-	VDX8RENDER * pRenderService;
+	VDX9RENDER * pRenderService;
 	COLLIDE * pCollideService;
 };
 

@@ -20,7 +20,7 @@ class MAST : public ENTITY
     bool            bUse;
     bool            bFallUnderWater;
     int             wMoveCounter;
-	VDX8RENDER		*RenderService;
+	VDX9RENDER		*RenderService;
 	COLLIDE			*pCollide;
     bool            bModel;
     ENTITY_ID       model_id,oldmodel_id;

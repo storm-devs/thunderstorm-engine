@@ -2,7 +2,7 @@
 #include "LocalClient.h"
 
 NetClient * NetClient::pClient = null;
-VDX8RENDER * NetClient::pRS = null;
+VDX9RENDER * NetClient::pRS = null;
 float NetClient::fDeltaTime = 0.0f;
 
 NetClient::NetClient() : aPackets(_FL_)

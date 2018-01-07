@@ -46,7 +46,7 @@ float VAR_ROTATE_ANGL; // амплитуда угла качания веревки
     char* TextureName;
     long texl;
 
-	VDX8RENDER  *RenderService;
+	VDX9RENDER  *RenderService;
 public:
 	 ROPE();
 	~ROPE();

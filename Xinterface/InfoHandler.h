@@ -5,7 +5,7 @@
 
 class InfoHandler : public ENTITY
 {
-	VDX8RENDER * m_rs;
+	VDX9RENDER * m_rs;
 
 public:
 	InfoHandler();

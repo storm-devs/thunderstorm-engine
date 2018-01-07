@@ -43,7 +43,7 @@ public:
 	virtual ~NoiseCloud();
 
 	void Update(float dltTime);
-	void Draw(VDX8RENDER * rs);
+	void Draw(VDX9RENDER * rs);
 
 	void SetGlobalAlpha(float a);
 

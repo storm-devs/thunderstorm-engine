@@ -6,7 +6,7 @@
 class Astronomy : public ENTITY
 {
 public:
-	static VDX8RENDER * pRS;
+	static VDX9RENDER * pRS;
 	static VGEOMETRY * pGS;
 
 	Astronomy();

@@ -2,7 +2,7 @@
 #include "material.h"
 #include "imgrender.h"
 
-BIImage::BIImage( VDX8RENDER* rs, BIImageMaterial* pMaterial ) :
+BIImage::BIImage( VDX9RENDER* rs, BIImageMaterial* pMaterial ) :
 	m_aRelPos(_FL)
 {
 	m_pRS = rs;

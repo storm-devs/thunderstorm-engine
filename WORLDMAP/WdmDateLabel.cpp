@@ -81,7 +81,7 @@ void WdmDateLabel::SetAttributes(ATTRIBUTES * apnt)
 //============================================================================================
 
 //Отрисовка
-void WdmDateLabel::LRender(VDX8RENDER * rs)
+void WdmDateLabel::LRender(VDX9RENDER * rs)
 {
 	float w, h;
 	wdmObjects->GetVPSize(w, h);

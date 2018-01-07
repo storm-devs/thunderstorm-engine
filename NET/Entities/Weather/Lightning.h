@@ -40,7 +40,7 @@ class NetLightning : public ENTITY
 	float			fKDist;
 	long			iFlickerTime;
 
-	VDX8RENDER		* pRS;
+	VDX9RENDER		* pRS;
 	COLLIDE			* pCollide;
 	VIDWALKER		* pVWSunTrace;
 

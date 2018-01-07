@@ -22,7 +22,7 @@ typedef struct
 
 class BLAST : public ENTITY 
 {
-	VDX8RENDER * rs;
+	VDX9RENDER * rs;
 	VGEOMETRY * gs;
 	GEOPARTICLE * Item;
 	CANNON_TRACE_BASE * pSea;

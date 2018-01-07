@@ -121,7 +121,7 @@ void WdmEnemyShip::Update(float dltTime)
 	UpdateSaveData();
 }
 
-void WdmEnemyShip::LRender(VDX8RENDER * rs)
+void WdmEnemyShip::LRender(VDX9RENDER * rs)
 {
 	if(isWMRender && wdmObjects->isDebug)
 	{

@@ -21,7 +21,7 @@ public:
 		Command_ForceDword = 0xffffffff
 	};
 
-	BISignIcon( ENTITY_ID& BIEntityID, VDX8RENDER* pRS );
+	BISignIcon( ENTITY_ID& BIEntityID, VDX9RENDER* pRS );
 	virtual ~BISignIcon();
 
 	virtual void Draw();
@@ -48,7 +48,7 @@ protected:
 	long WriteSquareToVBuff( BI_COLOR_VERTEX* pv, FRECT& uv, dword color, BIFPOINT& center, FPOINT& size );
 	long WriteSquareToVBuffWithProgress( BI_COLOR_VERTEX* pv, FRECT& uv, dword color, BIFPOINT& center, FPOINT& size, float fClampUp, float fClampDown, float fClampLeft, float fClampRight );
 
-	VDX8RENDER* m_pRS;
+	VDX9RENDER* m_pRS;
 
 	long m_nVBufID;
 	long m_nIBufID;

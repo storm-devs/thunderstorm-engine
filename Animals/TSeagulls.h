@@ -51,7 +51,7 @@ private:
 
 	ENTITY_ID  seagullModel;
 	tSeagull seagulls[SEAGULL_COUNT];
-	VDX8RENDER *renderService;
+	VDX9RENDER *renderService;
 	VSoundService *soundService;
 	bool enabled;
 	long count;

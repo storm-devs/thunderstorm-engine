@@ -6,7 +6,7 @@
 #define SPV_FORMAT		(D3DFVF_XYZ|D3DFVF_TEX1|D3DFVF_TEXTUREFORMAT2)
 #define MAX_SHIPINFO_DIST_IN_POW2	1000000.f
 
-ShipInfoImages::ShipInfoImages(VDX8RENDER* rs,ATTRIBUTES* pAttr)
+ShipInfoImages::ShipInfoImages(VDX9RENDER* rs,ATTRIBUTES* pAttr)
 {
 	pRS = rs;
 	m_bVisible = true;

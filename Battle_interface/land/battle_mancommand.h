@@ -6,7 +6,7 @@
 class BIManCommandList : public BICommandList
 {
 public:
-	BIManCommandList( ENTITY_ID& eid, ATTRIBUTES* pA, VDX8RENDER* rs );
+	BIManCommandList( ENTITY_ID& eid, ATTRIBUTES* pA, VDX9RENDER* rs );
 	virtual ~BIManCommandList();
 
 	virtual void FillIcons();

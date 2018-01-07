@@ -15,7 +15,7 @@ InfoHandler::~InfoHandler()
 bool InfoHandler::Init()
 {
     // получить сервис рендера
-	m_rs = (VDX8RENDER *)api->CreateService("dx8render");
+	m_rs = (VDX9RENDER *)api->CreateService("dx8render");
 	if(!m_rs)
 	{
 		api->Trace("No service: dx8render");

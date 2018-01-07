@@ -22,7 +22,7 @@ ParticleManager::ParticleManager (ParticleService* service) : IParticleManager (
 	BB_Processor = NEW BillBoardProcessor;
 	GlobalDelete = false;
 	TimeFromLastStatUpdate = 100.0f;
-	pRS = (VDX8RENDER*)api->CreateService("DX8Render");
+	pRS = (VDX9RENDER*)api->CreateService("DX9Render");
 	Assert (pRS != NULL);
 
 	pDataCache = NEW DataCache(this);
@@ -61,7 +61,7 @@ bool ParticleManager::Release ()
 	return true;
 }
 
-VDX8RENDER* ParticleManager::Render ()
+VDX9RENDER* ParticleManager::Render ()
 {
 	return pRS;
 }

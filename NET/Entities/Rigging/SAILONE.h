@@ -152,7 +152,7 @@ class SAILONE : public SAILONE_BASE
 {
     friend NetSail;
 public:
-	VDX8RENDER * RenderService;
+	VDX9RENDER * RenderService;
 	SAILONE();
 	~SAILONE();
 	bool SetSail();

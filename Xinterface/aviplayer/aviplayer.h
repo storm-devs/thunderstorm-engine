@@ -15,7 +15,7 @@ struct XI_AVIVIDEO_VERTEX
 
 class CAviPlayer : public xiBaseVideo
 {
-	VDX8RENDER *rs;
+	VDX9RENDER *rs;
 	bool m_bShowVideo;
 
 public:
