@@ -49,9 +49,9 @@ void TSharks::Init()
 {
 	LoadSettings();
 
-	renderService = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
+	renderService = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	if(!renderService)
-		_THROW("!Sharks: No service 'dx8render'");
+		_THROW("!Sharks: No service 'dx9render'");
 
 	_CORE_API->FindClass(&seaID, "sea", 0);
 	sea = (SEA_BASE*) _CORE_API->GetEntityPointer(&seaID);

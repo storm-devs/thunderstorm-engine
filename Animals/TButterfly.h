@@ -2,7 +2,7 @@
 #define _TBUTTERFLY_H_
 
 //#include <windows.h>
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\cvector.h"
 #include "..\common_h\rands.h"
 #include "..\common_h\model.h"

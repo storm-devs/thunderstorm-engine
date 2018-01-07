@@ -95,7 +95,7 @@ bool NET_SCRIPT_LIBRIARY::Init()
 {
 	IFUNCINFO fi;
 
-	pRS = (VDX9RENDER *)api->CreateService("dx8render"); Assert(pRS);
+	pRS = (VDX9RENDER *)api->CreateService("dx9render"); Assert(pRS);
 
 	// ===================================
 	// Net native function
@@ -208,7 +208,7 @@ bool Net::Init()
 {
 	if (!WSAStartup(1, 1)) return false;
 
-	VDX9RENDER * pRS = (VDX9RENDER *)api->CreateService("dx8render"); Assert(pRS);
+	VDX9RENDER * pRS = (VDX9RENDER *)api->CreateService("dx9render"); Assert(pRS);
 	
 	NetServer::pRS = pRS;
 	NetClient::pRS = pRS;

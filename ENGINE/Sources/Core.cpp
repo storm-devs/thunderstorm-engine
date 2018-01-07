@@ -4,7 +4,7 @@
 #include "vbuffer.h"
 #include "..\..\common_h\memop.h"
 
-#include "..\..\common_h\dx8render.h"
+#include "..\..\common_h\dx9render.h"
 
 #define CORE_MODULE_WILD_MASK		"*.dll"
 #define CORE_DEFAULT_MODULES_PATH	"Modules\\"

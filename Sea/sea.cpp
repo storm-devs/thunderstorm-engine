@@ -179,7 +179,7 @@ void SEA::SFLB_CreateBuffers()
 
 bool SEA::Init()
 {
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
+	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	INIFILE * pEngineIni = fio->OpenIniFile(api->EngineIniFileName());
 	bool bDisableHyperThreading = (pEngineIni) ? pEngineIni->GetLong(null, "HyperThreading", 1) == 0 : false;
 	bDisableSSE = (pEngineIni) ? pEngineIni->GetLong(null, "DisableSSE", 0) != 0 : false;

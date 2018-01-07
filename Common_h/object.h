@@ -3,7 +3,7 @@
 
 #include "..\common_h\triangle.h"
 #include "..\common_h\matrix.h"
-#include "dx8render.h"
+#include "dx9render.h"
 
 typedef bool (*ADD_POLYGON_FUNC)(const CVECTOR *v, long nv);
 

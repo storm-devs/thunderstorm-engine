@@ -10,7 +10,7 @@ void CacheData();
 bool XFileDelete(const char *_fileName);
 bool XProcessFileDelete(const char *_srcDir, const char *_mask, const WIN32_FIND_DATA &_findData);
 
-#include "..\..\common_h\dx8render.h"
+#include "..\..\common_h\dx9render.h"
 extern VDX9RENDER * pDevice;
 extern DWORD dwCacheScreenN;
 extern RECT CacheScreenRect;

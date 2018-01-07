@@ -8,7 +8,7 @@
 
 #include "ship_base.h"
 #include "collide.h"
-#include "dx8render.h"
+#include "dx9render.h"
 #include "model.h"
 #include "Island_Base.h"
 #include "geos.h"
@@ -83,7 +83,7 @@ public:
 
 	virtual VDX9RENDER & Render() 
 	{ 
-		if (!pRenderService) pRenderService = (VDX9RENDER *)api->CreateService("dx8render");	
+		if (!pRenderService) pRenderService = (VDX9RENDER *)api->CreateService("dx9render");	
 		return *pRenderService; 
 	};
 	virtual VGEOMETRY & Geometry() 

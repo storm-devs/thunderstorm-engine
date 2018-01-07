@@ -66,7 +66,7 @@ void NetIsland::SetDevice()
 	api->LayerCreate("island_trace", true, false);
 
 	pCollide = (COLLIDE*)api->CreateService("COLL"); Assert(pCollide);
-	pRS = (VDX9RENDER*)api->CreateService("dx8render"); Assert(pRS);
+	pRS = (VDX9RENDER*)api->CreateService("dx9render"); Assert(pRS);
 	pGS = (VGEOMETRY *)api->CreateService("geometry"); Assert(pGS);
 	pIslandTraceWalker = api->LayerGetWalker("island_trace"); Assert(pIslandTraceWalker);
 }

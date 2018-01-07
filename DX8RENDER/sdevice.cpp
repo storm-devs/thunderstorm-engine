@@ -35,7 +35,7 @@ DWORD __cdecl DX9SetTexturePath(VS_STACK * pS)
 
 	if (!DX9RENDER::pRS)
 	{
-		api->CreateService("dx8render"); Assert(DX9RENDER::pRS);
+		api->CreateService("dx9render"); Assert(DX9RENDER::pRS);
 	}
 
 	VDATA * pVR = (VDATA*)pS->Push();

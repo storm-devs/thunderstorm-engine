@@ -155,7 +155,7 @@ InterfaceBackScene::~InterfaceBackScene()
 
 bool InterfaceBackScene::Init()
 {
-	m_pRS = (VDX9RENDER *)api->CreateService("dx8render");	Assert(m_pRS);
+	m_pRS = (VDX9RENDER *)api->CreateService("dx9render");	Assert(m_pRS);
 	flyTex = m_pRS->TextureCreate("LocEfx\\firefly.tga");
 	m_nFlareTexture = m_pRS->TextureCreate("ShipsFlares\\corona.tga");
 	return true;

@@ -2,7 +2,7 @@
 #define _PEOPLE_ON_SHIP_H_
 
 #include "..\common_h\vmodule_api.h"
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\ship_base.h"
 #include "..\common_h\model.h"
 #include "..\common_h\geos.h"

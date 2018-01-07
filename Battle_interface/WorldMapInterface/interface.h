@@ -1,7 +1,7 @@
 #ifndef _WM_INTERFACE_H_
 #define _WM_INTERFACE_H_
 
-#include "..\..\common_h\dx8render.h"
+#include "..\..\common_h\dx9render.h"
 #include "..\..\common_h\defines.h"
 #include "..\utils.h"
 #include "..\..\common_h\templates\array.h"

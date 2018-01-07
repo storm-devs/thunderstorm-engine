@@ -1,7 +1,7 @@
 #ifndef _PathTracks_h_
 #define _PathTracks_h_
 
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\math3D.h"
 #include "CameraTracksFile.h"
 

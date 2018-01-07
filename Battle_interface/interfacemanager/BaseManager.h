@@ -1,7 +1,7 @@
 #ifndef InterfaceBaseManager_h
 #define InterfaceBaseManager_h
 
-#include "..\..\common_h\dx8render.h"
+#include "..\..\common_h\dx9render.h"
 #include "..\..\common_h\defines.h"
 #include "..\..\common_h\templates\string.h"
 #include "..\..\common_h\templates\array.h"

@@ -1,7 +1,7 @@
 #ifndef _XINTERFACE_H_
 #define _XINTERFACE_H_
 
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\matrix.h"
 #include "inode.h"
 #include "..\common_h\vmodule_api.h"

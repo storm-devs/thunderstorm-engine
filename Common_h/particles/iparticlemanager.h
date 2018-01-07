@@ -9,7 +9,7 @@
 #define PARTICLES_MANAGER_INTERFACE
 
 #include <d3dx9.h>
-#include "..\dx8render.h"
+#include "..\dx9render.h"
 
 class ParticleService;
 class IParticleSystem;

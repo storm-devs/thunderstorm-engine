@@ -34,7 +34,7 @@ FONT::~FONT()
 	if(RenderService)
 	{
 		if(TextureID >= 0) RenderService->TextureRelease(TextureID);
-		//api->FreeService("dx8render");
+		//api->FreeService("dx9render");
 	}
 }
 

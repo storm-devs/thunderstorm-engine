@@ -3,7 +3,7 @@
 
 #include "..\common_h\vmodule_api.h"
 #include "..\common_h\geometry.h"
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\matrix.h"
 #include "blast.h"
 #include "..\common_h\sd2_h\cannontrace.h"

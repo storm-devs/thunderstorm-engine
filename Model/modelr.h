@@ -3,8 +3,8 @@
 
 #include "..\common_h\model.h"
 #include "..\common_h\geometry.h"
-#include "..\common_h\dx8render.h"
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
+#include "..\common_h\dx9render.h"
 
 
 class NODER : public NODE

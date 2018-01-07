@@ -7,7 +7,7 @@
 #include "..\common_h\messages.h"
 #include "..\common_h\geos.h"
 #include "..\common_h\geometry.h"
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\ship_base.h"
 #include "..\common_h\model.h"
 #include "..\common_h\geos.h"
@@ -63,7 +63,7 @@ bool SEAFOAM::Init()
 		sea = (SEA_BASE*) _CORE_API->GetEntityPointer(&seaID);
 	}
 
-	renderer = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
+	renderer = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	soundService = (VSoundService *)_CORE_API->CreateService("SoundService");
 
 	psIni = _CORE_API->fio->OpenIniFile("resource\\ini\\particles.ini");

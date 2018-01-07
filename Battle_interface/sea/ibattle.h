@@ -1,7 +1,7 @@
 #ifndef __BATTLE_INTERFACE_H_
 #define __BATTLE_INTERFACE_H_
 
-#include "..\..\common_h\dx8render.h"
+#include "..\..\common_h\dx9render.h"
 #include "..\..\common_h\defines.h"
 #include "battle_navigator.h"
 #include "..\utils.h"

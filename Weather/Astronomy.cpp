@@ -22,7 +22,7 @@ bool Astronomy::Init()
 
 void Astronomy::SetDevice()
 {
-	pRS = (VDX9RENDER *)api->CreateService("dx8render"); Assert(pRS);
+	pRS = (VDX9RENDER *)api->CreateService("dx9render"); Assert(pRS);
 	pGS = (VGEOMETRY *)api->CreateService("geometry");
 }
 

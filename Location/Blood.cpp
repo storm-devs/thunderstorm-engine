@@ -31,7 +31,7 @@ Blood::~Blood()
 //Инициализация
 bool Blood::Init()
 {
-	pRS = (VDX9RENDER *)api->CreateService("dx8render");
+	pRS = (VDX9RENDER *)api->CreateService("dx9render");
 	Assert(pRS);
 
 	pCol = (COLLIDE *)api->CreateService("coll");

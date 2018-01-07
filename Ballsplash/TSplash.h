@@ -3,7 +3,7 @@
 
 #include "..\common_h\matrix.h"
 #include "..\common_h\messages.h"
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\sea_base.h"
 #include "..\common_h\model.h"
 #include "..\common_h\geos.h"

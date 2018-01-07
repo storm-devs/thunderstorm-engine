@@ -108,7 +108,7 @@ NetSea::~NetSea()
 
 bool NetSea::Init()
 {
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
+	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	bSimpleSea = AttributesPointer->GetAttributeAsDword("SimpleSea", 0);
 
 	iVSeaBuffer = rs->CreateVertexBuffer(0, NUM_VERTEXS * sizeof(SeaVertex), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);

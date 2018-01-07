@@ -2,7 +2,7 @@
 #define __DEFINES_BATTLE_INTERFACE_H_
 
 #include <assert.h>
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\defines.h"
 
 #include "..\engine\program\battle_interface\msg_control.h"

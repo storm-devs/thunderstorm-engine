@@ -1,7 +1,7 @@
 
 
 #include "LocationScriptLib.h"
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "Fader.h"
 
 //============================================================================================
@@ -197,7 +197,7 @@ dword __cdecl slNativeSetReloadBackImage(VS_STACK * pS)
 	char * nm = null;
 	if(!pStr->Get(nm)) return IFUNCRESULT_FAILED;
 	//Устанавливаем картинку
-	VDX9RENDER * rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
+	VDX9RENDER * rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	if(rs)
 	{
 		rs->SetProgressImage(nm);
@@ -207,21 +207,21 @@ dword __cdecl slNativeSetReloadBackImage(VS_STACK * pS)
 
 dword __cdecl slNativeReloadProgressStart(VS_STACK * pS)
 {
-	VDX9RENDER * rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
+	VDX9RENDER * rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	if(rs) rs->StartProgressView();
 	return IFUNCRESULT_OK;
 }
 
 dword __cdecl slNativeReloadProgressUpdate(VS_STACK * pS)
 {
-	VDX9RENDER * rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
+	VDX9RENDER * rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	if(rs) rs->ProgressView();
 	return IFUNCRESULT_OK;
 }
 
 dword __cdecl slNativeReloadProgressEnd(VS_STACK * pS)
 {
-	VDX9RENDER * rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
+	VDX9RENDER * rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	if(rs) rs->EndProgressView();
 	return IFUNCRESULT_OK;
 }
@@ -246,7 +246,7 @@ dword __cdecl slNativeExecuteTechnique(VS_STACK * pS)
 	//Исполить технику
 	if(nm && nm[0])
 	{
-		VDX9RENDER * rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
+		VDX9RENDER * rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 		rs->TechniqueExecuteStart(nm);
 		while(rs->TechniqueExecuteNext());
 	}

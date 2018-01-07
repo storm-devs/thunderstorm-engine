@@ -126,7 +126,7 @@ BSPS_PS::~BSPS_PS()
 	if(RenderService)
 	{
 		for(n=0;n<TexturesNum;n++) RenderService->TextureRelease(TextureID[n]);
-		api->FreeService("dx8render");
+		api->FreeService("dx9render");
 	}
 	if(Particle) delete Particle; Particle = 0;
 	if(pFlowTrack) delete pFlowTrack; pFlowTrack = 0;
@@ -195,8 +195,8 @@ bool BSPS_PS::Init(INIFILE * ini, char * psname)
 	bool bRes;
 
 	// load render service -----------------------------------------------------
-	RenderService = (VDX9RENDER *)api->CreateService("dx8render");
-	if(!RenderService)	_THROW("No service: dx8render");
+	RenderService = (VDX9RENDER *)api->CreateService("dx9render");
+	if(!RenderService)	_THROW("No service: dx9render");
 
 	gs = (VGEOMETRY *)_CORE_API->CreateService("geometry");
 	//if(!gs) return false;

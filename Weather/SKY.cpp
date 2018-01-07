@@ -45,7 +45,7 @@ bool SKY::Init()
  
 void SKY::SetDevice()
 {
-	pRS = (VDX9RENDER *)_CORE_API->CreateService("dx8render"); Assert(pRS);
+	pRS = (VDX9RENDER *)_CORE_API->CreateService("dx9render"); Assert(pRS);
 }
 
 dword SKY::CalcFogDiffuse(CVECTOR & vPos)

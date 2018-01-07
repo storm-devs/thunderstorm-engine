@@ -13,9 +13,6 @@
 
 #include "..\common_h\vmodule_api.h"
 
-#pragma comment(lib, "d3dx8")
-
-
 //============================================================================================
 //Конструирование, деструктурирование
 //============================================================================================
@@ -59,7 +56,7 @@ void Bone::SetNumFrames(long num, CVECTOR & sPos, bool isRoot)
 
 	if(isRoot)
 	{
-		pos = NEW CVECTOR[num]; 
+		pos = NEW CVECTOR[num];
 		memset(pos, 0, numFrames*sizeof(CVECTOR));
 	}
 	pos0 = sPos;

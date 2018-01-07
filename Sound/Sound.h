@@ -5,7 +5,7 @@
 #include "..\common_h\object.h"
 #include "..\common_h\messages.h"
 #include "..\common_h\entity.h"
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 
 ///////////////////////////////////////////////////////////////////
 // DEFINES & TYPES

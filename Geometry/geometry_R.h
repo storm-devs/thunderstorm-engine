@@ -2,7 +2,7 @@
 #define __GEOMETRY_R__H__
 
 #include "..\common_h\vmodule_api.h"
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\geometry.h"
 
 //-------------------------------------------------------------------

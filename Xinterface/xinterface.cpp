@@ -200,10 +200,10 @@ void XINTERFACE::SetDevice()
 	m_UtilContainer.Init();
 
     // получить сервис рендера
-	pRenderService = (VDX9RENDER *)api->CreateService("dx8render");
+	pRenderService = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!pRenderService)
 	{
-		THROW("No service: dx8render");
+		THROW("No service: dx9render");
 	}
 
 	pStringService = (VSTRSERVICE *)api->CreateService("STRSERVICE");

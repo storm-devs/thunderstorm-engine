@@ -80,7 +80,7 @@ ISPYGLASS::~ISPYGLASS()
 
 bool ISPYGLASS::Init()
 {
-	if( (rs=(VDX9RENDER *)api->CreateService("dx8render")) == null ) {
+	if( (rs=(VDX9RENDER *)api->CreateService("dx9render")) == null ) {
 		_THROW("Can`t create render service");
 	}
 

@@ -4,7 +4,7 @@
 #include "..\datasource\datagraph.h"
 #include "..\datasource\datacolor.h"
 #include "..\datasource\datauv.h"
-#include "..\..\..\common_h\dx8render.h"
+#include "..\..\..\common_h\dx9render.h"
 #include "..\..\..\common_h\exs.h"
 #include "..\..\..\common_h\geos.h"
 #include "..\particlesystem\particlesystem.h"

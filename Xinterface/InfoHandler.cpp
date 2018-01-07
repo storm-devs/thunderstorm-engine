@@ -15,10 +15,10 @@ InfoHandler::~InfoHandler()
 bool InfoHandler::Init()
 {
     // получить сервис рендера
-	m_rs = (VDX9RENDER *)api->CreateService("dx8render");
+	m_rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!m_rs)
 	{
-		api->Trace("No service: dx8render");
+		api->Trace("No service: dx9render");
 		return false;
 	}
 	if( m_rs->IsInsideScene() ) {

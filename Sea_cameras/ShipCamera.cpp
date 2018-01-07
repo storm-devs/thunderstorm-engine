@@ -46,7 +46,7 @@ bool SHIP_CAMERA::Init()
 
 void SHIP_CAMERA::SetDevices()
 {
-	pRS = (VDX9RENDER *)api->CreateService("dx8render");
+	pRS = (VDX9RENDER *)api->CreateService("dx9render");
 	Assert(pRS);
 
 	ENTITY_ID sea_id;

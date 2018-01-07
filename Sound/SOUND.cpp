@@ -38,7 +38,7 @@ bool SOUND::Init()
 	if (!soundService)
 		api->Trace("!SOUND: Can`t create sound service");
 
-	renderer = (VDX9RENDER *) _CORE_API->CreateService("dx8render");
+	renderer = (VDX9RENDER *) _CORE_API->CreateService("dx9render");
 	_CORE_API->LayerAdd("realize",GetID(),-1);
 
 	return true;

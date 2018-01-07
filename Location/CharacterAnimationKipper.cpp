@@ -9,7 +9,7 @@
 //============================================================================================
 
 #include "CharacterAnimationKipper.h"
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 
 //============================================================================================
 //Конструирование, деструктурирование
@@ -49,8 +49,8 @@ bool CharacterAnimationKipper::Init()
 			return false;
 		}
 	}
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
-	if(!rs) _THROW("No service: dx8render");
+	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	if(!rs) _THROW("No service: dx9render");
 	AnimationService * asr = (AnimationService *)_CORE_API->CreateService("AnimationServiceImp");
 	if(!asr) _THROW("Anumation service not created!");
 	aniMan = asr->CreateAnimation("man");

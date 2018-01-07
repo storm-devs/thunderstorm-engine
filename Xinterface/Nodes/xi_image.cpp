@@ -10,7 +10,7 @@
 CXI_IMAGE::CXI_IMAGE()
 {
 	m_rs = XINTERFACE::GetRenderService();
-	if( !m_rs ) {_THROW("No service: dx8render");};
+	if( !m_rs ) {_THROW("No service: dx9render");};
 
 	m_bDisableDraw = false;
 

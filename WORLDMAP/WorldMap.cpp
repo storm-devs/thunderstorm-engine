@@ -142,8 +142,8 @@ bool WorldMap::Init()
 	_CORE_API->LayerAdd("realize", GetID(), 10000);
 
 	//DX9 render
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
-	if(!rs) _THROW("No service: dx8render");
+	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	if(!rs) _THROW("No service: dx9render");
 	rs->SetPerspective((1.57f + 1.0f)/2);
 	wdmObjects->rs = rs;
 	//GS

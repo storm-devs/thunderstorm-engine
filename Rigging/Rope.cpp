@@ -70,10 +70,10 @@ bool ROPE::Init()
 void ROPE::SetDevice()
 {
     // получить сервис рендера
-	RenderService = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
+	RenderService = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	if(!RenderService)
 	{
-		_THROW("No service: dx8render");
+		_THROW("No service: dx9render");
 	}
 
     LoadIni();

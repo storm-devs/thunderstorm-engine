@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "xservice.h"
-#include "..\\common_h\\dx8render.h"
+#include "..\\common_h\\dx9render.h"
 
 #define ERROR_MUL	1.0f
 

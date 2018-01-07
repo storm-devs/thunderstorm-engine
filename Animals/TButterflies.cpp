@@ -46,9 +46,9 @@ void TButterflies::Init()
 {
 	LoadSettings();
 
-	renderService = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
+	renderService = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	if(!renderService)	
-		_THROW("!Butterflies: No service 'dx8render'");
+		_THROW("!Butterflies: No service 'dx9render'");
 
 	collide = (COLLIDE *)_CORE_API->CreateService("coll");
 	if (!collide)	

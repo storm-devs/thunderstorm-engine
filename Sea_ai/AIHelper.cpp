@@ -36,7 +36,7 @@ bool AIHelper::Uninit()
 
 bool AIHelper::SetDevice()
 {
-	pRS = (VDX9RENDER *)api->CreateService("dx8render"); Assert(pRS);
+	pRS = (VDX9RENDER *)api->CreateService("dx9render"); Assert(pRS);
 	pCollide = (COLLIDE*)api->CreateService("COLL"); Assert(pCollide);
 
 	return true;

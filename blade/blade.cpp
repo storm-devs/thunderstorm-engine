@@ -215,8 +215,8 @@ bool BLADE::Init()
 
 	_CORE_API->LayerAdd("realize",GetID(),65550);
 
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
-	if(!rs)	_THROW("No service: dx8render");
+	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	if(!rs)	_THROW("No service: dx9render");
 	
 	UNGUARD
 	return true;

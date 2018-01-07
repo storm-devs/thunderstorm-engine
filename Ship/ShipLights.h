@@ -1,7 +1,7 @@
 #ifndef SHIPLIGHTS_HPP
 #define SHIPLIGHTS_HPP
 
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\ShipLights.h"
 #include "..\common_h\sea_base.h"
 

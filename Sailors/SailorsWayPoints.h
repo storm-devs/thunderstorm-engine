@@ -1,11 +1,9 @@
 
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\templates\string.h"
 #include "..\common_h\templates\array.h"
 #include "..\common_h\matrix.h"
 
-
-//#include "d3dx8math.h"
 
 const int MAX_POINTS= 100;
 

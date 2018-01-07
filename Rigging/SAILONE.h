@@ -10,7 +10,7 @@
 #endif // _MSC_VER > 1000
 
 #include "..\\common_h\\vmodule_api.h"
-#include "..\\common_h\\dx8render.h"
+#include "..\\common_h\\dx9render.h"
 #include "..\\common_h\\matrix.h"
 #include "..\\common_h\\sail_base.h"
 

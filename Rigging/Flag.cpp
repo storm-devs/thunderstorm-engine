@@ -47,10 +47,10 @@ bool FLAG::Init()
 void FLAG::SetDevice()
 {
     // получить сервис рендера
-	RenderService = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
+	RenderService = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	if(!RenderService)
 	{
-		_THROW("No service: dx8render");
+		_THROW("No service: dx9render");
 	}
 	globalWind.ang.x=0.f;
 	globalWind.ang.y=0.f;

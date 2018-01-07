@@ -757,7 +757,7 @@ bool DIALOG::Init()
 	api->SetTimeScale(0.f);
 	unfadeTime = 0;
 
-	RenderService = (VDX9RENDER *)api->CreateService("dx8render");
+	RenderService = (VDX9RENDER *)api->CreateService("dx9render");
 	Assert( RenderService );
 
 	snd = (VSoundService *)api->CreateService("SoundService");

@@ -36,7 +36,7 @@ bool NetShipLights::Init()
 {
 	ENTITY_ID sea_id;
 
-	pRS = (VDX9RENDER *)api->CreateService("dx8render");	Assert(pRS);
+	pRS = (VDX9RENDER *)api->CreateService("dx9render");	Assert(pRS);
 	pCollide = (COLLIDE *)api->CreateService("coll");		Assert(pCollide);
 	if (api->FindClass(&sea_id, "sea", 0)) pSea = (SEA_BASE*)api->GetEntityPointer(&sea_id);
 	return true;

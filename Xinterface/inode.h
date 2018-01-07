@@ -1,7 +1,7 @@
 #ifndef _INODE_H
 #define _INODE_H
 
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\vmodule_api.h"
 #include "defines.h"
 #include "nodes\xi_util.h"

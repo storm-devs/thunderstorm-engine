@@ -67,8 +67,8 @@ TMPTELEPORT::~TMPTELEPORT()
 
 bool TMPTELEPORT::Init()
 {
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
-	if(!rs)	_THROW("No service: dx8render");
+	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	if(!rs)	_THROW("No service: dx9render");
 
 	m_leftPos = 20;
 	m_topPos = 80;

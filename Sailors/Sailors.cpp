@@ -1014,7 +1014,7 @@ bool Sailors::Init()
 {
 	GUARD_SAILORS(Sailors :: Init())
 
-	rs = (VDX9RENDER *) _CORE_API->CreateService("dx8render");
+	rs = (VDX9RENDER *) _CORE_API->CreateService("dx9render");
 
 	api->LayerCreate("sea_realize", true, false);
 	api->LayerSetFlags("sea_realize", LRFLAG_REALIZE);

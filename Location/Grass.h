@@ -12,7 +12,7 @@
 #define _Grass_H_
 
 #include "..\common_h\vmodule_api.h"
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "grs.h"
 #include "supervisor.h"
 

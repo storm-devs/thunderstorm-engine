@@ -7,7 +7,7 @@
 
 
 //для debug
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "DebugEntity.h"
 VDX9RENDER* pRS = NULL;
 

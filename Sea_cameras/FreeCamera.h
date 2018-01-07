@@ -2,7 +2,7 @@
 #define _CAMERA_H_
 
 #include "..\common_h\vmodule_api.h"
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\Island_Base.h"
 #include "Common_Camera.h"
 

@@ -1,7 +1,7 @@
 #ifndef _VANT_H_
 #define _VANT_H_
 
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\geos.h"
 #include "..\common_h\matrix.h"
 #include "..\common_h\vmodule_api.h"

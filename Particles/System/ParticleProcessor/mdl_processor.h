@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include "..\..\..\common_h\exs.h"
 #include "..\..\..\common_h\templates.h"
-#include "..\..\..\common_h\dx8render.h"
+#include "..\..\..\common_h\dx9render.h"
 #include "..\..\..\common_h\particles\gmx_QSort.h"
 
 

@@ -9,7 +9,7 @@
 //============================================================================================
 
 #include "LocationEffects.h"
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 
 
 #define LFX_SPLASHES_NUM	(sizeof(chrSplash)/sizeof(ChrSplash))
@@ -66,8 +66,8 @@ LocationEffects::~LocationEffects()
 bool LocationEffects::Init()
 {
 	//DX9 render
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
-	if(!rs) _THROW("No service: dx8render");
+	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	if(!rs) _THROW("No service: dx9render");
 
 	_CORE_API->LayerCreate("execute", true, false);
 	_CORE_API->LayerSetFlags("execute", LRFLAG_EXECUTE);

@@ -5,7 +5,7 @@ INTERFACE_FUNCTION
 CREATE_SERVICE(GEOMETRY)
 
 char technique[256] = "";
-char RenderServiceName[] = "dx8render";
+char RenderServiceName[] = "dx9render";
 GEOM_SERVICE_R GSR;
 char texturePath[256];
 

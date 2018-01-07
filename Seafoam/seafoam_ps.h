@@ -2,7 +2,7 @@
 #define _SEAFOAM_PS_H_
 
 #include "..\common_h\vmodule_api.h"
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\geometry.h"
 #include "..\common_h\vfile_service.h"
 #include "..\common_h\vparticle_system.h"

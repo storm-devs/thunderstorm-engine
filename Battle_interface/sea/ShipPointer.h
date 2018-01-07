@@ -1,7 +1,7 @@
 #ifndef _SHIPPOINTER_H_
 #define _SHIPPOINTER_H_
 
-#include "..\..\common_h\dx8render.h"
+#include "..\..\common_h\dx9render.h"
 #include "..\..\common_h\defines.h"
 #include "..\..\common_h\sd2_h\VAI_ObjBase.h"
 

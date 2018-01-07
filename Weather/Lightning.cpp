@@ -31,7 +31,7 @@ bool LIGHTNING::Init()
 
 void LIGHTNING::SetDevice()
 {
-	pRS = (VDX9RENDER *)_CORE_API->CreateService("dx8render"); Assert(pRS);
+	pRS = (VDX9RENDER *)_CORE_API->CreateService("dx9render"); Assert(pRS);
 	pCollide = (COLLIDE*)_CORE_API->CreateService("COLL"); Assert(pCollide);
 }
 

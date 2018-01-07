@@ -7,7 +7,7 @@
 #include "..\common_h\messages.h"
 #include "..\common_h\geos.h"
 #include "..\common_h\geometry.h"
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\model.h"
 #include "..\SoundService\VSoundService.h"
 #include "AnimalsDefines.h"

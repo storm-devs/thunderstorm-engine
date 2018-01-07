@@ -25,7 +25,7 @@
 #include "..\..\common_h\vapi.h"
 
 #ifdef _XBOX
-#include "..\..\common_h\dx8render.h"
+#include "..\..\common_h\dx9render.h"
 #include "..\..\soundservice\vsoundservice.h"
 #endif
 
@@ -1315,7 +1315,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 #ifdef _XBOX
 	if(bFirstRun)
 	{
-		VDX9RENDER * pDX = (VDX9RENDER *)api->CreateService("dx8render");
+		VDX9RENDER * pDX = (VDX9RENDER *)api->CreateService("dx9render");
 		if(pDX) pDX->ProgressView();
 	}
 #endif
@@ -2237,7 +2237,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 
 /*
 #ifdef _XBOX
-	VDX9RENDER * pDX = (VDX9RENDER *)api->CreateService("dx8render");
+	VDX9RENDER * pDX = (VDX9RENDER *)api->CreateService("dx9render");
 	if(pDX) pDX->ProgressView();
 #endif
 */
@@ -5707,7 +5707,7 @@ bool COMPILER::ReadVariable(char * name,/* DWORD code,*/ bool bDim, DWORD a_inde
 
 
 #ifdef _XBOX
-		VDX9RENDER * pDX = (VDX9RENDER *)api->CreateService("dx8render");
+		VDX9RENDER * pDX = (VDX9RENDER *)api->CreateService("dx9render");
 		if(pDX) pDX->ProgressView();
 #endif
 

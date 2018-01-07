@@ -34,7 +34,7 @@ bool DECK_CAMERA::Init()
 
 void DECK_CAMERA::SetDevice()
 {
-	RenderService = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
+	RenderService = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	Assert(RenderService);
 }
 

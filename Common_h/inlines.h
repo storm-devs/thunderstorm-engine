@@ -1,4 +1,4 @@
-#include "dx8render.h"
+#include "dx9render.h"
 
 inline unsigned long hash_string(const char *str)
 {

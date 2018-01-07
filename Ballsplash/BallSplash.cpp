@@ -33,7 +33,7 @@ bool BALLSPLASH::Init()
 	_CORE_API->FindClass(&seaID, "sea", 0);
 	sea = (SEA_BASE*) _CORE_API->GetEntityPointer(&seaID);
 
-	renderer = (VDX9RENDER *) _CORE_API->CreateService("dx8render");
+	renderer = (VDX9RENDER *) _CORE_API->CreateService("dx9render");
 
 	//_CORE_API->CreateEntity(&arrowModel,"MODELR");
 	//_CORE_API->Send_Message(arrowModel,"ls",MSG_MODEL_LOAD_GEO, "fish01");

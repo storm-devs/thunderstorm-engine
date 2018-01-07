@@ -3,7 +3,7 @@
 
 #include "SAILONE.h"
 #include "..\common_h\vmodule_api.h"
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\sail_base.h"
 #include "..\common_h\geos.h"
 #include "..\common_h\model.h"

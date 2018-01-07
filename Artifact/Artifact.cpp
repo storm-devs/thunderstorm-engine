@@ -38,8 +38,8 @@ bool Artifact::Init()
 	if (!sea)
 		return false;
 
-	renderService = (VDX9RENDER *)_CORE_API->CreateService("dx8render");
-	if(!renderService)	_THROW("No service: dx8render");
+	renderService = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	if(!renderService)	_THROW("No service: dx9render");
 
 	//particles
 	INIFILE *psIni = _CORE_API->fio->OpenIniFile("resource\\ini\\particles\\artifact.ini");

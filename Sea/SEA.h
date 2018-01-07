@@ -4,7 +4,7 @@
 #ifndef NEW_SEA_HPP
 #define NEW_SEA_HPP
 
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\cvector4.h"
 #include "..\common_h\templates.h"
 #include "..\common_h\Sea_Base.h"

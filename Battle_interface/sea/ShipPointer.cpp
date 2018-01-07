@@ -30,7 +30,7 @@ SHIPPOINTER::~SHIPPOINTER()
 
 bool SHIPPOINTER::Init()
 {
-	if( (rs=(VDX9RENDER *)api->CreateService("dx8render")) == NULL )
+	if( (rs=(VDX9RENDER *)api->CreateService("dx9render")) == NULL )
 	{
 		_THROW("Can`t create render service");
 	}

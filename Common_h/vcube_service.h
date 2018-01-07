@@ -2,7 +2,7 @@
 #define VCUBEMAP_SERVICE_HPP
 
 #include "vmodule_api.h"
-#include "dx8render.h"
+#include "dx9render.h"
 #include "defines.h"
 
 #define CM_NUM_FACES	6
