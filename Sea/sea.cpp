@@ -1588,10 +1588,10 @@ void SEA::Realize(dword dwDeltaTime)
 			Render().SetTexture(3, pEnvMap);
 			Render().DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, iVSeaBuffer, sizeof(SeaVertex), iISeaBuffer, 0, iVStart, 0, iTStart, "Sea2");
 
-			if (fFoamK > 0.0f && bFoamEnable && bIniFoamEnable && dwPSVersionHi >= 1 && dwPSVersionLo >= 4)
+			if (fFoamK > 0.0f && bFoamEnable && bIniFoamEnable && (dwPSVersionHi >= 2 || (dwPSVersionHi==1 && dwPSVersionLo >= 4)))
 			{
 				//Render sea foam
-				Render().SetPixelShaderConstantI(0, (const int*)&CVECTOR4(fFoamTextureDisturb, 0.0f, 0.0f, 0.0f), 1);
+				Render().SetPixelShaderConstantF(0, (const float*)&CVECTOR4(fFoamTextureDisturb, 0.0f, 0.0f, 0.0f), 1);
 
 				Render().TextureSet(0, iFoamTexture);
 				Render().SetTexture(4, (pVolumeTexture) ? (IDirect3DBaseTexture9*)pVolumeTexture : (IDirect3DBaseTexture9*)pRenderTargetBumpMap);

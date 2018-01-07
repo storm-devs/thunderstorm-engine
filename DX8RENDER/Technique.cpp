@@ -849,19 +849,15 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 			}
 			if (isPixelShaderConst(*pStr))
 			{
+				if (!bIn)
+					__debugbreak();
 				dword dwIndex = 0;
 				*pPass++ = CODE_SPSCONST | dwAdditionalFlags;
 				GetTokenWhile(SkipToken(*pStr,"["),&temp[0],"]");
-				sscanf(temp,"%p", &dwIndex);
+				sscanf(temp,"%d", &dwIndex);
 				*pPass++ = dwIndex;
-				if (bIn)
-				{
-					*pPass++ = dwInParamIndex;
-				}
-				else
-				{
-					GetTokenWhile(SkipToken(*pStr,"="),temp,";");
-				}
+				*pPass++ = dwInParamIndex;
+				//GetTokenWhile(SkipToken(*pStr,"="),temp,";");
 				//*pPass++ = GetCode(temp,0,0,null,false);
 				SKIP3;
 			}
@@ -871,7 +867,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 				dword dwIndex = 0;
 				*pPass++ = CODE_SVSCONST | dwAdditionalFlags;
 				GetTokenWhile(SkipToken(*pStr,"["),&temp[0],"]");
-				sscanf(temp,"%p", &dwIndex);
+				sscanf(temp,"%d", &dwIndex);
 				*pPass++ = dwIndex;
 				GetTokenWhile(SkipToken(*pStr,"="),temp,";");
 				*pPass++ = GetCode(temp,&MYSETVERTEXSHADERCONSTANT[0],sizeof(MYSETVERTEXSHADERCONSTANT) / sizeof(SRSPARAM),null,false);
@@ -883,7 +879,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 			{
 				// get index = [index]
 				GetTokenWhile(pTemp,&temp[0],"]");
-				sscanf(temp,"%p", &dwTextureIndex);
+				sscanf(temp,"%d", &dwTextureIndex);
 
 				// check for "texture["
 				if (SkipToken(*pStr,TEXTURE_CHECK))
@@ -989,7 +985,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 				{
 					// maybe world0-world256
 					if (0==(pTemp = SkipToken(*pStr,WORLD_TRANSFORM_CHECK))) THROW("transform. error!");
-					sscanf(pTemp,"%p", &dwCode);
+					sscanf(pTemp,"%d", &dwCode);
 					dwCode = (DWORD)D3DTS_WORLDMATRIX(dwCode);
 				}
 				*pPass++ = CODE_TRANSFORM;
@@ -1087,12 +1083,12 @@ dword CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSi
 		if (isEndBracket(*pStr)) break;		// end of declaration
 		if (SkipToken(*pStr,VDECL_STREAM_CHECK))
 		{
-			sscanf(SkipToken(*pStr,"["),"%p", &dwTemp);
+			sscanf(SkipToken(*pStr,"["),"%d", &dwTemp);
 			dwStream = dwTemp;
 		}
 		if (SkipToken(*pStr,VDECL_FLOAT_CHECK))
 		{
-			sscanf(SkipToken(*pStr, "["), "%p", &dwTemp);
+			sscanf(SkipToken(*pStr, "["), "%d", &dwTemp);
 			switch (dwTemp)
 			{
 			case 1: dwTemp = D3DDECLTYPE_FLOAT1; break;
@@ -1784,7 +1780,7 @@ bool CTechnique::ExecutePass(bool bStart)
 			case CODE_SPSCONST:
 				{
 					dword dwShaderConstIndex = *pPass++;
-					pRS->SetPixelShaderConstantI(dwShaderConstIndex, (const int *)GetPassParameter(*pPass++, dwSubCode), 1);
+					pRS->SetPixelShaderConstantF(dwShaderConstIndex, (const float*)GetPassParameter(*pPass++, dwSubCode), 1); //~!~
 				}
 			break;
 			case CODE_SVSCONST:

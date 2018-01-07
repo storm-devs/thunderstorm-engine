@@ -3377,10 +3377,9 @@ HRESULT DX8RENDER::SetVertexShaderConstantF(UINT StartRegister, CONST float * pC
 	return d3d8->SetVertexShaderConstantF(StartRegister, pConstantData, Vector4iCount);
 }
 
-
-HRESULT DX8RENDER::SetPixelShaderConstantI(UINT StartRegister, CONST int * pConstantData, UINT Vector4iCount)
+HRESULT DX8RENDER::SetPixelShaderConstantF(UINT StartRegister, CONST float * pConstantData, UINT Vector4iCount)
 {
-	return d3d8->SetPixelShaderConstantI(StartRegister, pConstantData, Vector4iCount);
+	return d3d8->SetPixelShaderConstantF(StartRegister, pConstantData, Vector4iCount);
 }
 
 HRESULT DX8RENDER::GetDeviceCaps(D3DCAPS9 * pCaps)
