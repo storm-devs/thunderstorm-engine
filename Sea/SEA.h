@@ -26,7 +26,7 @@ private:
 	struct SeaBlock
 	{
 		long iX1, iX2, iY1, iY2;			// result rectangle(in units)
-		long iSize0;						// 
+		long iSize0;						//
 
 		long iTX, iTY;
 		long iSize;
@@ -167,7 +167,7 @@ private:
 	bool			EnvMap_Render();
 	void			EnvMap_GetSideMatrix(D3DCUBEMAP_FACES Face, CMatrix & mView);
 
-	// HyperThreading 
+	// HyperThreading
 	Intel				intel;
 	HANDLE				hEventCalcMaps;
 	array<HANDLE>		aEventCalcBlock;
@@ -198,6 +198,9 @@ public:
 	bool EditMode_Update();
 
 	dword AttributeChanged(ATTRIBUTES * pAttribute);
+
+	void LostRender() override;
+	void RestoreRender() override;
 
 	//bool			Init();
 	//void			Realize(dword Delta_Time);

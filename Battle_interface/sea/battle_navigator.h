@@ -28,6 +28,9 @@ public:
 	void	IncrementScale() {m_fCurScale+=m_fScaleStep; if(m_fCurScale>m_fMaxScale) m_fCurScale=m_fMaxScale;}
 	void	SetEnoughBalls(bool notEnoughBallFlag) {m_bNotEnoughBallFlag=notEnoughBallFlag;}
 
+	void LostRender();
+	void RestoreRender();
+
 protected:
 	void	CalculateTextureRect(FRECT & texRect, long num, long hq, long vq);
 	long	SetCircleVertexPos(BI_ONETEXTURE_VERTEX *v, float x,float y, float rad, float angle=0);

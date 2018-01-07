@@ -759,7 +759,7 @@ bool DX8RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 	fSmallWidth = 128;
 	fSmallHeight = 128;
 
-	//if (bPostProcessEnabled)
+	if (false)//if (bPostProcessEnabled) //~!~
 	{
 		d3d8->CreateTexture(width, height, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pPostProcessTexture, NULL);
 		d3d8->CreateTexture((int)fSmallWidth, (int)fSmallHeight, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pSmallPostProcessTexture, NULL);
@@ -2295,10 +2295,16 @@ bool DX8RENDER::ResetDevice()
 	api->SetEntityScanLayer(null);
 	if (api->GetEntity(&eid)) do { ((ENTITY*)eid.pointer)->LostRender(); } while (api->GetEntityNext(&eid));
 
+	//this LostRender
+	Release(rectsVBuffer);
+
 	HRESULT hr = d3d8->Reset(&d3dpp);
 	api->Trace("Device try to reset");
 	api->Trace("Device reset %s", (hr == D3D_OK) ? "successfully" : "bad");
 	ErrorHandler("reset", hr);
+
+	//this RestoreRender
+	d3d8->CreateVertexBuffer(rectsVBuffer_SizeInRects * 6 * sizeof(RECT_VERTEX), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, RS_RECT_VERTEX_FORMAT, D3DPOOL_DEFAULT, &rectsVBuffer, NULL);
 
 	api->SetEntityScanLayer(null);
 	if (api->GetEntity(&eid)) do { ((ENTITY*)eid.pointer)->RestoreRender(); } while (api->GetEntityNext(&eid));
@@ -3161,7 +3167,7 @@ void DX8RENDER::DrawLines2D(RS_LINE2D *pRSL2D, dword dwLinesNum, const char *cBl
 //-----------------------
 HRESULT DX8RENDER::CreateVertexBuffer(UINT Length, DWORD Usage, DWORD FVF, D3DPOOL Pool, IDirect3DVertexBuffer9** ppVertexBuffer)
 {
-	return d3d8->CreateVertexBuffer(Length, Usage, FVF, D3DPOOL_DEFAULT, ppVertexBuffer, NULL);
+	return d3d8->CreateVertexBuffer(Length, Usage, FVF, Pool, ppVertexBuffer, NULL);
 }
 
 HRESULT DX8RENDER::VBLock(IDirect3DVertexBuffer9 * pVB, UINT OffsetToLock,UINT SizeToLock,BYTE** ppbData, DWORD Flags)

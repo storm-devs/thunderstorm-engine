@@ -269,3 +269,4 @@ __pycache__/
 /ENGINE/RESOURCE
 /ENGINE/SAVE
 /ENGINE/options
+*.nvuser

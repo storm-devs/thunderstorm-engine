@@ -32,6 +32,9 @@ private:
 	void DelSaveTexture(char * fileName);
 	IDirect3DTexture9 * GetTexFromSave(char * fileName, char **pDatStr);
 
+	void LostRender() override;
+	void RestoreRender() override;
+
 	IDirect3DTexture9 * m_pScrShotTex;
 	SAVETEXTURES * m_list;
 };

@@ -396,3 +396,13 @@ IDirect3DTexture9 * SCRSHOTER::GetTexFromSave(char * fileName, char **pDatStr)
 	if(pt && rs) rs->Release(pt);
 	return null;
 }
+
+void SCRSHOTER::LostRender()
+{
+	rs->Release(m_pScrShotTex);
+}
+
+void SCRSHOTER::RestoreRender()
+{
+//	rs->CreateTexture(SS_TEXTURE_WIDTH, SS_TEXTURE_HEIGHT, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &m_pScrShotTex);
+}

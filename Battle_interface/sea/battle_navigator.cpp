@@ -1274,3 +1274,13 @@ void BATTLE_NAVIGATOR::UpdateWindParam()
 		m_fWindAngle = m_pAWeather->GetAttributeAsFloat("WindAngle");
 	}
 }
+
+void BATTLE_NAVIGATOR::LostRender()
+{
+	rs->Release(m_pIslandTexture);
+}
+
+void BATTLE_NAVIGATOR::RestoreRender()
+{
+	SetIsland();
+}

@@ -29,8 +29,9 @@ public:
 	bool Init();
 	void Realize(dword Delta_Time);
 	dword _cdecl ProcessMessage(MESSAGE &message);
-	void LostRender();
-	void RestoreRender();
+
+	void LostRender() override;
+	void RestoreRender() override;
 };
 
 

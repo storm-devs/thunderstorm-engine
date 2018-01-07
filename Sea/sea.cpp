@@ -1891,3 +1891,21 @@ dword SEA::AttributeChanged(ATTRIBUTES * pAttribute)
 
 	return 0;
 }
+
+void SEA::LostRender()
+{
+	Render().Release(pReflection);
+	Render().Release(pReflectionSunroad);
+	Render().Release(pEnvMap);
+	Render().Release(pSunRoadMap);
+	Render().Release(pRenderTargetBumpMap);;
+}
+
+void SEA::RestoreRender()
+{
+	Render().CreateTexture(XWIDTH, YWIDTH, MIPSLVLS, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pRenderTargetBumpMap);
+	Render().CreateCubeTexture(128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pEnvMap);
+	Render().CreateCubeTexture(128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pSunRoadMap);
+	Render().CreateTexture(128, 128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pReflection);
+	Render().CreateTexture(128, 128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pReflectionSunroad);
+}
