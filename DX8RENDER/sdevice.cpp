@@ -843,7 +843,7 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 	screen_size.x = width;
 	screen_size.y = height;
 
-	m_fHeightDeformator = (float)(height * 4) / (float)(width * 3);
+	// m_fHeightDeformator = (float)(height * 4) / (float)(width * 3);
 	/*#ifdef _XBOX
 	DWORD videoFlags = XGetVideoFlags();
 	if( videoFlags & XC_VIDEO_FLAGS_WIDESCREEN ) {
@@ -2284,6 +2284,7 @@ bool DX9RENDER::ResetDevice()
 	d3d9->GetRenderTarget(0, &pOriginalScreenSurface);
 	d3d9->GetDepthStencilSurface(&pOriginalDepthSurface);
 	ClearPostProcessSurface(pOriginalScreenSurface);
+	SetScreenAsRenderTarget();
 	d3d9->CreateVertexBuffer(rectsVBuffer_SizeInRects * 6 * sizeof(RECT_VERTEX), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, RS_RECT_VERTEX_FORMAT, D3DPOOL_DEFAULT, &rectsVBuffer, NULL);
 	for (long b = 0; b<MAX_BUFFERS; b++)
 	{
