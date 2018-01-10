@@ -1145,7 +1145,7 @@ void BATTLE_NAVIGATOR::SetIsland()
 		IDirect3DSurface9 *pRenderTarg=NULL, *pOldRenderTarg=NULL;
 		if( rs->GetRenderTarget(&pOldRenderTarg)==D3D_OK )
 		{
-			if( rs->CreateTexture(MAP_TEXTURE_WIDTH,MAP_TEXTURE_HEIGHT,1,D3DUSAGE_RENDERTARGET,D3DFMT_R5G6B5,D3DPOOL_MANAGED,&m_pIslandTexture) == D3D_OK )
+			if( rs->CreateTexture(MAP_TEXTURE_WIDTH,MAP_TEXTURE_HEIGHT,1,D3DUSAGE_RENDERTARGET,D3DFMT_R5G6B5,D3DPOOL_DEFAULT,&m_pIslandTexture) == D3D_OK )
 			{
 				// SIMPLE OUT
 				if( rs->GetSurfaceLevel(m_pIslandTexture,0,&pRenderTarg) == D3D_OK )

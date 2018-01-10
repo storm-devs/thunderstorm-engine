@@ -798,16 +798,19 @@ __forceinline void Grass::DrawBuffer()
 		vbuffer = null;
 	}
 	// boal выбор шайдера -->
-	if (isGrassLightsOn == 1)
+	if (numPoints > 0)
 	{
-		rs->DrawBuffer(vb, sizeof(Vertex), ib, 0, numPoints*4, 0, numPoints*2, "GrassEx");
-	}
-	else
-	{
-		rs->DrawBuffer(vb, sizeof(Vertex), ib, 0, numPoints*4, 0, numPoints*2, "GrassEx_dark");
-	}
+		if (isGrassLightsOn == 1)
+		{
+			rs->DrawBuffer(vb, sizeof(Vertex), ib, 0, numPoints * 4, 0, numPoints * 2, "GrassEx");
+		}
+		else
+		{
+			rs->DrawBuffer(vb, sizeof(Vertex), ib, 0, numPoints * 4, 0, numPoints * 2, "GrassEx_dark");
+		}
 	// boal выбор шайдера <--
-	numPoints = 0;
+		numPoints = 0;
+	}
 }
 
 __forceinline long Grass::GetColor(CVECTOR color)

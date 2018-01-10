@@ -190,8 +190,7 @@ bool SCRSHOTER::MakeScreenShot()
 	if(pRenderTarg!=null) pRenderTarg->Release();
 
 	// Наложим на шот текстуру с рамкой
-	//~!~
-	/*int nTextureID = rs->TextureCreate("interfaces\\EmptyBorder.tga");
+	int nTextureID = rs->TextureCreate("interfaces\\EmptyBorder.tga");
 	if(nTextureID>=0)
 	{
 		IDirect3DTexture9 * pScrShotTex = null;
@@ -236,14 +235,15 @@ bool SCRSHOTER::MakeScreenShot()
 			IDirect3DSurface9 *pSurf1=null, *pSurf2=null;
 			rs->GetSurfaceLevel(m_pScrShotTex,0,&pSurf1);
 			rs->GetSurfaceLevel(pScrShotTex,0,&pSurf2);
-			rs->UpdateSurface(pSurf2,null,0,pSurf1,null);
+			//rs->UpdateSurface(pSurf2,null,0,pSurf1,null);
+			hr = D3DXLoadSurfaceFromSurface(pSurf1, NULL, NULL, pSurf2, NULL, NULL, D3DX_DEFAULT, 0);
 			if(pSurf1) rs->Release(pSurf1);
 			if(pSurf2) rs->Release(pSurf2);
 			rs->Release(pScrShotTex);
 		}
 
 		rs->TextureRelease(nTextureID);
-	}*/
+	}
 
 	return hr==D3D_OK;
 }

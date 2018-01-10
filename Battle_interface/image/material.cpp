@@ -140,6 +140,10 @@ void BIImageMaterial::RemakeBuffers()
 		nVQ += m_apImage[n]->GetVertexQuantity();
 		nTQ += m_apImage[n]->GetTriangleQuantity();
 	}
+
+	if (nVQ == 0 || nTQ == 0)
+		return;
+
 	if( m_nVertexQuantity != nVQ )
 	{
 		m_pRS->ReleaseVertexBuffer( m_nVBufID );
