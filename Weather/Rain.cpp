@@ -138,8 +138,8 @@ void RAIN::GenerateRain()
 	}
 	Render().UnLockVertexBuffer(iVertexBuffer);
 
-	iIBSeaDrops = Render().CreateIndexBuffer(NUM_SEA_DROPS * 2 * 3 * sizeof(word), D3DUSAGE_WRITEONLY); 
-	iVBSeaDrops = Render().CreateVertexBuffer(D3DSEADROPVERTEX_FORMAT, NUM_SEA_DROPS * 4 * sizeof(SEADROPVERTEX), D3DUSAGE_WRITEONLY); 
+	iIBSeaDrops = Render().CreateIndexBuffer(NUM_SEA_DROPS * 2 * 3 * sizeof(word), D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY);
+	iVBSeaDrops = Render().CreateVertexBuffer(D3DSEADROPVERTEX_FORMAT, NUM_SEA_DROPS * 4 * sizeof(SEADROPVERTEX), D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY); 
 
 	word * pI = (word *)Render().LockIndexBuffer(iIBSeaDrops);
 	if (pI) 

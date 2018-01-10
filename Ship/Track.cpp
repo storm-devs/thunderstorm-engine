@@ -161,7 +161,7 @@ bool ShipTracks::ShipTrack::Reserve1(dword dwSize)
 	pRS->ReleaseIndexBuffer(iITmpBuffer1);	iITmpBuffer1 = -1;
 
 	iVTmpBuffer1 = pRS->CreateVertexBuffer(D3DFVF_XYZ|D3DFVF_DIFFUSE|D3DFVF_TEX1, dwMaxBufferSize1 * dwTrackStep1 * sizeof(TrackVertex), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
-	iITmpBuffer1 = pRS->CreateIndexBuffer(dwMaxBufferSize1 * dwTrackStep1 * 6 * sizeof(word), D3DUSAGE_WRITEONLY);
+	iITmpBuffer1 = pRS->CreateIndexBuffer(dwMaxBufferSize1 * dwTrackStep1 * 6 * sizeof(word), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
 
 	if (iVTmpBuffer1==-1 || iITmpBuffer1==-1)
 	{

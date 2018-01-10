@@ -1141,8 +1141,8 @@ void SAIL::SetAllSails()
     if( texl == -1 ) texl = RenderService->TextureCreate("ships\\parus_hole.tga");
 	if( m_nEmptyGerbTex == -1 ) m_nEmptyGerbTex = RenderService->TextureCreate("ships\\emptygerald.tga");
 
-    sg.vertBuf = RenderService->CreateVertexBuffer( SAILVERTEX_FORMAT, sg.nVert*sizeof(SAILVERTEX), D3DUSAGE_WRITEONLY );
-    sg.indxBuf = RenderService->CreateIndexBuffer( sg.nIndx*2, D3DUSAGE_DYNAMIC );
+    sg.vertBuf = RenderService->CreateVertexBuffer( SAILVERTEX_FORMAT, sg.nVert*sizeof(SAILVERTEX), D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY );
+    sg.indxBuf = RenderService->CreateIndexBuffer( sg.nIndx*2, D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY);
 
     SAILVERTEX* pv; pv=(SAILVERTEX*)RenderService->LockVertexBuffer(sg.vertBuf);
     if(pv)
@@ -1707,7 +1707,7 @@ void SAIL::DeleteSailGroup()
     if(sg.nVert>0)
     {
         // создадим новые буферы
-        sg.vertBuf=RenderService->CreateVertexBuffer(SAILVERTEX_FORMAT,sg.nVert*sizeof(SAILVERTEX),D3DUSAGE_WRITEONLY);
+        sg.vertBuf=RenderService->CreateVertexBuffer(SAILVERTEX_FORMAT,sg.nVert*sizeof(SAILVERTEX), D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY);
 
         SAILVERTEX* pv; pv=(SAILVERTEX*)RenderService->LockVertexBuffer(sg.vertBuf);
         if(pv)
@@ -1740,7 +1740,7 @@ void SAIL::SetAddSails(int firstSail)
     // удалим старые буферы
 	VERTEX_BUFFER_RELEASE(RenderService,sg.vertBuf);
     // создадим новые буферы
-    sg.vertBuf=RenderService->CreateVertexBuffer(SAILVERTEX_FORMAT,sg.nVert*sizeof(SAILVERTEX),D3DUSAGE_WRITEONLY);
+    sg.vertBuf=RenderService->CreateVertexBuffer(SAILVERTEX_FORMAT,sg.nVert*sizeof(SAILVERTEX), D3DUSAGE_DYNAMIC|D3DUSAGE_WRITEONLY);
 
     // заполним вертекс буфер и установим текстурные координаты
     SAILVERTEX* pv; pv=(SAILVERTEX*)RenderService->LockVertexBuffer(sg.vertBuf);

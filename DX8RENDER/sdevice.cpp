@@ -489,7 +489,7 @@ bool  DX9RENDER::Init()
 //################################################################################
 DX9RENDER::~DX9RENDER()
 {
-	d3d9->SetRenderTarget(NULL, NULL);
+	// d3d9->SetRenderTarget(NULL, NULL); //~!~
 
 	S_RELEASE(pSmallPostProcessSurface2, 0);
 	S_RELEASE(pPostProcessSurface, 1);
@@ -907,11 +907,8 @@ bool DX9RENDER::DX9Clear(long type)
 //################################################################################
 bool DX9RENDER::DX9BeginScene()
 {
-	dwNumDrawPrimitive = 0;
-	dwNumLV = 0;
-	dwNumLI = 0;
-	if (CHECKD3DERR(d3d9->BeginScene()) == true)	return false;
-	return true;
+	//~!~	
+	return false;
 }
 
 void DX9RENDER::CreateRenderQuad(float fWidth, float fHeight, float fSrcWidth, float fSrcHeight, float fMulU, float fMulV)
@@ -1076,9 +1073,9 @@ void DX9RENDER::CopyPostProcessToScreen()
 void DX9RENDER::ClearPostProcessSurface(IDirect3DSurface9* pSurf)
 {
 	HRESULT hr = SetRenderTarget(pSurf, NULL);
-	hr = d3d9->BeginScene();
+	hr = BeginScene();
 	hr = d3d9->Clear(0, NULL, D3DCLEAR_TARGET, 0x0, 0.0f, 0x0);
-	hr = d3d9->EndScene();
+	hr = EndScene();
 }
 
 void DX9RENDER::SetScreenAsRenderTarget()
@@ -1196,7 +1193,7 @@ bool DX9RENDER::DX9EndScene()
 		DrawPrimitive(D3DPT_LINELIST, 0, 1);
 	}
 
-	if (CHECKD3DERR(d3d9->EndScene()))	return false;
+	if (CHECKD3DERR(EndScene()))	return false;
 
 #ifndef _XBOX
 	/*if (api->Controls->GetDebugAsyncKeyState(VK_SHIFT) < 0 && api->Controls->GetDebugAsyncKeyState(VK_F6) < 0)
@@ -2378,7 +2375,11 @@ void DX9RENDER::RunStart()
 
 
 	DX9Clear(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | ((stencil_format == D3DFMT_D24S8) ? D3DCLEAR_STENCIL : 0));
-	DX9BeginScene();
+
+	dwNumDrawPrimitive = 0;
+	dwNumLV = 0;
+	dwNumLI = 0;
+	BeginScene();
 
 
 	//------------------------------------------
@@ -2877,7 +2878,7 @@ void DX9RENDER::MakeScreenShot()
 		api->Trace("Falure get render target for make screenshot");
 		return;
 	}
-	if (FAILED(d3d9->CreateOffscreenPlainSurface(screen_size.x, screen_size.y, D3DFMT_X8R8G8B8, D3DPOOL_SCRATCH, &surface, NULL)))
+	if (FAILED(d3d9->CreateOffscreenPlainSurface(screen_size.x, screen_size.y, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &surface, NULL)))
 	{
 		renderTarget->Release();
 		api->Trace("Falure create buffer for make screenshot");
@@ -3247,14 +3248,27 @@ HRESULT DX9RENDER::Clear(DWORD Count, CONST D3DRECT* pRects, DWORD Flags, D3DCOL
 	return d3d9->Clear(Count, pRects, Flags, Color, Z, Stencil);
 }
 
+static bool isInScene = false;
 HRESULT DX9RENDER::BeginScene()
 {
-	return d3d9->BeginScene();
+	if (!isInScene)
+	{
+		isInScene = true;
+		return d3d9->BeginScene();
+	}
+
+	return D3D_OK;
 }
 
 HRESULT DX9RENDER::EndScene()
 {
-	return d3d9->EndScene();
+	if (isInScene)
+	{
+		isInScene = false;
+		return d3d9->EndScene();
+	}	
+
+	return D3D_OK;
 }
 
 HRESULT DX9RENDER::SetClipPlane(DWORD Index, CONST float* pPlane)
@@ -3276,7 +3290,7 @@ HRESULT DX9RENDER::CreateCubeTexture(UINT EdgeLength, UINT Levels, DWORD Usage, 
 HRESULT DX9RENDER::CreateOffscreenPlainSurface(UINT Width, UINT Height, D3DFORMAT Format, IDirect3DSurface9 ** ppSurface)
 {
 	return d3d9->CreateOffscreenPlainSurface(Width, Height, Format, D3DPOOL_SYSTEMMEM, ppSurface, NULL);
-	//D3DERR_OUTOFVIDEOMEMORY
+	//~!~D3DERR_OUTOFVIDEOMEMORY
 	//GetAvailableTextureMem
 }
 
@@ -3673,7 +3687,7 @@ void DX9RENDER::ProgressView()
 	isInPViewProcess = true;
 	progressSafeCounter = 0;
 	//Режим рисования
-	if (!bInsideScene) BeginScene();
+	BeginScene();
 	//Заполняем вершины текстуры
 	struct LoadVertex
 	{
@@ -3731,7 +3745,7 @@ void DX9RENDER::ProgressView()
 	DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1, 2, v, sizeof(v[0]), "ProgressTech");
 	EndScene();
 	d3d9->Present(NULL, NULL, NULL, NULL);
-	if (bInsideScene) BeginScene();
+	BeginScene();
 	//Следующий кадр
 	loadFrame++;
 	if (loadFrame >= sizeX * sizeY) loadFrame = 0;

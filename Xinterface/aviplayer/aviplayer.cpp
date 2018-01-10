@@ -80,6 +80,8 @@ void CAviPlayer::Execute(dword delta_time)
 
 void CAviPlayer::Realize(dword delta_time)
 {
+	//~!~
+	//rs->BeginScene();
 	int i;
 	HRESULT hr;
 	DDSURFACEDESC ddsd;

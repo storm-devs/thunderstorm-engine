@@ -28,8 +28,8 @@ NetCoastFoam::~NetCoastFoam()
 
 bool NetCoastFoam::Init()
 {
-	iVBuffer = Render().CreateVertexBuffer(D3DFVF_XYZ|D3DFVF_DIFFUSE|D3DFVF_TEX1|D3DFVF_TEXTUREFORMAT2, sizeof(FoamVertex) * 5000, D3DUSAGE_WRITEONLY);
-	iIBuffer = Render().CreateIndexBuffer(10000 * 2 * 3);
+	iVBuffer = Render().CreateVertexBuffer(D3DFVF_XYZ|D3DFVF_DIFFUSE|D3DFVF_TEX1|D3DFVF_TEXTUREFORMAT2, sizeof(FoamVertex) * 5000, D3DUSAGE_DYNAMIC|D3DUSAGE_WRITEONLY);
+	iIBuffer = Render().CreateIndexBuffer(10000 * 2 * 3, D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY);
 
 	iCursorTex = Render().TextureCreate("cursor.tga");
 
