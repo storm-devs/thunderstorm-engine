@@ -14,7 +14,7 @@ inline float GetFloatFromA(ATTRIBUTES *pA,char * sAttrName,float defValue=0)
 	else return defValue;
 }
 
-inline long GetTextureFromA(VDX8RENDER * rs,ATTRIBUTES * pA,char * sAttrName)
+inline long GetTextureFromA(VDX9RENDER * rs,ATTRIBUTES * pA,char * sAttrName)
 {
 	if(rs==NULL || pA==NULL) return -1;
 	char * sname = pA->GetAttribute(sAttrName);
@@ -54,7 +54,7 @@ BATTLE_LAND_INTERFACE::~BATTLE_LAND_INTERFACE()
 
 bool BATTLE_LAND_INTERFACE::Init()
 {
-	if( (rs=(VDX8RENDER *)_CORE_API->CreateService("dx8render")) == NULL )
+	if( (rs=(VDX9RENDER *)_CORE_API->CreateService("dx9render")) == NULL )
 	{
 		_THROW("Can`t create render service");
 	}

@@ -23,7 +23,7 @@ class BIShipIcon
 	};
 
 public:
-	BIShipIcon( ENTITY_ID& BIEntityID, VDX8RENDER* pRS );
+	BIShipIcon( ENTITY_ID& BIEntityID, VDX9RENDER* pRS );
 	~BIShipIcon();
 
 	void Draw();
@@ -56,7 +56,7 @@ protected:
 	float GetRelativeShipHP(long nShipNum);
 	float GetRelativeShipSP(long nShipNum);
 
-	VDX8RENDER* m_pRS;
+	VDX9RENDER* m_pRS;
 
 	long m_nVBufID;
 	long m_nIBufID;

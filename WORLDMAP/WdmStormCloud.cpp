@@ -120,12 +120,12 @@ void WdmStormCloud::Update(float dltTime)
 }
 
 //Отрисовка
-void WdmStormCloud::PRender(VDX8RENDER * rs)
+void WdmStormCloud::PRender(VDX9RENDER * rs)
 {
 	LRender(rs);
 }
 
-void WdmStormCloud::LRender(VDX8RENDER * rs)
+void WdmStormCloud::LRender(VDX9RENDER * rs)
 {
 	
 	//Рисуем подложку на море

@@ -6,7 +6,7 @@
 #include "..\common_h\messages.h"
 #include "..\common_h\geos.h"
 #include "..\common_h\geometry.h"
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\ship_base.h"
 #include "..\common_h\model.h"
 #include "..\common_h\geos.h"
@@ -58,7 +58,7 @@ bool TELESCOPE::Init()
 
 	fdx = 0; fdy = 0;
 
-	renderer = (VDX8RENDER *) _CORE_API->CreateService("dx8render");
+	renderer = (VDX9RENDER *) _CORE_API->CreateService("dx9render");
 
 	CVECTOR pos, ang;
 	renderer->GetCamera(pos, ang, originalPerspective);

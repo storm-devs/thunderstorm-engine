@@ -3,7 +3,7 @@
 #include "ships_list.h"
 #include "island_descr.h"
 
-BIShipCommandList::BIShipCommandList( ENTITY_ID& eid, ATTRIBUTES* pA, VDX8RENDER* rs ) :
+BIShipCommandList::BIShipCommandList( ENTITY_ID& eid, ATTRIBUTES* pA, VDX9RENDER* rs ) :
 	m_aTexture(_FL),
 	m_aCommand(_FL),
 	m_aUsedCommand(_FL),

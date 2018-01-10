@@ -29,7 +29,7 @@ PARTICLES::~PARTICLES()
 		delete ps;
 	}
 
-	if(RenderService) api->FreeService("dx8render");
+	if(RenderService) api->FreeService("dx9render");
 	
 	//if(psini) delete psini;
 	if(pInifiles)
@@ -52,8 +52,8 @@ bool PARTICLES::Init()
 
 	//api->LayerAdd("sea_reflection",GetID(),0xfffff);
 
-	RenderService = (VDX8RENDER *)api->CreateService("dx8render");
-	if(!RenderService)	_THROW("No service: dx8render");
+	RenderService = (VDX9RENDER *)api->CreateService("dx9render");
+	if(!RenderService)	_THROW("No service: dx9render");
 	
 	//------------------------------------------------------------------
 	CVECTOR p,a;

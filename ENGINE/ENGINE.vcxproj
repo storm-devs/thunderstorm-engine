@@ -216,7 +216,7 @@
     <ClInclude Include="..\Common_h\Cvector.h" />
     <ClInclude Include="..\Common_h\CVector4.h" />
     <ClInclude Include="..\Common_h\defines.h" />
-    <ClInclude Include="..\Common_h\dx8render.h" />
+    <ClInclude Include="..\Common_h\dx9render.h" />
     <ClInclude Include="..\Common_h\d_types.h" />
     <ClInclude Include="..\Common_h\entity.h" />
     <ClInclude Include="..\Common_h\entity_id.h" />

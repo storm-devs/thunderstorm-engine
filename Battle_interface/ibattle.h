@@ -1,7 +1,7 @@
 #ifndef __BATTLE_INTERFACE_H_
 #define __BATTLE_INTERFACE_H_
 
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\defines.h"
 #include "battle_command.h"
 #include "battle_navigator.h"
@@ -10,7 +10,7 @@ class BIShipIcon;
 
 class BATTLE_INTERFACE : public ENTITY
 {
-	VDX8RENDER *rs;
+	VDX9RENDER *rs;
 
 public:
 	BATTLE_INTERFACE();

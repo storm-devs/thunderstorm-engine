@@ -7,7 +7,7 @@
 #include "..\common_h\messages.h"
 #include "..\common_h\geos.h"
 #include "..\common_h\geometry.h"
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\ship_base.h"
 #include "..\common_h\model.h"
 #include "..\common_h\geos.h"
@@ -71,7 +71,7 @@ private:
 	void SetType (const tTelescopeConfig &config);
 	void VisualizeInfo();
 
-	VDX8RENDER *renderer;
+	VDX9RENDER *renderer;
 
 	tTelescopeStatus status;
 	tVisualizationInfo visualizationInfo;

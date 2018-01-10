@@ -1,13 +1,13 @@
 #ifndef _BATTLE_LAND_H_
 #define _BATTLE_LAND_H_
 
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\defines.h"
 #include "battle_command.h"
 
 class BATTLE_LAND_INTERFACE : public ENTITY
 {
-	VDX8RENDER	*rs;
+	VDX9RENDER	*rs;
 	BATTLE_COMMAND	*m_pCommandMenu;
 	MESSAGE_ICONS	*m_pMessageIcons;
 

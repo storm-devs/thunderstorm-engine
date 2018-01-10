@@ -22,7 +22,7 @@ class BIImageRender;
 class BIShipCommandList
 {
 public:
-	BIShipCommandList( ENTITY_ID& eid, ATTRIBUTES* pA, VDX8RENDER* rs );
+	BIShipCommandList( ENTITY_ID& eid, ATTRIBUTES* pA, VDX9RENDER* rs );
 	~BIShipCommandList();
 
 	void Draw();
@@ -64,7 +64,7 @@ protected:
 
 	ENTITY_ID m_idHostObj;
 	ATTRIBUTES* m_pARoot;
-	VDX8RENDER* m_pRS;
+	VDX9RENDER* m_pRS;
 
 	BIImageRender* m_pImgRender;
 

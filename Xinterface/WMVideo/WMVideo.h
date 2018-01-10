@@ -9,7 +9,7 @@
 //-----------------------------------------------------------------------------
 class WMVideoPlay : public xiBaseVideo
 {
-	VDX8RENDER  *rs;
+	VDX9RENDER  *rs;
 	WMVBase * pBase;
 
 public:

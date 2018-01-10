@@ -2,7 +2,7 @@
 #define IN_GAME_UTILS_ISLAND_ED_HPP
 
 #include "..\common_h\vmodule_api.h"
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\defines.h"
 #include "..\common_h\tga.h"
 #include "..\common_h\templates\array.h"
@@ -50,7 +50,7 @@ private:
 	TGA_H					Header;
 	BYTE					* pRaw;
 	IDirect3DTexture8		* pIslandTexture;
-	VDX8RENDER				* pRS;
+	VDX9RENDER				* pRS;
 
 	dword	GetNearestPointIdx(CVECTOR vSrc);
 	float	Trace(spoint *p1, spoint *p2);

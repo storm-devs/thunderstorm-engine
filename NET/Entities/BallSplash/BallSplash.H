@@ -9,13 +9,13 @@
 #include "..\common_h\messages.h"
 #include "..\common_h\geos.h"
 #include "..\common_h\geometry.h"
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\ship_base.h"
 #include "..\common_h\model.h"
 #include "..\common_h\geos.h"
 #include "..\common_h\sea_base.h"
 #include "..\common_h\CVECTOR.h"
-#include "..\common_h\dx8render.h"*/
+#include "..\common_h\dx9render.h"*/
 #include "BallSplashDefines.h"
 #include "TSplash.h"
 
@@ -39,7 +39,7 @@ private:
 	TSplash *TryToAddSplash(const CVECTOR &_pos, const CVECTOR &_dir);
 
 	TSplash    splashes[MAX_SPLASHES];
-	VDX8RENDER *renderer;
+	VDX9RENDER *renderer;
 	SEA_BASE   *sea;
 };
 

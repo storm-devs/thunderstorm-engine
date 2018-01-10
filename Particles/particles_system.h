@@ -2,7 +2,7 @@
 #define _PARTICLES_SYSTEM_H_
 
 #include "..\common_h\vmodule_api.h"
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\geometry.h"
 #include "..\common_h\vfile_service.h"
 #include "..\common_h\vparticle_system.h"
@@ -118,7 +118,7 @@ class PARTICLE_SYSTEM : VPARTICLE_SYSTEM
 	bool bTrackAngle;
 
 	VAPI * api;
-	VDX8RENDER * RenderService;
+	VDX9RENDER * RenderService;
 	VGEOMETRY * gs;
 	
 	// interface classes ---------------------

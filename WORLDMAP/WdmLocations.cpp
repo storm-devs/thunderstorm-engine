@@ -160,7 +160,7 @@ bool WdmLocations::Label::Update(float dltTime, WdmLocations * loc)
 	t[1].alpha -= dltTime*1.0f;
 	if(t[1].alpha > 0.0f) isChanged = true; else t[1].alpha = 0.0f;
 	//Пересчитаем позиции иконки и текста
-	VDX8RENDER * rs = wdmObjects.wm->GetRS();
+	VDX9RENDER * rs = wdmObjects.wm->GetRS();
 	//Размеры иконки
 	float iw = loc->iconWidth;
 	float ih = loc->iconHeight;
@@ -270,7 +270,7 @@ WdmLocations::~WdmLocations()
 //Зачитать данные об островах и локациях
 void WdmLocations::SetIslandsData(ATTRIBUTES * apnt)
 {
-	VDX8RENDER * rs = wdmObjects.wm->GetRS();
+	VDX9RENDER * rs = wdmObjects.wm->GetRS();
 	//Общее
 	char * f = apnt->GetAttribute("fontIslands");
 	if(!f) f = "normal";
@@ -596,7 +596,7 @@ void WdmLocations::Update(float dltTime)
 }
 
 //Отрисовка
-void WdmLocations::LRender(VDX8RENDER * rs)
+void WdmLocations::LRender(VDX9RENDER * rs)
 {
 	//Если отладочный режим, то рисуем отладочную информацию
 	if(islandsInfo && wdmObjects.isDebug)
@@ -611,7 +611,7 @@ void WdmLocations::LRender(VDX8RENDER * rs)
 	DrawLabels(rs);
 }
 
-void WdmLocations::DrawLabels(VDX8RENDER * rs)
+void WdmLocations::DrawLabels(VDX9RENDER * rs)
 {
 	//Получим текущую матрицу преобразования
 	static CMatrix mtx, view, prj;
@@ -796,7 +796,7 @@ bool WdmLocations::FindGoodIsland(float shipX, float shipZ, float & x, float & z
 	return true;
 }
 
-void WdmLocations::DrawIcon(VDX8RENDER * rs, float x, float y, Label & label)
+void WdmLocations::DrawIcon(VDX9RENDER * rs, float x, float y, Label & label)
 {
 	//Буфер для рисования треугольников
 	static struct

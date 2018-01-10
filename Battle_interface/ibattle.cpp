@@ -58,7 +58,7 @@ BATTLE_INTERFACE::~BATTLE_INTERFACE()
 
 bool BATTLE_INTERFACE::Init()
 {
-	if( (rs=(VDX8RENDER *)_CORE_API->CreateService("dx8render")) == NULL )
+	if( (rs=(VDX9RENDER *)_CORE_API->CreateService("dx9render")) == NULL )
 	{
 		_THROW("Can`t create render service");
 	}

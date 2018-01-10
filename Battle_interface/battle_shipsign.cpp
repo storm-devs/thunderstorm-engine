@@ -15,7 +15,7 @@ long GetMaxFromFourLong( long n1, long n2, long n3, long n4 )
 	return n4;
 }
 
-BIShipIcon::BIShipIcon( ENTITY_ID& BIEntityID, VDX8RENDER* pRS )
+BIShipIcon::BIShipIcon( ENTITY_ID& BIEntityID, VDX9RENDER* pRS )
 {
 	Assert( pRS );
 

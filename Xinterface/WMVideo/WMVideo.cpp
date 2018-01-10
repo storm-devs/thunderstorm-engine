@@ -24,8 +24,8 @@ bool WMVideoPlay::Init()
 {
 	GUARD(WMVideoPlay::Init())
 
-	rs = (VDX8RENDER *)api->CreateService("dx8render");
-	if(!rs)	{_THROW("No service: dx8render")}
+	rs = (VDX9RENDER *)api->CreateService("dx9render");
+	if(!rs)	{_THROW("No service: dx9render")}
 
 	g_fWMVAspectRatioK = rs->GetHeightDeformator();
 

@@ -121,7 +121,7 @@ public:
 	//Расчёты
 	virtual void Update(float dltTime);
 	//Отрисовка
-	virtual void LRender(VDX8RENDER * rs);
+	virtual void LRender(VDX9RENDER * rs);
 
 	//Найти реакцию от островов для корабля
 	void FindReaction(float x, float z, float & rx, float & rz);
@@ -136,8 +136,8 @@ private:
 	void InitLabel(Label & label, ATTRIBUTES * apnt, bool isIsl, bool isSet = false);
 	void UpdateLabelPriority(IslandInfo & ii);
 	void Release();
-	void DrawLabels(VDX8RENDER * rs);
-	void DrawIcon(VDX8RENDER * rs, float x, float y, Label & label);
+	void DrawLabels(VDX9RENDER * rs);
+	void DrawIcon(VDX9RENDER * rs, float x, float y, Label & label);
 
 private:
 	IslandInfo * islandsInfo;

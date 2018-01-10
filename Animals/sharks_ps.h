@@ -2,7 +2,7 @@
 #define _SHARKS_PS_H_
 
 #include "..\common_h\vmodule_api.h"
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\sea_base.h"
 #include "..\common_h\geometry.h"
 #include "..\common_h\object.h"
@@ -110,7 +110,7 @@ class SHARKS_PS
 	bool bTrackAngle;
 
 	VAPI * api;
-	VDX8RENDER * RenderService;
+	VDX9RENDER * RenderService;
 	VGEOMETRY * gs;
 
 	long TextureID[MAX_PS_TEXTURES];

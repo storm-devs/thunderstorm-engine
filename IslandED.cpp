@@ -40,7 +40,7 @@ bool IslandED::Init()
 	api->LayerSetFlags("execute",LRFLAG_EXECUTE);
 	api->LayerSetFlags("realize",LRFLAG_REALIZE);
 
-	pRS = (VDX8RENDER*)api->CreateService("DX8RENDER");
+	pRS = (VDX9RENDER*)api->CreateService("DX9RENDER");
 	iTexID = pRS->TextureCreate("shore.tga");
 
 	GetWindowRect(api->GetAppHWND(),&SR);

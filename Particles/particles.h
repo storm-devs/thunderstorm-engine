@@ -3,7 +3,7 @@
 
 #include "..\common_h\vmodule_api.h"
 #include "..\common_h\entity.h"
-#include "..\common_h\dx8render.h"
+#include "..\common_h\dx9render.h"
 #include "..\common_h\messages.h"
 
 #include "particles_ms.h"
@@ -11,7 +11,7 @@
 
 class PARTICLES : public ENTITY
 {
-	VDX8RENDER * RenderService;
+	VDX9RENDER * RenderService;
 
 	char PSConfigurationFileName[MAX_PATH];
 	//INIFILE * psini;

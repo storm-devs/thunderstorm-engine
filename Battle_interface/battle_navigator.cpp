@@ -342,7 +342,7 @@ void BATTLE_NAVIGATOR::FillOneSideFireRange(BI_NOTEXTURE_VERTEX * pv,ATTRIBUTES 
 	}
 }
 
-void BATTLE_NAVIGATOR::Init(VDX8RENDER *RenderService)
+void BATTLE_NAVIGATOR::Init(VDX9RENDER *RenderService)
 {
 	int i;
 	char * tmpstr;

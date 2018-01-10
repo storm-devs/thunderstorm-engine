@@ -13,7 +13,7 @@
 
 class BATTLE_NAVIGATOR
 {
-	VDX8RENDER * rs;
+	VDX9RENDER * rs;
 
 public:
 	BATTLE_NAVIGATOR();
@@ -21,7 +21,7 @@ public:
 
 	void	Draw();
 	void	Update();
-	void	Init(VDX8RENDER *RenderService);
+	void	Init(VDX9RENDER *RenderService);
 	void	SetIsland();
 	void	DecrementScale() {m_fCurScale-=m_fScaleStep; if(m_fCurScale<m_fMinScale) m_fCurScale=m_fMinScale;}
 	void	IncrementScale() {m_fCurScale+=m_fScaleStep; if(m_fCurScale>m_fMaxScale) m_fCurScale=m_fMaxScale;}
