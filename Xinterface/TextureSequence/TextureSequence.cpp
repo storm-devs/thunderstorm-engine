@@ -80,7 +80,7 @@ IDirect3DTexture9* TextureSequence::Initialize(VDX9RENDER *pRS, const char* cTSf
 
 	m_pTexture=null;
 	// create output texture
-	if( S_OK != m_pRS->CreateTexture(m_texWidth,m_texHeight,1,D3DUSAGE_RENDERTARGET,D3DFMT_A8R8G8B8,D3DPOOL_MANAGED,&m_pTexture) )
+	if( S_OK != m_pRS->CreateTexture(m_texWidth,m_texHeight,1,D3DUSAGE_RENDERTARGET,D3DFMT_A8R8G8B8,D3DPOOL_DEFAULT,&m_pTexture) )
 	{
 		m_pTexture=null;
 		_CORE_API->Trace("Can`t create texture");
@@ -186,10 +186,10 @@ void TextureSequence::Release()
 
 void TextureSequence::LostRender()
 {
-	//m_pRS->Release(m_pTexture);
+	m_pRS->Release(m_pTexture);
 }
 
 void TextureSequence::RestoreRender()
 {
-	//m_pRS->CreateTexture(m_texWidth,m_texHeight,1,D3DUSAGE_RENDERTARGET,D3DFMT_A8R8G8B8,D3DPOOL_DEFAULT,&m_pTexture);
+	m_pRS->CreateTexture(m_texWidth,m_texHeight,1,D3DUSAGE_RENDERTARGET,D3DFMT_A8R8G8B8,D3DPOOL_DEFAULT,&m_pTexture);
 }
