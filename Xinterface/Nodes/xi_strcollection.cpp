@@ -109,7 +109,7 @@ void CXI_STRCOLLECTION::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *n
 			{
 				if(strState[k]=='C' || strState[k]=='c')
 					m_pStrDescr[i].wAlignment = ALIGN_CENTER;
-				if(strState[k]=='R' || strState[k]=='c')
+				if(strState[k]=='R' || strState[k]=='r')
 					m_pStrDescr[i].wAlignment = ALIGN_RIGHT;
 				if(strState[k]=='S' || strState[k]=='s')
 					m_pStrDescr[i].bShadow=true;
