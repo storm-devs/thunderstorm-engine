@@ -1122,14 +1122,29 @@ void XINTERFACE::LoadIni()
 	sprintf(section,"COMMON");
 
 	// установить параметры экрана
-	fScale = ini->GetFloat(platform,"fScale",1.f);
-	if(fScale<MIN_SCALE || fScale>MAX_SCALE) fScale=1.f;
-	dwScreenWidth = ini->GetLong(platform,"wScreenWidth",800);
-	dwScreenHeight = ini->GetLong(platform,"wScreenHeight",600);
-	GlobalScreenRect.left   = ini->GetLong(platform,"wScreenLeft",0);
-	GlobalScreenRect.top    = ini->GetLong(platform,"wScreenTop",600);
-	GlobalScreenRect.right  = ini->GetLong(platform,"wScreenRight",800);
-	GlobalScreenRect.bottom = ini->GetLong(platform,"wScreenDown",0);
+	if(ini->GetLong(platform, "bDynamicScaling", 0) != 0)
+	{
+		POINT screen_size = pRenderService->GetScreenSize();
+		float aspect = float(screen_size.x) / float(screen_size.y);
+		fScale = 1.f;
+		dwScreenWidth = 600 * aspect;
+		dwScreenHeight = 600;
+		GlobalScreenRect.left = (dwScreenWidth - 800) / 2;
+		GlobalScreenRect.top = 0;
+		GlobalScreenRect.right = (dwScreenWidth + 800) / 2;
+		GlobalScreenRect.bottom = 600;
+	}
+	else
+	{
+		fScale = ini->GetFloat(platform, "fScale", 1.f);
+		if (fScale<MIN_SCALE || fScale>MAX_SCALE) fScale = 1.f;
+		dwScreenWidth = ini->GetLong(platform, "wScreenWidth", 800);
+		dwScreenHeight = ini->GetLong(platform, "wScreenHeight", 600);
+		GlobalScreenRect.left = ini->GetLong(platform, "wScreenLeft", 0);
+		GlobalScreenRect.top = ini->GetLong(platform, "wScreenTop", 600);
+		GlobalScreenRect.right = ini->GetLong(platform, "wScreenRight", 800);
+		GlobalScreenRect.bottom = ini->GetLong(platform, "wScreenDown", 0);
+	}
 
 	m_fpMouseOutZoneOffset.x = ini->GetFloat(section,"mouseOutZoneWidth",0.f);
 	m_fpMouseOutZoneOffset.y = ini->GetFloat(section,"mouseOutZoneHeight",0.f);
