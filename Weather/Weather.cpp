@@ -16,7 +16,7 @@ WEATHER::WEATHER()
 WEATHER::~WEATHER()
 {
 	CleanUP();
-} 
+}
 
 void WEATHER::SetDevice()
 {
@@ -52,6 +52,39 @@ void WEATHER::SetBeginData()
 	fMoonBegTime = 23.5f;
 	fMoonEndAngle = -PId2;
 	fMoonEndTime = 4.5f;
+
+	// read from scripts
+	VDATA *pObject = (VDATA *)api->GetScriptVariable("fSunHeight");
+	if (pObject)
+		fSunHeight = pObject->GetFloat();
+	pObject = (VDATA *)api->GetScriptVariable("fSunBegAngle");
+	if (pObject)
+		fSunBegAngle = pObject->GetFloat();
+	pObject = (VDATA *)api->GetScriptVariable("fSunBegTime");
+	if (pObject)
+		fSunBegTime = pObject->GetFloat();
+	pObject = (VDATA *)api->GetScriptVariable("fSunEndAngle");
+	if (pObject)
+		fSunEndAngle = pObject->GetFloat();
+	pObject = (VDATA *)api->GetScriptVariable("fSunEndTime");
+	if (pObject)
+		fSunEndTime = pObject->GetFloat();
+
+	pObject = (VDATA *)api->GetScriptVariable("fMoonHeight");
+	if (pObject)
+		fMoonHeight = pObject->GetFloat();
+	pObject = (VDATA *)api->GetScriptVariable("fMoonBegAngle");
+	if (pObject)
+		fMoonBegAngle = pObject->GetFloat();
+	pObject = (VDATA *)api->GetScriptVariable("fMoonBegTime");
+	if (pObject)
+		fMoonBegTime = pObject->GetFloat();
+	pObject = (VDATA *)api->GetScriptVariable("fMoonEndAngle");
+	if (pObject)
+		fMoonEndAngle = pObject->GetFloat();
+	pObject = (VDATA *)api->GetScriptVariable("fMoonEndTime");
+	if (pObject)
+		fMoonEndTime = pObject->GetFloat();
 }
 
 void WEATHER::Move()
@@ -68,7 +101,7 @@ void WEATHER::Execute(dword Delta_Time)
 
 	WIN32_FIND_DATA	wfd;
 	HANDLE h = fio->_FindFirstFile(WHT_INI_FILE,&wfd);
-	if (INVALID_HANDLE_VALUE != h) 
+	if (INVALID_HANDLE_VALUE != h)
 	{
 		FILETIME ft_new = wfd.ftLastWriteTime;
 		fio->_FindClose(h);
@@ -180,7 +213,7 @@ void WEATHER::CleanUP()
 	INIFILE * ini;
 	WIN32_FIND_DATA	wfd;
 	HANDLE h = fio->_FindFirstFile(WHT_INI_FILE,&wfd);
-	if (INVALID_HANDLE_VALUE != h) 
+	if (INVALID_HANDLE_VALUE != h)
 	{
 		ft_old = wfd.ftLastWriteTime;
 		fio->_FindClose(h);
@@ -191,7 +224,7 @@ void WEATHER::CleanUP()
 	//iHour = ini->GetLong(0,"iCurHour",0);
 	iHour = AttributesPointer->GetAttributeAsdword("Hour",0);
 
-	sprintf(section,"%s%d:00",(iHour<10) ? "0" : "", iHour); 
+	sprintf(section,"%s%d:00",(iHour<10) ? "0" : "", iHour);
 
 	ZERO4(fFloats,iLongs,dwColors,vVectors);
 
@@ -308,21 +341,21 @@ void WEATHER::SetCommonStates()
 {
 	if (iHour == hour) return false;
 	iHour = hour;
-	
+
 	INIFILE *ini = fio->OpenIniFile(WHT_INI_FILE);
 	if(!ini) _THROW("weather.ini file not found!");
 	ini->WriteLong(0,"iCurHour",iHour);
 	delete ini;
 
 	AttributesPointer->SetAttributeUsedword("Hour",iHour);
-	
+
 	LoadWeatherIni();
 	return true;
 }*/
 
-long WEATHER::GetLong(dword dwCode) 
+long WEATHER::GetLong(dword dwCode)
 {
-	return iLongs[dwCode]; 
+	return iLongs[dwCode];
 }
 
 dword WEATHER::GetColor(dword dwCode, CVECTOR * vOut)
@@ -330,7 +363,7 @@ dword WEATHER::GetColor(dword dwCode, CVECTOR * vOut)
 	vOut->x = float((dwColors[dwCode] >> 0x10)&0xFF) / 255.0f;
 	vOut->y = float((dwColors[dwCode] >> 0x8)&0xFF) / 255.0f;
 	vOut->z = float((dwColors[dwCode])&0xFF) / 255.0f;
-	return dwColors[dwCode]; 
+	return dwColors[dwCode];
 }
 
 dword WEATHER::GetColor(dword dwCode)
@@ -338,9 +371,9 @@ dword WEATHER::GetColor(dword dwCode)
 	return dwColors[dwCode];
 }
 
-float WEATHER::GetFloat(dword dwCode) 
-{ 
-	return fFloats[dwCode]; 
+float WEATHER::GetFloat(dword dwCode)
+{
+	return fFloats[dwCode];
 }
 
 void WEATHER::GetVector(dword dwCode, CVECTOR* vOut)
