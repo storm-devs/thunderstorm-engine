@@ -52,39 +52,6 @@ void WEATHER::SetBeginData()
 	fMoonBegTime = 23.5f;
 	fMoonEndAngle = -PId2;
 	fMoonEndTime = 4.5f;
-
-	// read from scripts
-	VDATA *pObject = (VDATA *)api->GetScriptVariable("fSunHeight");
-	if (pObject)
-		fSunHeight = pObject->GetFloat();
-	pObject = (VDATA *)api->GetScriptVariable("fSunBegAngle");
-	if (pObject)
-		fSunBegAngle = pObject->GetFloat();
-	pObject = (VDATA *)api->GetScriptVariable("fSunBegTime");
-	if (pObject)
-		fSunBegTime = pObject->GetFloat();
-	pObject = (VDATA *)api->GetScriptVariable("fSunEndAngle");
-	if (pObject)
-		fSunEndAngle = pObject->GetFloat();
-	pObject = (VDATA *)api->GetScriptVariable("fSunEndTime");
-	if (pObject)
-		fSunEndTime = pObject->GetFloat();
-
-	pObject = (VDATA *)api->GetScriptVariable("fMoonHeight");
-	if (pObject)
-		fMoonHeight = pObject->GetFloat();
-	pObject = (VDATA *)api->GetScriptVariable("fMoonBegAngle");
-	if (pObject)
-		fMoonBegAngle = pObject->GetFloat();
-	pObject = (VDATA *)api->GetScriptVariable("fMoonBegTime");
-	if (pObject)
-		fMoonBegTime = pObject->GetFloat();
-	pObject = (VDATA *)api->GetScriptVariable("fMoonEndAngle");
-	if (pObject)
-		fMoonEndAngle = pObject->GetFloat();
-	pObject = (VDATA *)api->GetScriptVariable("fMoonEndTime");
-	if (pObject)
-		fMoonEndTime = pObject->GetFloat();
 }
 
 void WEATHER::Move()
@@ -399,6 +366,11 @@ dword WEATHER::AttributeChanged(ATTRIBUTES * pAttribute)
 	}
 	if (*pParent == "sun")
 	{
+		if (*pAttribute == "Height")		{ fSunHeight = pAttribute->GetAttributeAsFloat(); return 0; }
+		if (*pAttribute == "BegAngle")		{ fSunBegAngle = pAttribute->GetAttributeAsFloat(); return 0; }
+		if (*pAttribute == "BegTime")		{ fSunBegTime = pAttribute->GetAttributeAsFloat(); return 0; }
+		if (*pAttribute == "EndAngle")		{ fSunEndAngle = pAttribute->GetAttributeAsFloat(); return 0; }
+		if (*pAttribute == "EndTime")		{ fSunEndTime = pAttribute->GetAttributeAsFloat(); return 0; }
 		if (*pAttribute == "Color")			{ dwColors[whc_sun_color] = pAttribute->GetAttributeAsDword(); return 0; }
 		if (*pAttribute == "Ambient")		{ dwColors[whc_sun_ambient] = pAttribute->GetAttributeAsDword(); return 0; }
 		if( fFloats[whf_time_speed] == 0.f )
@@ -407,7 +379,15 @@ dword WEATHER::AttributeChanged(ATTRIBUTES * pAttribute)
 			if (*pAttribute == "AzimuthAngle")	{ fFloats[whf_sun_azimuth_angle] = pAttribute->GetAttributeAsFloat(); return 0; }
 		}
 	}
-	if (*pParent == "Time")
+	if (*pParent == "moon")
+	{
+		if (*pAttribute == "Height") { fMoonHeight = pAttribute->GetAttributeAsFloat(); return 0; }
+		if (*pAttribute == "BegAngle") { fMoonBegAngle = pAttribute->GetAttributeAsFloat(); return 0; }
+		if (*pAttribute == "BegTime") { fMoonBegTime = pAttribute->GetAttributeAsFloat(); return 0; }
+		if (*pAttribute == "EndAngle") { fMoonEndAngle = pAttribute->GetAttributeAsFloat(); return 0; }
+		if (*pAttribute == "EndTime") { fMoonEndTime = pAttribute->GetAttributeAsFloat(); return 0; }
+	}
+	if (*pParent == "time")
 	{
 		if (*pAttribute == "time")			{ fFloats[whf_time_counter] = pAttribute->GetAttributeAsFloat(); return 0; }
 		if (*pAttribute == "speed")			{
