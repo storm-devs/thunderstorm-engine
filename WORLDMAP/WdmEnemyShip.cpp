@@ -289,7 +289,7 @@ void WdmEnemyShip::SetSaveAttribute(ATTRIBUTES * save)
 	if(!saveAttribute) return;
 	brnAlpha = saveAttribute->GetAttributeAsFloat("brnAlpha", brnAlpha);
 	deleteAlpha = saveAttribute->GetAttributeAsFloat("deleteAlpha", deleteAlpha);
-	liveTime = liveTime = saveAttribute->GetAttributeAsFloat("liveTime", liveTime);
+	liveTime = saveAttribute->GetAttributeAsFloat("liveTime", liveTime);
 	mtx.Pos().x = saveAttribute->GetAttributeAsFloat("x", mtx.Pos().x);
 	mtx.Pos().y = saveAttribute->GetAttributeAsFloat("y", mtx.Pos().y);
 	mtx.Pos().z = saveAttribute->GetAttributeAsFloat("z", mtx.Pos().z);

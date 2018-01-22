@@ -519,7 +519,7 @@ void WdmIslands::LabelsRelease()
 	{
 		wdmObjects->rs->TextureRelease(icons.texture);
 	}
-	memset(&icons, sizeof(icons), 0);
+	memset(&icons, 0, sizeof(icons));
 	icons.texture = -1;
 }
 
