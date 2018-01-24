@@ -907,7 +907,7 @@ bool DX9RENDER::DX9Clear(long type)
 //################################################################################
 bool DX9RENDER::DX9BeginScene()
 {
-	//~!~	
+	//~!~
 	return false;
 }
 
@@ -2886,7 +2886,8 @@ void DX9RENDER::MakeScreenShot()
 		return;
 	}
 
-	if (FAILED(d3d9->UpdateSurface(renderTarget, null, surface, null)) ||
+	//if (FAILED(d3d9->UpdateSurface(renderTarget, null, surface, null)) ||
+	if (FAILED(D3DXLoadSurfaceFromSurface(surface, NULL, NULL, renderTarget, NULL, NULL, D3DX_DEFAULT, 0)) ||
 		FAILED(surface->LockRect(&lr, &r, 0)))
 	{
 		surface->Release();
@@ -3267,7 +3268,7 @@ HRESULT DX9RENDER::EndScene()
 	{
 		isInScene = false;
 		return d3d9->EndScene();
-	}	
+	}
 
 	return D3D_OK;
 }
