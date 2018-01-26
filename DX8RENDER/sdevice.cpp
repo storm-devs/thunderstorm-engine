@@ -3279,19 +3279,11 @@ HRESULT DX9RENDER::DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, UINT StartVer
 	return d3d9->DrawPrimitive(dwPrimitiveType, StartVertex, PrimitiveCount);
 }
 
-#ifndef _XBOX
-HRESULT DX9RENDER::Release(IUnknown *pSurface)
+HRESULT DX9RENDER::Release(IUnknown *pObject)
 {
-	if (pSurface) return pSurface->Release();
+	if (pObject) return pObject->Release();
 	return D3D_OK;
 }
-#else
-HRESULT DX9RENDER::Release(IDirect3DResource8 * pSurface)
-{
-	if (pSurface) return pSurface->Release();
-	return D3D_OK;
-}
-#endif
 
 HRESULT DX9RENDER::GetRenderTarget(IDirect3DSurface9** ppRenderTarget)
 {
@@ -3362,7 +3354,7 @@ HRESULT DX9RENDER::CreateCubeTexture(UINT EdgeLength, UINT Levels, DWORD Usage, 
 
 HRESULT DX9RENDER::CreateOffscreenPlainSurface(UINT Width, UINT Height, D3DFORMAT Format, IDirect3DSurface9 ** ppSurface)
 {
- 	return CHECKD3DERR(d3d9->CreateOffscreenPlainSurface(Width, Height, Format, D3DPOOL_SYSTEMMEM, ppSurface, NULL));
+  	return CHECKD3DERR(d3d9->CreateOffscreenPlainSurface(Width, Height, Format, D3DPOOL_SYSTEMMEM, ppSurface, NULL));
 	//~!~D3DERR_OUTOFVIDEOMEMORY
 	//GetAvailableTextureMem
 }

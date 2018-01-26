@@ -1899,14 +1899,21 @@ void SEA::LostRender()
 	rs->Release(pReflectionSunroad);
 	rs->Release(pEnvMap);
 	rs->Release(pSunRoadMap);
-	rs->Release(pRenderTargetBumpMap);;
+	rs->Release(pRenderTargetBumpMap);
+
+	rs->Release(pZStencil);
+	rs->Release(pReflectionSurfaceDepth);
 }
 
 void SEA::RestoreRender()
 {
 	rs->CreateTexture(XWIDTH, YWIDTH, MIPSLVLS, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pRenderTargetBumpMap);
+
 	rs->CreateCubeTexture(128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pEnvMap);
 	rs->CreateCubeTexture(128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pSunRoadMap);
+	rs->CreateDepthStencilSurface(128, 128, D3DFMT_D24S8, D3DMULTISAMPLE_NONE, &pZStencil);
+
 	rs->CreateTexture(128, 128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pReflection);
 	rs->CreateTexture(128, 128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &pReflectionSunroad);
+	rs->CreateDepthStencilSurface(128, 128, D3DFMT_D24S8, D3DMULTISAMPLE_NONE, &pReflectionSurfaceDepth);
 }

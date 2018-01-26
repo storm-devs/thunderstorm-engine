@@ -1274,3 +1274,14 @@ void BATTLE_NAVIGATOR::UpdateWindParam()
 		m_fWindAngle = m_pAWeather->GetAttributeAsFloat("WindAngle");
 	}
 }
+
+void BATTLE_NAVIGATOR::LostRender()
+{
+	rs->Release(m_pIslandTexture);
+}
+
+void BATTLE_NAVIGATOR::RestoreRender()
+{
+	//rs->CreateTexture(MAP_TEXTURE_WIDTH, MAP_TEXTURE_HEIGHT, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &m_pIslandTexture);
+	SetIsland();
+}
