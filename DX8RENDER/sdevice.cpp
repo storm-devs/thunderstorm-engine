@@ -780,7 +780,7 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 	OriginalViewPort.MaxZ = 1.0f;
 
 
-	//if(CHECKD3DERR(d3d9->SetViewport(&vprt))==true)	return false;
+	//if(CHECKD3DERR(SetViewport(&vprt))==true)	return false;
 
 	//Ставим ее как рендер таргет...
 	//FIX
@@ -803,25 +803,25 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 	for (long s = 0; s<num_stages; s++)
 	{
 		//texture operation
-		d3d9->SetTextureStageState(s, D3DTSS_COLORARG1, D3DTA_CURRENT);
-		d3d9->SetTextureStageState(s, D3DTSS_COLORARG2, D3DTA_TEXTURE);
-		d3d9->SetTextureStageState(s, D3DTSS_COLOROP, D3DTOP_DISABLE);
+		SetTextureStageState(s, D3DTSS_COLORARG1, D3DTA_CURRENT);
+		SetTextureStageState(s, D3DTSS_COLORARG2, D3DTA_TEXTURE);
+		SetTextureStageState(s, D3DTSS_COLOROP, D3DTOP_DISABLE);
 
 		//texture coord
-		d3d9->SetTextureStageState(s, D3DTSS_TEXCOORDINDEX, s);
+		SetTextureStageState(s, D3DTSS_TEXCOORDINDEX, s);
 
 		//texture filtering
-		d3d9->SetSamplerState(s, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-		d3d9->SetSamplerState(s, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-		d3d9->SetSamplerState(s, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+		SetSamplerState(s, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+		SetSamplerState(s, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+		SetSamplerState(s, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 	}
 
 	//set base texture and diffuse+specular lighting
-	d3d9->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
-	d3d9->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_ADDSIGNED);
+	SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
+	SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_ADDSIGNED);
 
 	//texture op for lightmaps
-	//d3d9->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_ADDSIGNED);
+	//SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_ADDSIGNED);
 
 
 	SetCamera(&CVECTOR(0.0f, 0.0f, 0.0f), &CVECTOR(0.0f, 0.0f, 0.0f), 1.0f);
@@ -1903,7 +1903,7 @@ bool DX9RENDER::SetPerspective(float perspective, float fAspectRatio)
 //################################################################################
 bool DX9RENDER::SetCurrentMatrix(D3DMATRIX *mtx)
 {
-	//if(CHECKD3DERR(SetTransform(D3DTS_WORLD, mtx))==true)	return false;
+	//return CHECKD3DERR(SetTransform(D3DTS_WORLD, mtx)) == D3D_OK;
 	SetTransform(D3DTS_WORLD, mtx);
 	return true;
 }
@@ -1938,7 +1938,9 @@ bool DX9RENDER::GetLightEnable(DWORD dwIndex, BOOL * pEnable)
 
 bool DX9RENDER::GetLight(DWORD dwIndex, D3DLIGHT9 * pLight)
 {
-	if (CHECKD3DERR(d3d9->GetLight(dwIndex, pLight))) return false;
+	if (CHECKD3DERR(d3d9->GetLight(dwIndex, pLight)))
+		return false;
+
 	pLight->Position.x -= vWordRelationPos.x;
 	pLight->Position.y -= vWordRelationPos.y;
 	pLight->Position.z -= vWordRelationPos.z;
@@ -1949,16 +1951,19 @@ bool DX9RENDER::GetLight(DWORD dwIndex, D3DLIGHT9 * pLight)
 
 long DX9RENDER::CreateVertexBuffer(long type, long size, dword dwUsage)
 {
-	if (size <= 0) return -1; // fix
+	if (size <= 0) 
+		return -1; // fix
+
 	long b;
 	for (b = 0; b<MAX_BUFFERS; b++)
-		if (VertexBuffers[b].buff == NULL)	break;
-	if (b == MAX_BUFFERS)	return -1;
+		if (VertexBuffers[b].buff == NULL)	
+			break;
 
-	if (CHECKD3DERR(
-		d3d9->CreateVertexBuffer(size, dwUsage,
-			type, D3DPOOL_DEFAULT, &VertexBuffers[b].buff, NULL)
-	) == true)	return -1;
+	if (b == MAX_BUFFERS)	
+		return -1;
+
+	if (CHECKD3DERR(d3d9->CreateVertexBuffer(size, dwUsage,	type, D3DPOOL_DEFAULT, &VertexBuffers[b].buff, NULL)))
+		return -1;
 
 	VertexBuffers[b].type = type;
 	VertexBuffers[b].size = size;
@@ -1985,13 +1990,13 @@ long DX9RENDER::CreateIndexBuffer(long size, dword dwUsage)
 	long b;
 	for (b = 0; b<MAX_BUFFERS; b++)
 		if (IndexBuffers[b].buff == NULL)	break;
-	if (b == MAX_BUFFERS)	return -1;
 
-	if (CHECKD3DERR(
-		//d3d9->CreateIndexBuffer(size, D3DUSAGE_WRITEONLY, D3DFMT_INDEX16,
-		d3d9->CreateIndexBuffer(size, dwUsage, D3DFMT_INDEX16,
-			D3DPOOL_DEFAULT, &IndexBuffers[b].buff, NULL)
-	) == true)	return -1;
+	if (b == MAX_BUFFERS)	
+		return -1;
+
+	//d3d9->CreateIndexBuffer(size, D3DUSAGE_WRITEONLY, D3DFMT_INDEX16,
+	if (CHECKD3DERR(d3d9->CreateIndexBuffer(size, dwUsage, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &IndexBuffers[b].buff, NULL)))	
+		return -1;
 
 	IndexBuffers[b].size = size;
 	IndexBuffers[b].dwUsage = dwUsage;
@@ -2005,26 +2010,25 @@ void DX9RENDER::DrawBuffer(long vbuff, long stride, long ibuff, long minv,
 	bool bDraw = true;
 
 	if (vbuff >= 0)
-		if (CHECKD3DERR(
-			SetFVF(VertexBuffers[vbuff].type)) == true)	return;
+		if (CHECKD3DERR(SetFVF(VertexBuffers[vbuff].type)))	
+			return;
 	//else VertexBuffer already set
 
-	if (CHECKD3DERR(
-		d3d9->SetIndices(IndexBuffers[ibuff].buff)
-	) == true)	return;
+	if (CHECKD3DERR(d3d9->SetIndices(IndexBuffers[ibuff].buff)))	
+		return;
 
 	if (vbuff >= 0)
-		if (CHECKD3DERR(
-			d3d9->SetStreamSource(0, VertexBuffers[vbuff].buff, 0, stride)
-		) == true)	return;
+		if (CHECKD3DERR(d3d9->SetStreamSource(0, VertexBuffers[vbuff].buff, 0, stride)))
+			return;
 	//else VertexBuffer already set
 
-	if (cBlockName && cBlockName[0]) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
+	if (cBlockName && cBlockName[0]) 
+		bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
+
 	if (bDraw) do
 	{
 		dwNumDrawPrimitive++;
-		CHECKD3DERR(
-			d3d9->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, minv, 0, numv, startidx, numtrg));
+		CHECKD3DERR(d3d9->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, minv, 0, numv, startidx, numtrg));
 	} while (cBlockName && cBlockName[0] && TechniqueExecuteNext());
 }
 
@@ -2214,12 +2218,12 @@ void DX9RENDER::SetTransform(long type, D3DMATRIX *mtx)
 		m.Pos() += vWordRelationPos;
 	}
 
-	d3d9->SetTransform((D3DTRANSFORMSTATETYPE)type, (D3DMATRIX*)&m);
+	CHECKD3DERR(d3d9->SetTransform((D3DTRANSFORMSTATETYPE)type, (D3DMATRIX*)&m));
 }
 
 void DX9RENDER::GetTransform(long type, D3DMATRIX *mtx)
 {
-	d3d9->GetTransform((D3DTRANSFORMSTATETYPE)type, mtx);
+	CHECKD3DERR(d3d9->GetTransform((D3DTRANSFORMSTATETYPE)type, mtx));
 
 	if (type == D3DTS_VIEW)
 	{
@@ -2331,21 +2335,21 @@ void DX9RENDER::RestoreRender()
 	for (long s = 0; s<num_stages; s++)
 	{
 		//texture operation
-		d3d9->SetTextureStageState(s, D3DTSS_COLORARG1, D3DTA_CURRENT);
-		d3d9->SetTextureStageState(s, D3DTSS_COLORARG2, D3DTA_TEXTURE);
-		d3d9->SetTextureStageState(s, D3DTSS_COLOROP, D3DTOP_DISABLE);
+		SetTextureStageState(s, D3DTSS_COLORARG1, D3DTA_CURRENT);
+		SetTextureStageState(s, D3DTSS_COLORARG2, D3DTA_TEXTURE);
+		SetTextureStageState(s, D3DTSS_COLOROP, D3DTOP_DISABLE);
 
 		//texture coord
-		d3d9->SetTextureStageState(s, D3DTSS_TEXCOORDINDEX, s);
+		SetTextureStageState(s, D3DTSS_TEXCOORDINDEX, s);
 
 		//texture filtering
-		d3d9->SetSamplerState(s, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-		d3d9->SetSamplerState(s, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-		d3d9->SetSamplerState(s, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+		SetSamplerState(s, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+		SetSamplerState(s, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+		SetSamplerState(s, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 	}
 	//set base texture and diffuse+specular lighting
-	d3d9->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
-	d3d9->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_ADDSIGNED);
+	SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
+	SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_ADDSIGNED);
 	D3DLIGHT9 l;
 	ZERO(l);
 	l.Type = D3DLIGHT_POINT;
@@ -2353,8 +2357,8 @@ void DX9RENDER::RestoreRender()
 	l.Attenuation0 = 1.0f;
 	for (int i = 0; i<8; i++)
 	{
-		d3d9->SetLight(i, &l);
-		d3d9->LightEnable(i, false);
+		CHECKD3DERR(d3d9->SetLight(i, &l));
+		CHECKD3DERR(d3d9->LightEnable(i, false));
 	}
 	SetCommonStates();
 	d3d9->GetGammaRamp(0, &DefaultRamp);
@@ -2470,11 +2474,11 @@ void DX9RENDER::RunStart()
 		pTechnique->DecodeFiles();
 	}
 
-	d3d9->SetRenderState(D3DRS_FILLMODE, (api->Controls->GetDebugAsyncKeyState('F') < 0) ? D3DFILL_WIREFRAME : D3DFILL_SOLID);
-	//d3d9->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID); eddy
+	SetRenderState(D3DRS_FILLMODE, (api->Controls->GetDebugAsyncKeyState('F') < 0) ? D3DFILL_WIREFRAME : D3DFILL_SOLID);
+	//SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID); eddy
 
 #else
-	d3d9->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 #endif
 	PlayToTexture();
 }
@@ -3241,18 +3245,18 @@ void DX9RENDER::DrawLines2D(RS_LINE2D *pRSL2D, dword dwLinesNum, const char *cBl
 //-----------------------
 HRESULT DX9RENDER::CreateVertexBuffer(UINT Length, DWORD Usage, DWORD FVF, D3DPOOL Pool, IDirect3DVertexBuffer9** ppVertexBuffer)
 {
-	return d3d9->CreateVertexBuffer(Length, Usage, FVF, Pool, ppVertexBuffer, NULL);
+	return CHECKD3DERR(d3d9->CreateVertexBuffer(Length, Usage, FVF, Pool, ppVertexBuffer, NULL));
 }
 
 HRESULT DX9RENDER::VBLock(IDirect3DVertexBuffer9 * pVB, UINT OffsetToLock, UINT SizeToLock, BYTE** ppbData, DWORD Flags)
 {
 	dwNumLV++;
-	return pVB->Lock(OffsetToLock, SizeToLock, (VOID**)ppbData, Flags);
+	return CHECKD3DERR(pVB->Lock(OffsetToLock, SizeToLock, (VOID**)ppbData, Flags));
 }
 
 void DX9RENDER::VBUnlock(IDirect3DVertexBuffer9 * pVB)
 {
-	pVB->Unlock();
+	CHECKD3DERR(pVB->Unlock());
 }
 
 HRESULT DX9RENDER::SetFVF(DWORD handle)
@@ -3263,34 +3267,36 @@ HRESULT DX9RENDER::SetFVF(DWORD handle)
 
 HRESULT DX9RENDER::SetStreamSource(UINT StreamNumber, void * pStreamData, UINT Stride)
 {
-	return d3d9->SetStreamSource(StreamNumber, (IDirect3DVertexBuffer9*)pStreamData, 0, Stride);
+	return CHECKD3DERR(d3d9->SetStreamSource(StreamNumber, (IDirect3DVertexBuffer9*)pStreamData, 0, Stride));
 }
 
 HRESULT DX9RENDER::SetIndices(void * pIndexData)
 {
-	return d3d9->SetIndices((IDirect3DIndexBuffer9*)pIndexData);
+	return CHECKD3DERR(d3d9->SetIndices((IDirect3DIndexBuffer9*)pIndexData));
 }
 
 HRESULT DX9RENDER::DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, UINT StartVertex, UINT PrimitiveCount)
 {
 	dwNumDrawPrimitive++;
-	return d3d9->DrawPrimitive(dwPrimitiveType, StartVertex, PrimitiveCount);
+	return CHECKD3DERR(d3d9->DrawPrimitive(dwPrimitiveType, StartVertex, PrimitiveCount));
 }
 
 HRESULT DX9RENDER::Release(IUnknown *pObject)
 {
-	if (pObject) return pObject->Release();
+	if (pObject) 
+		return CHECKD3DERR(pObject->Release());
+
 	return D3D_OK;
 }
 
 HRESULT DX9RENDER::GetRenderTarget(IDirect3DSurface9** ppRenderTarget)
 {
-	return d3d9->GetRenderTarget(0, ppRenderTarget);
+	return CHECKD3DERR(d3d9->GetRenderTarget(0, ppRenderTarget));
 }
 
 HRESULT DX9RENDER::GetDepthStencilSurface(IDirect3DSurface9** ppZStencilSurface)
 {
-	return d3d9->GetDepthStencilSurface(ppZStencilSurface);
+	return CHECKD3DERR(d3d9->GetDepthStencilSurface(ppZStencilSurface));
 }
 
 HRESULT DX9RENDER::GetCubeMapSurface(IDirect3DCubeTexture9* ppCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level, IDirect3DSurface9** ppCubeMapSurface)
@@ -3300,15 +3306,15 @@ HRESULT DX9RENDER::GetCubeMapSurface(IDirect3DCubeTexture9* ppCubeTexture, D3DCU
 
 HRESULT DX9RENDER::SetRenderTarget(IDirect3DSurface9* pRenderTarget, IDirect3DSurface9* pNewZStencil)
 {
-	HRESULT hr = d3d9->SetDepthStencilSurface(pNewZStencil);
-	hr |= d3d9->SetRenderTarget(0, pRenderTarget);
+	HRESULT hr = CHECKD3DERR(d3d9->SetDepthStencilSurface(pNewZStencil));
+	hr |= CHECKD3DERR(d3d9->SetRenderTarget(0, pRenderTarget));
 
 	return hr;
 }
 
 HRESULT DX9RENDER::Clear(DWORD Count, CONST D3DRECT* pRects, DWORD Flags, D3DCOLOR Color, float Z, DWORD Stencil)
 {
-	return d3d9->Clear(Count, pRects, Flags, Color, Z, Stencil);
+	return CHECKD3DERR(d3d9->Clear(Count, pRects, Flags, Color, Z, Stencil));
 }
 
 static bool isInScene = false;
@@ -3317,7 +3323,7 @@ HRESULT DX9RENDER::BeginScene()
 	if (!isInScene)
 	{
 		isInScene = true;
-		return d3d9->BeginScene();
+		return CHECKD3DERR(d3d9->BeginScene());
 	}
 
 	return D3D_OK;
@@ -3328,7 +3334,7 @@ HRESULT DX9RENDER::EndScene()
 	if (isInScene)
 	{
 		isInScene = false;
-		return d3d9->EndScene();
+		return CHECKD3DERR(d3d9->EndScene());
 	}
 
 	return D3D_OK;
@@ -3399,77 +3405,77 @@ HRESULT DX9RENDER::SetTexture(DWORD Stage, IDirect3DBaseTexture9* pTexture)
 
 HRESULT DX9RENDER::GetLevelDesc(IDirect3DTexture9* ppTexture, UINT Level, D3DSURFACE_DESC* pDesc)
 {
-	return ppTexture->GetLevelDesc(Level, pDesc);
+	return CHECKD3DERR(ppTexture->GetLevelDesc(Level, pDesc));
 }
 
 HRESULT DX9RENDER::GetLevelDesc(IDirect3DCubeTexture9* ppCubeTexture, UINT Level, D3DSURFACE_DESC* pDesc)
 {
-	return ppCubeTexture->GetLevelDesc(Level, pDesc);
+	return CHECKD3DERR(ppCubeTexture->GetLevelDesc(Level, pDesc));
 }
 
 HRESULT DX9RENDER::LockRect(IDirect3DCubeTexture9* ppCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level, D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, DWORD Flags)
 {
-	return ppCubeTexture->LockRect(FaceType, Level, pLockedRect, pRect, Flags);
+	return CHECKD3DERR(ppCubeTexture->LockRect(FaceType, Level, pLockedRect, pRect, Flags));
 }
 
 HRESULT DX9RENDER::LockRect(IDirect3DTexture9* ppTexture, UINT Level, D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, DWORD Flags)
 {
-	return ppTexture->LockRect(Level, pLockedRect, pRect, Flags);
+	return CHECKD3DERR(ppTexture->LockRect(Level, pLockedRect, pRect, Flags));
 }
 
 HRESULT DX9RENDER::UnlockRect(IDirect3DCubeTexture9 *pCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level)
 {
-	return pCubeTexture->UnlockRect(FaceType, Level);
+	return CHECKD3DERR(pCubeTexture->UnlockRect(FaceType, Level));
 }
 
 HRESULT DX9RENDER::UnlockRect(IDirect3DTexture9 *pTexture, UINT Level)
 {
-	return pTexture->UnlockRect(Level);
+	return CHECKD3DERR(pTexture->UnlockRect(Level));
 }
 
 HRESULT DX9RENDER::GetSurfaceLevel(IDirect3DTexture9* ppTexture, UINT Level, IDirect3DSurface9** ppSurfaceLevel)
 {
-	return ppTexture->GetSurfaceLevel(Level, ppSurfaceLevel);
+	return CHECKD3DERR(ppTexture->GetSurfaceLevel(Level, ppSurfaceLevel));
 }
 
 HRESULT DX9RENDER::UpdateSurface(IDirect3DSurface9* pSourceSurface, CONST RECT* pSourceRectsArray, UINT cRects, IDirect3DSurface9* pDestinationSurface, CONST POINT* pDestPointsArray)
 {
-	return d3d9->UpdateSurface(pSourceSurface, pSourceRectsArray, pDestinationSurface, pDestPointsArray);
+	return CHECKD3DERR(d3d9->UpdateSurface(pSourceSurface, pSourceRectsArray, pDestinationSurface, pDestPointsArray));
 }
 
 HRESULT DX9RENDER::StretchRect(IDirect3DSurface9 *pSourceSurface, const RECT *pSourceRect, IDirect3DSurface9 *pDestSurface, const RECT *pDestRect, D3DTEXTUREFILTERTYPE Filter)
 {
-	return d3d9->StretchRect(pSourceSurface, pSourceRect, pDestSurface, pDestRect, Filter);
+	return CHECKD3DERR(d3d9->StretchRect(pSourceSurface, pSourceRect, pDestSurface, pDestRect, Filter));
 }
 
 HRESULT DX9RENDER::GetRenderTargetData(IDirect3DSurface9 * pRenderTarget, IDirect3DSurface9 * pDestSurface)
 {
-	return d3d9->GetRenderTargetData(pRenderTarget, pDestSurface);
+	return CHECKD3DERR(d3d9->GetRenderTargetData(pRenderTarget, pDestSurface));
 }
 
 HRESULT DX9RENDER::SetVertexShader(IDirect3DVertexShader9 * pShader)
 {
-	return d3d9->SetVertexShader(pShader);
+	return CHECKD3DERR(d3d9->SetVertexShader(pShader));
 }
 
 HRESULT DX9RENDER::SetPixelShader(IDirect3DPixelShader9 * pShader)
 {
-	return d3d9->SetPixelShader(pShader);
+	return CHECKD3DERR(d3d9->SetPixelShader(pShader));
 }
 
 HRESULT DX9RENDER::SetVertexShaderConstantF(UINT StartRegister, CONST float * pConstantData, UINT Vector4iCount)
 {
-	return d3d9->SetVertexShaderConstantF(StartRegister, pConstantData, Vector4iCount);
+	return CHECKD3DERR(d3d9->SetVertexShaderConstantF(StartRegister, pConstantData, Vector4iCount));
 }
 
 HRESULT DX9RENDER::SetPixelShaderConstantF(UINT StartRegister, CONST float * pConstantData, UINT Vector4iCount)
 {
-	return d3d9->SetPixelShaderConstantF(StartRegister, pConstantData, Vector4iCount);
+	return CHECKD3DERR(d3d9->SetPixelShaderConstantF(StartRegister, pConstantData, Vector4iCount));
 }
 
 HRESULT DX9RENDER::GetDeviceCaps(D3DCAPS9 * pCaps)
 {
-	return d3d9->GetDeviceCaps(pCaps);
+	return CHECKD3DERR(d3d9->GetDeviceCaps(pCaps));
 }
 
 CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
@@ -3939,7 +3945,7 @@ IDirect3DBaseTexture9 * DX9RENDER::CreateTextureFromFileInMemory(const char * pF
 IDirect3DVolumeTexture9 * DX9RENDER::CreateVolumeTexture(dword Width, dword Height, dword Depth, dword Levels, dword Usage, D3DFORMAT Format, D3DPOOL Pool)
 {
 	IDirect3DVolumeTexture9 * pVolumeTexture = null;
-	d3d9->CreateVolumeTexture(Width, Height, Depth, Levels, Usage, Format, Pool, &pVolumeTexture, NULL);
+	CHECKD3DERR(d3d9->CreateVolumeTexture(Width, Height, Depth, Levels, Usage, Format, Pool, &pVolumeTexture, NULL));
 	return pVolumeTexture;
 }
 
@@ -3956,7 +3962,7 @@ bool DX9RENDER::PushRenderTarget()
 	stRenderTarget.Top().ViewPort = vp;
 
 	GetRenderTarget(&stRenderTarget.Top().pRenderTarget);
-	d3d9->GetDepthStencilSurface(&stRenderTarget.Top().pDepthSurface);
+	CHECKD3DERR(d3d9->GetDepthStencilSurface(&stRenderTarget.Top().pDepthSurface));
 
 	return true;
 }
