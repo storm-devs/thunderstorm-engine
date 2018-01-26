@@ -693,6 +693,9 @@ public:
 	virtual void SetGLOWParams (float _fBlurBrushSize, long _GlowIntensity, long _GlowPasses);
 
 	virtual IDirect3DBaseTexture9* GetTextureFromID(long nTextureID);
+
+	void LostRender();
+	void RestoreRender();
 };
 
 #endif

@@ -356,7 +356,8 @@ bool  DX9RENDER::Init()
 	ini = api->fio->OpenIniFile(api->EngineIniFileName());
 	if (ini)
 	{
-		bPostProcessEnabled = ini->GetLong(0, "PostProcess", 0) == 1;
+		//bPostProcessEnabled = ini->GetLong(0, "PostProcess", 0) == 1;
+		bPostProcessEnabled = false; //~!~
 		bShowFps = ini->GetLong(0, "show_fps", 0) == 1;
 		bShowExInfo = ini->GetLong(0, "show_exinfo", 0) == 1;
 		bSafeRendering = ini->GetLong(0, "safe_render", 0) == 0;
@@ -733,7 +734,7 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 	fSmallWidth = 128;
 	fSmallHeight = 128;
 
-	if (false)//if (bPostProcessEnabled) //~!~
+	if (bPostProcessEnabled)
 	{
 		d3d9->CreateTexture(width, height, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pPostProcessTexture, NULL);
 		d3d9->CreateTexture((int)fSmallWidth, (int)fSmallHeight, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pSmallPostProcessTexture, NULL);
@@ -2254,15 +2255,8 @@ bool DX9RENDER::LoadState(ENTITY_STATE * state)
 
 }
 
-bool DX9RENDER::ResetDevice()
+void DX9RENDER::LostRender()
 {
-	ENTITY_ID eid;
-
-	api->SetEntityScanLayer(null);
-	if (api->GetEntity(&eid)) do { ((ENTITY*)eid.pointer)->LostRender(); } while (api->GetEntityNext(&eid));
-
-	//this LostRender
-	//d3d9->SetRenderTarget(NULL, NULL);
 	Release(pOriginalScreenSurface);
 	Release(pOriginalDepthSurface);
 	Release(rectsVBuffer);
@@ -2275,16 +2269,44 @@ bool DX9RENDER::ResetDevice()
 			if (IndexBuffers[b].buff->Release() > 0)
 				__debugbreak();
 	}
+}
 
-	//RESET
-	if (CHECKD3DERR(d3d9->Reset(&d3dpp)))
-		return false;
-
-	//this RestoreRender
+void DX9RENDER::RestoreRender()
+{
 	d3d9->GetRenderTarget(0, &pOriginalScreenSurface);
 	d3d9->GetDepthStencilSurface(&pOriginalDepthSurface);
+	fSmallWidth = 128;
+	fSmallHeight = 128;
+	if (bPostProcessEnabled)
+	{
+		d3d9->CreateTexture(screen_size.x, screen_size.y, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pPostProcessTexture, NULL);
+		d3d9->CreateTexture((int)fSmallWidth, (int)fSmallHeight, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pSmallPostProcessTexture, NULL);
+		d3d9->CreateTexture((int)(fSmallWidth*2.0f), (int)(fSmallHeight*2.0f), 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pSmallPostProcessTexture2, NULL);
+	}
+	if (!pPostProcessTexture || !pSmallPostProcessTexture || !pSmallPostProcessTexture2)
+	{
+		bPostProcessEnabled = false;
+		bPostProcessError = true;
+	}
+	if (!bPostProcessError)
+	{
+		pPostProcessTexture->GetSurfaceLevel(0, &pPostProcessSurface);
+		pSmallPostProcessTexture2->GetSurfaceLevel(0, &pSmallPostProcessSurface2);
+		pSmallPostProcessTexture->GetSurfaceLevel(0, &pSmallPostProcessSurface);
+
+		if (!pPostProcessSurface || !pSmallPostProcessSurface2 || !pSmallPostProcessSurface)
+		{
+			bPostProcessEnabled = false;
+			bPostProcessError = true;
+		}
+	}
+	if (!bPostProcessError)
+	{
+		ClearPostProcessSurface(pPostProcessSurface);
+		ClearPostProcessSurface(pSmallPostProcessSurface);
+		ClearPostProcessSurface(pSmallPostProcessSurface2);
+	}
 	ClearPostProcessSurface(pOriginalScreenSurface);
-	SetScreenAsRenderTarget();
 	d3d9->CreateVertexBuffer(rectsVBuffer_SizeInRects * 6 * sizeof(RECT_VERTEX), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, RS_RECT_VERTEX_FORMAT, D3DPOOL_DEFAULT, &rectsVBuffer, NULL);
 	for (long b = 0; b<MAX_BUFFERS; b++)
 	{
@@ -2300,7 +2322,56 @@ bool DX9RENDER::ResetDevice()
 
 		}
 	}
+	long num_stages;
+#ifndef _XBOX
+	num_stages = 8;
+#else
+	num_stages = 4;
+#endif
+	for (long s = 0; s<num_stages; s++)
+	{
+		//texture operation
+		d3d9->SetTextureStageState(s, D3DTSS_COLORARG1, D3DTA_CURRENT);
+		d3d9->SetTextureStageState(s, D3DTSS_COLORARG2, D3DTA_TEXTURE);
+		d3d9->SetTextureStageState(s, D3DTSS_COLOROP, D3DTOP_DISABLE);
 
+		//texture coord
+		d3d9->SetTextureStageState(s, D3DTSS_TEXCOORDINDEX, s);
+
+		//texture filtering
+		d3d9->SetSamplerState(s, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+		d3d9->SetSamplerState(s, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+		d3d9->SetSamplerState(s, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+	}
+	//set base texture and diffuse+specular lighting
+	d3d9->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
+	d3d9->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_ADDSIGNED);
+	D3DLIGHT9 l;
+	ZERO(l);
+	l.Type = D3DLIGHT_POINT;
+	l.Range = 100.0f;
+	l.Attenuation0 = 1.0f;
+	for (int i = 0; i<8; i++)
+	{
+		d3d9->SetLight(i, &l);
+		d3d9->LightEnable(i, false);
+	}
+	func();
+	d3d9->GetGammaRamp(0, &DefaultRamp);
+}
+
+bool DX9RENDER::ResetDevice()
+{
+	ENTITY_ID eid;
+
+	api->SetEntityScanLayer(null);
+	if (api->GetEntity(&eid)) do { ((ENTITY*)eid.pointer)->LostRender(); } while (api->GetEntityNext(&eid));
+	LostRender();
+
+	if (CHECKD3DERR(d3d9->Reset(&d3dpp)))
+		return false;
+
+	RestoreRender();
 	api->SetEntityScanLayer(null);
 	if (api->GetEntity(&eid)) do { ((ENTITY*)eid.pointer)->RestoreRender(); } while (api->GetEntityNext(&eid));
 	return true;
@@ -2779,42 +2850,42 @@ void DX9RENDER::func()
 
 HRESULT DX9RENDER::GetViewport(D3DVIEWPORT9 * pViewport)
 {
-	return d3d9->GetViewport(pViewport);
+	return CHECKD3DERR(d3d9->GetViewport(pViewport));
 }
 
 HRESULT DX9RENDER::SetViewport(const D3DVIEWPORT9 * pViewport)
 {
-	return d3d9->SetViewport(pViewport);
+	return CHECKD3DERR(d3d9->SetViewport(pViewport));
 }
 
 dword DX9RENDER::SetRenderState(dword State, dword Value)
 {
-	return d3d9->SetRenderState((D3DRENDERSTATETYPE)State, Value);
+	return CHECKD3DERR(d3d9->SetRenderState((D3DRENDERSTATETYPE)State, Value));
 }
 
 dword DX9RENDER::GetRenderState(dword State, dword * pValue)
 {
-	return d3d9->GetRenderState((D3DRENDERSTATETYPE)State, pValue);
+	return CHECKD3DERR(d3d9->GetRenderState((D3DRENDERSTATETYPE)State, pValue));
 }
 
 dword DX9RENDER::GetSamplerState(dword Sampler, D3DSAMPLERSTATETYPE  Type, dword * pValue)
 {
-	return d3d9->GetSamplerState(Sampler, Type, pValue);
+	return CHECKD3DERR(d3d9->GetSamplerState(Sampler, Type, pValue));
 }
 
 dword  DX9RENDER::SetSamplerState(dword Sampler, D3DSAMPLERSTATETYPE Type, dword Value)
 {
-	return d3d9->SetSamplerState(Sampler, Type, Value);
+	return CHECKD3DERR(d3d9->SetSamplerState(Sampler, Type, Value));
 }
 
 dword DX9RENDER::SetTextureStageState(dword Stage, dword Type, dword Value)
 {
-	return d3d9->SetTextureStageState(Stage, (D3DTEXTURESTAGESTATETYPE)Type, Value);
+	return CHECKD3DERR(d3d9->SetTextureStageState(Stage, (D3DTEXTURESTAGESTATETYPE)Type, Value));
 }
 
 dword DX9RENDER::GetTextureStageState(dword Stage, dword Type, dword* pValue)
 {
-	return d3d9->GetTextureStageState(Stage, (D3DTEXTURESTAGESTATETYPE)Type, pValue);
+	return CHECKD3DERR(d3d9->GetTextureStageState(Stage, (D3DTEXTURESTAGESTATETYPE)Type, pValue));
 }
 
 void DX9RENDER::GetCamera(CVECTOR& pos, CVECTOR& ang, float& perspective)
@@ -3281,59 +3352,59 @@ HRESULT DX9RENDER::SetClipPlane(DWORD Index, CONST float* pPlane)
 
 HRESULT DX9RENDER::CreateTexture(UINT Width, UINT Height, UINT  Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DTexture9** ppTexture)
 {
-	return d3d9->CreateTexture(Width, Height, Levels, Usage, Format, Pool, ppTexture, NULL);
+	return CHECKD3DERR(d3d9->CreateTexture(Width, Height, Levels, Usage, Format, Pool, ppTexture, NULL));
 }
 
 HRESULT DX9RENDER::CreateCubeTexture(UINT EdgeLength, UINT Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DCubeTexture9** ppCubeTexture)
 {
-	return d3d9->CreateCubeTexture(EdgeLength, Levels, Usage, Format, Pool, ppCubeTexture, NULL);
+	return CHECKD3DERR(d3d9->CreateCubeTexture(EdgeLength, Levels, Usage, Format, Pool, ppCubeTexture, NULL));
 }
 
 HRESULT DX9RENDER::CreateOffscreenPlainSurface(UINT Width, UINT Height, D3DFORMAT Format, IDirect3DSurface9 ** ppSurface)
 {
-	return d3d9->CreateOffscreenPlainSurface(Width, Height, Format, D3DPOOL_SYSTEMMEM, ppSurface, NULL);
+ 	return CHECKD3DERR(d3d9->CreateOffscreenPlainSurface(Width, Height, Format, D3DPOOL_SYSTEMMEM, ppSurface, NULL));
 	//~!~D3DERR_OUTOFVIDEOMEMORY
 	//GetAvailableTextureMem
 }
 
 HRESULT DX9RENDER::CreateDepthStencilSurface(UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, IDirect3DSurface9 ** ppSurface)
 {
-	return d3d9->CreateDepthStencilSurface(Width, Height, Format, MultiSample, 0, TRUE, ppSurface, NULL);
+	return CHECKD3DERR(d3d9->CreateDepthStencilSurface(Width, Height, Format, MultiSample, 0, TRUE, ppSurface, NULL));
 }
 
 HRESULT DX9RENDER::CreateVertexDeclaration(CONST D3DVERTEXELEMENT9 * pVertexElements, IDirect3DVertexDeclaration9 ** ppDecl)
 {
-	return d3d9->CreateVertexDeclaration(pVertexElements, ppDecl);
+	return CHECKD3DERR(d3d9->CreateVertexDeclaration(pVertexElements, ppDecl));
 }
 
 HRESULT DX9RENDER::SetVertexDeclaration(IDirect3DVertexDeclaration9 *pDecl)
 {
-	return d3d9->SetVertexDeclaration(pDecl);
+	return CHECKD3DERR(d3d9->SetVertexDeclaration(pDecl));
 }
 
 HRESULT DX9RENDER::CreateVertexShader(CONST DWORD * pFunction, IDirect3DVertexShader9 ** ppShader)
 {
-	return d3d9->CreateVertexShader(pFunction, ppShader);
+	return CHECKD3DERR(d3d9->CreateVertexShader(pFunction, ppShader));
 }
 
 HRESULT DX9RENDER::CreatePixelShader(CONST DWORD * pFunction, IDirect3DPixelShader9 ** ppShader)
 {
-	return d3d9->CreatePixelShader(pFunction, ppShader);
+	return CHECKD3DERR(d3d9->CreatePixelShader(pFunction, ppShader));
 }
 
 HRESULT DX9RENDER::GetVertexShader(IDirect3DVertexShader9** ppShader)
 {
-	return d3d9->GetVertexShader(ppShader);
+	return CHECKD3DERR(d3d9->GetVertexShader(ppShader));
 }
 
 HRESULT DX9RENDER::GetPixelShader(IDirect3DPixelShader9** ppShader)
 {
-	return d3d9->GetPixelShader(ppShader);
+	return CHECKD3DERR(d3d9->GetPixelShader(ppShader));
 }
 
 HRESULT DX9RENDER::SetTexture(DWORD Stage, IDirect3DBaseTexture9* pTexture)
 {
-	return d3d9->SetTexture(Stage, pTexture);
+	return CHECKD3DERR(d3d9->SetTexture(Stage, pTexture));
 }
 
 HRESULT DX9RENDER::GetLevelDesc(IDirect3DTexture9* ppTexture, UINT Level, D3DSURFACE_DESC* pDesc)

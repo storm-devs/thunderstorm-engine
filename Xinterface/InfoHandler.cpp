@@ -295,3 +295,46 @@ void InfoHandler::StringToBufer(char * outStr, int sizeBuf, char * inStr, int co
 	strncpy(outStr,inStr,n);
 	outStr[n] = 0;
 }
+
+void InfoHandler::LostRender()
+{
+	if (m_pSurface) m_rs->Release(m_pSurface);
+	if (m_pRenderTarget) m_rs->Release(m_pRenderTarget);
+}
+
+void InfoHandler::RestoreRender()
+{
+	if (m_rs->GetRenderTarget(&m_pRenderTarget) != D3D_OK)
+	{
+		api->Trace("Can`t get render target");
+		return;
+	}
+
+	bool isOk = false;
+	D3DSURFACE_DESC desc;
+	if (m_pRenderTarget->GetDesc(&desc) == D3D_OK)
+	{
+		if (m_rs->CreateOffscreenPlainSurface(desc.Width, desc.Height, desc.Format, &m_pSurface) == D3D_OK)
+		{
+			if (DoPreOut())
+			{
+				if (m_rs->GetRenderTargetData(m_pRenderTarget, m_pSurface) == D3D_OK)
+				{
+					isOk = true;
+				}
+			}
+		}
+	}
+	if (!isOk)
+	{
+		api->Trace("Screen shot for info shower not created!");
+		if (m_pSurface)
+		{
+			m_rs->Release(m_pSurface); m_pSurface = 0;
+		}
+		if (m_pRenderTarget)
+		{
+			m_rs->Release(m_pRenderTarget); m_pRenderTarget = 0;
+		}
+	}
+}
