@@ -3284,7 +3284,7 @@ HRESULT DX9RENDER::DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, UINT StartVer
 HRESULT DX9RENDER::Release(IUnknown *pObject)
 {
 	if (pObject) 
-		return CHECKD3DERR(pObject->Release());
+		return pObject->Release();
 
 	return D3D_OK;
 }
