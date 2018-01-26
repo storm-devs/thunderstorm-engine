@@ -838,7 +838,7 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 		d3d9->LightEnable(i, false);
 	}
 
-	func();
+	SetCommonStates();
 	api->EngineDisplay(false);
 
 	screen_size.x = width;
@@ -2356,7 +2356,7 @@ void DX9RENDER::RestoreRender()
 		d3d9->SetLight(i, &l);
 		d3d9->LightEnable(i, false);
 	}
-	func();
+	SetCommonStates();
 	d3d9->GetGammaRamp(0, &DefaultRamp);
 }
 
@@ -2780,72 +2780,70 @@ bool DX9RENDER::SetFontIniFileName(char * iniName)
 	return true;
 }
 
-void DX9RENDER::func()
+void DX9RENDER::SetCommonStates()
 {
-	d3d9->SetRenderState(D3DRS_DITHERENABLE, TRUE);
-	d3d9->SetRenderState(D3DRS_ALPHATESTENABLE, true);
+	SetRenderState(D3DRS_DITHERENABLE, TRUE);
+	SetRenderState(D3DRS_ALPHATESTENABLE, true);
 	//----------Z---------
-	d3d9->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
-	d3d9->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-	d3d9->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
+	SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+	SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
 
-	d3d9->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	d3d9->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
-	d3d9->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-	d3d9->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	d3d9->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+	SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+	SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
-	d3d9->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_EXP);
+	SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_EXP);
 
-	d3d9->SetRenderState(D3DRS_LIGHTING, TRUE);
-	d3d9->SetRenderState(D3DRS_LOCALVIEWER, FALSE);
-	d3d9->SetRenderState(D3DRS_AMBIENT, 0x505050);
-	d3d9->SetRenderState(D3DRS_AMBIENTMATERIALSOURCE, D3DMCS_COLOR1);
+	SetRenderState(D3DRS_LIGHTING, TRUE);
+	SetRenderState(D3DRS_LOCALVIEWER, FALSE);
+	SetRenderState(D3DRS_AMBIENT, 0x505050);
+	SetRenderState(D3DRS_AMBIENTMATERIALSOURCE, D3DMCS_COLOR1);
 
-	d3d9->SetRenderState(D3DRS_SPECULARENABLE, FALSE);
-	d3d9->SetRenderState(D3DRS_COLORVERTEX, TRUE);
-	d3d9->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	d3d9->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	d3d9->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	d3d9->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	d3d9->SetRenderState(D3DRS_ALPHAREF, 0xa0);
-	d3d9->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	SetRenderState(D3DRS_SPECULARENABLE, FALSE);
+	SetRenderState(D3DRS_COLORVERTEX, TRUE);
+	SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	SetRenderState(D3DRS_ALPHAREF, 0xa0);
+	SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
 	// *****************************************************************88
 	//texture filtering
-	d3d9->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-	d3d9->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_ANISOTROPIC);
-	d3d9->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
-	d3d9->SetSamplerState(0, D3DSAMP_MAXANISOTROPY, 3);
+	SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_ANISOTROPIC);
+	SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+	SetSamplerState(0, D3DSAMP_MAXANISOTROPY, 3);
 
 	//unchanged texture stage states - both for base and detal texture
-	d3d9->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
-	d3d9->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_TEXTURE);
-	d3d9->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_CURRENT);
-	d3d9->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_TEXTURE);
-	d3d9->SetTextureStageState(2, D3DTSS_COLORARG1, D3DTA_CURRENT);
-	d3d9->SetTextureStageState(2, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+	SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
+	SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_TEXTURE);
+	SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_CURRENT);
+	SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_TEXTURE);
+	SetTextureStageState(2, D3DTSS_COLORARG1, D3DTA_CURRENT);
+	SetTextureStageState(2, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
 
-	d3d9->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
-	d3d9->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TEXTURE);
-	d3d9->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+	SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
+	SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TEXTURE);
+	SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 
 	//general
-	d3d9->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	d3d9->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	d3d9->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	d3d9->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	d3d9->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	d3d9->SetRenderState(D3DRS_ALPHAREF, 0xa0);
-	d3d9->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	SetRenderState(D3DRS_ALPHAREF, 0xa0);
+	SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
 	//lighting effects
-	d3d9->SetRenderState(D3DRS_AMBIENT, 0x404040);
-	d3d9->SetRenderState(D3DRS_LIGHTING, FALSE);//TRUE);
-	d3d9->SetRenderState(D3DRS_COLORVERTEX, TRUE);
-	d3d9->SetRenderState(D3DRS_SPECULARENABLE, FALSE);//TRUE);
-
-
+	SetRenderState(D3DRS_AMBIENT, 0x404040);
+	SetRenderState(D3DRS_LIGHTING, FALSE);//TRUE);
+	SetRenderState(D3DRS_COLORVERTEX, TRUE);
+	SetRenderState(D3DRS_SPECULARENABLE, FALSE);//TRUE);
 }
 
 HRESULT DX9RENDER::GetViewport(D3DVIEWPORT9 * pViewport)
@@ -2945,7 +2943,7 @@ void DX9RENDER::MakeScreenShot()
 	surface = null;
 
 	//Получаем картинку
-	if (FAILED(d3d9->GetRenderTarget(0, &renderTarget)))
+	if (FAILED(GetRenderTarget(&renderTarget)))
 	{
 		api->Trace("Falure get render target for make screenshot");
 		return;

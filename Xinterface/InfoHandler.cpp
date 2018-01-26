@@ -296,6 +296,7 @@ void InfoHandler::StringToBufer(char * outStr, int sizeBuf, char * inStr, int co
 	outStr[n] = 0;
 }
 
+/*
 void InfoHandler::LostRender()
 {
 	if (m_pSurface) m_rs->Release(m_pSurface);
@@ -337,4 +338,4 @@ void InfoHandler::RestoreRender()
 			m_rs->Release(m_pRenderTarget); m_pRenderTarget = 0;
 		}
 	}
-}
+}*/

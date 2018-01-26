@@ -469,18 +469,24 @@ dword _cdecl SHADOW::ProcessMessage(MESSAGE &message)
 
 void SHADOW::LostRender()
 {
-	rs->Release(shTex);
-	rs->Release(blurTex);
-	rs->Release(vbuff);
+	if (--ref == 0)
+	{
+		rs->Release(shTex);
+		rs->Release(blurTex);
+		rs->Release(vbuff);
+	}
 }
 
 void SHADOW::RestoreRender()
 {
-	rs->CreateTexture(TEXTURE_SIZE, TEXTURE_SIZE, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &shTex);
-	if(shTex==0)	rs->CreateTexture(TEXTURE_SIZE, TEXTURE_SIZE, 1, D3DUSAGE_RENDERTARGET, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &shTex);
+	if (ref++ == 0)
+	{
+		rs->CreateTexture(TEXTURE_SIZE, TEXTURE_SIZE, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &shTex);
+		if (shTex == 0)	rs->CreateTexture(TEXTURE_SIZE, TEXTURE_SIZE, 1, D3DUSAGE_RENDERTARGET, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &shTex);
 
-	rs->CreateTexture(TEXTURE_SIZE, TEXTURE_SIZE, 1, D3DUSAGE_RENDERTARGET, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &blurTex);
-	if(blurTex==0)	rs->CreateTexture(TEXTURE_SIZE, TEXTURE_SIZE, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &blurTex);
+		rs->CreateTexture(TEXTURE_SIZE, TEXTURE_SIZE, 1, D3DUSAGE_RENDERTARGET, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &blurTex);
+		if (blurTex == 0)	rs->CreateTexture(TEXTURE_SIZE, TEXTURE_SIZE, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &blurTex);
 
-	rs->CreateVertexBuffer(sizeof(SHADOW_VERTEX)*(vbuff_size + 128), D3DUSAGE_WRITEONLY|D3DUSAGE_DYNAMIC, SHADOW_FVF, D3DPOOL_DEFAULT, &vbuff);
+		rs->CreateVertexBuffer(sizeof(SHADOW_VERTEX)*(vbuff_size + 128), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, SHADOW_FVF, D3DPOOL_DEFAULT, &vbuff);
+	}
 }

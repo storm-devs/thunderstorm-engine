@@ -19,8 +19,6 @@ protected:
 	void	StringToBufer(char * outStr, int sizeBuf, char * inStr, int copySize);
 	char *	GetCutString( char * pstr, int nOutWidth, float fScale );
 	bool	DoPreOut();
-	void LostRender() override;
-	void RestoreRender() override;
 
 	IDirect3DSurface9 * m_pSurface;
 	IDirect3DSurface9 * m_pRenderTarget;

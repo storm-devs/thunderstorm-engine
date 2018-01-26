@@ -263,7 +263,6 @@ public:
 
 	DX9RENDER();
 	~DX9RENDER();
-	void func();
 
 	// DX9Render: Init/Release
 		virtual bool InitDevice(bool windowed, HWND hwnd, long width, long height);
@@ -462,6 +461,8 @@ public:
 
 	void ProcessScriptPosAng(CVECTOR & vPos, CVECTOR & vAng);
 	void FindPlanes(IDirect3DDevice9 * d3dDevice);
+
+	void SetCommonStates();
 
 	/*bool InitDevice(bool windowed, HWND hwnd, long width, long height);
 	bool ReleaseDevice();
