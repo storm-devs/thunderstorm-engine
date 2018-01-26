@@ -2948,7 +2948,7 @@ void DX9RENDER::MakeScreenShot()
 		api->Trace("Falure get render target for make screenshot");
 		return;
 	}
-	if (FAILED(d3d9->CreateOffscreenPlainSurface(screen_size.x, screen_size.y, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &surface, NULL)))
+	if (FAILED(CreateOffscreenPlainSurface(screen_size.x, screen_size.y, D3DFMT_X8R8G8B8, &surface)))
 	{
 		renderTarget->Release();
 		api->Trace("Falure create buffer for make screenshot");
