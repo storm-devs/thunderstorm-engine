@@ -28,7 +28,9 @@ void  trace(char * data_PTR,...)
 	DWORD bytes;
 	WriteFile(file_h,Buffer_4k,strlen(Buffer_4k),&bytes,0);
 	va_end(args);
+
+	FlushFileBuffers(file_h);
 	CloseHandle(file_h);
-	_flushall();
 	
+	//_flushall(); ??? //~!~
 }

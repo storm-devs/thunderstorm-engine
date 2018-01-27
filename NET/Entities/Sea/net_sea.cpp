@@ -108,6 +108,7 @@ NetSea::~NetSea()
 
 bool NetSea::Init()
 {
+	return false; //~!~
 	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	bSimpleSea = AttributesPointer->GetAttributeAsDword("SimpleSea", 0);
 

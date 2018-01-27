@@ -297,8 +297,8 @@ void SHADOW::Realize(dword Delta_Time)
 	Smooth();
 
 	rs->SetRenderTarget( backbuff, zbuff);
-  rs->Release(backbuff);
-  rs->Release(zbuff);
+	rs->Release(backbuff);
+	rs->Release(zbuff);
 	rs->SetTransform(D3DTS_VIEW, prev_view);
 	rs->SetTransform( D3DTS_PROJECTION, prev_proj);
 	rs->BeginScene();

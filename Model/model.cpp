@@ -571,6 +571,8 @@ float MODELR::Trace(const CVECTOR &src, const CVECTOR &dst)
 		if(idxBuff==0)
 		{
 			unsigned short *idx = (unsigned short*)rs->LockIndexBuffer(root->geo->GetIndexBuffer());
+			if (idx == nullptr)
+				return 0.;
 
 			int nt = 0;
 			root->geo->GetInfo(gi);

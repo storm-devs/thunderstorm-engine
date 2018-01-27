@@ -224,7 +224,8 @@ dword dwSoundBytes = 0;
 dword dwSoundBytesCached = 0;
 
 //################################################################################
-#define STRIPPATH(s)\
+//~!~
+/*#define STRIPPATH(s)\
     (sizeof(s) > 11 && (s)[sizeof(s)-12] == '/' ? (s) + sizeof(s) - 11 : \
     sizeof(s) > 10 && (s)[sizeof(s)-11] == '/' ? (s) + sizeof(s) - 10 : \
     sizeof(s) > 9 && (s)[sizeof(s)-10] == '/' ? (s) + sizeof(s) - 9 : \
@@ -234,9 +235,9 @@ dword dwSoundBytesCached = 0;
     sizeof(s) > 5 && (s)[sizeof(s)-6] == '/' ? (s) + sizeof(s) - 5 : \
     sizeof(s) > 4 && (s)[sizeof(s)-5] == '/' ? (s) + sizeof(s) - 4 : \
     sizeof(s) > 3 && (s)[sizeof(s)-4] == '/' ? (s) + sizeof(s) - 3 : \
-    sizeof(s) > 2 && (s)[sizeof(s)-3] == '/' ? (s) + sizeof(s) - 2 : (s))
+    sizeof(s) > 2 && (s)[sizeof(s)-3] == '/' ? (s) + sizeof(s) - 2 : (s))*/
 
-#define CHECKD3DERR(expr) ErrorHandler(expr, STRIPPATH(__FILE__), __LINE__, __func__, #expr)
+#define CHECKD3DERR(expr) ErrorHandler(expr, __FILE__, __LINE__, __func__, #expr)
 
 inline bool DX9RENDER::ErrorHandler(HRESULT hr, const char * file, unsigned line, const char * func, const char * expr)
 {
@@ -2146,9 +2147,14 @@ void DX9RENDER::RenderAnimation(long ib, void * src, long numVrts, long minv, lo
 //################################################################################
 void * DX9RENDER::LockVertexBuffer(long id, dword dwFlags)
 {
+	if (bDeviceLost)
+		return nullptr;
+
 	BYTE * ptr;
 	VertexBuffers[id].dwNumLocks++;
-	if (CHECKD3DERR(VertexBuffers[id].buff->Lock(0, VertexBuffers[id].size, (VOID**)&ptr, dwFlags)))	return 0;
+	if (CHECKD3DERR(VertexBuffers[id].buff->Lock(0, VertexBuffers[id].size, (VOID**)&ptr, dwFlags)))	
+		return nullptr;
+
 	dwNumLV++;
 	return ptr;
 }
@@ -2162,10 +2168,14 @@ long DX9RENDER::GetVertexBufferSize(long id) { return VertexBuffers[id].size; }
 
 void * DX9RENDER::LockIndexBuffer(long id, dword dwFlags)
 {
+	if (bDeviceLost)
+		return nullptr;
+
 	BYTE * ptr = null;
 	IndexBuffers[id].dwNumLocks++;
-	if (CHECKD3DERR(IndexBuffers[id].buff->Lock(0, IndexBuffers[id].size, (VOID**)&ptr, dwFlags)
-	) == true)	return 0;
+	if (CHECKD3DERR(IndexBuffers[id].buff->Lock(0, IndexBuffers[id].size, (VOID**)&ptr, dwFlags)))	
+		return nullptr;
+
 	dwNumLI++;
 	return ptr;
 }

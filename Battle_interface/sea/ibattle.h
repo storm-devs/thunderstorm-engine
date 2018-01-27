@@ -23,6 +23,9 @@ public:
     dword _cdecl ProcessMessage(MESSAGE & message);
 	dword AttributeChanged(ATTRIBUTES * pAttr);
 
+	void LostRender() override { BattleNavigator.LostRender(); };
+	void RestoreRender() override { BattleNavigator.RestoreRender(); };
+
 protected:
 	BATTLE_NAVIGATOR	BattleNavigator; // навигационные иконки
 	//MESSAGE_ICONS *		m_pMessageIcons;
