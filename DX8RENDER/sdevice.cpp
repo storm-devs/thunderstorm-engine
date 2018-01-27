@@ -2049,7 +2049,7 @@ void DX9RENDER::DrawIndexedPrimitiveNoVShader(D3DPRIMITIVETYPE dwPrimitiveType, 
 		) == true)	return;
 	}
 
-	if (cBlockName) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
+	if (cBlockName && cBlockName[0]) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
 	if (bDraw) do
 	{
 		dwNumDrawPrimitive++;
@@ -2060,7 +2060,7 @@ void DX9RENDER::DrawIndexedPrimitiveNoVShader(D3DPRIMITIVETYPE dwPrimitiveType, 
 void DX9RENDER::DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, dword dwMinIndex, dword dwNumVertices, dword dwPrimitiveCount, const void *pIndexData, D3DFORMAT IndexDataFormat, const void *pVertexData, dword dwVertexStride, const char *cBlockName, dword dwNumParams, ...)
 {
 	bool bDraw = true;
-	if (cBlockName) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
+	if (cBlockName && cBlockName[0]) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
 	if (bDraw) do
 	{
 		dwNumDrawPrimitive++;
@@ -2074,7 +2074,7 @@ void DX9RENDER::DrawPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, dword dwVertex
 
 	if (CHECKD3DERR(SetFVF(dwVertexBufferFormat)) == true)	return;
 
-	if (cBlockName) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
+	if (cBlockName && cBlockName[0]) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
 	if (bDraw) do
 	{
 		dwNumDrawPrimitive++;
@@ -3181,7 +3181,7 @@ void DX9RENDER::DrawRects(RS_RECT *pRSR, dword dwRectsNum, const char *cBlockNam
 		//Рисуем буфер
 		rectsVBuffer->Unlock();
 		CHECKD3DERR(SetFVF(RS_RECT_VERTEX_FORMAT));
-		if (cBlockName) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
+		if (cBlockName && cBlockName[0]) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
 		if (bDraw) do
 		{
 			CHECKD3DERR(SetStreamSource(0, rectsVBuffer, sizeof(RECT_VERTEX)));
@@ -3209,7 +3209,7 @@ void DX9RENDER::DrawSprites(RS_SPRITE * pRSS, dword dwSpritesNum, const char * c
 	SetFVF(RS_SPRITE_VERTEX_FORMAT);
 
 	bool bDraw = true;
-	if (cBlockName) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
+	if (cBlockName && cBlockName[0]) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
 	if (bDraw) do
 	{
 #ifndef _XBOX
@@ -3229,7 +3229,7 @@ void DX9RENDER::DrawLines(RS_LINE *pRSL, dword dwLinesNum, const char *cBlockNam
 
 	bool		bDraw = true;
 
-	if (cBlockName) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
+	if (cBlockName && cBlockName[0]) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
 	if (bDraw) do
 	{
 		DrawPrimitiveUP(D3DPT_LINELIST, RS_LINE_VERTEX_FORMAT, dwLinesNum, pRSL, sizeof(RS_LINE));
@@ -3244,7 +3244,7 @@ void DX9RENDER::DrawLines2D(RS_LINE2D *pRSL2D, dword dwLinesNum, const char *cBl
 
 	bool		bDraw = true;
 
-	if (cBlockName) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
+	if (cBlockName && cBlockName[0]) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
 	if (bDraw) do
 	{
 		DrawPrimitiveUP(D3DPT_LINELIST, RS_LINE2D_VERTEX_FORMAT, dwLinesNum, pRSL2D, sizeof(RS_LINE2D));
