@@ -2091,7 +2091,7 @@ void DX9RENDER::DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, lon
 	if (CHECKD3DERR(d3d9->SetStreamSource(0, VertexBuffers[iVBuff].buff, 0, iStride)
 	) == true)	return;
 
-	if (cBlockName) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
+	if (cBlockName && cBlockName[0]) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
 	if (bDraw) do
 	{
 		dwNumDrawPrimitive++;
