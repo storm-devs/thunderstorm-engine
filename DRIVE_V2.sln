@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Animals", "Animals\Animals.vcxproj", "{BB9DB2D4-9E38-4A5E-ABB7-2A5F88B6B356}"
 EndProject
@@ -35,8 +35,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Location", "Location\Location.vcxproj", "{7621A1AC-5C05-4180-914C-DC777F1F658C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MAST", "Mast\mast.vcxproj", "{5A7E6F0A-7C3F-4FDC-A806-25D64FC0D49E}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MLeaks", "MLeaks\MLeaks.vcxproj", "{3E5EEE9B-BDCC-4F84-8072-CB97602916E2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MODEL", "Model\MODEL.vcxproj", "{A69AE3B4-9B14-4041-9414-5B3A58BEF59B}"
 EndProject
@@ -99,8 +97,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MasterServer", "MasterServer\MasterServer.vcxproj", "{80869244-0A8A-4BB9-90F2-6FA1F001E2D9}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Seafoam", "Seafoam\Seafoam.vcxproj", "{39C03A7A-DC0F-4177-880B-BDCADCD0A1D8}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Setup", "Setup\Setup.vcxproj", "{8DF3C2B8-9E3C-4DF3-A887-8ADC34577A02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -176,8 +172,6 @@ Global
 		{5A7E6F0A-7C3F-4FDC-A806-25D64FC0D49E}.Debug|x86.Build.0 = Debug|Win32
 		{5A7E6F0A-7C3F-4FDC-A806-25D64FC0D49E}.Release|x86.ActiveCfg = Release|Win32
 		{5A7E6F0A-7C3F-4FDC-A806-25D64FC0D49E}.Release|x86.Build.0 = Release|Win32
-		{3E5EEE9B-BDCC-4F84-8072-CB97602916E2}.Debug|x86.ActiveCfg = Debug|Win32
-		{3E5EEE9B-BDCC-4F84-8072-CB97602916E2}.Release|x86.ActiveCfg = Release|Win32
 		{A69AE3B4-9B14-4041-9414-5B3A58BEF59B}.Debug|x86.ActiveCfg = Debug|Win32
 		{A69AE3B4-9B14-4041-9414-5B3A58BEF59B}.Debug|x86.Build.0 = Debug|Win32
 		{A69AE3B4-9B14-4041-9414-5B3A58BEF59B}.Release|x86.ActiveCfg = Release|Win32
@@ -300,10 +294,6 @@ Global
 		{39C03A7A-DC0F-4177-880B-BDCADCD0A1D8}.Debug|x86.Build.0 = Debug|Win32
 		{39C03A7A-DC0F-4177-880B-BDCADCD0A1D8}.Release|x86.ActiveCfg = Release|Win32
 		{39C03A7A-DC0F-4177-880B-BDCADCD0A1D8}.Release|x86.Build.0 = Release|Win32
-		{8DF3C2B8-9E3C-4DF3-A887-8ADC34577A02}.Debug|x86.ActiveCfg = Debug|Win32
-		{8DF3C2B8-9E3C-4DF3-A887-8ADC34577A02}.Debug|x86.Build.0 = Debug|Win32
-		{8DF3C2B8-9E3C-4DF3-A887-8ADC34577A02}.Release|x86.ActiveCfg = Release|Win32
-		{8DF3C2B8-9E3C-4DF3-A887-8ADC34577A02}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

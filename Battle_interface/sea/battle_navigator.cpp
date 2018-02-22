@@ -1278,6 +1278,7 @@ void BATTLE_NAVIGATOR::UpdateWindParam()
 void BATTLE_NAVIGATOR::LostRender()
 {
 	rs->Release(m_pIslandTexture);
+	m_pIslandTexture = nullptr;
 }
 
 void BATTLE_NAVIGATOR::RestoreRender()
