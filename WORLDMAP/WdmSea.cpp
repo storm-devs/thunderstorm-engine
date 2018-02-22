@@ -233,7 +233,8 @@ void WdmSea::Update(float dltTime)
 		if(rand() & 1)
 		{
 			//Добавляем новый
-			for(long i = 0; i < sizeof(flare)/sizeof(flare[0]); i++)
+			unsigned int i;
+			for(i = 0; i < sizeof(flare)/sizeof(flare[0]); i++)
 			{
 				if(flare[i].index < 0) break;
 			}
