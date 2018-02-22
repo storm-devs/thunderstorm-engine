@@ -512,9 +512,6 @@
     <ClInclude Include="..\Common_h\defines.h">
       <Filter>common_h</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common_h\dx8render.h">
-      <Filter>common_h</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common_h\Entity_x.h">
       <Filter>common_h</Filter>
     </ClInclude>
@@ -715,6 +712,9 @@
     </ClInclude>
     <ClInclude Include="sources\s_debug.h">
       <Filter>Script Files\h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\dx9render.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -942,11 +942,6 @@
     <Image Include="Sources\storm.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Sources\resource.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Sources\core.txt" />

@@ -44,14 +44,10 @@
     <ClInclude Include="SailorsWayPoints.h">
       <Filter>SailorsEditor</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Engine\Modules\Techniques\Sailors_Editor\editor.sha">
       <Filter>Data\Techniques</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Sailors.rc" />
   </ItemGroup>
 </Project>

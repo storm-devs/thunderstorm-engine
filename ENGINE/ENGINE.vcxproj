@@ -47,13 +47,13 @@
     <OutDir>.\Debug\</OutDir>
     <IntDir>.\Debug\</IntDir>
     <LinkIncremental>true</LinkIncremental>
-  <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>.\release\</OutDir>
     <IntDir>.\Release\</IntDir>
     <LinkIncremental>true</LinkIncremental>
-  <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -79,7 +79,7 @@
       <ProgramDatabaseFile>.\Debug/ENGINE.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
-<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -122,7 +122,7 @@
       <ProgramDatabaseFile>.\Release/ENGINE.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
-<AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
       <FixedBaseAddress>false</FixedBaseAddress>
     </Link>
     <Midl>
@@ -438,9 +438,6 @@
     <Image Include="SOURCES\icon1.ico" />
     <Image Include="SOURCES\install.bmp" />
     <Image Include="Sources\storm.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Sources\resource.rc" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Sources\core.txt" />

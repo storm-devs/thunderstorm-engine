@@ -104,7 +104,6 @@
     <ClCompile Include="SailorsWayPoints.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h" />
     <ClInclude Include="Sailors.h" />
     <ClInclude Include="SailorsEditor.h" />
     <ClInclude Include="SailorsMenu.h" />
@@ -112,9 +111,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Engine\Modules\Techniques\Sailors_Editor\editor.sha" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Sailors.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
