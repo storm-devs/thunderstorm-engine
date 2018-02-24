@@ -127,7 +127,7 @@ bool WdmCameraStdCtrl::GetHightHeight(float & height)
 	
 	return isFree;
 
-	//!!!
+	//~!~!!!
 	_CORE_API->Controls->GetControlState("WMapCameraSwitch",cs);
 	return cs.state == CST_ACTIVE;
 
