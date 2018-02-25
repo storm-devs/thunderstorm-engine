@@ -14,6 +14,7 @@ struct XYPOINT;
 class VXSERVICE
 {
 public:
+	virtual ~VXSERVICE() = default;
 	virtual void Init(VDX9RENDER* pRS,long lWidth,long lHight) = 0;
 
 	// get texture identificator for image group
