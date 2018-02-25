@@ -409,7 +409,7 @@ void BIImagesInfo::Draw()
 
 
 
-BIBorderInfo::BIBorderInfo()
+BIBorderInfo::BIBorderInfo(): dwColor1(0), dwColor2(0), fCur(0), fSpeed(0)
 {
 	pRS = 0;
 	nVBuf = -1;
