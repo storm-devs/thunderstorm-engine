@@ -75,7 +75,11 @@ public:
 	HINSTANCE hInst;
 	SCRIPT_LIBRIARY * pLib;
 	char * pName;
-	SLIBHOLDER(){pLib = 0;pName = 0;};
+	SLIBHOLDER(): hInst(nullptr)
+	{
+		pLib = 0;
+		pName = 0;
+	};
 	~SLIBHOLDER(){if(pLib) delete pLib; if(pName) delete pName;};
 	void SetName(const char * pFileName) {if(pName) delete pName; pName = NEW char[strlen(pFileName)+1];strcpy(pName,pFileName);}
 };

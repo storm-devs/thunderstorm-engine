@@ -13,7 +13,7 @@
 
 struct ATOM_STATE
 {
-	ATOM_STATE()
+	ATOM_STATE(): Connected(false), Deleted(false)
 	{
 		Realize_ticks_av = 0;
 		Realize_ticks_max = 0;
@@ -21,7 +21,8 @@ struct ATOM_STATE
 		Execute_ticks_max = 0;
 		Message_ticks_av = 0;
 		Message_ticks_max = 0;
-	};
+	}
+	;
 	bool Connected;
 	bool Deleted;
 	//bool Service;

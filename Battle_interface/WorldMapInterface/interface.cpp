@@ -3,7 +3,7 @@
 #include "shipcommand.h"
 #include "..\..\..\Shared\battle_interface\msg_control.h"
 
-WM_INTERFACE::WM_INTERFACE()
+WM_INTERFACE::WM_INTERFACE(): rs(nullptr)
 {
 	m_pShipIcon = 0;
 	m_pCommandList = 0;

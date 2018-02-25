@@ -12,25 +12,28 @@
 class TIMER
 {
 public:
-	TIMER() 
+	TIMER(): FixedDeltaValue(0), Previous_Time(0), fDeltaTime(0)
 	{
-#ifdef USE_HIGH_FREQUENCY		
+#ifdef USE_HIGH_FREQUENCY 
 		LARGE_INTEGER liFreq;
-		QueryPerformanceFrequency( &liFreq );
-		fSecondsPerTick = 1.0f / liFreq.QuadPart;	
+		QueryPerformanceFrequency(&liFreq);
+		fSecondsPerTick = 1.0f / liFreq.QuadPart;
 		QueryPerformanceCounter(&liPrevTime);
 #else
 		Previous_Time = GetTickCount(); 
 #endif
-		Delta_Time = 20; 
+		Delta_Time = 20;
 		rDelta_Time = Delta_Time;
-		fps = 0; fps_count = 0; fps_time = 0; 
+		fps = 0;
+		fps_count = 0;
+		fps_time = 0;
 		Ring = false;
 		FixedDelta = false;
 		ADT = 1;
 		ADT_ON = true;
 		ADT_val = 10;
-	};
+	}
+	;
 	bool  FixedDelta;
 	dword FixedDeltaValue;
 	bool  Ring;

@@ -686,11 +686,11 @@ char *GetString(char * pBegin, dword dwSize, char * pCurrent)
 	// go for a null, or 0xA, or 0xD
 	if (pCurrent != pBegin)		// for first string
 	{
-		while ((*pCurrent && *pCurrent!=0xa && *pCurrent!=0xd) && !END_TEST) *pCurrent++;
+		while ((*pCurrent && *pCurrent!=0xa || *pCurrent!=0xd) && !END_TEST) *pCurrent++;
 		if (END_TEST) return 0;
 	}
 	// skip all nulls, or 0xA, or 0xD
-	while ((!(*pCurrent) || (*pCurrent==0xa && *pCurrent==0xd)) && !END_TEST) *pCurrent++;
+	while ((!(*pCurrent) || (*pCurrent==0xa || *pCurrent==0xd)) && !END_TEST) *pCurrent++;
 	if (END_TEST) return 0;
 	return pCurrent;
 }
@@ -854,7 +854,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 				dword dwIndex = 0;
 				*pPass++ = CODE_SPSCONST | dwAdditionalFlags;
 				GetTokenWhile(SkipToken(*pStr,"["),&temp[0],"]");
-				sscanf(temp,"%d", &dwIndex);
+				sscanf(temp,"%lu", &dwIndex);
 				*pPass++ = dwIndex;
 				*pPass++ = dwInParamIndex;
 				//GetTokenWhile(SkipToken(*pStr,"="),temp,";");
@@ -867,7 +867,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 				dword dwIndex = 0;
 				*pPass++ = CODE_SVSCONST | dwAdditionalFlags;
 				GetTokenWhile(SkipToken(*pStr,"["),&temp[0],"]");
-				sscanf(temp,"%d", &dwIndex);
+				sscanf(temp,"%lu", &dwIndex);
 				*pPass++ = dwIndex;
 				GetTokenWhile(SkipToken(*pStr,"="),temp,";");
 				*pPass++ = GetCode(temp,&MYSETVERTEXSHADERCONSTANT[0],sizeof(MYSETVERTEXSHADERCONSTANT) / sizeof(SRSPARAM),null,false);
@@ -985,7 +985,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 				{
 					// maybe world0-world256
 					if (0==(pTemp = SkipToken(*pStr,WORLD_TRANSFORM_CHECK))) THROW("transform. error!");
-					sscanf(pTemp,"%d", &dwCode);
+					sscanf(pTemp,"%lu", &dwCode);
 					dwCode = (DWORD)D3DTS_WORLDMATRIX(dwCode);
 				}
 				*pPass++ = CODE_TRANSFORM;
@@ -1088,7 +1088,7 @@ dword CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSi
 		}
 		if (SkipToken(*pStr,VDECL_FLOAT_CHECK))
 		{
-			sscanf(SkipToken(*pStr, "["), "%d", &dwTemp);
+			sscanf(SkipToken(*pStr, "["), "%lu", &dwTemp);
 			switch (dwTemp)
 			{
 			case 1: dwTemp = D3DDECLTYPE_FLOAT1; break;

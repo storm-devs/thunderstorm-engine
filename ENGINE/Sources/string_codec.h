@@ -24,11 +24,11 @@ class STRING_CODEC : public VSTRING_CODEC
 
 	HTELEMENT HTable[HASH_TABLE_SIZE];
 public:
-	STRING_CODEC()
-	{ 
+	STRING_CODEC(): nHTIndex(0), nHTEIndex(0)
+	{
 		nStringsNum = 0;
 		ZeroMemory(HTable, sizeof(HTable));
-	};
+	}
 
 	~STRING_CODEC() { Release(); };
 	

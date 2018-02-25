@@ -11,7 +11,7 @@ CREATE_CLASS(CameraDialog)
 PLANE planes[6];
 void FindPlanes(const CMatrix &view, const CMatrix &proj);
 
-CameraDialog::CameraDialog()
+CameraDialog::CameraDialog(): rs(nullptr), col(nullptr), frames(0)
 {
 	pos = 0.0f;
 	ang = 0.0f;

@@ -30,7 +30,12 @@ class DSTRING_CODEC
 
 public:
 	HTDELEMENT HTable[DHASH_TABLE_SIZE];
-	DSTRING_CODEC(){nStringsNum = 0;pSymbol[0] = 0; pSymbol[1] = 0;};
+	DSTRING_CODEC(): nHTIndex(0), nHTEIndex(0)
+	{
+		nStringsNum = 0;
+		pSymbol[0] = 0;
+		pSymbol[1] = 0;
+	};
 	~DSTRING_CODEC(){Release();};
 
 

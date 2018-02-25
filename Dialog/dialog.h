@@ -79,7 +79,10 @@ private:
 		float fScrollTime;
 		array<long> anPageEndIndex;
 
-		DlgTextDescribe() : TextDescribe(),anPageEndIndex(_FL) {}
+		DlgTextDescribe() : TextDescribe(), fScrollTime(0), anPageEndIndex(_FL)
+		{
+		}
+
 		virtual ~DlgTextDescribe() {Release();}
 		virtual void Release() {TextDescribe::Release();}
 		void __declspec(dllexport) __cdecl ChangeText(const char* pcText);
