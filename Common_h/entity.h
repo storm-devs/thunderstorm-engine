@@ -10,7 +10,7 @@
 #include "vsystem_api.h"
 #include "exs.h"
 
-#include "..\ENGINE\PROGRAM\NET\net_defines.h"
+#include "..\..\Shared\NET\net_defines.h"
 
 //-------------------------------------------------------------------------------------------------
 // Pop operation (from run stack) for object constructor perform engine code

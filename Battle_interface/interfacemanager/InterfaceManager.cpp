@@ -3,7 +3,7 @@
 #include "..\image\image.h"
 #include "..\utils.h"
 #include "MousePointer.h"
-#include "..\..\engine\program\BIManager\messages.h"
+#include "..\..\..\Shared\BIManager\messages.h"
 #include "InterfaceNode\AllNodes.h"
 
 #include "InterfaceGroup\BaseGroup.h"

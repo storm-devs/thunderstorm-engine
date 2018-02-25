@@ -1,6 +1,6 @@
 #include "SEA_CAMERAS.h"
 #include "..\common_h\sd2_h\VAI_ObjBase.h"
-#include "..\engine\program\sea_ai\Script_Defines.h"
+#include "..\..\Shared\sea_ai\Script_Defines.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(SEA_CAMERAS)

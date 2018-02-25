@@ -1,6 +1,6 @@
 #include "Sea.h"
 #include "..\common_h\tga.h"
-#include "..\engine\program\sea_ai\script_defines.h"
+#include "..\..\Shared\sea_ai\script_defines.h"
 #include "SSE.h"
 
 //#define OLD_WORLD_POS

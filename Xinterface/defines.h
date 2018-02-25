@@ -1,11 +1,11 @@
 #ifndef _XINTERFACE_DEFAULT_H_
 #define _XINTERFACE_DEFAULT_H_
 
-#include "..\\common_h\\cvector.h"
-#include "..\\common_h\\stringService.h"
+#include "..\common_h\cvector.h"
+#include "..\common_h\stringService.h"
 #include "vxservice.h"
 #include "QuestFileReader\\QuestFileReader.h"
-#include "..\\engine\\program\\interface\\messages.h"
+#include "..\..\Shared\interface\messages.h"
 
 
 #define PI	3.14159265358979323846f

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "ISLAND.h"
 #include "Foam.h"
-#include "..\engine\program\sea_ai\Script_Defines.h"
+#include "..\..\Shared\sea_ai\Script_Defines.h"
 #include "..\common_h\weather_base.h"
 
 INTERFACE_FUNCTION

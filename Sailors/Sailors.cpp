@@ -12,8 +12,8 @@
 #include "..\common_h\exs.h"
 #include "..\common_h\rands.h"
 #include "..\common_h\types3d.h"
-#include "..\ENGINE\PROGRAM\SEA_AI\script_defines.h"
-#include "..\engine\program\sea_ai\seaPeople.h"
+#include "..\..\Shared\SEA_AI\script_defines.h"
+#include "..\..\Shared\sea_ai\seaPeople.h"
 #include "..\common_h\ship_msg.h"
 #include "..\Ship\ship.h"
 

@@ -17,7 +17,7 @@
 #include "..\itementity\itementity.h"
 #include "..\WorldMapInterface\interface.h"
 
-#include "..\..\engine\program\battle_interface\msg_control.h"
+#include "..\..\..\Shared\battle_interface\msg_control.h"
 
 #include "..\InterfaceManager\InterfaceManager.h"
 

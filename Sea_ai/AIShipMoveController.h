@@ -5,7 +5,7 @@
 #include "..\common_h\character.h"
 #include "..\common_h\sd2_h\CannonTrace.h"
 #include "..\common_h\sd2_h\VAI_ObjBase.h"
-#include "..\engine\program\sea_ai\Script_Defines.h"
+#include "..\..\Shared\sea_ai\Script_Defines.h"
 #include "AIFlowGraph.h"
 #include "..\common_h\templates\array.h"
 #include "..\common_h\templates\string.h"

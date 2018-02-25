@@ -4,7 +4,7 @@
 #include "..\common_h\vmodule_api.h"
 #include "..\common_h\entity.h"
 #include "..\common_h\cvector.h"
-#include "..\engine\program\sea_ai\script_defines.h"
+#include "..\..\Shared\sea_ai\script_defines.h"
 
 #define MAX_FLOAT_PARAMS		128
 #define MAX_LONG_PARAMS			64

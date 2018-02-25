@@ -1,5 +1,5 @@
 #include "FirePlace.h"
-#include "..\engine\program\sound.h"
+#include "..\..\Shared\sound.h"
 
 ENTITY_ID	FirePlace::eidSound;
 

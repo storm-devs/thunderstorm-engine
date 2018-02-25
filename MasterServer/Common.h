@@ -11,7 +11,7 @@
 #include "..\NET\NetMessage.h"
 #include "..\NET\crc.h"
 
-#include "..\ENGINE\PROGRAM\NET\net_defines.h"
+#include "..\..\Shared\NET\net_defines.h"
 
 #include "Client.h"
 

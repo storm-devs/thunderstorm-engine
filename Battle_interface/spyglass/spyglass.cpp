@@ -2,8 +2,8 @@
 #include "..\image\imgrender.h"
 #include "..\image\image.h"
 #include "..\utils.h"
-#include "..\..\engine\program\messages.h"
-#include "..\..\engine\program\events.h"
+#include "..\..\..\Shared\messages.h"
+#include "..\..\..\Shared\events.h"
 #include "..\sea\ships_list.h"
 
 void ISPYGLASS::ImageParam::Release()

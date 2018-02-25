@@ -1,7 +1,7 @@
 #include <stdarg.h>
 #include "inode.h"
 
-#include "..\\engine\\program\\interface\\messages.h"
+#include "..\..\Shared\interface\messages.h"
 
 CINODE::CINODE()
 {

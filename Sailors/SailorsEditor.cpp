@@ -1,7 +1,7 @@
 
 #include "SailorsEditor.h"
 
-#include "..\ENGINE\PROGRAM\SEA_AI\script_defines.h"
+#include "..\..\Shared\SEA_AI\script_defines.h"
 #include "..\common_h\math3d\matrix.h"
 
 

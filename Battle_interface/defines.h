@@ -5,7 +5,7 @@
 #include "..\common_h\dx9render.h"
 #include "..\common_h\defines.h"
 
-#include "..\engine\program\battle_interface\msg_control.h"
+#include "..\..\Shared\battle_interface\msg_control.h"
 
 #define INI_FILE_NAME	"resource\\ini\\interfaces\\battle_interface.ini"
 

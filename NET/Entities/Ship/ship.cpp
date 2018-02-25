@@ -3,7 +3,7 @@
 #include "Track.h" 
 #include "..\Touch\Touch.h" 
 #include "..\Fort\Fort.h" 
-#include "..\..\..\engine\program\sound.h"
+#include "..\..\..\..\Shared\sound.h"
 
 SEA_BASE					* NetShip::pSea = null;
 ISLAND_BASE					* NetShip::pIsland = null;

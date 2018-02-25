@@ -2,7 +2,7 @@
 #include "battle_mansign.h"
 #include "..\defines.h"
 #include "..\utils.h"
-#include "..\..\engine\program\battle_interface\msg_control.h"
+#include "..\..\..\Shared\battle_interface\msg_control.h"
 
 BATTLE_LAND_INTERFACE::BATTLE_LAND_INTERFACE() :
 	m_TextInfo(_FL)

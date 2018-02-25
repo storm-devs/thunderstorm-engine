@@ -3,7 +3,7 @@
 #include <crtdbg.h>
 #include "touch.h"
 #include "..\common_h\character.h"
-#include "..\engine\program\sea_ai\Script_Defines.h"
+#include "..\..\Shared\sea_ai\Script_Defines.h"
 
 #define ISLAND_CODE			-1
 #define INVALID_SHIP_IDX	0xACACAC

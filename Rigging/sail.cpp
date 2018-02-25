@@ -10,8 +10,8 @@
 #include <stdio.h>
 #include "..\common_h\mast_msg.h"
 
-#include "..\\engine\\program\\sea_ai\\script_defines.h"
-#include "..\\engine\\program\\battle_interface\\msg_control.h"
+#include "..\..\Shared\sea_ai\script_defines.h"
+#include "..\..\Shared\battle_interface\msg_control.h"
 
 #define WIND_SPEED_MAX 12.f
 

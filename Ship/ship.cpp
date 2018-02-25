@@ -1,8 +1,8 @@
 #include "ship.h" 
 #include "ShipLights.h" 
 #include "Track.h" 
-#include "..\engine\program\sea_ai\Script_Defines.h"
-#include "..\engine\program\sound.h"
+#include "..\..\Shared\sea_ai\Script_Defines.h"
+#include "..\..\Shared\sound.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(SHIP)
