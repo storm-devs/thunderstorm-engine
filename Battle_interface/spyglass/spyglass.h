@@ -120,7 +120,7 @@ protected:
 	bool m_bIsPresentShipInfo;
 	long m_nInfoCharacterIndex;
 
-	SpyGlassCameraParameters m_Camera{} {};
+	SpyGlassCameraParameters m_Camera{};
 	array<FRECT> m_aNationUV;
 	array<FRECT> m_aChargeUV;
 	array<FRECT> m_aSailUV;
