@@ -1,5 +1,5 @@
-﻿#include "..\\..\\engine\\program\\interface\\messages.h"
-#include "..\\defines.h"
+﻿#include "..\..\..\Shared\interface\messages.h"
+#include "..\defines.h"
 #include "scrshoter.h"
 
 #define SS_TEXTURE_WIDTH		128
