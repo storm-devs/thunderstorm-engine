@@ -16,7 +16,6 @@ public:
 	};
 
 	BackgroundShipTask();
-	~BackgroundShipTask();
 	bool Init();
 	void Execute(dword delta_time);
     dword _cdecl ProcessMessage(MESSAGE & message);
@@ -39,7 +38,7 @@ protected:
 	BackgroundDataDescriber m_RecalculateDate;
 	BackgroundDataDescriber m_CurrentDate;
 
-	BackgroundTask m_TaskType;
+	//BackgroundTask m_TaskType;
 
 	long m_nCharacterIndex;
 	bool m_bTaskPresent;

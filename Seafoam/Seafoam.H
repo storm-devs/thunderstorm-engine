@@ -68,7 +68,7 @@ private:
 	VDX9RENDER *renderer;
 	ENTITY_ID seaID;
 	SEA_BASE *sea;
-	tShipFoamInfo shipFoamInfo[MAX_SHIPS];
+	tShipFoamInfo shipFoamInfo[MAX_SHIPS]{};
 	int shipsCount;
 	INIFILE *psIni;
 	long carcassTexture;

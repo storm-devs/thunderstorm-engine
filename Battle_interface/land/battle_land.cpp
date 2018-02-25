@@ -4,8 +4,8 @@
 #include "..\utils.h"
 #include "..\..\..\Shared\battle_interface\msg_control.h"
 
-BATTLE_LAND_INTERFACE::BATTLE_LAND_INTERFACE() :
-	m_TextInfo(_FL)
+BATTLE_LAND_INTERFACE::BATTLE_LAND_INTERFACE() : m_bShowCommandos(false),
+                                                 m_TextInfo(_FL)
 {
 	m_pRS = null;
 	m_pManSign = null;

@@ -12,8 +12,8 @@ class BI_ManagerBase;
 class BI_MousePointerBase
 {
 public:
-	BI_MousePointerBase() {}
-	~BI_MousePointerBase() {}
+	BI_MousePointerBase() = default;
+	virtual ~BI_MousePointerBase() = default;
 
 	virtual void Update() = 0;
 };

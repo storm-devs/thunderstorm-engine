@@ -12,14 +12,15 @@ typedef DWORD (__cdecl * SIMPORTFUNC)(VS_STACK *);
 
 struct IFUNCINFO
 {
-	IFUNCINFO()
+	IFUNCINFO(): nArguments(0)
 	{
 		pFuncName = 0;
 		pReturnValueName = 0;
 		pFuncAddress = 0;
 		pDeclFileName = 0;
 		nDeclLine = 0;
-	};
+	}
+	;
 	char * pFuncName;
 	char * pReturnValueName;
 	DWORD  nArguments;

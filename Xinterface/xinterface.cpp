@@ -2917,7 +2917,7 @@ long XINTERFACE::PrintIntoWindow(long wl,long wr, long idFont, DWORD dwFCol, DWO
 			int nPrev = -1;
 			char strLocTmp[1024];
 			strcpy(strLocTmp,str);
-			while( nPrev )
+			while( nPrev ) //~!~
 			{
 				int nStart = FindMaxStrForWidth(pRenderService, nWidthForScaleCorrecting, strLocTmp, idFont, scale);
 				int curWidth = PrintIntoWindow(wl,wr,idFont,dwFCol,dwBCol,align,shadow,scale,sxs,sys,left,top, &strLocTmp[nStart]);
@@ -3456,7 +3456,7 @@ void CONTROLS_CONTAINER::Execute(dword delta_time)
 		}
 		if( stricmp(pCont->resultName,"ChrTurnH1")==0 )
 			if(cs.state!=CST_INACTIVE)
-				cs.state=cs.state;
+				cs.state=cs.state; //~!~ breakpoint? 
 		api->Controls->SetControlState( pCont->resultName, cs );
 		api->Controls->GetControlState( pCont->resultName, csPrev );
 		pCont = pCont->next;

@@ -1,7 +1,7 @@
 #include "island_descr.h"
 #include "..\..\common_h\model.h"
 
-ISLAND_DESCRIBER::ISLAND_DESCRIBER()
+ISLAND_DESCRIBER::ISLAND_DESCRIBER(): m_lastFindIdx(0), m_nFindType(0)
 {
 	m_bYesIsland = false;
 	m_pIslandAttributes = NULL;

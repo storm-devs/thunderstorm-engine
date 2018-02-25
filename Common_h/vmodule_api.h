@@ -38,13 +38,14 @@ protected:
 	long  nHash;
 	long  nReference;
 public:
-	VMA()
+	VMA(): pNext(nullptr)
 	{
 		nReference = 0;
 		nHash = 0;
 		//pNext = _pModuleClassRoot;
 		//_pModuleClassRoot = this;
-	};
+	}
+	;
 	VMA * Next(){return pNext;}
 	virtual ~VMA(){};
 	long Build_Version() {return ENGINE_VERSION;};

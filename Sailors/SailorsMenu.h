@@ -20,11 +20,12 @@ public:
 	string _fileName_save;
 	string _fileName_load;
 
-	Menu(){
-		count= 3;
-		selected= 0;
-		blocked= -1;
-		keyPressed= false;
+	Menu(): dltTime(0), key(0), shiftKey(0), sailrs(nullptr)
+	{
+		count = 3;
+		selected = 0;
+		blocked = -1;
+		keyPressed = false;
 	};
 
 	void Draw(VDX9RENDER * rs, SailorsPoints &sailorsPoints);

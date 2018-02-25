@@ -68,7 +68,7 @@ __forceinline bool NetFindClassNext(bool bServer, ENTITY_ID * pEID)
 class NET_BASE
 {
 public:
-	NET_BASE()
+	NET_BASE(): bServer(false)
 	{
 		pGeoService = null;
 		pRenderService = null;

@@ -1,5 +1,4 @@
 #include "BackgroundShipTask.h"
-#include <stdio.h>
 
 INTERFACE_FUNCTION
 CREATE_CLASS(BackgroundShipTask)
@@ -10,10 +9,6 @@ BackgroundShipTask::BackgroundShipTask()
 	m_bTaskPresent = false;
 	m_pDateAttribute = null;
 	m_bGoToNextData = true;
-}
-
-BackgroundShipTask::~BackgroundShipTask()
-{
 }
 
 bool BackgroundShipTask::Init()

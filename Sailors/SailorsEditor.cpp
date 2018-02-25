@@ -6,16 +6,17 @@
 
 
 
-SailorsEditor :: SailorsEditor()
+SailorsEditor :: SailorsEditor(): rs(nullptr), model(nullptr)
 {
 	cameraAng = 0.0f;
 
-	cameraAng.x= PI/4;
-	cameraAng.y= -PI/3+PI;
+	cameraAng.x = PI / 4;
+	cameraAng.y = -PI / 3 + PI;
 
-	cameraTo=  CVECTOR(0.0f,5,0.0f);
-	cameraPos= CVECTOR(0.0f,30.0f,0.0f);
-};
+	cameraTo = CVECTOR(0.0f, 5, 0.0f);
+	cameraPos = CVECTOR(0.0f, 30.0f, 0.0f);
+}
+;
 
 
 

@@ -28,8 +28,11 @@ CREATE_CLASS(SEAFOAM)
 
 //--------------------------------------------------------------------
 SEAFOAM::SEAFOAM()
-	:shipsCount(0)
+	:sea(nullptr)
+	,shipsCount(0)
+	,carcassTexture(0)
 	,isStorm(false)
+	,soundService(nullptr)
 {
 	psIni = null;
 	renderer = null;
@@ -149,7 +152,7 @@ void SEAFOAM::CreateTracePoints(tShipFoamInfo *_shipFoamInfo)
 	float yStep =  0.9f * _shipFoamInfo->hullInfo.boxsize.y / (TRACE_STEPS_Y - 1);
 	float zStep =  .15f * _shipFoamInfo->hullInfo.boxsize.z / TRACE_STEPS_Z;
 	float curY, curZ;
-	GEOS::VERTEX startSrcV, startDestV;
+	GEOS::VERTEX startSrcV, startDestV{};
 	float startZ[TRACE_STEPS_Y];
 
 	// <find_startZ>
@@ -224,7 +227,7 @@ void SEAFOAM::CreateTracePoints(tShipFoamInfo *_shipFoamInfo)
 //--------------------------------------------------------------------
 void SEAFOAM::InterpolateLeftParticle(tShipFoamInfo &_shipFoamInfo, int z, dword _dTime)
 {
-	CVECTOR ang, finalAng, testPoint;
+	CVECTOR ang, finalAng, testPoint{};
 	CMatrix finalMatrix;
 	float seaY, interpK;
 	int curY;
@@ -241,7 +244,7 @@ void SEAFOAM::InterpolateLeftParticle(tShipFoamInfo &_shipFoamInfo, int z, dword
 	if ((lowSeaY > lowPoint.y) && (highSeaY > highPoint.y))
 	{ // above sea
 		_shipFoamInfo.levelStarts[0][z] = _shipFoamInfo.hull[0][z].center[0];
-		CVECTOR tempVector;
+		CVECTOR tempVector{};
 		_shipFoamInfo.shipModel->mtx.MulToInv(CVECTOR(highPoint.x,
 													  (lowSeaY + highSeaY) * 0.5f,
 													  highPoint.z),
@@ -253,7 +256,7 @@ void SEAFOAM::InterpolateLeftParticle(tShipFoamInfo &_shipFoamInfo, int z, dword
 	if ((lowSeaY < lowPoint.y) && (highSeaY < highPoint.y))
 	{ // under sea
 		_shipFoamInfo.levelStarts[0][z] = _shipFoamInfo.hull[0][z].center[TRACE_STEPS_Y-1];
-		CVECTOR tempVector;
+		CVECTOR tempVector{};
 		_shipFoamInfo.shipModel->mtx.MulToInv(CVECTOR(lowPoint.x,
 													  (lowSeaY + highSeaY) * 0.5f,
 													  lowPoint.z),
@@ -296,7 +299,7 @@ void SEAFOAM::InterpolateLeftParticle(tShipFoamInfo &_shipFoamInfo, int z, dword
 //--------------------------------------------------------------------
 void SEAFOAM::InterpolateRightParticle(tShipFoamInfo &_shipFoamInfo, int z, dword _dTime)
 {
-	CVECTOR ang, finalAng, testPoint;
+	CVECTOR ang{}, finalAng{}, testPoint;
 	CMatrix finalMatrix;
 	float seaY, interpK;
 	int curY;
