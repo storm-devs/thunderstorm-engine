@@ -947,4 +947,9 @@
     <Text Include="Sources\core.txt" />
     <Text Include="SOURCES\syntax.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Sources\resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
 </Project>

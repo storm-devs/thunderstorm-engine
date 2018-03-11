@@ -443,6 +443,9 @@
     <Text Include="Sources\core.txt" />
     <Text Include="SOURCES\syntax.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Sources\resource.rc" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
