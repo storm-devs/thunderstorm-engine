@@ -138,7 +138,7 @@ void Debris::Draw(VDX9RENDER * rs)
 
 void Debris::AddModel(const char * modelName, float prt, float spd)
 {
-	if(numModels >= sizeof(mdl)/sizeof(MODEL *)) return;
+	if(numModels > _countof(mdl)) return;
 	//Создаём модельку
 	ENTITY_ID id;
 	if(!_CORE_API->CreateEntity(&id, "modelr")) return;

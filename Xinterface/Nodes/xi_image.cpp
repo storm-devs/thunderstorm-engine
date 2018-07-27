@@ -303,7 +303,7 @@ void CXI_IMAGE::Unload()
 			TEXTURE_RELEASE( m_rs, m_nTextureID );
 		}
 	}
-	if( m_pTexture ) RELEASE( m_pTexture );
+	RELEASE( m_pTexture );
 	DELETE( m_pcPictureListName );
 }
 

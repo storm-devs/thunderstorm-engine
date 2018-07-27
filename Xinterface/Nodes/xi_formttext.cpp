@@ -19,19 +19,19 @@ static void SubRightWord(char* buf,int fontNum,int width,VDX9RENDER *rs)
 	}
 }
 
-CXI_FORMATEDTEXT::STRING_DESCRIBER::STRING_DESCRIBER(char* ls) :
-	m_tags(_FL)
+CXI_FORMATEDTEXT::STRING_DESCRIBER::STRING_DESCRIBER(char* ls) : color(0),
+                                                                 m_tags(_FL)
 {
 	long sdStrSize = strlen(ls);
-	if(sdStrSize==0)
+	if (sdStrSize == 0)
 		lineStr = NULL;
 	else
 	{
-		if( (lineStr=NEW char[sdStrSize+1]) == NULL )
+		if ((lineStr = NEW char[sdStrSize + 1]) == NULL)
 		{
 			_THROW("allocate memory error");
 		}
-		strcpy(lineStr,ls);
+		strcpy(lineStr, ls);
 	}
 	next = NULL;
 	strNum = 0;

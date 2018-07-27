@@ -274,7 +274,7 @@ void TButterfly::Draw(TIVBufferManager *_ivManager)
 	static CVECTOR v3(		    0, 0,  MODEL_SIDE);
 	static CVECTOR v4( MODEL_SIDE, 0, -MODEL_SIDE);
 	static CVECTOR v5( MODEL_SIDE, 0,  MODEL_SIDE);
-	static CVECTOR v[6] = {v0, v1, v2, v3, v4, v5};
+	//static CVECTOR v[6] = {v0, v1, v2, v3, v4, v5};
 
 	CMatrix moveToPos, rightWingRotate, leftWingRotate, rotateYm;
 	moveToPos.BuildPosition(centerPosition.x, centerPosition.y, centerPosition.z);

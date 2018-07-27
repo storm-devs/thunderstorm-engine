@@ -25,7 +25,7 @@ bool InfoHandler::Init()
 		m_rs->MakePostProcess();
 	}
 
-	if( m_rs->GetRenderTarget(&m_pRenderTarget)!=D3D_OK )
+	if( m_rs->GetRenderTarget(&m_pRenderTarget)!=D3D_OK || !m_pRenderTarget)
 	{
 		api->Trace("Can`t get render target");
 		return false;

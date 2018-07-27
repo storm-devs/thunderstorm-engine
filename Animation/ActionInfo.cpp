@@ -39,9 +39,9 @@ ActionInfo::~ActionInfo()
 //Добавить событие
 bool ActionInfo::AddEvent(const char * ename, float frame, ExtAnimationEventType eventType)
 {
-	if(numEvents >= ANI_MAX_EVENTS || ename[0] == 0) return false;
 	Assert(ename);
 	Assert(strlen(ename) < 64);
+	if(numEvents >= ANI_MAX_EVENTS || ename[0] == 0) return false;
 	//Расчитаем относительное время
 	if(frame > float(endFrame)) frame = float(endFrame);
 	float t = float(frame - startFrame);

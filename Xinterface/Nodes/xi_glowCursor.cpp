@@ -37,16 +37,19 @@ void CXI_GLOWCURSOR::Draw(bool bSelected,dword Delta_Time)
 			}
 			else
 			{
-				m_bShowGlow = m_pPrevNode->IsShowGlowCursor();
-				if( m_bShowGlow && m_pPrevNode && m_pPrevNode->IsGlowChanged() )
+				if (m_pPrevNode)
 				{
-					XYRECT rectXY = m_pPrevNode->GetCursorRect();
-					if(	(int)m_pTexVert[0].pos.x != rectXY.left ||
-						(int)m_pTexVert[0].pos.y != rectXY.top ||
-						(int)m_pTexVert[3].pos.x != rectXY.right ||
-						(int)m_pTexVert[3].pos.y != rectXY.bottom )
+					m_bShowGlow = m_pPrevNode->IsShowGlowCursor();
+					if (m_bShowGlow && m_pPrevNode->IsGlowChanged())
 					{
-						SetRectanglesToPosition( rectXY );
+						XYRECT rectXY = m_pPrevNode->GetCursorRect();
+						if ((int)m_pTexVert[0].pos.x != rectXY.left ||
+							(int)m_pTexVert[0].pos.y != rectXY.top ||
+							(int)m_pTexVert[3].pos.x != rectXY.right ||
+							(int)m_pTexVert[3].pos.y != rectXY.bottom)
+						{
+							SetRectanglesToPosition(rectXY);
+						}
 					}
 				}
 			}
