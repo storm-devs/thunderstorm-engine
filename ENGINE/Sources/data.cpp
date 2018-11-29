@@ -35,8 +35,7 @@ DATA::DATA()
 	AttributesClass = 0;
 	ArrayPTR = 0;
 	nGlobalVarTableIndex = 0xffffffff;
-	AttributesClassRoot = nullptr;
-	pRootString = nullptr;
+	
 }
 
 DATA::DATA(S_TOKEN_TYPE _element_type)
@@ -55,8 +54,7 @@ DATA::DATA(S_TOKEN_TYPE _element_type)
 	pReference = 0;
 	AttributesClass = 0;
 	nGlobalVarTableIndex = 0xffffffff;
-	AttributesClassRoot = nullptr;
-	pRootString = nullptr;
+	
 }
 
 DATA::DATA(DWORD _num_of_elements, S_TOKEN_TYPE _element_type)
@@ -75,15 +73,13 @@ DATA::DATA(DWORD _num_of_elements, S_TOKEN_TYPE _element_type)
 //	bRef = false;
 	pReference = 0;
 	AttributesClass = 0;
-	AttributesClassRoot = nullptr;
-	pRootString = nullptr;
-
+	
 	DWORD n;
 
 	ArrayPTR = (DATA *) NEW char[Number_of_elements * sizeof(DATA)];
 	for(n=0;n<Number_of_elements;n++)
 	{
-		//ArrayPTR[n] =
+		//ArrayPTR[n] = 
 		new(&ArrayPTR[n])DATA(_element_type);
 		//ArrayPTR[n]->SetVCompiler((VIRTUAL_COMPILER *)0);	// ???! compiler pointer isnt set for this constructor
 	}
@@ -94,20 +90,20 @@ DATA::DATA(DWORD _num_of_elements, S_TOKEN_TYPE _element_type)
 		case VAR_STRING:
 		case VAR_OBJECT:
 		break;
-		default:
-			Error(INVALID_TYPE);
+		default: 
+			Error(INVALID_TYPE); 
 			throw "INVALID_TYPE";
 		break;
 	}*/
 }
 
-bool DATA::IsReference()
+bool DATA::IsReference() 
 {
 	if(Data_type == VAR_REFERENCE) return true;
 	return false;
 }
 
-bool DATA::IsAReference()
+bool DATA::IsAReference() 
 {
 	if(Data_type == VAR_AREFERENCE) return true;
 	return false;
@@ -127,16 +123,13 @@ void DATA::Release()
 		delete (char *)ArrayPTR;
 		ArrayPTR = 0;
 	}
-	if(!(Data_type == VAR_REFERENCE || Data_type == VAR_AREFERENCE))
+	if(!(Data_type == VAR_REFERENCE || Data_type == VAR_AREFERENCE)) 
 	{
-		if(AttributesClass)
+		if(AttributesClass) 
 		{
 			delete AttributesClass; AttributesClass = 0;
 		}
 	}
-
-	if (pRootString)
-		delete pRootString;
 }
 
 DATA::~DATA()
@@ -156,9 +149,9 @@ DATA::~DATA()
 		ArrayPTR = 0;
 
 	}
-	if(!(Data_type == VAR_REFERENCE || Data_type == VAR_AREFERENCE))
+	if(!(Data_type == VAR_REFERENCE || Data_type == VAR_AREFERENCE)) 
 	{
-		if(AttributesClass)
+		if(AttributesClass) 
 		{
 			delete AttributesClass; AttributesClass = 0;
 		}
@@ -180,7 +173,7 @@ void  DATA::SetReference(DATA * pRef)
 	}
 	pReference = pRef;
 	//if(pRef) Data_type = pRef->GetType();
-
+	
 }
 
 void DATA::SetAReference(ATTRIBUTES * pARef)
@@ -207,12 +200,12 @@ void DATA::SetAReference(ATTRIBUTES * pARef)
 
 void DATA::Set(long value)
 {
-	//if(bRef)
+	//if(bRef) 
 	if(Data_type == VAR_REFERENCE)
 	{
-		if(pReference)
-		{
-			pReference->Set(value);
+		if(pReference) 
+		{ 
+			pReference->Set(value); 
 			return;
 		}
 		Error(UNINIT_REF);
@@ -226,12 +219,12 @@ void DATA::Set(long value)
 
 void DATA::Set(float value)
 {
-	//if(bRef)
+	//if(bRef) 
 	if(Data_type == VAR_REFERENCE)
 	{
-		if(pReference)
-		{
-			pReference->Set(value);
+		if(pReference) 
+		{ 
+			pReference->Set(value); 
 			return;
 		}
 		Error(UNINIT_REF);
@@ -248,9 +241,9 @@ void DATA::Set(char * value)
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
 	{
-		if(pReference)
+		if(pReference) 
 		{
-			pReference->Set(value);
+			pReference->Set(value); 
 			return;
 		}
 		Error(UNINIT_REF);
@@ -271,9 +264,9 @@ void DATA::Set(char * attribute_name, char * attribute_value)
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
 	{
-		if(pReference)
+		if(pReference) 
 		{
-			pReference->Set(attribute_name,attribute_value);
+			pReference->Set(attribute_name,attribute_value); 
 			return;
 		}
 		Error(UNINIT_REF);
@@ -281,7 +274,7 @@ void DATA::Set(char * attribute_name, char * attribute_value)
 	}
 
 	if(bArray) {Error(NO_INDEX); return;}
-	if(AttributesClass == 0)
+	if(AttributesClass == 0) 
 	{
 		if(Data_type == VAR_AREFERENCE)
 		{
@@ -297,12 +290,12 @@ void DATA::Set(char * attribute_name, char * attribute_value)
 
 void DATA::Set(ENTITY_ID eid)
 {
-	//if(bRef)
+	//if(bRef) 
 	if(Data_type == VAR_REFERENCE)
 	{
-		if(pReference)
+		if(pReference) 
 		{
-			pReference->Set(eid);
+			pReference->Set(eid); 
 			return;
 		}
 		Error(UNINIT_REF);
@@ -324,9 +317,9 @@ void DATA::Get(ENTITY_ID & eid)
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
 	{
-		if(pReference)
-		{
-			pReference->Get(eid);
+		if(pReference) 
+		{ 
+			pReference->Get(eid); 
 			return;
 		}
 		Error(UNINIT_REF);
@@ -342,7 +335,7 @@ bool DATA::Get(long & value)
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
 	{
-		if(pReference)
+		if(pReference) 
 		{
 			return pReference->Get(value);
 		}
@@ -359,7 +352,7 @@ bool DATA::Get(float & value)
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
 	{
-		if(pReference)
+		if(pReference) 
 		{
 			return pReference->Get(value);
 		}
@@ -376,7 +369,7 @@ bool DATA::Get(char * & value)
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
 	{
-		if(pReference)
+		if(pReference) 
 		{
 			return pReference->Get(value);
 		}
@@ -394,7 +387,7 @@ bool DATA::Get(char * attribute_name, char * & value)
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
 	{
-		if(pReference)
+		if(pReference) 
 		{
 			return pReference->Get(attribute_name,value);
 		}
@@ -424,9 +417,9 @@ bool DATA::Get(long & value, DWORD index)
 	if(!bArray) {Error(INDEX_ON_SINGLE); return false;}
 	if(Data_type != VAR_INTEGER) { Error(INCORRECT_TYPE_ASSIGMENT); return false;}
 	if(index >= Number_of_elements)
-	{
+	{ 
 		BadIndex(index,Number_of_elements);
-		//Error(INCORRECT_INDEX);
+		//Error(INCORRECT_INDEX); 
 		return false;}
 	return ArrayPTR[index].Get(value);
 /*
@@ -447,15 +440,15 @@ bool DATA::Get(float & value, DWORD index)
 	if(!bArray) {Error(INDEX_ON_SINGLE); return false;}
 	if(Data_type != VAR_FLOAT) { Error(INCORRECT_TYPE_ASSIGMENT); return false;}
 	if(index >= Number_of_elements)
-	{
+	{ 
 		BadIndex(index,Number_of_elements);
-		//Error(INCORRECT_INDEX	);
+		//Error(INCORRECT_INDEX	); 
 		return false;}
 	return ArrayPTR[index].Get(value);
 	/*float * pF;
 	pF = (float *)ArrayPointer;
 	value = pF[index];
-	return true;
+	return true;	
 	*/
 }
 bool DATA::Get(char * & value, DWORD index)
@@ -470,8 +463,8 @@ bool DATA::Get(char * & value, DWORD index)
 	if(!bArray) {Error(INDEX_ON_SINGLE); return false;}
 	if(Data_type != VAR_STRING) { Error(INCORRECT_TYPE_ASSIGMENT); return false;}
 	if(index >= Number_of_elements)
-	{
-		//Error(INCORRECT_INDEX	);
+	{ 
+		//Error(INCORRECT_INDEX	); 
 		BadIndex(index,Number_of_elements);
 		return false;}
 	//if(value == null){ Error(INVALID_STRING); return false;}
@@ -486,7 +479,7 @@ bool DATA::Get(char * & value, DWORD index)
 
 bool DATA::Set(long value, DWORD index)
 {
-	//if(bRef)
+	//if(bRef) 
 	if(Data_type == VAR_REFERENCE)
 	{
 		if(pReference) { return pReference->Set(value,index);}
@@ -498,7 +491,7 @@ bool DATA::Set(long value, DWORD index)
 	if(index >= Number_of_elements)
 	{
 		BadIndex(index,Number_of_elements);
-		//Error(INCORRECT_INDEX	);
+		//Error(INCORRECT_INDEX	); 
 		return false;
 	}
 	ArrayPTR[index].Set(value);
@@ -521,9 +514,9 @@ bool DATA::Set(float value, DWORD index)
 	if(!bArray) {Error(INDEX_ON_SINGLE); return false;}
 	if(Data_type != VAR_FLOAT) { Error(INCORRECT_TYPE_ASSIGMENT); return false;}
 	if(index >= Number_of_elements)
-	{
+	{ 
 		BadIndex(index,Number_of_elements);
-		//Error(INCORRECT_INDEX	);
+		//Error(INCORRECT_INDEX	); 
 		return false;
 	}
 	ArrayPTR[index].Set(value);
@@ -547,9 +540,9 @@ bool DATA::Set(char * value, DWORD index)
 	if(!bArray) {Error(INDEX_ON_SINGLE); return false;}
 	if(Data_type != VAR_STRING) { Error(INCORRECT_TYPE_ASSIGMENT); return false;}
 	if(index >= Number_of_elements)
-	{
+	{ 
 		BadIndex(index,Number_of_elements);
-		//Error(INCORRECT_INDEX	);
+		//Error(INCORRECT_INDEX	); 
 		return false;}
 	if(value == null){ Error(INVALID_STRING); return false;}
 	ArrayPTR[index].Set(value);
@@ -576,9 +569,9 @@ bool DATA::Set(char * attribute_name, char * attribute_value, DWORD index)
 	if(!bArray) {Error(INDEX_ON_SINGLE); return false;}
 	if(Data_type != VAR_OBJECT) { Error("Access to attributes of non object array"); return false;}
 	if(index >= Number_of_elements)
-	{
+	{ 
 		BadIndex(index,Number_of_elements);
-		//Error(INCORRECT_INDEX	);
+		//Error(INCORRECT_INDEX	); 
 		return false;}
 	ArrayPTR[index].Set(attribute_name,attribute_value);
 	return  true;
@@ -602,9 +595,9 @@ bool DATA::Get(char * attribute_name, char * & value, DWORD index)
 	if(!bArray) {Error(INDEX_ON_SINGLE); return false;}
 	if(Data_type != VAR_OBJECT) { Error("Access to attributes of non object array"); return false;}
 	if(index >= Number_of_elements)
-	{
+	{ 
 		BadIndex(index,Number_of_elements);
-		//Error(INCORRECT_INDEX	);
+		//Error(INCORRECT_INDEX	); 
 		return false;}
 	return ArrayPTR[index].Get(attribute_name,value);
 /*
@@ -628,9 +621,9 @@ bool DATA::Set(ENTITY_ID eid, DWORD index)
 	if(!bArray) {Error(INDEX_ON_SINGLE); return false;}
 	if(Data_type != VAR_OBJECT) { Error("Access to attributes of non object array"); return false;}
 	if(index >= Number_of_elements)
-	{
+	{ 
 		BadIndex(index,Number_of_elements);
-		//Error(INCORRECT_INDEX	);
+		//Error(INCORRECT_INDEX	); 
 		return false;}
 	ArrayPTR[index].Set(eid);
 	return true;
@@ -654,13 +647,13 @@ bool DATA::Get(ENTITY_ID & eid, DWORD index)
 	if(!bArray) {Error(INDEX_ON_SINGLE); return false;}
 	if(!(Data_type == VAR_OBJECT  || Data_type == VAR_AREFERENCE)) { Error("Access to attributes of non object array"); return false;}
 	if(index >= Number_of_elements)
-	{
+	{ 
 		BadIndex(index,Number_of_elements);
-		//Error(INCORRECT_INDEX);
+		//Error(INCORRECT_INDEX); 
 		return false;}
 	ArrayPTR[index].Get(eid);
 	return true;
-/*
+/*	
 	OBJECT_DESC * pOD;
 	pOD = (OBJECT_DESC *)ArrayPointer;
 	eid = pOD[index].object_id;
@@ -671,11 +664,11 @@ bool DATA::Get(ENTITY_ID & eid, DWORD index)
 
 void DATA::ClearType()
 {
-	if(Data_type != VAR_AREFERENCE)
+	if(Data_type != VAR_AREFERENCE) 
 	{
-		if(AttributesClass)
+		if(AttributesClass) 
 		{
-			delete AttributesClass;
+			delete AttributesClass; 
 		}
 	}
 	if(sValue) delete sValue; sValue = 0;
@@ -714,8 +707,8 @@ void DATA::SetType(S_TOKEN_TYPE _element_type, DWORD array_size)
 			ArrayPTR[n].SetVCompiler(pVCompiler);
 		}
 
-	}
-	else
+	} 
+	else 
 	{
 		if(ArrayPTR)
 		{
@@ -727,7 +720,7 @@ void DATA::SetType(S_TOKEN_TYPE _element_type, DWORD array_size)
 			}
 			delete ArrayPTR;
 		}
-
+		
 		ArrayPTR = 0;
 		Number_of_elements = 1;
 	}
@@ -738,14 +731,14 @@ bool DATA::Convert(S_TOKEN_TYPE type)
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
 	{
-		if(pReference)
+		if(pReference) 
 		{
 			return pReference->Convert(type);
 		}
 		Error(UNINIT_REF);
 		return false;
 	}
-
+	
 	if(bArray) {Error("Array conversation not supported"); return false;} // yet
 	char buffer[128];
 	switch(Data_type)
@@ -768,8 +761,8 @@ bool DATA::Convert(S_TOKEN_TYPE type)
 		{
 			case VAR_INTEGER: Data_type = type; lValue = (long)fValue; return true;
 			case VAR_FLOAT: return true;
-			case VAR_STRING:
-				Data_type = type;
+			case VAR_STRING: 
+				Data_type = type; 
 				gcvt(fValue,10,buffer);
 				Set(buffer);
 			return true;
@@ -777,8 +770,8 @@ bool DATA::Convert(S_TOKEN_TYPE type)
 		}
 	break;
 	case VAR_STRING:
-		if(sValue == 0)
-		{
+		if(sValue == 0) 
+		{ 
 
 			sValue = NEW char[1];
 			sValue[0] = 0;
@@ -792,8 +785,8 @@ bool DATA::Convert(S_TOKEN_TYPE type)
 				lValue = (long)atoll(sValue);
 			return true;
 			case FLOAT_NUMBER:
-			case VAR_FLOAT:
-				Data_type = VAR_FLOAT;
+			case VAR_FLOAT: 
+				Data_type = VAR_FLOAT; 
 				fValue = (float)atof(sValue);
 			return true;
 			case STRING:
@@ -834,10 +827,10 @@ bool DATA::Convert(S_TOKEN_TYPE type)
 				if(!AttributesClass->GetThisAttr()) break;
 				Set(AttributesClass->GetThisAttr());
 				AttributesClass = 0;
-				Data_type = VAR_FLOAT;
+				Data_type = VAR_FLOAT; 
 				fValue = (float)atof(sValue);
 			return true;
-
+			
 		}
 	break;
 	}
@@ -945,7 +938,7 @@ bool DATA::Neg()
 		break;
 		case VAR_STRING:
 			if(sValue == 0) lValue = 1;
-			else
+			else 
 			if(sValue[0] == 0) lValue = 1;
 			else lValue = 0;
 			Convert(VAR_INTEGER);
@@ -1010,7 +1003,7 @@ bool DATA::Power(long Deg)
 	switch(Data_type)
 	{
 		case VAR_INTEGER:
-			if(Deg == 0)
+			if(Deg == 0) 
 			{
 				lValue = 1;
 				return true;
@@ -1027,7 +1020,7 @@ bool DATA::Power(long Deg)
 			}
 		break;
 		case VAR_FLOAT:
-			if(Deg == 0)
+			if(Deg == 0) 
 			{
 				fValue = 1;
 				return true;
@@ -1300,7 +1293,7 @@ bool DATA::Plus(DATA * pV)
 						strcpy(sTemp,sValue);
 						strcat(sTemp,pV->AttributesClass->GetThisAttr());
 					}
-					else
+					else 
 					{
 						size = strlen(pV->AttributesClass->GetThisAttr()) + 1;
 
@@ -1320,7 +1313,7 @@ bool DATA::Plus(DATA * pV)
 						strcpy(sTemp,sValue);
 						strcat(sTemp,buffer);
 					}
-					else
+					else 
 					{
 						size = strlen(buffer) + 1;
 
@@ -1340,7 +1333,7 @@ bool DATA::Plus(DATA * pV)
 						strcpy(sTemp,sValue);
 						strcat(sTemp,buffer);
 					}
-					else
+					else 
 					{
 						size = strlen(buffer) + 1;
 
@@ -1359,7 +1352,7 @@ bool DATA::Plus(DATA * pV)
 						sTemp = NEW char[size];
 						strcpy(sTemp,pV->sValue);
 					}
-					else
+					else 
 					{
 						if(pV->sValue == 0) return false;
 						size = strlen(sValue) + strlen(pV->sValue) + 1;
@@ -1451,7 +1444,7 @@ bool DATA::Compare(DATA * pV, char opA, char opB)
 							if(lValue != pV->lValue) return true;
 						return false;
 						case '>':
-							if(opB == '=')
+							if(opB == '=') 
 							{
 								if(lValue >= pV->lValue) return true;
 							} else
@@ -1460,7 +1453,7 @@ bool DATA::Compare(DATA * pV, char opA, char opB)
 							}
 						return false;
 						case '<':
-							if(opB == '=')
+							if(opB == '=') 
 							{
 								if(lValue <= pV->lValue) return true;
 							} else
@@ -1481,7 +1474,7 @@ bool DATA::Compare(DATA * pV, char opA, char opB)
 							if(lValue != pV->fValue) return true;
 						return false;
 						case '>':
-							if(opB == '=')
+							if(opB == '=') 
 							{
 								if(lValue >= pV->fValue) return true;
 							} else
@@ -1490,7 +1483,7 @@ bool DATA::Compare(DATA * pV, char opA, char opB)
 							}
 						return false;
 						case '<':
-							if(opB == '=')
+							if(opB == '=') 
 							{
 								if(lValue <= pV->fValue) return true;
 							} else
@@ -1516,7 +1509,7 @@ bool DATA::Compare(DATA * pV, char opA, char opB)
 							if(fValue != pV->lValue) return true;
 						return false;
 						case '>':
-							if(opB == '=')
+							if(opB == '=') 
 							{
 								if(fValue >= pV->lValue) return true;
 							} else
@@ -1525,7 +1518,7 @@ bool DATA::Compare(DATA * pV, char opA, char opB)
 							}
 						return false;
 						case '<':
-							if(opB == '=')
+							if(opB == '=') 
 							{
 								if(fValue <= pV->lValue) return true;
 							} else
@@ -1545,7 +1538,7 @@ bool DATA::Compare(DATA * pV, char opA, char opB)
 							if(fValue != pV->fValue) return true;
 						return false;
 						case '>':
-							if(opB == '=')
+							if(opB == '=') 
 							{
 								if(fValue >= pV->fValue) return true;
 							} else
@@ -1554,7 +1547,7 @@ bool DATA::Compare(DATA * pV, char opA, char opB)
 							}
 						return false;
 						case '<':
-							if(opB == '=')
+							if(opB == '=') 
 							{
 								if(fValue <= pV->fValue) return true;
 							} else
@@ -1594,7 +1587,7 @@ bool DATA::Compare(DATA * pV, char opA, char opB)
 							{
 								return false;
 							}
-							if(opB == '=')
+							if(opB == '=') 
 							{
 								if(strlen(sValue) >= strlen(pV->sValue)) return true;
 							} else
@@ -1607,7 +1600,7 @@ bool DATA::Compare(DATA * pV, char opA, char opB)
 							{
 								return false;
 							}
-							if(opB == '=')
+							if(opB == '=') 
 							{
 								if(strlen(sValue) <= strlen(pV->sValue)) return true;
 							} else
@@ -1690,7 +1683,7 @@ bool DATA::Copy(DATA * pV)
 		Error("Incorrect copy from array to single");
 		return false;
 	}
-
+	
 
 	if(IsArray())
 	{
@@ -1747,7 +1740,6 @@ bool DATA::Copy(DATA * pV)
 				if(Data_type == VAR_AREFERENCE)
 				{
 					AttributesClass = pV->AttributesClass;
-					AttributesClassRoot = COMPILER::TraceARoot(pV->AttributesClass, pRootString);
 				}
 				else
 				{
@@ -1761,15 +1753,11 @@ bool DATA::Copy(DATA * pV)
 			{
 				SetType(VAR_AREFERENCE);
 				AttributesClass = pV->AttributesClass;
-				AttributesClassRoot = pV->AttributesClassRoot;
-				pRootString = pV->pRootString;
 				object_id = pV->object_id;
 				break;
 			}
 			if(Data_type != VAR_AREFERENCE) {Error("invalid aref usage");return false;}
 			AttributesClass = pV->AttributesClass;
-			AttributesClassRoot = pV->AttributesClassRoot;
-			pRootString = pV->pRootString;
 			object_id = pV->object_id;
 		break;
 
@@ -1831,7 +1819,7 @@ bool DATA::Copy(DATA * pV, DWORD index)
 		Error("Incorrect copy: using index on single variable");
 		return false;
 	}
-
+	
 	if(index >= pV->GetElementsNum())
 	{
 		Error("Incorrect copy: invalid index");
@@ -1914,7 +1902,7 @@ bool DATA::CopyOnElement(DATA * pV, DWORD index)
 		Error("Incorrect copy: using array as single");
 		return false;
 	}
-
+	
 	if(index >= GetElementsNum())
 	{
 		Error("Incorrect copy: invalid index");
@@ -1943,7 +1931,7 @@ bool DATA::CopyOnElement(DATA * pV, DWORD index)
 				//pOD[index].pAttributes->Copy(&pV->Attributes);
 				pOD[index].pAttributes->Copy(pV->AttributesClass);
 			}
-
+			
 		break;
 	}
 
@@ -1960,7 +1948,7 @@ ATTRIBUTES * DATA::GetAClass()
 		Error(UNINIT_REF);
 		return 0;
 	}
-	if(AttributesClass == 0)
+	if(AttributesClass == 0) 
 	{
 		if(Data_type == VAR_AREFERENCE)
 		{
@@ -2011,14 +1999,14 @@ DATA * DATA::GetArrayElement(DWORD index)
 {
 	if(!bArray) {Error(INDEX_ON_SINGLE); return 0;}
 	if(index >= Number_of_elements)
-	{
+	{ 
 		BadIndex(index,Number_of_elements);
-		//Error(INCORRECT_INDEX	);
+		//Error(INCORRECT_INDEX	); 
 		return 0;}
 	return &ArrayPTR[index];
 }
 
-void  DATA::SetVCompiler(VIRTUAL_COMPILER * pVC)
+void  DATA::SetVCompiler(VIRTUAL_COMPILER * pVC) 
 {
 	DWORD n;
 	pVCompiler = pVC;
@@ -2050,8 +2038,8 @@ bool DATA::CompareAndSetResult(DATA * pV,S_TOKEN_TYPE op)
 	}
 	if(IsArray()) return false;
 	if(pV == null) return false;
-	pV = pV->GetVarPointer();
-	if(pV == null)
+	pV = pV->GetVarPointer(); 
+	if(pV == null) 
 	{
 		Set((long)0);
 		return false;
@@ -2060,7 +2048,7 @@ bool DATA::CompareAndSetResult(DATA * pV,S_TOKEN_TYPE op)
 
 	if(Data_type == VAR_STRING && pV->GetType() == VAR_INTEGER)
 	{
-		if(!Convert(VAR_INTEGER))
+		if(!Convert(VAR_INTEGER)) 
 		{
 			Set((long)0); return false;
 		}
@@ -2068,7 +2056,7 @@ bool DATA::CompareAndSetResult(DATA * pV,S_TOKEN_TYPE op)
 
 	if(Data_type == VAR_STRING && pV->GetType() == VAR_FLOAT)
 	{
-		if(!Convert(VAR_FLOAT))
+		if(!Convert(VAR_FLOAT)) 
 		{
 			Set((long)0); return false;
 		}
@@ -2095,10 +2083,10 @@ bool DATA::CompareAndSetResult(DATA * pV,S_TOKEN_TYPE op)
 						case OP_LESSER:
 							if(lValue < pV->lValue) Set((long)1); else Set((long)0);
 						break;
-						case OP_LESSER_OR_EQUAL:
+						case OP_LESSER_OR_EQUAL: 
 							if(lValue <= pV->lValue) Set((long)1); else Set((long)0);
 						break;
-						case OP_NOT_EQUAL:
+						case OP_NOT_EQUAL: 
 							if(lValue != pV->lValue) Set((long)1); else Set((long)0);
 						break;
 						case OP_BOOL_AND:
@@ -2125,10 +2113,10 @@ bool DATA::CompareAndSetResult(DATA * pV,S_TOKEN_TYPE op)
 						case OP_LESSER:
 							if(lValue < pV->fValue) Set((long)1); else Set((long)0);
 						break;
-						case OP_LESSER_OR_EQUAL:
+						case OP_LESSER_OR_EQUAL: 
 							if(lValue <= pV->fValue) Set((long)1); else Set((long)0);
 						break;
-						case OP_NOT_EQUAL:
+						case OP_NOT_EQUAL: 
 							if(lValue != pV->fValue) Set((long)1); else Set((long)0);
 						break;
 						case OP_BOOL_AND:
@@ -2139,7 +2127,7 @@ bool DATA::CompareAndSetResult(DATA * pV,S_TOKEN_TYPE op)
 						break;
 					}
 				break;
-				default:
+				default: 
 					Set((long)0);
 				return false;
 			}
@@ -2162,10 +2150,10 @@ bool DATA::CompareAndSetResult(DATA * pV,S_TOKEN_TYPE op)
 						case OP_LESSER:
 							if(fValue < pV->lValue) Set((long)1); else Set((long)0);
 						break;
-						case OP_LESSER_OR_EQUAL:
+						case OP_LESSER_OR_EQUAL: 
 							if(fValue <= pV->lValue) Set((long)1); else Set((long)0);
 						break;
-						case OP_NOT_EQUAL:
+						case OP_NOT_EQUAL: 
 							if(fValue != pV->lValue) Set((long)1); else Set((long)0);
 						break;
 						case OP_BOOL_AND:
@@ -2191,10 +2179,10 @@ bool DATA::CompareAndSetResult(DATA * pV,S_TOKEN_TYPE op)
 						case OP_LESSER:
 							if(fValue < pV->fValue) Set((long)1); else Set((long)0);
 						break;
-						case OP_LESSER_OR_EQUAL:
+						case OP_LESSER_OR_EQUAL: 
 							if(fValue <= pV->fValue) Set((long)1); else Set((long)0);
 						break;
-						case OP_NOT_EQUAL:
+						case OP_NOT_EQUAL: 
 							if(fValue != pV->fValue) Set((long)1); else Set((long)0);
 						break;
 						case OP_BOOL_AND:
@@ -2205,7 +2193,7 @@ bool DATA::CompareAndSetResult(DATA * pV,S_TOKEN_TYPE op)
 						break;
 					}
 				break;
-				default:
+				default: 
 					Set((long)0);
 				return false;
 			}
@@ -2233,25 +2221,25 @@ bool DATA::CompareAndSetResult(DATA * pV,S_TOKEN_TYPE op)
 							if(sValue == 0 || pV->sValue == 0) { Set((long)0); break; }
 							if(strlen(sValue) < strlen(pV->sValue)) Set((long)1); else Set((long)0);
 						break;
-						case OP_LESSER_OR_EQUAL:
+						case OP_LESSER_OR_EQUAL: 
 							if(sValue == 0 || pV->sValue == 0) { Set((long)0); break; }
 							if(strlen(sValue) <= strlen(pV->sValue)) Set((long)1); else Set((long)0);
 						break;
-						case OP_NOT_EQUAL:
+						case OP_NOT_EQUAL: 
 							if(sValue == pV->sValue) { Set((long)0); break; }
 							if(sValue == 0 || pV->sValue == 0) { Set((long)1);  break; }
 							if(stricmp(sValue,pV->sValue)!=0) Set((long)1); else Set((long)0);
-
+	
 						break;
 						case OP_BOOL_AND:
 						case OP_BOOL_OR:
 							Error("boll operation on sting");
-						return false;
-
+						return false;		
+						
 					}
 
 				break;
-				default:
+				default: 
 					Set((long)0);
 				return false;
 			}
@@ -2284,7 +2272,7 @@ bool DATA::BoolConvert()
 			if(sValue[0] == 0 ) { Set((long)0);  break; }
 			Set((long)1);
 		break;
-		default:
+		default: 
 
 		return false;
 	}
@@ -2315,7 +2303,7 @@ long DATA::GetLong()
 {
 	return lValue;
 }
-
+	
 float DATA::GetFloat()
 {
 	return fValue;
