@@ -49,6 +49,7 @@ void ISLAND_DESCRIBER::SetIsland(ATTRIBUTES * pAIsland)
 		m_pLocators[i].relation = BI_RELATION_NEUTRAL;
 		m_pLocators[i].picIdx = -1;
 		m_pLocators[i].texIdx = -1;
+		m_pLocators[i].characterIndex = -1;
 		m_pLocators[i].bDiseased = false;
 		VDATA * pvdat = api->Event("evntGetLandData","a",pATmp);
 		if(pvdat) {
