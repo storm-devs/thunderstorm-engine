@@ -1,0 +1,18 @@
+string DLG_TEXT_TV [16] = {
+	"Can I help you?",
+	"What do you desire, ",
+	"Not too long ago, you tried to ask me a question, ",
+	"You keep mentioning you have a question for me. This is the third time today...",
+	"Asking questions again?",
+	"Sorry. Never mind...",
+	"Uh, yes. I can see that you are busy, we can talk next time.",
+	"Something's happened to my memory...",
+	"One, two... you're right! Third it is.",
+	"Oh no, no questions...",
+	"Hey, do you know if anyone here is waiting for the arrival of the brig 'Enraptured'?",
+	"No, no one asked me.",
+	"I understand... Tell me, does anyone rent a room from you?",
+	"Not at the moment, ",
+	". Everything's empty.",
+	"I see... Well then, thanks anyway.",
+};
