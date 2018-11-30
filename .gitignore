@@ -270,3 +270,4 @@ __pycache__/
 /ENGINE/SAVE
 /ENGINE/options
 *.nvuser
+/ENGINE/project.df
