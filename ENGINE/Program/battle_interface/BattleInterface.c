@@ -5,7 +5,7 @@
 #include "battle_interface\reload_tables.c"
 #include "battle_interface\utils.c"
 #include "battle_interface\ActivePerksShow.c"
-#include "battle_interface\backgroundtask.c"
+//#include "battle_interface\backgroundtask.c"
 #include "battle_interface\WmInterface.c"
 
 #define BI_ICONS_SHIPS_TEXTURE_NAME "battle_interface\icons.tga"
