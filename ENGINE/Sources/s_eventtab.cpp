@@ -91,7 +91,7 @@ dword S_EVENTTAB::AddEventHandler(char * event_name, dword func_code, dword func
 	{
 		if(pTable[ti][n].hash == hash)
 		{
-			if(stricmp(event_name,pTable[ti][n].name) != 0) continue;
+			if(_stricmp(event_name,pTable[ti][n].name) != 0) continue;
 			// event already in list
 			for(i=0;i<pTable[ti][n].elements;i++)
 			{
@@ -188,7 +188,7 @@ bool S_EVENTTAB::DelEventHandler(char * event_name, dword func_code)
 	for(n=0;n<Event_num[ti];n++)
 	{
 		if(pTable[ti][n].hash == hash) 
-		if(stricmp(pTable[ti][n].name,event_name)==0)
+		if(_stricmp(pTable[ti][n].name,event_name)==0)
 		{
 			return DelEventHandler(ti,n,func_code);
 			//return;
@@ -211,7 +211,7 @@ void S_EVENTTAB::SetStatus(char * event_name, dword func_code, dword status)
 	for(n=0;n<Event_num[ti];n++)
 	{
 		if(pTable[ti][n].hash == hash) 
-		if(stricmp(pTable[ti][n].name,event_name)==0)
+		if(_stricmp(pTable[ti][n].name,event_name)==0)
 		{
 			for(i = 0;i<pTable[ti][n].elements;i++)
 			{
@@ -276,7 +276,7 @@ dword S_EVENTTAB::FindEvent(char * event_name)
 	for(n=0;n<Event_num[ti];n++)
 	{
 		if(pTable[ti][n].hash == hash) 
-		if(stricmp(pTable[ti][n].name,event_name) == 0)	return (((ti<<24)&0xff000000)|(n&0xffffff));
+		if(_stricmp(pTable[ti][n].name,event_name) == 0)	return (((ti<<24)&0xff000000)|(n&0xffffff));
 	}
 	return INVALID_EVENT_CODE;
 }

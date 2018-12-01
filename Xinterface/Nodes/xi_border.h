@@ -39,7 +39,7 @@ protected:
 	XYRECT m_rCapRect;
 
 	// texture parameters
-	string	m_sGroupName;
+	std::string	m_sGroupName;
 	long	m_idTex;
 	DWORD	m_dwColor;
 

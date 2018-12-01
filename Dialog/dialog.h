@@ -5,8 +5,8 @@
 #include "..\common_h\vmodule_api.h"
 #include "..\common_h\dx9render.h"
 
-#include "..\common_h\templates\string.h"
-#include "..\common_h\templates\array.h"
+#include <string>
+#include <vector>
 
 #define MAX_LINES				 5
 #define SCROLL_LINE_TIME		 100
@@ -42,13 +42,13 @@ public:
 	dword AttributeChanged(ATTRIBUTES * pA);
 	dword _cdecl ProcessMessage(MESSAGE & message);
 
-	static void AddToStringArrayLimitedByWidth(const char* pcSrcText, long nFontID,float fScale,long nLimitWidth, array<string> & asOutTextList, array<long>* panPageIndices, long nPageSize);
+	static void AddToStringArrayLimitedByWidth(const char* pcSrcText, long nFontID,float fScale,long nLimitWidth, std::vector<std::string> & asOutTextList, std::vector<long>* panPageIndices, long nPageSize);
 
 private:
 	void EmergencyExit();
 
 	// Nikita data
-	string m_sTalkPersName;
+	std::string m_sTalkPersName;
 
 	struct TextDescribe
 	{
@@ -60,14 +60,14 @@ private:
 		dword dwSelColor;
 		float fScale;
 		long nLineInterval;
-		array<string> asText;
+		std::vector<std::string> asText;
 		long nStartIndex;
 		long nShowQuantity;
 		long nSelectLine;
 
-		TextDescribe() : asText(_FL) {rs=0; nFontID=-1;}
+		TextDescribe() {rs=0; nFontID=-1;}
 		virtual ~TextDescribe() {Release();}
-		virtual void Release() {if( rs && nFontID>=0 ) rs->UnloadFont(nFontID); nFontID = -1; asText.DelAll();}
+		virtual void Release() {if( rs && nFontID>=0 ) rs->UnloadFont(nFontID); nFontID = -1; asText.clear();}
 	};
 
 	bool m_bDlgChanged;
@@ -77,9 +77,9 @@ private:
 	struct DlgTextDescribe : public TextDescribe
 	{
 		float fScrollTime;
-		array<long> anPageEndIndex;
+		std::vector<long> anPageEndIndex;
 
-		DlgTextDescribe() : TextDescribe(), fScrollTime(0), anPageEndIndex(_FL)
+		DlgTextDescribe() : TextDescribe(), fScrollTime(0)
 		{
 		}
 
@@ -97,7 +97,7 @@ private:
 
 	struct DlgLinkDescribe : public TextDescribe
 	{
-		array<long> anLineEndIndex;
+		std::vector<long> anLineEndIndex;
 
 		long nEditLine;
 		long nEditVarIndex;
@@ -105,7 +105,7 @@ private:
 		float fCursorCurrentTime,fCursorVisibleTime, fCursorInvisibleTime;
 		DIALOG* pDlg;
 
-		DlgLinkDescribe() : TextDescribe(),anLineEndIndex(_FL) {pDlg=0;}
+		DlgLinkDescribe() : TextDescribe() {pDlg=0;}
 		virtual ~DlgLinkDescribe() {Release();}
 		virtual void Release() {TextDescribe::Release();}
 		void __declspec(dllexport) __cdecl ChangeText(ATTRIBUTES* pALinks);

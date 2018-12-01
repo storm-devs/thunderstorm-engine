@@ -27,12 +27,6 @@
 
 #include "SD2_H\VAI_ObjBase.h"
 
-#include "templates\string.h"
-#include "templates\array.h"
-#include "templates\dtimer.h"
-#include "templates\htable.h"
-#include "templates\stack.h"
-#include "templates\map.h"
 
 #include "..\common_h\CVECTOR4.h"
 

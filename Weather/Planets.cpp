@@ -1,7 +1,7 @@
 #include "Astronomy.h"
 #include "..\common_h\Weather_Base.h"
 
-Astronomy::PLANETS::PLANETS() : aPlanets(_FL_)
+Astronomy::PLANETS::PLANETS()
 {
 	fPlanetScale = 1.0f;
 
@@ -17,19 +17,19 @@ Astronomy::PLANETS::~PLANETS()
 
 void Astronomy::PLANETS::ReleasePlanets()
 {
-	for (long i=0; i<aPlanets; i++)
+	for (long i=0; i<aPlanets.size(); i++)
 	{
 		//Astronomy::pGS->DeleteGeometry(aPlanets[i].pGeo);
 		if (aPlanets[i].iTexture >= 0) Astronomy::pRS->TextureRelease(aPlanets[i].iTexture);
 	}
 
-	aPlanets.DelAll();
+	aPlanets.clear();
 }
 
 void Astronomy::PLANETS::Init(ATTRIBUTES * pAP)
 {
 	ReleasePlanets();
-	aPlanets.DelAll();
+	aPlanets.clear();
 
 	Astronomy::pGS->SetTexturePath("Weather\\Astronomy\\Planets\\");
 
@@ -43,9 +43,11 @@ void Astronomy::PLANETS::Init(ATTRIBUTES * pAP)
 		ATTRIBUTES * pAPlanet = pAPlanets->GetAttributeClass(i);
 		ATTRIBUTES * pAMag = pAPlanet->GetAttributeClass("Mag");
 
-		string sName = pAPlanet->GetThisName();
+		std::string sName = pAPlanet->GetThisName();
 
-		Planet & p = aPlanets[aPlanets.Add()];
+		aPlanets.push_back(Planet{});
+		//Planet & p = aPlanets[aPlanets.Add()];
+		Planet & p = aPlanets.back();
 		p.fDiameter = pAPlanet->GetAttributeAsFloat("Diameter");
 		p.fSpeed = pAPlanet->GetAttributeAsFloat("Speed");
 		p.fDistance = pAPlanet->GetAttributeAsFloat("Distance");
@@ -58,15 +60,15 @@ void Astronomy::PLANETS::Init(ATTRIBUTES * pAP)
 		//string sFilename = string("Weather\\Planets\\") + pAPlanets->GetAttributeName(i);
 		//p.pGeo = Astronomy::pGS->CreateGeometry(sFilename, 0, 0);
 
-		p.iTexture = Astronomy::pRS->TextureCreate(string("Weather\\Astronomy\\Planets\\") + sName + ".tga");
+		p.iTexture = Astronomy::pRS->TextureCreate(("Weather\\Astronomy\\Planets\\" + sName + ".tga").c_str());
 	}
 
 	float fMaxDistance = 1e-10f;
 
-	for (dword i=0; i<aPlanets.Size(); i++)
+	for (dword i=0; i<aPlanets.size(); i++)
 		if (aPlanets[i].fDistance > fMaxDistance) fMaxDistance = aPlanets[i].fDistance;
 
-	for (dword i=0; i<aPlanets.Size(); i++)
+	for (dword i=0; i<aPlanets.size(); i++)
 	{
 		//aPlanets[i].fDistance /= fMaxDistance;
 		aPlanets[i].fRealDistance = 1200.0f + 500.0f * aPlanets[i].fDistance / fMaxDistance;
@@ -111,7 +113,7 @@ void Astronomy::PLANETS::Realize(double dDeltaTime, double dHour)
 	Astronomy::pRS->SetRenderState(D3DRS_LIGHTING, false);
 	Astronomy::pRS->SetRenderState(D3DRS_AMBIENT, 0x00FFFFFF);
 
-	for (dword i=0; i<aPlanets.Size(); i++)
+	for (dword i=0; i<aPlanets.size(); i++)
 	{
 		CMatrix mP, m2;
 		float fDistance = aPlanets[i].fRealDistance;

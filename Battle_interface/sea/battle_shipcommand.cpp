@@ -3,8 +3,7 @@
 #include "island_descr.h"
 
 BIShipCommandList::BIShipCommandList( ENTITY_ID& eid, ATTRIBUTES* pA, VDX9RENDER* rs ) :
-	BICommandList(eid,pA,rs),
-	m_aChargeQuantity(_FL)
+	BICommandList(eid,pA,rs)
 {
 	Init();
 }
@@ -141,9 +140,9 @@ long BIShipCommandList::ShipAdding( bool allLabel, bool bMyShip, bool bEnemy, bo
 					if(SQR(selX-cv.x)+SQR(selZ-cv.z) > sqrRadius)	continue;
 				}
 				// проверка на допустимость корабля из скрипта
-				if( !m_sCurrentCommandName.IsEmpty() )
+				if( !m_sCurrentCommandName.empty() )
 				{
-					VDATA * pvdat = api->Event("evntCheckEnableShip","sl",m_sCurrentCommandName.GetBuffer(),sd->characterIndex);
+					VDATA * pvdat = api->Event("evntCheckEnableShip","sl",m_sCurrentCommandName.c_str(),sd->characterIndex);
 					if(pvdat!=null && pvdat->GetLong()==0)	continue;
 				}
 				n = AddToIconList( sd->textureNum, sd->pictureNum, sd->selectPictureNum, -1,
@@ -195,7 +194,7 @@ long BIShipCommandList::FortAdding(bool allLabel, bool bFriend, bool bNeutral, b
 		{
 			if(!allLabel)
 				if( SQR(pL->x-selX) + SQR(pL->z-selZ) > sqrRadius ) continue;
-			VDATA * pvdat = api->Event("evntCheckEnableLocator","sa",m_sCurrentCommandName.GetBuffer(),pL->pA);
+			VDATA * pvdat = api->Event("evntCheckEnableLocator","sa",m_sCurrentCommandName.c_str(),pL->pA);
 			if(pvdat!=null && pvdat->GetLong()==0) continue;
 			char * pLocName = null;
 			if( pL->pA != null ) pLocName = pL->pA->GetAttribute("name");
@@ -241,7 +240,7 @@ long BIShipCommandList::LandAdding(bool allLabel)
 	{
 		if(!allLabel)
 			if( SQR(pL->x-selX) + SQR(pL->z-selZ) > sqrRadius ) continue;
-		VDATA * pvdat = api->Event("evntCheckEnableLocator","sa",m_sCurrentCommandName.GetBuffer(),pL->pA);
+		VDATA * pvdat = api->Event("evntCheckEnableLocator","sa",m_sCurrentCommandName.c_str(),pL->pA);
 		if(pvdat!=null && pvdat->GetLong()==0) continue;
 		char * pLocName = null;
 		if( pL->pA != null ) pLocName = pL->pA->GetAttribute("name");
@@ -287,10 +286,10 @@ long BIShipCommandList::ChargeAdding()
 
 	ATTRIBUTES* pAList = m_pARoot->GetAttributeClass( "charge" );
 	long retVal=0;
-	m_aChargeQuantity.DelAll();
+	m_aChargeQuantity.clear();
 	for(int i=0;i<lIdx;i++)
 	{
-		m_aChargeQuantity.Add(0);
+		m_aChargeQuantity.push_back(0);
 		tmpDat->Get(m_aChargeQuantity[i],i+1);
 
 		char param[128];
@@ -401,7 +400,7 @@ long BIShipCommandList::TownAdding( bool allLabel, bool bDiseased,bool bNotDisea
 		if( !pL->bDiseased && !bNotDiseased ) continue;
 		if(!allLabel)
 			if( SQR(pL->x-selX) + SQR(pL->z-selZ) > sqrRadius ) continue;
-		VDATA * pvdat = api->Event("evntCheckEnableLocator","sa",m_sCurrentCommandName.GetBuffer(),pL->pA);
+		VDATA * pvdat = api->Event("evntCheckEnableLocator","sa",m_sCurrentCommandName.c_str(),pL->pA);
 		if(pvdat!=null && pvdat->GetLong()==0) continue;
 		char * pLocName = null;
 		if( pL->pA != null ) pLocName = pL->pA->GetAttribute("name");

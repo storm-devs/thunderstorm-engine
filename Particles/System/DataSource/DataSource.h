@@ -7,11 +7,9 @@
 #include "..\datadesc\data_desc.h"
 #include "..\..\icommon\names.h"
 #include "..\..\..\common_h\exs.h"
-#include "..\..\..\common_h\templates.h"
 #include "..\..\icommon\types.h"
 #include "fieldlist.h"
-
-
+#include <vector>
 
 
 class DataObject;
@@ -50,25 +48,25 @@ public:
 	{
 		EmitterType Type;
 		FieldList Fields;
-		array<ParticleDesc> Particles;
+		std::vector<ParticleDesc> Particles;
 
-		EmitterDesc () : Particles(_FL_)
+		EmitterDesc ()
 		{
 			Type = UNKNOWN_EMITTER;
 		}
 	};
 
 private:
-	array<EmitterDesc> Emitters;
+	std::vector<EmitterDesc> Emitters;
 
 	//Загрузить точечный эмиттер
 	void CreatePointEmitter (MemFile* pMemFile);
 	
 	//Загрузить BillBoard партикл
-	void CreateBillBoardParticle (array<ParticleDesc> &Particles, MemFile* pMemFile);
+	void CreateBillBoardParticle (std::vector<ParticleDesc> &Particles, MemFile* pMemFile);
 
 	//Загрузить Model партикл
-	void CreateModelParticle (array<ParticleDesc> &Particles, MemFile* pMemFile);
+	void CreateModelParticle (std::vector<ParticleDesc> &Particles, MemFile* pMemFile);
 
 
 	int FindEmitter (const char* Name);

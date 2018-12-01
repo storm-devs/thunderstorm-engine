@@ -1,10 +1,9 @@
 #include <stdio.h>
 #include "xi_imgcollection.h"
 #include "..\\vxservice.h"
+#include "../../common_h/defines.h"
 
-CXI_IMGCOLLECTION::CXI_IMGCOLLECTION() :
-	m_aEditInfo(_FL),
-	m_aSections(_FL)
+CXI_IMGCOLLECTION::CXI_IMGCOLLECTION()
 {
 	texl=-1;
 	vBuf=-1; iBuf=-1;
@@ -45,7 +44,7 @@ void CXI_IMGCOLLECTION::ReleaseAll()
 	PICTURE_TEXTURE_RELEASE(pPictureService,sGroupName,texl);
 	VERTEX_BUF_RELEASE(m_rs,vBuf);
 	INDEX_BUF_RELEASE(m_rs,iBuf);
-	PTR_DELETE(sGroupName);
+	PTR_STORM_DELETE(sGroupName);
 }
 
 int CXI_IMGCOLLECTION::CommandExecute(int wActCode)
@@ -55,23 +54,25 @@ int CXI_IMGCOLLECTION::CommandExecute(int wActCode)
 
 void CXI_IMGCOLLECTION::AddImage( const char* pcPicName, dword dwColor, XYRECT pos )
 {
-	long n = m_aEditInfo;
-	m_aEditInfo.Add();
-	m_aEditInfo[n].dwColor = dwColor;
-	m_aEditInfo[n].sName = pcPicName;
-	m_aEditInfo[n].nLeft = pos.left;
-	m_aEditInfo[n].nTop = pos.top;
-	m_aEditInfo[n].nRight = pos.right;
-	m_aEditInfo[n].nBottom = pos.bottom;
-	m_aEditInfo[n].bNative = false;
+	//long n = m_aEditInfo;
+	//m_aEditInfo.Add();
+	PicEditInfo info;
+	info.dwColor = dwColor;
+	info.sName = pcPicName;
+	info.nLeft = pos.left;
+	info.nTop = pos.top;
+	info.nRight = pos.right;
+	info.nBottom = pos.bottom;
+	info.bNative = false;
+	m_aEditInfo.push_back(info);
 
 	// перекраиваем индекс и вертекс буферы
 	VERTEX_BUF_RELEASE(m_rs,vBuf);
 	INDEX_BUF_RELEASE(m_rs,iBuf);
 
 	// Calculate vertex and index quantity
-	nVert = m_aEditInfo.Size() * 4;
-	nIndx = m_aEditInfo.Size() * 6;
+	nVert = m_aEditInfo.size() * 4;
+	nIndx = m_aEditInfo.size() * 6;
 	// Create vertex and index buffers
 	vBuf = m_rs->CreateVertexBuffer( XI_ONETEX_FVF, nVert*sizeof(XI_ONETEX_VERTEX), D3DUSAGE_WRITEONLY );
 	iBuf = m_rs->CreateIndexBuffer( nIndx*2 );
@@ -135,8 +136,8 @@ void CXI_IMGCOLLECTION::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *n
 					DWORD dwColor = ARGB(255,128,128,128);
 					char param2[256];
 					char * pStr = param;
-					n = m_aEditInfo.Size();
-					m_aEditInfo.Add( PicEditInfo() );
+					n = m_aEditInfo.size();
+					m_aEditInfo.push_back( PicEditInfo() );
 
 					pStr = GetSubStr(pStr,param2,sizeof(param2));
 					pPictureService->GetTexturePos(sGroupName,param2,texRect);
@@ -167,22 +168,22 @@ void CXI_IMGCOLLECTION::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *n
 				}
 				else
 				{
-					if( stricmp(&param[12],"end")==0 )
+					if( _stricmp(&param[12],"end")==0 )
 					{
-						n = m_aSections.Size()-1;
-						if( n >= 0 ) m_aSections[n].nQuantity = m_aEditInfo.Size() - m_aSections[n].nStartNum;
+						n = m_aSections.size()-1;
+						if( n >= 0 ) m_aSections[n].nQuantity = m_aEditInfo.size() - m_aSections[n].nStartNum;
 					}
 					else
 					{
-						n = m_aSections.Size()-1;
+						n = m_aSections.size()-1;
 						if( n >= 0 )
 						{
 							if( m_aSections[n].nQuantity == 0 )
-								m_aSections[n].nQuantity = m_aEditInfo.Size() - m_aSections[n].nStartNum;
+								m_aSections[n].nQuantity = m_aEditInfo.size() - m_aSections[n].nStartNum;
 						}
 						n++;
-						m_aSections.Add( PicEditSection() );
-						m_aSections[n].nStartNum = m_aEditInfo.Size();
+						m_aSections.push_back( PicEditSection() );
+						m_aSections[n].nStartNum = m_aEditInfo.size();
 						m_aSections[n].sName = &param[12];
 						m_aSections[n].nQuantity = 0;
 					}
@@ -190,11 +191,11 @@ void CXI_IMGCOLLECTION::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *n
 				}
 				ini1->ReadStringNext(name1,"picture",param,sizeof(param)-1);
 			}
-			n = m_aSections.Size()-1;
+			n = m_aSections.size()-1;
 			if( n >= 0 )
 			{
 				if( m_aSections[n].nQuantity == 0 )
-					m_aSections[n].nQuantity = m_aEditInfo.Size() - m_aSections[n].nStartNum;
+					m_aSections[n].nQuantity = m_aEditInfo.size() - m_aSections[n].nStartNum;
 			}
 		}
 
@@ -247,9 +248,9 @@ void CXI_IMGCOLLECTION::UpdateBuffers()
 		FXYRECT texRect;
 		XYRECT  scrRect;
 
-		for(long n=0; n<m_aEditInfo; n++)
+		for(long n=0; n<m_aEditInfo.size(); n++)
 		{
-			pPictureService->GetTexturePos( sGroupName, m_aEditInfo[n].sName.GetBuffer(), texRect );
+			pPictureService->GetTexturePos( sGroupName, m_aEditInfo[n].sName.c_str(), texRect );
 
 			scrRect.left = m_aEditInfo[n].nLeft;
 			scrRect.top = m_aEditInfo[n].nTop;
@@ -271,11 +272,11 @@ bool CXI_IMGCOLLECTION::IsClick(int buttonID,long xPos,long yPos)
 
 void CXI_IMGCOLLECTION::ChangePosition( XYRECT &rNewPos )
 {
-	//if( m_aSections.Size() == 0 ) return; // пустая коллекция - создана из скрипта
+	//if( m_aSections.size() == 0 ) return; // пустая коллекция - создана из скрипта
 	long n = 0;
-	long q = m_aEditInfo.Size();
+	long q = m_aEditInfo.size();
 
-	if( m_nCurSection >= 0 && m_nCurSection < m_aSections )
+	if( m_nCurSection >= 0 && m_nCurSection < m_aSections.size() )
 	{
 		n = m_aSections[m_nCurSection].nStartNum;
 		q = n + m_aSections[m_nCurSection].nQuantity;
@@ -306,9 +307,9 @@ void CXI_IMGCOLLECTION::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 
@@ -318,23 +319,23 @@ void CXI_IMGCOLLECTION::SaveParametersToIni()
 	pIni->AddString( m_nodeName, "offset", pcWriteParam );
 
 	long n;
-	for( n=0; n<m_aEditInfo; n++ )
+	for( n=0; n<m_aEditInfo.size(); n++ )
 		if( m_aEditInfo[n].bNative )
 			break;
 
-	if( n < m_aEditInfo )
+	if( n < m_aEditInfo.size() )
 	{
 		pIni->AddString( m_nodeName, "groupName", sGroupName );
 
 		// save position
-		for( n=0; n<m_aEditInfo; n++ )
+		for( n=0; n<m_aEditInfo.size(); n++ )
 		{
 			if( !m_aEditInfo[n].bNative ) continue;
-			for( long nGrp=0; nGrp<m_aSections; nGrp++ )
+			for( long nGrp=0; nGrp<m_aSections.size(); nGrp++ )
 			{
 				if( n == m_aSections[nGrp].nStartNum )
 				{
-					_snprintf( pcWriteParam, sizeof(pcWriteParam), "editsection:%s", m_aSections[nGrp].sName.GetBuffer() );
+					_snprintf( pcWriteParam, sizeof(pcWriteParam), "editsection:%s", m_aSections[nGrp].sName.c_str() );
 					pIni->AddString( m_nodeName, "picture", pcWriteParam );
 				}
 				/*else
@@ -344,7 +345,7 @@ void CXI_IMGCOLLECTION::SaveParametersToIni()
 					}*/
 			}
 			_snprintf( pcWriteParam, sizeof(pcWriteParam), "%s,col:{%d,%d,%d,%d},pos:{%d,%d,%d,%d}",
-				m_aEditInfo[n].sName.GetBuffer(),
+				m_aEditInfo[n].sName.c_str(),
 				ALPHA(m_aEditInfo[n].dwColor), RED(m_aEditInfo[n].dwColor), GREEN(m_aEditInfo[n].dwColor), BLUE(m_aEditInfo[n].dwColor),
 				m_aEditInfo[n].nLeft, m_aEditInfo[n].nTop, m_aEditInfo[n].nRight, m_aEditInfo[n].nBottom );
 			pIni->AddString( m_nodeName, "picture", pcWriteParam );
@@ -380,9 +381,9 @@ dword _cdecl CXI_IMGCOLLECTION::MessageProc(long msgcode, MESSAGE & message)
 			char param[256];
 			message.String( sizeof(param)-1, param );
 
-			if( !sGroupName || stricmp(sGroupName,param)!=0 )
+			if( !sGroupName || _stricmp(sGroupName,param)!=0 )
 			{
-				PTR_DELETE(sGroupName);
+				PTR_STORM_DELETE(sGroupName);
 				PICTURE_TEXTURE_RELEASE(pPictureService,sGroupName,texl);
 
 				// имя группы
@@ -395,8 +396,8 @@ dword _cdecl CXI_IMGCOLLECTION::MessageProc(long msgcode, MESSAGE & message)
 
 	case 2: // удалить все картинки (текстуру оставить)
 		{
-			m_aSections.DelAll();
-			m_aEditInfo.DelAll();
+			m_aSections.clear();
+			m_aEditInfo.clear();
 			VERTEX_BUF_RELEASE(m_rs,vBuf);
 			INDEX_BUF_RELEASE(m_rs,iBuf);
 		}
@@ -406,7 +407,7 @@ dword _cdecl CXI_IMGCOLLECTION::MessageProc(long msgcode, MESSAGE & message)
 		{
 			long nImgNum = message.Long();
 			dword dwColor = message.Long();
-			if( nImgNum>=0 && nImgNum<m_aEditInfo )
+			if( nImgNum>=0 && nImgNum<m_aEditInfo.size() )
 			{
 				m_aEditInfo[nImgNum].dwColor = dwColor;
 				UpdateBuffers();
@@ -419,7 +420,7 @@ dword _cdecl CXI_IMGCOLLECTION::MessageProc(long msgcode, MESSAGE & message)
 			long nImgNum = message.Long();
 			char param[256];
 			message.String( sizeof(param), param );
-			if( nImgNum>=0 && nImgNum<m_aEditInfo )
+			if( nImgNum>=0 && nImgNum<m_aEditInfo.size() )
 			{
 				m_aEditInfo[nImgNum].sName = param;
 				UpdateBuffers();
@@ -431,22 +432,21 @@ dword _cdecl CXI_IMGCOLLECTION::MessageProc(long msgcode, MESSAGE & message)
 	return 0;
 }
 
-bool CXI_IMGCOLLECTION::GetInternalNameList( array<string>& aStr )
+bool CXI_IMGCOLLECTION::GetInternalNameList( std::vector<std::string>& aStr )
 {
-	aStr.DelAll();
-	aStr.Add();
-	aStr[0] = "All";
-	for(long n=0; n<m_aSections; n++)
-	{
-		aStr.Add( m_aSections[n].sName );
-	}
-	return aStr.Size() > 0;
+	aStr.clear();
+	//aStr.Add();
+	//aStr[0] = "All";
+	aStr.push_back("All");
+	for(long n=0; n<m_aSections.size(); n++)
+		aStr.push_back( m_aSections[n].sName );
+	return aStr.size() > 0;
 }
 
-void CXI_IMGCOLLECTION::SetInternalName( string& sName )
+void CXI_IMGCOLLECTION::SetInternalName(std::string& sName )
 {
 	m_nCurSection = -1;
-	for(long n=0; n<m_aSections; n++)
+	for(long n=0; n<m_aSections.size(); n++)
 	{
 		if( m_aSections[n].sName == sName )
 		{

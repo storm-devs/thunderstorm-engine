@@ -4,7 +4,7 @@
 #include "..\common_h\ship_base.h"
 #include "..\common_h\dx9render.h"
 #include "..\common_h\island_base.h"
-#include "..\common_h\templates\array.h"
+#include <vector>
 
 #define D3DTLVERTEX_FORMAT	(D3DFVF_XYZRHW|D3DFVF_DIFFUSE)
 
@@ -59,7 +59,7 @@ protected:
 	long		ProcessImpulse(long iOurIdx, CVECTOR vPos, CVECTOR vDir, float fPowerApplied);
 	long		GetTouchPoint(long iIdx, const CVECTOR &vPos);
 
-	void		DrawLine(array<RS_LINE2D> & aLines, float x1, float y1, float x2, float y2, DWORD color);
+	void		DrawLine(std::vector<RS_LINE2D> & aLines, float x1, float y1, float x2, float y2, DWORD color);
 	void		DrawShips();
 	CVECTOR		GetPoint(float x, float y, float xx, float yy, float xscale, float yscale, float fCos, float fSin, POINT ss);
 

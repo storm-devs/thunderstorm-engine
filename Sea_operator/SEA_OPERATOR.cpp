@@ -309,7 +309,7 @@ void SEA_OPERATOR::HandleShipFire (ENTITY_ID &_shipID, char *_bortName, const CV
 		chosenK = -1.0f;
 	else
 		chosenK = 1.0f;
-	float addY = 0.5f*ship->GetBoxSize().y;
+	float addY = 0.5f*ship->GetBoxsize().y;
 
 	action.timeK = 0.15f;
 	action.timePassed = 0;
@@ -336,7 +336,7 @@ void SEA_OPERATOR::HandleShipFire (ENTITY_ID &_shipID, char *_bortName, const CV
 void SEA_OPERATOR::ShowAttackerBort(tAction *_action)
 {
 	CVECTOR shipPosition = _action->attackerShip->GetPos();
-	float addY = 0.5f*_action->attackerShip->GetBoxSize().y;
+	float addY = 0.5f*_action->attackerShip->GetBoxsize().y;
 	float timeDistance = ((float) _action->timePassed) / 7e2f;
 	CVECTOR shipDirection = CVECTOR(sinf(_action->attackerShip->GetAng().y), 0.0f, cosf(_action->attackerShip->GetAng().y));
 	CVECTOR shipDirectionPerp = CVECTOR(shipDirection.z, 0.0f, -1.0f * shipDirection.x);
@@ -346,8 +346,8 @@ void SEA_OPERATOR::ShowAttackerBort(tAction *_action)
 	cameraTargetPos.y += addY;
 
 	cameraPos = shipPosition
-				+ _action->direction*(0.5f * _action->attackerShip->GetBoxSize().z)
-				+ directionPerp*(0.5f * _action->attackerShip->GetBoxSize().z - timeDistance);
+				+ _action->direction*(0.5f * _action->attackerShip->GetBoxsize().z)
+				+ directionPerp*(0.5f * _action->attackerShip->GetBoxsize().z - timeDistance);
 	//cameraPos.y += addY;
 	cameraPos.y = 1.0f + sea->WaveXZ(cameraPos.x, cameraPos.z);
 }
@@ -430,7 +430,7 @@ void SEA_OPERATOR::ShowBallAtMyShip(tAction *_action)
 {
 	cameraTargetPos = myShip->GetPos();
 	float timeK = ((float) _action->timePassed / _action->actionTime);
-	cameraPos = ballPosition + (0.5f + 0.5f*timeK) * myShip->GetBoxSize().z * !(ballPosition - myShip->GetPos());
+	cameraPos = ballPosition + (0.5f + 0.5f*timeK) * myShip->GetBoxsize().z * !(ballPosition - myShip->GetPos());
 	float minY = 1.0f + sea->WaveXZ(cameraPos.x, cameraPos.z);
 	float timeScale = MIN_TIME_DELTA + (1.0f - MIN_TIME_DELTA)*powf(timeK, 0.37f);
 	if (cameraPos.y < minY)

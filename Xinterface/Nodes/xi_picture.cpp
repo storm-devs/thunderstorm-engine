@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "xi_picture.h"
+#include "../../common_h/defines.h"
 
 CXI_PICTURE::CXI_PICTURE()
 {
@@ -147,9 +148,9 @@ void CXI_PICTURE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 
@@ -208,7 +209,7 @@ void CXI_PICTURE::SetNewPictureFromDir(char * dirName)
 
 void CXI_PICTURE::SetNewPictureByGroup( char* groupName, char* picName )
 {
-	if( !m_pcGroupName || stricmp(m_pcGroupName,groupName)!=0 )
+	if( !m_pcGroupName || _stricmp(m_pcGroupName,groupName)!=0 )
 	{
 		ReleasePicture();
 		if( groupName )
@@ -404,7 +405,7 @@ void CXI_PICTURE::ReleasePicture()
 {
 	PICTURE_TEXTURE_RELEASE( pPictureService, m_pcGroupName, m_idTex );
 	if( m_pD3D8Texture ) m_pD3D8Texture->Release(); m_pD3D8Texture = null;
-	DELETE( m_pcGroupName );
+	STORM_DELETE( m_pcGroupName );
 	TEXTURE_RELEASE( m_rs, m_idTex );
 	VIDEOTEXTURE_RELEASE( m_rs, m_pTex );
 }

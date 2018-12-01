@@ -221,14 +221,14 @@ KEY_NODE * SECTION::FindKey(KEY_NODE * from, char * key_name, char * key_value)
 		flags = node->SetFlags(0);
 		if(flags & KNF_KEY)
 		{
-			if(stricmp(key_name,node->GetName()) == 0)
+			if(_stricmp(key_name,node->GetName()) == 0)
 			{
 				if(key_value == 0) return node;
 
 				char_PTR = node->GetValue();
 				if(char_PTR != 0)
 				{
-					if(stricmp(key_value,char_PTR) == 0) return node;
+					if(_stricmp(key_value,char_PTR) == 0) return node;
 				}
 			}
 		}
@@ -541,7 +541,7 @@ bool IFS::FlushFile()
 	fs->_SetFileAttributes(FileName,FILE_ATTRIBUTE_NORMAL);
 	fs->_DeleteFile(FileName);
 	fh = fs->_CreateFile(FileName,GENERIC_WRITE,FILE_SHARE_READ,CREATE_ALWAYS);
-	if(fh == INVALID_HANDLE_VALUE) {/*trace("file: (%s)",FileName);*/ _THROW(cant create file);}
+	if(fh == INVALID_HANDLE_VALUE) {/*trace("file: (%s)",FileName);*/ STORM_THROW(cant create file);}
 
 	KEY_NODE * node;
 	SECTION * section_node;
@@ -665,7 +665,7 @@ SECTION * IFS::FindSection(char * section_name)
 			if(node->GetName() == 0) return node;
 		}
 		if(node->GetName() != 0)
-		if(stricmp(section_name,node->GetName()) == 0) return node;
+		if(_stricmp(section_name,node->GetName()) == 0) return node;
 		node = node->GetRightNode();
 	}
 	return 0;
@@ -686,7 +686,7 @@ SECTION * IFS::FindSection(char * section_name, SECTION * snode)
 			// if node exist and name is correct return ok
 			if(section_name != 0)
 			{
-				if(stricmp(section_name,node->GetName()) == 0) return node;
+				if(_stricmp(section_name,node->GetName()) == 0) return node;
 			} else
 			{
 				if(node->GetName() == 0) return node;
@@ -706,7 +706,7 @@ SECTION * IFS::FindSection(char * section_name, SECTION * snode)
 			if(node->GetName() == 0) return node;
 		}
 		if(node->GetName() != 0)
-		if(stricmp(section_name,node->GetName()) == 0) return node;
+		if(_stricmp(section_name,node->GetName()) == 0) return node;
 		node = node->GetRightNode();
 	}
 	return 0;
@@ -800,7 +800,7 @@ bool IFS::ReadString(SEARCH_DATA * sd, char * section_name, char * key_name, cha
 		{
 			_CORE_API->Trace("Warning! IniFile Read String: section=%s, key=%s",section_name,key_name);
 			if(buffer) buffer[0] = 0;
-			//_THROW(string not found);
+			//STORM_THROW(string not found);
 		}else
 		if(buffer) strcpy(buffer,def_string);
 		return false;
@@ -809,17 +809,17 @@ bool IFS::ReadString(SEARCH_DATA * sd, char * section_name, char * key_name, cha
 	sd->Key = node;
 	sd->Section = FindSection(section_name);
 
-	if(buffer == 0) _THROW(zero buffer);
+	if(buffer == 0) STORM_THROW(zero buffer);
 	char_PTR = node->GetValue();
 	if(char_PTR == 0)
 	{
-		if(def_string == 0) _THROW(no key value);
+		if(def_string == 0) STORM_THROW(no key value);
 		strcpy(buffer,def_string);
 		return false;
 	}
 
 	write_size = strlen(char_PTR) + 1;
-	//if(write_size > buffer_size) _THROW(buffer size too small); // boal закоменчено по наводке Ёдди, не давало грузить новую ани
+	//if(write_size > buffer_size) STORM_THROW(buffer size too small); // boal закоменчено по наводке Ёдди, не давало грузить новую ани
 
 	strcpy(buffer,node->GetValue());
 	return true;
@@ -846,20 +846,20 @@ bool IFS::ReadStringNext(SEARCH_DATA * sd, char * section_name, char * key_name,
 		if(start == true)
 		{
 			//if(CompareStrings(node->GetName(),key_name) == 0)
-			if(stricmp(node->GetName(),key_name) == 0)
+			if(_stricmp(node->GetName(),key_name) == 0)
 			{
-				if(buffer == 0) _THROW(zero buffer);
+				if(buffer == 0) STORM_THROW(zero buffer);
 
 				char_PTR = node->GetValue();
 				if(char_PTR == 0)
 				{
 					buffer[0] = 0;
 					return true;
-					//_THROW(no key value);
+					//STORM_THROW(no key value);
 				}
 
 				write_size = strlen(char_PTR) + 1;
-				if(write_size > buffer_size) _THROW(buffer size too small);
+				if(write_size > buffer_size) STORM_THROW(buffer size too small);
 
 				strcpy(buffer,node->GetValue());
 				sd->Key = node;
@@ -955,11 +955,11 @@ void IFS::AddString(char * section_name, char * key_name, char * string)
 	KEY_NODE * node;
 	SECTION * snode;
 
-	if(key_name == 0) _THROW(zero key);
+	if(key_name == 0) STORM_THROW(zero key);
 	snode = FindSection(section_name);
 	if(snode == 0) CreateSection(section_name);
 	snode = FindSection(section_name);
-	if(snode == 0) _THROW(section create error);
+	if(snode == 0) STORM_THROW(section create error);
 
 	node = snode->AddNode();
 	node->SetName(key_name);
@@ -973,10 +973,10 @@ void IFS::WriteString(char * section_name, char * key_name, char * string)
 {
 	KEY_NODE * node;
 	SECTION * snode;
-	if(string == 0) _THROW(zero key value);
+	if(string == 0) STORM_THROW(zero key value);
 
 	snode = CreateSection(section_name);
-	if(snode == 0) _THROW(section create error);
+	if(snode == 0) STORM_THROW(section create error);
 	node = snode->FindKey(key_name);
 	if(node != 0)
 	{

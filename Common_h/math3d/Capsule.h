@@ -29,22 +29,22 @@ protected:
 	Vector up, down;
 };
 
-mathinline Capsule::Capsule(){};
+inline Capsule::Capsule(){};
 
-mathinline Capsule::Capsule(float s, float r)
+inline Capsule::Capsule(float s, float r)
 {
 	SetSize(s);
 	SetRadius(r);
 };
 
 //Установить радиус сфер и цилиндра
-mathinline void Capsule::SetRadius(float r)
+inline void Capsule::SetRadius(float r)
 {
 	radius = r;
 }
 
 //Установить растояние между сферами
-mathinline void Capsule::SetSize(float s)
+inline void Capsule::SetSize(float s)
 {
 	size05 = s*0.5f;
 	up = Vector(0.0f, size05, 0.0f);
@@ -52,7 +52,7 @@ mathinline void Capsule::SetSize(float s)
 }
 
 //Получить параметры выталкивания из треугольника
-mathinline bool Capsule::Extraction(const Triangle & t, Vector & extPoint, Vector & extVector)
+inline bool Capsule::Extraction(const Triangle & t, Vector & extPoint, Vector & extVector)
 {
 	//Определим пересечение с плоскостью
 	Plane plane = t.GetPlane();

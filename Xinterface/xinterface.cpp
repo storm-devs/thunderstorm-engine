@@ -89,9 +89,7 @@ bool CheckPCcd();
 
 XINTERFACE * XINTERFACE::pThis = 0;
 
-XINTERFACE::XINTERFACE() :
-	m_aLocksArray(_FL),
-	m_asExitKey(_FL)
+XINTERFACE::XINTERFACE()
 {
 	pThis = this;
 
@@ -178,8 +176,8 @@ XINTERFACE::~XINTERFACE()
 		pPictureService = null;
 	}
 
-	PTR_DELETE(pQuestService);
-	PTR_DELETE( m_pEditor );
+	PTR_STORM_DELETE(pQuestService);
+	PTR_STORM_DELETE( m_pEditor );
 
 	ReleaseSaveFindList();
 }
@@ -547,7 +545,7 @@ dword XINTERFACE::ProcessMessage(MESSAGE & message)
 			char param[256];
 			message.String(sizeof(param)-1,param);
 			for(int i=0; i<m_nStringQuantity; i++)
-				if( m_stringes[i].sStringName!=NULL && stricmp(param,m_stringes[i].sStringName)==0 )
+				if( m_stringes[i].sStringName!=NULL && _stricmp(param,m_stringes[i].sStringName)==0 )
 				{
 					m_stringes[i].bUsed = true;
 					break;
@@ -560,7 +558,7 @@ dword XINTERFACE::ProcessMessage(MESSAGE & message)
 			char param[256];
 			message.String(sizeof(param)-1,param);
 			for(int i=0; i<m_nStringQuantity; i++)
-				if( m_stringes[i].sStringName!=NULL && stricmp(param,m_stringes[i].sStringName)==0 )
+				if( m_stringes[i].sStringName!=NULL && _stricmp(param,m_stringes[i].sStringName)==0 )
 				{
 					m_stringes[i].bUsed = false;
 					break;
@@ -611,7 +609,7 @@ dword XINTERFACE::ProcessMessage(MESSAGE & message)
 			int l;
 			for(l=0; l<m_nStringQuantity; l++)
 			{
-				if(m_stringes[l].sStringName!=null && stricmp(m_stringes[l].sStringName,param)==0) break;
+				if(m_stringes[l].sStringName!=null && _stricmp(m_stringes[l].sStringName,param)==0) break;
 			}
 			if(l==m_nStringQuantity)
 			{
@@ -656,9 +654,9 @@ dword XINTERFACE::ProcessMessage(MESSAGE & message)
 			message.String(sizeof(param)-1,param);
 			for(int i=0; i<m_nStringQuantity; i++)
 			{
-				if( m_stringes[i].sStringName!=null && stricmp(m_stringes[i].sStringName,param)==0 )
+				if( m_stringes[i].sStringName!=null && _stricmp(m_stringes[i].sStringName,param)==0 )
 				{
-					PTR_DELETE(m_stringes[i].sStringName);
+					PTR_STORM_DELETE(m_stringes[i].sStringName);
 					FONT_RELEASE(pRenderService,m_stringes[i].fontNum);
 					m_nStringQuantity--;
 					m_stringes[i].sStringName = m_stringes[m_nStringQuantity].sStringName;
@@ -674,7 +672,7 @@ dword XINTERFACE::ProcessMessage(MESSAGE & message)
 			message.String(sizeof(param)-1,param);
 			for(int i=0; i<m_nStringQuantity; i++)
 			{
-				if( m_stringes[i].sStringName!=null && stricmp(m_stringes[i].sStringName,param)==0 )
+				if( m_stringes[i].sStringName!=null && _stricmp(m_stringes[i].sStringName,param)==0 )
 				{
 					m_stringes[i].dwColor = message.Long();
 					break;
@@ -690,7 +688,7 @@ dword XINTERFACE::ProcessMessage(MESSAGE & message)
 			IMAGE_ENTITY * pImg = m_imgLists;
 			while(pImg!=NULL)
 			{
-				if( pImg->sImageName!=NULL && stricmp(pImg->sImageName,param)==0 ) break;
+				if( pImg->sImageName!=NULL && _stricmp(pImg->sImageName,param)==0 ) break;
 				pImg = pImg->next;
 			}
 			bool bGlobRect = message.Long()!=0;
@@ -804,7 +802,7 @@ dword XINTERFACE::ProcessMessage(MESSAGE & message)
 				subText[0]=0;
 				sscanf(pCur,"%[^,]",subText);
 				int subSize = strlen(subText);
-				if(stricmp(subText,param)==0) return 1;
+				if(_stricmp(subText,param)==0) return 1;
 				pCur+=subSize;
 				if(*pCur==',') pCur++;
 				if(subSize==0 || *pCur==0) break;
@@ -910,7 +908,7 @@ dword XINTERFACE::ProcessMessage(MESSAGE & message)
 			IMAGE_ENTITY * pImg = m_imgLists;
 			while(pImg!=NULL)
 			{
-				if( pImg->sImageName!=NULL && stricmp(pImg->sImageName,param)==0 ) break;
+				if( pImg->sImageName!=NULL && _stricmp(pImg->sImageName,param)==0 ) break;
 				pImg = pImg->next;
 			}
 			// get image position
@@ -1254,27 +1252,27 @@ void XINTERFACE::LoadDialog(char *sFileName)
 		tmpStr = XI_ParseStr(tmpStr,param,sizeof(param));
 		if( (priority=atoi(param)) > 0 ) tmpStr = XI_ParseStr(tmpStr,param,sizeof(param));
 		else	priority = 80;
-		if(!stricmp(param,"PC") || !stricmp(param,"XBOX") || !stricmp(param,"LANG"))
+		if(!_stricmp(param,"PC") || !_stricmp(param,"XBOX") || !_stricmp(param,"LANG"))
 		{
 			bool bThisXBOX = false;
 			#ifdef _XBOX
 				bThisXBOX = true;
 			#endif
-				if(!stricmp(param,"PC"))
+				if(!_stricmp(param,"PC"))
 				{
 					if(bThisXBOX) param[0] = 0;
 					else	tmpStr = XI_ParseStr(tmpStr,param,sizeof(param));
 				}
-				else if(!stricmp(param,"XBOX"))
+				else if(!_stricmp(param,"XBOX"))
 				{
 					if(!bThisXBOX) param[0] = 0;
 					else	tmpStr = XI_ParseStr(tmpStr,param,sizeof(param));
 				}
-				else if(!stricmp(param,"LANG"))
+				else if(!_stricmp(param,"LANG"))
 				{
 					tmpStr = XI_ParseStr(tmpStr,param,sizeof(param));
 					char * strLangName = pStringService->GetLanguage();
-					if(strLangName==null || stricmp(param,strLangName)) param[0] = 0;
+					if(strLangName==null || _stricmp(param,strLangName)) param[0] = 0;
 					else	tmpStr = XI_ParseStr(tmpStr,param,sizeof(param));
 				}
 		}
@@ -1283,7 +1281,7 @@ void XINTERFACE::LoadDialog(char *sFileName)
 			SFLB_CreateNode( ownerIni, ini, param, nodeName, priority );
 
 		i=0;
-		if( findName && stricmp(findName,"item")==0 )
+		if( findName && _stricmp(findName,"item")==0 )
 		{
 			ini->ReadString(section,findName,skey,sizeof(skey)-1);
 			for(; i<keyNum; i++)
@@ -1292,7 +1290,7 @@ void XINTERFACE::LoadDialog(char *sFileName)
 
 		if(i<keyNum)
 		{	// not more items
-			if( findName && stricmp(findName,"item")==0 ) {
+			if( findName && _stricmp(findName,"item")==0 ) {
 				findName = "glow";
 				if(m_pGlowCursorNode==null)
 				{
@@ -1505,42 +1503,42 @@ CINODE* XINTERFACE::NewNode(const char* pcNodType)
 {
 	if( !pcNodType ) return 0;
 	CINODE* pNewNod = 0;
-	if(!stricmp(pcNodType,"BUTTON"))				pNewNod = NEW CXI_BUTTON;
-	else if(!stricmp(pcNodType,"VIDEO"))			pNewNod = NEW CXI_VIDEO;
-	else if(!stricmp(pcNodType,"SCROLLIMAGE"))		pNewNod = NEW CXI_SCROLLIMAGE;
-	else if(!stricmp(pcNodType,"IMAGECOLLECTION"))	pNewNod = NEW CXI_IMGCOLLECTION;
-	else if(!stricmp(pcNodType,"STRINGCOLLECTION"))	pNewNod = NEW CXI_STRCOLLECTION;
-	else if(!stricmp(pcNodType,"FOURIMAGES"))		pNewNod = NEW CXI_FOURIMAGE;
-	else if(!stricmp(pcNodType,"RECTANGLE"))		pNewNod = NEW CXI_RECTANGLE;
-	else if(!stricmp(pcNodType,"BOUNDER"))			pNewNod = NEW CXI_BOUNDER;
-	else if(!stricmp(pcNodType,"TITLE"))			pNewNod = NEW CXI_TITLE;
-	else if(!stricmp(pcNodType,"TEXTBUTTON"))		pNewNod = NEW CXI_TEXTBUTTON;
-	else if(!stricmp(pcNodType,"SCROLLBAR"))		pNewNod = NEW CXI_SCROLLBAR;
-	else if(!stricmp(pcNodType,"LINECOLLECTION"))	pNewNod = NEW CXI_LINECOLLECTION;
-	else if(!stricmp(pcNodType,"STATUSLINE"))	    pNewNod = NEW CXI_STATUSLINE;
-	else if(!stricmp(pcNodType,"CHANGER"))   	    pNewNod = NEW CXI_CHANGER;
-	else if(!stricmp(pcNodType,"PICTURE"))  		pNewNod = NEW CXI_PICTURE;
-	else if(!stricmp(pcNodType,"GLOWS"))  			pNewNod = NEW CXI_GLOWER;
-	else if(!stricmp(pcNodType,"LRCHANGER"))		pNewNod = NEW CXI_LRCHANGER;
-	else if(!stricmp(pcNodType,"TWO_PICTURE"))		pNewNod = NEW CXI_TWOPICTURE;
-	else if(!stricmp(pcNodType,"SCROLLER"))			pNewNod = NEW CXI_SCROLLER;
-	else if(!stricmp(pcNodType,"QUESTTITLE"))		pNewNod = NEW CXI_QUESTTITLE;
-	else if(!stricmp(pcNodType,"QUESTTEXT"))		pNewNod = NEW CXI_QUESTTEXTS;
-	else if(!stricmp(pcNodType,"SLIDEPICTURE"))		pNewNod = NEW CXI_SLIDEPICTURE;
-	else if(!stricmp(pcNodType,"FORMATEDTEXT"))		pNewNod = NEW CXI_FORMATEDTEXT;
-	else if(!stricmp(pcNodType,"EDITBOX"))			pNewNod = NEW CXI_EDITBOX;
-	else if(!stricmp(pcNodType,"SLIDER"))			pNewNod = NEW CXI_SLIDELINE;
-	else if(!stricmp(pcNodType,"KEYCHOOSER"))		pNewNod = NEW CXI_KEYCHANGER;
-	else if(!stricmp(pcNodType,"VIDEORECTANGLE"))	pNewNod = NEW CXI_VIDEORECT;
-	else if(!stricmp(pcNodType,"VIMAGESCROLL"))		pNewNod = NEW CXI_VIMAGESCROLL;
-	else if(!stricmp(pcNodType,"PCEDITBOX"))		pNewNod = NEW CXI_PCEDITBOX;
-	else if(!stricmp(pcNodType,"SCROLLEDPICTURE"))	pNewNod = NEW CXI_SCROLLEDPICTURE;
-	else if(!stricmp(pcNodType,"WINDOW"))			pNewNod = NEW CXI_WINDOW;
-	else if(!stricmp(pcNodType,"CHECKBUTTON"))		pNewNod = NEW CXI_CHECKBUTTONS;
-	else if(!stricmp(pcNodType,"TABLE"))			pNewNod = NEW CXI_TABLE;
-	else if(!stricmp(pcNodType,"FRAME"))			pNewNod = NEW CXI_BORDER;
-	else if(!stricmp(pcNodType,"CONTEXTHELP"))  	m_pContHelp = pNewNod = NEW CXI_CONTEXTHELP;
-	else if(!stricmp(pcNodType,"GLOWCURSOR"))		m_pGlowCursorNode = pNewNod = NEW CXI_GLOWCURSOR;
+	if(!_stricmp(pcNodType,"BUTTON"))				pNewNod = NEW CXI_BUTTON;
+	else if(!_stricmp(pcNodType,"VIDEO"))			pNewNod = NEW CXI_VIDEO;
+	else if(!_stricmp(pcNodType,"SCROLLIMAGE"))		pNewNod = NEW CXI_SCROLLIMAGE;
+	else if(!_stricmp(pcNodType,"IMAGECOLLECTION"))	pNewNod = NEW CXI_IMGCOLLECTION;
+	else if(!_stricmp(pcNodType,"STRINGCOLLECTION"))	pNewNod = NEW CXI_STRCOLLECTION;
+	else if(!_stricmp(pcNodType,"FOURIMAGES"))		pNewNod = NEW CXI_FOURIMAGE;
+	else if(!_stricmp(pcNodType,"RECTANGLE"))		pNewNod = NEW CXI_RECTANGLE;
+	else if(!_stricmp(pcNodType,"BOUNDER"))			pNewNod = NEW CXI_BOUNDER;
+	else if(!_stricmp(pcNodType,"TITLE"))			pNewNod = NEW CXI_TITLE;
+	else if(!_stricmp(pcNodType,"TEXTBUTTON"))		pNewNod = NEW CXI_TEXTBUTTON;
+	else if(!_stricmp(pcNodType,"SCROLLBAR"))		pNewNod = NEW CXI_SCROLLBAR;
+	else if(!_stricmp(pcNodType,"LINECOLLECTION"))	pNewNod = NEW CXI_LINECOLLECTION;
+	else if(!_stricmp(pcNodType,"STATUSLINE"))	    pNewNod = NEW CXI_STATUSLINE;
+	else if(!_stricmp(pcNodType,"CHANGER"))   	    pNewNod = NEW CXI_CHANGER;
+	else if(!_stricmp(pcNodType,"PICTURE"))  		pNewNod = NEW CXI_PICTURE;
+	else if(!_stricmp(pcNodType,"GLOWS"))  			pNewNod = NEW CXI_GLOWER;
+	else if(!_stricmp(pcNodType,"LRCHANGER"))		pNewNod = NEW CXI_LRCHANGER;
+	else if(!_stricmp(pcNodType,"TWO_PICTURE"))		pNewNod = NEW CXI_TWOPICTURE;
+	else if(!_stricmp(pcNodType,"SCROLLER"))			pNewNod = NEW CXI_SCROLLER;
+	else if(!_stricmp(pcNodType,"QUESTTITLE"))		pNewNod = NEW CXI_QUESTTITLE;
+	else if(!_stricmp(pcNodType,"QUESTTEXT"))		pNewNod = NEW CXI_QUESTTEXTS;
+	else if(!_stricmp(pcNodType,"SLIDEPICTURE"))		pNewNod = NEW CXI_SLIDEPICTURE;
+	else if(!_stricmp(pcNodType,"FORMATEDTEXT"))		pNewNod = NEW CXI_FORMATEDTEXT;
+	else if(!_stricmp(pcNodType,"EDITBOX"))			pNewNod = NEW CXI_EDITBOX;
+	else if(!_stricmp(pcNodType,"SLIDER"))			pNewNod = NEW CXI_SLIDELINE;
+	else if(!_stricmp(pcNodType,"KEYCHOOSER"))		pNewNod = NEW CXI_KEYCHANGER;
+	else if(!_stricmp(pcNodType,"VIDEORECTANGLE"))	pNewNod = NEW CXI_VIDEORECT;
+	else if(!_stricmp(pcNodType,"VIMAGESCROLL"))		pNewNod = NEW CXI_VIMAGESCROLL;
+	else if(!_stricmp(pcNodType,"PCEDITBOX"))		pNewNod = NEW CXI_PCEDITBOX;
+	else if(!_stricmp(pcNodType,"SCROLLEDPICTURE"))	pNewNod = NEW CXI_SCROLLEDPICTURE;
+	else if(!_stricmp(pcNodType,"WINDOW"))			pNewNod = NEW CXI_WINDOW;
+	else if(!_stricmp(pcNodType,"CHECKBUTTON"))		pNewNod = NEW CXI_CHECKBUTTONS;
+	else if(!_stricmp(pcNodType,"TABLE"))			pNewNod = NEW CXI_TABLE;
+	else if(!_stricmp(pcNodType,"FRAME"))			pNewNod = NEW CXI_BORDER;
+	else if(!_stricmp(pcNodType,"CONTEXTHELP"))  	m_pContHelp = pNewNod = NEW CXI_CONTEXTHELP;
+	else if(!_stricmp(pcNodType,"GLOWCURSOR"))		m_pGlowCursorNode = pNewNod = NEW CXI_GLOWCURSOR;
 	else
 		api->Trace("Not supported node type:\"%s\"", pcNodType);
 	return pNewNod;
@@ -1553,7 +1551,7 @@ void XINTERFACE::DeleteNode(const char *pcNodeName)
 	CINODE* pPrevNod = 0;
 	CINODE* pNod;
 	for( pNod=m_pNodes; pNod; pNod=pNod->m_next ) {
-		if( pNod->m_nodeName && stricmp(pNod->m_nodeName,pcNodeName)==0 ) break;
+		if( pNod->m_nodeName && _stricmp(pNod->m_nodeName,pcNodeName)==0 ) break;
 		pPrevNod=pNod;
 	}
 	// нашли?
@@ -1791,24 +1789,25 @@ bool XINTERFACE::IsWindowActive(const char* pcWindowName)
 
 void XINTERFACE::RegistryExitKey( const char* pcKeyName )
 {
-	m_asExitKey.Add( pcKeyName );
+	m_asExitKey.push_back( pcKeyName );
 }
 
 long XINTERFACE::StoreNodeLocksWithOff()
 {
-	long nStoreSlot = m_aLocksArray.Add();
+	m_aLocksArray.push_back(LocksInfo{});
+	//long nStoreSlot = m_aLocksArray.Add();
 	long nStoreCode;
 	for( nStoreCode=0; nStoreCode<1000; nStoreCode++ ) {
 		long n;
-		for( n=0; n<m_aLocksArray; n++ )
+		for( n=0; n<m_aLocksArray.size(); n++ )
 			if( m_aLocksArray[n].nSaveCode == nStoreCode ) break;
-		if( n==m_aLocksArray ) break;
+		if( n==m_aLocksArray.size() ) break;
 	}
-	m_aLocksArray[nStoreSlot].nSaveCode = nStoreCode;
+	m_aLocksArray.back().nSaveCode = nStoreCode;
 	for(CINODE* pNod=m_pNodes; pNod; pNod=pNod->m_next)
 		//if( !pNod->m_bLockStatus ) {
 		if( !pNod->m_bLockedNode ) {
-			m_aLocksArray[nStoreSlot].aNode.Add(pNod);
+			m_aLocksArray.back().aNode.push_back(pNod);
 			//pNod->m_bLockStatus = true;
 			pNod->m_bLockedNode = true;
 		}
@@ -1818,14 +1817,14 @@ long XINTERFACE::StoreNodeLocksWithOff()
 void XINTERFACE::RestoreNodeLocks(long nStoreCode)
 {
 	long n;
-	for( n=0; n<m_aLocksArray; n++ )
+	for( n=0; n<m_aLocksArray.size(); n++ )
 		if( m_aLocksArray[n].nSaveCode == nStoreCode ) break;
-	if( n==m_aLocksArray ) return;
-	for( long i=0; i<m_aLocksArray[n].aNode; i++ ) {
+	if( n==m_aLocksArray.size() ) return;
+	for( long i=0; i<m_aLocksArray[n].aNode.size(); i++ ) {
 		//m_aLocksArray[n].aNode[i]->m_bLockStatus = false;
 		m_aLocksArray[n].aNode[i]->m_bLockedNode = false;
 	}
-	m_aLocksArray.DelIndex( n );
+	m_aLocksArray.erase(m_aLocksArray.begin() + n );
 }
 
 void XINTERFACE::DrawNode(CINODE* nod,dword Delta_Time, long startPrior, long endPrior)
@@ -1910,9 +1909,9 @@ void XINTERFACE::DoControl()
 		api->Controls->GetControlState("ILeft2",cs);
 		if (cs.state != CST_INACTIVE) return;
 
-		for(nExitKey=0; nExitKey<m_asExitKey; nExitKey++)
+		for(nExitKey=0; nExitKey<m_asExitKey.size(); nExitKey++)
 		{
-			api->Controls->GetControlState( (char*)m_asExitKey[nExitKey].GetBuffer(), cs );
+			api->Controls->GetControlState( (char*)m_asExitKey[nExitKey].c_str(), cs );
 			if (cs.state != CST_INACTIVE) return;
 		}
 
@@ -1923,9 +1922,9 @@ void XINTERFACE::DoControl()
 	if(!g_bIExclusiveMode && !DiskCheck) return;
 	bDisableControl = false;
 
-	for(nExitKey=0; nExitKey<m_asExitKey; nExitKey++)
+	for(nExitKey=0; nExitKey<m_asExitKey.size(); nExitKey++)
 	{
-		api->Controls->GetControlState( (char*)m_asExitKey[nExitKey].GetBuffer(), cs );
+		api->Controls->GetControlState( (char*)m_asExitKey[nExitKey].c_str(), cs );
 		if( cs.state == CST_ACTIVATED ) {
 			api->Event("exitCancel",0);
 			break;
@@ -2410,17 +2409,17 @@ void XINTERFACE::ReleaseOld()
 	if( m_pEditor ) m_pEditor->ReCreate();
 
 	ReleaseContextHelpData();
-	PTR_DELETE(m_strDefHelpTextureFile);
+	PTR_STORM_DELETE(m_strDefHelpTextureFile);
 
 	oldKeyState.dwKeyCode = 0;
 	if(m_stringes!=NULL)
 	{
         for(int i=0; i<m_nStringQuantity; i++)
 		{
-            PTR_DELETE(m_stringes[i].sStringName);
+            PTR_STORM_DELETE(m_stringes[i].sStringName);
 			FONT_RELEASE(pRenderService,m_stringes[i].fontNum);
 		}
-		PTR_DELETE(m_stringes);
+		PTR_STORM_DELETE(m_stringes);
 		m_nStringQuantity = 0;
 	}
 
@@ -2445,15 +2444,15 @@ void XINTERFACE::ReleaseOld()
 	while(m_imgLists!=null)
 	{
 		PICTURE_TEXTURE_RELEASE(pPictureService,m_imgLists->sImageListName,m_imgLists->idTexture);
-		PTR_DELETE(m_imgLists->sImageListName);
-		PTR_DELETE(m_imgLists->sImageName);
-		PTR_DELETE(m_imgLists->sPicture);
+		PTR_STORM_DELETE(m_imgLists->sImageListName);
+		PTR_STORM_DELETE(m_imgLists->sImageName);
+		PTR_STORM_DELETE(m_imgLists->sPicture);
 		IMAGE_ENTITY * pCur = m_imgLists;
 		m_imgLists = m_imgLists->next;
 		delete pCur;
 	};
 
-	m_asExitKey.DelAll();
+	m_asExitKey.clear();
 
     m_bUse = false;
 	m_pMouseNode = null;
@@ -2475,13 +2474,13 @@ dword XINTERFACE::AttributeChanged(ATTRIBUTES *patr)
 	if(patr!=NULL && patr->GetParent()!=NULL && patr->GetParent()->GetParent()!=NULL)
 	{
 		char * sParentName = patr->GetParent()->GetParent()->GetThisName();
-		if( sParentName==NULL || stricmp(sParentName,"pictures")!=0 ) return 0;
+		if( sParentName==NULL || _stricmp(sParentName,"pictures")!=0 ) return 0;
 		char * sImageName = patr->GetParent()->GetThisName();
 		if(sImageName==NULL) return 0;
 		// find this picture
 		IMAGE_ENTITY * pImList = m_imgLists;
 		while(pImList!=NULL)
-			if(pImList->sImageName!=NULL && stricmp(pImList->sImageName,sImageName)==0) break;
+			if(pImList->sImageName!=NULL && _stricmp(pImList->sImageName,sImageName)==0) break;
 			else pImList=pImList->next;
 		// no this picture / create new
 		if(pImList==NULL)
@@ -2498,9 +2497,9 @@ dword XINTERFACE::AttributeChanged(ATTRIBUTES *patr)
 		}
 		if( patr->GetThisName()==NULL ) return 0;
 		// set picture
-		if( stricmp(patr->GetThisName(),"pic") == 0 )
+		if( _stricmp(patr->GetThisName(),"pic") == 0 )
 		{
-			PTR_DELETE(pImList->sPicture);
+			PTR_STORM_DELETE(pImList->sPicture);
 			if(patr->GetThisAttr()!=NULL)
 			{
 				if( (pImList->sPicture=NEW char[strlen(patr->GetThisAttr())+1]) == NULL )
@@ -2511,10 +2510,10 @@ dword XINTERFACE::AttributeChanged(ATTRIBUTES *patr)
 			pImList->imageID = pPictureService->GetImageNum(pImList->sImageListName,pImList->sPicture);
 		}
 		// set texture
-		if( stricmp(patr->GetThisName(),"tex") == 0 )
+		if( _stricmp(patr->GetThisName(),"tex") == 0 )
 		{
 			if(pImList->sImageListName!=NULL) pPictureService->ReleaseTextureID(pImList->sImageListName);
-			PTR_DELETE(pImList->sImageListName);
+			PTR_STORM_DELETE(pImList->sImageListName);
 			if(patr->GetThisAttr()!=NULL)
 			{
 				if( (pImList->sImageListName=NEW char[strlen(patr->GetThisAttr())+1]) == NULL )
@@ -2593,8 +2592,8 @@ void XINTERFACE::ReleaseSaveFindList()
 	{
 		SAVE_FIND_DATA * p = m_pSaveFindRoot;
 		m_pSaveFindRoot = m_pSaveFindRoot->next;
-		PTR_DELETE(p->save_file_name);
-		PTR_DELETE(p);
+		PTR_STORM_DELETE(p->save_file_name);
+		PTR_STORM_DELETE(p);
 	}
 }
 
@@ -2740,7 +2739,7 @@ bool XINTERFACE::NewSaveFileName(char * fileName)
 		for(int n=0; fd.szSaveGameName[n]; n++)	tmpstr[n] = (char)fd.szSaveGameName[n];
 		tmpstr[n] = 0;
 
-		if( stricmp(tmpstr,fileName)==0 )
+		if( _stricmp(tmpstr,fileName)==0 )
 		{
 			XFindClose(sh);
 			return false;
@@ -2865,15 +2864,15 @@ void XINTERFACE::ReleaseDinamicPic(char * sPicName)
 	IMAGE_ENTITY * findImg;
 	for(findImg=m_imgLists; findImg!=null; findImg=findImg->next)
 	{
-		if(findImg->sImageName!=null && stricmp(findImg->sImageName,sPicName)==0)	break;
+		if(findImg->sImageName!=null && _stricmp(findImg->sImageName,sPicName)==0)	break;
 		prevImg = findImg;
 	}
 	if(findImg==null) return;
 
 	PICTURE_TEXTURE_RELEASE(pPictureService,findImg->sImageListName,findImg->idTexture);
-	PTR_DELETE(findImg->sImageListName);
-	PTR_DELETE(findImg->sImageName);
-	PTR_DELETE(findImg->sPicture);
+	PTR_STORM_DELETE(findImg->sImageListName);
+	PTR_STORM_DELETE(findImg->sImageName);
+	PTR_STORM_DELETE(findImg->sPicture);
 	if(prevImg==null) m_imgLists = findImg->next;
 	else prevImg->next = findImg->next;
 }
@@ -3316,7 +3315,7 @@ int XINTERFACE::LoadIsExist()
 			for(i=strlen(datBuf); i>=0 && datBuf[i]!='@'; i--);
 			if(i<0) i=0;
 			if(datBuf[i]=='@') i++;
-			if( stricmp(sCurLngName,&datBuf[i])==0 ) break;
+			if( _stricmp(sCurLngName,&datBuf[i])==0 ) break;
 		}
 
 		bFindFile = api->fio->_FindNextFile(h,&wfd)!=0;
@@ -3344,7 +3343,7 @@ int XINTERFACE::LoadIsExist()
 			for(int i=strlen(datBuf); i>=0 && datBuf[i]!='@'; i--);
 			if(i<0) i=0;
 			if(datBuf[i]=='@') i++;
-			if( stricmp(sCurLngName,&datBuf[i])==0 ) break;
+			if( _stricmp(sCurLngName,&datBuf[i])==0 ) break;
 		}
 
 		bFindFile = XFindNextSaveGame(sh,&fd);
@@ -3387,13 +3386,13 @@ CONTROLS_CONTAINER::~CONTROLS_CONTAINER()
 		{
 			CONTEINER_DESCR::CONTROL_DESCR * pCntrl = pCont->pControls;
 			pCont->pControls = pCont->pControls->next;
-			PTR_DELETE(pCntrl->controlName);
-			PTR_DELETE(pCntrl);
+			PTR_STORM_DELETE(pCntrl->controlName);
+			PTR_STORM_DELETE(pCntrl);
 		}
 
-		PTR_DELETE(pCont->resultName);
+		PTR_STORM_DELETE(pCont->resultName);
 
-		PTR_DELETE(pCont);
+		PTR_STORM_DELETE(pCont);
 	}
 }
 
@@ -3454,7 +3453,7 @@ void CONTROLS_CONTAINER::Execute(dword delta_time)
 			}
 			pDescr = pDescr->next;
 		}
-		if( stricmp(pCont->resultName,"ChrTurnH1")==0 )
+		if( _stricmp(pCont->resultName,"ChrTurnH1")==0 )
 			if(cs.state!=CST_INACTIVE)
 				cs.state=cs.state; //~!~ breakpoint? 
 		api->Controls->SetControlState( pCont->resultName, cs );
@@ -3501,13 +3500,13 @@ void CONTROLS_CONTAINER::AddContainer( char * container )
 
 	pCont = pContainers;
 	pContainers = NEW CONTEINER_DESCR;
-	if(!pContainers) _THROW("allocate memory error");
+	if(!pContainers) STORM_THROW("allocate memory error");
 	pContainers->fMaxVal = 1.f;
 	pContainers->pControls = null;
 	pContainers->next = pCont;
 
 	pContainers->resultName = NEW char[strlen(container)+1];
-	if(!pContainers->resultName) _THROW("allocate memory error");
+	if(!pContainers->resultName) STORM_THROW("allocate memory error");
 	strcpy(pContainers->resultName,container);
 }
 
@@ -3528,12 +3527,12 @@ void CONTROLS_CONTAINER::AddControlsToContainer( char * container, char * contro
 
 	pCtrl = pCont->pControls;
 	pCont->pControls = NEW CONTEINER_DESCR::CONTROL_DESCR;
-	if(!pCont->pControls) _THROW("allocate memory error");
+	if(!pCont->pControls) STORM_THROW("allocate memory error");
 
 	pCont->pControls->fValLimit = fValLimit;
 	pCont->pControls->next = pCtrl;
 	pCont->pControls->controlName = NEW char[strlen(controlName)+1];
-	if(!pCont->pControls->controlName) _THROW("allocate memory error");
+	if(!pCont->pControls->controlName) STORM_THROW("allocate memory error");
 	strcpy( pCont->pControls->controlName, controlName );
 }
 
@@ -3542,7 +3541,7 @@ CONTROLS_CONTAINER::CONTEINER_DESCR * CONTROLS_CONTAINER::FindContainer(char * s
 	if(!sContainer) return null;
 	CONTEINER_DESCR * pCont = pContainers;
 	while(pCont)
-		if(pCont->resultName!=null && stricmp(pCont->resultName,sContainer)==0)
+		if(pCont->resultName!=null && _stricmp(pCont->resultName,sContainer)==0)
 			return pCont;
 	return null;
 }
@@ -3554,7 +3553,7 @@ CONTROLS_CONTAINER::CONTEINER_DESCR::CONTROL_DESCR * CONTROLS_CONTAINER::CONTEIN
 	CONTROL_DESCR * pCtrl = pControls;
 	while(pCtrl)
 	{
-		if( pCtrl->controlName && stricmp(pCtrl->controlName,cntrlName)==0 ) return pCtrl;
+		if( pCtrl->controlName && _stricmp(pCtrl->controlName,cntrlName)==0 ) return pCtrl;
 		pCtrl = pCtrl->next;
 	}
 

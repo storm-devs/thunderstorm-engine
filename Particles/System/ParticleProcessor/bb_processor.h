@@ -12,7 +12,6 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include "..\..\..\common_h\exs.h"
-#include "..\..\..\common_h\templates.h"
 #include "..\..\..\common_h\dx9render.h"
 #include "..\..\..\common_h\particles\gmx_QSort.h"
 
@@ -58,7 +57,7 @@ class BillBoardProcessor
 
 	MemArrayItem* pMemArray;
 
-	array<BB_ParticleData*> Particles;
+	std::vector<BB_ParticleData*> Particles;
 
 	GMXQSort<BB_ParticleData*> ParticleSorter;
 

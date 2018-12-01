@@ -2,9 +2,9 @@
 #include "..\nodes\xi_image.h"
 #include "font.h"
 #include "defines.h"
+#include "../../common_h/defines.h"
 
-GIEditorList::GIEditorList(GIEditor* pEditor) :
-	m_aStrings( _FL )
+GIEditorList::GIEditorList(GIEditor* pEditor)
 {
 	m_pEditor = pEditor;
 	Assert( m_pEditor );
@@ -46,10 +46,10 @@ GIEditorList::~GIEditorList()
 
 void GIEditorList::Release()
 {
-	DELETE( m_pChangeSelected );
-	DELETE( m_pBackImage );
-	DELETE( m_pSelectImage );
-	DELETE( m_pFont );
+	STORM_DELETE( m_pChangeSelected );
+	STORM_DELETE( m_pBackImage );
+	STORM_DELETE( m_pSelectImage );
+	STORM_DELETE( m_pFont );
 }
 
 void GIEditorList::Create()
@@ -66,9 +66,9 @@ void GIEditorList::Render()
 	float fX = m_frBackRect.left + m_frStrOffset.left;
 	float fWidth = m_frBackRect.right - m_frStrOffset.right - fX;
 
-	for( long n=m_nTopIndex; n<m_aStrings && fY < fYEnd; n++ )
+	for( long n=m_nTopIndex; n<m_aStrings.size() && fY < fYEnd; n++ )
 	{
-		m_pFont->Print( fX, fY, "%s", m_aStrings[n].GetBuffer() );
+		m_pFont->Print( fX, fY, "%s", m_aStrings[n].c_str() );
 		fY += m_fStrLineStep;
 	}
 }
@@ -91,40 +91,40 @@ void GIEditorList::SetPosition( float fLeft, float fTop, float fRight, float fBo
 	UpdateSelectPosition();
 }
 
-void GIEditorList::AddString( string& sNewStr )
+void GIEditorList::AddString(std::string& sNewStr )
 {
-	m_aStrings.Add( sNewStr );
+	m_aStrings.push_back( sNewStr );
 }
 
-void GIEditorList::RemoveString( string& sStr )
+void GIEditorList::RemoveString(std::string& sStr )
 {
 	RemoveString( FindString(sStr) );
 }
 
 void GIEditorList::RemoveString( long nIndex )
 {
-	if( nIndex < 0 || nIndex >= m_aStrings ) return;
-	m_aStrings.DelIndex( nIndex );
+	if( nIndex < 0 || nIndex >= m_aStrings.size() ) return;
+	m_aStrings.erase( m_aStrings.begin() + nIndex );
 }
 
 void GIEditorList::RemoveAllStrings()
 {
-	m_aStrings.DelAll();
+	m_aStrings.clear();
 	m_nTopIndex = 0;
 	SetSelectIndex( -1 );
 }
 
-long GIEditorList::FindString( string& sStr )
+long GIEditorList::FindString(std::string& sStr )
 {
-	for( long n=0; n<m_aStrings; n++ )
+	for( long n=0; n<m_aStrings.size(); n++ )
 		if( m_aStrings[n] == sStr )
 			return n;
 	return -1;
 }
 
-string& GIEditorList::GetString( long nIndex )
+std::string& GIEditorList::GetString( long nIndex )
 {
-	if( nIndex >= 0 && nIndex < m_aStrings ) return m_aStrings[nIndex];
+	if( nIndex >= 0 && nIndex < m_aStrings.size() ) return m_aStrings[nIndex];
 	return m_sEmptyString;
 }
 
@@ -141,7 +141,7 @@ void GIEditorList::SetSelectIndex( long nIndex )
 	if( m_nSelectIndex >= m_nTopIndex + m_nLineQuantity )
 	{
 		m_nTopIndex = m_nSelectIndex - m_nLineQuantity;
-		if( m_nTopIndex >= m_aStrings ) m_nTopIndex = m_aStrings.Size()-1;
+		if( m_nTopIndex >= m_aStrings.size() ) m_nTopIndex = m_aStrings.size()-1;
 	}
 
 	UpdateSelectPosition();
@@ -218,7 +218,7 @@ void GIEditorList::IncrementSelectedLine( bool bIncr )
 {
 	if( bIncr )
 	{
-		if( m_nSelectIndex < (long)m_aStrings.Size()-1 )
+		if( m_nSelectIndex < (long)m_aStrings.size()-1 )
 		{
 			SetSelectIndex( m_nSelectIndex+1 );
 		}

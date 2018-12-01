@@ -43,8 +43,8 @@ inline void SetVerticesForSquare(XI_TEX_VERTEX* pV, FRECT uv, float left,float t
 
 void __declspec(noinline) __cdecl DIALOG::DlgTextDescribe::ChangeText(const char* pcText)
 {
-	asText.DelAll();
-	anPageEndIndex.DelAll();
+	asText.clear();
+	anPageEndIndex.clear();
 	if( !pcText ) return;
 
 	long i=0;
@@ -60,14 +60,14 @@ void __declspec(noinline) __cdecl DIALOG::DlgTextDescribe::ChangeText(const char
 			i = n+2;
 			n++;
 			DIALOG::AddToStringArrayLimitedByWidth(pcTmp,nFontID,fScale,nWindowWidth, asText, &anPageEndIndex,nShowQuantity);
-			if( anPageEndIndex.Size()==0 || anPageEndIndex[anPageEndIndex.Size()-1]!=asText.Size() )
-				anPageEndIndex.Add( asText.Size() );
+			if( anPageEndIndex.size()==0 || anPageEndIndex[anPageEndIndex.size()-1]!=asText.size() )
+				anPageEndIndex.push_back( asText.size() );
 			delete pcTmp;
 		}
 	}
 	DIALOG::AddToStringArrayLimitedByWidth(&pcText[i],nFontID,fScale,nWindowWidth, asText, &anPageEndIndex,nShowQuantity);
-//	if( anPageEndIndex.Size()!=0 && anPageEndIndex[anPageEndIndex.Size()-1]!=asText.Size() )
-//		anPageEndIndex.Add( asText.Size() );
+//	if( anPageEndIndex.size()!=0 && anPageEndIndex[anPageEndIndex.size()-1]!=asText.size() )
+//		anPageEndIndex.Add( asText.size() );
 	nStartIndex = 0;
 	nSelectLine = -1;
 }
@@ -101,11 +101,11 @@ void __declspec(noinline) __cdecl DIALOG::DlgTextDescribe::Init(VDX9RENDER* pRS,
 long DIALOG::DlgTextDescribe::GetShowHeight()
 {
 	long n;
-	for(n=0; n<anPageEndIndex; n++)
+	for(n=0; n<anPageEndIndex.size(); n++)
 		if( nStartIndex<anPageEndIndex[n] )
 			break;
-	if( n < anPageEndIndex ) n = anPageEndIndex[n] - nStartIndex;
-	else n = asText.Size() - nStartIndex;
+	if( n < anPageEndIndex.size() ) n = anPageEndIndex[n] - nStartIndex;
+	else n = asText.size() - nStartIndex;
 	if( n > nShowQuantity ) n = nShowQuantity;
 	return (n * nLineInterval);
 }
@@ -116,15 +116,15 @@ void DIALOG::DlgTextDescribe::Show(long nY)
 
 	y = nY + offset.y;
 	i = 0;
-	for(n=0; n<anPageEndIndex; n++)
+	for(n=0; n<anPageEndIndex.size(); n++)
 		if( anPageEndIndex[n]>nStartIndex )
 			break;
-	if( n<anPageEndIndex ) nEnd = anPageEndIndex[n];
-	else nEnd = asText.Size();
+	if( n<anPageEndIndex.size() ) nEnd = anPageEndIndex[n];
+	else nEnd = asText.size();
 	for( n=nStartIndex; i<nShowQuantity && n<nEnd; i++,n++ )
 	{
 		rs->ExtPrint( nFontID, dwColor, 0, ALIGN_LEFT,true,fScale,
-			0,0, offset.x,y, "%s", asText[n].GetBuffer() );
+			0,0, offset.x,y, "%s", asText[n].c_str() );
 		y += nLineInterval;
 	}
 }
@@ -132,16 +132,16 @@ void DIALOG::DlgTextDescribe::Show(long nY)
 bool DIALOG::DlgTextDescribe::IsLastPage()
 {
 	long n;
-	for( n=0; n<anPageEndIndex; n++ )
+	for( n=0; n<anPageEndIndex.size(); n++ )
 		if( anPageEndIndex[n]>nStartIndex ) break;
-	if( n>=anPageEndIndex || anPageEndIndex[n]>=asText ) return true;
+	if( n>=anPageEndIndex.size() || anPageEndIndex[n]>=asText.size() ) return true;
 	return false;
 }
 
 void DIALOG::DlgTextDescribe::PrevPage()
 {
 	long n;
-	for( n=anPageEndIndex.Size()-1; n>=0; n-- )
+	for( n=anPageEndIndex.size()-1; n>=0; n-- )
 		if( anPageEndIndex[n]<nStartIndex ) break;
 	if( n>=0 ) nStartIndex = anPageEndIndex[n];
 	else nStartIndex = 0;
@@ -150,17 +150,17 @@ void DIALOG::DlgTextDescribe::PrevPage()
 void DIALOG::DlgTextDescribe::NextPage()
 {
 	long n;
-	for( n=0; n<anPageEndIndex; n++ )
+	for( n=0; n<anPageEndIndex.size(); n++ )
 		if( anPageEndIndex[n]>nStartIndex ) break;
-	if( n<anPageEndIndex && anPageEndIndex[n]<asText )
+	if( n<anPageEndIndex.size() && anPageEndIndex[n]<asText.size() )
 		nStartIndex = anPageEndIndex[n];
 }
 
 void __declspec(noinline) __cdecl DIALOG::DlgLinkDescribe::ChangeText(ATTRIBUTES* pALinks)
 {
 	nEditLine = -1;
-	asText.DelAll();
-	anLineEndIndex.DelAll();
+	asText.clear();
+	anLineEndIndex.clear();
 	if( !pALinks ) return;
 
 	for( long n=0; n<(long)pALinks->GetAttributesNum(); n++ )
@@ -177,7 +177,7 @@ void __declspec(noinline) __cdecl DIALOG::DlgLinkDescribe::ChangeText(ATTRIBUTES
 				nEditCharIndex = 0;
 			}
 			DIALOG::AddToStringArrayLimitedByWidth(pA->GetThisAttr(),nFontID,fScale,nWindowWidth, asText, 0,100);
-			anLineEndIndex.Add( (long)asText );
+			anLineEndIndex.push_back( asText.size() );
 		}
 	}
 
@@ -220,7 +220,7 @@ void __declspec(noinline) __cdecl DIALOG::DlgLinkDescribe::Init(VDX9RENDER* pRS,
 
 long DIALOG::DlgLinkDescribe::GetShowHeight()
 {
-	long n = asText.Size() - nStartIndex;
+	long n = asText.size() - nStartIndex;
 	if( n > nShowQuantity ) n = nShowQuantity;
 	return (n * nLineInterval);
 }
@@ -232,15 +232,15 @@ void DIALOG::DlgLinkDescribe::Show(long nY)
 	y = nY + offset.y;
 	n = nStartIndex;
 	nBeg = 0;
-	if( nSelectLine<anLineEndIndex && nSelectLine>=0 ) {
+	if( nSelectLine<anLineEndIndex.size() && nSelectLine>=0 ) {
 		if( nSelectLine>0 ) nBeg = anLineEndIndex[nSelectLine-1];
 		nEnd = anLineEndIndex[nSelectLine];
 	}
 	else nEnd = -1;
-	for( i=0; i<nShowQuantity && n<asText; i++,n++ )
+	for( i=0; i<nShowQuantity && n<asText.size(); i++,n++ )
 	{
 		rs->ExtPrint( nFontID, (n>=nBeg && n<nEnd)?dwSelColor:dwColor, 0, ALIGN_LEFT,true,fScale,
-			0,0, offset.x,y, "%s", asText[n].GetBuffer() );
+			0,0, offset.x,y, "%s", asText[n].c_str() );
 
 		if(nEditLine!=-1 && (n>=nBeg && n<nEnd) && nSelectLine==nEditLine)
 		{
@@ -272,15 +272,15 @@ void __declspec(noinline) __cdecl DIALOG::DlgLinkDescribe::ShowEditMode(long nX,
 					case VK_BACK:
 						if(nEditCharIndex>0) {
 							nEditCharIndex--;
-							asText[nTextIdx].Delete(nEditCharIndex,1);
+							asText[nTextIdx].erase(nEditCharIndex,1);
 						}
 						break;
 					case VK_RIGHT:
-						if(nEditCharIndex < (long)asText[nTextIdx].Len()) nEditCharIndex++;
+						if(nEditCharIndex < (long)asText[nTextIdx].size()) nEditCharIndex++;
 						break;
 					case VK_DELETE:
-						if(nEditCharIndex>=0 && nEditCharIndex < (long)asText[nTextIdx].Len()) {
-							asText[nTextIdx].Delete(nEditCharIndex,1);
+						if(nEditCharIndex>=0 && nEditCharIndex < (long)asText[nTextIdx].size()) {
+							asText[nTextIdx].erase(nEditCharIndex,1);
 						}
 						break;
 					}
@@ -289,10 +289,10 @@ void __declspec(noinline) __cdecl DIALOG::DlgLinkDescribe::ShowEditMode(long nX,
 				if( pKeys[n].ucVKey < 0x20 ) continue;
 
 				char pcTmp[2]; pcTmp[0]=pKeys[n].ucVKey; pcTmp[1]=0;
-				if( rs->StringWidth( (char*)asText[nTextIdx].GetBuffer(), nFontID, fScale, 0 ) +
+				if( rs->StringWidth( (char*)asText[nTextIdx].c_str(), nFontID, fScale, 0 ) +
 					rs->CharWidth(pcTmp[0],nFontID,fScale) <= nWindowWidth )
 				{
-					asText[nTextIdx].Insert( nEditCharIndex, pcTmp );
+					asText[nTextIdx].insert( nEditCharIndex, pcTmp );
 					nEditCharIndex++;
 				}
 			}
@@ -306,17 +306,17 @@ void __declspec(noinline) __cdecl DIALOG::DlgLinkDescribe::ShowEditMode(long nX,
 	if( fCursorCurrentTime <= fCursorVisibleTime )
 	{
 		long nW = 0;
-		if( !asText[nTextIdx].IsEmpty() )
+		if( !asText[nTextIdx].empty() )
 		{
-			if( nEditCharIndex < (long)asText[nTextIdx].Len() )
+			if( nEditCharIndex < (long)asText[nTextIdx].size() )
 			{
 				char cTmp = asText[nTextIdx][nEditCharIndex];
 				asText[nTextIdx][nEditCharIndex] = 0;
-				nW = rs->StringWidth( (char*)asText[nTextIdx].GetBuffer(), nFontID, fScale, 0 );
+				nW = rs->StringWidth( (char*)asText[nTextIdx].c_str(), nFontID, fScale, 0 );
 				asText[nTextIdx][nEditCharIndex] = cTmp;
 			}
 			else
-				nW = rs->StringWidth( (char*)asText[nTextIdx].GetBuffer(), nFontID, fScale, 0 );
+				nW = rs->StringWidth( (char*)asText[nTextIdx].c_str(), nFontID, fScale, 0 );
 		}
 		rs->ExtPrint( nFontID, dwSelColor, 0, ALIGN_LEFT, true, fScale, 0,0, nX+nW,nY, "_" );
 	}
@@ -324,7 +324,7 @@ void __declspec(noinline) __cdecl DIALOG::DlgLinkDescribe::ShowEditMode(long nX,
 	if( nEditVarIndex>=0 && nEditVarIndex<10 )
 	{
 		VDATA* pDat = (VDATA*)api->GetScriptVariable( "dialogEditStrings" );
-		if( pDat ) pDat->Set( (char*)asText[nTextIdx].GetBuffer(), nEditVarIndex );
+		if( pDat ) pDat->Set( (char*)asText[nTextIdx].c_str(), nEditVarIndex );
 	}
 }
 
@@ -524,7 +524,7 @@ void DIALOG::FillButtons()
 
 	m_dwButtonState &= ~(BUTTON_STATE_UPENABLE|BUTTON_STATE_DOWNENABLE);
 
-	if( (!m_DlgText.IsLastPage()) || (m_DlgLinks.nStartIndex+m_DlgLinks.nShowQuantity < m_DlgLinks.asText) )
+	if( (!m_DlgText.IsLastPage()) || (m_DlgLinks.nStartIndex+m_DlgLinks.nShowQuantity < m_DlgLinks.asText.size()) )
 		m_dwButtonState |= BUTTON_STATE_DOWNENABLE;
 
 	if( m_DlgText.IsLastPage() && m_DlgLinks.nStartIndex>0 )
@@ -693,7 +693,7 @@ void DIALOG::GetPointFromIni( INIFILE* ini, const char* pcSection, const char* p
 	sscanf( param, "%f,%f", &fpoint.x, &fpoint.y );
 }
 
-void DIALOG::AddToStringArrayLimitedByWidth(const char* pcSrcText, long nFontID,float fScale,long nLimitWidth, array<string> & asOutTextList, array<long>* panPageIndices, long nPageSize)
+void DIALOG::AddToStringArrayLimitedByWidth(const char* pcSrcText, long nFontID,float fScale,long nLimitWidth, std::vector<std::string> & asOutTextList, std::vector<long>* panPageIndices, long nPageSize)
 {
 	if( !pcSrcText ) return;
 	if( nLimitWidth < 20 ) nLimitWidth = 20;
@@ -702,8 +702,8 @@ void DIALOG::AddToStringArrayLimitedByWidth(const char* pcSrcText, long nFontID,
 	char param[1024];
 	long nCur = 0;
 	long nPrevIdx = 0;
-	if( panPageIndices && panPageIndices->Size()>0 )
-		nPrevIdx = panPageIndices->LastE();
+	if( panPageIndices && panPageIndices->size()>0 )
+		nPrevIdx = panPageIndices->back();
 	while(true) {
 		if( (pcSrcText[nCur]==0x20 && pcSrcText[nCur+1] != 0) || pcSrcText[nCur]==0 ) // space
 		{// boal fix пробел в конце строки
@@ -731,14 +731,13 @@ void DIALOG::AddToStringArrayLimitedByWidth(const char* pcSrcText, long nFontID,
 						nCur = nPrev;
 					}
 				}
-				long i = asOutTextList.Add();
-				asOutTextList[i] = param;
+				asOutTextList.push_back(param);
 				n = 0;
 
-				if( panPageIndices && asOutTextList.Size() - nPrevIdx == nPageSize )
+				if( panPageIndices && asOutTextList.size() - nPrevIdx == nPageSize )
 				{
-					nPrevIdx = asOutTextList.Size();
-					panPageIndices->Add( nPrevIdx );
+					nPrevIdx = asOutTextList.size();
+					panPageIndices->push_back( nPrevIdx );
 				}
 			}
 			while( pcSrcText[nCur] == 0x20 && pcSrcText[nCur+1] != 0) nCur++; // boal fix
@@ -780,7 +779,7 @@ bool DIALOG::Init()
 	INIFILE *ini = api->fio->OpenIniFile("Resource\\Ini\\dialog.ini");
 	m_DlgText.Init(RenderService,textViewport,ini);
 	m_DlgLinks.Init(RenderService,textViewport,ini);
-	DELETE( ini );
+	STORM_DELETE( ini );
 
 	CreateButtons();
 	FillButtons();
@@ -875,7 +874,7 @@ void DIALOG::Realize(dword Delta_Time)
 
 		if( m_DlgText.IsLastPage() )
 		{
-			if( m_DlgLinks.nSelectLine < (long)m_DlgLinks.anLineEndIndex.Size()-1 )
+			if( m_DlgLinks.nSelectLine < (long)m_DlgLinks.anLineEndIndex.size()-1 )
 				m_DlgLinks.nSelectLine++;
 			if( m_DlgLinks.nStartIndex+m_DlgLinks.nShowQuantity < m_DlgLinks.anLineEndIndex[m_DlgLinks.nSelectLine] ) {
 				m_DlgLinks.nStartIndex = m_DlgLinks.anLineEndIndex[m_DlgLinks.nSelectLine] - m_DlgLinks.nShowQuantity;
@@ -926,7 +925,7 @@ void DIALOG::Realize(dword Delta_Time)
 			if( pA )
 			{
 				char *goName = pA->GetAttribute("go");
-				if( !goName || stricmp(goName, selectedLinkName)==0 ) EmergencyExit();
+				if( !goName || _stricmp(goName, selectedLinkName)==0 ) EmergencyExit();
 				else {
 					AttributesPointer->SetAttribute("CurrentNode",goName);
 					strcpy(selectedLinkName, goName);
@@ -950,7 +949,7 @@ void DIALOG::Realize(dword Delta_Time)
 	RenderService->ExtPrint( m_nCharNameTextFont, m_dwCharNameTextColor, 0, ALIGN_LEFT,true,m_fCharNameTextScale, 0,0,
 		(long)(m_BackParams.m_frBorderExt.left+m_fpCharNameTextOffset.x),
 		(long)(m_BackParams.m_frBorderExt.top+m_fpCharNameTextOffset.y),
-		"%s", m_sTalkPersName.GetBuffer() );
+		"%s", m_sTalkPersName.c_str() );
 
 	m_DlgText.Show( textViewport.Y );
 	if( m_DlgText.IsLastPage() )
@@ -972,13 +971,13 @@ dword DIALOG::AttributeChanged(ATTRIBUTES * pA)
 	ATTRIBUTES *par = pA->GetParent();
 	if(par!=0) {
 		const char *parname = par->GetThisName();
-		if(parname!=0 && stricmp(parname, "Links")==0)	parLinks = true;
+		if(parname!=0 && _stricmp(parname, "Links")==0)	parLinks = true;
 	}
 
 	const char *nm = pA->GetThisName();
 
 	//play sound d.speech
-	if(!parLinks && nm && stricmp(nm,"greeting")==0) //was "snd"
+	if(!parLinks && nm && _stricmp(nm,"greeting")==0) //was "snd"
 	{
 		strcpy(soundName, pA->GetThisAttr());
 		if(start) play = 0;
@@ -1003,9 +1002,9 @@ dword _cdecl DIALOG::ProcessMessage(MESSAGE & message)
 			charId = message.EntityID();
 			charMdl = message.EntityID();
 			m_sTalkPersName = api->Entity_GetAttribute(&charId,"name");
-			if( m_sTalkPersName.Size()>0 ) m_sTalkPersName += " ";
+			if( m_sTalkPersName.size()>0 ) m_sTalkPersName += " ";
 			m_sTalkPersName += api->Entity_GetAttribute(&charId,"lastname");
-			m_BackParams.fCharacterNameRectCenterWidth = 4.f + RenderService->StringWidth( (char*)m_sTalkPersName.GetBuffer(), m_nCharNameTextFont, m_fCharNameTextScale );
+			m_BackParams.fCharacterNameRectCenterWidth = 4.f + RenderService->StringWidth( (char*)m_sTalkPersName.c_str(), m_nCharNameTextFont, m_fCharNameTextScale );
 		break;
 	}
 	return 0;

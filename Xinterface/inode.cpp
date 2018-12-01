@@ -2,6 +2,7 @@
 #include "inode.h"
 
 #include "..\..\Shared\interface\messages.h"
+#include "../common_h/defines.h"
 
 CINODE::CINODE()
 {
@@ -31,9 +32,9 @@ CINODE::CINODE()
 
 CINODE::~CINODE()
 {
-	DELETE(m_strHelpTextureFile);
+	STORM_DELETE(m_strHelpTextureFile);
 
-	DELETE(m_nodeName);
+	STORM_DELETE(m_nodeName);
 
 	if(m_list)
 	{
@@ -43,8 +44,8 @@ CINODE::~CINODE()
 
 	for(int i=0; i<COMMAND_QUANTITY; i++)
 	{
-		DELETE(m_pCommands[i].sRetControl);
-		DELETE(m_pCommands[i].sEventName);
+		STORM_DELETE(m_pCommands[i].sRetControl);
+		STORM_DELETE(m_pCommands[i].sEventName);
 
 		COMMAND_REDIRECT * pContrl = m_pCommands[i].pNextControl;
 		while(pContrl!=null)
@@ -55,7 +56,7 @@ CINODE::~CINODE()
 		}
 		m_pCommands[i].pNextControl = 0;
 	}
-	DELETE( m_pToolTip );
+	STORM_DELETE( m_pToolTip );
 }
 
 void CINODE::FrameProcess(dword DeltaTime)
@@ -157,7 +158,7 @@ CINODE* CINODE::FindNode(CINODE* pNod, const char* sNodName)
 {
 	if( !sNodName ) return null;
 	while( pNod ) {
-		if( pNod->m_nodeName && stricmp(sNodName,pNod->m_nodeName)==0 ) break;
+		if( pNod->m_nodeName && _stricmp(sNodName,pNod->m_nodeName)==0 ) break;
 		if( pNod->m_list ) {
 			CINODE* pInsideNod = FindNode( pNod->m_list, sNodName );
 			if( pInsideNod ) return pInsideNod;
@@ -195,7 +196,7 @@ CINODE* CINODE::FindNode(CINODE* pNod, float x,float y)
 
 /*CINODE*	CINODE::FindNode(const char* sNodName)
 {
-	if( sNodName!=null && stricmp(sNodName,m_nodeName)==0 )
+	if( sNodName!=null && _stricmp(sNodName,m_nodeName)==0 )
 		return this;
 	CINODE* retVal;
 	if( m_list!=null )

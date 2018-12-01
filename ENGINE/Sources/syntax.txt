@@ -100,7 +100,7 @@ void	Trace(string or float or int);	// trace to system.log
 void	MakeInt(float or string);	// convert to int
 void	MakeFloat(int or string);	// convert to float
 void	LayerCreate(string name,int ordered);
-void	LayerDelete(string name);
+void	LayerSTORM_DELETE(string name);
 void	LayerDeleteContent(string name);	// delete classes, linked to this layer
 void	LayerSetRealize(string name,int onoff);
 void	LayerSetExecute(string name,int onoff);

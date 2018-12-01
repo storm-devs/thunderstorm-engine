@@ -4,10 +4,11 @@
 #include "FreeCamera.h"
 #include "ShipCamera.h"
 #include "DeckCamera.h"
+#include <vector>
 
 class SEA_CAMERAS : public ENTITY
 {
-	array<COMMON_CAMERA*>	CamerasArray;
+	std::vector<COMMON_CAMERA*>	CamerasArray;
 	bool	bActive;
 public:
 	SEA_CAMERAS();

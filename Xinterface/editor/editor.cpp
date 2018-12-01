@@ -3,6 +3,7 @@
 #include "..\nodes\xi_image.h"
 #include "list.h"
 #include "defines.h"
+#include "../../common_h/defines.h"
 
 GIEditor::GIEditor(XINTERFACE* pInterface)
 {
@@ -43,9 +44,9 @@ void GIEditor::Release()
 	m_pGIOwner = 0;
 	m_bShowMode = false;
 
-	DELETE( m_pImageBack );
-	DELETE( m_pNodeList );
-	DELETE( m_pSubNameList );
+	STORM_DELETE( m_pImageBack );
+	STORM_DELETE( m_pNodeList );
+	STORM_DELETE( m_pSubNameList );
 }
 
 void GIEditor::Render()
@@ -99,17 +100,17 @@ bool GIEditor::ProcessControl()
 			m_bShowMode = false;
 			if( !m_bSubNameOn )
 			{
-				array<string> aStr( _FL );
+				std::vector<std::string> aStr;
 				if( m_pEditableNode && m_pEditableNode->GetInternalNameList(aStr) )
 				{
 					m_bShowMode = true;
 					m_bSubNameOn = false;
 					m_pSubNameList->RemoveAllStrings();
-					for( long n=0; n<aStr; n++ )
+					for( long n=0; n<aStr.size(); n++ )
 						m_pSubNameList->AddString( aStr[n] );
 					m_bSubNameOn = true;
 					m_pSubNameList->SetSelectIndex(0);
-					aStr.DelAll();
+					aStr.clear();
 				}
 			}
 		}
@@ -217,7 +218,7 @@ void GIEditor::SetEditNode(CINODE* pNode)
 void GIEditor::ReCreate()
 {
 	m_pNodeList->RemoveAllStrings();
-	string sStr = "Nothing";
+	std::string sStr = "Nothing";
 	m_pNodeList->AddString( sStr );
 	m_pNodeList->SetSelectIndex( 0 );
 }
@@ -225,14 +226,14 @@ void GIEditor::ReCreate()
 void GIEditor::AddNode(CINODE* pNode)
 {
 	if( !pNode ) return;
-	string sStr = pNode->m_nodeName;
+	std::string sStr = pNode->m_nodeName;
 	m_pNodeList->AddString( sStr );
 }
 
 void GIEditor::DelNode(CINODE* pNode)
 {
 	if( !pNode ) return;
-	m_pNodeList->RemoveString( string(pNode->m_nodeName) );
+	m_pNodeList->RemoveString(std::string(pNode->m_nodeName) );
 }
 
 void GIEditor::DrawSizeBox()
@@ -283,7 +284,7 @@ void GIEditor::ChangeNodeName()
 		return;
 	}
 
-	m_pEditableNode = m_pGIOwner->FindNode( m_pNodeList->GetSelectString().GetBuffer(), 0 );
+	m_pEditableNode = m_pGIOwner->FindNode( m_pNodeList->GetSelectString().c_str(), 0 );
 }
 
 void GIEditor::ChangeSubNodeName()

@@ -99,7 +99,7 @@ public:
 	inline bool operator == (const char * str)
 	{
 		if (!str || !str[0]) return false;
-		return stricmp(pVStringCodec->Convert(nNameCode), str) == 0;
+		return _stricmp(pVStringCodec->Convert(nNameCode), str) == 0;
 	};
 
 	__forceinline char * GetThisName()
@@ -164,7 +164,7 @@ public:
 	ATTRIBUTES * GetAttributeClass(const char * name)
 	{
 		for (dword n=0; n<Attributes_num; n++)
-			if (stricmp(name, pAttributes[n]->GetThisName()) == 0) return pAttributes[n];
+			if (_stricmp(name, pAttributes[n]->GetThisName()) == 0) return pAttributes[n];
 		return null;
 	};
 
@@ -193,7 +193,7 @@ public:
 	{
 		if (name == 0) return null;
 		for(dword n=0; n<Attributes_num; n++)
-			if (stricmp(name,pAttributes[n]->GetThisName())== 0) return pAttributes[n]->Attribute;
+			if (_stricmp(name,pAttributes[n]->GetThisName())== 0) return pAttributes[n]->Attribute;
 		return 0;
 	};
 

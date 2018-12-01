@@ -11,8 +11,6 @@
 #include "..\common_h\exs.h"
 #include "..\common_h\rands.h"
 #include "..\common_h\ship_base.h"
-#include "..\common_h\templates\array.h"
-#include "..\common_h\templates\string.h"
 
 #include "..\common_h\sea_base.h"
 
@@ -103,7 +101,7 @@ public:
 class ShipWalk
 {
 public:
-	ShipWalk() : shipMan(_FL_) {}
+	//ShipWalk() shipMan(_FL_) {}
 
 	SHIP_BASE *ship;
 	MODEL *shipModel;
@@ -118,7 +116,7 @@ public:
 	void ReloadCannons(int bort);
 	ShipState shipState; //Состояние корабля
 
-	array <ShipMan> shipMan;
+	std::vector<ShipMan> shipMan;
 	void CreateNewMan(SailorsPoints &sailorsPoints);
 	void DeleteMan(int Index);
 
@@ -138,7 +136,7 @@ public:
 
 	VDX9RENDER *rs;
 
-	array <ShipWalk> shipWalk;
+	std::vector<ShipWalk> shipWalk;
 	bool editorMode;
 	int shipsCount;
 	bool disabled;

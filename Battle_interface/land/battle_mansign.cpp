@@ -2,8 +2,7 @@
 #include "battle_mancommand.h"
 #include "..\utils.h"
 
-BIManSign::BIManSign( ENTITY_ID& BIEntityID, VDX9RENDER* pRS ) :
-	m_aChargeProgress(_FL)
+BIManSign::BIManSign( ENTITY_ID& BIEntityID, VDX9RENDER* pRS )
 {
 	Assert( pRS );
 
@@ -231,7 +230,7 @@ void BIManSign::Init( ATTRIBUTES* pRoot, ATTRIBUTES* pA )
 		pcTmp = pA->GetAttribute( "gunchargeprogress" );
 		if( pcTmp ) {
 			do {
-				m_aChargeProgress.Add( BIUtils::GetFromStr_Float(pcTmp,0.f) );
+				m_aChargeProgress.push_back( BIUtils::GetFromStr_Float(pcTmp,0.f) );
 			} while( pcTmp[0] );
 		}
 
@@ -353,7 +352,7 @@ void BIManSign::ExecuteCommand( long command )
 
 void BIManSign::Release()
 {
-	DELETE( m_pCommandList );
+	STORM_DELETE( m_pCommandList );
 	TEXTURE_RELEASE( m_pRS, m_nBackTextureID );
 	//TEXTURE_RELEASE( m_pRS, m_nShipTextureID );
 	TEXTURE_RELEASE( m_pRS, m_nManStateTextureID );
@@ -638,7 +637,7 @@ float BIManSign::GetProgressGunCharge(long nIdx)
 
 float BIManSign::GetGunProgressByIndex(long nIdx)
 {
-	if( nIdx<0 || nIdx>=m_aChargeProgress ) return 0.f;
+	if( nIdx<0 || nIdx>=m_aChargeProgress.size() ) return 0.f;
 	return m_aChargeProgress[nIdx];
 }
 
@@ -665,7 +664,7 @@ void BIManSign::CheckDataChange()
 		if( FRectACompare(pA,"uv",m_Man[n].rUV) ) m_bMakeVertexFill = true;
 		if( StringACompare(pA,"texture",m_Man[n].sTexture) ) {
 			TEXTURE_RELEASE( m_pRS, m_Man[n].nTexture );
-			m_Man[n].nTexture = m_pRS->TextureCreate( m_Man[n].sTexture );
+			m_Man[n].nTexture = m_pRS->TextureCreate( m_Man[n].sTexture.c_str() );
 			m_bMakeVertexFill = true;
 		}
 	}

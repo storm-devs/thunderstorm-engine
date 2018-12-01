@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "xi_lrchanger.h"
+#include "../../common_h/defines.h"
 
 void SetOneTextureCoordinate(XI_ONETEX_VERTEX v[4],FXYRECT & tr)
 {
@@ -143,7 +144,7 @@ void CXI_LRCHANGER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 	{
 		m_sGroupName = NEW char[strlen(param)+1];
 		if(m_sGroupName==null)
-			_THROW("allocate memory error")
+			STORM_THROW("allocate memory error")
 		strcpy(m_sGroupName,param);
 		m_idTex = pPictureService->GetTextureID(param);
 	}
@@ -170,7 +171,7 @@ void CXI_LRCHANGER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 void CXI_LRCHANGER::ReleaseAll()
 {
 	PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName,m_idTex);
-	PTR_DELETE(m_sGroupName);
+	PTR_STORM_DELETE(m_sGroupName);
 }
 
 int CXI_LRCHANGER::CommandExecute(int wActCode)
@@ -240,9 +241,9 @@ void CXI_LRCHANGER::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 

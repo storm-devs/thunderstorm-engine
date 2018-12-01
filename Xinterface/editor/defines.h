@@ -1,8 +1,6 @@
 #ifndef _GI_EDITOR_DEFINES_H_
 #define _GI_EDITOR_DEFINES_H_
-
-#include "..\..\common_h\vmodule_api.h"
-#include "..\..\common_h\templates\array.h"
+#include <vector>
 
 enum GIEditorStates
 {
@@ -43,7 +41,7 @@ protected:
 		GIEditorObject* pObj;
 		GIEditorEvent func;
 	};
-	array<FuncDescr> m_aEventFuncs;
+	std::vector<FuncDescr> m_aEventFuncs;
 };
 
 #endif

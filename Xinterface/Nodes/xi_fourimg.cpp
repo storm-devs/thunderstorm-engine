@@ -2,6 +2,7 @@
 #include <assert.h>
 #include "xi_fourimg.h"
 #include "..\\defines.h"
+#include "../../common_h/defines.h"
 
 CXI_FOURIMAGE::CXI_FOURIMAGE()
 {
@@ -303,7 +304,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 			m_sGroupName = NEW char*[m_nTexturesQuantity];
 			if(m_sGroupName==NULL || m_nTextureId==NULL)
 			{
-				_THROW("Allocate memory error");
+				STORM_THROW("Allocate memory error");
 			}
 			for(i=0; i<m_nTexturesQuantity; i++)
 			{
@@ -313,7 +314,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 				{
 					if( (m_sGroupName[i]=NEW char[strlen(stmp)+1])==NULL )
 					{
-						_THROW("Allocate memory error");
+						STORM_THROW("Allocate memory error");
 					}
 					strcpy(m_sGroupName[i],stmp);
 				}
@@ -339,7 +340,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 				if(tmps!=NULL && *tmps=='#')
 				{
 					if( (m_pOneStr[i]=NEW char[strlen(tmps)]) == NULL )
-						_THROW("allocate memory error");
+						STORM_THROW("allocate memory error");
 					strcpy(m_pOneStr[i],&tmps[1]);
 					m_oneStr[i] = -1L;
 				}
@@ -352,7 +353,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 				if(tmps!=NULL && *tmps=='#')
 				{
 					if( (m_pTwoStr[i]=NEW char[strlen(tmps)]) == NULL )
-						_THROW("allocate memory error");
+						STORM_THROW("allocate memory error");
 					strcpy(m_pTwoStr[i],&tmps[1]);
 					m_twoStr[i] = -1L;
 				}
@@ -392,7 +393,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 	{
 		tmpstr = GetSubStr(param, param1, sizeof(param1));
 		if( (m_sBorderGroupName = NEW char[strlen(param1)+1])==null )
-			_THROW("allocate memory error")
+			STORM_THROW("allocate memory error")
 		strcpy(m_sBorderGroupName,param1);
 		m_texBorder = pPictureService->GetTextureID(m_sBorderGroupName);
 		m_nBorderPicture = pPictureService->GetImageNum(m_sBorderGroupName,tmpstr);
@@ -420,20 +421,20 @@ void CXI_FOURIMAGE::ReleaseAll()
 	for(i=0; i<m_nTexturesQuantity; i++)
 	{
 		PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName[i],m_nTextureId[i]);
-		PTR_DELETE(m_sGroupName[i]);
+		PTR_STORM_DELETE(m_sGroupName[i]);
 	}
-	PTR_DELETE(m_sGroupName);
-	PTR_DELETE(m_nTextureId);
+	PTR_STORM_DELETE(m_sGroupName);
+	PTR_STORM_DELETE(m_nTextureId);
 	PICTURE_TEXTURE_RELEASE(pPictureService,m_sBorderGroupName,m_texBorder);
 
 	for(i=0; i<4; i++)
 	{
-		PTR_DELETE(m_pOneStr[i]);
-		PTR_DELETE(m_pTwoStr[i]);
+		PTR_STORM_DELETE(m_pOneStr[i]);
+		PTR_STORM_DELETE(m_pTwoStr[i]);
 	}
 
 	// release all image list names
-	PTR_DELETE(m_sBorderGroupName);
+	PTR_STORM_DELETE(m_sBorderGroupName);
 
 	FONT_RELEASE(m_rs,m_oneStrFont);
 	FONT_RELEASE(m_rs,m_twoStrFont);
@@ -627,9 +628,9 @@ void CXI_FOURIMAGE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 
@@ -680,7 +681,7 @@ void CXI_FOURIMAGE::ChangeItem(int nItemNum)
 				if(sptr!=NULL && *sptr=='#')
 					if( (m_pOneStr[i]=NEW char[strlen(sptr)]) == NULL )
 					{
-						_THROW("allocate memory error")
+						STORM_THROW("allocate memory error")
 					}
 					else	strcpy(m_pOneStr[i],&sptr[1]);
 				else	m_oneStr[i] = pStringService->GetStringNum(sptr);
@@ -689,7 +690,7 @@ void CXI_FOURIMAGE::ChangeItem(int nItemNum)
 				if(sptr!=NULL && *sptr=='#')
 					if( (m_pTwoStr[i]=NEW char[strlen(sptr)]) == NULL )
 					{
-						_THROW("allocate memory error")
+						STORM_THROW("allocate memory error")
 					}
 					else	strcpy(m_pTwoStr[i],&sptr[1]);
 				else	m_twoStr[i] = pStringService->GetStringNum(sptr);

@@ -14,9 +14,9 @@ SEA_AI::SEA_AI()
 
 SEA_AI::~SEA_AI()
 {
-	for (dword i=0;i<AIGroup::AIGroups.Size();i++) DELETE(AIGroup::AIGroups[i]);
-	AIGroup::AIGroups.DelAll();
-	AIShip::AIShips.DelAll();
+	for (dword i=0;i<AIGroup::AIGroups.size();i++) STORM_DELETE(AIGroup::AIGroups[i]);
+	AIGroup::AIGroups.clear();
+	AIShip::AIShips.clear();
 	Helper.Uninit();
 }
 
@@ -43,7 +43,7 @@ void SEA_AI::Execute(dword Delta_Time)
 		bFirstInit = false;
 	}
 	
-	for (dword i=0;i<AIGroup::AIGroups.Size();i++)
+	for (dword i=0;i<AIGroup::AIGroups.size();i++)
 	{
 		AIGroup::AIGroups[i]->Execute(fDeltaTime);
 	}
@@ -56,7 +56,7 @@ extern dword dwTotal;
 void SEA_AI::Realize(dword Delta_Time)
 {
 	float fDeltaTime = 0.001f * float(Delta_Time);
-	for (dword i=0;i<AIGroup::AIGroups.Size();i++)
+	for (dword i=0;i<AIGroup::AIGroups.size();i++)
 	{
 		AIGroup::AIGroups[i]->Realize(fDeltaTime);
 	}
@@ -88,8 +88,8 @@ dword _cdecl SEA_AI::ProcessMessage(MESSAGE & message)
 		case AI_MESSAGE_UNLOAD:
 		{
 			dword	i;
-			for (i=0; i<AIGroup::AIGroups.Size(); i++) AIGroup::AIGroups[i]->Unload();
-			for (i=0; i<AIShip::AIShips.Size(); i++) AIShip::AIShips[i]->Unload();
+			for (i=0; i<AIGroup::AIGroups.size(); i++) AIGroup::AIGroups[i]->Unload();
+			for (i=0; i<AIShip::AIShips.size(); i++) AIShip::AIShips[i]->Unload();
 		}
 		break;
 		case AI_MESSAGE_CANNON_RELOAD:
@@ -374,8 +374,8 @@ void SEA_AI::Save(const char * pStr)
 
 	AIBalls::pAIBalls->Save(&SL);
 	
-	SL.SaveDword(AIGroup::AIGroups.Size());
-	for (dword i=0; i<AIGroup::AIGroups.Size(); i++) AIGroup::AIGroups[i]->Save(&SL);
+	SL.SaveDword(AIGroup::AIGroups.size());
+	for (dword i=0; i<AIGroup::AIGroups.size(); i++) AIGroup::AIGroups[i]->Save(&SL);
 
 	if (AIFort::pAIFort) AIFort::pAIFort->Save(&SL);
 }
@@ -398,8 +398,8 @@ void SEA_AI::Load(const char * pStr)
 	dword dwNumGroups = SL.LoadDword();
 	for (dword i=0; i<dwNumGroups; i++) 
 	{
-		AIGroup * pG = AIGroup::AIGroups[AIGroup::AIGroups.Add(NEW AIGroup)];
-		pG->Load(&SL);
+		AIGroup::AIGroups.push_back(NEW AIGroup());
+		AIGroup::AIGroups.back()->Load(&SL);
 	}
 
 	if (AIFort::pAIFort) AIFort::pAIFort->Load(&SL);
@@ -415,7 +415,7 @@ dword SEA_AI::AttributeChanged(ATTRIBUTES * pAttribute)
 		// delete all old groups and ships
 		Helper.Init();
 
-		for (i=0; i<AIShip::AIShips.Size(); i++) AIShip::AIShips[i]->CheckStartPosition();
+		for (i=0; i<AIShip::AIShips.size(); i++) AIShip::AIShips[i]->CheckStartPosition();
 	}
 
 	if (*pAttribute == "DistanceBetweenGroupShips")

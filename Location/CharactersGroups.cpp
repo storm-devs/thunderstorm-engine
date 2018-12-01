@@ -102,7 +102,7 @@ bool CharactersGroups::String::Cmp(const char * str, long l, long h)
 	}
 	if(hash != h) return false;
 	if(len != l) return false;
-	return stricmp(name, str) == 0;
+	return _stricmp(name, str) == 0;
 }
 
 long CharactersGroups::String::GetHash(const char * str)
@@ -309,7 +309,7 @@ bool CharactersGroups::AddEnemyTarget(Character * chr, Character * enemy, float 
 	}
 	if(chr->numTargets >= sizeof(chr->grpTargets)/sizeof(Character::GrpTarget)) return false;
 	//Добавим новую цель
-	Assert(stricmp(chr->group, enemy->group) != 0);
+	Assert(_stricmp(chr->group, enemy->group) != 0);
 	Character::GrpTarget & trg = chr->grpTargets[chr->numTargets++];
 	trg.chr = enemy->GetID();
 	trg.time = 0.0f;
@@ -371,107 +371,107 @@ dword _cdecl CharactersGroups::ProcessMessage(MESSAGE & message)
 	char cmd[64];
 	message.String(sizeof(cmd), cmd); cmd[sizeof(cmd) - 1] = 0;
 	if(!cmd[0]) return 0;
-	if(stricmp(cmd, "VldTrg") == 0)
+	if(_stricmp(cmd, "VldTrg") == 0)
 	{
 		return MsgIsValidateTarget(message);
 	}else
-	if(stricmp(cmd, "GetTrg") == 0)
+	if(_stricmp(cmd, "GetTrg") == 0)
 	{
 		return MsgGetOptimalTarget(message);
 	}else
-	if(stricmp(cmd, "IsEnemy") == 0)
+	if(_stricmp(cmd, "IsEnemy") == 0)
 	{
 		return MsgIsEnemy(message);
 	}else
-	if(stricmp(cmd, "MoveChr") == 0)
+	if(_stricmp(cmd, "MoveChr") == 0)
 	{
 		return MoveCharacterToGroup(message);
 	}else
-	if(stricmp(cmd, "Attack") == 0)
+	if(_stricmp(cmd, "Attack") == 0)
 	{
 		MsgAttack(message);
 		return 1;
 	}else
-	if(stricmp(cmd, "AddTarget") == 0)
+	if(_stricmp(cmd, "AddTarget") == 0)
 	{
 		MsgAddTarget(message);
 		return 1;
 	}else
-	if(stricmp(cmd, "UpdChrTrg") == 0)
+	if(_stricmp(cmd, "UpdChrTrg") == 0)
 	{
 		MsgUpdChrTrg(message);
 		return 1;
 	}else
-	if(stricmp(cmd, "RegistryGroup") == 0)
+	if(_stricmp(cmd, "RegistryGroup") == 0)
 	{
 		MsgRegistryGroup(message);
 		return 1;
 	}else
-	if(stricmp(cmd, "ReleaseGroup") == 0)
+	if(_stricmp(cmd, "ReleaseGroup") == 0)
 	{
 		MsgReleaseGroup(message);
 		return 1;
 	}else
-	if(stricmp(cmd, "SetRelation") == 0)
+	if(_stricmp(cmd, "SetRelation") == 0)
 	{
 		MsgSetRelation(message);
 		return 1;
 	}else
-	if(stricmp(cmd, "SetAlarmReaction") == 0)
+	if(_stricmp(cmd, "SetAlarmReaction") == 0)
 	{
 		MsgSetAlarmReaction(message);
 		return 1;
 	}else
-	if(stricmp(cmd, "SetGroupLook") == 0)
+	if(_stricmp(cmd, "SetGroupLook") == 0)
 	{
 		return MsgSetGroupLook(message);
 	}else
-	if(stricmp(cmd, "SetGroupHear") == 0)
+	if(_stricmp(cmd, "SetGroupHear") == 0)
 	{
 		return MsgSetGroupHear(message);
 	}else
-	if(stricmp(cmd, "SetGroupSay") == 0)
+	if(_stricmp(cmd, "SetGroupSay") == 0)
 	{
 		return MsgSetGroupSay(message);
 	}else
-	if(stricmp(cmd, "SetGroupPriority") == 0)
+	if(_stricmp(cmd, "SetGroupPriority") == 0)
 	{
 		return MsgSetGroupPriority(message);
 	}else
-	if(stricmp(cmd, "UnloadCharacter") == 0)
+	if(_stricmp(cmd, "UnloadCharacter") == 0)
 	{
 		UnloadCharacter(message);
 		return 1;
 	}else
-	if(stricmp(cmd, "ResetWaveTime") == 0)
+	if(_stricmp(cmd, "ResetWaveTime") == 0)
 	{
 		waveTime = 1000.0f;
 		return 1;
 	}else
-	if(stricmp(cmd, "SetAlarm") == 0)
+	if(_stricmp(cmd, "SetAlarm") == 0)
 	{
 		return MsgSetAlarm(message);
 	}else
-	if(stricmp(cmd, "SetAlarmDown") == 0)
+	if(_stricmp(cmd, "SetAlarmDown") == 0)
 	{
 		return MsgSetAlarmDown(message);
 	}else
-	if(stricmp(cmd, "ClearAllTargets") == 0)
+	if(_stricmp(cmd, "ClearAllTargets") == 0)
 	{
 		ClearAllTargets();
 		return 1;
 	}else
-	if(stricmp(cmd, "SaveData") == 0)
+	if(_stricmp(cmd, "SaveData") == 0)
 	{
 		SaveData();
 		return 1;
 	}else
-	if(stricmp(cmd, "LoadDataRelations") == 0)
+	if(_stricmp(cmd, "LoadDataRelations") == 0)
 	{
 		LoadDataRelations();
 		return 1;
 	}else
-	if(stricmp(cmd, "RestoreStates") == 0)
+	if(_stricmp(cmd, "RestoreStates") == 0)
 	{
 		RestoreStates();
 		return 1;
@@ -847,7 +847,7 @@ void CharactersGroups::MsgSetRelation(MESSAGE & message)
 	message.String(sizeof(buf), buf); buf[sizeof(buf) - 1] = 0;
 	RelState actState = rs_enemy;
 	RelState relState = rs_neitral;
-	if(stricmp(buf, "friend") == 0)
+	if(_stricmp(buf, "friend") == 0)
 	{
 		r.curState = rs_friend;
 		actState = rs_enemy;
@@ -858,7 +858,7 @@ void CharactersGroups::MsgSetRelation(MESSAGE & message)
 		r.alarmmax = CGS_ALARMMAX;
 		r.isActive = false;
 	}else
-	if(stricmp(buf, "neitral") == 0)
+	if(_stricmp(buf, "neitral") == 0)
 	{
 		r.curState = rs_neitral;
 		actState = rs_enemy;
@@ -868,7 +868,7 @@ void CharactersGroups::MsgSetRelation(MESSAGE & message)
 		r.alarmmin = CGS_ALARMMIN;
 		r.alarmmax = CGS_ALARMMAX;
 	}else
-	if(stricmp(buf, "enemy") == 0)
+	if(_stricmp(buf, "enemy") == 0)
 	{
 		r.curState = rs_enemy;
 		actState = rs_enemy;
@@ -895,20 +895,20 @@ void CharactersGroups::MsgSetAlarmReaction(MESSAGE & message)
 	char rel[32];
 	message.String(sizeof(rel), rel); rel[sizeof(rel) - 1] = 0;
 	RelState actState = rs_enemy;
-	if(stricmp(act, "neitral") == 0)
+	if(_stricmp(act, "neitral") == 0)
 	{
 		actState = rs_neitral;
 	}else
-	if(stricmp(act, "friend") == 0)
+	if(_stricmp(act, "friend") == 0)
 	{
 		actState = rs_friend;
 	}
 	RelState relState = rs_neitral;
-	if(stricmp(rel, "enemy") == 0)
+	if(_stricmp(rel, "enemy") == 0)
 	{
 		relState = rs_enemy;
 	}else
-	if(stricmp(rel, "friend") == 0)
+	if(_stricmp(rel, "friend") == 0)
 	{
 		relState = rs_friend;
 	}
@@ -1033,7 +1033,7 @@ inline long CharactersGroups::GetCharacterGroup(Character * c)
 	if(!c) return -1;
 	if(c->groupID >= 0 && c->groupID < numGroups)
 	{
-		if(stricmp(c->group, groups[c->groupID]->name) == 0)
+		if(_stricmp(c->group, groups[c->groupID]->name) == 0)
 		{
 			return c->groupID;
 		}

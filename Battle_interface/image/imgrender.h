@@ -44,8 +44,8 @@ protected:
 	long m_nEndOutputPrioritet;
 
 	VDX9RENDER * m_pRS;
-	array<BIImageMaterial*> m_apMaterial;
-	array<IBIString*> m_apStrings;
+	std::vector<BIImageMaterial*> m_apMaterial;
+	std::vector<IBIString*> m_apStrings;
 	//bool m_bDeleteEverythink;
 
 	float m_fHScale, m_fVScale;

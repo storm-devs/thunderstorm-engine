@@ -2,8 +2,7 @@
 #include "xi_linecollection.h"
 #include "..\\defines.h"
 
-CXI_LINECOLLECTION::CXI_LINECOLLECTION() :
-	m_aLines(_FL)
+CXI_LINECOLLECTION::CXI_LINECOLLECTION()
 {
 	m_rs = NULL;
 	m_nNodeType = NODETYPE_LINECOLLECTION;
@@ -23,7 +22,7 @@ void CXI_LINECOLLECTION::Draw(bool bSelected,dword Delta_Time)
 {
 	if(m_bUse)
 	{
-        m_rs->DrawLines(m_aLines.GetBuffer(),m_aLines.Size()/2,"iLineCollection");
+        m_rs->DrawLines(m_aLines.data(),m_aLines.size()/2,"iLineCollection");
 	}
 }
 
@@ -59,12 +58,14 @@ void CXI_LINECOLLECTION::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *
 			}
             if(bRelativeRect)	GetRelativeRect(scrRect);
 
-			long n = m_aLines.Add();
-			m_aLines.Add();
-			m_aLines[n].dwColor = m_aLines[n+1].dwColor = dwCol;
-			m_aLines[n].vPos.z = m_aLines[n+1].vPos.z = 1.f;
-			m_aLines[n].vPos.x = (float)scrRect.left; m_aLines[n+1].vPos.x = (float)scrRect.right;
-			m_aLines[n].vPos.y = (float)scrRect.top;  m_aLines[n+1].vPos.y = (float)scrRect.bottom;
+			//long n = m_aLines.Add();
+			//m_aLines.Add();
+			//m_aLines[n].dwColor = m_aLines[n+1].dwColor = dwCol;
+			//m_aLines[n].vPos.z = m_aLines[n+1].vPos.z = 1.f;
+			//m_aLines[n].vPos.x = (float)scrRect.left; m_aLines[n+1].vPos.x = (float)scrRect.right;
+			//m_aLines[n].vPos.y = (float)scrRect.top;  m_aLines[n+1].vPos.y = (float)scrRect.bottom;
+			m_aLines.push_back(RS_LINE{ CVECTOR{(float)scrRect.left, (float)scrRect.top, 1.f}, dwCol });
+			m_aLines.push_back(RS_LINE{ CVECTOR{(float)scrRect.right, (float)scrRect.bottom, 1.f}, dwCol });
 
             nCurLine++;
         }
@@ -73,7 +74,7 @@ void CXI_LINECOLLECTION::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *
 
 void CXI_LINECOLLECTION::ReleaseAll()
 {
-	m_aLines.DelAll();
+	m_aLines.clear();
 }
 
 bool CXI_LINECOLLECTION::IsClick(int buttonID,long xPos,long yPos)
@@ -90,9 +91,9 @@ void CXI_LINECOLLECTION::SaveParametersToIni()
 {
 //	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 
@@ -111,8 +112,8 @@ dword _cdecl CXI_LINECOLLECTION::MessageProc(long msgcode, MESSAGE & message)
 		{
 			dword dwColor = message.Long();
 			long nLineNum = message.Long();
-			if( nLineNum<0 || nLineNum>=(long)m_aLines.Size()/2 ) {
-				for( long n=0; n<m_aLines; n++ )
+			if( nLineNum<0 || nLineNum>=(long)m_aLines.size()/2 ) {
+				for( long n=0; n<m_aLines.size(); n++ )
 					m_aLines[n].dwColor = dwColor;
 			} else {
 				m_aLines[nLineNum*2].dwColor = m_aLines[nLineNum*2+1].dwColor = dwColor;
@@ -126,8 +127,10 @@ dword _cdecl CXI_LINECOLLECTION::MessageProc(long msgcode, MESSAGE & message)
 			long nTop = message.Long();
 			long nRight = message.Long();
 			long nBottom = message.Long();
-			long nLineNum = m_aLines.Add() / 2;
-			m_aLines.Add();
+			//long nLineNum = m_aLines.Add() / 2;
+			//m_aLines.Add();
+			long nLineNum = m_aLines.size() / 2;
+			m_aLines.resize(m_aLines.size() + 2);
 			m_aLines[nLineNum*2].dwColor = m_aLines[nLineNum*2+1].dwColor = dwColor;
 			m_aLines[nLineNum*2].vPos.z = m_aLines[nLineNum*2+1].vPos.z = 1.f;
 			m_aLines[nLineNum*2].vPos.x = (float)nLeft; m_aLines[nLineNum*2+1].vPos.x = (float)nRight;

@@ -27,7 +27,7 @@ bool ActivePerkShower::Init()
 {
 	if( (rs=(VDX9RENDER *)_CORE_API->CreateService("dx9render")) == NULL )
 	{
-		_THROW("Can`t create render service");
+		STORM_THROW("Can`t create render service");
 	}
 
 	if( AttributesPointer==null ) return false;
@@ -74,8 +74,8 @@ dword _cdecl ActivePerkShower::ProcessMessage(MESSAGE & message)
 			char param[256];
 			message.String(sizeof(param),param);
 			ATTRIBUTES * pA = message.AttributePointer();
-			if( stricmp(param,"add")==0 )	AddIconToList(pA);
-			else if( stricmp(param,"del")==0 ) DelIconFromList(pA);
+			if( _stricmp(param,"add")==0 )	AddIconToList(pA);
+			else if( _stricmp(param,"del")==0 ) DelIconFromList(pA);
 		}
 	break;
 	}
@@ -355,12 +355,12 @@ void ActivePerkShower::ReleaseAll()
 	INDEX_BUFFER_RELEASE(rs,m_idIBuf);
 
 	for(i=0; i<m_nTextureQ; i++)	TEXTURE_RELEASE(rs,m_pTexDescr[i].m_idTexture);
-	DELETE(m_pTexDescr);
+	STORM_DELETE(m_pTexDescr);
 	m_nTextureQ = 0;
 
-	DELETE(m_pShowPlaces);
+	STORM_DELETE(m_pShowPlaces);
 	m_nShowPlaceQ = 0;
 
-	DELETE(m_pIconsList);
+	STORM_DELETE(m_pIconsList);
 	m_nIShowQ = 0;
 }

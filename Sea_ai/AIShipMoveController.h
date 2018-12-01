@@ -7,8 +7,6 @@
 #include "..\common_h\sd2_h\VAI_ObjBase.h"
 #include "..\..\Shared\sea_ai\Script_Defines.h"
 #include "AIFlowGraph.h"
-#include "..\common_h\templates\array.h"
-#include "..\common_h\templates\string.h"
 
 // ============================================================================
 // master class AIShipMoveController

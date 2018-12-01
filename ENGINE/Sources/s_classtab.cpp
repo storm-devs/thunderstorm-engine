@@ -64,7 +64,7 @@ dword S_CLASSTAB::AddClass(CLASSINFO& ci, bool bRegisterOnly)
 	{
 		if(pTable[n].hash == hash)
 		{
-			if(stricmp(pTable[n].name,ci.name) != 0) continue;
+			if(_stricmp(pTable[n].name,ci.name) != 0) continue;
 
 			// class with such name already registred,
 
@@ -181,7 +181,7 @@ dword S_CLASSTAB::FindClass(const char * class_name)
 	{
 		if(pTable[n].hash == hash) 
 		{
-			if(stricmp(pTable[n].name,class_name)==0) return n;	// case independent
+			if(_stricmp(pTable[n].name,class_name)==0) return n;	// case independent
 		}
 	}
 	return INVALID_CLASS_CODE;

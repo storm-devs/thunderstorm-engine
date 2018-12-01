@@ -37,7 +37,7 @@ char * STRINGS_LIST::GetString(dword code)
 bool STRINGS_LIST::AddString(char * _char_PTR)
 {
 	GUARD(STRINGS_LIST::AddString)
-	if(_char_PTR == null) _THROW(zero string);
+	if(_char_PTR == null) STORM_THROW(zero string);
 	DWORD hash;
 	hash = MakeHashValue(_char_PTR);	
 	if(String_Table_PTR == null)	// first time
@@ -93,11 +93,11 @@ dword STRINGS_LIST::GetStringCode(char * _char_PTR)
 	/*for(n=0;n<CACHE_SIZE;n++) 
 	{
 		if(Cache[n] == INVALID_ORDINAL_NUMBER) break;
-		if(Cache[n] >= Strings) _THROW(cache error);
+		if(Cache[n] >= Strings) STORM_THROW(cache error);
 		if(hash == *((DWORD *)String_Table_PTR[Cache[n]]))
 		{
 			//return Cache[n];
-			if(stricmp(String_Table_PTR[Cache[n]] + used_data_size + sizeof(DWORD),_char_PTR) == 0) return Cache[n];
+			if(_stricmp(String_Table_PTR[Cache[n]] + used_data_size + sizeof(DWORD),_char_PTR) == 0) return Cache[n];
 		}
 	}*/
 	
@@ -105,7 +105,7 @@ dword STRINGS_LIST::GetStringCode(char * _char_PTR)
 	{
 		if(hash == *((DWORD *)String_Table_PTR[n]))
 		{
-			if(stricmp(String_Table_PTR[n] + used_data_size + sizeof(DWORD),_char_PTR) == 0) 
+			if(_stricmp(String_Table_PTR[n] + used_data_size + sizeof(DWORD),_char_PTR) == 0) 
 			{
 				//CacheString(n);
 				return n;
@@ -120,13 +120,13 @@ dword STRINGS_LIST::GetStringCode(char * _char_PTR)
 	for(n=0;n<CACHE_SIZE;n++) 
 	{
 		if(Cache[n] == INVALID_ORDINAL_NUMBER) break;
-		if(Cache[n] >= Strings) _THROW(cache error);
-		if(stricmp(String_Table_PTR[Cache[n]] + used_data_size + sizeof(DWORD),_char_PTR) == 0) return Cache[n];
+		if(Cache[n] >= Strings) STORM_THROW(cache error);
+		if(_stricmp(String_Table_PTR[Cache[n]] + used_data_size + sizeof(DWORD),_char_PTR) == 0) return Cache[n];
 	}
 	
 	for(n = 0; n < Strings; n++) 
 	{
-		if(stricmp(String_Table_PTR[n] + used_data_size + sizeof(DWORD),_char_PTR) == 0) 
+		if(_stricmp(String_Table_PTR[n] + used_data_size + sizeof(DWORD),_char_PTR) == 0) 
 		{
 			CacheString(n);
 			return n;

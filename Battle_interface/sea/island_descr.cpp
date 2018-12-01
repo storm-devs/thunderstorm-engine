@@ -16,7 +16,7 @@ ISLAND_DESCRIBER::~ISLAND_DESCRIBER()
 
 void ISLAND_DESCRIBER::ReleaseAll()
 {
-	PTR_DELETE(m_pLocators);
+	PTR_STORM_DELETE(m_pLocators);
 	m_nLocators = 0;
 	m_pIslandAttributes = NULL;
 	m_bYesIsland = false;
@@ -33,7 +33,7 @@ void ISLAND_DESCRIBER::SetIsland(ATTRIBUTES * pAIsland)
 	if( (m_nLocators=pA->GetAttributesNum()) == 0 ) return;
 	if( (m_pLocators=NEW LOCATOR_DESCR[m_nLocators])==NULL )
 	{
-		_THROW("Can`t allocate memory");
+		STORM_THROW("Can`t allocate memory");
 	}
 	// пройтись по всем локаторам
 	ATTRIBUTES * pATmp;
@@ -197,7 +197,7 @@ ISLAND_DESCRIBER::LOCATOR_DESCR * ISLAND_DESCRIBER::FindLocatorByName(char * nam
 	{
 		if( m_pLocators[i].pA==NULL ) continue;
 		char * curName = m_pLocators[i].pA->GetAttribute("name");
-		if(curName!=NULL && stricmp(name,curName)==0) return &m_pLocators[i];
+		if(curName!=NULL && _stricmp(name,curName)==0) return &m_pLocators[i];
 	}
 	return NULL;
 }

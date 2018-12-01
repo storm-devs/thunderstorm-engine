@@ -11,10 +11,8 @@
 #include "..\common_h\Character.h"
 #include "..\..\Shared\sea_ai\Script_Defines.h"
 #include "..\..\Shared\Events.h"
-#include "..\common_h\templates\array.h"
-#include "..\common_h\templates\string.h"
-#include "..\common_h\templates\DTimer.h"
 #include "..\common_h\SD2_H\SaveLoad.h"
+#include <vector>
 
 class AIAttributesHolder
 {
@@ -64,7 +62,7 @@ public:
 
 private:
 	dword				* pRelations, dwRelationSize;
-	array<ATTRIBUTES*>	aCharacters, aMainCharacters;
+	std::vector<ATTRIBUTES*>	aCharacters, aMainCharacters;
 
 	dword * GetRelation(dword x, dword y) const;
 	dword FindIndex(ATTRIBUTES * pACharacter) const;

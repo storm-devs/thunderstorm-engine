@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "xi_strcollection.h"
 #include "..\\defines.h"
+#include "../../common_h/defines.h"
 
 CXI_STRCOLLECTION::CXI_STRCOLLECTION()
 {
@@ -130,12 +131,12 @@ void CXI_STRCOLLECTION::ReleaseAll()
 {
 	for(int i=0; i<m_nStr; i++)
 	{
-		PTR_DELETE(m_pStrDescr[i].strID);
-		PTR_DELETE(m_pStrDescr[i].strStr);
-		PTR_DELETE(m_pStrDescr[i].sFontName);
+		PTR_STORM_DELETE(m_pStrDescr[i].strID);
+		PTR_STORM_DELETE(m_pStrDescr[i].strStr);
+		PTR_STORM_DELETE(m_pStrDescr[i].sFontName);
 		FONT_RELEASE(m_rs,m_pStrDescr[i].nFontNum);
 	}
-	PTR_DELETE(m_pStrDescr);
+	PTR_STORM_DELETE(m_pStrDescr);
 	m_nStr = 0;
 }
 
@@ -144,28 +145,30 @@ bool CXI_STRCOLLECTION::IsClick(int buttonID,long xPos,long yPos)
 	return false;
 }
 
-bool CXI_STRCOLLECTION::GetInternalNameList( array<string>& aStr )
+bool CXI_STRCOLLECTION::GetInternalNameList( std::vector<std::string>& aStr )
 {
-	aStr.DelAll();
-	aStr.Add();
-	aStr[0] = "All";
+	aStr.clear();
+	//aStr.Add();
+	//aStr[0] = "All";
+	aStr.push_back("All");
 	for(long n=0; n<m_nStr; n++)
 	{
 		if( m_pStrDescr[n].strID ) continue;
-		aStr.Add();
+		//aStr.Add();
+		aStr.push_back(std::string{});
 		char param[512];
 		_snprintf( param,sizeof(param), "%d - %s", n+1, pStringService->GetStringName( m_pStrDescr[n].strNum ) );
 		aStr[n+1] = param;
 	}
-	return aStr.Size() > 1;
+	return aStr.size() > 1;
 }
 
-void CXI_STRCOLLECTION::SetInternalName( string& sName )
+void CXI_STRCOLLECTION::SetInternalName(std::string& sName )
 {
-	if( sName.IsEmpty() ) return;
+	if( sName.empty() ) return;
 	if( sName == "All" ) m_nEditIndex = -1;
 	else {
-		sscanf( sName, "%d -", &m_nEditIndex );
+		sscanf( sName.c_str(), "%d -", &m_nEditIndex );
 		m_nEditIndex--;
 	}
 }
@@ -194,9 +197,9 @@ void CXI_STRCOLLECTION::SaveParametersToIni()
 {
 //	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 
@@ -304,7 +307,7 @@ dword _cdecl CXI_STRCOLLECTION::MessageProc(long msgcode, MESSAGE & message)
 				nDst<m_nStr && nSrc<m_nStr )
 			{
 				m_pStrDescr[nDst].strNum = -1;
-				DELETE( m_pStrDescr[nDst].strStr );
+				STORM_DELETE( m_pStrDescr[nDst].strStr );
 				if( m_pStrDescr[nSrc].strStr )
 					DublicateString( m_pStrDescr[nDst].strStr, m_pStrDescr[nSrc].strStr );
 				else
@@ -328,7 +331,7 @@ void CXI_STRCOLLECTION::ChangeString(long num, const char* sValue)
 	if( num>=0 && num<m_nStr )
 	{
 		m_pStrDescr[num].strNum = -1;
-		DELETE( m_pStrDescr[num].strStr );
+		STORM_DELETE( m_pStrDescr[num].strStr );
 		if( sValue ) {
 			if( sValue[0]=='#' )
 				DublicateString( m_pStrDescr[num].strStr, &sValue[1] );
@@ -356,15 +359,15 @@ CXI_STRCOLLECTION::STRINGDESCR * CXI_STRCOLLECTION::CreateNewDinamicString(char 
 	int i;
 	for(i=0; i<m_nStr; i++)
 	{
-		if(m_pStrDescr[i].strID!=null && stricmp(m_pStrDescr[i].strID,strID)==0)
+		if(m_pStrDescr[i].strID!=null && _stricmp(m_pStrDescr[i].strID,strID)==0)
 			break;
 	}
 	if(i<m_nStr)
 	{
 		if(strStr==null || strStr[0]==0)
 		{
-			PTR_DELETE(m_pStrDescr[i].strID);
-			PTR_DELETE(m_pStrDescr[i].strStr);
+			PTR_STORM_DELETE(m_pStrDescr[i].strID);
+			PTR_STORM_DELETE(m_pStrDescr[i].strStr);
 			FONT_RELEASE(m_rs,m_pStrDescr[i].nFontNum);
 			m_nStr--;
 			if(m_nStr>i)
@@ -372,7 +375,7 @@ CXI_STRCOLLECTION::STRINGDESCR * CXI_STRCOLLECTION::CreateNewDinamicString(char 
 			return null;
 		}
 		FONT_RELEASE(m_rs,m_pStrDescr[i].nFontNum);
-		PTR_DELETE(m_pStrDescr[i].strStr);
+		PTR_STORM_DELETE(m_pStrDescr[i].strStr);
 		m_pStrDescr[i].strStr = NEW char[strlen(strStr)+1];
 		if(m_pStrDescr[i].strStr==null)	{THROW("allocate memory error");}
 		strcpy(m_pStrDescr[i].strStr,strStr);

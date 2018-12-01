@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include "xi_scrolledpic.h"
 
-CXI_SCROLLEDPICTURE::CXI_SCROLLEDPICTURE() :
-	m_aImg(_FL),
-	m_aScale(_FL)
+CXI_SCROLLEDPICTURE::CXI_SCROLLEDPICTURE()
 {
 	m_nNodeType = NODETYPE_SCROLLEDPICTURE;
 }
@@ -17,7 +15,7 @@ void CXI_SCROLLEDPICTURE::Draw(bool bSelected,dword Delta_Time)
 {
 	CXI_PICTURE::Draw( bSelected, Delta_Time );
 
-	for(long n=0; n<m_aImg; n++ )
+	for(long n=0; n<m_aImg.size(); n++ )
 	{
 		if( m_aImg[n].bShow )
 		{
@@ -43,7 +41,7 @@ void CXI_SCROLLEDPICTURE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char 
 
 	long n;
 	char keyName[128];
-	m_aScale.DelAll();
+	m_aScale.clear();
 	for( n=1; n<20; n++ )
 	{
 		sprintf( keyName, "scale%d", n );
@@ -51,7 +49,7 @@ void CXI_SCROLLEDPICTURE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char 
 		fpTemp.x = fpTemp.y = 2.f;
 		fpTemp = GetIniFloatPoint( ini1,name1, ini2,name2, keyName, fpTemp );
 		if( fpTemp.x > 1.f || fpTemp.y > 1.f ) break; // не зачитали или ошибка
-		m_aScale.Add( fpTemp );
+		m_aScale.push_back( fpTemp );
 	}
 
 	m_nScaleNum = GetIniLong( ini1,name1, ini2,name2, "startscale", 0 ) - 1;
@@ -68,7 +66,9 @@ void CXI_SCROLLEDPICTURE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char 
 				ATTRIBUTES* pA = pAttr->GetAttributeClass( n );
 				if( pA )
 				{
-					long i = m_aImg.Add();
+					//long i = m_aImg.Add();
+					m_aImg.push_back(BuildinImage{});
+					long i = m_aImg.size() - 1;
 					m_aImg[i].bShow = false;
 					m_aImg[i].fpPos.x = pA->GetAttributeAsFloat( "x", 0.f );
 					m_aImg[i].fpPos.y = pA->GetAttributeAsFloat( "y", 0.f );
@@ -121,7 +121,7 @@ bool CXI_SCROLLEDPICTURE::IsClick(int buttonID,long xPos,long yPos)
 		if( xPos >= m_rect.left && xPos <= m_rect.right && yPos >= m_rect.top && yPos <= m_rect.bottom )
 		{
 			m_nScaleNum++;
-			if( m_nScaleNum >= m_aScale ) m_nScaleNum = 0;
+			if( m_nScaleNum >= m_aScale.size() ) m_nScaleNum = 0;
 			SetScale( m_nScaleNum );
 		}
 	}
@@ -226,7 +226,7 @@ void CXI_SCROLLEDPICTURE::RecalculateTexPerPixel()
 
 void CXI_SCROLLEDPICTURE::UpdateBuildenImages()
 {
-	for(long n=0; n<m_aImg; n++ )
+	for(long n=0; n<m_aImg.size(); n++ )
 	{
 		m_aImg[n].bShow = false;
 
@@ -270,7 +270,7 @@ void CXI_SCROLLEDPICTURE::SetPosToCenter( float fX, float fY )
 
 void CXI_SCROLLEDPICTURE::SetScale( long nScaleIdx )
 {
-	if( nScaleIdx<0 || nScaleIdx>=m_aScale ) return;
+	if( nScaleIdx<0 || nScaleIdx>=m_aScale.size() ) return;
 	SetScale( m_aScale[nScaleIdx].x, m_aScale[nScaleIdx].y );
 }
 

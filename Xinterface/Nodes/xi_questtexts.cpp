@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "xi_questtexts.h"
+#include "../../common_h/defines.h"
 
 CXI_QUESTTEXTS::STRING_DESCRIBER::STRING_DESCRIBER(char* ls)
 {
@@ -10,7 +11,7 @@ CXI_QUESTTEXTS::STRING_DESCRIBER::STRING_DESCRIBER(char* ls)
 	{
 		if( (lineStr=NEW char[sdStrSize+1]) == NULL )
 		{
-			_THROW("allocate memory error");
+			STORM_THROW("allocate memory error");
 		}
 		strcpy(lineStr,ls);
 	}
@@ -25,7 +26,7 @@ CXI_QUESTTEXTS::STRING_DESCRIBER* CXI_QUESTTEXTS::STRING_DESCRIBER::Add(char* ls
 	STRING_DESCRIBER* newSD = NEW STRING_DESCRIBER(ls);
 	if(newSD==NULL)
 	{
-		_THROW("allocate memory error");
+		STORM_THROW("allocate memory error");
 	}
 
 	newSD->complete = complete;
@@ -112,8 +113,8 @@ void CXI_QUESTTEXTS::ReleaseStringes()
 	{
 		m_listCur = m_listRoot;
 		m_listRoot = m_listRoot->next;
-		PTR_DELETE(m_listCur->lineStr);
-		PTR_DELETE(m_listCur);
+		PTR_STORM_DELETE(m_listCur->lineStr);
+		PTR_STORM_DELETE(m_listCur);
 	}
 	m_listCur=NULL;
 	m_nAllTextStrings=0;
@@ -248,9 +249,9 @@ void CXI_QUESTTEXTS::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 
@@ -294,8 +295,8 @@ void CXI_QUESTTEXTS::StartQuestShow(ATTRIBUTES * pA,int qn)
 	{
 		m_listCur = m_listRoot;
 		m_listRoot = m_listRoot->next;
-		PTR_DELETE(m_listCur->lineStr);
-		PTR_DELETE(m_listCur);
+		PTR_STORM_DELETE(m_listCur->lineStr);
+		PTR_STORM_DELETE(m_listCur);
 	}
 
 	ATTRIBUTES *pAttr = pA->GetAttributeClass(qn);
@@ -306,7 +307,7 @@ void CXI_QUESTTEXTS::StartQuestShow(ATTRIBUTES * pA,int qn)
 	char* questLogName = pAttr->GetAttribute("LogName");
 	if( !questLogName ) questLogName = pAttr->GetThisName();
 
-	array<string> asStringList(_FL);
+	std::vector<std::string> asStringList;
 	if( ptrOwner->QuestFileReader() && pATextList )
 	{
 		long q = pATextList->GetAttributesNum();
@@ -320,12 +321,12 @@ void CXI_QUESTTEXTS::StartQuestShow(ATTRIBUTES * pA,int qn)
 				m_listCur = m_listCur->Add("",cFlag);
 
 			// весь набор строк для одной записи
-			asStringList.DelAll();
+			asStringList.clear();
 			GetStringListForQuestRecord( asStringList, pAttr->GetThisAttr(), pAttr->GetAttribute("UserData") );
-			for( long i=0; i<asStringList; i++ )
+			for( long i=0; i<asStringList.size(); i++ )
 			{
 				// разложим полученную строку на строки влезающие в область вывода
-				char* pcStrPtr = (char*)asStringList[i].GetBuffer();
+				char* pcStrPtr = (char*)asStringList[i].c_str();
 				char newStr[512];
 				while( GetLineNext(m_idFont,pcStrPtr,newStr,sizeof(newStr)) )
 				{
@@ -333,7 +334,7 @@ void CXI_QUESTTEXTS::StartQuestShow(ATTRIBUTES * pA,int qn)
 					{
 						if( (m_listCur=m_listRoot=NEW STRING_DESCRIBER(newStr)) == NULL )
 						{
-							_THROW("allocate memory error");
+							STORM_THROW("allocate memory error");
 						}
 						m_listCur->complete = cFlag;
 					}
@@ -393,7 +394,7 @@ dword _cdecl CXI_QUESTTEXTS::MessageProc(long msgcode, MESSAGE & message)
 	return -1;
 }
 
-void CXI_QUESTTEXTS::GetStringListForQuestRecord( array<string> & asStringList, const char* pcRecText, const char* pcUserData )
+void CXI_QUESTTEXTS::GetStringListForQuestRecord( std::vector<std::string> & asStringList, const char* pcRecText, const char* pcUserData )
 {
 	char pcQuestID[1024];
 	char pcTextID[1024];
@@ -403,8 +404,8 @@ void CXI_QUESTTEXTS::GetStringListForQuestRecord( array<string> & asStringList, 
 
 	if( GetNextIdFromList(pcTmp, pcQuestID,sizeof(pcQuestID), pcTextID,sizeof(pcTextID)-1, pcDate) )
 	{
-		asStringList.DelAll();
-		if( pcDate[0] ) asStringList.Add(pcDate);
+		asStringList.clear();
+		if( pcDate[0] ) asStringList.push_back(pcDate);
 		ptrOwner->QuestFileReader()->GetRecordTextList(asStringList, pcQuestID,pcTextID, pcUserData);
 	}
 }

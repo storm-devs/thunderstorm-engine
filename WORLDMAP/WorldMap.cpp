@@ -35,6 +35,7 @@
 #include "WdmEventWindow.h"
 //#include "WaitMenu.h"
 #include "WdmIcon.h"
+#include "../common_h/defines.h"
 
 //============================================================================================
 
@@ -143,7 +144,7 @@ bool WorldMap::Init()
 
 	//DX9 render
 	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
-	if(!rs) _THROW("No service: dx9render");
+	if(!rs) STORM_THROW("No service: dx9render");
 	rs->SetPerspective((1.57f + 1.0f)/2);
 	wdmObjects->rs = rs;
 	//GS

@@ -6,7 +6,9 @@
 #include "..\common_h\dx9render.h"
 #include "..\common_h\defines.h"
 #include "..\common_h\VideoTexture.h"
-#include "..\common_h\templates.h"
+#include <vector>
+#include <stack>
+
 #include "Technique.h"
 #include "font.h"
 
@@ -142,7 +144,7 @@ class DX9RENDER  : public VDX9RENDER
 	bool				bPreparedCapture;
 	bool				bVideoCapture;
 	float				fFixedFPS;
-	array<char*>		aCaptureBuffers;
+	std::vector<char*>		aCaptureBuffers;
 	dword				dwCaptureBuffersReady;
 
 //-------- post process
@@ -164,14 +166,9 @@ class DX9RENDER  : public VDX9RENDER
 		float v3;
 	};
 
-
-
-
 	QuadVertex	PostProcessQuad[4];
 	QuadVertex	qv[32 * 32];
 	word		qi[31 * 31 * 2 * 3];
-
-
 
 	float fSmallWidth;
 	float fSmallHeight;
@@ -249,7 +246,7 @@ class DX9RENDER  : public VDX9RENDER
 
 	bool			bDropVideoConveyor;
 
-	stack<RenderTarget>		stRenderTarget;
+	std::stack<RenderTarget>		stRenderTarget;
 
 	bool TextureLoad(long texid);
 	bool ErrorHandler(HRESULT hr, const char * file, unsigned line, const char * func, const char * expr);
@@ -265,186 +262,186 @@ public:
 	~DX9RENDER();
 
 	// DX9Render: Init/Release
-		virtual bool InitDevice(bool windowed, HWND hwnd, long width, long height);
-		virtual bool ReleaseDevice();
+	bool InitDevice(bool windowed, HWND hwnd, long width, long height) override;
+	bool ReleaseDevice() override;
 
 	// DX9Render: Animation
-		virtual void RenderAnimation(long ib, void * src, long numVrts, long minv, long numv,  long startidx, long numtrg, bool isUpdateVB);
+	void RenderAnimation(long ib, void * src, long numVrts, long minv, long numv,  long startidx, long numtrg, bool isUpdateVB) override;
 
 	// DX9Render: Return d3d9 device
 		virtual void * GetDevice() { return d3d9; };
-		virtual void * GetD3DDevice() { return d3d9; };
+	void * GetD3DDevice() override { return d3d9; };
 
 	// DX9Render: Render Target/Begin/End/Clear
-		virtual bool DX9Clear(long type);	//D3DCLEAR_STENCIL | D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER
-		virtual bool DX9BeginScene();
-		virtual bool DX9EndScene();
+	bool DX9Clear(long type) override;	//D3DCLEAR_STENCIL | D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER
+	bool DX9BeginScene() override;
+	bool DX9EndScene() override;
 
 	// DX9Render: Materials/Lights Section
-		virtual bool	SetLight(dword dwIndex, const D3DLIGHT9 * pLight);
-		virtual bool	LightEnable(dword dwIndex, bool bOn);
-		virtual bool	SetMaterial(D3DMATERIAL9 & material);
-		virtual bool	GetLightEnable(DWORD dwIndex, BOOL * pEnable);
-		virtual bool	GetLight(DWORD dwIndex, D3DLIGHT9 * pLight);
+	bool	SetLight(dword dwIndex, const D3DLIGHT9 * pLight) override;
+	bool	LightEnable(dword dwIndex, bool bOn) override;
+	bool	SetMaterial(D3DMATERIAL9 & material) override;
+	bool	GetLightEnable(DWORD dwIndex, BOOL * pEnable) override;
+	bool	GetLight(DWORD dwIndex, D3DLIGHT9 * pLight) override;
 
 	// DX9Render: Screenshot Section
-		virtual void SaveShoot();
+	void SaveShoot() override;
 
 	// DX9Render: Clip Planes Section
-		virtual HRESULT SetClipPlane( DWORD Index, CONST float * pPlane );
-		virtual PLANE * GetPlanes();
+	HRESULT SetClipPlane( DWORD Index, CONST float * pPlane ) override;
+	PLANE * GetPlanes() override;
 
 	// DX9Render: Camera Section
-		virtual void SetTransform(long type, D3DMATRIX * mtx);
-		virtual void GetTransform(long type, D3DMATRIX * mtx);
+	void SetTransform(long type, D3DMATRIX * mtx) override;
+	void GetTransform(long type, D3DMATRIX * mtx) override;
 
-		virtual bool SetCamera(CVECTOR * pos, CVECTOR * ang, float perspective);
-		virtual bool SetCamera(CVECTOR * pos, CVECTOR * ang);
-		virtual bool SetCamera(CVECTOR lookFrom, CVECTOR lookTo, CVECTOR up);
-		virtual bool SetPerspective(float perspective, float fAspectRatio = -1.0f);
-		virtual void GetCamera(CVECTOR & pos, CVECTOR & ang, float & perspective);
+	bool SetCamera(CVECTOR * pos, CVECTOR * ang, float perspective) override;
+	bool SetCamera(CVECTOR * pos, CVECTOR * ang) override;
+	bool SetCamera(CVECTOR lookFrom, CVECTOR lookTo, CVECTOR up) override;
+	bool SetPerspective(float perspective, float fAspectRatio = -1.0f) override;
+	void GetCamera(CVECTOR & pos, CVECTOR & ang, float & perspective) override;
 
-		virtual bool SetCurrentMatrix(D3DMATRIX * mtx);
+	bool SetCurrentMatrix(D3DMATRIX * mtx) override;
 
 	// DX9Render: Textures Section
-		virtual long TextureCreate(const char * fname);
-		virtual bool TextureSet(long stage, long texid);
-		virtual bool TextureRelease(long texid);
+	long TextureCreate(const char * fname) override;
+	bool TextureSet(long stage, long texid) override;
+	bool TextureRelease(long texid) override;
 
 	// DX9Render: Fonts Section
-		virtual long _cdecl Print(long x, long y,char * format,...);
-		virtual long _cdecl Print(long nFontNum, DWORD color, long x, long y,char * format,...);
-		virtual long _cdecl ExtPrint(long nFontNum, DWORD foreColor, DWORD backColor, int wAlignment,
+	long _cdecl Print(long x, long y,char * format,...) override;
+	long _cdecl Print(long nFontNum, DWORD color, long x, long y,char * format,...) override;
+	long _cdecl ExtPrint(long nFontNum, DWORD foreColor, DWORD backColor, int wAlignment,
 							 bool bShadow, float fScale, long scrWidth, long scrHeight,
-							 long x, long y,char * format,...);
-		virtual long StringWidth(char * string, long nFontNum=0, float fScale=1.f, long scrWidth=0);
-		virtual long CharWidth(char ch, long nFontNum=0, float fScale=1.f, long scrWidth=0);
-		virtual long CharHeight(long fontID);
-		virtual long LoadFont(char * fontName); // возвращает номер\идентификатор шрифта или -1 в случае ошибки
-		virtual bool UnloadFont(char * fontName); // возвращает истину если шрифт остался в использовании
-		virtual bool UnloadFont(long fontID); // возвращает истину если шрифт остался в использовании
-		virtual bool SetCurFont(char * fontName); // возвращает истину если установили данный шрифт
-		virtual bool SetCurFont(long fontID); // возвращает истину если установили данный шрифт
-		virtual long GetCurFont();
-		virtual char * GetFontIniFileName();
-		virtual bool SetFontIniFileName(char * iniName);
+							 long x, long y,char * format,...) override;
+	long StringWidth(char * string, long nFontNum=0, float fScale=1.f, long scrWidth=0) override;
+	long CharWidth(char ch, long nFontNum=0, float fScale=1.f, long scrWidth=0) override;
+	long CharHeight(long fontID) override;
+	long LoadFont(char * fontName) override; // возвращает номер\идентификатор шрифта или -1 в случае ошибки
+	bool UnloadFont(char * fontName) override; // возвращает истину если шрифт остался в использовании
+	bool UnloadFont(long fontID) override; // возвращает истину если шрифт остался в использовании
+	bool SetCurFont(char * fontName) override; // возвращает истину если установили данный шрифт
+	bool SetCurFont(long fontID) override; // возвращает истину если установили данный шрифт
+	long GetCurFont() override;
+	char * GetFontIniFileName() override;
+	bool SetFontIniFileName(char * iniName) override;
 
 	// DX9Render: Techniques Section
-		virtual bool TechniqueSetParamsAndStart(const char * cBlockName, dword _dwNumParams = 0, void * pParams = null);
-		virtual bool _cdecl TechniqueExecuteStart(const char * cBlockName, dword _dwNumParams = 0, ...);
-		virtual bool TechniqueExecuteNext();
+	bool TechniqueSetParamsAndStart(const char * cBlockName, dword _dwNumParams = 0, void * pParams = null) override;
+	bool _cdecl TechniqueExecuteStart(const char * cBlockName, dword _dwNumParams = 0, ...) override;
+	bool TechniqueExecuteNext() override;
 
 	// DX9Render: Draw Section
-		virtual void _cdecl DrawRects(RS_RECT * pRSR, dword dwRectsNum, const char * cBlockName = 0, dword dwSubTexturesX = 1, dword dwSubTexturesY = 1, float fScaleX = 1.0f, float fScaleY = 1.0f, dword dwNumParams = 0, ...);
-		virtual void _cdecl DrawSprites(RS_SPRITE * pRSS, dword dwSpritesNum, const char * cBlockName = 0, dword dwNumParams = 0, ...);
-		virtual void _cdecl DrawLines(RS_LINE * pRSL, dword dwLinesNum, const char * cBlockName = 0, dword dwNumParams = 0, ...);
-		virtual void _cdecl DrawLines2D(RS_LINE2D * pRSL2D, dword dwLinesNum, const char * cBlockName = 0, dword dwNumParams = 0, ...);
+	void _cdecl DrawRects(RS_RECT * pRSR, dword dwRectsNum, const char * cBlockName = 0, dword dwSubTexturesX = 1, dword dwSubTexturesY = 1, float fScaleX = 1.0f, float fScaleY = 1.0f, dword dwNumParams = 0, ...) override;
+	void _cdecl DrawSprites(RS_SPRITE * pRSS, dword dwSpritesNum, const char * cBlockName = 0, dword dwNumParams = 0, ...) override;
+	void _cdecl DrawLines(RS_LINE * pRSL, dword dwLinesNum, const char * cBlockName = 0, dword dwNumParams = 0, ...) override;
+	void _cdecl DrawLines2D(RS_LINE2D * pRSL2D, dword dwLinesNum, const char * cBlockName = 0, dword dwNumParams = 0, ...) override;
 
-		virtual void _cdecl DrawBuffer(long vbuff, long stride, long ibuff, long minv, long numv, long startidx, long numtrg, const char *cBlockName = 0, dword dwNumParams = 0, ...);
-		virtual void _cdecl DrawIndexedPrimitiveNoVShader(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iIBuff, long iMinV, long iNumV, long iStartIdx, long iNumTrg, const char *cBlockName = 0, dword dwNumParams = 0, ...);
-		virtual void _cdecl DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iStartV, long iNumPT, const char *cBlockName = 0, dword dwNumParams = 0, ...);
-		virtual void _cdecl DrawPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, dword dwVertexBufferFormat, dword dwNumPT, void *pVerts, dword dwStride, const char *cBlockName = 0, dword dwNumParams = 0, ...);
-		virtual void _cdecl DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, dword dwMinIndex, dword dwNumVertices, dword dwPrimitiveCount, const void *pIndexData, D3DFORMAT IndexDataFormat, const void *pVertexData, dword dwVertexStride, const char *cBlockName = 0, dword dwNumParams = 0, ...);
+	void _cdecl DrawBuffer(long vbuff, long stride, long ibuff, long minv, long numv, long startidx, long numtrg, const char *cBlockName = 0, dword dwNumParams = 0, ...) override;
+	void _cdecl DrawIndexedPrimitiveNoVShader(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iIBuff, long iMinV, long iNumV, long iStartIdx, long iNumTrg, const char *cBlockName = 0, dword dwNumParams = 0, ...) override;
+	void _cdecl DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iStartV, long iNumPT, const char *cBlockName = 0, dword dwNumParams = 0, ...) override;
+	void _cdecl DrawPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, dword dwVertexBufferFormat, dword dwNumPT, void *pVerts, dword dwStride, const char *cBlockName = 0, dword dwNumParams = 0, ...) override;
+	void _cdecl DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, dword dwMinIndex, dword dwNumVertices, dword dwPrimitiveCount, const void *pIndexData, D3DFORMAT IndexDataFormat, const void *pVertexData, dword dwVertexStride, const char *cBlockName = 0, dword dwNumParams = 0, ...) override;
 
    	// DX9Render: Video Section
-		virtual void				PlayToTexture();
-		virtual CVideoTexture *		GetVideoTexture(char * sVideoName);
-		virtual void				ReleaseVideoTexture(CVideoTexture * pVTexture);
+	void				PlayToTexture() override;
+	CVideoTexture *		GetVideoTexture(char * sVideoName) override;
+	void				ReleaseVideoTexture(CVideoTexture * pVTexture) override;
 
 	// DX9Render: Vertex/Index Buffers Section
-		virtual long CreateVertexBuffer(long type, long nverts,dword usage);
-		virtual long CreateIndexBuffer(long ntrgs, dword dwUsage = D3DUSAGE_WRITEONLY);
+	long CreateVertexBuffer(long type, long nverts,dword usage) override;
+	long CreateIndexBuffer(long ntrgs, dword dwUsage = D3DUSAGE_WRITEONLY) override;
 
-		virtual IDirect3DVertexBuffer9 * GetVertexBuffer(long id);
-		virtual long	GetVertexBufferFVF(long id);
-		virtual void *	LockVertexBuffer(long id, dword dwFlags = 0);
-		virtual void	UnLockVertexBuffer(long id);
-		virtual long	GetVertexBufferSize(long id);
-		virtual void *	LockIndexBuffer(long id, dword dwFlags = 0);
-		virtual void	UnLockIndexBuffer(long id);
-		virtual void	ReleaseVertexBuffer(long id);
-		virtual void	ReleaseIndexBuffer(long id);
+	IDirect3DVertexBuffer9 * GetVertexBuffer(long id) override;
+	long	GetVertexBufferFVF(long id) override;
+	void *	LockVertexBuffer(long id, dword dwFlags = 0) override;
+	void	UnLockVertexBuffer(long id) override;
+	long	GetVertexBufferSize(long id) override;
+	void *	LockIndexBuffer(long id, dword dwFlags = 0) override;
+	void	UnLockIndexBuffer(long id) override;
+	void	ReleaseVertexBuffer(long id) override;
+	void	ReleaseIndexBuffer(long id) override;
 
 	// DX9Render: Render/Texture States Section
-		virtual dword SetRenderState(dword State, dword Value);
-		virtual dword GetRenderState(dword State, dword * pValue);
-		virtual dword GetSamplerState(dword Sampler, D3DSAMPLERSTATETYPE  Type, dword * pValue);
-		virtual dword SetSamplerState(dword Sampler, D3DSAMPLERSTATETYPE Type, dword Value);
-		virtual dword SetTextureStageState(dword Stage, dword Type, dword Value);
-		virtual dword GetTextureStageState(dword Stage, dword Type, dword * pValue);
+	dword SetRenderState(dword State, dword Value) override;
+	dword GetRenderState(dword State, dword * pValue) override;
+	dword GetSamplerState(dword Sampler, D3DSAMPLERSTATETYPE  Type, dword * pValue) override;
+	dword SetSamplerState(dword Sampler, D3DSAMPLERSTATETYPE Type, dword Value) override;
+	dword SetTextureStageState(dword Stage, dword Type, dword Value) override;
+	dword GetTextureStageState(dword Stage, dword Type, dword * pValue) override;
 
 	// aspect ratio section
-		virtual float GetHeightDeformator() {return m_fHeightDeformator;}
-		virtual POINT GetScreenSize() { return screen_size; }
+	float GetHeightDeformator() override {return m_fHeightDeformator;}
+	POINT GetScreenSize() override { return screen_size; }
 // ===============================================================================================
 // --------------------===================== D3D SECTION =====================--------------------
 // ===============================================================================================
 
 	// D3D Device/Viewport Section
-		virtual HRESULT GetViewport(D3DVIEWPORT9 * pViewport);
-		virtual HRESULT SetViewport(const D3DVIEWPORT9 * pViewport);
-		virtual HRESULT GetDeviceCaps(D3DCAPS9 * pCaps);
+	HRESULT GetViewport(D3DVIEWPORT9 * pViewport) override;
+	HRESULT SetViewport(const D3DVIEWPORT9 * pViewport) override;
+	HRESULT GetDeviceCaps(D3DCAPS9 * pCaps) override;
 
 	// D3D
-		virtual HRESULT SetStreamSource(UINT StreamNumber, void * pStreamData, UINT Stride);
-		virtual HRESULT SetIndices(void * pIndexData);
-		virtual HRESULT DrawPrimitive(D3DPRIMITIVETYPE PrimitiveType, UINT StartVertex, UINT PrimitiveCount);
+	HRESULT SetStreamSource(UINT StreamNumber, void * pStreamData, UINT Stride) override;
+	HRESULT SetIndices(void * pIndexData) override;
+	HRESULT DrawPrimitive(D3DPRIMITIVETYPE PrimitiveType, UINT StartVertex, UINT PrimitiveCount) override;
 #ifndef _XBOX
-		virtual HRESULT Release(IUnknown *pSurface);
+	HRESULT Release(IUnknown *pSurface) override;
 #else
 		virtual HRESULT Release(IDirect3DResource8 *pSurface);
 #endif
 
 	// Vertex/Index Buffers Section
-		virtual HRESULT CreateVertexBuffer(UINT Length, DWORD Usage, DWORD FVF, D3DPOOL Pool, IDirect3DVertexBuffer9** ppVertexBuffer);
-		virtual HRESULT VBLock(IDirect3DVertexBuffer9 * pVB, UINT OffsetToLock, UINT SizeToLock, BYTE** ppbData, DWORD Flags);
-		virtual void VBUnlock(IDirect3DVertexBuffer9 * pVB);
+	HRESULT CreateVertexBuffer(UINT Length, DWORD Usage, DWORD FVF, D3DPOOL Pool, IDirect3DVertexBuffer9** ppVertexBuffer) override;
+	HRESULT VBLock(IDirect3DVertexBuffer9 * pVB, UINT OffsetToLock, UINT SizeToLock, BYTE** ppbData, DWORD Flags) override;
+	void VBUnlock(IDirect3DVertexBuffer9 * pVB) override;
 
 	// D3D Textures/Surfaces Section
-		virtual HRESULT GetDepthStencilSurface( IDirect3DSurface9** ppZStencilSurface );
-		virtual HRESULT GetCubeMapSurface( IDirect3DCubeTexture9* ppCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level, IDirect3DSurface9** ppCubeMapSurface );
-		virtual HRESULT CreateTexture( UINT Width, UINT Height, UINT  Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DTexture9** ppTexture );
-		virtual HRESULT CreateCubeTexture( UINT EdgeLength, UINT Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DCubeTexture9** ppCubeTexture );
-		virtual HRESULT CreateOffscreenPlainSurface( UINT Width, UINT Height, D3DFORMAT Format, IDirect3DSurface9 ** ppSurface);
-		virtual HRESULT CreateDepthStencilSurface( UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, IDirect3DSurface9 ** ppSurface );
-		virtual HRESULT SetTexture(DWORD Stage, IDirect3DBaseTexture9* pTexture );
-		virtual HRESULT GetLevelDesc( IDirect3DTexture9* ppTexture, UINT Level, D3DSURFACE_DESC* pDesc );
-		virtual HRESULT GetLevelDesc( IDirect3DCubeTexture9* ppCubeTexture, UINT Level, D3DSURFACE_DESC* pDesc );
-		virtual HRESULT LockRect( IDirect3DCubeTexture9* ppCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level, D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, DWORD Flags );
-		virtual HRESULT LockRect( IDirect3DTexture9* ppTexture, UINT Level, D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, DWORD Flags );
-		virtual HRESULT UnlockRect( IDirect3DCubeTexture9 *pCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level );
-		virtual HRESULT UnlockRect( IDirect3DTexture9 *pTexture, UINT Level );
-		virtual HRESULT GetSurfaceLevel( IDirect3DTexture9* ppTexture, UINT Level, IDirect3DSurface9** ppSurfaceLevel );
-		virtual HRESULT UpdateSurface( IDirect3DSurface9* pSourceSurface, CONST RECT* pSourceRectsArray, UINT cRects, IDirect3DSurface9* pDestinationSurface, CONST POINT* pDestPointsArray );
-		virtual HRESULT StretchRect(IDirect3DSurface9 *pSourceSurface, const RECT *pSourceRect, IDirect3DSurface9 *pDestSurface, const RECT *pDestRect, D3DTEXTUREFILTERTYPE Filter);
-		virtual HRESULT GetRenderTargetData(IDirect3DSurface9 *pRenderTarget, IDirect3DSurface9 *pDestSurface);
+	HRESULT GetDepthStencilSurface( IDirect3DSurface9** ppZStencilSurface ) override;
+	HRESULT GetCubeMapSurface( IDirect3DCubeTexture9* ppCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level, IDirect3DSurface9** ppCubeMapSurface ) override;
+	HRESULT CreateTexture( UINT Width, UINT Height, UINT  Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DTexture9** ppTexture ) override;
+	HRESULT CreateCubeTexture( UINT EdgeLength, UINT Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DCubeTexture9** ppCubeTexture ) override;
+	HRESULT CreateOffscreenPlainSurface( UINT Width, UINT Height, D3DFORMAT Format, IDirect3DSurface9 ** ppSurface) override;
+	HRESULT CreateDepthStencilSurface( UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, IDirect3DSurface9 ** ppSurface ) override;
+	HRESULT SetTexture(DWORD Stage, IDirect3DBaseTexture9* pTexture ) override;
+	HRESULT GetLevelDesc( IDirect3DTexture9* ppTexture, UINT Level, D3DSURFACE_DESC* pDesc ) override;
+	HRESULT GetLevelDesc( IDirect3DCubeTexture9* ppCubeTexture, UINT Level, D3DSURFACE_DESC* pDesc ) override;
+	HRESULT LockRect( IDirect3DCubeTexture9* ppCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level, D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, DWORD Flags ) override;
+	HRESULT LockRect( IDirect3DTexture9* ppTexture, UINT Level, D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, DWORD Flags ) override;
+	HRESULT UnlockRect( IDirect3DCubeTexture9 *pCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level ) override;
+	HRESULT UnlockRect( IDirect3DTexture9 *pTexture, UINT Level ) override;
+	HRESULT GetSurfaceLevel( IDirect3DTexture9* ppTexture, UINT Level, IDirect3DSurface9** ppSurfaceLevel ) override;
+	HRESULT UpdateSurface( IDirect3DSurface9* pSourceSurface, CONST RECT* pSourceRectsArray, UINT cRects, IDirect3DSurface9* pDestinationSurface, CONST POINT* pDestPointsArray ) override;
+	HRESULT StretchRect(IDirect3DSurface9 *pSourceSurface, const RECT *pSourceRect, IDirect3DSurface9 *pDestSurface, const RECT *pDestRect, D3DTEXTUREFILTERTYPE Filter) override;
+	HRESULT GetRenderTargetData(IDirect3DSurface9 *pRenderTarget, IDirect3DSurface9 *pDestSurface) override;
 
 	// D3D Pixel/Vertex Shaders Section
-		virtual HRESULT CreateVertexDeclaration(CONST D3DVERTEXELEMENT9 *pVertexElements, IDirect3DVertexDeclaration9 ** ppDecl);
-		virtual HRESULT SetVertexDeclaration(IDirect3DVertexDeclaration9 * pDecl);
-		virtual HRESULT CreatePixelShader(CONST DWORD * pFunction, IDirect3DPixelShader9 ** ppShader);
-		virtual HRESULT CreateVertexShader(CONST DWORD * pFunction, IDirect3DVertexShader9 ** ppShader);
+	HRESULT CreateVertexDeclaration(CONST D3DVERTEXELEMENT9 *pVertexElements, IDirect3DVertexDeclaration9 ** ppDecl) override;
+	HRESULT SetVertexDeclaration(IDirect3DVertexDeclaration9 * pDecl) override;
+	HRESULT CreatePixelShader(CONST DWORD * pFunction, IDirect3DPixelShader9 ** ppShader) override;
+	HRESULT CreateVertexShader(CONST DWORD * pFunction, IDirect3DVertexShader9 ** ppShader) override;
 		/*virtual HRESULT DeletePixelShader( DWORD Handle );
 		virtual HRESULT DeleteVertexShader( DWORD Handle );*/
-		virtual HRESULT SetVertexShader(IDirect3DVertexShader9 * pShader);
-		virtual HRESULT SetPixelShader(IDirect3DPixelShader9 * pShader);
+	HRESULT SetVertexShader(IDirect3DVertexShader9 * pShader) override;
+	HRESULT SetPixelShader(IDirect3DPixelShader9 * pShader) override;
 		/*virtual HRESULT SetFVFConstant(DWORD Register, CONST void* pConstantData, DWORD  ConstantCount );*/
-		virtual HRESULT SetVertexShaderConstantF(UINT StartRegister, CONST float * pConstantData, UINT Vector4iCount);
-		virtual HRESULT SetPixelShaderConstantF(UINT StartRegister, CONST float * pConstantData, UINT Vector4iCount);
-		virtual HRESULT SetFVF(DWORD handle);
-		virtual HRESULT GetVertexShader(IDirect3DVertexShader9** ppShader);
-		virtual HRESULT GetPixelShader(IDirect3DPixelShader9** ppShader);
+	HRESULT SetVertexShaderConstantF(UINT StartRegister, CONST float * pConstantData, UINT Vector4iCount) override;
+	HRESULT SetPixelShaderConstantF(UINT StartRegister, CONST float * pConstantData, UINT Vector4iCount) override;
+	HRESULT SetFVF(DWORD handle) override;
+	HRESULT GetVertexShader(IDirect3DVertexShader9** ppShader) override;
+	HRESULT GetPixelShader(IDirect3DPixelShader9** ppShader) override;
 
 
 	// D3D Render Target/Begin/End/Clear
-		virtual HRESULT GetRenderTarget(IDirect3DSurface9** ppRenderTarget);
-		virtual HRESULT SetRenderTarget( IDirect3DSurface9* pRenderTarget, IDirect3DSurface9* pNewZStencil );
-		virtual HRESULT Clear( DWORD Count, CONST D3DRECT* pRects, DWORD Flags, D3DCOLOR Color, float Z, DWORD Stencil );
-		virtual HRESULT BeginScene();
-		virtual HRESULT EndScene();
+	HRESULT GetRenderTarget(IDirect3DSurface9** ppRenderTarget) override;
+	HRESULT SetRenderTarget( IDirect3DSurface9* pRenderTarget, IDirect3DSurface9* pNewZStencil ) override;
+	HRESULT Clear( DWORD Count, CONST D3DRECT* pRects, DWORD Flags, D3DCOLOR Color, float Z, DWORD Stencil ) override;
+	HRESULT BeginScene() override;
+	HRESULT EndScene() override;
 
-		virtual HRESULT ImageBlt(const char * pName, RECT * pDstRect, RECT * pSrcRect);
-		virtual HRESULT ImageBlt(long nTextureId, RECT * pDstRect, RECT * pSrcRect);
+	HRESULT ImageBlt(const char * pName, RECT * pDstRect, RECT * pSrcRect) override;
+	HRESULT ImageBlt(long nTextureId, RECT * pDstRect, RECT * pSrcRect) override;
 
 
 	void MakeScreenShot();
@@ -452,12 +449,12 @@ public:
 	dword LoadCubmapSide(HANDLE file, IDirect3DCubeTexture9 * tex, D3DCUBEMAP_FACES face, dword numMips, dword mipSize, dword size, bool isSwizzled);
 
 	// core interface
-	bool  Init();
-	void  RunStart();
-	void  RunEnd();
-	dword RunSection(){return SECTION_REALIZE;};
-	bool  LoadState(ENTITY_STATE * state);
-	bool  CreateState(ENTITY_STATE_GEN * state_gen);
+	bool  Init() override;
+	void  RunStart() override;
+	void  RunEnd() override;
+	dword RunSection() override {return SECTION_REALIZE;};
+	bool  LoadState(ENTITY_STATE * state) override;
+	bool  CreateState(ENTITY_STATE_GEN * state_gen) override;
 
 	void ProcessScriptPosAng(CVECTOR & vPos, CVECTOR & vAng);
 	void FindPlanes(IDirect3DDevice9 * d3dDevice);
@@ -621,11 +618,11 @@ public:
 	bool LoadTextureSurface(HANDLE file, IDirect3DSurface9 * suface, dword mipSize, dword width, dword height, bool isSwizzled);
 	dword LoadCubmapSide(HANDLE file, IDirect3DCubeTexture9 * tex, D3DCUBEMAP_FACES face, dword numMips, dword mipSize, dword size, bool isSwizzled);*/
 
-	virtual void SetProgressImage(const char * image);
-	virtual void SetTipsImage(const char * image);
-	virtual void StartProgressView();
-	virtual void ProgressView();
-	virtual void EndProgressView();
+	void SetProgressImage(const char * image) override;
+	void SetTipsImage(const char * image) override;
+	void StartProgressView() override;
+	void ProgressView() override;
+	void EndProgressView() override;
 
 	static const dword rectsVBuffer_SizeInRects;
 	IDirect3DVertexBuffer9	* rectsVBuffer;
@@ -659,41 +656,41 @@ public:
 
 	bool bUseLargeBackBuffer;
 
-	virtual bool IsInsideScene() {return bInsideScene;}
+	bool IsInsideScene() override {return bInsideScene;}
 
-	char * GetTipsImage();
+	char * GetTipsImage() override;
 
-	void SetColorParameters(float fGamma, float fBrightness, float fContrast);
-	void DrawSphere(const CVECTOR & vPos, float fRadius, dword dwColor);
+	void SetColorParameters(float fGamma, float fBrightness, float fContrast) override;
+	void DrawSphere(const CVECTOR & vPos, float fRadius, dword dwColor) override;
 
-	void GetNearFarPlane(float & fNear, float & fFar);
-	void SetNearFarPlane(float fNear, float fFar);
+	void GetNearFarPlane(float & fNear, float & fFar) override;
+	void SetNearFarPlane(float fNear, float fFar) override;
 
-	virtual void SetLoadTextureEnable(bool bEnable = true);
+	void SetLoadTextureEnable(bool bEnable = true) override;
 	bool ResetDevice();
 
 	void MakeDrawVector(RS_LINE * pLines, dword dwNumSubLines, const CMatrix & mMatrix, CVECTOR vUp, CVECTOR v1, CVECTOR v2, float fScale, dword dwColor);
-	void _cdecl DrawVector(const CVECTOR & v1, const CVECTOR & v2, dword dwColor, const char * pTechniqueName = "DX9Vector", dword dwNumParams = 0, ...);
-	IDirect3DBaseTexture9 * GetBaseTexture(long iTexture);
+	void _cdecl DrawVector(const CVECTOR & v1, const CVECTOR & v2, dword dwColor, const char * pTechniqueName = "DX9Vector", dword dwNumParams = 0, ...) override;
+	IDirect3DBaseTexture9 * GetBaseTexture(long iTexture) override;
 
-	virtual IDirect3DBaseTexture9 * CreateTextureFromFileInMemory(const char * pFile, dword dwSize);
+	IDirect3DBaseTexture9 * CreateTextureFromFileInMemory(const char * pFile, dword dwSize) override;
 
-	virtual bool PushRenderTarget();
-	virtual bool PopRenderTarget();
-	virtual bool SetRenderTarget(IDirect3DCubeTexture9 * pCubeTex, dword dwFaceType, dword dwLevel, IDirect3DSurface9* pNewZStencil);
-	virtual void SetView(const CMatrix & mView);
-	virtual void SetWorld(const CMatrix & mView);
-	virtual void SetProjection(const CMatrix & mView);
-	virtual const CMatrix & GetView();
-	virtual const CMatrix & GetWorld();
-	virtual const CMatrix & GetProjection();
+	bool PushRenderTarget() override;
+	bool PopRenderTarget() override;
+	bool SetRenderTarget(IDirect3DCubeTexture9 * pCubeTex, dword dwFaceType, dword dwLevel, IDirect3DSurface9* pNewZStencil) override;
+	void SetView(const CMatrix & mView) override;
+	void SetWorld(const CMatrix & mView) override;
+	void SetProjection(const CMatrix & mView) override;
+	const CMatrix & GetView() override;
+	const CMatrix & GetWorld() override;
+	const CMatrix & GetProjection() override;
 
-	virtual IDirect3DVolumeTexture9 * CreateVolumeTexture(dword Width, dword Height, dword Depth, dword Levels, dword Usage, D3DFORMAT Format, D3DPOOL Pool);
+	IDirect3DVolumeTexture9 * CreateVolumeTexture(dword Width, dword Height, dword Depth, dword Levels, dword Usage, D3DFORMAT Format, D3DPOOL Pool) override;
 
-	virtual void MakePostProcess();
-	virtual void SetGLOWParams (float _fBlurBrushSize, long _GlowIntensity, long _GlowPasses);
+	void MakePostProcess() override;
+	void SetGLOWParams (float _fBlurBrushSize, long _GlowIntensity, long _GlowPasses) override;
 
-	virtual IDirect3DBaseTexture9* GetTextureFromID(long nTextureID);
+	IDirect3DBaseTexture9* GetTextureFromID(long nTextureID) override;
 
 	void LostRender();
 	void RestoreRender();

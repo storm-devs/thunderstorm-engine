@@ -5,6 +5,7 @@
 #include "..\..\common_h\memop.h"
 
 #include "..\..\common_h\dx9render.h"
+#include "../../common_h/defines.h"
 
 #define CORE_MODULE_WILD_MASK		"*.dll"
 #define CORE_DEFAULT_MODULES_PATH	"Modules\\"
@@ -29,7 +30,7 @@ CREATE_SERVICE(CONTROLS)
 #endif
 // this macro incure, that programm control didnt pass via any entity constructor. Each base api function must
 // be protected by this macro on development stage. On release stage this macro changed to empty block
-#define VALIDATE_API_CALLS {if(Constructor_counter) _THROW(api call from constructor);}	// develop version
+#define VALIDATE_API_CALLS {if(Constructor_counter) STORM_THROW(api call from constructor);}	// develop version
 //#define VALIDATE_API_CALLS {}	// release version
 
 dword dwNumberScriptCommandsExecuted = 0;
@@ -97,7 +98,8 @@ void CORE::ResetCore()
 	SystemMessagesNum = 0;
 	Scan_Layer_Code = INVALID_LAYER_CODE;
 
-	if(State_file_name) delete(State_file_name); State_file_name = null;
+	if(State_file_name) 
+		STORM_DELETE(State_file_name); 
 
 	Constructor_counter = 0;
 
@@ -435,7 +437,7 @@ bool __declspec(noinline) __cdecl CORE::Initialize()
 	gdi_display.Print(CMS_INITIALIZING_CORE);
 
 	engine_ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
- 	if(engine_ini == null) _THROW(no 'engine.ini' file);
+ 	if(engine_ini == null) STORM_THROW(no 'engine.ini' file);
 
 	if(!engine_ini->ReadString(0,"modules path",string,sizeof(string),""))
 	{
@@ -480,7 +482,7 @@ bool CORE::LoadCoreState(CORE_STATE cs)
 	gdi_display.Print("loading core state");
 
 	engine_ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
-	if(engine_ini == null) _THROW(no 'engine.ini' file);
+	if(engine_ini == null) STORM_THROW(no 'engine.ini' file);
 
 	if(!engine_ini->ReadString(0,"modules path",string,sizeof(string),0))
 	{
@@ -499,7 +501,7 @@ bool CORE::LoadCoreState(CORE_STATE cs)
 
 	// pc/xbox mod - modules loaded on startup only and unloaded when app terminated
 	//Modules_Table.LoadModulesTable();							// creating modules table
-	//if(Modules_Table.GetModulesCount() == 0) _THROW(No modules to Run);
+	//if(Modules_Table.GetModulesCount() == 0) STORM_THROW(No modules to Run);
 
 	//LoadClassesTable();											// creating classes table
 
@@ -529,17 +531,17 @@ void CORE::ProcessRootObjectCreation()
 	if(Root_flag) return;
 
 	/*engine_ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
-	if(engine_ini == null) _THROW(no 'engine.ini' file);
+	if(engine_ini == null) STORM_THROW(no 'engine.ini' file);
 
 	if(!engine_ini->ReadString(0,"root object",string,sizeof(string),0))
 	{
 		delete engine_ini;
-		_THROW(No 'root object' key in engine.ini);
+		STORM_THROW(No 'root object' key in engine.ini);
 	}
 	delete engine_ini;
 
 	gdi_display.Print("Root object: %s",string);
-	if(!CreateEntity(0,string)) _THROW(Cant create Root object);//*/
+	if(!CreateEntity(0,string)) STORM_THROW(Cant create Root object);//*/
 
 
 	//ProcessEngineIniFile();
@@ -563,7 +565,7 @@ void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 	bEngineIniProcessed = true;
 
 	engine_ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
-	if(engine_ini == null) _THROW(no 'engine.ini' file);
+	if(engine_ini == null) STORM_THROW(no 'engine.ini' file);
 
 	res = engine_ini->ReadString(0,"program_directory",String,sizeof(String),"");
 	if(res)
@@ -596,9 +598,9 @@ void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 	res = engine_ini->ReadString(0,"run",String,sizeof(String),"");
 	if(res)
 	{
-		//if(!Program.RunProgram(String)) _THROW(fail to run program);
-		if(!Compiler.CreateProgram(String)) _THROW(fail to create program);
-		if(!Compiler.Run()) _THROW(fail to run program);
+		//if(!Program.RunProgram(String)) STORM_THROW(fail to run program);
+		if(!Compiler.CreateProgram(String)) STORM_THROW(fail to create program);
+		if(!Compiler.Run()) STORM_THROW(fail to run program);
 		// Тест версии скрипта
 		long iScriptVersion = 0xFFFFFFFF;
 		VDATA * pVScriptVersion = (VDATA *)api->GetScriptVariable("iScriptVersion");
@@ -616,7 +618,7 @@ void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 	if(!res)
 	{
 		//delete engine_ini;
-		//_THROW(no class for loading);
+		//STORM_THROW(no class for loading);
 	}
 	while(res)
 	{
@@ -750,7 +752,7 @@ void CORE::RestoreEntity(ENTITY_ID entity_id,ATOM_STATE atom_state)
 
 	class_code = entity_id.class_code;
 	// access to class informatino
-	if(!Classes_Table.GetStringData(class_code,&class_search_data)) _THROW(invalid class);
+	if(!Classes_Table.GetStringData(class_code,&class_search_data)) STORM_THROW(invalid class);
 
 	// xbox
 	if((dword)class_search_data.module_code >= Modules_Table.GetModulesCount())
@@ -758,12 +760,12 @@ void CORE::RestoreEntity(ENTITY_ID entity_id,ATOM_STATE atom_state)
 	//if(Modules_Table.ModuleReferenceInc(class_search_data.module_code) == 0)
 	{
 		//trace("cant load libriary  %s : %s",Modules_Table.GetModuleName(class_search_data.module_code),Classes_Table.GetString(class_code));
-		_THROW(invalid module code);
+		STORM_THROW(invalid module code);
 	}
 
 	// create atom structure
 	atom_PTR = FitAtom(entity_id,atom_state);
-	if(atom_PTR == null) _THROW(cant create atom);
+	if(atom_PTR == null) STORM_THROW(cant create atom);
 
 	// clear all layers attribute (object will be added via standart function)
 	ZeroMemory(&atom_PTR->as.Layers_mask,sizeof(atom_PTR->as.Layers_mask));
@@ -773,7 +775,7 @@ void CORE::RestoreEntity(ENTITY_ID entity_id,ATOM_STATE atom_state)
 	if(mapi_PTR == null)
 	{
 		trace("invalid module api class  %s : %s",Modules_Table.GetModuleName(class_search_data.module_code),Classes_Table.GetString(class_code));
-		_THROW(invalid module);
+		STORM_THROW(invalid module);
 	}
 
 	// set current entity atom id pointer
@@ -802,7 +804,7 @@ void CORE::RestoreEntity(ENTITY_ID entity_id,ATOM_STATE atom_state)
 		TraceCurrent();
 		POP_CONTROL(0)
 		System_Api.entityID_PTR = null;
-		_THROW(RestoreEntity(Constructor));
+		STORM_THROW(RestoreEntity(Constructor));
 	}
 	#endif
 
@@ -814,7 +816,7 @@ void CORE::RestoreEntity(ENTITY_ID entity_id,ATOM_STATE atom_state)
 	if(Entity_PTR == null) THROW;
 
 	// created, but object constructor start self destruct process
-	if(atom_PTR->as.Deleted) _THROW(self destruct on load);
+	if(atom_PTR->as.Deleted) STORM_THROW(self destruct on load);
 
 	UNGUARD
 	//*/
@@ -823,7 +825,7 @@ void CORE::RestoreEntity(ENTITY_ID entity_id,ATOM_STATE atom_state)
 void CORE::ValidateApiCalls()
 {
 	GUARD(CORE::ValidateApiCalls)
-	if(Constructor_counter) _THROW(api call from constructor);
+	if(Constructor_counter) STORM_THROW(api call from constructor);
 	UNGUARD
 }
 
@@ -833,16 +835,16 @@ void CORE::CheckAutoExceptions(dword xflag)
 	if(!(Exceptions_Mask & xflag)) return;
 	switch(xflag)
 	{
-		case  _X_NO_MEM:			_THROW(no mem);
-		case  _X_NO_FILE:			_THROW(no file);
-		case  _X_NO_FILE_READ:		_THROW(cant read from file);
-		case  _X_NO_FILE_WRITE:		_THROW(cant write to file);
-		case  _X_NO_CREATE_ENTITY:	_THROW(cant create object);
-		case  _X_NO_CLASS:			_THROW(cant find class);
-		case  _X_NO_SERVICE:		_THROW(cant create service);
-		case  _X_NO_ENTITY:			_THROW(cant find entity);
-		case  _X_NO_LAYER:			_THROW(no layer);
-		default:					_THROW(invalid exceptions flag);
+		case  _X_NO_MEM:			STORM_THROW(no mem);
+		case  _X_NO_FILE:			STORM_THROW(no file);
+		case  _X_NO_FILE_READ:		STORM_THROW(cant read from file);
+		case  _X_NO_FILE_WRITE:		STORM_THROW(cant write to file);
+		case  _X_NO_CREATE_ENTITY:	STORM_THROW(cant create object);
+		case  _X_NO_CLASS:			STORM_THROW(cant find class);
+		case  _X_NO_SERVICE:		STORM_THROW(cant create service);
+		case  _X_NO_ENTITY:			STORM_THROW(cant find entity);
+		case  _X_NO_LAYER:			STORM_THROW(no layer);
+		default:					STORM_THROW(invalid exceptions flag);
 	}
 }
 
@@ -868,7 +870,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 	}
 
 	// temporary commented for debug purposes
-	// if(State_loading) _THROW(attempt to create on load state);
+	// if(State_loading) STORM_THROW(attempt to create on load state);
 
 	VMA * pClass;
 	long  hash;
@@ -884,7 +886,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 	{
 		if(pClass->GetHash() == hash)
 		{
-			if(stricmp(class_name,pClass->GetName())==0)
+			if(_stricmp(class_name,pClass->GetName())==0)
 			{
 				bClassFound = true;
 				break;
@@ -916,7 +918,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 	atom_PTR = CreateAtom(hash);
 
 	// ... throw() system error
-	if(atom_PTR == null) _THROW(Cant create Atom);
+	if(atom_PTR == null) STORM_THROW(Cant create Atom);
 	atom_PTR->atom_id.pName = pClass->GetName();
 
 	// obtain module interface class
@@ -965,7 +967,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 		Constructor_counter--;
 		POP_CONTROL(0)
 		System_Api.entityID_PTR = null;
-		_THROW(CreateEntity(Constructor));
+		STORM_THROW(CreateEntity(Constructor));
 	}
 	#endif
 
@@ -982,7 +984,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 		// xbox
 		// Modules_Table.ModuleReferenceDec(class_search_data.module_code);
 		trace("empty class: %s",class_name);
-		_THROW(invalid class);
+		STORM_THROW(invalid class);
 	}
 
 
@@ -1028,7 +1030,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 			TraceCurrent();
 			POP_CONTROL(0)
 			System_Api.entityID_PTR = null;
-			_THROW(CreateEntity(Init));
+			STORM_THROW(CreateEntity(Init));
 		}
 	#endif
 
@@ -1059,7 +1061,7 @@ void CORE::CreationTimeInc()
 		CoreState.Creation_Time.time[n]++;
 		n++;
 	} while (transfer && n < CRTM_DWORDS);
-	if(transfer && n >= CRTM_DWORDS) _THROW(Id time overflaw);
+	if(transfer && n >= CRTM_DWORDS) STORM_THROW(Id time overflaw);
 	UNGUARD
 }
 
@@ -1075,7 +1077,7 @@ C_ATOM * CORE::CreateAtom(dword class_code)
 		dword new_space;
 		new_space = 2*CoreState.Atoms_space;
 		Atoms_PTR = (C_ATOM **)RESIZE(Atoms_PTR,new_space*sizeof(C_ATOM*));
-		if(Atoms_PTR == null) _THROW(Resizing Atoms Space Error);
+		if(Atoms_PTR == null) STORM_THROW(Resizing Atoms Space Error);
 		memset((char *)Atoms_PTR + CoreState.Atoms_space*sizeof(C_ATOM*),0,CoreState.Atoms_space*sizeof(C_ATOM*));
 		CoreState.Atoms_space = new_space;
 	}
@@ -1494,7 +1496,7 @@ void CORE::ProcessDeleteList()
 		{
 			if(!DeleteServicesList.GetData(n,&data)) continue;
 			service_PTR = (SERVICE *)data.pointer;
-			if(!service_PTR) _THROW(invalid service);
+			if(!service_PTR) STORM_THROW(invalid service);
 			#ifndef EX_OFF
 			try {
 			#endif
@@ -1507,7 +1509,7 @@ void CORE::ProcessDeleteList()
 				TraceCurrent();
 				Memory_Service.Free(service_PTR);
 				//Modules_Table.ModuleReferenceDec(data.code);
-				_THROW(invalid service);
+				STORM_THROW(invalid service);
 			}
 			#endif
 
@@ -1560,7 +1562,7 @@ bool CORE::EraseEntity(ENTITY_ID entity_id)
 
 		TraceCurrent();
 //		POP_CONTROL(0)
-		_THROW(EraseEntity);
+		STORM_THROW(EraseEntity);
 	}
 	#endif
 //	POP_CONTROL(0);
@@ -1630,7 +1632,7 @@ dword CORE::GetLayerIndex(char * layer_name)
 	for(n=0;n<=CoreState.Layer_max_index;n++)
 	{
 		if(Layer_Table[n] == null) continue;
-		if(stricmp(layer_name,Layer_Table[n]->Name)== 0) return n;
+		if(_stricmp(layer_name,Layer_Table[n]->Name)== 0) return n;
 	}*/
 	UNGUARD
 	return INVALID_LAYER_CODE;
@@ -1648,7 +1650,7 @@ bool CORE::VerifyLayer(char * layer_name)
 	for(n=0;n<=CoreState.Layer_max_index;n++)
 	{
 		if(Layer_Table[n] == null) continue;
-		if(stricmp(layer_name,Layer_Table[n]->Name)== 0) return true;
+		if(_stricmp(layer_name,Layer_Table[n]->Name)== 0) return true;
 	}*/
 	UNGUARD
 	return false;
@@ -1694,7 +1696,7 @@ C_ATOM * CORE::GetAtom(ENTITY_ID * id_PTR)
 //------------------------------------------------------------------------------------------------
 // Mark layer for deletion before next game loop
 //
-void CORE::LayerDelete(char * layer_name)
+void CORE::LayerSTORM_DELETE(char * layer_name)
 {
 	GUARD(CORE::DeleteLayer)
 
@@ -2109,7 +2111,7 @@ void * CORE::MakeClass(char * class_name)
 	{
 		if(pClass->GetHash() == hash)
 		{
-			if(stricmp(class_name,pClass->GetName())==0)
+			if(_stricmp(class_name,pClass->GetName())==0)
 			{
 				return pClass->CreateClass();
 			}
@@ -2151,7 +2153,7 @@ VMA * CORE::FindVMA(char * class_name)
 	{
 		if(pClass->GetHash() == hash)
 		{
-			if(stricmp(class_name,pClass->GetName())==0)
+			if(_stricmp(class_name,pClass->GetName())==0)
 			{
 				return pClass;
 			}
@@ -2227,7 +2229,7 @@ void * CORE::CreateService(char * service_name)
 	}
 	catch(...)
 	{
-		TraceCurrent();	POP_CONTROL(0); _THROW(CreateService: Init func);
+		TraceCurrent();	POP_CONTROL(0); STORM_THROW(CreateService: Init func);
 	}
 	#endif
 	POP_CONTROL(0)
@@ -2808,7 +2810,7 @@ void CORE::ProcessStateLoading()
 	if(fh == INVALID_HANDLE_VALUE)
 	{
 		trace(State_file_name);
-		__THROW(NON_FATAL,cant open state file);
+		_STORM_THROW(NON_FATAL,cant open state file);
 	}
 
 	//Program.LoadState(fh);
@@ -2830,7 +2832,7 @@ void CORE::ProcessStateLoading()
 	es.MemoryBlock(sizeof(cs),(char *)&cs);
 
 	// check engine version
-	if(cs.engine_version != CoreState.engine_version) _THROW(incorrect state file);
+	if(cs.engine_version != CoreState.engine_version) STORM_THROW(incorrect state file);
 
 	// validate space size
 	if(cs.Atoms_max_orbit >= cs.Atoms_space) THROW;
@@ -2845,7 +2847,7 @@ void CORE::ProcessStateLoading()
 	classes_count = es.Dword();
 
 	// verify class table size
-//	if(classes_count != Classes_Table.GetStringsCount()) _THROW(incorrect state file);
+//	if(classes_count != Classes_Table.GetStringsCount()) STORM_THROW(incorrect state file);
 
 	// verify class table
 /*	for(n=0;n<Classes_Table.GetStringsCount();n++)
@@ -2858,7 +2860,7 @@ void CORE::ProcessStateLoading()
 		// read save class name
 		es.String(strlen(char_PTR) + 1,v_Buff.Ptr);
 		// compare saved class name with currently loaded
-		if(stricmp(v_Buff.Ptr,char_PTR) != 0) _THROW(incorrect state file);
+		if(_stricmp(v_Buff.Ptr,char_PTR) != 0) STORM_THROW(incorrect state file);
 	}
 */
 	// restore atom structure and recreate objects
@@ -2929,7 +2931,7 @@ void CORE::ProcessStateLoading()
 			{
 				// state load error, detected by object
 				TraceCurrent();
-				_THROW(state loading error);
+				STORM_THROW(state loading error);
 			}
 			POP_CONTROL(0)
 		#ifndef EX_OFF
@@ -2944,7 +2946,7 @@ void CORE::ProcessStateLoading()
 		{
 			TraceCurrent();
 			POP_CONTROL(0)
-			_THROW(LoadState);
+			STORM_THROW(LoadState);
 		}
 		#endif
 	}
@@ -3048,7 +3050,7 @@ bool CORE::InitObject(ENTITY_ID eid)
 		TraceCurrent();
 		POP_CONTROL(0)
 		System_Api.entityID_PTR = null;
-		_THROW(cant init);
+		STORM_THROW(cant init);
 	}
 	#endif
 	POP_CONTROL(0)

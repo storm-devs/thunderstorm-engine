@@ -4,9 +4,7 @@
 #include "..\common_h\dx9render.h"
 #include "..\common_h\ship_base.h"
 #include "..\common_h\sea_base.h"
-
-#include "..\common_h\templates\string.h"
-#include "..\common_h\templates\array.h"
+#include <vector>
 
 class ShipTracks : public ENTITY
 {
@@ -71,7 +69,7 @@ private:
 		float fCurTV;
 		CVECTOR vLastPos, vLastAng;
 
-		array<Track> aTrack1, aTrack2;
+		std::vector<Track> aTrack1, aTrack2;
 		long iTrackTexture1, iTrackTexture2;
 		float fWidth11, fWidth12, fWidth21, fWidth22;
 		float fSpeed11, fSpeed12, fSpeed21, fSpeed22;
@@ -87,7 +85,7 @@ private:
 		bool Reserve2(dword dwSize);
 	};
 
-	array<ShipTrack*> aShips;
+	std::vector<ShipTrack*> aShips;
 };
 
 #endif

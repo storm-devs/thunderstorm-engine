@@ -4,7 +4,7 @@
 #define _MEMORY_FILE_
 
 #include "..\..\common_h\d_types.h"
-
+#include "..\..\common_h\memop.h"
 
 #define VFSEEK_SET          (0x00000000)
 #define VFSEEK_CURRENT      (0x00000001)

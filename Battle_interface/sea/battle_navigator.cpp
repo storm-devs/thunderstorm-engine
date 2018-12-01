@@ -525,7 +525,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER *RenderService,ENTITY* pOwnerEI)
 	m_idCurChargeVBuf = rs->CreateVertexBuffer(BI_ONETEX_VERTEX_FORMAT,3*4*sizeof(BI_ONETEXTURE_VERTEX),D3DUSAGE_WRITEONLY);
 	if(m_idEmptyVBuf==-1 || m_idCannonVBuf==-1 || m_idSpeedVBuf==-1 || m_idMapVBuf==-1 || m_idFireZoneVBuf==-1 || m_idShipsVBuf==-1 || m_idGradBackVBuf==-1 || m_idCurChargeVBuf==-1)
 	{
-		_THROW("Can`t create vertex\index buffer");
+		STORM_THROW("Can`t create vertex\index buffer");
 	}
 	m_nvShips = 0;
 

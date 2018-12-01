@@ -4,7 +4,6 @@
 #include "..\common_h\messages.h"
 #include "..\common_h\rands.h"
 #include "..\common_h\ship_base.h"
-#include "..\common_h\templates\array.h"
 
 #include "SailorsMenu.h"
 
@@ -37,8 +36,8 @@ class SailorsEditor : public ENTITY
 	Menu menu;
 	//SailorsPoints sailorsPoints;
 
-	string _shipName;
+	std::string _shipName;
 
 	void SetCamera(dword &dltTime);
-	void LoadFromIni(string fileName);
+	void LoadFromIni(std::string fileName);
 };

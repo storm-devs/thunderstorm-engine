@@ -43,7 +43,7 @@ void CXI_BOUNDER::ReleaseAll()
 	m_bUse = false;
 
 	PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName,m_idTex);
-	PTR_DELETE(m_sGroupName);
+	PTR_STORM_DELETE(m_sGroupName);
 
 	VERTEX_BUF_RELEASE(m_rs,m_idVBuf);
 	INDEX_BUF_RELEASE(m_rs,m_idIBuf);
@@ -111,7 +111,7 @@ void CXI_BOUNDER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	XI_ONETEX_VERTEX *pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
 	WORD *pIndx = (WORD*) m_rs->LockIndexBuffer(m_idIBuf);
 	if(pVert==NULL || pIndx==NULL)
-		_THROW("can not create the index&vertex buffers")
+		STORM_THROW("can not create the index&vertex buffers")
 
 	for(i=0; i<m_nVert; i++)
 	{
@@ -296,7 +296,7 @@ void CXI_BOUNDER::ChangePosition( XYRECT &rNewPos )
 	XI_ONETEX_VERTEX *pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
 
 	if( pVert == NULL )
-		_THROW("can not create the index&vertex buffers")
+		STORM_THROW("can not create the index&vertex buffers")
 
 	long i;
 
@@ -468,9 +468,9 @@ void CXI_BOUNDER::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 

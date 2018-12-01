@@ -14,7 +14,7 @@
 
 DWORD GraphRead = 0;
 
-ParticleManager::ParticleManager (ParticleService* service) : IParticleManager (service), DeleteQuery(_FL_), Systems(_FL_), EnumUsedGeom(_FL_)
+ParticleManager::ParticleManager (ParticleService* service) : IParticleManager (service)
 {
 	pService = service;
 	ShowStat = false;
@@ -84,8 +84,9 @@ void ParticleManager::SetProjectTexture (const char* FileName)
 
 	pProjectTexture = pRS->TextureCreate(FileName);
 
-	string a;
-	a.GetFileTitle(FileName);
+	std::string a;
+	__debugbreak(); // ~!~
+	//a.GetFileTitle(FileName);
 	a += "nm";
 	pProjectTextureNormalMap = pRS->TextureCreate(a.c_str());
 
@@ -97,7 +98,7 @@ void ParticleManager::SetProjectTexture (const char* FileName)
 
 const char* ParticleManager::GetProjectTextureName ()
 {
-	return TextureName.GetBuffer();
+	return TextureName.c_str();
 }
 
 //Открыть проект
@@ -106,15 +107,16 @@ bool ParticleManager::OpenProject (const char* FileName)
   CloseProject ();
 	ShortProjectName = FileName;
 
-	string LongFileName = "resource\\particles\\";
-	LongFileName += FileName;
-	LongFileName.AddExtention(".prj");
+	std::string LongFileName = "resource\\particles\\";
+	__debugbreak(); // ~!~
+	//LongFileName += FileName;
+	//LongFileName.AddExtention(".prj");
 
 
-	INIFILE* IniFile = api->fio->OpenIniFile((char*)LongFileName.GetBuffer());
+	INIFILE* IniFile = api->fio->OpenIniFile((char*)LongFileName.c_str());
 	if (!IniFile)
 	{
-		api->Trace("Can't find project '%s'", LongFileName.GetBuffer());
+		api->Trace("Can't find project '%s'", LongFileName.c_str());
 		return false;
 	}
 
@@ -131,7 +133,7 @@ bool ParticleManager::OpenProject (const char* FileName)
 	{
 		string Section;
 		Section.Format("Model_%04d", n);
-		bool ReadSuccess = IniFile->ReadString("ModelsCache", (char*)Section.GetBuffer(), IniStringBuffer, 8192, "none");
+		bool ReadSuccess = IniFile->ReadString("ModelsCache", (char*)Section.c_str(), IniStringBuffer, 8192, "none");
 		if (!ReadSuccess) break;
 
 		//api->Trace("Cache geom: %s", IniStringBuffer);
@@ -143,9 +145,10 @@ bool ParticleManager::OpenProject (const char* FileName)
 	//Загружаем данные
 	for (int n = 0; n < 9999; n++)
 	{
-		string Section;
-		Section.Format("System_%04d", n);
-		bool ReadSuccess = IniFile->ReadString("Manager", (char*)Section.GetBuffer(), IniStringBuffer, 8192, "none");
+		char buf[64];
+		snprintf(buf, _countof(buf), "System_%04d", n);
+		//Section.Format("System_%04d", n);
+		bool ReadSuccess = IniFile->ReadString("Manager", buf, IniStringBuffer, 8192, "none");
 		if (!ReadSuccess) break;
 		pDataCache->CacheSystem(IniStringBuffer);
 	}
@@ -162,7 +165,7 @@ bool ParticleManager::OpenProject (const char* FileName)
 //Получить имя проекта
 const char* ParticleManager::GetProjectFileName ()
 {
-	return ShortProjectName.GetBuffer();
+	return ShortProjectName.c_str();
 }
 
 
@@ -192,11 +195,13 @@ void ParticleManager::CloseProject ()
 void ParticleManager::RemoveResource (IParticleSystem* pResource)
 {
 	if (GlobalDelete) return;
-	for (DWORD n = 0; n < Systems.Size(); n++)
+	for (DWORD n = 0; n < Systems.size(); n++)
 	{
 		if (Systems[n].pSystem == pResource)
 		{
-			Systems.ExtractNoShift(n);
+			//Systems.ExtractNoShift(n);
+			Systems[n] = Systems.back();
+			Systems.pop_back();
 			return;
 		}
 	}
@@ -217,8 +222,8 @@ void ParticleManager::Execute (float DeltaTime)
 	RDTSC_B(TicksTime);
 	ProcessTime = TicksTime;
 
-	ActiveSystems = Systems.Size();
-	for (DWORD n = 0; n < Systems.Size(); n++)
+	ActiveSystems = Systems.size();
+	for (DWORD n = 0; n < Systems.size(); n++)
 	{
 		ActiveEmitters += Systems[n].pSystem->Execute(DeltaTime);
 	}
@@ -290,12 +295,12 @@ void ParticleManager::Execute (float DeltaTime)
 		Sleep(100);
 	}
 
-	for (DWORD n = 0; n < DeleteQuery.Size(); n++)
+	for (DWORD n = 0; n < DeleteQuery.size(); n++)
 	{
 		DeleteQuery[n]->Release();
 	}
 
-	DeleteQuery.DelAll();
+	DeleteQuery.clear();
 }
 
 //Узнать доступна система или нет
@@ -331,12 +336,12 @@ IParticleSystem* ParticleManager::CreateParticleSystemEx (const char* FileName, 
 void ParticleManager::DeleteAllSystems ()
 {
 	GlobalDelete = true;
-	for (DWORD n = 0; n < Systems.Size(); n++)
+	for (DWORD n = 0; n < Systems.size(); n++)
 	{
 		Systems[n].pSystem->Release();
 	}
 
-	Systems.DelAll();
+	Systems.clear();
 	GlobalDelete = false;
 }
 
@@ -347,7 +352,7 @@ ParticleSystem* ParticleManager::CreateParticleSystemFromDataSource (DataSource*
 
 	SystemDesc SysDesc;
 	SysDesc.pSystem = pSys;
-	Systems.Add(SysDesc);
+	Systems.push_back(SysDesc);
 
 	return pSys;
 }
@@ -372,7 +377,7 @@ IParticleSystem* ParticleManager::CreateEmptyParticleSystemEx  (const char* File
 
 bool ParticleManager::ValidateSystem (IParticleSystem* pSystem)
 {
-	for (DWORD n = 0; n < Systems.Size(); n++)
+	for (DWORD n = 0; n < Systems.size(); n++)
 	{
 		if (Systems[n].pSystem == pSystem) return true;
 	}
@@ -386,7 +391,7 @@ GEOS* ParticleManager::GetModel (const char* FileName)
 
 DWORD ParticleManager::GetCreatedSystemCount ()
 {
-	return Systems.Size();
+	return Systems.size();
 }
 
 ParticleSystem* ParticleManager::GetCreatedSystemByIndex (DWORD Index)
@@ -401,12 +406,12 @@ bool ParticleManager::ReadyForUse ()
 
 void ParticleManager::DefferedDelete (ParticleSystem* pSys)
 {
-	DeleteQuery.Add(pSys);
+	DeleteQuery.push_back(pSys);
 }
 
 void ParticleManager::Editor_UpdateCachedData ()
 {
-	for (DWORD n = 0; n < Systems.Size(); n++)
+	for (DWORD n = 0; n < Systems.size(); n++)
 	{
 		Systems[n].pSystem->Editor_UpdateCachedData ();
 	}
@@ -427,7 +432,7 @@ const char* ParticleManager::GetFirstGeomName (const char* FileName)
 {
 	IteratorIndex = 0;
 	GeomNameParser Parser;
-	EnumUsedGeom.DelAll ();
+	EnumUsedGeom.clear();
 	DataSource* pDataSource = pDataCache->GetParticleSystemDataSource (FileName);
 	if (!pDataSource) return NULL;
 
@@ -436,7 +441,7 @@ const char* ParticleManager::GetFirstGeomName (const char* FileName)
 	for (DWORD n = 0; n < count; n++)
 	{
 		DataSource::EmitterDesc* pDesc = pDataSource->GetEmitterDesc(n);
-		for (DWORD i = 0; i < pDesc->Particles.Size(); i++)
+		for (DWORD i = 0; i < pDesc->Particles.size(); i++)
 		{
 			DataString* pModelNames = pDesc->Particles[i].Fields.FindString(PARTICLE_GEOM_NAMES);
 			if (!pModelNames) continue;
@@ -449,15 +454,16 @@ const char* ParticleManager::GetFirstGeomName (const char* FileName)
 				for (DWORD j = 0; j < TCount; j++)
 				{
 					const char* GeomName = Parser.GetTokenByIndex(j);
-					if (!FindInEnumUsedGeom(GeomName)) EnumUsedGeom.Add(string(GeomName));
+					if (!FindInEnumUsedGeom(GeomName))
+						EnumUsedGeom.push_back(GeomName);
 				}
 			}
 		}
 
 	}
 
-	if (EnumUsedGeom.Size() == 0) return NULL;
-	const char* FirstName = EnumUsedGeom[IteratorIndex].GetBuffer();
+	if (EnumUsedGeom.size() == 0) return NULL;
+	const char* FirstName = EnumUsedGeom[IteratorIndex].c_str();
 	IteratorIndex++;
 	return FirstName;
 
@@ -465,18 +471,18 @@ const char* ParticleManager::GetFirstGeomName (const char* FileName)
 
 const char* ParticleManager::GetNextGeomName ()
 {
-	if (IteratorIndex >= EnumUsedGeom.Size()) return NULL;
-	const char* FirstName = EnumUsedGeom[IteratorIndex].GetBuffer();
+	if (IteratorIndex >= EnumUsedGeom.size()) return NULL;
+	const char* FirstName = EnumUsedGeom[IteratorIndex].c_str();
 	IteratorIndex++;
 	return FirstName;
 }
 
 bool ParticleManager::FindInEnumUsedGeom (const char* GeomName)
 {
-	for (DWORD n = 0; n < EnumUsedGeom.Size(); n++)
+	for (DWORD n = 0; n < EnumUsedGeom.size(); n++)
 	{
-		const char* StoredGeomName = EnumUsedGeom[n].GetBuffer();
-		if (stricmp (StoredGeomName, GeomName) == 0) return true;
+		const char* StoredGeomName = EnumUsedGeom[n].c_str();
+		if (_stricmp (StoredGeomName, GeomName) == 0) return true;
 	}
 	return false;
 }
@@ -513,12 +519,13 @@ void ParticleManager::WriteSystemCache (const char* FileName)
 	pMemSave.OpenWrite(1048576);
 	pDataSource->Write(&pMemSave);
 
-	string LongFileName = "resource\\particles\\";
-	LongFileName+=FileName;
-	LongFileName.AddExtention(".xps");
+	std::string LongFileName = "resource\\particles\\";
+	__debugbreak(); // ~!~
+	//LongFileName+=FileName;
+	//LongFileName.AddExtention(".xps");
 /*
-	IWrite* pFile = pFS->Write(LongFileName.GetBuffer(), iw_create_always, _FL_);
-	pFile->Write(pMemSave.GetBuffer(), pMemSave.GetLength());
+	IWrite* pFile = pFS->Write(LongFileName.c_str(), iw_create_always, _FL_);
+	pFile->Write(pMemSave.c_str(), pMemSave.GetLength());
 	pFile->Release();
 */
 
@@ -540,7 +547,7 @@ void ParticleManager::WriteSystemCacheAs (const char* FileName, const char* NewN
 	pDataSource->Write(&pMemSave);
 /*
 	IWrite* pFile = pFS->Write(NewName, iw_create_always, _FL_);
-	pFile->Write(pMemSave.GetBuffer(), pMemSave.GetLength());
+	pFile->Write(pMemSave.c_str(), pMemSave.GetLength());
 	pFile->Release();
 */
 
@@ -578,15 +585,15 @@ void ParticleManager::LoadSystemCache (const char* FileName, MemFile* pMemFile)
 void ParticleManager::CacheReloaded ()
 {
 	DWORD n = 0;
-	array<CacheReloadedInfo>	UsedSystems(_FL_);
-	for (n = 0; n < Systems.Size(); n++)
+	std::vector<CacheReloadedInfo>	UsedSystems;
+	for (n = 0; n < Systems.size(); n++)
 	{
 		CacheReloadedInfo Info;
 		Info.Name = Systems[n].pSystem->GetName();
 		Info.AutoDeleted = Systems[n].pSystem->IsAutoDeleted();
 		Systems[n].pSystem->GetTransform(Info.matWorld);
 
-		UsedSystems.Add(Info);
+		UsedSystems.push_back(Info);
 	}
 
 
@@ -596,9 +603,9 @@ void ParticleManager::CacheReloaded ()
 	MDL_Processor->Clear();
 
 
-	for (n = 0; n < UsedSystems.Size(); n++)
+	for (n = 0; n < UsedSystems.size(); n++)
 	{
-		IParticleSystem* pSystem = CreateParticleSystemEx (UsedSystems[n].Name.GetBuffer(), __FILE__, __LINE__);
+		IParticleSystem* pSystem = CreateParticleSystemEx (UsedSystems[n].Name.c_str(), __FILE__, __LINE__);
 		pSystem->AutoDelete(UsedSystems[n].AutoDeleted);
 		pSystem->SetTransform(UsedSystems[n].matWorld);
 	}

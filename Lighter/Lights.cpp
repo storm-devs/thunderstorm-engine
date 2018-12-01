@@ -180,7 +180,7 @@ void Lights::UpdateLights(long lit)
 			{
 				if(light[j].type == Light::t_point && light[j].group)
 				{
-					if(stricmp(light[j].group, light[i].group) == 0)
+					if(_stricmp(light[j].group, light[i].group) == 0)
 					{
 						light[j].color = light[i].color;
 						light[j].cosine = light[i].cosine;

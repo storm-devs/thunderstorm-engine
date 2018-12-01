@@ -43,8 +43,7 @@ ISLAND_DESCRIBER g_IslandDescr;
 #define MINIMAP_ZOOM_IN			"MiniMapZoomIn"
 #define MINIMAP_ZOOM_OUT		"MiniMapZoomOut"
 
-BATTLE_INTERFACE::BATTLE_INTERFACE() :
-	m_TextArray(_FL_)
+BATTLE_INTERFACE::BATTLE_INTERFACE()
 {
 	g_IslandDescr.ReleaseAll();
 	g_ShipList.ReleaseAll();
@@ -66,19 +65,19 @@ BATTLE_INTERFACE::BATTLE_INTERFACE() :
 
 BATTLE_INTERFACE::~BATTLE_INTERFACE()
 {
-	//DELETE(m_pMessageIcons);
-	DELETE( m_pShipIcon );
-	m_TextArray.DelAll();
+	//STORM_DELETE(m_pMessageIcons);
+	STORM_DELETE( m_pShipIcon );
+	m_TextArray.clear();
 	m_LinesInfo.Release();
 	m_ImagesInfo.Release();
-	DELETE( m_pShipInfoImages );
+	STORM_DELETE( m_pShipInfoImages );
 }
 
 bool BATTLE_INTERFACE::Init()
 {
 	if( (rs=(VDX9RENDER *)_CORE_API->CreateService("dx9render")) == NULL )
 	{
-		_THROW("Can`t create render service");
+		STORM_THROW("Can`t create render service");
 	}
 
 	LoadIniFile();
@@ -205,14 +204,14 @@ void BATTLE_INTERFACE::LoadIniFile()
 		m_ImagesInfo.Init( rs, AttributesPointer->GetAttributeClass("imageslist") );
 	}
 
-	/*DELETE( m_pMessageIcons );
+	/*STORM_DELETE( m_pMessageIcons );
 	m_pMessageIcons = NEW MESSAGE_ICONS;
 	if(m_pMessageIcons==NULL) {
 		THROW("allocate memory error");
 	}
 	if(m_pMessageIcons)	m_pMessageIcons->InitData(GetID(),rs,pA);*/
 
-	DELETE( m_pShipIcon );
+	STORM_DELETE( m_pShipIcon );
 	m_pShipIcon = NEW BIShipIcon( GetID(), rs );
 	Assert( m_pShipIcon );
 	m_pShipIcon->Init( AttributesPointer, AttributesPointer ? AttributesPointer->GetAttributeClass("ShipIcon") : null );
@@ -303,7 +302,7 @@ dword _cdecl BATTLE_INTERFACE::ProcessMessage(MESSAGE & message)
 		{
 			char param[256];
 			message.String( sizeof(param)-1, param );
-			if( stricmp(param,"cancel")==0 ) {
+			if( _stricmp(param,"cancel")==0 ) {
 				if( m_pShipIcon ) m_pShipIcon->ExecuteCommand( BIShipIcon::Command_cancel );
 			}
 		}

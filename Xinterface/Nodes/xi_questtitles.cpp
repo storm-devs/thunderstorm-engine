@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "xi_questtitles.h"
+#include "../../common_h/defines.h"
 
 void SubRightWord(char* buf,int fontNum,int width,VDX9RENDER *rs)
 {
@@ -147,9 +148,9 @@ void CXI_QUESTTITLE::ReleaseAll()
 	if(m_strList!=NULL)
 		for(int i=0;i<m_stringQuantity;i++)
 			for(int j=0;j<m_strList[i].lineQuantity;j++)
-				PTR_DELETE(m_strList[i].name[j]);
-	PTR_DELETE(m_strList);
-	PTR_DELETE(m_iconGroupName);
+				PTR_STORM_DELETE(m_strList[i].name[j]);
+	PTR_STORM_DELETE(m_strList);
+	PTR_STORM_DELETE(m_iconGroupName);
 	m_stringQuantity = 0;
 }
 
@@ -209,9 +210,9 @@ void CXI_QUESTTITLE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 
@@ -255,7 +256,7 @@ void CXI_QUESTTITLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
 	{
 		m_iconGroupName = NEW char[strlen(param)+1];
 		if(m_iconGroupName==null)
-			{_THROW("allocate memory error");}
+			{STORM_THROW("allocate memory error");}
 		strcpy(m_iconGroupName,param);
 	}
 	else	m_iconGroupName = null;
@@ -289,8 +290,8 @@ void CXI_QUESTTITLE::SetNewTopQuest(ATTRIBUTES * pA,int topNum)
 	{
 		for(i=0;i<m_stringQuantity;i++)
 			for(int j=0;j<m_strList[i].lineQuantity;j++)
-				PTR_DELETE(m_strList[i].name[j]);
-		PTR_DELETE(m_strList);
+				PTR_STORM_DELETE(m_strList[i].name[j]);
+		PTR_STORM_DELETE(m_strList);
 		m_stringQuantity = 0;
 	} // boal перенес наверх, иначе не трется, если квестов нет, а были уже
 	
@@ -320,7 +321,7 @@ void CXI_QUESTTITLE::SetNewTopQuest(ATTRIBUTES * pA,int topNum)
 		if(m_stringQuantity<=0) return;
 		if( (m_strList=NEW STRING_DESCRIBER[m_stringQuantity]) == NULL )
 		{
-			_THROW("allocate memory error");
+			STORM_THROW("allocate memory error");
 		}
 		// и заполнение этих строк
 		int lineNum = 0;

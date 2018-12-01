@@ -96,7 +96,7 @@ bool LAYER::Add(ENTITY_ID eid, dword priority)
 		}
 		scanln_PTR = scanln_PTR->link_L;
 	} 
-	_THROW(cant add to layer);
+	STORM_THROW(cant add to layer);
 	UNGUARD
 	return false;
 }

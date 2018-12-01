@@ -106,7 +106,7 @@ private:
     void doMove();
     bool VectCmp(CVECTOR v1,CVECTOR v2,float minCmpVal);
     void FirstRun();
-    void DoDelete();
+    void DoSTORM_DELETE();
 
     VANTVERTEX *vertBuf;
 

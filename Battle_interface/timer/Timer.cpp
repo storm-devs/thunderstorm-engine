@@ -104,9 +104,9 @@ void BITimer::SetBeginData()
 
 void BITimer::Release()
 {
-	DELETE( m_pBackImage );
-	DELETE( m_pForeImage );
-	DELETE( m_pImgRndr );
+	STORM_DELETE( m_pBackImage );
+	STORM_DELETE( m_pForeImage );
+	STORM_DELETE( m_pImgRndr );
 }
 
 void BITimer::OpenTimer( float fTime, const char* pcEventName )
@@ -120,6 +120,6 @@ void BITimer::CloseTimer( bool bTimeOut )
 	m_fCurTimerCounter = 0.f;
 	m_pForeImage->CutSide( 0.f, 0.f, 0.f, 0.f );
 	if( bTimeOut ) {
-		api->Event( (char*)m_sEventName.GetBuffer(), 0 );
+		api->Event( (char*)m_sEventName.c_str(), 0 );
 	}
 }

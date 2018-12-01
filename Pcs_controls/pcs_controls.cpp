@@ -129,7 +129,7 @@ long PCS_CONTROLS::CreateControl(char * control_name)
 	if(control_name == 0) return INVALID_CONTROL_CODE;
 	for(n=0;n<nControlsNum;n++)
 	{
-		if(stricmp(control_name,pUserControls[n].name)==0) return n;
+		if(_stricmp(control_name,pUserControls[n].name)==0) return n;
 	}
 	n = nControlsNum;
 	nControlsNum++;
@@ -206,7 +206,7 @@ bool PCS_CONTROLS::GetControlState(char * control_name, CONTROL_STATE & _state_s
 	if(control_name == 0) return false;
 	for(n=0;n<nControlsNum;n++)
 	{
-		if(stricmp(control_name,pUserControls[n].name)==0) return GetControlState(n,_state_struct);
+		if(_stricmp(control_name,pUserControls[n].name)==0) return GetControlState(n,_state_struct);
 	}
 	return false;
 	//*/
@@ -223,7 +223,7 @@ bool PCS_CONTROLS::GetControlState(char * control_name, CONTROL_STATE & _state_s
 	if(control_name == 0) return false;
 	for(n=0;n<nControlsNum;n++)
 	{
-		if(stricmp(control_name,pUserControls[n].name)==0) 
+		if(_stricmp(control_name,pUserControls[n].name)==0) 
 		{
 
 			if(pUserControls[n].bLocked)
@@ -482,7 +482,7 @@ bool PCS_CONTROLS::SetControlState(char * control_name, CONTROL_STATE & _state_s
 	if(control_name == 0) return false;
 	for(n=0;n<nControlsNum;n++)
 	{
-		if(stricmp(control_name,pUserControls[n].name)==0) return SetControlState(n,_state_struct);
+		if(_stricmp(control_name,pUserControls[n].name)==0) return SetControlState(n,_state_struct);
 	}
 	return false;
 }
@@ -508,7 +508,7 @@ void PCS_CONTROLS::LockControl(char * control_name, bool mode)
 	}
 	for(n=0;n<nControlsNum;n++)
 	{
-		if(stricmp(control_name,pUserControls[n].name)==0)
+		if(_stricmp(control_name,pUserControls[n].name)==0)
 		{
 			pUserControls[n].bLocked = mode;
 			pUserControls[n].state = FORCE_DWORD;
@@ -555,7 +555,7 @@ long PCS_CONTROLS::GetKeyBufferLength()
 
 const KeyDescr* PCS_CONTROLS::GetKeyBuffer()
 {
-	return m_KeyBuffer.GetBuffer();
+	return m_KeyBuffer.c_str();
 }
 
 void PCS_CONTROLS::ClearKeyBuffer()

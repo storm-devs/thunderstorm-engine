@@ -8,10 +8,8 @@
 #include "..\common_h\model.h"
 #include "..\common_h\vparticle_system.h"
 
-#include "..\common_h\templates\string.h"
-#include "..\common_h\templates\array.h"
-
 #include "..\common_h\sd2_h\SaveLoad.h"
+#include <string>
 
 class FirePlace
 {
@@ -56,7 +54,7 @@ private:
 	CVECTOR				vOrigPos;
 	bool				bActive;
 	float				fRunTime;
-	string				sParticleSmokeName, sParticleFireName, sSoundName;
+	std::string				sParticleSmokeName, sParticleFireName, sSoundName;
 };
 
 #endif

@@ -957,7 +957,7 @@ S_TOKEN_TYPE TOKEN::ProcessToken(char* & pointer, bool bKeepData)
 	/*keywords_num = sizeof(Keywords)/sizeof(S_KEYWORD);
 	for(n=0;n<keywords_num;n++)
 	{
-		if(stricmp(pTokenData,Keywords[n].name) == 0)
+		if(_stricmp(pTokenData,Keywords[n].name) == 0)
 		{
 			eTokenType = Keywords[n].type;
 			break;
@@ -1096,7 +1096,7 @@ S_TOKEN_TYPE TOKEN::Keyword2TokenType(char * pString)
 /*	DWORD n;
 	for(n=0;n<dwKeywordsNum;n++)
 	{
-		if(stricmp(pString,Keywords[n].name) == 0)
+		if(_stricmp(pString,Keywords[n].name) == 0)
 		{
 			return Keywords[n].type;
 		}
@@ -1109,7 +1109,7 @@ S_TOKEN_TYPE TOKEN::Keyword2TokenType(char * pString)
 	for(n=0;n<KeywordsHash[hash].dwNum;n++)
 	{
 		index = KeywordsHash[hash].pIndex[n];
-		if(stricmp(pString,Keywords[index].name) == 0)
+		if(_stricmp(pString,Keywords[index].name) == 0)
 		{
 			return Keywords[index].type;
 		}

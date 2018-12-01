@@ -54,8 +54,8 @@ void CXI_KEYCHANGER::Draw(bool bSelected,dword Delta_Time)
 
 void CXI_KEYCHANGER::ReleaseAll()
 {
-	PTR_DELETE(m_pControlsID);
-	PTR_DELETE(m_pbControlsStick);
+	PTR_STORM_DELETE(m_pControlsID);
+	PTR_STORM_DELETE(m_pbControlsStick);
 }
 
 void CXI_KEYCHANGER::ChangePosition( XYRECT &rNewPos )
@@ -67,9 +67,9 @@ void CXI_KEYCHANGER::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 
@@ -99,8 +99,8 @@ void CXI_KEYCHANGER::SetChoosingControls(ATTRIBUTES * pA)
 {
 	if(pA==null) return;
 
-	PTR_DELETE(m_pControlsID);
-	PTR_DELETE(m_pbControlsStick);
+	PTR_STORM_DELETE(m_pControlsID);
+	PTR_STORM_DELETE(m_pbControlsStick);
 	m_keysQuantity = pA->GetAttributesNum();
 	if(m_keysQuantity<=0) return;
 
@@ -108,7 +108,7 @@ void CXI_KEYCHANGER::SetChoosingControls(ATTRIBUTES * pA)
 	m_pbControlsStick = NEW bool[m_keysQuantity];
 	if(m_pControlsID==null || m_pbControlsStick==null)
 	{
-		_THROW("Allocate memory error");
+		STORM_THROW("Allocate memory error");
 	}
 
 	char contrlName[128];

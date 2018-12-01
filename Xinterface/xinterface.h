@@ -7,7 +7,6 @@
 #include "..\common_h\vmodule_api.h"
 #include "QuestFileReader\\QuestFileReader.h"
 #include "nodes\xi_util.h"
-#include "..\common_h\templates\string.h"
 #include "editor\editor.h"
 
 class CXI_WINDOW;
@@ -119,15 +118,15 @@ public:
 
 	virtual void				RegistryExitKey( const char* pcKeyName );
 
-	array<string> m_asExitKey;
+	std::vector<std::string> m_asExitKey;
 
 	struct LocksInfo
 	{
 		long nSaveCode;
-		array<CINODE*> aNode;
-		LocksInfo() : aNode(_FL) {nSaveCode=-1;}
+		std::vector<CINODE*> aNode;
+		LocksInfo() {nSaveCode=-1;}
 	};
-	array<LocksInfo> m_aLocksArray;
+	std::vector<LocksInfo> m_aLocksArray;
 
 	long	StoreNodeLocksWithOff();
 	void	RestoreNodeLocks(long nStoreIdx);
@@ -276,7 +275,7 @@ protected:
         EVENT_ENTITY * next;
 
 		EVENT_ENTITY() {sEventName=0; sNodeName=0; nCommandIndex=0;}
-		~EVENT_ENTITY() {PTR_DELETE(sEventName); PTR_DELETE(sNodeName); nCommandIndex=0;}
+		~EVENT_ENTITY() {PTR_STORM_DELETE(sEventName); PTR_STORM_DELETE(sNodeName); nCommandIndex=0;}
     };
     EVENT_ENTITY * m_pEvents;
 

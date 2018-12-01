@@ -5,17 +5,17 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include "../../../common_h/exs.h"
-#include "../../../common_h/templates.h"
 #include "..\..\icommon\memfile.h"
 
 #include "..\..\..\common_h\vapi.h"
+#include <string>
 
 
 class DataString
 {
-  string Name;
+	std::string Name;
 
-	string Value;
+	std::string Value;
 
 public:
 

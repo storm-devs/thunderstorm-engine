@@ -56,9 +56,9 @@ public:
 		ATTRIBUTES			* pFortLabelAP;
 		TmpVAI_OBJBASE		tmpObject;
 
-		array<AICannon>		aCannons;			// fort cannons container
-		array<AICannon>		aCulverins;			// fort culverins container
-		array<AICannon>		aMortars;			// fort mortars container
+		std::vector<AICannon>		aCannons;			// fort cannons container
+		std::vector<AICannon>		aCulverins;			// fort culverins container
+		std::vector<AICannon>		aMortars;			// fort mortars container
 
 		dword				dwCannonType, dwCulverinType, dwMortarType;
 
@@ -67,20 +67,20 @@ public:
 		ENTITY_ID	GetModelEID() { return eidModel; } 
 		void		SetBlotEID(ENTITY_ID _eidBlot) { eidBlot = _eidBlot; } 
 		ENTITY_ID	GetBlotEID() { return eidBlot; } 
-		dword		GetAllCannonsNum() const { return aCannons.Size() + aCulverins.Size() + aMortars.Size(); }
+		dword		GetAllCannonsNum() const { return aCannons.size() + aCulverins.size() + aMortars.size(); }
 		dword		GetCannonType(dword dwCannonIndex) 
 		{ 
-			if (dwCannonIndex < aCannons.Size()) return dwCannonType;
-			if (dwCannonIndex < aCannons.Size() + aCulverins.Size()) return dwCulverinType;
+			if (dwCannonIndex < aCannons.size()) return dwCannonType;
+			if (dwCannonIndex < aCannons.size() + aCulverins.size()) return dwCulverinType;
 			return dwMortarType;
 		} 
 		dword		GetDamagedCannonsNum() 
 		{
 			dword i, dwDamagedNum = 0;
 
-			for (i=0; i<aCannons.Size(); i++) if (aCannons[i].isDamaged()) dwDamagedNum++;
-			for (i=0; i<aCulverins.Size(); i++) if (aCulverins[i].isDamaged()) dwDamagedNum++;
-			for (i=0; i<aMortars.Size(); i++) if (aMortars[i].isDamaged()) dwDamagedNum++;
+			for (i=0; i<aCannons.size(); i++) if (aCannons[i].isDamaged()) dwDamagedNum++;
+			for (i=0; i<aCulverins.size(); i++) if (aCulverins[i].isDamaged()) dwDamagedNum++;
+			for (i=0; i<aMortars.size(); i++) if (aMortars[i].isDamaged()) dwDamagedNum++;
 			
 			return dwDamagedNum;
 		}
@@ -94,12 +94,12 @@ public:
 
 		AICannon	* GetCannon(dword dwCannonIndex)
 		{
-			if (dwCannonIndex < aCannons.Size()) return &aCannons[dwCannonIndex];
-			if (dwCannonIndex < aCannons.Size() + aCulverins.Size()) return &aCulverins[dwCannonIndex - aCannons.Size()];
-			return &aMortars[dwCannonIndex - (aCannons.Size() + aCulverins.Size())];
+			if (dwCannonIndex < aCannons.size()) return &aCannons[dwCannonIndex];
+			if (dwCannonIndex < aCannons.size() + aCulverins.size()) return &aCulverins[dwCannonIndex - aCannons.size()];
+			return &aMortars[dwCannonIndex - (aCannons.size() + aCulverins.size())];
 		}
 
-		AI_FORT(ATTRIBUTES * _pFortLabelAP) : aMortars(_FL_), aCannons(_FL_, 32), aCulverins(_FL_, 32)
+		AI_FORT(ATTRIBUTES * _pFortLabelAP)
 		{
 			SetObjType(AIOBJ_FORT);
 
@@ -124,11 +124,11 @@ public:
 		void Load(CSaveLoad * pSL, ENTITY_ID eid);
 	};
 
-	dword		GetNumForts() { return aForts.Size(); }
+	dword		GetNumForts() { return aForts.size(); }
 	AI_FORT		* FindFort(ATTRIBUTES * pACharacter);
 	AI_FORT		* GetFort(dword k)
 	{
-		Assert(k < aForts.Size());
+		Assert(k < aForts.size());
 		return aForts[k];
 	}
 private:
@@ -136,7 +136,7 @@ private:
 
 	DTimer					dtFiredTimer;
 	AI_FORT					* pLastTraceFort;
-	array<AI_FORT*>			aForts;				// fort container
+	std::vector<AI_FORT*>			aForts;				// fort container
 
 	float	fMinCannonDamageDistance;
 

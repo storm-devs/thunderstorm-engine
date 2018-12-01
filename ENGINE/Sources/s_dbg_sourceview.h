@@ -3,10 +3,13 @@
 
 #ifndef _XBOX
 
-#include <windows.h>
-#include <commctrl.h>
-#include "core.h"
-#include "..\..\common_h\templates.h"
+#include <Windows.h>
+#include <CommCtrl.h>
+#include "Core.h"
+
+#include <string>
+#include <vector>
+#include <unordered_map>
 
 LRESULT CALLBACK SourceViewWndProc(HWND hwnd,UINT iMsg,WPARAM wParam,LPARAM lParam);
 
@@ -25,7 +28,7 @@ friend LRESULT CALLBACK SourceViewWndProc(HWND,UINT,WPARAM,LPARAM);
 	RECT Pos;
 	HFONT hFont;
 	POINT pntDragPos;
-	string sCopyPasteBuffer;
+	std::string sCopyPasteBuffer;
 	bool bDrag;
 	DWORD nFontHeight;
 	char * pSourceFile;
@@ -44,12 +47,12 @@ friend LRESULT CALLBACK SourceViewWndProc(HWND,UINT,WPARAM,LPARAM);
 	void DoStep(long iCount);
 
 public:
-	array<string> aStrings;
+	std::vector<std::string> aStrings;
 	HWND hOwn;
 	RECT CopyPasteRect;
 	bool * pBookmarks;
-	string sFindStr;
-	htable<dword>	htBookmarks;
+	std::string sFindStr;
+	std::unordered_map<std::string, dword>	htBookmarks;
 
 	 SOURCE_VIEW(HWND _hMain, HINSTANCE _hInst);
 	~SOURCE_VIEW();
@@ -80,7 +83,7 @@ public:
 
 	void SetCharacterMap(char * pMap, char * pStr);
 	bool SetVariableOnChange(const char * pStr, bool bSet);
-	char * GetToken(char * pStr, string & sResult);
+	char * GetToken(char * pStr, std::string & sResult);
 };
 
 #endif

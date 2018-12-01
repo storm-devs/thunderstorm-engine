@@ -32,7 +32,7 @@ void HELPCHOOSER::SetDevice()
 {
     // получить сервис рендера
 	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
-	if(!rs){_THROW("No service: dx9render")}
+	if(!rs){STORM_THROW("No service: dx9render")}
 }
 
 bool HELPCHOOSER::Init()
@@ -183,13 +183,13 @@ void HELPCHOOSER::AllRelease()
 	TEXTURE_RELEASE(rs,m_idPicTexture);
 	TEXTURE_RELEASE(rs,m_idBackTexture);
 	VERTEX_BUF_RELEASE(rs,m_idVBuf);
-	PTR_DELETE(m_pRectList);
+	PTR_STORM_DELETE(m_pRectList);
 	for(int i=0; i<m_nRectQ; i++)
 	{
-		PTR_DELETE(m_psRectName[i]);
+		PTR_STORM_DELETE(m_psRectName[i]);
 	}
 	m_nRectQ = 0;
-	PTR_DELETE(m_psRectName);
+	PTR_STORM_DELETE(m_psRectName);
 }
 
 bool HELPCHOOSER::RunChooser(char * ChooserGroup)
@@ -257,7 +257,7 @@ bool HELPCHOOSER::RunChooser(char * ChooserGroup)
 		if(j>0)
 		{
 			m_psRectName[i] = NEW char[j+2];
-			if(m_psRectName[i]==null) {_THROW("Allocate memory error");}
+			if(m_psRectName[i]==null) {STORM_THROW("Allocate memory error");}
 			strcpy(m_psRectName[i],param2);
 		}
 

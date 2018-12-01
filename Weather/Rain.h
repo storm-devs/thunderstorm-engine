@@ -5,6 +5,7 @@
 #include "..\common_h\Weather_base.h"
 #include "..\common_h\sea_base.h"
 #include "..\common_h\ship_base.h"
+#include <vector>
 
 #define NUM_SEA_DROPS				500
 #define D3DRAINVERTEX_FORMAT		(D3DFVF_XYZ | D3DFVF_DIFFUSE)
@@ -57,10 +58,10 @@ struct drop_t
 private:
 	long				iRainDropsTexture;
 	float				fDropsDeltaTime;
-	array<RS_RECT>		aRects;
-	array<drop_t>		aDrops;
-	array<seadrop_t>	aSeaDrops;
-	array<ship_t>		aShips;
+	std::vector<RS_RECT>		aRects;
+	std::vector<drop_t>		aDrops;
+	std::vector<seadrop_t>	aSeaDrops;
+	std::vector<ship_t>		aShips;
 
 	bool				bShow;
 
@@ -72,7 +73,7 @@ private:
 	
 	bool		bRainbowEnable;
 	long		iRainbowTex;
-	string		sRainbowTexture;
+	std::string		sRainbowTexture;
 
 	dword		dwRainTimeBlend;
 	dword		dwNumRainBlocks;
@@ -90,7 +91,7 @@ private:
 	float		fDropsNearRadius, fDropsFarRadius;
 	float		fDropsLifeTime;
 	float		fDropsSize;
-	string		sDropsTexture, sSeaDropsTexture;
+	std::string		sDropsTexture, sSeaDropsTexture;
 
 	long		iSeaDropTex;
 	long		iIBSeaDrops;

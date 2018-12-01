@@ -700,9 +700,9 @@ void ShipWalk::CreateNewMan(SailorsPoints &sailorsPoints)
 	if (crewCount >= 50 || !sailorsPoints.points.count) return;
 
 	ENTITY_ID manID;
-	shipMan.Add();
+	shipMan.push_back(ShipMan{});
 
-	int current = shipMan.Len()- 1;
+	int current = shipMan.size()- 1;
 
 	api->CreateEntity(&shipMan[current].modelID,"MODELR");
 
@@ -756,7 +756,7 @@ void ShipWalk::DeleteMan(int Index)
 	if (Index>= 0 && Index< crewCount)
 	{
 	    shipMan[Index].Free();
-		shipMan.DelIndex(Index);
+		shipMan.erase(shipMan.begin() + Index);
 		crewCount--;
 	}
 
@@ -782,7 +782,7 @@ void ShipWalk::Init(ENTITY_ID &_shipID, int editorMode, char *shipType)
 		shipModel = ship->GetModel();
 
 		//Загрузить точки
-		string fileName= "RESOURCE\\MODELS\\Ships\\SAILORSPOINTS\\";
+		std::string fileName= "RESOURCE\\MODELS\\Ships\\SAILORSPOINTS\\";
 		fileName+= shipType;
 		fileName+= ".ini";
 
@@ -987,7 +987,7 @@ void ShipWalk::Reset()
 	};*/
 };
 //------------------------------------------------------------------------------------
-Sailors::Sailors():shipWalk(_FL_)
+Sailors::Sailors()
 {
 	GUARD_SAILORS(Sailors::Sailors():shipWalk())
 
@@ -1063,7 +1063,7 @@ void Sailors::Realize(dword dltTime)
 		}
 
 		//Обновление и рисование
-		for (int i= 0; i< shipWalk[m].shipMan.Len(); i++)
+		for (int i= 0; i< shipWalk[m].shipMan.size(); i++)
 		{
 			shipWalk[m].shipMan[i].UpdatePos(dltTime, shipWalk[m].sailorsPoints, shipWalk[m].shipState);
 			shipWalk[m].shipMan[i].SetPos(shipWalk[m].shipModel,shipWalk[m].ship,dltTime, shipWalk[m].shipState);
@@ -1072,7 +1072,7 @@ void Sailors::Realize(dword dltTime)
 			shipWalk[m].shipMan[i].model->Realize(dltTime);
 		}
 
-		for (int i= 0; i< shipWalk[m].shipMan.Len(); i++)
+		for (int i= 0; i< shipWalk[m].shipMan.size(); i++)
 		{	//Если умер то удалить
 			if (shipWalk[m].shipMan[i].dieTime> 10 || shipWalk[m].shipMan[i].pos.y< -100)
 			{
@@ -1109,7 +1109,7 @@ void Sailors::DeleteShip(int i)
 	GUARD_SAILORS(Sailors::DeleteShip)
 
 	shipWalk[i].Free();
-	shipWalk.DelIndex(i);
+	shipWalk.erase(shipWalk.begin() + i);
 	shipsCount--;
 
 	UNGUARD_SAILORS
@@ -1133,7 +1133,7 @@ dword Sailors :: ProcessMessage(MESSAGE &message)
 		message.String(sizeof(c), c);
 
 
- 		shipWalk.Add();
+ 		shipWalk.push_back(ShipWalk{});
 		shipWalk[shipsCount].Init(shipID, editorMode, &c[0]);
 		shipsCount++;
 

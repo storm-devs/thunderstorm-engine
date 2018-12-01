@@ -93,7 +93,7 @@ void AIShipMoveController::Execute(float fDeltaTime)
 
 void AIShipMoveController::Realize(float fDeltaTime)
 {
-	return;
+	/* espkk. code was unreachable (return)
 	RS_LINE line[2];	
 	line[0].dwColor = 0xFFFFFF;
 	line[0].vPos = GetAIShip()->GetPos() + 50.0f * (!vDeflectForce);
@@ -104,7 +104,7 @@ void AIShipMoveController::Realize(float fDeltaTime)
 
 	if (!GetAIShip()->isMainCharacter())
 	{
-		array<RS_LINE>	aLines(_FL_);
+		std::vector<RS_LINE>	aLines(_FL_);
 		{
 			RS_LINE * pRL = &aLines[aLines.Add()];
 			pRL->dwColor = 0xFFFFFF;
@@ -115,8 +115,9 @@ void AIShipMoveController::Realize(float fDeltaTime)
 		}
 		CMatrix m;
 		AIHelper::pRS->SetTransform(D3DTS_WORLD, m);
-		if (aLines.Size() >= 2) AIHelper::pRS->DrawLines(&aLines[0], aLines.Size()/2, "AILine");
+		if (aLines.size() >= 2) AIHelper::pRS->DrawLines(&aLines[0], aLines.size()/2, "AILine");
 	}
+	*/
 }
 
 void AIShipMoveController::Move(CVECTOR vMovePoint) 

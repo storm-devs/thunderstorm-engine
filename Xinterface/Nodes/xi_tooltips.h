@@ -37,7 +37,7 @@ protected:
 	FXYRECT m_uvBackRight;
 	FXYRECT m_uvBackMiddle;
 
-	string m_sGroupName;
+	std::string m_sGroupName;
 	long m_nTextureID;
 	long m_nPicIndex_Left;
 	long m_nPicIndex_Right;
@@ -52,8 +52,8 @@ protected:
 	long m_nYRectangleOffsetUp;
 	long m_nYRectangleOffsetDown;
 
-	string m_sText;
-	array<string> m_aSubText;
+	std::string m_sText;
+	std::vector<std::string> m_aSubText;
 	long m_nFontID;
 	dword m_dwFontColor;
 	float m_fFontScale;

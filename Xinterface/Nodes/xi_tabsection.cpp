@@ -38,7 +38,7 @@ bool CXI_TABSECTION::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, 
 
 void CXI_TABSECTION::ReleaseAll()
 {
-	PICTURE_TEXTURE_RELEASE( pPictureService, m_sIconGroupName, m_idIconTexture );
+	PICTURE_TEXTURE_RELEASE( pPictureService, m_sIconGroupName.c_str(), m_idIconTexture );
 	VERTEX_BUF_RELEASE( m_rs, m_idVBuf );
 	INDEX_BUF_RELEASE( m_rs, m_idIBuf );
 	m_nSubQ = 0;
@@ -75,9 +75,9 @@ void CXI_TABSECTION::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 

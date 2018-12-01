@@ -2,16 +2,17 @@
 #include "xi_tooltips.h"
 #include "xi_util.h"
 #include "..\xinterface.h"
+#include "../../common_h/defines.h"
+#include "../../ENGINE/strutils.h"
 
-CXI_ToolTip::CXI_ToolTip( VXSERVICE* pPicService, VSTRSERVICE* pStrService, XYPOINT& pntScrSize ) :
-	m_aSubText(_FL)
+CXI_ToolTip::CXI_ToolTip( VXSERVICE* pPicService, VSTRSERVICE* pStrService, XYPOINT& pntScrSize )
 {
 	m_pPicService = pPicService;
 	m_pStrService = pStrService;
 	m_pntScreenSize = pntScrSize;
 
 	m_rs = XINTERFACE::GetRenderService();
-	if( !m_rs ) {_THROW("No service: dx9render");};
+	if( !m_rs ) {STORM_THROW("No service: dx9render");};
 
 	m_nTextureID = -1;
 	m_pV = 0;
@@ -36,7 +37,7 @@ CXI_ToolTip::~CXI_ToolTip()
 void CXI_ToolTip::Draw()
 {
 	if( m_bDisableDraw ) return;
-	if( m_sText.IsEmpty() ) return; // нет ни ... чего
+	if( m_sText.empty() ) return; // нет ни ... чего
 
 	if( m_nSquareQ > 0 )
 	{
@@ -46,11 +47,11 @@ void CXI_ToolTip::Draw()
 
 	long nX = (m_rPos.left + m_rPos.right) / 2;
 	long nY = m_rPos.top+m_pntTextOffset.y;
-	for( long n=0; n<m_aSubText; n++ )
+	for( long n=0; n<m_aSubText.size(); n++ )
 	{
 		m_rs->ExtPrint( m_nFontID, m_dwFontColor, 0, ALIGN_CENTER, true, m_fFontScale,
 			m_pntScreenSize.x,m_pntScreenSize.y, nX, nY,
-			"%s", m_aSubText[n].GetBuffer() );
+			"%s", m_aSubText[n].c_str() );
 		nY += (long)(m_rs->CharHeight( m_nFontID ) * m_fFontScale);
 	}
 }
@@ -119,17 +120,17 @@ void CXI_ToolTip::SetByFormatString( XYRECT& rectOwner, INIFILE* pDefIni, const 
 		if( pDefIni->ReadString( pcToolTipType, "back_imagegroup", param,sizeof(param), "" ) )
 		{
 			m_sGroupName = param;
-			m_nTextureID = m_pPicService->GetTextureID( m_sGroupName );
+			m_nTextureID = m_pPicService->GetTextureID( m_sGroupName.c_str() );
 			if( pDefIni->ReadString( pcToolTipType, "back_imageleft", param,sizeof(param), "" ) ) {
-				m_nPicIndex_Left = m_pPicService->GetImageNum( m_sGroupName, param );
+				m_nPicIndex_Left = m_pPicService->GetImageNum( m_sGroupName.c_str(), param );
 				m_pPicService->GetTexturePos( m_nPicIndex_Left, m_uvBackLeft );
 			}
 			if( pDefIni->ReadString( pcToolTipType, "back_imageright", param,sizeof(param), "" ) ) {
-				m_nPicIndex_Right = m_pPicService->GetImageNum( m_sGroupName, param );
+				m_nPicIndex_Right = m_pPicService->GetImageNum( m_sGroupName.c_str(), param );
 				m_pPicService->GetTexturePos( m_nPicIndex_Right, m_uvBackRight );
 			}
 			if( pDefIni->ReadString( pcToolTipType, "back_imagemiddle", param,sizeof(param), "" ) ) {
-				m_nPicIndex_Middle = m_pPicService->GetImageNum( m_sGroupName, param );
+				m_nPicIndex_Middle = m_pPicService->GetImageNum( m_sGroupName.c_str(), param );
 				m_pPicService->GetTexturePos( m_nPicIndex_Middle, m_uvBackMiddle );
 			}
 		}
@@ -141,17 +142,20 @@ void CXI_ToolTip::SetByFormatString( XYRECT& rectOwner, INIFILE* pDefIni, const 
 	if( m_nMaxStrWidth <= 0 ) m_nMaxStrWidth = m_pntScreenSize.x;
 
 	//
-	CXI_UTILS::SplitStringByWidth( m_sText, m_nFontID, m_fFontScale, m_nMaxStrWidth, m_aSubText );
+	CXI_UTILS::SplitStringByWidth( m_sText.c_str(), m_nFontID, m_fFontScale, m_nMaxStrWidth, m_aSubText );
 	m_nUseWidth = 0;
-	for( n=0; n<m_aSubText; n++ )
+	for( n=0; n<m_aSubText.size(); n++ )
 	{
-		m_aSubText[n].TrimLeft();
-		m_aSubText[n].TrimRight();
-		long nW = m_rs->StringWidth( (char*)m_aSubText[n].GetBuffer(), m_nFontID, m_fFontScale, 0 );
+		//m_aSubText[n].TrimLeft();
+		//m_aSubText[n].TrimRight();
+		TOREMOVE::trim(m_aSubText[n]);
+		TOREMOVE::rtrim(m_aSubText[n]);
+
+		long nW = m_rs->StringWidth( (char*)m_aSubText[n].c_str(), m_nFontID, m_fFontScale, 0 );
 		if( nW > m_nUseWidth ) m_nUseWidth = nW;
 	}
 	m_nUseWidth += m_pntTextOffset.x * 2;
-	m_nUseHeight = m_aSubText.Size() * (long)(m_rs->CharHeight( m_nFontID ) * m_fFontScale) + 2 * m_pntTextOffset.x;
+	m_nUseHeight = m_aSubText.size() * (long)(m_rs->CharHeight( m_nFontID ) * m_fFontScale) + 2 * m_pntTextOffset.x;
 
 	m_nSquareQ = 3;
 	CreateIndexBuffer();
@@ -187,9 +191,9 @@ void CXI_ToolTip::MousePos( float fDeltaTime, long nX, long nY )
 
 void CXI_ToolTip::ReleaseAll()
 {
-	PICTURE_TEXTURE_RELEASE( m_pPicService, m_sGroupName.GetBuffer(), m_nTextureID );
-	DELETE( m_pV );
-	DELETE( m_pI );
+	PICTURE_TEXTURE_RELEASE( m_pPicService, m_sGroupName.c_str(), m_nTextureID );
+	STORM_DELETE( m_pV );
+	STORM_DELETE( m_pI );
 	m_nSquareQ = 0;
 	m_bDisableDraw = true;
 	FONT_RELEASE( m_rs, m_nFontID );

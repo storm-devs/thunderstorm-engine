@@ -62,7 +62,7 @@ void SCRSHOTER::SetDevice()
 {
     // получить сервис рендера
 	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
-	if(!rs){_THROW("No service: dx9render")}
+	if(!rs){STORM_THROW("No service: dx9render")}
 
 }
 
@@ -133,7 +133,7 @@ bool SCRSHOTER::MakeScreenShot()
 		int * pHorzOff = NEW int[SS_TEXTURE_WIDTH];
 		int * pVertOff = NEW int[SS_TEXTURE_HEIGHT];
 		if(!pHorzOff || !pVertOff) {
-			_THROW("allocate memory error");
+			STORM_THROW("allocate memory error");
 		}
 		int nHorzSize, nVertSize;
 		if( (float)desc.Width/desc.Height < (float)SS_TEXTURE_WIDTH/SS_TEXTURE_HEIGHT )
@@ -175,7 +175,7 @@ bool SCRSHOTER::MakeScreenShot()
 	// Делаем перевод в смешанную текстуру
 	DWORD dwTmp = outRect.Pitch*SS_TEXTURE_HEIGHT;
 	//DWORD dwPixelSize = XGBytesPerPixelFromFormat( D3DFMT_A8R8G8B8 );
-	if( (pIn=NEW char[dwTmp]) == null ) { _THROW("allocate memory error") }
+	if( (pIn=NEW char[dwTmp]) == null ) { STORM_THROW("allocate memory error") }
 	memcpy(pIn,outRect.pBits,dwTmp);
     XGSwizzleRect( pIn, 0, NULL, outRect.pBits,
 				   SS_TEXTURE_WIDTH, SS_TEXTURE_HEIGHT,
@@ -286,7 +286,7 @@ IDirect3DTexture9 * SCRSHOTER::FindSaveTexture(char * fileName)
 	if(!fileName) return null;
 	SAVETEXTURES * ps = m_list;
 	while(ps)
-		if(ps->fileName && stricmp(fileName,ps->fileName)==0) return ps->m_pTex;
+		if(ps->fileName && _stricmp(fileName,ps->fileName)==0) return ps->m_pTex;
 		else ps = ps->next;
 	return null;
 }
@@ -296,7 +296,7 @@ char * SCRSHOTER::FindSaveData(char * fileName)
 	if(!fileName) return null;
 	SAVETEXTURES * ps = m_list;
 	while(ps)
-		if(ps->fileName && stricmp(fileName,ps->fileName)==0) return ps->dataString;
+		if(ps->fileName && _stricmp(fileName,ps->fileName)==0) return ps->dataString;
 		else ps = ps->next;
 	return null;
 }
@@ -306,14 +306,14 @@ IDirect3DTexture9 * SCRSHOTER::AddSaveTexture(char * dirName, char * fileName)
 	if(fileName==null) return null;
 	IDirect3DTexture9 * rval = FindSaveTexture(fileName);
 	if(rval) return rval;
-	if(stricmp(fileName,"newsave")==0) return m_pScrShotTex;
+	if(_stricmp(fileName,"newsave")==0) return m_pScrShotTex;
 	SAVETEXTURES * ps = NEW SAVETEXTURES;
-	if(ps==null)	{_THROW("Allocate memory error");}
+	if(ps==null)	{STORM_THROW("Allocate memory error");}
 	ps->dataString = null;
 	ps->next = m_list;
 	m_list = ps;
 	m_list->fileName = NEW char[strlen(fileName)+1];
-	if(m_list->fileName==null)	{_THROW("Allocate memory error");}
+	if(m_list->fileName==null)	{STORM_THROW("Allocate memory error");}
 	strcpy(m_list->fileName,fileName);
 	char param[1024];
 	if(dirName==null || dirName[0] == 0)	sprintf(param,"%s",fileName);
@@ -328,7 +328,7 @@ void SCRSHOTER::DelSaveTexture(char * fileName)
 	SAVETEXTURES * oldps = null;
 	SAVETEXTURES * ps = m_list;
 	while(ps)
-		if(ps->fileName && stricmp(fileName,ps->fileName)==0)
+		if(ps->fileName && _stricmp(fileName,ps->fileName)==0)
 		{
 			if(oldps) oldps->next = ps->next;
 			else m_list = ps->next;
@@ -375,7 +375,7 @@ IDirect3DTexture9 * SCRSHOTER::GetTexFromSave(char * fileName, char **pDatStr)
 		{
 			int strLen = startIdx-sizeof(SAVE_DATA_HANDLE);
 			*pDatStr = NEW char[strLen+1];
-			if(!*pDatStr) {_THROW("allocate memory error");}
+			if(!*pDatStr) {STORM_THROW("allocate memory error");}
 			strncpy(*pDatStr, &pdat[sizeof(SAVE_DATA_HANDLE)], strLen);
 			(*pDatStr)[strLen] = 0;
 		}
@@ -390,7 +390,7 @@ IDirect3DTexture9 * SCRSHOTER::GetTexFromSave(char * fileName, char **pDatStr)
 				idx++;
 			}
 	}*/
-	PTR_DELETE(pdat);
+	PTR_STORM_DELETE(pdat);
 
 	if( hr==D3D_OK ) return pt;
 	if(*pDatStr) delete (*pDatStr); *pDatStr = 0;

@@ -89,30 +89,30 @@ public:
 //===========================================================
 
 ///Пустой конструктор
-mathinline Plane::Plane()
+inline Plane::Plane()
 {
 }
 
 ///Задать направление
-mathinline Plane::Plane(float Nx, float Ny, float Nz)
+inline Plane::Plane(float Nx, float Ny, float Nz)
 {
 	N.x = Nx; N.y = Ny; N.z = Nz; D = 0.0f;
 }
 
 ///Задать направление
-mathinline Plane::Plane(const Vector & normal)
+inline Plane::Plane(const Vector & normal)
 {
 	N = normal;
 }
 
 ///Создать плоскость
-mathinline Plane::Plane(const Vector & normal, const Vector & point)
+inline Plane::Plane(const Vector & normal, const Vector & point)
 {
 	N = normal; D = normal | point;
 }
 
 ///Конструктор копирования
-mathinline Plane::Plane(const Plane & plane)
+inline Plane::Plane(const Plane & plane)
 {
 	N = plane.N; D = plane.D;
 }
@@ -125,7 +125,7 @@ mathinline Plane::Plane(const Plane & plane)
 /*!\relates Plane
 Дистанция от точки до плоскости
 */
-mathinline float operator * (const Vector & point, const Plane & plane)
+inline float operator * (const Vector & point, const Plane & plane)
 {
 	return (plane.N | point) - plane.D;
 }
@@ -133,7 +133,7 @@ mathinline float operator * (const Vector & point, const Plane & plane)
 /*!\relates Plane
 Дистанция от точки до плоскости
 */
-mathinline float operator * (const Plane & plane, const Vector & point)
+inline float operator * (const Plane & plane, const Vector & point)
 {
 	return (plane.N | point) - plane.D;
 }
@@ -144,7 +144,7 @@ mathinline float operator * (const Plane & plane, const Vector & point)
 //===========================================================
 
 ///Нормализовать
-mathinline Plane & Plane::Normalize()
+inline Plane & Plane::Normalize()
 {
 	float d = normal.Normalize();
 	if(d != 0.0f) dist /= d; else dist = 0.0f;
@@ -152,7 +152,7 @@ mathinline Plane & Plane::Normalize()
 }
 
 ///Переместить плоскость в заданную точку
-mathinline Plane & Plane::Move(const Vector & point)
+inline Plane & Plane::Move(const Vector & point)
 {
 	D = (N | point);
 	return *this;
@@ -163,13 +163,13 @@ mathinline Plane & Plane::Move(const Vector & point)
 //===========================================================
 
 //Найти дистанцию до плоскости (*)
-mathinline float Plane::Dist(const Vector & point) const
+inline float Plane::Dist(const Vector & point) const
 {
 	return *this*point;
 }
 
 //Проверить на пересечение отрезка и плоскости
-mathinline bool Plane::Intersection(const Vector & src, const Vector & dst) const
+inline bool Plane::Intersection(const Vector & src, const Vector & dst) const
 {
 	float dsrc = *this*src;
 	float ddst = *this*dst;
@@ -177,7 +177,7 @@ mathinline bool Plane::Intersection(const Vector & src, const Vector & dst) cons
 }
 
 //Найти точку пересечения отрезка и плоскости
-mathinline bool Plane::Intersection(const Vector & src, const Vector & dst, Vector & res) const
+inline bool Plane::Intersection(const Vector & src, const Vector & dst, Vector & res) const
 {
 	float dsrc = *this*src;
 	float ddst = *this*dst;
@@ -189,7 +189,7 @@ mathinline bool Plane::Intersection(const Vector & src, const Vector & dst, Vect
 }
 
 //Проверить на пересечение линии и плоскости
-mathinline bool Plane::IntersectionLine(const Vector & src, const Vector & dst, float & k) const
+inline bool Plane::IntersectionLine(const Vector & src, const Vector & dst, float & k) const
 {
 	float dsrc = *this*src;
 	float ddst = *this*dst;

@@ -1,13 +1,14 @@
 #include "AIShip.h"
 
-AIShipTouchController::AIShipTouchController(AIShip * _pAIShip) : aTouchRays(_FL_)
+AIShipTouchController::AIShipTouchController(AIShip * _pAIShip)
 {
 	SetAIShip(_pAIShip);
 	fRaySize = 50.0f;
 
 	dtTouchTime.Setup(0.0f, 1.0f, 1.2f);
 
-	for (dword i=0; i<15; i++) aTouchRays[aTouchRays.Add()].fDist = 1.0f;
+	for (dword i = 0; i < 15; i++)
+		aTouchRays.push_back(ray_t{ 0.0f, 1.0f, 0.0f }); //[aTouchRays.Add()].fDist = 1.0f;
 }
 
 AIShipTouchController::~AIShipTouchController()
@@ -36,7 +37,7 @@ CVECTOR * AIShipTouchController::GetPentagonBox()
 	CMatrix m;
 	CVECTOR vOurPos = GetAIShip()->GetPos();
 
-	CVECTOR vBoxSize = GetAIShip()->GetBoxSize() / 2.0f;
+	CVECTOR vBoxSize = GetAIShip()->GetBoxsize() / 2.0f;
 	m.BuildRotateY(GetAIShip()->GetAng().y);
 	vBox[0] = CVECTOR(-vBoxSize.x, 0.0f, -vBoxSize.z);
 	vBox[1] = CVECTOR(vBoxSize.x, 0.0f, -vBoxSize.z);
@@ -65,7 +66,7 @@ void AIShipTouchController::TestCollision(AIShip * pOtherShip)
 	pOtherShip->GetPrediction(10.0f,&vEnemyPredictionPos,0);
 	vEnemyPos = vEnemyPredictionPos;
 
-	vBoxSize = pOtherShip->GetBoxSize() / 2.0f;
+	vBoxSize = pOtherShip->GetBoxsize() / 2.0f;
 	m.BuildRotateY(pOtherShip->GetAng().y);
 	vBox[0] = CVECTOR(-vBoxSize.x, 0.0f, -vBoxSize.z);
 	vBox[1] = CVECTOR(vBoxSize.x, 0.0f, -vBoxSize.z);
@@ -74,9 +75,9 @@ void AIShipTouchController::TestCollision(AIShip * pOtherShip)
 	vBox[4] = CVECTOR(-vBoxSize.x, 0.0f, vBoxSize.z / 1.5f);
 	for (i=0;i<5;i++) vBox[i] = vEnemyPos + m * vBox[i];
 
-	for (i=0;i<aTouchRays.Size();i++)
+	for (i=0;i<aTouchRays.size();i++)
 	{
-		float fAng = GetAIShip()->GetAng().y + float(i) / float(aTouchRays.Size()) * PIm2;
+		float fAng = GetAIShip()->GetAng().y + float(i) / float(aTouchRays.size()) * PIm2;
 		CVECTOR vPos = vOurPos + fRaySize * CVECTOR(sinf(fAng), 0.0f, cosf(fAng));
 		for (dword j=0; j<5; j++)
 		{
@@ -106,11 +107,11 @@ void AIShipTouchController::Execute(float fDeltaTime)
 
 	SHIP_BASE * pShip = (SHIP_BASE*)GetAIShip()->GetShipPointer(); Assert(pShip);
 
-	vBoxSize = GetAIShip()->GetBoxSize() / 2.0f;
+	vBoxSize = GetAIShip()->GetBoxsize() / 2.0f;
 	float fSpeed = KNOTS2METERS(pShip->State.vSpeed.z);
 	fRaySize = vBoxSize.z * 5.0f + fSpeed * 10.0f;
 
-	/*vBoxSize = GetAIShip()->GetBoxSize() / 2.0f;
+	/*vBoxSize = GetAIShip()->GetBoxsize() / 2.0f;
 	m.BuildRotateY(GetAIShip()->GetAng().y);
 	v[0] = m * CVECTOR(-vBoxSize.x, 0.0f, -vBoxSize.z);
 	v[1] = m * CVECTOR(vBoxSize.x, 0.0f, -vBoxSize.z);
@@ -120,14 +121,14 @@ void AIShipTouchController::Execute(float fDeltaTime)
 	// reset
 	if (dtTouchTime.Update(fDeltaTime))
 	{
-		for (i=0; i<aTouchRays.Size(); i++)
+		for (i=0; i<aTouchRays.size(); i++)
 		{
 			aTouchRays[i].fMinDist = 10000.0f;
 			aTouchRays[i].fDist = 1.0f;
 		}
 
 		// test collision with ships
-		for (i=0;i<AIShip::AIShips.Size();i++)
+		for (i=0;i<AIShip::AIShips.size();i++)
 		{
 			TestCollision(AIShip::AIShips[i]);
 		}
@@ -135,9 +136,9 @@ void AIShipTouchController::Execute(float fDeltaTime)
 		CVECTOR vOurPos = GetAIShip()->GetPos();
 		if (AIHelper::pIsland)
 		{
-			for (i=0; i<aTouchRays.Size(); i++)
+			for (i=0; i<aTouchRays.size(); i++)
 			{
-				float fAng = GetAIShip()->GetAng().y + float(i) / float(aTouchRays.Size()) * PIm2;
+				float fAng = GetAIShip()->GetAng().y + float(i) / float(aTouchRays.size()) * PIm2;
 				CVECTOR vPos = vOurPos + fRaySize * CVECTOR(sinf(fAng), 0.0f, cosf(fAng));
 				float fRes = ((COLLISION_OBJECT*)AIHelper::pIsland)->Trace(vOurPos, vPos);
 				if (fRes < 1.0f)
@@ -151,13 +152,13 @@ void AIShipTouchController::Execute(float fDeltaTime)
 		dword dwMaxIdx = 0;
 		float fMaxDist = -100.0f;
 		dword ii, i1, i2;
-		for (i=0; i<aTouchRays.Size() / 2; i++)
+		for (i=0; i<aTouchRays.size() / 2; i++)
 		{
 			for (j=0; j<2; j++)
 			{
-				ii = (j == 0) ? i : (aTouchRays.Size() - i - 1);
-				i1 = (ii==0) ? aTouchRays.Size()-1 : (ii - 1);
-				i2 = (ii == aTouchRays.Size()-1) ? 0 : (ii + 1);
+				ii = (j == 0) ? i : (aTouchRays.size() - i - 1);
+				i1 = (ii==0) ? aTouchRays.size()-1 : (ii - 1);
+				i2 = (ii == aTouchRays.size()-1) ? 0 : (ii + 1);
 				float fTriRotator = (aTouchRays[ii].fDist + aTouchRays[i1].fDist + aTouchRays[i2].fDist) / 3.0f;
 				if (fTriRotator - fMaxDist > 0.001f)
 				{
@@ -169,17 +170,17 @@ void AIShipTouchController::Execute(float fDeltaTime)
 
 		// stop calculate section
 		float fClosed = 0.0f;
-		if (aTouchRays[0].fDist < 1.0f) fClosed = aTouchRays.Size() / 4.0f;
-		for (i=1; i<aTouchRays.Size()/4; i++)
+		if (aTouchRays[0].fDist < 1.0f) fClosed = aTouchRays.size() / 4.0f;
+		for (i=1; i<aTouchRays.size()/4; i++)
 		{
 			i1 = i;
-			i2 = aTouchRays.Size() - i;
+			i2 = aTouchRays.size() - i;
 			if (aTouchRays[i1].fDist<1.0f) fClosed += 0.38f;
 			if (aTouchRays[i2].fDist<1.0f) fClosed += 0.38f;
 		}
 
 		// get out from my road section
-		for (i=1; i<aTouchRays.Size()/4; i++)
+		for (i=1; i<aTouchRays.size()/4; i++)
 		{
 			// i1 = ;
 		}
@@ -187,12 +188,12 @@ void AIShipTouchController::Execute(float fDeltaTime)
 		// search new free direction
 
 		fRotateFactor = 0.0f;
-		if (dwMaxIdx != 0) fRotateFactor = (dwMaxIdx < aTouchRays.Size()/2) ? 2.5f : -2.5f;
+		if (dwMaxIdx != 0) fRotateFactor = (dwMaxIdx < aTouchRays.size()/2) ? 2.5f : -2.5f;
 		//float fRotate = GetBestRotateDirection() * 2.5f;
 		GetAIShip()->GetRotateController()->AddRotate(fRotateFactor);
 
 		fClosed *= 1.6f;
-		fSpeedFactor = 1.0f - fClosed / (aTouchRays.Size() / 2.0f);
+		fSpeedFactor = 1.0f - fClosed / (aTouchRays.size() / 2.0f);
 		fSpeedFactor = CLAMP(fSpeedFactor);
 		//pShip->SetSpeed(fSpeedFactor);
 	}
@@ -206,9 +207,9 @@ void AIShipTouchController::Execute(float fDeltaTime)
 float AIShipTouchController::GetBestRotateDirection()
 {
 	float fLeft = 0.0f, fRight = 0.0f;
-	dword iBortNum = (aTouchRays.Size() - 1) / 2;
+	dword iBortNum = (aTouchRays.size() - 1) / 2;
 
-	for (dword i=0; i<aTouchRays.Size(); i++) if (i != 0)
+	for (dword i=0; i<aTouchRays.size(); i++) if (i != 0)
 	{
 		if (i <= iBortNum) fRight += aTouchRays[i].fDist;
 		else fLeft += aTouchRays[i].fDist;
@@ -221,17 +222,17 @@ float AIShipTouchController::GetBestRotateDirection()
 
 void AIShipTouchController::Realize(float fDeltaTime)
 {
-	return;
 #ifndef _XBOX
-	if (api->Controls->GetDebugAsyncKeyState('G')<0)
+	/* espkk. code was unreachable (return)
+	 *if (api->Controls->GetDebugAsyncKeyState('G')<0)
 	{
 		dword			i;
 		CMatrix			m;
-		array<RS_LINE>	rsLines(_FL_);
+		std::vector<RS_LINE>	rsLines(_FL_);
 
 		CVECTOR vOurPos = GetAIShip()->GetPos();
 		if (!GetAIShip()->isMainCharacter())
-			for (i=0;i<aTouchRays.Size();i++)
+			for (i=0;i<aTouchRays.size();i++)
 			{
 				RS_LINE *pRL = &rsLines[rsLines.Add()];
 				pRL->dwColor = 0x7F7F7F;
@@ -240,13 +241,13 @@ void AIShipTouchController::Realize(float fDeltaTime)
 				pRL = &rsLines[rsLines.Add()];
 				pRL->dwColor = 0x3F3F3F;
 				float fDist = fRaySize * aTouchRays[i].fDist;
-				float fAng = GetAIShip()->GetAng().y + float(i) / float(aTouchRays.Size()) * PIm2;
+				float fAng = GetAIShip()->GetAng().y + float(i) / float(aTouchRays.size()) * PIm2;
 				CVECTOR vPos = fDist * CVECTOR(sinf(fAng),0.0f,cosf(fAng));
 				pRL->vPos = vOurPos + vPos;
 			}
 		CVECTOR			vBoxSize, v[5];
 
-		vBoxSize = GetAIShip()->GetBoxSize() / 2.0f;
+		vBoxSize = GetAIShip()->GetBoxsize() / 2.0f;
 		m.BuildRotateY(GetAIShip()->GetAng().y);
 		v[0] = m * CVECTOR(-vBoxSize.x, 0.0f, -vBoxSize.z);
 		v[1] = m * CVECTOR(vBoxSize.x, 0.0f, -vBoxSize.z);
@@ -266,15 +267,15 @@ void AIShipTouchController::Realize(float fDeltaTime)
 
 		m.SetIdentity();
 		AIHelper::pRS->SetTransform(D3DTS_WORLD,m);
-		AIHelper::pRS->DrawLines(&rsLines[0],rsLines.Size()/2,"AILine");
-	}
+		AIHelper::pRS->DrawLines(&rsLines[0],rsLines.size()/2,"AILine");
+	}*/
 #endif
 }
 
 void AIShipTouchController::Save(CSaveLoad * pSL)
 {
-	pSL->SaveDword(aTouchRays.Size());
-	for (dword i=0; i<aTouchRays.Size(); i++)
+	pSL->SaveDword(aTouchRays.size());
+	for (dword i=0; i<aTouchRays.size(); i++)
 	{
 		pSL->SaveFloat(aTouchRays[i].fMinDist);
 		pSL->SaveFloat(aTouchRays[i].fDist);
@@ -292,12 +293,7 @@ void AIShipTouchController::Load(CSaveLoad * pSL)
 {
 	dword dwNum = pSL->LoadDword();
 	for (dword i=0; i<dwNum; i++)
-	{
-		ray_t * pR = &aTouchRays[aTouchRays.Add()];
-		pR->fMinDist = pSL->LoadFloat();
-		pR->fDist = pSL->LoadFloat();
-		pR->fEarthDist = pSL->LoadFloat();
-	}
+		aTouchRays.push_back(ray_t{ pSL->LoadFloat(),pSL->LoadFloat(),pSL->LoadFloat() });
 	fLeftRaysFree = pSL->LoadFloat();
 	fRightRaysFree = pSL->LoadFloat();
 	fRaySize = pSL->LoadFloat();

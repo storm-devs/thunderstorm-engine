@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "xi_changer.h"
+#include "../../common_h/defines.h"
 
 CXI_CHANGER::CXI_CHANGER()
 {
@@ -89,7 +90,7 @@ void CXI_CHANGER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
     {
         m_pPlace = NEW XYRECT[m_nPlaceQuantity];
         if(m_pPlace==NULL)
-            _THROW("Allocate memory error")
+            STORM_THROW("Allocate memory error")
         ZeroMemory(m_pPlace,sizeof(XYRECT)*m_nPlaceQuantity);
     }
 
@@ -153,7 +154,7 @@ void CXI_CHANGER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 
 void CXI_CHANGER::ReleaseAll()
 {
-	PTR_DELETE(m_pPlace);
+	PTR_STORM_DELETE(m_pPlace);
 	TEXTURE_RELEASE(m_rs,m_idBackTex);
 	VIDEOTEXTURE_RELEASE(m_rs,m_pTex);
 }
@@ -259,9 +260,9 @@ void CXI_CHANGER::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 

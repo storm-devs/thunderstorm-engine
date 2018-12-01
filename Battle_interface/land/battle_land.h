@@ -36,7 +36,7 @@ protected:
 
 	BIManSign* m_pManSign;
 
-	array<BITextInfo> m_TextInfo;
+	std::vector<BITextInfo> m_TextInfo;
 
 	BIImagesInfo m_Images;
 };

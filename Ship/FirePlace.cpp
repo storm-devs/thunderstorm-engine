@@ -54,8 +54,8 @@ void FirePlace::DeleteParticle()
 		}*/
 	}
 
-	//DELETE(pParticleSmoke);
-	//DELETE(pParticleFire);
+	//STORM_DELETE(pParticleSmoke);
+	//STORM_DELETE(pParticleFire);
 	pParticleSmoke = 0;
 	pParticleFire = 0;
 }
@@ -142,6 +142,6 @@ void FirePlace::Load(CSaveLoad * pSL)
 	if (bActive)
 	{
 		bActive = false;
-		Run((const char *)sParticleSmokeName, sParticleFireName, iBallCharacterIndex, sSoundName, fRunTime);
+		Run(sParticleSmokeName.c_str(), sParticleFireName.c_str(), iBallCharacterIndex, sSoundName.c_str(), fRunTime);
 	}
 }

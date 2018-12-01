@@ -2,8 +2,8 @@
 #define _BI_COMMANDLIST_H_
 
 #include "defines.h"
-#include "..\common_h\templates\string.h"
-#include "..\common_h\templates\array.h"
+#include <string>
+#include <vector>
 
 class BIImageRender;
 
@@ -56,19 +56,19 @@ protected:
 
 	struct TextureDescr
 	{
-		string sFileName;
+		std::string sFileName;
 		long nCols;
 		long nRows;
 	};
-	array<TextureDescr> m_aTexture;
+	std::vector<TextureDescr> m_aTexture;
 
 	struct UsedCommand
 	{
 		long nCharIndex;
-		string sCommandName;
+		std::string sCommandName;
 		long nTargetIndex;
-		string sLocName;
-		string sNote;
+		std::string sLocName;
+		std::string sNote;
 
 		long nTextureIndex;
 		long nSelPictureIndex;
@@ -83,14 +83,12 @@ protected:
 			float fDelta;
 			FPOINT fpSize;
 		};
-		array<AdditiveIcon> aAddPicList;
-
-		UsedCommand() : aAddPicList(_FL_) {};
+		std::vector<AdditiveIcon> aAddPicList;
 	};
 
 	bool m_bActive;
 
-	array<UsedCommand> m_aUsedCommand;
+	std::vector<UsedCommand> m_aUsedCommand;
 	long m_nStartUsedCommandIndex;
 	long m_nSelectedCommandIndex;
 	long m_nIconShowMaxQuantity;
@@ -99,21 +97,21 @@ protected:
 
 	POINT m_pntActiveIconOffset;
 	POINT m_pntActiveIconSize;
-	string m_sActiveIconTexture;
+	std::string m_sActiveIconTexture;
 	FRECT m_frActiveIconUV1;
 	FRECT m_frActiveIconUV2;
-	string m_sActiveIconNote;
+	std::string m_sActiveIconNote;
 
 	bool m_bUpArrow;
 	bool m_bDownArrow;
-	string m_sUpDownArrowTexture;
+	std::string m_sUpDownArrowTexture;
 	FRECT m_frUpArrowUV;
 	FRECT m_frDownArrowUV;
 	POINT m_pntUpDownArrowSize;
 	POINT m_pntUpArrowOffset;
 	POINT m_pntDownArrowOffset;
 
-	string	m_sCurrentCommandName;
+	std::string	m_sCurrentCommandName;
 	long	m_nCurrentCommandCharacterIndex;
 	long	m_nCurrentCommandMode;
 
@@ -126,7 +124,7 @@ protected:
 	float m_NoteFontScale;
 	POINT m_NotePos;
 	POINT m_NoteOffset;
-	string m_NoteText;
+	std::string m_NoteText;
 
 	struct CoolDownUpdateData
 	{
@@ -134,13 +132,13 @@ protected:
 		float fTime;
 		float fUpdateTime;
 	};
-	array<CoolDownUpdateData> m_aCooldownUpdate;
+	std::vector<CoolDownUpdateData> m_aCooldownUpdate;
 
 	void Release();
 
 	long IconAdd( long nPictureNum, long nTextureNum, RECT& rpos );
 	long ClockIconAdd( long nForePictureNum, long nBackPictureNum, long nTextureNum, RECT& rpos, float fFactor );
-	void AdditiveIconAdd( float fX, float fY, array<UsedCommand::AdditiveIcon>& aList );
+	void AdditiveIconAdd( float fX, float fY, std::vector<UsedCommand::AdditiveIcon>& aList );
 	FRECT& GetPictureUV( long nTextureNum, long nPictureNum, FRECT& uv );
 	RECT& GetCurrentPos(long num,RECT& rpos);
 	RECT& GetAddingPos(long num,RECT& rpos);

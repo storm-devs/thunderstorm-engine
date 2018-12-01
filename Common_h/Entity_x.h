@@ -44,7 +44,7 @@ public:
 	// layer managment 
 	
 	bool LayerCreate(char * layer_name, bool ordered, bool fail_if_exist){return api->LayerCreate(layer_name,ordered,fail_if_exist);};
-	void LayerDelete(char * layer_name){api->LayerDelete(layer_name);};
+	void LayerSTORM_DELETE(char * layer_name){api->LayerSTORM_DELETE(layer_name);};
 	void LayerSetFlags(char * layer_name, dword flags){api->LayerSetFlags(layer_name,flags);};
 	void LayerClrFlags(char * layer_name, dword flags){api->LayerClrFlags(layer_name,flags);};
 	bool LayerAdd(char * layer_name, ENTITY_ID eid, dword priority){return api->LayerAdd(layer_name,eid,priority);};

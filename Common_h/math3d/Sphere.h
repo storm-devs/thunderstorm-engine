@@ -100,13 +100,13 @@ public:
 //-----------------------------------------------------------
 
 //Пустой конструктор
-mathinline Sphere::Sphere()
+inline Sphere::Sphere()
 {
 	v4 = Vector4();
 };
 
 //Конструктор копирования
-mathinline Sphere::Sphere(const Sphere & s)
+inline Sphere::Sphere(const Sphere & s)
 {
 	v4 = s.v4;
 };
@@ -116,13 +116,13 @@ mathinline Sphere::Sphere(const Sphere & s)
 //===========================================================
 
 //Точка в сфере
-mathinline bool Sphere::Intersection(const Vector & p)
+inline bool Sphere::Intersection(const Vector & p)
 {
 	return ~(pos - p) <= radius*radius;
 }
 
 //Проверить пересечение отрезка и сферы
-mathinline bool Sphere::Intersection(const Vector & src, const Vector & dst)
+inline bool Sphere::Intersection(const Vector & src, const Vector & dst)
 {
 	Vector dir = dst - src;
 	float len = dir.Normalize();
@@ -146,26 +146,26 @@ mathinline bool Sphere::Intersection(const Vector & src, const Vector & dst)
 }
 
 //Проверить пересечение луча и сферы
-mathinline bool Sphere::Intersection(const Vector & orig, const Vector & normdir, float * res)
+inline bool Sphere::Intersection(const Vector & orig, const Vector & normdir, float * res)
 {
 	return Intersection(orig, normdir, pos, r, res);
 }
 
 //Проверить пересечение сферы и сферы
-mathinline bool Sphere::Intersection(const Sphere & sph)
+inline bool Sphere::Intersection(const Sphere & sph)
 {
 	return (~(p - sph.p) <= (r + sph.r)*(r + sph.r));
 }
 
 //Установить сферу в точку с 0 радиусом
-mathinline void Sphere::Reset(const Vector & p)
+inline void Sphere::Reset(const Vector & p)
 {
 	pos = p;
 	r = 0.0f;
 }
 
 //Включить в описывающую сферу точку
-mathinline void Sphere::AddPoint(const Vector & p)
+inline void Sphere::AddPoint(const Vector & p)
 {
 	//Вектор из точки к центру
 	float dx = pos.x - p.x;
@@ -184,7 +184,7 @@ mathinline void Sphere::AddPoint(const Vector & p)
 }
 
 //Проверить пересечение луча и сферы
-mathinline bool Sphere::Intersection(const Vector & orig, const Vector & normdir, const Vector & pos, float r, float * res)
+inline bool Sphere::Intersection(const Vector & orig, const Vector & normdir, const Vector & pos, float r, float * res)
 {
 	Vector toCenter = pos - orig;
 	float distToOrtoPlane = normdir | toCenter;

@@ -87,7 +87,7 @@ public:
 
 		for (n=0; n<pE->nStringsNum; n++)
 		{
-			if (pE->pElements[n].dwHashCode == nHash && stricmp(pString, pE->pElements[n].pStr) == 0) 
+			if (pE->pElements[n].dwHashCode == nHash && _stricmp(pString, pE->pElements[n].pStr) == 0) 
 			{
 				nStringCode = (nTableIndex<<16)| (n & 0xffff);
 				bNew = false;

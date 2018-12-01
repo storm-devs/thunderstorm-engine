@@ -253,9 +253,7 @@ inline bool DX9RENDER::ErrorHandler(HRESULT hr, const char * file, unsigned line
 const dword DX9RENDER::rectsVBuffer_SizeInRects = 512;
 
 //################################################################################
-DX9RENDER::DX9RENDER() :
-	stRenderTarget(_FL_),
-	aCaptureBuffers(_FL_)
+DX9RENDER::DX9RENDER()
 {
 	rectsVBuffer = null;
 
@@ -382,9 +380,9 @@ bool  DX9RENDER::Init()
 		ini->ReadString(0, "screen_bpp", str, sizeof(str), "D3DFMT_R5G6B5");
 		screen_bpp = D3DFMT_R5G6B5;
 		stencil_format = D3DFMT_D16;
-		if (stricmp(str, "D3DFMT_A8R8G8B8") == 0) { screen_bpp = D3DFMT_A8R8G8B8; stencil_format = D3DFMT_D24S8; }
-		if (stricmp(str, "D3DFMT_X8R8G8B8") == 0) { screen_bpp = D3DFMT_X8R8G8B8; stencil_format = D3DFMT_D24S8; }
-		if (stricmp(str, "D3DFMT_R5G6B5") == 0) { screen_bpp = D3DFMT_R5G6B5;	stencil_format = D3DFMT_D16; }
+		if (_stricmp(str, "D3DFMT_A8R8G8B8") == 0) { screen_bpp = D3DFMT_A8R8G8B8; stencil_format = D3DFMT_D24S8; }
+		if (_stricmp(str, "D3DFMT_X8R8G8B8") == 0) { screen_bpp = D3DFMT_X8R8G8B8; stencil_format = D3DFMT_D24S8; }
+		if (_stricmp(str, "D3DFMT_R5G6B5") == 0) { screen_bpp = D3DFMT_R5G6B5;	stencil_format = D3DFMT_D16; }
 
 		//stencil_format = D3DFMT_D24S8;
 		if (!InitDevice(bWindow, api->GetAppHWND(), screen_size.x, screen_size.y)) return false;
@@ -399,7 +397,7 @@ bool  DX9RENDER::Init()
 			sprintf(str, "resource\\ini\\fonts.ini");
 		}
 		if ((fontIniFileName = NEW char[strlen(str) + 1]) == null)
-			_THROW("allocate memory error");
+			STORM_THROW("allocate memory error");
 		strcpy(fontIniFileName, str);
 		// get start font quantity
 		if (!ini->ReadString(0, "font", str, sizeof(str) - 1, ""))
@@ -431,7 +429,7 @@ bool  DX9RENDER::Init()
 		fFixedFPS = ini->GetFloat("VideoCapture", "FPS", 25); if (fFixedFPS == 0.0f) fFixedFPS = 25.0f;
 		long iCapBuffers = ini->GetLong("VideoCapture", "Buffers", 0);
 		for (long i = 0; i<iCapBuffers; i++)
-			aCaptureBuffers.Add(NEW char[sizeof(dword) * screen_size.x * screen_size.y]);
+			aCaptureBuffers.push_back(NEW char[sizeof(dword) * screen_size.x * screen_size.y]);
 
 		delete ini;
 
@@ -518,8 +516,8 @@ DX9RENDER::~DX9RENDER()
 	nFontQuantity = 0;
 	if (fontIniFileName != NULL) delete fontIniFileName;
 
-	DELETE(DX9sphereVertex);
-	DELETE(pTechnique);
+	STORM_DELETE(DX9sphereVertex);
+	STORM_DELETE(pTechnique);
 	ReleaseDevice();
 	api->EngineDisplay(true);
 
@@ -530,8 +528,10 @@ DX9RENDER::~DX9RENDER()
 		DeleteDC(hCaptureDC);
 		DeleteObject(hCaptureBitmap);
 	}
-
-	aCaptureBuffers.DelAllWithPointers();
+	for (const auto &buffer : aCaptureBuffers)
+		delete buffer;
+	
+	//aCaptureBuffers.DelAllWithPointers();
 }
 
 //################################################################################
@@ -1260,9 +1260,11 @@ long DX9RENDER::TextureCreate(const char *fname)
 	}
 
 	// delete relative path "resource\textures\"
-	string sTexName = fname;
-	sTexName.GetRelativePath("resource\\textures\\");
-	sTexName = sTexName - string(".tx");
+	std::string sTexName = fname;
+	//sTexName.GetRelativePath("resource\\textures\\");
+	//sTexName = sTexName - std::string(".tx");
+	// ~!~
+	__debugbreak();
 	fname = sTexName.c_str();
 	// delete last extension ".tx"
 
@@ -1304,7 +1306,7 @@ long DX9RENDER::TextureCreate(const char *fname)
 
 		if (strlen(_fname) > _countof(".tx") - 1)
 		{
-			if (stricmp(&_fname[strlen(_fname) - 3], ".tx") == 0)
+			if (_stricmp(&_fname[strlen(_fname) - 3], ".tx") == 0)
 				_fname[strlen(_fname) - 3] = 0;
 		}
 
@@ -1316,7 +1318,7 @@ long DX9RENDER::TextureCreate(const char *fname)
 		for (t = 0; t<MAX_STEXTURES; t++)
 			if (Textures[t].ref != 0)
 				if (Textures[t].name)
-					if (Textures[t].hash == hf && stricmp(Textures[t].name, _fname) == 0)
+					if (Textures[t].hash == hf && _stricmp(Textures[t].name, _fname) == 0)
 					{
 						Textures[t].ref++;
 						return t;
@@ -1328,14 +1330,14 @@ long DX9RENDER::TextureCreate(const char *fname)
 		Textures[t].hash = hf;
 
 		if ((Textures[t].name = NEW char[strlen(_fname) + 1]) == NULL)
-			_THROW("allocate memory error");
+			STORM_THROW("allocate memory error");
 		strcpy(Textures[t].name, _fname);
 		Textures[t].isCubeMap = false;
 		Textures[t].loaded = false;
 		Textures[t].ref++;
 		if (TextureLoad(t)) return t;
 		Textures[t].ref--;
-		DELETE(Textures[t].name);
+		STORM_DELETE(Textures[t].name);
 	}
 	return -1;
 }
@@ -2479,7 +2481,7 @@ void DX9RENDER::RunStart()
 	// boal del_cheat
 	if (api->Controls->GetDebugAsyncKeyState(VK_F11) < 0)
 	{
-		DELETE(pTechnique);
+		STORM_DELETE(pTechnique);
 		pTechnique = NEW CTechnique(this);
 		pTechnique->DecodeFiles();
 	}
@@ -2652,7 +2654,7 @@ long DX9RENDER::LoadFont(char * fontName)
 
 	long i;
 	for (i = 0; i<nFontQuantity; i++)
-		if (FontList[i].hash == hashVal && stricmp(FontList[i].name, fontName) == 0)
+		if (FontList[i].hash == hashVal && _stricmp(FontList[i].name, fontName) == 0)
 		{
 			if (FontList[i].ref>0)
 				FontList[i].ref++;
@@ -2666,7 +2668,7 @@ long DX9RENDER::LoadFont(char * fontName)
 	if (nFontQuantity<MAX_FONTS)
 	{
 		if ((FontList[i].font = NEW FONT) == NULL)
-			_THROW("allocate memory error");
+			STORM_THROW("allocate memory error");
 		if (!FontList[i].font->Init(fontName, fontIniFileName, d3d9, this))
 		{
 			delete FontList[i].font;
@@ -2676,12 +2678,12 @@ long DX9RENDER::LoadFont(char * fontName)
 		FontList[i].hash = hashVal;
 		FontList[i].ref = 1;
 		if ((FontList[i].name = NEW char[strlen(fontName) + 1]) == NULL)
-			_THROW("allocate memory error");
+			STORM_THROW("allocate memory error");
 		strcpy(FontList[i].name, fontName);
 		nFontQuantity++;
 	}
 	else
-		_THROW("maximal font quantity exceeded")
+		STORM_THROW("maximal font quantity exceeded")
 		return i;
 }
 
@@ -2699,7 +2701,7 @@ bool DX9RENDER::UnloadFont(char * fontName)
 	unsigned long hashVal = hash_string(fontName);
 
 	for (int i = 0; i<nFontQuantity; i++)
-		if (FontList[i].hash == hashVal && stricmp(FontList[i].name, fontName) == 0)
+		if (FontList[i].hash == hashVal && _stricmp(FontList[i].name, fontName) == 0)
 			return UnloadFont(i);
 	api->Trace("Font name \"%s\" is not containing", fontName);
 	return false;
@@ -2765,7 +2767,7 @@ char * DX9RENDER::GetFontIniFileName()
 }
 bool DX9RENDER::SetFontIniFileName(char * iniName)
 {
-	if (fontIniFileName != NULL && iniName != NULL && stricmp(fontIniFileName, iniName) == 0) return true;
+	if (fontIniFileName != NULL && iniName != NULL && _stricmp(fontIniFileName, iniName) == 0) return true;
 	if (fontIniFileName != NULL)
 		delete fontIniFileName;
 	if (iniName == NULL)
@@ -2776,7 +2778,7 @@ bool DX9RENDER::SetFontIniFileName(char * iniName)
 	else
 	{
 		if ((fontIniFileName = NEW char[strlen(iniName) + 1]) == NULL)
-			_THROW("allocate memory error")
+			STORM_THROW("allocate memory error")
 			strcpy(fontIniFileName, iniName);
 	}
 
@@ -2786,7 +2788,7 @@ bool DX9RENDER::SetFontIniFileName(char * iniName)
 			delete FontList[n].font;
 		}
 		if ((FontList[n].font = NEW FONT) == NULL)
-			_THROW("allocate memory error")
+			STORM_THROW("allocate memory error")
 			FontList[n].font->Init(FontList[n].name, fontIniFileName, d3d9, this);
 		if (FontList[n].ref == 0) FontList[n].font->TempUnload();
 	}
@@ -3498,7 +3500,7 @@ CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
 	unsigned long newHash = hash_string(sVideoName);
 	while (pVTLcur != null)
 	{
-		if (pVTLcur->hash == newHash && stricmp(pVTLcur->name, sVideoName) == 0)
+		if (pVTLcur->hash == newHash && _stricmp(pVTLcur->name, sVideoName) == 0)
 		{
 			if (api->ValidateEntity(&pVTLcur->videoTexture_id))
 			{
@@ -3517,17 +3519,13 @@ CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
 	// create new video texture
 	pVTLcur = NEW VideoTextureEntity;
 	if (pVTLcur == null)
-	{
-		_THROW("memory allocate error")
-	}
+		STORM_THROW("memory allocate error");
 	pVTLcur->next = pVTL;
 	pVTLcur->VideoTexture = 0;
 	pVTLcur->hash = newHash;
 	pVTLcur->ref = 1;
 	if ((pVTLcur->name = NEW char[strlen(sVideoName) + 1]) == null)
-	{
-		_THROW("memory allocate error")
-	}
+		STORM_THROW("memory allocate error");
 	strcpy(pVTLcur->name, sVideoName);
 	ENTITY_ID ei;
 	api->CreateEntity(&ei, "TextureSequence");
@@ -3961,39 +3959,30 @@ IDirect3DVolumeTexture9 * DX9RENDER::CreateVolumeTexture(dword Width, dword Heig
 
 bool DX9RENDER::PushRenderTarget()
 {
-	IDirect3DSurface9 * pD3DRenderTarget = null, *pD3DDepthSurface = null;
-	D3DVIEWPORT9 vp;
-
-	GetViewport(&vp);
-
-	stRenderTarget.Push();
-	stRenderTarget.Top().pRenderTarget = null;
-	stRenderTarget.Top().pDepthSurface = null;
-	stRenderTarget.Top().ViewPort = vp;
-
-	GetRenderTarget(&stRenderTarget.Top().pRenderTarget);
-	CHECKD3DERR(d3d9->GetDepthStencilSurface(&stRenderTarget.Top().pDepthSurface));
+	RenderTarget renderTarget{ };
+	GetRenderTarget(&renderTarget.pRenderTarget);
+	CHECKD3DERR(d3d9->GetDepthStencilSurface(&renderTarget.pDepthSurface));
+	GetViewport(&renderTarget.ViewPort);
+	stRenderTarget.push(renderTarget);
 
 	return true;
 }
 
 bool DX9RENDER::PopRenderTarget()
 {
-	if (!stRenderTarget.Size())
+	if (stRenderTarget.empty())
 	{
 		api->Trace("DX9Error: Try to pop RenderTarget, but RenderTarget stack is empty");
 		return false;
 	}
 
+	auto top = stRenderTarget.top();
+	SetRenderTarget(top.pRenderTarget, top.pDepthSurface);
+	SetViewport(&top.ViewPort);
+	RELEASE(top.pRenderTarget);
+	RELEASE(top.pDepthSurface);
+	stRenderTarget.pop();
 
-	SetRenderTarget(stRenderTarget.Top().pRenderTarget, stRenderTarget.Top().pDepthSurface);
-
-	SetViewport(&stRenderTarget.Top().ViewPort);
-
-	RELEASE(stRenderTarget.Top().pRenderTarget);
-	RELEASE(stRenderTarget.Top().pDepthSurface);
-
-	stRenderTarget.Pop();
 	return true;
 }
 

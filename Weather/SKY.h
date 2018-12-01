@@ -2,6 +2,8 @@
 #define _SKY_H_
 
 #include "typedef.h"
+#include <string>
+#include <vector>
 
 class SKY : public ENTITY
 {
@@ -45,7 +47,7 @@ private:
 	};
 
 	//string		sSkyDir;
-	array<string>	aSkyDirArray;
+	std::vector<std::string>	aSkyDirArray;
 	dword		dwSkyColor;
 	float		fSkySpeedRotate, fSkySize, fAngleY, fSkyAngle;
 
@@ -71,7 +73,7 @@ private:
 	dword	CalcFogDiffuse(CVECTOR & vPos);
 
 	void FillSkyDirArray(ATTRIBUTES * pAttribute);
-	void GetSkyDirStrings(string & sSkyDir, string & sSkyDirNext);
+	void GetSkyDirStrings(std::string & sSkyDir, std::string & sSkyDirNext);
 	void UpdateTimeFactor();
 
 	DWORD GetPixelColor(IDirect3DTexture9* pTex, float fu, float fv);

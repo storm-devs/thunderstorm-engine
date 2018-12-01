@@ -1,7 +1,7 @@
 #include "sunglow.h"
 #include "sky.h"
 
-SUNGLOW::SUNGLOW() : aRSR(_FL_, 16)
+SUNGLOW::SUNGLOW()
 {
 	fAlpha = 0.0f;
 	fAlphaFlare = 0.0f;
@@ -55,7 +55,7 @@ void SUNGLOW::SetDevice()
 	pRS = (VDX9RENDER *)_CORE_API->CreateService("dx9render"); Assert(pRS);
 	pCollide = (COLLIDE*)_CORE_API->CreateService("COLL"); Assert(pCollide);
 
-	if (!api->FindClass(&ent,"Weather",0)) _THROW("No found WEATHER entity!");
+	if (!api->FindClass(&ent,"Weather",0)) STORM_THROW("No found WEATHER entity!");
 	pWeather = (WEATHER_BASE*)_CORE_API->GetEntityPointer(&ent); Assert(pWeather);
 
 	if ( api->FindClass(&ent,"SKY",0) ) pSky = (SKY*)api->GetEntityPointer(&ent);
@@ -75,8 +75,8 @@ void SUNGLOW::Release()
 	if (iOverflowTex>=0)	pRS->TextureRelease(iOverflowTex);	iOverflowTex = -1;
 	if (iReflTexture>=0)	pRS->TextureRelease(iReflTexture);	iReflTexture = -1;
 	
-	DELETE(pVWSunTrace);
-	DELETE(pVWSailsTrace);
+	STORM_DELETE(pVWSunTrace);
+	STORM_DELETE(pVWSailsTrace);
 }
 
 void SUNGLOW::GenerateSunGlow()
@@ -91,12 +91,12 @@ void SUNGLOW::GenerateSunGlow()
 	iOldTex[nTex++] = iOverflowTex;
 	iOldTex[nTex++] = iReflTexture;
 
-	if (Flares.sTexture.Len()) iFlareTex = pRS->TextureCreate((const char*)Flares.sTexture);
-	if (Glow.sSunTexture.Len()) iSunTex = pRS->TextureCreate((const char*)Glow.sSunTexture);
-	if (Glow.sMoonTexture.Len()) iMoonTex = pRS->TextureCreate((const char*)Glow.sMoonTexture);
-	if (Glow.sGlowTexture.Len()) iSunGlowTex = pRS->TextureCreate((const char*)Glow.sGlowTexture);
-	if (Overflow.sTexture.Len()) iOverflowTex = pRS->TextureCreate((const char*)Overflow.sTexture);
-	if (Reflection.sTexture.Len()) iReflTexture = pRS->TextureCreate(Reflection.sTexture);
+	if (Flares.sTexture.size()) iFlareTex = pRS->TextureCreate((const char*)Flares.sTexture.c_str());
+	if (Glow.sSunTexture.size()) iSunTex = pRS->TextureCreate((const char*)Glow.sSunTexture.c_str());
+	if (Glow.sMoonTexture.size()) iMoonTex = pRS->TextureCreate((const char*)Glow.sMoonTexture.c_str());
+	if (Glow.sGlowTexture.size()) iSunGlowTex = pRS->TextureCreate((const char*)Glow.sGlowTexture.c_str());
+	if (Overflow.sTexture.size()) iOverflowTex = pRS->TextureCreate((const char*)Overflow.sTexture.c_str());
+	if (Reflection.sTexture.size()) iReflTexture = pRS->TextureCreate(Reflection.sTexture.c_str());
 
 	for( long n=0; n<nTex; n++ )
 		if (iOldTex[n]>=0)
@@ -226,7 +226,7 @@ void SUNGLOW::Realize(dword Delta_Time)
 			if( fGlowFadeout < 0.f ) fGlowFadeout = 0.f;
 			pRS->TextureSet(0,iSunGlowTex);
 			CVECTOR vGlowColor = fAlpha*fGlowFadeout * COLOR2VECTOR(Glow.dwColor);
-			DrawRect( RGB(vGlowColor.x, vGlowColor.y, vGlowColor.z), vSun, Glow.fGlowSize, fAngle * 1.f, Glow.sTechniqueNoZ, fSeaHeight );
+			DrawRect( RGB(vGlowColor.x, vGlowColor.y, vGlowColor.z), vSun, Glow.fGlowSize, fAngle * 1.f, Glow.sTechniqueNoZ.c_str(), fSeaHeight );
 		}
 	}
 
@@ -246,12 +246,12 @@ void SUNGLOW::Realize(dword Delta_Time)
 		rs_rect.fSize = Overflow.fSize;
 		rs_rect.fAngle = 0.0f;
 
-		pRS->DrawRects(&rs_rect, 1, Overflow.sTechnique);
+		pRS->DrawRects(&rs_rect, 1, Overflow.sTechnique.c_str());
 	}
 
 	// calculate and draw flares
-	aRSR.Empty();
-	if (Delta_Time && Flares.aFlares.Size() && bHaveFlare)
+	aRSR.clear();
+	if (Delta_Time && Flares.aFlares.size() && bHaveFlare)
 	{
 		CMatrix mCam = OldMatrix;
 		mCam.Transposition();
@@ -259,22 +259,24 @@ void SUNGLOW::Realize(dword Delta_Time)
 		//CVECTOR vCenPos = CVECTOR(0.0f, 0.0f, Flares.fDist / 2.0f);
 		CVECTOR vCenPos = mCam.Vz() * Flares.fDist / 2.0f + mCam.Pos();
 		CVECTOR vDelta = Flares.fDist * !(vCenPos - vSun);
-		for (dword i=0;i<Flares.aFlares.Size();i++)
+		for (dword i=0;i<Flares.aFlares.size();i++)
 		{
 			flare_t * pF = &Flares.aFlares[i];
 			dword r = dword(fFadeout * fAlpha * fAlphaFlare * float((pF->dwColor&0xFF0000)>>16L));
 			dword g = dword(fFadeout * fAlpha * fAlphaFlare * float((pF->dwColor&0xFF00)>>8L));
 			dword b = dword(fFadeout * fAlpha * fAlphaFlare * float((pF->dwColor&0xFF)>>0L));
-			RS_RECT * pRSR = &aRSR[aRSR.Add()];
-			pRSR->dwColor = RGB(r,g,b);
-			pRSR->fAngle = 0.0f;
-			pRSR->dwSubTexture = pF->dwSubTexIndex;
-			pRSR->fSize = pF->fSize * Flares.fFlareScale;
-			pRSR->vPos = vSun + vDelta * (1.0f - pF->fDist);
+			//RS_RECT * pRSR = &aRSR[aRSR.Add()];
+			RS_RECT rect;
+			rect.dwColor = RGB(r,g,b);
+			rect.fAngle = 0.0f;
+			rect.dwSubTexture = pF->dwSubTexIndex;
+			rect.fSize = pF->fSize * Flares.fFlareScale;
+			rect.vPos = vSun + vDelta * (1.0f - pF->fDist);
+			aRSR.push_back(rect);
 		}
 
 		pRS->TextureSet(0,iFlareTex);
-		pRS->DrawRects(&aRSR[0],aRSR.Size(),Flares.sTechnique,Flares.dwTexSizeX,Flares.dwTexSizeY);
+		pRS->DrawRects(&aRSR[0],aRSR.size(),Flares.sTechnique.c_str(),Flares.dwTexSizeX,Flares.dwTexSizeY);
 	}
 }
 
@@ -298,7 +300,7 @@ void SUNGLOW::DrawSunMoon()
 		if( bMoon ) pRS->TextureSet(0,iMoonTex);
 		else pRS->TextureSet(0,iSunTex);
 
-		DrawRect( RGB(vGlowColor.x, vGlowColor.y, vGlowColor.z), vSun, fGlowSize, 0.f, Glow.sTechniqueZ, fBottomClip );
+		DrawRect( RGB(vGlowColor.x, vGlowColor.y, vGlowColor.z), vSun, fGlowSize, 0.f, Glow.sTechniqueZ.c_str(), fBottomClip );
 	}
 }
 
@@ -311,7 +313,7 @@ dword SUNGLOW::AttributeChanged(ATTRIBUTES * pAttribute)
 		bHaveFlare = false;
 		bHaveGlow = false;
 		bHaveOverflow = false;
-		Flares.aFlares.DelAll();
+		Flares.aFlares.clear();
 		return 0; 
 	}
 
@@ -321,8 +323,10 @@ dword SUNGLOW::AttributeChanged(ATTRIBUTES * pAttribute)
 	{
 		bHaveFlare = true;
 		char * pTemp = pAttribute->GetThisAttr();
-		flare_t * pFlare = &Flares.aFlares[Flares.aFlares.Add()];
-		sscanf(pTemp,"%f,%f,%d,%x",&pFlare->fDist,&pFlare->fSize,&pFlare->dwSubTexIndex,&pFlare->dwColor);
+		//flare_t * pFlare = &Flares.aFlares[Flares.aFlares.Add()];
+		flare_t flare;
+		sscanf(pTemp,"%f,%f,%d,%x",&flare.fDist,&flare.fSize,&flare.dwSubTexIndex,&flare.dwColor);
+		Flares.aFlares.push_back(flare);
 		return 0;
 	}
 
@@ -411,7 +415,7 @@ void SUNGLOW::DrawReflection()
 	float fCoeffY = Bring2Range(2.0f, 1.0f, 0.0f, 1.0f, fSunHeightAngle);
 	
 	Render().TextureSet(0, iReflTexture);
-	Render().DrawRects(&r_spr, 1, Reflection.sTechnique, 0, 0, (bSimpleSea) ? fCoeffX : 1.0f, (bSimpleSea) ? fCoeffY : 1.0f);
+	Render().DrawRects(&r_spr, 1, Reflection.sTechnique.c_str(), 0, 0, (bSimpleSea) ? fCoeffX : 1.0f, (bSimpleSea) ? fCoeffY : 1.0f);
 }
 
 dword _cdecl SUNGLOW::ProcessMessage(MESSAGE & message)

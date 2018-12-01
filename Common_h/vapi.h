@@ -118,7 +118,7 @@ public:
 	// create layer with name pointed by layer_name; layer may be ordered
 	virtual bool LayerCreate(char * layer_name, bool ordered, bool fail_if_exist)= 0;
 	// delete layer (no objects will be deleted)
-	virtual void LayerDelete(char * layer_name)= 0;
+	virtual void LayerSTORM_DELETE(char * layer_name)= 0;
 	// set flags to layer
 	virtual void LayerSetFlags(char * layer_name, dword flags)= 0;
 	// clear flags for layer

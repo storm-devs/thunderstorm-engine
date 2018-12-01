@@ -15,13 +15,13 @@ class CXI_FORMATEDTEXT : public CINODE
 		STRING_DESCRIBER* prev;
 		struct TagInfo{
 			dword dwColor;
-			string str;
+			std::string str;
 		};
-		array<TagInfo> m_tags;
+		std::vector<TagInfo> m_tags;
 
 		STRING_DESCRIBER* Add(char* ls,int groupNum);
 		STRING_DESCRIBER(char* ls);
-		STRING_DESCRIBER() : m_tags(_FL) {}
+		STRING_DESCRIBER() {}
 	};
 
 public:
@@ -116,7 +116,7 @@ protected:
 
 	char*	m_sScrollerName;
 
-	array<string> m_asSyncNodes;
+	std::vector<std::string> m_asSyncNodes;
 
 	bool	m_bUseOneStringAdding;
 

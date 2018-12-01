@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "xi_2picture.h"
+#include "../../common_h/defines.h"
 
 void SetRectanglePos(XI_ONETEX_VERTEX v[4],FXYPOINT & center,FXYPOINT &size)
 {
@@ -243,9 +244,9 @@ void CXI_TWOPICTURE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 

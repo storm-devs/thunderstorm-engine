@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include "xi_window.h"
 
-CXI_WINDOW::CXI_WINDOW() :
-	m_aNodeNameList( _FL )
+CXI_WINDOW::CXI_WINDOW()
 {
 	m_nNodeType = NODETYPE_WINDOW;
 
@@ -33,9 +32,9 @@ void CXI_WINDOW::ChangePosition( XYRECT &rNewPos )
 	long nYAdd = rNewPos.top - m_rect.top;
 	m_rect = rNewPos;
 
-	for( long n=0; n<m_aNodeNameList; n++ )
+	for( long n=0; n<m_aNodeNameList.size(); n++ )
 	{
-		CINODE * pNod = ptrOwner->FindNode( m_aNodeNameList[n], 0 );
+		CINODE * pNod = ptrOwner->FindNode( m_aNodeNameList[n].c_str(), 0 );
 		if( pNod )
 		{
 			XYRECT r = pNod->m_rect;
@@ -52,9 +51,9 @@ void CXI_WINDOW::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 
@@ -64,9 +63,9 @@ void CXI_WINDOW::SaveParametersToIni()
 
 	delete pIni;
 
-	for( long n=0; n<m_aNodeNameList; n++ )
+	for( long n=0; n<m_aNodeNameList.size(); n++ )
 	{
-		CINODE * pNod = ptrOwner->FindNode( m_aNodeNameList[n], 0 );
+		CINODE * pNod = ptrOwner->FindNode( m_aNodeNameList[n].c_str(), 0 );
 		if( pNod )
 			pNod->SaveParametersToIni();
 	}
@@ -79,9 +78,9 @@ void CXI_WINDOW::SetShow( bool bShow )
 	m_bShow = bShow;
 
 	// проход по всем нодам и включить/выключить их
-	for( long n=0; n<m_aNodeNameList; n++ )
+	for( long n=0; n<m_aNodeNameList.size(); n++ )
 	{
-		CINODE * pNod = ptrOwner->FindNode( m_aNodeNameList[n], 0 );
+		CINODE * pNod = ptrOwner->FindNode( m_aNodeNameList[n].c_str(), 0 );
 		if( pNod )
 		{
 			pNod->m_bUse = bShow;
@@ -96,9 +95,9 @@ void CXI_WINDOW::SetActive( bool bActive )
 	m_bActive = bActive;
 
 	// проход по всем нодам и залочить/разлочить их
-	for( long n=0; n<m_aNodeNameList; n++ )
+	for( long n=0; n<m_aNodeNameList.size(); n++ )
 	{
-		CINODE * pNod = ptrOwner->FindNode( m_aNodeNameList[n], 0 );
+		CINODE * pNod = ptrOwner->FindNode( m_aNodeNameList[n].c_str(), 0 );
 		if( pNod )
 		{
 			pNod->m_bLockedNode = !bActive;
@@ -115,7 +114,7 @@ void CXI_WINDOW::AddNode( const char* pcNodeName )
 		api->Trace("Warning! CXI_WINDOW::AddNode(%s) : Node not found", pcNodeName);
 		return;
 	}
-	m_aNodeNameList.Add( pcNodeName );
+	m_aNodeNameList.push_back( pcNodeName );
 
 	pNod->m_bUse = m_bShow;
 	pNod->m_bLockedNode = !m_bActive;
@@ -141,7 +140,7 @@ void CXI_WINDOW::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 		while( pcStr && pcStr[0] )
 		{
 			pcStr = GetSubStr( pcStr, subparam, sizeof(subparam) );
-			m_aNodeNameList.Add( subparam );
+			m_aNodeNameList.push_back( subparam );
 		}
 	} while (ini1->ReadStringNext(name1, "nodelist", param, sizeof(param)));
 

@@ -32,7 +32,7 @@ public:
 		// constructor by doubling
 	TDynamicArray( TDynamicArray & da )
 	{
-		dword q = da.GetSize();
+		dword q = da.Getsize();
 		ResizeBuffer(q);
 		for(dword n=0; n<q; n++)
 			m_pBuffer[n] = da[n];
@@ -48,14 +48,14 @@ public:
 	}
 
 	// block size functions
-	dword	GetBlockSize() {return m_dwBlockSize;}
+	dword	GetBlocksize() {return m_dwBlockSize;}
 	void	SetBlockSize(dword dwNewBlockSize)
 	{
 		if(dwNewBlockSize>0) m_dwBlockSize=dwNewBlockSize;
 	}
 
 	// resize function
-	dword	GetSize() {return m_dwSize;}
+	dword	Getsize() {return m_dwSize;}
 	void	ResizeBuffer(dword dwNewSize)
 	{
 		dword dwNeedReserv = ((dwNewSize-1)/m_dwBlockSize+1)*m_dwBlockSize;
@@ -88,7 +88,7 @@ public:
 	}
 	void	Insert(T & one, int idx)
 	{
-		if(idx<0 || idx>=(int)GetSize()) return; // out of rang
+		if(idx<0 || idx>=(int)Getsize()) return; // out of rang
 		ResizeBuffer(m_dwSize+1);
 		for(int n=m_dwSize; n>idx; n--) m_pBuffer[n] = m_pBuffer[n-1];
 		m_pBuffer[idx] = one;
@@ -133,7 +133,7 @@ public:
 	TThis & operator =(TThis & srcArray)
 	{
 		ReleaseAll();
-		dword q = srcArray.GetSize();
+		dword q = srcArray.Getsize();
 		ResizeBuffer(q);
 		for(dword n=0; n<q; n++) m_pBuffer[n] = srcArray[n];
 		m_dwSize = q;

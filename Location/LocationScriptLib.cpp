@@ -25,7 +25,7 @@ struct LocationFindCacheElement
 	inline long Cmp(const LocationFindCacheElement & v)
 	{
 		if(v.size != size) return false;
-		if(stricmp(v.name, name) == 0) return true;
+		if(_stricmp(v.name, name) == 0) return true;
 		return false;
 	};
 
@@ -64,7 +64,7 @@ inline bool CheckID(VDATA * vd, const char * id, bool & res)
 	if(!a) return true;
 	char * attr = a->GetThisAttr();
 	if(!attr) return true;
-	res = stricmp(attr, id) == 0;
+	res = _stricmp(attr, id) == 0;
 	return true;
 }
 

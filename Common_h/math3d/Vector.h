@@ -205,10 +205,10 @@ public:
 //===========================================================
 
 //Пустой конструктор
-mathinline Vector::Vector(){}
+inline Vector::Vector(){}
 
 //Заполнить числом
-mathinline Vector::Vector(float f)
+inline Vector::Vector(float f)
 {
 	x = f;
 	y = f;
@@ -216,7 +216,7 @@ mathinline Vector::Vector(float f)
 }
 
 //Заполнить числом
-mathinline Vector::Vector(double d)
+inline Vector::Vector(double d)
 {
 	x = float(d);
 	y = float(d);
@@ -224,7 +224,7 @@ mathinline Vector::Vector(double d)
 }
 
 //Заполнить все компоненты
-mathinline Vector::Vector(float x, float y, float z)
+inline Vector::Vector(float x, float y, float z)
 {
 	this->x = x;
 	this->y = y;
@@ -232,7 +232,7 @@ mathinline Vector::Vector(float x, float y, float z)
 }
 
 //Заполнить все компоненты
-mathinline Vector::Vector(const float f[3])
+inline Vector::Vector(const float f[3])
 {
 	x = f[0];
 	y = f[1];
@@ -240,7 +240,7 @@ mathinline Vector::Vector(const float f[3])
 }
 
 //Заполнить все компоненты
-mathinline Vector::Vector(const double d[3])
+inline Vector::Vector(const double d[3])
 {
 	x = float(d[0]);
 	y = float(d[1]);
@@ -248,7 +248,7 @@ mathinline Vector::Vector(const double d[3])
 }
 
 //Конструктор копирования
-mathinline Vector::Vector(const Vector & v)
+inline Vector::Vector(const Vector & v)
 {
 	x = v.x;
 	y = v.y;
@@ -261,13 +261,13 @@ mathinline Vector::Vector(const Vector & v)
 //===========================================================
 
 //Найти квадрат длинны вектора
-mathinline float Vector::operator ~ () const
+inline float Vector::operator ~ () const
 {
 	return x*x + y*y + z*z;
 }
 
 //Вернуть нормализованный вектор
-mathinline Vector Vector::operator ! () const
+inline Vector Vector::operator ! () const
 {
 	Vector v(*this);
 	float length = v.Normalize();
@@ -275,7 +275,7 @@ mathinline Vector Vector::operator ! () const
 	return v;
 }
 
-mathinline Vector Vector::operator - () const
+inline Vector Vector::operator - () const
 {
 	Vector v(*this);
 	v.x = -v.x;
@@ -285,7 +285,7 @@ mathinline Vector Vector::operator - () const
 }
 
 //Присвоить
-mathinline Vector & Vector::operator = (float f)
+inline Vector & Vector::operator = (float f)
 {
 	x = f;
 	y = f;
@@ -294,7 +294,7 @@ mathinline Vector & Vector::operator = (float f)
 }
 
 //Присвоить
-mathinline Vector & Vector::operator = (double d)
+inline Vector & Vector::operator = (double d)
 {
 	x = float(d);
 	y = float(d);
@@ -303,7 +303,7 @@ mathinline Vector & Vector::operator = (double d)
 }
 
 //Присвоить
-mathinline Vector & Vector::operator = (const Vector & v)
+inline Vector & Vector::operator = (const Vector & v)
 {
 	x = v.x;
 	y = v.y;
@@ -312,7 +312,7 @@ mathinline Vector & Vector::operator = (const Vector & v)
 }
 
 //Покомпонентное сложение с присваиванием
-mathinline Vector & Vector::operator += (float f)
+inline Vector & Vector::operator += (float f)
 {
 	x += f;
 	y += f;
@@ -321,7 +321,7 @@ mathinline Vector & Vector::operator += (float f)
 }
 
 //Покомпонентное сложение с присваиванием
-mathinline Vector & Vector::operator += (double d)
+inline Vector & Vector::operator += (double d)
 {
 	x += float(d);
 	y += float(d);
@@ -330,7 +330,7 @@ mathinline Vector & Vector::operator += (double d)
 }
 
 //Покомпонентное сложение с присваиванием
-mathinline Vector & Vector::operator += (const Vector & v)
+inline Vector & Vector::operator += (const Vector & v)
 {
 	x += v.x;
 	y += v.y;
@@ -339,7 +339,7 @@ mathinline Vector & Vector::operator += (const Vector & v)
 }
 
 //Покомпонентное вычитание с присваиванием
-mathinline Vector & Vector::operator -= (float f)
+inline Vector & Vector::operator -= (float f)
 {
 	x -= f;
 	y -= f;
@@ -348,7 +348,7 @@ mathinline Vector & Vector::operator -= (float f)
 }
 
 //Покомпонентное вычитание с присваиванием
-mathinline Vector & Vector::operator -= (double d)
+inline Vector & Vector::operator -= (double d)
 {
 	x -= float(d);
 	y -= float(d);
@@ -357,7 +357,7 @@ mathinline Vector & Vector::operator -= (double d)
 }
 
 //Покомпонентное вычитание с присваиванием
-mathinline Vector & Vector::operator -= (const Vector & v)
+inline Vector & Vector::operator -= (const Vector & v)
 {
 	x -= v.x;
 	y -= v.y;
@@ -366,7 +366,7 @@ mathinline Vector & Vector::operator -= (const Vector & v)
 }
 
 //Покомпонентное умножение с присваиванием
-mathinline Vector & Vector::operator *= (float f)
+inline Vector & Vector::operator *= (float f)
 {
 	x *= f;
 	y *= f;
@@ -375,7 +375,7 @@ mathinline Vector & Vector::operator *= (float f)
 }
 
 //Покомпонентное умножение с присваиванием
-mathinline Vector & Vector::operator *= (double d)
+inline Vector & Vector::operator *= (double d)
 {
 	x *= float(d);
 	y *= float(d);
@@ -384,7 +384,7 @@ mathinline Vector & Vector::operator *= (double d)
 }
 
 //Покомпонентное умножение с присваиванием
-mathinline Vector & Vector::operator *= (const Vector & v)
+inline Vector & Vector::operator *= (const Vector & v)
 {
 	x *= v.x;
 	y *= v.y;
@@ -393,7 +393,7 @@ mathinline Vector & Vector::operator *= (const Vector & v)
 }
 
 //Покомпонентное деление с присваиванием
-mathinline Vector & Vector::operator /= (float f)
+inline Vector & Vector::operator /= (float f)
 {
 	double d = 1.0/f;
 	x = float(x*d);
@@ -403,7 +403,7 @@ mathinline Vector & Vector::operator /= (float f)
 }
 
 //Покомпонентное деление с присваиванием
-mathinline Vector & Vector::operator /= (double d)
+inline Vector & Vector::operator /= (double d)
 {
 	d = 1.0/d;
 	x = float(x*d);
@@ -413,7 +413,7 @@ mathinline Vector & Vector::operator /= (double d)
 }
 
 //Покомпонентное деление с присваиванием
-mathinline Vector & Vector::operator /= (const Vector & v)
+inline Vector & Vector::operator /= (const Vector & v)
 {
 	x /= v.x;
 	y /= v.y;
@@ -423,14 +423,14 @@ mathinline Vector & Vector::operator /= (const Vector & v)
 
 
 //Скалярное перемножение, результат копируется во все компоненты
-mathinline Vector & Vector::operator |= (const Vector & v)
+inline Vector & Vector::operator |= (const Vector & v)
 {
 	x = y = z = v.x*x + v.y*y + v.z*z;
 	return *this;
 }
 
 //Векторное перемножение
-mathinline Vector & Vector::operator ^= (const Vector & v)
+inline Vector & Vector::operator ^= (const Vector & v)
 {
 	float tx = y * v.z - z * v.y;
 	float ty = z * v.x - x * v.z;
@@ -444,7 +444,7 @@ mathinline Vector & Vector::operator ^= (const Vector & v)
 /*!\relates Vector
 Сложить
 */
-mathinline Vector operator + (const Vector & v, float f)
+inline Vector operator + (const Vector & v, float f)
 {
 	Vector tv(v);
 	tv += f;
@@ -454,7 +454,7 @@ mathinline Vector operator + (const Vector & v, float f)
 /*!\relates Vector
 Сложить
 */
-mathinline Vector operator + (float f, const Vector & v)
+inline Vector operator + (float f, const Vector & v)
 {
 	Vector tv(v);
 	tv += f;
@@ -464,7 +464,7 @@ mathinline Vector operator + (float f, const Vector & v)
 /*!\relates Vector
 Сложить
 */
-mathinline Vector operator + (const Vector & v, double d)
+inline Vector operator + (const Vector & v, double d)
 {
 	Vector tv(v);
 	tv += d;
@@ -474,7 +474,7 @@ mathinline Vector operator + (const Vector & v, double d)
 /*!\relates Vector
 Сложить
 */
-mathinline Vector operator + (double d, const Vector & v)
+inline Vector operator + (double d, const Vector & v)
 {
 	Vector tv(v);
 	tv += d;
@@ -484,7 +484,7 @@ mathinline Vector operator + (double d, const Vector & v)
 /*!\relates Vector
 Сложить
 */
-mathinline Vector operator + (const Vector & v1, const Vector & v2)
+inline Vector operator + (const Vector & v1, const Vector & v2)
 {
 	Vector tv(v1);
 	tv += v2;
@@ -494,7 +494,7 @@ mathinline Vector operator + (const Vector & v1, const Vector & v2)
 /*!\relates Vector
 Вычесть
 */
-mathinline Vector operator - (const Vector & v, float f)
+inline Vector operator - (const Vector & v, float f)
 {
 	Vector tv(v);
 	tv -= f;
@@ -504,7 +504,7 @@ mathinline Vector operator - (const Vector & v, float f)
 /*!\relates Vector
 Вычесть
 */
-mathinline Vector operator - (float f, const Vector & v)
+inline Vector operator - (float f, const Vector & v)
 {
 	Vector tv(v);
 	tv -= f;
@@ -514,7 +514,7 @@ mathinline Vector operator - (float f, const Vector & v)
 /*!\relates Vector
 Вычесть
 */
-mathinline Vector operator - (const Vector & v, double d)
+inline Vector operator - (const Vector & v, double d)
 {
 	Vector tv(v);
 	tv -= d;
@@ -524,7 +524,7 @@ mathinline Vector operator - (const Vector & v, double d)
 /*!\relates Vector
 Вычесть
 */
-mathinline Vector operator - (double d, const Vector & v)
+inline Vector operator - (double d, const Vector & v)
 {
 	Vector tv(v);
 	tv -= d;
@@ -534,7 +534,7 @@ mathinline Vector operator - (double d, const Vector & v)
 /*!\relates Vector
 Вычесть
 */
-mathinline Vector operator - (const Vector & v1, const Vector & v2)
+inline Vector operator - (const Vector & v1, const Vector & v2)
 {
 	Vector tv(v1);
 	tv -= v2;
@@ -544,7 +544,7 @@ mathinline Vector operator - (const Vector & v1, const Vector & v2)
 /*!\relates Vector
 Умножить
 */
-mathinline Vector operator * (const Vector & v, float f)
+inline Vector operator * (const Vector & v, float f)
 {
 	Vector tv(v);
 	tv *= f;
@@ -554,7 +554,7 @@ mathinline Vector operator * (const Vector & v, float f)
 /*!\relates Vector
 Умножить
 */
-mathinline Vector operator * (float f, const Vector & v)
+inline Vector operator * (float f, const Vector & v)
 {
 	Vector tv(v);
 	tv *= f;
@@ -564,7 +564,7 @@ mathinline Vector operator * (float f, const Vector & v)
 /*!\relates Vector
 Умножить
 */
-mathinline Vector operator * (const Vector & v, double d)
+inline Vector operator * (const Vector & v, double d)
 {
 	Vector tv(v);
 	tv *= d;
@@ -574,7 +574,7 @@ mathinline Vector operator * (const Vector & v, double d)
 /*!\relates Vector
 Умножить
 */
-mathinline Vector operator * (double d, const Vector & v)
+inline Vector operator * (double d, const Vector & v)
 {
 	Vector tv(v);
 	tv *= d;
@@ -584,7 +584,7 @@ mathinline Vector operator * (double d, const Vector & v)
 /*!\relates Vector
 Умножить
 */
-mathinline Vector operator * (const Vector & v1, const Vector & v2)
+inline Vector operator * (const Vector & v1, const Vector & v2)
 {
 	Vector tv(v1);
 	tv *= v2;
@@ -594,7 +594,7 @@ mathinline Vector operator * (const Vector & v1, const Vector & v2)
 /*!\relates Vector
 Разделить
 */
-mathinline Vector operator / (const Vector & v, float f)
+inline Vector operator / (const Vector & v, float f)
 {
 	Vector tv(v);
 	tv /= f;
@@ -604,7 +604,7 @@ mathinline Vector operator / (const Vector & v, float f)
 /*!\relates Vector
 Разделить
 */
-mathinline Vector operator / (float f, const Vector & v)
+inline Vector operator / (float f, const Vector & v)
 {
 	Vector tv(f);
 	tv /= v;
@@ -614,7 +614,7 @@ mathinline Vector operator / (float f, const Vector & v)
 /*!\relates Vector
 Разделить
 */
-mathinline Vector operator / (const Vector & v, double d)
+inline Vector operator / (const Vector & v, double d)
 {
 	Vector tv(v);
 	tv /= d;
@@ -624,7 +624,7 @@ mathinline Vector operator / (const Vector & v, double d)
 /*!\relates Vector
 Разделить
 */
-mathinline Vector operator / (double d, const Vector & v)
+inline Vector operator / (double d, const Vector & v)
 {
 	Vector tv(d);
 	tv /= v;
@@ -634,7 +634,7 @@ mathinline Vector operator / (double d, const Vector & v)
 /*!\relates Vector
 Разделить
 */
-mathinline Vector operator / (const Vector & v1, const Vector & v2)
+inline Vector operator / (const Vector & v1, const Vector & v2)
 {
 	Vector tv(v1);
 	tv /= v2;
@@ -644,7 +644,7 @@ mathinline Vector operator / (const Vector & v1, const Vector & v2)
 /*!\relates Vector
 Скалярное перемножение
 */
-mathinline float operator | (const Vector & v1, const Vector & v2)
+inline float operator | (const Vector & v1, const Vector & v2)
 {	
 	return v1.x*v2.x + v1.y*v2.y + v1.z*v2.z;
 }
@@ -652,7 +652,7 @@ mathinline float operator | (const Vector & v1, const Vector & v2)
 /*!\relates Vector
 Векторное перемножение
 */
-mathinline Vector operator ^ (const Vector & v1, const Vector & v2)
+inline Vector operator ^ (const Vector & v1, const Vector & v2)
 {
 	Vector v;
 	v.x = v1.y*v2.z - v1.z*v2.y;
@@ -664,7 +664,7 @@ mathinline Vector operator ^ (const Vector & v1, const Vector & v2)
 /*!\relates Vector
 Сравнить покомпонентно
 */
-mathinline bool operator > (const Vector & v1, const Vector & v2)
+inline bool operator > (const Vector & v1, const Vector & v2)
 {
 	if(v1.x > v2.x && v1.y > v2.y && v1.z > v2.z) return true;	
 	return false;
@@ -673,7 +673,7 @@ mathinline bool operator > (const Vector & v1, const Vector & v2)
 /*!\relates Vector
 Сравнить покомпонентно
 */
-mathinline bool operator >= (const Vector & v1, const Vector & v2)
+inline bool operator >= (const Vector & v1, const Vector & v2)
 {
 	if(v1.x >= v2.x && v1.y >= v2.y && v1.z >= v2.z) return true;	
 	return false;
@@ -682,7 +682,7 @@ mathinline bool operator >= (const Vector & v1, const Vector & v2)
 /*!\relates Vector
 Сравнить покомпонентно
 */
-mathinline bool operator < (const Vector & v1, const Vector & v2)
+inline bool operator < (const Vector & v1, const Vector & v2)
 {
 	if(v1.x < v2.x && v1.y < v2.y && v1.z < v2.z) return true;	
 	return false;
@@ -691,7 +691,7 @@ mathinline bool operator < (const Vector & v1, const Vector & v2)
 /*!\relates Vector
 Сравнить покомпонентно
 */
-mathinline bool operator <= (const Vector & v1, const Vector & v2)
+inline bool operator <= (const Vector & v1, const Vector & v2)
 {
 	if(v1.x <= v2.x && v1.y <= v2.y && v1.z <= v2.z) return true;	
 	return false;
@@ -700,7 +700,7 @@ mathinline bool operator <= (const Vector & v1, const Vector & v2)
 /*!\relates Vector
 Сравнить покомпонентно
 */
-mathinline bool operator == (const Vector & v1, const Vector & v2)
+inline bool operator == (const Vector & v1, const Vector & v2)
 {
 	if(fabsf(v1.x - v2.x) < 1e-34f && fabsf(v1.y - v2.y) < 1e-34f && fabsf(v1.z - v2.z) < 1e-34f) return true;
 	return false;
@@ -709,7 +709,7 @@ mathinline bool operator == (const Vector & v1, const Vector & v2)
 /*!\relates Vector
 Сравнить покомпонентно
 */
-mathinline bool operator != (const Vector & v1, const Vector & v2)
+inline bool operator != (const Vector & v1, const Vector & v2)
 {	
 	return !(v1 == v2);
 }
@@ -719,7 +719,7 @@ mathinline bool operator != (const Vector & v1, const Vector & v2)
 //===========================================================
 
 //Нормализовать вектор, и вернуть его бывшую длинну
-mathinline float Vector::Normalize()
+inline float Vector::Normalize()
 {
 	double len = sqrt(double(x)*double(x) + double(y)*double(y) + double(z)*double(z));
 	if(len > 0.0)
@@ -733,7 +733,7 @@ mathinline float Vector::Normalize()
 }
 
 //Спроецировать на плоскость XZ и нормализовать
-mathinline float Vector::Normalize2D()
+inline float Vector::Normalize2D()
 {
 	y = 0.0f;
 	double len = sqrt(double(x)*double(x) + double(z)*double(z));
@@ -747,7 +747,7 @@ mathinline float Vector::Normalize2D()
 }
 
 //Ограничить длинну вектора, и вернуть текущую длинну
-mathinline float Vector::ClampLength(float clampValue)
+inline float Vector::ClampLength(float clampValue)
 {
 	if(clampValue <= 0.0f)
 	{
@@ -767,7 +767,7 @@ mathinline float Vector::ClampLength(float clampValue)
 }
 
 //Ограничить компоненту X диапазоном
-mathinline Vector & Vector::ClampX(float min, float max)
+inline Vector & Vector::ClampX(float min, float max)
 {
 	if(x < min) x = min;
 	if(x > max) x = max;
@@ -775,7 +775,7 @@ mathinline Vector & Vector::ClampX(float min, float max)
 }
 
 //Ограничить компоненту Y диапазоном
-mathinline Vector & Vector::ClampY(float min, float max)
+inline Vector & Vector::ClampY(float min, float max)
 {
 	if(y < min) y = min;
 	if(y > max) y = max;
@@ -783,7 +783,7 @@ mathinline Vector & Vector::ClampY(float min, float max)
 }
 
 //Ограничить компоненту Z диапазоном
-mathinline Vector & Vector::ClampZ(float min, float max)
+inline Vector & Vector::ClampZ(float min, float max)
 {
 	if(z < min) z = min;
 	if(z > max) z = max;
@@ -791,7 +791,7 @@ mathinline Vector & Vector::ClampZ(float min, float max)
 }
 
 //Ограничить компоненты диапазоном
-mathinline Vector & Vector::Clamp(float min, float max)
+inline Vector & Vector::Clamp(float min, float max)
 {
 	if(x < min) x = min;
 	if(x > max) x = max;
@@ -803,7 +803,7 @@ mathinline Vector & Vector::Clamp(float min, float max)
 }
 
 //Сохранить в векторе минимальные компаненты
-mathinline Vector & Vector::Min(const Vector & v)
+inline Vector & Vector::Min(const Vector & v)
 {
 	if(x > v.x) x = v.x;
 	if(y > v.y) y = v.y;
@@ -812,7 +812,7 @@ mathinline Vector & Vector::Min(const Vector & v)
 }
 
 //Сохранить в векторе максимальные компаненты
-mathinline Vector & Vector::Max(const Vector & v)
+inline Vector & Vector::Max(const Vector & v)
 {
 	if(x < v.x) x = v.x;
 	if(y < v.y) y = v.y;
@@ -826,7 +826,7 @@ mathinline Vector & Vector::Max(const Vector & v)
 //===========================================================
 
 //Установить новые значения
-mathinline Vector & Vector::Set(float x, float y, float z)
+inline Vector & Vector::Set(float x, float y, float z)
 {
 	this->x = x;
 	this->y = y;
@@ -835,7 +835,7 @@ mathinline Vector & Vector::Set(float x, float y, float z)
 }
 
 //Установить новые значения
-mathinline Vector & Vector::Set(const Vector & v)
+inline Vector & Vector::Set(const Vector & v)
 {
 	x = v.x;
 	y = v.y;
@@ -844,7 +844,7 @@ mathinline Vector & Vector::Set(const Vector & v)
 }
 
 //Получить угол между векторами
-mathinline float Vector::GetAngle(const Vector & v) const
+inline float Vector::GetAngle(const Vector & v) const
 {
 	double len = double(x)*double(x) + double(y)*double(y) + double(z)*double(z);
 	len *= double(x)*double(x) + double(y)*double(y) + double(z)*double(z);
@@ -856,7 +856,7 @@ mathinline float Vector::GetAngle(const Vector & v) const
 }
 
 ///Получить знаковый угол между векторами в плоскости XZ
-mathinline float Vector::GetAngle2D(const Vector & v) const
+inline float Vector::GetAngle2D(const Vector & v) const
 {
 	double len = double(x)*double(x) + double(z)*double(z);
 	len *= double(v.x)*double(v.x) + double(v.z)*double(v.z);
@@ -870,7 +870,7 @@ mathinline float Vector::GetAngle2D(const Vector & v) const
 }
 
 //Получить угол поворота вектора вокруг оси Y
-mathinline float Vector::GetAY(float defAngle) const
+inline float Vector::GetAY(float defAngle) const
 {
 	double len = double(x)*double(x) + double(z)*double(z);
 	if(len > 0.00000000001)
@@ -885,7 +885,7 @@ mathinline float Vector::GetAY(float defAngle) const
 }
 
 //Получить синус между 2D векторами в плоскости XZ
-mathinline float Vector::Sin2D(const Vector & v) const
+inline float Vector::Sin2D(const Vector & v) const
 {
 	double len = double(x)*double(x) + double(z)*double(z);
 	len *= double(v.x)*double(v.x) + double(v.z)*double(v.z);
@@ -895,7 +895,7 @@ mathinline float Vector::Sin2D(const Vector & v) const
 }
 
 //Получить косинус между 2D векторами в плоскости XZ
-mathinline float Vector::Cos2D(const Vector & v) const
+inline float Vector::Cos2D(const Vector & v) const
 {
 	double len = double(x)*double(x) + double(z)*double(z);
 	len *= double(v.x)*double(v.x) + double(v.z)*double(v.z);
@@ -905,25 +905,25 @@ mathinline float Vector::Cos2D(const Vector & v) const
 }
 
 //Получить векторное произведение векторов в плоскости XZ
-mathinline float Vector::Cross2D(const Vector & v) const
+inline float Vector::Cross2D(const Vector & v) const
 {
 	return z*v.x - x*v.z;
 }
 
 //Получить вектор в плоскости XZ
-mathinline Vector Vector::Get2D() const
+inline Vector Vector::Get2D() const
 {
 	return Vector(x, 0.0f, z);
 }
 
 ///Получить вектор в плоскости XZ
-mathinline Vector Vector::Get2D(float y) const
+inline Vector Vector::Get2D(float y) const
 {
 	return Vector(x, y, z);
 }
 
 //Сформировать вектор в плоскости XZ по угло
-mathinline Vector & Vector::Make2D(float ay)
+inline Vector & Vector::Make2D(float ay)
 {
 	x = sinf(ay);
 	y = 0.0f;
@@ -932,31 +932,31 @@ mathinline Vector & Vector::Make2D(float ay)
 }
 
 //Получить длинну вектора
-mathinline float Vector::GetLength() const
+inline float Vector::GetLength() const
 {
 	return float(sqrt(double(x)*double(x) + double(y)*double(y) + double(z)*double(z)));
 }
 
 //Получить длинну вектора в 2D
-mathinline float Vector::GetLength2D() const
+inline float Vector::GetLength2D() const
 {
 	return float(sqrt(double(x)*double(x) + double(z)*double(z)));
 }
 
 ///Получить квадрат длинны вектора в 2D
-mathinline float Vector::GetLength2D2() const
+inline float Vector::GetLength2D2() const
 {
 	return x*x + z*z;
 }
 
 //Повернуть вектор в плоскости XZ на угол
-mathinline Vector & Vector::Rotate(float angle)
+inline Vector & Vector::Rotate(float angle)
 {
 	return Rotate(cosf(angle), sinf(angle));
 }
 
 //Повернуть вектор в плоскости XZ на угол заданный cos, sin
-mathinline Vector & Vector::Rotate(float vcos, float vsin)
+inline Vector & Vector::Rotate(float vcos, float vsin)
 {
 	float tx = x*vcos + z*vsin;
 	float tz = z*vcos - x*vsin;
@@ -965,7 +965,7 @@ mathinline Vector & Vector::Rotate(float vcos, float vsin)
 }
 
 //Повернуть вектор по часовой стрелке в плоскости XZ на угол PI/2
-mathinline Vector & Vector::Rotate_PI2_CW()
+inline Vector & Vector::Rotate_PI2_CW()
 {
 	float t = x;
 	x = z;
@@ -974,7 +974,7 @@ mathinline Vector & Vector::Rotate_PI2_CW()
 }
 
 //Повернуть вектор против часовой стрелке в плоскости XZ на угол PI/2
-mathinline Vector & Vector::Rotate_PI2_CCW()
+inline Vector & Vector::Rotate_PI2_CCW()
 {
 	float t = x;
 	x = -z;
@@ -983,7 +983,7 @@ mathinline Vector & Vector::Rotate_PI2_CCW()
 }
 
 //Расчитать линейноинтерпалированное значение
-mathinline Vector & Vector::Lerp(const Vector & v1, const Vector & v2, float kBlend)
+inline Vector & Vector::Lerp(const Vector & v1, const Vector & v2, float kBlend)
 {
 	x = v1.x + (v2.x - v1.x)*kBlend;
 	y = v1.y + (v2.y - v1.y)*kBlend;
@@ -992,7 +992,7 @@ mathinline Vector & Vector::Lerp(const Vector & v1, const Vector & v2, float kBl
 }
 
 //Расчитать отражённый вектор
-mathinline Vector & Vector::Reflection(const Vector & normal)
+inline Vector & Vector::Reflection(const Vector & normal)
 {
 	float k = -2.0f*(x*normal.x + y*normal.y + z*normal.z);
 	x += normal.x*k;
@@ -1002,7 +1002,7 @@ mathinline Vector & Vector::Reflection(const Vector & normal)
 }
 
 //Заполнить единичным вектором со случайным направлением
-mathinline Vector & Vector::Rand()
+inline Vector & Vector::Rand()
 {
 	Make2D(rand()*((2.0f*3.141592654f)/RAND_MAX));
 	y = z; z = 0.0f;
@@ -1010,13 +1010,13 @@ mathinline Vector & Vector::Rand()
 }
 
 //Заполнить единичным вектором со случайным направлением в XZ
-mathinline Vector & Vector::Rand2D()
+inline Vector & Vector::Rand2D()
 {
 	return Make2D(rand()*((2.0f*3.141592654f)/RAND_MAX));
 }
 
 ///Заполнить случайными значениями в заданном ABB
-mathinline Vector & Vector::Rand(const Vector & min, const Vector & max)
+inline Vector & Vector::Rand(const Vector & min, const Vector & max)
 {
 	x = min.x + rand()*((max.x - min.x)*(1.0f/RAND_MAX));
 	y = min.y + rand()*((max.y - min.y)*(1.0f/RAND_MAX));
@@ -1025,7 +1025,7 @@ mathinline Vector & Vector::Rand(const Vector & min, const Vector & max)
 }
 
 ///Заполнить случайными значениями в заданной сфере
-mathinline Vector & Vector::Rand(const Vector & pos, float radius)
+inline Vector & Vector::Rand(const Vector & pos, float radius)
 {
 	Rand();
 	*this *= rand()*(radius*(1.0f/RAND_MAX));
@@ -1033,7 +1033,7 @@ mathinline Vector & Vector::Rand(const Vector & pos, float radius)
 }
 
 //Переместить текущий вектор к заданной точке на заданный шаг
-mathinline bool Vector::MoveByStep(const Vector & to, float step)
+inline bool Vector::MoveByStep(const Vector & to, float step)
 {
 	if(step <= 0.0f) return false;
 	//Дистанция до точки
@@ -1065,7 +1065,7 @@ mathinline bool Vector::MoveByStep(const Vector & to, float step)
 }
 
 //Переместить текущий вектор к заданной точке на заданный шаг в 2D
-mathinline bool Vector::MoveByStep2D(const Vector & to, float step)
+inline bool Vector::MoveByStep2D(const Vector & to, float step)
 {
 	if(step <= 0.0f) return false;
 	//Дистанция до точки
@@ -1093,7 +1093,7 @@ mathinline bool Vector::MoveByStep2D(const Vector & to, float step)
 }
 
 //Точка находиться в ящике
-mathinline bool Vector::InBox(const Vector & min, const Vector & max) const
+inline bool Vector::InBox(const Vector & min, const Vector & max) const
 {
 	if(y < min.y || y > max.y) return false;
 	if(x < min.x || x > max.x) return false;
@@ -1102,7 +1102,7 @@ mathinline bool Vector::InBox(const Vector & min, const Vector & max) const
 }
 
 //Точка находиться в шаре
-mathinline bool Vector::InSphere(const Vector & pos, float rad) const
+inline bool Vector::InSphere(const Vector & pos, float rad) const
 {
 	double d = (x - pos.x)*(x - pos.x);
 	d += (y - pos.y)*(y - pos.y);

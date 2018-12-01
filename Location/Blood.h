@@ -6,7 +6,7 @@
 #include "..\common_h\dx9render.h"
 #include "..\common_h\collide.h"
 #include "..\common_h\defines.h"
-#include "..\common_h\templates\array.h"
+#include <vector>
 
 #define MAX_BLOOD_TRIANGLES			10000
 #define ON_LIVETIME_BLOOD_TRIANGLES	(MAX_BLOOD_TRIANGLES*3/4)
@@ -61,9 +61,9 @@ protected:
 	long nStartT;
 	long nUsedTQ;
 
-	array<BloodInfo> aBlood;
+	std::vector<BloodInfo> aBlood;
 
-	array<ENTITY_ID> aModels;
+	std::vector<ENTITY_ID> aModels;
 
 	static ClipTriangle clipT[MAX_CLIPPING_TRIANGLES];
 	static long nClipTQ;

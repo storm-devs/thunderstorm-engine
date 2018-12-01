@@ -4,6 +4,7 @@
 #include "..\\defines.h"
 #include "..\xinterface.h"
 #include "xi_scroller.h"
+#include "../../common_h/defines.h"
 
 static void SubRightWord(char* buf,int fontNum,int width,VDX9RENDER *rs)
 {
@@ -19,8 +20,7 @@ static void SubRightWord(char* buf,int fontNum,int width,VDX9RENDER *rs)
 	}
 }
 
-CXI_FORMATEDTEXT::STRING_DESCRIBER::STRING_DESCRIBER(char* ls) : color(0),
-                                                                 m_tags(_FL)
+CXI_FORMATEDTEXT::STRING_DESCRIBER::STRING_DESCRIBER(char* ls) : color(0)
 {
 	long sdStrSize = strlen(ls);
 	if (sdStrSize == 0)
@@ -29,7 +29,7 @@ CXI_FORMATEDTEXT::STRING_DESCRIBER::STRING_DESCRIBER(char* ls) : color(0),
 	{
 		if ((lineStr = NEW char[sdStrSize + 1]) == NULL)
 		{
-			_THROW("allocate memory error");
+			STORM_THROW("allocate memory error");
 		}
 		strcpy(lineStr, ls);
 	}
@@ -46,7 +46,7 @@ CXI_FORMATEDTEXT::STRING_DESCRIBER* CXI_FORMATEDTEXT::STRING_DESCRIBER::Add(char
 	STRING_DESCRIBER* newSD = NEW STRING_DESCRIBER(ls);
 	if(newSD==NULL)
 	{
-		_THROW("allocate memory error");
+		STORM_THROW("allocate memory error");
 	}
 
 	newSD->prev = this;
@@ -58,8 +58,7 @@ CXI_FORMATEDTEXT::STRING_DESCRIBER* CXI_FORMATEDTEXT::STRING_DESCRIBER::Add(char
 	return newSD;
 }
 
-CXI_FORMATEDTEXT::CXI_FORMATEDTEXT() :
-	m_asSyncNodes(_FL)
+CXI_FORMATEDTEXT::CXI_FORMATEDTEXT() 
 {
 	m_nNodeType = NODETYPE_FORMATEDTEXTS;
 
@@ -151,27 +150,27 @@ void CXI_FORMATEDTEXT::Draw(bool bSelected,dword Delta_Time)
 		// отобразить строки
 		if(sd->lineStr!=NULL && sd->lineStr[0]!=0)
 		{
-			if( sd->m_tags.Size() == 0 )
+			if( sd->m_tags.size() == 0 )
 				m_rs->ExtPrint(m_idFont,sd->color,0,m_nAlignment,true,m_fFontScale,m_screenSize.x,m_screenSize.y, m_nPrintLeftOffset,curY,
 				"%s",sd->lineStr);
 			else
 			{
 				long nX = m_nPrintLeftOffset;
-				array<long> anWidth(_FL);
+				std::vector<long> anWidth;
 				long nAllWidth = 0;
-				for( long n=0; n<sd->m_tags; n++ )
+				for( long n=0; n<sd->m_tags.size(); n++ )
 				{
-					long nCurWidth = m_rs->StringWidth( (char*)sd->m_tags[n].str.GetBuffer(), m_idFont, m_fFontScale );
-					anWidth.Add( nCurWidth );
+					long nCurWidth = m_rs->StringWidth( (char*)sd->m_tags[n].str.c_str(), m_idFont, m_fFontScale );
+					anWidth.push_back( nCurWidth );
 					nAllWidth += nCurWidth;
 				}
 				if( m_nAlignment == ALIGN_CENTER ) nX -= nAllWidth/2;
 				if( m_nAlignment == ALIGN_RIGHT ) nX -= nAllWidth;
-				for( long n=0; n<sd->m_tags; n++ )
+				for( long n=0; n<sd->m_tags.size(); n++ )
 				{
 					m_rs->ExtPrint(m_idFont,sd->m_tags[n].dwColor,0,ALIGN_LEFT,true,m_fFontScale,m_screenSize.x,m_screenSize.y, nX,curY,
-						"%s",sd->m_tags[n].str.GetBuffer());
-					nX += anWidth[n];//m_rs->StringWidth( (char*)sd->m_tags[n].str.GetBuffer(), m_idFont, m_fFontScale );
+						"%s",sd->m_tags[n].str.c_str());
+					nX += anWidth[n];//m_rs->StringWidth( (char*)sd->m_tags[n].str.c_str(), m_idFont, m_fFontScale );
 				}
 			}
 		}
@@ -195,9 +194,9 @@ void CXI_FORMATEDTEXT::ReleaseAll()
 	TEXTURE_RELEASE(m_rs,m_idUpDisableTexture);
 	TEXTURE_RELEASE(m_rs,m_idDownEnableTexture);
 	TEXTURE_RELEASE(m_rs,m_idDownDisableTexture);
-	PTR_DELETE(m_sScrollerName);
+	PTR_STORM_DELETE(m_sScrollerName);
 	ReleaseStringes();
-	m_asSyncNodes.DelAll();
+	m_asSyncNodes.clear();
 }
 
 int CXI_FORMATEDTEXT::CommandExecute(int wActCode)
@@ -403,9 +402,9 @@ void CXI_FORMATEDTEXT::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 
@@ -438,8 +437,8 @@ void CXI_FORMATEDTEXT::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 	}
 
 	ReadIniString(ini1,name1, ini2,name2, "alignment", param, sizeof(param),"left");
-	if( stricmp(param,"center")==0 )	m_nAlignment = ALIGN_CENTER;
-	else if( stricmp(param,"right")==0 )	m_nAlignment = ALIGN_RIGHT;
+	if( _stricmp(param,"center")==0 )	m_nAlignment = ALIGN_CENTER;
+	else if( _stricmp(param,"right")==0 )	m_nAlignment = ALIGN_RIGHT;
 	else	m_nAlignment = ALIGN_LEFT;
 
 	m_leftOffset = GetIniLong(ini1,name1, ini2,name2, "leftoffset");
@@ -580,7 +579,7 @@ void CXI_FORMATEDTEXT::ReleaseString( STRING_DESCRIBER * pCur )
 	if( pCur->next ) pCur->next->prev = pCur->prev;
 	pCur->next = pCur->prev = 0;
 	m_nAllTextStrings--;
-	PTR_DELETE( pCur->lineStr );
+	PTR_STORM_DELETE( pCur->lineStr );
 	delete pCur;
 }
 
@@ -702,8 +701,8 @@ void CXI_FORMATEDTEXT::SetFormatedText(char * str)
 	{
 		m_listCur = m_listRoot;
 		m_listRoot = m_listRoot->next;
-		PTR_DELETE(m_listCur->lineStr);
-		PTR_DELETE(m_listCur);
+		PTR_STORM_DELETE(m_listCur->lineStr);
+		PTR_STORM_DELETE(m_listCur);
 	}
 	m_nStringGroupQuantity = 0;
 	m_nAllTextStrings = 0;
@@ -801,7 +800,7 @@ long CXI_FORMATEDTEXT::AddFormatedText(const char * str)
 		{
 			if( (dscrTmp=m_listRoot=NEW STRING_DESCRIBER(newStr)) == NULL )
 			{
-				_THROW("allocate memory error");
+				STORM_THROW("allocate memory error");
 			}
 			dscrTmp->color = m_dwColor;
 		}
@@ -821,7 +820,7 @@ long CXI_FORMATEDTEXT::AddFormatedText(const char * str)
 			{
 				if( (dscrTmp=m_listRoot=NEW STRING_DESCRIBER(newStr)) == NULL )
 				{
-					_THROW("allocate memory error");
+					STORM_THROW("allocate memory error");
 				}
 				dscrTmp->color = m_dwColor;
 			}
@@ -896,10 +895,8 @@ void CXI_FORMATEDTEXT::MakeTagChecking( bool& tagState, dword& tagColor, dword n
 				tmp[n] = tagBegin[n];
 			}
 			tmp[n] = 0;
-			n = pStrDescr->m_tags.Add();
-			if( tagState ) pStrDescr->m_tags[n].dwColor = normColor;
-			else pStrDescr->m_tags[n].dwColor = tagColor;
-			pStrDescr->m_tags[n].str = tmp;
+			//n = pStrDescr->m_tags.Add();
+			pStrDescr->m_tags.push_back(STRING_DESCRIBER::TagInfo{ tagState ? normColor : tagColor, tmp });
 
 			tagBegin = str;
 		}
@@ -915,10 +912,11 @@ void CXI_FORMATEDTEXT::MakeTagChecking( bool& tagState, dword& tagColor, dword n
 			tmp[n] = tagBegin[n];
 		}
 		tmp[n] = 0;
-		n = pStrDescr->m_tags.Add();
-		if( tagState ) pStrDescr->m_tags[n].dwColor = normColor;
-		else pStrDescr->m_tags[n].dwColor = tagColor;
-		pStrDescr->m_tags[n].str = tmp;
+		//n = pStrDescr->m_tags.Add();
+		//if( tagState ) pStrDescr->m_tags[n].dwColor = normColor;
+		//else pStrDescr->m_tags[n].dwColor = tagColor;
+		//pStrDescr->m_tags[n].str = tmp;
+		pStrDescr->m_tags.push_back(STRING_DESCRIBER::TagInfo{ tagState ? normColor : tagColor, tmp });
 	}
 }
 
@@ -1278,8 +1276,8 @@ void CXI_FORMATEDTEXT::SetSpecialStrings(ATTRIBUTES * pARoot)
 	{
 		m_listCur = m_listRoot;
 		m_listRoot = m_listRoot->next;
-		PTR_DELETE(m_listCur->lineStr);
-		PTR_DELETE(m_listCur);
+		PTR_STORM_DELETE(m_listCur->lineStr);
+		PTR_STORM_DELETE(m_listCur);
 	}
 	m_nStringGroupQuantity = 0;
 	m_nAllTextStrings = 0;
@@ -1306,9 +1304,9 @@ void CXI_FORMATEDTEXT::SetSpecialStrings(ATTRIBUTES * pARoot)
 
 void CXI_FORMATEDTEXT::ControlSyncronouseNodes()
 {
-	for( long n=0; n<(long)m_asSyncNodes.Size(); n++ )
+	for( long n=0; n<(long)m_asSyncNodes.size(); n++ )
 	{
-		CINODE * pNode = ((XINTERFACE*)g_idInterface.pointer)->FindNode( m_asSyncNodes[n], 0 );
+		CINODE * pNode = ((XINTERFACE*)g_idInterface.pointer)->FindNode( m_asSyncNodes[n].c_str(), 0 );
 		if( !pNode ) continue;
 		switch( pNode->m_nNodeType )
 		{
@@ -1395,7 +1393,7 @@ void CXI_FORMATEDTEXT::InsertStringBefore( STRING_DESCRIBER * pNextDescr, const 
 	while( GetLineNext(m_idFont,pstr,newStr,sizeof(newStr)) )
 	{
 		STRING_DESCRIBER * pNewDescr = NEW STRING_DESCRIBER(newStr);
-		if( !pNewDescr ) {_THROW("allocate memory error");}
+		if( !pNewDescr ) {STORM_THROW("allocate memory error");}
 
 		pNewDescr->strNum = -1;
 		pNewDescr->strGroup = nGrpNum;

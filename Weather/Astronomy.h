@@ -2,6 +2,7 @@
 #define ASTRONOMY_HPP
 
 #include "typedef.h"
+#include <vector>
 
 class Astronomy : public ENTITY
 {
@@ -35,7 +36,7 @@ private:
 			float	fMagMax, fMagMin;
 		};
 
-		array<Planet>	aPlanets;
+		std::vector<Planet>	aPlanets;
 		float			fPlanetScale;
 
 		float fPlanetFade;
@@ -69,7 +70,7 @@ private:
 		inline bool IsEnable() { return bEnable; };
 
 	private:
-		string sCatalog, sTexture;
+		std::string sCatalog, sTexture;
 		float fRadius, fSize, fHeightFade, fSunFade;
 		float fVisualMagnitude, fTelescopeMagnitude;
 		long iTexture;
@@ -90,7 +91,7 @@ private:
 		};
 
 		dword Spectr[256];
-		array<Star> aStars;
+		std::vector<Star> aStars;
 
 		float fFadeValue;
 		float fFadeTimeStart;

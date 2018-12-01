@@ -89,7 +89,7 @@ const char * UserData::GetData(const char * dataName)
 	for(long i = 0; i < numData; i++)	
 		if(data[i].hashCode == hash)
 		{
-			if(stricmp(dataName, strings + data[i].name) == 0)
+			if(_stricmp(dataName, strings + data[i].name) == 0)
 					return strings + data[i].data;
 		}	
 	return null;

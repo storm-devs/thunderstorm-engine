@@ -13,10 +13,11 @@
 #include <stdio.h>
 #include "..\..\common_h\exs.h"
 #include "..\..\common_h\particles\iparticlemanager.h"
-#include "..\..\common_h\templates.h"
 
 #include "..\system\ParticleProcessor\mdl_processor.h"
 #include "..\system\ParticleProcessor\bb_processor.h"
+#include <string>
+#include <vector>
 
 
 class ParticleService;
@@ -31,7 +32,7 @@ class ParticleManager : public IParticleManager
 {
 	struct CacheReloadedInfo
 	{
-		string Name;
+		std::string Name;
 		bool AutoDeleted;
 		Matrix matWorld;
 	};
@@ -44,7 +45,7 @@ class ParticleManager : public IParticleManager
 		ParticleSystem* pSystem;
 	};
 
-	array<SystemDesc> Systems;
+	std::vector<SystemDesc> Systems;
 
 	//Процессор для партиклов моделей
 	ModelProcessor* MDL_Processor;
@@ -57,8 +58,8 @@ class ParticleManager : public IParticleManager
 	DataCache* pDataCache;
 	GeomCache* pGeomCache;
 
-	string ShortProjectName;
-	string TextureName;
+	std::string ShortProjectName;
+	std::string TextureName;
 
 	//Сервис который родил систему
 	ParticleService* pService;
@@ -76,7 +77,7 @@ class ParticleManager : public IParticleManager
 	DWORD ActiveModelParticles;
 
 
-	array<ParticleSystem*> DeleteQuery;
+	std::vector<ParticleSystem*> DeleteQuery;
 
 
 protected:
@@ -87,7 +88,7 @@ protected:
  ParticleSystem* CreateParticleSystemFromDataSource (DataSource* pDataSource);
 
  DWORD IteratorIndex;
- array<string> EnumUsedGeom;
+ std::vector<std::string> EnumUsedGeom;
 
  bool FindInEnumUsedGeom (const char* GeomName);
 

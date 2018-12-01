@@ -76,7 +76,7 @@ dword S_DEFTAB::AddDef(DEFINFO& di)
 	for(n=0;n<Def_num;n++)
 	{
 		if(pTable[n].hash == hash)
-		if(stricmp(pTable[n].name,di.name)==0)
+		if(_stricmp(pTable[n].name,di.name)==0)
 		{
 			// define with such name already registred,
 			if(pTable[n].segment_id == INVALID_SEGMENT_ID)
@@ -177,7 +177,7 @@ dword S_DEFTAB::FindDef(char * def_name)
 	{
 		ni = HashLine[hash_index].pElements[n];
 		if(pTable[ni].hash == hash) //return n;
-		if(stricmp(pTable[ni].name,def_name)==0) return ni;
+		if(_stricmp(pTable[ni].name,def_name)==0) return ni;
 	}
 	return INVALID_DEF_CODE;
 

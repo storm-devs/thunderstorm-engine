@@ -3,6 +3,7 @@
 
 #include "Typedef.h"
 #include "..\common_h\Weather_base.h"
+#include <vector>
 
 #define MAX_LIGHTNING_TEXTURES		2
 
@@ -33,7 +34,7 @@ class LIGHTNING : public ENTITY
 		flash_t		Flash;
 	};
 
-	array<lightning_t>	aLightnings;
+	std::vector<lightning_t>	aLightnings;
 
 	dword			dwSubTexX, dwSubTexY;
 	long			iLightningTexture, iFlashTexture;

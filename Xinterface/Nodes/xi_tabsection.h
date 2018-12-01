@@ -24,7 +24,7 @@ protected:
 	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);
 	void	UpdateImage();
 
-	string m_sIconGroupName;
+	std::string m_sIconGroupName;
 	long m_idIconTexture;
 	long m_idVBuf;
 	long m_idIBuf;

@@ -1,9 +1,7 @@
 #include "imgrender.h"
 #include "string.h"
 
-BIImageRender::BIImageRender(VDX9RENDER* pRS) :
-	m_apMaterial(_FL),
-	m_apStrings(_FL)
+BIImageRender::BIImageRender(VDX9RENDER* pRS)
 {
 	m_pRS = pRS;
 	m_fHScale = m_fVScale = 1.f;
@@ -20,10 +18,10 @@ void BIImageRender::Render()
 	if( GetFirstPrioritetRange() ) do {
 		CutPrioritetRangeByStrings();
 
-		for( long n=0; n<m_apMaterial; n++ )
+		for( long n=0; n<m_apMaterial.size(); n++ )
 			m_apMaterial[n]->Render(m_nBeginOutputPrioritet, m_nEndOutputPrioritet);
 
-		for( long n=0; n<m_apStrings; n++ )
+		for( long n=0; n<m_apStrings.size(); n++ )
 			((BIString*)m_apStrings[n])->RenderPrioritetRange(m_nBeginOutputPrioritet, m_nEndOutputPrioritet);
 
 	} while( GetNextPrioritetRange() );
@@ -52,7 +50,7 @@ IBIImage* BIImageRender::CreateImage( BIImageType type, const char* pcTextureNam
 
 BIImageMaterial* BIImageRender::FindMaterial( const char* pcTextureName, const char* pcTechniqueName )
 {
-	for( long n=0; n<m_apMaterial; n++ )
+	for( long n=0; n<m_apMaterial.size(); n++ )
 		if( m_apMaterial[n]->IsUseTexture(pcTextureName) &&
 			m_apMaterial[n]->IsUseTechnique(pcTechniqueName) )
 			return m_apMaterial[n];
@@ -70,32 +68,36 @@ BIImageMaterial* BIImageRender::CreateMaterial( const char* pcTextureName, const
 		pMaterial->SetTechnique( pcTechniqueName );
 		pMaterial->UpdateFlagOn();
 		long n;
-		for( n=0; n<m_apMaterial; n++ )
+		for( n=0; n<m_apMaterial.size(); n++ )
 			if( m_apMaterial[n]->GetMinPrioritet() > pMaterial->GetMinPrioritet() )
 				break;
-		m_apMaterial.Insert(n);
-		m_apMaterial[n] = pMaterial;
+		m_apMaterial.insert(m_apMaterial.begin() + n, pMaterial);
+		//m_apMaterial.Insert(n);
+		//m_apMaterial[n] = pMaterial;
 	}
 	return pMaterial;
 }
 
 void BIImageRender::DeleteMaterial( BIImageMaterial* pMat )
 {
-	long n = m_apMaterial.Find( pMat );
-	if( n >= 0 )
-		m_apMaterial.DelIndex( n );
+	//long n = m_apMaterial.Find( pMat );
+	//if( n >= 0 )
+	//	m_apMaterial.DelIndex( n );
+	auto it = std::find(m_apMaterial.begin(), m_apMaterial.end(), pMat);
+	if (it != m_apMaterial.end())
+		m_apMaterial.erase(it);
 }
 
 void BIImageRender::ReleaseAllImages()
 {
-	for( long n=0; n<m_apMaterial; n++ )
+	for( long n=0; n<m_apMaterial.size(); n++ )
 		m_apMaterial[n]->ReleaseAllImages();
 }
 
 long BIImageRender::GetImageQuantity()
 {
 	long nRetVal = 0;
-	for( long n=0; n<m_apMaterial; n++ )
+	for( long n=0; n<m_apMaterial.size(); n++ )
 		nRetVal += m_apMaterial[n]->GetImageQuantity();
 	return nRetVal;
 }
@@ -105,11 +107,12 @@ void BIImageRender::MaterialSorting()
 	for( bool bContinue=true; bContinue; )
 	{
 		bContinue = false;
-		for( long n=1; n<m_apMaterial; n++ )
+		for( long n=1; n<m_apMaterial.size(); n++ )
 		{
 			if( m_apMaterial[n]->GetMinPrioritet() < m_apMaterial[n-1]->GetMinPrioritet() )
 			{
-				m_apMaterial.Swap(n-1, n);
+				std::swap(m_apMaterial[n - 1], m_apMaterial[n]);
+				//m_apMaterial.Swap(n-1, n);
 				bContinue = true;
 			}
 		}
@@ -144,21 +147,24 @@ IBIString* BIImageRender::CreateString( const char* text, const char* font_name,
 
 void BIImageRender::DeleteString( IBIString* str )
 {
-	long n = m_apStrings.Find( str );
-	if( n >= 0 )
-		m_apStrings.DelIndex( n );
+	//long n = m_apStrings.Find( str );
+	//if( n >= 0 )
+	//	m_apStrings.DelIndex( n );
+	auto it = std::find(m_apStrings.begin(), m_apStrings.end(), str);
+	if (it != m_apStrings.end())
+		m_apStrings.erase(it);
 }
 
 void BIImageRender::ReleaseAllStrings()
 {
-	while( m_apStrings.Size()>0 ){
-		delete( m_apStrings[0] );
+	while( m_apStrings.size()>0 ){
+		STORM_DELETE( m_apStrings[0] );
 	}
 }
 
 void BIImageRender::CutPrioritetRangeByStrings()
 {
-	for( long n=0; n<m_apStrings; n++ )
+	for( long n=0; n<m_apStrings.size(); n++ )
 	{
 		long iprior = ((BIString*)m_apStrings[n])->GetPrioritet();
 		if( iprior < m_nBeginOutputPrioritet ) continue;
@@ -189,8 +195,8 @@ void BIImageRender::SetBaseScreenSize(long nHSize, long nVSize, long nHOffset, l
 
 void BIImageRender::Release()
 {
-	while( m_apMaterial.Size()>0 ){
-		delete( m_apMaterial[0] );
+	while( m_apMaterial.size()>0 ){
+		STORM_DELETE( m_apMaterial[0] );
 	}
 
 	ReleaseAllStrings();
@@ -198,11 +204,11 @@ void BIImageRender::Release()
 
 bool BIImageRender::GetFirstPrioritetRange()
 {
-	if( m_apMaterial.Size() == 0 ) return false;
+	if( m_apMaterial.size() == 0 ) return false;
 	m_nBeginOutputPrioritet = m_apMaterial[0]->GetMinPrioritet();
 	m_nEndOutputPrioritet = m_apMaterial[0]->GetMaxPrioritet();
 
-	if( m_apMaterial.Size() > 1 && m_nEndOutputPrioritet>m_apMaterial[1]->GetMinPrioritet() )
+	if( m_apMaterial.size() > 1 && m_nEndOutputPrioritet>m_apMaterial[1]->GetMinPrioritet() )
 		m_nEndOutputPrioritet = m_apMaterial[1]->GetMinPrioritet();
 	return true;
 }
@@ -211,16 +217,16 @@ bool BIImageRender::GetNextPrioritetRange()
 {
 	m_nBeginOutputPrioritet = ++m_nEndOutputPrioritet;
 	long n;
-	for(n=0; n<m_apMaterial; n++)
+	for(n=0; n<m_apMaterial.size(); n++)
 	{
 		if( m_apMaterial[n]->GetMaxPrioritet() >= m_nBeginOutputPrioritet )
 		{
 			m_nEndOutputPrioritet = m_apMaterial[n]->GetMaxPrioritet();
-			for(long i=n+1;i<m_apMaterial;i++)
+			for(long i=n+1;i<m_apMaterial.size();i++)
 				if( m_nBeginOutputPrioritet < m_apMaterial[i]->GetMinPrioritet() )
 					m_nEndOutputPrioritet = m_apMaterial[i]->GetMinPrioritet();
 			break;
 		}
 	}
-	return (n<m_apMaterial);
+	return (n<m_apMaterial.size());
 }

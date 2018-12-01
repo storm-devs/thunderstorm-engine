@@ -211,7 +211,7 @@ bool Debris::IsShip()
 		Assert(ship->GetMatrix());
 		ship->GetMatrix()->MulToInv(p, pos);
 		//Проверим попадание в бокс
-		CVECTOR s = ship->GetBoxSize();
+		CVECTOR s = ship->GetBoxsize();
 		if(pos.x < -s.x - 6.0f || pos.x > s.x + 6.0f) continue;
 		if(pos.z < -s.z - 6.0f || pos.z > s.z + 6.0f) continue;
 		return true;

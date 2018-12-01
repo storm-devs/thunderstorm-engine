@@ -2,6 +2,7 @@
 #define BI_STRING_H
 
 #include "defines.h"
+#include <string>
 
 class BIImageRender;
 
@@ -32,7 +33,7 @@ protected:
 	VDX9RENDER* m_pRS;
 	FRECT m_BasePos;
 	long m_nPrioritet;
-	string m_sText;
+	std::string m_sText;
 
 	dword m_dwColor;
 	float m_fScale;

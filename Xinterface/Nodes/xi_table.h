@@ -3,6 +3,7 @@
 
 #include "..\inode.h"
 #include "xi_image.h"
+#include "../../common_h/defines.h"
 
 class CXI_TABLE;
 class XI_TableLineDescribe;
@@ -11,7 +12,7 @@ class XI_TableCellDescribe
 {
 	struct StrDescribe
 	{
-		string str;
+		std::string str;
 		FPOINT offset;
 	};
 
@@ -20,7 +21,7 @@ class XI_TableCellDescribe
 		CXI_IMAGE* pImage;
 		POINT offset;
 		ImgDescribe() {pImage=0; offset.x=offset.y=0;}
-		~ImgDescribe() {DELETE(pImage);}
+		~ImgDescribe() {STORM_DELETE(pImage);}
 	};
 
 public:
@@ -47,8 +48,8 @@ protected:
 	long m_nLeftLineWidth;
 	long m_nTopLineHeight;
 
-	array<StrDescribe> m_aStrings;
-	array<ImgDescribe> m_aImage;
+	std::vector<StrDescribe> m_aStrings;
+	std::vector<ImgDescribe> m_aImage;
 
 public:
 	long m_nColIndex;
@@ -70,7 +71,7 @@ public:
 
 protected:
 	CXI_TABLE* m_pTable;
-	array<XI_TableCellDescribe*> m_aCell;
+	std::vector<XI_TableCellDescribe*> m_aCell;
 
 	bool m_bUseSpecColor;
 	dword m_dwSpecColor;
@@ -99,8 +100,8 @@ public:
 	void	SaveParametersToIni();
 	dword _cdecl MessageProc(long msgcode, MESSAGE & message);
 
-	virtual bool GetInternalNameList( array<string>& aStr );
-	virtual void SetInternalName( string& sName );
+	virtual bool GetInternalNameList( std::vector<std::string>& aStr );
+	virtual void SetInternalName(std::string& sName );
 
 	void	ScrollerChanged( float fRelativeScrollPos );
 	float	GetLineStep() {if(m_nLineQuantity<=0) return 0.f; if(m_nLineQuantity>1) return 1.f/(float)(m_nLineQuantity-1); return 1.f;}
@@ -130,10 +131,10 @@ protected:
 	bool m_bVariableLineHeight;
 	long m_nNormalLineHeight;
 
-	array<XI_TableLineDescribe*> m_aLine;
+	std::vector<XI_TableLineDescribe*> m_aLine;
 	XI_TableLineDescribe* m_pHeader;
 
-	array<long> m_anFontList;
+	std::vector<long> m_anFontList;
 
 	long m_nFontCellID;
 	dword m_dwFontCellColor;
@@ -154,7 +155,7 @@ protected:
 	bool m_bDoColsSelect;
 	long m_nSelectColIndex;
 
-	string m_sBorderIconGroupName;
+	std::string m_sBorderIconGroupName;
 	long m_idBorderTexture;
 	long m_idBorderVBuf;
 	long m_idBorderIBuf;
@@ -182,8 +183,8 @@ protected:
 
 	long m_nRowQuantity;
 	long m_nColQuantity;
-	array<long> m_anRowsHeights;
-	array<long> m_anColsWidth;
+	std::vector<long> m_anRowsHeights;
+	std::vector<long> m_anColsWidth;
 
 	struct EditModeDescribe
 	{
@@ -198,7 +199,7 @@ protected:
 
 	long m_nLineQuantity;
 
-	string m_sScrollerName;
+	std::string m_sScrollerName;
 };
 
 #endif

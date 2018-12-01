@@ -114,7 +114,7 @@ private:
     void SetVertexes(ROPEDATA *pr,float dtime);
     void SetTextureGrid(ROPEDATA *pr);
     void SetIndex();
-    void DoDelete();
+    void DoSTORM_DELETE();
     void AddLabel(GEOS::LABEL &lbl, NODE* nod, bool bDontSage );
     void SetAdd(int firstNum);
     void LoadIni();

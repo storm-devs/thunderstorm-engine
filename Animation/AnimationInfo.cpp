@@ -68,7 +68,7 @@ ActionInfo * AnimationInfo::AddAction(const char * anctionName, long startframe,
 //Сравнить с текущим именем
 bool AnimationInfo::operator == (const char * animationName)
 {
-	return stricmp(animationName, name) == 0;
+	return _stricmp(animationName, name) == 0;
 }
 
 //Найти действие по имени

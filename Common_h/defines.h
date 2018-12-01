@@ -1,6 +1,27 @@
 #ifndef DEFINES_HPP
 #define DEFINES_HPP
 
+namespace TOREMOVE
+{
+	inline unsigned long HashNoCase(const char * str)
+	{
+		unsigned long hval = 0;
+		while(*str != '\0')
+		{
+			char c = *str++;
+			if(c >= 'A' && c <= 'Z') c += 'a' - 'A';
+			hval = (hval<<4) + (unsigned long)c;
+			unsigned long g = hval & ((unsigned long) 0xf << (32 - 4));
+			if(g != 0)
+			{
+				hval ^= g >> (32 - 8);
+				hval ^= g;
+			}
+		}
+		return hval;
+	}
+}
+
 // includes
 #include "math3d.h"
 
@@ -27,7 +48,7 @@
 	#undef SQR
 #endif
 
-inline DWORD F2DW( FLOAT f ) { return *((DWORD*)&f); }
+inline dword F2DW( float f ) { return *((dword*)&f); }
 
 #ifdef _XBOX
 #define IS_XBOX(a,b)		a
@@ -39,7 +60,7 @@ inline DWORD F2DW( FLOAT f ) { return *((DWORD*)&f); }
 #define FTOL(l,f)			{ l = _mm_cvt_ss2si(_mm_load_ss(&f)); }
 #define GET_DATA(x,p)		{ memcpy(&(x),p,sizeof(x));p+=sizeof(x); }
 #define FREE(x)				{ if (x) free(x); x=0; }
-#define DELETE(x)			{ if (x) delete x; x=0; }
+#define STORM_DELETE(x)			{ if (x) delete x; x=0; }
 #define DELETE_ARRAY(x)		{ if (x) delete []x; x=0; }
 #define DELETE_ENTITY(x)	{ if (_CORE_API->ValidateEntity(&x)) _CORE_API->DeleteEntity(x); }
 #define RELEASE(x)			{ if (x) x->Release(); x = 0; }

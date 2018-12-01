@@ -23,17 +23,17 @@ FLAG::FLAG()
 FLAG::~FLAG()
 {
     TEXTURE_RELEASE(RenderService,texl);
-    PTR_DELETE(TextureName);
-    PTR_DELETE(gdata);
+    PTR_STORM_DELETE(TextureName);
+    PTR_STORM_DELETE(gdata);
 	VERTEX_BUFFER_RELEASE(RenderService,vBuf);
 	INDEX_BUFFER_RELEASE(RenderService,iBuf);
 
     while(flagQuantity>0)
 	{
 		flagQuantity--;
-        PTR_DELETE(flist[flagQuantity]);
+        PTR_STORM_DELETE(flist[flagQuantity]);
 	}
-    PTR_DELETE(flist);
+    PTR_STORM_DELETE(flist);
 }
 
 bool FLAG::Init()
@@ -50,7 +50,7 @@ void FLAG::SetDevice()
 	RenderService = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	if(!RenderService)
 	{
-		_THROW("No service: dx9render");
+		STORM_THROW("No service: dx9render");
 	}
 	globalWind.ang.x=0.f;
 	globalWind.ang.y=0.f;
@@ -73,7 +73,7 @@ bool FLAG::LoadState(ENTITY_STATE * state)
 void FLAG::Execute(dword Delta_Time)
 {
     if(bFirstRun) FirstRun();
-    if(bYesDeleted) DoDelete();
+    if(bYesDeleted) DoSTORM_DELETE();
     if(bUse)
     {
         //====================================================
@@ -160,7 +160,7 @@ dword _cdecl FLAG::ProcessMessage(MESSAGE & message)
 			{
 				gdata = NEW GROUPDATA[1];
 				if(gdata==0)
-					_THROW("Not memory allocation");
+					STORM_THROW("Not memory allocation");
 
 				groupQuantity=1;
 			}
@@ -169,7 +169,7 @@ dword _cdecl FLAG::ProcessMessage(MESSAGE & message)
 				GROUPDATA *oldgdata=gdata;
 				gdata = NEW GROUPDATA[groupQuantity+1];
 				if(gdata==0)
-					_THROW("Not memory allocation");
+					STORM_THROW("Not memory allocation");
 				memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
 				delete oldgdata; groupQuantity++;
 			}
@@ -199,7 +199,7 @@ dword _cdecl FLAG::ProcessMessage(MESSAGE & message)
         break;
 
     case MSG_FLAG_DEL_GROUP:
-        GroupDelete(message.EntityID());
+        GroupSTORM_DELETE(message.EntityID());
         break;
 
     case MSG_FLAG_TO_NEWHOST: // format "lili" (msg_code,oldmodel_id,groupNum,newmodel_id)
@@ -377,7 +377,7 @@ void FLAG::AddLabel(GEOS::LABEL &gl, NODE *nod)
         // create new flag
         fd = NEW FLAGDATA;
         if(fd==0)
-            _THROW("Not memory allocation");
+            STORM_THROW("Not memory allocation");
         PZERO(fd,sizeof(FLAGDATA));
         fd->triangle=true; // this is Vimpel
         fd->pMatWorld=&nod->glob_mtx;
@@ -392,7 +392,7 @@ void FLAG::AddLabel(GEOS::LABEL &gl, NODE *nod)
         {
             flist= NEW FLAGDATA*[1];
             if(flist==0)
-                _THROW("Not memory allocation");
+                STORM_THROW("Not memory allocation");
             flagQuantity=1;
         }
         else
@@ -400,7 +400,7 @@ void FLAG::AddLabel(GEOS::LABEL &gl, NODE *nod)
             FLAGDATA **oldflist=flist;
             flist = NEW FLAGDATA*[flagQuantity+1];
             if(flist==0)
-                _THROW("Not memory allocation");
+                STORM_THROW("Not memory allocation");
             memcpy(flist,oldflist,sizeof(FLAGDATA*)*flagQuantity);
             delete oldflist; flagQuantity++;
         }
@@ -601,7 +601,7 @@ void FLAG::FirstRun()
     wFlagLast=flagQuantity;
 }
 
-void FLAG::GroupDelete(ENTITY_ID m_id)
+void FLAG::GroupSTORM_DELETE(ENTITY_ID m_id)
 {
     // найдем группу соответствующую полученной модели
     for(int gn=0; gn<groupQuantity; gn++)
@@ -613,7 +613,7 @@ void FLAG::GroupDelete(ENTITY_ID m_id)
         }
 }
 
-void FLAG::DoDelete()
+void FLAG::DoSTORM_DELETE()
 {
     // пройтись по всем удаленным группам и удалить содержащиеся в них флаги
     int ngn=0;
@@ -809,7 +809,7 @@ void FLAG::MoveOtherHost(ENTITY_ID newm_id,long flagNum,ENTITY_ID oldm_id)
         GROUPDATA *oldgdata=gdata;
         gdata = NEW GROUPDATA[groupQuantity+1];
         if(gdata==0)
-            _THROW("Not memory allocation");
+            STORM_THROW("Not memory allocation");
         memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
         delete oldgdata;
         groupQuantity++;

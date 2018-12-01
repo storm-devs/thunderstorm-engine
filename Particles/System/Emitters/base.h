@@ -41,7 +41,7 @@ class BaseEmitter : public IEmitter
 		
 	};
 
-	array<structParticleType> ParticleTypes;
+	std::vector<structParticleType> ParticleTypes;
 
 
 	DataSource::EmitterDesc* pEmitter;
@@ -74,8 +74,8 @@ class BaseEmitter : public IEmitter
 	void IncreaseTime (float DeltaTime);
 
 protected:
-  
-	string Name;
+
+	std::string Name;
 	ParticleSystem* pMaster;
 
   

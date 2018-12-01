@@ -20,7 +20,7 @@ public:
 
 	dword			dwIP;
 	word			wPort;
-	array<Server>	aServers;
+	std::vector<Server>	aServers;
 	dword			dwLastClientTime;
 };
 

@@ -42,7 +42,7 @@ bool ILogAndActions::Init()
 {
 	if( (rs=(VDX9RENDER *)_CORE_API->CreateService("dx9render")) == NULL )
 	{
-		_THROW("Can`t create render service");
+		STORM_THROW("Can`t create render service");
 	}
 	D3DVIEWPORT9 vp;
 	rs->GetViewport(&vp);
@@ -78,8 +78,8 @@ void ILogAndActions::Execute(dword delta_time)
 					m_sRoot = sd->next;
 				else
 					prev_sd->next = sd->next;
-				PTR_DELETE(sd->str);
-				PTR_DELETE(sd);
+				PTR_STORM_DELETE(sd->str);
+				PTR_STORM_DELETE(sd);
 				sd = m_sRoot;
 				continue;
 			}
@@ -119,11 +119,11 @@ dword _cdecl ILogAndActions::ProcessMessage(MESSAGE & message)
 				if(last==null)	SetString(param,true);
 				else
 				{
-					PTR_DELETE(last->str);
+					PTR_STORM_DELETE(last->str);
 					if(param[0]!=0)
 					{
 						if( (last->str=NEW char[strlen(param)+1]) == null )
-							{ _THROW("allocate memory error"); }
+							{ STORM_THROW("allocate memory error"); }
 						strcpy(last->str,param);
 					}
 					else
@@ -135,7 +135,7 @@ dword _cdecl ILogAndActions::ProcessMessage(MESSAGE & message)
 								if(prev!=null && prev->next==last)
 									{ prev->next = last->next;	break; }
 						}
-						PTR_DELETE(last);
+						PTR_STORM_DELETE(last);
 					}
 				}
 			}
@@ -173,7 +173,7 @@ dword _cdecl ILogAndActions::ProcessMessage(MESSAGE & message)
 		{
 			STRING_DESCR * p = m_sRoot;
 			m_sRoot = p->next;
-			PTR_DELETE(p->str);
+			PTR_STORM_DELETE(p->str);
 			delete p;
 		}
 		break;
@@ -181,7 +181,7 @@ dword _cdecl ILogAndActions::ProcessMessage(MESSAGE & message)
 		{
 			char param[256];
 			message.String(sizeof(param)-1,param);
-			if( stricmp(param,"SetTimeScale")==0 )
+			if( _stricmp(param,"SetTimeScale")==0 )
 			{
 				api->SetTimeScale(message.Float());
 			}
@@ -393,7 +393,7 @@ void ILogAndActions::Release()
 	{
 		STRING_DESCR * p = m_sRoot;
 		m_sRoot = p->next;
-		PTR_DELETE(p->str);
+		PTR_STORM_DELETE(p->str);
 		delete p;
 	}
 	m_ActionHint1.Release();
@@ -411,20 +411,20 @@ void ILogAndActions::SetString(char * str, bool immortal)
 		while(last->next!=NULL) last = last->next;
 
 	// ¬озхврат если така€ строка уже есть и она последн€€
-	if(last!=null && last->str!=null && stricmp(last->str,str)==0 ) return;
+	if(last!=null && last->str!=null && _stricmp(last->str,str)==0 ) return;
 
 	// создать новый дескриптор строки
 	STRING_DESCR * newDescr = NEW STRING_DESCR;
 	if(newDescr==NULL)
 	{
-		_THROW("Allocate memory error");
+		STORM_THROW("Allocate memory error");
 	}
 	// он будет последним в списке
 	newDescr->next = NULL;
 	// занесем в него заданную строку
 	if( (newDescr->str=NEW char[strlen(str)+1]) == NULL )
 	{
-		_THROW("Allocate memory error");
+		STORM_THROW("Allocate memory error");
 	}
 	strcpy(newDescr->str,str);
 	// ѕоставим максимальную видимость
@@ -450,7 +450,7 @@ void ILogAndActions::SetString(char * str, bool immortal)
 				if( (tmpDescr->offset-=offsetDelta)<0 )
 				{
 					m_sRoot = tmpDescr->next;
-					PTR_DELETE(tmpDescr->str);
+					PTR_STORM_DELETE(tmpDescr->str);
 					delete tmpDescr;
 					tmpDescr = m_sRoot;
 					continue;

@@ -15,7 +15,7 @@
 #include "..\common_h\matrix.h"
 #include "..\common_h\dx9render.h"
 #include "..\common_h\collide.h"
-#include "..\common_h\templates\array.h"
+#include <vector>
 
 class Lights : public ENTITY
 {
@@ -133,7 +133,7 @@ private:
 	long lighter_code;
 
 	//переносные источники света
-	array<MovingLight> aMovingLight;
+	std::vector<MovingLight> aMovingLight;
 
 	//Модельки фонарей
 	ENTITY_ID lampModels[16];
@@ -142,7 +142,7 @@ private:
 	Vertex buf[6*1];
 
 	//Отсортированный массив источников для последнего расчета
-	array<lt_elem> aLightsDstSort;
+	std::vector<lt_elem> aLightsDstSort;
 };
 
 #endif

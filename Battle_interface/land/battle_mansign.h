@@ -2,8 +2,8 @@
 #define _BATTLE_MANSIGN_H
 
 #include "..\defines.h"
-#include "..\..\common_h\templates\string.h"
-#include "..\..\common_h\templates\array.h"
+#include <string>
+#include <vector>
 
 #define MAX_MAN_QUANTITY	4
 
@@ -52,7 +52,7 @@ protected:
 
 	__forceinline bool LongACompare(ATTRIBUTES* pA, const char* attrName, long & nCompareVal);
 	__forceinline bool FloatACompare(ATTRIBUTES* pA, const char* attrName, float & fCompareVal);
-	__forceinline bool StringACompare(ATTRIBUTES* pA, const char* attrName, string & sCompareVal);
+	__forceinline bool StringACompare(ATTRIBUTES* pA, const char* attrName, std::string & sCompareVal);
 	__forceinline bool FRectACompare(ATTRIBUTES* pA, const char* attrName, FRECT & rCompareVal);
 	__forceinline bool BoolACompare(ATTRIBUTES* pA, const char* attrName, bool & bCompareVal);
 	__forceinline dword GetColorByFactor(dword dwLowColor,dword dwHighColor, float fFactor);
@@ -107,7 +107,7 @@ protected:
 	BIFPOINT m_pntGunChargeOffset;
 	FPOINT m_pntGunChargeIconSize;
 
-	array<float> m_aChargeProgress;
+	std::vector<float> m_aChargeProgress;
 
 	FRECT m_rManPicUV;
 	BIFPOINT m_pntManPicOffset;
@@ -117,7 +117,7 @@ protected:
 	struct ManDescr
 	{
 		FPOINT pntPos; // center
-		string sTexture;
+		std::string sTexture;
 		long nTexture;
 		FRECT rUV;
 
@@ -152,7 +152,7 @@ __forceinline bool BIManSign::FloatACompare(ATTRIBUTES* pA, const char* attrName
 	return (fCompareVal != tmp);
 }
 
-__forceinline bool BIManSign::StringACompare(ATTRIBUTES* pA, const char* attrName, string & sCompareVal)
+__forceinline bool BIManSign::StringACompare(ATTRIBUTES* pA, const char* attrName, std::string & sCompareVal)
 {
 	char* pVal = pA->GetAttribute(attrName);
 	if( sCompareVal == pVal ) return false;

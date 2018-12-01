@@ -5,10 +5,6 @@
 #include "..\common_h\ShipLights.h"
 #include "..\common_h\sea_base.h"
 
-#include "..\common_h\templates\string.h"
-#include "..\common_h\templates\array.h"
-#include "..\common_h\templates\dtimer.h"
-
 class ShipLights : public IShipLights
 {
 private:
@@ -48,7 +44,7 @@ private:
 
 	struct LightType
 	{
-		string	sLightType;
+		std::string	sLightType;
 		Color	cLightColor;
 		Color	cCoronaColor;
 		float	fRange;
@@ -97,9 +93,9 @@ private:
 		bool operator < (const SelectedLight & other) const { return fDistance < other.fDistance; };
 	};
 
-	array<ShipLight>		aLights;
-	array<SelectedLight>	aSelectedLights;
-	array<LightType>		aLightTypes;
+	std::vector<ShipLight>		aLights;
+	std::vector<SelectedLight>	aSelectedLights;
+	std::vector<LightType>		aLightTypes;
 	long					iMinLight, iMaxLight;
 	dword					dwMaxD3DLights;
 	bool					bLoadLights;
@@ -107,13 +103,13 @@ private:
 	float					fSunRoadFlareSize;
 
 	long					iCoronaTex, iFlareSunRoadTex;
-	string					sCoronaTechnique;
+	std::string					sCoronaTechnique;
 	dword					dwCoronaSubTexX, dwCoronaSubTexY;
 
 	SEA_BASE				* pSea;
 
 	bool LoadLights();
-	LightType * FindLightType(string sLightType);
+	LightType * FindLightType(std::string sLightType);
 	float GetAttributeAsFloat(ATTRIBUTES * pA, const char * pName, float fDefault);
 	void AddFlare(VAI_OBJBASE * pObject, bool bLight, MODEL * pModel, const GEOS::LABEL & label);
 	bool SetLabel(ShipLight * pL, MODEL * pModel, const char * pStr);

@@ -35,8 +35,8 @@ public:
 	void	DoZip(byte * pSrc, dword dwSizeX);
 	byte	Get(dword dwX, dword dwY);
 
-	bool	Save(string sFileName);
-	bool	Load(string sFileName);
+	bool	Save(std::string sFileName);
+	bool	Load(std::string sFileName);
 
 	bool	isLoaded() { return pRealData != null; }
 };
@@ -44,9 +44,9 @@ public:
 class ISLAND : public ISLAND_BASE
 {
 private:
-	string				sIslandName;
-	array<ENTITY_ID>	aSpheres;
-	array<ENTITY_ID>	aForts;
+	std::string				sIslandName;
+	std::vector<ENTITY_ID>	aSpheres;
+	std::vector<ENTITY_ID>	aForts;
 	AIFlowGraph			AIPath;
 	ENTITY_ID			AIFortEID;
 
@@ -100,7 +100,7 @@ private:
 	void	CreateDirectories(char * pDir);
 
 	void	SetName(char * pIslandName) { sIslandName = pIslandName; };
-	char	* GetName() { return (char*)sIslandName.GetBuffer(); };
+	char	* GetName() { return (char*)sIslandName.c_str(); };
 
 	void	AddLocationModel(ENTITY_ID & eid, char * pIDStr, char * pStr);
 

@@ -1,8 +1,10 @@
 #include "Astronomy.h"
 #include "..\common_h\Weather_Base.h"
 
-Astronomy::STARS::STARS() : aStars(_FL_, 16384)
+Astronomy::STARS::STARS()
 {
+	aStars.reserve(16384);
+
 	bEnable = false;
 
 	pDecl = nullptr;
@@ -33,7 +35,7 @@ Astronomy::STARS::~STARS()
 
 void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 {
-	aStars.DelAll();
+	aStars.clear();
 
 	if (iTexture >= 0) Astronomy::pRS->TextureRelease(iTexture);
 	if (iVertexBuffer >= 0) Astronomy::pRS->ReleaseVertexBuffer(iVertexBuffer);
@@ -84,7 +86,7 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 
 	//if (!bEnable) return;
 
-	iTexture = sTexture.IsEmpty() ? -1 : Astronomy::pRS->TextureCreate(sTexture);
+	iTexture = sTexture.empty() ? -1 : Astronomy::pRS->TextureCreate(sTexture.c_str());
 
 	/*char * pBuffer = null;
 	dword dwSize = 0;
@@ -116,9 +118,9 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 	HANDLE hFile = fio->_CreateFile("resource\\hic.dat", GENERIC_WRITE, FILE_SHARE_WRITE, CREATE_ALWAYS);
 	if (INVALID_HANDLE_VALUE != hFile)
 	{
-	dword dwSize = aStars.Size();
+	dword dwSize = aStars.size();
 	fio->_WriteFile(hFile, &dwSize, sizeof(dwSize), null);
-	for (dword i=0; i<aStars.Size(); i++)
+	for (dword i=0; i<aStars.size(); i++)
 	{
 	fio->_WriteFile(hFile, &aStars[i].fRA, sizeof(aStars[i].fRA), null);
 	fio->_WriteFile(hFile, &aStars[i].fDec, sizeof(aStars[i].fDec), null);
@@ -128,7 +130,7 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 	fio->_CloseHandle(hFile);
 	}*/
 
-	HANDLE hFile = fio->_CreateFile(sCatalog);
+	HANDLE hFile = fio->_CreateFile(sCatalog.c_str());
 	if (INVALID_HANDLE_VALUE != hFile)
 	{
 		dword dwSize;
@@ -156,9 +158,10 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 			dwFileLen = fio->_GetFileSize(hOutFile,null);
 			if( dwFileLen == dwSize*(sizeof(Astronomy::STARS::Star)+sizeof(CVECTOR)+sizeof(DWORD)) )
 			{
-				aStars.AddElements(dwSize);
+				//aStars.AddElements(dwSize);
+				aStars.resize(aStars.size() + dwSize);
 				fio->_SetFilePointer(hOutFile,0,0,FILE_BEGIN);
-				fio->_ReadFile(hOutFile, aStars.GetBuffer(), sizeof(Astronomy::STARS::Star)*dwSize, null);
+				fio->_ReadFile(hOutFile, aStars.data(), sizeof(Astronomy::STARS::Star)*dwSize, null);
 				fio->_ReadFile(hOutFile, pVPos, sizeof(CVECTOR)*dwSize, null);
 				fio->_ReadFile(hOutFile, pVColors, sizeof(DWORD)*dwSize, null);
 				bRecalculateData = false;
@@ -171,7 +174,9 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 			float fMinMag = -100.0f, fMaxMag = 100.0f;
 			for (dword i=0; i<dwSize; i++)
 			{
-				Star & s = aStars[aStars.Add()];
+				//Star & s = aStars[aStars.Add()];
+				aStars.push_back(Star{});
+				Star & s = aStars.back();
 
 				fio->_ReadFile(hFile, &s.fRA, sizeof(s.fRA), null);
 				fio->_ReadFile(hFile, &s.fDec, sizeof(s.fDec), null);
@@ -195,7 +200,7 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 			hOutFile = fio->_CreateFile("resource\\star.dat",GENERIC_WRITE,0,CREATE_ALWAYS);
 			if( INVALID_HANDLE_VALUE != hOutFile )
 			{
-				fio->_WriteFile(hOutFile, aStars.GetBuffer(), sizeof(Astronomy::STARS::Star)*dwSize, null);
+				fio->_WriteFile(hOutFile, aStars.data(), sizeof(Astronomy::STARS::Star)*dwSize, null);
 				fio->_WriteFile(hOutFile, pVPos, sizeof(CVECTOR)*dwSize, null);
 				fio->_WriteFile(hOutFile, pVColors, sizeof(DWORD)*dwSize, null);
 				fio->_CloseHandle(hOutFile);
@@ -264,7 +269,7 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 		fTmpK[4] = 0.85f + 0.15f * sinf(m_fTwinklingTime*7.f);
 		for (long n=0; n<7; n++) fTmpRnd[n] = 0.8f + FRAND(0.2f);
 		dword * pVColors = (dword *)Astronomy::pRS->LockVertexBuffer(iVertexBufferColors, D3DLOCK_DISCARD);
-		size_t size = aStars.Size();
+		size_t size = aStars.size();
 		for (dword i=0; i<size; i++)
 		{
 			Star & s = aStars[i];
@@ -294,7 +299,7 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 	Astronomy::pRS->SetStreamSource(1, Astronomy::pRS->GetVertexBuffer(iVertexBufferColors), sizeof(dword));
 
 	if (Astronomy::pRS->TechniqueExecuteStart("Stars")) do {
-		Astronomy::pRS->DrawPrimitive(D3DPT_POINTLIST, 0, aStars.Size());
+		Astronomy::pRS->DrawPrimitive(D3DPT_POINTLIST, 0, aStars.size());
 	} while (Astronomy::pRS->TechniqueExecuteNext());
 
 	Astronomy::pRS->SetRenderState( D3DRS_POINTSPRITEENABLE, false );
@@ -322,7 +327,7 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 
 	dword dwStars = 0;
 	long idx = 0;
-	for (dword i=0; i<aStars.Size(); i+=1)
+	for (dword i=0; i<aStars.size(); i+=1)
 	{
 		if (idx == 0 && !pV)
 		{
@@ -432,7 +437,7 @@ void Astronomy::STARS::TimeUpdate(ATTRIBUTES * pAP)
 	}
 
 	fPrevFov = -1.0f;
-	for (dword i=0; i<aStars.Size(); i++)
+	for (dword i=0; i<aStars.size(); i++)
 	{
 		Star & s = aStars[i];
 		CVECTOR vPos = fRadius * s.vPos;

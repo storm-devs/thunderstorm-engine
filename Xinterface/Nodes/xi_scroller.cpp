@@ -23,8 +23,7 @@ void SetVertexRectanglePos(XI_ONLYONETEX_VERTEX * pv,FXYRECT & posRect)
 	pv[3].pos.x = posRect.right;	pv[3].pos.y = posRect.bottom;
 }
 
-CXI_SCROLLER::CXI_SCROLLER() :
-	m_asOwnedNodes(_FL)
+CXI_SCROLLER::CXI_SCROLLER()
 {
 	m_rs=NULL;
 	m_nNodeType = NODETYPE_SCROLLER;
@@ -79,7 +78,7 @@ void CXI_SCROLLER::ReleaseAll()
 	TEXTURE_RELEASE(m_rs,m_idBaseTex);
 	TEXTURE_RELEASE(m_rs,m_idRollerTex);
 	VERTEX_BUF_RELEASE(m_rs,m_idVBuf);
-	m_asOwnedNodes.DelAll();
+	m_asOwnedNodes.clear();
 }
 
 int CXI_SCROLLER::CommandExecute(int wActCode)
@@ -151,9 +150,9 @@ void CXI_SCROLLER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 
 void CXI_SCROLLER::MakeOwnedControl()
 {
-	for( long n=0; n<(long)m_asOwnedNodes.Size(); n++ )
+	for( long n=0; n<(long)m_asOwnedNodes.size(); n++ )
 	{
-		CINODE * pNode = ((XINTERFACE*)g_idInterface.pointer)->FindNode( m_asOwnedNodes[n], 0 );
+		CINODE * pNode = ((XINTERFACE*)g_idInterface.pointer)->FindNode( m_asOwnedNodes[n].c_str(), 0 );
 		if( !pNode ) continue;
 		switch( pNode->m_nNodeType )
 		{
@@ -199,9 +198,9 @@ void CXI_SCROLLER::DownPress()
 float CXI_SCROLLER::GetOwnedStep()
 {
 	CINODE * pNode = 0;
-	for(long n=0; n<(long)m_asOwnedNodes.Size(); n++ )
+	for(long n=0; n<(long)m_asOwnedNodes.size(); n++ )
 	{
-		pNode = ((XINTERFACE*)g_idInterface.pointer)->FindNode( m_asOwnedNodes[n], 0 );
+		pNode = ((XINTERFACE*)g_idInterface.pointer)->FindNode( m_asOwnedNodes[n].c_str(), 0 );
 		if( pNode ) break;
 	}
 	if( !pNode ) return 0.f;
@@ -257,9 +256,9 @@ void CXI_SCROLLER::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 

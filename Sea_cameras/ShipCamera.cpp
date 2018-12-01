@@ -124,7 +124,7 @@ void SHIP_CAMERA::Move(float fDeltaTime)
 	if (vAng.x > fMaxAngleX) vAng.x = fMaxAngleX;
 
 	//Current distance
-	CVECTOR boxSize = GetAIObj()->GetBoxSize()*CVECTOR(SCMR_BOXSCALE_X*0.5f, SCMR_BOXSCALE_Y*0.5f, SCMR_BOXSCALE_Z*0.5f);
+	CVECTOR boxSize = GetAIObj()->GetBoxsize()*CVECTOR(SCMR_BOXSCALE_X*0.5f, SCMR_BOXSCALE_Y*0.5f, SCMR_BOXSCALE_Z*0.5f);
 	boxSize.x += boxSize.y;
 	boxSize.z += boxSize.y;
 	float maxRad = boxSize.z*2.0f;
@@ -214,7 +214,7 @@ void SHIP_CAMERA::ShipsCollision(CVECTOR & pos)
 		Assert(ship->GetMatrix());
 		ship->GetMatrix()->MulToInv(pos, p);
 		//Проверим попадание в бокс
-		CVECTOR s = ship->GetBoxSize()*CVECTOR(SCMR_BOXSCALE_X*0.5f, SCMR_BOXSCALE_Y*0.5f, SCMR_BOXSCALE_Z*0.5f);
+		CVECTOR s = ship->GetBoxsize()*CVECTOR(SCMR_BOXSCALE_X*0.5f, SCMR_BOXSCALE_Y*0.5f, SCMR_BOXSCALE_Z*0.5f);
 		if(s.x <= 0.0f || s.y <= 0.0f || s.z <= 0.0f) continue;
 		//Строим эллипсоид
 		float a = s.z + s.y;						//z

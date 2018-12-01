@@ -13,8 +13,8 @@ MapZipper::~MapZipper()
 
 void MapZipper::UnInit()
 {
-	DELETE(pWordTable);
-	DELETE(pRealData);
+	STORM_DELETE(pWordTable);
+	STORM_DELETE(pRealData);
 }
 
 void MapZipper::DoZip(byte * pSrc, dword _dwSizeX)
@@ -91,11 +91,11 @@ byte MapZipper::Get(dword dwX, dword dwY)
 	return byRes;
 }
 
-bool MapZipper::Load(string sFileName)
+bool MapZipper::Load(std::string sFileName)
 {
 	UnInit();
 
-	HANDLE hFile = fio->_CreateFile(sFileName, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
+	HANDLE hFile = fio->_CreateFile(sFileName.c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
 	if (hFile == INVALID_HANDLE_VALUE) return false;
 	fio->_ReadFile(hFile, &dwSizeX, sizeof(dwSizeX), null);
 	fio->_ReadFile(hFile, &dwDX, sizeof(dwDX), null);
@@ -111,9 +111,9 @@ bool MapZipper::Load(string sFileName)
 	return true;
 }
 
-bool MapZipper::Save(string sFileName)
+bool MapZipper::Save(std::string sFileName)
 {
-	HANDLE hFile = fio->_CreateFile(sFileName, GENERIC_WRITE, FILE_SHARE_READ, OPEN_ALWAYS);
+	HANDLE hFile = fio->_CreateFile(sFileName.c_str(), GENERIC_WRITE, FILE_SHARE_READ, OPEN_ALWAYS);
 	if (hFile == INVALID_HANDLE_VALUE) return false;
 	fio->_WriteFile(hFile, &dwSizeX, sizeof(dwSizeX), null);
 	fio->_WriteFile(hFile, &dwDX, sizeof(dwDX), null);

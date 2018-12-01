@@ -2,6 +2,8 @@
 #define BI_IMAGEMATERIAL_H
 
 #include "defines.h"
+#include <string>
+#include <vector>
 
 class BIImage;
 class BIImageRender;
@@ -25,7 +27,7 @@ public:
 
 	void UpdateFlagOn() {m_bMakeBufferUpdate=true;}
 
-	long GetImageQuantity() {return m_apImage.Size();}
+	long GetImageQuantity() {return m_apImage.size();}
 	void ReleaseAllImages();
 
 	long GetMinPrioritet() {return m_nMinPrioritet;}
@@ -44,8 +46,8 @@ protected:
 	VDX9RENDER* m_pRS;
 	BIImageRender* m_pImageRender;
 
-	string m_sTextureName;
-	string m_sTechniqueName;
+	std::string m_sTextureName;
+	std::string m_sTechniqueName;
 
 	long m_nTextureID;
 	long m_nVBufID;
@@ -53,7 +55,7 @@ protected:
 	long m_nVertexQuantity;
 	long m_nTriangleQuantity;
 
-	array<BIImage*> m_apImage;
+	std::vector<BIImage*> m_apImage;
 
 	long m_nMinPrioritet;
 	long m_nMaxPrioritet;

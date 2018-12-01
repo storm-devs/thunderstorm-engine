@@ -36,7 +36,7 @@ int main()
 		{
 			NMSend nmSend;
 			nmSend.AddByte(rand()%4 + 98);
-			NMRecv nmRecv(nmSend.GetDataBuffer(), nmSend.GetDataSize());
+			NMRecv nmRecv(nmSend.GetDataBuffer(), nmSend.GetDatasize());
 			dword dwIP;
 			((byte*)&dwIP)[0] = 192;
 			((byte*)&dwIP)[1] = 168;
@@ -89,7 +89,7 @@ void MasterServer::Execute()
 	dword dwCurrentTime = GetCurrentTime();
 
 	// check servers who long (5 min) dont send any ping)
-	for (i=0; i<aServers.Size(); i++) if (dwCurrentTime - aServers[i].dwLastServerTime > 60 * 5)
+	for (i=0; i<aServers.size(); i++) if (dwCurrentTime - aServers[i].dwLastServerTime > 60 * 5)
 	{
 		Trace("delete server\n");
 		aServers.ExtractNoShift(i);
@@ -97,7 +97,7 @@ void MasterServer::Execute()
 	}
 
 	// check clients who dont ask any info for 20 seconds
-	for (i=0; i<aClients.Size(); i++) 
+	for (i=0; i<aClients.size(); i++) 
 		if (dwCurrentTime - aClients[i]->dwLastClientTime > 20)
 	{
 		Trace("delete client\n");
@@ -123,7 +123,7 @@ bool MasterServer::ReceiveMessage()
 		word wPort = from.sin_port;
 
 		word wCRC16 = nmRecv.GetWord();
-		word wNewCRC16 = crc16.GetCRC16(nmRecv.GetDataBuffer() + IS_NM_DEBUG(3, 2), nmRecv.GetDataSize() - IS_NM_DEBUG(3, 2));
+		word wNewCRC16 = crc16.GetCRC16(nmRecv.GetDataBuffer() + IS_NM_DEBUG(3, 2), nmRecv.GetDatasize() - IS_NM_DEBUG(3, 2));
 		if (wNewCRC16 == wCRC16)
 		{
 			word wPacketIndex = nmRecv.GetWord();
@@ -137,7 +137,7 @@ bool MasterServer::ReceiveMessage()
 
 void MasterServer::UpdateServer(dword dwIP, word wPort, NMRecv & nmRecv)
 {
-	for (dword i=0; i<aServers.Size(); i++) if (aServers[i].dwIP == dwIP && aServers[i].wPort == wPort) 
+	for (dword i=0; i<aServers.size(); i++) if (aServers[i].dwIP == dwIP && aServers[i].wPort == wPort) 
 	{
 		aServers[i].dwLastServerTime = GetCurrentTime();
 		return;
@@ -175,7 +175,7 @@ void MasterServer::ProcessMessage(dword dwIP, word wPort, NMRecv & nmRecv)
 
 void MasterServer::DelServer(dword dwIP, word wPort, NMRecv & nmRecv)
 {
-	for (dword i=0; i<aServers.Size(); i++) if (aServers[i].dwIP == dwIP && aServers[i].wPort == wPort) 
+	for (dword i=0; i<aServers.size(); i++) if (aServers[i].dwIP == dwIP && aServers[i].wPort == wPort) 
 	{
 		aServers.ExtractNoShift(i);
 		in_addr ia;	ia.S_un.S_addr = dwIP;
@@ -189,7 +189,7 @@ void MasterServer::AddServer(dword dwIP, word wPort, NMRecv & nmRecv)
 	byte byVersion = nmRecv.GetByte();
 
 	// check if server already exist
-	for (dword i=0; i<aServers.Size(); i++) if (aServers[i].dwIP == dwIP && aServers[i].wPort == wPort) return;
+	for (dword i=0; i<aServers.size(); i++) if (aServers[i].dwIP == dwIP && aServers[i].wPort == wPort) return;
 
 	// add new server
 	Server & Srv = aServers[aServers.Add()];
@@ -208,7 +208,7 @@ void MasterServer::OnDisconnect(dword dwIP, word wPort, NMRecv & nmRecv)
 	dword i;
 
 	// search for connected client
-	for (i=0; i<aClients.Size(); i++) if (aClients[i]->dwIP == dwIP && aClients[i]->wPort == wPort)
+	for (i=0; i<aClients.size(); i++) if (aClients[i]->dwIP == dwIP && aClients[i]->wPort == wPort)
 	{
 		Trace("delete client\n");
 		delete aClients[i];
@@ -222,7 +222,7 @@ void MasterServer::OnConnect(dword dwIP, word wPort, NMRecv & nmRecv)
 	dword i;
 
 	// search for already connected client
-	for (i=0; i<aClients.Size(); i++) if (aClients[i]->dwIP == dwIP && aClients[i]->wPort == wPort)
+	for (i=0; i<aClients.size(); i++) if (aClients[i]->dwIP == dwIP && aClients[i]->wPort == wPort)
 	{
 		OnConnectCallback(aClients[i]);
 		return;
@@ -232,7 +232,7 @@ void MasterServer::OnConnect(dword dwIP, word wPort, NMRecv & nmRecv)
 
 	Client * pClient = new Client();
 	
-	for (i=0; i<aServers.Size(); i++) if (aServers[i].byVersion == byClientVersion)
+	for (i=0; i<aServers.size(); i++) if (aServers[i].byVersion == byClientVersion)
 	{
 		pClient->aServers.Add(aServers[i]);
 	}
@@ -250,7 +250,7 @@ void MasterServer::OnConnectCallback(Client * pClient)
 	NMSend nmSend;
 	nmSend.AddByte(NC_MASTERSERVER);
 	nmSend.AddByte(NSC_MASTERSERVER_CONNECT);
-	nmSend.Add24(pClient->aServers.Size());
+	nmSend.Add24(pClient->aServers.size());
 	SendMessage(pClient->dwIP, pClient->wPort, nmSend);
 
 	in_addr ia;	ia.S_un.S_addr = pClient->dwIP;
@@ -262,7 +262,7 @@ void MasterServer::GetServers(dword dwIP, word wPort, NMRecv & nmRecv)
 	dword	i;
 	Client	* pClient = null;
 
-	for (i=0; i<aClients.Size(); i++) if (aClients[i]->dwIP == dwIP && aClients[i]->wPort == wPort)
+	for (i=0; i<aClients.size(); i++) if (aClients[i]->dwIP == dwIP && aClients[i]->wPort == wPort)
 	{
 		pClient = aClients[i];
 		break;
@@ -279,7 +279,7 @@ void MasterServer::GetServers(dword dwIP, word wPort, NMRecv & nmRecv)
 	if (pClient)
 	{
 		// 5 maximum
-		iSendServersNum = Min((long)5, pClient->aServers.Len() - iLastSendedServerNum);
+		iSendServersNum = Min((long)5, pClient->aServers.size() - iLastSendedServerNum);
 		nmSend.AddByte(byte(iSendServersNum));
 		for (long j=iLastSendedServerNum; j<iLastSendedServerNum + iSendServersNum; j++)
 		{
@@ -311,8 +311,8 @@ void MasterServer::SendMessage(dword dwIP, word wPort, NMSend & nmSend)
 	to.sin_port = wPort;
 	to.sin_family = AF_INET;
 
-	crc16.MakeCRC16(nmSend.GetDataBuffer(), nmSend.GetDataSize(), 0x0);
-	sendto(sock, crc16.GetDataBuffer(), crc16.GetDataSize(), 0, (struct sockaddr *)&to, sizeof(to));
+	crc16.MakeCRC16(nmSend.GetDataBuffer(), nmSend.GetDatasize(), 0x0);
+	sendto(sock, crc16.GetDataBuffer(), crc16.GetDatasize(), 0, (struct sockaddr *)&to, sizeof(to));
 }
 
 dword MasterServer::GetCurrentTime()

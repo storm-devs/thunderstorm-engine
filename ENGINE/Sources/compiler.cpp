@@ -707,7 +707,7 @@ void COMPILER::DelEventHandler(char * event_name, char * func_name)
 		pM = EventMsg.Read(n);
 		if(!pM->pEventName) continue;
 		if(pM->ProcessTime(0)) continue;	// skip events, possible executed on this frame
-		if(stricmp(pM->pEventName,event_name)==0)
+		if(_stricmp(pM->pEventName,event_name)==0)
 		{
 			EventMsg.Del(n);
 			n--;
@@ -1433,7 +1433,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 			for(n=0;n<LibriaryFuncs.GetClassesNum();n++)
 			{
 				pH = LibriaryFuncs.Read(n);
-				if(stricmp(pH->pName,Token.GetData())==0)
+				if(_stricmp(pH->pName,Token.GetData())==0)
 				{
 					// already loaded
 					bFound = true;
@@ -3519,7 +3519,7 @@ bool COMPILER::BC_CallFunction(DWORD func_code, DWORD & ip, DATA * & pVResult)
 
 	// get func info 
 	if(!FuncTab.GetFunc(call_fi,func_code)) { SetError("Invalid function call"); return false; }
-	//if(stricmp(call_fi.name,"InitRandomShipsNames")==0)
+	//if(_stricmp(call_fi.name,"InitRandomShipsNames")==0)
 	//{
 		//_asm int 3;
 	//}//*/
@@ -6318,14 +6318,14 @@ bool COMPILER::SetSaveData(char * file_name, void * save_data, long data_size)
 		if(INVALID_HANDLE_VALUE == sh) return false;
 		for(n=0;fd.szSaveGameName[n];n++) sTemp[n] = (char)fd.szSaveGameName[n];	sTemp[n] = 0;
 		sprintf(sFileName,"%s%s",fd.szSaveGameDirectory,sTemp);
-		if(stricmp(sTemp,file_name)==0) bFound = true;
+		if(_stricmp(sTemp,file_name)==0) bFound = true;
 		while(!bFound)
 		{
 			if(!XFindNextSaveGame(sh,&fd)) break;
 
 			for(n=0;fd.szSaveGameName[n];n++) sTemp[n] = (char)fd.szSaveGameName[n];	sTemp[n] = 0;
 			sprintf(sFileName,"%s%s",fd.szSaveGameDirectory,sTemp);
-			if(stricmp(sTemp,file_name)==0) bFound = true;
+			if(_stricmp(sTemp,file_name)==0) bFound = true;
 		}
 		if(!bFound) return false;
 		XFindClose(sh);
@@ -6839,7 +6839,7 @@ void COMPILER::FormatDialog(char * file_name)
 				if(Token.GetData())
 				{
 					// node text --------------------------------------------
-					if(stricmp(Token.GetData(),"text")== 0)
+					if(_stricmp(Token.GetData(),"text")== 0)
 					{
 						Core.fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
 
@@ -6908,7 +6908,7 @@ void COMPILER::FormatDialog(char * file_name)
 			if(Token.GetData())
 			{
 				Core.fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
-				if(stricmp(Token.GetData(),"link")==0)
+				if(_stricmp(Token.GetData(),"link")==0)
 				{
 					Token_type = Token.FormatGet();
 					Core.fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);

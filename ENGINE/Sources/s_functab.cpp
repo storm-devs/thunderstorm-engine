@@ -100,7 +100,7 @@ dword S_FUNCTAB::AddFunc(FUNCINFO& fi)
 	for(n=0;n<Func_num;n++)
 	{
 		if(pTable[n].hash != hash) continue;
-		if(stricmp(pTable[n].name,fi.name)!=0) continue;
+		if(_stricmp(pTable[n].name,fi.name)!=0) continue;
 
 		// function with such name already registred,
 		if(pTable[n].offset == INVALID_FUNC_OFFSET)
@@ -261,13 +261,13 @@ dword S_FUNCTAB::FindFunc(char * func_name)
 	{
 		ni = HashLine[hash_index].pElements[n];
 		if(pTable[ni].hash == hash)
-		if(stricmp(pTable[ni].name,func_name)== 0) return ni;
+		if(_stricmp(pTable[ni].name,func_name)== 0) return ni;
 	}
 
 /*	for(n=0;n<Func_num;n++)
 	{
 		if(pTable[n].hash == hash)
-		if(stricmp(pTable[n].name,func_name)== 0) return n;
+		if(_stricmp(pTable[n].name,func_name)== 0) return n;
 	}
 */
 	return INVALID_FUNC_CODE;
@@ -308,7 +308,7 @@ bool S_FUNCTAB::AddFuncVar(dword func_code, LVARINFO & lvi)
 	for(n=0;n<pTable[func_code].var_num;n++)
 	{
 		if(hash == pTable[func_code].pLocal[n].hash) //return false;
-		if(stricmp(pTable[func_code].pLocal[n].name,lvi.name)==0) return false;
+		if(_stricmp(pTable[func_code].pLocal[n].name,lvi.name)==0) return false;
 	}
 
 	vindex = pTable[func_code].var_num;
@@ -350,7 +350,7 @@ dword S_FUNCTAB::FindVar(dword func_code, char * var_name)
 	for(n=0;n<pTable[func_code].var_num;n++)
 	{
 		if(hash == pTable[func_code].pLocal[n].hash) //return n;
-		if(stricmp(var_name,pTable[func_code].pLocal[n].name)==0) return n;
+		if(_stricmp(var_name,pTable[func_code].pLocal[n].name)==0) return n;
 	}
 	return INVALID_VAR_CODE;
 }

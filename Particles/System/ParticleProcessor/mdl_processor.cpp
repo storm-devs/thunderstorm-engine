@@ -10,15 +10,16 @@
 #include "..\particlesystem\particlesystem.h"
 #include "..\..\manager\particlemanager.h"
 #include "physic.h"
-
+#include "../../../common_h/defines.h"
 
 
 //Сколько всего может быть моделей
 #define MAX_MODELS 8192
 
 
-ModelProcessor::ModelProcessor (ParticleManager* pManager) : Particles(_FL_, MAX_MODELS)
+ModelProcessor::ModelProcessor (ParticleManager* pManager)
 {
+	Particles.reserve(MAX_MODELS);
 	pMasterManager = pManager;
 	pMemArray = NEW MemArrayItem[MAX_MODELS];
 
@@ -153,7 +154,7 @@ void ModelProcessor::AddParticle (ParticleSystem* pSystem, const Vector& velocit
 
 
 	const char* pEmitterName = pFields->GetString(ATTACHEDEMITTER_NAME);
-	if (stricmp (pEmitterName, "none") == 0)
+	if (_stricmp (pEmitterName, "none") == 0)
 	{
 		pData->AttachedEmitter = NULL;
 	} else
@@ -162,7 +163,7 @@ void ModelProcessor::AddParticle (ParticleSystem* pSystem, const Vector& velocit
 		if (pData->AttachedEmitter) pData->AttachedEmitter->SetAttachedFlag(true);
 	}
 
-	Particles.Add(pData);
+	Particles.push_back(pData);
 }
 
 
@@ -172,7 +173,7 @@ void ModelProcessor::Process (float DeltaTime)
 	//DWORD t;
 	//RDTSC_B (t);
 
-	for (DWORD n = 0; n < Particles.Size(); n++)
+	for (DWORD n = 0; n < Particles.size(); n++)
 	{
 		Particles[n]->ElapsedTime += DeltaTime;
 
@@ -186,7 +187,9 @@ void ModelProcessor::Process (float DeltaTime)
 		{
 			*(Particles[n]->ActiveCount) = (*(Particles[n]->ActiveCount)-1);
 			FreeParticle (Particles[n]);
-			Particles.ExtractNoShift(n);
+			//Particles.ExtractNoShift(n);
+			Particles[n] = Particles.back();
+			Particles.pop_back();
 			n--;
 			continue;
 		}
@@ -250,7 +253,7 @@ void ModelProcessor::Process (float DeltaTime)
 
 	//Рождаем партиклы, которые привязанны к нашему партиклу...
 
-	for (DWORD n = 0; n < Particles.Size(); n++)
+	for (DWORD n = 0; n < Particles.size(); n++)
 	{
 		if (Particles[n]->AttachedEmitter)
 		{
@@ -260,7 +263,7 @@ void ModelProcessor::Process (float DeltaTime)
 			Particles[n]->AttachedEmitter->SetTransform(Matrix(Particles[n]->RenderAngle, Particles[n]->RenderPos));
 			Particles[n]->AttachedEmitter->BornParticles(DeltaTime);
 			
-			//if (n < Particles.Size()-1)  Particles[n]->AttachedEmitter->RestoreTime();
+			//if (n < Particles.size()-1)  Particles[n]->AttachedEmitter->RestoreTime();
 		}
 	}
 
@@ -271,18 +274,20 @@ void ModelProcessor::Process (float DeltaTime)
 
 DWORD ModelProcessor::GetCount ()
 {
-	return Particles.Size();
+	return Particles.size();
 }
 
 void ModelProcessor::DeleteWithGUID (DWORD dwGUID, DWORD GUIDRange)
 {
-	for (DWORD j = 0; j <  Particles.Size(); j++)
+	for (DWORD j = 0; j <  Particles.size(); j++)
 	{
 		if (Particles[j]->EmitterGUID >= dwGUID && Particles[j]->EmitterGUID < dwGUID+GUIDSTEP)
 		{
 			*(Particles[j]->ActiveCount) = (*(Particles[j]->ActiveCount)-1);
 			FreeParticle (Particles[j]);
-			Particles.ExtractNoShift(j);
+			//Particles.ExtractNoShift(j);
+			Particles[j] = Particles.back();
+			Particles.pop_back();
 			j--;
 		}
 	}
@@ -292,7 +297,7 @@ void ModelProcessor::DeleteWithGUID (DWORD dwGUID, DWORD GUIDRange)
 //Рисует все плашки...
 void ModelProcessor::Draw()
 {
-	for (DWORD j = 0; j <  Particles.Size(); j++)
+	for (DWORD j = 0; j <  Particles.size(); j++)
 	{
 		MDL_ParticleData* pR = Particles[j];
 
@@ -302,17 +307,17 @@ void ModelProcessor::Draw()
 		
 	}
 
-	//api->Trace ("PSYS 2.0 : Draw %d model particles", Particles.Size());
+	//api->Trace ("PSYS 2.0 : Draw %d model particles", Particles.size());
 
 }
 
 
 void ModelProcessor::Clear ()
 {
-	for (DWORD j = 0; j <  Particles.Size(); j++)
+	for (DWORD j = 0; j <  Particles.size(); j++)
 	{
 			*(Particles[j]->ActiveCount) = (*(Particles[j]->ActiveCount)-1);
 			FreeParticle (Particles[j]);
 	}
-	Particles.DelAll();
+	Particles.clear();
 }

@@ -3,8 +3,8 @@
 
 #include "..\..\common_h\dx9render.h"
 #include "..\..\common_h\defines.h"
-#include "..\..\common_h\templates\string.h"
-#include "..\..\common_h\templates\array.h"
+#include <string>
+#include <vector>
 
 class BIImageRender;
 class BIImage;
@@ -15,7 +15,7 @@ class ISPYGLASS : public ENTITY
 	struct ImageParam
 	{
 		BIImage* pImage;
-		string sTextureName;
+		std::string sTextureName;
 		dword dwColor;
 		FRECT rUV;
 		RECT rPos;
@@ -34,7 +34,7 @@ class ISPYGLASS : public ENTITY
 		POINT pos;
 		float fScale;
 		dword dwColor;
-		string sText;
+		std::string sText;
 		long nAlign;
 
 		TextParam() {rs=0; nFontID=-1;}
@@ -121,9 +121,9 @@ protected:
 	long m_nInfoCharacterIndex;
 
 	SpyGlassCameraParameters m_Camera{};
-	array<FRECT> m_aNationUV;
-	array<FRECT> m_aChargeUV;
-	array<FRECT> m_aSailUV;
+	std::vector<FRECT> m_aNationUV;
+	std::vector<FRECT> m_aChargeUV;
+	std::vector<FRECT> m_aSailUV;
 
 	VAI_OBJBASE* m_pFortObj;
 
@@ -144,7 +144,7 @@ protected:
 		long nCharge, long nNation, long nSailState, long nFace,
 		long nFencing, long nCannon, long nAccuracy, long nNavigation, long nBoarding,
 		const char* pcCaptainName,const char* pcFaceTexture,long nShipClass);
-	void FillUVArrayFromAttributes( array<FRECT> & m_aUV, ATTRIBUTES* pA );
+	void FillUVArrayFromAttributes( std::vector<FRECT> & m_aUV, ATTRIBUTES* pA );
 	VAI_OBJBASE* GetFort();
 };
 

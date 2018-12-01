@@ -6,8 +6,6 @@
 #include "..\common_h\sd2_h\CannonTrace.h"
 #include "..\common_h\sd2_h\VAI_ObjBase.h"
 #include "..\..\Shared\sea_ai\Script_Defines.h"
-#include "..\common_h\templates\array.h"
-#include "..\common_h\templates\string.h"
 
 // ============================================================================
 // master class AIShipSpeedController

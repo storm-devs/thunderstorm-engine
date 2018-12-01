@@ -15,8 +15,8 @@
 #include "..\common_h\vmodule_api.h"
 #include "..\common_h\dx9render.h"
 #include "..\common_h\matrix.h"
-#include "..\common_h\templates\array.h"
-#include "..\common_h\templates\string.h"
+#include <vector>
+#include <string>
 #include "PathTracks.h"
 
 #include "CameraFollow.h"
@@ -166,7 +166,7 @@ private:
 	bool m_bTrackMode;
 	float m_fTrackCurTime;
 	float m_fTrackMaxTime;
-	string m_sCurTrackName;
+	std::string m_sCurTrackName;
 	float m_fPauseTime;
 
 	struct CameraTrackPause
@@ -174,7 +174,7 @@ private:
 		float trackTime;
 		float pauseTime;
 	};
-	array<CameraTrackPause> m_aTrackPauses;
+	std::vector<CameraTrackPause> m_aTrackPauses;
 	long m_nCurPauseIndex;
 
 	bool LoadCameraTrack(const char* pcTrackFile,float fTrackTime);

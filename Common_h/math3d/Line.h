@@ -109,21 +109,21 @@ public:
 //===========================================================
 
 // онструктор копировани€
-mathinline Line::Line(const Line & l)
+inline Line::Line(const Line & l)
 {
 	p1 = l.p1;
 	p2 = l.p2;
 }
 
 //«аполнить числом
-mathinline Line::Line(float f)
+inline Line::Line(float f)
 {
 	p1 = 0.0f;
 	p2 = 0.0f;
 }
 
 //«аполнить векторами
-mathinline Line::Line(const Vector & start, const Vector & end)
+inline Line::Line(const Vector & start, const Vector & end)
 {
 	p1 = start;
 	p2 = end;
@@ -134,19 +134,19 @@ mathinline Line::Line(const Vector & start, const Vector & end)
 //===========================================================
 
 //Ќайти точку пересечени€ с плоскостью
-mathinline bool Line::Intersection(Plane & plane) const
+inline bool Line::Intersection(Plane & plane) const
 {
 	return plane.Intersection(p1, p2);
 }
 
 //Ќайти точку пересечени€ с плоскостью
-mathinline bool Line::Intersection(Plane & plane, Vector & point) const
+inline bool Line::Intersection(Plane & plane, Vector & point) const
 {
 	return plane.Intersection(p1, p2, point);
 }
 
 //Ќайти точку пересечени€ пр€мых, проход€щих через линии
-mathinline bool Line::IntersectionLines(const Line & line, Vector & point, float eps) const
+inline bool Line::IntersectionLines(const Line & line, Vector & point, float eps) const
 {
 	//Ќаправл€ющие пр€мых
 	Vector dir1 = dst - src;
@@ -166,7 +166,7 @@ mathinline bool Line::IntersectionLines(const Line & line, Vector & point, float
 }
 
 //Ќайти точку пересечени€ с пр€мых, проход€щих через линии
-mathinline bool Line::IntersectionLinesXZ(const Line & line, Vector & point) const
+inline bool Line::IntersectionLinesXZ(const Line & line, Vector & point) const
 {
 	Line l1 = *this; l1.src.y = 0.0f; l1.dst.y = 0.0f;
 	Line l2 = line; l2.src.y = 0.0f; l2.dst.y = 0.0f;
@@ -174,7 +174,7 @@ mathinline bool Line::IntersectionLinesXZ(const Line & line, Vector & point) con
 }
 
 //Ќайти рассто€ние от точки до пр€мой, проход€щей через линию
-mathinline float Line::DistanceToLine(const Vector & point) const
+inline float Line::DistanceToLine(const Vector & point) const
 {
 	Plane plane(dst - src);
 	if(plane.n.Normalize() <= 1e-30f) return -1.0f;
@@ -185,7 +185,7 @@ mathinline float Line::DistanceToLine(const Vector & point) const
 }
 
 //Ќайти рассто€ние от точки до пр€мой, проход€щей через линию
-mathinline float Line::DistanceToLineXZ(const Vector & point) const
+inline float Line::DistanceToLineXZ(const Vector & point) const
 {
 	Vector p = point; p.y = 0.0f;
 	Line l1 = *this; l1.src.y = 0.0f; l1.dst.y = 0.0f;
@@ -193,7 +193,7 @@ mathinline float Line::DistanceToLineXZ(const Vector & point) const
 }
 
 //ѕолучить нормализованное направление пр€мой
-mathinline Vector Line::Direction() const
+inline Vector Line::Direction() const
 {
 	return !(dst - src);
 }

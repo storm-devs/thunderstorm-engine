@@ -1,5 +1,6 @@
 #include <assert.h>
 #include "QuestFileReader.h"
+#include "../../common_h/defines.h"
 
 
 #define INVALID_LONG 0
@@ -191,19 +192,7 @@ static const char * GetTitleString(char* buf, const char* &ptr, int &slen)
 }
 
 
-
-
-
-
-
-
-
-
-
-QUEST_FILE_READER::QUEST_FILE_READER() :
-	m_aQuest(_FL),
-	m_aQuestData(_FL),
-	m_aQuestFileName(_FL)
+QUEST_FILE_READER::QUEST_FILE_READER()
 {
 	m_pFileBuf = null;
 }
@@ -217,21 +206,21 @@ bool QUEST_FILE_READER::InitQuestsQuery()
 {
 	CloseQuestsQuery();
 
-	if( m_aQuest.Size() == 0 )
+	if( m_aQuest.size() == 0 )
 	{
-		for( long n=0; n<m_aQuestFileName; n++ )
+		for( long n=0; n<m_aQuestFileName.size(); n++ )
 		{
-			HANDLE hfile = api->fio->_CreateFile( m_aQuestFileName[n], GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING );
+			HANDLE hfile = api->fio->_CreateFile( m_aQuestFileName[n].c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING );
 			if(hfile==INVALID_HANDLE_VALUE)
 			{
-				api->Trace( "WARNING! Can`t open quest log file %s", m_aQuestFileName[n].GetBuffer() );
+				api->Trace( "WARNING! Can`t open quest log file %s", m_aQuestFileName[n].c_str() );
 				continue;
 			}
 
 			DWORD filesize = api->fio->_GetFileSize( hfile, 0 );
 			if( filesize == 0 )
 			{
-				api->Trace( "Empty quest log file %s", m_aQuestFileName[n].GetBuffer() );
+				api->Trace( "Empty quest log file %s", m_aQuestFileName[n].c_str() );
 				api->fio->_CloseHandle( hfile );
 				continue;
 			}
@@ -248,14 +237,14 @@ bool QUEST_FILE_READER::InitQuestsQuery()
 			}
 
 			if( m_pFileBuf == null ) {
-				_THROW("allocate memory error");
+				STORM_THROW("allocate memory error");
 			}
 
 			DWORD readsize;
 			if( api->fio->_ReadFile( hfile, &m_pFileBuf[foffset], filesize, &readsize ) == FALSE ||
 				readsize != filesize )
 			{
-				api->Trace( "Can`t read quest log file: %s", m_aQuestFileName[n].GetBuffer() );
+				api->Trace( "Can`t read quest log file: %s", m_aQuestFileName[n].c_str() );
 			}
 			api->fio->_CloseHandle( hfile );
 			m_pFileBuf[foffset+readsize] = 0;
@@ -268,9 +257,9 @@ bool QUEST_FILE_READER::InitQuestsQuery()
 
 void QUEST_FILE_READER::CloseQuestsQuery()
 {
-	DELETE( m_pFileBuf );
-	m_aQuestData.DelAll();
-	m_sCurQuestTitle.Empty();
+	STORM_DELETE( m_pFileBuf );
+	m_aQuestData.clear();
+	m_sCurQuestTitle.clear();
 }
 
 bool QUEST_FILE_READER::GetQuestTitle(const char* questId, const char* questUniqueID, size_t buffSize,char * buffer)
@@ -288,27 +277,27 @@ bool QUEST_FILE_READER::GetQuestTitle(const char* questId, const char* questUniq
 		return false;
 	}
 
-	AssembleStringToBuffer( m_aQuest[n].sTitle,m_aQuest[n].sTitle.Len(), buffer,buffSize,m_aQuestData);
+	AssembleStringToBuffer( m_aQuest[n].sTitle.c_str(),m_aQuest[n].sTitle.size(), buffer,buffSize,m_aQuestData);
 	return true;
 }
 
-void QUEST_FILE_READER::GetRecordTextList(array<string> & asStringList, const char* pcQuestID,const char* pcTextID, const char* pcUserData)
+void QUEST_FILE_READER::GetRecordTextList(std::vector<std::string> & asStringList, const char* pcQuestID,const char* pcTextID, const char* pcUserData)
 {
 	long nQuestIndex = FindQuestByID( pcQuestID );
 	long nTextIndex = FindTextByID( nQuestIndex, pcTextID );
 	if( nQuestIndex<0 || nTextIndex<0 ) return;
 
 	m_sCurQuestTitle = "";
-	m_aQuestData.DelAll();
+	m_aQuestData.clear();
 	FillUserDataList( (char*)pcUserData,m_aQuestData );
 
 	char pcTmp[10240]; // boal 4096
-	AssembleStringToBuffer( m_aQuest[nQuestIndex].aText[nTextIndex].str,
-		m_aQuest[nQuestIndex].aText[nTextIndex].str.Len(), pcTmp, sizeof(pcTmp),m_aQuestData );
-	asStringList.Add(pcTmp);
+	AssembleStringToBuffer( m_aQuest[nQuestIndex].aText[nTextIndex].str.c_str(),
+		m_aQuest[nQuestIndex].aText[nTextIndex].str.size(), pcTmp, sizeof(pcTmp),m_aQuestData );
+	asStringList.push_back(pcTmp);
 }
 
-bool QUEST_FILE_READER::AssembleStringToBuffer(const char* pSrc, long nSrcSize, char* pBuf, long nBufSize,array<UserData>& aUserData)
+bool QUEST_FILE_READER::AssembleStringToBuffer(const char* pSrc, long nSrcSize, char* pBuf, long nBufSize,std::vector<UserData>& aUserData)
 {
 	if(!pSrc || !pBuf || nBufSize<1) return false;
 
@@ -347,12 +336,12 @@ bool QUEST_FILE_READER::AssembleStringToBuffer(const char* pSrc, long nSrcSize, 
 	return true;
 }
 
-const char* QUEST_FILE_READER::GetInsertStringByID(char* pID,array<UserData>& aUserData)
+const char* QUEST_FILE_READER::GetInsertStringByID(char* pID,std::vector<UserData>& aUserData)
 {
 	if(!pID) return 0;
-	for(long n=0; n<aUserData; n++)
+	for(long n=0; n<aUserData.size(); n++)
 		if( aUserData[n].id == pID )
-			return aUserData[n].str.GetBuffer();
+			return aUserData[n].str.c_str();
 	return 0;
 }
 
@@ -370,7 +359,7 @@ void QUEST_FILE_READER::ReadUserData(const char * sQuestName,long nRecordIndex)
 	if( m_sCurQuestTitle == sQuestName ) return; // уже установлено для этого
 
 	m_sCurQuestTitle = sQuestName;
-	m_aQuestData.DelAll();
+	m_aQuestData.clear();
 
 	if( !sQuestName ) return;
 
@@ -382,7 +371,7 @@ void QUEST_FILE_READER::ReadUserData(const char * sQuestName,long nRecordIndex)
 	FillUserDataList( pStr,m_aQuestData );
 }
 
-void QUEST_FILE_READER::FillUserDataList(char * sStrData,array<UserData>& aUserData)
+void QUEST_FILE_READER::FillUserDataList(char * sStrData,std::vector<UserData>& aUserData)
 {
 	if(!sStrData) return;
 
@@ -415,9 +404,9 @@ void QUEST_FILE_READER::FillUserDataList(char * sStrData,array<UserData>& aUserD
 					bYesID = false;
 
 					// write info
-					long i = aUserData.Add();
-					WriteToString( aUserData[i].id, &sStrData[nBegID], &sStrData[nBegID+nLenID] );
-					WriteToString( aUserData[i].str, &sStrData[nBegStr], &sStrData[nBegStr+nLenStr] );
+					aUserData.push_back(UserData{});
+					WriteToString( aUserData.back().id, &sStrData[nBegID], &sStrData[nBegID+nLenID] );
+					WriteToString( aUserData.back().str, &sStrData[nBegStr], &sStrData[nBegStr+nLenStr] );
 				}
 				nBegID = n+2;
 				bGetID = true;
@@ -430,9 +419,9 @@ void QUEST_FILE_READER::FillUserDataList(char * sStrData,array<UserData>& aUserD
 	{
 		nLenStr = n-nBegStr;
 		// write info
-		long i = aUserData.Add();
-		WriteToString( aUserData[i].id, &sStrData[nBegID], &sStrData[nBegID+nLenID] );
-		WriteToString( aUserData[i].str, &sStrData[nBegStr], &sStrData[nBegStr+nLenStr] );
+		aUserData.push_back(UserData{});
+		WriteToString( aUserData.back().id, &sStrData[nBegID], &sStrData[nBegID+nLenID] );
+		WriteToString( aUserData.back().str, &sStrData[nBegStr], &sStrData[nBegStr+nLenStr] );
 	}
 }
 
@@ -441,11 +430,11 @@ void QUEST_FILE_READER::SetQuestTextFileName(const char * pcFileName)
 	if( pcFileName == null || pcFileName[0] == 0 ) return;
 
 	// check for already included:
-	for( long n=0; n<m_aQuestFileName; n++ )
+	for( long n=0; n<m_aQuestFileName.size(); n++ )
 		if( m_aQuestFileName[n] == pcFileName )
 			return;
 
-	m_aQuestFileName.Add( string(pcFileName) );
+	m_aQuestFileName.push_back( std::string(pcFileName) );
 
 	// открываем этот файл
 	HANDLE hfile = api->fio->_CreateFile( pcFileName, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING );
@@ -484,10 +473,10 @@ void QUEST_FILE_READER::AddQuestFromBuffer( const char* pcSrcBuffer )
 	if( !pcSrcBuffer ) return;
 
 	const char* pcStr = pcSrcBuffer;
-	string sQuestID;
-	string sTextID;
-	string sQuestText;
-	string sTextText;
+	std::string sQuestID;
+	std::string sTextID;
+	std::string sQuestText;
+	std::string sTextText;
 	const char* pcPrev = pcStr;
 	char tmp[1024];
 	long nCurToken = TOKEN_UNKNOWN;
@@ -515,9 +504,9 @@ void QUEST_FILE_READER::AddQuestFromBuffer( const char* pcSrcBuffer )
 
 				GetSubStringFromString( pcToken, tmp, sizeof(tmp) );
 				sQuestID = tmp;
-				sTextID.Empty();
-				sQuestText.Empty();
-				sTextText.Empty();
+				sTextID.clear();
+				sQuestText.clear();
+				sTextText.clear();
 				pcPrev = pcStr;
 				nCurToken = TOKEN_QUEST;
 			}
@@ -534,7 +523,7 @@ void QUEST_FILE_READER::AddQuestFromBuffer( const char* pcSrcBuffer )
 				}
 				GetSubStringFromString( pcToken, tmp, sizeof(tmp) );
 				sTextID = tmp;
-				sTextText.Empty();
+				sTextText.clear();
 				pcPrev = pcStr;
 				nCurToken = TOKEN_QTEXT;
 			}
@@ -543,7 +532,7 @@ void QUEST_FILE_READER::AddQuestFromBuffer( const char* pcSrcBuffer )
 	}
 }
 
-void QUEST_FILE_READER::WriteToString( string& sDst, const char* pcStart, const char* pcEnd )
+void QUEST_FILE_READER::WriteToString(std::string& sDst, const char* pcStart, const char* pcEnd )
 {
 	if( !pcEnd || !pcStart )
 		{sDst = ""; return;}
@@ -558,29 +547,31 @@ void QUEST_FILE_READER::WriteToString( string& sDst, const char* pcStart, const 
 	*(char*)pcEnd = chTmp;
 }
 
-void QUEST_FILE_READER::AddToQuestList( string& sQuestID, string& sTextID, string& sQuestText, string& sTextText )
+void QUEST_FILE_READER::AddToQuestList(std::string& sQuestID, std::string& sTextID, std::string& sQuestText, std::string& sTextText )
 {
-	if( sQuestID.IsEmpty() || sTextID.IsEmpty() ) return;
-	long q = FindQuestByID( sQuestID );
+	if( sQuestID.empty() || sTextID.empty() ) return;
+	long q = FindQuestByID( sQuestID.c_str() );
 	if( q < 0 )
 	{
-		q = m_aQuest.Add();
-		m_aQuest[q].sHeader = sQuestID;
-		m_aQuest[q].sTitle = sQuestText;
+		QuestDescribe descr;
+		descr.sHeader = sQuestID;
+		descr.sTitle = sQuestText;
+		m_aQuest.push_back(descr);
 	}
 
-	long t = FindTextByID( q, sTextID );
+	long t = FindTextByID( q, sTextID.c_str() );
 	if( t < 0 )
 	{
-		t = m_aQuest[q].aText.Add();
-		m_aQuest[q].aText[t].id = sTextID;
-		m_aQuest[q].aText[t].str = sTextText;
+		QuestDescribe::TextDescribe descr;
+		descr.id = sTextID;
+		descr.str = sTextText;
+		m_aQuest[q].aText.push_back(descr);
 	}
 }
 
 long QUEST_FILE_READER::FindQuestByID( const char* pcQuestID )
 {
-	for( long n=0; n<m_aQuest; n++ )
+	for( long n=0; n<m_aQuest.size(); n++ )
 		if( m_aQuest[n].sHeader == pcQuestID )
 			return n;
 	return -1;
@@ -588,8 +579,8 @@ long QUEST_FILE_READER::FindQuestByID( const char* pcQuestID )
 
 long QUEST_FILE_READER::FindTextByID( long nQuest, const char* pcTextID )
 {
-	if( nQuest < 0 || nQuest >= m_aQuest ) return -1;
-	for( long n=0; n<m_aQuest[nQuest].aText; n++ )
+	if( nQuest < 0 || nQuest >= m_aQuest.size() ) return -1;
+	for( long n=0; n<m_aQuest[nQuest].aText.size(); n++ )
 		if( m_aQuest[nQuest].aText[n].id == pcTextID )
 			return n;
 	return -1;

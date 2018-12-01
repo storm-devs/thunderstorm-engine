@@ -11,7 +11,6 @@
 #include "..\common_h\CVECTOR.h"
 #include ".\FMOD4\api\inc\fmod.hpp"
 #include ".\FMOD4\api\inc\fmod_errors.h"
-#include "..\common_h\templates.h"
 
 
 
@@ -38,7 +37,7 @@ class SoundService: public VSoundService
 	struct tSoundCache
 	{
 		DWORD dwNameHash;
-		string Name;
+		std::string Name;
 		FMOD::Sound* sound;
 		float fTimeFromLastPlay;
 		eSoundType type;
@@ -65,7 +64,7 @@ class SoundService: public VSoundService
 		float fSoundVolume;
 
 		//temp
-		string Name;
+		std::string Name;
 		
 
 		tPlayedSound()
@@ -88,12 +87,12 @@ class SoundService: public VSoundService
 
 	struct PlayedOGG
 	{
-		string Name;
+		std::string Name;
 		dword dwHash;
 		unsigned int position;
 	};
 
-	array<PlayedOGG> OGGPosition;
+	std::vector<PlayedOGG> OGGPosition;
 
 
 	unsigned int GetOGGPosition (const char* szName);
@@ -101,7 +100,7 @@ class SoundService: public VSoundService
 	int GetOGGPositionIndex (const char* szName);
 
 
-	array<tSoundCache> SoundCache;
+	std::vector<tSoundCache> SoundCache;
 
 
 	int GetFromCache (const char* szName, eSoundType _type);
@@ -122,13 +121,13 @@ class SoundService: public VSoundService
 
 	struct tAliasSound
 	{
-		string FileName;
+		std::string FileName;
 		float fProbability;
 	};
 
 	struct tAlias
 	{
-		string Name;
+		std::string Name;
 		dword dwNameHash;
 
 		float fMaxProbabilityValue;
@@ -136,14 +135,14 @@ class SoundService: public VSoundService
 		float fMaxDistance;
 		long iPrior;
 		float fVolume;
-		array<tAliasSound> SoundFiles;
+		std::vector<tAliasSound> SoundFiles;
 
-		tAlias() : SoundFiles (_FL_)
+		tAlias()
 		{
 		}
 	};
 
-	array<tAlias> Aliases;
+	std::vector<tAlias> Aliases;
 
 	const char* GetRandomName (tAlias *_alias);
 	int GetAliasIndexByName (const char *szAliasName);
@@ -156,7 +155,7 @@ class SoundService: public VSoundService
 	struct tSoundSchemeChannel
 	{
 		TSD_ID SoundID;
-		string soundName;
+		std::string soundName;
 		long minDelayTime;
 		long maxDelayTime;
 		float volume;
@@ -169,7 +168,7 @@ class SoundService: public VSoundService
 		}
 	};
 
-	array<tSoundSchemeChannel> SoundSchemeChannels;
+	std::vector<tSoundSchemeChannel> SoundSchemeChannels;
 
 	bool AddSoundSchemeChannel (char *in_string, bool _looped = false);
 	void ProcessSoundSchemes ();

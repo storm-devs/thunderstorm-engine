@@ -38,21 +38,21 @@ ROPE::~ROPE()
 	if(rlist)
 	{
 		for(int i=0; i<ropeQuantity; i++)
-			PTR_DELETE(rlist[i]);
-		PTR_DELETE(rlist);
+			PTR_STORM_DELETE(rlist[i]);
+		PTR_STORM_DELETE(rlist);
 		ropeQuantity = 0;
 	}
 	// очистка и удаление списка групп
 	if(gdata)
 	{
 		for(int i=0; i<groupQuantity; i++)
-			PTR_DELETE(gdata[i].ropeIdx);
-		PTR_DELETE(gdata);
+			PTR_STORM_DELETE(gdata[i].ropeIdx);
+		PTR_STORM_DELETE(gdata);
 		groupQuantity = 0;
 	}
 	// удаление текстур
 	TEXTURE_RELEASE(RenderService,texl);
-	PTR_DELETE(TextureName);
+	PTR_STORM_DELETE(TextureName);
 
 	VERTEX_BUFFER_RELEASE(RenderService,vBuf);
 	INDEX_BUFFER_RELEASE(RenderService,iBuf);
@@ -73,7 +73,7 @@ void ROPE::SetDevice()
 	RenderService = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	if(!RenderService)
 	{
-		_THROW("No service: dx9render");
+		STORM_THROW("No service: dx9render");
 	}
 
     LoadIni();
@@ -100,7 +100,7 @@ void ROPE::Execute(dword Delta_Time)
     if(bFirstRun)
         FirstRun();
     if(bYesDeleted)
-        DoDelete();
+        DoSTORM_DELETE();
 
     if(bUse)
     {
@@ -204,7 +204,7 @@ dword _cdecl ROPE::ProcessMessage(MESSAGE & message)
 				gdata = NEW GROUPDATA[groupQuantity+1];
 				if(gdata==NULL)
 				{
-					_THROW("allocate memory error");
+					STORM_THROW("allocate memory error");
 				}
 				memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
 				delete oldgdata; groupQuantity++;
@@ -214,7 +214,7 @@ dword _cdecl ROPE::ProcessMessage(MESSAGE & message)
 				gdata = NEW GROUPDATA[1]; groupQuantity=1;
 				if(gdata==NULL)
 				{
-					_THROW("allocate memory error");
+					STORM_THROW("allocate memory error");
 				}
 			}
 
@@ -247,7 +247,7 @@ dword _cdecl ROPE::ProcessMessage(MESSAGE & message)
 			if(wFirstRope == ropeQuantity)
 			{
 				groupQuantity--;
-				if(groupQuantity<=0) PTR_DELETE(gdata);
+				if(groupQuantity<=0) PTR_STORM_DELETE(gdata);
 				return 0;
 			}
 
@@ -278,7 +278,7 @@ dword _cdecl ROPE::ProcessMessage(MESSAGE & message)
 			gdata[groupQuantity-1].ropeIdx = NEW int[gdata[groupQuantity-1].ropeQuantity];
 			if( gdata[groupQuantity-1].ropeIdx==NULL )
 			{
-				_THROW("allocate memory error");
+				STORM_THROW("allocate memory error");
 			}
 			int idx=0;
 			for(int rn=wFirstRope; rn<ropeQuantity; rn++)
@@ -888,7 +888,7 @@ void ROPE::SetAdd(int firstNum)
 			api->Trace("Bad rope data for rope: (model=%s) (rope num = %d) (begin group=%d, end group=%d)",
 				pcModlName,rlist[rn]->ropeNum, rlist[rn]->bgnum, rlist[rn]->egnum);
 			api->Trace("Begin pointer = %d? end pointer = %d",rlist[rn]->bMatWorld,rlist[rn]->eMatWorld);
-            //_THROW("Rope error: Not label");
+            //STORM_THROW("Rope error: Not label");
             delete rlist[rn];
             ropeQuantity--;
             if(ropeQuantity)
@@ -927,7 +927,7 @@ void ROPE::SetAdd(int firstNum)
 	}
 }
 
-void ROPE::DoDelete()
+void ROPE::DoSTORM_DELETE()
 {
     DWORD oldnVert=nVert;
 

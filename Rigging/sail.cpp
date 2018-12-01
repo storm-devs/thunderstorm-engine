@@ -142,25 +142,25 @@ SAIL::~SAIL()
     if(slist!=null)
     {
         for(int i=0; i<sailQuantity; i++)
-            PTR_DELETE(slist[i]);
-        PTR_DELETE(slist);
+            PTR_STORM_DELETE(slist[i]);
+        PTR_STORM_DELETE(slist);
     }
     if(gdata!=null)
     {
         for(int i=0; i<groupQuantity; i++)
 		{
-            PTR_DELETE(gdata[i].sailIdx);
+            PTR_STORM_DELETE(gdata[i].sailIdx);
 		}
-        VOIDPTR_DELETE(gdata);
+        VOIDPTR_STORM_DELETE(gdata);
     }
 
 	VERTEX_BUFFER_RELEASE(RenderService,sg.vertBuf);
 	INDEX_BUFFER_RELEASE(RenderService,sg.indxBuf);
     TEXTURE_RELEASE(RenderService,texl);
 	TEXTURE_RELEASE(RenderService,m_nEmptyGerbTex);
-    PTR_DELETE(WindVect);
+    PTR_STORM_DELETE(WindVect);
 	m_nMastCreatedCharacter = -1;
-	PTR_DELETE(m_sMastName);
+	PTR_STORM_DELETE(m_sMastName);
 }
 
 bool SAIL::Init()
@@ -184,7 +184,7 @@ void SAIL::SetDevice()
 	RenderService = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	if(!RenderService)
 	{
-		_THROW("No service: dx9render");
+		STORM_THROW("No service: dx9render");
 	}
 
     LoadSailIni();
@@ -197,7 +197,7 @@ void SAIL::SetDevice()
             for( i=0; i<WINDVECTOR_QUANTITY; i++ )
                 WindVect[i]=sinf((float)i/(float)(WINDVECTOR_QUANTITY)*2.f*PI);
         else
-			{_THROW("No memory allocation: WindVect");}
+			{STORM_THROW("No memory allocation: WindVect");}
     }
 }
 
@@ -289,14 +289,14 @@ void SAIL::Execute(dword Delta_Time)
                 LoadSailIni();
                 if(oldWindQnt!=WINDVECTOR_QUANTITY) // если изменили размер таблицы ветров
                 {
-                    PTR_DELETE(WindVect);
+                    PTR_STORM_DELETE(WindVect);
                     WindVect=NEW float[WINDVECTOR_QUANTITY];
                     if(WindVect) // расчет таблицы векторов ветра
                         for(i=0; i<WINDVECTOR_QUANTITY; i++ )
                             WindVect[i]=sinf((float)i/(float)(WINDVECTOR_QUANTITY)*2.f*PI);
                     else
                     {
-                        _THROW("No memory allocation: WindVect");
+                        STORM_THROW("No memory allocation: WindVect");
                     }
                 }
                 for(i=0; i<sailQuantity; i++)
@@ -571,7 +571,7 @@ dword _cdecl SAIL::ProcessMessage(MESSAGE & message)
 				GROUPDATA* oldgdata = gdata;
 				gdata = NEW GROUPDATA[groupQuantity+1];
 				memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
-				VOIDPTR_DELETE(oldgdata);
+				VOIDPTR_STORM_DELETE(oldgdata);
 				groupQuantity++;
 			}
 			else
@@ -879,7 +879,7 @@ dword _cdecl SAIL::ProcessMessage(MESSAGE & message)
 
 	// начать/закончить присоединение парусов к падающей мачте
 	case MSG_SAIL_MAST_PROCESSING:
-		PTR_DELETE(m_sMastName);
+		PTR_STORM_DELETE(m_sMastName);
 		m_nMastCreatedCharacter = message.Long();
 		if(m_nMastCreatedCharacter!=-1)
 		{
@@ -889,7 +889,7 @@ dword _cdecl SAIL::ProcessMessage(MESSAGE & message)
 			int slen = strlen(param);
 			if(slen>0)
 				if( (m_sMastName=NEW char[slen+1]) == null )
-					{_THROW("allocate memory error");}
+					{STORM_THROW("allocate memory error");}
 				else strcpy(m_sMastName,param);
 		}
 	break;
@@ -1034,9 +1034,9 @@ void SAIL::SetAllSails(int groupNum)
             }
             else
             {
-                //_THROW("SAIL: Null size");
+                //STORM_THROW("SAIL: Null size");
 				api->Trace("SAIL: Can`t init sail");
-                PTR_DELETE(slist[i]);
+                PTR_STORM_DELETE(slist[i]);
                 sailQuantity--;
                 if(sailQuantity>0)
                 {
@@ -1045,9 +1045,9 @@ void SAIL::SetAllSails(int groupNum)
                     if(!slist) {slist=oldslist; oldslist=0;}
                     if(i>0) memcpy(slist,oldslist,sizeof(SAILONE*)*i);
                     if(i<sailQuantity) memcpy(&slist[i],&oldslist[i+1],sizeof(SAILONE*)*(sailQuantity-i));
-                    PTR_DELETE(oldslist);
+                    PTR_STORM_DELETE(oldslist);
                 }
-                else	{PTR_DELETE(slist);}
+                else	{PTR_STORM_DELETE(slist);}
 				i--;
             }
         }
@@ -1112,13 +1112,13 @@ void SAIL::SetAllSails(int groupNum)
             if(gdata)
             {
                 memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
-                VOIDPTR_DELETE(oldgdata);
+                VOIDPTR_STORM_DELETE(oldgdata);
             }
             else gdata=oldgdata;
         }
         else
         {
-            VOIDPTR_DELETE(gdata);
+            VOIDPTR_STORM_DELETE(gdata);
         }
     }
 }
@@ -1532,7 +1532,7 @@ void SAIL::DoSailToNewHost(ENTITY_ID newModelEI, ENTITY_ID newHostEI, int grNum,
 		GROUPDATA *oldgdata=gdata;
         gdata= NEW GROUPDATA[groupQuantity+1];
         if(gdata==0)
-            _THROW("Not memory allocation");
+            STORM_THROW("Not memory allocation");
         memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
 		gdata[gn].bYesShip = false;
         gdata[gn].bDeleted=false;
@@ -1544,7 +1544,7 @@ void SAIL::DoSailToNewHost(ENTITY_ID newModelEI, ENTITY_ID newHostEI, int grNum,
         gdata[gn].modelEI=newModelEI;
 		gdata[gn].dwSailsColor = 0xFFFFFFFF;
 		gdata[gn].maxSP = 100;
-        VOIDPTR_DELETE(oldgdata);
+        VOIDPTR_STORM_DELETE(oldgdata);
 		groupQuantity++;
 		bDeleteState = true;
     }
@@ -1575,7 +1575,7 @@ void SAIL::DoSailToNewHost(ENTITY_ID newModelEI, ENTITY_ID newHostEI, int grNum,
 		{
 			int* oldIdx=gdata[gn].sailIdx;
 			if((gdata[gn].sailIdx= NEW int[gdata[gn].sailQuantity+1])==0)
-				{_THROW("Not memory allocation");}
+				{STORM_THROW("Not memory allocation");}
 			memcpy(gdata[gn].sailIdx,oldIdx,sizeof(int)*gdata[gn].sailQuantity);
 			delete oldIdx; gdata[gn].sailQuantity++;
 		}
@@ -1595,7 +1595,7 @@ void SAIL::DoSailToNewHost(ENTITY_ID newModelEI, ENTITY_ID newHostEI, int grNum,
 			ATTRIBUTES * pA = pVai->GetACharacter()->GetAttributeClass("Ship");
 			if(pA) pA->SetAttributeUseDword("SP",0);
 		}
-        PTR_DELETE(gdata[oldg].sailIdx);
+        PTR_STORM_DELETE(gdata[oldg].sailIdx);
 		gdata[oldg].sailQuantity = 0;
 		gdata[oldg].bDeleted = true;
     }
@@ -1607,8 +1607,8 @@ void SAIL::DoSailToNewHost(ENTITY_ID newModelEI, ENTITY_ID newHostEI, int grNum,
 	bDeleteState = true;
 
     // изменим некоторые значения для нашего паруса
-    PTR_DELETE(slist[sn]->sailtrope.rrs[0]);
-    PTR_DELETE(slist[sn]->sailtrope.rrs[1]);
+    PTR_STORM_DELETE(slist[sn]->sailtrope.rrs[0]);
+    PTR_STORM_DELETE(slist[sn]->sailtrope.rrs[1]);
     slist[sn]->sailtrope.pnttie[0] = slist[sn]->sailtrope.pnttie[1] =
     slist[sn]->sailtrope.pnttie[2] = slist[sn]->sailtrope.pnttie[3] = false;
     slist[sn]->sailtrope.pPos[0] = slist[sn]->sailtrope.pPos[1] =
@@ -1627,7 +1627,7 @@ void SAIL::DeleteSailGroup()
     // удалим все паруса из удаленных группы //
     //---------------------------------------//
     for(sn=0,sailQuantity=0; sn<old_sailQuantity; sn++)
-        if(gdata[slist[sn]->HostNum].bDeleted || slist[sn]->bDeleted)	{PTR_DELETE(slist[sn]);}
+        if(gdata[slist[sn]->HostNum].bDeleted || slist[sn]->bDeleted)	{PTR_STORM_DELETE(slist[sn]);}
 		else	sailQuantity++;
 
 	if(sailQuantity==0)
@@ -1638,7 +1638,7 @@ void SAIL::DeleteSailGroup()
 		if(!gdata[gn].bDeleted) groupQuantity++;
 		else
 		{
-			PTR_DELETE(gdata[gn].sailIdx);
+			PTR_STORM_DELETE(gdata[gn].sailIdx);
 			gdata[gn].sailQuantity = 0;
 		}
 
@@ -1647,9 +1647,9 @@ void SAIL::DeleteSailGroup()
 	GROUPDATA *oldgdata = gdata;
 	if(sailQuantity==0 || groupQuantity==0)
 	{
-		for(i=0;i<old_sailQuantity;i++) {PTR_DELETE(oldslist[i]);}
+		for(i=0;i<old_sailQuantity;i++) {PTR_STORM_DELETE(oldslist[i]);}
 		slist=null;
-		for(i=0;i<old_groupQuantity;i++) {PTR_DELETE(oldgdata[i].sailIdx);}
+		for(i=0;i<old_groupQuantity;i++) {PTR_STORM_DELETE(oldgdata[i].sailIdx);}
 		gdata=null;
 		sailQuantity=0;	groupQuantity=0;
 	}
@@ -1657,20 +1657,20 @@ void SAIL::DeleteSailGroup()
 	{
 		slist = NEW SAILONE*[sailQuantity];
 		gdata = NEW GROUPDATA[groupQuantity];
-		if(slist==null || gdata==null)	{_THROW("allocate memory error");}
+		if(slist==null || gdata==null)	{STORM_THROW("allocate memory error");}
 
 		groupQuantity = 0;
 		sailQuantity = 0;
 		for( gn=0; gn<old_groupQuantity; gn++ )
 		{
-			PTR_DELETE(oldgdata[gn].sailIdx);
+			PTR_STORM_DELETE(oldgdata[gn].sailIdx);
 			// подсчет число парусов в группе
 			int nsn = 0;
 			for( sn=0; sn<old_sailQuantity; sn++ )	if(oldslist[sn]!=null && oldslist[sn]->HostNum==gn) nsn++;
 			if(nsn==0) continue;
 			//  в новом месте создаем запись о группе парусов
 			memcpy(&gdata[groupQuantity],&oldgdata[gn],sizeof(GROUPDATA));
-			if( (gdata[groupQuantity].sailIdx=NEW int[nsn]) == null )	{_THROW("allocate memory error");}
+			if( (gdata[groupQuantity].sailIdx=NEW int[nsn]) == null )	{STORM_THROW("allocate memory error");}
 			gdata[groupQuantity].sailQuantity = nsn;
 			// заполняем список парусов для группы и общий
 			for( sn=0,nsn=0; sn<old_sailQuantity; sn++ )
@@ -1685,8 +1685,8 @@ void SAIL::DeleteSailGroup()
 			groupQuantity++;
 		}
 	}
-	VOIDPTR_DELETE(oldgdata);
-	PTR_DELETE(oldslist);
+	VOIDPTR_STORM_DELETE(oldgdata);
+	PTR_STORM_DELETE(oldslist);
 
     //подсчет новых параметров буферов вертексов и индексов
     long vIndx=0; // индекс на вертекс буфер
@@ -1754,7 +1754,7 @@ void SAIL::SetAddSails(int firstSail)
         RenderService->UnLockVertexBuffer(sg.vertBuf);
     }
     else
-        _THROW("Vertex buffer error");
+        STORM_THROW("Vertex buffer error");
 }
 
 void SAIL::DoNoRopeSailToNewHost(ENTITY_ID newModel, ENTITY_ID newHost, ENTITY_ID oldHost)
@@ -2033,7 +2033,7 @@ dword _cdecl SAIL::ScriptProcessing(char * name, MESSAGE & message)
 {
 	if( name==null ) return 0;
 
-	if( stricmp(name,"RandomSailsDmg")==0 )
+	if( _stricmp(name,"RandomSailsDmg")==0 )
 	{
 		long chrIdx = message.Long();
 		float fDmg = message.Float();
@@ -2041,7 +2041,7 @@ dword _cdecl SAIL::ScriptProcessing(char * name, MESSAGE & message)
 		if(gn>=0 && gn<groupQuantity)	DoRandomsSailsDmg(chrIdx,gn,fDmg);
 	}
 
-	if( stricmp(name,"SailRollSpeed")==0 )
+	if( _stricmp(name,"SailRollSpeed")==0 )
 	{
 		long chrIdx = message.Long();
 		float fSpeed = message.Float();

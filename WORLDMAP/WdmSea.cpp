@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "WdmSea.h"
 #include "WdmShip.h"
+#include "../common_h/defines.h"
 
 //============================================================================================
 

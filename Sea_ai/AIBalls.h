@@ -12,7 +12,7 @@ struct BALL_PARAMS
 {
 	CVECTOR				vFirstPos, vPos;	// first and current ball position
 	VPARTICLE_SYSTEM	* pParticle;
-	string				sBallEvent;
+	std::string				sBallEvent;
 	long				iBallOwner;			// ball owner(character index)
 	float				fTime;				// ball time: in seconds
 	float				fSpeedV0;			// initial speed: in m/s
@@ -33,16 +33,16 @@ struct BALL_PARAMS
 // ============================================================================
 struct BALL_TYPE
 {
-	string				sName;				// ball name
-	string				sParticleName;		// particle name
+	std::string				sName;				// ball name
+	std::string				sParticleName;		// particle name
 	dword				dwSubTexIndex;		// 
 	dword				dwGoodIndex;		//
 	float				fSize;				// ball size(sprite size in meters)
 	float				fWeight;			// ball weight
-	array<BALL_PARAMS>	Balls;				// container with current balls 
+	std::vector<BALL_PARAMS>	Balls;				// container with current balls 
 
 	// constructor for initialization
-	BALL_TYPE() : Balls(_FL_, 64) {};
+	//BALL_TYPE() : Balls(_FL_, 64) {};
 };
 
 // ============================================================================
@@ -58,14 +58,14 @@ private:
 	float				fBallFlySoundDistance;
 	float				fBallFlySoundStereoMultiplyer;
 
-	string				sTextureName;				// texture name
+	std::string				sTextureName;				// texture name
 	dword				dwTextureIndex;				// texture index
 	dword				dwSubTexX, dwSubTexY;		// all balls must be in one texture
 	VIDWALKER			* pVWForts, * pVWShips;		// 
 	dword				dwFireBallFromCameraTime;
 
-	array<BALL_TYPE>	aBallTypes;					// Balls types container
-	array<RS_RECT>		aBallRects;					// Balls container for render
+	std::vector<BALL_TYPE>	aBallTypes;					// Balls types container
+	std::vector<RS_RECT>		aBallRects;					// Balls container for render
 
 	void	AddBall(ATTRIBUTES * pABall);
 

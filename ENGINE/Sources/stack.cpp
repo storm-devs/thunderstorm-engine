@@ -1,4 +1,5 @@
 #include "stack.h"
+#include "../../common_h/defines.h"
 
 VSTACK::VSTACK()
 {
@@ -9,7 +10,7 @@ VSTACK::VSTACK()
 
 VSTACK::~VSTACK()
 {
-	//if(pBlock) delete(pBlock); pBlock = 0;
+	//if(pBlock) STORM_DELETE(pBlock); pBlock = 0;
 	Release();
 }
 
@@ -53,5 +54,6 @@ bool VSTACK::Read(DATA * * _pblock)
 
 void VSTACK::Release()
 {
-	if(pBlock) delete(pBlock); pBlock = 0;
+	if(pBlock) 
+		STORM_DELETE(pBlock); 
 }

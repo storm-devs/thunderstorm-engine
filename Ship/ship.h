@@ -17,11 +17,9 @@
 #include "fireplace.h"
 #include "..\common_h\ShipLights.h"
 
-#include "..\common_h\templates\string.h"
-#include "..\common_h\templates\array.h"
-#include "..\common_h\templates\dtimer.h"
-
 #include "..\common_h\sd2_h\SaveLoad.h"
+#include <vector>
+#include "../common_h/dtimer.h"
 
 #define DELTA_TIME(x)			((x) * 0.001f)
 #define DELTA_TIME_ROTATE(x)	((x) * 1.0f / 10.0f)
@@ -58,7 +56,7 @@ struct ship_point_t
 };
 
 // init parameters
-	static string	sRealizeLayer, sExecuteLayer;
+	static std::string	sRealizeLayer, sExecuteLayer;
 	char			cShipIniName[256];
 	long			iShipPriorityExecute, iShipPriorityRealize;
 	float			fGravity;
@@ -89,7 +87,7 @@ struct ship_point_t
 	IShipLights			* pShipsLights;
 
 // Fire places 
-	array<FirePlace>	aFirePlaces;
+	std::vector<FirePlace>	aFirePlaces;
 
 // Sound section
 
@@ -140,7 +138,7 @@ struct ship_point_t
 	void		ScanShipForFirePlaces();
 	void		LoadPositionFromAttributes();
 	BOOL		LoadShipParameters();
-	void		CalcRealBoxSize();
+	void		CalcRealBoxsize();
 
 	void		SetDead();
 	bool		isDead() { return bDead; };
@@ -208,7 +206,7 @@ public:
 	ENTITY_ID	GetModelEID();
 	CVECTOR		GetPos();
 	CVECTOR		GetAng();
-	CVECTOR		GetBoxSize();
+	CVECTOR		GetBoxsize();
 
 	void		SetPos(CVECTOR & vNewPos);
 

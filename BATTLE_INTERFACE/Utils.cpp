@@ -119,9 +119,9 @@ long BIUtils::GetAlignmentFromAttr(ATTRIBUTES * pA,const char * name,long nDefAl
 	if( pA && name ) {
 		char * pcTmp = pA->GetAttribute(name);
 		if( pcTmp ) {
-			if( stricmp(pcTmp,"left")==0 ) return ALIGN_LEFT;
-			if( stricmp(pcTmp,"center")==0 ) return ALIGN_CENTER;
-			if( stricmp(pcTmp,"right")==0 ) return ALIGN_RIGHT;
+			if( _stricmp(pcTmp,"left")==0 ) return ALIGN_LEFT;
+			if( _stricmp(pcTmp,"center")==0 ) return ALIGN_CENTER;
+			if( _stricmp(pcTmp,"right")==0 ) return ALIGN_RIGHT;
 		}
 	}
 	return nDefAlign;
@@ -226,22 +226,22 @@ float BIUtils::GetFromStr_Float(const char* &pcStr, float fDefault)
 	return (float)atof(ctmp);
 }
 
-void BIUtils::FillTextInfoArray(VDX9RENDER* pRS, ATTRIBUTES* pA, array<BITextInfo>& tia)
+void BIUtils::FillTextInfoArray(VDX9RENDER* pRS, ATTRIBUTES* pA, std::vector<BITextInfo>& tia)
 {
 	if( !pA ) return;
-	tia.DelAll();
+	tia.clear();
 
 	long q = pA->GetAttributesNum();
 	for( long n=0; n<q; n++ )
 	{
-		long i = tia.Add();
-		tia[i].Init( pRS, pA->GetAttributeClass(n) );
+		tia.push_back(BITextInfo());
+		tia.back().Init( pRS, pA->GetAttributeClass(n) );
 	}
 }
 
-void BIUtils::PrintTextInfoArray(array<BITextInfo>& tia)
+void BIUtils::PrintTextInfoArray(std::vector<BITextInfo>& tia)
 {
-	for( long n=0; n<tia; n++ )
+	for( long n=0; n<tia.size(); n++ )
 		tia[n].Print();
 }
 
@@ -295,13 +295,12 @@ void BITextInfo::Print()
 	{
 		if( pARefresh )
 			sText = pARefresh->GetAttribute( "text" );
-		if( !sText.IsEmpty() )
-			pRS->ExtPrint( nFont, dwColor, 0, ALIGN_CENTER, bShadow, fScale, 0,0, pos.x,pos.y, "%s", sText.GetBuffer() );
+		if( !sText.empty() )
+			pRS->ExtPrint( nFont, dwColor, 0, ALIGN_CENTER, bShadow, fScale, 0,0, pos.x,pos.y, "%s", sText.c_str() );
 	}
 }
 
-BILinesInfo::BILinesInfo() :
-	lines(_FL_)
+BILinesInfo::BILinesInfo()
 {
 	pRS = 0;
 }
@@ -313,7 +312,7 @@ BILinesInfo::~BILinesInfo()
 
 void BILinesInfo::Release()
 {
-	lines.DelAll();
+	lines.clear();
 }
 
 void BILinesInfo::Init(VDX9RENDER* rs, ATTRIBUTES *pA)
@@ -327,8 +326,12 @@ void BILinesInfo::Init(VDX9RENDER* rs, ATTRIBUTES *pA)
 		ATTRIBUTES* pAttr = pA->GetAttributeClass(n);
 		if( !pAttr ) break;
 
-		long bi = lines.Add();
-		long ei = lines.Add();
+		//long bi = lines.Add();
+		//long ei = lines.Add();
+		lines.push_back(RS_LINE2D{});
+		auto bi = lines.size() - 1;
+		lines.push_back(RS_LINE2D{});
+		auto ei = lines.size() - 1;
 
 		lines[bi].rhw = lines[ei].rhw = 0.5f;
 		lines[bi].vPos.z = lines[ei].vPos.z = 1.f;
@@ -352,13 +355,12 @@ void BILinesInfo::Init(VDX9RENDER* rs, ATTRIBUTES *pA)
 
 void BILinesInfo::Draw()
 {
-	pRS->DrawLines2D( &lines[0], lines/2, "AILine" );
+	pRS->DrawLines2D( &lines[0], lines.size()/2, "AILine" );
 }
 
 
 
-BIImagesInfo::BIImagesInfo() :
-	images(_FL)
+BIImagesInfo::BIImagesInfo()
 {
 	pRS = 0;
 	pImgRender = 0;
@@ -371,8 +373,10 @@ BIImagesInfo::~BIImagesInfo()
 
 void BIImagesInfo::Release()
 {
-	images.DelAllWithPointers();
-	DELETE( pImgRender );
+	//images.DelAllWithPointers();
+	for (const auto &image : images)
+		delete image;
+	STORM_DELETE( pImgRender );
 }
 
 void BIImagesInfo::Init(VDX9RENDER* rs, ATTRIBUTES *pA)
@@ -396,7 +400,8 @@ void BIImagesInfo::Init(VDX9RENDER* rs, ATTRIBUTES *pA)
 			pAImg->GetAttribute("texture"),
 			pAImg->GetAttributeAsDword("color",ARGB(255,128,128,128)),
 			rUV, rPos );
-		if( pCurImg ) images.Add( pCurImg );
+		if( pCurImg ) 
+			images.push_back( pCurImg );
 	}
 }
 

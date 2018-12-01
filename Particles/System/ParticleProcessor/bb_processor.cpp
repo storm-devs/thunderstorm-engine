@@ -9,6 +9,7 @@
 #include "..\..\..\common_h\math3d.h"
 #include "..\particlesystem\particlesystem.h"
 #include "physic.h"
+#include "../../../common_h/defines.h"
 
 //—колько всего может быть плашек
 #define MAX_BILLBOARDS 4096
@@ -31,8 +32,9 @@
 
 
 
-BillBoardProcessor::BillBoardProcessor () : Particles(_FL_, MAX_BILLBOARDS)
+BillBoardProcessor::BillBoardProcessor ()
 {
+	Particles.reserve(MAX_BILLBOARDS);
 	pMemArray = NEW MemArrayItem[MAX_BILLBOARDS];
 
 	for (DWORD n = 0; n < MAX_BILLBOARDS; n++)
@@ -171,10 +173,6 @@ void BillBoardProcessor::AddParticle (ParticleSystem* pSystem, const Vector& vel
 	pData->graph_AddPower = pFields->FindGraph(PARTICLE_ADDPOWER);
 
 
-
-
-
-
 	pData->DragK = FRAND (1.0f);
 	pData->SpinDragK = FRAND (1.0f);
 	pData->SizeK = FRAND (1.0f);
@@ -190,10 +188,8 @@ void BillBoardProcessor::AddParticle (ParticleSystem* pSystem, const Vector& vel
 	pData->KTrackZ = FRAND (1.0f);
 
 
-
-
 	const char* pEmitterName = pFields->GetString(ATTACHEDEMITTER_NAME);
-	if (stricmp (pEmitterName, "none") == 0)
+	if (_stricmp (pEmitterName, "none") == 0)
 	{
 		pData->AttachedEmitter = NULL;
 	} else
@@ -202,7 +198,7 @@ void BillBoardProcessor::AddParticle (ParticleSystem* pSystem, const Vector& vel
 			if (pData->AttachedEmitter) pData->AttachedEmitter->SetAttachedFlag(true);
 		}
 
-	Particles.Add(pData);
+	Particles.push_back(pData);
 }
 
 
@@ -212,7 +208,7 @@ void BillBoardProcessor::Process (float DeltaTime)
 	//DWORD t;
 	//RDTSC_B (t);
 
-	for (DWORD n = 0; n < Particles.Size(); n++)
+	for (DWORD n = 0; n < Particles.size(); n++)
 	{
 		Particles[n]->ElapsedTime += DeltaTime;
 
@@ -226,7 +222,9 @@ void BillBoardProcessor::Process (float DeltaTime)
 		{
 			*(Particles[n]->ActiveCount) = (*(Particles[n]->ActiveCount)-1);
 			FreeParticle (Particles[n]);
-			Particles.ExtractNoShift(n);
+			//Particles.ExtractNoShift(n);
+			Particles[n] = Particles.back();
+			Particles.pop_back();
 			n--;
 			continue;
 		}
@@ -280,7 +278,7 @@ void BillBoardProcessor::Process (float DeltaTime)
 
 	//–ождаем партиклы, которые прив€занны к нашему партиклу...
 
-	for (DWORD n = 0; n < Particles.Size(); n++)
+	for (DWORD n = 0; n < Particles.size(); n++)
 	{
 		if (Particles[n]->AttachedEmitter)
 		{
@@ -290,7 +288,7 @@ void BillBoardProcessor::Process (float DeltaTime)
 			Particles[n]->AttachedEmitter->SetTransform(Matrix(Particles[n]->RenderAngle, Particles[n]->RenderPos));
 			Particles[n]->AttachedEmitter->BornParticles(DeltaTime);
 
-			//if (n < Particles.Size()-1)	Particles[n]->AttachedEmitter->RestoreTime();
+			//if (n < Particles.size()-1)	Particles[n]->AttachedEmitter->RestoreTime();
 		}
 	}
 
@@ -305,7 +303,7 @@ DWORD BillBoardProcessor::CalcDistanceToCamera ()
 	DWORD VisParticles = 0;
 	Matrix mView;
 	pRS->GetTransform(D3DTS_VIEW, mView);
-	for (DWORD j = 0; j <  Particles.Size(); j++)
+	for (DWORD j = 0; j <  Particles.size(); j++)
 	{
 		Particles[j]->CamDistance = Vector(Particles[j]->RenderPos * mView).z;
 
@@ -335,7 +333,7 @@ BOOL BillBoardProcessor::CompareFunction (BB_ParticleData* e1, BB_ParticleData* 
 void BillBoardProcessor::Draw()
 {
 	if (CalcDistanceToCamera() == 0)	return;
-	ParticleSorter.QSort(CompareFunction, &Particles[0], Particles.Size());
+	ParticleSorter.QSort(CompareFunction, &Particles[0], Particles.size());
 
 	RECT_VERTEX * pVerts = (RECT_VERTEX*)pRS->LockVertexBuffer(pVBuffer, D3DLOCK_DISCARD);
 	//RECT_VERTEX * pVerts = (RECT_VERTEX*)pVBuffer->Lock(0, 0, D3DLOCK_DISCARD);
@@ -343,7 +341,7 @@ void BillBoardProcessor::Draw()
 
 	long Index = 0;
 	DWORD ParticlesCount = 0;
-	for (DWORD j = 0; j <  Particles.Size(); j++)
+	for (DWORD j = 0; j <  Particles.size(); j++)
 	{
 		BB_ParticleData* pR = Particles[j];
 
@@ -538,18 +536,20 @@ void BillBoardProcessor::Draw()
 
 DWORD BillBoardProcessor::GetCount ()
 {
-	return Particles.Size();
+	return Particles.size();
 }
 
 void BillBoardProcessor::DeleteWithGUID (DWORD dwGUID, DWORD GUIDRange)
 {
-	for (DWORD j = 0; j <  Particles.Size(); j++)
+	for (DWORD j = 0; j <  Particles.size(); j++)
 	{
 		if (Particles[j]->EmitterGUID >= dwGUID && Particles[j]->EmitterGUID < dwGUID+GUIDRange)
 		{
 			*(Particles[j]->ActiveCount) = (*(Particles[j]->ActiveCount)-1);
 			FreeParticle (Particles[j]);
-			Particles.ExtractNoShift(j);
+			//Particles.ExtractNoShift(j);
+			Particles[j] = Particles.back();
+			Particles.pop_back();
 			j--;
 		}
 	}
@@ -557,10 +557,10 @@ void BillBoardProcessor::DeleteWithGUID (DWORD dwGUID, DWORD GUIDRange)
 
 void BillBoardProcessor::Clear ()
 {
-	for (DWORD j = 0; j <  Particles.Size(); j++)
+	for (DWORD j = 0; j <  Particles.size(); j++)
 	{
 		*(Particles[j]->ActiveCount) = (*(Particles[j]->ActiveCount)-1);
 		FreeParticle (Particles[j]);
 	}
-	Particles.DelAll();
+	Particles.clear();
 }

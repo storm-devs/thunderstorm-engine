@@ -4,7 +4,8 @@
 #include "..\..\common_h\vapi.h"
 #include "..\..\common_h\geometry.h"
 #include "..\..\common_h\geos.h"
-#include "..\..\common_h\templates.h"
+#include <string>
+#include <vector>
 
 
 class IGMXScene;
@@ -17,10 +18,10 @@ class GeomCache
 	struct CachedGeometry
 	{
 		GEOS* pGeom;
-		string FileName;
+		std::string FileName;
 	};
 
-	array<CachedGeometry> Cache;
+	std::vector<CachedGeometry> Cache;
 
 public:
 

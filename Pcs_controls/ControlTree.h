@@ -3,8 +3,9 @@
 
 #include "..\common_h\vmodule_api.h"
 #include "..\common_h\controls.h"
-#include "..\common_h\templates\string.h"
-#include "..\common_h\templates\array.h"
+#include <string>
+#include <vector>
+
 
 struct ControlTree
 {
@@ -18,19 +19,19 @@ public:
 		bool ControlInAction( ControlTree* pControlTree, const char* pcControlName, long _nLayer );
 
 		long index;
-		string sControlName;
-		array<ControlChild> aChild;
+		std::string sControlName;
+		std::vector<ControlChild> aChild;
 		bool bActive;
 		bool bWaitReleaseControl;
 		float fTimeOut;
 		float fCurTime;
-		string sOutControlName;
+		std::string sOutControlName;
 		long nLayer;
 	};
 
 	struct OutControlInfo
 	{
-		string sControlName;
+		std::string sControlName;
 		CONTROL_STATE_TYPE state;
 	};
 
@@ -57,7 +58,7 @@ protected:
 	long m_nControlsNum;
 	ControlChild m_RootControl;
 
-	array<OutControlInfo> m_aOutControlList;
+	std::vector<OutControlInfo> m_aOutControlList;
 };
 
 #endif

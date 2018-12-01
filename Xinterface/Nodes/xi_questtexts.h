@@ -28,7 +28,7 @@ protected:
 	bool	GetLineNext(int fontNum,char* &pInStr,char* buf,int bufSize);
 	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);
 	void	ReleaseStringes();
-	void	GetStringListForQuestRecord( array<string> & asStringList, const char* pcRecText, const char* pcUserData );
+	void	GetStringListForQuestRecord( std::vector<std::string> & asStringList, const char* pcRecText, const char* pcUserData );
 
 	long	m_idFont;
 	DWORD	m_dwNonCompleteColor;

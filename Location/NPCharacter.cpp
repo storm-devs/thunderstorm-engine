@@ -11,6 +11,7 @@
 #include "NPCharacter.h"
 #include "Location.h"
 #include "CharactersGroups.h"
+#include "../common_h/defines.h"
 
 
 //============================================================================================
@@ -542,7 +543,7 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 	bool bCurrentActionIsFire = false;
 	if(fgtCurType == fgt_none && priorityAction.name && shot.name)
 	{
-		if(stricmp(priorityAction.name, shot.name) == 0)
+		if(_stricmp(priorityAction.name, shot.name) == 0)
 		{
 			bCurrentActionIsFire = true;
 		}
@@ -700,7 +701,7 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 	SetExCharacter(c);
 	if(fgtCurType == fgt_none && priorityAction.name && shot.name)
 	{
-		if(stricmp(priorityAction.name, shot.name) == 0)
+		if(_stricmp(priorityAction.name, shot.name) == 0)
 		{
 			float kdst;
 			NPCharacter * target = (NPCharacter *)FindGunTarget(kdst, true);
@@ -1195,7 +1196,7 @@ NPCharacter::NPCTask NPCharacter::GetTaskID(const char * taskName)
 	for(long i = 0; i < npct_max; i++)
 	{
 		const char * task = GetTaskName(NPCTask(i));
-		if(stricmp(task, taskName) == 0) return NPCTask(i);
+		if(_stricmp(task, taskName) == 0) return NPCTask(i);
 	}
 	return npct_unknow;
 }

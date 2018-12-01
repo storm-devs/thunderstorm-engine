@@ -34,7 +34,7 @@ __forceinline float RandomRange (float Min, float Max)
 
 
 //конструктор/деструктор
-DataGraph::DataGraph () : MinGraph(_FL_, 128), MaxGraph(_FL_, 128)
+DataGraph::DataGraph ()
 {
 	bRelative = false;
 	bNegative = false;
@@ -50,18 +50,18 @@ DataGraph::~DataGraph ()
 //Установить значения...
 void DataGraph::SetValues (const GraphVertex* MinValues, DWORD MinValuesSize, const GraphVertex* MaxValues, DWORD MaxValuesSize)
 {
-	MinGraph.DelAll();
-	MaxGraph.DelAll();
+	MinGraph.clear();
+	MaxGraph.clear();
 
 	DWORD n  = 0;
 	for (n = 0; n < MinValuesSize; n++)
 	{
-		MinGraph.Add(MinValues[n]);
+		MinGraph.push_back(MinValues[n]);
 	}
 
 	for (n = 0; n < MaxValuesSize; n++)
 	{
-		MaxGraph.Add(MaxValues[n]);
+		MaxGraph.push_back(MaxValues[n]);
 	}
 
 	ResetCachedTime ();
@@ -70,22 +70,22 @@ void DataGraph::SetValues (const GraphVertex* MinValues, DWORD MinValuesSize, co
 //Устанавливает "значение по умолчанию"
 void DataGraph::SetDefaultValue (float MaxValue, float MinValue)
 {
-	MinGraph.DelAll();
-	MaxGraph.DelAll();
+	MinGraph.clear();
+	MaxGraph.clear();
 
 	GraphVertex Min;
 	Min.Val = MinValue;
 	Min.Time = MIN_GRAPH_TIME;
-	MinGraph.Add(Min);
+	MinGraph.push_back(Min);
 	Min.Time = MAX_GRAPH_TIME;
-	MinGraph.Add(Min);
+	MinGraph.push_back(Min);
 
 	GraphVertex Max;
 	Max.Val = MinValue;
 	Max.Time = MIN_GRAPH_TIME;
-	MaxGraph.Add(Max);
+	MaxGraph.push_back(Max);
 	Max.Time = MAX_GRAPH_TIME;
-	MaxGraph.Add(Max);
+	MaxGraph.push_back(Max);
 
 	ResetCachedTime ();
 }
@@ -94,13 +94,13 @@ void DataGraph::SetDefaultValue (float MaxValue, float MinValue)
 //Получить кол-во в графике минимума
 DWORD DataGraph::GetMinCount ()
 {
-	return MinGraph.Size();
+	return MinGraph.size();
 }
 
 //Получить кол-во в графике максимума
 DWORD DataGraph::GetMaxCount ()
 {
-	return MaxGraph.Size();
+	return MaxGraph.size();
 }
 
 //Получить значение по индексу из графика минимума
@@ -126,8 +126,8 @@ void DataGraph::ResetCachedTime ()
 
 void DataGraph::Load (MemFile* File)
 {
-	MinGraph.DelAll();
-	MaxGraph.DelAll();
+	MinGraph.clear();
+	MaxGraph.clear();
 
 	DWORD dwNegative = 0;
 	File->ReadType(dwNegative);
@@ -155,7 +155,7 @@ void DataGraph::Load (MemFile* File)
 		GraphVertex MaxVertex;
 		MaxVertex.Time = fTime;
 		MaxVertex.Val = fValue;
-		MaxGraph.Add(MaxVertex);
+		MaxGraph.push_back(MaxVertex);
 
 		//api->Trace("Max value %d = %3.2f, %3.2f", i, fTime, fValue);
 	}
@@ -177,7 +177,7 @@ void DataGraph::Load (MemFile* File)
 		GraphVertex MinVertex;
 		MinVertex.Time = fTime;
 		MinVertex.Val = fValue;
-		MinGraph.Add(MinVertex);
+		MinGraph.push_back(MinVertex);
 
 		//api->Trace("Min value %d = %3.2f, %3.2f", i, fTime, fValue);
 
@@ -197,11 +197,11 @@ void DataGraph::Load (MemFile* File)
 
 	//HACK ! Для совместимости со старой версией...
 	//Конвертим после загрузки графики в нужный формат...
-	//if (stricmp (AttribueName, EMISSION_DIR_X) == 0)	ConvertDegToRad ();
-	//if (stricmp (AttribueName, EMISSION_DIR_Y) == 0)	ConvertDegToRad ();
-	//if (stricmp (AttribueName, EMISSION_DIR_Z) == 0)	ConvertDegToRad ();
-	//if (stricmp (AttribueName, PARTICLE_DRAG) == 0)	NormalToPercent();
-	//if (stricmp (AttribueName, PARTICLE_TRANSPARENCY) == 0)	NormalToAlpha();
+	//if (_stricmp (AttribueName, EMISSION_DIR_X) == 0)	ConvertDegToRad ();
+	//if (_stricmp (AttribueName, EMISSION_DIR_Y) == 0)	ConvertDegToRad ();
+	//if (_stricmp (AttribueName, EMISSION_DIR_Z) == 0)	ConvertDegToRad ();
+	//if (_stricmp (AttribueName, PARTICLE_DRAG) == 0)	NormalToPercent();
+	//if (_stricmp (AttribueName, PARTICLE_TRANSPARENCY) == 0)	NormalToAlpha();
 
 }
 
@@ -236,7 +236,7 @@ void DataGraph::SetName (const char* szName)
 
 const char* DataGraph::GetName ()
 {
-	return Name.GetBuffer();
+	return Name.c_str();
 }
 
 
@@ -254,10 +254,10 @@ void DataGraph::ConvertDegToRad ()
 void DataGraph::MultiplyBy (float Val)
 {
 	DWORD n;
-	for (n = 0; n < MaxGraph.Size(); n++)
+	for (n = 0; n < MaxGraph.size(); n++)
 		MaxGraph[n].Val *= Val;
 
-	for (n = 0; n < MinGraph.Size(); n++)
+	for (n = 0; n < MinGraph.size(); n++)
 		MinGraph[n].Val *= Val;
 }
 
@@ -265,7 +265,7 @@ float DataGraph::GetMinAtTime (float Time, float LifeTime)
 {
 	if (bRelative) Time = Time / LifeTime * 100.0f;
 
-	DWORD Count = MinGraph.Size();
+	DWORD Count = MinGraph.size();
 	DWORD Index;
 	if (MinCachedTime < Time)
 		Index = MinCachedIndex;
@@ -307,7 +307,7 @@ float DataGraph::GetMaxAtTime (float Time, float LifeTime)
 {
 	if (bRelative)	Time = Time / LifeTime * 100.0f;
 
-	DWORD Count = MaxGraph.Size();
+	DWORD Count = MaxGraph.size();
 	
 	DWORD Index;
 
@@ -365,13 +365,13 @@ float DataGraph::GetRandomValue (float Time, float LifeTime)
 void DataGraph::Clamp (float MinValue, float MaxValue)
 {
 	DWORD n;
-	for (n = 0; n < MaxGraph.Size(); n++)
+	for (n = 0; n < MaxGraph.size(); n++)
 	{
 		if (MaxGraph[n].Val > MaxValue) MaxGraph[n].Val = MaxValue;
 		if (MaxGraph[n].Val < MinValue) MaxGraph[n].Val = MinValue;
 	}
 
-	for (n = 0; n < MinGraph.Size(); n++)
+	for (n = 0; n < MinGraph.size(); n++)
 	{
 		if (MinGraph[n].Val > MaxValue) MinGraph[n].Val = MaxValue;
 		if (MinGraph[n].Val < MinValue) MinGraph[n].Val = MinValue;
@@ -382,10 +382,10 @@ void DataGraph::Clamp (float MinValue, float MaxValue)
 void DataGraph::Reverse ()
 {
 	DWORD n;
-	for (n = 0; n < MaxGraph.Size(); n++)
+	for (n = 0; n < MaxGraph.size(); n++)
 		MaxGraph[n].Val = 1.0f - MaxGraph[n].Val;
 
-	for (n = 0; n < MinGraph.Size(); n++)
+	for (n = 0; n < MinGraph.size(); n++)
 		MinGraph[n].Val = 1.0f - MinGraph[n].Val;
 }
 
@@ -418,8 +418,8 @@ float DataGraph::GetMaxTime ()
 {
 	float MaxVal = 10.0f;
 	float MinVal = 10.0f;
-	DWORD MaxCount = MaxGraph.Size();
-	DWORD MinCount = MinGraph.Size();
+	DWORD MaxCount = MaxGraph.size();
+	DWORD MinCount = MinGraph.size();
 
 	if (MaxCount > 2)	MaxVal = MaxGraph[MaxCount-2].Time;
 	if (MinCount > 2)	MinVal = MinGraph[MinCount-2].Time;
@@ -438,7 +438,7 @@ void DataGraph::Write (MemFile* File)
 
 
 	
-	DWORD MaxGraphItemsCount = MaxGraph.Size();
+	DWORD MaxGraphItemsCount = MaxGraph.size();
 	File->WriteType(MaxGraphItemsCount);
 
 	DWORD i = 0;
@@ -452,7 +452,7 @@ void DataGraph::Write (MemFile* File)
 		File->WriteType(fValue);
 	}
 
-	DWORD MinGraphItemsCount = MinGraph.Size();
+	DWORD MinGraphItemsCount = MinGraph.size();
 	File->WriteType(MinGraphItemsCount);
 
 	for (i = 0; i < MinGraphItemsCount; i++)
@@ -466,11 +466,11 @@ void DataGraph::Write (MemFile* File)
 
 
 	//save name
-	DWORD NameLength = Name.Len();
+	DWORD NameLength = Name.size();
 	DWORD NameLengthPlusZero = NameLength+1;
 	File->WriteType(NameLengthPlusZero);
 	Assert (NameLength < 128);
-	File->Write(Name.GetBuffer(), NameLength);
+	File->Write(Name.c_str(), NameLength);
 	File->WriteZeroByte();
 
 }

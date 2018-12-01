@@ -36,7 +36,7 @@ TOUCH::TOUCH()
 
 TOUCH::~TOUCH()
 {
-	for (long i=0;i<iNumShips;i++) DELETE(pShips[i]);
+	for (long i=0;i<iNumShips;i++) STORM_DELETE(pShips[i]);
 }
 
 dword _cdecl TOUCH::ProcessMessage(MESSAGE & message)
@@ -152,18 +152,18 @@ CVECTOR TOUCH::GetPoint(float x, float y, float xx, float yy, float xscale, floa
 	return vPos;
 }
 
-void TOUCH::DrawLine(array<RS_LINE2D> & aLines, float x1, float y1, float x2, float y2, DWORD dwColor)
+void TOUCH::DrawLine(std::vector<RS_LINE2D> & aLines, float x1, float y1, float x2, float y2, DWORD dwColor)
 {
-	RS_LINE2D * pL1 = &aLines[aLines.Add()];
-	RS_LINE2D * pL2 = &aLines[aLines.Add()];
+	RS_LINE2D l1, l2;
+	l1.rhw = 0.5f;
+	l2.rhw = 0.5f;
+	l1.dwColor = dwColor;
+	l2.dwColor = dwColor;
+	l1.vPos = CVECTOR(x1, y1, 1.0f);
+	l2.vPos = CVECTOR(x2, y2, 1.0f);
 
-	pL1->rhw = 0.5f;
-	pL2->rhw = 0.5f;
-	pL1->dwColor = dwColor;
-	pL2->dwColor = dwColor;
-
-	pL1->vPos = CVECTOR(x1, y1, 1.0f);
-	pL2->vPos = CVECTOR(x2, y2, 1.0f);
+	aLines.emplace_back(l1);
+	aLines.emplace_back(l2);
 }
 
 void TOUCH::DrawShips()
@@ -171,7 +171,7 @@ void TOUCH::DrawShips()
 	long				i, j;
 	CVECTOR				p1, p2;
 	POINT				ss;
-	array<RS_LINE2D>	aLines(_FL_);
+	std::vector<RS_LINE2D>	aLines;
 
 	ss.x = 800;
 	ss.y = 600;
@@ -229,8 +229,8 @@ void TOUCH::DrawShips()
 		}
 	}
 
-	if (aLines.Size())
-		pRS->DrawLines2D(&aLines[0], aLines.Size() / 2, "AILine");
+	if (aLines.size())
+		pRS->DrawLines2D(&aLines[0], aLines.size() / 2, "AILine");
 }
 
 BOOL TOUCH::BuildContour(long ship_idx)
@@ -534,7 +534,7 @@ bool TOUCH::IsSinked(long iIndex)
 	SHIP_BASE * pShip = pShips[iIndex]->pShip;
 	if (pShip->isDead())
 	{
-		float fY = pShip->GetBoxSize().y;
+		float fY = pShip->GetBoxsize().y;
 		if (pShip->GetPos().y < -fY / 3.0f) return true;
 	}
 	return false;

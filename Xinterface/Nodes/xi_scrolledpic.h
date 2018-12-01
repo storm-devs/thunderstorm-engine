@@ -45,8 +45,8 @@ protected:
 	};
 
 	long m_nScaleNum;
-	array<FXYPOINT> m_aScale;
-	array<BuildinImage> m_aImg;
+	std::vector<FXYPOINT> m_aScale;
+	std::vector<BuildinImage> m_aImg;
 };
 
 #endif

@@ -11,9 +11,9 @@
 #include "WdmPlayerShip.h"
 #include "WdmStorm.h"
 #include "WdmEnemyShip.h"
-#include "WdmIcon.h"
 #include "WdmIslands.h"
 #include "WorldMap.h"
+#include "../common_h/defines.h"
 
 //============================================================================================
 //Конструирование, деструктурирование

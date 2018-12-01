@@ -4,7 +4,7 @@
 
 
 //конструктор/деструктор
-DataUV::DataUV () : Frames(_FL_)
+DataUV::DataUV ()
 {
 }
 
@@ -15,7 +15,7 @@ DataUV::~DataUV ()
 	//Получить значение   [ x,y = UV1; z,w = UV2 ]
 const Vector4 &DataUV::GetValue (DWORD FrameNum)
 {
-	DWORD TotalFrames = Frames.Size();
+	DWORD TotalFrames = Frames.size();
 	FrameNum = FrameNum % TotalFrames;
 	return Frames[FrameNum];
 }
@@ -23,18 +23,18 @@ const Vector4 &DataUV::GetValue (DWORD FrameNum)
 	//Установить значения
 void DataUV::SetValues (const Vector4* _Frames, DWORD FramesCount)
 {
-	Frames.DelAll();
+	Frames.clear();
 
 	for (DWORD n = 0; n < FramesCount; n++)
 	{
-		Frames.Add(_Frames[n]);
+		Frames.push_back(_Frames[n]);
 	}
 }
 
 	//Получить кол-во кадров
 DWORD DataUV::GetFrameCount ()
 {
-	return Frames.Size();
+	return Frames.size();
 }
 
 void DataUV::Load (MemFile* File)
@@ -53,7 +53,7 @@ void DataUV::Load (MemFile* File)
 		newFrame = rFrame;
 		newFrame.z += newFrame.x;
 		newFrame.w += newFrame.y;
-		Frames.Add(newFrame);
+		Frames.push_back(newFrame);
 	}
 
 	static char AttribueName[128];
@@ -73,7 +73,7 @@ void DataUV::SetName (const char* szName)
 
 const char* DataUV::GetName ()
 {
-	return Name.GetBuffer();
+	return Name.c_str();
 }
 
 void DataUV::Write (MemFile* File)
@@ -91,10 +91,10 @@ void DataUV::Write (MemFile* File)
 	}
 
 	//save name
-	DWORD NameLength = Name.Len();
+	DWORD NameLength = Name.size();
 	DWORD NameLengthPlusZero = NameLength+1;
 	File->WriteType(NameLengthPlusZero);
 	Assert (NameLength < 128);
-	File->Write(Name.GetBuffer(), NameLength);
+	File->Write(Name.c_str(), NameLength);
 	File->WriteZeroByte();
 }

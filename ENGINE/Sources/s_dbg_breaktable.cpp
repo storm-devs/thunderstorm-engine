@@ -140,7 +140,7 @@ void BREAKPOINTS_TABLE::AddBreakPoint(const char * filename, DWORD line)
 	for(n=0;n<nPoints;n++)
 	{
 		if(pTable[n].nLineNumber != line) continue;
-		if(stricmp(pTable[n].pFileName,filename) != 0) continue;
+		if(_stricmp(pTable[n].pFileName,filename) != 0) continue;
 		return;	// already in list
 	}
 
@@ -167,7 +167,7 @@ void BREAKPOINTS_TABLE::DelBreakPoint(const char * filename, DWORD line)
 	for(n=0;n<nPoints;n++)
 	{
 		if(pTable[n].nLineNumber != line) continue;
-		if(stricmp(pTable[n].pFileName,filename) != 0) continue;
+		if(_stricmp(pTable[n].pFileName,filename) != 0) continue;
 
 		if(pTable[n].pFileName) delete pTable[n].pFileName;
 
@@ -189,7 +189,7 @@ bool BREAKPOINTS_TABLE::Find(const char * filename, DWORD line)
 	for(n=0;n<nPoints;n++)
 	{
 		if(pTable[n].nLineNumber != line) continue;
-		if(stricmp(pTable[n].pFileName,filename) != 0) continue;
+		if(_stricmp(pTable[n].pFileName,filename) != 0) continue;
 
 		return true;
 	}

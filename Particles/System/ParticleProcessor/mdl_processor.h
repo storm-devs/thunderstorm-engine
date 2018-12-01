@@ -12,7 +12,6 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include "..\..\..\common_h\exs.h"
-#include "..\..\..\common_h\templates.h"
 #include "..\..\..\common_h\dx9render.h"
 #include "..\..\..\common_h\particles\gmx_QSort.h"
 
@@ -43,7 +42,7 @@ class ModelProcessor
 
 	MemArrayItem* pMemArray;
 
-	array<MDL_ParticleData*> Particles;
+	std::vector<MDL_ParticleData*> Particles;
 
 
 	MDL_ParticleData* AllocParticle ();

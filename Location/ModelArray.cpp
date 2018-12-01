@@ -180,7 +180,7 @@ long ModelArray::FindModel(const char * modelName)
 	{
 		if(model[i].hash == hash)
 		{
-			if(stricmp(model[i].name, buf) == 0)
+			if(_stricmp(model[i].name, buf) == 0)
 			{
 				return i;
 			}

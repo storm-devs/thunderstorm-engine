@@ -2,8 +2,8 @@
 #include "..\..\common_h\model.h"
 #include "..\..\common_h\matrix.h"
 #include "..\..\common_h\geometry.h"
-#include "..\..\common_h\templates\string.h"
 #include "..\xinterface.h"
+#include "../../common_h/defines.h"
 
 InterfaceBackScene::LightParam::~LightParam()
 {
@@ -76,7 +76,7 @@ void InterfaceBackScene::MenuDescr::Set( CMatrix* pMtx, const char* pcActiveName
 	sEventName = pcEvent;
 	VGEOMETRY* pGeo = (VGEOMETRY*)api->CreateService("Geometry");
 	if( pGeo )
-		if( pcPathName && pcPathName[0] ) pGeo->SetTexturePath(string("MainMenu\\")+pcPathName+"\\");
+		if( pcPathName && pcPathName[0] ) pGeo->SetTexturePath((std::string("MainMenu\\")+pcPathName+"\\").c_str());
 		else pGeo->SetTexturePath("MainMenu\\");
 	// create active model
 	if( pcActiveName )
@@ -112,10 +112,7 @@ void InterfaceBackScene::MenuDescr::Set( CMatrix* pMtx, const char* pcActiveName
 	if( pActive ) bSelectable = true;
 }
 
-InterfaceBackScene::InterfaceBackScene() :
-	m_aMenuDescr(_FL),
-	m_aLights(_FL),
-	m_apAniModel(_FL)
+InterfaceBackScene::InterfaceBackScene()
 {
 	m_pModel = null;
 	m_pLocators = null;
@@ -143,8 +140,12 @@ InterfaceBackScene::~InterfaceBackScene()
 	m_pLocators = null;
 	m_pModel = null;
 	ReleaseMenuList();
-	m_aLights.DelAllWithPointers();
-	m_apAniModel.DelAllWithPointers();
+
+	for (const auto &light : m_aLights)
+		delete light;
+	for (const auto &model : m_apAniModel)
+		delete model;
+	//m_apAniModel.DelAllWithPointers();
 
 	if( m_nFlareTexture >=0 ) m_pRS->TextureRelease(m_nFlareTexture); m_nFlareTexture = -1;
 
@@ -239,13 +240,13 @@ void InterfaceBackScene::Realize(dword Delta_Time)
 		SetLight();
 		m_pRS->SetRenderState(D3DRS_LIGHTING, true);
 		m_pModel->Realize(Delta_Time);
-		for( n=0; n<m_aLights; n++ ) // показать все фонари
+		for( n=0; n<m_aLights.size(); n++ ) // показать все фонари
 			if( m_aLights[n]->pModel )
 			{
 				m_aLights[n]->pModel->Realize(Delta_Time);
 				FlareShow(n);
 			}
-		for( n=0; n<m_apAniModel; n++ )
+		for( n=0; n<m_apAniModel.size(); n++ )
 		{
 			if( m_apAniModel[n]->pModel ) {
 				dword dwTFactor;
@@ -261,7 +262,7 @@ void InterfaceBackScene::Realize(dword Delta_Time)
 	}
 
 	// отрисовка пунктов меню
-	for( n=0; n<m_aMenuDescr; n++ )
+	for( n=0; n<m_aMenuDescr.size(); n++ )
 	{
 		if( n==m_nSelectMenuIndex && m_aMenuDescr[n]->pActive )
 			m_aMenuDescr[n]->pActive->Realize( Delta_Time );
@@ -315,7 +316,7 @@ dword _cdecl InterfaceBackScene::ProcessMessage(MESSAGE & message)
 	case 6: // set current menu
 		{
 			long n = message.Long();
-			if( n<0 || n>=m_aMenuDescr || !m_aMenuDescr[n]->bSelectable ) n = -1;
+			if( n<0 || n>=m_aMenuDescr.size() || !m_aMenuDescr[n]->bSelectable ) n = -1;
 			else m_nSelectMenuIndex = n;
 		}
 	break;
@@ -364,7 +365,7 @@ void InterfaceBackScene::LoadModel( const char* pcModelName )
 		m_pLocators = null;
 	}
 	VGEOMETRY* pGeo = (VGEOMETRY*)api->CreateService("Geometry");
-	if( pGeo ) pGeo->SetTexturePath(string("MainMenu\\")+XINTERFACE::pThis->StringService()->GetLanguage()+"\\");
+	if( pGeo ) pGeo->SetTexturePath((std::string("MainMenu\\")+XINTERFACE::pThis->StringService()->GetLanguage()+"\\").c_str());
 	// create model
 	api->CreateEntity( &m_eiModel, "MODELR" );
 	api->Send_Message( m_eiModel, "ls", MSG_MODEL_LOAD_GEO, pcModelName );
@@ -374,8 +375,8 @@ void InterfaceBackScene::LoadModel( const char* pcModelName )
 	api->LayerAdd("rain_drops", m_eiModel, 100);
 	// create locators
 	api->CreateEntity( &m_eiLocators, "MODELR" );
-	string sLocName = string(pcModelName) + "_locators";
-	api->Send_Message( m_eiLocators, "ls", MSG_MODEL_LOAD_GEO, sLocName.GetBuffer() );
+	std::string sLocName = std::string(pcModelName) + "_locators";
+	api->Send_Message( m_eiLocators, "ls", MSG_MODEL_LOAD_GEO, sLocName.c_str() );
 	m_pLocators = (MODEL*)api->GetEntityPointer( &m_eiLocators );
 }
 
@@ -430,7 +431,7 @@ bool InterfaceBackScene::FindLocator( const char* pcLocName, CMatrix* pMtx, CVEC
 		for( long l=0; l<ginf.nlabels; l++ )
 		{
 			pNod->geo->GetLabel( l, lbl );
-			if( lbl.name && stricmp(pcLocName,lbl.name)==0 )
+			if( lbl.name && _stricmp(pcLocName,lbl.name)==0 )
 			{
 				if( pMtx ) {
 					memcpy( pMtx, &lbl.m, sizeof(float)*4*4 );
@@ -465,7 +466,7 @@ void InterfaceBackScene::SetLocatorPosition( MODEL* pModel, const char* pcLocNam
 			for( long l=0; l<ginf.nlabels; l++ )
 			{
 				pNod->geo->GetLabel( l, lbl );
-				if( lbl.name && stricmp(pcLocName,lbl.name)==0 )
+				if( lbl.name && _stricmp(pcLocName,lbl.name)==0 )
 				{
 					pos.x = lbl.m[3][0];
 					pos.y = lbl.m[3][1];
@@ -480,7 +481,9 @@ void InterfaceBackScene::SetLocatorPosition( MODEL* pModel, const char* pcLocNam
 
 void InterfaceBackScene::ReleaseMenuList()
 {
-	m_aMenuDescr.DelAllWithPointers();
+	//m_aMenuDescr.DelAllWithPointers();
+	for (const auto &descr : m_aMenuDescr)
+		delete descr;
 }
 
 void InterfaceBackScene::CreateMenuList( long nStartIndex, ATTRIBUTES* pAMenu )
@@ -502,9 +505,9 @@ void InterfaceBackScene::CreateMenuList( long nStartIndex, ATTRIBUTES* pAMenu )
 		MenuDescr* pMD = NEW MenuDescr;
 		Assert(pMD);;
 		pMD->Set( &mtx, pA->GetAttribute("sel"), pA->GetAttribute("norm"), pA->GetAttribute("event"), pA->GetAttribute("path"), pA->GetAttribute("technique") );
-		m_aMenuDescr.Add( pMD );
+		m_aMenuDescr.push_back( pMD );
 	}
-	if( nStartIndex>=0 && nStartIndex<m_aMenuDescr && m_aMenuDescr[nStartIndex]->bSelectable )
+	if( nStartIndex>=0 && nStartIndex<m_aMenuDescr.size() && m_aMenuDescr[nStartIndex]->bSelectable )
 		m_nSelectMenuIndex = nStartIndex;
 	else m_nSelectMenuIndex = -1;
 }
@@ -512,10 +515,10 @@ void InterfaceBackScene::CreateMenuList( long nStartIndex, ATTRIBUTES* pAMenu )
 void InterfaceBackScene::ChooseNextMenu()
 {
 	long n;
-	for( n=m_nSelectMenuIndex+1; n<m_aMenuDescr; n++ )
+	for( n=m_nSelectMenuIndex+1; n<m_aMenuDescr.size(); n++ )
 		if( m_aMenuDescr[n]->bSelectable )
 			break;
-	if( n<m_aMenuDescr ) m_nSelectMenuIndex = n;
+	if( n<m_aMenuDescr.size() ) m_nSelectMenuIndex = n;
 }
 
 void InterfaceBackScene::ChoosePrevMenu()
@@ -529,13 +532,13 @@ void InterfaceBackScene::ChoosePrevMenu()
 
 void InterfaceBackScene::SetNewMenu(long nNewSelectIndex)
 {
-	if( nNewSelectIndex<0 || nNewSelectIndex>=m_aMenuDescr || !m_aMenuDescr[nNewSelectIndex]->bSelectable ) return;
+	if( nNewSelectIndex<0 || nNewSelectIndex>=m_aMenuDescr.size() || !m_aMenuDescr[nNewSelectIndex]->bSelectable ) return;
 	m_nSelectMenuIndex = nNewSelectIndex;
 }
 
 void InterfaceBackScene::SetMenuSelectableState( long nMenuIndex, bool bSelectable )
 {
-	if( nMenuIndex<0 || nMenuIndex>=m_aMenuDescr ) return;
+	if( nMenuIndex<0 || nMenuIndex>=m_aMenuDescr.size() ) return;
 	if( m_aMenuDescr[nMenuIndex]->bSelectable == bSelectable ) return;
 	if( bSelectable && m_aMenuDescr[nMenuIndex]->pActive && m_aMenuDescr[nMenuIndex]->pPassive )
 		m_aMenuDescr[nMenuIndex]->bSelectable = true;
@@ -544,8 +547,8 @@ void InterfaceBackScene::SetMenuSelectableState( long nMenuIndex, bool bSelectab
 
 void InterfaceBackScene::ExecuteMenu( long nMenuIndex )
 {
-	if( nMenuIndex<0 || nMenuIndex>=m_aMenuDescr ) return;
-	api->PostEvent( "backgroundcommand", 1, "s", m_aMenuDescr[nMenuIndex]->sEventName.GetBuffer() );
+	if( nMenuIndex<0 || nMenuIndex>=m_aMenuDescr.size() ) return;
+	api->PostEvent( "backgroundcommand", 1, "s", m_aMenuDescr[nMenuIndex]->sEventName.c_str() );
 }
 
 long InterfaceBackScene::CheckMousePos( float fX, float fY )
@@ -570,7 +573,7 @@ long InterfaceBackScene::CheckMousePos( float fX, float fY )
 	CVECTOR vStart = mtxView.Pos();
 	CVECTOR vEnd = vStart + vDir * 300.f;
 
-	for( long n=0; n<m_aMenuDescr; n++ )
+	for( long n=0; n<m_aMenuDescr.size(); n++ )
 		if( m_aMenuDescr[n]->bSelectable &&
 			m_aMenuDescr[n]->pActive &&
 			m_aMenuDescr[n]->pActive->Trace( vStart, vEnd ) <= 1.f )
@@ -585,7 +588,7 @@ void InterfaceBackScene::InitLight( ATTRIBUTES* pAParam )
 	LightParam* pLight = NEW LightParam();
 	Assert(pLight);
 
-	m_aLights.Add(pLight);
+	m_aLights.push_back(pLight);
 
 	ZERO(pLight->lightSource);
 	pLight->lightSource.Type = D3DLIGHT_POINT;
@@ -642,7 +645,7 @@ void InterfaceBackScene::InitLight( ATTRIBUTES* pAParam )
 
 			pLight->pLightSrcNode = pLight->pModel->GetNode(0);
 			SetLocatorPosition( pLight->pModel, pAParam->GetAttribute("lightlocator"), pLight->vLightPos, pLight->pLightSrcNode );
-			if(m_aLights.Size()>0 && m_aLights[0]->bUse) {
+			if(m_aLights.size()>0 && m_aLights[0]->bUse) {
 				CVECTOR vFlarePos = pLight->vLightPos;
 				SetLocatorPosition( pLight->pModel, pAParam->GetAttribute("flarelocator"), vFlarePos, pLight->pLightSrcNode );
 				m_vFlarePos = pLight->pLightSrcNode->glob_mtx * vFlarePos;
@@ -668,7 +671,7 @@ void InterfaceBackScene::SetLight()
 	long nFreeLightIndex=0;
 	D3DCAPS9 d3dcaps;	m_pRS->GetDeviceCaps(&d3dcaps);
 
-	for( long n=0; n<m_aLights; n++ )
+	for( long n=0; n<m_aLights.size(); n++ )
 	{
 		if( m_aLights[n]->bUse ) {
 			BOOL bTmp;
@@ -687,7 +690,7 @@ void InterfaceBackScene::SetLight()
 
 void InterfaceBackScene::RestoreLight()
 {
-	for( long n=0; n<m_aLights; n++ )
+	for( long n=0; n<m_aLights.size(); n++ )
 	{
 		if( m_aLights[n]->bUse ) {
 			if( m_aLights[n]->indexLight >= 0 )
@@ -827,7 +830,7 @@ void InterfaceBackScene::InitAniModel( ATTRIBUTES* pAParam )
 		}
 	}
 
-	m_apAniModel.Add(pObj);
+	m_apAniModel.push_back(pObj);
 
 	//pObj->pModel->GetAnimation()-
 }
@@ -873,7 +876,7 @@ void InterfaceBackScene::InitStaticModel( ATTRIBUTES* pAParam )
 		}
 	}
 
-	m_apAniModel.Add(pObj);
+	m_apAniModel.push_back(pObj);
 }
 
 //---------------------------------------------------

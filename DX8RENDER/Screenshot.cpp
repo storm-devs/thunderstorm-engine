@@ -52,12 +52,12 @@ void DX9RENDER::SaveCaptureBuffers()
 
 bool DX9RENDER::MakeCapture()
 {
-	if (aCaptureBuffers.IsEmpty()) return false;
+	if (aCaptureBuffers.empty()) return false;
 
 	if (!bPreparedCapture)
 		PrepareCapture();
 
-	if (dwCaptureBuffersReady >= aCaptureBuffers.Size())
+	if (dwCaptureBuffersReady >= aCaptureBuffers.size())
 	{
 		Beep(1000, 150);
 		SaveCaptureBuffers();

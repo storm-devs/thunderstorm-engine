@@ -2,8 +2,7 @@
 #include "SunGlow.h"
 #include "..\common_h\weather_base.h"
 
-SKY::SKY() :
-	aSkyDirArray(_FL)
+SKY::SKY()
 {
 	iSkyVertsID = -1;
 	iSkyIndexID = -1;
@@ -232,17 +231,17 @@ void SKY::LoadTextures()
 {
 	char	str[256], *names[SKY_NUM_TEXTURES] = {"sky_fr.tga", "sky_lf.tga", "sky_bk.tga", "sky_rt.tga", "sky_up.tga"};
 
-	string sSkyDir,sSkyDirNext;
+	std::string sSkyDir,sSkyDirNext;
 	GetSkyDirStrings(sSkyDir,sSkyDirNext);
 
 	for (long i=0;i<SKY_NUM_TEXTURES;i++)
 	{
-		sprintf(str, "%s%s", (const char*)sSkyDir,names[i]);
+		sprintf(str, "%s%s", (const char*)sSkyDir.c_str(),names[i]);
 		TexturesID[i] = pRS->TextureCreate(str);
 
-		if( aSkyDirArray.Size()>1 )
+		if( aSkyDirArray.size()>1 )
 		{
-			sprintf(str, "%s%s", (const char*)sSkyDirNext,names[i]);
+			sprintf(str, "%s%s", (const char*)sSkyDirNext.c_str(),names[i]);
 			TexturesNextID[i] = pRS->TextureCreate(str);
 		}
 	}
@@ -279,7 +278,7 @@ void SKY::Realize(dword Delta_Time)
 	D3DXMatrixMultiply(&pMatWorld, &pMatRotate, &pMatWorld);
 	pRS->SetTransform(D3DTS_WORLD, &pMatWorld);
 
-	if( aSkyDirArray.Size()>1 )
+	if( aSkyDirArray.size()>1 )
 	{
 		UpdateTimeFactor();
 		float fBlendFactor = fTimeFactor - (long)fTimeFactor;
@@ -332,7 +331,7 @@ void SKY::Realize(dword Delta_Time)
 			}
 		}
 
-		string sSkyPrev,sSkyNext;
+		std::string sSkyPrev,sSkyNext;
 		GetSkyDirStrings(sSkyPrev,sSkyNext);
 		// debug pRS->Print( 10,10, "time = %.2f(%.2f), skydir = %s,%s", fTimeFactor,fBlendFactor, (const char*)sSkyPrev,(const char*)sSkyNext);
 	}
@@ -383,11 +382,12 @@ dword _cdecl SKY::ProcessMessage(MESSAGE & message)
 
 void SKY::FillSkyDirArray(ATTRIBUTES * pAttribute)
 {
-	aSkyDirArray.DelAll();
+	aSkyDirArray.clear();
 	long q = pAttribute->GetAttributesNum();
 	if( q<1 ) return;
 
-	aSkyDirArray.AddElements( q );
+	//aSkyDirArray.AddElements( q );
+	aSkyDirArray.resize(aSkyDirArray.size() + q);
 	if( q>1 )
 	{
 		for (long n=0; n<q; n++)
@@ -407,17 +407,19 @@ void SKY::FillSkyDirArray(ATTRIBUTES * pAttribute)
 	}
 	fTimeFactor = (float)atof(pAttribute->GetThisAttr());
 	if( fTimeFactor < 0.f || fTimeFactor > 24.f ) fTimeFactor = 0.f;
-	fTimeFactor *= (1.f / 24.f) * aSkyDirArray.Size();
+	fTimeFactor *= (1.f / 24.f) * aSkyDirArray.size();
 }
 
-void SKY::GetSkyDirStrings(string & sSkyDir, string & sSkyDirNext)
+void SKY::GetSkyDirStrings(std::string & sSkyDir, std::string & sSkyDirNext)
 {
 	long n1 = (long)fTimeFactor;
 	if (n1 >= 0)
 	{
-		if (n1 >= (long)aSkyDirArray) n1 -= aSkyDirArray.Size();
+		if (n1 >= (long)aSkyDirArray.size())
+			n1 -= aSkyDirArray.size();
 		long n2 = n1 + 1;
-		if (n2 >= (long)aSkyDirArray) n2 -= aSkyDirArray.Size();
+		if (n2 >= (long)aSkyDirArray.size()) 
+			n2 -= aSkyDirArray.size();
 
 		sSkyDir = aSkyDirArray[n1];
 		sSkyDirNext = aSkyDirArray[n2];
@@ -434,16 +436,16 @@ void SKY::UpdateTimeFactor()
 	ENTITY_ID eid;
 	if( !api->FindClass( &eid, "Weather", 0 ) ) return;
 	fTimeFactor = ((WEATHER_BASE*)eid.pointer)->GetFloat(whf_time_counter);
-	fTimeFactor *= (1.f / 24.f) * aSkyDirArray.Size();
+	fTimeFactor *= (1.f / 24.f) * aSkyDirArray.size();
 
-	if( (long)fTimeFactor >= (long)aSkyDirArray ) fTimeFactor -= aSkyDirArray.Size();
+	if( (long)fTimeFactor >= (long)aSkyDirArray.size() ) fTimeFactor -= aSkyDirArray.size();
 	long nNext = (long)fTimeFactor;
 	if( nPrev != nNext ) {
 		// перечитываем текстуры
 
 		char	str[256], *names[SKY_NUM_TEXTURES] = {"sky_fr.tga", "sky_lf.tga", "sky_bk.tga", "sky_rt.tga", "sky_up.tga"};
 
-		string sSkyDir,sSkyDirNext;
+		std::string sSkyDir,sSkyDirNext;
 		GetSkyDirStrings(sSkyDir,sSkyDirNext);
 
 		for (long i=0;i<SKY_NUM_TEXTURES;i++)
@@ -451,7 +453,7 @@ void SKY::UpdateTimeFactor()
 			if (TexturesID[i]>=0) pRS->TextureRelease(TexturesID[i]);
 			TexturesID[i] = TexturesNextID[i];
 
-			sprintf(str, "%s%s", (const char*)sSkyDirNext,names[i]);
+			sprintf(str, "%s%s", (const char*)sSkyDirNext.c_str(), names[i]);
 			TexturesNextID[i] = pRS->TextureCreate(str);
 		}
 	}

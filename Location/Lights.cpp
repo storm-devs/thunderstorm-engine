@@ -19,9 +19,7 @@
 //Конструирование, деструктурирование
 //============================================================================================
 
-Lights::Lights() :
-	aMovingLight(_FL),
-	aLightsDstSort(_FL)
+Lights::Lights()
 {
 	rs = null;
 	collide = null;
@@ -38,7 +36,7 @@ Lights::Lights() :
 
 Lights::~Lights()
 {
-	aMovingLight.DelAll();
+	aMovingLight.clear();
 	if(types)
 	{
 		for(long i = 0; i < numTypes; i++)
@@ -57,7 +55,7 @@ bool Lights::Init()
 {
 	//DX9 render
 	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
-	if(!rs) _THROW("No service: dx9render");
+	if(!rs) STORM_THROW("No service: dx9render");
 	collide = (COLLIDE *)_CORE_API->CreateService("COLL");
 	//Зачитаем параметры
 	INIFILE * ini = _CORE_API->fio->OpenIniFile("RESOURCE\\Ini\\lights.ini");
@@ -376,7 +374,7 @@ bool Lights::AddLampModel(const ENTITY_ID & lampModel)
 
 void Lights::DelAllLights()
 {
-	aMovingLight.DelAll();
+	aMovingLight.clear();
 	numLights = 0;
 }
 
@@ -387,18 +385,22 @@ long Lights::AddMovingLight(const char* type, const CVECTOR& pos)
 	for(idx = 0; idx<1000; idx++)
 	{
 		long n;
-		for(n=0; n<aMovingLight; n++)
+		for(n=0; n<aMovingLight.size(); n++)
 			if( aMovingLight[n].id == idx ) break;
-		if( n==aMovingLight.Size() ) break;
+		if( n==aMovingLight.size() ) break;
 	}
 	if( idx==1000 ) return -1;
 
 	long nType = FindLight(type);
 	if( nType<0 ) return -1;
 
-	long i = aMovingLight.Add();
-	aMovingLight[i].id = idx;
-	aMovingLight[i].light = numLights;
+	MovingLight movingLight;
+	movingLight.id = idx;
+	movingLight.light = numLights;
+	aMovingLight.push_back(movingLight);
+	//long i = aMovingLight.Add();
+	//aMovingLight[i].id = idx;
+	//aMovingLight[i].light = numLights;
 	AddLight(nType,pos);
 	return idx;
 }
@@ -406,7 +408,7 @@ long Lights::AddMovingLight(const char* type, const CVECTOR& pos)
 //Поставить переносной источник в новую позицию
 void Lights::UpdateMovingLight(long id, const CVECTOR& pos)
 {
-	for(long n=0; n<aMovingLight; n++)
+	for(long n=0; n<aMovingLight.size(); n++)
 		if( aMovingLight[n].id == id )
 		{
 			long i = aMovingLight[n].light;
@@ -419,13 +421,13 @@ void Lights::UpdateMovingLight(long id, const CVECTOR& pos)
 //Удалить переносной источник
 void Lights::DelMovingLight(long id)
 {
-	for(long n=0; n<aMovingLight; n++)
+	for(long n=0; n<aMovingLight.size(); n++)
 		if( aMovingLight[n].id == id )
 		{
 			numLights--;
 			for( long i=aMovingLight[n].light; i<numLights; i++ )
 				lights[i] = lights[i+1];
-			aMovingLight.DelIndex(n);
+			aMovingLight.erase(aMovingLight.begin() + n);
 			return;
 		}
 }
@@ -437,18 +439,20 @@ void Lights::SetCharacterLights(const CVECTOR * const pos)
 	long i; long n;
 	if (pos)
 	{
-		array<long> aLightsSort(_FL);
+		std::vector<long> aLightsSort;
 		for (i = 0; i < numLights; i++)
-			aLightsSort.Add(i);
-		for (i = 0; i < aMovingLight; i++)
+			aLightsSort.push_back(i);
+		for (i = 0; i < aMovingLight.size(); i++)
 		{
-			aLightsSort.Del(aMovingLight[i].light);
-			aLightsSort.Insert(aMovingLight[i].light, 0);
+			const auto it = std::find(aLightsSort.begin(), aLightsSort.end(), aMovingLight[i].light);
+			if(it != aLightsSort.end())
+				aLightsSort.erase(it);
+			aLightsSort.insert(aLightsSort.begin(), aMovingLight[i].light);
 		}
 
 		//Сортируем по дистанции
-		aLightsDstSort.DelAll();
-		for (n = 0; n < aLightsSort; n++)
+		aLightsDstSort.clear();
+		for (n = 0; n < aLightsSort.size(); n++)
 		{
 			i = aLightsSort[n];
 
@@ -462,25 +466,25 @@ void Lights::SetCharacterLights(const CVECTOR * const pos)
 			if (dst <= rng * rng)
 			{
 				int j;
-				for (j = 0; j < aLightsDstSort; j++)
+				for (j = 0; j < aLightsDstSort.size(); j++)
 				{
 					if (dst < aLightsDstSort[j].dst)
 						break;
 				}
 
 				lt_elem le = { i, dst };
-				if (j == aLightsDstSort)
-					aLightsDstSort.Add(le);
+				if (j == aLightsDstSort.size())
+					aLightsDstSort.push_back(le);
 				else
-					aLightsDstSort.Insert(le, j);
+					aLightsDstSort.insert(aLightsDstSort.begin() + j, le);
 
-				if (aLightsDstSort == 8)
-					aLightsDstSort.Extract(7);
+				if (aLightsDstSort.size() == 8)
+					aLightsDstSort.erase(aLightsDstSort.begin() + 7);
 			}
 		}
 	}
 
-	for (n = 0; n < aLightsDstSort; n++)
+	for (n = 0; n < aLightsDstSort.size(); n++)
 	{
 		i = aLightsDstSort[n].idx;
 

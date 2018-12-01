@@ -23,12 +23,12 @@ public:
 
 protected:
 	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);
-	void	UpdateString( string & str );
+	void	UpdateString(std::string & str );
 	char	GetInputSymbol();
 	bool	IsEditMode() {return IsCurrentNode();}
-	void	ShowCursorPosition( string & str );
-	void	InsertSymbol( string & str, char chr );
-	void	DisguiseString( string &str );
+	void	ShowCursorPosition(std::string & str );
+	void	InsertSymbol(std::string & str, char chr );
+	void	DisguiseString(std::string &str );
 	bool	IsExcludeChar( char chr );
 
 protected:
@@ -51,7 +51,7 @@ protected:
 	bool	m_bWaitKeyRelease;
 	bool	m_bDisguiseString;
 
-	string	m_sExcludeChars;
+	std::string	m_sExcludeChars;
 };
 
 #endif

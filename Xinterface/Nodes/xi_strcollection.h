@@ -16,8 +16,8 @@ public:
 	int		CommandExecute(int wActCode);
 	bool	IsClick(int buttonID,long xPos,long yPos);
 	void	MouseThis(float fX, float fY) {}
-	bool	GetInternalNameList( array<string>& aStr );
-	void	SetInternalName( string& sName );
+	bool	GetInternalNameList( std::vector<std::string>& aStr );
+	void	SetInternalName(std::string& sName );
 	void	ChangePosition( XYRECT &rNewPos );
 	void	SaveParametersToIni();
 	dword _cdecl MessageProc(long msgcode, MESSAGE & message);

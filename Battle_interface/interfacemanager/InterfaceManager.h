@@ -2,7 +2,7 @@
 #define InterfaceManager_h
 
 #include "BaseManager.h"
-#include "BaseManager.h"
+#include <vector>
 
 class BI_BaseGroup;
 
@@ -28,7 +28,7 @@ protected:
 	long MsgDeleteNode(MESSAGE & message);
 	long MsgEvent(MESSAGE & message);
 
-	array<BI_ManagerNodeBase*> m_aNodes;
+	std::vector<BI_ManagerNodeBase*> m_aNodes;
 
 	BI_BaseGroup* m_pInterfaceSheet;
 };

@@ -3,8 +3,7 @@
 #include "battle_shipcommand.h"
 #include "..\utils.h"
 
-BIShipIcon::BIShipIcon( ENTITY_ID& BIEntityID, VDX9RENDER* pRS ) :
-	m_aClassProgress(_FL)
+BIShipIcon::BIShipIcon( ENTITY_ID& BIEntityID, VDX9RENDER* pRS )
 {
 	Assert( pRS );
 
@@ -102,10 +101,10 @@ void BIShipIcon::Draw()
 				(long)m_Ship[n].pntPos.x + m_SailorFontOffset.x, (long)m_Ship[n].pntPos.y + m_SailorFontOffset.y,
 				"%d", (long)atof(m_Ship[n].pASailorQuantity->GetThisAttr()) );
 		}
-		if( !m_Ship[n].sShipName.IsEmpty() ) {
+		if( !m_Ship[n].sShipName.empty() ) {
 			m_pRS->ExtPrint( m_idShipNameFont, m_dwShipNameFontColor, 0, ALIGN_CENTER, true, m_fShipNameFontScale, 0,0, // boal тень шрифта
 				(long)m_Ship[n].pntPos.x + m_ShipNameFontOffset.x, (long)m_Ship[n].pntPos.y + m_ShipNameFontOffset.y,
-				"%s", m_Ship[n].sShipName.GetBuffer() );
+				"%s", m_Ship[n].sShipName.c_str() );
 		}
 	}
 
@@ -221,7 +220,7 @@ void BIShipIcon::Init( ATTRIBUTES* pRoot, ATTRIBUTES* pA )
 		pcTmp = pA->GetAttribute( "gunchargeprogress" );
 		if( pcTmp ) {
 			do {
-				m_aClassProgress.Add( BIUtils::GetFromStr_Float((const char*&)pcTmp,0.f) );
+				m_aClassProgress.push_back( BIUtils::GetFromStr_Float((const char*&)pcTmp,0.f) );
 			} while( pcTmp[0] );
 		}
 
@@ -363,7 +362,7 @@ void BIShipIcon::Release()
 {
 	SetActive(false); // отключить контрол
 
-	DELETE( m_pCommandList );
+	STORM_DELETE( m_pCommandList );
 	TEXTURE_RELEASE( m_pRS, m_nBackTextureID );
 	TEXTURE_RELEASE( m_pRS, m_nShipTextureID );
 	TEXTURE_RELEASE( m_pRS, m_nShipStateTextureID );
@@ -668,7 +667,7 @@ float BIShipIcon::GetProgressShipSP(long nShipNum)
 
 float BIShipIcon::GetProgressShipClass(long nShipNum)
 {
-	if( m_Ship[nShipNum].nShipClass < 0 || m_Ship[nShipNum].nShipClass >= m_aClassProgress ) return 0.f;
+	if( m_Ship[nShipNum].nShipClass < 0 || m_Ship[nShipNum].nShipClass >= m_aClassProgress.size() ) return 0.f;
 	float f = m_aClassProgress[ m_Ship[nShipNum].nShipClass ];
 	return f;
 }

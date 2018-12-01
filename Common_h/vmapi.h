@@ -65,7 +65,7 @@ public:
 #define API_MODULE_START(a)	extern VAPI * _CORE_API; extern VSYSTEM_API * _VSYSTEM_API; class MODULE_API : public VMODULE_API { public: long Build_Version(){return MODULE_API_VERSION;}; char * Description() {return a;} void * CreateClass(long code,bool get_class_name, VSYSTEM_API * sysapi_PTR) { _VSYSTEM_API = sysapi_PTR; switch(code){
 #define API_MODULE_END		default: return null; } } }; DLL_MODULE_API_FUNCTION DMAInterface();
 #define CREATE_CLASS(a,b)	case a:	if(get_class_name) return (void*)TEXT(#b); else return new b;
-#define INTERFACE_FUNCTION	VAPI * _CORE_API; VSYSTEM_API * _VSYSTEM_API; void * _SERVICE_PTR = null; extern "C" DLL_MODULE_API_FUNCTION DMAInterface(VAPI * api_PTR){_CORE_API = api_PTR; return new MODULE_API;} void * operator new(size_t size) {return _CORE_API->MemAllocate(size);} void operator delete(void * block_ptr) { _CORE_API->MemFree(block_ptr); } void * resize(void * block_ptr,size_t size){ return _CORE_API->MemReallocate(block_ptr,size);}
+#define INTERFACE_FUNCTION	VAPI * _CORE_API; VSYSTEM_API * _VSYSTEM_API; void * _SERVICE_PTR = null; extern "C" DLL_MODULE_API_FUNCTION DMAInterface(VAPI * api_PTR){_CORE_API = api_PTR; return new MODULE_API;} void * operator new(size_t size) {return _CORE_API->MemAllocate(size);} void operator STORM_DELETE(void * block_ptr) { _CORE_API->MemFree(block_ptr); } void * resize(void * block_ptr,size_t size){ return _CORE_API->MemReallocate(block_ptr,size);}
 
 #else
 
@@ -73,7 +73,7 @@ public:
 #define API_MODULE_END
 #define CREATE_CLASS(a,b)
 #define INTERFACE_FUNCTION	extern	VAPI * _CORE_API; extern VSYSTEM_API * _VSYSTEM_API; extern void * _SERVICE_PTR;  
-//void * operator new(size_t size); {return _CORE_API->MemAllocate(size);} void operator delete(void * block_ptr) { _CORE_API->MemFree(block_ptr); } void * resize(void * block_ptr,size_t size){ return _CORE_API->MemReallocate(block_ptr,size); }
+//void * operator new(size_t size); {return _CORE_API->MemAllocate(size);} void operator STORM_DELETE(void * block_ptr) { _CORE_API->MemFree(block_ptr); } void * resize(void * block_ptr,size_t size){ return _CORE_API->MemReallocate(block_ptr,size); }
 
 #endif
 typedef VMODULE_API * (__cdecl * DLLAPIFUNC)(VAPI *);

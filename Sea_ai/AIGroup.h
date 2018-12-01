@@ -12,25 +12,25 @@ class AIGroup
 {
 private:
 	DTimer				dtCheckTask;
-	string				sCommand, sCommandGroup;
-	string				sGroupName;
-	string				sLocationNearOtherGroup;
-	string				sGroupType;
+	std::string				sCommand, sCommandGroup;
+	std::string				sGroupName;
+	std::string				sLocationNearOtherGroup;
+	std::string				sGroupType;
 	CVECTOR				vInitGroupPos, vMovePoint;
 	bool				bFirstExecute;
 
 	ATTRIBUTES			* pACommander;
 
 	// ship container for this group	
-	array<AIShip*>		aGroupShips;
+	std::vector<AIShip*>		aGroupShips;
 
 public:
-	AIGroup() : aGroupShips(_FL_) {};
+	AIGroup() {};
 	AIGroup(const char * pGroupName);
 	virtual ~AIGroup();
 
 	// global group container, accessible for AIGroup and SEA_AI.
-		static array<AIGroup*>	AIGroups;
+		static std::vector<AIGroup*>	AIGroups;
 		static float			fDistanceBetweenGroupShips;
 
 	// static functions
@@ -62,7 +62,7 @@ public:
 		float	GetPower();
 
 	// return group name
-		string & GetName() { return sGroupName; };
+	std::string & GetName() { return sGroupName; };
 
 	// extract / insert ship group
 		AIShip	* ExtractShip(ATTRIBUTES * pACharacter);

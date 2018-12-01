@@ -74,7 +74,7 @@ bool Fader::Init()
 	_CORE_API->LayerAdd("fader_execute", GetID(), -256);
 	//DX9 render
 	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
-	if(!rs) _THROW("No service: dx9render");
+	if(!rs) STORM_THROW("No service: dx9render");
 	D3DVIEWPORT9 vp;
 	rs->GetViewport(&vp);
 	w = float(vp.Width);

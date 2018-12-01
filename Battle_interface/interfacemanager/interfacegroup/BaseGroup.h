@@ -2,6 +2,7 @@
 #define BIManager_BaseGroup_H
 
 #include "..\BaseManager.h"
+#include <vector>
 
 #define BIImagePrioritet_Group_Beg	15000
 
@@ -19,11 +20,11 @@ public:
 	virtual long Event(const char* pcEventName) {return 0;}
 
 	BI_ManagerBase* Manager() {return m_pManager;}
-	const array<BI_ManagerNodeBase*> & Nodes() {return m_aNodes;}
+	const std::vector<BI_ManagerNodeBase*> & Nodes() {return m_aNodes;}
 
 protected:
 	BI_ManagerBase* m_pManager;
-	array<BI_ManagerNodeBase*> m_aNodes;
+	std::vector<BI_ManagerNodeBase*> m_aNodes;
 };
 
 #endif

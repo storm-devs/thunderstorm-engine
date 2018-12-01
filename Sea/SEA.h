@@ -6,12 +6,12 @@
 
 #include "..\common_h\dx9render.h"
 #include "..\common_h\cvector4.h"
-#include "..\common_h\templates.h"
 #include "..\common_h\Sea_Base.h"
 
 #include "..\common_h\defines.h"
 
 #include "..\common_h\Intel.h"
+#include <vector>
 
 class SEA : public SEA_BASE
 {
@@ -97,21 +97,21 @@ private:
 
 	long				iSeaTrashTexture;
 	float				fLastTrashTime;
-	array<SeaTrash>		aSeaTrash;
-	array<RS_RECT>		aTrashRects;
+	std::vector<SeaTrash>		aSeaTrash;
+	std::vector<RS_RECT>		aTrashRects;
 
 	long				iSeaLightTexture;
-	array<SeaLight>		aSeaLights;
+	std::vector<SeaLight>		aSeaLights;
 	float				fLastLightTime;
-	array<RS_RECT>		aLightsRects;
+	std::vector<RS_RECT>		aLightsRects;
 
-	array<dword*>		aNormals;
-	array<byte*>		aBumps;
-	array<SeaBlock>		aBlocks;
+	std::vector<dword*>		aNormals;
+	std::vector<byte*>		aBumps;
+	std::vector<SeaBlock>		aBlocks;
 
 	CVECTOR4		v4SeaColor, v4SkyColor, v4SeaParameters;
 
-	array<IDirect3DTexture9*>	aBumpMaps;
+	std::vector<IDirect3DTexture9*>	aBumpMaps;
 	IDirect3DTexture9			* pRenderTargetBumpMap;
 
 	float * pSeaFrame1, * pSeaFrame2, * pSeaNormalsFrame1, * pSeaNormalsFrame2;
@@ -159,8 +159,8 @@ private:
 
 	long			VisCode(const CVECTOR & vP);
 
-	void			CalculateHeightMap(float fFrame, float fAmplitude, float * pfOut, array<byte*> & aFrames);
-	void			CalculateNormalMap(float fFrame, float fAmplitude, float * pfOut, array<dword*> & aFrames);
+	void			CalculateHeightMap(float fFrame, float fAmplitude, float * pfOut, std::vector<byte*> & aFrames);
+	void			CalculateNormalMap(float fFrame, float fAmplitude, float * pfOut, std::vector<dword*> & aFrames);
 
 	bool			SunRoad_Render2();
 	bool			EnvMap_Render2();
@@ -171,9 +171,9 @@ private:
 	// HyperThreading
 	Intel				intel;
 	HANDLE				hEventCalcMaps;
-	array<HANDLE>		aEventCalcBlock;
-	array<long>			aThreadsTest;
-	array<HANDLE>		aThreads;
+	std::vector<HANDLE>		aEventCalcBlock;
+	std::vector<long>			aThreadsTest;
+	std::vector<HANDLE>		aThreads;
 	bool				bHyperThreading;
 	CRITICAL_SECTION	cs, cs1;
 	long				iBlocksDoneNum;

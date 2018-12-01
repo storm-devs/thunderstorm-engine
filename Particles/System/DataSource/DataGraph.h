@@ -5,15 +5,16 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include "../../../common_h/exs.h"
-#include "../../../common_h/templates.h"
 #include "..\..\icommon\memfile.h"
 
 #include "..\..\icommon\GraphVertex.h"
+#include <string>
+#include <vector>
 
 
 class DataGraph
 {
-  string Name;
+	std::string Name;
 
 
 //— какого времени последний раз забирали значение
@@ -23,8 +24,8 @@ class DataGraph
 	DWORD MaxCachedIndex;
 	DWORD MinCachedIndex;
 
-	array<GraphVertex> MinGraph;
-	array<GraphVertex> MaxGraph;
+	std::vector<GraphVertex> MinGraph;
+	std::vector<GraphVertex> MaxGraph;
 
 
 	void ResetCachedTime ();

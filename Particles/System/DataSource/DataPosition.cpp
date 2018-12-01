@@ -52,7 +52,7 @@ void DataPosition::SetName (const char* szName)
 
 const char* DataPosition::GetName ()
 {
-	return Name.GetBuffer();
+	return Name.c_str();
 }
 
 void DataPosition::Write (MemFile* File)
@@ -64,10 +64,10 @@ void DataPosition::Write (MemFile* File)
 	File->WriteType(vValue.z);
 
 	//save name
-	DWORD NameLength = Name.Len();
+	DWORD NameLength = Name.size();
 	DWORD NameLengthPlusZero = NameLength+1;
 	File->WriteType(NameLengthPlusZero);
 	Assert (NameLength < 128);
-	File->Write(Name.GetBuffer(), NameLength);
+	File->Write(Name.c_str(), NameLength);
 	File->WriteZeroByte();
 }

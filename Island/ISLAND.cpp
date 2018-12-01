@@ -19,7 +19,7 @@ CREATE_CLASS(CoastFoam)
 
 #define DMAP_SIZE		2048
 
-ISLAND::ISLAND() : aForts(_FL_), aSpheres(_FL_)
+ISLAND::ISLAND()
 {
 	bForeignModels = false;
 	pRS = null;
@@ -38,15 +38,15 @@ ISLAND::~ISLAND()
 {
 	Uninit();
 
-	DELETE(pIslandTraceWalker);
+	STORM_DELETE(pIslandTraceWalker);
 }
 
 void ISLAND::Uninit()
 {
-	for (dword i=0; i<aSpheres.Size(); i++) api->DeleteEntity(aSpheres[i]);
-	aSpheres.DelAll();
-	DELETE(pDepthMap);
-	DELETE(pShadowMap);
+	for (dword i=0; i<aSpheres.size(); i++) api->DeleteEntity(aSpheres[i]);
+	aSpheres.clear();
+	STORM_DELETE(pDepthMap);
+	STORM_DELETE(pShadowMap);
 
 	if (!bForeignModels) 
 	{
@@ -134,7 +134,7 @@ void ISLAND::Realize(dword Delta_Time)
 
 	fIslandFogDensity = AttributesPointer->GetAttributeAsFloat("FogDensity", 0.0f);
 
-	if (aForts.Size() && !AIFortEID.pointer)
+	if (aForts.size() && !AIFortEID.pointer)
 	{
 		api->FindClass(&AIFortEID, "AIFort", 0);
 	}
@@ -158,7 +158,7 @@ void ISLAND::Realize(dword Delta_Time)
 		lt.Range = 1e9f;
 		pRS->GetLight(0, &ltold);
 		pRS->SetLight(0, &lt);
-		for (dword k=0; k<aForts.Size(); k++)
+		for (dword k=0; k<aForts.size(); k++)
 		{
 			CMatrix mOld = ((MODEL*)aForts[k].pointer)->mtx;
 			((MODEL*)aForts[k].pointer)->mtx = mOld * mTemp;
@@ -193,7 +193,7 @@ void ISLAND::Realize(dword Delta_Time)
 	pRS->SetRenderState(D3DRS_LIGHTING, bLighting);
 
 	dword i;
-	for (i=0; i<aSpheres.Size(); i++)
+	for (i=0; i<aSpheres.size(); i++)
 	{
 		MODEL * pModel = (MODEL*)_CORE_API->GetEntityPointer(&aSpheres[i]);
 		CVECTOR vPos = AIPath.GetPointPos(i);
@@ -205,20 +205,16 @@ void ISLAND::Realize(dword Delta_Time)
 	if (api->Controls->GetDebugAsyncKeyState('O') < 0) bView ^= 1;
 	if (bView)
 	{
-		array<RS_LINE>	aLines(_FL_);
+		std::vector<RS_LINE> aLines;
 		for (i=0;i<AIPath.GetNumEdges();i++)
 		{
 			AIFlowGraph::edge_t * pE = AIPath.GetEdge(i);
-			RS_LINE *pRL = &aLines[aLines.Add()];
-			pRL->dwColor = 0xFFFFFF;
-			pRL->vPos = AIPath.GetPointPos(pE->dw1);
-			pRL = &aLines[aLines.Add()];
-			pRL->dwColor = 0xFFFFFF;
-			pRL->vPos = AIPath.GetPointPos(pE->dw2);
+			aLines.push_back(RS_LINE{ AIPath.GetPointPos(pE->dw1), 0xFFFFFF });
+			aLines.push_back(RS_LINE{ AIPath.GetPointPos(pE->dw2), 0xFFFFFF });
 		}
 		CMatrix m;
 		pRS->SetTransform(D3DTS_WORLD,m);
-		pRS->DrawLines(&aLines[0], aLines.Size() / 2, "AILine");
+		pRS->DrawLines(&aLines[0], aLines.size() / 2, "AILine");
 	}
 #endif
 }
@@ -235,7 +231,7 @@ dword _cdecl ISLAND::ProcessMessage(MESSAGE & message)
 	switch (message.Long())
 	{
 		case MSG_ISLAND_ADD_FORT:
-			aForts.Add(message.EntityID());
+			aForts.push_back(message.EntityID());
 		break;
 		case MSG_LOCATION_ADD_MODEL:
 			eID = message.EntityID();
@@ -454,23 +450,24 @@ void ISLAND::CreateDirectories(char * pDir)
 
 bool ISLAND::CreateShadowMap(char * pDir, char * pName)
 {
-	string	sDir;
+	std::string	sDir;
 	char	fname[256];
 	
 	ENTITY_ID		ent;
 	WEATHER_BASE	* pWeather;
-	if (!api->FindClass(&ent, "Weather",0)) _THROW("No found WEATHER entity!");
+	if (!api->FindClass(&ent, "Weather",0)) STORM_THROW("No found WEATHER entity!");
 	pWeather = (WEATHER_BASE*)api->GetEntityPointer(&ent); Assert(pWeather);
 
-	sDir.Format("resource\\foam\\%s\\%s\\", pDir, AttributesPointer->GetAttribute("LightingPath")); sDir.CheckPath();
-	sprintf(fname, "%s%s.tga", (const char*)sDir, pName);
+	__debugbreak(); //~!~
+	//sDir.Format("resource\\foam\\%s\\%s\\", pDir, AttributesPointer->GetAttribute("LightingPath")); sDir.CheckPath();
+	sprintf(fname, "%s%s.tga", (const char*)sDir.c_str(), pName);
 
-	CreateDirectories((char*)sDir.GetBuffer());
+	CreateDirectories((char*)sDir.c_str());
 
 	fShadowMapSize = 2.0f * Max(vRealBoxSize.x, vRealBoxSize.z) + 1024.0f;
 	fShadowMapStep = fShadowMapSize / DMAP_SIZE;
 
-	if (mzShadow.Load(string(fname) + ".zap")) return true;
+	if (mzShadow.Load(std::string(fname) + ".zap")) return true;
 	
 	// try to load tga file
 	HANDLE hFile = fio->_CreateFile(fname, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
@@ -485,8 +482,8 @@ bool ISLAND::CreateShadowMap(char * pDir, char * pName)
 		fio->_CloseHandle(hFile);
 
 		mzShadow.DoZip(pShadowMap, dwSize);
-		mzShadow.Save(string(fname) + ".zap");
-		DELETE(pShadowMap);
+		mzShadow.Save(std::string(fname) + ".zap");
+		STORM_DELETE(pShadowMap);
 		return true;
 	}
 
@@ -528,9 +525,9 @@ bool ISLAND::CreateShadowMap(char * pDir, char * pName)
 	Blur8(&pShadowMap, DMAP_SIZE);
 
 	mzShadow.DoZip(pShadowMap, DMAP_SIZE);
-	mzShadow.Save(string(fname) + ".zap");
+	mzShadow.Save(std::string(fname) + ".zap");
 
-	DELETE(pShadowMap);
+	STORM_DELETE(pShadowMap);
 
 	return true;
 }
@@ -558,22 +555,23 @@ void ISLAND::Blur8(byte * * pBuffer, dword dwSize)
 			pNewBuffer[z * dwSize + x] = byte(dwRes); 
 		}
 
-	DELETE(*pBuffer);
+	STORM_DELETE(*pBuffer);
 	*pBuffer = pNewBuffer;
 }
 
 bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 {
 	TGA_H	tga_head;
-	string	sDir; 
+	std::string	sDir; 
 	char	fname[256], iname[256], str_tmp[256];
 	HANDLE	hFile;
 
-	sDir.Format("resource\\\\foam\\\\%s\\\\", pDir); sDir.CheckPath();
-	sprintf(fname, "%s%s.tga", (const char*)sDir, pName);
-	sprintf(iname, "%s%s.ini", (const char*)sDir, pName);
+		__debugbreak(); //~!~
+	//sDir.Format("resource\\\\foam\\\\%s\\\\", pDir); sDir.CheckPath();
+	sprintf(fname, "%s%s.tga", (const char*)sDir.c_str(), pName);
+	sprintf(iname, "%s%s.ini", (const char*)sDir.c_str(), pName);
 
-	CreateDirectories((char*)sDir.GetBuffer());
+	CreateDirectories((char*)sDir.c_str());
 
 	// calc center and size
 	CalcBoxParameters(vBoxCenter, vRealBoxSize);
@@ -582,7 +580,7 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 	rIsland.x1 = vBoxCenter.x - vBoxSize.x / 2.0f;	rIsland.y1 = vBoxCenter.z - vBoxSize.z / 2.0f;
 	rIsland.x2 = vBoxCenter.x + vBoxSize.x / 2.0f;	rIsland.y2 = vBoxCenter.z + vBoxSize.z / 2.0f;
 
-	bool bLoad = mzDepth.Load(string(fname) + ".zap");
+	bool bLoad = mzDepth.Load(std::string(fname) + ".zap");
 
 	if (!bLoad)
 	{
@@ -596,8 +594,8 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 			fio->_CloseHandle(hFile);
 
 			mzDepth.DoZip(pDepthMap, iDMapSize);
-			mzDepth.Save(string(fname) + ".zap");
-			DELETE(pDepthMap);
+			mzDepth.Save(std::string(fname) + ".zap");
+			STORM_DELETE(pDepthMap);
 			bLoad = true;
 		}
 	}
@@ -659,7 +657,7 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 	vRealBoxSize /= 2.0f;
 
 	mzDepth.DoZip(pDepthMap, iDMapSize);
-	DELETE(pDepthMap);
+	STORM_DELETE(pDepthMap);
 
 	return true;
 #endif
@@ -728,8 +726,8 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 	SaveTga8(fname, pDepthMap, iDMapSize, iDMapSize);
 
 	mzDepth.DoZip(pDepthMap, iDMapSize);
-	mzDepth.Save(string(fname) + ".zap");
-	DELETE(pDepthMap);
+	mzDepth.Save(std::string(fname) + ".zap");
+	STORM_DELETE(pDepthMap);
 
 	INIFILE * pI = fio->OpenIniFile(iname); 
 	if (!pI)
@@ -776,18 +774,19 @@ bool ISLAND::SaveTga8(char * fname, byte * pBuffer, dword dwSizeX, dword dwSizeY
 bool ISLAND::Mount(char * fname, char * fdir, ENTITY_ID * eID)
 {
 	ENTITY_ID	lighter_id;
-	string		sRealFileName;
-	string		sModelPath, sLightPath;
+	std::string		sRealFileName;
+	std::string		sModelPath, sLightPath;
 
 	Uninit();
 
 	SetName(fname);
 
-	sRealFileName.Format("%s\\%s", fdir, fname); sRealFileName.CheckPath();
+	__debugbreak(); //~!~
+	//sRealFileName.Format("%s\\%s", fdir, fname); sRealFileName.CheckPath();
 	
 	api->CreateEntity(&model_id, "MODELR");
 	api->Send_Message(model_id, "ls", MSG_MODEL_SET_LIGHT_PATH, AttributesPointer->GetAttribute("LightingPath"));
-	api->Send_Message(model_id, "ls", MSG_MODEL_LOAD_GEO, (char*)sRealFileName.GetBuffer());
+	api->Send_Message(model_id, "ls", MSG_MODEL_LOAD_GEO, (char*)sRealFileName.c_str());
 
 	// extract subobject(sea_bed) to another model
 	MODEL * pModel = (MODEL*)api->GetEntityPointer(&model_id);
@@ -813,8 +812,8 @@ bool ISLAND::Mount(char * fname, char * fdir, ENTITY_ID * eID)
 	api->Send_Message(lighter_id, "ss", "LightPath", (char*)sLightPath);*/
 	
 	api->Send_Message(lighter_id, "ssi", "AddModel", fname, model_id);
-	string sSeaBedName = string(fname) + "_seabed";
-	api->Send_Message(lighter_id, "ssi", "AddModel", (char*)sSeaBedName.GetBuffer(), seabed_id);
+	std::string sSeaBedName = std::string(fname) + "_seabed";
+	api->Send_Message(lighter_id, "ssi", "AddModel", (char*)sSeaBedName.c_str(), seabed_id);
 
 	fImmersionDistance = AttributesPointer->GetAttributeAsFloat("ImmersionDistance", 3000.0f);
 	fImmersionDepth = AttributesPointer->GetAttributeAsFloat("ImmersionDepth", 25.0f);
@@ -833,7 +832,7 @@ bool ISLAND::Mount(char * fname, char * fdir, ENTITY_ID * eID)
 	}*/
 
 	//AIFlowGraph::Path * pPath = FindPath(CVECTOR(-10000.0f,0.0f,-10000.0f),CVECTOR(10000.0f,0.0f,10000.0f));
-	//DELETE(pPath);
+	//STORM_DELETE(pPath);
 
 	return true;
 }
@@ -871,13 +870,13 @@ bool ISLAND::GetMovePoint(CVECTOR & vSrc, CVECTOR & vDst, CVECTOR & vRes)
 
 	CVECTOR vDir = !(vDst - vSrc);
 
-	array<AIFlowGraph::npoint_t>	* PointsSrc, * PointsDst;
+	std::vector<AIFlowGraph::npoint_t>	* PointsSrc, * PointsDst;
 
 	PointsSrc = AIPath.GetNearestPoints(vSrc);
 	PointsDst = AIPath.GetNearestPoints(vDst);
 
-	dword dwSizeSrc = ((*PointsSrc).Size() > 8) ? 8 : (*PointsSrc).Size();
-	dword dwSizeDst = ((*PointsDst).Size() > 8) ? 8 : (*PointsDst).Size();
+	dword dwSizeSrc = ((*PointsSrc).size() > 8) ? 8 : (*PointsSrc).size();
+	dword dwSizeDst = ((*PointsDst).size() > 8) ? 8 : (*PointsDst).size();
 
 	for (i=0;i<dwSizeDst;i++)
 		(*PointsDst)[i].fTemp = Trace(vDst,AIPath.GetPointPos((*PointsDst)[i].dwPnt));
@@ -906,7 +905,7 @@ bool ISLAND::GetMovePoint(CVECTOR & vSrc, CVECTOR & vDst, CVECTOR & vRes)
 
 	if (INVALID_ARRAY_INDEX != dwI) vRes = AIPath.GetPointPos((*PointsSrc)[dwI].dwPnt);
 
-	DELETE(PointsSrc); DELETE(PointsDst);
+	STORM_DELETE(PointsSrc); STORM_DELETE(PointsDst);
 
 	return true;
 }
@@ -924,7 +923,7 @@ bool ISLAND::GetMovePoint(CVECTOR & vSrc, CVECTOR & vDst, CVECTOR & vRes)
 		return null;
 	}
 	// search to near points
-	array<AIFlowGraph::npoint_t> & Points = AIPath.GetNearestPoints(vSrc);
+	std::vector<AIFlowGraph::npoint_t> & Points = AIPath.GetNearestPoints(vSrc);
 	dword dwPnt1 = Points[0].dwPnt;
 	Points = AIPath.GetNearestPoints(vDst);
 	dword dwPnt2 = Points[0].dwPnt;

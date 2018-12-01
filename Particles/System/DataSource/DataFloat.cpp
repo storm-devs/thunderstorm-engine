@@ -50,7 +50,7 @@ void DataFloat::SetName (const char* szName)
 
 const char* DataFloat::GetName ()
 {
-	return Name.GetBuffer();
+	return Name.c_str();
 }
 
 void DataFloat::Write (MemFile* File)
@@ -59,11 +59,11 @@ void DataFloat::Write (MemFile* File)
 	File->WriteType(fValue);
 
 	//save name
-	DWORD NameLength = Name.Len();
+	DWORD NameLength = Name.size();
 	DWORD NameLengthPlusZero = NameLength+1;
 	File->WriteType(NameLengthPlusZero);
 	Assert (NameLength < 128);
-	File->Write(Name.GetBuffer(), NameLength);
+	File->Write(Name.c_str(), NameLength);
 	File->WriteZeroByte();
 }
 

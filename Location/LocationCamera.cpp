@@ -39,8 +39,7 @@
 //Конструирование, деструктурирование
 //============================================================================================
 
-LocationCamera::LocationCamera() :
-	m_aTrackPauses(_FL_)
+LocationCamera::LocationCamera()
 {
 	//Параметры камеры
 	ax = 0.4f;
@@ -85,7 +84,7 @@ bool LocationCamera::Init()
 {
 	//DX9 render
 	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
-	if(!rs) _THROW("No service: dx9render");
+	if(!rs) STORM_THROW("No service: dx9render");
 
 	_CORE_API->LayerCreate("execute", true, false);
 	_CORE_API->LayerSetFlags("execute", LRFLAG_EXECUTE);
@@ -696,7 +695,7 @@ void LocationCamera::TurnOffTrackCamera()
 		oldPos = *(CVECTOR*)&pos;
 		(*(CMatrix*)&view).MulToInvNorm( CVECTOR(0.f,0.f,1.f), oldLookTo );
 	}
-	api->Event("TrackCameraOff","s",m_sCurTrackName.GetBuffer());
+	api->Event("TrackCameraOff","s",m_sCurTrackName.c_str());
 }
 
 void LocationCamera::ProcessTrackCamera()

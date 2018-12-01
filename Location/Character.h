@@ -15,7 +15,7 @@
 #include "..\common_h\vmodule_api.h"
 #include "..\common_h\matrix.h"
 #include "..\common_h\model.h"
-#include "..\common_h\templates.h"
+#include <string>
 #include "PtcData.h"
 
 class Location;
@@ -189,7 +189,7 @@ public:
 	virtual bool PostInit(){ return true; };
 	virtual dword ChlProcessMessage(long messageID, MESSAGE & message){ return 0; };
 
-	void AlreadyDelete();
+	void AlreadySTORM_DELETE();
 
 //--------------------------------------------------------------------------------------------
 //Character model
@@ -600,8 +600,8 @@ protected:
 	ENTITY_ID effects;
 	//Моделька привязанного знака
 	ENTITY_ID sign;
-	string signName;
-	string signTechniqueName;
+	std::string signName;
+	std::string signTechniqueName;
 
 
 	//Круги на воде
@@ -663,7 +663,7 @@ public:
 	char group[128];			//Имя текущей группы
 };
 
-inline void Character::AlreadyDelete()
+inline void Character::AlreadySTORM_DELETE()
 {
 	isDeleted = true;
 }
@@ -797,7 +797,7 @@ inline bool Character::IsSetBlade()
 
 inline bool Character::PriorityActionIsJump()
 {
-	return (priorityAction.name && (stricmp(priorityAction.name,jump.name)==0 || stricmp(priorityAction.name,fall.name)==0));
+	return (priorityAction.name && (_stricmp(priorityAction.name,jump.name)==0 || _stricmp(priorityAction.name,fall.name)==0));
 }
 
 #endif

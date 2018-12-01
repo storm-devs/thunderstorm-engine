@@ -10,7 +10,7 @@ extern void * _cdecl resize(void *,size_t size,char *,unsigned long);
 
 #define NEW new(__FILE__,__LINE__)
 #define RESIZE(p,n) resize(p,n,__FILE__,__LINE__)
-//#define DEL delete(__FILE__,__LINE__)
+//#define DEL STORM_DELETE(__FILE__,__LINE__)
 #define DEL delete
 
 #endif

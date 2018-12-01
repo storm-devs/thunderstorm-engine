@@ -6,19 +6,19 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include "../../../common_h/exs.h"
-#include "../../../common_h/templates.h"
 #include "..\..\icommon\memfile.h"
 #include "..\..\icommon\colorvertex.h"
-
+#include <string>
+#include <vector>
 
 
 class DataColor
 {
-  string Name;
+	std::string Name;
 
 	const Color ZeroColor;
 
-	array<ColorVertex> ColorGraph;
+	std::vector<ColorVertex> ColorGraph;
 
 public:
 

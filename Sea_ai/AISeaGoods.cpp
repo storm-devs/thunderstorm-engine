@@ -1,6 +1,6 @@
 #include "AISeaGoods.h"
 
-AISeaGoods::AISeaGoods() : aGoods(_FL_, 12), aShips(_FL_)
+AISeaGoods::AISeaGoods()
 {
 	pSea = null;
 	pGeoService = null;
@@ -12,14 +12,14 @@ AISeaGoods::AISeaGoods() : aGoods(_FL_, 12), aShips(_FL_)
 
 AISeaGoods::~AISeaGoods()
 {
-	for (dword i=0; i<aGoods.Size(); i++)
+	for (dword i=0; i<aGoods.size(); i++)
 	{
 		if (aGoods[i]->pGeo) pGeoService->DeleteGeometry(aGoods[i]->pGeo);
-		aGoods[i]->sModel.DelAll();
-		aGoods[i]->aItems.DelAll();
-		DELETE(aGoods[i]);
+		aGoods[i]->sModel.clear();
+		aGoods[i]->aItems.clear();
+		STORM_DELETE(aGoods[i]);
 	}
-	aGoods.DelAll();
+	aGoods.clear();
 }
 
 bool AISeaGoods::Init()
@@ -44,8 +44,8 @@ void AISeaGoods::Execute(dword dwDeltaTime)
 	
 	if (!pSea) return;
 
-	for (dword i=0; i<aGoods.Size(); i++)
-		for (dword j=0; j<aGoods[i]->aItems.Size(); j++)
+	for (dword i=0; i<aGoods.size(); i++)
+		for (dword j=0; j<aGoods[i]->aItems.size(); j++)
 		{
 			item_t * pI = &aGoods[i]->aItems[j];
 			pI->fTime -= fDeltaTime;
@@ -57,23 +57,26 @@ void AISeaGoods::Execute(dword dwDeltaTime)
 				pI->vPos.y -= fabsf(pI->fTime) * 0.05f;
 				if (pI->fTime < -20.0f)
 				{
-					aGoods[i]->aItems.ExtractNoShift(j); j--;
+					//aGoods[i]->aItems.ExtractNoShift(j);
+					aGoods[i]->aItems[i] = aGoods[i]->aItems.back();
+					aGoods[i]->aItems.pop_back();
+					j--;
 					continue;
 				}
 			}
 
 		if (dtCheckShips.Update(dwDeltaTime))
 		{
-			aShips.Empty();
+			aShips.clear();
 
 			// enumerate ships
 			if (api->FindClass(&EID, "ship", 0)) do
 			{
-				aShips.Add((SHIP_BASE*)api->GetEntityPointer(&EID));
+				aShips.push_back((SHIP_BASE*)api->GetEntityPointer(&EID));
 			} while (api->FindClassNext(&EID));
 
 			// check ships
-			for (dword k=0; k<aShips.Size(); k++)
+			for (dword k=0; k<aShips.size(); k++)
 			{
 				SHIP_BASE * pS = aShips[k];
 				ATTRIBUTES * pACharacter = pS->GetACharacter();
@@ -82,7 +85,14 @@ void AISeaGoods::Execute(dword dwDeltaTime)
 				if (fDistance <= pS->State.vBoxSize.z * fDistanceMultiply)
 				{
 					VDATA * pVData = api->Event(SHIP_EAT_SWIM_GOOD, "llsl", iCharacterIndex, pI->iCharIndex, pI->sGoodName, pI->iQuantity);
-					if (pVData->GetLong() || bDeleteGoodAnyway) { aGoods[i]->aItems.ExtractNoShift(j); j--; break; }
+					if (pVData->GetLong() || bDeleteGoodAnyway)
+					{
+						//aGoods[i]->aItems.ExtractNoShift(j); 
+						aGoods[i]->aItems[i] = aGoods[i]->aItems.back();
+						aGoods[i]->aItems.pop_back();
+						j--; 
+						break;
+					}
 				}
 			}
 		}
@@ -95,8 +105,8 @@ void AISeaGoods::Realize(dword dwDeltaTime)
 
 	AIHelper::pRS->SetRenderState(D3DRS_LIGHTING, true);
 
-	for (dword i=0; i<aGoods.Size(); i++) if (aGoods[i]->pGeo)
-		for (dword j=0; j<aGoods[i]->aItems.Size(); j++)
+	for (dword i=0; i<aGoods.size(); i++) if (aGoods[i]->pGeo)
+		for (dword j=0; j<aGoods[i]->aItems.size(); j++)
 		{
 			item_t * pI = &aGoods[i]->aItems[j];
 	
@@ -116,17 +126,16 @@ dword AISeaGoods::AttributeChanged(ATTRIBUTES * pAttribute)
 
 	if (*pAttribute == "Add")
 	{
-		for (dword i=0; i<aGoods.Size(); i++) if (aGoods[i]->sModel == sTmpModel)
+		for (dword i=0; i<aGoods.size(); i++) if (aGoods[i]->sModel == sTmpModel)
 		{
-			aGoods[i]->aItems.Add(TmpItem);
+			aGoods[i]->aItems.push_back(TmpItem);
 			return 0;
 		}
-		string	sName; 
-		goods_t * pG = NEW goods_t; aGoods[aGoods.Add()] = pG;
+		goods_t * pG = NEW goods_t;
+		aGoods.push_back(pG);
 		pG->sModel = sTmpModel;
-		pG->aItems.Add(TmpItem);
-		sName.Format("%s\\%s",(const char*)sModelPath,(const char*)sTmpModel);
-		pG->pGeo = pGeoService->CreateGeometry(sName, 0, 0);
+		pG->aItems.push_back(TmpItem);
+		pG->pGeo = pGeoService->CreateGeometry((sModelPath + "\\" + sTmpModel).c_str(), 0, 0);
 		return 0;
 	}
 

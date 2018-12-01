@@ -255,14 +255,6 @@
     <ClInclude Include="..\Common_h\stringService.h" />
     <ClInclude Include="..\Common_h\s_import_func.h" />
     <ClInclude Include="..\Common_h\templates.h" />
-    <ClInclude Include="..\Common_h\templates\Array.h" />
-    <ClInclude Include="..\Common_h\templates\dsmooth.h" />
-    <ClInclude Include="..\Common_h\templates\dtimer.h" />
-    <ClInclude Include="..\Common_h\templates\HTable.h" />
-    <ClInclude Include="..\Common_h\templates\map.h" />
-    <ClInclude Include="..\Common_h\templates\stack.h" />
-    <ClInclude Include="..\Common_h\templates\string.h" />
-    <ClInclude Include="..\Common_h\templates\tcommon.h" />
     <ClInclude Include="..\Common_h\tga.h" />
     <ClInclude Include="..\Common_h\triangle.h" />
     <ClInclude Include="..\Common_h\types3d.h" />
@@ -360,6 +352,7 @@
     <ClInclude Include="Sources\Zlib\zconf.h" />
     <ClInclude Include="Sources\Zlib\zlib.h" />
     <ClInclude Include="Sources\Zlib\zutil.h" />
+    <ClInclude Include="strutils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Modules\Techniques\Ai\baba.sha" />

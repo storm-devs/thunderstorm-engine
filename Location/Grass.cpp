@@ -11,7 +11,7 @@
 #include "Grass.h"
 #include "..\common_h\Geometry.h"
 #include "..\common_h\matrix.h"
-#include "Location.h"
+#include "..\common_h\defines.h"
 #include "Character.h"
 
 //============================================================================================
@@ -112,7 +112,7 @@ bool Grass::Init()
 
 	//DX9 render
 	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
-	if(!rs) _THROW("No service: dx9render");
+	if(!rs) STORM_THROW("No service: dx9render");
 	//Буфер для динамических данных
 	vb = rs->CreateVertexBuffer(0, GRASS_MAX_POINTS*4*sizeof(Vertex), D3DUSAGE_DYNAMIC);
 	if(vb < 0) return false;

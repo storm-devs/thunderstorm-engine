@@ -3,14 +3,15 @@
 #include "Track.h" 
 #include "..\..\Shared\sea_ai\Script_Defines.h"
 #include "..\..\Shared\sound.h"
+#include "../sea_ai/AIFlowGraph.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(SHIP)
 CREATE_CLASS(ShipLights)
 CREATE_CLASS(ShipTracks)
 
-string	SHIP::sExecuteLayer;
-string	SHIP::sRealizeLayer;
+std::string	SHIP::sExecuteLayer;
+std::string	SHIP::sRealizeLayer;
 
 VDX9RENDER					* SHIP::pRS = null;
 SEA_BASE					* SHIP::pSea = null;
@@ -18,7 +19,7 @@ ISLAND_BASE					* SHIP::pIsland = null;
 COLLIDE						* SHIP::pCollide = null;
 VGEOMETRY					* SHIP::pGS = null;
 
-SHIP::SHIP() : aFirePlaces(_FL_, 16)
+SHIP::SHIP()
 {
 	pShipsLights = null;
 	vSpeedAccel = 0.0f;
@@ -71,7 +72,7 @@ SHIP::~SHIP()
 	api->Send_Message(flag_id, "li", MSG_FLAG_DEL_GROUP, GetModelEID());
 	api->Send_Message(vant_id, "li", MSG_VANT_DEL_GROUP, GetModelEID());
 	api->DeleteEntity(blots_id);
-	DELETE(pMasts);
+	STORM_DELETE(pMasts);
 
 	ENTITY_ID eidTmp;
 	if (api->FindClass(&eidTmp, "ShipTracks", 0))
@@ -80,7 +81,7 @@ SHIP::~SHIP()
 		if (pST) pST->DelShip(this);
 	}
 
-	//aFirePlaces.DelAll();
+	//aFirePlaces.clear();
 }
 
 //##################################################################
@@ -595,7 +596,7 @@ void SHIP::Execute(DWORD DeltaTime)
 			bVisible = false;
 
 			// stop all fireplaces
-			for (dword i=0; i<aFirePlaces.Size(); i++) aFirePlaces[i].Stop();
+			for (dword i=0; i<aFirePlaces.size(); i++) aFirePlaces[i].Stop();
 
 			// del vant,flags,sail and ropes
 			api->Send_Message(sail_id, "li", MSG_SAIL_DEL_GROUP, GetID());
@@ -603,7 +604,7 @@ void SHIP::Execute(DWORD DeltaTime)
 			api->Send_Message(flag_id, "li", MSG_FLAG_DEL_GROUP, GetModelEID());
 			api->Send_Message(vant_id, "li", MSG_VANT_DEL_GROUP, GetModelEID());
 
-			api->LayerDel((char*)sRealizeLayer.GetBuffer(), GetID());
+			api->LayerDel((char*)sRealizeLayer.c_str(), GetID());
 			api->LayerDel("ship_cannon_trace", GetID());
 			api->Event(SHIP_DELETE, "li", GetIndex(GetACharacter()), GetID());
 		}
@@ -648,7 +649,7 @@ void SHIP::Execute(DWORD DeltaTime)
 			bVisible = false;
 
 			// stop all fireplaces
-			for (dword i=0; i<aFirePlaces.Size(); i++) aFirePlaces[i].Stop();
+			for (dword i=0; i<aFirePlaces.size(); i++) aFirePlaces[i].Stop();
 
 			// del vant,flags,sail and ropes
 			api->Send_Message(sail_id, "li", MSG_SAIL_DEL_GROUP, GetID());
@@ -656,7 +657,7 @@ void SHIP::Execute(DWORD DeltaTime)
 			api->Send_Message(flag_id, "li", MSG_FLAG_DEL_GROUP, GetModelEID());
 			api->Send_Message(vant_id, "li", MSG_VANT_DEL_GROUP, GetModelEID());
 
-			api->LayerDel((char*)sRealizeLayer.GetBuffer(), GetID());
+			api->LayerDel((char*)sRealizeLayer.c_str(), GetID());
 			api->LayerDel("ship_cannon_trace", GetID());
 			api->Event(SHIP_DELETE, "li", GetIndex(GetACharacter()), GetID());
 		}
@@ -724,8 +725,8 @@ void SHIP::Execute(DWORD DeltaTime)
 				MastFall(pM);
 			}
 		}
-		DELETE(pVWShip);
-		DELETE(pVWIsland);
+		STORM_DELETE(pVWShip);
+		STORM_DELETE(pVWIsland);
 	}
 
 // key states
@@ -753,7 +754,7 @@ void SHIP::Execute(DWORD DeltaTime)
 	}*/
 
 	// execute fire places
-	for (dword i=0; i<aFirePlaces.Size(); i++) aFirePlaces[i].Execute(fDeltaTime);
+	for (dword i=0; i<aFirePlaces.size(); i++) aFirePlaces[i].Execute(fDeltaTime);
 
 	/*  // boal del_cheat
 #ifndef _XBOX
@@ -842,8 +843,8 @@ void SHIP::MastFall(mast_t * pM)
 		ENTITY_ID ent;
 		api->CreateEntity(&ent, "mast");
 		api->Send_Message(ent, "lpii", MSG_MAST_SETGEOMETRY, pM->pNode, GetID(), GetModelEID());
-		api->LayerAdd((char*)sExecuteLayer.GetBuffer(), ent, iShipPriorityExecute+1);
-		api->LayerAdd((char*)sRealizeLayer.GetBuffer(), ent, iShipPriorityRealize+1);
+		api->LayerAdd((char*)sExecuteLayer.c_str(), ent, iShipPriorityExecute+1);
+		api->LayerAdd((char*)sRealizeLayer.c_str(), ent, iShipPriorityRealize+1);
 
 		pShipsLights->KillMast(this, pM->pNode, false);
 
@@ -1059,7 +1060,7 @@ dword _cdecl SHIP::ProcessMessage(MESSAGE & message)
 			//long iSoundID = message.Long();
 			float fRunTime = message.Float();
 			long iBallCharacterIndex = message.Long();
-			Assert(dwFPIndex != INVALID_ARRAY_INDEX && dwFPIndex < aFirePlaces.Size());
+			Assert(dwFPIndex != INVALID_ARRAY_INDEX && dwFPIndex < aFirePlaces.size());
 			aFirePlaces[dwFPIndex].Run(str, str1, iBallCharacterIndex, str2, fRunTime);
 		}
 		break;
@@ -1072,7 +1073,7 @@ dword _cdecl SHIP::ProcessMessage(MESSAGE & message)
 		case MSG_SHIP_GET_NUM_FIRE_PLACES:
 		{
 			VDATA * pVData = message.ScriptVariablePointer();
-			pVData->Set((long)aFirePlaces.Size());
+			pVData->Set((long)aFirePlaces.size());
 		}
 		break;
 		case MSG_SHIP_RESET_TRACK:
@@ -1126,7 +1127,7 @@ dword _cdecl SHIP::ProcessMessage(MESSAGE & message)
 		break;
 		case MSG_SHIP_SAFE_DELETE:
 			// all system which have particles - must be deleted here
-			aFirePlaces.DelAll();
+			aFirePlaces.clear();
 		break;
 		// boal 20.08.06 перерисовка флага -->
 		case MSG_SHIP_FLAG_REFRESH:
@@ -1160,13 +1161,13 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 
 	api->Event("Ship_StartLoad", "a", GetACharacter());
 	api->Event(SEA_GET_LAYERS, "i", GetID());
-	Assert(sRealizeLayer.Len() != 0 && sExecuteLayer.Len() != 0);
+	Assert(sRealizeLayer.size() != 0 && sExecuteLayer.size() != 0);
 
 	api->LayerAdd("sea_reflection2", GetID(), 100);
 	api->LayerAdd("rain_drops", GetID(), 100);
 
-	api->LayerAdd((char *)sRealizeLayer.GetBuffer(), GetID(), iShipPriorityRealize);
-	api->LayerAdd((char *)sExecuteLayer.GetBuffer(), GetID(), iShipPriorityExecute);
+	api->LayerAdd((char *)sRealizeLayer.c_str(), GetID(), iShipPriorityRealize);
+	api->LayerAdd((char *)sExecuteLayer.c_str(), GetID(), iShipPriorityExecute);
 
 	api->LayerAdd("ship_cannon_trace", GetID(), iShipPriorityExecute);
 
@@ -1227,8 +1228,8 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 	if (api->CreateEntity(&blots_id,"blots"))
 	{
 		api->Send_Message(blots_id, "lia", MSG_BLOTS_SETMODEL, GetModelEID(), GetACharacter()); 
-		api->LayerAdd(sRealizeLayer, blots_id, iShipPriorityRealize + 4);
-		api->LayerAdd(sExecuteLayer, blots_id, iShipPriorityExecute + 4);
+		api->LayerAdd(sRealizeLayer.c_str(), blots_id, iShipPriorityRealize + 4);
+		api->LayerAdd(sExecuteLayer.c_str(), blots_id, iShipPriorityExecute + 4);
 	}
 
 	LoadShipParameters();
@@ -1242,7 +1243,7 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 	NODE * pNode = pModel->GetNode(0); Assert(pNode);
 	pNode->geo->GetInfo(ginfo);
 
-	CalcRealBoxSize();
+	CalcRealBoxsize();
 
 	State.vBoxSize.x = ginfo.boxsize.x;
 	State.vBoxSize.y = ginfo.boxsize.y;
@@ -1353,7 +1354,7 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 	return true;
 }
 
-void SHIP::CalcRealBoxSize()
+void SHIP::CalcRealBoxsize()
 {
 	GEOS::INFO	ginfo;
 	float		x1 = 1e+8f, x2 = -1e+8f, y1 = 1e+8f, y2 = -1e+8f, z1 = 1e+8f, z2 = -1e+8f;
@@ -1388,8 +1389,8 @@ void SHIP::ScanShipForFirePlaces()
 	MODEL * pModel = GetModel(); Assert(pModel);
 
 	// search and add fire places
-	string sFirePlace = "fireplace";
-	string sFirePlaces = "fireplaces";
+	std::string sFirePlace = "fireplace";
+	std::string sFirePlaces = "fireplaces";
 	dword dwIdx = 0;
 	while (pNode = pModel->GetNode(dwIdx))
 	{
@@ -1399,13 +1400,13 @@ void SHIP::ScanShipForFirePlaces()
 			pNode->geo->GetLabel(i, label);
 			if (sFirePlace == label.group_name || sFirePlaces == label.group_name)
 			{
-				FirePlace * pFP = &aFirePlaces[aFirePlaces.Add()];
-				pFP->Init(pSea, this, label);
+				aFirePlaces.push_back(FirePlace{});
+				aFirePlaces.back().Init(pSea, this, label);
 			}
 		}
 		dwIdx++;
 	}
-	if (aFirePlaces.Size() == 0)
+	if (aFirePlaces.size() == 0)
 	{
 		api->Trace("Ship %s doesn't have fire places",cShipIniName);
 	}
@@ -1478,7 +1479,7 @@ float SHIP::Cannon_Trace(long iBallOwner, const CVECTOR &vSrc, const CVECTOR &vD
 		// search nearest fire place
 		float	fMinDistance = 1e8f;
 		long	iBestIndex = -1;
-		for (dword i=0; i<aFirePlaces.Size(); i++) if (!aFirePlaces[i].isActive())
+		for (dword i=0; i<aFirePlaces.size(); i++) if (!aFirePlaces[i].isActive())
 		{
 			float fDistance = aFirePlaces[i].GetDistance(vTemp);
 			if (fDistance < fMinDistance)
@@ -1498,7 +1499,7 @@ dword SHIP::AttributeChanged(ATTRIBUTES * pAttribute)
 	return 0;
 }
 
-CVECTOR		SHIP::GetBoxSize()				{ return State.vBoxSize; };
+CVECTOR		SHIP::GetBoxsize()				{ return State.vBoxSize; };
 ENTITY_ID	SHIP::GetModelEID()				{ return model_id; }
 MODEL *		SHIP::GetModel()				{ Assert(api->ValidateEntity(&GetModelEID())); return (MODEL*)api->GetEntityPointer(&GetModelEID()); }
 CMatrix *	SHIP::GetMatrix()				{ return &GetModel()->mtx; }
@@ -1538,8 +1539,8 @@ void SHIP::SetACharacter(ATTRIBUTES * pAP)
 		api->DeleteEntity(blots_id);
 		api->CreateEntity(&blots_id,"blots");
 		api->Send_Message(blots_id, "lia", MSG_BLOTS_SETMODEL, GetModelEID(), GetACharacter()); 
-		api->LayerAdd((char *)sRealizeLayer.GetBuffer(), blots_id, iShipPriorityRealize + 4);
-		api->LayerAdd((char *)sExecuteLayer.GetBuffer(), blots_id, iShipPriorityExecute + 4);
+		api->LayerAdd((char *)sRealizeLayer.c_str(), blots_id, iShipPriorityRealize + 4);
+		api->LayerAdd((char *)sExecuteLayer.c_str(), blots_id, iShipPriorityExecute + 4);
 	}
 }
 
@@ -1551,7 +1552,7 @@ void SHIP::Save(CSaveLoad * pSL)
 	pSL->SaveAPointer("ship", pAShip);
 	pSL->SaveString(sRealizeLayer);
 	pSL->SaveString(sExecuteLayer);
-	pSL->SaveString(string(cShipIniName));
+	pSL->SaveString(std::string(cShipIniName));
 	pSL->SaveLong(iShipPriorityExecute);
 	pSL->SaveFloat(fGravity);
 	pSL->SaveFloat(fSailState);
@@ -1592,8 +1593,8 @@ void SHIP::Save(CSaveLoad * pSL)
 		pSL->SaveFloat(pMasts[i].fDamage);
 	}
 
-	pSL->SaveDword(aFirePlaces.Size());
-	for (i=0; i<aFirePlaces.Size(); i++) aFirePlaces[i].Save(pSL);	
+	pSL->SaveDword(aFirePlaces.size());
+	for (i=0; i<aFirePlaces.size(); i++) aFirePlaces[i].Save(pSL);	
 }
 
 void SHIP::Load(CSaveLoad * pSL)
@@ -1605,8 +1606,8 @@ void SHIP::Load(CSaveLoad * pSL)
 
 	sRealizeLayer = pSL->LoadString();
 	sExecuteLayer = pSL->LoadString();
-	string sTmp = pSL->LoadString();
-	strcpy(cShipIniName, sTmp.GetBuffer());
+	std::string sTmp = pSL->LoadString();
+	strcpy(cShipIniName, sTmp.c_str());
 	pSL->LoadLong();
 	fGravity = pSL->LoadFloat();
 	fSailState = pSL->LoadFloat();

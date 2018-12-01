@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "xi_videorect.h"
 #include "..\\base_video.h"
+#include "../../common_h/defines.h"
 
 CXI_VIDEORECT::CXI_VIDEORECT()
 {
@@ -72,9 +73,9 @@ void CXI_VIDEORECT::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 

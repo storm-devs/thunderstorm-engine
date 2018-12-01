@@ -1,11 +1,12 @@
 #include "Rain.h"
 
-RAIN::RAIN() :
-	aRects(_FL_, 512),
-	aDrops(_FL_, 512),
-	aSeaDrops(_FL_, 512),
-	aShips(_FL_, 16)
+RAIN::RAIN()
 {
+	aRects.reserve(512);
+	aDrops.reserve(512);
+	aSeaDrops.reserve(512);
+	aShips.reserve(16);
+
 	pWeather = null;
 	pRainBlocks = null;
 	dwNumDrops = 0;
@@ -42,7 +43,7 @@ RAIN::~RAIN()
 
 void RAIN::Release()
 {
-	DELETE(pRainBlocks);
+	STORM_DELETE(pRainBlocks);
 	if (iVertexBuffer >= 0) Render().ReleaseVertexBuffer(iVertexBuffer); 
 	if (iRainbowTex >= 0) Render().TextureRelease(iRainbowTex);
 	if (iRainDropsTexture >= 0) Render().TextureRelease(iRainDropsTexture);
@@ -77,12 +78,12 @@ void RAIN::GenerateRain()
 	dword	i;
 
 	ENTITY_ID	ent;
-	if (!api->FindClass(&ent,"Weather",0)) _THROW("No found WEATHER entity!");
+	if (!api->FindClass(&ent,"Weather",0)) STORM_THROW("No found WEATHER entity!");
 	pWeather = (WEATHER_BASE*)api->GetEntityPointer(&ent); Assert(pWeather);
 
 	Release();
 
-	/*DELETE(pRainBlocks);
+	/*STORM_DELETE(pRainBlocks);
 	if (iVertexBuffer>=0) RS->ReleaseVertexBuffer(iVertexBuffer);
 	iVertexBuffer = -1;*/
 
@@ -160,12 +161,12 @@ void RAIN::GenerateRain()
 	// rainbow
 	if (bRainbowEnable)
 	{
-		iRainbowTex = Render().TextureCreate(sRainbowTexture);
+		iRainbowTex = Render().TextureCreate(sRainbowTexture.c_str());
 	}
 
-	iRainDropsTexture = Render().TextureCreate(sDropsTexture);
+	iRainDropsTexture = Render().TextureCreate(sDropsTexture.c_str());
 
-	iSeaDropTex = Render().TextureCreate(sSeaDropsTexture);
+	iSeaDropTex = Render().TextureCreate(sSeaDropsTexture.c_str());
 
 	fDropsDeltaTime = 0.0f;
 }
@@ -270,29 +271,32 @@ void RAIN::RealizeDrops(dword Delta_Time)
 		}
 		else if (fTest2 <= 1.0f)
 		{
-			seadrop_t & sea_drop = aSeaDrops[aSeaDrops.Add()];
-			
-			sea_drop.vPos = vSrc + fTest * (vDst - vSrc);
-			sea_drop.fTime = 1.0f;
-			sea_drop.fLifeTime = 1.0f;
+			//seadrop_t & sea_drop = aSeaDrops[aSeaDrops.Add()];
+			//sea_drop.vPos = vSrc + fTest * (vDst - vSrc);
+			//sea_drop.fTime = 1.0f;
+			//sea_drop.fLifeTime = 1.0f;
+			aSeaDrops.push_back(seadrop_t{ vSrc + fTest * (vDst - vSrc), 1.0f, 1.0f });
 		}
 
 		if (fTest <= 1.0f)
 		{
 			// Добавляем каплю
-			drop_t & drop = aDrops[aDrops.Add()];
+			aDrops.push_back(drop_t{});
+			//drop_t & drop = aDrops[aDrops.Add()];
+			drop_t & drop = aDrops.back();
 			drop.vPos = vSrc + fTest * (vDst - vSrc);
 			drop.fLifeTime = fDropsLifeTime + fDeltaTime;
 			drop.iShip = -1;
 			if (pShip)
 			{
 				long k;
-				for (k=0; k<aShips; k++) if (aShips[k].pShip == pShip) break;
-				if (k == aShips.Len())
+				for (k=0; k<aShips.size(); k++) if (aShips[k].pShip == pShip) break;
+				if (k == aShips.size())
 				{
-					ship_t & ship = aShips[aShips.Add()];
-					ship.eid = pShip->GetID();
-					ship.pShip = pShip;
+					//ship_t & ship = aShips[aShips.Add()];
+					//ship.eid = pShip->GetID();
+					//ship.pShip = pShip;
+					aShips.push_back(ship_t{ pShip->GetID(), pShip });
 				}
 				CMatrix mShip = *pShip->GetMatrix();
 				mShip.Transposition();
@@ -302,9 +306,9 @@ void RAIN::RealizeDrops(dword Delta_Time)
 		}
 	}
 
-	aRects.Empty();
+	aRects.clear();
 
-	for (long i=0; i<aShips; i++)
+	for (long i=0; i<aShips.size(); i++)
 	{
 		if (!api->ValidateEntity(&aShips[i].eid))
 		{
@@ -312,20 +316,22 @@ void RAIN::RealizeDrops(dword Delta_Time)
 		}
 	}
 
-	for (long i=0; i<aDrops.Len(); i++)
+	for (long i=0; i<aDrops.size(); i++)
 	{
 		drop_t & drop = aDrops[i];
 
 		drop.fLifeTime -= fDeltaTime;
 		if (drop.fLifeTime <= 0.0f || (drop.iShip >= 0 && !aShips[drop.iShip].pShip))
 		{
-			aDrops.ExtractNoShift(i);
+			//aDrops.ExtractNoShift(i);
+			aDrops[i] = aDrops.back();
+			aDrops.pop_back();
 			i--;
 			continue;
 		}
 
-		RS_RECT & r = aRects[aRects.Add()];
-
+		//RS_RECT & r = aRects[aRects.Add()];
+		RS_RECT r;
 		if (drop.iShip >= 0)
 			r.vPos = (*aShips[drop.iShip].pShip->GetMatrix()) * drop.vPos;
 		else
@@ -339,11 +345,13 @@ void RAIN::RealizeDrops(dword Delta_Time)
 		r.fSize = fK * fDropsSize;
 		r.dwColor = dwDropsColor;
 		r.dwSubTexture = dword(8.0f * drop.fLifeTime / fDropsLifeTime);
+
+		aRects.push_back(r);
 	}
 
 	Render().TextureSet(0, iRainDropsTexture);
 	//Render().SetTexture(0, null);
-	Render().DrawRects(aRects.GetBuffer(), aRects.Size(), "rain_drops", 8, 1);
+	Render().DrawRects(aRects.data(), aRects.size(), "rain_drops", 8, 1);
 
 	// рисуем круги на воде
 	CMatrix IMatrix;
@@ -353,14 +361,16 @@ void RAIN::RealizeDrops(dword Delta_Time)
 
 	SEADROPVERTEX * pVSeaDropBuffer = (SEADROPVERTEX *)Render().LockVertexBuffer(iVBSeaDrops, D3DLOCK_DISCARD);
 	long n = 0;
-	if (pVSeaDropBuffer) for (long i=0; i<aSeaDrops.Len(); i++)
+	if (pVSeaDropBuffer) for (long i=0; i<aSeaDrops.size(); i++)
 	{
 		seadrop_t & drop = aSeaDrops[i];
 
 		drop.fTime -= fDeltaTime;
 		if (drop.fTime <= 0.0f)
 		{
-			aSeaDrops.ExtractNoShift(i);
+			//aSeaDrops.ExtractNoShift(i);
+			aSeaDrops[i] = aSeaDrops.back();
+			aSeaDrops.pop_back();
 			i--;
 			continue;
 		}

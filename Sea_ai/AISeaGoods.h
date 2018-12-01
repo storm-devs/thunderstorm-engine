@@ -5,6 +5,7 @@
 #include "..\common_h\geometry.h"
 #include "..\common_h\sea_base.h"
 #include "..\common_h\ship_base.h"
+#include "..\common_h\dtimer.h"
 
 class AISeaGoods : public ENTITY
 {
@@ -19,20 +20,20 @@ private:
 
 	struct goods_t
 	{
-		string			sModel;
-		array<item_t>	aItems;
+		std::string			sModel;
+		std::vector<item_t>	aItems;
 		GEOS			* pGeo;
 
-		goods_t() : aItems(_FL_, 16) {};
+		goods_t() {};
 	};
 
-	array<goods_t*>		aGoods;
-	array<SHIP_BASE*>	aShips;
+	std::vector<goods_t*>		aGoods;
+	std::vector<SHIP_BASE*>	aShips;
 	
 	VGEOMETRY		* pGeoService;
 	SEA_BASE		* pSea;
 	item_t			TmpItem;
-	string			sModelPath, sTmpModel;
+	std::string			sModelPath, sTmpModel;
 	DTimer			dtCheckShips;
 	bool			bDeleteGoodAnyway;
 	float			fDistanceMultiply;	

@@ -9,19 +9,18 @@ void GIEditorObject::LinkEvent( GIEditorEventHandler* pEventHandler, const GIEdi
 
 
 
-GIEditorEventHandler::GIEditorEventHandler() :
-	m_aEventFuncs( _FL )
+GIEditorEventHandler::GIEditorEventHandler()
 {
 }
 
 GIEditorEventHandler::~GIEditorEventHandler()
 {
-	m_aEventFuncs.DelAll();
+	m_aEventFuncs.clear();
 }
 
 bool GIEditorEventHandler::Execute()
 {
-	for( long n=0; n<m_aEventFuncs; n++ )
+	for( long n=0; n<m_aEventFuncs.size(); n++ )
 	{
 		(m_aEventFuncs[n].pObj->*m_aEventFuncs[n].func)();
 	}
@@ -33,5 +32,5 @@ void GIEditorEventHandler::AddEventFunction( GIEditorObject* pObj, const GIEdito
 	FuncDescr fd;
 	fd.pObj = pObj;
 	fd.func = pEventFunction;
-	m_aEventFuncs.Add( fd );
+	m_aEventFuncs.push_back( fd );
 }

@@ -211,12 +211,12 @@ bool BLADE::Init()
 	GUARD(BLADE::BLADE())
 
 	col = (COLLIDE *)_CORE_API->CreateService("coll");
-	if(col==null)	_THROW("No service: COLLIDE");
+	if(col==null)	STORM_THROW("No service: COLLIDE");
 
 	_CORE_API->LayerAdd("realize",GetID(),65550);
 
 	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
-	if(!rs)	_THROW("No service: dx9render");
+	if(!rs)	STORM_THROW("No service: dx9render");
 	
 	UNGUARD
 	return true;

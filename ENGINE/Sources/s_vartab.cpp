@@ -76,7 +76,7 @@ dword S_VARTAB::AddVar(VARINFO& vi)
 	for(n=0;n<Var_num;n++)
 	{
 		if(pTable[n].hash == hash)
-		if(stricmp(pTable[n].name,vi.name)==0)
+		if(_stricmp(pTable[n].name,vi.name)==0)
 		{
 			// variable with such name already registred,
 			if(pTable[n].segment_id == INVALID_SEGMENT_ID)
@@ -185,7 +185,7 @@ dword S_VARTAB::FindVar(const char * var_name)
 	{
 		ni = HashLine[hash_index].pElements[n];
 		if(pTable[ni].hash == hash) //return n;
-		if(stricmp(pTable[ni].name,var_name)==0) return ni;
+		if(_stricmp(pTable[ni].name,var_name)==0) return ni;
 	}
 	return INVALID_VAR_CODE;
 	/*
@@ -197,7 +197,7 @@ dword S_VARTAB::FindVar(const char * var_name)
 	for(n=0;n<Var_num;n++)
 	{
 		if(pTable[n].hash == hash) //return n;
-		if(stricmp(pTable[n].name,var_name)==0) return n;
+		if(_stricmp(pTable[n].name,var_name)==0) return n;
 	}
 	return INVALID_VAR_CODE;*/
 }

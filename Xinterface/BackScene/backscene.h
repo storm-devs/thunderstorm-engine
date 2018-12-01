@@ -2,8 +2,6 @@
 #define _XI_BACK_SCENE_H
 
 #include "..\..\common_h\dx9render.h"
-#include "..\..\common_h\templates\array.h"
-#include "..\..\common_h\templates\string.h"
 #include "..\..\common_h\matrix.h"
 #include "..\defines.h"
 
@@ -68,7 +66,7 @@ protected:
 	CVECTOR m_vCamAng;
 	float m_fCamPerspective;
 
-	array<LightParam*> m_aLights;
+	std::vector<LightParam*> m_aLights;
 
 	struct MenuDescr
 	{
@@ -77,13 +75,13 @@ protected:
 		MODEL* pActive;
 		ENTITY_ID eiPassive;
 		MODEL* pPassive;
-		string sEventName;
+		std::string sEventName;
 
 		MenuDescr() {pActive=0; pPassive=0; bSelectable=false;}
 		~MenuDescr();
 		void Set( CMatrix* pMtx, const char* pcActiveName, const char* pcPassiveName, const char* pcEvent, const char* pcPathName, const char* pcTechniqueName );
 	};
-	array<MenuDescr*> m_aMenuDescr;
+	std::vector<MenuDescr*> m_aMenuDescr;
 	long m_nSelectMenuIndex;
 
 	void LoadModel( const char* pcModelName );
@@ -122,7 +120,7 @@ protected:
 		AniModelDescr() {pModel=0;bUseTFactor=false;}
 		~AniModelDescr() {api->DeleteEntity(ei); pModel=0;}
 	};
-	array<AniModelDescr*> m_apAniModel;
+	std::vector<AniModelDescr*> m_apAniModel;
 
 	// муха - перелетная птица!
 	struct Particle

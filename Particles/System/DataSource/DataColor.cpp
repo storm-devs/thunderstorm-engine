@@ -4,7 +4,7 @@
 #include "..\..\..\common_h\vmodule_api.h"
 
 //конструктор/деструктор
-DataColor::DataColor () : ColorGraph(_FL_, 128), ZeroColor(0xFFFFFFFFL)
+DataColor::DataColor () : ZeroColor(0xFFFFFFFFL)
 {
 }
 
@@ -18,7 +18,7 @@ Color DataColor::GetValue (float Time, float LifeTime, float K_rand)
 	//Время у графика цвета всегда относительное...
 	Time = (Time / LifeTime);
 
-	DWORD Count = ColorGraph.Size();
+	DWORD Count = ColorGraph.size();
 	DWORD StartIndex = 0;
 	for (DWORD n = StartIndex; n < (Count-1); n++)
 	{
@@ -57,36 +57,36 @@ Color DataColor::GetValue (float Time, float LifeTime, float K_rand)
 //два индекса, Min=Max=Value
 void DataColor::SetDefaultValue (const Color& Value)
 {
-	ColorGraph.DelAll();
+	ColorGraph.clear();
 
 	ColorVertex pMinVertex;
 	pMinVertex.Time = MIN_GRAPH_TIME;
 	pMinVertex.MinValue = Value;
 	pMinVertex.MaxValue = Value;
-	ColorGraph.Add(pMinVertex);
+	ColorGraph.push_back(pMinVertex);
 
 	ColorVertex pMaxVertex;
 	pMinVertex.Time = 1.0f;
 	pMinVertex.MinValue = Value;
 	pMinVertex.MaxValue = Value;
-	ColorGraph.Add(pMinVertex);
+	ColorGraph.push_back(pMinVertex);
 
 }
 
 //Установить значения
 void DataColor::SetValues (const ColorVertex* Values, DWORD Count)
 {
-	ColorGraph.DelAll();
+	ColorGraph.clear();
 	for (DWORD n = 0; n < Count; n++)
 	{
-		ColorGraph.Add(Values[n]);
+		ColorGraph.push_back(Values[n]);
 	}
 }
 
 //Получить кол-во значений
 DWORD DataColor::GetValuesCount ()
 {
-	return ColorGraph.Size();
+	return ColorGraph.size();
 }
 
 
@@ -123,7 +123,7 @@ void DataColor::Load (MemFile* File)
 		pColor.Time = Time;
 		pColor.MinValue = clrMin;
 		pColor.MaxValue = clrMax;
-		ColorGraph.Add(pColor);
+		ColorGraph.push_back(pColor);
 	}
 
 	static char AttribueName[128];
@@ -144,7 +144,7 @@ void DataColor::SetName (const char* szName)
 
 const char* DataColor::GetName ()
 {
-	return Name.GetBuffer();
+	return Name.c_str();
 }
 
 const ColorVertex& DataColor::GetByIndex (DWORD Index)
@@ -154,7 +154,7 @@ const ColorVertex& DataColor::GetByIndex (DWORD Index)
 
 void DataColor::Write (MemFile* File)
 {
-	DWORD dwColorCount = ColorGraph.Size();
+	DWORD dwColorCount = ColorGraph.size();
 	File->WriteType(dwColorCount);
 
 	for (DWORD n = 0; n < dwColorCount; n++)
@@ -170,11 +170,11 @@ void DataColor::Write (MemFile* File)
 	}
 
 	//save name
-	DWORD NameLength = Name.Len();
+	DWORD NameLength = Name.size();
 	DWORD NameLengthPlusZero = NameLength+1;
 	File->WriteType(NameLengthPlusZero);
 	Assert (NameLength < 128);
-	File->Write(Name.GetBuffer(), NameLength);
+	File->Write(Name.c_str(), NameLength);
 	File->WriteZeroByte();
 }
 

@@ -61,16 +61,16 @@ private:
 
 	struct Foam 
 	{
-		Foam() : aFoamParts(_FL_), aWorkParts(_FL_) { iTexture = -1; }
+		Foam() { iTexture = -1; }
 
-		array<FoamPart>	aFoamParts;
-		array<WorkPart>	aWorkParts;
+		std::vector<FoamPart>	aFoamParts;
+		std::vector<WorkPart>	aWorkParts;
 		float			fMove[2];
 		float			fSX[2];
 		float			fSpeed[2], fBraking[2];
 		long			iMode[2];
 		long			iTexture;
-		string			sTexture;
+		std::string			sTexture;
 		long			iNumFoams;
 
 		FOAMTYPE		Type;
@@ -87,7 +87,7 @@ private:
 	float			fCursorPosX, fCursorPosY;
 	long			iFoamTexture, iCursorTex;
 	SEA_BASE		* pSea;
-	array<Foam*>	aFoams;
+	std::vector<Foam*>	aFoams;
 	long			iVBuffer, iIBuffer;
 	PLANE			* pFrustumPlanes;
 
@@ -102,7 +102,7 @@ private:
 
 	void Save();
 	void Load();
-	void DelAll();
+	void clear();
 
 	void InitNewFoam(Foam * pF);
 	void RecalculateFoam(long iFoam);

@@ -539,7 +539,7 @@ DWORD S_DEBUG::GetLineStatus(const char * _pFileName, DWORD _linecode)
 {
 	//nDebugTraceLineCode
 	if(Core.Compiler.pRun_fi && Core.Compiler.pRun_fi->decl_file_name)
-	if(stricmp(Core.Compiler.pRun_fi->decl_file_name,_pFileName)==0)
+	if(_stricmp(Core.Compiler.pRun_fi->decl_file_name,_pFileName)==0)
 	{
 		if(_linecode == Core.Compiler.nDebugTraceLineCode) return LST_CONTROL;
 	}
@@ -710,7 +710,7 @@ void S_DEBUG::Add2RecentFiles(char * pFileName)
 		buffer[0] = 0;
 		if(RegQueryValueEx(hKey,kn,0,0,(unsigned char *)buffer,&dwSize) == ERROR_SUCCESS)
 		{
-			if(stricmp(buffer,pFileName)==0) 
+			if(_stricmp(buffer,pFileName)==0) 
 			{
 				// already in recent files list
 				RegCloseKey(hKey);
@@ -887,7 +887,7 @@ long S_DEBUG::GetRecentFileALine(char * pFileName)
 		buffer[0] = 0;
 		if(RegQueryValueEx(hKey,kn,0,0,(unsigned char *)buffer,&dwSize) == ERROR_SUCCESS)
 		{
-			if(stricmp(buffer,pFileName)==0) 
+			if(_stricmp(buffer,pFileName)==0) 
 			{
 				wsprintf(kn,"line%d",n);
 
@@ -925,7 +925,7 @@ void S_DEBUG::SaveRecentFileALine(char * pFileName, long nLine)
 		buffer[0] = 0;
 		if(RegQueryValueEx(hKey,kn,0,0,(unsigned char *)buffer,&dwSize) == ERROR_SUCCESS)
 		{
-			if(stricmp(buffer,pFileName)==0) 
+			if(_stricmp(buffer,pFileName)==0) 
 			{
 				wsprintf(kn,"line%d",n);
 				RegSetValueEx(hKey,kn,0,REG_DWORD,(const unsigned char *)&nLine,sizeof(DWORD));	

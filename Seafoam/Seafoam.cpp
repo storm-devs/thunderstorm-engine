@@ -85,14 +85,15 @@ bool SEAFOAM::Init()
 void SEAFOAM::InitializeShipFoam()
 {
 	ENTITY_ID shipID;
-	array<ENTITY_ID> aShipsID(_FL_);
+	std::vector<ENTITY_ID> aShipsID;
 
 	if (api->FindClass(&shipID, "ship", 0)) do
 	{
-		aShipsID.Add(shipID);
+		aShipsID.push_back(shipID);
 	} while (api->FindClassNext(&shipID));
 
-	for (long i=0; i<aShipsID; i++) AddShip(&aShipsID[i]);
+	for (long i=0; i<aShipsID.size(); i++) 
+		AddShip(&aShipsID[i]);
 }
 
 void SEAFOAM::AddShip(ENTITY_ID * pShipEID)
@@ -581,7 +582,7 @@ dword SEAFOAM::AttributeChanged(ATTRIBUTES * pA)
 {
 	const char *nm = pA->GetThisName();
 
-	if(!stricmp(nm,"storm"))
+	if(!_stricmp(nm,"storm"))
 	{
 		if (!strcmp(pA->GetThisAttr(), "true"))
 			isStorm = true;
@@ -589,7 +590,7 @@ dword SEAFOAM::AttributeChanged(ATTRIBUTES * pA)
 			isStorm = false;
 	}
 
-	if (stricmp(nm, "AddNetShip") == 0)
+	if (_stricmp(nm, "AddNetShip") == 0)
 	{
 		ENTITY_ID shipID;
 		dword dwShipNetID = pA->GetAttributeAsDword();

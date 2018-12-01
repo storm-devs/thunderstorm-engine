@@ -3,18 +3,19 @@
 
 #include "..\inode.h"
 #include "xi_image.h"
+#include "../../common_h/defines.h"
 
 struct ButtonDescribe
 {
-	ButtonDescribe():aStr(_FL) { pImg=null; bSetPos=false; }
-	~ButtonDescribe() { DELETE( pImg ); }
+	ButtonDescribe() { pImg=null; bSetPos=false; }
+	~ButtonDescribe() { STORM_DELETE( pImg ); }
 
 	struct StrDescribe
 	{
-		string str;
+		std::string str;
 		float fX;
 	};
-	array<StrDescribe> aStr;
+	std::vector<StrDescribe> aStr;
 	bool bChoose;
 	bool bDisable;
 
@@ -41,8 +42,8 @@ public:
 	void	SaveParametersToIni();
 	dword _cdecl MessageProc(long msgcode, MESSAGE & message);
 
-	virtual bool GetInternalNameList( array<string>& aStr );
-	virtual void SetInternalName( string& sName );
+	virtual bool GetInternalNameList( std::vector<std::string>& aStr );
+	virtual void SetInternalName(std::string& sName );
 
 protected:
 	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);
@@ -73,20 +74,20 @@ protected:
 
 	bool m_bClickIntoTextActive;
 	bool m_bIndividualPos;
-	array<ButtonDescribe*> m_aButton;
+	std::vector<ButtonDescribe*> m_aButton;
 	long m_nEditableSectionIndex;
 
 	FXYPOINT m_fpIconSize;
 	FXYPOINT m_fpIconOffset;
-	string m_sIconGroupName;
+	std::string m_sIconGroupName;
 	//
-	string m_sNormalPicture;
+	std::string m_sNormalPicture;
 	dword m_dwNormalPicColor;
 	//
-	string m_sSelectPicture;
+	std::string m_sSelectPicture;
 	dword m_dwSelectPicColor;
 	//
-	string m_sDisablePicture;
+	std::string m_sDisablePicture;
 	dword m_dwDisablePicColor;
 };
 

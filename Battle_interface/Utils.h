@@ -2,8 +2,8 @@
 #define _BI_UTILS_H_
 
 #include "defines.h"
-#include "..\common_h\templates\string.h"
-#include "..\common_h\templates\array.h"
+#include <string>
+#include <vector>
 
 class BITextInfo
 {
@@ -15,7 +15,7 @@ public:
 	void Print();
 
 	VDX9RENDER* pRS;
-	string sText;
+	std::string sText;
 	POINT pos;
 	float fScale;
 	long nFont;
@@ -35,7 +35,7 @@ public:
 	void Draw();
 
 	VDX9RENDER* pRS;
-	array<RS_LINE2D> lines;
+	std::vector<RS_LINE2D> lines;
 };
 
 class IBIImage;
@@ -51,7 +51,7 @@ public:
 
 	VDX9RENDER* pRS;
 	BIImageRender* pImgRender;
-	array<IBIImage*> images;
+	std::vector<IBIImage*> images;
 };
 
 class BIBorderInfo
@@ -105,8 +105,8 @@ public: // functions
 
 	static float GetFromStr_Float(const char* &pcStr, float fDefault);
 
-	static void FillTextInfoArray(VDX9RENDER* pRS, ATTRIBUTES* pA, array<BITextInfo>& tia);
-	static void PrintTextInfoArray(array<BITextInfo>& tia);
+	static void FillTextInfoArray(VDX9RENDER* pRS, ATTRIBUTES* pA, std::vector<BITextInfo>& tia);
+	static void PrintTextInfoArray(std::vector<BITextInfo>& tia);
 	//---------------------------------------
 	//---------------------------------------
 public: // data

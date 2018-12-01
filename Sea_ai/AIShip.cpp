@@ -3,10 +3,10 @@
 #include "AIGroup.h"
 #include "..\common_h\ship_base.h"
 
-array<AIShip*>				AIShip::AIShips(_FL_, 8);
-array<AIShip::can_fire_t>	AIShip::aShipFire(_FL_, 128);
+std::vector<AIShip*> AIShip::AIShips;
+std::vector<AIShip::can_fire_t>	AIShip::aShipFire;
 
-AIShip::AIShip(AI_OBJTYPE shiptype) : aAttackPoints(_FL_), aFollowPoints(_FL_)
+AIShip::AIShip(AI_OBJTYPE shiptype)
 {
 	pAShipBase = null;
 	
@@ -29,15 +29,15 @@ AIShip::~AIShip()
 {
 	DELETE_ENTITY(eidShip);
 	
-	DELETE(pMoveController);
-	DELETE(pTaskController);
-	DELETE(pCannonController);
-	DELETE(pCameraController);
-	DELETE(pTouchController);
-	DELETE(pRotateController);
-	DELETE(pSpeedController);
+	STORM_DELETE(pMoveController);
+	STORM_DELETE(pTaskController);
+	STORM_DELETE(pCannonController);
+	STORM_DELETE(pCameraController);
+	STORM_DELETE(pTouchController);
+	STORM_DELETE(pRotateController);
+	STORM_DELETE(pSpeedController);
 
-	aShipFire.DelAll();
+	aShipFire.clear();
 }
 
 void AIShip::Unload()
@@ -101,7 +101,7 @@ void AIShip::Execute(float fDeltaTime)
 	} else 
 	{ 
 		if (GetCameraController()) 
-			DELETE(pCameraController); 
+			STORM_DELETE(pCameraController); 
 	}
 
 	if (GetCameraController()) GetCameraController()->Execute(fDeltaTime);
@@ -129,7 +129,7 @@ void AIShip::Execute(float fDeltaTime)
 	{
 		ATTRIBUTES * pASeaAIU = GetACharacter()->CreateSubAClass(GetACharacter(), "SeaAI.Update");
 		ATTRIBUTES * pAShips = pASeaAIU->CreateAttribute("Ships", "");
-		for (i=0; i<AIShips.Size(); i++) if (this != AIShips[i] && !AIShips[i]->isDead()) 
+		for (i=0; i<AIShips.size(); i++) if (this != AIShips[i] && !AIShips[i]->isDead()) 
 		{
 			SetSeaAIAttributes(pAShips, AIShips[i]);
 		}
@@ -147,7 +147,7 @@ void AIShip::Execute(float fDeltaTime)
 		// fill state for ships
 			ATTRIBUTES * pAShips = pASeaAIU->CreateAttribute("Ships", "");
 
-			for (i=0; i<AIShips.Size(); i++) if (this != AIShips[i] && !AIShips[i]->isDead()) 
+			for (i=0; i<AIShips.size(); i++) if (this != AIShips[i] && !AIShips[i]->isDead()) 
 			{
 				SetSeaAIAttributes(pAShips, AIShips[i]);
 			}
@@ -179,7 +179,7 @@ void AIShip::CheckSituation()
 	//if (isMainCharacter()) return;
 
 	float fMinEnemyDist = 1e9f;
-	for (dword i=0; i<AIShips.Size(); i++) if (AIShips[i] != this)
+	for (dword i=0; i<AIShips.size(); i++) if (AIShips[i] != this)
 	{
 		float fDist = GetDistance(*AIShips[i]);
 		if (Helper.isEnemy(GetACharacter(), AIShips[i]->GetACharacter()))
@@ -255,12 +255,12 @@ void AIShip::CreateShip(ENTITY_ID _eidShip, ATTRIBUTES * _pACharacter, ATTRIBUTE
 
 bool AIShip::isCanPlace(CVECTOR vNewPos) const
 {
-	CVECTOR vBoxSize = GetBoxSize();
+	CVECTOR vBoxSize = GetBoxsize();
 	vBoxSize.x += 30.0f;
 	vBoxSize.z += 30.0f;
-	for (dword i=0; i<AIShips.Size(); i++) if (this != AIShips[i])
+	for (dword i=0; i<AIShips.size(); i++) if (this != AIShips[i])
 	{
-		float fMinDist = (vBoxSize.z + AIShips[i]->GetBoxSize().z) / 2.0f;
+		float fMinDist = (vBoxSize.z + AIShips[i]->GetBoxsize().z) / 2.0f;
 		if (AIShips[i]->GetDistance(vNewPos) < fMinDist) return false;
 	}
 	if (AIHelper::pIsland && AIHelper::pIsland->Check2DBoxDepth(vNewPos, vBoxSize, 0.0f, -14.0f)) return false;
@@ -271,7 +271,7 @@ void AIShip::CheckStartPosition()
 {
 	CVECTOR vOurPos = GetPos();
 	CVECTOR vNewPos = vOurPos;
-	CVECTOR vBoxSize = GetBoxSize();
+	CVECTOR vBoxSize = GetBoxsize();
 	float fRadius = vBoxSize.z;
 	float fAng = 0.0f;
 	while (!isCanPlace(vNewPos))
@@ -302,7 +302,7 @@ bool AIShip::isCanFire(const CVECTOR & vFirePos) const
 	RotateAroundY(v1.x, v1.z, fCos, fSin);
 	RotateAroundY(v2.x, v2.z, -fCos, -fSin);
 
-	for (dword i=0;i<AIShips.Size();i++) if (this != AIShips[i] && isFriend(*AIShips[i]))
+	for (dword i=0;i<AIShips.size();i++) if (this != AIShips[i] && isFriend(*AIShips[i]))
 	{
 		if (AIShips[i]->isDead()) continue;
 		if (AIShips[i]->GetTouchController()->isCollision2D(vOurPos, vFirePos)) return false;
@@ -324,19 +324,20 @@ bool AIShip::Fire(bool bCameraOutside)
 	}
 	if (bCameraOutside)
 	{
-		aShipFire.Empty();
+		aShipFire.clear();
 
-		for (i=0; i<AIShips.Size(); i++) if (isEnemy(*AIShips[i]))
+		for (i=0; i<AIShips.size(); i++) if (isEnemy(*AIShips[i]))
 		{
 			bool bCanFire = GetCannonController()->isCanFire(AIShips[i]);
 			if (!isCanFire(AIShips[i]->GetPos())) continue;
 			if (bCanFire) 
 			{
 				// check for friendly fire
-				dword dwIdx = aShipFire.Add();
-				aShipFire[dwIdx].pShip = AIShips[i];
-				aShipFire[dwIdx].pFortCannon = null;
-				aShipFire[dwIdx].fDistance = GetDistance(*AIShips[i]);
+				//dword dwIdx = aShipFire.Add();
+				//aShipFire[dwIdx].pShip = AIShips[i];
+				//aShipFire[dwIdx].pFortCannon = null;
+				//aShipFire[dwIdx].fDistance = GetDistance(*AIShips[i]);
+				aShipFire.push_back(can_fire_t{ AIShips[i], nullptr, GetDistance(*AIShips[i]) });
 			}
 		}
 
@@ -355,20 +356,22 @@ bool AIShip::Fire(bool bCameraOutside)
 					if (pC && !pC->isDamaged() && GetCannonController()->isCanFirePos(pC->GetPos()) && isCanFire(pC->GetPos()))
 					{
 						// check for friendly fire
-						dword dwIdx = aShipFire.Add();
-						aShipFire[dwIdx].pShip = null;
-						aShipFire[dwIdx].pFortCannon = pC;
-						aShipFire[dwIdx].fDistance = GetDistance(pC->GetPos());
+						//dword dwIdx = aShipFire.Add();
+						//aShipFire[dwIdx].pShip = null;
+						//aShipFire[dwIdx].pFortCannon = pC;
+						//aShipFire[dwIdx].fDistance = GetDistance(pC->GetPos());
+						aShipFire.push_back(can_fire_t{ nullptr, pC, GetDistance(pC->GetPos()) });
 					}
 				}
 			}
 		}
-		if (aShipFire.Size())
+		if (aShipFire.size())
 		{
 			// sorting
-			aShipFire.Sort();
+			//aShipFire.Sort();
+			std::sort(aShipFire.begin(), aShipFire.end());
 
-			for (i=0; i<aShipFire.Size(); i++) 
+			for (i=0; i<aShipFire.size(); i++) 
 			{
 				can_fire_t * pFire = &aShipFire[i];
 				if (pFire->pShip)		GetCannonController()->Fire(pFire->pShip);
@@ -384,8 +387,15 @@ void AIShip::ReleasePoint(VAI_INNEROBJ * pOtherObj)
 	Assert(pOtherObj);
 
 	// delete object in all point array's
-	aFollowPoints.Del(AI_POINT(pOtherObj));
-	aAttackPoints.Del(AI_POINT(pOtherObj));
+	auto it = std::find(aFollowPoints.begin(), aFollowPoints.end(), AI_POINT(pOtherObj));
+	if (it != aFollowPoints.end())
+		aFollowPoints.erase(it);
+	it = std::find(aAttackPoints.begin(), aAttackPoints.end(), AI_POINT(pOtherObj));
+	if (it != aAttackPoints.end())
+		aAttackPoints.erase(it);
+
+	//aFollowPoints.Del(AI_POINT(pOtherObj));
+	//aAttackPoints.Del(AI_POINT(pOtherObj));
 }
 
 CVECTOR	AIShip::GetAbordagePoint(VAI_INNEROBJ * pOtherObj)  
@@ -449,7 +459,7 @@ CVECTOR	AIShip::GetAttackPoint(VAI_INNEROBJ * pOtherObj)
 	}
 
 	/*float fTempAng = PId2 / 2.0f;
-	if (aAttackPoints.Size()) fTempAng = aAttackPoints[aAttackPoints.Last()].fAngle + PId2 / 2.0f;
+	if (aAttackPoints.size()) fTempAng = aAttackPoints[aAttackPoints.Last()].fAngle + PId2 / 2.0f;
 
 	dword dwIdx = aAttackPoints.Find(AI_POINT(pOtherObj));
 	if (dwIdx == INVALID_ARRAY_INDEX)
@@ -505,7 +515,7 @@ float AIShip::GetDefendHP()
 float AIShip::GetAttackHP(float fAttackDistance)
 {
 	float fHP = 0.0f;
-	for (dword i=0; i<AIShips.Size(); i++) if (AIShips[i] != this)
+	for (dword i=0; i<AIShips.size(); i++) if (AIShips[i] != this)
 	{
 		float fHP1 = 0.0f;
 		if (fAttackDistance <= 0.0f && AIShips[i]->isAttack(GetACharacter())) fHP1 = AIShips[i]->GetShipHP();
@@ -562,7 +572,7 @@ void AIShip::SwapShips(AIShip * pOtherShip)
 // static members
 AIShip * AIShip::FindShip(ATTRIBUTES * pACharacter) 
 {
-	for (dword i=0; i<AIShip::AIShips.Size(); i++) if (*AIShip::AIShips[i] == pACharacter) return AIShip::AIShips[i];
+	for (dword i=0; i<AIShip::AIShips.size(); i++) if (*AIShip::AIShips[i] == pACharacter) return AIShip::AIShips[i];
 	return null;
 }
 

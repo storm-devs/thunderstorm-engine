@@ -5,7 +5,6 @@
 #include "..\common_h\vmodule_api.h"
 #include "defines.h"
 #include "nodes\xi_util.h"
-#include "..\common_h\templates\string.h"
 #include "nodes\xi_tooltips.h"
 
 class CXI_ToolTip;
@@ -98,7 +97,7 @@ public:
 	// blind
 	dword						GetBlendColor(dword minCol,dword maxCol,float fFactor);
 
-	string m_sDialogFileName;
+	std::string m_sDialogFileName;
 };
 
 class CINODE
@@ -119,7 +118,7 @@ public:
 		int					command;
 		COMMAND_REDIRECT	*next;
 		COMMAND_REDIRECT() {sControlName=0; next=0;}
-		~COMMAND_REDIRECT() {PTR_DELETE(sControlName);}
+		~COMMAND_REDIRECT() {PTR_STORM_DELETE(sControlName);}
 	};
 	struct COMMAND_ACTION
 	{
@@ -131,7 +130,7 @@ public:
 		char *			 sEventName;
 		long			 nActionDelay;
 		COMMAND_ACTION() {bUse=false; sRetControl=0; pNextControl=0; sEventName=0;}
-		~COMMAND_ACTION() {PTR_DELETE(sRetControl); PTR_DELETE(sEventName); while(pNextControl) {COMMAND_REDIRECT* pOld=pNextControl; pNextControl=pNextControl->next; delete pOld;} }
+		~COMMAND_ACTION() {PTR_STORM_DELETE(sRetControl); PTR_STORM_DELETE(sEventName); while(pNextControl) {COMMAND_REDIRECT* pOld=pNextControl; pNextControl=pNextControl->next; delete pOld;} }
 	};
 public:
 	CINODE();
@@ -169,8 +168,8 @@ public:
 
 	virtual void	ChangePosition( XYRECT &rNewPos ) = 0;
 	virtual void	SaveParametersToIni() = 0;
-	virtual bool	GetInternalNameList( array<string>& aStr ) {return false;}
-	virtual void	SetInternalName( string& sName ) {}
+	virtual bool	GetInternalNameList( std::vector<std::string>& aStr ) {return false;}
+	virtual void	SetInternalName(std::string& sName ) {}
 
 	virtual dword _cdecl MessageProc(long msgcode, MESSAGE & message);
 

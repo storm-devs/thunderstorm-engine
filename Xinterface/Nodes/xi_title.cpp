@@ -46,7 +46,7 @@ bool CXI_TITLE::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9R
 void CXI_TITLE::ReleaseAll()
 {
 	PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName,m_idTex);
-	PTR_DELETE(m_sGroupName);
+	PTR_STORM_DELETE(m_sGroupName);
 	m_idString = -1L;
 	VERTEX_BUF_RELEASE(m_rs,m_idVBuf);
 	INDEX_BUF_RELEASE(m_rs,m_idIBuf);
@@ -77,9 +77,9 @@ void CXI_TITLE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 
@@ -137,7 +137,7 @@ void CXI_TITLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	{
 		m_sGroupName = NEW char[strlen(param)+1];
 		if(m_sGroupName==NULL)
-			_THROW("allocate memory error")
+			STORM_THROW("allocate memory error")
 		strcpy(m_sGroupName,param);
 		m_idTex = pPictureService->GetTextureID(m_sGroupName);
 	}
@@ -189,7 +189,7 @@ void CXI_TITLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	// fill index buffer
 	WORD* pIndex = (WORD*)m_rs->LockIndexBuffer(m_idIBuf);
 	if(pIndex==NULL)
-		_THROW("index buffer not create")
+		STORM_THROW("index buffer not create")
 	for(i=0; i<rectangleQuantity; i++)
 	{
 		pIndex[i*6+0] = i*4;
@@ -204,7 +204,7 @@ void CXI_TITLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	// fill vertex buffer
 	XI_ONETEX_VERTEX* pVert = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVBuf);
 	if(pVert==NULL)
-		_THROW("vertex buffer not create")
+		STORM_THROW("vertex buffer not create")
 	for(i=0; i<m_nVert; i++)
 	{
 		pVert[i].color = imgColor;

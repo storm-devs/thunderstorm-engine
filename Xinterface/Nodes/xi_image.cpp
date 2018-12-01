@@ -2,6 +2,7 @@
 #include "xi_image.h"
 #include "xi_util.h"
 #include "..\xinterface.h"
+#include "../../common_h/defines.h"
 
 #define DEFAULT_IMAGE_OBJECT_WIDTH	32
 #define DEFAULT_IMAGE_OBJECT_HEIGHT	32
@@ -10,7 +11,7 @@
 CXI_IMAGE::CXI_IMAGE()
 {
 	m_rs = XINTERFACE::GetRenderService();
-	if( !m_rs ) {_THROW("No service: dx9render");};
+	if( !m_rs ) {STORM_THROW("No service: dx9render");};
 
 	m_bDisableDraw = false;
 
@@ -55,7 +56,7 @@ void CXI_IMAGE::LoadFromBase( const char * sListName, const char * sPictureName,
 	if( sListName )
 	{
 		m_pcPictureListName = NEW char[strlen(sListName)+1];
-		if( !m_pcPictureListName ) {_THROW("allocate memory error");}
+		if( !m_pcPictureListName ) {STORM_THROW("allocate memory error");}
 		strcpy( m_pcPictureListName, sListName );
 	}
 	m_nTextureID = XINTERFACE::GetPictureService()->GetTextureID( m_pcPictureListName );
@@ -304,7 +305,7 @@ void CXI_IMAGE::Unload()
 		}
 	}
 	RELEASE( m_pTexture );
-	DELETE( m_pcPictureListName );
+	STORM_DELETE( m_pcPictureListName );
 }
 
 bool CXI_IMAGE::IsPointInside( long nX, long nY )

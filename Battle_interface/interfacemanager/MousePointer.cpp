@@ -27,7 +27,7 @@ MousePointer::MousePointer(BI_ManagerBase* pManager,ATTRIBUTES* pARoot)
 
 MousePointer::~MousePointer()
 {
-	DELETE(m_pIcon);
+	STORM_DELETE(m_pIcon);
 }
 
 void MousePointer::Update()
@@ -69,7 +69,7 @@ void MousePointer::InitMouseCursors()
 	}
 
 	m_nCurrentCursor = BI_CURSOR_COMMON;
-	m_pIcon = m_pManager->GetImageRender()->CreateImage(BIType_square,m_aCursors[BI_CURSOR_COMMON].texture,0xFF808080,m_aCursors[BI_CURSOR_COMMON].uv,GetCurrentCursorIconPos(),BI_MOUSECURSOR_ICON_ORDER);
+	m_pIcon = m_pManager->GetImageRender()->CreateImage(BIType_square,m_aCursors[BI_CURSOR_COMMON].texture.c_str(),0xFF808080,m_aCursors[BI_CURSOR_COMMON].uv,GetCurrentCursorIconPos(),BI_MOUSECURSOR_ICON_ORDER);
 }
 
 void MousePointer::MoveCursor()
@@ -97,9 +97,9 @@ void MousePointer::SetCurrentCursor()
 	{
 		if( !m_pIcon || m_aCursors[m_nCurrentCursor].texture != m_aCursors[nNewCursor].texture )
 		{
-			DELETE( m_pIcon );
+			STORM_DELETE( m_pIcon );
 			m_nCurrentCursor = nNewCursor;
-			m_pIcon = m_pManager->GetImageRender()->CreateImage(BIType_square,m_aCursors[nNewCursor].texture,0xFF808080,m_aCursors[nNewCursor].uv,GetCurrentCursorIconPos(),BI_MOUSECURSOR_ICON_ORDER);
+			m_pIcon = m_pManager->GetImageRender()->CreateImage(BIType_square,m_aCursors[nNewCursor].texture.c_str(),0xFF808080,m_aCursors[nNewCursor].uv,GetCurrentCursorIconPos(),BI_MOUSECURSOR_ICON_ORDER);
 			return;
 		}
 		else

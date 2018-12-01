@@ -6,19 +6,19 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include "../../../common_h/exs.h"
-#include "../../../common_h/templates.h"
 #include "..\..\icommon\memfile.h"
 
 #include "..\..\..\common_h\d_types.h"
 #include "..\..\..\common_h\math3d.h"
-
+#include <string>
+#include <vector>
 
 
 class DataUV
 {
-  string Name;
+	std::string Name;
 
-	array<Vector4> Frames;
+	std::vector<Vector4> Frames;
 
 public:
 

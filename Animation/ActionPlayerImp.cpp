@@ -53,7 +53,7 @@ void ActionPlayerImp::SetAnimation(AnimationImp * animation, long index)
 //Установить текущие действие
 bool ActionPlayerImp::SetAction(const char * actionName)
 {
-	if(actionName && action && stricmp(action->GetName(), actionName) == null) return true;
+	if(actionName && action && _stricmp(action->GetName(), actionName) == null) return true;
 	action = null;
 	isPlay = isPause = false;
 	isAutostop = true;

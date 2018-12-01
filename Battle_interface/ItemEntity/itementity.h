@@ -3,9 +3,9 @@
 
 #include "..\..\common_h\dx9render.h"
 #include "..\..\common_h\defines.h"
-#include "..\..\common_h\templates\string.h"
 #include "..\..\common_h\animation.h"
 #include "..\..\common_h\vparticle_system.h"
+#include <string>
 
 class MODEL;
 class NODE;
@@ -45,7 +45,7 @@ protected: // data
 	bool m_bTieToLocator;
 	ENTITY_ID m_eidTieModel;
 	NODE* m_pMdlNode;
-	string m_sTieLocName;
+	std::string m_sTieLocName;
 
 	class EventListener : public AnimationEventListener
 	{
@@ -54,12 +54,12 @@ protected: // data
 		virtual void Event(Animation * animation, long playerIndex, const char * eventName);
 
 		ItemEntity* item;
-		string m_sStartEvent;
-		string m_sEndEvent;
+		std::string m_sStartEvent;
+		std::string m_sEndEvent;
 		bool m_bStartWaiting;
 		ENTITY_ID m_eidListenedModel;
 		ENTITY_ID m_eidToTieModel;
-		string m_sToTieLocator;
+		std::string m_sToTieLocator;
 	};
 	friend EventListener;
 	EventListener m_eventListener;

@@ -25,7 +25,7 @@ private:
 private:
 	struct AISHIP_BORT
 	{
-		string				sName;						// bort name(for compare with label name)
+		std::string			sName;						// bort name(for compare with label name)
 		float				fFireZone;					// bort fire angle
 		float				fFireAngMin, fFireAngMax;	// bort height fire angle
 		float				fFireDir;					// bort fire direction
@@ -41,12 +41,12 @@ private:
 		//CVECTOR				vAngleVectors[2];		// fire cone (2d(x,z))
 		CVECTOR				vDirection;
 
-		array<AICannon>		aCannons;				// cannons container for this bort
+		std::vector<AICannon>		aCannons;				// cannons container for this bort
 
 		void ClearCharge() { fChargePercent = 0.0f; };
 		bool isCharged() { return fChargePercent >= 1.0f; };
-		bool isBortDamaged() { return dwNumDamagedCannons == aCannons.Size(); }
-		AISHIP_BORT() : aCannons(_FL_, 8), sName(8)
+		bool isBortDamaged() { return dwNumDamagedCannons == aCannons.size(); }
+		AISHIP_BORT()
 		{
 			ClearCharge();
 			fOurBortFireHeight = 0.0f;
@@ -54,12 +54,12 @@ private:
 		int operator == (const char *pStr) const
 		{
 			Assert(pStr && pStr[0]);
-			return (_stricmp(sName.GetBuffer(),pStr)==0);
+			return (_stricmp(sName.c_str(),pStr)==0);
 		}
 	};
 
 	// borts container
-		array<AISHIP_BORT>	aShipBorts;
+		std::vector<AISHIP_BORT>	aShipBorts;
 
 	// update borts parameters
 		bool	UpdateParameters();

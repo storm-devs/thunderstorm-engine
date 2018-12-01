@@ -8,7 +8,7 @@
 
 void ISPYGLASS::ImageParam::Release()
 {
-	DELETE(pImage);
+	STORM_DELETE(pImage);
 }
 
 void ISPYGLASS::ImageParam::LoadFromAttr(BIImageRender* pImgRender,ATTRIBUTES* pA,const char* pcDefName,long nDefLeftPos,long nDefTopPos,long nDefRightPos,long nDefBottomPos,long nPrior)
@@ -22,7 +22,7 @@ void ISPYGLASS::ImageParam::LoadFromAttr(BIImageRender* pImgRender,ATTRIBUTES* p
 	rPos.right = nDefRightPos;
 	rPos.bottom = nDefBottomPos;
 	BIUtils::ReadRectFromAttr( pA, "pos", rPos, rPos );
-	pImage = (BIImage*)pImgRender->CreateImage( BIType_square, sTextureName.GetBuffer(), dwColor, rUV, rPos, nPrior );
+	pImage = (BIImage*)pImgRender->CreateImage( BIType_square, sTextureName.c_str(), dwColor, rUV, rPos, nPrior );
 	Assert(pImage);
 }
 
@@ -33,9 +33,9 @@ void ISPYGLASS::ImageParam::ChangeIcon(BIImageRender* pImgRender, const char* pc
 		pImage->SetUV( frUV );
 	} else {
 		long nPrior = pImage ? pImage->GetPrioritet() : ImagePrioritet_DefaultValue;
-		DELETE(pImage);
+		STORM_DELETE(pImage);
 		sTextureName = pcTextureName;
-		pImage = (BIImage*)pImgRender->CreateImage( BIType_square, sTextureName.GetBuffer(), dwColor, rUV, rPos, nPrior );
+		pImage = (BIImage*)pImgRender->CreateImage( BIType_square, sTextureName.c_str(), dwColor, rUV, rPos, nPrior );
 	}
 }
 
@@ -52,14 +52,11 @@ void ISPYGLASS::TextParam::LoadFromAttr(VDX9RENDER* rs,ATTRIBUTES* pA,const char
 
 void ISPYGLASS::TextParam::Print()
 {
-	if( rs && !sText.IsEmpty() )
-		rs->ExtPrint( nFontID, dwColor, 0, nAlign, true, fScale, 0,0, pos.x,pos.y, "%s", sText.GetBuffer() );
+	if( rs && !sText.empty() )
+		rs->ExtPrint( nFontID, dwColor, 0, nAlign, true, fScale, 0,0, pos.x,pos.y, "%s", sText.c_str() );
 }
 
-ISPYGLASS::ISPYGLASS() :
-	m_aNationUV(_FL),
-	m_aChargeUV(_FL),
-	m_aSailUV(_FL)
+ISPYGLASS::ISPYGLASS()
 {
 	rs = null;
 	m_pImgRender = null;
@@ -81,7 +78,7 @@ ISPYGLASS::~ISPYGLASS()
 bool ISPYGLASS::Init()
 {
 	if( (rs=(VDX9RENDER *)api->CreateService("dx9render")) == null ) {
-		_THROW("Can`t create render service");
+		STORM_THROW("Can`t create render service");
 	}
 
 	m_pImgRender = NEW BIImageRender( rs );
@@ -293,7 +290,7 @@ void ISPYGLASS::Release()
 	m_ImgCaptainBoarding.Release();
 	m_TextCaptainBoarding.Release();
 
-	DELETE(m_pImgRender);
+	STORM_DELETE(m_pImgRender);
 }
 
 ATTRIBUTES* ISPYGLASS::GetAttr(const char* pcAttrName)
@@ -550,11 +547,11 @@ void ISPYGLASS::ChangeTargetData(const char* pcShipName, const char* pcShipType,
 	if( fRelativeSP<0 ) fRelativeSP = 0.f;
 	if( m_ShipSP.pImage ) m_ShipSP.pImage->CutSide(0.f, 0.f, 1.f-fRelativeSP, 0.f);
 
-	if( nNation>=0 && nNation<m_aNationUV ) {
+	if( nNation>=0 && nNation<m_aNationUV.size() ) {
 		if( m_Nation.pImage ) m_Nation.pImage->SetUV(m_aNationUV[nNation]);
 	}
 
-	if( nCharge>=0 && nCharge<m_aChargeUV ) {
+	if( nCharge>=0 && nCharge<m_aChargeUV.size() ) {
 		if( m_Charge.pImage )
 		{
             m_Charge.pImage->CutSide(0.f,0.f,0.f,0.f); // покажем boal
@@ -566,7 +563,7 @@ void ISPYGLASS::ChangeTargetData(const char* pcShipName, const char* pcShipType,
 	    if( m_Charge.pImage )  m_Charge.pImage->CutSide(0.f,1.f,0.f,0.f);   // пр€чем boal
 	}
 
-	if( nSailState>=0 && nSailState<m_aSailUV ) {
+	if( nSailState>=0 && nSailState<m_aSailUV.size() ) {
 		if( m_Sail.pImage ) {
 			m_Sail.pImage->CutSide(0.f,0.f,0.f,0.f);
 			m_Sail.pImage->SetUV(m_aSailUV[nSailState]);
@@ -633,9 +630,9 @@ void ISPYGLASS::ChangeTargetData(const char* pcShipName, const char* pcShipType,
 	m_TextCaptainName.sText = pcCaptainName;
 }
 
-void ISPYGLASS::FillUVArrayFromAttributes( array<FRECT> & m_aUV, ATTRIBUTES* pA )
+void ISPYGLASS::FillUVArrayFromAttributes( std::vector<FRECT> & m_aUV, ATTRIBUTES* pA )
 {
-	m_aUV.DelAll();
+	m_aUV.clear();
 	if( !pA ) return;
 	for( long n=0; n<(long)pA->GetAttributesNum(); n++ )
 	{
@@ -643,7 +640,7 @@ void ISPYGLASS::FillUVArrayFromAttributes( array<FRECT> & m_aUV, ATTRIBUTES* pA 
 		rUV.left = rUV.top = 0.f;
 		rUV.right = rUV.bottom = 1.f;
 		BIUtils::ReadRectFromAttr( pA, pA->GetAttributeName(n), rUV, rUV );
-		m_aUV.Add(rUV);
+		m_aUV.push_back(rUV);
 	}
 }
 

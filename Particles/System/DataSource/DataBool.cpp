@@ -50,7 +50,7 @@ void DataBool::SetName (const char* szName)
 
 const char* DataBool::GetName ()
 {
-	return Name.GetBuffer();
+	return Name.c_str();
 }
 
 void DataBool::Write (MemFile* File)
@@ -60,11 +60,11 @@ void DataBool::Write (MemFile* File)
 
 
 	//save name
-	DWORD NameLength = Name.Len();
+	DWORD NameLength = Name.size();
 	DWORD NameLengthPlusZero = NameLength+1;
 	File->WriteType(NameLengthPlusZero);
 	Assert (NameLength < 128);
-	File->Write(Name.GetBuffer(), NameLength);
+	File->Write(Name.c_str(), NameLength);
 	File->WriteZeroByte();
 }
 

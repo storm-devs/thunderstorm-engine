@@ -28,7 +28,7 @@ public:
 	virtual CVECTOR		GetPos() { return 0.0f; };
 	virtual CVECTOR		GetAng() { return 0.0f; };
 	virtual CMatrix *	GetMatrix() = 0;
-	virtual CVECTOR		GetBoxSize() { return 0.0f; };
+	virtual CVECTOR		GetBoxsize() { return 0.0f; };
 
 	virtual MODEL *		GetModel() = 0;
 	virtual ENTITY_ID	GetModelEID() = 0;

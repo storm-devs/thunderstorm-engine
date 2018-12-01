@@ -78,8 +78,7 @@ void Menu :: Draw(VDX9RENDER * rs, SailorsPoints &sailorsPoints)
 		rs->Print(rs->GetCurFont(), D3DCOLOR_XRGB(200,200,200) ,10, 120,"%s" , "'SPACE' or 'SPACE+ SHIFT' to select");
 
 		if (sailorsPoints.links.selected>= 0 && sailorsPoints.links.selected< sailorsPoints.links.count){
-		
-		string s1= "point 1= "; 
+			std::string s1= "point 1= "; 
 		s1+= long(sailorsPoints.links.link[sailorsPoints.links.selected].first);
 		s1+= "('F2')";
 
@@ -118,7 +117,7 @@ void Menu :: Draw(VDX9RENDER * rs, SailorsPoints &sailorsPoints)
 			count++;
 	};
 
-	string s1= "F10 - Reload cannons("; 
+	std::string s1= "F10 - Reload cannons("; 
 		   s1+= long(reloaded);
 		   s1+="/";
 		   s1+= long(count);
@@ -511,7 +510,7 @@ void Menu :: ChangeControl(int key, SailorsPoints &sailorsPoints)
 
 		for (int i= sailorsPoints.points.count; 
 			 i< sailrs->shipWalk[0].sailorsPoints.points.count; i++)
-			 sailrs->shipWalk[0].sailorsPoints.points.Delete(sailrs->shipWalk[0].sailorsPoints.points.count- 1);
+			 sailrs->shipWalk[0].sailorsPoints.points.STORM_DELETE(sailrs->shipWalk[0].sailorsPoints.points.count- 1);
 
 
 
@@ -529,7 +528,7 @@ void Menu :: ChangeControl(int key, SailorsPoints &sailorsPoints)
 		sailrs->shipWalk[0].sailorsPoints.links.count=
 		sailorsPoints.links.count;
 
-		sailrs->shipWalk[0].sailorsPoints.links.link.DelAll();
+		sailrs->shipWalk[0].sailorsPoints.links.link.clear();
 
 
 		for (int i= 0; i< sailorsPoints.links.count; i++){

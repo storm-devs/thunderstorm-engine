@@ -17,8 +17,8 @@ private:
 	CRC16			crc16;
 	time_t			tmStartTime;
 
-	array<Client*>	aClients;
-	array<Server>	aServers;
+	std::vector<Client*>	aClients;
+	std::vector<Server>	aServers;
 
 	dword GetCurrentTime();
 

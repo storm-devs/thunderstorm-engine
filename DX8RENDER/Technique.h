@@ -1,11 +1,10 @@
 #ifndef TECHNIQUE_HPP
 #define TECHNIQUE_HPP
 
-#include <stdio.h>
 #include "..\common_h\vmodule_api.h"
 #include "..\common_h\dx9render.h"
-#include "..\common_h\templates\string.h"
-#include "..\common_h\templates\htable.h"
+#include <string>
+#include <unordered_map>
 
 struct SRSPARAM
 {
@@ -80,7 +79,7 @@ protected:
 	// blocks
 	dword			dwNumBlocks;
 	block_t			* pBlocks;
-	htable<dword>	htBlocks;
+	std::unordered_map<std::string, dword>	htBlocks;
 
 // temporary used
 	dword		dwNumParams;

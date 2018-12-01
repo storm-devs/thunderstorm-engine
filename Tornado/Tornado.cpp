@@ -59,7 +59,7 @@ bool Tornado::Init()
 
 	//DX9 render
 	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
-	if(!rs) _THROW("No service: dx9render");
+	if(!rs) STORM_THROW("No service: dx9render");
 
 	//Создаём буфера для столба
 	ib = rs->CreateIndexBuffer(pillar.GetNumTriangles()*3*sizeof(word));

@@ -131,7 +131,7 @@ long LocatorArray::FindByName(const char * locName)
 		if(locator[i].name >= 0)
 		{
 			if(locator[i].hash == hash)
-				if(stricmp(locatorNames + locator[i].name, locName) == 0)
+				if(_stricmp(locatorNames + locator[i].name, locName) == 0)
 				{
 					return i;
 				}
@@ -163,7 +163,7 @@ bool LocatorArray::CompareGroup(const char * groupName, long ghash)
 {
 	if(hash != ghash) return false;
 	if(!groupName) return group[0] == 0;
-	return stricmp(group, groupName) == 0;
+	return _stricmp(group, groupName) == 0;
 }
 
 

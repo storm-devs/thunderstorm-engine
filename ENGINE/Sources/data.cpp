@@ -1572,7 +1572,7 @@ bool DATA::Compare(DATA * pV, char opA, char opB)
 								if(sValue == pV->sValue) return true;
 								return false;
 							}
-							if(stricmp(sValue,pV->sValue)==0) return true;
+							if(_stricmp(sValue,pV->sValue)==0) return true;
 						return false;
 						case '!':
 							if(sValue == 0 || pV->sValue == 0)
@@ -1580,7 +1580,7 @@ bool DATA::Compare(DATA * pV, char opA, char opB)
 								if(sValue != pV->sValue) return true;
 								return false;
 							}
-							if(stricmp(sValue,pV->sValue)!=0) return true;
+							if(_stricmp(sValue,pV->sValue)!=0) return true;
 						return false;
 						case '>':
 							if(sValue == 0 || pV->sValue == 0)
@@ -2207,7 +2207,7 @@ bool DATA::CompareAndSetResult(DATA * pV,S_TOKEN_TYPE op)
 						case OP_BOOL_EQUAL:
 							if(sValue == pV->sValue) { Set((long)1); break; }
 							if(sValue == 0 || pV->sValue == 0) { Set((long)0);  break; }
-							if(stricmp(sValue,pV->sValue)==0) Set((long)1); else Set((long)0);
+							if(_stricmp(sValue,pV->sValue)==0) Set((long)1); else Set((long)0);
 						break;
 						case OP_GREATER:
 							if(sValue == 0 || pV->sValue == 0) { Set((long)0); break; }
@@ -2228,7 +2228,7 @@ bool DATA::CompareAndSetResult(DATA * pV,S_TOKEN_TYPE op)
 						case OP_NOT_EQUAL: 
 							if(sValue == pV->sValue) { Set((long)0); break; }
 							if(sValue == 0 || pV->sValue == 0) { Set((long)1);  break; }
-							if(stricmp(sValue,pV->sValue)!=0) Set((long)1); else Set((long)0);
+							if(_stricmp(sValue,pV->sValue)!=0) Set((long)1); else Set((long)0);
 	
 						break;
 						case OP_BOOL_AND:

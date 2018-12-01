@@ -197,7 +197,7 @@ void ItemEntity::DrawIntoLocator()
 	if( m_pModel )
 	{
 		sti = -1;
-		long idLoc = m_pMdlNode->geo->FindName(m_sTieLocName);
+		long idLoc = m_pMdlNode->geo->FindName(m_sTieLocName.c_str());
 
 		if((sti = m_pMdlNode->geo->FindLabelN(sti+1, idLoc))>-1)
 		{
@@ -266,7 +266,7 @@ void ItemEntity::EventListener::Event(Animation * animation, long playerIndex, c
 {
 	if( m_bStartWaiting && m_sStartEvent==eventName ) {
 		m_bStartWaiting = false;
-		item->m_bTieToLocator = item->TieToLocator( m_eidToTieModel, m_sToTieLocator );
+		item->m_bTieToLocator = item->TieToLocator( m_eidToTieModel, m_sToTieLocator.c_str() );
 		return;
 	}
 	if( !m_bStartWaiting && m_sEndEvent==eventName ) {

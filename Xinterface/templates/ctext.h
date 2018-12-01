@@ -39,10 +39,10 @@ public:
 
 	void Release() {if(pString) delete pString; pString=0;}
 	bool IsEmpty() {return !pString;}
-	size_t Size() {if(!pString) return 0; return strlen(pString);}
+	size_t size() {if(!pString) return 0; return strlen(pString);}
 
 	operator char*() {return pString;}
-	char * GetBuffer() {return pString;}
+	char * c_str() {return pString;}
 
 	CText & operator =(char* pStr)
 	{
@@ -60,7 +60,7 @@ public:
 	// compare operation
 	bool operator ==(char* pStr)
 	{
-		if(pStr && pString) return stricmp(pStr,pString)==0;
+		if(pStr && pString) return _stricmp(pStr,pString)==0;
 		return pStr==pString;
 	}
 	bool operator ==(CText & text)	{return *this==text.pString;}

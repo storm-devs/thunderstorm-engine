@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "lightning.h"
 
-LIGHTNING::LIGHTNING() : aLightnings(_FL_)
+LIGHTNING::LIGHTNING()
 {
 	iLightningTexture = -1;
 	iFlashTexture = -1;
@@ -19,7 +19,7 @@ void LIGHTNING::Release()
 	pRS->TextureRelease(iLightningTexture);
 	pRS->TextureRelease(iFlashTexture);
 
-	DELETE(pVWSunTrace);
+	STORM_DELETE(pVWSunTrace);
 }
 
 bool LIGHTNING::Init()
@@ -51,7 +51,7 @@ void LIGHTNING::Execute(dword Delta_Time)
 
 	if (!pVWSunTrace) pVWSunTrace = api->LayerGetWalker("sun_trace");
 	
-	for (dword i=0; i<aLightnings.Size(); i++)
+	for (dword i=0; i<aLightnings.size(); i++)
 	{
 		lightning_t * pL = &aLightnings[i];
 		if (pL->fTime > 0.0f)
@@ -68,7 +68,10 @@ void LIGHTNING::Execute(dword Delta_Time)
 			pL->fAlpha -= float(Delta_Time) * 0.01f;
 			if (pL->fAlpha < 0.0f)
 			{
-				aLightnings.ExtractNoShift(i); i--; continue;
+				//aLightnings.ExtractNoShift(i);
+				aLightnings[i] = aLightnings.back();
+				aLightnings.pop_back();
+				i--; 
 			}
 		}
 	}
@@ -82,7 +85,7 @@ void LIGHTNING::Realize(dword Delta_Time)
 	if (iLightningTexture >= 0)
 	{
 		pRS->TextureSet(0, iLightningTexture);
-		for (i=0; i<aLightnings.Size(); i++)
+		for (i=0; i<aLightnings.size(); i++)
 		{
 			lightning_t * pL = &aLightnings[i];
 			RS_RECT		* pR = &rs_rect;
@@ -100,7 +103,7 @@ void LIGHTNING::Realize(dword Delta_Time)
 	if (iFlashTexture >= 0)
 	{
 		pRS->TextureSet(0, iFlashTexture);
-		for (i=0; i<aLightnings.Size(); i++)
+		for (i=0; i<aLightnings.size(); i++)
 		{
 			lightning_t * pL = &aLightnings[i];
 			RS_RECT		* pR = &rs_rect;
@@ -126,7 +129,9 @@ dword LIGHTNING::ProcessMessage(MESSAGE & message)
 		case MSG_WHR_LIGHTNING_ADD:
 		{
 			// add new lightning
-			lightning_t * pL = &aLightnings[aLightnings.Add()];
+			aLightnings.push_back(lightning_t{});
+			//lightning_t * pL = &aLightnings[aLightnings.Add()];
+			lightning_t * pL = &aLightnings.back();
 
 			pL->dwSubTexture = message.Long();
 			message.String(sizeof(pL->sTechnique), pL->sTechnique); 
@@ -174,13 +179,13 @@ void LIGHTNING::CalcFlashPower(lightning_t * pL)
 
 dword LIGHTNING::AttributeChanged(ATTRIBUTES * pAttribute)
 {
-	string sTextureName;
+	std::string sTextureName;
 
 	ATTRIBUTES * pParent = pAttribute->GetParent();
 
 	if (*pAttribute == "Clear")	
 	{
-		aLightnings.DelAll();
+		aLightnings.clear();
 		return 0;
 	}
 

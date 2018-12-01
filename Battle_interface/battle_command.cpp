@@ -3,10 +3,7 @@
 #include "sea\ships_list.h"
 #include "utils.h"
 
-BICommandList::BICommandList( ENTITY_ID& eid, ATTRIBUTES* pA, VDX9RENDER* rs ) :
-	m_aTexture(_FL),
-	m_aUsedCommand(_FL),
-	m_aCooldownUpdate(_FL)
+BICommandList::BICommandList( ENTITY_ID& eid, ATTRIBUTES* pA, VDX9RENDER* rs )
 {
 	m_idHostObj = eid;
 	m_pARoot = pA;
@@ -37,14 +34,14 @@ BICommandList::~BICommandList()
 
 void BICommandList::Draw()
 {
-	if( m_aCooldownUpdate.Size() > 0 ) {
+	if( m_aCooldownUpdate.size() > 0 ) {
 		float fDT = api->GetDeltaTime() * .001f;
-		for( long n=0; n<m_aCooldownUpdate; n++ )
+		for( long n=0; n<m_aCooldownUpdate.size(); n++ )
 		{
 			m_aCooldownUpdate[n].fTime -= fDT;
 			if( m_aCooldownUpdate[n].fTime < 0 ) {
 				m_aCooldownUpdate[n].fTime = m_aCooldownUpdate[n].fUpdateTime;
-				VDATA* pDat = api->Event("neGetCooldownFactor","s",m_aUsedCommand[m_aCooldownUpdate[n].nIconNum].sCommandName.GetBuffer());
+				VDATA* pDat = api->Event("neGetCooldownFactor","s",m_aUsedCommand[m_aCooldownUpdate[n].nIconNum].sCommandName.c_str());
 				if( pDat ) m_aUsedCommand[m_aCooldownUpdate[n].nIconNum].fCooldownFactor = pDat->GetFloat();
 				UpdateShowIcon();
 			}
@@ -53,9 +50,9 @@ void BICommandList::Draw()
 	if( m_pImgRender )
 		m_pImgRender->Render();
 
-	if( !m_NoteText.IsEmpty() )
+	if( !m_NoteText.empty() )
 		m_pRS->ExtPrint( m_NoteFontID, m_NoteFontColor, 0, ALIGN_CENTER, true, m_NoteFontScale, 0,0,
-			m_NotePos.x, m_NotePos.y, "%s", m_NoteText.GetBuffer() );
+			m_NotePos.x, m_NotePos.y, "%s", m_NoteText.c_str() );
 }
 
 void BICommandList::Update( long nTopLine, long nCharacterIndex, long nCommandMode )
@@ -73,14 +70,14 @@ void BICommandList::Update( long nTopLine, long nCharacterIndex, long nCommandMo
 
 	m_nStartUsedCommandIndex = 0;
 	m_nSelectedCommandIndex = 0;
-	m_aUsedCommand.DelAll();
-	m_aCooldownUpdate.DelAll();
+	m_aUsedCommand.clear();
+	m_aCooldownUpdate.clear();
 
-	m_NoteText.Empty();
+	m_NoteText.clear();
 
 	FillIcons();
 
-	if( nOldSelIndex>0 && nOldSelIndex<m_aUsedCommand )
+	if( nOldSelIndex>0 && nOldSelIndex<m_aUsedCommand.size() )
 		m_nSelectedCommandIndex = nOldSelIndex;
 
 	UpdateShowIcon();
@@ -88,34 +85,31 @@ void BICommandList::Update( long nTopLine, long nCharacterIndex, long nCommandMo
 
 long BICommandList::AddTexture( const char* pcTextureName, long nCols, long nRows )
 {
-	long n = m_aTexture.Add();
-	m_aTexture[n].sFileName = pcTextureName;
-	m_aTexture[n].nCols = nCols;
-	m_aTexture[n].nRows = nRows;
-	return n;
+	m_aTexture.push_back(TextureDescr{ pcTextureName, nCols, nRows });
+	return m_aTexture.size() - 1;
 }
 
 long BICommandList::ExecuteConfirm()
 {
-	if( m_nSelectedCommandIndex >= m_aUsedCommand ) return 0; // error!
+	if( m_nSelectedCommandIndex >= m_aUsedCommand.size() ) return 0; // error!
 
 	long endCode=0;
 	long nTargIndex = 0;
-	string sLocName;
+	std::string sLocName;
 
 	if( m_aUsedCommand[m_nSelectedCommandIndex].nCooldownPictureIndex >= 0 &&
 		m_aUsedCommand[m_nSelectedCommandIndex].fCooldownFactor < 1.f ) return -1;
 
-	if( !m_aUsedCommand[m_nSelectedCommandIndex].sCommandName.IsEmpty() ) {
+	if( !m_aUsedCommand[m_nSelectedCommandIndex].sCommandName.empty() ) {
 		m_sCurrentCommandName = m_aUsedCommand[m_nSelectedCommandIndex].sCommandName;
-		VDATA * pVD = api->Event("BI_CommandEndChecking","s",m_sCurrentCommandName.GetBuffer());
+		VDATA * pVD = api->Event("BI_CommandEndChecking","s",m_sCurrentCommandName.c_str());
 		if(pVD!=null)	pVD->Get(endCode);
 	}
 	else
 	{
 		sLocName = m_aUsedCommand[m_nSelectedCommandIndex].sLocName;
 		nTargIndex = m_aUsedCommand[m_nSelectedCommandIndex].nTargetIndex;
-		if( sLocName.IsEmpty() && m_aUsedCommand[m_nSelectedCommandIndex].nCharIndex >= 0 )
+		if( sLocName.empty() && m_aUsedCommand[m_nSelectedCommandIndex].nCharIndex >= 0 )
 			nTargIndex = m_aUsedCommand[m_nSelectedCommandIndex].nCharIndex;
 	}
     api->Event("evntBattleCommandSound","s","activate"); // boal 22.08.06
@@ -123,7 +117,7 @@ long BICommandList::ExecuteConfirm()
 	{
 	case -1:
 	case 0:
-		api->Event("BI_LaunchCommand","lsls",m_nCurrentCommandCharacterIndex,m_sCurrentCommandName.GetBuffer(),nTargIndex,sLocName.GetBuffer());
+		api->Event("BI_LaunchCommand","lsls",m_nCurrentCommandCharacterIndex,m_sCurrentCommandName.c_str(),nTargIndex,sLocName.c_str());
 		m_sCurrentCommandName = "";
 	break;
 	default:
@@ -149,7 +143,7 @@ long BICommandList::ExecuteLeft()
 
 long BICommandList::ExecuteRight()
 {
-	if( m_nSelectedCommandIndex < (long)m_aUsedCommand.Size()-1 )
+	if( m_nSelectedCommandIndex < (long)m_aUsedCommand.size()-1 )
 	{
 		m_nSelectedCommandIndex++;
 		if( m_nSelectedCommandIndex >= m_nStartUsedCommandIndex + m_nIconShowMaxQuantity )
@@ -166,7 +160,7 @@ long BICommandList::ExecuteCancel()
 {
 	m_nSelectedCommandIndex = 0;
 	m_nStartUsedCommandIndex = 0;
-	if( m_sCurrentCommandName.IsEmpty() ) return 0;
+	if( m_sCurrentCommandName.empty() ) return 0;
 	m_sCurrentCommandName = "";
 	if( m_nCurrentCommandMode==BI_COMMODE_COMMAND_SELECT ) return 0;
 	return BI_COMMODE_COMMAND_SELECT;
@@ -272,16 +266,17 @@ void BICommandList::Init()
 			ATTRIBUTES* pA = pATextures->GetAttributeClass( n );
 			if( pA )
 			{
-				i = m_aTexture.Add();
-				m_aTexture[i].sFileName = pA->GetAttribute("name");
-				m_aTexture[i].nCols = pA->GetAttributeAsDword("xsize",1);
-				m_aTexture[i].nRows = pA->GetAttributeAsDword("ysize",1);
+				TextureDescr td = { pA->GetAttribute("name"), pA->GetAttributeAsDword("xsize",1), pA->GetAttributeAsDword("ysize",1) };
 
-				if( m_aTexture[i].nCols < 1 ) m_aTexture[i].nCols = 1;
-				if( m_aTexture[i].nRows < 1 ) m_aTexture[i].nRows = 1;
+				if( td.nCols < 1 ) 
+					td.nCols = 1;
+				if( td.nRows < 1 ) 
+					td.nRows = 1;
 
-				BIImageMaterial * pMat = m_pImgRender->CreateMaterial( m_aTexture[i].sFileName );
+				BIImageMaterial * pMat = m_pImgRender->CreateMaterial(td.sFileName.c_str()); 
 				Assert( pMat );
+
+				m_aTexture.push_back(td);
 			}
 		}
 	}
@@ -294,85 +289,91 @@ long BICommandList::AddToIconList( long nTextureNum, long nNormPictureNum, long 
 {
 	long n;
 	// отсев уже подключенных объектов
-	for(n=0; n<m_aUsedCommand; n++) {
-		if( nCharacterIndex!=-1 && m_aUsedCommand[n].nCharIndex==nCharacterIndex ) return 0;
-		if( pcCommandName && m_aUsedCommand[n].sCommandName==pcCommandName ) return 0;
-		if( pcLocName && m_aUsedCommand[n].sLocName==pcLocName ) return 0;
-		if( nTargetIndex!=-1 && m_aUsedCommand[n].nTargetIndex==nTargetIndex ) return 0;
+	for (n = 0; n < m_aUsedCommand.size(); n++) {
+		if (nCharacterIndex != -1 && m_aUsedCommand[n].nCharIndex == nCharacterIndex) return 0;
+		if (pcCommandName && m_aUsedCommand[n].sCommandName == pcCommandName) return 0;
+		if (pcLocName && m_aUsedCommand[n].sLocName == pcLocName) return 0;
+		if (nTargetIndex != -1 && m_aUsedCommand[n].nTargetIndex == nTargetIndex) return 0;
 	}
-	n = m_aUsedCommand.Add();
-	m_aUsedCommand[n].fCooldownFactor = 1.f;
-	m_aUsedCommand[n].nCharIndex = nCharacterIndex;
-	m_aUsedCommand[n].nCooldownPictureIndex = nCooldownPictureNum;
-	m_aUsedCommand[n].nNormPictureIndex = nNormPictureNum;
-	m_aUsedCommand[n].nSelPictureIndex = nSelPictureNum;
-	m_aUsedCommand[n].nTargetIndex = nTargetIndex;
-	m_aUsedCommand[n].nTextureIndex = nTextureNum;
-	m_aUsedCommand[n].sCommandName = pcCommandName;
-	m_aUsedCommand[n].sLocName = pcLocName;
-	m_aUsedCommand[n].sNote = pcNoteName;
+
+	UsedCommand uc;
+	uc.fCooldownFactor = 1.f;
+	uc.nCharIndex = nCharacterIndex;
+	uc.nCooldownPictureIndex = nCooldownPictureNum;
+	uc.nNormPictureIndex = nNormPictureNum;
+	uc.nSelPictureIndex = nSelPictureNum;
+	uc.nTargetIndex = nTargetIndex;
+	uc.nTextureIndex = nTextureNum;
+	uc.sCommandName = pcCommandName;
+	uc.sLocName = pcLocName;
+	uc.sNote = pcNoteName;
+	m_aUsedCommand.push_back(uc);
+
 	if( nCooldownPictureNum >= 0 )
 	{
 		VDATA* pDat = api->Event("neGetCooldownFactor","s",pcCommandName);
 		if( pDat ) m_aUsedCommand[n].fCooldownFactor = pDat->GetFloat();
-		long i = m_aCooldownUpdate.Add();
-		m_aCooldownUpdate[i].fUpdateTime = 1.f;
-		m_aCooldownUpdate[i].fTime = m_aCooldownUpdate[i].fUpdateTime;
-		m_aCooldownUpdate[i].nIconNum = n;
+		CoolDownUpdateData data;
+		data.fUpdateTime = data.fTime = 1.f;
+		data.nIconNum = n;
+		m_aCooldownUpdate.push_back(data);
 	}
 	return 1;
 }
 
 void BICommandList::AddAdditiveToIconList( long nTextureNum, long nPictureNum, float fDist, float fWidth, float fHeight )
 {
-	long n = m_aUsedCommand.Size() - 1;
+	long n = m_aUsedCommand.size() - 1;
 	if( n < 0 ) return;
-	long i = m_aUsedCommand[n].aAddPicList.Add();
-	m_aUsedCommand[n].aAddPicList[i].fDelta = fDist;
-	m_aUsedCommand[n].aAddPicList[i].fpSize.x = fWidth;
-	m_aUsedCommand[n].aAddPicList[i].fpSize.y = fHeight;
-	m_aUsedCommand[n].aAddPicList[i].nPic = nPictureNum;
-	m_aUsedCommand[n].aAddPicList[i].nTex = nTextureNum;
+
+	UsedCommand::AdditiveIcon icon;
+	icon.fDelta = fDist;
+	icon.fpSize.x = fWidth;
+	icon.fpSize.y = fHeight;
+	icon.nPic = nPictureNum;
+	icon.nTex = nTextureNum;
+
+	m_aUsedCommand[n].aAddPicList.push_back(icon);
 }
 
 void BICommandList::Release()
 {
-	DELETE( m_pImgRender );
+	STORM_DELETE( m_pImgRender );
 	FONT_RELEASE(m_pRS,m_NoteFontID);
 }
 
 long BICommandList::IconAdd( long nPictureNum, long nTextureNum, RECT& rpos )
 {
-	if( nTextureNum<0 || nTextureNum>=m_aTexture ||
+	if( nTextureNum<0 || nTextureNum>=m_aTexture.size() ||
 		nPictureNum<0 || nPictureNum>=m_aTexture[nTextureNum].nCols*m_aTexture[nTextureNum].nRows )
 		return 0;
 
 	FRECT uv;
-	m_pImgRender->CreateImage( BIType_square, m_aTexture[nTextureNum].sFileName, 0xFF808080,
+	m_pImgRender->CreateImage( BIType_square, m_aTexture[nTextureNum].sFileName.c_str(), 0xFF808080,
 		GetPictureUV(nTextureNum, nPictureNum, uv), rpos );
 	return 1;
 }
 
 long BICommandList::ClockIconAdd( long nForePictureNum, long nBackPictureNum, long nTextureNum, RECT& rpos, float fFactor )
 {
-	if( nTextureNum<0 || nTextureNum>=m_aTexture ||
+	if( nTextureNum<0 || nTextureNum>=m_aTexture.size() ||
 		nForePictureNum<0 || nForePictureNum>=m_aTexture[nTextureNum].nCols*m_aTexture[nTextureNum].nRows )
 		return 0;
 
 	FRECT uv;
-	m_pImgRender->CreateImage( BIType_square, m_aTexture[nTextureNum].sFileName, 0xFF808080,
+	m_pImgRender->CreateImage( BIType_square, m_aTexture[nTextureNum].sFileName.c_str(), 0xFF808080,
 		GetPictureUV(nTextureNum, nBackPictureNum, uv), rpos );
-	IBIImage* pImg = m_pImgRender->CreateImage( BIType_clocksquare, m_aTexture[nTextureNum].sFileName, 0xFF808080,
+	IBIImage* pImg = m_pImgRender->CreateImage( BIType_clocksquare, m_aTexture[nTextureNum].sFileName.c_str(), 0xFF808080,
 		GetPictureUV(nTextureNum, nForePictureNum, uv), rpos );
 	if( pImg ) pImg->CutClock( 0.f, 1.f, fFactor );
 	return 1;
 }
 
-void BICommandList::AdditiveIconAdd( float fX, float fY, array<UsedCommand::AdditiveIcon>& aList )
+void BICommandList::AdditiveIconAdd( float fX, float fY, std::vector<UsedCommand::AdditiveIcon>& aList )
 {
-	if( aList.Size()<=0 ) return;
+	if( aList.size()<=0 ) return;
 	RECT rCur;
-	for( long n=0; n<aList; n++ ) {
+	for( long n=0; n<aList.size(); n++ ) {
 		rCur.top = (long)(fY + aList[n].fDelta);
 		rCur.bottom = rCur.top + (long)aList[n].fpSize.y;
 		rCur.left = (long)(fX - .5f * aList[n].fpSize.x);
@@ -385,7 +386,7 @@ void BICommandList::AdditiveIconAdd( float fX, float fY, array<UsedCommand::Addi
 
 FRECT& BICommandList::GetPictureUV( long nTextureNum, long nPictureNum, FRECT& uv )
 {
-	if( nTextureNum<0 || nTextureNum>=m_aTexture ||
+	if( nTextureNum<0 || nTextureNum>=m_aTexture.size() ||
 		nPictureNum<0 || nPictureNum>=m_aTexture[nTextureNum].nCols*m_aTexture[nTextureNum].nRows )
 	{
 		uv.left = uv.top = 0.f;
@@ -424,16 +425,16 @@ void BICommandList::UpdateShowIcon()
 		rPos.top = m_LeftTopPoint.y + m_pntActiveIconOffset.y;
 		rPos.right = rPos.left + m_pntActiveIconSize.x;
 		rPos.bottom = rPos.top + m_pntActiveIconSize.y;
-		m_pImgRender->CreateImage( BIType_square, m_sActiveIconTexture, 0xFF808080,
+		m_pImgRender->CreateImage( BIType_square, m_sActiveIconTexture.c_str(), 0xFF808080,
 			m_frActiveIconUV1, rPos );
-		SetNote( m_sActiveIconNote, (rPos.left+rPos.right)/2, (rPos.top+rPos.bottom)/2 );
+		SetNote( m_sActiveIconNote.c_str(), (rPos.left+rPos.right)/2, (rPos.top+rPos.bottom)/2 );
 		return;
 	} else {
 		rPos.left = m_LeftTopPoint.x + m_pntActiveIconOffset.x;
 		rPos.top = m_LeftTopPoint.y + m_pntActiveIconOffset.y;
 		rPos.right = rPos.left + m_pntActiveIconSize.x;
 		rPos.bottom = rPos.top + m_pntActiveIconSize.y;
-		m_pImgRender->CreateImage( BIType_square, m_sActiveIconTexture, 0xFF808080,
+		m_pImgRender->CreateImage( BIType_square, m_sActiveIconTexture.c_str(), 0xFF808080,
 			m_frActiveIconUV2, rPos );
 	}
 
@@ -441,7 +442,7 @@ void BICommandList::UpdateShowIcon()
 	m_bRightArrow = false;
 
 	long i = 0;
-	for(long n=m_nStartUsedCommandIndex; n<m_aUsedCommand && i<m_nIconShowMaxQuantity; n++)
+	for(long n=m_nStartUsedCommandIndex; n<m_aUsedCommand.size() && i<m_nIconShowMaxQuantity; n++)
 	{
 		GetCurrentPos(i,rPos);
 		AdditiveIconAdd( .5f*(rPos.left+rPos.right), (float)rPos.bottom, m_aUsedCommand[n].aAddPicList );
@@ -450,7 +451,7 @@ void BICommandList::UpdateShowIcon()
 				i += IconAdd( m_aUsedCommand[n].nSelPictureIndex, m_aUsedCommand[n].nTextureIndex, rPos );
 			else
 				i += ClockIconAdd( m_aUsedCommand[n].nSelPictureIndex, m_aUsedCommand[n].nCooldownPictureIndex, m_aUsedCommand[n].nTextureIndex, rPos, m_aUsedCommand[n].fCooldownFactor );
-			SetNote( m_aUsedCommand[n].sNote, (rPos.left+rPos.right)/2, (rPos.top+rPos.bottom)/2 );
+			SetNote( m_aUsedCommand[n].sNote.c_str(), (rPos.left+rPos.right)/2, (rPos.top+rPos.bottom)/2 );
 			SHIP_DESCRIBE_LIST::SHIP_DESCR* pSD = g_ShipList.FindShip( m_aUsedCommand[n].nCharIndex );
 			if( pSD ) {
 				api->Event( "evntBISelectShip", "ll", pSD->characterIndex, pSD->relation!=BI_RELATION_ENEMY );
@@ -469,7 +470,7 @@ void BICommandList::UpdateShowIcon()
 		rPos.top = m_LeftTopPoint.y + m_pntUpArrowOffset.y;
 		rPos.right = rPos.left + m_pntUpDownArrowSize.x;
 		rPos.bottom = rPos.top + m_pntUpDownArrowSize.y;
-		m_pImgRender->CreateImage( BIType_square, m_sUpDownArrowTexture, 0xFF808080,
+		m_pImgRender->CreateImage( BIType_square, m_sUpDownArrowTexture.c_str(), 0xFF808080,
 			m_frUpArrowUV, rPos );
 	}
 	if( m_bDownArrow ) {
@@ -477,7 +478,7 @@ void BICommandList::UpdateShowIcon()
 		rPos.top = m_LeftTopPoint.y + m_pntDownArrowOffset.y;
 		rPos.right = rPos.left + m_pntUpDownArrowSize.x;
 		rPos.bottom = rPos.top + m_pntUpDownArrowSize.y;
-		m_pImgRender->CreateImage( BIType_square, m_sUpDownArrowTexture, 0xFF808080,
+		m_pImgRender->CreateImage( BIType_square, m_sUpDownArrowTexture.c_str(), 0xFF808080,
 			m_frDownArrowUV, rPos );
 	}
 }
@@ -491,7 +492,7 @@ void BICommandList::SetNote( const char* pcNote, long nX, long nY )
 
 ATTRIBUTES* BICommandList::GetCurrentCommandAttribute()
 {
-	if( m_sCurrentCommandName.IsEmpty() ) return null;
+	if( m_sCurrentCommandName.empty() ) return null;
 
 	ATTRIBUTES* pAR = null;
 	if( m_nCurrentCommandMode & BI_COMMODE_ABILITY_ICONS )

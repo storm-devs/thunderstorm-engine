@@ -13,10 +13,8 @@
 #define INTERPOLATION_STEPS 32.0f
 
 
-
-
 // Конструктор / деструктор
-BaseEmitter::BaseEmitter(ParticleSystem* pSystem) : ParticleTypes(_FL_)
+BaseEmitter::BaseEmitter(ParticleSystem* pSystem)
 {
 	pEmitter = NULL;
 	Visible = true;
@@ -69,7 +67,7 @@ void BaseEmitter::BornParticles (float DeltaTime)
 		}
 
 
-		for (DWORD n = 0; n < ParticleTypes.Size(); n++)
+		for (DWORD n = 0; n < ParticleTypes.size(); n++)
 		{
 			if (!ParticleTypes[n].Visible) continue;
 
@@ -104,7 +102,7 @@ void BaseEmitter::BornParticles (float DeltaTime)
 						//GetMaster()->GetMaster()->GetMDLProcessor()->AddParticle(ParticleTypes[n].pFields);
 						break;
 					default:
-						_THROW("Try to emmit unknown particle type");
+						STORM_THROW("Try to emmit unknown particle type");
 					} // switch
 				} // Active < Max
 			} // While Remain
@@ -126,7 +124,7 @@ void BaseEmitter::Execute (float DeltaTime)
 	IncreaseTime (DeltaTime);
 
 /*
-	for (DWORD n = 0; n < ParticleTypes.Size(); n++)
+	for (DWORD n = 0; n < ParticleTypes.size(); n++)
 	{
 		switch (ParticleTypes[n].Type)
 		{
@@ -153,7 +151,7 @@ void BaseEmitter::AttachToDataSource (DataSource::EmitterDesc* pEmitter)
 	EmissionDirZ = pEmitter->Fields.FindGraph(EMISSION_DIR_Z);
 
 
-	for (DWORD n = 0; n < pEmitter->Particles.Size(); n++)
+	for (DWORD n = 0; n < pEmitter->Particles.size(); n++)
 	{
 		DataSource::ParticleDesc* pDesc = &pEmitter->Particles[n];
 		switch (pDesc->Type)
@@ -165,7 +163,7 @@ void BaseEmitter::AttachToDataSource (DataSource::EmitterDesc* pEmitter)
 				CreateModelParticle (pDesc->Fields);
 				break;
 			default:
-				_THROW ("Particles: Unknown particle type !!!!");
+				STORM_THROW ("Particles: Unknown particle type !!!!");
 		}
 
 	}
@@ -185,7 +183,9 @@ void BaseEmitter::CreateBillBoardParticle (FieldList &Fields)
 {
 //	api->Trace("Create BB Particle\n");
 
-	structParticleType* NewBillBoard = &ParticleTypes[ParticleTypes.Add()];
+	ParticleTypes.push_back(structParticleType{});
+	//structParticleType* NewBillBoard = &ParticleTypes[ParticleTypes.Add()];
+	structParticleType* NewBillBoard = &ParticleTypes.back();
 	NewBillBoard->Type = BILLBOARD_PARTICLE;
 	NewBillBoard->EmissionRate = Fields.FindGraph(EMISSION_RATE);
 	NewBillBoard->MaxParticlesCount = Fields.GetFloatAsInt(MAX_PARTICLES_COUNT);
@@ -202,7 +202,9 @@ void BaseEmitter::CreateModelParticle (FieldList &Fields)
 {
 //	api->Trace("Create MODEL Particle\n");
 
-	structParticleType* NewModel = &ParticleTypes[ParticleTypes.Add()];
+	ParticleTypes.push_back(structParticleType{});
+	//structParticleType* NewModel = &ParticleTypes[ParticleTypes.Add()];
+	structParticleType* NewModel = &ParticleTypes.back();
 	NewModel->Type = MODEL_PARTICLE;
 	NewModel->EmissionRate = Fields.FindGraph(PARTICLE_EMISSION_RATE);
 	NewModel->MaxParticlesCount = Fields.GetFloatAsInt(PARTICLE_MAX_COUNT);
@@ -247,7 +249,7 @@ void BaseEmitter::Restart ()
 DWORD BaseEmitter::GetParticleCount ()
 {
 	DWORD Count = 0;
-	for (DWORD n = 0; n < ParticleTypes.Size(); n++)
+	for (DWORD n = 0; n < ParticleTypes.size(); n++)
 	{
 		Count += ParticleTypes[n].ActiveCount;
 	}
@@ -298,7 +300,7 @@ void BaseEmitter::BlendMatrix (Matrix& result, const Matrix& mat1, const Matrix&
 
 const char* BaseEmitter::GetName ()
 {
-	return Name.GetBuffer();
+	return Name.c_str();
 }
 
 void BaseEmitter::SetAttachedFlag (bool Flag)
@@ -323,7 +325,7 @@ void BaseEmitter::SetTime (float Time)
 
 DWORD BaseEmitter::GetParticleTypesCount ()
 {
-	return ParticleTypes.Size();
+	return ParticleTypes.size();
 }
 
 FieldList* BaseEmitter::GetParticleTypeDataByIndex (DWORD Index)
@@ -351,7 +353,7 @@ bool BaseEmitter::SetEnable (bool bVisible)
 		GetManager()->GetMDLProcessor()->DeleteWithGUID(Unique_GUID);
 	}
 
-	for (DWORD n = 0; n < ParticleTypes.Size(); n++)
+	for (DWORD n = 0; n < ParticleTypes.size(); n++)
 							ParticleTypes[n].Visible = bVisible;
 
 
@@ -365,7 +367,7 @@ bool BaseEmitter::GetEnable ()
 
 int BaseEmitter::GetParticleTypeIndex (FieldList* pFields)
 {
-	for (DWORD n = 0; n < ParticleTypes.Size(); n++)
+	for (DWORD n = 0; n < ParticleTypes.size(); n++)
 	{
 		if (ParticleTypes[n].pFields == pFields) return n;
 	}
@@ -398,7 +400,7 @@ void BaseEmitter::Editor_UpdateCachedData ()
 	Position = pEmitter->Fields.GetPosition(EMITTER_POSITION);
 	Looped = pEmitter->Fields.GetBool(EMITTER_LOOPING, false);
 
-	for (DWORD n = 0; n < ParticleTypes.Size(); n++)
+	for (DWORD n = 0; n < ParticleTypes.size(); n++)
 	{
 		ParticleTypes[n].MaxParticlesCount = ParticleTypes[n].pFields->GetFloatAsInt(MAX_PARTICLES_COUNT);
 	}

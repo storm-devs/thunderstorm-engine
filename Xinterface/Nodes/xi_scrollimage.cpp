@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "xi_scrollimage.h"
 #include "..\\vxservice.h"
+#include "../../common_h/defines.h"
 
 #define MAXIMAGEQUANTITY 100
 
@@ -364,7 +365,7 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 		if( !m_dwCurColor || !m_dwNormalColor ||
 			!m_dwSelectColor || !m_pPicOffset ||
 			!m_idBadTexture || !m_idBadPic ) {
-			_THROW("allocate memory error");
+			STORM_THROW("allocate memory error");
 		}
 	}
 
@@ -423,7 +424,7 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 		{
 			if( (m_sSpecTechniqueName=NEW char[strlen(sTechnique)+1])==NULL )
 			{
-				_THROW("Allocate memory error");
+				STORM_THROW("Allocate memory error");
 			}
 			strcpy(m_sSpecTechniqueName,sTechnique);
 		}
@@ -455,7 +456,7 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 				m_sGroupName = NEW char*[m_nGroupQuantity];
 				if( m_nGroupTex==NULL || m_sGroupName==NULL )
 				{
-					_THROW("allocate memory error");
+					STORM_THROW("allocate memory error");
 				}
 				for(i=0;i<m_nGroupQuantity;i++)
 				{
@@ -464,7 +465,7 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 					m_sGroupName[i] = NEW char[strlen(stmp)+1];
 					if(m_sGroupName[i]==NULL)
 					{
-						_THROW("allocate memory error");
+						STORM_THROW("allocate memory error");
 					}
 					strcpy(m_sGroupName[i],stmp);
 					m_nGroupTex[i] = pPictureService->GetTextureID(m_sGroupName[i]);
@@ -519,7 +520,7 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 					!m_Image[i].ptex || !m_Image[i].saveName ||
 					!m_Image[i].tex )
 				{
-					_THROW("allocate memory error");
+					STORM_THROW("allocate memory error");
 				}
 				for(n=0; n<m_nSlotsQnt; n++)
 				{
@@ -547,7 +548,7 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 					{
 						m_Image[i].string1 = NEW char[strlen(sStringName)];
 						if(m_Image[i].string1==NULL)
-							_THROW("allocate memory error")
+							STORM_THROW("allocate memory error")
 						strcpy(m_Image[i].string1,&(sStringName[1]));
 					}
 					else
@@ -562,7 +563,7 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 					{
 						m_Image[i].string2 = NEW char[strlen(sStringName)];
 						if(m_Image[i].string2==NULL)
-							_THROW("allocate memory error")
+							STORM_THROW("allocate memory error")
 						strcpy(m_Image[i].string2,&(sStringName[1]));
 					}
 					else
@@ -578,7 +579,7 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 					if(tmpStr!=null)
 					{
 						if( (m_Image[i].saveName[n]=NEW char[strlen(tmpStr)+1])==0 )
-							{_THROW("allocate memory error");}
+							{STORM_THROW("allocate memory error");}
 						strcpy(m_Image[i].saveName[n],tmpStr);
 					}
 					sprintf(param,"tex%d",n+1);
@@ -600,7 +601,7 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 	{
 		tmpstr = GetSubStr(param, param1, sizeof(param1));
 		if( (m_sBorderGroupName = NEW char[strlen(param1)+1])==null )
-			_THROW("allocate memory error")
+			STORM_THROW("allocate memory error")
 		strcpy(m_sBorderGroupName,param1);
 		m_texBorder = pPictureService->GetTextureID(m_sBorderGroupName);
 		m_nBorderPicture = pPictureService->GetImageNum(m_sBorderGroupName,tmpstr);
@@ -644,7 +645,7 @@ float CXI_SCROLLIMAGE::ChangeDinamicParameters(float fXDelta)
 		{
 			pScroll = NEW SCROLLENTITY;
 			if(pScroll==NULL)
-				_THROW("allocate memory error")
+				STORM_THROW("allocate memory error")
 
 			if(pPrevScroll==NULL)
 				m_pScroll = pScroll;
@@ -811,7 +812,7 @@ void CXI_SCROLLIMAGE::ReleaseAll()
 {
 	int i;
 
-	PTR_DELETE(m_sSpecTechniqueName);
+	PTR_STORM_DELETE(m_sSpecTechniqueName);
 
 	if (m_idBadPic && m_idBadTexture)
 		for(i=0; i<m_nSlotsQnt; i++)
@@ -823,13 +824,13 @@ void CXI_SCROLLIMAGE::ReleaseAll()
 			m_idBadPic[i] = -1;
 		}
 
-	PTR_DELETE(m_idBadPic);
-	PTR_DELETE(m_idBadTexture);
+	PTR_STORM_DELETE(m_idBadPic);
+	PTR_STORM_DELETE(m_idBadTexture);
 
 	if(m_Image!=NULL)
 	{
 		for(i=0; i<m_nListSize; i++) m_Image[i].Release(m_nSlotsQnt);
-		PTR_DELETE(m_Image);
+		PTR_STORM_DELETE(m_Image);
 	}
 
 	while(m_pScroll!=NULL)
@@ -842,21 +843,21 @@ void CXI_SCROLLIMAGE::ReleaseAll()
 	for(i=0;i<m_nGroupQuantity;i++)
 	{
 		PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName[i],m_nGroupTex[i]);
-		PTR_DELETE(m_sGroupName[i]);
+		PTR_STORM_DELETE(m_sGroupName[i]);
 	}
-	PTR_DELETE(m_sGroupName);
-	PTR_DELETE(m_nGroupTex);
+	PTR_STORM_DELETE(m_sGroupName);
+	PTR_STORM_DELETE(m_nGroupTex);
 
 	PICTURE_TEXTURE_RELEASE(pPictureService,m_sBorderGroupName,m_texBorder);
-	PTR_DELETE(m_sBorderGroupName);
+	PTR_STORM_DELETE(m_sBorderGroupName);
 
 	FONT_RELEASE(m_rs,m_nOneStrFont);
 	FONT_RELEASE(m_rs,m_nTwoStrFont);
 
-	PTR_DELETE(m_dwCurColor);
-	PTR_DELETE(m_dwNormalColor);
-	PTR_DELETE(m_dwSelectColor);
-	PTR_DELETE(m_pPicOffset);
+	PTR_STORM_DELETE(m_dwCurColor);
+	PTR_STORM_DELETE(m_dwNormalColor);
+	PTR_STORM_DELETE(m_dwSelectColor);
+	PTR_STORM_DELETE(m_pPicOffset);
 
 	m_nGroupQuantity = 0;
 	m_nSlotsQnt = 0;
@@ -953,9 +954,9 @@ void CXI_SCROLLIMAGE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 
@@ -1009,7 +1010,7 @@ void CXI_SCROLLIMAGE::ChangeScroll(int nScrollItemNum)
 					{
 						m_Image[i].string1 = NEW char[strlen(sStringName)];
 						if(m_Image[i].string1==NULL)
-							_THROW("allocate memory error")
+							STORM_THROW("allocate memory error")
 						strcpy(m_Image[i].string1,&(sStringName[1]));
 					}
 					else
@@ -1024,7 +1025,7 @@ void CXI_SCROLLIMAGE::ChangeScroll(int nScrollItemNum)
 					{
 						m_Image[i].string2 = NEW char[strlen(sStringName)];
 						if(m_Image[i].string2==NULL)
-							_THROW("allocate memory error")
+							STORM_THROW("allocate memory error")
 						strcpy(m_Image[i].string2,&(sStringName[1]));
 					}
 					else
@@ -1040,7 +1041,7 @@ void CXI_SCROLLIMAGE::ChangeScroll(int nScrollItemNum)
 					if(tmpStr!=null)
 					{
 						if( (m_Image[i].saveName[n]=NEW char[strlen(tmpStr)+1])==0 )
-							{_THROW("allocate memory error");}
+							{STORM_THROW("allocate memory error");}
 						strcpy(m_Image[i].saveName[n],tmpStr);
 					}
 					sprintf(param,"tex%d",n+1);
@@ -1073,13 +1074,13 @@ void CXI_SCROLLIMAGE::DeleteImage(int imgNum)
 	m_nListSize--;
 	if(m_nListSize<=0)
 	{
-		PTR_DELETE(m_Image);
+		PTR_STORM_DELETE(m_Image);
 		return;
 	}
 
 	IMAGEDESCRIBE * pOldImgs = m_Image;
 	m_Image = NEW IMAGEDESCRIBE[m_nListSize];
-	if(m_Image==NULL)	{_THROW("memory allocate error")}
+	if(m_Image==NULL)	{STORM_THROW("memory allocate error")}
 	if(imgNum>0)
 		memcpy(m_Image,pOldImgs,imgNum*sizeof(IMAGEDESCRIBE));
 	if(imgNum<m_nListSize)
@@ -1101,7 +1102,7 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 	char param[256];
 	//UpdateTexturesGroup();
 
-	PTR_DELETE(m_sSpecTechniqueName);
+	PTR_STORM_DELETE(m_sSpecTechniqueName);
 
 	for(i=0; i<m_nSlotsQnt; i++)
 	{
@@ -1115,7 +1116,7 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 	if(m_Image!=NULL)
 	{
 		for(i=0; i<m_nListSize; i++) m_Image[i].Release(m_nSlotsQnt);
-		PTR_DELETE(m_Image);
+		PTR_STORM_DELETE(m_Image);
 	}
 
 	while(m_pScroll!=NULL)
@@ -1129,10 +1130,10 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 	for(i=0;i<m_nGroupQuantity;i++)
 	{
 		PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName[i],m_nGroupTex[i]);
-		PTR_DELETE(m_sGroupName[i]);
+		PTR_STORM_DELETE(m_sGroupName[i]);
 	}
-	PTR_DELETE(m_sGroupName);
-	PTR_DELETE(m_nGroupTex);
+	PTR_STORM_DELETE(m_sGroupName);
+	PTR_STORM_DELETE(m_nGroupTex);
 
 	m_nListSize=0;	m_nNotUsedQuantity=0;
 
@@ -1146,7 +1147,7 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 		{
 			if( (m_sSpecTechniqueName=NEW char[strlen(sTechnique)+1])==NULL )
 			{
-				_THROW("Allocate memory error");
+				STORM_THROW("Allocate memory error");
 			}
 			strcpy(m_sSpecTechniqueName,sTechnique);
 		}
@@ -1178,7 +1179,7 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 				m_sGroupName = NEW char*[m_nGroupQuantity];
 				if( m_nGroupTex==NULL || m_sGroupName==NULL )
 				{
-					_THROW("allocate memory error");
+					STORM_THROW("allocate memory error");
 				}
 				for(i=0;i<m_nGroupQuantity;i++)
 				{
@@ -1187,7 +1188,7 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 					m_sGroupName[i] = NEW char[strlen(stmp)+1];
 					if(m_sGroupName[i]==NULL)
 					{
-						_THROW("allocate memory error");
+						STORM_THROW("allocate memory error");
 					}
 					strcpy(m_sGroupName[i],stmp);
 					m_nGroupTex[i] = pPictureService->GetTextureID(m_sGroupName[i]);
@@ -1241,7 +1242,7 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 					!m_Image[i].ptex || !m_Image[i].saveName ||
 					!m_Image[i].tex )
 				{
-					_THROW("allocate memory error");
+					STORM_THROW("allocate memory error");
 				}
 				for(n=0; n<m_nSlotsQnt; n++)
 				{
@@ -1269,7 +1270,7 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 					{
 						m_Image[i].string1 = NEW char[strlen(sStringName)];
 						if(m_Image[i].string1==NULL)
-							_THROW("allocate memory error")
+							STORM_THROW("allocate memory error")
 						strcpy(m_Image[i].string1,&(sStringName[1]));
 					}
 					else
@@ -1284,7 +1285,7 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 					{
 						m_Image[i].string2 = NEW char[strlen(sStringName)];
 						if(m_Image[i].string2==NULL)
-							_THROW("allocate memory error")
+							STORM_THROW("allocate memory error")
 						strcpy(m_Image[i].string2,&(sStringName[1]));
 					}
 					else
@@ -1300,7 +1301,7 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 					if(tmpStr!=null)
 					{
 						if( (m_Image[i].saveName[n]=NEW char[strlen(tmpStr)+1])==0 )
-							{_THROW("allocate memory error");}
+							{STORM_THROW("allocate memory error");}
 						strcpy(m_Image[i].saveName[n],tmpStr);
 					}
 					sprintf(param,"tex%d",n+1);
@@ -1479,7 +1480,7 @@ void CXI_SCROLLIMAGE::UpdateTexturesGroup()
 			m_nGroupTex = NEW long[m_nGroupQuantity];
 			m_sGroupName = NEW char*[m_nGroupQuantity];
 			if( m_nGroupTex==NULL || m_sGroupName==NULL ) {
-				_THROW("allocate memory error");
+				STORM_THROW("allocate memory error");
 			}
 			for(i=0;i<m_nGroupQuantity;i++)
 			{
@@ -1503,7 +1504,7 @@ void CXI_SCROLLIMAGE::UpdateTexturesGroup()
 				{
 					m_sGroupName[i] = NEW char[strlen(stmp)+1];
 					if(m_sGroupName[i]==NULL) {
-						_THROW("allocate memory error");
+						STORM_THROW("allocate memory error");
 					}
 					strcpy(m_sGroupName[i],stmp);
 					m_nGroupTex[i] = pPictureService->GetTextureID(m_sGroupName[i]);
@@ -1514,10 +1515,10 @@ void CXI_SCROLLIMAGE::UpdateTexturesGroup()
 			for(i=0; i<nPrevQ; i++)
 			{
 				PICTURE_TEXTURE_RELEASE(pPictureService,pPrevGroup[i],prevTex[i]);
-				PTR_DELETE(pPrevGroup[i]);
+				PTR_STORM_DELETE(pPrevGroup[i]);
 			}
-			PTR_DELETE(pPrevGroup);
-			PTR_DELETE(prevTex);
+			PTR_STORM_DELETE(pPrevGroup);
+			PTR_STORM_DELETE(prevTex);
 		}
 	}
 }
@@ -1527,7 +1528,7 @@ int CXI_SCROLLIMAGE::FindTexGroupFromOld(char * *pGroupList, char * groupName, i
 	if(pGroupList==NULL || groupName==NULL) return -1;
 	for(int i=0; i<listSize; i++)
 	{
-		if( pGroupList[i]!=NULL && stricmp(pGroupList[i],groupName)==0 )
+		if( pGroupList[i]!=NULL && _stricmp(pGroupList[i],groupName)==0 )
 			return i;
 	}
 	return -1;
@@ -1535,18 +1536,18 @@ int CXI_SCROLLIMAGE::FindTexGroupFromOld(char * *pGroupList, char * groupName, i
 
 void CXI_SCROLLIMAGE::IMAGEDESCRIBE::Release(int nQnt)
 {
-	PTR_DELETE(bUseSpecTechnique);
-	PTR_DELETE(tex);
-	PTR_DELETE(ptex);
-	PTR_DELETE(img);
+	PTR_STORM_DELETE(bUseSpecTechnique);
+	PTR_STORM_DELETE(tex);
+	PTR_STORM_DELETE(ptex);
+	PTR_STORM_DELETE(img);
 
-	for(int i=0; i<nQnt; i++)	PTR_DELETE(saveName[i]);
-	PTR_DELETE(saveName);
+	for(int i=0; i<nQnt; i++)	PTR_STORM_DELETE(saveName[i]);
+	PTR_STORM_DELETE(saveName);
 
 	str1 = -1;
 	str2 = -1;
-	PTR_DELETE(string1);
-	PTR_DELETE(string2);
+	PTR_STORM_DELETE(string1);
+	PTR_STORM_DELETE(string2);
 }
 
 void CXI_SCROLLIMAGE::IMAGEDESCRIBE::Clear(int nQnt)
@@ -1557,13 +1558,13 @@ void CXI_SCROLLIMAGE::IMAGEDESCRIBE::Clear(int nQnt)
 		tex[i] = -1;
 		ptex[i] = null;
 		img[i] = -1;
-		PTR_DELETE(saveName[i]);
+		PTR_STORM_DELETE(saveName[i]);
 	}
 
 	str1 = -1;
 	str2 = -1;
-	PTR_DELETE(string1);
-	PTR_DELETE(string2);
+	PTR_STORM_DELETE(string1);
+	PTR_STORM_DELETE(string2);
 }
 
 dword _cdecl CXI_SCROLLIMAGE::MessageProc(long msgcode, MESSAGE & message)

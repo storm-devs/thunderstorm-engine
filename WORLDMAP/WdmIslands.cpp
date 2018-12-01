@@ -12,6 +12,7 @@
 #include "WorldMap.h"
 #include "WdmCamera.h"
 #include "WdmShip.h"
+#include "../common_h/defines.h"
 
 //============================================================================================
 //Данные для коллижена
@@ -28,13 +29,9 @@ CMatrix WdmIslands::curMatrix;
 //Конструирование, деструктурирование
 //============================================================================================
 
-WdmIslands::WdmIslands() : labelSort(_FL_, 1024),
-	islands(_FL_),
-	labels(_FL_),
-	fonts(_FL_),
-	merchants(_FL_),
-	quests(_FL_)
+WdmIslands::WdmIslands()
 {
+	labelSort.reserve(1024);
 	icons.texture = -1;
 	LabelsRelease();
 	wdmObjects->islands = this;
@@ -52,28 +49,29 @@ WdmIslands::WdmIslands() : labelSort(_FL_, 1024),
 	{
 		baseModel->geo->GetLabel(i, label);
 		if(!label.group_name || !label.group_name[0]) continue;
-		if(stricmp(label.group_name, "locators") == 0)
+		if(_stricmp(label.group_name, "locators") == 0)
 		{
-			if(stricmp(label.name, "min") == 0)
+			if(_stricmp(label.name, "min") == 0)
 			{
 				vmn = ((CMatrix *)label.m)->Pos();
 				isMin = true;
 			}
-			if(stricmp(label.name, "max") == 0)
+			if(_stricmp(label.name, "max") == 0)
 			{
 				vmx = ((CMatrix *)label.m)->Pos();
 				isMax = true;
 			}
 		}else
-		if(stricmp(label.group_name, "merchant") == 0)
+		if(_stricmp(label.group_name, "merchant") == 0)
 		{
-			merchants.Add(((CMatrix *)label.m)->Pos());
+			merchants.push_back(((CMatrix *)label.m)->Pos());
 		}else
-		if(label.name && label.name[0] && stricmp(label.group_name, "quests") == 0)
+		if(label.name && label.name[0] && _stricmp(label.group_name, "quests") == 0)
 		{
-			Quest & q = quests[quests.Add()];
-			q.pos = ((CMatrix *)label.m)->Pos();
-			q.name = label.name;
+			quests.push_back(Quest{ ((CMatrix *)label.m)->Pos(), label.name });
+			//Quest & q = quests[quests.Add()];
+			//q.pos = ((CMatrix *)label.m)->Pos();
+			//q.name = label.name;
 		}
 	}
 	if(isMin && isMax)
@@ -90,29 +88,31 @@ WdmIslands::WdmIslands() : labelSort(_FL_, 1024),
 		wdmObjects->SetWorldSize(vmax.x*2.0f, vmax.z*2.0f);
 	}
 	//Зачитываем острова
-	string name;
+	std::string name;
 	for(long i = 0; i < ginfo.nlabels; i++)
 	{
 		//Получаем информацию
 		baseModel->geo->GetLabel(i, label);
 		if(!label.group_name || !label.group_name[0]) continue;
 		if(!label.name || !label.name[0]) continue;
-		if(stricmp(label.group_name, "islands") != 0) continue;
+		if(_stricmp(label.group_name, "islands") != 0) continue;
 		//Пропускаем, если добавленна
 		long j;
-		for(j = 0; j < islands; j++)
+		for(j = 0; j < islands.size(); j++)
 		{
 			if(islands[j].modelName == label.name) break;
 		}
-		if(j < islands) continue;
+		if(j < islands.size()) continue;
 		name = "islands\\";
 		name += label.name;
 		//Загружаем
-		WdmRenderModel * model = (WdmRenderModel *)wdmObjects->wm->CreateModel(NEW WdmRenderModel(), name, false, false, true, 2);
+		WdmRenderModel * model = (WdmRenderModel *)wdmObjects->wm->CreateModel(NEW WdmRenderModel(), name.c_str(), false, false, true, 2);
 		if(model)
 		{
 			//Общее
-			Islands & isl = islands[islands.Add()];
+			islands.push_back(Islands{});
+			//Islands & isl = islands[islands.Add()];
+			Islands & isl = islands.back();
 			isl.model = model;
 			model->mtx = *((CMatrix *)label.m);
 			model->mtx.Pos() += center;
@@ -122,16 +122,16 @@ WdmIslands::WdmIslands() : labelSort(_FL_, 1024),
 			isl.worldPosition = model->mtx.Pos();
 			//Моделька, описывающая область острова
 			name += "_area";
-			isl.area = (WdmRenderModel *)wdmObjects->wm->CreateModel(NEW WdmRenderModel(), name, false, false, false, 3);
+			isl.area = (WdmRenderModel *)wdmObjects->wm->CreateModel(NEW WdmRenderModel(), name.c_str(), false, false, false, 3);
 			if(!isl.area)
 			{
-				api->Trace("World map: can't load model of island's area: %s", name.GetBuffer());
+				api->Trace("World map: can't load model of island's area: %s", name.c_str());
 			}
 			//Пальмы
 			name = "islands\\";
 			name += label.name;
 			name += "_palms";
-			isl.palms = (WdmRenderModel *)wdmObjects->wm->CreateModel(NEW WdmRenderModel(), name, false, false, true, 4, 800);
+			isl.palms = (WdmRenderModel *)wdmObjects->wm->CreateModel(NEW WdmRenderModel(), name.c_str(), false, false, true, 4, 800);
 			if(isl.palms)
 			{
 				static const char * techName = "WdmModelDrawStdAlphaTest";
@@ -141,9 +141,9 @@ WdmIslands::WdmIslands() : labelSort(_FL_, 1024),
 			name = "islands\\";
 			name += label.name;
 			name += "_waves";
-			isl.waves = (WdmIslandWaves *)wdmObjects->wm->CreateModel(NEW WdmIslandWaves(), name, false, false, true, 4);
+			isl.waves = (WdmIslandWaves *)wdmObjects->wm->CreateModel(NEW WdmIslandWaves(), name.c_str(), false, false, true, 4);
 		}else{
-			api->Trace("World map: can't load model of island: %s", name.GetBuffer());
+			api->Trace("World map: can't load model of island: %s", name.c_str());
 		}
 	}
 	//Загрузка патча
@@ -163,13 +163,13 @@ WdmIslands::~WdmIslands()
 		patch = null;
 	}
 	wdmObjects->islands = null;
-	for(long i = 0; i < islands; i++)
+	for(long i = 0; i < islands.size(); i++)
 	{
 		wdmObjects->wm->DeleteObject(islands[i].model);
 		islands[i].model = null;
 	}
 	if(baseModel) wdmObjects->wm->DeleteObject(baseModel);
-	islands.DelAll();
+	islands.clear();
 	LabelsRelease();
 }
 
@@ -189,7 +189,7 @@ bool WdmIslands::CollisionTest(CMatrix & objMtx, float length, float width, bool
 	centPos = 0.0f;
 	checkMode = !heighTest;
 	//Проходимся по всем островам
-	for(long i = 0; i < islands; i++)
+	for(long i = 0; i < islands.size(); i++)
 	{
 		//Остров с которым работаем
 		Islands & island = islands[i];
@@ -272,7 +272,7 @@ bool WdmIslands::ObstacleTest(float x, float z, float radius)
 	if(radius <= 0.0f) return false;
 	CVECTOR wPos(x, 0.0f, z);
 	//Проходимся по всем островам
-	for(long i = 0; i < islands; i++)
+	for(long i = 0; i < islands.size(); i++)
 	{
 		//Остров с которым работаем
 		Islands & island = islands[i];
@@ -343,7 +343,9 @@ void WdmIslands::SetIslandsData(ATTRIBUTES * apnt, bool isChange)
 			}
 			//Добавляем новую метку
 			long iEntry = hash & (sizeof(labelsEntry)/sizeof(labelsEntry[0]) - 1);
-			index = labels.Add();
+			//index = labels.Add();
+			labels.push_back(Label{});
+			index = labels.size() - 1;
 			labels[index].id = id;
 			labels[index].idHash = hash;
 			labels[index].next = labelsEntry[iEntry];
@@ -352,7 +354,7 @@ void WdmIslands::SetIslandsData(ATTRIBUTES * apnt, bool isChange)
 			labels[index].alpha = 255.0f;
 
 		}else{
-			if(stricmp(labels[index].locatorName, locator) != 0)
+			if(_stricmp(labels[index].locatorName.c_str(), locator) != 0)
 			{
 				if(LabelsFindLocator(locator, pos))
 				{
@@ -372,7 +374,7 @@ void WdmIslands::SetIslandsData(ATTRIBUTES * apnt, bool isChange)
 		labels[index].heightView = heightView;
 		labels[index].weight = weight;
 		//Размеры строки
-		float textWidth = (float)wdmObjects->rs->StringWidth((char *)labels[index].text.GetBuffer(), labels[index].font);
+		float textWidth = (float)wdmObjects->rs->StringWidth((char *)labels[index].text.c_str(), labels[index].font);
 		float textHeight = (float)wdmObjects->rs->CharHeight(labels[index].font);
 		//Размеры метки
 		float labelWidth =textWidth + (labels[index].icon >= 0 ? icons.w + 4.0f: 0.0f);
@@ -418,11 +420,11 @@ void WdmIslands::LabelsReadIconParams(ATTRIBUTES * apnt)
 	icons.f[0] = 0.0f;
 	icons.f[1] = 0.0f;
 	icons.blend = 0;
-	char * texName = apnt->GetAttribute("texture");
+	const char * texName = apnt->GetAttribute("texture");
 	if(!texName) texName = "";
-	string name = "WorldMap\\Interfaces\\";
+	std::string name = "WorldMap\\Interfaces\\";
 	name += texName;
-	icons.texture = wdmObjects->rs->TextureCreate(name);
+	icons.texture = wdmObjects->rs->TextureCreate(name.c_str());
 	//Размеры uv
 	float tw = icons.w*icons.frames;
 	float th = icons.h*icons.num;
@@ -448,7 +450,7 @@ long WdmIslands::LabelsFind(const char * id, dword hash)
 	{
 		if(labels[i].idHash == hash)
 		{
-			if(stricmp(labels[i].id, id) == 0) return i;
+			if(_stricmp(labels[i].id.c_str(), id) == 0) return i;
 		}
 	}
 	return -1;
@@ -465,9 +467,9 @@ bool WdmIslands::LabelsFindLocator(const char * name, CVECTOR & pos)
 	{
 		baseModel->geo->GetLabel(i, label);
 		if(!label.group_name || !label.group_name[0]) continue;
-		if(stricmp(label.group_name, "labels") != 0) continue;
-		//if(stricmp(label.group_name, "geometry") != 0) continue;
-		if(stricmp(label.name, name) == 0)
+		if(_stricmp(label.group_name, "labels") != 0) continue;
+		//if(_stricmp(label.group_name, "geometry") != 0) continue;
+		if(_stricmp(label.name, name) == 0)
 		{
 			pos = ((CMatrix *)label.m)->Pos();
 			return true;
@@ -479,35 +481,34 @@ bool WdmIslands::LabelsFindLocator(const char * name, CVECTOR & pos)
 long WdmIslands::LabelsAddFont(const char * name)
 {
 	if(!name) name = "";
-	for(long i = 0; i < fonts; i++)
+	for(long i = 0; i < fonts.size(); i++)
 	{
-		if(stricmp(fonts[i].name, name) == 0)
+		if(_stricmp(fonts[i].name.c_str(), name) == 0)
 		{
 			return fonts[i].id;
 		}
 	}
-	dword index;
-	Font & font = fonts[index = fonts.Add()];
+	//Font & font = fonts[index = fonts.Add()];
+	Font font;
 	font.name = name;
 	font.id = wdmObjects->rs->LoadFont((char *)name);
 	if(font.id < 0)
-	{
 		font.id = FONT_DEFAULT;
-	}
-	return long(index);
+	fonts.push_back(font);
+	return fonts.size() - 1;
 }
 
 
 void WdmIslands::LabelsRelease()
 {
 	//Удаляем все метки
-	labels.DelAll();
+	labels.clear();
 	for(long i = 0; i < sizeof(labelsEntry)/sizeof(labelsEntry[0]); i++)
 	{
 		labelsEntry[i] = -1;
 	}
 	//Удаляем все шрифты
-	for(long i = 0; i < fonts; i++)
+	for(long i = 0; i < fonts.size(); i++)
 	{
 		if(fonts[i].id != FONT_DEFAULT)
 		{
@@ -530,20 +531,20 @@ void WdmIslands::Update(float dltTime)
 		CVECTOR pos;
 		wdmObjects->playerShip->GetPosition(pos.x, pos.z, pos.y);
 		pos.y = 0.0f;
-		for(long i = 0; i < islands; i++)
+		for(long i = 0; i < islands.size(); i++)
 		{
 			if(IsShipInArea(i, pos))
 			{
 				if(wdmObjects->wm->AttributesPointer)
 				{
-					wdmObjects->wm->AttributesPointer->SetAttribute("island", (char *)islands[i].modelName.GetBuffer());
+					wdmObjects->wm->AttributesPointer->SetAttribute("island", (char *)islands[i].modelName.c_str());
 					ATTRIBUTES * a = wdmObjects->wm->AttributesPointer->FindAClass(wdmObjects->wm->AttributesPointer, "island");
 					if(a)
 					{
 						a->SetAttributeUseFloat("x", islands[i].worldPosition.x);
 						a->SetAttributeUseFloat("z", islands[i].worldPosition.z);
 					}
-					wdmObjects->curIsland = (char *)islands[i].modelName.GetBuffer();
+					wdmObjects->curIsland = (char *)islands[i].modelName.c_str();
 				}
 				return;
 			}
@@ -603,9 +604,9 @@ void WdmIslands::LRender(VDX9RENDER * rs)
 	float cameraHeight = wdmObjects->camera->realHeight;
 	float dAlpha = api->GetDeltaTime()*(0.001f*1.5f*255.0f);
 	//Проецируем на экран
-	labelSort.Empty();
+	labelSort.clear();
 	MTX_PRJ_VECTOR prjVertex;
-	for(long i = 0; i < labels; i++)
+	for(long i = 0; i < labels.size(); i++)
 	{
 		//Метка
 		Label & label = labels[i];
@@ -633,18 +634,18 @@ void WdmIslands::LRender(VDX9RENDER * rs)
 		{
 			continue;
 		}
-		labelSort.Add(i);
+		labelSort.push_back(i);
 	}
 	//Размещаем метки, чтобы не пересекались по порядку
 	//!!!
 	//Рисуем иконоки и пишем текст
-	for(long i = 0; i < labelSort; i++)
+	for(long i = 0; i < labelSort.size(); i++)
 	{
 		//Метка
 		Label & label = labels[labelSort[i]];
 		//Пишем текст
 		dword color = (long(label.alpha) << 24) | 0xffffff;
-		rs->Print(label.font, color, long(label.l + label.textX), long(label.t + label.textY), (char *)label.text.GetBuffer());
+		rs->Print(label.font, color, long(label.l + label.textX), long(label.t + label.textY), (char *)label.text.c_str());
 		//Рисуем картинку
 		if(label.icon < 0) continue;
 		rs->TextureSet(0, icons.texture);
@@ -753,12 +754,12 @@ void WdmIslands::FindReaction(const CVECTOR & position, CVECTOR & reaction)
 //Найти случайную точку для мерчанта
 bool WdmIslands::GetRandomMerchantPoint(CVECTOR & p)
 {
-	if(merchants <= 0)
+	if(merchants.size() <= 0)
 	{
 		p = 0.0f;
 		return false;
 	}
-	p = merchants[rand() % merchants];
+	p = merchants[rand() % merchants.size()];
 	return true;
 }
 
@@ -770,7 +771,7 @@ bool WdmIslands::GetQuestLocator(const char * locName, CVECTOR & p)
 		p = 0.0f;
 		return false;
 	}
-	for(long i = 0; i < quests; i++)
+	for(long i = 0; i < quests.size(); i++)
 	{
 		if(quests[i].name == locName)
 		{
@@ -785,7 +786,7 @@ bool WdmIslands::GetQuestLocator(const char * locName, CVECTOR & p)
 //Проверить попадание кораблика в зону острова
 bool WdmIslands::CheckIslandArea(const char * islandName, float x, float z)
 {
-	for(long i = 0; i < islands; i++)
+	for(long i = 0; i < islands.size(); i++)
 	{
 		if(!islands[i].area) continue;
 		if(islands[i].modelName == islandName)
@@ -801,7 +802,7 @@ void WdmIslands::GetNearPointToArea(const char * islandName, float & x, float & 
 {
 	//Ищим область
 	long i;
-	for(i = 0; i < islands; i++)
+	for(i = 0; i < islands.size(); i++)
 	{
 		if(!islands[i].area) continue;
 		if(islands[i].modelName == islandName)
@@ -809,7 +810,7 @@ void WdmIslands::GetNearPointToArea(const char * islandName, float & x, float & 
 			break;
 		}
 	}
-	if(i >= islands)
+	if(i >= islands.size())
 	{
 		return;
 	}

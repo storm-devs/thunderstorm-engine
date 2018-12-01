@@ -24,7 +24,7 @@ protected:
 	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);
 
 protected:
-    array<RS_LINE> m_aLines;
+    std::vector<RS_LINE> m_aLines;
 };
 
 #endif

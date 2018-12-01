@@ -7,7 +7,7 @@ INTERFACE_FUNCTION
 CREATE_SERVICE(ParticleService)
 CREATE_CLASS(PARTICLES)
 
-ParticleService::ParticleService () : CreatedManagers(_FL_)
+ParticleService::ParticleService ()
 {
 	pDefaultManager = NULL;
 	sysDelete = false;
@@ -18,11 +18,11 @@ ParticleService::~ParticleService ()
 	if (pDefaultManager) pDefaultManager->Release();
 	sysDelete = true;
 
-	if (CreatedManagers.Size () > 0) 
+	if (CreatedManagers.size() > 0) 
 	{
 		api->Trace("Unreleased particles managers found !\n");
 	}
-	for (int n = 0; n < CreatedManagers; n++)
+	for (int n = 0; n < CreatedManagers.size(); n++)
 	{
 		api->Trace("Manager created in %s, Line %d\n", CreatedManagers[n].FileName, CreatedManagers[n].Line);
 		CreatedManagers[n].pManager->Release();
@@ -38,7 +38,7 @@ IParticleManager* ParticleService::CreateManagerEx (const char* ProjectName, con
 	manager.pManager = pManager;
 	manager.Line = Line;
 	manager.FileName = File;
-	CreatedManagers.Add(manager);
+	CreatedManagers.push_back(manager);
 
 	if (ProjectName != NULL)
 	{
@@ -50,11 +50,13 @@ IParticleManager* ParticleService::CreateManagerEx (const char* ProjectName, con
 void ParticleService::RemoveManagerFromList (IParticleManager* pManager)
 {
 	if (sysDelete) return;
-	for (int n = 0; n < CreatedManagers; n++)
+	for (int n = 0; n < CreatedManagers.size(); n++)
 	{
 		if (CreatedManagers[n].pManager == pManager)
 		{
-			CreatedManagers.ExtractNoShift(n);
+			//CreatedManagers.ExtractNoShift(n);
+			CreatedManagers[n] = CreatedManagers.back();
+			CreatedManagers.pop_back();
 			return;
 		}
 	}
@@ -62,7 +64,7 @@ void ParticleService::RemoveManagerFromList (IParticleManager* pManager)
 
 DWORD ParticleService::GetManagersCount ()
 {
-	return CreatedManagers.Size();
+	return CreatedManagers.size();
 }
 
 IParticleManager* ParticleService::GetManagerByIndex (DWORD Index)

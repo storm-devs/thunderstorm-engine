@@ -2,8 +2,7 @@
 #include "material.h"
 #include "imgrender.h"
 
-BIImage::BIImage( VDX9RENDER* rs, BIImageMaterial* pMaterial ) :
-	m_aRelPos(_FL)
+BIImage::BIImage( VDX9RENDER* rs, BIImageMaterial* pMaterial )
 {
 	m_pRS = rs;
 	m_pMaterial = pMaterial;
@@ -25,7 +24,7 @@ void BIImage::FillBuffers( BI_IMAGE_VERTEX* pV, word* pT, long& nV, long& nT )
 
 	// index buffer
 	if( m_eType == BIType_square ) {
-		for( n=2; n<m_aRelPos; n++ ) // квадратик делается по принципу Triangle Strip
+		for( n=2; n<m_aRelPos.size(); n++ ) // квадратик делается по принципу Triangle Strip
 		{
 			pT[ni++] = (word)(nv + n-2);
 			pT[ni++] = (word)(nv + n-1);
@@ -34,7 +33,7 @@ void BIImage::FillBuffers( BI_IMAGE_VERTEX* pV, word* pT, long& nV, long& nT )
 		nT += n-2;
 	}
 	else if( m_eType == BIType_clocksquare ) { // квадратные "часы" делаются по принципу Triangle Fan
-		for( n=2; n<m_aRelPos; n++ )
+		for( n=2; n<m_aRelPos.size(); n++ )
 		{
 			pT[ni++] = (word)(nv);
 			pT[ni++] = (word)(nv + n-1);
@@ -44,7 +43,7 @@ void BIImage::FillBuffers( BI_IMAGE_VERTEX* pV, word* pT, long& nV, long& nT )
 	} else return;
 
 	// vertex buffer
-	for( n=0; n<m_aRelPos; n++ )
+	for( n=0; n<m_aRelPos.size(); n++ )
 	{
 		pV[nv].pos.x = CalculateMidPos( m_BasePos.left, m_BasePos.right, m_aRelPos[n].x );
 		pV[nv].pos.y = CalculateMidPos( m_BasePos.top, m_BasePos.bottom, m_aRelPos[n].y );
@@ -100,34 +99,34 @@ void BIImage::SetType( BIImageType type )
 void BIImage::CutSide( float fleft, float fright, float ftop, float fbottom )
 {
 	if( m_eType != BIType_square ) return;
-	m_aRelPos.DelAll();
+	m_aRelPos.clear();
 	FPOINT fp;
-	fp.x = fleft;		fp.y = 1.f-fbottom;		m_aRelPos.Add( fp );
-	fp.x = fleft;		fp.y = ftop;			m_aRelPos.Add( fp );
-	fp.x = 1.f-fright;	fp.y = 1.f-fbottom;		m_aRelPos.Add( fp );
-	fp.x = 1.f-fright;	fp.y = ftop;			m_aRelPos.Add( fp );
+	fp.x = fleft;		fp.y = 1.f-fbottom;		m_aRelPos.push_back( fp );
+	fp.x = fleft;		fp.y = ftop;			m_aRelPos.push_back( fp );
+	fp.x = 1.f-fright;	fp.y = 1.f-fbottom;		m_aRelPos.push_back( fp );
+	fp.x = 1.f-fright;	fp.y = ftop;			m_aRelPos.push_back( fp );
 	m_pMaterial->UpdateFlagOn();
 }
 
 void BIImage::CutClock( float fBegin, float fEnd, float fFactor )
 {
 	if( m_eType != BIType_clocksquare ) return;
-	m_aRelPos.DelAll();
+	m_aRelPos.clear();
 	FPOINT fp;
-	fp.x = 0.5f;		fp.y = 0.5f;			m_aRelPos.Add( fp );
+	fp.x = 0.5f;		fp.y = 0.5f;			m_aRelPos.push_back( fp );
 	float fEndAng = fBegin + (fEnd-fBegin) * fFactor;
 	// первая/начальная точка на часах
-	m_aRelPos.Add( GetClockPoint( fBegin, fp ) );
+	m_aRelPos.push_back( GetClockPoint( fBegin, fp ) );
 	// следующие углы
 	if( fBegin < fEndAng )
 		for( float fAng=GetNextClockCorner(fBegin); fAng<fEndAng; fAng=GetNextClockCorner(fAng) )
-			m_aRelPos.Add( GetClockPoint( fAng, fp ) );
+			m_aRelPos.push_back( GetClockPoint( fAng, fp ) );
 	else if( fBegin > fEndAng )
 		for( float fAng=GetPrevClockCorner(fBegin); fAng>fEndAng; fAng=GetPrevClockCorner(fAng) )
-			m_aRelPos.Add( GetClockPoint( fAng, fp ) );
+			m_aRelPos.push_back( GetClockPoint( fAng, fp ) );
 	// последняя/конечная точка на часах
-	m_aRelPos.Add( GetClockPoint( fEndAng, fp ) );
-	m_nVertexQuantity = m_aRelPos.Size();
+	m_aRelPos.push_back( GetClockPoint( fEndAng, fp ) );
+	m_nVertexQuantity = m_aRelPos.size();
 	m_nTriangleQuantity = m_nVertexQuantity - 2;
 	m_pMaterial->UpdateFlagOn();
 }

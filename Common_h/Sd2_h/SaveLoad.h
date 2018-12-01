@@ -2,6 +2,7 @@
 #define SAVE_LOAD_HPP
 
 #include "..\character.h"
+#include <string>
 
 class CSaveLoad
 {
@@ -37,9 +38,9 @@ public:
 			if (pV)
 				pV->GetAClass()->SetAttribute("save", pFFSave);
 
-			DELETE(pFFSave);
+			STORM_DELETE(pFFSave);
 		}
-		DELETE(pSaveBuffer);
+		STORM_DELETE(pSaveBuffer);
 	}
 
 	void CreateWrite()
@@ -110,13 +111,13 @@ public:
 		Write(&iValue, sizeof(iValue));
 	}
 
-	void SaveString(string & str)
+	void SaveString(std::string & str)
 	{
-		if (str.Len())
+		if (str.size())
 		{
-			dword dwLen = str.Len() + 1;
+			dword dwLen = str.size() + 1;
 			SaveDword(dwLen);
-			Write(str.GetBuffer(), dwLen);
+			Write(str.c_str(), dwLen);
 		}
 		else
 		{
@@ -144,7 +145,7 @@ public:
 			iIndex = (long)pAttribute->GetAttributeAsDword("index", -1);
 		}
 		SaveLong(iIndex);
-		SaveString(string(pStr));
+		SaveString(std::string(pStr));
 	}
 
 // =======================================================================================
@@ -172,12 +173,12 @@ public:
 		return iValue;
 	}
 
-	string LoadString()
+	std::string LoadString()
 	{
-		string str;
+		std::string str;
 		dword dwLen;
 		Read(&dwLen, sizeof(dwLen));
-		if (dwLen == 0) return string();
+		if (dwLen == 0) return std::string();
 		char * pBuffer = NEW char[dwLen];
 		Read(pBuffer, dwLen);
 		str = pBuffer;
@@ -210,7 +211,7 @@ public:
 	ATTRIBUTES * LoadAPointer(const char * pStr)
 	{
 		long iIndex = LoadLong();
-		string str = LoadString();
+		std::string str = LoadString();
 		if (str == "character" && iIndex < 0) return null;
 		VDATA * pV = api->Event("SeaLoad_GetPointer", "sl", pStr, iIndex);
 		return (pV) ? pV->GetAClass() : null;

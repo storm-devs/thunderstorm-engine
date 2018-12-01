@@ -9,7 +9,7 @@
 //============================================================================================
 
 #include "WdmCloud.h"
-
+#include "../common_h/defines.h"
 
 
 #define WdmStormCloudHeight		40.0f

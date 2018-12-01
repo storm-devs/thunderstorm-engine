@@ -19,9 +19,6 @@
     <Filter Include="common_h\SD2_H">
       <UniqueIdentifier>{a2a47e12-d118-4acf-9e21-ad40a641a1fe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="common_h\templates">
-      <UniqueIdentifier>{8fe17444-2d96-4d69-bb1e-ce9c4be9e9e2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Techniques">
       <UniqueIdentifier>{390e1ea6-35bf-4341-8608-d12c741f2abb}</UniqueIdentifier>
     </Filter>
@@ -635,30 +632,6 @@
     <ClInclude Include="..\Common_h\Sd2_h\VAI_ObjBase.h">
       <Filter>common_h\SD2_H</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common_h\templates\Array.h">
-      <Filter>common_h\templates</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\templates\dsmooth.h">
-      <Filter>common_h\templates</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\templates\dtimer.h">
-      <Filter>common_h\templates</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\templates\HTable.h">
-      <Filter>common_h\templates</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\templates\map.h">
-      <Filter>common_h\templates</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\templates\stack.h">
-      <Filter>common_h\templates</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\templates\string.h">
-      <Filter>common_h\templates</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\templates\tcommon.h">
-      <Filter>common_h\templates</Filter>
-    </ClInclude>
     <ClInclude Include="Modules\Techniques\Weather\Shaders\reflect.h">
       <Filter>Techniques\Weather\Shaders</Filter>
     </ClInclude>
@@ -715,6 +688,9 @@
     </ClInclude>
     <ClInclude Include="..\Common_h\dx9render.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="strutils.h">
+      <Filter>common_h</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

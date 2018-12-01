@@ -33,7 +33,7 @@ bool Point :: IsNormal()
 
 void Links :: Add()
 {
-	link.Add();
+	link.push_back(Link{});
 	count++;
 };
 
@@ -43,7 +43,7 @@ void Links :: Delete(int Index)
 {
 	if (Index< 0 || Index>= count) return;
 
-	link.DelIndex(Index);
+	link.erase(link.begin() + Index);
 
 	count--;
 	if (selected>= count) selected--;
@@ -53,7 +53,7 @@ void Links :: Delete(int Index)
 
 void Points :: Add()
 {
-	point.Add();
+	point.push_back(Point{});
 	count++;
 };
 
@@ -63,7 +63,7 @@ void Points :: Delete(int Index)
 {
 	if (Index< 0 || Index>= count) return;
 
-	point.DelIndex(Index);
+	point.erase(point.begin() + Index);
 	count--;
 
 	if (selected>= count) selected--;
@@ -349,15 +349,15 @@ void SailorsPoints :: UpdateLinks(){
 
 
 //--------------------------------------------------------------------------------------------------------------
-int SailorsPoints :: WriteToFile(string fileName)
+int SailorsPoints :: WriteToFile(std::string fileName)
 {
 	GUARD(SailorsPoints :: WriteToFile);
 
-		INIFILE *pIni = fio->OpenIniFile(fileName);
-		if(!pIni) pIni = fio->CreateIniFile(fileName,false);
+		INIFILE *pIni = fio->OpenIniFile(fileName.c_str());
+		if(!pIni) pIni = fio->CreateIniFile(fileName.c_str(),false);
 
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open '%s' for write", fileName);
+		api->Trace( "Warning! Can`t open '%s' for write", fileName.c_str());
 		return 0;
 	}
 
@@ -395,18 +395,18 @@ int SailorsPoints :: WriteToFile(string fileName)
 
 //--------------------------------------------------------------------------------------------------------------
 
-int SailorsPoints :: ReadFromFile(string fileName)
+int SailorsPoints :: ReadFromFile(std::string fileName)
 {
 	GUARD(SailorsPoints :: ReadFromFile);
 
 	char param[256];
 	char str[64];
 
-		INIFILE *pIni = fio->OpenIniFile(fileName);
+		INIFILE *pIni = fio->OpenIniFile(fileName.c_str());
 
 	if( !pIni ) {
 
-		api->Trace( "Sailors : Can`t open '%s'", fileName);
+		api->Trace( "Sailors : Can`t open '%s'", fileName.c_str());
 		return 0;
 	}
 
@@ -416,9 +416,9 @@ int SailorsPoints :: ReadFromFile(string fileName)
 	float x,y,z;
 	DWORD type;
 
+	points.point.resize(points.count);
 	for (int i= 0; i< points.count; i++ ){
-		points.point.Add();
-
+		//points.point.Add();
 		_snprintf(str, sizeof(str), "%s%d", "point ", i);
 		pIni->ReadString("POINT_DATA",str,param,sizeof(param)-1);
 
@@ -435,9 +435,9 @@ int SailorsPoints :: ReadFromFile(string fileName)
 
 	int first,next;
 
-
+	links.link.resize(points.count);
 	for (int i= 0; i< links.count; i++ ){
-		links.link.Add();
+		//links.link.Add();
 
 		_snprintf(str, sizeof(str), "%s%d", "link ", i);
 		pIni->ReadString("LINK_DATA",str,param,sizeof(param)-1);

@@ -78,7 +78,7 @@ END_DATA_DESC(ModelParticleDesc)
 
 
 //---------- Создание/удаление --------------------
-DataSource::DataSource (IParticleManager* Master) : Emitters(_FL_)
+DataSource::DataSource (IParticleManager* Master)
 {
 }
 
@@ -101,14 +101,14 @@ void DataSource::Write (MemFile* pMemFile)
 	pMemFile->Write(HEADER, 4);
 	pMemFile->Write(VERSION, 4);
 
-	DWORD dwEmittersCount = Emitters.Size();
+	DWORD dwEmittersCount = Emitters.size();
 	pMemFile->WriteType(dwEmittersCount);
 
 	for (DWORD n = 0; n < dwEmittersCount; n++)
 	{
 		pMemFile->WriteType(Emitters[n].Type);
 		Emitters[n].Fields.Write(pMemFile);
-		DWORD dwParticlesSize = Emitters[n].Particles.Size();
+		DWORD dwParticlesSize = Emitters[n].Particles.size();
 		pMemFile->WriteType(dwParticlesSize);
 		for (DWORD i = 0; i < dwParticlesSize; i++)
 		{
@@ -160,7 +160,7 @@ void DataSource::Load (MemFile* pMemFile)
 
 			default:
 			{
-				_THROW ("Particles: Unknown emitter type !");
+				STORM_THROW ("Particles: Unknown emitter type !");
 				return;
 			}
 		} // switch
@@ -171,7 +171,9 @@ void DataSource::Load (MemFile* pMemFile)
 void DataSource::CreatePointEmitter (MemFile* pMemFile)
 {
 	//api->Trace ("Particles info: Point emitter");
-	EmitterDesc* PointEmitter = &Emitters[Emitters.Add()];
+	Emitters.push_back(EmitterDesc{});
+	EmitterDesc* PointEmitter = &Emitters.back();
+	//EmitterDesc* PointEmitter = &Emitters[Emitters.Add()];
 	PointEmitter->Fields.Load(pMemFile);
 
 	PointEmitter->Fields.Convert (&PointEmitterDesc);
@@ -201,51 +203,53 @@ void DataSource::CreatePointEmitter (MemFile* pMemFile)
 			}
 			default:
 			{
-				_THROW ("Particles: Unknown particle type !!!!");
+				STORM_THROW ("Particles: Unknown particle type !!!!");
 			}
 		} // SWITCH
 	} // For all particles
 }
 
 //Создает BillBoard парикл
-void DataSource::CreateBillBoardParticle (array<ParticleDesc> &Particles, MemFile* pMemFile)
+void DataSource::CreateBillBoardParticle (std::vector<ParticleDesc> &Particles, MemFile* pMemFile)
 {
-	ParticleDesc *pDesc = &Particles[Particles.Add()];
-	pDesc->Type = BILLBOARD_PARTICLE;
-	pDesc->Fields.Load(pMemFile);
-	pDesc->Fields.Convert(&BillboardParticleDesc);
+	//ParticleDesc *pDesc = &Particles[Particles.Add()];
+	ParticleDesc desc;
+	desc.Type = BILLBOARD_PARTICLE;
+	desc.Fields.Load(pMemFile);
+	desc.Fields.Convert(&BillboardParticleDesc);
+	Particles.push_back(desc);
 }
 
 //Создает Model парикл
-void DataSource::CreateModelParticle (array<ParticleDesc> &Particles, MemFile* pMemFile)
+void DataSource::CreateModelParticle (std::vector<ParticleDesc> &Particles, MemFile* pMemFile)
 {
-	ParticleDesc *pDesc = &Particles[Particles.Add()];
-	pDesc->Type = MODEL_PARTICLE;
-	pDesc->Fields.Load(pMemFile);
-	pDesc->Fields.Convert(&ModelParticleDesc);
+	//ParticleDesc *pDesc = &Particles[Particles.Add()];
+	ParticleDesc desc;
+	desc.Type = MODEL_PARTICLE;
+	desc.Fields.Load(pMemFile);
+	desc.Fields.Convert(&ModelParticleDesc);
+	Particles.push_back(desc);
 }
 
 
-void DataSource::Destroy ()
+void DataSource::Destroy()
 {
-	for (DWORD n = 0; n < Emitters.Size(); n++)
+	for (DWORD n = 0; n < Emitters.size(); n++)
 	{
 		Emitters[n].Fields.DelAll();
-		for (DWORD i = 0; i < Emitters[n].Particles.Size(); i++)
+		for (DWORD i = 0; i < Emitters[n].Particles.size(); i++)
 		{
 			Emitters[n].Particles[i].Fields.DelAll();
 		}
 	}
 
-	Emitters.DelAll();
-
-
+	Emitters.clear();
 }
 
 
 int DataSource::GetEmitterCount ()
 {
-	return Emitters.Size();
+	return Emitters.size();
 }
 
 DataSource::EmitterDesc* DataSource::GetEmitterDesc (int Index)
@@ -255,7 +259,9 @@ DataSource::EmitterDesc* DataSource::GetEmitterDesc (int Index)
 
 FieldList* DataSource::CreateEmptyPointEmitter (const char* EmitterName)
 {
-	EmitterDesc* PointEmitter = &Emitters[Emitters.Add()];
+	Emitters.push_back(EmitterDesc{});
+	//EmitterDesc* PointEmitter = &Emitters[Emitters.Add()];
+	EmitterDesc* PointEmitter = &Emitters.back();
 	PointEmitter->Fields.Convert (&PointEmitterDesc);
 	PointEmitter->Type = POINT_EMITTER;
 
@@ -287,12 +293,12 @@ FieldList* DataSource::CreateEmptyPointEmitter (const char* EmitterName)
 
 int DataSource::FindEmitter (const char* Name)
 {
-	for (DWORD n = 0; n < Emitters.Size(); n++)
+	for (DWORD n = 0; n < Emitters.size(); n++)
 	{
 		DataString* pString = Emitters[n].Fields.FindString(EMITTER_NAME);
 		if (pString)
 		{
-			if (stricmp (pString->GetValue(), Name) == 0)
+			if (_stricmp (pString->GetValue(), Name) == 0)
 			{
 				return n;
 			}
@@ -307,7 +313,9 @@ FieldList* DataSource::CreateBillBoardParticle (const char* ParticleName, const 
 	int EmitterIndex = FindEmitter(EmitterName);
 	if (EmitterIndex == -1) return NULL;
 
-	ParticleDesc *pDesc = &Emitters[EmitterIndex].Particles[Emitters[EmitterIndex].Particles.Add()];
+	Emitters[EmitterIndex].Particles.push_back(ParticleDesc{});
+	//ParticleDesc *pDesc = &Emitters[EmitterIndex].Particles[Emitters[EmitterIndex].Particles.Add()];
+	ParticleDesc *pDesc = &Emitters[EmitterIndex].Particles.back();
 	pDesc->Type = BILLBOARD_PARTICLE;
 	pDesc->Fields.Convert(&BillboardParticleDesc);
 
@@ -363,7 +371,9 @@ FieldList* DataSource::CreateModelParticle (const char* ParticleName, const char
 	int EmitterIndex = FindEmitter(EmitterName);
 	if (EmitterIndex == -1) return NULL;
 
-	ParticleDesc *pDesc = &Emitters[EmitterIndex].Particles[Emitters[EmitterIndex].Particles.Add()];
+	Emitters[EmitterIndex].Particles.push_back(ParticleDesc{});
+	//ParticleDesc *pDesc = &Emitters[EmitterIndex].Particles[Emitters[EmitterIndex].Particles.Add()];
+	ParticleDesc *pDesc = &Emitters[EmitterIndex].Particles.back();
 	pDesc->Type = MODEL_PARTICLE;
 	pDesc->Fields.Convert(&ModelParticleDesc);
 
@@ -416,12 +426,14 @@ FieldList* DataSource::CreateModelParticle (const char* ParticleName, const char
 
 void DataSource::DeletePointEmitter (FieldList* pEmitter)
 {
-	for (DWORD n = 0; n < Emitters.Size(); n++)
+	for (DWORD n = 0; n < Emitters.size(); n++)
 	{
 		if (&Emitters[n].Fields == pEmitter)
 		{
 			Emitters[n].Fields.DelAll();
-			Emitters.ExtractNoShift(n);
+			//Emitters.ExtractNoShift(n);
+			Emitters[n] = Emitters.back();
+			Emitters.pop_back();
 			break;
 		}
 	}
@@ -429,16 +441,18 @@ void DataSource::DeletePointEmitter (FieldList* pEmitter)
 
 void DataSource::DeleteBillboard (FieldList* pEmitter, FieldList* pParticles)
 {
-	for (DWORD n = 0; n < Emitters.Size(); n++)
+	for (DWORD n = 0; n < Emitters.size(); n++)
 	{
 		if (&Emitters[n].Fields == pEmitter)
 		{
-			for (DWORD i = 0; i < Emitters[n].Particles.Size(); i++)
+			for (DWORD i = 0; i < Emitters[n].Particles.size(); i++)
 			{
 				if (&Emitters[n].Particles[i].Fields == pParticles)
 				{
 					Emitters[n].Particles[i].Fields.DelAll();
-					Emitters[n].Particles.Extract(i);
+					//Emitters[n].Particles.Extract(i);
+					Emitters[n].Particles[i] = Emitters[n].Particles.back();
+					Emitters[n].Particles.pop_back();
 				}
 			}
 		}
@@ -447,16 +461,18 @@ void DataSource::DeleteBillboard (FieldList* pEmitter, FieldList* pParticles)
 
 void DataSource::DeleteModel (FieldList* pEmitter, FieldList* pParticles)
 {
-	for (DWORD n = 0; n < Emitters.Size(); n++)
+	for (DWORD n = 0; n < Emitters.size(); n++)
 	{
 		if (&Emitters[n].Fields == pEmitter)
 		{
-			for (DWORD i = 0; i < Emitters[n].Particles.Size(); i++)
+			for (DWORD i = 0; i < Emitters[n].Particles.size(); i++)
 			{
 				if (&Emitters[n].Particles[i].Fields == pParticles)
 				{
 					Emitters[n].Particles[i].Fields.DelAll();
-					Emitters[n].Particles.Extract(i);
+					//Emitters[n].Particles.Extract(i);
+					Emitters[n].Particles[i] = Emitters[n].Particles.back();
+					Emitters[n].Particles.pop_back();
 				}
 			}
 		}

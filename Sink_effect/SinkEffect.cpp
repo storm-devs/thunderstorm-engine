@@ -64,7 +64,7 @@ dword _cdecl SINKEFFECT::ProcessMessage(MESSAGE & message)
 					shipBase = (SHIP_BASE *) _CORE_API->GetEntityPointer(&shipID);
 					if (shipBase->GetACharacter() == attrs)
 					{
-						TryToAddSink(shipBase->GetPos(), shipBase->GetBoxSize().z / 2.0f);
+						TryToAddSink(shipBase->GetPos(), shipBase->GetBoxsize().z / 2.0f);
 						return outValue;
 					}*/
 
@@ -73,7 +73,7 @@ dword _cdecl SINKEFFECT::ProcessMessage(MESSAGE & message)
 						shipBase = (SHIP_BASE *) _CORE_API->GetEntityPointer(&shipID);
 						if (shipBase->GetACharacter() == attrs)
 						{
-							TryToAddSink(shipBase->GetPos(), shipBase->GetBoxSize().z / 2.0f);
+							TryToAddSink(shipBase->GetPos(), shipBase->GetBoxsize().z / 2.0f);
 							return outValue;
 						}
 					} while (_CORE_API->FindClassNext(&shipID));

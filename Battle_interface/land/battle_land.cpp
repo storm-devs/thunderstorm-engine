@@ -4,8 +4,7 @@
 #include "..\utils.h"
 #include "..\..\..\Shared\battle_interface\msg_control.h"
 
-BATTLE_LAND_INTERFACE::BATTLE_LAND_INTERFACE() : m_bShowCommandos(false),
-                                                 m_TextInfo(_FL)
+BATTLE_LAND_INTERFACE::BATTLE_LAND_INTERFACE() : m_bShowCommandos(false)
 {
 	m_pRS = null;
 	m_pManSign = null;
@@ -20,7 +19,7 @@ bool BATTLE_LAND_INTERFACE::Init()
 {
 	m_pRS=(VDX9RENDER *)api->CreateService("dx9render");
 	if( !m_pRS ) {
-		_THROW("Can`t create render service");
+		STORM_THROW("Can`t create render service");
 	}
 
 	SetShowParameters();
@@ -104,7 +103,7 @@ dword _cdecl BATTLE_LAND_INTERFACE::ProcessMessage(MESSAGE & message)
 		{
 			char param[256];
 			message.String( sizeof(param)-1, param );
-			if( stricmp(param,"cancel")==0 ) {
+			if( _stricmp(param,"cancel")==0 ) {
 				if( m_pManSign ) m_pManSign->ExecuteCommand( BI_MSG_COMMAND_DEACTIVATE );
 			}
 		}
@@ -126,9 +125,9 @@ void BATTLE_LAND_INTERFACE::SetParameters()
 void BATTLE_LAND_INTERFACE::Release()
 {
 	m_pRS = NULL;
-	DELETE( m_pManSign );
+	STORM_DELETE( m_pManSign );
 
-	m_TextInfo.DelAll();
+	m_TextInfo.clear();
 }
 
 void BATTLE_LAND_INTERFACE::EndShow()

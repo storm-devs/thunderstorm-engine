@@ -9,7 +9,7 @@ BI_StringNode::BI_StringNode( BI_ManagerBase* pManager, const char* text, const 
 
 BI_StringNode::~BI_StringNode()
 {
-	DELETE(m_pStr);
+	STORM_DELETE(m_pStr);
 }
 
 void BI_StringNode::Update()

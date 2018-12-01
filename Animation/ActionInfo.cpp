@@ -62,7 +62,7 @@ bool ActionInfo::AddEvent(const char * ename, float frame, ExtAnimationEventType
 //—равнить с текущим именем
 bool ActionInfo::operator == (const char * actionName)
 {
-	return stricmp(actionName, name) == 0;
+	return _stricmp(actionName, name) == 0;
 }
 
 //ѕроверим на выполнимость услови€ генерации событи€

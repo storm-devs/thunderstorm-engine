@@ -1139,7 +1139,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 		case FUNC_LAYER_DELETE:
 			pV = SStack.Pop(); if(!pV) {SetError(INVALID_FA); break;};
 			pV->Get(pChar);
-			_CORE_API->LayerDelete(pChar);
+			_CORE_API->LayerSTORM_DELETE(pChar);
 		break;
 		case FUNC_LAYER_DELETE_CONTENT:
 			pV = SStack.Pop(); if(!pV) {SetError(INVALID_FA); break;};

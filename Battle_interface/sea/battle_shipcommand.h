@@ -30,7 +30,7 @@ protected:
 	long m_nChargeTextureNum;
 	long m_nCommandTextureNum;
 
-	array<long> m_aChargeQuantity;
+	std::vector<long> m_aChargeQuantity;
 };
 
 #endif

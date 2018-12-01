@@ -24,19 +24,19 @@ VANT::VANT()
 VANT::~VANT()
 {
     TEXTURE_RELEASE(RenderService,texl);
-    PTR_DELETE(TextureName);
+    PTR_STORM_DELETE(TextureName);
     while(groupQuantity>0)
 	{
 		groupQuantity--;
-        PTR_DELETE(gdata[groupQuantity].vantIdx);
+        PTR_STORM_DELETE(gdata[groupQuantity].vantIdx);
 	}
-    PTR_DELETE(gdata);
+    PTR_STORM_DELETE(gdata);
     while(vantQuantity>0)
 	{
 		vantQuantity--;
-        PTR_DELETE(vlist[vantQuantity]);
+        PTR_STORM_DELETE(vlist[vantQuantity]);
 	}
-    PTR_DELETE(vlist);
+    PTR_STORM_DELETE(vlist);
 	VERTEX_BUFFER_RELEASE(RenderService,vBuf);
 	INDEX_BUFFER_RELEASE(RenderService,iBuf);
 	nVert = nIndx = 0;
@@ -56,7 +56,7 @@ void VANT::SetDevice()
 	RenderService = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	if(!RenderService)
 	{
-		_THROW("No service: dx9render");
+		STORM_THROW("No service: dx9render");
 	}
 
     LoadIni();
@@ -77,7 +77,7 @@ bool VANT::LoadState(ENTITY_STATE * state)
 void VANT::Execute(dword Delta_Time)
 {
     if(bRunFirstTime)  FirstRun();
-    if(bYesDeleted)  DoDelete();
+    if(bYesDeleted)  DoSTORM_DELETE();
 
     if(bUse)
     {
@@ -150,14 +150,14 @@ dword _cdecl VANT::ProcessMessage(MESSAGE & message)
 			if(gdata==0)
 			{
 				if( (gdata=NEW GROUPDATA[1]) == 0 )
-					_THROW("Not memory allocation");
+					STORM_THROW("Not memory allocation");
 				groupQuantity = 1;
 			}
 			else
 			{
 				GROUPDATA *oldgdata=gdata;
 				if((gdata=NEW GROUPDATA[groupQuantity+1]) == 0)
-					_THROW("Not memory allocation");
+					STORM_THROW("Not memory allocation");
 				memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
 				delete oldgdata; groupQuantity++;
 			}
@@ -167,7 +167,7 @@ dword _cdecl VANT::ProcessMessage(MESSAGE & message)
 			MODEL* mdl;
 			mdl=(MODEL*)_CORE_API->GetEntityPointer(&gdata[groupQuantity-1].model_id);
 			if(mdl==0)
-				_THROW("Bad Vant INIT");
+				STORM_THROW("Bad Vant INIT");
 
 			gdata[groupQuantity-1].pMatWorld=&mdl->mtx;
 			NODE* nod;
@@ -220,7 +220,7 @@ dword _cdecl VANT::ProcessMessage(MESSAGE & message)
 
 			gdata[groupQuantity-1].vantQuantity = vantQuantity-oldvantQuantity;
 			gdata[groupQuantity-1].vantIdx= NEW int[vantQuantity-oldvantQuantity];
-			if(gdata[groupQuantity-1].vantIdx==NULL)	{_THROW("allocate memory error");}
+			if(gdata[groupQuantity-1].vantIdx==NULL)	{STORM_THROW("allocate memory error");}
 
 			int idx=0;
 			for(int vn=oldvantQuantity; vn<vantQuantity; vn++)
@@ -455,7 +455,7 @@ void VANT::AddLabel(GEOS::LABEL &lbl,NODE *nod)
         //создаем новый вант
         vd= NEW VANTDATA;
         if(vd==0)
-            _THROW("Not memory allocate");
+            STORM_THROW("Not memory allocate");
         PZERO(vd,sizeof(VANTDATA));
         vd->bDeleted=false;
         vd->vantNum=vantNum;
@@ -472,7 +472,7 @@ void VANT::AddLabel(GEOS::LABEL &lbl,NODE *nod)
             VANTDATA **oldvlist=vlist;
             vlist = NEW VANTDATA*[vantQuantity+1];
             if(vlist==0)
-                _THROW("Not memory allocate");
+                STORM_THROW("Not memory allocate");
             memcpy(vlist,oldvlist,sizeof(VANTDATA*)*vantQuantity);
             delete oldvlist; vantQuantity++;
         }
@@ -802,7 +802,7 @@ void VANT::SetAdd(int firstNum)
     }
 }
 
-void VANT::DoDelete()
+void VANT::DoSTORM_DELETE()
 {
     // для всех удаленных групп удалим принадлежащие им ванты
     int ngn=0;

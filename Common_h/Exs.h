@@ -33,13 +33,13 @@ public:
 	dword xtype;
 };
 
-#ifdef _THROW
-#undef _THROW
+#ifdef STORM_THROW
+#undef STORM_THROW
 #endif
 
 #define THROW			{ _VSYSTEM_API->SetX();_VSYSTEM_API->Trace(URE_MESSAGE);_VSYSTEM_API->Trace("%s line %d",__FILE__,__LINE__); throw _EXS(FATAL,"URE"); }
-#define _THROW(b)		{ _VSYSTEM_API->SetX();_VSYSTEM_API->Trace(URE_MESSAGE);_VSYSTEM_API->Trace("%s line %d",__FILE__,__LINE__);_VSYSTEM_API->Trace(TEXT(#b)); throw _EXS(FATAL,TEXT(#b));}
-#define __THROW(a,b)	{ _VSYSTEM_API->SetXNF();_VSYSTEM_API->Trace(URE_MESSAGE);_VSYSTEM_API->Trace("%s line %d",__FILE__,__LINE__);_VSYSTEM_API->Trace(TEXT(#b)); throw _EXS(a,TEXT(#b)); }
+#define STORM_THROW(b)		{ _VSYSTEM_API->SetX();_VSYSTEM_API->Trace(URE_MESSAGE);_VSYSTEM_API->Trace("%s line %d",__FILE__,__LINE__);_VSYSTEM_API->Trace(TEXT(#b)); throw _EXS(FATAL,TEXT(#b));}
+#define _STORM_THROW(a,b)	{ _VSYSTEM_API->SetXNF();_VSYSTEM_API->Trace(URE_MESSAGE);_VSYSTEM_API->Trace("%s line %d",__FILE__,__LINE__);_VSYSTEM_API->Trace(TEXT(#b)); throw _EXS(a,TEXT(#b)); }
 
 #ifdef EX_OFF
 

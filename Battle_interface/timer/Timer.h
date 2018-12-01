@@ -3,7 +3,7 @@
 
 #include "..\..\common_h\dx9render.h"
 #include "..\..\common_h\defines.h"
-#include "..\..\common_h\templates\string.h"
+#include <string>
 
 class BIImageRender;
 class IBIImage;
@@ -29,7 +29,7 @@ protected:
 protected: // data
 	float m_fCurTimerCounter;
 	float m_fMaxTimerCounter;
-	string m_sEventName;
+	std::string m_sEventName;
 
 	VDX9RENDER* m_pRender;
 	BIImageRender* m_pImgRndr;

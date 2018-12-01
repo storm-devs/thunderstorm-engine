@@ -22,7 +22,7 @@ public:
 	void	SetRollerPos(float pos);
 	void	LinkNodeChanged(float fPos);
 
-	array<string> m_asOwnedNodes;
+	std::vector<std::string> m_asOwnedNodes;
 
 protected:
 	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);

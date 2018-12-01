@@ -173,17 +173,17 @@ const char* CXI_UTILS::StringGetTokenString( char*& pcString, char* pcBuffer, lo
 
 long CXI_UTILS::StringGetTokenCode( const char* pcTokenID )
 {
-	if( stricmp(pcTokenID,"color") == 0 ) return InterfaceToken_color;
-	if( stricmp(pcTokenID,"file") == 0 ) return InterfaceToken_file;
-	if( stricmp(pcTokenID,"piclist") == 0 ) return InterfaceToken_picture_list;
-	if( stricmp(pcTokenID,"picname") == 0 ) return InterfaceToken_picture_name;
-	if( stricmp(pcTokenID,"piccutuv") == 0 ) return InterfaceToken_picture_cut_uv;
-	if( stricmp(pcTokenID,"size") == 0 ) return InterfaceToken_size;
-	if( stricmp(pcTokenID,"rectUV") == 0 ) return InterfaceToken_rectUV;
-	if( stricmp(pcTokenID,"pos") == 0 ) return InterfaceToken_pos;
-	if( stricmp(pcTokenID,"text") == 0 ) return InterfaceToken_text;
-	if( stricmp(pcTokenID,"width") == 0 ) return InterfaceToken_width;
-	if( stricmp(pcTokenID,"class") == 0 ) return InterfaceToken_class;
+	if( _stricmp(pcTokenID,"color") == 0 ) return InterfaceToken_color;
+	if( _stricmp(pcTokenID,"file") == 0 ) return InterfaceToken_file;
+	if( _stricmp(pcTokenID,"piclist") == 0 ) return InterfaceToken_picture_list;
+	if( _stricmp(pcTokenID,"picname") == 0 ) return InterfaceToken_picture_name;
+	if( _stricmp(pcTokenID,"piccutuv") == 0 ) return InterfaceToken_picture_cut_uv;
+	if( _stricmp(pcTokenID,"size") == 0 ) return InterfaceToken_size;
+	if( _stricmp(pcTokenID,"rectUV") == 0 ) return InterfaceToken_rectUV;
+	if( _stricmp(pcTokenID,"pos") == 0 ) return InterfaceToken_pos;
+	if( _stricmp(pcTokenID,"text") == 0 ) return InterfaceToken_text;
+	if( _stricmp(pcTokenID,"width") == 0 ) return InterfaceToken_width;
+	if( _stricmp(pcTokenID,"class") == 0 ) return InterfaceToken_class;
 
 	return InterfaceToken_unknown;
 }
@@ -205,7 +205,7 @@ void CXI_UTILS::StringDoublicate( const char* pcSrc, char*& pcDst )
 	{
 		pcDst = NEW char[strlen(pcSrc)+1];
 		if( pcDst ) strcpy( pcDst, pcSrc );
-		else _THROW("allocate memory error");
+		else STORM_THROW("allocate memory error");
 	}
 }
 
@@ -258,29 +258,30 @@ void CXI_UTILS::StringFourFloat( const char* pcString, float& f1, float& f2, flo
 	f4 = StringGetFloat( pcString );
 }
 
-void CXI_UTILS::StringFillStringArray( const char* pcString, array<string> & asStringsArray )
+void CXI_UTILS::StringFillStringArray( const char* pcString, std::vector<std::string> & asStringsArray )
 {
 	char tmpstr[256];
 	char * pcSrcStr = (char*)pcString;
 
 	// delete old
-	asStringsArray.DelAll();
+	asStringsArray.clear();
 
 	// create new
 	while( 0 != CXI_UTILS::StringGetTokenString(pcSrcStr, tmpstr, sizeof(tmpstr)) )
 	{
-		if( !tmpstr[0] ) continue;
-		asStringsArray.Add( string(tmpstr) );
+		if( !tmpstr[0] ) 
+			continue;
+		asStringsArray.emplace_back(tmpstr);
 	}
 }
 
-long CXI_UTILS::SplitStringByWidth( const char* pcText, long nFontID, float fFontScale, long nWidth, array<string>& asOutStr )
+long CXI_UTILS::SplitStringByWidth( const char* pcText, long nFontID, float fFontScale, long nWidth, std::vector<std::string>& asOutStr )
 {
 	long nMaxUsingWidth = 0;
 	const char * pcSrcStr = pcText;
 	if( pcSrcStr == 0 ) return nMaxUsingWidth;
 	VDX9RENDER * rs = (VDX9RENDER*)api->CreateService("dx9render");
-	asOutStr.DelAll();
+	asOutStr.clear();
 
 	long nSrc = 0;
 	long nDst = 0;
@@ -325,8 +326,8 @@ long CXI_UTILS::SplitStringByWidth( const char* pcText, long nFontID, float fFon
 		}
 
 		nDstPrev = nDst = 0;
-		long n = asOutStr.Add();
-		asOutStr[n] = param;
+		asOutStr.emplace_back(param);
+		//asOutStr[n] = param;
 		nW = rs->StringWidth( param, nFontID, fFontScale );
 		if( nW > nMaxUsingWidth )
 			nMaxUsingWidth = nW;

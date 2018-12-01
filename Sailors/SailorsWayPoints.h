@@ -1,8 +1,8 @@
 
 #include "..\common_h\dx9render.h"
-#include "..\common_h\templates\string.h"
-#include "..\common_h\templates\array.h"
 #include "..\common_h\matrix.h"
+#include <vector>
+#include "../common_h/defines.h"
 
 
 const int MAX_POINTS= 100;
@@ -51,14 +51,14 @@ struct Link{
 class Links
 {
 public:
-	array <Link> link;
+	std::vector<Link> link;
 	int selected;
 	int count;
 
 	void Add();
 	void Delete(int Index);
 
-	Links() : link(_FL_) {
+	Links() {
 		selected= -1;
 		count= 0;
 	};
@@ -100,7 +100,7 @@ struct Point{
 
 struct Points
 {
-	array <Point> point;
+	std::vector<Point> point;
 
 	int count;
 	int selected;
@@ -108,7 +108,7 @@ struct Points
 	void Add();
 	void Delete(int Index);
 
-	Points() : point(_FL_) { count= 0; selected= -1; }
+	Points() { count= 0; selected= -1; }
 };
 
 //-----------------------------------------------------------------------------------------------
@@ -135,8 +135,8 @@ public:
 
 	void UpdateLinks(); //Обновить матрицу поиска пути
 
-	int WriteToFile(string fileName);
-	int ReadFromFile(string fileName);
+	int WriteToFile(std::string fileName);
+	int ReadFromFile(std::string fileName);
 };
 
 

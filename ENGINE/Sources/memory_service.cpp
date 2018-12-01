@@ -104,7 +104,7 @@ void * MEMORY_SERVICE::Allocate(long size)
 */
 	if(data_PTR == null)
 	{
-		if(Exceptions_Mask & _X_NO_MEM) _THROW(_X_NO_MEM);
+		if(Exceptions_Mask & _X_NO_MEM) STORM_THROW(_X_NO_MEM);
 		return null;
 	}
 
@@ -160,7 +160,7 @@ DWORD MEMORY_SERVICE::PoolFind(void * block_PTR)
 	for(n=0;n<nMPoolClassesNum;n++)
 	{
 		if(pMPool[n] == 0) continue;
-		if(pMPool[n]->IsInPool(block_PTR)) return pMPool[n]->GetBlockSize();
+		if(pMPool[n]->IsInPool(block_PTR)) return pMPool[n]->GetBlocksize();
 
 	}
 	return 0xffffffff;
@@ -191,7 +191,7 @@ bool MEMORY_SERVICE::PoolFree(void * block_PTR, DWORD nBlockSize)
 		{
 			pMPool[n]->FreeMemory(block_PTR);
 
-			nBlockSize = pMPool[n]->GetBlockSize();
+			nBlockSize = pMPool[n]->GetBlocksize();
 			if(nBlockSize < SBCNUM)
 			{
 				if(SBCounter[nBlockSize] > 0) SBCounter[nBlockSize]--;
@@ -390,7 +390,7 @@ void * MEMORY_SERVICE::Reallocate(void * block_PTR,long size)
 		dwTotalBlocks = Blocks;
 
 		trace("cant resize  old : %d    new : %d   header : %d",data_size,size,sizeof(MEM_BLOCK));
-		if(Exceptions_Mask & _X_NO_MEM) _THROW(_X_NO_MEM);
+		if(Exceptions_Mask & _X_NO_MEM) STORM_THROW(_X_NO_MEM);
 
 		return null;
 	}

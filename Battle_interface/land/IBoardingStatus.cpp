@@ -16,7 +16,7 @@ bool IBoardingStatus::Init()
 {
 	if( (rs=(VDX9RENDER *)_CORE_API->CreateService("dx9render")) == NULL )
 	{
-		_THROW("Can`t create render service");
+		STORM_THROW("Can`t create render service");
 	}
 
 	_CORE_API->SystemMessages(GetID(),true);

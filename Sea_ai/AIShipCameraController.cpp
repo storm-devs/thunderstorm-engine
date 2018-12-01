@@ -67,12 +67,12 @@ void AIShipCameraController::Execute(float fDeltaTime)
 			float fFireDist = sqrtf(~(vFirePos - vOurPos));
 			vFirePos.y = 0.0f;
 			// check Ships
-			for (i=0;i<AIShip::AIShips.Size();i++) if (GetAIShip() != AIShip::AIShips[i])
+			for (i=0;i<AIShip::AIShips.size();i++) if (GetAIShip() != AIShip::AIShips[i])
 			{
-				CVECTOR vFakeShipPos = AIShip::AIShips[i]->GetPos() + (!(AIShip::AIShips[i]->GetPos() - vOurPos)) * AIShip::AIShips[i]->GetBoxSize().z * 0.8f;
+				CVECTOR vFakeShipPos = AIShip::AIShips[i]->GetPos() + (!(AIShip::AIShips[i]->GetPos() - vOurPos)) * AIShip::AIShips[i]->GetBoxsize().z * 0.8f;
 				//AIHelper::pRS->DrawSphere(vFakeShipPos, 2.0f, 0xFF00FF00);
 				float fDistance = (vFakeShipPos - vFirePos).GetLength2D();//AIShip::AIShips[i]->GetDistance(vFirePos);
-				if (fDistance <= 0.8f * AIShip::AIShips[i]->GetBoxSize().z)
+				if (fDistance <= 0.8f * AIShip::AIShips[i]->GetBoxsize().z)
 				{
 					if (fDistance > fBestDistance) continue;
 					fBestDistance = fDistance;

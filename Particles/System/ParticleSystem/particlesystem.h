@@ -5,7 +5,6 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include "../../../common_h/exs.h"
-#include "..\..\..\common_h\templates.h"
 #include "..\..\..\common_h\vmodule_api.h"
 #include "..\..\..\common_h\particles\iparticlesystem.h"
 #include "..\..\\icommon\types.h"
@@ -24,7 +23,7 @@ class ParticleSystem : public IParticleSystem
 		IEmitter* pEmitter;
 	};
 
-	array<EmitterDesc> Emitters;
+	std::vector<EmitterDesc> Emitters;
 
 	//Автоудаляемая система или обычная
 	bool AutoDeleted;  
@@ -34,7 +33,7 @@ class ParticleSystem : public IParticleSystem
 
 	bool DeleteIfNeed ();
 
-	string SystemName;
+	std::string SystemName;
 
 
 	

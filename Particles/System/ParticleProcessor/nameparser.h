@@ -6,7 +6,6 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include "..\..\..\common_h\exs.h"
-#include "..\..\..\common_h\templates.h"
 
 
 #define MAX_STRING_SIZE 8192
@@ -14,27 +13,27 @@
 class GeomNameParser
 {
 
-	array<char*> Tokens;
+	std::vector<char*> Tokens;
 	char NamesString[MAX_STRING_SIZE];
 
 public:
  
-	GeomNameParser () : Tokens(_FL_) {};
-	~GeomNameParser () {};
+	//GeomNameParser () : Tokens(_FL_) {};
+	//~GeomNameParser () {};
  
  
  __forceinline const char* GetRandomName (const char* names)
  {
 	 Tokenize (names);
-	 if (Tokens.Size() == 0) return NULL;
+	 if (Tokens.size() == 0) return NULL;
 
-	 return Tokens[(rand () % Tokens.Size())];
+	 return Tokens[(rand () % Tokens.size())];
  }
 
 
  __forceinline DWORD GetTokensCount ()
  {
-	 return Tokens.Size();
+	 return Tokens.size();
  }
 
  __forceinline const char* GetTokenByIndex (DWORD Index)
@@ -44,7 +43,7 @@ public:
  
  __forceinline void Tokenize (const char* names)
  {
-	Tokens.DelAll();
+	Tokens.clear();
 	strncpy (NamesString, names, MAX_STRING_SIZE);
   int StrLen = strlen (NamesString);
   if (NamesString[StrLen-1] != ';') strcat (NamesString, ";");
@@ -60,7 +59,7 @@ public:
       char* ModelName = NamesString + FromChar;
       if (strlen (ModelName) > 0)
       {
-				Tokens.Add(ModelName);
+				Tokens.push_back(ModelName);
       }
       FromChar = n+1;
     }

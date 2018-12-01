@@ -255,13 +255,13 @@ long AnimationServiceImp::LoadAnimation(const char * animationName)
 		AnimationType type = at_normal;
 		if(ani->ReadString(path, ASKW_TYPE, key, 256, ASKWAT_NORMAL))
 		{
-			if(stricmp(key, ASKWAT_NORMAL) == 0) type = at_normal;
+			if(_stricmp(key, ASKWAT_NORMAL) == 0) type = at_normal;
 			else
-			if(stricmp(key, ASKWAT_REVERSE) == 0) type = at_reverse;
+			if(_stricmp(key, ASKWAT_REVERSE) == 0) type = at_reverse;
 			else
-			if(stricmp(key, ASKWAT_PINGPONG) == 0) type = at_pingpong;
+			if(_stricmp(key, ASKWAT_PINGPONG) == 0) type = at_pingpong;
 			else
-			if(stricmp(key, ASKWAT_RPINGPONG) == 0) type = at_rpingpong;
+			if(_stricmp(key, ASKWAT_RPINGPONG) == 0) type = at_rpingpong;
 			else{
 				_CORE_API->Trace("Incorrect %s in action [%s] of animation file %s.ani\nNo set %s, set type is %s\n", ASKW_TYPE, path, animationName, key, ASKWAT_NORMAL);
 			}
@@ -271,9 +271,9 @@ long AnimationServiceImp::LoadAnimation(const char * animationName)
 		bool isLoop = true;
 		if(ani->ReadString(path, ASKW_LOOP, key, 256, "false"))
 		{
-			if(stricmp(key, ASKWAL_TRUE) == 0) isLoop = true;
+			if(_stricmp(key, ASKWAL_TRUE) == 0) isLoop = true;
 			else
-			if(stricmp(key, ASKWAL_FALSE) == 0) isLoop = false;
+			if(_stricmp(key, ASKWAL_FALSE) == 0) isLoop = false;
 			else{
 				_CORE_API->Trace("Incorrect %s in action [%s] of animation file %s.ani\nThis parameter (%s) use is default value %s\n", ASKW_LOOP, path, animationName, key, ASKWAL_FALSE);
 			}
@@ -354,15 +354,15 @@ long AnimationServiceImp::LoadAnimation(const char * animationName)
 					if(em[0] == 0)
 					{
 					}else
-					if(stricmp(em, ASKWAE_ALWAYS) == 0)
+					if(_stricmp(em, ASKWAE_ALWAYS) == 0)
 					{
 						ev = eae_always;
 					}else
-					if(stricmp(em, ASKWAE_NORMAL) == 0)
+					if(_stricmp(em, ASKWAE_NORMAL) == 0)
 					{
 						ev = eae_normal;
 					}else
-					if(stricmp(em, ASKWAE_REVERSE) == 0)
+					if(_stricmp(em, ASKWAE_REVERSE) == 0)
 					{
 						ev = eae_reverse;
 					}else{

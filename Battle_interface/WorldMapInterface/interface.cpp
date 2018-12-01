@@ -17,8 +17,8 @@ WM_INTERFACE::WM_INTERFACE(): rs(nullptr)
 
 WM_INTERFACE::~WM_INTERFACE()
 {
-	DELETE( m_pShipIcon );
-	DELETE( m_pCommandList );
+	STORM_DELETE( m_pShipIcon );
+	STORM_DELETE( m_pCommandList );
 }
 
 bool WM_INTERFACE::Init()
@@ -65,7 +65,7 @@ dword _cdecl WM_INTERFACE::ProcessMessage(MESSAGE & message)
 		{
 			char param[256];
 			message.String( sizeof(param)-1, param );
-			if( stricmp(param,"cancel")==0 ) {
+			if( _stricmp(param,"cancel")==0 ) {
 				ExecuteCommand( BI_MSG_COMMAND_DEACTIVATE );
 			}
 		}

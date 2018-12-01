@@ -2,8 +2,6 @@
 #define _XI_IMAGECOLLECTION_H
 
 #include "..\..\common_h\vmodule_api.h"
-#include "..\..\common_h\templates\array.h"
-#include "..\..\common_h\templates\string.h"
 #include "..\inode.h"
 
 // static inactive images into one object
@@ -22,8 +20,8 @@ public:
 	void	ChangePosition( XYRECT &rNewPos );
 	void	SaveParametersToIni();
 	dword _cdecl MessageProc(long msgcode, MESSAGE & message);
-	bool	GetInternalNameList( array<string>& aStr );
-	void	SetInternalName( string& sName );
+	bool	GetInternalNameList( std::vector<std::string>& aStr );
+	void	SetInternalName(std::string& sName );
 
 	void	AddImage( const char* pcPicName, dword dwColor, XYRECT pos );
 
@@ -43,19 +41,19 @@ protected:
 	long	nIndx;		// index quantity
 
 	struct PicEditInfo {
-		string sName;
+		std::string sName;
 		long nLeft,nTop, nRight,nBottom;
 		dword dwColor;
 		bool bNative;
 	};
-	array<PicEditInfo> m_aEditInfo;
+	std::vector<PicEditInfo> m_aEditInfo;
 
 	struct PicEditSection {
-		string sName;
+		std::string sName;
 		long nStartNum;
 		long nQuantity;
 	};
-	array<PicEditSection> m_aSections;
+	std::vector<PicEditSection> m_aSections;
 	long m_nCurSection;
 
 	XYPOINT m_xyCommonOffset;

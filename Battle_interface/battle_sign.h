@@ -2,7 +2,7 @@
 #define _BATTLE_SIGN_H
 
 #include "defines.h"
-#include "..\common_h\templates\string.h"
+#include <string>
 
 #define MAX_SIGN_QUANTITY	8
 
@@ -103,7 +103,7 @@ protected:
 		float fRightState;
 		float fStarProgress;
 		FRECT rFaceUV;
-		string sText;
+		std::string sText;
 	} m_Sign[MAX_SIGN_QUANTITY];
 	long m_nMaxSquareQ;
 	long m_nSignQ;

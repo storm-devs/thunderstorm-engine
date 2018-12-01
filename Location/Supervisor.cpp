@@ -30,7 +30,7 @@ Supervisor::~Supervisor()
 	isDelete = true;
 	for(long i = 0; i < numCharacters; i++)
 	{
-		character[i].c->AlreadyDelete();
+		character[i].c->AlreadySTORM_DELETE();
 		_CORE_API->DeleteEntity(character[i].c->GetID());
 	}
 
@@ -40,7 +40,7 @@ Supervisor::~Supervisor()
 void Supervisor::AddCharacter(Character * ch)
 {
 	Assert(ch);
-	if(numCharacters >= MAX_CHARACTERS) _THROW("Number of characters amount to criticle value, don't create new character");
+	if(numCharacters >= MAX_CHARACTERS) STORM_THROW("Number of characters amount to criticle value, don't create new character");
 	character[numCharacters].c = ch;
 	character[numCharacters++].lastTime = time;
 }

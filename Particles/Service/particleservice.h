@@ -9,7 +9,8 @@
 #define PARTICLES_SERVICE_IMPLEMENTATION
 
 #include "..\..\common_h\Particles\iparticlesservice.h"
-#include "..\..\common_h\templates.h"
+#include <string>
+#include <vector>
 
 class ParticleManager;
 
@@ -20,13 +21,13 @@ class ParticleService : public IParticleService
 	struct CreatedManager
 	{
 		ParticleManager* pManager;
-		string FileName;
+		std::string FileName;
 		int Line;
 	};
 
 
 	bool sysDelete;
-	array<CreatedManager> CreatedManagers;
+	std::vector<CreatedManager> CreatedManagers;
 
 public:
 

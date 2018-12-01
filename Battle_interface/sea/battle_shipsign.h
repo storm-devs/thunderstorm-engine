@@ -3,8 +3,7 @@
 
 #include "..\defines.h"
 #include "ships_list.h"
-#include "..\..\common_h\templates\string.h"
-#include "..\..\common_h\templates\array.h"
+#include <vector>
 
 #define MAX_SHIP_QUANTITY	8
 
@@ -92,7 +91,7 @@ protected:
 	FRECT m_rShipClassUV;
 	BIFPOINT m_pntShipClassOffset;
 	FPOINT m_pntShipClassIconSize;
-	array<float> m_aClassProgress;
+	std::vector<float> m_aClassProgress;
 
 	long m_nShipTextureID;
 	long m_nShipSquareQ;
@@ -110,7 +109,7 @@ protected:
 		long nMaxHP;
 		long nMaxSP;
 		FRECT rUV;
-		string sShipName;
+		std::string sShipName;
 		long nShipClass;
 	} m_Ship[MAX_SHIP_QUANTITY];
 	long m_nShipQuantity;

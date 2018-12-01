@@ -3,7 +3,7 @@
 
 AIBalls * AIBalls::pAIBalls = null;
 
-AIBalls::AIBalls() : aBallTypes(_FL_, 4), aBallRects(_FL_, 256)
+AIBalls::AIBalls()
 {
 	pSail = null;
 	pSea = null;
@@ -28,23 +28,23 @@ AIBalls::~AIBalls()
 
 	AIHelper::pRS->TextureRelease(dwTextureIndex);
 
-	for (i=0;i<aBallTypes.Size();i++)
+	for (i=0;i<aBallTypes.size();i++)
 	{
 		BALL_TYPE * pBallsType = &aBallTypes[i];
-		for (j=0;j<pBallsType->Balls.Size();j++)
+		for (j=0;j<pBallsType->Balls.size();j++)
 		{
 			BALL_PARAMS * pBall = &pBallsType->Balls[j];
 			if (pBall->pParticle)
 			{
-				DELETE(pBall->pParticle);
+				STORM_DELETE(pBall->pParticle);
 			}
-			pBall->sBallEvent.DelAll();
+			pBall->sBallEvent.clear();
 		}
-		aBallTypes[i].Balls.DelAll();
+		aBallTypes[i].Balls.clear();
 	}
-	aBallTypes.DelAll();
+	aBallTypes.clear();
 
-	DELETE(pVWShips);
+	STORM_DELETE(pVWShips);
 }
 
 bool AIBalls::Init()
@@ -109,10 +109,12 @@ void AIBalls::AddBall(ATTRIBUTES * pABall)
 	char *pBallName = pABall->GetAttribute("Type"); Assert(pBallName);
 
 	dword i;
-	for (i=0;i<aBallTypes.Size();i++) if (stricmp(aBallTypes[i].sName,pBallName)==0) break;
-	if (i == aBallTypes.Size()) return;
+	for (i=0;i<aBallTypes.size();i++) if (_stricmp(aBallTypes[i].sName.c_str(), pBallName)==0) break;
+	if (i == aBallTypes.size()) return;
 
-	BALL_PARAMS * pBall = &aBallTypes[i].Balls[aBallTypes[i].Balls.Add()];
+	aBallTypes[i].Balls.push_back(BALL_PARAMS{});
+	//BALL_PARAMS * pBall = &aBallTypes[i].Balls[aBallTypes[i].Balls.Add()];
+	BALL_PARAMS * pBall = &aBallTypes[i].Balls.back();
 
 	pBall->iBallOwner = pABall->GetAttributeAsDword("CharacterIndex");
 
@@ -137,12 +139,12 @@ void AIBalls::AddBall(ATTRIBUTES * pABall)
 
 	pBall->sBallEvent = pABall->GetAttribute("Event");
 
-	if (aBallTypes[i].sParticleName.Len())
+	if (aBallTypes[i].sParticleName.size())
 	{
 		ENTITY_ID eidParticle;
 		if (api->FindClass(&eidParticle,"particles",0))
 		{
-			pBall->pParticle = (VPARTICLE_SYSTEM *)api->Send_Message(eidParticle,"lsffffffl",PS_CREATE_RIC,(char*)aBallTypes[i].sParticleName.GetBuffer(),pBall->vPos.x,pBall->vPos.y,pBall->vPos.z,0.0f,1.0f,0.0f,100000);
+			pBall->pParticle = (VPARTICLE_SYSTEM *)api->Send_Message(eidParticle,"lsffffffl",PS_CREATE_RIC,(char*)aBallTypes[i].sParticleName.c_str(),pBall->vPos.x,pBall->vPos.y,pBall->vPos.z,0.0f,1.0f,0.0f,100000);
 		}
 	}
 }
@@ -160,7 +162,7 @@ void AIBalls::Execute(dword Delta_Time)
 	if (!pSea && api->FindClass(&EID,"sea", 0))
 		pSea = (CANNON_TRACE_BASE*)api->GetEntityPointer(&EID);
 
-	aBallRects.Empty();
+	aBallRects.clear();
 
 	//if (!pVWForts) pVWForts = (VIDWALKER*)api->LayerGetWalker("fort_cannon_trace");
 	if (!pVWShips) pVWShips = (VIDWALKER*)api->LayerGetWalker("ship_cannon_trace");
@@ -169,13 +171,13 @@ void AIBalls::Execute(dword Delta_Time)
 
 	float fDeltaTime = 0.001f * float(Delta_Time);
 
-	for (i=0;i<aBallTypes.Size();i++)
+	for (i=0;i<aBallTypes.size();i++)
 	{
 		BALL_TYPE * pBallsType = &aBallTypes[i];
 
 		AttributesPointer->SetAttributeUseDword("CurrentBallType", pBallsType->dwGoodIndex);
 
-		for (j=0;j<pBallsType->Balls.Size();j++)
+		for (j=0;j<pBallsType->Balls.size();j++)
 		{
 			BALL_PARAMS * pBall = &pBallsType->Balls[j];
 
@@ -196,8 +198,8 @@ void AIBalls::Execute(dword Delta_Time)
 
 			vDst = pBall->vPos;
 
-			if (pBall->sBallEvent.Len())
-				api->Event((char*)pBall->sBallEvent.GetBuffer(), "lllffffffs", pBall->iBallOwner, (dword)1, pBallsType->dwGoodIndex, pBall->vPos.x, pBall->vPos.y, pBall->vPos.z, vSrc.x, vSrc.y, vSrc.z);
+			if (pBall->sBallEvent.size())
+				api->Event((char*)pBall->sBallEvent.c_str(), "lllffffffs", pBall->iBallOwner, (dword)1, pBallsType->dwGoodIndex, pBall->vPos.x, pBall->vPos.y, pBall->vPos.z, vSrc.x, vSrc.y, vSrc.z);
 
 			if (pBall->pParticle)
 			{
@@ -254,25 +256,30 @@ void AIBalls::Execute(dword Delta_Time)
 			// delete ball
 			if (fRes<=1.0f)
 			{
-				if (pBall->sBallEvent.Len())
+				if (pBall->sBallEvent.size())
 				{
-					api->Event((char*)pBall->sBallEvent.GetBuffer(),"lllffffff", pBall->iBallOwner, (dword)0, pBallsType->dwGoodIndex, pBall->vPos.x, pBall->vPos.y, pBall->vPos.z, vSrc.x, vSrc.y, vSrc.z);
-					pBall->sBallEvent.DelAll();
+					api->Event((char*)pBall->sBallEvent.c_str(),"lllffffff", pBall->iBallOwner, (dword)0, pBallsType->dwGoodIndex, pBall->vPos.x, pBall->vPos.y, pBall->vPos.z, vSrc.x, vSrc.y, vSrc.z);
+					pBall->sBallEvent.clear();
 				}
 
 				if (pBall->pParticle)
 				{
 					pBall->pParticle->Stop();
-					DELETE(pBall->pParticle);
+					STORM_DELETE(pBall->pParticle);
 				}
-				pBallsType->Balls.ExtractNoShift(j); j--;
+				//pBallsType->Balls.ExtractNoShift(j); 
+				pBallsType->Balls[i] = pBallsType->Balls.back();
+				pBallsType->Balls.pop_back();
+				j--;
 
 				continue;
 			}
 
-			if (!pBall->sBallEvent.Len())
+			if (!pBall->sBallEvent.size())
 			{
-				RS_RECT * pRSR = &aBallRects[aBallRects.Add()];
+				aBallRects.push_back(RS_RECT{});
+				//RS_RECT * pRSR = &aBallRects[aBallRects.Add()];
+				RS_RECT * pRSR = &aBallRects.back();
 				pRSR->vPos = pBall->vPos;
 				pRSR->dwColor = 0xFFFFFF;
 				pRSR->dwSubTexture = pBallsType->dwSubTexIndex;
@@ -285,11 +292,11 @@ void AIBalls::Execute(dword Delta_Time)
 
 void AIBalls::Realize(dword Delta_Time)
 {
-	if (aBallRects.Size())
+	if (aBallRects.size())
 	{
 		AIHelper::pRS->TextureSet(0, dwTextureIndex);
-		AIHelper::pRS->DrawRects(&aBallRects[0], aBallRects.Size(), "Cannonballs", dwSubTexX, dwSubTexY);
-		aBallRects.Empty();
+		AIHelper::pRS->DrawRects(&aBallRects[0], aBallRects.size(), "Cannonballs", dwSubTexX, dwSubTexY);
+		aBallRects.clear();
 	}
 
 	dwFireBallFromCameraTime += Delta_Time;
@@ -308,25 +315,25 @@ dword AIBalls::AttributeChanged(ATTRIBUTES * pAttributeChanged)
 {
 	if (*pAttributeChanged == "clear")
 	{
-		for (dword i=0; i<aBallTypes.Size(); i++)
+		for (dword i=0; i<aBallTypes.size(); i++)
 		{
 			BALL_TYPE * pBallsType = &aBallTypes[i];
 
-			for (dword j=0; j<pBallsType->Balls.Size(); j++)
+			for (dword j=0; j<pBallsType->Balls.size(); j++)
 			{
 				BALL_PARAMS * pBall = &pBallsType->Balls[j];
 
-				if (pBall->sBallEvent.Len())
-					pBall->sBallEvent.DelAll();
+				if (pBall->sBallEvent.size())
+					pBall->sBallEvent.clear();
 
 				if (pBall->pParticle)
 				{
 					pBall->pParticle->Stop();
-					DELETE(pBall->pParticle);
+					STORM_DELETE(pBall->pParticle);
 				}
 			}
 
-			pBallsType->Balls.DelAll();
+			pBallsType->Balls.clear();
 		}
 
 		return 0;
@@ -348,7 +355,7 @@ dword AIBalls::AttributeChanged(ATTRIBUTES * pAttributeChanged)
 		dwSubTexX = AttributesPointer->GetAttributeAsDword("SubTexX");
 		dwSubTexY = AttributesPointer->GetAttributeAsDword("SubTexY");
 
-		dwTextureIndex = AIHelper::pRS->TextureCreate(sTextureName);
+		dwTextureIndex = AIHelper::pRS->TextureCreate(sTextureName.c_str());
 
 		// install balls
 		ATTRIBUTES *pAPBalls = AttributesPointer->GetAttributeClass("Balls");
@@ -358,16 +365,17 @@ dword AIBalls::AttributeChanged(ATTRIBUTES * pAttributeChanged)
 			char * pName = pAPBalls->GetAttributeName(dwIdx);		if (!pName) break;
 			ATTRIBUTES * pAP = pAPBalls->GetAttributeClass(pName);	if (!pAP) break;
 
-			dword dwBallNum = aBallTypes.Add();
-
-			aBallTypes[dwBallNum].sName = pName;
-			aBallTypes[dwBallNum].dwSubTexIndex = pAP->GetAttributeAsDword("SubTexIndex");
-			aBallTypes[dwBallNum].dwGoodIndex = pAP->GetAttributeAsDword("GoodIndex");
-			aBallTypes[dwBallNum].fSize = pAP->GetAttributeAsFloat("Size");
-			aBallTypes[dwBallNum].fWeight = pAP->GetAttributeAsFloat("Weight");
+			BALL_TYPE ballType;
+			ballType.sName = pName;
+			ballType.dwSubTexIndex = pAP->GetAttributeAsDword("SubTexIndex");
+			ballType.dwGoodIndex = pAP->GetAttributeAsDword("GoodIndex");
+			ballType.fSize = pAP->GetAttributeAsFloat("Size");
+			ballType.fWeight = pAP->GetAttributeAsFloat("Weight");
 
 			if (pAP->GetAttribute("Particle"))
-				aBallTypes[dwBallNum].sParticleName = pAP->GetAttribute("Particle");
+				ballType.sParticleName = pAP->GetAttribute("Particle");
+
+			aBallTypes.push_back(ballType);
 
 			dwIdx++;
 		}
@@ -380,15 +388,15 @@ dword AIBalls::ProcessMessage(MESSAGE & message)
 {
 	if (message.Long() == MSG_MODEL_RELEASE)
 	{
-		for (dword i=0; i<aBallTypes.Size(); i++)
-			for (dword j=0; j<aBallTypes[i].Balls.Size(); j++)
+		for (dword i=0; i<aBallTypes.size(); i++)
+			for (dword j=0; j<aBallTypes[i].Balls.size(); j++)
 			{
 				BALL_PARAMS * pBall = &aBallTypes[i].Balls[j];
 
 				if (pBall->pParticle)
 				{
 					pBall->pParticle->Stop();
-					DELETE(pBall->pParticle);
+					STORM_DELETE(pBall->pParticle);
 				}
 			}
 	}
@@ -397,11 +405,11 @@ dword AIBalls::ProcessMessage(MESSAGE & message)
 
 void AIBalls::Save(CSaveLoad * pSL)
 {
-	for (dword i=0; i<aBallTypes.Size(); i++)
+	for (dword i=0; i<aBallTypes.size(); i++)
 	{
-		pSL->SaveDword(aBallTypes[i].Balls.Size());
+		pSL->SaveDword(aBallTypes[i].Balls.size());
 
-		for (dword j=0; j<aBallTypes[i].Balls.Size(); j++)
+		for (dword j=0; j<aBallTypes[i].Balls.size(); j++)
 		{
 			pSL->SaveBuffer((const char *)&aBallTypes[i].Balls[j], sizeof(BALL_PARAMS));
 		}
@@ -410,13 +418,15 @@ void AIBalls::Save(CSaveLoad * pSL)
 
 void AIBalls::Load(CSaveLoad * pSL)
 {
-	for (dword i=0; i<aBallTypes.Size(); i++)
+	for (dword i=0; i<aBallTypes.size(); i++)
 	{
 		dword dwNum = pSL->LoadDword();
 
 		for (dword j=0; j<dwNum; j++)
 		{
-			BALL_PARAMS * pB = &aBallTypes[i].Balls[aBallTypes[i].Balls.Add()];
+			aBallTypes[i].Balls.push_back(BALL_PARAMS{});
+			//BALL_PARAMS * pB = &aBallTypes[i].Balls[aBallTypes[i].Balls.Add()];
+			BALL_PARAMS * pB = &aBallTypes[i].Balls.back();
 			pSL->Load2Buffer((char *)pB);
 			if (pB->pParticle)
 			{
@@ -424,7 +434,7 @@ void AIBalls::Load(CSaveLoad * pSL)
 				ENTITY_ID eidParticle;
 				if (api->FindClass(&eidParticle,"particles",0))
 				{
-					pB->pParticle = (VPARTICLE_SYSTEM *)api->Send_Message(eidParticle,"lsffffffl",PS_CREATE_RIC,(char*)aBallTypes[i].sParticleName.GetBuffer(),pB->vPos.x,pB->vPos.y,pB->vPos.z,0.0f,1.0f,0.0f,100000);
+					pB->pParticle = (VPARTICLE_SYSTEM *)api->Send_Message(eidParticle,"lsffffffl",PS_CREATE_RIC,(char*)aBallTypes[i].sParticleName.c_str(),pB->vPos.x,pB->vPos.y,pB->vPos.z,0.0f,1.0f,0.0f,100000);
 				}
 			}
 		}

@@ -67,7 +67,7 @@ bool LocationEffects::Init()
 {
 	//DX9 render
 	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
-	if(!rs) _THROW("No service: dx9render");
+	if(!rs) STORM_THROW("No service: dx9render");
 
 	_CORE_API->LayerCreate("execute", true, false);
 	_CORE_API->LayerSetFlags("execute", LRFLAG_EXECUTE);
@@ -104,14 +104,14 @@ dword _cdecl LocationEffects::ProcessMessage(MESSAGE & message)
 	message.String(32, buf);
 	buf[31] = 0;
 	CVECTOR pos, dir;
-	if(stricmp(buf, "Splashes") == 0)
+	if(_stricmp(buf, "Splashes") == 0)
 	{
 		pos.x = message.Float();
 		pos.y = message.Float();
 		pos.z = message.Float();
 		CreateSplash(pos, message.Float());
 	}else
-	if(stricmp(buf, "SGFireParticles") == 0)
+	if(_stricmp(buf, "SGFireParticles") == 0)
 	{
 		pos.x = message.Float();
 		pos.y = message.Float();
@@ -121,7 +121,7 @@ dword _cdecl LocationEffects::ProcessMessage(MESSAGE & message)
 		dir.z = message.Float();
 		SGFirePrt(pos, dir);
 	}else
-	if(stricmp(buf, "SGBloodParticles") == 0)
+	if(_stricmp(buf, "SGBloodParticles") == 0)
 	{
 		pos.x = message.Float();
 		pos.y = message.Float();
@@ -131,7 +131,7 @@ dword _cdecl LocationEffects::ProcessMessage(MESSAGE & message)
 		dir.z = message.Float();
 		SGBldPrt(pos, dir);
 	}else
-	if(stricmp(buf, "SGEnvParticles") == 0)
+	if(_stricmp(buf, "SGEnvParticles") == 0)
 	{
 		pos.x = message.Float();
 		pos.y = message.Float();
@@ -141,22 +141,22 @@ dword _cdecl LocationEffects::ProcessMessage(MESSAGE & message)
 		dir.z = message.Float();
 		SGEnvPrt(pos, dir);
 	}else
-	if(stricmp(buf, "SGInited") == 0)
+	if(_stricmp(buf, "SGInited") == 0)
 	{
 		SGInited();
 	}else
-	if(stricmp(buf, "SGRelease") == 0)
+	if(_stricmp(buf, "SGRelease") == 0)
 	{
 		SGRelease();
 	}else
-	if(stricmp(buf, "AddFly") == 0)
+	if(_stricmp(buf, "AddFly") == 0)
 	{
 		pos.x = message.Float();
 		pos.y = message.Float();
 		pos.z = message.Float();
 		AddLampFlys(pos);
 	}else
-	if(stricmp(buf, "DelFlys") == 0)
+	if(_stricmp(buf, "DelFlys") == 0)
 	{
 		numFlys = 0;
 		numFly = 0;

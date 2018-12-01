@@ -120,8 +120,8 @@ private:
     void AddLabel(GEOS::LABEL &gl, NODE *nod);
     void SetAll();
     void LoadIni();
-    void GroupDelete(ENTITY_ID m_id);
-    void DoDelete();
+    void GroupSTORM_DELETE(ENTITY_ID m_id);
+    void DoSTORM_DELETE();
     void SetAdd(int flagNum);
     void MoveOtherHost(ENTITY_ID newm_id,long flagNum,ENTITY_ID oldm_id);
 

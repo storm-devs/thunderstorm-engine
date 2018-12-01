@@ -38,13 +38,13 @@ class WdmIslands : public WdmRenderObject
 		WdmRenderModel * palms;	//Моделька с пальмами
 		WdmIslandWaves * waves;	//Моделька с пеной
 		CMatrix toLocal;		//Преобразование в локальную систему острова
-		string modelName;		//Имя модельки острова
+		std::string modelName;		//Имя модельки острова
 		CVECTOR worldPosition;	//Позиция острова в мире
 	};
 
 	struct Label
 	{
-		string text;			//Текст метки
+		std::string text;			//Текст метки
 		CVECTOR pos;			//Позиция метки
 		float l, t, r, b;		//Прямоугольник, описывающий метку в экранных координатах
 		float dl, dt, dr, db;	//Смещения, чтобы получить прямоугольник, при известной точке на экране
@@ -55,15 +55,15 @@ class WdmIslands : public WdmRenderObject
 		long font;				//Индекс шкифта в массиве шрифтов
 		long icon;				//Индекс картинки
 		dword weight;			//Вес смещения
-		string id;				//Идентификатор метки
+		std::string id;				//Идентификатор метки
 		dword idHash;			//Хэшь значение идентификатора
 		long next;				//Следующая в списке метка
-		string locatorName;		//Имя локатора на котором размещаемся
+		std::string locatorName;		//Имя локатора на котором размещаемся
 	};
 
 	struct Font
 	{
-		string name;			//Имя шрифта
+		std::string name;			//Имя шрифта
 		long id;				//Его идентификатор
 	};
 
@@ -83,7 +83,7 @@ class WdmIslands : public WdmRenderObject
 	struct Quest
 	{
 		CVECTOR pos;
-		string name;
+		std::string name;
 	};
 
 //--------------------------------------------------------------------------------------------
@@ -139,19 +139,19 @@ private:
 	//Патч для поиска пути
 	PtcData * patch;
 	//Модели островов
-	array<Islands> islands;
+	std::vector<Islands> islands;
 	//Метки
-	array<Label> labels;
+	std::vector<Label> labels;
 	//Шрифты используемые метками
-	array<Font> fonts;
+	std::vector<Font> fonts;
 	//Картинки
 	Icons icons;
 	//Зарегистрированные на отрисовку метки
-	array<long> labelSort;
+	std::vector<long> labelSort;
 	//Точки места назначения мерчантов
-	array<CVECTOR> merchants;
+	std::vector<CVECTOR> merchants;
 	//Точки места назначения квестовых энкоунтеров
-	array<Quest> quests;
+	std::vector<Quest> quests;
 
 	//Входная таблица для поиска меток
 	long labelsEntry[1024];

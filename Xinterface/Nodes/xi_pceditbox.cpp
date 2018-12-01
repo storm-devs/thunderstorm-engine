@@ -31,9 +31,9 @@ CXI_PCEDITBOX::~CXI_PCEDITBOX()
 void CXI_PCEDITBOX::ReleaseAll()
 {
 	FONT_RELEASE( m_rs, m_nFontID );
-	PTR_DELETE( m_pLeftImage );
-	PTR_DELETE( m_pRightImage );
-	PTR_DELETE( m_pMiddleImage );
+	PTR_STORM_DELETE( m_pLeftImage );
+	PTR_STORM_DELETE( m_pRightImage );
+	PTR_STORM_DELETE( m_pMiddleImage );
 }
 
 void CXI_PCEDITBOX::Draw(bool bSelected,dword Delta_Time)
@@ -50,9 +50,9 @@ void CXI_PCEDITBOX::Draw(bool bSelected,dword Delta_Time)
 	}
 
 	// show out string
-	string sString;
+	std::string sString;
 	UpdateString( sString );
-	if( !sString.IsEmpty() ) //m_rs->ExtPrint( m_nFontID,m_dwFontColor,0,m_nStringAlign,true,m_fFontScale,m_screenSize.x,m_screenSize.y,m_rect.left+m_pntFontOffset.x,m_rect.top+m_pntFontOffset.y,"%s",sString.GetBuffer()+m_nFirstShowCharacterIndex);
+	if( !sString.empty() ) //m_rs->ExtPrint( m_nFontID,m_dwFontColor,0,m_nStringAlign,true,m_fFontScale,m_screenSize.x,m_screenSize.y,m_rect.left+m_pntFontOffset.x,m_rect.top+m_pntFontOffset.y,"%s",sString.c_str()+m_nFirstShowCharacterIndex);
 	{
 		CXI_UTILS::PrintTextIntoWindow( m_rs, m_nFontID, m_dwFontColor, m_nStringAlign, true, m_fFontScale,
 			m_screenSize.x,	m_screenSize.y, x, m_rect.top+m_pntFontOffset.y,
@@ -131,9 +131,9 @@ void CXI_PCEDITBOX::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 
@@ -169,8 +169,8 @@ void CXI_PCEDITBOX::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 	m_nStringAlign = ALIGN_LEFT;
 	if( ReadIniString(ini1,name1, ini2,name2, "stringalign", param, sizeof(param), "center") )
 	{
-		if( stricmp(param,"center") == 0 ) m_nStringAlign = ALIGN_CENTER;
-		else if( stricmp(param,"right") == 0 ) m_nStringAlign = ALIGN_RIGHT;
+		if( _stricmp(param,"center") == 0 ) m_nStringAlign = ALIGN_CENTER;
+		else if( _stricmp(param,"right") == 0 ) m_nStringAlign = ALIGN_RIGHT;
 	}
 	//m_pntFontOffset.x += m_rect.left;
 	//m_pntFontOffset.y += m_rect.top;
@@ -210,7 +210,7 @@ void CXI_PCEDITBOX::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 			m_pLeftImage->SetPosition( m_rect.left, m_rect.top, IPType_LeftTop );
 			nMiddleLeft += m_pLeftImage->GetWidth();
 		} else {
-			PTR_DELETE( m_pLeftImage );
+			PTR_STORM_DELETE( m_pLeftImage );
 		}
 	}
 	if( m_pRightImage ) {
@@ -220,10 +220,10 @@ void CXI_PCEDITBOX::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 			m_pRightImage->SetPosition( m_rect.right, m_rect.top, IPType_RightTop );
 			nMiddleRight -= m_pRightImage->GetWidth();
 		} else {
-			PTR_DELETE( m_pRightImage );
+			PTR_STORM_DELETE( m_pRightImage );
 		}
 	}
-	if( nMiddleLeft >= nMiddleRight ) {PTR_DELETE( m_pMiddleImage );}
+	if( nMiddleLeft >= nMiddleRight ) {PTR_STORM_DELETE( m_pMiddleImage );}
 	if( m_pMiddleImage )
 	{
 		if( m_pMiddleImage->IsImagePresent() )
@@ -231,7 +231,7 @@ void CXI_PCEDITBOX::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 			m_pMiddleImage->SetSize( nMiddleRight - nMiddleLeft, nHeight );
 			m_pMiddleImage->SetPosition( nMiddleLeft, m_rect.top, IPType_LeftTop );
 		} else {
-			PTR_DELETE( m_pMiddleImage );
+			PTR_STORM_DELETE( m_pMiddleImage );
 		}
 	}
 
@@ -240,7 +240,7 @@ void CXI_PCEDITBOX::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 	if( pA && !pA->GetAttribute( "str" ) ) pA->CreateAttribute( "str", "" );
 }
 
-void CXI_PCEDITBOX::UpdateString( string & str )
+void CXI_PCEDITBOX::UpdateString(std::string & str )
 {
 	str = "";
 	m_nFirstShowCharacterIndex=0;
@@ -253,7 +253,7 @@ void CXI_PCEDITBOX::UpdateString( string & str )
 	}
 	if( !pA ) return;
 	str = pA->GetAttribute("str");
-	if( m_nEditPos < 0 ) m_nEditPos = str.Len();
+	if( m_nEditPos < 0 ) m_nEditPos = str.size();
 
 	if( IsEditMode() )
 	{
@@ -271,15 +271,15 @@ void CXI_PCEDITBOX::UpdateString( string & str )
 							m_nEditPos--;
 							str[m_nEditPos] = 0;
 						} break;
-					case VK_END:	m_nEditPos = str.Size(); break;
+					case VK_END:	m_nEditPos = str.size(); break;
 					case VK_HOME:	m_nEditPos = 0; break;
-					case VK_DELETE: if( m_nEditPos < (long)str.Size() )	str.Delete( m_nEditPos, 1 ); break;
+					case VK_DELETE: if( m_nEditPos < (long)str.size() )	str.erase( m_nEditPos, 1 ); break;
 					case VK_LEFT: if( m_nEditPos > 0 ) m_nEditPos--; break;
-					case VK_RIGHT: if( m_nEditPos < (long)str.Len() ) m_nEditPos++; break;
+					case VK_RIGHT: if( m_nEditPos < (long)str.size() ) m_nEditPos++; break;
 					}
 				} else InsertSymbol( str, pKeys[n].ucVKey );
 			}
-			if( pA ) pA->SetAttribute( "str", (char*)str.GetBuffer() );
+			if( pA ) pA->SetAttribute( "str", (char*)str.c_str() );
 			/*char chr = GetInputSymbol();
 			if( chr )
 			{
@@ -289,17 +289,17 @@ void CXI_PCEDITBOX::UpdateString( string & str )
 				case SpecSymbol_back:
 					if( m_nEditPos>0 ) {
 						m_nEditPos--;
-						str.Delete(m_nEditPos,1);
+						str.STORM_DELETE(m_nEditPos,1);
 					}
 					break;
-				case SpecSymbol_end:	m_nEditPos = str.Size(); break;
+				case SpecSymbol_end:	m_nEditPos = str.size(); break;
 				case SpecSymbol_home:	m_nEditPos = 0; break;
 				case SpecSymbol_delete:
-					if( m_nEditPos < (long)str.Size() )
-						str.Delete( m_nEditPos, 1 );
+					if( m_nEditPos < (long)str.size() )
+						str.STORM_DELETE( m_nEditPos, 1 );
 					break;
 				case SpecSymbol_left: if( m_nEditPos > 0 ) m_nEditPos--; break;
-				case SpecSymbol_right: if( m_nEditPos < (long)str.Len() ) m_nEditPos++; break;
+				case SpecSymbol_right: if( m_nEditPos < (long)str.size() ) m_nEditPos++; break;
 
 					// пропускаем ненужные символы
 				case SpecSymbol_up:
@@ -313,7 +313,7 @@ void CXI_PCEDITBOX::UpdateString( string & str )
 				default:
 					InsertSymbol( str, chr );
 				}
-				if( pA ) pA->SetAttribute( "str", (char*)str.GetBuffer() );
+				if( pA ) pA->SetAttribute( "str", (char*)str.c_str() );
 			}*/
 
 			if( m_bDisguiseString ) DisguiseString( str );
@@ -321,7 +321,7 @@ void CXI_PCEDITBOX::UpdateString( string & str )
 			// определение первого выводимого символа
 			char param[2048];
 			param[sizeof(param)-1] = 0;
-			_snprintf( param,sizeof(param)-1, "%s",str.GetBuffer() );
+			_snprintf( param,sizeof(param)-1, "%s",str.c_str() );
 			for( m_nFirstShowCharacterIndex=0; m_nFirstShowCharacterIndex<m_nEditPos; m_nFirstShowCharacterIndex++ )
 			{
 				if( m_rs->StringWidth( &param[m_nFirstShowCharacterIndex], m_nFontID, m_fFontScale ) <= (m_rect.right - m_rect.left - 2*m_pntFontOffset.x) )
@@ -342,18 +342,18 @@ char CXI_PCEDITBOX::GetInputSymbol()
 	return chr;
 }
 
-void CXI_PCEDITBOX::ShowCursorPosition( string & str )
+void CXI_PCEDITBOX::ShowCursorPosition(std::string & str )
 {
 	if( m_nEditPos < 0 ) m_nEditPos = 0;
-	if( m_nEditPos > (long)str.Len() ) m_nEditPos = (long)str.Len();
-	string strForPosCalculate = str;
-	strForPosCalculate.Delete( m_nEditPos, str.Len() );
+	if( m_nEditPos > (long)str.size() ) m_nEditPos = (long)str.size();
+	std::string strForPosCalculate = str;
+	strForPosCalculate.erase( m_nEditPos, str.size() );
 	if( m_nFirstShowCharacterIndex<0 || m_nFirstShowCharacterIndex>m_nEditPos ) return;
-	long nPos = m_rs->StringWidth( (char*)strForPosCalculate.GetBuffer()+m_nFirstShowCharacterIndex, m_nFontID, m_fFontScale );
+	long nPos = m_rs->StringWidth( (char*)strForPosCalculate.c_str()+m_nFirstShowCharacterIndex, m_nFontID, m_fFontScale );
 	if( m_nStringAlign == ALIGN_CENTER )
-		nPos -= m_rs->StringWidth( (char*)str.GetBuffer()+m_nFirstShowCharacterIndex, m_nFontID, m_fFontScale ) / 2;
+		nPos -= m_rs->StringWidth( (char*)str.c_str()+m_nFirstShowCharacterIndex, m_nFontID, m_fFontScale ) / 2;
 	else if( m_nStringAlign == ALIGN_RIGHT )
-		nPos -= m_rs->StringWidth( (char*)str.GetBuffer()+m_nFirstShowCharacterIndex, m_nFontID, m_fFontScale );
+		nPos -= m_rs->StringWidth( (char*)str.c_str()+m_nFirstShowCharacterIndex, m_nFontID, m_fFontScale );
 
 	long x = m_rect.left + m_pntFontOffset.x;
 	if( m_nStringAlign==ALIGN_CENTER ) {
@@ -365,7 +365,7 @@ void CXI_PCEDITBOX::ShowCursorPosition( string & str )
 	m_rs->ExtPrint( m_nFontID,m_dwFontColor,0,ALIGN_LEFT,true,m_fFontScale,m_screenSize.x,m_screenSize.y,x+nPos,m_rect.top+m_pntFontOffset.y,"_");
 }
 
-void CXI_PCEDITBOX::InsertSymbol( string & str, char chr )
+void CXI_PCEDITBOX::InsertSymbol(std::string & str, char chr )
 {
 	if( (unsigned char)chr < 32 ) return;
 	if( IsExcludeChar(chr) ) return;
@@ -374,22 +374,22 @@ void CXI_PCEDITBOX::InsertSymbol( string & str, char chr )
 	chrInsert[0] = chr;
 	chrInsert[1] = 0;
 	// проверка на максимальное число символов
-	if( m_nMaxSize >= 0 && (long)str.Len() >= m_nMaxSize ) return;
+	if( m_nMaxSize >= 0 && (long)str.size() >= m_nMaxSize ) return;
 	// проверка на максимальную ширину строки
 	if( m_nMaxWidth >= 0 )
 	{
-		string strResult = str;
-		strResult.Insert( m_nEditPos, chrInsert );
-		if( m_rs->StringWidth( (char*)strResult.GetBuffer(), m_nFontID, m_fFontScale ) > m_nMaxWidth ) return;
+		std::string strResult = str;
+		strResult.insert( m_nEditPos, chrInsert );
+		if( m_rs->StringWidth( (char*)strResult.c_str(), m_nFontID, m_fFontScale ) > m_nMaxWidth ) return;
 	}
-	str.Insert( m_nEditPos, chrInsert );
+	str.insert( m_nEditPos, chrInsert );
 	m_nEditPos++;
-	if( m_nEditPos > (long)str.Len() ) m_nEditPos = str.Len();
+	if( m_nEditPos > (long)str.size() ) m_nEditPos = str.size();
 }
 
-void CXI_PCEDITBOX::DisguiseString( string &str )
+void CXI_PCEDITBOX::DisguiseString(std::string &str )
 {
-	long q = str.Len();
+	long q = str.size();
 	for( long n=0; n<q; n++ )
 		str[n] = '*';
 }
@@ -400,6 +400,6 @@ bool CXI_PCEDITBOX::IsExcludeChar( char chr )
 	fndStr[0] = chr;
 	fndStr[1] = 0;
 
-	if( m_sExcludeChars.FindSubStr(fndStr)>=0 ) return true;
-	return false;
+	//if( m_sExcludeChars.FindSubStr(fndStr)>=0 ) return true;
+	return m_sExcludeChars.find(fndStr) != std::string::npos;
 }

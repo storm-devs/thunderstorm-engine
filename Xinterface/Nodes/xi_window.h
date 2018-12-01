@@ -31,7 +31,7 @@ protected:
 	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);
 
 protected:
-	array<string> m_aNodeNameList;
+	std::vector<std::string> m_aNodeNameList;
 
 	bool m_bShow;
 	bool m_bActive;

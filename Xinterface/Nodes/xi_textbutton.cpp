@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "xi_textbutton.h"
+#include "../../common_h/defines.h"
 
 CXI_TEXTBUTTON::CXI_TEXTBUTTON()
 {
@@ -230,7 +231,7 @@ void CXI_TEXTBUTTON::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
 		m_idTex = pPictureService->GetTextureID(param);
 		m_sGroupName = NEW char[strlen(param)+1];
 		if(m_sGroupName==NULL)
-			_THROW("allocate memory error")
+			STORM_THROW("allocate memory error")
 		strcpy(m_sGroupName,param);
 	}
 
@@ -285,7 +286,7 @@ void CXI_TEXTBUTTON::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
 	XI_ONETEX_VERTEX *pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
 	WORD *pIndx = (WORD*) m_rs->LockIndexBuffer(m_idIBuf);
 	if(pVert==NULL || pIndx==NULL)
-		_THROW("can not create the index&vertex buffers")
+		STORM_THROW("can not create the index&vertex buffers")
 
 	// fill triangles buffer
 	int i=0;
@@ -493,8 +494,8 @@ void CXI_TEXTBUTTON::ReleaseAll()
 {
 	PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName,m_idTex);
 	TEXTURE_RELEASE(m_rs,m_idShadowTex);
-	PTR_DELETE(m_sGroupName);
-	PTR_DELETE(m_sString);
+	PTR_STORM_DELETE(m_sGroupName);
+	PTR_STORM_DELETE(m_sString);
 	VERTEX_BUF_RELEASE(m_rs,m_idVBuf);
 	INDEX_BUF_RELEASE(m_rs,m_idIBuf);
 	VIDEOTEXTURE_RELEASE(m_rs,m_pTex);
@@ -536,9 +537,9 @@ void CXI_TEXTBUTTON::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 
@@ -558,10 +559,10 @@ dword _cdecl CXI_TEXTBUTTON::MessageProc(long msgcode, MESSAGE & message)
 			char param[256];
 			message.String(sizeof(param)-1,param);
 			param[sizeof(param)-1] = 0;
-			PTR_DELETE(m_sString); m_idString = -1;
+			PTR_STORM_DELETE(m_sString); m_idString = -1;
 			if( param[0] == '#' ) {
 				if( (m_sString=NEW char[strlen(param)]) == null )
-				{ _THROW("allocate memory error"); }
+				{ STORM_THROW("allocate memory error"); }
 				strcpy(m_sString,&param[1]);
 			} else {
 				m_idString = pStringService->GetStringNum( param );

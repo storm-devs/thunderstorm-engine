@@ -5,8 +5,6 @@
 
 #define UTILS_KEYS_DELAY_FOR_REPEAT	800
 
-#include "..\..\common_h\templates\array.h"
-#include "..\..\common_h\templates\string.h"
 #include "..\defines.h"
 
 enum InterfaceStringCurTokenType
@@ -82,8 +80,8 @@ public:
 	static long StringGetLong( const char*& pcString );
 	static float StringGetFloat( const char*& pcString );
 	static void StringFourFloat( const char* pcString, float& f1, float& f2, float& f3, float& f4 );
-	static void StringFillStringArray( const char* pcString, array<string> & asStringsArray );
-	static long SplitStringByWidth( const char* pcText, long nFontID, float fFontScale, long nWidth, array<string>& asOutStr );
+	static void StringFillStringArray( const char* pcString, std::vector<std::string> & asStringsArray );
+	static long SplitStringByWidth( const char* pcText, long nFontID, float fFontScale, long nWidth, std::vector<std::string>& asOutStr );
 	static InterfaceStringCurTokenType GetCurrentTokenIntoString( const char* pcStr ) {if(!pcStr) return StrTokenType_unknown; if(!pcStr[0]) return StrTokenType_End; if(pcStr[0]==0x20) return StrTokenType_Space; if(pcStr[0]=='\\' && (pcStr[1]=='n' || pcStr[1]=='N')) return StrTokenType_NextLine; return StrTokenType_common;}
 
 	// attribute functions

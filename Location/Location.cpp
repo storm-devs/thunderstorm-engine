@@ -15,6 +15,7 @@
 
 #include "..\common_h\model.h"
 #include "..\common_h\cvector4.h"
+#include "../common_h/defines.h"
 
 float		fCausticScale, fCausticDelta, fFogDensity, fCausticDistance;
 CVECTOR4	v4CausticColor;
@@ -77,7 +78,7 @@ bool Location::Init()
 {
 	//DX9 render
 	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
-	if(!rs) _THROW("No service: dx9render");
+	if(!rs) STORM_THROW("No service: dx9render");
 	rs->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	_CORE_API->LayerCreate("execute", true, false);
@@ -536,11 +537,11 @@ bool __declspec(dllexport) __cdecl Location::LoadGrass(const char * modelName, c
 
 bool Location::MessageEx(const char * name, MESSAGE & message)
 {
-	if(stricmp(name, "DelAllLights") == 0)
+	if(_stricmp(name, "DelAllLights") == 0)
 	{
 		lights->DelAllLights();
 	}else
-	if(stricmp(name, "AddFlys") == 0)
+	if(_stricmp(name, "AddFlys") == 0)
 	{
 		ENTITY_ID effects;
 		_CORE_API->FindClass(&effects, "LocationEffects", 0);
@@ -550,14 +551,14 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 		api->Send_Message(effects, "sfff", "AddFly", x, y, z);
 		return true;
 	}else
-	if(stricmp(name, "DelFlys") == 0)
+	if(_stricmp(name, "DelFlys") == 0)
 	{
 		ENTITY_ID effects;
 		_CORE_API->FindClass(&effects, "LocationEffects", 0);
 		api->Send_Message(effects, "s", "DelFlys");
 		return true;
 	}else
-	if(stricmp(name, "GetPatchMiddlePos") == 0)
+	if(_stricmp(name, "GetPatchMiddlePos") == 0)
 	{
 		VDATA * vx = message.ScriptVariablePointer();
 		if(!vx) return false;
@@ -570,17 +571,17 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 		vz->Set(ptc.middle.z);
 		return true;
 	}else
-	if(stricmp(name, "AddEagle") == 0)
+	if(_stricmp(name, "AddEagle") == 0)
 	{
 		_CORE_API->CreateEntity(&eagle, "LocEagle");
 		return true;
 	}else
-	if(stricmp(name, "AddLizards") == 0)
+	if(_stricmp(name, "AddLizards") == 0)
 	{
 		_CORE_API->CreateEntity(&lizards, "Lizards");
 		return true;
 	}else
-	if(stricmp(name, "AddRats") == 0)
+	if(_stricmp(name, "AddRats") == 0)
 	{
 		_CORE_API->CreateEntity(&rats, "LocRats");
 		if(!_CORE_API->Send_Message(rats, "l", message.Long()))
@@ -590,7 +591,7 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 		}
 		return true;
 	}else
-	if(stricmp(name, "AddBlood") == 0)
+	if(_stricmp(name, "AddBlood") == 0)
 	{
 		if( !api->ValidateEntity(&blood) ) {
 			api->CreateEntity(&blood, "Blood");
@@ -604,12 +605,12 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 		api->Send_Message(blood, "lfff", 2, vPos.x,vPos.y,vPos.z );
 		return true;
 	}else
-	if(stricmp(name, "TestLocatorsGroup") == 0)
+	if(_stricmp(name, "TestLocatorsGroup") == 0)
 	{
 		TestLocatorsInPatch(message);
 		return true;
 	}else
-	if(stricmp(name, "DeleteLocationModel") == 0)
+	if(_stricmp(name, "DeleteLocationModel") == 0)
 	{
 		char modelname[MAX_PATH];
 		message.String( sizeof(modelname), modelname );
@@ -617,7 +618,7 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 		if( n>=0 ) model.DeleteModel( n );
 		return true;
 	}else
-	if(stricmp(name, "HideLocationModel") == 0)
+	if(_stricmp(name, "HideLocationModel") == 0)
 	{
 		char modelname[MAX_PATH];
 		message.String( sizeof(modelname), modelname );
@@ -626,7 +627,7 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 			//api->LayerDel("realize", model.RealizerID(n));
 			_CORE_API->Send_Message(model.RealizerID(n),"ll",2,0);
 	}else
-	if(stricmp(name, "ShowLocationModel") == 0)
+	if(_stricmp(name, "ShowLocationModel") == 0)
 	{
 		char modelname[MAX_PATH];
 		message.String( sizeof(modelname), modelname );
@@ -636,7 +637,7 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 			//api->LayerAdd("realize", model.RealizerID(n), layer);
 			_CORE_API->Send_Message(model.RealizerID(n),"ll",2,1);
 	} else
-	if(stricmp(name, "SetGrassParams") == 0)
+	if(_stricmp(name, "SetGrassParams") == 0)
 	{
 		float fScale = message.Float();
 		float fMaxWidth = message.Float();
@@ -647,12 +648,12 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 		api->Send_Message( grass, "lffffff", MSG_GRASS_SET_PARAM,
 			fScale, fMaxWidth,fMaxHeight, fMinVisibleDist,fMaxVisibleDist, fMinGrassLod );
 	} else
-	if(stricmp(name, "LoadCaustic") == 0)
+	if(_stricmp(name, "LoadCaustic") == 0)
 	{
 		LoadCaustic();
 	}
 	else
-	if(stricmp(name, "EnableCaustic") == 0)
+	if(_stricmp(name, "EnableCaustic") == 0)
 	{
 		bCausticEnable = message.Long() != 0;
 	}	return false;

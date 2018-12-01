@@ -18,6 +18,7 @@
 #include "..\common_h\geometry.h"
 #include "..\common_h\sea_base.h"
 #include "..\SoundService\VSoundService.h"
+#include "../common_h/defines.h"
 
 //============================================================================================
 
@@ -741,15 +742,15 @@ dword Character::AttributeChanged(ATTRIBUTES * apnt)
 {
 	if(deadName || liveValue < 0) return 0;
 	if(!apnt || !apnt->GetThisName()) return 0;
-	if(stricmp(apnt->GetThisName(), "model") == 0)
+	if(_stricmp(apnt->GetThisName(), "model") == 0)
 	{
 		SetSignModel();
 	}else
-	if(stricmp(apnt->GetThisName(), "technique") == 0)
+	if(_stricmp(apnt->GetThisName(), "technique") == 0)
 	{
 		SetSignTechnique();
 	}else
-	if(stricmp(apnt->GetThisName(), "id") == 0 && apnt->GetParent() && !apnt->GetParent()->GetParent())
+	if(_stricmp(apnt->GetThisName(), "id") == 0 && apnt->GetParent() && !apnt->GetParent()->GetParent())
 	{
 		const char * id = apnt->GetThisAttr();
 		if(!id) id = "<none>";
@@ -758,7 +759,7 @@ dword Character::AttributeChanged(ATTRIBUTES * apnt)
 		characterID = NEW char[len];
 		strcpy(characterID, id);
 	}else
-	if(stricmp(apnt->GetThisName(), "actions") == 0 && apnt->GetParent() && !apnt->GetParent()->GetParent())
+	if(_stricmp(apnt->GetThisName(), "actions") == 0 && apnt->GetParent() && !apnt->GetParent()->GetParent())
 	{
 		//Читаем действия перемещения
 		//Простые
@@ -903,7 +904,7 @@ void Character::SetSignModel()
 	VGEOMETRY * gs = (VGEOMETRY *)_CORE_API->CreateService("geometry");
 	if(gs) gs->SetTexturePath("quest_signs\\");
 	//Путь до модельки
-	string path = "quest_signs\\";
+	std::string path = "quest_signs\\";
 	path += signModelName;
 	//Создаём и загружаем модельку
 	if(!_CORE_API->CreateEntity(&sign, "modelr"))
@@ -914,16 +915,16 @@ void Character::SetSignModel()
 	if(!_CORE_API->Send_Message(sign,
 		"ls",
 		MSG_MODEL_LOAD_GEO,
-		path.GetBuffer()))
+		path.c_str()))
 	{
 		if(gs) gs->SetTexturePath("");
-		_CORE_API->Trace("Quest sign model '%s' not loaded", path.GetBuffer());
+		_CORE_API->Trace("Quest sign model '%s' not loaded", path.c_str());
 		return;
 	}
 
-	if( !signTechniqueName.IsEmpty() )
+	if( !signTechniqueName.empty() )
 	{
-		api->Send_Message(sign,"ls",MSG_MODEL_SET_TECHNIQUE,signTechniqueName.GetBuffer());
+		api->Send_Message(sign,"ls",MSG_MODEL_SET_TECHNIQUE,signTechniqueName.c_str());
 	}
 
 	if(gs) gs->SetTexturePath("");
@@ -1091,7 +1092,7 @@ void Character::DelSavePosition(bool isTeleport)
 	if( aPosLocator )
 	{
 		const char* pcLocGroupName = aPosLocator->GetAttribute("group");
-		if( pcLocGroupName && stricmp(pcLocGroupName,"sit")==0 ) isTeleport = false;
+		if( pcLocGroupName && _stricmp(pcLocGroupName,"sit")==0 ) isTeleport = false;
 	}
 
 	ATTRIBUTES * at = AttributesPointer->FindAClass(AttributesPointer, "saveposition");
@@ -1237,7 +1238,7 @@ bool Character::IsFightEnable()
 bool Character::IsFireFindTarget()
 {
 	if(!priorityAction.name || !shot.name) return false;
-	if(stricmp(priorityAction.name, shot.name) == 0) return !isFired;
+	if(_stricmp(priorityAction.name, shot.name) == 0) return !isFired;
 	return false;
 }
 
@@ -1440,7 +1441,7 @@ void Character::Hit(FightAction type)
 	/*
 	//!!!
 	ENTITY_ID eid;
-	if(stricmp(characterID, "Blaze") == 0)
+	if(_stricmp(characterID, "Blaze") == 0)
 	{
 		api->FindClass(&eid, "ILogAndActions", 0);
 	}
@@ -1991,7 +1992,7 @@ void Character::Update(float dltTime)
 	PtcData & ptc = location->GetPtcData();
 	if(deadName)
 	{
-		if(!priorityAction.name || stricmp(priorityAction.name, deadName) != 0)
+		if(!priorityAction.name || _stricmp(priorityAction.name, deadName) != 0)
 		{
 			priorityAction.SetName(deadName);
 			isSetPriorityAction = false;
@@ -2048,7 +2049,7 @@ void Character::Update(float dltTime)
 	isUp = nodeNorm.x*m->mtx.Vz().x + nodeNorm.z*m->mtx.Vz().z <= 0;
 	//Анимация
 	/*
-	if(stricmp(characterID, "Blaze") == 0)
+	if(_stricmp(characterID, "Blaze") == 0)
 	{
 		location->GetRS()->Print(10, 150, "curFgt = %s", fightNamesTbl[fgtCurType]);
 		location->GetRS()->Print(10, 170, "setFgt = %s", fightNamesTbl[fgtSetType]);
@@ -2144,9 +2145,9 @@ void Character::ActionEvent(const char * actionName, Animation * animation, long
 
 	if(fgtCurType != fgt_block) fgtCurType = fgt_none;
 	isTurnLock = false;
-	if(priorityAction.name && stricmp(actionName, priorityAction.name) == 0)
+	if(priorityAction.name && _stricmp(actionName, priorityAction.name) == 0)
 	{
-		if(stricmp(priorityAction.name, CHARACTER_NORM_TO_FIGHT) == 0)
+		if(_stricmp(priorityAction.name, CHARACTER_NORM_TO_FIGHT) == 0)
 		{
 			_CORE_API->Send_Message(blade, "ll", MSG_BLADE_HAND, 0);
 			_CORE_API->Send_Message(blade, "ll", MSG_BLADE_HAND, 1);
@@ -2157,7 +2158,7 @@ void Character::ActionEvent(const char * actionName, Animation * animation, long
 				animation->Player(0).SetPosition(1.0f);
 			}
 		}else
-		if(stricmp(priorityAction.name, CHARACTER_FIGHT_TO_NORM) == 0)
+		if(_stricmp(priorityAction.name, CHARACTER_FIGHT_TO_NORM) == 0)
 		{
 			_CORE_API->Send_Message(blade, "ll", MSG_BLADE_BELT, 0);
 			_CORE_API->Send_Message(blade, "ll", MSG_BLADE_BELT, 1);
@@ -2168,7 +2169,7 @@ void Character::ActionEvent(const char * actionName, Animation * animation, long
 				animation->Player(0).SetPosition(1.0f);
 			}
 		}else
-		if(shot.name && stricmp(priorityAction.name, shot.name) == 0)
+		if(shot.name && _stricmp(priorityAction.name, shot.name) == 0)
 		{
 			_CORE_API->Send_Message(blade, "l", MSG_BLADE_GUNBELT);
 			if(event == ae_end)
@@ -2183,12 +2184,12 @@ void Character::ActionEvent(const char * actionName, Animation * animation, long
 				}
 			}
 		}else
-		if(recoil.name && stricmp(priorityAction.name, recoil.name) == 0)
+		if(recoil.name && _stricmp(priorityAction.name, recoil.name) == 0)
 		{
 			if(rand() % 10 > 7) recoilLook = true; //в стоянии проиграть дразнилку
 			priorityAction.SetName(null);
 		}else
-		if(deadName && stricmp(priorityAction.name, deadName) == 0)
+		if(deadName && _stricmp(priorityAction.name, deadName) == 0)
 		{
 			animation->Player(0).Pause();
 			animation->Player(0).SetPosition(1.0f);
@@ -2212,7 +2213,7 @@ void Character::ActionEvent(const char * actionName, Animation * animation, long
 			else
 				SetPriorityAction(fall_land.name);
 		}else
-		if( stricmp(priorityAction.name, fall_land.name)==0 || stricmp(priorityAction.name, fall_water.name)==0 )
+		if( _stricmp(priorityAction.name, fall_land.name)==0 || _stricmp(priorityAction.name, fall_water.name)==0 )
 		{
 			priorityAction.SetName(null);
 			animation->Player(0).Pause();
@@ -2221,7 +2222,7 @@ void Character::ActionEvent(const char * actionName, Animation * animation, long
 	}else
 	if(userIdle.name)
 	{
-		if(stricmp(actionName, userIdle.name) != 0) return;
+		if(_stricmp(actionName, userIdle.name) != 0) return;
 		_CORE_API->Event("Location_Character_EndAction", "i", GetID());
 	}
 }
@@ -2232,15 +2233,15 @@ void Character::ActionEvent(Animation * animation, long playerIndex, const char 
 	const char * actionName = animation->Player(playerIndex).GetAction();
 	const char * alliace = 0;
 	if(!actionName) return;
-	if(stricmp(eventName, "LStep") == 0)
+	if(_stricmp(eventName, "LStep") == 0)
 	{
 		soundStep = true;
 	}else
-	if(stricmp(eventName, "RStep") == 0)
+	if(_stricmp(eventName, "RStep") == 0)
 	{
 		soundStep = true;
 	}else
-	if(stricmp(eventName, "swim") == 0)
+	if(_stricmp(eventName, "swim") == 0)
 	{
 		PlaySound("swiming");
 	}else
@@ -2249,68 +2250,68 @@ void Character::ActionEvent(Animation * animation, long playerIndex, const char 
 		PlaySound(alliace);
 	}else
 	/*
-	if(stricmp(eventName, "Sound_wind_fast") == 0)
+	if(_stricmp(eventName, "Sound_wind_fast") == 0)
 	{
 		PlaySound("sword_wind_fast");
 	}else
-	if(stricmp(eventName, "Sound_wind_force") == 0)
+	if(_stricmp(eventName, "Sound_wind_force") == 0)
 	{
 		PlaySound("sword_wind_force");
 	}else
-	if(stricmp(eventName, "Sound_wind_round") == 0)
+	if(_stricmp(eventName, "Sound_wind_round") == 0)
 	{
 		PlaySound("sword_wind_round");
 	}else
-	if(stricmp(eventName, "Sound_wind_break") == 0)
+	if(_stricmp(eventName, "Sound_wind_break") == 0)
 	{
 		PlaySound("sword_wind_break");
 	}else
-	if(stricmp(eventName, "Sound_wind_feint") == 0)
+	if(_stricmp(eventName, "Sound_wind_feint") == 0)
 	{
 		PlaySound("sword_wind_feint");
 	}else
-	if(stricmp(eventName, "Sound_wind_feintc") == 0)
+	if(_stricmp(eventName, "Sound_wind_feintc") == 0)
 	{
 		PlaySound("sword_wind_feintc");
 	}else
-	if(stricmp(eventName, "Sound_wind_feintend") == 0)
+	if(_stricmp(eventName, "Sound_wind_feintend") == 0)
 	{
 		PlaySound("sword_wind_feintend");
 	}else*/
-	if(stricmp(eventName, "Resact") == 0)
+	if(_stricmp(eventName, "Resact") == 0)
 	{
 		fgtSetType = fgt_none;
 		fgtSetIndex = -1;
 	}else
-	if(stricmp(eventName, "Attack") == 0)
+	if(_stricmp(eventName, "Attack") == 0)
 	{
 		CheckAttackHit();
 	}else
-	if(stricmp(eventName, "Parry start") == 0)
+	if(_stricmp(eventName, "Parry start") == 0)
 	{
 		isParryState = true;
 		isFeintState = false;
 	}else
-	if(stricmp(eventName, "Parry end") == 0)
+	if(_stricmp(eventName, "Parry end") == 0)
 	{
 		isParryState = false;
 		isFeintState = false;
 	}else
-	if(stricmp(eventName, "Feint start") == 0)
+	if(_stricmp(eventName, "Feint start") == 0)
 	{
 		isParryState = false;
 		isFeintState = true;
 	}else
-	if(stricmp(eventName, "Feint end") == 0)
+	if(_stricmp(eventName, "Feint end") == 0)
 	{
 		isParryState = false;
 		isFeintState = false;
 	}else/*
-	if(stricmp(eventName, "sound_pistol") == 0)
+	if(_stricmp(eventName, "sound_pistol") == 0)
 	{
 		PlaySound("pistol_out");
 	}else
-	if(stricmp(eventName, "Blade to hand") == 0)
+	if(_stricmp(eventName, "Blade to hand") == 0)
 	{
 		if(!isFightWOWps)
 		{
@@ -2318,7 +2319,7 @@ void Character::ActionEvent(Animation * animation, long playerIndex, const char 
 			if(pos < 0.99f) PlaySound("sword_sh");
 		}
 	}else
-	if(stricmp(eventName, "Blade to belt") == 0)
+	if(_stricmp(eventName, "Blade to belt") == 0)
 	{
 		if(!isFightWOWps)
 		{
@@ -2326,7 +2327,7 @@ void Character::ActionEvent(Animation * animation, long playerIndex, const char 
 			if(pos < 0.99f) PlaySound("sword_out");
 		}
 	}else */
-	if(stricmp(eventName, "Death sound") == 0)
+	if(_stricmp(eventName, "Death sound") == 0)
 	{
 		api->Event("Event_ChrSnd_Body", "i", GetID());
 	}else
@@ -2346,31 +2347,31 @@ void Character::ActionEvent(Animation * animation, long playerIndex, const char 
 		if( pcActionName )
 			api->Event("Location_CharacterItemAction", "isl", GetID(), pcActionName, nIdx);
 	}else
-	if(priorityAction.name && stricmp(actionName, priorityAction.name) == 0)
+	if(priorityAction.name && _stricmp(actionName, priorityAction.name) == 0)
 	{
-		if(stricmp(priorityAction.name, CHARACTER_NORM_TO_FIGHT) == 0)
+		if(_stricmp(priorityAction.name, CHARACTER_NORM_TO_FIGHT) == 0)
 		{
 			_CORE_API->Send_Message(blade, "ll", MSG_BLADE_HAND, 0);
 			_CORE_API->Send_Message(blade, "ll", MSG_BLADE_HAND, 1);
 		}else
-		if(stricmp(priorityAction.name, CHARACTER_FIGHT_TO_NORM) == 0)
+		if(_stricmp(priorityAction.name, CHARACTER_FIGHT_TO_NORM) == 0)
 		{
 			_CORE_API->Send_Message(blade, "ll", MSG_BLADE_BELT, 0);
 			_CORE_API->Send_Message(blade, "ll", MSG_BLADE_BELT, 1);
 		}else
-		if(shot.name && stricmp(priorityAction.name, shot.name) == 0)
+		if(shot.name && _stricmp(priorityAction.name, shot.name) == 0)
 		{
 			if(eventName)
 			{
-				if(stricmp(eventName, CHARACTER_FIGHT_GUNBELT) == 0)
+				if(_stricmp(eventName, CHARACTER_FIGHT_GUNBELT) == 0)
 				{
 					_CORE_API->Send_Message(blade, "l", MSG_BLADE_GUNBELT);
 				}else
-				if(stricmp(eventName, CHARACTER_FIGHT_GUNHAND) == 0)
+				if(_stricmp(eventName, CHARACTER_FIGHT_GUNHAND) == 0)
 				{
 					_CORE_API->Send_Message(blade, "l", MSG_BLADE_GUNHAND);
 				}else
-				if(stricmp(eventName, CHARACTER_FIGHT_GUNFIRE) == 0)
+				if(_stricmp(eventName, CHARACTER_FIGHT_GUNFIRE) == 0)
 				{
 					_CORE_API->Send_Message(blade, "l", MSG_BLADE_GUNFIRE);
 					//PlaySound("pistol_shot");
@@ -2389,7 +2390,7 @@ void Character::ActionEvent(Animation * animation, long playerIndex, const char 
 		}else
 		if(isJump && PriorityActionIsJump())
 		{
-			if(eventName && stricmp("Jump pause", eventName) == 0)
+			if(eventName && _stricmp("Jump pause", eventName) == 0)
 			{
 				animation->Player(playerIndex).Pause();
 			}
@@ -2397,17 +2398,17 @@ void Character::ActionEvent(Animation * animation, long playerIndex, const char 
 	} else
 	if(userIdle.name)
 	{
-		if(stricmp(actionName, userIdle.name)==0)
+		if(_stricmp(actionName, userIdle.name)==0)
 		{
-			if(shot.name && stricmp(actionName,shot.name)==0)
+			if(shot.name && _stricmp(actionName,shot.name)==0)
 			{
 				if(eventName)
 				{
-					if(stricmp(eventName, CHARACTER_FIGHT_GUNBELT) == 0) {
+					if(_stricmp(eventName, CHARACTER_FIGHT_GUNBELT) == 0) {
 						api->Send_Message(blade, "l", MSG_BLADE_GUNBELT);
-					} else if(stricmp(eventName, CHARACTER_FIGHT_GUNHAND) == 0) {
+					} else if(_stricmp(eventName, CHARACTER_FIGHT_GUNHAND) == 0) {
 						api->Send_Message(blade, "l", MSG_BLADE_GUNHAND);
-					} else if(stricmp(eventName, CHARACTER_FIGHT_GUNFIRE) == 0) {
+					} else if(_stricmp(eventName, CHARACTER_FIGHT_GUNFIRE) == 0) {
 						api->Send_Message(blade, "l", MSG_BLADE_GUNFIRE);
 						api->Event("ActorMakeShot","i",GetID());
 					}
@@ -2449,44 +2450,44 @@ void Character::PlayStep()
 			const char * mtl = location->GetPtcData().GetMaterial(currentNode);
 			if(mtl)
 			{
-				if(stricmp(mtl, "run_grass") == 0)
+				if(_stricmp(mtl, "run_grass") == 0)
 				{
 					defSnd = "run_grass";
 				}else
-				if(stricmp(mtl, "snd_wood") == 0)
+				if(_stricmp(mtl, "snd_wood") == 0)
 				{
 					defSnd = "run_wood";
 				}else
-				if(stricmp(mtl, "snd_ground") == 0)
+				if(_stricmp(mtl, "snd_ground") == 0)
 				{
 					defSnd = "run_ground";
 				}else
-				if(stricmp(mtl, "snd_sand") == 0)
+				if(_stricmp(mtl, "snd_sand") == 0)
 				{
 					defSnd = "run_sand";
 				}else
-				if(stricmp(mtl, "snd_stone") == 0)
+				if(_stricmp(mtl, "snd_stone") == 0)
 				{
 					defSnd = "run_stone";
 				}else
-				if(stricmp(mtl, "snd_stairway") == 0)
+				if(_stricmp(mtl, "snd_stairway") == 0)
 				{
 					defSnd = "run_stairway";
 				}else
-				if(stricmp(mtl, "snd_carpet") == 0)
+				if(_stricmp(mtl, "snd_carpet") == 0)
 				{
 					defSnd = "run_carpet";
 				}else
-				if(stricmp(mtl, "snd_church") == 0)
+				if(_stricmp(mtl, "snd_church") == 0)
 				{
 					defSnd = "run_church";
 				}else
-				if(stricmp(mtl, "snd_echo") == 0)
+				if(_stricmp(mtl, "snd_echo") == 0)
 				{
 					defSnd = "run_echo";
 				}
 				/*else
-				if(stricmp(mtl, "snd_iron") == 0)
+				if(_stricmp(mtl, "snd_iron") == 0)
 				{
 					defSnd = "run_iron";
 				}*/
@@ -2502,43 +2503,43 @@ void Character::PlayStep()
 			const char * mtl = location->GetPtcData().GetMaterial(currentNode);
 			if(mtl)
 			{
-				if(stricmp(mtl, "snd_grass") == 0)
+				if(_stricmp(mtl, "snd_grass") == 0)
 				{
 					defSnd = "step_grass";
 				}else
-				if(stricmp(mtl, "snd_wood") == 0)
+				if(_stricmp(mtl, "snd_wood") == 0)
 				{
 					defSnd = "step_wood";
 				}else
-				if(stricmp(mtl, "snd_ground") == 0)
+				if(_stricmp(mtl, "snd_ground") == 0)
 				{
 					defSnd = "step_ground";
 				}else
-				if(stricmp(mtl, "snd_sand") == 0)
+				if(_stricmp(mtl, "snd_sand") == 0)
 				{
 					defSnd = "step_sand";
 				}else
-				if(stricmp(mtl, "snd_stone") == 0)
+				if(_stricmp(mtl, "snd_stone") == 0)
 				{
 					defSnd = "step_stone";
 				}else
-				if(stricmp(mtl, "snd_stairway") == 0)
+				if(_stricmp(mtl, "snd_stairway") == 0)
 				{
 					defSnd = "step_stairway";
 				}else
-				if(stricmp(mtl, "snd_carpet") == 0)
+				if(_stricmp(mtl, "snd_carpet") == 0)
 				{
 					defSnd = "step_carpet";
 				}else
-				if(stricmp(mtl, "snd_church") == 0)
+				if(_stricmp(mtl, "snd_church") == 0)
 				{
 					defSnd = "step_church";
 				}else
-				if(stricmp(mtl, "snd_echo") == 0)
+				if(_stricmp(mtl, "snd_echo") == 0)
 				{
 					defSnd = "step_echo";
 				}else
-				if(stricmp(mtl, "snd_iron") == 0)
+				if(_stricmp(mtl, "snd_iron") == 0)
 				{
 					defSnd = "step_iron";
 				}
@@ -2682,7 +2683,7 @@ bool Character::zAddDetector(MESSAGE & message)
 	//Проверяем на созданность
 	for(long i = 0; i < numDetectors; i++)
 	{
-		if(stricmp(detector[i]->la->GetGroupName(), group) == 0) return false;
+		if(_stricmp(detector[i]->la->GetGroupName(), group) == 0) return false;
 	}
 	//Ищем группу
 	LocatorArray * la = location->FindLocatorsGroup(group);
@@ -2698,7 +2699,7 @@ bool Character::zDelDetector(MESSAGE & message)
 	group[255] = 0;
 	for(long i = 0; i < numDetectors; i++)
 	{
-		if(stricmp(detector[i]->la->GetGroupName(), group) == 0)
+		if(_stricmp(detector[i]->la->GetGroupName(), group) == 0)
 		{
 			detector[i]->Exit(this);
 			delete detector[i];
@@ -2851,7 +2852,7 @@ dword Character::zExMessage(MESSAGE & message)
 	long i;
 	VDATA * v;
 	CVECTOR pos;
-	if(stricmp(msg, "TieItem") == 0)
+	if(_stricmp(msg, "TieItem") == 0)
 	{
 		i = message.Long();
 		char modelName[MAX_PATH];
@@ -2866,13 +2867,13 @@ dword Character::zExMessage(MESSAGE & message)
 		api->Send_Message(blade, "lilss", 1001, mdl,i,modelName,locatorName);
 		return 1;
 	} else
-	if(stricmp(msg, "UntieItem") == 0)
+	if(_stricmp(msg, "UntieItem") == 0)
 	{
 		i = message.Long();
 		api->Send_Message(blade, "ll", 1002, i);
 		return 1;
 	} else
-	if(stricmp(msg, "HandLightOn") == 0)
+	if(_stricmp(msg, "HandLightOn") == 0)
 	{
 		// удалим старый источник
 		if( m_nHandLightID >= 0 )
@@ -2882,34 +2883,34 @@ dword Character::zExMessage(MESSAGE & message)
 		m_nHandLightID = location->GetLights()->AddMovingLight( msg, GetHandLightPos() );
 		return 1;
 	}else
-	if(stricmp(msg, "HandLightOff") == 0)
+	if(_stricmp(msg, "HandLightOff") == 0)
 	{
 		if( m_nHandLightID >= 0 )
 			location->GetLights()->DelMovingLight(m_nHandLightID);
 		m_nHandLightID = -1;
 		return 1;
 	}else
-	if(stricmp(msg, "PlaySound") == 0)
+	if(_stricmp(msg, "PlaySound") == 0)
 	{
 		message.String(32, msg);
 		msg[31] = 0;
 		return PlaySound(msg) != SOUND_INVALID_ID;
 	}else
-	if(stricmp(msg, "IsFightMode") == 0)
+	if(_stricmp(msg, "IsFightMode") == 0)
 	{
 		return IsFight();
 	}else
-	if(stricmp(msg, "IsSetBalde") == 0)
+	if(_stricmp(msg, "IsSetBalde") == 0)
 	{
 		return IsSetBlade();
 	}else
-	if(stricmp(msg, "IsDead") == 0)
+	if(_stricmp(msg, "IsDead") == 0)
 	{
 		return deadName != 0;
 	}else
 	if(!deadName)
 	{
-		if(stricmp(msg, "FindDialogCharacter") == 0)
+		if(_stricmp(msg, "FindDialogCharacter") == 0)
 		{
 			Character * chr = FindDialogCharacter();
 			if(chr && chr->AttributesPointer)
@@ -2918,15 +2919,15 @@ dword Character::zExMessage(MESSAGE & message)
 			}
 			return -1;
 		}else
-		if(stricmp(msg, "SetFightMode") == 0)
+		if(_stricmp(msg, "SetFightMode") == 0)
 		{
 			return SetFightMode(message.Long() != 0, false);
 		}else
-		if(stricmp(msg, "ChangeFightMode") == 0)
+		if(_stricmp(msg, "ChangeFightMode") == 0)
 		{
 			return SetFightMode(message.Long() != 0, true);
 		}else
-		if(stricmp(msg, "FindForvardLocator") == 0)
+		if(_stricmp(msg, "FindForvardLocator") == 0)
 		{
 			//Имя групы
 			message.String(sizeof(grp), grp);
@@ -2944,7 +2945,7 @@ dword Character::zExMessage(MESSAGE & message)
 			v->Set((char *)la->LocatorName(i));
 			return 1;
 		}else
-		if(stricmp(msg, "DistToLocator") == 0)
+		if(_stricmp(msg, "DistToLocator") == 0)
 		{
 			//Имя групы
 			message.String(sizeof(grp), grp);
@@ -2965,36 +2966,36 @@ dword Character::zExMessage(MESSAGE & message)
 			v->Set(sqrtf(~(pos - curPos)));
 			return 1;
 		}else
-		if(stricmp(msg, "InDialog") == 0)
+		if(_stricmp(msg, "InDialog") == 0)
 		{
 			isDialog = message.Long() != 0;
 			return 1;
 		}else
-		if(stricmp(msg, "SetSex") == 0)
+		if(_stricmp(msg, "SetSex") == 0)
 		{
 			isMale = message.Long() != 0;
 			return 1;
 		}else
-		if(stricmp(msg, "SetFightWOWeapon") == 0)
+		if(_stricmp(msg, "SetFightWOWeapon") == 0)
 		{
 			isFightWOWps = message.Long() != 0;
 			UpdateWeapons();
 			return 1;
 		}else
-		if(stricmp(msg, "LockFightMode") == 0)
+		if(_stricmp(msg, "LockFightMode") == 0)
 		{
 			lockFightMode = message.Long() != 0;
 			return 1;
 		}else
-		if(stricmp(msg, "CheckFightMode") == 0)
+		if(_stricmp(msg, "CheckFightMode") == 0)
 		{
 			return isFight;
 		}else
-		if(stricmp(msg, "IsActive") == 0)
+		if(_stricmp(msg, "IsActive") == 0)
 		{
 			return isActiveState;
 		}else
-		if(stricmp(msg, "CheckID") == 0)
+		if(_stricmp(msg, "CheckID") == 0)
 		{
 	#ifdef _DEBUG
 	#ifndef _XBOX
@@ -3013,7 +3014,7 @@ dword Character::zExMessage(MESSAGE & message)
 	#endif
 			return 1;
 		}else
-		if(stricmp(msg,"GunBelt") == 0)
+		if(_stricmp(msg,"GunBelt") == 0)
 		{
 			if( message.Long()!=0 )
 				api->Send_Message(blade, "l", MSG_BLADE_GUNBELT);
@@ -3305,7 +3306,7 @@ bool Character::SetAction(const char * actionName, float tblend, float movespeed
 	if(a->Player(0).IsPlaying() && !a->Player(0).IsPause())
 	{
 		curAction = a->Player(0).GetAction();
-		if(!forceStart && curAction && actionName && stricmp(curAction, actionName) == 0) return true;
+		if(!forceStart && curAction && actionName && _stricmp(curAction, actionName) == 0) return true;
 	}
 	if(noBlendTime > 0.0f) tblend = 0.0f;
 	bspeed.Blend(speed, movespeed, tblend);
@@ -3402,7 +3403,7 @@ void Character::UpdateAnimation()
 			{
 				isNFHit = false;
 				curMove = null;
-				if (userIdle.name && (stricmp(userIdle.name, "Ground_SitDown")==0 || stricmp(userIdle.name, "Ground_StandUp")==0))
+				if (userIdle.name && (_stricmp(userIdle.name, "Ground_SitDown")==0 || _stricmp(userIdle.name, "Ground_StandUp")==0))
 				{
 					api->Trace("Not int: \"%s\"", userIdle.name);
 				}
@@ -3622,7 +3623,7 @@ void Character::UpdateAnimation()
 				isParryState = false;
 				isFeintState = false;
 /*
-				if(stricmp(characterID, "Blaze") == 0)
+				if(_stricmp(characterID, "Blaze") == 0)
 				{
 					ENTITY_ID eid;
 					api->FindClass(&eid, "ILogAndActions", 0);
@@ -3657,7 +3658,7 @@ void Character::UpdateAnimation()
 					}
 					break;
 				case fgt_attack_force:	//Выпад и выпад с рубящим ударом
-					if(stricmp(pWeaponID, "topor") == 0 && fgtSetIndex == 3)
+					if(_stricmp(pWeaponID, "topor") == 0 && fgtSetIndex == 3)
 					{	//если с топором, то выпад меняем на рубящий удар
 						fgtSetIndex = rand() % 2;
 					}
@@ -3728,7 +3729,7 @@ void Character::UpdateAnimation()
 					isFired = false;
 					break;
 				case fgt_hit_attack:	//Реакция попадания удара по персонажу вводящая его в stall
-                    if(stricmp(characterID, "Blaze") == 0) // boal не нашел лучшего, но у нас ГГ всегда имеет это ИД, работать будет
+                    if(_stricmp(characterID, "Blaze") == 0) // boal не нашел лучшего, но у нас ГГ всегда имеет это ИД, работать будет
                     {
 						if (rand() % 100 >= 50) break; // boal не всегда пробиваться в анимацию
 					}
@@ -3778,7 +3779,7 @@ void Character::UpdateAnimation()
 					break;
 				case fgt_block:			//Защита саблей
 					_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
-					if(stricmp(pWeaponID, "topor") == 0)
+					if(_stricmp(pWeaponID, "topor") == 0)
 					{
 						if(!(isSet = SetAction(blockaxe.name, blockaxe.tblend, 0.0f, 5.0f, true)))
 						{
@@ -3794,12 +3795,12 @@ void Character::UpdateAnimation()
 					}
 					break;
 				case fgt_blockhit:		//Защита саблей
-                    if(stricmp(characterID, "Blaze") == 0) // boal не нашел лучшего, но у нас ГГ всегда имеет это ИД, работать будет
+                    if(_stricmp(characterID, "Blaze") == 0) // boal не нашел лучшего, но у нас ГГ всегда имеет это ИД, работать будет
                     {
 						if (rand() % 100 >= 65) break; // boal не всегда пробиваться в анимацию
 					}
 					_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
-					if(stricmp(pWeaponID, "topor") == 0)
+					if(_stricmp(pWeaponID, "topor") == 0)
 					{
 						if(!(isSet = SetAction(blockaxehit.name, blockaxehit.tblend, 0.0f, 2.0f, true)))
 						{

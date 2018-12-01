@@ -2,6 +2,7 @@
 #include "..\common_h\tga.h"
 #include "..\..\Shared\sea_ai\script_defines.h"
 #include "SSE.h"
+#include <algorithm>
 
 //#define OLD_WORLD_POS
 
@@ -38,19 +39,14 @@ bool SEA::bIntel = false;
 bool SEA::bSSE = false;
 bool SEA::bDisableSSE = false;
 
-SEA::SEA() :
-	aBlocks(_FL_, 128),
-	aBumps(_FL_),
-	aNormals(_FL_),
-	aThreads(_FL_),
-	aEventCalcBlock(_FL_),
-	aThreadsTest(_FL_),
-	aBumpMaps(_FL_),
-	aSeaTrash(_FL_, 512),
-	aTrashRects(_FL_, 512),
-	aSeaLights(_FL_, 512),
-	aLightsRects(_FL_, 512)
+SEA::SEA()
 {
+	aBlocks.reserve(128);
+	aSeaTrash.reserve(512);
+	aTrashRects.reserve(512);
+	aSeaLights.reserve(512);
+	aLightsRects.reserve(512);
+
 	dwMaxDim = 65536 * 2;
 	dwMinDim = 128;
 
@@ -128,7 +124,7 @@ SEA::~SEA()
 	DeleteCriticalSection(&cs);
 	DeleteCriticalSection(&cs1);
 
-	for (long i=0; i<aThreads; i++)
+	for (long i=0; i<aThreads.size(); i++)
 	{
 		if (aThreads[i]) TerminateThread(aThreads[i], 0);
 		if (aEventCalcBlock[i]) CloseHandle(aEventCalcBlock[i]);
@@ -153,19 +149,19 @@ SEA::~SEA()
 
 	if (iFoamTexture >= 0) rs->TextureRelease(iFoamTexture); iFoamTexture = -1;
 
-	DELETE(pIndices);
-	DELETE(pVSea);
+	STORM_DELETE(pIndices);
+	STORM_DELETE(pVSea);
 
-	for (long i=0; i<aBumpMaps.Size(); i++) rs->Release(aBumpMaps[i]);
+	for (long i=0; i<aBumpMaps.size(); i++) rs->Release(aBumpMaps[i]);
 
-	for (long i=0; i<aBumps; i++) DELETE(aBumps[i]);
-	for (long i=0; i<aNormals; i++) DELETE(aNormals[i]);
+	for (long i=0; i<aBumps.size(); i++) STORM_DELETE(aBumps[i]);
+	for (long i=0; i<aNormals.size(); i++) STORM_DELETE(aNormals[i]);
 
 
-	DELETE(pSeaFrame1);
-	DELETE(pSeaFrame2);
-	DELETE(pSeaNormalsFrame1);
-	DELETE(pSeaNormalsFrame2);
+	STORM_DELETE(pSeaFrame1);
+	STORM_DELETE(pSeaFrame2);
+	STORM_DELETE(pSeaNormalsFrame1);
+	STORM_DELETE(pSeaNormalsFrame2);
 }
 
 void SEA::SFLB_CreateBuffers()
@@ -185,7 +181,7 @@ bool SEA::Init()
 	bDisableSSE = (pEngineIni) ? pEngineIni->GetLong(null, "DisableSSE", 0) != 0 : false;
 	bIniFoamEnable = (pEngineIni) ? pEngineIni->GetLong("Sea", "FoamEnable", 1) != 0 : false;
     bool bEnableSSE = (pEngineIni) ? pEngineIni->GetLong(null, "EnableSSE", 0) != 0 : false;   //boal
-    DELETE(pEngineIni);
+    STORM_DELETE(pEngineIni);
     if (bEnableSSE)
     {
         bSSE = true;  //boal
@@ -205,15 +201,17 @@ bool SEA::Init()
 
 		for (dword i=0; i<dwNumThreads; i++)
 		{
-			HANDLE & hEvent = aEventCalcBlock[aEventCalcBlock.Add()];
-			hEvent = CreateEvent(null, false, false, null);
+			//HANDLE & hEvent = aEventCalcBlock[aEventCalcBlock.Add()];
+			//hEvent = CreateEvent(null, false, false, null);
+			aEventCalcBlock.push_back(CreateEvent(null, false, false, null));
 
-			HANDLE & hThread = aThreads[aThreads.Add()];
+			aThreads.push_back(HANDLE{});
+			HANDLE & hThread = aThreads.back();
 			hThread = CreateThread(null, 0, (LPTHREAD_START_ROUTINE)SEA::ThreadExecute, (void*)i, CREATE_SUSPENDED, null);
 			SetThreadPriority(hThread, THREAD_PRIORITY_NORMAL);
 			ResumeThread(hThread);
 
-			aThreadsTest.Add();
+			aThreadsTest.push_back(long{});
 		}
 
 		bHyperThreading = dwNumThreads > 0;
@@ -243,7 +241,7 @@ bool SEA::Init()
 	byte bMin = 0xFF;
 	byte bMax = 0;
 
-	array<byte*> aTmpBumps(_FL_);
+	std::vector<byte*> aTmpBumps;
 
 	dword i;
 
@@ -264,7 +262,7 @@ bool SEA::Init()
 		char * pFB = pFBuffer + sizeof(TGA_H);
 
 		byte * pBuffer = NEW byte[XWIDTH * YWIDTH];
-		aTmpBumps.Add(pBuffer);
+		aTmpBumps.push_back(pBuffer);
 
 		for (dword y=0; y<YWIDTH; y++)
 			for (dword x=0; x<XWIDTH; x++)
@@ -277,13 +275,13 @@ bool SEA::Init()
 				pFB += sizeof(dword);
 			}
 
-		DELETE(pFBuffer);
+		STORM_DELETE(pFBuffer);
 	}
 
 	for (i=0; i<FRAMES; i++)
 	{
 		byte * pBuffer = NEW byte[XWIDTH * YWIDTH];
-		aBumps.Add(pBuffer);
+		aBumps.push_back(pBuffer);
 
 		for (dword y=0; y<YWIDTH; y++)
 			for (dword x=0; x<XWIDTH; x++)
@@ -301,7 +299,7 @@ bool SEA::Init()
 			}
 	}
 
-	for (i=0; i<aTmpBumps(); i++) DELETE(aTmpBumps[i]);
+	for (i=0; i<aTmpBumps.size(); i++) STORM_DELETE(aTmpBumps[i]);
 
 	BuildVolumeTexture();
 
@@ -314,10 +312,11 @@ bool SEA::Init()
 
 void SEA::BuildVolumeTexture()
 {
-	array<CVECTOR*> aVectors(_FL_);
+	std::vector<CVECTOR*> aVectors;
 	dword i, j;
 
-	aNormals.DelAllWithPointers();
+	for (const auto &normal : aNormals)
+		delete normal;
 
 	D3DLOCKED_BOX	box[4];
 
@@ -325,8 +324,8 @@ void SEA::BuildVolumeTexture()
 	for (i=0; i<4; i++)
 		pVolumeTexture->LockBox(i, &box[i], 0, 0);
 
-	for (i=0; i<aBumpMaps.Size(); i++) rs->Release(aBumpMaps[i]);
-	aBumpMaps.DelAll();
+	for (i=0; i<aBumpMaps.size(); i++) rs->Release(aBumpMaps[i]);
+	aBumpMaps.clear();
 
 	dword dwTexelSize = 4;
 	char * pDst = (char*)NEW char[XWIDTH * YWIDTH * dwTexelSize];
@@ -335,10 +334,10 @@ void SEA::BuildVolumeTexture()
 	for (i=0; i<FRAMES; i++)
 	{
 		dword * pBuffer = NEW dword[XWIDTH * YWIDTH];
-		aNormals.Add(pBuffer);
+		aNormals.push_back(pBuffer);
 
 		CVECTOR * pVectors = NEW CVECTOR[XWIDTH * YWIDTH];
-		aVectors.Add(pVectors);
+		aVectors.push_back(pVectors);
 
 		for (dword y=0; y<YWIDTH; y++)
 			for (dword x=0; x<XWIDTH; x++)
@@ -402,10 +401,11 @@ void SEA::BuildVolumeTexture()
 		{
 			D3DSURFACE_DESC		d3dsd;
 			D3DLOCKED_RECT		d3dlr;
-			IDirect3DTexture9	* * pBumpMap;
 			HRESULT				hr;
 
-	  		pBumpMap = &aBumpMaps[aBumpMaps.Add()];
+			aBumpMaps.push_back(nullptr);
+	  		//pBumpMap = &aBumpMaps[aBumpMaps.Add()];
+			IDirect3DTexture9 ** pBumpMap = &aBumpMaps.back();
 			hr = rs->CreateTexture( XWIDTH, YWIDTH, MIPSLVLS, 0, D3DFMT_X8R8G8B8, D3DPOOL_MANAGED, pBumpMap);
 
 			// generate mip levels for random bump
@@ -488,15 +488,17 @@ void SEA::BuildVolumeTexture()
 						*(dword*)&(((char*)box[j].pBits)[i * box[j].SlicePitch + y * box[j].RowPitch + x * 4]) = ARGB(0x80, blue, green, red);
 				}
 		}
-		DELETE(pVectors);
+		STORM_DELETE(pVectors);
 	}
 
 	if (pVolumeTexture)
 	for (i=0; i<4; i++)
 		pVolumeTexture->UnlockBox(i);
 
-	aVectors.DelAllWithPointers();
-	DELETE(pDst);
+	for (const auto &vector : aVectors)
+		delete vector;
+	//aVectors.DelAllWithPointers();
+	STORM_DELETE(pDst);
 }
 
 bool SEA::EditMode_Update()
@@ -646,7 +648,9 @@ void SEA::CalculateLOD(const CVECTOR & v1, const CVECTOR & v2, long & iMaxLOD, l
 
 void SEA::AddBlock(long iTX, long iTY, long iSize, long iLOD)
 {
-	SeaBlock * pB = &aBlocks[aBlocks.Add()];
+	aBlocks.push_back(SeaBlock{});
+	//SeaBlock * pB = &aBlocks[aBlocks.Add()];
+	SeaBlock * pB = &aBlocks.back();
 
 	pB->iTX = iTX;
 	pB->iTY = iTY;
@@ -1209,7 +1213,7 @@ void SEA::WaveXZBlock(SeaBlock * pB)
 SEA::SeaBlock * SEA::GetUndoneBlock()
 {
 	SeaBlock * pB = null;
-	for (long i=0; i<aBlocks; i++) if (!aBlocks[i].bInProgress)
+	for (long i=0; i<aBlocks.size(); i++) if (!aBlocks[i].bInProgress)
 	{
 		pB = &aBlocks[i];
 		pB->bInProgress = true;
@@ -1255,10 +1259,10 @@ dword SEA::ThreadExecute(long iThreadIndex)
 	}
 }
 
-void SEA::CalculateNormalMap(float fFrame, float fAmplitude, float * pfOut, array<dword*> & aFrames)
+void SEA::CalculateNormalMap(float fFrame, float fAmplitude, float * pfOut, std::vector<dword*> & aFrames)
 {
-	long iFrame1 = fftol(fFrame) % aFrames.Len();
-	long iFrame2 = (iFrame1 + 1) % aFrames.Len();
+	long iFrame1 = fftol(fFrame) % aFrames.size();
+	long iFrame2 = (iFrame1 + 1) % aFrames.size();
 
 	float fDelta = fFrame - iFrame1;
 
@@ -1280,10 +1284,10 @@ void SEA::CalculateNormalMap(float fFrame, float fAmplitude, float * pfOut, arra
 		}
 }
 
-void SEA::CalculateHeightMap(float fFrame, float fAmplitude, float * pfOut, array<byte*> & aFrames)
+void SEA::CalculateHeightMap(float fFrame, float fAmplitude, float * pfOut, std::vector<byte*> & aFrames)
 {
-	long iFrame1 = fftol(fFrame) % aFrames.Len();
-	long iFrame2 = (iFrame1 + 1) % aFrames.Len();
+	long iFrame1 = fftol(fFrame) % aFrames.size();
+	long iFrame2 = (iFrame1 + 1) % aFrames.size();
 
 	float fDelta = fFrame - iFrame1;
 
@@ -1388,15 +1392,15 @@ void SEA::Realize(dword dwDeltaTime)
 	iTStart = 0;
 	iIStart = 0;
 
-	if (!pVolumeTexture && aBumpMaps.Size())
+	if (!pVolumeTexture && aBumpMaps.size())
 	{
 		IDirect3DSurface9	* pFace;
 
 		static float fBumpMapFrame = 0.0f;
 		fBumpMapFrame += float(fDeltaTime) * fBumpSpeed * 48.0f;
 
-		dword dw1 = long(fBumpMapFrame) % aBumpMaps.Size();
-		dword dw2 = long(fBumpMapFrame + 1.0f) % aBumpMaps.Size();
+		dword dw1 = long(fBumpMapFrame) % aBumpMaps.size();
+		dword dw2 = long(fBumpMapFrame + 1.0f) % aBumpMaps.size();
 
 		float fAlpha = 255.0f * (fBumpMapFrame - float(long(fBumpMapFrame)));
 		rs->SetRenderState(D3DRS_TEXTUREFACTOR, ARGB(fAlpha, 0, 0, 0));
@@ -1443,18 +1447,19 @@ void SEA::Realize(dword dwDeltaTime)
 	RDTSC_E(dwX);
 	//api->Trace("dwX = %d", dwX);
 
-	aBlocks.Empty();
+	aBlocks.clear();
 	BuildTree(0, 0, 0);
-	aBlocks.QSort(SeaBlock::QSort);
+	//aBlocks.QSort(SeaBlock::QSort);
+	std::sort(aBlocks.begin(), aBlocks.end(), SeaBlock::QSort);
 
 	dword	i;
 	long	iNumVPoints = 0;
-	for (i=0; i<aBlocks(); i++)
+	for (i=0; i<aBlocks.size(); i++)
 	{
 		iNumVPoints += aBlocks[i].iSize0 * aBlocks[i].iSize0;
 		if (iNumVPoints >= NUM_VERTEXS)
 		{
-			aBlocks.DelRange(i, aBlocks.Last());
+			aBlocks.erase(aBlocks.begin() + i, aBlocks.end());
 			break;
 		}
 	}
@@ -1462,7 +1467,7 @@ void SEA::Realize(dword dwDeltaTime)
 	SeaVertex * pVSea2 = (SeaVertex*)rs->LockVertexBuffer(iVSeaBuffer, D3DLOCK_DISCARD | D3DLOCK_NOSYSLOCK);
 	pTriangles = (word*)rs->LockIndexBuffer(iISeaBuffer, D3DLOCK_DISCARD | D3DLOCK_NOSYSLOCK);
 
-	for (i=0; i<aBlocks(); i++) PrepareIndicesForBlock(i);
+	for (i=0; i<aBlocks.size(); i++) PrepareIndicesForBlock(i);
 	//for (i=0; i<aBlocks(); i++) SetBlock(i);
 
 	iBlocksDoneNum = 0;
@@ -1476,7 +1481,7 @@ void SEA::Realize(dword dwDeltaTime)
 	{
 		bHT = true;
 
-		for (long i=0; i<aEventCalcBlock; i++)
+		for (long i=0; i<aEventCalcBlock.size(); i++)
 		{
 			aThreadsTest[i] = 0;
 			SetEvent(aEventCalcBlock[i]);
@@ -1493,7 +1498,7 @@ void SEA::Realize(dword dwDeltaTime)
 			iB1++;
 		}
 
-		while (iBlocksDoneNum < aBlocks)
+		while (iBlocksDoneNum < aBlocks.size())
 			_mm_pause();
 	}
 	else
@@ -1634,10 +1639,12 @@ void SEA::Realize(dword dwDeltaTime)
 		if (!bUnderSeaStarted)
 		{
 			// делаем кучку планктона первый раз
-			aSeaTrash.Empty();
+			aSeaTrash.clear();
 			for (long i=0; i<1000; i++)
 			{
-				SeaTrash & st = aSeaTrash[aSeaTrash.Add()];
+				aSeaTrash.push_back(SeaTrash{});
+				//SeaTrash & st = aSeaTrash[aSeaTrash.Add()];
+				SeaTrash & st = aSeaTrash.back();
 				st.vPos = vCamPos + CVECTOR(RRnd(-d.x, d.x), RRnd(-d.y, d.y), RRnd(-d.z, d.z));
 				st.vSpeed = CVECTOR(0.1f, 0.0f, 0.0f);
 				st.dwSubTexture = rand() % 4;
@@ -1646,10 +1653,12 @@ void SEA::Realize(dword dwDeltaTime)
 			}
 
 			// делаем кучку световых столбов первый раз
-			aSeaLights.Empty();
+			aSeaLights.clear();
 			for (long i=0; i<50; i++)
 			{
-				SeaLight & sl = aSeaLights[aSeaLights.Add()];
+				aSeaLights.push_back(SeaLight{});
+				//SeaLight & sl = aSeaLights[aSeaLights.Add()];
+				SeaLight & sl = aSeaLights.back();
 				sl.vPos = vCamPos + CVECTOR(RRnd(-d2.x, d2.x), RRnd(-d2.y, d2.y), RRnd(-d2.z, d2.z));
 				sl.vSpeed = CVECTOR(0.1f, 0.0f, 0.0f);
 				sl.dwSubTexture = rand() % 4;
@@ -1663,7 +1672,9 @@ void SEA::Realize(dword dwDeltaTime)
 		{
 			fLastTrashTime -= 0.03f;
 
-			SeaTrash & st = aSeaTrash[aSeaTrash.Add()];
+			aSeaTrash.push_back(SeaTrash{});
+			//SeaTrash & st = aSeaTrash[aSeaTrash.Add()];
+			SeaTrash & st = aSeaTrash.back();
 			st.vPos = vCamPos + CVECTOR(RRnd(-d.x, d.x), RRnd(-d.y, d.y), RRnd(-d.z, d.z));
 			st.vSpeed = CVECTOR(0.1f, 0.0f, 0.0f);
 			st.dwSubTexture = rand() % 4;
@@ -1672,22 +1683,26 @@ void SEA::Realize(dword dwDeltaTime)
 		}
 
 		// Уничтожаем старые плактонинки
-		for (long i=0; i<aSeaTrash.Len(); i++)
+		for (long i=0; i<aSeaTrash.size(); i++)
 		{
 			aSeaTrash[i].fTime -= fDeltaTime;
 			if (aSeaTrash[i].fTime <= 0.0f)
 			{
-				aSeaTrash.ExtractNoShift(i);
+				//aSeaTrash.ExtractNoShift(i);
+				aSeaTrash[i] = aSeaTrash.back();
+				aSeaTrash.pop_back();
 				i--;
 				continue;
 			}
 			aSeaTrash[i].vPos += aSeaTrash[i].vSpeed * fDeltaTime;
 		}
 		// Рисуем планктон
-		aTrashRects.Empty();
-		for (long i=0; i<aSeaTrash.Len(); i++)
+		aTrashRects.clear();
+		for (long i=0; i<aSeaTrash.size(); i++)
 		{
-			RS_RECT & r = aTrashRects[aTrashRects.Add()];
+		//	RS_RECT & r = aTrashRects[aTrashRects.Add()];
+			aTrashRects.push_back(RS_RECT{});
+			RS_RECT & r = aTrashRects.back();
 
 			float fAlpha = 1.0f;
 			if (aSeaTrash[i].fTime >= 45.0f)
@@ -1702,10 +1717,10 @@ void SEA::Realize(dword dwDeltaTime)
 			r.dwSubTexture = aSeaTrash[i].dwSubTexture;
 		}
 
-		if (aTrashRects.Len())
+		if (aTrashRects.size())
 		{
 			rs->TextureSet(0, iSeaTrashTexture);
-			rs->DrawRects(&aTrashRects[0], aTrashRects.Size(), "seatrash", 2, 2);
+			rs->DrawRects(&aTrashRects[0], aTrashRects.size(), "seatrash", 2, 2);
 		}
 
 		// Рисуем стаи рыб
@@ -1717,7 +1732,9 @@ void SEA::Realize(dword dwDeltaTime)
 		{
 			fLastLightTime -= 1.0f;
 
-			SeaLight & sl = aSeaLights[aSeaLights.Add()];
+			aSeaLights.push_back(SeaLight{});
+			//SeaLight & sl = aSeaLights[aSeaLights.Add()];
+			SeaLight & sl = aSeaLights.back();
 			sl.vPos = vCamPos + CVECTOR(RRnd(-d2.x, d2.x), RRnd(-d2.y, d2.y), RRnd(-d2.z, d2.z));
 			sl.vSpeed = CVECTOR(0.1f, 0.0f, 0.0f);
 			sl.dwSubTexture = rand() % 4;
@@ -1725,12 +1742,13 @@ void SEA::Realize(dword dwDeltaTime)
 		}
 
 		// Уничтожаем старые световые столбики
-		for (long i=0; i<aSeaLights.Len(); i++)
+		for (long i=0; i<aSeaLights.size(); i++)
 		{
 			aSeaLights[i].fTime -= fDeltaTime;
 			if (aSeaLights[i].fTime <= 0.0f)
 			{
-				aSeaLights.ExtractNoShift(i);
+				aSeaLights[i] = aSeaLights.back();
+				aSeaLights.pop_back();
 				i--;
 				continue;
 			}
@@ -1740,11 +1758,12 @@ void SEA::Realize(dword dwDeltaTime)
 		float fAlphaK = (vCamPos.y < 0.0f) ? Max(0.0f, 1.0f + vCamPos.y / 30.0f) : 1.0f;
 
 		// Рисуем световые столбики
-		aLightsRects.Empty();
-		for (long i=0; i<aSeaLights.Len(); i++)
+		aLightsRects.clear();
+		for (long i=0; i<aSeaLights.size(); i++)
 		{
-			RS_RECT & r = aLightsRects[aLightsRects.Add()];
-
+			aLightsRects.push_back(RS_RECT{});
+			//RS_RECT & r = aLightsRects[aLightsRects.Add()];
+			RS_RECT & r = aLightsRects.back();
 			float fAlpha = 1.0f;
 			if (aSeaLights[i].fTime >= 45.0f)
 				fAlpha = 1.0f - (aSeaLights[i].fTime - 45.0f) / 5.0f;
@@ -1759,10 +1778,10 @@ void SEA::Realize(dword dwDeltaTime)
 			r.dwSubTexture = aSeaLights[i].dwSubTexture;
 		}
 
-		if (aLightsRects.Len())
+		if (aLightsRects.size())
 		{
 			rs->TextureSet(0, iSeaLightTexture);
-			rs->DrawRects(&aLightsRects[0], aLightsRects.Size(), "seatrash", 2, 2, 0.5f);
+			rs->DrawRects(&aLightsRects[0], aLightsRects.size(), "seatrash", 2, 2, 0.5f);
 		}
 
 		bUnderSeaStarted = true;

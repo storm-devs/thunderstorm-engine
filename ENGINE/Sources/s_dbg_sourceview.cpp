@@ -1,8 +1,9 @@
+#include "../../common_h/defines.h"
 #ifndef _XBOX
-//#include "windows.h"
 #include "s_dbg_sourceview.h"
 #include "core.h"
 #include "s_debug.h"
+#include <algorithm>
 
 extern CORE Core;
 extern S_DEBUG CDebug;
@@ -214,16 +215,16 @@ LRESULT CALLBACK SourceViewWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM l
 				POINT pnt;
 				GetCursorPos(&pnt);
 
-				if (CDebug.SourceView->sCopyPasteBuffer.Len() && WindowFromPoint(pnt) == CDebug.WatcherList->GetWindowHandle())
+				if (CDebug.SourceView->sCopyPasteBuffer.size() && WindowFromPoint(pnt) == CDebug.WatcherList->GetWindowHandle())
 				{
 					long iItemCount = ListView_GetItemCount(CDebug.WatcherList->GetWindowHandle());
 					for (long i=0; i<iItemCount; i++)
 					{
 						if (ListView_GetItemState(CDebug.WatcherList->GetWindowHandle(), i, LVIS_SELECTED) & LVIS_SELECTED)
 						{
-							CDebug.WatcherList->SetItemText(i, 0, (char*)CDebug.SourceView->sCopyPasteBuffer.GetBuffer());
+							CDebug.WatcherList->SetItemText(i, 0, (char*)CDebug.SourceView->sCopyPasteBuffer.c_str());
 							CDebug.WatcherList->ItemChanged(i, 0);
-							CDebug.SourceView->sCopyPasteBuffer.DelAll();
+							CDebug.SourceView->sCopyPasteBuffer.clear();
 							break;
 						}
 					}
@@ -361,7 +362,7 @@ void SOURCE_VIEW::SetCharacterMap(char * pMap, char * pStr)
 	for (dword i=0; i<dwLen; i++) pMap[pStr[i]] = true;
 }
 
-SOURCE_VIEW::SOURCE_VIEW(HWND _hMain, HINSTANCE _hInst) : htBookmarks(__FILE__, __LINE__, 512), aStrings(_FL_)
+SOURCE_VIEW::SOURCE_VIEW(HWND _hMain, HINSTANCE _hInst)
 {
 	SetCharacterMap(cDelimTable, "`~!@#$%^&*()-=+[],.?><\"\\/|{};': ");
 
@@ -430,7 +431,7 @@ SOURCE_VIEW::SOURCE_VIEW(HWND _hMain, HINSTANCE _hInst) : htBookmarks(__FILE__, 
 		char buffer[1024];
 		if (pI->ReadString("bookmarks", "BM", buffer, sizeof(buffer), "")) do 
 		{
-			htBookmarks.Add(buffer, dword(0));
+			htBookmarks[buffer] = dword(0);
 		} while (pI->ReadStringNext("bookmarks", "BM", buffer, sizeof(buffer)));
 
 		delete pI;
@@ -447,14 +448,17 @@ SOURCE_VIEW::~SOURCE_VIEW()
 	if (pI)
 	{
 		pI->DeleteSection("bookmarks");
-		htable<dword>::iterator htIter(htBookmarks);
+		/*hable<dword>::iterator htIter(htBookmarks);
 
 		int n = 0;
 		for (htIter.Begin(); !htIter.IsDone(); htIter.Next())
 		{
 			const char * pName = htIter.GetName();
 			pI->AddString("bookmarks", "BM", (char*)pName);
-		}
+		}*/
+		for(const auto &bookmark : htBookmarks)
+			pI->AddString("bookmarks", "BM", (char*)bookmark.first.c_str());
+
 		delete pI;
 	}
 }
@@ -490,7 +494,7 @@ bool SOURCE_VIEW::OpenSourceFile(const char * _filename)
 
 	ShowWindow(hMain,SW_NORMAL);
 
-	if(stricmp(SourceFileName,_filename) == 0) return true;
+	if(_stricmp(SourceFileName,_filename) == 0) return true;
 
 	if(SourceFileName[0]!=0)
 	{
@@ -555,12 +559,14 @@ bool SOURCE_VIEW::OpenSourceFile(const char * _filename)
 	SetFocus(hOwn);
 
 	// set bookmarks]
-	string sSourceFileName = SourceFileName;
+	std::string sSourceFileName = SourceFileName;
 	for (int n=0; n<nLinesNum; n++)
 	{
 		dword dwTmpFind;
-		string sTmp = sSourceFileName + "," + long(n);
-		if (htBookmarks.Find(sTmp, dwTmpFind)) pBookmarks[n] = 1;
+		std::string sTmp = sSourceFileName + "," + std::to_string(n);
+		//if (htBookmarks.Find(sTmp, dwTmpFind)) 
+		if (htBookmarks.count(sTmp) > 0) 
+			pBookmarks[n] = true;
 	}
 
 	return true;
@@ -587,7 +593,7 @@ void SOURCE_VIEW::OnPaint()
 	DWORD x,y;
 	DWORD nFrom,nTo;
 
-	string sSourceFileName = SourceFileName;
+	std::string sSourceFileName = SourceFileName;
 
 	dc = BeginPaint(hOwn,&PS);
 	hFont_old = SelectObject(dc,hFont);
@@ -609,7 +615,7 @@ void SOURCE_VIEW::OnPaint()
 		CopyPasteRect.top = 0;
 		CopyPasteRect.bottom = 0;
 
-		sCopyPasteBuffer.DelAll();
+		sCopyPasteBuffer.clear();
 	}
 	
 	DWORD nTextLen;
@@ -647,7 +653,8 @@ void SOURCE_VIEW::OnPaint()
 					nControlLine = n;
 				}
 			}
-			else if (htBookmarks.Find(sSourceFileName + "," + n, dwTmpFind)) //;CDebug.SourceView->pBookmarks[n])
+			//else if (htBookmarks.Find(sSourceFileName + "," + n, dwTmpFind)) //;CDebug.SourceView->pBookmarks[n])
+			else if (htBookmarks.count(sSourceFileName + "," + std::to_string(n)) > 0)
 				FillRect(dc, &SelectionRect, hBookmarkBrush);
 
 			if(n == nActiveLine)
@@ -1005,11 +1012,11 @@ void SOURCE_VIEW::ToogleBookmark()
 	if (nActiveLine < nLinesNum)
 	{
 		pBookmarks[nActiveLine] ^= 1;
-		string sFilename = string(SourceFileName) + "," + nActiveLine;
+		std::string sFilename = std::string(SourceFileName) + "," + std::to_string(nActiveLine);
 		if (pBookmarks[nActiveLine]) 
-			htBookmarks.Add(sFilename, nActiveLine);
+			htBookmarks[sFilename] = nActiveLine;
 		else
-			htBookmarks.Del(sFilename);
+			htBookmarks.erase(sFilename);
 		InvalidateRect(hMain, null, true);
 	}
 }
@@ -1017,7 +1024,7 @@ void SOURCE_VIEW::ToogleBookmark()
 void SOURCE_VIEW::ClearAllBookmarks()
 {
 	for (long i=0; i<nLinesNum; i++) pBookmarks[i] = 0;
-	htBookmarks.Reset();
+	htBookmarks.clear();
 	InvalidateRect(hMain, null, true);
 }
 
@@ -1035,7 +1042,7 @@ void SOURCE_VIEW::GoNextBookmark()
 	}
 }
 
-char * SOURCE_VIEW::GetToken(char * pStr, string & sResult)
+char * SOURCE_VIEW::GetToken(char * pStr, std::string & sResult)
 {
 	char cToken[1024];
 	dword dwTokenSize = 0;
@@ -1073,14 +1080,14 @@ char * SOURCE_VIEW::GetToken(char * pStr, string & sResult)
 bool SOURCE_VIEW::SetVariableOnChange(const char * pString, bool bSet)
 {
 	long iDigit;
-	string sVarName, sToken, sDigit;
+	std::string sVarName, sToken, sDigit;
 	char * pStr = (char*)pString;
 	VDATA * pObject = null;
 
 	pStr = GetToken(pStr, sVarName);
 	if (!pStr)
 	{
-		pObject = (VDATA *)_CORE_API->GetScriptVariable(sVarName, null);
+		pObject = (VDATA *)_CORE_API->GetScriptVariable(sVarName.c_str(), null);
 		if (!pObject) return false;
 		// set VOC to alone variable
 		return true;
@@ -1094,14 +1101,14 @@ bool SOURCE_VIEW::SetVariableOnChange(const char * pString, bool bSet)
 		{
 			return false;
 		}
-		VDATA * pV = (VDATA *)_CORE_API->GetScriptVariable(sVarName, null); if (!pV) return false;
-		sscanf(sDigit, "%d", &iDigit);
+		VDATA * pV = (VDATA *)_CORE_API->GetScriptVariable(sVarName.c_str(), null); if (!pV) return false;
+		sscanf(sDigit.c_str(), "%d", &iDigit);
 		pObject = pV->GetArrayElement(iDigit);
 		pStr = GetToken(pStr, sToken);
 	}
 	else if (sToken == ".")
 	{
-		pObject = (VDATA *)_CORE_API->GetScriptVariable(sVarName, null);
+		pObject = (VDATA *)_CORE_API->GetScriptVariable(sVarName.c_str(), null);
 	}
 	else
 		return false;
@@ -1129,13 +1136,13 @@ INT_PTR CALLBACK VarChangeDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 		{
 			HWND hwndList = GetDlgItem(hwndDlg, IDC_XLIST);
 			long iNum = ListView_GetItemCount(hwndList);
-			CDebug.SourceView->aStrings.DelAll();
+			CDebug.SourceView->aStrings.clear();
 			for (long i=0; i<iNum; i++)
 			{
 				char str[1024]; str[0] = 0;
 				ListView_GetItemText(hwndList, i, 0, str, sizeof(str));
-				string sValue = str;
-				CDebug.SourceView->aStrings.Add(sValue);
+				std::string sValue = str;
+				CDebug.SourceView->aStrings.push_back(sValue);
 			}
 		}
 		break;
@@ -1154,7 +1161,7 @@ INT_PTR CALLBACK VarChangeDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 			dword dwOld = ListView_GetExtendedListViewStyle(hwndList);
 			ListView_SetExtendedListViewStyle(hwndList, dwOld | LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
 
-			for (long i=0; i<CDebug.SourceView->aStrings; i++)
+			for (long i=0; i<CDebug.SourceView->aStrings.size(); i++)
 			{
 				LVITEM item;
 				ZeroMemory(&item, sizeof(item));
@@ -1162,7 +1169,7 @@ INT_PTR CALLBACK VarChangeDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 				item.iItem = 0;
 				item.iSubItem = 0;
 				item.pszText = (char*)CDebug.SourceView->aStrings[i].c_str();
-				item.cchTextMax = CDebug.SourceView->aStrings[i].Len();
+				item.cchTextMax = CDebug.SourceView->aStrings[i].size();
 				ListView_InsertItem(hwndList, &item);
 			}
 		}
@@ -1262,10 +1269,11 @@ void SOURCE_VIEW::FindModal()
 
 void SOURCE_VIEW::FindNext()
 {
-	if (sFindStr.IsEmpty() || !nLinesNum) return;
+	if (sFindStr.empty() || !nLinesNum) return;
 
-	sFindStr.Lower();
-	string sTestStr;
+	//sFindStr.Lower();
+	std::transform(sFindStr.begin(), sFindStr.end(), sFindStr.begin(), ::tolower);
+
 	int nStartLine = (nActiveLine < nTopLine || nActiveLine > nTopLine + nClientLinesSize) ? nTopLine : nActiveLine;
 	for (long i=1; i<nLinesNum; i++)
 	{
@@ -1277,9 +1285,9 @@ void SOURCE_VIEW::FindNext()
 		else nTextLen = pLineOffset[iLine + 1] - pLineOffset[iLine];
 		memcpy(str, pSourceFile + pLineOffset[iLine], nTextLen);
 		str[nTextLen] = 0;
-		sTestStr = str;
-		sTestStr.Lower();
-		if (sTestStr.FindSubStr(sFindStr) >= 0)
+		std::string sTestStr = str;
+		std::transform(sTestStr.begin(), sTestStr.end(), sTestStr.begin(), ::tolower);
+		if (sTestStr.find(sFindStr) != std::string::npos)
 		{
 			SetActiveLine(iLine);
 			break;

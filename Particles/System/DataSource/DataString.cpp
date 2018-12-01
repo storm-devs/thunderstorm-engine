@@ -15,7 +15,7 @@ DataString::~DataString ()
 //Получить значение
 const char* DataString::GetValue ()
 {
-	return Value.GetBuffer();
+	return Value.c_str();
 }
 
 //Установить значение
@@ -47,7 +47,7 @@ void DataString::SetName (const char* szName)
 
 const char* DataString::GetName ()
 {
-	return Name.GetBuffer();
+	return Name.c_str();
 }
 
 void DataString::Write (MemFile* File)
@@ -58,10 +58,10 @@ void DataString::Write (MemFile* File)
 	File->Write(WriteTempString, 128);
 
 	//save name
-	DWORD NameLength = Name.Len();
+	DWORD NameLength = Name.size();
 	DWORD NameLengthPlusZero = NameLength+1;
 	File->WriteType(NameLengthPlusZero);
 	Assert (NameLength < 128);
-	File->Write(Name.GetBuffer(), NameLength);
+	File->Write(Name.c_str(), NameLength);
 	File->WriteZeroByte();
 }

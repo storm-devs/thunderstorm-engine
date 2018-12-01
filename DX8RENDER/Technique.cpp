@@ -616,7 +616,7 @@ SRSPARAM	RESTORE_TYPES[] = {
 	{ "states", SUBCODE_RESTORE_STATES },
 	{ "clear", SUBCODE_RESTORE_CLEAR } };
 
-CTechnique::CTechnique(VDX9RENDER * _pRS) : htBlocks(_FL_)
+CTechnique::CTechnique(VDX9RENDER * _pRS)
 {
 	dwNumBlocks = 0;
 	dwNumShaders = 0;
@@ -650,17 +650,17 @@ CTechnique::~CTechnique()
 		for (j=0;j<pB->dwNumTechniques;j++)
 		{
 			technique_t *pTech = &pB->pTechniques[j];
-			for (k=0;k<pTech->dwNumPasses;k++) DELETE(pTech->pPasses[k].pPass);
-			DELETE(pTech->pPasses);
+			for (k=0;k<pTech->dwNumPasses;k++) STORM_DELETE(pTech->pPasses[k].pPass);
+			STORM_DELETE(pTech->pPasses);
 		}
-		DELETE(pB->pParams);
-		DELETE(pB->pBlockName);
-		DELETE(pB->pTechniques);
+		STORM_DELETE(pB->pParams);
+		STORM_DELETE(pB->pBlockName);
+		STORM_DELETE(pB->pTechniques);
 	}
 	for (i=0;i<dwNumShaders;i++)
 	{
-		DELETE(pShaders[i].pName);
-		DELETE(pShaders[i].pDecl);
+		STORM_DELETE(pShaders[i].pName);
+		STORM_DELETE(pShaders[i].pDecl);
 		if (pShaders[i].pPixelShader != nullptr)
 		{
 			pShaders[i].pPixelShader->Release();
@@ -672,10 +672,10 @@ CTechnique::~CTechnique()
 			pShaders[i].pVertexShader = nullptr;
 		}
 	}
-	DELETE(pShaders);
-	DELETE(pBlocks);
-	DELETE(pSavedStates);
-	DELETE(pCurParams);
+	STORM_DELETE(pShaders);
+	STORM_DELETE(pBlocks);
+	STORM_DELETE(pSavedStates);
+	STORM_DELETE(pCurParams);
 }
 
 #define END_TEST	(dword(pCurrent - pBegin) >= dwSize-2)
@@ -727,7 +727,7 @@ bool isDigit(char * pStr) { return ((pStr) ? (pStr[0]>='0' && pStr[0]<='9') : fa
 dword CTechnique::GetSRSIndex(char *pStr)
 {
 	dword dwNumParam = sizeof(RenderStates) / sizeof(STSS);
-	for (dword i=0;i<dwNumParam;i++) if (stricmp(pStr,RenderStates[i].cName)==0) return i;
+	for (dword i=0;i<dwNumParam;i++) if (_stricmp(pStr,RenderStates[i].cName)==0) return i;
 	api->Trace("ERROR: SetRenderState: unknown parameter type <%s> in <%s> file, technique <%s>",pStr,sCurrentFileName,sCurrentBlockName);
 	//THROW;
 	return INVALID_SRS_INDEX;
@@ -736,7 +736,7 @@ dword CTechnique::GetSRSIndex(char *pStr)
 dword CTechnique::GetSTSSIndex(char *pStr)
 {
 	dword dwNumParam = sizeof(TexturesStageStates) / sizeof(STSS);
-	for (dword i=0;i<dwNumParam;i++) if (stricmp(pStr,TexturesStageStates[i].cName)==0) return i;
+	for (dword i=0;i<dwNumParam;i++) if (_stricmp(pStr,TexturesStageStates[i].cName)==0) return i;
 	//api->Trace("ERROR: SetTextureStageState: unknown parameter type <%s> in <%s> file, technique <%s>",pStr,sCurrentFileName,sCurrentBlockName);
 	//THROW;
 	return INVALID_INDEX;
@@ -745,7 +745,7 @@ dword CTechnique::GetSTSSIndex(char *pStr)
 dword CTechnique::GetSAMPIndex(char *pStr)
 {
 	dword dwNumParam = sizeof(SampleStates) / sizeof(SAMP);
-	for (dword i = 0; i<dwNumParam; i++) if (stricmp(pStr, SampleStates[i].cName) == 0) return i;
+	for (dword i = 0; i<dwNumParam; i++) if (_stricmp(pStr, SampleStates[i].cName) == 0) return i;
 	//api->Trace("ERROR: SetSamplerState: unknown parameter type <%s> in <%s> file, technique <%s>", pStr, sCurrentFileName, sCurrentBlockName);
 	//THROW;
 	return INVALID_INDEX;
@@ -753,7 +753,7 @@ dword CTechnique::GetSAMPIndex(char *pStr)
 
 dword CTechnique::GetIndex(char *pStr, SRSPARAM *pParam, dword dwNumParam, bool bCanBeNumber)
 {
-	for (dword i=0;i<dwNumParam;i++) if (stricmp(pStr,pParam[i].cName)==0) return i;
+	for (dword i=0;i<dwNumParam;i++) if (_stricmp(pStr,pParam[i].cName)==0) return i;
 	if (!bCanBeNumber) api->Trace("ERROR: Unknown parameter type <%s> in <%s> file, technique <%s>",pStr,sCurrentFileName,sCurrentBlockName);
 	//THROW;
 	return INVALID_INDEX;
@@ -787,7 +787,7 @@ dword CTechnique::GetCode(char *pStr, SRSPARAM *pParam, dword dwNumParam, dword 
 dword CTechnique::AddShader(char *pShaderName)
 {
 	// find exist shader or create empty new
-	for (dword i=0;i<dwNumShaders;i++) if (stricmp(pShaders[i].pName,pShaderName)==0) return i;
+	for (dword i=0;i<dwNumShaders;i++) if (_stricmp(pShaders[i].pName,pShaderName)==0) return i;
 	pShaders = (shader_t*)RESIZE(pShaders,sizeof(shader_t) * (dwNumShaders+1));
 	shader_t *pS = &pShaders[dwNumShaders];
 	ZERO(pShaders[dwNumShaders]);
@@ -1208,7 +1208,7 @@ char *CTechnique::Preprocessor(char *pBuffer, dword & dwSize)
 			if (!bToken)
 			{
 				// find define
-				for (i=0;i<dwNumDefines;i++) if (dwTempLen==pDefines[i].dwNameLen && stricmp(pDefines[i].pName,sToken)==0)
+				for (i=0;i<dwNumDefines;i++) if (dwTempLen==pDefines[i].dwNameLen && _stricmp(pDefines[i].pName,sToken)==0)
 				{
 					if (pDefines[i].pValue) strcpy(sToken,pDefines[i].pValue);
 					dwTempLen = strlen(sToken);
@@ -1235,16 +1235,16 @@ char *CTechnique::Preprocessor(char *pBuffer, dword & dwSize)
 		}
 		pStr++; continue;
 	}
-	DELETE(pBuffer);
+	STORM_DELETE(pBuffer);
 	if (pProgram) pProgram[dwProgramSize] = 0x0;
 	dwSize = dwProgramSize;
 	//api->Trace(pProgram);
 	for (i=0;i<dwNumDefines;i++)
 	{
-		DELETE(pDefines[i].pName);
-		DELETE(pDefines[i].pValue);
+		STORM_DELETE(pDefines[i].pName);
+		STORM_DELETE(pDefines[i].pValue);
 	}
-	DELETE(pDefines);
+	STORM_DELETE(pDefines);
 
 	return pProgram;
 }
@@ -1283,7 +1283,7 @@ dword CTechnique::ProcessShaderAsm(shader_t * pS, char *pFile, dword dwSize, cha
 		strcpy(&pBuffer[dwTotalLen],pTemp);
 		strcpy(&pBuffer[dwTotalLen+iLen+1],"\r\n\0");
 		dwTotalLen += iLen + 2;
-		DELETE(pTempBuffer);
+		STORM_DELETE(pTempBuffer);
 		TOTAL_SKIP;
 	}
 #ifndef _XBOX
@@ -1316,8 +1316,8 @@ dword CTechnique::ProcessShaderAsm(shader_t * pS, char *pFile, dword dwSize, cha
 		api->Trace("ERROR: in compile shader %s\nerror:\n%s", pS->pName, pErrStr);
 		RELEASE(CompiledShader);
 		RELEASE(ErrorShader);
-		DELETE(pBuffer);
-		DELETE(pErrStr);
+		STORM_DELETE(pBuffer);
+		STORM_DELETE(pErrStr);
 		return 0;
 	}
 	if (dwShaderType == CODE_SVS)
@@ -1332,7 +1332,7 @@ dword CTechnique::ProcessShaderAsm(shader_t * pS, char *pFile, dword dwSize, cha
 
 	RELEASE(CompiledShader);
 	RELEASE(ErrorShader);
-	DELETE(pBuffer);
+	STORM_DELETE(pBuffer);
 	return 0;
 }
 
@@ -1403,13 +1403,13 @@ dword CTechnique::ProcessBlock(char * pFile, dword dwSize, char **pStr)
 		pB->dwHashBlockName = hash_string(temp);
 		COPY_STRING(pB->pBlockName,temp);
 		for (i=0;i<dwNumBlocks;i++)
-			if (pBlocks[i].dwHashBlockName == pB->dwHashBlockName && (stricmp(pBlocks[i].pBlockName,pB->pBlockName)==0))
+			if (pBlocks[i].dwHashBlockName == pB->dwHashBlockName && (_stricmp(pBlocks[i].pBlockName,pB->pBlockName)==0))
 			{
 				api->Trace("ERROR: Techniques: Find duplicate technique name: %s",pB->pBlockName);
 				break;
 			}
 
-		htBlocks.Add(pB->pBlockName, dwNumBlocks);
+		htBlocks[pB->pBlockName] = dwNumBlocks;
 	// get parameters
 		pTempParamStr[0] = 0;
 		GetTokenWhile(SkipToken(*pStr,"("),&pTempParamStr[0],")");
@@ -1444,9 +1444,9 @@ dword CTechnique::ProcessBlock(char * pFile, dword dwSize, char **pStr)
 	}
 
 	// delete parameters
-	for (i=0;i<dwNumParams;i++) DELETE(pParams[i].cName);
+	for (i=0;i<dwNumParams;i++) STORM_DELETE(pParams[i].cName);
 	dwNumParams = 0;
-	DELETE(pParams);
+	STORM_DELETE(pParams);
 
 	sCurrentBlockName[0] = 0;
 
@@ -1483,14 +1483,14 @@ void CTechnique::DecodeFiles(char *sub_dir)
 
 	InnerDecodeFiles(sub_dir);
 
-	DELETE(pPassStorage);
+	STORM_DELETE(pPassStorage);
 	RDTSC_E(dwRDTSC);
 	api->Trace("Techniques: %d shaders compiled.",dwNumShaders);
 	api->Trace("Techniques: %d techniques compiled.",dwNumBlocks);
 	api->Trace("Techniques: compiled by %d ticks.",dwRDTSC);
 
 	// some optimize
-	for (dword i=0; i<dwNumBlocks; i++) DELETE(pBlocks[i].pBlockName);
+	for (dword i=0; i<dwNumBlocks; i++) STORM_DELETE(pBlocks[i].pBlockName);
 }
 
 void CTechnique::InnerDecodeFiles(char *sub_dir)
@@ -1575,7 +1575,7 @@ bool CTechnique::DecodeFile(char *sname)
 		SKIP;
 	}
 
-	DELETE(pFile);
+	STORM_DELETE(pFile);
 	return true;
 }
 
@@ -1583,8 +1583,12 @@ bool CTechnique::DecodeFile(char *sname)
 bool CTechnique::ExecutePassStart()
 {
 	// search block
-	if (!htBlocks.Find(dwHashCode, sCurrentBlockName, dwCurBlock)) return false;
-	//for (dword i=0;i<dwNumBlocks;i++) if (pBlocks[i].dwHashBlockName == dwHashCode && (stricmp(pBlocks[i].pBlockName,sCurrentBlockName)==0)) break;
+	// ~!~
+	auto it = htBlocks.find(sCurrentBlockName);
+	if (it == htBlocks.end()) 
+		return false;
+	dwCurBlock = it->second;
+	//for (dword i=0;i<dwNumBlocks;i++) if (pBlocks[i].dwHashBlockName == dwHashCode && (_stricmp(pBlocks[i].pBlockName,sCurrentBlockName)==0)) break;
 	//if (i==dwNumBlocks) return false;	// don't find concur block
 	//Assert(i == dwFind);
 	//dwCurBlock = i;
@@ -1930,8 +1934,9 @@ void CTechnique::SetCurrentBlock(const char * name, dword _dwNumParams, void * p
 	if(name && name[0])
 	{
 
-	strcpy(sCurrentBlockName,name);	_strlwr(sCurrentBlockName);
-	dwHashCode = hash_string(sCurrentBlockName);
+	strcpy(sCurrentBlockName,name);	
+	_strlwr(sCurrentBlockName);
+	//dwHashCode = hash_string(sCurrentBlockName);
 	dwCurNumParams = _dwNumParams;
 
 	if (dwCurNumParams > dwCurParamsMax)

@@ -43,7 +43,7 @@ bool Lighter::Init()
 	if(!isLoading) return false;
 	//DX9 render
 	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
-	if(!rs) _THROW("No service: dx9render");
+	if(!rs) STORM_THROW("No service: dx9render");
 	//
 	_CORE_API->LayerCreate("lighter_execute", true, false);
 	_CORE_API->LayerSetFlags("lighter_execute", LRFLAG_EXECUTE);
@@ -167,25 +167,25 @@ dword _cdecl Lighter::ProcessMessage(MESSAGE & message)
 	char command[32];
 	message.String(31, command);
 	command[31] = 0;
-	if(stricmp(command, "AddModel") == 0)
+	if(_stricmp(command, "AddModel") == 0)
 	{
 		//Добавляем модельку
 		MsgAddModel(message);
 		return true;
 	}else
-	if(stricmp(command, "ModelsPath") == 0)
+	if(_stricmp(command, "ModelsPath") == 0)
 	{
 		//Добавляем модельку
 		MsgModelsPath(message);
 		return true;
 	}else
-	if(stricmp(command, "LightPath") == 0)
+	if(_stricmp(command, "LightPath") == 0)
 	{
 		//Добавляем модельку
 		MsgLightPath(message);
 		return true;
 	}else
-	if(stricmp(command, "AddLight") == 0)
+	if(_stricmp(command, "AddLight") == 0)
 	{
 		//Добавляем модельку
 		MsgAddLight(message);

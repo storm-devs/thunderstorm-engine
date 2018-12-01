@@ -1,6 +1,5 @@
 #include "tm_list.h"
 #include "Core.h"
-#include "..\..\common_h\templates.h"
 #include "s_debug.h"
 
 
@@ -197,7 +196,7 @@ void TM_LIST::SelectItem(char * name)
 	for(n=0;n<items;n++)
 	{
 		GetItemText(n,0,SearchName,sizeof(SearchName));
-		if(stricmp(SearchName,name)==0)
+		if(_stricmp(SearchName,name)==0)
 		{
 			ListView_SetItemState(GetWindowHandle(),n,LVIS_SELECTED|LVIS_FOCUSED,LVIS_SELECTED|LVIS_FOCUSED);
 			return;
@@ -268,7 +267,7 @@ void TM_LIST::ProcessMessageBase(DWORD iMsg, DWORD wParam, DWORD lParam)
 						{
 							if(edit_item >= 0 && edit_subitem >= 0)
 							{
-								string sTmpBuffer;
+								std::string sTmpBuffer;
 
 								for (long i=0; i<(long)lines; i++)
 								{
@@ -279,7 +278,7 @@ void TM_LIST::ProcessMessageBase(DWORD iMsg, DWORD wParam, DWORD lParam)
 									if (chars) sTmpBuffer += TextEditBuffer;
 								}
 
-								SetItemText(edit_item,edit_subitem,(char*)sTmpBuffer.GetBuffer());
+								SetItemText(edit_item,edit_subitem,(char*)sTmpBuffer.c_str());
 								ItemChanged(edit_item,edit_subitem);
 								edit_item = -1;
 								edit_subitem = -1;

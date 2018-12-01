@@ -385,7 +385,7 @@ void Sharks::Shark::Event(Animation * animation, long index, long eventID, Anima
 		animation->Player(0).SetAction(actSwim);
 		aniTime = 3.0f + rand()*3.0f/RAND_MAX;
 	}
-	if(stricmp(act, actSwim) == 0 || (rnd & 1))
+	if(_stricmp(act, actSwim) == 0 || (rnd & 1))
 	{
 		animation->Player(0).SetAction(actStand);
 		aniTime = 3.0f + rand()*3.0f/RAND_MAX;
@@ -479,7 +479,7 @@ Sharks::~Sharks()
 bool Sharks::Init()
 {
 	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
-	if(!rs) _THROW("No service: dx9render");
+	if(!rs) STORM_THROW("No service: dx9render");
 	for(long i = 0; i < numShakes; i++)
 		if(!shark[i].Init(0.0f, 0.0f)) return false;
 	//Лаера исполнения
@@ -564,7 +564,7 @@ void Sharks::Execute(dword delta_time)
 		//Позиция корабля
 		CVECTOR shipPos = ship->GetMatrix()->Pos();
 		//Размер корабля
-		CVECTOR s = ship->GetBoxSize();
+		CVECTOR s = ship->GetBoxsize();
 		float rd2 = (s.x*s.x + s.z*s.z)*3.0f;
 		//Говорим акулам о короблях
 		for(long i = 0; i < num; i++) shark[i].ShipApply(shipPos.x, shipPos.z, rd2);

@@ -86,7 +86,7 @@ public:
 
 	virtual float		GetDistance(const VAI_INNEROBJ & OtherAIObj) const { return sqrtf(~(GetPos() - OtherAIObj.GetPos())); };
 	virtual float		GetDistance(const CVECTOR & vOtherPos) const { return sqrtf(~(GetPos() - vOtherPos)); };
-	virtual CVECTOR		GetBoxSize() const { return 0.0f; };
+	virtual CVECTOR		GetBoxsize() const { return 0.0f; };
 	virtual CVECTOR		GetPos() const { return 0.0f; };
 	virtual CVECTOR		GetAng() const { return 0.0f; };
 	virtual void		SetPos(CVECTOR & vNewPos) {};
@@ -132,13 +132,13 @@ private:
 
 	DTimer			dtFireTime, dtCheckSituation, dtUpdateSeaAIAttributes;
 
-	string			sGroupName;
+	std::string			sGroupName;
 	ENTITY_ID		eidShip;
 
 	float fAbordageDistance, fFollowDistance, fAttackDistance;
 
-	static array<can_fire_t>	aShipFire;
-	array<AI_POINT>				aFollowPoints, aAttackPoints;
+	static std::vector<can_fire_t>	aShipFire;
+	std::vector<AI_POINT>				aFollowPoints, aAttackPoints;
 
 	void	SetSeaAIAttributes(ATTRIBUTES * pAAttr, VAI_INNEROBJ * pObj);
 
@@ -163,8 +163,8 @@ public:
 		static void		ReloadCannons(ATTRIBUTES * pACharacter);
 
 	// Group section
-		void	SetGroupName(string & _sGroupName)	{ sGroupName = _sGroupName; };
-		string	& GetGroupName() { return sGroupName; };
+		void	SetGroupName(std::string & _sGroupName)	{ sGroupName = _sGroupName; };
+		std::string	& GetGroupName() { return sGroupName; };
 		
 	// AI section
 		void	SwapShips(AIShip * pOtherShip);
@@ -190,7 +190,7 @@ public:
 		AIShipSpeedController	* GetSpeedController()	const { return pSpeedController; };
 
 	// global ship container, accessible for AIShip, AIGroup and SEA_AI.
-		static array<AIShip*>	AIShips;
+		static std::vector<AIShip*>	AIShips;
 
 	// inherit functions from VAI_INNEROBJ
 		virtual void		SetACharacter(ATTRIBUTES * pAP);
@@ -214,7 +214,7 @@ public:
 		MODEL		* GetModel()	const { return GetAIObjShipPointer()->GetModel(); };
 		ENTITY_ID	GetModelEID()	const { return GetAIObjShipPointer()->GetModelEID(); };
 
-		CVECTOR		GetBoxSize()	const { return GetAIObjShipPointer()->GetBoxSize(); };
+		CVECTOR		GetBoxsize()	const { return GetAIObjShipPointer()->GetBoxsize(); };
 		CVECTOR		GetPos()		const { return GetAIObjShipPointer()->GetPos(); };
 		CVECTOR		GetAng()		const { return GetAIObjShipPointer()->GetAng(); };
 

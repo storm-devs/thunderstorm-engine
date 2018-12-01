@@ -3,7 +3,6 @@
 
 #include "..\common_h\vmodule_api.h"
 #include "..\common_h\controls.h"
-#include "..\common_h\templates\string.h"
 
 struct ControlKeyBuffer
 {
@@ -15,7 +14,7 @@ public:
 	void AddKey( long nKeyCode, UINT uScanCode, bool bSystem );
 
 	long GetBufferLength() {return m_nBufLen;}
-	const KeyDescr* GetBuffer() {return m_pcBuffer;}
+	const KeyDescr* c_str() {return m_pcBuffer;}
 
 	long m_nBufLen;
 	KeyDescr m_pcBuffer[512];

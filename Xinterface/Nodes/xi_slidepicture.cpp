@@ -77,13 +77,13 @@ void CXI_SLIDEPICTURE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 	char param[255];
 	FXYPOINT fPos;
 
-	PTR_DELETE(strTechniqueName);
+	PTR_STORM_DELETE(strTechniqueName);
 	if( ReadIniString(ini1,name1, ini2,name2, "techniqueName", param, sizeof(param),"") )
 	{
 		if(strlen(param)>0)
 		{	strTechniqueName = NEW char[strlen(param)+1];
 			if(strTechniqueName==null)
-			{	_THROW("allocate memory error");
+			{	STORM_THROW("allocate memory error");
 			}
 			strcpy(strTechniqueName,param);
 		}
@@ -138,7 +138,7 @@ void CXI_SLIDEPICTURE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 	if(nSlideListSize>0)
 	{
 		pSlideSpeedList = NEW SLIDE_SPEED[nSlideListSize];
-		if(pSlideSpeedList==null)	{_THROW("allocate memory error");}
+		if(pSlideSpeedList==null)	{STORM_THROW("allocate memory error");}
 	}
 
 	// заполняем таблицу скоростей
@@ -171,8 +171,8 @@ void CXI_SLIDEPICTURE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 void CXI_SLIDEPICTURE::ReleaseAll()
 {
 	TEXTURE_RELEASE(m_rs,m_idTex);
-	PTR_DELETE(pSlideSpeedList);
-	PTR_DELETE(strTechniqueName);
+	PTR_STORM_DELETE(pSlideSpeedList);
+	PTR_STORM_DELETE(strTechniqueName);
 	nSlideListSize=0;
 }
 
@@ -199,9 +199,9 @@ void CXI_SLIDEPICTURE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 

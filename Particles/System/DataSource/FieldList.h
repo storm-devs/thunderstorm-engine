@@ -6,11 +6,12 @@
 #include <stdio.h>
 #include "../../../common_h/math3d.h"
 #include "../../../common_h/exs.h"
-#include "../../../common_h/templates.h"
 #include "../../../common_h/vapi.h"
 #include "..\..\icommon\types.h"
 #include "..\..\icommon\memfile.h"
 #include "..\datadesc\data_desc.h"
+#include <string>
+#include <vector>
 
 
 class DataColor;
@@ -38,7 +39,7 @@ public:
     FieldType Type;
 
 		//Имя
-    string Name;
+	  std::string Name;
 
 		//Указатель
     void* pPointer;
@@ -46,7 +47,7 @@ public:
   
 private:
 
-  array<FieldDesc> Fields;
+  std::vector<FieldDesc> Fields;
 
 	void DeleteFieldData (const FieldList::FieldDesc& pData);
 

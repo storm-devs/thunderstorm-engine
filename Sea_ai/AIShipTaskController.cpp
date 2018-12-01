@@ -68,7 +68,7 @@ void AIShipTaskController::FindRunAwayPoint()
 	float fWindK = 10.0f;		// коэффициент воздействия для ветра
 
 	// check ships
-	for (dword i=0;i<AIShip::AIShips.Size();i++) if (GetAIShip() != AIShip::AIShips[i])
+	for (dword i=0;i<AIShip::AIShips.size();i++) if (GetAIShip() != AIShip::AIShips[i])
 	{
 		if (!Helper.isEnemy(AIShip::AIShips[i]->GetACharacter(), GetAIShip()->GetACharacter())) continue;
 		CVECTOR vDir = AIShip::AIShips[i]->GetPos() - GetAIShip()->GetPos();

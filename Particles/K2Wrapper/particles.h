@@ -4,7 +4,8 @@
 #include "..\..\common_h\vmodule_api.h"
 #include "..\..\common_h\entity.h"
 #include "..\..\common_h\messages.h"
-#include "..\..\common_h\templates.h"
+#include <string>
+#include <vector>
 
 class IParticleService;
 class IParticleManager;
@@ -19,7 +20,7 @@ class PARTICLES : public ENTITY
 
 	struct SystemInfo 
 	{
-		string FileName;
+		std::string FileName;
 		PARTICLE_SYSTEM* pSystem;
 		dword LifeTime;
 		dword PassedTime;
@@ -31,7 +32,7 @@ class PARTICLES : public ENTITY
 			LifeTime = 0xFFFFFF00;
 		}
 	};
-	array<SystemInfo> CreatedSystems;
+	std::vector<SystemInfo> CreatedSystems;
 
 	IParticleService* pService;
 	IParticleManager* pManager;
@@ -44,7 +45,7 @@ class PARTICLES : public ENTITY
 	void PauseAllActive (bool bPaused);
 
 
-	array<long> CaptureBuffer;
+	std::vector<long> CaptureBuffer;
 
 	void DeleteCaptured ();
 

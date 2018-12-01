@@ -17,7 +17,7 @@ dword LAYER_SERVICE::GetIndex(char * layer_name)
 	{
 		if(Layer_Table[n] == null) continue;
 		if(Layer_Table[n]->ls.Deleted) continue;
-		if(stricmp(layer_name,Layer_Table[n]->Name)== 0) return n;
+		if(_stricmp(layer_name,Layer_Table[n]->Name)== 0) return n;
 	}
 	UNGUARD
 	return INVALID_LAYER_CODE;
@@ -32,7 +32,7 @@ bool LAYER_SERVICE::Verify(char * layer_name)
 	for(n=0;n<=lss.Layer_max_index;n++)
 	{
 		if(Layer_Table[n] == null) continue;
-		if(stricmp(layer_name,Layer_Table[n]->Name)== 0) return true;
+		if(_stricmp(layer_name,Layer_Table[n]->Name)== 0) return true;
 	}
 	UNGUARD
 	return false;
@@ -41,8 +41,8 @@ bool LAYER_SERVICE::Verify(char * layer_name)
 void LAYER_SERVICE::Fit(dword index, char * layer_name, LAYER_STATE ls)
 {
 	GUARD(LAYER_SERVICE::FitLayer)
-	if(layer_name == null) _THROW(zero name);
-	if(index > lss.Layer_max_index) _THROW(invalid index);
+	if(layer_name == null) STORM_THROW(zero name);
+	if(index > lss.Layer_max_index) STORM_THROW(invalid index);
 	if(Layer_Table[index] != null) THROW;
 
 	Layer_Table[index] = NEW LAYER(layer_name,ls.Ordered,ls.System,ls.System_flags);
@@ -62,7 +62,7 @@ bool LAYER_SERVICE::Create(char * layer_name, bool ordered, bool fail_if_exist)
 		{
 			if(Layer_Table[n]->ls.Deleted) continue;
 			// name must be unical
-			if(stricmp(layer_name,Layer_Table[n]->Name)== 0) 
+			if(_stricmp(layer_name,Layer_Table[n]->Name)== 0) 
 			{
 				if(fail_if_exist)
 				{
@@ -90,8 +90,8 @@ void LAYER_SERVICE::Erase(dword index)
 	GUARD(LAYER_SERVICE::EraseLayer)
 	LAYER * l_PTR;
 
-	if(index < 0 || index > lss.Layer_max_index) {__THROW(NON_FATAL,ghost layer);}
-	l_PTR = Layer_Table[index]; if(l_PTR == null) {__THROW(NON_FATAL,ghost layer);}
+	if(index < 0 || index > lss.Layer_max_index) {_STORM_THROW(NON_FATAL,ghost layer);}
+	l_PTR = Layer_Table[index]; if(l_PTR == null) {_STORM_THROW(NON_FATAL,ghost layer);}
 
 /*  transfer this block to core
 	if(Scan_Layer_Code == index) Scan_Layer_Code = INVALID_LAYER_CODE;
@@ -128,7 +128,7 @@ void LAYER_SERVICE::Delete(char * layer_name)
 	index = GetIndex(layer_name);	
 	if(index == INVALID_LAYER_CODE)
 	{
-		__THROW(NON_FATAL,attempt to delete non existing layer);
+		_STORM_THROW(NON_FATAL,attempt to delete non existing layer);
 	}
 	Layer_Table[index]->ls.Deleted = true;
 	ToClean = true;
@@ -207,7 +207,7 @@ void LAYER_SERVICE::SetSleep(char * layer_name,dword sleep_time_ms)
 
 void LAYER_SERVICE::CheckAutoExceptions()
 {
-	if(!(Exceptions_Mask & _X_NO_LAYER)) _THROW(no layer);
+	if(!(Exceptions_Mask & _X_NO_LAYER)) STORM_THROW(no layer);
 }
 
 // delete layers, previously marked as deleted
@@ -257,7 +257,7 @@ LAYER * LAYER_SERVICE::GetLayer(dword index)
 
 bool LAYER_SERVICE::Add(dword index, ENTITY_ID eid, dword priority)
 {
-	if(Layer_Table[index] == 0) _THROW(invalid layer index);
+	if(Layer_Table[index] == 0) STORM_THROW(invalid layer index);
 	if(!Layer_Table[index]->Add(eid,priority)) THROW;
 	return true;
 }

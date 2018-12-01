@@ -11,7 +11,7 @@ DWORD EmitterID = 0;
 
 
 //Создание/удаление 
-ParticleSystem::ParticleSystem(ParticleManager* serv) : Emitters(_FL_)
+ParticleSystem::ParticleSystem(ParticleManager* serv)
 {
 	AutoDeleted = false;
 	pMaster = serv;
@@ -43,14 +43,14 @@ DWORD ParticleSystem::Execute (float DeltaTime)
 		}
 	}
 
-	if (EmissionPause) return Emitters.Size();
+	if (EmissionPause) return Emitters.size();
 
-	for (DWORD n = 0; n < Emitters.Size(); n++)
+	for (DWORD n = 0; n < Emitters.size(); n++)
 	{
 		Emitters[n].pEmitter->Execute(DeltaTime);
 	}
 
-	return Emitters.Size();
+	return Emitters.size();
 }
 
 
@@ -69,7 +69,7 @@ void ParticleSystem::CreateFromDataSource (DataSource* pDataSource)
 				pEmitter = CreatePointEmitter (pEmitterDecription);
 				break;
 			default:
-				_THROW ("Particles: Unknown emitter type !!!!");
+				STORM_THROW ("Particles: Unknown emitter type !!!!");
 		}
 
 		//Assert (pEmitter);
@@ -90,7 +90,7 @@ IEmitter* ParticleSystem::CreatePointEmitter (DataSource::EmitterDesc* pEmitter)
 	EmitterDesc NewEmitter;
 	NewEmitter.Type = POINT_EMITTER;
 	NewEmitter.pEmitter = pNewEmitter;
-	Emitters.Add(NewEmitter);
+	Emitters.push_back(NewEmitter);
 
 	EmitterID+=GUIDSTEP;
 
@@ -100,7 +100,7 @@ IEmitter* ParticleSystem::CreatePointEmitter (DataSource::EmitterDesc* pEmitter)
 
 void ParticleSystem::DeleteAllEmitters ()
 {
-	for (DWORD n = 0; n < Emitters.Size(); n++)
+	for (DWORD n = 0; n < Emitters.size(); n++)
 	{
 		if (Emitters[n].pEmitter)
 		{
@@ -108,7 +108,7 @@ void ParticleSystem::DeleteAllEmitters ()
 		}
 	}
 
-	Emitters.DelAll();
+	Emitters.clear();
 }
 
 ParticleManager* ParticleSystem::GetMaster ()
@@ -122,7 +122,7 @@ ParticleManager* ParticleSystem::GetMaster ()
 void ParticleSystem::Restart (DWORD RandomSeed)
 {
 	srand (RandomSeed);
-	for (DWORD n = 0; n < Emitters.Size(); n++)
+	for (DWORD n = 0; n < Emitters.size(); n++)
 	{
 		Emitters[n].pEmitter->Restart();
 	}
@@ -170,7 +170,7 @@ bool ParticleSystem::IsAutoDeleted ()
 void ParticleSystem::SetTransform (const Matrix& transform)
 {
 	matWorld = transform;
-	for (DWORD n = 0; n < Emitters.Size(); n++)
+	for (DWORD n = 0; n < Emitters.size(); n++)
 	{
 		Emitters[n].pEmitter->SetTransform (transform);
 	}
@@ -179,7 +179,7 @@ void ParticleSystem::SetTransform (const Matrix& transform)
 void ParticleSystem::Teleport (const Matrix &transform)
 {
 	matWorld = transform;
-	for (DWORD n = 0; n < Emitters.Size(); n++)
+	for (DWORD n = 0; n < Emitters.size(); n++)
 	{
 		Emitters[n].pEmitter->Teleport (transform);
 	}
@@ -193,7 +193,7 @@ void ParticleSystem::GetTransform (Matrix& _matWorld)
 
 IEmitter* ParticleSystem::FindEmitterByData (FieldList* Data)
 {
-	for (DWORD n = 0; n < Emitters.Size(); n++)
+	for (DWORD n = 0; n < Emitters.size(); n++)
 	{
 		if (Emitters[n].pEmitter->GetData() == Data) return Emitters[n].pEmitter;
 	}
@@ -203,9 +203,9 @@ IEmitter* ParticleSystem::FindEmitterByData (FieldList* Data)
 
 IEmitter* ParticleSystem::FindEmitter (const char* name)
 {
-	for (DWORD n = 0; n < Emitters.Size(); n++)
+	for (DWORD n = 0; n < Emitters.size(); n++)
 	{
-		if (stricmp (Emitters[n].pEmitter->GetName(), name) == 0) return Emitters[n].pEmitter;
+		if (_stricmp (Emitters[n].pEmitter->GetName(), name) == 0) return Emitters[n].pEmitter;
 	}
 
 	return NULL;
@@ -214,7 +214,7 @@ IEmitter* ParticleSystem::FindEmitter (const char* name)
 
 DWORD ParticleSystem::GetEmittersCount ()
 {
-	return Emitters.Size();
+	return Emitters.size();
 }
 
 IEmitter* ParticleSystem::GetEmitterByIndex (DWORD Index)
@@ -230,7 +230,7 @@ EmitterType ParticleSystem::GetEmitterTypeByIndex  (DWORD Index)
 bool ParticleSystem::IsAlive ()
 {
 	DWORD pCount = 0;
-	for (DWORD n = 0; n < Emitters.Size(); n++)
+	for (DWORD n = 0; n < Emitters.size(); n++)
 	{
 		pCount += Emitters[n].pEmitter->GetParticleCount();
 		if (!Emitters[n].pEmitter->IsStoped())	return true;
@@ -243,7 +243,7 @@ bool ParticleSystem::IsAlive ()
 
 const char* ParticleSystem::GetName ()
 {
-	return SystemName.GetBuffer();
+	return SystemName.c_str();
 }
 
 void ParticleSystem::SetName (const char* Name)
@@ -256,7 +256,7 @@ void ParticleSystem::SetName (const char* Name)
 
 void ParticleSystem::Editor_UpdateCachedData ()
 {
-	for (DWORD n = 0; n < Emitters.Size(); n++)
+	for (DWORD n = 0; n < Emitters.size(); n++)
 	{
 		Emitters[n].pEmitter->Editor_UpdateCachedData ();
 	}
@@ -265,7 +265,7 @@ void ParticleSystem::Editor_UpdateCachedData ()
 
 void ParticleSystem::Stop ()
 {
-	for (DWORD n = 0; n < Emitters.Size(); n++)
+	for (DWORD n = 0; n < Emitters.size(); n++)
 	{
 		Emitters[n].pEmitter->Stop ();
 	}

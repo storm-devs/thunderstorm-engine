@@ -2,6 +2,7 @@
 #define BI_IMAGE_H
 
 #include "defines.h"
+#include <vector>
 
 class BIImageMaterial;
 
@@ -44,7 +45,7 @@ protected:
 	FRECT m_BaseUV;
 	dword m_dwColor;
 
-	array<FPOINT> m_aRelPos;
+	std::vector<FPOINT> m_aRelPos;
 	BIImageType m_eType;
 
 	long m_nPrioritet;

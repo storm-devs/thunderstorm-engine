@@ -11,9 +11,6 @@
 #include "..\common_h\collide.h"
 #include "..\common_h\geos.h"
 #include "..\common_h\geometry.h"
-#include "..\common_h\templates\array.h"
-#include "..\common_h\templates\string.h"
-#include "..\common_h\templates\map.h"
 #include "..\..\Shared\sea_ai\Script_Defines.h"
 
 #endif

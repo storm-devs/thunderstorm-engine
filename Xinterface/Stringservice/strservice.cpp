@@ -105,9 +105,9 @@ STRSERVICE::~STRSERVICE()
 		delete m_psString;
 		m_psString=null;
 	}
-	DELETE(m_sIniFileName);
-	DELETE(m_sLanguage);
-	DELETE(m_sLanguageDir);
+	STORM_DELETE(m_sIniFileName);
+	STORM_DELETE(m_sLanguage);
+	STORM_DELETE(m_sLanguageDir);
 
 	while(m_pUsersBlocks!=null)
 	{
@@ -177,7 +177,7 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 	}
 
 	// Уже установлен этот язык
-	if( m_sLanguage!=null && stricmp(sLanguage,m_sLanguage)==0 ) return;
+	if( m_sLanguage!=null && _stricmp(sLanguage,m_sLanguage)==0 ) return;
 
 	// initialize ini file
 	ini = api->fio->OpenIniFile((char*)sLanguageFile);
@@ -188,21 +188,21 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 	}
 
 	// установим новое имя для языка
-	DELETE(m_sLanguage);
+	STORM_DELETE(m_sLanguage);
 	if( (m_sLanguage=NEW char[strlen(sLanguage)+1]) == null ) {THROW("Allocate memory error");}
 	strcpy(m_sLanguage,sLanguage);
 
 	while(true)
 	{
 		// удалим старые данные
-		DELETE(m_sIniFileName);
-		DELETE(m_sLanguageDir);
+		STORM_DELETE(m_sIniFileName);
+		STORM_DELETE(m_sLanguageDir);
 
 		// получим директорию для текстовых файлов данного языка
 		if( ini->ReadString("DIRECTORY",m_sLanguage,param,sizeof(param)-1,"") )
 		{
 			if( (m_sLanguageDir=NEW char[strlen(param)+1]) == null )
-				{_THROW("Allocate memory error");}
+				{STORM_THROW("Allocate memory error");}
 			strcpy(m_sLanguageDir,param);
 		}
 		else	api->Trace("WARNING! Not found directory record for language %s",sLanguage);
@@ -211,7 +211,7 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 		if( ini->ReadString("COMMON","strings",param,sizeof(param)-1,"") )
 		{
 			if( (m_sIniFileName=NEW char[strlen(param)+1]) == null )
-				{_THROW("Allocate memory error");}
+				{STORM_THROW("Allocate memory error");}
 			strcpy(m_sIniFileName,param);
 		}
 		else	api->Trace("WARNING! Not found common strings file record");
@@ -221,11 +221,11 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 		// сравним текущий язык с дефолтовым
 		if( ini->ReadString("COMMON","defaultLanguage",param,sizeof(param)-1,"") )
 		{
-			if(stricmp(m_sLanguage,param)==0) break;
+			if(_stricmp(m_sLanguage,param)==0) break;
 			api->Trace("WARNING! Language %s not exist some ini parameters. Language set to default %s",m_sLanguage,param);
-			DELETE(m_sLanguage);
+			STORM_DELETE(m_sLanguage);
 			m_sLanguage = NEW char[strlen(param)+1];
-			if(m_sLanguage==null) {_THROW("Allocate memory error");}
+			if(m_sLanguage==null) {STORM_THROW("Allocate memory error");}
 			strcpy(m_sLanguage,param);
 		}
 		else break;
@@ -293,7 +293,7 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 		m_psString = NEW char*[newSize];
 		m_psStrName = NEW char*[newSize];
 		if(m_psStrName==NULL || m_psString==NULL)
-			_THROW("Allocate memory error")
+			STORM_THROW("Allocate memory error")
 	} else {
 		m_psString = null;
 		m_psStrName = null;
@@ -310,13 +310,13 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 			// fill string name
 			m_psStrName[i] = NEW char[strlen(strName)+1];
 			if(m_psStrName==NULL)
-				_THROW("allocate memory error")
+				STORM_THROW("allocate memory error")
 			strcpy(m_psStrName[i],strName);
 
 			// fill string self
 			m_psString[i] = NEW char[strlen(string)+1];
 			if(m_psString==NULL)
-				_THROW("allocate memory error")
+				STORM_THROW("allocate memory error")
 			strcpy(m_psString[i],string);
 		} else {
 			// invalid string
@@ -361,7 +361,7 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 				for(itmp2 = 0; itmp2<pUSB->nStringsQuantity; itmp2++)
 				{
 					if( pUSB->psStrName[itmp2]==null ) continue;
-					if( stricmp(pUSB->psStrName[itmp2],pUTmp->psStrName[itmp1])==0 )
+					if( _stricmp(pUSB->psStrName[itmp2],pUTmp->psStrName[itmp1])==0 )
 						break;
 				}
 				if( itmp2 >= pUSB->nStringsQuantity )
@@ -374,7 +374,7 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 				for(int itmp2 = 0; itmp2<pUTmp->nStringsQuantity; itmp2++)
 				{
 					if( pUTmp->psStrName[itmp2]==null ) continue;
-					if( stricmp(pUTmp->psStrName[itmp2],pUSB->psStrName[itmp1])==0 )
+					if( _stricmp(pUTmp->psStrName[itmp2],pUSB->psStrName[itmp1])==0 )
 						break;
 				}
 				if( itmp2 >= pUTmp->nStringsQuantity )
@@ -409,7 +409,7 @@ char* STRSERVICE::GetString(const char* stringName, char* sBuffer, size_t buffer
 
 	if(stringName!=NULL)
 		for(int i=0; i<m_nStringQuantity; i++)
-			if( !stricmp(m_psStrName[i],stringName) )
+			if( !_stricmp(m_psStrName[i],stringName) )
 			{
 				size_t length = strlen(m_psString[i])+1;
 				if( sBuffer==NULL ) bufferSize = 0;
@@ -487,7 +487,7 @@ long STRSERVICE::GetStringNum(const char* stringName)
 
 	if(stringName!=NULL)
 		for(long i=0; i<m_nStringQuantity; i++)
-			if( !stricmp(m_psStrName[i],stringName) )
+			if( !_stricmp(m_psStrName[i],stringName) )
 				return i;
 	return -1L;
 
@@ -522,7 +522,7 @@ long STRSERVICE::OpenUsersStringFile(char * fileName)
 	UsersStringBlock * pPrev = null;
 	UsersStringBlock * pUSB;
 	for(pUSB=m_pUsersBlocks; pUSB!=null; pUSB=pUSB->next)
-		if(pUSB->fileName!=null && stricmp(pUSB->fileName,fileName)==0) break;
+		if(pUSB->fileName!=null && _stricmp(pUSB->fileName,fileName)==0) break;
 		else pPrev=pUSB;
 	if(pUSB!=null)
 	{
@@ -531,7 +531,7 @@ long STRSERVICE::OpenUsersStringFile(char * fileName)
 	}
 
 	pUSB = NEW UsersStringBlock;
-	if(pUSB==null)	{_THROW("Allocate memory error")}
+	if(pUSB==null)	{STORM_THROW("Allocate memory error")}
 
 	// strings reading
 	char param[512];
@@ -546,7 +546,7 @@ long STRSERVICE::OpenUsersStringFile(char * fileName)
 	}
 
 	char * fileBuf = NEW char[filesize+1];
-	if(fileBuf==null) {_THROW("Allocate memory error")}
+	if(fileBuf==null) {STORM_THROW("Allocate memory error")}
 
 	long readsize;
 	if( api->fio->_ReadFile(hfile,fileBuf,filesize,(DWORD*)&readsize) == FALSE ||
@@ -554,7 +554,7 @@ long STRSERVICE::OpenUsersStringFile(char * fileName)
 	{
 		api->Trace("Can`t read strings file: %s",fileName);
 		api->fio->_CloseHandle(hfile);
-		DELETE(fileBuf);
+		STORM_DELETE(fileBuf);
 		return -1;
 	}
 	api->fio->_CloseHandle(hfile);
@@ -562,7 +562,7 @@ long STRSERVICE::OpenUsersStringFile(char * fileName)
 
 	pUSB->nref = 1;
 	pUSB->fileName = NEW char[strlen(fileName)+1];
-	if(pUSB->fileName==null)	{_THROW("Allocate memory error")}
+	if(pUSB->fileName==null)	{STORM_THROW("Allocate memory error")}
 	strcpy(pUSB->fileName,fileName);
 	pUSB->blockID = GetFreeUsersID();
 
@@ -579,13 +579,13 @@ long STRSERVICE::OpenUsersStringFile(char * fileName)
 		pUSB->psStrName = NEW char*[pUSB->nStringsQuantity];
 		pUSB->psString = NEW char*[pUSB->nStringsQuantity];
 		if(pUSB->psStrName==null || pUSB->psString==null)
-		{_THROW("Allocate memory error")}
+		{STORM_THROW("Allocate memory error")}
 		stridx = 0;
 		for(i=0; i<pUSB->nStringsQuantity; i++)
 			GetNextUsersString(fileBuf,stridx,&pUSB->psStrName[i],&pUSB->psString[i]);
 	}
 
-	DELETE(fileBuf);
+	STORM_DELETE(fileBuf);
 
 	pUSB->next = 0;
 	if(pPrev==null) m_pUsersBlocks = pUSB;
@@ -639,7 +639,7 @@ char * STRSERVICE::TranslateFromUsers(long id, char * inStr)
 	if(pUSB==null) return null;
 
 	for(i=0; i<pUSB->nStringsQuantity; i++)
-		if(pUSB->psStrName[i]!=null && stricmp(pUSB->psStrName[i],inStr)==0) break;
+		if(pUSB->psStrName[i]!=null && _stricmp(pUSB->psStrName[i],inStr)==0) break;
 	if(i<pUSB->nStringsQuantity)	return pUSB->psString[i];
 	return null;
 }
@@ -732,7 +732,7 @@ bool STRSERVICE::GetNextUsersString(char *src,long &idx,char* *strName,char* *st
 	if(strName!=null && nameBeg<=nameEnd)
 	{
 		*strName = NEW char[nameEnd-nameBeg+2];
-		if(*strName==null) {_THROW("Allocate memory error")}
+		if(*strName==null) {STORM_THROW("Allocate memory error")}
 		strncpy(*strName,nameBeg,nameEnd-nameBeg+1);
 		strName[0][nameEnd-nameBeg+1] = 0;
 	}
@@ -740,7 +740,7 @@ bool STRSERVICE::GetNextUsersString(char *src,long &idx,char* *strName,char* *st
 	if(strData!=null && dataBeg<=dataEnd)
 	{
 		*strData = NEW char[dataEnd-dataBeg+2];
-		if(*strData==null) {_THROW("Allocate memory error")}
+		if(*strData==null) {STORM_THROW("Allocate memory error")}
 		strncpy(*strData,dataBeg,dataEnd-dataBeg+1);
 		strData[0][dataEnd-dataBeg+1] = 0;
 	}
@@ -1093,18 +1093,18 @@ DWORD __cdecl _InterfaceCheckFolder(VS_STACK * pS)
 BOOL DeleteFolderWithCantainment(const char* sFolderName)
 {
 	WIN32_FIND_DATA wfd;
-	HANDLE hff = api->fio->_FindFirstFile( sFolderName+string("\\*.*"), &wfd );
+	HANDLE hff = api->fio->_FindFirstFile( (sFolderName+ std::string("\\*.*")).c_str(), &wfd );
 	if( hff != INVALID_HANDLE_VALUE ) {
 		do {
-			string sFileName = sFolderName + string("\\");
+			std::string sFileName = sFolderName + std::string("\\");
 			if( wfd.cAlternateFileName[0] ) sFileName += wfd.cAlternateFileName;
 			else sFileName += wfd.cFileName;
 
 			if( wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ) {
 				if( wfd.cFileName[0]=='.' ) continue;
-				DeleteFolderWithCantainment( sFileName.GetBuffer() );
+				DeleteFolderWithCantainment( sFileName.c_str() );
 			} else {
-				api->fio->_DeleteFile( sFileName.GetBuffer() );
+				api->fio->_DeleteFile( sFileName.c_str() );
 			}
 		} while( api->fio->_FindNextFile(hff,&wfd) );
 		api->fio->_FindClose( hff );
@@ -1164,10 +1164,10 @@ DWORD __cdecl _DialogAssembleStr(VS_STACK * pS)
 	char param[4096];
 	const char* pcStr = g_StringServicePointer ? ((STRSERVICE*)g_StringServicePointer)->TranslateForDialog(pcID) : pcID;
 	if( pcStr ) {
-		array<QUEST_FILE_READER::UserData> aUserData(_FL);
+		std::vector<QUEST_FILE_READER::UserData> aUserData;
 		if(pcParam) QUEST_FILE_READER::FillUserDataList( (char*)pcParam, aUserData );
 		QUEST_FILE_READER::AssembleStringToBuffer(pcStr,strlen(pcStr), param,sizeof(param), aUserData);
-		aUserData.DelAll();
+		aUserData.clear();
 	} else param[0] = 0;
 
 	pDat = (VDATA*)pS->Push();	if (!pDat) return IFUNCRESULT_FAILED;
@@ -1226,11 +1226,11 @@ DWORD __cdecl _IsKeyPressed(VS_STACK * pS)
 	// data process
 	bool bIsPressed = false;
 	if( strKeyName ) {
-		if( stricmp(strKeyName,"shift")==0 ) {
+		if( _stricmp(strKeyName,"shift")==0 ) {
 			bIsPressed = (GetAsyncKeyState(VK_SHIFT) < 0);
-		} else if( stricmp(strKeyName,"control")==0 ) {
+		} else if( _stricmp(strKeyName,"control")==0 ) {
 			bIsPressed = (GetAsyncKeyState(VK_CONTROL) < 0);
-		} else if( stricmp(strKeyName,"alt")==0 ) {
+		} else if( _stricmp(strKeyName,"alt")==0 ) {
 			bIsPressed = (GetAsyncKeyState(VK_MENU) < 0);
 		}
 	}

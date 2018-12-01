@@ -11,7 +11,7 @@ SeaLocatorShow::SeaLocatorShow()
 
 SeaLocatorShow::~SeaLocatorShow()
 {
-	DELETE(sphereVertex);
+	STORM_DELETE(sphereVertex);
 }
 
 bool SeaLocatorShow::Init()
@@ -101,26 +101,26 @@ void SeaLocatorShow::PrintLocator(ATTRIBUTES * pA)
 	AIHelper::Print(vPos.x, vPos.y + fh * 0.8f, fScale, "rad: %.2f", fRadius);
 	if (fRadius > 0.0f)
 	{
-		SphVertex			* pVrt;
-		array<SphVertex>	Vrts(_FL_);
+		std::vector<SphVertex>	Vrts;
 		CVECTOR				vPos1 = GetLocatorPos(pA);
 		CVECTOR				vCenter = CVECTOR(vPos1.x, 2.0f, vPos1.z);
-		
-		pVrt = &Vrts[Vrts.Add()];
-		pVrt->v = vCenter;
-		pVrt->c = 0x4F00FF00;
-		
+
+		//SphVertex* pVrt = &Vrts[Vrts.Add()];
+		//pVrt->v = vCenter;
+		//pVrt->c = 0x4F00FF00;
+		Vrts.push_back(SphVertex{vCenter, 0x4F00FF00});
 		for (dword i=0;i<32;i++)
 		{
 			float fAngle = float(i) / 31.0f * PIm2;
-			pVrt = &Vrts[Vrts.Add()];			
-			pVrt->v = vCenter + CVECTOR(sinf(fAngle) * fRadius, 0.0f, cosf(fAngle) * fRadius);
-			pVrt->c = 0x0F00FF00;
+			//pVrt = &Vrts[Vrts.Add()];			
+			//pVrt->v = vCenter + CVECTOR(sinf(fAngle) * fRadius, 0.0f, cosf(fAngle) * fRadius);
+			//pVrt->c = 0x0F00FF00
+			Vrts.push_back(SphVertex{vCenter + CVECTOR(sinf(fAngle) * fRadius, 0.0f, cosf(fAngle) * fRadius), 0x0F00FF00});
 		}
 		CMatrix m_ident;
 		m_ident.SetIdentity();
 		AIHelper::pRS->SetTransform(D3DTS_WORLD, m_ident);
-		AIHelper::pRS->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, D3DFVF_XYZ | D3DFVF_DIFFUSE, Vrts.Size()-2, &Vrts[0], sizeof(SphVertex), "SeaLocatorsShow");
+		AIHelper::pRS->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, D3DFVF_XYZ | D3DFVF_DIFFUSE, Vrts.size()-2, &Vrts[0], sizeof(SphVertex), "SeaLocatorsShow");
 	}
 }
 

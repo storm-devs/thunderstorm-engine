@@ -3,7 +3,6 @@
 
 #include "..\common_h\vmodule_api.h"
 #include "..\common_h\defines.h"
-#include "..\common_h\templates.h"
 #include "..\common_h\sd2_h\VAI_ObjBase.h"
 #include "..\common_h\sd2_h\SaveLoad.h"
 

@@ -35,10 +35,7 @@ void FMOD_ERROR(const char* szFromWhere, FMOD_RESULT result)
 //////////////////////////////////////////////////////////////////////
 // CLASS IMPLEMENTATION
 //////////////////////////////////////////////////////////////////////
-SoundService::SoundService() : Aliases (_FL_),
-															 SoundCache(_FL_),
-															 SoundSchemeChannels(_FL_),
-															 OGGPosition(_FL_)
+SoundService::SoundService()
 {
 	fFXVolume = 0.5f;
 	fMusicVolume = 0.5f;
@@ -127,7 +124,7 @@ bool SoundService::Init()
 	status = fmod_system->setOutput(FMOD_OUTPUTTYPE_WINMM);
 	FMOD_ERROR("FMOD:setOutput", status);
 	}
-		DELETE(pEngineIni);
+		STORM_DELETE(pEngineIni);
 	}
 
 	status = fmod_system->init(MAX_SOUNDS_SLOTS, FMOD_INIT_NORMAL, api->GetAppHWND());
@@ -143,7 +140,7 @@ bool SoundService::Init()
 	status = fmod_system->getSpeakerMode(&speaker_mode);
 	FMOD_ERROR("FMOD:getSpeakerMode", status);
 
-	string TextSpkMode = "RAW";
+	std::string TextSpkMode = "RAW";
 	switch (speaker_mode)
 	{
 	case FMOD_SPEAKERMODE_MONO:
@@ -338,15 +335,15 @@ const char * SoundService::GetRandomName (tAlias *_alias)
 	for (;;)
 	{
 		if (currentFloat > randomFloat) break;
-		if ((currentNameIndex+1) >= (int)_alias->SoundFiles.Size()) break;
+		if ((currentNameIndex+1) >= (int)_alias->SoundFiles.size()) break;
 
 		currentFloat += _alias->SoundFiles[currentNameIndex].fProbability;
 		currentNameIndex++;
 	}
 
-	if (currentNameIndex >= (int)_alias->SoundFiles.Size())
+	if (currentNameIndex >= (int)_alias->SoundFiles.size())
 	{
-		currentNameIndex = (int)_alias->SoundFiles.Size() - 1;
+		currentNameIndex = (int)_alias->SoundFiles.size() - 1;
 	}
 
 	return _alias->SoundFiles[currentNameIndex].FileName.c_str();
@@ -356,8 +353,8 @@ const char * SoundService::GetRandomName (tAlias *_alias)
 
 int SoundService::GetAliasIndexByName (const char *szAliasName)
 {
-	dword dwSearchHash = string::HashNoCase(szAliasName);
-	for (dword i = 0; i < Aliases.Size(); i++)
+	dword dwSearchHash = TOREMOVE::HashNoCase(szAliasName);
+	for (dword i = 0; i < Aliases.size(); i++)
 	{
 		if (Aliases[i].dwNameHash == dwSearchHash)
 		{
@@ -385,14 +382,14 @@ TSD_ID  SoundService::SoundPlay (const char *_name,
 		 					  float _volume, /*= 1.0f*/
 								long _prior)
 {
-	string FileName = _name;
+	std::string FileName = _name;
 
 	// aliases don`t contain `\`
 	if (!strchr(_name, '\\')) 
 	{
 		//Пробуем найти в алиасах
 		int AliasIdx = GetAliasIndexByName (_name);
-		if (AliasIdx >= 0 && Aliases[AliasIdx].SoundFiles.Size() > 0)
+		if (AliasIdx >= 0 && Aliases[AliasIdx].SoundFiles.size() > 0)
 		{
 			//Играем из алиаса звук...
 			FileName = GetRandomName(&Aliases[AliasIdx]);
@@ -411,7 +408,7 @@ TSD_ID  SoundService::SoundPlay (const char *_name,
 		}
 	}
 
-	string SoundName = "resource\\sounds\\";
+	std::string SoundName = "resource\\sounds\\";
 	SoundName += FileName;
 
 
@@ -1125,7 +1122,7 @@ void SoundService::AnalyseNameStringAndAddToAlias(tAlias *_alias, const char *in
 
 		//api->Trace("  -> sound %s", snd.FileName.c_str());
 
-		_alias->SoundFiles.Add(snd);
+		_alias->SoundFiles.push_back(snd);
 
 		return;
 	}
@@ -1143,7 +1140,7 @@ void SoundService::AnalyseNameStringAndAddToAlias(tAlias *_alias, const char *in
 
 	//api->Trace("  -> sound %s, %f", snd.FileName.c_str(), snd.fProbability);
 
-	_alias->SoundFiles.Add(snd);
+	_alias->SoundFiles.push_back(snd);
 }
 
 void SoundService::AddAlias(INIFILE* _iniFile, char* _sectionName)
@@ -1154,23 +1151,23 @@ void SoundService::AddAlias(INIFILE* _iniFile, char* _sectionName)
 	//api->Trace("Add sound alias %s", _sectionName);
 
 
-	tAlias* pAlias = &Aliases[Aliases.Add()];
-
-	pAlias->Name = _sectionName;
-	pAlias->dwNameHash = string::HashNoCase(pAlias->Name.c_str());
-	pAlias->fMaxDistance = _iniFile->GetFloat(_sectionName, "maxDistance", -1.0f);
-	pAlias->fMinDistance = _iniFile->GetFloat(_sectionName, "minDistance", -1.0f);
-	pAlias->fVolume = _iniFile->GetFloat(_sectionName, "volume", -1.0f);
-	pAlias->iPrior = _iniFile->GetLong(_sectionName, "prior", 128);
-
-	pAlias->fMaxProbabilityValue = 0.0f;
-
+	//tAlias* pAlias = &Aliases[Aliases.Add()];
+	Aliases.push_back(tAlias{});
+	tAlias &alias = Aliases.back();
+	alias.Name = _sectionName;
+	alias.dwNameHash = TOREMOVE::HashNoCase(alias.Name.c_str());
+	alias.fMaxDistance = _iniFile->GetFloat(_sectionName, "maxDistance", -1.0f);
+	alias.fMinDistance = _iniFile->GetFloat(_sectionName, "minDistance", -1.0f);
+	alias.fVolume = _iniFile->GetFloat(_sectionName, "volume", -1.0f);
+	alias.iPrior = _iniFile->GetLong(_sectionName, "prior", 128);
+	alias.fMaxProbabilityValue = 0.0f;
+	
 
 	if (_iniFile->ReadString(_sectionName, "name", tempString , COMMON_STRING_LENGTH, ""))
 	{
-		AnalyseNameStringAndAddToAlias(pAlias, tempString);
+		AnalyseNameStringAndAddToAlias(&alias, tempString);
 		while (_iniFile->ReadStringNext(_sectionName, "name", tempString, COMMON_STRING_LENGTH))
-			AnalyseNameStringAndAddToAlias(pAlias, tempString);
+			AnalyseNameStringAndAddToAlias(&alias, tempString);
 	}
 
 
@@ -1183,13 +1180,13 @@ void SoundService::LoadAliasFile (const char *_filename)
 	static char sectionName[SECTION_NAME_LENGTH];
 
 
-	string iniName = ALIAS_DIRECTORY;
+	std::string iniName = ALIAS_DIRECTORY;
 	iniName += _filename;
 
 	//api->Trace("Find sound alias file %s", iniName.c_str());
 
 	INIFILE *aliasIni;
-	aliasIni = api->fio->OpenIniFile(iniName);
+	aliasIni = api->fio->OpenIniFile(iniName.c_str());
 	if (!aliasIni) return;
 
 	if (aliasIni->GetSectionName(sectionName, SECTION_NAME_LENGTH))
@@ -1201,17 +1198,17 @@ void SoundService::LoadAliasFile (const char *_filename)
 		}
 	}
 
-	DELETE(aliasIni);
+	STORM_DELETE(aliasIni);
 }
 
 void SoundService::InitAliases ()
 {
-	string iniName = ALIAS_DIRECTORY;
+	std::string iniName = ALIAS_DIRECTORY;
 	iniName += "*.ini";
 
 	HANDLE foundFile;
 	WIN32_FIND_DATA findData;
-	if ((foundFile = api->fio->_FindFirstFile(iniName, &findData)) != INVALID_HANDLE_VALUE)
+	if ((foundFile = api->fio->_FindFirstFile(iniName.c_str(), &findData)) != INVALID_HANDLE_VALUE)
 	{
 		do
 		LoadAliasFile(findData.cFileName);
@@ -1271,7 +1268,7 @@ void SoundService::DebugDraw ()
 	list_pos.z = lpos.z;
 	//pRS->DrawSphere(list_pos, 4.0f, 0xFF008000);
 
-	pRS->Print(0, 0, "CPU Usage %3.2f Mem: %3.2f Kb, MemPeak %3.2f Kb, Cached %d sounds", fTotal, CurrentAlloc/1024.0f, PeakAlloc/1024.0f, SoundCache.Size());
+	pRS->Print(0, 0, "CPU Usage %3.2f Mem: %3.2f Kb, MemPeak %3.2f Kb, Cached %d sounds", fTotal, CurrentAlloc/1024.0f, PeakAlloc/1024.0f, SoundCache.size());
 	pRS->Print(0, 16, "position  %3.2f, %3.2f, %3.2f, forward %3.2f, %3.2f, %3.2f, up %3.2f, %3.2f, %3.2f", lpos.x, lpos.y, lpos.z, lforward.x, lforward.y, lforward.z, lup.x, lup.y, lup.z);
 
 	CMatrix ind;
@@ -1378,9 +1375,9 @@ void SoundService::DebugDraw ()
 	pRS->Print(0, 32, "Real sounds %d, Total sounds %d", RealCount, Count);
 
 
-	pRS->Print(500, 0, "Sound schemes %d", SoundSchemeChannels.Size());
+	pRS->Print(500, 0, "Sound schemes %d", SoundSchemeChannels.size());
 	Ypos = 16;
-	for (dword i = 0; i < SoundSchemeChannels.Size(); i++)
+	for (dword i = 0; i < SoundSchemeChannels.size(); i++)
 	{
 		pRS->Print(510, Ypos, "[%d] %s", i, SoundSchemeChannels[i].soundName);
 		Ypos += 16;
@@ -1391,9 +1388,9 @@ void SoundService::DebugDraw ()
 
 int SoundService::GetFromCache (const char* szName, eSoundType _type)
 {
-	dword dwSearchHash = string::HashNoCase(szName);
+	dword dwSearchHash = TOREMOVE::HashNoCase(szName);
 
-	for (dword i = 0; i < SoundCache.Size(); i++)
+	for (dword i = 0; i < SoundCache.size(); i++)
 	{
 		if (SoundCache[i].type != _type) continue;
 		if (SoundCache[i].dwNameHash == dwSearchHash)
@@ -1433,9 +1430,9 @@ int SoundService::GetFromCache (const char* szName, eSoundType _type)
 	Cache.dwNameHash = dwSearchHash;
 	Cache.fTimeFromLastPlay = 0.0f;
 
-	SoundCache.Add(Cache);
+	SoundCache.push_back(Cache);
 
-	return (SoundCache.Size()-1);
+	return (SoundCache.size()-1);
 }
 
 
@@ -1592,7 +1589,7 @@ bool SoundService::SetScheme (const char *_schemeName)
 //--------------------------------------------------------------------
 void SoundService::ResetScheme()
 {
-	SoundSchemeChannels.DelAll();
+	SoundSchemeChannels.clear();
 }
 
 //--------------------------------------------------------------------
@@ -1619,7 +1616,7 @@ bool SoundService::AddScheme (const char *_schemeName)
 			AddSoundSchemeChannel(tempString,true);
 	}
 
-	DELETE (ini);
+	STORM_DELETE(ini);
 	return true;
 }
 
@@ -1640,7 +1637,7 @@ bool SoundService::AddSoundSchemeChannel (char *in_string, bool _looped /*= fals
 		NewChannel.looped = _looped;
 		if (_looped) NewChannel.timeToNextPlay = 0;
 
-		SoundSchemeChannels.Add(NewChannel);
+		SoundSchemeChannels.push_back(NewChannel);
 		return true;
 	}
 
@@ -1678,7 +1675,7 @@ bool SoundService::AddSoundSchemeChannel (char *in_string, bool _looped /*= fals
 	else
 		NewChannel.timeToNextPlay = (long) rand((float) (NewChannel.maxDelayTime - NewChannel.minDelayTime));
 
-	SoundSchemeChannels.Add(NewChannel);
+	SoundSchemeChannels.push_back(NewChannel);
 	return true;
 }
 
@@ -1690,13 +1687,13 @@ void SoundService::ProcessSoundSchemes ()
 
 	dword dTime = api->GetDeltaTime();
 
-	for (dword i = 0; i < SoundSchemeChannels.Size(); i++)
+	for (dword i = 0; i < SoundSchemeChannels.size(); i++)
 	{
 		if (SoundSchemeChannels[i].looped)
 		{
 			if (SoundSchemeChannels[i].timeToNextPlay) continue;
 			SoundSchemeChannels[i].timeToNextPlay = -1;
-			SoundPlay(SoundSchemeChannels[i].soundName, PCM_STEREO, VOLUME_FX, false, true, false, 0, 0, -1.f, -1.f, 0, SoundSchemeChannels[i].volume);
+			SoundPlay(SoundSchemeChannels[i].soundName.c_str(), PCM_STEREO, VOLUME_FX, false, true, false, 0, 0, -1.f, -1.f, 0, SoundSchemeChannels[i].volume);
 		}
 		else
 		{
@@ -1707,7 +1704,7 @@ void SoundService::ProcessSoundSchemes ()
 				{
 					SoundSchemeChannels[i].timeToNextPlay = SoundSchemeChannels[i].minDelayTime 
 						+ (long) rand((float) (SoundSchemeChannels[i].maxDelayTime - SoundSchemeChannels[i].minDelayTime));
-					SoundPlay(SoundSchemeChannels[i].soundName, PCM_STEREO, VOLUME_FX, false, false, false, 0, 0, -1.f, -1.f, 0, SoundSchemeChannels[i].volume);
+					SoundPlay(SoundSchemeChannels[i].soundName.c_str(), PCM_STEREO, VOLUME_FX, false, false, false, 0, 0, -1.f, -1.f, 0, SoundSchemeChannels[i].volume);
 				}
 		}//looped
 	}
@@ -1717,9 +1714,9 @@ void SoundService::ProcessSoundSchemes ()
 
 int SoundService::GetOGGPositionIndex (const char* szName)
 {
-	dword dwHash = string::HashNoCase(szName);
+	dword dwHash = TOREMOVE::HashNoCase(szName);
 
-	for (dword i = 0; i < OGGPosition.Size(); i++)
+	for (dword i = 0; i < OGGPosition.size(); i++)
 	{
 		if (OGGPosition[i].dwHash == dwHash)
 		{
@@ -1754,11 +1751,11 @@ void SoundService::SetOGGPosition (const char* szName, unsigned int pos)
 	}
 
 	PlayedOGG ogg;
-	ogg.dwHash = string::HashNoCase(szName);
+	ogg.dwHash = TOREMOVE::HashNoCase(szName);
 	ogg.Name = szName;
 	ogg.position = pos;
 
-	OGGPosition.Add(ogg);
+	OGGPosition.push_back(ogg);
 }
 
 

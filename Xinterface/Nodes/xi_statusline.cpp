@@ -38,7 +38,7 @@ void CXI_STATUSLINE::ReleaseAll()
 	PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName,m_idTex);
 	VERTEX_BUF_RELEASE(m_rs,m_vBuf);
 	INDEX_BUF_RELEASE(m_rs,m_iBuf);
-	PTR_DELETE(m_sGroupName);
+	PTR_STORM_DELETE(m_sGroupName);
 }
 
 int CXI_STATUSLINE::CommandExecute(int wActCode)
@@ -128,7 +128,7 @@ void CXI_STATUSLINE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
         pVBuf[7].pos.x = scrRect2.right;   pVBuf[7].pos.y = scrRect2.bottom; pVBuf[7].tu = texRect2.right;   pVBuf[7].tv = texRect2.bottom;
 	}
     else
-        _THROW("Can't vertex or index buffer create");
+        STORM_THROW("Can't vertex or index buffer create");
 
 	if(pVBuf!=null) m_rs->UnLockVertexBuffer(m_vBuf);
 	if(pIBuf!=null) m_rs->UnLockIndexBuffer(m_iBuf);
@@ -149,9 +149,9 @@ void CXI_STATUSLINE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 

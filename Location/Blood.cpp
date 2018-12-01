@@ -13,9 +13,7 @@ Blood::ClipTriangle Blood::clipT[MAX_CLIPPING_TRIANGLES];
 long Blood::nClipTQ;
 CVECTOR Blood::normal;
 
-Blood::Blood() :
-	aBlood(_FL),
-	aModels(_FL)
+Blood::Blood()
 {
 	texID = -1;
 	nStartT = 0;
@@ -49,7 +47,7 @@ void Blood::Execute(dword delta_time)
 	if( nUsedTQ < ON_LIVETIME_BLOOD_TRIANGLES ) return;
 
 	float fDeltaTime = delta_time * 0.001f;
-	for(long n=0; n<aBlood; n++)
+	for(long n=0; n<aBlood.size(); n++)
 	{
 		aBlood[n].fLiveTime -= fDeltaTime;
 		if( aBlood[n].fLiveTime <= 0.f )
@@ -60,7 +58,7 @@ void Blood::Execute(dword delta_time)
 				nUsedTQ -= aBlood[n].nIdxQ;
 				if( nStartT >= MAX_BLOOD_TRIANGLES )
 					nStartT -= MAX_BLOOD_TRIANGLES;
-				aBlood.DelIndex(n);
+				aBlood.erase(aBlood.begin() + n);
 				n--;
 				continue;
 			}
@@ -118,7 +116,7 @@ dword _cdecl Blood::ProcessMessage(MESSAGE &message)
 	{
 	case 1: // Add model
 		eid = message.EntityID();
-		aModels.Add(eid);
+		aModels.push_back(eid);
 	break;
 	case 2: // add blood
 		cv.x = message.Float();
@@ -198,7 +196,7 @@ void Blood::AddBlood(const CVECTOR& pos)
 	delete walker;
 
 	// бегаем по массиву моделек
-	for(long n=0; n<aModels; n++)
+	for(long n=0; n<aModels.size(); n++)
 	{
 		MODEL * m = (MODEL *)api->GetEntityPointer(&aModels[n]);
 		if(!m) continue;
@@ -232,7 +230,7 @@ void Blood::BuildBloodDataByCollision(const CVECTOR& cpos)
 		return;
 	}
 	nUsedTQ += nClipTQ;
-	aBlood.Add(curBlood);
+	aBlood.push_back(curBlood);
 
 	// заполняем буффер
 	float fU0,fV0;
@@ -277,7 +275,7 @@ long Blood::CheckBloodQuantityInRadius(const CVECTOR& cpos, float fDist, long nL
 {
 	float fDistPow2 = fDist*fDist;
 	long nCurQ = 0;
-	for(long n=0; n<aBlood; n++)
+	for(long n=0; n<aBlood.size(); n++)
 	{
 		if( (~(aBlood[n].cpos - cpos)) > fDistPow2 ) continue;
 		nCurQ++;

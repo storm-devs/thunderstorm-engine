@@ -3,10 +3,6 @@
 
 #include "ship_base.h"
 
-#include "templates\string.h"
-#include "templates\array.h"
-#include "templates\dtimer.h"
-
 class IShipLights : public ENTITY
 {
 public:

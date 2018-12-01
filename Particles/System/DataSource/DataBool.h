@@ -5,14 +5,13 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include "../../../common_h/exs.h"
-#include "../../../common_h/templates.h"
 #include "..\..\icommon\memfile.h"
-
+#include <string>
 
 
 class DataBool
 {
-  string Name;
+	std::string Name;
   
 
 	bool Value;

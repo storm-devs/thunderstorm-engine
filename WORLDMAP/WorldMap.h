@@ -12,7 +12,7 @@
 #define _WorldMap_H_
 
 #include "..\common_h\vmodule_api.h"
-#include "..\common_h\templates\string.h"
+#include <string>
 
 
 #define WDMAP_MAXOBJECTS	4096
@@ -146,7 +146,7 @@ private:
 	ATTRIBUTES * aDate;
 	float timeScale;
 
-	string bufForSave;
+	std::string bufForSave;
 
 public:
 	dword encCounter;

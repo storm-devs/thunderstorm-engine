@@ -123,7 +123,7 @@ void LOCATOR::LocateForI(VDATA * pData)
 						api->Trace("LOCATOR: no name");
 						continue;
 					}
-					if(stricmp(pAA->GetAttributeClass(n)->GetAttribute("name"),label.name)==0)
+					if(_stricmp(pAA->GetAttributeClass(n)->GetAttribute("name"),label.name)==0)
 					{
 						pAA->GetAttributeClass(n)->SetAttributeUseFloat("x",label.m[3][0]);
 						pAA->GetAttributeClass(n)->SetAttributeUseFloat("y",label.m[3][1]);

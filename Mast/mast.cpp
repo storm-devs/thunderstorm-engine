@@ -67,10 +67,10 @@ void MAST::SetDevice()
 	GUARD(MAST::SetDevice())
 
 	RenderService = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
-    if(!RenderService) _THROW("No service: dx9render");
+    if(!RenderService) STORM_THROW("No service: dx9render");
 
 	pCollide = (COLLIDE*)_CORE_API->CreateService("COLL");
-	if (!pCollide) _THROW("No service: collide");
+	if (!pCollide) STORM_THROW("No service: collide");
 
     LoadIni();
 

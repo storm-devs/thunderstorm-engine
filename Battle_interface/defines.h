@@ -90,7 +90,7 @@ struct BI_3D_VERTEX
 };
 
 // inline function
-#define PTR_DELETE(p)	if(p!=NULL){delete p;	p=NULL;}
+#define PTR_STORM_DELETE(p)	if(p!=NULL){delete p;	p=NULL;}
 inline float GetBetwinFloat(float beg, float end, float ratio)
 {
 	return beg+ratio*(end-beg);

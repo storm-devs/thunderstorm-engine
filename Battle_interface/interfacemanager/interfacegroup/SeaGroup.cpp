@@ -39,7 +39,7 @@ void BI_SeaGroup::Init()
 
 		BI_ManagerNodeBase* pNod = Manager()->CreateImageNode(texture, uv, pos, color, BIImagePrioritet_Group_Beg);
 		if( pNod )
-			m_aNodes.Add( pNod );
+			m_aNodes.push_back( pNod );
 		//Manager()->GetImageRender()->CreateImage( BIType_square, texture, color, uv, pos, BIImagePrioritet_Group_Beg );
 	}
 }

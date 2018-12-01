@@ -422,7 +422,7 @@ void NODER::Draw()
 //----------------------------------------------------------
 NODER *NODER::FindNode(const char *cNodeName)
 {
-	if (stricmp(cNodeName,name)==0) return this;
+	if (_stricmp(cNodeName,name)==0) return this;
 	for(long i=0; i<nnext; i++)
 	{
 		if (!next[i]) continue;

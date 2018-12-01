@@ -9,8 +9,7 @@
 #include "InterfaceGroup\BaseGroup.h"
 #include "InterfaceGroup\SeaGroup.h"
 
-BI_InterfaceManager::BI_InterfaceManager() :
-	m_aNodes(_FL)
+BI_InterfaceManager::BI_InterfaceManager()
 {
 	m_pRS = 0;
 	m_pImgRender = 0;
@@ -20,10 +19,12 @@ BI_InterfaceManager::BI_InterfaceManager() :
 
 BI_InterfaceManager::~BI_InterfaceManager()
 {
-	DELETE( m_pInterfaceSheet );
-	m_aNodes.DelAllWithPointers();
-	DELETE( m_pMouse );
-	DELETE( m_pImgRender );
+	STORM_DELETE( m_pInterfaceSheet );
+	//m_aNodes.DelAllWithPointers();
+	for (const auto &node : m_aNodes)
+		delete node;
+	STORM_DELETE( m_pMouse );
+	STORM_DELETE( m_pImgRender );
 }
 
 bool BI_InterfaceManager::Init()
@@ -59,7 +60,7 @@ void BI_InterfaceManager::Realize(dword delta_time)
 	if( m_pInterfaceSheet )
 		m_pInterfaceSheet->Update();
 
-	for( long n=0; n<m_aNodes; n++ )
+	for( long n=0; n<m_aNodes.size(); n++ )
 		m_aNodes[n]->Update();
 
 	m_pMouse->Update();
@@ -71,7 +72,7 @@ dword _cdecl BI_InterfaceManager::ProcessMessage(MESSAGE & message)
 {
 	switch( message.Long() )
 	{
-	case MSG_BIMANAGER_DELETE_SHEET: DELETE(m_pInterfaceSheet); break;
+	case MSG_BIMANAGER_DELETE_SHEET: STORM_DELETE(m_pInterfaceSheet); break;
 
 	case MSG_BIMANAGER_LOAD_SHEET: return MsgLoadSheet( message ); break;
 
@@ -102,26 +103,30 @@ BI_ManagerNodeBase* BI_InterfaceManager::CreateStringNode(const char* text, cons
 
 void BI_InterfaceManager::DeleteNode(BI_ManagerNodeBase* pNod)
 {
-	long n = m_aNodes.Find( pNod );
-	if( n<0 ) return;
-	m_aNodes.DelIndex( n );
+	const auto it = std::find(m_aNodes.begin(), m_aNodes.end(), pNod);
+	if (it != m_aNodes.end())
+		m_aNodes.erase(it);
+
+	//long n = m_aNodes.Find( pNod );
+	//if( n<0 ) return;
+	//m_aNodes.DelIndex( n );
 }
 
 long BI_InterfaceManager::MsgLoadSheet(MESSAGE & message)
 {
 	// удаляем старый интерфейс
-	DELETE( m_pInterfaceSheet );
+	STORM_DELETE( m_pInterfaceSheet );
 
 	char param[512];
 	message.String( sizeof(param), param );
-	if( stricmp(param,"sea")==0 )
+	if( _stricmp(param,"sea")==0 )
 	{ // грузим морской интерфейс
 		m_pInterfaceSheet = NEW BI_SeaGroup(this);
 		if( m_pInterfaceSheet ) {
 			m_pInterfaceSheet->Init();
 		}
 	}else
-	if( stricmp(param,"land")==0 )
+	if( _stricmp(param,"land")==0 )
 	{ // грузим земной интерфейс
 	}
 	return 0;
@@ -148,10 +153,17 @@ long BI_InterfaceManager::MsgCreateString(MESSAGE & message)
 long BI_InterfaceManager::MsgDeleteNode(MESSAGE & message)
 {
 	BI_ManagerNodeBase* pNod = (BI_ManagerNodeBase*)message.Long();
-	if( !pNod ) return 0;
-	if( m_aNodes.Find(pNod) != INVALID_ARRAY_INDEX ) {
-		DELETE(pNod);
-	}
+	if( !pNod ) 
+		return 0;
+
+	//if( m_aNodes.Find(pNod) != INVALID_ARRAY_INDEX ) {
+	//	STORM_DELETE(pNod);
+	//}
+	//~!~ DeleteNode?
+	const auto it = std::find(m_aNodes.begin(), m_aNodes.end(), pNod);
+	if (it != m_aNodes.end())
+		STORM_DELETE(*it);
+
 	return 0;
 }
 

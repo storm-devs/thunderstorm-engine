@@ -1,5 +1,6 @@
 #include "xi_conthelp.h"
 #include <stdio.h>
+#include "../../common_h/defines.h"
 
 CXI_CONTEXTHELP::CXI_CONTEXTHELP()
 {
@@ -56,13 +57,13 @@ void CXI_CONTEXTHELP::ReleaseAll()
 {
 	if(m_pHelpList!=NULL)
 		for(int i=0; i<m_helpQuantity; i++)
-			PTR_DELETE(m_pHelpList[i].nodeName);
-    PTR_DELETE(m_pHelpList);
+			PTR_STORM_DELETE(m_pHelpList[i].nodeName);
+    PTR_STORM_DELETE(m_pHelpList);
     m_helpQuantity = 0;
     m_curHelp=NULL;
 
 	FONT_RELEASE(m_rs,m_idFont);
-	PTR_DELETE(m_sTempString);
+	PTR_STORM_DELETE(m_sTempString);
     m_nCurDelayCounter = 0;
 }
 
@@ -110,7 +111,7 @@ void CXI_CONTEXTHELP::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 	if(m_helpQuantity>0)
 	{
 		if( (m_pHelpList=NEW HELPENTITY[m_helpQuantity]) == null )
-			_THROW("allocate memory error")
+			STORM_THROW("allocate memory error")
 		ZeroMemory(m_pHelpList,sizeof(HELPENTITY)*m_helpQuantity);
 		ini1->ReadString(name1,"helpstr",param,sizeof(param)-1,"");
 		char nodeName[sizeof(param)], stringName[sizeof(param)];
@@ -120,7 +121,7 @@ void CXI_CONTEXTHELP::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 			if(nodeName[0]!=0)
 			{
 				if( (m_pHelpList[i].nodeName=NEW char[strlen(nodeName)+1]) == null )
-					_THROW("allocate memory error")
+					STORM_THROW("allocate memory error")
 				strcpy(m_pHelpList[i].nodeName,nodeName);
 				m_pHelpList[i].idHelpString = pStringService->GetStringNum(stringName);
 			}
@@ -187,9 +188,9 @@ void CXI_CONTEXTHELP::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 
@@ -230,7 +231,7 @@ void CXI_CONTEXTHELP::SetTempHelp(const char * pStr)
     if(pStr[0]=='#')
     { // получим непосредственно строку помощи
         if( (m_sTempString=NEW char[strlen(pStr)]) == NULL )
-            _THROW("allocate memory error")
+            STORM_THROW("allocate memory error")
         strcpy(m_sTempString,&pStr[1]);
 		nCurStrWidth = m_rs->StringWidth(m_sTempString,m_idFont,m_fMaxScale,m_screenSize.x);
     }

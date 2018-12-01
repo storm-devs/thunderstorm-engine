@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include "xi_table.h"
 #include "xi_scroller.h"
+#include "../../ENGINE/strutils.h"
 
 #define ALIGN_BOTTOM	16
 #define ALIGN_TOP		17
 #define NOTUSE_OFFSET	-1000.f
 
-XI_TableLineDescribe::XI_TableLineDescribe(CXI_TABLE* pTable) :
-	m_aCell(_FL)
+XI_TableLineDescribe::XI_TableLineDescribe(CXI_TABLE* pTable)
 {
 	m_pTable = pTable;
 	m_nRowIndex = -1;
@@ -18,14 +18,17 @@ XI_TableLineDescribe::XI_TableLineDescribe(CXI_TABLE* pTable) :
 
 XI_TableLineDescribe::~XI_TableLineDescribe()
 {
-	m_aCell.DelAllWithPointers();
+	//m_aCell.DelAllWithPointers();
+	for (const auto &cell : m_aCell)
+		delete cell;
+
 	m_pTable = 0;
 }
 
 void XI_TableLineDescribe::Draw( float fTop )
 {
 	float fX = (float)m_pTable->m_rect.left;
-	for( long n=0; n<m_aCell; n++ )
+	for( long n=0; n<m_aCell.size(); n++ )
 	{
 		m_aCell[n]->Draw( fX, fTop );
 		fX += m_pTable->m_anColsWidth[n];
@@ -74,19 +77,19 @@ void XI_TableLineDescribe::SetData( long nRowIndex, ATTRIBUTES* pLA, bool bHeade
 		ATTRIBUTES* pA = (pLA ? pLA->GetAttributeClass( pcAttrName ) : 0);
 		if( !pA && c>=m_pTable->m_nColQuantity ) break;
 		XI_TableCellDescribe* pTD = 0;
-		if( c >= m_aCell ) {
+		if( c >= m_aCell.size() ) {
 			pTD = NEW XI_TableCellDescribe( m_pTable, this );
-			m_aCell.Add( pTD );
+			m_aCell.push_back( pTD );
 		} else {
 			pTD = m_aCell[c];
 		}
 		Assert( pTD );
 		pTD->SetData( c, pA, bHeader );
 	}
-	while( c < m_aCell )
+	while( c < m_aCell.size() )
 	{
-		DELETE( m_aCell[c] );
-		m_aCell.DelIndex( c );
+		STORM_DELETE( m_aCell[c] );
+		m_aCell.erase( m_aCell.begin() + c );
 	}
 }
 
@@ -94,15 +97,13 @@ long XI_TableLineDescribe::GetLineHeight()
 {
 	if( !m_pTable ) return 0;
 	if( m_pTable->m_bVariableLineHeight ) return m_nHeight;
-	if( m_nRowIndex<0 && m_nRowIndex>=m_pTable->m_anRowsHeights ) return 0;
+	if( m_nRowIndex<0 && m_nRowIndex>=m_pTable->m_anRowsHeights.size() ) return 0;
 	return m_pTable->m_anRowsHeights[m_nRowIndex];
 }
 
 
 
-XI_TableCellDescribe::XI_TableCellDescribe(CXI_TABLE* pTable, XI_TableLineDescribe* pLine) :
-	m_aStrings(_FL),
-	m_aImage(_FL)
+XI_TableCellDescribe::XI_TableCellDescribe(CXI_TABLE* pTable, XI_TableLineDescribe* pLine)
 {
 	m_pTable = pTable;
 	m_pLine = pLine;
@@ -111,8 +112,8 @@ XI_TableCellDescribe::XI_TableCellDescribe(CXI_TABLE* pTable, XI_TableLineDescri
 
 XI_TableCellDescribe::~XI_TableCellDescribe()
 {
-	m_aImage.DelAll();
-	m_aStrings.DelAll();
+	m_aImage.clear();
+	m_aStrings.clear();
 	m_pLine = 0;
 	m_pTable = 0;
 }
@@ -123,10 +124,10 @@ void XI_TableCellDescribe::Draw( float fLeft, float fTop )
 
 	fLeft += m_pTable->m_pntSpaceSize.x;
 	fTop += m_pTable->m_pntSpaceSize.y;
-	if( m_aImage.Size() > 0 ) {
+	if( m_aImage.size() > 0 ) {
 		long nX = (long)fLeft + m_nLeftLineWidth;
 		long nY = (long)fTop + m_nTopLineHeight;
-		for( n=0; n<m_aImage; n++ )
+		for( n=0; n<m_aImage.size(); n++ )
 			if( m_aImage[n].pImage )
 				m_aImage[n].pImage->Draw( nX+m_aImage[n].offset.x, nY+m_aImage[n].offset.y, IPType_LeftTop );
 	}
@@ -134,7 +135,7 @@ void XI_TableCellDescribe::Draw( float fLeft, float fTop )
 	fLeft += m_TextOffset.x;
 	fTop += m_TextOffset.y;
 	float fY = 0.f;
-	for( n=0; n<m_aStrings; n++ )
+	for( n=0; n<m_aStrings.size(); n++ )
 	{
 		if( m_aStrings[n].offset.y != NOTUSE_OFFSET ) fY = m_aStrings[n].offset.y;
 		float fNewY = fY + m_pTable->m_rs->CharHeight( m_nFontID ) * m_fScale;
@@ -142,7 +143,7 @@ void XI_TableCellDescribe::Draw( float fLeft, float fTop )
 
 		CXI_UTILS::PrintTextIntoWindow( m_pTable->m_rs, m_nFontIndex<0?m_nFontID:m_pTable->m_anFontList[m_nFontIndex],
 			m_dwColor, ALIGN_LEFT, true, m_fScale, m_pTable->m_screenSize.x, m_pTable->m_screenSize.y,
-			(long)(fLeft+m_aStrings[n].offset.x), (long)(fTop+fY), m_aStrings[n].str.GetBuffer(),
+			(long)(fLeft+m_aStrings[n].offset.x), (long)(fTop+fY), m_aStrings[n].str.c_str(),
 			(long)fLeft, (long)fTop, m_pTable->m_anColsWidth[m_nColIndex], 20);
 
 		fY = fNewY;
@@ -153,8 +154,8 @@ void XI_TableCellDescribe::SetData( long nColIndex, ATTRIBUTES* pAttr, bool bHea
 {
 	if( !pAttr ) {
 		// пустая ячейка
-		m_aStrings.DelAll();
-		m_aImage.DelAll();
+		m_aStrings.clear();
+		m_aImage.clear();
 		return;
 	}
 	ATTRIBUTES* pA;
@@ -170,8 +171,8 @@ void XI_TableCellDescribe::SetData( long nColIndex, ATTRIBUTES* pAttr, bool bHea
 	pA = pAttr->GetAttributeClass( "icon" );
 	if( pA )
 	{
-		if( m_aImage.Size()==0 )
-			m_aImage.Add();
+		if( m_aImage.empty() )
+			m_aImage.push_back(ImgDescribe{});
 		LoadImageParam( &m_aImage[nIconQuantity], pA );
 		nIconQuantity++;
 	}
@@ -181,37 +182,37 @@ void XI_TableCellDescribe::SetData( long nColIndex, ATTRIBUTES* pAttr, bool bHea
 			_snprintf( tmpaname,sizeof(tmpaname),"icon%d", nIconQuantity+1 );
 			pA = pAttr->GetAttributeClass( tmpaname );
 			if( !pA ) break;
-			if( (long)m_aImage <= nIconQuantity )
-				m_aImage.Add();
+			if( (long)m_aImage.size() <= nIconQuantity )
+				m_aImage.push_back(ImgDescribe{});
 			LoadImageParam( &m_aImage[nIconQuantity], pA );
 			nIconQuantity++;
 		}
 	}
 	// удалить лишние картинки
-	while( (long)m_aImage > nIconQuantity )
-		m_aImage.DelIndex( nIconQuantity );
+	while( (long)m_aImage.size() > nIconQuantity )
+		m_aImage.erase( m_aImage.begin() + nIconQuantity );
 
 	// читаем строку
 	m_dwColor = pAttr->GetAttributeAsDword( "color", bHeader ? m_pTable->m_dwFontTitleColor : m_pTable->m_dwFontCellColor );
 	m_fScale = pAttr->GetAttributeAsFloat( "scale", bHeader ? m_pTable->m_fFontTitleScale : m_pTable->m_fFontCellScale );
 	m_nFontID = bHeader ? m_pTable->m_nFontTitleID : m_pTable->m_nFontCellID;
 	m_nFontIndex = pAttr->GetAttributeAsDword( "fontidx", -1 );
-	if( m_nFontIndex<0 || m_nFontIndex>=m_pTable->m_anFontList ) m_nFontIndex = -1;
+	if( m_nFontIndex<0 || m_nFontIndex>=m_pTable->m_anFontList.size() ) m_nFontIndex = -1;
 	m_nAlignment = bHeader ? m_pTable->m_nFontTitleAlignment : m_pTable->m_nFontCellAlignment;
 	m_nVAlignment = bHeader ? m_pTable->m_nFontTitleVAlignment : m_pTable->m_nFontCellVAlignment;
 	pcTmpStr = pAttr->GetAttribute( "align" );
 	if( pcTmpStr )
 	{
-		if( stricmp(pcTmpStr,"left") == 0 ) m_nAlignment = ALIGN_LEFT;
-		if( stricmp(pcTmpStr,"center") == 0 ) m_nAlignment = ALIGN_CENTER;
-		if( stricmp(pcTmpStr,"right") == 0 ) m_nAlignment = ALIGN_RIGHT;
+		if( _stricmp(pcTmpStr,"left") == 0 ) m_nAlignment = ALIGN_LEFT;
+		if( _stricmp(pcTmpStr,"center") == 0 ) m_nAlignment = ALIGN_CENTER;
+		if( _stricmp(pcTmpStr,"right") == 0 ) m_nAlignment = ALIGN_RIGHT;
 	}
 	pcTmpStr = pAttr->GetAttribute( "valign" );
 	if( pcTmpStr )
 	{
-		if( stricmp(pcTmpStr,"top") == 0 ) m_nVAlignment = ALIGN_TOP;
-		if( stricmp(pcTmpStr,"center") == 0 ) m_nVAlignment = ALIGN_CENTER;
-		if( stricmp(pcTmpStr,"bottom") == 0 ) m_nVAlignment = ALIGN_BOTTOM;
+		if( _stricmp(pcTmpStr,"top") == 0 ) m_nVAlignment = ALIGN_TOP;
+		if( _stricmp(pcTmpStr,"center") == 0 ) m_nVAlignment = ALIGN_CENTER;
+		if( _stricmp(pcTmpStr,"bottom") == 0 ) m_nVAlignment = ALIGN_BOTTOM;
 	}
 
 	m_TextOffset.x = m_TextOffset.y = 0;
@@ -225,32 +226,35 @@ void XI_TableCellDescribe::SetData( long nColIndex, ATTRIBUTES* pAttr, bool bHea
 	}
 
 	pcStr = pAttr->GetAttribute( "str" );
-	array<string> asStr(_FL);
+	std::vector<std::string> asStr;
 	CXI_UTILS::SplitStringByWidth( pcStr, m_nFontID, m_fScale, nWidth, asStr );
 
 	if( m_nVAlignment != ALIGN_TOP )
 	{
 		float fVOffset = (float)( m_pLine->GetLineHeight() - 2*m_pTable->m_pntSpaceSize.y - m_nTopLineHeight ) -
-						m_fScale * m_pTable->m_rs->CharHeight( m_nFontID ) * asStr.Size();
+						m_fScale * m_pTable->m_rs->CharHeight( m_nFontID ) * asStr.size();
 		if( m_nVAlignment == ALIGN_CENTER )
 			fVOffset *= .5f;
 		m_TextOffset.y += fVOffset;
 	}
 
-	m_aStrings.DelAll();
+	m_aStrings.clear();
 	pA = pAttr->GetAttributeClass( "textoffsets" );
-	for( long n=0; n<asStr; n++ )
+	for( long n=0; n<asStr.size(); n++ )
 	{
-		m_aStrings.Add();
-		asStr[n].TrimRight();
+		//m_aStrings.Add();
+		//asStr[n].TrimRight();
+		m_aStrings.push_back(StrDescribe{});
+		TOREMOVE::rtrim(asStr[n]);
+
 		m_aStrings[n].str = asStr[n];
 
 		m_aStrings[n].offset.y = CXI_UTILS::GetByStrNumFromAttribute_Float( pA, "s",n+1, NOTUSE_OFFSET );
 		m_aStrings[n].offset.x = (float)m_nLeftLineWidth;
 		if( m_nAlignment == ALIGN_CENTER )
-			m_aStrings[n].offset.x += (float)((nWidth - m_pTable->m_rs->StringWidth( (char*)asStr[n].GetBuffer(), m_nFontID, m_fScale)) / 2);
+			m_aStrings[n].offset.x += (float)((nWidth - m_pTable->m_rs->StringWidth( (char*)asStr[n].c_str(), m_nFontID, m_fScale)) / 2);
 		else if( m_nAlignment == ALIGN_RIGHT )
-			m_aStrings[n].offset.x += (float)(nWidth - m_pTable->m_rs->StringWidth( (char*)asStr[n].GetBuffer(), m_nFontID, m_fScale ));
+			m_aStrings[n].offset.x += (float)(nWidth - m_pTable->m_rs->StringWidth( (char*)asStr[n].c_str(), m_nFontID, m_fScale ));
 	}
 }
 
@@ -293,8 +297,8 @@ void XI_TableCellDescribe::LoadImageParam(ImgDescribe* pImg,ATTRIBUTES* pA)
 		sscanf( pA->GetAttribute("offset"), "%d,%d", &pImg->offset.x,&pImg->offset.y );
 	if( (pcStr=pA->GetAttribute("valign")) != null ) {
 		nImgAlign = ALIGN_TOP;
-		if( stricmp(pcStr,"center")==0 ) nImgAlign = ALIGN_CENTER;
-		else if( stricmp(pcStr,"bottom")==0 ) nImgAlign = ALIGN_BOTTOM;
+		if( _stricmp(pcStr,"center")==0 ) nImgAlign = ALIGN_CENTER;
+		else if( _stricmp(pcStr,"bottom")==0 ) nImgAlign = ALIGN_BOTTOM;
 		if( nImgAlign!=ALIGN_TOP ) {
 			nH = m_pLine->GetLineHeight() - 2*m_pTable->m_pntSpaceSize.y - m_nTopLineHeight - pImg->pImage->GetHeight();
 			if( nImgAlign==ALIGN_CENTER ) nH /= 2;
@@ -305,11 +309,7 @@ void XI_TableCellDescribe::LoadImageParam(ImgDescribe* pImg,ATTRIBUTES* pA)
 
 
 
-CXI_TABLE::CXI_TABLE() :
-	m_aLine(_FL),
-	m_anColsWidth(_FL),
-	m_anRowsHeights(_FL),
-	m_anFontList(_FL)
+CXI_TABLE::CXI_TABLE()
 {
 	m_rs = null;
 	m_bClickable = true;
@@ -362,7 +362,7 @@ void CXI_TABLE::Draw(bool bSelected,dword Delta_Time)
 		m_pHeader->DrawSpecColor( fY );
 		fY += m_anRowsHeights[0];
 	}
-	for( long n=0; n<m_aLine; n++ )
+	for( long n=0; n<m_aLine.size(); n++ )
 	{
 		m_aLine[n]->DrawSpecColor( fY );
 		fY += m_anRowsHeights[n+(m_pHeader?1:0)];
@@ -385,7 +385,7 @@ void CXI_TABLE::Draw(bool bSelected,dword Delta_Time)
 		m_pHeader->Draw( fY );
 		fY += m_anRowsHeights[0];
 	}
-	for( long n=0; n<m_aLine; n++ )
+	for( long n=0; n<m_aLine.size(); n++ )
 	{
 		m_aLine[n]->Draw( fY );
 		fY += m_anRowsHeights[n+(m_pHeader?1:0)];
@@ -401,25 +401,27 @@ bool CXI_TABLE::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9R
 void CXI_TABLE::ReleaseAll()
 {
 	// release all rows
-	m_aLine.DelAllWithPointers();
-	DELETE( m_pHeader );
+	//m_aLine.DelAllWithPointers();
+	for (const auto &line : m_aLine)
+		delete line;
+	STORM_DELETE( m_pHeader );
 
 	// release back image
 	m_bBackPresent = false;
 	m_BackImg.Unload();
 
 	// release border data
-	PICTURE_TEXTURE_RELEASE( pPictureService, m_sBorderIconGroupName, m_idBorderTexture );
+	PICTURE_TEXTURE_RELEASE( pPictureService, m_sBorderIconGroupName.c_str(), m_idBorderTexture );
 	VERTEX_BUF_RELEASE( m_rs, m_idBorderVBuf );
 	INDEX_BUF_RELEASE( m_rs, m_idBorderIBuf );
 
 	// release fonts from list
 	FONT_RELEASE( m_rs, m_nFontCellID );
 	FONT_RELEASE( m_rs, m_nFontTitleID );
-	for( long n=0; n<m_anFontList; n++ ) {
+	for( long n=0; n<m_anFontList.size(); n++ ) {
 		FONT_RELEASE( m_rs, m_anFontList[n] );
 	}
-	m_anFontList.DelAll();
+	m_anFontList.clear();
 
 	m_nBorderSubQ = 0;
 }
@@ -452,7 +454,7 @@ int CXI_TABLE::CommandExecute(int wActCode)
 		case ACTION_SPEEDUP:
 			if( m_nSelectIndex > 0 )
 			{
-				m_nSelectIndex -= m_anRowsHeights.Size() - (m_pHeader?1:0);
+				m_nSelectIndex -= m_anRowsHeights.size() - (m_pHeader?1:0);
 				if( m_nSelectIndex < 0 ) m_nSelectIndex = 0;
 				SetTopIndexForSelect( m_nSelectIndex );
 				SelectLine( m_nSelectIndex );
@@ -471,7 +473,7 @@ int CXI_TABLE::CommandExecute(int wActCode)
 		case ACTION_SPEEDDOWN:
 			if( m_nSelectIndex < m_nLineQuantity-1 )
 			{
-				m_nSelectIndex += m_anRowsHeights.Size() - (m_pHeader?1:0);
+				m_nSelectIndex += m_anRowsHeights.size() - (m_pHeader?1:0);
 				if( m_nSelectIndex > m_nLineQuantity-1 ) m_nSelectIndex = m_nLineQuantity - 1;
 				SetTopIndexForSelect( m_nSelectIndex );
 				SelectLine( m_nSelectIndex );
@@ -489,7 +491,7 @@ int CXI_TABLE::CommandExecute(int wActCode)
 
 		case ACTION_RIGHTSTEP:
 		case ACTION_SPEEDRIGHT:
-			if( m_bDoColsSelect && m_nSelectIndex!=-1 && m_nSelectColIndex<(long)m_anColsWidth.Size()-1 )
+			if( m_bDoColsSelect && m_nSelectIndex!=-1 && m_nSelectColIndex<(long)m_anColsWidth.size()-1 )
 			{
 				m_nSelectColIndex++;
 				SelectCol( m_nSelectColIndex );
@@ -542,7 +544,7 @@ void CXI_TABLE::ChangePosition( XYRECT &rNewPos )
 	{
 		nWAdd = (rNewPos.right-rNewPos.left) - (m_rect.right-m_rect.left);
 		nHAdd = (rNewPos.bottom-rNewPos.top) - (m_rect.bottom-m_rect.top);
-		n = m_anColsWidth.Size() - 1;
+		n = m_anColsWidth.size() - 1;
 		if( n > 0 && nWAdd > 0 )
 			m_anColsWidth[n] += nWAdd;
 		for(;n>=0&&nWAdd<0;n--)
@@ -554,7 +556,7 @@ void CXI_TABLE::ChangePosition( XYRECT &rNewPos )
 				m_anColsWidth[n] = 0;
 			} else nWAdd=0;
 		}
-		n = m_anRowsHeights.Size() - 1;
+		n = m_anRowsHeights.size() - 1;
 		if( n > 0 && nHAdd > 0 )
 			m_anRowsHeights[n] += nHAdd;
 		for(;n>=0&&nHAdd<0;n--)
@@ -568,12 +570,12 @@ void CXI_TABLE::ChangePosition( XYRECT &rNewPos )
 		}
 		//
 		m_rect.right = m_rect.left = rNewPos.left;
-		for(n=0;n<m_anColsWidth;n++)
+		for(n=0;n<m_anColsWidth.size();n++)
 			m_rect.right += m_anColsWidth[n];
 		m_rect.right += m_nBorderWidth;
 		//
 		m_rect.bottom = m_rect.top = rNewPos.top;
-		for(n=0;n<m_anRowsHeights;n++)
+		for(n=0;n<m_anRowsHeights.size();n++)
 			m_rect.bottom += m_anRowsHeights[n];
 		m_rect.bottom += m_nBorderWidth;
 	}
@@ -584,7 +586,7 @@ void CXI_TABLE::ChangePosition( XYRECT &rNewPos )
 		{
 			nWAdd = rNewPos.right - m_rect.right;
 			if( nWAdd == 0 ) nWAdd = rNewPos.left - m_rect.left;
-			if( m_EditData.nEditableIndex < m_anColsWidth )
+			if( m_EditData.nEditableIndex < m_anColsWidth.size() )
 			{
 				m_anColsWidth[m_EditData.nEditableIndex] += nWAdd;
 				m_rect.right += nWAdd;
@@ -594,7 +596,7 @@ void CXI_TABLE::ChangePosition( XYRECT &rNewPos )
 		{
 			nHAdd = rNewPos.bottom - m_rect.bottom;
 			if( nHAdd == 0 ) nHAdd = rNewPos.top - m_rect.top;
-			if( m_EditData.nEditableIndex < m_anRowsHeights )
+			if( m_EditData.nEditableIndex < m_anRowsHeights.size() )
 			{
 				m_anRowsHeights[m_EditData.nEditableIndex] += nHAdd;
 				m_rect.bottom += nHAdd;
@@ -612,9 +614,9 @@ void CXI_TABLE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 
@@ -623,22 +625,22 @@ void CXI_TABLE::SaveParametersToIni()
 	pIni->WriteString( m_nodeName, "position", pcWriteParam );
 
 	// save cols width
-	string sTmp = "";
-	for( long n=0; n<m_anColsWidth; n++ )
+	std::string sTmp = "";
+	for( long n=0; n<m_anColsWidth.size(); n++ )
 	{
 		if( n>0 ) sTmp += ",";
 		sTmp += m_anColsWidth[n];
 	}
-	pIni->WriteString( m_nodeName, "colswidth", (char*)sTmp.GetBuffer() );
+	pIni->WriteString( m_nodeName, "colswidth", (char*)sTmp.c_str() );
 
 	// save rows height
 	sTmp = "";
-	for( long n=0; n<m_anRowsHeights; n++ )
+	for( long n=0; n<m_anRowsHeights.size(); n++ )
 	{
 		if( n>0 ) sTmp += ",";
 		sTmp += m_anRowsHeights[n];
 	}
-	pIni->WriteString( m_nodeName, "rowsheight", (char*)sTmp.GetBuffer() );
+	pIni->WriteString( m_nodeName, "rowsheight", (char*)sTmp.c_str() );
 
 	delete pIni;
 }
@@ -658,34 +660,27 @@ dword _cdecl CXI_TABLE::MessageProc(long msgcode, MESSAGE & message)
 	return 0;
 }
 
-bool CXI_TABLE::GetInternalNameList( array<string>& aStr )
+bool CXI_TABLE::GetInternalNameList( std::vector<std::string>& aStr )
 {
-	aStr.DelAll();
-	string sTmp = "all";
-	aStr.Add( sTmp );
-	for( long n=0; n<m_nColQuantity; n++ )
-	{
-		sTmp = "col";
-		sTmp += (n+1);
-		aStr.Add( sTmp );
-	}
-	for( long n=0; n<m_nRowQuantity; n++ )
-	{
-		sTmp = "row";
-		sTmp += (n+1);
-		aStr.Add( sTmp );
-	}
+	aStr.clear();
+	aStr.push_back( "all" );
+	for (long n = 0; n < m_nColQuantity; n++)
+		aStr.push_back("col" + std::to_string(n + 1));
+
+	for (long n = 0; n < m_nRowQuantity; n++)
+		aStr.push_back("row" + std::to_string(n + 1));
+
 	return true;
 }
 
-void CXI_TABLE::SetInternalName( string& sName )
+void CXI_TABLE::SetInternalName( std::string& sName )
 {
 	if( sName == "all" ) {
 		m_EditData.bAllEditable = true;
 	} else {
 		m_EditData.bAllEditable = false;
-		m_EditData.bColsEditable = (strnicmp(sName.GetBuffer(),"col",3) == 0);
-		m_EditData.nEditableIndex = atoi( &sName.GetBuffer()[3] ) - 1;
+		m_EditData.bColsEditable = (strnicmp(sName.c_str(),"col",3) == 0);
+		m_EditData.nEditableIndex = atoi( &sName.c_str()[3] ) - 1;
 	}
 }
 
@@ -715,7 +710,7 @@ void CXI_TABLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 			_snprintf( pctmp, sizeof(pctmp), "fontlist%d", n+1 );
 			if( !ini1->ReadString(name1,pctmp, param,sizeof(param),"") )
 				break;
-			m_anFontList.Add( m_rs->LoadFont(param) );
+			m_anFontList.push_back( m_rs->LoadFont(param) );
 		}
 	}
 
@@ -731,13 +726,13 @@ void CXI_TABLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	m_nFontCellVAlignment = ALIGN_TOP;
 	if( ReadIniString( ini1,name1, ini2,name2, "fontcellalignment", param, sizeof(param), "" ) )
 	{
-		if( stricmp(param,"center") == 0 ) m_nFontCellAlignment = ALIGN_CENTER;
-		if( stricmp(param,"right") == 0 ) m_nFontCellAlignment = ALIGN_RIGHT;
+		if( _stricmp(param,"center") == 0 ) m_nFontCellAlignment = ALIGN_CENTER;
+		if( _stricmp(param,"right") == 0 ) m_nFontCellAlignment = ALIGN_RIGHT;
 	}
 	if( ReadIniString( ini1,name1, ini2,name2, "fontcellvalignment", param, sizeof(param), "" ) )
 	{
-		if( stricmp(param,"center") == 0 ) m_nFontCellVAlignment = ALIGN_CENTER;
-		if( stricmp(param,"bottom") == 0 ) m_nFontCellVAlignment = ALIGN_BOTTOM;
+		if( _stricmp(param,"center") == 0 ) m_nFontCellVAlignment = ALIGN_CENTER;
+		if( _stricmp(param,"bottom") == 0 ) m_nFontCellVAlignment = ALIGN_BOTTOM;
 	}
 
 	// title font
@@ -749,13 +744,13 @@ void CXI_TABLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	m_nFontTitleVAlignment = ALIGN_TOP;
 	if( ReadIniString( ini1,name1, ini2,name2, "fonttitlealignment", param, sizeof(param), "" ) )
 	{
-		if( stricmp(param,"center") == 0 ) m_nFontTitleAlignment = ALIGN_CENTER;
-		if( stricmp(param,"right") == 0 ) m_nFontTitleAlignment = ALIGN_RIGHT;
+		if( _stricmp(param,"center") == 0 ) m_nFontTitleAlignment = ALIGN_CENTER;
+		if( _stricmp(param,"right") == 0 ) m_nFontTitleAlignment = ALIGN_RIGHT;
 	}
 	if( ReadIniString( ini1,name1, ini2,name2, "fonttitlevalignment", param, sizeof(param), "" ) )
 	{
-		if( stricmp(param,"center") == 0 ) m_nFontTitleVAlignment = ALIGN_CENTER;
-		if( stricmp(param,"bottom") == 0 ) m_nFontTitleVAlignment = ALIGN_BOTTOM;
+		if( _stricmp(param,"center") == 0 ) m_nFontTitleVAlignment = ALIGN_CENTER;
+		if( _stricmp(param,"bottom") == 0 ) m_nFontTitleVAlignment = ALIGN_BOTTOM;
 	}
 
 	// select image
@@ -775,43 +770,43 @@ void CXI_TABLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	//
 	m_nBorderIcon_LeftTop = -1;
 	if( ReadIniString( ini1,name1, ini2,name2, "borderlefttop", param,sizeof(param), "" ) )
-		m_nBorderIcon_LeftTop = pPictureService->GetImageNum( m_sBorderIconGroupName, param );
+		m_nBorderIcon_LeftTop = pPictureService->GetImageNum( m_sBorderIconGroupName.c_str(), param );
 	//
 	m_nBorderIcon_LeftBottom = -1;
 	if( ReadIniString( ini1,name1, ini2,name2, "borderleftbottom", param,sizeof(param), "" ) )
-		m_nBorderIcon_LeftBottom = pPictureService->GetImageNum( m_sBorderIconGroupName, param );
+		m_nBorderIcon_LeftBottom = pPictureService->GetImageNum( m_sBorderIconGroupName.c_str(), param );
 	//
 	m_nBorderIcon_RightTop = -1;
 	if( ReadIniString( ini1,name1, ini2,name2, "borderrighttop", param,sizeof(param), "" ) )
-		m_nBorderIcon_RightTop = pPictureService->GetImageNum( m_sBorderIconGroupName, param );
+		m_nBorderIcon_RightTop = pPictureService->GetImageNum( m_sBorderIconGroupName.c_str(), param );
 	//
 	m_nBorderIcon_RightBottom = -1;
 	if( ReadIniString( ini1,name1, ini2,name2, "borderrightbottom", param,sizeof(param), "" ) )
-		m_nBorderIcon_RightBottom = pPictureService->GetImageNum( m_sBorderIconGroupName, param );
+		m_nBorderIcon_RightBottom = pPictureService->GetImageNum( m_sBorderIconGroupName.c_str(), param );
 	//
 	m_nBorderIcon_Left = -1;
 	if( ReadIniString( ini1,name1, ini2,name2, "borderleft", param,sizeof(param), "" ) )
-		m_nBorderIcon_Left = pPictureService->GetImageNum( m_sBorderIconGroupName, param );
+		m_nBorderIcon_Left = pPictureService->GetImageNum( m_sBorderIconGroupName.c_str(), param );
 	//
 	m_nBorderIcon_Right = -1;
 	if( ReadIniString( ini1,name1, ini2,name2, "borderright", param,sizeof(param), "" ) )
-		m_nBorderIcon_Right = pPictureService->GetImageNum( m_sBorderIconGroupName, param );
+		m_nBorderIcon_Right = pPictureService->GetImageNum( m_sBorderIconGroupName.c_str(), param );
 	//
 	m_nBorderIcon_Top = -1;
 	if( ReadIniString( ini1,name1, ini2,name2, "bordertop", param,sizeof(param), "" ) )
-		m_nBorderIcon_Top = pPictureService->GetImageNum( m_sBorderIconGroupName, param );
+		m_nBorderIcon_Top = pPictureService->GetImageNum( m_sBorderIconGroupName.c_str(), param );
 	//
 	m_nBorderIcon_Bottom = -1;
 	if( ReadIniString( ini1,name1, ini2,name2, "borderbottom", param,sizeof(param), "" ) )
-		m_nBorderIcon_Bottom = pPictureService->GetImageNum( m_sBorderIconGroupName, param );
+		m_nBorderIcon_Bottom = pPictureService->GetImageNum( m_sBorderIconGroupName.c_str(), param );
 	//
 	m_nBorderIcon_VLine = -1;
 	if( ReadIniString( ini1,name1, ini2,name2, "bordervline", param,sizeof(param), "" ) )
-		m_nBorderIcon_VLine = pPictureService->GetImageNum( m_sBorderIconGroupName, param );
+		m_nBorderIcon_VLine = pPictureService->GetImageNum( m_sBorderIconGroupName.c_str(), param );
 	//
 	m_nBorderIcon_HLine = -1;
 	if( ReadIniString( ini1,name1, ini2,name2, "borderhline", param,sizeof(param), "" ) )
-		m_nBorderIcon_HLine = pPictureService->GetImageNum( m_sBorderIconGroupName, param );
+		m_nBorderIcon_HLine = pPictureService->GetImageNum( m_sBorderIconGroupName.c_str(), param );
 
 	m_dwBorderColor = GetIniARGB( ini1,name1, ini2,name2, "bordercolor", ARGB(255,128,128,128) );
 	m_nBorderWidth = GetIniLong( ini1,name1, ini2,name2, "borderwidth", 0 );
@@ -832,7 +827,7 @@ void CXI_TABLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 
 	nUsedQ = 0; // жестко заданных строк
 	nCommonWidth = 0; // общая высота этих строк
-	m_anRowsHeights.DelAll();
+	m_anRowsHeights.clear();
 	if( ReadIniString( ini1,name1, ini2,name2, "rowsheight", param,sizeof(param), "" ) )
 	{
 		char * pcTmp = param;
@@ -844,21 +839,21 @@ void CXI_TABLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 			if( nTmp <= 0 ) nTmp = 0;
 			else nUsedQ++;
 			nCommonWidth += nTmp;
-			m_anRowsHeights.Add( nTmp );
+			m_anRowsHeights.push_back( nTmp );
 		}
 	}
-	for( n=m_anRowsHeights; n<m_nRowQuantity; n++ )
-		m_anRowsHeights.Add( 0 );
+	for( n=m_anRowsHeights.size(); n<m_nRowQuantity; n++ )
+		m_anRowsHeights.push_back( 0 );
 	if( m_nRowQuantity>nUsedQ && m_rect.bottom-m_rect.top>nCommonWidth )
 	{
 		long nH = (m_rect.bottom-m_rect.top - nCommonWidth) / (m_nRowQuantity-nUsedQ);
-		for( n=0; n<m_anRowsHeights; n++ )
+		for( n=0; n<m_anRowsHeights.size(); n++ )
 			if( m_anRowsHeights[n] == 0 )
 				m_anRowsHeights[n] = nH;
 	}
 	// приведем высоту таблицы к общему значению
 	m_rect.bottom = m_rect.top + m_nBorderWidth;
-	for( n=0; n<m_anRowsHeights; n++ )
+	for( n=0; n<m_anRowsHeights.size(); n++ )
 	{
 		m_rect.bottom += m_anRowsHeights[n];
 	}
@@ -866,7 +861,7 @@ void CXI_TABLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	// заполнение колонок
 	nUsedQ = 0; // жестко заданных колонок
 	nCommonWidth = 0; // общая ширина этих колонок
-	m_anColsWidth.DelAll();
+	m_anColsWidth.clear();
 	// зачитаем из ИНИ
 	if( ReadIniString( ini1,name1, ini2,name2, "colswidth", param,sizeof(param), "" ) )
 	{
@@ -879,21 +874,21 @@ void CXI_TABLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 			if( nTmp <= 0 ) nTmp = 0; // ширина 0 - по умолчанию
 			else nUsedQ++; // в другом случае это значение жестко задано
 			nCommonWidth += nTmp;
-			m_anColsWidth.Add( nTmp );
+			m_anColsWidth.push_back( nTmp );
 		}
 	}
-	for( n=m_anColsWidth; n<m_nColQuantity; n++ )
-		m_anColsWidth.Add( 0 );
+	for( n=m_anColsWidth.size(); n<m_nColQuantity; n++ )
+		m_anColsWidth.push_back( 0 );
 	if( m_nColQuantity>nUsedQ && m_rect.right-m_rect.left>nCommonWidth )
 	{
 		long nW = (m_rect.right-m_rect.left - m_nBorderWidth - nCommonWidth) / (m_nColQuantity-nUsedQ);
-		for( n=0; n<m_anColsWidth; n++ )
+		for( n=0; n<m_anColsWidth.size(); n++ )
 			if( m_anColsWidth[n] == 0 )
 				m_anColsWidth[n] = nW;
 	}
 	// приведем ширину таблицы к общему значению
 	m_rect.right = m_rect.left + m_nBorderWidth;
-	for( n=0; n<m_anColsWidth; n++ )
+	for( n=0; n<m_anColsWidth.size(); n++ )
 	{
 		m_rect.right += m_anColsWidth[n];
 	}
@@ -1093,7 +1088,7 @@ void CXI_TABLE::UpdateTableCells()
 		m_pHeader->SetData( 0, pAttr, true );
 		nY += m_anRowsHeights[0];
 	} else {
-		DELETE( m_pHeader );
+		STORM_DELETE( m_pHeader );
 	}
 	// потом
 	q = m_bVariableLineHeight ? 1000 : (m_nRowQuantity - (m_pHeader?1:0));
@@ -1103,10 +1098,10 @@ void CXI_TABLE::UpdateTableCells()
 		pAttr = pARoot->GetAttributeClass( pcTmp );
 		if( !pAttr ) break;
 		XI_TableLineDescribe* pTL = 0;
-		if( r >= m_aLine )
+		if( r >= m_aLine.size() )
 		{
 			pTL = NEW XI_TableLineDescribe( this );
-			m_aLine.Add( pTL );
+			m_aLine.push_back( pTL );
 		} else
 			pTL = m_aLine[r];
 		Assert( pTL );
@@ -1114,10 +1109,10 @@ void CXI_TABLE::UpdateTableCells()
 		nY += pTL->GetLineHeight();
 	}
 	// удаляем лишние строки
-	while( (long)m_aLine.Size() > r )
+	while( (long)m_aLine.size() > r )
 	{
-		DELETE( m_aLine[r] );
-		m_aLine.DelIndex( r );
+		STORM_DELETE( m_aLine[r] );
+		m_aLine.erase( m_aLine.begin() +  r );
 	}
 
 	// если высота строк переменная, то пересчитаем ее
@@ -1142,7 +1137,7 @@ long CXI_TABLE::GetLineByPoint( FXYPOINT& pnt )
 	if( pnt.x < m_rect.left || pnt.x > m_rect.right ||
 		pnt.y < m_rect.top || pnt.y > m_rect.bottom ) return -1;
 	long nTop = m_rect.top;
-	for( long n=0; n<m_anRowsHeights; n++ )
+	for( long n=0; n<m_anRowsHeights.size(); n++ )
 	{
 		nTop += m_anRowsHeights[n];
 		if( pnt.y < nTop ) return n;
@@ -1154,7 +1149,7 @@ long CXI_TABLE::GetColByX( long x )
 {
 	x -= m_rect.left;
 	if( x<0 ) return -1;
-	for( long n=0; n<m_anColsWidth; n++ )
+	for( long n=0; n<m_anColsWidth.size(); n++ )
 		if( m_anColsWidth[n] >= x )
 			return n;
 		else
@@ -1164,7 +1159,7 @@ long CXI_TABLE::GetColByX( long x )
 
 void CXI_TABLE::SelectRow( long nRowNum )
 {
-	if( nRowNum<(m_pHeader?1:0) || nRowNum>=m_anRowsHeights ) return;
+	if( nRowNum<(m_pHeader?1:0) || nRowNum>=m_anRowsHeights.size() ) return;
 	long n = m_nTopIndex + nRowNum - (m_pHeader?1:0);
 	SelectLine( n );
 }
@@ -1173,10 +1168,10 @@ void CXI_TABLE::SelectRow( long nRowNum, long nColNum )
 {
 	if( m_bDoColsSelect )
 	{
-		if( nColNum<0 || nColNum>=m_anColsWidth ) m_nSelectColIndex = -1;
+		if( nColNum<0 || nColNum>=m_anColsWidth.size() ) m_nSelectColIndex = -1;
 		else m_nSelectColIndex = nColNum;
 	}
-	if( nRowNum<(m_pHeader?1:0) || nRowNum>=m_anRowsHeights ) return;
+	if( nRowNum<(m_pHeader?1:0) || nRowNum>=m_anRowsHeights.size() ) return;
 	long n = m_nTopIndex + nRowNum - (m_pHeader?1:0);
 	SelectLine( n );
 }
@@ -1194,7 +1189,7 @@ void CXI_TABLE::SelectLine( long nLineNum )
 void CXI_TABLE::SelectCol( long nColNum )
 {
 	if( !m_bDoColsSelect ) return;
-	if( nColNum<0 || nColNum>=m_anColsWidth ) m_nSelectColIndex = -1;
+	if( nColNum<0 || nColNum>=m_anColsWidth.size() ) m_nSelectColIndex = -1;
 	else m_nSelectColIndex = nColNum;
 	UpdateSelectImage();
 	if( !m_bFirstFrame )
@@ -1204,7 +1199,7 @@ void CXI_TABLE::SelectCol( long nColNum )
 void CXI_TABLE::UpdateSelectImage()
 {
 	long nRow = m_nSelectIndex - m_nTopIndex + (m_pHeader?1:0);
-	if( m_nSelectIndex<0 || nRow<0 || nRow>=m_anRowsHeights ) {
+	if( m_nSelectIndex<0 || nRow<0 || nRow>=m_anRowsHeights.size() ) {
 		m_SelectImg.DisableDraw( true );
 	}
 	else
@@ -1214,7 +1209,7 @@ void CXI_TABLE::UpdateSelectImage()
 		XYRECT pos;
 		pos.top = GetRowTop( nRow );
 		pos.bottom = pos.top + m_anRowsHeights[nRow];
-		if( m_bDoColsSelect && nCol>=0 && nCol<m_anColsWidth ) {
+		if( m_bDoColsSelect && nCol>=0 && nCol<m_anColsWidth.size() ) {
 			pos.left = GetColLeft( nCol );
 			pos.right = pos.left + m_anColsWidth[nCol];
 		} else {
@@ -1234,7 +1229,7 @@ void CXI_TABLE::UpdateSelectImage()
 
 long CXI_TABLE::GetRowTop( long nRow )
 {
-	if( nRow < 0 || nRow >= m_anRowsHeights ) return m_rect.top; // ошибочная ситуация
+	if( nRow < 0 || nRow >= m_anRowsHeights.size() ) return m_rect.top; // ошибочная ситуация
 	long nTop = m_rect.top;
 	for( long n=0; n<nRow; n++ )
 	{
@@ -1245,7 +1240,7 @@ long CXI_TABLE::GetRowTop( long nRow )
 
 long CXI_TABLE::GetColLeft( long nCol )
 {
-	if( nCol<0 || nCol>=m_anColsWidth ) return m_rect.left; // ошибочная ситуация
+	if( nCol<0 || nCol>=m_anColsWidth.size() ) return m_rect.left; // ошибочная ситуация
 	long nLeft = m_rect.left;
 	for( long n=0; n<nCol; n++ )
 	{
@@ -1263,9 +1258,9 @@ void CXI_TABLE::SetTopIndexForSelect( long nSelIndex )
 		SetTopIndex( nSelIndex );
 		UpdateTableCells();
 	}
-	else if( nSelIndex >= m_nTopIndex + (long)m_anRowsHeights.Size() - (m_pHeader?1:0) ) // после последней строки - значит ставим выделение вниз
+	else if( nSelIndex >= m_nTopIndex + (long)m_anRowsHeights.size() - (m_pHeader?1:0) ) // после последней строки - значит ставим выделение вниз
 	{
-		nSelIndex = nSelIndex - m_anRowsHeights.Size() + (m_pHeader?1:0) + 1;
+		nSelIndex = nSelIndex - m_anRowsHeights.size() + (m_pHeader?1:0) + 1;
 		if( nSelIndex < 0 ) nSelIndex = 0;
 		SetTopIndex( nSelIndex );
 		UpdateTableCells();
@@ -1321,8 +1316,8 @@ void CXI_TABLE::SetTopIndex( long nTopIndex )
 
 void CXI_TABLE::UpdateScroller()
 {
-	if( m_sScrollerName.IsEmpty() ) return;
-	CINODE* pNode = ptrOwner->FindNode( m_sScrollerName, 0 );
+	if( m_sScrollerName.empty() ) return;
+	CINODE* pNode = ptrOwner->FindNode( m_sScrollerName.c_str(), 0 );
 	if( !pNode || pNode->m_nNodeType != NODETYPE_SCROLLER ) return;
 	CXI_SCROLLER* pScroll = (CXI_SCROLLER*)pNode;
 
@@ -1342,19 +1337,19 @@ void CXI_TABLE::RecalculateLineHeights()
 		nY += m_anRowsHeights[n++];
 
 	// берем реальные размеры строк
-	for(long i=0; i<m_aLine; i++,n++)
+	for(long i=0; i<m_aLine.size(); i++,n++)
 	{
-		if( n < m_anRowsHeights )
+		if( n < m_anRowsHeights.size() )
 			m_anRowsHeights[n] = m_aLine[i]->GetLineHeight();
 		else
-			m_anRowsHeights.Add(m_aLine[i]->GetLineHeight());
+			m_anRowsHeights.push_back(m_aLine[i]->GetLineHeight());
 		nY += m_aLine[i]->GetLineHeight();
 	}
 
 	// если последняя строка выходит за размеры, то укорачиваем ее по высоте
-	if( nY>m_rect.bottom && m_aLine.Size()>0 ) {
-		long nLine = m_aLine.Last();
-		m_aLine[nLine]->SetLineHeight( m_aLine[nLine]->GetLineHeight() - (nY - m_rect.bottom) );
+	if( nY>m_rect.bottom && m_aLine.size()>0 ) {
+		//long nLine = m_aLine.Last();
+		m_aLine.back()->SetLineHeight( m_aLine.back()->GetLineHeight() - (nY - m_rect.bottom) );
 		nY = m_rect.bottom;
 	}
 
@@ -1362,12 +1357,12 @@ void CXI_TABLE::RecalculateLineHeights()
 	for( ; nY<m_rect.bottom; n++ ) {
 		long nH = m_nNormalLineHeight;
 		if( nY + nH > m_rect.bottom ) nH = m_rect.bottom - nY;
-		if( n < m_anRowsHeights ) m_anRowsHeights[n] = nH;
-		else m_anRowsHeights.Add(nH);
+		if( n < m_anRowsHeights.size() ) m_anRowsHeights[n] = nH;
+		else m_anRowsHeights.push_back(nH);
 		nY += nH;
 	}
 
 	// оставшиеся строки удаляем
-	while( n < m_anRowsHeights )
-		m_anRowsHeights.DelIndex( n );
+	while( n < m_anRowsHeights.size() )
+		m_anRowsHeights.erase( m_anRowsHeights.begin() + n );
 }

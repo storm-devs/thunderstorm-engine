@@ -1,4 +1,5 @@
 #include "loopstack.h"
+#include "../../common_h/defines.h"
 
 LOOPSTACK::LOOPSTACK()
 {
@@ -9,7 +10,8 @@ LOOPSTACK::LOOPSTACK()
 
 LOOPSTACK::~LOOPSTACK()
 {
-	if(pBlock) delete(pBlock);
+	if(pBlock) 
+		STORM_DELETE(pBlock);
 }
 
 void LOOPSTACK::Push(LOOPBLOCK block)

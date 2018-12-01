@@ -7,8 +7,8 @@
 bool XProcessFile(const char *_srcDir, const char *_destDir, const char *_mask, const WIN32_FIND_DATA &_findData);
 bool XDirCopy(const char *_srcDir, const char *_destDir, const char *_mask);
 void CacheData();
-bool XFileDelete(const char *_fileName);
-bool XProcessFileDelete(const char *_srcDir, const char *_mask, const WIN32_FIND_DATA &_findData);
+bool XFileSTORM_DELETE(const char *_fileName);
+bool XProcessFileSTORM_DELETE(const char *_srcDir, const char *_mask, const WIN32_FIND_DATA &_findData);
 
 #include "..\..\common_h\dx9render.h"
 extern VDX9RENDER * pDevice;
@@ -73,7 +73,7 @@ HANDLE FILE_SERVICE::_CreateFile(LPCTSTR lpFileName,DWORD dwDesiriedAccess,DWORD
 		strcat(xbox_file_name,lpFileName);
 	}
 	else strcpy(xbox_file_name,lpFileName);//*/
-	if(stricmp(sDriveLetter,XBOXDRIVE_DVD)==0)
+	if(_stricmp(sDriveLetter,XBOXDRIVE_DVD)==0)
 	{
 		if(IsCached(lpFileName))
 		{
@@ -117,7 +117,7 @@ HANDLE FILE_SERVICE::_CreateFile(LPCTSTR lpFileName,DWORD dwDesiriedAccess,DWORD
 		//*/
 	}
 #endif
-	//if(fh == INVALID_HANDLE_VALUE) if(Exceptions_Mask & _X_NO_FILE) _THROW(_X_NO_FILE);
+	//if(fh == INVALID_HANDLE_VALUE) if(Exceptions_Mask & _X_NO_FILE) STORM_THROW(_X_NO_FILE);
 	return fh;
 }
 void   FILE_SERVICE::_CloseHandle(HANDLE hFile)
@@ -149,7 +149,7 @@ BOOL   FILE_SERVICE::_WriteFile(HANDLE hFile,LPCVOID lpBuffer,DWORD nNumberOfByt
 	dword dwR;
 	bRes = WriteFile(hFile,lpBuffer,nNumberOfBytesToWrite,&dwR,0);
 	if(lpNumberOfBytesWritten != 0) *lpNumberOfBytesWritten = dwR;
-//	if(dwR != nNumberOfBytesToWrite) if(Exceptions_Mask & _X_NO_FILE_WRITE) _THROW(_X_NO_FILE_WRITE);
+//	if(dwR != nNumberOfBytesToWrite) if(Exceptions_Mask & _X_NO_FILE_WRITE) STORM_THROW(_X_NO_FILE_WRITE);
 	return bRes;
 }
 BOOL   FILE_SERVICE::_ReadFile(HANDLE hFile,LPVOID lpBuffer,DWORD nNumberOfBytesToRead,LPDWORD lpNumberOfBytesRead)
@@ -158,7 +158,7 @@ BOOL   FILE_SERVICE::_ReadFile(HANDLE hFile,LPVOID lpBuffer,DWORD nNumberOfBytes
 	dword dwR;
 	bRes = ReadFile(hFile,lpBuffer,nNumberOfBytesToRead,&dwR,0);
 	if(lpNumberOfBytesRead != 0) *lpNumberOfBytesRead = dwR;
-//	if(dwR != nNumberOfBytesToRead) if(Exceptions_Mask & _X_NO_FILE_READ) _THROW(_X_NO_FILE_READ);
+//	if(dwR != nNumberOfBytesToRead) if(Exceptions_Mask & _X_NO_FILE_READ) STORM_THROW(_X_NO_FILE_READ);
 	return bRes;
 }
 HANDLE FILE_SERVICE::_FindFirstFile(LPCTSTR lpFileName,LPWIN32_FIND_DATA lpFindFileData)
@@ -303,7 +303,7 @@ INIFILE * FILE_SERVICE::OpenIniFile(const char * file_name)
 	for(n=0;n<=Max_File_Index;n++)
 	{
 		if( OpenFiles[n]==null || OpenFiles[n]->GetFileName()==null ) continue;
-		if(stricmp(OpenFiles[n]->GetFileName(),file_name) == 0) 
+		if(_stricmp(OpenFiles[n]->GetFileName(),file_name) == 0) 
 		{
 			OpenFiles[n]->IncReference();
 
@@ -352,7 +352,7 @@ void FILE_SERVICE::RefDec(INIFILE * ini_obj)
 	{
 		if(OpenFiles[n] != ini_obj) continue;
 		//OpenFiles[n]->SearchData = &OpenFiles[n]->Search;
-		if(OpenFiles[n]->GetReference() == 0) _THROW(Reference error);
+		if(OpenFiles[n]->GetReference() == 0) STORM_THROW(Reference error);
 		OpenFiles[n]->DecReference();
 		if(OpenFiles[n]->GetReference() == 0) 
 		{
@@ -361,7 +361,7 @@ void FILE_SERVICE::RefDec(INIFILE * ini_obj)
 		}
 		return;
 	}
-	_THROW(bad inifile object);
+	STORM_THROW(bad inifile object);
 	UNGUARD
 }
 
@@ -472,7 +472,7 @@ bool XDirCopy(const char *_srcDir, const char *_destDir, const char *_mask)
 	return true;
 }
 
-bool XDirDelete(const char *_srcDir)
+bool XDirSTORM_DELETE(const char *_srcDir)
 {
 	WIN32_FIND_DATA findData;
 	char _mask[] = "*.*";
@@ -496,10 +496,10 @@ bool XDirDelete(const char *_srcDir)
 		return false;
 	}
 
-	XProcessFileDelete(_srcDir, _mask, findData);
+	XProcessFileSTORM_DELETE(_srcDir, _mask, findData);
 	while (FindNextFile(findHandle, &findData) == TRUE)
 	{
-		XProcessFileDelete(_srcDir, _mask, findData);
+		XProcessFileSTORM_DELETE(_srcDir, _mask, findData);
 	}
 
 	delete[] srcFilename;
@@ -535,7 +535,7 @@ bool XFileCopy(const char *_srcName, const char *_destName)
 	//return (CopyFile(_srcName, _destName, TRUE) != 0);
 }
 
-bool XFileDelete(const char *_fileName)
+bool XFileSTORM_DELETE(const char *_fileName)
 {
 	bool bRes;
 	bRes = DeleteFile(_fileName)!=0;
@@ -578,7 +578,7 @@ bool XProcessFile(const char *_srcDir, const char *_destDir, const char *_mask, 
 }
 
 
-bool XProcessFileDelete(const char *_srcDir, const char *_mask, const WIN32_FIND_DATA &_findData)
+bool XProcessFileSTORM_DELETE(const char *_srcDir, const char *_mask, const WIN32_FIND_DATA &_findData)
 {
 	if (!strcmp(_findData.cFileName, "."))
 		return false;
@@ -594,11 +594,11 @@ bool XProcessFileDelete(const char *_srcDir, const char *_mask, const WIN32_FIND
 
 	if (!(_findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
 	{ //file
-		XFileDelete(srcName);
+		XFileSTORM_DELETE(srcName);
 	}
 	else
 	{ //directory
-		XDirDelete(srcName);
+		XDirSTORM_DELETE(srcName);
 	}
 
 	delete[] srcName;
@@ -645,7 +645,7 @@ BOOL FILE_SERVICE::CacheDirectory(const char * pDirName)
 	dwHashIndex = MakeHashValue(pDirName)%CACHEDIRSTABLESIZE;
 	for(n=0;n<CacheDirs[dwHashIndex].dwElementsNum;n++)
 	{
-		if(stricmp(CacheDirs[dwHashIndex].pDirName[n],pDirName)==0) return true; // already cached
+		if(_stricmp(CacheDirs[dwHashIndex].pDirName[n],pDirName)==0) return true; // already cached
 	}
 	CacheDirs[dwHashIndex].dwElementsNum++;
 	CacheDirs[dwHashIndex].pDirName = (char **)RESIZE(CacheDirs[dwHashIndex].pDirName,CacheDirs[dwHashIndex].dwElementsNum*sizeof(char *));
@@ -703,7 +703,7 @@ void FILE_SERVICE::MarkDirectoryCached(const char * pDirName)
 		dwHashIndex = MakeHashValue(pDirName)%CACHEDIRSTABLESIZE;
 		for(n=0;n<CacheDirs[dwHashIndex].dwElementsNum;n++)
 		{
-			if(stricmp(CacheDirs[dwHashIndex].pDirName[n],pDirName)==0) return; // already marked
+			if(_stricmp(CacheDirs[dwHashIndex].pDirName[n],pDirName)==0) return; // already marked
 		}
 	}
 	else
@@ -715,7 +715,7 @@ void FILE_SERVICE::MarkDirectoryCached(const char * pDirName)
 		dwHashIndex = MakeHashValue(pTemp)%CACHEDIRSTABLESIZE;
 		for(n=0;n<CacheDirs[dwHashIndex].dwElementsNum;n++)
 		{
-			if(stricmp(CacheDirs[dwHashIndex].pDirName[n],pTemp)==0)
+			if(_stricmp(CacheDirs[dwHashIndex].pDirName[n],pTemp)==0)
 			{
 				delete pTemp;
 				return; // already marked
@@ -767,7 +767,7 @@ BOOL FILE_SERVICE::UnCacheDirectory(const char * pDirName)
 	bFound = false;
 	for(n=0;n<CacheDirs[dwHashIndex].dwElementsNum;n++)
 	{
-		if(stricmp(CacheDirs[dwHashIndex].pDirName[n],pDirName)==0)
+		if(_stricmp(CacheDirs[dwHashIndex].pDirName[n],pDirName)==0)
 		{
 			bFound = true;
 			break;
@@ -795,7 +795,7 @@ BOOL FILE_SERVICE::UnCacheDirectory(const char * pDirName)
 	strcpy(sDNDst,XBOXDRIVE_CACHE);
 	strcat(sDNDst,pDirName);
 
-	XDirDelete(sDNDst);
+	XDirSTORM_DELETE(sDNDst);
 	
 	return true;
 
@@ -821,7 +821,7 @@ BOOL FILE_SERVICE::IsCached(const char * pFileName)
 			dwHashIndex = MakeHashValue(sDirName)%CACHEDIRSTABLESIZE;
 			for(i=0;i<CacheDirs[dwHashIndex].dwElementsNum;i++)
 			{
-				if(stricmp(CacheDirs[dwHashIndex].pDirName[i],sDirName)==0) return true;
+				if(_stricmp(CacheDirs[dwHashIndex].pDirName[i],sDirName)==0) return true;
 			}
 			return false;
 		}

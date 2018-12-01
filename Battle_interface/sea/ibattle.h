@@ -5,7 +5,6 @@
 #include "..\..\common_h\defines.h"
 #include "battle_navigator.h"
 #include "..\utils.h"
-#include "..\..\common_h\templates\array.h"
 
 class BIShipIcon;
 class ShipInfoImages;
@@ -42,7 +41,7 @@ protected:
 
 	bool	m_bMyShipView;
 
-	array<BITextInfo> m_TextArray;
+	std::vector<BITextInfo> m_TextArray;
 	BILinesInfo m_LinesInfo;
 	bool m_bShowBattleBorder;
 	BIBorderInfo m_BattleBorder;

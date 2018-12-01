@@ -35,10 +35,10 @@ bool CameraDialog::Init()
 	GUARD(CAMERA::CAMERA())
 
 	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
-	if(!rs)	_THROW("No service: dx9render");
+	if(!rs)	STORM_THROW("No service: dx9render");
 
 	col = (COLLIDE *)_CORE_API->CreateService("coll");
-	if(!col)	_THROW("No service: collide");
+	if(!col)	STORM_THROW("No service: collide");
 
 	_CORE_API->LayerAdd("execute",GetID(),2);
 	//_CORE_API->LayerAdd("realize",GetID(),1);

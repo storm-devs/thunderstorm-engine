@@ -20,7 +20,7 @@ WdmObjects * wdmObjects = null;
 //Конструирование, деструктурирование
 //============================================================================================
 
-WdmObjects::WdmObjects() : models(_FL_)
+WdmObjects::WdmObjects()
 {
 	Assert(!wdmObjects);
 	srand(GetTickCount());
@@ -55,7 +55,7 @@ WdmObjects::~WdmObjects()
 	if(ships) delete ships;
 	if(storms) delete storms;
 	wdmObjects = null;
-	for(long i = 0; i < models; i++)
+	for(long i = 0; i < models.size(); i++)
 	{
 		delete models[i].geo;
 	}
@@ -162,7 +162,7 @@ GEOS * WdmObjects::CreateGeometry(const char * path)
 	{
 		if(models[i].hash == hash)
 		{
-			if(stricmp(models[i].path, path) == 0)
+			if(_stricmp(models[i].path.c_str(), path) == 0)
 			{
 				return models[i].geo;
 			}
@@ -172,14 +172,15 @@ GEOS * WdmObjects::CreateGeometry(const char * path)
 	modelPath = "WorldMap\\";
 	modelPath += path;
 	gs->SetTexturePath("WorldMap\\Geometry\\");
-	GEOS * geo = gs->CreateGeometry(modelPath, "", 0);
+	GEOS * geo = gs->CreateGeometry(modelPath.c_str(), "", 0);
 	gs->SetTexturePath("");
 	//Добавляем в таблицу
-	Model & m = models[models.Add()];
-	m.path = path;
-	m.hash = hash;
-	m.next = -1;
-	m.geo = geo;
+	//Model & m = models[models.Add()];
+	//m.path = path;
+	//m.hash = hash;
+	//m.next = -1;
+	//m.geo = geo;
+	models.push_back(Model{ geo ,path, hash, -1 });
 	long index = hash & (sizeof(entryModels)/sizeof(entryModels[0]) - 1);
 	if(entryModels[index] < 0)
 	{
@@ -409,7 +410,7 @@ void WdmObjects::UpdateWind(float dltTime)
 }
 
 //Получить строку сохранение
-const char * WdmObjects::GetWindSaveString(string & windData)
+const char * WdmObjects::GetWindSaveString(std::string & windData)
 {
 	windData = "v02_";
 	long size = sizeof(windField);
@@ -422,7 +423,7 @@ const char * WdmObjects::GetWindSaveString(string & windData)
 	{
 		AddDataToString(windData, buf[i]);
 	}
-	return windData;
+	return windData.c_str();
 }
 
 //Установить строку сохранение
@@ -464,7 +465,7 @@ void WdmObjects::SetWindSaveString(const char * str)
 }
 
 //Добавить float в cтроку
-void WdmObjects::AddDataToString(string & str, byte d)
+void WdmObjects::AddDataToString(std::string & str, byte d)
 {
 	char hex[] = "0123456789ABCDEF";
 	str += hex[(d >> 4) & 0xf];

@@ -2,6 +2,7 @@
 #define MousePointer_h
 
 #include "BaseManager.h"
+#include <string>
 
 #define BI_CURSORS_QUANTITY	10
 #define BI_CURSOR_COMMON	0
@@ -28,7 +29,7 @@ protected:
 	struct MouseCursorInfo
 	{
 		POINT offset;
-		string texture;
+		std::string texture;
 		FRECT uv;
 	};
 	MouseCursorInfo m_aCursors[BI_CURSORS_QUANTITY];

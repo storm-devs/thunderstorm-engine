@@ -11,7 +11,7 @@ ATTRIBUTES		* AIHelper::pASeaCameras = null;
 
 float			AIHelper::fGravity = 9.81f;
 
-AIHelper::AIHelper() : aCharacters(_FL_), aMainCharacters(_FL_)
+AIHelper::AIHelper()
 {
 	pRelations = null;
 }
@@ -27,10 +27,10 @@ bool AIHelper::Uninit()
 	pIsland = null;
 	//pCollide = null;
 	pASeaCameras = null;
-	aCharacters.DelAll();
-	aMainCharacters.DelAll();
+	aCharacters.clear();
+	aMainCharacters.clear();
 	dwRelationSize = 0;
-	DELETE(pRelations);
+	STORM_DELETE(pRelations);
 	return true;
 }
 
@@ -55,30 +55,37 @@ bool AIHelper::Init()
 
 ATTRIBUTES * AIHelper::GetMainCharacter(ATTRIBUTES * pACharacter)
 {
-	dword dwIdx = aCharacters.Find(pACharacter);
+	/*dword dwIdx = aCharacters.Find(pACharacter);
 	if (dwIdx != INVALID_ARRAY_INDEX)
 		return aMainCharacters[dwIdx];
-	return null;
+	return null;*/
+	const auto it = std::find(aCharacters.begin(), aCharacters.end(), pACharacter);
+	return it != aCharacters.end() ? *it : nullptr;
 }
 
 void AIHelper::AddCharacter(ATTRIBUTES * pACharacter, ATTRIBUTES * pAMainCharacter)
 {
-	dword dwIdx = aCharacters.Find(pACharacter);
-	if (dwIdx != INVALID_ARRAY_INDEX)
-	{
-		aMainCharacters[dwIdx] = pAMainCharacter;
+	//dword dwIdx = aCharacters.Find(pACharacter);
+	//if (dwIdx != INVALID_ARRAY_INDEX)
+	//{
+	//	aMainCharacters[dwIdx] = pAMainCharacter;
+	//	return;
+	//}
+	const auto it = std::find(aCharacters.begin(), aCharacters.end(), pACharacter);
+	if (it != aCharacters.end()) {
+		*it = pAMainCharacter;
 		return;
 	}
-	aCharacters.Add(pACharacter);
-	aMainCharacters.Add(pAMainCharacter);
+	aCharacters.push_back(pACharacter);
+	aMainCharacters.push_back(pAMainCharacter);
 }
 
 void AIHelper::CalculateRelations()
 {
 	dword x, y;
 
-	DELETE(pRelations);
-	dwRelationSize = aCharacters.Size();
+	STORM_DELETE(pRelations);
+	dwRelationSize = aCharacters.size();
 	pRelations = NEW dword[SQR(dwRelationSize)];
 	for (y=0;y<dwRelationSize;y++)
 		for (x=0;x<dwRelationSize;x++) if (x != y)
@@ -94,7 +101,8 @@ void AIHelper::CalculateRelations()
 
 dword AIHelper::FindIndex(ATTRIBUTES * pACharacter) const
 {
-	return aCharacters.Find(pACharacter);
+	const auto it = std::find(aCharacters.begin(), aCharacters.end(), pACharacter);
+	return it != aCharacters.end() ? it - aCharacters.begin() : -1;
 }
 
 dword * AIHelper::GetRelation(dword x, dword y) const
@@ -190,11 +198,11 @@ void AIHelper::Save(CSaveLoad * pSL)
 
 	pSL->SaveAPointer("seacameras", pASeaCameras);
 
-	pSL->SaveDword(aCharacters.Size());
-	for (dword i=0; i<aCharacters.Size(); i++) pSL->SaveAPointer("character", aCharacters[i]);
+	pSL->SaveDword(aCharacters.size());
+	for (dword i=0; i<aCharacters.size(); i++) pSL->SaveAPointer("character", aCharacters[i]);
 
-	pSL->SaveDword(aMainCharacters.Size());
-	for (dword i=0; i<aMainCharacters.Size(); i++) pSL->SaveAPointer("character", aMainCharacters[i]);
+	pSL->SaveDword(aMainCharacters.size());
+	for (dword i=0; i<aMainCharacters.size(); i++) pSL->SaveAPointer("character", aMainCharacters[i]);
 }
 
 void AIHelper::Load(CSaveLoad * pSL)
@@ -206,8 +214,8 @@ void AIHelper::Load(CSaveLoad * pSL)
 	pASeaCameras = pSL->LoadAPointer("seacameras");
 
 	dword dwNum = pSL->LoadDword();
-	for (dword i=0; i<dwNum; i++) aCharacters.Add(pSL->LoadAPointer("character"));
+	for (dword i=0; i<dwNum; i++) aCharacters.push_back(pSL->LoadAPointer("character"));
 
 	dwNum = pSL->LoadDword();
-	for (dword i=0; i<dwNum; i++) aMainCharacters.Add(pSL->LoadAPointer("character"));
+	for (dword i=0; i<dwNum; i++) aMainCharacters.push_back(pSL->LoadAPointer("character"));
 }

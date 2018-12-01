@@ -4,8 +4,7 @@
 #include "..\common_h\vmodule_api.h"
 #include "..\common_h\dx9render.h"
 #include "..\common_h\character.h"
-#include "..\common_h\templates\array.h"
-#include "..\common_h\templates\string.h"
+#include "../common_h/dtimer.h"
 
 class AIShip;
 class AIShipTouchController
@@ -19,7 +18,7 @@ private:
 	
 	DTimer			dtTouchTime;
 	AIShip			* pOurAIShip;					// our AI ship pointer
-	array<ray_t>	aTouchRays;						// touch rays
+	std::vector<ray_t>	aTouchRays;						// touch rays
 	float			fLeftRaysFree, fRightRaysFree;	// 
 	float			fRaySize;						// ray size
 	float			fSpeedFactor, fRotateFactor;

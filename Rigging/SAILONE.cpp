@@ -71,9 +71,9 @@ SAILONE::~SAILONE()
 	if( prb!=NULL && (sailtrope.pnttie[0] || sailtrope.pnttie[1] || sailtrope.pnttie[2] || sailtrope.pnttie[3]) )
 		prb->DoDeleteUntie(pp->gdata[HostNum].modelEI,hostNode,groupNum);
 
-    PTR_DELETE(sroll);
-    PTR_DELETE(sailtrope.rrs[0]);
-    PTR_DELETE(sailtrope.rrs[1]);
+    PTR_STORM_DELETE(sroll);
+    PTR_STORM_DELETE(sailtrope.rrs[0]);
+    PTR_STORM_DELETE(sailtrope.rrs[1]);
 	TEXTURE_RELEASE(pp->RenderService,surfaceTex);
 	TEXTURE_RELEASE(pp->RenderService,m_nGeraldTex);
 	RELEASE( m_pGeraldTex );

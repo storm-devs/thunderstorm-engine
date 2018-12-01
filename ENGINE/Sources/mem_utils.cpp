@@ -406,7 +406,7 @@ DWORD  MEM_ALLOC_ADDRESS::GetAddress(const char * pFileName, DWORD dwLine)
 	for(n=0;n<dwRecordsNum;n++)
 	{
 		if(pData[n].dwLine != dwLine) continue;
-		if(stricmp(pData[n].pFileName,pFileName)!=0) continue;
+		if(_stricmp(pData[n].pFileName,pFileName)!=0) continue;
 		return n;
 	}
 	while((dwRecordsNum + 1) >= dwBufferSize)

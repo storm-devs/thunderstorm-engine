@@ -1,12 +1,10 @@
 #include "particles.h"
 #include "psystem.h"
 #include "..\..\common_h\particles.h"
+#include "../../common_h/defines.h"
 
 
-
-
-PARTICLES::PARTICLES() : CreatedSystems(_FL_),
-                         CaptureBuffer(_FL_)
+PARTICLES::PARTICLES()
 {
 	bSystemDelete = false;
 	pService = NULL;
@@ -191,7 +189,7 @@ dword _cdecl PARTICLES::ProcessMessage(MESSAGE & message)
 	case PS_VALIDATE_PARTICLE:
 		{
 			long SystemID = message.Long();
-			for (dword n = 0; n < CreatedSystems.Size(); n++)
+			for (dword n = 0; n < CreatedSystems.size(); n++)
 				if (CreatedSystems[n].pSystem == (PARTICLE_SYSTEM*)SystemID)
 					return 1;
 			return 0;
@@ -206,13 +204,14 @@ dword _cdecl PARTICLES::ProcessMessage(MESSAGE & message)
 
 PARTICLE_SYSTEM* PARTICLES::CreateSystem (const char* pFileName, dword LifeTime)
 {
-	string pFullFileName;
+	std::string pFullFileName;
 	pFullFileName = "resource\\particles\\";
 	pFullFileName += pFileName;
-	pFullFileName.AddExtention(".xps");
+	//pFullFileName.AddExtention(".xps");
+	__debugbreak(); //~!~
 
 	//api->Trace("K2 Particles Wrapper: Create system '%s'", pFileName);
-	IParticleSystem* pSys = pManager->CreateParticleSystemEx(pFullFileName.GetBuffer(), __FILE__, __LINE__);
+	IParticleSystem* pSys = pManager->CreateParticleSystemEx(pFullFileName.c_str(), __FILE__, __LINE__);
 	if (!pSys)
 	{
 		//api->Trace("Can't create particles system '%s'", pFileName);
@@ -232,11 +231,11 @@ PARTICLE_SYSTEM* PARTICLES::CreateSystem (const char* pFileName, dword LifeTime)
 	Info.pSystem = pNewPS;
 	Info.LifeTime = LifeTime;
 	Info.FileName = pFullFileName;
-	CreatedSystems.Add(Info);
+	CreatedSystems.push_back(Info);
 
 	if (CreationCapture)
 	{
-		CaptureBuffer.Add((long)pNewPS);
+		CaptureBuffer.push_back((long)pNewPS);
 	}
 
 
@@ -246,13 +245,15 @@ PARTICLE_SYSTEM* PARTICLES::CreateSystem (const char* pFileName, dword LifeTime)
 void PARTICLES::DeleteSystem (long SystemID)
 {
 	bSystemDelete = true;
-	for (dword n = 0; n < CreatedSystems.Size(); n++)
+	for (dword n = 0; n < CreatedSystems.size(); n++)
 	{
 		if (CreatedSystems[n].pSystem == (PARTICLE_SYSTEM*)SystemID)
 		{
-			//api->Trace("Delete particles system with name '%s'", CreatedSystems[n].FileName.GetBuffer());
+			//api->Trace("Delete particles system with name '%s'", CreatedSystems[n].FileName.c_str());
 			delete CreatedSystems[n].pSystem;
-			CreatedSystems.ExtractNoShift(n);
+			//CreatedSystems.ExtractNoShift(n);
+			CreatedSystems[n] = CreatedSystems.back();
+			CreatedSystems.pop_back();
 			bSystemDelete = false;
 			return;
 		}
@@ -266,12 +267,12 @@ void PARTICLES::DeleteSystem (long SystemID)
 void PARTICLES::DeleteAll ()
 {
 	bSystemDelete = true;
-	for (dword n = 0; n < CreatedSystems.Size(); n++)
+	for (dword n = 0; n < CreatedSystems.size(); n++)
 	{
 		delete CreatedSystems[n].pSystem;
 	}
 
-	CreatedSystems.DelAll();
+	CreatedSystems.clear();
 	bSystemDelete = false;
 }
 
@@ -279,11 +280,13 @@ void PARTICLES::DeleteResource (PARTICLE_SYSTEM* pResource)
 {
 	if (bSystemDelete) return;
 
-	for (dword n = 0; n < CreatedSystems.Size(); n++)
+	for (dword n = 0; n < CreatedSystems.size(); n++)
 	{
 		if (CreatedSystems[n].pSystem == pResource)
 		{
-			CreatedSystems.ExtractNoShift(n);
+			//CreatedSystems.ExtractNoShift(n);
+			CreatedSystems[n] = CreatedSystems.back();
+			CreatedSystems.pop_back();
 			return;
 		}
 	}
@@ -298,7 +301,7 @@ void PARTICLES::Realize(dword Delta_Time)
 
 	//Если время, ставим эмитирование на паузу
 	// когда все партиклы умрут система удалиться сама...
-	for (dword n = 0; n < CreatedSystems.Size(); n++)
+	for (dword n = 0; n < CreatedSystems.size(); n++)
 	{
 		CreatedSystems[n].PassedTime +=	Delta_Time;
 
@@ -312,12 +315,14 @@ void PARTICLES::Realize(dword Delta_Time)
 	}
 
 	//Удаляем умершие системы...
-	for (dword n = 0; n < CreatedSystems.Size(); n++)
+	for (dword n = 0; n < CreatedSystems.size(); n++)
 	{
 		if (!CreatedSystems[n].pSystem->GetSystem()->IsAlive())
 		{
 			delete CreatedSystems[n].pSystem;
-			CreatedSystems.ExtractNoShift(n);
+			//CreatedSystems.ExtractNoShift(n);
+			CreatedSystems[n] = CreatedSystems.back();
+			CreatedSystems.pop_back();
 			n--;
 		}
 	}
@@ -333,7 +338,7 @@ void PARTICLES::Execute(dword Delta_Time)
 void PARTICLES::PauseAllActive (bool bPaused)
 {
 
-	for (dword n = 0; n < CreatedSystems.Size(); n++)
+	for (dword n = 0; n < CreatedSystems.size(); n++)
 	{
 		CreatedSystems[n].pSystem->GetSystem()->Restart(0);
 		CreatedSystems[n].pSystem->Pause(bPaused);
@@ -344,10 +349,10 @@ void PARTICLES::PauseAllActive (bool bPaused)
 
 void PARTICLES::DeleteCaptured ()
 {
-	for (dword n = 0; n < CaptureBuffer.Size(); n++)
+	for (dword n = 0; n < CaptureBuffer.size(); n++)
 	{
 		DeleteSystem(CaptureBuffer[n]);
 	}
 
-	CaptureBuffer.DelAll();
+	CaptureBuffer.clear();
 }

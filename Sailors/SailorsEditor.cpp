@@ -155,14 +155,14 @@ void SailorsEditor :: SetCamera(dword &dltTime){
 };
 
 
-void SailorsEditor :: LoadFromIni(string fileName)
+void SailorsEditor :: LoadFromIni(std::string fileName)
 {
 	char param[256];
 
-	INIFILE *pIni = fio->OpenIniFile(fileName);
+	INIFILE *pIni = fio->OpenIniFile(fileName.c_str());
 
 	if( !pIni ) {
-		api->Trace( "Sailors : Can`t open '%s'", fileName);
+		api->Trace( "Sailors : Can`t open '%s'", fileName.c_str());
 		return;
 	}
 

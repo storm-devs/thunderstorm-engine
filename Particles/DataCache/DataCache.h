@@ -3,7 +3,7 @@
 
 #include "..\system\datasource\datasource.h"
 //#include "..\..\common_h\file.h"
-#include "..\..\common_h\templates.h"
+#include <vector>
 
 class IParticleManager;
 
@@ -13,7 +13,7 @@ class DataCache
 
 	struct LoadedDataSource
 	{
-		string FileName;
+		std::string FileName;
 		DataSource* pData;
 
 		LoadedDataSource ()
@@ -22,7 +22,7 @@ class DataCache
 		}
 	};
 	
-	array<LoadedDataSource> Cache;
+	std::vector<LoadedDataSource> Cache;
 	
 	void CreateDataSource (void* pBuffer, DWORD BufferSize, const char* SourceFileName);
 

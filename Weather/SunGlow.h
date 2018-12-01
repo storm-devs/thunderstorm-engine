@@ -3,6 +3,8 @@
 
 #include "Typedef.h"
 #include "..\common_h\Weather_base.h"
+#include <string>
+#include <vector>
 
 class SKY;
 
@@ -45,7 +47,7 @@ private:
 		float				fDecayTime;
 		float				fRotateSpeed;
 		dword				dwColor;
-		string				sSunTexture,sMoonTexture,sGlowTexture, sTechniqueZ, sTechniqueNoZ;
+		std::string				sSunTexture,sMoonTexture,sGlowTexture, sTechniqueZ, sTechniqueNoZ;
 	};
 
 	struct flare_t 
@@ -58,19 +60,19 @@ private:
 
 	struct sunflares_t
 	{
-		sunflares_t() : aFlares(_FL_) {}
+		//sunflares_t() : aFlares(_FL_) {}
 
 		float				fSize;
 		float				fDist;
 		float				fFlareScale;
 		dword				dwTexSizeX, dwTexSizeY;
-		string				sTexture, sTechnique;
-		array<flare_t>		aFlares;
+		std::string				sTexture, sTechnique;
+		std::vector<flare_t>		aFlares;
 	};
 
 	struct overflow_t
 	{
-		string			sTexture, sTechnique;
+		std::string			sTexture, sTechnique;
 		float			fSize;
 		float			fStart;
 		dword			dwColor;
@@ -78,7 +80,7 @@ private:
 
 	struct reflection_t
 	{
-		string			sTexture, sTechnique;
+		std::string			sTexture, sTechnique;
 		float			fSize;
 		float			fDist;
 		dword			dwColor;
@@ -95,7 +97,7 @@ private:
 	VIDWALKER		* pVWSunTrace, * pVWSailsTrace;
 	long			idRectBuf;
 
-	array<RS_RECT>	aRSR;
+	std::vector<RS_RECT>	aRSR;
 
 	bool			bSimpleSea;
 	long			iNumFlares;

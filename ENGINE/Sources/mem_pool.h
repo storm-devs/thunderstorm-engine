@@ -42,7 +42,7 @@ public:
 	void * GetMemory();
 	bool FreeMemory(void * pMem);
 	bool IsInPool(void * pMem);
-	DWORD GetBlockSize(){return nBlockSize;};
+	DWORD GetBlocksize(){return nBlockSize;};
 };
 
 #endif

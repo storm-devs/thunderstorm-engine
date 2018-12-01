@@ -52,7 +52,7 @@ long XSERVICE::GetTextureID(const char* sImageListName)
 	if(sImageListName!=NULL)
 	{
 		for(int i=0; i<m_dwListQuantity; i++)
-			if( !stricmp(m_pList[i].sImageListName,sImageListName) )
+			if( !_stricmp(m_pList[i].sImageListName,sImageListName) )
 			{
 				if(m_pList[i].textureQuantity<=0)
 				{
@@ -73,7 +73,7 @@ long XSERVICE::FindGroup(const char* sImageListName)
 {
 	if( !sImageListName ) return -1;
 	for(int n=0; n<m_dwListQuantity; n++)
-		if( !stricmp(m_pList[n].sImageListName,sImageListName) )
+		if( !_stricmp(m_pList[n].sImageListName,sImageListName) )
 			return n;
 	return -1;
 }
@@ -83,7 +83,7 @@ bool XSERVICE::ReleaseTextureID(const char* sImageListName)
 	if(sImageListName==NULL) return false;
 
 	for(int i=0; i<m_dwListQuantity; i++)
-		if( !stricmp(m_pList[i].sImageListName,sImageListName) )
+		if( !_stricmp(m_pList[i].sImageListName,sImageListName) )
 			if( --m_pList[i].textureQuantity == 0 )
 			{
 				m_pRS->TextureRelease(m_pList[i].textureID);
@@ -231,7 +231,7 @@ void XSERVICE::LoadAllPicturesInfo()
 	{
 		m_pList = NEW IMAGELISTDESCR[m_dwListQuantity];
 		if(m_pList==NULL)
-			_THROW("memory allocate error")
+			STORM_THROW("memory allocate error")
 	}
 
 	// fill lists
@@ -263,7 +263,7 @@ void XSERVICE::LoadAllPicturesInfo()
 			PICTUREDESCR *oldpImage = m_pImage;
 			m_pImage = NEW PICTUREDESCR[m_dwImageQuantity + m_pList[i].pictureQuantity];
 			if(m_pImage==NULL)
-				_THROW("allocate memory error")
+				STORM_THROW("allocate memory error")
 			if(oldpImage!=NULL)
 			{
 				memcpy(m_pImage,oldpImage,m_dwImageQuantity*sizeof(PICTUREDESCR));
@@ -338,10 +338,10 @@ long XSERVICE::GetImageNum(const char* sImageListName, const char* sImageName)
 		if(sImageListName!=NULL)
 		{
 			for(int i=0; i<m_dwListQuantity; i++)
-				if( !stricmp(m_pList[i].sImageListName,sImageListName) )
+				if( !_stricmp(m_pList[i].sImageListName,sImageListName) )
 				{
 					for(int j=m_pList[i].pictureStart; j<m_pList[i].pictureStart+m_pList[i].pictureQuantity; j++)
-						if( !stricmp(m_pImage[j].sPictureName,sImageName) )
+						if( !_stricmp(m_pImage[j].sPictureName,sImageName) )
 						{
 							retVal=j; break;
 						}
@@ -351,7 +351,7 @@ long XSERVICE::GetImageNum(const char* sImageListName, const char* sImageName)
 		else
 		{
 			for(int i=0; i<m_dwImageQuantity; i++)
-				if( !stricmp(m_pImage[i].sPictureName,sImageName) )
+				if( !_stricmp(m_pImage[i].sPictureName,sImageName) )
 				{
 					retVal = i; break;
 				}

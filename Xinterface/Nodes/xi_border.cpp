@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "xi_border.h"
 #include "xi_image.h"
+#include "../../common_h/defines.h"
 
 CXI_BORDER::CXI_BORDER()
 {
@@ -52,11 +53,11 @@ bool CXI_BORDER::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9
 void CXI_BORDER::ReleaseAll()
 {
 	m_bUse = false;
-	PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName.GetBuffer(),m_idTex);
+	PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName.c_str(),m_idTex);
 	VERTEX_BUF_RELEASE(m_rs,m_idVBuf);
 	INDEX_BUF_RELEASE(m_rs,m_idIBuf);
-	DELETE( m_pBackImage );
-	DELETE( m_pCaptionImage );
+	STORM_DELETE( m_pBackImage );
+	STORM_DELETE( m_pCaptionImage );
 }
 
 bool CXI_BORDER::IsClick(int buttonID,long xPos,long yPos)
@@ -87,9 +88,9 @@ void CXI_BORDER::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 
@@ -134,7 +135,7 @@ void CXI_BORDER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	if( ReadIniString(ini1,name1, ini2,name2, "groupName", param, sizeof(param),"") )
 	{
 		m_sGroupName = param;
-		m_idTex = pPictureService->GetTextureID( m_sGroupName );
+		m_idTex = pPictureService->GetTextureID( m_sGroupName.c_str() );
 	}
 
 	// create index and vertex buffers
@@ -148,7 +149,7 @@ void CXI_BORDER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	// left top corner
 	m_nLeftTopPicture = -1;
 	if( ReadIniString(ini1,name1, ini2,name2, "lefttop_pic", param,sizeof(param),"") )
-		m_nLeftTopPicture = pPictureService->GetImageNum( m_sGroupName, param );
+		m_nLeftTopPicture = pPictureService->GetImageNum( m_sGroupName.c_str(), param );
 	if( m_nLeftTopPicture < 0 )
 	{
 		m_frLeftTopUV.left = m_frLeftTopUV.top = 0.f;
@@ -159,7 +160,7 @@ void CXI_BORDER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	// right top corner
 	m_nRightTopPicture = -1;
 	if( ReadIniString(ini1,name1, ini2,name2, "righttop_pic", param,sizeof(param),"") )
-		m_nRightTopPicture = pPictureService->GetImageNum( m_sGroupName, param );
+		m_nRightTopPicture = pPictureService->GetImageNum( m_sGroupName.c_str(), param );
 	if( m_nRightTopPicture < 0 )
 	{
 		m_frRightTopUV.left = m_frRightTopUV.top = 0.f;
@@ -170,7 +171,7 @@ void CXI_BORDER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	// left bottom corner
 	m_nLeftBottomPicture = -1;
 	if( ReadIniString(ini1,name1, ini2,name2, "leftbottom_pic", param,sizeof(param),"") )
-		m_nLeftBottomPicture = pPictureService->GetImageNum( m_sGroupName, param );
+		m_nLeftBottomPicture = pPictureService->GetImageNum( m_sGroupName.c_str(), param );
 	if( m_nLeftBottomPicture < 0 )
 	{
 		m_frLeftBottomUV.left = m_frLeftBottomUV.top = 0.f;
@@ -181,7 +182,7 @@ void CXI_BORDER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	// left bottom corner
 	m_nRightBottomPicture = -1;
 	if( ReadIniString(ini1,name1, ini2,name2, "rightbottom_pic", param,sizeof(param),"") )
-		m_nRightBottomPicture = pPictureService->GetImageNum( m_sGroupName, param );
+		m_nRightBottomPicture = pPictureService->GetImageNum( m_sGroupName.c_str(), param );
 	if( m_nRightBottomPicture < 0 )
 	{
 		m_frRightBottomUV.left = m_frRightBottomUV.top = 0.f;
@@ -192,7 +193,7 @@ void CXI_BORDER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	// top edge
 	m_nTopLinePicture = -1;
 	if( ReadIniString(ini1,name1, ini2,name2, "topline_pic", param,sizeof(param),"") )
-		m_nTopLinePicture = pPictureService->GetImageNum( m_sGroupName, param );
+		m_nTopLinePicture = pPictureService->GetImageNum( m_sGroupName.c_str(), param );
 	if( m_nTopLinePicture < 0 )
 	{
 		m_frTopLineUV.left = m_frTopLineUV.top = 0.f;
@@ -203,7 +204,7 @@ void CXI_BORDER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	// bottom edge
 	m_nBottomLinePicture = -1;
 	if( ReadIniString(ini1,name1, ini2,name2, "bottomline_pic", param,sizeof(param),"") )
-		m_nBottomLinePicture = pPictureService->GetImageNum( m_sGroupName, param );
+		m_nBottomLinePicture = pPictureService->GetImageNum( m_sGroupName.c_str(), param );
 	if( m_nBottomLinePicture < 0 )
 	{
 		m_frBottomLineUV.left = m_frBottomLineUV.top = 0.f;
@@ -214,7 +215,7 @@ void CXI_BORDER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	// left edge
 	m_nLeftLinePicture = -1;
 	if( ReadIniString(ini1,name1, ini2,name2, "leftline_pic", param,sizeof(param),"") )
-		m_nLeftLinePicture = pPictureService->GetImageNum( m_sGroupName, param );
+		m_nLeftLinePicture = pPictureService->GetImageNum( m_sGroupName.c_str(), param );
 	if( m_nLeftLinePicture < 0 )
 	{
 		m_frLeftLineUV.left = m_frLeftLineUV.top = 0.f;
@@ -225,7 +226,7 @@ void CXI_BORDER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	// right edge
 	m_nRightLinePicture = -1;
 	if( ReadIniString(ini1,name1, ini2,name2, "rightline_pic", param,sizeof(param),"") )
-		m_nRightLinePicture = pPictureService->GetImageNum( m_sGroupName, param );
+		m_nRightLinePicture = pPictureService->GetImageNum( m_sGroupName.c_str(), param );
 	if( m_nRightLinePicture < 0 )
 	{
 		m_frRightLineUV.left = m_frRightLineUV.top = 0.f;

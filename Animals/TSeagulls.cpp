@@ -62,9 +62,9 @@ void TSeagulls::Init()
 	soundService = (VSoundService *)_CORE_API->CreateService("SoundService");
 
 	if(!renderService)	
-		_THROW("!Seagulls: No service: dx9render");
+		STORM_THROW("!Seagulls: No service: dx9render");
 	//if(!soundService)	
-	//	_THROW("!Seagulls: No service: sound");
+	//	STORM_THROW("!Seagulls: No service: sound");
 
 	_CORE_API->CreateEntity(&seagullModel,"MODELR");
 	_CORE_API->Send_Message(seagullModel,"ls",MSG_MODEL_LOAD_GEO, ANIMALS_SEAGULL_FILENAME);

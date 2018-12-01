@@ -8,12 +8,12 @@
 #include "VSound.h"
 #include "..\common_h\CVECTOR.h"
 #include "..\common_h\service.h"
-#include "..\common_h\templates.h"
+#include <vector>
 
 ///////////////////////////////////////////////////////////////////
 // DEFINES & TYPES
 ///////////////////////////////////////////////////////////////////
-typedef array<VSound> TSoundArray;
+typedef std::vector<VSound> TSoundArray;
 typedef struct
 {
 	LPGUID guid;

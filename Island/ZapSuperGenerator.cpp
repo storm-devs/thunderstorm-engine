@@ -14,8 +14,8 @@ bool ISLAND::DoZapSuperGeneratorDecodeFile(char * sname)
 		fio->_CloseHandle(hFile);
 
 		mzShadow.DoZip(pTempMap, dwSize);
-		mzShadow.Save(string(sname) + ".zap");
-		DELETE(pTempMap);
+		mzShadow.Save(std::string(sname) + ".zap");
+		STORM_DELETE(pTempMap);
 	}
 
 	return true;

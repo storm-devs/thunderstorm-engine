@@ -13,10 +13,10 @@
 
 #include "..\common_h\dx9render.h"
 #include "..\common_h\matrix.h"
-#include "..\common_h\templates\array.h"
-#include "..\common_h\templates\string.h"
 
 #include "WdmObjectsWind.h"
+#include <string>
+#include <vector>
 
 class WdmIslands;
 class WdmShip;
@@ -47,7 +47,7 @@ class WdmObjects
 	struct Model
 	{
 		GEOS * geo;
-		string path;
+		std::string path;
 		dword hash;
 		long next;
 	};
@@ -139,9 +139,9 @@ public:
 	float worldSizeX;				//Размер мира по X
 	float worldSizeZ;				//Размер мира по Z
 
-	array<Model> models;			//Модельки
+	std::vector<Model> models;			//Модельки
 	long entryModels[1024];			//Таблица быстрого поиска геометрии
-	string modelPath;
+	std::string modelPath;
 
 	//Найти хэщь-значение строки
 	static dword CalcHash(const char * str);
@@ -151,11 +151,11 @@ public:
 	//Обновить состояние ветра
 	void UpdateWind(float dltTime);
 	//Получить строку сохранение
-	const char * GetWindSaveString(string & windData);
+	const char * GetWindSaveString(std::string & windData);
 	//Установить строку сохранение
 	void SetWindSaveString(const char * str);
 	//Добавить float в cтроку
-	void AddDataToString(string & str, byte d);
+	void AddDataToString(std::string & str, byte d);
 	//Получить float из строки
 	long GetDataFromString(const char * & cur);
 

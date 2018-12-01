@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "xi_scrolltext.h"
+#include "../../common_h/defines.h"
 
 #define MAX_PICE_RESERV			256
 #define MAX_PICE_STRING_SIZE	256
@@ -65,10 +66,10 @@ void CXI_SCROLLTEXT::ClearText()
     m_pScroller = NULL;
     m_nMaxStringes = 0;
 	m_dwFontColor = ARGB(255,255,255,255);
-	PTR_DELETE(m_pText);
+	PTR_STORM_DELETE(m_pText);
 
 	m_nPiceQuantity = 0;
-	PTR_DELETE(m_pStrList);
+	PTR_STORM_DELETE(m_pStrList);
 }
 
 void CXI_SCROLLTEXT::SetText(char *newText)
@@ -80,7 +81,7 @@ void CXI_SCROLLTEXT::SetText(char *newText)
 	if(newText!=NULL)
 	{
 		if( (m_pText=NEW char[strlen(newText)+1]) == NULL )
-			_THROW("allocate memory error")
+			STORM_THROW("allocate memory error")
 		strcpy(m_pText,newText);
 
 		// получить все части из текста
@@ -140,9 +141,9 @@ void CXI_SCROLLTEXT::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.GetBuffer() );
+	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.GetBuffer() );
+		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
 	}
 
