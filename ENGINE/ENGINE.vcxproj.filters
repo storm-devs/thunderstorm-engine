@@ -692,6 +692,9 @@
     <ClInclude Include="strutils.h">
       <Filter>common_h</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common_h\filesystem.h">
+      <Filter>common_h</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Sources\arrow.cur">

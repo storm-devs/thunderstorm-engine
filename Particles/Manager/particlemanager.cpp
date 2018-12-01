@@ -1,6 +1,7 @@
 #include "particlemanager.h"
 #include "..\..\common_h\dx9render.h"
 #include "..\..\common_h\vapi.h"
+#include "../../Common_h/filesystem.h"
 
 #include "..\datacache\datacache.h"
 #include "..\geomcache\geomcache.h"
@@ -85,11 +86,9 @@ void ParticleManager::SetProjectTexture (const char* FileName)
 	pProjectTexture = pRS->TextureCreate(FileName);
 
 	std::string a;
-	__debugbreak(); // ~!~
+	fs::path path = FileName;
 	//a.GetFileTitle(FileName);
-	a += "nm";
-	pProjectTextureNormalMap = pRS->TextureCreate(a.c_str());
-
+	pProjectTextureNormalMap = pRS->TextureCreate((path.filename().string()+"nm").c_str());
 
 	TextureName = FileName;
 
@@ -107,16 +106,19 @@ bool ParticleManager::OpenProject (const char* FileName)
   CloseProject ();
 	ShortProjectName = FileName;
 
-	std::string LongFileName = "resource\\particles\\";
-	__debugbreak(); // ~!~
+	//std::string LongFileName = "resource\\particles\\";
+	fs::path path = fs::path() / "resource" / "particles" / FileName;
+	if (_stricmp(path.extension().string().c_str(), ".prj") != 0)
+		path += ".prj";
+	MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 	//LongFileName += FileName;
 	//LongFileName.AddExtention(".prj");
 
 
-	INIFILE* IniFile = api->fio->OpenIniFile((char*)LongFileName.c_str());
+	INIFILE* IniFile = api->fio->OpenIniFile((char*)path.c_str());
 	if (!IniFile)
 	{
-		api->Trace("Can't find project '%s'", LongFileName.c_str());
+		api->Trace("Can't find project '%s'", path.c_str());
 		return false;
 	}
 
@@ -519,8 +521,7 @@ void ParticleManager::WriteSystemCache (const char* FileName)
 	pMemSave.OpenWrite(1048576);
 	pDataSource->Write(&pMemSave);
 
-	std::string LongFileName = "resource\\particles\\";
-	__debugbreak(); // ~!~
+	//std::string LongFileName = "resource\\particles\\";
 	//LongFileName+=FileName;
 	//LongFileName.AddExtention(".xps");
 /*

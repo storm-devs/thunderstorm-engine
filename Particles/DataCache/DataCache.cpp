@@ -1,5 +1,6 @@
 #include "datacache.h"
 #include "..\..\common_h\particles.h"
+#include "..\..\common_h\filesystem.h"
 #include "..\icommon\memfile.h"
 
 bool ReadingAlreadyComplete;
@@ -18,20 +19,22 @@ DataCache::~DataCache ()
 //Положить в кэш данные для системы
 void DataCache::CacheSystem (const char* FileName)
 {
-	std::string NameWithExt = FileName;
-	__debugbreak(); //~!~
 	//NameWithExt.AddExtention(".xps");
 	//NameWithExt.Lower();
 
-	std::string LongFileName = "resource\\particles\\";
-	LongFileName+=FileName;
+	//std::string LongFileName = "resource\\particles\\";
+	//LongFileName+=FileName;
 	//LongFileName.AddExtention(".xps");
+	fs::path path = fs::path() / "resource" / "particles" / FileName;
+	if (_stricmp(path.extension().string().c_str(), ".xps") != 0)
+		path += ".xps";
+	MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 
-	HANDLE pSysFile = api->fio->_CreateFile(LongFileName.c_str());
+	HANDLE pSysFile = api->fio->_CreateFile(path.string().c_str());
 
 	if (pSysFile == INVALID_HANDLE_VALUE)
 	{
-		api->Trace("Particles: '%s' File not found !!!", LongFileName);
+		api->Trace("Particles: '%s' File not found !!!", path.string().c_str());
 		return;
 	}
 
@@ -41,7 +44,7 @@ void DataCache::CacheSystem (const char* FileName)
 	api->fio->_ReadFile(pSysFile, pMemBuffer, FileSize, 0);
 
 	//Создаем данные из файла...
-	CreateDataSource (pMemBuffer, FileSize, LongFileName.c_str());
+	CreateDataSource (pMemBuffer, FileSize, path.string().c_str());
 
 
 	delete pMemBuffer;
@@ -64,13 +67,16 @@ void DataCache::ResetCache ()
 DataSource* DataCache::GetParticleSystemDataSource (const char* FileName)
 {
 	__debugbreak(); //~!~
-	std::string NameWithExt = FileName;
+	//std::string NameWithExt = FileName;
 	//NameWithExt.AddExtention(".xps");
 	//NameWithExt.Lower();
+	fs::path path = FileName;
+	if (_stricmp(path.extension().string().c_str(), ".xps") != 0)
+		path += ".xps";
 
 	for (int n = 0; n < Cache.size(); n++)
 	{
-		if (Cache[n].FileName == NameWithExt) return Cache[n].pData;
+		if (Cache[n].FileName == path.string()) return Cache[n].pData;
 	}
 
 	return NULL;

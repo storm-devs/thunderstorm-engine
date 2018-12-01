@@ -2,6 +2,7 @@
 #include "psystem.h"
 #include "..\..\common_h\particles.h"
 #include "../../common_h/defines.h"
+#include "..\..\common_h\filesystem.h"
 
 
 PARTICLES::PARTICLES()
@@ -204,14 +205,18 @@ dword _cdecl PARTICLES::ProcessMessage(MESSAGE & message)
 
 PARTICLE_SYSTEM* PARTICLES::CreateSystem (const char* pFileName, dword LifeTime)
 {
-	std::string pFullFileName;
-	pFullFileName = "resource\\particles\\";
-	pFullFileName += pFileName;
+	//std::string pFullFileName;
+	//pFullFileName = "resource\\particles\\";
+	//pFullFileName += pFileName;
 	//pFullFileName.AddExtention(".xps");
-	__debugbreak(); //~!~
+	//__debugbreak(); //~!~
+	fs::path path = fs::path() / "resource" / "particles" / pFileName;
+	if (_stricmp(path.extension().string().c_str(), ".xps") != 0)
+		path += ".xps";
+	MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 
 	//api->Trace("K2 Particles Wrapper: Create system '%s'", pFileName);
-	IParticleSystem* pSys = pManager->CreateParticleSystemEx(pFullFileName.c_str(), __FILE__, __LINE__);
+	IParticleSystem* pSys = pManager->CreateParticleSystemEx(path.string().c_str(), __FILE__, __LINE__);
 	if (!pSys)
 	{
 		//api->Trace("Can't create particles system '%s'", pFileName);
@@ -230,7 +235,7 @@ PARTICLE_SYSTEM* PARTICLES::CreateSystem (const char* pFileName, dword LifeTime)
 	SystemInfo Info;
 	Info.pSystem = pNewPS;
 	Info.LifeTime = LifeTime;
-	Info.FileName = pFullFileName;
+	Info.FileName = path.string();
 	CreatedSystems.push_back(Info);
 
 	if (CreationCapture)

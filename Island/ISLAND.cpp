@@ -3,6 +3,7 @@
 #include "Foam.h"
 #include "..\..\Shared\sea_ai\Script_Defines.h"
 #include "..\common_h\weather_base.h"
+#include "..\common_h\filesystem.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(ISLAND)
@@ -451,26 +452,27 @@ void ISLAND::CreateDirectories(char * pDir)
 bool ISLAND::CreateShadowMap(char * pDir, char * pName)
 {
 	std::string	sDir;
-	char	fname[256];
 	
 	ENTITY_ID		ent;
 	WEATHER_BASE	* pWeather;
 	if (!api->FindClass(&ent, "Weather",0)) STORM_THROW("No found WEATHER entity!");
 	pWeather = (WEATHER_BASE*)api->GetEntityPointer(&ent); Assert(pWeather);
 
-	__debugbreak(); //~!~
+	fs::path path = fs::path() / "resource" / "foam" / pDir / AttributesPointer->GetAttribute("LightingPath");
+	MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 	//sDir.Format("resource\\foam\\%s\\%s\\", pDir, AttributesPointer->GetAttribute("LightingPath")); sDir.CheckPath();
-	sprintf(fname, "%s%s.tga", (const char*)sDir.c_str(), pName);
+	//sprintf(fname, "%s%s.tga", (const char*)sDir.c_str(), pName);
+	std::string fileName = path.string() + pName + ".tga";
 
 	CreateDirectories((char*)sDir.c_str());
 
 	fShadowMapSize = 2.0f * Max(vRealBoxSize.x, vRealBoxSize.z) + 1024.0f;
 	fShadowMapStep = fShadowMapSize / DMAP_SIZE;
 
-	if (mzShadow.Load(std::string(fname) + ".zap")) return true;
+	if (mzShadow.Load(fileName + ".zap")) return true;
 	
 	// try to load tga file
-	HANDLE hFile = fio->_CreateFile(fname, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
+	HANDLE hFile = fio->_CreateFile(fileName.c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
 	if (hFile != INVALID_HANDLE_VALUE)
 	{
 		TGA_H	tga_head;
@@ -482,7 +484,7 @@ bool ISLAND::CreateShadowMap(char * pDir, char * pName)
 		fio->_CloseHandle(hFile);
 
 		mzShadow.DoZip(pShadowMap, dwSize);
-		mzShadow.Save(std::string(fname) + ".zap");
+		mzShadow.Save(fileName + ".zap");
 		STORM_DELETE(pShadowMap);
 		return true;
 	}
@@ -517,7 +519,7 @@ bool ISLAND::CreateShadowMap(char * pDir, char * pName)
 			}
 		}
 
-	SaveTga8(fname, pShadowMap, DMAP_SIZE, DMAP_SIZE);
+	SaveTga8((char*)fileName.c_str(), pShadowMap, DMAP_SIZE, DMAP_SIZE);
 
 	Blur8(&pShadowMap, DMAP_SIZE);
 	Blur8(&pShadowMap, DMAP_SIZE);
@@ -525,7 +527,7 @@ bool ISLAND::CreateShadowMap(char * pDir, char * pName)
 	Blur8(&pShadowMap, DMAP_SIZE);
 
 	mzShadow.DoZip(pShadowMap, DMAP_SIZE);
-	mzShadow.Save(std::string(fname) + ".zap");
+	mzShadow.Save(fileName + ".zap");
 
 	STORM_DELETE(pShadowMap);
 
@@ -563,13 +565,16 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 {
 	TGA_H	tga_head;
 	std::string	sDir; 
-	char	fname[256], iname[256], str_tmp[256];
+	char	str_tmp[256];
 	HANDLE	hFile;
 
-		__debugbreak(); //~!~
+	fs::path path = fs::path() / "resource" / "foam" / pDir;
+	MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
+	std::string fileName = path.string() + pName + ".tga";
+	std::string iniName = path.string() + pName + ".ini";
 	//sDir.Format("resource\\\\foam\\\\%s\\\\", pDir); sDir.CheckPath();
-	sprintf(fname, "%s%s.tga", (const char*)sDir.c_str(), pName);
-	sprintf(iname, "%s%s.ini", (const char*)sDir.c_str(), pName);
+	//sprintf(fname, "%s%s.tga", (const char*)sDir.c_str(), pName);
+	//sprintf(iname, "%s%s.ini", (const char*)sDir.c_str(), pName);
 
 	CreateDirectories((char*)sDir.c_str());
 
@@ -580,11 +585,11 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 	rIsland.x1 = vBoxCenter.x - vBoxSize.x / 2.0f;	rIsland.y1 = vBoxCenter.z - vBoxSize.z / 2.0f;
 	rIsland.x2 = vBoxCenter.x + vBoxSize.x / 2.0f;	rIsland.y2 = vBoxCenter.z + vBoxSize.z / 2.0f;
 
-	bool bLoad = mzDepth.Load(std::string(fname) + ".zap");
+	bool bLoad = mzDepth.Load(fileName + ".zap");
 
 	if (!bLoad)
 	{
-		hFile = fio->_CreateFile(fname, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
+		hFile = fio->_CreateFile(fileName.c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
 		if (hFile != INVALID_HANDLE_VALUE)
 		{
 			fio->_ReadFile(hFile, &tga_head, sizeof(tga_head), 0);
@@ -594,7 +599,7 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 			fio->_CloseHandle(hFile);
 
 			mzDepth.DoZip(pDepthMap, iDMapSize);
-			mzDepth.Save(std::string(fname) + ".zap");
+			mzDepth.Save(fileName + ".zap");
 			STORM_DELETE(pDepthMap);
 			bLoad = true;
 		}
@@ -613,7 +618,7 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 		vBoxSize /= 2.0f;
 		vRealBoxSize /= 2.0f;
 		
-		INIFILE * pI = fio->OpenIniFile(iname);	Assert(pI);
+		INIFILE * pI = fio->OpenIniFile(iniName.c_str());	Assert(pI);
 
 		CVECTOR vTmpBoxCenter, vTmpBoxSize;
 		pI->ReadString("Main", "vBoxCenter", str_tmp, sizeof(str_tmp)-1, "1.0,1.0,1.0");
@@ -622,12 +627,12 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 		sscanf(str_tmp, "%f,%f,%f", &vTmpBoxSize.x, &vTmpBoxSize.y, &vTmpBoxSize.z);
 		if (~(vTmpBoxCenter - vBoxCenter) > 0.1f) 
 		{
-			api->Trace("Island: vBoxCenter not equal, foam error: %s, distance = %.3f", iname, sqrtf(~(vTmpBoxCenter - vBoxCenter)));
+			api->Trace("Island: vBoxCenter not equal, foam error: %s, distance = %.3f", iniName.c_str(), sqrtf(~(vTmpBoxCenter - vBoxCenter)));
 			api->Trace("vBoxCenter = %f,%f,%f", vBoxCenter.x, vBoxCenter.y, vBoxCenter.z);
 		}
 		if (~(vTmpBoxSize - vBoxSize) > 0.1f) 
 		{
-			api->Trace("Island: vBoxSize not equal, foam error: %s", iname);
+			api->Trace("Island: vBoxSize not equal, foam error: %s", iniName.c_str());
 			api->Trace("vBoxSize = %f,%f,%f", vBoxSize.x, vBoxSize.y, vBoxSize.z);
 		}
 
@@ -638,7 +643,7 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 		return true;
 	}
 
-	api->Trace("WARN: FOAM: Can't find foam: %s", fname);
+	api->Trace("WARN: FOAM: Can't find foam: %s", fileName.c_str());
 
 #ifdef _XBOX
 	iDMapSizeShift = 11;
@@ -723,20 +728,20 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 	vBoxSize /= 2.0f;
 	vRealBoxSize /= 2.0f;
 
-	SaveTga8(fname, pDepthMap, iDMapSize, iDMapSize);
+	SaveTga8((char*)fileName.c_str(), pDepthMap, iDMapSize, iDMapSize);
 
 	mzDepth.DoZip(pDepthMap, iDMapSize);
-	mzDepth.Save(std::string(fname) + ".zap");
+	mzDepth.Save(fileName + ".zap");
 	STORM_DELETE(pDepthMap);
 
-	INIFILE * pI = fio->OpenIniFile(iname); 
+	INIFILE * pI = fio->OpenIniFile(iniName.c_str()); 
 	if (!pI)
 	{
-		pI = fio->CreateIniFile(iname,false);
+		pI = fio->CreateIniFile(iniName.c_str(),false);
 		Assert(pI);
 	}
 	char str[512];
-	pI->WriteString("Main", "DepthFile", fname);
+	pI->WriteString("Main", "DepthFile", (char*) fileName.c_str());
 	sprintf(str, "%f,%f,%f", vBoxCenter.x, vBoxCenter.y, vBoxCenter.z);
 	pI->WriteString("Main", "vBoxCenter", str);
 	sprintf(str, "%f,%f,%f", vBoxSize.x, vBoxSize.y, vBoxSize.z);
@@ -774,19 +779,20 @@ bool ISLAND::SaveTga8(char * fname, byte * pBuffer, dword dwSizeX, dword dwSizeY
 bool ISLAND::Mount(char * fname, char * fdir, ENTITY_ID * eID)
 {
 	ENTITY_ID	lighter_id;
-	std::string		sRealFileName;
+	//std::string		sRealFileName;
 	std::string		sModelPath, sLightPath;
 
 	Uninit();
 
 	SetName(fname);
 
-	__debugbreak(); //~!~
+	fs::path path = fs::path() / fdir / fname;
+	MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 	//sRealFileName.Format("%s\\%s", fdir, fname); sRealFileName.CheckPath();
 	
 	api->CreateEntity(&model_id, "MODELR");
 	api->Send_Message(model_id, "ls", MSG_MODEL_SET_LIGHT_PATH, AttributesPointer->GetAttribute("LightingPath"));
-	api->Send_Message(model_id, "ls", MSG_MODEL_LOAD_GEO, (char*)sRealFileName.c_str());
+	api->Send_Message(model_id, "ls", MSG_MODEL_LOAD_GEO, (char*)path.c_str());
 
 	// extract subobject(sea_bed) to another model
 	MODEL * pModel = (MODEL*)api->GetEntityPointer(&model_id);

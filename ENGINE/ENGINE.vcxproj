@@ -223,6 +223,7 @@
     <ClInclude Include="..\Common_h\entity_state.h" />
     <ClInclude Include="..\Common_h\Entity_x.h" />
     <ClInclude Include="..\Common_h\Exs.h" />
+    <ClInclude Include="..\Common_h\filesystem.h" />
     <ClInclude Include="..\Common_h\geometry.h" />
     <ClInclude Include="..\Common_h\geos.h" />
     <ClInclude Include="..\Common_h\inlines.h" />
