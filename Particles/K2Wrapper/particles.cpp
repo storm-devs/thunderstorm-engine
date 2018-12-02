@@ -211,12 +211,14 @@ PARTICLE_SYSTEM* PARTICLES::CreateSystem (const char* pFileName, dword LifeTime)
 	//pFullFileName.AddExtention(".xps");
 	//__debugbreak(); //~!~
 	fs::path path = fs::path() / "resource" / "particles" / pFileName;
-	if (_stricmp(path.extension().string().c_str(), ".xps") != 0)
+	std::string pathStr = path.extension().string();
+	if (_stricmp(pathStr.c_str(), ".xps") != 0)
 		path += ".xps";
+	pathStr = path.string();
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 
 	//api->Trace("K2 Particles Wrapper: Create system '%s'", pFileName);
-	IParticleSystem* pSys = pManager->CreateParticleSystemEx(path.string().c_str(), __FILE__, __LINE__);
+	IParticleSystem* pSys = pManager->CreateParticleSystemEx(pathStr.c_str(), __FILE__, __LINE__);
 	if (!pSys)
 	{
 		//api->Trace("Can't create particles system '%s'", pFileName);
@@ -235,7 +237,7 @@ PARTICLE_SYSTEM* PARTICLES::CreateSystem (const char* pFileName, dword LifeTime)
 	SystemInfo Info;
 	Info.pSystem = pNewPS;
 	Info.LifeTime = LifeTime;
-	Info.FileName = path.string();
+	Info.FileName = pathStr;
 	CreatedSystems.push_back(Info);
 
 	if (CreationCapture)

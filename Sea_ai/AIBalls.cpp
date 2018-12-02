@@ -268,7 +268,7 @@ void AIBalls::Execute(dword Delta_Time)
 					STORM_DELETE(pBall->pParticle);
 				}
 				//pBallsType->Balls.ExtractNoShift(j); 
-				pBallsType->Balls[i] = pBallsType->Balls.back();
+				pBallsType->Balls[j] = pBallsType->Balls.back();
 				pBallsType->Balls.pop_back();
 				j--;
 

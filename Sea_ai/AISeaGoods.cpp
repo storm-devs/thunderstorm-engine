@@ -58,7 +58,7 @@ void AISeaGoods::Execute(dword dwDeltaTime)
 				if (pI->fTime < -20.0f)
 				{
 					//aGoods[i]->aItems.ExtractNoShift(j);
-					aGoods[i]->aItems[i] = aGoods[i]->aItems.back();
+					aGoods[i]->aItems[j] = aGoods[i]->aItems.back();
 					aGoods[i]->aItems.pop_back();
 					j--;
 					continue;
@@ -88,7 +88,7 @@ void AISeaGoods::Execute(dword dwDeltaTime)
 					if (pVData->GetLong() || bDeleteGoodAnyway)
 					{
 						//aGoods[i]->aItems.ExtractNoShift(j); 
-						aGoods[i]->aItems[i] = aGoods[i]->aItems.back();
+						aGoods[i]->aItems[j] = aGoods[i]->aItems.back();
 						aGoods[i]->aItems.pop_back();
 						j--; 
 						break;

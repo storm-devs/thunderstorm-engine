@@ -1268,10 +1268,11 @@ long DX9RENDER::TextureCreate(const char *fname)
 	//__debugbreak();
 	//fs::path path = fs::path() / "resource" / "textures" / fname;
 	fs::path path = fname;
-	if (_stricmp(path.extension().string().c_str(), ".tx") == 0)
+	std::string pathStr = path.extension().string();
+	if (_stricmp(pathStr.c_str(), ".tx") == 0)
 		path.replace_extension();
-	std::string fileName = path.string();
-	fname = fileName.c_str(); //~!~ msvc still doesn't have working c_str for path
+	pathStr = path.string();
+	fname = pathStr.c_str(); //~!~ msvc still doesn't have working c_str for path
 
 	if (fname == NULL)
 	{

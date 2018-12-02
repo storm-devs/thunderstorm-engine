@@ -26,15 +26,17 @@ void DataCache::CacheSystem (const char* FileName)
 	//LongFileName+=FileName;
 	//LongFileName.AddExtention(".xps");
 	fs::path path = fs::path() / "resource" / "particles" / FileName;
-	if (_stricmp(path.extension().string().c_str(), ".xps") != 0)
+	std::string pathStr = path.extension().string();
+	if (_stricmp(pathStr.c_str(), ".xps") != 0)
 		path += ".xps";
+	pathStr = path.string();
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 
-	HANDLE pSysFile = api->fio->_CreateFile(path.string().c_str());
+	HANDLE pSysFile = api->fio->_CreateFile(pathStr.c_str());
 
 	if (pSysFile == INVALID_HANDLE_VALUE)
 	{
-		api->Trace("Particles: '%s' File not found !!!", path.string().c_str());
+		api->Trace("Particles: '%s' File not found !!!", pathStr.c_str());
 		return;
 	}
 
@@ -44,7 +46,7 @@ void DataCache::CacheSystem (const char* FileName)
 	api->fio->_ReadFile(pSysFile, pMemBuffer, FileSize, 0);
 
 	//Создаем данные из файла...
-	CreateDataSource (pMemBuffer, FileSize, path.string().c_str());
+	CreateDataSource (pMemBuffer, FileSize, pathStr.c_str());
 
 
 	delete pMemBuffer;
@@ -70,12 +72,14 @@ DataSource* DataCache::GetParticleSystemDataSource (const char* FileName)
 	//NameWithExt.AddExtention(".xps");
 	//NameWithExt.Lower();
 	fs::path path = FileName;
-	if (_stricmp(path.extension().string().c_str(), ".xps") != 0)
+	std::string pathStr = path.extension().string();
+	if (_stricmp(pathStr.c_str(), ".xps") != 0)
 		path += ".xps";
+	pathStr = path.string();
 
 	for (int n = 0; n < Cache.size(); n++)
 	{
-		if (Cache[n].FileName == path.string()) return Cache[n].pData;
+		if (Cache[n].FileName == pathStr) return Cache[n].pData;
 	}
 
 	return NULL;
