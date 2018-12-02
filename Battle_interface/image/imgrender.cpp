@@ -83,7 +83,7 @@ void BIImageRender::DeleteMaterial( BIImageMaterial* pMat )
 	//long n = m_apMaterial.Find( pMat );
 	//if( n >= 0 )
 	//	m_apMaterial.DelIndex( n );
-	auto it = std::find(m_apMaterial.begin(), m_apMaterial.end(), pMat);
+	auto it = std::find(c.begin(), m_apMaterial.end(), pMat);
 	if (it != m_apMaterial.end())
 		m_apMaterial.erase(it);
 }
@@ -157,9 +157,12 @@ void BIImageRender::DeleteString( IBIString* str )
 
 void BIImageRender::ReleaseAllStrings()
 {
-	while( m_apStrings.size()>0 ){
-		STORM_DELETE( m_apStrings[0] );
-	}
+	//while( m_apStrings.size()>0 ){
+	//	STORM_DELETE( m_apStrings[0] );
+	//}
+	for (const auto &string : m_apStrings)
+		delete string;
+	m_apStrings.clear();
 }
 
 void BIImageRender::CutPrioritetRangeByStrings()
@@ -195,9 +198,13 @@ void BIImageRender::SetBaseScreenSize(long nHSize, long nVSize, long nHOffset, l
 
 void BIImageRender::Release()
 {
-	while( m_apMaterial.size()>0 ){
-		STORM_DELETE( m_apMaterial[0] );
-	}
+	//~!~ ???
+	//while( m_apMaterial.size()>0 ){
+	//	STORM_DELETE( m_apMaterial[0] );
+	//}
+	for (const auto &material : m_apMaterial)
+		delete material;
+	m_apMaterial.clear();
 
 	ReleaseAllStrings();
 }

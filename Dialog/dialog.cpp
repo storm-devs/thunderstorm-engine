@@ -1001,9 +1001,12 @@ dword _cdecl DIALOG::ProcessMessage(MESSAGE & message)
 		case 1:
 			charId = message.EntityID();
 			charMdl = message.EntityID();
-			m_sTalkPersName = api->Entity_GetAttribute(&charId,"name");
+			const char *attr = nullptr;
+			if(attr = api->Entity_GetAttribute(&charId,"name"))
+				m_sTalkPersName = attr;
 			if( m_sTalkPersName.size()>0 ) m_sTalkPersName += " ";
-			m_sTalkPersName += api->Entity_GetAttribute(&charId,"lastname");
+			if(attr = api->Entity_GetAttribute(&charId,"lastname"))
+				m_sTalkPersName += attr;
 			m_BackParams.fCharacterNameRectCenterWidth = 4.f + RenderService->StringWidth( (char*)m_sTalkPersName.c_str(), m_nCharNameTextFont, m_fCharNameTextScale );
 		break;
 	}

@@ -70,7 +70,7 @@ private:
 		inline bool IsEnable() { return bEnable; };
 
 	private:
-		std::string sCatalog, sTexture;
+		const char *sCatalog, *sTexture;
 		float fRadius, fSize, fHeightFade, fSunFade;
 		float fVisualMagnitude, fTelescopeMagnitude;
 		long iTexture;

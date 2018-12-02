@@ -84,6 +84,7 @@ void BIImageMaterial::ReleaseAllImages()
 	m_bDeleteEverythink = true;
 	for (auto const &image : m_apImage)
 		delete image;
+	m_apImage.clear();
 	//m_apImage.DelAllWithPointers();
 	m_bDeleteEverythink = false;
 	m_bMakeBufferUpdate = true;

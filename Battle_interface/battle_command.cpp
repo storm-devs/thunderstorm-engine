@@ -228,6 +228,8 @@ void BICommandList::Init()
 		m_IconSize.x = pAList->GetAttributeAsDword( "CommandIconWidth", m_IconSize.x );
 		m_IconSize.y = pAList->GetAttributeAsDword( "CommandIconHeight", m_IconSize.y );
 
+		const char *attr = nullptr;
+
 		// get note font parameters
 		if( pAList->GetAttribute("CommandNoteFont") )
 			m_NoteFontID = m_pRS->LoadFont( pAList->GetAttribute( "CommandNoteFont" ) );
@@ -237,7 +239,8 @@ void BICommandList::Init()
 			sscanf( pAList->GetAttribute("CommandNoteOffset"), "%d,%d", &m_NoteOffset.x, &m_NoteOffset.y );
 
 		// ”станавливаем значени€ дл€ стрелок (вверх/вниз)
-		m_sUpDownArrowTexture = pAList->GetAttribute("UDArrow_Texture");
+		if (attr = pAList->GetAttribute("UDArrow_Texture"))
+			m_sUpDownArrowTexture = attr;
 		BIUtils::ReadRectFromAttr(pAList,"UDArrow_UV_Up", m_frUpArrowUV, m_frUpArrowUV);
 		BIUtils::ReadRectFromAttr(pAList,"UDArrow_UV_Down", m_frDownArrowUV, m_frDownArrowUV);
 		BIUtils::ReadPosFromAttr(pAList,"UDArrow_Size", m_pntUpDownArrowSize.x,m_pntUpDownArrowSize.y, m_pntUpDownArrowSize.x,m_pntUpDownArrowSize.y);
@@ -245,12 +248,14 @@ void BICommandList::Init()
 		BIUtils::ReadPosFromAttr(pAList,"UDArrow_Offset_Down", m_pntDownArrowOffset.x,m_pntDownArrowOffset.y, m_pntDownArrowOffset.x,m_pntDownArrowOffset.y);
 
 		// устанавливаем значени€ дл€ иконки активности меню
-		m_sActiveIconTexture = pAList->GetAttribute("ActiveIcon_Texture");
+		if (attr = pAList->GetAttribute("ActiveIcon_Texture"))
+			m_sActiveIconTexture = attr;
 		BIUtils::ReadPosFromAttr(pAList,"ActiveIcon_Offset", m_pntActiveIconOffset.x,m_pntActiveIconOffset.y, m_pntActiveIconOffset.x,m_pntActiveIconOffset.y);
 		BIUtils::ReadPosFromAttr(pAList,"ActiveIcon_Size", m_pntActiveIconSize.x,m_pntActiveIconSize.y, m_pntActiveIconSize.x,m_pntActiveIconSize.y);
 		BIUtils::ReadRectFromAttr(pAList,"ActiveIcon_UV1", m_frActiveIconUV1, m_frActiveIconUV1);
 		BIUtils::ReadRectFromAttr(pAList,"ActiveIcon_UV2", m_frActiveIconUV2, m_frActiveIconUV2);
-		m_sActiveIconNote = pAList->GetAttribute("ActiveIcon_Note");
+		if (attr = pAList->GetAttribute("ActiveIcon_Note"))
+			m_sActiveIconNote = attr;
 	}
 
 	pAList = 0;
@@ -266,7 +271,7 @@ void BICommandList::Init()
 			ATTRIBUTES* pA = pATextures->GetAttributeClass( n );
 			if( pA )
 			{
-				TextureDescr td = { pA->GetAttribute("name"), pA->GetAttributeAsDword("xsize",1), pA->GetAttributeAsDword("ysize",1) };
+				TextureDescr td = { pA->GetAttribute("name") ? pA->GetAttribute("name") : std::string(), pA->GetAttributeAsDword("xsize",1), pA->GetAttributeAsDword("ysize",1) };
 
 				if( td.nCols < 1 ) 
 					td.nCols = 1;
@@ -304,9 +309,12 @@ long BICommandList::AddToIconList( long nTextureNum, long nNormPictureNum, long 
 	uc.nSelPictureIndex = nSelPictureNum;
 	uc.nTargetIndex = nTargetIndex;
 	uc.nTextureIndex = nTextureNum;
-	uc.sCommandName = pcCommandName;
-	uc.sLocName = pcLocName;
-	uc.sNote = pcNoteName;
+	if(pcCommandName)
+		uc.sCommandName = pcCommandName;
+	if(pcLocName)
+		uc.sLocName = pcLocName;
+	if(pcNoteName)
+		uc.sNote = pcNoteName;
 	m_aUsedCommand.push_back(uc);
 
 	if( nCooldownPictureNum >= 0 )

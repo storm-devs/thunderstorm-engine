@@ -86,7 +86,7 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 
 	//if (!bEnable) return;
 
-	iTexture = sTexture.empty() ? -1 : Astronomy::pRS->TextureCreate(sTexture.c_str());
+	iTexture = sTexture == nullptr ? -1 : Astronomy::pRS->TextureCreate(sTexture);
 
 	/*char * pBuffer = null;
 	dword dwSize = 0;
@@ -130,7 +130,7 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 	fio->_CloseHandle(hFile);
 	}*/
 
-	HANDLE hFile = fio->_CreateFile(sCatalog.c_str());
+	HANDLE hFile = fio->_CreateFile(sCatalog);
 	if (INVALID_HANDLE_VALUE != hFile)
 	{
 		dword dwSize;
