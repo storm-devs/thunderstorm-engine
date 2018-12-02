@@ -62,7 +62,15 @@ public:
 };
 
 #ifndef _ENGINE_IN_
-#define INTERFACE_FUNCTION	VMA * _pModuleClassRoot = 0; VAPI * _CORE_API; VAPI * api; VFILE_SERVICE * fio; VSYSTEM_API * _VSYSTEM_API; extern "C" DLL_MODULE_API_FUNCTION _cdecl DMAInterface(VAPI * api_PTR,VSYSTEM_API * sapi_PTR){_CORE_API = api_PTR; api = api_PTR; fio = api_PTR->fio; _VSYSTEM_API = sapi_PTR; return _pModuleClassRoot;} void * _cdecl operator new(size_t size) {return _CORE_API->MemAllocate(size);} void _cdecl operator delete(void * block_ptr) { _CORE_API->MemFree(block_ptr); } void * _cdecl resize(void * block_ptr,size_t size){ return _CORE_API->MemReallocate(block_ptr,size);} /**/ void * _cdecl operator new(size_t size,char * p,unsigned long n) {return _CORE_API->MemAllocate(size,p,n);} void _cdecl operator delete(void * block_ptr,char * p, unsigned long n) { _CORE_API->MemFree(block_ptr); } void * _cdecl resize(void * block_ptr,size_t size,char * p,unsigned long n){ return _CORE_API->MemReallocate(block_ptr,size,p,n);}
+#define ENGINE_MODULE "engine.exe"
+#define INTERFACE_FUNCTION	VMA * _pModuleClassRoot = 0; VAPI * _CORE_API; VAPI * api; VFILE_SERVICE * fio; VSYSTEM_API * _VSYSTEM_API; extern "C" DLL_MODULE_API_FUNCTION _cdecl DMAInterface(VAPI * api_PTR,VSYSTEM_API * sapi_PTR){_CORE_API = api_PTR; api = api_PTR; fio = api_PTR->fio; _VSYSTEM_API = sapi_PTR; return _pModuleClassRoot;} \
+	void GetCoreApi() { HMODULE hEngine = LoadLibraryA(ENGINE_MODULE); PROC GetCoreApi = GetProcAddress(hEngine, "GetCoreApi");	_CORE_API = reinterpret_cast<VAPI*(*)()>(GetCoreApi)(); } \
+	void * _cdecl operator new(size_t size) { if(!_CORE_API) GetCoreApi(); return _CORE_API->MemAllocate(size);} \
+	void _cdecl operator delete(void * block_ptr) { _CORE_API->MemFree(block_ptr); } \
+	void * _cdecl resize(void * block_ptr,size_t size){ return _CORE_API->MemReallocate(block_ptr,size);} \
+	void * _cdecl operator new(size_t size,char * p,unsigned long n) { if(!_CORE_API) GetCoreApi(); return _CORE_API->MemAllocate(size,p,n);} \
+	void _cdecl operator delete(void * block_ptr,char * p, unsigned long n) { _CORE_API->MemFree(block_ptr); } \
+	void * _cdecl resize(void * block_ptr,size_t size,char * p,unsigned long n){ return _CORE_API->MemReallocate(block_ptr,size,p,n);}
 #else
 #define INTERFACE_FUNCTION
 #endif

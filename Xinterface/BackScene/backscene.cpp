@@ -484,6 +484,7 @@ void InterfaceBackScene::ReleaseMenuList()
 	//m_aMenuDescr.DelAllWithPointers();
 	for (const auto &descr : m_aMenuDescr)
 		delete descr;
+	m_aMenuDescr.clear();
 }
 
 void InterfaceBackScene::CreateMenuList( long nStartIndex, ATTRIBUTES* pAMenu )

@@ -317,6 +317,7 @@ void SEA::BuildVolumeTexture()
 
 	for (const auto &normal : aNormals)
 		delete normal;
+	aNormals.clear();
 
 	D3DLOCKED_BOX	box[4];
 
@@ -497,6 +498,7 @@ void SEA::BuildVolumeTexture()
 
 	for (const auto &vector : aVectors)
 		delete vector;
+	aVectors.clear();
 	//aVectors.DelAllWithPointers();
 	STORM_DELETE(pDst);
 }

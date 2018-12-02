@@ -553,6 +553,7 @@ void QUEST_FILE_READER::AddToQuestList(std::string& sQuestID, std::string& sText
 	long q = FindQuestByID( sQuestID.c_str() );
 	if( q < 0 )
 	{
+		q = m_aQuest.size();
 		QuestDescribe descr;
 		descr.sHeader = sQuestID;
 		descr.sTitle = sQuestText;

@@ -169,6 +169,7 @@ void CXI_CHECKBUTTONS::ReleaseAll()
 
 	for (const auto &button : m_aButton)
 		delete button;
+	m_aButton.clear();
 	//m_aButton.DelAllWithPointers();
 }
 

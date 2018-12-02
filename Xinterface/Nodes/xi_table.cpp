@@ -404,6 +404,7 @@ void CXI_TABLE::ReleaseAll()
 	//m_aLine.DelAllWithPointers();
 	for (const auto &line : m_aLine)
 		delete line;
+	m_aLine.clear();
 	STORM_DELETE( m_pHeader );
 
 	// release back image

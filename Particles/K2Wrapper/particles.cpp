@@ -213,7 +213,7 @@ PARTICLE_SYSTEM* PARTICLES::CreateSystem (const char* pFileName, dword LifeTime)
 	fs::path path = fs::path() / "resource" / "particles" / pFileName;
 	if (_stricmp(path.extension().string().c_str(), ".xps") != 0)
 		path += ".xps";
-	MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
+	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 
 	//api->Trace("K2 Particles Wrapper: Create system '%s'", pFileName);
 	IParticleSystem* pSys = pManager->CreateParticleSystemEx(path.string().c_str(), __FILE__, __LINE__);

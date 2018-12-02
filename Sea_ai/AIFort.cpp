@@ -295,7 +295,7 @@ bool AIFort::ScanFortForCannons(AI_FORT * pFort, char * pModelsDir, char * pLoca
 	//std::string		sLocatorsName;
 
 	fs::path path = fs::path() / "pModelsDir" / pLocatorsName;
-	MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
+	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 	//sLocatorsName.Format("%s\\%s", pModelsDir, pLocatorsName);
 	api->CreateEntity(&model_id, "MODELR");
 	api->Send_Message(model_id, "ls", MSG_MODEL_LOAD_GEO, (char*)path.c_str());

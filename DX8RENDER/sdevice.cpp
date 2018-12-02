@@ -1,6 +1,7 @@
 #include "sdevice.h"
 #include "stdio.h"
 #include "..\common_h\matrix.h"
+#include "..\common_h\filesystem.h"
 #include "texture.h"
 #include <DxErr.h>
 #include <io.h>
@@ -1260,13 +1261,18 @@ long DX9RENDER::TextureCreate(const char *fname)
 	}
 
 	// delete relative path "resource\textures\"
-	std::string sTexName = fname;
+	//std::string sTexName = fname;
 	//sTexName.GetRelativePath("resource\\textures\\");
 	//sTexName = sTexName - std::string(".tx");
 	// ~!~
-	__debugbreak();
-	fname = sTexName.c_str();
+	//__debugbreak();
+	fs::path path = fs::path() / "resource" / "textures" / fname;
+	//if (_stricmp(path.extension().string().c_str(), ".tx") == 0)
+	//	path.replace_extension();
+	//fname = sTexName.c_str();
 	// delete last extension ".tx"
+	std::string fileName = path.string();
+	fname = fileName.c_str(); //~!~ msvc still doesn't have working c_str for path
 
 	if (fname == NULL)
 	{

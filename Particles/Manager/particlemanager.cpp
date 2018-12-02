@@ -110,7 +110,7 @@ bool ParticleManager::OpenProject (const char* FileName)
 	fs::path path = fs::path() / "resource" / "particles" / FileName;
 	if (_stricmp(path.extension().string().c_str(), ".prj") != 0)
 		path += ".prj";
-	MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
+	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 	//LongFileName += FileName;
 	//LongFileName.AddExtention(".prj");
 

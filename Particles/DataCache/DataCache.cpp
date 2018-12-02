@@ -28,7 +28,7 @@ void DataCache::CacheSystem (const char* FileName)
 	fs::path path = fs::path() / "resource" / "particles" / FileName;
 	if (_stricmp(path.extension().string().c_str(), ".xps") != 0)
 		path += ".xps";
-	MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
+	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 
 	HANDLE pSysFile = api->fio->_CreateFile(path.string().c_str());
 
@@ -66,7 +66,6 @@ void DataCache::ResetCache ()
 //Получить указатель на данные для системы партиклов
 DataSource* DataCache::GetParticleSystemDataSource (const char* FileName)
 {
-	__debugbreak(); //~!~
 	//std::string NameWithExt = FileName;
 	//NameWithExt.AddExtention(".xps");
 	//NameWithExt.Lower();

@@ -459,7 +459,7 @@ bool ISLAND::CreateShadowMap(char * pDir, char * pName)
 	pWeather = (WEATHER_BASE*)api->GetEntityPointer(&ent); Assert(pWeather);
 
 	fs::path path = fs::path() / "resource" / "foam" / pDir / AttributesPointer->GetAttribute("LightingPath");
-	MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
+	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 	//sDir.Format("resource\\foam\\%s\\%s\\", pDir, AttributesPointer->GetAttribute("LightingPath")); sDir.CheckPath();
 	//sprintf(fname, "%s%s.tga", (const char*)sDir.c_str(), pName);
 	std::string fileName = path.string() + pName + ".tga";
@@ -569,7 +569,7 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 	HANDLE	hFile;
 
 	fs::path path = fs::path() / "resource" / "foam" / pDir;
-	MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
+	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 	std::string fileName = path.string() + pName + ".tga";
 	std::string iniName = path.string() + pName + ".ini";
 	//sDir.Format("resource\\\\foam\\\\%s\\\\", pDir); sDir.CheckPath();
@@ -787,7 +787,7 @@ bool ISLAND::Mount(char * fname, char * fdir, ENTITY_ID * eID)
 	SetName(fname);
 
 	fs::path path = fs::path() / fdir / fname;
-	MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
+	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 	//sRealFileName.Format("%s\\%s", fdir, fname); sRealFileName.CheckPath();
 	
 	api->CreateEntity(&model_id, "MODELR");

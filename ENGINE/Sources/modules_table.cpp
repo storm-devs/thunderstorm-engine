@@ -5,6 +5,7 @@
 #include "..\..\common_h\exs.h"
 #include "..\..\common_h\memop.h"
 
+extern "C" __declspec(dllexport) VAPI * GetCoreApi() { return api;  }
 
 #define MROOT_DIRECTORY		0xffffffff
 #define MODULE_WILD_MASK	"*.dll"
