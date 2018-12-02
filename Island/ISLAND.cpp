@@ -568,10 +568,10 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 	char	str_tmp[256];
 	HANDLE	hFile;
 
-	fs::path path = fs::path() / "resource" / "foam" / pDir;
+	fs::path path = fs::path() / "resource" / "foam" / pDir / pName;
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
-	std::string fileName = path.string() + pName + ".tga";
-	std::string iniName = path.string() + pName + ".ini";
+	std::string fileName = path.string() + ".tga";
+	std::string iniName = path.string() + ".ini";
 	//sDir.Format("resource\\\\foam\\\\%s\\\\", pDir); sDir.CheckPath();
 	//sprintf(fname, "%s%s.tga", (const char*)sDir.c_str(), pName);
 	//sprintf(iname, "%s%s.ini", (const char*)sDir.c_str(), pName);
@@ -787,12 +787,13 @@ bool ISLAND::Mount(char * fname, char * fdir, ENTITY_ID * eID)
 	SetName(fname);
 
 	fs::path path = fs::path() / fdir / fname;
+	std::string pathStr = path.string();
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 	//sRealFileName.Format("%s\\%s", fdir, fname); sRealFileName.CheckPath();
 	
 	api->CreateEntity(&model_id, "MODELR");
 	api->Send_Message(model_id, "ls", MSG_MODEL_SET_LIGHT_PATH, AttributesPointer->GetAttribute("LightingPath"));
-	api->Send_Message(model_id, "ls", MSG_MODEL_LOAD_GEO, (char*)path.c_str());
+	api->Send_Message(model_id, "ls", MSG_MODEL_LOAD_GEO, (char*)pathStr.c_str());
 
 	// extract subobject(sea_bed) to another model
 	MODEL * pModel = (MODEL*)api->GetEntityPointer(&model_id);

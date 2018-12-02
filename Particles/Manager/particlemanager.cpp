@@ -110,15 +110,16 @@ bool ParticleManager::OpenProject (const char* FileName)
 	fs::path path = fs::path() / "resource" / "particles" / FileName;
 	if (_stricmp(path.extension().string().c_str(), ".prj") != 0)
 		path += ".prj";
+	std::string pathStr = path.string();
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 	//LongFileName += FileName;
 	//LongFileName.AddExtention(".prj");
 
 
-	INIFILE* IniFile = api->fio->OpenIniFile((char*)path.c_str());
+	INIFILE* IniFile = api->fio->OpenIniFile((char*)pathStr.c_str());
 	if (!IniFile)
 	{
-		api->Trace("Can't find project '%s'", path.c_str());
+		api->Trace("Can't find project '%s'", pathStr.c_str());
 		return false;
 	}
 

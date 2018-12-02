@@ -1266,11 +1266,10 @@ long DX9RENDER::TextureCreate(const char *fname)
 	//sTexName = sTexName - std::string(".tx");
 	// ~!~
 	//__debugbreak();
-	fs::path path = fs::path() / "resource" / "textures" / fname;
-	//if (_stricmp(path.extension().string().c_str(), ".tx") == 0)
-	//	path.replace_extension();
-	//fname = sTexName.c_str();
-	// delete last extension ".tx"
+	//fs::path path = fs::path() / "resource" / "textures" / fname;
+	fs::path path = fname;
+	if (_stricmp(path.extension().string().c_str(), ".tx") == 0)
+		path.replace_extension();
 	std::string fileName = path.string();
 	fname = fileName.c_str(); //~!~ msvc still doesn't have working c_str for path
 

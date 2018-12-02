@@ -203,7 +203,7 @@ inline bool AIFlowGraph::Load(INIFILE * pIni)
 	ReleaseAll();
 
 	std::string sKey;
-	while(true)
+	while(true) //~!~ Optimize?
 	{
 		sKey = "pnt" + std::to_string(aPoints.size());
 		cTemp[0] = 0;
@@ -225,13 +225,13 @@ inline bool AIFlowGraph::Load(INIFILE * pIni)
 
 		const char *buf = cTemp;
 		int offset;
-		sscanf(buf, "%f,%f,%d%n", &x, &z, &dwNum, &offset);
+		sscanf(buf, "%f,%f,%d,%n", &x, &z, &dwNum, &offset);
 		buf += offset;
 
 		for (dword j=0;j<dwNum;j++)
 		{
 			dword dw1, dw2;
-			sscanf(buf, "%d,%d%n", &dw1, &dw2, &offset);;
+			sscanf(buf, "%d,%d,%n", &dw1, &dw2, &offset);;
 			buf += offset;
 			aPoints[i].aEdges.push_back(AddEdge(dw1,dw2));
 		}

@@ -294,11 +294,12 @@ bool AIFort::ScanFortForCannons(AI_FORT * pFort, char * pModelsDir, char * pLoca
 	NODE		* pNode;
 	//std::string		sLocatorsName;
 
-	fs::path path = fs::path() / "pModelsDir" / pLocatorsName;
+	fs::path path = fs::path() / pModelsDir / pLocatorsName;
+	std::string pathStr = path.string();
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 	//sLocatorsName.Format("%s\\%s", pModelsDir, pLocatorsName);
 	api->CreateEntity(&model_id, "MODELR");
-	api->Send_Message(model_id, "ls", MSG_MODEL_LOAD_GEO, (char*)path.c_str());
+	api->Send_Message(model_id, "ls", MSG_MODEL_LOAD_GEO, (char*)pathStr.c_str());
 
 	MODEL * pModel = (MODEL*)api->GetEntityPointer(&model_id); Assert(pModel);
 

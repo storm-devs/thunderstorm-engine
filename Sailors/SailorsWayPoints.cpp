@@ -435,7 +435,7 @@ int SailorsPoints :: ReadFromFile(std::string fileName)
 
 	int first,next;
 
-	links.link.resize(points.count);
+	links.link.resize(links.count);
 	for (int i= 0; i< links.count; i++ ){
 		//links.link.Add();
 
