@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "xi_table.h"
 #include "xi_scroller.h"
-#include "../../ENGINE/strutils.h"
+#include "../../Common_h/strutils.h"
 
 #define ALIGN_BOTTOM	16
 #define ALIGN_TOP		17
