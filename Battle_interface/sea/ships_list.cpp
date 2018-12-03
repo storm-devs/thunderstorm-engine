@@ -1,6 +1,7 @@
 #include <assert.h>
 #include "ships_list.h"
 #include "..\..\common_h\net.h"
+#include "../../../Shared/battle_interface/msg_control.h"
 //#include "battle_command.h"
 
 #define LOADING_MODE_MY_SHIP		0
@@ -143,7 +144,7 @@ void SHIP_DESCRIBE_LIST::Release(long charIdx)
 	pMainShipAttr = nullptr;
 }
 
-void SHIP_DESCRIBE_LIST::Add(long mainChrIndex, long chIdx, ATTRIBUTES * pChAttr, ATTRIBUTES * pShipAttr, bool bMyShip,long relation,dword dwShipColor)
+void SHIP_DESCRIBE_LIST::Add(long mainChrIndex, long chIdx, ATTRIBUTES * pChAttr, ATTRIBUTES * pShipAttr, bool bMyShip,long relation,uint32_t dwShipColor)
 {
 	assert(pChAttr!=NULL);
 	assert(pShipAttr!=NULL);

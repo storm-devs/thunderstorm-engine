@@ -30,14 +30,14 @@ public:
 
 //--------------------------------------------------------------------------------------------
 protected:
-	virtual const char * GetModelName() = null;
-	virtual const char * GetAniName() = null;
-	virtual bool PostInit(Animation * ani) = null;
+	virtual const char * GetModelName() = 0;
+	virtual const char * GetAniName() = 0;
+	virtual bool PostInit(Animation * ani) = 0;
 
-	virtual void IdleProcess(Animation * ani, float dltTime) = null;
-	virtual void MoveProcess(Animation * ani, float dltTime) = null;
-	virtual void IsStartMove(Animation * ani) = null;
-	virtual void IsStopMove(Animation * ani) = null;
+	virtual void IdleProcess(Animation * ani, float dltTime) = 0;
+	virtual void MoveProcess(Animation * ani, float dltTime) = 0;
+	virtual void IsStartMove(Animation * ani) = 0;
+	virtual void IsStopMove(Animation * ani) = 0;
 
 //--------------------------------------------------------------------------------------------
 protected:

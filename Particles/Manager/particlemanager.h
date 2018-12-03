@@ -8,10 +8,8 @@
 #ifndef PARTICLES_MANAGER_IMPLEMENTATION
 #define PARTICLES_MANAGER_IMPLEMENTATION
 
-#include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
-#include "..\..\common_h\exs.h"
 #include "..\..\common_h\particles\iparticlemanager.h"
 
 #include "..\system\ParticleProcessor\mdl_processor.h"
@@ -69,12 +67,12 @@ class ParticleManager : public IParticleManager
 	void DeleteAllSystems ();
 
 	float TimeFromLastStatUpdate;
-	DWORD nowTickTime;
-	DWORD nowUpdateTime;
-	DWORD ActiveSystems;
-	DWORD ActiveEmitters;
-	DWORD ActiveBillboardParticles;
-	DWORD ActiveModelParticles;
+	uint32_t nowTickTime;
+	uint32_t nowUpdateTime;
+	uint32_t ActiveSystems;
+	uint32_t ActiveEmitters;
+	uint32_t ActiveBillboardParticles;
+	uint32_t ActiveModelParticles;
 
 
 	std::vector<ParticleSystem*> DeleteQuery;
@@ -87,7 +85,7 @@ protected:
 
  ParticleSystem* CreateParticleSystemFromDataSource (DataSource* pDataSource);
 
- DWORD IteratorIndex;
+ uint32_t IteratorIndex;
  std::vector<std::string> EnumUsedGeom;
 
  bool FindInEnumUsedGeom (const char* GeomName);
@@ -138,8 +136,8 @@ public:
 
  GEOS* GetModel (const char* FileName);
 
- DWORD GetCreatedSystemCount ();
- ParticleSystem* GetCreatedSystemByIndex (DWORD Index);
+ uint32_t GetCreatedSystemCount ();
+ ParticleSystem* GetCreatedSystemByIndex (uint32_t Index);
 
  bool ReadyForUse ();
 
@@ -149,8 +147,8 @@ public:
 
  virtual void Editor_UpdateCachedData ();
 
- virtual DWORD GetProjectSystemCount ();
- virtual const char* GetProjectSystemName (DWORD Index);
+ virtual uint32_t GetProjectSystemCount ();
+ virtual const char* GetProjectSystemName (uint32_t Index);
 
  virtual const char* GetFirstGeomName (const char* FileName);
  virtual const char* GetNextGeomName ();

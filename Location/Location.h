@@ -11,6 +11,7 @@
 #ifndef _Location_H_
 #define _Location_H_
 
+#include <cstdint>
 #include "..\common_h\vmodule_api.h"
 #include "..\common_h\matrix.h"
 
@@ -27,14 +28,14 @@ class Location : public ENTITY
 	struct SphVertex
 	{
 		CVECTOR v;
-		dword c;
+		uint32_t c;
 	};
 
 	struct BarVertex
 	{
 		CVECTOR p;
 		float rhw;
-		dword c;
+		uint32_t c;
 		float u, v;
 	};
 
@@ -43,7 +44,7 @@ class Location : public ENTITY
 		CVECTOR p;
 		float alpha;
 		float hit, hp;
-		dword c;
+		uint32_t c;
 	};
 
 	struct EnemyBar
@@ -66,10 +67,10 @@ public:
 	//Инициализация
 	bool Init();
 	//Исполнение
-	void Execute(dword delta_time);
-	void Realize(dword delta_time);
+	void Execute(uint32_t delta_time);
+	void Realize(uint32_t delta_time);
 	//Сообщения
-	dword _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t _cdecl ProcessMessage(MESSAGE & message);
 
 	
 //--------------------------------------------------------------------------------------------
@@ -95,9 +96,9 @@ public:
 	Lights * GetLights();
 
 	VDX9RENDER * GetRS();
-	void DrawLine(const CVECTOR & s, dword cs, const CVECTOR & d, dword cd, bool useZ = true);
+	void DrawLine(const CVECTOR & s, uint32_t cs, const CVECTOR & d, uint32_t cd, bool useZ = true);
 	//Написать текст
-	void _cdecl Print(const CVECTOR & pos3D, float rad, long line, float alpha, dword color, float scale, const char * format, ...);
+	void _cdecl Print(const CVECTOR & pos3D, float rad, long line, float alpha, uint32_t color, float scale, const char * format, ...);
 
 	bool IsDebugView();
 	bool IsExDebugView();
@@ -119,7 +120,7 @@ public:
 //Инкапсуляция
 //--------------------------------------------------------------------------------------------
 private:
-	void Update(dword delta_time);
+	void Update(uint32_t delta_time);
 	long LoadStaticModel(const char * modelName, const char * tech, long level, bool useDynamicLights);
 	bool LoadCharacterPatch(const char * ptcName);
 	void LoadCaustic();
@@ -132,7 +133,7 @@ private:
 	void TestLocatorsInPatch(MESSAGE & message);
 	//Отрисовка полосок над персонажами
 	void DrawEnemyBars();
-	void DrawBar(const MTX_PRJ_VECTOR & vrt, dword color, float hp, float energy);
+	void DrawBar(const MTX_PRJ_VECTOR & vrt, uint32_t color, float hp, float energy);
 	void CorrectBar(float v, float start, float end, BarVertex * vrt);
 	
 

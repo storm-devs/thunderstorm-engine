@@ -16,6 +16,7 @@
 #include "..\common_h\model.h"
 #include "..\common_h\cvector4.h"
 #include "../common_h/defines.h"
+#include "../../Shared/messages.h"
 
 float		fCausticScale, fCausticDelta, fFogDensity, fCausticDistance;
 CVECTOR4	v4CausticColor;
@@ -102,7 +103,7 @@ bool Location::Init()
 }
 
 //Исполнение
-void Location::Execute(dword delta_time)
+void Location::Execute(uint32_t delta_time)
 {
 	bSwimming = AttributesPointer->GetAttributeAsDword("swimming", 1) != 0;
 
@@ -137,7 +138,7 @@ void Location::Execute(dword delta_time)
 	}
 }
 
-void Location::Realize(dword delta_time)
+void Location::Realize(uint32_t delta_time)
 {
 	float fDeltaTime = float(delta_time) * 0.001f;
 
@@ -184,11 +185,11 @@ void Location::Realize(dword delta_time)
 	enemyBarsCount = 0;
 }
 
-void Location::Update(dword delta_time)
+void Location::Update(uint32_t delta_time)
 {
 	lights = (Lights *)_CORE_API->GetEntityPointer(&lightsid);
 
-	const dword max_delta_time = 500;
+	const uint32_t max_delta_time = 500;
 	const float maxDltTime = 0.1f;
 	if(delta_time > max_delta_time) delta_time = max_delta_time;
 	float dltTime = delta_time*0.001f;
@@ -205,7 +206,7 @@ void Location::Update(dword delta_time)
 }
 
 //Сообщения
-dword _cdecl Location::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl Location::ProcessMessage(MESSAGE & message)
 {
 	long i;
 	float u0, v0, u1, v1;
@@ -808,7 +809,7 @@ void Location::DrawLocators(LocatorArray * la)
 	rs->SetTransform(D3DTS_WORLD, CMatrix());
 }
 
-void Location::DrawLine(const CVECTOR & s, dword cs, const CVECTOR & d, dword cd, bool useZ)
+void Location::DrawLine(const CVECTOR & s, uint32_t cs, const CVECTOR & d, uint32_t cd, bool useZ)
 {
 	SphVertex lineVertex[2];
 	lineVertex[0].v = s;
@@ -820,7 +821,7 @@ void Location::DrawLine(const CVECTOR & s, dword cs, const CVECTOR & d, dword cd
 	rs->TextureSet(0, -1);
 	rs->TextureSet(1, -1);
 	//Установим Z
-	dword oldZState = 1;
+	uint32_t oldZState = 1;
 	rs->GetRenderState(D3DRS_ZENABLE, &oldZState);
 	rs->SetRenderState(D3DRS_ZENABLE, useZ);
 	//Рисуем
@@ -832,7 +833,7 @@ void Location::DrawLine(const CVECTOR & s, dword cs, const CVECTOR & d, dword cd
 void Location::CreateSphere()
 {
 #define CalcKColor(ind) {kColor = light | !CVECTOR(sphereVertex[t*3 + ind].v.x, sphereVertex[t*3 + ind].v.y, sphereVertex[t*3 + ind].v.z); if(kColor < 0.0f) kColor = 0.0f; }
-#define CLerp(c, min) (dword(c*(kColor*(1.0f - min) + min)))
+#define CLerp(c, min) (uint32_t(c*(kColor*(1.0f - min) + min)))
 #define Color ((CLerp(255.0f, 0.5f) << 24) | (CLerp(255.0f, 0.7f) << 16) | (CLerp(255.0f, 0.7f) << 8) | (CLerp(255.0f, 0.7f) << 0));
 
 	if(sphereVertex) return;
@@ -922,7 +923,7 @@ bool Location::IsDebugView()
 #include <stdio.h>
 
 //Написать текст
-void _cdecl Location::Print(const CVECTOR & pos3D, float rad, long line, float alpha, dword color, float scale, const char * format, ...)
+void _cdecl Location::Print(const CVECTOR & pos3D, float rad, long line, float alpha, uint32_t color, float scale, const char * format, ...)
 {
 	static char buf[256];
 	scale *= 2.0f;
@@ -956,7 +957,7 @@ void _cdecl Location::Print(const CVECTOR & pos3D, float rad, long line, float a
 		alpha *= dist;
 	}
 	if(alpha <= 0.0f) return;
-	color = (dword(alpha*255.0f) << 24) | (color & 0xffffff);
+	color = (uint32_t(alpha*255.0f) << 24) | (color & 0xffffff);
 	//Печатаем текст
 	rs->ExtPrint(FONT_DEFAULT, color, 0x00000000, ALIGN_CENTER, 0, scale, 0, 0, long(vrt.x), long(vrt.y), buf);
 }
@@ -1056,7 +1057,7 @@ void Location::DrawEnemyBars()
 	struct SortElement
 	{
 		MTX_PRJ_VECTOR vrt;
-		dword color;
+		uint32_t color;
 		float hp;
 		float energy;
 	} sort[sizeof(enemyBar)/sizeof(enemyBar[0])];
@@ -1086,7 +1087,7 @@ void Location::DrawEnemyBars()
 		}else{
 			k = 1.0f;
 		}
-		dword color = long(k*enemyBar[i].alpha);
+		uint32_t color = long(k*enemyBar[i].alpha);
 		if(!color) continue;
 		color = (color << 24) | 0x007f7f7f;
 		//Добавим в список отрисовка
@@ -1114,7 +1115,7 @@ void Location::DrawEnemyBars()
 	for(long i = 0; i < sortCount; i++)
 	{
 		MTX_PRJ_VECTOR & vrt = selements[i]->vrt;
-		dword & color = selements[i]->color;
+		uint32_t & color = selements[i]->color;
 		static BarVertex bar[18];
 		float width = (256.0f*vrt.rhw)*0.5f;
 		float height = (64.0f*vrt.rhw)*0.5f;

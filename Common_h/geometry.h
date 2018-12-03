@@ -2,6 +2,7 @@
 #define __GEOMETRY_H__
 
 #include "..\common_h\vmodule_api.h"
+#include "..\common_h\service.h"
 #include "geos.h"
 
 class ANIMATION

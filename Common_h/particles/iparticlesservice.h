@@ -9,7 +9,6 @@
 #define PARTICLES_SERVICE_INTERFACE
 
 #include "..\service.h"
-#include "..\vmodule_api.h"
 
 class IParticleManager;
 
@@ -36,8 +35,8 @@ public:
  virtual IParticleManager* CreateManagerEx (const char* ProjectName, const char* File, int Line) = 0;
 
 
- virtual DWORD GetManagersCount () = 0;
- virtual IParticleManager* GetManagerByIndex (DWORD Index) = 0;
+ virtual uint32_t GetManagersCount () = 0;
+ virtual IParticleManager* GetManagerByIndex (uint32_t Index) = 0;
 
 
  virtual IParticleManager* DefManager () = 0;

@@ -32,8 +32,8 @@ public:
 	void SetUV( float fLeft, float fTop, float fRight, float fBottom );
 	void SetDifferentPosition( long nLeft, long nTop, long nWidth, long nHeight, ImagePointType ptype = IPType_LeftTop );
 
-	void SetColor( DWORD dwColor );
-	DWORD GetColor() {return m_dwImageColor;}
+	void SetColor( uint32_t dwColor );
+	uint32_t GetColor() {return m_dwImageColor;}
 
 	long GetWidth() {return m_pntSize.x;}
 	long GetHeight() {return m_pntSize.y;}
@@ -62,7 +62,7 @@ protected:
 	FXYRECT m_frUV;
 
 	XI_ONETEX_VERTEX m_vrtx[4];
-	DWORD m_dwImageColor;
+	uint32_t m_dwImageColor;
 
 	XYPOINT	m_pntSize;
 	XYPOINT m_pntLeftTop;

@@ -42,7 +42,7 @@ void BIImageMaterial::Render(long nBegPrior, long nEndPrior)
 	}
 }
 
-const BIImage* BIImageMaterial::CreateImage( BIImageType type, dword color, FRECT& uv, long nLeft,long nTop, long nRight,long nBottom, long nPrior )
+const BIImage* BIImageMaterial::CreateImage( BIImageType type, uint32_t color, FRECT& uv, long nLeft,long nTop, long nRight,long nBottom, long nPrior )
 {
 	BIImage* pImg = NEW BIImage( m_pRS, this );
 	Assert( pImg );
@@ -112,7 +112,7 @@ void BIImageMaterial::UpdateImageBuffers( long nStartIdx, long nEndIdx )
 	if( nStartIdx >= (long)m_apImage.size() ) return;
 	if( nEndIdx >= (long)m_apImage.size() ) nEndIdx = m_apImage.size() - 1;
 
-	word* pT = (word*)m_pRS->LockIndexBuffer( m_nIBufID );
+	uint16_t* pT = (uint16_t*)m_pRS->LockIndexBuffer( m_nIBufID );
 	BI_IMAGE_VERTEX* pV = (BI_IMAGE_VERTEX*)m_pRS->LockVertexBuffer( m_nVBufID );
 
 	// get before
@@ -156,7 +156,7 @@ void BIImageMaterial::RemakeBuffers()
 	if( m_nTriangleQuantity != nTQ )
 	{
 		m_pRS->ReleaseIndexBuffer( m_nIBufID );
-		m_nIBufID = m_pRS->CreateIndexBuffer( nTQ*3 * sizeof(word) );
+		m_nIBufID = m_pRS->CreateIndexBuffer( nTQ*3 * sizeof(uint16_t) );
 		m_nTriangleQuantity = nTQ;
 	}
 	UpdateImageBuffers( 0, m_apImage.size()-1 );

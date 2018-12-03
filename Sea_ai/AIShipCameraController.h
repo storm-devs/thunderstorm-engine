@@ -6,14 +6,14 @@ class AIShipCameraController
 {
 private:
 	ATTRIBUTES		* pTargetAPointer;
-	dword			dwTarget;
+	uint32_t			dwTarget;
 	float			fDelta;
 	long			iCrosshairTex;
 	bool			bCameraOutside;
 
-	dword			Colors[4];
+	uint32_t			Colors[4];
 
-	dword			dwSubTexturesX, dwSubTexturesY;
+	uint32_t			dwSubTexturesX, dwSubTexturesY;
 
 	AIShip			* pOurAIShip;
 	ATTRIBUTES		* pACrosshair;

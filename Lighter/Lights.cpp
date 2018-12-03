@@ -18,7 +18,7 @@ Lights::Lights()
 {
 	maxLights = 256;
 	numLights = 3;
-	light = (Light *)RESIZE(null, maxLights*sizeof(Light));
+	light = (Light *)RESIZE(nullptr, maxLights*sizeof(Light));
 	for(long i = 0; i < maxLights; i++) SetDefLightParam(i);
 	light[0].type = Light::t_amb;
 	light[0].color = CVECTOR(0.2f, 0.2f, 0.2f);

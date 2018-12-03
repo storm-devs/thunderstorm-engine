@@ -1,5 +1,7 @@
+#include <cstdint>
 #include "services_list.h"
 #include "..\..\common_h\exs.h"
+#include "../../common_h/memop.h"
 
 SERVICES_LIST::SERVICES_LIST()
 {
@@ -13,7 +15,7 @@ SERVICES_LIST::~SERVICES_LIST()
 	Release();	
 }
 
-SERVICE * SERVICES_LIST::Add(dword module_code,dword class_code,SERVICE * pointer)
+SERVICE * SERVICES_LIST::Add(uint32_t module_code,uint32_t class_code,SERVICE * pointer)
 {
 	SERVICE_NODE * node_PTR;
 	SERVICE * Pointer;
@@ -46,7 +48,7 @@ SERVICE * SERVICES_LIST::Add(dword module_code,dword class_code,SERVICE * pointe
 
 }
 
-SERVICE * SERVICES_LIST::AddRef(dword module_code)
+SERVICE * SERVICES_LIST::AddRef(uint32_t module_code)
 {
 	SERVICE_NODE * node_PTR;
 	node_PTR = FindNode(module_code);
@@ -55,7 +57,7 @@ SERVICE * SERVICES_LIST::AddRef(dword module_code)
 	return node_PTR->pointer;
 }
 
-SERVICE * SERVICES_LIST::Find(dword module_code)
+SERVICE * SERVICES_LIST::Find(uint32_t module_code)
 {
 	SERVICE_NODE * node_PTR;
 	node_PTR = List;
@@ -67,7 +69,7 @@ SERVICE * SERVICES_LIST::Find(dword module_code)
 	return nullptr;
 }
 
-SERVICE * SERVICES_LIST::Find(dword module_code, dword class_code)
+SERVICE * SERVICES_LIST::Find(uint32_t module_code, uint32_t class_code)
 {
 	SERVICE_NODE * node_PTR;
 	node_PTR = List;
@@ -82,7 +84,7 @@ SERVICE * SERVICES_LIST::Find(dword module_code, dword class_code)
 	return nullptr;
 }
 
-SERVICE_NODE * SERVICES_LIST::FindNode(dword module_code)
+SERVICE_NODE * SERVICES_LIST::FindNode(uint32_t module_code)
 {
 	SERVICE_NODE * node_PTR;
 	node_PTR = List;
@@ -106,13 +108,13 @@ SERVICE_NODE * SERVICES_LIST::FindNode(SERVICE * sp)
 	return nullptr;
 }
 
-dword SERVICES_LIST::Release(dword module_code, dword class_code)
+uint32_t SERVICES_LIST::Release(uint32_t module_code, uint32_t class_code)
 {
 	SERVICE_NODE * node_PTR;
 	SERVICE_NODE * node_L;
 	SERVICE_NODE * node_R;
 	SERVICE * pointer;
-	dword ref;
+	uint32_t ref;
 
 	node_PTR = List;
 	while(node_PTR)
@@ -192,7 +194,7 @@ SERVICE * SERVICES_LIST::GetServiceNext()
 
 }
 
-SERVICE * SERVICES_LIST::GetService(dword & class_code)
+SERVICE * SERVICES_LIST::GetService(uint32_t & class_code)
 {
 	if(List) 
 	{
@@ -203,7 +205,7 @@ SERVICE * SERVICES_LIST::GetService(dword & class_code)
 	return nullptr;
 }
 
-SERVICE * SERVICES_LIST::GetServiceNext(dword & class_code)
+SERVICE * SERVICES_LIST::GetServiceNext(uint32_t & class_code)
 {
 	SERVICE_NODE * node_PTR;
 	SERVICE_NODE * node_L;
@@ -227,7 +229,7 @@ SERVICE * SERVICES_LIST::GetServiceNext(dword & class_code)
 	return nullptr;
 }
 
-dword SERVICES_LIST::GetRef(SERVICE * sp)
+uint32_t SERVICES_LIST::GetRef(SERVICE * sp)
 {
 	SERVICE_NODE * node_PTR;
 	node_PTR = FindNode(sp);
@@ -235,7 +237,7 @@ dword SERVICES_LIST::GetRef(SERVICE * sp)
 	return node_PTR->reference;
 }
 
-void SERVICES_LIST::SetRef(SERVICE * sp, dword ref)
+void SERVICES_LIST::SetRef(SERVICE * sp, uint32_t ref)
 {
 	SERVICE_NODE * node_PTR;
 	node_PTR = FindNode(sp);

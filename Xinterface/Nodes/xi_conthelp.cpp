@@ -32,7 +32,7 @@ CXI_CONTEXTHELP::~CXI_CONTEXTHELP()
     ReleaseAll();
 }
 
-void CXI_CONTEXTHELP::Draw(bool bSelected,dword Delta_Time)
+void CXI_CONTEXTHELP::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(m_bUse)
 	{
@@ -112,7 +112,7 @@ void CXI_CONTEXTHELP::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 	{
 		if( (m_pHelpList=NEW HELPENTITY[m_helpQuantity]) == nullptr )
 			STORM_THROW("allocate memory error")
-		ZeroMemory(m_pHelpList,sizeof(HELPENTITY)*m_helpQuantity);
+		PZERO(m_pHelpList,sizeof(HELPENTITY)*m_helpQuantity);
 		ini1->ReadString(name1,"helpstr",param,sizeof(param)-1,"");
 		char nodeName[sizeof(param)], stringName[sizeof(param)];
 		for(i=0; i<m_helpQuantity; i++)
@@ -248,9 +248,9 @@ void CXI_CONTEXTHELP::SetTempHelp(const char * pStr)
     m_nCurDelayCounter = m_nMaxDelayCounter; // установим счетчик задержки
 }
 
-char * CXI_CONTEXTHELP::GetCurrentHelpString(DWORD deltaTime)
+char * CXI_CONTEXTHELP::GetCurrentHelpString(uint32_t deltaTime)
 {
-    if((DWORD)m_nCurDelayCounter>deltaTime)
+    if((uint32_t)m_nCurDelayCounter>deltaTime)
         m_nCurDelayCounter -= deltaTime;
     else
         m_nCurDelayCounter = 0;
@@ -268,7 +268,7 @@ char * CXI_CONTEXTHELP::GetCurrentHelpString(DWORD deltaTime)
     return pStringService->GetString(m_defaultString);
 }
 
-dword _cdecl CXI_CONTEXTHELP::MessageProc(long msgcode, MESSAGE & message)
+uint32_t _cdecl CXI_CONTEXTHELP::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

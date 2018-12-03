@@ -9,7 +9,7 @@ typedef struct
 {
 	long  module_code;
 	long  module_class_id;
-	dword real_class_id;
+	uint32_t real_class_id;
 } CLASS_SEARCH_DATA;
 
 class CLASSES_TABLE : public STRINGS_LIST
@@ -17,10 +17,10 @@ class CLASSES_TABLE : public STRINGS_LIST
 public:
 	CLASSES_TABLE(){};
 	~CLASSES_TABLE(){};
-	dword GetClassCode(char * class_name);
-	dword GetModuleCode(dword class_code);
-	dword GetClassModuleID(dword class_code);
-	CLASS_SEARCH_DATA GetClassData(dword class_code);
+	uint32_t GetClassCode(char * class_name);
+	uint32_t GetModuleCode(uint32_t class_code);
+	uint32_t GetClassModuleID(uint32_t class_code);
+	CLASS_SEARCH_DATA GetClassData(uint32_t class_code);
 
 };
 #endif

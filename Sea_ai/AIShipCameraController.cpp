@@ -1,5 +1,4 @@
 #include "AIShip.h"
-#include "AIGroup.h"
 #include "AIFort.h"
 #include "..\common_h\sea_base.h"
 
@@ -51,7 +50,7 @@ void AIShipCameraController::Execute(float fDeltaTime)
 	}
 	else 
 	{
-		dword	i, j, iMax;
+		uint32_t	i, j, iMax;
 		CMatrix m;
 		RS_RECT rCam;
 

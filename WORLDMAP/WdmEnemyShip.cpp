@@ -338,7 +338,7 @@ bool WdmEnemyShip::GeneratePosition(float objRadius, float brnDltAng, float & x,
 	float psz = wdmObjects->playerShip->mtx.Pos().z;
 	float psay = ((WdmEnemyShip *)wdmObjects->playerShip)->ay;
 	//Поля возможных вариантов
-	byte field[32];
+	uint8_t field[32];
 	for(long i = 0; i < 32; i++) field[i] = 0;
 	//Попытки расстановок
 	while(true)

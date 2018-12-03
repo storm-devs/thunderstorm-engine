@@ -9,7 +9,7 @@ class VSYSTEM_API
 public:
 	VSYSTEM_API() {};
 	virtual ~VSYSTEM_API(){};
-	virtual void Push(void * pointer, dword class_code)= 0;
+	virtual void Push(void * pointer, uint32_t class_code)= 0;
 	virtual void Pop(void * pointer)= 0;
 	virtual void SetEntityPointer(void *)= 0;
 	virtual ENTITY_ID GetEntityID()= 0;

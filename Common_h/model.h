@@ -5,7 +5,6 @@
 #include "..\common_h\object.h"
 #include "..\common_h\matrix.h"
 #include "..\common_h\animation.h"
-#include "..\common_h\messages.h"
 #include "..\common_h\geos.h"
 
 class NODER;

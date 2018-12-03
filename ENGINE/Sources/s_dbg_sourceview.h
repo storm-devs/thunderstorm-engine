@@ -15,9 +15,9 @@ LRESULT CALLBACK SourceViewWndProc(HWND hwnd,UINT iMsg,WPARAM wParam,LPARAM lPar
 
 struct CURSOR_POS
 {
-	DWORD line;
-	DWORD collumn;
-	DWORD x_pos;
+	uint32_t line;
+	uint32_t collumn;
+	uint32_t x_pos;
 };
 
 class SOURCE_VIEW
@@ -30,18 +30,18 @@ friend LRESULT CALLBACK SourceViewWndProc(HWND,UINT,WPARAM,LPARAM);
 	POINT pntDragPos;
 	std::string sCopyPasteBuffer;
 	bool bDrag;
-	DWORD nFontHeight;
+	uint32_t nFontHeight;
 	char * pSourceFile;
-	DWORD * pLineOffset;
-	DWORD nLinesNum;
-	DWORD nSourceFileSize;
-	DWORD nTopLine;
-	DWORD nClientLinesSize;
-	DWORD nActiveLine;
-	DWORD nControlLine;
+	uint32_t * pLineOffset;
+	uint32_t nLinesNum;
+	uint32_t nSourceFileSize;
+	uint32_t nTopLine;
+	uint32_t nClientLinesSize;
+	uint32_t nActiveLine;
+	uint32_t nControlLine;
 	char SourceFileName[MAX_PATH];
 	char ProgramDirectory[MAX_PATH];
-	DWORD nStartSelection,nEndSelection;
+	uint32_t nStartSelection,nEndSelection;
 	CURSOR_POS Cursor;
 
 	void DoStep(long iCount);
@@ -52,24 +52,24 @@ public:
 	RECT CopyPasteRect;
 	bool * pBookmarks;
 	std::string sFindStr;
-	std::unordered_map<std::string, dword>	htBookmarks;
+	std::unordered_map<std::string, uint32_t>	htBookmarks;
 
 	 SOURCE_VIEW(HWND _hMain, HINSTANCE _hInst);
 	~SOURCE_VIEW();
-	void ProcessMessage(DWORD,DWORD,DWORD);
+	void ProcessMessage(uint32_t,uint32_t,uint32_t);
 	void SetPosition(RECT _Pos);
 	void SetFont(HFONT);
 	void OnPaint();
 	bool OpenSourceFile(const char * _filename);
-	void LineUpDown(bool down,DWORD _nlines = 1);
+	void LineUpDown(bool down,uint32_t _nlines = 1);
 	void UpdateGDIControls();
 	void SetProgramDirectory(char * dir_name);
-	void SetActiveLine(DWORD line);
-	void StartSelection(DWORD x_pos);
-	void MoveSelection(DWORD x_pos);
-	void EndSelection(DWORD x_pos);
-	void DetCursorPos(DWORD x_pos, DWORD y_pos);
-	void InvalidateLineSection(DWORD line, DWORD r1, DWORD r2);
+	void SetActiveLine(uint32_t line);
+	void StartSelection(uint32_t x_pos);
+	void MoveSelection(uint32_t x_pos);
+	void EndSelection(uint32_t x_pos);
+	void DetCursorPos(uint32_t x_pos, uint32_t y_pos);
+	void InvalidateLineSection(uint32_t line, uint32_t r1, uint32_t r2);
 
 
 	void ToogleBookmark();

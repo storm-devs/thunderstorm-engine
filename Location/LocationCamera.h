@@ -47,12 +47,12 @@ public:
 	//Инициализация
 	bool Init();
 	//Исполнение
-	void Execute(dword delta_time);
-	void Realize(dword delta_time);
+	void Execute(uint32_t delta_time);
+	void Realize(uint32_t delta_time);
 	//Сообщения
-	dword _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t _cdecl ProcessMessage(MESSAGE & message);
 	//Изменение атрибута
-	dword AttributeChanged(ATTRIBUTES * apnt);
+	uint32_t AttributeChanged(ATTRIBUTES * apnt);
 
 	void LockFPMode(bool isLock);
 	float GetAx();

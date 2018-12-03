@@ -14,14 +14,14 @@ public:
 
 	bool Init();
 
-	void Execute(dword dwDeltaTime);
-	void Realize(dword dwDeltaTime);
+	void Execute(uint32_t dwDeltaTime);
+	void Realize(uint32_t dwDeltaTime);
 
 	void AddShip(SHIP_BASE * pShip);
 	void DelShip(SHIP_BASE * pShip);
 	void ResetTrack(SHIP_BASE * pShip);
 
-	dword AttributeChanged(ATTRIBUTES * pA);
+	uint32_t AttributeChanged(ATTRIBUTES * pA);
 
 private:
 	class ShipTrack
@@ -32,7 +32,7 @@ private:
 		static long iVTmpBuffer1, iVTmpBuffer2;
 		static long iITmpBuffer1, iITmpBuffer2;
 		static long iRefCount;
-		static dword dwMaxBufferSize1, dwMaxBufferSize2;
+		static uint32_t dwMaxBufferSize1, dwMaxBufferSize2;
 
 		SHIP_BASE * pShip;
 
@@ -60,7 +60,7 @@ private:
 		struct TrackVertex
 		{
 			CVECTOR vPos;
-			dword dwColor;
+			uint32_t dwColor;
 			float tu, tv;
 		};
 
@@ -76,13 +76,13 @@ private:
 		float fLifeTime1, fLifeTime2;
 		float fZStart1, fZStart2;
 		float fTrackStep1, fTrackStep2;
-		dword dwTrackStep1, dwTrackStep2;
+		uint32_t dwTrackStep1, dwTrackStep2;
 		float fUP1, fUP2;
 
 		float fTrackDistance;
 
-		bool Reserve1(dword dwSize);
-		bool Reserve2(dword dwSize);
+		bool Reserve1(uint32_t dwSize);
+		bool Reserve2(uint32_t dwSize);
 	};
 
 	std::vector<ShipTrack*> aShips;

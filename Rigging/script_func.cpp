@@ -6,7 +6,7 @@
 extern float g_fSailHoleDepend;
 //extern float GetSailSpeed(int holeQ,int holeMax,float maxSpeed,float fSailHoleDepend);
 
-DWORD __cdecl _ShipSailState(VS_STACK * pS)
+uint32_t __cdecl _ShipSailState(VS_STACK * pS)
 {
 	VDATA * pChrIdx = (VDATA*)pS->Pop(); if(!pChrIdx) return IFUNCRESULT_FAILED;
 	long nChrIdx = pChrIdx->GetLong();
@@ -25,7 +25,7 @@ DWORD __cdecl _ShipSailState(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-DWORD __cdecl _GetAssembledString(VS_STACK * pS)
+uint32_t __cdecl _GetAssembledString(VS_STACK * pS)
 {
 	VDATA * pAttrPnt = (VDATA*)pS->Pop();	if (!pAttrPnt) return IFUNCRESULT_FAILED;
 	ATTRIBUTES * pAttr = pAttrPnt->GetAClass();
@@ -106,7 +106,7 @@ DWORD __cdecl _GetAssembledString(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-DWORD __cdecl _funcGetSailSpeed(VS_STACK * pS)
+uint32_t __cdecl _funcGetSailSpeed(VS_STACK * pS)
 {
 	VDATA * pSailPow = (VDATA*)pS->Pop();
 	float fSailPow = pSailPow->GetFloat();
@@ -123,14 +123,14 @@ DWORD __cdecl _funcGetSailSpeed(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-DWORD __cdecl _RandomHole2Sail(VS_STACK * pS)
+uint32_t __cdecl _RandomHole2Sail(VS_STACK * pS)
 {
 	VDATA * pData;
 
 	if ( !(pData=(VDATA*)pS->Pop()) ) return IFUNCRESULT_FAILED;
 	int _addHoleQ = pData->GetLong();
 	if ( !(pData=(VDATA*)pS->Pop()) ) return IFUNCRESULT_FAILED;
-	DWORD _holeData = pData->GetLong();
+	uint32_t _holeData = pData->GetLong();
 	if ( !(pData=(VDATA*)pS->Pop()) ) return IFUNCRESULT_FAILED;
 	int _maxHole = pData->GetLong();
 	if ( !(pData=(VDATA*)pS->Pop()) ) return IFUNCRESULT_FAILED;
@@ -151,7 +151,7 @@ DWORD __cdecl _RandomHole2Sail(VS_STACK * pS)
 
 	int holeArraySize = 0;
 	int holeIdx[20];
-	DWORD holeMask = _holeData;
+	uint32_t holeMask = _holeData;
 	for(int i=0; holeMask>0; i++,holeMask>>=1)
 		if( !(holeMask&1) )
 			holeIdx[holeArraySize++] = i;
@@ -177,14 +177,14 @@ DWORD __cdecl _RandomHole2Sail(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-DWORD __cdecl _DeleteOneSailHole(VS_STACK * pS)
+uint32_t __cdecl _DeleteOneSailHole(VS_STACK * pS)
 {
 	VDATA * pData;
 
 	if ( !(pData=(VDATA*)pS->Pop()) ) return IFUNCRESULT_FAILED;
 	int _delHoleQ = pData->GetLong();
 	if ( !(pData=(VDATA*)pS->Pop()) ) return IFUNCRESULT_FAILED;
-	DWORD _holeData = pData->GetLong();
+	uint32_t _holeData = pData->GetLong();
 	if ( !(pData=(VDATA*)pS->Pop()) ) return IFUNCRESULT_FAILED;
 	char * _reyName = pData->GetString();
 	if ( !(pData=(VDATA*)pS->Pop()) ) return IFUNCRESULT_FAILED;
@@ -206,7 +206,7 @@ DWORD __cdecl _DeleteOneSailHole(VS_STACK * pS)
 
 	int holeArraySize = 0;
 	int holeIdx[20];
-	DWORD holeMask = _holeData;
+	uint32_t holeMask = _holeData;
 	for(int i=0; holeMask>0; i++,holeMask>>=1)
 		if(holeMask&1)
 			holeIdx[holeArraySize++] = i;

@@ -1,7 +1,6 @@
 #ifndef __VCONTROLS_HPP1_
 #define __VCONTROLS_HPP1_
 
-#include "..\common_h\vmodule_api.h"
 #include "..\common_h\service.h"
 
 struct XBGAMEPAD : public XINPUT_GAMEPAD
@@ -21,9 +20,9 @@ struct XBGAMEPAD : public XINPUT_GAMEPAD
     FLOAT      fY2;
     
     // State of buttons tracked since last poll
-    WORD       wLastButtons;
+    uint16_t       wLastButtons;
     BOOL       bLastAnalogButtons[8];
-    WORD       wPressedButtons;
+    uint16_t       wPressedButtons;
     BOOL       bPressedAnalogButtons[8];
 
     // Rumble properties
@@ -42,8 +41,8 @@ struct XBGAMEPAD : public XINPUT_GAMEPAD
 class XVCONTROLS : public SERVICE
 {
 public:
-	XVCONTROLS() {};
-	~XVCONTROLS() {};
+	XVCONTROLS(){};
+	~XVCONTROLS(){};
 
 	virtual XBGAMEPAD* GetGamepadsState() = 0;
 };

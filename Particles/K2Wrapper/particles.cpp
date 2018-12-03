@@ -3,6 +3,7 @@
 #include "..\..\common_h\particles.h"
 #include "../../common_h/defines.h"
 #include "..\..\common_h\filesystem.h"
+#include "../../../Shared/messages.h"
 
 
 PARTICLES::PARTICLES()
@@ -33,7 +34,7 @@ bool PARTICLES::Init ()
 }
 
 
-dword _cdecl PARTICLES::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl PARTICLES::ProcessMessage(MESSAGE & message)
 {
 	long code = message.Long();
 
@@ -190,7 +191,7 @@ dword _cdecl PARTICLES::ProcessMessage(MESSAGE & message)
 	case PS_VALIDATE_PARTICLE:
 		{
 			long SystemID = message.Long();
-			for (dword n = 0; n < CreatedSystems.size(); n++)
+			for (uint32_t n = 0; n < CreatedSystems.size(); n++)
 				if (CreatedSystems[n].pSystem == (PARTICLE_SYSTEM*)SystemID)
 					return 1;
 			return 0;
@@ -203,7 +204,7 @@ dword _cdecl PARTICLES::ProcessMessage(MESSAGE & message)
 }
 
 
-PARTICLE_SYSTEM* PARTICLES::CreateSystem (const char* pFileName, dword LifeTime)
+PARTICLE_SYSTEM* PARTICLES::CreateSystem (const char* pFileName, uint32_t LifeTime)
 {
 	//std::string pFullFileName;
 	//pFullFileName = "resource\\particles\\";
@@ -252,7 +253,7 @@ PARTICLE_SYSTEM* PARTICLES::CreateSystem (const char* pFileName, dword LifeTime)
 void PARTICLES::DeleteSystem (long SystemID)
 {
 	bSystemDelete = true;
-	for (dword n = 0; n < CreatedSystems.size(); n++)
+	for (uint32_t n = 0; n < CreatedSystems.size(); n++)
 	{
 		if (CreatedSystems[n].pSystem == (PARTICLE_SYSTEM*)SystemID)
 		{
@@ -274,7 +275,7 @@ void PARTICLES::DeleteSystem (long SystemID)
 void PARTICLES::DeleteAll ()
 {
 	bSystemDelete = true;
-	for (dword n = 0; n < CreatedSystems.size(); n++)
+	for (uint32_t n = 0; n < CreatedSystems.size(); n++)
 	{
 		delete CreatedSystems[n].pSystem;
 	}
@@ -287,7 +288,7 @@ void PARTICLES::DeleteResource (PARTICLE_SYSTEM* pResource)
 {
 	if (bSystemDelete) return;
 
-	for (dword n = 0; n < CreatedSystems.size(); n++)
+	for (uint32_t n = 0; n < CreatedSystems.size(); n++)
 	{
 		if (CreatedSystems[n].pSystem == pResource)
 		{
@@ -299,7 +300,7 @@ void PARTICLES::DeleteResource (PARTICLE_SYSTEM* pResource)
 	}
 }
 
-void PARTICLES::Realize(dword Delta_Time)
+void PARTICLES::Realize(uint32_t Delta_Time)
 {
 	bSystemDelete = true;
 	float fDeltaTime = (float)Delta_Time * 0.001f;
@@ -308,7 +309,7 @@ void PARTICLES::Realize(dword Delta_Time)
 
 	//Если время, ставим эмитирование на паузу
 	// когда все партиклы умрут система удалиться сама...
-	for (dword n = 0; n < CreatedSystems.size(); n++)
+	for (uint32_t n = 0; n < CreatedSystems.size(); n++)
 	{
 		CreatedSystems[n].PassedTime +=	Delta_Time;
 
@@ -322,7 +323,7 @@ void PARTICLES::Realize(dword Delta_Time)
 	}
 
 	//Удаляем умершие системы...
-	for (dword n = 0; n < CreatedSystems.size(); n++)
+	for (uint32_t n = 0; n < CreatedSystems.size(); n++)
 	{
 		if (!CreatedSystems[n].pSystem->GetSystem()->IsAlive())
 		{
@@ -338,14 +339,14 @@ void PARTICLES::Realize(dword Delta_Time)
 	bSystemDelete = false;
 }
 
-void PARTICLES::Execute(dword Delta_Time)
+void PARTICLES::Execute(uint32_t Delta_Time)
 {
 }
 
 void PARTICLES::PauseAllActive (bool bPaused)
 {
 
-	for (dword n = 0; n < CreatedSystems.size(); n++)
+	for (uint32_t n = 0; n < CreatedSystems.size(); n++)
 	{
 		CreatedSystems[n].pSystem->GetSystem()->Restart(0);
 		CreatedSystems[n].pSystem->Pause(bPaused);
@@ -356,7 +357,7 @@ void PARTICLES::PauseAllActive (bool bPaused)
 
 void PARTICLES::DeleteCaptured ()
 {
-	for (dword n = 0; n < CaptureBuffer.size(); n++)
+	for (uint32_t n = 0; n < CaptureBuffer.size(); n++)
 	{
 		DeleteSystem(CaptureBuffer[n]);
 	}

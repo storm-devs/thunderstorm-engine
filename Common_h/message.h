@@ -19,10 +19,10 @@ public:
 	ENTITY_ID Sender_ID;
 	va_list args;
 	virtual void Move2Start() {args = args_start;index = 0;};
-	virtual byte Byte()			{ ValidateFormat('b'); return va_arg(args,byte); }
-	virtual word Word()			{ ValidateFormat('w'); return va_arg(args,word); }
+	virtual uint8_t Byte()			{ ValidateFormat('b'); return va_arg(args,uint8_t); }
+	virtual uint16_t Word()			{ ValidateFormat('w'); return va_arg(args,uint16_t); }
 	virtual long Long()			{ ValidateFormat('l'); return va_arg(args,long); }
-	virtual long Dword()		{ ValidateFormat('u'); return va_arg(args,dword); }
+	virtual long Dword()		{ ValidateFormat('u'); return va_arg(args,uint32_t); }
 	virtual float Float()		{ ValidateFormat('f'); return (float)va_arg(args,double); }
 	virtual double Double()		{ ValidateFormat('d'); return va_arg(args,double); }
 	virtual char * Pointer()	{ ValidateFormat('p'); return va_arg(args,char*); }
@@ -30,10 +30,10 @@ public:
 	virtual ENTITY_ID EntityID(){ ValidateFormat('i'); return va_arg(args,ENTITY_ID); }
 	virtual VDATA * ScriptVariablePointer(){ ValidateFormat('e'); return va_arg(args,VDATA*); }
 	virtual CVECTOR CVector()	{ ValidateFormat('c'); return va_arg(args,CVECTOR); }
-	virtual void String(dword dest_buffer_size, char * buffer)
+	virtual void String(uint32_t dest_buffer_size, char * buffer)
 	{
 		char * mem_PTR;
-		dword size;
+		uint32_t size;
 		if(!buffer) throw "zero string buffer";
 		ValidateFormat('s');
 		mem_PTR = va_arg(args,char*);
@@ -42,24 +42,24 @@ public:
 		if(size >= dest_buffer_size) throw "insufficient string buffer";
 		memcpy(buffer,mem_PTR,size);
 	}
-	virtual void MemoryBlock(dword memsize, char * buffer)
+	virtual void MemoryBlock(uint32_t memsize, char * buffer)
 	{
 		char * mem_PTR;
-		dword size;
+		uint32_t size;
 		if(!buffer) throw "zero mem buffer";
 		ValidateFormat('m');
-		size = va_arg(args,dword);
+		size = va_arg(args,uint32_t);
 		if(memsize != size) throw "invalid memory block size";
 		mem_PTR = va_arg(args,char*);
 		memcpy(buffer,mem_PTR,memsize);
 	}
-	virtual void Struct(dword sizeofstruct, char * s) 
+	virtual void Struct(uint32_t sizeofstruct, char * s) 
 	{ 
-		dword a;
-		dword size;
+		uint32_t a;
+		uint32_t size;
 		if(!s) throw "Invalid s buffer";
 		ValidateFormat('v');
-		size = va_arg(args,dword);
+		size = va_arg(args,uint32_t);
 		if(sizeofstruct != size) throw "Invalid message structure size";
 		a = ((sizeofstruct + sizeof(int) - 1) & ~(sizeof(int) - 1));
 		memcpy(s,(char *)((args += a) - a),sizeofstruct);

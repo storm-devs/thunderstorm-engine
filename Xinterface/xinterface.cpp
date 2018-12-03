@@ -9,14 +9,12 @@
 #include "TextureSequence\TextureSequence.h"
 #include "HelpChooser\HelpChooser.h"
 #include "InfoHandler.h"
-#include "InfoHandler.h"
 #include "BackScene\backscene.h"
 
 #include <direct.h>
 
 #ifndef _XBOX
 #include "aviplayer\aviplayer.h"
-#include <zmouse.h>
 #endif
 
 #define CHECK_FILE_NAME "PiratesReadme.txt"
@@ -273,7 +271,7 @@ bool XINTERFACE::LoadState(ENTITY_STATE * state)
 	return true;
 }
 
-void XINTERFACE::Execute(dword Delta_Time)
+void XINTERFACE::Execute(uint32_t Delta_Time)
 {
 	m_UtilContainer.FrameUpdate();
 
@@ -322,7 +320,7 @@ void XINTERFACE::Execute(dword Delta_Time)
 	if(m_pMouseWeel) m_pMouseWeel->Set(0L);
 }
 
-void XINTERFACE::Realize(dword Delta_Time)
+void XINTERFACE::Realize(uint32_t Delta_Time)
 {
     if(!m_bUse || !bActive) return;
 
@@ -332,7 +330,7 @@ void XINTERFACE::Realize(dword Delta_Time)
 
 	CMatrix moldv,moldp,moldw;
 
-	dword dwFogFlag;
+	uint32_t dwFogFlag;
 	pRenderService->GetRenderState(D3DRS_FOGENABLE,&dwFogFlag);
 	if(pRenderService->TechniqueExecuteStart("iStartTechnique")) while(pRenderService->TechniqueExecuteNext());
 
@@ -357,7 +355,7 @@ void XINTERFACE::Realize(dword Delta_Time)
 	XI_ONLYONETEX_VERTEX pV[4];
 	for(int i=0;i<4;i++)	pV[i].pos.z = 1.f;
 	IMAGE_ENTITY * pImg = m_imgLists;
-	dword oldTFactor;
+	uint32_t oldTFactor;
 	pRenderService->GetRenderState(D3DRS_TEXTUREFACTOR,&oldTFactor);
 	while(pImg!= nullptr)
 	{
@@ -436,7 +434,7 @@ void XINTERFACE::Realize(dword Delta_Time)
 }
 
 long oldCurNum = -1L;
-dword XINTERFACE::ProcessMessage(MESSAGE & message)
+uint32_t XINTERFACE::ProcessMessage(MESSAGE & message)
 {
 	long cod = message.Long();
 
@@ -628,7 +626,7 @@ dword XINTERFACE::ProcessMessage(MESSAGE & message)
 
 			message.String(sizeof(param)-1,param);
 			m_stringes[l].fontNum = pRenderService->LoadFont(param);
-			m_stringes[l].dwColor = (DWORD)message.Long();
+			m_stringes[l].dwColor = (uint32_t)message.Long();
 
 			m_stringes[l].bUsed = true;
 			m_stringes[l].x = message.Long() + GlobalRect.left;
@@ -975,7 +973,7 @@ dword XINTERFACE::ProcessMessage(MESSAGE & message)
 #ifdef _XBOX
 			ULARGE_INTEGER ulFreeBytes, ulTotalBytes, ulTotalFree;
 			GetDiskFreeSpaceEx("U:\\", &ulFreeBytes, &ulTotalBytes, &ulTotalFree);
-			DWORD blocks = (DWORD)(ulFreeBytes.QuadPart>>14);
+			uint32_t blocks = (uint32_t)(ulFreeBytes.QuadPart>>14);
 			return blocks;
 			//return XGetDisplayBlocks("U:\\");
 #endif
@@ -1006,7 +1004,7 @@ dword XINTERFACE::ProcessMessage(MESSAGE & message)
 		LD_LAUNCH_DASHBOARD LaunchDash;
 		LaunchDash.dwReason = XLD_LAUNCH_DASHBOARD_MEMORY;
 		LaunchDash.dwContext = 0;
-		LaunchDash.dwParameter1 = DWORD( 'U' );
+		LaunchDash.dwParameter1 = uint32_t( 'U' );
 		LaunchDash.dwParameter2 = 200;
 		XLaunchNewImage( NULL, (PLAUNCH_DATA)(&LaunchDash) );
 #endif
@@ -1463,7 +1461,7 @@ void __declspec(dllexport) __cdecl XINTERFACE::SFLB_CreateNode(INIFILE* pOwnerIn
 					if( (nSubCommand=FindCommand(sSubCommand))==-1 ) continue;
 
 					CINODE::COMMAND_REDIRECT *pHead = NEW CINODE::COMMAND_REDIRECT;
-					ZeroMemory(pHead,sizeof(CINODE::COMMAND_REDIRECT));
+					PZERO(pHead,sizeof(CINODE::COMMAND_REDIRECT));
 					if( pHead== nullptr )	THROW("allocate memory error");
 					pHead->next = pNewNod->m_pCommands[nComNum].pNextControl;
 					pNewNod->m_pCommands[nComNum].pNextControl = pHead;
@@ -1571,10 +1569,10 @@ void XINTERFACE::DeleteNode(const char *pcNodeName)
 }
 
 void XINTERFACE::SetTooltip( const char* pcHeader,
-				const char* pcText1,dword dwTextColor1,
-				const char* pcText2,dword dwTextColor2,
-				const char* pcText3,dword dwTextColor3,
-				const char* pcText4,dword dwTextColor4,
+				const char* pcText1,uint32_t dwTextColor1,
+				const char* pcText2,uint32_t dwTextColor2,
+				const char* pcText3,uint32_t dwTextColor3,
+				const char* pcText4,uint32_t dwTextColor4,
 				const char* pcPicTextureName,const char* pcPicGroupName,const char* pcPicImageName,
 				long nPicWidth,long nPicHeight )
 {
@@ -1827,7 +1825,7 @@ void XINTERFACE::RestoreNodeLocks(long nStoreCode)
 	m_aLocksArray.erase(m_aLocksArray.begin() + n );
 }
 
-void XINTERFACE::DrawNode(CINODE* nod,dword Delta_Time, long startPrior, long endPrior)
+void XINTERFACE::DrawNode(CINODE* nod,uint32_t Delta_Time, long startPrior, long endPrior)
 {
 	for( ; nod!= nullptr; nod=nod->m_next)
 	{
@@ -2365,10 +2363,10 @@ void XINTERFACE::ShowPrevTexture()
 	int idx=0;
 	float fAngle = m_fAngle;
 
-	DWORD dwBlendColor = m_nBlendColor;
+	uint32_t dwBlendColor = m_nBlendColor;
 	if(dwBlendColor>0xFFL)
 		dwBlendColor = 0xFFL;
-	DWORD dwColor = 0xFFFFFF | (dwBlendColor<<24L);
+	uint32_t dwColor = 0xFFFFFF | (dwBlendColor<<24L);
 
 	float fWaveAmplitude = m_fWaveAmplitude*sinf(3.14f*m_nBlendColor/m_nBlendStepMax);
 	for(int ix=0; ix<m_nColumnQuantity+1; ix++)
@@ -2469,7 +2467,7 @@ bool XINTERFACE::SetCurNode(CINODE *pNod)
     return true;
 }
 
-dword XINTERFACE::AttributeChanged(ATTRIBUTES *patr)
+uint32_t XINTERFACE::AttributeChanged(ATTRIBUTES *patr)
 {
 	if(patr!= nullptr && patr->GetParent()!= nullptr && patr->GetParent()->GetParent()!= nullptr)
 	{
@@ -2487,7 +2485,7 @@ dword XINTERFACE::AttributeChanged(ATTRIBUTES *patr)
 		{
 			pImList = NEW IMAGE_ENTITY;
 			if(pImList== nullptr)	{THROW("Allocation memory error");}
-			ZeroMemory(pImList,sizeof(IMAGE_ENTITY));
+			PZERO(pImList,sizeof(IMAGE_ENTITY));
 			if( (pImList->sImageName=NEW char[strlen(sImageName)+1]) == nullptr )
 				{THROW("Allocate memory error");}
 			strcpy(pImList->sImageName,sImageName);
@@ -2796,7 +2794,7 @@ void XINTERFACE::DeleteSaveFile(char * fileName)
 #endif
 }
 
-dword XINTERFACE_BASE::GetBlendColor(dword minCol,dword maxCol,float fBlendFactor)
+uint32_t XINTERFACE_BASE::GetBlendColor(uint32_t minCol,uint32_t maxCol,float fBlendFactor)
 {
 	long ad = long(ALPHA(maxCol))	-	long(ALPHA(minCol));
 	long rd = long(RED(maxCol))		-	long(RED(minCol));
@@ -2811,10 +2809,10 @@ dword XINTERFACE_BASE::GetBlendColor(dword minCol,dword maxCol,float fBlendFacto
 
 void XINTERFACE::SetOtherData(char * cDat)
 {
-	BYTE xorMul = (BYTE)CriptedName[sizeof(FINDBYTES)];
-	BYTE xorAdd = (BYTE)CriptedName[sizeof(FINDBYTES)+1];
-	BYTE *crdata = (BYTE*)&CriptedName[sizeof(FINDBYTES)+2];
-	BYTE * outDat = (BYTE*)cDat;
+	uint8_t xorMul = (uint8_t)CriptedName[sizeof(FINDBYTES)];
+	uint8_t xorAdd = (uint8_t)CriptedName[sizeof(FINDBYTES)+1];
+	uint8_t *crdata = (uint8_t*)&CriptedName[sizeof(FINDBYTES)+2];
+	uint8_t * outDat = (uint8_t*)cDat;
 	for(int i=0; i<sizeof(CriptedName)-sizeof(FINDBYTES)-2; i++)
 	{
 		outDat[i] = crdata[i]^xorMul;
@@ -2901,7 +2899,7 @@ long FindMaxStrForWidth(VDX9RENDER * pVR, int nW, char * str, int nFontID, float
 	return nPrev;
 }
 
-long XINTERFACE::PrintIntoWindow(long wl,long wr, long idFont, DWORD dwFCol, DWORD dwBCol, long align, bool shadow, float scale, long sxs, long sys, long left, long top, char * str, int nWidthForScaleCorrecting, int nSplit)
+long XINTERFACE::PrintIntoWindow(long wl,long wr, long idFont, uint32_t dwFCol, uint32_t dwBCol, long align, bool shadow, float scale, long sxs, long sys, long left, long top, char * str, int nWidthForScaleCorrecting, int nSplit)
 {
 	if(!str) return 0;
 	long strWidth = pRenderService->StringWidth(str, idFont, scale);
@@ -2980,7 +2978,7 @@ long XINTERFACE::PrintIntoWindow(long wl,long wr, long idFont, DWORD dwFCol, DWO
 									strLeft, top, "%s", newStr );
 }
 
-void XINTERFACE::IncrementGameTime(DWORD dwDeltaTime)
+void XINTERFACE::IncrementGameTime(uint32_t dwDeltaTime)
 {
 	bool bYesChange = false;
 	m_dwCurDeltaTime += dwDeltaTime;
@@ -3073,7 +3071,7 @@ void XINTERFACE::SaveOptionsFile(char * fileName, ATTRIBUTES * pAttr)
 #ifdef _XBOX
 	int n;
 	char PathBuffer[MAX_PATH];
-	WORD FileBuffer[MAX_PATH];
+	uint16_t FileBuffer[MAX_PATH];
 	for(n=0;fileName[n];n++)
 	{
 		FileBuffer[n] = fileName[n];
@@ -3100,7 +3098,7 @@ void XINTERFACE::SaveOptionsFile(char * fileName, ATTRIBUTES * pAttr)
 	if(fh == INVALID_HANDLE_VALUE) return;
 
 	char * pOutBuffer = nullptr;
-	DWORD dwSaveSize=0, dwRealSaved=0;
+	uint32_t dwSaveSize=0, dwRealSaved=0;
 
 	if(pAttr)	pOutBuffer = AddAttributesStringsToBuffer(nullptr, nullptr,pAttr);
 
@@ -3113,7 +3111,7 @@ void XINTERFACE::SaveOptionsFile(char * fileName, ATTRIBUTES * pAttr)
 		memset(&xsig,0,sizeof(xsig));
 		hSig = XCalculateSignatureBegin( 0 );
 		// calculate signature for data
-		if(hSig != INVALID_HANDLE_VALUE) XCalculateSignatureUpdate(hSig,(BYTE *)pOutBuffer,strlen(pOutBuffer));
+		if(hSig != INVALID_HANDLE_VALUE) XCalculateSignatureUpdate(hSig,(uint8_t *)pOutBuffer,strlen(pOutBuffer));
 		if(hSig != INVALID_HANDLE_VALUE) XCalculateSignatureEnd(hSig,&xsig);
 		// save signature
 		api->fio->_WriteFile(fh, &xsig, sizeof(xsig), &dwRealSaved);
@@ -3134,7 +3132,7 @@ void XINTERFACE::LoadOptionsFile(char * fileName, ATTRIBUTES * pAttr)
 #ifdef _XBOX
 	int n;
 	char PathBuffer[MAX_PATH];
-	WORD FileBuffer[MAX_PATH];
+	uint16_t FileBuffer[MAX_PATH];
 	for(n=0;fileName[n];n++)
 	{
 		FileBuffer[n] = fileName[n];
@@ -3156,8 +3154,8 @@ void XINTERFACE::LoadOptionsFile(char * fileName, ATTRIBUTES * pAttr)
 	api->fio->SetDrive();
 	if(fh == INVALID_HANDLE_VALUE) return;
 
-	DWORD dwRealSize;
-	DWORD dwSaveSize = api->fio->_GetFileSize(fh,nullptr);
+	uint32_t dwRealSize;
+	uint32_t dwSaveSize = api->fio->_GetFileSize(fh,nullptr);
 	if(dwSaveSize==0)
 	{
 		api->Event("evntOptionsBreak");
@@ -3188,7 +3186,7 @@ void XINTERFACE::LoadOptionsFile(char * fileName, ATTRIBUTES * pAttr)
 				memset(&xsig,0,sizeof(xsig));
 				hSig = XCalculateSignatureBegin( 0 );
 				// calculate signature for data
-				if(hSig != INVALID_HANDLE_VALUE) XCalculateSignatureUpdate(hSig,(BYTE *)pBuf,dwSaveSize-sizeof(save_xsig));
+				if(hSig != INVALID_HANDLE_VALUE) XCalculateSignatureUpdate(hSig,(uint8_t *)pBuf,dwSaveSize-sizeof(save_xsig));
 				if(hSig != INVALID_HANDLE_VALUE) XCalculateSignatureEnd(hSig,&xsig);
 
 				// compare signatures
@@ -3262,7 +3260,7 @@ void XINTERFACE::ShowContextHelp()
 	XI_ONLYONETEX_VERTEX pV[4];
 	for(int i=0;i<4;i++)	pV[i].pos.z = 1.f;
 
-	dword oldTFactor;
+	uint32_t oldTFactor;
 	pRenderService->GetRenderState(D3DRS_TEXTUREFACTOR,&oldTFactor);
 
 	pRenderService->TextureSet(0,m_idHelpTexture);
@@ -3409,7 +3407,7 @@ bool CONTROLS_CONTAINER::Init()
 	return false;
 }
 
-void CONTROLS_CONTAINER::Execute(dword delta_time)
+void CONTROLS_CONTAINER::Execute(uint32_t delta_time)
 {
 	CONTEINER_DESCR * pCont = pContainers;
 	while(pCont)
@@ -3468,7 +3466,7 @@ void CONTROLS_CONTAINER::Execute(dword delta_time)
 	}
 }
 
-dword _cdecl CONTROLS_CONTAINER::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl CONTROLS_CONTAINER::ProcessMessage(MESSAGE & message)
 {
 	return 0;
 }

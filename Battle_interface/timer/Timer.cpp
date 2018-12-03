@@ -1,5 +1,4 @@
 #include "timer.h"
-#include "..\image\image.h"
 #include "..\image\imgrender.h"
 #include "..\utils.h"
 
@@ -19,7 +18,7 @@ bool BITimer::Init()
 	return true;
 }
 
-void BITimer::Realize(dword delta_time)
+void BITimer::Realize(uint32_t delta_time)
 {
 	if( m_fCurTimerCounter>0.f && m_fMaxTimerCounter>0.f ) {
 		m_fCurTimerCounter -= delta_time * 0.001f;
@@ -34,7 +33,7 @@ void BITimer::Realize(dword delta_time)
 	}
 }
 
-dword _cdecl BITimer::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl BITimer::ProcessMessage(MESSAGE & message)
 {
 	long nMsgCod = message.Long();
 	switch( nMsgCod )
@@ -79,8 +78,8 @@ bool BITimer::ReadAndCreate()
 	// read texture & color
 	char* pcBackTexture = AttributesPointer ? AttributesPointer->GetAttribute("timerbacktexture") : nullptr;
 	char* pcForeTexture = AttributesPointer ? AttributesPointer->GetAttribute("timerforetexture") : nullptr;
-	dword dwColorBack = AttributesPointer ? AttributesPointer->GetAttributeAsDword("timerbackcolor",0xFFFFFFFF) : 0xFFFFFFFF;
-	dword dwColorFore = AttributesPointer ? AttributesPointer->GetAttributeAsDword("timerforecolor",0xFFFFFFFF) : 0xFFFFFFFF;
+	uint32_t dwColorBack = AttributesPointer ? AttributesPointer->GetAttributeAsDword("timerbackcolor",0xFFFFFFFF) : 0xFFFFFFFF;
+	uint32_t dwColorFore = AttributesPointer ? AttributesPointer->GetAttributeAsDword("timerforecolor",0xFFFFFFFF) : 0xFFFFFFFF;
 
 	// create
 	if( pcBackTexture )

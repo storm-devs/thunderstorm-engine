@@ -7,7 +7,7 @@
 #include "..\common_h\dx9render.h"
 #include "..\common_h\defines.h"
 #include "..\common_h\Matrix.h"
-#include "..\common_h\messages.h"
+#include "..\../Shared/messages.h"
 #include "..\common_h\collide.h"
 #include "..\common_h\geos.h"
 #include "..\common_h\geometry.h"

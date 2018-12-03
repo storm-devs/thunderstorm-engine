@@ -5,7 +5,6 @@
 #include "..\matrix.h"
 #include "..\model.h"
 #include "..\cvector.h"
-#include "..\defines.h"
 #include "CannonTrace.h"
 
 class CSaveLoad;
@@ -16,14 +15,14 @@ private:
 	ATTRIBUTES	* pACharacter;
 
 public:
-	virtual ~VAI_OBJBASE() {};
+	virtual ~VAI_OBJBASE(){};
 
 	virtual void		SetACharacter(ATTRIBUTES * pAP) { pACharacter = pAP; };
 	virtual ATTRIBUTES*	GetACharacter() { return pACharacter; };
 
 	virtual bool		Mount(ATTRIBUTES * ) { return false; };
 
-	virtual void		SetPos(CVECTOR & vNewPos) {};
+	virtual void		SetPos(CVECTOR & vNewPos){};
 
 	virtual CVECTOR		GetPos() { return 0.0f; };
 	virtual CVECTOR		GetAng() { return 0.0f; };

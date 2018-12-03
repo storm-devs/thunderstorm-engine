@@ -116,7 +116,7 @@ bool TextureSequence::FrameUpdate()
 
 void TextureSequence::ToTextureRender(float blendValue)
 {
-	DWORD newTFactor = ARGB(long(255.f*blendValue),long(255.f*blendValue),long(255.f*blendValue),long(255.f*blendValue));
+	uint32_t newTFactor = ARGB(long(255.f*blendValue),long(255.f*blendValue),long(255.f*blendValue),long(255.f*blendValue));
 
 	// set texture as render target
 	IDirect3DSurface9 *pRenderTarg= nullptr, *pOldRenderTarg= nullptr;

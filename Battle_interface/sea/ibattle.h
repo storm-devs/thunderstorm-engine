@@ -17,10 +17,10 @@ public:
 	BATTLE_INTERFACE();
 	~BATTLE_INTERFACE();
 	bool Init();
-	void Execute(dword delta_time);
-	void Realize(dword delta_time);
-    dword _cdecl ProcessMessage(MESSAGE & message);
-	dword AttributeChanged(ATTRIBUTES * pAttr);
+	void Execute(uint32_t delta_time);
+	void Realize(uint32_t delta_time);
+    uint32_t _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t AttributeChanged(ATTRIBUTES * pAttr);
 
 	void LostRender() override { BattleNavigator.LostRender(); };
 	void RestoreRender() override { BattleNavigator.RestoreRender(); };

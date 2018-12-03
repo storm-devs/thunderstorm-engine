@@ -24,7 +24,7 @@ class DataCache
 	
 	std::vector<LoadedDataSource> Cache;
 	
-	void CreateDataSource (void* pBuffer, DWORD BufferSize, const char* SourceFileName);
+	void CreateDataSource (void* pBuffer, uint32_t BufferSize, const char* SourceFileName);
 
 
 public:
@@ -45,8 +45,8 @@ public:
 //Проверить указатель на валидность
 	bool ValidatePointer (DataSource* pData);
 
-	DWORD GetCachedCount ();
-	const char* GetCachedNameByIndex (DWORD Index);
+	uint32_t GetCachedCount ();
+	const char* GetCachedNameByIndex (uint32_t Index);
 
 
 };

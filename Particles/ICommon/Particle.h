@@ -15,7 +15,7 @@ struct BB_ParticleData
 	bool SpeedOriented; //Поворачиваються по вектору скорости...
 
 //Указатель на кол-во партиклов данного типа, при удалении партикла нужно уменьшать !!!
-	DWORD* ActiveCount;
+	uint32_t* ActiveCount;
 
 //Физическая позиция
   Vector PhysPos;
@@ -100,7 +100,7 @@ struct BB_ParticleData
 
 //===============================================
 // ID эмиттера которому принадлежит партикл
-	DWORD EmitterGUID;
+	uint32_t EmitterGUID;
 };  
 
 
@@ -109,7 +109,7 @@ struct MDL_ParticleData
 {
 
 	//Указатель на кол-во партиклов данного типа, при удалении партикла нужно уменьшать !!!
-	DWORD* ActiveCount;
+	uint32_t* ActiveCount;
 
 	//Физическая позиция
 	Vector PhysPos;
@@ -187,7 +187,7 @@ struct MDL_ParticleData
 
 	//===============================================
 	// ID эмиттера которому принадлежит партикл
-	DWORD EmitterGUID;
+	uint32_t EmitterGUID;
 };  
 
 

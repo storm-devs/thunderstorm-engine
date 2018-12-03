@@ -4,7 +4,6 @@
 #include "..\common_h\dx9render.h"
 #include "..\common_h\sea_base.h"
 #include "..\common_h\model.h"
-#include "..\common_h\sea_base.h"
 #include "..\common_h\Island_Base.h"
 #include "Common_Camera.h"
 
@@ -47,12 +46,12 @@ private:
 
 	bool Init();
 	void SetDevices();
-	void Execute(dword dwDeltaTime);
-	void Realize(dword dwDeltaTime);
+	void Execute(uint32_t dwDeltaTime);
+	void Realize(uint32_t dwDeltaTime);
 
 	void SetCharacter(ATTRIBUTES *_pACharacter);
 
-	dword AttributeChanged(ATTRIBUTES *);
+	uint32_t AttributeChanged(ATTRIBUTES *);
 	void ShipsCollision(CVECTOR & pos);
 	bool IslandCollision(CVECTOR & pos);
 

@@ -1,8 +1,6 @@
 #ifndef _VIDEOTEXTURE_H
 #define _VIDEOTEXTURE_H
 
-#include "..\common_h\dx9render.h"
-
 //-----------------------------------------------------------------------------
 // Name: class VideoToTexture
 // Desc: play video into texture

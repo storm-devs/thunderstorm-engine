@@ -30,7 +30,7 @@ bool WM_INTERFACE::Init()
 	return true;
 }
 
-void WM_INTERFACE::Realize(dword delta_time)
+void WM_INTERFACE::Realize(uint32_t delta_time)
 {
 	if( m_bVisible )
 	{
@@ -57,7 +57,7 @@ void WM_INTERFACE::Realize(dword delta_time)
 	}
 }
 
-dword _cdecl WM_INTERFACE::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl WM_INTERFACE::ProcessMessage(MESSAGE & message)
 {
 	switch (message.Long())
 	{
@@ -78,7 +78,7 @@ dword _cdecl WM_INTERFACE::ProcessMessage(MESSAGE & message)
 	return 0;
 }
 
-dword WM_INTERFACE::AttributeChanged(ATTRIBUTES * pAttr)
+uint32_t WM_INTERFACE::AttributeChanged(ATTRIBUTES * pAttr)
 {
 	return 0;
 }

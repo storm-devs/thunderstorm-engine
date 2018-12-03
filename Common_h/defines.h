@@ -23,7 +23,31 @@ namespace TOREMOVE
 }
 
 // includes
+#include <cstdint>
+#include <cstring>
 #include "math3d.h"
+
+#define _FILE_				__FILE__
+#define _L				__LINE__
+#define _FL_			__FILE__, __LINE__
+#define _FL				__FILE__, __LINE__
+#define _FILELINE_		_FL_
+
+struct FPOINT
+{
+	float	x,y;
+};
+
+struct FRECT
+{
+	union
+	{
+		struct { float	x1,y1,x2,y2; };
+		struct { float	xs,ys,xe,ye; };
+		struct { float	x_start,y_start,x_end,y_end; };
+		struct { float	left,top,right,bottom; };
+	};
+};
 
 // Constants
 
@@ -48,7 +72,7 @@ namespace TOREMOVE
 	#undef SQR
 #endif
 
-inline dword F2DW( float f ) { return *((dword*)&f); }
+inline uint32_t F2DW( float f ) { return *((uint32_t*)&f); }
 
 #ifdef _XBOX
 #define IS_XBOX(a,b)		a
@@ -56,7 +80,7 @@ inline dword F2DW( float f ) { return *((dword*)&f); }
 #define IS_XBOX(a,b)		b
 #endif
 
-//#define FTOL(l,f)			{ __asm fld dword ptr [f] __asm fistp dword ptr l }
+//#define FTOL(l,f)			{ __asm fld uint32_t ptr [f] __asm fistp uint32_t ptr l }
 #define FTOL(l,f)			{ l = _mm_cvt_ss2si(_mm_load_ss(&f)); }
 #define GET_DATA(x,p)		{ memcpy(&(x),p,sizeof(x));p+=sizeof(x); }
 #define FREE(x)				{ if (x) free(x); x=0; }
@@ -73,16 +97,17 @@ inline dword F2DW( float f ) { return *((dword*)&f); }
 #define MAX3(x,y,z)			( ((x) > (y)) ? ((x) > (z) ? (x) : (z)) : ((y) > (z) ? (y) : (z)) )
 #define MIN3(x,y,z)			( ((x) < (y)) ? ((x) < (z) ? (x) : (z)) : ((y) < (z) ? (y) : (z)) )
 #define CLAMP(x)			( ((x) > 1.0f) ? 1.0f : (((x) < 0.0f) ? 0.0f : (x)) )
-#define RGB(r,g,b)			( DWORD(b)|(DWORD(g)<<8L)|(DWORD(r)<<16L) )
-#define RGB565(r,g,b)		WORD( ((DWORD(b) >> 3L)) | ((DWORD(g) >> 2L) << 5L) | ((DWORD(r) >> 3L) << 11L) )
-#define RGB1555(r,g,b)		WORD( ((DWORD(b) >> 3L)) | ((DWORD(g) >> 3L) << 5L) | ((DWORD(r) >> 3L) << 10L) )
-#define ARGB1555(a,r,g,b)	WORD( (DWORD(a&1L) << 15L) | ((DWORD(b) >> 3L)) | ((DWORD(g) >> 3L) << 5L) | ((DWORD(r) >> 3L) << 10L) )
-#define ARGB(a,r,g,b)		( DWORD(b)|(DWORD(g)<<8L)|(DWORD(r)<<16L)|(DWORD(a)<<24L) )
-#define ZERO(x)				{ ZeroMemory(&x,sizeof(x)); }
+#define RGB(r,g,b)			( uint32_t(b)|(uint32_t(g)<<8L)|(uint32_t(r)<<16L) )
+#define RGB565(r,g,b)		uint16_t( ((uint32_t(b) >> 3L)) | ((uint32_t(g) >> 2L) << 5L) | ((uint32_t(r) >> 3L) << 11L) )
+#define RGB1555(r,g,b)		uint16_t( ((uint32_t(b) >> 3L)) | ((uint32_t(g) >> 3L) << 5L) | ((uint32_t(r) >> 3L) << 10L) )
+#define ARGB1555(a,r,g,b)	uint16_t( (uint32_t(a&1L) << 15L) | ((uint32_t(b) >> 3L)) | ((uint32_t(g) >> 3L) << 5L) | ((uint32_t(r) >> 3L) << 10L) )
+#define ARGB(a,r,g,b)		( uint32_t(b)|(uint32_t(g)<<8L)|(uint32_t(r)<<16L)|(uint32_t(a)<<24L) )
+#define STORM_ZERO(x,y)		{ memset(x, 0, y); }
+#define ZERO(x)				{ STORM_ZERO(&x,sizeof(x)); }
 #define ZERO2(x,y)			{ ZERO(x) ZERO(y) }
 #define ZERO3(x,y,z)		{ ZERO2(x,y) ZERO(z) }
 #define ZERO4(x,y,z,a)		{ ZERO2(x,y) ZERO2(z,a) }
-#define PZERO(x,size)		{ ZeroMemory(x,size); }
+#define PZERO(x,size)		{ STORM_ZERO(x,size); }
 #define COPY_STRING(a,b)	{ a = NEW char[strlen(b)+1]; if (a) strcpy(a,b); }
 #define COLOR2VECTOR(a)		CVECTOR(float((a&0xFF0000)>>0x10),float((a&0xFF00)>>0x8),float(a&0xFF));
 #define COLOR2VECTOR4(a)	CVECTOR4(float((a&0xFF0000)>>0x10) / 255.0f, float((a&0xFF00)>>0x8) / 255.0f, float(a&0xFF) / 255.0f, float((a&0xFF000000)>>0x18) / 255.0f);

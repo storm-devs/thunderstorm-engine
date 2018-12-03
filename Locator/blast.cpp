@@ -1,5 +1,5 @@
 #include "blast.h"
-#include "..\common_h\messages.h"
+#include "..\../Shared/messages.h"
 
 #define ANGLESPEED_MUL	0.2f
 
@@ -15,7 +15,7 @@ BLAST::BLAST()
 
 BLAST::~BLAST()
 {
-	dword n;
+	uint32_t n;
 	if(Item)
 	{
 		for(n=0;n<ItemsNum;n++)
@@ -83,7 +83,7 @@ void BLAST::AddGeometry(char * name, long num)
 
 void BLAST::SetBlastCenter(CVECTOR pos, CVECTOR ang)
 {
-	dword n;
+	uint32_t n;
 	CMatrix m;
 	if(Item)
 	{
@@ -114,9 +114,9 @@ void BLAST::SetBlastCenter(CVECTOR pos, CVECTOR ang)
 	}
 }
 
-void BLAST::ProcessTime(dword DT)
+void BLAST::ProcessTime(uint32_t DT)
 {
-	dword n;
+	uint32_t n;
 	float a;
 	bool bStop;
 	float Delta_Time;
@@ -186,7 +186,7 @@ void BLAST::ProcessTime(dword DT)
 	if(bStop) _CORE_API->DeleteEntity(GetID());
 }
 
-dword _cdecl BLAST::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl BLAST::ProcessMessage(MESSAGE & message)
 {
 	long code;
 	CVECTOR ang;
@@ -215,15 +215,15 @@ dword _cdecl BLAST::ProcessMessage(MESSAGE & message)
 	return 0;
 }
 
-dword BLAST::AttributeChanged(ATTRIBUTES * pA)
+uint32_t BLAST::AttributeChanged(ATTRIBUTES * pA)
 {
 
 	return 0;
 }
 
-void BLAST::Realize(dword Delta_Time)
+void BLAST::Realize(uint32_t Delta_Time)
 {
-	dword n;
+	uint32_t n;
 	
 	
 	if(!Item) return;

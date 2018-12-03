@@ -84,12 +84,12 @@ bool LocationEffects::Init()
 }
 
 //Исполнение
-void LocationEffects::Execute(dword delta_time)
+void LocationEffects::Execute(uint32_t delta_time)
 {
 
 }
 
-void LocationEffects::Realize(dword delta_time)
+void LocationEffects::Realize(uint32_t delta_time)
 {
 	float dltTime = delta_time*0.001f;
 	ProcessedFlys(dltTime);
@@ -98,7 +98,7 @@ void LocationEffects::Realize(dword delta_time)
 }
 
 //Сообщения
-dword _cdecl LocationEffects::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl LocationEffects::ProcessMessage(MESSAGE & message)
 {
 	char buf[32];
 	message.String(32, buf);

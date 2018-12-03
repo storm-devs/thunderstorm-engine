@@ -66,7 +66,7 @@ protected:
 	float m_fKeyRepeatInterval;
 
 public:
-	dword m_dwStatus;
+	uint32_t m_dwStatus;
 	GIEditorEventHandler* m_pChangeSelected;
 };
 

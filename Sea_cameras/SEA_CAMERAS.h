@@ -1,9 +1,7 @@
 #ifndef SEA_CAMERAS_HPP
 #define SEA_CAMERAS_HPP
 
-#include "FreeCamera.h"
 #include "ShipCamera.h"
-#include "DeckCamera.h"
 #include <vector>
 
 class SEA_CAMERAS : public ENTITY
@@ -14,8 +12,8 @@ public:
 	SEA_CAMERAS();
 	virtual ~SEA_CAMERAS();
 
-	void ProcessMessage(dword iMsg,dword wParam,dword lParam);
-	dword _cdecl ProcessMessage(MESSAGE & message);
+	void ProcessMessage(uint32_t iMsg,uint32_t wParam,uint32_t lParam);
+	uint32_t _cdecl ProcessMessage(MESSAGE & message);
 };
 /*
 API_MODULE_START("SEA_CAMERAS")

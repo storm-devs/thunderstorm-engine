@@ -10,7 +10,7 @@ public:
 	CXI_LRCHANGER();
 	~CXI_LRCHANGER();
 
-	void	Draw(bool bSelected,dword Delta_Time);
+	void	Draw(bool bSelected,uint32_t Delta_Time);
 	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
 	void	ReleaseAll();
 	int		CommandExecute(int wActCode);
@@ -32,8 +32,8 @@ protected:
 	FXYRECT m_posLRect;
 	FXYRECT m_posRRect;
 
-	DWORD   m_dwShadowColor;
-	DWORD   m_dwFaceColor;
+	uint32_t   m_dwShadowColor;
+	uint32_t   m_dwFaceColor;
 	long	m_dwLightSelCol;
 	long	m_dwDarkSelCol;
 

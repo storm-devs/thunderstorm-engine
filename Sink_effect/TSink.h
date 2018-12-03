@@ -1,13 +1,8 @@
 #ifndef _TSINK_H_
 #define _TSINK_H_
 
-#include "..\common_h\matrix.h"
-#include "..\common_h\messages.h"
 #include "..\common_h\dx9render.h"
 #include "..\common_h\sea_base.h"
-#include "..\common_h\model.h"
-#include "..\common_h\geos.h"
-#include "..\common_h\exs.h"
 #include "..\common_h\CVECTOR.h"
 #include "..\SoundService\VSoundService.h"
 #include "TIVBufferManager.h"
@@ -26,8 +21,8 @@ public:
 	void Initialize(INIFILE * _ini, IDirect3DDevice9 *_device, SEA_BASE *sea, VDX9RENDER *_renderer);
 	void Release();
 	void Start(const CVECTOR &_pos, float _radius);
-	void Process(dword _dTime);
-	void Realize(dword _dTime);
+	void Process(uint32_t _dTime);
+	void Realize(uint32_t _dTime);
 	bool Enabled();
 
 private:
@@ -38,7 +33,7 @@ private:
 	SEA_BASE *sea;
 	long texture;
 	TIVBufferManager *ivManager;
-	dword time;
+	uint32_t time;
 
 	TSinkSplash splashes[MAX_SPLASHES];
 	long    times[MAX_SPLASHES];

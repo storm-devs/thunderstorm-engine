@@ -24,7 +24,7 @@ CXI_PICTURE::~CXI_PICTURE()
 	ReleaseAll();
 }
 
-void CXI_PICTURE::Draw(bool bSelected,dword Delta_Time)
+void CXI_PICTURE::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(m_bUse)
 	{
@@ -93,7 +93,7 @@ void CXI_PICTURE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	if( ReadIniString(ini1,name1, ini2,name2, "videoName", param, sizeof(param),"") )
 		m_pTex = m_rs->GetVideoTexture(param);
 
-	DWORD color = GetIniARGB(ini1,name1, ini2,name2, "color", ARGB(255,128,128,128));
+	uint32_t color = GetIniARGB(ini1,name1, ini2,name2, "color", ARGB(255,128,128,128));
 
 	// Create rectangle
 	ChangePosition( m_rect );
@@ -229,7 +229,7 @@ void CXI_PICTURE::SetNewPictureByGroup( char* groupName, char* picName )
 	}
 }
 
-dword _cdecl CXI_PICTURE::MessageProc(long msgcode, MESSAGE & message)
+uint32_t _cdecl CXI_PICTURE::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{
@@ -269,7 +269,7 @@ dword _cdecl CXI_PICTURE::MessageProc(long msgcode, MESSAGE & message)
 
 	case 4: // Установить новый цвет
 		{
-			DWORD color = message.Long();
+			uint32_t color = message.Long();
 			for(int i=0; i<4; i++) m_v[i].color = color;
 		}
 		break;
@@ -351,7 +351,7 @@ void CXI_PICTURE::ChangeUV( FXYRECT &frNewUV )
 	m_v[3].tu=frNewUV.right; m_v[3].tv=frNewUV.bottom;
 }
 
-void CXI_PICTURE::ChangeColor( dword dwColor )
+void CXI_PICTURE::ChangeColor( uint32_t dwColor )
 {
 	m_v[0].color = m_v[1].color = m_v[2].color = m_v[3].color = dwColor;
 }

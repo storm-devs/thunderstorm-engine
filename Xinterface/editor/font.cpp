@@ -47,12 +47,12 @@ void GIFont::SetHeight( float fHeight )
 	if( fRealH > 0.f ) m_fScale = m_fHeight / fRealH;
 }
 
-void GIFont::SetColor( dword dwColor )
+void GIFont::SetColor( uint32_t dwColor )
 {
 	m_dwColor = dwColor;
 }
 
-void GIFont::SetBackColor( dword dwColor )
+void GIFont::SetBackColor( uint32_t dwColor )
 {
 	m_dwBackColor = dwColor;
 }

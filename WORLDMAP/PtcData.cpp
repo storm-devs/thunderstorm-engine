@@ -54,9 +54,9 @@ PtcData::~PtcData()
 
 bool PtcData::Load(const char * path)
 {
-	Assert(data == null);
+	Assert(data == nullptr);
 	char * buf = nullptr;
-	dword size = 0;
+	uint32_t size = 0;
 	middle = 0.0f;
 	//Загружаем данные
 	if(!api->fio->LoadFile(path, &buf, &size))
@@ -84,13 +84,13 @@ bool PtcData::Load(const char * path)
 		delete buf;
 		return false;
 	}
-	dword tsize = sizeof(PtcHeader);
+	uint32_t tsize = sizeof(PtcHeader);
 	tsize += hdr.numTriangles*sizeof(PtcTriangle);
 	tsize += hdr.numVerteces*sizeof(PtcVertex);
 	tsize += hdr.numNormals*sizeof(PtcNormal);
 	tsize += hdr.mapL*hdr.mapW*sizeof(PtcMap);
-	tsize += hdr.numIndeces*sizeof(word);
-	tsize += hdr.lineSize*hdr.numTriangles*sizeof(byte);
+	tsize += hdr.numIndeces*sizeof(uint16_t);
+	tsize += hdr.lineSize*hdr.numTriangles*sizeof(uint8_t);
 	if(hdr.ver == PTC_VERSION) tsize += sizeof(PtcMaterials);
 	if(tsize != size)
 	{
@@ -130,7 +130,7 @@ void PtcData::SFLB_PotectionLoad()
 	char * buf = (char *)data;
 	PtcHeader & hdr = *(PtcHeader *)buf;
 	//Треугольники
-	dword tsize = sizeof(PtcHeader);
+	uint32_t tsize = sizeof(PtcHeader);
 	triangle = (PtcTriangle *)(buf + tsize);
 	numTriangles = hdr.numTriangles;
 	//Вершины
@@ -151,10 +151,10 @@ void PtcData::SFLB_PotectionLoad()
 	ls = (max.z - min.z)/l;
 	ws = (max.x - min.x)/w;
 	tsize += hdr.mapL*hdr.mapW*sizeof(PtcMap);
-	indeces = (word *)(buf + tsize);
+	indeces = (uint16_t *)(buf + tsize);
 	//Данные для нахождения путей
-	tsize += hdr.numIndeces*sizeof(word);
-	table = (byte *)(buf + tsize);
+	tsize += hdr.numIndeces*sizeof(uint16_t);
+	table = (uint8_t *)(buf + tsize);
 	lineSize = hdr.lineSize;
 	//Материалы
 	if(hdr.ver == PTC_VERSION) materials = (PtcMaterials *)(table + lineSize*numTriangles);
@@ -255,7 +255,7 @@ long PtcData::Move(long curNode, const CVECTOR & to, CVECTOR & pos, long depth)
 	for(loopCounter = 0; loopCounter < 256; loopCounter++)
 	{
 		//Проверить нахождения точки прибытия на текущем треугольнике
-		word * trg = triangle[curNode].i;
+		uint16_t * trg = triangle[curNode].i;
 		long j;
 		for(j = 0; j < 3; j++)
 		{
@@ -482,8 +482,8 @@ bool PtcData::FindPathDir(long step, long curNode, const CVECTOR & cur, long toN
 	//Определим в каком направлении двигаться (ребро)
 	Assert(curNode < numTriangles);
 	Assert(toNode < numTriangles);
-	byte * line = table + curNode*lineSize;
-	byte v = (line[toNode >> 2] >> ((toNode & 3)*2)) & 3;
+	uint8_t * line = table + curNode*lineSize;
+	uint8_t v = (line[toNode >> 2] >> ((toNode & 3)*2)) & 3;
 	if(v == 3) return false;
 	//Ребро
 	CVECTOR & vs = *(CVECTOR *)&vertex[triangle[curNode].i[v]];
@@ -573,7 +573,7 @@ float PtcData::Trace(const CVECTOR & s, const CVECTOR & d)
 		{
 			if(xi < 0 || xi >= w) continue;
 			PtcMap & m = map[zi*w + xi];
-			word * ids = indeces + m.start;
+			uint16_t * ids = indeces + m.start;
 			for(long i = 0; i < m.size; i++)
 			{
 				float kn = Trace(triangle[ids[i]], s, d);
@@ -680,7 +680,7 @@ PtcData::Triangle * PtcData::GetTriangles(float x, float z, float sx, float sz, 
 		{
 			if(xi < 0 || xi >= w) continue;
 			PtcMap & m = map[zi*w + xi];
-			word * ids = indeces + m.start;
+			uint16_t * ids = indeces + m.start;
 			for(long i = 0; i < m.size; i++) AddClTriangle(ids[i]);
 		}
 	}
@@ -699,7 +699,7 @@ inline void PtcData::AddClTriangle(long i)
 		ctriangle = (Triangle *)RESIZE(ctriangle, maxClTriangles*sizeof(Triangle));
 	}
 	Triangle & ct = ctriangle[numClTriangles++];
-	word * idx = triangle[i].i;
+	uint16_t * idx = triangle[i].i;
 	ct.index = i;
 	ct.v[0].x = vertex[idx[0]].x;
 	ct.v[0].y = vertex[idx[0]].y;

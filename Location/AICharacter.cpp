@@ -272,7 +272,7 @@ void AICharacter::CmdProcessGotoPoint(float dltTime)
 	{
 		float dist = sqrtf(d)*10.0f;
 		if(dist > 255.0f) dist = 255.0f;
-		dword color = long(dist);
+		uint32_t color = long(dist);
 		color |= (255 - color) << 16;
 		color |= 0xff00ff00;
 		location->DrawLine(command.pnt + CVECTOR(0, 0.01f, 0), color, command.pnt + CVECTOR(0, 3.01f, 0), color, false);
@@ -298,7 +298,7 @@ void AICharacter::CmdProcessGotoPoint(float dltTime)
 			{
 				if(!command.isWait)
 				{
-					if(command.cnt > dword(1 + (rand() & 3)))
+					if(command.cnt > uint32_t(1 + (rand() & 3)))
 					{
 						command.cmd = aicmd_none;
 						StopMove();

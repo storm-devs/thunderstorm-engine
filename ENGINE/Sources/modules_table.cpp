@@ -1,9 +1,12 @@
+#include <cstdint>
 #include "modules_table.h"
 #include "externs.h"
 #include "messages.h"
 #include "internal_modules.h"
 #include "..\..\common_h\exs.h"
 #include "..\..\common_h\memop.h"
+#include "common_h.h"
+#include "../../common_h/defines.h"
 
 extern "C" __declspec(dllexport) VAPI * GetCoreApi() { return api;  }
 
@@ -19,10 +22,10 @@ void MODULES_TABLE::Release(){};
 bool MODULES_TABLE::SetModulesPath(char * _name){return false;}
 bool MODULES_TABLE::AddModulesPath(char * _name){return false;}
 bool MODULES_TABLE::LoadModule(char * _mname, long path_code, MODULE_STATE& ms){return false;}
-VMA * MODULES_TABLE::GetClassesRoot(dword _n){return 0;}
-dword MODULES_TABLE::GetModulesCount(){return 0;}
+VMA * MODULES_TABLE::GetClassesRoot(uint32_t _n){return 0;}
+uint32_t MODULES_TABLE::GetModulesCount(){return 0;}
 void MODULES_TABLE::Load_ModulesTable(){};
-char * MODULES_TABLE::GetPath(dword path_code){return 0;}
+char * MODULES_TABLE::GetPath(uint32_t path_code){return 0;}
 
 #else
 
@@ -41,7 +44,7 @@ MODULES_TABLE::~MODULES_TABLE()
 
 void MODULES_TABLE::Release()
 {
-	dword n;
+	uint32_t n;
 
 	if(pTable)
 	{
@@ -64,7 +67,7 @@ void MODULES_TABLE::Release()
 bool MODULES_TABLE::SetModulesPath(char * _name)
 {
 	GUARD(MODULES_TABLE::SetModulesPath)
-	dword n;
+	uint32_t n;
 	if(Paths_Table)
 	{
 		for(n=0;n<Paths_Count;n++) delete Paths_Table[n];
@@ -115,7 +118,7 @@ bool MODULES_TABLE::LoadModule(char * _mname, long path_code, MODULE_STATE& ms)
 	if(_mname == nullptr) return false;
 
 	// invalid path code
-	if((dword)path_code >= Paths_Count) {SET_ERROR("invalid path"); return false;}
+	if((uint32_t)path_code >= Paths_Count) {SET_ERROR("invalid path"); return false;}
 
 	if(strlen(GetPath(path_code)) > 0) wsprintf(full_name,"%s\\%s",GetPath(path_code),_mname);
 	else strcpy(full_name,_mname);
@@ -135,13 +138,13 @@ bool MODULES_TABLE::LoadModule(char * _mname, long path_code, MODULE_STATE& ms)
 	
 }
 
-VMA * MODULES_TABLE::GetClassesRoot(dword _n)
+VMA * MODULES_TABLE::GetClassesRoot(uint32_t _n)
 {
 	if(_n >= nModulesNum) return nullptr;
 	return pTable[_n].api_func_PTR(_CORE_API,_VSYSTEM_API);
 }
 
-dword MODULES_TABLE::GetModulesCount()
+uint32_t MODULES_TABLE::GetModulesCount()
 {
 	return nModulesNum;
 }
@@ -155,7 +158,7 @@ void __declspec(noinline) __declspec(dllexport) __cdecl MODULES_TABLE::Load_Modu
 	long counter;
 	long n,i;
 	char full_name[_MAX_PATH];
-	dword path_code;
+	uint32_t path_code;
 	MODULE_STATE ms;
 
 	Path_scan = Paths_Count;
@@ -191,7 +194,7 @@ void __declspec(noinline) __declspec(dllexport) __cdecl MODULES_TABLE::Load_Modu
 			{
 				gdi_display.Set_Text(find_data.cFileName);
 				
-				ZeroMemory(&ms,sizeof(ms));
+				PZERO(&ms,sizeof(ms));
 				if(LoadModule(find_data.cFileName,path_code,ms))
 				{
 					i = nModulesNum;
@@ -217,7 +220,7 @@ void __declspec(noinline) __declspec(dllexport) __cdecl MODULES_TABLE::Load_Modu
 	}
 }
 
-char * MODULES_TABLE::GetPath(dword path_code)
+char * MODULES_TABLE::GetPath(uint32_t path_code)
 {
 	if(path_code >= Paths_Count) return nullptr;
 	return Paths_Table[path_code];
@@ -242,7 +245,7 @@ MODULES_TABLE::MODULES_TABLE()
 
 MODULES_TABLE::~MODULES_TABLE()
 {
-	dword n;
+	uint32_t n;
 	list.Release();
 	if(Paths_Table)
 	{
@@ -251,29 +254,29 @@ MODULES_TABLE::~MODULES_TABLE()
 	}
 }
 
-dword  MODULES_TABLE::GetModuleCode(char * _char_PTR)
+uint32_t  MODULES_TABLE::GetModuleCode(char * _char_PTR)
 { 
 	return list.GetStringCode(_char_PTR);
 }
 
-bool MODULES_TABLE::ServiceFlag(dword code)
+bool MODULES_TABLE::ServiceFlag(uint32_t code)
 {
 	MODULE_STATE ms;
 	if(!list.GetStringData(code,&ms)) return false;
 	return ms.service;
 }
 
-VMODULE_API * MODULES_TABLE::GetModuleAPI(dword code)
+VMODULE_API * MODULES_TABLE::GetModuleAPI(uint32_t code)
 {
 	MODULE_STATE ms;
 	if(!list.GetStringData(code,&ms)) return null;
 	return ms.mapi_PTR;
 }
 
-bool MODULES_TABLE::AddModule(char * _char_PTR, dword path_code)
+bool MODULES_TABLE::AddModule(char * _char_PTR, uint32_t path_code)
 { 
 	MODULE_STATE ms;
-	dword code;
+	uint32_t code;
 	if(!list.AddUnicalString(_char_PTR)) return false;
 	code = GetModuleCode(_char_PTR);
 	if(code == INVALID_MODULE_CODE) return false;
@@ -287,7 +290,7 @@ bool MODULES_TABLE::AddModule(char * _char_PTR, dword path_code)
 
 void MODULES_TABLE::Release()
 {
-	dword n;
+	uint32_t n;
 	MODULE_STATE ms;
 	for(n=0;n<list.GetStringsCount();n++)
 	{
@@ -307,12 +310,12 @@ void MODULES_TABLE::Release()
 	Paths_Count = 0;
 	Paths_Table = null;
 }
-dword MODULES_TABLE::GetModulesCount()
+uint32_t MODULES_TABLE::GetModulesCount()
 {
 	return list.GetStringsCount();
 }
 
-char * MODULES_TABLE::GetModuleName(dword code)
+char * MODULES_TABLE::GetModuleName(uint32_t code)
 {
 	MODULE_STATE ms;
 	if(!list.GetStringData(code,&ms)) 
@@ -333,7 +336,7 @@ char * MODULES_TABLE::GetModuleName(dword code)
 bool MODULES_TABLE::SetModulesPath(char * _name)
 {
 	GUARD(MODULES_TABLE::SetModulesPath)
-	dword n;
+	uint32_t n;
 	if(Paths_Table)
 	{
 		for(n=0;n<Paths_Count;n++) delete Paths_Table[n];
@@ -368,11 +371,11 @@ bool MODULES_TABLE::AddModulesPath(char * _name)
 	return true;
 }
 
-dword MODULES_TABLE::GetPathsCount()
+uint32_t MODULES_TABLE::GetPathsCount()
 {
 	return Paths_Count;
 }
-char * MODULES_TABLE::GetPath(dword path_code)
+char * MODULES_TABLE::GetPath(uint32_t path_code)
 {
 	if(path_code >= Paths_Count) return null;
 	return Paths_Table[path_code];
@@ -390,7 +393,7 @@ bool MODULES_TABLE::LoadModule(char * _mname, long path_code, MODULE_STATE& ms)
 	if(_mname == null) return false;
 
 	// invalid path code
-	if((dword)path_code >= Paths_Count) {SET_ERROR("invalid path"); return false;}
+	if((uint32_t)path_code >= Paths_Count) {SET_ERROR("invalid path"); return false;}
 
 	if(strlen(GetPath(path_code)) > 0) wsprintf(full_name,"%s\\%s",GetPath(path_code),_mname);
 	else strcpy(full_name,_mname);
@@ -438,12 +441,12 @@ long MODULES_TABLE::Load_ModulesTable()
 	long module_code;
 	char full_name[_MAX_PATH];
 	
-	dword path_code;
+	uint32_t path_code;
 	MODULE_STATE ms;
 
 #ifdef _XBOX	
 	// load internal (linked) classes module
-	ZeroMemory(&ms,sizeof(ms));
+	PZERO(&ms,sizeof(ms));
 	ms.mapi_PTR = (VMODULE_API *) new INTERNAL_MODULES;
 	if(ms.mapi_PTR == null) THROW;
 	if(!AddModule("internal",0)) THROW;
@@ -498,7 +501,7 @@ long MODULES_TABLE::Load_ModulesTable()
 		{
 			gdi_display.Set_Text(find_data.cFileName);
 			
-			ZeroMemory(&ms,sizeof(ms));
+			PZERO(&ms,sizeof(ms));
 			if(LoadModule(find_data.cFileName,path_code,ms))
 			{
 				

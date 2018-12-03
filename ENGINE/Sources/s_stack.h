@@ -10,8 +10,8 @@
 class S_STACK : public VS_STACK
 {
 	DATA * * pStackData;
-	DWORD Buffer_size;
-	DWORD Data_num;
+	uint32_t Buffer_size;
+	uint32_t Data_num;
 	VIRTUAL_COMPILER * pVCompiler;
 public:
 	 S_STACK();
@@ -19,11 +19,11 @@ public:
 	void Release();
 	DATA * Push(DATA * pdataclass = nullptr);
 	DATA * Pop();
-	DATA * Read(DWORD offset,DWORD index);
+	DATA * Read(uint32_t offset,uint32_t index);
 	DATA * Read();
-	DWORD GetDataNum(){return Data_num;};
+	uint32_t GetDataNum(){return Data_num;};
 	void SetVCompiler(VIRTUAL_COMPILER * pvc) {pVCompiler = pvc;}
-	void InvalidateFrom(DWORD index);
+	void InvalidateFrom(uint32_t index);
 	
 };
 

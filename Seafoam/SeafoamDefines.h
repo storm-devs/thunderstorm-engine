@@ -1,8 +1,6 @@
 #ifndef _SEAFOAMDEFINES_
 #define _SEAFOAMDEFINES_
 
-#include <stdlib.h>
-
 //#define SEAFOAM_TRACE_INFORMATION
 
 #define PI  3.14159265358979323846f

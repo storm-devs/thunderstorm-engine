@@ -41,7 +41,7 @@ public:
 	bool isEnemy;		//Если установлен, то атакует нас
 	bool isEntryPlayer;
 
-	dword type;
+	uint32_t type;
 	WdmEnemyShip * attack;
 
 	EnemyShipType shipType;

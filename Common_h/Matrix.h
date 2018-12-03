@@ -398,7 +398,7 @@ __forceinline void CMatrix::operator = (const CMatrix & matrix)
 	{
 		cld
 		mov		edi, this
-		mov		esi, dword ptr matrix
+		mov		esi, uint32_t ptr matrix
 		mov		ecx, 16
 		rep		movsd
 	}*/
@@ -675,7 +675,7 @@ __forceinline void CMatrix::Get3X3(CMatrix & mtr)
 	/*_asm
 	{
 		mov		esi, this
-		mov		edi, dword ptr mtr
+		mov		edi, uint32_t ptr mtr
 		mov		ebx, [esi + 0*4]
 		mov		ecx, [esi + 1*4]
 		mov		edx, [esi + 2*4]

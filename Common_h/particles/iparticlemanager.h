@@ -8,12 +8,10 @@
 #ifndef PARTICLES_MANAGER_INTERFACE
 #define PARTICLES_MANAGER_INTERFACE
 
-#include <d3dx9.h>
 #include "..\dx9render.h"
 
 class ParticleService;
 class IParticleSystem;
-
 
 #ifndef NULL
 #define NULL 0L

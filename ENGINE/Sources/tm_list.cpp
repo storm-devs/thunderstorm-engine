@@ -15,13 +15,13 @@ TM_LIST::TM_LIST()
 	hMain = nullptr;
 	hOwn = nullptr;
 	hEdit = nullptr;
-	ZeroMemory(&Pos,sizeof(Pos));
+	PZERO(&Pos,sizeof(Pos));
 	Columns_Num = 0;
 	Items_Num = 0;
 	Bind_Mask = 0;
 	edit_item = -1;
 	edit_subitem = -1;
-	ZeroMemory(CharID,sizeof(CharID));
+	PZERO(CharID,sizeof(CharID));
 	EditMask = 0;
 	hFont = nullptr;
 }
@@ -32,13 +32,13 @@ TM_LIST::~TM_LIST()
 	if(hEdit) DestroyWindow(hEdit); hEdit = nullptr;
 }
 
-void TM_LIST::Initialize(HWND hwnd, HINSTANCE hinst, dword style, dword style_ex)
+void TM_LIST::Initialize(HWND hwnd, HINSTANCE hinst, uint32_t style, uint32_t style_ex)
 {
 	hInst = hinst;
 	hMain = hwnd;
 
 	INITCOMMONCONTROLSEX icc;
-	ZeroMemory(&icc,sizeof(icc));
+	PZERO(&icc,sizeof(icc));
 	icc.dwSize = sizeof(icc);
 	icc.dwICC = ICC_LISTVIEW_CLASSES;
 	InitCommonControlsEx(&icc);
@@ -61,7 +61,7 @@ void TM_LIST::SetPosition(RECT pos)
 	if(hOwn) MoveWindow(hOwn,Pos.left,Pos.top,Pos.right - Pos.left,Pos.bottom - Pos.top,true);
 }
 
-void TM_LIST::Initialize(HWND hwnd, HINSTANCE hinst, dword style, dword style_ex, dword icon_rid)
+void TM_LIST::Initialize(HWND hwnd, HINSTANCE hinst, uint32_t style, uint32_t style_ex, uint32_t icon_rid)
 {
 	Initialize(hwnd,hinst,style,style_ex);
 	
@@ -104,7 +104,7 @@ void TM_LIST::AddColumn(char * name, long length)
 	LVCOLUMN lvc; 
 
 	char string[MAX_STR_SIZE];
-	ZeroMemory(&lvc,sizeof(lvc));
+	PZERO(&lvc,sizeof(lvc));
 	
    	lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;// | LVCF_ORDER ; 
     lvc.fmt = LVCFMT_LEFT; 
@@ -151,7 +151,7 @@ void TM_LIST::SetItemImage(long Item_index, long Subitem_index, long image_code)
 {
 	LVITEM lvi;
 	if(image_code < 0) return;
-	ZeroMemory(&lvi,sizeof(lvi));
+	PZERO(&lvi,sizeof(lvi));
 	lvi.mask = LVIF_IMAGE;
 	lvi.iItem = Item_index;
 	lvi.iSubItem = Subitem_index;
@@ -163,7 +163,7 @@ void TM_LIST::UpdatePosition()
 {
 	if(!hOwn) return;
 
-	dword width,height;
+	uint32_t width,height;
 	RECT r;
 	GetClientRect(hMain,&r);
 	width = r.right - r.left;
@@ -205,22 +205,22 @@ void TM_LIST::SelectItem(char * name)
 	ListView_SetItemState(GetWindowHandle(),0,LVIS_SELECTED|LVIS_FOCUSED,LVIS_SELECTED|LVIS_FOCUSED);
 }
 
-void TM_LIST::ProcessMessageBase(DWORD iMsg, DWORD wParam, DWORD lParam)
+void TM_LIST::ProcessMessageBase(uint32_t iMsg, uint32_t wParam, uint32_t lParam)
 {
 	LPNMHDR pnmh;
 	//POINT point;
 	//HMENU hSubMenu;
 	LPNMLISTVIEW lpnmlv;
 	//DWORD item_spacing;
-	DWORD subitem_spacing;
+	uint32_t subitem_spacing;
 	RECT list_rect;
 	RECT item_rect;
 	long n,chars;
-	DWORD NotifyCode;
-	dword lines;
+	uint32_t NotifyCode;
+	uint32_t lines;
 	char TextEditBuffer[MAX_STR_SIZE];
-	dword bitres;
-	word vKey;
+	uint32_t bitres;
+	uint16_t vKey;
 	
 	RECT EditPos;
 
@@ -271,8 +271,8 @@ void TM_LIST::ProcessMessageBase(DWORD iMsg, DWORD wParam, DWORD lParam)
 
 								for (long i=0; i<(long)lines; i++)
 								{
-									ZeroMemory(&TextEditBuffer[0], MAX_STR_SIZE);
-									*(word*)TextEditBuffer = MAX_STR_SIZE - 2;
+									PZERO(&TextEditBuffer[0], MAX_STR_SIZE);
+									*(uint16_t*)TextEditBuffer = MAX_STR_SIZE - 2;
 									chars = SendMessage(hEdit,EM_GETLINE,i,(LPARAM)(LPCSTR)TextEditBuffer);
 									TextEditBuffer[chars] = 0;
 									if (chars) sTmpBuffer += TextEditBuffer;
@@ -383,7 +383,7 @@ void TM_LIST::StartEditSelectedItem()
 		nmlv.iItem = iSelected;
 		nmlv.iSubItem = 0;
 
-		ProcessMessageBase(WM_NOTIFY, (WPARAM)null, (LPARAM)&nmlv);
+		ProcessMessageBase(WM_NOTIFY, (WPARAM)0, (LPARAM)&nmlv);
 	}
 }
 

@@ -18,7 +18,7 @@ int CXI_LINECOLLECTION::CommandExecute(int wActCode)
 	return -1;
 }
 
-void CXI_LINECOLLECTION::Draw(bool bSelected,dword Delta_Time)
+void CXI_LINECOLLECTION::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(m_bUse)
 	{
@@ -47,7 +47,7 @@ void CXI_LINECOLLECTION::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *
         do
         {
             XYRECT scrRect;
-			DWORD dwCol=0;
+			uint32_t dwCol=0;
 			if( GetMidStr(param, param1, sizeof(param1), "(",")-(") )
 				GetDataStr(param1, "ll", &scrRect.left,&scrRect.top);
 			if( GetMidStr(param, param1, sizeof(param1), ")-(",")") )
@@ -104,13 +104,13 @@ void CXI_LINECOLLECTION::SaveParametersToIni()
 	delete pIni;
 }
 
-dword _cdecl CXI_LINECOLLECTION::MessageProc(long msgcode, MESSAGE & message)
+uint32_t _cdecl CXI_LINECOLLECTION::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{
 	case 0: // сменить цвет для линии с номером или всех строк (если номер = -1)
 		{
-			dword dwColor = message.Long();
+			uint32_t dwColor = message.Long();
 			long nLineNum = message.Long();
 			if( nLineNum<0 || nLineNum>=(long)m_aLines.size()/2 ) {
 				for( long n=0; n<m_aLines.size(); n++ )
@@ -122,7 +122,7 @@ dword _cdecl CXI_LINECOLLECTION::MessageProc(long msgcode, MESSAGE & message)
 		break;
 	case 1: // добавить динию и вернуть ее номер
 		{
-			dword dwColor = message.Long();
+			uint32_t dwColor = message.Long();
 			long nLeft = message.Long();
 			long nTop = message.Long();
 			long nRight = message.Long();

@@ -11,7 +11,6 @@
 #ifndef _TornadoParticles_H_
 #define _TornadoParticles_H_
 
-#include "..\common_h\dx9render.h"
 #include "..\common_h\matrix.h"
 #include "..\common_h\sea_base.h"
 #include "Pillar.h"
@@ -45,7 +44,7 @@ class TornadoParticles
 	struct Vertex
 	{
 		CVECTOR pos;
-		dword color;
+		uint32_t color;
 		float u, v;
 	};
 

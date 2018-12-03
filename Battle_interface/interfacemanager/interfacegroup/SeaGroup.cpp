@@ -22,7 +22,7 @@ void BI_SeaGroup::Init()
 
 	ATTRIBUTES* pA;
 	char texture[MAX_PATH];
-	dword color;
+	uint32_t color;
 	FRECT uv;
 	RECT pos;
 

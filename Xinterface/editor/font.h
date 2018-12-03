@@ -19,15 +19,15 @@ public:
 	void SetHeight( float fHeight );
 	float GetHeight() {return m_fHeight;}
 
-	void SetColor( dword dwColor );
-	void SetBackColor( dword dwColor );
+	void SetColor( uint32_t dwColor );
+	void SetBackColor( uint32_t dwColor );
 
 protected:
 	GIEditor* m_pEditor;
 	long m_nFontID;
 
-	dword m_dwColor;
-	dword m_dwBackColor;
+	uint32_t m_dwColor;
+	uint32_t m_dwBackColor;
 
 	float m_fScale;
 	float m_fHeight;

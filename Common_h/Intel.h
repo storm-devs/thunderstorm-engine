@@ -34,21 +34,21 @@ class Intel
 public:
 	bool IsSSE();
 	bool IsIntelCPU();
-	dword CpuIDSupported(void);
-	dword HWD_MTSupported(void);
-	dword MaxLogicalProcPerPhysicalProc(void);
-	dword MaxCorePerPhysicalProc(void);
-	byte CPUCount(dword *TotAvailLogical, dword * TotAvailCore, dword * PhysicalNum);
+	uint32_t CpuIDSupported(void);
+	uint32_t HWD_MTSupported(void);
+	uint32_t MaxLogicalProcPerPhysicalProc(void);
+	uint32_t MaxCorePerPhysicalProc(void);
+	uint8_t CPUCount(uint32_t *TotAvailLogical, uint32_t * TotAvailCore, uint32_t * PhysicalNum);
 };
 
-iinline byte GetAPIC_ID(void)
+iinline uint8_t GetAPIC_ID(void)
 {
 	int cpuInfo[4];
 	__cpuid(cpuInfo, 1);
 
-	return byte((cpuInfo[1] & INITIAL_APIC_ID_BITS) >> 24);
+	return uint8_t((cpuInfo[1] & INITIAL_APIC_ID_BITS) >> 24);
 
-	/*dword Regebx = 0;
+	/*uint32_t Regebx = 0;
 	__asm
 	{
 		mov eax, 1
@@ -59,16 +59,16 @@ iinline byte GetAPIC_ID(void)
 	return (byte) ((Regebx & INITIAL_APIC_ID_BITS) >> 24);*/
 }
 
-iinline dword find_maskwidth(dword CountItem)
+iinline uint32_t find_maskwidth(uint32_t CountItem)
 {
 	if (CountItem == 0)
 		return 1;
 
-	dword mask_width;
-	_BitScanReverse(&mask_width, CountItem - 1);
+	uint32_t mask_width;
+	_BitScanReverse((DWORD*)&mask_width, CountItem - 1);
 	return mask_width;
 
-	/*dword MaskWidth, count = CountItem;
+	/*uint32_t MaskWidth, count = CountItem;
 
 	__asm
 	{
@@ -86,14 +86,14 @@ next:
 	return MaskWidth;*/
 }
 
-iinline byte GetNzbSubID(byte FullID, byte MaxSubIDValue, byte ShiftCount)
+iinline uint8_t GetNzbSubID(uint8_t FullID, uint8_t MaxSubIDValue, uint8_t ShiftCount)
 {
-	dword MaskWidth;
-	byte MaskBits;
+	uint32_t MaskWidth;
+	uint8_t MaskBits;
 
-	MaskWidth = find_maskwidth((dword) MaxSubIDValue);
+	MaskWidth = find_maskwidth((uint32_t) MaxSubIDValue);
 	MaskBits  = (0xff << ShiftCount) ^
-				((byte) (0xff << (ShiftCount + MaskWidth)));
+				((uint8_t) (0xff << (ShiftCount + MaskWidth)));
 
 	return (FullID & MaskBits);
 }
@@ -152,7 +152,7 @@ iinline bool Intel::IsIntelCPU()
 		(cpuInfo[3] == 'Ieni') &&
 		(cpuInfo[2] == 'letn'));
 
-/*	dword VendorID[3] = {0, 0, 0};
+/*	uint32_t VendorID[3] = {0, 0, 0};
 
 	__try    // If CPUID instruction is supported
 	{
@@ -177,13 +177,13 @@ iinline bool Intel::IsIntelCPU()
 
 }
 
-iinline dword Intel::CpuIDSupported(void)
+iinline uint32_t Intel::CpuIDSupported(void)
 {
 	int cpuInfo[4];
 	__cpuid(cpuInfo, 0);
 
 	return cpuInfo[0];
-	/*dword MaxInputValue = 0;
+	/*uint32_t MaxInputValue = 0;
 
 	__try    // If CPUID instruction is supported
 	{
@@ -203,14 +203,14 @@ iinline dword Intel::CpuIDSupported(void)
 	return MaxInputValue;*/
 }
 
-iinline dword Intel::HWD_MTSupported(void)
+iinline uint32_t Intel::HWD_MTSupported(void)
 {
 	int cpuInfo[4];
 	__cpuid(cpuInfo, 1);
 
 	return cpuInfo[3] & HWD_MT_BIT;
 
-	/*dword Regedx      = 0;
+	/*uint32_t Regedx      = 0;
 
 	if ((CpuIDSupported() >= 1) && IsIntelCPU())
 	{
@@ -227,26 +227,26 @@ iinline dword Intel::HWD_MTSupported(void)
 
 }
 
-iinline dword Intel::MaxLogicalProcPerPhysicalProc(void)
+iinline uint32_t Intel::MaxLogicalProcPerPhysicalProc(void)
 {
 	int cpuInfo[4];
 	__cpuid(cpuInfo, 1);
 
 	return (cpuInfo[1] & NUM_LOGICAL_BITS) >> 16;
 
-	/*dword Regebx = 0;
+	/*uint32_t Regebx = 0;
 
-	if (!HWD_MTSupported()) return (dword) 1;
+	if (!HWD_MTSupported()) return (uint32_t) 1;
 		__asm
 		{
 			mov eax, 1
 			cpuid
 			mov Regebx, ebx
 		}
-		return (dword) ((Regebx & NUM_LOGICAL_BITS) >> 16);*/
+		return (uint32_t) ((Regebx & NUM_LOGICAL_BITS) >> 16);*/
 }
 
-iinline dword Intel::MaxCorePerPhysicalProc(void)
+iinline uint32_t Intel::MaxCorePerPhysicalProc(void)
 {
 	if (!HWD_MTSupported() || CpuIDSupported() < 4)
 		return 1;
@@ -256,9 +256,9 @@ iinline dword Intel::MaxCorePerPhysicalProc(void)
 
 	return ((cpuInfo[0] & NUM_CORE_BITS) >> 26) + 1;
 
-/*	dword Regeax = 0;
+/*	uint32_t Regeax = 0;
 
-	if (!HWD_MTSupported()) return (dword) 1;  // Single core
+	if (!HWD_MTSupported()) return (uint32_t) 1;  // Single core
 
 		__asm
 		{
@@ -279,25 +279,25 @@ multi_core:
 
 		}
 
-	return (dword)((Regeax & NUM_CORE_BITS) >> 26)+1;*/
+	return (uint32_t)((Regeax & NUM_CORE_BITS) >> 26)+1;*/
 
 }
 
-iinline byte Intel::CPUCount(dword *TotAvailLogical, dword * TotAvailCore, dword * PhysicalNum)
+iinline uint8_t Intel::CPUCount(uint32_t *TotAvailLogical, uint32_t * TotAvailCore, uint32_t * PhysicalNum)
 {
-	byte StatusFlag = 0;
-	DWORD dwProcessAffinity, dwSystemAffinity;
-	DWORD dwAffinityMask;
-	dword numLPEnabled = 0;
+	uint8_t StatusFlag = 0;
+	uint32_t dwProcessAffinity, dwSystemAffinity;
+	uint32_t dwAffinityMask;
+	uint32_t numLPEnabled = 0;
 	int j = 0, MaxLPPerCore;
-	byte apicID, PackageIDMask;
-	byte tblPkgID[256], tblCoreID[256], tblSMTID[256];
+	uint8_t apicID, PackageIDMask;
+	uint8_t tblPkgID[256], tblCoreID[256], tblSMTID[256];
 	*TotAvailCore = 1;
 	*PhysicalNum  = 1;
 
 	GetProcessAffinityMask(GetCurrentProcess(),
-						   &dwProcessAffinity,
-						   &dwSystemAffinity);
+						   (PDWORD_PTR)&dwProcessAffinity,
+						   (PDWORD_PTR)&dwSystemAffinity);
 
 	if (dwProcessAffinity != dwSystemAffinity)  // not all CPUs are enabled
 	{
@@ -318,9 +318,9 @@ iinline byte Intel::CPUCount(dword *TotAvailLogical, dword * TotAvailCore, dword
 			tblSMTID[j]  = GetNzbSubID(apicID, MaxLPPerCore, 0);
 			tblCoreID[j] = GetNzbSubID(apicID,
 						   MaxCorePerPhysicalProc(),
-						   (byte) find_maskwidth(MaxLPPerCore));
+						   (uint8_t) find_maskwidth(MaxLPPerCore));
 
-			PackageIDMask = (byte) (0xff <<
+			PackageIDMask = (uint8_t) (0xff <<
 							find_maskwidth(MaxLogicalProcPerPhysicalProc()));
 
 			tblPkgID[j] = apicID & PackageIDMask;
@@ -340,9 +340,9 @@ iinline byte Intel::CPUCount(dword *TotAvailLogical, dword * TotAvailCore, dword
 	//
 	// Count available cores (TotAvailCore) in the system
 	//
-	byte CoreIDBucket[256];
-	DWORD ProcessorMask, pCoreMask[256];
-	dword i, ProcessorNum;
+	uint8_t CoreIDBucket[256];
+	uint32_t ProcessorMask, pCoreMask[256];
+	uint32_t i, ProcessorNum;
 
 	CoreIDBucket[0] = tblPkgID[0] | tblCoreID[0];
 	ProcessorMask = 1;
@@ -378,8 +378,8 @@ iinline byte Intel::CPUCount(dword *TotAvailLogical, dword * TotAvailCore, dword
 	//
 	// Count physical processor (PhysicalNum) in the system
 	//
-	byte PackageIDBucket[256];
-	DWORD pPackageMask[256];
+	uint8_t PackageIDBucket[256];
+	uint32_t pPackageMask[256];
 
 	PackageIDBucket[0] = tblPkgID[0];
 	ProcessorMask = 1;

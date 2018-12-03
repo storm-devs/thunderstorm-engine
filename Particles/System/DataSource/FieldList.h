@@ -1,12 +1,7 @@
 #ifndef _FIELD_LIST_H
 #define _FIELD_LIST_H
 
-#include <string.h>
-#include <stdarg.h>
-#include <stdio.h>
 #include "../../../common_h/math3d.h"
-#include "../../../common_h/exs.h"
-#include "../../../common_h/vapi.h"
 #include "..\..\icommon\types.h"
 #include "..\..\icommon\memfile.h"
 #include "..\datadesc\data_desc.h"
@@ -33,7 +28,7 @@ public:
 		bool MarkForDelete;
 
 		//Хэш имени
-		DWORD HashValue;
+		uint32_t HashValue;
 
 		//Тип
     FieldType Type;
@@ -59,7 +54,7 @@ private:
 	void CreateEmptyPositionField (const char* Name, const Vector& def_value);
 	void CreateEmptyStringField (const char* Name, const char* def_value);
 	void CreateEmptyUVField (const char* Name);
-	void CreateEmptyColorField (const char* Name, DWORD def_value);
+	void CreateEmptyColorField (const char* Name, uint32_t def_value);
 
 
 	//=================== Прогрузка аттрибутов из файла
@@ -107,8 +102,8 @@ public:
 	float GetRandomGraphVal (const char* AttrName, float Time, float LifeTime, float def_value = 0.0f);
 
 
-	DWORD GetFieldCount ();
-	const FieldList::FieldDesc& GetFieldByIndex (DWORD Index);
+	uint32_t GetFieldCount ();
+	const FieldList::FieldDesc& GetFieldByIndex (uint32_t Index);
 
 
 

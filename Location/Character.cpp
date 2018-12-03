@@ -19,6 +19,7 @@
 #include "..\common_h\sea_base.h"
 #include "..\SoundService\VSoundService.h"
 #include "../common_h/defines.h"
+#include "../../Shared/messages.h"
 
 //============================================================================================
 
@@ -63,7 +64,7 @@
 #define FGT_ATTACK_PARRY	"parry"  // для пробоя "hit_parry"  boal
 
 //Таблица возможности смены одного действия другим
-byte Character::fightTbl[fgt_max][fgt_max] =
+uint8_t Character::fightTbl[fgt_max][fgt_max] =
 {
 	//Set type
 	//nn afs afr ard abk aft aftc fr hatk hft hpr hrd hfr bk bkh bbr pry rcl stl str  //Current type
@@ -285,7 +286,7 @@ void Character::RTuner::Set(MODEL * model, VDX9RENDER * rs)
 	long r = long(0x40*selected);
 	long g = long(0x10*selected);
 	long b = long(0x10*selected);
-	rs->SetRenderState(D3DRS_TEXTUREFACTOR, (dword(a*255.0f) << 24) | (r << 16) | (g << 8) | b);
+	rs->SetRenderState(D3DRS_TEXTUREFACTOR, (uint32_t(a*255.0f) << 24) | (r << 16) | (g << 8) | b);
 	if(selected > 0.0f)
 	{
 		if(a >= 1.0f)
@@ -313,7 +314,7 @@ void Character::RTuner::Restore(MODEL * model, VDX9RENDER * rs)
 	NODE * n = model->GetNode(0);
 	if(!n) return;
 	const char * chr = n->GetTechnique();
-	if(*((dword *)chr) != 'minA' || *((dword *)(chr + 4)) != 'oita') return;
+	if(*((uint32_t *)chr) != 'minA' || *((uint32_t *)(chr + 4)) != 'oita') return;
 	n->SetTechnique("");
 	rs->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 }
@@ -624,7 +625,7 @@ bool Character::Init()
 }
 
 //Сообщения
-dword _cdecl Character::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl Character::ProcessMessage(MESSAGE & message)
 {
 	if(message.GetCurrentFormatType() == 's')
 	{
@@ -738,7 +739,7 @@ dword _cdecl Character::ProcessMessage(MESSAGE & message)
 }
 
 //Изменение атрибута
-dword Character::AttributeChanged(ATTRIBUTES * apnt)
+uint32_t Character::AttributeChanged(ATTRIBUTES * apnt)
 {
 	if(deadName || liveValue < 0) return 0;
 	if(!apnt || !apnt->GetThisName()) return 0;
@@ -1984,7 +1985,7 @@ void Character::Update(float dltTime)
 	//Блендинг оружия и теней
 	{
 		float alpha = tuner.GetAlpha()*255.0f;
-		dword blendColor = (dword(alpha) << 24) | 0x00ffffff;
+		uint32_t blendColor = (uint32_t(alpha) << 24) | 0x00ffffff;
 		_CORE_API->Send_Message(blade, "ll", MSG_BLADE_ALPHA, blendColor);
 		_CORE_API->Send_Message(shadow, "ll", MSG_BLADE_ALPHA, blendColor);
 	}
@@ -2842,7 +2843,7 @@ bool Character::zDistByCharacter(MESSAGE & message, bool is2D)
 	return true;
 }
 
-dword Character::zExMessage(MESSAGE & message)
+uint32_t Character::zExMessage(MESSAGE & message)
 {
 	char msg[64];
 	char grp[32];

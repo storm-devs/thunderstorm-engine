@@ -1,4 +1,5 @@
 #include "..\common_h\matrix.h"
+#include "../common_h/rands.h"
 #include "TButterfly.h"
 
 #define PI		3.14159265358979323846f
@@ -219,7 +220,7 @@ void TButterfly::Effect(const CVECTOR &_position)
 //--------------------------------------------------------------------
 void TButterfly::Draw(TIVBufferManager *_ivManager)
 {
-	WORD *iPointer;
+	uint16_t *iPointer;
 	tButterflyVertex *vPointer;
 	long vOffset;
 	short shortVOffset;

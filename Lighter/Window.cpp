@@ -8,8 +8,11 @@
 //
 //============================================================================================
 
+#include <cstdint>
 #include "Window.h"
 #include "Lights.h"
+#include "../common_h/dx9render.h"
+#include "../../Shared/messages.h"
 
 //============================================================================================
 //Конструирование, деструктурирование
@@ -104,7 +107,7 @@ bool Window::Init(VDX9RENDER * rs)
 		D3DLOCKED_RECT lockedRect;
 		if(rs->LockRect(pickerTexture, 0, &lockedRect, nullptr, 0) == D3D_OK)
 		{
-			byte * pnt = (byte *)lockedRect.pBits;
+			uint8_t * pnt = (uint8_t *)lockedRect.pBits;
 			for(long y = 0; y < 256; y++)
 				for(long x = 0; x < 256; x++, pnt += 4)
 				{
@@ -114,9 +117,9 @@ bool Window::Init(VDX9RENDER * rs)
 					float k = r > g ? r : g;
 					if(k < b) k = b;
 					k = 255.0f/k;
-					pnt[0] = byte(b*k);
-					pnt[1] = byte(g*k);
-					pnt[2] = byte(r*k);
+					pnt[0] = uint8_t(b*k);
+					pnt[1] = uint8_t(g*k);
+					pnt[2] = uint8_t(r*k);
 					pnt[3] = 255;
 				}
 			rs->UnlockRect(pickerTexture, 0);
@@ -410,8 +413,8 @@ void Window::Draw(float dltTime)
 	float clsy = winy + 5.0f;
 	float clsw = 15.0f;
 	float clsh = 15.0f;
-	dword c = selColor;
-	dword cl = frmColor;
+	uint32_t c = selColor;
+	uint32_t cl = frmColor;
 	if(cursx >= clsx && cursx < clsx + clsw && cursy >= clsy && cursy < clsy + clsh)
 	{
 		c |= 0xff000000;
@@ -596,7 +599,7 @@ void Window::Draw(float dltTime)
 		y = lsty;
 		for(long i = str, cnt = 0; i < numElements && cnt < numLines; i++, cnt++)
 		{
-			dword clr = textColor;
+			uint32_t clr = textColor;
 			if(cnt == sel)
 			{
 				DrawLRect(lstx + 3, y, lstx + lstw - 3, y + lstbw, 0xff808080, 0);
@@ -635,7 +638,7 @@ void Window::Reset(bool isActive)
 	isOldMouseState = false;
 }
 
-void Window::DrawRect(float x1, float y1, float x2, float y2, dword color)
+void Window::DrawRect(float x1, float y1, float x2, float y2, uint32_t color)
 {
 	Vertex v[4];
 	v[0].x = x1; v[0].y = y1; v[0].z = 0.5f; v[0].rhw = 2.0f;
@@ -646,7 +649,7 @@ void Window::DrawRect(float x1, float y1, float x2, float y2, dword color)
 	rs->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, D3DFVF_XYZRHW, 2, v, sizeof(Vertex), "DbgDraw2DTFColor");
 }
 
-void Window::DrawLine(float x1, float y1, float x2, float y2, dword color)
+void Window::DrawLine(float x1, float y1, float x2, float y2, uint32_t color)
 {
 	Vertex v[2];
 	v[0].x = x1; v[0].y = y1; v[0].z = 0.5f; v[0].rhw = 2.0f;
@@ -655,7 +658,7 @@ void Window::DrawLine(float x1, float y1, float x2, float y2, dword color)
 	rs->DrawPrimitiveUP(D3DPT_LINELIST, D3DFVF_XYZRHW, 1, v, sizeof(Vertex), "DbgDraw2DTFColor");
 }
 
-void Window::DrawLRect(float x1, float y1, float x2, float y2, dword bkgColor, dword lnColor)
+void Window::DrawLRect(float x1, float y1, float x2, float y2, uint32_t bkgColor, uint32_t lnColor)
 {
 	if(bkgColor & 0xff000000) DrawRect(x1, y1, x2, y2, bkgColor);
 	if(lnColor & 0xff000000)
@@ -716,7 +719,7 @@ bool Window::Slider(long id, float y, const char * text, float & value, float mi
 	float szx = isSmallSlider ? 3.0f : 8.0f;
 	float szy = isSmallSlider ? 3.0f : 5.0f;
 	//Движёк
-	dword c = 0xcc000000;
+	uint32_t c = 0xcc000000;
 	float oldv = v;
 	if(!isPikerActive && !isList)
 	{
@@ -773,7 +776,7 @@ bool Window::ColorPicker(long id, float y, CVECTOR & ref, float st, CVECTOR & re
 	if(knrm < res.z) knrm = res.z;
 	if(knrm <= 1.0f) knrm = 1.0f;
 	knrm = 255.0f/knrm;
-	dword color = (dword(res.x*knrm) << 16) | (dword(res.y*knrm) << 8) | (dword(res.z*knrm) << 0);
+	uint32_t color = (uint32_t(res.x*knrm) << 16) | (uint32_t(res.y*knrm) << 8) | (uint32_t(res.z*knrm) << 0);
 	DrawLRect(x, winy + y, x + w, winy + y + h, 0xff000000 | color, frmColor);
 	//Рисуем пикер
 	if(isPikerActive)
@@ -840,7 +843,7 @@ bool Window::ColorPicker(long id, float y, CVECTOR & ref, float st, CVECTOR & re
 bool Window::Button(float x, float y, float w, float h, const char * text, long * act, long init)
 {
 	bool isInside = false;
-	dword c = selColor;
+	uint32_t c = selColor;
 	if(cursx >= winx + x && cursx <= winx + x + w)
 	{
 		if(cursy >= winy + y && cursy <= winy + y + h)
@@ -857,7 +860,7 @@ bool Window::Button(float x, float y, float w, float h, const char * text, long 
 
 void Window::Checker(float x, float y, const char * text, bool & res)
 {
-	dword c = selColor;
+	uint32_t c = selColor;
 	float s = 10.0f;
 	float h = 20.0f;
 	//Проверим на изменение

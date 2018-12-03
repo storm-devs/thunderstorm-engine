@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "xi_VImgScroll.h"
-#include "..\\vxservice.h"
 #include "../../common_h/defines.h"
 
 #define MAXIMAGEQUANTITY 100
@@ -50,7 +49,7 @@ CXI_VIMAGESCROLL::~CXI_VIMAGESCROLL()
 	ReleaseAll();
 }
 
-void CXI_VIMAGESCROLL::Draw(bool bSelected,dword Delta_Time)
+void CXI_VIMAGESCROLL::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	int n,l;
 	if(m_bUse && m_Image!= nullptr)
@@ -338,9 +337,9 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 
 	if(m_nSlotsQnt>0)
 	{
-		m_dwCurColor = NEW DWORD[m_nSlotsQnt];
-		m_dwNormalColor = NEW DWORD[m_nSlotsQnt];
-		m_dwSelectColor = NEW DWORD[m_nSlotsQnt];
+		m_dwCurColor = NEW uint32_t[m_nSlotsQnt];
+		m_dwNormalColor = NEW uint32_t[m_nSlotsQnt];
+		m_dwSelectColor = NEW uint32_t[m_nSlotsQnt];
 		m_pPicOffset = NEW long[m_nSlotsQnt];
 		if( !m_dwCurColor || !m_dwNormalColor ||
 			!m_dwSelectColor || !m_pPicOffset ) {
@@ -655,7 +654,7 @@ float CXI_VIMAGESCROLL::ChangeDinamicParameters(float fYDelta)
 					}
 				}
 			}
-			if( n==m_nSlotsQnt || (DWORD)m_Image[curImage].ptex[n]!=0xFFFFFFFF ) break;
+			if( n==m_nSlotsQnt || (uint32_t)m_Image[curImage].ptex[n]!=0xFFFFFFFF ) break;
 
 			// delete current save from list
 			m_Image[curImage].Release(m_nSlotsQnt,m_nStringQuantity);
@@ -1539,7 +1538,7 @@ void CXI_VIMAGESCROLL::IMAGEDESCRIBE::Clear(int nQnt, int nStr)
 	}
 }
 
-dword _cdecl CXI_VIMAGESCROLL::MessageProc(long msgcode, MESSAGE & message)
+uint32_t _cdecl CXI_VIMAGESCROLL::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

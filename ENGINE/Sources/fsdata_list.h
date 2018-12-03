@@ -5,15 +5,13 @@
 // Simple class for creating and keeping in memory list of structures with fixed size
 // This class can only accumulate data
 
-#include "common_h.h"
-
 
 class FSDATA_LIST
 {
 	void * Data_PTR;
-	dword structure_size;
-	dword initiate_blocks;
-	dword used_blocks;
+	uint32_t structure_size;
+	uint32_t initiate_blocks;
+	uint32_t used_blocks;
 
 public:
 
@@ -21,8 +19,8 @@ public:
 	~FSDATA_LIST(){if(Data_PTR) delete Data_PTR;};
 	void Release() {if(Data_PTR) delete Data_PTR; structure_size = 0; initiate_blocks = 0; Data_PTR = nullptr; used_blocks = 0;};
 	void Clear() {used_blocks = 0;};
-	dword DataNum() {return used_blocks;};
-	bool Init(dword _structure_size, dword _initiate_blocks)
+	uint32_t DataNum() {return used_blocks;};
+	bool Init(uint32_t _structure_size, uint32_t _initiate_blocks)
 	{
 		if(Data_PTR) delete Data_PTR; Data_PTR = nullptr;
 		used_blocks = 0;
@@ -51,7 +49,7 @@ public:
 		used_blocks++;
 		return true;
 	};
-	bool GetData(dword _n, void * struct_PTR)
+	bool GetData(uint32_t _n, void * struct_PTR)
 	{
 		char * mem_PTR;
 		if(_n >= used_blocks) return false;

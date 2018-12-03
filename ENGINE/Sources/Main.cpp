@@ -4,6 +4,10 @@
 #include "Core.h"
 #include "s_debug.h"
 #include "../../Common_h/Exs.h"
+#include "memory_service.h"
+#include "file_service.h"
+#include "control_stack.h"
+#include "system_api.h"
 
 const int SPLASH_WIDTH = 600;
 const int SPLASH_HEIGHT = 400;
@@ -38,7 +42,7 @@ VSYSTEM_API * _VSYSTEM_API;
 S_DEBUG CDebug;
 CODESOURCE CodeSource;
 
-dword Exceptions_Mask;
+uint32_t Exceptions_Mask;
 extern bool bTraceFilesOff;
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -85,14 +89,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 	char sMemProfileFileName[MAX_PATH] = "";
 	
 	bool bFirstLaunch = true;
-	dword dwMaxFPS = 0;
+	uint32_t dwMaxFPS = 0;
 	INIFILE *ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
 	if (ini)
 	{
 		bMemoryStats = ini->GetLong("stats", "memory_stats", 0) == 1;
 		ini->ReadString(nullptr, "mem_profile", sMemProfileFileName, sizeof(sMemProfileFileName), "");
 
-		dwMaxFPS = (dword)ini->GetLong(nullptr, "max_fps", 0);
+		dwMaxFPS = (uint32_t)ini->GetLong(nullptr, "max_fps", 0);
 		bDebugWindow = ini->GetLong(nullptr, "DebugWindow", 0) == 1;
 		bAcceleration = ini->GetLong(nullptr, "Acceleration", 0) == 1;
 		bBackspaceExit = ini->GetLong(nullptr, "BackSpaceExit", 0) == 1;
@@ -136,7 +140,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 	wndclass.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
 	wndclass.lpfnWndProc = WndProc;
 	wndclass.cbClsExtra = 0;
-	wndclass.cbWndExtra = sizeof(WORD);
+	wndclass.cbWndExtra = sizeof(uint16_t);
 	wndclass.hInstance = hInstance;
 	wndclass.hIcon = LoadIcon(hInstance, "IDI_ICON1");
 	wndclass.hCursor = LoadCursor(hInstance, "NULL_CURSOR");//LoadCursor(NULL,IDC_ARROW);
@@ -159,7 +163,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 
 	bool Run_result;
 
-	dword dwOldTime = GetTickCount();
+	uint32_t dwOldTime = GetTickCount();
 #ifndef EX_OFF
 	try {
 #endif
@@ -185,8 +189,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 					{
 						if (dwMaxFPS)
 						{
-							dword dwMS = 1000 / dwMaxFPS;
-							dword dwNewTime = GetTickCount();
+							uint32_t dwMS = 1000 / dwMaxFPS;
+							uint32_t dwNewTime = GetTickCount();
 							if (dwNewTime - dwOldTime < dwMS) continue;
 							dwOldTime = dwNewTime;
 						}
@@ -275,7 +279,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
 	ENTITY_ID eidNET;
-	WORD wActive;
+	uint16_t wActive;
 #ifndef EX_OFF
 	try {
 #endif
@@ -391,7 +395,7 @@ void * _cdecl operator new(size_t size)
 	return Memory_Service.Allocate(size);
 }
 
-void * _cdecl operator new(size_t size, char * pFileName, DWORD nLine)
+void * _cdecl operator new(size_t size, char * pFileName, unsigned long nLine)
 {
 	CodeSource.pFileName = pFileName; CodeSource.line = nLine;
 	return Memory_Service.Allocate(size);
@@ -402,7 +406,7 @@ void _cdecl operator delete(void * block_ptr)
 	Memory_Service.Free(block_ptr);
 }
 
-void _cdecl operator delete(void * block_ptr, char * pFileName, DWORD nLine)
+void _cdecl operator delete(void * block_ptr, char * pFileName, unsigned long nLine)
 {
 	Memory_Service.Free(block_ptr);
 }
@@ -412,7 +416,7 @@ void * _cdecl resize(void * block_ptr, size_t size)
 	return Memory_Service.Reallocate(block_ptr, size);
 }
 
-void * _cdecl resize(void * block_ptr, size_t size, char * pFileName, DWORD nLine)
+void * _cdecl resize(void * block_ptr, size_t size, char * pFileName, unsigned long nLine)
 {
 	CodeSource.pFileName = pFileName; CodeSource.line = nLine;
 	return Memory_Service.Reallocate(block_ptr, size);

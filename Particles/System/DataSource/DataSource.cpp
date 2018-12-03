@@ -4,13 +4,12 @@
 #include "datacolor.h"
 #include "datafloat.h"
 #include "datagraph.h"
-#include "dataposition.h"
-#include "datauv.h"
 #include "datastring.h"
 
 
 #include "..\..\icommon\memfile.h"
 #include "..\..\..\common_h\vmodule_api.h"
+#include "../../icommon/names.h"
 
 #define HEADER "PSYS"
 #define VERSION "v3.5"
@@ -101,16 +100,16 @@ void DataSource::Write (MemFile* pMemFile)
 	pMemFile->Write(HEADER, 4);
 	pMemFile->Write(VERSION, 4);
 
-	DWORD dwEmittersCount = Emitters.size();
+	uint32_t dwEmittersCount = Emitters.size();
 	pMemFile->WriteType(dwEmittersCount);
 
-	for (DWORD n = 0; n < dwEmittersCount; n++)
+	for (uint32_t n = 0; n < dwEmittersCount; n++)
 	{
 		pMemFile->WriteType(Emitters[n].Type);
 		Emitters[n].Fields.Write(pMemFile);
-		DWORD dwParticlesSize = Emitters[n].Particles.size();
+		uint32_t dwParticlesSize = Emitters[n].Particles.size();
 		pMemFile->WriteType(dwParticlesSize);
-		for (DWORD i = 0; i < dwParticlesSize; i++)
+		for (uint32_t i = 0; i < dwParticlesSize; i++)
 		{
 			pMemFile->WriteType(Emitters[n].Particles[i].Type);
 			Emitters[n].Particles[i].Fields.Write(pMemFile);
@@ -141,10 +140,10 @@ void DataSource::Load (MemFile* pMemFile)
 */          
 
 	//Кол-во эмиттеров...
-	DWORD EmiterCount = 0;
+	uint32_t EmiterCount = 0;
 	pMemFile->ReadType(EmiterCount);
 
-	for (DWORD n = 0; n < EmiterCount; n++)
+	for (uint32_t n = 0; n < EmiterCount; n++)
 	{
 		EmitterType emType = UNKNOWN_EMITTER;
 		pMemFile->ReadType(emType);
@@ -179,10 +178,10 @@ void DataSource::CreatePointEmitter (MemFile* pMemFile)
 	PointEmitter->Fields.Convert (&PointEmitterDesc);
 	PointEmitter->Type = POINT_EMITTER;
 
-	DWORD ParticlesCount = 0;
+	uint32_t ParticlesCount = 0;
 	pMemFile->ReadType(ParticlesCount);
 
-	for (DWORD n = 0; n < ParticlesCount; n++)
+	for (uint32_t n = 0; n < ParticlesCount; n++)
 	{
 		ParticleType ptType = UNKNOWN_PARTICLE;
 		pMemFile->ReadType(ptType);
@@ -234,10 +233,10 @@ void DataSource::CreateModelParticle (std::vector<ParticleDesc> &Particles, MemF
 
 void DataSource::Destroy()
 {
-	for (DWORD n = 0; n < Emitters.size(); n++)
+	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
 		Emitters[n].Fields.DelAll();
-		for (DWORD i = 0; i < Emitters[n].Particles.size(); i++)
+		for (uint32_t i = 0; i < Emitters[n].Particles.size(); i++)
 		{
 			Emitters[n].Particles[i].Fields.DelAll();
 		}
@@ -293,7 +292,7 @@ FieldList* DataSource::CreateEmptyPointEmitter (const char* EmitterName)
 
 int DataSource::FindEmitter (const char* Name)
 {
-	for (DWORD n = 0; n < Emitters.size(); n++)
+	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
 		DataString* pString = Emitters[n].Fields.FindString(EMITTER_NAME);
 		if (pString)
@@ -426,7 +425,7 @@ FieldList* DataSource::CreateModelParticle (const char* ParticleName, const char
 
 void DataSource::DeletePointEmitter (FieldList* pEmitter)
 {
-	for (DWORD n = 0; n < Emitters.size(); n++)
+	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
 		if (&Emitters[n].Fields == pEmitter)
 		{
@@ -441,11 +440,11 @@ void DataSource::DeletePointEmitter (FieldList* pEmitter)
 
 void DataSource::DeleteBillboard (FieldList* pEmitter, FieldList* pParticles)
 {
-	for (DWORD n = 0; n < Emitters.size(); n++)
+	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
 		if (&Emitters[n].Fields == pEmitter)
 		{
-			for (DWORD i = 0; i < Emitters[n].Particles.size(); i++)
+			for (uint32_t i = 0; i < Emitters[n].Particles.size(); i++)
 			{
 				if (&Emitters[n].Particles[i].Fields == pParticles)
 				{
@@ -461,11 +460,11 @@ void DataSource::DeleteBillboard (FieldList* pEmitter, FieldList* pParticles)
 
 void DataSource::DeleteModel (FieldList* pEmitter, FieldList* pParticles)
 {
-	for (DWORD n = 0; n < Emitters.size(); n++)
+	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
 		if (&Emitters[n].Fields == pEmitter)
 		{
-			for (DWORD i = 0; i < Emitters[n].Particles.size(); i++)
+			for (uint32_t i = 0; i < Emitters[n].Particles.size(); i++)
 			{
 				if (&Emitters[n].Particles[i].Fields == pParticles)
 				{

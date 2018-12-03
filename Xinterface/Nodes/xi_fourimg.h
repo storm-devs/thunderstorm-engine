@@ -9,7 +9,7 @@ public:
 	 CXI_FOURIMAGE();
 	~CXI_FOURIMAGE();
 
-	void	Draw(bool bSelected,dword Delta_Time);
+	void	Draw(bool bSelected,uint32_t Delta_Time);
 	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
 	void	ReleaseAll();
 	int		CommandExecute(int wActCode);
@@ -24,7 +24,7 @@ public:
 protected:
 	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);
 	void    FillVertex();
-	void	Update(bool bSelected,dword DeltaTime);
+	void	Update(bool bSelected,uint32_t DeltaTime);
 
 protected:
 	bool    m_bUsed[4];			// selected picture
@@ -46,9 +46,9 @@ protected:
 	// select parameters
 	bool	m_bShowBorder;			// do show border
 	int		m_nSelectItem;			// select image
-	DWORD	m_dwBaseColor;			// vertex color
-	DWORD	m_dwLightSelectColor;   // vertex color
-	DWORD	m_dwDarkSelectColor;    // vertex color
+	uint32_t	m_dwBaseColor;			// vertex color
+	uint32_t	m_dwLightSelectColor;   // vertex color
+	uint32_t	m_dwDarkSelectColor;    // vertex color
 
 	// one string parameters
 	bool	bUseOneString;	 // use one string
@@ -57,8 +57,8 @@ protected:
 	long    m_oneStr[4];	 // one strings identificators
 	char *	m_pOneStr[4];	 // one strings
 	long	m_oneStrFont;    // one string font number
-	DWORD   m_foreColOneStr; // one string foreground color
-	DWORD   m_backColOneStr; // one string background color
+	uint32_t   m_foreColOneStr; // one string foreground color
+	uint32_t   m_backColOneStr; // one string background color
 
 	// two string parameters
 	bool	bUseTwoString;   // use two string
@@ -67,8 +67,8 @@ protected:
 	long	m_twoStr[4]; 	 // two strings identificators
 	char *	m_pTwoStr[4];	 // two strings
 	long    m_twoStrFont;    // two string font number
-	DWORD   m_foreColTwoStr; // one string foreground color
-	DWORD   m_backColTwoStr; // one string background color
+	uint32_t   m_foreColTwoStr; // one string foreground color
+	uint32_t   m_backColTwoStr; // one string background color
 
 	// picture index & vertex buffers
 	long	vBuf;  // identificator of the vertex buffer
@@ -78,7 +78,7 @@ protected:
 	bool	m_bColorType;		// current type of color for blind (true - ligth, false - dark)
 	int		m_nBlindCounter;	// last frames counter for change of color type
 	int		m_nMaxBlindCounter;	// maximum frames counter for change of color type
-	DWORD   m_dwCurSelectColor; // current color for select item show
+	uint32_t   m_dwCurSelectColor; // current color for select item show
 };
 
 #endif

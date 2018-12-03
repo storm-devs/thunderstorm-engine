@@ -1,8 +1,8 @@
 #include "gdi_display.h"
-#include "common_h.h"
 #include "resource.h"
 #include "system_log.h"
 #include "..\..\common_h\memop.h"
+#include <cstdio>
 
 #define DEFAULT_DISPLAY_STACK_SIZE	12
 
@@ -98,7 +98,7 @@ void GDI_DISPLAY::On_Paint(HWND hwnd)
 
 	SetMapMode(dcmem,GetMapMode(dc));
 
-	GetObject(hBitmap,sizeof(BITMAP),(LPVOID)&bm);
+	GetObject(hBitmap,sizeof(BITMAP),(void *)&bm);
 	ptSize.x = bm.bmWidth;
 	ptSize.y = bm.bmHeight;
 	DPtoLP(dc,&ptSize,1);

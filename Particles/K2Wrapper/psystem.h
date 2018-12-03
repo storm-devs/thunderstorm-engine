@@ -25,7 +25,7 @@ public:
 	virtual void	SetEmitter(CVECTOR p, CVECTOR a);
 	virtual void	LinkToObject(ENTITY_ID id, CVECTOR _LinkPos);
 	virtual void	SetDelay(long _delay);
-	virtual void	SetLifeTime(dword time);
+	virtual void	SetLifeTime(uint32_t time);
 	virtual void	StopEmitter();
 	virtual	void	Pause(bool _bPause);
 

@@ -10,11 +10,11 @@ class CXI_FORMATEDTEXT : public CINODE
 		int		strNum;
 		int		strGroup;
 		char*	lineStr;
-		DWORD	color;
+		uint32_t	color;
 		STRING_DESCRIBER* next;
 		STRING_DESCRIBER* prev;
 		struct TagInfo{
-			dword dwColor;
+			uint32_t dwColor;
 			std::string str;
 		};
 		std::vector<TagInfo> m_tags;
@@ -28,7 +28,7 @@ public:
 	CXI_FORMATEDTEXT();
 	~CXI_FORMATEDTEXT();
 
-	void	Draw(bool bSelected,dword Delta_Time);
+	void	Draw(bool bSelected,uint32_t Delta_Time);
 	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
 	void	ReleaseAll();
 	int		CommandExecute(int wActCode);
@@ -36,7 +36,7 @@ public:
 	void	MouseThis(float fX, float fY);
 	void	ChangePosition( XYRECT &rNewPos );
 	void	SaveParametersToIni();
-	dword _cdecl MessageProc(long msgcode, MESSAGE & message);
+	uint32_t _cdecl MessageProc(long msgcode, MESSAGE & message);
 	XYRECT	GetCursorRect();
 	bool	IsGlowChanged() {return true;}
 
@@ -44,14 +44,14 @@ public:
 	void	SetPointer(float fPos);
 	float	GetLineStep();
 	float	GetCurPos();
-	void	SetColor(dword dwCol);
+	void	SetColor(uint32_t dwCol);
 
 	long	GetAllHeight();
 
 protected:
 	bool	GetLineNext(int fontNum,char* &pInStr,char* buf,int bufSize);
 	void	GetOneLine(int fontNum,char* pStr,char* buf,int bufSize);
-	void	MakeTagChecking( bool& tagState, dword& tagColor, dword normColor, STRING_DESCRIBER* pStrDescr );
+	void	MakeTagChecking( bool& tagState, uint32_t& tagColor, uint32_t normColor, STRING_DESCRIBER* pStrDescr );
 	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);
 	void	ReleaseString( STRING_DESCRIBER * pCur );
 	void	ReleaseStringes();
@@ -65,13 +65,13 @@ protected:
 	long	GetFirstGroupNum();
 	void	SetCurrentGroupNum(long nFirstNum, long nSelectNum);
 	void	ReplaceString( long nGrpNum, const char * pSrcStr );
-	void	InsertStringBefore( STRING_DESCRIBER * pNextDescr, const char * pSrcStr, long nGrpNum, dword dwColor );
+	void	InsertStringBefore( STRING_DESCRIBER * pNextDescr, const char * pSrcStr, long nGrpNum, uint32_t dwColor );
 	void	RecalculateStringNumber();
 	void	VAlignment(long nAlign);
 
 protected:
 	long	m_idFont;
-	DWORD	m_dwColor;
+	uint32_t	m_dwColor;
 	float	m_fFontScale;
 	long	m_nAlignment;
 
@@ -110,7 +110,7 @@ protected:
 	long	m_nPrintLeftOffset;
 
 	bool	m_bBackRectangle;
-	DWORD	m_dwBackColor;
+	uint32_t	m_dwBackColor;
 	XYRECT	m_rBorderOffset;
 	long	m_nUpRectOffset;
 

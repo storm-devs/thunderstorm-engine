@@ -72,7 +72,7 @@ CXI_QUESTTITLE::~CXI_QUESTTITLE()
 	ReleaseAll();
 }
 
-void CXI_QUESTTITLE::Draw(bool bSelected,dword Delta_Time)
+void CXI_QUESTTITLE::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	int i,j;
 	if(!m_bUse) return;
@@ -122,7 +122,7 @@ void CXI_QUESTTITLE::Draw(bool bSelected,dword Delta_Time)
 		m_rs->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP,XI_ONLYONETEX_FVF,2,v,sizeof(XI_ONLYONETEX_VERTEX),"iDinamicPictures");
 
 		// отобразить строки
-		DWORD curColor = m_strList[i].complete ? m_dwCompleteColor : m_dwNonCompleteColor;
+		uint32_t curColor = m_strList[i].complete ? m_dwCompleteColor : m_dwNonCompleteColor;
 		if( m_strList[i].dwSpecColor!=0 ) curColor = m_strList[i].dwSpecColor;
 		for(j=0;j<m_strList[i].lineQuantity;j++)
 		{

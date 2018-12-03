@@ -1,7 +1,6 @@
 #ifndef _GEOMETRY_CACHE_
 #define _GEOMETRY_CACHE_
 
-#include "..\..\common_h\vapi.h"
 #include "..\..\common_h\geometry.h"
 #include "..\..\common_h\geos.h"
 #include <string>

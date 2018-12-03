@@ -1,12 +1,6 @@
 #ifndef _PARTICLE_DATA_SOURCE_H_
 #define _PARTICLE_DATA_SOURCE_H_
 
-#include <string.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include "..\datadesc\data_desc.h"
-#include "..\..\icommon\names.h"
-#include "..\..\..\common_h\exs.h"
 #include "..\..\icommon\types.h"
 #include "fieldlist.h"
 #include <vector>

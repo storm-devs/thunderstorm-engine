@@ -26,7 +26,7 @@ void Astronomy::SetDevice()
 	pGS = (VGEOMETRY *)api->CreateService("geometry");
 }
 
-void Astronomy::Realize(dword Delta_Time)
+void Astronomy::Realize(uint32_t Delta_Time)
 {
 	double dDeltaTime = double(Delta_Time) * 0.001;
 	dHour += dDeltaTime / (60.0 * 60.0);
@@ -35,7 +35,7 @@ void Astronomy::Realize(dword Delta_Time)
 	Planets.Realize(dDeltaTime, dHour);
 }
 
-dword Astronomy::AttributeChanged(ATTRIBUTES * pA)
+uint32_t Astronomy::AttributeChanged(ATTRIBUTES * pA)
 {
 	if (*pA == "isDone")
 	{ 

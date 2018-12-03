@@ -43,14 +43,14 @@ bool WideScreen::Init()
 }
 
 //Сообщения
-dword _cdecl WideScreen::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl WideScreen::ProcessMessage(MESSAGE & message)
 {
 	dlt = -1.0f;
 	return 0;
 }
 
 //Работа
-void WideScreen::Realize(dword delta_time)
+void WideScreen::Realize(uint32_t delta_time)
 {
 	//Текущее состояние
 	state += dlt*delta_time*0.001f;

@@ -37,12 +37,12 @@ protected:
 		ENTITY_ID target;
 		union
 		{
-			dword flags;
+			uint32_t flags;
 			struct
 			{
-				dword isRun : 1;
-				dword isFight : 1;
-				dword isFollowInit : 1;
+				uint32_t isRun : 1;
+				uint32_t isFight : 1;
+				uint32_t isFollowInit : 1;
 			};
 		};
 	};
@@ -64,7 +64,7 @@ public:
 
 	virtual bool PostInit();
 
-	dword ChlProcessMessage(long messageID, MESSAGE & message);
+	uint32_t ChlProcessMessage(long messageID, MESSAGE & message);
 	void Move(float dltTime);
 	void Update(float dltTime);
 

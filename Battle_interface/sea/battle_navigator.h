@@ -52,8 +52,8 @@ protected:
 	void	UpdateWindParam();
 
 protected:
-	DWORD	m_dwBackGradColor1;
-	DWORD	m_dwBackGradColor2;
+	uint32_t	m_dwBackGradColor1;
+	uint32_t	m_dwBackGradColor2;
 	// параметры видимого горизонта
 	float	m_fMapRadius;	// радиус миникарты на экране
 	float	m_fTextureRad;	// радиус миникарты в текстуре
@@ -95,9 +95,9 @@ protected:
 	long	m_windHeight;
 
 	// параметры заряда пушек
-	DWORD	m_dwChargeCannon;
-	DWORD	m_dwReadyCannon;
-	DWORD	m_dwDamagedCannon;
+	uint32_t	m_dwChargeCannon;
+	uint32_t	m_dwReadyCannon;
+	uint32_t	m_dwDamagedCannon;
 
 	float	m_fBegAnglLeftCharge;
 	float	m_fCurAnglLeftCharge;
@@ -139,12 +139,12 @@ protected:
 	long	m_idSailTexture; // положение парусов/скорость корабля
 	IDirect3DTexture9 * m_pIslandTexture;
 
-	DWORD	m_dwSeaColor;	// цвет моря на миникарте
-	DWORD	m_dwFireZoneColor; // цвет зоны огня на миникарте
-	DWORD	m_dwEnemyShipColor; // цвет вражеских кораблей
-	DWORD	m_dwFrendShipColor; // цвет своих кораблей
-	DWORD	m_dwNeutralShipColor; // цвет своих кораблей
-	DWORD	m_dwDeadShipColor;	// цвет тонущего корабля
+	uint32_t	m_dwSeaColor;	// цвет моря на миникарте
+	uint32_t	m_dwFireZoneColor; // цвет зоны огня на миникарте
+	uint32_t	m_dwEnemyShipColor; // цвет вражеских кораблей
+	uint32_t	m_dwFrendShipColor; // цвет своих кораблей
+	uint32_t	m_dwNeutralShipColor; // цвет своих кораблей
+	uint32_t	m_dwDeadShipColor;	// цвет тонущего корабля
 
 	// буфера
 	long	m_idEmptyVBuf;

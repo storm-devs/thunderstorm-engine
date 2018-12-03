@@ -70,7 +70,7 @@ bool FLAG::LoadState(ENTITY_STATE * state)
 	return true;
 }
 
-void FLAG::Execute(dword Delta_Time)
+void FLAG::Execute(uint32_t Delta_Time)
 {
     if(bFirstRun) FirstRun();
     if(bYesDeleted) DoSTORM_DELETE();
@@ -114,16 +114,16 @@ void FLAG::Execute(dword Delta_Time)
     }
 }
 
-void FLAG::Realize(dword Delta_Time)
+void FLAG::Realize(uint32_t Delta_Time)
 {
     if(bUse)
     {
-        DWORD rtm;
+        uint32_t rtm;
 
         //_asm rdtsc _asm mov rtm,eax
 
         RenderService->TextureSet(0,texl);
-		DWORD ambient;
+		uint32_t ambient;
 		RenderService->GetRenderState(D3DRS_AMBIENT,&ambient);
 		RenderService->SetRenderState(D3DRS_TEXTUREFACTOR,ambient);
         RenderService->SetTransform(D3DTS_WORLD,&rootMatrix);
@@ -136,7 +136,7 @@ void FLAG::Realize(dword Delta_Time)
     }
 }
 
-dword _cdecl FLAG::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl FLAG::ProcessMessage(MESSAGE & message)
 {
 	long code = message.Long();
 
@@ -443,7 +443,7 @@ void FLAG::SetTreangle()
 {
     int i,idx;
 
-    WORD *pt=(WORD*)RenderService->LockIndexBuffer(iBuf);
+    uint16_t *pt=(uint16_t*)RenderService->LockIndexBuffer(iBuf);
     if( pt )
     {
         for(int fn=0; fn<flagQuantity; fn++)
@@ -452,9 +452,9 @@ void FLAG::SetTreangle()
             idx=flist[fn]->st;
             for(i=0; i<(int)flist[fn]->nt; i++)
             {
-                pt[idx++]=(WORD)(i+flist[fn]->sv);
-                pt[idx++]=(WORD)(i+flist[fn]->sv+1);
-                pt[idx++]=(WORD)(i+flist[fn]->sv+2);
+                pt[idx++]=(uint16_t)(i+flist[fn]->sv);
+                pt[idx++]=(uint16_t)(i+flist[fn]->sv+1);
+                pt[idx++]=(uint16_t)(i+flist[fn]->sv+2);
             }
         }
 

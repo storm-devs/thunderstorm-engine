@@ -12,9 +12,9 @@ bool XProcessFileSTORM_DELETE(const char *_srcDir, const char *_mask, const WIN3
 
 #include "..\..\common_h\dx9render.h"
 extern VDX9RENDER * pDevice;
-extern DWORD dwCacheScreenN;
+extern uint32_t dwCacheScreenN;
 extern RECT CacheScreenRect;
-extern DWORD dwCacheFiles;
+extern uint32_t dwCacheFiles;
 extern bool bCacheOverwrite;
 extern long nCacheFonTexId;
 extern long nCacheProgressCacheId[10];
@@ -38,7 +38,7 @@ extern FILE_SERVICE File_Service;
 
 void FILE_SERVICE::FlushIniFiles()
 {
-	for(dword n=0;n<=Max_File_Index;n++) 
+	for(uint32_t n=0;n<=Max_File_Index;n++) 
 	{
 		if(OpenFiles[n] == nullptr) continue;
 		OpenFiles[n]->FlushFile();
@@ -49,7 +49,7 @@ FILE_SERVICE::FILE_SERVICE()
 {
 	Files_Num = 0;
 	Max_File_Index = 0;
-	for(dword n=0;n<_MAX_OPEN_INI_FILES;n++) OpenFiles[n] = nullptr;
+	for(uint32_t n=0;n<_MAX_OPEN_INI_FILES;n++) OpenFiles[n] = nullptr;
 
 }
 FILE_SERVICE::~FILE_SERVICE()
@@ -57,7 +57,7 @@ FILE_SERVICE::~FILE_SERVICE()
 	Close();
 }
 
-HANDLE FILE_SERVICE::_CreateFile(LPCTSTR lpFileName,DWORD dwDesiriedAccess,DWORD dwShareMode,DWORD dwCreationDisposition)
+HANDLE FILE_SERVICE::_CreateFile(const char * lpFileName,uint32_t dwDesiriedAccess,uint32_t dwShareMode,uint32_t dwCreationDisposition)
 {
 	HANDLE fh;
 #ifndef _XBOX
@@ -124,11 +124,11 @@ void   FILE_SERVICE::_CloseHandle(HANDLE hFile)
 {
 	CloseHandle(hFile);
 }
-DWORD  FILE_SERVICE::_SetFilePointer(HANDLE hFile,long DistanceToMove,PLONG lpDistanceToMoveHigh,DWORD dwMoveMethod)
+uint32_t  FILE_SERVICE::_SetFilePointer(HANDLE hFile,long DistanceToMove,long * lpDistanceToMoveHigh,uint32_t dwMoveMethod)
 {
 	return SetFilePointer(hFile,DistanceToMove,lpDistanceToMoveHigh,dwMoveMethod);
 }
-BOOL   FILE_SERVICE::_DeleteFile(LPCTSTR lpFileName)
+BOOL   FILE_SERVICE::_DeleteFile(const char * lpFileName)
 {
 #ifdef _XBOX
 	char xbox_file_name[MAX_PATH];
@@ -143,25 +143,25 @@ BOOL   FILE_SERVICE::_DeleteFile(LPCTSTR lpFileName)
 	return DeleteFile(lpFileName);
 #endif
 }
-BOOL   FILE_SERVICE::_WriteFile(HANDLE hFile,LPCVOID lpBuffer,DWORD nNumberOfBytesToWrite,LPDWORD lpNumberOfBytesWritten)
+BOOL   FILE_SERVICE::_WriteFile(HANDLE hFile,const void * lpBuffer,uint32_t nNumberOfBytesToWrite,uint32_t * lpNumberOfBytesWritten)
 {
 	BOOL bRes;
-	dword dwR;
-	bRes = WriteFile(hFile,lpBuffer,nNumberOfBytesToWrite,&dwR,nullptr);
+	uint32_t dwR;
+	bRes = WriteFile(hFile,lpBuffer,nNumberOfBytesToWrite,(LPDWORD)&dwR,nullptr);
 	if(lpNumberOfBytesWritten != nullptr) *lpNumberOfBytesWritten = dwR;
 //	if(dwR != nNumberOfBytesToWrite) if(Exceptions_Mask & _X_NO_FILE_WRITE) STORM_THROW(_X_NO_FILE_WRITE);
 	return bRes;
 }
-BOOL   FILE_SERVICE::_ReadFile(HANDLE hFile,LPVOID lpBuffer,DWORD nNumberOfBytesToRead,LPDWORD lpNumberOfBytesRead)
+BOOL   FILE_SERVICE::_ReadFile(HANDLE hFile,void * lpBuffer,uint32_t nNumberOfBytesToRead,uint32_t * lpNumberOfBytesRead)
 {
 	BOOL bRes;
-	dword dwR;
-	bRes = ReadFile(hFile,lpBuffer,nNumberOfBytesToRead,&dwR,nullptr);
+	uint32_t dwR;
+	bRes = ReadFile(hFile,lpBuffer,nNumberOfBytesToRead,(LPDWORD)&dwR,nullptr);
 	if(lpNumberOfBytesRead != nullptr) *lpNumberOfBytesRead = dwR;
 //	if(dwR != nNumberOfBytesToRead) if(Exceptions_Mask & _X_NO_FILE_READ) STORM_THROW(_X_NO_FILE_READ);
 	return bRes;
 }
-HANDLE FILE_SERVICE::_FindFirstFile(LPCTSTR lpFileName,LPWIN32_FIND_DATA lpFindFileData)
+HANDLE FILE_SERVICE::_FindFirstFile(const char * lpFileName,LPWIN32_FIND_DATA lpFindFileData)
 {
 	HANDLE hFile;
 #ifndef _XBOX
@@ -187,7 +187,7 @@ BOOL   FILE_SERVICE::_FlushFileBuffers(HANDLE hFile)
 {
 	return FlushFileBuffers(hFile);
 }
-DWORD  FILE_SERVICE::_GetCurrentDirectory(DWORD nBufferLength,LPTSTR lpBuffer)
+uint32_t  FILE_SERVICE::_GetCurrentDirectory(uint32_t nBufferLength,char * lpBuffer)
 {
 #ifndef _XBOX
 	return GetCurrentDirectory(nBufferLength,lpBuffer);
@@ -200,13 +200,13 @@ DWORD  FILE_SERVICE::_GetCurrentDirectory(DWORD nBufferLength,LPTSTR lpBuffer)
 
 #endif
 }
-BOOL   FILE_SERVICE::_GetDiskFreeSpaceEx(LPCTSTR lpDirectoryName,PULARGE_INTEGER lpFreeBytesAvailableToCaller,
+BOOL   FILE_SERVICE::_GetDiskFreeSpaceEx(const char * lpDirectoryName,PULARGE_INTEGER lpFreeBytesAvailableToCaller,
 		 PULARGE_INTEGER lpTotalNumberOfBytes,PULARGE_INTEGER lpTotalNumberOfFreeBytes)
 {
 	return GetDiskFreeSpaceEx(lpDirectoryName,lpFreeBytesAvailableToCaller,
 		 lpTotalNumberOfBytes,lpTotalNumberOfFreeBytes);
 }
-UINT   FILE_SERVICE::_GetDriveType(LPCTSTR lpRootPathName)
+UINT   FILE_SERVICE::_GetDriveType(const char * lpRootPathName)
 {
 #ifndef _XBOX
 	return GetDriveType(lpRootPathName);
@@ -215,11 +215,11 @@ UINT   FILE_SERVICE::_GetDriveType(LPCTSTR lpRootPathName)
 #endif
 	
 }
-DWORD  FILE_SERVICE::_GetFileSize(HANDLE hFile,LPDWORD lpFileSizeHigh)
+uint32_t  FILE_SERVICE::_GetFileSize(HANDLE hFile,uint32_t * lpFileSizeHigh)
 {
-	return GetFileSize(hFile,lpFileSizeHigh);
+	return GetFileSize(hFile,(LPDWORD)lpFileSizeHigh);
 }
-DWORD  FILE_SERVICE::_GetLogicalDrives()
+uint32_t  FILE_SERVICE::_GetLogicalDrives()
 {
 #ifndef _XBOX
 	return GetLogicalDrives();
@@ -228,7 +228,7 @@ DWORD  FILE_SERVICE::_GetLogicalDrives()
 #endif
 	
 }
-DWORD  FILE_SERVICE::_GetLogicalDriveStrings(DWORD nBufferLength,LPTSTR lpBuffer)
+uint32_t  FILE_SERVICE::_GetLogicalDriveStrings(uint32_t nBufferLength,char * lpBuffer)
 {
 #ifndef _XBOX
 	return GetLogicalDriveStrings(nBufferLength,lpBuffer);
@@ -237,7 +237,7 @@ DWORD  FILE_SERVICE::_GetLogicalDriveStrings(DWORD nBufferLength,LPTSTR lpBuffer
 #endif
 	
 }
-BOOL   FILE_SERVICE::_SetCurrentDirectory(LPCTSTR lpPathName)
+BOOL   FILE_SERVICE::_SetCurrentDirectory(const char * lpPathName)
 {
 #ifndef _XBOX
 	return SetCurrentDirectory(lpPathName);
@@ -246,20 +246,20 @@ BOOL   FILE_SERVICE::_SetCurrentDirectory(LPCTSTR lpPathName)
 #endif
 	
 }
-BOOL   FILE_SERVICE::_CreateDirectory(LPCTSTR lpPathName,LPSECURITY_ATTRIBUTES lpSecurityAttributes)
+BOOL   FILE_SERVICE::_CreateDirectory(const char * lpPathName,LPSECURITY_ATTRIBUTES lpSecurityAttributes)
 {
 	return CreateDirectory(lpPathName,lpSecurityAttributes);
 }
-BOOL   FILE_SERVICE::_RemoveDirectory(LPCTSTR lpPathName)
+BOOL   FILE_SERVICE::_RemoveDirectory(const char * lpPathName)
 {
 	return RemoveDirectory(lpPathName);
 }
-BOOL   FILE_SERVICE::_CopyFile(LPCTSTR lpExistingFileName,LPCTSTR lpNewFileName,BOOL bFailIfExists)
+BOOL   FILE_SERVICE::_CopyFile(const char * lpExistingFileName,const char * lpNewFileName,bool bFailIfExists)
 {
 	return CopyFile(lpExistingFileName,lpNewFileName,bFailIfExists);
 }
 
-BOOL   FILE_SERVICE::_SetFileAttributes(LPCTSTR lpFileName,DWORD dwFileAttributes)
+BOOL   FILE_SERVICE::_SetFileAttributes(const char * lpFileName,uint32_t dwFileAttributes)
 {
 	return SetFileAttributes(lpFileName,dwFileAttributes);
 }
@@ -297,7 +297,7 @@ INIFILE * FILE_SERVICE::OpenIniFile(const char * file_name)
 {
 	//GUARD(FILE_SERVICE::OpenIniFile)
 	INIFILE_T * inifile_T;
-	dword n;
+	uint32_t n;
 //	PUSH_CONTROL(0,0,0)	// core control 
 
 	for(n=0;n<=Max_File_Index;n++)
@@ -347,7 +347,7 @@ INIFILE * FILE_SERVICE::OpenIniFile(const char * file_name)
 void FILE_SERVICE::RefDec(INIFILE * ini_obj)
 {
 	GUARD(FILE_SERVICE::RefDec)
-	dword n;
+	uint32_t n;
 	for(n=0;n<=Max_File_Index;n++)
 	{
 		if(OpenFiles[n] != ini_obj) continue;
@@ -367,7 +367,7 @@ void FILE_SERVICE::RefDec(INIFILE * ini_obj)
 
 void FILE_SERVICE::Close()
 {
-	dword n;
+	uint32_t n;
 	for(n=0;n<_MAX_OPEN_INI_FILES;n++)
 	{
 		if(OpenFiles[n] == nullptr) continue;
@@ -376,13 +376,13 @@ void FILE_SERVICE::Close()
 	}
 }
 
-BOOL FILE_SERVICE::LoadFile(const char * file_name, char * * ppBuffer, dword * dwSize)
+BOOL FILE_SERVICE::LoadFile(const char * file_name, char * * ppBuffer, uint32_t * dwSize)
 {
 	if (ppBuffer == nullptr) return false;
 
 	HANDLE hFile = _CreateFile(file_name);
 	if (INVALID_HANDLE_VALUE == hFile) return false;
-	dword dwLowSize = _GetFileSize(hFile,nullptr);
+	uint32_t dwLowSize = _GetFileSize(hFile,nullptr);
 	if (dwSize) *dwSize = dwLowSize;
 	if (dwLowSize==0) 
 	{
@@ -607,10 +607,10 @@ bool XProcessFileSTORM_DELETE(const char *_srcDir, const char *_mask, const WIN3
 
 #endif
 
-DWORD FILE_SERVICE::MakeHashValue(const char * string)
+uint32_t FILE_SERVICE::MakeHashValue(const char * string)
 {
-	DWORD hval = 0;
-	DWORD g;
+	uint32_t hval = 0;
+	uint32_t g;
 	char v;
 	while(*string != 0)
 	{
@@ -633,8 +633,8 @@ BOOL FILE_SERVICE::CacheDirectory(const char * pDirName)
 #ifndef _XBOX
 	return false;
 #else
-	DWORD dwHashIndex;
-	DWORD n;
+	uint32_t dwHashIndex;
+	uint32_t n;
 
 	char sDNSrc[MAX_PATH];
 	char sDNDst[MAX_PATH];
@@ -685,9 +685,9 @@ BOOL FILE_SERVICE::CacheDirectory(const char * pDirName)
 void FILE_SERVICE::MarkDirectoryCached(const char * pDirName)
 {
 #ifdef _XBOX
-	DWORD dwLen;
-	DWORD dwHashIndex;
-	DWORD n;
+	uint32_t dwLen;
+	uint32_t dwHashIndex;
+	uint32_t n;
 	char * pTemp;
 
 	if(!pDirName) return;
@@ -760,8 +760,8 @@ BOOL FILE_SERVICE::UnCacheDirectory(const char * pDirName)
 #else
 	bool bFound;
 	char sDNDst[MAX_PATH];
-	DWORD dwHashIndex;
-	DWORD n;
+	uint32_t dwHashIndex;
+	uint32_t n;
 
 	dwHashIndex = MakeHashValue(pDirName)%CACHEDIRSTABLESIZE;
 	bFound = false;
@@ -806,10 +806,10 @@ BOOL FILE_SERVICE::UnCacheDirectory(const char * pDirName)
 BOOL FILE_SERVICE::IsCached(const char * pFileName)
 {
 	char sDirName[MAX_PATH];
-	DWORD dwLen;
-	DWORD dwHashIndex;
+	uint32_t dwLen;
+	uint32_t dwHashIndex;
 	long  n;
-	DWORD i;
+	uint32_t i;
 
 	dwLen = strlen(pFileName);
 	strcpy(sDirName,pFileName);
@@ -858,20 +858,20 @@ void INIFILE_T::WriteDouble(char * section_name, char * key_name,double value)
 }
 
 // fill buffer with key value, throw EXS exception object if failed or if section or key doesnt exist
-void INIFILE_T::ReadString(char * section_name, char * key_name, char * buffer, dword buffer_size)
+void INIFILE_T::ReadString(char * section_name, char * key_name, char * buffer, uint32_t buffer_size)
 {
 	ifs_PTR->ReadString(&Search,section_name,key_name,buffer,buffer_size);
 }
 
 // fill buffer with key value if section and key exist, otherwise fill with def_string and return false
-bool INIFILE_T::ReadString(char * section_name, char * key_name, char * buffer, dword buffer_size, char * def_string)
+bool INIFILE_T::ReadString(char * section_name, char * key_name, char * buffer, uint32_t buffer_size, char * def_string)
 {
 	return ifs_PTR->ReadString(&Search, section_name,key_name,buffer,buffer_size,def_string);
 }
 
 // continue search from key founded in previous call this function or to function ReadString
 // fill buffer with key value if section and key exist, otherwise return false
-bool INIFILE_T::ReadStringNext(char * section_name, char * key_name, char * buffer, dword buffer_size)
+bool INIFILE_T::ReadStringNext(char * section_name, char * key_name, char * buffer, uint32_t buffer_size)
 {
 	return ifs_PTR->ReadStringNext(&Search, section_name,key_name,buffer,buffer_size);
 }

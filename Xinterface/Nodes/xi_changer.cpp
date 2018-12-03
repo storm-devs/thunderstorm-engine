@@ -23,7 +23,7 @@ CXI_CHANGER::~CXI_CHANGER()
 	ReleaseAll();
 }
 
-void CXI_CHANGER::Draw(bool bSelected,dword Delta_Time)
+void CXI_CHANGER::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(m_bUse)
 	{
@@ -91,7 +91,7 @@ void CXI_CHANGER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
         m_pPlace = NEW XYRECT[m_nPlaceQuantity];
         if(m_pPlace== nullptr)
             STORM_THROW("Allocate memory error")
-        ZeroMemory(m_pPlace,sizeof(XYRECT)*m_nPlaceQuantity);
+        PZERO(m_pPlace,sizeof(XYRECT)*m_nPlaceQuantity);
     }
 
 	// get rectangle positions
@@ -291,7 +291,7 @@ XYRECT CXI_CHANGER::GetCursorRect()
 	return rectPos;
 }
 
-dword _cdecl CXI_CHANGER::MessageProc(long msgcode, MESSAGE & message)
+uint32_t _cdecl CXI_CHANGER::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

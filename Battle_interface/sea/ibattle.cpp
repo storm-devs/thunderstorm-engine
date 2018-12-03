@@ -85,11 +85,11 @@ bool BATTLE_INTERFACE::Init()
 	return true;
 }
 
-void BATTLE_INTERFACE::Execute(dword delta_time)
+void BATTLE_INTERFACE::Execute(uint32_t delta_time)
 {
 	m_fCurBlinkTime += delta_time*m_fBlinkSpeed;
 	if(m_fCurBlinkTime>PIm2) m_fCurBlinkTime-=PIm2;
-	BIUtils::g_dwBlinkColor = (DWORD)(255*fabsf(sinf(m_fCurBlinkTime)))&0xFF;
+	BIUtils::g_dwBlinkColor = (uint32_t)(255*fabsf(sinf(m_fCurBlinkTime)))&0xFF;
 	CheckSeaState();
 	if(m_bYesShowAll && m_bVisible)
 	{
@@ -137,7 +137,7 @@ void BATTLE_INTERFACE::Execute(dword delta_time)
 	//if(m_pMessageIcons) m_pMessageIcons->Update(delta_time);
 }
 
-void BATTLE_INTERFACE::Realize(dword delta_time)
+void BATTLE_INTERFACE::Realize(uint32_t delta_time)
 {
 #ifndef _XBOX
 		if(api->Controls->GetDebugAsyncKeyState('K')<0) return;
@@ -224,12 +224,12 @@ void BATTLE_INTERFACE::LoadIniFile()
     UNGUARD
 }
 
-dword BATTLE_INTERFACE::AttributeChanged(ATTRIBUTES * pAttr)
+uint32_t BATTLE_INTERFACE::AttributeChanged(ATTRIBUTES * pAttr)
 {
 	return 0;
 }
 
-dword _cdecl BATTLE_INTERFACE::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl BATTLE_INTERFACE::ProcessMessage(MESSAGE & message)
 {
 	switch (message.Long())
 	{
@@ -245,7 +245,7 @@ dword _cdecl BATTLE_INTERFACE::ProcessMessage(MESSAGE & message)
 			ATTRIBUTES * pShipAttr = message.AttributePointer();
 			bool bMyShip = (message.Long() != 0L);
 			long relation = message.Long();
-			dword dwShipColor = message.GetCurrentFormatType() ? message.Long() : 0;
+			uint32_t dwShipColor = message.GetCurrentFormatType() ? message.Long() : 0;
 			g_ShipList.Add(AttributesPointer?AttributesPointer->GetAttributeAsDword("MainChrIndex",-1):-1, chIdx,pChAttr,pShipAttr,bMyShip,relation,dwShipColor);
 			if( m_pShipIcon ) m_pShipIcon->SetUpdate();
 		}

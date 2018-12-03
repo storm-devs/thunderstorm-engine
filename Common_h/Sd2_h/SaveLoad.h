@@ -1,14 +1,15 @@
 #ifndef SAVE_LOAD_HPP
 #define SAVE_LOAD_HPP
 
-#include "..\character.h"
 #include <string>
+#include "../../Common_h/memop.h"
+#include "../../Common_h/defines.h"
 
 class CSaveLoad
 {
 private:
 	char	* pSaveBuffer;
-	dword	dwCurSize, dwMaxSize;
+	uint32_t	dwCurSize, dwMaxSize;
 	bool	bSave, bLoad;
 
 public:
@@ -31,8 +32,8 @@ public:
 		{
 			char * pFFSave = NEW char[dwCurSize * 2 + 8 + 1];
 			sprintf(pFFSave, "%.8x", dwCurSize);
-			for (dword i=0; i<dwCurSize; i++)
-				sprintf(&pFFSave[8 + i * 2], "%.2x", byte(pSaveBuffer[i]));
+			for (uint32_t i=0; i<dwCurSize; i++)
+				sprintf(&pFFSave[8 + i * 2], "%.2x", uint8_t(pSaveBuffer[i]));
 
 			VDATA * pV = api->Event("SeaLoad_GetPointer", "sl", "seasave", -1);
 			if (pV)
@@ -60,22 +61,22 @@ public:
 
 		VDATA * pV = api->Event("SeaLoad_GetPointer", "sl", "seasave", -1);
 		char * pSave = pV->GetAClass()->GetAttribute("save");
-		dword dwSize;
+		uint32_t dwSize;
 		char str[256];
 		strncpy(str, pSave, 8);
 		str[8] = 0;
 		sscanf(str, "%x", &dwSize);
 		pSaveBuffer = NEW char[dwSize];
-		for (dword i=0; i<dwSize; i++)
+		for (uint32_t i=0; i<dwSize; i++)
 		{
 			strncpy(str, &pSave[8 + i * 2], 2); str[2] = 0;
-			dword dwValue;
+			uint32_t dwValue;
 			sscanf(str, "%x", &dwValue);
 			pSaveBuffer[i] = char(dwValue);
 		}
 	}
 
-	void Write(const void * pBuffer, dword dwSize)
+	void Write(const void * pBuffer, uint32_t dwSize)
 	{
 		if (dwMaxSize <= dwCurSize + dwSize)
 		{
@@ -86,7 +87,7 @@ public:
 		dwCurSize += dwSize;
 	}
 
-	void Read(void * pBuffer, dword dwSize)
+	void Read(void * pBuffer, uint32_t dwSize)
 	{
 		memcpy(pBuffer, &pSaveBuffer[dwCurSize], dwSize);
 		dwCurSize += dwSize;
@@ -96,7 +97,7 @@ public:
 // Save functions
 // =======================================================================================
 
-	void SaveDword(dword dwValue)
+	void SaveDword(uint32_t dwValue)
 	{
 		Write(&dwValue, sizeof(dwValue));
 	}
@@ -115,13 +116,13 @@ public:
 	{
 		if (str.size())
 		{
-			dword dwLen = str.size() + 1;
+			uint32_t dwLen = str.size() + 1;
 			SaveDword(dwLen);
 			Write(str.c_str(), dwLen);
 		}
 		else
 		{
-			dword dwLen = 0;
+			uint32_t dwLen = 0;
 			SaveDword(dwLen);
 		}
 	}
@@ -131,7 +132,7 @@ public:
 		Write((void*)&vVector, sizeof(vVector));
 	}
 
-	void SaveBuffer(const char * pBuffer, dword dwSize)
+	void SaveBuffer(const char * pBuffer, uint32_t dwSize)
 	{
 		SaveDword(dwSize);
 		Write((void*)pBuffer, dwSize);
@@ -152,9 +153,9 @@ public:
 // Load functions
 // =======================================================================================
 
-	dword LoadDword()
+	uint32_t LoadDword()
 	{
-		dword dwValue;
+		uint32_t dwValue;
 		Read(&dwValue, sizeof(dwValue));
 		return dwValue;
 	}
@@ -176,7 +177,7 @@ public:
 	std::string LoadString()
 	{
 		std::string str;
-		dword dwLen;
+		uint32_t dwLen;
 		Read(&dwLen, sizeof(dwLen));
 		if (dwLen == 0) return std::string();
 		char * pBuffer = NEW char[dwLen];
@@ -195,7 +196,7 @@ public:
 
 	void LoadBuffer(char * * pBuffer)
 	{
-		dword dwSize;
+		uint32_t dwSize;
 		Read(&dwSize, sizeof(dwSize));
 		*pBuffer = NEW char[dwSize];
 		Read(*pBuffer, dwSize);
@@ -203,7 +204,7 @@ public:
 
 	void Load2Buffer(char * pBuffer)
 	{
-		dword dwSize;
+		uint32_t dwSize;
 		Read(&dwSize, sizeof(dwSize));
 		Read(pBuffer, dwSize);
 	}

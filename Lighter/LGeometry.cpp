@@ -175,9 +175,9 @@ bool LGeometry::Process(VDX9RENDER * rs, long numLights)
 				return false;
 			}
 			//Размер вершины
-			long stride = 6*sizeof(float) + sizeof(dword);
+			long stride = 6*sizeof(float) + sizeof(uint32_t);
 			stride += ((desc.FVF & D3DFVF_TEXCOUNT_MASK) >> D3DFVF_TEXCOUNT_SHIFT)*2*sizeof(float);
-			if(desc.FVF & D3DFVF_SPECULAR) stride += sizeof(dword);
+			if(desc.FVF & D3DFVF_SPECULAR) stride += sizeof(uint32_t);
 			//Количество вершин
 			long num = desc.Size/stride;
 			if(num <= 0)
@@ -192,7 +192,7 @@ bool LGeometry::Process(VDX9RENDER * rs, long numLights)
 				vrt = (Vertex *)RESIZE(vrt, maxVrt*sizeof(Vertex));
 			}
 			//Копируем
-			byte * pnt = nullptr;
+			uint8_t * pnt = nullptr;
 			if(vbuf->Lock(0, desc.Size, (VOID**)&pnt, 0) != D3D_OK)
 			{
 				api->Trace("Location lighter: vertex buffer no locked, model %s, vbID %i", object[i].nameReal, vbID);
@@ -204,7 +204,7 @@ bool LGeometry::Process(VDX9RENDER * rs, long numLights)
 				vrt[numVrt].p = *pos;
 				CVECTOR * nrm = (CVECTOR *)(pnt + v*stride + 3*sizeof(float));
 				vrt[numVrt].n = *nrm;
-				dword color = *(dword *)(pnt + v*stride + 6*sizeof(float));
+				uint32_t color = *(uint32_t *)(pnt + v*stride + 6*sizeof(float));
 				float l = ~vrt[numVrt].n;
 				if(l > 0.0f)
 				{
@@ -236,7 +236,7 @@ bool LGeometry::Process(VDX9RENDER * rs, long numLights)
 		object[i].lBufSize = cindex;
 		//Треугольники--------------------------------------------------------------------------------
 		long ibID = g->GetIndexBuffer();
-		word * idx = (word *)rs->LockIndexBuffer(ibID);
+		uint16_t * idx = (uint16_t *)rs->LockIndexBuffer(ibID);
 		if(!idx)
 		{
 			api->Trace("Location lighter: index buffer no locked, model %s", object[i].nameReal);
@@ -257,7 +257,7 @@ bool LGeometry::Process(VDX9RENDER * rs, long numLights)
 			}
 			vb = vbuffer[vb].start + obj.start_vertex;
 			//Читаем треугольники
-			word * triangles = idx + obj.striangle*3;
+			uint16_t * triangles = idx + obj.striangle*3;
 			for(long t = 0; t < obj.ntriangles; t++)
 			{
 				//Относительные индексы
@@ -371,14 +371,14 @@ void LGeometry::DrawNormals(VDX9RENDER * rs)
 void LGeometry::UpdateColors(VDX9RENDER * rs)
 {
 	long lockedVB = -1;
-	byte * pnt = nullptr;
+	uint8_t * pnt = nullptr;
 	for(long i = 0; i < numVrt; i++)
 	{
 		if(vrt[i].vbid != lockedVB)
 		{
 			if(lockedVB >= 0) rs->UnLockVertexBuffer(lockedVB);
 			lockedVB = -1;
-			pnt = (byte *)rs->LockVertexBuffer(vrt[i].vbid);
+			pnt = (uint8_t *)rs->LockVertexBuffer(vrt[i].vbid);
 			if(!pnt)
 			{
 				api->Trace("Location lighter: no lock vertex buffer for update color");
@@ -393,8 +393,8 @@ void LGeometry::UpdateColors(VDX9RENDER * rs)
 		if(c.y > 255.0f) c.y = 255.0f;
 		if(c.z < 0.0f) c.z = 0.0f;
 		if(c.z > 255.0f) c.z = 255.0f;
-		dword & clr = *(dword *)(pnt + vrt[i].addr);
-		clr = (dword(c.x) << 16) | (dword(c.y) << 8) | (dword(c.z) << 0) | vrt[i].alpha;
+		uint32_t & clr = *(uint32_t *)(pnt + vrt[i].addr);
+		clr = (uint32_t(c.x) << 16) | (uint32_t(c.y) << 8) | (uint32_t(c.z) << 0) | vrt[i].alpha;
 	}
 	if(lockedVB >= 0) rs->UnLockVertexBuffer(lockedVB);
 }
@@ -420,7 +420,7 @@ bool LGeometry::Save()
 	//Сохраняем объекты
 	bool result = true;
 	long bufSize = 16384;
-	dword * buf = NEW dword[bufSize];
+	uint32_t * buf = NEW uint32_t[bufSize];
 	for(long i = 0, pnt = 0; i < numObjects; i++)
 	{
 		if(object[i].lBufSize <= 0) continue;
@@ -464,14 +464,14 @@ bool LGeometry::Save()
 			if(c.y > 255.0f) c.y = 255.0f;
 			if(c.z < 0.0f) c.z = 0.0f;
 			if(c.z > 255.0f) c.z = 255.0f;
-			buf[sv++] = (dword(c.x) << 16) | (dword(c.y) << 8) | (dword(c.z) << 0) | 0xff000000;
+			buf[sv++] = (uint32_t(c.x) << 16) | (uint32_t(c.y) << 8) | (uint32_t(c.z) << 0) | 0xff000000;
 			if(sv >= bufSize)
 			{
-				result = (fwrite(buf, sv*sizeof(dword), 1, fl) == 1);
+				result = (fwrite(buf, sv*sizeof(uint32_t), 1, fl) == 1);
 				sv = 0;
 			}
 		}
-		if(sv > 0) result &= (fwrite(buf, sv*sizeof(dword), 1, fl) == 1);
+		if(sv > 0) result &= (fwrite(buf, sv*sizeof(uint32_t), 1, fl) == 1);
 		fclose(fl);
 	}
 	::SetCurrentDirectory(oldPath);

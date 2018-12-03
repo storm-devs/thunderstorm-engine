@@ -53,7 +53,7 @@ void ActionPlayerImp::SetAnimation(AnimationImp * animation, long index)
 //Установить текущие действие
 bool ActionPlayerImp::SetAction(const char * actionName)
 {
-	if(actionName && action && _stricmp(action->GetName(), actionName) == null) return true;
+	if(actionName && action && _stricmp(action->GetName(), actionName) == 0) return true;
 	action = nullptr;
 	isPlay = isPause = false;
 	isAutostop = true;
@@ -296,7 +296,7 @@ void ActionPlayerImp::CopyState(ActionPlayerImp & from)
 	isLoop = from.isLoop;
 	//Маска для свершившихся событий
 	for(long i = 0; i < ACTIONPLAYEREVENTFLAGS; i++)
-						eventsMask[i] = from.eventsMask[i];
+		eventsMask[i] = from.eventsMask[i];
 	//Коэфициент блендинга
 	kBlend = from.kBlend;
 	//Скалирующий коэфициент блендинга для таймера

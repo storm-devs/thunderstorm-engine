@@ -95,9 +95,9 @@ bool MAST::LoadState(ENTITY_STATE * state)
 	return true;
 }
 
-void MAST::Execute(dword Delta_Time)
+void MAST::Execute(uint32_t Delta_Time)
 {
-    GUARD(void MAST::Execute(dword Delta_Time))
+    GUARD(void MAST::Execute(uint32_t Delta_Time))
 
     if(bUse)
     {
@@ -127,9 +127,9 @@ void MAST::Execute(dword Delta_Time)
 }
 
 #define D3DLXLINEVERTEX_FORMAT		(D3DFVF_DIFFUSE|D3DFVF_XYZ|D3DFVF_TEX0)
-void MAST::Realize(dword Delta_Time)
+void MAST::Realize(uint32_t Delta_Time)
 {
-	GUARD(void MAST::Realize(dword Delta_Time))
+	GUARD(void MAST::Realize(uint32_t Delta_Time))
 
 	if( m_mount_param.pNode ) {
 		Mount( m_mount_param.modelEI, m_mount_param.shipEI, m_mount_param.pNode );
@@ -168,9 +168,9 @@ void MAST::Realize(dword Delta_Time)
 	UNGUARD
 }
 
-dword _cdecl MAST::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl MAST::ProcessMessage(MESSAGE & message)
 {
-	GUARD(dword _cdecl MAST::ProcessMessage(MESSAGE message))
+	GUARD(uint32_t _cdecl MAST::ProcessMessage(MESSAGE message))
 
 	switch (message.Long())
 	{
@@ -451,7 +451,7 @@ void MAST::LoadIni()
     UNGUARD
 }
 
-void MAST::doMove(dword DeltaTime)
+void MAST::doMove(uint32_t DeltaTime)
 {
     if(wMoveCounter<=MAX_MOVE_CICLES) wMoveCounter++;
 

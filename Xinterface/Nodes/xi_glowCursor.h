@@ -10,7 +10,7 @@ public:
 	CXI_GLOWCURSOR();
 	~CXI_GLOWCURSOR();
 
-	void	Draw(bool bSelected,dword Delta_Time);
+	void	Draw(bool bSelected,uint32_t Delta_Time);
 	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
 	void	ReleaseAll();
 	int		CommandExecute(int wActCode) {return 0;}
@@ -27,9 +27,9 @@ protected:
 	bool	m_bGlowToBack;
 
 	bool	m_bUseBlind;
-    DWORD	m_dwFoneColor;
-	DWORD	m_dwBlindColor;
-	DWORD	m_dwCurColor;
+    uint32_t	m_dwFoneColor;
+	uint32_t	m_dwBlindColor;
+	uint32_t	m_dwCurColor;
 
 	bool	m_bUpBlind;
 	float	m_fCurM;

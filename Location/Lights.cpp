@@ -151,7 +151,7 @@ bool Lights::Init()
 }
 
 //Исполнение
-void Lights::Execute(dword delta_time)
+void Lights::Execute(uint32_t delta_time)
 {
 #ifndef _XBOX
 #ifdef LIGHTS_DEBUG
@@ -197,7 +197,7 @@ void Lights::Execute(dword delta_time)
 }
 
 //Рисование корон
-void Lights::Realize(dword delta_time)
+void Lights::Realize(uint32_t delta_time)
 {
 	//Позиция камеры
 	CVECTOR pos, ang;
@@ -256,7 +256,7 @@ void Lights::Realize(dword delta_time)
 		//Позиция
 		CVECTOR pos = camMtx*CVECTOR(ls.pos.x, ls.pos.y, ls.pos.z);
 		//Цвет
-		dword c = dword(alpha); c |= (c << 24) | (c << 16) | (c << 8);
+		uint32_t c = uint32_t(alpha); c |= (c << 24) | (c << 16) | (c << 8);
 		//Угол поворота
 		float cs, sn;
 		if(dist > 0.0f)

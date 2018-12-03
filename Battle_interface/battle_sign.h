@@ -45,8 +45,8 @@ protected:
 	void UpdateBuffers( long nQ );
 	void FillIndexBuffer();
 	void FillVertexBuffer();
-	long WriteSquareToVBuff( BI_COLOR_VERTEX* pv, FRECT& uv, dword color, BIFPOINT& center, FPOINT& size );
-	long WriteSquareToVBuffWithProgress( BI_COLOR_VERTEX* pv, FRECT& uv, dword color, BIFPOINT& center, FPOINT& size, float fClampUp, float fClampDown, float fClampLeft, float fClampRight );
+	long WriteSquareToVBuff( BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size );
+	long WriteSquareToVBuffWithProgress( BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size, float fClampUp, float fClampDown, float fClampLeft, float fClampRight );
 
 	VDX9RENDER* m_pRS;
 
@@ -55,14 +55,14 @@ protected:
 
 	long m_nBackTextureID;
 	long m_nBackSquareQ;
-	dword m_dwBackColor;
+	uint32_t m_dwBackColor;
 	FRECT m_rBackUV;
 	BIFPOINT m_pntBackOffset;
 	FPOINT m_pntBackIconSize;
 
 	long m_nSignStateTextureID;
 	long m_nSignStateSquareQ;
-	dword m_dwSignStateColor;
+	uint32_t m_dwSignStateColor;
 	FRECT m_rSignStateLeftUV;
 	BIFPOINT m_pntSignStateLeftOffset;
 	FPOINT m_pntSignStateLeftIconSize;
@@ -72,19 +72,19 @@ protected:
 
 	long m_nSignStarTextureID;
 	long m_nSignStarSquareQ;
-	dword m_dwSignStarColor;
+	uint32_t m_dwSignStarColor;
 	FRECT m_rSignStarUV;
 	BIFPOINT m_pntSignStarOffset;
 	FPOINT m_pntSignStarIconSize;
 
 	long m_nSignFaceTextureID;
 	long m_nSignFaceSquareQ;
-	dword m_dwSignFaceColor;
+	uint32_t m_dwSignFaceColor;
 	BIFPOINT m_pntSignFaceOffset;
 	FPOINT m_pntSignFaceIconSize;
 
 	long m_idSignTextFont;
-	dword m_dwSignTextFontColor;
+	uint32_t m_dwSignTextFontColor;
 	float m_fSignTextFontScale;
 	POINT m_SignTextFontOffset;
 

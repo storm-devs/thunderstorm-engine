@@ -9,7 +9,7 @@
 #include "..\common_h\model.h"
 
 struct SAILGROUP {
-    DWORD nVert,nIndx;
+    uint32_t nVert,nIndx;
     long vertBuf,indxBuf;
 };
 
@@ -61,8 +61,8 @@ float FALL_TSAIL_ADD_RAND;
 
 long GROUP_UPDATE_TIME;
 
-WORD SailQuantity;
-WORD SailCurNum;
+uint16_t SailQuantity;
+uint16_t SailCurNum;
 
 float m_fMinSpeedVal; // минимальная скорость даваемая парусами
 
@@ -84,11 +84,11 @@ public:
 	~SAIL();
     // Entity func
 	bool Init();
-	void Realize(dword Delta_Time);
-	void Execute(dword Delta_Time);
+	void Realize(uint32_t Delta_Time);
+	void Execute(uint32_t Delta_Time);
 	bool CreateState(ENTITY_STATE_GEN * state_gen);
 	bool LoadState(ENTITY_STATE * state);
-	dword _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t _cdecl ProcessMessage(MESSAGE & message);
 	void SetDevice();
     // Collision func
     int LastTraceGroup;
@@ -99,7 +99,7 @@ public:
     float Cannon_Trace(long iBallOwner, const CVECTOR &src,const CVECTOR &dst);
     ENTITY_ID GetShipID() {return gdata[LastTraceGroup].shipEI;}
 	SAILONE_BASE * FindSailForCharacter(int chrIdx,char* nodeName,int grNum);
-	dword AttributeChanged(ATTRIBUTES * pAttr);
+	uint32_t AttributeChanged(ATTRIBUTES * pAttr);
 
 	void LostRender();
 	void RestoreRender();
@@ -140,7 +140,7 @@ private:
         float fSpeedMul;
 		float fRollingSpeed;
 		// цвет парусов
-		dword dwSailsColor;
+		uint32_t dwSailsColor;
     };
     GROUPDATA* gdata;
     void FirstRun();
@@ -161,7 +161,7 @@ private:
 	void	DoRandomsSailsDmg(int chrIdx, int gn, float fDmg);
 
 	// обработка скриптовых запросов
-	dword _cdecl ScriptProcessing(char * name, MESSAGE & message);
+	uint32_t _cdecl ScriptProcessing(char * name, MESSAGE & message);
 
     bool bFirstRun;
     int  wFirstIndx;

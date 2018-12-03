@@ -8,7 +8,7 @@
 struct EdVertexColorUV
 {
 	CVECTOR vPos;
-	dword dwColor;
+	uint32_t dwColor;
 	float tu,tv;
 };
 

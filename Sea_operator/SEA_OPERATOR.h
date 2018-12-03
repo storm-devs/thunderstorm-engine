@@ -4,7 +4,6 @@
 #include "..\common_h\dx9render.h"
 #include "..\common_h\sea_base.h"
 #include "..\common_h\ship_base.h"
-#include "..\common_h\model.h"
 #include "TFIFOBuffer.h"
 
 #define ACTION_TIME			 1000
@@ -42,10 +41,10 @@ public:
 	virtual ~SEA_OPERATOR();
 
 	virtual bool Init();
-	virtual dword _cdecl ProcessMessage(MESSAGE & message);
-	virtual void Realize(dword _dTime);
-	virtual void Execute(dword _dTime);
-	virtual dword AttributeChanged(ATTRIBUTES *_newAttr);
+	virtual uint32_t _cdecl ProcessMessage(MESSAGE & message);
+	virtual void Realize(uint32_t _dTime);
+	virtual void Execute(uint32_t _dTime);
+	virtual uint32_t AttributeChanged(ATTRIBUTES *_newAttr);
 
 protected:
 	void ShowAttackerBort(tAction *_action);
@@ -61,7 +60,7 @@ private:
 	void HandleShipHit();
 	void HandleShipIdle();
 	void StartNewAction();
-	void ProcessActions(dword _dTime);
+	void ProcessActions(uint32_t _dTime);
 
 	bool enabled, active;
 	SEA_BASE *sea;
@@ -71,7 +70,7 @@ private:
 	bool ballTracked;
 	CVECTOR ballPosition, lastBallPosition, finalBallPosition;
 
-	dword idleTime, sinceLastActionTime;
+	uint32_t idleTime, sinceLastActionTime;
 	TActionBuffer actionBuffer;
 	CVECTOR cameraPos, cameraTargetPos;
 };

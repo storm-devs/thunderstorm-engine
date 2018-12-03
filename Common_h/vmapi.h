@@ -2,8 +2,6 @@
 #define _VMAPI_H_
 
 #include "vapi.h"
-#include "memop.h"
-#include "exs.h"
 
 #ifdef _ENGINE_IN_
 extern VMA * _pModuleClassRoot;

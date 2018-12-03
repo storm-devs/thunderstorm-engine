@@ -1,5 +1,6 @@
 #ifndef AISHIPTASKCONTROLLER_HPP
 #define AISHIPTASKCONTROLLER_HPP
+#include "../../Shared/sea_ai/script_defines.h"
 
 // ============================================================================
 // master class AIShipTaskController
@@ -16,7 +17,7 @@ class AITask
 public:
 	AITask() : bActive(false) { dwTaskType = AITASK_NONE; pATaskCharacter = nullptr; vTaskPnt = 0.0f; };
 
-	dword			dwTaskType;
+	uint32_t			dwTaskType;
 
 	ATTRIBUTES		* pATaskCharacter;
 	CVECTOR			vTaskPnt;
@@ -48,7 +49,7 @@ private:
 
 	AITask			Primary,Secondary;
 
-	AITask			* GetTask(dword dwPriority) { return (dwPriority==PRIMARY_TASK) ? &Primary : &Secondary; };
+	AITask			* GetTask(uint32_t dwPriority) { return (dwPriority==PRIMARY_TASK) ? &Primary : &Secondary; };
 	VAI_INNEROBJ	* GetCurrentTaskAIObj() { return AIHelper::FindAIInnerObj(GetCurrentTask()->pATaskCharacter); };
 	bool			isCurrentTaskSecondary() { return Secondary.isActive(); };
 	bool			isCurrentTaskPrimary() { return !Secondary.isActive(); };
@@ -69,8 +70,8 @@ public:
 
 	AITask	* GetCurrentTask() { return (Secondary.isActive()) ? &Secondary : &Primary; };
 
-	void SetNewTask(dword dwPriority, dword _dwNewTaskType, CVECTOR & vPnt);
-	void SetNewTask(dword dwPriority, dword _dwNewTaskType, ATTRIBUTES * _pATaskCharacter);
+	void SetNewTask(uint32_t dwPriority, uint32_t _dwNewTaskType, CVECTOR & vPnt);
+	void SetNewTask(uint32_t dwPriority, uint32_t _dwNewTaskType, ATTRIBUTES * _pATaskCharacter);
 
 	// controller execute 
 	void	Execute(float);

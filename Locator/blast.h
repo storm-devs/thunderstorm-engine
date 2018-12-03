@@ -28,17 +28,17 @@ class BLAST : public ENTITY
 	CANNON_TRACE_BASE * pSea;
 	ENTITY_ID sea_eid;
 	float AngleDeviation;
-	dword ItemsNum;
+	uint32_t ItemsNum;
 	CMatrix Center;
 	ENTITY_ID Splash;
 public:
 	~BLAST();
 	 BLAST();
 	bool Init();
-	dword _cdecl ProcessMessage(MESSAGE & message);
-	dword AttributeChanged(ATTRIBUTES *);
-	void Realize(dword Delta_Time);
-	void ProcessTime(dword Delta_Time);
+	uint32_t _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t AttributeChanged(ATTRIBUTES *);
+	void Realize(uint32_t Delta_Time);
+	void ProcessTime(uint32_t Delta_Time);
 	void SetBlastCenter(CVECTOR pos, CVECTOR ang);
 	void AddGeometry(char * name, long num);
 };

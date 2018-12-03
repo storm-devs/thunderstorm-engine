@@ -66,7 +66,7 @@ inline bool IntersectLines2D(const CVECTOR & v1, const CVECTOR & v2, const CVECT
 	return true;
 }
 
-__forceinline void FillRectVertex(RS_RECT & pV, float x, float y, float z, float fSize, float fAngle = 0.0f, dword dwColor = 0xFFFFFF, dword dwSubTexture = 0)
+__forceinline void FillRectVertex(RS_RECT & pV, float x, float y, float z, float fSize, float fAngle = 0.0f, uint32_t dwColor = 0xFFFFFF, uint32_t dwSubTexture = 0)
 {
 	pV.vPos.x = x; pV.vPos.y = y; pV.vPos.z = z;
 	pV.dwColor = dwColor;
@@ -75,7 +75,7 @@ __forceinline void FillRectVertex(RS_RECT & pV, float x, float y, float z, float
 	pV.fSize = fSize;
 }
 
-__forceinline void FillSpriteVertex(RS_SPRITE & pV, float x, float y, float z = 1.0f, dword dwColor = 0xFFFFFF, float tu = 0.0f, float tv = 0.0f)
+__forceinline void FillSpriteVertex(RS_SPRITE & pV, float x, float y, float z = 1.0f, uint32_t dwColor = 0xFFFFFF, float tu = 0.0f, float tv = 0.0f)
 {
 	pV.vPos.x = x; pV.vPos.y = y; pV.vPos.z = z;
 	pV.dwColor = dwColor;
@@ -83,8 +83,8 @@ __forceinline void FillSpriteVertex(RS_SPRITE & pV, float x, float y, float z = 
 	pV.tu = tu;	pV.tv = tv;
 }
 
-inline dword Number2Shift(dword dwNumber)
+inline uint32_t Number2Shift(uint32_t dwNumber)
 {
-	for (dword i=0; i<31; i++) if (dword(1<<i) == dwNumber) return i;
+	for (uint32_t i=0; i<31; i++) if (uint32_t(1<<i) == dwNumber) return i;
 	return 0;
 }

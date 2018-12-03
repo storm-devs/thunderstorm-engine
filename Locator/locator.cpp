@@ -1,5 +1,5 @@
 #include "locator.h"
-#include "..\common_h\messages.h"
+#include "..\../Shared/messages.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(LOCATOR)
@@ -217,7 +217,7 @@ void LOCATOR::LocateForI(VDATA * pData)
 	delete g;
 }
 
-void LOCATOR::LocateForI_Locators(ATTRIBUTES * pA, GEOS * geo, long iGroupID, dword dwFlags)
+void LOCATOR::LocateForI_Locators(ATTRIBUTES * pA, GEOS * geo, long iGroupID, uint32_t dwFlags)
 {
 	long			i;
 	GEOS::LABEL		label;
@@ -235,7 +235,7 @@ void LOCATOR::LocateForI_Locators(ATTRIBUTES * pA, GEOS * geo, long iGroupID, dw
 
 }
 
-dword _cdecl LOCATOR::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl LOCATOR::ProcessMessage(MESSAGE & message)
 {
 	long message_code;
 	char name[MAX_PATH];
@@ -353,7 +353,7 @@ dword _cdecl LOCATOR::ProcessMessage(MESSAGE & message)
 	return 0;
 }
 
-dword LOCATOR::AttributeChanged(ATTRIBUTES * pA)
+uint32_t LOCATOR::AttributeChanged(ATTRIBUTES * pA)
 {
 
 	return 0;

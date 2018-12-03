@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "xi_pceditbox.h"
 #include "xi_image.h"
+#include "../../InterfaceEditor/InterfaceEditor.h"
 
 #define WIDTH_SCALE_USED	0.9f
 #define HEIGHT_SCALE_USED	0.9f
@@ -36,7 +37,7 @@ void CXI_PCEDITBOX::ReleaseAll()
 	PTR_STORM_DELETE( m_pMiddleImage );
 }
 
-void CXI_PCEDITBOX::Draw(bool bSelected,dword Delta_Time)
+void CXI_PCEDITBOX::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if( m_pLeftImage ) m_pLeftImage->Draw();
 	if( m_pRightImage ) m_pRightImage->Draw();

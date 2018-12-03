@@ -1,10 +1,8 @@
 #ifndef _ENTITY_H_
 #define _ENTITY_H_
 
-#include "d_types.h"
 #include "entity_id.h"
 #include "attributes.h"
-#include "key_codes.h"
 #include "message.h"
 #include "entity_state.h"
 #include "vsystem_api.h"
@@ -46,7 +44,7 @@ private:
 	VGEOMETRY * __pGeoService;
 	VDX9RENDER * __pRenderService;
 	COLLIDE * __pCollideService;
-	dword dwNetID;
+	uint32_t dwNetID;
 
 public:
 	ATTRIBUTES * AttributesPointer;
@@ -70,13 +68,13 @@ public:
 		_VSYSTEM_API->Pop(Entity_ID.pointer);
 	};
 	virtual bool Init()											{return true;};
-	virtual void Execute(dword Delta_Time)						{};
-	virtual void Realize(dword Delta_Time)						{};
-	virtual void ProcessMessage(dword,dword,dword)				{};
-	virtual dword _cdecl ProcessMessage(MESSAGE & message)		{return 0;};
+	virtual void Execute(uint32_t Delta_Time)						{};
+	virtual void Realize(uint32_t Delta_Time)						{};
+	virtual void ProcessMessage(uint32_t,uint32_t,uint32_t)				{};
+	virtual uint32_t _cdecl ProcessMessage(MESSAGE & message)		{return 0;};
 	virtual bool LoadState(ENTITY_STATE * state)				{return true;};
 	virtual bool CreateState(ENTITY_STATE_GEN * state_gen)		{return true;};
-	virtual dword AttributeChanged(ATTRIBUTES *)				{return 0;};
+	virtual uint32_t AttributeChanged(ATTRIBUTES *)				{return 0;};
 
 	virtual VDX9RENDER & Render() { if (!__pRenderService) __pRenderService = (VDX9RENDER*)_VSYSTEM_API->CreateService("dx9render"); return *__pRenderService; };
 	virtual VGEOMETRY & Geometry() { if (!__pGeoService) __pGeoService = (VGEOMETRY *)_VSYSTEM_API->CreateService("geometry"); return *__pGeoService; };
@@ -94,8 +92,8 @@ public:
 	};
 	virtual bool IsClient() { return !IsServer(); };
 
-	virtual dword GetNetID() { return dwNetID; };
-	virtual void SetNetID(dword dwNetID) { this->dwNetID = dwNetID; };
+	virtual uint32_t GetNetID() { return dwNetID; };
+	virtual void SetNetID(uint32_t dwNetID) { this->dwNetID = dwNetID; };
 
 	virtual void LostRender() {};
 	virtual void RestoreRender() {};

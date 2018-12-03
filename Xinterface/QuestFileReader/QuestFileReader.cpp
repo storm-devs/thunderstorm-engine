@@ -217,7 +217,7 @@ bool QUEST_FILE_READER::InitQuestsQuery()
 				continue;
 			}
 
-			DWORD filesize = api->fio->_GetFileSize( hfile, nullptr );
+			uint32_t filesize = api->fio->_GetFileSize( hfile, nullptr );
 			if( filesize == 0 )
 			{
 				api->Trace( "Empty quest log file %s", m_aQuestFileName[n].c_str() );
@@ -240,7 +240,7 @@ bool QUEST_FILE_READER::InitQuestsQuery()
 				STORM_THROW("allocate memory error");
 			}
 
-			DWORD readsize;
+			uint32_t readsize;
 			if( api->fio->_ReadFile( hfile, &m_pFileBuf[foffset], filesize, &readsize ) == FALSE ||
 				readsize != filesize )
 			{
@@ -444,7 +444,7 @@ void QUEST_FILE_READER::SetQuestTextFileName(const char * pcFileName)
 		return;
 	}
 	// его размер
-	DWORD filesize = api->fio->_GetFileSize( hfile, nullptr );
+	uint32_t filesize = api->fio->_GetFileSize( hfile, nullptr );
 	if( filesize == 0 )
 	{
 		api->Trace( "Empty quest log file %s", pcFileName );
@@ -455,7 +455,7 @@ void QUEST_FILE_READER::SetQuestTextFileName(const char * pcFileName)
 	char* pBuf = NEW char[filesize+1];
 	Assert( pBuf );
 	// читаем в этот буфер из файла
-	DWORD readsize;
+	uint32_t readsize;
 	if( api->fio->_ReadFile( hfile, pBuf, filesize, &readsize ) == FALSE ||
 		readsize != filesize )
 	{

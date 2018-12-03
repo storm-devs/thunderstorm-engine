@@ -11,22 +11,22 @@ BITLEVEL::~BITLEVEL()
 	if(pBits) free(pBits);
 }
 
-BITLEVEL::BITLEVEL(DWORD _nManagedBits)
+BITLEVEL::BITLEVEL(uint32_t _nManagedBits)
 {
 	nManagedBits = _nManagedBits;
 	nDwordsNum = nManagedBits/DWORDBITS + 1;
 	//pBits = (DWORD *) NEW DWORD[nDwordsNum];
-	pBits = (DWORD *) malloc(nDwordsNum * sizeof(DWORD));
-	memset(pBits,0,nDwordsNum*sizeof(DWORD));
+	pBits = (uint32_t *) malloc(nDwordsNum * sizeof(uint32_t));
+	memset(pBits,0,nDwordsNum*sizeof(uint32_t));
 	nTestCounter = 0;
 }
 
 // return false if index beyond managed range
-bool BITLEVEL::SetBit(DWORD nIndex, bool & bDwordFull)
+bool BITLEVEL::SetBit(uint32_t nIndex, bool & bDwordFull)
 {
-	DWORD nOffset;
-	DWORD nDwordBitIndex;
-	DWORD nMask;
+	uint32_t nOffset;
+	uint32_t nDwordBitIndex;
+	uint32_t nMask;
 	
 	if(nIndex >= nManagedBits) return false;
 
@@ -45,11 +45,11 @@ bool BITLEVEL::SetBit(DWORD nIndex, bool & bDwordFull)
 	return true;
 }
 
-void BITLEVEL::ClearBit(DWORD nIndex)
+void BITLEVEL::ClearBit(uint32_t nIndex)
 {
-	DWORD nOffset;
-	DWORD nDwordBitIndex;
-	DWORD nMask;
+	uint32_t nOffset;
+	uint32_t nDwordBitIndex;
+	uint32_t nMask;
 	if(nIndex >= nManagedBits) return;
 
 //	return;
@@ -63,13 +63,13 @@ void BITLEVEL::ClearBit(DWORD nIndex)
 	pBits[nOffset] = pBits[nOffset] & (~nMask);
 }
 	
-bool BITLEVEL::FindFree(DWORD & nIndex)
+bool BITLEVEL::FindFree(uint32_t & nIndex)
 {
-	DWORD n,i;
-	DWORD nMask;
-	DWORD nV;
-	DWORD nCounter;
-	DWORD nTest;
+	uint32_t n,i;
+	uint32_t nMask;
+	uint32_t nV;
+	uint32_t nCounter;
+	uint32_t nTest;
 
 /*	if(nTestCounter < nManagedBits)
 	{
@@ -118,7 +118,7 @@ bool BITLEVEL::FindFree(DWORD & nIndex)
 
 MEMPOOL::~MEMPOOL()
 {
-	DWORD n;
+	uint32_t n;
 	//if(pPoolData) delete pPoolData;
 	if(pPoolData) free(pPoolData);
 
@@ -133,7 +133,7 @@ MEMPOOL::~MEMPOOL()
 	}
 }
 
-MEMPOOL::MEMPOOL(DWORD _nBlockSize, DWORD _nBlocksNum)
+MEMPOOL::MEMPOOL(uint32_t _nBlockSize, uint32_t _nBlocksNum)
 {
 	nBlockSize = _nBlockSize;
 	nBlocksNum = _nBlocksNum;
@@ -152,7 +152,7 @@ MEMPOOL::MEMPOOL(DWORD _nBlockSize, DWORD _nBlocksNum)
 
 void * MEMPOOL::GetMemory()
 {
-	DWORD nIndex;
+	uint32_t nIndex;
 	bool bDwordFull;
 	if(!pSTLevel[0]->FindFree(nIndex)) 
 	{
@@ -166,15 +166,15 @@ void * MEMPOOL::GetMemory()
 	pSTLevel[0]->SetBit(nIndex,bDwordFull);
 	nUsedBlocks++;
 	if(POOLHEADERSIZE != 0)
-	*(pPoolData + nIndex * (nBlockSize + POOLHEADERSIZE)) = (BYTE)nBlockSize;
+	*(pPoolData + nIndex * (nBlockSize + POOLHEADERSIZE)) = (uint8_t)nBlockSize;
 	return pPoolData + nIndex * (nBlockSize + POOLHEADERSIZE) + POOLHEADERSIZE;
 }
 
 bool MEMPOOL::FreeMemory(void * pMem)
 {
-	DWORD nIndex;
-	if((DWORD)pMem < (DWORD)pPoolData) return false;
-	nIndex = ((DWORD)pMem - (DWORD)pPoolData - POOLHEADERSIZE)/(nBlockSize + POOLHEADERSIZE);
+	uint32_t nIndex;
+	if((uint32_t)pMem < (uint32_t)pPoolData) return false;
+	nIndex = ((uint32_t)pMem - (uint32_t)pPoolData - POOLHEADERSIZE)/(nBlockSize + POOLHEADERSIZE);
 	if(nIndex >= nBlocksNum) 
 	{
 		return false;
@@ -186,7 +186,7 @@ bool MEMPOOL::FreeMemory(void * pMem)
 
 bool MEMPOOL::IsInPool(void * pMem)
 {
-	if((DWORD)pMem - POOLHEADERSIZE < (DWORD)pPoolData) return false;
-	if((DWORD)pMem - POOLHEADERSIZE > (DWORD)pPoolData + (nBlockSize + POOLHEADERSIZE)*(nBlocksNum - 1)) return false;
+	if((uint32_t)pMem - POOLHEADERSIZE < (uint32_t)pPoolData) return false;
+	if((uint32_t)pMem - POOLHEADERSIZE > (uint32_t)pPoolData + (nBlockSize + POOLHEADERSIZE)*(nBlocksNum - 1)) return false;
 	return true;
 }

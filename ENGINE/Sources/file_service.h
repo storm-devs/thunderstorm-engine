@@ -32,12 +32,12 @@ public:
 	void	WriteDouble(char * section_name, char * key_name,double value);
 	
 	// fill buffer with key value, throw EXS exception object if failed or if section or key doesnt exist
-	void	ReadString(char * section_name, char * key_name, char * buffer, dword buffer_size);
+	void	ReadString(char * section_name, char * key_name, char * buffer, uint32_t buffer_size);
 	// fill buffer with key value if section and key exist, otherwise fill with def_string and return false
-	bool	ReadString(char * section_name, char * key_name, char * buffer, dword buffer_size, char * def_string);
+	bool	ReadString(char * section_name, char * key_name, char * buffer, uint32_t buffer_size, char * def_string);
 	// continue search from key founded in previous call this function or to function ReadString
 	// fill buffer with key value if section and key exist, otherwise return false
-	bool	ReadStringNext(char * section_name, char * key_name, char * buffer, dword buffer_size);
+	bool	ReadStringNext(char * section_name, char * key_name, char * buffer, uint32_t buffer_size);
 
 	// return long value of key in pointed section if section and key exist, throw EXS object otherwise
 	long	GetLong(char * section_name, char * key_name);
@@ -84,7 +84,7 @@ public:
 struct HASHLINEDESC
 {
 	HASHLINEDESC(){dwElementsNum = 0; pDirName = nullptr;};
-	DWORD dwElementsNum;
+	uint32_t dwElementsNum;
 	char ** pDirName;
 };
 
@@ -93,8 +93,8 @@ class FILE_SERVICE : public VFILE_SERVICE
 protected:
 	//INIFILE_R * OpenFiles[_MAX_OPEN_INI_FILES];
 	IFS * OpenFiles[_MAX_OPEN_INI_FILES];
-	dword Files_Num;
-	dword Max_File_Index;
+	uint32_t Files_Num;
+	uint32_t Max_File_Index;
 
 	HASHLINEDESC CacheDirs[CACHEDIRSTABLESIZE];
 
@@ -103,30 +103,30 @@ public:
 	
 	FILE_SERVICE();
 	~FILE_SERVICE();
-	HANDLE _CreateFile(LPCTSTR lpFileName,DWORD dwDesiriedAccess = GENERIC_READ,DWORD dwShareMode = FILE_SHARE_READ,DWORD dwCreationDisposition = OPEN_EXISTING);
+	HANDLE _CreateFile(const char * lpFileName,uint32_t dwDesiriedAccess = GENERIC_READ,uint32_t dwShareMode = FILE_SHARE_READ,uint32_t dwCreationDisposition = OPEN_EXISTING);
 	void   _CloseHandle(HANDLE hFile);
-	DWORD  _SetFilePointer(HANDLE hFile,long DistanceToMove,PLONG lpDistanceToMoveHigh,DWORD dwMoveMethod);
-	BOOL   _DeleteFile(LPCTSTR lpFileName);
-	BOOL   _WriteFile(HANDLE hFile,LPCVOID lpBuffer,DWORD nNumberOfBytesToWrite,LPDWORD lpNumberOfBytesWritten);
-	BOOL   _ReadFile(HANDLE hFile,LPVOID lpBuffer,DWORD nNumberOfBytesToRead,LPDWORD lpNumberOfBytesRead);
-	HANDLE _FindFirstFile(LPCTSTR lpFileName,LPWIN32_FIND_DATA lpFindFileData);
+	uint32_t  _SetFilePointer(HANDLE hFile,long DistanceToMove,long * lpDistanceToMoveHigh,uint32_t dwMoveMethod);
+	BOOL   _DeleteFile(const char * lpFileName);
+	BOOL   _WriteFile(HANDLE hFile,const void * lpBuffer,uint32_t nNumberOfBytesToWrite,uint32_t * lpNumberOfBytesWritten);
+	BOOL   _ReadFile(HANDLE hFile,void * lpBuffer,uint32_t nNumberOfBytesToRead,uint32_t * lpNumberOfBytesRead);
+	HANDLE _FindFirstFile(const char * lpFileName,LPWIN32_FIND_DATA lpFindFileData);
 	BOOL   _FindNextFile(HANDLE hFindFile,LPWIN32_FIND_DATA lpFindFileData);
 	BOOL   _FindClose(HANDLE hFindFile);
 	BOOL   _FlushFileBuffers(HANDLE hFile);
-	DWORD  _GetCurrentDirectory(DWORD nBufferLength,LPTSTR lpBuffer);
-	BOOL   _GetDiskFreeSpaceEx(LPCTSTR lpDirectoryName,PULARGE_INTEGER lpFreeBytesAvailableToCaller,
+	uint32_t  _GetCurrentDirectory(uint32_t nBufferLength,char * lpBuffer);
+	BOOL   _GetDiskFreeSpaceEx(const char * lpDirectoryName,PULARGE_INTEGER lpFreeBytesAvailableToCaller,
 		     PULARGE_INTEGER lpTotalNumberOfBytes,PULARGE_INTEGER lpTotalNumberOfFreeBytes);
-	UINT   _GetDriveType(LPCTSTR lpRootPathName);
-	DWORD  _GetFileSize(HANDLE hFile,LPDWORD lpFileSizeHigh);
-	DWORD  _GetLogicalDrives(VOID);
-	DWORD  _GetLogicalDriveStrings(DWORD nBufferLength,LPTSTR lpBuffer);
-	BOOL   _SetCurrentDirectory(LPCTSTR lpPathName);
-	BOOL   _CreateDirectory(LPCTSTR lpPathName,LPSECURITY_ATTRIBUTES lpSecurityAttributes);
-	BOOL   _RemoveDirectory(LPCTSTR lpPathName);
- 	BOOL   _CopyFile(LPCTSTR lpExistingFileName,LPCTSTR lpNewFileName,BOOL bFailIfExists);
-	BOOL   _SetFileAttributes(LPCTSTR lpFileName,DWORD dwFileAttributes);
+	UINT   _GetDriveType(const char * lpRootPathName);
+	uint32_t  _GetFileSize(HANDLE hFile,uint32_t * lpFileSizeHigh);
+	uint32_t  _GetLogicalDrives(VOID);
+	uint32_t  _GetLogicalDriveStrings(uint32_t nBufferLength,char * lpBuffer);
+	BOOL   _SetCurrentDirectory(const char * lpPathName);
+	BOOL   _CreateDirectory(const char * lpPathName,LPSECURITY_ATTRIBUTES lpSecurityAttributes);
+	BOOL   _RemoveDirectory(const char * lpPathName);
+ 	BOOL   _CopyFile(const char * lpExistingFileName,const char * lpNewFileName,bool bFailIfExists);
+	BOOL   _SetFileAttributes(const char * lpFileName,uint32_t dwFileAttributes);
 	BOOL FileExist(const char * file_name);
-	BOOL LoadFile(const char * file_name, char * * ppBuffer, dword * dwSize);
+	BOOL LoadFile(const char * file_name, char * * ppBuffer, uint32_t * dwSize);
 	// ini files section
 	void  Close();
 	INIFILE * CreateIniFile(const char * file_name, bool fail_if_exist);
@@ -137,7 +137,7 @@ public:
 
 	BOOL CacheDirectory(const char * pDirName);
 	BOOL UnCacheDirectory(const char * pDirName);
-	DWORD MakeHashValue(const char * string);
+	uint32_t MakeHashValue(const char * string);
 	BOOL IsCached(const char * pFileName);
 	void MarkDirectoryCached(const char * pFileName);
 

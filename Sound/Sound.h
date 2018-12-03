@@ -1,9 +1,6 @@
 #ifndef _SOUND_H_
 #define _SOUND_H_
 
-#include "..\common_h\vmodule_api.h"
-#include "..\common_h\object.h"
-#include "..\common_h\messages.h"
 #include "..\common_h\entity.h"
 #include "..\common_h\dx9render.h"
 
@@ -31,8 +28,8 @@ public:
 	virtual ~SOUND();
 
 	virtual bool Init();
-	virtual dword _cdecl ProcessMessage(MESSAGE & message);
-	virtual void Realize(dword _dTime);
+	virtual uint32_t _cdecl ProcessMessage(MESSAGE & message);
+	virtual void Realize(uint32_t _dTime);
 
 private:
 	VSoundService *soundService;

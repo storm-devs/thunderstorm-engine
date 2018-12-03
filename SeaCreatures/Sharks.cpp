@@ -9,7 +9,7 @@
 //============================================================================================
 
 #include "Sharks.h"
-#include "..\common_h\messages.h"
+#include "..\../Shared/messages.h"
 #include "..\common_h\model.h"
 #include "..\Common_h\geometry.h"
 
@@ -39,7 +39,7 @@
 //Shark
 //============================================================================================
 
-word Sharks::Shark::indeces[] = {
+uint16_t Sharks::Shark::indeces[] = {
 	0, 1, 2,
 	0, 2, 3,
 	1, 4, 2,
@@ -404,7 +404,7 @@ void Sharks::Shark::Event(Animation * animation, long index, long eventID, Anima
 	animation->Player(0).Play();
 }
 
-long Sharks::Shark::GenerateTrack(word * inds, Vertex * vrt, word base, SEA_BASE * sb)
+long Sharks::Shark::GenerateTrack(uint16_t * inds, Vertex * vrt, uint16_t base, SEA_BASE * sb)
 {
 	//Получим модельку
 	MODEL * mdl = (MODEL *)_CORE_API->GetEntityPointer(&model);
@@ -417,7 +417,7 @@ long Sharks::Shark::GenerateTrack(word * inds, Vertex * vrt, word base, SEA_BASE
 	float length = 2.0f*3.0f*k;
 	float width = 1.0f*1.5f*k;
 	//Индексы
-	Assert(sizeof(indeces)/sizeof(word) == 30);
+	Assert(sizeof(indeces)/sizeof(uint16_t) == 30);
 	for(long i = 0; i < 30; i++) inds[i] = indeces[i] + base;
 	//Вершины
 	CVECTOR s(0.0f, 0.0f, 0.75f);
@@ -520,10 +520,10 @@ bool Sharks::Init()
 					float year = root->GetAttributeAsFloat("year");
 					if(year >= 1633.0f)
 					{
-						dword month = root->GetAttributeAsDword("month");
+						uint32_t month = root->GetAttributeAsDword("month");
 						if(month & 1)
 						{
-							dword day = root->GetAttributeAsDword("day");
+							uint32_t day = root->GetAttributeAsDword("day");
 							if(day == 7)
 							{
 								if((GetTickCount() & 7) == 5)
@@ -541,7 +541,7 @@ bool Sharks::Init()
 }
 
 //Исполнение
-void Sharks::Execute(dword delta_time)
+void Sharks::Execute(uint32_t delta_time)
 {
 	CVECTOR a;
 	if(delta_time & 1) rand();
@@ -652,14 +652,14 @@ bool Sharks::LoadPeriscopeModel()
 	return true;
 }
 
-void Sharks::Realize(dword delta_time)
+void Sharks::Realize(uint32_t delta_time)
 {
 	SEA_BASE * sb = (SEA_BASE *)_CORE_API->GetEntityPointer(&sea);
 	if(!sb) return;
 	long num = 0;
 	for(long i = 0; i < numShakes; i++)
 	{
-		num += shark[i].GenerateTrack(indeces + num*3, vrt + num, word(num), sb);
+		num += shark[i].GenerateTrack(indeces + num*3, vrt + num, uint16_t(num), sb);
 	}
 	if(num)
 	{

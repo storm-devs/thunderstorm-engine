@@ -1,5 +1,6 @@
 #include "TFlotsam.h"
 #include "..\\common_h\\rands.h"
+#include "../../Shared/messages.h"
 
 int		  TFlotsam::modelsInitialized = 0;
 MODEL *   TFlotsam::models[FLOTSAM_MODELS_COUNT];
@@ -37,7 +38,7 @@ void TFlotsam::Start(float _x, float _z, float _radius)
 	vZ = randCentered(1.0f) * FLOTSAM_H_SPEED;
 	angY = rand(PIm2);
 	turnY = randCentered(1.0f) * FLOTSAM_TURN_SPEED;
-	maxFloatTime = (dword) randUpper(FLOTSAM_FLOAT_TIME);
+	maxFloatTime = (uint32_t) randUpper(FLOTSAM_FLOAT_TIME);
 	state = FLOTSAM_RISE;
 	//model = models[rand() % FLOTSAM_MODELS_COUNT];
 	ModelID = modelIDs[rand() % FLOTSAM_MODELS_COUNT];
@@ -68,7 +69,7 @@ void TFlotsam::Initialize(SEA_BASE *_sea)
 }
 
 //--------------------------------------------------------------------
-void TFlotsam::Process(dword _dTime)
+void TFlotsam::Process(uint32_t _dTime)
 {
 	if (!enabled)
 		return;
@@ -104,7 +105,7 @@ void TFlotsam::Process(dword _dTime)
 }
 
 //--------------------------------------------------------------------
-void TFlotsam::Realize(dword _dTime)
+void TFlotsam::Realize(uint32_t _dTime)
 {
 	if (!enabled)
 		return;

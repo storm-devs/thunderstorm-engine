@@ -1,12 +1,13 @@
 #ifndef _ENTITY_STATE_H_
 #define _ENTITY_STATE_H_
 
+#include <cstdint>
+
 #ifndef _XBOX 
 #include <windows.h>
 #else
 #include <xtl.h>
 #endif
-#include "d_types.h"
 
 class ENTITY_STATE_GEN 
 {
@@ -21,16 +22,16 @@ class ENTITY_STATE
 public:
 	ENTITY_STATE(){};
 	virtual ~ENTITY_STATE(){};
-	virtual byte	Byte()		{return 0;};
-	virtual word	Word()		{return 0;};
+	virtual uint8_t	Byte()		{return 0;};
+	virtual uint16_t	Word()		{return 0;};
 	virtual long	Long()		{return 0;};
-	virtual dword	Dword()		{return 0;};
+	virtual uint32_t	Dword()		{return 0;};
 	virtual float	Float()		{return 0;};
 	virtual double	Double()	{return 0;};
 	virtual char *	Pointer()	{return nullptr;}; 
-	virtual void	String(dword buffer_size, char * buffer){};
-	virtual void	MemoryBlock(dword memsize, char * buffer){};
-	virtual void	Struct(dword sizeofstruct, char * s){}; 
+	virtual void	String(uint32_t buffer_size, char * buffer){};
+	virtual void	MemoryBlock(uint32_t memsize, char * buffer){};
+	virtual void	Struct(uint32_t sizeofstruct, char * s){}; 
 };
 
 #endif

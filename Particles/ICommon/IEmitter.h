@@ -2,11 +2,7 @@
 #define EMITTER_INTERFACE
 
 
-#include <string.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include "../../common_h/exs.h"
-#include "../../common_h/math3d.h"
+#include "../../common_h/math3d/Matrix.h"
 #include "../system/DataSource/FieldList.h"
 
 
@@ -31,7 +27,7 @@ public:
 
 	virtual void Restart () = 0;
 
-	virtual DWORD GetParticleCount () = 0;
+	virtual uint32_t GetParticleCount () = 0;
 
 	virtual bool IsStoped () = 0;
 
@@ -52,9 +48,9 @@ public:
 
 
 
-	virtual DWORD GetParticleTypesCount () = 0;
-	virtual FieldList* GetParticleTypeDataByIndex (DWORD Index) = 0;
-	virtual ParticleType GetParticleTypeByIndex  (DWORD Index) = 0;
+	virtual uint32_t GetParticleTypesCount () = 0;
+	virtual FieldList* GetParticleTypeDataByIndex (uint32_t Index) = 0;
+	virtual ParticleType GetParticleTypeByIndex  (uint32_t Index) = 0;
 
 	virtual FieldList* GetData () = 0;
 
@@ -64,8 +60,8 @@ public:
 
 	//-1 если не нашли, иначе индекс
 	virtual int GetParticleTypeIndex (FieldList* pFields) = 0;
-	virtual bool SetParticleTypeEnable (bool bVisible, DWORD Index) = 0;
-	virtual bool GetParticleTypeEnable (DWORD Index) = 0;
+	virtual bool SetParticleTypeEnable (bool bVisible, uint32_t Index) = 0;
+	virtual bool GetParticleTypeEnable (uint32_t Index) = 0;
 
 
 	virtual void Editor_UpdateCachedData () = 0;

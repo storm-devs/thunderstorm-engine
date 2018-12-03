@@ -3,7 +3,6 @@
 
 #include "..\common_h\vmodule_api.h"
 #include "..\common_h\dx9render.h"
-#include "..\common_h\vfile_service.h"
 #include "..\common_h\matrix.h"
 //#include "iimage.h"
 
@@ -17,7 +16,7 @@ struct IMAGE_VERTEX
 {
 	CVECTOR pos;
 	float rhw;
-	DWORD color;
+	uint32_t color;
 	float tu,tv;
 };
 #endif
@@ -51,7 +50,7 @@ class FONT
     char *techniqueName;
     char *textureName;
 	long  TextureID;
-	DWORD Color,oldColor;
+	uint32_t Color,oldColor;
 	float fScale,fOldScale;
 	FLOAT_RECT Pos;
 	FONT_SYMBOL CharT[USED_CODES];
@@ -76,8 +75,8 @@ public:
 	bool Init(char * font_name, char * iniName, IDirect3DDevice9 * _device, VDX9RENDER * _render);
     void TempUnload();
     void RepeatInit();
-	void Realize(DWORD DeltaTime);
-	void SetColor(DWORD color);
+	void Realize(uint32_t DeltaTime);
+	void SetColor(uint32_t color);
 	void SetScale(float scale);
 	void SetShadow(bool s);
 	void SetCenter(bool c);

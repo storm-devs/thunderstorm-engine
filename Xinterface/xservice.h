@@ -2,6 +2,7 @@
 #define _XISERVICE_H
 
 #include "defines.h"
+#include "vxservice.h"
 
 class XSERVICE : public VXSERVICE
 {

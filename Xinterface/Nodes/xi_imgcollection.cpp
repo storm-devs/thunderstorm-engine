@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "xi_imgcollection.h"
-#include "..\\vxservice.h"
 #include "../../common_h/defines.h"
 
 CXI_IMGCOLLECTION::CXI_IMGCOLLECTION()
@@ -21,7 +20,7 @@ CXI_IMGCOLLECTION::~CXI_IMGCOLLECTION()
 	ReleaseAll();
 }
 
-void CXI_IMGCOLLECTION::Draw(bool bSelected,dword Delta_Time)
+void CXI_IMGCOLLECTION::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(m_bUse)
 	{
@@ -52,7 +51,7 @@ int CXI_IMGCOLLECTION::CommandExecute(int wActCode)
 	return -1;
 }
 
-void CXI_IMGCOLLECTION::AddImage( const char* pcPicName, dword dwColor, XYRECT pos )
+void CXI_IMGCOLLECTION::AddImage( const char* pcPicName, uint32_t dwColor, XYRECT pos )
 {
 	//long n = m_aEditInfo;
 	//m_aEditInfo.Add();
@@ -121,7 +120,7 @@ void CXI_IMGCOLLECTION::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *n
 
 		// Lock vertex and index buffers and get pointers to this
 		XI_ONETEX_VERTEX *pVBuf = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(vBuf);
-		WORD	*pIBuf = (WORD*)m_rs->LockIndexBuffer(iBuf);
+		uint16_t	*pIBuf = (uint16_t*)m_rs->LockIndexBuffer(iBuf);
 
 		if(pVBuf!= nullptr && pIBuf!= nullptr)
 		{
@@ -133,7 +132,7 @@ void CXI_IMGCOLLECTION::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *n
 			{
 				if( strnicmp(param,"editsection:",12) != 0 )
 				{
-					DWORD dwColor = ARGB(255,128,128,128);
+					uint32_t dwColor = ARGB(255,128,128,128);
 					char param2[256];
 					char * pStr = param;
 					n = m_aEditInfo.size();
@@ -204,8 +203,8 @@ void CXI_IMGCOLLECTION::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *n
 	}
 }
 
-void CXI_IMGCOLLECTION::SetBuffers(XI_ONETEX_VERTEX *pVBuf, WORD *pIBuf, int rectNum,
-						XYRECT &scrRect, FXYRECT &texRect, DWORD dwColor)
+void CXI_IMGCOLLECTION::SetBuffers(XI_ONETEX_VERTEX *pVBuf, uint16_t *pIBuf, int rectNum,
+						XYRECT &scrRect, FXYRECT &texRect, uint32_t dwColor)
 {
 	// Set pointers to rectangle of get number
 	pVBuf += rectNum*4;
@@ -241,7 +240,7 @@ void CXI_IMGCOLLECTION::UpdateBuffers()
 	if( vBuf==-1 || iBuf==-1 ) return;
 
 	XI_ONETEX_VERTEX *pVBuf = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(vBuf);
-	WORD	*pIBuf = (WORD*)m_rs->LockIndexBuffer(iBuf);
+	uint16_t	*pIBuf = (uint16_t*)m_rs->LockIndexBuffer(iBuf);
 
 	if(pVBuf!= nullptr && pIBuf!= nullptr)
 	{
@@ -355,7 +354,7 @@ void CXI_IMGCOLLECTION::SaveParametersToIni()
 	delete pIni;
 }
 
-dword _cdecl CXI_IMGCOLLECTION::MessageProc(long msgcode, MESSAGE & message)
+uint32_t _cdecl CXI_IMGCOLLECTION::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{
@@ -406,7 +405,7 @@ dword _cdecl CXI_IMGCOLLECTION::MessageProc(long msgcode, MESSAGE & message)
 	case 3: // установить цвет картинки
 		{
 			long nImgNum = message.Long();
-			dword dwColor = message.Long();
+			uint32_t dwColor = message.Long();
 			if( nImgNum>=0 && nImgNum<m_aEditInfo.size() )
 			{
 				m_aEditInfo[nImgNum].dwColor = dwColor;

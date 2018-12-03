@@ -3,27 +3,22 @@
 
 #include "..\..\..\common_h\math3d.h"
 #include "..\..\icommon\iemitter.h"
-#include "..\..\icommon\particle.h"
 #include "..\..\icommon\types.h"
 #include "..\datasource\datasource.h"
 #include "..\particlesystem\particlesystem.h"
-#include "..\datadesc\data_desc.h"
+#include "..\..\..\common_h\math3d/Matrix.h"
 
 class DataGraph;
 
 class BaseEmitter : public IEmitter
 {
-
-
-
-
 	struct structParticleType
 	{
 		bool Visible;										//¬идим или нет
 		ParticleType Type;							// “ип партикла
 		float Remain;										// —колько осталось незапущенных с прошлого кадра
-		DWORD ActiveCount;							//  оличество активных партиклов данного типа
-		DWORD MaxParticlesCount;				// ћаксимальное кол-во партиклов этого типа
+		uint32_t ActiveCount;							//  оличество активных партиклов данного типа
+		uint32_t MaxParticlesCount;				// ћаксимальное кол-во партиклов этого типа
 		DataGraph* EmissionRate;				// √рафик задающий скорость испускани€ партиклов
 
 		FieldList* pFields;
@@ -61,7 +56,7 @@ class BaseEmitter : public IEmitter
 	bool Stoped;
 	bool Visible;
 
-	DWORD Unique_GUID;
+	uint32_t Unique_GUID;
 
 	Matrix matWorldTransform;
 	bool OldMatrixNotInitialized;
@@ -109,12 +104,12 @@ public:
 	void GetEmissionDirection (Matrix &matWorld);
 
 
-	virtual void SetGUID (DWORD GUID)
+	virtual void SetGUID (uint32_t GUID)
 	{
 		Unique_GUID = GUID;
 	}
 
-	virtual DWORD GetGUID ()
+	virtual uint32_t GetGUID ()
 	{
 		return Unique_GUID;
 	}
@@ -122,7 +117,7 @@ public:
 	virtual void Restart ();
 
 
-	virtual DWORD GetParticleCount ();
+	virtual uint32_t GetParticleCount ();
 	virtual bool IsStoped ();
 
 	virtual void SetTransform (const Matrix& matWorld);
@@ -139,9 +134,9 @@ public:
 	virtual void SetTime (float Time);
 
 
-	virtual DWORD GetParticleTypesCount ();
-	virtual FieldList* GetParticleTypeDataByIndex (DWORD Index);
-	virtual ParticleType GetParticleTypeByIndex  (DWORD Index);
+	virtual uint32_t GetParticleTypesCount ();
+	virtual FieldList* GetParticleTypeDataByIndex (uint32_t Index);
+	virtual ParticleType GetParticleTypeByIndex  (uint32_t Index);
 
 
 	virtual FieldList* GetData ();
@@ -152,8 +147,8 @@ public:
 
 	//-1 если не нашли, иначе индекс
 	virtual int GetParticleTypeIndex (FieldList* pFields);
-	virtual bool SetParticleTypeEnable (bool bVisible, DWORD Index);
-	virtual bool GetParticleTypeEnable (DWORD Index);
+	virtual bool SetParticleTypeEnable (bool bVisible, uint32_t Index);
+	virtual bool GetParticleTypeEnable (uint32_t Index);
 
 
 	virtual void Editor_UpdateCachedData ();

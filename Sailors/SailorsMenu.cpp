@@ -1,6 +1,5 @@
 
 #include "SailorsMenu.h"
-#include "..\..\Shared\SEA_AI\script_defines.h"
 
 
 void Menu :: Draw(VDX9RENDER * rs, SailorsPoints &sailorsPoints)

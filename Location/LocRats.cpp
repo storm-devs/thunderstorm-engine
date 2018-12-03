@@ -43,7 +43,7 @@ bool LocRats::Init()
 }
 
 //Сообщения
-dword _cdecl LocRats::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl LocRats::ProcessMessage(MESSAGE & message)
 {
 	long num = message.Long();
 	if(num < 1) num = 1;
@@ -59,12 +59,12 @@ dword _cdecl LocRats::ProcessMessage(MESSAGE & message)
 }
 
 //Исполнение
-void LocRats::Execute(dword delta_time)
+void LocRats::Execute(uint32_t delta_time)
 {
 }
 
 //Рисование
-void LocRats::Realize(dword delta_time)
+void LocRats::Realize(uint32_t delta_time)
 {
 	float dltTime = delta_time*0.001f;
 	for(long i = 0; i < num; i++) rat[i].Update(dltTime);

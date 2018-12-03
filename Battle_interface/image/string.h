@@ -18,7 +18,7 @@ public:
 	void Render();
 	void RenderPrioritetRange(long nBegPrior,long nEndPrior) {if(m_nPrioritet>=nBegPrior && m_nPrioritet<=nEndPrior) Render();}
 
-	virtual void SetColor( dword color ) {m_dwColor=color;}
+	virtual void SetColor( uint32_t color ) {m_dwColor=color;}
 	virtual void SetScale( float fScale ) {m_fScale=fScale;}
 	virtual void SetFont( const char* pcFontName );
 	virtual void SetAlign( long nHorzAlign, long nVertAlign );
@@ -35,7 +35,7 @@ protected:
 	long m_nPrioritet;
 	std::string m_sText;
 
-	dword m_dwColor;
+	uint32_t m_dwColor;
 	float m_fScale;
 	long m_nFontID;
 

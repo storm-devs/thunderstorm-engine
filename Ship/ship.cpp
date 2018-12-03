@@ -4,6 +4,10 @@
 #include "..\..\Shared\sea_ai\Script_Defines.h"
 #include "..\..\Shared\sound.h"
 #include "../sea_ai/AIFlowGraph.h"
+#include "../../Shared/messages.h"
+#include "../common_h/sail_msg.h"
+#include "../common_h/mast_msg.h"
+#include "../common_h/ship_msg.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(SHIP)
@@ -307,7 +311,7 @@ BOOL SHIP::ApplyStrength(float dtime, BOOL bCollision)
 	return true;
 }
 
-BOOL SHIP::TouchMove(DWORD DeltaTime, TOUCH_PARAMS *pTPOld, TOUCH_PARAMS *pTPNew)
+BOOL SHIP::TouchMove(uint32_t DeltaTime, TOUCH_PARAMS *pTPOld, TOUCH_PARAMS *pTPNew)
 {
 	if (!pTPOld && !pTPNew) return false;
 	SHIP_STATE old_state = State;
@@ -335,7 +339,7 @@ BOOL SHIP::TouchMove(DWORD DeltaTime, TOUCH_PARAMS *pTPOld, TOUCH_PARAMS *pTPNew
 	return true;
 }
 
-BOOL SHIP::Move(DWORD DeltaTime, BOOL bCollision)
+BOOL SHIP::Move(uint32_t DeltaTime, BOOL bCollision)
 {
 	float dtime = DELTA_TIME(DeltaTime);
 	ApplyStrength(dtime, bCollision);
@@ -471,7 +475,7 @@ void SHIP::SetDead()
 	}
 }
 
-void SHIP::Execute(DWORD DeltaTime)
+void SHIP::Execute(uint32_t DeltaTime)
 {
 	ATTRIBUTES * pAPerks = GetACharacter()->FindAClass(GetACharacter(), "TmpPerks");
 
@@ -596,7 +600,7 @@ void SHIP::Execute(DWORD DeltaTime)
 			bVisible = false;
 
 			// stop all fireplaces
-			for (dword i=0; i<aFirePlaces.size(); i++) aFirePlaces[i].Stop();
+			for (uint32_t i=0; i<aFirePlaces.size(); i++) aFirePlaces[i].Stop();
 
 			// del vant,flags,sail and ropes
 			api->Send_Message(sail_id, "li", MSG_SAIL_DEL_GROUP, GetID());
@@ -649,7 +653,7 @@ void SHIP::Execute(DWORD DeltaTime)
 			bVisible = false;
 
 			// stop all fireplaces
-			for (dword i=0; i<aFirePlaces.size(); i++) aFirePlaces[i].Stop();
+			for (uint32_t i=0; i<aFirePlaces.size(); i++) aFirePlaces[i].Stop();
 
 			// del vant,flags,sail and ropes
 			api->Send_Message(sail_id, "li", MSG_SAIL_DEL_GROUP, GetID());
@@ -754,7 +758,7 @@ void SHIP::Execute(DWORD DeltaTime)
 	}*/
 
 	// execute fire places
-	for (dword i=0; i<aFirePlaces.size(); i++) aFirePlaces[i].Execute(fDeltaTime);
+	for (uint32_t i=0; i<aFirePlaces.size(); i++) aFirePlaces[i].Execute(fDeltaTime);
 
 	/*  // boal del_cheat
 #ifndef _XBOX
@@ -928,7 +932,7 @@ void SHIP::RestoreLightAndFog()
 	}
 }
 
-void SHIP::Realize(DWORD dtime)
+void SHIP::Realize(uint32_t dtime)
 {
 	if (!bMounted) return;
 
@@ -1011,7 +1015,7 @@ long SHIP::AddStrength(STRENGTH *strength)
 	return -1;
 }
 
-dword _cdecl SHIP::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl SHIP::ProcessMessage(MESSAGE & message)
 {
 	ENTITY_ID	entity_id;
 	CVECTOR		cpos, cang;
@@ -1053,7 +1057,7 @@ dword _cdecl SHIP::ProcessMessage(MESSAGE & message)
 		break;
 		case MSG_SHIP_ACTIVATE_FIRE_PLACE:
 		{
-			dword dwFPIndex = dword(message.Long());
+			uint32_t dwFPIndex = uint32_t(message.Long());
 			message.String(sizeof(str), str);
 			message.String(sizeof(str1), str1);
 			message.String(sizeof(str2), str2);
@@ -1391,11 +1395,11 @@ void SHIP::ScanShipForFirePlaces()
 	// search and add fire places
 	std::string sFirePlace = "fireplace";
 	std::string sFirePlaces = "fireplaces";
-	dword dwIdx = 0;
+	uint32_t dwIdx = 0;
 	while (pNode = pModel->GetNode(dwIdx))
 	{
 		pNode->geo->GetInfo(info);
-		for (dword i=0; i<dword(info.nlabels); i++)
+		for (uint32_t i=0; i<uint32_t(info.nlabels); i++)
 		{
 			pNode->geo->GetLabel(i, label);
 			if (sFirePlace == label.group_name || sFirePlaces == label.group_name)
@@ -1479,7 +1483,7 @@ float SHIP::Cannon_Trace(long iBallOwner, const CVECTOR &vSrc, const CVECTOR &vD
 		// search nearest fire place
 		float	fMinDistance = 1e8f;
 		long	iBestIndex = -1;
-		for (dword i=0; i<aFirePlaces.size(); i++) if (!aFirePlaces[i].isActive())
+		for (uint32_t i=0; i<aFirePlaces.size(); i++) if (!aFirePlaces[i].isActive())
 		{
 			float fDistance = aFirePlaces[i].GetDistance(vTemp);
 			if (fDistance < fMinDistance)
@@ -1494,7 +1498,7 @@ float SHIP::Cannon_Trace(long iBallOwner, const CVECTOR &vSrc, const CVECTOR &vD
 	return fRes; 
 }
 
-dword SHIP::AttributeChanged(ATTRIBUTES * pAttribute)
+uint32_t SHIP::AttributeChanged(ATTRIBUTES * pAttribute)
 {
 	return 0;
 }
@@ -1546,7 +1550,7 @@ void SHIP::SetACharacter(ATTRIBUTES * pAP)
 
 void SHIP::Save(CSaveLoad * pSL)
 {
-	dword i;
+	uint32_t i;
 
 	pSL->SaveAPointer("character", GetACharacter());
 	pSL->SaveAPointer("ship", pAShip);
@@ -1584,7 +1588,7 @@ void SHIP::Save(CSaveLoad * pSL)
 	pSL->SaveBuffer((const char *)&State, sizeof(State));
 
 	pSL->SaveLong(iNumMasts);
-	for (i=0; i<(dword)iNumMasts; i++) 
+	for (i=0; i<(uint32_t)iNumMasts; i++) 
 	{
 		pSL->SaveVector(pMasts[i].vSrc);
 		pSL->SaveVector(pMasts[i].vDst);
@@ -1599,7 +1603,7 @@ void SHIP::Save(CSaveLoad * pSL)
 
 void SHIP::Load(CSaveLoad * pSL)
 {
-	dword i;
+	uint32_t i;
 
 	SetACharacter(pSL->LoadAPointer("character"));
 	pAShip = pSL->LoadAPointer("ship");
@@ -1649,7 +1653,7 @@ void SHIP::Load(CSaveLoad * pSL)
 
 	iNumMasts = pSL->LoadLong();
 	//pMasts = NEW mast_t[iNumMasts];
-	for (i=0; i<(dword)iNumMasts; i++) 
+	for (i=0; i<(uint32_t)iNumMasts; i++) 
 	{
 		pMasts[i].vSrc = pSL->LoadVector();
 		pMasts[i].vDst = pSL->LoadVector();
@@ -1658,7 +1662,7 @@ void SHIP::Load(CSaveLoad * pSL)
 		pMasts[i].fDamage = pSL->LoadFloat();
 	}
 
-	dword dwNum = pSL->LoadDword();
+	uint32_t dwNum = pSL->LoadDword();
 	for (i=0; i<dwNum; i++) 
 	{
 		aFirePlaces[i].Load(pSL);	

@@ -49,7 +49,7 @@ CXI_SLIDEPICTURE::~CXI_SLIDEPICTURE()
 	ReleaseAll();
 }
 
-void CXI_SLIDEPICTURE::Draw(bool bSelected,dword Delta_Time)
+void CXI_SLIDEPICTURE::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(m_bUse)
 	{
@@ -95,7 +95,7 @@ void CXI_SLIDEPICTURE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 
 	m_texRect = GetIniFloatRect(ini1,name1, ini2,name2, "textureRect", FXYRECT(0.f,0.f,1.f,1.f));
 
-	DWORD color = GetIniARGB(ini1,name1, ini2,name2, "color", 0xFFFFFFFF);
+	uint32_t color = GetIniARGB(ini1,name1, ini2,name2, "color", 0xFFFFFFFF);
 
 	// Create rectangle
 	m_v[0].pos.x = (float)m_rect.left;  m_v[0].pos.y = (float)m_rect.top;	 m_v[0].tu=m_texRect.left;  m_v[0].tv=m_texRect.top;
@@ -219,7 +219,7 @@ void CXI_SLIDEPICTURE::SetNewPicture(char * sNewTexName)
 	m_idTex = m_rs->TextureCreate(sNewTexName);
 }
 
-void CXI_SLIDEPICTURE::Update(dword Delta_Time)
+void CXI_SLIDEPICTURE::Update(uint32_t Delta_Time)
 {
 	if(nCurSlide>=nSlideListSize) return;
 

@@ -11,7 +11,7 @@ public:
 	 CXI_IMGCOLLECTION();
 	~CXI_IMGCOLLECTION();
 
-	void	Draw(bool bSelected,dword Delta_Time);
+	void	Draw(bool bSelected,uint32_t Delta_Time);
 	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
 	void	ReleaseAll();
 	int		CommandExecute(int wActCode);
@@ -19,17 +19,17 @@ public:
 	void	MouseThis(float fX, float fY) {}
 	void	ChangePosition( XYRECT &rNewPos );
 	void	SaveParametersToIni();
-	dword _cdecl MessageProc(long msgcode, MESSAGE & message);
+	uint32_t _cdecl MessageProc(long msgcode, MESSAGE & message);
 	bool	GetInternalNameList( std::vector<std::string>& aStr );
 	void	SetInternalName(std::string& sName );
 
-	void	AddImage( const char* pcPicName, dword dwColor, XYRECT pos );
+	void	AddImage( const char* pcPicName, uint32_t dwColor, XYRECT pos );
 
 protected:
 	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);
 	// set into vertex&index buffers value for image number <rectNum> : screen&texture position
-	void	SetBuffers(XI_ONETEX_VERTEX *pVBuf, WORD *pIBuf, int rectNum,
-		            XYRECT &scrRect, FXYRECT &texRect, DWORD dwColor);
+	void	SetBuffers(XI_ONETEX_VERTEX *pVBuf, uint16_t *pIBuf, int rectNum,
+		            XYRECT &scrRect, FXYRECT &texRect, uint32_t dwColor);
 	void	UpdateBuffers();
 protected:
 	bool	m_bRelativeRect;
@@ -43,7 +43,7 @@ protected:
 	struct PicEditInfo {
 		std::string sName;
 		long nLeft,nTop, nRight,nBottom;
-		dword dwColor;
+		uint32_t dwColor;
 		bool bNative;
 	};
 	std::vector<PicEditInfo> m_aEditInfo;

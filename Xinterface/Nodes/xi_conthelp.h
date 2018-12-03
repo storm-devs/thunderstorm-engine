@@ -16,7 +16,7 @@ public:
 	 CXI_CONTEXTHELP();
 	~CXI_CONTEXTHELP();
 
-	void	Draw(bool bSelected,dword Delta_Time);
+	void	Draw(bool bSelected,uint32_t Delta_Time);
 	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
 	void	ReleaseAll();
 	int		CommandExecute(int wActCode);
@@ -24,7 +24,7 @@ public:
 	void	MouseThis(float fX, float fY) {}
 	void	ChangePosition( XYRECT &rNewPos );
 	void	SaveParametersToIni();
-	dword _cdecl MessageProc(long msgcode, MESSAGE & message);
+	uint32_t _cdecl MessageProc(long msgcode, MESSAGE & message);
     void    ChangeNode(CINODE * pNode);
     void    SetTempHelp(const char * string);
 
@@ -33,11 +33,11 @@ public:
 
 protected:
 	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);
-    char *  GetCurrentHelpString(DWORD deltaTime);
+    char *  GetCurrentHelpString(uint32_t deltaTime);
 
-	DWORD   m_dwColor;
-    DWORD   m_dwBorderColor;
-    DWORD   m_dwFontColor;
+	uint32_t   m_dwColor;
+    uint32_t   m_dwBorderColor;
+    uint32_t   m_dwFontColor;
 
     bool    m_bBorder;
     long    m_offset;

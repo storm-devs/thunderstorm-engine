@@ -1,16 +1,10 @@
 #ifndef AIHELPER_HPP
 #define AIHELPER_HPP
 
-#include "..\common_h\vmodule_api.h"
 #include "..\common_h\dx9render.h"
 #include "..\common_h\island_base.h"
 #include "..\common_h\collide.h"
-#include "..\common_h\collide.h"
-#include "..\common_h\Island_Base.h"
-#include "..\common_h\defines.h"
 #include "..\common_h\Character.h"
-#include "..\..\Shared\sea_ai\Script_Defines.h"
-#include "..\..\Shared\Events.h"
 #include "..\common_h\SD2_H\SaveLoad.h"
 #include <vector>
 
@@ -51,8 +45,8 @@ public:
 
 	static	VAI_INNEROBJ	* FindAIInnerObj(ATTRIBUTES * pACharacter);
 
-	dword	GetRelation(ATTRIBUTES * pA1, ATTRIBUTES * pA2) const;
-	dword	GetRelationSafe(ATTRIBUTES * pA1, ATTRIBUTES * pA2) const;
+	uint32_t	GetRelation(ATTRIBUTES * pA1, ATTRIBUTES * pA2) const;
+	uint32_t	GetRelationSafe(ATTRIBUTES * pA1, ATTRIBUTES * pA2) const;
 
 	static void	Print(float x, float y, float fScale, char * pFormat, ...);
 	static void Print3D(CVECTOR vPos, float dy, float fScale, char * pFormat, ...);
@@ -61,11 +55,11 @@ public:
 	void Load(CSaveLoad * pSL);
 
 private:
-	dword				* pRelations, dwRelationSize;
+	uint32_t				* pRelations, dwRelationSize;
 	std::vector<ATTRIBUTES*>	aCharacters, aMainCharacters;
 
-	dword * GetRelation(dword x, dword y) const;
-	dword FindIndex(ATTRIBUTES * pACharacter) const;
+	uint32_t * GetRelation(uint32_t x, uint32_t y) const;
+	uint32_t FindIndex(ATTRIBUTES * pACharacter) const;
 };
 
 extern AIHelper	Helper;

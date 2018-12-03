@@ -3,12 +3,10 @@
 
 #include "..\common_h\ship_base.h"
 #include "..\common_h\sea_base.h"
-#include "..\common_h\collide.h"
 #include "..\common_h\dx9render.h"
 #include "..\common_h\model.h"
 #include "..\common_h\vparticle_system.h"
 
-#include "..\common_h\sd2_h\SaveLoad.h"
 #include <string>
 
 class FirePlace

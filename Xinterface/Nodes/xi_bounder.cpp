@@ -23,7 +23,7 @@ int CXI_BOUNDER::CommandExecute(int wActCode)
 	return -1;
 }
 
-void CXI_BOUNDER::Draw(bool bSelected,dword Delta_Time)
+void CXI_BOUNDER::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(m_bUse)
 	{
@@ -109,7 +109,7 @@ void CXI_BOUNDER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 
 	// Fill buffers
 	XI_ONETEX_VERTEX *pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
-	WORD *pIndx = (WORD*) m_rs->LockIndexBuffer(m_idIBuf);
+	uint16_t *pIndx = (uint16_t*) m_rs->LockIndexBuffer(m_idIBuf);
 	if(pVert== nullptr || pIndx== nullptr)
 		STORM_THROW("can not create the index&vertex buffers")
 

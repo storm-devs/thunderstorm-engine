@@ -5,6 +5,8 @@
 #include "..\..\..\Shared\messages.h"
 #include "..\..\..\Shared\events.h"
 #include "..\sea\ships_list.h"
+#include "../../../Shared/battle_interface/msg_control.h"
+#include "../../common_h/Math3D/Sphere.h"
 
 void ISPYGLASS::ImageParam::Release()
 {
@@ -130,7 +132,7 @@ bool ISPYGLASS::Init()
 	return true;
 }
 
-void ISPYGLASS::Execute(dword delta_time)
+void ISPYGLASS::Execute(uint32_t delta_time)
 {
 	CONTROL_STATE cs;
 	api->Controls->GetControlState("TelescopeIn", cs);
@@ -156,7 +158,7 @@ void ISPYGLASS::Execute(dword delta_time)
 	}
 }
 
-void ISPYGLASS::Realize(dword delta_time)
+void ISPYGLASS::Realize(uint32_t delta_time)
 {
 	if( m_bIsOn )
 	{
@@ -182,7 +184,7 @@ void ISPYGLASS::Realize(dword delta_time)
 	}
 }
 
-dword _cdecl ISPYGLASS::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl ISPYGLASS::ProcessMessage(MESSAGE & message)
 {
 	char param[512];
 	long nMsgCode = message.Long();

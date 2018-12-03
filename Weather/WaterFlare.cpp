@@ -64,9 +64,9 @@ bool WATERFLARE::LoadState(ENTITY_STATE * state)
 	return true;
 }
 
-void WATERFLARE::Execute(dword Delta_Time)
+void WATERFLARE::Execute(uint32_t Delta_Time)
 {
-	GUARD(void WATERFLARE::Execute(dword Delta_Time))
+	GUARD(void WATERFLARE::Execute(uint32_t Delta_Time))
 
 	/*if (pWeather->GetLong(whi_weather_update)) 
 	{
@@ -96,9 +96,9 @@ void WATERFLARE::GenerateFlares()
 	}
 }
 
-void WATERFLARE::Realize(dword Delta_Time)
+void WATERFLARE::Realize(uint32_t Delta_Time)
 {
-	GUARD(void WATERFLARE::Realize(dword Delta_Time))
+	GUARD(void WATERFLARE::Realize(uint32_t Delta_Time))
 
 	for (long i=0;i<iFlaresNum;i++)
 	{
@@ -109,7 +109,7 @@ void WATERFLARE::Realize(dword Delta_Time)
 			pfAlpha[i] = 0.0f;
 			pRSRect[i].vPos = CVECTOR(FRAND(200.0f),0.0f,FRAND(200.0f));
 		}
-		dword dwAlpha = dword(255.0f * ((pfAlpha[i]>1.0f) ? 2.0f - pfAlpha[i] : pfAlpha[i]));
+		uint32_t dwAlpha = uint32_t(255.0f * ((pfAlpha[i]>1.0f) ? 2.0f - pfAlpha[i] : pfAlpha[i]));
 		pRSRect[i].dwColor = RGB(dwAlpha,dwAlpha,dwAlpha);
 	}
 
@@ -119,8 +119,8 @@ void WATERFLARE::Realize(dword Delta_Time)
 	UNGUARD
 }
 
-void WATERFLARE::ProcessMessage(dword iMsg,dword wParam,dword lParam)
+void WATERFLARE::ProcessMessage(uint32_t iMsg,uint32_t wParam,uint32_t lParam)
 {
-	GUARD(void WATERFLARE::ProcessMessage(dword iMsg,dword wParam,dword lParam))
+	GUARD(void WATERFLARE::ProcessMessage(uint32_t iMsg,uint32_t wParam,uint32_t lParam))
 	UNGUARD
 }

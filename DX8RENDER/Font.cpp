@@ -1,5 +1,6 @@
 #include "font.h"
 #include <stdio.h>
+#include "../common_h/defines.h"
 
 static char Buffer1024[1024];
 
@@ -11,8 +12,8 @@ FONT::FONT()
 	VBuffer = nullptr;
 	TextureID = -1;
 	Color = oldColor = 0xffffffff;
-	ZeroMemory(CharT,sizeof(CharT));
-	ZeroMemory(&Pos,sizeof(Pos));
+	PZERO(CharT,sizeof(CharT));
+	PZERO(&Pos,sizeof(Pos));
 	bInverse = bOldInverse = false;
     techniqueName = nullptr;
     textureName = nullptr;
@@ -194,11 +195,11 @@ bool FONT::Init(char * font_name, char * iniName, IDirect3DDevice9 * _device, VD
 	return true;
 }
 
-void FONT::Realize(DWORD DeltaTime)
+void FONT::Realize(uint32_t DeltaTime)
 {
 }
 
-void FONT::SetColor(DWORD color)
+void FONT::SetColor(uint32_t color)
 {
 	Color = color;
 }
@@ -230,7 +231,7 @@ long FONT::GetStringWidth(const char * Text)
 
 	for(long i=0; i<s_num; i++)
 	{
-		pos = CharT[(byte)Text[i]].Pos;
+		pos = CharT[(uint8_t)Text[i]].Pos;
 		if(fScale!=1.f)
 		{
 			pos.x1*=fScale;
@@ -253,7 +254,7 @@ long FONT::UpdateVertexBuffer(long x, long y, char * data_PTR)
 	long n;
 	long i;
 	float xoffset;
-	byte sym;
+	uint8_t sym;
 	FLOAT_RECT pos;
 	FLOAT_RECT tuv;
 	IMAGE_VERTEX * pVertex;

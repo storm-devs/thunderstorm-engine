@@ -9,11 +9,11 @@ bool EdUtils::CheckPointInsideRect( const EdPoint& epnt, const EdRect& erect )
 	return true;
 }
 
-void EdUtils::DrawColorRect( const EdRect& erPlace, dword dwColor )
+void EdUtils::DrawColorRect( const EdRect& erPlace, uint32_t dwColor )
 {
 }
 
-void EdUtils::DrawColorSprite( const EdRect& erPlace, dword dwColor, long nTexture, const EdRect& erUV )
+void EdUtils::DrawColorSprite( const EdRect& erPlace, uint32_t dwColor, long nTexture, const EdRect& erUV )
 {
 	EdVertexColorUV v[4];
 	m_pRender->DrawPrimitiveUP( D3DPT_TRIANGLESTRIP, EdVF_ColorUV, 2, v, sizeof(EdVertexColorUV), "?technique" );

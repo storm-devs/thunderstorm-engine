@@ -2,9 +2,7 @@
 #define SEA_COMMON_CAMERA_HPP
 
 #include "..\common_h\vmodule_api.h"
-#include "..\common_h\defines.h"
 #include "..\common_h\sd2_h\VAI_ObjBase.h"
-#include "..\common_h\sd2_h\SaveLoad.h"
 
 class COMMON_CAMERA : public ENTITY
 {

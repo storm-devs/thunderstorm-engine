@@ -3,7 +3,6 @@
 
 #include "..\..\common_h\vmodule_api.h"
 #include "..\..\common_h\entity.h"
-#include "..\..\common_h\messages.h"
 #include <string>
 #include <vector>
 
@@ -22,8 +21,8 @@ class PARTICLES : public ENTITY
 	{
 		std::string FileName;
 		PARTICLE_SYSTEM* pSystem;
-		dword LifeTime;
-		dword PassedTime;
+		uint32_t LifeTime;
+		uint32_t PassedTime;
 
 		SystemInfo ()
 		{
@@ -38,7 +37,7 @@ class PARTICLES : public ENTITY
 	IParticleManager* pManager;
 
 
-	PARTICLE_SYSTEM* CreateSystem (const char* pFileName, dword LifeTime);
+	PARTICLE_SYSTEM* CreateSystem (const char* pFileName, uint32_t LifeTime);
 	void DeleteSystem (long SystemID);
 	void DeleteAll ();
 
@@ -61,10 +60,10 @@ public:
   bool Init ();
 
 
-	dword _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t _cdecl ProcessMessage(MESSAGE & message);
 
-	void Realize(dword Delta_Time);
-	void Execute(dword Delta_Time);
+	void Realize(uint32_t Delta_Time);
+	void Execute(uint32_t Delta_Time);
 
 
  

@@ -51,7 +51,7 @@ struct LocationFindCacheElement
 LocationFindCacheElement charactersFindCache[16];
 LocationFindCacheElement locationsFindCache[8];
 LocationFindCacheElement charactersFindBuf;
-dword locationFindCodeID = -1;
+uint32_t locationFindCodeID = -1;
 
 
 inline bool CheckID(VDATA * vd, const char * id, bool & res)
@@ -85,7 +85,7 @@ void slAddToCache(LocationFindCacheElement * element, long size, const char * na
 }
 
 
-dword slNativeFastFind(VS_STACK * pS, LocationFindCacheElement * cache, long cacheSize)
+uint32_t slNativeFastFind(VS_STACK * pS, LocationFindCacheElement * cache, long cacheSize)
 {
 	//Получить строки
 	VDATA * pStr = (VDATA*)pS->Pop();
@@ -118,7 +118,7 @@ dword slNativeFastFind(VS_STACK * pS, LocationFindCacheElement * cache, long cac
 		if(cache[i].index < 0) continue;
 		if(!cache[i].Cmp(charactersFindBuf)) continue;
 		//Проверяем на правильность кешь-значения
-		if(dword(cache[i].index) >= pArray->GetElementsNum())
+		if(uint32_t(cache[i].index) >= pArray->GetElementsNum())
 		{
 			cache[i].index = -1;
 			continue;
@@ -157,17 +157,17 @@ dword slNativeFastFind(VS_STACK * pS, LocationFindCacheElement * cache, long cac
 	return IFUNCRESULT_OK;
 }
 
-dword __cdecl slNativeFindCharacter(VS_STACK * pS)
+uint32_t __cdecl slNativeFindCharacter(VS_STACK * pS)
 {
 	return slNativeFastFind(pS, charactersFindCache, sizeof(charactersFindCache)/sizeof(LocationFindCacheElement));
 }
 
-dword __cdecl slNativeFindLocation(VS_STACK * pS)
+uint32_t __cdecl slNativeFindLocation(VS_STACK * pS)
 {
 	return slNativeFastFind(pS, locationsFindCache, sizeof(locationsFindCache)/sizeof(LocationFindCacheElement));
 }
 
-dword __cdecl slNativeFindLaodLocation(VS_STACK * pS)
+uint32_t __cdecl slNativeFindLaodLocation(VS_STACK * pS)
 {
 	//Возвращаемое значение
 	VDATA * pReturn = (VDATA*)pS->Push();
@@ -190,7 +190,7 @@ dword __cdecl slNativeFindLaodLocation(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-dword __cdecl slNativeSetReloadBackImage(VS_STACK * pS)
+uint32_t __cdecl slNativeSetReloadBackImage(VS_STACK * pS)
 {
 	//Получить строки
 	VDATA * pStr = (VDATA*)pS->Pop();
@@ -205,28 +205,28 @@ dword __cdecl slNativeSetReloadBackImage(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-dword __cdecl slNativeReloadProgressStart(VS_STACK * pS)
+uint32_t __cdecl slNativeReloadProgressStart(VS_STACK * pS)
 {
 	VDX9RENDER * rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	if(rs) rs->StartProgressView();
 	return IFUNCRESULT_OK;
 }
 
-dword __cdecl slNativeReloadProgressUpdate(VS_STACK * pS)
+uint32_t __cdecl slNativeReloadProgressUpdate(VS_STACK * pS)
 {
 	VDX9RENDER * rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	if(rs) rs->ProgressView();
 	return IFUNCRESULT_OK;
 }
 
-dword __cdecl slNativeReloadProgressEnd(VS_STACK * pS)
+uint32_t __cdecl slNativeReloadProgressEnd(VS_STACK * pS)
 {
 	VDX9RENDER * rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	if(rs) rs->EndProgressView();
 	return IFUNCRESULT_OK;
 }
 
-dword __cdecl slNativeSleep(VS_STACK * pS)
+uint32_t __cdecl slNativeSleep(VS_STACK * pS)
 {
 	//Получить строки
 	VDATA * pInt = (VDATA*)pS->Pop();
@@ -237,7 +237,7 @@ dword __cdecl slNativeSleep(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-dword __cdecl slNativeExecuteTechnique(VS_STACK * pS)
+uint32_t __cdecl slNativeExecuteTechnique(VS_STACK * pS)
 {
 	//Получить строку
 	VDATA * pStr = (VDATA*)pS->Pop();
@@ -254,7 +254,7 @@ dword __cdecl slNativeExecuteTechnique(VS_STACK * pS)
 }
 
 
-dword __cdecl slGetNextLineString(VS_STACK * pS)
+uint32_t __cdecl slGetNextLineString(VS_STACK * pS)
 {
 	//Возвращаемое значение
 	VDATA * pReturn = (VDATA*)pS->Push();
@@ -263,7 +263,7 @@ dword __cdecl slGetNextLineString(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-dword __cdecl slNativeSetReloadNextTipsImage(VS_STACK * pS)
+uint32_t __cdecl slNativeSetReloadNextTipsImage(VS_STACK * pS)
 {
 	if(Fader::numberOfTips <= 0)
 	{

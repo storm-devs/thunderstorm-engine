@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "xservice.h"
 #include "..\\common_h\\dx9render.h"
+#include "../common_h/defines.h"
+#include "vxservice.h"
 
 #define ERROR_MUL	1.0f
 
@@ -112,7 +114,7 @@ bool XSERVICE::GetTexturePos(long pictureNum, FXYRECT &texRect)
         }
 	}
 
-	ZeroMemory(&texRect,sizeof(texRect));
+	PZERO(&texRect,sizeof(texRect));
 	return false;
 }
 
@@ -124,7 +126,7 @@ bool XSERVICE::GetTexturePos(long pictureNum, XYRECT &texRect)
     	return true;
 	}
 
-	ZeroMemory(&texRect,sizeof(texRect));
+	PZERO(&texRect,sizeof(texRect));
 	return false;
 }
 
@@ -175,7 +177,7 @@ bool XSERVICE::GetTexturePos(int nTextureModify,long pictureNum, FXYRECT &texRec
         }
 	}
 
-	ZeroMemory(&texRect,sizeof(texRect));
+	PZERO(&texRect,sizeof(texRect));
 	return false;
 }
 

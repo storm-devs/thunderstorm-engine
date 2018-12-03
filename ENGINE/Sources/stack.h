@@ -2,7 +2,6 @@
 #define _VSTACK_H_
 
 //#include <windows.h>
-#include "..\..\common_h\memop.h"
 #include "data.h"
 
 class VSTACK

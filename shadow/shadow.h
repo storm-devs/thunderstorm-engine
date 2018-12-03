@@ -5,7 +5,6 @@
 #include "..\common_h\dx9render.h"
 #include "..\common_h\collide.h"
 #include "..\common_h\model.h"
-#include "..\common_h\geos.h"
 
 class SHADOW : public ENTITY
 {
@@ -27,8 +26,8 @@ public:
 	SHADOW();
 	~SHADOW();
 	bool Init();
-	void Realize(dword Delta_Time);
-	dword _cdecl ProcessMessage(MESSAGE &message);
+	void Realize(uint32_t Delta_Time);
+	uint32_t _cdecl ProcessMessage(MESSAGE &message);
 
 	void LostRender() override;
 	void RestoreRender() override;

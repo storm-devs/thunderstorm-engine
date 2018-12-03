@@ -37,7 +37,7 @@ BillBoardProcessor::BillBoardProcessor ()
 	Particles.reserve(MAX_BILLBOARDS);
 	pMemArray = NEW MemArrayItem[MAX_BILLBOARDS];
 
-	for (DWORD n = 0; n < MAX_BILLBOARDS; n++)
+	for (uint32_t n = 0; n < MAX_BILLBOARDS; n++)
 	{
 		pMemArray[n].Free = true;
 	}
@@ -50,19 +50,19 @@ BillBoardProcessor::BillBoardProcessor ()
 	pVBuffer = pRS->CreateVertexBuffer(0, MAX_BILLBOARDS * RectVertexSize* 4, D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
 	Assert (pVBuffer != -1);
 
-	pIBuffer = pRS->CreateIndexBuffer(MAX_BILLBOARDS * 6 * sizeof(WORD));
+	pIBuffer = pRS->CreateIndexBuffer(MAX_BILLBOARDS * 6 * sizeof(uint16_t));
 	Assert (pIBuffer != -1);
-	WORD * pTrgs = (WORD*)pRS->LockIndexBuffer(pIBuffer);
+	uint16_t * pTrgs = (uint16_t*)pRS->LockIndexBuffer(pIBuffer);
 	Assert(pTrgs != NULL);
 
 	for (long i = 0; i < MAX_BILLBOARDS; i++)
 	{
-		pTrgs[i * 6 + 0] = WORD(i * 4 + 0);
-		pTrgs[i * 6 + 1] = WORD(i * 4 + 1);
-		pTrgs[i * 6 + 2] = WORD(i * 4 + 2);
-		pTrgs[i * 6 + 3] = WORD(i * 4 + 0);
-		pTrgs[i * 6 + 4] = WORD(i * 4 + 2);
-		pTrgs[i * 6 + 5] = WORD(i * 4 + 3);
+		pTrgs[i * 6 + 0] = uint16_t(i * 4 + 0);
+		pTrgs[i * 6 + 1] = uint16_t(i * 4 + 1);
+		pTrgs[i * 6 + 2] = uint16_t(i * 4 + 2);
+		pTrgs[i * 6 + 3] = uint16_t(i * 4 + 0);
+		pTrgs[i * 6 + 4] = uint16_t(i * 4 + 2);
+		pTrgs[i * 6 + 5] = uint16_t(i * 4 + 3);
 	}
 	pRS->UnLockIndexBuffer(pIBuffer);
 
@@ -85,7 +85,7 @@ BillBoardProcessor::~BillBoardProcessor ()
 //"Выделить" память для хранения партикла
 BB_ParticleData* BillBoardProcessor::AllocParticle ()
 {
-	for (DWORD n = 0; n < MAX_BILLBOARDS; n++)
+	for (uint32_t n = 0; n < MAX_BILLBOARDS; n++)
 	{
 		if (pMemArray[n].Free)
 		{
@@ -100,7 +100,7 @@ BB_ParticleData* BillBoardProcessor::AllocParticle ()
 //"Убить" партикл
 void BillBoardProcessor::FreeParticle (BB_ParticleData* pItem)
 {
-	for (DWORD n = 0; n < MAX_BILLBOARDS; n++)
+	for (uint32_t n = 0; n < MAX_BILLBOARDS; n++)
 	{
 		if	(&pMemArray[n].pData == pItem)
 		{
@@ -111,7 +111,7 @@ void BillBoardProcessor::FreeParticle (BB_ParticleData* pItem)
 }
 
 
-void BillBoardProcessor::AddParticle (ParticleSystem* pSystem, const Vector& velocity_dir, const Vector& pos, const Matrix& matWorld, float EmitterTime, float EmitterLifeTime, FieldList* pFields, DWORD* pActiveCount, DWORD dwGUID)
+void BillBoardProcessor::AddParticle (ParticleSystem* pSystem, const Vector& velocity_dir, const Vector& pos, const Matrix& matWorld, float EmitterTime, float EmitterLifeTime, FieldList* pFields, uint32_t* pActiveCount, uint32_t dwGUID)
 {
 	BB_ParticleData* pData = AllocParticle ();
 
@@ -208,7 +208,7 @@ void BillBoardProcessor::Process (float DeltaTime)
 	//DWORD t;
 	//RDTSC_B (t);
 
-	for (DWORD n = 0; n < Particles.size(); n++)
+	for (uint32_t n = 0; n < Particles.size(); n++)
 	{
 		Particles[n]->ElapsedTime += DeltaTime;
 
@@ -278,7 +278,7 @@ void BillBoardProcessor::Process (float DeltaTime)
 
 	//Рождаем партиклы, которые привязанны к нашему партиклу...
 
-	for (DWORD n = 0; n < Particles.size(); n++)
+	for (uint32_t n = 0; n < Particles.size(); n++)
 	{
 		if (Particles[n]->AttachedEmitter)
 		{
@@ -298,12 +298,12 @@ void BillBoardProcessor::Process (float DeltaTime)
 }
 
 //Считает расстояние до билбоардов
-DWORD BillBoardProcessor::CalcDistanceToCamera ()
+uint32_t BillBoardProcessor::CalcDistanceToCamera ()
 {
-	DWORD VisParticles = 0;
+	uint32_t VisParticles = 0;
 	Matrix mView;
 	pRS->GetTransform(D3DTS_VIEW, mView);
-	for (DWORD j = 0; j <  Particles.size(); j++)
+	for (uint32_t j = 0; j <  Particles.size(); j++)
 	{
 		Particles[j]->CamDistance = Vector(Particles[j]->RenderPos * mView).z;
 
@@ -340,8 +340,8 @@ void BillBoardProcessor::Draw()
 	//RECT_VERTEX * pVerts = (RECT_VERTEX*)pVBuffer->Lock();
 
 	long Index = 0;
-	DWORD ParticlesCount = 0;
-	for (DWORD j = 0; j <  Particles.size(); j++)
+	uint32_t ParticlesCount = 0;
+	for (uint32_t j = 0; j <  Particles.size(); j++)
 	{
 		BB_ParticleData* pR = Particles[j];
 
@@ -356,7 +356,7 @@ void BillBoardProcessor::Draw()
 
 		float fAngle = pR->RenderAngle;
 		Vector vPos = pR->RenderPos;
-		DWORD dwColor = pR->Graph_Color->GetValue(pR->ElapsedTime, pR->LifeTime, pR->ColorK);
+		uint32_t dwColor = pR->Graph_Color->GetValue(pR->ElapsedTime, pR->LifeTime, pR->ColorK);
 
 		float Alpha = pR->Graph_Transparency->GetValue(pR->ElapsedTime, pR->LifeTime, pR->AlphaK);
 		Alpha = Alpha * 0.01f;
@@ -414,7 +414,7 @@ void BillBoardProcessor::Draw()
 			pR->OldRenderAngle = DirAngle;
 		}
 
-		DWORD dwAlpha = (BYTE)Alpha << 24;
+		uint32_t dwAlpha = (uint8_t)Alpha << 24;
 		dwColor = dwColor & 0x00FFFFFF;
 		dwColor = dwColor | dwAlpha;
 
@@ -534,14 +534,14 @@ void BillBoardProcessor::Draw()
 
 }
 
-DWORD BillBoardProcessor::GetCount ()
+uint32_t BillBoardProcessor::GetCount ()
 {
 	return Particles.size();
 }
 
-void BillBoardProcessor::DeleteWithGUID (DWORD dwGUID, DWORD GUIDRange)
+void BillBoardProcessor::DeleteWithGUID (uint32_t dwGUID, uint32_t GUIDRange)
 {
-	for (DWORD j = 0; j <  Particles.size(); j++)
+	for (uint32_t j = 0; j <  Particles.size(); j++)
 	{
 		if (Particles[j]->EmitterGUID >= dwGUID && Particles[j]->EmitterGUID < dwGUID+GUIDRange)
 		{
@@ -557,7 +557,7 @@ void BillBoardProcessor::DeleteWithGUID (DWORD dwGUID, DWORD GUIDRange)
 
 void BillBoardProcessor::Clear ()
 {
-	for (DWORD j = 0; j <  Particles.size(); j++)
+	for (uint32_t j = 0; j <  Particles.size(); j++)
 	{
 		*(Particles[j]->ActiveCount) = (*(Particles[j]->ActiveCount)-1);
 		FreeParticle (Particles[j]);

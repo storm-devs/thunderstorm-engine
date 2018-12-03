@@ -4,7 +4,7 @@
 
 // extern data
 ENTITY_ID BIUtils::idBattleInterface;
-DWORD BIUtils::g_dwBlinkColor;
+uint32_t BIUtils::g_dwBlinkColor;
 
 long BIUtils::GetLongFromAttr(ATTRIBUTES * pA, const char * name, long defVal)
 {
@@ -174,7 +174,7 @@ ATTRIBUTES * _cdecl BIUtils::GetAttributesFromPath(ATTRIBUTES * pA,...)
 	return pTmpAttr;
 }
 
-DWORD BIUtils::GetIntervalColor(DWORD minV,DWORD maxV, float fpar)
+uint32_t BIUtils::GetIntervalColor(uint32_t minV,uint32_t maxV, float fpar)
 {
 	long a = minV>>24L;
 	long ad = (long)(maxV>>24L) - a;
@@ -471,7 +471,7 @@ void BIBorderInfo::Draw()
 		fCur -= fSpeed * api->GetDeltaTime();
 		if( fCur < 0.f ) {fCur = 0.f; bUp=true;}
 	}
-	dword dwColor = BIUtils::GetIntervalColor( dwColor1, dwColor2, fCur );
+	uint32_t dwColor = BIUtils::GetIntervalColor( dwColor1, dwColor2, fCur );
 	FRECT int_pos;
 	BIUtils::GetIntervalRect( fCur, int_pos1,int_pos2, int_pos );
 

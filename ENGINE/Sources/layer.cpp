@@ -2,7 +2,7 @@
 #include "..\..\common_h\exs.h"
 #include "..\..\common_h\memop.h"
 
-LAYER::LAYER(char * name,bool ordered,bool system,dword system_flags)
+LAYER::LAYER(char * name,bool ordered,bool system,uint32_t system_flags)
 {
 	ls.Flags = 0;
 	Base_Link = nullptr;
@@ -20,7 +20,7 @@ LAYER::~LAYER()
 {
 	VIDWALKER * pInterface;
 	while(Base_Link) {Del(Base_Link->id);}
-	for(dword n=0;n<walkers_num;n++)
+	for(uint32_t n=0;n<walkers_num;n++)
 	{
 		if(walkers[n]) 
 		{
@@ -49,9 +49,9 @@ bool LAYER::Add(ENTITY_ID eid)
 	return true;
 }
 
-bool LAYER::Add(ENTITY_ID eid, dword priority)
+bool LAYER::Add(ENTITY_ID eid, uint32_t priority)
 {
-	GUARD(LAYER::Add(ENTITY_ID,dword))
+	GUARD(LAYER::Add(ENTITY_ID,uint32_t))
 	LAYER_NODE * ln_PTR;
 	LAYER_NODE * scanln_PTR;
 	
@@ -126,7 +126,7 @@ bool LAYER::Del(ENTITY_ID eid)
 				Count--;
 				if(Search_Link == ln_PTR) Search_Link = link_L;
 				
-				for(dword n=0;n<walkers_num;n++)
+				for(uint32_t n=0;n<walkers_num;n++)
 				{
 					if(walkers[n]) 
 					{
@@ -142,7 +142,7 @@ bool LAYER::Del(ENTITY_ID eid)
 	return false;
 }
 
-dword LAYER::GetPriority(ENTITY_ID eid)
+uint32_t LAYER::GetPriority(ENTITY_ID eid)
 {
 	LAYER_NODE * ln_PTR;
 	ln_PTR = Base_Link;
@@ -210,7 +210,7 @@ ENTITY_ID * LAYER::GetNextID()
 	return nullptr;
 }
 
-ENTITY_ID * LAYER::GetID(dword * priority_PTR)
+ENTITY_ID * LAYER::GetID(uint32_t * priority_PTR)
 {
 	if(ls.Deleted) return nullptr;
 	if(Base_Link)
@@ -223,7 +223,7 @@ ENTITY_ID * LAYER::GetID(dword * priority_PTR)
 	return nullptr;
 }
 
-ENTITY_ID * LAYER::GetNextID(dword * priority_PTR)
+ENTITY_ID * LAYER::GetNextID(uint32_t * priority_PTR)
 {
 	if(ls.Deleted) return nullptr;
 	if(Search_Link)
@@ -236,12 +236,12 @@ ENTITY_ID * LAYER::GetNextID(dword * priority_PTR)
 	return nullptr;
 }
 
-void LAYER::SetFlag(dword flag)
+void LAYER::SetFlag(uint32_t flag)
 {
 	ls.Flags |= flag;
 }
 
-void LAYER::ClrFlag(dword flag)
+void LAYER::ClrFlag(uint32_t flag)
 {
 	ls.Flags &= (~flag);
 }
@@ -266,7 +266,7 @@ VIDWALKER * LAYER::GetWalker()
 
 void LAYER::DelWalker(void * pw)
 {
-	dword n;
+	uint32_t n;
 	for(n=0;n<walkers_num;n++)
 	{
 		if((void *)walkers[n] == pw)

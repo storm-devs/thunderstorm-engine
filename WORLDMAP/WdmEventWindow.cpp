@@ -10,6 +10,7 @@
 
 #include "WdmEventWindow.h"
 #include "WorldMap.h"
+#include "WdmObjects.h"
 
 
 #define WDM_EW_WIDTHDIVHEIGHT	400.0f/200.0f	//Желаемое отношение сторон окна

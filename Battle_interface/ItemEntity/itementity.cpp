@@ -1,6 +1,7 @@
 #include "itementity.h"
 #include "..\utils.h"
 #include "..\..\common_h\model.h"
+#include "../../../Shared/messages.h"
 
 ItemEntity::ItemEntity()
 {
@@ -18,7 +19,7 @@ bool ItemEntity::Init()
 	return true;
 }
 
-void ItemEntity::Realize(dword delta_time)
+void ItemEntity::Realize(uint32_t delta_time)
 {
 	if( m_bVisible && m_pModel )
 		if( m_bTieToLocator )
@@ -27,7 +28,7 @@ void ItemEntity::Realize(dword delta_time)
 			m_pModel->Realize( delta_time );
 }
 
-dword _cdecl ItemEntity::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl ItemEntity::ProcessMessage(MESSAGE & message)
 {
 	long nMsgCod = message.Long();
 	switch( nMsgCod )

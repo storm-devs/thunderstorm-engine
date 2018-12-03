@@ -1,21 +1,14 @@
 #ifndef _INPUT_H_
 #define _INPUT_H_
 
-#ifndef _XBOX
-#include <windows.h>
-#else
-#include <xtl.h>
-#endif
-#include "d_types.h"
-
 class IINPUT
 {
 public:
 	IINPUT(){};
 	virtual ~IINPUT(){};
-	virtual float GetKeyState(dword key_code, dword * value = nullptr)= 0;
+	virtual float GetKeyState(uint32_t key_code, uint32_t * value = nullptr)= 0;
 	virtual void ProcessKeyState(){};
-	virtual void SetKeyState(dword key_code, dword * value){};
+	virtual void SetKeyState(uint32_t key_code, uint32_t * value){};
 };
 
 #endif

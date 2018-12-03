@@ -1,6 +1,4 @@
-
-
-#include "..\common_h\vmodule_api.h"
+#include "../common_h/script_libriary.h"
 
 class ScriptLocationLibrary  : public SCRIPT_LIBRIARY
 {

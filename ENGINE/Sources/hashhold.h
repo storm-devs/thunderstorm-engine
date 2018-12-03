@@ -5,18 +5,18 @@
 
 class HASHHOLD
 {
-	DWORD * * pHashTable;
-	DWORD * pLineSize;
-	DWORD dwHashTableSize;
+	uint32_t * * pHashTable;
+	uint32_t * pLineSize;
+	uint32_t dwHashTableSize;
 public:
 	 HASHHOLD();
 	~HASHHOLD();
 
 	void  Release();
-	bool  Init(DWORD dwHashTableSize);
-	bool  Add(DWORD dwHashValue, DWORD dwHoldValue);
-	DWORD GetCodesNum(DWORD dwHashValue,DWORD * & pHashLine);
-	DWORD MakeHash(const char * string, bool bCaseIndependent = false);
+	bool  Init(uint32_t dwHashTableSize);
+	bool  Add(uint32_t dwHashValue, uint32_t dwHoldValue);
+	uint32_t GetCodesNum(uint32_t dwHashValue,uint32_t * & pHashLine);
+	uint32_t MakeHash(const char * string, bool bCaseIndependent = false);
 	
 };
 

@@ -1,6 +1,7 @@
 #include "ShipInfoImages.h"
 #include "..\image\imgrender.h"
 #include "..\..\common_h\ship_base.h"
+#include "../utils.h"
 
 // определим вертексы
 #define SPV_FORMAT		(D3DFVF_XYZ|D3DFVF_TEX1|D3DFVF_TEXTUREFORMAT2)
@@ -136,50 +137,50 @@ void ShipInfoImages::CheckAndRecreateBuffers(long nShipQ)
 
 		// create new buffers
 		m_vbRelation = pRS->CreateVertexBuffer(SPV_FORMAT,nShipQ * 4*sizeof(SII_VERTEX),D3DUSAGE_WRITEONLY);
-		m_ibRelation = pRS->CreateIndexBuffer(nShipQ * 6*sizeof(word));
+		m_ibRelation = pRS->CreateIndexBuffer(nShipQ * 6*sizeof(uint16_t));
 		m_vbProgress = pRS->CreateVertexBuffer(SPV_FORMAT,nShipQ*3 * 4*sizeof(SII_VERTEX),D3DUSAGE_WRITEONLY);
-		m_ibProgress = pRS->CreateIndexBuffer(nShipQ*3 * 6*sizeof(word));
+		m_ibProgress = pRS->CreateIndexBuffer(nShipQ*3 * 6*sizeof(uint16_t));
 		m_vbBackProgress = pRS->CreateVertexBuffer(SPV_FORMAT,nShipQ * 4*sizeof(SII_VERTEX),D3DUSAGE_WRITEONLY);
-		m_ibBackProgress = pRS->CreateIndexBuffer(nShipQ * 6*sizeof(word));
+		m_ibBackProgress = pRS->CreateIndexBuffer(nShipQ * 6*sizeof(uint16_t));
 
 		// fill there index buffers
 		long n;
-		WORD* pIB = (WORD*)pRS->LockIndexBuffer( m_ibRelation );
+		uint16_t* pIB = (uint16_t*)pRS->LockIndexBuffer( m_ibRelation );
 		if( pIB ) {
 			for(n=0; n<nShipQ; n++)
 			{
-				pIB[n*6 + 0] = (WORD)(n*4 + 0);
-				pIB[n*6 + 1] = (WORD)(n*4 + 1);
-				pIB[n*6 + 2] = (WORD)(n*4 + 2);
-				pIB[n*6 + 3] = (WORD)(n*4 + 1);
-				pIB[n*6 + 4] = (WORD)(n*4 + 3);
-				pIB[n*6 + 5] = (WORD)(n*4 + 2);
+				pIB[n*6 + 0] = (uint16_t)(n*4 + 0);
+				pIB[n*6 + 1] = (uint16_t)(n*4 + 1);
+				pIB[n*6 + 2] = (uint16_t)(n*4 + 2);
+				pIB[n*6 + 3] = (uint16_t)(n*4 + 1);
+				pIB[n*6 + 4] = (uint16_t)(n*4 + 3);
+				pIB[n*6 + 5] = (uint16_t)(n*4 + 2);
 			}
 			pRS->UnLockIndexBuffer( m_ibRelation );
 		}
-		pIB = (WORD*)pRS->LockIndexBuffer( m_ibProgress );
+		pIB = (uint16_t*)pRS->LockIndexBuffer( m_ibProgress );
 		if( pIB ) {
 			for(n=0; n<nShipQ*3; n++)
 			{
-				pIB[n*6 + 0] = (WORD)(n*4 + 0);
-				pIB[n*6 + 1] = (WORD)(n*4 + 1);
-				pIB[n*6 + 2] = (WORD)(n*4 + 2);
-				pIB[n*6 + 3] = (WORD)(n*4 + 1);
-				pIB[n*6 + 4] = (WORD)(n*4 + 3);
-				pIB[n*6 + 5] = (WORD)(n*4 + 2);
+				pIB[n*6 + 0] = (uint16_t)(n*4 + 0);
+				pIB[n*6 + 1] = (uint16_t)(n*4 + 1);
+				pIB[n*6 + 2] = (uint16_t)(n*4 + 2);
+				pIB[n*6 + 3] = (uint16_t)(n*4 + 1);
+				pIB[n*6 + 4] = (uint16_t)(n*4 + 3);
+				pIB[n*6 + 5] = (uint16_t)(n*4 + 2);
 			}
 			pRS->UnLockIndexBuffer( m_ibProgress );
 		}
-		pIB = (WORD*)pRS->LockIndexBuffer( m_ibBackProgress );
+		pIB = (uint16_t*)pRS->LockIndexBuffer( m_ibBackProgress );
 		if( pIB ) {
 			for(n=0; n<nShipQ; n++)
 			{
-				pIB[n*6 + 0] = (WORD)(n*4 + 0);
-				pIB[n*6 + 1] = (WORD)(n*4 + 1);
-				pIB[n*6 + 2] = (WORD)(n*4 + 2);
-				pIB[n*6 + 3] = (WORD)(n*4 + 1);
-				pIB[n*6 + 4] = (WORD)(n*4 + 3);
-				pIB[n*6 + 5] = (WORD)(n*4 + 2);
+				pIB[n*6 + 0] = (uint16_t)(n*4 + 0);
+				pIB[n*6 + 1] = (uint16_t)(n*4 + 1);
+				pIB[n*6 + 2] = (uint16_t)(n*4 + 2);
+				pIB[n*6 + 3] = (uint16_t)(n*4 + 1);
+				pIB[n*6 + 4] = (uint16_t)(n*4 + 3);
+				pIB[n*6 + 5] = (uint16_t)(n*4 + 2);
 			}
 			pRS->UnLockIndexBuffer( m_ibBackProgress );
 		}

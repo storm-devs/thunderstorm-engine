@@ -14,7 +14,7 @@ HASHHOLD::~HASHHOLD()
 
 void HASHHOLD::Release()
 {
-	DWORD n;
+	uint32_t n;
 	if(pHashTable)
 	{
 		for(n=0;n<dwHashTableSize;n++)
@@ -28,22 +28,22 @@ void HASHHOLD::Release()
 	dwHashTableSize = 0;
 }
 
-bool HASHHOLD::Init(DWORD _dwHashTableSize)
+bool HASHHOLD::Init(uint32_t _dwHashTableSize)
 {
 	Release();
 	dwHashTableSize = _dwHashTableSize;
-	pHashTable = (DWORD **)NEW char[dwHashTableSize * sizeof(DWORD*)];
+	pHashTable = (uint32_t **)NEW char[dwHashTableSize * sizeof(uint32_t*)];
 	if(!pHashTable) THROW;
-	memset(pHashTable,0,dwHashTableSize * sizeof(DWORD*));
-	pLineSize = (DWORD *)NEW char[dwHashTableSize * sizeof(DWORD)];
+	memset(pHashTable,0,dwHashTableSize * sizeof(uint32_t*));
+	pLineSize = (uint32_t *)NEW char[dwHashTableSize * sizeof(uint32_t)];
 	if(!pLineSize) THROW;
-	memset(pLineSize,0,dwHashTableSize * sizeof(DWORD));
+	memset(pLineSize,0,dwHashTableSize * sizeof(uint32_t));
 	return true;
 }
 
-bool HASHHOLD::Add(DWORD dwHashValue, DWORD dwHoldValue)
+bool HASHHOLD::Add(uint32_t dwHashValue, uint32_t dwHoldValue)
 {
-	DWORD n;
+	uint32_t n;
 	if(dwHashValue >= dwHashTableSize)
 	{
 		api->Trace("ERROR: hash value out of range");
@@ -51,12 +51,12 @@ bool HASHHOLD::Add(DWORD dwHashValue, DWORD dwHoldValue)
 	}
 	n = pLineSize[dwHashValue];
 	pLineSize[dwHashValue]++;
-	pHashTable[dwHashValue] = (DWORD *)RESIZE(pHashTable[dwHashValue],pLineSize[dwHashValue] * sizeof(DWORD));
+	pHashTable[dwHashValue] = (uint32_t *)RESIZE(pHashTable[dwHashValue],pLineSize[dwHashValue] * sizeof(uint32_t));
 	pHashTable[dwHashValue][n] = dwHoldValue;
 	return true;
 }
 
-DWORD HASHHOLD::GetCodesNum(DWORD dwHashValue,DWORD * & pHashLine)
+uint32_t HASHHOLD::GetCodesNum(uint32_t dwHashValue,uint32_t * & pHashLine)
 {
 	pHashLine = nullptr;
 	if(dwHashValue >= dwHashTableSize)
@@ -68,10 +68,10 @@ DWORD HASHHOLD::GetCodesNum(DWORD dwHashValue,DWORD * & pHashLine)
 	return pLineSize[dwHashValue];
 }
 
-DWORD HASHHOLD::MakeHash(const char * string, bool bCaseIndependent)
+uint32_t HASHHOLD::MakeHash(const char * string, bool bCaseIndependent)
 {
-	DWORD hval = 0;
-	DWORD g;
+	uint32_t hval = 0;
+	uint32_t g;
 	char v;
 	while(*string != 0)
 	{

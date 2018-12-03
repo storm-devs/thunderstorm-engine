@@ -4,7 +4,6 @@
 #include "..\common_h\model.h"
 #include "..\common_h\geometry.h"
 #include "..\common_h\dx9render.h"
-#include "..\common_h\dx9render.h"
 
 
 class NODER : public NODE
@@ -101,8 +100,8 @@ public:
 	MODELR();
 	virtual ~MODELR(); 
 	bool Init();
-	void Realize(dword Delta_Time);
-	dword _cdecl ProcessMessage(MESSAGE &message);
+	void Realize(uint32_t Delta_Time);
+	uint32_t _cdecl ProcessMessage(MESSAGE &message);
 	void LostRender();
 	void RestoreRender();
 
@@ -119,7 +118,7 @@ public:
 	virtual NODE *GetCollideNode();
 protected:
 	bool useBlend;
-	dword blendTime, passedTime;
+	uint32_t blendTime, passedTime;
 	char blendTechnique[128];
 	float alpha1, alpha2;
 };

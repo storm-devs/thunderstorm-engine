@@ -17,13 +17,13 @@ void MapZipper::UnInit()
 	STORM_DELETE(pRealData);
 }
 
-void MapZipper::DoZip(byte * pSrc, dword _dwSizeX)
+void MapZipper::DoZip(uint8_t * pSrc, uint32_t _dwSizeX)
 {
-	dword	i, j, k, x, y, xx, yy;
+	uint32_t	i, j, k, x, y, xx, yy;
 
 	UnInit();
 
-	dword	dwRealIndex = 0;
+	uint32_t	dwRealIndex = 0;
 
 	dwSizeX = _dwSizeX;
 
@@ -34,26 +34,26 @@ void MapZipper::DoZip(byte * pSrc, dword _dwSizeX)
 
 	dwShiftNumBlocksX = Number2Shift(dwDX);
 
-	pWordTable = NEW word[dwDX * dwDX];
-	pRealData = NEW byte[dwSizeX * dwSizeX];
+	pWordTable = NEW uint16_t[dwDX * dwDX];
+	pRealData = NEW uint8_t[dwSizeX * dwSizeX];
 	for (i=0; i<dwDX * dwDX; i++)
 	{
 		y = i / dwDX;
 		x = i - y * dwDX;
-		dword dwStart = (y << dwBlockShift) * dwSizeX + (x << dwBlockShift);
+		uint32_t dwStart = (y << dwBlockShift) * dwSizeX + (x << dwBlockShift);
 
 		bool bTest = true;
-		byte byTest;
+		uint8_t byTest;
 		for (j=0; j<dwBlockSize * dwBlockSize; j++)
 		{
 			yy = j >> dwBlockShift;
 			xx = j - (yy << dwBlockShift);
-			byte byRes = pSrc[dwStart + yy * dwSizeX + xx];
+			uint8_t byRes = pSrc[dwStart + yy * dwSizeX + xx];
 			if (j == 0) byTest = byRes;
 			if (byTest != byRes)
 			{
 				bTest = false;
-				pWordTable[i] = word(dwRealIndex);
+				pWordTable[i] = uint16_t(dwRealIndex);
 				for (k=0; k<dwBlockSize * dwBlockSize; k++)
 				{
 					yy = k >> dwBlockShift;
@@ -65,10 +65,10 @@ void MapZipper::DoZip(byte * pSrc, dword _dwSizeX)
 			}
 		}
 		if (bTest)
-			pWordTable[i] = word(0x8000) | word(byTest);
+			pWordTable[i] = uint16_t(0x8000) | uint16_t(byTest);
 	}
 	dwNumRealBlocks = dwRealIndex;
-	pRealData = (byte*)RESIZE(pRealData, dwRealIndex * dwBlockSize * dwBlockSize);
+	pRealData = (uint8_t*)RESIZE(pRealData, dwRealIndex * dwBlockSize * dwBlockSize);
 
 	for (y=0; y<_dwSizeX; y++)
 		for (x=0; x<_dwSizeX; x++)
@@ -78,15 +78,15 @@ void MapZipper::DoZip(byte * pSrc, dword _dwSizeX)
 		}
 }
 
-byte MapZipper::Get(dword dwX, dword dwY)
+uint8_t MapZipper::Get(uint32_t dwX, uint32_t dwY)
 {
 	if (!pWordTable) return 255;
-	word wRes = pWordTable[((dwY >> dwBlockShift) << dwShiftNumBlocksX) + (dwX >> dwBlockShift)];
-	if (wRes & 0x8000) return byte(wRes & 0xFF);
-	dword x = dwX - ((dwX >> dwBlockShift) << dwBlockShift);
-	dword y = dwY - ((dwY >> dwBlockShift) << dwBlockShift);
+	uint16_t wRes = pWordTable[((dwY >> dwBlockShift) << dwShiftNumBlocksX) + (dwX >> dwBlockShift)];
+	if (wRes & 0x8000) return uint8_t(wRes & 0xFF);
+	uint32_t x = dwX - ((dwX >> dwBlockShift) << dwBlockShift);
+	uint32_t y = dwY - ((dwY >> dwBlockShift) << dwBlockShift);
 
-	byte byRes = pRealData[((dword(wRes) << dwBlockShift) << dwBlockShift) + (y << dwBlockShift) + x];
+	uint8_t byRes = pRealData[((uint32_t(wRes) << dwBlockShift) << dwBlockShift) + (y << dwBlockShift) + x];
 
 	return byRes;
 }
@@ -103,10 +103,10 @@ bool MapZipper::Load(std::string sFileName)
 	fio->_ReadFile(hFile, &dwBlockShift, sizeof(dwBlockShift), nullptr);
 	fio->_ReadFile(hFile, &dwShiftNumBlocksX, sizeof(dwShiftNumBlocksX), nullptr);
 	fio->_ReadFile(hFile, &dwNumRealBlocks, sizeof(dwNumRealBlocks), nullptr);
-	pWordTable = NEW word[dwDX * dwDX];
-	fio->_ReadFile(hFile, pWordTable, sizeof(word) * dwDX * dwDX, nullptr);
-	pRealData = NEW byte[dwNumRealBlocks * dwBlockSize * dwBlockSize];
-	fio->_ReadFile(hFile, pRealData, sizeof(byte) * dwNumRealBlocks * dwBlockSize * dwBlockSize, nullptr);
+	pWordTable = NEW uint16_t[dwDX * dwDX];
+	fio->_ReadFile(hFile, pWordTable, sizeof(uint16_t) * dwDX * dwDX, nullptr);
+	pRealData = NEW uint8_t[dwNumRealBlocks * dwBlockSize * dwBlockSize];
+	fio->_ReadFile(hFile, pRealData, sizeof(uint8_t) * dwNumRealBlocks * dwBlockSize * dwBlockSize, nullptr);
 	fio->_CloseHandle(hFile);
 	return true;
 }
@@ -121,8 +121,8 @@ bool MapZipper::Save(std::string sFileName)
 	fio->_WriteFile(hFile, &dwBlockShift, sizeof(dwBlockShift), nullptr);
 	fio->_WriteFile(hFile, &dwShiftNumBlocksX, sizeof(dwShiftNumBlocksX), nullptr);
 	fio->_WriteFile(hFile, &dwNumRealBlocks, sizeof(dwNumRealBlocks), nullptr);
-	fio->_WriteFile(hFile, pWordTable, sizeof(word) * dwDX * dwDX, nullptr);
-	fio->_WriteFile(hFile, pRealData, sizeof(byte) * dwNumRealBlocks * dwBlockSize * dwBlockSize, nullptr);
+	fio->_WriteFile(hFile, pWordTable, sizeof(uint16_t) * dwDX * dwDX, nullptr);
+	fio->_WriteFile(hFile, pRealData, sizeof(uint8_t) * dwNumRealBlocks * dwBlockSize * dwBlockSize, nullptr);
 	fio->_CloseHandle(hFile);
 	return true;
 }

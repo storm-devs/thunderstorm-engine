@@ -15,8 +15,8 @@ public:
 
 	bool	Init();
 	void	SetDevice();
-	void	Realize(dword Delta_Time);
-	dword	AttributeChanged(ATTRIBUTES * pAttribute);
+	void	Realize(uint32_t Delta_Time);
+	uint32_t	AttributeChanged(ATTRIBUTES * pAttribute);
 	ATTRIBUTES * GetRoot(ATTRIBUTES * pA);
 
 private:
@@ -64,7 +64,7 @@ private:
 		void Execute(double dDeltaTime, double dHour);
 		void Realize(double dDeltaTime, double dHour);
 
-		dword AttributeChanged(ATTRIBUTES * pAttribute);
+		uint32_t AttributeChanged(ATTRIBUTES * pAttribute);
 		void TimeUpdate(ATTRIBUTES * pAP);
 
 		inline bool IsEnable() { return bEnable; };
@@ -85,12 +85,12 @@ private:
 			float fDec;
 			float fMag;
 			char cSpectr[2];
-			dword dwColor;
+			uint32_t dwColor;
 			float fAlpha;
 			CVECTOR vPos;
 		};
 
-		dword Spectr[256];
+		uint32_t Spectr[256];
 		std::vector<Star> aStars;
 
 		float fFadeValue;

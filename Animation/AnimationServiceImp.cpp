@@ -93,7 +93,7 @@ AnimationServiceImp::~AnimationServiceImp()
 //============================================================================================
 
 //Место исполнения
-dword AnimationServiceImp::RunSection()
+uint32_t AnimationServiceImp::RunSection()
 {
 	return SECTION_REALIZE;
 };
@@ -104,7 +104,7 @@ void AnimationServiceImp::RunStart()
 #ifndef _XBOX
 	if(api->Controls->GetDebugAsyncKeyState(VK_F4)) return;
 #endif
-	dword dltTime = _CORE_API->GetDeltaTime();
+	uint32_t dltTime = _CORE_API->GetDeltaTime();
 	if(dltTime > 1000) dltTime = 1000;
 	//Просмотрим все анимации
 	for(long i = 0; i < numInfos; i++)

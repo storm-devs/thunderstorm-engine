@@ -16,7 +16,7 @@ CXI_SLIDELINE::~CXI_SLIDELINE()
 	ReleaseAll();
 }
 
-void CXI_SLIDELINE::Draw(bool bSelected,dword Delta_Time)
+void CXI_SLIDELINE::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(m_bUse)
 	{
@@ -24,7 +24,7 @@ void CXI_SLIDELINE::Draw(bool bSelected,dword Delta_Time)
 		{
 			DoMouseControl();
 
-			dword dwOldTF;
+			uint32_t dwOldTF;
 			m_rs->GetRenderState(D3DRS_TEXTUREFACTOR, &dwOldTF);
 
 			if( m_bSelected ) m_rs->SetRenderState(D3DRS_TEXTUREFACTOR, 0xFF808080);
@@ -176,7 +176,7 @@ void CXI_SLIDELINE::DoMouseControl()
 	}
 }
 
-dword _cdecl CXI_SLIDELINE::MessageProc(long msgcode, MESSAGE & message)
+uint32_t _cdecl CXI_SLIDELINE::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

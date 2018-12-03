@@ -1,5 +1,4 @@
 #include "compiler.h"
-#include "system_log.h"
 
 char ERR_INVALID_EXPRESSION[] = "Invalid Expression";
 
@@ -22,13 +21,13 @@ bool COMPILER::BC_ProcessExpression(DATA * value)
 	if(TokenIs(AND))
 	{
 		S_TOKEN_TYPE Token_type;
-		dword var_code; 
+		uint32_t var_code; 
 		VARINFO vi;
 
 		Token_type = BC_TokenGet();
 		if(TokenType() != VARIABLE)	{if(TokenType() != LOCAL_VARIABLE) { SetError("invalid '&'"); return false; }}
 
-		var_code = *((dword *)&pRunCodeBase[TLR_DataOffset]);
+		var_code = *((uint32_t *)&pRunCodeBase[TLR_DataOffset]);
 		if(TokenType() == VARIABLE)
 		{
 			if(!VarTab.GetVar(vi,var_code))	{ SetError("Global variable not found"); return false; }
@@ -355,7 +354,7 @@ void COMPILER::BC_ProcessExpression_L6(DATA * value, bool bSkip)
 void COMPILER::BC_ProcessExpression_L7(DATA * value, bool bSkip)
 {
 	VARINFO vi;
-	DWORD var_code;
+	uint32_t var_code;
 	long index;
 	DATA array_index;
 	DATA TempData;
@@ -368,7 +367,7 @@ void COMPILER::BC_ProcessExpression_L7(DATA * value, bool bSkip)
 	DATA * pFuncResult;
 	ATTRIBUTES * pRoot;
 	char * pString;
-	DWORD func_code,ip;
+	uint32_t func_code,ip;
 	S_TOKEN_TYPE vtype;
 
 	switch(TokenType())
@@ -465,7 +464,7 @@ void COMPILER::BC_ProcessExpression_L7(DATA * value, bool bSkip)
 					return;
 				}
 				//DWORD func_code,ip;
-				memcpy(&func_code,&pRunCodeBase[TLR_DataOffset],sizeof(dword));
+				memcpy(&func_code,&pRunCodeBase[TLR_DataOffset],sizeof(uint32_t));
 				pFuncResult = nullptr;
 				if(!BC_CallFunction(func_code,ip,pFuncResult)) return;
 				if(pFuncResult) 
@@ -693,7 +692,7 @@ bool COMPILER::CompileExpression(SEGMENT_DESC& Segment)
 	S_TOKEN_TYPE sttTokenType;
 	S_TOKEN_TYPE sttVariableType;
 	S_TOKEN_TYPE Token_type;
-	DWORD dwVarCode; 
+	uint32_t dwVarCode; 
 	VARINFO vi;
 	LVARINFO lvi;
 
@@ -763,7 +762,7 @@ bool COMPILER::CompileExpression(SEGMENT_DESC& Segment)
 	
 			CompileToken(Segment,SETREF_BXINDEX);
 			CompileToken(Segment,STACK_TOP);
-			CompileToken(Segment,sttVariableType,1,&dwVarCode,sizeof(DWORD));
+			CompileToken(Segment,sttVariableType,1,&dwVarCode,sizeof(uint32_t));
 
 			// next after ']'
 			CompileAuxiliaryTokens(Segment);
@@ -774,7 +773,7 @@ bool COMPILER::CompileExpression(SEGMENT_DESC& Segment)
 			
 			CompileToken(Segment,SETREF);
 			CompileToken(Segment,STACK_TOP);
-			CompileToken(Segment,sttVariableType,1,&dwVarCode,sizeof(DWORD));
+			CompileToken(Segment,sttVariableType,1,&dwVarCode,sizeof(uint32_t));
 		}
 
 		// proceed to next token
@@ -789,10 +788,10 @@ bool COMPILER::CompileExpression(SEGMENT_DESC& Segment)
 bool COMPILER::CompileExpression_L0(SEGMENT_DESC& Segment)
 {
 	S_TOKEN_TYPE sttOpType;
-	DWORD dwUpdateOffset1;
-	DWORD dwUpdateOffset2;
-	DWORD dwJumpOffset1;
-	DWORD dwJumpOffset2;
+	uint32_t dwUpdateOffset1;
+	uint32_t dwUpdateOffset2;
+	uint32_t dwJumpOffset1;
+	uint32_t dwJumpOffset2;
 
 	if(!CompileExpression_L1(Segment)) { SetError(ERR_INVALID_EXPRESSION); return false;}
 
@@ -820,12 +819,12 @@ bool COMPILER::CompileExpression_L0(SEGMENT_DESC& Segment)
 		if(sttOpType == OP_BOOL_AND) 
 		{
 			// AND : if 1st operand is zero - doesnt need to calculate second - jump to jump1
-			CompileToken(Segment,JUMP_Z,1,(char *)&dwJumpOffset1,sizeof(DWORD));
+			CompileToken(Segment,JUMP_Z,1,(char *)&dwJumpOffset1,sizeof(uint32_t));
 		}
 		else 
 		{
 			// OR : if 1st operand is non zero - doesnt need to calculate second - jump to jump1
-			CompileToken(Segment,JUMP_NZ,1,(char *)&dwJumpOffset1,sizeof(DWORD));
+			CompileToken(Segment,JUMP_NZ,1,(char *)&dwJumpOffset1,sizeof(uint32_t));
 		}
 
 		if(!CompileExpression_L1(Segment)) { SetError(ERR_INVALID_EXPRESSION); return false;}
@@ -840,17 +839,17 @@ bool COMPILER::CompileExpression_L0(SEGMENT_DESC& Segment)
 		// skip next section - proceed to jump2
 		dwUpdateOffset2 = Segment.BCode_Program_size + 2;
 		dwJumpOffset2 = 0;
-		CompileToken(Segment,JUMP,1,(char *)&dwJumpOffset2,sizeof(DWORD));
+		CompileToken(Segment,JUMP,1,(char *)&dwJumpOffset2,sizeof(uint32_t));
 
 		// jump1
 		// just convert stack top to bool
-		memcpy(&Segment.pCode[dwUpdateOffset1],&Segment.BCode_Program_size,sizeof(DWORD));
+		memcpy(&Segment.pCode[dwUpdateOffset1],&Segment.BCode_Program_size,sizeof(uint32_t));
 		CompileToken(Segment,OP_BOOL_CONVERT);
 		CompileToken(Segment,STACK_TOP);
 
 		// jump2
 		// end of operation
-		memcpy(&Segment.pCode[dwUpdateOffset2],&Segment.BCode_Program_size,sizeof(DWORD));
+		memcpy(&Segment.pCode[dwUpdateOffset2],&Segment.BCode_Program_size,sizeof(uint32_t));
 
 		sttOpType = Token.GetType();
 
@@ -1003,12 +1002,12 @@ bool COMPILER::CompileExpression_L6(SEGMENT_DESC& Segment)
 // read value
 bool COMPILER::CompileExpression_L7(SEGMENT_DESC& Segment)
 {
-	DWORD dwRCode = 0;
+	uint32_t dwRCode = 0;
 	S_TOKEN_TYPE sttResult;
 	S_TOKEN_TYPE sttVariableField;
 	S_TOKEN_TYPE sttFuncCallType;
-	DWORD dwVarCode;
-	DWORD dwAWCode;
+	uint32_t dwVarCode;
+	uint32_t dwAWCode;
 	VARINFO vi;
 	LVARINFO lvi;
 	FUNCINFO fi;
@@ -1038,13 +1037,13 @@ bool COMPILER::CompileExpression_L7(SEGMENT_DESC& Segment)
 		case TRUE_CONST:
 			CompileToken(Segment,STACK_PUSH);
 			dwRCode = 1;
-			CompileToken(Segment,NUMBER,1,(char *)&dwRCode,sizeof(dword));
+			CompileToken(Segment,NUMBER,1,(char *)&dwRCode,sizeof(uint32_t));
 			CompileAuxiliaryTokens(Segment);
 		return true;
 		case FALSE_CONST:
 			CompileToken(Segment,STACK_PUSH);
 			dwRCode = 0;
-			CompileToken(Segment,NUMBER,1,(char *)&dwRCode,sizeof(dword));
+			CompileToken(Segment,NUMBER,1,(char *)&dwRCode,sizeof(uint32_t));
 			CompileAuxiliaryTokens(Segment);
 		return true;
 		
@@ -1072,19 +1071,19 @@ bool COMPILER::CompileExpression_L7(SEGMENT_DESC& Segment)
 					{
 						case NUMBER:
 							CompileToken(Segment,STACK_PUSH);
-							CompileToken(Segment,NUMBER,1,(char *)&di.data4b,sizeof(dword));
+							CompileToken(Segment,NUMBER,1,(char *)&di.data4b,sizeof(uint32_t));
 							CompileAuxiliaryTokens(Segment);
 						break;
 						case FLOAT_NUMBER:
 							CompileToken(Segment,STACK_PUSH);
-							CompileToken(Segment,FLOAT_NUMBER,1,(char *)&di.data4b,sizeof(dword));
+							CompileToken(Segment,FLOAT_NUMBER,1,(char *)&di.data4b,sizeof(uint32_t));
 							CompileAuxiliaryTokens(Segment);
 						break;
 						case STRING:
 							CompileToken(Segment,STACK_PUSH);
-							dword string_size;
+							uint32_t string_size;
 							string_size = strlen((char *)di.data4b) + 1;
-							CompileToken(Segment,STRING,2,(char *)&string_size,sizeof(dword),(char *)di.data4b,string_size);
+							CompileToken(Segment,STRING,2,(char *)&string_size,sizeof(uint32_t),(char *)di.data4b,string_size);
 							CompileAuxiliaryTokens(Segment);
 						break;
 					}
@@ -1127,7 +1126,7 @@ bool COMPILER::CompileExpression_L7(SEGMENT_DESC& Segment)
 
 					//if(fi.return_type == TVOID){ SetError("void function in expression: %s",fi.name); return false; }
 
-					DWORD func_args;
+					uint32_t func_args;
 					func_args = 0;
 
 					if(fi.arguments == 0 && !IsIntFuncVarArgsNum(dwRCode) && sttFuncCallType != CALL) 
@@ -1176,14 +1175,14 @@ bool COMPILER::CompileExpression_L7(SEGMENT_DESC& Segment)
 					}//*/
 
 					// call function
-					if(sttFuncCallType == CALL_FUNCTION) CompileToken(Segment,CALL_FUNCTION,1,(char *)&dwRCode,sizeof(DWORD));
+					if(sttFuncCallType == CALL_FUNCTION) CompileToken(Segment,CALL_FUNCTION,1,(char *)&dwRCode,sizeof(uint32_t));
 					else
 					{
 						// code of function must be find out on the fly from variable
 						CompileToken(Segment,CALL);
-						CompileToken(Segment,sttVariableField,1,(char *)&dwVarCode,sizeof(DWORD));
+						CompileToken(Segment,sttVariableField,1,(char *)&dwVarCode,sizeof(uint32_t));
 					}
-					CompileToken(Segment,ARGS_NUM,1,(char *)&func_args,sizeof(DWORD));
+					CompileToken(Segment,ARGS_NUM,1,(char *)&func_args,sizeof(uint32_t));
 					
 
 					// ...
@@ -1256,7 +1255,7 @@ bool COMPILER::CompileExpression_L7(SEGMENT_DESC& Segment)
 							
 							// write to stack element value (index in X)
 							CompileToken(Segment,STACK_WRITE_BXINDEX);
-							CompileToken(Segment,sttVariableField,1,(char *)&dwVarCode,sizeof(DWORD));
+							CompileToken(Segment,sttVariableField,1,(char *)&dwVarCode,sizeof(uint32_t));
 
 							// proceed to next token
 							//CompileAuxiliaryTokens(Segment);
@@ -1273,7 +1272,7 @@ bool COMPILER::CompileExpression_L7(SEGMENT_DESC& Segment)
 						// move ap to AP register
 						CompileToken(Segment,MOVEAP_BXINDEX);
 						CompileToken(Segment,AP);
-						CompileToken(Segment,sttVariableField,1,(char *)&dwVarCode,sizeof(DWORD));
+						CompileToken(Segment,sttVariableField,1,(char *)&dwVarCode,sizeof(uint32_t));
 
 						// proceed to ADVANCE AP
 					}
@@ -1285,7 +1284,7 @@ bool COMPILER::CompileExpression_L7(SEGMENT_DESC& Segment)
 						{
 							// copy variavle to stack
 							CompileToken(Segment,STACK_WRITE);
-							CompileToken(Segment,sttVariableField,1,(char *)&dwVarCode,sizeof(DWORD));
+							CompileToken(Segment,sttVariableField,1,(char *)&dwVarCode,sizeof(uint32_t));
 							return true;
 						}
 
@@ -1294,7 +1293,7 @@ bool COMPILER::CompileExpression_L7(SEGMENT_DESC& Segment)
 						// move ap to AP register
 						CompileToken(Segment,MOVEAP);
 						CompileToken(Segment,AP);
-						CompileToken(Segment,sttVariableField,1,(char *)&dwVarCode,sizeof(DWORD));
+						CompileToken(Segment,sttVariableField,1,(char *)&dwVarCode,sizeof(uint32_t));
 					}
 				
 					// ADVANCE AP
@@ -1311,7 +1310,7 @@ bool COMPILER::CompileExpression_L7(SEGMENT_DESC& Segment)
 							sttResult = DetectUnknown(dwVarCode);
 							if(!(sttResult == VARIABLE || sttResult == LOCAL_VARIABLE)) { SetError("not variable: %s",Token.GetData()); return false; }
 							CompileToken(Segment,ADVANCE_AP);
-							CompileToken(Segment,sttResult,1,&dwVarCode,sizeof(DWORD));
+							CompileToken(Segment,sttResult,1,&dwVarCode,sizeof(uint32_t));
 							if(Token.Get()!=CLOSE_BRACKET){ SetError("missing ')'"); return false; };
 						}
 						else
@@ -1321,7 +1320,7 @@ bool COMPILER::CompileExpression_L7(SEGMENT_DESC& Segment)
 							Token.LowCase();
 							dwAWCode = SCodec.Convert(Token.GetData());
 							CompileToken(Segment,ADVANCE_AP);
-							CompileToken(Segment,ACCESS_WORD_CODE,1,&dwAWCode,sizeof(DWORD));
+							CompileToken(Segment,ACCESS_WORD_CODE,1,&dwAWCode,sizeof(uint32_t));
 						}
 						sttResult = Token.Get();
 						if(sttResult == DOT) Token.Get();	// get next token (after dot)

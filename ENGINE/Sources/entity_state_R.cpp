@@ -35,8 +35,8 @@ void ENTITY_STATE_GEN_R::Init(VFILE_SERVICE * _fio,HANDLE _file_handle)
 void ENTITY_STATE_GEN_R::CloseState()
 {
 	GUARD(ENTITY_STATE_GEN_R::CloseState)
-	dword sizeofstruct;
-	dword dwR;
+	uint32_t sizeofstruct;
+	uint32_t dwR;
 
 	// if no state data - return
 	if(Format_string == nullptr) return;
@@ -74,7 +74,7 @@ void ENTITY_STATE_GEN_R::CloseState()
 
 #define _COPY_DATA(t) {CopyData(sizeof(t));}
 
-void ENTITY_STATE_GEN_R::VerifyFreeSpace(dword add_data_size)
+void ENTITY_STATE_GEN_R::VerifyFreeSpace(uint32_t add_data_size)
 {
 	GUARD(ENTITY_STATE_GEN_R::VerifyFreeSpace)
 	if((Data_size + add_data_size) >= Buffer_size) 
@@ -87,7 +87,7 @@ void ENTITY_STATE_GEN_R::VerifyFreeSpace(dword add_data_size)
 }
 
 
-void ENTITY_STATE_GEN_R::CopyData(dword add_data_size)
+void ENTITY_STATE_GEN_R::CopyData(uint32_t add_data_size)
 {
 	GUARD(ENTITY_STATE_GEN_R::CopyData)
 	VerifyFreeSpace(add_data_size);
@@ -100,9 +100,9 @@ void ENTITY_STATE_GEN_R::CopyData(dword add_data_size)
 void _cdecl ENTITY_STATE_GEN_R::SetState(char * Format,...)
 {
 	GUARD(ENTITY_STATE_GEN_R::SetState)
-	dword n;
+	uint32_t n;
 	char * tcharPTR;
-	dword sizeofstruct;
+	uint32_t sizeofstruct;
 
 	// upload or append format string
 	if(!Format) STORM_THROW(empty format string);
@@ -135,38 +135,38 @@ void _cdecl ENTITY_STATE_GEN_R::SetState(char * Format,...)
 	{
 		switch(Format[n])
 		{
-			case 'b': _COPY_DATA(byte); break;
-			case 'w': _COPY_DATA(word); break;
+			case 'b': _COPY_DATA(uint8_t); break;
+			case 'w': _COPY_DATA(uint16_t); break;
 			case 'l': _COPY_DATA(long); break;
-			case 'u': _COPY_DATA(dword); break;
+			case 'u': _COPY_DATA(uint32_t); break;
 			case 'f': _COPY_DATA(float); break;
 			case 'd': _COPY_DATA(double); break;
 			case 'p': _COPY_DATA(char *); break;
 			case 's':
-				VerifyFreeSpace(sizeof(dword));
+				VerifyFreeSpace(sizeof(uint32_t));
 				tcharPTR = va_arg(args,char*);
 				sizeofstruct = strlen(tcharPTR) + 1;
-				memcpy(Buffer + Data_size,(char *)&sizeofstruct,sizeof(dword));
-				Data_size += sizeof(dword);
+				memcpy(Buffer + Data_size,(char *)&sizeofstruct,sizeof(uint32_t));
+				Data_size += sizeof(uint32_t);
 				VerifyFreeSpace(sizeofstruct);
 				memcpy(Buffer + Data_size,tcharPTR,sizeofstruct);
 				Data_size += sizeofstruct;
 			break;
 			case 'm':
-				VerifyFreeSpace(sizeof(dword));
-				sizeofstruct = va_arg(args,dword);
-				memcpy(Buffer + Data_size,(char *)&sizeofstruct,sizeof(dword));
-				Data_size += sizeof(dword);
+				VerifyFreeSpace(sizeof(uint32_t));
+				sizeofstruct = va_arg(args,uint32_t);
+				memcpy(Buffer + Data_size,(char *)&sizeofstruct,sizeof(uint32_t));
+				Data_size += sizeof(uint32_t);
 				VerifyFreeSpace(sizeofstruct);
 				tcharPTR = va_arg(args,char*);
 				memcpy(Buffer + Data_size,tcharPTR,sizeofstruct);
 				Data_size += sizeofstruct;
 			break;
 			case 'v':
-				VerifyFreeSpace(sizeof(dword));
-				sizeofstruct = va_arg(args,dword);
-				memcpy(Buffer + Data_size,(char *)&sizeofstruct,sizeof(dword));
-				Data_size += sizeof(dword);
+				VerifyFreeSpace(sizeof(uint32_t));
+				sizeofstruct = va_arg(args,uint32_t);
+				memcpy(Buffer + Data_size,(char *)&sizeofstruct,sizeof(uint32_t));
+				Data_size += sizeof(uint32_t);
 				VerifyFreeSpace(sizeofstruct);
 				memcpy(Buffer + Data_size,(char *)args,sizeofstruct);
 				Data_size += sizeofstruct;
@@ -198,8 +198,8 @@ ENTITY_STATE_R::~ENTITY_STATE_R()
 
 void ENTITY_STATE_R::Init(VFILE_SERVICE * _fio,HANDLE _file_handle)
 {
-	//dword sizeofstruct;
-	//dword dwR;
+	//uint32_t sizeofstruct;
+	//uint32_t dwR;
 	GUARD(ENTITY_STATE_R::Init)
 	fio = _fio;
 	if(fio == nullptr) THROW;
@@ -212,9 +212,9 @@ void ENTITY_STATE_R::Init(VFILE_SERVICE * _fio,HANDLE _file_handle)
 void ENTITY_STATE_R::LoadStateBlock()
 {
 	GUARD(ENTITY_STATE_R::LoadStateBlock)
-	dword format_size;
-	dword sizeofstruct;
-	dword dwR;
+	uint32_t format_size;
+	uint32_t sizeofstruct;
+	uint32_t dwR;
 
 	if(Format_string) delete Format_string; Format_string = nullptr;
 	Format_index = 0;
@@ -289,10 +289,10 @@ void ENTITY_STATE_R::ValidateFormat(char c)
 //#define RETURN_DATA(t) {Data_index += sizeof(t);if(Data_index > Data_size) STORM_THROW(no data);return (*(t *)(Buffer[Data_index - sizeof(t)]));}
 #define RETURN_DATA(t) {Data_PTR += sizeof(t);if(Data_PTR > (Buffer + Data_size)) STORM_THROW(no data); return (*(t *)(Data_PTR - sizeof(t)));}
 //#define RETURN_DATA2(c,t) {ValidateFormat(#@c);Data_index += sizeof(t);if(Data_index > Data_size) STORM_THROW(no data);return (*(t *)(Buffer[Data_index - sizeof(t)]));}
-byte ENTITY_STATE_R::Byte()
+uint8_t ENTITY_STATE_R::Byte()
 {
 	ValidateFormat('b');
-	RETURN_DATA(byte);
+	RETURN_DATA(uint8_t);
 	
 	//RETURN_DATA2(b,byte);
 	/*Data_index += sizeof(byte); 
@@ -300,10 +300,10 @@ byte ENTITY_STATE_R::Byte()
 	return (*(byte *)(Buffer[Data_index - sizeof(byte)]));*/
 }
 
-word ENTITY_STATE_R::Word()
+uint16_t ENTITY_STATE_R::Word()
 {
 	ValidateFormat('w');
-	RETURN_DATA(word);
+	RETURN_DATA(uint16_t);
 }
 
 long ENTITY_STATE_R::Long()
@@ -312,10 +312,10 @@ long ENTITY_STATE_R::Long()
 	RETURN_DATA(long);
 }
 
-dword ENTITY_STATE_R::Dword()
+uint32_t ENTITY_STATE_R::Dword()
 {
 	ValidateFormat('u');
-	RETURN_DATA(dword);
+	RETURN_DATA(uint32_t);
 }
 
 float	ENTITY_STATE_R::Float()
@@ -336,30 +336,30 @@ char *	ENTITY_STATE_R::Pointer()
 	RETURN_DATA(char*);
 }
 
-void ENTITY_STATE_R::String(dword dest_buffer_size, char * buffer)
+void ENTITY_STATE_R::String(uint32_t dest_buffer_size, char * buffer)
 {
 	GUARD(ENTITY_STATE_R::String)
-	dword size;
+	uint32_t size;
 	if(buffer == nullptr) STORM_THROW(invalid buffer);
 	ValidateFormat('s');
-	Data_PTR += sizeof(dword); 
+	Data_PTR += sizeof(uint32_t); 
 	if(Data_PTR > (Buffer + Data_size)) STORM_THROW(no data);	
-	size = (*(dword *)(Data_PTR - sizeof(dword)));
+	size = (*(uint32_t *)(Data_PTR - sizeof(uint32_t)));
 	Data_PTR += size; 
 	if(size > dest_buffer_size) STORM_THROW(insufficient string buffer);
 	memcpy(buffer,(char *)(Data_PTR - size),size);
 	UNGUARD
 }
 
-void ENTITY_STATE_R::MemoryBlock(dword memsize, char * buffer)
+void ENTITY_STATE_R::MemoryBlock(uint32_t memsize, char * buffer)
 {
 	GUARD(ENTITY_STATE_R::MemoryBlock)
-	dword size;
+	uint32_t size;
 	if(buffer == nullptr) STORM_THROW(invalid buffer);
 	ValidateFormat('m');
-	Data_PTR += sizeof(dword); 
+	Data_PTR += sizeof(uint32_t); 
 	if(Data_PTR > (Buffer + Data_size)) STORM_THROW(no data);	
-	size = (*(dword *)(Data_PTR - sizeof(dword)));
+	size = (*(uint32_t *)(Data_PTR - sizeof(uint32_t)));
 	if(size != memsize) STORM_THROW(invalid buffer size);
 	Data_PTR += size; 
 	if(Data_PTR > (Buffer + Data_size)) STORM_THROW(no data);
@@ -367,15 +367,15 @@ void ENTITY_STATE_R::MemoryBlock(dword memsize, char * buffer)
 	UNGUARD
 }
 
-void ENTITY_STATE_R::Struct(dword memsize, char * buffer)
+void ENTITY_STATE_R::Struct(uint32_t memsize, char * buffer)
 {
 	GUARD(ENTITY_STATE_R::Struct)
-	dword size;
+	uint32_t size;
 	if(buffer == nullptr) STORM_THROW(invalid buffer);
 	ValidateFormat('v');
-	Data_PTR += sizeof(dword); 
+	Data_PTR += sizeof(uint32_t); 
 	if(Data_PTR > (Buffer + Data_size)) STORM_THROW(no data);	
-	size = (*(dword *)(Data_PTR - sizeof(dword)));
+	size = (*(uint32_t *)(Data_PTR - sizeof(uint32_t)));
 	if(size != memsize) STORM_THROW(invalid structure size);
 	Data_PTR += size; 
 	if(Data_PTR > (Buffer + Data_size)) STORM_THROW(no data);

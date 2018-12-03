@@ -1,8 +1,6 @@
 #ifndef SSE_HPP
 #define SSE_HPP
 
-#include <emmintrin.h>
-
 // INTEL COMMENT:
 // This function simply gathers 4 floats and places them on a __m128 variable.
 static __forceinline void SSE_GatherFourFloats( float* pf0, float* pf1, float* pf2, float* pf3, __m128* pm128Result )

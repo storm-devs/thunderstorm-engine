@@ -11,7 +11,6 @@
 #include "CameraFollow.h"
 #include "LocationCamera.h"
 #include "..\common_h\model.h"
-#include "Location.h"
 #include "Character.h"
 
 

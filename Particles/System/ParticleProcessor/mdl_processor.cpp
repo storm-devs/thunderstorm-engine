@@ -23,7 +23,7 @@ ModelProcessor::ModelProcessor (ParticleManager* pManager)
 	pMasterManager = pManager;
 	pMemArray = NEW MemArrayItem[MAX_MODELS];
 
-	for (DWORD n = 0; n < MAX_MODELS; n++)
+	for (uint32_t n = 0; n < MAX_MODELS; n++)
 	{
 		pMemArray[n].Free = true;
 	}
@@ -40,7 +40,7 @@ ModelProcessor::~ModelProcessor ()
 
 MDL_ParticleData* ModelProcessor::AllocParticle ()
 {
-	for (DWORD n = 0; n < MAX_MODELS; n++)
+	for (uint32_t n = 0; n < MAX_MODELS; n++)
 	{
 		if (pMemArray[n].Free)
 		{
@@ -54,7 +54,7 @@ MDL_ParticleData* ModelProcessor::AllocParticle ()
 
 void ModelProcessor::FreeParticle (MDL_ParticleData* pItem)
 {
-	for (DWORD n = 0; n < MAX_MODELS; n++)
+	for (uint32_t n = 0; n < MAX_MODELS; n++)
 	{
 		if	(&pMemArray[n].pData == pItem)
 		{
@@ -65,7 +65,7 @@ void ModelProcessor::FreeParticle (MDL_ParticleData* pItem)
 }
 
 
-void ModelProcessor::AddParticle (ParticleSystem* pSystem, const Vector& velocity_dir, const Vector& pos, const Matrix& matWorld, float EmitterTime, float EmitterLifeTime, FieldList* pFields, DWORD* pActiveCount, DWORD dwGUID)
+void ModelProcessor::AddParticle (ParticleSystem* pSystem, const Vector& velocity_dir, const Vector& pos, const Matrix& matWorld, float EmitterTime, float EmitterLifeTime, FieldList* pFields, uint32_t* pActiveCount, uint32_t dwGUID)
 {
 	MDL_ParticleData* pData = AllocParticle ();
 
@@ -173,7 +173,7 @@ void ModelProcessor::Process (float DeltaTime)
 	//DWORD t;
 	//RDTSC_B (t);
 
-	for (DWORD n = 0; n < Particles.size(); n++)
+	for (uint32_t n = 0; n < Particles.size(); n++)
 	{
 		Particles[n]->ElapsedTime += DeltaTime;
 
@@ -253,7 +253,7 @@ void ModelProcessor::Process (float DeltaTime)
 
 	//–ождаем партиклы, которые прив€занны к нашему партиклу...
 
-	for (DWORD n = 0; n < Particles.size(); n++)
+	for (uint32_t n = 0; n < Particles.size(); n++)
 	{
 		if (Particles[n]->AttachedEmitter)
 		{
@@ -272,14 +272,14 @@ void ModelProcessor::Process (float DeltaTime)
 }
 
 
-DWORD ModelProcessor::GetCount ()
+uint32_t ModelProcessor::GetCount ()
 {
 	return Particles.size();
 }
 
-void ModelProcessor::DeleteWithGUID (DWORD dwGUID, DWORD GUIDRange)
+void ModelProcessor::DeleteWithGUID (uint32_t dwGUID, uint32_t GUIDRange)
 {
-	for (DWORD j = 0; j <  Particles.size(); j++)
+	for (uint32_t j = 0; j <  Particles.size(); j++)
 	{
 		if (Particles[j]->EmitterGUID >= dwGUID && Particles[j]->EmitterGUID < dwGUID+GUIDSTEP)
 		{
@@ -297,7 +297,7 @@ void ModelProcessor::DeleteWithGUID (DWORD dwGUID, DWORD GUIDRange)
 //–исует все плашки...
 void ModelProcessor::Draw()
 {
-	for (DWORD j = 0; j <  Particles.size(); j++)
+	for (uint32_t j = 0; j <  Particles.size(); j++)
 	{
 		MDL_ParticleData* pR = Particles[j];
 
@@ -314,7 +314,7 @@ void ModelProcessor::Draw()
 
 void ModelProcessor::Clear ()
 {
-	for (DWORD j = 0; j <  Particles.size(); j++)
+	for (uint32_t j = 0; j <  Particles.size(); j++)
 	{
 			*(Particles[j]->ActiveCount) = (*(Particles[j]->ActiveCount)-1);
 			FreeParticle (Particles[j]);

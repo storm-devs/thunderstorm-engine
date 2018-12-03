@@ -1,7 +1,9 @@
 #include "DeckCamera.h"
 #include "..\common_h\ship_base.h"
 #include "..\common_h\geos.h"
-#include <stdio.h>
+#include "../common_h/defines.h"
+#include "../../Shared/messages.h"
+#include "../common_h/Sd2_h/SaveLoad.h"
 
 #define DISCR_F_VAL 0.00001f
 #define EQU_FLOAT(x,y) (x)-(y)>DISCR_F_VAL ? false : (y)-(x)>DISCR_F_VAL ? false : true
@@ -11,9 +13,9 @@ DECK_CAMERA::DECK_CAMERA()
 {
 	vb_id = 0;
 	RenderService = nullptr;
-	ZeroMemory(&camera_pos,sizeof(camera_pos));
+	PZERO(&camera_pos,sizeof(camera_pos));
 	camera_pos.y = 1.0f;
-	ZeroMemory(&camera_ang,sizeof(camera_ang));
+	PZERO(&camera_ang,sizeof(camera_ang));
 	pACharacter = nullptr;
 	pathNode = nullptr;
 	bLoad = false;
@@ -49,7 +51,7 @@ bool DECK_CAMERA::LoadState(ENTITY_STATE * state)
 	return true;
 }
 
-void DECK_CAMERA::Execute(dword Delta_Time)
+void DECK_CAMERA::Execute(uint32_t Delta_Time)
 {
 	if (!isOn()) return;
 	if (!FindShip() || !FindPath()) return;
@@ -59,12 +61,12 @@ void DECK_CAMERA::Execute(dword Delta_Time)
 	Move(Delta_Time);
 }
 
-void DECK_CAMERA::Realize(dword Delta_Time)
+void DECK_CAMERA::Realize(uint32_t Delta_Time)
 {
 	if (!isOn()) return;
 }
 
-void DECK_CAMERA::Move(DWORD DeltaTime)
+void DECK_CAMERA::Move(uint32_t DeltaTime)
 {
 	if (!isActive()) return;
 
@@ -310,7 +312,7 @@ bool DECK_CAMERA::FindPath()
 	return true;
 }
 
-dword _cdecl DECK_CAMERA::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl DECK_CAMERA::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{
@@ -502,7 +504,7 @@ bool DECK_CAMERA::GetCrossXZ(CVECTOR &spos,CVECTOR &dv, CVECTOR &p1,CVECTOR &p2,
     }
 }
 
-dword DECK_CAMERA::AttributeChanged(ATTRIBUTES * pAttr)
+uint32_t DECK_CAMERA::AttributeChanged(ATTRIBUTES * pAttr)
 {
 	if (*pAttr == "SensivityDistance")		fSensivityDistance = pAttr->GetAttributeAsFloat();
 	if (*pAttr == "SensivityHeightAngle")	fSensivityHeightAngle = pAttr->GetAttributeAsFloat();

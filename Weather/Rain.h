@@ -14,20 +14,20 @@
 typedef struct
 {
 	CVECTOR		vPos;
-	DWORD		dwColor;
+	uint32_t		dwColor;
 } RAINVERTEX;
 
 struct SEADROPVERTEX
 {
 	CVECTOR		vPos;
-	DWORD		dwColor;
+	uint32_t		dwColor;
 	float		tu, tv;
 };
 
 typedef struct
 {
 	float		fWindFlaw,fWindSpeedJitter;
-	DWORD		dwTime;
+	uint32_t		dwTime;
 	CVECTOR		vPos;
 	CVECTOR		vAng;
 } rainblock_t;
@@ -67,7 +67,7 @@ private:
 
 	WEATHER_BASE	* pWeather;
 
-	dword		dwRainMaxBlend, dwRainColor, dwRainR, dwRainG, dwRainB;
+	uint32_t		dwRainMaxBlend, dwRainColor, dwRainR, dwRainG, dwRainB;
 	float		fDropLength, fRainWindSpeed, fRainSpeed, fWindPower, fWindAngle,
 				fRainJitter, fRainWindSpeedJitter;
 	
@@ -75,19 +75,19 @@ private:
 	long		iRainbowTex;
 	std::string		sRainbowTexture;
 
-	dword		dwRainTimeBlend;
-	dword		dwNumRainBlocks;
+	uint32_t		dwRainTimeBlend;
+	uint32_t		dwNumRainBlocks;
 	rainblock_t	*pRainBlocks;
 
 	CVECTOR		vCamPos,vCamAng;
 
 	float		fRainHeight,fRainRadius;
-	dword		dwNumDrops;
+	uint32_t		dwNumDrops;
 
 	long		iVertexBuffer;
 
-	dword		dwDropsColor;
-	dword		dwDropsNearNum, dwDropsFarNum;
+	uint32_t		dwDropsColor;
+	uint32_t		dwDropsNearNum, dwDropsFarNum;
 	float		fDropsNearRadius, fDropsFarRadius;
 	float		fDropsLifeTime;
 	float		fDropsSize;
@@ -101,7 +101,7 @@ private:
 	void	GenerateRain();
 	void	InitialSomeBlockParameters(long iIdx);
 	void	Release();
-	void	RealizeDrops(dword Delta_Time);
+	void	RealizeDrops(uint32_t Delta_Time);
 
 public:
 	RAIN();
@@ -109,12 +109,12 @@ public:
 
 	void	SetDevice();
 	bool	Init();
-	void	Realize(dword Delta_Time);
-	void	Execute(dword Delta_Time);
+	void	Realize(uint32_t Delta_Time);
+	void	Execute(uint32_t Delta_Time);
 	bool	CreateState(ENTITY_STATE_GEN * state_gen);
 	bool	LoadState(ENTITY_STATE * state);
-	dword _cdecl ProcessMessage(MESSAGE & message);
-	dword	AttributeChanged(ATTRIBUTES * pAttribute);
+	uint32_t _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t	AttributeChanged(ATTRIBUTES * pAttribute);
 };
 
 #endif

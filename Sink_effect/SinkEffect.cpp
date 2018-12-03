@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "..\common_h\messages.h"
+#include "..\../Shared/messages.h"
 #include "..\common_h\exs.h"
 #include "..\common_h\CVECTOR.h"
 #include "..\SoundService\VSoundService.h"
 #include "SINKEFFECT.h"
+#include "../PEOPLES_ON_SHIP/PEOPLES_ON_SHIP.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(SINKEFFECT)
@@ -42,14 +43,14 @@ bool SINKEFFECT::Init()
 }
 
 //--------------------------------------------------------------------
-dword _cdecl SINKEFFECT::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl SINKEFFECT::ProcessMessage(MESSAGE & message)
 {
 	GUARD(SINKEFFECT::ProcessMessage)
 
 	ENTITY_ID shipID;
 	SHIP_BASE *shipBase;
 	long code = message.Long();
-	dword outValue = 0;
+	uint32_t outValue = 0;
 
 	switch (code)
 	{
@@ -88,7 +89,7 @@ dword _cdecl SINKEFFECT::ProcessMessage(MESSAGE & message)
 }
 
 //--------------------------------------------------------------------
-void SINKEFFECT::Realize(dword _dTime)
+void SINKEFFECT::Realize(uint32_t _dTime)
 {
 	GUARD(SINKEFFECT::Realize)
 
@@ -99,7 +100,7 @@ void SINKEFFECT::Realize(dword _dTime)
 }
 
 //--------------------------------------------------------------------
-void SINKEFFECT::Execute(dword _dTime)
+void SINKEFFECT::Execute(uint32_t _dTime)
 {
 	GUARD(SINKEFFECT::Execute)
 /*

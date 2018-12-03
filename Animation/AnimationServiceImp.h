@@ -29,7 +29,7 @@ public:
 	virtual ~AnimationServiceImp();
 	
 	//Место исполнения
-	virtual dword RunSection();
+	virtual uint32_t RunSection();
 	//Функции исполнения
 	virtual void RunStart();
 	virtual void RunEnd();

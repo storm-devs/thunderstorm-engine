@@ -63,11 +63,11 @@ bool InfoHandler::Init()
 	return true;
 }
 
-void InfoHandler::Execute(dword delta_time)
+void InfoHandler::Execute(uint32_t delta_time)
 {
 }
 
-void InfoHandler::Realize(dword delta_time)
+void InfoHandler::Realize(uint32_t delta_time)
 {
 	if(m_pSurface== nullptr || m_pRenderTarget== nullptr) return;
 	m_rs->MakePostProcess();
@@ -78,7 +78,7 @@ void InfoHandler::Realize(dword delta_time)
 	}
 }
 
-dword _cdecl InfoHandler::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl InfoHandler::ProcessMessage(MESSAGE & message)
 {
 	long nMsgCode = message.Long();
 	switch( nMsgCode )
@@ -93,7 +93,7 @@ bool InfoHandler::DoPreOut()
 	if( AttributesPointer == nullptr ) return false;
 
 	bool isOK = false;
-	DWORD dwBCol, dwFCol;
+	uint32_t dwBCol, dwFCol;
 	char *inStrStart;
 	char outStr[1048];
 	D3DSURFACE_DESC desc;
@@ -112,12 +112,12 @@ bool InfoHandler::DoPreOut()
 	}
 	char * picTexureFile = AttributesPointer->GetAttribute("picfilename");
 
-	DWORD TMP_VERTEX_FORMAT = (D3DFVF_XYZRHW|D3DFVF_DIFFUSE|D3DFVF_TEX1|D3DFVF_TEXTUREFORMAT2);
+	uint32_t TMP_VERTEX_FORMAT = (D3DFVF_XYZRHW|D3DFVF_DIFFUSE|D3DFVF_TEX1|D3DFVF_TEXTUREFORMAT2);
 	struct TMP_VERTEX
 	{
 		CVECTOR pos;
 		float w;
-		DWORD col;
+		uint32_t col;
 		float tu,tv;
 	} pV[4];
 

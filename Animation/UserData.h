@@ -12,8 +12,6 @@
 #define _UserData_H_
 
 
-#include "..\Common_h\d_types.h"
-#include "..\Common_h\memop.h"
 #include "..\Common_h\exs.h"
 
 

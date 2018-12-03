@@ -5,13 +5,13 @@
 #define XBOXDRIVE_CACHE		"z:\\"
 #define XBOXDRIVE_DVD		"d:\\"
 
+#include <cstdint>
+
 #ifndef _XBOX 
 #include <windows.h>
 #else
 #include <xtl.h>
 #endif
-
-#include "d_types.h"
 
 class INIFILE;
 
@@ -20,31 +20,31 @@ class VFILE_SERVICE
 public:
 	VFILE_SERVICE(){};
 	virtual ~VFILE_SERVICE(){};
-	virtual HANDLE _CreateFile(LPCTSTR lpFileName,DWORD dwDesiriedAccess = GENERIC_READ,DWORD dwShareMode = FILE_SHARE_READ,DWORD dwCreationDisposition = OPEN_EXISTING)=0;
+	virtual HANDLE _CreateFile(const char * lpFileName,uint32_t dwDesiriedAccess = GENERIC_READ,uint32_t dwShareMode = FILE_SHARE_READ,uint32_t dwCreationDisposition = OPEN_EXISTING)=0;
 	virtual void   _CloseHandle(HANDLE hFile)=0;
-	virtual DWORD  _SetFilePointer(HANDLE hFile,long DistanceToMove,PLONG lpDistanceToMoveHigh,DWORD dwMoveMethod)=0;
-	virtual BOOL   _DeleteFile(LPCTSTR lpFileName)=0;
-	virtual BOOL   _WriteFile(HANDLE hFile,LPCVOID lpBuffer,DWORD nNumberOfBytesToWrite,LPDWORD lpNumberOfBytesWritten)=0;
-	virtual BOOL   _ReadFile(HANDLE hFile,LPVOID lpBuffer,DWORD nNumberOfBytesToRead,LPDWORD lpNumberOfBytesRead)=0;
-	virtual HANDLE _FindFirstFile(LPCTSTR lpFileName,LPWIN32_FIND_DATA lpFindFileData)=0;
+	virtual uint32_t  _SetFilePointer(HANDLE hFile,long DistanceToMove,long * lpDistanceToMoveHigh,uint32_t dwMoveMethod)=0;
+	virtual BOOL   _DeleteFile(const char * lpFileName)=0;
+	virtual BOOL   _WriteFile(HANDLE hFile,const void * lpBuffer,uint32_t nNumberOfBytesToWrite,uint32_t * lpNumberOfBytesWritten)=0;
+	virtual BOOL   _ReadFile(HANDLE hFile,void * lpBuffer,uint32_t nNumberOfBytesToRead,uint32_t * lpNumberOfBytesRead)=0;
+	virtual HANDLE _FindFirstFile(const char * lpFileName,LPWIN32_FIND_DATA lpFindFileData)=0;
 	virtual BOOL   _FindNextFile(HANDLE hFindFile,LPWIN32_FIND_DATA lpFindFileData)=0;
 	virtual BOOL   _FindClose(HANDLE hFindFile)=0;
 	virtual BOOL   _FlushFileBuffers(HANDLE hFile)=0;
-	virtual DWORD  _GetCurrentDirectory(DWORD nBufferLength,LPTSTR lpBuffer)=0;
-	virtual BOOL   _GetDiskFreeSpaceEx(LPCTSTR lpDirectoryName,PULARGE_INTEGER lpFreeBytesAvailableToCaller,
+	virtual uint32_t  _GetCurrentDirectory(uint32_t nBufferLength,char * lpBuffer)=0;
+	virtual BOOL   _GetDiskFreeSpaceEx(const char * lpDirectoryName,PULARGE_INTEGER lpFreeBytesAvailableToCaller,
 		     PULARGE_INTEGER lpTotalNumberOfBytes,PULARGE_INTEGER lpTotalNumberOfFreeBytes)=0;
-	virtual UINT   _GetDriveType(LPCTSTR lpRootPathName)=0;
-	virtual DWORD  _GetFileSize(HANDLE hFile,LPDWORD lpFileSizeHigh)=0;
-	virtual DWORD  _GetLogicalDrives(VOID)=0;
-	virtual DWORD  _GetLogicalDriveStrings(DWORD nBufferLength,LPTSTR lpBuffer)=0;
-	virtual BOOL   _SetCurrentDirectory(LPCTSTR lpPathName)=0;
-	virtual BOOL   _CreateDirectory(LPCTSTR lpPathName,LPSECURITY_ATTRIBUTES lpSecurityAttributes)=0;
-	virtual BOOL   _RemoveDirectory(LPCTSTR lpPathName)=0;
- 	virtual BOOL   _CopyFile(LPCTSTR lpExistingFileName,LPCTSTR lpNewFileName,BOOL bFailIfExists)=0;
-	virtual BOOL   _SetFileAttributes(LPCTSTR lpFileName,DWORD dwFileAttributes)= 0;
+	virtual UINT   _GetDriveType(const char * lpRootPathName)=0;
+	virtual uint32_t  _GetFileSize(HANDLE hFile,uint32_t * lpFileSizeHigh)=0;
+	virtual uint32_t  _GetLogicalDrives(VOID)=0;
+	virtual uint32_t  _GetLogicalDriveStrings(uint32_t nBufferLength,char * lpBuffer)=0;
+	virtual BOOL   _SetCurrentDirectory(const char * lpPathName)=0;
+	virtual BOOL   _CreateDirectory(const char * lpPathName,LPSECURITY_ATTRIBUTES lpSecurityAttributes)=0;
+	virtual BOOL   _RemoveDirectory(const char * lpPathName)=0;
+ 	virtual BOOL   _CopyFile(const char * lpExistingFileName,const char * lpNewFileName,bool bFailIfExists)=0;
+	virtual BOOL   _SetFileAttributes(const char * lpFileName,uint32_t dwFileAttributes)= 0;
 	virtual INIFILE * OpenIniFile(const char * file_name)= 0;
 	virtual BOOL FileExist(const char * file_name)= 0;
-	virtual BOOL LoadFile(const char * file_name, char * * ppBuffer, dword * dwSize = nullptr)= 0;
+	virtual BOOL LoadFile(const char * file_name, char * * ppBuffer, uint32_t * dwSize = nullptr)= 0;
 	virtual INIFILE * CreateIniFile(const char * file_name, bool fail_if_exist)= 0;
 	virtual BOOL SetDrive(const char * pDriveName = nullptr)=0;
 	virtual BOOL CacheDirectory(const char * pDirName)=0;
@@ -77,21 +77,21 @@ public:
 	virtual ~INIFILE(){};
 
 	// add string to file
-	virtual void	AddString(const char * section_name,const  char * key_name, const char * string){};
+	virtual void	AddString(const char * section_name,const  char * key_name, const char * string) = 0;
 	// write string to file, overwrite data if exist, throw EXS exception object if failed
-	virtual void	WriteString(const char * section_name, const char * key_name, const char * string){};
+	virtual void	WriteString(const char * section_name, const char * key_name, const char * string) = 0;
 	// write long value of key in pointed section if section and key exist, throw EXS object otherwise
-	virtual void	WriteLong(const char * section_name, const char * key_name, long value){};
+	virtual void	WriteLong(const char * section_name, const char * key_name, long value) = 0;
 	// write double value of key in pointed section if section and key exist, throw EXS object otherwise
 	virtual void	WriteDouble(const char * section_name, const char * key_name,double value){};
 
 	// fill buffer with key value, throw EXS exception object if failed or if section or key doesnt exist
-	virtual void	ReadString(const char * section_name, const char * key_name, char * buffer, dword buffer_size){};
+	virtual void	ReadString(const char * section_name, const char * key_name, char * buffer, uint32_t buffer_size){};
 	// fill buffer with key value if section and key exist, otherwise fill with def_string and return false
-	virtual bool	ReadString(const char * section_name, const char * key_name, char * buffer, dword buffer_size, char * def_string){return false;};
+	virtual bool	ReadString(const char * section_name, const char * key_name, char * buffer, uint32_t buffer_size, char * def_string){return false;};
 	// continue search from key founded in previous call this function or to function ReadString
 	// fill buffer with key value if section and key exist, otherwise return false
-	virtual bool	ReadStringNext(const char * section_name, const char * key_name, char * buffer, dword buffer_size){return false;};
+	virtual bool	ReadStringNext(const char * section_name, const char * key_name, char * buffer, uint32_t buffer_size){return false;};
 	
 	// return long value of key in pointed section if section and key exist, throw EXS object otherwise
 	virtual long	GetLong(const char * section_name, const char * key_name){return 0;};

@@ -31,7 +31,7 @@ void DataString::Load (MemFile* File)
 	SetValue(TempString);
 
 	static char AttribueName[128];
-	DWORD NameLength = 0;
+	uint32_t NameLength = 0;
 	File->ReadType(NameLength);
 	Assert (NameLength < 128);
 	File->Read(AttribueName, NameLength);
@@ -58,8 +58,8 @@ void DataString::Write (MemFile* File)
 	File->Write(WriteTempString, 128);
 
 	//save name
-	DWORD NameLength = Name.size();
-	DWORD NameLengthPlusZero = NameLength+1;
+	uint32_t NameLength = Name.size();
+	uint32_t NameLengthPlusZero = NameLength+1;
 	File->WriteType(NameLengthPlusZero);
 	Assert (NameLength < 128);
 	File->Write(Name.c_str(), NameLength);

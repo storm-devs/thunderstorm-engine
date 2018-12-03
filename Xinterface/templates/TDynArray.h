@@ -9,9 +9,9 @@ template<class T> class TDynamicArray
 {
 	typedef TDynamicArray<T> TThis;
 	T *		m_pBuffer;
-	dword	m_dwBlockSize;
-	dword	m_dwSize;
-	dword	m_dwReservSize;
+	uint32_t	m_dwBlockSize;
+	uint32_t	m_dwSize;
+	uint32_t	m_dwReservSize;
 
 public:
 	// constructor & destructor
@@ -23,7 +23,7 @@ public:
 		m_dwSize = m_dwReservSize = 0;
 	}
 		// constructor with block size setting
-	TDynamicArray(dword nBlockSize)
+	TDynamicArray(uint32_t nBlockSize)
 	{
 		m_pBuffer = null;
 		m_dwBlockSize = nBlockSize;
@@ -32,9 +32,9 @@ public:
 		// constructor by doubling
 	TDynamicArray( TDynamicArray & da )
 	{
-		dword q = da.Getsize();
+		uint32_t q = da.Getsize();
 		ResizeBuffer(q);
-		for(dword n=0; n<q; n++)
+		for(uint32_t n=0; n<q; n++)
 			m_pBuffer[n] = da[n];
 		m_dwSize = q;
 	}
@@ -48,24 +48,24 @@ public:
 	}
 
 	// block size functions
-	dword	GetBlocksize() {return m_dwBlockSize;}
-	void	SetBlockSize(dword dwNewBlockSize)
+	uint32_t	GetBlocksize() {return m_dwBlockSize;}
+	void	SetBlockSize(uint32_t dwNewBlockSize)
 	{
 		if(dwNewBlockSize>0) m_dwBlockSize=dwNewBlockSize;
 	}
 
 	// resize function
-	dword	Getsize() {return m_dwSize;}
-	void	ResizeBuffer(dword dwNewSize)
+	uint32_t	Getsize() {return m_dwSize;}
+	void	ResizeBuffer(uint32_t dwNewSize)
 	{
-		dword dwNeedReserv = ((dwNewSize-1)/m_dwBlockSize+1)*m_dwBlockSize;
+		uint32_t dwNeedReserv = ((dwNewSize-1)/m_dwBlockSize+1)*m_dwBlockSize;
 		if(dwNeedReserv==m_dwReservSize) return; // same size
 		T * pOldBuf = m_pBuffer;
 		m_pBuffer = NEW T[dwNeedReserv];
 		assert(m_pBuffer);
 		if(pOldBuf) {
 			//memcpy(m_pBuffer,pOldBuf,sizeof(T)*m_dwSize);
-			for(dword n=0; n<m_dwSize; n++) m_pBuffer[n] = pOldBuf[n];
+			for(uint32_t n=0; n<m_dwSize; n++) m_pBuffer[n] = pOldBuf[n];
 			delete[] pOldBuf;
 		}
 		m_dwReservSize = dwNeedReserv;
@@ -121,7 +121,7 @@ public:
 	int		SimpleFind(T one){return Find(one);}
 	int		Find(T & one)
 	{
-		for(dword n=0; n<m_dwSize; n++)	if( m_pBuffer[n] == one ) return n;
+		for(uint32_t n=0; n<m_dwSize; n++)	if( m_pBuffer[n] == one ) return n;
 		return -1;
 	}
 
@@ -129,22 +129,22 @@ public:
 	//T * operator &() {return m_pBuffer;}
 	T & operator [](int idx) {return m_pBuffer[idx];}
 	T & operator [](long idx) {return m_pBuffer[idx];}
-	T & operator [](dword idx) {return m_pBuffer[idx];}
+	T & operator [](uint32_t idx) {return m_pBuffer[idx];}
 	TThis & operator =(TThis & srcArray)
 	{
 		ReleaseAll();
-		dword q = srcArray.Getsize();
+		uint32_t q = srcArray.Getsize();
 		ResizeBuffer(q);
-		for(dword n=0; n<q; n++) m_pBuffer[n] = srcArray[n];
+		for(uint32_t n=0; n<q; n++) m_pBuffer[n] = srcArray[n];
 		m_dwSize = q;
 		return *this;
 	}
 
 	// access functions
-	dword GetIndex(T * pT)
+	uint32_t GetIndex(T * pT)
 	{
-		if( (dword)pT<(dword)m_pBuffer || (dword)pT>(dword)&m_pBuffer[m_dwSize-1] ) return -1;
-		return ((dword)pT-(dword)m_pBuffer)/sizeof(T);
+		if( (uint32_t)pT<(uint32_t)m_pBuffer || (uint32_t)pT>(uint32_t)&m_pBuffer[m_dwSize-1] ) return -1;
+		return ((uint32_t)pT-(uint32_t)m_pBuffer)/sizeof(T);
 	}
 };
 

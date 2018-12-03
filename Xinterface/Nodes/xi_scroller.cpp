@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "xi_scroller.h"
-#include "..\vxservice.h"
 #include "..\xinterface.h"
 #include "xi_formttext.h"
 #include "xi_table.h"
@@ -41,7 +40,7 @@ CXI_SCROLLER::~CXI_SCROLLER()
 	ReleaseAll();
 }
 
-void CXI_SCROLLER::Draw(bool bSelected,dword Delta_Time)
+void CXI_SCROLLER::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(m_bUse)
 	{

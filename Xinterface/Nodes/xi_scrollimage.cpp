@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "xi_scrollimage.h"
-#include "..\\vxservice.h"
 #include "../../common_h/defines.h"
 
 #define MAXIMAGEQUANTITY 100
@@ -8,7 +7,7 @@
 IDirect3DTexture9 * GetTexFromEvent(VDATA * vdat)
 {
 	if(vdat== nullptr) return nullptr;
-	DWORD dwTmp = vdat->GetLong();
+	uint32_t dwTmp = vdat->GetLong();
 	return (IDirect3DTexture9*)dwTmp;
 }
 
@@ -52,7 +51,7 @@ CXI_SCROLLIMAGE::~CXI_SCROLLIMAGE()
 	ReleaseAll();
 }
 
-void CXI_SCROLLIMAGE::Draw(bool bSelected,dword Delta_Time)
+void CXI_SCROLLIMAGE::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	int n;
 	if(m_bUse && m_Image!= nullptr)
@@ -356,9 +355,9 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 
 	if(m_nSlotsQnt>0)
 	{
-		m_dwCurColor = NEW DWORD[m_nSlotsQnt];
-		m_dwNormalColor = NEW DWORD[m_nSlotsQnt];
-		m_dwSelectColor = NEW DWORD[m_nSlotsQnt];
+		m_dwCurColor = NEW uint32_t[m_nSlotsQnt];
+		m_dwNormalColor = NEW uint32_t[m_nSlotsQnt];
+		m_dwSelectColor = NEW uint32_t[m_nSlotsQnt];
 		m_pPicOffset = NEW long[m_nSlotsQnt];
 		m_idBadTexture = NEW long[m_nSlotsQnt];
 		m_idBadPic = NEW long[m_nSlotsQnt];
@@ -669,7 +668,7 @@ float CXI_SCROLLIMAGE::ChangeDinamicParameters(float fXDelta)
 					}
 				}
 			}
-			if( n==m_nSlotsQnt || (DWORD)m_Image[curImage].ptex[n]!=0xFFFFFFFF ) break;
+			if( n==m_nSlotsQnt || (uint32_t)m_Image[curImage].ptex[n]!=0xFFFFFFFF ) break;
 
 			// delete current save from list
 			m_Image[curImage].Release(m_nSlotsQnt);
@@ -1567,7 +1566,7 @@ void CXI_SCROLLIMAGE::IMAGEDESCRIBE::Clear(int nQnt)
 	PTR_STORM_DELETE(string2);
 }
 
-dword _cdecl CXI_SCROLLIMAGE::MessageProc(long msgcode, MESSAGE & message)
+uint32_t _cdecl CXI_SCROLLIMAGE::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

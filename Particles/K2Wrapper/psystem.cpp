@@ -1,6 +1,8 @@
 #include "psystem.h"
 #include "particles.h"
 #include "..\..\common_h\particles.h"
+#include "../../common_h/Math3D/Vector.h"
+#include "../../common_h/Math3D/Matrix.h"
 
 PARTICLE_SYSTEM::PARTICLE_SYSTEM(IParticleSystem* _pSystem)
 {
@@ -38,7 +40,7 @@ void	PARTICLE_SYSTEM::SetDelay(long _delay)
 {
 }
 
-void	PARTICLE_SYSTEM::SetLifeTime(dword time)
+void	PARTICLE_SYSTEM::SetLifeTime(uint32_t time)
 {
 }
 

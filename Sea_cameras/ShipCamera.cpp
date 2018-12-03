@@ -1,6 +1,5 @@
-
-
 #include "ShipCamera.h"
+#include "../Common_h/Sd2_h/SaveLoad.h"
 
 #define SCMR_BOXSCALE_X		1.6f
 #define SCMR_BOXSCALE_Y		1.3f
@@ -54,7 +53,7 @@ void SHIP_CAMERA::SetDevices()
 	//Assert(pSea);
 }
 
-void SHIP_CAMERA::Execute(DWORD dwDeltaTime)
+void SHIP_CAMERA::Execute(uint32_t dwDeltaTime)
 {
 	if (!isOn()) return;
 	if (!FindShip()) return;
@@ -168,7 +167,7 @@ void SHIP_CAMERA::Move(float fDeltaTime)
 	pRS->SetPerspective(GetPerspective());
 }
 
-void SHIP_CAMERA::Realize(dword dwDeltaTime)
+void SHIP_CAMERA::Realize(uint32_t dwDeltaTime)
 {
 }
 
@@ -179,7 +178,7 @@ void SHIP_CAMERA::SetCharacter(ATTRIBUTES * _pACharacter)
 	pACharacter = _pACharacter; 
 }
 
-dword SHIP_CAMERA::AttributeChanged(ATTRIBUTES * pAttr)
+uint32_t SHIP_CAMERA::AttributeChanged(ATTRIBUTES * pAttr)
 {
 	if (*pAttr == "SensivityDistance")			fSensivityDistance = pAttr->GetAttributeAsFloat();
 	if (*pAttr == "SensivityAzimuthAngle")		fSensivityAzimuthAngle = pAttr->GetAttributeAsFloat();

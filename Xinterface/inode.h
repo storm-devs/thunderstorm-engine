@@ -4,8 +4,8 @@
 #include "..\common_h\dx9render.h"
 #include "..\common_h\vmodule_api.h"
 #include "defines.h"
-#include "nodes\xi_util.h"
 #include "nodes\xi_tooltips.h"
+#include "vxservice.h"
 
 class CXI_ToolTip;
 
@@ -85,7 +85,7 @@ public:
 	virtual VDX9RENDER *		RenderService() = 0;
 	virtual void *				GetCurrentNode() = 0;
 	virtual FXYPOINT			GetMousePoint() = 0;
-	virtual long				PrintIntoWindow(long wl,long wr, long idFont, DWORD dwFCol, DWORD dwBCol, long align, bool shadow, float scale, long sxs, long sys, long left, long top, char * str, int nWidthForScaleCorrecting=-1, int nSplit=0) = 0;
+	virtual long				PrintIntoWindow(long wl,long wr, long idFont, uint32_t dwFCol, uint32_t dwBCol, long align, bool shadow, float scale, long sxs, long sys, long left, long top, char * str, int nWidthForScaleCorrecting=-1, int nSplit=0) = 0;
 
 	virtual CINODE *			FindNode(const char * sNodeName, CINODE * findRoot) = 0;
 	virtual void				ShowWindow( const char* pcWindowName, bool bShow ) = 0;
@@ -95,7 +95,7 @@ public:
 	virtual void				RegistryExitKey( const char* pcKeyName ) = 0;
 
 	// blind
-	dword						GetBlendColor(dword minCol,dword maxCol,float fFactor);
+	uint32_t						GetBlendColor(uint32_t minCol,uint32_t maxCol,float fFactor);
 
 	std::string m_sDialogFileName;
 };
@@ -135,7 +135,7 @@ public:
 public:
 	CINODE();
 	virtual ~CINODE();
-	virtual void	Draw(bool bSelected,dword Delta_Time) = 0;
+	virtual void	Draw(bool bSelected,uint32_t Delta_Time) = 0;
 	virtual bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
 	virtual void	ReleaseAll() = 0;
 	CINODE*			DoAction(int wActCode,bool &bBreakPress,bool bFirstPress);
@@ -148,14 +148,14 @@ public:
 	CINODE*			FindNode(float x,float y) {return FindNode(this,x,y);}
 	virtual void	SetUsing(bool bUsing) {m_bUse=bUsing;}
 	virtual bool	IsClick(int buttonID,long xPos,long yPos) = 0;
-	virtual void    FrameProcess(dword DeltaTime);
+	virtual void    FrameProcess(uint32_t DeltaTime);
 	virtual void	MouseThis(float fX, float fY) = 0;
 	virtual long	GetClickState() {return 0;}
 	void			SetPriority(long prior) {m_nPriority=prior;}
 	long			GetPriority() {return m_nPriority;}
 	bool			CheckCommandUsed(int comCode);
 	bool			IsCurrentNode() {return ptrOwner->GetCurrentNode()==this;}
-	void			NotUsingTime(dword Delta_Time){}
+	void			NotUsingTime(uint32_t Delta_Time){}
 	virtual XYRECT	GetCursorRect() {if(m_bUseUserGlowCursor) return m_rectUserGlowCursor; return m_rect;}
 	virtual bool	IsShowGlowCursor() {return m_bShowGlowCursor;}
 	virtual bool	IsGlowCursorBack() {return m_bGlowCursorBack;}
@@ -171,7 +171,7 @@ public:
 	virtual bool	GetInternalNameList( std::vector<std::string>& aStr ) {return false;}
 	virtual void	SetInternalName(std::string& sName ) {}
 
-	virtual dword _cdecl MessageProc(long msgcode, MESSAGE & message);
+	virtual uint32_t _cdecl MessageProc(long msgcode, MESSAGE & message);
 
 	void			SetGlowCursor(bool bShowFlag) {m_bShowGlowCursor=bShowFlag;}
 	void			SetGlowCursorToBack(bool bBackFlag) {m_bGlowCursorBack=bBackFlag;}
@@ -185,7 +185,7 @@ public:
 	static FXYRECT	GetIniFloatRect(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, char * keyName, FXYRECT & rectDefault);
 	static XYPOINT	GetIniLongPoint(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, char * keyName, XYPOINT & pntDefault);
 	static FXYPOINT	GetIniFloatPoint(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, char * keyName, FXYPOINT & pntDefault);
-	static DWORD	GetIniARGB(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, char * keyName, DWORD dwDefColor = 0);
+	static uint32_t	GetIniARGB(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, char * keyName, uint32_t dwDefColor = 0);
 
     void            GetRelativeRect(XYRECT & rect);
     void            GetAbsoluteRect(XYRECT & rect,int at);
@@ -193,7 +193,7 @@ public:
 	static char *	GetSubStr(char * inStr, char * buf, size_t bufSize, char devChar=',');
 	static bool		GetMidStr(char * inStr, char * buf, size_t bufSize, char * begStr, char * endStr);
 	static char *	GetDataStr(char * inStr, char * strOrder, ...);
-	static DWORD	GetColorFromStr(char * inStr, DWORD dwDefColor);
+	static uint32_t	GetColorFromStr(char * inStr, uint32_t dwDefColor);
 
 	virtual void	MoveMouseOutScreen( float fX, float fY ) {}
 

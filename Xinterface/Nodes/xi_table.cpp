@@ -2,6 +2,7 @@
 #include "xi_table.h"
 #include "xi_scroller.h"
 #include "../../Common_h/strutils.h"
+#include "../../InterfaceEditor/InterfaceEditor.h"
 
 #define ALIGN_BOTTOM	16
 #define ALIGN_TOP		17
@@ -58,7 +59,7 @@ void XI_TableLineDescribe::SetData( long nRowIndex, ATTRIBUTES* pLA, bool bHeade
 	m_nRowIndex = nRowIndex;
 	char pcAttrName[64];
 	m_bUseSpecColor = false;
-	dword dwSpecColor = 0;
+	uint32_t dwSpecColor = 0;
 	if( pLA ) dwSpecColor = pLA->GetAttributeAsDword("speccolor",0);
 	if( dwSpecColor != 0 )
 	{
@@ -345,7 +346,7 @@ CXI_TABLE::~CXI_TABLE()
 	ReleaseAll();
 }
 
-void CXI_TABLE::Draw(bool bSelected,dword Delta_Time)
+void CXI_TABLE::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	m_bFirstFrame = false;
 
@@ -646,7 +647,7 @@ void CXI_TABLE::SaveParametersToIni()
 	delete pIni;
 }
 
-dword _cdecl CXI_TABLE::MessageProc(long msgcode, MESSAGE & message)
+uint32_t _cdecl CXI_TABLE::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{
@@ -936,18 +937,18 @@ void CXI_TABLE::UpdateBorders()
 		INDEX_BUF_RELEASE( m_rs, m_idBorderIBuf );
 
 		// индекс буфер
-		m_idBorderIBuf = m_rs->CreateIndexBuffer( q * 6 * sizeof(WORD) );
+		m_idBorderIBuf = m_rs->CreateIndexBuffer( q * 6 * sizeof(uint16_t) );
 		Assert( m_idBorderIBuf != -1 );
 		// заполняем
-		WORD* pT = (WORD*)m_rs->LockIndexBuffer( m_idBorderIBuf );
+		uint16_t* pT = (uint16_t*)m_rs->LockIndexBuffer( m_idBorderIBuf );
 		for( n=0; n<q; n++ )
 		{
-			pT[n*6 + 0] = (WORD)(n*4 + 0);
-			pT[n*6 + 1] = (WORD)(n*4 + 1);
-			pT[n*6 + 2] = (WORD)(n*4 + 2);
-			pT[n*6 + 3] = (WORD)(n*4 + 3);
-			pT[n*6 + 4] = (WORD)(n*4 + 1);
-			pT[n*6 + 5] = (WORD)(n*4 + 2);
+			pT[n*6 + 0] = (uint16_t)(n*4 + 0);
+			pT[n*6 + 1] = (uint16_t)(n*4 + 1);
+			pT[n*6 + 2] = (uint16_t)(n*4 + 2);
+			pT[n*6 + 3] = (uint16_t)(n*4 + 3);
+			pT[n*6 + 4] = (uint16_t)(n*4 + 1);
+			pT[n*6 + 5] = (uint16_t)(n*4 + 2);
 		}
 		m_rs->UnLockIndexBuffer( m_idBorderIBuf );
 
@@ -1026,7 +1027,7 @@ void CXI_TABLE::UpdateBorders()
 	m_rs->UnLockVertexBuffer( m_idBorderVBuf );
 }
 
-void CXI_TABLE::WriteSquare( XI_ONETEX_VERTEX* pV, long nImgID, dword dwCol, long nX, long nY, long nW, long nH )
+void CXI_TABLE::WriteSquare( XI_ONETEX_VERTEX* pV, long nImgID, uint32_t dwCol, long nX, long nY, long nW, long nH )
 {
 	if( !pV ) return;
 

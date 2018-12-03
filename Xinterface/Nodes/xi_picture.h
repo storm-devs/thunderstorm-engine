@@ -12,7 +12,7 @@ class CXI_PICTURE : public CINODE
 public:
 	CXI_PICTURE();
 	~CXI_PICTURE();
-	void	Draw(bool bSelected,dword Delta_Time);
+	void	Draw(bool bSelected,uint32_t Delta_Time);
 	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
 	void	ReleaseAll();
 	int		CommandExecute(int wActCode);
@@ -20,9 +20,9 @@ public:
 	void	MouseThis(float fX, float fY) {}
 	void	ChangePosition( XYRECT &rNewPos );
 	void	SaveParametersToIni();
-	dword _cdecl MessageProc(long msgcode, MESSAGE & message);
+	uint32_t _cdecl MessageProc(long msgcode, MESSAGE & message);
 	virtual void ChangeUV( FXYRECT &frNewUV );
-	void	ChangeColor( dword dwColor );
+	void	ChangeColor( uint32_t dwColor );
 	void	SetPictureSize(long& nWidth, long& nHeight);
 
 protected:
@@ -44,8 +44,8 @@ protected:
 	bool m_bBlindUp;
 	float m_fBlindUpSpeed;
 	float m_fBlindDownSpeed;
-	dword m_dwBlindMin;
-	dword m_dwBlindMax;
+	uint32_t m_dwBlindMin;
+	uint32_t m_dwBlindMax;
 };
 
 #endif

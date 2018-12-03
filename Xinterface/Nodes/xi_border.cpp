@@ -28,7 +28,7 @@ int CXI_BORDER::CommandExecute(int wActCode)
 	return -1;
 }
 
-void CXI_BORDER::Draw(bool bSelected,dword Delta_Time)
+void CXI_BORDER::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(m_bUse)
 	{
@@ -253,17 +253,17 @@ void CXI_BORDER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 void CXI_BORDER::FillIndexBuffers()
 {
 	if( m_idIBuf < 0 ) return;
-	WORD * pI = (WORD*) m_rs->LockIndexBuffer( m_idIBuf );
+	uint16_t * pI = (uint16_t*) m_rs->LockIndexBuffer( m_idIBuf );
 
 	for( long n=0; n<m_nSquareQ; n++ )
 	{
-		pI[n*6+0] = (WORD)(n*4 + 0);
-		pI[n*6+1] = (WORD)(n*4 + 1);
-		pI[n*6+2] = (WORD)(n*4 + 2);
+		pI[n*6+0] = (uint16_t)(n*4 + 0);
+		pI[n*6+1] = (uint16_t)(n*4 + 1);
+		pI[n*6+2] = (uint16_t)(n*4 + 2);
 
-		pI[n*6+3] = (WORD)(n*4 + 1);
-		pI[n*6+4] = (WORD)(n*4 + 3);
-		pI[n*6+5] = (WORD)(n*4 + 2);
+		pI[n*6+3] = (uint16_t)(n*4 + 1);
+		pI[n*6+4] = (uint16_t)(n*4 + 3);
+		pI[n*6+5] = (uint16_t)(n*4 + 2);
 	}
 
 	m_rs->UnLockIndexBuffer( m_idIBuf );
@@ -324,7 +324,7 @@ void CXI_BORDER::FillVertexBuffers()
 	m_rs->UnLockVertexBuffer( m_idVBuf );
 }
 
-void CXI_BORDER::WriteVertexForSquare( XI_ONETEX_VERTEX* pV, FXYRECT& UVRect, dword dwColor, long left, long top, long right, long bottom )
+void CXI_BORDER::WriteVertexForSquare( XI_ONETEX_VERTEX* pV, FXYRECT& UVRect, uint32_t dwColor, long left, long top, long right, long bottom )
 {
 	pV[0].color = dwColor;
 	pV[0].pos.x = (float)left;
@@ -355,7 +355,7 @@ void CXI_BORDER::WriteVertexForSquare( XI_ONETEX_VERTEX* pV, FXYRECT& UVRect, dw
 	pV[3].tv = UVRect.bottom;
 }
 
-dword _cdecl CXI_BORDER::MessageProc(long msgcode, MESSAGE & message)
+uint32_t _cdecl CXI_BORDER::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

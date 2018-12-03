@@ -19,8 +19,8 @@ class LIGHTNING : public ENTITY
 	struct lightning_t
 	{
 		// script parameters
-		dword		dwSubTexture;
-		dword		dwFlickerTime;
+		uint32_t		dwSubTexture;
+		uint32_t		dwFlickerTime;
 		float		fTime;
 		float		fSize, fScaleX, fScaleY;
 		CVECTOR		vPos;
@@ -36,7 +36,7 @@ class LIGHTNING : public ENTITY
 
 	std::vector<lightning_t>	aLightnings;
 
-	dword			dwSubTexX, dwSubTexY;
+	uint32_t			dwSubTexX, dwSubTexY;
 	long			iLightningTexture, iFlashTexture;
 
 	float			fKDist;
@@ -56,12 +56,12 @@ public:
 
 	void	SetDevice();
 	bool	Init();
-	void	Realize(dword Delta_Time);
-	void	Execute(dword Delta_Time);
+	void	Realize(uint32_t Delta_Time);
+	void	Execute(uint32_t Delta_Time);
 	bool	CreateState(ENTITY_STATE_GEN * state_gen);
 	bool	LoadState(ENTITY_STATE * state);
-	dword	_cdecl ProcessMessage(MESSAGE & message);
-	dword	AttributeChanged(ATTRIBUTES * pAttributeChanged);
+	uint32_t	_cdecl ProcessMessage(MESSAGE & message);
+	uint32_t	AttributeChanged(ATTRIBUTES * pAttributeChanged);
 };
 
 #endif

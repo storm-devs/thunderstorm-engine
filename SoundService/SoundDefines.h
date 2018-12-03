@@ -1,8 +1,6 @@
 #ifndef _SOUNDDEFINES_H_
 #define _SOUNDDEFINES_H_
 
-#include "..\COMMON_H\d_types.h"
-#include "..\COMMON_H\memop.h"
 ///////////////////////////////////////////////////////////////////
 // CONSTANTS
 ///////////////////////////////////////////////////////////////////
@@ -75,10 +73,10 @@ enum eSoundMessage
 
 	typedef struct { 
 		FOURCC ckid; 
-		dword  cksize; 
+		uint32_t  cksize; 
 		FOURCC fccType; 
-		dword  dwDataOffset; 
-		dword  dwFlags; 
+		uint32_t  dwDataOffset; 
+		uint32_t  dwFlags; 
 	} MMCKINFO;
 #endif
 ///////////////////////////////////////////////////////////////////

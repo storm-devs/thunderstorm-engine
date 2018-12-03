@@ -7,14 +7,12 @@
 #include "token.h"
 #include "data.h"
 #include "loopstack.h"
-#include "stack.h"
 #include "strings_list.h"
 #include "s_functab.h"
 #include "s_vartab.h"
 #include "s_classtab.h"
 #include "s_deftab.h"
 #include "s_stack.h"
-#include "s_tstack.h"
 #include "s_eventtab.h"
 #include "tclass_list.h"
 #include "s_eventmsg.h"
@@ -31,42 +29,42 @@
 struct SEGMENT_DESC
 {
 	char * name;
-	DWORD  offset;
-	DWORD  size;
-	DWORD  id;
-	DWORD  lines;
+	uint32_t  offset;
+	uint32_t  size;
+	uint32_t  id;
+	uint32_t  lines;
 	bool   bUnload;
 	//--------------
 	char * pData;
 	char * pCode;
-	DWORD BCode_Program_size;
-	DWORD BCode_Buffer_size;
+	uint32_t BCode_Program_size;
+	uint32_t BCode_Buffer_size;
  
 	STRINGS_LIST * Files_list;
 };
 
 struct OFFSET_INFO
 {
-	DWORD offset;
-	DWORD segment_id;
+	uint32_t offset;
+	uint32_t segment_id;
 };
 
 struct EXTDATA_HEADER
 {
 	char sFileInfo[32];
-	DWORD dwExtDataOffset;
-	DWORD dwExtDataSize;
+	uint32_t dwExtDataOffset;
+	uint32_t dwExtDataSize;
 };
 /*struct DEFINE_INFO
 {
-	dword deftype;
-	dword data4b;
+	uint32_t deftype;
+	uint32_t data4b;
 };*/
 
 struct DOUBLE_DWORD
 {
-	DWORD dw1;
-	DWORD dw2;
+	uint32_t dw1;
+	uint32_t dw2;
 };
 
 class SLIBHOLDER
@@ -108,18 +106,18 @@ class COMPILER : public VIRTUAL_COMPILER
 	TOKEN	Token;
 	MESSAGE * pEventMessage;
 	SEGMENT_DESC * SegmentTable;
-	DWORD SegmentsNum;
-	DWORD RunningSegmentID;
-	DWORD InstructionPointer;
+	uint32_t SegmentsNum;
+	uint32_t RunningSegmentID;
+	uint32_t InstructionPointer;
 
 	char * pBuffer;
-	dword dwCurPointer, dwMaxSize;
+	uint32_t dwCurPointer, dwMaxSize;
 
 	char * ProgramDirectory;
 	bool bCompleted;
 	bool bEntityUpdate;
 	char * pDebExpBuffer;
-	DWORD nDebExpBufferSize;
+	uint32_t nDebExpBufferSize;
 
 	FUNCINFO *	pRun_fi;	// running function info
 	S_FUNCTAB	FuncTab;
@@ -135,10 +133,10 @@ class COMPILER : public VIRTUAL_COMPILER
 	STRING_CODEC SCodec;
 	
 	bool bRuntimeLog;
-	DWORD nRuntimeLogEventsBufferSize;
-	DWORD nRuntimeLogEventsNum;
-	DWORD * pRuntimeLogEvent;
-	DWORD nRuntimeTicks;
+	uint32_t nRuntimeLogEventsBufferSize;
+	uint32_t nRuntimeLogEventsNum;
+	uint32_t * pRuntimeLogEvent;
+	uint32_t nRuntimeTicks;
 
 	bool bFirstRun;
 	bool bScriptTrace;
@@ -146,7 +144,7 @@ class COMPILER : public VIRTUAL_COMPILER
 	bool bDebugInfo;
 	char DebugSourceFileName[MAX_PATH];
 	char gs[MAX_PATH];
-	DWORD DebugSourceLine;
+	uint32_t DebugSourceLine;
 	char * pCompileTokenTempBuffer;
 
 	//HANDLE hSaveFileFileHandle;
@@ -157,10 +155,10 @@ class COMPILER : public VIRTUAL_COMPILER
 	bool bEventsBreak;
 
 	char DebugTraceFileName[MAX_PATH];
-	DWORD nDebugTraceLineCode;
+	uint32_t nDebugTraceLineCode;
 
-	DWORD nIOBufferSize;
-	DWORD nIOFullSize;
+	uint32_t nIOBufferSize;
+	uint32_t nIOFullSize;
 	char * pIOBuffer;
 
 	// script registers
@@ -179,9 +177,9 @@ public:
 
 	VSTRING_CODEC * GetVSC(){return &SCodec;}
 
-	char *  LoadFile(char * file_name, DWORD & file_size, bool bFullPath = false);
+	char *  LoadFile(char * file_name, uint32_t & file_size, bool bFullPath = false);
 	//char *	AppendProgram(char * base_program, long base_program_size, char * append_program, long append_program_size, long& new_program_size);
-	bool	AppendProgram(char * & pBase_program, DWORD & Base_program_size, char * pAppend_program, DWORD & Append_program_size, bool bAddLinefeed);
+	bool	AppendProgram(char * & pBase_program, uint32_t & Base_program_size, char * pAppend_program, uint32_t & Append_program_size, bool bAddLinefeed);
 	void	Trace(char * data_PTR, ...);
 	void	DTrace(char * data_PTR, ...);
 	void	SetError(char * data_PTR, ...);
@@ -190,10 +188,10 @@ public:
 	bool	AddProgramFile(char * file_name);
 	
 	void	UnloadSegment(char * segment_name);
-	DWORD	GetSegmentIndex(DWORD segment_id);
+	uint32_t	GetSegmentIndex(uint32_t segment_id);
 
 
-	void	ProcessFrame(DWORD DeltaTime);
+	void	ProcessFrame(uint32_t DeltaTime);
 	bool	__declspec(dllexport) __cdecl Run();
 	void	Release();
 	void	__declspec(dllexport) __cdecl SetProgramDirectory(char * dir_name);
@@ -207,28 +205,28 @@ public:
 	void	ClearEvents();
 
 	
-	DWORD  GetIntFunctionCode(char * func_name);
-	DATA * BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD arguments);
+	uint32_t  GetIntFunctionCode(char * func_name);
+	DATA * BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_t arguments);
 	
-	DWORD  GetIntFunctionsNum();
+	uint32_t  GetIntFunctionsNum();
 	bool   InitInternalFunctions();
 
 	bool ProcessDebugExpression(char * pExpression, DATA & Result);
 	bool SetOnDebugExpression(char * pLValue, char * pRValue, DATA & Result);
 	bool ProcessDebugExpression0(char * pExpression, DATA & Result);
-	bool Compile(SEGMENT_DESC& Segment, char * pInternalCode = nullptr, DWORD pInternalCodeSize = 0);
-	void CompileToken(SEGMENT_DESC& Segment,S_TOKEN_TYPE Token_type, DWORD data_blocks_num = 0,...);
-	void ResizeBCodeBuffer(SEGMENT_DESC& Segment,DWORD add_size);
+	bool Compile(SEGMENT_DESC& Segment, char * pInternalCode = nullptr, uint32_t pInternalCodeSize = 0);
+	void CompileToken(SEGMENT_DESC& Segment,S_TOKEN_TYPE Token_type, uint32_t data_blocks_num = 0,...);
+	void ResizeBCodeBuffer(SEGMENT_DESC& Segment,uint32_t add_size);
 	bool BC_LoadSegment(char * file_name);
 	bool BC_SegmentIsLoaded(char * file_name);
-	bool BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * pDbgExpSource = nullptr);
-	bool BC_CallFunction(DWORD func_code, DWORD & ip, DATA * & pVResult);
+	bool BC_Execute(uint32_t function_code, DATA * & pVReturnResult, char * pDbgExpSource = nullptr);
+	bool BC_CallFunction(uint32_t func_code, uint32_t & ip, DATA * & pVResult);
 	void FindErrorSource();
-	S_TOKEN_TYPE BC_TokenGet(DWORD & ip, DWORD & token_data_size);
+	S_TOKEN_TYPE BC_TokenGet(uint32_t & ip, uint32_t & token_data_size);
 	S_TOKEN_TYPE BC_TokenGet();
 
 	S_TOKEN_TYPE TokenLastReadResult;
-	DWORD TLR_DataOffset;
+	uint32_t TLR_DataOffset;
 	char * pRunCodeBase;
 	bool TokenIs(S_TOKEN_TYPE test);
 	S_TOKEN_TYPE TokenType() {return TokenLastReadResult;}
@@ -254,43 +252,43 @@ public:
 	void SkipExpression_L7();
 */
 	//-----------------------------------------------------
-	DWORD CurrentFuncCode;
+	uint32_t CurrentFuncCode;
 	void CompileNumber(SEGMENT_DESC& Segment);
 	void CompileFloatNumber(SEGMENT_DESC& Segment);
 	void CompileString(SEGMENT_DESC& Segment);
 	bool CompileUnknown(SEGMENT_DESC& Segment);
-	bool CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD & inout,S_TOKEN_TYPE bound_type, DWORD continue_jump, DWORD break_offset, STRINGS_LIST & BreakTable);
+	bool CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, uint32_t & inout,S_TOKEN_TYPE bound_type, uint32_t continue_jump, uint32_t break_offset, STRINGS_LIST & BreakTable);
 	S_TOKEN_TYPE CompileAuxiliaryTokens(SEGMENT_DESC& Segment);//, bool & bFunctionBlock, DWORD & inout);
-	bool BC_Jump(SEGMENT_DESC& Segment, DWORD offset);
-	void UpdateOffsets(SEGMENT_DESC& Segment, STRINGS_LIST & list, DWORD offset, char * sname = nullptr);
-	S_TOKEN_TYPE DetectUnknown(DWORD & code);
+	bool BC_Jump(SEGMENT_DESC& Segment, uint32_t offset);
+	void UpdateOffsets(SEGMENT_DESC& Segment, STRINGS_LIST & list, uint32_t offset, char * sname = nullptr);
+	S_TOKEN_TYPE DetectUnknown(uint32_t & code);
 
 	void DumpAttributes(ATTRIBUTES * pA, long level);
 
-	bool IsIntFuncVarArgsNum(DWORD code);
-	DWORD GetInternalFunctionArgumentsNum(DWORD code);
-	bool CreateMessage(MESSAGE_SCRIPT * pMs, DWORD stack_offset, DWORD vindex, bool s2s = false);
+	bool IsIntFuncVarArgsNum(uint32_t code);
+	uint32_t GetInternalFunctionArgumentsNum(uint32_t code);
+	bool CreateMessage(MESSAGE_SCRIPT * pMs, uint32_t stack_offset, uint32_t vindex, bool s2s = false);
 	void ProcessEvent(char * event_name, MESSAGE * pMs);
 
 	bool SaveState(HANDLE fh);
 	bool LoadState(HANDLE fh);
 	bool OnLoad();
 	void SaveDataDebug(char * data_PTR, ...);
-	void SaveData(const void * data_PTR, DWORD data_size);
-	bool ReadData(void * data_PTR, DWORD data_size);
+	void SaveData(const void * data_PTR, uint32_t data_size);
+	bool ReadData(void * data_PTR, uint32_t data_size);
 	void SaveString(const char * pS);
 	char * ReadString();
 
 
 	void SaveVariable(DATA * pV, bool bdim = false);
-	bool ReadVariable(char * name, /*DWORD code,*/ bool bdim = false, DWORD a_index = 0);
-	bool FindReferencedVariable(DATA * pRef, DWORD & var_index, DWORD & array_index);
-	bool FindReferencedVariableByRootA(ATTRIBUTES * pA, DWORD & var_index, DWORD & array_index);
+	bool ReadVariable(char * name, /*DWORD code,*/ bool bdim = false, uint32_t a_index = 0);
+	bool FindReferencedVariable(DATA * pRef, uint32_t & var_index, uint32_t & array_index);
+	bool FindReferencedVariableByRootA(ATTRIBUTES * pA, uint32_t & var_index, uint32_t & array_index);
 	ATTRIBUTES * TraceARoot(ATTRIBUTES * pA, char * & pAccess);
 	void SaveAttributesData(ATTRIBUTES * pRoot);
 	void ReadAttributesData(ATTRIBUTES * pRoot, ATTRIBUTES * pParent);
-	void WriteVDword(DWORD v);
-	DWORD ReadVDword();
+	void WriteVDword(uint32_t v);
+	uint32_t ReadVDword();
 
 	void AddPostEvent(S_EVENTMSG * pEM);
 
@@ -309,8 +307,8 @@ public:
 
 	void AddRuntimeEvent();
 
-	DWORD SetScriptFunction(IFUNCINFO * pFuncInfo);
-	void DeleteScriptFunction(DWORD nFuncHandle);
+	uint32_t SetScriptFunction(IFUNCINFO * pFuncInfo);
+	void DeleteScriptFunction(uint32_t nFuncHandle);
 
 	bool CompileExpression(SEGMENT_DESC& Segment);
 	bool CompileExpression_L0(SEGMENT_DESC& Segment);
@@ -322,7 +320,7 @@ public:
 	bool CompileExpression_L6(SEGMENT_DESC& Segment);
 	bool CompileExpression_L7(SEGMENT_DESC& Segment);
 
-	DATA * GetOperand(char * pCodeBase, DWORD & ip, S_TOKEN_TYPE * pTokenType = nullptr);
+	DATA * GetOperand(char * pCodeBase, uint32_t & ip, S_TOKEN_TYPE * pTokenType = nullptr);
 
 
 };

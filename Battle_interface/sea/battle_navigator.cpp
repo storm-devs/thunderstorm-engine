@@ -6,6 +6,7 @@
 #include "..\..\common_h\Island_Base.h"
 #include "ships_list.h"
 #include "..\utils.h"
+#include "../../../Shared/battle_interface/msg_control.h"
 
 #define NAVBACKGROUND_SIZESCALE	1.3f
 
@@ -866,7 +867,7 @@ void BATTLE_NAVIGATOR::SetAnotherShip()
 		fY=m_YNavigator-(fY*cosf(m_fAngle)+fX*sinf(m_fAngle))*m_fAspectRatio;
 		fX=tmp+m_XNavigator;
 		// определить цвет отображаемого корабля
-		DWORD dwColor = 0xFFFFFFFF;
+		uint32_t dwColor = 0xFFFFFFFF;
 		if( psd->dwShipColor==0 ) {
 			switch(psd->relation)
 			{

@@ -6,6 +6,7 @@
 //#include "..\..\common_h\defines.h"
 
 #include "..\..\common_h\stringService.h"
+#include "../../common_h/script_libriary.h"
 
 //-----------SDEVICE-----------
 class STRSERVICE : public VSTRSERVICE

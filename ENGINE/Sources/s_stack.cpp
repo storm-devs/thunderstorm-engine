@@ -21,7 +21,7 @@ S_STACK::~S_STACK()
 
 void S_STACK::Release()
 {
-	DWORD n;
+	uint32_t n;
 	if(pStackData)
 	{
 		for(n=0;n<Buffer_size;n++)
@@ -38,7 +38,7 @@ void S_STACK::Release()
 
 DATA * S_STACK::Push(DATA * pdataclass)
 {
-	DWORD offset,n;
+	uint32_t offset,n;
 
 	if(Data_num > 1000)
 	{
@@ -86,7 +86,7 @@ DATA * S_STACK::Pop()
 	return pStackData[Data_num];
 }
 
-DATA * S_STACK::Read(DWORD offset,DWORD index)
+DATA * S_STACK::Read(uint32_t offset,uint32_t index)
 {
 	if(offset + index >= Data_num) 
 	{
@@ -103,7 +103,7 @@ DATA * S_STACK::Read()
 	return pStackData[Data_num - 1];
 }
 
-void S_STACK::InvalidateFrom(DWORD index)
+void S_STACK::InvalidateFrom(uint32_t index)
 {
 	while(Data_num > index)
 	{

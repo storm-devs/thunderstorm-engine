@@ -16,7 +16,6 @@
 #include "..\common_h\matrix.h"
 #include "..\common_h\model.h"
 #include <string>
-#include "PtcData.h"
 
 class Location;
 class MODEL;
@@ -179,15 +178,15 @@ public:
 	//Инициализация
 	bool Init();
 	//Сообщения
-	dword _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t _cdecl ProcessMessage(MESSAGE & message);
 	//Изменение атрибута
-	dword AttributeChanged(ATTRIBUTES * apnt);
+	uint32_t AttributeChanged(ATTRIBUTES * apnt);
 	void SetSignModel();
 	void SetSignTechnique();
 	void ReadFightActions(ATTRIBUTES * at, ActionCharacter actions[4], long & counter);
 
 	virtual bool PostInit(){ return true; };
-	virtual dword ChlProcessMessage(long messageID, MESSAGE & message){ return 0; };
+	virtual uint32_t ChlProcessMessage(long messageID, MESSAGE & message){ return 0; };
 
 	void AlreadySTORM_DELETE();
 
@@ -371,7 +370,7 @@ private:
 	bool zTurnByChr(MESSAGE & message);	
 	bool zTurnByPoint(MESSAGE & message);
 	bool zDistByCharacter(MESSAGE & message, bool is2D);
-	dword zExMessage(MESSAGE & message);
+	uint32_t zExMessage(MESSAGE & message);
 	bool zPlaySound(MESSAGE & message);
 	bool TestJump(CVECTOR pos);
 	bool BuildJump(CVECTOR pos,float fAng);
@@ -571,7 +570,7 @@ protected:
 	ENTITY_ID enemyAttack;			//На кого ориентируемся во время атаки
 
 	//Таблица возможности смены одного действия другим
-	static byte fightTbl[fgt_max][fgt_max];
+	static uint8_t fightTbl[fgt_max][fgt_max];
 	static char * fightNamesTbl[fgt_max];
 
 	//Действие, которое необходимо проигрывать

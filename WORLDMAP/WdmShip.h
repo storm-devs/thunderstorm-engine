@@ -38,7 +38,7 @@ class WdmShip : public WdmRenderModel
 	struct Vertex
 	{
 		float x, y, z;
-		dword color;
+		uint32_t color;
 		float tu, tv;
 	};
 

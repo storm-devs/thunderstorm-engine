@@ -35,7 +35,7 @@ class GEOM_SERVICE_R : public GEOM_SERVICE
 	VDX9RENDER * RenderService;
 	GEOS::ID CurentIndexBuffer;
 	GEOS::ID CurentVertexBuffer;
-	dword	 CurentVertexBufferSize;
+	uint32_t	 CurentVertexBufferSize;
 	bool	bCaustic;
 public:
 	void SetRenderService(VDX9RENDER * render_service);

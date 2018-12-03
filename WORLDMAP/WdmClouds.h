@@ -27,9 +27,9 @@ class WdmClouds : public WdmRenderObject
 			float angle;	//Угол поворота
 			float size;		//Размер
 			float alpha;	//Прозрачность
-			dword color;	//Цвет
-			word pict;		//Индекс картинки
-			word index;		//Индекс подтягиваемого партикла
+			uint32_t color;	//Цвет
+			uint16_t pict;		//Индекс картинки
+			uint16_t index;		//Индекс подтягиваемого партикла
 			float aspd;		//Скорость поворота
 			CVECTOR dir;	//Текущий вектор корректировки движения
 			CVECTOR rdr;	//Добавочный вектор рандомного тяготения

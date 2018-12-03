@@ -12,8 +12,8 @@ typedef struct
 	bool  System;
 	bool  Ordered;
 	bool  Deleted;
-	dword Flags;
-	dword System_flags;
+	uint32_t Flags;
+	uint32_t System_flags;
 } LAYER_STATE;
 
 class LAYER_NODE
@@ -25,26 +25,26 @@ public:
 	ENTITY_ID	id;
 	LAYER_NODE * link_L;
 	LAYER_NODE * link_R;
-	dword		priority;
+	uint32_t		priority;
 };
 
 class LAYER
 {
 public:
-	 LAYER(char * name, bool ordered,bool system,dword system_flags);
+	 LAYER(char * name, bool ordered,bool system,uint32_t system_flags);
 	~LAYER();
-	bool Add(ENTITY_ID eid, dword priority);
+	bool Add(ENTITY_ID eid, uint32_t priority);
 	bool Add(ENTITY_ID eid);
 	bool Del(ENTITY_ID eid);
 	ENTITY_ID * GetID();
 	ENTITY_ID * GetNextID();
-	ENTITY_ID * GetID(dword * priority_PTR);
-	ENTITY_ID * GetNextID(dword * priority_PTR);
-	void SetFlag(dword flag);
-	void ClrFlag(dword flag);
-	dword GetPriority(ENTITY_ID eid);
+	ENTITY_ID * GetID(uint32_t * priority_PTR);
+	ENTITY_ID * GetNextID(uint32_t * priority_PTR);
+	void SetFlag(uint32_t flag);
+	void ClrFlag(uint32_t flag);
+	uint32_t GetPriority(ENTITY_ID eid);
 
-	dword Count;
+	uint32_t Count;
 	LAYER_STATE ls;
 	char  Name[_MAX_LAYER_NAME];
 	LAYER_NODE * Base_Link;
@@ -53,7 +53,7 @@ public:
 	VIDWALKER * GetWalker();
 	void DelWalker(void *);
 	IDWALKER * * walkers;
-	dword walkers_num;
+	uint32_t walkers_num;
 
 	ENTITY_ID * WalkerGetID(LPBYTE& sl);
 	ENTITY_ID * WalkerGetNextID(LPBYTE& sl);

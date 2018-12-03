@@ -127,7 +127,7 @@ void KEY_NODE::Deattach(KEY_NODE * * Root,KEY_NODE * * Top)
 	if(*Top == this) *Top = l_PTR;
 }
 
-DWORD KEY_NODE::SetFlags(DWORD _flags)
+uint32_t KEY_NODE::SetFlags(uint32_t _flags)
 {
 	flags = flags|_flags;
 	return flags;
@@ -207,7 +207,7 @@ void SECTION::DelNode(KEY_NODE * _node)
 KEY_NODE * SECTION::FindKey(KEY_NODE * from, char * key_name, char * key_value)
 {
 	KEY_NODE * node;
-	DWORD flags;
+	uint32_t flags;
 	char * char_PTR;
 
 	if(Root == nullptr) return nullptr;
@@ -336,7 +336,7 @@ long IFS::GetReference()
 
 bool IFS::VoidSym(char symbol)
 {
-	dword n;
+	uint32_t n;
 	for(n=0;n<VOIDSYMS_NUM;n++)
 	{
 		if(symbol == INI_VOIDSYMS[n]) return true;
@@ -348,9 +348,9 @@ bool IFS::VoidSym(char symbol)
 bool IFS::LoadFile(const char * _file_name)
 {
 	HANDLE fh;
-	dword dwR;
-	dword file_size;
-	dword name_size;
+	uint32_t dwR;
+	uint32_t file_size;
+	uint32_t name_size;
 	char * file_data;
 
 	if(_file_name == nullptr) return false;
@@ -531,8 +531,8 @@ void IFS::Format(char * file_data, long file_size)
 bool IFS::FlushFile()
 {
 	GUARD(bool IFS::FlushFile())
-	dword dwR;
-	dword write_size;
+	uint32_t dwR;
+	uint32_t write_size;
 	char  buff[2];
 	HANDLE fh;
 
@@ -545,7 +545,7 @@ bool IFS::FlushFile()
 
 	KEY_NODE * node;
 	SECTION * section_node;
-	DWORD flags;
+	uint32_t flags;
 
 	//node = Root;
 
@@ -780,15 +780,15 @@ void IFS::DeleteKey(char * section_name, char * key_name, char * key_value)
 	}
 }
 
-void IFS::ReadString(SEARCH_DATA * sd, char * section_name, char * key_name, char * buffer, dword buffer_size)
+void IFS::ReadString(SEARCH_DATA * sd, char * section_name, char * key_name, char * buffer, uint32_t buffer_size)
 {
 	ReadString(sd,section_name,key_name,buffer,buffer_size,nullptr);
 }
 
-bool IFS::ReadString(SEARCH_DATA * sd, char * section_name, char * key_name, char * buffer, dword buffer_size, char * def_string)
+bool IFS::ReadString(SEARCH_DATA * sd, char * section_name, char * key_name, char * buffer, uint32_t buffer_size, char * def_string)
 {
 	KEY_NODE * node;
-	dword write_size;
+	uint32_t write_size;
 	char * char_PTR;
 
 	node = FindKey(section_name,key_name);
@@ -825,11 +825,11 @@ bool IFS::ReadString(SEARCH_DATA * sd, char * section_name, char * key_name, cha
 	return true;
 }
 
-bool IFS::ReadStringNext(SEARCH_DATA * sd, char * section_name, char * key_name, char * buffer, dword buffer_size)
+bool IFS::ReadStringNext(SEARCH_DATA * sd, char * section_name, char * key_name, char * buffer, uint32_t buffer_size)
 {
 	SECTION * snode;
 	KEY_NODE * node;
-	dword write_size;
+	uint32_t write_size;
 	char * char_PTR;
 	bool start;
 
@@ -1009,9 +1009,9 @@ void IFS::WriteFloat(char * section_name, char * key_name,float value)
 	WriteString(section_name,key_name,buffer);
 }
 
-dword IFS::CompareStrings(char * s1, char * s2)
+uint32_t IFS::CompareStrings(char * s1, char * s2)
 {
-	dword n;
+	uint32_t n;
 	if(s1 == nullptr || s2 == nullptr) return 1;
 	n = 0;
 	while(s1[n] == s2[n]) { if(s1[n] == 0) return 0; n++;}

@@ -22,7 +22,7 @@ CXI_SCROLLTEXT::~CXI_SCROLLTEXT()
 	ReleaseAll();
 }
 
-void CXI_SCROLLTEXT::Draw(bool bSelected,dword Delta_Time)
+void CXI_SCROLLTEXT::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	char param[MAX_PICE_STRING_SIZE];
 	long curX=0L;

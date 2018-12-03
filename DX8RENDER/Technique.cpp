@@ -191,10 +191,10 @@ char*	GetTokenWhile(char* src, char* dst, char* skip)
 typedef struct
 {
 	SRSPARAM				*pParam;
-	dword					dwParamNum;
+	uint32_t					dwParamNum;
 	bool					bUse;
 	long					dwUseSubCode;
-	dword					SrsType;
+	uint32_t					SrsType;
 	char					*cName;
 	D3DRENDERSTATETYPE		State;
 } SRS;
@@ -202,10 +202,10 @@ typedef struct
 typedef struct
 {
 	SRSPARAM					*pParam;
-	dword						dwParamNum;
+	uint32_t						dwParamNum;
 	bool						bUse;
 	long						dwUseSubCode;
-	dword						SrsType;
+	uint32_t						SrsType;
 	char						*cName;
 	D3DTEXTURESTAGESTATETYPE	State;
 } STSS;
@@ -213,10 +213,10 @@ typedef struct
 typedef struct
 {
 	SRSPARAM					*pParam;
-	dword						dwParamNum;
+	uint32_t						dwParamNum;
 	bool						bUse;
 	long						dwUseSubCode;
-	dword						SrsType;
+	uint32_t						SrsType;
 	char						*cName;
 	D3DSAMPLERSTATETYPE			State;
 } SAMP;
@@ -607,7 +607,7 @@ SRSPARAM	TRANSFORM_TYPES[] = {
 SRSPARAM	PARAM_TYPES[] = {
 	{ "matrix", PARAM_MATRIX },
 	{ "texture", PARAM_TEXTURE },
-	{ "dword", PARAM_DWORD },
+	{ "uint32_t", PARAM_DWORD },
 	{ "float", PARAM_FLOAT } };
 
 // restores types
@@ -638,12 +638,12 @@ CTechnique::CTechnique(VDX9RENDER * _pRS)
 	ZERO(sDelimTable);
 	char sDelimeters[] = " ,.[]-+\0\n\r\t";
 	size_t len = strlen(sDelimeters);
-	for (dword i=0;i<len;i++) sDelimTable[sDelimeters[i]] = 1;
+	for (uint32_t i=0;i<len;i++) sDelimTable[sDelimeters[i]] = 1;
 }
 
 CTechnique::~CTechnique()
 {
-	dword i, j, k;
+	uint32_t i, j, k;
 	for (i=0;i<dwNumBlocks;i++)
 	{
 		block_t *pB = &pBlocks[i];
@@ -678,9 +678,9 @@ CTechnique::~CTechnique()
 	STORM_DELETE(pCurParams);
 }
 
-#define END_TEST	(dword(pCurrent - pBegin) >= dwSize-2)
+#define END_TEST	(uint32_t(pCurrent - pBegin) >= dwSize-2)
 
-char *GetString(char * pBegin, dword dwSize, char * pCurrent)
+char *GetString(char * pBegin, uint32_t dwSize, char * pCurrent)
 {
 	if (END_TEST) return nullptr;
 	// go for a null, or 0xA, or 0xD
@@ -724,49 +724,49 @@ bool isBeginBracket(char *pStr) { return (SkipToken(pStr,BEGIN_BRACKET)) ? true 
 bool isEndBracket(char *pStr) { return (SkipToken(pStr,END_BRACKET)) ? true : false; }
 bool isDigit(char * pStr) { return ((pStr) ? (pStr[0]>='0' && pStr[0]<='9') : false); }
 
-dword CTechnique::GetSRSIndex(char *pStr)
+uint32_t CTechnique::GetSRSIndex(char *pStr)
 {
-	dword dwNumParam = sizeof(RenderStates) / sizeof(STSS);
-	for (dword i=0;i<dwNumParam;i++) if (_stricmp(pStr,RenderStates[i].cName)==0) return i;
+	uint32_t dwNumParam = sizeof(RenderStates) / sizeof(STSS);
+	for (uint32_t i=0;i<dwNumParam;i++) if (_stricmp(pStr,RenderStates[i].cName)==0) return i;
 	api->Trace("ERROR: SetRenderState: unknown parameter type <%s> in <%s> file, technique <%s>",pStr,sCurrentFileName,sCurrentBlockName);
 	//THROW;
 	return INVALID_SRS_INDEX;
 }
 
-dword CTechnique::GetSTSSIndex(char *pStr)
+uint32_t CTechnique::GetSTSSIndex(char *pStr)
 {
-	dword dwNumParam = sizeof(TexturesStageStates) / sizeof(STSS);
-	for (dword i=0;i<dwNumParam;i++) if (_stricmp(pStr,TexturesStageStates[i].cName)==0) return i;
+	uint32_t dwNumParam = sizeof(TexturesStageStates) / sizeof(STSS);
+	for (uint32_t i=0;i<dwNumParam;i++) if (_stricmp(pStr,TexturesStageStates[i].cName)==0) return i;
 	//api->Trace("ERROR: SetTextureStageState: unknown parameter type <%s> in <%s> file, technique <%s>",pStr,sCurrentFileName,sCurrentBlockName);
 	//THROW;
 	return INVALID_INDEX;
 }
 
-dword CTechnique::GetSAMPIndex(char *pStr)
+uint32_t CTechnique::GetSAMPIndex(char *pStr)
 {
-	dword dwNumParam = sizeof(SampleStates) / sizeof(SAMP);
-	for (dword i = 0; i<dwNumParam; i++) if (_stricmp(pStr, SampleStates[i].cName) == 0) return i;
+	uint32_t dwNumParam = sizeof(SampleStates) / sizeof(SAMP);
+	for (uint32_t i = 0; i<dwNumParam; i++) if (_stricmp(pStr, SampleStates[i].cName) == 0) return i;
 	//api->Trace("ERROR: SetSamplerState: unknown parameter type <%s> in <%s> file, technique <%s>", pStr, sCurrentFileName, sCurrentBlockName);
 	//THROW;
 	return INVALID_INDEX;
 }
 
-dword CTechnique::GetIndex(char *pStr, SRSPARAM *pParam, dword dwNumParam, bool bCanBeNumber)
+uint32_t CTechnique::GetIndex(char *pStr, SRSPARAM *pParam, uint32_t dwNumParam, bool bCanBeNumber)
 {
-	for (dword i=0;i<dwNumParam;i++) if (_stricmp(pStr,pParam[i].cName)==0) return i;
+	for (uint32_t i=0;i<dwNumParam;i++) if (_stricmp(pStr,pParam[i].cName)==0) return i;
 	if (!bCanBeNumber) api->Trace("ERROR: Unknown parameter type <%s> in <%s> file, technique <%s>",pStr,sCurrentFileName,sCurrentBlockName);
 	//THROW;
 	return INVALID_INDEX;
 }
 
-dword CTechnique::GetCode(char *pStr, SRSPARAM *pParam, dword dwNumParam, dword *pPassCode, bool bCanBeNumber)
+uint32_t CTechnique::GetCode(char *pStr, SRSPARAM *pParam, uint32_t dwNumParam, uint32_t *pPassCode, bool bCanBeNumber)
 {
 	Assert(pStr);
 
-	dword dwCode = 0;
+	uint32_t dwCode = 0;
 	if (pParam && dwNumParam)
 	{
-		dword dwIndex = GetIndex(pStr,pParam,dwNumParam,bCanBeNumber);
+		uint32_t dwIndex = GetIndex(pStr,pParam,dwNumParam,bCanBeNumber);
 		if (dwIndex != INVALID_INDEX) return pParam[dwIndex].dwCode;
 	}
 	// check for numbers
@@ -784,10 +784,10 @@ dword CTechnique::GetCode(char *pStr, SRSPARAM *pParam, dword dwNumParam, dword 
 	}
 }
 
-dword CTechnique::AddShader(char *pShaderName)
+uint32_t CTechnique::AddShader(char *pShaderName)
 {
 	// find exist shader or create empty new
-	for (dword i=0;i<dwNumShaders;i++) if (_stricmp(pShaders[i].pName,pShaderName)==0) return i;
+	for (uint32_t i=0;i<dwNumShaders;i++) if (_stricmp(pShaders[i].pName,pShaderName)==0) return i;
 	pShaders = (shader_t*)RESIZE(pShaders,sizeof(shader_t) * (dwNumShaders+1));
 	shader_t *pS = &pShaders[dwNumShaders];
 	ZERO(pShaders[dwNumShaders]);
@@ -800,7 +800,7 @@ dword CTechnique::AddShader(char *pShaderName)
 	return (dwNumShaders-1);
 }
 
-dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
+uint32_t CTechnique::ProcessPass(char * pFile, uint32_t dwSize, char **pStr)
 {
 	block_t	* pB = &pBlocks[dwNumBlocks];
 	technique_t * pTechniques = &pB->pTechniques[pB->dwNumTechniques];
@@ -808,9 +808,9 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 	pTechniques->pPasses = (pass_t*)RESIZE(pTechniques->pPasses, sizeof(pass_t) * (pTechniques->dwNumPasses + 1));
 	PZERO(&pTechniques->pPasses[pTechniques->dwNumPasses], sizeof pass_t);
 
-	DWORD	* pPass = pPassStorage;
-	DWORD	* pPassBegin = pPass;
-	dword	dwTextureIndex, dwAdditionalFlags = 0;
+	uint32_t	* pPass = pPassStorage;
+	uint32_t	* pPassBegin = pPass;
+	uint32_t	dwTextureIndex, dwAdditionalFlags = 0;
 	char	* pTemp, temp[256];
 	while (nullptr != (*pStr = GetString(pFile,dwSize,*pStr)))
 	{
@@ -821,7 +821,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 
 		// check right side of expression for [in] parameters
 		bool	bIn = false;
-		dword	dwInParamIndex = 0;
+		uint32_t	dwInParamIndex = 0;
 		if (pTemp = SkipToken(*pStr,INPARAM_CHECK))	// STSS or SetTexture
 		{
 			GetTokenWhile(pTemp,&temp[0],">");
@@ -851,7 +851,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 			{
 				if (!bIn)
 					__debugbreak();
-				dword dwIndex = 0;
+				uint32_t dwIndex = 0;
 				*pPass++ = CODE_SPSCONST | dwAdditionalFlags;
 				GetTokenWhile(SkipToken(*pStr,"["),&temp[0],"]");
 				sscanf(temp,"%lu", &dwIndex);
@@ -864,7 +864,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 
 			if (isVertexShaderConst(*pStr))
 			{
-				dword dwIndex = 0;
+				uint32_t dwIndex = 0;
 				*pPass++ = CODE_SVSCONST | dwAdditionalFlags;
 				GetTokenWhile(SkipToken(*pStr,"["),&temp[0],"]");
 				sscanf(temp,"%lu", &dwIndex);
@@ -894,11 +894,11 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 					SKIP3;
 				}
 				// SetTextureStageState
-				dword *pPassCode = pPass;
+				uint32_t *pPassCode = pPass;
 
 				// get left side of expression
 				GetTokenWhile(*pStr,temp,"[");
-				dword dwIndex = GetSTSSIndex(temp);
+				uint32_t dwIndex = GetSTSSIndex(temp);
 				if (dwIndex != INVALID_INDEX)
 				{
 					*pPass++ = CODE_STSS | dwAdditionalFlags;
@@ -910,7 +910,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 						TexturesStageStates[dwIndex].bUse = true;
 						TexturesStageStates[dwIndex].dwUseSubCode |= (1 << dwTextureIndex);
 					}
-					*pPass++ = (DWORD)TexturesStageStates[dwIndex].State;
+					*pPass++ = (uint32_t)TexturesStageStates[dwIndex].State;
 
 					if (bIn) *pPass++ = dwInParamIndex;
 					else
@@ -934,7 +934,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 							SampleStates[dwIndex].bUse = true;
 							SampleStates[dwIndex].dwUseSubCode |= (1 << dwTextureIndex);
 						}
-						*pPass++ = (DWORD)SampleStates[dwIndex].State;
+						*pPass++ = (uint32_t)SampleStates[dwIndex].State;
 
 						if (bIn) *pPass++ = dwInParamIndex;
 						else
@@ -980,13 +980,13 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 			{
 				//
 				GetTokenWhile(SkipToken(*pStr,"."),temp,"=");
-				dword dwCode = GetCode(temp,TRANSFORM_TYPES,sizeof(TRANSFORM_TYPES)/sizeof(SRSPARAM), nullptr);
+				uint32_t dwCode = GetCode(temp,TRANSFORM_TYPES,sizeof(TRANSFORM_TYPES)/sizeof(SRSPARAM), nullptr);
 				if (dwCode==0xFFFFFFFF)	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 				{
 					// maybe world0-world256
 					if (nullptr==(pTemp = SkipToken(*pStr,WORLD_TRANSFORM_CHECK))) THROW("transform. error!");
 					sscanf(pTemp,"%lu", &dwCode);
-					dwCode = (DWORD)D3DTS_WORLDMATRIX(dwCode);
+					dwCode = (uint32_t)D3DTS_WORLDMATRIX(dwCode);
 				}
 				*pPass++ = CODE_TRANSFORM;
 				*pPass++ = dwCode;
@@ -999,14 +999,14 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 			{
 				// get left side of expression
 				GetTokenWhile(*pStr, temp, "=");
-				dword dwSRSIndex = GetSRSIndex(temp);
+				uint32_t dwSRSIndex = GetSRSIndex(temp);
 				Assert(dwSRSIndex!=INVALID_SRS_INDEX);
 				if (RenderStates[dwSRSIndex].bUse && dwAdditionalFlags & FLAGS_CODE_RESTORE)
 					api->Trace("WARN: SRS: dup restore param type <%s> in <%s> file, technique <%s>", temp, sCurrentFileName, sCurrentBlockName);
 				if (dwAdditionalFlags & FLAGS_CODE_RESTORE) RenderStates[dwSRSIndex].bUse = true;
-				dword * pPassCode = pPass;
+				uint32_t * pPassCode = pPass;
 				*pPass++ = CODE_SRS|dwAdditionalFlags;
-				*pPass++ = (DWORD)RenderStates[dwSRSIndex].State;
+				*pPass++ = (uint32_t)RenderStates[dwSRSIndex].State;
 
 				if (bIn) *pPass++ = dwInParamIndex;
 				else
@@ -1022,9 +1022,9 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 			SKIP3;
 	}
 
-	dword dwSizePass = pPass - pPassBegin;
-	pPassBegin = NEW dword[dwSizePass];//(dword*)RESIZE(pPassBegin,dwSizePass*sizeof(dword));
-	memcpy(pPassBegin, pPassStorage, dwSizePass * sizeof(dword));
+	uint32_t dwSizePass = pPass - pPassBegin;
+	pPassBegin = NEW uint32_t[dwSizePass];//(uint32_t*)RESIZE(pPassBegin,dwSizePass*sizeof(uint32_t));
+	memcpy(pPassBegin, pPassStorage, dwSizePass * sizeof(uint32_t));
 	pTechniques->pPasses[pTechniques->dwNumPasses].dwSize = dwSizePass;
 	pTechniques->pPasses[pTechniques->dwNumPasses].isValidate = true;
 	pTechniques->pPasses[pTechniques->dwNumPasses].pPass = pPassBegin;
@@ -1033,7 +1033,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 	return PASS_OK;
 }
 
-dword CTechnique::ProcessTechnique(char *pFile, dword dwSize, char **pStr)
+uint32_t CTechnique::ProcessTechnique(char *pFile, uint32_t dwSize, char **pStr)
 {
 	block_t	*pB = &pBlocks[dwNumBlocks];
 	pB->pTechniques = (technique_t*)RESIZE(pB->pTechniques,sizeof(technique_t)*(pB->dwNumTechniques+1));
@@ -1070,11 +1070,11 @@ D3DVERTEXELEMENT9 * CurDeclElement(shader_t *pS)
 	return &pS->pDecl[pS->dwDeclSize - 1];
 }
 
-dword CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSize, char **pStr)
+uint32_t CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, uint32_t dwSize, char **pStr)
 {
-	dword dwTemp;;
-	dword dwStream = 0, dwOffset = 0;
-	dword dwIndexes[_countof(MYDECLUSAGE)] = { 0 };
+	uint32_t dwTemp;;
+	uint32_t dwStream = 0, dwOffset = 0;
+	uint32_t dwIndexes[_countof(MYDECLUSAGE)] = { 0 };
 
 	while (nullptr != (*pStr = GetString(pFile,dwSize,*pStr)))
 	{
@@ -1158,19 +1158,19 @@ char *CTechnique::GetToken(char *pToken, char *pResult, bool & bToken)
 	return pToken;
 }
 
-char *CTechnique::Preprocessor(char *pBuffer, dword & dwSize)
+char *CTechnique::Preprocessor(char *pBuffer, uint32_t & dwSize)
 {
 	bool		bToken;
 	char		sValue[256], sName[256], sToken[1024];
 	char		*pStr = pBuffer;
-	dword		dwBufSize = strlen(pBuffer);
-	dword		i, dwNumDefines = 0;
+	uint32_t		dwBufSize = strlen(pBuffer);
+	uint32_t		i, dwNumDefines = 0;
 	char		* pProgram = nullptr;
-	dword		dwProgramSize = 0;
+	uint32_t		dwProgramSize = 0;
 	define_t	* pDefines = nullptr;
-	dword		dwMaxDefineElements = 0;
-	dword		dwMaxProgramElements = 0;
-	dword		dwNewSize;
+	uint32_t		dwMaxDefineElements = 0;
+	uint32_t		dwMaxProgramElements = 0;
+	uint32_t		dwNewSize;
 
 	// change all 0xd 0xa to 0x0
 	for (i=0;i<dwSize;i++)
@@ -1204,7 +1204,7 @@ char *CTechnique::Preprocessor(char *pBuffer, dword & dwSize)
 		char *pToken = pStr;
 		while(nullptr != (pToken = GetToken(pToken,sToken,bToken)))
 		{
-			dword dwTempLen = strlen(sToken);
+			uint32_t dwTempLen = strlen(sToken);
 			if (!bToken)
 			{
 				// find define
@@ -1249,10 +1249,10 @@ char *CTechnique::Preprocessor(char *pBuffer, dword & dwSize)
 	return pProgram;
 }
 
-dword CTechnique::ProcessShaderAsm(shader_t * pS, char *pFile, dword dwSize, char **pStr, dword dwShaderType, bool HLSL)
+uint32_t CTechnique::ProcessShaderAsm(shader_t * pS, char *pFile, uint32_t dwSize, char **pStr, uint32_t dwShaderType, bool HLSL)
 {
-	dword dwFileSize;
-	dword dwTotalLen = 0;
+	uint32_t dwFileSize;
+	uint32_t dwTotalLen = 0;
 	char *pBuffer = nullptr;
 	while (nullptr != (*pStr = GetString(pFile,dwSize,*pStr)))
 	{
@@ -1321,13 +1321,13 @@ dword CTechnique::ProcessShaderAsm(shader_t * pS, char *pFile, dword dwSize, cha
 		return 0;
 	}
 	if (dwShaderType == CODE_SVS)
-		hr = pRS->CreateVertexShader((dword*)CompiledShader->GetBufferPointer(), &pS->pVertexShader);
+		hr = pRS->CreateVertexShader((uint32_t*)CompiledShader->GetBufferPointer(), &pS->pVertexShader);
 	else
-		hr = pRS->CreatePixelShader((dword*)CompiledShader->GetBufferPointer(), &pS->pPixelShader);
+		hr = pRS->CreatePixelShader((uint32_t*)CompiledShader->GetBufferPointer(), &pS->pPixelShader);
 
 /*#ifndef _XBOX
 #else
-		hr = pRS->CreatePixelShader((dword*)(D3DPIXELSHADERDEF *)CompiledShader->GetBufferPointer(),&pS->dwShaderHandle);
+		hr = pRS->CreatePixelShader((uint32_t*)(D3DPIXELSHADERDEF *)CompiledShader->GetBufferPointer(),&pS->dwShaderHandle);
 #endif*/
 
 	RELEASE(CompiledShader);
@@ -1336,7 +1336,7 @@ dword CTechnique::ProcessShaderAsm(shader_t * pS, char *pFile, dword dwSize, cha
 	return 0;
 }
 
-dword CTechnique::ProcessVertexShader(char *pFile, dword dwSize, char **pStr)
+uint32_t CTechnique::ProcessVertexShader(char *pFile, uint32_t dwSize, char **pStr)
 {
 	char	temp[1024];
 
@@ -1360,7 +1360,7 @@ dword CTechnique::ProcessVertexShader(char *pFile, dword dwSize, char **pStr)
 	return SHADER_OK;
 }
 
-dword CTechnique::ProcessPixelShader(char *pFile, dword dwSize, char **pStr)
+uint32_t CTechnique::ProcessPixelShader(char *pFile, uint32_t dwSize, char **pStr)
 {
 	char	temp[1024];
 
@@ -1383,9 +1383,9 @@ dword CTechnique::ProcessPixelShader(char *pFile, dword dwSize, char **pStr)
 	return SHADER_OK;
 }
 
-dword CTechnique::ProcessBlock(char * pFile, dword dwSize, char **pStr)
+uint32_t CTechnique::ProcessBlock(char * pFile, uint32_t dwSize, char **pStr)
 {
-	dword	i;
+	uint32_t	i;
 	char	temp[1024], pTempParamStr[1024];
 
 	// resize
@@ -1420,7 +1420,7 @@ dword CTechnique::ProcessBlock(char * pFile, dword dwSize, char **pStr)
 			pParamStr = GetTokenWhile(pParamStr,&temp[0]," ");
 			if (!pParamStr[0]) break;
 			pParams = (SRSPARAM*)RESIZE(pParams,sizeof(SRSPARAM)*(dwNumParams+1));
-			pB->pParams = (dword*)RESIZE(pB->pParams,sizeof(dword)*(dwNumParams+1));
+			pB->pParams = (uint32_t*)RESIZE(pB->pParams,sizeof(uint32_t)*(dwNumParams+1));
 			pParams[dwNumParams].dwCode = GetCode(&temp[0],PARAM_TYPES,sizeof(PARAM_TYPES) / sizeof(SRSPARAM));
 			pB->pParams[dwNumParams] = pParams[dwNumParams].dwCode;
 			// get parameter name
@@ -1455,7 +1455,7 @@ dword CTechnique::ProcessBlock(char * pFile, dword dwSize, char **pStr)
 
 void CTechnique::ClearSRS_STSS_bUse()
 {
-	dword i, dwNumParam;
+	uint32_t i, dwNumParam;
 
 	dwNumParam = sizeof(RenderStates) / sizeof(SRS);
 	for (i=0; i<dwNumParam; i++) RenderStates[i].bUse = false;
@@ -1477,9 +1477,9 @@ void CTechnique::ClearSRS_STSS_bUse()
 
 void CTechnique::DecodeFiles(char *sub_dir)
 {
-	dword dwRDTSC;
+	uint32_t dwRDTSC;
 	RDTSC_B(dwRDTSC);
-	pPassStorage = NEW dword[16384];
+	pPassStorage = NEW uint32_t[16384];
 
 	InnerDecodeFiles(sub_dir);
 
@@ -1490,7 +1490,7 @@ void CTechnique::DecodeFiles(char *sub_dir)
 	api->Trace("Techniques: compiled by %d ticks.",dwRDTSC);
 
 	// some optimize
-	for (dword i=0; i<dwNumBlocks; i++) STORM_DELETE(pBlocks[i].pBlockName);
+	for (uint32_t i=0; i<dwNumBlocks; i++) STORM_DELETE(pBlocks[i].pBlockName);
 }
 
 void CTechnique::InnerDecodeFiles(char *sub_dir)
@@ -1533,14 +1533,14 @@ bool CTechnique::DecodeFile(char *sname)
 	sprintf(fname,"%s%s",SHA_DIR,sname);
 	strcpy(sCurrentFileName,sname);
 	HANDLE hFile = fio->_CreateFile(fname,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
-	dword dwSize = fio->_GetFileSize(hFile,nullptr);
+	uint32_t dwSize = fio->_GetFileSize(hFile,nullptr);
 	Assert(dwSize!=0);
 	char *pFile = NEW char[dwSize];
 	fio->_ReadFile(hFile,pFile,dwSize,nullptr);
 	fio->_CloseHandle(hFile);
 
 	// change 0xd and 0xa to 0x0
-	for (dword i=0;i<dwSize;i++)
+	for (uint32_t i=0;i<dwSize;i++)
 	{
 		if (pFile[i]==0xD || pFile[i]==0xA) pFile[i] = 0x0;
 		if (pFile[i]==0x9) pFile[i] = ' ';
@@ -1558,17 +1558,17 @@ bool CTechnique::DecodeFile(char *sname)
 		//if (isComment(pStr)) SKIP;
 		if (isPixelShader(pStr))
 		{
-			dword dwRes = ProcessPixelShader(pFile, dwSize, &pStr);
+			uint32_t dwRes = ProcessPixelShader(pFile, dwSize, &pStr);
 			if (dwRes == SHADER_ERROR) return false;
 		}
 		if (isVertexShader(pStr))
 		{
-			dword dwRes = ProcessVertexShader(pFile, dwSize, &pStr);
+			uint32_t dwRes = ProcessVertexShader(pFile, dwSize, &pStr);
 			if (dwRes == SHADER_ERROR) return false;
 		}
 		if (isBlock(pStr))
 		{
-			dword dwRes = ProcessBlock(pFile, dwSize, &pStr);
+			uint32_t dwRes = ProcessBlock(pFile, dwSize, &pStr);
 			if (dwRes == BLOCK_ERROR) return false;
 			dwNumBlocks++;
 		}
@@ -1588,7 +1588,7 @@ bool CTechnique::ExecutePassStart()
 	if (it == htBlocks.end()) 
 		return false;
 	dwCurBlock = it->second;
-	//for (dword i=0;i<dwNumBlocks;i++) if (pBlocks[i].dwHashBlockName == dwHashCode && (_stricmp(pBlocks[i].pBlockName,sCurrentBlockName)==0)) break;
+	//for (uint32_t i=0;i<dwNumBlocks;i++) if (pBlocks[i].dwHashBlockName == dwHashCode && (_stricmp(pBlocks[i].pBlockName,sCurrentBlockName)==0)) break;
 	//if (i==dwNumBlocks) return false;	// don't find concur block
 	//Assert(i == dwFind);
 	//dwCurBlock = i;
@@ -1626,7 +1626,7 @@ bool CTechnique::ExecutePassClose()
 	return true;
 }
 
-dword CTechnique::GetPassParameter(dword dwParam, dword dwFlags)
+uint32_t CTechnique::GetPassParameter(uint32_t dwParam, uint32_t dwFlags)
 {
 	if (dwFlags&FLAGS_CODE_IN_PARAM)
 	{
@@ -1639,8 +1639,8 @@ dword CTechnique::GetPassParameter(dword dwParam, dword dwFlags)
 
 bool CTechnique::ExecutePass(bool bStart)
 {
-	dword	dwStage, dwValue, dwSaveValue;
-	dword	dwCode, dwSubCode, dwRenderSubCode, dwRestoreSubCode;
+	uint32_t	dwStage, dwValue, dwSaveValue;
+	uint32_t	dwCode, dwSubCode, dwRenderSubCode, dwRestoreSubCode;
 	bool	bSave;
 
 	if (dwCurPass >= dwCurNumPass)
@@ -1658,10 +1658,10 @@ bool CTechnique::ExecutePass(bool bStart)
 		dwCurPassSize = pCurPass->dwSize;
 	}
 	// begin or continue execute current pass
-	dword *pPassStart = &pCurPass->pPass[0];
-	dword *pPass = &pCurPass->pPass[dwCurPassPos];
+	uint32_t *pPassStart = &pCurPass->pPass[0];
+	uint32_t *pPass = &pCurPass->pPass[dwCurPassPos];
 
-	while (dword(pPass - pPassStart)<dwCurPassSize)
+	while (uint32_t(pPass - pPassStart)<dwCurPassSize)
 	{
 		dwCode = (*pPass++);
 		dwSubCode = dwCode&0xFFFF0000;
@@ -1724,7 +1724,7 @@ bool CTechnique::ExecutePass(bool bStart)
 				break;
 			case CODE_TEXTURE:		// SetTexture(
 				{
-					dword dwTextureIndex = *pPass++;
+					uint32_t dwTextureIndex = *pPass++;
 					long iTextureIndex = (long)*pPass++;
 					if (iTextureIndex>=0) iTextureIndex = (long)GetPassParameter(*pPass++,dwSubCode);
 					pRS->TextureSet(dwTextureIndex,iTextureIndex);
@@ -1750,7 +1750,7 @@ bool CTechnique::ExecutePass(bool bStart)
 			break;
 			case CODE_SVS:
 				{
-					dword dwShaderIndex = *pPass++;
+					uint32_t dwShaderIndex = *pPass++;
 					if (dwShaderIndex != INVALID_SHADER_INDEX && pShaders[dwShaderIndex].pVertexShader != nullptr)
 					{
 						if (bSave)
@@ -1768,7 +1768,7 @@ bool CTechnique::ExecutePass(bool bStart)
 			break;
 			case CODE_SPS:
 			{
-				dword dwShaderIndex = *pPass++;
+				uint32_t dwShaderIndex = *pPass++;
 				if (dwShaderIndex != INVALID_SHADER_INDEX && pShaders[dwShaderIndex].pPixelShader != nullptr)
 				{
 					if (bSave)
@@ -1783,14 +1783,14 @@ bool CTechnique::ExecutePass(bool bStart)
 			break;
 			case CODE_SPSCONST:
 				{
-					dword dwShaderConstIndex = *pPass++;
+					uint32_t dwShaderConstIndex = *pPass++;
 					pRS->SetPixelShaderConstantF(dwShaderConstIndex, (const float*)GetPassParameter(*pPass++, dwSubCode), 1); //~!~
 				}
 			break;
 			case CODE_SVSCONST:
 				{
-					dword dwShaderConstIndex = *pPass++;
-					dword dwCode = *pPass++;
+					uint32_t dwShaderConstIndex = *pPass++;
+					uint32_t dwCode = *pPass++;
 					switch (dwCode)
 					{
 						case SUBCODE_SVSCONST_WORLDVIEWPROJ:
@@ -1831,12 +1831,12 @@ bool CTechnique::ExecutePass(bool bStart)
 	return false;
 }
 
-void inline CTechnique::AddState2Restore2(dword dwState, dword dw1)
+void inline CTechnique::AddState2Restore2(uint32_t dwState, uint32_t dw1)
 {
 	// add new memory if need
 	if ((dwCurSavedStatesPos+2) >= dwCurMaxSavedSize / sizeof(pSavedStates[0]))
 	{
-		pSavedStates = (dword*)RESIZE(pSavedStates,dwCurMaxSavedSize + SAVED_STATES_ADD * sizeof(pSavedStates[0]));
+		pSavedStates = (uint32_t*)RESIZE(pSavedStates,dwCurMaxSavedSize + SAVED_STATES_ADD * sizeof(pSavedStates[0]));
 		dwCurMaxSavedSize += SAVED_STATES_ADD;
 	}
 
@@ -1845,12 +1845,12 @@ void inline CTechnique::AddState2Restore2(dword dwState, dword dw1)
 	pSavedStates[dwCurSavedStatesPos++] = dw1;
 }
 
-void inline CTechnique::AddState2Restore3(dword dwState, dword dw1, dword dw2)
+void inline CTechnique::AddState2Restore3(uint32_t dwState, uint32_t dw1, uint32_t dw2)
 {
 	// add new memory if need
 	if ((dwCurSavedStatesPos+3) >= dwCurMaxSavedSize / sizeof(pSavedStates[0]))
 	{
-		pSavedStates = (dword*)RESIZE(pSavedStates,dwCurMaxSavedSize + SAVED_STATES_ADD *sizeof(pSavedStates[0]));
+		pSavedStates = (uint32_t*)RESIZE(pSavedStates,dwCurMaxSavedSize + SAVED_STATES_ADD *sizeof(pSavedStates[0]));
 		dwCurMaxSavedSize += SAVED_STATES_ADD;
 	}
 
@@ -1860,12 +1860,12 @@ void inline CTechnique::AddState2Restore3(dword dwState, dword dw1, dword dw2)
 	pSavedStates[dwCurSavedStatesPos++] = dw2;
 }
 
-void inline CTechnique::AddState2Restore(dword dwState)
+void inline CTechnique::AddState2Restore(uint32_t dwState)
 {
 	// add new memory if need
 	if (dwCurSavedStatesPos >= dwCurMaxSavedSize / sizeof(pSavedStates[0]))
 	{
-		pSavedStates = (dword*)RESIZE(pSavedStates,dwCurMaxSavedSize + SAVED_STATES_ADD *sizeof(pSavedStates[0]));
+		pSavedStates = (uint32_t*)RESIZE(pSavedStates,dwCurMaxSavedSize + SAVED_STATES_ADD *sizeof(pSavedStates[0]));
 		dwCurMaxSavedSize += SAVED_STATES_ADD;
 	}
 
@@ -1881,11 +1881,11 @@ void CTechnique::ClearSavedStates()
 
 void CTechnique::RestoreSavedStates()
 {
-	dword dwCode,dwValue;
+	uint32_t dwCode,dwValue;
 	// restore saved render states and texture stage states
 
 	// for walking
-	dword dwTempSavedStatesPos = 0;
+	uint32_t dwTempSavedStatesPos = 0;
 
 	while (dwTempSavedStatesPos < dwCurSavedStatesPos)
 	{
@@ -1901,7 +1901,7 @@ void CTechnique::RestoreSavedStates()
 			break;
 			case CODE_STSS:
 			{
-				dword dwStage = pSavedStates[dwTempSavedStatesPos++];
+				uint32_t dwStage = pSavedStates[dwTempSavedStatesPos++];
 				D3DTEXTURESTAGESTATETYPE StageState = (D3DTEXTURESTAGESTATETYPE)pSavedStates[dwTempSavedStatesPos++];
 				dwValue = pSavedStates[dwTempSavedStatesPos++];
 				pRS->SetTextureStageState(dwStage, StageState, dwValue);
@@ -1909,7 +1909,7 @@ void CTechnique::RestoreSavedStates()
 			break;
 			case CODE_SAMP:
 			{
-				dword dwStage = pSavedStates[dwTempSavedStatesPos++];
+				uint32_t dwStage = pSavedStates[dwTempSavedStatesPos++];
 				D3DSAMPLERSTATETYPE StageState = (D3DSAMPLERSTATETYPE)pSavedStates[dwTempSavedStatesPos++];
 				dwValue = pSavedStates[dwTempSavedStatesPos++];
 				pRS->SetSamplerState(dwStage, StageState, dwValue);
@@ -1929,7 +1929,7 @@ void CTechnique::RestoreSavedStates()
 	ClearSavedStates();
 }
 
-void CTechnique::SetCurrentBlock(const char * name, dword _dwNumParams, void * pParams)
+void CTechnique::SetCurrentBlock(const char * name, uint32_t _dwNumParams, void * pParams)
 {
 	if(name && name[0])
 	{
@@ -1942,11 +1942,11 @@ void CTechnique::SetCurrentBlock(const char * name, dword _dwNumParams, void * p
 	if (dwCurNumParams > dwCurParamsMax)
 	{
 		while (dwCurNumParams>dwCurParamsMax) dwCurParamsMax += 10;
-		pCurParams = (dword*)RESIZE(pCurParams, sizeof(dword) * dwCurParamsMax);
+		pCurParams = (uint32_t*)RESIZE(pCurParams, sizeof(uint32_t) * dwCurParamsMax);
 	}
 
-	for (dword i=0; i<_dwNumParams; i++)
-		pCurParams[i] = ((dword*)pParams)[i];
+	for (uint32_t i=0; i<_dwNumParams; i++)
+		pCurParams[i] = ((uint32_t*)pParams)[i];
 	}
 	else
 	{

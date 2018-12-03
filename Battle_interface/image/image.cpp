@@ -16,7 +16,7 @@ BIImage::~BIImage()
 	Release();
 }
 
-void BIImage::FillBuffers( BI_IMAGE_VERTEX* pV, word* pT, long& nV, long& nT )
+void BIImage::FillBuffers( BI_IMAGE_VERTEX* pV, uint16_t* pT, long& nV, long& nT )
 {
 	long n;
 	long ni = nT * 3;
@@ -26,18 +26,18 @@ void BIImage::FillBuffers( BI_IMAGE_VERTEX* pV, word* pT, long& nV, long& nT )
 	if( m_eType == BIType_square ) {
 		for( n=2; n<m_aRelPos.size(); n++ ) // квадратик делается по принципу Triangle Strip
 		{
-			pT[ni++] = (word)(nv + n-2);
-			pT[ni++] = (word)(nv + n-1);
-			pT[ni++] = (word)(nv + n);
+			pT[ni++] = (uint16_t)(nv + n-2);
+			pT[ni++] = (uint16_t)(nv + n-1);
+			pT[ni++] = (uint16_t)(nv + n);
 		}
 		nT += n-2;
 	}
 	else if( m_eType == BIType_clocksquare ) { // квадратные "часы" делаются по принципу Triangle Fan
 		for( n=2; n<m_aRelPos.size(); n++ )
 		{
-			pT[ni++] = (word)(nv);
-			pT[ni++] = (word)(nv + n-1);
-			pT[ni++] = (word)(nv + n);
+			pT[ni++] = (uint16_t)(nv);
+			pT[ni++] = (uint16_t)(nv + n-1);
+			pT[ni++] = (uint16_t)(nv + n);
 		}
 		nT += n-2;
 	} else return;
@@ -57,7 +57,7 @@ void BIImage::FillBuffers( BI_IMAGE_VERTEX* pV, word* pT, long& nV, long& nT )
 	nV += n;
 }
 
-void BIImage::SetColor( dword color )
+void BIImage::SetColor( uint32_t color )
 {
 	m_dwColor = color;
 	m_pMaterial->UpdateFlagOn();

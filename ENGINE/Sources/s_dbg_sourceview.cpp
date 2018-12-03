@@ -1,4 +1,5 @@
 #include "../../common_h/defines.h"
+#include "resource.h"
 #ifndef _XBOX
 #include "s_dbg_sourceview.h"
 #include "core.h"
@@ -10,7 +11,7 @@ extern S_DEBUG CDebug;
 
 #define X_OFFSET 0//16
 
-#define WRGB(r,g,b)		((COLORREF)(((BYTE)(r)|((WORD)((BYTE)(g))<<8))|(((DWORD)(BYTE)(b))<<16)))
+#define WRGB(r,g,b)		((COLORREF)(((uint8_t)(r)|((uint16_t)((uint8_t)(g))<<8))|(((uint32_t)(uint8_t)(b))<<16)))
 
 char SVClass[] = "Source View";
 
@@ -42,7 +43,7 @@ LRESULT CALLBACK SourceViewWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM l
 {
 	int fwKeys,zDelta;
 	int xPos,yPos;
-	DWORD aline;
+	uint32_t aline;
 	RECT SelectionRect;
 
 	if(CDebug.SourceView)
@@ -338,7 +339,7 @@ LRESULT CALLBACK SourceViewWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM l
 					CDebug.SourceView->LineUpDown(false);
 				break;
 				case SB_THUMBTRACK:
-					if(CDebug.SourceView->nTopLine == (DWORD)nPos) break;
+					if(CDebug.SourceView->nTopLine == (uint32_t)nPos) break;
 				case SB_THUMBPOSITION:
 					CDebug.SourceView->nTopLine = nPos;
 					if(CDebug.SourceView->nTopLine < 0) CDebug.SourceView->nTopLine = 0; //~!~
@@ -357,9 +358,9 @@ char SOURCE_VIEW::cDelimTable[256];
 
 void SOURCE_VIEW::SetCharacterMap(char * pMap, char * pStr)
 {
-	ZeroMemory(pMap, 256);
-	dword dwLen = strlen(pStr);
-	for (dword i=0; i<dwLen; i++) pMap[pStr[i]] = true;
+	PZERO(pMap, 256);
+	uint32_t dwLen = strlen(pStr);
+	for (uint32_t i=0; i<dwLen; i++) pMap[pStr[i]] = true;
 }
 
 SOURCE_VIEW::SOURCE_VIEW(HWND _hMain, HINSTANCE _hInst)
@@ -404,7 +405,7 @@ SOURCE_VIEW::SOURCE_VIEW(HWND _hMain, HINSTANCE _hInst)
 	wndclass.style = CS_HREDRAW|CS_VREDRAW|CS_DBLCLKS;
 	wndclass.lpfnWndProc = SourceViewWndProc;
 	wndclass.cbClsExtra = 0;
-	wndclass.cbWndExtra = sizeof(WORD);
+	wndclass.cbWndExtra = sizeof(uint16_t);
 	wndclass.hInstance = _hInst;
 	wndclass.hIcon = nullptr;
 	wndclass.hCursor = LoadCursor(nullptr,IDC_ARROW);
@@ -431,7 +432,7 @@ SOURCE_VIEW::SOURCE_VIEW(HWND _hMain, HINSTANCE _hInst)
 		char buffer[1024];
 		if (pI->ReadString("bookmarks", "BM", buffer, sizeof(buffer), "")) do 
 		{
-			htBookmarks[buffer] = dword(0);
+			htBookmarks[buffer] = uint32_t(0);
 		} while (pI->ReadStringNext("bookmarks", "BM", buffer, sizeof(buffer)));
 
 		delete pI;
@@ -448,7 +449,7 @@ SOURCE_VIEW::~SOURCE_VIEW()
 	if (pI)
 	{
 		pI->DeleteSection("bookmarks");
-		/*hable<dword>::iterator htIter(htBookmarks);
+		/*hable<uint32_t>::iterator htIter(htBookmarks);
 
 		int n = 0;
 		for (htIter.Begin(); !htIter.IsDone(); htIter.Next())
@@ -477,7 +478,7 @@ void SOURCE_VIEW::SetFont(HFONT _hFont)
 	hFont = _hFont;
 }
 
-void SOURCE_VIEW::ProcessMessage(DWORD iMsg, DWORD wParam, DWORD lParam)
+void SOURCE_VIEW::ProcessMessage(uint32_t iMsg, uint32_t wParam, uint32_t lParam)
 {
 	/*switch(iMsg)
 	{
@@ -487,10 +488,10 @@ void SOURCE_VIEW::ProcessMessage(DWORD iMsg, DWORD wParam, DWORD lParam)
 
 bool SOURCE_VIEW::OpenSourceFile(const char * _filename)
 {
-	DWORD nDataSize;
-	DWORD dwR;
+	uint32_t nDataSize;
+	uint32_t dwR;
 	HANDLE fh;
-	DWORD n;
+	uint32_t n;
 
 	ShowWindow(hMain,SW_NORMAL);
 
@@ -537,7 +538,7 @@ bool SOURCE_VIEW::OpenSourceFile(const char * _filename)
 	nSourceFileSize = nDataSize;
 
 	nLinesNum = 1;
-	pLineOffset = (DWORD *)RESIZE(pLineOffset,nLinesNum*sizeof(DWORD));
+	pLineOffset = (uint32_t *)RESIZE(pLineOffset,nLinesNum*sizeof(uint32_t));
 	pLineOffset[0] = 0;
 
 	for(n=0;n<nDataSize;n++)
@@ -546,7 +547,7 @@ bool SOURCE_VIEW::OpenSourceFile(const char * _filename)
 		{
 			if(pSourceFile[n + 1] == 0xa) n++;
 			nLinesNum++;
-			pLineOffset = (DWORD *)RESIZE(pLineOffset,nLinesNum*sizeof(DWORD));
+			pLineOffset = (uint32_t *)RESIZE(pLineOffset,nLinesNum*sizeof(uint32_t));
 			pLineOffset[nLinesNum - 1] = n + 1;
 		}
 	}
@@ -562,7 +563,7 @@ bool SOURCE_VIEW::OpenSourceFile(const char * _filename)
 	std::string sSourceFileName = SourceFileName;
 	for (int n=0; n<nLinesNum; n++)
 	{
-		dword dwTmpFind;
+		uint32_t dwTmpFind;
 		std::string sTmp = sSourceFileName + "," + std::to_string(n);
 		//if (htBookmarks.Find(sTmp, dwTmpFind)) 
 		if (htBookmarks.count(sTmp) > 0) 
@@ -589,9 +590,9 @@ void SOURCE_VIEW::OnPaint()
 	HDC dc;
 	PAINTSTRUCT PS;
 	HGDIOBJ hFont_old;
-	DWORD n;
-	DWORD x,y;
-	DWORD nFrom,nTo;
+	uint32_t n;
+	uint32_t x,y;
+	uint32_t nFrom,nTo;
 
 	std::string sSourceFileName = SourceFileName;
 
@@ -618,8 +619,8 @@ void SOURCE_VIEW::OnPaint()
 		sCopyPasteBuffer.clear();
 	}
 	
-	DWORD nTextLen;
-	DWORD nLineStatus;
+	uint32_t nTextLen;
+	uint32_t nLineStatus;
 	if(pSourceFile)
 	{
 		x = X_OFFSET; 
@@ -638,7 +639,7 @@ void SOURCE_VIEW::OnPaint()
 
 			{
 			nLineStatus = CDebug.GetLineStatus(SourceFileName,n);
-			dword dwTmpFind;
+			uint32_t dwTmpFind;
 			RECT SelectionRect;
 			SelectionRect = Pos;
 			SelectionRect.top = y;
@@ -672,7 +673,7 @@ void SOURCE_VIEW::OnPaint()
 				if(nStartSelection < nEndSelection) { nFrom = nStartSelection; nTo = nEndSelection; }
 				else { nFrom = nEndSelection; nTo = nStartSelection; }
 				
-				DWORD nPosted;
+				uint32_t nPosted;
 				long w;
 				
 				nPosted = 0;
@@ -727,7 +728,7 @@ void SOURCE_VIEW::OnPaint()
 	EndPaint(hOwn,&PS);
 }
 
-void SOURCE_VIEW::LineUpDown(bool down, DWORD _nlines)
+void SOURCE_VIEW::LineUpDown(bool down, uint32_t _nlines)
 {
 //	RECT ClientRect;
 	if(down)
@@ -760,7 +761,7 @@ void SOURCE_VIEW::SetProgramDirectory(char * dir_name)
 	if(dir_name) strcpy(ProgramDirectory,dir_name);
 }
 
-void SOURCE_VIEW::SetActiveLine(DWORD line)
+void SOURCE_VIEW::SetActiveLine(uint32_t line)
 {
 	RECT SelectionRect;
 
@@ -801,10 +802,10 @@ void SOURCE_VIEW::SetActiveLine(DWORD line)
 	SetFocus(hOwn);
 }
 
-void SOURCE_VIEW::StartSelection(DWORD x_pos)
+void SOURCE_VIEW::StartSelection(uint32_t x_pos)
 {
-	DWORD nLen;
-	DWORD nSymNum;
+	uint32_t nLen;
+	uint32_t nSymNum;
 	HDC dc;
 	char * pLine;
 	HGDIOBJ hFont_old;
@@ -853,10 +854,10 @@ void SOURCE_VIEW::StartSelection(DWORD x_pos)
 	ReleaseDC(hOwn,dc);
 }
 
-void SOURCE_VIEW::MoveSelection(DWORD x_pos)
+void SOURCE_VIEW::MoveSelection(uint32_t x_pos)
 {
-	DWORD nLen;
-	DWORD nSymNum;
+	uint32_t nLen;
+	uint32_t nSymNum;
 	HDC dc;
 	char * pLine;
 	HGDIOBJ hFont_old;
@@ -900,10 +901,10 @@ void SOURCE_VIEW::MoveSelection(DWORD x_pos)
 
 }
 
-void SOURCE_VIEW::InvalidateLineSection(DWORD line, DWORD r1, DWORD r2)
+void SOURCE_VIEW::InvalidateLineSection(uint32_t line, uint32_t r1, uint32_t r2)
 {
 	HGDIOBJ hFont_old;
-	DWORD from,to;
+	uint32_t from,to;
 //	DWORD x1,x2;
 	HDC dc;
 	char * pLine;
@@ -920,8 +921,8 @@ void SOURCE_VIEW::InvalidateLineSection(DWORD line, DWORD r1, DWORD r2)
 
 	pLine = pSourceFile + pLineOffset[line];// + old_pos.collumn;
 
-	DWORD nSymNum = 0;
-	DWORD nLen = 0;
+	uint32_t nSymNum = 0;
+	uint32_t nLen = 0;
 
 	RECT SelectionRect = Pos;
 	SelectionRect.top = (line - nTopLine) * nFontHeight;
@@ -939,7 +940,7 @@ void SOURCE_VIEW::InvalidateLineSection(DWORD line, DWORD r1, DWORD r2)
 }
 
 // work only for active line yet
-void SOURCE_VIEW::DetCursorPos(DWORD x_pos, DWORD y_pos)
+void SOURCE_VIEW::DetCursorPos(uint32_t x_pos, uint32_t y_pos)
 {
 	HGDIOBJ hFont_old;
 	CURSOR_POS old_pos;
@@ -957,8 +958,8 @@ void SOURCE_VIEW::DetCursorPos(DWORD x_pos, DWORD y_pos)
 
 	pLine = pSourceFile + pLineOffset[nActiveLine];// + old_pos.collumn;
 
-	DWORD nSymNum = 0;
-	DWORD nLen = 0;
+	uint32_t nSymNum = 0;
+	uint32_t nLen = 0;
 
 	while(!(pLine[nSymNum] == 0xd || pLine[nSymNum] == 0xa  || pLine[nSymNum] == 0))
 	{
@@ -1045,7 +1046,7 @@ void SOURCE_VIEW::GoNextBookmark()
 char * SOURCE_VIEW::GetToken(char * pStr, std::string & sResult)
 {
 	char cToken[1024];
-	dword dwTokenSize = 0;
+	uint32_t dwTokenSize = 0;
 	cToken[dwTokenSize] = 0;
 
 	if (!pStr || !pStr[0])
@@ -1151,20 +1152,20 @@ INT_PTR CALLBACK VarChangeDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 			HWND hwndList = GetDlgItem(hwndDlg, IDC_XLIST);
 			
 			LVCOLUMN col;
-			ZeroMemory(&col, sizeof(col));
+			PZERO(&col, sizeof(col));
 			col.mask = LVCF_FMT | LVCF_TEXT | LVCF_WIDTH;
 			col.fmt = LVCFMT_LEFT;
 			col.cx = 378;
 			col.pszText = "Variable name";
 			col.cchTextMax = strlen("Variable name");
 			ListView_InsertColumn(hwndList, 0, &col);
-			dword dwOld = ListView_GetExtendedListViewStyle(hwndList);
+			uint32_t dwOld = ListView_GetExtendedListViewStyle(hwndList);
 			ListView_SetExtendedListViewStyle(hwndList, dwOld | LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
 
 			for (long i=0; i<CDebug.SourceView->aStrings.size(); i++)
 			{
 				LVITEM item;
-				ZeroMemory(&item, sizeof(item));
+				PZERO(&item, sizeof(item));
 				item.mask = LVIF_TEXT;
 				item.iItem = 0;
 				item.iSubItem = 0;
@@ -1199,7 +1200,7 @@ INT_PTR CALLBACK VarChangeDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 			}
 
 			LVITEM item;
-			ZeroMemory(&item, sizeof(item));
+			PZERO(&item, sizeof(item));
 			item.mask = LVIF_TEXT;
 			item.iItem = 0;
 			item.iSubItem = 0;

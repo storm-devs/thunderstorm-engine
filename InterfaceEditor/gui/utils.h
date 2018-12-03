@@ -8,8 +8,8 @@ class EdUtils
 {
 public:
 	static bool CheckPointInsideRect( const EdPoint& epnt, const EdRect& erect );
-	static void DrawColorRect( const EdRect& erPlace, dword dwColor );
-	static void DrawColorSprite( const EdRect& erPlace, dword dwColor, long nTexture, const EdRect& erUV );
+	static void DrawColorRect( const EdRect& erPlace, uint32_t dwColor );
+	static void DrawColorSprite( const EdRect& erPlace, uint32_t dwColor, long nTexture, const EdRect& erUV );
 
 public:
 	static VDX9RENDER* m_pRender;

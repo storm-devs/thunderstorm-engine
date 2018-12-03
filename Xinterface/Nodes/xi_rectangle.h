@@ -9,7 +9,7 @@ public:
 	 CXI_RECTANGLE();
 	~CXI_RECTANGLE();
 
-	void	Draw(bool bSelected,dword Delta_Time);
+	void	Draw(bool bSelected,uint32_t Delta_Time);
 	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
 	void	ReleaseAll();
 	int		CommandExecute(int wActCode);
@@ -17,19 +17,19 @@ public:
 	void	MouseThis(float fX, float fY) {}
 	void	ChangePosition( XYRECT &rNewPos );
 	void	SaveParametersToIni();
-	dword _cdecl MessageProc(long msgcode, MESSAGE & message);
+	uint32_t _cdecl MessageProc(long msgcode, MESSAGE & message);
 	bool	IsGlowChanged() {return true;}
 
 protected:
 	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);
 	void	UpdateColors();
 
-	DWORD m_dwTopColor;
-	DWORD m_dwBottomColor;
-	DWORD m_dwLeftColor;
-	DWORD m_dwRightColor;
+	uint32_t m_dwTopColor;
+	uint32_t m_dwBottomColor;
+	uint32_t m_dwLeftColor;
+	uint32_t m_dwRightColor;
     bool  m_bBorder;
-    DWORD m_dwBorderColor;
+    uint32_t m_dwBorderColor;
 
 	XI_NOTEX_VERTEX m_pVert[4];
 };

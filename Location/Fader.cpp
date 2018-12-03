@@ -9,7 +9,7 @@
 //============================================================================================
 
 #include "Fader.h"
-#include "..\common_h\messages.h"
+#include "..\../Shared/messages.h"
 
 //============================================================================================
 //Конструирование, деструктурирование
@@ -97,7 +97,7 @@ bool Fader::Init()
 }
 
 //Сообщения
-dword _cdecl Fader::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl Fader::ProcessMessage(MESSAGE & message)
 {
 	char _name[MAX_PATH];
 	switch(message.Long())
@@ -176,7 +176,7 @@ dword _cdecl Fader::ProcessMessage(MESSAGE & message)
 }
 
 //Работа
-void Fader::Execute(dword delta_time)
+void Fader::Execute(uint32_t delta_time)
 {
 	//api->Trace("fader frame");
 	if(deleteMe)
@@ -212,7 +212,7 @@ void Fader::Execute(dword delta_time)
 }
 
 
-void Fader::Realize(dword delta_time)
+void Fader::Realize(uint32_t delta_time)
 {
 	if(!isWork) return;
 	if(isStart) eventStart = true;
@@ -250,7 +250,7 @@ void Fader::Realize(dword delta_time)
 	static struct
 	{
 		float x, y, z, rhw;
-		dword color;
+		uint32_t color;
 		float u, v;
 	} drawbuf[6];
 	if(alpha >= 1.0f)
@@ -262,7 +262,7 @@ void Fader::Realize(dword delta_time)
 			eventEnd = true;
 		}
 	}
-	dword color = (dword((fadeIn ? (1.0f - alpha) : alpha)*255.0f) << 24);
+	uint32_t color = (uint32_t((fadeIn ? (1.0f - alpha) : alpha)*255.0f) << 24);
 	if(textureID >= 0)  color |= 0x00ffffff;
 	drawbuf[0].x = 0.0f; drawbuf[0].y = 0.0f; drawbuf[0].z = 0.5f; drawbuf[0].rhw = 1.0f; drawbuf[0].color = color; drawbuf[0].u = 0.0f; drawbuf[0].v = 0.0f;
 	drawbuf[1].x = w;    drawbuf[1].y = 0.0f; drawbuf[1].z = 0.5f; drawbuf[1].rhw = 1.0f; drawbuf[1].color = color; drawbuf[1].u = 1.0f; drawbuf[1].v = 0.0f;

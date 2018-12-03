@@ -30,7 +30,7 @@ public:
 	};
 	~_EXS(){};
 	char  string[290];
-	dword xtype;
+	uint32_t xtype;
 };
 
 #ifdef STORM_THROW

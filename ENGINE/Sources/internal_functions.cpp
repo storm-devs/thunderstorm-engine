@@ -404,7 +404,7 @@ DWORD FuncArguments[]=
 	1,//"SetTimeScale"
 };
 */
-DWORD COMPILER::GetInternalFunctionArgumentsNum(DWORD code)
+uint32_t COMPILER::GetInternalFunctionArgumentsNum(uint32_t code)
 {
 	if(GetIntFunctionsNum() <= code)
 	{
@@ -415,13 +415,13 @@ DWORD COMPILER::GetInternalFunctionArgumentsNum(DWORD code)
 	//return FuncArguments[code];
 }
 
-DWORD COMPILER::GetIntFunctionsNum()
+uint32_t COMPILER::GetIntFunctionsNum()
 {
 	return sizeof(IntFuncTable)/sizeof(INTFUNCDESC);
 	//return sizeof(FuncNameTable)/sizeof(char *);
 }
 
-bool COMPILER::IsIntFuncVarArgsNum(DWORD code)
+bool COMPILER::IsIntFuncVarArgsNum(uint32_t code)
 {
 	//if(code == FUNC_SEND_MESSAGE) return true;
 	switch(code)
@@ -435,10 +435,10 @@ bool COMPILER::IsIntFuncVarArgsNum(DWORD code)
 	return false;
 }
 
-DWORD COMPILER::GetIntFunctionCode(char * func_name)
+uint32_t COMPILER::GetIntFunctionCode(char * func_name)
 {
-	DWORD functions_num;
-	DWORD n;
+	uint32_t functions_num;
+	uint32_t n;
 	//functions_num = sizeof(FuncNameTable)/sizeof(char *);
 	functions_num = sizeof(IntFuncTable)/sizeof(INTFUNCDESC);
 
@@ -451,13 +451,13 @@ DWORD COMPILER::GetIntFunctionCode(char * func_name)
 	return INVALID_ORDINAL_NUMBER;
 }
 
-DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD arguments)
+DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_t arguments)
 {
 //	char Format_string[MAX_PATH];
 	char Message_string[2*MAX_PATH];
 	ENTITY_ID entity_id;
 	VAPI * api;
-	DWORD functions_num;
+	uint32_t functions_num;
 
 	//functions_num = sizeof(FuncNameTable)/sizeof(char *);
 	functions_num = sizeof(IntFuncTable)/sizeof(INTFUNCDESC);
@@ -481,12 +481,12 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 	char * pChar2;
 	ENTITY_ID TempEid;
 	ENTITY_ID * pEid;
-	DWORD n;
+	uint32_t n;
 	ATTRIBUTES * pA;
 	ATTRIBUTES * pRoot;
 	ENTITY * pE;
 	MESSAGE_SCRIPT ms;
-	DWORD s_off;
+	uint32_t s_off;
 
 	pResult = nullptr;
 
@@ -654,7 +654,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 			pV2 = pV2->GetVarPointer();	// string
 			pV->Get(TempLong1);
 			pV2->Get(pChar);
-			if((DWORD)TempLong1 >= strlen(pChar))
+			if((uint32_t)TempLong1 >= strlen(pChar))
 			{
 				pV = SStack.Push();
 				pV->Set((long)0);
@@ -674,7 +674,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 			pV2 = pV2->GetVarPointer();	// string
 			pV->Get(TempLong1);
 			pV2->Get(pChar);
-			if((DWORD)TempLong1 >= strlen(pChar))
+			if((uint32_t)TempLong1 >= strlen(pChar))
 			{
 				pV = SStack.Push();
 				pV->Set("");
@@ -998,7 +998,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 
 
 			n = TempLong1;
-			while(n + (DWORD)slen2 <= (DWORD)slen)
+			while(n + (uint32_t)slen2 <= (uint32_t)slen)
 			{
 				if(strnicmp(pChar + n,pChar2,slen2) == 0)
 				{
@@ -1439,7 +1439,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 
 			CreateMessage(&ms,s_off,1);
 
-			dword mresult;
+			uint32_t mresult;
 			mresult = 0;
 			pE = _CORE_API->GetEntityPointer(&entity_id);
 			if(pE)
@@ -1859,7 +1859,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 void COMPILER::DumpAttributes(ATTRIBUTES * pA, long level)
 {
 	char buffer[128];
-	DWORD n;
+	uint32_t n;
 	if(pA == nullptr) return;
 
 	if(level >= 128) level = 127;
@@ -1874,7 +1874,7 @@ void COMPILER::DumpAttributes(ATTRIBUTES * pA, long level)
 
 
 // assume first param - format string
-bool COMPILER::CreateMessage(MESSAGE_SCRIPT * pMs, DWORD s_off, DWORD var_offset, bool s2s)
+bool COMPILER::CreateMessage(MESSAGE_SCRIPT * pMs, uint32_t s_off, uint32_t var_offset, bool s2s)
 {
 	long  TempLong1;
 	float TempFloat1;
@@ -1883,7 +1883,7 @@ bool COMPILER::CreateMessage(MESSAGE_SCRIPT * pMs, DWORD s_off, DWORD var_offset
 	char * Format_string;
 	char * pChar;
 	DATA * pV;
-	DWORD n;
+	uint32_t n;
 
 	if(pMs == nullptr) return false;
 

@@ -81,13 +81,13 @@ void TSink::Start(const CVECTOR &_pos, float _radius)
 }
 
 //--------------------------------------------------------------------
-void TSink::Process(dword _dTime)
+void TSink::Process(uint32_t _dTime)
 {
 	if (!enabled)
 		return;
 
 	time += _dTime;
-	WORD *indexes;
+	uint16_t *indexes;
 	SINK_VERTEX *vertices;
 
 	if (time > (SINK_TIME + MAX_SPLASH_TIME))
@@ -163,13 +163,13 @@ void TSink::Process(dword _dTime)
 }
 
 //--------------------------------------------------------------------
-void TSink::Realize(dword _dTime)
+void TSink::Realize(uint32_t _dTime)
 {
 	if (!enabled)
 		return;
 
 	CMatrix m;
-	dword ambient;
+	uint32_t ambient;
 
 	renderer->SetTransform(D3DTS_WORLD, (D3DMATRIX *) m);
 	renderer->TextureSet(0, texture);

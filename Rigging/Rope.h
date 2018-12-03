@@ -53,11 +53,11 @@ public:
     // Entity Function
 	void SetDevice();
 	bool Init();
-	void Realize(dword Delta_Time);
-	void Execute(dword Delta_Time);
+	void Realize(uint32_t Delta_Time);
+	void Execute(uint32_t Delta_Time);
 	bool CreateState(ENTITY_STATE_GEN * state_gen);
 	bool LoadState(ENTITY_STATE * state);
-    dword _cdecl ProcessMessage(MESSAGE & message);
+    uint32_t _cdecl ProcessMessage(MESSAGE & message);
     // Service Function
     void GetEndPoint(CVECTOR* cv,int ropenum,ENTITY_ID &mdl_id);
     bool IsAbsentRope(ENTITY_ID &mdl_id, int ropenum);
@@ -82,13 +82,13 @@ private:
         int bgnum,egnum;
         CMatrix *bMatWorld,*eMatWorld;
 
-        DWORD sv,nv, st,nt;
+        uint32_t sv,nv, st,nt;
 
         int ropeNum;
         CVECTOR pos[ROPE_EDGE];
         CVECTOR cv;
-        WORD segnum;
-        WORD segquant;
+        uint16_t segnum;
+        uint16_t segquant;
 
         float ropeWave; // амплитуда колебания веревки
 		bool bMakeWave;
@@ -121,10 +121,10 @@ private:
     void FirstRun();
 
     long vBuf,iBuf;
-    DWORD nVert,nIndx;
+    uint32_t nVert,nIndx;
 
-    dword execute_tm;
-    dword realize_tm;
+    uint32_t execute_tm;
+    uint32_t realize_tm;
 };
 
 

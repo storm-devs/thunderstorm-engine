@@ -19,7 +19,7 @@ CINODE::CINODE()
 	m_bBreakPress=false;
 	m_bMouseSelect=false;
 	m_nodeName= nullptr;
-	ZeroMemory(m_pCommands,sizeof(COMMAND_ACTION)*COMMAND_QUANTITY);
+	PZERO(m_pCommands,sizeof(COMMAND_ACTION)*COMMAND_QUANTITY);
 	m_bShowGlowCursor = true;
 	m_strHelpTextureFile = nullptr;
 	m_bUseUserGlowCursor = false;
@@ -59,7 +59,7 @@ CINODE::~CINODE()
 	STORM_DELETE( m_pToolTip );
 }
 
-void CINODE::FrameProcess(dword DeltaTime)
+void CINODE::FrameProcess(uint32_t DeltaTime)
 {
 	if(m_nCurrentCommandNumber!=-1)
 	{
@@ -297,7 +297,7 @@ bool CINODE::GetMidStr(char * inStr, char * buf, size_t bufSize, char * begStr, 
 	return true;
 }
 
-DWORD CINODE::GetColorFromStr(char * inStr, DWORD dwDefColor)
+uint32_t CINODE::GetColorFromStr(char * inStr, uint32_t dwDefColor)
 {
 	if(inStr)
 	{
@@ -351,7 +351,7 @@ char * CINODE::GetDataStr(char * inStr, char * strOrder, ...)
 	return inStr;
 }
 
-dword _cdecl CINODE::MessageProc(long msgcode, MESSAGE & message)
+uint32_t _cdecl CINODE::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{
@@ -562,7 +562,7 @@ FXYPOINT CINODE::GetIniFloatPoint(INIFILE *ini1,char *name1, INIFILE *ini2,char 
 	return outPnt;
 }
 
-DWORD CINODE::GetIniARGB(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, char * keyName, DWORD dwDefColor)
+uint32_t CINODE::GetIniARGB(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, char * keyName, uint32_t dwDefColor)
 {
 	char param[256];
 	if( ReadIniString(ini1,name1, ini2,name2, keyName, param, sizeof(param)) )

@@ -9,6 +9,7 @@
 //============================================================================================
 
 #include "AnimationInfo.h"
+#include "../common_h/memop.h"
 
 //============================================================================================
 //Конструирование, деструктурирование
@@ -41,7 +42,7 @@ AnimationInfo::~AnimationInfo()
 //Создать кости
 void AnimationInfo::CreateBones(long numbones)
 {
-	Assert(bone == null || numBones == 0);
+	Assert(bone == nullptr || numBones == 0);
 	Assert(numbones > 0 && numbones <= 256);
 	numBones = numbones;
 	bone = NEW Bone[numBones];

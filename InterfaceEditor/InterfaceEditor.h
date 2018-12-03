@@ -14,8 +14,8 @@ public:
 	~InterfaceEditor();
 
 	virtual bool Init();
-	virtual dword _cdecl ProcessMessage( MESSAGE& message );
-	virtual void Realize( dword dwDeltaTime );
+	virtual uint32_t _cdecl ProcessMessage( MESSAGE& message );
+	virtual void Realize( uint32_t dwDeltaTime );
 
 protected:
 	VDX9RENDER* m_pRender;

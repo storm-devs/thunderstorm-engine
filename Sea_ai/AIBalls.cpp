@@ -1,5 +1,6 @@
 #include "AIBalls.h"
 #include "AIFort.h"
+#include "../../Shared/messages.h"
 
 AIBalls * AIBalls::pAIBalls = nullptr;
 
@@ -22,7 +23,7 @@ AIBalls::AIBalls()
 
 AIBalls::~AIBalls()
 {
-	dword	i, j;
+	uint32_t	i, j;
 
 	pAIBalls = nullptr;
 
@@ -64,7 +65,7 @@ void AIBalls::FireBallFromCamera()
 	VDATA * pMainCharacter = (VDATA *)api->GetScriptVariable("Characters"); if (!pMainCharacter) return;
 	ATTRIBUTES * pAMainCharacter = pMainCharacter->GetAClass(iMainCharIndex); if (!pAMainCharacter) return;
 	ATTRIBUTES * pACannonType = pAMainCharacter->FindAClass(pAMainCharacter, "Ship.Cannons.Type"); if (!pACannonType) return;
-	dword dwCannonType = pACannonType->GetAttributeAsDword();
+	uint32_t dwCannonType = pACannonType->GetAttributeAsDword();
 
 	ATTRIBUTES * pABall = pAMainCharacter->CreateAttribute("_err324__", ""); if (!pABall) return;
 
@@ -85,7 +86,7 @@ void AIBalls::FireBallFromCamera()
 	float fX = SIGN(mIView.Vz().y) * acosf(mIView.Vz() | CVECTOR(mIView.Vz().x, 0.0f, mIView.Vz().z));
 
 	pABall->SetAttribute("Type", "Balls");
-	pABall->SetAttributeUseDword("CharacterIndex", dword(iMainCharIndex));
+	pABall->SetAttributeUseDword("CharacterIndex", uint32_t(iMainCharIndex));
 	pABall->SetAttributeUseFloat("x", mIView.Pos().x);
 	pABall->SetAttributeUseFloat("y", mIView.Pos().y);
 	pABall->SetAttributeUseFloat("z", mIView.Pos().z);
@@ -108,7 +109,7 @@ void AIBalls::AddBall(ATTRIBUTES * pABall)
 {
 	char *pBallName = pABall->GetAttribute("Type"); Assert(pBallName);
 
-	dword i;
+	uint32_t i;
 	for (i=0;i<aBallTypes.size();i++) if (_stricmp(aBallTypes[i].sName.c_str(), pBallName)==0) break;
 	if (i == aBallTypes.size()) return;
 
@@ -149,9 +150,9 @@ void AIBalls::AddBall(ATTRIBUTES * pABall)
 	}
 }
 
-void AIBalls::Execute(dword Delta_Time)
+void AIBalls::Execute(uint32_t Delta_Time)
 {
-	dword						i, j;
+	uint32_t						i, j;
 	CVECTOR						vSrc, vDst;
 	ENTITY_ID					EID, *pEID;
 
@@ -199,7 +200,7 @@ void AIBalls::Execute(dword Delta_Time)
 			vDst = pBall->vPos;
 
 			if (pBall->sBallEvent.size())
-				api->Event((char*)pBall->sBallEvent.c_str(), "lllffffffs", pBall->iBallOwner, (dword)1, pBallsType->dwGoodIndex, pBall->vPos.x, pBall->vPos.y, pBall->vPos.z, vSrc.x, vSrc.y, vSrc.z);
+				api->Event((char*)pBall->sBallEvent.c_str(), "lllffffffs", pBall->iBallOwner, (uint32_t)1, pBallsType->dwGoodIndex, pBall->vPos.x, pBall->vPos.y, pBall->vPos.z, vSrc.x, vSrc.y, vSrc.z);
 
 			if (pBall->pParticle)
 			{
@@ -258,7 +259,7 @@ void AIBalls::Execute(dword Delta_Time)
 			{
 				if (pBall->sBallEvent.size())
 				{
-					api->Event((char*)pBall->sBallEvent.c_str(),"lllffffff", pBall->iBallOwner, (dword)0, pBallsType->dwGoodIndex, pBall->vPos.x, pBall->vPos.y, pBall->vPos.z, vSrc.x, vSrc.y, vSrc.z);
+					api->Event((char*)pBall->sBallEvent.c_str(),"lllffffff", pBall->iBallOwner, (uint32_t)0, pBallsType->dwGoodIndex, pBall->vPos.x, pBall->vPos.y, pBall->vPos.z, vSrc.x, vSrc.y, vSrc.z);
 					pBall->sBallEvent.clear();
 				}
 
@@ -290,7 +291,7 @@ void AIBalls::Execute(dword Delta_Time)
 	}
 }
 
-void AIBalls::Realize(dword Delta_Time)
+void AIBalls::Realize(uint32_t Delta_Time)
 {
 	if (aBallRects.size())
 	{
@@ -311,15 +312,15 @@ void AIBalls::Realize(dword Delta_Time)
 */
 }
 
-dword AIBalls::AttributeChanged(ATTRIBUTES * pAttributeChanged)
+uint32_t AIBalls::AttributeChanged(ATTRIBUTES * pAttributeChanged)
 {
 	if (*pAttributeChanged == "clear")
 	{
-		for (dword i=0; i<aBallTypes.size(); i++)
+		for (uint32_t i=0; i<aBallTypes.size(); i++)
 		{
 			BALL_TYPE * pBallsType = &aBallTypes[i];
 
-			for (dword j=0; j<pBallsType->Balls.size(); j++)
+			for (uint32_t j=0; j<pBallsType->Balls.size(); j++)
 			{
 				BALL_PARAMS * pBall = &pBallsType->Balls[j];
 
@@ -359,7 +360,7 @@ dword AIBalls::AttributeChanged(ATTRIBUTES * pAttributeChanged)
 
 		// install balls
 		ATTRIBUTES *pAPBalls = AttributesPointer->GetAttributeClass("Balls");
-		dword dwIdx = 0;
+		uint32_t dwIdx = 0;
 		while(pAPBalls && true)
 		{
 			char * pName = pAPBalls->GetAttributeName(dwIdx);		if (!pName) break;
@@ -384,12 +385,12 @@ dword AIBalls::AttributeChanged(ATTRIBUTES * pAttributeChanged)
 	return 0;
 }
 
-dword AIBalls::ProcessMessage(MESSAGE & message)
+uint32_t AIBalls::ProcessMessage(MESSAGE & message)
 {
 	if (message.Long() == MSG_MODEL_RELEASE)
 	{
-		for (dword i=0; i<aBallTypes.size(); i++)
-			for (dword j=0; j<aBallTypes[i].Balls.size(); j++)
+		for (uint32_t i=0; i<aBallTypes.size(); i++)
+			for (uint32_t j=0; j<aBallTypes[i].Balls.size(); j++)
 			{
 				BALL_PARAMS * pBall = &aBallTypes[i].Balls[j];
 
@@ -405,11 +406,11 @@ dword AIBalls::ProcessMessage(MESSAGE & message)
 
 void AIBalls::Save(CSaveLoad * pSL)
 {
-	for (dword i=0; i<aBallTypes.size(); i++)
+	for (uint32_t i=0; i<aBallTypes.size(); i++)
 	{
 		pSL->SaveDword(aBallTypes[i].Balls.size());
 
-		for (dword j=0; j<aBallTypes[i].Balls.size(); j++)
+		for (uint32_t j=0; j<aBallTypes[i].Balls.size(); j++)
 		{
 			pSL->SaveBuffer((const char *)&aBallTypes[i].Balls[j], sizeof(BALL_PARAMS));
 		}
@@ -418,11 +419,11 @@ void AIBalls::Save(CSaveLoad * pSL)
 
 void AIBalls::Load(CSaveLoad * pSL)
 {
-	for (dword i=0; i<aBallTypes.size(); i++)
+	for (uint32_t i=0; i<aBallTypes.size(); i++)
 	{
-		dword dwNum = pSL->LoadDword();
+		uint32_t dwNum = pSL->LoadDword();
 
-		for (dword j=0; j<dwNum; j++)
+		for (uint32_t j=0; j<dwNum; j++)
 		{
 			aBallTypes[i].Balls.push_back(BALL_PARAMS{});
 			//BALL_PARAMS * pB = &aBallTypes[i].Balls[aBallTypes[i].Balls.Add()];

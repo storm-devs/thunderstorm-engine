@@ -54,9 +54,9 @@ class WdmIslands : public WdmRenderObject
 		float heightView;		//Высота начиная с которой метка гаснет
 		long font;				//Индекс шкифта в массиве шрифтов
 		long icon;				//Индекс картинки
-		dword weight;			//Вес смещения
+		uint32_t weight;			//Вес смещения
 		std::string id;				//Идентификатор метки
-		dword idHash;			//Хэшь значение идентификатора
+		uint32_t idHash;			//Хэшь значение идентификатора
 		long next;				//Следующая в списке метка
 		std::string locatorName;		//Имя локатора на котором размещаемся
 	};
@@ -71,8 +71,8 @@ class WdmIslands : public WdmRenderObject
 	{
 		float w, h;
 		float u, v;
-		dword num;
-		dword frames;
+		uint32_t num;
+		uint32_t frames;
 		float fps;
 		float frame;
 		float f[2];
@@ -127,7 +127,7 @@ private:
 	static bool _cdecl AddEdges(const GEOS::VERTEX * vrt, long numVrt);
 	static bool _cdecl FindNearPoint(const GEOS::VERTEX * vrt, long numVrt);
 	void LabelsReadIconParams(ATTRIBUTES * apnt);
-	long LabelsFind(const char * id, dword hash);
+	long LabelsFind(const char * id, uint32_t hash);
 	bool LabelsFindLocator(const char * name, CVECTOR & pos);
 	long LabelsAddFont(const char * name);
 	void LabelsRelease();

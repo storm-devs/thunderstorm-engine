@@ -147,7 +147,7 @@ private:
 //Установить указатель на сервис анимации
 inline void AnimationImp::SetAnimationService(AnimationServiceImp * animationService)
 {
-	Assert(aniService == null);
+	Assert(aniService == nullptr);
 	aniService = animationService;
 }
 

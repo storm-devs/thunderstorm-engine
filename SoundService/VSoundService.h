@@ -22,7 +22,7 @@ typedef struct
 } tSoundDriverDescriptor;
 
 
-typedef DWORD TSD_ID;
+typedef uint32_t TSD_ID;
 
 
 typedef struct
@@ -47,7 +47,7 @@ public:
 	VSoundService();
 	virtual ~VSoundService();
 	virtual bool  Init() = 0;
-	virtual dword RunSection() = 0;
+	virtual uint32_t RunSection() = 0;
 	virtual void  RunStart() = 0;
 
 	// Sound entries functions

@@ -14,9 +14,6 @@
 //============================================================================================
 
 #include "..\Common_h\Matrix.h"
-#include "..\Common_h\d_types.h"
-#include "..\Common_h\memop.h"
-#include "..\Common_h\exs.h"
 
 
 #include <d3dx9.h>

@@ -3,7 +3,6 @@
 
 #include "..\..\common_h\dx9render.h"
 #include "..\..\common_h\defines.h"
-#include "..\utils.h"
 
 class WMShipIcon;
 class WMShipCommandList;
@@ -16,9 +15,9 @@ public:
 	WM_INTERFACE();
 	~WM_INTERFACE();
 	bool Init();
-	void Realize(dword delta_time);
-    dword _cdecl ProcessMessage(MESSAGE & message);
-	dword AttributeChanged(ATTRIBUTES * pAttr);
+	void Realize(uint32_t delta_time);
+    uint32_t _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t AttributeChanged(ATTRIBUTES * pAttr);
 
 protected:
 	WMShipIcon* m_pShipIcon; // иконки команд и целеуказаний в боевом меню

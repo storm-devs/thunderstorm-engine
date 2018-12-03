@@ -36,7 +36,7 @@ public:
 	~LocationP();
 
 	bool Init();
-	void Execute(dword dwDeltaTime);
+	void Execute(uint32_t dwDeltaTime);
 };
 
 LocationP::LocationP()
@@ -52,7 +52,7 @@ bool LocationP::Init()
 	return true;
 }
 
-void LocationP::Execute(dword dwDeltaTime)
+void LocationP::Execute(uint32_t dwDeltaTime)
 {
 	if (dwDeltaTime != LOCATION_SCRIPT_VERSION) throw;
 }

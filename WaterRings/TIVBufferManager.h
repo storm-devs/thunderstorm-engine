@@ -2,8 +2,6 @@
 #define _TIVBUFFERMANAGER_H_
 
 #include "..\common_h\dx9render.h"
-#include "..\common_h\geos.h"
-#include "..\common_h\exs.h"
 
 ///////////////////////////////////////////////////////////////////
 // CLASS DEFINITION
@@ -19,7 +17,7 @@ public:
 	void FreeAll();
 	void LockBuffers();
 	void UnlockBuffers();
-	void GetPointers(long _i, WORD **iPointer, void **vPointer, long *vOffset = nullptr);
+	void GetPointers(long _i, uint16_t **iPointer, void **vPointer, long *vOffset = nullptr);
 	void DrawBuffers(char *_technique);
 
 private:
@@ -28,7 +26,7 @@ private:
 	long vType, vSize, iCount, vCount, elementsCount;
 	bool *used;
 	bool locked;
-	WORD *indexes;
+	uint16_t *indexes;
 	void *vertices;
 	long count;
 };

@@ -19,7 +19,7 @@ protected:
 	struct Vertex
 	{
 		float x, y, z, rhw;
-		dword color;
+		uint32_t color;
 		float tu, tv;
 		float tu1, tv1;
 	};
@@ -44,7 +44,7 @@ protected:
 	//Заполнить 6 вершин текстурными координатами прямоугольника
 	static void FillRectUV1(Vertex * vrt, float tu, float tv, float tw, float th, float ang = 0.0f);
 	//Заполнить 6 вершин цветом
-	static void FillRectColor(Vertex * vrt, dword color = 0xffffffff);
+	static void FillRectColor(Vertex * vrt, uint32_t color = 0xffffffff);
 	//Нарисовать буффер прямоугольников
 	static void DrawRects(Vertex * vrt, long numRects, char * techName = nullptr);
 	
@@ -53,7 +53,7 @@ protected:
 	//Заполнить 18 вершин текстурными координатами скалирующегося прямоугольника
 	static void FillSRectUV(Vertex * vrt, float tu, float tv, float tw, float th, float ts);
 	//Заполнить 18 вершин цветом скалирующегося прямоугольника
-	static void FillSRectColor(Vertex * vrt, dword color = 0xffffffff);
+	static void FillSRectColor(Vertex * vrt, uint32_t color = 0xffffffff);
 
 	//Вывести текст в заданную полоску по горизонтали и в заданной высоте
 	static void Print(long font, long color, float xleft, float xright, float y, const char * format, ...);

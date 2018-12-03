@@ -19,7 +19,7 @@ struct STRING_PICE
 			long charQuantity;
 		} strDescr;
 		long fontID;
-		DWORD color;
+		uint32_t color;
 	} data;
 };
 
@@ -29,7 +29,7 @@ public:
 	CXI_SCROLLTEXT();
 	~CXI_SCROLLTEXT();
 
-	void	Draw(bool bSelected,dword Delta_Time);
+	void	Draw(bool bSelected,uint32_t Delta_Time);
 	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
 	void	ReleaseAll();
 	int		CommandExecute(int wActCode);
@@ -53,7 +53,7 @@ protected:
     CINODE *m_pScroller; // ссылка на скроллер (!!! обязан быть прописан перед этим)
     long    m_nMaxStringes; // число строк в выводимом окне
 
-	DWORD   m_dwFontColor; // текущий цвет
+	uint32_t   m_dwFontColor; // текущий цвет
 	long    m_idFont; // текущий шрифт
 
 	char   *m_pText;

@@ -28,7 +28,7 @@ public:
 	virtual float GetPosition() = 0;
 	virtual void SetVolume(float _volume) = 0;
 	virtual void Set3DParam (eSoundMessage _message, const void *_op) = 0;
-	virtual bool DoPerFrameWork(dword _dTime) = 0; //return false forces service to delete sound
+	virtual bool DoPerFrameWork(uint32_t _dTime) = 0; //return false forces service to delete sound
 	virtual void Restart() = 0;
 	virtual VSound *Duplicate () = 0;
 	virtual void Resume (long _time = 0) = 0;

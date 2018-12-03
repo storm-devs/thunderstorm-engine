@@ -26,7 +26,7 @@ friend COMPILER;
 
 	VIRTUAL_COMPILER * pVCompiler;
 	S_TOKEN_TYPE Data_type;
-	DWORD Number_of_elements;
+	uint32_t Number_of_elements;
 	//bool   bRef;
 	bool   bArray;
 	//char * ArrayPointer;
@@ -36,13 +36,13 @@ friend COMPILER;
 	
 	bool   bEntity;
 	ENTITY_ID object_id;
-	DWORD Segment_id;
+	uint32_t Segment_id;
 
 	DATA * pReference;
 	//long   ReferenceIndex;
 
 	DATA * ArrayPTR;
-	DWORD nGlobalVarTableIndex;
+	uint32_t nGlobalVarTableIndex;
 public:
 
 	void * operator new(size_t size)
@@ -56,11 +56,11 @@ public:
 	void operator delete(void * p) {::operator delete (p);};
 	void operator delete(void * p, void * pp) {};
 
-	void * operator new(size_t size, char * pf, DWORD line)
+	void * operator new(size_t size, char * pf, uint32_t line)
 	{
 		return ::operator new(size,pf,line);
 	};
-	void operator delete(void * p, char * pf, DWORD line) 
+	void operator delete(void * p, char * pf, uint32_t line) 
 	{
 		::operator delete (p,pf,line);
 	};
@@ -71,12 +71,12 @@ public:
 	void  SetReference(DATA * pRef);
 	void  SetAReference(ATTRIBUTES * pARef);
 	//void  SetReferenceFlag() {bRef = true;};
-	void  SetSegmentID(DWORD id){Segment_id = id;};
-	DWORD GetSegmentID(){return Segment_id;};
+	void  SetSegmentID(uint32_t id){Segment_id = id;};
+	uint32_t GetSegmentID(){return Segment_id;};
 	void  SetVCompiler(VIRTUAL_COMPILER * pVC);
 	DATA();
 	DATA(S_TOKEN_TYPE _element_type);
-	DATA(DWORD _num_of_elements, S_TOKEN_TYPE _element_type);
+	DATA(uint32_t _num_of_elements, S_TOKEN_TYPE _element_type);
 	~DATA();
 	void Set(long value);
 	void Set(float value);
@@ -87,34 +87,34 @@ public:
 	bool Get(char * & value);
 	bool Get(char * attribute_name, char * & value);
 
-	bool Set(long value, DWORD index);
-	bool Set(float value, DWORD index);
-	bool Set(char * value, DWORD index);
+	bool Set(long value, uint32_t index);
+	bool Set(float value, uint32_t index);
+	bool Set(char * value, uint32_t index);
 
-	bool Get(long & value, DWORD index);
-	bool Get(float & value, DWORD index);
-	bool Get(char * & value, DWORD index);
+	bool Get(long & value, uint32_t index);
+	bool Get(float & value, uint32_t index);
+	bool Get(char * & value, uint32_t index);
 	
-	bool Set(char * attribute_name, char * attribute_value, DWORD index);
-	bool Get(char * attribute_name, char * & value, DWORD index);
+	bool Set(char * attribute_name, char * attribute_value, uint32_t index);
+	bool Get(char * attribute_name, char * & value, uint32_t index);
 
 	void Set(ENTITY_ID eid);
 	void Get(ENTITY_ID & eid);
 
-	bool Set(ENTITY_ID eid, DWORD index);
-	bool Get(ENTITY_ID & eid, DWORD index);
+	bool Set(ENTITY_ID eid, uint32_t index);
+	bool Get(ENTITY_ID & eid, uint32_t index);
 
 	ATTRIBUTES * GetAClass();
-	ATTRIBUTES * GetAClass(DWORD index);
+	ATTRIBUTES * GetAClass(uint32_t index);
 
-	void SetType(S_TOKEN_TYPE type, DWORD array_size = 1);
+	void SetType(S_TOKEN_TYPE type, uint32_t array_size = 1);
 	bool Convert(S_TOKEN_TYPE type);
 	void Error(char *);
-	DATA * GetArrayElement(DWORD index);
+	DATA * GetArrayElement(uint32_t index);
 
 	S_TOKEN_TYPE GetType(){return Data_type;};
-	DWORD GetElementsNum();
-	void  SetElementsNum(DWORD _asize);
+	uint32_t GetElementsNum();
+	void  SetElementsNum(uint32_t _asize);
 	bool IsArray() {return bArray;};
 	bool IsReference();
 	bool IsAReference();
@@ -127,8 +127,8 @@ public:
 	bool Inc();
 	bool Dec();
 	bool Copy(DATA * pV);
-	bool Copy(DATA * pV, DWORD index);
-	bool CopyOnElement(DATA * pV, DWORD index);
+	bool Copy(DATA * pV, uint32_t index);
+	bool CopyOnElement(DATA * pV, uint32_t index);
 	bool Inverse();
 	bool Power(long Deg);
 	bool Power(DATA * pV);
@@ -145,14 +145,14 @@ public:
 	bool BoolConvert();
 	bool RefConvert();
 
-	void BadIndex(DWORD index, DWORD array_size);
+	void BadIndex(uint32_t index, uint32_t array_size);
 
 
 	long  GetLong();
 	float GetFloat();
 	char * GetString();
 	ENTITY_ID GetEntityID();
-	void SetGlobalVarTableIndex(DWORD index){nGlobalVarTableIndex = index;};
+	void SetGlobalVarTableIndex(uint32_t index){nGlobalVarTableIndex = index;};
 
 	void Release();
 };

@@ -1,7 +1,10 @@
 #ifndef _XI_TOOLTIP_H_
 #define _XI_TOOLTIP_H_
 
-#include "..\inode.h"
+#include "../../Common_h/defines.h"
+#include "../defines.h"
+
+class VXSERVICE;
 
 class CXI_ToolTip
 {
@@ -27,9 +30,9 @@ protected:
 protected:
 	VDX9RENDER* m_rs;
 	XI_ONETEX_VERTEX* m_pV;
-	WORD* m_pI;
+	uint16_t* m_pI;
 	long m_nSquareQ;
-	dword m_dwBackColor;
+	uint32_t m_dwBackColor;
 	long m_nLeftSideWidth;
 	long m_nRightSideWidth;
 
@@ -55,7 +58,7 @@ protected:
 	std::string m_sText;
 	std::vector<std::string> m_aSubText;
 	long m_nFontID;
-	dword m_dwFontColor;
+	uint32_t m_dwFontColor;
 	float m_fFontScale;
 	long m_nMaxStrWidth;
 	long m_nUseWidth;

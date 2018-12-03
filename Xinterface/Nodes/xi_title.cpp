@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "xi_title.h"
+#include "../../common_h/defines.h"
 
 CXI_TITLE::CXI_TITLE()
 {
@@ -22,7 +23,7 @@ CXI_TITLE::~CXI_TITLE()
 	ReleaseAll();
 }
 
-void CXI_TITLE::Draw(bool bSelected,dword Delta_Time)
+void CXI_TITLE::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(m_bUse)
 	{
@@ -96,7 +97,7 @@ void CXI_TITLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	char param[256];
 
 	// Get image color
-	DWORD imgColor = GetIniARGB(ini1,name1, ini2,name2, "imageColor", 0xFFFFFFFF);
+	uint32_t imgColor = GetIniARGB(ini1,name1, ini2,name2, "imageColor", 0xFFFFFFFF);
 
 	// Get font color
 	m_fontColor = GetIniARGB(ini1,name1, ini2,name2, "fontColor", 0xFFFFFFFF);
@@ -151,7 +152,7 @@ void CXI_TITLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	// get title images
 	if( ReadIniString(ini1,name1, ini2,name2, "titleCenter", param, sizeof(param),"") )
 		pPictureService->GetTexturePos(m_sGroupName,param,centerRect);
-	else ZeroMemory(&centerRect,sizeof(centerRect));
+	else PZERO(&centerRect,sizeof(centerRect));
 	if( ReadIniString(ini1,name1, ini2,name2, "titleMedium", param, sizeof(param),"") )
 	{
 		pPictureService->GetTexturePos(m_sGroupName,param,mediumRect);
@@ -159,8 +160,8 @@ void CXI_TITLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	}
 	else
 	{
-		ZeroMemory(&mediumRect,sizeof(mediumRect));
-		ZeroMemory(&m_mRect,sizeof(m_mRect));
+		PZERO(&mediumRect,sizeof(mediumRect));
+		PZERO(&m_mRect,sizeof(m_mRect));
 	}
 	if( ReadIniString(ini1,name1, ini2,name2, "titleTiled", param, sizeof(param),"") )
 	{
@@ -169,8 +170,8 @@ void CXI_TITLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	}
 	else
 	{
-		ZeroMemory(&tiledRect,sizeof(tiledRect));
-		ZeroMemory(&m_tRect,sizeof(m_tRect));
+		PZERO(&tiledRect,sizeof(tiledRect));
+		PZERO(&m_tRect,sizeof(m_tRect));
 	}
 
 	// create vertex buffer and index buffer for title image
@@ -187,7 +188,7 @@ void CXI_TITLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	m_nIndx/=3;
 
 	// fill index buffer
-	WORD* pIndex = (WORD*)m_rs->LockIndexBuffer(m_idIBuf);
+	uint16_t* pIndex = (uint16_t*)m_rs->LockIndexBuffer(m_idIBuf);
 	if(pIndex== nullptr)
 		STORM_THROW("index buffer not create")
 	for(i=0; i<rectangleQuantity; i++)

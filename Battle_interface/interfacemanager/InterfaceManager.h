@@ -2,6 +2,7 @@
 #define InterfaceManager_h
 
 #include "BaseManager.h"
+#include "../../Common_h/defines.h"
 #include <vector>
 
 class BI_BaseGroup;
@@ -13,12 +14,12 @@ public:
 	~BI_InterfaceManager();
 
 	bool Init();
-	void Execute(dword delta_time);
-	void Realize(dword delta_time);
-    dword _cdecl ProcessMessage(MESSAGE & message);
+	void Execute(uint32_t delta_time);
+	void Realize(uint32_t delta_time);
+    uint32_t _cdecl ProcessMessage(MESSAGE & message);
 
-	virtual BI_ManagerNodeBase* CreateImageNode(const char* texture, const FRECT& uv, const RECT& pos, dword color, long nPrioritet);
-	virtual BI_ManagerNodeBase* CreateStringNode(const char* text, const char* font, dword color, float scale, const RECT& pos, long nHAlign, long nVAlign, long prioritet);
+	virtual BI_ManagerNodeBase* CreateImageNode(const char* texture, const FRECT& uv, const RECT& pos, uint32_t color, long nPrioritet);
+	virtual BI_ManagerNodeBase* CreateStringNode(const char* text, const char* font, uint32_t color, float scale, const RECT& pos, long nHAlign, long nVAlign, long prioritet);
 	virtual void DeleteNode(BI_ManagerNodeBase* pNod);
 
 protected:

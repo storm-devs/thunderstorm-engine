@@ -12,7 +12,7 @@
 #define _LGeometry_H_
 
 #include "LTypes.h"
-
+#include "../common_h/model.h"
 
 class LGeometry  
 {

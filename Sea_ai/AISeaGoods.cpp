@@ -1,4 +1,5 @@
 #include "AISeaGoods.h"
+#include "../../Shared/sea_ai/script_defines.h"
 
 AISeaGoods::AISeaGoods()
 {
@@ -12,7 +13,7 @@ AISeaGoods::AISeaGoods()
 
 AISeaGoods::~AISeaGoods()
 {
-	for (dword i=0; i<aGoods.size(); i++)
+	for (uint32_t i=0; i<aGoods.size(); i++)
 	{
 		if (aGoods[i]->pGeo) pGeoService->DeleteGeometry(aGoods[i]->pGeo);
 		aGoods[i]->sModel.clear();
@@ -33,7 +34,7 @@ void AISeaGoods::SetDevice()
 	pGeoService = (VGEOMETRY*)api->CreateService("geometry"); Assert(pGeoService);
 }
 
-void AISeaGoods::Execute(dword dwDeltaTime)
+void AISeaGoods::Execute(uint32_t dwDeltaTime)
 {
 	ENTITY_ID	EID;
 
@@ -44,8 +45,8 @@ void AISeaGoods::Execute(dword dwDeltaTime)
 	
 	if (!pSea) return;
 
-	for (dword i=0; i<aGoods.size(); i++)
-		for (dword j=0; j<aGoods[i]->aItems.size(); j++)
+	for (uint32_t i=0; i<aGoods.size(); i++)
+		for (uint32_t j=0; j<aGoods[i]->aItems.size(); j++)
 		{
 			item_t * pI = &aGoods[i]->aItems[j];
 			pI->fTime -= fDeltaTime;
@@ -76,7 +77,7 @@ void AISeaGoods::Execute(dword dwDeltaTime)
 			} while (api->FindClassNext(&EID));
 
 			// check ships
-			for (dword k=0; k<aShips.size(); k++)
+			for (uint32_t k=0; k<aShips.size(); k++)
 			{
 				SHIP_BASE * pS = aShips[k];
 				ATTRIBUTES * pACharacter = pS->GetACharacter();
@@ -99,14 +100,14 @@ void AISeaGoods::Execute(dword dwDeltaTime)
 	}
 }
 
-void AISeaGoods::Realize(dword dwDeltaTime)
+void AISeaGoods::Realize(uint32_t dwDeltaTime)
 {
 	if (!pSea) return;
 
 	AIHelper::pRS->SetRenderState(D3DRS_LIGHTING, true);
 
-	for (dword i=0; i<aGoods.size(); i++) if (aGoods[i]->pGeo)
-		for (dword j=0; j<aGoods[i]->aItems.size(); j++)
+	for (uint32_t i=0; i<aGoods.size(); i++) if (aGoods[i]->pGeo)
+		for (uint32_t j=0; j<aGoods[i]->aItems.size(); j++)
 		{
 			item_t * pI = &aGoods[i]->aItems[j];
 	
@@ -120,13 +121,13 @@ void AISeaGoods::Realize(dword dwDeltaTime)
 	AIHelper::pRS->SetRenderState(D3DRS_LIGHTING, false);
 }
 
-dword AISeaGoods::AttributeChanged(ATTRIBUTES * pAttribute)
+uint32_t AISeaGoods::AttributeChanged(ATTRIBUTES * pAttribute)
 {
 	ATTRIBUTES * pParent = pAttribute->GetParent();
 
 	if (*pAttribute == "Add")
 	{
-		for (dword i=0; i<aGoods.size(); i++) if (aGoods[i]->sModel == sTmpModel)
+		for (uint32_t i=0; i<aGoods.size(); i++) if (aGoods[i]->sModel == sTmpModel)
 		{
 			aGoods[i]->aItems.push_back(TmpItem);
 			return 0;

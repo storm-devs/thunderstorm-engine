@@ -1,12 +1,8 @@
 #ifndef _C_ATOM_H_
 #define _C_ATOM_H_
 
-#ifndef _XBOX
-#include <windows.h>
-#else
-#include <xtl.h>
-#endif
-#include "..\..\common_h\entity.h"
+#include <cstdint>
+#include "../../Common_h/entity_id.h"
 
 #define _LAYERS_BITMASK_DWORDS	4
 #define _MAX_LAYERS				(_LAYERS_BITMASK_DWORDS*32)
@@ -26,15 +22,15 @@ struct ATOM_STATE
 	bool Connected;
 	bool Deleted;
 	//bool Service;
-	dword Layers_mask[_LAYERS_BITMASK_DWORDS];
-	dword SysLayers_mask[_LAYERS_BITMASK_DWORDS];
+	uint32_t Layers_mask[_LAYERS_BITMASK_DWORDS];
+	uint32_t SysLayers_mask[_LAYERS_BITMASK_DWORDS];
 
-	dword Realize_ticks_av;
-	dword Realize_ticks_max;
-	dword Execute_ticks_av;
-	dword Execute_ticks_max;
-	dword Message_ticks_av;
-	dword Message_ticks_max;
+	uint32_t Realize_ticks_av;
+	uint32_t Realize_ticks_max;
+	uint32_t Execute_ticks_av;
+	uint32_t Execute_ticks_max;
+	uint32_t Message_ticks_av;
+	uint32_t Message_ticks_max;
 
 };
 
@@ -43,9 +39,9 @@ class C_ATOM
 public:
 	C_ATOM();
 	~C_ATOM(){};
-	void SetLayerAttribute(dword index,bool system);
-	void ClrLayerAttribute(dword index,bool system);
-	bool TstLayerAttribute(dword index,bool system);
+	void SetLayerAttribute(uint32_t index,bool system);
+	void ClrLayerAttribute(uint32_t index,bool system);
+	bool TstLayerAttribute(uint32_t index,bool system);
 
 	ENTITY_ID atom_id;
 	ATOM_STATE as;

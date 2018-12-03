@@ -56,7 +56,7 @@ bool ILogAndActions::Init()
 	return true;
 }
 
-void ILogAndActions::Execute(dword delta_time)
+void ILogAndActions::Execute(uint32_t delta_time)
 {
 	if(m_bDontShowAll) return;
 
@@ -101,7 +101,7 @@ void ILogAndActions::Execute(dword delta_time)
 	}
 }
 
-dword _cdecl ILogAndActions::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl ILogAndActions::ProcessMessage(MESSAGE & message)
 {
 	switch (message.Long())
 	{
@@ -191,7 +191,7 @@ dword _cdecl ILogAndActions::ProcessMessage(MESSAGE & message)
 	return 0;
 }
 
-void ILogAndActions::Realize(dword delta_time)
+void ILogAndActions::Realize(uint32_t delta_time)
 {
 #ifndef _XBOX
 	#ifdef SPECIAL_VERSION

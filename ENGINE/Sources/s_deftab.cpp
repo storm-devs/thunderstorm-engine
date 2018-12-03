@@ -9,7 +9,7 @@ S_DEFTAB::S_DEFTAB()
 	Buffer_size = 0;
 	Def_num = 0;
 //	bKeepName = false;
-	DWORD n;
+	uint32_t n;
 	for(n=0;n<DTHASHT_SIZE;n++)
 	{
 		HashLine[n].nNumElements = 0;
@@ -25,7 +25,7 @@ S_DEFTAB::~S_DEFTAB()
 
 void  S_DEFTAB::Release()
 {
-	dword n;
+	uint32_t n;
 	if(pTable) 
 	{
 		for(n=0;n<Def_num;n++)	
@@ -49,7 +49,7 @@ void  S_DEFTAB::Release()
 
 }
 
-bool S_DEFTAB::GetDef(DEFINFO& di,dword def_code)
+bool S_DEFTAB::GetDef(DEFINFO& di,uint32_t def_code)
 {
 	if(def_code >= Def_num) return false;
 	if(pTable[def_code].segment_id == INVALID_SEGMENT_ID) return false;
@@ -57,17 +57,17 @@ bool S_DEFTAB::GetDef(DEFINFO& di,dword def_code)
 	return true;
 }
 
-bool S_DEFTAB::GetDefX(DEFINFO& di,dword def_code)
+bool S_DEFTAB::GetDefX(DEFINFO& di,uint32_t def_code)
 {
 	if(def_code >= Def_num) return false;
 	di = pTable[def_code];
 	return true;
 }
 
-dword S_DEFTAB::AddDef(DEFINFO& di)
+uint32_t S_DEFTAB::AddDef(DEFINFO& di)
 {
-	dword n;
-	dword hash;
+	uint32_t n;
+	uint32_t hash;
 
 
 	if(di.name == nullptr) return INVALID_DEF_CODE;
@@ -125,10 +125,10 @@ dword S_DEFTAB::AddDef(DEFINFO& di)
 	return (Def_num - 1);
 }
 
-dword S_DEFTAB::MakeHashValue(const char * string)
+uint32_t S_DEFTAB::MakeHashValue(const char * string)
 {
-	dword hval = 0;
-	dword g;
+	uint32_t hval = 0;
+	uint32_t g;
 	char v;
 	while(*string != 0)
 	{
@@ -145,9 +145,9 @@ dword S_DEFTAB::MakeHashValue(const char * string)
 	return hval;
 }
 
-void S_DEFTAB::InvalidateBySegmentID(dword segment_id)
+void S_DEFTAB::InvalidateBySegmentID(uint32_t segment_id)
 {
-	dword n;
+	uint32_t n;
 	for(n=0;n<Def_num;n++)
 	{
 		if(pTable[n].segment_id != segment_id) continue;
@@ -164,14 +164,14 @@ void S_DEFTAB::InvalidateBySegmentID(dword segment_id)
 	}
 }
 
-dword S_DEFTAB::FindDef(char * def_name)
+uint32_t S_DEFTAB::FindDef(char * def_name)
 {
-	dword n;
-	dword hash;
+	uint32_t n;
+	uint32_t hash;
 	if(def_name == nullptr) return INVALID_DEF_CODE;
 	hash = MakeHashValue(def_name);
 	
-	DWORD hash_index,ni;
+	uint32_t hash_index,ni;
 	hash_index = DTMAKEHASHINDEX(hash);
 	for(n=0;n<HashLine[hash_index].nNumElements;n++)
 	{
@@ -189,10 +189,10 @@ dword S_DEFTAB::FindDef(char * def_name)
 	return INVALID_DEF_CODE;*/
 }
 
-void S_DEFTAB::UpdateHashTable(DWORD code, DWORD hash, bool in)
+void S_DEFTAB::UpdateHashTable(uint32_t code, uint32_t hash, bool in)
 {
-	DWORD n;
-	DWORD hash_index;
+	uint32_t n;
+	uint32_t hash_index;
 	hash_index = DTMAKEHASHINDEX(hash);
 
 	for(n=0;n<HashLine[hash_index].nNumElements;n++)
@@ -203,13 +203,13 @@ void S_DEFTAB::UpdateHashTable(DWORD code, DWORD hash, bool in)
 			// take element out of list
 			HashLine[hash_index].pElements[n] = HashLine[hash_index].pElements[HashLine[hash_index].nNumElements - 1];
 			HashLine[hash_index].nNumElements--;
-			HashLine[hash_index].pElements = (DWORD *)RESIZE(HashLine[hash_index].pElements,HashLine[hash_index].nNumElements * sizeof(DWORD));
+			HashLine[hash_index].pElements = (uint32_t *)RESIZE(HashLine[hash_index].pElements,HashLine[hash_index].nNumElements * sizeof(uint32_t));
 			return;
 		}
 		else return;	// ok, already in list (? possible)
 	}
 	// not in list - add
 	HashLine[hash_index].nNumElements++;
-	HashLine[hash_index].pElements = (DWORD *)RESIZE(HashLine[hash_index].pElements,HashLine[hash_index].nNumElements * sizeof(DWORD));
+	HashLine[hash_index].pElements = (uint32_t *)RESIZE(HashLine[hash_index].pElements,HashLine[hash_index].nNumElements * sizeof(uint32_t));
 	HashLine[hash_index].pElements[HashLine[hash_index].nNumElements - 1] = code;
 }

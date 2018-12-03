@@ -8,7 +8,7 @@
 //
 //============================================================================================
 
-#include "..\common_h\messages.h"
+#include "..\../Shared/messages.h"
 
 #include "WorldMap.h"
 
@@ -28,10 +28,7 @@
 #include "WdmMerchantShip.h"
 #include "WdmWarringShip.h"
 
-#include "WdmDateLabel.h"
 #include "WdmWindUI.h"
-#include "WdmWindRose.h"
-#include "WdmCounter.h"
 #include "WdmEventWindow.h"
 //#include "WaitMenu.h"
 #include "WdmIcon.h"
@@ -290,8 +287,8 @@ bool WorldMap::Init()
 	//Загружаем энкоунтеры, если таковы были
 	if(saveData)
 	{
-		dword num = saveData->GetAttributesNum();
-		for(dword i = 0; i < num; i++)
+		uint32_t num = saveData->GetAttributesNum();
+		for(uint32_t i = 0; i < num; i++)
 		{
 			ATTRIBUTES * a = saveData->GetAttributeClass(i);
 			if(!a) continue;
@@ -381,11 +378,11 @@ bool WorldMap::Init()
 }
 
 //Исполнение
-void WorldMap::Execute(dword delta_time)
+void WorldMap::Execute(uint32_t delta_time)
 {
 }
 
-void WorldMap::Realize(dword delta_time)
+void WorldMap::Realize(uint32_t delta_time)
 {
 	if(AttributesPointer && wdmObjects->playerShip)
 	{
@@ -520,7 +517,7 @@ void WorldMap::Realize(dword delta_time)
 }
 
 //Сообщения
-dword _cdecl WorldMap::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl WorldMap::ProcessMessage(MESSAGE & message)
 {
 	char buf[256];
 	char sName[256];
@@ -587,7 +584,7 @@ dword _cdecl WorldMap::ProcessMessage(MESSAGE & message)
 }
 
 //Изменение атрибута
-dword WorldMap::AttributeChanged(ATTRIBUTES * apnt)
+uint32_t WorldMap::AttributeChanged(ATTRIBUTES * apnt)
 {
 	float x, z, ay;
 	if(!apnt || !AttributesPointer) return 0;

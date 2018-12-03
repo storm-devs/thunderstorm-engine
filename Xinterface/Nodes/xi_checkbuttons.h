@@ -32,7 +32,7 @@ public:
 	CXI_CHECKBUTTONS();
 	~CXI_CHECKBUTTONS();
 
-	void	Draw(bool bSelected,dword Delta_Time);
+	void	Draw(bool bSelected,uint32_t Delta_Time);
 	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
 	void	ReleaseAll();
 	int		CommandExecute(int wActCode);
@@ -40,7 +40,7 @@ public:
 	void	MouseThis(float fX, float fY) {}
 	void	ChangePosition( XYRECT &rNewPos );
 	void	SaveParametersToIni();
-	dword _cdecl MessageProc(long msgcode, MESSAGE & message);
+	uint32_t _cdecl MessageProc(long msgcode, MESSAGE & message);
 
 	virtual bool GetInternalNameList( std::vector<std::string>& aStr );
 	virtual void SetInternalName(std::string& sName );
@@ -64,9 +64,9 @@ protected:
 
 	long m_nFontNum;
 	float m_fFontScale;
-	dword m_dwNormalFontColor;
-	dword m_dwSelectFontColor;
-	dword m_dwDisableFontColor;
+	uint32_t m_dwNormalFontColor;
+	uint32_t m_dwSelectFontColor;
+	uint32_t m_dwDisableFontColor;
 	FXYRECT m_frTextOffset;
 	float m_fTextLineHeight;
 	float m_fTextSectionInterval;
@@ -82,13 +82,13 @@ protected:
 	std::string m_sIconGroupName;
 	//
 	std::string m_sNormalPicture;
-	dword m_dwNormalPicColor;
+	uint32_t m_dwNormalPicColor;
 	//
 	std::string m_sSelectPicture;
-	dword m_dwSelectPicColor;
+	uint32_t m_dwSelectPicColor;
 	//
 	std::string m_sDisablePicture;
-	dword m_dwDisablePicColor;
+	uint32_t m_dwDisablePicColor;
 };
 
 #endif

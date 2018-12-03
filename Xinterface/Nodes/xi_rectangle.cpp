@@ -12,7 +12,7 @@ CXI_RECTANGLE::~CXI_RECTANGLE()
 	ReleaseAll();
 }
 
-void CXI_RECTANGLE::Draw(bool bSelected,dword Delta_Time)
+void CXI_RECTANGLE::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(m_bUse)
 	{
@@ -147,7 +147,7 @@ void CXI_RECTANGLE::SaveParametersToIni()
 	delete pIni;
 }
 
-dword _cdecl CXI_RECTANGLE::MessageProc(long msgcode, MESSAGE & message)
+uint32_t _cdecl CXI_RECTANGLE::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

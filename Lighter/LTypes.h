@@ -5,7 +5,6 @@
 
 #include "..\common_h\vmodule_api.h"
 #include "..\common_h\matrix.h"
-#include "..\common_h\model.h"
 
 
 struct Light
@@ -71,7 +70,7 @@ struct Vertex
 	CVECTOR c;				//Цвет
 	CVECTOR bc;				//Цвет для сглаживания
 	CVECTOR mc;				//Цветовая маска
-	dword alpha;			//Альфа вертекса
+	uint32_t alpha;			//Альфа вертекса
 	Shadow * shadow;		//Значения затенения от каждого источника
 	long flags;				//Флаги
 	long vbid;				//Буфер вершин

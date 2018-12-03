@@ -31,8 +31,8 @@ class Grass : public ENTITY
 	struct Vertex
 	{
 		float x, y, z;
-		dword data;
-		dword offset;
+		uint32_t data;
+		uint32_t offset;
 		float wx, wz;		
 		float alpha;
 	};
@@ -66,12 +66,12 @@ class Grass : public ENTITY
 		{
 			struct
 			{				
-				byte frame;		//Кадр
-				byte h;			//Высота
-				byte w;			//Ширина
-				byte ang;		//Угол поворота
+				uint8_t frame;		//Кадр
+				uint8_t h;			//Высота
+				uint8_t w;			//Ширина
+				uint8_t ang;		//Угол поворота
 			};
-			dword data;
+			uint32_t data;
 		};
 	};
 
@@ -103,10 +103,10 @@ public:
 	//Инициализация
 	bool Init();
 	//Работа
-	void Execute(dword delta_time);
-	void Realize(dword delta_time);
+	void Execute(uint32_t delta_time);
+	void Realize(uint32_t delta_time);
 	//
-	dword _cdecl ProcessMessage(MESSAGE &message);
+	uint32_t _cdecl ProcessMessage(MESSAGE &message);
 	
 	//Загрузить данные для травы
 	bool LoadData(const char * patchName);

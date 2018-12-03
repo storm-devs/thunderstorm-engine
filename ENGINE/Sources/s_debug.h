@@ -11,7 +11,6 @@
 #define PROJECT_NAME	"project.df"
 
 #include "..\..\COMMON_H\memop.h"
-#include "..\..\COMMON_H\d_types.h"
 #include "s_dbg_watcherlist.h"
 #include "s_dbg_sourceview.h"
 #include "s_dbg_breaktable.h"
@@ -52,20 +51,20 @@ friend COMPILER;
 	char sLastFileName[MAX_PATH];
 	char ProgramDirectory[MAX_PATH];
 	char BreakFileName[MAX_PATH];
-	DWORD BreakLineCode;
+	uint32_t BreakLineCode;
 	char * pExpResBuffer;
 	RECT WatcherListRect;
 	RECT SourceViewRect;
 	bool bTrace;
-	DWORD nTraceMode;
-	DWORD nTraceLine;
+	uint32_t nTraceMode;
+	uint32_t nTraceLine;
 	HANDLE hDebugThread;
-	DWORD DebugThreadID;
-	DWORD MainThreadID;
+	uint32_t DebugThreadID;
+	uint32_t MainThreadID;
 	DBG_DISPLAY_MODE nDisplayMode;
-	DWORD nRecentFilesNum;
-	DWORD nRecentFilesIndex;
-	DWORD nRFMOffset;
+	uint32_t nRecentFilesNum;
+	uint32_t nRecentFilesIndex;
+	uint32_t nRFMOffset;
 public:
 	HWND hMain;
 	BREAKPOINTS_TABLE Breaks;
@@ -82,16 +81,16 @@ public:
 	bool IsDebug();
 	char * ProcessExpression(char * pExpression);
 	bool SetOnDebugExpression(char * pLValue, char * pRValue);
-	DWORD GetLineStatus(const char * _pFileName, DWORD _linecode);
+	uint32_t GetLineStatus(const char * _pFileName, uint32_t _linecode);
 	bool BrowseFile(char * buffer, const char * filter);
 	void Release();
 	void SetProgramDirectory(char * dir_name);
 	void SetTrace(bool on);
 	bool IsTrace();
-	DWORD GetTraceMode();
-	void SetTraceMode(DWORD tmode);
-	void BreakOn(char * filename,DWORD line);
-	void SetTraceLine(DWORD _l){nTraceLine = _l;};
+	uint32_t GetTraceMode();
+	void SetTraceMode(uint32_t tmode);
+	void BreakOn(char * filename,uint32_t line);
+	void SetTraceLine(uint32_t _l){nTraceLine = _l;};
 	void SetDbgDisplayMode(DBG_DISPLAY_MODE mode);
 	bool BrowseFileWP(char * buffer, const char * filter);
 

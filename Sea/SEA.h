@@ -44,7 +44,7 @@ private:
 	{
 		CVECTOR		vPos;
 		CVECTOR		vSpeed;
-		dword		dwSubTexture;
+		uint32_t		dwSubTexture;
 		float		fTime;
 		float		fSize;
 	};
@@ -53,14 +53,14 @@ private:
 	{
 		CVECTOR		vPos;
 		CVECTOR		vSpeed;
-		dword		dwSubTexture;
+		uint32_t		dwSubTexture;
 		float		fTime;
 	};
 
 	VDX9RENDER		* rs;
 	static SEA		* pSea;
 
-	dword			dwMaxDim, dwMinDim;
+	uint32_t			dwMaxDim, dwMinDim;
 	float			fMaxSeaHeight;
 	float			fGridStep;
 	float			fLodScale;
@@ -88,12 +88,12 @@ private:
 	bool		bSimpleSea;
 
 	SeaVertex	* pVSea;
-	word		* pTriangles;
-	dword		* pIndices;
+	uint16_t		* pTriangles;
+	uint32_t		* pIndices;
 	long		iVStart, iTStart, iIStart;
 
 	PLANE		* pFrustumPlanes;
-	dword		dwNumFrustumPlanes;
+	uint32_t		dwNumFrustumPlanes;
 
 	long				iSeaTrashTexture;
 	float				fLastTrashTime;
@@ -105,8 +105,8 @@ private:
 	float				fLastLightTime;
 	std::vector<RS_RECT>		aLightsRects;
 
-	std::vector<dword*>		aNormals;
-	std::vector<byte*>		aBumps;
+	std::vector<uint32_t*>		aNormals;
+	std::vector<uint8_t*>		aBumps;
 	std::vector<SeaBlock>		aBlocks;
 
 	CVECTOR4		v4SeaColor, v4SkyColor, v4SeaParameters;
@@ -147,7 +147,7 @@ private:
 
 	void			AddBlock(long iTX, long iTY, long iSize, long iLOD);
 	void			BuildTree(long iTX, long iTY, long iLev);
-	void			SetBlock(dword dwBlockIndex);
+	void			SetBlock(uint32_t dwBlockIndex);
 
 	bool			isVisibleBBox(const CVECTOR & vCenter, const CVECTOR & v1, const CVECTOR & v2);
 	void			CalculateLOD(const CVECTOR & v1, const CVECTOR & v2, long & iMaxLOD, long & iMinLOD);
@@ -155,12 +155,12 @@ private:
 	void			WaveXZBlock(SeaBlock * pB);
 	void			SSE_WaveXZBlock(SeaBlock * pB);
 	SeaBlock *		GetUndoneBlock();
-	void			PrepareIndicesForBlock(dword dwBlockIndex);
+	void			PrepareIndicesForBlock(uint32_t dwBlockIndex);
 
 	long			VisCode(const CVECTOR & vP);
 
-	void			CalculateHeightMap(float fFrame, float fAmplitude, float * pfOut, std::vector<byte*> & aFrames);
-	void			CalculateNormalMap(float fFrame, float fAmplitude, float * pfOut, std::vector<dword*> & aFrames);
+	void			CalculateHeightMap(float fFrame, float fAmplitude, float * pfOut, std::vector<uint8_t*> & aFrames);
+	void			CalculateNormalMap(float fFrame, float fAmplitude, float * pfOut, std::vector<uint32_t*> & aFrames);
 
 	bool			SunRoad_Render2();
 	bool			EnvMap_Render2();
@@ -178,7 +178,7 @@ private:
 	CRITICAL_SECTION	cs, cs1;
 	long				iBlocksDoneNum;
 
-	static dword	ThreadExecute(long iThreadIndex);
+	static uint32_t	ThreadExecute(long iThreadIndex);
 	void __declspec(dllexport) __cdecl SFLB_CreateBuffers();
 public:
 
@@ -187,7 +187,7 @@ public:
 
 	bool	Init();
 	void	BuildVolumeTexture();
-	void 	Realize(dword dwDeltaTime);
+	void 	Realize(uint32_t dwDeltaTime);
 
 	float Trace(const CVECTOR & vSrc, const CVECTOR & vDst);
 	virtual float Cannon_Trace(long iBallOwner, const CVECTOR &src, const CVECTOR &dst);
@@ -198,15 +198,15 @@ public:
 
 	bool EditMode_Update();
 
-	dword AttributeChanged(ATTRIBUTES * pAttribute);
+	uint32_t AttributeChanged(ATTRIBUTES * pAttribute);
 
 	void LostRender() override;
 	void RestoreRender() override;
 
 	//bool			Init();
-	//void			Realize(dword Delta_Time);
-	//void			Execute(dword Delta_Time);
-	//dword _cdecl	ProcessMessage(MESSAGE & message);
+	//void			Realize(uint32_t Delta_Time);
+	//void			Execute(uint32_t Delta_Time);
+	//uint32_t _cdecl	ProcessMessage(MESSAGE & message);
 };
 
 #endif

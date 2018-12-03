@@ -81,9 +81,9 @@ public:
 	///Заполнить все компоненты
 	Color(const Vector4 & v);
 	///Распоковать
-	Color(unsigned long c);
+	Color(uint32_t c);
 	///Распоковать
-	Color(long c);
+	Color(int32_t c);
 	///Конструктор копирования
 	Color(const Color & c);
 
@@ -102,7 +102,7 @@ public:
 	///Присвоить rgb
 	Color & operator = (float f);
 	///Распаковать и присвоить
-	Color & operator = (unsigned long c);
+	Color & operator = (uint32_t c);
 	///Присвоить rgb
 	Color & operator = (const Vector & v);
 	///Присвоить
@@ -112,7 +112,7 @@ public:
 	///Покомпонентное сложение с присваиванием rgb
 	Color & operator += (float f);
 	///Распаковать и сложить
-	Color & operator += (unsigned long c);
+	Color & operator += (uint32_t c);
 	///Покомпонентное сложение с присваиванием rgb
 	Color & operator += (const Vector & v);
 	///Покомпонентное сложение с присваиванием
@@ -122,7 +122,7 @@ public:
 	///Покомпонентное вычитание с присваиванием rgb
 	Color & operator -= (float f);
 	///Распаковать и вычесть
-	Color & operator -= (unsigned long c);
+	Color & operator -= (uint32_t c);
 	///Покомпонентное вычитание с присваиванием rgb
 	Color & operator -= (const Vector & v);
 	///Покомпонентное вычитание с присваиванием
@@ -132,7 +132,7 @@ public:
 	///Покомпонентное умножение с присваиванием rgb
 	Color & operator *= (float f);
 	///Распаковать и умножить
-	Color & operator *= (unsigned long c);
+	Color & operator *= (uint32_t c);
 	///Покомпонентное умножение с присваиванием rgb
 	Color & operator *= (const Vector & v);
 	///Покомпонентное умножение с присваиванием
@@ -142,7 +142,7 @@ public:
 	///Покомпонентное деление с присваиванием rgb
 	Color & operator /= (float f);
 	///Распаковать и разделить
-	Color & operator /= (unsigned long c);
+	Color & operator /= (uint32_t c);
 	///Покомпонентное деление с присваиванием rgb
 	Color & operator /= (const Vector & v);
 	///Покомпонентное деление с присваиванием
@@ -154,7 +154,7 @@ public:
 	Color & operator |= (const Color & c);
 
 	///Получить упакованный цвет в long
-	operator dword () const;
+	operator uint32_t () const;
 
 //-----------------------------------------------------------
 //Преобразование
@@ -208,18 +208,18 @@ public:
 	///Поменять местами r,b
 	Color & SwapRB();
 
-	//Получить запакованный цвет в dword
-	unsigned long GetDword() const;
+	//Получить запакованный цвет в uint32_t
+	uint32_t GetDword() const;
 
 
 	//Преобразование A8R8G8B8 в R5G6B5
-	static unsigned short Make565(unsigned long color);
+	static unsigned short Make565(uint32_t color);
 	//Преобразование A8R8G8B8 в X1R5G5B5
-	static unsigned short Make555(unsigned long color);
+	static unsigned short Make555(uint32_t color);
 	//Преобразование A8R8G8B8 в A1R5G5B5
-	static unsigned short Make1555(unsigned long color);
+	static unsigned short Make1555(uint32_t color);
 	//Преобразование A8R8G8B8 в A1R5G5B5
-	static unsigned short Make4444(unsigned long color);
+	static unsigned short Make4444(uint32_t color);
 
 
 };
@@ -245,9 +245,9 @@ public:
 		union
 		{
 			///Упакованный цвет
-			unsigned long c;
+			uint32_t c;
 			///Упакованный цвет
-			unsigned long color;
+			uint32_t color;
 		};
 	};
 
@@ -256,12 +256,12 @@ public:
 //-----------------------------------------------------------
 public:
 	///Присвоить
-	DColor & operator = (unsigned long color);
+	DColor & operator = (uint32_t color);
 	///Присвоить
 	DColor & operator = (long color);
 
 	//Получить long
-	operator dword () const;
+	operator uint32_t () const;
 };
 
 
@@ -324,15 +324,15 @@ inline Color::Color(const Vector4 & v)
 }
 
 //Распоковать
-inline Color::Color(unsigned long c)
+inline Color::Color(uint32_t c)
 {
 	*this = c;
 }
 
 ///Распоковать
-inline Color::Color(long c)
+inline Color::Color(int32_t c)
 {
-	*this = (dword)c;
+	*this = (uint32_t)c;
 }
 
 //Конструктор копирования
@@ -405,7 +405,7 @@ inline Color & Color::operator = (const Vector4 & v)
 }
 
 //Распаковать и присвоить
-inline Color & Color::operator = (unsigned long c)
+inline Color & Color::operator = (uint32_t c)
 {
 	r = ((unsigned char)(c >> 16))*(1.0f/255.0f);
 	g = ((unsigned char)(c >> 8))*(1.0f/255.0f);
@@ -434,7 +434,7 @@ inline Color & Color::operator += (float f)
 }
 
 //Распаковать и сложить
-inline Color & Color::operator += (unsigned long c)
+inline Color & Color::operator += (uint32_t c)
 {
 	Color clr(c);
 	*this += clr;
@@ -480,7 +480,7 @@ inline Color & Color::operator -= (float f)
 }
 
 ///Распаковать и вычесть
-inline Color & Color::operator -= (unsigned long c)
+inline Color & Color::operator -= (uint32_t c)
 {
 	Color clr(c);
 	*this = clr;
@@ -526,7 +526,7 @@ inline Color & Color::operator *= (float f)
 }
 
 ///Распаковать и умножить
-inline Color & Color::operator *= (unsigned long c)
+inline Color & Color::operator *= (uint32_t c)
 {
 	Color clr(c);
 	*this *= clr;
@@ -573,7 +573,7 @@ inline Color & Color::operator /= (float f)
 }
 
 //Распаковать и разделить
-inline Color & Color::operator /= (unsigned long c)
+inline Color & Color::operator /= (uint32_t c)
 {
 	Color clr(c);
 	*this /= clr;
@@ -618,7 +618,7 @@ inline Color & Color::operator |= (const Color & c)
 }
 
 //Получить упакованный цвет в long
-inline Color::operator dword () const
+inline Color::operator uint32_t () const
 {
 	Color c(*this);
 	c.Clamp();
@@ -649,7 +649,7 @@ inline Color operator + (float f, const Color & c)
 /*!\relates Color
 Распаковать и сложить
 */
-inline Color operator + (const Color & c, unsigned long cl)
+inline Color operator + (const Color & c, uint32_t cl)
 {
 	Color clr(c);
 	clr += cl;
@@ -659,7 +659,7 @@ inline Color operator + (const Color & c, unsigned long cl)
 /*!\relates Color
 Распаковать и сложить
 */
-inline Color operator + (unsigned long cl, const Color & c)
+inline Color operator + (uint32_t cl, const Color & c)
 {
 	Color clr(c);
 	clr += cl;
@@ -739,7 +739,7 @@ inline Color operator - (float f, const Color & c)
 /*!\relates Color
 Распаковать и вычесть
 */
-inline Color operator - (const Color & c, unsigned long cl)
+inline Color operator - (const Color & c, uint32_t cl)
 {
 	Color clr(c);
 	clr -= cl;
@@ -749,7 +749,7 @@ inline Color operator - (const Color & c, unsigned long cl)
 /*!\relates Color
 Распаковать и вычесть
 */
-inline Color operator - (unsigned long cl, const Color & c)
+inline Color operator - (uint32_t cl, const Color & c)
 {
 	Color clr(cl);
 	clr -= c;
@@ -829,7 +829,7 @@ inline Color operator * (float f, const Color & c)
 /*!\relates Color
 Распаковать и умножить
 */
-inline Color operator * (const Color & c, unsigned long cl)
+inline Color operator * (const Color & c, uint32_t cl)
 {
 	Color clr(c);
 	clr *= cl;
@@ -839,7 +839,7 @@ inline Color operator * (const Color & c, unsigned long cl)
 /*!\relates Color
 Распаковать и умножить
 */
-inline Color operator * (unsigned long cl, const Color & c)
+inline Color operator * (uint32_t cl, const Color & c)
 {
 	Color clr(c);
 	clr *= cl;
@@ -920,7 +920,7 @@ inline Color operator / (float f, const Color & c)
 /*!\relates Color
 Распаковать и разделить
 */
-inline Color operator / (const Color & c, unsigned long cl)
+inline Color operator / (const Color & c, uint32_t cl)
 {
 	Color clr(c);
 	clr /= cl;
@@ -930,7 +930,7 @@ inline Color operator / (const Color & c, unsigned long cl)
 /*!\relates Color
 Распаковать и разделить
 */
-inline Color operator / (unsigned long cl, const Color & c)
+inline Color operator / (uint32_t cl, const Color & c)
 {
 	Color clr(cl);
 	clr /= c;
@@ -1193,17 +1193,17 @@ inline Color & Color::SwapRB()
 	return *this;
 }
 
-//Получить запакованный цвет в dword
-inline unsigned long Color::GetDword() const
+//Получить запакованный цвет в uint32_t
+inline uint32_t Color::GetDword() const
 {
 /*	long l;*/
 	DColor color;
 	const float k = 255.0f;
 
-	color.r = byte(fftoi(r*k));
-	color.g = byte(fftoi(g*k));
-	color.b = byte(fftoi(b*k));
-	color.a = byte(fftoi(a*k));
+	color.r = uint8_t(fftoi(r*k));
+	color.g = uint8_t(fftoi(g*k));
+	color.b = uint8_t(fftoi(b*k));
+	color.a = uint8_t(fftoi(a*k));
 
 	return color.c;
 
@@ -1238,48 +1238,48 @@ inline unsigned long Color::GetDword() const
 }
 
 //Преобразование A8R8G8B8 в R5G6B5
-inline unsigned short Color::Make565(unsigned long color)
+inline unsigned short Color::Make565(uint32_t color)
 {
 	//   11111000 11111100 11111000
     //           11111 111111 11111
-	unsigned long b = (color >> 3) & 0x1f;
-	unsigned long g = (color >> 5) & 0x7e0;
-	unsigned long r = (color >> 8) & 0xf800;
+	uint32_t b = (color >> 3) & 0x1f;
+	uint32_t g = (color >> 5) & 0x7e0;
+	uint32_t r = (color >> 8) & 0xf800;
 	return (unsigned short)(r | g | b);
 }
 
 //Преобразование A8R8G8B8 в X1R5G5B5
-inline unsigned short Color::Make555(unsigned long color)
+inline unsigned short Color::Make555(uint32_t color)
 {
 	//   11111000 11111000 11111000
 	//           011111 11111 11111
-	unsigned long b = (color >> 3) & 0x1f;
-	unsigned long g = (color >> 6) & 0x3e0;
-	unsigned long r = (color >> 9) & 0x7c00;
+	uint32_t b = (color >> 3) & 0x1f;
+	uint32_t g = (color >> 6) & 0x3e0;
+	uint32_t r = (color >> 9) & 0x7c00;
 	return (unsigned short)(r | g | b);
 }
 
 //Преобразование A8R8G8B8 в A1R5G5B5
-inline unsigned short Color::Make1555(unsigned long color)
+inline unsigned short Color::Make1555(uint32_t color)
 {
 	//   11111000 11111000 11111000
 	//          1 11111 11111 11111
-	unsigned long b = (color >> 3) & 0x1f;
-	unsigned long g = (color >> 6) & 0x3e0;
-	unsigned long r = (color >> 9) & 0x7c00;
-	unsigned long a = (color >> 16) & 0x8000;
+	uint32_t b = (color >> 3) & 0x1f;
+	uint32_t g = (color >> 6) & 0x3e0;
+	uint32_t r = (color >> 9) & 0x7c00;
+	uint32_t a = (color >> 16) & 0x8000;
 	return (unsigned short)(r | g | b | a);
 }
 
 //Преобразование A8R8G8B8 в A1R5G5B5
-inline unsigned short Color::Make4444(unsigned long color)
+inline unsigned short Color::Make4444(uint32_t color)
 {
 	//  11110000 11111000 11111000 11111000
 	//                  1111 1111 1111 1111
-	unsigned long b = (color >> 4) & 0xf;
-	unsigned long g = (color >> 8) & 0xf0;
-	unsigned long r = (color >> 12) & 0xf00;
-	unsigned long a = (color >> 16) & 0xf000;
+	uint32_t b = (color >> 4) & 0xf;
+	uint32_t g = (color >> 8) & 0xf0;
+	uint32_t r = (color >> 12) & 0xf00;
+	uint32_t a = (color >> 16) & 0xf000;
 	return (unsigned short)(r | g | b | a);
 }
 
@@ -1288,7 +1288,7 @@ inline unsigned short Color::Make4444(unsigned long color)
 //===========================================================
 
 //Присвоить
-inline DColor & DColor::operator = (unsigned long color)
+inline DColor & DColor::operator = (uint32_t color)
 {
 	c = color;
 	return *this;
@@ -1297,12 +1297,12 @@ inline DColor & DColor::operator = (unsigned long color)
 //Присвоить
 inline DColor & DColor::operator = (long color)
 {
-	c = (unsigned long)color;
+	c = (uint32_t)color;
 	return *this;
 }
 
 //Получить long
-inline DColor::operator dword () const
+inline DColor::operator uint32_t () const
 {
 	return long(c);
 }

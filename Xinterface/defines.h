@@ -3,7 +3,6 @@
 
 #include "..\common_h\cvector.h"
 #include "..\common_h\stringService.h"
-#include "vxservice.h"
 #include "QuestFileReader\\QuestFileReader.h"
 #include "..\..\Shared\interface\messages.h"
 
@@ -148,7 +147,7 @@ struct FXYRECT
 struct XI_NOTEX_VERTEX
 {
 	CVECTOR pos;
-	DWORD color;
+	uint32_t color;
 };
 #define XI_ONLYONETEX_FVF		(D3DFVF_XYZ|D3DFVF_TEX1|D3DFVF_TEXTUREFORMAT2)
 struct XI_ONLYONETEX_VERTEX
@@ -160,14 +159,14 @@ struct XI_ONLYONETEX_VERTEX
 struct XI_ONETEX_VERTEX
 {
 	CVECTOR pos;
-	DWORD color;
+	uint32_t color;
 	float tu,tv;
 };
 #define XI_TWOTEX_FVF		(D3DFVF_XYZ|D3DFVF_DIFFUSE|D3DFVF_TEX2|D3DFVF_TEXTUREFORMAT2)
 struct XI_TWOTEX_VERTEX
 {
 	CVECTOR pos;
-	DWORD color;
+	uint32_t color;
 	float tu1,tv1;
 	float tu2,tv2;
 };
@@ -175,7 +174,7 @@ struct XI_TWOTEX_VERTEX
 struct XI_THREETEX_VERTEX
 {
 	CVECTOR pos;
-	DWORD color;
+	uint32_t color;
 	float tu1,tv1;
 	float tu2,tv2;
 	float tu3,tv3;
@@ -191,7 +190,7 @@ struct XI_THREETEX_VERTEX
 
 extern ENTITY_ID g_idInterface;
 
-extern DWORD ColorInterpolate(DWORD sCol,DWORD dCol,float m);
+extern uint32_t ColorInterpolate(uint32_t sCol,uint32_t dCol,float m);
 extern void DublicateString( char* &pDstStr, const char* pSrcStr );
 
 #endif

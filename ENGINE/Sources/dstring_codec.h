@@ -13,19 +13,19 @@ class DSTRING_CODEC
 	{
 		HTSUBELEMENT() {pDString = nullptr; nSize = 0;};
 		char * pDString;
-		DWORD  nSize;
+		uint32_t  nSize;
 	};
 
 	struct HTDELEMENT
 	{
 		HTDELEMENT() {ppDat = nullptr; nStringsNum = 0;};
 		HTSUBELEMENT * ppDat;
-		DWORD   nStringsNum;
+		uint32_t   nStringsNum;
 	};
 
-	DWORD   nStringsNum;
-	DWORD	nHTIndex;
-	DWORD	nHTEIndex;
+	uint32_t   nStringsNum;
+	uint32_t	nHTIndex;
+	uint32_t	nHTEIndex;
 	char	pSymbol[2];
 
 public:
@@ -39,11 +39,11 @@ public:
 	~DSTRING_CODEC(){Release();};
 
 
-	DWORD GetNum() {return nStringsNum;};
+	uint32_t GetNum() {return nStringsNum;};
 
 	void Release()
 	{
-		DWORD n,m;
+		uint32_t n,m;
 		for(m=0;m<DHASH_TABLE_SIZE;m++)
 		{
 			if(HTable[m].ppDat)
@@ -55,12 +55,12 @@ public:
 		}
 	}
 
-	DWORD Convert(const char * pString, DWORD nDataSize, bool & bNew)
+	uint32_t Convert(const char * pString, uint32_t nDataSize, bool & bNew)
 	{
-		DWORD nHash;
-		DWORD nTableIndex;
-		DWORD nStringCode;
-		DWORD n;
+		uint32_t nHash;
+		uint32_t nTableIndex;
+		uint32_t nStringCode;
+		uint32_t n;
 		if(pString == nullptr) return 0xffffffff;
 
 		if(nDataSize == 1)
@@ -109,10 +109,10 @@ public:
 		bNew = true;
 		return nStringCode;
 	}
-	char * Convert(DWORD code, DWORD & nSize)
+	char * Convert(uint32_t code, uint32_t & nSize)
 	{
-		DWORD nTableIndex;
-		DWORD n;
+		uint32_t nTableIndex;
+		uint32_t n;
 		//nTableIndex = code>>16;
 		nTableIndex = code & 0xff;
 		if(nTableIndex == DHASH_SINGLESYM)
@@ -135,11 +135,11 @@ public:
 		nSize = HTable[nTableIndex].ppDat[n].nSize;
 		return HTable[nTableIndex].ppDat[n].pDString;
 	}
-	DWORD MakeHashValue(const char * ps, DWORD nSize)
+	uint32_t MakeHashValue(const char * ps, uint32_t nSize)
 	{
-		DWORD hval = 0;
-		DWORD g;
-		DWORD n = 0;
+		uint32_t hval = 0;
+		uint32_t g;
+		uint32_t n = 0;
 		char v;
 		//while(*ps != 0)
 		for(n=0;n<nSize;n++)

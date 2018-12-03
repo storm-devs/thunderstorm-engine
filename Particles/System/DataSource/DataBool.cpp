@@ -28,12 +28,12 @@ void DataBool::SetValue (bool val)
 
 void DataBool::Load (MemFile* File)
 {
-	DWORD dwValue = 0;
+	uint32_t dwValue = 0;
 	File->ReadType(dwValue);
 	SetValue (dwValue);
 
 	static char AttribueName[128];
-	DWORD NameLength = 0;
+	uint32_t NameLength = 0;
 	File->ReadType(NameLength);
 	Assert (NameLength < 128);
 	File->Read(AttribueName, NameLength);
@@ -55,13 +55,13 @@ const char* DataBool::GetName ()
 
 void DataBool::Write (MemFile* File)
 {
-	DWORD dwValue = GetValue();
+	uint32_t dwValue = GetValue();
 	File->WriteType(dwValue);
 
 
 	//save name
-	DWORD NameLength = Name.size();
-	DWORD NameLengthPlusZero = NameLength+1;
+	uint32_t NameLength = Name.size();
+	uint32_t NameLengthPlusZero = NameLength+1;
 	File->WriteType(NameLengthPlusZero);
 	Assert (NameLength < 128);
 	File->Write(Name.c_str(), NameLength);

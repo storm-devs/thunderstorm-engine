@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include "defines.h"
-#include "vxservice.h" // pictures & string lists control
-#include "..\common_h\stringService.h"
 #include "..\common_h\defines.h"
 
 //////////////////////////////////////////////
@@ -50,7 +48,7 @@ int FindCommand(int comID)
 	else return i;
 }
 
-DWORD ColorInterpolate(DWORD sCol,DWORD dCol,float m)
+uint32_t ColorInterpolate(uint32_t sCol,uint32_t dCol,float m)
 {
 	int a,r,g,b;
 	a=ALPHA(sCol); r=RED(sCol); g=GREEN(sCol); b=GREEN(sCol);

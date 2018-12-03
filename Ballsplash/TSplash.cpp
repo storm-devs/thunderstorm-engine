@@ -20,26 +20,26 @@ long TSplash::vBuffer2      = 0;
 long TSplash::texture       = 0;
 long TSplash::texture2		= 0;
 
-dword TSplash::lockTicks	= 0;
-dword TSplash::fillTicks	= 0;
-dword TSplash::unlockTicks  = 0;
-dword TSplash::realizeTicks = 0;
-dword TSplash::processCount = 0;
-dword TSplash::topIndex		= 0;
-dword TSplash::topIndex2	= 0;
+uint32_t TSplash::lockTicks	= 0;
+uint32_t TSplash::fillTicks	= 0;
+uint32_t TSplash::unlockTicks  = 0;
+uint32_t TSplash::realizeTicks = 0;
+uint32_t TSplash::processCount = 0;
+uint32_t TSplash::topIndex		= 0;
+uint32_t TSplash::topIndex2	= 0;
 
-dword ambientColor = 0;
+uint32_t ambientColor = 0;
 //--------------------------------------------------------------------
-dword Desaturate(dword _color, float _k)
+uint32_t Desaturate(uint32_t _color, float _k)
 {
-	dword r = (_color >> 16) & 0xFF;
-	dword g = (_color >> 8 ) & 0xFF;
-	dword b = (_color      ) & 0xFF;
-	dword grayed = (r+g+b) / 3;
+	uint32_t r = (_color >> 16) & 0xFF;
+	uint32_t g = (_color >> 8 ) & 0xFF;
+	uint32_t b = (_color      ) & 0xFF;
+	uint32_t grayed = (r+g+b) / 3;
 
-	r = (dword) (grayed*_k + r*(1.f-_k));
-	g = (dword) (grayed*_k + g*(1.f-_k));
-	b = (dword) (grayed*_k + b*(1.f-_k));
+	r = (uint32_t) (grayed*_k + r*(1.f-_k));
+	g = (uint32_t) (grayed*_k + g*(1.f-_k));
+	b = (uint32_t) (grayed*_k + b*(1.f-_k));
 	return (r << 16) | (g << 8) | b;
 }
 
@@ -94,16 +94,16 @@ void TSplash::Initialize(INIFILE * _ini, IDirect3DDevice9 *_device, SEA_BASE *_s
 		iBuffer2 = NEW WORD[VPLANES_COUNT*6];
 		vBuffer2 = NEW GRID_VERTEX[VPLANES_COUNT*4];
 		*/
-		iBuffer = renderer->CreateIndexBuffer(MAX_SPLASHES*TRIANGLES_COUNT*3*sizeof(WORD), D3DUSAGE_WRITEONLY);
+		iBuffer = renderer->CreateIndexBuffer(MAX_SPLASHES*TRIANGLES_COUNT*3*sizeof(uint16_t), D3DUSAGE_WRITEONLY);
 		vBuffer = renderer->CreateVertexBuffer(GRID_FVF, MAX_SPLASHES*GRID_STEPS*GRID_STEPS*sizeof(GRID_VERTEX), D3DUSAGE_WRITEONLY);
-		iBuffer2 = renderer->CreateIndexBuffer(MAX_SPLASHES*VPLANES_COUNT*6*sizeof(WORD), D3DUSAGE_WRITEONLY);
+		iBuffer2 = renderer->CreateIndexBuffer(MAX_SPLASHES*VPLANES_COUNT*6*sizeof(uint16_t), D3DUSAGE_WRITEONLY);
 		vBuffer2 = renderer->CreateVertexBuffer(GRID_FVF2, MAX_SPLASHES*VPLANES_COUNT*4*sizeof(GRID_VERTEX2), D3DUSAGE_WRITEONLY);
 
 		texture = renderer->TextureCreate("explos.tga");
 		texture2 = renderer->TextureCreate("splash.tga");
 
 		// INDEXES 1
-		WORD *indexes = /*iBuffer*/ (WORD *) renderer->LockIndexBuffer(iBuffer);
+		uint16_t *indexes = /*iBuffer*/ (uint16_t *) renderer->LockIndexBuffer(iBuffer);
 
 		int startIndex = 0;
 		for (int i=0; i<MAX_SPLASHES; i++, startIndex += GRID_STEPS*GRID_STEPS)
@@ -123,7 +123,7 @@ void TSplash::Initialize(INIFILE * _ini, IDirect3DDevice9 *_device, SEA_BASE *_s
 
 		// INDEXES 2
 		startIndex = 0;
-		indexes = /*iBuffer2*/(WORD *) renderer->LockIndexBuffer(iBuffer2);
+		indexes = /*iBuffer2*/(uint16_t *) renderer->LockIndexBuffer(iBuffer2);
 		for (int i=0; i<MAX_SPLASHES; i++, startIndex += VPLANES_COUNT*4)
 		for (int j=0; j<VPLANES_COUNT; j++)
 		{
@@ -170,7 +170,7 @@ void TSplash::Start(const CVECTOR &_pos, const CVECTOR &_dir)
 }
 
 //--------------------------------------------------------------------
-float TSplash::HeightF(dword _time, float _r, float _k)
+float TSplash::HeightF(uint32_t _time, float _r, float _k)
 {
 	float tPhase = ((float) _time) * (2.f * PId2 / (SPLASH_FRAME_DELAY*SPLASH_FRAMES_COUNT));
 	float rK = (GRID_LENGTH - _r) / GRID_LENGTH;
@@ -182,7 +182,7 @@ float TSplash::HeightF(dword _time, float _r, float _k)
 }
 
 //--------------------------------------------------------------------
-bool TSplash::Process(dword _dTime)
+bool TSplash::Process(uint32_t _dTime)
 {
 	if (!enabled)
 		return false;
@@ -203,7 +203,7 @@ bool TSplash::Process(dword _dTime)
 	static GRID_VERTEX *startVertices;
 	midY = sea->WaveXZ(center.x, center.z) + SPLASH_MOVE_Y;
 
-	dword ticksLock;
+	uint32_t ticksLock;
 	RDTSC_B(ticksLock);
 	if (startRender)
 	{
@@ -212,7 +212,7 @@ bool TSplash::Process(dword _dTime)
 	}
 	RDTSC_E(ticksLock);
 	TSplash::lockTicks += ticksLock;
-	dword ticksFill;
+	uint32_t ticksFill;
 	RDTSC_B(ticksFill);
 
 	GRID_VERTEX *vertices = startVertices + topIndex*GRID_STEPS*GRID_STEPS;
@@ -223,13 +223,13 @@ bool TSplash::Process(dword _dTime)
 
 	//calculate alpha
 	int dt = time - SPLASH_FRAMES_COUNT*SPLASH_FRAME_DELAY / 2;
-	dword alpha;
+	uint32_t alpha;
 	if (time < SPLASH_FADE_IN_TIME)
-		alpha =  (dword) (255.f * time / SPLASH_FADE_IN_TIME);
+		alpha =  (uint32_t) (255.f * time / SPLASH_FADE_IN_TIME);
 	else if (dt < 0)
 		alpha = 0xFF;
 	else
-		alpha = (dword) (255.f - dt * 255.f/(SPLASH_FADE_TIME - SPLASH_FRAMES_COUNT*SPLASH_FRAME_DELAY/2));
+		alpha = (uint32_t) (255.f - dt * 255.f/(SPLASH_FADE_TIME - SPLASH_FRAMES_COUNT*SPLASH_FRAME_DELAY/2));
 	alpha = (alpha << 24) | (0x00FFFFFF & ambientColor);
 
 	//fill vertices
@@ -268,7 +268,7 @@ void TSplash::PostProcess()
 {
 	if (startRender)
 		return;
-	dword ticksUnlock;
+	uint32_t ticksUnlock;
 	RDTSC_B(ticksUnlock);
 	renderer->UnLockVertexBuffer(vBuffer);
 	RDTSC_E(ticksUnlock);
@@ -276,7 +276,7 @@ void TSplash::PostProcess()
 }
 
 //--------------------------------------------------------------------
-bool TSplash::Process2(dword _dTime)
+bool TSplash::Process2(uint32_t _dTime)
 {
 	if (!enabled)
 		return false;
@@ -286,7 +286,7 @@ bool TSplash::Process2(dword _dTime)
 
 	// VERTICES 2
 	static GRID_VERTEX2 *startVertices2;
-	dword ticksLock;
+	uint32_t ticksLock;
 	RDTSC_B(ticksLock);
 	if (startRender)
 	{
@@ -295,7 +295,7 @@ bool TSplash::Process2(dword _dTime)
 	}
 	RDTSC_E(ticksLock);
 	TSplash::lockTicks += ticksLock;
-	dword ticksFill;
+	uint32_t ticksFill;
 	RDTSC_B(ticksFill);
 
 	GRID_VERTEX2 *vertices = startVertices2 + topIndex*4*VPLANES_COUNT;
@@ -303,7 +303,7 @@ bool TSplash::Process2(dword _dTime)
 	if (u > (1.f-dU))
 		u = 1.f-dU;
 
-	dword alpha = (dword) ((((float) (time % SPLASH_FRAME_DELAY)) / SPLASH_FRAME_DELAY) * 0xFF);
+	uint32_t alpha = (uint32_t) ((((float) (time % SPLASH_FRAME_DELAY)) / SPLASH_FRAME_DELAY) * 0xFF);
 	alpha = (alpha << 24) | (0x00FFFFFF & ambientColor);
 
 	float a = 0.f;
@@ -363,7 +363,7 @@ void TSplash::PostProcess2()
 {
 	if (startRender)
 		return;
-	dword ticksUnlock;
+	uint32_t ticksUnlock;
 	RDTSC_B(ticksUnlock);
 	renderer->UnLockVertexBuffer(vBuffer2);
 	RDTSC_E(ticksUnlock);
@@ -371,15 +371,15 @@ void TSplash::PostProcess2()
 }
 
 //--------------------------------------------------------------------
-void TSplash::Realize(dword _dTime)
+void TSplash::Realize(uint32_t _dTime)
 {
 	if (startRender)
 		return;
 
-	dword ticksRealize;
+	uint32_t ticksRealize;
 	RDTSC_B(ticksRealize);
 
-	static dword ambient, tfactor, oldAmbient, alpha;
+	static uint32_t ambient, tfactor, oldAmbient, alpha;
 	CMatrix m;
 	renderer->SetTransform(D3DTS_WORLD, (D3DMATRIX *) m);
 	renderer->TextureSet(0, texture);
@@ -398,15 +398,15 @@ void TSplash::Realize(dword _dTime)
 }
 
 //--------------------------------------------------------------------
-void TSplash::Realize2(dword _dTime)
+void TSplash::Realize2(uint32_t _dTime)
 {
 	if (!topIndex)
 		return;
 
-	dword ticksRealize;
+	uint32_t ticksRealize;
 	RDTSC_B(ticksRealize);
 
-	static dword ambient, fogColor, oldAmbient;
+	static uint32_t ambient, fogColor, oldAmbient;
 	CMatrix m;
 	renderer->SetTransform(D3DTS_WORLD, (D3DMATRIX *) m);
 	renderer->TextureSet(0, texture2);

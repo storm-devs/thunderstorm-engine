@@ -2,9 +2,6 @@
 #define _PARTICLE_DATA_COLOR_H_
 
 
-#include <string.h>
-#include <stdarg.h>
-#include <stdio.h>
 #include "../../../common_h/exs.h"
 #include "..\..\icommon\memfile.h"
 #include "..\..\icommon\colorvertex.h"
@@ -34,16 +31,16 @@ public:
 	void SetDefaultValue (const Color& Value);
 
 //Установить значения
-	void SetValues (const ColorVertex* Values, DWORD Count);
+	void SetValues (const ColorVertex* Values, uint32_t Count);
 
 //Получить кол-во значений
-	DWORD GetValuesCount ();
+	uint32_t GetValuesCount ();
 
 //Получить мин. значение (по индексу)
-	const Color& GetMinValue (DWORD Index);
+	const Color& GetMinValue (uint32_t Index);
 
 //Получить макс. значение (по индексу)
-	const Color& GetMaxValue (DWORD Index);
+	const Color& GetMaxValue (uint32_t Index);
 
 
 
@@ -55,7 +52,7 @@ public:
 	const char* GetName ();
 
 
-	const ColorVertex& GetByIndex (DWORD Index);
+	const ColorVertex& GetByIndex (uint32_t Index);
 
 };
 

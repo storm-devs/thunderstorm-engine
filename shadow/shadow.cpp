@@ -9,6 +9,7 @@ dynamic shadow cpp file
 ******************************************************************************/
 #include "SHADOW.h"
 #include "..\common_h\model.h"
+#include "../../Shared/messages.h"
 
 static unsigned long HEAD_DENSITY = 0xFF606060;
 static unsigned long DENSITY = 0xFF606040;
@@ -122,7 +123,7 @@ bool AddPoly(const CVECTOR *vr, long nverts)
 //------------------------------------------------------------------------------------
 //realize
 //------------------------------------------------------------------------------------
-void SHADOW::Realize(dword Delta_Time)
+void SHADOW::Realize(uint32_t Delta_Time)
 {
 	MODEL *obj = (MODEL*)_CORE_API->GetEntityPointer(&entity);
 	if(!obj) return;
@@ -333,9 +334,9 @@ void SHADOW::Realize(dword Delta_Time)
 
 	tot_verts = 0;
 #ifndef _XBOX
-	rs->VBLock(vbuff, 0, 0, (byte**)&shadvert, D3DLOCK_DISCARD|D3DLOCK_NOSYSLOCK);
+	rs->VBLock(vbuff, 0, 0, (uint8_t**)&shadvert, D3DLOCK_DISCARD|D3DLOCK_NOSYSLOCK);
 #else
-	rs->VBLock(vbuff, 0, 0, (byte**)&shadvert, 0);
+	rs->VBLock(vbuff, 0, 0, (uint8_t**)&shadvert, 0);
 #endif
 	col->Clip(*walker, &planes[0], 5, cen, radius, AddPoly, &entity, 1);
 
@@ -451,7 +452,7 @@ void SHADOW::Smooth()
 	rs->EndScene();
 }
 
-dword _cdecl SHADOW::ProcessMessage(MESSAGE &message)
+uint32_t _cdecl SHADOW::ProcessMessage(MESSAGE &message)
 {
 	long code = message.Long();
 	switch (code)

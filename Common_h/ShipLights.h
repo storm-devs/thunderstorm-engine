@@ -7,7 +7,7 @@ class IShipLights : public ENTITY
 {
 public:
 	IShipLights() {};
-	virtual ~IShipLights() {};
+	virtual ~IShipLights(){};
 
 	virtual void Release(VAI_OBJBASE * pObject) = 0;
 

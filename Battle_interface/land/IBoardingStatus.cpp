@@ -25,7 +25,7 @@ bool IBoardingStatus::Init()
 	return true;
 }
 
-dword _cdecl IBoardingStatus::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl IBoardingStatus::ProcessMessage(MESSAGE & message)
 {
 	switch (message.Long())
 	{
@@ -43,7 +43,7 @@ dword _cdecl IBoardingStatus::ProcessMessage(MESSAGE & message)
 	return 0;
 }
 
-void IBoardingStatus::Realize(dword delta_time)
+void IBoardingStatus::Realize(uint32_t delta_time)
 {
 	if(rs== nullptr) return;
 

@@ -7,7 +7,7 @@
 
 struct SYSTEM_CONTROL_ELEMENT
 {
-	DWORD update_frame;
+	uint32_t update_frame;
 	CONTROL_STATE state;
 };
 
@@ -28,7 +28,7 @@ class PCS_CONTROLS : public CONTROLS
 	long nSystemControlsNum;
 	USER_CONTROL * pUserControls;
 	long nControlsNum;
-	DWORD nFrameCounter;
+	uint32_t nFrameCounter;
 	long nLastControlTime;
 
 	long nMouseWheel;
@@ -45,7 +45,7 @@ public:
 	 PCS_CONTROLS();
 	~PCS_CONTROLS();
 
-	void Update(DWORD DeltaTime);
+	void Update(uint32_t DeltaTime);
 	long GetSystemControlsNum();
 	bool GetSystemControlDesc(long code, SYSTEM_CONTROL_DESC & _control_desc_struct);
 
@@ -55,7 +55,7 @@ public:
 	long CreateControl(char * control_name);
 	long GetControlsNum();
 	bool GetControlDesc(long code, USER_CONTROL & _user_desc_struct);
-	bool SetControlFlags(long code, DWORD _flags);
+	bool SetControlFlags(long code, uint32_t _flags);
 
 	long GetDevicesNum();
 	bool GetDeviceDesc(long code, DEVICE_DESC & _device_desc);

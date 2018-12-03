@@ -3,10 +3,6 @@
 
 #include "vmodule_api.h"
 #include "cvector.h"
-#include "defines.h"
-#include "ship_msg.h"
-#include "sail_msg.h"
-#include "messages.h"
 #include "sd2_h\VAI_ObjBase.h"
 
 struct SHIP_STATE
@@ -55,7 +51,7 @@ public:
 
 	virtual BOOL	BuildContour(CVECTOR *vContour,long &iNumVContour) = 0;
 
-	virtual BOOL	TouchMove(DWORD DeltaTime, TOUCH_PARAMS *pTPOld, TOUCH_PARAMS *pTPNew) = 0;
+	virtual BOOL	TouchMove(uint32_t DeltaTime, TOUCH_PARAMS *pTPOld, TOUCH_PARAMS *pTPNew) = 0;
 	virtual long	AddStrength(STRENGTH *strength) = 0;
 	virtual bool	DelStrength(long iIdx) = 0;
 

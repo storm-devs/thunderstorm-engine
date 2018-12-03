@@ -38,7 +38,7 @@ void Astronomy::PLANETS::Init(ATTRIBUTES * pAP)
 	TimeUpdate(pAP);
 
 	ATTRIBUTES * pAPlanets = pAP->FindAClass(pAP, "Planets.Planet");
-	if (pAPlanets) for (dword i=0; i<pAPlanets->GetAttributesNum(); i++)
+	if (pAPlanets) for (uint32_t i=0; i<pAPlanets->GetAttributesNum(); i++)
 	{
 		ATTRIBUTES * pAPlanet = pAPlanets->GetAttributeClass(i);
 		ATTRIBUTES * pAMag = pAPlanet->GetAttributeClass("Mag");
@@ -65,10 +65,10 @@ void Astronomy::PLANETS::Init(ATTRIBUTES * pAP)
 
 	float fMaxDistance = 1e-10f;
 
-	for (dword i=0; i<aPlanets.size(); i++)
+	for (uint32_t i=0; i<aPlanets.size(); i++)
 		if (aPlanets[i].fDistance > fMaxDistance) fMaxDistance = aPlanets[i].fDistance;
 
-	for (dword i=0; i<aPlanets.size(); i++)
+	for (uint32_t i=0; i<aPlanets.size(); i++)
 	{
 		//aPlanets[i].fDistance /= fMaxDistance;
 		aPlanets[i].fRealDistance = 1200.0f + 500.0f * aPlanets[i].fDistance / fMaxDistance;
@@ -105,7 +105,7 @@ void Astronomy::PLANETS::Realize(double dDeltaTime, double dHour)
 
 	CVECTOR vCamPos, vCamAng; float fFov;
 	Astronomy::pRS->GetCamera(vCamPos, vCamAng, fFov);
-	dword bLighting, dwAmbient;
+	uint32_t bLighting, dwAmbient;
 	Astronomy::pRS->GetRenderState(D3DRS_LIGHTING, &bLighting);
 	Astronomy::pRS->GetRenderState(D3DRS_AMBIENT, &dwAmbient);
 
@@ -113,7 +113,7 @@ void Astronomy::PLANETS::Realize(double dDeltaTime, double dHour)
 	Astronomy::pRS->SetRenderState(D3DRS_LIGHTING, false);
 	Astronomy::pRS->SetRenderState(D3DRS_AMBIENT, 0x00FFFFFF);
 
-	for (dword i=0; i<aPlanets.size(); i++)
+	for (uint32_t i=0; i<aPlanets.size(); i++)
 	{
 		CMatrix mP, m2;
 		float fDistance = aPlanets[i].fRealDistance;
@@ -130,7 +130,7 @@ void Astronomy::PLANETS::Realize(double dDeltaTime, double dHour)
 
 		RS_RECT p;
 		p.vPos = vPos + vCamPos;
-		p.dwColor = ((dword)(fPlanetFade*255)<<24) | 0xFFFFFF;
+		p.dwColor = ((uint32_t)(fPlanetFade*255)<<24) | 0xFFFFFF;
 		p.dwSubTexture = 0;
 		p.fAngle = 0.0f;
 		p.fSize = aPlanets[i].fScale * fPlanetScale * aPlanets[i].fFakeScale * 10.0f;

@@ -15,7 +15,7 @@ S_CLASSTAB::~S_CLASSTAB()
 
 void  S_CLASSTAB::Release()
 {
-	dword n,m;
+	uint32_t n,m;
 	if(pTable) 
 	{
 		for(n=0;n<nClassesNum;n++)	
@@ -35,7 +35,7 @@ void  S_CLASSTAB::Release()
 	nClassesNum = 0;
 }
 
-bool S_CLASSTAB::GetClass(CLASSINFO& ci,dword class_code)
+bool S_CLASSTAB::GetClass(CLASSINFO& ci,uint32_t class_code)
 {
 	if(class_code >= nClassesNum) return false;
 	if(pTable[class_code].segment_id == INVALID_SEGMENT_ID) return false;
@@ -43,18 +43,18 @@ bool S_CLASSTAB::GetClass(CLASSINFO& ci,dword class_code)
 	return true;
 }
 
-bool S_CLASSTAB::GetClassX(CLASSINFO& ci,dword class_code)
+bool S_CLASSTAB::GetClassX(CLASSINFO& ci,uint32_t class_code)
 {
 	if(class_code >= nClassesNum) return false;
 	ci = pTable[class_code];
 	return true;
 }
 
-dword S_CLASSTAB::AddClass(CLASSINFO& ci, bool bRegisterOnly)
+uint32_t S_CLASSTAB::AddClass(CLASSINFO& ci, bool bRegisterOnly)
 {
-	dword n;
-	dword hash;
-	dword nClassN;
+	uint32_t n;
+	uint32_t hash;
+	uint32_t nClassN;
 
 	if(ci.name == nullptr) return INVALID_CLASS_CODE;
 
@@ -137,10 +137,10 @@ dword S_CLASSTAB::AddClass(CLASSINFO& ci, bool bRegisterOnly)
 	return nClassN;
 }
 
-dword S_CLASSTAB::MakeHashValue(const char * string)
+uint32_t S_CLASSTAB::MakeHashValue(const char * string)
 {
-	dword hval = 0;
-	dword g;
+	uint32_t hval = 0;
+	uint32_t g;
 	char v;
 	while(*string != 0)
 	{
@@ -157,9 +157,9 @@ dword S_CLASSTAB::MakeHashValue(const char * string)
 	return hval;
 }
 
-void S_CLASSTAB::InvalidateBySegmentID(dword segment_id)
+void S_CLASSTAB::InvalidateBySegmentID(uint32_t segment_id)
 {
-	dword n;
+	uint32_t n;
 	for(n=0;n<nClassesNum;n++)
 	{
 		if(pTable[n].segment_id != segment_id) continue;
@@ -171,10 +171,10 @@ void S_CLASSTAB::InvalidateBySegmentID(dword segment_id)
 	}
 }
 
-dword S_CLASSTAB::FindClass(const char * class_name)
+uint32_t S_CLASSTAB::FindClass(const char * class_name)
 {
-	dword n;
-	dword hash;
+	uint32_t n;
+	uint32_t hash;
 	if(class_name == nullptr) return INVALID_CLASS_CODE;
 	hash = MakeHashValue(class_name);
 	for(n=0;n<nClassesNum;n++)
@@ -187,7 +187,7 @@ dword S_CLASSTAB::FindClass(const char * class_name)
 	return INVALID_CLASS_CODE;
 }
 
-bool S_CLASSTAB::IsClassDataSet(dword class_id)
+bool S_CLASSTAB::IsClassDataSet(uint32_t class_id)
 {
 	if(class_id >= nClassesNum) return false;
 	return !pTable[class_id].bClassRegistredOnly;

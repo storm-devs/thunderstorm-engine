@@ -1,9 +1,10 @@
 #include "Track.h"
+#include "../Common_h/defines.h"
 
 VDX9RENDER * ShipTracks::ShipTrack::pRS = nullptr;
 SEA_BASE * ShipTracks::ShipTrack::pSea = nullptr;
 long ShipTracks::ShipTrack::iRefCount = 0;
-dword ShipTracks::ShipTrack::dwMaxBufferSize1 = 0, ShipTracks::ShipTrack::dwMaxBufferSize2 = 0;
+uint32_t ShipTracks::ShipTrack::dwMaxBufferSize1 = 0, ShipTracks::ShipTrack::dwMaxBufferSize2 = 0;
 long ShipTracks::ShipTrack::iVTmpBuffer1 = -1, ShipTracks::ShipTrack::iVTmpBuffer2 = -1;
 long ShipTracks::ShipTrack::iITmpBuffer1 = -1, ShipTracks::ShipTrack::iITmpBuffer2 = -1;
 
@@ -57,11 +58,11 @@ void ShipTracks::DelShip(SHIP_BASE * pShip)
 	}
 }
 
-void ShipTracks::Execute(dword dwDeltaTime)
+void ShipTracks::Execute(uint32_t dwDeltaTime)
 {
 }
 
-void ShipTracks::Realize(dword dwDeltaTime)
+void ShipTracks::Realize(uint32_t dwDeltaTime)
 {
 	for (long i=0; i<aShips.size(); i++)
 	{
@@ -152,9 +153,9 @@ bool ShipTracks::ShipTrack::Update(SHIP_BASE * pShip)
 	return true;
 }
 
-bool ShipTracks::ShipTrack::Reserve1(dword dwSize)
+bool ShipTracks::ShipTrack::Reserve1(uint32_t dwSize)
 {
-	dword dwNewSize = (dwSize / (100) + 1) * (100);
+	uint32_t dwNewSize = (dwSize / (100) + 1) * (100);
 
 	if (dwMaxBufferSize1 >= dwNewSize) return iVTmpBuffer1 != -1 && iITmpBuffer1 != -1;
 
@@ -164,7 +165,7 @@ bool ShipTracks::ShipTrack::Reserve1(dword dwSize)
 	pRS->ReleaseIndexBuffer(iITmpBuffer1);	iITmpBuffer1 = -1;
 
 	iVTmpBuffer1 = pRS->CreateVertexBuffer(D3DFVF_XYZ|D3DFVF_DIFFUSE|D3DFVF_TEX1, dwMaxBufferSize1 * dwTrackStep1 * sizeof(TrackVertex), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
-	iITmpBuffer1 = pRS->CreateIndexBuffer(dwMaxBufferSize1 * dwTrackStep1 * 6 * sizeof(word), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
+	iITmpBuffer1 = pRS->CreateIndexBuffer(dwMaxBufferSize1 * dwTrackStep1 * 6 * sizeof(uint16_t), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
 
 	if (iVTmpBuffer1==-1 || iITmpBuffer1==-1)
 	{
@@ -174,26 +175,26 @@ bool ShipTracks::ShipTrack::Reserve1(dword dwSize)
 		return false;
 	}
 
-	word * pI = (word*)pRS->LockIndexBuffer(iITmpBuffer1);
-	for (dword y=0; y<dwNewSize; y++)
-		for (dword x=0; x<dwTrackStep1 - 1; x++)
+	uint16_t * pI = (uint16_t*)pRS->LockIndexBuffer(iITmpBuffer1);
+	for (uint32_t y=0; y<dwNewSize; y++)
+		for (uint32_t x=0; x<dwTrackStep1 - 1; x++)
 		{
-			*pI++ = word((y + 0) * dwTrackStep1 + x);
-			*pI++ = word((y + 1) * dwTrackStep1 + x);
-			*pI++ = word((y + 0) * dwTrackStep1 + x + 1);
+			*pI++ = uint16_t((y + 0) * dwTrackStep1 + x);
+			*pI++ = uint16_t((y + 1) * dwTrackStep1 + x);
+			*pI++ = uint16_t((y + 0) * dwTrackStep1 + x + 1);
 
-			*pI++ = word((y + 1) * dwTrackStep1 + x);
-			*pI++ = word((y + 1) * dwTrackStep1 + x + 1);
-			*pI++ = word((y + 0) * dwTrackStep1 + x + 1);
+			*pI++ = uint16_t((y + 1) * dwTrackStep1 + x);
+			*pI++ = uint16_t((y + 1) * dwTrackStep1 + x + 1);
+			*pI++ = uint16_t((y + 0) * dwTrackStep1 + x + 1);
 		}
 	pRS->UnLockIndexBuffer(iITmpBuffer1);
 
 	return true;
 }
 
-bool ShipTracks::ShipTrack::Reserve2(dword dwSize)
+bool ShipTracks::ShipTrack::Reserve2(uint32_t dwSize)
 {
-	dword dwNewSize = (dwSize / (20) + 1) * (20);
+	uint32_t dwNewSize = (dwSize / (20) + 1) * (20);
 
 	if (dwMaxBufferSize2 >= dwNewSize) return iVTmpBuffer2 != -1 && iITmpBuffer2 != -1;
 
@@ -203,7 +204,7 @@ bool ShipTracks::ShipTrack::Reserve2(dword dwSize)
 	pRS->ReleaseIndexBuffer(iITmpBuffer2);	iITmpBuffer2 = -1;
 
 	iVTmpBuffer2 = pRS->CreateVertexBuffer(D3DFVF_XYZ|D3DFVF_DIFFUSE|D3DFVF_TEX1, dwMaxBufferSize2 * dwTrackStep2 * sizeof(TrackVertex), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
-	iITmpBuffer2 = pRS->CreateIndexBuffer(dwMaxBufferSize2 * dwTrackStep2 * 6 * sizeof(word), D3DUSAGE_WRITEONLY);
+	iITmpBuffer2 = pRS->CreateIndexBuffer(dwMaxBufferSize2 * dwTrackStep2 * 6 * sizeof(uint16_t), D3DUSAGE_WRITEONLY);
 
 	if (iVTmpBuffer2 == -1 || iITmpBuffer2 == -1)
 	{
@@ -213,17 +214,17 @@ bool ShipTracks::ShipTrack::Reserve2(dword dwSize)
 		return false;
 	}
 
-	word * pI = (word*)pRS->LockIndexBuffer(iITmpBuffer2);
-	for (dword y=0; y<dwNewSize; y++)
-		for (dword x=0; x<dwTrackStep2 - 1; x++)
+	uint16_t * pI = (uint16_t*)pRS->LockIndexBuffer(iITmpBuffer2);
+	for (uint32_t y=0; y<dwNewSize; y++)
+		for (uint32_t x=0; x<dwTrackStep2 - 1; x++)
 		{
-			*pI++ = word((y + 0) * dwTrackStep2 + x);
-			*pI++ = word((y + 1) * dwTrackStep2 + x);
-			*pI++ = word((y + 0) * dwTrackStep2 + x + 1);
+			*pI++ = uint16_t((y + 0) * dwTrackStep2 + x);
+			*pI++ = uint16_t((y + 1) * dwTrackStep2 + x);
+			*pI++ = uint16_t((y + 0) * dwTrackStep2 + x + 1);
 
-			*pI++ = word((y + 1) * dwTrackStep2 + x);
-			*pI++ = word((y + 1) * dwTrackStep2 + x + 1);
-			*pI++ = word((y + 0) * dwTrackStep2 + x + 1);
+			*pI++ = uint16_t((y + 1) * dwTrackStep2 + x);
+			*pI++ = uint16_t((y + 1) * dwTrackStep2 + x + 1);
+			*pI++ = uint16_t((y + 0) * dwTrackStep2 + x + 1);
 		}
 		pRS->UnLockIndexBuffer(iITmpBuffer2);
 
@@ -391,7 +392,7 @@ void ShipTracks::ShipTrack::Reset()
 	aTrack2.clear();
 }
 
-dword ShipTracks::AttributeChanged(ATTRIBUTES * pA)
+uint32_t ShipTracks::AttributeChanged(ATTRIBUTES * pA)
 {
 	if (*pA == "ResetTracks")
 	{

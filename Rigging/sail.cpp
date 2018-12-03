@@ -4,7 +4,6 @@
 #include "..\common_h\defines.h"
 #include "..\common_h\Weather_base.h"
 #include "..\common_h\ship_base.h"
-#include "..\common_h\ship_msg.h"
 #include "..\common_h\sd2_h\VAI_ObjBase.h"
 #include "rigging_define.h"
 #include <stdio.h>
@@ -211,9 +210,9 @@ bool SAIL::LoadState(ENTITY_STATE * state)
 	return true;
 }
 
-void SAIL::Execute(dword Delta_Time)
+void SAIL::Execute(uint32_t Delta_Time)
 {
-    DWORD rtime;
+    uint32_t rtime;
     int i;
 
 	// тестовая убойка мачт
@@ -447,13 +446,13 @@ void SAIL::Execute(dword Delta_Time)
     }
 }
 
-void SAIL::Realize(dword Delta_Time)
+void SAIL::Realize(uint32_t Delta_Time)
 {
-	dword dwOldTextureFactor;
+	uint32_t dwOldTextureFactor;
 	int i,j,idx;
     if(bUse)
     {
-        DWORD tm_draw;
+        uint32_t tm_draw;
 
         //_asm rdtsc	_asm mov tm_draw,eax
 		bool bDraw = RenderService->TechniqueExecuteStart("ShipSail");
@@ -514,14 +513,14 @@ void SAIL::Realize(dword Delta_Time)
 						else RenderService->TextureSet( 1, slist[i]->m_nGeraldTex );
 					} else RenderService->TextureSet( 1, m_nEmptyGerbTex );
 					// Draw hole texture sail
-					dword dwOld;
+					uint32_t dwOld;
 					RenderService->GetSamplerState(2,D3DSAMP_ADDRESSU,&dwOld);
 					RenderService->SetSamplerState(2,D3DSAMP_ADDRESSU,D3DTADDRESS_MIRROR);
 					//slist[i]->FillIndex(pt);
 					#ifndef _XBOX
-					WORD* pt=(WORD*)RenderService->LockIndexBuffer(sg.indxBuf,D3DLOCK_DISCARD);
+					uint16_t* pt=(uint16_t*)RenderService->LockIndexBuffer(sg.indxBuf,D3DLOCK_DISCARD);
 					#else
-					WORD* pt=(WORD*)RenderService->LockIndexBuffer(sg.indxBuf,0);
+					uint16_t* pt=(uint16_t*)RenderService->LockIndexBuffer(sg.indxBuf,0);
 					#endif
 					if(pt)	slist[i]->FillIndex(pt);
 					RenderService->UnLockIndexBuffer(sg.indxBuf);
@@ -555,9 +554,9 @@ void SAIL::Realize(dword Delta_Time)
     }
 }
 
-dword _cdecl SAIL::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl SAIL::ProcessMessage(MESSAGE & message)
 {
-    GUARD(dword _cdecl SAIL::ProcessMessage(MESSAGE message))
+    GUARD(uint32_t _cdecl SAIL::ProcessMessage(MESSAGE message))
     ENTITY_ID tmpEI;
     int i;
 
@@ -1156,7 +1155,7 @@ void SAIL::SetAllSails()
     }
 
     // Set triangle buffer for sea mirror
-    WORD* pt; pt = (WORD*)RenderService->LockIndexBuffer(sg.indxBuf);
+    uint16_t* pt; pt = (uint16_t*)RenderService->LockIndexBuffer(sg.indxBuf);
     if( pt )
     {
         for(int i=0; i<sailQuantity; i++)
@@ -1862,7 +1861,7 @@ void _cdecl sailPrint(VDX9RENDER *rs, const CVECTOR & pos3D, float rad, long lin
 	if(dist > kDist*kDist*rad*rad)
 	{
 		dist = 1.0f - (sqrtf(dist) - kDist*rad)/(rad - kDist*rad);
-		color = (dword(dist*255.0f) << 24) | 0xffffff;
+		color = (uint32_t(dist*255.0f) << 24) | 0xffffff;
 	}
 	rs->ExtPrint(FONT_DEFAULT, color, 0x00000000, ALIGN_CENTER, 0, 1.0f, 0, 0, long(vrt.x), long(vrt.y), buf);
 }
@@ -1985,7 +1984,7 @@ void SAIL::RestoreRender()
 	sg.indxBuf = RenderService->CreateIndexBuffer( sg.nIndx*2, D3DUSAGE_DYNAMIC );
 
 	// Set triangle buffer for sea mirror
-	WORD* pt = (WORD*)RenderService->LockIndexBuffer(sg.indxBuf);
+	uint16_t* pt = (uint16_t*)RenderService->LockIndexBuffer(sg.indxBuf);
 	if( pt )
 	{
 		for(int i=0; i<sailQuantity; i++)
@@ -2029,7 +2028,7 @@ int SAIL::GetSailStateForCharacter(int chrIdx)
 	return 0;
 }
 
-dword _cdecl SAIL::ScriptProcessing(char * name, MESSAGE & message)
+uint32_t _cdecl SAIL::ScriptProcessing(char * name, MESSAGE & message)
 {
 	if( name== nullptr ) return 0;
 
@@ -2108,7 +2107,7 @@ void SAIL::DoRandomsSailsDmg(int chrIdx, int gn, float fDmg)
 	}
 }
 
-dword SAIL::AttributeChanged(ATTRIBUTES * pAttr)
+uint32_t SAIL::AttributeChanged(ATTRIBUTES * pAttr)
 {
 	if(pAttr== nullptr) return 0;
 	if( * pAttr == "MinSpeed" )	m_fMinSpeedVal = pAttr->GetAttributeAsFloat();

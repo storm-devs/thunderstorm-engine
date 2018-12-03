@@ -31,9 +31,9 @@ class Blots : public ENTITY
 
 	struct Blot
 	{
-		byte isUsed;		//Используеться ли это
-		byte lastAlpha;		//Последние значение альфы
-		word numTrgs;		//Количество треугольников
+		uint8_t isUsed;		//Используеться ли это
+		uint8_t lastAlpha;		//Последние значение альфы
+		uint16_t numTrgs;		//Количество треугольников
 		float liveTime;		//Время жизни
 		long startIndex;	//Начальный индекс в массиве
 		long rnd;
@@ -59,9 +59,9 @@ public:
 	//Инициализация
 	bool Init();
 	//Сообщения
-	dword _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t _cdecl ProcessMessage(MESSAGE & message);
 	//Работа
-	void Realize(dword delta_time);
+	void Realize(uint32_t delta_time);
 
 //--------------------------------------------------------------------------------------------
 //Инкапсуляция

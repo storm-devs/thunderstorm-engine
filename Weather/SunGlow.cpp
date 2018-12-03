@@ -103,7 +103,7 @@ void SUNGLOW::GenerateSunGlow()
 			pRS->TextureRelease(iOldTex[n]);
 }
 
-void SUNGLOW::Execute(dword Delta_Time)
+void SUNGLOW::Execute(uint32_t Delta_Time)
 {
 	if (bHaveGlow)
 	{
@@ -138,7 +138,7 @@ float SUNGLOW::LayerTrace(CVECTOR & vSrc, VIDWALKER * pVW)
 	return pCollide->Trace(*pVW, vSrc, vDst, nullptr, 0);
 }
 
-void SUNGLOW::Realize(dword Delta_Time)
+void SUNGLOW::Realize(uint32_t Delta_Time)
 {
 	CMatrix OldMatrix, IMatrix, View;
 	pRS->GetTransform(D3DTS_VIEW, OldMatrix);
@@ -259,12 +259,12 @@ void SUNGLOW::Realize(dword Delta_Time)
 		//CVECTOR vCenPos = CVECTOR(0.0f, 0.0f, Flares.fDist / 2.0f);
 		CVECTOR vCenPos = mCam.Vz() * Flares.fDist / 2.0f + mCam.Pos();
 		CVECTOR vDelta = Flares.fDist * !(vCenPos - vSun);
-		for (dword i=0;i<Flares.aFlares.size();i++)
+		for (uint32_t i=0;i<Flares.aFlares.size();i++)
 		{
 			flare_t * pF = &Flares.aFlares[i];
-			dword r = dword(fFadeout * fAlpha * fAlphaFlare * float((pF->dwColor&0xFF0000)>>16L));
-			dword g = dword(fFadeout * fAlpha * fAlphaFlare * float((pF->dwColor&0xFF00)>>8L));
-			dword b = dword(fFadeout * fAlpha * fAlphaFlare * float((pF->dwColor&0xFF)>>0L));
+			uint32_t r = uint32_t(fFadeout * fAlpha * fAlphaFlare * float((pF->dwColor&0xFF0000)>>16L));
+			uint32_t g = uint32_t(fFadeout * fAlpha * fAlphaFlare * float((pF->dwColor&0xFF00)>>8L));
+			uint32_t b = uint32_t(fFadeout * fAlpha * fAlphaFlare * float((pF->dwColor&0xFF)>>0L));
 			//RS_RECT * pRSR = &aRSR[aRSR.Add()];
 			RS_RECT rect;
 			rect.dwColor = RGB(r,g,b);
@@ -304,7 +304,7 @@ void SUNGLOW::DrawSunMoon()
 	}
 }
 
-dword SUNGLOW::AttributeChanged(ATTRIBUTES * pAttribute)
+uint32_t SUNGLOW::AttributeChanged(ATTRIBUTES * pAttribute)
 {
 	if (*pAttribute == "isDone")			{ GenerateSunGlow(); return 0; }
 
@@ -418,7 +418,7 @@ void SUNGLOW::DrawReflection()
 	Render().DrawRects(&r_spr, 1, Reflection.sTechnique.c_str(), 0, 0, (bSimpleSea) ? fCoeffX : 1.0f, (bSimpleSea) ? fCoeffY : 1.0f);
 }
 
-dword _cdecl SUNGLOW::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl SUNGLOW::ProcessMessage(MESSAGE & message)
 {
 	long iCode = message.Long();
 
@@ -433,7 +433,7 @@ dword _cdecl SUNGLOW::ProcessMessage(MESSAGE & message)
 	return 0;
 }
 
-void SUNGLOW::DrawRect(dword dwColor,const CVECTOR& pos,float fSize,float fAngle,const char* pcTechnique, float fBClip)
+void SUNGLOW::DrawRect(uint32_t dwColor,const CVECTOR& pos,float fSize,float fAngle,const char* pcTechnique, float fBClip)
 {
 	if( idRectBuf==-1 ) return;
 

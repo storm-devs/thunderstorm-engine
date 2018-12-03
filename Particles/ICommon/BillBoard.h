@@ -10,7 +10,7 @@ struct ParticleBillboard
 	Vector	vPos;
 	float		fSizeX, fSizeY;
 	float		fAngle;
-	dword		dwColor;
+	uint32_t		dwColor;
 	float		DistanceToCamera;
 	bool		Visible;
 

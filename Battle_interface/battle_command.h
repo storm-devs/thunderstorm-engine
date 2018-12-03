@@ -120,7 +120,7 @@ protected:
 	long m_nIconSpace;
 
 	long m_NoteFontID;
-	dword m_NoteFontColor;
+	uint32_t m_NoteFontColor;
 	float m_NoteFontScale;
 	POINT m_NotePos;
 	POINT m_NoteOffset;

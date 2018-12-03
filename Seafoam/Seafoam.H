@@ -1,16 +1,10 @@
 #ifndef _SEAFOAM_H_
 #define _SEAFOAM_H_
 
-#include "..\common_h\object.h"
-#include "..\common_h\matrix.h"
-#include "..\common_h\animation.h"
-#include "..\common_h\messages.h"
 #include "..\common_h\geos.h"
-#include "..\common_h\geometry.h"
 #include "..\common_h\dx9render.h"
 #include "..\common_h\ship_base.h"
 #include "..\common_h\model.h"
-#include "..\common_h\geos.h"
 #include "..\common_h\sea_base.h"
 #include "..\SoundService\VSoundService.h"
 #include "SeafoamDefines.h"
@@ -50,19 +44,19 @@ public:
 	virtual ~SEAFOAM();
 
 	virtual bool Init();
-	dword AttributeChanged(ATTRIBUTES * pA);
-	virtual dword _cdecl ProcessMessage(MESSAGE & message);
-	virtual void Realize(dword _dTime);
-	virtual void Execute(dword _dTime);
+	uint32_t AttributeChanged(ATTRIBUTES * pA);
+	virtual uint32_t _cdecl ProcessMessage(MESSAGE & message);
+	virtual void Realize(uint32_t _dTime);
+	virtual void Execute(uint32_t _dTime);
 
 private:
 	void InitializeShipFoam();
 	void ReleaseShipFoam();
-	void RealizeShipFoam_Particles(tShipFoamInfo &_shipFoamInfo, dword _dTime);
-	void RealizeShipFoam_Mesh(tShipFoamInfo &_shipFoamInfo, dword _dTime);
+	void RealizeShipFoam_Particles(tShipFoamInfo &_shipFoamInfo, uint32_t _dTime);
+	void RealizeShipFoam_Mesh(tShipFoamInfo &_shipFoamInfo, uint32_t _dTime);
 	void CreateTracePoints(tShipFoamInfo *_shipFoamInfo);
-	void InterpolateLeftParticle(tShipFoamInfo &_shipFoamInfo, int z, dword _dTime);
-	void InterpolateRightParticle(tShipFoamInfo &_shipFoamInfo, int z, dword _dTime);
+	void InterpolateLeftParticle(tShipFoamInfo &_shipFoamInfo, int z, uint32_t _dTime);
+	void InterpolateRightParticle(tShipFoamInfo &_shipFoamInfo, int z, uint32_t _dTime);
 	void AddShip(ENTITY_ID * pShipEID);
 
 	VDX9RENDER *renderer;

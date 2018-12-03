@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "xi_checkbuttons.h"
+#include "../../InterfaceEditor/InterfaceEditor.h"
 
 #define PicName(bDisable,bSelect) ( (bDisable && !m_sDisablePicture.empty()) ? m_sDisablePicture : ((bSelect) ? m_sSelectPicture : m_sNormalPicture) )
 #define PicColor(bDisable,bSelect) ( (bDisable) ? m_dwDisablePicColor : ((bSelect) ? m_dwSelectPicColor : m_dwNormalPicColor) )
@@ -20,7 +21,7 @@ CXI_CHECKBUTTONS::~CXI_CHECKBUTTONS()
 	ReleaseAll();
 }
 
-void CXI_CHECKBUTTONS::Draw(bool bSelected,dword Delta_Time)
+void CXI_CHECKBUTTONS::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	float fX,fY;
 
@@ -30,7 +31,7 @@ void CXI_CHECKBUTTONS::Draw(bool bSelected,dword Delta_Time)
 	for( long n=0; n<m_aButton.size(); n++ )
 	{
 		// определяем цвет строки
-		dword dwColor = m_dwNormalFontColor;
+		uint32_t dwColor = m_dwNormalFontColor;
 		if( m_aButton[n]->bChoose ) dwColor = m_dwSelectFontColor;
 		if( m_aButton[n]->bDisable ) dwColor = m_dwDisableFontColor;
 
@@ -238,7 +239,7 @@ void CXI_CHECKBUTTONS::SaveParametersToIni()
 	delete pIni;
 }
 
-dword _cdecl CXI_CHECKBUTTONS::MessageProc(long msgcode, MESSAGE & message)
+uint32_t _cdecl CXI_CHECKBUTTONS::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

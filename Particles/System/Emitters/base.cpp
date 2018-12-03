@@ -1,14 +1,10 @@
 #include "base.h"
-#include "..\DataSource\databool.h"
 #include "..\DataSource\datacolor.h"
-#include "..\DataSource\datafloat.h"
 #include "..\DataSource\datagraph.h"
-#include "..\DataSource\dataposition.h"
-#include "..\DataSource\datauv.h"
 #include "..\DataSource\datastring.h"
 #include "..\..\..\common_h\vmodule_api.h"
+#include "../../../common_h/Math3D/Quaternion.h"
 #include "..\..\icommon\names.h"
-
 
 #define INTERPOLATION_STEPS 32.0f
 
@@ -67,7 +63,7 @@ void BaseEmitter::BornParticles (float DeltaTime)
 		}
 
 
-		for (DWORD n = 0; n < ParticleTypes.size(); n++)
+		for (uint32_t n = 0; n < ParticleTypes.size(); n++)
 		{
 			if (!ParticleTypes[n].Visible) continue;
 
@@ -151,7 +147,7 @@ void BaseEmitter::AttachToDataSource (DataSource::EmitterDesc* pEmitter)
 	EmissionDirZ = pEmitter->Fields.FindGraph(EMISSION_DIR_Z);
 
 
-	for (DWORD n = 0; n < pEmitter->Particles.size(); n++)
+	for (uint32_t n = 0; n < pEmitter->Particles.size(); n++)
 	{
 		DataSource::ParticleDesc* pDesc = &pEmitter->Particles[n];
 		switch (pDesc->Type)
@@ -246,10 +242,10 @@ void BaseEmitter::Restart ()
 	ElapsedTime = 0.0f;
 }
 
-DWORD BaseEmitter::GetParticleCount ()
+uint32_t BaseEmitter::GetParticleCount ()
 {
-	DWORD Count = 0;
-	for (DWORD n = 0; n < ParticleTypes.size(); n++)
+	uint32_t Count = 0;
+	for (uint32_t n = 0; n < ParticleTypes.size(); n++)
 	{
 		Count += ParticleTypes[n].ActiveCount;
 	}
@@ -323,17 +319,17 @@ void BaseEmitter::SetTime (float Time)
 	ElapsedTime = Time;
 }
 
-DWORD BaseEmitter::GetParticleTypesCount ()
+uint32_t BaseEmitter::GetParticleTypesCount ()
 {
 	return ParticleTypes.size();
 }
 
-FieldList* BaseEmitter::GetParticleTypeDataByIndex (DWORD Index)
+FieldList* BaseEmitter::GetParticleTypeDataByIndex (uint32_t Index)
 {
 	return ParticleTypes[Index].pFields;
 }
 
-ParticleType BaseEmitter::GetParticleTypeByIndex  (DWORD Index)
+ParticleType BaseEmitter::GetParticleTypeByIndex  (uint32_t Index)
 {
 	return ParticleTypes[Index].Type;
 }
@@ -353,7 +349,7 @@ bool BaseEmitter::SetEnable (bool bVisible)
 		GetManager()->GetMDLProcessor()->DeleteWithGUID(Unique_GUID);
 	}
 
-	for (DWORD n = 0; n < ParticleTypes.size(); n++)
+	for (uint32_t n = 0; n < ParticleTypes.size(); n++)
 							ParticleTypes[n].Visible = bVisible;
 
 
@@ -367,14 +363,14 @@ bool BaseEmitter::GetEnable ()
 
 int BaseEmitter::GetParticleTypeIndex (FieldList* pFields)
 {
-	for (DWORD n = 0; n < ParticleTypes.size(); n++)
+	for (uint32_t n = 0; n < ParticleTypes.size(); n++)
 	{
 		if (ParticleTypes[n].pFields == pFields) return n;
 	}
 	return -1;
 }
 
-bool BaseEmitter::SetParticleTypeEnable (bool bVisible, DWORD Index)
+bool BaseEmitter::SetParticleTypeEnable (bool bVisible, uint32_t Index)
 {
 	ParticleTypes[Index].Visible = bVisible;
 
@@ -387,7 +383,7 @@ bool BaseEmitter::SetParticleTypeEnable (bool bVisible, DWORD Index)
 	return ParticleTypes[Index].Visible;
 }
 
-bool BaseEmitter::GetParticleTypeEnable (DWORD Index)
+bool BaseEmitter::GetParticleTypeEnable (uint32_t Index)
 {
 	return ParticleTypes[Index].Visible;
 }
@@ -400,7 +396,7 @@ void BaseEmitter::Editor_UpdateCachedData ()
 	Position = pEmitter->Fields.GetPosition(EMITTER_POSITION);
 	Looped = pEmitter->Fields.GetBool(EMITTER_LOOPING, false);
 
-	for (DWORD n = 0; n < ParticleTypes.size(); n++)
+	for (uint32_t n = 0; n < ParticleTypes.size(); n++)
 	{
 		ParticleTypes[n].MaxParticlesCount = ParticleTypes[n].pFields->GetFloatAsInt(MAX_PARTICLES_COUNT);
 	}

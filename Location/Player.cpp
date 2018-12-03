@@ -14,7 +14,7 @@
 #include "Location.h"
 #include "..\common_h\collide.h"
 #include "LocationCamera.h"
-#include "..\common_h\messages.h"
+#include "..\../Shared/messages.h"
 
 //============================================================================================
 //Конструирование, деструктурирование

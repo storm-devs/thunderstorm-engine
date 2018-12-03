@@ -18,7 +18,7 @@ CXI_TABSECTION::~CXI_TABSECTION()
 	ReleaseAll();
 }
 
-void CXI_TABSECTION::Draw(bool bSelected,dword Delta_Time)
+void CXI_TABSECTION::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	// Прорисовка
 	if( m_idIconTexture!=-1 && m_idVBuf!=-1 && m_idIBuf!=-1 )
@@ -88,7 +88,7 @@ void CXI_TABSECTION::SaveParametersToIni()
 	delete pIni;
 }
 
-dword _cdecl CXI_TABSECTION::MessageProc(long msgcode, MESSAGE & message)
+uint32_t _cdecl CXI_TABSECTION::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

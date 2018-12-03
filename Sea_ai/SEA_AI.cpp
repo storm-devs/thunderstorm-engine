@@ -1,4 +1,8 @@
 #include "SEA_AI.h"
+#include "AIGroup.h"
+#include "LocatorShow.h"
+#include "AISeaGoods.h"
+#include "../../Shared/messages.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(SEA_AI)
@@ -14,7 +18,7 @@ SEA_AI::SEA_AI()
 
 SEA_AI::~SEA_AI()
 {
-	for (dword i=0;i<AIGroup::AIGroups.size();i++) STORM_DELETE(AIGroup::AIGroups[i]);
+	for (uint32_t i=0;i<AIGroup::AIGroups.size();i++) STORM_DELETE(AIGroup::AIGroups[i]);
 	AIGroup::AIGroups.clear();
 	AIShip::AIShips.clear();
 	Helper.Uninit();
@@ -30,9 +34,9 @@ void SEA_AI::SetDevice()
 {
 }
 
-dword dwRDTSC;
+uint32_t dwRDTSC;
 
-void SEA_AI::Execute(dword Delta_Time)
+void SEA_AI::Execute(uint32_t Delta_Time)
 {
 	RDTSC_B(dwRDTSC);
 	float fDeltaTime = 0.001f * float(Delta_Time);
@@ -43,7 +47,7 @@ void SEA_AI::Execute(dword Delta_Time)
 		bFirstInit = false;
 	}
 	
-	for (dword i=0;i<AIGroup::AIGroups.size();i++)
+	for (uint32_t i=0;i<AIGroup::AIGroups.size();i++)
 	{
 		AIGroup::AIGroups[i]->Execute(fDeltaTime);
 	}
@@ -51,12 +55,12 @@ void SEA_AI::Execute(dword Delta_Time)
 	RDTSC_E(dwRDTSC);
 }
 
-extern dword dwTotal;
+extern uint32_t dwTotal;
 
-void SEA_AI::Realize(dword Delta_Time)
+void SEA_AI::Realize(uint32_t Delta_Time)
 {
 	float fDeltaTime = 0.001f * float(Delta_Time);
-	for (dword i=0;i<AIGroup::AIGroups.size();i++)
+	for (uint32_t i=0;i<AIGroup::AIGroups.size();i++)
 	{
 		AIGroup::AIGroups[i]->Realize(fDeltaTime);
 	}
@@ -74,11 +78,11 @@ bool SEA_AI::LoadState(ENTITY_STATE * state)
 	return true;
 }
 
-void SEA_AI::ProcessMessage(dword iMsg, dword wParam, dword lParam)
+void SEA_AI::ProcessMessage(uint32_t iMsg, uint32_t wParam, uint32_t lParam)
 {
 }
 
-dword _cdecl SEA_AI::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl SEA_AI::ProcessMessage(MESSAGE & message)
 {
 	char	cGroupName[256], cOtherGroupName[256], cTemp[256];
 
@@ -87,7 +91,7 @@ dword _cdecl SEA_AI::ProcessMessage(MESSAGE & message)
 	{
 		case AI_MESSAGE_UNLOAD:
 		{
-			dword	i;
+			uint32_t	i;
 			for (i=0; i<AIGroup::AIGroups.size(); i++) AIGroup::AIGroups[i]->Unload();
 			for (i=0; i<AIShip::AIShips.size(); i++) AIShip::AIShips[i]->Unload();
 		}
@@ -156,8 +160,8 @@ dword _cdecl SEA_AI::ProcessMessage(MESSAGE & message)
 		case AI_MESSAGE_SHIP_SET_TASK:
 		{
 			ATTRIBUTES * pCharacter1, * pCharacter2;
-			dword	dwCommand = message.Long();
-			dword	dwTaskPriority = message.Long();
+			uint32_t	dwCommand = message.Long();
+			uint32_t	dwTaskPriority = message.Long();
 			switch (dwCommand)
 			{
 				case AITASK_ATTACK:
@@ -210,7 +214,7 @@ dword _cdecl SEA_AI::ProcessMessage(MESSAGE & message)
 		{
 			CVECTOR	vPnt;
 			char	cGroupAttackingName[256];
-			dword	dwCommand = message.Long();
+			uint32_t	dwCommand = message.Long();
 			switch (dwCommand)
 			{
 				case AITASK_MOVE:
@@ -375,7 +379,7 @@ void SEA_AI::Save(const char * pStr)
 	AIBalls::pAIBalls->Save(&SL);
 	
 	SL.SaveDword(AIGroup::AIGroups.size());
-	for (dword i=0; i<AIGroup::AIGroups.size(); i++) AIGroup::AIGroups[i]->Save(&SL);
+	for (uint32_t i=0; i<AIGroup::AIGroups.size(); i++) AIGroup::AIGroups[i]->Save(&SL);
 
 	if (AIFort::pAIFort) AIFort::pAIFort->Save(&SL);
 }
@@ -395,8 +399,8 @@ void SEA_AI::Load(const char * pStr)
 
 	AIBalls::pAIBalls->Load(&SL);
 	
-	dword dwNumGroups = SL.LoadDword();
-	for (dword i=0; i<dwNumGroups; i++) 
+	uint32_t dwNumGroups = SL.LoadDword();
+	for (uint32_t i=0; i<dwNumGroups; i++) 
 	{
 		AIGroup::AIGroups.push_back(NEW AIGroup());
 		AIGroup::AIGroups.back()->Load(&SL);
@@ -406,9 +410,9 @@ void SEA_AI::Load(const char * pStr)
 	Helper.Init();
 }
 
-dword SEA_AI::AttributeChanged(ATTRIBUTES * pAttribute)
+uint32_t SEA_AI::AttributeChanged(ATTRIBUTES * pAttribute)
 {
-	dword	i;
+	uint32_t	i;
 
 	if (*pAttribute == "isDone")
 	{

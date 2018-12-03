@@ -14,8 +14,6 @@
 
 #include "..\common_h\dx9render.h"
 
-#include "WdmObjects.h"
-
 class WdmRenderObject
 {
 //--------------------------------------------------------------------------------------------

@@ -38,7 +38,7 @@ CXI_SCROLLBAR::~CXI_SCROLLBAR()
 	ReleaseAll();
 }
 
-void CXI_SCROLLBAR::Draw(bool bSelected,dword Delta_Time)
+void CXI_SCROLLBAR::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(m_nPressedDelay>0)
 		m_nPressedDelay--;
@@ -196,7 +196,7 @@ void CXI_SCROLLBAR::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 
 	// Lock buffers for write
 	XI_ONETEX_VERTEX *pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
-	WORD *pIndx = (WORD*) m_rs->LockIndexBuffer(m_idIBuf);
+	uint16_t *pIndx = (uint16_t*) m_rs->LockIndexBuffer(m_idIBuf);
 	if(pVert== nullptr || pIndx== nullptr)
 		STORM_THROW("can not create the index&vertex buffers")
 
@@ -371,7 +371,7 @@ XYRECT CXI_SCROLLBAR::GetCursorRect()
 	return retRect;
 }
 
-dword _cdecl CXI_SCROLLBAR::MessageProc(long msgcode, MESSAGE & message)
+uint32_t _cdecl CXI_SCROLLBAR::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

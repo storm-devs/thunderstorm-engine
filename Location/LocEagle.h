@@ -22,7 +22,7 @@ public:
 	//Инициализация
 	bool Init();
 	//Исполнение
-	void Execute(dword delta_time);
+	void Execute(uint32_t delta_time);
 
 
 	ENTITY_ID mdl;

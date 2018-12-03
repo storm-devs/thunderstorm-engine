@@ -13,8 +13,8 @@ CXI_VIDEO::~CXI_VIDEO()
 	ReleaseAll();
 }
 
-DWORD vid_counter=0;
-void CXI_VIDEO::Draw(bool bSelected,dword Delta_Time)
+uint32_t vid_counter=0;
+void CXI_VIDEO::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(m_bUse)
 	{

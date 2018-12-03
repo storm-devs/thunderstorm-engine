@@ -21,7 +21,7 @@ public:
 		long	selectPictureNum;
 		long	textureNum;
 		VAI_OBJBASE * pShip;
-		dword	dwShipColor;
+		uint32_t	dwShipColor;
 
 		SHIP_DESCR * next;
 	};
@@ -30,7 +30,7 @@ public:
 	SHIP_DESCRIBE_LIST();
 	~SHIP_DESCRIBE_LIST();
 
-	void Add(long mainChrIndex, long chIdx, ATTRIBUTES * pChAttr, ATTRIBUTES * pShipAttr, bool bMyShip,long relation,dword dwShipColor);
+	void Add(long mainChrIndex, long chIdx, ATTRIBUTES * pChAttr, ATTRIBUTES * pShipAttr, bool bMyShip,long relation,uint32_t dwShipColor);
 	SHIP_DESCR * GetMainCharacterShip() {return mainCharacter;}
 	ATTRIBUTES * GetMainCharacterShipAttr() {return pMainShipAttr;}
 	void Release(long charIdx);

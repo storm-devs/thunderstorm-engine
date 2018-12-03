@@ -9,7 +9,7 @@ public:
 	CXI_QUESTTITLE();
 	~CXI_QUESTTITLE();
 
-	void	Draw(bool bSelected,dword Delta_Time);
+	void	Draw(bool bSelected,uint32_t Delta_Time);
 	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
 	void	ReleaseAll();
 	int		CommandExecute(int wActCode);
@@ -36,9 +36,9 @@ protected:
 	long	m_texId;
 
 	long	m_idFont;
-	DWORD	m_dwNonCompleteColor;
-	DWORD	m_dwCompleteColor;
-	DWORD	m_dwSelectRectangleColor;
+	uint32_t	m_dwNonCompleteColor;
+	uint32_t	m_dwCompleteColor;
+	uint32_t	m_dwSelectRectangleColor;
 	int		m_fontOffset;
 
 	int		m_stringQuantity;
@@ -55,7 +55,7 @@ protected:
 		long	lineQuantity;
 		char*	name[10];
 		bool	complete;
-		dword	dwSpecColor;
+		uint32_t	dwSpecColor;
 	};
 	STRING_DESCRIBER * m_strList;
 };

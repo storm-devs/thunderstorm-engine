@@ -1,7 +1,6 @@
 #ifndef _CAMERA_H_
 #define _CAMERA_H_
 
-#include "..\common_h\vmodule_api.h"
 #include "..\common_h\dx9render.h"
 #include "..\common_h\Island_Base.h"
 #include "Common_Camera.h"
@@ -24,8 +23,8 @@ public:
 
 	void SetDevice();
 	bool Init();
-	void Move(dword DeltaTime);
-	void Execute(dword Delta_Time);
+	void Move(uint32_t DeltaTime);
+	void Execute(uint32_t Delta_Time);
 	bool CreateState(ENTITY_STATE_GEN * state_gen);
 	bool LoadState(ENTITY_STATE * state);
 

@@ -1,5 +1,4 @@
 #ifndef _XBOX
-#include <windows.h>
 #else
 #include <xtl.h>
 #endif
@@ -16,7 +15,7 @@ char * CTP_Name[] = {
 	"Init() function",
 	"Execute() function",
 	"Realize() function",
-	"ProcessMessage(DWORD,DWORD,DWORD) function",
+	"ProcessMessage(uint32_t,uint32_t,uint32_t) function",
 	"ProcessMessage(MESSAGE) function",
 	"CreateState(void*) function",
 	"LoadState(void*) function",

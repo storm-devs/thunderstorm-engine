@@ -6,10 +6,6 @@
 #include "..\common_h\dx9render.h"
 #include "..\common_h\collide.h"
 #include "..\common_h\model.h"
-#include "..\common_h\geos.h"
-#include "..\common_h\messages.h"
-#include "..\common_h\exs.h"
-#include "..\common_h\rands.h"
 #include "..\common_h\ship_base.h"
 
 #include "..\common_h\sea_base.h"
@@ -36,7 +32,7 @@ enum ManMoveTo{ MOVE_TO_POINT, MOVE_TO_CANNON, MOVE_TO_TOP};
 
 struct ShipState{
 
-	DWORD mode;
+	uint32_t mode;
 	bool dead;
 	SEA_BASE * sea;
 
@@ -75,25 +71,25 @@ public:
 
 	ShipMan();
 
-	void SetPos(MODEL *ship, SHIP_BASE *ship_base, dword &dltTime, ShipState &shipState);
+	void SetPos(MODEL *ship, SHIP_BASE *ship_base, uint32_t &dltTime, ShipState &shipState);
 	void FindNextPoint(SailorsPoints &sailorsPoints, ShipState &shipState);
 	int  FindRandomPoint(SailorsPoints &sailorsPoints, ShipState &shipState);
 	int  FindRandomPointWithoutType(SailorsPoints &sailorsPoints);
 	void ApplyTargetPoint(CVECTOR pt, bool randomWalk);
 
-	void UpdatePos(dword &dltTime, SailorsPoints &sailorsPoints, ShipState &shipState);
+	void UpdatePos(uint32_t &dltTime, SailorsPoints &sailorsPoints, ShipState &shipState);
 
-	void SetAnimation(dword dltTime, ShipState &shipState);
+	void SetAnimation(uint32_t dltTime, ShipState &shipState);
 
 
-	bool MoveToPosition(dword &dltTime, SailorsPoints &sailorsPoints, ShipState &shipState);
-	bool RotateToAngle(dword &dltTime, SailorsPoints &sailorsPoints);
-	bool Stay(dword &dltTime, SailorsPoints &sailorsPoints);
-	bool Turn(dword &dltTime, SailorsPoints &sailorsPoints);
-	bool Swim(dword &dltTime, SailorsPoints &sailorsPoints, ShipState &shipState);
-	bool Jump(dword &dltTime, SailorsPoints &sailorsPoints, ShipState &shipState);
+	bool MoveToPosition(uint32_t &dltTime, SailorsPoints &sailorsPoints, ShipState &shipState);
+	bool RotateToAngle(uint32_t &dltTime, SailorsPoints &sailorsPoints);
+	bool Stay(uint32_t &dltTime, SailorsPoints &sailorsPoints);
+	bool Turn(uint32_t &dltTime, SailorsPoints &sailorsPoints);
+	bool Swim(uint32_t &dltTime, SailorsPoints &sailorsPoints, ShipState &shipState);
+	bool Jump(uint32_t &dltTime, SailorsPoints &sailorsPoints, ShipState &shipState);
 
-	void NewAction(SailorsPoints &sailorsPoints, ShipState &shipState, dword &dltTime);
+	void NewAction(SailorsPoints &sailorsPoints, ShipState &shipState, uint32_t &dltTime);
 	void Free();
 	int  GetNearestEmptyCannon(SailorsPoints &sailorsPoints);
 };
@@ -121,7 +117,7 @@ public:
 	void DeleteMan(int Index);
 
 	void Init(ENTITY_ID &_shipID, int editorMode, char *shipType);
-	void CheckPosition(dword &dltTime);
+	void CheckPosition(uint32_t &dltTime);
 	void SetMastBroken(int iMastIndex);
 	void OnHullHit(CVECTOR &v);
 	void Reset();
@@ -145,10 +141,10 @@ public:
 	virtual ~Sailors();
 
 	virtual bool Init();
-	virtual void Realize(dword dltTime);
+	virtual void Realize(uint32_t dltTime);
 
-	virtual dword _cdecl ProcessMessage(MESSAGE &message);
-	virtual dword AttributeChanged(ATTRIBUTES *_newAttr);
+	virtual uint32_t _cdecl ProcessMessage(MESSAGE &message);
+	virtual uint32_t AttributeChanged(ATTRIBUTES *_newAttr);
 	int IsOnDeck;
 
 	void DeleteShip(int i);

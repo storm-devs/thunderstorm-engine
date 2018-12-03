@@ -33,7 +33,7 @@ private:
 		float				fChargePercent;				// Recharge percent
 		float				fCosFireZone;
 
-		dword				dwNumDamagedCannons;
+		uint32_t				dwNumDamagedCannons;
 
 		// each frame parameters
 		float				fSpeedV0;				// current fire speed
@@ -66,26 +66,26 @@ private:
 
 		bool	ScanShipForCannons();
 
-		bool	Fire2Position(dword dwBort, CVECTOR & vFirePos, float fFireHeight);
+		bool	Fire2Position(uint32_t dwBort, CVECTOR & vFirePos, float fFireHeight);
 
 		float	GetSpeedV0();
 
 public:
-		dword	GetCannonsNum();
+		uint32_t	GetCannonsNum();
 
 		float	GetFireDistance(bool bMaxFireDistance);
 
 	// bort section
 		float	GetBortHeightAngle(long iBortIndex);
-		bool	isCanFireBort(dword dwBort, CVECTOR & vFirePos, float * pfZapasDistance = nullptr);
-		dword	GetFirstFireBort(CVECTOR & vFirePos, float * pfZapasDistance = nullptr);
-		bool	isHaveEnoughtBallsForBort(dword dwBortIdx);
-		dword	GetNextFireBort(dword dwPrevBort, CVECTOR & vFirePos, float * pfZapasDistance = nullptr);
-		CVECTOR	GetBortDirection(dword dwBort);
-		dword	GetBestFireBortOnlyDistance(CVECTOR vFirePos, float fZapasDistance);
+		bool	isCanFireBort(uint32_t dwBort, CVECTOR & vFirePos, float * pfZapasDistance = nullptr);
+		uint32_t	GetFirstFireBort(CVECTOR & vFirePos, float * pfZapasDistance = nullptr);
+		bool	isHaveEnoughtBallsForBort(uint32_t dwBortIdx);
+		uint32_t	GetNextFireBort(uint32_t dwPrevBort, CVECTOR & vFirePos, float * pfZapasDistance = nullptr);
+		CVECTOR	GetBortDirection(uint32_t dwBort);
+		uint32_t	GetBestFireBortOnlyDistance(CVECTOR vFirePos, float fZapasDistance);
 		CVECTOR GetFirePos(CVECTOR & vFireDir);
 		CVECTOR GetFirePos(CVECTOR & vFireDir, float fDistance);
-		dword	GetBortIntactCannonsNum(dword dwBortIdx);
+		uint32_t	GetBortIntactCannonsNum(uint32_t dwBortIdx);
 
 	// fire test
 		bool	isCanFirePos(CVECTOR & vFirePos);		// is we can fire to position
@@ -102,7 +102,7 @@ public:
 		void	Reload();							// set flag to reload
 
 	// temp
-		void	AddTrg(CVECTOR * pVerts, dword dwColor);
+		void	AddTrg(CVECTOR * pVerts, uint32_t dwColor);
 	// temp
 
 	// Cannon boom check

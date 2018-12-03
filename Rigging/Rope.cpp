@@ -92,9 +92,9 @@ bool ROPE::LoadState(ENTITY_STATE * state)
 }
 
 FILETIME ft_old;
-void ROPE::Execute(dword Delta_Time)
+void ROPE::Execute(uint32_t Delta_Time)
 {
-    DWORD rtm;
+    uint32_t rtm;
 	RDTSC_B(rtm);
 
     if(bFirstRun)
@@ -117,7 +117,7 @@ void ROPE::Execute(dword Delta_Time)
                     if(rlist[i]->len!=0.f) // set all vertex to point(0,0,0)
                     {
                         CVECTOR nulVect=CVECTOR(0.f,0.f,0.f);
-                        for(dword idx=rlist[i]->sv; idx<rlist[i]->sv + rlist[i]->nv; idx++)
+                        for(uint32_t idx=rlist[i]->sv; idx<rlist[i]->sv + rlist[i]->nv; idx++)
                             vertBuf[idx].pos=nulVect;
                     }
 		    }
@@ -130,11 +130,11 @@ void ROPE::Execute(dword Delta_Time)
     execute_tm=rtm;
 }
 
-void ROPE::Realize(dword Delta_Time)
+void ROPE::Realize(uint32_t Delta_Time)
 {
     if(bUse)
     {
-        DWORD rtm;
+        uint32_t rtm;
 
 		RDTSC_B(rtm);
 	    if (Delta_Time==0)
@@ -180,7 +180,7 @@ void ROPE::Realize(dword Delta_Time)
     }
 }
 
-dword _cdecl ROPE::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl ROPE::ProcessMessage(MESSAGE & message)
 {
 	long code = message.Long();
     ENTITY_ID tmp_id;
@@ -332,7 +332,7 @@ void  ROPE::SetIndex()
     int i,j;
     int ti,vi;
 
-    WORD* pt=(WORD*)RenderService->LockIndexBuffer(iBuf);
+    uint16_t* pt=(uint16_t*)RenderService->LockIndexBuffer(iBuf);
     if(pt)
     {
         for(int rn=0; rn<ropeQuantity; rn++)
@@ -621,7 +621,7 @@ void ROPE::AddLabel(GEOS::LABEL &lbl,NODE *nod, bool bDontSage)
 		}
 		else
 		{
-			rd->segquant=(WORD)(rd->len/ROPE_SEG_LENGTH)+1;
+			rd->segquant=(uint16_t)(rd->len/ROPE_SEG_LENGTH)+1;
 			rd->cv = (!(ce - cb))*ROPE_END_LENGTH; // vector for rope edge length
 			// Set normals with length equal the rope width
 			CVECTOR norm;
@@ -936,7 +936,7 @@ void ROPE::SetAdd(int firstNum)
 
 void ROPE::DoSTORM_DELETE()
 {
-    DWORD oldnVert=nVert;
+    uint32_t oldnVert=nVert;
 
     // пройтись по удаленным группам и пометить на удаление все принадлежащие им веревки
     for(int gn=0; gn<groupQuantity; gn++)

@@ -1,17 +1,13 @@
 #ifndef _SHIP_H_
 #define _SHIP_H_
 
-#include <stdio.h>
 #include "..\common_h\ship_base.h"
 #include "..\common_h\collide.h"
 #include "..\common_h\dx9render.h"
 #include "..\common_h\model.h"
 #include "..\common_h\Island_Base.h"
-#include "..\common_h\geos.h"
 #include "..\common_h\sea_base.h"
 #include "..\common_h\character.h"
-#include "..\common_h\vdata.h"
-#include "..\common_h\mast_msg.h"
 #include "..\common_h\geometry.h"
 
 #include "fireplace.h"
@@ -20,6 +16,7 @@
 #include "..\common_h\sd2_h\SaveLoad.h"
 #include <vector>
 #include "../common_h/dtimer.h"
+#include "../common_h/ship_msg.h"
 
 #define DELTA_TIME(x)			((x) * 0.001f)
 #define DELTA_TIME_ROTATE(x)	((x) * 1.0f / 10.0f)
@@ -157,14 +154,14 @@ public:
 	BOOL		BuildContour(CVECTOR *vContour,long &iNumVContour);
 	bool		BuildMasts();
 
-	BOOL		Move(DWORD DeltaTime, BOOL bCollision);
-	BOOL		TouchMove(DWORD DeltaTime, TOUCH_PARAMS *pTPOld, TOUCH_PARAMS *pTPNew);
+	BOOL		Move(uint32_t DeltaTime, BOOL bCollision);
+	BOOL		TouchMove(uint32_t DeltaTime, TOUCH_PARAMS *pTPOld, TOUCH_PARAMS *pTPNew);
 
 	void		LoadServices();
 
 // inherit functions SHIP_BASE
 	bool			bSetLightAndFog;
-	dword			dwSaveAmbient, dwSaveFogColor;
+	uint32_t			dwSaveAmbient, dwSaveFogColor;
 	D3DLIGHT9		saveLight;
 
 	virtual void	SetLightAndFog(bool bSetLight);
@@ -214,10 +211,10 @@ public:
 
 // inherit functions ENTITY
 	bool	Init();
-	void	Realize(dword Delta_Time);
-	void	Execute(dword Delta_Time);
-	dword _cdecl ProcessMessage(MESSAGE & message);
-	dword	AttributeChanged(ATTRIBUTES * pAttribute);
+	void	Realize(uint32_t Delta_Time);
+	void	Execute(uint32_t Delta_Time);
+	uint32_t _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t	AttributeChanged(ATTRIBUTES * pAttribute);
 
 	void Save(CSaveLoad * pSL);
 	void Load(CSaveLoad * pSL);	

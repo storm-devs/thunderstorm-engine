@@ -1,19 +1,19 @@
 #ifndef _ENTITY_ID_H_
 #define _ENTITY_ID_H_
 
+#include <cstdint>
+
 #ifndef _XBOX
 #include <windows.h>
 #else
 #include <xtl.h>
 #endif
 
-#include "d_types.h"
-
 #define CRTM_DWORDS			2
 
-typedef struct { dword time[CRTM_DWORDS];} ENTITY_CREATION_TIME;
+typedef struct { uint32_t time[CRTM_DWORDS];} ENTITY_CREATION_TIME;
 
-//typedef struct { void * pointer; dword  class_code; } ID_BASE;
+//typedef struct { void * pointer; uint32_t  class_code; } ID_BASE;
 
 struct ENTITY_ID
 {
@@ -26,8 +26,8 @@ struct ENTITY_ID
 		pName = nullptr;
 	};
 	ENTITY_CREATION_TIME creation_time;
-	dword  atom_position;
-	dword  class_code;
+	uint32_t  atom_position;
+	uint32_t  class_code;
 	void * pointer; 
 	inline bool operator == (const ENTITY_ID & eID) 
 	{

@@ -278,9 +278,6 @@
     <ClInclude Include="sources\Core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common_h\d_types.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="sources\dat.h">
       <Filter>Header Files</Filter>
     </ClInclude>

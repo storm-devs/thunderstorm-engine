@@ -25,19 +25,19 @@ Messages and save/load state format specificators:
 	'b'	- byte
 	'w' - word
 	'l' - long
-	'u' - dword
+	'u' - uint32_t
 	'f' - float
 	'd' - double
 	'p' - pointer (char *)
 	's' - string (char *)
-	'm' - memory block (dword size, char * memory)
+	'm' - memory block (uint32_t size, char * memory)
 	'v' - structure (sizeof(struct),struct)
 
 	Examples read:
 	byte	b = m.Byte();
 	word	w = m.Word();
 	long	l = m.Long();
-	dword	u = m.Dword();
+	uint32_t	u = m.Dword();
 	float	f = m.Float();
 	double	d = m.Double();
 	char *	p = m.Pointer();

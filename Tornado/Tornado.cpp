@@ -62,11 +62,11 @@ bool Tornado::Init()
 	if(!rs) STORM_THROW("No service: dx9render");
 
 	//Создаём буфера для столба
-	ib = rs->CreateIndexBuffer(pillar.GetNumTriangles()*3*sizeof(word));
+	ib = rs->CreateIndexBuffer(pillar.GetNumTriangles()*3*sizeof(uint16_t));
 	if(ib < 0) return false;
 	vb = rs->CreateVertexBuffer(D3DFVF_XYZ | D3DFVF_DIFFUSE, pillar.GetNumVerteces()*sizeof(Pillar::Vertex), D3DUSAGE_WRITEONLY);
 	if(vb < 0) return false;
-	word * ibpnt = (word *)rs->LockIndexBuffer(ib);
+	uint16_t * ibpnt = (uint16_t *)rs->LockIndexBuffer(ib);
 	if(!ibpnt) return false;
 	pillar.FillIndexBuffer(ibpnt);
 	rs->UnLockIndexBuffer(ib);
@@ -86,7 +86,7 @@ bool Tornado::Init()
 }
 
 //Исполнение
-void Tornado::Execute(dword delta_time)
+void Tornado::Execute(uint32_t delta_time)
 {	
 	float dltTime = delta_time*0.001f*1.0f;
 	pillar.Update(dltTime);
@@ -112,7 +112,7 @@ void Tornado::Execute(dword delta_time)
 	}
 }
 
-void Tornado::Realize(dword delta_time)
+void Tornado::Realize(uint32_t delta_time)
 {
 	liveTime = 1000.0f;
 	//Обломки
@@ -133,7 +133,7 @@ void Tornado::Realize(dword delta_time)
 	particles.Draw(rs);
 }
 
-dword _cdecl Tornado::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl Tornado::ProcessMessage(MESSAGE & message)
 {
 	liveTime = message.Float();
 	if(liveTime < 5.0f) liveTime = 5.0f;

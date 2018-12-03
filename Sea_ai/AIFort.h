@@ -60,23 +60,23 @@ public:
 		std::vector<AICannon>		aCulverins;			// fort culverins container
 		std::vector<AICannon>		aMortars;			// fort mortars container
 
-		dword				dwCannonType, dwCulverinType, dwMortarType;
+		uint32_t				dwCannonType, dwCulverinType, dwMortarType;
 
 		MODEL *		GetModel() { Assert(api->ValidateEntity(&GetModelEID())); return (MODEL*)api->GetEntityPointer(&GetModelEID()); }
 		void		SetModelEID(ENTITY_ID _eidModel) { eidModel = _eidModel; } 
 		ENTITY_ID	GetModelEID() { return eidModel; } 
 		void		SetBlotEID(ENTITY_ID _eidBlot) { eidBlot = _eidBlot; } 
 		ENTITY_ID	GetBlotEID() { return eidBlot; } 
-		dword		GetAllCannonsNum() const { return aCannons.size() + aCulverins.size() + aMortars.size(); }
-		dword		GetCannonType(dword dwCannonIndex) 
+		uint32_t		GetAllCannonsNum() const { return aCannons.size() + aCulverins.size() + aMortars.size(); }
+		uint32_t		GetCannonType(uint32_t dwCannonIndex) 
 		{ 
 			if (dwCannonIndex < aCannons.size()) return dwCannonType;
 			if (dwCannonIndex < aCannons.size() + aCulverins.size()) return dwCulverinType;
 			return dwMortarType;
 		} 
-		dword		GetDamagedCannonsNum() 
+		uint32_t		GetDamagedCannonsNum() 
 		{
-			dword i, dwDamagedNum = 0;
+			uint32_t i, dwDamagedNum = 0;
 
 			for (i=0; i<aCannons.size(); i++) if (aCannons[i].isDamaged()) dwDamagedNum++;
 			for (i=0; i<aCulverins.size(); i++) if (aCulverins[i].isDamaged()) dwDamagedNum++;
@@ -92,7 +92,7 @@ public:
 			return false;
 		}
 
-		AICannon	* GetCannon(dword dwCannonIndex)
+		AICannon	* GetCannon(uint32_t dwCannonIndex)
 		{
 			if (dwCannonIndex < aCannons.size()) return &aCannons[dwCannonIndex];
 			if (dwCannonIndex < aCannons.size() + aCulverins.size()) return &aCulverins[dwCannonIndex - aCannons.size()];
@@ -124,9 +124,9 @@ public:
 		void Load(CSaveLoad * pSL, ENTITY_ID eid);
 	};
 
-	dword		GetNumForts() { return aForts.size(); }
+	uint32_t		GetNumForts() { return aForts.size(); }
 	AI_FORT		* FindFort(ATTRIBUTES * pACharacter);
-	AI_FORT		* GetFort(dword k)
+	AI_FORT		* GetFort(uint32_t k)
 	{
 		Assert(k < aForts.size());
 		return aForts[k];
@@ -144,7 +144,7 @@ private:
 	IShipLights			* pShipsLights;
 
 	void	AddFortHit(long iCharacterIndex, CVECTOR & vHitPos);
-	float	GetSpeedV0(dword dwFortIndex);
+	float	GetSpeedV0(uint32_t dwFortIndex);
 	bool	ScanFortForCannons(AI_FORT * pFort, char * pModelsDir, char * pLocatorsName);
 	bool	AddFort(ATTRIBUTES * pIslandAP, ATTRIBUTES * pFortAP, ATTRIBUTES * pFortCharacter, ENTITY_ID eidModel, ENTITY_ID eidBlot);
 	AI_FORT * FindFort(ENTITY_ID eidModel);
@@ -164,15 +164,15 @@ public:
 		bool Init();
 		void SetDevice();
 
-		void Realize(dword Delta_Time);
-		void Execute(dword Delta_Time);
+		void Realize(uint32_t Delta_Time);
+		void Execute(uint32_t Delta_Time);
 		
 		bool CreateState(ENTITY_STATE_GEN * state_gen);
 		bool LoadState(ENTITY_STATE * state);
 		
-		dword _cdecl ProcessMessage(MESSAGE & message);
+		uint32_t _cdecl ProcessMessage(MESSAGE & message);
 
-		dword AttributeChanged(ATTRIBUTES * pAttribute);
+		uint32_t AttributeChanged(ATTRIBUTES * pAttribute);
 
 	// inherit functions COLLISION_OBJECT
 		virtual float Trace(const CVECTOR & vSrc, const CVECTOR & vDst);

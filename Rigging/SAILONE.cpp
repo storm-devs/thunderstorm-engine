@@ -79,7 +79,7 @@ SAILONE::~SAILONE()
 	RELEASE( m_pGeraldTex );
 }
 
-void SAILONE::goWave(SAILVERTEX* pv,DWORD Delta_Time)
+void SAILONE::goWave(SAILVERTEX* pv,uint32_t Delta_Time)
 {
     bool trigger=false;
 
@@ -165,13 +165,13 @@ void SAILONE::goWave(SAILVERTEX* pv,DWORD Delta_Time)
 }
 
 // заполнить индексы
-void SAILONE::FillIndex(WORD* pt)
+void SAILONE::FillIndex(uint16_t* pt)
 {
     int   xIdxNum,yIdxNum;
     int   idx,iy,ix,jx,jy,cix,ciy,dix;
     int   holeI;
     int   holeStart,noholeStart;
-    DWORD rtm;
+    uint32_t rtm;
     bool  ishole;
     int   xIdx[5],yIdx[5];
     int   tmpx,tmpy;
@@ -404,7 +404,7 @@ void SAILONE::FillIndex(WORD* pt)
 // заполнить вертексы для паруса
 void SAILONE::FillVertex(SAILVERTEX *pv)
 {
-    WORD ix,iy,idx;
+    uint16_t ix,iy,idx;
     CVECTOR pcur,dV,ddV,dddV;
     CVECTOR norm,dnorm;
     CVECTOR dStart;
@@ -489,7 +489,7 @@ void SAILONE::FillVertex(SAILVERTEX *pv)
 
 void SAILONE::SetTexGrid(SAILVERTEX *pv)
 {
-    DWORD ix,iy,idx;
+    uint32_t ix,iy,idx;
     float kx1,ky1,kx2,ky2,tvbeg1,tvbeg2;
     float tu1,tu2;
 
@@ -558,9 +558,9 @@ void SAILONE::SetTexGrid(SAILVERTEX *pv)
     }
 }
 
-void SAILONE::ClearVertex(SAILVERTEX* pv,DWORD maxIdx)
+void SAILONE::ClearVertex(SAILVERTEX* pv,uint32_t maxIdx)
 {
-    DWORD idx;
+    uint32_t idx;
 
     // Fill triangle buffer
     if( pv )
@@ -817,7 +817,7 @@ void SAILONE::GoTWave(SAILVERTEX *pv)
 
 void SAILONE::GoVWave(SAILVERTEX *pv)
 {
-    WORD iy,ix,idx;
+    uint16_t iy,ix,idx;
     CVECTOR pcur,dV,ddV,dddV;
     float k;
     bool trigger=false;
@@ -1048,7 +1048,7 @@ void SAILONE::SetRolling(bool bRoll)
     sroll->rollup=bRoll;
 }
 
-void SAILONE::DoRollingStep(DWORD Delta_Time)
+void SAILONE::DoRollingStep(uint32_t Delta_Time)
 {
     if( !sroll ) return; // нет сворачивания паруса
 
@@ -1266,7 +1266,7 @@ bool SAILONE::GetGrid(CVECTOR &cam,float perspect)
 {
     CVECTOR pos;
     float distance;
-    DWORD dwCol,dwRow;
+    uint32_t dwCol,dwRow;
 
     if(bRolling)
     {
@@ -1772,7 +1772,7 @@ void SAILONE::DoTFreeSail(SAILVERTEX* pv)
     }
 }
 
-void SAILONE::SetAllHole(DWORD holeData)
+void SAILONE::SetAllHole(uint32_t holeData)
 {
 	int maxHoleQ = GetMaxHoleCount();
 	ss.holeCount = 0;

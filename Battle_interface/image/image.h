@@ -14,9 +14,9 @@ public:
 
 	long GetVertexQuantity() {return m_nVertexQuantity;}
 	long GetTriangleQuantity() {return m_nTriangleQuantity;}
-	void FillBuffers( BI_IMAGE_VERTEX* pV, word* pT, long& nV,long& nT );
+	void FillBuffers( BI_IMAGE_VERTEX* pV, uint16_t* pT, long& nV,long& nT );
 
-	void SetColor( dword color );
+	void SetColor( uint32_t color );
 	void SetPosition( long nLeft, long nTop, long nRight, long nBottom );
 	void Set3DPosition( const CVECTOR& vPos, float fWidth, float fHeight );
 	void SetUV( const FRECT& uv );
@@ -43,7 +43,7 @@ protected:
 
 	FRECT m_BasePos;
 	FRECT m_BaseUV;
-	dword m_dwColor;
+	uint32_t m_dwColor;
 
 	std::vector<FPOINT> m_aRelPos;
 	BIImageType m_eType;

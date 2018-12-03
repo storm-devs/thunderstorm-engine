@@ -2,12 +2,11 @@
 #include "..\..\icommon\memfile.h"
 #include "..\..\icommon\types.h"
 #include "..\..\icommon\graphtime.h"
-#include "..\..\icommon\names.h"
 #include "..\..\..\common_h\vmodule_api.h"
 
 #pragma warning (disable : 4800)
 
-extern DWORD GraphRead;
+extern uint32_t GraphRead;
 
 
 //Линейная интерполяция
@@ -48,12 +47,12 @@ DataGraph::~DataGraph ()
 
 
 //Установить значения...
-void DataGraph::SetValues (const GraphVertex* MinValues, DWORD MinValuesSize, const GraphVertex* MaxValues, DWORD MaxValuesSize)
+void DataGraph::SetValues (const GraphVertex* MinValues, uint32_t MinValuesSize, const GraphVertex* MaxValues, uint32_t MaxValuesSize)
 {
 	MinGraph.clear();
 	MaxGraph.clear();
 
-	DWORD n  = 0;
+	uint32_t n  = 0;
 	for (n = 0; n < MinValuesSize; n++)
 	{
 		MinGraph.push_back(MinValues[n]);
@@ -93,25 +92,25 @@ void DataGraph::SetDefaultValue (float MaxValue, float MinValue)
 
 
 //Получить кол-во в графике минимума
-DWORD DataGraph::GetMinCount ()
+uint32_t DataGraph::GetMinCount ()
 {
 	return MinGraph.size();
 }
 
 //Получить кол-во в графике максимума
-DWORD DataGraph::GetMaxCount ()
+uint32_t DataGraph::GetMaxCount ()
 {
 	return MaxGraph.size();
 }
 
 //Получить значение по индексу из графика минимума
-const GraphVertex& DataGraph::GetMinVertex (DWORD Index)
+const GraphVertex& DataGraph::GetMinVertex (uint32_t Index)
 {
 	return MinGraph[Index];
 }
 
 //Получить значение по индексу из графика максимума
-const GraphVertex& DataGraph::GetMaxVertex (DWORD Index)
+const GraphVertex& DataGraph::GetMaxVertex (uint32_t Index)
 {
 	return MaxGraph[Index];
 }
@@ -130,18 +129,18 @@ void DataGraph::Load (MemFile* File)
 	MinGraph.clear();
 	MaxGraph.clear();
 
-	DWORD dwNegative = 0;
+	uint32_t dwNegative = 0;
 	File->ReadType(dwNegative);
 	SetNegative(dwNegative);
 
-	DWORD dwRelative = 0;
+	uint32_t dwRelative = 0;
 	File->ReadType(dwRelative);
 	SetRelative(dwRelative);
 
-	DWORD MaxGraphItemsCount = 0;
+	uint32_t MaxGraphItemsCount = 0;
 	File->ReadType(MaxGraphItemsCount);
 
-	DWORD i = 0;
+	uint32_t i = 0;
 	for (i = 0; i < MaxGraphItemsCount; i++)
 	{
 		float fTime = 0.0f;
@@ -161,7 +160,7 @@ void DataGraph::Load (MemFile* File)
 		//api->Trace("Max value %d = %3.2f, %3.2f", i, fTime, fValue);
 	}
 
-	DWORD MinGraphItemsCount = 0;
+	uint32_t MinGraphItemsCount = 0;
 	File->ReadType(MinGraphItemsCount);
 
 	for (i = 0; i < MinGraphItemsCount; i++)
@@ -186,7 +185,7 @@ void DataGraph::Load (MemFile* File)
 	}
 
 	static char AttribueName[128];
-	DWORD NameLength = 0;
+	uint32_t NameLength = 0;
 	File->ReadType(NameLength);
 	Assert (NameLength < 128);
 	File->Read(AttribueName, NameLength);
@@ -254,7 +253,7 @@ void DataGraph::ConvertDegToRad ()
 
 void DataGraph::MultiplyBy (float Val)
 {
-	DWORD n;
+	uint32_t n;
 	for (n = 0; n < MaxGraph.size(); n++)
 		MaxGraph[n].Val *= Val;
 
@@ -266,8 +265,8 @@ float DataGraph::GetMinAtTime (float Time, float LifeTime)
 {
 	if (bRelative) Time = Time / LifeTime * 100.0f;
 
-	DWORD Count = MinGraph.size();
-	DWORD Index;
+	uint32_t Count = MinGraph.size();
+	uint32_t Index;
 	if (MinCachedTime < Time)
 		Index = MinCachedIndex;
 	else
@@ -308,9 +307,9 @@ float DataGraph::GetMaxAtTime (float Time, float LifeTime)
 {
 	if (bRelative)	Time = Time / LifeTime * 100.0f;
 
-	DWORD Count = MaxGraph.size();
+	uint32_t Count = MaxGraph.size();
 	
-	DWORD Index;
+	uint32_t Index;
 
 	if (MaxCachedTime < Time)
 		Index = MaxCachedIndex;
@@ -365,7 +364,7 @@ float DataGraph::GetRandomValue (float Time, float LifeTime)
 
 void DataGraph::Clamp (float MinValue, float MaxValue)
 {
-	DWORD n;
+	uint32_t n;
 	for (n = 0; n < MaxGraph.size(); n++)
 	{
 		if (MaxGraph[n].Val > MaxValue) MaxGraph[n].Val = MaxValue;
@@ -382,7 +381,7 @@ void DataGraph::Clamp (float MinValue, float MaxValue)
 
 void DataGraph::Reverse ()
 {
-	DWORD n;
+	uint32_t n;
 	for (n = 0; n < MaxGraph.size(); n++)
 		MaxGraph[n].Val = 1.0f - MaxGraph[n].Val;
 
@@ -419,8 +418,8 @@ float DataGraph::GetMaxTime ()
 {
 	float MaxVal = 10.0f;
 	float MinVal = 10.0f;
-	DWORD MaxCount = MaxGraph.size();
-	DWORD MinCount = MinGraph.size();
+	uint32_t MaxCount = MaxGraph.size();
+	uint32_t MinCount = MinGraph.size();
 
 	if (MaxCount > 2)	MaxVal = MaxGraph[MaxCount-2].Time;
 	if (MinCount > 2)	MinVal = MinGraph[MinCount-2].Time;
@@ -431,18 +430,18 @@ float DataGraph::GetMaxTime ()
 
 void DataGraph::Write (MemFile* File)
 {
-	DWORD dwNegative = GetNegative();
+	uint32_t dwNegative = GetNegative();
 	File->WriteType(dwNegative);
 
-	DWORD dwRelative = GetRelative();
+	uint32_t dwRelative = GetRelative();
 	File->WriteType(dwRelative);
 
 
 	
-	DWORD MaxGraphItemsCount = MaxGraph.size();
+	uint32_t MaxGraphItemsCount = MaxGraph.size();
 	File->WriteType(MaxGraphItemsCount);
 
-	DWORD i = 0;
+	uint32_t i = 0;
 	for (i = 0; i < MaxGraphItemsCount; i++)
 	{
 		
@@ -453,7 +452,7 @@ void DataGraph::Write (MemFile* File)
 		File->WriteType(fValue);
 	}
 
-	DWORD MinGraphItemsCount = MinGraph.size();
+	uint32_t MinGraphItemsCount = MinGraph.size();
 	File->WriteType(MinGraphItemsCount);
 
 	for (i = 0; i < MinGraphItemsCount; i++)
@@ -467,8 +466,8 @@ void DataGraph::Write (MemFile* File)
 
 
 	//save name
-	DWORD NameLength = Name.size();
-	DWORD NameLengthPlusZero = NameLength+1;
+	uint32_t NameLength = Name.size();
+	uint32_t NameLengthPlusZero = NameLength+1;
 	File->WriteType(NameLengthPlusZero);
 	Assert (NameLength < 128);
 	File->Write(Name.c_str(), NameLength);

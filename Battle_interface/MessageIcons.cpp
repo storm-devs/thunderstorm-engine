@@ -10,7 +10,7 @@ MESSAGE_ICONS::MESSAGE_ICONS()
 	m_vMsgIconBufID = -1;
 	m_iMsgIconBufID = -1;
 
-	ZeroMemory(m_pIconsAttr,sizeof(m_pIconsAttr));
+	PZERO(m_pIconsAttr,sizeof(m_pIconsAttr));
 }
 
 MESSAGE_ICONS::~MESSAGE_ICONS()
@@ -20,7 +20,7 @@ MESSAGE_ICONS::~MESSAGE_ICONS()
 	TEXTURE_RELEASE(rs,m_idMsgIconsTexture);
 }
 
-void MESSAGE_ICONS::Update(DWORD deltaTime)
+void MESSAGE_ICONS::Update(uint32_t deltaTime)
 {
 	int i,j,n,q;
 	if(m_bShowMsgIcon)
@@ -29,7 +29,7 @@ void MESSAGE_ICONS::Update(DWORD deltaTime)
 		if(!pVBuf) return;
 
 		// Расчет цвета мигания
-		DWORD blindColor = m_dwNormalColor;
+		uint32_t blindColor = m_dwNormalColor;
 		if(m_bBlindDirectUp)	blindColor = BIUtils::GetIntervalColor(m_dwHighBlindColor, m_dwLowBlindColor, m_fCurBlindTime/m_fBlindTimeUp);
 		else	blindColor = BIUtils::GetIntervalColor(m_dwLowBlindColor, m_dwHighBlindColor, m_fCurBlindTime/m_fBlindTimeDown);
 
@@ -214,7 +214,7 @@ bool MESSAGE_ICONS::InitData(ENTITY_ID & host_eid, VDX9RENDER * _rs, ATTRIBUTES 
 		rs->UnLockVertexBuffer(m_vMsgIconBufID);
 	}
 
-	WORD * pIBuf = (WORD*)rs->LockIndexBuffer(m_iMsgIconBufID);
+	uint16_t * pIBuf = (uint16_t*)rs->LockIndexBuffer(m_iMsgIconBufID);
 	if(pIBuf!= nullptr)
 	{
 		for(i=0; i<m_nMsgIconRowQnt*MESSAGE_ICONS_COLUMN_QUANTITY; i++)

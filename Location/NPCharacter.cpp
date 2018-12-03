@@ -12,6 +12,7 @@
 #include "Location.h"
 #include "CharactersGroups.h"
 #include "../common_h/defines.h"
+#include "../../Shared/messages.h"
 
 
 //============================================================================================
@@ -160,7 +161,7 @@ bool NPCharacter::PostInit()
 }
 
 
-dword NPCharacter::ChlProcessMessage(long messageID, MESSAGE & message)
+uint32_t NPCharacter::ChlProcessMessage(long messageID, MESSAGE & message)
 {
 	char buf[128];
 	switch(messageID)

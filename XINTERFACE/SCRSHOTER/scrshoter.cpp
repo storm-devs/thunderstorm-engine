@@ -1,14 +1,13 @@
-﻿#include "..\..\..\Shared\interface\messages.h"
-#include "..\defines.h"
+﻿#include "..\defines.h"
 #include "scrshoter.h"
 
 #define SS_TEXTURE_WIDTH		128
 #define SS_TEXTURE_HEIGHT		128
 #define SS_TEXTURE_FONECOLOR	0xFF000000
 
-DWORD GetA8R8G8B8_FromFMT(void *p, DWORD fmt)
+uint32_t GetA8R8G8B8_FromFMT(void *p, uint32_t fmt)
 {
-	DWORD retVal;
+	uint32_t retVal;
 
 #ifdef _XBOX
 	if(fmt==D3DFMT_R5G6B5 || fmt==D3DFMT_LIN_R5G6B5)
@@ -17,13 +16,13 @@ DWORD GetA8R8G8B8_FromFMT(void *p, DWORD fmt)
 #endif
 	{
 		retVal = 0xFF000000 |
-			( ((DWORD)( *(WORD*)(p) & 0xF800 )) << 8 ) |
-			( ((DWORD)( *(WORD*)(p) & 0x7E0)) << 5 ) |
-			( ((DWORD)( *(WORD*)(p) & 0x1F)) << 3 );
+			( ((uint32_t)( *(uint16_t*)(p) & 0xF800 )) << 8 ) |
+			( ((uint32_t)( *(uint16_t*)(p) & 0x7E0)) << 5 ) |
+			( ((uint32_t)( *(uint16_t*)(p) & 0x1F)) << 3 );
 	}
 	else
 	{
-		retVal = 0xFF000000 | (*(DWORD*)(p));
+		retVal = 0xFF000000 | (*(uint32_t*)(p));
 	}
 
 	return retVal;
@@ -66,11 +65,11 @@ void SCRSHOTER::SetDevice()
 
 }
 
-void SCRSHOTER::Execute(dword Delta_Time)
+void SCRSHOTER::Execute(uint32_t Delta_Time)
 {
 }
 
-void SCRSHOTER::Realize(dword Delta_Time)
+void SCRSHOTER::Realize(uint32_t Delta_Time)
 {
 	if(m_pScrShotTex== nullptr)
 		if(!MakeScreenShot())
@@ -156,8 +155,8 @@ bool SCRSHOTER::MakeScreenShot()
 		int vi, hi;
 		for ( vi=0; vi<SS_TEXTURE_HEIGHT; vi++ )
 		{
-			BYTE * pInPxl = (BYTE*)pIn + inRect.Pitch * pVertOff[vi];
-			DWORD * pOutPxl = (DWORD*) ( (BYTE*)pOut + outRect.Pitch * vi );
+			uint8_t * pInPxl = (uint8_t*)pIn + inRect.Pitch * pVertOff[vi];
+			uint32_t * pOutPxl = (uint32_t*) ( (uint8_t*)pOut + outRect.Pitch * vi );
 			for( hi=0; hi<SS_TEXTURE_WIDTH; hi++ )
 			{
 				pOutPxl[hi] = GetA8R8G8B8_FromFMT( &pInPxl[pHorzOff[hi]], desc.Format );
@@ -173,7 +172,7 @@ bool SCRSHOTER::MakeScreenShot()
 
 #ifdef _XBOX
 	// Делаем перевод в смешанную текстуру
-	DWORD dwTmp = outRect.Pitch*SS_TEXTURE_HEIGHT;
+	uint32_t dwTmp = outRect.Pitch*SS_TEXTURE_HEIGHT;
 	//DWORD dwPixelSize = XGBytesPerPixelFromFormat( D3DFMT_A8R8G8B8 );
 	if( (pIn=NEW char[dwTmp]) == null ) { STORM_THROW("allocate memory error") }
 	memcpy(pIn,outRect.pBits,dwTmp);
@@ -196,7 +195,7 @@ bool SCRSHOTER::MakeScreenShot()
 		IDirect3DTexture9 * pScrShotTex = nullptr;
 		if( D3D_OK == rs->CreateTexture(SS_TEXTURE_WIDTH,SS_TEXTURE_HEIGHT,1,D3DUSAGE_RENDERTARGET,D3DFMT_A8R8G8B8,D3DPOOL_DEFAULT,&pScrShotTex) )
 		{
-			DWORD BI_SCRSHOTER_VERTEX_FORMAT = (D3DFVF_XYZRHW|D3DFVF_TEX1|D3DFVF_TEXTUREFORMAT2);
+			uint32_t BI_SCRSHOTER_VERTEX_FORMAT = (D3DFVF_XYZRHW|D3DFVF_TEX1|D3DFVF_TEXTUREFORMAT2);
 			struct BI_SCRSHOTER_VERTEX
 			{
 				CVECTOR pos;
@@ -248,11 +247,11 @@ bool SCRSHOTER::MakeScreenShot()
 	return hr==D3D_OK;
 }
 
-dword _cdecl SCRSHOTER::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl SCRSHOTER::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{
-	case MSG_SCRSHOT_MAKE:	return (dword)m_pScrShotTex;	break;
+	case MSG_SCRSHOT_MAKE:	return (uint32_t)m_pScrShotTex;	break;
 	case MSG_SCRSHOT_READ:
 		{
 			char param[512],param2[256];
@@ -267,7 +266,7 @@ dword _cdecl SCRSHOTER::ProcessMessage(MESSAGE & message)
 			if(pvdat)
 				if(!strDat) pvdat->Set("\0");
 				else pvdat->Set(strDat);
-			return (dword)pRetTex;
+			return (uint32_t)pRetTex;
 		}
 		break;
 	case MSG_SCRSHOT_RELEASE:

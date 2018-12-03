@@ -1,6 +1,7 @@
 #include "EnemyStatShower.h"
 #include "..\utils.h"
 #include "..\..\common_h\model.h"
+#include "../../../Shared/messages.h"
 
 EnemyStatShower::EnemyStatShower()
 {
@@ -18,11 +19,11 @@ bool EnemyStatShower::Init()
 	return true;
 }
 
-void EnemyStatShower::Realize(dword delta_time)
+void EnemyStatShower::Realize(uint32_t delta_time)
 {
 }
 
-dword _cdecl EnemyStatShower::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl EnemyStatShower::ProcessMessage(MESSAGE & message)
 {
 	long nMsgCod = message.Long();
 	switch( nMsgCod )

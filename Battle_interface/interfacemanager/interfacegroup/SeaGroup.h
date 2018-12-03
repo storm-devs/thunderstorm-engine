@@ -10,7 +10,7 @@ public:
 	virtual ~BI_SeaGroup();
 
 	virtual void Init();
-	virtual void Update() {}
+	virtual void Update(){}
 
 	virtual long Event(const char* pcEventName) {return 0;}
 

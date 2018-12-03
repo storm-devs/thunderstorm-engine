@@ -12,7 +12,6 @@ model binded to an animated locator
 #include "..\common_h\dx9render.h"
 #include "..\common_h\collide.h"
 #include "..\common_h\model.h"
-#include "..\common_h\geos.h"
 
 #define BLADE_INFO_QUANTITY	2
 #define ITEMS_INFO_QUANTITY 10
@@ -82,6 +81,6 @@ public:
 	BLADE();
 	~BLADE();
 	bool Init();
-	void Realize(dword Delta_Time);
-	dword _cdecl ProcessMessage(MESSAGE &message);
+	void Realize(uint32_t Delta_Time);
+	uint32_t _cdecl ProcessMessage(MESSAGE &message);
 };

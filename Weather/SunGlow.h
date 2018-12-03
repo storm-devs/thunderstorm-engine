@@ -17,10 +17,10 @@ public:
 
 	void	SetDevice();
 	bool	Init();
-	void	Realize(dword Delta_Time);
-	void	Execute(dword Delta_Time);
-	dword	AttributeChanged(ATTRIBUTES * pAttribute);
-	dword	_cdecl ProcessMessage(MESSAGE & message);
+	void	Realize(uint32_t Delta_Time);
+	void	Execute(uint32_t Delta_Time);
+	uint32_t	AttributeChanged(ATTRIBUTES * pAttribute);
+	uint32_t	_cdecl ProcessMessage(MESSAGE & message);
 
 	void	DrawSunMoon();
 
@@ -34,7 +34,7 @@ private:
 	struct SUNGLOWVERTEX 
 	{
 		CVECTOR vPos;
-		dword	dwColor;
+		uint32_t	dwColor;
 		float	tu,tv;
 	};
 
@@ -46,7 +46,7 @@ private:
 		float				fDist;
 		float				fDecayTime;
 		float				fRotateSpeed;
-		dword				dwColor;
+		uint32_t				dwColor;
 		std::string				sSunTexture,sMoonTexture,sGlowTexture, sTechniqueZ, sTechniqueNoZ;
 	};
 
@@ -54,8 +54,8 @@ private:
 	{
 		float	fDist;			// distance from far
 		float	fSize;			// size
-		dword	dwColor;		// color
-		dword	dwSubTexIndex;	// subtexture index 
+		uint32_t	dwColor;		// color
+		uint32_t	dwSubTexIndex;	// subtexture index 
 	};
 
 	struct sunflares_t
@@ -65,7 +65,7 @@ private:
 		float				fSize;
 		float				fDist;
 		float				fFlareScale;
-		dword				dwTexSizeX, dwTexSizeY;
+		uint32_t				dwTexSizeX, dwTexSizeY;
 		std::string				sTexture, sTechnique;
 		std::vector<flare_t>		aFlares;
 	};
@@ -75,7 +75,7 @@ private:
 		std::string			sTexture, sTechnique;
 		float			fSize;
 		float			fStart;
-		dword			dwColor;
+		uint32_t			dwColor;
 	};
 
 	struct reflection_t
@@ -83,7 +83,7 @@ private:
 		std::string			sTexture, sTechnique;
 		float			fSize;
 		float			fDist;
-		dword			dwColor;
+		uint32_t			dwColor;
 	};
 
 	overflow_t		Overflow;
@@ -115,7 +115,7 @@ private:
 	void	DrawReflection();
 	void	Release();
 
-	void	DrawRect(dword dwColor,const CVECTOR& pos,float fSize,float fAngle,const char* pcTechnique, float fBottomClip);
+	void	DrawRect(uint32_t dwColor,const CVECTOR& pos,float fSize,float fAngle,const char* pcTechnique, float fBottomClip);
 
 	float	GetSunFadeoutFactor(const CVECTOR& vSunPos,float fSunSize);
 };

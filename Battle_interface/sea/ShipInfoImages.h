@@ -1,7 +1,6 @@
 #ifndef _SHIPINFOIMAGES_H_
 #define _SHIPINFOIMAGES_H_
 
-#include "..\utils.h"
 #include "ships_list.h"
 
 struct SII_VERTEX

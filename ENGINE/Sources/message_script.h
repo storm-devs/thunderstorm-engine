@@ -62,14 +62,14 @@ public:
 		index++;
 		return true;
 	};
-	byte Byte()			{ throw "Invalid MESSAGE_SCRIPT data type"; }
-	word Word()			{ throw "Invalid MESSAGE_SCRIPT data type"; }
+	uint8_t Byte()			{ throw "Invalid MESSAGE_SCRIPT data type"; }
+	uint16_t Word()			{ throw "Invalid MESSAGE_SCRIPT data type"; }
 	long Dword()		{ throw "Invalid MESSAGE_SCRIPT data type"; }
 	double Double()		{ throw "Invalid MESSAGE_SCRIPT data type"; }
 	char * Pointer()	{ throw "Invalid MESSAGE_SCRIPT data type"; }
 	CVECTOR CVector()	{ throw "Invalid MESSAGE_SCRIPT data type"; }
-	void MemoryBlock(dword memsize, char * buffer){	throw "Invalid MESSAGE_SCRIPT data type";	}
-	void Struct(dword sizeofstruct, char * s) { throw "Invalid MESSAGE_SCRIPT data type";}
+	void MemoryBlock(uint32_t memsize, char * buffer){	throw "Invalid MESSAGE_SCRIPT data type";	}
+	void Struct(uint32_t sizeofstruct, char * s) { throw "Invalid MESSAGE_SCRIPT data type";}
 	ATTRIBUTES * AttributePointer()
 	{ 
 		ATTRIBUTES * tAP;
@@ -110,9 +110,9 @@ public:
 		ReadPointer += sizeof(VDATA *);
 		return ptr; 
 	}
-	void String(dword dest_buffer_size, char * buffer)
+	void String(uint32_t dest_buffer_size, char * buffer)
 	{
-		dword size;
+		uint32_t size;
 		ValidateFormat('s');
 		size = strlen(ReadPointer) + 1;
 		if(size >= dest_buffer_size)
@@ -127,7 +127,7 @@ public:
 		ReadPointer += size;
 
 		/*char * mem_PTR;
-		dword size;
+		uint32_t size;
 		if(!buffer) throw "zero string buffer";
 		ValidateFormat('s');
 		mem_PTR = va_arg(args,char*);

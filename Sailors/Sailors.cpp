@@ -8,13 +8,11 @@
 #include <stdio.h>
 #include "sailors.h"
 
-#include "..\common_h\messages.h"
+#include "..\../Shared/messages.h"
 #include "..\common_h\exs.h"
-#include "..\common_h\rands.h"
 #include "..\common_h\types3d.h"
 #include "..\..\Shared\SEA_AI\script_defines.h"
 #include "..\..\Shared\sea_ai\seaPeople.h"
-#include "..\common_h\ship_msg.h"
 #include "..\Ship\ship.h"
 
 #define GUARD_SAILORS(block)	{ static const TCHAR block_name[] = TEXT(#block); try {
@@ -50,7 +48,7 @@ void ShipMan::Free()
 	UNGUARD_SAILORS
 };
 //-----Построение матрицы с учетом текущего состояния---------------------------------
-void ShipMan::SetPos(MODEL *ship, SHIP_BASE *ship_base, dword &dltTime, ShipState &shipState)
+void ShipMan::SetPos(MODEL *ship, SHIP_BASE *ship_base, uint32_t &dltTime, ShipState &shipState)
 {
 	GUARD_SAILORS(ShipMan::SetPos())
 
@@ -102,7 +100,7 @@ void ShipMan::SetPos(MODEL *ship, SHIP_BASE *ship_base, dword &dltTime, ShipStat
 	UNGUARD_SAILORS
 };
 //------------------------------------------------------------------------------------
-bool ShipMan::RotateToAngle(dword &dltTime, SailorsPoints &sailorsPoints)
+bool ShipMan::RotateToAngle(uint32_t &dltTime, SailorsPoints &sailorsPoints)
 {
 	GUARD_SAILORS(ShipMan::RotateToAngle())
 
@@ -314,7 +312,7 @@ void ShipMan::ApplyTargetPoint(CVECTOR pt, bool randomWalk)
 	UNGUARD_SAILORS
 };
 //------------------------------------------------------------------------------------
-bool ShipMan::MoveToPosition(dword &dltTime, SailorsPoints &sailorsPoints, ShipState &shipState){
+bool ShipMan::MoveToPosition(uint32_t &dltTime, SailorsPoints &sailorsPoints, ShipState &shipState){
 
 	GUARD_SAILORS(ShipMan::MoveToPosition())
 
@@ -388,7 +386,7 @@ int ShipMan::GetNearestEmptyCannon(SailorsPoints &sailorsPoints)
 	UNGUARD_SAILORS
 };
 //------------------------------------------------------------------------------------
-bool ShipMan :: Swim(dword &dltTime, SailorsPoints &sailorsPoints, ShipState &shipState)
+bool ShipMan :: Swim(uint32_t &dltTime, SailorsPoints &sailorsPoints, ShipState &shipState)
 {
 	GUARD_SAILORS(ShipMan::Swim())
 
@@ -411,7 +409,7 @@ bool ShipMan :: Swim(dword &dltTime, SailorsPoints &sailorsPoints, ShipState &sh
 	UNGUARD_SAILORS
 };
 //------------------------------------------------------------------------------------
-bool ShipMan::Stay(dword &dltTime, SailorsPoints &sailorsPoints)
+bool ShipMan::Stay(uint32_t &dltTime, SailorsPoints &sailorsPoints)
 {
 	GUARD_SAILORS(ShipMan::Stay())
 
@@ -420,7 +418,7 @@ bool ShipMan::Stay(dword &dltTime, SailorsPoints &sailorsPoints)
 	UNGUARD_SAILORS
 };
 //------------------------------------------------------------------------------------
-bool ShipMan::Turn(dword &dltTime, SailorsPoints &sailorsPoints)
+bool ShipMan::Turn(uint32_t &dltTime, SailorsPoints &sailorsPoints)
 {
 	GUARD_SAILORS(ShipMan::Turn())
 
@@ -429,7 +427,7 @@ bool ShipMan::Turn(dword &dltTime, SailorsPoints &sailorsPoints)
 	UNGUARD_SAILORS
 };
 //------------------------------------------------------------------------------------
-bool ShipMan::Jump(dword &dltTime, SailorsPoints &sailorsPoints, ShipState &shipState)
+bool ShipMan::Jump(uint32_t &dltTime, SailorsPoints &sailorsPoints, ShipState &shipState)
 {
 	GUARD_SAILORS(ShipMan::Jump())
 		pos.y-=  jumpSpeedY*dltTime/1500.0f;
@@ -448,7 +446,7 @@ bool ShipMan::Jump(dword &dltTime, SailorsPoints &sailorsPoints, ShipState &ship
 	UNGUARD_SAILORS
 };
 //-----Обновить анимацию и скорость---------------------------------------------------
-void ShipMan::SetAnimation(dword dltTime, ShipState &shipState){
+void ShipMan::SetAnimation(uint32_t dltTime, ShipState &shipState){
 
 	GUARD_SAILORS(ShipMan::SetAnimation())
 
@@ -546,7 +544,7 @@ void ShipMan::SetAnimation(dword dltTime, ShipState &shipState){
 	UNGUARD_SAILORS
 };
 //-----Выбрать новое действие---------------------------------------------------------
-void ShipMan::NewAction(SailorsPoints &sailorsPoints, ShipState &shipState,dword &dltTime)
+void ShipMan::NewAction(SailorsPoints &sailorsPoints, ShipState &shipState,uint32_t &dltTime)
 {
 	GUARD_SAILORS(ShipMan::NewAction())
 	if (!sailorsPoints.links.count) return;
@@ -627,7 +625,7 @@ void ShipMan::NewAction(SailorsPoints &sailorsPoints, ShipState &shipState,dword
 	UNGUARD_SAILORS
 };
 //-----Основная ф-ия-----------------------------------------------------
-void ShipMan::UpdatePos(dword &dltTime, SailorsPoints &sailorsPoints, ShipState &shipState)
+void ShipMan::UpdatePos(uint32_t &dltTime, SailorsPoints &sailorsPoints, ShipState &shipState)
 {
 	GUARD_SAILORS(ShipMan::UpdatePos())
 
@@ -741,7 +739,7 @@ void ShipWalk::CreateNewMan(SailorsPoints &sailorsPoints)
 		shipMan[current].pos.y = sailorsPoints.points.point[shipMan[current].newWayPoint].y;
 		shipMan[current].pos.z = sailorsPoints.points.point[shipMan[current].newWayPoint].z;
 
-		DWORD dltTime = 0;
+		uint32_t dltTime = 0;
 		shipMan[current].NewAction(sailorsPoints,shipState,dltTime);
 	}
 	crewCount++;
@@ -893,7 +891,7 @@ void ShipWalk::OnHullHit(CVECTOR &v)
 	UNGUARD_SAILORS
 };
 //-----Обход друг друга---------------------------------------------------------------
-void ShipWalk::CheckPosition(dword &dltTime)
+void ShipWalk::CheckPosition(uint32_t &dltTime)
 {
 
 	GUARD_SAILORS(ShipWalk::CheckPosition())
@@ -1025,7 +1023,7 @@ bool Sailors::Init()
 	return true;
 }
 //------------------------------------------------------------------------------------
-void Sailors::Realize(dword dltTime)
+void Sailors::Realize(uint32_t dltTime)
 {
 	GUARD_SAILORS(Sailors :: Realize())
 
@@ -1115,12 +1113,12 @@ void Sailors::DeleteShip(int i)
 	UNGUARD_SAILORS
 }
 //------------------------------------------------------------------------------------
-dword Sailors :: ProcessMessage(MESSAGE &message)
+uint32_t Sailors :: ProcessMessage(MESSAGE &message)
 {
 	GUARD_SAILORS(Sailors::ProcessMessage())
 
 	long code = message.Long();
-	dword outValue = 0;
+	uint32_t outValue = 0;
 	ENTITY_ID shipID;
 	char c[20];
 
@@ -1248,7 +1246,7 @@ dword Sailors :: ProcessMessage(MESSAGE &message)
 };
 
 //------------------------------------------------------------------------------------
-dword Sailors::AttributeChanged(ATTRIBUTES *_newAttr)
+uint32_t Sailors::AttributeChanged(ATTRIBUTES *_newAttr)
 {
 	GUARD_SAILORS(Sailors::AttributeChanged())
 

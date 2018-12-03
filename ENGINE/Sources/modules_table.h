@@ -12,10 +12,10 @@ typedef struct
 
 class MODULES_TABLE
 {
-	dword Paths_Count;
+	uint32_t Paths_Count;
 	char * * Paths_Table;
 	char gstring[_MAX_PATH];
-	dword nModulesNum;
+	uint32_t nModulesNum;
 	MODULE_STATE * pTable;
 public:
 
@@ -26,9 +26,9 @@ public:
 	bool AddModulesPath(char * _name);		// add alternative search path
 	bool LoadModule(char * name, long path_code, MODULE_STATE & ms);
 	void __declspec(dllexport) __cdecl Load_ModulesTable();
-	char * GetPath(dword code);
-	dword GetModulesCount();
-	VMA * GetClassesRoot(dword _n);
+	char * GetPath(uint32_t code);
+	uint32_t GetModulesCount();
+	VMA * GetClassesRoot(uint32_t _n);
 };
 
 
@@ -42,8 +42,8 @@ public:
 typedef struct 
 {
 	bool  service;
-	dword path_code;
-	dword reference;
+	uint32_t path_code;
+	uint32_t reference;
 	HINSTANCE hInst;
 	DLLAPIFUNC api_func_PTR;
 	VMODULE_API * mapi_PTR;
@@ -59,21 +59,21 @@ public:
 	MODULES_TABLE();
 	~MODULES_TABLE();
 
-	char * GetPath(dword code);
-	dword  GetPathsCount();
-	bool  ServiceFlag(dword code);
-	bool  AddModule(char * _char_PTR,dword path_code);
-	dword GetModuleCode(char * _char_PTR);
+	char * GetPath(uint32_t code);
+	uint32_t  GetPathsCount();
+	bool  ServiceFlag(uint32_t code);
+	bool  AddModule(char * _char_PTR,uint32_t path_code);
+	uint32_t GetModuleCode(char * _char_PTR);
 	
-	//VMODULE_API * GetModuleAPI(dword code);
+	//VMODULE_API * GetModuleAPI(uint32_t code);
 	void Release();
-	dword GetModulesCount();
-	char * GetModuleName(dword code);		// return module name with path	
+	uint32_t GetModulesCount();
+	char * GetModuleName(uint32_t code);		// return module name with path	
 	
 	bool SetModulesPath(char * _name);		// clear all paths and add first path
 	bool AddModulesPath(char * _name);		// add alternative search path
 	
-	dword Paths_Count;
+	uint32_t Paths_Count;
 	char * * Paths_Table;
 	char gstring[_MAX_PATH];				// general purpose string 
 

@@ -40,9 +40,9 @@ void DataCache::CacheSystem (const char* FileName)
 		return;
 	}
 
-	DWORD FileSize = api->fio->_GetFileSize(pSysFile, nullptr);
+	uint32_t FileSize = api->fio->_GetFileSize(pSysFile, nullptr);
 
-	BYTE* pMemBuffer = NEW BYTE[FileSize];
+	uint8_t* pMemBuffer = NEW uint8_t[FileSize];
 	api->fio->_ReadFile(pSysFile, pMemBuffer, FileSize, nullptr);
 
 	//Создаем данные из файла...
@@ -97,7 +97,7 @@ bool DataCache::ValidatePointer (DataSource* pData)
 
 
 
-void DataCache::CreateDataSource (void* pBuffer, DWORD BufferSize, const char* SourceFileName)
+void DataCache::CreateDataSource (void* pBuffer, uint32_t BufferSize, const char* SourceFileName)
 {
 	LoadedDataSource NewDataSource;
 	NewDataSource.FileName = SourceFileName;
@@ -113,12 +113,12 @@ void DataCache::CreateDataSource (void* pBuffer, DWORD BufferSize, const char* S
 	delete ReadFile;
 }
 
-DWORD DataCache::GetCachedCount ()
+uint32_t DataCache::GetCachedCount ()
 {
 	return Cache.size();
 }
 
-const char* DataCache::GetCachedNameByIndex (DWORD Index)
+const char* DataCache::GetCachedNameByIndex (uint32_t Index)
 {
 	return Cache[Index].FileName.c_str();
 }

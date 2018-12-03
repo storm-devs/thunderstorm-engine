@@ -4,6 +4,7 @@
 #include "touch.h"
 #include "..\common_h\character.h"
 #include "..\..\Shared\sea_ai\Script_Defines.h"
+#include "../../Shared/messages.h"
 
 #define ISLAND_CODE			-1
 #define INVALID_SHIP_IDX	0xACACAC
@@ -39,7 +40,7 @@ TOUCH::~TOUCH()
 	for (long i=0;i<iNumShips;i++) STORM_DELETE(pShips[i]);
 }
 
-dword _cdecl TOUCH::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl TOUCH::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{
@@ -66,10 +67,10 @@ dword _cdecl TOUCH::ProcessMessage(MESSAGE & message)
 }
 
 long MaxDepth, CurDepth;
-dword dwRdtsc;
+uint32_t dwRdtsc;
 CVECTOR vGlobalRecoil;
 
-void TOUCH::Realize(dword DeltaTime)
+void TOUCH::Realize(uint32_t DeltaTime)
 {
 	DrawShips();
 	//pRS->Print(0,110,"x: %.7f, y: %.7f", vGlobalRecoil.x,vGlobalRecoil.z);
@@ -77,9 +78,9 @@ void TOUCH::Realize(dword DeltaTime)
 	return;
 }
 
-void TOUCH::Execute(dword dwCoreDeltaTime)
+void TOUCH::Execute(uint32_t dwCoreDeltaTime)
 {
-	GUARD(void TOUCH::Execute(dword dwCoreDeltaTime))
+	GUARD(void TOUCH::Execute(uint32_t dwCoreDeltaTime))
 	long i;
 	ENTITY_ID ent;
 	if (!pIslandBase && api->FindClass(&ent,"island",0))
@@ -152,7 +153,7 @@ CVECTOR TOUCH::GetPoint(float x, float y, float xx, float yy, float xscale, floa
 	return vPos;
 }
 
-void TOUCH::DrawLine(std::vector<RS_LINE2D> & aLines, float x1, float y1, float x2, float y2, DWORD dwColor)
+void TOUCH::DrawLine(std::vector<RS_LINE2D> & aLines, float x1, float y1, float x2, float y2, uint32_t dwColor)
 {
 	RS_LINE2D l1, l2;
 	l1.rhw = 0.5f;
@@ -215,7 +216,7 @@ void TOUCH::DrawShips()
 			long nextj = (j==pShips[i]->iNumVContour-1) ? 0 : j+1;
 			p2 = GetPoint(x,y,pShips[i]->vContour[nextj].x,pShips[i]->vContour[nextj].z,xscale,yscale,fCos,fSin,ss);
 
-			dword dwColor = 0x00FF1F;
+			uint32_t dwColor = 0x00FF1F;
 			DrawLine(aLines, p1.x, p1.z, p2.x, p2.z, dwColor);
 			float fRes;
 			//dwColor = 0xFFFFFF;
@@ -598,7 +599,7 @@ BOOL TOUCH::FakeTouch()
 	return true;
 }
 
-dword TOUCH::AttributeChanged(ATTRIBUTES * pAttribute)
+uint32_t TOUCH::AttributeChanged(ATTRIBUTES * pAttribute)
 {
 	if (*pAttribute == "CollisionDepth") { fCollisionDepth = pAttribute->GetAttributeAsFloat(); return 0; }
 	return 0;

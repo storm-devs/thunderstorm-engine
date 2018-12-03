@@ -9,7 +9,6 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "..\\common_h\\vmodule_api.h"
 #include "..\\common_h\\dx9render.h"
 #include "..\\common_h\\matrix.h"
 #include "..\\common_h\\sail_base.h"
@@ -34,7 +33,7 @@ struct SAILVERTEX
 
 // параметры для триангуляции паруса
 #define SAIL_FAR_IDX 7
-const struct {WORD row,col; float len;} farGrid[SAIL_FAR_IDX]=
+const struct {uint16_t row,col; float len;} farGrid[SAIL_FAR_IDX]=
 {
     {17,13,10.f},   // 12x16
     {13,13,20.f},
@@ -113,9 +112,9 @@ enum SAIL_TYPE {
 };
 
 struct SAILSTATE {
-    DWORD holeCount;
+    uint32_t holeCount;
     bool hole[12];
-    WORD shi,sni,Nh,Nn; // Стартовый индекс и число индексов в дырявом\нормальном отражении паруса
+    uint16_t shi,sni,Nh,Nn; // Стартовый индекс и число индексов в дырявом\нормальном отражении паруса
 
 	SAIL_TYPE eSailType;
 
@@ -126,7 +125,7 @@ struct SAILSTATE {
 	CVECTOR LimitPoint;
 
     // номер текстуры
-    WORD texNum;
+    uint16_t texNum;
 
     //----Параметры составляющие форму паруса----
     float fDeepZ; // абсолютная выпуклость паруса по вертикали
@@ -134,9 +133,9 @@ struct SAILSTATE {
     float fDeepVz; // прогиб нижнего края паруса по нормали
     float fDeepVh; // прогиб нижнего края паруса по высоте
 
-    DWORD sVert,nVert;
-    DWORD sIndx,nIndx;
-    DWORD sholeIndx,nnormIndx,nholeIndx;
+    uint32_t sVert,nVert;
+    uint32_t sIndx,nIndx;
+    uint32_t sholeIndx,nnormIndx,nholeIndx;
 
     // шар ограничивающий парус
     SPHERE boundSphere;
@@ -149,7 +148,7 @@ struct SAILSTATE {
 };
 
 struct SAILTIME {
-    DWORD idx,vert,noholedraw,holedraw;
+    uint32_t idx,vert,noholedraw,holedraw;
 };
 
 class SAIL;
@@ -166,14 +165,14 @@ public:
     SAILSTATE ss;
 	SAILTIME tm;
 
-    void FillIndex(WORD *pt); // заполнение массива треугольников
-	void ClearVertex(SAILVERTEX *pv,DWORD maxIdx);
-    void goWave(SAILVERTEX *pv,DWORD Delta_Time);
+    void FillIndex(uint16_t *pt); // заполнение массива треугольников
+	void ClearVertex(SAILVERTEX *pv,uint32_t maxIdx);
+    void goWave(SAILVERTEX *pv,uint32_t Delta_Time);
 	void FillVertex(SAILVERTEX *pv); // заполнение массива вертексов
 	void SetTexGrid(SAILVERTEX *pv); // установка координат в текстуре
     void SetGeometry(); // установка параметров для создания геометрии паруса
     void SetRolling(bool bRoll); // установить сворачивание-разворачивание паруса
-    void DoRollingStep(DWORD Delta_Time); // выполняем шаг сворачивания-разворачивания паруса
+    void DoRollingStep(uint32_t Delta_Time); // выполняем шаг сворачивания-разворачивания паруса
     void TurnSail(float fTurnStep); // повернуть парус вокруг оси OY
     void CalculateMirrorSailIndex();
     bool GetGrid(CVECTOR &pos,float perspect);
@@ -181,9 +180,9 @@ public:
     float SSailTrace(CVECTOR &src,CVECTOR &dst,bool bCannonTrace);
     float TSailTrace(CVECTOR &src,CVECTOR &dst,bool bCannonTrace);
     float CheckSailSquar(int i,CVECTOR &va,CVECTOR &vb,CVECTOR &vc,CVECTOR &vsrc, CVECTOR &vdst, bool bCannonTrace);
-	void SetAllHole(DWORD holeData);
+	void SetAllHole(uint32_t holeData);
     // число вертексов по вертикали и горизонтали
-	DWORD m_dwRow, m_dwCol;
+	uint32_t m_dwRow, m_dwCol;
     float sailWidth,sailHeight;
 
 private:
@@ -197,8 +196,8 @@ private:
 
 	void SetTurnLimits();
 
-	DWORD GetHoleDword() {DWORD v=0,t=1; for(int i=0;i<12;i++,t<<=1)if(ss.hole[i])v|=t; return v;}
-	DWORD GetMaxHoleCount() { return ss.eSailType==SAIL_TREANGLE?10:12;}
+	uint32_t GetHoleDword() {uint32_t v=0,t=1; for(int i=0;i<12;i++,t<<=1)if(ss.hole[i])v|=t; return v;}
+	uint32_t GetMaxHoleCount() { return ss.eSailType==SAIL_TREANGLE?10:12;}
 
 	float GetDistanceFromPointTo3Point(const CVECTOR& v, const CVECTOR& vB1, const CVECTOR& vB2, const CVECTOR& vB3);
 

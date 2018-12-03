@@ -27,14 +27,14 @@ class LOCATOR : public ENTITY
 
 	void	LocateForI(VDATA * pData);
 	void	LocateForI_L2(ATTRIBUTES * pA,GEOS * g, GEOS::LABEL & label);
-	void	LocateForI_Locators(ATTRIBUTES * pA, GEOS * geo, long iGroupID, dword dwFlags);
+	void	LocateForI_Locators(ATTRIBUTES * pA, GEOS * geo, long iGroupID, uint32_t dwFlags);
 
 public:
 	~LOCATOR();
 	 LOCATOR();
 	bool Init();
-	dword _cdecl ProcessMessage(MESSAGE & message);
-	dword AttributeChanged(ATTRIBUTES *);
+	uint32_t _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t AttributeChanged(ATTRIBUTES *);
 	bool VerifyParticles();
 };
 

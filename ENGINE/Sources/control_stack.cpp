@@ -26,8 +26,8 @@ void CONTROL_STACK::Release()
 	used_blocks = 0;
 };
 void CONTROL_STACK::Clear() {used_blocks = 0;};
-dword CONTROL_STACK::DataNum() {return used_blocks;};
-bool CONTROL_STACK::Push(void * pointer, dword class_code, dword ctp)
+uint32_t CONTROL_STACK::DataNum() {return used_blocks;};
+bool CONTROL_STACK::Push(void * pointer, uint32_t class_code, uint32_t ctp)
 {
 	//trace("PUSH: %d class: %d ctp: %d",pointer,class_code,ctp);
 	CONTROL_BLOCK * cb_PTR;
@@ -75,7 +75,7 @@ bool CONTROL_STACK::ScanPointer(void * pointer)
 {
 	CONTROL_BLOCK * cb_PTR;
 	char * mem_PTR;
-	dword n;
+	uint32_t n;
 	if(used_blocks == 0) return false;
 	if(Data_PTR == nullptr) return false;
 	for(n=0;n<used_blocks;n++)
@@ -87,11 +87,11 @@ bool CONTROL_STACK::ScanPointer(void * pointer)
 	}
 	return false;
 };
-bool CONTROL_STACK::ScanClass(dword class_code)
+bool CONTROL_STACK::ScanClass(uint32_t class_code)
 {
 	CONTROL_BLOCK * cb_PTR;
 	char * mem_PTR;
-	dword n;
+	uint32_t n;
 	if(used_blocks == 0) return false;
 	if(Data_PTR == nullptr) return false;
 	for(n=0;n<used_blocks;n++)
@@ -102,11 +102,11 @@ bool CONTROL_STACK::ScanClass(dword class_code)
 	}
 	return false;
 };
-bool CONTROL_STACK::ScanClassCTP(dword class_code,dword ctp_code)
+bool CONTROL_STACK::ScanClassCTP(uint32_t class_code,uint32_t ctp_code)
 {
 	CONTROL_BLOCK * cb_PTR;
 	char * mem_PTR;
-	dword n;
+	uint32_t n;
 	if(used_blocks == 0) return false;
 	if(Data_PTR == nullptr) return false;
 	for(n=0;n<used_blocks;n++)
@@ -120,11 +120,11 @@ bool CONTROL_STACK::ScanClassCTP(dword class_code,dword ctp_code)
 	}
 	return false;
 };
-bool CONTROL_STACK::ScanClassCTPInv(dword class_code,dword ctp_code)
+bool CONTROL_STACK::ScanClassCTPInv(uint32_t class_code,uint32_t ctp_code)
 {
 	CONTROL_BLOCK * cb_PTR;
 	char * mem_PTR;
-	dword n;
+	uint32_t n;
 	if(used_blocks == 0) return false;
 	if(Data_PTR == nullptr) return false;
 	for(n=0;n<used_blocks;n++)
@@ -139,11 +139,11 @@ bool CONTROL_STACK::ScanClassCTPInv(dword class_code,dword ctp_code)
 	return false;
 };
 
-bool CONTROL_STACK::ScanCTP(dword ctp_code)
+bool CONTROL_STACK::ScanCTP(uint32_t ctp_code)
 {
 	CONTROL_BLOCK * cb_PTR;
 	char * mem_PTR;
-	dword n;
+	uint32_t n;
 	if(used_blocks == 0) return false;
 	if(Data_PTR == nullptr) return false;
 	for(n=0;n<used_blocks;n++)

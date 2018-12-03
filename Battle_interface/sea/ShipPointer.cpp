@@ -62,7 +62,7 @@ bool SHIPPOINTER::Init()
 	return true;
 }
 
-void SHIPPOINTER::Execute(dword delta_time)
+void SHIPPOINTER::Execute(uint32_t delta_time)
 {
 	if(!m_bVisible) return;
 
@@ -74,7 +74,7 @@ void SHIPPOINTER::Execute(dword delta_time)
 	}
 }
 
-void SHIPPOINTER::Realize(dword delta_time)
+void SHIPPOINTER::Realize(uint32_t delta_time)
 {
 	if(!m_bVisible) return;
 
@@ -87,7 +87,7 @@ void SHIPPOINTER::Realize(dword delta_time)
 	rs->DrawPrimitive(D3DPT_TRIANGLESTRIP,m_idVBuf,sizeof(SPV_VERTEX),0,2,"battle_shippointer");
 }
 
-dword _cdecl SHIPPOINTER::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl SHIPPOINTER::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{

@@ -8,7 +8,6 @@
 #define _Math3D_h_
 
 #include <xmmintrin.h> // espkk # remove inline asm # 30/Dec/2017
-#include "d_types.h"
 
 //#define inline __forceinline
 
@@ -27,7 +26,7 @@ inline long fftol(float f)
 		mov		eax, f
 		fld		f
 		shr		eax, 31
-		fadd	dword ptr [cnt + eax*4]
+		fadd	uint32_t ptr [cnt + eax*4]
 		fistp	l
 	}
 	return l;*/
@@ -161,14 +160,5 @@ inline float safeASin(float ang)
 
 
 #include "Math3D\Vector4.h"
-#include "Math3D\Matrix.h"
-#include "Math3D\Quaternion.h"
-#include "Math3D\Color.h"
-#include "Math3D\Plane.h"
-#include "Math3D\Box.h"
-#include "Math3D\Line.h"
-#include "Math3D\Sphere.h"
-#include "Math3D\Triangle.h"
-#include "Math3D\Capsule.h"
 
 #endif

@@ -1,7 +1,6 @@
 #include "modelr.h"
-#include "..\common_h\messages.h"
+#include "..\../Shared/messages.h"
 #include "..\common_h\defines.h"
-#include <stdio.h>
 
 INTERFACE_FUNCTION
 CREATE_CLASS(MODELR)
@@ -206,17 +205,17 @@ void SetChildrenTechnique(NODE *_root, const char *_name)
 //realize
 //-----------------------------------------------------------------------------------
 GEOS::PLANE ViewPlane[4];
-void MODELR::Realize(dword Delta_Time)
+void MODELR::Realize(uint32_t Delta_Time)
 {
 	GUARD(MODELR::Realize)
 	if(!root) return;
 
-	dword dwOldFogEnable;
+	uint32_t dwOldFogEnable;
 	float fOldFogDensity;
 	if (bSetupFog)
 	{
 		rs->GetRenderState(D3DRS_FOGENABLE, &dwOldFogEnable);
-		rs->GetRenderState(D3DRS_FOGDENSITY, (dword*)&fOldFogDensity);
+		rs->GetRenderState(D3DRS_FOGDENSITY, (uint32_t*)&fOldFogDensity);
 
 		rs->SetRenderState(D3DRS_FOGENABLE, (bFogEnable) ? true : false);
 		rs->SetRenderState(D3DRS_FOGDENSITY, F2DW(fFogDensity));
@@ -236,7 +235,7 @@ void MODELR::Realize(dword Delta_Time)
 		else
 		*/
 		{
-			static dword ambient;
+			static uint32_t ambient;
 			rs->GetRenderState(D3DRS_AMBIENT, &ambient);
 			ambient &= 0x00FFFFFF;
 			float timeK = ((float) passedTime)/blendTime;
@@ -327,7 +326,7 @@ void MODELR::AniRender()
 }
 
 
-dword _cdecl MODELR::ProcessMessage(MESSAGE &message)
+uint32_t _cdecl MODELR::ProcessMessage(MESSAGE &message)
 {
 	char str[256];
 	long code = message.Long();

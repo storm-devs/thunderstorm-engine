@@ -16,7 +16,7 @@ class KEY_NODE
 	KEY_NODE * l_PTR;
 	KEY_NODE * r_PTR;
 
-	DWORD flags;
+	uint32_t flags;
 
 public:
 	 KEY_NODE();
@@ -32,7 +32,7 @@ public:
 	void Add(KEY_NODE * * Root,KEY_NODE * * Top);
 	void AttachTo(KEY_NODE * node, KEY_NODE * * Top); // left - root, order - from left to right
 	void Deattach(KEY_NODE * * Root,KEY_NODE * * Top);
-	DWORD SetFlags(DWORD _flags);
+	uint32_t SetFlags(uint32_t _flags);
 
 };
 
@@ -106,8 +106,8 @@ protected:
 	VFILE_SERVICE * fs;
 	char * FileName;
 	bool bDataChanged;
-	dword Reference;
-	dword CompareStrings(char * s1, char * s2);
+	uint32_t Reference;
+	uint32_t CompareStrings(char * s1, char * s2);
 	bool FlushFile();
 
 public:
@@ -130,9 +130,9 @@ public:
 	void DeleteKey(char * section_name, char * key_name);
 	void DeleteKey(char * section_name, char * key_name, char * key_value);
 
-	bool ReadString(SEARCH_DATA * sd, char * section_name, char * key_name, char * buffer, dword buffer_size, char * def_string);
-	void ReadString(SEARCH_DATA * sd, char * section_name, char * key_name, char * buffer, dword buffer_size); // rise exception on fault
-	bool ReadStringNext(SEARCH_DATA * sd, char * section_name, char * key_name, char * buffer, dword buffer_size);
+	bool ReadString(SEARCH_DATA * sd, char * section_name, char * key_name, char * buffer, uint32_t buffer_size, char * def_string);
+	void ReadString(SEARCH_DATA * sd, char * section_name, char * key_name, char * buffer, uint32_t buffer_size); // rise exception on fault
+	bool ReadStringNext(SEARCH_DATA * sd, char * section_name, char * key_name, char * buffer, uint32_t buffer_size);
 
 	long GetLong(SEARCH_DATA * sd, char * section_name, char * key_name);
 	long GetLong(SEARCH_DATA * sd, char * section_name, char * key_name, long def_val);

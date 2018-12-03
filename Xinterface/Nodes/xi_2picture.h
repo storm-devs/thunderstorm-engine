@@ -9,7 +9,7 @@ class CXI_TWOPICTURE : public CINODE
 public:
 	CXI_TWOPICTURE();
 	~CXI_TWOPICTURE();
-	void	Draw(bool bSelected,dword Delta_Time);
+	void	Draw(bool bSelected,uint32_t Delta_Time);
 	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
 	void	ReleaseAll();
 	int		CommandExecute(int wActCode);
@@ -34,9 +34,9 @@ protected:
 	FXYPOINT	m_leftPicCenter;
 	FXYPOINT	m_rightPicCenter;
 
-	DWORD	m_dwDarkColor;
-	DWORD	m_dwSelectColor;
-	DWORD	m_dwShadowColor;
+	uint32_t	m_dwDarkColor;
+	uint32_t	m_dwSelectColor;
+	uint32_t	m_dwShadowColor;
 
 	bool	m_bLeftSelect;
 	bool	m_leftClick;

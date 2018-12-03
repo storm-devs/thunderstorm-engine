@@ -1,10 +1,6 @@
 #ifndef _PARTICLE_DATA_BOOLEAN_H_
 #define _PARTICLE_DATA_BOOLEAN_H_
 
-#include <string.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include "../../../common_h/exs.h"
 #include "..\..\icommon\memfile.h"
 #include <string>
 

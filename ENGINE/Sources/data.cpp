@@ -57,7 +57,7 @@ DATA::DATA(S_TOKEN_TYPE _element_type)
 	
 }
 
-DATA::DATA(DWORD _num_of_elements, S_TOKEN_TYPE _element_type)
+DATA::DATA(uint32_t _num_of_elements, S_TOKEN_TYPE _element_type)
 {
 	nGlobalVarTableIndex = 0xffffffff;
 	Number_of_elements = _num_of_elements;
@@ -74,7 +74,7 @@ DATA::DATA(DWORD _num_of_elements, S_TOKEN_TYPE _element_type)
 	pReference = nullptr;
 	AttributesClass = nullptr;
 	
-	DWORD n;
+	uint32_t n;
 
 	ArrayPTR = (DATA *) NEW char[Number_of_elements * sizeof(DATA)];
 	for(n=0;n<Number_of_elements;n++)
@@ -111,7 +111,7 @@ bool DATA::IsAReference()
 
 void DATA::Release()
 {
-	DWORD n;
+	uint32_t n;
 	if(sValue) delete sValue; sValue = nullptr;
 	if(bArray)
 	{
@@ -405,7 +405,7 @@ bool DATA::Get(char * attribute_name, char * & value)
 }
 
 
-bool DATA::Get(long & value, DWORD index)
+bool DATA::Get(long & value, uint32_t index)
 {
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
@@ -428,7 +428,7 @@ bool DATA::Get(long & value, DWORD index)
 	value = pL[index];
 	return true;	*/
 }
-bool DATA::Get(float & value, DWORD index)
+bool DATA::Get(float & value, uint32_t index)
 {
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
@@ -451,7 +451,7 @@ bool DATA::Get(float & value, DWORD index)
 	return true;	
 	*/
 }
-bool DATA::Get(char * & value, DWORD index)
+bool DATA::Get(char * & value, uint32_t index)
 {
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
@@ -477,7 +477,7 @@ bool DATA::Get(char * & value, DWORD index)
 	return true;	*/
 }
 
-bool DATA::Set(long value, DWORD index)
+bool DATA::Set(long value, uint32_t index)
 {
 	//if(bRef) 
 	if(Data_type == VAR_REFERENCE)
@@ -502,7 +502,7 @@ bool DATA::Set(long value, DWORD index)
 	return true;	*/
 }
 
-bool DATA::Set(float value, DWORD index)
+bool DATA::Set(float value, uint32_t index)
 {
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
@@ -528,7 +528,7 @@ bool DATA::Set(float value, DWORD index)
 	return true;	*/
 }
 
-bool DATA::Set(char * value, DWORD index)
+bool DATA::Set(char * value, uint32_t index)
 {
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
@@ -557,7 +557,7 @@ bool DATA::Set(char * value, DWORD index)
 	return true;	*/
 }
 
-bool DATA::Set(char * attribute_name, char * attribute_value, DWORD index)
+bool DATA::Set(char * attribute_name, char * attribute_value, uint32_t index)
 {
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
@@ -583,7 +583,7 @@ bool DATA::Set(char * attribute_name, char * attribute_value, DWORD index)
 	return true;*/
 }
 
-bool DATA::Get(char * attribute_name, char * & value, DWORD index)
+bool DATA::Get(char * attribute_name, char * & value, uint32_t index)
 {
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
@@ -609,7 +609,7 @@ bool DATA::Get(char * attribute_name, char * & value, DWORD index)
 	return true;*/
 }
 
-bool DATA::Set(ENTITY_ID eid, DWORD index)
+bool DATA::Set(ENTITY_ID eid, uint32_t index)
 {
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
@@ -635,7 +635,7 @@ bool DATA::Set(ENTITY_ID eid, DWORD index)
 	return true;*/
 }
 
-bool DATA::Get(ENTITY_ID & eid, DWORD index)
+bool DATA::Get(ENTITY_ID & eid, uint32_t index)
 {
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
@@ -677,9 +677,9 @@ void DATA::ClearType()
 	pReference = nullptr;
 }
 
-void DATA::SetType(S_TOKEN_TYPE _element_type, DWORD array_size)
+void DATA::SetType(S_TOKEN_TYPE _element_type, uint32_t array_size)
 {
-	DWORD n;
+	uint32_t n;
 	ClearType();
 	Data_type = _element_type;
 	bArray = false;
@@ -837,9 +837,9 @@ bool DATA::Convert(S_TOKEN_TYPE type)
 	return false;
 }
 
-void  DATA::SetElementsNum(DWORD _asize)
+void  DATA::SetElementsNum(uint32_t _asize)
 {
-	DWORD n;
+	uint32_t n;
 	if(Data_type == VAR_REFERENCE)
 	{
 		if(pReference) { pReference->SetElementsNum(_asize); return;}
@@ -876,7 +876,7 @@ void  DATA::SetElementsNum(DWORD _asize)
 	Number_of_elements = _asize;
 }
 
-DWORD DATA::GetElementsNum()
+uint32_t DATA::GetElementsNum()
 {
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
@@ -1229,7 +1229,7 @@ bool DATA::Plus(DATA * pV)
 	if(IsArray()) return false;
 	if(pV == nullptr) return false;
 	pV = pV->GetVarPointer(); if(pV == nullptr) return false;
-	DWORD size;
+	uint32_t size;
 	char * sTemp;
 	char buffer[128];
 	switch(Data_type)
@@ -1642,7 +1642,7 @@ bool DATA::Copy(DATA * pV)
 		Error(UNINIT_REF);
 		return false;
 	}
-	DWORD copy_size;
+	uint32_t copy_size;
 //	DWORD n;
 //	char * * ppChar;
 //	char * * ppCharpV;
@@ -1779,7 +1779,7 @@ bool DATA::Copy(DATA * pV)
 }
 
 // copy data from pV array on index to this single variable
-bool DATA::Copy(DATA * pV, DWORD index)
+bool DATA::Copy(DATA * pV, uint32_t index)
 {
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
@@ -1859,7 +1859,7 @@ bool DATA::Copy(DATA * pV, DWORD index)
 	//return true;
 }
 
-bool DATA::CopyOnElement(DATA * pV, DWORD index)
+bool DATA::CopyOnElement(DATA * pV, uint32_t index)
 {
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
@@ -1962,7 +1962,7 @@ ATTRIBUTES * DATA::GetAClass()
 	return AttributesClass;
 }
 
-ATTRIBUTES * DATA::GetAClass(DWORD index)
+ATTRIBUTES * DATA::GetAClass(uint32_t index)
 {
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
@@ -1995,7 +1995,7 @@ DATA * DATA::GetReference()
 	return pReference;
 }
 
-DATA * DATA::GetArrayElement(DWORD index)
+DATA * DATA::GetArrayElement(uint32_t index)
 {
 	if(!bArray) {Error(INDEX_ON_SINGLE); return nullptr;}
 	if(index >= Number_of_elements)
@@ -2008,7 +2008,7 @@ DATA * DATA::GetArrayElement(DWORD index)
 
 void  DATA::SetVCompiler(VIRTUAL_COMPILER * pVC) 
 {
-	DWORD n;
+	uint32_t n;
 	pVCompiler = pVC;
 	if(bArray)
 	{
@@ -2292,7 +2292,7 @@ bool DATA::RefConvert()
 	return true;
 }
 
-void DATA::BadIndex(DWORD index, DWORD array_size)
+void DATA::BadIndex(uint32_t index, uint32_t array_size)
 {
 	char buffer[MAX_PATH];
 	wsprintf(buffer,"invalid index %d [size:%d]",index,array_size);

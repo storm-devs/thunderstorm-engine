@@ -43,8 +43,8 @@ public:
 
 	virtual void RemoveManagerFromList (IParticleManager* pManager);
 
-	virtual DWORD GetManagersCount ();
-	virtual IParticleManager* GetManagerByIndex (DWORD Index);
+	virtual uint32_t GetManagersCount ();
+	virtual IParticleManager* GetManagerByIndex (uint32_t Index);
 
 	virtual IParticleManager* DefManager ();
 

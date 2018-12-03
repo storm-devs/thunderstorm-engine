@@ -88,7 +88,7 @@ private:
 	struct SelectedLight
 	{
 		float	fDistance;
-		dword	dwIndex;
+		uint32_t	dwIndex;
 
 		bool operator < (const SelectedLight & other) const { return fDistance < other.fDistance; };
 	};
@@ -97,14 +97,14 @@ private:
 	std::vector<SelectedLight>	aSelectedLights;
 	std::vector<LightType>		aLightTypes;
 	long					iMinLight, iMaxLight;
-	dword					dwMaxD3DLights;
+	uint32_t					dwMaxD3DLights;
 	bool					bLoadLights;
 	bool					bReflection;
 	float					fSunRoadFlareSize;
 
 	long					iCoronaTex, iFlareSunRoadTex;
 	std::string					sCoronaTechnique;
-	dword					dwCoronaSubTexX, dwCoronaSubTexY;
+	uint32_t					dwCoronaSubTexX, dwCoronaSubTexY;
 
 	SEA_BASE				* pSea;
 
@@ -133,9 +133,9 @@ public:
 	virtual void SetDead(VAI_OBJBASE * pObject);
 
 	bool Init();
-	void Execute(dword dwDeltaTime);
-	void Realize(dword dwDeltaTime);
-	dword _cdecl ProcessMessage(MESSAGE & message);
+	void Execute(uint32_t dwDeltaTime);
+	void Realize(uint32_t dwDeltaTime);
+	uint32_t _cdecl ProcessMessage(MESSAGE & message);
 };
 
 #endif

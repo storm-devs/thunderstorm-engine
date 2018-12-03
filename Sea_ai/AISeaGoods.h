@@ -45,10 +45,10 @@ public:
 	bool	Init();
 	void	SetDevice();
 
-	void	Realize(dword Delta_Time);
-	void	Execute(dword Delta_Time);
+	void	Realize(uint32_t Delta_Time);
+	void	Execute(uint32_t Delta_Time);
 
-	dword	AttributeChanged(ATTRIBUTES * pAttributeChanged);
+	uint32_t	AttributeChanged(ATTRIBUTES * pAttributeChanged);
 };
 
 #endif

@@ -298,7 +298,7 @@ void SEAFOAM_PS::UpdateVertexBuffer()
 
 	Camera_EmitterPosA.x = Camera_EmitterPosA.y = Camera_EmitterPosA.z = 0;
 
-	RenderService->VBLock(VBuffer, 0, sizeof(PARTICLE_VERTEX)*VERTEXS_ON_PARTICLE*ParticlesNum,(byte**)&pVertex, 0);
+	RenderService->VBLock(VBuffer, 0, sizeof(PARTICLE_VERTEX)*VERTEXS_ON_PARTICLE*ParticlesNum,(uint8_t**)&pVertex, 0);
 	for(n=0;n<ParticlesNum;n++)
 	{
 		index = n*VERTEXS_ON_PARTICLE;
@@ -398,7 +398,7 @@ void SEAFOAM_PS::UpdateVertexBuffer()
 	}
 }
 
-void SEAFOAM_PS::Execute(dword DeltaTime)
+void SEAFOAM_PS::Execute(uint32_t DeltaTime)
 {
 	/*if(Delay > 0) {	Delay = Delay - DeltaTime;	return;	}
 
@@ -419,7 +419,7 @@ void SEAFOAM_PS::Execute(dword DeltaTime)
 	UpdateVertexBuffer();*/
 }
 
-void SEAFOAM_PS::LayOnSurface(dword index)
+void SEAFOAM_PS::LayOnSurface(uint32_t index)
 {
 	COLLISION_OBJECT * pLink;
 	CVECTOR from,to;
@@ -434,7 +434,7 @@ void SEAFOAM_PS::LayOnSurface(dword index)
 	Particle[index].pos.y = from.y + dist*(to.y - from.y) + fSurfaceOffset;
 }
 
-void SEAFOAM_PS::Realize(dword DeltaTime)
+void SEAFOAM_PS::Realize(uint32_t DeltaTime)
 {
 	if(Delay > 0) {	Delay = Delay - DeltaTime;	return;	}
 
@@ -529,7 +529,7 @@ bool SEAFOAM_PS::EmitParticle()
 	return false;
 }
 
-void SEAFOAM_PS::ProcessParticles(dword DeltaTime)
+void SEAFOAM_PS::ProcessParticles(uint32_t DeltaTime)
 {
 	long n;
 
@@ -642,10 +642,10 @@ void SEAFOAM_PS::SetDelay(long _delay)
 	}
 }
 
-void SEAFOAM_PS::SetParticlesTracks(dword DeltaTime)
+void SEAFOAM_PS::SetParticlesTracks(uint32_t DeltaTime)
 {
-	dword color;
-	dword alpha;
+	uint32_t color;
+	uint32_t alpha;
 	float val;
 	long n;
 
@@ -654,7 +654,7 @@ void SEAFOAM_PS::SetParticlesTracks(dword DeltaTime)
 		if(!Particle[n].live) continue;
 		// alpha ----------------------------------------------
 		val = GetTrackValue(&Visibility[0],Particle[n].time);
-		alpha = (dword)((float)0xff * val);
+		alpha = (uint32_t)((float)0xff * val);
 		color = Particle[n].color & (0xffffff);
 
 		//if(bColorInverse) {black = alpha; color = (black<<16)|(black<<8)|black;}
@@ -824,7 +824,7 @@ void SEAFOAM_PS::AddTrackPoint(CVECTOR pos)
 
 }
 
-void SEAFOAM_PS::SetFlowTrack(dword index)
+void SEAFOAM_PS::SetFlowTrack(uint32_t index)
 {
 	CVECTOR dest;
 	if(Particle[index].flow_track_index >= nFlowTrackSize) return;

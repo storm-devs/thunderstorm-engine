@@ -11,7 +11,6 @@
 #ifndef _CameraFollow_H_
 #define _CameraFollow_H_
 
-#include "..\common_h\vmodule_api.h"
 #include "..\common_h\matrix.h"
 #include "..\common_h\model.h"
 

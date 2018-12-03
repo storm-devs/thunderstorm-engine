@@ -224,7 +224,7 @@ void WdmShip::LRender(VDX9RENDER * rs)
 		//Вершины
 		static Vertex vrt[WDM_SHIP_WMSZ*2 + 1];
 		float y = 0.01f;
-		dword color = (dword(al) << 16) | (dword(al) << 8) | (dword(al) << 0) | 0xff000000;
+		uint32_t color = (uint32_t(al) << 16) | (uint32_t(al) << 8) | (uint32_t(al) << 0) | 0xff000000;
 		vrt[0].x = mtx.Pos().x + (lines[0].x - mtx.Pos().x)*1.2f;
 		vrt[0].y = y;
 		vrt[0].z = mtx.Pos().z + (lines[0].z - mtx.Pos().z)*1.2f;
@@ -240,7 +240,7 @@ void WdmShip::LRender(VDX9RENDER * rs)
 			k = al*k;
 			if(k < 0.0f) k = 0.0f;
 			if(k > 255.0f) k = 255.0f;
-			color = dword(k); color |= 0xff000000 | (color << 16) | (color << 8) | color;
+			color = uint32_t(k); color |= 0xff000000 | (color << 16) | (color << 8) | color;
 			vrt[i*2 + 1].x = lines[i].x - dx;
 			vrt[i*2 + 1].y = y;
 			vrt[i*2 + 1].z = lines[i].z - dz;

@@ -1,10 +1,8 @@
 #ifndef WEATHER_BASE_HPP
 #define WEATHER_BASE_HPP
 
-#include "..\common_h\vmodule_api.h"
 #include "..\common_h\entity.h"
 #include "..\common_h\cvector.h"
-#include "..\..\Shared\sea_ai\script_defines.h"
 
 #define MAX_FLOAT_PARAMS		128
 #define MAX_LONG_PARAMS			64
@@ -88,13 +86,13 @@ class WEATHER_BASE : public ENTITY
 {
 public:
 	WEATHER_BASE(){};
-	virtual ~WEATHER_BASE() {};
+	virtual ~WEATHER_BASE(){};
 
-	virtual	long	GetLong(dword dwCode) = 0;
-	virtual	dword	GetColor(dword, CVECTOR*) = 0;
-	virtual dword	GetColor(dword) = 0;
-	virtual float	GetFloat(dword) = 0;
-	virtual void	GetVector(dword,CVECTOR*) = 0;
+	virtual	long	GetLong(uint32_t dwCode) = 0;
+	virtual	uint32_t	GetColor(uint32_t, CVECTOR*) = 0;
+	virtual uint32_t	GetColor(uint32_t) = 0;
+	virtual float	GetFloat(uint32_t) = 0;
+	virtual void	GetVector(uint32_t,CVECTOR*) = 0;
 };
 
 #endif

@@ -27,7 +27,7 @@ class LocationEffects : public ENTITY
 	struct Vertex
 	{
 		CVECTOR pos;
-		dword color;
+		uint32_t color;
 		float u, v;
 	};
 
@@ -43,7 +43,7 @@ class LocationEffects : public ENTITY
 
 	struct ParticleEx : public Particle
 	{
-		dword color;
+		uint32_t color;
 		float frame;
 	};
 
@@ -95,10 +95,10 @@ public:
 	//Инициализация
 	bool Init();
 	//Исполнение
-	void Execute(dword delta_time);
-	void Realize(dword delta_time);
+	void Execute(uint32_t delta_time);
+	void Realize(uint32_t delta_time);
 	//Сообщения
-	dword _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t _cdecl ProcessMessage(MESSAGE & message);
 
 
 //--------------------------------------------------------------------------------------------

@@ -8,13 +8,11 @@
 #ifndef BILLBOARD_PARTICLE_PROCESSOR
 #define BILLBOARD_PARTICLE_PROCESSOR
 
-#include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
-#include "..\..\..\common_h\exs.h"
 #include "..\..\..\common_h\dx9render.h"
 #include "..\..\..\common_h\particles\gmx_QSort.h"
-
+#include "../../../common_h/Math3D/Matrix.h"
 
 #include "..\..\icommon\particle.h"
 #include "..\datasource\fieldlist.h"
@@ -29,7 +27,7 @@ class BillBoardProcessor
 	struct RECT_VERTEX
 	{
 		Vector	vRelativePos;
-		dword	dwColor;
+		uint32_t	dwColor;
 		float	tu1, tv1;
 		float	tu2, tv2;
 		float angle;
@@ -63,7 +61,7 @@ class BillBoardProcessor
 
 
 	//Считает расстояние до билбоардов
-	DWORD CalcDistanceToCamera ();
+	uint32_t CalcDistanceToCamera ();
 
 	//Функция сравнения при сортировке
 	static BOOL CompareFunction (BB_ParticleData* e1, BB_ParticleData* e2);
@@ -80,14 +78,14 @@ class BillBoardProcessor
   BillBoardProcessor (); 
   ~BillBoardProcessor (); 
 
-	void AddParticle (ParticleSystem* pSystem, const Vector& velocity_dir, const Vector& pos, const Matrix& matWorld, float EmitterTime, float EmitterLifeTime, FieldList* pFields, DWORD* pActiveCount, DWORD dwGUID);
+	void AddParticle (ParticleSystem* pSystem, const Vector& velocity_dir, const Vector& pos, const Matrix& matWorld, float EmitterTime, float EmitterLifeTime, FieldList* pFields, uint32_t* pActiveCount, uint32_t dwGUID);
 
 	void Process (float DeltaTime);
 	void Draw ();
 
-	DWORD GetCount ();
+	uint32_t GetCount ();
 
-	void DeleteWithGUID (DWORD dwGUID, DWORD GUIDRange = GUIDSTEP);
+	void DeleteWithGUID (uint32_t dwGUID, uint32_t GUIDRange = GUIDSTEP);
 
 
 	void Clear ();

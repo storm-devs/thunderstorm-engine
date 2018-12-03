@@ -34,7 +34,7 @@ void TSinkSplash::Release()
 }
 
 //--------------------------------------------------------------------
-void TSinkSplash::Start(const CVECTOR &_pos, WORD *_indexes, SINK_VERTEX *_vertexes, long vOffset)
+void TSinkSplash::Start(const CVECTOR &_pos, uint16_t *_indexes, SINK_VERTEX *_vertexes, long vOffset)
 {
 	time = 0;
 	center = _pos;
@@ -75,7 +75,7 @@ void TSinkSplash::Start(const CVECTOR &_pos, WORD *_indexes, SINK_VERTEX *_verte
 }
 
 //--------------------------------------------------------------------
-float TSinkSplash::HeightF(dword _time, float _r, float _k)
+float TSinkSplash::HeightF(uint32_t _time, float _r, float _k)
 {
 	float tPhase = ((float) _time) * (PI / SPLASH_FADE_TIME);
 
@@ -88,7 +88,7 @@ float TSinkSplash::HeightF(dword _time, float _r, float _k)
 }
 
 //--------------------------------------------------------------------
-void TSinkSplash::Process(dword _dTime, WORD *_indexes, SINK_VERTEX *_vertexes)
+void TSinkSplash::Process(uint32_t _dTime, uint16_t *_indexes, SINK_VERTEX *_vertexes)
 {
 	if (!enabled)
 		return;
@@ -161,7 +161,7 @@ bool TSinkSplash::Enabled()
 }
 
 //--------------------------------------------------------------------
-void TSinkSplash::Reset(WORD *_indexes, SINK_VERTEX *_vertexes)
+void TSinkSplash::Reset(uint16_t *_indexes, SINK_VERTEX *_vertexes)
 {
 	time = 0;
 	enabled = false;
@@ -184,7 +184,7 @@ void TSinkSplash::Reset(WORD *_indexes, SINK_VERTEX *_vertexes)
 }
 
 //--------------------------------------------------------------------
-void TSinkSplash::AdditionalRealize(dword _dTime)
+void TSinkSplash::AdditionalRealize(uint32_t _dTime)
 {
 	//ps->Realize(_dTime);
 }

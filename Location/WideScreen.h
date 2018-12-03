@@ -26,9 +26,9 @@ public:
 	//Инициализация
 	bool Init();
 	//Сообщения
-	dword _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t _cdecl ProcessMessage(MESSAGE & message);
 	//Работа
-	void Realize(dword delta_time);
+	void Realize(uint32_t delta_time);
 
 //--------------------------------------------------------------------------------------------
 //Инкапсуляция

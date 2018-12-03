@@ -11,7 +11,6 @@
 #ifndef _Sharks_H_
 #define _Sharks_H_
 
-#include "..\common_h\vmodule_api.h"
 #include "..\common_h\dx9render.h"
 #include "..\common_h\matrix.h"
 #include "..\common_h\ship_base.h"
@@ -24,13 +23,13 @@ class Sharks : public ENTITY
 	struct Vertex
 	{
 		CVECTOR pos;
-		dword color;
+		uint32_t color;
 		float u, v;
 	};
 
 	class Shark : public AnimationEventListener
 	{
-		static word indeces[];
+		static uint16_t indeces[];
 	public:
 		Shark();
 		~Shark();
@@ -43,7 +42,7 @@ class Sharks : public ENTITY
 		void Coordination(float cam_x, float cam_z, float dltTime, SEA_BASE * sb, ISLAND_BASE * ib);
 		void IslandCollision(ISLAND_BASE * ib, long numPnt, float rad, float frc);
 		virtual void Event(Animation * animation, long index, long eventID, AnimationEvent event);
-		long GenerateTrack(word * inds, Vertex * vrt, word base, SEA_BASE * sb);
+		long GenerateTrack(uint16_t * inds, Vertex * vrt, uint16_t base, SEA_BASE * sb);
 
 		//Точка следования
 		CVECTOR pos;		//Позиция точки следования
@@ -90,8 +89,8 @@ public:
 	//Инициализация
 	bool Init();
 	//Исполнение
-	void Execute(dword delta_time);
-	void Realize(dword delta_time);
+	void Execute(uint32_t delta_time);
+	void Realize(uint32_t delta_time);
 
 
 //--------------------------------------------------------------------------------------------
@@ -111,7 +110,7 @@ private:
 	ENTITY_ID sea;
 	ENTITY_ID island;
 	long trackTx;
-	word indeces[7*10*3];
+	uint16_t indeces[7*10*3];
 	Vertex vrt[7*10];
 };
 

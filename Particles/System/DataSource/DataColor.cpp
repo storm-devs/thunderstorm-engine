@@ -4,7 +4,7 @@
 #include "..\..\..\common_h\vmodule_api.h"
 
 //конструктор/деструктор
-DataColor::DataColor () : ZeroColor(0xFFFFFFFFL)
+DataColor::DataColor () : ZeroColor(0xFFFFFFFF)
 {
 }
 
@@ -18,9 +18,9 @@ Color DataColor::GetValue (float Time, float LifeTime, float K_rand)
 	//Время у графика цвета всегда относительное...
 	Time = (Time / LifeTime);
 
-	DWORD Count = ColorGraph.size();
-	DWORD StartIndex = 0;
-	for (DWORD n = StartIndex; n < (Count-1); n++)
+	uint32_t Count = ColorGraph.size();
+	uint32_t StartIndex = 0;
+	for (uint32_t n = StartIndex; n < (Count-1); n++)
 	{
 		float FromTime = ColorGraph[n].Time;
 		float ToTime = ColorGraph[n+1].Time;
@@ -74,30 +74,30 @@ void DataColor::SetDefaultValue (const Color& Value)
 }
 
 //Установить значения
-void DataColor::SetValues (const ColorVertex* Values, DWORD Count)
+void DataColor::SetValues (const ColorVertex* Values, uint32_t Count)
 {
 	ColorGraph.clear();
-	for (DWORD n = 0; n < Count; n++)
+	for (uint32_t n = 0; n < Count; n++)
 	{
 		ColorGraph.push_back(Values[n]);
 	}
 }
 
 //Получить кол-во значений
-DWORD DataColor::GetValuesCount ()
+uint32_t DataColor::GetValuesCount ()
 {
 	return ColorGraph.size();
 }
 
 
 //Получить мин. значение (по индексу)
-const Color& DataColor::GetMinValue (DWORD Index)
+const Color& DataColor::GetMinValue (uint32_t Index)
 {
 	return ColorGraph[Index].MinValue;
 }
 
 //Получить макс. значение (по индексу)
-const Color& DataColor::GetMaxValue (DWORD Index)
+const Color& DataColor::GetMaxValue (uint32_t Index)
 {
 	return ColorGraph[Index].MaxValue;
 }
@@ -105,10 +105,10 @@ const Color& DataColor::GetMaxValue (DWORD Index)
 
 void DataColor::Load (MemFile* File)
 {
-	DWORD dwColorCount = 0;
+	uint32_t dwColorCount = 0;
 	File->ReadType(dwColorCount);
 
-	for (DWORD n = 0; n < dwColorCount; n++)
+	for (uint32_t n = 0; n < dwColorCount; n++)
 	{
 		float Time = 0.0f;
 		File->ReadType(Time);
@@ -127,7 +127,7 @@ void DataColor::Load (MemFile* File)
 	}
 
 	static char AttribueName[128];
-	DWORD NameLength = 0;
+	uint32_t NameLength = 0;
 	File->ReadType(NameLength);
 	Assert (NameLength < 128);
 	File->Read(AttribueName, NameLength);
@@ -147,17 +147,17 @@ const char* DataColor::GetName ()
 	return Name.c_str();
 }
 
-const ColorVertex& DataColor::GetByIndex (DWORD Index)
+const ColorVertex& DataColor::GetByIndex (uint32_t Index)
 {
 	return ColorGraph[Index];
 }
 
 void DataColor::Write (MemFile* File)
 {
-	DWORD dwColorCount = ColorGraph.size();
+	uint32_t dwColorCount = ColorGraph.size();
 	File->WriteType(dwColorCount);
 
-	for (DWORD n = 0; n < dwColorCount; n++)
+	for (uint32_t n = 0; n < dwColorCount; n++)
 	{
 		float Time = ColorGraph[n].Time;
 		File->WriteType(Time);
@@ -170,8 +170,8 @@ void DataColor::Write (MemFile* File)
 	}
 
 	//save name
-	DWORD NameLength = Name.size();
-	DWORD NameLengthPlusZero = NameLength+1;
+	uint32_t NameLength = Name.size();
+	uint32_t NameLengthPlusZero = NameLength+1;
 	File->WriteType(NameLengthPlusZero);
 	Assert (NameLength < 128);
 	File->Write(Name.c_str(), NameLength);

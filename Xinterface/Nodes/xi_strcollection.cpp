@@ -24,7 +24,7 @@ int CXI_STRCOLLECTION::CommandExecute(int wActCode)
 	return -1;
 }
 
-void CXI_STRCOLLECTION::Draw(bool bSelected,dword Delta_Time)
+void CXI_STRCOLLECTION::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(m_bUse)
 	{
@@ -84,7 +84,7 @@ void CXI_STRCOLLECTION::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *n
 		for(i=0; i<m_nStr; i++)
 		{
 			// set all parameters to zero
-			ZeroMemory(&m_pStrDescr[i],sizeof(STRINGDESCR));
+			PZERO(&m_pStrDescr[i],sizeof(STRINGDESCR));
 			m_pStrDescr[i].nFontNum = -1;
 
 			// read same parameters
@@ -247,7 +247,7 @@ void CXI_STRCOLLECTION::SaveParametersToIni()
 	delete pIni;
 }
 
-dword _cdecl CXI_STRCOLLECTION::MessageProc(long msgcode, MESSAGE & message)
+uint32_t _cdecl CXI_STRCOLLECTION::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{
@@ -318,7 +318,7 @@ dword _cdecl CXI_STRCOLLECTION::MessageProc(long msgcode, MESSAGE & message)
 	case 3: // поменять цвет строки
 		{
 			long nStr = message.Long()-1;
-			dword nColor = message.Long();
+			uint32_t nColor = message.Long();
 			ChangeStringColor(nStr,nColor);
 		}
 		break;
@@ -341,7 +341,7 @@ void CXI_STRCOLLECTION::ChangeString(long num, const char* sValue)
 	}
 }
 
-void CXI_STRCOLLECTION::ChangeStringColor(long num, dword dwColor)
+void CXI_STRCOLLECTION::ChangeStringColor(long num, uint32_t dwColor)
 {
 	if( num>=0 && num<m_nStr )
 		m_pStrDescr[num].foreColor = dwColor;
@@ -388,7 +388,7 @@ CXI_STRCOLLECTION::STRINGDESCR * CXI_STRCOLLECTION::CreateNewDinamicString(char 
 	if( m_pStrDescr == nullptr )	{THROW("allocate memory error");}
 	if( pOld && i )	memcpy(m_pStrDescr,pOld,sizeof(STRINGDESCR)*i);
 	if( pOld ) delete pOld;
-	ZeroMemory( &m_pStrDescr[i], sizeof(STRINGDESCR) );
+	PZERO( &m_pStrDescr[i], sizeof(STRINGDESCR) );
 	m_pStrDescr[i].nFontNum = -1;
 	m_pStrDescr[i].strID = NEW char[strlen(strID)+1];
 	m_pStrDescr[i].strStr = NEW char[strlen(strStr)+1];

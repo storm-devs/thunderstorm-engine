@@ -2,7 +2,6 @@
 #define _MAST_H_
 
 #include "..\common_h\dx9render.h"
-#include "..\common_h\defines.h"
 #include "..\common_h\model.h"
 #include "..\common_h\collide.h"
 
@@ -33,16 +32,16 @@ public:
 	void            SetDevice();
 	bool            Init();
 	void            Move();
-    void            Execute(dword Delta_Time);
-	void            Realize(dword Delta_Time);
+    void            Execute(uint32_t Delta_Time);
+	void            Realize(uint32_t Delta_Time);
 	bool            CreateState(ENTITY_STATE_GEN * state_gen);
 	bool            LoadState(ENTITY_STATE * state);
-	dword _cdecl    ProcessMessage(MESSAGE & message);
+	uint32_t _cdecl    ProcessMessage(MESSAGE & message);
 protected:
     void            AllRelease();
     void _cdecl     Mount( ENTITY_ID modelEI, ENTITY_ID shipEI, NODE* mastNodePointer );
     void            LoadIni();
-    void            doMove(dword DeltaTime);
+    void            doMove(uint32_t DeltaTime);
     int             GetSlide(ENTITY_ID &mod, CVECTOR &pbeg, CVECTOR &pend, CVECTOR &dp, CVECTOR &lrey, CVECTOR &rrey, float &angl);
     struct MASTMOVE
     {

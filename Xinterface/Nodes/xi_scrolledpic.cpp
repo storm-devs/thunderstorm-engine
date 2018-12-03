@@ -11,7 +11,7 @@ CXI_SCROLLEDPICTURE::~CXI_SCROLLEDPICTURE()
 	ReleaseAll();
 }
 
-void CXI_SCROLLEDPICTURE::Draw(bool bSelected,dword Delta_Time)
+void CXI_SCROLLEDPICTURE::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	CXI_PICTURE::Draw( bSelected, Delta_Time );
 
@@ -150,7 +150,7 @@ void CXI_SCROLLEDPICTURE::SetNewPictureFromDir(char * dirName)
 	CXI_PICTURE::SetNewPictureFromDir(dirName);
 }
 
-dword _cdecl CXI_SCROLLEDPICTURE::MessageProc(long msgcode, MESSAGE & message)
+uint32_t _cdecl CXI_SCROLLEDPICTURE::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

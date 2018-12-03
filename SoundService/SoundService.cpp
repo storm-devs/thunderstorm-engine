@@ -9,6 +9,7 @@
 //для debug
 #include "..\common_h\dx9render.h"
 #include "DebugEntity.h"
+#include "../common_h/math3d/color.h"
 VDX9RENDER* pRS = nullptr;
 
 INTERFACE_FUNCTION
@@ -353,8 +354,8 @@ const char * SoundService::GetRandomName (tAlias *_alias)
 
 int SoundService::GetAliasIndexByName (const char *szAliasName)
 {
-	dword dwSearchHash = TOREMOVE::HashNoCase(szAliasName);
-	for (dword i = 0; i < Aliases.size(); i++)
+	uint32_t dwSearchHash = TOREMOVE::HashNoCase(szAliasName);
+	for (uint32_t i = 0; i < Aliases.size(); i++)
 	{
 		if (Aliases[i].dwNameHash == dwSearchHash)
 		{
@@ -422,7 +423,7 @@ TSD_ID  SoundService::SoundPlay (const char *_name,
 		try
 		{
 
-			dword dwMode = FMOD_LOOP_OFF;
+			uint32_t dwMode = FMOD_LOOP_OFF;
 			if (_looped) dwMode = FMOD_LOOP_NORMAL;
 			status = fmod_system->createStream(SoundName.c_str(), FMOD_HARDWARE | FMOD_2D | dwMode, nullptr, &sound);
 			FMOD_ERROR("FMOD_SOUND:createStream", status);
@@ -628,7 +629,7 @@ TSD_ID  SoundService::SoundPlay (const char *_name,
 
 	//---------- пробегаем по всем звукам ищем с таким же channel --------------
 
-	for (dword j = 0; j < MAX_SOUNDS_SLOTS; j++)
+	for (uint32_t j = 0; j < MAX_SOUNDS_SLOTS; j++)
 	{
 		if (j == SoundIdx) continue;
 		
@@ -1328,13 +1329,13 @@ void SoundService::DebugDraw ()
 			//0xFFFF0000 не играет, отклипировался
 			//0xFF00FF00 играет
 
-			Color drawColor = Color(0xFFFF0000L);
+			Color drawColor = Color(0xFFFF0000);
 
 			if (!bVirtual)
 			{
 				//морфируем между желтым audib 0 и зеленыи audib 1 цветами
-				Color Zero = Color(0xFFFFFF00L);
-				Color Full = Color(0xFF00FF00L);
+				Color Zero = Color(0xFFFFFF00);
+				Color Full = Color(0xFF00FF00);
 				drawColor.Lerp(Zero, Full, audib);
 			}
 
@@ -1377,7 +1378,7 @@ void SoundService::DebugDraw ()
 
 	pRS->Print(500, 0, "Sound schemes %d", SoundSchemeChannels.size());
 	Ypos = 16;
-	for (dword i = 0; i < SoundSchemeChannels.size(); i++)
+	for (uint32_t i = 0; i < SoundSchemeChannels.size(); i++)
 	{
 		pRS->Print(510, Ypos, "[%d] %s", i, SoundSchemeChannels[i].soundName.c_str());
 		Ypos += 16;
@@ -1388,9 +1389,9 @@ void SoundService::DebugDraw ()
 
 int SoundService::GetFromCache (const char* szName, eSoundType _type)
 {
-	dword dwSearchHash = TOREMOVE::HashNoCase(szName);
+	uint32_t dwSearchHash = TOREMOVE::HashNoCase(szName);
 
-	for (dword i = 0; i < SoundCache.size(); i++)
+	for (uint32_t i = 0; i < SoundCache.size(); i++)
 	{
 		if (SoundCache[i].type != _type) continue;
 		if (SoundCache[i].dwNameHash == dwSearchHash)
@@ -1437,7 +1438,7 @@ int SoundService::GetFromCache (const char* szName, eSoundType _type)
 
 
 //Написать текст
-void _cdecl SoundService::DebugPrint3D(const CVECTOR & pos3D, float rad, long line, float alpha, dword color, float scale, const char * format, ...)
+void _cdecl SoundService::DebugPrint3D(const CVECTOR & pos3D, float rad, long line, float alpha, uint32_t color, float scale, const char * format, ...)
 {
 
 	static char buf[256];
@@ -1471,12 +1472,12 @@ void _cdecl SoundService::DebugPrint3D(const CVECTOR & pos3D, float rad, long li
 		alpha *= dist;
 	}
 	if(alpha <= 0.0f) return;
-	color = (dword(alpha*255.0f) << 24) | (color & 0xffffff);
+	color = (uint32_t(alpha*255.0f) << 24) | (color & 0xffffff);
 	//Печатаем текст
 	pRS->ExtPrint(FONT_DEFAULT, color, 0x00000000, ALIGN_CENTER, 0, scale, 0, 0, long(vrt.x), long(vrt.y), buf);
 }
 
-void SoundService::Draw2DCircle (const CVECTOR& center, DWORD dwColor, float fRadius, DWORD dwColor2, float fRadius2)
+void SoundService::Draw2DCircle (const CVECTOR& center, uint32_t dwColor, float fRadius, uint32_t dwColor2, float fRadius2)
 {
 	float fDelta = 0.2f;
 	RS_LINE line[2];
@@ -1685,9 +1686,9 @@ void SoundService::ProcessSoundSchemes ()
 	// handle schemes
 	//if (!schemesEnabled) return;
 
-	dword dTime = api->GetDeltaTime();
+	uint32_t dTime = api->GetDeltaTime();
 
-	for (dword i = 0; i < SoundSchemeChannels.size(); i++)
+	for (uint32_t i = 0; i < SoundSchemeChannels.size(); i++)
 	{
 		if (SoundSchemeChannels[i].looped)
 		{
@@ -1714,9 +1715,9 @@ void SoundService::ProcessSoundSchemes ()
 
 int SoundService::GetOGGPositionIndex (const char* szName)
 {
-	dword dwHash = TOREMOVE::HashNoCase(szName);
+	uint32_t dwHash = TOREMOVE::HashNoCase(szName);
 
-	for (dword i = 0; i < OGGPosition.size(); i++)
+	for (uint32_t i = 0; i < OGGPosition.size(); i++)
 	{
 		if (OGGPosition[i].dwHash == dwHash)
 		{

@@ -19,7 +19,7 @@ bool OBJ_STRSERVICE::Init()
 	return true;
 }
 
-dword _cdecl OBJ_STRSERVICE::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl OBJ_STRSERVICE::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{

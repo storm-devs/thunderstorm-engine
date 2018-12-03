@@ -1,14 +1,9 @@
 #ifndef _TSEAGULLS_H_
 #define _TSEAGULLS_H_
 
-#include "..\common_h\object.h"
 #include "..\common_h\matrix.h"
-#include "..\common_h\animation.h"
-#include "..\common_h\messages.h"
-#include "..\common_h\geos.h"
 #include "..\common_h\geometry.h"
 #include "..\common_h\dx9render.h"
-#include "..\common_h\model.h"
 #include "..\SoundService\VSoundService.h"
 #include "AnimalsDefines.h"
 
@@ -38,11 +33,11 @@ public:
 	TSeagulls();
 	virtual ~TSeagulls();
 
-	dword ProcessMessage(long _code, MESSAGE & message);
+	uint32_t ProcessMessage(long _code, MESSAGE & message);
 	void Init();
 	void Add(float _x, float _y, float _z);
-	void Realize(dword _dTime);
-	void Execute(dword _dTime);
+	void Realize(uint32_t _dTime);
+	void Execute(uint32_t _dTime);
 	void SetStartY (float _startY) {startY = _startY;}
 
 private:

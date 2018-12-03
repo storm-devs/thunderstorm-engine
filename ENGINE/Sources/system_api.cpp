@@ -1,10 +1,11 @@
 #include "system_api.h"
 #include "externs.h"
 #include "core.h"
+#include "system_log.h"
 
 extern CORE Core;
 
-void SYSTEM_API::Push(void * pointer, dword class_code)
+void SYSTEM_API::Push(void * pointer, uint32_t class_code)
 {
 	//if(entityID_PTR) Control_Stack.Push(idbase.pointer,idbase.class_code,CTP_CONSTRUCTOR);
 	if(entityID_PTR) PUSH_CONTROL(pointer,class_code,CTP_CONSTRUCTOR);
@@ -27,7 +28,7 @@ void SYSTEM_API::SetEntityPointer(void * ep)
 ENTITY_ID SYSTEM_API::GetEntityID()
 {
 	ENTITY_ID id;
-	ZeroMemory(&id,sizeof(id));
+	PZERO(&id,sizeof(id));
 	if(entityID_PTR == nullptr) return id;
 	return *entityID_PTR;
 }

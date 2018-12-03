@@ -286,7 +286,7 @@ void CXI_IMAGE::SetUV( float fLeft, float fTop, float fRight, float fBottom )
 	UpdateTexture();
 }
 
-void CXI_IMAGE::SetColor( DWORD dwColor )
+void CXI_IMAGE::SetColor( uint32_t dwColor )
 {
 	m_dwImageColor = dwColor;
 	for(long n=0; n<4; n++)

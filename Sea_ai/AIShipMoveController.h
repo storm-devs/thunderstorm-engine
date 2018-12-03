@@ -2,10 +2,7 @@
 #define AISHIPMOVECONTROLLER_HPP
 
 #include "..\common_h\vmodule_api.h"
-#include "..\common_h\character.h"
-#include "..\common_h\sd2_h\CannonTrace.h"
 #include "..\common_h\sd2_h\VAI_ObjBase.h"
-#include "..\..\Shared\sea_ai\Script_Defines.h"
 #include "AIFlowGraph.h"
 
 // ============================================================================
@@ -26,7 +23,7 @@ private:
 
 	float			fMoveTime;
 
-	dword			dwCurPnt;
+	uint32_t			dwCurPnt;
 
 	AIFlowGraph::VectorPath		* pVPath;
 

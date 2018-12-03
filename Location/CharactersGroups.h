@@ -14,7 +14,6 @@
 #include "..\common_h\vmodule_api.h"
 #include "..\common_h\matrix.h"
 
-#include "LocatorArray.h"
 #include "Location.h"
 #include "Character.h"
 
@@ -85,11 +84,11 @@ public:
 	//Инициализация
 	bool Init();
 	//Исполнение
-	void Execute(dword delta_time);
+	void Execute(uint32_t delta_time);
 	//Сообщения
-	dword _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t _cdecl ProcessMessage(MESSAGE & message);
 	//Изменение атрибута
-	dword AttributeChanged(ATTRIBUTES * apnt);
+	uint32_t AttributeChanged(ATTRIBUTES * apnt);
 
 //--------------------------------------------------------------------------------------------
 //Инкапсуляция

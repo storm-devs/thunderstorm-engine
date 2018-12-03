@@ -4,7 +4,7 @@
 
 
 //Глобальный GUID для присваивания эмиттерам
-DWORD EmitterID = 0;
+uint32_t EmitterID = 0;
 
 
 
@@ -32,7 +32,7 @@ bool ParticleSystem::Release ()
 }
 
 //Отработать всем партиклам
-DWORD ParticleSystem::Execute (float DeltaTime)
+uint32_t ParticleSystem::Execute (float DeltaTime)
 {
 	if (AutoDeleted)
 	{
@@ -45,7 +45,7 @@ DWORD ParticleSystem::Execute (float DeltaTime)
 
 	if (EmissionPause) return Emitters.size();
 
-	for (DWORD n = 0; n < Emitters.size(); n++)
+	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
 		Emitters[n].pEmitter->Execute(DeltaTime);
 	}
@@ -100,7 +100,7 @@ IEmitter* ParticleSystem::CreatePointEmitter (DataSource::EmitterDesc* pEmitter)
 
 void ParticleSystem::DeleteAllEmitters ()
 {
-	for (DWORD n = 0; n < Emitters.size(); n++)
+	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
 		if (Emitters[n].pEmitter)
 		{
@@ -119,10 +119,10 @@ ParticleManager* ParticleSystem::GetMaster ()
 
 
 //Перезапустить партикловую систему  
-void ParticleSystem::Restart (DWORD RandomSeed)
+void ParticleSystem::Restart (uint32_t RandomSeed)
 {
 	srand (RandomSeed);
-	for (DWORD n = 0; n < Emitters.size(); n++)
+	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
 		Emitters[n].pEmitter->Restart();
 	}
@@ -170,7 +170,7 @@ bool ParticleSystem::IsAutoDeleted ()
 void ParticleSystem::SetTransform (const Matrix& transform)
 {
 	matWorld = transform;
-	for (DWORD n = 0; n < Emitters.size(); n++)
+	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
 		Emitters[n].pEmitter->SetTransform (transform);
 	}
@@ -179,7 +179,7 @@ void ParticleSystem::SetTransform (const Matrix& transform)
 void ParticleSystem::Teleport (const Matrix &transform)
 {
 	matWorld = transform;
-	for (DWORD n = 0; n < Emitters.size(); n++)
+	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
 		Emitters[n].pEmitter->Teleport (transform);
 	}
@@ -193,7 +193,7 @@ void ParticleSystem::GetTransform (Matrix& _matWorld)
 
 IEmitter* ParticleSystem::FindEmitterByData (FieldList* Data)
 {
-	for (DWORD n = 0; n < Emitters.size(); n++)
+	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
 		if (Emitters[n].pEmitter->GetData() == Data) return Emitters[n].pEmitter;
 	}
@@ -203,7 +203,7 @@ IEmitter* ParticleSystem::FindEmitterByData (FieldList* Data)
 
 IEmitter* ParticleSystem::FindEmitter (const char* name)
 {
-	for (DWORD n = 0; n < Emitters.size(); n++)
+	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
 		if (_stricmp (Emitters[n].pEmitter->GetName(), name) == 0) return Emitters[n].pEmitter;
 	}
@@ -212,25 +212,25 @@ IEmitter* ParticleSystem::FindEmitter (const char* name)
 }
 
 
-DWORD ParticleSystem::GetEmittersCount ()
+uint32_t ParticleSystem::GetEmittersCount ()
 {
 	return Emitters.size();
 }
 
-IEmitter* ParticleSystem::GetEmitterByIndex (DWORD Index)
+IEmitter* ParticleSystem::GetEmitterByIndex (uint32_t Index)
 {
 	return Emitters[Index].pEmitter;
 }
 
-EmitterType ParticleSystem::GetEmitterTypeByIndex  (DWORD Index)
+EmitterType ParticleSystem::GetEmitterTypeByIndex  (uint32_t Index)
 {
 	return Emitters[Index].Type;
 }
 
 bool ParticleSystem::IsAlive ()
 {
-	DWORD pCount = 0;
-	for (DWORD n = 0; n < Emitters.size(); n++)
+	uint32_t pCount = 0;
+	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
 		pCount += Emitters[n].pEmitter->GetParticleCount();
 		if (!Emitters[n].pEmitter->IsStoped())	return true;
@@ -256,7 +256,7 @@ void ParticleSystem::SetName (const char* Name)
 
 void ParticleSystem::Editor_UpdateCachedData ()
 {
-	for (DWORD n = 0; n < Emitters.size(); n++)
+	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
 		Emitters[n].pEmitter->Editor_UpdateCachedData ();
 	}
@@ -265,7 +265,7 @@ void ParticleSystem::Editor_UpdateCachedData ()
 
 void ParticleSystem::Stop ()
 {
-	for (DWORD n = 0; n < Emitters.size(); n++)
+	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
 		Emitters[n].pEmitter->Stop ();
 	}

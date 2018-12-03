@@ -14,7 +14,7 @@ public:
 	MESSAGE_ICONS();
 	~MESSAGE_ICONS();
 
-	void Update(DWORD deltaTime);
+	void Update(uint32_t deltaTime);
 	void Draw();
 	void SetShowMsg(bool bShow) {m_bShowMsgIcon = m_vMsgIconBufID>=0 ? bShow : false;}
 	void StartData(ATTRIBUTES * pAData[MESSAGE_ICONS_COLUMN_QUANTITY], long pLeft[MESSAGE_ICONS_COLUMN_QUANTITY]);
@@ -48,9 +48,9 @@ protected:
 	float	m_fCurBlindTime;	// Текущее время для мигания
 	bool	m_bBlindDirectUp;	// Этап повышения цвета для мигания
 
-	DWORD	m_dwHighBlindColor;	// Цвет мигания максимальный
-	DWORD	m_dwLowBlindColor;	// Цвет мигания минимальный
-	DWORD	m_dwNormalColor;	// Нормальный цвет
+	uint32_t	m_dwHighBlindColor;	// Цвет мигания максимальный
+	uint32_t	m_dwLowBlindColor;	// Цвет мигания минимальный
+	uint32_t	m_dwNormalColor;	// Нормальный цвет
 
 	struct COLUMN_DESCRIBER
 	{
@@ -65,7 +65,7 @@ protected:
 
 			bool bDoBlend;
 			bool bDoBlind;
-			DWORD color;
+			uint32_t color;
 		};
 
 		long rowQ;

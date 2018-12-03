@@ -48,7 +48,7 @@ class WdmObjects
 	{
 		GEOS * geo;
 		std::string path;
-		dword hash;
+		uint32_t hash;
 		long next;
 	};
 
@@ -104,11 +104,11 @@ public:
 	bool isPause;
 	bool isDebug;
 
-	void DrawCircle(const CVECTOR & pos, float radius, dword color);
-	void DrawCircle(CMatrix & mtx, float radius, dword color);
-	void DrawVector(const CVECTOR & start, const CVECTOR & end, dword color);
-	void DrawLine(const CVECTOR & start, const CVECTOR & end, dword color);
-	void DrawBox2D(CMatrix & mtx, float l, float w, dword color);
+	void DrawCircle(const CVECTOR & pos, float radius, uint32_t color);
+	void DrawCircle(CMatrix & mtx, float radius, uint32_t color);
+	void DrawVector(const CVECTOR & start, const CVECTOR & end, uint32_t color);
+	void DrawLine(const CVECTOR & start, const CVECTOR & end, uint32_t color);
+	void DrawBox2D(CMatrix & mtx, float l, float w, uint32_t color);
 	void GetVPSize(float & w, float & h);
 
 	float shipSpeedOppositeWind;	//Относительная скорость корабля против ветра
@@ -144,7 +144,7 @@ public:
 	std::string modelPath;
 
 	//Найти хэщь-значение строки
-	static dword CalcHash(const char * str);
+	static uint32_t CalcHash(const char * str);
 
 	//Получить направление и силу ветра
 	float GetWind(float x, float z, CVECTOR & dir);
@@ -155,7 +155,7 @@ public:
 	//Установить строку сохранение
 	void SetWindSaveString(const char * str);
 	//Добавить float в cтроку
-	void AddDataToString(std::string & str, byte d);
+	void AddDataToString(std::string & str, uint8_t d);
 	//Получить float из строки
 	long GetDataFromString(const char * & cur);
 
@@ -165,7 +165,7 @@ private:
 	struct Vertex
 	{
 		CVECTOR v;
-		dword c;
+		uint32_t c;
 	};
 
 	static Vertex vertex[1024];
@@ -174,7 +174,7 @@ private:
 extern WdmObjects * wdmObjects;
 
 //Найти хэщь-значение строки
-inline dword WdmObjects::CalcHash(const char * str)
+inline uint32_t WdmObjects::CalcHash(const char * str)
 {
 	if(!str) return 0;
 	unsigned long hval = 0;

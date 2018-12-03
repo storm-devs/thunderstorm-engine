@@ -1,8 +1,10 @@
+#include <cstdint>
 #include "pcinput.h"
 #include "..\..\common_h\vapi.h"
+
 extern VAPI * _CORE_API;
 extern bool bActive;
-float PCINPUT::GetKeyState(dword key_code, dword * value)
+float PCINPUT::GetKeyState(uint32_t key_code, uint32_t * value)
 {
 	if(!bActive) return 0;
 //	POINT point;
@@ -113,7 +115,7 @@ float PCINPUT::GetKeyState(dword key_code, dword * value)
 
 void PCINPUT::ProcessKeyState()
 {
-	DWORD n;
+	uint32_t n;
 	float state;
 	POINT point;
 
@@ -156,7 +158,7 @@ void PCINPUT::ProcessKeyState()
 	}
 }
 
-void PCINPUT::SetKeyState(dword key_code, dword * value)
+void PCINPUT::SetKeyState(uint32_t key_code, uint32_t * value)
 {
 	switch(key_code)
 	{

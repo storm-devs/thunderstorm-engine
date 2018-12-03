@@ -35,23 +35,23 @@ public:
 	}
 	;
 	bool  FixedDelta;
-	dword FixedDeltaValue;
+	uint32_t FixedDeltaValue;
 	bool  Ring;
 #ifdef USE_HIGH_FREQUENCY		
 	float			fSecondsPerTick;
 	LARGE_INTEGER	liPrevTime;
 #endif
-	dword Previous_Time;
-	dword Delta_Time;
+	uint32_t Previous_Time;
+	uint32_t Delta_Time;
 	float fDeltaTime;
-	dword rDelta_Time;
-	dword fps;
-	dword fps_count;
-	dword fps_time;
-	dword ADT;
+	uint32_t rDelta_Time;
+	uint32_t fps;
+	uint32_t fps_count;
+	uint32_t fps_time;
+	uint32_t ADT;
 	float ADT_val;
 	bool ADT_ON;
-	dword Run()
+	uint32_t Run()
 	{
 #ifdef USE_HIGH_FREQUENCY		
 		LARGE_INTEGER	liCurTime;
@@ -59,7 +59,7 @@ public:
 		fDeltaTime = 1000.0f * (liCurTime.QuadPart - liPrevTime.QuadPart) * fSecondsPerTick;
 		Delta_Time = long(fDeltaTime);
 #else
-		dword Current_Time;
+		uint32_t Current_Time;
 		Current_Time = GetTickCount();
 		Delta_Time = Current_Time - Previous_Time;
 		rDelta_Time = Delta_Time;
@@ -90,7 +90,7 @@ public:
 		return Delta_Time;
 	};
 
-	dword GetDeltaTime()
+	uint32_t GetDeltaTime()
 	{
 		if(FixedDelta) return FixedDeltaValue;
 		return Delta_Time;

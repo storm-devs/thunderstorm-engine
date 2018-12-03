@@ -88,7 +88,7 @@ public:
 	bool isVisible;
 	float radius;
 	float kViewRadius;
-	dword color;
+	uint32_t color;
 	float viewDist;
 };
 

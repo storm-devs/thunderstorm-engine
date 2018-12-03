@@ -1,9 +1,9 @@
 #include  "SEA_OPERATOR.h"
 
-#include <stdio.h>
 #include "..\common_h\defines.h"
 #include "..\common_h\exs.h"
 #include "..\common_h\rands.h"
+#include "../../Shared/messages.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(SEA_OPERATOR)
@@ -43,7 +43,7 @@ bool SEA_OPERATOR::Init()
 }
 
 //--------------------------------------------------------------------
-dword SEA_OPERATOR::AttributeChanged(ATTRIBUTES *_newAttr)
+uint32_t SEA_OPERATOR::AttributeChanged(ATTRIBUTES *_newAttr)
 {
 	if (*_newAttr == "FirstInit")
 		FirstInit();
@@ -52,13 +52,13 @@ dword SEA_OPERATOR::AttributeChanged(ATTRIBUTES *_newAttr)
 }
 
 //--------------------------------------------------------------------
-dword _cdecl SEA_OPERATOR::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl SEA_OPERATOR::ProcessMessage(MESSAGE & message)
 {
 	if (!enabled)
 		return 0;
 
 	long code = message.Long();
-	dword outValue = 0;
+	uint32_t outValue = 0;
 
 	switch (code)
 	{
@@ -135,7 +135,7 @@ dword _cdecl SEA_OPERATOR::ProcessMessage(MESSAGE & message)
 }
 
 //--------------------------------------------------------------------
-void SEA_OPERATOR::Realize(dword _dTime)
+void SEA_OPERATOR::Realize(uint32_t _dTime)
 {
 	//renderer->Print(0, 90, "lastControlTime: %d", api->Controls->LastControlTime());
 
@@ -154,7 +154,7 @@ void SEA_OPERATOR::Realize(dword _dTime)
 }
 
 //--------------------------------------------------------------------
-void SEA_OPERATOR::Execute(dword _dTime)
+void SEA_OPERATOR::Execute(uint32_t _dTime)
 {
 	if (!enabled)
 		return;
@@ -191,7 +191,7 @@ void SEA_OPERATOR::FirstInit()
 }
 
 //--------------------------------------------------------------------
-void SEA_OPERATOR::ProcessActions(dword _dTime)
+void SEA_OPERATOR::ProcessActions(uint32_t _dTime)
 {
 	if (active)
 	{
@@ -461,7 +461,7 @@ bool SEA_OPERATOR::IsTimeToActivate(bool _testControls /* =true */)
 
 	if (_testControls)
 	{
-		dword lastControlTime = api->Controls->LastControlTime();
+		uint32_t lastControlTime = api->Controls->LastControlTime();
 		if (lastControlTime < idleTime)
 			return false;
 	}

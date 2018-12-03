@@ -13,7 +13,7 @@ public:
 	~CXI_PCEDITBOX();
 
 	void	ReleaseAll();
-	void	Draw(bool bSelected,dword Delta_Time);
+	void	Draw(bool bSelected,uint32_t Delta_Time);
 	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
 	int		CommandExecute(int wActCode);
 	bool	IsClick(int buttonID,long xPos,long yPos);
@@ -33,7 +33,7 @@ protected:
 
 protected:
 	long	m_nFontID;			// font id
-	DWORD	m_dwFontColor;		// color for font
+	uint32_t	m_dwFontColor;		// color for font
 	XYPOINT	m_pntFontOffset;	// string offset
 	long	m_nStringAlign;		// string alignment
 	float	m_fFontScale;		// font scale

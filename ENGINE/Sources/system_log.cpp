@@ -1,4 +1,9 @@
+#include <Windows.h>
+#include <cstdio>
+#include <cstdint>
 #include "system_log.h"
+
+
 #ifndef _XBOX
 #define LOG_FILENAME	"system.log"
 #else
@@ -25,8 +30,8 @@ void  trace(char * data_PTR,...)
 	va_start(args,data_PTR);
 	_vsnprintf(Buffer_4k,sizeof(Buffer_4k) - 4,data_PTR,args);
 	strcat(Buffer_4k,"\x0d\x0a");
-	DWORD bytes;
-	WriteFile(file_h,Buffer_4k,strlen(Buffer_4k),&bytes,nullptr);
+	uint32_t bytes;
+	WriteFile(file_h,Buffer_4k,strlen(Buffer_4k),(LPDWORD)&bytes,nullptr);
 	va_end(args);
 
 	FlushFileBuffers(file_h);

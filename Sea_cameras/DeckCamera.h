@@ -64,13 +64,13 @@ public:
 
 	void SetDevice();
 	bool Init();
-	void Move(DWORD DeltaTime);
-	void Realize(dword Delta_Time);
-	void Execute(dword Delta_Time);
+	void Move(uint32_t DeltaTime);
+	void Realize(uint32_t Delta_Time);
+	void Execute(uint32_t Delta_Time);
 	bool CreateState(ENTITY_STATE_GEN * state_gen);
 	bool LoadState(ENTITY_STATE * state);
-	dword AttributeChanged(ATTRIBUTES * pAttr);
-	dword _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t AttributeChanged(ATTRIBUTES * pAttr);
+	uint32_t _cdecl ProcessMessage(MESSAGE & message);
 
 	void Save(CSaveLoad * pSL);
 	void Load(CSaveLoad * pSL);

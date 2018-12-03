@@ -33,8 +33,8 @@ protected:
 	void UpdateBuffers( long nShipQ );
 	void FillIndexBuffer();
 	void FillVertexBuffer();
-	long WriteSquareToVBuff( BI_COLOR_VERTEX* pv, FRECT& uv, dword color, BIFPOINT& center, FPOINT& size );
-	long WriteSquareToVBuffWithProgress( BI_COLOR_VERTEX* pv, FRECT& uv, dword color, BIFPOINT& center, FPOINT& size, float fClampUp, float fClampDown, float fClampLeft, float fClampRight );
+	long WriteSquareToVBuff( BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size );
+	long WriteSquareToVBuffWithProgress( BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size, float fClampUp, float fClampDown, float fClampLeft, float fClampRight );
 	void UpdateCommandList();
 
 	long GetCurrentCommandTopLine();
@@ -55,7 +55,7 @@ protected:
 	__forceinline bool StringACompare(ATTRIBUTES* pA, const char* attrName, std::string & sCompareVal);
 	__forceinline bool FRectACompare(ATTRIBUTES* pA, const char* attrName, FRECT & rCompareVal);
 	__forceinline bool BoolACompare(ATTRIBUTES* pA, const char* attrName, bool & bCompareVal);
-	__forceinline dword GetColorByFactor(dword dwLowColor,dword dwHighColor, float fFactor);
+	__forceinline uint32_t GetColorByFactor(uint32_t dwLowColor,uint32_t dwHighColor, float fFactor);
 
 	VDX9RENDER* m_pRS;
 	ATTRIBUTES* m_pARoot;
@@ -71,7 +71,7 @@ protected:
 
 	long m_nBackTextureID;
 	long m_nBackSquareQ;
-	dword m_dwBackColor;
+	uint32_t m_dwBackColor;
 	FRECT m_rBackUV;
 	BIFPOINT m_pntBackOffset;
 	FPOINT m_pntBackIconSize;
@@ -79,8 +79,8 @@ protected:
 	bool m_bIsAlarmOn;
 	long m_nAlarmSquareQ;
 	long m_nAlarmTextureID;
-	dword m_dwAlarmHighColor;
-	dword m_dwAlarmLowColor;
+	uint32_t m_dwAlarmHighColor;
+	uint32_t m_dwAlarmLowColor;
 	FRECT m_rAlarmUV;
 	BIFPOINT m_pntAlarmOffset;
 	FPOINT m_pntAlarmIconSize;
@@ -91,7 +91,7 @@ protected:
 
 	long m_nManStateTextureID;
 	long m_nManStateSquareQ;
-	dword m_dwManStateColor;
+	uint32_t m_dwManStateColor;
 	FRECT m_rManHPUV;
 	BIFPOINT m_pntManHPOffset;
 	FPOINT m_pntManHPIconSize;
@@ -101,8 +101,8 @@ protected:
 
 	long m_nGunChargeTextureID;
 	long m_nGunChargeSquareQ;
-	dword m_dwGunChargeColor;
-	dword m_dwGunChargeBackColor;
+	uint32_t m_dwGunChargeColor;
+	uint32_t m_dwGunChargeBackColor;
 	FRECT m_rGunChargeUV;
 	BIFPOINT m_pntGunChargeOffset;
 	FPOINT m_pntGunChargeIconSize;
@@ -112,7 +112,7 @@ protected:
 	FRECT m_rManPicUV;
 	BIFPOINT m_pntManPicOffset;
 	FPOINT m_pntManPicIconSize;
-	DWORD m_dwManFaceColor;
+	uint32_t m_dwManFaceColor;
 
 	struct ManDescr
 	{
@@ -182,7 +182,7 @@ __forceinline bool BIManSign::BoolACompare(ATTRIBUTES* pA, const char* attrName,
 	return (bCompareVal != tmp);
 }
 
-__forceinline dword BIManSign::GetColorByFactor(dword dwLowColor,dword dwHighColor, float fFactor)
+__forceinline uint32_t BIManSign::GetColorByFactor(uint32_t dwLowColor,uint32_t dwHighColor, float fFactor)
 {
 	long asrc = (dwLowColor>>24) & 0xFF;
 	long rsrc = (dwLowColor>>16) & 0xFF;

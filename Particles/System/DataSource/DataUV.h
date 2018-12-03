@@ -2,13 +2,9 @@
 #define _PARTICLE_DATA_UV_H_
 
 
-#include <string.h>
-#include <stdarg.h>
-#include <stdio.h>
 #include "../../../common_h/exs.h"
 #include "..\..\icommon\memfile.h"
 
-#include "..\..\..\common_h\d_types.h"
 #include "..\..\..\common_h\math3d.h"
 #include <string>
 #include <vector>
@@ -27,13 +23,13 @@ public:
 	virtual ~DataUV ();
 
 	//Получить значение   [ x,y = UV1; z,w = UV2 ]
-	const Vector4 &GetValue (DWORD FrameNum);
+	const Vector4 &GetValue (uint32_t FrameNum);
 
 	//Установить значения
-	void SetValues (const Vector4* _Frames, DWORD FramesCount);
+	void SetValues (const Vector4* _Frames, uint32_t FramesCount);
 
 	//Получить кол-во кадров
-	DWORD GetFrameCount ();
+	uint32_t GetFrameCount ();
 
 
 	void Load (MemFile* File);

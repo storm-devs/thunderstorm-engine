@@ -261,7 +261,7 @@ bool PCS_CONTROLS::GetControlState(char * control_name, CONTROL_STATE & _state_s
 
 bool PCS_CONTROLS::GetControlState(long control_code, CONTROL_STATE & _state_struct)
 {
-	DWORD system_code;
+	uint32_t system_code;
 	long lRes;
 	
 
@@ -409,7 +409,7 @@ bool PCS_CONTROLS::GetControlState(long control_code, CONTROL_STATE & _state_str
 	return true;
 }
 
-void PCS_CONTROLS::Update(DWORD DeltaTime)
+void PCS_CONTROLS::Update(uint32_t DeltaTime)
 {
 	m_ControlTree.Process();
 	m_KeyBuffer.Reset();
@@ -417,7 +417,7 @@ void PCS_CONTROLS::Update(DWORD DeltaTime)
 	nFrameCounter++;
 	POINT point;
 	GetCursorPos(&point);
-	DWORD system_code = CE_MOUSE_X_AXIS;
+	uint32_t system_code = CE_MOUSE_X_AXIS;
 	ControlsTab[system_code].state.lValue = point.x - nMouseXPrev;
 	ControlsTab[system_code].state.fValue = (float)ControlsTab[system_code].state.lValue * fMouseSensivityX;
 	ControlsTab[system_code].update_frame = nFrameCounter;
@@ -469,7 +469,7 @@ void PCS_CONTROLS::Update(DWORD DeltaTime)
 	nLastControlTime += DeltaTime;
 }
 
-bool PCS_CONTROLS::SetControlFlags(long code, DWORD _flags)
+bool PCS_CONTROLS::SetControlFlags(long code, uint32_t _flags)
 {
 	if(code < 0 || code >= nControlsNum) return false;
 	pUserControls[code].flags = _flags;

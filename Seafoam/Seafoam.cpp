@@ -1,16 +1,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "..\common_h\messages.h"
+#include "..\../Shared/messages.h"
 #include "..\common_h\exs.h"
 #include "..\common_h\CVECTOR.h"
-#include "..\common_h\messages.h"
 #include "..\common_h\geos.h"
-#include "..\common_h\geometry.h"
 #include "..\common_h\dx9render.h"
 #include "..\common_h\ship_base.h"
 #include "..\common_h\model.h"
-#include "..\common_h\geos.h"
 #include "..\common_h\sea_base.h"
 #include "..\common_h\net.h"
 #include "SeafoamDefines.h"
@@ -226,7 +223,7 @@ void SEAFOAM::CreateTracePoints(tShipFoamInfo *_shipFoamInfo)
 }
 
 //--------------------------------------------------------------------
-void SEAFOAM::InterpolateLeftParticle(tShipFoamInfo &_shipFoamInfo, int z, dword _dTime)
+void SEAFOAM::InterpolateLeftParticle(tShipFoamInfo &_shipFoamInfo, int z, uint32_t _dTime)
 {
 	CVECTOR ang, finalAng, testPoint{};
 	CMatrix finalMatrix;
@@ -298,7 +295,7 @@ void SEAFOAM::InterpolateLeftParticle(tShipFoamInfo &_shipFoamInfo, int z, dword
 }
 
 //--------------------------------------------------------------------
-void SEAFOAM::InterpolateRightParticle(tShipFoamInfo &_shipFoamInfo, int z, dword _dTime)
+void SEAFOAM::InterpolateRightParticle(tShipFoamInfo &_shipFoamInfo, int z, uint32_t _dTime)
 {
 	CVECTOR ang{}, finalAng{};
 	CMatrix finalMatrix;
@@ -368,7 +365,7 @@ void SEAFOAM::InterpolateRightParticle(tShipFoamInfo &_shipFoamInfo, int z, dwor
 }
 
 //--------------------------------------------------------------------
-void SEAFOAM::RealizeShipFoam_Particles(tShipFoamInfo &_shipFoamInfo, dword _dTime)
+void SEAFOAM::RealizeShipFoam_Particles(tShipFoamInfo &_shipFoamInfo, uint32_t _dTime)
 {
 	//MODEL *arrow = (MODEL*)_CORE_API->GetEntityPointer(&arrowModel);
 
@@ -395,7 +392,7 @@ void SEAFOAM::RealizeShipFoam_Particles(tShipFoamInfo &_shipFoamInfo, dword _dTi
 		InterpolateRightParticle(_shipFoamInfo, z, _dTime);
 	}
 
-	dword ticks = 0;
+	uint32_t ticks = 0;
 	RDTSC_B(ticks)
 
 	CVECTOR frontEmitterPos = 0.5f*(_shipFoamInfo.levelStarts[0][0] + _shipFoamInfo.levelStarts[1][0]);
@@ -457,7 +454,7 @@ void SEAFOAM::RealizeShipFoam_Particles(tShipFoamInfo &_shipFoamInfo, dword _dTi
 	//api->Trace("Seafoam realize(carcass->Execute) = %d", ticks);
 }
 
-void SEAFOAM::RealizeShipFoam_Mesh(tShipFoamInfo &_shipFoamInfo, dword _dTime)
+void SEAFOAM::RealizeShipFoam_Mesh(tShipFoamInfo &_shipFoamInfo, uint32_t _dTime)
 {
 	_shipFoamInfo.carcass[0]->Execute(_dTime, _shipFoamInfo.shipModel->mtx, _shipFoamInfo.levelStarts[0]);
 	_shipFoamInfo.carcass[1]->Execute(_dTime, _shipFoamInfo.shipModel->mtx, _shipFoamInfo.levelStarts[1]);
@@ -467,12 +464,12 @@ void SEAFOAM::RealizeShipFoam_Mesh(tShipFoamInfo &_shipFoamInfo, dword _dTime)
 }
 
 //--------------------------------------------------------------------
-dword _cdecl SEAFOAM::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl SEAFOAM::ProcessMessage(MESSAGE & message)
 {
 	GUARD(SEAFOAM::ProcessMessage)
 
 	long code = message.Long();
-	dword outValue = 0;
+	uint32_t outValue = 0;
 
 	switch (code)
 	{
@@ -504,11 +501,11 @@ dword _cdecl SEAFOAM::ProcessMessage(MESSAGE & message)
 }
 
 //--------------------------------------------------------------------
-void SEAFOAM::Realize(dword _dTime)
+void SEAFOAM::Realize(uint32_t _dTime)
 {
 	GUARD(SEAFOAM::Realize)
 
-	dword ticks = 0;
+	uint32_t ticks = 0;
 	RDTSC_B(ticks)
 
 	tShipFoamInfo *foamInfo = nullptr;
@@ -544,7 +541,7 @@ void SEAFOAM::Realize(dword _dTime)
 }
 
 //--------------------------------------------------------------------
-void SEAFOAM::Execute(dword _dTime)
+void SEAFOAM::Execute(uint32_t _dTime)
 {
 	GUARD(SEAFOAM::Execute);
 	tShipFoamInfo *foamInfo = nullptr;
@@ -576,7 +573,7 @@ void SEAFOAM::Execute(dword _dTime)
 }
 
 //--------------------------------------------------------------------
-dword SEAFOAM::AttributeChanged(ATTRIBUTES * pA)
+uint32_t SEAFOAM::AttributeChanged(ATTRIBUTES * pA)
 {
 	const char *nm = pA->GetThisName();
 
@@ -591,7 +588,7 @@ dword SEAFOAM::AttributeChanged(ATTRIBUTES * pA)
 	if (_stricmp(nm, "AddNetShip") == 0)
 	{
 		ENTITY_ID shipID;
-		dword dwShipNetID = pA->GetAttributeAsDword();
+		uint32_t dwShipNetID = pA->GetAttributeAsDword();
 		if (api->IsNetActive())
 		{
 			if (NetFindClass(false, &shipID, "NetShip")) do

@@ -7,9 +7,9 @@ Copyright (C) 2000, 2001 Nick Chirkov
 Comments:
 Import library main file
 ******************************************************************************/
-#include <stdio.h>
 #include "geom.h"
 #include "..\\common_h\\memop.h"
+#include <cstring>
 
 //create geometry func
 GEOS* _cdecl CreateGeometry(const char *fname, const char *lightname, GEOM_SERVICE &srv, long flags)

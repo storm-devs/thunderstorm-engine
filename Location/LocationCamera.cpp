@@ -11,8 +11,8 @@
 #include "LocationCamera.h"
 #include "Location.h"
 #include "Character.h"
-#include "..\common_h\sea_base.h"
-
+#include "..\Common_h\sea_base.h"
+#include "../../Shared/messages.h"
 
 
 
@@ -110,9 +110,9 @@ bool LocationCamera::Init()
 
 //Исполнение
 #ifndef LOCATIONCAMERA_DEBUG
-void LocationCamera::Execute(dword delta_time)
+void LocationCamera::Execute(uint32_t delta_time)
 #else
-void LocationCamera::Realize(dword delta_time)
+void LocationCamera::Realize(uint32_t delta_time)
 #endif
 {
 	if( m_bTrackMode )
@@ -315,9 +315,9 @@ void LocationCamera::Realize(dword delta_time)
 
 
 #ifndef LOCATIONCAMERA_DEBUG
-void LocationCamera::Realize(dword delta_time)
+void LocationCamera::Realize(uint32_t delta_time)
 #else
-void LocationCamera::Execute(dword delta_time)
+void LocationCamera::Execute(uint32_t delta_time)
 #endif
 {
 	//rs->Print(10, 10, "%f", cf.fndRadius);
@@ -331,7 +331,7 @@ void LocationCamera::Execute(dword delta_time)
 }
 
 //Сообщения
-dword _cdecl LocationCamera::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl LocationCamera::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{
@@ -411,7 +411,7 @@ dword _cdecl LocationCamera::ProcessMessage(MESSAGE & message)
 }
 
 //Изменение атрибута
-dword LocationCamera::AttributeChanged(ATTRIBUTES * apnt)
+uint32_t LocationCamera::AttributeChanged(ATTRIBUTES * apnt)
 {
 	//Зачитывание атрибутов
 	if(!AttributesPointer) return 0;	

@@ -553,7 +553,7 @@ long STRSERVICE::OpenUsersStringFile(char * fileName)
 	if(fileBuf== nullptr) {STORM_THROW("Allocate memory error")}
 
 	long readsize;
-	if( api->fio->_ReadFile(hfile,fileBuf,filesize,(DWORD*)&readsize) == FALSE ||
+	if( api->fio->_ReadFile(hfile,fileBuf,filesize,(uint32_t*)&readsize) == FALSE ||
 		readsize!=filesize )
 	{
 		api->Trace("Can`t read strings file: %s",fileName);
@@ -760,7 +760,7 @@ bool STRSERVICE::GetNextUsersString(char *src,long &idx,char* *strName,char* *st
 //==============================================================
 
 	// Получить текущий язык
-DWORD __cdecl _Language_GetLanguage(VS_STACK * pS)
+uint32_t __cdecl _Language_GetLanguage(VS_STACK * pS)
 {
 	char * strLangName = g_StringServicePointer->GetLanguage();
 
@@ -771,7 +771,7 @@ DWORD __cdecl _Language_GetLanguage(VS_STACK * pS)
 }
 
 	// Открыть языковый файл
-DWORD __cdecl _Language_OpenFile(VS_STACK * pS)
+uint32_t __cdecl _Language_OpenFile(VS_STACK * pS)
 {
 	VDATA * pLngFileName = (VDATA*)pS->Pop();	if (!pLngFileName) return IFUNCRESULT_FAILED;
 	char * strLngFileName=nullptr;	pLngFileName->Get(strLngFileName);
@@ -786,7 +786,7 @@ DWORD __cdecl _Language_OpenFile(VS_STACK * pS)
 }
 
 	// Закрыть языковый файл
-DWORD __cdecl _Language_CloseFile(VS_STACK * pS)
+uint32_t __cdecl _Language_CloseFile(VS_STACK * pS)
 {
 	VDATA * pLngFileID = (VDATA*)pS->Pop();	if (!pLngFileID) return IFUNCRESULT_FAILED;
 	long nLngFileID=-1;	pLngFileID->Get(nLngFileID);
@@ -797,7 +797,7 @@ DWORD __cdecl _Language_CloseFile(VS_STACK * pS)
 }
 
 	// Интерпретировать строку используя языковый файл
-DWORD __cdecl _Language_ConvertString(VS_STACK * pS)
+uint32_t __cdecl _Language_ConvertString(VS_STACK * pS)
 {
 	VDATA * pInStr = (VDATA*)pS->Pop();	if (!pInStr) return IFUNCRESULT_FAILED;
 	char * strInStr=nullptr;	pInStr->Get(strInStr);
@@ -815,7 +815,7 @@ DWORD __cdecl _Language_ConvertString(VS_STACK * pS)
 }
 
 	// Интерпретировать строку используя общий языковый файл
-DWORD __cdecl _XI_ConvertString(VS_STACK * pS)
+uint32_t __cdecl _XI_ConvertString(VS_STACK * pS)
 {
 	VDATA * pInStr = (VDATA*)pS->Pop();	if (!pInStr) return IFUNCRESULT_FAILED;
 	char * strInStr=nullptr;	pInStr->Get(strInStr);
@@ -830,7 +830,7 @@ DWORD __cdecl _XI_ConvertString(VS_STACK * pS)
 }
 
 	// Установить язык
-DWORD __cdecl _Language_SetLanguage(VS_STACK * pS)
+uint32_t __cdecl _Language_SetLanguage(VS_STACK * pS)
 {
 	VDATA * pLngName = (VDATA*)pS->Pop();	if (!pLngName) return IFUNCRESULT_FAILED;
 	char * strLngName=nullptr;	pLngName->Get(strLngName);
@@ -841,7 +841,7 @@ DWORD __cdecl _Language_SetLanguage(VS_STACK * pS)
 }
 
 	// Получить ID Глобального языкового файла
-DWORD __cdecl _GlobalLngFileID(VS_STACK * pS)
+uint32_t __cdecl _GlobalLngFileID(VS_STACK * pS)
 {
 	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
 	pVR->Set(g_idGlobLanguageFileID);
@@ -850,7 +850,7 @@ DWORD __cdecl _GlobalLngFileID(VS_STACK * pS)
 }
 
 	// Получить ID Глобального языкового файла
-DWORD __cdecl _LanguageGetFaderPic(VS_STACK * pS)
+uint32_t __cdecl _LanguageGetFaderPic(VS_STACK * pS)
 {
 	VDATA * pPicName = (VDATA*)pS->Pop();	if (!pPicName) return IFUNCRESULT_FAILED;
 	char * strPicName=nullptr;	pPicName->Get(strPicName);
@@ -884,7 +884,7 @@ DWORD __cdecl _LanguageGetFaderPic(VS_STACK * pS)
 
 
 // Установить цветокоррекцию для игры
-DWORD __cdecl _SetColorCorrection(VS_STACK * pS)
+uint32_t __cdecl _SetColorCorrection(VS_STACK * pS)
 {
 	VDATA * pBright = (VDATA*)pS->Pop();	if (!pBright) return IFUNCRESULT_FAILED;
 	float fBright = 1.f;	pBright->Get(fBright);
@@ -903,7 +903,7 @@ DWORD __cdecl _SetColorCorrection(VS_STACK * pS)
 }
 
 // Установить чувствительность мыши
-DWORD __cdecl _SetMouseSensitivity(VS_STACK * pS)
+uint32_t __cdecl _SetMouseSensitivity(VS_STACK * pS)
 {
 	VDATA * pYSens = (VDATA*)pS->Pop();	if (!pYSens) return IFUNCRESULT_FAILED;
 	float fYSens = 1.f;	pYSens->Get(fYSens);
@@ -921,7 +921,7 @@ DWORD __cdecl _SetMouseSensitivity(VS_STACK * pS)
 }
 
 // Установить инвертность на клавишу
-DWORD __cdecl _ControlMakeInvert(VS_STACK * pS)
+uint32_t __cdecl _ControlMakeInvert(VS_STACK * pS)
 {
 	VDATA * pControlFlag = (VDATA*)pS->Pop();	if (!pControlFlag) return IFUNCRESULT_FAILED;
 	long nControlFlag = 0;	pControlFlag->Get(nControlFlag);
@@ -939,7 +939,7 @@ DWORD __cdecl _ControlMakeInvert(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-DWORD __cdecl _InterfaceMakeNode(VS_STACK * pS)
+uint32_t __cdecl _InterfaceMakeNode(VS_STACK * pS)
 {
 	VDATA * pDat;
 
@@ -966,7 +966,7 @@ DWORD __cdecl _InterfaceMakeNode(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-DWORD __cdecl _InterfaceDeleteNode(VS_STACK * pS)
+uint32_t __cdecl _InterfaceDeleteNode(VS_STACK * pS)
 {
 	VDATA * pDat = (VDATA*)pS->Pop();	if (!pDat) return IFUNCRESULT_FAILED;
 	char* pcNodeName = pDat->GetString();
@@ -975,7 +975,7 @@ DWORD __cdecl _InterfaceDeleteNode(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-DWORD __cdecl _InterfaceWindowShow(VS_STACK * pS)
+uint32_t __cdecl _InterfaceWindowShow(VS_STACK * pS)
 {
 	VDATA * pDat;
 
@@ -994,7 +994,7 @@ DWORD __cdecl _InterfaceWindowShow(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-DWORD __cdecl _InterfaceWindowDisable(VS_STACK * pS)
+uint32_t __cdecl _InterfaceWindowDisable(VS_STACK * pS)
 {
 	VDATA * pDat;
 
@@ -1013,7 +1013,7 @@ DWORD __cdecl _InterfaceWindowDisable(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-DWORD __cdecl _InterfaceIsWindowEnable(VS_STACK * pS)
+uint32_t __cdecl _InterfaceIsWindowEnable(VS_STACK * pS)
 {
 	VDATA * pDat;
 
@@ -1033,7 +1033,7 @@ DWORD __cdecl _InterfaceIsWindowEnable(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-DWORD __cdecl _InterfaceWindowAddNode(VS_STACK * pS)
+uint32_t __cdecl _InterfaceWindowAddNode(VS_STACK * pS)
 {
 	VDATA * pDat;
 
@@ -1052,7 +1052,7 @@ DWORD __cdecl _InterfaceWindowAddNode(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-DWORD __cdecl _InterfaceCreateFolder(VS_STACK * pS)
+uint32_t __cdecl _InterfaceCreateFolder(VS_STACK * pS)
 {
 	VDATA * pDat;
 	pDat = (VDATA*)pS->Pop();	if (!pDat) return IFUNCRESULT_FAILED;
@@ -1076,7 +1076,7 @@ DWORD __cdecl _InterfaceCreateFolder(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-DWORD __cdecl _InterfaceCheckFolder(VS_STACK * pS)
+uint32_t __cdecl _InterfaceCheckFolder(VS_STACK * pS)
 {
 	VDATA * pDat;
 	pDat = (VDATA*)pS->Pop();	if (!pDat) return IFUNCRESULT_FAILED;
@@ -1116,7 +1116,7 @@ BOOL DeleteFolderWithCantainment(const char* sFolderName)
 	return api->fio->_RemoveDirectory( sFolderName );
 }
 
-DWORD __cdecl _InterfaceDeleteFolder(VS_STACK * pS)
+uint32_t __cdecl _InterfaceDeleteFolder(VS_STACK * pS)
 {
 	VDATA * pDat;
 	pDat = (VDATA*)pS->Pop();	if (!pDat) return IFUNCRESULT_FAILED;
@@ -1128,7 +1128,7 @@ DWORD __cdecl _InterfaceDeleteFolder(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-DWORD __cdecl _InterfaceFindFolders(VS_STACK * pS)
+uint32_t __cdecl _InterfaceFindFolders(VS_STACK * pS)
 {
 	VDATA * pDat;
 	pDat = (VDATA*)pS->Pop();	if (!pDat) return IFUNCRESULT_FAILED;
@@ -1157,7 +1157,7 @@ DWORD __cdecl _InterfaceFindFolders(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-DWORD __cdecl _DialogAssembleStr(VS_STACK * pS)
+uint32_t __cdecl _DialogAssembleStr(VS_STACK * pS)
 {
 	VDATA * pDat;
 	pDat = (VDATA*)pS->Pop();	if (!pDat) return IFUNCRESULT_FAILED;
@@ -1179,7 +1179,7 @@ DWORD __cdecl _DialogAssembleStr(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-DWORD __cdecl _DialogAddParamToStr(VS_STACK * pS)
+uint32_t __cdecl _DialogAddParamToStr(VS_STACK * pS)
 {
 	VDATA * pDat;
 	pDat = (VDATA*)pS->Pop();	if (!pDat) return IFUNCRESULT_FAILED;
@@ -1204,7 +1204,7 @@ DWORD __cdecl _DialogAddParamToStr(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-DWORD __cdecl _StoreNodeLocksWithOff(VS_STACK * pS)
+uint32_t __cdecl _StoreNodeLocksWithOff(VS_STACK * pS)
 {
 	long nStoreIndex = -1;
 	if( XINTERFACE::pThis != nullptr )
@@ -1214,7 +1214,7 @@ DWORD __cdecl _StoreNodeLocksWithOff(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-DWORD __cdecl _RestoreNodeLocks(VS_STACK * pS)
+uint32_t __cdecl _RestoreNodeLocks(VS_STACK * pS)
 {
 	VDATA * pDat = (VDATA*)pS->Pop();	if (!pDat) return IFUNCRESULT_FAILED;
 	long nStoreIndex = pDat->GetLong();
@@ -1222,7 +1222,7 @@ DWORD __cdecl _RestoreNodeLocks(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-DWORD __cdecl _IsKeyPressed(VS_STACK * pS)
+uint32_t __cdecl _IsKeyPressed(VS_STACK * pS)
 {
 	// get input data
 	VDATA * pDat = (VDATA*)pS->Pop();	if (!pDat) return IFUNCRESULT_FAILED;
@@ -1244,7 +1244,7 @@ DWORD __cdecl _IsKeyPressed(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-DWORD __cdecl _RegistryExitKey(VS_STACK * pS)
+uint32_t __cdecl _RegistryExitKey(VS_STACK * pS)
 {
 	// get input data
 	VDATA * pDat = (VDATA*)pS->Pop();	if (!pDat) return IFUNCRESULT_FAILED;
@@ -1254,7 +1254,7 @@ DWORD __cdecl _RegistryExitKey(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-DWORD __cdecl _AddControlTreeNode(VS_STACK * pS)
+uint32_t __cdecl _AddControlTreeNode(VS_STACK * pS)
 {
 	VDATA * pDat = (VDATA*)pS->Pop();	if (!pDat) return IFUNCRESULT_FAILED;
 	float fTimeOut = pDat->GetFloat();

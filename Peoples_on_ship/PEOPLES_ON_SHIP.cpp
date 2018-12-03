@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "..\common_h\messages.h"
+#include "..\../Shared/messages.h"
 #include "..\common_h\exs.h"
 #include "..\common_h\rands.h"
 #include "..\common_h\types3d.h"
@@ -50,7 +50,7 @@ bool PEOPLE_ON_SHIP::Init()
 
 
 //--------------------------------------------------------------------
-dword PEOPLE_ON_SHIP::AttributeChanged(ATTRIBUTES *_newAttr)
+uint32_t PEOPLE_ON_SHIP::AttributeChanged(ATTRIBUTES *_newAttr)
 {
 	if (*_newAttr == "IsOnDeck")
 	{
@@ -85,7 +85,7 @@ bool SphereVisible (const PLANE &_plane, const CVECTOR &_center, float _r)
 }
 
 //--------------------------------------------------------------------
-void PEOPLE_ON_SHIP::Execute(DWORD _dTime)
+void PEOPLE_ON_SHIP::Execute(uint32_t _dTime)
 {
 	GUARD(PEOPLE_ON_SHIP::Execute)
 
@@ -157,7 +157,7 @@ void PEOPLE_ON_SHIP::Execute(DWORD _dTime)
 }
 
 //--------------------------------------------------------------------
-void PEOPLE_ON_SHIP::Realize(DWORD _dTime)
+void PEOPLE_ON_SHIP::Realize(uint32_t _dTime)
 {
 	GUARD(PEOPLE_ON_SHIP::Realize)
 
@@ -249,12 +249,12 @@ void PEOPLE_ON_SHIP::Realize(DWORD _dTime)
 }
 
 //--------------------------------------------------------------------
-dword PEOPLE_ON_SHIP::ProcessMessage(MESSAGE &message)
+uint32_t PEOPLE_ON_SHIP::ProcessMessage(MESSAGE &message)
 {
 	GUARD(PEOPLE_ON_SHIP::ProcessMessage)
 
 	long code = message.Long();
-	dword outValue = 0;
+	uint32_t outValue = 0;
 	int vCount;
 	ENTITY_ID shipID;
 	VDATA *vArray, *gArray, *tArray;
@@ -312,7 +312,7 @@ void PEOPLE_ON_SHIP::AddShipWalk(ENTITY_ID &_shipID, int vCount, VDATA *vArray, 
 		shipWalk[shipsCount].verts[i].x = x;
 		shipWalk[shipsCount].verts[i].y = y;
 		shipWalk[shipsCount].verts[i].z = z;
-		shipWalk[shipsCount].vertTypes[i] = (byte) vType;
+		shipWalk[shipsCount].vertTypes[i] = (uint8_t) vType;
 		shipWalk[shipsCount].vertBusy[i] = 0;
 	}
 
@@ -422,7 +422,7 @@ void PEOPLE_ON_SHIP::InitShipMan(int _shipN, int _manN)
 }
 
 //--------------------------------------------------------------------
-bool PEOPLE_ON_SHIP::ProcessManWalk(tShipWalk *_shipWalk, tShipMan *_man, dword _dTime)
+bool PEOPLE_ON_SHIP::ProcessManWalk(tShipWalk *_shipWalk, tShipMan *_man, uint32_t _dTime)
 {
 	float dNow = (float)
 				 SQR(_man->pos.x - _shipWalk->verts[_man->destI].x)
@@ -447,7 +447,7 @@ bool PEOPLE_ON_SHIP::ProcessManWalk(tShipWalk *_shipWalk, tShipMan *_man, dword 
 }
 
 //--------------------------------------------------------------------
-bool PEOPLE_ON_SHIP::ProcessManCrawl(tShipWalk *_shipWalk, tShipMan *_man, dword _dTime)
+bool PEOPLE_ON_SHIP::ProcessManCrawl(tShipWalk *_shipWalk, tShipMan *_man, uint32_t _dTime)
 {
 	switch (_man->state)
 	{
@@ -468,7 +468,7 @@ bool PEOPLE_ON_SHIP::ProcessManCrawl(tShipWalk *_shipWalk, tShipMan *_man, dword
 }
 
 //--------------------------------------------------------------------
-bool PEOPLE_ON_SHIP::ProcessManTurn(tShipWalk *_shipWalk, tShipMan *_man, dword _dTime)
+bool PEOPLE_ON_SHIP::ProcessManTurn(tShipWalk *_shipWalk, tShipMan *_man, uint32_t _dTime)
 {
 	if (fabs(_man->ang - _man->newAngle) >= MAN_MIN_TURN)
 	{
@@ -484,7 +484,7 @@ bool PEOPLE_ON_SHIP::ProcessManTurn(tShipWalk *_shipWalk, tShipMan *_man, dword 
 }
 
 //--------------------------------------------------------------------
-bool PEOPLE_ON_SHIP::ProcessManStand(tShipWalk *_shipWalk, tShipMan *_man, dword _dTime)
+bool PEOPLE_ON_SHIP::ProcessManStand(tShipWalk *_shipWalk, tShipMan *_man, uint32_t _dTime)
 {
 	bool b = _man->model->GetAnimation()->Player(0).IsPlaying();
 	if (!b && (_man->state == MAN_RELOAD))
@@ -554,7 +554,7 @@ void PEOPLE_ON_SHIP::ChooseNewAction(tShipWalk *_shipWalk, tShipMan *_man)
 			 &&(_shipWalk->vertTypes[_man->sourceI] == LOCATOR_CANNON)
 			 &&(!_shipWalk->vertBusy[_man->sourceI]))
 		{
-			_shipWalk->vertBusy[_man->sourceI] = (dword) _man;
+			_shipWalk->vertBusy[_man->sourceI] = (uint32_t) _man;
 			//_man->state = oldState;
 			if (_man->pos.x < 0.0f) //left cannons row
 			{

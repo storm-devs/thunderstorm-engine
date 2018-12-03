@@ -7,15 +7,15 @@
 class S_EVENTMSG
 {
 public:
-	DWORD nTime;
-	DWORD nPeriod;
+	uint32_t nTime;
+	uint32_t nPeriod;
 public:
 	MESSAGE_SCRIPT * pMessageClass;
 	char * pEventName;
 	bool bProcess;
 	bool bInvalide;
 	S_EVENTMSG(){bInvalide = false; bProcess = false; pMessageClass = nullptr; nTime = 0; nPeriod = 0;pEventName = nullptr;};
-	S_EVENTMSG(char * _name,MESSAGE_SCRIPT * _pc, DWORD _period) 
+	S_EVENTMSG(char * _name,MESSAGE_SCRIPT * _pc, uint32_t _period) 
 	{
 		bInvalide = false;
 		bProcess = false;
@@ -29,7 +29,7 @@ public:
 		if(pMessageClass) delete pMessageClass;
 		if(pEventName) delete pEventName;
 	};
-	bool ProcessTime(DWORD _DeltaTime)
+	bool ProcessTime(uint32_t _DeltaTime)
 	{
 		nTime += _DeltaTime; 
 		bProcess = true;

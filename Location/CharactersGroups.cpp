@@ -134,7 +134,7 @@ bool CharactersGroups::Init()
 }
 
 //Исполнение
-void CharactersGroups::Execute(dword delta_time)
+void CharactersGroups::Execute(uint32_t delta_time)
 {
 /*#ifndef _XBOX
 #ifdef _DEBUG
@@ -366,7 +366,7 @@ bool CharactersGroups::RemoveInvalidTargets(Character * chr, Character * check)
 }
 
 //Сообщения
-dword _cdecl CharactersGroups::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl CharactersGroups::ProcessMessage(MESSAGE & message)
 {
 	char cmd[64];
 	message.String(sizeof(cmd), cmd); cmd[sizeof(cmd) - 1] = 0;
@@ -480,7 +480,7 @@ dword _cdecl CharactersGroups::ProcessMessage(MESSAGE & message)
 }
 
 //Изменение атрибута
-dword CharactersGroups::AttributeChanged(ATTRIBUTES * apnt)
+uint32_t CharactersGroups::AttributeChanged(ATTRIBUTES * apnt)
 {
 
 	return 0;

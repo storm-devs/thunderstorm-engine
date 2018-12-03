@@ -1,5 +1,6 @@
 #include "CameraDialog.h"
 #include "..\common_h\model.h"
+#include "../../Shared/messages.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(CameraDialog)
@@ -73,7 +74,7 @@ inline float LerpAng(float a, float b, float k)
 	//*/
 }
 
-void CameraDialog::Execute(dword Delta_Time)
+void CameraDialog::Execute(uint32_t Delta_Time)
 {
 	if(track==nullptr)	return;
 
@@ -121,7 +122,7 @@ void CameraDialog::Execute(dword Delta_Time)
 }
 
 
-void CameraDialog::Realize(dword Delta_Time)
+void CameraDialog::Realize(uint32_t Delta_Time)
 {
 	MODEL *mdl = (MODEL*)_CORE_API->GetEntityPointer(&person);
 	if(mdl==nullptr)	return;
@@ -198,7 +199,7 @@ void CameraDialog::Realize(dword Delta_Time)
 
 
 #include <stdio.h>
-dword _cdecl CameraDialog::ProcessMessage(MESSAGE &msg)
+uint32_t _cdecl CameraDialog::ProcessMessage(MESSAGE &msg)
 {
 	switch(msg.Long())
 	{

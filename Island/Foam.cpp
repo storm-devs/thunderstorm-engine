@@ -1,4 +1,5 @@
 #include "Foam.h"
+#include "../Common_h/math3d/Plane.h"
 
 CoastFoam::CoastFoam()
 {
@@ -41,7 +42,7 @@ bool CoastFoam::Init()
 	return true;
 }
 
-void CoastFoam::Execute(dword Delta_Time)
+void CoastFoam::Execute(uint32_t Delta_Time)
 {
 	bEditMode = (bCanEdit) ? LOWORD(api->Controls->GetDebugKeyState(VK_NUMLOCK)) != 0 : false;
 	float fDeltaTime = float(Delta_Time) * 0.001f;
@@ -69,7 +70,7 @@ void CoastFoam::ExtractRay (const D3DVIEWPORT9 & viewport, float fCursorX, float
 	rayend = (rayorig + (raydir * 5000.f));
 }
 
-void CoastFoam::Realize(dword Delta_Time)
+void CoastFoam::Realize(uint32_t Delta_Time)
 {
 	pFrustumPlanes = Render().GetPlanes();
 
@@ -92,7 +93,7 @@ void CoastFoam::Realize(dword Delta_Time)
 	mWV.EqMultiply(mWorld, mView);
 	mWVP.EqMultiply(mWV, mProjection);
 
-	dword dw1;
+	uint32_t dw1;
 	dwNumPenasExecuted = 0;
 	RDTSC_B(dw1);
 	for (long i=0; i<aFoams.size(); i++)
@@ -461,7 +462,7 @@ void CoastFoam::ExecuteFoamType2(Foam * pF, float fDeltaTime)
 		pF->fMove[k] += pF->fSpeed[k] * fDeltaTime;
 
 		FoamVertex * pFV = (FoamVertex *)Render().LockVertexBuffer(iVBuffer, D3DLOCK_DISCARD);
-		word * pI = (word *)Render().LockIndexBuffer(iIBuffer, D3DLOCK_DISCARD);
+		uint16_t * pI = (uint16_t *)Render().LockIndexBuffer(iIBuffer, D3DLOCK_DISCARD);
 
 		long iNumVertices = 0;
 
@@ -476,7 +477,7 @@ void CoastFoam::ExecuteFoamType2(Foam * pF, float fDeltaTime)
 				float fAlpha1 = 1.0f;
 				if (x <= 4) fAlpha1 = float(x) / 4.0f;
 				if (x >= iLen - 5) fAlpha1 = float((iLen - 1) - x) / 4.0f;
-				dword dwColor = ARGB(dword(pF->fAlphaColor[k] * fAlpha * fAlpha1 * 255.0f), 255, 255, 255);
+				uint32_t dwColor = ARGB(uint32_t(pF->fAlphaColor[k] * fAlpha * fAlpha1 * 255.0f), 255, 255, 255);
 
 				CVECTOR vPos = pWP->v[0] + (pF->fMove[k] * float(y) / 7.0f) * (pWP->v[1] - pWP->v[0]);
 				vPos.y = fFoamDeltaY + pSea->WaveXZ(vPos.x, vPos.z);
@@ -494,13 +495,13 @@ void CoastFoam::ExecuteFoamType2(Foam * pF, float fDeltaTime)
 		{
 			for (long x=0; x<iLen - 1; x++)
 			{
-				*pI++ = word( (y + 0) * iLen + x );
-				*pI++ = word( (y + 1) * iLen + x );
-				*pI++ = word( (y + 0) * iLen + x + 1 );
+				*pI++ = uint16_t( (y + 0) * iLen + x );
+				*pI++ = uint16_t( (y + 1) * iLen + x );
+				*pI++ = uint16_t( (y + 0) * iLen + x + 1 );
 
-				*pI++ = word( (y + 1) * iLen + x );
-				*pI++ = word( (y + 1) * iLen + x + 1 );
-				*pI++ = word( (y + 0) * iLen + x + 1 );
+				*pI++ = uint16_t( (y + 1) * iLen + x );
+				*pI++ = uint16_t( (y + 1) * iLen + x + 1 );
+				*pI++ = uint16_t( (y + 0) * iLen + x + 1 );
 			}	
 		}
 
@@ -523,21 +524,21 @@ bool CoastFoam::IsClipped(Foam * pF)
 	Render().GetCamera(vCamPos, vCamAng, fPerspective);
 
 	CVECTOR		vP[4];
-	dword		dwPlanesPoints[4];
-	dword		dwSize = pF->aFoamParts.size();
+	uint32_t		dwPlanesPoints[4];
+	uint32_t		dwSize = pF->aFoamParts.size();
 
-	for (dword k=0; k<4; k++) 
+	for (uint32_t k=0; k<4; k++) 
 	{
 		dwPlanesPoints[k] = 0;
 		vP[k] = CVECTOR(pFrustumPlanes[k].Nx, pFrustumPlanes[k].Ny, pFrustumPlanes[k].Nz);
 	}
 
-	for (dword i=0; i<dwSize; i++) 
+	for (uint32_t i=0; i<dwSize; i++) 
 	{
 		CVECTOR v0 = pF->aFoamParts[i].v[0];
 		CVECTOR v1 = pF->aFoamParts[i].v[1];
 
-		for (dword j=0; j<4; j++)
+		for (uint32_t j=0; j<4; j++)
 		{
 			float fD1 = (v0 | vP[j]) - pFrustumPlanes[j].D;
 			float fD2 = (v1 | vP[j]) - pFrustumPlanes[j].D;
@@ -547,7 +548,7 @@ bool CoastFoam::IsClipped(Foam * pF)
 		}
 	}
 
-	for (dword z=0; z<4; z++)
+	for (uint32_t z=0; z<4; z++)
 		if (dwPlanesPoints[z] == dwSize * 2) return true;
 
 	return false;
@@ -567,7 +568,7 @@ void CoastFoam::ExecuteFoamType1(Foam * pF, float fDeltaTime)
 	if (IsClipped(pF)) return;
 
 	FoamVertex * pFV = (FoamVertex *)Render().LockVertexBuffer(iVBuffer, D3DLOCK_DISCARD);
-	word * pI = (word *)Render().LockIndexBuffer(iIBuffer, D3DLOCK_DISCARD);
+	uint16_t * pI = (uint16_t *)Render().LockIndexBuffer(iIBuffer, D3DLOCK_DISCARD);
 
 	long iNumVertices = 0;
 
@@ -577,7 +578,7 @@ void CoastFoam::ExecuteFoamType1(Foam * pF, float fDeltaTime)
 	{
 		float dy = y / 7.0f;
 		float fAlpha = Clampf(2.5f * (1.0f - dy) * dy);
-		dword dwColor = ARGB(dword(fAlpha * 255.0f), 255, 255, 255);
+		uint32_t dwColor = ARGB(uint32_t(fAlpha * 255.0f), 255, 255, 255);
 		for (long x=0; x<iLen; x++)
 		{
 			WorkPart * pWP = &pF->aWorkParts[x];
@@ -595,7 +596,7 @@ void CoastFoam::ExecuteFoamType1(Foam * pF, float fDeltaTime)
 			if (x >= iLen - 4)
 				fAlpha1 *= float((iLen - 1) - x) / 4.0f;
 
-			dword dwColor = ARGB(dword(fAlpha1 * 255.0f), 255, 255, 255);
+			uint32_t dwColor = ARGB(uint32_t(fAlpha1 * 255.0f), 255, 255, 255);
 
 			float fAmp = (1.0f - pWP->p[y].fPos) / 4.0f;
 			if (y == 0 && pWP->p[y].fPos >= 0.6f)
@@ -621,13 +622,13 @@ void CoastFoam::ExecuteFoamType1(Foam * pF, float fDeltaTime)
 	{
 		for (long x=0; x<iLen - 1; x++)
 		{
-			*pI++ = word( (y + 0) * iLen + x );
-			*pI++ = word( (y + 1) * iLen + x );
-			*pI++ = word( (y + 0) * iLen + x + 1 );
+			*pI++ = uint16_t( (y + 0) * iLen + x );
+			*pI++ = uint16_t( (y + 1) * iLen + x );
+			*pI++ = uint16_t( (y + 0) * iLen + x + 1 );
 
-			*pI++ = word( (y + 1) * iLen + x );
-			*pI++ = word( (y + 1) * iLen + x + 1 );
-			*pI++ = word( (y + 0) * iLen + x + 1 );
+			*pI++ = uint16_t( (y + 1) * iLen + x );
+			*pI++ = uint16_t( (y + 1) * iLen + x + 1 );
+			*pI++ = uint16_t( (y + 0) * iLen + x + 1 );
 		}	
 	}
 
@@ -836,7 +837,7 @@ void CoastFoam::Load()
 	STORM_DELETE(pI);
 }
 
-dword CoastFoam::AttributeChanged(ATTRIBUTES * pA)
+uint32_t CoastFoam::AttributeChanged(ATTRIBUTES * pA)
 {
 	return 0;
 }

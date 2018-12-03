@@ -2,7 +2,6 @@
 #define SEA_CANNON_AI_HPP
 
 #include "..\common_h\sd2_h\VAI_ObjBase.h"
-#include "AIBalls.h"
 #include "AIHelper.h"
 
 // ============================================================================

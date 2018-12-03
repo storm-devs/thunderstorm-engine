@@ -3,7 +3,7 @@
 
 #include "..\..\Shared\SEA_AI\script_defines.h"
 #include "..\common_h\math3d\matrix.h"
-
+#include "../../Shared/messages.h"
 
 
 SailorsEditor :: SailorsEditor(): rs(nullptr), model(nullptr)
@@ -72,7 +72,7 @@ bool SailorsEditor :: Init()
 };
 
 
-void SailorsEditor :: Execute(dword dltTime)
+void SailorsEditor :: Execute(uint32_t dltTime)
 {
 	SetCamera(dltTime);
 	menu.OnKeyPress(menu.sailrs->shipWalk[0].sailorsPoints);
@@ -82,7 +82,7 @@ void SailorsEditor :: Execute(dword dltTime)
 };
 
 
-void SailorsEditor :: Realize(dword dltTime)
+void SailorsEditor :: Realize(uint32_t dltTime)
 {
 	menu.Draw(rs, menu.sailrs->shipWalk[0].sailorsPoints);
 
@@ -97,7 +97,7 @@ void SailorsEditor :: Realize(dword dltTime)
 };
 
 
-void SailorsEditor :: SetCamera(dword &dltTime){
+void SailorsEditor :: SetCamera(uint32_t &dltTime){
 
 	CONTROL_STATE cs;
 	api->Controls->GetControlState("DeltaMouseV",cs);

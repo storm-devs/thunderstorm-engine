@@ -5,7 +5,6 @@
 #include "..\common_h\vmodule_api.h"
 #include "..\common_h\dx9render.h"
 #include "..\common_h\collide.h"
-#include "..\common_h\defines.h"
 #include <vector>
 
 #define MAX_BLOOD_TRIANGLES			10000
@@ -17,7 +16,7 @@ class Blood : public ENTITY
 	struct BloodVertex
 	{
 		CVECTOR pos;
-		dword dwCol;
+		uint32_t dwCol;
 		float u,v;
 	};
 	struct BloodTriangle
@@ -45,10 +44,10 @@ public:
 	//Инициализация
 	bool Init();
 	//Работа
-	void Execute(dword delta_time);
-	void Realize(dword delta_time);
+	void Execute(uint32_t delta_time);
+	void Realize(uint32_t delta_time);
 	//
-	dword _cdecl ProcessMessage(MESSAGE &message);
+	uint32_t _cdecl ProcessMessage(MESSAGE &message);
 
 	static bool AddClipPoligon(const CVECTOR * v, long nv);
 

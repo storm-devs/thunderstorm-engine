@@ -10,7 +10,7 @@ typedef bool (*ADD_POLYGON_FUNC)(const CVECTOR *v, long nv);
 class COLLISION_OBJECT : public ENTITY
 {
 public:
-	virtual ~COLLISION_OBJECT() {};
+	virtual ~COLLISION_OBJECT(){};
 	CMatrix mtx;
 
 	virtual float Trace(const CVECTOR &src, const CVECTOR &dst) = 0;

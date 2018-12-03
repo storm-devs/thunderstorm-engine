@@ -2,7 +2,6 @@
 #define _TFLOTSAM_H_
 
 #include "..\common_h\sea_base.h"
-#include "..\common_h\geos.h"
 #include "..\common_h\geometry.h"
 #include "..\common_h\model.h"
 #include "SinkSplashDefines.h"
@@ -25,15 +24,15 @@ public:
 
 	void Start(float _x, float _z, float _radius);
 	void Initialize(SEA_BASE *_sea);
-	void Process(dword _dTime);
-	void Realize(dword _dTime);
+	void Process(uint32_t _dTime);
+	void Realize(uint32_t _dTime);
 	bool Enabled();
 private:
 	SEA_BASE *sea;
 
 	float x, z, y, vX, vZ, vY, turnY, angY;
 	tFlotsamState state;
-	dword floatTime, maxFloatTime;
+	uint32_t floatTime, maxFloatTime;
 	bool enabled;
 	//MODEL *model;
 	ENTITY_ID ModelID;

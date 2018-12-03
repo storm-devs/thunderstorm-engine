@@ -1,5 +1,4 @@
 #include "ModelRealizer.h"
-#include "..\common_h\messages.h"
 #include "..\common_h\cvector4.h"
 #include "lights.h"
 #include "Character.h"
@@ -33,17 +32,17 @@ bool LocModelRealizer::Init()
 }
 
 //Исполнение
-void LocModelRealizer::Execute(dword delta_time)
+void LocModelRealizer::Execute(uint32_t delta_time)
 {
 }
 
-void LocModelRealizer::Realize(dword delta_time)
+void LocModelRealizer::Realize(uint32_t delta_time)
 {
 	if( !bShow ) return;
 	ENTITY* pE = api->GetEntityPointer( &eid_model );
 	if( pE ) {
 		BOOL bLight0Enable;
-		dword dwLighting;
+		uint32_t dwLighting;
 		if (lights) {
 			rs->GetRenderState(D3DRS_LIGHTING, &dwLighting);
 			rs->GetLightEnable(0, &bLight0Enable);
@@ -88,7 +87,7 @@ void LocModelRealizer::Realize(dword delta_time)
 }
 
 //Сообщения
-dword _cdecl LocModelRealizer::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl LocModelRealizer::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{

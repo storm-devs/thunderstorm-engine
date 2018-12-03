@@ -3,7 +3,6 @@
 
 #include "vmodule_api.h"
 #include "dx9render.h"
-#include "defines.h"
 
 #define CM_NUM_FACES	6
 
@@ -18,9 +17,9 @@
 class VCUBEMAP
 {
 public:
-	virtual ~VCUBEMAP() {};
+	virtual ~VCUBEMAP(){};
 
-	virtual bool CreateCubeMap(dword dwSize, D3DFORMAT ColorFormat, D3DFORMAT DepthFormat) = 0;
+	virtual bool CreateCubeMap(uint32_t dwSize, D3DFORMAT ColorFormat, D3DFORMAT DepthFormat) = 0;
 
 	// save current cube map to file
 	virtual bool Save(const char *cFileName) = 0;
@@ -34,20 +33,20 @@ public:
 	virtual bool isRealCubeMap() const = 0;
 
 	// render scene to cube map
-	virtual bool Render(const char *cLayerName, dword dwFlags = CM_FACE_ALL, CVECTOR * vPos = nullptr) = 0;
+	virtual bool Render(const char *cLayerName, uint32_t dwFlags = CM_FACE_ALL, CVECTOR * vPos = nullptr) = 0;
 
 	virtual bool DrawCube(CVECTOR *vPos = nullptr, float fSize = 512.0f) = 0;
 
 	// set this cube map (or side) to texture stage
-	virtual void SetTexture(dword dwStage, dword dwFace = CM_FACE_POSX) = 0;
+	virtual void SetTexture(uint32_t dwStage, uint32_t dwFace = CM_FACE_POSX) = 0;
 };
 
 class VCUBE_SERVICE : public SERVICE
 {
 public:
-	virtual ~VCUBE_SERVICE() {};
+	virtual ~VCUBE_SERVICE(){};
 
-	virtual VCUBEMAP * CreateCubeMap(dword dwSize = 256, D3DFORMAT ColorFormat = D3DFMT_R5G6B5, D3DFORMAT DepthFormat = D3DFMT_D16, bool bRealCubeMap = false) = 0;
+	virtual VCUBEMAP * CreateCubeMap(uint32_t dwSize = 256, D3DFORMAT ColorFormat = D3DFMT_R5G6B5, D3DFORMAT DepthFormat = D3DFMT_D16, bool bRealCubeMap = false) = 0;
 };
 
 #endif

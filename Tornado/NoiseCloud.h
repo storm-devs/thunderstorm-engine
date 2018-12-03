@@ -11,7 +11,6 @@
 #ifndef _NoiseCloud_H_
 #define _NoiseCloud_H_
 
-#include "..\common_h\dx9render.h"
 #include "..\common_h\matrix.h"
 #include "Pillar.h"
 
@@ -31,7 +30,7 @@ class NoiseCloud
 	struct Vertex
 	{
 		CVECTOR pos;
-		dword color;
+		uint32_t color;
 		float u, v;
 	};
 

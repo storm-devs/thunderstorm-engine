@@ -6,7 +6,7 @@
 	#include <xtl.h>
 #endif
 
-#include "..\common_h\messages.h"
+#include "..\../Shared/messages.h"
 #include "..\common_h\defines.h"
 #include "..\common_h\exs.h"
 #include "..\common_h\CVECTOR.h"
@@ -46,7 +46,7 @@ bool SOUND::Init()
 }
 
 //--------------------------------------------------------------------
-dword _cdecl SOUND::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl SOUND::ProcessMessage(MESSAGE & message)
 {
 	//GUARD(SOUND::ProcessMessage)
 
@@ -63,7 +63,7 @@ dword _cdecl SOUND::ProcessMessage(MESSAGE & message)
 	float v1, v2, v3;
 	float volume;
 	VDATA *vd1, *vd2, *vd3;
-	dword outValue = 0;
+	uint32_t outValue = 0;
 
 	switch (code)
 	{
@@ -138,7 +138,7 @@ dword _cdecl SOUND::ProcessMessage(MESSAGE & message)
 			if (message.GetCurrentFormatType())	maxD	 = message.Float();
 		}
 
-		outValue = (dword) soundService->SoundPlay(tempString, (eSoundType) temp, (eVolumeType) vt, (temp2 != 0), (temp3 != 0), (temp4 != 0), tempLong, &vector, minD, maxD, loopPauseTime, volume);
+		outValue = (uint32_t) soundService->SoundPlay(tempString, (eSoundType) temp, (eVolumeType) vt, (temp2 != 0), (temp3 != 0), (temp4 != 0), tempLong, &vector, minD, maxD, loopPauseTime, volume);
 		
 		break;
 	case MSG_SOUND_STOP:
@@ -152,7 +152,7 @@ dword _cdecl SOUND::ProcessMessage(MESSAGE & message)
 		break;
 	case MSG_SOUND_DUPLICATE:
 		id = message.Long();
-		outValue = (dword) soundService->SoundDuplicate(id);
+		outValue = (uint32_t) soundService->SoundDuplicate(id);
 		break;
 	case MSG_SOUND_SET_3D_PARAM:
 		id = message.Long();
@@ -191,7 +191,7 @@ dword _cdecl SOUND::ProcessMessage(MESSAGE & message)
 		break;
 	case MSG_SOUND_GET_POSITION:
 		id = message.Long();
-		outValue = (dword) (soundService->SoundGetPosition(id) * 100.0f);
+		outValue = (uint32_t) (soundService->SoundGetPosition(id) * 100.0f);
 		break;
 	case MSG_SOUND_RESTART:
 		id = message.Long();
@@ -229,7 +229,7 @@ dword _cdecl SOUND::ProcessMessage(MESSAGE & message)
 }
 
 //--------------------------------------------------------------------
-void SOUND::Realize(dword _dTime)
+void SOUND::Realize(uint32_t _dTime)
 {
 	if (!soundService)
 		return;

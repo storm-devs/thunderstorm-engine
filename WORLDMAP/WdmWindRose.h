@@ -18,7 +18,7 @@ class WdmWindRose : public WdmRenderModel
 	struct Vertex
 	{
 		float x, y, z;
-		dword c;
+		uint32_t c;
 		float tu, tv;
 	};
 //--------------------------------------------------------------------------------------------

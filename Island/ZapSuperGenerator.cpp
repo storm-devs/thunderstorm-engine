@@ -1,4 +1,5 @@
 #include "Island.h"
+#include "../common_h/tga.h"
 
 bool ISLAND::DoZapSuperGeneratorDecodeFile(char * sname)
 {
@@ -8,8 +9,8 @@ bool ISLAND::DoZapSuperGeneratorDecodeFile(char * sname)
 		TGA_H	tga_head;
 
 		fio->_ReadFile(hFile, &tga_head, sizeof(tga_head), nullptr);
-		dword dwSize = tga_head.width;
-		byte * pTempMap = NEW byte[dwSize * dwSize];
+		uint32_t dwSize = tga_head.width;
+		uint8_t * pTempMap = NEW uint8_t[dwSize * dwSize];
 		fio->_ReadFile(hFile, pTempMap, dwSize * dwSize, nullptr);
 		fio->_CloseHandle(hFile);
 

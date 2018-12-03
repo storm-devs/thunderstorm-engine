@@ -13,9 +13,7 @@
 
 
 #include "..\common_h\vmodule_api.h"
-#include "..\common_h\matrix.h"
 #include "..\common_h\dx9render.h"
-#include "..\common_h\collide.h"
 
 #include "Lizard.h"
 
@@ -29,9 +27,9 @@ public:
 	//Инициализация
 	bool Init();
 	//Исполнение
-	void Execute(dword delta_time);
+	void Execute(uint32_t delta_time);
 	//Рисование
-	void Realize(dword delta_time);
+	void Realize(uint32_t delta_time);
 
 
 	Lizard lizard[8];

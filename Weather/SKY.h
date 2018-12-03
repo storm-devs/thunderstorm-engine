@@ -13,11 +13,11 @@ public:
 
 	bool	Init();
 	void	SetDevice();
-	void	Realize(dword Delta_Time);
+	void	Realize(uint32_t Delta_Time);
 	bool	CreateState(ENTITY_STATE_GEN * state_gen);
 	bool	LoadState(ENTITY_STATE * state);
-	dword	AttributeChanged(ATTRIBUTES * pAttribute);
-	dword _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t	AttributeChanged(ATTRIBUTES * pAttribute);
+	uint32_t _cdecl ProcessMessage(MESSAGE & message);
 
 	float	CalculateAlphaForSun(const CVECTOR& vSunPos, float fSunSize);
 
@@ -35,7 +35,7 @@ private:
 	struct SKYVERTEX
 	{
 		CVECTOR		pos;
-		dword		diffuse;
+		uint32_t		diffuse;
 		float		tu, tv;
 		float		tu2, tv2;
 	};
@@ -43,12 +43,12 @@ private:
 	struct FOGVERTEX
 	{
 		CVECTOR		pos;
-		dword		diffuse;
+		uint32_t		diffuse;
 	};
 
 	//string		sSkyDir;
 	std::vector<std::string>	aSkyDirArray;
-	dword		dwSkyColor;
+	uint32_t		dwSkyColor;
 	float		fSkySpeedRotate, fSkySize, fAngleY, fSkyAngle;
 
 	VDX9RENDER	* pRS;
@@ -70,13 +70,13 @@ private:
 	// fog section
 	void	CreateFogSphere();
 	void	UpdateFogSphere();
-	dword	CalcFogDiffuse(CVECTOR & vPos);
+	uint32_t	CalcFogDiffuse(CVECTOR & vPos);
 
 	void FillSkyDirArray(ATTRIBUTES * pAttribute);
 	void GetSkyDirStrings(std::string & sSkyDir, std::string & sSkyDirNext);
 	void UpdateTimeFactor();
 
-	DWORD GetPixelColor(IDirect3DTexture9* pTex, float fu, float fv);
+	uint32_t GetPixelColor(IDirect3DTexture9* pTex, float fu, float fv);
 };
 
 #endif

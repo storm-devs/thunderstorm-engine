@@ -67,7 +67,7 @@ public:
 //--------------------------------------------------------------------------------------------
 private:
 	void FireFromShootgun();
-	void ShootParticles(const CVECTOR & pos, const CVECTOR & ndir, float size, dword color, long num);
+	void ShootParticles(const CVECTOR & pos, const CVECTOR & ndir, float size, uint32_t color, long num);
 
 	float GetRotateH();
 

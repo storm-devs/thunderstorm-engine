@@ -1,5 +1,4 @@
 #include "shipsign.h"
-#include "shipcommand.h"
 #include "..\utils.h"
 
 WMShipIcon::WMShipIcon( ENTITY_ID& BIEntityID, VDX9RENDER* pRS ) :

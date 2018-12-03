@@ -2,13 +2,12 @@
 #define _LOOPSTACK_H_
 
 //#include <windows.h>
-#include "..\..\common_h\memop.h"
 #include "token.h"
 
 struct LOOPBLOCK
 {
-	DWORD start;
-	DWORD stop;
+	uint32_t start;
+	uint32_t stop;
 	S_TOKEN_TYPE type;
 };
 

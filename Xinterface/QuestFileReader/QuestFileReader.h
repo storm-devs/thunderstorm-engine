@@ -2,7 +2,6 @@
 #define _QUEST_FILE_READER_H_
 
 #include "..\..\common_h\vmodule_api.h"
-#include "..\templates\ctext.h"
 #include "..\templates\TDynArray.h"
 #include <string>
 #include <vector>

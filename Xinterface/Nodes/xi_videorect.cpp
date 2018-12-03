@@ -14,7 +14,7 @@ CXI_VIDEORECT::~CXI_VIDEORECT()
 	ReleaseAll();
 }
 
-void CXI_VIDEORECT::Draw(bool bSelected,dword Delta_Time)
+void CXI_VIDEORECT::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(m_bUse)
 	{
@@ -91,7 +91,7 @@ int CXI_VIDEORECT::CommandExecute(int wActCode)
 	return -1;
 }
 
-dword _cdecl CXI_VIDEORECT::MessageProc(long msgcode, MESSAGE & message)
+uint32_t _cdecl CXI_VIDEORECT::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

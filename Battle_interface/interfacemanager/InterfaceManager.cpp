@@ -51,11 +51,11 @@ bool BI_InterfaceManager::Init()
 	return true;
 }
 
-void BI_InterfaceManager::Execute(dword delta_time)
+void BI_InterfaceManager::Execute(uint32_t delta_time)
 {
 }
 
-void BI_InterfaceManager::Realize(dword delta_time)
+void BI_InterfaceManager::Realize(uint32_t delta_time)
 {
 	if( m_pInterfaceSheet )
 		m_pInterfaceSheet->Update();
@@ -68,7 +68,7 @@ void BI_InterfaceManager::Realize(dword delta_time)
 	m_pImgRender->Render();
 }
 
-dword _cdecl BI_InterfaceManager::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl BI_InterfaceManager::ProcessMessage(MESSAGE & message)
 {
 	switch( message.Long() )
 	{
@@ -89,13 +89,13 @@ dword _cdecl BI_InterfaceManager::ProcessMessage(MESSAGE & message)
 	return 0;
 }
 
-BI_ManagerNodeBase* BI_InterfaceManager::CreateImageNode(const char* texture, const FRECT& uv, const RECT& pos, dword color, long nPrioritet)
+BI_ManagerNodeBase* BI_InterfaceManager::CreateImageNode(const char* texture, const FRECT& uv, const RECT& pos, uint32_t color, long nPrioritet)
 {
 	BI_ManagerNodeBase* pNod = NEW BI_ImageNode(this, texture, uv, pos, color, nPrioritet);
 	return pNod;
 }
 
-BI_ManagerNodeBase* BI_InterfaceManager::CreateStringNode(const char* text, const char* font, dword color, float scale, const RECT& pos, long nHAlign, long nVAlign, long prioritet)
+BI_ManagerNodeBase* BI_InterfaceManager::CreateStringNode(const char* text, const char* font, uint32_t color, float scale, const RECT& pos, long nHAlign, long nVAlign, long prioritet)
 {
 	BI_ManagerNodeBase* pNod = NEW BI_StringNode(this, text, font, color, scale, pos, nHAlign, nVAlign, prioritet);
 	return pNod;
@@ -137,7 +137,7 @@ long BI_InterfaceManager::MsgCreateImage(MESSAGE & message)
 	/*char texture[MAX_PATH];	message.String( sizeof(texture), texture );
 	FRECT uv;
 	RECT pos;
-	dword color;
+	uint32_t color;
 	long nPrioritet;
 
 	return (long)CreateImageNode(texture,uv,pos,color,nPrioritet);*/

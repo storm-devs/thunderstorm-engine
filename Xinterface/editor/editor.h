@@ -1,13 +1,13 @@
 #ifndef _GI_EDITOR_H
 #define _GI_EDITOR_H
 
-#include "..\inode.h"
-#include "..\..\common_h\dx9render.h"
 #include "defines.h"
 
 class XINTERFACE;
 class CXI_IMAGE;
 class GIEditorList;
+class CINODE;
+class VDX9RENDER;
 
 class GIEditor : public GIEditorObject
 {

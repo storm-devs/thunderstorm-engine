@@ -109,7 +109,7 @@ void SeaLocatorShow::PrintLocator(ATTRIBUTES * pA)
 		//pVrt->v = vCenter;
 		//pVrt->c = 0x4F00FF00;
 		Vrts.push_back(SphVertex{vCenter, 0x4F00FF00});
-		for (dword i=0;i<32;i++)
+		for (uint32_t i=0;i<32;i++)
 		{
 			float fAngle = float(i) / 31.0f * PIm2;
 			//pVrt = &Vrts[Vrts.Add()];			
@@ -128,10 +128,10 @@ void SeaLocatorShow::ProcessLocators(ATTRIBUTES * pA)
 {
 	if (!pA) return;
 	if (isLocator(pA)) PrintLocator(pA);
-	for (dword i=0;i<pA->GetAttributesNum();i++) ProcessLocators(pA->GetAttributeClass(i));
+	for (uint32_t i=0;i<pA->GetAttributesNum();i++) ProcessLocators(pA->GetAttributeClass(i));
 }
 
-void SeaLocatorShow::Realize(dword Delta_Time)
+void SeaLocatorShow::Realize(uint32_t Delta_Time)
 {
 #ifndef _XBOX
 	if (api->Controls->GetDebugAsyncKeyState('6')<0) fScale -= float(Delta_Time) * 0.001f * 0.5f;
@@ -163,7 +163,7 @@ void SeaLocatorShow::Realize(dword Delta_Time)
 	ProcessLocators(pALocators);
 }
 
-void SeaLocatorShow::Execute(dword Delta_Time)
+void SeaLocatorShow::Execute(uint32_t Delta_Time)
 {
 	if (!pALocators) return;
 }
@@ -178,17 +178,17 @@ bool SeaLocatorShow::LoadState(ENTITY_STATE * state)
 	return true;
 }
 	
-void SeaLocatorShow::ProcessMessage(dword iMsg,dword wParam,dword lParam)
+void SeaLocatorShow::ProcessMessage(uint32_t iMsg,uint32_t wParam,uint32_t lParam)
 {
 }
 
-dword _cdecl SeaLocatorShow::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl SeaLocatorShow::ProcessMessage(MESSAGE & message)
 {
 	pALocators = message.AttributePointer();
 	return 0;
 }
 
-dword SeaLocatorShow::AttributeChanged(ATTRIBUTES *pAttribute)
+uint32_t SeaLocatorShow::AttributeChanged(ATTRIBUTES *pAttribute)
 {
 	return 0;
 }
@@ -196,7 +196,7 @@ dword SeaLocatorShow::AttributeChanged(ATTRIBUTES *pAttribute)
 void SeaLocatorShow::CreateSphere()
 {
 #define CalcKColor(ind) {kColor = light | !CVECTOR(sphereVertex[t*3 + ind].v.x, sphereVertex[t*3 + ind].v.y, sphereVertex[t*3 + ind].v.z); if(kColor < 0.0f) kColor = 0.0f; }
-#define CLerp(c, min) (dword(c*(kColor*(1.0f - min) + min)))
+#define CLerp(c, min) (uint32_t(c*(kColor*(1.0f - min) + min)))
 #define Color ((CLerp(255.0f, 0.5f) << 24) | (CLerp(255.0f, 0.7f) << 16) | (CLerp(255.0f, 0.7f) << 8) | (CLerp(255.0f, 0.7f) << 0));
 	
 	if(sphereVertex) return;

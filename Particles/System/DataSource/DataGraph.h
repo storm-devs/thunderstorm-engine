@@ -1,9 +1,6 @@
 #ifndef _PARTICLE_DATA_GRAPH_H_
 #define _PARTICLE_DATA_GRAPH_H_
 
-#include <string.h>
-#include <stdarg.h>
-#include <stdio.h>
 #include "../../../common_h/exs.h"
 #include "..\..\icommon\memfile.h"
 
@@ -21,8 +18,8 @@ class DataGraph
 	float MaxCachedTime;
 	float MinCachedTime;
 //Какой был индекс у этого времени
-	DWORD MaxCachedIndex;
-	DWORD MinCachedIndex;
+	uint32_t MaxCachedIndex;
+	uint32_t MinCachedIndex;
 
 	std::vector<GraphVertex> MinGraph;
 	std::vector<GraphVertex> MaxGraph;
@@ -60,23 +57,23 @@ public:
 
 
 //Установить значения...
-	void SetValues (const GraphVertex* MinValues, DWORD MinValuesSize, const GraphVertex* MaxValues, DWORD MaxValuesSize);
+	void SetValues (const GraphVertex* MinValues, uint32_t MinValuesSize, const GraphVertex* MaxValues, uint32_t MaxValuesSize);
 
 	//Устанавливает "значение по умолчанию"
 	void SetDefaultValue (float MaxValue, float MinValue);
 
 
 //Получить кол-во в графике минимума
-	DWORD GetMinCount ();
+	uint32_t GetMinCount ();
 
 //Получить кол-во в графике максимума
-	DWORD GetMaxCount ();
+	uint32_t GetMaxCount ();
 
 //Получить значение по индексу из графика минимума
-	const GraphVertex& GetMinVertex (DWORD Index);
+	const GraphVertex& GetMinVertex (uint32_t Index);
 
 //Получить значение по индексу из графика максимума
-	const GraphVertex& GetMaxVertex (DWORD Index);
+	const GraphVertex& GetMaxVertex (uint32_t Index);
 
 
 	void Load (MemFile* File);

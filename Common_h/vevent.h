@@ -8,7 +8,7 @@ class VEVENT : public SERVICE
 public:
 	VEVENT(){};
 	virtual ~VEVENT(){};
-	virtual dword _cdecl Event(char * name, char * format,...)= 0;
+	virtual uint32_t _cdecl Event(char * name, char * format,...){};
 };
 
 #endif

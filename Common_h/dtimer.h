@@ -25,7 +25,7 @@ public:
 		fMax = _fMax;
 	}
 
-	bool Update(dword dwDeltaTime) { return Update(0.001f * float(dwDeltaTime)); }
+	bool Update(uint32_t dwDeltaTime) { return Update(0.001f * float(dwDeltaTime)); }
 	bool Update(float fDeltaTime) 
 	{
 		fCurrent -= fDeltaTime;

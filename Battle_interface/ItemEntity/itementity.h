@@ -17,8 +17,8 @@ public:
 	~ItemEntity();
 
 	bool Init();
-	void Realize(dword delta_time);
-	dword _cdecl ProcessMessage(MESSAGE & message);
+	void Realize(uint32_t delta_time);
+	uint32_t _cdecl ProcessMessage(MESSAGE & message);
 
 protected:
 	bool ReadAndCreate();

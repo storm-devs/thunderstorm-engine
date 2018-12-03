@@ -1,5 +1,6 @@
 #include "AIGroup.h"
 #include "AIFort.h"
+#include "../../Shared/messages.h"
 
 std::vector<AIGroup*> AIGroup::AIGroups;
 float AIGroup::fDistanceBetweenGroupShips = 250.0f;
@@ -18,7 +19,7 @@ AIGroup::AIGroup(const char * pGroupName)
 
 AIGroup::~AIGroup()
 {
-	dword i;
+	uint32_t i;
 	for (i=0;i<aGroupShips.size();i++) STORM_DELETE(aGroupShips[i]);
 	aGroupShips.clear();
 }
@@ -54,7 +55,7 @@ void AIGroup::AddShip(ENTITY_ID eidShip, ATTRIBUTES * pACharacter, ATTRIBUTES * 
 
 bool AIGroup::isMainGroup()
 {
-	for (dword i=0;i<aGroupShips.size();i++)
+	for (uint32_t i=0;i<aGroupShips.size();i++)
 		if (aGroupShips[i]->isMainCharacter()) return true;
 
 	return false;
@@ -66,7 +67,7 @@ AIShip * AIGroup::GetMainShip()
 	//return AIShip::FindShip(GetCommanderACharacter());
 	/*if (aGroupShips.size() == 0) return null;
 	if (isMainGroup()) 
-		for (dword i=0;i<aGroupShips.size();i++) if (aGroupShips[i]->isMainCharacter()) return aGroupShips[i];
+		for (uint32_t i=0;i<aGroupShips.size();i++) if (aGroupShips[i]->isMainCharacter()) return aGroupShips[i];
 */
 	return (pShip) ? pShip : aGroupShips[0];
 }
@@ -82,7 +83,7 @@ void AIGroup::Execute(float fDeltaTime)
 			float fNewAng = FRAND(PIm2);
 			AIGroup * pG = FindGroup(sLocationNearOtherGroup.c_str()); 
 			CVECTOR vNewGroupPos = pG->vInitGroupPos + ((100.0f + FRAND(200.0f)) * CVECTOR(sinf(fNewAng), 0.0f, cosf(fNewAng)));
-			if (pG) for (dword i=0; i<aGroupShips.size(); i++)
+			if (pG) for (uint32_t i=0; i<aGroupShips.size(); i++)
 			{
 				aGroupShips[i]->SetPos(vNewGroupPos);
 				aGroupShips[i]->CheckStartPosition();
@@ -91,7 +92,7 @@ void AIGroup::Execute(float fDeltaTime)
 		
 		if (isMainGroup()) 
 		{
-			for (dword i=0;i<aGroupShips.size();i++) if (!aGroupShips[i]->isMainCharacter())
+			for (uint32_t i=0;i<aGroupShips.size();i++) if (!aGroupShips[i]->isMainCharacter())
 				aGroupShips[i]->GetTaskController()->SetNewTask(PRIMARY_TASK, AITASK_DEFEND, GetCommanderACharacter());
 		}
 
@@ -100,11 +101,11 @@ void AIGroup::Execute(float fDeltaTime)
 	/*if (!isMainGroup()) 
 	{
 		if (sCommand == "runaway")
-			for (dword i=0; i<aGroupShips.size(); i++) if (!aGroupShips[i]->isMainCharacter())
+			for (uint32_t i=0; i<aGroupShips.size(); i++) if (!aGroupShips[i]->isMainCharacter())
 				aGroupShips[i]->GetTaskController()->SetNewTask(PRIMARY_TASK, AITASK_RUNAWAY, null);
 
 		if (sCommand == "move")
-			for (dword i=0; i<aGroupShips.size(); i++) if (!aGroupShips[i]->isMainCharacter())
+			for (uint32_t i=0; i<aGroupShips.size(); i++) if (!aGroupShips[i]->isMainCharacter())
 			{
 				CVECTOR vDir = CVECTOR(vInitGroupPos.x, 0.0f, vInitGroupPos.z) + 20000.0f * CVECTOR(sinf(vInitGroupPos.y),0.0f,cosf(vInitGroupPos.y));
 				aGroupShips[i]->GetTaskController()->SetNewTask(PRIMARY_TASK, AITASK_MOVE, vDir);
@@ -119,7 +120,7 @@ void AIGroup::Execute(float fDeltaTime)
 	if (!isMainGroup())
 	{
 		float fMinimalSpeed = 1e+10f;	
-		for (dword i=0; i<aGroupShips.size(); i++)
+		for (uint32_t i=0; i<aGroupShips.size(); i++)
 		{
 			float fCurSpeed = aGroupShips[i]->GetShipBasePointer()->GetCurrentSpeed();
 			if (fCurSpeed < fMinimalSpeed) fMinimalSpeed = fCurSpeed;
@@ -127,17 +128,17 @@ void AIGroup::Execute(float fDeltaTime)
 
 		bool bSetFixedSpeed = sCommand == "move";
 
-		for (dword i=0; i<aGroupShips.size(); i++)
+		for (uint32_t i=0; i<aGroupShips.size(); i++)
 			aGroupShips[i]->GetShipBasePointer()->SetFixedSpeed(bSetFixedSpeed, fMinimalSpeed);
 	}
 
-	for (dword i=0;i<aGroupShips.size();i++)
+	for (uint32_t i=0;i<aGroupShips.size();i++)
 		aGroupShips[i]->Execute(fDeltaTime);
 }
 
 void AIGroup::Realize(float fDeltaTime)
 {
-	dword i;
+	uint32_t i;
 
 #ifndef _XBOX
 	/*if (GetAsyncKeyState('G')<0)
@@ -159,14 +160,14 @@ void AIGroup::Realize(float fDeltaTime)
 
 bool AIGroup::isDead()
 {
-	for (dword i=0;i<aGroupShips.size();i++) if (!aGroupShips[i]->isDead()) return false;
+	for (uint32_t i=0;i<aGroupShips.size();i++) if (!aGroupShips[i]->isDead()) return false;
 	return true;
 }
 
 float AIGroup::GetPower()
 {
 	float fPower = 0.0f;
-	for (dword i=0; i<aGroupShips.size(); i++) fPower += aGroupShips[i]->GetPower();
+	for (uint32_t i=0; i<aGroupShips.size(); i++) fPower += aGroupShips[i]->GetPower();
 	return fPower;
 }
 
@@ -182,10 +183,10 @@ AIGroup * AIGroup::CreateNewGroup(const char * pGroupName)
 AIGroup * AIGroup::FindGroup(ATTRIBUTES * pACharacter)
 {
 	if (!pACharacter) return nullptr;
-	for (dword i=0;i<AIGroup::AIGroups.size();i++) 
+	for (uint32_t i=0;i<AIGroup::AIGroups.size();i++) 
 	{
 		AIGroup * pGroup = AIGroup::AIGroups[i];
-		for (dword j=0;j<pGroup->aGroupShips.size();j++)
+		for (uint32_t j=0;j<pGroup->aGroupShips.size();j++)
 			if (*pGroup->aGroupShips[j] == pACharacter) return pGroup;
 	}
 	return nullptr;
@@ -193,13 +194,13 @@ AIGroup * AIGroup::FindGroup(ATTRIBUTES * pACharacter)
 
 AIGroup * AIGroup::FindGroup(const char * pGroupName)
 {
-	for (dword i=0;i<AIGroup::AIGroups.size();i++) if (AIGroup::AIGroups[i]->GetName() == pGroupName) return AIGroup::AIGroups[i];
+	for (uint32_t i=0;i<AIGroup::AIGroups.size();i++) if (AIGroup::AIGroups[i]->GetName() == pGroupName) return AIGroup::AIGroups[i];
 	return nullptr;
 }
 
 AIGroup * AIGroup::FindMainGroup()
 {
-	for (dword i=0;i<AIGroup::AIGroups.size();i++) if (AIGroups[i]->isMainGroup()) return AIGroups[i];
+	for (uint32_t i=0;i<AIGroup::AIGroups.size();i++) if (AIGroups[i]->isMainGroup()) return AIGroups[i];
 	return nullptr;
 }
 
@@ -211,13 +212,13 @@ void AIGroup::SailMainGroup(CVECTOR vPos, float fAngle, ATTRIBUTES * pACharacter
 	ENTITY_ID	eidSea;
 	api->FindClass(&eidSea, "sea", 0);
 
-	for (dword i=0; i<pMG->aGroupShips.size(); i++)
+	for (uint32_t i=0; i<pMG->aGroupShips.size(); i++)
 	{
 		AIShip * pAIShip = pMG->aGroupShips[i];
 
 		if (pAIShip->isDead()) continue;
 
-		dword dwTaskType = AITASK_NONE;
+		uint32_t dwTaskType = AITASK_NONE;
 		AITask * pTask = pAIShip->GetTaskController()->GetCurrentTask();
 		if (pTask) dwTaskType = pTask->dwTaskType;
 		
@@ -286,7 +287,7 @@ void AIGroup::SetXYZ_AY(const char * pGroupName, CVECTOR vPos, float _fAY)
 
 AIShip * AIGroup::ExtractShip(ATTRIBUTES * pACharacter)
 {
-	for (dword i=0;i<aGroupShips.size();i++)
+	for (uint32_t i=0;i<aGroupShips.size();i++)
 	{
 		if (*aGroupShips[i] == pACharacter) 
 		{
@@ -392,7 +393,7 @@ void AIGroup::Save(CSaveLoad * pSL)
 	pSL->SaveDword(bFirstExecute);
 
 	pSL->SaveDword(aGroupShips.size());
-	for (dword i=0; i<aGroupShips.size(); i++) aGroupShips[i]->Save(pSL);
+	for (uint32_t i=0; i<aGroupShips.size(); i++) aGroupShips[i]->Save(pSL);
 }
 
 void AIGroup::Load(CSaveLoad * pSL)
@@ -407,8 +408,8 @@ void AIGroup::Load(CSaveLoad * pSL)
 	vInitGroupPos = pSL->LoadVector();
 	vMovePoint = pSL->LoadVector();
 	bFirstExecute = pSL->LoadDword() != 0;
-	dword dwNum = pSL->LoadDword();
-	for (dword i=0; i<dwNum; i++)
+	uint32_t dwNum = pSL->LoadDword();
+	for (uint32_t i=0; i<dwNum; i++)
 	{
 		AIShip * pShip = NEW AIShipWar();
 		AIShip::AIShips.push_back(pShip);		// add to global array

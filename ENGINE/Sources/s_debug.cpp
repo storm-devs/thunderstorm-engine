@@ -43,8 +43,8 @@ DWORD WINAPI BackgroundThreadProc(LPVOID lpParameter)
 		}
 	}
 	CDebug.CloseDebugWindow();
-	DWORD dwExitCode;
-	GetExitCodeThread(CDebug.hDebugThread,&dwExitCode);
+	uint32_t dwExitCode;
+	GetExitCodeThread(CDebug.hDebugThread,(LPDWORD)&dwExitCode);
  	ExitThread(dwExitCode);
 	CloseHandle(CDebug.hDebugThread);
 	CDebug.hDebugThread = nullptr;
@@ -60,7 +60,7 @@ LRESULT CALLBACK DebugWndProc(HWND hwnd,UINT iMsg,WPARAM wParam,LPARAM lParam)
 	char buffer[MAX_PATH];
 	char wintext[MAX_PATH];
 	BROWSEINFO bi;
-	DWORD n;
+	uint32_t n;
 
 	if(CDebug.WatcherList) 
 	{
@@ -84,13 +84,13 @@ LRESULT CALLBACK DebugWndProc(HWND hwnd,UINT iMsg,WPARAM wParam,LPARAM lParam)
 				MENUITEMINFO mii;
 				hFileSubMenu = GetSubMenu(hMenu,0);
 			
-				for(n=0;n<(DWORD)GetMenuItemCount(hFileSubMenu);n++)
+				for(n=0;n<(uint32_t)GetMenuItemCount(hFileSubMenu);n++)
 				{
 					if(GetMenuItemID(hFileSubMenu,n) == LOWORD(wParam))
 					{
 						if(n<CDebug.nRFMOffset || n>=(CDebug.nRFMOffset + CDebug.nRecentFilesNum)) continue;
 
-						ZeroMemory(&mii,sizeof(mii));
+						PZERO(&mii,sizeof(mii));
 						mii.cbSize = sizeof(mii);
 						mii.fMask = MIIM_TYPE ;
 						mii.fType = MFT_STRING;
@@ -156,7 +156,7 @@ LRESULT CALLBACK DebugWndProc(HWND hwnd,UINT iMsg,WPARAM wParam,LPARAM lParam)
 					}
 				break;
 				case ID_FORMAT_ALLDIALOGS:
-					ZeroMemory(&bi,sizeof(bi));
+					PZERO(&bi,sizeof(bi));
 					bi.hwndOwner = hwnd; 
 					bi.pidlRoot = nullptr; 
 					bi.pszDisplayName = buffer; 
@@ -283,7 +283,7 @@ LRESULT CALLBACK DebugWndProc(HWND hwnd,UINT iMsg,WPARAM wParam,LPARAM lParam)
 	return DefWindowProc(hwnd,iMsg,wParam,lParam);
 }
 
-void S_DEBUG::BreakOn(char * filename,DWORD line)
+void S_DEBUG::BreakOn(char * filename,uint32_t line)
 {
 	strcpy(BreakFileName,filename);
 	BreakLineCode = line;
@@ -361,7 +361,7 @@ bool S_DEBUG::OpenDebugWindow(HINSTANCE hInstance)
 {
 	hInst =	hInstance;
 	SetTraceMode(TMODE_CONTINUE);
-	hDebugThread = CreateThread(nullptr,0,BackgroundThreadProc,nullptr,0,&DebugThreadID);
+	hDebugThread = CreateThread(nullptr,0,BackgroundThreadProc,nullptr,0,(LPDWORD)&DebugThreadID);
 	return true;
 }
 
@@ -376,7 +376,7 @@ bool S_DEBUG::OpenDebugWindow_NT(HINSTANCE hInstance)
 	wndclass.style = CS_HREDRAW|CS_VREDRAW|CS_DBLCLKS;
 	wndclass.lpfnWndProc = DebugWndProc;
 	wndclass.cbClsExtra = 0;
-	wndclass.cbWndExtra = sizeof(WORD);
+	wndclass.cbWndExtra = sizeof(uint16_t);
 	wndclass.hInstance = hInstance;
 	wndclass.hIcon = LoadIcon(nullptr,IDI_APPLICATION);
 	wndclass.hCursor = LoadCursor(nullptr,IDC_ARROW);
@@ -416,7 +416,7 @@ bool S_DEBUG::OpenDebugWindow_NT(HINSTANCE hInstance)
 		hFileSubMenu = GetSubMenu(hMenu,0);
 		
 		strcpy(sb,"c:\\projects\\drive_v2\\engine\\programs\\seadogs.c");
-		ZeroMemory(&mii,sizeof(mii));
+		PZERO(&mii,sizeof(mii));
 		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_TYPE ;
 		mii.fType = MFT_STRING;
@@ -425,7 +425,7 @@ bool S_DEBUG::OpenDebugWindow_NT(HINSTANCE hInstance)
 		InsertMenuItem(hFileSubMenu,MENU_EXITDEBUG,false,&mii);
 
 
-		ZeroMemory(&mii,sizeof(mii));
+		PZERO(&mii,sizeof(mii));
 		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_TYPE;
 		mii.fType = MFT_SEPARATOR;
@@ -535,7 +535,7 @@ char * S_DEBUG::ProcessExpression(char * pExpression)
 	return "Invalid Expression";
 }
 
-DWORD S_DEBUG::GetLineStatus(const char * _pFileName, DWORD _linecode)
+uint32_t S_DEBUG::GetLineStatus(const char * _pFileName, uint32_t _linecode)
 {
 	//nDebugTraceLineCode
 	if(Core.Compiler.pRun_fi && Core.Compiler.pRun_fi->decl_file_name)
@@ -558,7 +558,7 @@ bool S_DEBUG::BrowseFile(char * buffer, const char * filter)
 	OPENFILENAME ofn;
 	BOOL bRes;
 	file_name[0] = 0;
-	ZeroMemory(&ofn,sizeof(ofn));
+	PZERO(&ofn,sizeof(ofn));
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hInstance = hInst;
 	ofn.hwndOwner = hMain;
@@ -591,7 +591,7 @@ bool S_DEBUG::BrowseFileWP(char * buffer, const char * filter)
 	OPENFILENAME ofn;
 	BOOL bRes;
 	file_name[0] = 0;
-	ZeroMemory(&ofn,sizeof(ofn));
+	PZERO(&ofn,sizeof(ofn));
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hInstance = hInst;
 	ofn.hwndOwner = hMain;
@@ -631,12 +631,12 @@ bool S_DEBUG::IsTrace()
 	return bTrace;
 }
 
-DWORD S_DEBUG::GetTraceMode()
+uint32_t S_DEBUG::GetTraceMode()
 {
 	return nTraceMode;
 }
 
-void S_DEBUG::SetTraceMode(DWORD tmode)
+void S_DEBUG::SetTraceMode(uint32_t tmode)
 {
 //	DWORD dwExitCode;
 	nTraceMode = tmode;
@@ -684,7 +684,7 @@ void S_DEBUG::Add2RecentFiles(char * pFileName)
 	char buffer[MAX_PATH];
 	char kn[MAX_PATH];
 	bool bAdd;
-	DWORD dwSize;
+	uint32_t dwSize;
 	HMENU hMenu;
 	HMENU hFileSubMenu;
 	MENUITEMINFO mii;
@@ -703,12 +703,12 @@ void S_DEBUG::Add2RecentFiles(char * pFileName)
 	RegOpenKeyEx(HKEY_CURRENT_USER,"SDIIDEBUGGER",0,KEY_ALL_ACCESS,&hKey);
 	if(!hKey) if(RegCreateKey(HKEY_CURRENT_USER,"SDIIDEBUGGER",&hKey) != ERROR_SUCCESS) return;
 
-	for(DWORD n=0;n<nRecentFilesNum;n++)
+	for(uint32_t n=0;n<nRecentFilesNum;n++)
 	{
 		wsprintf(kn,"file%d",n);
 		dwSize = sizeof(buffer);
 		buffer[0] = 0;
-		if(RegQueryValueEx(hKey,kn,nullptr,nullptr,(unsigned char *)buffer,&dwSize) == ERROR_SUCCESS)
+		if(RegQueryValueEx(hKey,kn,nullptr,nullptr,(unsigned char *)buffer,(LPDWORD)&dwSize) == ERROR_SUCCESS)
 		{
 			if(_stricmp(buffer,pFileName)==0) 
 			{
@@ -729,7 +729,7 @@ void S_DEBUG::Add2RecentFiles(char * pFileName)
 		{
 			
 			hFileSubMenu = GetSubMenu(hMenu,0);
-			ZeroMemory(&mii,sizeof(mii));
+			PZERO(&mii,sizeof(mii));
 			mii.cbSize = sizeof(mii);
 			mii.fMask = MIIM_TYPE|MIIM_ID ;
 			mii.fType = MFT_STRING;
@@ -746,14 +746,14 @@ void S_DEBUG::Add2RecentFiles(char * pFileName)
 	if(bAdd && (nRecentFilesNum < RECENT_FILES_MAX))
 	{
 		nRecentFilesNum++;
-		RegSetValueEx(hKey,"Recent Files Num",0,REG_DWORD,(const unsigned char *)&nRecentFilesNum,sizeof(DWORD));	
+		RegSetValueEx(hKey,"Recent Files Num",0,REG_DWORD,(const unsigned char *)&nRecentFilesNum,sizeof(uint32_t));	
 		
 		hMenu = GetMenu(hMain);
 		if(hMenu)
 		{
 			
 			hFileSubMenu = GetSubMenu(hMenu,0);
-			ZeroMemory(&mii,sizeof(mii));
+			PZERO(&mii,sizeof(mii));
 			mii.cbSize = sizeof(mii);
 			mii.fMask = MIIM_TYPE|MIIM_ID ;
 			mii.fType = MFT_STRING;
@@ -764,7 +764,7 @@ void S_DEBUG::Add2RecentFiles(char * pFileName)
 		}
 		if(nRecentFilesNum == 1)
 		{
-			ZeroMemory(&mii,sizeof(mii));
+			PZERO(&mii,sizeof(mii));
 			mii.cbSize = sizeof(mii);
 			mii.fMask = MIIM_TYPE;
 			mii.fType = MFT_SEPARATOR;
@@ -781,21 +781,21 @@ bool S_DEBUG::ProcessRegistry_Open()
 	HKEY hKey;
 	char buffer[MAX_PATH];
 	char kn[MAX_PATH];
-	DWORD dwSize;
+	uint32_t dwSize;
 	long nRes;
-	DWORD n;
+	uint32_t n;
 
 	nRecentFilesNum = 0;
 
 	RegOpenKeyEx(HKEY_CURRENT_USER,"SDIIDEBUGGER",0,KEY_ALL_ACCESS,&hKey);
 	if(!hKey) if(RegCreateKey(HKEY_CURRENT_USER,"SDIIDEBUGGER",&hKey) != ERROR_SUCCESS) return false;
 
-	dwSize = sizeof(DWORD);
-	nRes = RegQueryValueEx(hKey,"Recent Files Num",nullptr,nullptr,(unsigned char *)&nRecentFilesNum,&dwSize);
+	dwSize = sizeof(uint32_t);
+	nRes = RegQueryValueEx(hKey,"Recent Files Num",nullptr,nullptr,(unsigned char *)&nRecentFilesNum,(LPDWORD)&dwSize);
 	if(nRes != ERROR_SUCCESS)
 	{
 		// write default value
-		RegSetValueEx(hKey,"Recent Files Num",0,REG_DWORD,(const unsigned char *)&nRecentFilesNum,sizeof(DWORD));	
+		RegSetValueEx(hKey,"Recent Files Num",0,REG_DWORD,(const unsigned char *)&nRecentFilesNum,sizeof(uint32_t));	
 	}
 
 	if(nRecentFilesNum < RECENT_FILES_MAX) nRecentFilesIndex = nRecentFilesNum;
@@ -820,7 +820,7 @@ bool S_DEBUG::ProcessRegistry_Open()
 		MENUITEMINFO mii;
 		hFileSubMenu = GetSubMenu(hMenu,0);
 	
-		for(n=0;n<(DWORD)GetMenuItemCount(hFileSubMenu);n++)
+		for(n=0;n<(uint32_t)GetMenuItemCount(hFileSubMenu);n++)
 		{
 			if(GetMenuItemID(hFileSubMenu,n) == MENU_EXITDEBUG)
 			{
@@ -835,9 +835,9 @@ bool S_DEBUG::ProcessRegistry_Open()
 			wsprintf(kn,"file%d",n);
 			dwSize = sizeof(buffer);
 			buffer[0] = 0;
-			RegQueryValueEx(hKey,kn,nullptr,nullptr,(unsigned char *)buffer,&dwSize);
+			RegQueryValueEx(hKey,kn,nullptr,nullptr,(unsigned char *)buffer,(LPDWORD)&dwSize);
 		
-			ZeroMemory(&mii,sizeof(mii));
+			PZERO(&mii,sizeof(mii));
 			mii.cbSize = sizeof(mii);
 			mii.fMask = MIIM_TYPE|MIIM_ID;
 			mii.fType = MFT_STRING;
@@ -850,7 +850,7 @@ bool S_DEBUG::ProcessRegistry_Open()
 
 		if(nRecentFilesNum)
 		{
-			ZeroMemory(&mii,sizeof(mii));
+			PZERO(&mii,sizeof(mii));
 			mii.cbSize = sizeof(mii);
 			mii.fMask = MIIM_TYPE;
 			mii.fType = MFT_SEPARATOR;
@@ -871,8 +871,8 @@ long S_DEBUG::GetRecentFileALine(char * pFileName)
 	char buffer[MAX_PATH];
 	char kn[MAX_PATH];
 
-	DWORD dwSize;
-	DWORD dwLine;
+	uint32_t dwSize;
+	uint32_t dwLine;
 
 
 	if(pFileName == nullptr) return 0;
@@ -880,19 +880,19 @@ long S_DEBUG::GetRecentFileALine(char * pFileName)
 	RegOpenKeyEx(HKEY_CURRENT_USER,"SDIIDEBUGGER",0,KEY_ALL_ACCESS,&hKey);
 	if(!hKey) return 0;
 
-	for(DWORD n=0;n<nRecentFilesNum;n++)
+	for(uint32_t n=0;n<nRecentFilesNum;n++)
 	{
 		wsprintf(kn,"file%d",n);
 		dwSize = sizeof(buffer);
 		buffer[0] = 0;
-		if(RegQueryValueEx(hKey,kn,nullptr,nullptr,(unsigned char *)buffer,&dwSize) == ERROR_SUCCESS)
+		if(RegQueryValueEx(hKey,kn,nullptr,nullptr,(unsigned char *)buffer,(LPDWORD)&dwSize) == ERROR_SUCCESS)
 		{
 			if(_stricmp(buffer,pFileName)==0) 
 			{
 				wsprintf(kn,"line%d",n);
 
-				dwSize = sizeof(DWORD);
-				if(RegQueryValueEx(hKey,kn,nullptr,nullptr,(unsigned char *)&dwLine,&dwSize) == ERROR_SUCCESS)
+				dwSize = sizeof(uint32_t);
+				if(RegQueryValueEx(hKey,kn,nullptr,nullptr,(unsigned char *)&dwLine,(LPDWORD)&dwSize) == ERROR_SUCCESS)
 				{
 					RegCloseKey(hKey);
 					return dwLine;
@@ -911,24 +911,24 @@ void S_DEBUG::SaveRecentFileALine(char * pFileName, long nLine)
 	HKEY hKey;
 	char buffer[MAX_PATH];
 	char kn[MAX_PATH];
-	DWORD dwSize;
+	uint32_t dwSize;
 
 	if(pFileName == nullptr) return;
 
 	RegOpenKeyEx(HKEY_CURRENT_USER,"SDIIDEBUGGER",0,KEY_ALL_ACCESS,&hKey);
 	if(!hKey) if(RegCreateKey(HKEY_CURRENT_USER,"SDIIDEBUGGER",&hKey) != ERROR_SUCCESS) return;
 
-	for(DWORD n=0;n<nRecentFilesNum;n++)
+	for(uint32_t n=0;n<nRecentFilesNum;n++)
 	{
 		wsprintf(kn,"file%d",n);
 		dwSize = sizeof(buffer);
 		buffer[0] = 0;
-		if(RegQueryValueEx(hKey,kn,nullptr,nullptr,(unsigned char *)buffer,&dwSize) == ERROR_SUCCESS)
+		if(RegQueryValueEx(hKey,kn,nullptr,nullptr,(unsigned char *)buffer,(LPDWORD)&dwSize) == ERROR_SUCCESS)
 		{
 			if(_stricmp(buffer,pFileName)==0) 
 			{
 				wsprintf(kn,"line%d",n);
-				RegSetValueEx(hKey,kn,0,REG_DWORD,(const unsigned char *)&nLine,sizeof(DWORD));	
+				RegSetValueEx(hKey,kn,0,REG_DWORD,(const unsigned char *)&nLine,sizeof(uint32_t));	
 				RegCloseKey(hKey);
 				return;
 			}

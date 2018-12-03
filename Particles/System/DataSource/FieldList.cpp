@@ -22,10 +22,10 @@ FieldList::~FieldList ()
 
 void FieldList::Load (MemFile* File)
 {
-	DWORD DataFieldsCount = 0;
+	uint32_t DataFieldsCount = 0;
 	File->ReadType(DataFieldsCount);
 
-	for (DWORD n = 0; n < DataFieldsCount; n++)
+	for (uint32_t n = 0; n < DataFieldsCount; n++)
 	{
 		FieldType fldType = FIELD_UNKNOWN;
 		File->ReadType(fldType);
@@ -175,7 +175,7 @@ void FieldList::CreateEmptyUVField (const char* Name)
 	Fields.push_back(pDesc);
 }
 
-void FieldList::CreateEmptyColorField (const char* Name, DWORD def_value)
+void FieldList::CreateEmptyColorField (const char* Name, uint32_t def_value)
 {
 	DataColor* Field = NEW DataColor;
 	Field->SetName(Name);
@@ -296,7 +296,7 @@ void FieldList::CreateColorField (MemFile* pMemFile)
 
 void FieldList::DelAll ()
 {
-	for (DWORD n = 0; n < Fields.size(); n++)
+	for (uint32_t n = 0; n < Fields.size(); n++)
 	{
 		DeleteFieldData (Fields[n]);
 	} // loop
@@ -307,8 +307,8 @@ void FieldList::DelAll ()
 
 DataColor* FieldList::FindColor (const char* AttrName)
 {
-	DWORD SearchHash = TOREMOVE::HashNoCase(AttrName);
-	for (DWORD n = 0; n < Fields.size(); n++)
+	uint32_t SearchHash = TOREMOVE::HashNoCase(AttrName);
+	for (uint32_t n = 0; n < Fields.size(); n++)
 	{
 		if (Fields[n].Type == FIELD_COLOR)
 		{
@@ -327,8 +327,8 @@ DataColor* FieldList::FindColor (const char* AttrName)
 
 DataBool* FieldList::FindBool (const char* AttrName)
 {
-	DWORD SearchHash = TOREMOVE::HashNoCase(AttrName);
-	for (DWORD n = 0; n < Fields.size(); n++)
+	uint32_t SearchHash = TOREMOVE::HashNoCase(AttrName);
+	for (uint32_t n = 0; n < Fields.size(); n++)
 	{
 		if (Fields[n].Type == FIELD_BOOL)
 		{
@@ -347,8 +347,8 @@ DataBool* FieldList::FindBool (const char* AttrName)
 
 DataFloat* FieldList::FindFloat (const char* AttrName)
 {
-	DWORD SearchHash = TOREMOVE::HashNoCase(AttrName);
-	for (DWORD n = 0; n < Fields.size(); n++)
+	uint32_t SearchHash = TOREMOVE::HashNoCase(AttrName);
+	for (uint32_t n = 0; n < Fields.size(); n++)
 	{
 		if (Fields[n].Type == FIELD_FLOAT)
 		{
@@ -367,9 +367,9 @@ DataFloat* FieldList::FindFloat (const char* AttrName)
 
 DataGraph* FieldList::FindGraph (const char* AttrName)
 {
-	DWORD SearchHash = TOREMOVE::HashNoCase(AttrName);
+	uint32_t SearchHash = TOREMOVE::HashNoCase(AttrName);
 
-	for (DWORD n = 0; n < Fields.size(); n++)
+	for (uint32_t n = 0; n < Fields.size(); n++)
 	{
 		if (Fields[n].Type == FIELD_GRAPH)
 		{
@@ -388,9 +388,9 @@ DataGraph* FieldList::FindGraph (const char* AttrName)
 
 DataString* FieldList::FindString (const char* AttrName)
 {
-	DWORD SearchHash = TOREMOVE::HashNoCase(AttrName);
+	uint32_t SearchHash = TOREMOVE::HashNoCase(AttrName);
 
-	for (DWORD n = 0; n < Fields.size(); n++)
+	for (uint32_t n = 0; n < Fields.size(); n++)
 	{
 		if (Fields[n].Type == FIELD_STRING)
 		{
@@ -409,9 +409,9 @@ DataString* FieldList::FindString (const char* AttrName)
 
 DataPosition* FieldList::FindPosition (const char* AttrName)
 {
-	DWORD SearchHash = TOREMOVE::HashNoCase(AttrName);
+	uint32_t SearchHash = TOREMOVE::HashNoCase(AttrName);
 
-	for (DWORD n = 0; n < Fields.size(); n++)
+	for (uint32_t n = 0; n < Fields.size(); n++)
 	{
 		if (Fields[n].Type == FIELD_POSITION)
 		{
@@ -430,9 +430,9 @@ DataPosition* FieldList::FindPosition (const char* AttrName)
 
 DataUV* FieldList::FindUV (const char* AttrName)
 {
-	DWORD SearchHash = TOREMOVE::HashNoCase(AttrName);
+	uint32_t SearchHash = TOREMOVE::HashNoCase(AttrName);
 
-	for (DWORD n = 0; n < Fields.size(); n++)
+	for (uint32_t n = 0; n < Fields.size(); n++)
 	{
 		if (Fields[n].Type == FIELD_UV)
 		{
@@ -450,9 +450,9 @@ DataUV* FieldList::FindUV (const char* AttrName)
 
 FieldList::FieldDesc* FieldList::FindField (const char* Name)
 {
-	DWORD SearchHash = TOREMOVE::HashNoCase(Name);
+	uint32_t SearchHash = TOREMOVE::HashNoCase(Name);
 
-	for (DWORD n = 0; n < Fields.size(); n++)
+	for (uint32_t n = 0; n < Fields.size(); n++)
 	{
 			if (SearchHash == Fields[n].HashValue)
 			{
@@ -514,12 +514,12 @@ float FieldList::GetRandomGraphVal (const char* AttrName, float Time, float Life
 	return pFind->GetRandomValue(Time, LifeTime);
 }
 
-DWORD FieldList::GetFieldCount ()
+uint32_t FieldList::GetFieldCount ()
 {
 	return Fields.size();
 }
 
-const FieldList::FieldDesc& FieldList::GetFieldByIndex (DWORD Index)
+const FieldList::FieldDesc& FieldList::GetFieldByIndex (uint32_t Index)
 {
 	return Fields[Index];
 }
@@ -527,14 +527,14 @@ const FieldList::FieldDesc& FieldList::GetFieldByIndex (DWORD Index)
 
 void FieldList::Convert (DataDescripion* pDataDescriptor)
 {
-	for (DWORD i = 0; i < Fields.size(); i++)
+	for (uint32_t i = 0; i < Fields.size(); i++)
 	{
 		Fields[i].MarkForDelete = true;
 	}
 
-	DWORD NeedFieldsCount = pDataDescriptor->GetFieldCount();
+	uint32_t NeedFieldsCount = pDataDescriptor->GetFieldCount();
 
-	for (DWORD n = 0; n < NeedFieldsCount; n++)
+	for (uint32_t n = 0; n < NeedFieldsCount; n++)
 	{
 		const char* NeedFieldName = pDataDescriptor->GetFieldName(n);
 		FieldType NeedFieldType = pDataDescriptor->GetFieldType(n);
@@ -582,7 +582,7 @@ void FieldList::Convert (DataDescripion* pDataDescriptor)
 		}
 	}
 
-	for (DWORD i = 0; i < Fields.size(); i++)
+	for (uint32_t i = 0; i < Fields.size(); i++)
 	{
 		if (Fields[i].MarkForDelete)
 		{
@@ -647,11 +647,11 @@ void FieldList::DeleteFieldData (const FieldList::FieldDesc& pData)
 
 void FieldList::Write (MemFile* File)
 {
-	DWORD DataFieldsCount = Fields.size();
+	uint32_t DataFieldsCount = Fields.size();
 	File->WriteType(DataFieldsCount);
 
 
-	for (DWORD n = 0; n < DataFieldsCount; n++)
+	for (uint32_t n = 0; n < DataFieldsCount; n++)
 	{
 		File->WriteType(Fields[n].Type);
 

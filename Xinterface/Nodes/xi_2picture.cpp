@@ -18,7 +18,7 @@ void SetRectanglePos(XI_NOTEX_VERTEX v[4],FXYPOINT & center,FXYPOINT &size)
 	v[1].pos.y = v[3].pos.y = center.y + size.y/2;
 }
 
-void SetRectangleColor(XI_ONETEX_VERTEX v[4],DWORD color)
+void SetRectangleColor(XI_ONETEX_VERTEX v[4],uint32_t color)
 {
 	for(int i=0;i<4;i++)	v[i].color = color;
 }
@@ -37,7 +37,7 @@ CXI_TWOPICTURE::~CXI_TWOPICTURE()
 	ReleaseAll();
 }
 
-void CXI_TWOPICTURE::Draw(bool bSelected,dword Delta_Time)
+void CXI_TWOPICTURE::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(m_bUse)
 	{

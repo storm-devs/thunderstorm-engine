@@ -9,7 +9,6 @@
 
 #include "..\..\common_h\entity_state.h"
 #include "..\..\common_h\vfile_service.h"
-#include "..\..\common_h\memop.h"
 
 #define INITIAL_BUFFER_SIZE		1024
 
@@ -18,13 +17,13 @@ class ENTITY_STATE_GEN_R : public ENTITY_STATE_GEN
 	HANDLE file_handle;
 	VFILE_SERVICE * fio;
 	char * Buffer;
-	dword  Buffer_size;
-	dword  Data_size;
+	uint32_t  Buffer_size;
+	uint32_t  Data_size;
 	char * Format_string;
 	va_list args;
 
-	void CopyData(dword add_data_size);
-	void VerifyFreeSpace(dword add_data_size);
+	void CopyData(uint32_t add_data_size);
+	void VerifyFreeSpace(uint32_t add_data_size);
 
 public:
 	ENTITY_STATE_GEN_R();
@@ -41,10 +40,10 @@ class ENTITY_STATE_R : public ENTITY_STATE
 
 	char * Format_string;
 	char * Buffer;
-	dword  Buffer_size;
-	dword  Data_size;
-	dword  Format_index;
-	dword  Data_index;
+	uint32_t  Buffer_size;
+	uint32_t  Data_size;
+	uint32_t  Format_index;
+	uint32_t  Data_index;
 	char * Data_PTR;
 	void LoadStateBlock();
 	void ValidateFormat(char c);
@@ -54,16 +53,16 @@ public:
 	virtual ~ENTITY_STATE_R();
 	void Init(VFILE_SERVICE * _fio,HANDLE _file_handle);
 
-	byte	Byte();
-	word	Word();
+	uint8_t	Byte();
+	uint16_t	Word();
 	long	Long();
-	dword	Dword();
+	uint32_t	Dword();
 	float	Float();
 	double	Double();
 	char *	Pointer(); 
-	void	String(dword dest_buffer_size,char * buffer);
-	void	MemoryBlock(dword memsize, char * buffer);
-	void	Struct(dword sizeofstruct, char * s); 
+	void	String(uint32_t dest_buffer_size,char * buffer);
+	void	MemoryBlock(uint32_t memsize, char * buffer);
+	void	Struct(uint32_t sizeofstruct, char * s); 
 };
 
 #endif

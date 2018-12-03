@@ -45,18 +45,18 @@ bool LIGHTNING::LoadState(ENTITY_STATE * state)
 	return true;
 }
 
-void LIGHTNING::Execute(dword Delta_Time)
+void LIGHTNING::Execute(uint32_t Delta_Time)
 {
 	float fDeltaTime = float(Delta_Time) * 0.001f;
 
 	if (!pVWSunTrace) pVWSunTrace = api->LayerGetWalker("sun_trace");
 	
-	for (dword i=0; i<aLightnings.size(); i++)
+	for (uint32_t i=0; i<aLightnings.size(); i++)
 	{
 		lightning_t * pL = &aLightnings[i];
 		if (pL->fTime > 0.0f)
 		{
-			pL->fAlpha = (dword(pL->fTime*1000.0f) & pL->dwFlickerTime) ? 1.0f : 0.0f;
+			pL->fAlpha = (uint32_t(pL->fTime*1000.0f) & pL->dwFlickerTime) ? 1.0f : 0.0f;
 			pL->fTime -= fDeltaTime;
 			if (pL->fTime <= 0.0f)
 			{
@@ -77,9 +77,9 @@ void LIGHTNING::Execute(dword Delta_Time)
 	}
 }
 
-void LIGHTNING::Realize(dword Delta_Time)
+void LIGHTNING::Realize(uint32_t Delta_Time)
 {
-	dword	i;
+	uint32_t	i;
 	RS_RECT rs_rect;
 
 	if (iLightningTexture >= 0)
@@ -90,7 +90,7 @@ void LIGHTNING::Realize(dword Delta_Time)
 			lightning_t * pL = &aLightnings[i];
 			RS_RECT		* pR = &rs_rect;
 
-			dword dwAlpha = dword(255.0f * pL->fAlpha);
+			uint32_t dwAlpha = uint32_t(255.0f * pL->fAlpha);
 			pR->dwSubTexture = pL->dwSubTexture;
 			pR->dwColor = RGB(dwAlpha, dwAlpha, dwAlpha);
 			pR->vPos = pL->vPos;
@@ -108,7 +108,7 @@ void LIGHTNING::Realize(dword Delta_Time)
 			lightning_t * pL = &aLightnings[i];
 			RS_RECT		* pR = &rs_rect;
 
-			dword dwAlpha = dword(255.0f * pL->fAlpha * pL->fPower);
+			uint32_t dwAlpha = uint32_t(255.0f * pL->fAlpha * pL->fPower);
 			pR->dwColor = RGB(dwAlpha, dwAlpha, dwAlpha);
 			pR->vPos = pL->vPos;
 			pR->fSize = pL->Flash.fSize;
@@ -118,7 +118,7 @@ void LIGHTNING::Realize(dword Delta_Time)
 	}
 }
 
-dword LIGHTNING::ProcessMessage(MESSAGE & message)
+uint32_t LIGHTNING::ProcessMessage(MESSAGE & message)
 {
 
 	switch (message.Long())
@@ -136,7 +136,7 @@ dword LIGHTNING::ProcessMessage(MESSAGE & message)
 			pL->dwSubTexture = message.Long();
 			message.String(sizeof(pL->sTechnique), pL->sTechnique); 
 			pL->fTime = message.Float();
-			pL->dwFlickerTime = (dword)message.Long();
+			pL->dwFlickerTime = (uint32_t)message.Long();
 			pL->fSize = message.Float();
 			pL->fScaleX = message.Float();
 			pL->fScaleY = message.Float();
@@ -169,7 +169,7 @@ void LIGHTNING::CalcFlashPower(lightning_t * pL)
 
 	float fPower = 1.0f;
 
-	for (dword i=0; i<3; i++)
+	for (uint32_t i=0; i<3; i++)
 	{
 		float fRes = pCollide->Trace(*pVWSunTrace, vCamPos, vTrace[i], nullptr, 0);
 		if (fRes <= 1.0f) fPower -= 0.31f;
@@ -177,7 +177,7 @@ void LIGHTNING::CalcFlashPower(lightning_t * pL)
 	pL->fPower = fPower;
 }
 
-dword LIGHTNING::AttributeChanged(ATTRIBUTES * pAttribute)
+uint32_t LIGHTNING::AttributeChanged(ATTRIBUTES * pAttribute)
 {
 	//std::string sTextureName;
 

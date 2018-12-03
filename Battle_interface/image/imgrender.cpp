@@ -27,12 +27,12 @@ void BIImageRender::Render()
 	} while( GetNextPrioritetRange() );
 }
 
-dword _cdecl BIImageRender::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl BIImageRender::ProcessMessage(MESSAGE & message)
 {
 	return 0;
 }
 
-IBIImage* BIImageRender::CreateImage( BIImageType type, const char* pcTextureName, dword color, FRECT& uv, long nLeft,long nTop, long nRight,long nBottom, long nPrior, const char* pcTechniqueName )
+IBIImage* BIImageRender::CreateImage( BIImageType type, const char* pcTextureName, uint32_t color, FRECT& uv, long nLeft,long nTop, long nRight,long nBottom, long nPrior, const char* pcTechniqueName )
 {
 	BIImageMaterial* pMaterial = CreateMaterial( pcTextureName, pcTechniqueName );
 	if( pMaterial )
@@ -40,7 +40,7 @@ IBIImage* BIImageRender::CreateImage( BIImageType type, const char* pcTextureNam
 	return nullptr;
 }
 
-IBIImage* BIImageRender::CreateImage( BIImageType type, const char* pcTextureName, dword color, FRECT& uv, RECT& pos, long nPrior, const char* pcTechniqueName )
+IBIImage* BIImageRender::CreateImage( BIImageType type, const char* pcTextureName, uint32_t color, FRECT& uv, RECT& pos, long nPrior, const char* pcTechniqueName )
 {
 	BIImageMaterial* pMaterial = CreateMaterial( pcTextureName, pcTechniqueName );
 	if( pMaterial )
@@ -124,7 +124,7 @@ void BIImageRender::ChangeMaterialPosByPrioritet(BIImageMaterial* pMat)
 	MaterialSorting();
 }
 
-IBIString* BIImageRender::CreateString( const char* text, const char* font_name, float font_scale, dword font_color, long valign, long halign, long nLeft, long nTop, long nRight, long nBottom, long nPrior)
+IBIString* BIImageRender::CreateString( const char* text, const char* font_name, float font_scale, uint32_t font_color, long valign, long halign, long nLeft, long nTop, long nRight, long nBottom, long nPrior)
 {
 	BIString* pStr = NEW BIString(this,m_pRS);
 	if( !pStr ) return pStr;
@@ -140,7 +140,7 @@ IBIString* BIImageRender::CreateString( const char* text, const char* font_name,
 	return pStr;
 }
 
-IBIString* BIImageRender::CreateString( const char* text, const char* font_name, float font_scale, dword font_color, long valign, long halign, RECT& pos, long nPrior)
+IBIString* BIImageRender::CreateString( const char* text, const char* font_name, float font_scale, uint32_t font_color, long valign, long halign, RECT& pos, long nPrior)
 {
 	return CreateString(text,font_name,font_scale,font_color,valign,halign,pos.left,pos.top,pos.right,pos.bottom,nPrior);
 }

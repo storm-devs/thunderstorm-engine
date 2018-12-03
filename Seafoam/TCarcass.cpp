@@ -1,6 +1,5 @@
 #include "TCarcass.h"
 #include "..\common_h\defines.h"
-#include "..\common_h\rands.h"
 #include "SeafoamDefines.h"
 
 #define FRONT_FADE_LEVEL 3
@@ -25,7 +24,7 @@ TCarcass::TCarcass(int _levelsCount, int _measurePointsCount, 	VDX9RENDER *_rend
 
 
 	uSpeed = 15e-5f;
-	iBuffer = renderer->CreateIndexBuffer(3*2*(MEASURE_POINTS - 1)*(TRACE_STEPS_Z - 1) * sizeof(WORD));
+	iBuffer = renderer->CreateIndexBuffer(3*2*(MEASURE_POINTS - 1)*(TRACE_STEPS_Z - 1) * sizeof(uint16_t));
 	vBuffer = renderer->CreateVertexBuffer(CARCASS_VERTEX_FORMAT, MEASURE_POINTS * (TRACE_STEPS_Z+1) * sizeof(tCarcassVertex), D3DUSAGE_WRITEONLY);
 }
 
@@ -66,7 +65,7 @@ void TCarcass::InitCircleMeasure(float _d,
 }
 
 //--------------------------------------------------------------------
-void TCarcass::RebuildIndexes(WORD *_iBuffer)
+void TCarcass::RebuildIndexes(uint16_t *_iBuffer)
 {
 	int i = 0;
 
@@ -105,7 +104,7 @@ void TCarcass::RebuildIndexes(WORD *_iBuffer)
 }
 
 //--------------------------------------------------------------------
-void TCarcass::RebuildLevels(tCarcassVertex *_vBuffer, bool _firstDraw, dword _dTime)
+void TCarcass::RebuildLevels(tCarcassVertex *_vBuffer, bool _firstDraw, uint32_t _dTime)
 {
 	tCarcassVertex *tempVertex;
 	float lengthK;
@@ -147,13 +146,13 @@ void TCarcass::RebuildLevels(tCarcassVertex *_vBuffer, bool _firstDraw, dword _d
 				float a = 3.f * speedA*sqrtf(levelA)*(1.f - measureK);
 				if (a > 1.f)
 					a = 1.f;
-				tempVertex->color = (((dword) (a * 0xFF)) << 24) | 0x00FFFFFF;
+				tempVertex->color = (((uint32_t) (a * 0xFF)) << 24) | 0x00FFFFFF;
 				tempVertex->u = lengthK*(1.f - levelK);
 				tempVertex->v = 1.f - ((float) measurePoint) / (measure.pointsCount-1) + tempVertex->u*V_DIAGONAL_K;
 			}
 			else
 			{
-				tempVertex->color = (((dword) (speedA*sqrtf(levelA)*(1.f - measureK) * 0xFF)) << 24) | 0x00FFFFFF;
+				tempVertex->color = (((uint32_t) (speedA*sqrtf(levelA)*(1.f - measureK) * 0xFF)) << 24) | 0x00FFFFFF;
 				float dv = fmodf(_dTime * vSpeed, 1.f);
 				float du = fmodf(_dTime * uSpeed, 1.f);
 				tempVertex->u = tempVertex->u + du;
@@ -174,14 +173,14 @@ void TCarcass::Uninitialize()
 }
 
 //--------------------------------------------------------------------
-void TCarcass::Execute(dword _dTime, CMatrix &_mtx, const CVECTOR *_starts)
+void TCarcass::Execute(uint32_t _dTime, CMatrix &_mtx, const CVECTOR *_starts)
 {
 	sceneMatrix = _mtx;
 	for (int level=0; level<levelsCount; level++)
 		levelStarts[level] = _starts[level];
 
 	tCarcassVertex *vBufferPointer = (tCarcassVertex *) renderer->LockVertexBuffer(vBuffer);
-	WORD		   *iBufferPointer = (WORD *) renderer->LockIndexBuffer(iBuffer);
+	uint16_t		   *iBufferPointer = (uint16_t *) renderer->LockIndexBuffer(iBuffer);
 
 	if (indexesCreated)
 		RebuildLevels(vBufferPointer, false, _dTime);

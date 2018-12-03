@@ -33,7 +33,7 @@ class CXI_SCROLLIMAGE : public CINODE
 public:
 	CXI_SCROLLIMAGE();
 	~CXI_SCROLLIMAGE();
-	void	Draw(bool bSelected,dword Delta_Time);
+	void	Draw(bool bSelected,uint32_t Delta_Time);
 	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
 	void	ReleaseAll();
 	int		CommandExecute(int wActCode);
@@ -42,7 +42,7 @@ public:
 	void	ChangePosition( XYRECT &rNewPos );
 	void	SaveParametersToIni();
 	XYRECT	GetCursorRect();
-	dword _cdecl MessageProc(long msgcode, MESSAGE & message);
+	uint32_t _cdecl MessageProc(long msgcode, MESSAGE & message);
 
     void    ChangeScroll(int nScrollItemNum);
 	void	DeleteImage(int imgNum);
@@ -80,16 +80,16 @@ protected:
 	XYRECT	 m_rAbsolutePosition;
 	float    m_fScale;
 	long     m_lDelta;
-    DWORD    *m_dwNormalColor;
-    DWORD    *m_dwSelectColor;
-	DWORD	 m_dwBlendColor;
+    uint32_t    *m_dwNormalColor;
+    uint32_t    *m_dwSelectColor;
+	uint32_t	 m_dwBlendColor;
 
     // blind parameters
 	bool	 m_bDoBlind;		// blind flag
 	bool	 m_bColorType;		// current type of color for blind (true - ligth, false - dark)
 	int		 m_nBlindCounter;	// last time counter for change of color type
 	int		 m_nMaxBlindCounter;// maximum time counter for change of color type
-	DWORD    *m_dwCurColor;		// current color for select item show
+	uint32_t    *m_dwCurColor;		// current color for select item show
 
 	// textures parameters
 	char *  *m_sGroupName;
@@ -102,7 +102,7 @@ protected:
 	long	 *m_idBadPic;			// картинка для замены несуществующих
 
 	char *	 m_sSpecTechniqueName;
-	DWORD	 m_dwSpecTechniqueARGB;
+	uint32_t	 m_dwSpecTechniqueARGB;
 
 	// one string parameters
 	float	 m_nOneStrScale;
@@ -111,8 +111,8 @@ protected:
 	long	 m_lOneStrX;		  // Offset from rectangle center for X coordinate
 	bool     m_bUseOneString;     // out to screen the one text string
 	long     m_lOneStrOffset;     // Offset from top rectangle of list for Y coordinate of string1
-	DWORD    m_dwOneStrForeColor; // Font foreground color for first string
-	DWORD    m_dwOneStrBackColor; // Font background color for first string
+	uint32_t    m_dwOneStrForeColor; // Font foreground color for first string
+	uint32_t    m_dwOneStrBackColor; // Font background color for first string
 	// two string parameters
 	float	 m_nTwoStrScale;
 	int		 m_nTwoStrFont;
@@ -120,8 +120,8 @@ protected:
 	long	 m_lTwoStrX;		  // Offset from rectangle center for X coordinate
 	bool     m_bUseTwoString;     // out to screen the two text string
 	long     m_lTwoStrOffset;     // Offset from top rectangle of list for Y coordinate of string2
-	DWORD    m_dwTwoStrForeColor; // Font foreground color for second string
-	DWORD    m_dwTwoStrBackColor; // Font background color for second string
+	uint32_t    m_dwTwoStrForeColor; // Font foreground color for second string
+	uint32_t    m_dwTwoStrBackColor; // Font background color for second string
 
 	SCROLLENTITY	*m_pScroll;
 	int				m_nCurImage;

@@ -1,8 +1,8 @@
 #include "Blood.h"
 #include "..\common_h\Geometry.h"
 #include "..\common_h\matrix.h"
-#include "Location.h"
 #include "Character.h"
+#include "../Common_h/defines.h"
 
 #define BLOOD_RADIUS		1.f		// размер пятна крови
 #define BLOOD_LIVE_TIME		5.5f	// сек
@@ -42,7 +42,7 @@ bool Blood::Init()
 
 
 //Работа
-void Blood::Execute(dword delta_time)
+void Blood::Execute(uint32_t delta_time)
 {
 	if( nUsedTQ < ON_LIVETIME_BLOOD_TRIANGLES ) return;
 
@@ -66,7 +66,7 @@ void Blood::Execute(dword delta_time)
 		}
 		if( aBlood[n].fLiveTime < BLOOD_BLENDOUT_TIME )
 		{
-			dword dwCol = (dword)(255.f/BLOOD_BLENDOUT_TIME * aBlood[n].fLiveTime);
+			uint32_t dwCol = (uint32_t)(255.f/BLOOD_BLENDOUT_TIME * aBlood[n].fLiveTime);
 			if( dwCol > 255 ) dwCol = 255;
 			dwCol = (dwCol<<24) | 0xFFFFFF;
 			for(long i=0,m=aBlood[n].nStartIdx; i<aBlood[n].nIdxQ; i++,m++)
@@ -80,11 +80,11 @@ void Blood::Execute(dword delta_time)
 	}
 }
 
-void Blood::Realize(dword delta_time)
+void Blood::Realize(uint32_t delta_time)
 {
 	if( nUsedTQ>0 )
 	{
-		dword dwOldTF,dwAmbient;
+		uint32_t dwOldTF,dwAmbient;
 
 		pRS->GetRenderState(D3DRS_TEXTUREFACTOR,&dwOldTF);
 		pRS->GetRenderState(D3DRS_AMBIENT,&dwAmbient);
@@ -107,7 +107,7 @@ void Blood::Realize(dword delta_time)
 	}
 }
 
-dword _cdecl Blood::ProcessMessage(MESSAGE &message)
+uint32_t _cdecl Blood::ProcessMessage(MESSAGE &message)
 {
 	ENTITY_ID eid;
 	CVECTOR cv;

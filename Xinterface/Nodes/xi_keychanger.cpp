@@ -18,7 +18,7 @@ CXI_KEYCHANGER::~CXI_KEYCHANGER()
 	ReleaseAll();
 }
 
-void CXI_KEYCHANGER::Draw(bool bSelected,dword Delta_Time)
+void CXI_KEYCHANGER::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(m_bUse)
 	{
@@ -80,7 +80,7 @@ void CXI_KEYCHANGER::SaveParametersToIni()
 	delete pIni;
 }
 
-dword _cdecl CXI_KEYCHANGER::MessageProc(long msgcode, MESSAGE & message)
+uint32_t _cdecl CXI_KEYCHANGER::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

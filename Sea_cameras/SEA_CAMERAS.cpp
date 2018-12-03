@@ -1,6 +1,8 @@
 #include "SEA_CAMERAS.h"
 #include "..\common_h\sd2_h\VAI_ObjBase.h"
 #include "..\..\Shared\sea_ai\Script_Defines.h"
+#include "FreeCamera.h"
+#include "DeckCamera.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(SEA_CAMERAS)
@@ -19,25 +21,25 @@ SEA_CAMERAS::~SEA_CAMERAS()
 //	ShowCursor(true);
 }
 
-void SEA_CAMERAS::ProcessMessage(dword iMsg,dword wParam,dword lParam)
+void SEA_CAMERAS::ProcessMessage(uint32_t iMsg,uint32_t wParam,uint32_t lParam)
 {
-/*	GUARD(SEA_CAMERAS::ProcessMessage(dword,dword,dword))
+/*	GUARD(SEA_CAMERAS::ProcessMessage(uint32_t,uint32_t,uint32_t))
 	switch(iMsg)
 	{
 		case WM_ACTIVATE: 
 		{
 			WORD wActive = LOWORD(wParam);           
 			bActive = (wActive == WA_CLICKACTIVE || wActive == WA_ACTIVE);
-			for (dword i=0;i<CamerasArray.size();i++) CamerasArray[i]->SetActive(bActive);
+			for (uint32_t i=0;i<CamerasArray.size();i++) CamerasArray[i]->SetActive(bActive);
 		}
 		break;
 	}
 	UNGUARD*/
 }
 
-dword SEA_CAMERAS::ProcessMessage(MESSAGE & message)
+uint32_t SEA_CAMERAS::ProcessMessage(MESSAGE & message)
 {
-	dword i;
+	uint32_t i;
 	switch (message.Long())
 	{
 		case AI_CAMERAS_ADD_CAMERA:

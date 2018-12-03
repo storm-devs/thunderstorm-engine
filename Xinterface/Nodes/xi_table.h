@@ -40,7 +40,7 @@ protected:
 	FPOINT m_TextOffset;
 	long m_nFontID;
 	long m_nFontIndex;
-	dword m_dwColor;
+	uint32_t m_dwColor;
 	float m_fScale;
 	long m_nAlignment;
 	long m_nVAlignment;
@@ -74,7 +74,7 @@ protected:
 	std::vector<XI_TableCellDescribe*> m_aCell;
 
 	bool m_bUseSpecColor;
-	dword m_dwSpecColor;
+	uint32_t m_dwSpecColor;
 	long m_nHeight;
 
 public:
@@ -90,7 +90,7 @@ public:
 	CXI_TABLE();
 	~CXI_TABLE();
 
-	void	Draw(bool bSelected,dword Delta_Time);
+	void	Draw(bool bSelected,uint32_t Delta_Time);
 	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
 	void	ReleaseAll();
 	int		CommandExecute(int wActCode);
@@ -98,7 +98,7 @@ public:
 	void	MouseThis(float fX, float fY) {}
 	void	ChangePosition( XYRECT &rNewPos );
 	void	SaveParametersToIni();
-	dword _cdecl MessageProc(long msgcode, MESSAGE & message);
+	uint32_t _cdecl MessageProc(long msgcode, MESSAGE & message);
 
 	virtual bool GetInternalNameList( std::vector<std::string>& aStr );
 	virtual void SetInternalName(std::string& sName );
@@ -109,7 +109,7 @@ public:
 protected:
 	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);
 	void	UpdateBorders();
-	void	WriteSquare( XI_ONETEX_VERTEX* pV, long nImgID, dword dwCol, long nX, long nY, long nW, long nH );
+	void	WriteSquare( XI_ONETEX_VERTEX* pV, long nImgID, uint32_t dwCol, long nX, long nY, long nW, long nH );
 	void	UpdateTableCells();
 	long	GetLineByPoint( FXYPOINT& pnt );
 	long	GetColByX( long x );
@@ -137,13 +137,13 @@ protected:
 	std::vector<long> m_anFontList;
 
 	long m_nFontCellID;
-	dword m_dwFontCellColor;
+	uint32_t m_dwFontCellColor;
 	float m_fFontCellScale;
 	long m_nFontCellAlignment;
 	long m_nFontCellVAlignment;
 
 	long m_nFontTitleID;
-	dword m_dwFontTitleColor;
+	uint32_t m_dwFontTitleColor;
 	float m_fFontTitleScale;
 	long m_nFontTitleAlignment;
 	long m_nFontTitleVAlignment;
@@ -172,7 +172,7 @@ protected:
 	long m_nBorderIcon_VLine;
 	long m_nBorderIcon_HLine;
 
-	dword m_dwBorderColor;
+	uint32_t m_dwBorderColor;
 	long m_nBorderWidth;
 	long m_nVLineWidth;
 	long m_nHLineHeight;

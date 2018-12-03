@@ -156,7 +156,7 @@ GEOS * WdmObjects::CreateGeometry(const char * path)
 {
 	if(!path || !path[0] || !gs) return nullptr;
 	//Ищим среди добавленных
-	dword hash = CalcHash(path);
+	uint32_t hash = CalcHash(path);
 	long i = hash & (sizeof(entryModels)/sizeof(entryModels[0]) - 1);
 	for(i = entryModels[i]; i >= 0; i = models[i].next)
 	{
@@ -202,14 +202,14 @@ WdmObjects::Vertex WdmObjects::vertex[1024];
 
 
 
-void WdmObjects::DrawCircle(const CVECTOR & pos, float radius, dword color)
+void WdmObjects::DrawCircle(const CVECTOR & pos, float radius, uint32_t color)
 {
 	static CMatrix mtx;
 	mtx.SetPosition(pos.x, pos.y, pos.z);
 	DrawCircle(mtx, radius, color);
 }
 
-void WdmObjects::DrawCircle(CMatrix & mtx, float radius, dword color)
+void WdmObjects::DrawCircle(CMatrix & mtx, float radius, uint32_t color)
 {
 	for(long i = 0; i < 64; i++)
 	{
@@ -224,7 +224,7 @@ void WdmObjects::DrawCircle(CMatrix & mtx, float radius, dword color)
 	rs->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, D3DFVF_XYZ | D3DFVF_DIFFUSE, 62, vertex, sizeof(vertex[0]), "WdmDebugDraw");
 }
 
-void WdmObjects::DrawVector(const CVECTOR & start, const CVECTOR & end, dword color)
+void WdmObjects::DrawVector(const CVECTOR & start, const CVECTOR & end, uint32_t color)
 {
 	CVECTOR dir = end - start;
 	float len = ~dir;
@@ -324,7 +324,7 @@ void WdmObjects::DrawVector(const CVECTOR & start, const CVECTOR & end, dword co
 	rs->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE, t, vertex, sizeof(vertex[0]), "WdmDebugDraw");
 }
 
-void WdmObjects::DrawLine(const CVECTOR & start, const CVECTOR & end, dword color)
+void WdmObjects::DrawLine(const CVECTOR & start, const CVECTOR & end, uint32_t color)
 {
 	vertex[0].v = start;
 	vertex[0].c = color;
@@ -335,7 +335,7 @@ void WdmObjects::DrawLine(const CVECTOR & start, const CVECTOR & end, dword colo
 	rs->DrawPrimitiveUP(D3DPT_LINELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE, 1, vertex, sizeof(vertex[0]), "WdmDebugDraw");
 }
 
-void WdmObjects::DrawBox2D(CMatrix & mtx, float l, float w, dword color)
+void WdmObjects::DrawBox2D(CMatrix & mtx, float l, float w, uint32_t color)
 {
 	vertex[0].v = CVECTOR(-w, 0.2f, l);
 	vertex[0].c = color;
@@ -414,11 +414,11 @@ const char * WdmObjects::GetWindSaveString(std::string & windData)
 {
 	windData = "v02_";
 	long size = sizeof(windField);
-	AddDataToString(windData, byte(size >> 0));
-	AddDataToString(windData, byte(size >> 8));
-	AddDataToString(windData, byte(size >> 16));
-	AddDataToString(windData, byte(size >> 24));
-	const byte * buf = (const byte *)&windField;
+	AddDataToString(windData, uint8_t(size >> 0));
+	AddDataToString(windData, uint8_t(size >> 8));
+	AddDataToString(windData, uint8_t(size >> 16));
+	AddDataToString(windData, uint8_t(size >> 24));
+	const uint8_t * buf = (const uint8_t *)&windField;
 	for(long i = 0; i < size; i++)
 	{
 		AddDataToString(windData, buf[i]);
@@ -442,16 +442,16 @@ void WdmObjects::SetWindSaveString(const char * str)
 	str += 4;
 	long size = sizeof(windField);
 	long testSize = 0;
-	testSize |= (dword)GetDataFromString(str) << 0;
-	testSize |= (dword)GetDataFromString(str) << 8;
-	testSize |= (dword)GetDataFromString(str) << 16;
-	testSize |= (dword)GetDataFromString(str) << 24;
+	testSize |= (uint32_t)GetDataFromString(str) << 0;
+	testSize |= (uint32_t)GetDataFromString(str) << 8;
+	testSize |= (uint32_t)GetDataFromString(str) << 16;
+	testSize |= (uint32_t)GetDataFromString(str) << 24;
 	if(size != testSize)
 	{
 		windField.Reinit();
 		return;
 	}
-	byte * buf = (byte *)&windField;
+	uint8_t * buf = (uint8_t *)&windField;
 	for(long i = 0; i < size; i++)
 	{
 		long data = GetDataFromString(str);
@@ -460,12 +460,12 @@ void WdmObjects::SetWindSaveString(const char * str)
 			windField.Reinit();
 			return;
 		}
-		buf[i] = (byte)data;
+		buf[i] = (uint8_t)data;
 	}
 }
 
 //Добавить float в cтроку
-void WdmObjects::AddDataToString(std::string & str, byte d)
+void WdmObjects::AddDataToString(std::string & str, uint8_t d)
 {
 	char hex[] = "0123456789ABCDEF";
 	str += hex[(d >> 4) & 0xf];
@@ -475,11 +475,11 @@ void WdmObjects::AddDataToString(std::string & str, byte d)
 //Получить float из строки
 long WdmObjects::GetDataFromString(const char * & cur)
 {
-	dword tmp = 0;
+	uint32_t tmp = 0;
 	for(long cnt = 0; cnt < 2; cnt++)
 	{
 		if(!*cur) return -1;
-		dword v;
+		uint32_t v;
 		switch(*cur++)
 		{
 		case '0': v = 0x0; break;

@@ -66,7 +66,7 @@ bool CAviPlayer::Init()
 	return true;
 }
 
-void CAviPlayer::Execute(dword delta_time)
+void CAviPlayer::Execute(uint32_t delta_time)
 {
 	if(m_bContinue==false)
 	{
@@ -78,7 +78,7 @@ void CAviPlayer::Execute(dword delta_time)
 	}
 }
 
-void CAviPlayer::Realize(dword delta_time)
+void CAviPlayer::Realize(uint32_t delta_time)
 {
 	//~!~
 	//rs->BeginScene();
@@ -133,7 +133,7 @@ void CAviPlayer::Realize(dword delta_time)
 	}
 }
 
-dword _cdecl CAviPlayer::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl CAviPlayer::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{

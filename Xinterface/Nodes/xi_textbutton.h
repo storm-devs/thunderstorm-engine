@@ -10,7 +10,7 @@ public:
 	CXI_TEXTBUTTON();
 	~CXI_TEXTBUTTON();
 
-	void	Draw(bool bSelected,dword Delta_Time);
+	void	Draw(bool bSelected,uint32_t Delta_Time);
 	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
 	void	ReleaseAll();
 	int		CommandExecute(int wActCode);
@@ -18,8 +18,8 @@ public:
 	void	MouseThis(float fX, float fY) {}
 	void	ChangePosition( XYRECT &rNewPos );
 	void	SaveParametersToIni();
-	dword _cdecl MessageProc(long msgcode, MESSAGE & message);
-	void	NotUsingTime(dword Delta_Time) {m_nPressedDelay=0;}
+	uint32_t _cdecl MessageProc(long msgcode, MESSAGE & message);
+	void	NotUsingTime(uint32_t Delta_Time) {m_nPressedDelay=0;}
 	void	SetUsing(bool bUsing);
 	void	MakeLClickPreaction();
 
@@ -42,11 +42,11 @@ protected:
     CVideoTexture *m_pTex;
 	XI_ONETEX_VERTEX m_v[8];
 
-	DWORD   m_dwShadowColor;	// цвет тени
-	DWORD   m_dwFaceColor;		// цвет ненажатой клавиши
-	DWORD   m_dwPressedFaceColor; // цвет активной клавиши
-	DWORD	m_dwFontColor;		// цвет шрифта
-	DWORD	m_dwUnselFontColor;	// цвет шрифта для недоступной клавиши
+	uint32_t   m_dwShadowColor;	// цвет тени
+	uint32_t   m_dwFaceColor;		// цвет ненажатой клавиши
+	uint32_t   m_dwPressedFaceColor; // цвет активной клавиши
+	uint32_t	m_dwFontColor;		// цвет шрифта
+	uint32_t	m_dwUnselFontColor;	// цвет шрифта для недоступной клавиши
 	float	m_fFontScale;
 
 	float   m_fXShadow;			// смещение по X для тени нормальной клавиши
@@ -72,7 +72,7 @@ protected:
 	long	m_nIndx;  // index quantity
 
 	bool	m_bVideoToBack;
-	DWORD	m_dwBackColor;
+	uint32_t	m_dwBackColor;
 
 	float	m_fShadowScale;
 };

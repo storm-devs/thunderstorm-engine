@@ -1,4 +1,5 @@
 #include "s_dbg_breaktable.h"
+#include "file_service.h"
 
 extern CORE Core;
 extern FILE_SERVICE File_Service;
@@ -22,7 +23,7 @@ BREAKPOINTS_TABLE::~BREAKPOINTS_TABLE()
 void BREAKPOINTS_TABLE::Release()
 {
 	INIFILE * ini;
-	DWORD n;
+	uint32_t n;
 	char buffer[MAX_PATH];
 
 
@@ -61,7 +62,7 @@ void BREAKPOINTS_TABLE::Release()
 void BREAKPOINTS_TABLE::UpdateProjectFile()
 {
 	INIFILE * ini;
-	DWORD n;
+	uint32_t n;
 	char buffer[MAX_PATH];
 
 	
@@ -83,9 +84,9 @@ void BREAKPOINTS_TABLE::UpdateProjectFile()
 	}
 }
 
-bool MakeLineCode(char * buffer, DWORD & nLineCode)
+bool MakeLineCode(char * buffer, uint32_t & nLineCode)
 {
-	DWORD n;
+	uint32_t n;
 	if(buffer == nullptr) return false;
 	n = 0;
 	while(buffer[n])
@@ -107,7 +108,7 @@ bool BREAKPOINTS_TABLE::ReadProject(char * filename)
 	INIFILE * ini;
 	char buffer[MAX_PATH];
 	
-	DWORD nLineNumber;
+	uint32_t nLineNumber;
 
 	Release();
 
@@ -131,9 +132,9 @@ bool BREAKPOINTS_TABLE::ReadProject(char * filename)
 	return false;
 }
 
-void BREAKPOINTS_TABLE::AddBreakPoint(const char * filename, DWORD line)
+void BREAKPOINTS_TABLE::AddBreakPoint(const char * filename, uint32_t line)
 {
-	DWORD n;
+	uint32_t n;
 
 	if(filename == nullptr) return;
 	
@@ -154,15 +155,15 @@ void BREAKPOINTS_TABLE::AddBreakPoint(const char * filename, DWORD line)
 	//UpdateProjectFile();
 }
 
-void BREAKPOINTS_TABLE::FlipBreakPoint(const char * filename, DWORD line)
+void BREAKPOINTS_TABLE::FlipBreakPoint(const char * filename, uint32_t line)
 {
 	if(Find(filename,line)) DelBreakPoint(filename,line);
 	else AddBreakPoint(filename,line);
 }
 
-void BREAKPOINTS_TABLE::DelBreakPoint(const char * filename, DWORD line)
+void BREAKPOINTS_TABLE::DelBreakPoint(const char * filename, uint32_t line)
 {
-	DWORD n;
+	uint32_t n;
 	if(filename == nullptr) return;
 	for(n=0;n<nPoints;n++)
 	{
@@ -182,9 +183,9 @@ void BREAKPOINTS_TABLE::DelBreakPoint(const char * filename, DWORD line)
 		return;
 	}
 }
-bool BREAKPOINTS_TABLE::Find(const char * filename, DWORD line)
+bool BREAKPOINTS_TABLE::Find(const char * filename, uint32_t line)
 {
-	DWORD n;
+	uint32_t n;
 	if(filename == nullptr) return false;
 	for(n=0;n<nPoints;n++)
 	{

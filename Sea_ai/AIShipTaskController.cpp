@@ -47,7 +47,7 @@ void AIShipTaskController::DoAttackRotate()
 
 	AIShipCannonController * pCC = GetAIShip()->GetCannonController();
 	
-	dword dwBort = pCC->GetBestFireBortOnlyDistance(vFirePos, 20.0f + FRAND(50.0f));
+	uint32_t dwBort = pCC->GetBestFireBortOnlyDistance(vFirePos, 20.0f + FRAND(50.0f));
 
 	if (INVALID_BORT_INDEX != dwBort)
 	{
@@ -61,14 +61,14 @@ void AIShipTaskController::DoAttackRotate()
 void AIShipTaskController::FindRunAwayPoint()
 {
 	CVECTOR vRAPoint = 0.0f;
-	dword	iNumPoints = 0;
+	uint32_t	iNumPoints = 0;
 
 	float fShipK = 1.0f;		// коэффициент воздействия от кораблей
 	float fFortK = 1.0f;		// коэффициент воздействия от форта
 	float fWindK = 10.0f;		// коэффициент воздействия для ветра
 
 	// check ships
-	for (dword i=0;i<AIShip::AIShips.size();i++) if (GetAIShip() != AIShip::AIShips[i])
+	for (uint32_t i=0;i<AIShip::AIShips.size();i++) if (GetAIShip() != AIShip::AIShips[i])
 	{
 		if (!Helper.isEnemy(AIShip::AIShips[i]->GetACharacter(), GetAIShip()->GetACharacter())) continue;
 		CVECTOR vDir = AIShip::AIShips[i]->GetPos() - GetAIShip()->GetPos();
@@ -80,7 +80,7 @@ void AIShipTaskController::FindRunAwayPoint()
 	// check forts
 	if (AIFort::pAIFort)
 	{
-		for (dword k=0; k<AIFort::pAIFort->GetNumForts(); k++)
+		for (uint32_t k=0; k<AIFort::pAIFort->GetNumForts(); k++)
 		{
 			AIFort::AI_FORT * pFort = AIFort::pAIFort->GetFort(k);
 			if (!Helper.isEnemy(pFort->GetACharacter(), GetAIShip()->GetACharacter())) continue;
@@ -186,7 +186,7 @@ void AIShipTaskController::Execute(float fDeltaTime)
 	}
 }
 
-void AIShipTaskController::SetNewTask(dword dwPriority, dword _dwNewTaskType, CVECTOR & vPnt)
+void AIShipTaskController::SetNewTask(uint32_t dwPriority, uint32_t _dwNewTaskType, CVECTOR & vPnt)
 {
 	AITask * pTask = GetTask(dwPriority);
 	
@@ -197,7 +197,7 @@ void AIShipTaskController::SetNewTask(dword dwPriority, dword _dwNewTaskType, CV
 	pTask->vTaskPnt = vPnt;
 }
 
-void AIShipTaskController::SetNewTask(dword dwPriority, dword _dwNewTaskType, ATTRIBUTES * _pATaskCharacter)
+void AIShipTaskController::SetNewTask(uint32_t dwPriority, uint32_t _dwNewTaskType, ATTRIBUTES * _pATaskCharacter)
 {
 	AITask * pTask = GetTask(dwPriority);
 	

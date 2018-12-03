@@ -308,9 +308,9 @@ void WdmIslands::SetIslandsData(ATTRIBUTES * apnt, bool isChange)
 	apnt = apnt->FindAClass(apnt, "labels");
 	if(!apnt) return;
 	//Количество меток
-	dword numAttr = apnt->GetAttributesNum();
+	uint32_t numAttr = apnt->GetAttributesNum();
 	//Перебираем все метки
-	for(dword i = 0; i < numAttr; i++)
+	for(uint32_t i = 0; i < numAttr; i++)
 	{
 		//Получаем доступ к описанию метки
 		ATTRIBUTES * a = apnt->GetAttributeClass(i);
@@ -319,12 +319,12 @@ void WdmIslands::SetIslandsData(ATTRIBUTES * apnt, bool isChange)
 		char * id = a->GetAttribute("id");
 		char * locator = a->GetAttribute("locator");
 		char * text = a->GetAttribute("text");
-		long icon = (long)a->GetAttributeAsDword("icon", (dword)-1);
+		long icon = (long)a->GetAttributeAsDword("icon", (uint32_t)-1);
 		char * font = a->GetAttribute("font");
 		float pivotX = -0.5f;
 		float pivotY = -0.5f;
 		float heightView = a->GetAttributeAsFloat("heightView", 250.0);
-		dword weight = a->GetAttributeAsDword("weight", 0);
+		uint32_t weight = a->GetAttributeAsDword("weight", 0);
 		//Проверяем на достаточность
 		if(!id || !text || !locator || !locator[0])
 		{
@@ -332,7 +332,7 @@ void WdmIslands::SetIslandsData(ATTRIBUTES * apnt, bool isChange)
 			continue;
 		}
 		//Ищим метку среди существующих
-		dword hash = wdmObjects->CalcHash(id);
+		uint32_t hash = wdmObjects->CalcHash(id);
 		long index = LabelsFind(id, hash);
 		if(index < 0)
 		{
@@ -442,7 +442,7 @@ void WdmIslands::LabelsReadIconParams(ATTRIBUTES * apnt)
 	}
 }
 
-long WdmIslands::LabelsFind(const char * id, dword hash)
+long WdmIslands::LabelsFind(const char * id, uint32_t hash)
 {
 	if(!id) id = "";
 	long i = hash & (sizeof(labelsEntry)/sizeof(labelsEntry[0]) - 1);
@@ -644,18 +644,18 @@ void WdmIslands::LRender(VDX9RENDER * rs)
 		//Метка
 		Label & label = labels[labelSort[i]];
 		//Пишем текст
-		dword color = (long(label.alpha) << 24) | 0xffffff;
+		uint32_t color = (long(label.alpha) << 24) | 0xffffff;
 		rs->Print(label.font, color, long(label.l + label.textX), long(label.t + label.textY), (char *)label.text.c_str());
 		//Рисуем картинку
 		if(label.icon < 0) continue;
 		rs->TextureSet(0, icons.texture);
 		rs->TextureSet(1, icons.texture);
-		rs->SetRenderState(D3DRS_TEXTUREFACTOR, (dword)icons.blend);
+		rs->SetRenderState(D3DRS_TEXTUREFACTOR, (uint32_t)icons.blend);
 		//Заполняем вершины
 		static struct
 		{
 			float x, y, z, rhw;
-			dword c;
+			uint32_t c;
 			float tu1, tv1;
 			float tu2, tv2;
 		} drawbuf[4];

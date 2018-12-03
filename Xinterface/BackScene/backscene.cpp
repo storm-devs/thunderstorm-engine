@@ -4,6 +4,8 @@
 #include "..\..\common_h\geometry.h"
 #include "..\xinterface.h"
 #include "../../common_h/defines.h"
+#include "../../common_h/math3d/Matrix.h"
+#include "../../../Shared/messages.h"
 
 InterfaceBackScene::LightParam::~LightParam()
 {
@@ -44,7 +46,7 @@ void InterfaceBackScene::LightParam::UpdateParams( float fTime )
 	lightSource.Diffuse.g = colorMin.g + (colorMax.g - colorMin.g) * fK; // 1.0f;
 	lightSource.Diffuse.b = colorMin.b + (colorMax.b - colorMin.b) * fK; // 0.7f;
 
-	dwFlareColor = dword(fMinFlareColor + (fMaxFlareColor-fMinFlareColor) * fK);
+	dwFlareColor = uint32_t(fMinFlareColor + (fMaxFlareColor-fMinFlareColor) * fK);
 	dwFlareColor = dwFlareColor | (dwFlareColor<<24) | (dwFlareColor<<16) | (dwFlareColor<<8);
 
 	CVECTOR vPos = vLightPos;
@@ -162,7 +164,7 @@ bool InterfaceBackScene::Init()
 	return true;
 }
 
-void InterfaceBackScene::Execute(dword Delta_Time)
+void InterfaceBackScene::Execute(uint32_t Delta_Time)
 {
 	long nOldMenuIndex = m_nSelectMenuIndex;
 
@@ -228,7 +230,7 @@ void InterfaceBackScene::Execute(dword Delta_Time)
 	}*/
 }
 
-void InterfaceBackScene::Realize(dword Delta_Time)
+void InterfaceBackScene::Realize(uint32_t Delta_Time)
 {
 	long n;
 
@@ -249,7 +251,7 @@ void InterfaceBackScene::Realize(dword Delta_Time)
 		for( n=0; n<m_apAniModel.size(); n++ )
 		{
 			if( m_apAniModel[n]->pModel ) {
-				dword dwTFactor;
+				uint32_t dwTFactor;
 				m_pRS->GetRenderState(D3DRS_TEXTUREFACTOR,&dwTFactor);
 				if( m_apAniModel[n]->bUseTFactor )
 					m_pRS->SetRenderState(D3DRS_TEXTUREFACTOR,m_apAniModel[n]->dwTFactor);
@@ -271,7 +273,7 @@ void InterfaceBackScene::Realize(dword Delta_Time)
 	}
 }
 
-dword _cdecl InterfaceBackScene::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl InterfaceBackScene::ProcessMessage(MESSAGE & message)
 {
 	long nMsgCode = message.Long();
 	char param[1024];
@@ -599,7 +601,7 @@ void InterfaceBackScene::InitLight( ATTRIBUTES* pAParam )
 	pLight->indexLight = -1;
 
 	float fDiv = 1.f / 255.f;
-	dword dwTmp = pAParam->GetAttributeAsDword("lightcolormin",0xFFFFFFFF);
+	uint32_t dwTmp = pAParam->GetAttributeAsDword("lightcolormin",0xFFFFFFFF);
 	pLight->colorMin.a = ALPHA(dwTmp) * fDiv;
 	pLight->colorMin.r = RED(dwTmp) * fDiv;
 	pLight->colorMin.g = GREEN(dwTmp) * fDiv;
@@ -739,7 +741,7 @@ void InterfaceBackScene::FlareShow(long idx)
 	//Позиция
 	pos = camMtx * m_vFlarePos;
 	//Цвет
-	dword c = dword(alpha); c |= (c << 24) | (c << 16) | (c << 8);*/
+	uint32_t c = uint32_t(alpha); c |= (c << 24) | (c << 16) | (c << 8);*/
 	//Угол поворота
 	float cs, sn;
 	float _cs = (dx*camMtx.Vx().z + dz*camMtx.Vz().z);
@@ -759,7 +761,7 @@ void InterfaceBackScene::FlareShow(long idx)
 	//Позиция
 	pos = m_vFlarePos;
 
-	dword c = m_aLights[idx]->dwFlareColor;
+	uint32_t c = m_aLights[idx]->dwFlareColor;
 
 	buffer[0].pos = pos + CVECTOR(m_fFlareSize*(-cs + sn), m_fFlareSize*(sn + cs), 0.0f);
 	buffer[0].color = c;

@@ -20,17 +20,17 @@ friend class IslandED;
 public:
 	struct edge_t
 	{
-		dword	dw1,dw2;	// first and second point index
+		uint32_t	dw1,dw2;	// first and second point index
 		float	fLen;		// edge len
 
 		edge_t() {};
-		edge_t(dword _dw1, dword _dw2, float _fLen) { dw1 = _dw1; dw2 = _dw2; fLen = _fLen; };
+		edge_t(uint32_t _dw1, uint32_t _dw2, float _fLen) { dw1 = _dw1; dw2 = _dw2; fLen = _fLen; };
 		inline bool operator == (const edge_t & e) const { return ((e.dw1 == dw1 && e.dw2 == dw2) || (e.dw1 == dw2 && e.dw2 == dw1)); }
 	};
 
 	struct npoint_t 
 	{
-		dword		dwPnt;
+		uint32_t		dwPnt;
 		float		fDistance;
 		float		fTemp;
 		inline bool operator < (const npoint_t & n) const { return (fDistance < n.fDistance); };
@@ -39,8 +39,8 @@ public:
 	struct point_t
 	{
 		CVECTOR				vPos;
-		dword				dwFlags;
-		std::vector<dword>		aEdges;
+		uint32_t				dwFlags;
+		std::vector<uint32_t>		aEdges;
 
 		point_t() {};
 		point_t(CVECTOR _vPos) { vPos = _vPos; };
@@ -63,7 +63,7 @@ public:
 		private: 
 			struct point_t
 			{
-				dword		dwPnt;
+				uint32_t		dwPnt;
 				float		fDistance;
 			};
 
@@ -73,10 +73,10 @@ public:
 			std::vector<point_t>	aPoints;
 
 			float	GetPathDistance() { return fDistance; }
-			float	GetDistance(dword dwPnt)
+			float	GetDistance(uint32_t dwPnt)
 			{
 				float fDist = 0.0f;
-				for (dword i=0;i<aPoints.size();i++) 
+				for (uint32_t i=0;i<aPoints.size();i++) 
 				{
 					point_t * pP = &aPoints[i];
 					fDist += pP->fDistance;
@@ -84,16 +84,16 @@ public:
 				}
 				return -1.0f;
 			}
-			bool	FindPoint(dword dwPnt) { return (GetDistance(dwPnt) >= 0.0f); }
-			dword	GetLastPoint() { Assert(aPoints.size()); return aPoints.back().dwPnt; };
+			bool	FindPoint(uint32_t dwPnt) { return (GetDistance(dwPnt) >= 0.0f); }
+			uint32_t	GetLastPoint() { Assert(aPoints.size()); return aPoints.back().dwPnt; };
 			void	DelLastPoint() { fDistance -= aPoints.back().fDistance; aPoints.pop_back(); };
-			void	AddPoint(dword dwP, float _fDistance)
+			void	AddPoint(uint32_t dwP, float _fDistance)
 			{
 				aPoints.push_back(point_t{ dwP, _fDistance });
 				fDistance += _fDistance;
 			}
 
-			Path(Path * pPath = null)
+			Path(Path * pPath = nullptr)
 			{ 
 				fDistance = 0.0f; 
 				if (pPath)
@@ -108,10 +108,10 @@ public:
 private:
 	std::vector<Path*>		aPaths;
 
-	bool	FindPath(Path *pPath, dword dwP1, dword dwP2);
+	bool	FindPath(Path *pPath, uint32_t dwP1, uint32_t dwP2);
 
 protected:
-	dword				dwIteration;
+	uint32_t				dwIteration;
 
 	std::vector<edge_t>		aEdges;
 	std::vector<point_t>		aPoints;
@@ -120,7 +120,7 @@ protected:
 
 struct table_t
 {
-	dword	p;
+	uint32_t	p;
 	float	d;
 };
 
@@ -128,7 +128,7 @@ struct table_t
 public:
 	AIFlowGraph() //: aPaths(_FL_, 64), aEdges(_FL_), aPoints(_FL_)//, aNearestPoints(200)
 	{
-		pTable = null;
+		pTable = nullptr;
 		sSectionName = "GraphPoints";
 	};
 	~AIFlowGraph() 
@@ -142,25 +142,25 @@ public:
 	bool	Save(INIFILE * pIni);
 
 	// point/edge/Path function section
-	dword	GetNumPoints() { return aPoints.size(); };
-	dword	GetNumEdges() { return aEdges.size(); };
-	CVECTOR	GetPointPos(dword dwPnt)
+	uint32_t	GetNumPoints() { return aPoints.size(); };
+	uint32_t	GetNumEdges() { return aEdges.size(); };
+	CVECTOR	GetPointPos(uint32_t dwPnt)
 	{
 		Assert(dwPnt < aPoints.size());
 		return aPoints[dwPnt].vPos;
 	}
-	point_t		* GetPoint(dword dwPntIdx);
-	edge_t		* GetEdge(dword dwEdgeIdx);
-	VectorPath	* GetVectorPath(dword dwP1, dword dwP2);
-	Path		* GetPath(dword dwP1, dword dwP2);
-	float		GetPathDistance(dword dwP1, dword dwP2);
-	float		GetDistance(dword dwP1, dword dwP2);
-	dword		GetOtherEdgePoint(dword dwEdgeIdx, dword dwPnt);
+	point_t		* GetPoint(uint32_t dwPntIdx);
+	edge_t		* GetEdge(uint32_t dwEdgeIdx);
+	VectorPath	* GetVectorPath(uint32_t dwP1, uint32_t dwP2);
+	Path		* GetPath(uint32_t dwP1, uint32_t dwP2);
+	float		GetPathDistance(uint32_t dwP1, uint32_t dwP2);
+	float		GetDistance(uint32_t dwP1, uint32_t dwP2);
+	uint32_t		GetOtherEdgePoint(uint32_t dwEdgeIdx, uint32_t dwPnt);
 	std::vector<npoint_t> * GetNearestPoints(CVECTOR & vP);
 
-	dword	AddPoint(CVECTOR vPos);
-	dword	AddEdge(dword dwEdgePnt1, dword dwEdgePnt2);
-	dword	AddEdge2Point(dword dwPnt, dword dwEdgePnt1, dword dwEdgePnt2);
+	uint32_t	AddPoint(CVECTOR vPos);
+	uint32_t	AddEdge(uint32_t dwEdgePnt1, uint32_t dwEdgePnt2);
+	uint32_t	AddEdge2Point(uint32_t dwPnt, uint32_t dwEdgePnt1, uint32_t dwEdgePnt2);
 
 	void	BuildTable();
 
@@ -179,13 +179,13 @@ inline bool AIFlowGraph::Save(INIFILE * pIni)
 
 	std::string		sTemp,sKey;
 	pIni->DeleteSection((char*)sSectionName.c_str());
-	for (dword i=0;i<aPoints.size();i++)
+	for (uint32_t i=0;i<aPoints.size();i++)
 	{
 		sTemp = "";
 		sTemp += aPoints[i].vPos.x; sTemp += ",";
 		sTemp += aPoints[i].vPos.z; sTemp += ",";
 		sTemp += (long)aPoints[i].aEdges.size(); sTemp += ",";
-		for (dword j=0;j<aPoints[i].aEdges.size();j++)
+		for (uint32_t j=0;j<aPoints[i].aEdges.size();j++)
 		{
 			sTemp += (long)aEdges[aPoints[i].aEdges[j]].dw1; sTemp += ",";
 			sTemp += (long)aEdges[aPoints[i].aEdges[j]].dw2; sTemp += ",";
@@ -215,10 +215,10 @@ inline bool AIFlowGraph::Load(INIFILE * pIni)
 		sscanf(cTemp,"%f,%f",&p.vPos.x,&p.vPos.z);
 		aPoints.push_back(p);
 	}
-	for (dword i=0;i<aPoints.size();i++)
+	for (uint32_t i=0;i<aPoints.size();i++)
 	{
 		float	x,z;
-		dword	dwNum;
+		uint32_t	dwNum;
 		sKey = "pnt" + std::to_string(i);
 		cTemp[0] = 0;
 		pIni->ReadString((char*)sSectionName.c_str(),(char*)sKey.c_str(),cTemp,32768); if (!cTemp[0]) continue;
@@ -228,9 +228,9 @@ inline bool AIFlowGraph::Load(INIFILE * pIni)
 		sscanf(buf, "%f,%f,%d,%n", &x, &z, &dwNum, &offset);
 		buf += offset;
 
-		for (dword j=0;j<dwNum;j++)
+		for (uint32_t j=0;j<dwNum;j++)
 		{
-			dword dw1, dw2;
+			uint32_t dw1, dw2;
 			sscanf(buf, "%d,%d,%n", &dw1, &dw2, &offset);;
 			buf += offset;
 			aPoints[i].aEdges.push_back(AddEdge(dw1,dw2));
@@ -240,7 +240,7 @@ inline bool AIFlowGraph::Load(INIFILE * pIni)
 	return false;
 }
 
-inline dword AIFlowGraph::AddPoint(CVECTOR vPos)
+inline uint32_t AIFlowGraph::AddPoint(CVECTOR vPos)
 {
 	point_t p(vPos);
 
@@ -252,7 +252,7 @@ inline dword AIFlowGraph::AddPoint(CVECTOR vPos)
 	return aPoints.size() - 1;
 }
 
-inline dword AIFlowGraph::AddEdge(dword dwEdgePnt1, dword dwEdgePnt2)
+inline uint32_t AIFlowGraph::AddEdge(uint32_t dwEdgePnt1, uint32_t dwEdgePnt2)
 {
 	Assert(dwEdgePnt1 < aPoints.size() && dwEdgePnt2 < aPoints.size());
 
@@ -266,28 +266,28 @@ inline dword AIFlowGraph::AddEdge(dword dwEdgePnt1, dword dwEdgePnt2)
 	return aEdges.size() - 1;
 }
 
-inline dword AIFlowGraph::AddEdge2Point(dword dwPnt, dword dwEdgePnt1, dword dwEdgePnt2)
+inline uint32_t AIFlowGraph::AddEdge2Point(uint32_t dwPnt, uint32_t dwEdgePnt1, uint32_t dwEdgePnt2)
 {
 	Assert(dwPnt < aPoints.size() && dwEdgePnt1 < aPoints.size() && dwEdgePnt2 < aPoints.size());
 
-	dword dwEdge = AddEdge(dwEdgePnt1,dwEdgePnt2);
+	uint32_t dwEdge = AddEdge(dwEdgePnt1,dwEdgePnt2);
 	aPoints[dwPnt].aEdges.push_back(dwEdge);
 	return aPoints[dwPnt].aEdges.size()-1;
 }
 
-inline AIFlowGraph::point_t	* AIFlowGraph::GetPoint(dword dwPntIdx)
+inline AIFlowGraph::point_t	* AIFlowGraph::GetPoint(uint32_t dwPntIdx)
 {
 	Assert(dwPntIdx < aPoints.size());
 	return &aPoints[dwPntIdx];
 }
 
-inline AIFlowGraph::edge_t	* AIFlowGraph::GetEdge(dword dwEdgeIdx)
+inline AIFlowGraph::edge_t	* AIFlowGraph::GetEdge(uint32_t dwEdgeIdx)
 {
 	Assert(dwEdgeIdx < aEdges.size());
 	return &aEdges[dwEdgeIdx];
 }
 
-inline dword AIFlowGraph::GetOtherEdgePoint(dword dwEdgeIdx, dword dwPnt)
+inline uint32_t AIFlowGraph::GetOtherEdgePoint(uint32_t dwEdgeIdx, uint32_t dwPnt)
 {
 	Assert(dwEdgeIdx < aEdges.size());
 	if (aEdges[dwEdgeIdx].dw1 == dwPnt) return aEdges[dwEdgeIdx].dw2;
@@ -296,8 +296,8 @@ inline dword AIFlowGraph::GetOtherEdgePoint(dword dwEdgeIdx, dword dwPnt)
 
 inline void AIFlowGraph::BuildTable()
 {
-	dword i,j,k,x,y;
-	dword dwNumPoints = aPoints.size();
+	uint32_t i,j,k,x,y;
+	uint32_t dwNumPoints = aPoints.size();
 
 	STORM_DELETE(pTable);
 	pTable = new table_t[SQR(dwNumPoints)];
@@ -312,7 +312,7 @@ inline void AIFlowGraph::BuildTable()
 		table_t * pTableRow = &pTable[i * dwNumPoints];
 		for (j=0;j<pP->aEdges.size();j++)
 		{
-			dword dwPnt = GetOtherEdgePoint(pP->aEdges[j],i);
+			uint32_t dwPnt = GetOtherEdgePoint(pP->aEdges[j],i);
 			pTableRow[dwPnt].p = dwPnt;
 			pTableRow[dwPnt].d = aEdges[pP->aEdges[j]].fLen;
 		}
@@ -328,7 +328,7 @@ inline void AIFlowGraph::BuildTable()
 				float d = pTable[x + y * dwNumPoints].d;
 				for (j=0;j<pP->aEdges.size();j++)
 				{
-					dword dwPnt = GetOtherEdgePoint(pP->aEdges[j],y);
+					uint32_t dwPnt = GetOtherEdgePoint(pP->aEdges[j],y);
 					float d1 = pTable[dwPnt + y * dwNumPoints].d;
 					float d2 = pTable[x + dwPnt * dwNumPoints].d;
 					if (d1+d2 < d && fabsf((d1+d2) - d)>0.01f) 
@@ -346,19 +346,19 @@ inline void AIFlowGraph::BuildTable()
 	}
 }
 
-inline float AIFlowGraph::GetDistance(dword dwP1, dword dwP2)
+inline float AIFlowGraph::GetDistance(uint32_t dwP1, uint32_t dwP2)
 {
 	return sqrtf(~(GetPointPos(dwP2) - GetPointPos(dwP1)));
 }
 
-inline float AIFlowGraph::GetPathDistance(dword dwP1, dword dwP2)
+inline float AIFlowGraph::GetPathDistance(uint32_t dwP1, uint32_t dwP2)
 {
 	Assert(dwP1 < aPoints.size() && dwP2 < aPoints.size());
 	if (dwP1 == dwP2) return 0.0f;
-	dword dwNumPoints = aPoints.size();
+	uint32_t dwNumPoints = aPoints.size();
 
 	float fDistance = 0.0f;
-	dword dwPnt = pTable[dwP2 + dwP1 * dwNumPoints].p;
+	uint32_t dwPnt = pTable[dwP2 + dwP1 * dwNumPoints].p;
 	while(dwPnt != INVALID_ARRAY_INDEX)
 	{
 		fDistance += GetDistance(dwP1, dwPnt);
@@ -369,27 +369,27 @@ inline float AIFlowGraph::GetPathDistance(dword dwP1, dword dwP2)
 	return fDistance;
 }
 
-inline AIFlowGraph::VectorPath * AIFlowGraph::GetVectorPath(dword dwP1, dword dwP2)
+inline AIFlowGraph::VectorPath * AIFlowGraph::GetVectorPath(uint32_t dwP1, uint32_t dwP2)
 {
 	VectorPath	* pVPath = new VectorPath();
 	Path		* pPath = GetPath(dwP1,dwP2);
 	if (pPath)
 	{
-		for (dword i=0;i<pPath->aPoints.size();i++)
+		for (uint32_t i=0;i<pPath->aPoints.size();i++)
 			pVPath->AddPoint(GetPointPos(pPath->aPoints[i].dwPnt));
 	}
 	STORM_DELETE(pPath);
 	return pVPath;
 }
 
-inline AIFlowGraph::Path * AIFlowGraph::GetPath(dword dwP1, dword dwP2)
+inline AIFlowGraph::Path * AIFlowGraph::GetPath(uint32_t dwP1, uint32_t dwP2)
 {
 	Assert(dwP1 < aPoints.size() && dwP2 < aPoints.size());
-	dword dwNumPoints = aPoints.size();
+	uint32_t dwNumPoints = aPoints.size();
 
-	Path *pP = new Path(null);
+	Path *pP = new Path(nullptr);
 	pP->AddPoint(dwP1,0.0f);
-	dword dwPnt = pTable[dwP2 + dwP1 * dwNumPoints].p;
+	uint32_t dwPnt = pTable[dwP2 + dwP1 * dwNumPoints].p;
 	while(dwPnt != INVALID_ARRAY_INDEX)
 	{
 		float fDistance = GetDistance(dwP1, dwPnt);
@@ -403,7 +403,7 @@ inline AIFlowGraph::Path * AIFlowGraph::GetPath(dword dwP1, dword dwP2)
 inline std::vector<AIFlowGraph::npoint_t> * AIFlowGraph::GetNearestPoints(CVECTOR & vP)
 {
 	std::vector<npoint_t>* aNearestPoints = new std::vector<npoint_t>(aPoints.size());
-	for (dword i = 0;i<aPoints.size();i++)
+	for (uint32_t i = 0;i<aPoints.size();i++)
 	{
 		//npoint_t * pN = &(*aNearestPoints)[(*aNearestPoints).Add()];
 		//pN->fDistance = sqrtf(~(vP - aPoints[i].vPos));

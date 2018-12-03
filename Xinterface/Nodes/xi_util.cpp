@@ -79,8 +79,8 @@ char CXI_UTILS::GetKeyInput()
 				case VK_ESCAPE: return SpecSymbol_escape; break;
 				}
 
-				byte pKBState[256];
-				WORD pcTmp[16]; // вообще то нужно только 2 символа (остальные на всякий случай)
+				uint8_t pKBState[256];
+				uint16_t pcTmp[16]; // вообще то нужно только 2 символа (остальные на всякий случай)
 				GetKeyboardState(pKBState);
 				if( ToAscii( n, MapVirtualKey(n,0), pKBState, pcTmp, 0 ) == 1 )
 				{
@@ -188,7 +188,7 @@ long CXI_UTILS::StringGetTokenCode( const char* pcTokenID )
 	return InterfaceToken_unknown;
 }
 
-DWORD CXI_UTILS::StringGetColor( const char* pcARGBString )
+uint32_t CXI_UTILS::StringGetColor( const char* pcARGBString )
 {
 	long nA = StringGetLong( pcARGBString );
 	long nR = StringGetLong( pcARGBString );
@@ -346,7 +346,7 @@ float CXI_UTILS::GetByStrNumFromAttribute_Float( ATTRIBUTES* pA, const char* pSt
 	return pA->GetAttributeAsFloat( stmp, fDefValue );
 }
 
-void CXI_UTILS::WriteSquareToVertexBuffer( XI_ONETEX_VERTEX *pv, dword color, FXYRECT& uv, XYRECT& rect )
+void CXI_UTILS::WriteSquareToVertexBuffer( XI_ONETEX_VERTEX *pv, uint32_t color, FXYRECT& uv, XYRECT& rect )
 {
 	pv[0].color = color;
 	pv[0].pos.x = (float)rect.left;
@@ -377,7 +377,7 @@ void CXI_UTILS::WriteSquareToVertexBuffer( XI_ONETEX_VERTEX *pv, dword color, FX
 	pv[3].tv = uv.bottom;
 }
 
-void CXI_UTILS::WriteSquareToVertexBuffer( XI_ONETEX_VERTEX *pv, dword color, FXYRECT& uv, long left,long top,long right,long bottom )
+void CXI_UTILS::WriteSquareToVertexBuffer( XI_ONETEX_VERTEX *pv, uint32_t color, FXYRECT& uv, long left,long top,long right,long bottom )
 {
 	pv[0].color = color;
 	pv[0].pos.x = (float)left;
@@ -409,7 +409,7 @@ void CXI_UTILS::WriteSquareToVertexBuffer( XI_ONETEX_VERTEX *pv, dword color, FX
 }
 
 void CXI_UTILS::PrintTextIntoWindow(VDX9RENDER* pRender,
-									long nFont, dword dwColor, long wAlignment, bool bShadow, float fScale,
+									long nFont, uint32_t dwColor, long wAlignment, bool bShadow, float fScale,
 									long scrWidth, long scrHeight, long x, long y,
 									const char* pcString, long left,long top, long width,long height)
 {

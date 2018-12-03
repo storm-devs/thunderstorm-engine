@@ -2,7 +2,7 @@
 #define _KEY_CODES_H_
 
 #define LOSHORT(l)   ((short) (l)) 
-#define HISHORT(l)   ((short) (((DWORD) (l) >> 16) & 0xFFFF)) 
+#define HISHORT(l)   ((short) (((uint32_t) (l) >> 16) & 0xFFFF)) 
 
 #define DPAD_UP			0
 #define DPAD_RIGHT		1

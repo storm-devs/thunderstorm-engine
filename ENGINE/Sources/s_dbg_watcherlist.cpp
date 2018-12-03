@@ -123,7 +123,7 @@ void WATCHER_LIST::Refresh()
 	}
 }
 
-void WATCHER_LIST::ProcessMessage(DWORD iMsg, DWORD wParam, DWORD lParam)
+void WATCHER_LIST::ProcessMessage(uint32_t iMsg, uint32_t wParam, uint32_t lParam)
 {
 	LPNMHDR pnmh;
 	LPNMLISTVIEW lpnmlv;

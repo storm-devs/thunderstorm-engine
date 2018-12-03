@@ -11,7 +11,7 @@ public:
 	int count;
 	CVECTOR cameraAng;
 	CVECTOR cameraPos;
-	DWORD dltTime;
+	uint32_t dltTime;
 
 	bool keyPressed;
 	int key, shiftKey;

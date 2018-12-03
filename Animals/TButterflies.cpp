@@ -1,7 +1,7 @@
 #include "TButterflies.h"
 #include "..\common_h\ship_base.h"
 #include "..\common_h\rands.h"
-#include "..\common_h\vidwalker.h"
+#include "../../Shared/messages.h"
 
 #pragma warning (disable : 4244)
 
@@ -68,11 +68,11 @@ void TButterflies::Init()
 }
 
 //--------------------------------------------------------------------
-dword TButterflies::ProcessMessage(long _code, MESSAGE & message)
+uint32_t TButterflies::ProcessMessage(long _code, MESSAGE & message)
 {
 	GUARD(TButterflies::ProcessMessage)
 
-	dword outValue = 0;
+	uint32_t outValue = 0;
 	switch (_code)
 	{
 	case MSG_ANIMALS_BUTTERFLIES_SHOW:
@@ -101,7 +101,7 @@ dword TButterflies::ProcessMessage(long _code, MESSAGE & message)
 }
 
 //--------------------------------------------------------------------
-void TButterflies::Execute(dword _dTime)
+void TButterflies::Execute(uint32_t _dTime)
 {
 	GUARD(ANIMALS::Execute)
 
@@ -155,7 +155,7 @@ void TButterflies::Execute(dword _dTime)
 }
 
 //--------------------------------------------------------------------
-void TButterflies::Realize(dword _dTime)
+void TButterflies::Realize(uint32_t _dTime)
 {
 	GUARD(ANIMALS::Realize)
 

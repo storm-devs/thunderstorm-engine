@@ -1,8 +1,6 @@
 #include "DIALOG.h"
 #include "..\common_h\defines.h"
-#include "..\common_h\messages.h"
 #include "..\common_h\model.h"
-#include "..\common_h\geometry.h"
 
 #include "..\SoundService\VSoundService.h"
 
@@ -382,19 +380,19 @@ void __declspec(noinline) __cdecl DIALOG::CreateBack()
 	if( m_idVBufBack == -1 )
 		m_idVBufBack = RenderService->CreateVertexBuffer( XI_TEX_FVF, m_nVQntBack * sizeof(XI_TEX_VERTEX), D3DUSAGE_WRITEONLY );
 	if( m_idIBufBack == -1 )
-		m_idIBufBack = RenderService->CreateIndexBuffer( m_nIQntBack * sizeof(WORD) );
+		m_idIBufBack = RenderService->CreateIndexBuffer( m_nIQntBack * sizeof(uint16_t) );
 
-	WORD * pI = (WORD*)RenderService->LockIndexBuffer( m_idIBufBack );
+	uint16_t * pI = (uint16_t*)RenderService->LockIndexBuffer( m_idIBufBack );
 	if( pI )
 	{
 		for( long n=0; n<nSquareQuantity; n++ )
 		{
-			pI[n*6+0] = (WORD)(n*4 + 0);
-			pI[n*6+1] = (WORD)(n*4 + 2);
-			pI[n*6+2] = (WORD)(n*4 + 1);
-			pI[n*6+3] = (WORD)(n*4 + 1);
-			pI[n*6+4] = (WORD)(n*4 + 2);
-			pI[n*6+5] = (WORD)(n*4 + 3);
+			pI[n*6+0] = (uint16_t)(n*4 + 0);
+			pI[n*6+1] = (uint16_t)(n*4 + 2);
+			pI[n*6+2] = (uint16_t)(n*4 + 1);
+			pI[n*6+3] = (uint16_t)(n*4 + 1);
+			pI[n*6+4] = (uint16_t)(n*4 + 2);
+			pI[n*6+5] = (uint16_t)(n*4 + 3);
 		}
 		RenderService->UnLockIndexBuffer( m_idIBufBack );
 	}
@@ -500,19 +498,19 @@ void DIALOG::CreateButtons()
 	if( m_idVBufButton == -1 )
 		m_idVBufButton = RenderService->CreateVertexBuffer( XI_TEX_FVF, m_nVQntButton * sizeof(XI_TEX_VERTEX), D3DUSAGE_WRITEONLY );
 	if( m_idIBufButton == -1 )
-		m_idIBufButton = RenderService->CreateIndexBuffer( m_nIQntButton * sizeof(WORD) );
+		m_idIBufButton = RenderService->CreateIndexBuffer( m_nIQntButton * sizeof(uint16_t) );
 
-	WORD * pI = (WORD*)RenderService->LockIndexBuffer( m_idIBufButton );
+	uint16_t * pI = (uint16_t*)RenderService->LockIndexBuffer( m_idIBufButton );
 	if( pI )
 	{
 		for( long n=0; n<2; n++ )
 		{
-			pI[n*6+0] = (WORD)(n*4 + 0);
-			pI[n*6+1] = (WORD)(n*4 + 2);
-			pI[n*6+2] = (WORD)(n*4 + 1);
-			pI[n*6+3] = (WORD)(n*4 + 1);
-			pI[n*6+4] = (WORD)(n*4 + 2);
-			pI[n*6+5] = (WORD)(n*4 + 3);
+			pI[n*6+0] = (uint16_t)(n*4 + 0);
+			pI[n*6+1] = (uint16_t)(n*4 + 2);
+			pI[n*6+2] = (uint16_t)(n*4 + 1);
+			pI[n*6+3] = (uint16_t)(n*4 + 1);
+			pI[n*6+4] = (uint16_t)(n*4 + 2);
+			pI[n*6+5] = (uint16_t)(n*4 + 3);
 		}
 		RenderService->UnLockIndexBuffer( m_idIBufButton );
 	}
@@ -789,7 +787,7 @@ bool DIALOG::Init()
 
 
 //--------------------------------------------------------------------
-void DIALOG::Realize(dword Delta_Time)
+void DIALOG::Realize(uint32_t Delta_Time)
 {
 	RenderService->MakePostProcess();
 	// замедленный выход из паузы
@@ -964,7 +962,7 @@ void DIALOG::Realize(dword Delta_Time)
 }
 
 //--------------------------------------------------------------------
-dword DIALOG::AttributeChanged(ATTRIBUTES * pA)
+uint32_t DIALOG::AttributeChanged(ATTRIBUTES * pA)
 {
 	//search for default settings
 	bool parLinks = false;
@@ -988,7 +986,7 @@ dword DIALOG::AttributeChanged(ATTRIBUTES * pA)
 }
 
 //--------------------------------------------------------------------
-dword _cdecl DIALOG::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl DIALOG::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{

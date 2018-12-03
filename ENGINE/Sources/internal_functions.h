@@ -22,8 +22,8 @@ public:
 
 	void SetStackAndToken(VSTACK * pStack, TOKEN *  pToken);
 	DATA * CallIntFunction(char * func_name);
-	DATA * CallIntFunction(DWORD func_code);
-	DWORD  GetIntFunctionCode(char * func_name);
+	DATA * CallIntFunction(uint32_t func_code);
+	uint32_t  GetIntFunctionCode(char * func_name);
 };
 
 #endif

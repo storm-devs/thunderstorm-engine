@@ -28,9 +28,9 @@ enum PointType { PT_TYPE_NORMAL, PT_TYPE_CANNON_L,
 #define COLOR_SELECTED         0xFFFFFFFF;
 //-----------------------------------------------------------------------------------------------
 struct Path{
-  byte  length;                                            // Длина цепочки (кол-во элементов)
+  uint8_t  length;                                            // Длина цепочки (кол-во элементов)
   float   min;                                             // Значение пути
-  byte  point[MAX_POINTS];                                 // Последовательность обхода
+  uint8_t  point[MAX_POINTS];                                 // Последовательность обхода
   int currentPointPosition;								   // Текущее положение в пути
 
   Path(){

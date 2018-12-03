@@ -12,8 +12,8 @@ public:
 	IBoardingStatus();
 	~IBoardingStatus();
 	bool Init();
-	void Realize(dword delta_time);
-    dword _cdecl ProcessMessage(MESSAGE & message);
+	void Realize(uint32_t delta_time);
+    uint32_t _cdecl ProcessMessage(MESSAGE & message);
 
 protected:
 	void Create();
@@ -26,8 +26,8 @@ protected:
 	long	m_Height;
 	FPOINT	m_myPos;
 	FPOINT	m_enemyPos;
-	DWORD	m_myColor;
-	DWORD	m_enemyColor;
+	uint32_t	m_myColor;
+	uint32_t	m_enemyColor;
 
 	BI_COLORONLY_VERTEX	m_MyChar[4];
 	BI_COLORONLY_VERTEX	m_EnemyChar[4];

@@ -5,35 +5,30 @@
 #include "..\common_h\dx9render.h"
 #include "..\common_h\collide.h"
 #include "..\common_h\Island_base.h"
-#include "..\common_h\defines.h"
 #include "..\common_h\model.h"
-#include "..\common_h\messages.h"
-#include "..\common_h\tga.h"
-#include "..\common_h\sea_base.h"
-#include "..\common_h\geos.h"
 #include "..\common_h\geometry.h"
 #include "..\sea_ai\AIFlowGraph.h"
 
 class MapZipper
 {
 private: 
-	dword	dwSizeX;
-	dword	dwDX;
-	dword	dwBlockSize, dwBlockShift;
-	dword	dwShiftNumBlocksX;
-	dword	dwNumRealBlocks;
+	uint32_t	dwSizeX;
+	uint32_t	dwDX;
+	uint32_t	dwBlockSize, dwBlockShift;
+	uint32_t	dwShiftNumBlocksX;
+	uint32_t	dwNumRealBlocks;
 
-	word	* pWordTable;
-	byte	* pRealData;
+	uint16_t	* pWordTable;
+	uint8_t	* pRealData;
 public:
 	MapZipper();
 	~MapZipper(); 
 
-	dword	GetSizeX() { return dwSizeX; };
+	uint32_t	GetSizeX() { return dwSizeX; };
 
 	void	UnInit();
-	void	DoZip(byte * pSrc, dword dwSizeX);
-	byte	Get(dword dwX, dword dwY);
+	void	DoZip(uint8_t * pSrc, uint32_t dwSizeX);
+	uint8_t	Get(uint32_t dwX, uint32_t dwY);
 
 	bool	Save(std::string sFileName);
 	bool	Load(std::string sFileName);
@@ -56,7 +51,7 @@ private:
 	float				fStepDX, fStepDZ, fStep1divDX, fStep1divDZ;
 	float				fShadowMapSize, fShadowMapStep;
 	CVECTOR				vBoxSize, vBoxCenter, vRealBoxSize;
-	dword				iDMapSize, iDMapSizeShift;
+	uint32_t				iDMapSize, iDMapSizeShift;
 	ENTITY_ID			model_id, seabed_id;
 
 	bool				bFirstRealize;
@@ -67,8 +62,8 @@ private:
 
 	MapZipper			mzShadow, mzDepth;
 
-	byte				* pDepthMap;
-	byte				* pShadowMap;
+	uint8_t				* pDepthMap;
+	uint8_t				* pShadowMap;
 
 	VDX9RENDER			* pRS;
 	VGEOMETRY			* pGS;
@@ -79,8 +74,8 @@ private:
 	float				fImmersionDepth, fImmersionDistance;
 	float				fCurrentImmersion;
 
-	void	Blur8(byte * * pBuffer, dword dwSize);
-	bool	SaveTga8(char * fname, byte * pBuffer, dword dwSizeX, dword dwSizeY);
+	void	Blur8(uint8_t * * pBuffer, uint32_t dwSize);
+	bool	SaveTga8(char * fname, uint8_t * pBuffer, uint32_t dwSizeX, uint32_t dwSizeY);
 
 	// shadow map section
 	bool	CreateShadowMap(char * pDir, char * pName);
@@ -89,8 +84,8 @@ private:
 	// depth map section
 	bool	CreateHeightMap(char * pDir, char * pName);
 	bool	ActivateCamomileTrace(CVECTOR & vSrc);
-	inline float	GetDepthCheck(DWORD iX, DWORD iZ);
-	inline float	GetDepthNoCheck(DWORD iX, DWORD iZ);
+	inline float	GetDepthCheck(uint32_t iX, uint32_t iZ);
+	inline float	GetDepthNoCheck(uint32_t iX, uint32_t iZ);
 
 	bool	Mount(char *fname, char * fdir, ENTITY_ID *eID);
 	void	Uninit();
@@ -113,8 +108,8 @@ public:
 	 ISLAND();
 	~ISLAND();
 	bool			Init();
-	void			Realize(dword Delta_Time);
-	dword _cdecl	ProcessMessage(MESSAGE & message);
+	void			Realize(uint32_t Delta_Time);
+	uint32_t _cdecl	ProcessMessage(MESSAGE & message);
 
 	void			Move();
 	void			SetDevice();

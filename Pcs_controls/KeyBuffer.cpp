@@ -18,6 +18,6 @@ void ControlKeyBuffer::Reset()
 void ControlKeyBuffer::AddKey( long nKeyCode, UINT uScanCode, bool bSystem )
 {
 	m_pcBuffer[m_nBufLen].bSystem = bSystem;
-	m_pcBuffer[m_nBufLen].ucVKey = (UCHAR)((DWORD)nKeyCode & 0xFF);
+	m_pcBuffer[m_nBufLen].ucVKey = (UCHAR)((uint32_t)nKeyCode & 0xFF);
 	m_nBufLen++;
 }

@@ -19,7 +19,7 @@ class InterfaceBackScene : public ENTITY
 		D3DLIGHT9 lightSource;
 		D3DLIGHT9 lightOldSource;
 
-		dword dwFlareColor;
+		uint32_t dwFlareColor;
 		float fMinFlareColor;
 		float fMaxFlareColor;
 
@@ -49,9 +49,9 @@ public:
 	~InterfaceBackScene();
 
 	bool Init();
-	void Execute(dword Delta_Time);
-	void Realize(dword Delta_Time);
-	dword _cdecl ProcessMessage(MESSAGE & message);
+	void Execute(uint32_t Delta_Time);
+	void Realize(uint32_t Delta_Time);
+	uint32_t _cdecl ProcessMessage(MESSAGE & message);
 
 protected:
 	VDX9RENDER* m_pRS;
@@ -115,7 +115,7 @@ protected:
 		MODEL* pModel;
 
 		bool bUseTFactor;
-		DWORD dwTFactor;
+		uint32_t dwTFactor;
 
 		AniModelDescr() {pModel=nullptr;bUseTFactor=false;}
 		~AniModelDescr() {api->DeleteEntity(ei); pModel=nullptr;}
@@ -132,7 +132,7 @@ protected:
 	};
 	struct ParticleEx : public Particle
 	{
-		dword color;
+		uint32_t color;
 		float frame;
 	};
 	struct ParticleFly : public ParticleEx
@@ -151,7 +151,7 @@ protected:
 	struct Vertex
 	{
 		CVECTOR pos;
-		dword color;
+		uint32_t color;
 		float u, v;
 	};
 	LampFlys * flys;

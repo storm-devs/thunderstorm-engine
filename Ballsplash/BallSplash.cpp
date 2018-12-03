@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "..\common_h\messages.h"
+#include "..\../Shared/messages.h"
 #include "..\common_h\exs.h"
 #include "..\common_h\CVECTOR.h"
 //#include "..\SoundService\VSoundService.h"
@@ -44,12 +44,12 @@ bool BALLSPLASH::Init()
 }
 
 //--------------------------------------------------------------------
-dword _cdecl BALLSPLASH::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl BALLSPLASH::ProcessMessage(MESSAGE & message)
 {
 	GUARD(BALLSPLASH::ProcessMessage)
 
 	long code = message.Long();
-	dword outValue = 0;
+	uint32_t outValue = 0;
 
 	switch (code)
 	{
@@ -79,11 +79,11 @@ dword _cdecl BALLSPLASH::ProcessMessage(MESSAGE & message)
 }
 
 //--------------------------------------------------------------------
-void BALLSPLASH::Realize(dword _dTime)
+void BALLSPLASH::Realize(uint32_t _dTime)
 {
 	GUARD(BALLSPLASH::Realize)
 
-	dword ticks;
+	uint32_t ticks;
 	RDTSC_B(ticks);
 
 	TSplash::lockTicks    = 0;
@@ -137,7 +137,7 @@ void BALLSPLASH::Realize(dword _dTime)
 }
 
 //--------------------------------------------------------------------
-void BALLSPLASH::Execute(dword _dTime)
+void BALLSPLASH::Execute(uint32_t _dTime)
 {
 	GUARD(BALLSPLASH::Execute)
 

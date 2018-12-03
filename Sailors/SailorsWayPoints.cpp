@@ -414,7 +414,7 @@ int SailorsPoints :: ReadFromFile(std::string fileName)
 	sscanf(param,"%d", &points.count);
 
 	float x,y,z;
-	DWORD type;
+	uint32_t type;
 
 	points.point.resize(points.count);
 	for (int i= 0; i< points.count; i++ ){

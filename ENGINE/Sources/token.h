@@ -1,14 +1,14 @@
 #ifndef _S_TOKEN_H_
 #define _S_TOKEN_H_
 
-//#include <windows.h>
+#include <cstdint>
+
 #ifndef _XBOX
 #include <windows.h>
 #else
 #include <xtl.h>
 #endif
 
-#include "..\..\common_h\d_types.h"
 enum S_TOKEN_TYPE 
 {
 	END_OF_PROGRAMM,
@@ -142,7 +142,7 @@ enum S_TOKEN_TYPE
 
 struct INTFUNCDESC
 {
-	DWORD dwArgsNum;
+	uint32_t dwArgsNum;
 	char * pName;
 	S_TOKEN_TYPE ReturnType;
 };
@@ -155,8 +155,8 @@ struct INTFUNCDESC
 struct THLINE
 {
 	THLINE(){dwNum = 0; pIndex = nullptr;};
-	DWORD  dwNum;
-	BYTE * pIndex;
+	uint32_t  dwNum;
+	uint8_t * pIndex;
 };
 
 class TOKEN
@@ -166,11 +166,11 @@ class TOKEN
 	long   TokenDataBufferSize;
 	long   Lines_in_token;
 	char * pTokenData;
-	DWORD  ProgramSteps[PROGRAM_STEPS_CACHE];
+	uint32_t  ProgramSteps[PROGRAM_STEPS_CACHE];
 	long   ProgramStepsNum;
 	char * Program;
 	char * ProgramBase;
-	DWORD  dwKeywordsNum;
+	uint32_t  dwKeywordsNum;
 
 public:
 	 TOKEN();
@@ -181,7 +181,7 @@ public:
 	void SetProgramControl(char * pProgramControl);
 	char * GetProgramControl();
 	char * GetProgramBase(){return ProgramBase;};
-	DWORD  GetProgramOffset();
+	uint32_t  GetProgramOffset();
 
 	S_TOKEN_TYPE Get(bool bKeepData = false);
 	S_TOKEN_TYPE ProcessToken(char* & pointer, bool bKeepData = false);
@@ -204,7 +204,7 @@ public:
 	S_TOKEN_TYPE FormatGet();
 
 	S_TOKEN_TYPE Keyword2TokenType(char * pString);
-	DWORD MakeHashValue(const char * string, DWORD max_syms = 0);
+	uint32_t MakeHashValue(const char * string, uint32_t max_syms = 0);
 	bool InitializeHashTable();
 
 };

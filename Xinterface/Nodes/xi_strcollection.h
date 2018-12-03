@@ -10,7 +10,7 @@ public:
 	 CXI_STRCOLLECTION();
 	~CXI_STRCOLLECTION();
 
-	void	Draw(bool bSelected,dword Delta_Time);
+	void	Draw(bool bSelected,uint32_t Delta_Time);
 	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
 	void	ReleaseAll();
 	int		CommandExecute(int wActCode);
@@ -20,10 +20,10 @@ public:
 	void	SetInternalName(std::string& sName );
 	void	ChangePosition( XYRECT &rNewPos );
 	void	SaveParametersToIni();
-	dword _cdecl MessageProc(long msgcode, MESSAGE & message);
+	uint32_t _cdecl MessageProc(long msgcode, MESSAGE & message);
 
 	void	ChangeString(long num, const char* sValue);
-	void	ChangeStringColor(long num, dword dwColor);
+	void	ChangeStringColor(long num, uint32_t dwColor);
 	void	ChangeStringPos(long num, XYPOINT& pntNewPos);
 
 protected:
@@ -35,8 +35,8 @@ protected:
 		char *		strStr;
 		char *		strID;
 		XYPOINT		scrPos;	    // screen position for string show
-		DWORD		foreColor;  // color of font
-		DWORD		backColor;  // color of the font background
+		uint32_t		foreColor;  // color of font
+		uint32_t		backColor;  // color of the font background
 		int			wAlignment; // print text alignment
 		bool		bShadow;    // do shadow
 		float		fScale;	    // scale for string out

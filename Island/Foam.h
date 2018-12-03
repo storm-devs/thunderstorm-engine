@@ -2,16 +2,10 @@
 #define _COAST_FOAM_HPP_
 
 #include "..\common_h\vmodule_api.h"
-#include "..\common_h\dx9render.h"
 #include "..\common_h\collide.h"
 #include "..\common_h\Island_base.h"
-#include "..\common_h\defines.h"
 #include "..\common_h\model.h"
-#include "..\common_h\messages.h"
-#include "..\common_h\tga.h"
 #include "..\common_h\sea_base.h"
-#include "..\common_h\geos.h"
-#include "..\common_h\geometry.h"
 #include "..\sea_ai\AIFlowGraph.h"
 
 enum FOAMTYPE
@@ -29,15 +23,15 @@ public:
 	~CoastFoam();
 
 	bool Init();
-	void Realize(dword Delta_Time);
-	void Execute(dword Delta_Time);
-	dword AttributeChanged(ATTRIBUTES * pA);
+	void Realize(uint32_t Delta_Time);
+	void Execute(uint32_t Delta_Time);
+	uint32_t AttributeChanged(ATTRIBUTES * pA);
 
 private:
 	struct FoamVertex
 	{
 		CVECTOR vPos;
-		dword	dwColor;
+		uint32_t	dwColor;
 		float	tu, tv;
 	};
 
@@ -94,7 +88,7 @@ private:
 	float			fMaxFoamDistance, fFoamDeltaY;
 	long			iFoamDivides;
 
-	dword			dwNumPenasExecuted;
+	uint32_t			dwNumPenasExecuted;
 
 	void ExtractRay (const D3DVIEWPORT9 & viewport, float fCursorX, float fCursorY, CVECTOR & raystart, CVECTOR & rayend);
 

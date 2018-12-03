@@ -18,9 +18,9 @@ public:
 	ILogAndActions();
 	~ILogAndActions();
 	bool Init();
-	void Execute(dword delta_time);
-	void Realize(dword delta_time);
-    dword _cdecl ProcessMessage(MESSAGE & message);
+	void Execute(uint32_t delta_time);
+	void Realize(uint32_t delta_time);
+    uint32_t _cdecl ProcessMessage(MESSAGE & message);
 
 protected:
 	void Create(bool bFastComShow, bool bLogStringShow);
@@ -40,7 +40,7 @@ protected:
 	long	m_nWindowUp;
 	long	m_fontID;
 	float	m_fFontScale;
-	DWORD	m_dwColor;
+	uint32_t	m_dwColor;
 	long	m_nStringBegin;
 	long	m_nStringOffset;
 	float   m_fShiftSpeed;

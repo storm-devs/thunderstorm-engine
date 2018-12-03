@@ -1,7 +1,6 @@
 #include "..\..\common_h\memop.h"
 #include "s_vartab.h"
 //#include <string.h>
-#include "system_log.h"
 
 #define VTMAKEHASHINDEX(x)	(x&0xff)
 
@@ -12,7 +11,7 @@ S_VARTAB::S_VARTAB()
 	Var_num = 0;
 //	bKeepName = false;
 	Global_var_num = 0;
-	DWORD n;
+	uint32_t n;
 	for(n=0;n<VTHASHT_SIZE;n++)
 	{
 		HashLine[n].nNumElements = 0;
@@ -27,7 +26,7 @@ S_VARTAB::~S_VARTAB()
 
 void  S_VARTAB::Release()
 {
-	dword n;
+	uint32_t n;
 	if(pTable) 
 	{
 		for(n=0;n<Var_num;n++)	
@@ -47,7 +46,7 @@ void  S_VARTAB::Release()
 	}
 }
 
-bool S_VARTAB::GetVar(VARINFO& vi,dword var_code)
+bool S_VARTAB::GetVar(VARINFO& vi,uint32_t var_code)
 {
 	if(var_code >= Var_num) return false;
 	if(pTable[var_code].segment_id == INVALID_SEGMENT_ID) return false;
@@ -55,17 +54,17 @@ bool S_VARTAB::GetVar(VARINFO& vi,dword var_code)
 	return true;
 }
 
-bool S_VARTAB::GetVarX(VARINFO& vi,dword var_code)
+bool S_VARTAB::GetVarX(VARINFO& vi,uint32_t var_code)
 {
 	if(var_code >= Var_num) return false;
 	vi = pTable[var_code];
 	return true;
 }
 
-dword S_VARTAB::AddVar(VARINFO& vi)
+uint32_t S_VARTAB::AddVar(VARINFO& vi)
 {
-	dword n;
-	dword hash;
+	uint32_t n;
+	uint32_t hash;
 
 	if(vi.name == nullptr) return INVALID_VAR_CODE;
 
@@ -144,10 +143,10 @@ dword S_VARTAB::AddVar(VARINFO& vi)
 	return (Var_num - 1);
 }
 
-dword S_VARTAB::MakeHashValue(const char * string)
+uint32_t S_VARTAB::MakeHashValue(const char * string)
 {
-	dword hval = 0;
-	dword g;
+	uint32_t hval = 0;
+	uint32_t g;
 	char v;
 	while(*string != 0)
 	{
@@ -164,9 +163,9 @@ dword S_VARTAB::MakeHashValue(const char * string)
 	return hval;
 }
 
-void S_VARTAB::InvalidateBySegmentID(dword segment_id)
+void S_VARTAB::InvalidateBySegmentID(uint32_t segment_id)
 {
-	dword n;
+	uint32_t n;
 	for(n=0;n<Var_num;n++)
 	{
 		if(pTable[n].segment_id != segment_id) continue;
@@ -175,9 +174,9 @@ void S_VARTAB::InvalidateBySegmentID(dword segment_id)
 	}
 }
 
-dword S_VARTAB::FindVar(const char * var_name)
+uint32_t S_VARTAB::FindVar(const char * var_name)
 {
-	DWORD hash_index,n,hash,ni;
+	uint32_t hash_index,n,hash,ni;
 	if(var_name == nullptr) return INVALID_VAR_CODE;
 	hash = MakeHashValue(var_name);
 	hash_index = VTMAKEHASHINDEX(hash);
@@ -190,8 +189,8 @@ dword S_VARTAB::FindVar(const char * var_name)
 	return INVALID_VAR_CODE;
 	/*
 
-	dword n;
-	dword hash;
+	uint32_t n;
+	uint32_t hash;
 	if(var_name == 0) return INVALID_VAR_CODE;
 	hash = MakeHashValue(var_name);
 	for(n=0;n<Var_num;n++)
@@ -202,7 +201,7 @@ dword S_VARTAB::FindVar(const char * var_name)
 	return INVALID_VAR_CODE;*/
 }
 
-bool S_VARTAB::ArraySizeChanged(dword nIndex,dword nNewSize)
+bool S_VARTAB::ArraySizeChanged(uint32_t nIndex,uint32_t nNewSize)
 {
 	if(nIndex >= Var_num) return false;
 	if(!pTable[nIndex].pDClass->IsArray()) 
@@ -214,10 +213,10 @@ bool S_VARTAB::ArraySizeChanged(dword nIndex,dword nNewSize)
 	return true;
 }
 
-void S_VARTAB::UpdateHashTable(DWORD code, DWORD hash, bool in)
+void S_VARTAB::UpdateHashTable(uint32_t code, uint32_t hash, bool in)
 {
-	DWORD n;
-	DWORD hash_index;
+	uint32_t n;
+	uint32_t hash_index;
 	hash_index = VTMAKEHASHINDEX(hash);
 
 	for(n=0;n<HashLine[hash_index].nNumElements;n++)
@@ -228,13 +227,13 @@ void S_VARTAB::UpdateHashTable(DWORD code, DWORD hash, bool in)
 			// take element out of list
 			HashLine[hash_index].pElements[n] = HashLine[hash_index].pElements[HashLine[hash_index].nNumElements - 1];
 			HashLine[hash_index].nNumElements--;
-			HashLine[hash_index].pElements = (DWORD *)RESIZE(HashLine[hash_index].pElements,HashLine[hash_index].nNumElements * sizeof(DWORD));
+			HashLine[hash_index].pElements = (uint32_t *)RESIZE(HashLine[hash_index].pElements,HashLine[hash_index].nNumElements * sizeof(uint32_t));
 			return;
 		}
 		else return;	// ok, already in list (? possible)
 	}
 	// not in list - add
 	HashLine[hash_index].nNumElements++;
-	HashLine[hash_index].pElements = (DWORD *)RESIZE(HashLine[hash_index].pElements,HashLine[hash_index].nNumElements * sizeof(DWORD));
+	HashLine[hash_index].pElements = (uint32_t *)RESIZE(HashLine[hash_index].pElements,HashLine[hash_index].nNumElements * sizeof(uint32_t));
 	HashLine[hash_index].pElements[HashLine[hash_index].nNumElements - 1] = code;
 }

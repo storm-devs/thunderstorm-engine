@@ -1,6 +1,7 @@
 #include "memory_service.h"
 
 #include "..\..\common_h\vapi.h"
+#include "system_log.h"
 extern VAPI * api;
 
 #define DEBUGCLASSES
@@ -10,7 +11,7 @@ extern VAPI * api;
 #ifdef _XBOX
 //#define NOMEMHEADER
 #endif
-extern dword Exceptions_Mask;
+extern uint32_t Exceptions_Mask;
 extern CODESOURCE CodeSource;
 
 //#define NOMEMHEADER
@@ -19,15 +20,15 @@ extern CODESOURCE CodeSource;
 
 MEMORY_SERVICE::MEMORY_SERVICE()
 {
-	for(DWORD n=0;n<SBCNUM;n++) SBCounter[n] = 0;
-//	ZeroMemory(&Exe_state,sizeof(Exe_state));
+	for(uint32_t n=0;n<SBCNUM;n++) SBCounter[n] = 0;
+//	PZERO(&Exe_state,sizeof(Exe_state));
 	Allocated_memory_user	= 0;
 	Allocated_memory_system	= 0;
 	Blocks = 0;
 	Mem_link = nullptr;
 	Search_Pointer = nullptr;
-	Minimal_Pointer = null;
-	Maximal_Pointer = null;
+	Minimal_Pointer = 0;
+	Maximal_Pointer = 0;
 	dwTotalMemory = 0;
 	dwTotalBlocks = 0;
 	bCollectInfo = true; // make it true becose mem allocation starts in constructors area
@@ -48,7 +49,7 @@ MEMORY_SERVICE::~MEMORY_SERVICE()
 }
 
 // current execute state, help to identify who allocate memory
-void MEMORY_SERVICE::SetState(word control_transfer_point, dword class_code)
+void MEMORY_SERVICE::SetState(uint16_t control_transfer_point, uint32_t class_code)
 {
 //	Exe_state.ctp			= control_transfer_point;
 //	Exe_state.class_code	= class_code;
@@ -59,7 +60,7 @@ void * MEMORY_SERVICE::PoolAllocate(long size)
 	void * data_PTR;
 	if(pMPool)
 	{
-		if((DWORD)size < nMPoolClassesNum)
+		if((uint32_t)size < nMPoolClassesNum)
 		{
 			if(pMPool[size])
 			{
@@ -140,13 +141,13 @@ void * MEMORY_SERVICE::Allocate(long size)
 	dwTotalMemory = Allocated_memory_system + Allocated_memory_user;
 	dwTotalBlocks = Blocks;
 
-	dword result;
-	result = (dword)Mem_link + sizeof(MEM_BLOCK);
+	uint32_t result;
+	result = (uint32_t)Mem_link + sizeof(MEM_BLOCK);
 	if(Minimal_Pointer > result) Minimal_Pointer = result;
 	if(Minimal_Pointer == 0) Minimal_Pointer = result;
 	if(Maximal_Pointer < result) Maximal_Pointer = result;
 
-	/*if((dword)result == DBGMEMLINK)// - 0xff && (dword)DBGMEMLINK <= 0x11bb4b30 + 0xff)// + sizeof(MEM_BLOCK))
+	/*if((uint32_t)result == DBGMEMLINK)// - 0xff && (uint32_t)DBGMEMLINK <= 0x11bb4b30 + 0xff)// + sizeof(MEM_BLOCK))
 	{
 		result = result;
 	}//*/
@@ -154,9 +155,9 @@ void * MEMORY_SERVICE::Allocate(long size)
 	return 	(void *)((char *)Mem_link + sizeof(MEM_BLOCK));
 }
 
-DWORD MEMORY_SERVICE::PoolFind(void * block_PTR)
+uint32_t MEMORY_SERVICE::PoolFind(void * block_PTR)
 {
-	DWORD n;
+	uint32_t n;
 	for(n=0;n<nMPoolClassesNum;n++)
 	{
 		if(pMPool[n] == nullptr) continue;
@@ -166,9 +167,9 @@ DWORD MEMORY_SERVICE::PoolFind(void * block_PTR)
 	return 0xffffffff;
 }
 
-bool MEMORY_SERVICE::PoolFree(void * block_PTR, DWORD nBlockSize)
+bool MEMORY_SERVICE::PoolFree(void * block_PTR, uint32_t nBlockSize)
 {
-	DWORD n;
+	uint32_t n;
 	if(nBlockSize != 0xffffffff)
 	{
 		if(nBlockSize >= nMPoolClassesNum) return false;
@@ -237,14 +238,14 @@ void MEMORY_SERVICE::Free(void * block_PTR)
 		return;
 	}
 
-	if((dword)block_PTR < Minimal_Pointer || (dword)block_PTR > Maximal_Pointer || Blocks <= 0) throw "MEMORY_SERVICE::Free : Invalid pointer";
+	if((uint32_t)block_PTR < Minimal_Pointer || (uint32_t)block_PTR > Maximal_Pointer || Blocks <= 0) throw "MEMORY_SERVICE::Free : Invalid pointer";
 
 	mb_PTR = (MEM_BLOCK *)((char *)block_PTR - sizeof(MEM_BLOCK));
 
 	if(bCollectInfo)
 	{
 //#ifdef DEBUGCLASSES
-		DWORD dwLine;
+		uint32_t dwLine;
 		char * pFileName;
 
 		pFileName = cMemAddress.GetSource(mb_PTR->address,&dwLine);
@@ -307,17 +308,17 @@ void * MEMORY_SERVICE::Reallocate(void * block_PTR,long size)
 
 	if(bPoolOn)
 	{
-		DWORD nBlockSize;
+		uint32_t nBlockSize;
 		nBlockSize = PoolFind(block_PTR);
 		if(nBlockSize != 0xffffffff)
 		{
 			// if trying to change to the same size - just return same pointer
-			if(nBlockSize == (DWORD)size) return block_PTR;
+			if(nBlockSize == (uint32_t)size) return block_PTR;
 			void * pTemp;
 			pTemp = PoolAllocate(size);
 			if(pTemp == nullptr) pTemp = Allocate(size);
 			if(pTemp == nullptr) THROW("no mem");
-			if((DWORD)size > nBlockSize) memcpy(pTemp,block_PTR,nBlockSize);
+			if((uint32_t)size > nBlockSize) memcpy(pTemp,block_PTR,nBlockSize);
 			else memcpy(pTemp,block_PTR,size);
 			PoolFree(block_PTR,nBlockSize);
 			return pTemp;
@@ -330,7 +331,7 @@ void * MEMORY_SERVICE::Reallocate(void * block_PTR,long size)
 #endif
 
 
-	data_PTR = (char *)((dword)block_PTR - sizeof(MEM_BLOCK));
+	data_PTR = (char *)((uint32_t)block_PTR - sizeof(MEM_BLOCK));
 	mb_PTR = (MEM_BLOCK *)data_PTR;
 	data_size = mb_PTR->data_size;
 
@@ -341,7 +342,7 @@ void * MEMORY_SERVICE::Reallocate(void * block_PTR,long size)
 		//MemStat.Resize(CodeSource.pFileName,CodeSource.line,size,
 		//	mb_PTR->cs.pFileName,mb_PTR->cs.line,mb_PTR->data_size);
 //#ifdef DEBUGCLASSES
-		DWORD dwLine;
+		uint32_t dwLine;
 		char * pFileName;
 		pFileName = cMemAddress.GetSource(mb_PTR->address,&dwLine);
 		MemStat.Resize(CodeSource.pFileName,CodeSource.line,size,
@@ -411,14 +412,14 @@ void * MEMORY_SERVICE::Reallocate(void * block_PTR,long size)
 //	mb_PTR->state = Exe_state;	// update point of memory allocating
 //	mb_PTR->cs = CodeSource;
 
-	dword result;
-	result = (dword)data_PTR + sizeof(MEM_BLOCK);
+	uint32_t result;
+	result = (uint32_t)data_PTR + sizeof(MEM_BLOCK);
 	if(Minimal_Pointer > result) Minimal_Pointer = result;
 	if(Minimal_Pointer == 0) Minimal_Pointer = result;
 
 	if(Maximal_Pointer < result) Maximal_Pointer = result;
 
-	/*if((dword)result == DBGMEMLINK)// - 0xff && (dword)data_PTR <= DBGMEMLINK + 0xff)// + sizeof(MEM_BLOCK))
+	/*if((uint32_t)result == DBGMEMLINK)// - 0xff && (uint32_t)data_PTR <= DBGMEMLINK + 0xff)// + sizeof(MEM_BLOCK))
 	{
 		result = result;
 	}*/
@@ -444,7 +445,7 @@ bool MEMORY_SERVICE::ValidateBlock(void * block_PTR/*,MEM_EXE_STATE * lpBlockSta
 
 	//return true;
 	MEM_BLOCK * mb_PTR;
-	if((dword)block_PTR < Minimal_Pointer || (dword)block_PTR > Maximal_Pointer || Blocks <= 0) return false;
+	if((uint32_t)block_PTR < Minimal_Pointer || (uint32_t)block_PTR > Maximal_Pointer || Blocks <= 0) return false;
 	//if(block_PTR == null || Blocks <= 0) return false;
 	mb_PTR = (MEM_BLOCK *)((char *)block_PTR - sizeof(MEM_BLOCK));
 //	if(mb_PTR->check_sum != CONST_CHECKSUM) return false;
@@ -456,7 +457,7 @@ bool MEMORY_SERVICE::ValidateBlock(void * block_PTR/*,MEM_EXE_STATE * lpBlockSta
 // Free all allocated blocks : destructor or emergency situation
 void MEMORY_SERVICE::GlobalFree()
 {
-	DWORD n;
+	uint32_t n;
 	for(n=0;n<SBCNUM;n++) SBCounter[n] = 0;
 
 #ifdef SBPOOL
@@ -476,9 +477,9 @@ void MEMORY_SERVICE::GlobalFree()
 #ifdef	NOMEMHEADER
 	return;
 #endif
-	DWORD dwLine;
+	uint32_t dwLine;
 	char * pFileName;
-	BYTE * data = (BYTE *)Mem_link + sizeof(MEM_BLOCK);
+	uint8_t * data = (uint8_t *)Mem_link + sizeof(MEM_BLOCK);
 	long dataSize = 0;
 	while(Mem_link)
 	{
@@ -531,12 +532,12 @@ void MEMORY_SERVICE::GlobalFree()
 		Free((char *)Mem_link + sizeof(MEM_BLOCK));
 		if(Blocks <= 0 && Mem_link != nullptr) throw "MBLFREE_ERROR";	// ... ; fatal, close programm
 	}
-	Minimal_Pointer = null;
-	Maximal_Pointer = null;
+	Minimal_Pointer = 0;
+	Maximal_Pointer = 0;
 
 }
 
-dword MEMORY_SERVICE::GetBlockSize(void * block_PTR)
+uint32_t MEMORY_SERVICE::GetBlockSize(void * block_PTR)
 {
 	return 0;
 #ifdef	NOMEMHEADER
@@ -544,7 +545,7 @@ dword MEMORY_SERVICE::GetBlockSize(void * block_PTR)
 #endif
 
 	MEM_BLOCK * mb_PTR;
-	if((dword)block_PTR < Minimal_Pointer || (dword)block_PTR > Maximal_Pointer || Blocks <= 0) throw "MEMORY_SERVICE::GetBlockSize : Invalid pointer";
+	if((uint32_t)block_PTR < Minimal_Pointer || (uint32_t)block_PTR > Maximal_Pointer || Blocks <= 0) throw "MEMORY_SERVICE::GetBlockSize : Invalid pointer";
 	//if(block_PTR == null) return 0;	// throw ->
 	//if(Blocks <= 0) return 0; // throw ->
 
@@ -589,8 +590,8 @@ void MEMORY_SERVICE::ProcessMemProfile(char * pFileName)
 {
 #ifdef SBPOOL
 	HANDLE fh;
-	DWORD nProfileValue;
-	DWORD dwR,n;
+	uint32_t nProfileValue;
+	uint32_t dwR,n;
 	MEMPOOL * * pTempMPool;
 
 	nMPoolClassesNum = 0;
@@ -601,8 +602,8 @@ void MEMORY_SERVICE::ProcessMemProfile(char * pFileName)
 	fh = api->fio->_CreateFile(pFileName,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 	if(fh == INVALID_HANDLE_VALUE) return;
 
-	api->fio->_ReadFile(fh,&nMPoolClassesNum,sizeof(DWORD),&dwR);
-	if(dwR != sizeof(DWORD)) return;
+	api->fio->_ReadFile(fh,&nMPoolClassesNum,sizeof(uint32_t),&dwR);
+	if(dwR != sizeof(uint32_t)) return;
 
 	if(nMPoolClassesNum >= 0xff)
 	{
@@ -619,8 +620,8 @@ void MEMORY_SERVICE::ProcessMemProfile(char * pFileName)
 
 	for(n=0;n<nMPoolClassesNum;n++)
 	{
-		api->fio->_ReadFile(fh,&nProfileValue,sizeof(DWORD),&dwR);
-		if(dwR != sizeof(DWORD))
+		api->fio->_ReadFile(fh,&nProfileValue,sizeof(uint32_t),&dwR);
+		if(dwR != sizeof(uint32_t))
 		{
 			trace("Error reading memory profile");
 			if(pTempMPool) delete pTempMPool;
@@ -671,7 +672,7 @@ char * MEMORY_SERVICE::GetFileName(void * pMemory)
 #endif
 }
 
-dword MEMORY_SERVICE::GetFileLineCode(void * pMemory)
+uint32_t MEMORY_SERVICE::GetFileLineCode(void * pMemory)
 {
 #ifdef NOMEMHEADER
 		return 0;
@@ -682,7 +683,7 @@ dword MEMORY_SERVICE::GetFileLineCode(void * pMemory)
 	#endif
 	mb_PTR = (MEM_BLOCK *)((char *)pMemory - sizeof(MEM_BLOCK));
 	//#ifdef DEBUGCLASSES
-		DWORD dwLine;
+		uint32_t dwLine;
 		if(cMemAddress.GetSource(mb_PTR->address,&dwLine))
 		{
 			return dwLine;
@@ -697,14 +698,14 @@ dword MEMORY_SERVICE::GetFileLineCode(void * pMemory)
 
 void MEMORY_SERVICE::DumpMemoryState()
 {
-	DWORD n;
+	uint32_t n;
 	trace("[ ---- MEMORY STATE ----]");
 #ifdef SBPOOL
-	DWORD dwTotalPoolMem = 0;
-	DWORD dwTotalPoolUsedMem = 0;
-	DWORD dwTotalPoolBlocks = 0;
-	DWORD dwTotalPoolUsedBlocks = 0;
-	DWORD dwTotalMissed = 0;
+	uint32_t dwTotalPoolMem = 0;
+	uint32_t dwTotalPoolUsedMem = 0;
+	uint32_t dwTotalPoolBlocks = 0;
+	uint32_t dwTotalPoolUsedBlocks = 0;
+	uint32_t dwTotalMissed = 0;
 
 	if(bPoolOn)
 	{
@@ -738,8 +739,8 @@ void MEMORY_SERVICE::DumpMemoryState()
 	}
 #endif
 
-	DWORD dwMemoryTotal;
-	DWORD dwBlocksTotal;
+	uint32_t dwMemoryTotal;
+	uint32_t dwBlocksTotal;
 //	MEM_BLOCK TopList[TOP_NUM];
 
 	MEM_BLOCK * pM;
@@ -759,9 +760,9 @@ void MEMORY_SERVICE::DumpMemoryState()
 	trace("  Common        : %.3fkb   in %d blocks", dwMemoryTotal/1024.f, dwBlocksTotal);
 	trace("  Common + Pool : %.3fkb   ", (dwTotalPoolMem + dwMemoryTotal)/1024.f);
 
-	DWORD dwBlocks;
-	DWORD dwMem;
-	DWORD dwTLine;
+	uint32_t dwBlocks;
+	uint32_t dwMem;
+	uint32_t dwTLine;
 	char * pTFileName;
 
 	for(n=0;n<cMemAddress.dwRecordsNum;n++)

@@ -5,8 +5,6 @@
 #include "..\common_h\dx9render.h"
 #include "..\common_h\defines.h"
 
-#include "..\..\Shared\battle_interface\msg_control.h"
-
 #define INI_FILE_NAME	"resource\\ini\\interfaces\\battle_interface.ini"
 
 #define TEXTURE_RELEASE(rs,id) if(id!=-1) {rs->TextureRelease(id);id=-1;}
@@ -47,7 +45,7 @@ struct BIFPOINT
 {
 	float x,y;
 
-	BIFPOINT(){}
+	BIFPOINT() {}
 	BIFPOINT(const BIFPOINT& bp) {x=bp.x; y=bp.y;}
 
 	const BIFPOINT& operator += (const BIFPOINT& bp) {x+=bp.x; y+=bp.y; return *this;}
@@ -63,7 +61,7 @@ struct BI_COLOR_VERTEX
 {
 	CVECTOR pos;
 	float w;
-	DWORD col;
+	uint32_t col;
 	float tu, tv;
 };
 
@@ -79,7 +77,7 @@ struct BI_COLORONLY_VERTEX
 {
 	CVECTOR pos;
 	float w;
-	DWORD col;
+	uint32_t col;
 };
 
 #define BI_3D_VERTEX_FORMAT		(D3DFVF_XYZ|D3DFVF_TEX1|D3DFVF_TEXTUREFORMAT2)

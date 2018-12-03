@@ -11,7 +11,7 @@
 #include "..\common_h\geometry.h"
 
 #include "ModelArray.h"
-#include "..\common_h\messages.h"
+#include "..\../Shared/messages.h"
 #include "..\common_h\model.h"
 
 //============================================================================================
@@ -174,7 +174,7 @@ long ModelArray::FindModel(const char * modelName)
 		buf[MA_MAX_NAME_LENGTH - 1] = 0;
 	}
 	//»щем хэшь значение
-	dword hash = CalcHashString(buf);
+	uint32_t hash = CalcHashString(buf);
 	//»щем модельку
 	for(long i = 0; i < numModels; i++)
 	{
@@ -255,7 +255,7 @@ void ModelArray::SetReflection(long modelIndex, float scale)
 	if(!model[modelIndex].reflection) model[modelIndex].reflection = NEW Relection();
 	if(scale < 0.0f) scale = 0.0f;
 	if(scale > 1.0f) scale = 1.0f;
-	dword alpha = dword(scale*255.0f);
+	uint32_t alpha = uint32_t(scale*255.0f);
 	model[modelIndex].reflection->tfactor = (alpha << 24) | 0x00ffffff;
 	MODEL * mdl = (*this)[modelIndex];
 	if(mdl) mdl->SetRenderTuner(model[modelIndex].reflection); else _CORE_API->Trace("Location: Can't get model pointer for set RenderTuner");
@@ -313,7 +313,7 @@ void ModelArray::UpdateShadowPath()
 	UpdatePath(shadowpath);
 };
 
-dword ModelArray::CalcHashString(const char * str)
+uint32_t ModelArray::CalcHashString(const char * str)
 {
   unsigned long hval = 0;
   while(*str != '\0')

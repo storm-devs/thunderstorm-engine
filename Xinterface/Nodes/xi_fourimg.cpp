@@ -91,7 +91,7 @@ int CXI_FOURIMAGE::CommandExecute(int wActCode)
 	return retVal;
 }
 
-void CXI_FOURIMAGE::Draw(bool bSelected,dword Delta_Time)
+void CXI_FOURIMAGE::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	GUARD(void CXI_FOURIMAGE::Draw())
 
@@ -150,7 +150,7 @@ void CXI_FOURIMAGE::Draw(bool bSelected,dword Delta_Time)
 			{
 				long posX,posY;
 				posX = (m_imgRect[i].left + m_imgRect[i].right)/2;
-				DWORD color = 0xFFFFFFFF;
+				uint32_t color = 0xFFFFFFFF;
 				/*if(i==m_nSelectItem) color=m_dwCurSelectColor;
 				else color=m_dwBaseColor;*/
 
@@ -510,14 +510,14 @@ void CXI_FOURIMAGE::FillVertex()
 	}
 }
 
-void CXI_FOURIMAGE::Update(bool bSelected,dword DeltaTime)
+void CXI_FOURIMAGE::Update(bool bSelected,uint32_t DeltaTime)
 {
 	//
 	XI_ONETEX_VERTEX* pVert = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(vBuf);
 	if(pVert!= nullptr)
 	{
 		int idx = 0;
-		DWORD setColor = 0xFFFFFFFF;
+		uint32_t setColor = 0xFFFFFFFF;
 		for(int i=0; i<4; i++)
 		{
 			if(i==m_nSelectItem)
@@ -530,15 +530,15 @@ void CXI_FOURIMAGE::Update(bool bSelected,dword DeltaTime)
 						m_bColorType = !m_bColorType;
 					}
 
-                    DWORD ad = ALPHA(m_dwDarkSelectColor);
-                    DWORD rd = RED(m_dwDarkSelectColor);
-                    DWORD gd = GREEN(m_dwDarkSelectColor);
-                    DWORD bd = BLUE(m_dwDarkSelectColor);
-                    DWORD al = ALPHA(m_dwLightSelectColor);
-                    DWORD rl = RED(m_dwLightSelectColor);
-                    DWORD gl = GREEN(m_dwLightSelectColor);
-                    DWORD bl = BLUE(m_dwLightSelectColor);
-                    DWORD a,r,g,b;
+                    uint32_t ad = ALPHA(m_dwDarkSelectColor);
+                    uint32_t rd = RED(m_dwDarkSelectColor);
+                    uint32_t gd = GREEN(m_dwDarkSelectColor);
+                    uint32_t bd = BLUE(m_dwDarkSelectColor);
+                    uint32_t al = ALPHA(m_dwLightSelectColor);
+                    uint32_t rl = RED(m_dwLightSelectColor);
+                    uint32_t gl = GREEN(m_dwLightSelectColor);
+                    uint32_t bl = BLUE(m_dwLightSelectColor);
+                    uint32_t a,r,g,b;
 					if(m_bColorType)
                     {
                         a = (al-ad)*m_nBlindCounter/m_nMaxBlindCounter;

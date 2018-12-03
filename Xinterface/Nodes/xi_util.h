@@ -74,7 +74,7 @@ public:
 	static const char* StringGetTokenID( char*& pcString, char* pcBuffer, long nBufferSize );
 	static const char* StringGetTokenString( char*& pcString, char* pcBuffer, long nBufferSize );
 	static long StringGetTokenCode( const char* pcTokenID );
-	static DWORD StringGetColor( const char* pcARGBString );
+	static uint32_t StringGetColor( const char* pcARGBString );
 	static void StringDoublicate( const char* pcSrc, char*& pcDst );
 	static void StringTwoLong( const char* pcString, long & nLong1, long & nLong2 );
 	static long StringGetLong( const char*& pcString );
@@ -88,11 +88,11 @@ public:
 	static float GetByStrNumFromAttribute_Float( ATTRIBUTES* pA, const char* pStr, long num, float fDefValue );
 
 	// vertex processing
-	static void WriteSquareToVertexBuffer( XI_ONETEX_VERTEX *pv, dword color, FXYRECT& uv, XYRECT& rect );
-	static void WriteSquareToVertexBuffer( XI_ONETEX_VERTEX *pv, dword color, FXYRECT& uv, long left,long top,long right,long bottom );
+	static void WriteSquareToVertexBuffer( XI_ONETEX_VERTEX *pv, uint32_t color, FXYRECT& uv, XYRECT& rect );
+	static void WriteSquareToVertexBuffer( XI_ONETEX_VERTEX *pv, uint32_t color, FXYRECT& uv, long left,long top,long right,long bottom );
 
 	static void PrintTextIntoWindow(VDX9RENDER* pRender,
-		long nFont, dword dwColor, long wAlignment, bool bShadow, float fScale,
+		long nFont, uint32_t dwColor, long wAlignment, bool bShadow, float fScale,
 		long scrWidth, long scrHeight, long x, long y,
 		const char* pcString, long left,long top, long width,long height);
 

@@ -11,6 +11,7 @@
 #include "LocEagle.h"
 #include "Location.h"
 #include "..\Common_h\geometry.h"
+#include "../../Shared/messages.h"
 
 
 LocEagle::LocEagle()
@@ -75,7 +76,7 @@ bool LocEagle::Init()
 }
 
 //Исполнение
-void LocEagle::Execute(dword delta_time)
+void LocEagle::Execute(uint32_t delta_time)
 {
 	//Моделька
 	MODEL * m = (MODEL *)_CORE_API->GetEntityPointer(&mdl);

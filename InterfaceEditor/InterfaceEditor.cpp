@@ -34,12 +34,12 @@ bool InterfaceEditor::Init()
 	return true;
 }
 
-dword _cdecl InterfaceEditor::ProcessMessage( MESSAGE& message )
+uint32_t _cdecl InterfaceEditor::ProcessMessage( MESSAGE& message )
 {
 	return 0;
 }
 
-void InterfaceEditor::Realize( dword dwDeltaTime )
+void InterfaceEditor::Realize( uint32_t dwDeltaTime )
 {
 	float fDeltaTime = dwDeltaTime * 0.001f;
 	if( m_pManager ) m_pManager->Execute( fDeltaTime );

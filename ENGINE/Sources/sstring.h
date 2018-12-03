@@ -69,7 +69,7 @@ class SSTRING
 	void operator +=(const char sym)
 	{
 		char * pp;
-		DWORD nLen;
+		uint32_t nLen;
 		if(pDataPointer == nullptr)
 		{
 			pDataPointer = NEW char[2]; 

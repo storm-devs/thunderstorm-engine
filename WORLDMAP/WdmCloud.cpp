@@ -10,6 +10,7 @@
 
 #include "WdmCloud.h"
 #include "../common_h/defines.h"
+#include "WdmObjects.h"
 
 
 #define WdmStormCloudHeight		40.0f
@@ -227,7 +228,7 @@ long WdmCloud::FillRain(RS_RECT * rainRect, long rcnt)
 		rct.fSize = r.size;
 		rct.fAngle = r.angle;
 		rct.dwSubTexture = 0;
-		rct.dwColor = (byte(r.alpha*95.0f*globalAlpha) << 24) | 0x00ffffff;
+		rct.dwColor = (uint8_t(r.alpha*95.0f*globalAlpha) << 24) | 0x00ffffff;
 		rcnt++;
 	}
 	return rcnt;
@@ -242,7 +243,7 @@ void WdmCloud::Render(VDX9RENDER * rs)
 	//Рисуем молнии если надо
 	Vertex lght[4];
 	rs->TextureSet(0, lightning);
-	dword lightningColor = (byte(globalAlpha*255.0f) << 24) | 0x00ffffff;
+	uint32_t lightningColor = (uint8_t(globalAlpha*255.0f) << 24) | 0x00ffffff;
 	for(long i = 0; i < numRects; i++)
 	{
 		RS_RECT & r = rect[i];
@@ -298,9 +299,9 @@ void WdmCloud::BuildCloud(long n)
 	for(long i = 0; i < n; i++, numRects++)
 	{
 		FindPartPos(move[i].pos);
-		dword sz = rand() & 0xff;
+		uint32_t sz = rand() & 0xff;
 		rect[i].fSize = WdmStormSizeMin + (WdmStormSizeMax - WdmStormSizeMin)*(sz/255.0f);
-		dword clr = rand() & 0xf;
+		uint32_t clr = rand() & 0xf;
 		rect[i].dwColor = 0xf0f00000 | (clr << 24) | (clr << 16) | sz;
 		rect[i].fAngle = 0.0f;
 		rect[i].dwSubTexture = rand() & 3;

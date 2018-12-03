@@ -18,9 +18,9 @@ public:
 	TMPTELEPORT();
 	~TMPTELEPORT();
 	bool Init();
-	void Execute(dword Delta_Time);
-	void Realize(dword Delta_Time);
-	dword _cdecl ProcessMessage(MESSAGE &message);
+	void Execute(uint32_t Delta_Time);
+	void Realize(uint32_t Delta_Time);
+	uint32_t _cdecl ProcessMessage(MESSAGE &message);
 
 protected:
 	void ReleaseAll();

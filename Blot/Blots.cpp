@@ -9,7 +9,7 @@
 //============================================================================================
 
 #include "Blots.h"
-#include "..\common_h\messages.h"
+#include "..\../Shared/messages.h"
 
 //============================================================================================
 
@@ -63,7 +63,7 @@ bool Blots::Init()
 }
 
 //Сообщения
-dword _cdecl Blots::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl Blots::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{
@@ -158,7 +158,7 @@ void Blots::AddBlot(long i, long rnd, const CVECTOR & lpos, const CVECTOR & dir,
 	//Информация о пятне
 	blot[i].isUsed = true;
 	blot[i].lastAlpha = 0xff;
-	blot[i].numTrgs = word(numClipTriangles);
+	blot[i].numTrgs = uint16_t(numClipTriangles);
 	blot[i].liveTime = time;
 	blot[i].pos = lpos;
 	blot[i].dir = dir;
@@ -283,7 +283,7 @@ void Blots::LoadBlot(long i)
 }
 
 //Работа
-void Blots::Realize(dword delta_time)
+void Blots::Realize(uint32_t delta_time)
 {
 	//Обновляем состояние
 	blotsInfo = pCharAttributeRoot->FindAClass(pCharAttributeRoot, "ship.blots");

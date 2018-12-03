@@ -298,7 +298,7 @@ void BISignIcon::UpdateBuffers( long nQ )
 	{
 		m_nMaxSquareQ = nMaxSignQ;
 		INDEX_BUFFER_RELEASE( m_pRS, m_nIBufID );
-		m_nIBufID = m_pRS->CreateIndexBuffer( m_nMaxSquareQ * 6 * sizeof(word) );
+		m_nIBufID = m_pRS->CreateIndexBuffer( m_nMaxSquareQ * 6 * sizeof(uint16_t) );
 		FillIndexBuffer();
 	}
 
@@ -320,18 +320,18 @@ void BISignIcon::UpdateBuffers( long nQ )
 void BISignIcon::FillIndexBuffer()
 {
 	if( m_nIBufID < 0 ) return;
-	word* pI = (word*)m_pRS->LockIndexBuffer( m_nIBufID );
+	uint16_t* pI = (uint16_t*)m_pRS->LockIndexBuffer( m_nIBufID );
 	if( pI )
 	{
 		for( long n=0; n<m_nMaxSquareQ; n++ )
 		{
-			pI[n*6 + 0] = (word)(n*4 + 0);
-			pI[n*6 + 1] = (word)(n*4 + 1);
-			pI[n*6 + 2] = (word)(n*4 + 2);
+			pI[n*6 + 0] = (uint16_t)(n*4 + 0);
+			pI[n*6 + 1] = (uint16_t)(n*4 + 1);
+			pI[n*6 + 2] = (uint16_t)(n*4 + 2);
 
-			pI[n*6 + 3] = (word)(n*4 + 2);
-			pI[n*6 + 4] = (word)(n*4 + 1);
-			pI[n*6 + 5] = (word)(n*4 + 3);
+			pI[n*6 + 3] = (uint16_t)(n*4 + 2);
+			pI[n*6 + 4] = (uint16_t)(n*4 + 1);
+			pI[n*6 + 5] = (uint16_t)(n*4 + 3);
 		}
 		m_pRS->UnLockIndexBuffer( m_nIBufID );
 	}
@@ -367,7 +367,7 @@ void BISignIcon::FillVertexBuffer()
 	}
 }
 
-long BISignIcon::WriteSquareToVBuff( BI_COLOR_VERTEX* pv, FRECT& uv, dword color, BIFPOINT& center, FPOINT& size )
+long BISignIcon::WriteSquareToVBuff( BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size )
 {
 	if( !pv ) return 0;
 
@@ -411,7 +411,7 @@ long BISignIcon::WriteSquareToVBuff( BI_COLOR_VERTEX* pv, FRECT& uv, dword color
 	return 4;
 }
 
-long BISignIcon::WriteSquareToVBuffWithProgress( BI_COLOR_VERTEX* pv, FRECT& uv, dword color, BIFPOINT& center, FPOINT& size, float fClampUp, float fClampDown, float fClampLeft, float fClampRight )
+long BISignIcon::WriteSquareToVBuffWithProgress( BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size, float fClampUp, float fClampDown, float fClampLeft, float fClampRight )
 {
 	if( !pv ) return 0;
 

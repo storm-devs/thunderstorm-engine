@@ -1,6 +1,7 @@
 #include "layer_service.h"
+#include "../../common_h/memop.h"
 
-extern dword Exceptions_Mask;
+extern uint32_t Exceptions_Mask;
 
 LAYER_SERVICE::LAYER_SERVICE()
 {
@@ -8,10 +9,10 @@ LAYER_SERVICE::LAYER_SERVICE()
 }
 
 // Return index (unical code) of layer by name
-dword LAYER_SERVICE::GetIndex(char * layer_name)
+uint32_t LAYER_SERVICE::GetIndex(char * layer_name)
 {
 	GUARD(LAYER_SERVICE::GetIndex)
-	dword n;
+	uint32_t n;
 	if(layer_name == nullptr) return INVALID_LAYER_CODE;
 	for(n=0;n<=lss.Layer_max_index;n++)
 	{
@@ -27,7 +28,7 @@ dword LAYER_SERVICE::GetIndex(char * layer_name)
 bool LAYER_SERVICE::Verify(char * layer_name)
 {
 	GUARD(LAYER_SERVICE::Verify)
-	dword n;
+	uint32_t n;
 	if(layer_name == nullptr) return false;
 	for(n=0;n<=lss.Layer_max_index;n++)
 	{
@@ -38,7 +39,7 @@ bool LAYER_SERVICE::Verify(char * layer_name)
 	return false;
 }
 
-void LAYER_SERVICE::Fit(dword index, char * layer_name, LAYER_STATE ls)
+void LAYER_SERVICE::Fit(uint32_t index, char * layer_name, LAYER_STATE ls)
 {
 	GUARD(LAYER_SERVICE::FitLayer)
 	if(layer_name == nullptr) STORM_THROW(zero name);
@@ -54,7 +55,7 @@ void LAYER_SERVICE::Fit(dword index, char * layer_name, LAYER_STATE ls)
 bool LAYER_SERVICE::Create(char * layer_name, bool ordered, bool fail_if_exist)
 {
 	GUARD(LAYER_SERVICE::Create)
-	dword n;
+	uint32_t n;
 	if(layer_name == nullptr) return false;
 	for(n=0;n<_MAX_LAYERS;n++)
 	{
@@ -85,7 +86,7 @@ bool LAYER_SERVICE::Create(char * layer_name, bool ordered, bool fail_if_exist)
 	return false;
 }
 
-void LAYER_SERVICE::Erase(dword index)
+void LAYER_SERVICE::Erase(uint32_t index)
 {
 	GUARD(LAYER_SERVICE::EraseLayer)
 	LAYER * l_PTR;
@@ -124,7 +125,7 @@ void LAYER_SERVICE::Erase(dword index)
 void LAYER_SERVICE::Delete(char * layer_name)
 {
 	GUARD(LAYER_SERVICE::Delete)
-	dword index;
+	uint32_t index;
 	index = GetIndex(layer_name);	
 	if(index == INVALID_LAYER_CODE)
 	{
@@ -136,28 +137,28 @@ void LAYER_SERVICE::Delete(char * layer_name)
 	UNGUARD
 }
 
-void LAYER_SERVICE::SetFlags(char * layer_name, dword flags)
+void LAYER_SERVICE::SetFlags(char * layer_name, uint32_t flags)
 {
 	GUARD(LAYER_SERVICE::SetFlags)
-	dword index;
+	uint32_t index;
 	index = GetIndex(layer_name); if(index == INVALID_LAYER_CODE) return;
 	Layer_Table[index]->SetFlag(flags);
 	UNGUARD
 }
 
-void LAYER_SERVICE::ClrFlags(char * layer_name, dword flags)
+void LAYER_SERVICE::ClrFlags(char * layer_name, uint32_t flags)
 {
 	GUARD(LAYER_SERVICE::ClrFlags)
-	dword index;
+	uint32_t index;
 	index = GetIndex(layer_name); if(index == INVALID_LAYER_CODE) return;
 	Layer_Table[index]->ClrFlag(flags);
 	UNGUARD
 }
 
-dword LAYER_SERVICE::GetFlags(char * layer_name)
+uint32_t LAYER_SERVICE::GetFlags(char * layer_name)
 {
-	dword index;
-	dword flags;
+	uint32_t index;
+	uint32_t flags;
 	GUARD(LAYER_SERVICE::GetFlags)
 	index = GetIndex(layer_name); if(index == INVALID_LAYER_CODE) return 0;
 	flags = Layer_Table[index]->ls.Flags;
@@ -166,10 +167,10 @@ dword LAYER_SERVICE::GetFlags(char * layer_name)
 }
 
 
-bool LAYER_SERVICE::Add(char * layer_name, ENTITY_ID eid, dword priority)
+bool LAYER_SERVICE::Add(char * layer_name, ENTITY_ID eid, uint32_t priority)
 {
 	GUARD(LAYER_SERVICE::Add)
-	dword index;
+	uint32_t index;
 	index = GetIndex(layer_name);	if(index == INVALID_LAYER_CODE) return false;
 
 /*	TC
@@ -189,7 +190,7 @@ bool LAYER_SERVICE::Add(char * layer_name, ENTITY_ID eid, dword priority)
 void LAYER_SERVICE::Del(char * layer_name, ENTITY_ID eid)
 {
 	GUARD(LAYER_SERVICE::LayerDel)
-	dword index;
+	uint32_t index;
 	index = GetIndex(layer_name); if(index == INVALID_LAYER_CODE) return;
 	Layer_Table[index]->Del(eid);
 	
@@ -200,7 +201,7 @@ void LAYER_SERVICE::Del(char * layer_name, ENTITY_ID eid)
 }
 
 // set layer sleeping time, layer will skip execution till this time
-void LAYER_SERVICE::SetSleep(char * layer_name,dword sleep_time_ms)
+void LAYER_SERVICE::SetSleep(char * layer_name,uint32_t sleep_time_ms)
 {
 
 }
@@ -214,7 +215,7 @@ void LAYER_SERVICE::CheckAutoExceptions()
 void LAYER_SERVICE::Clean()
 {
 	GUARD(LAYER_SERVICE::Clean)
-	dword n;
+	uint32_t n;
 	
 	if(!ToClean) return;
 	
@@ -232,7 +233,7 @@ void LAYER_SERVICE::Clean()
 void LAYER_SERVICE::Release()
 {
 	GUARD(LAYER_SERVICE::Release)
-	dword n;
+	uint32_t n;
 	for(n=0;n<=lss.Layer_max_index;n++)
 	{
 		if(Layer_Table[n] == nullptr) continue;
@@ -243,26 +244,26 @@ void LAYER_SERVICE::Release()
 
 LAYER * LAYER_SERVICE::GetLayer(char * layer_name)
 {
-	dword index;
+	uint32_t index;
 	index = GetIndex(layer_name);
 	if(index == INVALID_LAYER_CODE) return nullptr;
 	return Layer_Table[index];
 }
 
-LAYER * LAYER_SERVICE::GetLayer(dword index)
+LAYER * LAYER_SERVICE::GetLayer(uint32_t index)
 {
 	if(index == INVALID_LAYER_CODE || index > lss.Layer_max_index) return nullptr;
 	return Layer_Table[index];
 }
 
-bool LAYER_SERVICE::Add(dword index, ENTITY_ID eid, dword priority)
+bool LAYER_SERVICE::Add(uint32_t index, ENTITY_ID eid, uint32_t priority)
 {
 	if(Layer_Table[index] == nullptr) STORM_THROW(invalid layer index);
 	if(!Layer_Table[index]->Add(eid,priority)) THROW;
 	return true;
 }
 
-void LAYER_SERVICE::Del(dword index, ENTITY_ID eid)
+void LAYER_SERVICE::Del(uint32_t index, ENTITY_ID eid)
 {
 	if(Layer_Table[index] != nullptr) Layer_Table[index]->Del(eid);
 }

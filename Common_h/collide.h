@@ -12,7 +12,7 @@
 class LOCAL_COLLIDE
 {
 public:
-	virtual ~LOCAL_COLLIDE(){};
+	virtual ~LOCAL_COLLIDE() {};
 
 	//clip faces into the box and returns num of faces
 	virtual long SetBox(const CVECTOR &boxSize, const CMatrix &transform, bool testOnly = false) = 0;

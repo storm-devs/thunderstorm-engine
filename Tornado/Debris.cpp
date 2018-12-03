@@ -11,6 +11,7 @@
 #include "Debris.h"
 #include "..\common_h\geometry.h"
 #include "..\common_h\ship_base.h"
+#include "../../Shared/messages.h"
 
 //============================================================================================
 //Конструирование, деструктурирование

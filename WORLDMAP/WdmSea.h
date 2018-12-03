@@ -19,13 +19,13 @@ class WdmSea : public WdmRenderObject
 
 	struct Triangle
 	{
-		word index[3];
+		uint16_t index[3];
 	};
 
 	struct Vertex
 	{
 		float x, y, z;
-		dword color;
+		uint32_t color;
 		float tu, tv;
 	};
 

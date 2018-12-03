@@ -3,6 +3,7 @@
 #include "core.h"
 #include "sstring.h"
 #include "s_debug.h"
+#include "../../Common_h/defines.h"
 
 //#define STARFORCE_PROTECTION
 
@@ -22,7 +23,9 @@
 #define SBUPDATE 4
 #define DEF_COMPILE_EXPRESSIONS
 
+#include "Zlib/zlib.h"
 #include "..\..\common_h\vapi.h"
+#include "file_service.h"
 
 #ifdef _XBOX
 #include "..\..\common_h\dx9render.h"
@@ -36,14 +39,14 @@ extern FILE_SERVICE File_Service;
 //extern char * FuncNameTable[];
 extern INTFUNCDESC IntFuncTable[];
 extern S_DEBUG CDebug;
-extern dword dwNumberScriptCommandsExecuted;
+extern uint32_t dwNumberScriptCommandsExecuted;
 
 COMPILER::COMPILER()
 {
 	CompilerStage = CS_SYSTEM;
 	File_Service._DeleteFile(COMPILER_LOG_FILENAME);
 	File_Service._DeleteFile(COMPILER_ERRORLOG_FILENAME);
-	LabelTable.SetStringDataSize(sizeof(DWORD));
+	LabelTable.SetStringDataSize(sizeof(uint32_t));
 	LabelUpdateTable.SetStringDataSize(sizeof(DOUBLE_DWORD));
 	ProgramDirectory = nullptr;
 	pEventMessage = nullptr;
@@ -101,7 +104,7 @@ COMPILER::~COMPILER()
 
 void COMPILER::Release()
 {
-	DWORD n;
+	uint32_t n;
 	//DWORD m;
 	//FUNCINFO fi;
 
@@ -221,11 +224,11 @@ void __declspec(noinline) __cdecl COMPILER::SetProgramDirectory(char * dir_name)
 }
 
 // load file into memory
-char * COMPILER::LoadFile(char * file_name, DWORD & file_size, bool bFullPath)
+char * COMPILER::LoadFile(char * file_name, uint32_t & file_size, bool bFullPath)
 {
 	HANDLE fh;
-	DWORD  fsize;
-	DWORD  dwR;
+	uint32_t  fsize;
+	uint32_t  dwR;
 	char * pData;
 	char buffer[MAX_PATH];
 	
@@ -306,8 +309,8 @@ void COMPILER::Trace(char * data_PTR, ...)
 	va_start(args,data_PTR);
 	_vsnprintf(LogBuffer,sizeof(LogBuffer) - 4,data_PTR,args);
 	strcat(LogBuffer,"\x0d\x0a");
-	DWORD bytes;
-	WriteFile(file_h,LogBuffer,strlen(LogBuffer),&bytes,nullptr);
+	uint32_t bytes;
+	WriteFile(file_h,LogBuffer,strlen(LogBuffer),(LPDWORD)&bytes,nullptr);
 	va_end(args);
 	CloseHandle(file_h);
 	_flushall();
@@ -330,7 +333,7 @@ void COMPILER::DTrace(char * data_PTR, ...)
 	va_start(args,data_PTR);
 	_vsnprintf(LogBuffer,sizeof(LogBuffer) - 4,data_PTR,args);
 	strcat(LogBuffer,"\x0d\x0a");
-	DWORD bytes;
+	uint32_t bytes;
 	fio->_WriteFile(file_h,LogBuffer,strlen(LogBuffer),&bytes);
 	va_end(args);
 	fio->_CloseHandle(file_h);
@@ -356,9 +359,9 @@ void COMPILER::DTrace(char * data_PTR, ...)
 	return pBase;
 }*/
 
-bool COMPILER::AppendProgram(char * & pBase_program, DWORD & Base_program_size, char * pAppend_program, DWORD & Append_program_size, bool bAddLinefeed)
+bool COMPILER::AppendProgram(char * & pBase_program, uint32_t & Base_program_size, char * pAppend_program, uint32_t & Append_program_size, bool bAddLinefeed)
 {
-	DWORD offset;
+	uint32_t offset;
 	offset = Base_program_size;
 	if(pAppend_program == nullptr) return false;
 	if(bAddLinefeed)
@@ -397,7 +400,7 @@ void COMPILER::SetError(char * data_PTR, ...)
 	va_start(args,data_PTR);
 	_vsnprintf(LogBuffer,sizeof(LogBuffer) - 4,data_PTR,args);
 	strcat(LogBuffer,"\x0d\x0a");
-	DWORD bytes;
+	uint32_t bytes;
 	FindErrorSource();
 	
 	switch(CompilerStage)
@@ -442,7 +445,7 @@ void COMPILER::SetWarning(char * data_PTR, ...)
 	va_start(args,data_PTR);
 	_vsnprintf(LogBuffer,sizeof(LogBuffer) - 4,data_PTR,args);
 	strcat(LogBuffer,"\x0d\x0a");
-	DWORD bytes;
+	uint32_t bytes;
 	FindErrorSource();
 	
 	wsprintf(ErrorBuffer,"WARNING - file: %s; line: %d",DebugSourceFileName,DebugSourceLine + 1);
@@ -565,7 +568,7 @@ bool COMPILER::CreateProgram(char * file_name)
 
 bool __declspec(noinline) __cdecl COMPILER::Run()
 {
-	DWORD function_code;
+	uint32_t function_code;
 	pRun_fi = nullptr;
 	function_code = FuncTab.FindFunc("Main");
 	DATA * pResult;
@@ -595,15 +598,15 @@ bool __declspec(noinline) __cdecl COMPILER::Run()
 
 void COMPILER::FindErrorSource()
 {
-	DWORD segment_index;
+	uint32_t segment_index;
 	segment_index = GetSegmentIndex(RunningSegmentID);
 	if(segment_index == INVALID_SEGMENT_INDEX) return;
 	
-	DWORD index;
-	DWORD ip;
-	DWORD token_data_size;
-	DWORD file_line_offset;
-	DWORD file_name_size;
+	uint32_t index;
+	uint32_t ip;
+	uint32_t token_data_size;
+	uint32_t file_line_offset;
+	uint32_t file_name_size;
 	char * pCodeBase;
 	S_TOKEN_TYPE Token_type;
 	
@@ -614,8 +617,8 @@ void COMPILER::FindErrorSource()
 	do
 	{
 		Token_type = (S_TOKEN_TYPE)pCodeBase[ip]; ip++;
-		if((BYTE)pCodeBase[ip] < 0xff) { token_data_size = (BYTE)pCodeBase[ip]; ip++; }
-		else {ip++; memcpy(&token_data_size,&pCodeBase[ip],sizeof(dword)); ip += sizeof(dword);}
+		if((uint8_t)pCodeBase[ip] < 0xff) { token_data_size = (uint8_t)pCodeBase[ip]; ip++; }
+		else {ip++; memcpy(&token_data_size,&pCodeBase[ip],sizeof(uint32_t)); ip += sizeof(uint32_t);}
 		
 		if(ip >= InstructionPointer)
 		{
@@ -625,12 +628,12 @@ void COMPILER::FindErrorSource()
 		switch(Token_type)
 		{
 			case DEBUG_LINE_CODE:
-				memcpy(&DebugSourceLine,&pCodeBase[ip],sizeof(dword));
+				memcpy(&DebugSourceLine,&pCodeBase[ip],sizeof(uint32_t));
 			break;
 			case DEBUG_FILE_NAME:
 				index = ip;
-				memcpy(&file_line_offset,&pCodeBase[index],sizeof(dword)); index += sizeof(dword);
-				memcpy(&file_name_size,&pCodeBase[index],sizeof(dword)); index += sizeof(dword);
+				memcpy(&file_line_offset,&pCodeBase[index],sizeof(uint32_t)); index += sizeof(uint32_t);
+				memcpy(&file_name_size,&pCodeBase[index],sizeof(uint32_t)); index += sizeof(uint32_t);
 				memcpy(DebugSourceFileName,&pCodeBase[index],file_name_size); index += file_name_size;
 				DebugSourceFileName[file_name_size] = 0;
 				DebugSourceLine = DSL_INI_VALUE;
@@ -646,7 +649,7 @@ void COMPILER::FindErrorSource()
 void COMPILER::SetEventHandler(char * event_name, char * func_name,long flag, bool bStatic)
 {
 //	DWORD event_code;
-	DWORD func_code;
+	uint32_t func_code;
 	FUNCINFO fi;
 
 	if(event_name == nullptr)
@@ -678,7 +681,7 @@ void COMPILER::SetEventHandler(char * event_name, char * func_name,long flag, bo
 
 void COMPILER::DelEventHandler(char * event_name, char * func_name)
 {
-	DWORD func_code;
+	uint32_t func_code;
 	if(event_name == nullptr)
 	{
 		SetError("Bad event name");
@@ -717,17 +720,17 @@ void COMPILER::DelEventHandler(char * event_name, char * func_name)
 
 VDATA * COMPILER::ProcessEvent(char * event_name)
 {
-	DWORD n;
-	DWORD event_code;
-	DWORD func_code;
+	uint32_t n;
+	uint32_t event_code;
+	uint32_t func_code;
 	VDATA * pVD;
 	DATA * pResult;
 	MESSAGE * pMem;
 	EVENTINFO ei;
-	DWORD current_debug_mode;
+	uint32_t current_debug_mode;
 
-	DWORD dwRDTSC, nTicks;
-	DWORD nTimeOnEvent;
+	uint32_t dwRDTSC, nTicks;
+	uint32_t nTimeOnEvent;
 
 	RDTSC_B(dwRDTSC);
 
@@ -761,7 +764,7 @@ VDATA * COMPILER::ProcessEvent(char * event_name)
 		}
 		
 		
-		DWORD nStackVars;
+		uint32_t nStackVars;
 		nStackVars = SStack.GetDataNum();	// remember stack elements num
 		RDTSC_B(nTicks);
 		BC_Execute(ei.pFuncInfo[n].func_code,pResult);
@@ -845,9 +848,9 @@ char * COMPILER::GetName()
 	//return Files_list.GetString(0);
 }
 
-DWORD COMPILER::GetSegmentIndex(DWORD segment_id)
+uint32_t COMPILER::GetSegmentIndex(uint32_t segment_id)
 {
-	DWORD n;
+	uint32_t n;
 	for(n=0;n<SegmentsNum;n++)
 	{
 		if(SegmentTable[n].id == segment_id) return n;
@@ -858,8 +861,8 @@ DWORD COMPILER::GetSegmentIndex(DWORD segment_id)
 // mark segment for subsequent unload (on ProcessFrame)
 void COMPILER::UnloadSegment(char * segment_name)
 {
-	DWORD n;
-	DWORD segment_id;
+	uint32_t n;
+	uint32_t segment_id;
 //	OFFSET_INFO offset_info;
 	
 	for(n=0;n<SegmentsNum;n++)
@@ -884,7 +887,7 @@ void COMPILER::UnloadSegment(char * segment_name)
 
 bool COMPILER::BC_SegmentIsLoaded(char * file_name)
 {
-	DWORD n;
+	uint32_t n;
 	if(file_name == nullptr)
 	{
 		SetError("Invalid segment name");
@@ -901,9 +904,9 @@ bool COMPILER::BC_SegmentIsLoaded(char * file_name)
 
 bool COMPILER::BC_LoadSegment(char * file_name)
 {
-	DWORD  n;
-	DWORD  id;
-	DWORD  index;
+	uint32_t  n;
+	uint32_t  id;
+	uint32_t  index;
 	bool   found;
 
 	LabelUpdateTable.Release();
@@ -975,7 +978,7 @@ bool COMPILER::ProcessDebugExpression(char * pExpression, DATA & Result)
 {
 	if(pExpression == nullptr) return false;
 
-	DWORD nDataSize;
+	uint32_t nDataSize;
 
 	nDataSize = strlen(pExpression) + strlen("return ") + 2;
 	if(nDataSize > nDebExpBufferSize)
@@ -992,7 +995,7 @@ bool COMPILER::SetOnDebugExpression(char * pLValue, char * pRValue, DATA & Resul
 {
 	if(pLValue == nullptr || pRValue == nullptr) return false;
 
-	DWORD nDataSize;
+	uint32_t nDataSize;
 
 	nDataSize = strlen(pLValue) + strlen(pRValue) + 5;
 	if(nDataSize > nDebExpBufferSize)
@@ -1017,7 +1020,7 @@ bool COMPILER::ProcessDebugExpression0(char * pExpression, DATA & Result)
 
 	bDebugExpressionRun = true;
 
-	ZeroMemory(&Segment,sizeof(Segment));
+	PZERO(&Segment,sizeof(Segment));
 	Segment.name = "Debug Expression";
 	Segment.id = RunningSegmentID;
 	Segment.bUnload = false;
@@ -1054,7 +1057,7 @@ bool COMPILER::ProcessDebugExpression0(char * pExpression, DATA & Result)
 
 	//DWORD	ip;
 //	DWORD	mem_ip;
-	DWORD	mem_InstructionPointer;
+	uint32_t	mem_InstructionPointer;
 	FUNCINFO * mem_pfi;
 	char *	mem_codebase;
 	//DWORD mem_CurrentFuncCode;
@@ -1072,7 +1075,7 @@ bool COMPILER::ProcessDebugExpression0(char * pExpression, DATA & Result)
 	//DWORD old_data_num;
 	//old_data_num = SStack.GetDataNum(); trace("old_data_num: %d",old_data_num);
 
-	DWORD stackN;
+	uint32_t stackN;
 
 	stackN = SStack.GetDataNum();
 
@@ -1107,9 +1110,9 @@ bool COMPILER::ProcessDebugExpression0(char * pExpression, DATA & Result)
 	return bRes;
 }
 
-void COMPILER::ProcessFrame(DWORD DeltaTime)
+void COMPILER::ProcessFrame(uint32_t DeltaTime)
 {
-	DWORD n,i;
+	uint32_t n,i;
 
 	if(Core.Timer.Ring) AddRuntimeEvent();
 	
@@ -1160,7 +1163,7 @@ void COMPILER::ProcessFrame(DWORD DeltaTime)
 	EventMsg.RemoveInvalidated();
 }
 
-void COMPILER::ResizeBCodeBuffer(SEGMENT_DESC& Segment,DWORD add_size)
+void COMPILER::ResizeBCodeBuffer(SEGMENT_DESC& Segment,uint32_t add_size)
 {
 	if((Segment.BCode_Program_size + add_size) >= Segment.BCode_Buffer_size)
 	{
@@ -1169,11 +1172,11 @@ void COMPILER::ResizeBCodeBuffer(SEGMENT_DESC& Segment,DWORD add_size)
 	}
 }
 
-void COMPILER::CompileToken(SEGMENT_DESC& Segment,S_TOKEN_TYPE Token_type, DWORD data_blocks_num,...)
+void COMPILER::CompileToken(SEGMENT_DESC& Segment,S_TOKEN_TYPE Token_type, uint32_t data_blocks_num,...)
 {
-	DWORD write_size;
-	DWORD data_size;
-	DWORD n;
+	uint32_t write_size;
+	uint32_t data_size;
+	uint32_t n;
 	va_list args;
 	char * data_ptr;
 	
@@ -1196,7 +1199,7 @@ void COMPILER::CompileToken(SEGMENT_DESC& Segment,S_TOKEN_TYPE Token_type, DWORD
 		return;
 	}
 
-	pCompileTokenTempBuffer = (char *)RESIZE(pCompileTokenTempBuffer,data_blocks_num * (sizeof(char *) + sizeof(dword)));
+	pCompileTokenTempBuffer = (char *)RESIZE(pCompileTokenTempBuffer,data_blocks_num * (sizeof(char *) + sizeof(uint32_t)));
 	
 	// gather data blocks information and count total data size ----------------
 	va_start(args,data_blocks_num);
@@ -1204,9 +1207,9 @@ void COMPILER::CompileToken(SEGMENT_DESC& Segment,S_TOKEN_TYPE Token_type, DWORD
 	for(n=0;n<data_blocks_num;n++)
 	{
 		data_ptr = va_arg(args,char*);
-		data_size = va_arg(args,dword);
-		memcpy(pCompileTokenTempBuffer + n*(sizeof(char*)+sizeof(dword)),&data_ptr,sizeof(char*));
-		memcpy(pCompileTokenTempBuffer + n*(sizeof(char*)+sizeof(dword)) + sizeof(char*),&data_size,sizeof(dword));
+		data_size = va_arg(args,uint32_t);
+		memcpy(pCompileTokenTempBuffer + n*(sizeof(char*)+sizeof(uint32_t)),&data_ptr,sizeof(char*));
+		memcpy(pCompileTokenTempBuffer + n*(sizeof(char*)+sizeof(uint32_t)) + sizeof(char*),&data_size,sizeof(uint32_t));
 		write_size += data_size;
 	}
 	va_end(args);
@@ -1217,17 +1220,17 @@ void COMPILER::CompileToken(SEGMENT_DESC& Segment,S_TOKEN_TYPE Token_type, DWORD
 	{
 		// write byte length of token data
 		ResizeBCodeBuffer(Segment,1);
-		Segment.pCode[Segment.BCode_Program_size] = (BYTE)write_size;
+		Segment.pCode[Segment.BCode_Program_size] = (uint8_t)write_size;
 		Segment.BCode_Program_size += 1;
 	}
 	else
 	{
-		// write dword length of token data
-		ResizeBCodeBuffer(Segment,sizeof(dword) + 1);
-		Segment.pCode[Segment.BCode_Program_size] = (BYTE)0xff;
+		// write uint32_t length of token data
+		ResizeBCodeBuffer(Segment,sizeof(uint32_t) + 1);
+		Segment.pCode[Segment.BCode_Program_size] = (uint8_t)0xff;
 		Segment.BCode_Program_size += 1;
-		memcpy(&Segment.pCode[Segment.BCode_Program_size],&write_size,sizeof(dword));
-		Segment.BCode_Program_size += sizeof(dword);
+		memcpy(&Segment.pCode[Segment.BCode_Program_size],&write_size,sizeof(uint32_t));
+		Segment.BCode_Program_size += sizeof(uint32_t);
 	}
 	//--------------------------------------------------------------------------
 
@@ -1235,8 +1238,8 @@ void COMPILER::CompileToken(SEGMENT_DESC& Segment,S_TOKEN_TYPE Token_type, DWORD
 	ResizeBCodeBuffer(Segment,write_size);
 	for(n=0;n<data_blocks_num;n++)
 	{
-		memcpy(&data_ptr,pCompileTokenTempBuffer + n*(sizeof(char*)+sizeof(dword)),sizeof(char*));
-		memcpy(&data_size,pCompileTokenTempBuffer + n*(sizeof(char*)+sizeof(dword)) + sizeof(char*),sizeof(dword));
+		memcpy(&data_ptr,pCompileTokenTempBuffer + n*(sizeof(char*)+sizeof(uint32_t)),sizeof(char*));
+		memcpy(&data_size,pCompileTokenTempBuffer + n*(sizeof(char*)+sizeof(uint32_t)) + sizeof(char*),sizeof(uint32_t));
 		memcpy(&Segment.pCode[Segment.BCode_Program_size],data_ptr,data_size);
 		Segment.BCode_Program_size += data_size;
 	}
@@ -1245,9 +1248,9 @@ void COMPILER::CompileToken(SEGMENT_DESC& Segment,S_TOKEN_TYPE Token_type, DWORD
 
 bool COMPILER::InitInternalFunctions()
 {
-	DWORD n;
-	DWORD func_code;
-	DWORD internal_functions_num;
+	uint32_t n;
+	uint32_t func_code;
+	uint32_t internal_functions_num;
 	FUNCINFO fi;
 	
 	// register internal functions ------------
@@ -1277,7 +1280,7 @@ bool COMPILER::InitInternalFunctions()
 	return true;
 }
 
-bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInternalCodeSize)
+bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pInternalCodeSize)
 {
 	char dbg_file_name[MAX_PATH];
 	char file_name[MAX_PATH];
@@ -1291,18 +1294,18 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 	LVARINFO lvi;
 	CLASSINFO ci;
 	CLASSINFO cci;
-	DWORD SegmentSize;
-	DWORD Program_size;
-	DWORD func_code;
-	DWORD var_code;
-	DWORD def_code;
-	DWORD inout;
-	DWORD bracket_inout;
-	DWORD n;
-	DWORD file_code;
-	DWORD Control_offset;
-	DWORD Current_line;
-	DWORD Append_file_size;
+	uint32_t SegmentSize;
+	uint32_t Program_size;
+	uint32_t func_code;
+	uint32_t var_code;
+	uint32_t def_code;
+	uint32_t inout;
+	uint32_t bracket_inout;
+	uint32_t n;
+	uint32_t file_code;
+	uint32_t Control_offset;
+	uint32_t Current_line;
+	uint32_t Append_file_size;
 	STRINGS_LIST BlockTable;
 	S_TOKEN_TYPE Token_type;
 	DEFINFO di;
@@ -1463,7 +1466,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 			if(Segment.Files_list->AddUnicalString(Token.GetData()))
 			{
 				file_code = Segment.Files_list->GetStringCode(Token.GetData());
-				Control_offset = (DWORD)Token.GetProgramControl() - (DWORD)Token.GetProgramBase();	// store program scan point
+				Control_offset = (uint32_t)Token.GetProgramControl() - (uint32_t)Token.GetProgramBase();	// store program scan point
 				pApend_file = LoadFile(Token.GetData(),Append_file_size);
 				if(pApend_file == nullptr) 
 				{
@@ -1474,7 +1477,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 				{
 					if(bDebugInfo)
 					{
-						DWORD aps;
+						uint32_t aps;
 						strcpy(dbg_file_name,"#file \"");
 						strcat(dbg_file_name,Token.GetData());
 						strcat(dbg_file_name,"\";");
@@ -1520,7 +1523,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 					break;
 					case STRING:
 						
-						di.data4b = (dword)(NEW char[strlen(Token.GetData()) + 1]);
+						di.data4b = (uint32_t)(NEW char[strlen(Token.GetData()) + 1]);
 						strcpy((char *)di.data4b,Token.GetData());
 					break;
 					case OP_MINUS:
@@ -1683,7 +1686,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 									SetError("Invalid array '%s' initialization",vi.name);
 									return false;
 								}
-								DWORD aindex;
+								uint32_t aindex;
 								//bool bNeg;
 								aindex = 0;
 								
@@ -2037,20 +2040,20 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 	Current_line = 1;
 	//Current_line = DSL_INI_VALUE;
 	DebugSourceLine = DSL_INI_VALUE;
-	DWORD fnsize;
+	uint32_t fnsize;
 
 	if(bDebugInfo)
 	{
 		strcpy(DebugSourceFileName,Segment.name);
 		fnsize = strlen(Segment.name);
-		CompileToken(Segment,DEBUG_FILE_NAME,3,(char *)&DebugSourceLine,sizeof(dword),
-				(char *)&fnsize,sizeof(dword),
+		CompileToken(Segment,DEBUG_FILE_NAME,3,(char *)&DebugSourceLine,sizeof(uint32_t),
+				(char *)&fnsize,sizeof(uint32_t),
 				Segment.name,strlen(Segment.name));
-		CompileToken(Segment,DEBUG_LINE_CODE,1,(char *)&DebugSourceLine,sizeof(dword));
+		CompileToken(Segment,DEBUG_LINE_CODE,1,(char *)&DebugSourceLine,sizeof(uint32_t));
 		//DebugSourceLine++;
 	}
 
-	DWORD block_io_code;
+	uint32_t block_io_code;
 	block_io_code = 0;
 	inout = 0;
 	bracket_inout = 0;
@@ -2064,12 +2067,12 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 	if(!CompileBlock(Segment,bFunctionBlock,inout,TVOID,INVALID_OFFSET,INVALID_OFFSET,BreakUpdateTable))
 		return false;
 	DOUBLE_DWORD ddw;
-	DWORD label_offset;
+	uint32_t label_offset;
 	for(n=0;n<LabelUpdateTable.GetStringsCount();n++)
 	{
 		LabelUpdateTable.GetStringData(n,&ddw);
 		LabelTable.GetStringData(ddw.dw1,&label_offset);
-		memcpy(&Segment.pCode[ddw.dw2],&label_offset,sizeof(dword));
+		memcpy(&Segment.pCode[ddw.dw2],&label_offset,sizeof(uint32_t));
 	}
 
 
@@ -2078,7 +2081,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 		if(Segment.pData) delete Segment.pData;	Segment.pData = nullptr;
 	}
 	HANDLE fh;
-	DWORD dwR;
+	uint32_t dwR;
 	if(bWriteCodeFile)
 	{
 		
@@ -2087,7 +2090,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 		fh = CreateFile(file_name,GENERIC_WRITE,FILE_SHARE_READ,nullptr,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL,nullptr);
 		if(fh != INVALID_HANDLE_VALUE)
 		{
-			WriteFile(fh,Segment.pCode,Segment.BCode_Program_size,&dwR,nullptr);
+			WriteFile(fh,Segment.pCode,Segment.BCode_Program_size,(LPDWORD)&dwR,nullptr);
 			CloseHandle(fh);
 		}
 	}
@@ -2116,7 +2119,7 @@ S_TOKEN_TYPE COMPILER::SkipAuxiliaryTokens()
 
 S_TOKEN_TYPE COMPILER::CompileAuxiliaryTokens(SEGMENT_DESC& Segment)//, bool & bFunctionBlock, DWORD & inout)
 {
-	DWORD fnsize;
+	uint32_t fnsize;
 	S_TOKEN_TYPE Token_type;
 
 	do
@@ -2127,7 +2130,7 @@ S_TOKEN_TYPE COMPILER::CompileAuxiliaryTokens(SEGMENT_DESC& Segment)//, bool & b
 			case DEBUG_LINEFEED:
 				if(!bDebugInfo) break;
 				DebugSourceLine++;
-				CompileToken(Segment,DEBUG_LINE_CODE,1,(char *)&DebugSourceLine,sizeof(dword));
+				CompileToken(Segment,DEBUG_LINE_CODE,1,(char *)&DebugSourceLine,sizeof(uint32_t));
 			break;
 			case DEBUG_FILE_NAME:
 				if(!bDebugInfo) break;
@@ -2140,8 +2143,8 @@ S_TOKEN_TYPE COMPILER::CompileAuxiliaryTokens(SEGMENT_DESC& Segment)//, bool & b
 				strcpy(DebugSourceFileName,Token.GetData());
 				fnsize = strlen(Token.GetData());
 
-				CompileToken(Segment,DEBUG_FILE_NAME,3,(char *)&DebugSourceLine,sizeof(dword),
-					(char *)&fnsize,sizeof(dword),
+				CompileToken(Segment,DEBUG_FILE_NAME,3,(char *)&DebugSourceLine,sizeof(uint32_t),
+					(char *)&fnsize,sizeof(uint32_t),
 					Token.GetData(),strlen(Token.GetData()));
 			break;
 			case COMMENT:
@@ -2159,9 +2162,9 @@ S_TOKEN_TYPE COMPILER::CompileAuxiliaryTokens(SEGMENT_DESC& Segment)//, bool & b
 
 void COMPILER::CopyOffsets(SEGMENT_DESC& Segment, STRINGS_LIST & srclist, STRINGS_LIST & dstlist, char * sname)
 {
-	DWORD n;
-	DWORD i;
-	DWORD jump_voffset;
+	uint32_t n;
+	uint32_t i;
+	uint32_t jump_voffset;
 	if(sname == nullptr)
 	{
 		for(n=0;n<srclist.GetStringsCount();n++)
@@ -2188,16 +2191,16 @@ void COMPILER::CopyOffsets(SEGMENT_DESC& Segment, STRINGS_LIST & srclist, STRING
 }
 
 
-void COMPILER::UpdateOffsets(SEGMENT_DESC& Segment, STRINGS_LIST & list, DWORD offset, char * sname)
+void COMPILER::UpdateOffsets(SEGMENT_DESC& Segment, STRINGS_LIST & list, uint32_t offset, char * sname)
 {
-	DWORD n;
-	DWORD jump_voffset;
+	uint32_t n;
+	uint32_t jump_voffset;
 	if(sname == nullptr)
 	{
 		for(n=0;n<list.GetStringsCount();n++)
 		{
 			list.GetStringData(n,(char *)&jump_voffset);
-			memcpy(&Segment.pCode[jump_voffset],&offset,sizeof(dword));
+			memcpy(&Segment.pCode[jump_voffset],&offset,sizeof(uint32_t));
 		}
 		return;
 	}
@@ -2205,34 +2208,34 @@ void COMPILER::UpdateOffsets(SEGMENT_DESC& Segment, STRINGS_LIST & list, DWORD o
 	{
 		if(strcmp(sname,list.GetString(n))!=0) continue;
 		list.GetStringData(n,(char *)&jump_voffset);
-		memcpy(&Segment.pCode[jump_voffset],&offset,sizeof(dword));
+		memcpy(&Segment.pCode[jump_voffset],&offset,sizeof(uint32_t));
 	}
 
 }
 
-bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD & inout,S_TOKEN_TYPE bound_type, DWORD continue_jump, DWORD break_offset, STRINGS_LIST & BreakTable)
+bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, uint32_t & inout,S_TOKEN_TYPE bound_type, uint32_t continue_jump, uint32_t break_offset, STRINGS_LIST & BreakTable)
 {
 	S_TOKEN_TYPE Token_type;
 //	S_TOKEN_TYPE Block_bound;
 //	DWORD fnsize;
-	DWORD awcode;
-	DWORD var_code;
-	DWORD balance_bracket;
-	DWORD balance_block;
-	DWORD jump_offset;
-	DWORD update_offset;
-	DWORD vdword;
-	DWORD n;
-	DWORD unk_code;
-	DWORD func_args;
+	uint32_t awcode;
+	uint32_t var_code;
+	uint32_t balance_bracket;
+	uint32_t balance_block;
+	uint32_t jump_offset;
+	uint32_t update_offset;
+	uint32_t vuint32_t;
+	uint32_t n;
+	uint32_t unk_code;
+	uint32_t func_args;
 	STRINGS_LIST BreakUpdateTable;
-	BreakUpdateTable.SetStringDataSize(sizeof(DWORD));
+	BreakUpdateTable.SetStringDataSize(sizeof(uint32_t));
 	bool bExtern;
 	bool bImport;
 	long lvalue;
-	DWORD def_code;
+	uint32_t def_code;
 	DEFINFO di;
-	DWORD dwRCode;
+	uint32_t dwRCode;
 //	VARINFO vi;
 
 /*
@@ -2308,17 +2311,17 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 			LabelUpdateTable.AddString("j");
 			ddw.dw2 = Segment.BCode_Program_size + 2; 
 			LabelUpdateTable.SetStringData(n,(char *)&ddw);
-			vdword = 0xffffffff;
-			CompileToken(Segment,JUMP,1,(char *)&vdword,sizeof(dword));
+			vuint32_t = 0xffffffff;
+			CompileToken(Segment,JUMP,1,(char *)&vuint32_t,sizeof(uint32_t));
 		break;
 		case BREAK_COMMAND:
 			if(break_offset == INVALID_OFFSET) {SetError("invalid break"); return false;}
-			vdword = Segment.BCode_Program_size + 2;
+			vuint32_t = Segment.BCode_Program_size + 2;
 			n = BreakTable.GetStringsCount();
 			BreakTable.AddString("b");
-			BreakTable.SetStringData(n,(char *)&vdword);
-			vdword = INVALID_OFFSET;
-			CompileToken(Segment,JUMP,1,(char *)&vdword,sizeof(dword));
+			BreakTable.SetStringData(n,(char *)&vuint32_t);
+			vuint32_t = INVALID_OFFSET;
+			CompileToken(Segment,JUMP,1,(char *)&vuint32_t,sizeof(uint32_t));
 			if(bound_type == BREAK_COMMAND)
 			{
 				return true;
@@ -2326,13 +2329,13 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 		break;
 		case CONTINUE_COMMAND:
 			if(continue_jump == INVALID_OFFSET) {SetError("invalid continue"); return false;}
-			vdword = Segment.BCode_Program_size + 2;
+			vuint32_t = Segment.BCode_Program_size + 2;
 			n = BreakTable.GetStringsCount();
 			BreakTable.AddString("c");
-			BreakTable.SetStringData(n,(char *)&vdword);
-			vdword = INVALID_OFFSET;
-			CompileToken(Segment,JUMP,1,(char *)&vdword,sizeof(dword));
-			//CompileToken(Segment,JUMP,1,(char *)&continue_jump,sizeof(dword));
+			BreakTable.SetStringData(n,(char *)&vuint32_t);
+			vuint32_t = INVALID_OFFSET;
+			CompileToken(Segment,JUMP,1,(char *)&vuint32_t,sizeof(uint32_t));
+			//CompileToken(Segment,JUMP,1,(char *)&continue_jump,sizeof(uint32_t));
 		break;
 		case SEPARATOR:
 			CompileToken(Segment,Token_type);
@@ -2405,7 +2408,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 			CompileToken(Segment,PUSH_EXPRESULT);	// store for possible else
 
 			update_offset = Segment.BCode_Program_size + 2;
-			CompileToken(Segment,JUMP_Z,1,(char *)&jump_offset,sizeof(dword));
+			CompileToken(Segment,JUMP_Z,1,(char *)&jump_offset,sizeof(uint32_t));
 			Token_type = CompileAuxiliaryTokens(Segment);
 			if(Token_type == BLOCK_IN)
 			{
@@ -2417,12 +2420,12 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 				Token.StepBack();
 				if(!CompileBlock(Segment,bFunctionBlock,inout,SEPARATOR,continue_jump,break_offset,BreakTable)) return false;
 			}
-			memcpy(&Segment.pCode[update_offset],&Segment.BCode_Program_size,sizeof(dword));
+			memcpy(&Segment.pCode[update_offset],&Segment.BCode_Program_size,sizeof(uint32_t));
 			CompileToken(Segment,POP_EXPRESULT);	// pop 
 		break;
 		case ELSE_BLOCK:
 			update_offset = Segment.BCode_Program_size + 2;
-			CompileToken(Segment,JUMP_NZ,1,(char *)&jump_offset,sizeof(dword));
+			CompileToken(Segment,JUMP_NZ,1,(char *)&jump_offset,sizeof(uint32_t));
 			Token_type = CompileAuxiliaryTokens(Segment);
 			if(Token_type == BLOCK_IN)
 			{
@@ -2434,7 +2437,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 				Token.StepBack();
 				if(!CompileBlock(Segment,bFunctionBlock,inout,SEPARATOR,continue_jump,break_offset,BreakTable)) return false;
 			}
-			memcpy(&Segment.pCode[update_offset],&Segment.BCode_Program_size,sizeof(dword));
+			memcpy(&Segment.pCode[update_offset],&Segment.BCode_Program_size,sizeof(uint32_t));
 		break;
 		case WHILE_BLOCK:
 			BreakUpdateTable.Release();
@@ -2446,7 +2449,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 			if(!CompileBlock(Segment,bFunctionBlock,inout,CLOSE_BRACKET,INVALID_OFFSET,INVALID_OFFSET,BreakUpdateTable)) return false;
 			
 			update_offset = Segment.BCode_Program_size + 2;
-			CompileToken(Segment,JUMP_Z,1,(char *)&jump_offset,sizeof(dword));
+			CompileToken(Segment,JUMP_Z,1,(char *)&jump_offset,sizeof(uint32_t));
 			Token_type = CompileAuxiliaryTokens(Segment);
 			if(Token_type == BLOCK_IN)
 			{
@@ -2454,8 +2457,8 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 				if(!CompileBlock(Segment,bFunctionBlock,inout,BLOCK_OUT,jump_offset,6,BreakUpdateTable)) return false;
 			} 
 			else { SetError("missed '{'");	return false; }
-			CompileToken(Segment,JUMP,1,(char *)&jump_offset,sizeof(dword));
-			memcpy(&Segment.pCode[update_offset],&Segment.BCode_Program_size,sizeof(dword));
+			CompileToken(Segment,JUMP,1,(char *)&jump_offset,sizeof(uint32_t));
+			memcpy(&Segment.pCode[update_offset],&Segment.BCode_Program_size,sizeof(uint32_t));
 			UpdateOffsets(Segment,BreakUpdateTable,Segment.BCode_Program_size,"b");
 			UpdateOffsets(Segment,BreakUpdateTable,jump_offset,"c");
 			BreakUpdateTable.Release();
@@ -2476,7 +2479,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 			if(!CompileBlock(Segment,bFunctionBlock,inout,SEPARATOR,INVALID_OFFSET,INVALID_OFFSET,BreakTable)) return false;
 			// jump if zero
 			update_offset = Segment.BCode_Program_size + 2;
-			CompileToken(Segment,JUMP_Z,1,(char *)&jump_offset,sizeof(dword));
+			CompileToken(Segment,JUMP_Z,1,(char *)&jump_offset,sizeof(uint32_t));
 
 			
 			S_TOKEN_TYPE sttResult;	// var for inc/dec op
@@ -2500,10 +2503,10 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 
 			DWORD forcont_offset;
 			forcont_offset = Segment.BCode_Program_size;
-			CompileToken(Segment,sttResult,1,(char *)&var_code,sizeof(dword));
+			CompileToken(Segment,sttResult,1,(char *)&var_code,sizeof(uint32_t));
 			CompileToken(Segment,forOp);
-			CompileToken(Segment,JUMP,1,(char *)&jump_offset,sizeof(dword));
-			memcpy(&Segment.pCode[update_offset],&Segment.BCode_Program_size,sizeof(dword));
+			CompileToken(Segment,JUMP,1,(char *)&jump_offset,sizeof(uint32_t));
+			memcpy(&Segment.pCode[update_offset],&Segment.BCode_Program_size,sizeof(uint32_t));
 			UpdateOffsets(Segment,BreakUpdateTable,Segment.BCode_Program_size,"b");
 			UpdateOffsets(Segment,BreakUpdateTable,forcont_offset,"c");
 			BreakUpdateTable.Release();
@@ -2548,13 +2551,13 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 			CompileToken(Segment,STACK_COMPARE);
 
 			update_offset = Segment.BCode_Program_size + 2;
-			CompileToken(Segment,JUMP_Z,1,(char *)&jump_offset,sizeof(dword));
+			CompileToken(Segment,JUMP_Z,1,(char *)&jump_offset,sizeof(uint32_t));
 
 			//if(!CompileBlock(Segment,bFunctionBlock,inout,BREAK_COMMAND,INVALID_OFFSET,0,BreakTable)) return false;
 			// ??? why INVALID_OFFSET on continue_jump here? dont remember; anyway now change to normal
 			if(!CompileBlock(Segment,bFunctionBlock,inout,BREAK_COMMAND,continue_jump,0,BreakTable)) return false;
 
-			memcpy(&Segment.pCode[update_offset],&Segment.BCode_Program_size,sizeof(dword));
+			memcpy(&Segment.pCode[update_offset],&Segment.BCode_Program_size,sizeof(uint32_t));
 		break;
 
 */
@@ -2571,7 +2574,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 			CompileToken(Segment,EX);
 
 			update_offset = Segment.BCode_Program_size + 2;
-			CompileToken(Segment,JUMP_Z,1,(char *)&jump_offset,sizeof(dword));
+			CompileToken(Segment,JUMP_Z,1,(char *)&jump_offset,sizeof(uint32_t));
 			Token_type = CompileAuxiliaryTokens(Segment);
 			if(Token_type == BLOCK_IN)
 			{
@@ -2583,7 +2586,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 				Token.StepBack();
 				if(!CompileBlock(Segment,bFunctionBlock,inout,SEPARATOR,continue_jump,break_offset,BreakTable)) return false;
 			}
-			memcpy(&Segment.pCode[update_offset],&Segment.BCode_Program_size,sizeof(dword));
+			memcpy(&Segment.pCode[update_offset],&Segment.BCode_Program_size,sizeof(uint32_t));
 			//CompileToken(Segment,STACK_POP);
 			//CompileToken(Segment,EX);
 
@@ -2591,7 +2594,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 		break;
 		case ELSE_BLOCK:
 			update_offset = Segment.BCode_Program_size + 2;
-			CompileToken(Segment,JUMP_NZ,1,(char *)&jump_offset,sizeof(dword));
+			CompileToken(Segment,JUMP_NZ,1,(char *)&jump_offset,sizeof(uint32_t));
 			Token_type = CompileAuxiliaryTokens(Segment/*,bFunctionBlock,inout*/);
 			if(Token_type == BLOCK_IN)
 			{
@@ -2603,7 +2606,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 				Token.StepBack();
 				if(!CompileBlock(Segment,bFunctionBlock,inout,SEPARATOR,continue_jump,break_offset,BreakTable)) return false;
 			}
-			memcpy(&Segment.pCode[update_offset],&Segment.BCode_Program_size,sizeof(dword));
+			memcpy(&Segment.pCode[update_offset],&Segment.BCode_Program_size,sizeof(uint32_t));
 		break;
 
 
@@ -2625,7 +2628,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 			//if(!CompileBlock(Segment,bFunctionBlock,inout,CLOSE_BRACKET,INVALID_OFFSET,INVALID_OFFSET,BreakUpdateTable)) return false;
 			
 			update_offset = Segment.BCode_Program_size + 2;
-			CompileToken(Segment,JUMP_Z,1,(char *)&jump_offset,sizeof(dword));
+			CompileToken(Segment,JUMP_Z,1,(char *)&jump_offset,sizeof(uint32_t));
 			Token_type = CompileAuxiliaryTokens(Segment);
 			if(Token_type == BLOCK_IN)
 			{
@@ -2639,8 +2642,8 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 				if(!CompileBlock(Segment,bFunctionBlock,inout,SEPARATOR,jump_offset,6,BreakUpdateTable)) return false;
 				// **** ?
 			}
-			CompileToken(Segment,JUMP,1,(char *)&jump_offset,sizeof(dword));
-			memcpy(&Segment.pCode[update_offset],&Segment.BCode_Program_size,sizeof(dword));
+			CompileToken(Segment,JUMP,1,(char *)&jump_offset,sizeof(uint32_t));
+			memcpy(&Segment.pCode[update_offset],&Segment.BCode_Program_size,sizeof(uint32_t));
 			UpdateOffsets(Segment,BreakUpdateTable,Segment.BCode_Program_size,"b");
 			UpdateOffsets(Segment,BreakUpdateTable,jump_offset,"c");
 			BreakUpdateTable.Release();
@@ -2666,7 +2669,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 			
 			// jump if zero
 			update_offset = Segment.BCode_Program_size + 2;
-			CompileToken(Segment,JUMP_Z,1,(char *)&jump_offset,sizeof(dword));
+			CompileToken(Segment,JUMP_Z,1,(char *)&jump_offset,sizeof(uint32_t));
 
 			
 			S_TOKEN_TYPE sttResult;	// var for inc/dec op
@@ -2694,12 +2697,12 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 				// **** ?
 			}
 
-			DWORD forcont_offset;
+			uint32_t forcont_offset;
 			forcont_offset = Segment.BCode_Program_size;
-			CompileToken(Segment,sttResult,1,(char *)&var_code,sizeof(dword));
+			CompileToken(Segment,sttResult,1,(char *)&var_code,sizeof(uint32_t));
 			CompileToken(Segment,forOp);
-			CompileToken(Segment,JUMP,1,(char *)&jump_offset,sizeof(dword));
-			memcpy(&Segment.pCode[update_offset],&Segment.BCode_Program_size,sizeof(dword));
+			CompileToken(Segment,JUMP,1,(char *)&jump_offset,sizeof(uint32_t));
+			memcpy(&Segment.pCode[update_offset],&Segment.BCode_Program_size,sizeof(uint32_t));
 			UpdateOffsets(Segment,BreakUpdateTable,Segment.BCode_Program_size,"b");
 			UpdateOffsets(Segment,BreakUpdateTable,forcont_offset,"c");
 			BreakUpdateTable.Release();
@@ -2756,13 +2759,13 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 			CompileToken(Segment,STACK_COMPARE);
 
 			update_offset = Segment.BCode_Program_size + 2;
-			CompileToken(Segment,JUMP_Z,1,(char *)&jump_offset,sizeof(dword));
+			CompileToken(Segment,JUMP_Z,1,(char *)&jump_offset,sizeof(uint32_t));
 
 			//if(!CompileBlock(Segment,bFunctionBlock,inout,BREAK_COMMAND,INVALID_OFFSET,0,BreakTable)) return false;
 			// ??? why INVALID_OFFSET on continue_jump here? dont remember; anyway now change to normal
 			if(!CompileBlock(Segment,bFunctionBlock,inout,BREAK_COMMAND,continue_jump,0,BreakTable)) return false;
 
-			memcpy(&Segment.pCode[update_offset],&Segment.BCode_Program_size,sizeof(dword));
+			memcpy(&Segment.pCode[update_offset],&Segment.BCode_Program_size,sizeof(uint32_t));
 		break;
 		case INVALID_TOKEN:
 			SetError("bad token");
@@ -2783,13 +2786,13 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 				SetError("invalid string call syntax");
 				return false;
 			}
-			CompileToken(Segment,Token_type,1,(char *)&unk_code,sizeof(dword));
+			CompileToken(Segment,Token_type,1,(char *)&unk_code,sizeof(uint32_t));
 		break;*/
 
 		case CALL:
 			
 			S_TOKEN_TYPE sttVar;
-			DWORD dwCallVarCode;
+			uint32_t dwCallVarCode;
 
 
 			//CompileToken(Segment,Token_type);
@@ -2837,22 +2840,22 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 					}
 				} while(bNext);
 			}
-			//CompileToken(Segment,CALL_FUNCTION,1,(char *)&func_code,sizeof(dword));
+			//CompileToken(Segment,CALL_FUNCTION,1,(char *)&func_code,sizeof(uint32_t));
 			//CompileToken(Segment,ARGS_NUM,1,(char *)&func_args,sizeof(DWORD));
 			//if(fi.return_type!=TVOID) CompileToken(Segment,STACK_POP_VOID);
 			//======================================================
 
 			
 			CompileToken(Segment,CALL);
-			CompileToken(Segment,Token_type,1,(char *)&dwCallVarCode,sizeof(DWORD));
-			CompileToken(Segment,ARGS_NUM,1,(char *)&func_args,sizeof(DWORD));
+			CompileToken(Segment,Token_type,1,(char *)&dwCallVarCode,sizeof(uint32_t));
+			CompileToken(Segment,ARGS_NUM,1,(char *)&func_args,sizeof(uint32_t));
 			CompileToken(Segment,POP_NZ);	// pop return value if function returned value
 
 		break;
 
 		case UNKNOWN:
-			DWORD func_code;
-			DWORD func_args;
+			uint32_t func_code;
+			uint32_t func_args;
 			FUNCINFO fi;
 		
 
@@ -2940,8 +2943,8 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 
 				}//*/
 
-				CompileToken(Segment,CALL_FUNCTION,1,(char *)&func_code,sizeof(dword));
-				CompileToken(Segment,ARGS_NUM,1,(char *)&func_args,sizeof(DWORD));
+				CompileToken(Segment,CALL_FUNCTION,1,(char *)&func_code,sizeof(uint32_t));
+				CompileToken(Segment,ARGS_NUM,1,(char *)&func_args,sizeof(uint32_t));
 				if(fi.return_type!=TVOID) CompileToken(Segment,STACK_POP_VOID);
 				
 				
@@ -3014,7 +3017,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 					if(Token.Get() == OP_EQUAL)
 					{
 						// initialization
-						CompileToken(Segment,Token_type,1,(char *)&unk_code,sizeof(dword));
+						CompileToken(Segment,Token_type,1,(char *)&unk_code,sizeof(uint32_t));
 					}
 					Token.StepBack();
 				}
@@ -3128,7 +3131,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 
 		//case MAKEREF_COMMAND: CompileToken(Segment,Token_type); break;
 		case MAKEREF_COMMAND: 
-			DWORD dwRCode1,dwRCode2;
+			uint32_t dwRCode1,dwRCode2;
 			S_TOKEN_TYPE sttVarType1,sttVarType2;
 
 			//CompileToken(Segment,Token_type); 
@@ -3146,12 +3149,12 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 			CompileToken(Segment,sttVarType,1,(char *)&dwRCode,sizeof(DWORD));*/
 /*			if(sttVarType == VARIABLE)
 			{
-				if(!VarTab.GetVar(vi,*((dword *)&pCodeBase[ip]))) { SetError("Global variable not found"); break; }
+				if(!VarTab.GetVar(vi,*((uint32_t *)&pCodeBase[ip]))) { SetError("Global variable not found"); break; }
 				pRef = vi.pDClass;
 			} 
 			else
 			{
-				pRef = SStack.Read(pRun_fi->stack_offset,*((dword *)&pCodeBase[ip]));
+				pRef = SStack.Read(pRun_fi->stack_offset,*((uint32_t *)&pCodeBase[ip]));
 				if(pRef == 0) { SetError("Local variable not found"); return false; }
 			}
 */	
@@ -3173,8 +3176,8 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 				CompileToken(Segment,BX);
 
 				CompileToken(Segment,SETREF_BXINDEX);
-				CompileToken(Segment,sttVarType1,1,(char *)&dwRCode1,sizeof(DWORD));
-				CompileToken(Segment,sttVarType2,1,(char *)&dwRCode2,sizeof(DWORD));
+				CompileToken(Segment,sttVarType1,1,(char *)&dwRCode1,sizeof(uint32_t));
+				CompileToken(Segment,sttVarType2,1,(char *)&dwRCode2,sizeof(uint32_t));
 	
 				if(Token.GetType()!=SQUARE_CLOSE_BRACKET) { SetError("missed ']'"); return false; }
 				if(Token.Get() != CLOSE_BRACKET) {SetError("missed ')'"); return false;};
@@ -3184,8 +3187,8 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 			{
 				if(Token.GetType() != CLOSE_BRACKET) {SetError("missed ')'"); return false;};
 				CompileToken(Segment,SETREF);
-				CompileToken(Segment,sttVarType1,1,(char *)&dwRCode1,sizeof(DWORD));
-				CompileToken(Segment,sttVarType2,1,(char *)&dwRCode2,sizeof(DWORD));
+				CompileToken(Segment,sttVarType1,1,(char *)&dwRCode1,sizeof(uint32_t));
+				CompileToken(Segment,sttVarType2,1,(char *)&dwRCode2,sizeof(uint32_t));
 			}
 
 
@@ -3234,7 +3237,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 			CompileToken(Segment,STACK_ALLOC);
 			CompileToken(Segment,SETREF);
 			CompileToken(Segment,STACK_TOP);
-			CompileToken(Segment,Token_type,1,(char *)&dwRCode,sizeof(DWORD));
+			CompileToken(Segment,Token_type,1,(char *)&dwRCode,sizeof(uint32_t));
 			
 			if(Token.Get() != COMMA) {SetError("missed ','"); return false;}
 
@@ -3259,11 +3262,11 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 				// move ap to AP register
 				CompileToken(Segment,MOVEAP_BXINDEX);
 				CompileToken(Segment,AP);
-				CompileToken(Segment,sttVarType,1,(char *)&dwRCode,sizeof(DWORD));
+				CompileToken(Segment,sttVarType,1,(char *)&dwRCode,sizeof(uint32_t));
 				Token_type = Token.Get();
 
 				CompileToken(Segment,PUSH_OBJID_BXINDEX);
-				CompileToken(Segment,sttVarType,1,(char *)&dwRCode,sizeof(DWORD));
+				CompileToken(Segment,sttVarType,1,(char *)&dwRCode,sizeof(uint32_t));
 				
 			}
 			else
@@ -3271,10 +3274,10 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 				// bove atributes root to AP
 				CompileToken(Segment,MOVEAP);
 				CompileToken(Segment,AP);
-				CompileToken(Segment,sttVarType,1,(char *)&dwRCode,sizeof(DWORD));
+				CompileToken(Segment,sttVarType,1,(char *)&dwRCode,sizeof(uint32_t));
 
 				CompileToken(Segment,PUSH_OBJID);
-				CompileToken(Segment,sttVarType,1,(char *)&dwRCode,sizeof(DWORD));
+				CompileToken(Segment,sttVarType,1,(char *)&dwRCode,sizeof(uint32_t));
 			}
 
 			
@@ -3291,8 +3294,8 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 			// advance ap
 
 			sttResult = Token.Get();
-			DWORD dwAWCode;
-			DWORD dwVarCode;
+			uint32_t dwAWCode;
+			uint32_t dwVarCode;
 			do
 			{
 				if(Token.GetType() == OPEN_BRACKET)
@@ -3304,7 +3307,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 					if(!(sttResult == VARIABLE || sttResult == LOCAL_VARIABLE)) { SetError("not variable: %s",Token.GetData()); return false; }
 					//CompileToken(Segment,ADVANCE_AP);
 					CompileToken(Segment,VERIFY_AP);
-					CompileToken(Segment,sttResult,1,&dwVarCode,sizeof(DWORD));
+					CompileToken(Segment,sttResult,1,&dwVarCode,sizeof(uint32_t));
 					if(Token.Get()!=CLOSE_BRACKET){ SetError("missing ')'"); return false; };
 				}
 				else
@@ -3315,7 +3318,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 					dwAWCode = SCodec.Convert(Token.GetData());
 					//CompileToken(Segment,ADVANCE_AP);
 					CompileToken(Segment,VERIFY_AP);
-					CompileToken(Segment,ACCESS_WORD_CODE,1,&dwAWCode,sizeof(DWORD));
+					CompileToken(Segment,ACCESS_WORD_CODE,1,&dwAWCode,sizeof(uint32_t));
 				}
 				sttResult = Token.Get();
 				if(sttResult == DOT) Token.Get();	// get next token (after dot)
@@ -3348,7 +3351,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 						return false;
 					}
 					CompileToken(Segment,ACCESS_VAR);
-					CompileToken(Segment,LOCAL_VARIABLE,1,(char *)&var_code,sizeof(dword));
+					CompileToken(Segment,LOCAL_VARIABLE,1,(char *)&var_code,sizeof(uint32_t));
 					break;
 				}
 
@@ -3362,7 +3365,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 						return false;
 					}
 					CompileToken(Segment,ACCESS_VAR);
-					CompileToken(Segment,VARIABLE,1,(char *)&var_code,sizeof(dword));
+					CompileToken(Segment,VARIABLE,1,(char *)&var_code,sizeof(uint32_t));
 					break;
 				}
 			
@@ -3379,7 +3382,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 
 			Token.LowCase();
 			awcode = SCodec.Convert(Token.GetData());
-			CompileToken(Segment,ACCESS_WORD_CODE,1,&awcode,sizeof(DWORD));
+			CompileToken(Segment,ACCESS_WORD_CODE,1,&awcode,sizeof(uint32_t));
 		break;
 
 		case TRUE_CONST:
@@ -3434,7 +3437,7 @@ bool COMPILER::TokenIs(S_TOKEN_TYPE test)
 	return false;
 }
 
-bool COMPILER::BC_Jump(SEGMENT_DESC& Segment, DWORD offset)
+bool COMPILER::BC_Jump(SEGMENT_DESC& Segment, uint32_t offset)
 {
 	if(offset >= Segment.BCode_Program_size)
 	{
@@ -3445,7 +3448,7 @@ bool COMPILER::BC_Jump(SEGMENT_DESC& Segment, DWORD offset)
 	return true;
 }
 
-S_TOKEN_TYPE COMPILER::BC_TokenGet(DWORD & ip, DWORD & token_data_size)
+S_TOKEN_TYPE COMPILER::BC_TokenGet(uint32_t & ip, uint32_t & token_data_size)
 {
 	// function read token type and data size, advance InstructionPointer to next token
 	// set ip to token data
@@ -3453,16 +3456,16 @@ S_TOKEN_TYPE COMPILER::BC_TokenGet(DWORD & ip, DWORD & token_data_size)
 	TokenLastReadResult = (S_TOKEN_TYPE)pRunCodeBase[InstructionPointer];
 	//Trace("Token: %s", Token.GetTypeName(TokenLastReadResult));
 	InstructionPointer++;
-	if((BYTE)pRunCodeBase[InstructionPointer] < 0xff) 
+	if((uint8_t)pRunCodeBase[InstructionPointer] < 0xff) 
 	{ 
-		token_data_size = (BYTE)pRunCodeBase[InstructionPointer]; 
+		token_data_size = (uint8_t)pRunCodeBase[InstructionPointer]; 
 		InstructionPointer++; 
 	}
 	else 
 	{
 		InstructionPointer++; 
-		memcpy(&token_data_size,&pRunCodeBase[InstructionPointer],sizeof(dword)); 
-		InstructionPointer += sizeof(dword);
+		memcpy(&token_data_size,&pRunCodeBase[InstructionPointer],sizeof(uint32_t)); 
+		InstructionPointer += sizeof(uint32_t);
 	}
 	ip = InstructionPointer;
 	TLR_DataOffset = InstructionPointer;
@@ -3473,20 +3476,20 @@ S_TOKEN_TYPE COMPILER::BC_TokenGet(DWORD & ip, DWORD & token_data_size)
 S_TOKEN_TYPE COMPILER::BC_TokenGet()
 {
 	// short version of function for calls what doesnt need to work with token data
-	DWORD token_data_size;
+	uint32_t token_data_size;
 	TokenLastReadResult = (S_TOKEN_TYPE)pRunCodeBase[InstructionPointer];
 	//Trace("Token: %s", Token.GetTypeName(TokenLastReadResult));
 	InstructionPointer++;
-	if((BYTE)pRunCodeBase[InstructionPointer] < 0xff) 
+	if((uint8_t)pRunCodeBase[InstructionPointer] < 0xff) 
 	{ 
-		token_data_size = (BYTE)pRunCodeBase[InstructionPointer]; 
+		token_data_size = (uint8_t)pRunCodeBase[InstructionPointer]; 
 		InstructionPointer++; 
 	}
 	else 
 	{
 		InstructionPointer++; 
-		memcpy(&token_data_size,&pRunCodeBase[InstructionPointer],sizeof(dword)); 
-		InstructionPointer += sizeof(dword);
+		memcpy(&token_data_size,&pRunCodeBase[InstructionPointer],sizeof(uint32_t)); 
+		InstructionPointer += sizeof(uint32_t);
 	}
 	TLR_DataOffset = InstructionPointer;
 	InstructionPointer += token_data_size;
@@ -3500,19 +3503,19 @@ S_TOKEN_TYPE COMPILER::NextTokenType()
 
 
 
-bool COMPILER::BC_CallFunction(DWORD func_code, DWORD & ip, DATA * & pVResult)
+bool COMPILER::BC_CallFunction(uint32_t func_code, uint32_t & ip, DATA * & pVResult)
 {
 	FUNCINFO call_fi;
-	DWORD mem_ip;
-	DWORD mem_InstructionPointer;
+	uint32_t mem_ip;
+	uint32_t mem_InstructionPointer;
 	FUNCINFO * mem_pfi;
 //	DATA * pV;
 	char * mem_codebase;
-	DWORD arguments;
-	DWORD check_sp;
+	uint32_t arguments;
+	uint32_t check_sp;
 
 #ifndef _XBOX
-	DWORD nDebugEnterMode;
+	uint32_t nDebugEnterMode;
 #endif
 
 	CompilerStage = CS_RUNTIME;
@@ -3582,7 +3585,7 @@ bool COMPILER::BC_CallFunction(DWORD func_code, DWORD & ip, DATA * & pVResult)
 #ifndef _XBOX	
 	nDebugEnterMode = CDebug.GetTraceMode();
 #endif
-	DWORD nTicks;
+	uint32_t nTicks;
 	if(call_fi.segment_id == INTERNAL_SEGMENT_ID)
 	{
 		if(bRuntimeLog) FuncTab.AddCall(func_code);
@@ -3598,7 +3601,7 @@ bool COMPILER::BC_CallFunction(DWORD func_code, DWORD & ip, DATA * & pVResult)
 		pVResult = nullptr;
 		RDTSC_B(nTicks);
 		//BC_CallIntFunction(func_code,pVResult,arguments);
-		DWORD nResult;
+		uint32_t nResult;
 		nResult = call_fi.pImportedFunc(&SStack);
 		if(nResult == IFUNCRESULT_OK)
 		{
@@ -3673,18 +3676,18 @@ bool COMPILER::BC_CallFunction(DWORD func_code, DWORD & ip, DATA * & pVResult)
 	return true;
 }
 
-bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * pDbgExpSource)
+bool COMPILER::BC_Execute(uint32_t function_code, DATA * & pVReturnResult, char * pDbgExpSource)
 {
 	GUARD(BC_Execute)
-	DWORD inout;
-	DWORD segment_index;
-	DWORD token_data_size;
-	DWORD ip;
-	DWORD n;
-	DWORD jump_offset;
-	DWORD func_code;
-	DWORD nLeftOperandCode;
-	DWORD bLeftOperandType;
+	uint32_t inout;
+	uint32_t segment_index;
+	uint32_t token_data_size;
+	uint32_t ip;
+	uint32_t n;
+	uint32_t jump_offset;
+	uint32_t func_code;
+	uint32_t nLeftOperandCode;
+	uint32_t bLeftOperandType;
 	long  nLeftOperandIndex;
 	S_TOKEN_TYPE Token_type;
 	FUNCINFO fi;
@@ -3697,7 +3700,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 	long  lvalue;
 	S_TOKEN_TYPE vtype;
 	DATA * pVV;
-	DWORD  var_code;
+	uint32_t  var_code;
 	char * pAccess_string;
 //	long array_index;
 //	DATA * pRef;
@@ -3723,12 +3726,12 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 	pVReturnResult = nullptr;
 	pVResult = nullptr;
 
-	ZeroMemory(&fi,sizeof(fi));
+	PZERO(&fi,sizeof(fi));
 
 	if(pDbgExpSource == nullptr)
 	{
 
-	//ZeroMemory(&fi,sizeof(fi));
+	//PZERO(&fi,sizeof(fi));
 	if(!FuncTab.GetFunc(fi,function_code))
 	{
 		SetError("Invalid function: %s",fi.name);
@@ -3862,18 +3865,18 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 				SStack.Pop();
 			break;
 			case JUMP:
-				memcpy(&jump_offset,&pCodeBase[ip],sizeof(dword));
+				memcpy(&jump_offset,&pCodeBase[ip],sizeof(uint32_t));
 				if(!BC_Jump(SegmentTable[segment_index],jump_offset)) return false;
 			break;
 			case JUMP_Z:
-				memcpy(&jump_offset,&pCodeBase[ip],sizeof(dword));
+				memcpy(&jump_offset,&pCodeBase[ip],sizeof(uint32_t));
 				ExpressionResult.Convert(VAR_INTEGER);
 				ExpressionResult.Get(lvalue);
 				if(lvalue) break;
 				if(!BC_Jump(SegmentTable[segment_index],jump_offset)) return false;
 			break;
 			case JUMP_NZ:
-				memcpy(&jump_offset,&pCodeBase[ip],sizeof(dword));
+				memcpy(&jump_offset,&pCodeBase[ip],sizeof(uint32_t));
 				ExpressionResult.Convert(VAR_INTEGER);
 				ExpressionResult.Get(lvalue);
 				if(lvalue == 0) break;
@@ -4067,7 +4070,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 				if(Core.Exit_flag) return false;
 				if(pDbgExpSource) break;
 				if(bDebugExpressionRun) break;
-				memcpy(&nDebugTraceLineCode,&pCodeBase[ip],sizeof(dword));
+				memcpy(&nDebugTraceLineCode,&pCodeBase[ip],sizeof(uint32_t));
 				if(bTraceMode)
 				{
 					if(CDebug.GetTraceMode() == TMODE_MAKESTEP || CDebug.GetTraceMode() == TMODE_MAKESTEP_OVER)
@@ -4111,7 +4114,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 					}
 				}
 #else
-				memcpy(&nDTLCode,&pCodeBase[ip],sizeof(dword));
+				memcpy(&nDTLCode,&pCodeBase[ip],sizeof(uint32_t));
 
 #endif
 			break;
@@ -4123,8 +4126,8 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 				long file_line_offset;
 				long file_name_size;
 				index = ip;
-				memcpy(&file_line_offset,&pCodeBase[index],sizeof(dword)); index += sizeof(dword);
-				memcpy(&file_name_size,&pCodeBase[index],sizeof(dword)); index += sizeof(dword);
+				memcpy(&file_line_offset,&pCodeBase[index],sizeof(uint32_t)); index += sizeof(uint32_t);
+				memcpy(&file_name_size,&pCodeBase[index],sizeof(uint32_t)); index += sizeof(uint32_t);
 				memcpy(DebugTraceFileName,&pCodeBase[index],file_name_size); index += file_name_size;
 				DebugTraceFileName[file_name_size] = 0;
 				//DebugSourceLine = 1;*/
@@ -4164,7 +4167,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 				} else ExpressionResult.Set((long)0);
 			break;
 			case CALL_FUNCTION:
-				memcpy(&func_code,&pCodeBase[ip],sizeof(dword));
+				memcpy(&func_code,&pCodeBase[ip],sizeof(uint32_t));
 				pVResult = nullptr;
 				if(!BC_CallFunction(func_code,ip,pVResult)) return false;
 				//if(pVResult) SStack.Pop();
@@ -4459,12 +4462,12 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 				Token_type = BC_TokenGet(ip,token_data_size);
 				if(Token_type == VARIABLE)
 				{
-					if(!VarTab.GetVar(vi,*((dword *)&pCodeBase[ip]))) { SetError("Global variable not found"); break; }
+					if(!VarTab.GetVar(vi,*((uint32_t *)&pCodeBase[ip]))) { SetError("Global variable not found"); break; }
 					pRef = vi.pDClass;
 				} 
 				else
 				{
-					pRef = SStack.Read(pRun_fi->stack_offset,*((dword *)&pCodeBase[ip]));
+					pRef = SStack.Read(pRun_fi->stack_offset,*((uint32_t *)&pCodeBase[ip]));
 					if(pRef == 0) { SetError("Local variable not found"); return false; }
 				}
 				if(!pRef->IsReference()) { SetError("makeref to non reference variable"); return false; }
@@ -4474,12 +4477,12 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 				Token_type = BC_TokenGet(ip,token_data_size);
 				if(Token_type == VARIABLE)
 				{
-					if(!VarTab.GetVar(vi,*((dword *)&pCodeBase[ip])))	{ SetError("Global variable not found"); break; }
+					if(!VarTab.GetVar(vi,*((uint32_t *)&pCodeBase[ip])))	{ SetError("Global variable not found"); break; }
 					pVar = vi.pDClass;
 				} 
 				else
 				{
-					pVar = SStack.Read(pRun_fi->stack_offset,*((dword *)&pCodeBase[ip]));
+					pVar = SStack.Read(pRun_fi->stack_offset,*((uint32_t *)&pCodeBase[ip]));
 					if(pVar == 0) { SetError("Local variable not found"); return false; }
 				}
 
@@ -4504,12 +4507,12 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 				Token_type = BC_TokenGet(ip,token_data_size);
 				if(Token_type == VARIABLE)
 				{
-					if(!VarTab.GetVar(vi,*((dword *)&pCodeBase[ip]))) { SetError("Global variable not found"); break; }
+					if(!VarTab.GetVar(vi,*((uint32_t *)&pCodeBase[ip]))) { SetError("Global variable not found"); break; }
 					pRef = vi.pDClass;
 				} 
 				else
 				{
-					pRef = SStack.Read(pRun_fi->stack_offset,*((dword *)&pCodeBase[ip]));
+					pRef = SStack.Read(pRun_fi->stack_offset,*((uint32_t *)&pCodeBase[ip]));
 					if(pRef == 0) { SetError("Local variable not found"); return false; }
 				}
 				if(!pRef->IsAReference()) { SetError("makeref to non A reference variable"); return false; }
@@ -4519,13 +4522,13 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 				Token_type = BC_TokenGet(ip,token_data_size);
 				if(Token_type == VARIABLE)
 				{
-					if(!VarTab.GetVar(vi,*((dword *)&pCodeBase[ip])))	{ SetError("Global variable not found"); break; }
+					if(!VarTab.GetVar(vi,*((uint32_t *)&pCodeBase[ip])))	{ SetError("Global variable not found"); break; }
 					pVar = vi.pDClass;
 					if(pVar == 0) { SetError("Global variable not found"); return false; }
 				} 
 				else
 				{
-					pVar = SStack.Read(pRun_fi->stack_offset,*((dword *)&pCodeBase[ip]));
+					pVar = SStack.Read(pRun_fi->stack_offset,*((uint32_t *)&pCodeBase[ip]));
 					if(pVar == 0) { SetError("Local variable not found"); return false; }
 				}
 
@@ -4740,14 +4743,14 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 						pVDst->SetType(VAR_REFERENCE);
 					break;
 					case VARIABLE:
-						if(!VarTab.GetVar(vi,*((dword *)&pCodeBase[ip])))	{ SetError("Global variable not found"); return false; }
+						if(!VarTab.GetVar(vi,*((uint32_t *)&pCodeBase[ip])))	{ SetError("Global variable not found"); return false; }
 						pVDst = vi.pDClass;
 						//if(bUseIndex) pVDst = pVDst->GetArrayElement(dwBXIndex);
 						if(!pVDst) return false;
 						if(pVDst->GetType()!=VAR_REFERENCE) {SetError("'%s' isnt reference",vi.name);return false;}
 					break;
 					case LOCAL_VARIABLE:
-						pVDst = SStack.Read(pRun_fi->stack_offset,*((dword *)&pCodeBase[ip]));
+						pVDst = SStack.Read(pRun_fi->stack_offset,*((uint32_t *)&pCodeBase[ip]));
 						if(pVDst == nullptr) { SetError("Local variable not found"); return false; }
 						//if(bUseIndex) pVDst = pVDst->GetArrayElement(dwBXIndex);
 						if(!pVDst) return false;
@@ -4764,13 +4767,13 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 				switch(Token_type)
 				{
 					case VARIABLE:
-						if(!VarTab.GetVar(vi,*((dword *)&pCodeBase[ip])))	{ SetError("Global variable not found"); return false; }
+						if(!VarTab.GetVar(vi,*((uint32_t *)&pCodeBase[ip])))	{ SetError("Global variable not found"); return false; }
 						pVSrc = vi.pDClass;
 						if(bUseIndex) pVSrc = pVSrc->GetArrayElement(dwBXIndex);
 						if(!pVSrc) return false;
 					break;
 					case LOCAL_VARIABLE:
-						pVSrc = SStack.Read(pRun_fi->stack_offset,*((dword *)&pCodeBase[ip]));
+						pVSrc = SStack.Read(pRun_fi->stack_offset,*((uint32_t *)&pCodeBase[ip]));
 						if(pVSrc == nullptr) { SetError("Local variable not found"); return false; }
 						if(bUseIndex) pVSrc = pVSrc->GetArrayElement(dwBXIndex);
 						if(!pVSrc) return false;
@@ -4949,7 +4952,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 						pV->Set((char *)&pRunCodeBase[TLR_DataOffset + 4]);	// 4 - string length
 					break;
 					case VARIABLE:
-						if(!VarTab.GetVar(vi,*((dword *)&pCodeBase[ip])))	{ SetError("Global variable not found"); break; }
+						if(!VarTab.GetVar(vi,*((uint32_t *)&pCodeBase[ip])))	{ SetError("Global variable not found"); break; }
 						pVV = vi.pDClass;
 						//pVV = pVV->GetVarPointer();
 						//if(!pVV) { SetError("invalid ref"); break; }
@@ -4982,7 +4985,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 						
 					break;
 					case LOCAL_VARIABLE:
-						pVar = SStack.Read(pRun_fi->stack_offset,*((dword *)&pCodeBase[ip]));
+						pVar = SStack.Read(pRun_fi->stack_offset,*((uint32_t *)&pCodeBase[ip]));
 						if(pVar == nullptr) { SetError("Local variable not found"); return false; }
 						if(pVar->IsReference())
 						{
@@ -5051,11 +5054,11 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 				switch(Token_type)
 				{
 					case VARIABLE:
-						if(!VarTab.GetVar(vi,*((dword *)&pCodeBase[ip])))	{ SetError("Global variable not found"); break; }
+						if(!VarTab.GetVar(vi,*((uint32_t *)&pCodeBase[ip])))	{ SetError("Global variable not found"); break; }
 						vi.pDClass->Copy(pV);
 					break;
 					case LOCAL_VARIABLE:
-						pVar = SStack.Read(pRun_fi->stack_offset,*((dword *)&pCodeBase[ip]));
+						pVar = SStack.Read(pRun_fi->stack_offset,*((uint32_t *)&pCodeBase[ip]));
 						if(pVar == nullptr) { SetError("Local variable not found"); return false; }
 						pVar->Copy(pV);
 					break;
@@ -5275,27 +5278,27 @@ void COMPILER::CompileFloatNumber(SEGMENT_DESC& Segment)
 
 void COMPILER::CompileString(SEGMENT_DESC& Segment)
 {
-	dword string_size;
+	uint32_t string_size;
 	char * pData;
 	pData = Token.GetData();
 	if(pData != nullptr) 
 	{
 		string_size = strlen(Token.GetData()) + 1;
-		CompileToken(Segment,STRING,2,(char *)&string_size,sizeof(dword),Token.GetData(),string_size);
+		CompileToken(Segment,STRING,2,(char *)&string_size,sizeof(uint32_t),Token.GetData(),string_size);
 	}
 	else
 	{
 		string_size = strlen("") + 1;
-		CompileToken(Segment,STRING,2,(char *)&string_size,sizeof(dword),"",string_size);
+		CompileToken(Segment,STRING,2,(char *)&string_size,sizeof(uint32_t),"",string_size);
 	}
 }
 
 bool COMPILER::CompileUnknown(SEGMENT_DESC& Segment)
 {
-	DWORD func_code;
-	DWORD var_code;
-	DWORD def_code;
-	DWORD lab_code;
+	uint32_t func_code;
+	uint32_t var_code;
+	uint32_t def_code;
+	uint32_t lab_code;
 
 	// check for valid function code
 	func_code = FuncTab.FindFunc(Token.GetData());
@@ -5303,7 +5306,7 @@ bool COMPILER::CompileUnknown(SEGMENT_DESC& Segment)
 	if(func_code != INVALID_FUNC_CODE)
 	{
 		// this is function call
-		CompileToken(Segment,CALL_FUNCTION,1,(char *)&func_code,sizeof(dword));
+		CompileToken(Segment,CALL_FUNCTION,1,(char *)&func_code,sizeof(uint32_t));
 		//Trace("function call: %s ; code = %d",Token.GetData(),func_code);
 		return true;
 	}
@@ -5312,7 +5315,7 @@ bool COMPILER::CompileUnknown(SEGMENT_DESC& Segment)
 	var_code = FuncTab.FindVar(CurrentFuncCode,Token.GetData());
 	if(var_code != INVALID_VAR_CODE)
 	{
-		CompileToken(Segment,LOCAL_VARIABLE,1,(char *)&var_code,sizeof(dword));
+		CompileToken(Segment,LOCAL_VARIABLE,1,(char *)&var_code,sizeof(uint32_t));
 		//Trace("local variable: %s ; code = %d",Token.GetData(),var_code);
 		return true;
 	}
@@ -5321,7 +5324,7 @@ bool COMPILER::CompileUnknown(SEGMENT_DESC& Segment)
 	if(var_code != INVALID_VAR_CODE)
 	{
 		// this is gloabl variable
-		CompileToken(Segment,VARIABLE,1,(char *)&var_code,sizeof(dword));
+		CompileToken(Segment,VARIABLE,1,(char *)&var_code,sizeof(uint32_t));
 		//Trace("variable: %s ; code = %d",Token.GetData(),var_code);
 		return true;
 	}
@@ -5336,15 +5339,15 @@ bool COMPILER::CompileUnknown(SEGMENT_DESC& Segment)
 		switch(di.deftype)
 		{
 			case NUMBER:
-				CompileToken(Segment,NUMBER,1,(char *)&di.data4b,sizeof(dword));
+				CompileToken(Segment,NUMBER,1,(char *)&di.data4b,sizeof(uint32_t));
 			break;
 			case FLOAT_NUMBER:
-				CompileToken(Segment,FLOAT_NUMBER,1,(char *)&di.data4b,sizeof(dword));
+				CompileToken(Segment,FLOAT_NUMBER,1,(char *)&di.data4b,sizeof(uint32_t));
 			break;
 			case STRING:
-				dword string_size;
+				uint32_t string_size;
 				string_size = strlen((char *)di.data4b) + 1;
-				CompileToken(Segment,STRING,2,(char *)&string_size,sizeof(dword),(char *)di.data4b,string_size);
+				CompileToken(Segment,STRING,2,(char *)&string_size,sizeof(uint32_t),(char *)di.data4b,string_size);
 			break;
 		}
 		return true;
@@ -5361,11 +5364,11 @@ bool COMPILER::CompileUnknown(SEGMENT_DESC& Segment)
 	return false;
 }
 
-S_TOKEN_TYPE COMPILER::DetectUnknown(DWORD & code)
+S_TOKEN_TYPE COMPILER::DetectUnknown(uint32_t & code)
 {
-	DWORD func_code;
-	DWORD var_code;
-	DWORD def_code;
+	uint32_t func_code;
+	uint32_t var_code;
+	uint32_t def_code;
 
 	// check for valid function code
 	func_code = FuncTab.FindFunc(Token.GetData());
@@ -5402,15 +5405,15 @@ S_TOKEN_TYPE COMPILER::DetectUnknown(DWORD & code)
 		switch(di.deftype)
 		{
 			case NUMBER:
-				CompileToken(Segment,NUMBER,1,(char *)&di.data4b,sizeof(dword));
+				CompileToken(Segment,NUMBER,1,(char *)&di.data4b,sizeof(uint32_t));
 			break;
 			case FLOAT_NUMBER:
-				CompileToken(Segment,FLOAT_NUMBER,1,(char *)&di.data4b,sizeof(dword));
+				CompileToken(Segment,FLOAT_NUMBER,1,(char *)&di.data4b,sizeof(uint32_t));
 			break;
 			case STRING:
-				dword string_size;
+				uint32_t string_size;
 				string_size = strlen((char *)di.data4b) + 1;
-				CompileToken(Segment,STRING,2,(char *)&string_size,sizeof(dword),(char *)di.data4b,string_size);
+				CompileToken(Segment,STRING,2,(char *)&string_size,sizeof(uint32_t),(char *)di.data4b,string_size);
 			break;
 		}
 		return true;*/
@@ -5421,7 +5424,7 @@ S_TOKEN_TYPE COMPILER::DetectUnknown(DWORD & code)
 
 void COMPILER::ExitProgram()
 {
-	DWORD function_code;
+	uint32_t function_code;
 	function_code = FuncTab.FindFunc("ExitMain");
 	if(function_code != INVALID_FUNC_CODE)
 	{
@@ -5451,13 +5454,13 @@ void COMPILER::SaveDataDebug(char * data_PTR, ...)
 	va_end(args);
 }
 
-void COMPILER::SaveData(const void * data_PTR, DWORD data_size)
+void COMPILER::SaveData(const void * data_PTR, uint32_t data_size)
 {
 	if(data_PTR == nullptr) return;
 
 	if (dwCurPointer + data_size > dwMaxSize)
 	{
-		dword dwNewAllocate = (1 + (dwCurPointer + data_size) / (1024*1024)) * (1024*1024);
+		uint32_t dwNewAllocate = (1 + (dwCurPointer + data_size) / (1024*1024)) * (1024*1024);
 		pBuffer = (char*)RESIZE(pBuffer, dwNewAllocate);
 		dwMaxSize = dwNewAllocate;
 	}
@@ -5480,7 +5483,7 @@ void COMPILER::SaveData(const void * data_PTR, DWORD data_size)
 	dwCurPointer += data_size;
 }
 
-bool COMPILER::ReadData(void * data_PTR, DWORD data_size)
+bool COMPILER::ReadData(void * data_PTR, uint32_t data_size)
 {
 	if(data_PTR == nullptr) 
 	{
@@ -5509,12 +5512,12 @@ bool COMPILER::ReadData(void * data_PTR, DWORD data_size)
 	return true; 
 }
 
-bool COMPILER::FindReferencedVariable(DATA * pRef, DWORD & var_index, DWORD & array_index)
+bool COMPILER::FindReferencedVariable(DATA * pRef, uint32_t & var_index, uint32_t & array_index)
 {
 	VARINFO vi;	
-	DWORD nVarNum;
-	DWORD n;
-	DWORD i;
+	uint32_t nVarNum;
+	uint32_t n;
+	uint32_t i;
 
 	nVarNum = VarTab.GetVarNum();
 	for(n=0;n<nVarNum;n++)
@@ -5545,12 +5548,12 @@ bool COMPILER::FindReferencedVariable(DATA * pRef, DWORD & var_index, DWORD & ar
 	return false;
 }
 
-bool COMPILER::FindReferencedVariableByRootA(ATTRIBUTES * pA, DWORD & var_index, DWORD & array_index)
+bool COMPILER::FindReferencedVariableByRootA(ATTRIBUTES * pA, uint32_t & var_index, uint32_t & array_index)
 {
 	VARINFO vi;	
-	DWORD nVarNum;
-	DWORD n;
-	DWORD i;
+	uint32_t nVarNum;
+	uint32_t n;
+	uint32_t i;
 
 	nVarNum = VarTab.GetVarNum();
 	for(n=0;n<nVarNum;n++)
@@ -5614,7 +5617,7 @@ ATTRIBUTES * COMPILER::TraceARoot(ATTRIBUTES * pA, char * & pAccess)
 }
 
 
-void COMPILER::WriteVDword(DWORD v)
+void COMPILER::WriteVDword(uint32_t v)
 {
 /*	BYTE nbv;
 	if(v < 0xff) { nbv = (BYTE)v; SaveData(&nbv, sizeof(nbv)); } 
@@ -5624,14 +5627,14 @@ void COMPILER::WriteVDword(DWORD v)
 		SaveData(&v, sizeof(v));
 	}
 */
-	BYTE nbv;
-	WORD nwv;
-	if(v < 0xfe) { nbv = (BYTE)v; SaveData(&nbv, sizeof(nbv)); } 
+	uint8_t nbv;
+	uint16_t nwv;
+	if(v < 0xfe) { nbv = (uint8_t)v; SaveData(&nbv, sizeof(nbv)); } 
 	else
 	if(v < 0xffff)
 	{
 		nbv = 0xfe; SaveData(&nbv, sizeof(nbv));
-		nwv = (WORD)v;
+		nwv = (uint16_t)v;
 		SaveData(&nwv, sizeof(nwv));
 	}
 	else 
@@ -5641,11 +5644,11 @@ void COMPILER::WriteVDword(DWORD v)
 	}
 }
 
-DWORD COMPILER::ReadVDword()
+uint32_t COMPILER::ReadVDword()
 {
-	BYTE nbv;
-	WORD nwv;
-	DWORD v;
+	uint8_t nbv;
+	uint16_t nwv;
+	uint32_t v;
 	ReadData(&nbv,1);
 	//fio->_ReadFile(hSaveFileFileHandle,&nbv,1,&bytes);
 	if(nbv < 0xfe) return nbv;
@@ -5655,14 +5658,14 @@ DWORD COMPILER::ReadVDword()
 		//fio->_ReadFile(hSaveFileFileHandle,&nwv,sizeof(nwv),&bytes);
 		return nwv;
 	}
-	ReadData(&v,sizeof(DWORD));
+	ReadData(&v,sizeof(uint32_t));
 	//fio->_ReadFile(hSaveFileFileHandle,&v,sizeof(DWORD),&bytes);
 	return v;
 }
 
 void COMPILER::SaveString(const char * pS)
 {
-	DWORD n;
+	uint32_t n;
 	if(pS == nullptr) 
 	{
 		WriteVDword(0);
@@ -5675,7 +5678,7 @@ void COMPILER::SaveString(const char * pS)
 
 char * COMPILER::ReadString()
 {
-	DWORD n;
+	uint32_t n;
 	char * pBuffer;
 	n = ReadVDword();
 	if(n == 0) return nullptr;
@@ -5685,16 +5688,16 @@ char * COMPILER::ReadString()
 	return pBuffer;
 }
 
-bool COMPILER::ReadVariable(char * name,/* DWORD code,*/ bool bDim, DWORD a_index)
+bool COMPILER::ReadVariable(char * name,/* DWORD code,*/ bool bDim, uint32_t a_index)
 {
 	long   nLongValue;
 	float  fFloatValue;
 	char * pString;
-	DWORD  var_index;
-	DWORD  array_index;
+	uint32_t  var_index;
+	uint32_t  array_index;
 //	DWORD  nlen;
-	DWORD  n;
-	DWORD  nElementsNum;
+	uint32_t  n;
+	uint32_t  nElementsNum;
 	ATTRIBUTES * pA;
 	S_TOKEN_TYPE eType;
 	VARINFO vi;
@@ -5702,7 +5705,7 @@ bool COMPILER::ReadVariable(char * name,/* DWORD code,*/ bool bDim, DWORD a_inde
 	DATA * pV;
 	DATA * pVRef;
 	ENTITY_ID eid;
-	DWORD var_code;
+	uint32_t var_code;
 	bool bSkipVariable;
 
 	
@@ -5866,9 +5869,9 @@ void COMPILER::SaveVariable(DATA * pV, bool bdim)
 	long   nLongValue;
 	float  fFloatValue;
 	char * pString;
-	DWORD  var_index;
-	DWORD  array_index;
-	DWORD  n;
+	uint32_t  var_index;
+	uint32_t  array_index;
+	uint32_t  n;
 	ATTRIBUTES * pA;
 	S_TOKEN_TYPE eType;
 	ENTITY_ID eid;
@@ -5980,7 +5983,7 @@ void COMPILER::SaveVariable(DATA * pV, bool bdim)
 
 bool COMPILER::OnLoad()
 {
-	DWORD function_code;
+	uint32_t function_code;
 	function_code = FuncTab.FindFunc("OnLoad");
 	DATA * pResult;
 	BC_Execute(function_code,pResult);
@@ -5989,8 +5992,8 @@ bool COMPILER::OnLoad()
 
 bool COMPILER::SaveState(HANDLE fh)
 {
-	DWORD nVarNum,n;
-	DWORD nSegNum;
+	uint32_t nVarNum,n;
+	uint32_t nSegNum;
 	VARINFO vi;
 
 	if (pBuffer) delete pBuffer;
@@ -5999,7 +6002,7 @@ bool COMPILER::SaveState(HANDLE fh)
 	dwCurPointer = 0;
 	dwMaxSize = 0;
 
-	DWORD function_code;
+	uint32_t function_code;
 	DATA * pResult;
 	function_code = FuncTab.FindFunc("OnSave");
 	if(function_code != INVALID_FUNC_CODE) 
@@ -6051,13 +6054,13 @@ bool COMPILER::SaveState(HANDLE fh)
 	}
 
 
-	dword dw2;
+	uint32_t dw2;
 	if (dwCurPointer)
 	{
 		char * pDst = NEW char[dwCurPointer * 2];
-		dword dwPackLen = dwCurPointer * 2;
+		uint32_t dwPackLen = dwCurPointer * 2;
 		RDTSC_B(dw2);
-		compress2((Bytef*)pDst, &dwPackLen, (Bytef*)pBuffer, dwCurPointer, Z_BEST_COMPRESSION);
+		compress2((Bytef*)pDst, (uLongf *)&dwPackLen, (Bytef*)pBuffer, dwCurPointer, Z_BEST_COMPRESSION);
 		RDTSC_E(dw2);
 
 		fio->_WriteFile(fh, &dwCurPointer, sizeof(dwCurPointer), nullptr);
@@ -6075,9 +6078,9 @@ bool COMPILER::SaveState(HANDLE fh)
 
 bool COMPILER::LoadState(HANDLE fh)
 {
-	DWORD n;
-	DWORD nVarNum;
-	DWORD nSCStringsNum;
+	uint32_t n;
+	uint32_t nVarNum;
+	uint32_t nSCStringsNum;
 	char * pString;
 
 	if(fh == INVALID_HANDLE_VALUE) return false;
@@ -6089,7 +6092,7 @@ bool COMPILER::LoadState(HANDLE fh)
 	EXTDATA_HEADER exdh;
 	fio->_ReadFile(fh, &exdh, sizeof(exdh), nullptr);
 
-	dword dwPackLen;
+	uint32_t dwPackLen;
 	fio->_ReadFile(fh, &dwMaxSize, sizeof(dwMaxSize), nullptr);
 	fio->_ReadFile(fh, &dwPackLen, sizeof(dwPackLen), nullptr);
 	if( dwPackLen==0 || dwPackLen>0x8000000 ||
@@ -6098,7 +6101,7 @@ bool COMPILER::LoadState(HANDLE fh)
 	char * pCBuffer = NEW char[dwPackLen];
 	pBuffer = NEW char[dwMaxSize];
 	fio->_ReadFile(fh, (void*)pCBuffer, dwPackLen, nullptr);
-	uncompress((Bytef*)pBuffer, &dwMaxSize, (Bytef*)pCBuffer, dwPackLen);
+	uncompress((Bytef*)pBuffer, (uLongf *)&dwMaxSize, (Bytef*)pCBuffer, dwPackLen);
 	delete pCBuffer;
 	dwCurPointer = 0;
 
@@ -6132,7 +6135,7 @@ bool COMPILER::LoadState(HANDLE fh)
 
 
 	// 2. Data Segments
-	DWORD nSegments2Load;
+	uint32_t nSegments2Load;
 	nSegments2Load = ReadVDword();
 
 	// 3.  Segments names
@@ -6177,9 +6180,9 @@ bool COMPILER::LoadState(HANDLE fh)
 
 void COMPILER::ReadAttributesData(ATTRIBUTES * pRoot, ATTRIBUTES * pParent)
 {
-	DWORD nSubClassesNum;
-	DWORD n;
-	DWORD nNameCode;
+	uint32_t nSubClassesNum;
+	uint32_t n;
+	uint32_t nNameCode;
 	//char * pName;
 	char * pValue;
 
@@ -6223,7 +6226,7 @@ void COMPILER::ReadAttributesData(ATTRIBUTES * pRoot, ATTRIBUTES * pParent)
 
 void COMPILER::SaveAttributesData(ATTRIBUTES * pRoot)
 {
-	DWORD n;
+	uint32_t n;
 	if(pRoot == nullptr) 
 	{
 		WriteVDword(0);	// number of subclasses
@@ -6254,7 +6257,7 @@ void COMPILER::AddPostEvent(S_EVENTMSG * pEM)
 bool COMPILER::SetSaveData(char * file_name, void * save_data, long data_size)
 {
 	EXTDATA_HEADER exdh;
-	DWORD dwFileSize;
+	uint32_t dwFileSize;
 
 	fio->SetDrive(XBOXDRIVE_NONE);
 	HANDLE fh = Core.fio->_CreateFile(file_name, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, OPEN_EXISTING);
@@ -6273,8 +6276,8 @@ bool COMPILER::SetSaveData(char * file_name, void * save_data, long data_size)
 	fio->_SetFilePointer(fh, dwFileSize, nullptr, FILE_BEGIN);
 
 	char * pDst = NEW char[data_size * 2];
-	dword dwPackLen = data_size * 2;
-	compress2((Bytef*)pDst, &dwPackLen, (Bytef*)save_data, data_size, Z_BEST_COMPRESSION);
+	uint32_t dwPackLen = data_size * 2;
+	compress2((Bytef*)pDst, (uLongf *)&dwPackLen, (Bytef*)save_data, data_size, Z_BEST_COMPRESSION);
 
 	fio->_WriteFile(fh, &dwPackLen, sizeof(dwPackLen), nullptr);
 	fio->_WriteFile(fh, pDst, dwPackLen, nullptr);
@@ -6451,14 +6454,14 @@ void * COMPILER::GetSaveData(char * file_name, long & data_size)
 		return nullptr;
 	}
 
-	DWORD dwHWFileSize;
-	if( fio->_GetFileSize(fh,&dwHWFileSize) < sizeof(EXTDATA_HEADER) + sizeof(dword) ) {
+	uint32_t dwHWFileSize;
+	if( fio->_GetFileSize(fh,&dwHWFileSize) < sizeof(EXTDATA_HEADER) + sizeof(uint32_t) ) {
 		data_size = 0;
 		fio->_CloseHandle(fh);
 		return nullptr;
 	}
 
-	dword dw2;
+	uint32_t dw2;
 	RDTSC_B(dw2);
 	EXTDATA_HEADER exdh;
 	fio->_SetFilePointer(fh, 0, nullptr, FILE_BEGIN);
@@ -6469,7 +6472,7 @@ void * COMPILER::GetSaveData(char * file_name, long & data_size)
 		return nullptr;
 	}
 
-	dword dwPackLen;
+	uint32_t dwPackLen;
 	fio->_SetFilePointer(fh, exdh.dwExtDataOffset, nullptr, FILE_BEGIN);
 	fio->_ReadFile(fh, &dwPackLen, sizeof(dwPackLen), nullptr);
 	if( dwPackLen==0 || dwPackLen>0x8000000 ) {
@@ -6480,8 +6483,8 @@ void * COMPILER::GetSaveData(char * file_name, long & data_size)
 	char * pCBuffer = NEW char[dwPackLen];
 	fio->_ReadFile(fh, pCBuffer, dwPackLen, nullptr);
 	char * pBuffer = NEW char[exdh.dwExtDataSize];
-	dword dwDestLen = exdh.dwExtDataSize;
-	uncompress((Bytef*)pBuffer, &dwDestLen, (Bytef*)pCBuffer, dwPackLen);
+	uint32_t dwDestLen = exdh.dwExtDataSize;
+	uncompress((Bytef*)pBuffer, (uLongf *)&dwDestLen, (Bytef*)pCBuffer, dwPackLen);
 	fio->_CloseHandle(fh);
 	delete pCBuffer;
 	RDTSC_E(dw2);
@@ -6629,18 +6632,18 @@ void COMPILER::AddRuntimeEvent()
 	{
 		if(nRuntimeLogEventsBufferSize == 0) nRuntimeLogEventsBufferSize = 180;
 		else nRuntimeLogEventsBufferSize *= 2;
-		pRuntimeLogEvent = (DWORD *)RESIZE(pRuntimeLogEvent,nRuntimeLogEventsBufferSize*sizeof(DWORD));
+		pRuntimeLogEvent = (uint32_t *)RESIZE(pRuntimeLogEvent,nRuntimeLogEventsBufferSize*sizeof(uint32_t));
 	}
 	pRuntimeLogEvent[nRuntimeLogEventsNum - 1] = nRuntimeTicks;
 	nRuntimeTicks = 0;
 
 }
 
-DWORD COMPILER::SetScriptFunction(IFUNCINFO * pFuncInfo)
+uint32_t COMPILER::SetScriptFunction(IFUNCINFO * pFuncInfo)
 {
 	FUNCINFO fi;
 	S_TOKEN_TYPE TokenType;
-	DWORD nFuncHandle;
+	uint32_t nFuncHandle;
 
 	if(pFuncInfo->pFuncName == nullptr)
 	{
@@ -6700,19 +6703,19 @@ DWORD COMPILER::SetScriptFunction(IFUNCINFO * pFuncInfo)
 	}
 	
 
-	DWORD funch;
+	uint32_t funch;
 	funch = FuncTab.AddFunc(fi);
 	return funch;
 }
 
-void COMPILER::DeleteScriptFunction(DWORD nFuncHandle)
+void COMPILER::DeleteScriptFunction(uint32_t nFuncHandle)
 {
 	FuncTab.InvalidateFunction(nFuncHandle);
 }
 
-DATA * COMPILER::GetOperand(char * pCodeBase, DWORD & ip, S_TOKEN_TYPE * pTokenType)
+DATA * COMPILER::GetOperand(char * pCodeBase, uint32_t & ip, S_TOKEN_TYPE * pTokenType)
 {
-	DWORD token_data_size;
+	uint32_t token_data_size;
 	S_TOKEN_TYPE sttResult;
 	VARINFO vi;
 	DATA * pVar;
@@ -6725,11 +6728,11 @@ DATA * COMPILER::GetOperand(char * pCodeBase, DWORD & ip, S_TOKEN_TYPE * pTokenT
 			pVar = SStack.Read();
 		return pVar;
 		case VARIABLE:
-			if(!VarTab.GetVar(vi,*((dword *)&pCodeBase[ip])))	{ SetError("Global variable not found"); break; }
+			if(!VarTab.GetVar(vi,*((uint32_t *)&pCodeBase[ip])))	{ SetError("Global variable not found"); break; }
 			if(!vi.pDClass) { SetError("invalid global variable"); break; }
 		return vi.pDClass;
 		case LOCAL_VARIABLE:
-			pVar = SStack.Read(pRun_fi->stack_offset,*((dword *)&pCodeBase[ip]));
+			pVar = SStack.Read(pRun_fi->stack_offset,*((uint32_t *)&pCodeBase[ip]));
 			if(pVar == nullptr) { SetError("Local variable not found"); return nullptr; }
 		return pVar;
 		case AX: return &rAX;
@@ -6765,7 +6768,7 @@ void COMPILER::FormatAllDialog(char * directory_name)
 
 void COMPILER::FormatDialog(char * file_name)
 {
-	DWORD FileSize;
+	uint32_t FileSize;
 	char * pFileData;
 	TOKEN Token;
 	S_TOKEN_TYPE Token_type;
@@ -6774,8 +6777,8 @@ void COMPILER::FormatDialog(char * file_name)
 	char sNewLine[] = {0xd,0xa,0};
 	HANDLE fh;
 	HANDLE fhH;
-	DWORD dwR;
-	DWORD nTxt,nLnk;
+	uint32_t dwR;
+	uint32_t nTxt,nLnk;
 	bool bExportString;
 	
 	if(file_name == nullptr) return;
@@ -6804,7 +6807,7 @@ void COMPILER::FormatDialog(char * file_name)
 	//pFileData = LoadFile(file_name,FileSize,true);
 	//if(pFileData == 0) {Core.fio->_CloseHandle(fh); Core.fio->_CloseHandle(fhH); return;}
 
-	DWORD nFullNameLen,n;
+	uint32_t nFullNameLen,n;
 	nFullNameLen = strlen(file_name);
 	for(n=nFullNameLen;n>0;n--)
 	{

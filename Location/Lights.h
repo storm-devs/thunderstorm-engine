@@ -63,7 +63,7 @@ class Lights : public ENTITY
 	struct Vertex
 	{
 		CVECTOR pos;
-		dword color;
+		uint32_t color;
 		float u, v;
 	};
 
@@ -85,9 +85,9 @@ public:
 	//Инициализация
 	bool Init();
 	//Исполнение
-	void Execute(dword delta_time);
+	void Execute(uint32_t delta_time);
 	//Рисование корон
-	void Realize(dword delta_time);
+	void Realize(uint32_t delta_time);
 
 	//Найти индекс источника
 	long FindLight(const char * name);

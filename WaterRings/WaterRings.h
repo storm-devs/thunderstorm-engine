@@ -20,7 +20,7 @@
 struct RING_VERTEX
 {
 	CVECTOR pos;
-	dword color;
+	uint32_t color;
 	float tu,tv;
 };
 
@@ -42,11 +42,11 @@ public:
 	WaterRings();
 	~WaterRings();
 	bool Init();
-	void Realize(dword _dTime);
-	dword _cdecl ProcessMessage(MESSAGE &message);
+	void Realize(uint32_t _dTime);
+	uint32_t _cdecl ProcessMessage(MESSAGE &message);
 
 private:
-	void UpdateGrid(int _ringI, WORD *iPointer, RING_VERTEX *vPointer, long vOffset);
+	void UpdateGrid(int _ringI, uint16_t *iPointer, RING_VERTEX *vPointer, long vOffset);
 
 	VDX9RENDER       *renderService;
 	SEA_BASE		 *sea;

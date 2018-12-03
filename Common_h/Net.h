@@ -64,9 +64,9 @@ class NET_BASE
 public:
 	NET_BASE(): bServer(false)
 	{
-		pGeoService = null;
-		pRenderService = null;
-		pCollideService = null;
+		pGeoService = nullptr;
+		pRenderService = nullptr;
+		pCollideService = nullptr;
 	}
 
 	~NET_BASE() {};

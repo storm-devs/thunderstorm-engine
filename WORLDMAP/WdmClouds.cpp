@@ -13,6 +13,7 @@
 #include "WorldMap.h"
 #include "WdmCamera.h"
 #include "../SINK_EFFECT/SinkSplashDefines.h"
+#include "WdmObjects.h"
 
 //============================================================================================
 
@@ -54,10 +55,10 @@ __forceinline bool WdmClouds::Cloud::Reset(bool isFirstTime)
 		cld.pos.y = WdmCloudsCloudHeight;
 		cld.pos.z = baseZ + rad*scaleZ*cosf(ang);
 		cld.angle = rand()*(2.0f*PI/RAND_MAX);
-		byte size = rand() & 0xff;
+		uint8_t size = rand() & 0xff;
 		cld.size = WdmCloudsSizeMin + size*((WdmCloudsSizeMax - WdmCloudsSizeMin)/255.0f);
 		cld.alpha = 1.0f;
-		dword dclr = rand() & 0xf;
+		uint32_t dclr = rand() & 0xf;
 		cld.color = 0x80f00000 | (dclr << 16) | size | ((rand() & 0x7f) << 24);
 		cld.pict = rand() & 3;
 		cld.index = 0;
@@ -193,7 +194,7 @@ __forceinline long WdmClouds::Cloud::FillRects(RS_RECT * rects, long cnt, float 
 	{
 		Cld & c = cloud[i];
 		//Вычисляем альфу
-		float a = float(byte(c.color >> 24));
+		float a = float(uint8_t(c.color >> 24));
 		a *= alpha;
 		a *= 0.1f + c.alpha*0.9f;
 		long la = long(a*galpha);

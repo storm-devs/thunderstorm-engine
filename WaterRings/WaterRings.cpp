@@ -61,14 +61,14 @@ bool WaterRings::Init()
 }
 
 //------------------------------------------------------------------------------------
-void WaterRings::Realize(dword _dTime)
+void WaterRings::Realize(uint32_t _dTime)
 {
 	if (!sea)
 		return;
 
 	//update buffers for rings
 	ivManager->LockBuffers();	
-	WORD        *iPointer;
+	uint16_t        *iPointer;
 	RING_VERTEX *vPointer;
 	long		vOffset;
 	for (int i=0; i<MAX_RINGS; i++)
@@ -76,7 +76,7 @@ void WaterRings::Realize(dword _dTime)
 		//check if ring needs to be removed
 		if (rings[i].activeTime > (FADE_IN_TIME+FADE_OUT_TIME))
 			rings[i].active = false;
-		ivManager->GetPointers(rings[i].ivIndex, (WORD **) &iPointer, (void **) &vPointer, &vOffset);
+		ivManager->GetPointers(rings[i].ivIndex, (uint16_t **) &iPointer, (void **) &vPointer, &vOffset);
 		UpdateGrid(i, iPointer, vPointer, vOffset);
 
 		if (rings[i].active)
@@ -90,7 +90,7 @@ void WaterRings::Realize(dword _dTime)
 
 
 //------------------------------------------------------------------------------------
-dword _cdecl WaterRings::ProcessMessage(MESSAGE &message)
+uint32_t _cdecl WaterRings::ProcessMessage(MESSAGE &message)
 {
 	//add new ring
 	for (int i=0; i<MAX_RINGS;i++)
@@ -139,7 +139,7 @@ dword _cdecl WaterRings::ProcessMessage(MESSAGE &message)
 }
 
 //------------------------------------------------------------------------------------
-void WaterRings::UpdateGrid(int _ringI, WORD *_iPointer, RING_VERTEX *_vPointer, long _vOffset)
+void WaterRings::UpdateGrid(int _ringI, uint16_t *_iPointer, RING_VERTEX *_vPointer, long _vOffset)
 {
 	Assert(_iPointer);
 	Assert(_vPointer);
@@ -150,17 +150,17 @@ void WaterRings::UpdateGrid(int _ringI, WORD *_iPointer, RING_VERTEX *_vPointer,
 
 	if (ring->firstUpdate)
 	{
-		WORD *indexes = _iPointer;
+		uint16_t *indexes = _iPointer;
 		for (z=0; z < GRID_STEPS_COUNT - 1; ++z)
 		for (x=0; x < GRID_STEPS_COUNT - 1; ++x)
 		{
-			*(indexes++) = (WORD) (_vOffset + GRID_STEPS_COUNT * z     + x	 );
-			*(indexes++) = (WORD) (_vOffset + GRID_STEPS_COUNT * (z+1) + x	 );
-			*(indexes++) = (WORD) (_vOffset + GRID_STEPS_COUNT * (z+1) + x + 1);
+			*(indexes++) = (uint16_t) (_vOffset + GRID_STEPS_COUNT * z     + x	 );
+			*(indexes++) = (uint16_t) (_vOffset + GRID_STEPS_COUNT * (z+1) + x	 );
+			*(indexes++) = (uint16_t) (_vOffset + GRID_STEPS_COUNT * (z+1) + x + 1);
 
-			*(indexes++) = (WORD) (_vOffset + GRID_STEPS_COUNT * z     + x	 );
-			*(indexes++) = (WORD) (_vOffset + GRID_STEPS_COUNT * (z+1) + x + 1);
-			*(indexes++) = (WORD) (_vOffset + GRID_STEPS_COUNT * z     + x + 1);
+			*(indexes++) = (uint16_t) (_vOffset + GRID_STEPS_COUNT * z     + x	 );
+			*(indexes++) = (uint16_t) (_vOffset + GRID_STEPS_COUNT * (z+1) + x + 1);
+			*(indexes++) = (uint16_t) (_vOffset + GRID_STEPS_COUNT * z     + x + 1);
 		}
 		ring->firstUpdate = false;
 	}
@@ -177,7 +177,7 @@ void WaterRings::UpdateGrid(int _ringI, WORD *_iPointer, RING_VERTEX *_vPointer,
 	float gX, gZ;
 	if (ring->active)
 	{
-		dword texA = ((dword) (a*50)) << 24;
+		uint32_t texA = ((uint32_t) (a*50)) << 24;
 		float r = .4f + 1.5f*ring->activeTime / (FADE_IN_TIME+FADE_OUT_TIME);
 
 		for (z=0; z < GRID_STEPS_COUNT; ++z)

@@ -15,13 +15,13 @@ class TextureSequence : public CVideoTexture
 	long m_texWidth;
 	long m_texHeight;
 	bool m_bCicled;
-	DWORD m_dwDeltaTime;
+	uint32_t m_dwDeltaTime;
 	long m_maxCurNum;
 	bool m_bHorzFlip;
 	bool m_bVertFlip;
 
 	long m_curNum;
-	DWORD m_dwCurDeltaTime;
+	uint32_t m_dwCurDeltaTime;
 
 	long m_AllTex;
 

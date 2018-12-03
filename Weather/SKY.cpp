@@ -47,10 +47,10 @@ void SKY::SetDevice()
 	pRS = (VDX9RENDER *)_CORE_API->CreateService("dx9render"); Assert(pRS);
 }
 
-dword SKY::CalcFogDiffuse(CVECTOR & vPos)
+uint32_t SKY::CalcFogDiffuse(CVECTOR & vPos)
 {
 	float fAlpha = vPos.y / 500.0f;  fAlpha = CLAMP(fAlpha);
-	dword dwAlpha = 255 - dword(fAlpha * 255.0f); 
+	uint32_t dwAlpha = 255 - uint32_t(fAlpha * 255.0f); 
 	return ARGB(dwAlpha,167,153,196);
 }
 
@@ -69,7 +69,7 @@ void SKY::CreateFogSphere()
 	iFogNumTrgs = 3 * (iNumAngles + (iNumLevels - 1) * iNumAngles * 2);
 	iFogIndexID = pRS->CreateIndexBuffer(iFogNumTrgs * 2);
 
-	WORD * pTrgs = (WORD*)pRS->LockIndexBuffer(iFogIndexID);
+	uint16_t * pTrgs = (uint16_t*)pRS->LockIndexBuffer(iFogIndexID);
 	for (y=0; y<iNumLevels; y++)
 	{
 		float h = y * R / iNumLevels;
@@ -81,24 +81,24 @@ void SKY::CreateFogSphere()
 			CVECTOR vPos = CVECTOR(R1 * fCos, h, R1 * fSin);
 			pVerts[idx].pos = vPos;
 			VDATA * pvData = api->Event(WEATHER_CALC_FOG_COLOR, "fff", vPos.x, vPos.y, vPos.z); Assert(pvData);
-			pVerts[idx].diffuse = (dword)pvData->GetLong();
+			pVerts[idx].diffuse = (uint32_t)pvData->GetLong();
 			//pVerts[idx].diffuse = CalcFogDiffuse(pVerts[idx].pos);
 
 			if (y == iNumLevels-1)
 			{
-				*pTrgs++ = WORD(iFogNumVerts - 1);
-				*pTrgs++ = WORD(idx);
-				*pTrgs++ = WORD((x == iNumAngles - 1) ? idx - (iNumAngles - 1) : idx + 1);
+				*pTrgs++ = uint16_t(iFogNumVerts - 1);
+				*pTrgs++ = uint16_t(idx);
+				*pTrgs++ = uint16_t((x == iNumAngles - 1) ? idx - (iNumAngles - 1) : idx + 1);
 			}
 			else
 			{
-				*pTrgs++ = WORD(idx);
-				*pTrgs++ = WORD((x == iNumAngles-1) ? idx - (iNumAngles-1) : idx + 1);
-				*pTrgs++ = WORD(idx + iNumAngles);
+				*pTrgs++ = uint16_t(idx);
+				*pTrgs++ = uint16_t((x == iNumAngles-1) ? idx - (iNumAngles-1) : idx + 1);
+				*pTrgs++ = uint16_t(idx + iNumAngles);
 
-				*pTrgs++ = WORD((x == iNumAngles-1) ? idx - (iNumAngles-1) : idx + 1);
-				*pTrgs++ = WORD(idx + iNumAngles);
-				*pTrgs++ = WORD((x == iNumAngles-1) ? idx + 1 : idx + iNumAngles + 1);
+				*pTrgs++ = uint16_t((x == iNumAngles-1) ? idx - (iNumAngles-1) : idx + 1);
+				*pTrgs++ = uint16_t(idx + iNumAngles);
+				*pTrgs++ = uint16_t((x == iNumAngles-1) ? idx + 1 : idx + iNumAngles + 1);
 			}
 			idx++;
 		}
@@ -106,7 +106,7 @@ void SKY::CreateFogSphere()
 	CVECTOR vPos = CVECTOR(0.0f, R, 0.0f);
 	pVerts[idx].pos = vPos;
 	VDATA * pvData = api->Event(WEATHER_CALC_FOG_COLOR, "fff", vPos.x, vPos.y, vPos.z); Assert(pvData);
-	pVerts[idx].diffuse = (dword)pvData->GetLong();
+	pVerts[idx].diffuse = (uint32_t)pvData->GetLong();
 	if (pVerts) memcpy(pVertBuf,pVerts,iFogNumVerts * sizeof(FOGVERTEX)); 
 	pRS->UnLockVertexBuffer(iFogVertsID);
 	pRS->UnLockIndexBuffer(iFogIndexID);
@@ -138,7 +138,7 @@ void SKY::UpdateFogSphere()
 			vPos = CVECTOR(R1 * fCos, h, R1 * fSin);
 			pVertBuf[idx].pos = vPos;
 			VDATA * pvData = api->Event(WEATHER_CALC_FOG_COLOR, "fff", vPos.x, vPos.y, vPos.z); Assert(pvData);
-			pVertBuf[idx].diffuse = (dword)pvData->GetLong();
+			pVertBuf[idx].diffuse = (uint32_t)pvData->GetLong();
 
 			idx++;
 		}
@@ -146,7 +146,7 @@ void SKY::UpdateFogSphere()
 	vPos = CVECTOR(0.0f, R, 0.0f);
 	pVertBuf[idx].pos = vPos;
 	VDATA * pvData = api->Event(WEATHER_CALC_FOG_COLOR, "fff", vPos.x, vPos.y, vPos.z); Assert(pvData);
-	pVertBuf[idx].diffuse = (dword)pvData->GetLong();
+	pVertBuf[idx].diffuse = (uint32_t)pvData->GetLong();
 	pRS->UnLockVertexBuffer(iFogVertsID);
 }
 
@@ -215,11 +215,11 @@ void SKY::GenerateSky()
 	if (pVertBuf) memcpy(pVertBuf, &Verts[0], sizeof(Verts));
 	pRS->UnLockVertexBuffer(iSkyVertsID);
 
-	WORD * pTrgs = (WORD*)pRS->LockIndexBuffer(iSkyIndexID);
+	uint16_t * pTrgs = (uint16_t*)pRS->LockIndexBuffer(iSkyIndexID);
 	for (i=0;i<10;i++)
 	{
-		*pTrgs++ = (word)(i*4) + 0; *pTrgs++ = (word)(i*4) + 1; *pTrgs++ = (word)(i*4) + 2;
-		*pTrgs++ = (word)(i*4) + 0; *pTrgs++ = (word)(i*4) + 2; *pTrgs++ = (word)(i*4) + 3;
+		*pTrgs++ = (uint16_t)(i*4) + 0; *pTrgs++ = (uint16_t)(i*4) + 1; *pTrgs++ = (uint16_t)(i*4) + 2;
+		*pTrgs++ = (uint16_t)(i*4) + 0; *pTrgs++ = (uint16_t)(i*4) + 2; *pTrgs++ = (uint16_t)(i*4) + 3;
 	}
 	pRS->UnLockIndexBuffer(iSkyIndexID);
 
@@ -260,7 +260,7 @@ bool SKY::LoadState(ENTITY_STATE * state)
 	return true;
 }
 
-void SKY::Realize(dword Delta_Time)
+void SKY::Realize(uint32_t Delta_Time)
 {
 	fAngleY += float(Delta_Time) * 0.001f * fSkySpeedRotate;
 
@@ -284,7 +284,7 @@ void SKY::Realize(dword Delta_Time)
 		float fBlendFactor = fTimeFactor - (long)fTimeFactor;
 		if (fBlendFactor<0.f) fBlendFactor=0.f;
 		if (fBlendFactor>1.f) fBlendFactor=1.f;
-		dword dwColor = (dwSkyColor & 0x00FFFFFF) | (((long)(0xFF000000*fBlendFactor)) & 0xFF000000);
+		uint32_t dwColor = (dwSkyColor & 0x00FFFFFF) | (((long)(0xFF000000*fBlendFactor)) & 0xFF000000);
 		pRS->SetRenderState(D3DRS_TEXTUREFACTOR, dwColor);
 
 		if (pRS->TechniqueExecuteStart("skyblend")) do
@@ -358,7 +358,7 @@ void SKY::Realize(dword Delta_Time)
 	pRS->DrawBuffer(iFogVertsID, sizeof(FOGVERTEX), iFogIndexID, 0, iFogNumVerts, 0, iFogNumTrgs / 3, "SkyFog");
 }
 
-dword SKY::AttributeChanged(ATTRIBUTES * pAttribute)
+uint32_t SKY::AttributeChanged(ATTRIBUTES * pAttribute)
 {
 	//if (*pAttribute == "dir")			{ sSkyDir = pAttribute->GetThisAttr(); return 0; }
 	if (*pAttribute == "dir")			{ FillSkyDirArray(pAttribute); return 0; }
@@ -374,7 +374,7 @@ dword SKY::AttributeChanged(ATTRIBUTES * pAttribute)
 	return 0;
 }
 
-dword _cdecl SKY::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl SKY::ProcessMessage(MESSAGE & message)
 {
 	if (message.Long() == MSG_SEA_REFLECTION_DRAW) Realize(0);
 	return 0;
@@ -403,7 +403,7 @@ void SKY::FillSkyDirArray(ATTRIBUTES * pAttribute)
 	}
 	else
 	{
-		aSkyDirArray[0] = pAttribute->GetAttribute((DWORD)0);
+		aSkyDirArray[0] = pAttribute->GetAttribute((uint32_t)0);
 	}
 	fTimeFactor = (float)atof(pAttribute->GetThisAttr());
 	if( fTimeFactor < 0.f || fTimeFactor > 24.f ) fTimeFactor = 0.f;
@@ -576,8 +576,8 @@ float SKY::CalculateAlphaForSun(const CVECTOR& vSunPos, float fSunSize)
 		// ищем альфу в текстуре
 		if( nTexNum != -1 )
 		{
-			DWORD dwCol1 = GetPixelColor((IDirect3DTexture9*)pRS->GetTextureFromID(TexturesID[nTexNum]), fu,fv);
-			DWORD dwCol2 = GetPixelColor((IDirect3DTexture9*)pRS->GetTextureFromID(TexturesNextID[nTexNum]), fu,fv);
+			uint32_t dwCol1 = GetPixelColor((IDirect3DTexture9*)pRS->GetTextureFromID(TexturesID[nTexNum]), fu,fv);
+			uint32_t dwCol2 = GetPixelColor((IDirect3DTexture9*)pRS->GetTextureFromID(TexturesNextID[nTexNum]), fu,fv);
 
 			float fK = fTimeFactor - (long)fTimeFactor;
 			float fAlpha = (1.f-fK) * (dwCol1 >> 24) / 255.f + fK * (dwCol2 >> 24) / 255.f;
@@ -589,10 +589,10 @@ float SKY::CalculateAlphaForSun(const CVECTOR& vSunPos, float fSunSize)
 	return 1.f;
 }
 
-DWORD SKY::GetPixelColor(IDirect3DTexture9* pTex, float fu, float fv)
+uint32_t SKY::GetPixelColor(IDirect3DTexture9* pTex, float fu, float fv)
 {
 	HRESULT hok;
-	DWORD dwCol = 0xFFFFFFFF;
+	uint32_t dwCol = 0xFFFFFFFF;
 
 	if( !pTex ) return dwCol;
 
@@ -604,7 +604,7 @@ DWORD SKY::GetPixelColor(IDirect3DTexture9* pTex, float fu, float fv)
 	D3DLOCKED_RECT lockRect;
 	if ( (hok=pRS->LockRect(pTex, 0, &lockRect, nullptr, D3DLOCK_READONLY)) == D3D_OK )
 	{
-		DWORD * pLine = (DWORD*)( (DWORD)lockRect.pBits + y * lockRect.Pitch );
+		uint32_t * pLine = (uint32_t*)( (uint32_t)lockRect.pBits + y * lockRect.Pitch );
 		dwCol = pLine[x];
 		pRS->UnlockRect( pTex, 0 );
 	}

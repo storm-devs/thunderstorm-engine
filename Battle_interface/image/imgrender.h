@@ -10,10 +10,10 @@ public:
 	~BIImageRender();
 
 	void Render();
-    dword _cdecl ProcessMessage(MESSAGE & message);
+    uint32_t _cdecl ProcessMessage(MESSAGE & message);
 
-	IBIImage* CreateImage( BIImageType type, const char* pcTextureName, dword color, FRECT& uv, long nLeft,long nTop, long nRight,long nBottom, long nPrior=ImagePrioritet_DefaultValue, const char* pcTechniqueName=nullptr );
-	IBIImage* CreateImage( BIImageType type, const char* pcTextureName, dword color, FRECT& uv, RECT& pos, long nPrior=ImagePrioritet_DefaultValue, const char* pcTechniqueName=nullptr );
+	IBIImage* CreateImage( BIImageType type, const char* pcTextureName, uint32_t color, FRECT& uv, long nLeft,long nTop, long nRight,long nBottom, long nPrior=ImagePrioritet_DefaultValue, const char* pcTechniqueName=nullptr );
+	IBIImage* CreateImage( BIImageType type, const char* pcTextureName, uint32_t color, FRECT& uv, RECT& pos, long nPrior=ImagePrioritet_DefaultValue, const char* pcTechniqueName=nullptr );
 
 	BIImageMaterial* FindMaterial( const char* pcTextureName, const char* pcTechniqueName );
 	BIImageMaterial* CreateMaterial( const char* pcTextureName, const char* pcTechniqueName=nullptr );
@@ -27,8 +27,8 @@ public:
 
 	__forceinline void TranslateBasePosToRealPos(float fXBase, float fYBase, float& fXReal, float& fYReal);
 
-	IBIString* CreateString( const char* text, const char* font_name, float font_scale, dword font_color, long valign, long halign, long nLeft, long nTop, long nRight, long nBottom, long nPrior=ImagePrioritet_DefaultValue);
-	IBIString* CreateString( const char* text, const char* font_name, float font_scale, dword font_color, long valign, long halign, RECT& pos, long nPrior=ImagePrioritet_DefaultValue);
+	IBIString* CreateString( const char* text, const char* font_name, float font_scale, uint32_t font_color, long valign, long halign, long nLeft, long nTop, long nRight, long nBottom, long nPrior=ImagePrioritet_DefaultValue);
+	IBIString* CreateString( const char* text, const char* font_name, float font_scale, uint32_t font_color, long valign, long halign, RECT& pos, long nPrior=ImagePrioritet_DefaultValue);
 	void DeleteString( IBIString* str );
 	void ReleaseAllStrings();
 	void CutPrioritetRangeByStrings();

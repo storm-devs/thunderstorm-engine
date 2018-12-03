@@ -382,8 +382,8 @@ void NODER::Draw()
 			gs->SetTechnique(&technique[0]);
 			if( max_view_dist>0.f && distance_blend>0.f ) {
 				gs->SetTechnique("geomdistanceblend");
-				dword dwTFColor;
-				dwTFColor = (((dword)(255.f-255.f*distance_blend))<<24) | 0xFFFFFF;
+				uint32_t dwTFColor;
+				dwTFColor = (((uint32_t)(255.f-255.f*distance_blend))<<24) | 0xFFFFFF;
 				rs->SetRenderState( D3DRS_TEXTUREFACTOR, dwTFColor );
 			}
 			//transform viewplanes

@@ -1,13 +1,12 @@
 #include "s_eventtab.h"
 #include <string.h>
-#include "system_log.h"
-#define HASHT_INDEX(x)	(BYTE)(x>>24)
+#define HASHT_INDEX(x)	(uint8_t)(x>>24)
 #define HASHT_CODE(x)	(x&0xffffff)
-#define HASH2INDEX(x)	(BYTE)(x&0x2f)
+#define HASH2INDEX(x)	(uint8_t)(x&0x2f)
 
 S_EVENTTAB::S_EVENTTAB()
 {
-	DWORD n;
+	uint32_t n;
 	for(n=0;n<HASHTABLE_SIZE;n++)
 	{
 		pTable[n] = nullptr;
@@ -24,7 +23,7 @@ S_EVENTTAB::~S_EVENTTAB()
 
 void  S_EVENTTAB::Clear()
 {
-	dword n,m,i;
+	uint32_t n,m,i;
 	for(i=0;i<HASHTABLE_SIZE;i++)
 	{
 		if(pTable[i]) 
@@ -49,7 +48,7 @@ void  S_EVENTTAB::Clear()
 
 void  S_EVENTTAB::Release()
 {
-	dword n,i;
+	uint32_t n,i;
 	for(i=0;i<HASHTABLE_SIZE;i++)
 	{
 		if(pTable[i]) 
@@ -66,10 +65,10 @@ void  S_EVENTTAB::Release()
 	}
 }
 
-bool S_EVENTTAB::GetEvent(EVENTINFO& ei, dword event_code)
+bool S_EVENTTAB::GetEvent(EVENTINFO& ei, uint32_t event_code)
 {
-	DWORD tc;
-	BYTE  ti;
+	uint32_t tc;
+	uint8_t  ti;
 	ti = HASHT_INDEX(event_code);
 	tc = HASHT_CODE(event_code);
 	if(tc >= Event_num[ti]) return false;
@@ -77,11 +76,11 @@ bool S_EVENTTAB::GetEvent(EVENTINFO& ei, dword event_code)
 	return true;
 }
 
-dword S_EVENTTAB::AddEventHandler(char * event_name, dword func_code, dword func_segment_id,long flag, bool bStatic)
+uint32_t S_EVENTTAB::AddEventHandler(char * event_name, uint32_t func_code, uint32_t func_segment_id,long flag, bool bStatic)
 {
-	dword n,i;
-	dword hash;
-	BYTE ti;
+	uint32_t n,i;
+	uint32_t hash;
+	uint8_t ti;
 
 	hash = MakeHashValue(event_name);
 
@@ -155,10 +154,10 @@ dword S_EVENTTAB::AddEventHandler(char * event_name, dword func_code, dword func
 	return (((ti<<24)&0xff000000)|((Event_num[ti] - 1)&0xffffff));
 }
 
-dword S_EVENTTAB::MakeHashValue(const char * string)
+uint32_t S_EVENTTAB::MakeHashValue(const char * string)
 {
-	dword hval = 0;
-	dword g;
+	uint32_t hval = 0;
+	uint32_t g;
 	char v;
 	while(*string != 0)
 	{
@@ -175,11 +174,11 @@ dword S_EVENTTAB::MakeHashValue(const char * string)
 	return hval;
 }
 
-bool S_EVENTTAB::DelEventHandler(char * event_name, dword func_code)
+bool S_EVENTTAB::DelEventHandler(char * event_name, uint32_t func_code)
 {
-	dword hash;
-	dword n;
-	BYTE ti;
+	uint32_t hash;
+	uint32_t n;
+	uint8_t ti;
 	if(event_name == nullptr) return false;
 	hash = MakeHashValue(event_name);
 	
@@ -197,11 +196,11 @@ bool S_EVENTTAB::DelEventHandler(char * event_name, dword func_code)
 	return false;
 }
 
-void S_EVENTTAB::SetStatus(char * event_name, dword func_code, dword status)
+void S_EVENTTAB::SetStatus(char * event_name, uint32_t func_code, uint32_t status)
 {
-	dword hash;
-	dword n,i;
-	BYTE ti;
+	uint32_t hash;
+	uint32_t n,i;
+	uint8_t ti;
 
 	if(event_name == nullptr) return;
 
@@ -226,9 +225,9 @@ void S_EVENTTAB::SetStatus(char * event_name, dword func_code, dword status)
 	}
 }
 
-bool S_EVENTTAB::DelEventHandler(BYTE ti, dword event_code, dword func_code, bool bDelStatic)
+bool S_EVENTTAB::DelEventHandler(uint8_t ti, uint32_t event_code, uint32_t func_code, bool bDelStatic)
 {
-	dword n;
+	uint32_t n;
 
 	if(!bDelStatic)
 	{
@@ -247,9 +246,9 @@ bool S_EVENTTAB::DelEventHandler(BYTE ti, dword event_code, dword func_code, boo
 	return true;
 }
 
-void S_EVENTTAB::InvalidateBySegmentID(dword segment_id)
+void S_EVENTTAB::InvalidateBySegmentID(uint32_t segment_id)
 {
-	dword n,i,ti;
+	uint32_t n,i,ti;
 	for(ti=0;ti<HASHTABLE_SIZE;ti++)
 	{
 		for(n=0;n<Event_num[ti];n++)
@@ -258,18 +257,18 @@ void S_EVENTTAB::InvalidateBySegmentID(dword segment_id)
 			{
 				if(pTable[ti][n].pFuncInfo[i].segment_id == segment_id)
 				{
-					if(DelEventHandler((BYTE)ti,n,i,true)) i = 0;
+					if(DelEventHandler((uint8_t)ti,n,i,true)) i = 0;
 				}
 			}
 		}
 	}
 }
 
-dword S_EVENTTAB::FindEvent(char * event_name)
+uint32_t S_EVENTTAB::FindEvent(char * event_name)
 {
-	dword n;
-	dword hash;
-	BYTE ti;
+	uint32_t n;
+	uint32_t hash;
+	uint8_t ti;
 	if(event_name == nullptr) return INVALID_EVENT_CODE;
 	hash = MakeHashValue(event_name);
 	ti = HASH2INDEX(hash);
@@ -283,7 +282,7 @@ dword S_EVENTTAB::FindEvent(char * event_name)
 
 void S_EVENTTAB::ProcessFrame()
 {
-	dword n,i,ti;
+	uint32_t n,i,ti;
 	for(ti=0;ti<HASHTABLE_SIZE;ti++)
 	for(n=0;n<Event_num[ti];n++)
 	{
@@ -292,7 +291,7 @@ void S_EVENTTAB::ProcessFrame()
 		{
 			if(pTable[ti][n].pFuncInfo[i].status == FSTATUS_DELETED)
 			{
-				DelEventHandler((BYTE)ti,n,i);
+				DelEventHandler((uint8_t)ti,n,i);
 				i = 0;
 			} else pTable[ti][n].pFuncInfo[i].status = FSTATUS_NORMAL;
 		}

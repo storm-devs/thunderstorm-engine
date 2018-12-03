@@ -3,9 +3,6 @@
 
 
 #include <string.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include "..\..\..\common_h\exs.h"
 
 
 #define MAX_STRING_SIZE 8192
@@ -31,12 +28,12 @@ public:
  }
 
 
- __forceinline DWORD GetTokensCount ()
+ __forceinline uint32_t GetTokensCount ()
  {
 	 return Tokens.size();
  }
 
- __forceinline const char* GetTokenByIndex (DWORD Index)
+ __forceinline const char* GetTokenByIndex (uint32_t Index)
  {
 	 return Tokens[Index];
  }

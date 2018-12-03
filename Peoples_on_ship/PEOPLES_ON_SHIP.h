@@ -5,7 +5,6 @@
 #include "..\common_h\dx9render.h"
 #include "..\common_h\ship_base.h"
 #include "..\common_h\model.h"
-#include "..\common_h\geos.h"
 #include "TWalkGraph.h"
 
 #define PI  3.14159265358979323846f
@@ -89,8 +88,8 @@ struct tShipWalk
 	MODEL *shipModel;
 	TWalkGraph graph;
 	CVECTOR verts[MAX_VERTS];
-	byte vertTypes[MAX_VERTS];
-	dword vertBusy[MAX_VERTS];
+	uint8_t vertTypes[MAX_VERTS];
+	uint32_t vertBusy[MAX_VERTS];
 	int vertsCount;
 
 	int crewCount;
@@ -111,19 +110,19 @@ public:
 	PEOPLE_ON_SHIP();
 
 	virtual bool Init();
-	virtual void Realize(dword _dTime);
-	virtual void Execute(dword _dTime);
-	virtual dword _cdecl ProcessMessage(MESSAGE &message);
-	virtual dword AttributeChanged(ATTRIBUTES *_newAttr);
+	virtual void Realize(uint32_t _dTime);
+	virtual void Execute(uint32_t _dTime);
+	virtual uint32_t _cdecl ProcessMessage(MESSAGE &message);
+	virtual uint32_t AttributeChanged(ATTRIBUTES *_newAttr);
 
 protected:
 	void SetShipState(tShipWalk *_shipWalk, int _newState);
 
 private:
-	bool ProcessManCrawl(tShipWalk *_shipWalk, tShipMan *_man, dword _dTime);
-	bool ProcessManWalk(tShipWalk *_shipWalk, tShipMan *_man, dword _dTime);
-	bool ProcessManTurn(tShipWalk *_shipWalk, tShipMan *_man, dword _dTime);
-	bool ProcessManStand(tShipWalk *_shipWalk, tShipMan *_man, dword _dTime);
+	bool ProcessManCrawl(tShipWalk *_shipWalk, tShipMan *_man, uint32_t _dTime);
+	bool ProcessManWalk(tShipWalk *_shipWalk, tShipMan *_man, uint32_t _dTime);
+	bool ProcessManTurn(tShipWalk *_shipWalk, tShipMan *_man, uint32_t _dTime);
+	bool ProcessManStand(tShipWalk *_shipWalk, tShipMan *_man, uint32_t _dTime);
 	void ChooseNewAction(tShipWalk *_shipWalk, tShipMan *_man);
 
 	void AddShipWalk(ENTITY_ID &_shipID, int vCount, VDATA *vArray, VDATA *gArray, VDATA *tArray);

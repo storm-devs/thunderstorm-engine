@@ -57,7 +57,7 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 
 	if (pASpectrs)
 	{
-		for (dword i=0; i<pASpectrs->GetAttributesNum(); i++)
+		for (uint32_t i=0; i<pASpectrs->GetAttributesNum(); i++)
 		{
 			ATTRIBUTES * pAS = pASpectrs->GetAttributeClass(i);
 			char str[2];
@@ -89,14 +89,14 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 	iTexture = sTexture == nullptr ? -1 : Astronomy::pRS->TextureCreate(sTexture);
 
 	/*char * pBuffer = null;
-	dword dwSize = 0;
+	uint32_t dwSize = 0;
 	if (fio->LoadFile("resource\\hic.txt", (void**)&pBuffer, &dwSize))
 	{
 	char str[1024], str2[128]; str[0] = 0;
-	dword dwPos = 0;
+	uint32_t dwPos = 0;
 	while (dwPos < dwSize)
 	{
-	dword dwStr = 0;
+	uint32_t dwStr = 0;
 	while (dwPos < dwSize && (pBuffer[dwPos] != 0xA && pBuffer[dwPos] != 0xd)) { str[dwStr++] = pBuffer[dwPos++]; str[dwStr + 1] = 0; }
 	while (dwPos < dwSize && (pBuffer[dwPos] == 0xA || pBuffer[dwPos] == 0xd)) dwPos++;
 
@@ -118,9 +118,9 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 	HANDLE hFile = fio->_CreateFile("resource\\hic.dat", GENERIC_WRITE, FILE_SHARE_WRITE, CREATE_ALWAYS);
 	if (INVALID_HANDLE_VALUE != hFile)
 	{
-	dword dwSize = aStars.size();
+	uint32_t dwSize = aStars.size();
 	fio->_WriteFile(hFile, &dwSize, sizeof(dwSize), null);
-	for (dword i=0; i<aStars.size(); i++)
+	for (uint32_t i=0; i<aStars.size(); i++)
 	{
 	fio->_WriteFile(hFile, &aStars[i].fRA, sizeof(aStars[i].fRA), null);
 	fio->_WriteFile(hFile, &aStars[i].fDec, sizeof(aStars[i].fDec), null);
@@ -133,7 +133,7 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 	HANDLE hFile = fio->_CreateFile(sCatalog);
 	if (INVALID_HANDLE_VALUE != hFile)
 	{
-		dword dwSize;
+		uint32_t dwSize;
 		fio->_ReadFile(hFile, &dwSize, sizeof(dwSize), nullptr);
 
 		static D3DVERTEXELEMENT9 VertexElem[] = {
@@ -145,25 +145,25 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 		Astronomy::pRS->CreateVertexDeclaration(VertexElem, &pDecl);
 
 		iVertexBuffer = Astronomy::pRS->CreateVertexBuffer(0, dwSize * sizeof(CVECTOR), D3DUSAGE_WRITEONLY);
-		iVertexBufferColors = Astronomy::pRS->CreateVertexBuffer(0, dwSize * sizeof(dword), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
+		iVertexBufferColors = Astronomy::pRS->CreateVertexBuffer(0, dwSize * sizeof(uint32_t), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
 
 		CVECTOR * pVPos = (CVECTOR *)Astronomy::pRS->LockVertexBuffer(iVertexBuffer);
-		dword * pVColors = (dword *)Astronomy::pRS->LockVertexBuffer(iVertexBufferColors);
+		uint32_t * pVColors = (uint32_t *)Astronomy::pRS->LockVertexBuffer(iVertexBufferColors);
 
 		bool bRecalculateData = true;
 		HANDLE hOutFile = fio->_CreateFile("resource\\star.dat");
 		if(INVALID_HANDLE_VALUE != hOutFile)
 		{
-			dword dwFileLen;
+			uint32_t dwFileLen;
 			dwFileLen = fio->_GetFileSize(hOutFile, nullptr);
-			if( dwFileLen == dwSize*(sizeof(Astronomy::STARS::Star)+sizeof(CVECTOR)+sizeof(DWORD)) )
+			if( dwFileLen == dwSize*(sizeof(Astronomy::STARS::Star)+sizeof(CVECTOR)+sizeof(uint32_t)) )
 			{
 				//aStars.AddElements(dwSize);
 				aStars.resize(aStars.size() + dwSize);
 				fio->_SetFilePointer(hOutFile,0,nullptr,FILE_BEGIN);
 				fio->_ReadFile(hOutFile, aStars.data(), sizeof(Astronomy::STARS::Star)*dwSize, nullptr);
 				fio->_ReadFile(hOutFile, pVPos, sizeof(CVECTOR)*dwSize, nullptr);
-				fio->_ReadFile(hOutFile, pVColors, sizeof(DWORD)*dwSize, nullptr);
+				fio->_ReadFile(hOutFile, pVColors, sizeof(uint32_t)*dwSize, nullptr);
 				bRecalculateData = false;
 			}
 			fio->_CloseHandle(hOutFile);
@@ -172,7 +172,7 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 		if(bRecalculateData)
 		{
 			float fMinMag = -100.0f, fMaxMag = 100.0f;
-			for (dword i=0; i<dwSize; i++)
+			for (uint32_t i=0; i<dwSize; i++)
 			{
 				//Star & s = aStars[aStars.Add()];
 				aStars.push_back(Star{});
@@ -202,7 +202,7 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 			{
 				fio->_WriteFile(hOutFile, aStars.data(), sizeof(Astronomy::STARS::Star)*dwSize, nullptr);
 				fio->_WriteFile(hOutFile, pVPos, sizeof(CVECTOR)*dwSize, nullptr);
-				fio->_WriteFile(hOutFile, pVColors, sizeof(DWORD)*dwSize, nullptr);
+				fio->_WriteFile(hOutFile, pVColors, sizeof(uint32_t)*dwSize, nullptr);
 				fio->_CloseHandle(hOutFile);
 			}
 		}
@@ -251,7 +251,7 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 
 	Astronomy::pRS->GetCamera(vCamPos, vCamAng, fFov);
 
-	dword dw1;
+	uint32_t dw1;
 	//RDTSC_B(dw1);
 
 	float fMaxMag = Bring2Range(fTelescopeMagnitude, fVisualMagnitude, 0.14f, 1.285f, fFov);
@@ -268,15 +268,15 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 		fTmpK[3] = 0.8f + 0.2f * sinf(m_fTwinklingTime*5.f);
 		fTmpK[4] = 0.85f + 0.15f * sinf(m_fTwinklingTime*7.f);
 		for (long n=0; n<7; n++) fTmpRnd[n] = 0.8f + FRAND(0.2f);
-		dword * pVColors = (dword *)Astronomy::pRS->LockVertexBuffer(iVertexBufferColors, D3DLOCK_DISCARD);
+		uint32_t * pVColors = (uint32_t *)Astronomy::pRS->LockVertexBuffer(iVertexBufferColors, D3DLOCK_DISCARD);
 		size_t size = aStars.size();
-		for (dword i=0; i<size; i++)
+		for (uint32_t i=0; i<size; i++)
 		{
 			Star & s = aStars[i];
 
 			float fAlpha = fFadeValue * fTmpK[i%5]*fTmpRnd[i%7] * s.fAlpha * 255.0f * Bring2Range(1.0f, 0.01f, -2.0f, fMaxMag, s.fMag);
 
-			dword dwAlpha; FTOL(dwAlpha, fAlpha);
+			uint32_t dwAlpha; FTOL(dwAlpha, fAlpha);
 			pVColors[i] = (dwAlpha << 24L) | s.dwColor;
 		}
 		Astronomy::pRS->UnLockVertexBuffer(iVertexBufferColors);
@@ -296,7 +296,7 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 	Astronomy::pRS->TextureSet(0, iTexture);
 	Astronomy::pRS->SetVertexDeclaration(pDecl);
 	Astronomy::pRS->SetStreamSource(0, Astronomy::pRS->GetVertexBuffer(iVertexBuffer), sizeof(CVECTOR));
-	Astronomy::pRS->SetStreamSource(1, Astronomy::pRS->GetVertexBuffer(iVertexBufferColors), sizeof(dword));
+	Astronomy::pRS->SetStreamSource(1, Astronomy::pRS->GetVertexBuffer(iVertexBufferColors), sizeof(uint32_t));
 
 	if (Astronomy::pRS->TechniqueExecuteStart("Stars")) do {
 		Astronomy::pRS->DrawPrimitive(D3DPT_POINTLIST, 0, aStars.size());
@@ -325,9 +325,9 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 	Astronomy::pRS->SetTransform(D3DTS_VIEW, IMatrix);
 	Astronomy::pRS->SetTransform(D3DTS_WORLD, IMatrix);
 
-	dword dwStars = 0;
+	uint32_t dwStars = 0;
 	long idx = 0;
-	for (dword i=0; i<aStars.size(); i+=1)
+	for (uint32_t i=0; i<aStars.size(); i+=1)
 	{
 		if (idx == 0 && !pV)
 		{
@@ -355,8 +355,8 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 		// fill vertex buffer
 		CVECTOR vPos1 = mView * vPos;
 		//if (vPos.z < 0.0f) continue;
-		dword dwAlpha; FTOL(dwAlpha, fAlpha);
-		dword dwStarsColor = (dwAlpha << 24L) | dwColor;
+		uint32_t dwAlpha; FTOL(dwAlpha, fAlpha);
+		uint32_t dwStarsColor = (dwAlpha << 24L) | dwColor;
 		float fStarsSize = fSize * fFV;
 
 		pV[0].vPos = vPos1 + CVECTOR(-fStarsSize, -fStarsSize * fScaleY, 0.0f);
@@ -401,7 +401,7 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 	//Astronomy::pRS->SetTransform(D3DTS_VIEW, mView);
 }
 
-dword Astronomy::STARS::AttributeChanged(ATTRIBUTES * pA)
+uint32_t Astronomy::STARS::AttributeChanged(ATTRIBUTES * pA)
 {
 	return 0;
 }
@@ -437,7 +437,7 @@ void Astronomy::STARS::TimeUpdate(ATTRIBUTES * pAP)
 	}
 
 	fPrevFov = -1.0f;
-	for (dword i=0; i<aStars.size(); i++)
+	for (uint32_t i=0; i<aStars.size(); i++)
 	{
 		Star & s = aStars[i];
 		CVECTOR vPos = fRadius * s.vPos;

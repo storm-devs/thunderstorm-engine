@@ -1,4 +1,8 @@
 #include "Weather.h"
+#include "lightning.h"
+#include "SunGlow.h"
+#include "waterflare.h"
+#include "Astronomy.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(WEATHER)
@@ -58,11 +62,11 @@ void WEATHER::Move()
 {
 }
 
-void WEATHER::Realize(dword Delta_Time)
+void WEATHER::Realize(uint32_t Delta_Time)
 {
 }
 
-void WEATHER::Execute(dword Delta_Time)
+void WEATHER::Execute(uint32_t Delta_Time)
 {
 /*	if (dwFrames) SetLong(whi_weather_update,0);
 
@@ -173,7 +177,7 @@ void WEATHER::CleanUP()
 {
 	char	section[256],param[256],str[256];
 	long	i;
-	dword	r,g,b;
+	uint32_t	r,g,b;
 
 	CleanUP();
 
@@ -189,7 +193,7 @@ void WEATHER::CleanUP()
 	if(!ini) STORM_THROW("weather.ini file not found!");
 
 	//iHour = ini->GetLong(0,"iCurHour",0);
-	iHour = AttributesPointer->GetAttributeAsdword("Hour",0);
+	iHour = AttributesPointer->GetAttributeAsuint32_t("Hour",0);
 
 	sprintf(section,"%s%d:00",(iHour<10) ? "0" : "", iHour);
 
@@ -257,9 +261,9 @@ void WEATHER::SetCommonStates()
 
 	float fDensity = GetFloat(whf_fog_density);
 	pRS->SetRenderState(D3DRS_FOGCOLOR, GetColor(whc_fog_color));
-	pRS->SetRenderState(D3DRS_FOGDENSITY, *((dword*)&fDensity));
+	pRS->SetRenderState(D3DRS_FOGDENSITY, *((uint32_t*)&fDensity));
 
-	dword dwAmbient = GetColor(whc_sun_ambient);
+	uint32_t dwAmbient = GetColor(whc_sun_ambient);
 	pRS->SetRenderState(D3DRS_AMBIENT, dwAmbient);
 
 	// setup sun light
@@ -314,18 +318,18 @@ void WEATHER::SetCommonStates()
 	ini->WriteLong(0,"iCurHour",iHour);
 	delete ini;
 
-	AttributesPointer->SetAttributeUsedword("Hour",iHour);
+	AttributesPointer->SetAttributeUseuint32_t("Hour",iHour);
 
 	LoadWeatherIni();
 	return true;
 }*/
 
-long WEATHER::GetLong(dword dwCode)
+long WEATHER::GetLong(uint32_t dwCode)
 {
 	return iLongs[dwCode];
 }
 
-dword WEATHER::GetColor(dword dwCode, CVECTOR * vOut)
+uint32_t WEATHER::GetColor(uint32_t dwCode, CVECTOR * vOut)
 {
 	vOut->x = float((dwColors[dwCode] >> 0x10)&0xFF) / 255.0f;
 	vOut->y = float((dwColors[dwCode] >> 0x8)&0xFF) / 255.0f;
@@ -333,22 +337,22 @@ dword WEATHER::GetColor(dword dwCode, CVECTOR * vOut)
 	return dwColors[dwCode];
 }
 
-dword WEATHER::GetColor(dword dwCode)
+uint32_t WEATHER::GetColor(uint32_t dwCode)
 {
 	return dwColors[dwCode];
 }
 
-float WEATHER::GetFloat(dword dwCode)
+float WEATHER::GetFloat(uint32_t dwCode)
 {
 	return fFloats[dwCode];
 }
 
-void WEATHER::GetVector(dword dwCode, CVECTOR* vOut)
+void WEATHER::GetVector(uint32_t dwCode, CVECTOR* vOut)
 {
 	*vOut = vVectors[dwCode];
 }
 
-dword WEATHER::AttributeChanged(ATTRIBUTES * pAttribute)
+uint32_t WEATHER::AttributeChanged(ATTRIBUTES * pAttribute)
 {
 	ATTRIBUTES * pParent = pAttribute->GetParent(); // if (*pAttribute == "Hour")
 	if (*pParent == "fog")

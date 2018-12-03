@@ -9,7 +9,6 @@
 //============================================================================================
 
 #include "Lighter.h"
-#include "..\common_h\messages.h"
 
 
 //============================================================================================
@@ -60,7 +59,7 @@ bool Lighter::Init()
 }
 
 //Исполнение
-void Lighter::Execute(dword delta_time)
+void Lighter::Execute(uint32_t delta_time)
 {
 	float dltTime = delta_time*0.001f;
 	if(window.isSaveLight)
@@ -101,7 +100,7 @@ void Lighter::PreparingData()
 {
 	//Освещение
 	//Рассеяное
-	dword amb = 0xff404040;
+	uint32_t amb = 0xff404040;
 	rs->GetRenderState(D3DRS_AMBIENT, &amb);
 	CVECTOR clr;
 	clr.x = ((amb >> 16) & 0xff)/255.0f;
@@ -151,7 +150,7 @@ void Lighter::PreparingData()
 	window.isSmoothShadows = autoSmooth;
 }
 
-void Lighter::Realize(dword delta_time)
+void Lighter::Realize(uint32_t delta_time)
 {
 	if(GetAsyncKeyState(VK_DECIMAL) < 0)
 	{
@@ -162,7 +161,7 @@ void Lighter::Realize(dword delta_time)
 }
 
 //Сообщения
-dword _cdecl Lighter::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl Lighter::ProcessMessage(MESSAGE & message)
 {
 	char command[32];
 	message.String(31, command);

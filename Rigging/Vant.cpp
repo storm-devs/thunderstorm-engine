@@ -74,7 +74,7 @@ bool VANT::LoadState(ENTITY_STATE * state)
 	return true;
 }
 
-void VANT::Execute(dword Delta_Time)
+void VANT::Execute(uint32_t Delta_Time)
 {
     if(bRunFirstTime)  FirstRun();
     if(bYesDeleted)  DoSTORM_DELETE();
@@ -100,16 +100,16 @@ void VANT::Execute(dword Delta_Time)
     }
 }
 
-void VANT::Realize(dword Delta_Time)
+void VANT::Realize(uint32_t Delta_Time)
 {
     if(bUse)
     {
-        DWORD rtm;
+        uint32_t rtm;
 
         // _asm rdtsc _asm mov rtm,eax
 
         RenderService->TextureSet(0,texl);
-		DWORD ambient;
+		uint32_t ambient;
 		RenderService->GetRenderState(D3DRS_AMBIENT,&ambient);
 		RenderService->SetRenderState(D3DRS_TEXTUREFACTOR,ambient);
 		bool bDraw = RenderService->TechniqueExecuteStart("ShipVant");
@@ -138,7 +138,7 @@ void VANT::Realize(dword Delta_Time)
     }
 }
 
-dword _cdecl VANT::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl VANT::ProcessMessage(MESSAGE & message)
 {
 	long code = message.Long();
 
@@ -279,7 +279,7 @@ void  VANT::SetIndex()
     int i,j;
     int ti,vi;
 
-    WORD *pt=(WORD*)RenderService->LockIndexBuffer(iBuf);
+    uint16_t *pt=(uint16_t*)RenderService->LockIndexBuffer(iBuf);
     if(pt)
     {
         for(int vn=0; vn<vantQuantity; vn++)
@@ -335,7 +335,7 @@ void  VANT::SetIndex()
 void VANT::SetVertexes()
 {
     int j,i;
-    DWORD iv;
+    uint32_t iv;
     CVECTOR uPos, lPos, rPos;
 
     VANTVERTEX* pv=(VANTVERTEX*)RenderService->LockVertexBuffer(vBuf);
@@ -636,7 +636,7 @@ void VANT::LoadIni()
 void VANT::doMove()
 {
     int j,i;
-    DWORD iv;
+    uint32_t iv;
     CVECTOR uPos, lPos, rPos;
 
     VANTVERTEX* pv=(VANTVERTEX*)RenderService->LockVertexBuffer(vBuf);

@@ -8,7 +8,7 @@ class CXI_TITLE : public CINODE
 public:
 	CXI_TITLE();
 	~CXI_TITLE();
-	void	Draw(bool bSelected,dword Delta_Time);
+	void	Draw(bool bSelected,uint32_t Delta_Time);
 	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
 	void	ReleaseAll();
 	int		CommandExecute(int wActCode);
@@ -27,8 +27,8 @@ protected:
 
 	long	m_idString;
 	XYPOINT m_StringCenter;
-	DWORD	m_fontColor;
-	DWORD	m_backColor;
+	uint32_t	m_fontColor;
+	uint32_t	m_backColor;
 	float	m_fontScale;
 	long    m_fontID;
 

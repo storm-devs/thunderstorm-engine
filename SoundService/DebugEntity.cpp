@@ -18,13 +18,13 @@ bool SoundVisualisationEntity::Init()
 	return true;
 }
 
-void SoundVisualisationEntity::Realize(dword _dTime)
+void SoundVisualisationEntity::Realize(uint32_t _dTime)
 {
 	if (!pSound) return;
 	pSound->DebugDraw();
 }
 
-void SoundVisualisationEntity::Execute(dword _dTime)
+void SoundVisualisationEntity::Execute(uint32_t _dTime)
 {
 }
 

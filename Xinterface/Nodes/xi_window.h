@@ -22,7 +22,7 @@ public:
 	void	AddNode( const char* pcNodeName );
 
 	virtual int		CommandExecute(int wActCode) { return -1; };
-	virtual void	Draw(bool bSelected,dword Delta_Time) {};
+	virtual void	Draw(bool bSelected,uint32_t Delta_Time) {};
 	virtual void	ReleaseAll() {};
 	virtual bool	IsClick(int buttonID,long xPos,long yPos) { return false; };
 	virtual void	MouseThis(float fX, float fY) {};

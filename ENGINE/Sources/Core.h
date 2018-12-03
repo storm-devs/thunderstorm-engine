@@ -9,28 +9,19 @@
 #endif
 
 #include "..\..\common_h\memop.h"
-#include "..\..\common_h\exs.h"
 #include "..\..\common_h\vapi.h"
 //#include "..\..\common_h\input.h"
 
 #include "common_h.h"
-#include "gdi_display.h"
-#include "memory_service.h"
-#include "file_service.h"
-#include "externs.h"
 #include "c_atom.h"
 #include "modules_table.h"
 #include "fsdata_list.h"
-#include "system_api.h"
 #include "layer.h"
 #include "timer.h"
-#include "entity_state_R.h"
 #include "services_list.h"
 #include "layer_service.h"
 #include "compiler.h"
 //#include "program.h"
-
-#include "ZLIB\zlib.h"
 
 #define ENGINE_SCRIPT_VERSION		54128
 
@@ -44,11 +35,11 @@ typedef struct {
 
 typedef struct
 {
-	dword engine_version;
-	dword Atoms_max_orbit;
-	dword Atoms_min_free_orbit;
-	dword Atoms_number;
-	dword Atoms_space;
+	uint32_t engine_version;
+	uint32_t Atoms_max_orbit;
+	uint32_t Atoms_min_free_orbit;
+	uint32_t Atoms_number;
+	uint32_t Atoms_space;
 	ENTITY_CREATION_TIME Creation_Time;
 
 } CORE_STATE;
@@ -71,8 +62,8 @@ public:
 	bool Run();
 	void ProcessSystemMessage(UINT iMsg,WPARAM wParam,LPARAM lParam);
 	bool __declspec(dllexport) __cdecl LoadClassesTable();
-	bool __declspec(dllexport) __cdecl CreateAtomsTable(dword _space);
-	C_ATOM * CreateAtom(dword class_code);
+	bool __declspec(dllexport) __cdecl CreateAtomsTable(uint32_t _space);
+	C_ATOM * CreateAtom(uint32_t class_code);
 	bool DeleteAtom(C_ATOM * atom_PTR);
 	void ReleaseAtoms();
 	//bool CreateEntity(ENTITY_ID * id_PTR, char * class_name);
@@ -87,8 +78,8 @@ public:
 	void ProcessSystemMessagesBuffer();
 	void ProcessRootObjectCreation();
 	void ProcessStateLoading();
-	void ProcessRunStart(dword section_code);
-	void ProcessRunEnd(dword section_code);
+	void ProcessRunStart(uint32_t section_code);
+	void ProcessRunEnd(uint32_t section_code);
 
 
 	bool InitObject(ENTITY_ID entity_id);
@@ -101,24 +92,24 @@ public:
 	C_ATOM * FitAtom(ENTITY_ID entity_id, ATOM_STATE atom_state);
 	
 
-	void FitLayer(dword pos,char * layer_name,LAYER_STATE ls);
-	//void EraseLayer(dword dwcode);
+	void FitLayer(uint32_t pos,char * layer_name,LAYER_STATE ls);
+	//void EraseLayer(uint32_t dwcode);
 	void ReleaseLayers();
-	bool LayerCreate(char * layer_name, bool ordered, bool fail_if_exist, bool system, dword system_flags);
+	bool LayerCreate(char * layer_name, bool ordered, bool fail_if_exist, bool system, uint32_t system_flags);
 	
-	dword GetLayerIndex(char * layer_name);
+	uint32_t GetLayerIndex(char * layer_name);
 	//bool  VerifyLayer(char * layer_name);
 	//bool  CreateLayer(char * layer_name, bool ordered);
 	//void  DeleteLayer(char * layer_name);
-	//void  SetLayerFlags(char * layer_name, dword flags);
-	//dword GetLayerFlags(char * layer_name);
-	//bool  AssignObjectToLayer(char * layer_name, ENTITY_ID eid, dword priority);
+	//void  SetLayerFlags(char * layer_name, uint32_t flags);
+	//uint32_t GetLayerFlags(char * layer_name);
+	//bool  AssignObjectToLayer(char * layer_name, ENTITY_ID eid, uint32_t priority);
 	//void  RemoveObjectFromLayer(char * layer_name, ENTITY_ID eid);
 	//bool  DeleteLayerContent(char * layer_name);
 	void ValidateApiCalls();
-	void CheckAutoExceptions(dword xflag);
+	void CheckAutoExceptions(uint32_t xflag);
 	void LayerDel(const char * layer_name, ENTITY_ID eid,bool system);
-	bool LayerAdd(const char * layer_name, ENTITY_ID eid, dword priority, bool system);
+	bool LayerAdd(const char * layer_name, ENTITY_ID eid, uint32_t priority, bool system);
 	void ReleaseServices();
 	void __declspec(dllexport) __cdecl ProcessEngineIniFile();
 
@@ -145,11 +136,11 @@ public:
 	char * State_file_name;
 
 	C_ATOM * * Atoms_PTR;
-	dword Atom_Search_Position;		// first version
-	dword Atom_Search_Class_Code;	// first version
-	dword Atom_Get_Position;		// first version
-	dword Scan_Layer_Code;
-	dword Constructor_counter;
+	uint32_t Atom_Search_Position;		// first version
+	uint32_t Atom_Search_Class_Code;	// first version
+	uint32_t Atom_Get_Position;		// first version
+	uint32_t Scan_Layer_Code;
+	uint32_t Constructor_counter;
 
 	FSDATA_LIST DeleteEntityList;
 	FSDATA_LIST DeleteLayerList;
@@ -160,7 +151,7 @@ public:
 
 	TIMER Timer;
 	SYSTEM_MESSAGE MessageStack[SYSTEM_MESSAGE_STACK_SIZE];
-	dword SystemMessagesNum;
+	uint32_t SystemMessagesNum;
 
 	//INPUT * Input;
 
@@ -179,7 +170,7 @@ public:
 	void ClearEvents();
 	void * MakeClass(char * class_name);
 	void AppState(bool state);
-	dword MakeHashValue(const char * string);
+	uint32_t MakeHashValue(const char * string);
 	VMA * FindVMA(char * class_name);
 	VMA * FindVMA(long hash);
 	void FreeServices();
@@ -214,9 +205,9 @@ public:
 	// write message to system log file
 	void _cdecl Trace(const char * Format,...);
 	// OR operation with core exceptions mask, returned current mask state
-	dword SetExceptions(dword _flags);
+	uint32_t SetExceptions(uint32_t _flags);
 	// AND operation with core exceptions mask, returned current mask state
-	dword ClrExceptions(dword _flags);
+	uint32_t ClrExceptions(uint32_t _flags);
 	// switch on/off engine gdi display 
 	void EngineDisplay(bool on);
 
@@ -225,9 +216,9 @@ public:
 	// work with objects classes
 	
 	// converting class name to static code (constant until next restart)
-	dword Class_Name2Code(char * class_name);	 
+	uint32_t Class_Name2Code(char * class_name);	 
 	// find first entity with pointed class
-	bool FindClass(ENTITY_ID * id_PTR, char * class_name, dword class_code);
+	bool FindClass(ENTITY_ID * id_PTR, char * class_name, uint32_t class_code);
 	// continue searching process, started by FindClass(...) function
 	bool FindClassNext(ENTITY_ID * id_PTR);
 
@@ -262,19 +253,19 @@ public:
 
 	ATTRIBUTES * Entity_GetAttributeClass(ENTITY_ID * id_PTR, char * name);
 	char *	Entity_GetAttribute(ENTITY_ID * id_PTR, char * name);
-	DWORD	Entity_GetAttributeAsDword(ENTITY_ID * id_PTR, char * name, DWORD def = 0);
+	uint32_t	Entity_GetAttributeAsDword(ENTITY_ID * id_PTR, char * name, uint32_t def = 0);
 	FLOAT	Entity_GetAttributeAsFloat(ENTITY_ID * id_PTR, char * name, FLOAT def = 0);
 	BOOL	Entity_SetAttribute(ENTITY_ID * id_PTR, char * name, char * attribute);
-	BOOL	Entity_SetAttributeUseDword(ENTITY_ID * id_PTR, char * name, DWORD val);
+	BOOL	Entity_SetAttributeUseDword(ENTITY_ID * id_PTR, char * name, uint32_t val);
 	BOOL	Entity_SetAttributeUseFloat(ENTITY_ID * id_PTR, char * name, FLOAT val);
 	void	Entity_SetAttributePointer(ENTITY_ID * id_PTR, ATTRIBUTES * pA);
-	dword	Entity_AttributeChanged(ENTITY_ID * id_PTR, ATTRIBUTES *);
+	uint32_t	Entity_AttributeChanged(ENTITY_ID * id_PTR, ATTRIBUTES *);
 	ATTRIBUTES * Entity_GetAttributePointer(ENTITY_ID * id_PTR);
 	
 	// messeges system
 
 	// send message to an object
-	dword _cdecl Send_Message(ENTITY_ID Destination,char * Format,...);
+	uint32_t _cdecl Send_Message(ENTITY_ID Destination,char * Format,...);
 	
 	// layer managment 
 	
@@ -285,19 +276,19 @@ public:
 	// delete layer (no objects will be deleted)
 	void LayerSTORM_DELETE(char * layer_name);
 	// set flags to layer
-	void LayerSetFlags(char * layer_name, dword flags);
+	void LayerSetFlags(char * layer_name, uint32_t flags);
 	// clear flags for layer
-	void LayerClrFlags(char * layer_name, dword flags);
+	void LayerClrFlags(char * layer_name, uint32_t flags);
 	// get current flags configuration
-	dword LayerGetFlags(char * layer_name);
+	uint32_t LayerGetFlags(char * layer_name);
 	// insert object into layer list
-	bool LayerAdd(const char * layer_name, ENTITY_ID eid, dword priority);
+	bool LayerAdd(const char * layer_name, ENTITY_ID eid, uint32_t priority);
 	// remove object from layer list
 	void LayerDel(const char * layer_name, ENTITY_ID eid);
 	// delete layer content, delete all objects referenced in this layer; layer doesn't deleted
 	bool LayerDeleteContent(char * layer_name);
 	// set layer sleeping time, layer will skip execution till this time
-	void LayerSetSleep(char * layer_name,dword sleep_time_ms);
+	void LayerSetSleep(char * layer_name,uint32_t sleep_time_ms);
 	// on/off execute
 	void LayerSetExecute(char * layer_name, bool on);
 	// on/off realize
@@ -312,21 +303,21 @@ public:
 	bool InitiateStateLoading(char * file_name);
 
 	// return current fps
-	dword EngineFps();
+	uint32_t EngineFps();
 	// set timer
-	dword SetTimer(dword elapse,ENTITY_ID id);
+	uint32_t SetTimer(uint32_t elapse,ENTITY_ID id);
 	// set fixed delta time mode, (-1) - off
 	void SetDeltaTime(long delta_time);
 	// on/off system messages
 	void SystemMessages(ENTITY_ID eid, bool on);
 	//
-	dword GetDeltaTime();
-	dword GetRDeltaTime();
+	uint32_t GetDeltaTime();
+	uint32_t GetRDeltaTime();
 	//
-	float GetKeyState(dword key_code, dword * value);
+	float GetKeyState(uint32_t key_code, uint32_t * value);
 	//
 	VDATA * _cdecl Event(char * Event_name, char * Format,...);
-	dword _cdecl PostEvent(char * Event_name, dword post_time, char * Format,...);
+	uint32_t _cdecl PostEvent(char * Event_name, uint32_t post_time, char * Format,...);
 	//
 	void Execute(char * name);
 
@@ -336,15 +327,15 @@ public:
 
 	void GetMemoryState(MSTATE * pMemStateStructure);
 
-	DWORD SetScriptFunction(IFUNCINFO * pFuncInfo);
+	uint32_t SetScriptFunction(IFUNCINFO * pFuncInfo);
 
-	void DeleteScriptFunction(DWORD nFuncHandle);
+	void DeleteScriptFunction(uint32_t nFuncHandle);
 
 	char * EngineIniFileName();
 
-	DWORD AttributeName2Code(const char * pAttributeName);
+	uint32_t AttributeName2Code(const char * pAttributeName);
 
-	void * GetScriptVariable(const char * pVariableName, DWORD * pdwVarIndex);
+	void * GetScriptVariable(const char * pVariableName, uint32_t * pdwVarIndex);
 
 	void SetNetActive(bool bActive);
 

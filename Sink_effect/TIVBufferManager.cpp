@@ -16,7 +16,7 @@ TIVBufferManager::TIVBufferManager(VDX9RENDER *_renderer, long _vType, long _vSi
 	,vertices(nullptr)
 	,count(0)
 {
-	iBuffer = renderer->CreateIndexBuffer(elementsCount * iCount * sizeof(WORD));
+	iBuffer = renderer->CreateIndexBuffer(elementsCount * iCount * sizeof(uint16_t));
 	vBuffer = renderer->CreateVertexBuffer(vType, elementsCount * vCount * vSize, D3DUSAGE_WRITEONLY);
 	used = NEW bool[elementsCount];
 	for (int i=0; i < elementsCount; ++i)
@@ -70,7 +70,7 @@ void TIVBufferManager::FreeAll()
 //--------------------------------------------------------------------
 void TIVBufferManager::LockBuffers()
 {
-	indexes = (WORD *) renderer->LockIndexBuffer(iBuffer);
+	indexes = (uint16_t *) renderer->LockIndexBuffer(iBuffer);
 	vertices = renderer->LockVertexBuffer(vBuffer);
 	locked = true;
 }
@@ -84,7 +84,7 @@ void TIVBufferManager::UnlockBuffers()
 }
 
 //--------------------------------------------------------------------
-void TIVBufferManager::GetPointers(long _i, WORD **iPointer, void **vPointer, long *vOffset/* = 0*/)
+void TIVBufferManager::GetPointers(long _i, uint16_t **iPointer, void **vPointer, long *vOffset/* = 0*/)
 {
 	if ((_i < 0) || !locked)
 	{
@@ -94,7 +94,7 @@ void TIVBufferManager::GetPointers(long _i, WORD **iPointer, void **vPointer, lo
 	}
 
 	*iPointer = indexes + _i*iCount;
-	*vPointer = ((BYTE *) vertices) + _i*vSize*vCount;
+	*vPointer = ((uint8_t *) vertices) + _i*vSize*vCount;
 	if (vOffset)
 		*vOffset = _i*vCount;
 }

@@ -1,6 +1,8 @@
 #include "TSharks.h"
 #include "..\common_h\ship_base.h"
 #include "..\common_h\rands.h"
+#include "../../Shared/messages.h"
+#include "../Common_h/defines.h"
 
 #pragma warning (disable : 4244)
 
@@ -9,8 +11,8 @@ TSharks::TSharks()
 	:enabled(false)
 	,shipsCount(0)
 {
-	ZeroMemory(sharks, SHARK_COUNT << 2);
-	ZeroMemory(ships,  SHARK_MAX_SHIPS  << 2);
+	PZERO(sharks, SHARK_COUNT << 2);
+	PZERO(ships,  SHARK_MAX_SHIPS  << 2);
 }
 
 //--------------------------------------------------------------------
@@ -97,11 +99,11 @@ void TSharks::Init()
 }
 
 //--------------------------------------------------------------------
-dword TSharks::ProcessMessage(long _code, MESSAGE & message)
+uint32_t TSharks::ProcessMessage(long _code, MESSAGE & message)
 {
 	GUARD(TSharks::ProcessMessage)
 
-	dword outValue = 0;
+	uint32_t outValue = 0;
 
 	switch (_code)
 	{
@@ -120,7 +122,7 @@ dword TSharks::ProcessMessage(long _code, MESSAGE & message)
 }
 
 //--------------------------------------------------------------------
-void TSharks::Execute(dword _dTime)
+void TSharks::Execute(uint32_t _dTime)
 {
 	GUARD(ANIMALS::Execute)
 
@@ -147,7 +149,7 @@ void TSharks::Execute(dword _dTime)
 }
 
 //--------------------------------------------------------------------
-void TSharks::Realize(dword _dTime)
+void TSharks::Realize(uint32_t _dTime)
 {
 	GUARD(ANIMALS::Realize)
 

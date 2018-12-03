@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "xi_statusline.h"
-#include "..\\vxservice.h"
 
 CXI_STATUSLINE::CXI_STATUSLINE()
 {
@@ -17,7 +16,7 @@ CXI_STATUSLINE::~CXI_STATUSLINE()
 	ReleaseAll();
 }
 
-void CXI_STATUSLINE::Draw(bool bSelected,dword Delta_Time)
+void CXI_STATUSLINE::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(m_bUse)
 	{
@@ -68,7 +67,7 @@ void CXI_STATUSLINE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
 
 	// Lock vertex and index buffers and get pointers to this
 	XI_ONLYONETEX_VERTEX *pVBuf = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_vBuf);
-	WORD				 *pIBuf = (WORD*)m_rs->LockIndexBuffer(m_iBuf);
+	uint16_t				 *pIBuf = (uint16_t*)m_rs->LockIndexBuffer(m_iBuf);
 
 	if(pVBuf!= nullptr && pIBuf!= nullptr)
 	{
@@ -162,7 +161,7 @@ void CXI_STATUSLINE::SaveParametersToIni()
 	delete pIni;
 }
 
-dword _cdecl CXI_STATUSLINE::MessageProc(long msgcode, MESSAGE & message)
+uint32_t _cdecl CXI_STATUSLINE::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

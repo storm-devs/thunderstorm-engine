@@ -11,6 +11,7 @@
 #include <stdio.h> 
 
 #include "WdmInterfaceObject.h"
+#include "WdmObjects.h"
 
 //============================================================================================
 
@@ -170,7 +171,7 @@ void WdmInterfaceObject::FillRectUV1(Vertex * vrt, float tu, float tv, float tw,
 }
 
 //Заполнить 6 вершин цветом
-void WdmInterfaceObject::FillRectColor(Vertex * vrt, dword color)
+void WdmInterfaceObject::FillRectColor(Vertex * vrt, uint32_t color)
 {
 	if(!vrt) return;
 	vrt[0].color = color;
@@ -204,7 +205,7 @@ void WdmInterfaceObject::FillSRectUV(Vertex * vrt, float tu, float tv, float tw,
 }
 
 //Заполнить 18 вершин цветом скалирующегося прямоугольника
-void WdmInterfaceObject::FillSRectColor(Vertex * vrt, dword color)
+void WdmInterfaceObject::FillSRectColor(Vertex * vrt, uint32_t color)
 {
 	FillRectColor(vrt, color);
 	FillRectColor(vrt + 6, color);

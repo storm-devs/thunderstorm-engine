@@ -1,6 +1,7 @@
 #include "AICannon.h"
+#include "../../Shared/sea_ai/script_defines.h"
 
-dword dwTmpRDTSC;
+uint32_t dwTmpRDTSC;
 
 AICannon::AICannon()
 {

@@ -102,7 +102,7 @@ void Pillar::FillVertexBuffer(Vertex * buffer)
 	for(long i = 0; i < TRND_NUMSEC; i++)
 	{
 		Section & s = section[i];
-		for(word j = 0; j < TRND_SEGMENTS; j++, buffer++)
+		for(uint16_t j = 0; j < TRND_SEGMENTS; j++, buffer++)
 		{
 			buffer->x = s.x + s.radius*segment[j].x;
 			buffer->y = s.y;
@@ -113,17 +113,17 @@ void Pillar::FillVertexBuffer(Vertex * buffer)
 	}
 }
 
-void Pillar::FillIndexBuffer(word * buffer)
+void Pillar::FillIndexBuffer(uint16_t * buffer)
 {
 	//По секциям
 	for(long i = 0; i < TRND_NUMSEC - 1; i++)
 	{
-		word base = word(i*TRND_SEGMENTS);
-		word * buf = buffer + base*2*3;
+		uint16_t base = uint16_t(i*TRND_SEGMENTS);
+		uint16_t * buf = buffer + base*2*3;
 		//По сегментам
-		for(word j = 0; j < TRND_SEGMENTS; j++)
+		for(uint16_t j = 0; j < TRND_SEGMENTS; j++)
 		{
-			word j1 = j < (TRND_SEGMENTS - 1) ? j + 1 : 0;
+			uint16_t j1 = j < (TRND_SEGMENTS - 1) ? j + 1 : 0;
 			buf[j*6 + 0] = base + j;
 			buf[j*6 + 1] = base + j1;
 			buf[j*6 + 2] = base + j + TRND_SEGMENTS;

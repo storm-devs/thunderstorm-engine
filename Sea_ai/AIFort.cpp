@@ -1,6 +1,7 @@
 #include "AIFort.h"
 #include "AIShip.h"
 #include "../Common_h/filesystem.h"
+#include "../../Shared/messages.h"
 
 AIFort	* AIFort::pAIFort = nullptr;
 
@@ -15,7 +16,7 @@ AIFort::AIFort()
 AIFort::~AIFort()
 {
 	pAIFort = nullptr;
-	for (dword i=0; i<aForts.size(); i++) STORM_DELETE(aForts[i]);
+	for (uint32_t i=0; i<aForts.size(); i++) STORM_DELETE(aForts[i]);
 }
 
 bool AIFort::Init()
@@ -27,7 +28,7 @@ void AIFort::SetDevice()
 {
 }
 
-float AIFort::GetSpeedV0(dword dwFortIndex)
+float AIFort::GetSpeedV0(uint32_t dwFortIndex)
 {
 	ATTRIBUTES * pACannon, * pACharacter;
 	pACharacter = aForts[dwFortIndex]->GetACharacter();
@@ -38,7 +39,7 @@ float AIFort::GetSpeedV0(dword dwFortIndex)
 //float fAngF = 0.0f;
 //float yyy = 0.0f;
 
-void AIFort::Execute(dword Delta_Time)
+void AIFort::Execute(uint32_t Delta_Time)
 {
 	/*CVECTOR vSrc = CVECTOR(-10000.0f * sinf(fAngF), yyy, -10000.0f * cosf(fAngF));
 	CVECTOR vDst = -CVECTOR(vSrc.x, yyy, vSrc.z);
@@ -51,20 +52,20 @@ void AIFort::Execute(dword Delta_Time)
 
 	bool bFiredTimer = dtFiredTimer.Update(fDeltaTime);
 
-	for (dword k=0; k<aForts.size(); k++)
+	for (uint32_t k=0; k<aForts.size(); k++)
 	{
 		AI_FORT	* pF = aForts[k];
 		if (pF->isDead()) continue;
 		if (!pF->isNormalMode()) continue;
 
 		float fSpeedV0 = 0.0f;
-		dword dwCurrentCannonType = 0xFFFFFFFF;
-		dword iMax = pF->GetAllCannonsNum(); // boal fix
-		for (dword i=0; i<iMax; i++)
+		uint32_t dwCurrentCannonType = 0xFFFFFFFF;
+		uint32_t iMax = pF->GetAllCannonsNum(); // boal fix
+		for (uint32_t i=0; i<iMax; i++)
 		{
 			AICannon * pC = pF->GetCannon(i);
 			
-			dword dwNewCurrentCannonType = pF->GetCannonType(i);
+			uint32_t dwNewCurrentCannonType = pF->GetCannonType(i);
 
 			// update cannons parameters
 			if (dwCurrentCannonType != dwNewCurrentCannonType)
@@ -84,7 +85,7 @@ void AIFort::Execute(dword Delta_Time)
 				float	fMinDistance = 1e10f;
 				CVECTOR vCPos = pC->GetPos();
 				float fMaxFireDistance = AICannon::CalcMaxFireDistance(vCPos.y, fSpeedV0, 0.35f); // FIX-ME
-				for (dword j=0; j<AIShip::AIShips.size(); j++) if (!AIShip::AIShips[j]->isDead() && Helper.isEnemy(pF->GetACharacter(), AIShip::AIShips[j]->GetACharacter()))
+				for (uint32_t j=0; j<AIShip::AIShips.size(); j++) if (!AIShip::AIShips[j]->isDead() && Helper.isEnemy(pF->GetACharacter(), AIShip::AIShips[j]->GetACharacter()))
 				{
 					float fDistance = AIShip::AIShips[j]->GetDistance(vCPos);
 					if (fDistance > fMaxFireDistance) continue;
@@ -102,7 +103,7 @@ void AIFort::Execute(dword Delta_Time)
 	}
 }
 
-void AIFort::Realize(dword Delta_Time)
+void AIFort::Realize(uint32_t Delta_Time)
 {
 	/*ENTITY_ID eidIsland;
 	float fCurrentImmersion = 0.0f;
@@ -112,7 +113,7 @@ void AIFort::Realize(dword Delta_Time)
 		fCurrentImmersion = pIsland->GetCurrentImmersion();
 	}*/
 
-	/*for (dword k=0; k<aForts.size(); k++)
+	/*for (uint32_t k=0; k<aForts.size(); k++)
 	{
 		CMatrix mTemp;
 		mTemp.BuildPosition(0.0f, -fCurrentImmersion, 0.0f);
@@ -133,10 +134,10 @@ void AIFort::Realize(dword Delta_Time)
 		AIHelper::pRS->SetTransform(D3DTS_WORLD, mI);
 
 		long iNumCannons = 0;
-		for (dword k=0; k<aForts.size(); k++)
+		for (uint32_t k=0; k<aForts.size(); k++)
 		{
 			AI_FORT	* pF = aForts[k];
-			for (dword i=0; i<pF->GetAllCannonsNum(); i++)
+			for (uint32_t i=0; i<pF->GetAllCannonsNum(); i++)
 			{
 				AICannon * pC = pF->GetCannon(i);
 				CVECTOR vPos = pC->GetPos();
@@ -205,7 +206,7 @@ bool AIFort::AddFort(ATTRIBUTES * pIslandAP, ATTRIBUTES * pFortLabelAP, ATTRIBUT
 
 void AIFort::AddFortHit(long iCharacterIndex, CVECTOR & vHitPos)
 {
-	dword	i, j, iMax;
+	uint32_t	i, j, iMax;
 	for (i=0; i<aForts.size(); i++)
 	{
 		AI_FORT	* pF = aForts[i];
@@ -238,7 +239,7 @@ AIFort::AI_FORT * AIFort::FindFort(ENTITY_ID eidModel)
 	return nullptr;
 }
 
-dword AIFort::ProcessMessage(MESSAGE & message)
+uint32_t AIFort::ProcessMessage(MESSAGE & message)
 {
 	CVECTOR		vHit;
 	long		iCharacterIndex;
@@ -276,7 +277,7 @@ dword AIFort::ProcessMessage(MESSAGE & message)
 	return 0;
 }
 
-dword AIFort::AttributeChanged(ATTRIBUTES * pAttribute)
+uint32_t AIFort::AttributeChanged(ATTRIBUTES * pAttribute)
 {
 	return 0;
 }
@@ -304,7 +305,7 @@ bool AIFort::ScanFortForCannons(AI_FORT * pFort, char * pModelsDir, char * pLoca
 	MODEL * pModel = (MODEL*)api->GetEntityPointer(&model_id); Assert(pModel);
 
 	// search and add cannons & culverins
-	dword dwIdx = 0;
+	uint32_t dwIdx = 0;
 	while (pNode = pModel->GetNode(dwIdx))
 	{
 		pNode->geo->GetInfo(info);
@@ -371,7 +372,7 @@ float AIFort::Trace(const CVECTOR & vSrc, const CVECTOR & vDst)
 
 	float fBestRes = 2.0f;
 	float fBestDistance = 1e10f; 
-	for (dword i=0; i<GetNumForts(); i++)
+	for (uint32_t i=0; i<GetNumForts(); i++)
 	{
 		MODEL * pModel = (MODEL*)api->GetEntityPointer(&GetFort(i)->GetModelEID()); Assert(pModel);
 		float fRes = pModel->Trace(vSrc, vDst);
@@ -391,7 +392,7 @@ float AIFort::Trace(const CVECTOR & vSrc, const CVECTOR & vDst)
 float AIFort::Cannon_Trace(long iBallOwner, const CVECTOR & vSrc, const CVECTOR & vDst) 
 { 
 	float fBestRes = 2.0;
-	for (dword i=0; i<GetNumForts(); i++)
+	for (uint32_t i=0; i<GetNumForts(); i++)
 	{
 		MODEL * pModel = (MODEL*)api->GetEntityPointer(&GetFort(i)->GetModelEID());
 
@@ -412,7 +413,7 @@ float AIFort::Cannon_Trace(long iBallOwner, const CVECTOR & vSrc, const CVECTOR 
 
 AIFort::AI_FORT	* AIFort::FindFort(ATTRIBUTES * pACharacter)
 {
-	for (dword i=0; i<GetNumForts(); i++)
+	for (uint32_t i=0; i<GetNumForts(); i++)
 	{
 		if (GetFort(i)->GetACharacter() == pACharacter) return GetFort(i);
 	}
@@ -422,8 +423,8 @@ AIFort::AI_FORT	* AIFort::FindFort(ATTRIBUTES * pACharacter)
 CVECTOR AIFort::AI_FORT::GetAttackPoint(VAI_INNEROBJ * pObj) 
 {
 	float fDistance = pObj->GetMaxFireDistance();
-    dword iMax = GetAllCannonsNum(); // boal fix
-	for (dword i=0; i<iMax; i++)
+    uint32_t iMax = GetAllCannonsNum(); // boal fix
+	for (uint32_t i=0; i<iMax; i++)
 	{
 		AICannon * pC = GetCannon(i);
 		if (pC->isDamaged()) continue;
@@ -445,20 +446,20 @@ CVECTOR AIFort::AI_FORT::GetAttackPoint(VAI_INNEROBJ * pObj)
 void AIFort::Save(CSaveLoad * pSL)
 {
 	pSL->SaveFloat(fMinCannonDamageDistance);
-	for (dword i=0; i<aForts.size(); i++) aForts[i]->Save(pSL);
+	for (uint32_t i=0; i<aForts.size(); i++) aForts[i]->Save(pSL);
 }
 
 void AIFort::Load(CSaveLoad * pSL)
 {
 	fMinCannonDamageDistance = pSL->LoadFloat();
-	for (dword i=0; i<aForts.size(); i++) aForts[i]->Load(pSL, GetID());
+	for (uint32_t i=0; i<aForts.size(); i++) aForts[i]->Load(pSL, GetID());
 }
 
 void AIFort::AI_FORT::Save(CSaveLoad * pSL)
 {
 	pSL->SaveVector(vPos);
 
-	dword i;
+	uint32_t i;
 	for (i=0; i<aCannons.size(); i++) aCannons[i].Save(pSL);
 	for (i=0; i<aCulverins.size(); i++) aCulverins[i].Save(pSL);
 	for (i=0; i<aMortars.size(); i++) aMortars[i].Save(pSL);
@@ -468,7 +469,7 @@ void AIFort::AI_FORT::Load(CSaveLoad * pSL, ENTITY_ID eid)
 {
 	vPos = pSL->LoadVector();
 
-	dword i;
+	uint32_t i;
 	for (i=0; i<aCannons.size(); i++) 
 	{
 		aCannons[i].Load(pSL, this, eid);

@@ -1,9 +1,6 @@
 #ifndef DATA_DESCRIPTION_CLASS
 #define DATA_DESCRIPTION_CLASS
 
-#include <string.h>
-#include <stdarg.h>
-#include <stdio.h>
 #include "../../../common_h/exs.h"
 #include "../../icommon/types.h"
 
@@ -19,7 +16,7 @@ class DataDescripion
 		const char* Name;
 	};
 
-	DWORD ItemsCount;
+	uint32_t ItemsCount;
 	DescItem Fields[MAX_DESC_COUNT];
 
 public:
@@ -29,8 +26,8 @@ public:
  
  void AddField (FieldType Type, const char* Name);
  
- const char* GetFieldName (DWORD Index);
- FieldType GetFieldType (DWORD Index);
+ const char* GetFieldName (uint32_t Index);
+ FieldType GetFieldType (uint32_t Index);
  int GetFieldCount ();
 
  void Clear ();

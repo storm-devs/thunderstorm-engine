@@ -2,10 +2,6 @@
 #define _PARTICLE_DATA_POSITION_H_
 
 
-#include <string.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include "../../../common_h/exs.h"
 #include "..\..\icommon\memfile.h"
 
 #include "..\..\..\common_h\math3d.h"

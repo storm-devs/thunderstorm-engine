@@ -19,7 +19,7 @@ public:
 	POINT pos;
 	float fScale;
 	long nFont;
-	dword dwColor;
+	uint32_t dwColor;
 	bool bShadow;
 
 	ATTRIBUTES* pARefresh;
@@ -69,8 +69,8 @@ public:
 	FRECT ext_pos;
 	FRECT int_pos1;
 	FRECT int_pos2;
-	dword dwColor1;
-	dword dwColor2;
+	uint32_t dwColor1;
+	uint32_t dwColor2;
 	float fCur;
 	float fSpeed;
 	bool bUp;
@@ -98,7 +98,7 @@ public: // functions
 
 	static ATTRIBUTES * _cdecl GetAttributesFromPath(ATTRIBUTES * pA,...);
 
-	static DWORD GetIntervalColor(DWORD minV,DWORD maxV, float fpar);
+	static uint32_t GetIntervalColor(uint32_t minV,uint32_t maxV, float fpar);
 	static bool GetIntervalRect(float fk, const FRECT& r1, const FRECT& r2, FRECT& rOut);
 
 	static long GetMaxFromFourLong( long n1, long n2, long n3, long n4 );
@@ -111,7 +111,7 @@ public: // functions
 	//---------------------------------------
 public: // data
 	static ENTITY_ID idBattleInterface;
-	static DWORD g_dwBlinkColor;
+	static uint32_t g_dwBlinkColor;
 	//---------------------------------------
 };
 

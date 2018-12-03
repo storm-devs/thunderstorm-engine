@@ -1,6 +1,7 @@
 #include "AIHelper.h"
 #include "AIShip.h"
 #include "AIFort.h"
+#include "../../Shared/events.h"
 
 AIHelper		Helper;
 
@@ -55,7 +56,7 @@ bool AIHelper::Init()
 
 ATTRIBUTES * AIHelper::GetMainCharacter(ATTRIBUTES * pACharacter)
 {
-	/*dword dwIdx = aCharacters.Find(pACharacter);
+	/*uint32_t dwIdx = aCharacters.Find(pACharacter);
 	if (dwIdx != INVALID_ARRAY_INDEX)
 		return aMainCharacters[dwIdx];
 	return null;*/
@@ -65,7 +66,7 @@ ATTRIBUTES * AIHelper::GetMainCharacter(ATTRIBUTES * pACharacter)
 
 void AIHelper::AddCharacter(ATTRIBUTES * pACharacter, ATTRIBUTES * pAMainCharacter)
 {
-	//dword dwIdx = aCharacters.Find(pACharacter);
+	//uint32_t dwIdx = aCharacters.Find(pACharacter);
 	//if (dwIdx != INVALID_ARRAY_INDEX)
 	//{
 	//	aMainCharacters[dwIdx] = pAMainCharacter;
@@ -82,16 +83,16 @@ void AIHelper::AddCharacter(ATTRIBUTES * pACharacter, ATTRIBUTES * pAMainCharact
 
 void AIHelper::CalculateRelations()
 {
-	dword x, y;
+	uint32_t x, y;
 
 	STORM_DELETE(pRelations);
 	dwRelationSize = aCharacters.size();
-	pRelations = NEW dword[SQR(dwRelationSize)];
+	pRelations = NEW uint32_t[SQR(dwRelationSize)];
 	for (y=0;y<dwRelationSize;y++)
 		for (x=0;x<dwRelationSize;x++) if (x != y)
 		{
 			VDATA * pData = api->Event(GET_RELATION_EVENT,"ll",GetIndex(aMainCharacters[y]),GetIndex(aMainCharacters[x])); Assert(pData);
-			*GetRelation(y,x) = dword(pData->GetLong());
+			*GetRelation(y,x) = uint32_t(pData->GetLong());
 		}
 		else
 		{
@@ -99,32 +100,32 @@ void AIHelper::CalculateRelations()
 		}
 }
 
-dword AIHelper::FindIndex(ATTRIBUTES * pACharacter) const
+uint32_t AIHelper::FindIndex(ATTRIBUTES * pACharacter) const
 {
 	const auto it = std::find(aCharacters.begin(), aCharacters.end(), pACharacter);
 	return it != aCharacters.end() ? it - aCharacters.begin() : -1;
 }
 
-dword * AIHelper::GetRelation(dword x, dword y) const
+uint32_t * AIHelper::GetRelation(uint32_t x, uint32_t y) const
 {
 	Assert(x < dwRelationSize && y < dwRelationSize);
 	return &pRelations[x + y * dwRelationSize];
 }
 
-dword AIHelper::GetRelationSafe(ATTRIBUTES * pA1, ATTRIBUTES * pA2) const
+uint32_t AIHelper::GetRelationSafe(ATTRIBUTES * pA1, ATTRIBUTES * pA2) const
 {
 	Assert(pA1 && pA2);
 	if (dwRelationSize == 0) return RELATION_NEUTRAL;
-	dword dw1 = FindIndex(pA1); if (dw1 == INVALID_ARRAY_INDEX) return RELATION_NEUTRAL;
-	dword dw2 = FindIndex(pA2); if (dw2 == INVALID_ARRAY_INDEX) return RELATION_NEUTRAL;
+	uint32_t dw1 = FindIndex(pA1); if (dw1 == INVALID_ARRAY_INDEX) return RELATION_NEUTRAL;
+	uint32_t dw2 = FindIndex(pA2); if (dw2 == INVALID_ARRAY_INDEX) return RELATION_NEUTRAL;
 	return *GetRelation(dw1,dw2);
 }
 
-dword AIHelper::GetRelation(ATTRIBUTES * pA1, ATTRIBUTES * pA2) const
+uint32_t AIHelper::GetRelation(ATTRIBUTES * pA1, ATTRIBUTES * pA2) const
 {
 	Assert(pA1 && pA2);
-	dword dw1 = FindIndex(pA1); Assert(dw1 != INVALID_ARRAY_INDEX);
-	dword dw2 = FindIndex(pA2); Assert(dw2 != INVALID_ARRAY_INDEX);
+	uint32_t dw1 = FindIndex(pA1); Assert(dw1 != INVALID_ARRAY_INDEX);
+	uint32_t dw2 = FindIndex(pA2); Assert(dw2 != INVALID_ARRAY_INDEX);
 	return *GetRelation(dw1,dw2);
 }
 
@@ -194,15 +195,15 @@ void AIHelper::Save(CSaveLoad * pSL)
 {
 	pSL->SaveFloat(fGravity);
 	pSL->SaveDword(dwRelationSize);
-	pSL->SaveBuffer((const char *)pRelations, dwRelationSize * dwRelationSize * sizeof(dword));
+	pSL->SaveBuffer((const char *)pRelations, dwRelationSize * dwRelationSize * sizeof(uint32_t));
 
 	pSL->SaveAPointer("seacameras", pASeaCameras);
 
 	pSL->SaveDword(aCharacters.size());
-	for (dword i=0; i<aCharacters.size(); i++) pSL->SaveAPointer("character", aCharacters[i]);
+	for (uint32_t i=0; i<aCharacters.size(); i++) pSL->SaveAPointer("character", aCharacters[i]);
 
 	pSL->SaveDword(aMainCharacters.size());
-	for (dword i=0; i<aMainCharacters.size(); i++) pSL->SaveAPointer("character", aMainCharacters[i]);
+	for (uint32_t i=0; i<aMainCharacters.size(); i++) pSL->SaveAPointer("character", aMainCharacters[i]);
 }
 
 void AIHelper::Load(CSaveLoad * pSL)
@@ -213,9 +214,9 @@ void AIHelper::Load(CSaveLoad * pSL)
 
 	pASeaCameras = pSL->LoadAPointer("seacameras");
 
-	dword dwNum = pSL->LoadDword();
-	for (dword i=0; i<dwNum; i++) aCharacters.push_back(pSL->LoadAPointer("character"));
+	uint32_t dwNum = pSL->LoadDword();
+	for (uint32_t i=0; i<dwNum; i++) aCharacters.push_back(pSL->LoadAPointer("character"));
 
 	dwNum = pSL->LoadDword();
-	for (dword i=0; i<dwNum; i++) aMainCharacters.push_back(pSL->LoadAPointer("character"));
+	for (uint32_t i=0; i<dwNum; i++) aMainCharacters.push_back(pSL->LoadAPointer("character"));
 }

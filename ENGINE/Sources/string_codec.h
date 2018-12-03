@@ -2,41 +2,42 @@
 #define _STRING_CODEC_H_
 
 #include "..\..\common_h\vstring_codec.h"
+#include "../../common_h/defines.h"
 #define HASH_TABLE_SIZE	512	// must be power of 2
 
 struct HTSUBELEMENT
 {
 	char * pStr;
-	dword dwHashCode;
+	uint32_t dwHashCode;
 };
 
 struct HTELEMENT
 {
 	HTSUBELEMENT * pElements;
-	dword nStringsNum;
+	uint32_t nStringsNum;
 };
 
 class STRING_CODEC : public VSTRING_CODEC
 {
-	dword nHTIndex;
-	dword nHTEIndex;
-	dword nStringsNum;
+	uint32_t nHTIndex;
+	uint32_t nHTEIndex;
+	uint32_t nStringsNum;
 
 	HTELEMENT HTable[HASH_TABLE_SIZE];
 public:
 	STRING_CODEC(): nHTIndex(0), nHTEIndex(0)
 	{
 		nStringsNum = 0;
-		ZeroMemory(HTable, sizeof(HTable));
+		PZERO(HTable, sizeof(HTable));
 	}
 
 	~STRING_CODEC() { Release(); };
 	
-	dword GetNum() { return nStringsNum; };
+	uint32_t GetNum() { return nStringsNum; };
 
 	void Release()
 	{
-		dword n, m;
+		uint32_t n, m;
 		for (m=0; m<HASH_TABLE_SIZE; m++)
 		{
 			if (HTable[m].pElements)
@@ -49,7 +50,7 @@ public:
 		}
 	}
 	
-	dword Convert(const char * pString, long iLen)
+	uint32_t Convert(const char * pString, long iLen)
 	{
 		if (pString == nullptr) return 0xffffffff;
 
@@ -61,24 +62,24 @@ public:
 		return Convert(cTemp, bNew);
 	}
 
-	dword Convert(const char * pString)
+	uint32_t Convert(const char * pString)
 	{
 		if (pString == nullptr) return 0xffffffff;
 		bool bNew;
 		return Convert(pString, bNew);
 	}
 
-	inline dword GetNum(dword dwNum, dword dwAlign = 8)
+	inline uint32_t GetNum(uint32_t dwNum, uint32_t dwAlign = 8)
 	{ 
 		return (1 + dwNum / dwAlign) * dwAlign;
 	}
 
-	dword Convert(const char * pString, bool & bNew)
+	uint32_t Convert(const char * pString, bool & bNew)
 	{
-		dword nHash;
-		dword nTableIndex;
-		dword nStringCode;
-		dword n;
+		uint32_t nHash;
+		uint32_t nTableIndex;
+		uint32_t nStringCode;
+		uint32_t n;
 		if (pString == nullptr) return 0xffffffff;
 		nHash = MakeHashValue(pString);
 		nTableIndex = nHash & (HASH_TABLE_SIZE - 1);
@@ -111,10 +112,10 @@ public:
 
 	void VariableChanged();
 
-	char * Convert(dword code)
+	char * Convert(uint32_t code)
 	{
-		dword nTableIndex;
-		dword n;
+		uint32_t nTableIndex;
+		uint32_t n;
 		nTableIndex = code>>16;
 		if (nTableIndex >= HASH_TABLE_SIZE)
 		{
@@ -128,10 +129,10 @@ public:
 		return HTable[nTableIndex].pElements[n].pStr;
 	}
 
-	dword MakeHashValue(const char * ps)
+	uint32_t MakeHashValue(const char * ps)
 	{
-		dword hval = 0;
-		dword g;
+		uint32_t hval = 0;
+		uint32_t g;
 		char v;
 		while(*ps != 0)
 		{

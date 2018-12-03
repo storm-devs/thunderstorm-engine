@@ -45,8 +45,8 @@ protected:
 	void UpdateBuffers( long nShipQ );
 	void FillIndexBuffer();
 	void FillVertexBuffer();
-	long WriteSquareToVBuff( BI_COLOR_VERTEX* pv, FRECT& uv, dword color, BIFPOINT& center, FPOINT& size );
-	long WriteSquareToVBuffWithProgress( BI_COLOR_VERTEX* pv, FRECT& uv, dword color, BIFPOINT& center, FPOINT& size, float fClampUp, float fClampDown, float fClampLeft, float fClampRight );
+	long WriteSquareToVBuff( BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size );
+	long WriteSquareToVBuffWithProgress( BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size, float fClampUp, float fClampDown, float fClampLeft, float fClampRight );
 	void UpdateCommandList();
 
 	long GetCurrentCommandTopLine();
@@ -70,14 +70,14 @@ protected:
 
 	long m_nBackTextureID;
 	long m_nBackSquareQ;
-	dword m_dwBackColor;
+	uint32_t m_dwBackColor;
 	FRECT m_rBackUV;
 	BIFPOINT m_pntBackOffset;
 	FPOINT m_pntBackIconSize;
 
 	long m_nShipStateTextureID;
 	long m_nShipStateSquareQ;
-	dword m_dwShipStateColor;
+	uint32_t m_dwShipStateColor;
 	FRECT m_rShipHPUV;
 	BIFPOINT m_pntShipHPOffset;
 	FPOINT m_pntShipHPIconSize;
@@ -87,7 +87,7 @@ protected:
 
 	long m_nShipClassTextureID;
 	long m_nShipClassSquareQ;
-	dword m_dwShipClassColor;
+	uint32_t m_dwShipClassColor;
 	FRECT m_rShipClassUV;
 	BIFPOINT m_pntShipClassOffset;
 	FPOINT m_pntShipClassIconSize;
@@ -95,7 +95,7 @@ protected:
 
 	long m_nShipTextureID;
 	long m_nShipSquareQ;
-	dword m_dwShipColor;
+	uint32_t m_dwShipColor;
 	//FRECT m_rShipUV;
 	BIFPOINT m_pntShipOffset;
 	FPOINT m_pntShipIconSize;
@@ -117,12 +117,12 @@ protected:
 	long m_nCommandListVerticalOffset;
 
 	long m_idSailorFont;
-	dword m_dwSailorFontColor;
+	uint32_t m_dwSailorFontColor;
 	float m_fSailorFontScale;
 	POINT m_SailorFontOffset;
 
 	long m_idShipNameFont;
-	dword m_dwShipNameFontColor;
+	uint32_t m_dwShipNameFontColor;
 	float m_fShipNameFontScale;
 	POINT m_ShipNameFontOffset;
 

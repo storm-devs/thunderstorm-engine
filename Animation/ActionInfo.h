@@ -84,7 +84,7 @@ private:
 	AnimationType type;	//Тип анимации
 	bool isLoop;		//Зацикленность воспроизведения анимации
 
-	dword bonesMask[8];	//Маска используемых костей в анимации
+	uint32_t bonesMask[8];	//Маска используемых костей в анимации
 
 	Event event[ANI_MAX_EVENTS];	//События
 	long numEvents;					//Количество событий

@@ -3,7 +3,7 @@
 
 #include "..\common_h\dx9render.h"
 #include "..\common_h\math3D.h"
-#include "CameraTracksFile.h"
+#include "../common_h/Math3D/Quaternion.h"
 
 class PathTracks  
 {

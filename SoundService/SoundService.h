@@ -3,11 +3,9 @@
 
 //#include <mmreg.h>
 //#include <dxerr8.h>
-#include <dsound.h>
 #include "..\common_h\vmodule_api.h"
 #include "SoundDefines.h"
 #include "VSoundService.h"
-#include "VSound.h"
 #include "..\common_h\CVECTOR.h"
 #include ".\FMOD4\api\inc\fmod.hpp"
 #include ".\FMOD4\api\inc\fmod_errors.h"
@@ -36,7 +34,7 @@ class SoundService: public VSoundService
 
 	struct tSoundCache
 	{
-		DWORD dwNameHash;
+		uint32_t dwNameHash;
 		std::string Name;
 		FMOD::Sound* sound;
 		float fTimeFromLastPlay;
@@ -88,7 +86,7 @@ class SoundService: public VSoundService
 	struct PlayedOGG
 	{
 		std::string Name;
-		dword dwHash;
+		uint32_t dwHash;
 		unsigned int position;
 	};
 
@@ -128,7 +126,7 @@ class SoundService: public VSoundService
 	struct tAlias
 	{
 		std::string Name;
-		dword dwNameHash;
+		uint32_t dwNameHash;
 
 		float fMaxProbabilityValue;
 		float fMinDistance;
@@ -190,7 +188,7 @@ public:
 	virtual ~SoundService();
 	bool __declspec(dllexport) __cdecl SFLB_SetScheme(const char *_schemeName);
 	virtual bool Init();
-	virtual dword RunSection()
+	virtual uint32_t RunSection()
 	{
 		return SECTION_EXECUTE;
 	}
@@ -238,8 +236,8 @@ public:
 
 	void DebugDraw ();
 
-	void _cdecl DebugPrint3D(const CVECTOR & pos3D, float rad, long line, float alpha, dword color, float scale, const char * format, ...);
-	void Draw2DCircle (const CVECTOR& center, DWORD dwColor, float fRadius, DWORD dwColor2, float fRadius2);
+	void _cdecl DebugPrint3D(const CVECTOR & pos3D, float rad, long line, float alpha, uint32_t color, float scale, const char * format, ...);
+	void Draw2DCircle (const CVECTOR& center, uint32_t dwColor, float fRadius, uint32_t dwColor2, float fRadius2);
 
 
 	void ProcessFader (int idx);

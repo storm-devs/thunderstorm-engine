@@ -5,11 +5,7 @@
 #include "Typedef.h"
 #include "..\common_h\Weather_Base.h"
 #include "Rain.h"
-#include "SunGlow.h"
-#include "Lightning.h"
 #include "Sky.h"
-#include "WaterFlare.h"
-#include "Astronomy.h"
 
 class WEATHER : public WEATHER_BASE
 {
@@ -18,7 +14,7 @@ private:
 
 	float				fFloats[MAX_FLOAT_PARAMS];
 	long				iLongs[MAX_LONG_PARAMS];
-	dword				dwColors[MAX_COLOR_PARAMS];
+	uint32_t				dwColors[MAX_COLOR_PARAMS];
 	CVECTOR				vVectors[MAX_VECTORS_PARAMS];
 	char				*pStrings[MAX_STRINGS_PARAMS];
 
@@ -47,11 +43,11 @@ private:
 	void	CleanUP();
 
 	// Weather_Base function
-	long	GetLong(dword dwCode);
-	dword	GetColor(dword, CVECTOR*);
-	dword	GetColor(dword);
-	float	GetFloat(dword);
-	void	GetVector(dword,CVECTOR*);
+	long	GetLong(uint32_t dwCode);
+	uint32_t	GetColor(uint32_t, CVECTOR*);
+	uint32_t	GetColor(uint32_t);
+	float	GetFloat(uint32_t);
+	void	GetVector(uint32_t,CVECTOR*);
 
 public:
 	WEATHER();
@@ -60,11 +56,11 @@ public:
 	void SetDevice();
 	bool Init();
 	void Move();
-	void Execute(dword Delta_Time);
-	void Realize(dword Delta_Time);
+	void Execute(uint32_t Delta_Time);
+	void Realize(uint32_t Delta_Time);
 	bool CreateState(ENTITY_STATE_GEN * state_gen);
 	bool LoadState(ENTITY_STATE * state);
-	dword AttributeChanged(ATTRIBUTES *pAttribute);
+	uint32_t AttributeChanged(ATTRIBUTES *pAttribute);
 };
 
 #endif

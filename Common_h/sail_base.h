@@ -1,6 +1,5 @@
 #ifndef SAIL_BASE_H
 #define SAIL_BASE_H
-#include "..\common_h\object.h"
 #include "sd2_h\CannonTrace.h"
 
 class NODE;
@@ -10,7 +9,7 @@ class SAILONE_BASE
 {
 	public:
 
-	virtual void SetAllHole(DWORD holeData) = 0;
+	virtual void SetAllHole(uint32_t holeData) = 0;
 	virtual void CalculateMirrorSailIndex() = 0;
 };
 

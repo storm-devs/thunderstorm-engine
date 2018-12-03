@@ -75,7 +75,7 @@ void RAIN::SetDevice()
 
 void RAIN::GenerateRain()
 {
-	dword	i;
+	uint32_t	i;
 
 	ENTITY_ID	ent;
 	if (!api->FindClass(&ent,"Weather",0)) STORM_THROW("No found WEATHER entity!");
@@ -139,21 +139,21 @@ void RAIN::GenerateRain()
 	}
 	Render().UnLockVertexBuffer(iVertexBuffer);
 
-	iIBSeaDrops = Render().CreateIndexBuffer(NUM_SEA_DROPS * 2 * 3 * sizeof(word), D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY);
+	iIBSeaDrops = Render().CreateIndexBuffer(NUM_SEA_DROPS * 2 * 3 * sizeof(uint16_t), D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY);
 	iVBSeaDrops = Render().CreateVertexBuffer(D3DSEADROPVERTEX_FORMAT, NUM_SEA_DROPS * 4 * sizeof(SEADROPVERTEX), D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY); 
 
-	word * pI = (word *)Render().LockIndexBuffer(iIBSeaDrops);
+	uint16_t * pI = (uint16_t *)Render().LockIndexBuffer(iIBSeaDrops);
 	if (pI) 
 	{
 		for (long i=0; i<NUM_SEA_DROPS; i++)
 		{
-			*pI++ = word(i * 4 + 0);
-			*pI++ = word(i * 4 + 3);
-			*pI++ = word(i * 4 + 2);
+			*pI++ = uint16_t(i * 4 + 0);
+			*pI++ = uint16_t(i * 4 + 3);
+			*pI++ = uint16_t(i * 4 + 2);
 
-			*pI++ = word(i * 4 + 0);
-			*pI++ = word(i * 4 + 2);
-			*pI++ = word(i * 4 + 1);
+			*pI++ = uint16_t(i * 4 + 0);
+			*pI++ = uint16_t(i * 4 + 2);
+			*pI++ = uint16_t(i * 4 + 1);
 		}
 		Render().UnLockIndexBuffer(iIBSeaDrops);
 	}
@@ -188,7 +188,7 @@ bool RAIN::LoadState(ENTITY_STATE * state)
 	return true;
 }
 
-void RAIN::Execute(dword Delta_Time)
+void RAIN::Execute(uint32_t Delta_Time)
 {
 }
 
@@ -200,11 +200,11 @@ void RAIN::InitialSomeBlockParameters(long iIdx)
 	pRainBlocks[iIdx].fWindFlaw	= 0.0f;
 }
 
-void RAIN::RealizeDrops(dword Delta_Time)
+void RAIN::RealizeDrops(uint32_t Delta_Time)
 {
 	float fDeltaTime = float(Delta_Time) * 0.001f;
 
-	dword dwShipName = api->Class_Name2Code("SHIP");
+	uint32_t dwShipName = api->Class_Name2Code("SHIP");
 
 	CMatrix mView;
 	Render().GetTransform(D3DTS_VIEW, (D3DXMATRIX*)&mView);
@@ -344,7 +344,7 @@ void RAIN::RealizeDrops(dword Delta_Time)
 		r.fAngle = 0.0f;
 		r.fSize = fK * fDropsSize;
 		r.dwColor = dwDropsColor;
-		r.dwSubTexture = dword(8.0f * drop.fLifeTime / fDropsLifeTime);
+		r.dwSubTexture = uint32_t(8.0f * drop.fLifeTime / fDropsLifeTime);
 
 		aRects.push_back(r);
 	}
@@ -426,11 +426,11 @@ void RAIN::RealizeDrops(dword Delta_Time)
 	delete pVW;
 }
 
-void RAIN::Realize(dword Delta_Time)
+void RAIN::Realize(uint32_t Delta_Time)
 {
 	if( !bShow ) return;
 
-	dword	i;
+	uint32_t	i;
 	float	fFov;
 
 	Render().GetCamera(vCamPos,vCamAng,fFov);
@@ -441,9 +441,9 @@ void RAIN::Realize(dword Delta_Time)
 
 		if (bDraw) for (i=0;i<dwNumRainBlocks;i++)
 		{
-			dword dwAlpha = dword(255.0f * float(pRainBlocks[i].dwTime) / float(dwRainTimeBlend));
+			uint32_t dwAlpha = uint32_t(255.0f * float(pRainBlocks[i].dwTime) / float(dwRainTimeBlend));
 			if (dwAlpha>dwRainMaxBlend) dwAlpha = dwRainMaxBlend;
-			dword dwColor = ARGB(dwAlpha,dwRainR,dwRainG,dwRainB);
+			uint32_t dwColor = ARGB(dwAlpha,dwRainR,dwRainG,dwRainB);
 			Render().SetRenderState(D3DRS_TEXTUREFACTOR,dwColor);
 
 			CMatrix mY1,mX,mY2,mWorld;
@@ -494,7 +494,7 @@ void RAIN::Realize(dword Delta_Time)
 	}
 }
 
-dword _cdecl RAIN::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl RAIN::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{
@@ -505,7 +505,7 @@ dword _cdecl RAIN::ProcessMessage(MESSAGE & message)
 	return 0;
 }
 
-dword RAIN::AttributeChanged(ATTRIBUTES * pAttribute)
+uint32_t RAIN::AttributeChanged(ATTRIBUTES * pAttribute)
 {
 	if (*pAttribute == "Clear")
 	{

@@ -26,7 +26,7 @@ bool BATTLE_LAND_INTERFACE::Init()
 	return true;
 }
 
-void BATTLE_LAND_INTERFACE::Execute(dword delta_time)
+void BATTLE_LAND_INTERFACE::Execute(uint32_t delta_time)
 {
 	CONTROL_STATE cs;
 
@@ -47,7 +47,7 @@ void BATTLE_LAND_INTERFACE::Execute(dword delta_time)
 	}
 }
 
-void BATTLE_LAND_INTERFACE::Realize(dword delta_time)
+void BATTLE_LAND_INTERFACE::Realize(uint32_t delta_time)
 {
 	if( m_bShowCommandos ) {
 		m_pRS->MakePostProcess();
@@ -59,7 +59,7 @@ void BATTLE_LAND_INTERFACE::Realize(dword delta_time)
 	}
 }
 
-dword _cdecl BATTLE_LAND_INTERFACE::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl BATTLE_LAND_INTERFACE::ProcessMessage(MESSAGE & message)
 {
 	switch (message.Long())
 	{

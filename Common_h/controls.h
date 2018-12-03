@@ -49,9 +49,9 @@ struct USER_CONTROL
 {
 	char * name;
 	long   system_code;
-	DWORD  flags;
+	uint32_t  flags;
 	CONTROL_STATE_TYPE state;
-	DWORD nframe;
+	uint32_t nframe;
 	float  fTreshold;
 	bool  bLocked;
 	bool  bSystemLocked;
@@ -72,7 +72,7 @@ struct CONTROL_STATE
 };
 
 struct KeyDescr {
-	byte ucVKey;
+	uint8_t ucVKey;
 	bool bSystem;
 };
 
@@ -82,7 +82,7 @@ public:
 	CONTROLS(){};
 	virtual ~CONTROLS(){};
 
-	virtual void Update(DWORD DeltaTime){};
+	virtual void Update(uint32_t DeltaTime){};
 	virtual long GetSystemControlsNum(){return 0;};
 	virtual bool GetSystemControlDesc(long code, SYSTEM_CONTROL_DESC & _control_desc_struct){return false;};
 	virtual void ResetControlsMap(){};
@@ -90,7 +90,7 @@ public:
 	virtual long CreateControl(char * control_name){return 0;};
 	virtual long GetControlsNum(){return 0;};
 	virtual bool GetControlDesc(long code, USER_CONTROL & _user_desc_struct){return false;};
-	virtual bool SetControlFlags(long code, DWORD _flags){return true;}
+	virtual bool SetControlFlags(long code, uint32_t _flags){return true;}
 
 	virtual long GetDevicesNum(){return 0;};
 	virtual bool GetDeviceDesc(long code, DEVICE_DESC & _device_desc){return false;};

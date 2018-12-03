@@ -8,7 +8,7 @@
 
 #define INVALID_FUNCHANDLE	0xffffffff
 
-typedef DWORD (__cdecl * SIMPORTFUNC)(VS_STACK *);
+typedef uint32_t (__cdecl * SIMPORTFUNC)(VS_STACK *);
 
 struct IFUNCINFO
 {
@@ -23,10 +23,10 @@ struct IFUNCINFO
 	;
 	char * pFuncName;
 	char * pReturnValueName;
-	DWORD  nArguments;
+	uint32_t  nArguments;
 	SIMPORTFUNC pFuncAddress;
 	char * pDeclFileName;
-	DWORD  nDeclLine;
+	uint32_t  nDeclLine;
 };
 
 #endif

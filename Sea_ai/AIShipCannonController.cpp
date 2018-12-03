@@ -21,7 +21,7 @@ AIShipCannonController::~AIShipCannonController()
 {
 }
 
-bool AIShipCannonController::Fire2Position(dword dwBort, CVECTOR & vFirePos, float fFireHeight)
+bool AIShipCannonController::Fire2Position(uint32_t dwBort, CVECTOR & vFirePos, float fFireHeight)
 {
 	Assert(dwBort < aShipBorts.size());
 	AISHIP_BORT * pBort = &aShipBorts[dwBort];
@@ -44,7 +44,7 @@ bool AIShipCannonController::Fire2Position(dword dwBort, CVECTOR & vFirePos, flo
 
 	api->Event(SHIP_BORT_FIRE, "lisffffff", GetIndex(GetAIShip()->GetACharacter()), GetAIShip()->GetShipEID(),(char*)aShipBorts[dwBort].sName.c_str(),vTempFirePos.x,vTempFirePos.y,vTempFirePos.z,vTempFireDir.x,vTempFireDir.y,vTempFireDir.z);
 
-	for (dword j=0;j<pBort->aCannons.size();j++)
+	for (uint32_t j=0;j<pBort->aCannons.size();j++)
 	{
 		AICannon *pCannon = &pBort->aCannons[j];
 		if (pCannon->isDamaged()) continue;
@@ -67,7 +67,7 @@ bool AIShipCannonController::Fire(CVECTOR & vFireCamPos, CVECTOR & vFireDir)
 
 	CVECTOR vTempFirePos = vOurPos + !vTempDir; vTempFirePos.y = 0.0f;
 
-	dword dwBort = GetFirstFireBort(vTempFirePos);
+	uint32_t dwBort = GetFirstFireBort(vTempFirePos);
 	if (dwBort != INVALID_BORT_INDEX) do
 	{
 		float fMaxDist = AICannon::CalcMaxFireDistance(aShipBorts[dwBort].fOurBortFireHeight + vOurPos.y, fSpeedV0, fAngle);
@@ -83,7 +83,7 @@ bool AIShipCannonController::Fire(CVECTOR & vFireCamPos, CVECTOR & vFireDir)
 
 bool AIShipCannonController::Fire(CVECTOR & vFirePos)
 {
-	dword dwBort = GetFirstFireBort(vFirePos);
+	uint32_t dwBort = GetFirstFireBort(vFirePos);
 	if (dwBort != INVALID_BORT_INDEX) do
 	{
 		Fire2Position(dwBort, vFirePos, -1.0f);
@@ -108,7 +108,7 @@ bool AIShipCannonController::Fire(AIShip * pEnemy)
 
 	rs.vPos = vFirePos;
 
-	dword dwBort = GetFirstFireBort(vFirePos);
+	uint32_t dwBort = GetFirstFireBort(vFirePos);
 	if (dwBort != INVALID_BORT_INDEX) do
 	{
 		Fire2Position(dwBort, vFirePos, fFireHeight);
@@ -118,7 +118,7 @@ bool AIShipCannonController::Fire(AIShip * pEnemy)
 
 void AIShipCannonController::Execute(float fDeltaTime)
 {
-	dword i, j;
+	uint32_t i, j;
 
 	UpdateParameters();
 
@@ -161,7 +161,7 @@ void AIShipCannonController::Execute(float fDeltaTime)
 
 		// set maximum MaxFireDistance for all cannons
 		float fMaxBortFireDistance = AICannon::CalcMaxFireDistance(pBort->fOurBortFireHeight + vOurPos.y, GetSpeedV0(), pBort->fFireAngMax);
-		for (dword j=0; j<pBort->aCannons.size(); j++)
+		for (uint32_t j=0; j<pBort->aCannons.size(); j++)
 		{
 			pBort->aCannons[j].SetMaxFireDistance(fMaxBortFireDistance);
 		}
@@ -171,7 +171,7 @@ void AIShipCannonController::Execute(float fDeltaTime)
 		long dwReadyCannonsAfter = 0, dwReadyCannonsBefore = 0;
 
 		pBort->fChargePercent = 0.0f;
-		for (dword j=0; j<pBort->aCannons.size(); j++)
+		for (uint32_t j=0; j<pBort->aCannons.size(); j++)
 		{
 			AICannon * pC = &pBort->aCannons[j];
 
@@ -210,15 +210,15 @@ void AIShipCannonController::Execute(float fDeltaTime)
 struct tr_vertex
 {
 	CVECTOR vPos;
-	dword	dwColor;
+	uint32_t	dwColor;
 };
 
 std::vector<tr_vertex> Verts;
 #define TR_FORMAT	(D3DFVF_XYZ|D3DFVF_DIFFUSE)
 
-void AIShipCannonController::AddTrg(CVECTOR *pVerts, dword dwColor)
+void AIShipCannonController::AddTrg(CVECTOR *pVerts, uint32_t dwColor)
 {
-	for (dword i=0;i<3;i++)
+	for (uint32_t i=0;i<3;i++)
 		Verts.push_back(tr_vertex{ pVerts[i], dwColor });
 }
 
@@ -244,7 +244,7 @@ float AIShipCannonController::GetFireDistance(bool bMaxFireDistance)
 
 	CVECTOR vOurPos = GetAIShip()->GetPos();
 
-	for (dword i=0; i<aShipBorts.size(); i++) if (aShipBorts[i].aCannons.size())
+	for (uint32_t i=0; i<aShipBorts.size(); i++) if (aShipBorts[i].aCannons.size())
 	{
 		AISHIP_BORT * pBort = &aShipBorts[i];
 		float fMaxFireDistance = AICannon::CalcMaxFireDistance(pBort->fOurBortFireHeight + vOurPos.y, fSpeedV0, GetBortHeightAngle(i) + pBort->fFireAngMax);
@@ -263,7 +263,7 @@ bool AIShipCannonController::UpdateParameters()
 
 	// updates borts parameters
 	float fSpeedV0 = GetSpeedV0();
-	for (dword i=0; i<aShipBorts.size(); i++) if (aShipBorts[i].aCannons.size())
+	for (uint32_t i=0; i<aShipBorts.size(); i++) if (aShipBorts[i].aCannons.size())
 	{
 		AISHIP_BORT * pBort = &aShipBorts[i];
 
@@ -288,7 +288,7 @@ bool AIShipCannonController::UpdateParameters()
 	return true;
 }
 
-CVECTOR AIShipCannonController::GetBortDirection(dword dwBort)
+CVECTOR AIShipCannonController::GetBortDirection(uint32_t dwBort)
 {
 	Assert(dwBort != INVALID_BORT_INDEX && dwBort < aShipBorts.size());
 	AISHIP_BORT * pBort = &aShipBorts[dwBort];
@@ -311,7 +311,7 @@ CVECTOR AIShipCannonController::GetFirePos(CVECTOR & vFireDir, float fDistance)
 
 	CVECTOR vTempFirePos = vOurPos + !vTempDir; vTempFirePos.y = 0.0f;
 
-	dword dwBort = GetFirstFireBort(vTempFirePos);
+	uint32_t dwBort = GetFirstFireBort(vTempFirePos);
 	if (dwBort == INVALID_BORT_INDEX)
 	{
 		return CVECTOR(1e5f, 0.0f, 1e5f);
@@ -340,7 +340,7 @@ CVECTOR AIShipCannonController::GetFirePos(CVECTOR & vFireDir)
 
 	CVECTOR vTempFirePos = vOurPos + !vTempDir; vTempFirePos.y = 0.0f;
 
-	dword dwBort = GetFirstFireBort(vTempFirePos);
+	uint32_t dwBort = GetFirstFireBort(vTempFirePos);
 	if (dwBort == INVALID_BORT_INDEX)		// FIX-ME
 	{
 		return CVECTOR(1e5f, 0.0f, 1e5f);
@@ -359,7 +359,7 @@ CVECTOR AIShipCannonController::GetFirePos(CVECTOR & vFireDir)
 bool AIShipCannonController::isCanFire(CVECTOR & vCamDir)
 {
 	CVECTOR vEnemyDir = !CVECTOR(vCamDir.x, 0.0f, vCamDir.z);
-	for (dword i=0;i<aShipBorts.size();i++) if (aShipBorts[i].aCannons.size())
+	for (uint32_t i=0;i<aShipBorts.size();i++) if (aShipBorts[i].aCannons.size())
 	{
 		if (aShipBorts[i].isBortDamaged()) continue;
 
@@ -387,7 +387,7 @@ bool AIShipCannonController::isCanFire(CVECTOR & vCamDir)
 	return false;
 }
 
-bool AIShipCannonController::isCanFireBort(dword dwBort, CVECTOR & vFirePos, float * pfZapasDistance)
+bool AIShipCannonController::isCanFireBort(uint32_t dwBort, CVECTOR & vFirePos, float * pfZapasDistance)
 {
 	AISHIP_BORT * pBort = &aShipBorts[dwBort];
 
@@ -418,14 +418,14 @@ bool AIShipCannonController::isCanFireBort(dword dwBort, CVECTOR & vFirePos, flo
  	return true;
 }
 
-dword AIShipCannonController::GetBestFireBortOnlyDistance(CVECTOR vFirePos, float fZapasDistance)
+uint32_t AIShipCannonController::GetBestFireBortOnlyDistance(CVECTOR vFirePos, float fZapasDistance)
 {
 	float fFireDist = sqrtf(~(vFirePos - pOurAIShip->GetPos()));
-	dword dwBestBort = INVALID_BORT_INDEX;
+	uint32_t dwBestBort = INVALID_BORT_INDEX;
 	CVECTOR vOurPos = GetAIShip()->GetPos();
 	CVECTOR vOurDir = CVECTOR(sinf(GetAIShip()->GetAng().y),0.0f,cosf(GetAIShip()->GetAng().y));
 	float fBestAng = 1e8f;
-	for (dword i=0;i<aShipBorts.size();i++) if (aShipBorts[i].aCannons.size())
+	for (uint32_t i=0;i<aShipBorts.size();i++) if (aShipBorts[i].aCannons.size())
 	{
 		AISHIP_BORT * pBort = &aShipBorts[i];
 
@@ -447,18 +447,18 @@ dword AIShipCannonController::GetBestFireBortOnlyDistance(CVECTOR vFirePos, floa
 	return dwBestBort;
 }
 
-dword AIShipCannonController::GetFirstFireBort(CVECTOR & vFirePos, float * pfZapasDistance)
+uint32_t AIShipCannonController::GetFirstFireBort(CVECTOR & vFirePos, float * pfZapasDistance)
 {
-	for (dword i=0;i<aShipBorts.size();i++) if (aShipBorts[i].aCannons.size() && isCanFireBort(i,vFirePos,pfZapasDistance) && !aShipBorts[i].isBortDamaged()) return i;
+	for (uint32_t i=0;i<aShipBorts.size();i++) if (aShipBorts[i].aCannons.size() && isCanFireBort(i,vFirePos,pfZapasDistance) && !aShipBorts[i].isBortDamaged()) return i;
 
 	bTempFlag = false;
 	return INVALID_BORT_INDEX;
 }
 
-dword AIShipCannonController::GetNextFireBort(dword dwPrevBort, CVECTOR & vFirePos, float * pfZapasDistance)
+uint32_t AIShipCannonController::GetNextFireBort(uint32_t dwPrevBort, CVECTOR & vFirePos, float * pfZapasDistance)
 {
 	Assert(dwPrevBort != INVALID_BORT_INDEX && dwPrevBort<aShipBorts.size());
-	for (dword i=dwPrevBort+1;i<aShipBorts.size();i++) if (aShipBorts[i].aCannons.size() && isCanFireBort(i,vFirePos,pfZapasDistance) && !aShipBorts[i].isBortDamaged()) return i;
+	for (uint32_t i=dwPrevBort+1;i<aShipBorts.size();i++) if (aShipBorts[i].aCannons.size() && isCanFireBort(i,vFirePos,pfZapasDistance) && !aShipBorts[i].isBortDamaged()) return i;
 
 	return INVALID_BORT_INDEX;
 }
@@ -484,7 +484,7 @@ float AIShipCannonController::GetSpeedV0()
 
 void AIShipCannonController::Realize(float fDeltaTime)
 {
-	dword i, j;
+	uint32_t i, j;
 
 	return;
 
@@ -503,7 +503,7 @@ void AIShipCannonController::Realize(float fDeltaTime)
 	//AIHelper::pRS->DrawRects(&rs, 1, "AILine");
 	/*char tmp[256], str[256];
 	str[0] = 0;
-	for (dword i=0;i<aShipBorts.size();i++)
+	for (uint32_t i=0;i<aShipBorts.size();i++)
 	{
 		sprintf(tmp,"%.3f, ",GetBortHeightAngle(i));
 		strcat(str,tmp);
@@ -518,7 +518,7 @@ void AIShipCannonController::Realize(float fDeltaTime)
 		CVECTOR vPosTemp = GetAIShip()->GetPos();
 		GetAIShip()->GetMatrix()->Get3X3(m);
 		CVECTOR vZ = !(m.Vz());
-		for (dword i=0;i<aShipBorts.size();i++) if (aShipBorts[i].aCannons.size())
+		for (uint32_t i=0;i<aShipBorts.size();i++) if (aShipBorts[i].aCannons.size())
 		{
 			AICannon *pCannon = &aShipBorts[i].aCannons[0];
 			// calc fire angle
@@ -565,7 +565,7 @@ bool AIShipCannonController::Init(ATTRIBUTES *_pAShip)
 
 	// init borts from ShipsTypes attributes
 	ATTRIBUTES * pAP = pAShip->FindAClass(pAShip,"Cannons.Borts"); if (!pAP) return false;
-	dword dwIdx = 0;
+	uint32_t dwIdx = 0;
 	while(true)
 	{
 		ATTRIBUTES * pBortAttribute = pAP->GetAttributeClass(dwIdx);
@@ -596,7 +596,7 @@ bool AIShipCannonController::Init(ATTRIBUTES *_pAShip)
 bool AIShipCannonController::ScanShipForCannons()
 {
 	char		str[512];
-	dword		i, j;
+	uint32_t		i, j;
 	CMatrix		m;
 	GEOS::LABEL	label;
 	GEOS::INFO	info;
@@ -607,11 +607,11 @@ bool AIShipCannonController::ScanShipForCannons()
 	MODEL		* pModel = GetAIShip()->GetModel(); Assert(pModel);
 
 	// search and add cannons
-	dword dwIdx = 0;
+	uint32_t dwIdx = 0;
 	while (pNode = pModel->GetNode(dwIdx))
 	{
 		pNode->geo->GetInfo(info);
-		for (i=0;i<dword(info.nlabels);i++)
+		for (i=0;i<uint32_t(info.nlabels);i++)
 		{
 			pNode->geo->GetLabel(i,label);
 			for (j=0;j<aShipBorts.size();j++) if (aShipBorts[j] == label.group_name)
@@ -651,28 +651,28 @@ bool AIShipCannonController::ScanShipForCannons()
 
 	// TEST !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 	/*api->Trace("NumBorts = %d",aShipBorts.size());
-	for (dword i=0;i<aShipBorts.size();i++)
+	for (uint32_t i=0;i<aShipBorts.size();i++)
 		api->Trace("Bort = %s, Num cannons = %d",aShipBorts[i].sName.c_str(),aShipBorts[i].aCannons.size());*/
 	// TEST !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 	return true;
 }
 
-dword AIShipCannonController::GetCannonsNum()
+uint32_t AIShipCannonController::GetCannonsNum()
 {
-	dword i, dwCannonsNum = 0;
+	uint32_t i, dwCannonsNum = 0;
 	for (i=0;i<aShipBorts.size();i++) dwCannonsNum += GetBortIntactCannonsNum(i);
 	return dwCannonsNum;
 }
 
-dword AIShipCannonController::GetBortIntactCannonsNum(dword dwBortIdx)
+uint32_t AIShipCannonController::GetBortIntactCannonsNum(uint32_t dwBortIdx)
 {
 	Assert(dwBortIdx != INVALID_BORT_INDEX && dwBortIdx < aShipBorts.size());
-	dword dwCannons = 0;
-	for (dword j=0; j<aShipBorts[dwBortIdx].aCannons.size(); j++) if (!aShipBorts[dwBortIdx].aCannons[j].isDamaged()) dwCannons++;
+	uint32_t dwCannons = 0;
+	for (uint32_t j=0; j<aShipBorts[dwBortIdx].aCannons.size(); j++) if (!aShipBorts[dwBortIdx].aCannons[j].isDamaged()) dwCannons++;
 	return dwCannons;
 }
 
-bool AIShipCannonController::isHaveEnoughtBallsForBort(dword dwBortIdx)
+bool AIShipCannonController::isHaveEnoughtBallsForBort(uint32_t dwBortIdx)
 {
 	Assert(dwBortIdx != INVALID_BORT_INDEX && dwBortIdx < aShipBorts.size());
 	VDATA * pvData = api->Event(SHIP_GET_CURRENT_BALLS_NUM, "a", GetAIShip()->GetACharacter()); Assert(pvData);
@@ -682,7 +682,7 @@ bool AIShipCannonController::isHaveEnoughtBallsForBort(dword dwBortIdx)
 
 void AIShipCannonController::Unload()
 {
-	dword i, j;
+	uint32_t i, j;
 	for (i=0; i<aShipBorts.size(); i++)
 	{
 		for (j=0; j<aShipBorts[i].aCannons.size(); j++)
@@ -702,7 +702,7 @@ void AIShipCannonController::Reload()
 void AIShipCannonController::CheckCannonsBoom(float fTmpCannonDamage, const CVECTOR & vPnt)
 {
 	char	str[512];
-	dword	i, j;
+	uint32_t	i, j;
 
 	ATTRIBUTES	* pACharacter = GetAIShip()->GetACharacter();
 	ATTRIBUTES	* pABorts = pACharacter->FindAClass(pACharacter, "Ship.Cannons.Borts"); Assert(pABorts);
@@ -742,7 +742,7 @@ void AIShipCannonController::CheckCannonsBoom(float fTmpCannonDamage, const CVEC
 void AIShipCannonController::ResearchCannons()
 {
 	char	str[512];
-	dword	i, j;
+	uint32_t	i, j;
 
 	ATTRIBUTES	* pACharacter = GetAIShip()->GetACharacter();
 	ATTRIBUTES	* pABorts = pACharacter->FindAClass(pACharacter, "Ship.Cannons.Borts"); Assert(pABorts);
@@ -780,7 +780,7 @@ void AIShipCannonController::Save(CSaveLoad * pSL)
 	pSL->SaveDword(bTempFlag);
 
 	pSL->SaveDword(aShipBorts.size());
-	for (dword i=0; i<aShipBorts.size(); i++)
+	for (uint32_t i=0; i<aShipBorts.size(); i++)
 	{
 		AISHIP_BORT & B = aShipBorts[i];
 
@@ -799,7 +799,7 @@ void AIShipCannonController::Save(CSaveLoad * pSL)
 		pSL->SaveVector(B.vDirection);
 
 		pSL->SaveDword(B.aCannons.size());
-		for (dword j=0; j<B.aCannons.size(); j++)
+		for (uint32_t j=0; j<B.aCannons.size(); j++)
 			B.aCannons[j].Save(pSL);
 	}
 }
@@ -810,8 +810,8 @@ void AIShipCannonController::Load(CSaveLoad * pSL)
 	bNotEnoughBalls = pSL->LoadDword() != 0;
 	bTempFlag = pSL->LoadDword() != 0;
 
-	dword dwNum = pSL->LoadDword();
-	for (dword i=0; i<dwNum; i++)
+	uint32_t dwNum = pSL->LoadDword();
+	for (uint32_t i=0; i<dwNum; i++)
 	{
 		aShipBorts.push_back(AISHIP_BORT{});
 		//AISHIP_BORT & B = aShipBorts[aShipBorts.Add()];
@@ -831,8 +831,8 @@ void AIShipCannonController::Load(CSaveLoad * pSL)
 		B.fMaxFireDistance = pSL->LoadFloat();
 		B.vDirection = pSL->LoadVector();
 
-		dword dwNumCannons = pSL->LoadDword();
-		for (dword j = 0; j < dwNumCannons; j++) {
+		uint32_t dwNumCannons = pSL->LoadDword();
+		for (uint32_t j = 0; j < dwNumCannons; j++) {
 			B.aCannons.push_back(AICannon{});
 			B.aCannons.back().Load(pSL, GetAIShip(), GetAIShip()->GetShipEID());
 		}

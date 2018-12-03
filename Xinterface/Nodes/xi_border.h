@@ -11,7 +11,7 @@ public:
 	CXI_BORDER();
 	~CXI_BORDER();
 
-	void	Draw(bool bSelected,dword Delta_Time);
+	void	Draw(bool bSelected,uint32_t Delta_Time);
 	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
 	void	ReleaseAll();
 	int		CommandExecute(int wActCode);
@@ -21,13 +21,13 @@ public:
 	void	ChangePosition( XYRECT &rNewPos );
 	void	SaveParametersToIni();
 
-	dword _cdecl MessageProc(long msgcode, MESSAGE & message);
+	uint32_t _cdecl MessageProc(long msgcode, MESSAGE & message);
 
 protected:
 	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);
 	void	FillIndexBuffers();
 	void	FillVertexBuffers();
-	void	WriteVertexForSquare( XI_ONETEX_VERTEX* pV, FXYRECT& UVRect, dword dwColor, long left, long top, long right, long bottom );
+	void	WriteVertexForSquare( XI_ONETEX_VERTEX* pV, FXYRECT& UVRect, uint32_t dwColor, long left, long top, long right, long bottom );
 
 protected:
 	// back picture
@@ -41,7 +41,7 @@ protected:
 	// texture parameters
 	std::string	m_sGroupName;
 	long	m_idTex;
-	DWORD	m_dwColor;
+	uint32_t	m_dwColor;
 
 	// picture index & vertex buffers
 	long	m_idVBuf; // identificator of the vertex buffer

@@ -7,6 +7,7 @@
 
 #include <string>
 #include <vector>
+#include "../common_h/defines.h"
 
 #define MAX_LINES				 5
 #define SCROLL_LINE_TIME		 100
@@ -19,7 +20,7 @@ struct XI_TEX_VERTEX
 {
 	CVECTOR pos;
 	float rhw;
-	DWORD color;
+	uint32_t color;
 	float u,v;
 };
 
@@ -38,9 +39,9 @@ public:
 	~DIALOG();
 	
 	bool Init();
-	void Realize(dword Delta_Time);
-	dword AttributeChanged(ATTRIBUTES * pA);
-	dword _cdecl ProcessMessage(MESSAGE & message);
+	void Realize(uint32_t Delta_Time);
+	uint32_t AttributeChanged(ATTRIBUTES * pA);
+	uint32_t _cdecl ProcessMessage(MESSAGE & message);
 
 	static void AddToStringArrayLimitedByWidth(const char* pcSrcText, long nFontID,float fScale,long nLimitWidth, std::vector<std::string> & asOutTextList, std::vector<long>* panPageIndices, long nPageSize);
 
@@ -56,8 +57,8 @@ private:
 		POINT offset;
 		long nWindowWidth;
 		long nFontID;
-		dword dwColor;
-		dword dwSelColor;
+		uint32_t dwColor;
+		uint32_t dwSelColor;
 		float fScale;
 		long nLineInterval;
 		std::vector<std::string> asText;
@@ -176,10 +177,10 @@ private:
 	long m_idIBufButton;
 	long m_nVQntButton;
 	long m_nIQntButton;
-	dword m_dwButtonState;
+	uint32_t m_dwButtonState;
 
 	long m_nCharNameTextFont;
-	dword m_dwCharNameTextColor;
+	uint32_t m_dwCharNameTextColor;
 	float m_fCharNameTextScale;
 	FPOINT m_fpCharNameTextOffset;
 

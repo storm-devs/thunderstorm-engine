@@ -2,12 +2,9 @@
 #define _VIDWALKER_H_
 
 #ifndef _XBOX
-#include <windows.h>
 #else
 #include <xtl.h>
 #endif
-
-#include "d_types.h"
 
 class VIDWALKER
 {

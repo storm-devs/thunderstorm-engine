@@ -1,13 +1,14 @@
 #ifndef _PCINPUT_H_
 #define _PCINPUT_H_
 
+#include <Windows.h>
 #include "..\..\common_h\input.h"
 #include "..\..\common_h\key_codes.h"
 
 struct KEY_STATE
 {
-	dword state;
-	dword value;
+	uint32_t state;
+	uint32_t value;
 };
 
 class PCINPUT : public IINPUT
@@ -18,9 +19,9 @@ class PCINPUT : public IINPUT
 public:
 	 PCINPUT(){};
 	~PCINPUT(){};
-	float GetKeyState(dword key_code, dword * value);
+	float GetKeyState(uint32_t key_code, uint32_t * value);
 	void ProcessKeyState();
-	void SetKeyState(dword key_code, dword * value);
+	void SetKeyState(uint32_t key_code, uint32_t * value);
 };
 
 #endif

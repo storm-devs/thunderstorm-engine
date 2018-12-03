@@ -168,7 +168,7 @@ CXI_QUESTTEXTS::~CXI_QUESTTEXTS()
 	ReleaseAll();
 }
 
-void CXI_QUESTTEXTS::Draw(bool bSelected,dword Delta_Time)
+void CXI_QUESTTEXTS::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(!m_bUse) return;
 
@@ -177,7 +177,7 @@ void CXI_QUESTTEXTS::Draw(bool bSelected,dword Delta_Time)
 	for(STRING_DESCRIBER* sd=m_listCur;sd!= nullptr && i<m_allStrings;sd=sd->next,i++)
 	{
 		// отобразить строки
-		DWORD curColor = sd->complete ? m_dwCompleteColor : m_dwNonCompleteColor;
+		uint32_t curColor = sd->complete ? m_dwCompleteColor : m_dwNonCompleteColor;
 		if(sd->lineStr!= nullptr && sd->lineStr[0]!=0)
 			m_rs->ExtPrint( m_idFont,curColor,0,ALIGN_LEFT,true,1.f,m_screenSize.x,m_screenSize.y,
 				m_rect.left, curY, "%s",sd->lineStr);
@@ -367,7 +367,7 @@ void CXI_QUESTTEXTS::ScrollerChanged(float fPos)
 			m_listCur = m_listCur->next;
 }
 
-dword _cdecl CXI_QUESTTEXTS::MessageProc(long msgcode, MESSAGE & message)
+uint32_t _cdecl CXI_QUESTTEXTS::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

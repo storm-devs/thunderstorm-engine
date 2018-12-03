@@ -1,5 +1,6 @@
 #include "ActivePerkShower.h"
 #include "defines.h"
+#include "../../Shared/battle_interface/msg_control.h"
 
 ActivePerkShower::ActivePerkShower()
 {
@@ -45,11 +46,11 @@ bool ActivePerkShower::Init()
 	return true;
 }
 
-void ActivePerkShower::Execute(dword delta_time)
+void ActivePerkShower::Execute(uint32_t delta_time)
 {
 }
 
-void ActivePerkShower::Realize(dword delta_time)
+void ActivePerkShower::Realize(uint32_t delta_time)
 {
 	if(m_pTexDescr== nullptr) return;
 	rs->MakePostProcess();
@@ -65,7 +66,7 @@ void ActivePerkShower::Realize(dword delta_time)
 	}
 }
 
-dword _cdecl ActivePerkShower::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl ActivePerkShower::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{
@@ -324,7 +325,7 @@ bool ActivePerkShower::InitCommonBuffers()
 	if(m_idIBuf==-1 || m_idVBuf==-1) return false;
 
 	int i;
-	WORD * pibuf = (WORD*)rs->LockIndexBuffer(m_idIBuf);
+	uint16_t * pibuf = (uint16_t*)rs->LockIndexBuffer(m_idIBuf);
 	for(i=0; i<m_nShowPlaceQ; i++)
 	{
 		pibuf[i*6+0] = i*4 + 0;

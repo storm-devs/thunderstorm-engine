@@ -101,7 +101,7 @@ CXI_FORMATEDTEXT::~CXI_FORMATEDTEXT()
 	ReleaseAll();
 }
 
-void CXI_FORMATEDTEXT::Draw(bool bSelected,dword Delta_Time)
+void CXI_FORMATEDTEXT::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(!m_bUse) return;
 
@@ -762,7 +762,7 @@ float CXI_FORMATEDTEXT::GetCurPos()
 	return 0.f;
 }
 
-void CXI_FORMATEDTEXT::SetColor(dword dwCol)
+void CXI_FORMATEDTEXT::SetColor(uint32_t dwCol)
 {
 	for( STRING_DESCRIBER *dscrTmp=m_listRoot; dscrTmp; dscrTmp=dscrTmp->next ) {
 		dscrTmp->color = dwCol;
@@ -791,7 +791,7 @@ long CXI_FORMATEDTEXT::AddFormatedText(const char * str)
 	char * pstr = (char*)str;
 	long textQ = 0;
 	bool tagState = false;
-	dword tagColor = m_dwColor;
+	uint32_t tagColor = m_dwColor;
 	// разложим полученную строку на строки влезающие в область вывода
 	if( m_bUseOneStringAdding )
 	{
@@ -854,7 +854,7 @@ long CXI_FORMATEDTEXT::AddFormatedText(const char * str)
 	return textQ;
 }
 
-void CXI_FORMATEDTEXT::MakeTagChecking( bool& tagState, dword& tagColor, dword normColor, STRING_DESCRIBER* pStrDescr )
+void CXI_FORMATEDTEXT::MakeTagChecking( bool& tagState, uint32_t& tagColor, uint32_t normColor, STRING_DESCRIBER* pStrDescr )
 {
 	const char* str = pStrDescr->lineStr;
 	const char* tagBegin = str;
@@ -920,7 +920,7 @@ void CXI_FORMATEDTEXT::MakeTagChecking( bool& tagState, dword& tagColor, dword n
 	}
 }
 
-dword _cdecl CXI_FORMATEDTEXT::MessageProc(long msgcode, MESSAGE & message)
+uint32_t _cdecl CXI_FORMATEDTEXT::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{
@@ -1027,7 +1027,7 @@ dword _cdecl CXI_FORMATEDTEXT::MessageProc(long msgcode, MESSAGE & message)
 	case 8: // Установить цвет для группы
 		{
 			int grNum = message.Long();
-			DWORD newColor = message.Long();
+			uint32_t newColor = message.Long();
 
 			if(grNum<0) grNum = m_nStringGroupQuantity-1;
 
@@ -1354,7 +1354,7 @@ void CXI_FORMATEDTEXT::ReplaceString( long nGrpNum, const char * pSrcStr )
 		return;
 	}
 
-	dword dwOldColor = dscrCur->color;
+	uint32_t dwOldColor = dscrCur->color;
 
 	while( dscrCur && dscrCur->strGroup==nGrpNum )
 	{
@@ -1381,7 +1381,7 @@ void CXI_FORMATEDTEXT::ReplaceString( long nGrpNum, const char * pSrcStr )
 	}
 }
 
-void CXI_FORMATEDTEXT::InsertStringBefore( STRING_DESCRIBER * pNextDescr, const char * pSrcStr, long nGrpNum, dword dwColor )
+void CXI_FORMATEDTEXT::InsertStringBefore( STRING_DESCRIBER * pNextDescr, const char * pSrcStr, long nGrpNum, uint32_t dwColor )
 {
 	if( !pNextDescr ) return;
 

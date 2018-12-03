@@ -17,7 +17,7 @@ CXI_GLOWCURSOR::~CXI_GLOWCURSOR()
 	ReleaseAll();
 }
 
-void CXI_GLOWCURSOR::Draw(bool bSelected,dword Delta_Time)
+void CXI_GLOWCURSOR::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(m_bUse)
 	{
@@ -199,7 +199,7 @@ void CXI_GLOWCURSOR::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
     m_pTexVert[8].tv = m_pTexVert[10].tv = 1.f;
 
 	XYRECT rectXY;
-	ZeroMemory(&rectXY,sizeof(rectXY));
+	PZERO(&rectXY,sizeof(rectXY));
 	SetRectanglesToPosition(rectXY);
 }
 

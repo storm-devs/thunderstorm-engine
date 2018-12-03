@@ -40,12 +40,12 @@ bool Lizards::Init()
 }
 
 //Исполнение
-void Lizards::Execute(dword delta_time)
+void Lizards::Execute(uint32_t delta_time)
 {
 }
 
 //Рисование
-void Lizards::Realize(dword delta_time)
+void Lizards::Realize(uint32_t delta_time)
 {
 	float dltTime = delta_time*0.001f;
 	for(long i = 0; i < num; i++) lizard[i].Update(dltTime);

@@ -1,5 +1,7 @@
 #include "TSeagulls.h"
 #include "..\common_h\rands.h"
+#include "../../Shared/messages.h"
+#include "../common_h/model.h"
 
 //#pragma warning (disable : 4244)
 
@@ -71,11 +73,11 @@ void TSeagulls::Init()
 }
 
 //--------------------------------------------------------------------
-dword TSeagulls::ProcessMessage(long _code, MESSAGE & message)
+uint32_t TSeagulls::ProcessMessage(long _code, MESSAGE & message)
 {
 	GUARD(TSeagulls::ProcessMessage)
 
-	dword outValue = 0;
+	uint32_t outValue = 0;
 
 	switch (_code)
 	{
@@ -102,7 +104,7 @@ dword TSeagulls::ProcessMessage(long _code, MESSAGE & message)
 }
 
 //--------------------------------------------------------------------
-void TSeagulls::Execute(dword _dTime)
+void TSeagulls::Execute(uint32_t _dTime)
 {
 	GUARD(ANIMALS::Execute)
 
@@ -203,7 +205,7 @@ void TSeagulls::Execute(dword _dTime)
 }
 
 //--------------------------------------------------------------------
-void TSeagulls::Realize(dword _dTime)
+void TSeagulls::Realize(uint32_t _dTime)
 {
 	GUARD(ANIMALS::Realize)
 

@@ -195,7 +195,7 @@ GEOS::ID GEOM_SERVICE_R::OpenFile(const char *fname)
 int GEOM_SERVICE_R::FileSize(GEOS::ID file)
 {
 	if((HANDLE)file==INVALID_HANDLE_VALUE)	return 0;
-	dword sh;
+	uint32_t sh;
 	return _CORE_API->fio->_GetFileSize((HANDLE)file, &sh);
 }
 void GEOM_SERVICE_R::ReadFile(GEOS::ID file, void *data, long bytes)
@@ -465,7 +465,7 @@ void GEOM_SERVICE_R::DrawIndexedPrimitive(long minv, long numv, long vrtsize, lo
 {
 	if(!RenderService) return;
 
-	dword oldZBias;
+	uint32_t oldZBias;
 
 	if (bCaustic)
 	{

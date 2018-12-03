@@ -1,8 +1,6 @@
 
 #include "..\common_h\dx9render.h"
 #include "..\common_h\model.h"
-#include "..\common_h\messages.h"
-#include "..\common_h\rands.h"
 #include "..\common_h\ship_base.h"
 
 #include "SailorsMenu.h"
@@ -17,8 +15,8 @@ class SailorsEditor : public ENTITY
 	virtual ~SailorsEditor();
 
 	virtual bool Init();
-	virtual void Execute(dword dltTime);
-	virtual void Realize(dword dltTime);
+	virtual void Execute(uint32_t dltTime);
+	virtual void Realize(uint32_t dltTime);
 
 
 	VDX9RENDER * rs;
@@ -38,6 +36,6 @@ class SailorsEditor : public ENTITY
 
 	std::string _shipName;
 
-	void SetCamera(dword &dltTime);
+	void SetCamera(uint32_t &dltTime);
 	void LoadFromIni(std::string fileName);
 };

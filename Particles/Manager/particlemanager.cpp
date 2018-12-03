@@ -11,9 +11,10 @@
 #include "..\system\particleprocessor\nameparser.h"
 #include "..\icommon\iemitter.h"
 #include "..\system\datasource\datastring.h"
+#include "../icommon/names.h"
 
 
-DWORD GraphRead = 0;
+uint32_t GraphRead = 0;
 
 ParticleManager::ParticleManager (ParticleService* service) : IParticleManager (service)
 {
@@ -196,7 +197,7 @@ void ParticleManager::CloseProject ()
 void ParticleManager::RemoveResource (IParticleSystem* pResource)
 {
 	if (GlobalDelete) return;
-	for (DWORD n = 0; n < Systems.size(); n++)
+	for (uint32_t n = 0; n < Systems.size(); n++)
 	{
 		if (Systems[n].pSystem == pResource)
 		{
@@ -219,12 +220,12 @@ void ParticleManager::Execute (float DeltaTime)
 
 	//pRS->Clear(0, NULL, D3DCLEAR_STENCIL | D3DCLEAR_TARGET |D3DCLEAR_ZBUFFER, 0xFF404080, 1.0f, 0);
 
-	DWORD TicksTime, ProcessTime;
+	uint32_t TicksTime, ProcessTime;
 	RDTSC_B(TicksTime);
 	ProcessTime = TicksTime;
 
 	ActiveSystems = Systems.size();
-	for (DWORD n = 0; n < Systems.size(); n++)
+	for (uint32_t n = 0; n < Systems.size(); n++)
 	{
 		ActiveEmitters += Systems[n].pSystem->Execute(DeltaTime);
 	}
@@ -296,7 +297,7 @@ void ParticleManager::Execute (float DeltaTime)
 		Sleep(100);
 	}
 
-	for (DWORD n = 0; n < DeleteQuery.size(); n++)
+	for (uint32_t n = 0; n < DeleteQuery.size(); n++)
 	{
 		DeleteQuery[n]->Release();
 	}
@@ -337,7 +338,7 @@ IParticleSystem* ParticleManager::CreateParticleSystemEx (const char* FileName, 
 void ParticleManager::DeleteAllSystems ()
 {
 	GlobalDelete = true;
-	for (DWORD n = 0; n < Systems.size(); n++)
+	for (uint32_t n = 0; n < Systems.size(); n++)
 	{
 		Systems[n].pSystem->Release();
 	}
@@ -378,7 +379,7 @@ IParticleSystem* ParticleManager::CreateEmptyParticleSystemEx  (const char* File
 
 bool ParticleManager::ValidateSystem (IParticleSystem* pSystem)
 {
-	for (DWORD n = 0; n < Systems.size(); n++)
+	for (uint32_t n = 0; n < Systems.size(); n++)
 	{
 		if (Systems[n].pSystem == pSystem) return true;
 	}
@@ -390,12 +391,12 @@ GEOS* ParticleManager::GetModel (const char* FileName)
 	return pGeomCache->GetModel(FileName);
 }
 
-DWORD ParticleManager::GetCreatedSystemCount ()
+uint32_t ParticleManager::GetCreatedSystemCount ()
 {
 	return Systems.size();
 }
 
-ParticleSystem* ParticleManager::GetCreatedSystemByIndex (DWORD Index)
+ParticleSystem* ParticleManager::GetCreatedSystemByIndex (uint32_t Index)
 {
 	return Systems[Index].pSystem;
 }
@@ -412,19 +413,19 @@ void ParticleManager::DefferedDelete (ParticleSystem* pSys)
 
 void ParticleManager::Editor_UpdateCachedData ()
 {
-	for (DWORD n = 0; n < Systems.size(); n++)
+	for (uint32_t n = 0; n < Systems.size(); n++)
 	{
 		Systems[n].pSystem->Editor_UpdateCachedData ();
 	}
 
 }
 
-DWORD ParticleManager::GetProjectSystemCount ()
+uint32_t ParticleManager::GetProjectSystemCount ()
 {
 	return pDataCache->GetCachedCount();
 }
 
-const char* ParticleManager::GetProjectSystemName (DWORD Index)
+const char* ParticleManager::GetProjectSystemName (uint32_t Index)
 {
 	return pDataCache->GetCachedNameByIndex(Index);
 }
@@ -437,22 +438,22 @@ const char* ParticleManager::GetFirstGeomName (const char* FileName)
 	DataSource* pDataSource = pDataCache->GetParticleSystemDataSource (FileName);
 	if (!pDataSource) return nullptr;
 
-	DWORD count = pDataSource->GetEmitterCount();
+	uint32_t count = pDataSource->GetEmitterCount();
 
-	for (DWORD n = 0; n < count; n++)
+	for (uint32_t n = 0; n < count; n++)
 	{
 		DataSource::EmitterDesc* pDesc = pDataSource->GetEmitterDesc(n);
-		for (DWORD i = 0; i < pDesc->Particles.size(); i++)
+		for (uint32_t i = 0; i < pDesc->Particles.size(); i++)
 		{
 			DataString* pModelNames = pDesc->Particles[i].Fields.FindString(PARTICLE_GEOM_NAMES);
 			if (!pModelNames) continue;
 
 			Parser.Tokenize(pModelNames->GetValue());
 
-      DWORD TCount = Parser.GetTokensCount();
+      uint32_t TCount = Parser.GetTokensCount();
 			if (TCount > 0)
 			{
-				for (DWORD j = 0; j < TCount; j++)
+				for (uint32_t j = 0; j < TCount; j++)
 				{
 					const char* GeomName = Parser.GetTokenByIndex(j);
 					if (!FindInEnumUsedGeom(GeomName))
@@ -480,7 +481,7 @@ const char* ParticleManager::GetNextGeomName ()
 
 bool ParticleManager::FindInEnumUsedGeom (const char* GeomName)
 {
-	for (DWORD n = 0; n < EnumUsedGeom.size(); n++)
+	for (uint32_t n = 0; n < EnumUsedGeom.size(); n++)
 	{
 		const char* StoredGeomName = EnumUsedGeom[n].c_str();
 		if (_stricmp (StoredGeomName, GeomName) == 0) return true;
@@ -491,8 +492,8 @@ bool ParticleManager::FindInEnumUsedGeom (const char* GeomName)
 void ParticleManager::CreateGeomCache ()
 {
 	pGeomCache->ResetCache();
-	DWORD SystemCount = pDataCache->GetCachedCount ();
-	for (DWORD n = 0; n < SystemCount; n++)
+	uint32_t SystemCount = pDataCache->GetCachedCount ();
+	for (uint32_t n = 0; n < SystemCount; n++)
 	{
 		const char* pSystemName = pDataCache->GetCachedNameByIndex(n);
 		const char* GeomName = nullptr;
@@ -584,7 +585,7 @@ void ParticleManager::LoadSystemCache (const char* FileName, MemFile* pMemFile)
 
 void ParticleManager::CacheReloaded ()
 {
-	DWORD n = 0;
+	uint32_t n = 0;
 	std::vector<CacheReloadedInfo>	UsedSystems;
 	for (n = 0; n < Systems.size(); n++)
 	{

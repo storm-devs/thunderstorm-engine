@@ -32,7 +32,7 @@
 
 //============================================================================================
 
-#define WDM_SEA_CLR(a, c)	(((dword(a)) << 24) | ((dword(c)) << 16) | ((dword(c)) << 8) | ((dword(c)) << 0))
+#define WDM_SEA_CLR(a, c)	(((uint32_t(a)) << 24) | ((uint32_t(c)) << 16) | ((uint32_t(c)) << 8) | ((uint32_t(c)) << 0))
 
 //============================================================================================
 //Конструирование, деструктурирование
@@ -66,12 +66,12 @@ WdmSea::WdmSea()
 		long base = j*(WDM_SEA_SECTIONS_X + 1);
 		for(long i = 0; i < WDM_SEA_SECTIONS_X; i++)
 		{
-			trg[i*2 + 0].index[0] = word(base + i);
-			trg[i*2 + 0].index[1] = word(base + WDM_SEA_SECTIONS_X + 1 + i + 1);
-			trg[i*2 + 0].index[2] = word(base + WDM_SEA_SECTIONS_X + 1 + i);
-			trg[i*2 + 1].index[0] = word(base + i);
-			trg[i*2 + 1].index[1] = word(base + i + 1);
-			trg[i*2 + 1].index[2] = word(base + WDM_SEA_SECTIONS_X + 1 + i + 1);
+			trg[i*2 + 0].index[0] = uint16_t(base + i);
+			trg[i*2 + 0].index[1] = uint16_t(base + WDM_SEA_SECTIONS_X + 1 + i + 1);
+			trg[i*2 + 0].index[2] = uint16_t(base + WDM_SEA_SECTIONS_X + 1 + i);
+			trg[i*2 + 1].index[0] = uint16_t(base + i);
+			trg[i*2 + 1].index[1] = uint16_t(base + i + 1);
+			trg[i*2 + 1].index[2] = uint16_t(base + WDM_SEA_SECTIONS_X + 1 + i + 1);
 		}
 	}
 	wdmObjects->rs->UnLockIndexBuffer(ib);

@@ -8,7 +8,7 @@ STRINGS_LIST::STRINGS_LIST()
 	Strings = 0;
 	String_Table_PTR = nullptr;
 	used_data_size = 0;
-	dword n;
+	uint32_t n;
 	for(n=0;n<CACHE_SIZE;n++) Cache[n] = INVALID_ORDINAL_NUMBER;
 	Cache_Pos = 0;
 }
@@ -18,19 +18,19 @@ STRINGS_LIST::~STRINGS_LIST()
 	Release();
 }
 
-void STRINGS_LIST::CacheString(dword code)
+void STRINGS_LIST::CacheString(uint32_t code)
 {
 	if(Cache_Pos >= CACHE_SIZE) Cache_Pos = 0;
 	Cache[Cache_Pos] = code;	
 	Cache_Pos++;
 }
 
-dword STRINGS_LIST::GetStringsCount() { return Strings; }
+uint32_t STRINGS_LIST::GetStringsCount() { return Strings; }
 
-char * STRINGS_LIST::GetString(dword code)
+char * STRINGS_LIST::GetString(uint32_t code)
 {
 	if(code >= Strings || String_Table_PTR == nullptr) return nullptr;
-	return String_Table_PTR[code] + used_data_size + sizeof(DWORD);
+	return String_Table_PTR[code] + used_data_size + sizeof(uint32_t);
 }
 
 
@@ -38,7 +38,7 @@ bool STRINGS_LIST::AddString(char * _char_PTR)
 {
 	GUARD(STRINGS_LIST::AddString)
 	if(_char_PTR == nullptr) STORM_THROW(zero string);
-	DWORD hash;
+	uint32_t hash;
 	hash = MakeHashValue(_char_PTR);	
 	if(String_Table_PTR == nullptr)	// first time
 	{
@@ -53,11 +53,11 @@ bool STRINGS_LIST::AddString(char * _char_PTR)
 	}
 	
 
-	String_Table_PTR[Strings] = (char *)NEW char[strlen(_char_PTR) + 1 + used_data_size + sizeof(DWORD)];
+	String_Table_PTR[Strings] = (char *)NEW char[strlen(_char_PTR) + 1 + used_data_size + sizeof(uint32_t)];
 	if(String_Table_PTR[Strings] == nullptr) return false;
-	memset(String_Table_PTR[Strings],0,used_data_size + sizeof(DWORD));
-	*((DWORD *)(String_Table_PTR[Strings])) = hash;
-	strcpy(String_Table_PTR[Strings] + used_data_size + sizeof(DWORD),_char_PTR);
+	memset(String_Table_PTR[Strings],0,used_data_size + sizeof(uint32_t));
+	*((uint32_t *)(String_Table_PTR[Strings])) = hash;
+	strcpy(String_Table_PTR[Strings] + used_data_size + sizeof(uint32_t),_char_PTR);
 	Strings++;
 	UNGUARD
 	return true;
@@ -66,7 +66,7 @@ bool STRINGS_LIST::AddString(char * _char_PTR)
 void STRINGS_LIST::Release()
 {
 	GUARD(STRINGS_LIST::Release)
-	dword n;
+	uint32_t n;
 	if(Strings <= 0 || String_Table_PTR == nullptr) return;
 	for(n = 0; n < Strings; n++) delete String_Table_PTR[n];
 	delete String_Table_PTR;
@@ -78,11 +78,11 @@ void STRINGS_LIST::Release()
 	UNGUARD
 }
 
-dword STRINGS_LIST::GetStringCode(char * _char_PTR)
+uint32_t STRINGS_LIST::GetStringCode(char * _char_PTR)
 {
 	GUARD(STRINGS_LIST::GetStringCode)
-	dword n;
-	DWORD hash;
+	uint32_t n;
+	uint32_t hash;
 
 	if(Strings <= 0 || String_Table_PTR == nullptr  || _char_PTR == nullptr)
 	{
@@ -103,9 +103,9 @@ dword STRINGS_LIST::GetStringCode(char * _char_PTR)
 	
 	for(n = 0; n < Strings; n++) 
 	{
-		if(hash == *((DWORD *)String_Table_PTR[n]))
+		if(hash == *((uint32_t *)String_Table_PTR[n]))
 		{
-			if(_stricmp(String_Table_PTR[n] + used_data_size + sizeof(DWORD),_char_PTR) == 0) 
+			if(_stricmp(String_Table_PTR[n] + used_data_size + sizeof(uint32_t),_char_PTR) == 0) 
 			{
 				//CacheString(n);
 				return n;
@@ -142,32 +142,32 @@ bool STRINGS_LIST::AddUnicalString(char * _char_PTR)
 	return AddString(_char_PTR);
 }
 
-bool STRINGS_LIST::GetStringData(dword code,void * data_PTR)
+bool STRINGS_LIST::GetStringData(uint32_t code,void * data_PTR)
 {
 	if(code >= Strings || String_Table_PTR == nullptr || data_PTR == nullptr) return false;
-	memcpy(data_PTR,String_Table_PTR[code] + sizeof(DWORD),used_data_size);
+	memcpy(data_PTR,String_Table_PTR[code] + sizeof(uint32_t),used_data_size);
 	return true;
 }
 
-bool STRINGS_LIST::SetStringData(dword code,void * data_PTR)
+bool STRINGS_LIST::SetStringData(uint32_t code,void * data_PTR)
 {
 	GUARD(STRINGS_LIST::SetStringData)
 	if(code >= Strings || String_Table_PTR == nullptr || data_PTR == nullptr) return false;
-	memcpy(String_Table_PTR[code] + sizeof(DWORD),data_PTR,used_data_size);
+	memcpy(String_Table_PTR[code] + sizeof(uint32_t),data_PTR,used_data_size);
 	UNGUARD
 	return true;
 }
 
-void STRINGS_LIST::SetStringDataSize(dword _size)
+void STRINGS_LIST::SetStringDataSize(uint32_t _size)
 {
 	if(used_data_size == _size) return;
 	Release();
 	used_data_size = _size;
 }
 
-void STRINGS_LIST::DeleteString(dword code)
+void STRINGS_LIST::DeleteString(uint32_t code)
 {
-	dword n;
+	uint32_t n;
 	if(code >= Strings || String_Table_PTR == nullptr) return;
 	delete String_Table_PTR[code];
 	if(code == (Strings - 1))
@@ -183,10 +183,10 @@ void STRINGS_LIST::DeleteString(dword code)
 	Cache_Pos = 0;
 }
 
-dword STRINGS_LIST::MakeHashValue(const char * string)
+uint32_t STRINGS_LIST::MakeHashValue(const char * string)
 {
-  dword hval = 0;
-  dword g;
+  uint32_t hval = 0;
+  uint32_t g;
   char v;
 
   while(*string != 0)

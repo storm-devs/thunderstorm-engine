@@ -19,7 +19,7 @@ PROGRAM::~PROGRAM()
 void PROGRAM::Release()
 {
 	if(ProgramDirectory) delete ProgramDirectory; ProgramDirectory = nullptr;
-	DWORD n;
+	uint32_t n;
 	if(ProgramBlock)
 	{
 		for(n=0;n<ProgramNum;n++)
@@ -34,7 +34,7 @@ void PROGRAM::Release()
 
 bool PROGRAM::RunProgram(char * program_name)
 {
-	DWORD code;
+	uint32_t code;
 
 	if(Running(program_name)) return true;
 	code = ProgramNum;
@@ -55,7 +55,7 @@ bool PROGRAM::RunProgram(char * program_name)
 
 bool PROGRAM::Running(char * program_name)
 {
-	DWORD n;
+	uint32_t n;
 	for(n=0;n<ProgramNum;n++)
 	{
 		if(strcmp(ProgramBlock[n]->GetName(),program_name)==0) return true;
@@ -80,7 +80,7 @@ void PROGRAM::SetProgramDirectory(char * dir_name)
 }
 VDATA * PROGRAM::ProcessEvent(char * event_name, MESSAGE message)
 {
-	DWORD n;
+	uint32_t n;
 	VDATA * pVD;
 	for(n=0;n<ProgramNum;n++)
 	{
@@ -93,7 +93,7 @@ VDATA * PROGRAM::ProcessEvent(char * event_name, MESSAGE message)
 VDATA *  PROGRAM::ProcessEvent(char * event_name)
 {
 	VDATA * pVD;
-	DWORD n;
+	uint32_t n;
 	for(n=0;n<ProgramNum;n++)
 	{
 		pVD = ProgramBlock[n]->ProcessEvent(event_name);
@@ -101,9 +101,9 @@ VDATA *  PROGRAM::ProcessEvent(char * event_name)
 	return pVD;
 }
 
-void PROGRAM::ProcessFrame(DWORD DeltaTime)
+void PROGRAM::ProcessFrame(uint32_t DeltaTime)
 {
-	DWORD n,i,old_size;
+	uint32_t n,i,old_size;
 	
 	old_size = ProgramNum; 
 	for(n=0;n<ProgramNum;n++)
@@ -124,7 +124,7 @@ void PROGRAM::ProcessFrame(DWORD DeltaTime)
 
 void PROGRAM::ClearEvents()
 {
-	DWORD n;
+	uint32_t n;
 	for(n=0;n<ProgramNum;n++)
 	{
 		ProgramBlock[n]->ClearEvents();
@@ -133,7 +133,7 @@ void PROGRAM::ClearEvents()
 
 bool PROGRAM::SaveState(HANDLE fh)
 {
-	DWORD n;
+	uint32_t n;
 	Core.fio->_WriteFile(fh,&ProgramNum,sizeof(ProgramNum),nullptr);
 	for(n=0;n<ProgramNum;n++)
 	{
@@ -144,7 +144,7 @@ bool PROGRAM::SaveState(HANDLE fh)
 
 bool PROGRAM::LoadState(HANDLE fh)
 {
-	DWORD n;
+	uint32_t n;
 	Release();
 	Core.fio->_ReadFile(fh,&ProgramNum,sizeof(ProgramNum),nullptr);
 	ProgramBlock = (COMPILER **)RESIZE(ProgramBlock,ProgramNum*sizeof(COMPILER *));
@@ -159,7 +159,7 @@ bool PROGRAM::LoadState(HANDLE fh)
 
 bool PROGRAM::OnLoad()
 {
-	DWORD n;
+	uint32_t n;
 	for(n=0;n<ProgramNum;n++)
 	{
 		ProgramBlock[n]->OnLoad();
@@ -169,7 +169,7 @@ bool PROGRAM::OnLoad()
 
 void PROGRAM::AddPostEvent(S_EVENTMSG * pEM)
 {
-	DWORD n;
+	uint32_t n;
 	for(n=0;n<ProgramNum;n++)
 	{
 		ProgramBlock[n]->AddPostEvent(pEM);

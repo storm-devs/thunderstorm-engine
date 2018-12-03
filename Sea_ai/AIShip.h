@@ -151,14 +151,14 @@ public:
 
 		static bool		ShipFire(ATTRIBUTES * pACharacter, bool bCameraOutside);
 
-		static void		ShipSetAttack(dword dwPriority, ATTRIBUTES * pACharacter1, ATTRIBUTES * pACharacter2);
-		static void		ShipSetRunAway(dword dwPriority, ATTRIBUTES * pACharacter1);
-		static void		ShipSetMove(dword dwPriority, ATTRIBUTES * pACharacter1, ATTRIBUTES * pACharacter2);
-		static void		ShipSetMove(dword dwPriority, ATTRIBUTES * pACharacter1, CVECTOR & vPnt);
-		static void		ShipSetDrift(dword dwPriority, ATTRIBUTES * pACharacter1);
-		static void		ShipSetDefend(dword dwPriority, ATTRIBUTES * pACharacter1, ATTRIBUTES * pACharacter2);
-		static void		ShipSetBrander(dword dwPriority, ATTRIBUTES * pACharacter1, ATTRIBUTES * pACharacter2);
-		static void		ShipSetAbordage(dword dwPriority, ATTRIBUTES * pACharacter1, ATTRIBUTES * pACharacter2);
+		static void		ShipSetAttack(uint32_t dwPriority, ATTRIBUTES * pACharacter1, ATTRIBUTES * pACharacter2);
+		static void		ShipSetRunAway(uint32_t dwPriority, ATTRIBUTES * pACharacter1);
+		static void		ShipSetMove(uint32_t dwPriority, ATTRIBUTES * pACharacter1, ATTRIBUTES * pACharacter2);
+		static void		ShipSetMove(uint32_t dwPriority, ATTRIBUTES * pACharacter1, CVECTOR & vPnt);
+		static void		ShipSetDrift(uint32_t dwPriority, ATTRIBUTES * pACharacter1);
+		static void		ShipSetDefend(uint32_t dwPriority, ATTRIBUTES * pACharacter1, ATTRIBUTES * pACharacter2);
+		static void		ShipSetBrander(uint32_t dwPriority, ATTRIBUTES * pACharacter1, ATTRIBUTES * pACharacter2);
+		static void		ShipSetAbordage(uint32_t dwPriority, ATTRIBUTES * pACharacter1, ATTRIBUTES * pACharacter2);
 
 		static void		ReloadCannons(ATTRIBUTES * pACharacter);
 

@@ -31,7 +31,7 @@ class WdmCloud : public WdmRenderObject
 
 	struct Rain
 	{
-		dword isLive;
+		uint32_t isLive;
 		CVECTOR pos;
 		float alpha;
 		float vy;
@@ -42,7 +42,7 @@ class WdmCloud : public WdmRenderObject
 	struct Vertex
 	{
 		CVECTOR pos;
-		dword c;
+		uint32_t c;
 		float u, v;
 	};
 

@@ -1,10 +1,6 @@
 #ifndef _PARTICLE_SYSTEM_H_
 #define _PARTICLE_SYSTEM_H_
 
-#include <string.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include "../../../common_h/exs.h"
 #include "..\..\..\common_h\vmodule_api.h"
 #include "..\..\..\common_h\particles\iparticlesystem.h"
 #include "..\..\\icommon\types.h"
@@ -58,11 +54,11 @@ public:
 	virtual bool Release ();
 
 //Отработать всем партиклам
-  virtual DWORD Execute (float DeltaTime);
+  virtual uint32_t Execute (float DeltaTime);
 
 
 //Перезапустить партикловую систему  
-  virtual void Restart (DWORD RandomSeed);
+  virtual void Restart (uint32_t RandomSeed);
   
 //Запаузить испускание партиклов  
   virtual void PauseEmission (bool bPause);
@@ -99,9 +95,9 @@ public:
 
 
 public:
-	DWORD GetEmittersCount ();
-	IEmitter* GetEmitterByIndex (DWORD Index);
-	EmitterType GetEmitterTypeByIndex  (DWORD Index);
+	uint32_t GetEmittersCount ();
+	IEmitter* GetEmitterByIndex (uint32_t Index);
+	EmitterType GetEmitterTypeByIndex  (uint32_t Index);
 
 	void Editor_UpdateCachedData ();
 

@@ -14,7 +14,7 @@ S_FUNCTAB::S_FUNCTAB()
 	Buffer_size = 0;
 	Func_num = 0;
 	//bKeepName = false;
-	DWORD n;
+	uint32_t n;
 	for(n=0;n<HASHT_SIZE;n++)
 	{
 		HashLine[n].nNumElements = 0;
@@ -29,7 +29,7 @@ S_FUNCTAB::~S_FUNCTAB()
 
 void  S_FUNCTAB::Release()
 {
-	dword n,i;
+	uint32_t n,i;
 	if(pTable)
 	{
 		for(n=0;n<Func_num;n++)
@@ -58,7 +58,7 @@ void  S_FUNCTAB::Release()
 	}
 }
 
-bool S_FUNCTAB::GetFunc(FUNCINFO& fi,dword func_code)
+bool S_FUNCTAB::GetFunc(FUNCINFO& fi,uint32_t func_code)
 {
 	if(func_code >= Func_num) return false;
 
@@ -79,18 +79,18 @@ bool S_FUNCTAB::GetFunc(FUNCINFO& fi,dword func_code)
 	return true;
 }
 
-bool S_FUNCTAB::GetFuncX(FUNCINFO& fi,dword func_code)
+bool S_FUNCTAB::GetFuncX(FUNCINFO& fi,uint32_t func_code)
 {
 	if(func_code >= Func_num) return false;
 	fi = pTable[func_code];
 	return true;
 }
 
-dword S_FUNCTAB::AddFunc(FUNCINFO& fi)
+uint32_t S_FUNCTAB::AddFunc(FUNCINFO& fi)
 {
-	dword n;
-	dword hash;
-	DWORD hash_index;
+	uint32_t n;
+	uint32_t hash;
+	uint32_t hash_index;
 
 	if(fi.name == nullptr) return INVALID_FUNC_CODE;
 	size_t file_name_len = strlen(fi.decl_file_name) + 1;
@@ -176,10 +176,10 @@ dword S_FUNCTAB::AddFunc(FUNCINFO& fi)
 	return (Func_num - 1);
 }
 
-dword S_FUNCTAB::MakeHashValue(const char * string)
+uint32_t S_FUNCTAB::MakeHashValue(const char * string)
 {
-	dword hval = 0;
-	dword g;
+	uint32_t hval = 0;
+	uint32_t g;
 	char v;
 	while(*string != 0)
 	{
@@ -196,9 +196,9 @@ dword S_FUNCTAB::MakeHashValue(const char * string)
 	return hval;
 }
 
-void S_FUNCTAB::InvalidateBySegmentID(dword segment_id)
+void S_FUNCTAB::InvalidateBySegmentID(uint32_t segment_id)
 {
-	dword n,i;
+	uint32_t n,i;
 	for(n=0;n<Func_num;n++)
 	{
 		if(pTable[n].segment_id != segment_id) continue;
@@ -221,9 +221,9 @@ void S_FUNCTAB::InvalidateBySegmentID(dword segment_id)
 	}
 }
 
-void S_FUNCTAB::InvalidateFunction(dword nFuncHandle)
+void S_FUNCTAB::InvalidateFunction(uint32_t nFuncHandle)
 {
-	dword n,i;
+	uint32_t n,i;
 
 	if(nFuncHandle < Func_num)
 	{
@@ -247,14 +247,14 @@ void S_FUNCTAB::InvalidateFunction(dword nFuncHandle)
 	}
 }
 
-dword S_FUNCTAB::FindFunc(char * func_name)
+uint32_t S_FUNCTAB::FindFunc(char * func_name)
 {
-	dword n;
-	dword hash;
+	uint32_t n;
+	uint32_t hash;
 	if(func_name == nullptr) return INVALID_FUNC_CODE;
 	hash = MakeHashValue(func_name);
 
-	DWORD hash_index,nNum,ni;
+	uint32_t hash_index,nNum,ni;
 	hash_index = MAKEHASHINDEX(hash);
 	nNum = HashLine[hash_index].nNumElements;
 	for(n=0;n<nNum;n++)
@@ -273,16 +273,16 @@ dword S_FUNCTAB::FindFunc(char * func_name)
 	return INVALID_FUNC_CODE;
 }
 
-bool S_FUNCTAB::SetFuncOffset(char * func_name, dword offset)
+bool S_FUNCTAB::SetFuncOffset(char * func_name, uint32_t offset)
 {
-	DWORD n;
+	uint32_t n;
 	n = FindFunc(func_name);
 	if(n == INVALID_FUNC_CODE) return false;
 	pTable[n].offset = offset;
 	return true;
 /*
-	dword n;
-	dword hash;
+	uint32_t n;
+	uint32_t hash;
 	hash = MakeHashValue(func_name);
 	for(n=0;n<Func_num;n++)
 	{
@@ -296,11 +296,11 @@ bool S_FUNCTAB::SetFuncOffset(char * func_name, dword offset)
 */
 }
 
-bool S_FUNCTAB::AddFuncVar(dword func_code, LVARINFO & lvi)
+bool S_FUNCTAB::AddFuncVar(uint32_t func_code, LVARINFO & lvi)
 {
-	dword vindex;
-	dword hash;
-	dword n;
+	uint32_t vindex;
+	uint32_t hash;
+	uint32_t n;
 	if(func_code >= Func_num) return false;
 	if(lvi.name == nullptr) return false;
 
@@ -328,7 +328,7 @@ bool S_FUNCTAB::AddFuncVar(dword func_code, LVARINFO & lvi)
 	return true;
 }
 
-bool S_FUNCTAB::AddFuncArg(dword func_code, LVARINFO & lvi, bool bExt)
+bool S_FUNCTAB::AddFuncArg(uint32_t func_code, LVARINFO & lvi, bool bExt)
 {
 	if(func_code >= Func_num) return false;
 	if(bExt)
@@ -340,10 +340,10 @@ bool S_FUNCTAB::AddFuncArg(dword func_code, LVARINFO & lvi, bool bExt)
 	return AddFuncVar(func_code,lvi);
 }
 
-dword S_FUNCTAB::FindVar(dword func_code, char * var_name)
+uint32_t S_FUNCTAB::FindVar(uint32_t func_code, char * var_name)
 {
-	dword hash;
-	dword n;
+	uint32_t hash;
+	uint32_t n;
 	if(var_name == nullptr) return INVALID_VAR_CODE;
 	if(func_code >= Func_num) return INVALID_VAR_CODE;
 	hash = MakeHashValue(var_name);
@@ -355,7 +355,7 @@ dword S_FUNCTAB::FindVar(dword func_code, char * var_name)
 	return INVALID_VAR_CODE;
 }
 
-bool S_FUNCTAB::GetVar(LVARINFO & lvi, dword func_code, dword var_code)
+bool S_FUNCTAB::GetVar(LVARINFO & lvi, uint32_t func_code, uint32_t var_code)
 {
 	if(func_code >= Func_num) return false;
 	if(var_code >= pTable[func_code].var_num) return false;
@@ -363,28 +363,28 @@ bool S_FUNCTAB::GetVar(LVARINFO & lvi, dword func_code, dword var_code)
 	return true;
 }
 
-void S_FUNCTAB::AddTime(dword func_code, DWORD time)
+void S_FUNCTAB::AddTime(uint32_t func_code, uint32_t time)
 {
 	if(func_code >= Func_num) return;
 	pTable[func_code].fTimeUsage += time;
 }
 
-void S_FUNCTAB::SetTimeUsage(dword func_code, double f)
+void S_FUNCTAB::SetTimeUsage(uint32_t func_code, double f)
 {
 	if(func_code >= Func_num) return;
 	pTable[func_code].fTimeUsage = f;
 }
 
-void  S_FUNCTAB::AddCall(dword func_code)
+void  S_FUNCTAB::AddCall(uint32_t func_code)
 {
 	if(func_code >= Func_num) return;
 	pTable[func_code].nNumberOfCalls++;
 }
 
-void S_FUNCTAB::UpdateHashTable(DWORD code, DWORD hash, bool in)
+void S_FUNCTAB::UpdateHashTable(uint32_t code, uint32_t hash, bool in)
 {
-	DWORD n;
-	DWORD hash_index;
+	uint32_t n;
+	uint32_t hash_index;
 	hash_index = MAKEHASHINDEX(hash);
 
 	for(n=0;n<HashLine[hash_index].nNumElements;n++)
@@ -395,13 +395,13 @@ void S_FUNCTAB::UpdateHashTable(DWORD code, DWORD hash, bool in)
 			// take element out of list
 			HashLine[hash_index].pElements[n] = HashLine[hash_index].pElements[HashLine[hash_index].nNumElements - 1];
 			HashLine[hash_index].nNumElements--;
-			HashLine[hash_index].pElements = (DWORD *)RESIZE(HashLine[hash_index].pElements,HashLine[hash_index].nNumElements * sizeof(DWORD));
+			HashLine[hash_index].pElements = (uint32_t *)RESIZE(HashLine[hash_index].pElements,HashLine[hash_index].nNumElements * sizeof(uint32_t));
 			return;
 		}
 		else return;	// ok, already in list (? possible)
 	}
 	// not in list - add
 	HashLine[hash_index].nNumElements++;
-	HashLine[hash_index].pElements = (DWORD *)RESIZE(HashLine[hash_index].pElements,HashLine[hash_index].nNumElements * sizeof(DWORD));
+	HashLine[hash_index].pElements = (uint32_t *)RESIZE(HashLine[hash_index].pElements,HashLine[hash_index].nNumElements * sizeof(uint32_t));
 	HashLine[hash_index].pElements[HashLine[hash_index].nNumElements - 1] = code;
 }

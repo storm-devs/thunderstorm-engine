@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "..\common_h\messages.h"
+#include "..\../Shared/messages.h"
 //#include "..\common_h\defines.h"
 #include "..\common_h\exs.h"
 #include "..\common_h\CVECTOR.h"
@@ -57,12 +57,12 @@ bool ANIMALS::Init()
 }
 
 //--------------------------------------------------------------------
-dword _cdecl ANIMALS::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl ANIMALS::ProcessMessage(MESSAGE & message)
 {
 	GUARD(ANIMALS::ProcessMessage)
 
 	long code = message.Long();
-	dword outValue = 0;
+	uint32_t outValue = 0;
 
 	switch (code)
 	{
@@ -90,7 +90,7 @@ dword _cdecl ANIMALS::ProcessMessage(MESSAGE & message)
 }
 
 //--------------------------------------------------------------------
-void ANIMALS::Realize(dword _dTime)
+void ANIMALS::Realize(uint32_t _dTime)
 {
 	GUARD(ANIMALS::Realize)
 
@@ -103,7 +103,7 @@ void ANIMALS::Realize(dword _dTime)
 }
 
 //--------------------------------------------------------------------
-void ANIMALS::Execute(dword _dTime)
+void ANIMALS::Execute(uint32_t _dTime)
 {
 	GUARD(ANIMALS::Execute)
 
@@ -116,7 +116,7 @@ void ANIMALS::Execute(dword _dTime)
 }
 
 //--------------------------------------------------------------------
-dword ANIMALS::AttributeChanged(ATTRIBUTES * _pA)
+uint32_t ANIMALS::AttributeChanged(ATTRIBUTES * _pA)
 {
 	if (*_pA == "midY")
 	{

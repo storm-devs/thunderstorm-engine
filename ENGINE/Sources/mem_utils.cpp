@@ -1,6 +1,8 @@
 #include "mem_utils.h"
 #include "system_log.h"
 #include "..\..\common_h\vapi.h"
+#include "../../common_h/defines.h"
+
 extern VAPI * api;
 
 MEM_USAGE_INFO::MEM_USAGE_INFO()
@@ -14,8 +16,8 @@ MEM_USAGE_INFO::MEM_USAGE_INFO()
 
 	nTestBlocks = 0;
 
-	ZeroMemory(&nBlockTableSBS,sizeof(nBlockTableSBS));
-	ZeroMemory(&nBlockTableMBS,sizeof(nBlockTableMBS));
+	PZERO(&nBlockTableSBS,sizeof(nBlockTableSBS));
+	PZERO(&nBlockTableMBS,sizeof(nBlockTableMBS));
 
 	pMemBL = (MEM_USAGE_INFO_BLOCK *)malloc(sizeof(MEM_USAGE_INFO_BLOCK));
 	nMemBLNum = 1;
@@ -35,7 +37,7 @@ MEM_USAGE_INFO::MEM_USAGE_INFO()
 
 MEM_USAGE_INFO::~MEM_USAGE_INFO()
 {
-	DWORD n;
+	uint32_t n;
 	if(pMemBL)
 	{
 		for(n=0;n<nMemBLNum;n++)
@@ -47,9 +49,9 @@ MEM_USAGE_INFO::~MEM_USAGE_INFO()
 }
 
 
-void MEM_USAGE_INFO::Register(char * pFileName, DWORD nLine, DWORD nMemSize)
+void MEM_USAGE_INFO::Register(char * pFileName, uint32_t nLine, uint32_t nMemSize)
 {
-	DWORD n;
+	uint32_t n;
 
 	if(pFileName == nullptr)
 	{
@@ -93,9 +95,9 @@ void MEM_USAGE_INFO::Register(char * pFileName, DWORD nLine, DWORD nMemSize)
 
 }
 
-void MEM_USAGE_INFO::Unregister(char * pFileName, DWORD nLine, DWORD nMemSize)
+void MEM_USAGE_INFO::Unregister(char * pFileName, uint32_t nLine, uint32_t nMemSize)
 {
-	DWORD n;
+	uint32_t n;
 
 	if(pFileName == nullptr)
 	{
@@ -121,7 +123,7 @@ void MEM_USAGE_INFO::Unregister(char * pFileName, DWORD nLine, DWORD nMemSize)
 }
 
 
-void MEM_USAGE_INFO::Allocate(char * pFileName, DWORD nLine, DWORD nMemSize)
+void MEM_USAGE_INFO::Allocate(char * pFileName, uint32_t nLine, uint32_t nMemSize)
 {
 	//nTestBlocks++;
 	Register(pFileName,nLine,nMemSize);
@@ -145,7 +147,7 @@ void MEM_USAGE_INFO::Allocate(char * pFileName, DWORD nLine, DWORD nMemSize)
 
 	if(nMemSize < MEDIUM_BLOCK_MSIZE && nMemSize >= SMALL_BLOCKS_LIMIT) 
 	{
-		DWORD nIndex;
+		uint32_t nIndex;
 		nIndex = nMemSize>>8;
 		nBlockTableMBS[nIndex].nCurrent++;
 		if(nBlockTableMBS[nIndex].nCurrent > nBlockTableMBS[nIndex].nMax)
@@ -157,8 +159,8 @@ void MEM_USAGE_INFO::Allocate(char * pFileName, DWORD nLine, DWORD nMemSize)
 
 }
 
-void MEM_USAGE_INFO::Resize(char * pFileName, DWORD nLine, DWORD nMemSize, 
-		char * pOldFileName, DWORD nOldLine, DWORD nOldMemSize)
+void MEM_USAGE_INFO::Resize(char * pFileName, uint32_t nLine, uint32_t nMemSize, 
+		char * pOldFileName, uint32_t nOldLine, uint32_t nOldMemSize)
 {
 	if(nMemSize < SMALL_BLOCKS_LIMIT) 
 	{
@@ -171,7 +173,7 @@ void MEM_USAGE_INFO::Resize(char * pFileName, DWORD nLine, DWORD nMemSize,
 
 	if(nMemSize < MEDIUM_BLOCK_MSIZE && nMemSize >= SMALL_BLOCKS_LIMIT) 
 	{
-		DWORD nIndex;
+		uint32_t nIndex;
 		nIndex = nMemSize>>8;
 		nBlockTableMBS[nIndex].nCurrent++;
 		if(nBlockTableMBS[nIndex].nCurrent > nBlockTableMBS[nIndex].nMax)
@@ -180,7 +182,7 @@ void MEM_USAGE_INFO::Resize(char * pFileName, DWORD nLine, DWORD nMemSize,
 
 	if(nOldMemSize < MEDIUM_BLOCK_MSIZE && nOldMemSize >= SMALL_BLOCKS_LIMIT) 
 	{
-		DWORD nIndex;
+		uint32_t nIndex;
 		nIndex = nOldMemSize>>8;
 		nBlockTableMBS[nIndex].nCurrent--;
 	}
@@ -203,7 +205,7 @@ void MEM_USAGE_INFO::Resize(char * pFileName, DWORD nLine, DWORD nMemSize,
 	}
 }
 
-void MEM_USAGE_INFO::Free(char * pFileName, DWORD nLine, DWORD nMemSize)
+void MEM_USAGE_INFO::Free(char * pFileName, uint32_t nLine, uint32_t nMemSize)
 {
 	//nTestBlocks--;
 	if(nCurrentBlocks == 0)
@@ -219,7 +221,7 @@ void MEM_USAGE_INFO::Free(char * pFileName, DWORD nLine, DWORD nMemSize)
 
 	if(nMemSize < MEDIUM_BLOCK_MSIZE  && nMemSize >= SMALL_BLOCKS_LIMIT) 
 	{
-		DWORD nIndex;
+		uint32_t nIndex;
 		nIndex = nMemSize>>8;
 		nBlockTableMBS[nIndex].nCurrent--;
 	}
@@ -229,7 +231,7 @@ void MEM_USAGE_INFO::Free(char * pFileName, DWORD nLine, DWORD nMemSize)
 
 void MEM_USAGE_INFO::Report()
 {
-	DWORD n;
+	uint32_t n;
 	trace("-------------------------------------------------------------------");
 	trace("MEM INFO:");
 	trace("");
@@ -244,7 +246,7 @@ void MEM_USAGE_INFO::Report()
 	trace("");
 	trace("");
 	trace("SBS Table (blocks):");
-	DWORD nSBTotal,nSBTotalNum;
+	uint32_t nSBTotal,nSBTotalNum;
 	nSBTotal = 0;
 	nSBTotalNum = 0;
 	for(n=0;n<SMALL_BLOCKS_LIMIT;n++)
@@ -275,8 +277,8 @@ void MEM_USAGE_INFO::Report()
 	trace("Mem Usage By Location:");
 	trace("");
 	trace("Sorted By Size:");
-	DWORD msize;
-	DWORD mn,i;
+	uint32_t msize;
+	uint32_t mn,i;
 	for(i=0;i<nMemBLNum;i++)
 	{
 		msize = 0;
@@ -298,9 +300,9 @@ void MEM_USAGE_INFO::Report()
 
 }
 
-void MEM_USAGE_INFO::ProcessTime(DWORD time)
+void MEM_USAGE_INFO::ProcessTime(uint32_t time)
 {
-	DWORD n;
+	uint32_t n;
 	nTimeCounter += time;
 	if(nTimeCounter < nTimePeriod) return;
 	nTimeCounter = 0;
@@ -316,9 +318,9 @@ void MEM_USAGE_INFO::ProcessTime(DWORD time)
 void MEM_USAGE_INFO::UpdateMemoryProfile(char * pFileName)
 {
 	HANDLE fh;
-	DWORD dwR;
-	DWORD n;
-	DWORD nProfileBlocks;
+	uint32_t dwR;
+	uint32_t n;
+	uint32_t nProfileBlocks;
 	fh = api->fio->_CreateFile(pFileName,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 	if(fh == INVALID_HANDLE_VALUE)
 	{
@@ -339,11 +341,11 @@ void MEM_USAGE_INFO::UpdateMemoryProfile(char * pFileName)
 		return;
 	}
 
-	DWORD * pTempProfileInfo;
-	DWORD nProfileValue;
+	uint32_t * pTempProfileInfo;
+	uint32_t nProfileValue;
 	api->fio->_ReadFile(fh,&nProfileBlocks,sizeof(nProfileBlocks),&dwR);
-	pTempProfileInfo = NEW DWORD[nProfileBlocks];
-	api->fio->_ReadFile(fh,pTempProfileInfo,nProfileBlocks*sizeof(DWORD),&dwR);
+	pTempProfileInfo = NEW uint32_t[nProfileBlocks];
+	api->fio->_ReadFile(fh,pTempProfileInfo,nProfileBlocks*sizeof(uint32_t),&dwR);
 	api->fio->_CloseHandle(fh);
 
 	//fh = api->fio->_CreateFile(pFileName,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
@@ -385,7 +387,7 @@ MEM_ALLOC_ADDRESS::MEM_ALLOC_ADDRESS()
 
 MEM_ALLOC_ADDRESS::~MEM_ALLOC_ADDRESS()
 {
-	DWORD n;
+	uint32_t n;
 	if(pData)
 	{
 		for(n=0;n<dwRecordsNum;n++)
@@ -398,10 +400,10 @@ MEM_ALLOC_ADDRESS::~MEM_ALLOC_ADDRESS()
 	dwRecordsNum = 0;
 }
 
-DWORD  MEM_ALLOC_ADDRESS::GetAddress(const char * pFileName, DWORD dwLine)
+uint32_t  MEM_ALLOC_ADDRESS::GetAddress(const char * pFileName, uint32_t dwLine)
 {
 	//return 0xffffffff;
-	DWORD n;
+	uint32_t n;
 	if(pFileName == nullptr) return 0xffffffff;
 	for(n=0;n<dwRecordsNum;n++)
 	{
@@ -411,7 +413,7 @@ DWORD  MEM_ALLOC_ADDRESS::GetAddress(const char * pFileName, DWORD dwLine)
 	}
 	while((dwRecordsNum + 1) >= dwBufferSize)
 	{
-		DWORD offset;
+		uint32_t offset;
 		if(dwBufferSize == 0)
 		{
 			dwBufferSize = 128;
@@ -436,7 +438,7 @@ DWORD  MEM_ALLOC_ADDRESS::GetAddress(const char * pFileName, DWORD dwLine)
 	return dwRecordsNum - 1;
 }
 
-char * MEM_ALLOC_ADDRESS::GetSource(DWORD dwAddress, DWORD * dwLine)
+char * MEM_ALLOC_ADDRESS::GetSource(uint32_t dwAddress, uint32_t * dwLine)
 {
 	if(dwAddress >= dwRecordsNum) 
 	{

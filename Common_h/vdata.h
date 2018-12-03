@@ -26,24 +26,24 @@ public:
 	virtual bool Get(float & value)=0;
 	virtual bool Get(char * & value)=0;
 	virtual bool Get(char * attribute_name, char * & value)=0;
-	virtual bool Set(long value, DWORD index)=0;
-	virtual bool Set(float value, DWORD index)=0;
-	virtual bool Set(char * value, DWORD index)=0;
-	virtual bool Get(long & value, DWORD index)=0;
-	virtual bool Get(float & value, DWORD index)=0;
-	virtual bool Get(char * & value, DWORD index)=0;
-	virtual bool Set(char * attribute_name, char * attribute_value, DWORD index)=0;
-	virtual bool Get(char * attribute_name, char * & value, DWORD index)=0;
+	virtual bool Set(long value, uint32_t index)=0;
+	virtual bool Set(float value, uint32_t index)=0;
+	virtual bool Set(char * value, uint32_t index)=0;
+	virtual bool Get(long & value, uint32_t index)=0;
+	virtual bool Get(float & value, uint32_t index)=0;
+	virtual bool Get(char * & value, uint32_t index)=0;
+	virtual bool Set(char * attribute_name, char * attribute_value, uint32_t index)=0;
+	virtual bool Get(char * attribute_name, char * & value, uint32_t index)=0;
 	virtual void Set(ENTITY_ID eid)=0;
 	virtual void Get(ENTITY_ID & eid)=0;
-	virtual bool Set(ENTITY_ID eid, DWORD index)=0;
-	virtual bool Get(ENTITY_ID & eid, DWORD index)=0;
+	virtual bool Set(ENTITY_ID eid, uint32_t index)=0;
+	virtual bool Get(ENTITY_ID & eid, uint32_t index)=0;
 
 	virtual ATTRIBUTES * GetAClass()=0;
-	virtual ATTRIBUTES * GetAClass(DWORD index)=0;
-	virtual DATA * GetArrayElement(DWORD index)=0;
+	virtual ATTRIBUTES * GetAClass(uint32_t index)=0;
+	virtual DATA * GetArrayElement(uint32_t index)=0;
 	//virtual S_TOKEN_TYPE GetType()=0;
-	virtual DWORD GetElementsNum()=0;
+	virtual uint32_t GetElementsNum()=0;
 	virtual bool IsArray()=0;
 	virtual bool IsReference()=0;
 	virtual bool IsAReference()=0;
@@ -54,8 +54,8 @@ public:
 	virtual bool Inc()=0;
 	virtual bool Dec()=0;
 	virtual bool Copy(DATA * pV)=0;
-	virtual bool Copy(DATA * pV, DWORD index)=0;
-	virtual bool CopyOnElement(DATA * pV, DWORD index)=0;
+	virtual bool Copy(DATA * pV, uint32_t index)=0;
+	virtual bool CopyOnElement(DATA * pV, uint32_t index)=0;
 	virtual bool Inverse()=0;
 	virtual bool Power(long Deg)=0;
 	virtual bool Power(DATA * pV)=0;
@@ -68,7 +68,7 @@ public:
 	virtual bool Neg()=0;
 //	virtual bool CompareAndSetResult(DATA * pV,S_TOKEN_TYPE op)=0;
 
-	virtual void  SetElementsNum(DWORD _asize)= 0;
+	virtual void  SetElementsNum(uint32_t _asize)= 0;
 
 	virtual long  GetLong()=0;
 	virtual float GetFloat()=0;

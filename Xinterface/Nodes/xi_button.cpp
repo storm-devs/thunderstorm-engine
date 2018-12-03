@@ -28,7 +28,7 @@ CXI_BUTTON::~CXI_BUTTON()
 	ReleaseAll();
 }
 
-void CXI_BUTTON::Draw(bool bSelected,dword Delta_Time)
+void CXI_BUTTON::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(nPressedDelay>0)
 		nPressedDelay--;
@@ -39,7 +39,7 @@ void CXI_BUTTON::Draw(bool bSelected,dword Delta_Time)
 		XI_ONETEX_VERTEX vFace[4];
 		XI_ONETEX_VERTEX vShadow[4];
 
-		DWORD dwFaceColor = m_dwFaceColor;
+		uint32_t dwFaceColor = m_dwFaceColor;
 		if(bSelected && m_fBlindSpeed>0.f)
 		{
 			dwFaceColor = ColorInterpolate(m_dwDarkColor,m_dwLightColor,m_fCurBlind);
@@ -267,7 +267,7 @@ void CXI_BUTTON::SetUsing(bool bUsing)
 	nPressedDelay = 0;
 }
 
-dword _cdecl CXI_BUTTON::MessageProc(long msgcode, MESSAGE & message)
+uint32_t _cdecl CXI_BUTTON::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

@@ -117,18 +117,18 @@ bool Grass::Init()
 	vb = rs->CreateVertexBuffer(0, GRASS_MAX_POINTS*4*sizeof(Vertex), D3DUSAGE_DYNAMIC);
 	if(vb < 0) return false;
 	//Индексы, адресующие вершины
-	ib = rs->CreateIndexBuffer(GRASS_MAX_POINTS*6*sizeof(word));
+	ib = rs->CreateIndexBuffer(GRASS_MAX_POINTS*6*sizeof(uint16_t));
 	if(ib < 0) return false;
-	word * index = (word *)rs->LockIndexBuffer(ib);
+	uint16_t * index = (uint16_t *)rs->LockIndexBuffer(ib);
 	if(!index) return false;
 	for(long i = 0, point = 0; i < GRASS_MAX_POINTS; i++, index += 6, point += 4)
 	{
-		index[0] = word(point + 0);
-		index[1] = word(point + 1);
-		index[2] = word(point + 2);
-		index[3] = word(point + 2);
-		index[4] = word(point + 1);
-		index[5] = word(point + 3);
+		index[0] = uint16_t(point + 0);
+		index[1] = uint16_t(point + 1);
+		index[2] = uint16_t(point + 2);
+		index[3] = uint16_t(point + 2);
+		index[4] = uint16_t(point + 1);
+		index[5] = uint16_t(point + 3);
 	}
 	rs->UnLockIndexBuffer(ib);
 	//Константы
@@ -162,8 +162,8 @@ bool Grass::LoadData(const char * patchName)
 	if(miniMap) delete miniMap; miniMap = nullptr;
 	if(block) delete block; block = nullptr;
 	//Загружаем файл с данными
-	byte * load = nullptr;
-	dword size = 0;
+	uint8_t * load = nullptr;
+	uint32_t size = 0;
 	if(!_CORE_API->fio->LoadFile(patchName, (char**)&load, &size)) return false;
 	try{
 		//Проверим данные
@@ -187,10 +187,10 @@ bool Grass::LoadData(const char * patchName)
 			pnt += miniMap[i].num[0];
 		}
 		//Создаём блоки
-		byte translate[16];
+		uint8_t translate[16];
 		for(long i = 0; i < 16; i++)
 		{
-			translate[i] = byte((i*255)/15);
+			translate[i] = uint8_t((i*255)/15);
 		}
 		block = NEW GRSMapElementEx[elements];
 		GRSMapElement * src = (GRSMapElement *)(load + sizeof(GRSHeader) + minisize*sizeof(GRSMiniMapElement));
@@ -248,7 +248,7 @@ void Grass::SetTexture(const char * texName)
 }
 
 //Работа
-void Grass::Execute(dword delta_time)
+void Grass::Execute(uint32_t delta_time)
 {
 	if(initForce < 20)
 	{
@@ -327,7 +327,7 @@ void Grass::Execute(dword delta_time)
 	kLitWF = 0.7f*(1.0f - powf(winForce, 4.0f)*0.7f);
 }
 
-void Grass::Realize(dword delta_time)
+void Grass::Realize(uint32_t delta_time)
 {
 	if(quality == rq_off) return;
 	rs->SetTransform(D3DTS_WORLD, CMatrix());
@@ -342,7 +342,7 @@ void Grass::Realize(dword delta_time)
 	rs->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	rs->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	//Туман
-	dword dwOldFogDensity;
+	uint32_t dwOldFogDensity;
 	rs->GetRenderState(D3DRS_FOGDENSITY, &dwOldFogDensity);
 	ENTITY_ID eidIsland;
 	if( api->FindClass( &eidIsland, "ISLAND", 0 ) )
@@ -353,7 +353,7 @@ void Grass::Realize(dword delta_time)
 		rs->SetRenderState(D3DRS_FOGDENSITY, F2DW(fIslandFogDensity));
 	}
 	//Настроим стадии
-	dword cop, carg1, cop1, aop, aarg1;
+	uint32_t cop, carg1, cop1, aop, aarg1;
 	rs->GetTextureStageState(0, D3DTSS_COLOROP, &cop);
 	rs->GetTextureStageState(1, D3DTSS_COLOROP, &cop1);
 	rs->GetTextureStageState(0, D3DTSS_COLORARG1, &carg1);
@@ -369,7 +369,7 @@ void Grass::Realize(dword delta_time)
 	struct SphVertex
 	{
 		CVECTOR v;
-		dword c;
+		uint32_t c;
 	};
 
 	SphVertex lineVertex[2];
@@ -423,11 +423,11 @@ void Grass::Realize(dword delta_time)
 		lColor.y = powf(lColor.y, 0.2f);
 		lColor.z = powf(lColor.z, 0.2f);
 		//Рассеяный свет
-		dword aclr;
+		uint32_t aclr;
 		if(rs->GetRenderState(D3DRS_AMBIENT, &aclr) != D3D_OK) aclr = 0xffffffff;
-		aColor.z = byte(aclr >> 16)*1.0f/255.0f;
-		aColor.y = byte(aclr >> 8)*1.0f/255.0f;
-		aColor.x = byte(aclr >> 0)*1.0f/255.0f;
+		aColor.z = uint8_t(aclr >> 16)*1.0f/255.0f;
+		aColor.y = uint8_t(aclr >> 8)*1.0f/255.0f;
+		aColor.x = uint8_t(aclr >> 0)*1.0f/255.0f;
 		if(aColor.x > 1.0f) aColor.x = 1.0f;
 		if(aColor.y > 1.0f) aColor.y = 1.0f;
 		if(aColor.z > 1.0f) aColor.z = 1.0f;
@@ -437,11 +437,11 @@ void Grass::Realize(dword delta_time)
 	}else{
 		//Источник по умолчанию
 		//Рассеяный свет
-		dword aclr;
+		uint32_t aclr;
 		if(rs->GetRenderState(D3DRS_AMBIENT, &aclr) != D3D_OK) aclr = 0xffffffff;
-		aColor.z = byte(aclr >> 16)*1.0f/255.0f;
-		aColor.y = byte(aclr >> 8)*1.0f/255.0f;
-		aColor.x = byte(aclr >> 0)*1.0f/255.0f;
+		aColor.z = uint8_t(aclr >> 16)*1.0f/255.0f;
+		aColor.y = uint8_t(aclr >> 8)*1.0f/255.0f;
+		aColor.x = uint8_t(aclr >> 0)*1.0f/255.0f;
 		if(aColor.x > 1.0f) aColor.x = 1.0f;
 		if(aColor.y > 1.0f) aColor.y = 1.0f;
 		if(aColor.z > 1.0f) aColor.z = 1.0f;
@@ -547,7 +547,7 @@ void Grass::Realize(dword delta_time)
 	}
 }
 
-dword _cdecl Grass::ProcessMessage(MESSAGE &message)
+uint32_t _cdecl Grass::ProcessMessage(MESSAGE &message)
 {
 	char ctmp[MAX_PATH];
 	switch( message.Long() )

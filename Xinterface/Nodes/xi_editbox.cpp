@@ -38,7 +38,7 @@ CXI_EDITBOX::~CXI_EDITBOX()
 	ReleaseAll();
 }
 
-void CXI_EDITBOX::Draw(bool bSelected,dword Delta_Time)
+void CXI_EDITBOX::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(!bSelected && m_bOldSelected)
 	{
@@ -377,7 +377,7 @@ void CXI_EDITBOX::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	// Create buffers
 	m_idVBRect = m_rs->CreateVertexBuffer(XI_NOTEX_FVF,8*sizeof(XI_NOTEX_VERTEX),D3DUSAGE_WRITEONLY);
 	m_idVB = m_rs->CreateVertexBuffer(XI_ONLYONETEX_FVF,sizeof(XI_ONLYONETEX_VERTEX)*m_nAlphaQuantity*4,D3DUSAGE_WRITEONLY);
-	m_idIB = m_rs->CreateIndexBuffer(m_nAlphaQuantity*6*sizeof(WORD));
+	m_idIB = m_rs->CreateIndexBuffer(m_nAlphaQuantity*6*sizeof(uint16_t));
 	if( m_idVBRect==-1 || m_idVB==-1 || m_idIB==-1 )
 		STORM_THROW("Can't create buffers");
 
@@ -432,7 +432,7 @@ void CXI_EDITBOX::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	}
 	m_rs->UnLockVertexBuffer(m_idVB);
 
-	WORD * pt = (WORD*)m_rs->LockIndexBuffer(m_idIB);
+	uint16_t * pt = (uint16_t*)m_rs->LockIndexBuffer(m_idIB);
 	for(j=i=0; i<idx; i+=4,j+=6)
 	{
 		pt[j] = i;	pt[j+1] = i+1;	pt[j+2] = i+2;

@@ -3,7 +3,8 @@
 #ifndef _MEMORY_FILE_
 #define _MEMORY_FILE_
 
-#include "..\..\common_h\d_types.h"
+#include <cstdint>
+#include <cstring>
 #include "..\..\common_h\memop.h"
 
 #define VFSEEK_SET          (0x00000000)
@@ -15,10 +16,10 @@ class MemFile
 {
 	bool DataIsMy;
 
-	byte* Data;
-	dword MaxLen;
-	dword CurPos;
-	dword BiggestWritePos;
+	uint8_t* Data;
+	uint32_t MaxLen;
+	uint32_t CurPos;
+	uint32_t BiggestWritePos;
 
 public:
 
@@ -40,10 +41,10 @@ public:
 	{
 		if (GetLength () != pMemfile->GetLength()) return false;
 
-		for (DWORD i = 0; i < GetLength(); i++)
+		for (uint32_t i = 0; i < GetLength(); i++)
 		{
-			BYTE* Buffer1 = (BYTE*)GetBuffer();
-			BYTE* Buffer2 = (BYTE*)pMemfile->GetBuffer();
+			uint8_t* Buffer1 = (uint8_t*)GetBuffer();
+			uint8_t* Buffer2 = (uint8_t*)pMemfile->GetBuffer();
 
 			if (Buffer1[i] != Buffer2[i]) return false;
 		}
@@ -51,36 +52,36 @@ public:
 		return true;
 	}
 
-	inline void OpenRead (void* Data, dword DataSize)
+	inline void OpenRead (void* Data, uint32_t DataSize)
 	{
 		DataIsMy = false;
-		this->Data = (byte*)Data;
+		this->Data = (uint8_t*)Data;
 		MaxLen = DataSize;
 		CurPos = 0;
 	}
 
-	inline void OpenWrite (dword MaxSize)
+	inline void OpenWrite (uint32_t MaxSize)
 	{
 		DataIsMy = true;
-		Data = NEW byte[MaxSize];
+		Data = NEW uint8_t[MaxSize];
 		memset (Data, 0, MaxSize);
 		MaxLen = MaxSize;
 		CurPos = 0;
 	}
 
 
-	inline dword MemFile::Tell ()
+	inline uint32_t MemFile::Tell ()
 	{
 		return CurPos;
 	}
 
-	inline dword MemFile::GetLength ()
+	inline uint32_t MemFile::GetLength ()
 	{
 		if (DataIsMy) return BiggestWritePos;
 		return MaxLen;
 	}
 
-	inline void MemFile::Seek (int NewPos, dword flags)
+	inline void MemFile::Seek (int NewPos, uint32_t flags)
 	{
 		switch (flags)
 		{
@@ -106,10 +107,10 @@ public:
 	}
 
 
-	inline dword MemFile::Read (void* Buffer, dword size)
+	inline uint32_t MemFile::Read (void* Buffer, uint32_t size)
 	{
 		if (!Data) return 0;
-		dword real_size = CurPos+size;
+		uint32_t real_size = CurPos+size;
 		if (real_size > MaxLen)	size = size - (real_size - MaxLen);
 		if (size <= 0) return 0;
 		memcpy (Buffer, (Data + CurPos), size);
@@ -117,19 +118,19 @@ public:
 		return size;
 	}
 
-	inline dword MemFile::WriteZeroByte ()
+	inline uint32_t MemFile::WriteZeroByte ()
 	{
-		BYTE Zero = 0;
+		uint8_t Zero = 0;
 		return Write (&Zero, 1);
 	}
 
 
-	inline dword MemFile::Write (const void* Buffer, dword size)
+	inline uint32_t MemFile::Write (const void* Buffer, uint32_t size)
 	{
 		if (!DataIsMy) return 0;
 		if (!Data) return 0;
 
-		dword real_size = CurPos+size;
+		uint32_t real_size = CurPos+size;
 		if (real_size > MaxLen)	size = size - (real_size - MaxLen);
 		if (size <= 0) return 0;
 
@@ -141,13 +142,13 @@ public:
 
 
 	template <class TYPE>
-	inline dword WriteType(TYPE &Val)
+	inline uint32_t WriteType(TYPE &Val)
 	{
 		return Write(&Val, sizeof(TYPE));
 	}
 
 	template <class TYPE>
-	inline dword ReadType(TYPE &Val)
+	inline uint32_t ReadType(TYPE &Val)
 	{
 		return Read(&Val, sizeof(TYPE));
 	}

@@ -59,11 +59,11 @@ public:
 	~VANT();
 	void SetDevice();
 	bool Init();
-	void Realize(dword Delta_Time);
-	void Execute(dword Delta_Time);
+	void Realize(uint32_t Delta_Time);
+	void Execute(uint32_t Delta_Time);
 	bool CreateState(ENTITY_STATE_GEN * state_gen);
 	bool LoadState(ENTITY_STATE * state);
-    dword _cdecl ProcessMessage(MESSAGE & message);
+    uint32_t _cdecl ProcessMessage(MESSAGE & message);
 
 private:
     struct VANTDATA
@@ -71,7 +71,7 @@ private:
         bool bDeleted;
         CVECTOR pUp,pLeft,pRight;
         CMatrix *pUpMatWorld,*pDownMatWorld;
-        DWORD sv,nv, st,nt;
+        uint32_t sv,nv, st,nt;
 
         int vantNum;
         CVECTOR pos[VANT_EDGE];
@@ -111,7 +111,7 @@ private:
     VANTVERTEX *vertBuf;
 
     long vBuf,iBuf;
-    DWORD nVert,nIndx;
+    uint32_t nVert,nIndx;
 };
 
 

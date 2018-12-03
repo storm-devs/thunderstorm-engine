@@ -38,7 +38,7 @@ CXI_LRCHANGER::~CXI_LRCHANGER()
 	ReleaseAll();
 }
 
-void CXI_LRCHANGER::Draw(bool bSelected,dword Delta_Time)
+void CXI_LRCHANGER::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(m_bUse)
 	{
@@ -50,7 +50,7 @@ void CXI_LRCHANGER::Draw(bool bSelected,dword Delta_Time)
 		XI_ONETEX_VERTEX vShadow[4];
 
 		// calculate face color
-		DWORD curCol;
+		uint32_t curCol;
 		if(m_bBlindIncrement) m_dwCurBlindState += Delta_Time;
 		else m_dwCurBlindState -= Delta_Time;
 		if(m_dwCurBlindState<0) {m_dwCurBlindState=0; m_bBlindIncrement=true;}

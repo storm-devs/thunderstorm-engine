@@ -23,7 +23,7 @@ class CXI_GLOWER : public CINODE
 public:
 	CXI_GLOWER();
 	~CXI_GLOWER();
-	void	Draw(bool bSelected,dword Delta_Time);
+	void	Draw(bool bSelected,uint32_t Delta_Time);
 	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
 	void	ReleaseAll();
 	int		CommandExecute(int wActCode);
@@ -50,8 +50,8 @@ protected:
 	float	m_fAngleSpeedMin;
 	float	m_fAngleSpeedMax;
 
-	DWORD	m_dwMinColor;
-	DWORD	m_dwMaxColor;
+	uint32_t	m_dwMinColor;
+	uint32_t	m_dwMaxColor;
 };
 
 #endif

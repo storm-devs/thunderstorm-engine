@@ -9,6 +9,7 @@ model binded to an animated locator
 #include "blade.h"
 #include "..\common_h\model.h"
 #include "..\common_h\geometry.h"
+#include "../../Shared/messages.h"
 static const char *handName = "Saber_hand";
 static const char *beltName = "Saber_belt";
 static const char *bloodName = "Saber_blood";
@@ -226,7 +227,7 @@ bool BLADE::Init()
 //------------------------------------------------------------------------------------
 //realize
 //------------------------------------------------------------------------------------
-void BLADE::Realize(dword Delta_Time)
+void BLADE::Realize(uint32_t Delta_Time)
 {
 	blade[0].time += 0.001f*(Delta_Time);
 
@@ -416,7 +417,7 @@ void BLADE::GunFire()
 	}
 }
 
-dword _cdecl BLADE::ProcessMessage(MESSAGE &message)
+uint32_t _cdecl BLADE::ProcessMessage(MESSAGE &message)
 {
 	long n;
 

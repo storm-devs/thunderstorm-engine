@@ -39,7 +39,7 @@ class ModelArray
 	public:
 		virtual void Set(MODEL * model, VDX9RENDER * rs);
 		virtual void Restore(MODEL * model, VDX9RENDER * rs);
-		dword tfactor;
+		uint32_t tfactor;
 	};
 
 	struct Rotator
@@ -51,13 +51,13 @@ class ModelArray
 	{
 		ENTITY_ID modelrealizer;		//Отрисовщик модели
 		ENTITY_ID id;					//Модель
-		dword hash;						//Хэшь значение для быстрого поиска
+		uint32_t hash;						//Хэшь значение для быстрого поиска
 		union
 		{
-			dword flags;
+			uint32_t flags;
 			struct
 			{
-				dword isVisible : 1;
+				uint32_t isVisible : 1;
 
 			};
 		};
@@ -125,7 +125,7 @@ public:
 //Инкапсуляция
 //--------------------------------------------------------------------------------------------
 private:
-	dword CalcHashString(const char * str);
+	uint32_t CalcHashString(const char * str);
 	static void UpdatePath(char * path);
 private:
 	//Модели локации

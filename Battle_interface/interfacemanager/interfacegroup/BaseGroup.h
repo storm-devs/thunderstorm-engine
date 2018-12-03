@@ -14,8 +14,8 @@ public:
 	BI_BaseGroup( BI_ManagerBase* pManager );
 	virtual ~BI_BaseGroup();
 
-	virtual void Init() {}
-	virtual void Update() {}
+	virtual void Init(){}
+	virtual void Update(){}
 
 	virtual long Event(const char* pcEventName) {return 0;}
 

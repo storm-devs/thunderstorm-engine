@@ -1,6 +1,8 @@
 #include "TFishSchools.h"
 #include "..\common_h\ship_base.h"
 #include "..\common_h\rands.h"
+#include "../../Shared/messages.h"
+#include "../common_h/defines.h"
 
 #pragma warning (disable : 4244)
 
@@ -8,7 +10,7 @@
 TFishSchools::TFishSchools()
 	:enabled(false)
 {
-	ZeroMemory(fishSchools, FISHSCHOOL_COUNT << 2);
+	PZERO(fishSchools, FISHSCHOOL_COUNT << 2);
 }
 
 //--------------------------------------------------------------------
@@ -71,11 +73,11 @@ void TFishSchools::Init()
 }
 
 //--------------------------------------------------------------------
-dword TFishSchools::ProcessMessage(long _code, MESSAGE & message)
+uint32_t TFishSchools::ProcessMessage(long _code, MESSAGE & message)
 {
 	GUARD(TFishSchools::ProcessMessage)
 
-	dword outValue = 0;
+	uint32_t outValue = 0;
 
 	switch (_code)
 	{
@@ -94,7 +96,7 @@ dword TFishSchools::ProcessMessage(long _code, MESSAGE & message)
 }
 
 //--------------------------------------------------------------------
-void TFishSchools::Execute(dword _dTime)
+void TFishSchools::Execute(uint32_t _dTime)
 {
 	GUARD(ANIMALS::Execute)
 
@@ -124,7 +126,7 @@ void TFishSchools::Execute(dword _dTime)
 }
 
 //--------------------------------------------------------------------
-void TFishSchools::Realize(dword _dTime)
+void TFishSchools::Realize(uint32_t _dTime)
 {
 	GUARD(ANIMALS::Realize)
 

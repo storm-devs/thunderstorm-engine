@@ -203,7 +203,7 @@ void CXI_ToolTip::CreateIndexBuffer()
 {
 	if( m_nSquareQ > 0 )
 	{
-		m_pI = NEW word[m_nSquareQ*6];
+		m_pI = NEW uint16_t[m_nSquareQ*6];
 		Assert( m_pI );
 	}
 }
@@ -222,13 +222,13 @@ void CXI_ToolTip::UpdateIndexBuffer()
 	if( !m_pI ) return;
 	for( long n=0; n<m_nSquareQ; n++ )
 	{
-		m_pI[n*6+0] = (word)(n*4 + 0);
-		m_pI[n*6+1] = (word)(n*4 + 1);
-		m_pI[n*6+2] = (word)(n*4 + 2);
+		m_pI[n*6+0] = (uint16_t)(n*4 + 0);
+		m_pI[n*6+1] = (uint16_t)(n*4 + 1);
+		m_pI[n*6+2] = (uint16_t)(n*4 + 2);
 
-		m_pI[n*6+3] = (word)(n*4 + 1);
-		m_pI[n*6+4] = (word)(n*4 + 3);
-		m_pI[n*6+5] = (word)(n*4 + 2);
+		m_pI[n*6+3] = (uint16_t)(n*4 + 1);
+		m_pI[n*6+4] = (uint16_t)(n*4 + 3);
+		m_pI[n*6+5] = (uint16_t)(n*4 + 2);
 	}
 }
 

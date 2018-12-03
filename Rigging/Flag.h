@@ -62,16 +62,16 @@ public:
 	~FLAG();
 	void SetDevice();
 	bool Init();
-    void Execute(dword Delta_Time);
-	void Realize(dword Delta_Time);
+    void Execute(uint32_t Delta_Time);
+	void Realize(uint32_t Delta_Time);
 	bool CreateState(ENTITY_STATE_GEN * state_gen);
 	bool LoadState(ENTITY_STATE * state);
-    dword _cdecl ProcessMessage(MESSAGE & message);
+    uint32_t _cdecl ProcessMessage(MESSAGE & message);
 
 private:
     struct FLAGDATA
     {
-        WORD vectQuant; // number of segmentes(square) into flags
+        uint16_t vectQuant; // number of segmentes(square) into flags
 
         bool triangle;
         CVECTOR spos; // start flags position
@@ -83,8 +83,8 @@ private:
         int windIdx,curIdx;
         bool bDecreaze;
 
-        DWORD sv,nv; // start vertex into buffer and quantity vertex
-        DWORD st,nt; // start treangle into buffer and quantity vertex
+        uint32_t sv,nv; // start vertex into buffer and quantity vertex
+        uint32_t st,nt; // start treangle into buffer and quantity vertex
 
         int flagNum; // number of flag
         int grNum; // number of flag group
@@ -126,12 +126,12 @@ private:
     void MoveOtherHost(ENTITY_ID newm_id,long flagNum,ENTITY_ID oldm_id);
 
     FLAGLXVERTEX* vertBuf;
-    WORD* indxBuf;
+    uint16_t* indxBuf;
 
     D3DXMATRIX rootMatrix;
 
     long vBuf,iBuf;
-    DWORD nVert,nIndx;
+    uint32_t nVert,nIndx;
     bool bYesDeleted;
     int wFlagLast;
 };

@@ -106,9 +106,9 @@ public:
 //»нкапсул€ци€
 //--------------------------------------------------------------------------------------------
 private:
-	void DrawRect(float x1, float y1, float x2, float y2, dword color);
-	void DrawLine(float x1, float y1, float x2, float y2, dword color);
-	void DrawLRect(float x1, float y1, float x2, float y2, dword bkgColor, dword lnColor);
+	void DrawRect(float x1, float y1, float x2, float y2, uint32_t color);
+	void DrawLine(float x1, float y1, float x2, float y2, uint32_t color);
+	void DrawLRect(float x1, float y1, float x2, float y2, uint32_t bkgColor, uint32_t lnColor);
 	void Print(long color, float xleft, float xright, float y, float scale, bool isAlign, const char * format, ...);
 	void DrawCursor();
 
@@ -133,7 +133,7 @@ private:
 	float sw, sh;
 	//ѕараметры окон
 	float winx, winy, winw, winh;
-	dword bkgColor, frmColor, textColor, selColor;
+	uint32_t bkgColor, frmColor, textColor, selColor;
 	float sldLen;
 	//Font
 	long font;

@@ -4,7 +4,6 @@
 #include "..\common_h\vmodule_api.h"
 #include "..\common_h\character.h"
 #include "..\common_h\sd2_h\CannonTrace.h"
-#include "..\common_h\messages.h"
 #include "..\common_h\vparticle_system.h"
 #include "AIHelper.h"
 
@@ -25,7 +24,7 @@ struct BALL_PARAMS
 	float				fSizeMultiply;		// Size of ball multiply
 	float				fTimeSpeedMultiply;	// Time speed multiply
 	float				fMaxFireDistance;
-	dword				dwCannonType;		// Additional parameter
+	uint32_t				dwCannonType;		// Additional parameter
 };
 
 // ============================================================================
@@ -35,8 +34,8 @@ struct BALL_TYPE
 {
 	std::string				sName;				// ball name
 	std::string				sParticleName;		// particle name
-	dword				dwSubTexIndex;		// 
-	dword				dwGoodIndex;		//
+	uint32_t				dwSubTexIndex;		// 
+	uint32_t				dwGoodIndex;		//
 	float				fSize;				// ball size(sprite size in meters)
 	float				fWeight;			// ball weight
 	std::vector<BALL_PARAMS>	Balls;				// container with current balls 
@@ -59,10 +58,10 @@ private:
 	float				fBallFlySoundStereoMultiplyer;
 
 	std::string				sTextureName;				// texture name
-	dword				dwTextureIndex;				// texture index
-	dword				dwSubTexX, dwSubTexY;		// all balls must be in one texture
+	uint32_t				dwTextureIndex;				// texture index
+	uint32_t				dwSubTexX, dwSubTexY;		// all balls must be in one texture
 	VIDWALKER			* pVWForts, * pVWShips;		// 
-	dword				dwFireBallFromCameraTime;
+	uint32_t				dwFireBallFromCameraTime;
 
 	std::vector<BALL_TYPE>	aBallTypes;					// Balls types container
 	std::vector<RS_RECT>		aBallRects;					// Balls container for render
@@ -73,14 +72,14 @@ private:
 	bool	Init();
 	void	SetDevice();
 
-	void	Realize(dword Delta_Time);
-	void	Execute(dword Delta_Time);
+	void	Realize(uint32_t Delta_Time);
+	void	Execute(uint32_t Delta_Time);
 	
 	void	FireBallFromCamera();
 
-	dword	AttributeChanged(ATTRIBUTES * pAttributeChanged);
+	uint32_t	AttributeChanged(ATTRIBUTES * pAttributeChanged);
 
-	dword _cdecl	ProcessMessage(MESSAGE & message);
+	uint32_t _cdecl	ProcessMessage(MESSAGE & message);
 
 public:
 	static AIBalls * pAIBalls;

@@ -9,7 +9,7 @@ struct BI_IMAGE_VERTEX
 {
 	CVECTOR pos;
 	float w;
-	DWORD col;
+	uint32_t col;
 	float tu, tv;
 };
 
@@ -24,10 +24,10 @@ enum BIImageType
 class IBIImage
 {
 protected:
-	IBIImage() {}
+	IBIImage(){}
 public:
 	virtual ~IBIImage() {}
-	virtual void SetColor( dword color ) = 0;
+	virtual void SetColor( uint32_t color ) = 0;
 	virtual void SetPosition( long nLeft, long nTop, long nRight, long nBottom ) = 0;
 	virtual void Set3DPosition( const CVECTOR& vPos, float fWidth, float fHeight ) = 0;
 	virtual void SetUV( const FRECT& uv ) = 0;
@@ -39,11 +39,11 @@ public:
 class IBIString
 {
 protected:
-	IBIString() {}
+	IBIString(){}
 public:
-	virtual ~IBIString() {}
+	virtual ~IBIString(){}
 
-	virtual void SetColor( dword color ) = 0;
+	virtual void SetColor( uint32_t color ) = 0;
 	virtual void SetScale( float fScale ) = 0;
 	virtual void SetFont( const char* pcFontName ) = 0;
 	virtual void SetAlign( long nHorzAlign, long nVertAlign ) = 0;

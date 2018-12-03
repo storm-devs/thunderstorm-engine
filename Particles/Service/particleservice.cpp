@@ -62,12 +62,12 @@ void ParticleService::RemoveManagerFromList (IParticleManager* pManager)
 	}
 }
 
-DWORD ParticleService::GetManagersCount ()
+uint32_t ParticleService::GetManagersCount ()
 {
 	return CreatedManagers.size();
 }
 
-IParticleManager* ParticleService::GetManagerByIndex (DWORD Index)
+IParticleManager* ParticleService::GetManagerByIndex (uint32_t Index)
 {
 	return CreatedManagers[Index].pManager;
 }

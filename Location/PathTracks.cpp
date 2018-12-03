@@ -8,6 +8,7 @@
 			
 
 #include "PathTracks.h"
+#include "CameraTracksFile.h"
 
 //============================================================================================
 
@@ -38,7 +39,7 @@ bool PathTracks::Load(const char * fileName)
 	numPoints = 0;
 
 	char* data = nullptr;
-	dword size = 0;
+	uint32_t size = 0;
 	if( api->fio->LoadFile(fileName,&data,&size)==FALSE || !data )
 	{
 		api->Trace("Camera tracks file %s not loaded...", fileName);
@@ -70,7 +71,7 @@ bool PathTracks::Load(const char * fileName)
 	//Сохраняем данные
 	point = NEW Point[nPoints];
 	Assert( point );
-	memcpy(point, (byte *)data + sizeof(AntFileHeader) + nStringSize + sizeof(AntFileBone)*nBoneCount, sizeof(AntFileTrackElement)*nPoints);
+	memcpy(point, (uint8_t *)data + sizeof(AntFileHeader) + nStringSize + sizeof(AntFileBone)*nBoneCount, sizeof(AntFileTrackElement)*nPoints);
 	numPoints = nPoints;
 
 	return true;

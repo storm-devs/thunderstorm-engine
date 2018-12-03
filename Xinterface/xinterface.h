@@ -3,11 +3,11 @@
 
 #include "..\common_h\dx9render.h"
 #include "..\common_h\matrix.h"
-#include "inode.h"
 #include "..\common_h\vmodule_api.h"
 #include "QuestFileReader\\QuestFileReader.h"
 #include "nodes\xi_util.h"
 #include "editor\editor.h"
+#include "inode.h"
 
 class CXI_WINDOW;
 
@@ -29,7 +29,7 @@ protected:
 
 	// context help
 	long	m_nInterfaceMode;
-	DWORD	m_dwContHelpColor;
+	uint32_t	m_dwContHelpColor;
 	long	m_idHelpTexture;
 	FXYRECT	m_frectHelpTextureUV;
 	char *	m_strDefHelpTextureFile;
@@ -39,8 +39,8 @@ protected:
     //-------------------------------------
 	float   fScale;
 	XYRECT  GlobalScreenRect;
-	DWORD   dwScreenWidth;
-	DWORD   dwScreenHeight;
+	uint32_t   dwScreenWidth;
+	uint32_t   dwScreenHeight;
 	int		m_nColumnQuantity; // Column quantity for grid of the previouse texture
 	float	m_fWaveAmplitude;
 	float   m_fWavePhase;
@@ -67,7 +67,7 @@ protected:
 	VDATA * m_pMouseWeel;
 
 	// save render state parameters
-	DWORD m_dwStoreFlag_Fog;
+	uint32_t m_dwStoreFlag_Fog;
 
 public:
 	 XINTERFACE();
@@ -75,12 +75,12 @@ public:
 
 	void SetDevice();
 	bool Init();
-    void Execute(dword Delta_Time);
-	void Realize(dword Delta_Time);
+    void Execute(uint32_t Delta_Time);
+	void Realize(uint32_t Delta_Time);
 	bool CreateState(ENTITY_STATE_GEN * state_gen);
 	bool LoadState(ENTITY_STATE * state);
-    dword _cdecl ProcessMessage(MESSAGE & message);
-	dword AttributeChanged(ATTRIBUTES* patr);
+    uint32_t _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t AttributeChanged(ATTRIBUTES* patr);
 
 	void CreateNode(char *sFileName, char *sNodeType, char *sNodeName, long priority=80);
 	void __declspec(dllexport) __cdecl SFLB_CreateNode(INIFILE* pOwnerIni, INIFILE* pUserIni, char *sNodeType, char *sNodeName, long priority);
@@ -88,10 +88,10 @@ public:
 	CINODE* NewNode(const char* pcNodType);
 
 	void SetTooltip( const char* pcHeader,
-		const char* pcText1,dword dwTextColor1,
-		const char* pcText2,dword dwTextColor2,
-		const char* pcText3,dword dwTextColor3,
-		const char* pcText4,dword dwTextColor4,
+		const char* pcText1,uint32_t dwTextColor1,
+		const char* pcText2,uint32_t dwTextColor2,
+		const char* pcText3,uint32_t dwTextColor3,
+		const char* pcText4,uint32_t dwTextColor4,
 		const char* pcPicTextureName,const char* pcPicGroupName,const char* pcPicImageName,
 		long nPicWidth,long nPicHeight );
 
@@ -107,7 +107,7 @@ public:
 
 	void *						GetCurrentNode() {return m_pCurNode;}
 	FXYPOINT					GetMousePoint() {return FXYPOINT(fXMousePos+m_lXMouse,fYMousePos+m_lYMouse);}
-	long						PrintIntoWindow(long wl,long wr, long idFont, DWORD dwFCol, DWORD dwBCol, long align, bool shadow, float scale, long sxs, long sys, long left, long top, char * str, int nWidthForScaleCorrecting=-1, int nSplit=0);
+	long						PrintIntoWindow(long wl,long wr, long idFont, uint32_t dwFCol, uint32_t dwBCol, long align, bool shadow, float scale, long sxs, long sys, long left, long top, char * str, int nWidthForScaleCorrecting=-1, int nSplit=0);
 
 	virtual CINODE *			FindNode(const char * sNodeName, CINODE * findRoot) {if(!findRoot) findRoot=m_pNodes; if(findRoot) return findRoot->FindNode(sNodeName); return nullptr;}
 	virtual void				ShowWindow( const char* pcWindowName, bool bShow );
@@ -158,7 +158,7 @@ protected:
 	void ShowContextHelp();
 
 	// draw function
-	void		DrawNode(CINODE* nod,dword Delta_Time, long startPrior=0, long endPrior=32000);
+	void		DrawNode(CINODE* nod,uint32_t Delta_Time, long startPrior=0, long endPrior=32000);
 	void		ShowPrevTexture();
 	// initialisation function
     void		LoadIni();
@@ -190,7 +190,7 @@ protected:
 	// cript function
 	void		SetOtherData(char * cDat);
 	// Game time function
-	void		IncrementGameTime(DWORD dwDeltaTime);
+	void		IncrementGameTime(uint32_t dwDeltaTime);
 	// Options functions
 	void		SaveOptionsFile(char * fileName, ATTRIBUTES * pAttr);
 	void		LoadOptionsFile(char * fileName, ATTRIBUTES * pAttr);
@@ -199,7 +199,7 @@ protected:
 	//
 	void		PrecreateDirForFile(const char* pcFullFileName);
 
-	DWORD	m_dwCurDeltaTime;
+	uint32_t	m_dwCurDeltaTime;
 	int		m_dwGameTimeSec;
 	int		m_dwGameTimeMin;
 	int		m_dwGameTimeHour;
@@ -240,7 +240,7 @@ protected:
 	{
 		bool	bUsed;
 		int		fontNum;
-		DWORD   dwColor;
+		uint32_t   dwColor;
 		char *	sStringName;
 		int		x,y;
 		int		eAlignment;
@@ -260,8 +260,8 @@ protected:
 		long			idTexture;
 		long			imageID;
 		bool			doBlind;
-		DWORD			argbBlindMin;
-		DWORD			argbBlindMax;
+		uint32_t			argbBlindMin;
+		uint32_t			argbBlindMax;
 		IMAGE_ENTITY	*next;
 	};
 	IMAGE_ENTITY *	m_imgLists;
@@ -289,7 +289,7 @@ protected:
 
 	// vertex & index data
     long vBuf,iBuf;
-    DWORD nVert,nIndx;
+    uint32_t nVert,nIndx;
 
 	// blind parameters
 	float	m_fBlindFactor;
@@ -323,8 +323,8 @@ public:
 	CONTROLS_CONTAINER();
 	~CONTROLS_CONTAINER();
 	bool Init();
-	void Execute(dword delta_time);
-    dword _cdecl ProcessMessage(MESSAGE & message);
+	void Execute(uint32_t delta_time);
+    uint32_t _cdecl ProcessMessage(MESSAGE & message);
 
 protected:
 	bool CreateConteinerList(ATTRIBUTES * pA);

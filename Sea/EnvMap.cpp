@@ -1,5 +1,5 @@
 #include "Sea.h"
-#include "..\common_h\messages.h"
+#include "..\../Shared/messages.h"
 
 void SEA::EnvMap_GetSideMatrix(D3DCUBEMAP_FACES Face, CMatrix & mView)
 {
@@ -77,15 +77,15 @@ bool SEA::SunRoad_Render2()
 	D3DXPlaneTransform(&plane, &plane, &mInv);
 	Render().SetClipPlane (0, (FLOAT *)&plane);
 
-	dword dwSkyCode = api->Class_Name2Code("sky");
-	dword dwIslandCode = api->Class_Name2Code("island");
-	dword dwShipCode = api->Class_Name2Code("ship");
-	dword dwSailCode = api->Class_Name2Code("sail");
+	uint32_t dwSkyCode = api->Class_Name2Code("sky");
+	uint32_t dwIslandCode = api->Class_Name2Code("island");
+	uint32_t dwShipCode = api->Class_Name2Code("ship");
+	uint32_t dwSailCode = api->Class_Name2Code("sail");
 
 	bool bLayerFrozen = (api->LayerGetFlags("sea_reflection2") & LRFLAG_FROZEN) != 0;
 
-	dword Colors[6] = {0xd934c8, 0x2FFF1F, 0x0000FF, 0xFF00, 0xb28e11, 0x0};
-	//for (dword i=0; i<6; i++) 
+	uint32_t Colors[6] = {0xd934c8, 0x2FFF1F, 0x0000FF, 0xFF00, 0xb28e11, 0x0};
+	//for (uint32_t i=0; i<6; i++) 
 	{
 		//if (i == D3DCUBEMAP_FACE_NEGATIVE_Y) continue;
 		//if (i != D3DCUBEMAP_FACE_NEGATIVE_Z) continue;
@@ -111,7 +111,7 @@ bool SEA::SunRoad_Render2()
 		if (api->SetEntityScanLayer("sea_sunroad") && api->GetEntity(&ent_id))
 			do 
 			{
-				dword dwCCode = ent_id.class_code;
+				uint32_t dwCCode = ent_id.class_code;
 				if (!bLayerFrozen || (dwCCode != dwShipCode && dwCCode != dwSailCode && dwCCode != dwIslandCode)) 
 				{
 					api->Send_Message(ent_id, "ll", MSG_SEA_SUNROAD_DRAW, long(bSimpleSea));
@@ -177,8 +177,8 @@ bool SEA::EnvMap_Render2()
 
 	bool bLayerFrozen = (api->LayerGetFlags("sea_reflection2") & LRFLAG_FROZEN) != 0;
 
-	dword Colors[6] = {0xd934c8, 0x2FFF1F, 0x0000FF, 0xFF00, 0xb28e11, 0x0};
-	//for (dword i=0; i<6; i++) 
+	uint32_t Colors[6] = {0xd934c8, 0x2FFF1F, 0x0000FF, 0xFF00, 0xb28e11, 0x0};
+	//for (uint32_t i=0; i<6; i++) 
 	{
 		//if (i == D3DCUBEMAP_FACE_NEGATIVE_Y) continue;
 		//if (i != D3DCUBEMAP_FACE_NEGATIVE_Z) continue;
@@ -250,15 +250,15 @@ bool SEA::SunRoad_Render()
 
 	Render().SetProjection( CMatrix().BuildProjectionMatrix(PI / 2.0f, 256.0f, 256.0f, 1.0f, 4000.0f) );
 
-	dword dwSkyCode = api->Class_Name2Code("sky");
-	dword dwIslandCode = api->Class_Name2Code("island");
-	dword dwShipCode = api->Class_Name2Code("ship");
-	dword dwSailCode = api->Class_Name2Code("sail");
+	uint32_t dwSkyCode = api->Class_Name2Code("sky");
+	uint32_t dwIslandCode = api->Class_Name2Code("island");
+	uint32_t dwShipCode = api->Class_Name2Code("ship");
+	uint32_t dwSailCode = api->Class_Name2Code("sail");
 
 	bool bLayerFrozen = (api->LayerGetFlags("sea_reflection2") & LRFLAG_FROZEN) != 0;
 
-	dword Colors[6] = {0xd934c8, 0x2FFF1F, 0x0000FF, 0xFF00, 0xb28e11, 0x0};
-	for (dword i=0; i<6; i++) 
+	uint32_t Colors[6] = {0xd934c8, 0x2FFF1F, 0x0000FF, 0xFF00, 0xb28e11, 0x0};
+	for (uint32_t i=0; i<6; i++) 
 	{
 		if (!bUnderSea && i == D3DCUBEMAP_FACE_NEGATIVE_Y) continue;
 
@@ -280,7 +280,7 @@ bool SEA::SunRoad_Render()
 		if (api->SetEntityScanLayer("sea_sunroad") && api->GetEntity(&ent_id))
 			do 
 			{
-				dword dwCCode = ent_id.class_code;
+				uint32_t dwCCode = ent_id.class_code;
 				if (!bLayerFrozen || (dwCCode != dwShipCode && dwCCode != dwSailCode && dwCCode != dwIslandCode)) 
 				{
 					api->Send_Message(ent_id, "ll", MSG_SEA_SUNROAD_DRAW, long(bSimpleSea));
@@ -311,8 +311,8 @@ bool SEA::EnvMap_Render()
 
 	bool bLayerFrozen = (api->LayerGetFlags("sea_reflection2") & LRFLAG_FROZEN) != 0;
 
-	dword Colors[6] = {0xd934c8, 0x2FFF1F, 0x0000FF, 0xFF00, 0xb28e11, 0x0};
-	for (dword i=0; i<6; i++) 
+	uint32_t Colors[6] = {0xd934c8, 0x2FFF1F, 0x0000FF, 0xFF00, 0xb28e11, 0x0};
+	for (uint32_t i=0; i<6; i++) 
 	{
 		if (!bUnderSea && i == D3DCUBEMAP_FACE_NEGATIVE_Y) continue;
 		//if (i != D3DCUBEMAP_FACE_NEGATIVE_Z) continue;

@@ -80,7 +80,7 @@ bool TMPTELEPORT::Init()
 	return true;
 }
 
-void TMPTELEPORT::Execute(dword Delta_Time)
+void TMPTELEPORT::Execute(uint32_t Delta_Time)
 {
 	CONTROL_STATE cs;
 	if( ((PCS_CONTROLS*)api->Controls)->m_bIsOffDebugKeys ) return;
@@ -139,7 +139,7 @@ void TMPTELEPORT::Execute(dword Delta_Time)
 	}
 }
 
-void TMPTELEPORT::Realize(dword Delta_Time)
+void TMPTELEPORT::Realize(uint32_t Delta_Time)
 {
 	if(m_nStrQuantity>0)
 	{
@@ -173,7 +173,7 @@ void TMPTELEPORT::ReleaseAll()
 	m_nShowType = 0;
 }
 
-dword _cdecl TMPTELEPORT::ProcessMessage(MESSAGE &message)
+uint32_t _cdecl TMPTELEPORT::ProcessMessage(MESSAGE &message)
 {
 	switch(message.Long())
 	{
@@ -315,9 +315,9 @@ bool FINDDIALOGNODES::Init()
 				return false;
 			}
 
-			DWORD readsize;
+			uint32_t readsize;
 			if( api->fio->_ReadFile(hfile,fileBuf,filesize,&readsize) == FALSE ||
-				readsize!=(DWORD)filesize )
+				readsize!=(uint32_t)filesize )
 			{
 				api->Trace("Can`t read dialog file: %s",fileName);
 				api->fio->_CloseHandle(hfile);

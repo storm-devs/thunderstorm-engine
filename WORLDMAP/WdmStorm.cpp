@@ -81,7 +81,7 @@ WdmStorm::WdmStorm()
 	//num = 3 + (rand() & 3);
 	num = 6;
 	//Битовое поле расположения облаков
-	byte w[8];
+	uint8_t w[8];
 	for(long i = 0; i < 8; i++) w[i] = 0;
 	//Раскидываем облака
 	long x, z;

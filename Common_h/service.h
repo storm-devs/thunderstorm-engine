@@ -10,15 +10,6 @@
 // before core start transfer program control to objects Realize() functions and call Run_End() 
 // after program control leave objects Realize sections
 
-
-//#include "entity.h"
-#ifndef _XBOX
-#include <windows.h>
-#else
-#include <xtl.h>
-#endif
-
-#include "d_types.h"
 #include "entity_state.h"
 
 #define SECTION_ALL						0x0
@@ -37,7 +28,7 @@ public:
 	virtual ~SERVICE(){};
 	virtual void  RunStart(){};
 	virtual void  RunEnd(){};
-	virtual dword RunSection(){return SECTION_ALL;};
+	virtual uint32_t RunSection(){return SECTION_ALL;};
 	virtual bool Init(){return true;};
 	virtual bool LoadState(ENTITY_STATE * state) {return true;};
 	virtual bool CreateState(ENTITY_STATE_GEN * state_gen) {return true;};

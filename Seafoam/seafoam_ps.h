@@ -50,7 +50,7 @@
 struct PARTICLE_VERTEX
 {
 	CVECTOR pos;
-	DWORD color;
+	uint32_t color;
 	float tu,tv;
 };
 
@@ -79,11 +79,11 @@ struct PARTICLE
 
 	long  lifetime;
 	long  time;
-	dword color;
+	uint32_t color;
 	bool  live;
 	bool  done;
 
-	dword flow_track_index;
+	uint32_t flow_track_index;
 };
 
 #define TRACK_EVENT_MAX	16
@@ -146,26 +146,26 @@ class SEAFOAM_PS : VPARTICLE_SYSTEM
 //---------------------------------
 
 	bool  enableEmit;
-	dword nEmitted;
+	uint32_t nEmitted;
 	float EmissionTime;	// time for emitting one particle
 	long  DeltaTimeSLE; // SinceLastEmission
 	bool  EmitParticle();
 	long  nSystemLifeTime;
 	void  AddTrackPoint(CVECTOR pos);
 	CVECTOR * pFlowTrack;
-	dword nFlowTrackSize;
+	uint32_t nFlowTrackSize;
 	bool  bUseFlowTrack;
-	void SetFlowTrack(dword index);
+	void SetFlowTrack(uint32_t index);
 	float fTrackPointRadius;
 	float EmissionTimeRand;
 	float CurrentEmissionTimeRand;
 	bool bLayOnSurface;
-	void LayOnSurface(dword index);
+	void LayOnSurface(uint32_t index);
 	ENTITY_ID SurfaceID;
 	void UseSurface(ENTITY_ID surface_id);
 	float fSurfaceOffset;
 	char * TechniqueName;
-	dword ParticleColor;
+	uint32_t ParticleColor;
 
 //---------------------------------
 
@@ -202,13 +202,13 @@ public:
 	~SEAFOAM_PS();
 	bool Init(INIFILE * ini, char * psname);
 	void UpdateVertexBuffer();
-	void Realize(dword DeltaTime);
-	void Execute(dword DeltaTime);
-	void ProcessParticles(dword DeltaTime);
+	void Realize(uint32_t DeltaTime);
+	void Execute(uint32_t DeltaTime);
+	void ProcessParticles(uint32_t DeltaTime);
 	bool Complete();
 	void Stop() { bComplete = true; };
 
-	void SetParticlesTracks(dword DeltaTime);
+	void SetParticlesTracks(uint32_t DeltaTime);
 
 	float GetTrackValue(TRACK_EVENT * Track, long Time);
 	bool  BuildTrack(INIFILE * ini, TRACK_EVENT * Track, char * psname, char * key_name);
@@ -228,7 +228,7 @@ public:
 	void ProcessOrder(SEAFOAM_PS * * Root,SEAFOAM_PS * * Top);
 	//---------------------------------------------------------------
 
-	void  SetLifeTime(dword time) {nSystemLifeTime = time;}
+	void  SetLifeTime(uint32_t time) {nSystemLifeTime = time;}
 
 };
 

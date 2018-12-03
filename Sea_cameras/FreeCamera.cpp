@@ -1,6 +1,8 @@
 #include "FreeCamera.h"
 #include "..\common_h\collide.h"
 #include "..\model\modelr.h"
+#include "../common_h/defines.h"
+#include "../common_h/Sd2_h/SaveLoad.h"
 
 #define SENSITIVITY		0.0015f
 #define FOV				1.285f
@@ -67,7 +69,7 @@ bool FREE_CAMERA::LoadState(ENTITY_STATE * state)
 	return true;
 }
 
-void FREE_CAMERA::Execute(dword Delta_Time)
+void FREE_CAMERA::Execute(uint32_t Delta_Time)
 {
 	if (!isOn()) return;
 
@@ -80,7 +82,7 @@ void FREE_CAMERA::Execute(dword Delta_Time)
 	Move(_CORE_API->GetDeltaTime());
 }
 
-void FREE_CAMERA::Move(DWORD DeltaTime)
+void FREE_CAMERA::Move(uint32_t DeltaTime)
 {
 	if (!isActive()) return;
 	if(LOWORD(GetKeyState(VK_NUMLOCK)) != 0) return;

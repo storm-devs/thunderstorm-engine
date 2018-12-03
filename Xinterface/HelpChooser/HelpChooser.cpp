@@ -43,7 +43,7 @@ bool HELPCHOOSER::Init()
 	return true;
 }
 
-void HELPCHOOSER::Execute(dword Delta_Time)
+void HELPCHOOSER::Execute(uint32_t Delta_Time)
 {
 	long newCurRect;
 	CONTROL_STATE cs;
@@ -140,7 +140,7 @@ void HELPCHOOSER::Execute(dword Delta_Time)
 	rs->UnLockVertexBuffer(m_idVBuf);
 }
 
-void HELPCHOOSER::Realize(dword Delta_Time)
+void HELPCHOOSER::Realize(uint32_t Delta_Time)
 {
 	if(m_idVBuf==-1) return;
 
@@ -162,7 +162,7 @@ void HELPCHOOSER::Realize(dword Delta_Time)
 	}
 }
 
-dword _cdecl HELPCHOOSER::ProcessMessage(MESSAGE & message)
+uint32_t _cdecl HELPCHOOSER::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{
