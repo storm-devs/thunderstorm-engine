@@ -1,7 +1,7 @@
 #ifndef _XI_V_IMAGE_SCROLL_H
 #define _XI_V_IMAGE_SCROLL_H
 
-#include "..\\inode.h"
+#include "..//inode.h"
 
 // scroll image
 class CXI_VIMAGESCROLL : public CINODE

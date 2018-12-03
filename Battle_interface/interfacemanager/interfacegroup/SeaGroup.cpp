@@ -1,7 +1,7 @@
 #include "SeaGroup.h"
-#include "..\BaseManager.h"
-#include "..\..\image\imgrender.h"
-#include "..\..\utils.h"
+#include "../BaseManager.h"
+#include "../../image/imgrender.h"
+#include "../../Utils.h"
 
 BI_SeaGroup::BI_SeaGroup( BI_ManagerBase* pManager ) :
 	BI_BaseGroup(pManager)

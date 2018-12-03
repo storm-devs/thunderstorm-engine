@@ -1,7 +1,7 @@
 #ifndef _PCS_CONTROLS_H_
 #define _PCS_CONTROLS_H_
 
-#include "..\common_h\vmodule_api.h"
+#include "../common_h/vmodule_api.h"
 #include "KeyBuffer.h"
 #include "ControlTree.h"
 

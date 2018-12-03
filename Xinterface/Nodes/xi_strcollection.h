@@ -1,7 +1,7 @@
 #ifndef _XI_STRCOLLECTION_H
 #define _XI_STRCOLLECTION_H
 
-#include "..\\inode.h"
+#include "..//inode.h"
 
 // text collection
 class CXI_STRCOLLECTION : public CINODE

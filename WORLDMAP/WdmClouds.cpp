@@ -12,7 +12,7 @@
 #include "WdmCloud.h"
 #include "WorldMap.h"
 #include "WdmCamera.h"
-#include "../SINK_EFFECT/SinkSplashDefines.h"
+#include "../Sink_effect/SinkSplashDefines.h"
 #include "WdmObjects.h"
 
 //============================================================================================

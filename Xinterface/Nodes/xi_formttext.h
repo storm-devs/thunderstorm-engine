@@ -1,7 +1,7 @@
 #ifndef _FORMTTEXT_H_
 #define _FORMTTEXT_H_
 
-#include "..\inode.h"
+#include "../inode.h"
 
 class CXI_FORMATEDTEXT : public CINODE
 {

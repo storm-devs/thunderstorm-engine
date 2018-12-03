@@ -1,6 +1,6 @@
 #include "InterfaceEditor.h"
 #include "EditorManager.h"
-#include "gui\utils.h"
+#include "gui/utils.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(InterfaceEditor)

@@ -2,7 +2,7 @@
 #define _DSTRING_CODEC_H_
 
 #include <memory.h>
-#include "..\..\common_h\memop.h"
+#include "../../Common_h/memop.h"
 
 #define DHASH_TABLE_SIZE	255
 #define DHASH_SINGLESYM		DHASH_TABLE_SIZE

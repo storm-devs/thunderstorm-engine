@@ -1,7 +1,7 @@
 #ifndef CANNON_TRACE_BASE_HPP
 #define CANNON_TRACE_BASE_HPP
 
-#include "..\object.h"
+#include "../object.h"
 
 class CANNON_TRACE_BASE : public COLLISION_OBJECT
 {

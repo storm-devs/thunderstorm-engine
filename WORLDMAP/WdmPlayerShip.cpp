@@ -13,7 +13,7 @@
 #include "WdmEnemyShip.h"
 #include "WdmIslands.h"
 #include "WorldMap.h"
-#include "../common_h/defines.h"
+#include "../Common_h/defines.h"
 
 //============================================================================================
 //Конструирование, деструктурирование

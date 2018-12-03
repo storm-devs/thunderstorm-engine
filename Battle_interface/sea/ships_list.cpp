@@ -1,6 +1,6 @@
 #include <assert.h>
 #include "ships_list.h"
-#include "..\..\common_h\net.h"
+#include "../../Common_h/Net.h"
 #include "../../../Shared/battle_interface/msg_control.h"
 //#include "battle_command.h"
 

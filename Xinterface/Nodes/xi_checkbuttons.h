@@ -1,9 +1,9 @@
 #ifndef __XI_CHECKBUTTONS_H__
 #define __XI_CHECKBUTTONS_H__
 
-#include "..\inode.h"
+#include "../inode.h"
 #include "xi_image.h"
-#include "../../common_h/defines.h"
+#include "../../Common_h/defines.h"
 
 struct ButtonDescribe
 {

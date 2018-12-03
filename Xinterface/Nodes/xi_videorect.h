@@ -1,7 +1,7 @@
 #ifndef _XI_VIDEORECT_H
 #define _XI_VIDEORECT_H
 
-#include "..\\inode.h"
+#include "..//inode.h"
 
 // video
 class CXI_VIDEORECT : public CINODE

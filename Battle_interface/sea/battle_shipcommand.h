@@ -1,7 +1,7 @@
 #ifndef _BATTLE_SHIPCOMMAND_H_
 #define _BATTLE_SHIPCOMMAND_H_
 
-#include "..\battle_command.h"
+#include "../battle_command.h"
 
 class BIShipCommandList : public BICommandList
 {

@@ -8,7 +8,7 @@
 //
 //============================================================================================
 
-#include "..\../Shared/messages.h"
+#include "../../Shared/messages.h"
 
 #include "WorldMap.h"
 
@@ -32,7 +32,7 @@
 #include "WdmEventWindow.h"
 //#include "WaitMenu.h"
 #include "WdmIcon.h"
-#include "../common_h/defines.h"
+#include "../Common_h/defines.h"
 
 //============================================================================================
 

@@ -1,7 +1,7 @@
 #ifndef __XI_SCROLLTEXT_H_
 #define __XI_SCROLLTEXT_H_
 
-#include "..\inode.h"
+#include "../inode.h"
 
 #define PICE_TYPE_STRING		0 // описатель строки
 #define PICE_TYPE_FONTCHANGE	1 // описатель нового фонта

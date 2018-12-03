@@ -1,12 +1,11 @@
 #ifndef _PARTICLE_SYSTEM_H_
 #define _PARTICLE_SYSTEM_H_
 
-#include "..\..\..\common_h\vmodule_api.h"
-#include "..\..\..\common_h\particles\iparticlesystem.h"
-#include "..\..\\icommon\types.h"
-#include "..\..\manager\particlemanager.h"
-#include "..\datasource\datasource.h"
-
+#include "../../../Common_h/vmodule_api.h"
+#include "../../../Common_h/particles/iparticlesystem.h"
+#include "../../ICommonnTypes.hh
+#include "../../Manager/particlemanager.h"
+#include "../DataSource/DataSource.h"
 
 
 class IEmitter;

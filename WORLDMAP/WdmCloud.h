@@ -12,7 +12,7 @@
 #define _WdmCloud_H_
 
 
-#include "..\common_h\matrix.h"
+#include "../Common_h/Matrix.h"
 #include "WdmRenderObject.h"
 
 

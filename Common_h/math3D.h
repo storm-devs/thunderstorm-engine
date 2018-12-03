@@ -11,7 +11,7 @@
 
 //#define inline __forceinline
 
-#include "Math3D\Vector.h"
+#include "Math3D/Vector.h"
 
 
 ///Быстрое приведение числа с плавающей точкой к целому с отбрасыванием дробной части
@@ -159,6 +159,6 @@ inline float safeASin(float ang)
 #define ARRSIZE(ar)		(sizeof(ar)/sizeof(ar[0]))
 
 
-#include "Math3D\Vector4.h"
+#include "Math3D/Vector4.h"
 
 #endif

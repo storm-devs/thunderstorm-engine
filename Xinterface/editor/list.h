@@ -1,7 +1,7 @@
 #ifndef _GI_EDITOR_LIST_H
 #define _GI_EDITOR_LIST_H
 
-#include "..\inode.h"
+#include "../inode.h"
 #include "defines.h"
 
 class GIEditor;

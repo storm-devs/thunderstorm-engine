@@ -1,10 +1,10 @@
 #ifndef VAI_BASE_HPP
 #define VAI_BASE_HPP
 
-#include "..\vmodule_api.h"
-#include "..\matrix.h"
-#include "..\model.h"
-#include "..\cvector.h"
+#include "../vmodule_api.h"
+#include "../Matrix.h"
+#include "../model.h"
+#include "../Cvector.h"
 #include "CannonTrace.h"
 
 class CSaveLoad;

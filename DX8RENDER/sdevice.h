@@ -2,15 +2,15 @@
 #define __SDEVICE_H__
 
 
-#include "..\common_h\vmodule_api.h"
-#include "..\common_h\dx9render.h"
-#include "..\common_h\defines.h"
-#include "..\common_h\VideoTexture.h"
+#include "../Common_h/vmodule_api.h"
+#include "../Common_h/dx9render.h"
+#include "../Common_h/defines.h"
+#include "../Common_h/VideoTexture.h"
 #include <vector>
 #include <stack>
 
 #include "Technique.h"
-#include "font.h"
+#include "Font.h"
 
 #define MAX_STEXTURES	1024
 #define MAX_BUFFERS		1024

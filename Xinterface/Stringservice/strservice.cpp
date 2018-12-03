@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "strservice.h"
-#include "..\..\common_h\defines.h"
-#include "..\xinterface.h"
+#include "../../Common_h/defines.h"
+#include "../xinterface.h"
 
 #define USER_BLOCK_BEGINER	'{'
 #define USER_BLOCK_ENDING	'}'

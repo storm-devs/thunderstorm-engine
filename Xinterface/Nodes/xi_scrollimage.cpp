@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "xi_scrollimage.h"
-#include "../../common_h/defines.h"
+#include "../../Common_h/defines.h"
 
 #define MAXIMAGEQUANTITY 100
 

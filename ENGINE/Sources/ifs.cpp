@@ -1,9 +1,9 @@
 #include "ifs.h"
 
-#include "..\..\common_h\exs.h"
+#include "../../Common_h/Exs.h"
 #include <stdio.h>
-#include "..\..\common_h\memop.h"
-#include "..\..\common_h\vmodule_api.h"
+#include "../../Common_h/memop.h"
+#include "../../Common_h/vmodule_api.h"
 
 #define		COMMENT			';'
 #define		SECTION_A		'['

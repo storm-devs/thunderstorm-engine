@@ -1,9 +1,9 @@
 #include "sdevice.h"
 #include "stdio.h"
-#include "..\common_h\matrix.h"
-#include "..\common_h\filesystem.h"
+#include "../Common_h/Matrix.h"
+#include "../Common_h/filesystem.h"
 #include "texture.h"
-#include "../common_h/script_libriary.h"
+#include "../Common_h/script_libriary.h"
 #include <DxErr.h>
 #include <io.h>
 

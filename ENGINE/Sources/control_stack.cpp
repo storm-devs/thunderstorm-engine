@@ -1,6 +1,6 @@
 #include "control_stack.h"
-#include "..\..\common_h\memop.h"
-#include "..\..\common_h\exs.h"
+#include "../../Common_h/memop.h"
+#include "../../Common_h/Exs.h"
 #include "externs.h"
 
 

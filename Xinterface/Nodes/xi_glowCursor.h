@@ -1,7 +1,7 @@
 #ifndef __XI_GLOWCURSOR_H__
 #define __XI_GLOWCURSOR_H__
 
-#include "..\\inode.h"
+#include "..//inode.h"
 
 // picture
 class CXI_GLOWCURSOR : public CINODE

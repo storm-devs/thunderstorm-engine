@@ -2,7 +2,7 @@
 #define _MESSAGE_H_
 
 #include "entity_id.h"
-#include "cvector.h"
+#include "Cvector.h"
 #include "vdata.h"
 
 //	#define _INTSIZEOF(n)   ( (sizeof(n) + sizeof(int) - 1) & ~(sizeof(int) - 1) )

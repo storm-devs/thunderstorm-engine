@@ -6,7 +6,7 @@
 #include "memory_service.h"
 #include "control_stack.h"
 #include "system_api.h"
-#include "..\..\common_h\vapi.h"
+#include "../../Common_h/vapi.h"
 
 extern uint32_t Exceptions_Mask;
 extern GDI_DISPLAY gdi_display;

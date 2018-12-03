@@ -1,7 +1,7 @@
 #ifndef __XI_GLOWER_H_
 #define __XI_GLOWER_H_
 
-#include "..\inode.h"
+#include "../inode.h"
 
 #define MAX_USED_RECTANGLE	20
 

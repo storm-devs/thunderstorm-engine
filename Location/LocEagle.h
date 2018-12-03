@@ -11,7 +11,7 @@
 #ifndef _LocEagle_H_
 #define _LocEagle_H_
 
-#include "..\common_h\model.h"
+#include "../Common_h/model.h"
 
 class LocEagle : public ENTITY  
 {

@@ -12,7 +12,7 @@
 #define _WdmRenderObject_H_
 
 
-#include "..\common_h\dx9render.h"
+#include "../Common_h/dx9render.h"
 
 class WdmRenderObject
 {

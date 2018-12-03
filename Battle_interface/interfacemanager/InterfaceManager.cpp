@@ -1,13 +1,13 @@
 #include "InterfaceManager.h"
-#include "..\image\imgrender.h"
-#include "..\image\image.h"
-#include "..\utils.h"
+#include "../image/imgrender.h"
+#include "../image/image.h"
+#include "../Utils.h"
 #include "MousePointer.h"
-#include "..\..\..\Shared\BIManager\messages.h"
-#include "InterfaceNode\AllNodes.h"
+#include "../../../Shared/bimanager/messages.h"
+#include "interfacenode/AllNodes.h"
 
-#include "InterfaceGroup\BaseGroup.h"
-#include "InterfaceGroup\SeaGroup.h"
+#include "interfacegroup/BaseGroup.h"
+#include "interfacegroup/SeaGroup.h"
 
 BI_InterfaceManager::BI_InterfaceManager()
 {

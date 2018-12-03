@@ -1,8 +1,8 @@
 #ifndef _BI_TIMER_H_
 #define _BI_TIMER_H_
 
-#include "..\..\common_h\dx9render.h"
-#include "..\..\common_h\defines.h"
+#include "../../common_h/dx9render.h"
+#include "../../common_h/defines.h"
 #include <string>
 
 class BIImageRender;

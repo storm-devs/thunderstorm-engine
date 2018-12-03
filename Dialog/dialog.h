@@ -1,9 +1,9 @@
 #ifndef _DIALOG_H_
 #define _DIALOG_H_
 
-#include "..\common_h\matrix.h"
-#include "..\common_h\vmodule_api.h"
-#include "..\common_h\dx9render.h"
+#include "../common_h/matrix.h"
+#include "../common_h/vmodule_api.h"
+#include "../common_h/dx9render.h"
 
 #include <string>
 #include <vector>

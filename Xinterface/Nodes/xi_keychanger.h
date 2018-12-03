@@ -1,7 +1,7 @@
 #ifndef _XI_KEYCHANGER_H_
 #define _XI_KEYCHANGER_H_
 
-#include "..\inode.h"
+#include "../inode.h"
 
 class CXI_KEYCHANGER : public CINODE
 {

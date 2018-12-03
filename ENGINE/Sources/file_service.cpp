@@ -1,7 +1,7 @@
 #include "file_service.h"
 #include "system_log.h"
-#include "..\..\common_h\exs.h"
-#include "..\..\common_h\memop.h"
+#include "../../Common_h/Exs.h"
+#include "../../Common_h/memop.h"
 
 #ifdef _XBOX
 bool XProcessFile(const char *_srcDir, const char *_destDir, const char *_mask, const WIN32_FIND_DATA &_findData);

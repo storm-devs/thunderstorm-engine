@@ -1,7 +1,7 @@
 #ifndef ISLAND_BASE_HPP
 #define ISLAND_BASE_HPP
 
-#include "..\common_h\sd2_h\CannonTrace.h"
+#include "../common_h/sd2_h/CannonTrace.h"
 #include "../Common_h/defines.h"
 
 class ISLAND_BASE : public CANNON_TRACE_BASE

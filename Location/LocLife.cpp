@@ -10,7 +10,7 @@
 			
 
 
-#include "..\Common_h\geometry.h"
+#include "../Common_h/geometry.h"
 #include "LocLife.h"
 #include "Location.h"
 #include "Character.h"

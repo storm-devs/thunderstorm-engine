@@ -2,11 +2,11 @@
 #define __COLLIDE_H__
 
 
-#include "cvector.h"
+#include "Cvector.h"
 
-#include "..\common_h\vmodule_api.h"
-#include "..\common_h\types3d.h"
-#include "..\common_h\object.h"
+#include "../Common_h/vmodule_api.h"
+#include "../Common_h/types3d.h"
+#include "../Common_h/object.h"
 
 
 class LOCAL_COLLIDE

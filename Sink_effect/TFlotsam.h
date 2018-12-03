@@ -1,9 +1,9 @@
 #ifndef _TFLOTSAM_H_
 #define _TFLOTSAM_H_
 
-#include "..\common_h\sea_base.h"
-#include "..\common_h\geometry.h"
-#include "..\common_h\model.h"
+#include "../Common_h/sea_base.h"
+#include "../Common_h/geometry.h"
+#include "../Common_h/model.h"
 #include "SinkSplashDefines.h"
 
 enum tFlotsamState

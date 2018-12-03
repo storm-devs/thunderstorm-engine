@@ -2,7 +2,7 @@
 #define _IEDITOR_UTILS_H_
 
 #include "defines.h"
-#include "..\..\common_h\dx9render.h"
+#include "../../Common_h/dx9render.h"
 
 class EdUtils
 {

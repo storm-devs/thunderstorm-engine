@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "xi_questtitles.h"
-#include "../../common_h/defines.h"
+#include "../../Common_h/defines.h"
 
 void SubRightWord(char* buf,int fontNum,int width,VDX9RENDER *rs)
 {

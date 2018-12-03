@@ -2,10 +2,10 @@
 #define _PARTICLE_DATA_UV_H_
 
 
-#include "../../../common_h/exs.h"
-#include "..\..\icommon\memfile.h"
+#include "../../../Common_h/Exs.h"
+#include "../../ICommon/MemFile.h"
 
-#include "..\..\..\common_h\math3d.h"
+#include "../../../Common_h/math3D.h"
 #include <string>
 #include <vector>
 

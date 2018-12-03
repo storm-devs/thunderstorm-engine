@@ -1,8 +1,8 @@
 #include "ShipPointer.h"
-#include "..\..\..\Shared\battle_interface\msg_control.h"
-#include "..\defines.h"
-#include "..\..\common_h\ship_base.h"
-#include "..\..\common_h\net.h"
+#include "../../../Shared/battle_interface/msg_control.h"
+#include "../defines.h"
+#include "../../Common_h/ship_base.h"
+#include "../../Common_h/Net.h"
 
 // определим вертексы
 #define SPV_FORMAT		(D3DFVF_XYZ|D3DFVF_TEX1|D3DFVF_TEXTUREFORMAT2)

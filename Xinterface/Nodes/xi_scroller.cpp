@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "xi_scroller.h"
-#include "..\xinterface.h"
+#include "../xinterface.h"
 #include "xi_formttext.h"
 #include "xi_table.h"
 #include "xi_questtexts.h"

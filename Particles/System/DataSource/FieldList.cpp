@@ -1,14 +1,13 @@
-#include "..\..\..\common_h\vmodule_api.h"
-#include "..\..\..\common_h\defines.h"
-#include "fieldlist.h"
-#include "databool.h"
-#include "datacolor.h"
-#include "datafloat.h"
-#include "datagraph.h"
-#include "dataposition.h"
-#include "datauv.h"
-#include "datastring.h"
-
+#include "../../../Common_h/vmodule_api.h"
+#include "../../../Common_h/defines.h"
+#include "FieldList.h"
+#include "DataBool.h"
+#include "DataColor.h"
+#include "DataFloat.h"
+#include "DataGraph.h"
+#include "DataPosition.h"
+#include "DataUV.h"
+#include "DataString.h"
 
 
 FieldList::FieldList ()

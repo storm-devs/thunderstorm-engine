@@ -1,7 +1,7 @@
-#include "flag.h"
-#include "..\common_h\defines.h"
-#include "..\common_h\sail_msg.h"
-#include "..\common_h\Weather_base.h"
+#include "Flag.h"
+#include "../Common_h/defines.h"
+#include "../Common_h/sail_msg.h"
+#include "../Common_h/Weather_Base.h"
 #include "rigging_define.h"
 #include <stdio.h>
 

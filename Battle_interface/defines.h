@@ -2,8 +2,8 @@
 #define __DEFINES_BATTLE_INTERFACE_H_
 
 #include <assert.h>
-#include "..\common_h\dx9render.h"
-#include "..\common_h\defines.h"
+#include "../Common_h/dx9render.h"
+#include "../Common_h/defines.h"
 
 #define INI_FILE_NAME	"resource\\ini\\interfaces\\battle_interface.ini"
 

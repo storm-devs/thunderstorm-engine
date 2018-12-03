@@ -2,13 +2,13 @@
 #define _ENTITY_STATE_R_H_
 
 #ifndef _XBOX
-#include <windows.h>
+#include <Windows.h>
 #else
 #include <xtl.h>
 #endif
 
-#include "..\..\common_h\entity_state.h"
-#include "..\..\common_h\vfile_service.h"
+#include "../../Common_h/entity_state.h"
+#include "../../Common_h/vfile_service.h"
 
 #define INITIAL_BUFFER_SIZE		1024
 

@@ -1,9 +1,9 @@
 #ifndef _IBOARDINGSTATUS_H_
 #define _IBOARDINGSTATUS_H_
 
-#include "..\..\common_h\dx9render.h"
-#include "..\..\common_h\defines.h"
-#include "..\defines.h"
+#include "../../Common_h/dx9render.h"
+#include "../../Common_h/defines.h"
+#include "../defines.h"
 
 class IBoardingStatus : public ENTITY
 {

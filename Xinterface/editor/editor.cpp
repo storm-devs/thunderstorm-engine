@@ -1,9 +1,9 @@
 #include "editor.h"
-#include "..\xinterface.h"
-#include "..\nodes\xi_image.h"
+#include "../xinterface.h"
+#include "../Nodes/xi_image.h"
 #include "list.h"
 #include "defines.h"
-#include "../../common_h/defines.h"
+#include "../../Common_h/defines.h"
 
 GIEditor::GIEditor(XINTERFACE* pInterface)
 {

@@ -1,8 +1,8 @@
 #ifndef _STRING_CODEC_H_
 #define _STRING_CODEC_H_
 
-#include "..\..\common_h\vstring_codec.h"
-#include "../../common_h/defines.h"
+#include "../../Common_h/vstring_codec.h"
+#include "../../Common_h/defines.h"
 #define HASH_TABLE_SIZE	512	// must be power of 2
 
 struct HTSUBELEMENT

@@ -1,6 +1,6 @@
 #include "modelr.h"
-#include "..\../Shared/messages.h"
-#include "..\common_h\defines.h"
+#include "../../Shared/messages.h"
+#include "../Common_h/defines.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(MODELR)

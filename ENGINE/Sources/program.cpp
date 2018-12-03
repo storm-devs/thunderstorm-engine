@@ -1,5 +1,5 @@
 #include "program.h"
-#include "core.h"
+#include "Core.h"
 
 extern CORE Core;
 

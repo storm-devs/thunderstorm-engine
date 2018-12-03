@@ -3,7 +3,7 @@
 
 #include "vmodule_api.h"
 #include "cvector.h"
-#include "sd2_h\VAI_ObjBase.h"
+#include "sd2_h/VAI_ObjBase.h"
 
 struct SHIP_STATE
 {

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "..\common_h\vmodule_api.h"
-#include "..\common_h\dx9render.h"
-#include "..\common_h\collide.h"
+#include "../Common_h/vmodule_api.h"
+#include "../Common_h/dx9render.h"
+#include "../Common_h/collide.h"
 
 class CameraDialog : public ENTITY
 {

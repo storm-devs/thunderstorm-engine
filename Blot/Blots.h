@@ -12,10 +12,9 @@
 #define _Blots_H_
 
 
-#include "..\common_h\vmodule_api.h"
-#include "..\common_h\dx9render.h"
-#include "..\common_h\model.h"
-
+#include "../Common_h/vmodule_api.h"
+#include "../Common_h/dx9render.h"
+#include "../Common_h/model.h"
 
 
 #define BLOTS_NTRGS		32		//Треугольников в 1 пятне

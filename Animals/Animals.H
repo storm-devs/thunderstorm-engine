@@ -1,7 +1,7 @@
 #ifndef _ANIMALS_H_
 #define _ANIMALS_H_
 
-#include "..\common_h\geometry.h"
+#include "../common_h/geometry.h"
 #include "TSeagulls.h"
 //#include "TSharks.h"
 #include "TFishSchools.h"

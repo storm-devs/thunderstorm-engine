@@ -1,7 +1,7 @@
 #include "Weather.h"
-#include "lightning.h"
+#include "Lightning.h"
 #include "SunGlow.h"
-#include "waterflare.h"
+#include "WaterFlare.h"
 #include "Astronomy.h"
 
 INTERFACE_FUNCTION

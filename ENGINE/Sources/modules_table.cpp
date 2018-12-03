@@ -3,10 +3,10 @@
 #include "externs.h"
 #include "messages.h"
 #include "internal_modules.h"
-#include "..\..\common_h\exs.h"
-#include "..\..\common_h\memop.h"
+#include "../../Common_h/Exs.h"
+#include "../../Common_h/memop.h"
 #include "common_h.h"
-#include "../../common_h/defines.h"
+#include "../../Common_h/defines.h"
 
 extern "C" __declspec(dllexport) VAPI * GetCoreApi() { return api;  }
 

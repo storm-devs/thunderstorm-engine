@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "lightning.h"
+#include "Lightning.h"
 
 LIGHTNING::LIGHTNING()
 {

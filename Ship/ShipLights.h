@@ -1,9 +1,9 @@
 #ifndef SHIPLIGHTS_HPP
 #define SHIPLIGHTS_HPP
 
-#include "..\common_h\dx9render.h"
-#include "..\common_h\ShipLights.h"
-#include "..\common_h\sea_base.h"
+#include "../Common_h/dx9render.h"
+#include "../Common_h/ShipLights.h"
+#include "../Common_h/sea_base.h"
 
 class ShipLights : public IShipLights
 {

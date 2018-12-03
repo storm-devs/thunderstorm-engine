@@ -1,7 +1,7 @@
 #ifndef _XI_EDITBOX_H_
 #define _XI_EDITBOX_H_
 
-#include "..\\inode.h"
+#include "..//inode.h"
 
 // edit box
 class CXI_EDITBOX : public CINODE

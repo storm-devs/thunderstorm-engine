@@ -2,7 +2,7 @@
 #define _S_FUNCTAB_H_
 
 #include "s_vartab.h"
-#include "..\..\common_h\s_import_func.h"
+#include "../../Common_h/s_import_func.h"
 
 #define FUNC_BUFFER_BLOCK_SIZE	1024
 #define INVALID_FUNC_CODE		0xffffffff

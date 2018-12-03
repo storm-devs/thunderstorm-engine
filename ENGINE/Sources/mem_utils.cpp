@@ -1,7 +1,7 @@
 #include "mem_utils.h"
 #include "system_log.h"
-#include "..\..\common_h\vapi.h"
-#include "../../common_h/defines.h"
+#include "../../Common_h/vapi.h"
+#include "../../Common_h/defines.h"
 
 extern VAPI * api;
 

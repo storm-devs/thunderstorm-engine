@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "xi_strcollection.h"
-#include "..\\defines.h"
-#include "../../common_h/defines.h"
+#include "..//defines.h"
+#include "../../Common_h/defines.h"
 
 CXI_STRCOLLECTION::CXI_STRCOLLECTION()
 {

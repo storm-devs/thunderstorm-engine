@@ -8,11 +8,11 @@
 #ifndef MODEL_PARTICLE_PROCESSOR
 #define MODEL_PARTICLE_PROCESSOR
 
-#include "..\..\..\common_h\dx9render.h"
-#include "../../../common_h/Math3D/Matrix.h"
+#include "../../../Common_h/dx9render.h"
+#include "../../../Common_h/math3d/Matrix.h"
 
-#include "..\..\icommon\particle.h"
-#include "..\datasource\fieldlist.h"
+#include "../../ICommon/Particle.h"
+#include "../DataSource/FieldList.h"
 #include "nameparser.h"
 
 class ParticleSystem;

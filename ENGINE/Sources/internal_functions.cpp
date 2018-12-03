@@ -1,7 +1,7 @@
 #include "compiler.h"
 #include "strings_list.h"
-#include "..\..\common_h\vapi.h"
-#include "core.h"
+#include "../../Common_h/vapi.h"
+#include "Core.h"
 
 #define INVALID_FA	"Invalid function argument"
 #define BAD_FA		"Bad function argument"

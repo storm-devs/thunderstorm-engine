@@ -1,8 +1,8 @@
 #include "particles.h"
 #include "psystem.h"
-#include "..\..\common_h\particles.h"
-#include "../../common_h/defines.h"
-#include "..\..\common_h\filesystem.h"
+#include "../../Common_h/particles.h"
+#include "../../Common_h/defines.h"
+#include "../../Common_h/filesystem.h"
 #include "../../../Shared/messages.h"
 
 

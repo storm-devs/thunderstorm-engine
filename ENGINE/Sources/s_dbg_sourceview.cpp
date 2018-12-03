@@ -1,8 +1,8 @@
-#include "../../common_h/defines.h"
+#include "../../Common_h/defines.h"
 #include "resource.h"
 #ifndef _XBOX
 #include "s_dbg_sourceview.h"
-#include "core.h"
+#include "Core.h"
 #include "s_debug.h"
 #include <algorithm>
 

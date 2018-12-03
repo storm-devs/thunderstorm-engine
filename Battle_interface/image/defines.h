@@ -1,8 +1,8 @@
 #ifndef BI_IMAGE_DEFINES_H
 #define BI_IMAGE_DEFINES_H
 
-#include "..\defines.h"
-#include "..\..\common_h\dx9render.h"
+#include "../defines.h"
+#include "../../Common_h/dx9render.h"
 
 #define BI_IMAGE_VERTEX_FORMAT		(D3DFVF_XYZRHW|D3DFVF_DIFFUSE|D3DFVF_TEX1|D3DFVF_TEXTUREFORMAT2)
 struct BI_IMAGE_VERTEX

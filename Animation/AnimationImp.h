@@ -11,7 +11,7 @@
 #ifndef _AnimationManagerImp_H_
 #define _AnimationManagerImp_H_
 
-#include "..\COMMON_H\Animation.h"
+#include "../Common_h/Animation.h"
 #include "ActionPlayerImp.h"
 #include "AnimationTimerImp.h"
 #include "AnimationInfo.h"

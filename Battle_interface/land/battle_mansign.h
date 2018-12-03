@@ -1,7 +1,7 @@
 #ifndef _BATTLE_MANSIGN_H
 #define _BATTLE_MANSIGN_H
 
-#include "..\defines.h"
+#include "../defines.h"
 #include <string>
 #include <vector>
 

@@ -1,10 +1,10 @@
 #include "backscene.h"
-#include "..\..\common_h\model.h"
-#include "..\..\common_h\matrix.h"
-#include "..\..\common_h\geometry.h"
-#include "..\xinterface.h"
-#include "../../common_h/defines.h"
-#include "../../common_h/math3d/Matrix.h"
+#include "../../Common_h/model.h"
+#include "../../Common_h/Matrix.h"
+#include "../../Common_h/geometry.h"
+#include "../xinterface.h"
+#include "../../Common_h/defines.h"
+#include "../../Common_h/math3d/Matrix.h"
 #include "../../../Shared/messages.h"
 
 InterfaceBackScene::LightParam::~LightParam()

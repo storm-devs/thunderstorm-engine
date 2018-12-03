@@ -2,9 +2,9 @@
 #define _TBUTTERFLY_H_
 
 //#include <windows.h>
-#include "..\common_h\cvector.h"
-#include "..\common_h\model.h"
-#include "..\common_h\collide.h"
+#include "../Common_h/Cvector.h"
+#include "../Common_h/model.h"
+#include "../Common_h/collide.h"
 #include "TIVBufferManager.h"
 
 ///////////////////////////////////////////////////////////////////

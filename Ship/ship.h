@@ -1,22 +1,22 @@
 #ifndef _SHIP_H_
 #define _SHIP_H_
 
-#include "..\common_h\ship_base.h"
-#include "..\common_h\collide.h"
-#include "..\common_h\dx9render.h"
-#include "..\common_h\model.h"
-#include "..\common_h\Island_Base.h"
-#include "..\common_h\sea_base.h"
-#include "..\common_h\character.h"
-#include "..\common_h\geometry.h"
+#include "../Common_h/ship_base.h"
+#include "../Common_h/collide.h"
+#include "../Common_h/dx9render.h"
+#include "../Common_h/model.h"
+#include "../Common_h/Island_Base.h"
+#include "../Common_h/sea_base.h"
+#include "../Common_h/Character.h"
+#include "../Common_h/geometry.h"
 
-#include "fireplace.h"
-#include "..\common_h\ShipLights.h"
+#include "FirePlace.h"
+#include "../Common_h/ShipLights.h"
 
-#include "..\common_h\sd2_h\SaveLoad.h"
+#include "../Common_h/Sd2_h/SaveLoad.h"
 #include <vector>
-#include "../common_h/dtimer.h"
-#include "../common_h/ship_msg.h"
+#include "../Common_h/dtimer.h"
+#include "../Common_h/ship_msg.h"
 
 #define DELTA_TIME(x)			((x) * 0.001f)
 #define DELTA_TIME_ROTATE(x)	((x) * 1.0f / 10.0f)

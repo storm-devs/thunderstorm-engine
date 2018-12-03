@@ -2,9 +2,9 @@
 #define _PARTICLE_DATA_COLOR_H_
 
 
-#include "../../../common_h/exs.h"
-#include "..\..\icommon\memfile.h"
-#include "..\..\icommon\colorvertex.h"
+#include "../../../Common_h/Exs.h"
+#include "../../ICommon/MemFile.h"
+#include "../../ICommon/ColorVertex.h"
 #include <string>
 #include <vector>
 

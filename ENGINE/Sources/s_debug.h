@@ -10,7 +10,7 @@
 
 #define PROJECT_NAME	"project.df"
 
-#include "..\..\COMMON_H\memop.h"
+#include "../../Common_h/memop.h"
 #include "s_dbg_watcherlist.h"
 #include "s_dbg_sourceview.h"
 #include "s_dbg_breaktable.h"

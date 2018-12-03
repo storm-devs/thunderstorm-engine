@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "..\../Shared/messages.h"
-#include "..\common_h\exs.h"
-#include "..\common_h\CVECTOR.h"
-#include "..\SoundService\VSoundService.h"
-#include "SINKEFFECT.h"
-#include "../PEOPLES_ON_SHIP/PEOPLES_ON_SHIP.h"
+#include "../../Shared/messages.h"
+#include "../Common_h/Exs.h"
+#include "../Common_h/Cvector.h"
+#include "../SoundService/VSoundService.h"
+#include "SinkEffect.H"
+#include "../Peoples_on_ship/PEOPLES_ON_SHIP.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(SINKEFFECT)

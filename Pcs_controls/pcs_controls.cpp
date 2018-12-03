@@ -1,4 +1,4 @@
-#include "PCS_CONTROLS.h"
+#include "pcs_controls.h"
 
 INTERFACE_FUNCTION
 CREATE_SERVICE(PCS_CONTROLS)	

@@ -1,7 +1,7 @@
 #ifndef __XI_TITLE_H__
 #define __XI_TITLR_H__
 
-#include "..\inode.h"
+#include "../inode.h"
 
 class CXI_WINDOW : public CINODE
 {

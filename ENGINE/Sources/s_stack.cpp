@@ -1,7 +1,7 @@
 #include "s_stack.h"
-#include "..\..\common_h\exs.h"
-#include "..\..\common_h\memop.h"
-#include "..\..\common_h\vapi.h"
+#include "../../Common_h/Exs.h"
+#include "../../Common_h/memop.h"
+#include "../../Common_h/vapi.h"
 
 extern void trace(char * p,...);
 extern VAPI * api;

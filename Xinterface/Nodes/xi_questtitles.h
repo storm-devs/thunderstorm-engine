@@ -1,7 +1,7 @@
 #ifndef _XI_QUESTTITLES_H_
 #define _XI_QUESTTITLES_H_
 
-#include "..\\inode.h"
+#include "..//inode.h"
 
 class CXI_QUESTTITLE : public CINODE
 {

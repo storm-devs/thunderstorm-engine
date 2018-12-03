@@ -1,10 +1,10 @@
 #ifndef _BI_ITEM_ENTITY_H_
 #define _BI_ITEM_ENTITY_H_
 
-#include "..\..\common_h\dx9render.h"
-#include "..\..\common_h\defines.h"
-#include "..\..\common_h\animation.h"
-#include "..\..\common_h\vparticle_system.h"
+#include "../../Common_h/dx9render.h"
+#include "../../Common_h/defines.h"
+#include "../../Common_h/Animation.h"
+#include "../../Common_h/vparticle_system.h"
 #include <string>
 
 class MODEL;

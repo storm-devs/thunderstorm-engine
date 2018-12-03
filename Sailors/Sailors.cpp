@@ -6,14 +6,14 @@
 // micuss, 2004
 //------------------------------------------------------------------------------------
 #include <stdio.h>
-#include "sailors.h"
+#include "Sailors.h"
 
-#include "..\../Shared/messages.h"
-#include "..\common_h\exs.h"
-#include "..\common_h\types3d.h"
-#include "..\..\Shared\SEA_AI\script_defines.h"
-#include "..\..\Shared\sea_ai\seaPeople.h"
-#include "..\Ship\ship.h"
+#include "../../Shared/messages.h"
+#include "../Common_h/Exs.h"
+#include "../Common_h/types3d.h"
+#include "../../Shared/sea_ai/Script_defines.h"
+#include "../../Shared/sea_ai/SeaPeople.h"
+#include "../Ship/ship.h"
 
 #define GUARD_SAILORS(block)	{ static const TCHAR block_name[] = TEXT(#block); try {
 #define UNGUARD_SAILORS			} catch(...) { api->Trace("ERROR in Sailors.dll : block '%s'", (char*)block_name); throw _EXS(FATAL,"unknown"); }}

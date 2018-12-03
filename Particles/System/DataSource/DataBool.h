@@ -1,7 +1,7 @@
 #ifndef _PARTICLE_DATA_BOOLEAN_H_
 #define _PARTICLE_DATA_BOOLEAN_H_
 
-#include "..\..\icommon\memfile.h"
+#include "../../ICommon/MemFile.h"
 #include <string>
 
 

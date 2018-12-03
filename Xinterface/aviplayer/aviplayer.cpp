@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "aviplayer.h"
-#include "..\\..\common_h\defines.h"
-#include "..\..\..\Shared\interface\messages.h"
+#include "../...Common_hhdefines.hh
+#include "../../../Shared/interface/messages.h"
 
 #pragma comment(lib,"amstrmid.lib")
 #pragma comment(lib,"ddraw.lib")

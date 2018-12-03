@@ -6,9 +6,9 @@
 #include "message.h"
 #include "entity_state.h"
 #include "vsystem_api.h"
-#include "exs.h"
+#include "Exs.h"
 
-#include "..\..\Shared\NET\net_defines.h"
+#include "../../Shared/net/Net_Defines.h"
 
 //-------------------------------------------------------------------------------------------------
 // Pop operation (from run stack) for object constructor perform engine code

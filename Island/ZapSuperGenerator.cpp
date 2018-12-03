@@ -1,5 +1,5 @@
-#include "Island.h"
-#include "../common_h/tga.h"
+#include "ISLAND.h"
+#include "../Common_h/tga.h"
 
 bool ISLAND::DoZapSuperGeneratorDecodeFile(char * sname)
 {

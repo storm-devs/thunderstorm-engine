@@ -10,12 +10,12 @@
 
 #include <stdarg.h>
 #include <stdio.h>
-#include "..\..\..\common_h\dx9render.h"
-#include "..\..\..\common_h\particles\gmx_QSort.h"
-#include "../../../common_h/Math3D/Matrix.h"
+#include "../../../Common_h/dx9render.h"
+#include "../../../Common_h/particles/gmx_QSort.h"
+#include "../../../Common_h/math3d/Matrix.h"
 
-#include "..\..\icommon\particle.h"
-#include "..\datasource\fieldlist.h"
+#include "../../ICommon/Particle.h"
+#include "../DataSource/FieldList.h"
 
 class ParticleSystem;
 

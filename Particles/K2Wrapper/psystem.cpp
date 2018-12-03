@@ -1,8 +1,8 @@
 #include "psystem.h"
 #include "particles.h"
-#include "..\..\common_h\particles.h"
-#include "../../common_h/Math3D/Vector.h"
-#include "../../common_h/Math3D/Matrix.h"
+#include "../../Common_h/particles.h"
+#include "../../Common_h/math3d/Vector.h"
+#include "../../Common_h/math3d/Matrix.h"
 
 PARTICLE_SYSTEM::PARTICLE_SYSTEM(IParticleSystem* _pSystem)
 {

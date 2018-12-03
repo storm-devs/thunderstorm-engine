@@ -9,8 +9,8 @@
 //============================================================================================
 
 #include "WdmObjects.h"
-#include "..\common_h\vmodule_api.h"
-#include "..\common_h\geometry.h"
+#include "../Common_h/vmodule_api.h"
+#include "../Common_h/geometry.h"
 
 //============================================================================================
 

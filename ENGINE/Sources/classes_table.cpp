@@ -1,5 +1,5 @@
 #include "classes_table.h"
-#include "..\..\common_h\exs.h"
+#include "../../Common_h/Exs.h"
 #include "externs.h"
 
 uint32_t CLASSES_TABLE::GetClassCode(char * class_name)

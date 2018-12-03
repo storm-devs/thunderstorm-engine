@@ -2,13 +2,13 @@
 #ifndef _Sailors_h_
 #define _Sailors_h_
 
-#include "..\common_h\vmodule_api.h"
-#include "..\common_h\dx9render.h"
-#include "..\common_h\collide.h"
-#include "..\common_h\model.h"
-#include "..\common_h\ship_base.h"
+#include "../common_h/vmodule_api.h"
+#include "../common_h/dx9render.h"
+#include "../common_h/collide.h"
+#include "../common_h/model.h"
+#include "../common_h/ship_base.h"
 
-#include "..\common_h\sea_base.h"
+#include "../common_h/sea_base.h"
 
 
 const float RUN_SPEED=  0.30f;
@@ -19,7 +19,7 @@ const float JUMP_SPEED_X_MASTFALL= 3.0f;
 const float JUMP_SPEED_Y_EXPLOSION= 30.0f;
 
 #include "SailorsWayPoints.h"
-#include "..\..\Shared\SEA_AI\seaPeople.h"
+#include "../../Shared/SEA_AI/seaPeople.h"
 
 #define CREW2VISIBLE(n)			5.0f*logf(n) //???
 #define SHIP_BLACK_PEARL		164

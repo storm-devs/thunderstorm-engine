@@ -1,7 +1,7 @@
 #include "battle_shipsign.h"
 #include "ships_list.h"
 #include "battle_shipcommand.h"
-#include "..\utils.h"
+#include "../Utils.h"
 #include "../../../Shared/battle_interface/msg_control.h"
 
 BIShipIcon::BIShipIcon( ENTITY_ID& BIEntityID, VDX9RENDER* pRS )

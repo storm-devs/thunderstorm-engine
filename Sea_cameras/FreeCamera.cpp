@@ -1,8 +1,8 @@
 #include "FreeCamera.h"
-#include "..\common_h\collide.h"
-#include "..\model\modelr.h"
-#include "../common_h/defines.h"
-#include "../common_h/Sd2_h/SaveLoad.h"
+#include "../Common_h/collide.h"
+#include "../Model/modelr.h"
+#include "../Common_h/defines.h"
+#include "../Common_h/Sd2_h/SaveLoad.h"
 
 #define SENSITIVITY		0.0015f
 #define FOV				1.285f

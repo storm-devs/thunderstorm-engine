@@ -2,12 +2,12 @@
 #define _VSOUND_H_
 
 #include <dsound.h>
-#include "..\common_h\vmodule_api.h"
+#include "../Common_h/vmodule_api.h"
 #include "SoundDefines.h"
 #include "VSoundService.h"
 #include "VSound.h"
-#include "..\common_h\CVECTOR.h"
-#include "..\common_h\service.h"
+#include "../Common_h/Cvector.h"
+#include "../Common_h/service.h"
 #include <vector>
 
 ///////////////////////////////////////////////////////////////////

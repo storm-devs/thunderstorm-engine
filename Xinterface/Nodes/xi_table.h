@@ -1,9 +1,9 @@
 #ifndef __XI_TABLE_H__
 #define __XI_TABLE_H__
 
-#include "..\inode.h"
+#include "../inode.h"
 #include "xi_image.h"
-#include "../../common_h/defines.h"
+#include "../../Common_h/defines.h"
 
 class CXI_TABLE;
 class XI_TableLineDescribe;

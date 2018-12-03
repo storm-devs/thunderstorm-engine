@@ -1,7 +1,7 @@
 #ifndef _SDBG_STATICLIST_H_
 #define _SDBG_STATICLIST_H_
 
-#include <windows.h>
+#include <Windows.h>
 #include "dat.h"
 
 class SDBG_STATICLIST

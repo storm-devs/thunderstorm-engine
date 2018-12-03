@@ -1,7 +1,7 @@
 #ifndef __XI_SCROLLBAR_H__
 #define __XI_SCROLLBAR_H__
 
-#include "..\\inode.h"
+#include "..//inode.h"
 
 // picture
 class CXI_SCROLLBAR : public CINODE

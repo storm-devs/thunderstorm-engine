@@ -1,6 +1,6 @@
 #include "font.h"
 #include "editor.h"
-#include "..\xinterface.h"
+#include "../xinterface.h"
 
 GIFont::GIFont(GIEditor* pEditor, const char* pcFontName)
 {

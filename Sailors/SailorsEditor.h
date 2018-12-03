@@ -1,7 +1,7 @@
 
-#include "..\common_h\dx9render.h"
-#include "..\common_h\model.h"
-#include "..\common_h\ship_base.h"
+#include "../Common_h/dx9render.h"
+#include "../Common_h/model.h"
+#include "../Common_h/ship_base.h"
 
 #include "SailorsMenu.h"
 

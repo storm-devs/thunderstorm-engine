@@ -2,10 +2,10 @@
 #define WEATHER_HPP
 
 #include <stdio.h>
-#include "Typedef.h"
-#include "..\common_h\Weather_Base.h"
+#include "typedef.h"
+#include "../Common_h/Weather_Base.h"
 #include "Rain.h"
-#include "Sky.h"
+#include "SKY.h"
 
 class WEATHER : public WEATHER_BASE
 {

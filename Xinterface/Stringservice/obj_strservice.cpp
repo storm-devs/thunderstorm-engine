@@ -1,5 +1,5 @@
 #include "obj_strservice.h"
-#include "..\..\..\Shared\interface\messages.h"
+#include "../../../Shared/interface/messages.h"
 
 OBJ_STRSERVICE::OBJ_STRSERVICE()
 {

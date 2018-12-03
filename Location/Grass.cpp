@@ -9,9 +9,9 @@
 //============================================================================================
 
 #include "Grass.h"
-#include "..\common_h\Geometry.h"
-#include "..\common_h\matrix.h"
-#include "..\common_h\defines.h"
+#include "../Common_h/geometry.h"
+#include "../Common_h/Matrix.h"
+#include "../Common_h/defines.h"
 #include "Character.h"
 
 //============================================================================================

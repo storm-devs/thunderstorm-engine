@@ -1,6 +1,6 @@
 #include "SEA_CAMERAS.h"
-#include "..\common_h\sd2_h\VAI_ObjBase.h"
-#include "..\..\Shared\sea_ai\Script_Defines.h"
+#include "../Common_h/Sd2_h/VAI_ObjBase.h"
+#include "../../Shared/sea_ai/Script_defines.h"
 #include "FreeCamera.h"
 #include "DeckCamera.h"
 

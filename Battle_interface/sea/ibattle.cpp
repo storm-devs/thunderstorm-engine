@@ -6,20 +6,20 @@
 #include "ShipPointer.h"
 #include "battle_shipsign.h"
 
-#include "..\land\battle_land.h"
-#include "..\land\IBoardingStatus.h"
+#include "../land/battle_land.h"
+#include "../land/IBoardingStatus.h"
 
-#include "..\LogAndAction.h"
-#include "..\spyglass\spyglass.h"
-#include "..\ActivePerkShower.h"
-#include "..\utils.h"
-#include "..\timer\timer.h"
-#include "..\itementity\itementity.h"
-#include "..\WorldMapInterface\interface.h"
+#include "../LogAndAction.h"
+#include "../spyglass/spyglass.h"
+#include "../ActivePerkShower.h"
+#include "../Utils.h"
+#include "../timer/Timer.h"
+#include "../ItemEntity/itementity.h"
+#include "../WorldMapInterface/interface.h"
 
-#include "..\..\..\Shared\battle_interface\msg_control.h"
+#include "../../../Shared/battle_interface/msg_control.h"
 
-#include "..\InterfaceManager\InterfaceManager.h"
+#include "../interfacemanager/InterfaceManager.h"
 
 #include "ShipInfoImages.h"
 

@@ -12,8 +12,8 @@
 #define _CharacterAnimationKipper_H_
 
 
-#include "..\common_h\vmodule_api.h"
-#include "..\common_h\animation.h"
+#include "../Common_h/vmodule_api.h"
+#include "../Common_h/Animation.h"
 
 class VDX9RENDER;
 

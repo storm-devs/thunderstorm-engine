@@ -12,7 +12,7 @@
 #define _WdmEnemyShip_H_
 
 #include "WdmShip.h"
-#include "..\common_h\attributes.h"
+#include "../Common_h/attributes.h"
 
 class WdmEnemyShip : public WdmShip  
 {

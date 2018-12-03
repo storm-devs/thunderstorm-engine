@@ -1,7 +1,7 @@
 #ifndef __XI_LRCHANGER_H__
 #define __XI_LRCHANGER_H__
 
-#include "..\\inode.h"
+#include "..//inode.h"
 
 // picture
 class CXI_LRCHANGER : public CINODE

@@ -3,7 +3,7 @@
 
 #include <ddraw.h>
 #include <amstream.h>
-#include "..\base_video.h"
+#include "../base_video.h"
 
 #define XI_AVIVIDEO_FVF		(D3DFVF_XYZRHW|D3DFVF_TEX1|D3DFVF_TEXTUREFORMAT2)
 struct XI_AVIVIDEO_VERTEX

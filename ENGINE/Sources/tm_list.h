@@ -4,8 +4,8 @@
 #ifndef _XBOX
 
 #include <cstdint>
-#include <windows.h>
-#include <commctrl.h>
+#include <Windows.h>
+#include <CommCtrl.h>
 
 #define BM_BIND_LEFT	1
 #define BM_BIND_TOP		2

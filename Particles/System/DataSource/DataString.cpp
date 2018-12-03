@@ -1,6 +1,6 @@
 #include "DataString.h"
-#include "..\..\icommon\memfile.h"
-#include "..\..\..\common_h\vmodule_api.h"
+#include "../../ICommon/MemFile.h"
+#include "../../../Common_h/vmodule_api.h"
 
 
 //конструктор/деструктор

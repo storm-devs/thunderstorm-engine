@@ -1,6 +1,6 @@
 #include "ModelRealizer.h"
-#include "..\common_h\cvector4.h"
-#include "lights.h"
+#include "../Common_h/CVector4.h"
+#include "Lights.h"
 #include "Character.h"
 
 //============================================================================================

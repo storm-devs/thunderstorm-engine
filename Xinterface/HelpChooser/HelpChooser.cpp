@@ -1,5 +1,5 @@
 #include "HelpChooser.h"
-#include "..\\defines.h"
+#include "..//defines.h"
 
 #define HCHOOSER_FVF	(D3DFVF_XYZRHW|D3DFVF_TEX1|D3DFVF_TEXTUREFORMAT2)
 struct HCHOOSER_VERTEX

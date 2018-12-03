@@ -1,5 +1,5 @@
-#include "c_atom.h"
-#include "../../common_h/defines.h"
+#include "C_atom.h"
+#include "../../Common_h/defines.h"
 
 C_ATOM::C_ATOM()
 {

@@ -3,10 +3,10 @@
 
 #include <cstdint>
 #include <d3d9.h>
-#include "..\common_h\vmodule_api.h"
-#include "..\common_h\types3d.h"
-#include "..\common_h\Matrix.h"
-#include "..\common_h\VideoTexture.h"
+#include "../Common_h/vmodule_api.h"
+#include "../Common_h/types3d.h"
+#include "../Common_h/Matrix.h"
+#include "../Common_h/VideoTexture.h"
 #include "service.h"
 
 #define FONT_DEFAULT    0

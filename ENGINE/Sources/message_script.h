@@ -1,12 +1,13 @@
 #ifndef _MESSAGE_SCRIPT_H_
 #define _MESSAGE_SCRIPT_H_
 
-#include "..\..\common_h\entity_id.h"
-#include "..\..\common_h\cvector.h"
-#include "..\..\common_h\message.h"
-#include "..\..\common_h\vdata.h"
-#include "..\..\common_h\vapi.h"
-#include "..\..\common_h\vmodule_api.h"
+#include "../../Common_h/entity_id.h"
+#include "../../Common_h/Cvector.h"
+#include "../../Common_h/message.h"
+#include "../../Common_h/vdata.h"
+#include "../../Common_h/vapi.h"
+#include "../../Common_h/vmodule_api.h"
+
 // Class for implementing function SendMessage from script in same way as 
 // api function Send_Message (with variable number of arguments)
 

@@ -8,11 +8,11 @@
 //	Хранение информации о моделях
 //============================================================================================
 
-#include "..\common_h\geometry.h"
+#include "../Common_h/geometry.h"
 
 #include "ModelArray.h"
-#include "..\../Shared/messages.h"
-#include "..\common_h\model.h"
+#include "../../Shared/messages.h"
+#include "../Common_h/model.h"
 
 //============================================================================================
 //Конструирование, деструктурирование

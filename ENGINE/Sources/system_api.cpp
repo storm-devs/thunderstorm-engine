@@ -1,6 +1,6 @@
 #include "system_api.h"
 #include "externs.h"
-#include "core.h"
+#include "Core.h"
 #include "system_log.h"
 
 extern CORE Core;

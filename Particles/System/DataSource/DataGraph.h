@@ -1,10 +1,10 @@
 #ifndef _PARTICLE_DATA_GRAPH_H_
 #define _PARTICLE_DATA_GRAPH_H_
 
-#include "../../../common_h/exs.h"
-#include "..\..\icommon\memfile.h"
+#include "../../../Common_h/Exs.h"
+#include "../../ICommon/MemFile.h"
 
-#include "..\..\icommon\GraphVertex.h"
+#include "../../ICommon/GraphVertex.h"
 #include <string>
 #include <vector>
 

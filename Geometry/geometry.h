@@ -1,8 +1,8 @@
 #ifndef __GEOMETRY_H__
 #define __GEOMETRY_H__
 
-#include "..\common_h\vmodule_api.h"
-#include "..\Geom_lib\geos.h"
+#include "../Common_h/vmodule_api.h"
+#include "../Geom_lib/geos.h"
 
 class VGEOMETRY  : public SERVICE
 {

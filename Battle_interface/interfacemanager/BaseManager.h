@@ -1,8 +1,8 @@
 #ifndef InterfaceBaseManager_h
 #define InterfaceBaseManager_h
 
-#include "..\..\common_h\dx9render.h"
-#include "..\..\common_h\defines.h"
+#include "../../Common_h/dx9render.h"
+#include "../../Common_h/defines.h"
 
 class BIImageRender;
 class BI_ManagerBase;

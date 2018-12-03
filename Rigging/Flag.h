@@ -1,10 +1,10 @@
 #ifndef _FLAG_H_
 #define _FLAG_H_
 
-#include "..\common_h\dx9render.h"
-#include "..\common_h\geos.h"
-#include "..\common_h\model.h"
-#include "..\common_h\matrix.h"
+#include "../common_h/dx9render.h"
+#include "../common_h/geos.h"
+#include "../common_h/model.h"
+#include "../common_h/matrix.h"
 
 #define FLAGLXVERTEX_FORMAT		(D3DFVF_XYZ|D3DFVF_TEX1|D3DFVF_TEXTUREFORMAT2)
 

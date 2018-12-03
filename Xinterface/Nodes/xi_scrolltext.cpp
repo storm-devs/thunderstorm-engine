@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "xi_scrolltext.h"
-#include "../../common_h/defines.h"
+#include "../../Common_h/defines.h"
 
 #define MAX_PICE_RESERV			256
 #define MAX_PICE_STRING_SIZE	256

@@ -3,9 +3,9 @@
 #include "token.h"
 #include "system_log.h"
 
-#include "..\..\common_h\memop.h"
-#include "..\..\common_h\vapi.h"
-#include "../../common_h/defines.h"
+#include "../../Common_h/memop.h"
+#include "../../Common_h/vapi.h"
+#include "../../Common_h/defines.h"
 
 extern VAPI * api;
 #define DISCARD_DATABUFFER {if(pTokenData) pTokenData[0] = 0;}

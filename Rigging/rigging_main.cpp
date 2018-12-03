@@ -1,7 +1,7 @@
-#include "rope.h"
+#include "Rope.h"
 #include "sail.h"
-#include "flag.h"
-#include "vant.h"
+#include "Flag.h"
+#include "Vant.h"
 #include "script_func.h"
 
 INTERFACE_FUNCTION

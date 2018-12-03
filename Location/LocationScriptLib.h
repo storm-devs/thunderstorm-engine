@@ -1,4 +1,4 @@
-#include "../common_h/script_libriary.h"
+#include "../Common_h/script_libriary.h"
 
 class ScriptLocationLibrary  : public SCRIPT_LIBRIARY
 {

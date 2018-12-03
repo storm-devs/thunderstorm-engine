@@ -1,4 +1,4 @@
-#include "..\..\common_h\memop.h"
+#include "../../Common_h/memop.h"
 #include "s_vartab.h"
 //#include <string.h>
 

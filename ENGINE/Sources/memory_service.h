@@ -8,12 +8,12 @@
 #include <cstdint>
 
 #ifndef _XBOX
-#include <windows.h>
+#include <Windows.h>
 #else
 #include <xtl.h>
 #endif
 
-#include "..\..\common_h\vmemory_service.h"
+#include "../../Common_h/vmemory_service.h"
 #include "mem_utils.h"
 #include "mem_pool.h"
 

@@ -1,7 +1,7 @@
 #ifndef _XI_SLIDEPICTURE_H_
 #define _XI_SLIDEPICTURE_H_
 
-#include "..\\inode.h"
+#include "..//inode.h"
 
 // video
 class CXI_SLIDEPICTURE : public CINODE

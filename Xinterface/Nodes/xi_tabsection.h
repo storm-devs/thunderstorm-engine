@@ -1,7 +1,7 @@
 #ifndef __XI_TABSECTION_H__
 #define __XI_TABSECTION_H__
 
-#include "..\inode.h"
+#include "../inode.h"
 
 class CXI_TABSECTION : public CINODE
 {

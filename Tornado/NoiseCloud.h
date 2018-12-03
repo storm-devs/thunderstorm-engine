@@ -11,7 +11,7 @@
 #ifndef _NoiseCloud_H_
 #define _NoiseCloud_H_
 
-#include "..\common_h\matrix.h"
+#include "../Common_h/Matrix.h"
 #include "Pillar.h"
 
 class NoiseCloud  

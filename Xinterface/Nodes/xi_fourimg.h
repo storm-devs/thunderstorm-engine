@@ -1,7 +1,7 @@
 #ifndef _XI_FOURIMAGE_
 #define _XI_FOURIMAGE_
 
-#include "..\inode.h"
+#include "../inode.h"
 
 class CXI_FOURIMAGE : public CINODE
 {

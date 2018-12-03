@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "xi_scrollbar.h"
-#include "../../common_h/defines.h"
+#include "../../Common_h/defines.h"
 
 #define CLICK_TYPE_CENTER	0
 #define CLICK_TYPE_LEFT		1

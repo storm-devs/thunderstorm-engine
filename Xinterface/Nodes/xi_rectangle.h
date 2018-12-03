@@ -1,7 +1,7 @@
 #ifndef _XI_RECTANGLE_H_
 #define _XI_RECTANGLE_H_
 
-#include "..\inode.h"
+#include "../inode.h"
 
 class CXI_RECTANGLE : public CINODE
 {

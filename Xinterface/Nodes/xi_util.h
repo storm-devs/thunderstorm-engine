@@ -5,7 +5,7 @@
 
 #define UTILS_KEYS_DELAY_FOR_REPEAT	800
 
-#include "..\defines.h"
+#include "../defines.h"
 
 enum InterfaceStringCurTokenType
 {

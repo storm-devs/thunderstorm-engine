@@ -2,7 +2,7 @@
 #define WATERFLARE_HPP
 
 #include "Typedef.h"
-#include "..\common_h\Weather_base.h"
+#include "../common_h/Weather_base.h"
 
 class WATERFLARE : public ENTITY
 {

@@ -1,7 +1,7 @@
 #include "gdi_display.h"
 #include "resource.h"
 #include "system_log.h"
-#include "..\..\common_h\memop.h"
+#include "../../Common_h/memop.h"
 #include <cstdio>
 
 #define DEFAULT_DISPLAY_STACK_SIZE	12

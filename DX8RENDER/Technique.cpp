@@ -1,5 +1,5 @@
 #include "Technique.h"
-#include "..\common_h\defines.h"
+#include "../Common_h/defines.h"
 #include <d3dx9.h>
 
 

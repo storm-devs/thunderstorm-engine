@@ -2,7 +2,7 @@
 #define SEA_BASE_HPP
 
 #include "vmodule_api.h"
-#include "sd2_h\CannonTrace.h"
+#include "Sd2_h/CannonTrace.h"
 
 class SEA_BASE : public CANNON_TRACE_BASE
 {

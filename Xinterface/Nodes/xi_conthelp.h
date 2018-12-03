@@ -1,7 +1,7 @@
 #ifndef _XI_CONTEXTHELP_H_
 #define _XI_CONTEXTHELP_H_
 
-#include "..\inode.h"
+#include "../inode.h"
 
 struct HELPENTITY
 {

@@ -1,12 +1,12 @@
 #ifndef _SEAFOAM_H_
 #define _SEAFOAM_H_
 
-#include "..\common_h\geos.h"
-#include "..\common_h\dx9render.h"
-#include "..\common_h\ship_base.h"
-#include "..\common_h\model.h"
-#include "..\common_h\sea_base.h"
-#include "..\SoundService\VSoundService.h"
+#include "../common_h/geos.h"
+#include "../common_h/dx9render.h"
+#include "../common_h/ship_base.h"
+#include "../common_h/model.h"
+#include "../common_h/sea_base.h"
+#include "../SoundService/VSoundService.h"
 #include "SeafoamDefines.h"
 #include "seafoam_ps.h"
 #include "TCarcass.h"

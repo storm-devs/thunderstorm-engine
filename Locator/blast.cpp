@@ -1,5 +1,5 @@
 #include "blast.h"
-#include "..\../Shared/messages.h"
+#include "../../Shared/messages.h"
 
 #define ANGLESPEED_MUL	0.2f
 

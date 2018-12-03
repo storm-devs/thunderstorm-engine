@@ -1,6 +1,6 @@
 #include <cstdint>
 #include "pcinput.h"
-#include "..\..\common_h\vapi.h"
+#include "../../Common_h/vapi.h"
 
 extern VAPI * _CORE_API;
 extern bool bActive;

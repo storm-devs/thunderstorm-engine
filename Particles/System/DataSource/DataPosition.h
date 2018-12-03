@@ -2,9 +2,9 @@
 #define _PARTICLE_DATA_POSITION_H_
 
 
-#include "..\..\icommon\memfile.h"
+#include "../../ICommon/MemFile.h"
 
-#include "..\..\..\common_h\math3d.h"
+#include "../../../Common_h/math3D.h"
 #include <string>
 
 

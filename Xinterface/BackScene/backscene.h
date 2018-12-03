@@ -1,9 +1,9 @@
 #ifndef _XI_BACK_SCENE_H
 #define _XI_BACK_SCENE_H
 
-#include "..\..\common_h\dx9render.h"
-#include "..\..\common_h\matrix.h"
-#include "..\defines.h"
+#include "../../Common_h/dx9render.h"
+#include "../../Common_h/Matrix.h"
+#include "../defines.h"
 
 class MODEL;
 class NODE;

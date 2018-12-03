@@ -1,11 +1,11 @@
 #ifndef _TSHARKS_H_
 #define _TSHARKS_H_
 
-#include "..\common_h\matrix.h"
-#include "..\common_h\geometry.h"
-#include "..\common_h\dx9render.h"
-#include "..\common_h\sea_base.h"
-#include "..\common_h\ship_base.h"
+#include "../Common_h/Matrix.h"
+#include "../Common_h/geometry.h"
+#include "../Common_h/dx9render.h"
+#include "../Common_h/sea_base.h"
+#include "../Common_h/ship_base.h"
 #include "AnimalsDefines.h"
 #include "TDynamicObject.h"
 #include "TDynamicSystem.h"

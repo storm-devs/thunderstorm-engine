@@ -1,6 +1,6 @@
 #include "xi_glowCursor.h"
-#include "..\..\common_h\matrix.h"
-#include "../../common_h/defines.h"
+#include "../../Common_h/Matrix.h"
+#include "../../Common_h/defines.h"
 
 CXI_GLOWCURSOR::CXI_GLOWCURSOR()
 {

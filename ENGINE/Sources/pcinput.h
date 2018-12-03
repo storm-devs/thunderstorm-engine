@@ -2,8 +2,8 @@
 #define _PCINPUT_H_
 
 #include <Windows.h>
-#include "..\..\common_h\input.h"
-#include "..\..\common_h\key_codes.h"
+#include "../../Common_h/input.h"
+#include "../../Common_h/key_codes.h"
 
 struct KEY_STATE
 {

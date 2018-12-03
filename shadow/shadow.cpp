@@ -7,8 +7,8 @@ Copyright (C) 2000, 2001 Nick Chirkov
 Comments:
 dynamic shadow cpp file
 ******************************************************************************/
-#include "SHADOW.h"
-#include "..\common_h\model.h"
+#include "shadow.h"
+#include "../Common_h/model.h"
 #include "../../Shared/messages.h"
 
 static unsigned long HEAD_DENSITY = 0xFF606060;

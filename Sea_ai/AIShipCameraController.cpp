@@ -1,6 +1,6 @@
 #include "AIShip.h"
 #include "AIFort.h"
-#include "..\common_h\sea_base.h"
+#include "../Common_h/sea_base.h"
 
 AIShipCameraController::AIShipCameraController(AIShip * _pAIShip)
 {

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "compiler.h"
-#include "core.h"
+#include "Core.h"
 #include "sstring.h"
 #include "s_debug.h"
 #include "../../Common_h/defines.h"
@@ -24,7 +24,7 @@
 #define DEF_COMPILE_EXPRESSIONS
 
 #include "Zlib/zlib.h"
-#include "..\..\common_h\vapi.h"
+#include "../../Common_h/vapi.h"
 #include "file_service.h"
 
 #ifdef _XBOX

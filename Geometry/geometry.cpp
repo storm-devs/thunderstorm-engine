@@ -1,5 +1,5 @@
-#include "geometry_r.h"
-#include "..\common_h\geos.h"
+#include "geometry_R.h"
+#include "../Common_h/geos.h"
 
 INTERFACE_FUNCTION
 CREATE_SERVICE(GEOMETRY)

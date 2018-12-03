@@ -1,5 +1,5 @@
 #include "shipsign.h"
-#include "..\utils.h"
+#include "../Utils.h"
 
 WMShipIcon::WMShipIcon( ENTITY_ID& BIEntityID, VDX9RENDER* pRS ) :
 	BISignIcon(BIEntityID, pRS)

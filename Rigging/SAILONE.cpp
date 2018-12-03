@@ -3,11 +3,11 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "SAILONE.h"
-#include "..\\common_h\defines.h"
-#include "..\common_h\Matrix.h"
-#include "..\common_h\model.h"
-#include "..\common_h\sail_base.h"
-#include "..\common_h\sd2_h\VAI_ObjBase.h"
+#include "../Common_hhdefines.hh
+#include "../Common_h/Matrix.h"
+#include "../Common_h/model.h"
+#include "../Common_h/sail_base.h"
+#include "../Common_h/Sd2_h/VAI_ObjBase.h"
 #include "rigging_define.h"
 #include "sail.h"
 

@@ -1,7 +1,7 @@
 #ifndef _XI_PICTURE_H_
 #define _XI_PICTURE_H_
 
-#include "..\\inode.h"
+#include "..//inode.h"
 
 class XINTERFACE;
 

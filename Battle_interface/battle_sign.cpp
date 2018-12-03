@@ -1,5 +1,5 @@
 #include "battle_sign.h"
-#include "utils.h"
+#include "Utils.h"
 
 BISignIcon::BISignIcon( ENTITY_ID& BIEntityID, VDX9RENDER* pRS )
 {

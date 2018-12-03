@@ -1,20 +1,20 @@
 #include <stdio.h>
 #include "xinterface.h"
-#include "scrshoter\scrshoter.h"
-#include "nodes\all_xinode.h"
+#include "SCRSHOTER/scrshoter.h"
+#include "Nodes/all_xinode.h"
 #include "defines.h"
 #include "xservice.h"
-#include "stringservice\strservice.h"
-#include "stringservice\obj_strservice.h"
-#include "TextureSequence\TextureSequence.h"
-#include "HelpChooser\HelpChooser.h"
+#include "Stringservice/strservice.h"
+#include "Stringservice/obj_strservice.h"
+#include "TextureSequence/TextureSequence.h"
+#include "HelpChooser/HelpChooser.h"
 #include "InfoHandler.h"
-#include "BackScene\backscene.h"
+#include "BackScene/backscene.h"
 
 #include <direct.h>
 
 #ifndef _XBOX
-#include "aviplayer\aviplayer.h"
+#include "aviplayer/aviplayer.h"
 #endif
 
 #define CHECK_FILE_NAME "PiratesReadme.txt"

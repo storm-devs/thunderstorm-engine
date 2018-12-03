@@ -1,7 +1,7 @@
 #ifndef __VCONTROLS_HPP1_
 #define __VCONTROLS_HPP1_
 
-#include "..\common_h\service.h"
+#include "../Common_h/service.h"
 
 struct XBGAMEPAD : public XINPUT_GAMEPAD
 {

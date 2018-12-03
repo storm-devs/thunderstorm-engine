@@ -1,7 +1,7 @@
 #include <cstdint>
 #include "services_list.h"
-#include "..\..\common_h\exs.h"
-#include "../../common_h/memop.h"
+#include "../../Common_h/Exs.h"
+#include "../../Common_h/memop.h"
 
 SERVICES_LIST::SERVICES_LIST()
 {

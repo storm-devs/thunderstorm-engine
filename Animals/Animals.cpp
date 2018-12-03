@@ -1,11 +1,11 @@
 #include <stdio.h>
-#include "..\../Shared/messages.h"
+#include "../../Shared/messages.h"
 //#include "..\common_h\defines.h"
-#include "..\common_h\exs.h"
-#include "..\common_h\CVECTOR.h"
-#include "..\SoundService\VSoundService.h"
+#include "../Common_h/Exs.h"
+#include "../Common_h/Cvector.h"
+#include "../SoundService/VSoundService.h"
 
-#include "ANIMALS.h"
+#include "Animals.H"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(ANIMALS)

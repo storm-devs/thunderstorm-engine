@@ -1,7 +1,7 @@
 #ifndef _CONTROL_STACK_H_
 #define _CONTROL_STACK_H_
 
-#include "..\..\common_h\entity_id.h"
+#include "../../Common_h/entity_id.h"
 
 typedef struct 
 {

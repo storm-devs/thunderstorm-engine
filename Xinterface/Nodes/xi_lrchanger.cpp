@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "xi_lrchanger.h"
-#include "../../common_h/defines.h"
+#include "../../Common_h/defines.h"
 
 void SetOneTextureCoordinate(XI_ONETEX_VERTEX v[4],FXYRECT & tr)
 {

@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "..\../Shared/messages.h"
-#include "..\common_h\exs.h"
-#include "..\common_h\CVECTOR.h"
+#include "../../Shared/messages.h"
+#include "../Common_h/Exs.h"
+#include "../Common_h/Cvector.h"
 //#include "..\SoundService\VSoundService.h"
-#include "BALLSPLASH.h"
+#include "BallSplash.H"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(BALLSPLASH)

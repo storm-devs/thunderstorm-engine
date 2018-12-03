@@ -13,9 +13,9 @@
 #include "Lights.h"
 #include "Character.h"
 
-#include "..\common_h\model.h"
-#include "..\common_h\cvector4.h"
-#include "../common_h/defines.h"
+#include "../Common_h/model.h"
+#include "../Common_h/CVector4.h"
+#include "../Common_h/defines.h"
 #include "../../Shared/messages.h"
 
 float		fCausticScale, fCausticDelta, fFogDensity, fCausticDistance;

@@ -1,6 +1,6 @@
 #include <memory.h> 
 #include "s_tstack.h"
-#include "..\..\common_h\memop.h"
+#include "../../Common_h/memop.h"
 
 
 S_TSTACK::S_TSTACK()

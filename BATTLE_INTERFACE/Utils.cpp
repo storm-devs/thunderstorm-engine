@@ -1,6 +1,6 @@
-#include "utils.h"
-#include "..\common_h\defines.h"
-#include "image\imgrender.h"
+#include "Utils.h"
+#include "../Common_h/defines.h"
+#include "image/imgrender.h"
 
 // extern data
 ENTITY_ID BIUtils::idBattleInterface;

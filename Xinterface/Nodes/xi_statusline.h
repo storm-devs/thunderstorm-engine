@@ -1,7 +1,7 @@
 #ifndef _XI_STATUSLINE_H
 #define _XI_STATUSLINE_H
 
-#include "..\\inode.h"
+#include "..//inode.h"
 
 // static inactive images into one object
 class CXI_STATUSLINE : public CINODE

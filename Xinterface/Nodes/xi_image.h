@@ -1,7 +1,7 @@
 #ifndef _XI_IMAGE_OBJECT_H
 #define _XI_IMAGE_OBJECT_H
 
-#include "..\inode.h"
+#include "../inode.h"
 
 enum ImagePointType
 {

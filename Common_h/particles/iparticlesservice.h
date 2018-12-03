@@ -8,7 +8,7 @@
 #ifndef PARTICLES_SERVICE_INTERFACE
 #define PARTICLES_SERVICE_INTERFACE
 
-#include "..\service.h"
+#include "../service.h"
 
 class IParticleManager;
 

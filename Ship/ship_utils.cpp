@@ -1,5 +1,5 @@
 #include "ship.h"
-#include "../common_h/mast_msg.h"
+#include "../Common_h/mast_msg.h"
 
 #define MAST_IDENTIFY		"mast"
 #define MAST_FIRST			1

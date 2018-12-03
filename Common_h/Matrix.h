@@ -2,7 +2,7 @@
 #define _MATRIX_H_
 
 
-#include "cvector.h"
+#include "Cvector.h"
 #include <d3d9.h>
 #include <d3dx9.h>
 

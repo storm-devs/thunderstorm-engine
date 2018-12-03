@@ -1,7 +1,7 @@
 #ifndef _XI_LINECOLLECTION_H
 #define _XI_LINECOLLECTION_H
 
-#include "..\inode.h"
+#include "../inode.h"
 
 // text collection
 class CXI_LINECOLLECTION : public CINODE

@@ -1,5 +1,5 @@
-#include "..\common_h\matrix.h"
-#include "../common_h/rands.h"
+#include "../Common_h/Matrix.h"
+#include "../Common_h/rands.h"
 #include "TButterfly.h"
 
 #define PI		3.14159265358979323846f

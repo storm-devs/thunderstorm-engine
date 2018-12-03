@@ -1,8 +1,8 @@
-#include "DIALOG.h"
-#include "..\common_h\defines.h"
-#include "..\common_h\model.h"
+#include "dialog.h"
+#include "../Common_h/defines.h"
+#include "../Common_h/model.h"
 
-#include "..\SoundService\VSoundService.h"
+#include "../SoundService/VSoundService.h"
 
 #define CNORMAL	0xFFFFFFFF
 #define UNFADE_TIME 1000

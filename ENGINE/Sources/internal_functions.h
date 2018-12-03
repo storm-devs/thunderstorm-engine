@@ -2,7 +2,7 @@
 #define _INTERNAL_FUNCTIONS_H_
 
 #ifndef _XBOX
-#include <windows.h>
+#include <Windows.h>
 #else
 #include <xtl.h>
 #endif

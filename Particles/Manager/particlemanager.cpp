@@ -1,17 +1,17 @@
 #include "particlemanager.h"
-#include "..\..\common_h\dx9render.h"
-#include "..\..\common_h\vapi.h"
+#include "../../Common_h/dx9render.h"
+#include "../../Common_h/vapi.h"
 #include "../../Common_h/filesystem.h"
 
-#include "..\datacache\datacache.h"
-#include "..\geomcache\geomcache.h"
-#include "..\system\particlesystem\particlesystem.h"
-#include "..\service\particleservice.h"
+#include "../DataCache/DataCache.h"
+#include "../GeomCache/GeomCache.h"
+#include "../System/ParticleSystem/particlesystem.h"
+#include "../Service/particleservice.h"
 
-#include "..\system\particleprocessor\nameparser.h"
-#include "..\icommon\iemitter.h"
-#include "..\system\datasource\datastring.h"
-#include "../icommon/names.h"
+#include "../System/ParticleProcessor/nameparser.h"
+#include "../ICommon/IEmitter.h"
+#include "../System/DataSource/DataString.h"
+#include "../ICommon/Names.h"
 
 
 uint32_t GraphRead = 0;

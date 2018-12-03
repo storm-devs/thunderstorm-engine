@@ -1,6 +1,6 @@
 #include "DataBool.h"
-#include "..\..\icommon\memfile.h"
-#include "..\..\..\common_h\vmodule_api.h"
+#include "../../ICommon/MemFile.h"
+#include "../../../Common_h/vmodule_api.h"
 
 #pragma warning (disable : 4800)
 

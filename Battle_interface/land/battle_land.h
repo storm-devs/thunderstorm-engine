@@ -1,9 +1,9 @@
 #ifndef _BATTLE_LAND_H_
 #define _BATTLE_LAND_H_
 
-#include "..\..\common_h\dx9render.h"
-#include "..\..\common_h\defines.h"
-#include "..\utils.h"
+#include "../../Common_h/dx9render.h"
+#include "../../Common_h/defines.h"
+#include "../Utils.h"
 
 class BIManSign;
 

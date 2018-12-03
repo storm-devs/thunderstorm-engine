@@ -1,7 +1,7 @@
 #ifndef BIManager_BaseGroup_H
 #define BIManager_BaseGroup_H
 
-#include "..\BaseManager.h"
+#include "../BaseManager.h"
 #include <vector>
 
 #define BIImagePrioritet_Group_Beg	15000

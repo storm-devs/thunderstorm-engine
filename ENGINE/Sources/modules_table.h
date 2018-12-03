@@ -1,7 +1,7 @@
 #ifndef _MODULES_TABLE_H_
 #define _MODULES_TABLE_H_
 
-#include "..\..\common_h\vmodule_api.h"
+#include "../../Common_h/vmodule_api.h"
 
 typedef struct 
 {

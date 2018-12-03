@@ -1,7 +1,7 @@
 #ifndef _BATTLE_MANCOMMAND_H_
 #define _BATTLE_MANCOMMAND_H_
 
-#include "..\battle_command.h"
+#include "../battle_command.h"
 
 class BIManCommandList : public BICommandList
 {

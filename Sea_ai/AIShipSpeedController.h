@@ -1,8 +1,8 @@
 #ifndef AISHIPSPEEDCONTROLLER_HPP
 #define AISHIPSPEEDCONTROLLER_HPP
 
-#include "..\common_h\vmodule_api.h"
-#include "..\common_h\sd2_h\VAI_ObjBase.h"
+#include "../Common_h/vmodule_api.h"
+#include "../Common_h/Sd2_h/VAI_ObjBase.h"
 
 // ============================================================================
 // master class AIShipSpeedController

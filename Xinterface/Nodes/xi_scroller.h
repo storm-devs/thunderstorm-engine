@@ -1,7 +1,7 @@
 #ifndef _XI_SCROLLER_H
 #define _XI_SCROLLER_H
 
-#include "..\\inode.h"
+#include "..//inode.h"
 
 // static inactive images into one object
 class CXI_SCROLLER : public CINODE

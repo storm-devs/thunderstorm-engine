@@ -1,8 +1,8 @@
 #ifndef _CAMERA_H_
 #define _CAMERA_H_
 
-#include "..\common_h\dx9render.h"
-#include "..\common_h\Island_Base.h"
+#include "../Common_h/dx9render.h"
+#include "../Common_h/Island_Base.h"
 #include "Common_Camera.h"
 
 class FREE_CAMERA : public COMMON_CAMERA

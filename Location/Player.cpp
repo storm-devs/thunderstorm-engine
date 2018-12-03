@@ -12,9 +12,9 @@
 
 
 #include "Location.h"
-#include "..\common_h\collide.h"
+#include "../Common_h/collide.h"
 #include "LocationCamera.h"
-#include "..\../Shared/messages.h"
+#include "../../Shared/messages.h"
 
 //============================================================================================
 //Конструирование, деструктурирование

@@ -1,12 +1,12 @@
 #include "spyglass.h"
-#include "..\image\imgrender.h"
-#include "..\image\image.h"
-#include "..\utils.h"
-#include "..\..\..\Shared\messages.h"
-#include "..\..\..\Shared\events.h"
-#include "..\sea\ships_list.h"
+#include "../image/imgrender.h"
+#include "../image/image.h"
+#include "../Utils.h"
+#include "../../../Shared/messages.h"
+#include "../../../Shared/events.h"
+#include "../sea/ships_list.h"
 #include "../../../Shared/battle_interface/msg_control.h"
-#include "../../common_h/Math3D/Sphere.h"
+#include "../../Common_h/math3d/Sphere.h"
 
 void ISPYGLASS::ImageParam::Release()
 {

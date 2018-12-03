@@ -1,5 +1,5 @@
-#include "sunglow.h"
-#include "sky.h"
+#include "SunGlow.h"
+#include "SKY.h"
 
 SUNGLOW::SUNGLOW()
 {

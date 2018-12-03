@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "xi_title.h"
-#include "../../common_h/defines.h"
+#include "../../Common_h/defines.h"
 
 CXI_TITLE::CXI_TITLE()
 {

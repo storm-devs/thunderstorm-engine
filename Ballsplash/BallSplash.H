@@ -1,10 +1,10 @@
 #ifndef _BALLSPLASH_H_
 #define _BALLSPLASH_H_
 
-#include "..\common_h\geometry.h"
-#include "..\common_h\dx9render.h"
-#include "..\common_h\sea_base.h"
-#include "..\common_h\CVECTOR.h"
+#include "../common_h/geometry.h"
+#include "../common_h/dx9render.h"
+#include "../common_h/sea_base.h"
+#include "../common_h/CVECTOR.h"
 #include "BallSplashDefines.h"
 #include "TSplash.h"
 

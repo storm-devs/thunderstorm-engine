@@ -1,10 +1,10 @@
 #ifndef _TSINKSPLASH_H_
 #define _TSINKSPLASH_H_
 
-#include "..\common_h\dx9render.h"
-#include "..\common_h\sea_base.h"
-#include "..\common_h\CVECTOR.h"
-#include "..\SoundService\VSoundService.h"
+#include "../Common_h/dx9render.h"
+#include "../Common_h/sea_base.h"
+#include "../Common_h/Cvector.h"
+#include "../SoundService/VSoundService.h"
 #include "seps.h"
 
 ///////////////////////////////////////////////////////////////////

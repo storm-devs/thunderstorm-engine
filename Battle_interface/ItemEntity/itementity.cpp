@@ -1,6 +1,6 @@
 #include "itementity.h"
-#include "..\utils.h"
-#include "..\..\common_h\model.h"
+#include "../Utils.h"
+#include "../../Common_h/model.h"
 #include "../../../Shared/messages.h"
 
 ItemEntity::ItemEntity()

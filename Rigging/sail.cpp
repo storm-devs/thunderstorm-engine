@@ -1,16 +1,16 @@
-#include "SAIL.h"
-#include "..\common_h\model.h"
-#include "..\common_h\sail_msg.h"
-#include "..\common_h\defines.h"
-#include "..\common_h\Weather_base.h"
-#include "..\common_h\ship_base.h"
-#include "..\common_h\sd2_h\VAI_ObjBase.h"
+#include "sail.h"
+#include "../Common_h/model.h"
+#include "../Common_h/sail_msg.h"
+#include "../Common_h/defines.h"
+#include "../Common_h/Weather_Base.h"
+#include "../Common_h/ship_base.h"
+#include "../Common_h/Sd2_h/VAI_ObjBase.h"
 #include "rigging_define.h"
 #include <stdio.h>
-#include "..\common_h\mast_msg.h"
+#include "../Common_h/mast_msg.h"
 
-#include "..\..\Shared\sea_ai\script_defines.h"
-#include "..\..\Shared\battle_interface\msg_control.h"
+#include "../../Shared/sea_ai/Script_defines.h"
+#include "../../Shared/battle_interface/msg_control.h"
 
 #define WIND_SPEED_MAX 12.f
 

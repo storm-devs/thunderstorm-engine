@@ -1,10 +1,10 @@
 #ifndef WEATHER_RAIN_HPP
 #define WEATHER_RAIN_HPP
 
-#include "Typedef.h"
-#include "..\common_h\Weather_base.h"
-#include "..\common_h\sea_base.h"
-#include "..\common_h\ship_base.h"
+#include "typedef.h"
+#include "../Common_h/Weather_Base.h"
+#include "../Common_h/sea_base.h"
+#include "../Common_h/ship_base.h"
 #include <vector>
 
 #define NUM_SEA_DROPS				500

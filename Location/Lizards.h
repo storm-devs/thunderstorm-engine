@@ -12,8 +12,8 @@
 #define _Lizards_h_
 
 
-#include "..\common_h\vmodule_api.h"
-#include "..\common_h\dx9render.h"
+#include "../Common_h/vmodule_api.h"
+#include "../Common_h/dx9render.h"
 
 #include "Lizard.h"
 

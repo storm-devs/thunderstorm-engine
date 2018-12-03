@@ -1,5 +1,5 @@
 #include "seps.h"
-#include "..\common_h\object.h"
+#include "../Common_h/object.h"
 
 SEPS_PS::SEPS_PS()
 {

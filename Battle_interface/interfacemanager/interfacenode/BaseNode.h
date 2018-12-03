@@ -1,7 +1,7 @@
 #ifndef BIManager_BaseNode_H
 #define BIManager_BaseNode_H
 
-#include "..\BaseManager.h"
+#include "../BaseManager.h"
 
 class BI_ManagerBase;
 

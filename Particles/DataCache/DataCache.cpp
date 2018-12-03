@@ -1,7 +1,7 @@
-#include "datacache.h"
-#include "..\..\common_h\particles.h"
-#include "..\..\common_h\filesystem.h"
-#include "..\icommon\memfile.h"
+#include "DataCache.h"
+#include "../../Common_h/particles.h"
+#include "../../Common_h/filesystem.h"
+#include "../ICommon/MemFile.h"
 
 bool ReadingAlreadyComplete;
 

@@ -1,7 +1,7 @@
 #ifndef _PARTICLE_DATA_SOURCE_H_
 #define _PARTICLE_DATA_SOURCE_H_
 
-#include "..\..\icommon\types.h"
+#include "../../icommon/types.h"
 #include "fieldlist.h"
 #include <vector>
 

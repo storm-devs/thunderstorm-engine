@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "defines.h"
-#include "..\common_h\defines.h"
+#include "../Common_h/defines.h"
 
 //////////////////////////////////////////////
 ///    DEFINE GLOBAL DATA                 ////

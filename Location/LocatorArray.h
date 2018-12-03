@@ -12,8 +12,8 @@
 #define _LocatorArray_H_
 
 
-#include "..\common_h\vmodule_api.h"
-#include "..\common_h\matrix.h"
+#include "../Common_h/vmodule_api.h"
+#include "../Common_h/Matrix.h"
 
 
 class LocatorArray

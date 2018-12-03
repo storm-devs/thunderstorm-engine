@@ -1,18 +1,18 @@
 #include <stdio.h>
 
 #ifndef _XBOX
-	#include <windows.h>
+	#include <Windows.h>
 #else
 	#include <xtl.h>
 #endif
 
-#include "..\../Shared/messages.h"
-#include "..\common_h\defines.h"
-#include "..\common_h\exs.h"
-#include "..\common_h\CVECTOR.h"
-#include "..\SoundService\VSoundService.h"
+#include "../../Shared/messages.h"
+#include "../Common_h/defines.h"
+#include "../Common_h/Exs.h"
+#include "../Common_h/Cvector.h"
+#include "../SoundService/VSoundService.h"
 
-#include "SOUND.h"
+#include "SOUND.H"
 
 #define MSG_SOUND_ALIAS_ADD					77017   //"s"		  alias_name
 

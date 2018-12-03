@@ -1,6 +1,6 @@
-#include "EnemyStatShower.h"
-#include "..\utils.h"
-#include "..\..\common_h\model.h"
+#include "enemystatshower.h"
+#include "../Utils.h"
+#include "../../Common_h/model.h"
 #include "../../../Shared/messages.h"
 
 EnemyStatShower::EnemyStatShower()

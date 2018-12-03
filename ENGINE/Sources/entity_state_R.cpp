@@ -1,7 +1,6 @@
 #include "entity_state_R.h"
-#include "..\..\common_h\exs.h"
-#include "..\..\common_h\memop.h"
-
+#include "../../Common_h/Exs.h"
+#include "../../Common_h/memop.h"
 
 
 const char Signature[] = "ES";

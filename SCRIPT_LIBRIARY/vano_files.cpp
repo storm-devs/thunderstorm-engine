@@ -1,5 +1,5 @@
 #include "vano_files.h"
-#include "../common_h/s_import_func.h"
+#include "../Common_h/s_import_func.h"
 #include "../Common_h/defines.h"
 
 uint32_t __cdecl _RDTSC_B(VS_STACK * pS)

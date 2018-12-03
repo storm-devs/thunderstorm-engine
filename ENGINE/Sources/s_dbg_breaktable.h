@@ -1,7 +1,7 @@
 #ifndef _BREAKPOINTS_TABLE_H_
 #define _BREAKPOINTS_TABLE_H_
 
-#include "core.h"
+#include "Core.h"
 
 struct BREAKPOINT_DESC
 {

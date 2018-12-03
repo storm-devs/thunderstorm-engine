@@ -1,15 +1,15 @@
-#include "datasource.h"
+#include "DataSource.h"
 
-#include "databool.h"
-#include "datacolor.h"
-#include "datafloat.h"
-#include "datagraph.h"
-#include "datastring.h"
+#include "DataBool.h"
+#include "DataColor.h"
+#include "DataFloat.h"
+#include "DataGraph.h"
+#include "DataString.h"
 
 
-#include "..\..\icommon\memfile.h"
-#include "..\..\..\common_h\vmodule_api.h"
-#include "../../icommon/names.h"
+#include "../../ICommon/MemFile.h"
+#include "../../../Common_h/vmodule_api.h"
+#include "../../ICommon/Names.h"
 
 #define HEADER "PSYS"
 #define VERSION "v3.5"

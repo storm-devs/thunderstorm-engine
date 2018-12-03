@@ -1,7 +1,7 @@
 #ifndef SEA_CANNON_AI_HPP
 #define SEA_CANNON_AI_HPP
 
-#include "..\common_h\sd2_h\VAI_ObjBase.h"
+#include "../Common_h/Sd2_h/VAI_ObjBase.h"
 #include "AIHelper.h"
 
 // ============================================================================

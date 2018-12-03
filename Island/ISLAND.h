@@ -1,13 +1,13 @@
 #ifndef _ISLAND_H_
 #define _ISLAND_H_
 
-#include "..\common_h\vmodule_api.h"
-#include "..\common_h\dx9render.h"
-#include "..\common_h\collide.h"
-#include "..\common_h\Island_base.h"
-#include "..\common_h\model.h"
-#include "..\common_h\geometry.h"
-#include "..\sea_ai\AIFlowGraph.h"
+#include "../Common_h/vmodule_api.h"
+#include "../Common_h/dx9render.h"
+#include "../Common_h/collide.h"
+#include "../Common_h/Island_Base.h"
+#include "../Common_h/model.h"
+#include "../Common_h/geometry.h"
+#include "../Sea_ai/AIFlowGraph.h"
 
 class MapZipper
 {

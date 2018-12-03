@@ -1,15 +1,15 @@
 #include <math.h>
-#include "..\common_h\exs.h"
-#include "..\common_h\matrix.h"
-#include "..\common_h\defines.h"
-#include "..\common_h\rands.h"
+#include "../Common_h/Exs.h"
+#include "../Common_h/Matrix.h"
+#include "../Common_h/defines.h"
+#include "../Common_h/rands.h"
 #include "SoundService.h"
 
 
 //для debug
-#include "..\common_h\dx9render.h"
+#include "../Common_h/dx9render.h"
 #include "DebugEntity.h"
-#include "../common_h/math3d/color.h"
+#include "../Common_h/math3d/Color.h"
 VDX9RENDER* pRS = nullptr;
 
 INTERFACE_FUNCTION

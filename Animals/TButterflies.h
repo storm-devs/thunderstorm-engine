@@ -1,11 +1,11 @@
 #ifndef _TBUTTERFLIES_H_
 #define _TBUTTERFLIES_H_
 
-#include "..\common_h\matrix.h"
-#include "..\common_h\animation.h"
-#include "..\common_h\geometry.h"
-#include "..\common_h\dx9render.h"
-#include "..\common_h\collide.h"
+#include "../Common_h/Matrix.h"
+#include "../Common_h/Animation.h"
+#include "../Common_h/geometry.h"
+#include "../Common_h/dx9render.h"
+#include "../Common_h/collide.h"
 #include "AnimalsDefines.h"
 #include "TButterfly.h"
 #include "TIVBufferManager.h"

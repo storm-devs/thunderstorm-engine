@@ -1,8 +1,8 @@
 #ifndef _XBOX
 
-#include <shlobj.h>
+#include <ShlObj.h>
 #include "s_debug.h"
-#include "core.h"
+#include "Core.h"
 #include "resource.h"
 
 LRESULT CALLBACK DebugWndProc(HWND,UINT,WPARAM,LPARAM);

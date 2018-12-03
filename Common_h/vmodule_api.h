@@ -3,7 +3,7 @@
 
 #include "vapi.h"
 #include "memop.h"
-#include "exs.h"
+#include "Exs.h"
 
 class VMA;
 

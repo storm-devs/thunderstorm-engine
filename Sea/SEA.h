@@ -4,13 +4,13 @@
 #ifndef NEW_SEA_HPP
 #define NEW_SEA_HPP
 
-#include "..\common_h\dx9render.h"
-#include "..\common_h\cvector4.h"
-#include "..\common_h\Sea_Base.h"
+#include "../common_h/dx9render.h"
+#include "../common_h/cvector4.h"
+#include "../common_h/Sea_Base.h"
 
-#include "..\common_h\defines.h"
+#include "../common_h/defines.h"
 
-#include "..\common_h\Intel.h"
+#include "../common_h/Intel.h"
 #include <vector>
 
 class SEA : public SEA_BASE

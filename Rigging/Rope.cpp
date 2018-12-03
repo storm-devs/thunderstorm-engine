@@ -1,8 +1,8 @@
-#include "ROPE.h"
-#include "..\common_h\defines.h"
-#include "..\common_h\sail_msg.h"
-#include "..\common_h\model.h"
-#include "..\common_h\ship_base.h"
+#include "Rope.h"
+#include "../Common_h/defines.h"
+#include "../Common_h/sail_msg.h"
+#include "../Common_h/model.h"
+#include "../Common_h/ship_base.h"
 #include "rigging_define.h"
 #include <stdio.h>
 

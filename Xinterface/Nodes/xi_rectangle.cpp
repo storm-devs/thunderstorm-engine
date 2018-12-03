@@ -1,6 +1,6 @@
 #include "xi_rectangle.h"
 #include <stdio.h>
-#include "../../common_h/defines.h"
+#include "../../Common_h/defines.h"
 
 CXI_RECTANGLE::CXI_RECTANGLE()
 {

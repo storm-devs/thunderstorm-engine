@@ -1,7 +1,7 @@
 #ifndef _XI_SLIDELINE_H_
 #define _XI_SLIDELINE_H_
 
-#include "..\\inode.h"
+#include "..//inode.h"
 
 // video
 class CXI_SLIDELINE : public CINODE

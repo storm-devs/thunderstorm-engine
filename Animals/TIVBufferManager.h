@@ -1,7 +1,7 @@
 #ifndef _TIVBUFFERMANAGER_H_
 #define _TIVBUFFERMANAGER_H_
 
-#include "..\common_h\dx9render.h"
+#include "../Common_h/dx9render.h"
 
 ///////////////////////////////////////////////////////////////////
 // CLASS DEFINITION

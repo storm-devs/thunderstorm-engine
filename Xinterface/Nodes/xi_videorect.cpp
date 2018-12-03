@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "xi_videorect.h"
-#include "..\\base_video.h"
-#include "../../common_h/defines.h"
+#include "..//base_video.h"
+#include "../../Common_h/defines.h"
 
 CXI_VIDEORECT::CXI_VIDEORECT()
 {

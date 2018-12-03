@@ -1,9 +1,9 @@
 #ifndef _MAST_H_
 #define _MAST_H_
 
-#include "..\common_h\dx9render.h"
-#include "..\common_h\model.h"
-#include "..\common_h\collide.h"
+#include "../common_h/dx9render.h"
+#include "../common_h/model.h"
+#include "../common_h/collide.h"
 
 #define SR_MOVE         1
 #define SR_STOPROTATE   2

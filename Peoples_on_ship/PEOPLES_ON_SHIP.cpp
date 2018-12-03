@@ -1,11 +1,11 @@
 #include <stdio.h>
-#include "..\../Shared/messages.h"
-#include "..\common_h\exs.h"
-#include "..\common_h\rands.h"
-#include "..\common_h\types3d.h"
-#include "..\..\Shared\SEA_AI\script_defines.h"
+#include "../../Shared/messages.h"
+#include "../Common_h/Exs.h"
+#include "../Common_h/rands.h"
+#include "../Common_h/types3d.h"
+#include "../../Shared/sea_ai/Script_defines.h"
 #include "PEOPLES_ON_SHIP.h"
-#include "..\..\Shared\sea_ai\seaPeople.h"
+#include "../../Shared/sea_ai/SeaPeople.h"
 
 #define SHIP_BLACK_PEARL		164
 

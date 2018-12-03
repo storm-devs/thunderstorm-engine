@@ -1,12 +1,12 @@
 #ifndef BASE_EMITTER
 #define BASE_EMITTER
 
-#include "..\..\..\common_h\math3d.h"
-#include "..\..\icommon\iemitter.h"
-#include "..\..\icommon\types.h"
-#include "..\datasource\datasource.h"
-#include "..\particlesystem\particlesystem.h"
-#include "..\..\..\common_h\math3d/Matrix.h"
+#include "../../../Common_h/math3D.h"
+#include "../../ICommon/IEmitter.h"
+#include "../../ICommon/Types.h"
+#include "../DataSource/DataSource.h"
+#include "../ParticleSystem/particlesystem.h"
+#include "../../../Common_h/math3d/Matrix.h"
 
 class DataGraph;
 

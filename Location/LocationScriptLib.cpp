@@ -1,7 +1,7 @@
 
 
 #include "LocationScriptLib.h"
-#include "..\common_h\dx9render.h"
+#include "../Common_h/dx9render.h"
 #include "Fader.h"
 
 //============================================================================================

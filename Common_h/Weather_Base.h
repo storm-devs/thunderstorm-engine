@@ -1,8 +1,8 @@
 #ifndef WEATHER_BASE_HPP
 #define WEATHER_BASE_HPP
 
-#include "..\common_h\entity.h"
-#include "..\common_h\cvector.h"
+#include "../Common_h/entity.h"
+#include "../Common_h/Cvector.h"
 
 #define MAX_FLOAT_PARAMS		128
 #define MAX_LONG_PARAMS			64

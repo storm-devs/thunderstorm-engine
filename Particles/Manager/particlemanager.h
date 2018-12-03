@@ -10,10 +10,10 @@
 
 #include <stdarg.h>
 #include <stdio.h>
-#include "..\..\common_h\particles\iparticlemanager.h"
+#include "../../Common_h/particles/iparticlemanager.h"
 
-#include "..\system\ParticleProcessor\mdl_processor.h"
-#include "..\system\ParticleProcessor\bb_processor.h"
+#include "../System/ParticleProcessor/mdl_processor.h"
+#include "../System/ParticleProcessor/bb_processor.h"
 #include <string>
 #include <vector>
 

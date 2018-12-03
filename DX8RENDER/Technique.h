@@ -1,8 +1,8 @@
 #ifndef TECHNIQUE_HPP
 #define TECHNIQUE_HPP
 
-#include "..\common_h\vmodule_api.h"
-#include "..\common_h\dx9render.h"
+#include "../Common_h/vmodule_api.h"
+#include "../Common_h/dx9render.h"
 #include <string>
 #include <unordered_map>
 

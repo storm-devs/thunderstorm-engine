@@ -1,8 +1,8 @@
 #include <stdio.h>
-#include "..\..\common_h\vmodule_api.h"
-#include "..\..\common_h\defines.h"
+#include "../../Common_h/vmodule_api.h"
+#include "../../Common_h/defines.h"
 #include "xi_util.h"
-#include "..\inode.h"
+#include "../inode.h"
 
 CXI_UTILS * CXI_UTILS::pThis = nullptr;
 

@@ -1,8 +1,8 @@
 #ifndef _BI_ENEMY_STAT_SHOWER_H_
 #define _BI_ENEMY_STAT_SHOWER_H_
 
-#include "..\..\common_h\dx9render.h"
-#include "..\..\common_h\defines.h"
+#include "../../common_h/dx9render.h"
+#include "../../common_h/defines.h"
 
 class MODEL;
 class NODE;

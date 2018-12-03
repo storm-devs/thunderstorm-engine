@@ -11,7 +11,7 @@
 #include "NPCharacter.h"
 #include "Location.h"
 #include "CharactersGroups.h"
-#include "../common_h/defines.h"
+#include "../Common_h/defines.h"
 #include "../../Shared/messages.h"
 
 

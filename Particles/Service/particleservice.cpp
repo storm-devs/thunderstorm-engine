@@ -1,6 +1,6 @@
 #include "particleservice.h"
-#include "..\manager\particlemanager.h"
-#include "..\k2Wrapper\particles.h"
+#include "../Manager/particlemanager.h"
+#include "../K2Wrapper/particles.h"
 
 
 INTERFACE_FUNCTION

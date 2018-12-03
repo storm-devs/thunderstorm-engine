@@ -1,8 +1,8 @@
 #ifndef DATA_DESCRIPTION_CLASS
 #define DATA_DESCRIPTION_CLASS
 
-#include "../../../common_h/exs.h"
-#include "../../icommon/types.h"
+#include "../../../Common_h/Exs.h"
+#include "../../ICommon/Types.h"
 
 
 #define MAX_DESC_COUNT 128

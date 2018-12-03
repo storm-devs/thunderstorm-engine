@@ -8,8 +8,8 @@
 #include <xtl.h>
 #endif
 
-#include "..\..\common_h\memop.h"
-#include "..\..\common_h\vapi.h"
+#include "../../common_h/memop.h"
+#include "../../common_h/vapi.h"
 //#include "..\..\common_h\input.h"
 
 #include "common_h.h"

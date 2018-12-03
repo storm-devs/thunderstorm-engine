@@ -1,6 +1,5 @@
 #include "particlesystem.h"
-#include "..\emitters\point.h"
-
+#include "../Emitters/point.h"
 
 
 //Глобальный GUID для присваивания эмиттерам

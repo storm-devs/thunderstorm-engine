@@ -1,10 +1,10 @@
 #ifndef _INODE_H
 #define _INODE_H
 
-#include "..\common_h\dx9render.h"
-#include "..\common_h\vmodule_api.h"
+#include "../Common_h/dx9render.h"
+#include "../Common_h/vmodule_api.h"
 #include "defines.h"
-#include "nodes\xi_tooltips.h"
+#include "Nodes/xi_tooltips.h"
 #include "vxservice.h"
 
 class CXI_ToolTip;

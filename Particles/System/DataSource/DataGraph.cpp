@@ -1,8 +1,8 @@
 #include "DataGraph.h"
-#include "..\..\icommon\memfile.h"
-#include "..\..\icommon\types.h"
-#include "..\..\icommon\graphtime.h"
-#include "..\..\..\common_h\vmodule_api.h"
+#include "../../ICommon/MemFile.h"
+#include "../../ICommon/Types.h"
+#include "../../ICommon/GraphTime.h"
+#include "../../../Common_h/vmodule_api.h"
 
 #pragma warning (disable : 4800)
 

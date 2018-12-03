@@ -1,8 +1,8 @@
 #ifndef _QUEST_FILE_READER_H_
 #define _QUEST_FILE_READER_H_
 
-#include "..\..\common_h\vmodule_api.h"
-#include "..\templates\TDynArray.h"
+#include "../../Common_h/vmodule_api.h"
+#include "../templates/TDynArray.h"
 #include <string>
 #include <vector>
 

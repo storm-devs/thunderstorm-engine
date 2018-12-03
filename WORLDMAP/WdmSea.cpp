@@ -8,11 +8,11 @@
 //
 //============================================================================================
 
-#include "..\common_h\matrix.h"
+#include "../Common_h/Matrix.h"
 #include <stdio.h>
 #include "WdmSea.h"
 #include "WdmShip.h"
-#include "../common_h/defines.h"
+#include "../Common_h/defines.h"
 
 //============================================================================================
 

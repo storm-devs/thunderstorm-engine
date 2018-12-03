@@ -1,6 +1,6 @@
 #include "Blood.h"
-#include "..\common_h\Geometry.h"
-#include "..\common_h\matrix.h"
+#include "../Common_h/geometry.h"
+#include "../Common_h/Matrix.h"
 #include "Character.h"
 #include "../Common_h/defines.h"
 

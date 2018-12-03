@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "waterflare.h"
+#include "WaterFlare.h"
 
 #define WATERFLARE_DIR		"WEATHER\\SEA\\FLARE\\"
 

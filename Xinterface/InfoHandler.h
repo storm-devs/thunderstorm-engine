@@ -1,7 +1,7 @@
 #ifndef _INFO_HANDLER_H_
 #define _INFO_HANDLER_H_
 
-#include "..\\common_h\\dx9render.h"
+#include "../Common_hhdx9render.h.
 
 class InfoHandler : public ENTITY
 {

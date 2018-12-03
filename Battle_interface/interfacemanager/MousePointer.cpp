@@ -1,7 +1,7 @@
 #include "MousePointer.h"
-#include "..\utils.h"
-#include "..\image\imgrender.h"
-#include "..\image\image.h"
+#include "../Utils.h"
+#include "../image/imgrender.h"
+#include "../image/image.h"
 #include "BaseManager.h"
 
 #define BI_MOUSECURSOR_ICON_ORDER	35000

@@ -1,7 +1,7 @@
 #include "TSeagulls.h"
-#include "..\common_h\rands.h"
+#include "../Common_h/rands.h"
 #include "../../Shared/messages.h"
-#include "../common_h/model.h"
+#include "../Common_h/model.h"
 
 //#pragma warning (disable : 4244)
 

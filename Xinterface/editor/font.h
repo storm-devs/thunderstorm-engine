@@ -1,7 +1,7 @@
 #ifndef _GI_EDITOR_FONT_H
 #define _GI_EDITOR_FONT_H
 
-#include "..\inode.h"
+#include "../inode.h"
 
 class GIEditor;
 

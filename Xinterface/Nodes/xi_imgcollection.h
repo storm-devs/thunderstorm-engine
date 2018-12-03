@@ -1,8 +1,8 @@
 #ifndef _XI_IMAGECOLLECTION_H
 #define _XI_IMAGECOLLECTION_H
 
-#include "..\..\common_h\vmodule_api.h"
-#include "..\inode.h"
+#include "../../Common_h/vmodule_api.h"
+#include "../inode.h"
 
 // static inactive images into one object
 class CXI_IMGCOLLECTION : public CINODE

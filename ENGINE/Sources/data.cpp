@@ -1,6 +1,6 @@
 #include "data.h"
 #include <math.h>
-#include "core.h"
+#include "Core.h"
 #include <float.h>
 
 char * UNINIT_REF = {"Using reference variable without initializing"};

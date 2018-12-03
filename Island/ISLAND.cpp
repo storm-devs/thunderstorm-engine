@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include "ISLAND.h"
 #include "Foam.h"
-#include "..\..\Shared\sea_ai\Script_Defines.h"
-#include "..\common_h\weather_base.h"
-#include "..\common_h\filesystem.h"
-#include "..\common_h\tga.h"
+#include "../../Shared/sea_ai/Script_defines.h"
+#include "../Common_h/Weather_Base.h"
+#include "../Common_h/filesystem.h"
+#include "../Common_h/tga.h"
 #include "../../Shared/messages.h"
 
 INTERFACE_FUNCTION

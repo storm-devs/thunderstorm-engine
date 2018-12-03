@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include "xi_tooltips.h"
 #include "xi_util.h"
-#include "..\xinterface.h"
-#include "../../common_h/defines.h"
+#include "../xinterface.h"
+#include "../../Common_h/defines.h"
 #include "../../Common_h/strutils.h"
 
 CXI_ToolTip::CXI_ToolTip( VXSERVICE* pPicService, VSTRSERVICE* pStrService, XYPOINT& pntScrSize )
