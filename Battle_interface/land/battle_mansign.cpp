@@ -82,7 +82,7 @@ void BIManSign::Draw()
 		}
 
 		//
-		if( m_nBackTextureID && m_nBackSquareQ>0 )
+		if( m_nBackSquareQ>0 )
 		{
 			m_pRS->TextureSet( 0, m_nBackTextureID );
 			m_pRS->DrawBuffer( m_nVBufID,sizeof(BI_COLOR_VERTEX), m_nIBufID, nStartV,m_nBackSquareQ*4, nStartI,m_nBackSquareQ*2, "battle_colorRectangle" );
@@ -97,7 +97,7 @@ void BIManSign::Draw()
 		}
 
 		//
-		if( m_nManStateTextureID && m_nManStateSquareQ>0 )
+		if( m_nManStateSquareQ>0 )
 		{
 			m_pRS->TextureSet( 0, m_nManStateTextureID );
 			m_pRS->DrawBuffer( m_nVBufID,sizeof(BI_COLOR_VERTEX), m_nIBufID, nStartV,m_nManStateSquareQ*4, nStartI,m_nManStateSquareQ*2, "battle_colorRectangle" );
@@ -105,7 +105,7 @@ void BIManSign::Draw()
 		nStartV += m_nManStateSquareQ*4;
 
 		//
-		if( m_nGunChargeTextureID && m_nGunChargeSquareQ>0 )
+		if( m_nGunChargeSquareQ>0 )
 		{
 			m_pRS->TextureSet( 0, m_nGunChargeTextureID );
 			m_pRS->DrawBuffer( m_nVBufID,sizeof(BI_COLOR_VERTEX), m_nIBufID, nStartV,m_nGunChargeSquareQ*4, nStartI,m_nGunChargeSquareQ*2, "battle_alphacutcolor" );

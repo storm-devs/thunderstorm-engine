@@ -62,7 +62,7 @@ void BIShipIcon::Draw()
 		long nStartI = 0;
 
 		// ship
-		if( m_nShipTextureID && m_nShipSquareQ>0 )
+		if( m_nShipSquareQ>0 )
 		{
 			m_pRS->TextureSet( 0, m_nShipTextureID );
 			m_pRS->DrawBuffer( m_nVBufID,sizeof(BI_COLOR_VERTEX), m_nIBufID, nStartV,m_nShipSquareQ*4, nStartI,m_nShipSquareQ*2, "battle_colorRectangle" );
@@ -70,7 +70,7 @@ void BIShipIcon::Draw()
 		nStartV += m_nShipSquareQ*4;
 
 		// back
-		if( m_nBackTextureID && m_nBackSquareQ>0 )
+		if( m_nBackSquareQ>0 )
 		{
 			m_pRS->TextureSet( 0, m_nBackTextureID );
 			m_pRS->DrawBuffer( m_nVBufID,sizeof(BI_COLOR_VERTEX), m_nIBufID, nStartV,m_nBackSquareQ*4, nStartI,m_nBackSquareQ*2, "battle_colorRectangle" );
@@ -78,7 +78,7 @@ void BIShipIcon::Draw()
 		nStartV += m_nBackSquareQ*4;
 
 		// ship state (hp & sp)
-		if( m_nShipStateTextureID && m_nShipStateSquareQ>0 )
+		if( m_nShipStateSquareQ>0 )
 		{
 			m_pRS->TextureSet( 0, m_nShipStateTextureID );
 			m_pRS->DrawBuffer( m_nVBufID,sizeof(BI_COLOR_VERTEX), m_nIBufID, nStartV,m_nShipStateSquareQ*4, nStartI,m_nShipStateSquareQ*2, "battle_colorRectangle" );
@@ -86,7 +86,7 @@ void BIShipIcon::Draw()
 		nStartV += m_nShipStateSquareQ*4;
 
 		// ship class
-		if( m_nShipClassTextureID && m_nShipClassSquareQ>0 )
+		if( m_nShipClassSquareQ>0 )
 		{
 			m_pRS->TextureSet( 0, m_nShipClassTextureID );
 			m_pRS->DrawBuffer( m_nVBufID,sizeof(BI_COLOR_VERTEX), m_nIBufID, nStartV,m_nShipClassSquareQ*4, nStartI,m_nShipClassSquareQ*2, "battle_alphacutcolor" );

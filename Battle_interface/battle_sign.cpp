@@ -55,7 +55,7 @@ void BISignIcon::Draw()
 		long nStartI = 0;
 
 		// sign face
-		if( m_nSignFaceTextureID && m_nSignFaceSquareQ>0 )
+		if( m_nSignFaceSquareQ>0 )
 		{
 			m_pRS->TextureSet( 0, m_nSignFaceTextureID );
 			m_pRS->DrawBuffer( m_nVBufID,sizeof(BI_COLOR_VERTEX), m_nIBufID, nStartV,m_nSignFaceSquareQ*4, nStartI,m_nSignFaceSquareQ*2, "battle_colorRectangle" );
@@ -63,7 +63,7 @@ void BISignIcon::Draw()
 		nStartV += m_nSignFaceSquareQ*4;
 
 		// back
-		if( m_nBackTextureID && m_nBackSquareQ>0 )
+		if( m_nBackSquareQ>0 )
 		{
 			m_pRS->TextureSet( 0, m_nBackTextureID );
 			m_pRS->DrawBuffer( m_nVBufID,sizeof(BI_COLOR_VERTEX), m_nIBufID, nStartV,m_nBackSquareQ*4, nStartI,m_nBackSquareQ*2, "battle_colorRectangle" );
@@ -71,7 +71,7 @@ void BISignIcon::Draw()
 		nStartV += m_nBackSquareQ*4;
 
 		// sign state (left & right)
-		if( m_nSignStateTextureID && m_nSignStateSquareQ>0 )
+		if( m_nSignStateSquareQ>0 )
 		{
 			m_pRS->TextureSet( 0, m_nSignStateTextureID );
 			m_pRS->DrawBuffer( m_nVBufID,sizeof(BI_COLOR_VERTEX), m_nIBufID, nStartV,m_nSignStateSquareQ*4, nStartI,m_nSignStateSquareQ*2, "battle_colorRectangle" );
@@ -79,7 +79,7 @@ void BISignIcon::Draw()
 		nStartV += m_nSignStateSquareQ*4;
 
 		// sign star
-		if( m_nSignStarTextureID && m_nSignStarSquareQ>0 )
+		if( m_nSignStarSquareQ>0 )
 		{
 			m_pRS->TextureSet( 0, m_nSignStarTextureID );
 			m_pRS->DrawBuffer( m_nVBufID,sizeof(BI_COLOR_VERTEX), m_nIBufID, nStartV,m_nSignStarSquareQ*4, nStartI,m_nSignStarSquareQ*2, "battle_alphacutcolor" );
