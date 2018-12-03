@@ -77,60 +77,60 @@ public:
 	virtual ~INIFILE(){};
 
 	// add string to file
-	virtual void	AddString(char * section_name, char * key_name, char * string){};
+	virtual void	AddString(const char * section_name,const  char * key_name, const char * string){};
 	// write string to file, overwrite data if exist, throw EXS exception object if failed
-	virtual void	WriteString(char * section_name, char * key_name, char * string){};
+	virtual void	WriteString(const char * section_name, const char * key_name, const char * string){};
 	// write long value of key in pointed section if section and key exist, throw EXS object otherwise
-	virtual void	WriteLong(char * section_name, char * key_name, long value){};
+	virtual void	WriteLong(const char * section_name, const char * key_name, long value){};
 	// write double value of key in pointed section if section and key exist, throw EXS object otherwise
-	virtual void	WriteDouble(char * section_name, char * key_name,double value){};
+	virtual void	WriteDouble(const char * section_name, const char * key_name,double value){};
 
 	// fill buffer with key value, throw EXS exception object if failed or if section or key doesnt exist
-	virtual void	ReadString(char * section_name, char * key_name, char * buffer, dword buffer_size){};
+	virtual void	ReadString(const char * section_name, const char * key_name, char * buffer, dword buffer_size){};
 	// fill buffer with key value if section and key exist, otherwise fill with def_string and return false
-	virtual bool	ReadString(char * section_name, char * key_name, char * buffer, dword buffer_size, char * def_string){return false;};
+	virtual bool	ReadString(const char * section_name, const char * key_name, char * buffer, dword buffer_size, char * def_string){return false;};
 	// continue search from key founded in previous call this function or to function ReadString
 	// fill buffer with key value if section and key exist, otherwise return false
-	virtual bool	ReadStringNext(char * section_name, char * key_name, char * buffer, dword buffer_size){return false;};
+	virtual bool	ReadStringNext(const char * section_name, const char * key_name, char * buffer, dword buffer_size){return false;};
 	
 	// return long value of key in pointed section if section and key exist, throw EXS object otherwise
-	virtual long	GetLong(char * section_name, char * key_name){return 0;};
+	virtual long	GetLong(const char * section_name, const char * key_name){return 0;};
 	// return long value of key in pointed section if section and key exist, if not - return def_value
-	virtual long	GetLong(char * section_name, char * key_name, long def_val){return 0;};
+	virtual long	GetLong(const char * section_name, const char * key_name, long def_val){return 0;};
 	// continue scanning for key in section, fill val with long value of key if it found and return true
 	// if not - return false
-	virtual bool	GetLongNext(char * section_name, char * key_name, long * val){return 0;};
+	virtual bool	GetLongNext(const char * section_name, const char * key_name, long * val){return 0;};
 
 	// return double value of key in pointed section if section and key exist, throw EXS object otherwise
-	virtual double	GetDouble(char * section_name, char * key_name){return 0;};
+	virtual double	GetDouble(const char * section_name, const char * key_name){return 0;};
 	// return double value of key in pointed section if section and key exist, if not - return def_value
-	virtual double	GetDouble(char * section_name, char * key_name, double def_val){return 0;};
+	virtual double	GetDouble(const char * section_name, const char * key_name, double def_val){return 0;};
 	// continue scanning for key in section, fill val with double value of key if it found and return true
 	// if not - return false
-	virtual bool	GetDoubleNext(char * section_name, char * key_name, double * val){return 0;};
+	virtual bool	GetDoubleNext(const char * section_name, const char * key_name, double * val){return 0;};
 
-	virtual float	GetFloat(char * section_name, char * key_name){return 0;};
-	virtual float	GetFloat(char * section_name, char * key_name, float def_val){return 0;};
-	virtual bool	GetFloatNext(char * section_name, char * key_name, float * val){return 0;};
+	virtual float	GetFloat(const char * section_name, const char * key_name){return 0;};
+	virtual float	GetFloat(const char * section_name, const char * key_name, float def_val){return 0;};
+	virtual bool	GetFloatNext(const char * section_name, const char * key_name, float * val){return 0;};
 
 
 	virtual void	SetSearch(void *){};
 
-	virtual void	DeleteKey(char * section_name, char * key_name){};
+	virtual void	DeleteKey(const char * section_name, const char * key_name){};
 
-	virtual void	DeleteKey(char * section_name, char * key_name, char * key_value){};
+	virtual void	DeleteKey(const char * section_name, const char * key_name, const char * key_value){};
 
-	virtual void	DeleteSection(char * section_name){};
+	virtual void	DeleteSection(const char * section_name){};
 
-	virtual bool	TestKey(char * section_name, char * key_name, char * key_value){return false;};
+	virtual bool	TestKey(const char * section_name, const char * key_name, const char * key_value){return false;};
 
-	virtual bool	GetSectionName(char * section_name_buffer, long buffer_size) {return false;};
-	virtual bool	GetSectionNameNext(char * section_name_buffer, long buffer_size) {return false;};
+	virtual bool	GetSectionName(const char * section_name_buffer, long buffer_size) {return false;};
+	virtual bool	GetSectionNameNext(const char * section_name_buffer, long buffer_size) {return false;};
 
 	virtual void	Flush(){};
 	virtual bool	Reload(){return false;};
 	virtual bool	CaseSensitive(bool yes){return false;};
-	virtual bool	TestSection(char * section_name){return false;};
+	virtual bool	TestSection(const char * section_name){return false;};
 
 
 
