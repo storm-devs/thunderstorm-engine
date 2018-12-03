@@ -46,6 +46,9 @@ SEA::SEA()
 	aTrashRects.reserve(512);
 	aSeaLights.reserve(512);
 	aLightsRects.reserve(512);
+	aBumpMaps.reserve(FRAMES);
+	aNormals.reserve(FRAMES);
+
 
 	dwMaxDim = 65536 * 2;
 	dwMinDim = 128;
@@ -332,6 +335,8 @@ void SEA::BuildVolumeTexture()
 	char * pDst = (char*)NEW char[XWIDTH * YWIDTH * dwTexelSize];
 
 	// build normals
+
+	aVectors.reserve(FRAMES);
 	for (i=0; i<FRAMES; i++)
 	{
 		dword * pBuffer = NEW dword[XWIDTH * YWIDTH];
