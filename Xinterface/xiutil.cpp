@@ -76,6 +76,7 @@ void DublicateString( char* &pDstStr, const char* pSrcStr )
 	}
 	else
 	{
+		delete pDstStr;
 	    pDstStr = NEW char[strlen(pSrcStr)+1];
 		Assert(pDstStr);
 		strcpy(pDstStr,pSrcStr);
