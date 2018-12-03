@@ -836,116 +836,116 @@ INIFILE_T::~INIFILE_T()
 	File_Service.RefDec(ifs_PTR);
 }
 
-void INIFILE_T::AddString(char * section_name, char * key_name, char * string)
+void INIFILE_T::AddString(const char * section_name, const char * key_name, const char * string)
 {
 	ifs_PTR->AddString(section_name,key_name,string);
 }
 // write string to file, overwrite data if exist, throw EXS exception object if failed
-void INIFILE_T::WriteString(char * section_name, char * key_name, char * string)
+void INIFILE_T::WriteString(const char * section_name, const char * key_name, const char * string)
 {
 	ifs_PTR->WriteString(section_name,key_name,string);
 }
 // write long value of key in pointed section if section and key exist, throw EXS object otherwise
-void INIFILE_T::WriteLong(char * section_name, char * key_name, long value)
+void INIFILE_T::WriteLong(const char * section_name, const char * key_name, long value)
 {
 	ifs_PTR->WriteLong(section_name,key_name,value);
 }
 
 // write double value of key in pointed section if section and key exist, throw EXS object otherwise
-void INIFILE_T::WriteDouble(char * section_name, char * key_name,double value)
+void INIFILE_T::WriteDouble(const char * section_name, const char * key_name,double value)
 {
 	ifs_PTR->WriteDouble(section_name,key_name,value);
 }
 
 // fill buffer with key value, throw EXS exception object if failed or if section or key doesnt exist
-void INIFILE_T::ReadString(char * section_name, char * key_name, char * buffer, uint32_t buffer_size)
+void INIFILE_T::ReadString(const char * section_name, const char * key_name, char * buffer, uint32_t buffer_size)
 {
 	ifs_PTR->ReadString(&Search,section_name,key_name,buffer,buffer_size);
 }
 
 // fill buffer with key value if section and key exist, otherwise fill with def_string and return false
-bool INIFILE_T::ReadString(char * section_name, char * key_name, char * buffer, uint32_t buffer_size, char * def_string)
+bool INIFILE_T::ReadString(const char * section_name, const char * key_name, char * buffer, uint32_t buffer_size, const char * def_string)
 {
 	return ifs_PTR->ReadString(&Search, section_name,key_name,buffer,buffer_size,def_string);
 }
 
 // continue search from key founded in previous call this function or to function ReadString
 // fill buffer with key value if section and key exist, otherwise return false
-bool INIFILE_T::ReadStringNext(char * section_name, char * key_name, char * buffer, uint32_t buffer_size)
+bool INIFILE_T::ReadStringNext(const char * section_name, const char * key_name, char * buffer, uint32_t buffer_size)
 {
 	return ifs_PTR->ReadStringNext(&Search, section_name,key_name,buffer,buffer_size);
 }
 
 // return long value of key in pointed section if section and key exist, throw EXS object otherwise
-long INIFILE_T::GetLong(char * section_name, char * key_name)
+long INIFILE_T::GetLong(const char * section_name, const char * key_name)
 {
 	return ifs_PTR->GetLong(&Search, section_name,key_name);
 }
 
 // return long value of key in pointed section if section and key exist, if not - return def_value
-long INIFILE_T::GetLong(char * section_name, char * key_name, long def_val)
+long INIFILE_T::GetLong(const char * section_name, const char * key_name, long def_val)
 {
 	return ifs_PTR->GetLong(&Search, section_name,key_name,def_val);
 }
 
 // return double value of key in pointed section if section and key exist, throw EXS object otherwise
-double INIFILE_T::GetDouble(char * section_name, char * key_name)
+double INIFILE_T::GetDouble(const char * section_name, const char * key_name)
 {
 	return ifs_PTR->GetDouble(&Search, section_name,key_name);
 }
 
 // return double value of key in pointed section if section and key exist, if not - return def_value
-double INIFILE_T::GetDouble(char * section_name, char * key_name, double def_val)
+double INIFILE_T::GetDouble(const char * section_name, const char * key_name, double def_val)
 {
 	return ifs_PTR->GetDouble(&Search, section_name,key_name,def_val);
 }
 
-bool INIFILE_T::GetLongNext(char * section_name, char * key_name, long * val)
+bool INIFILE_T::GetLongNext(const char * section_name, const char * key_name, long * val)
 {
 	return ifs_PTR->GetLongNext(&Search, section_name,key_name,val);
 }
 
-bool INIFILE_T::GetDoubleNext(char * section_name, char * key_name, double * val)
+bool INIFILE_T::GetDoubleNext(const char * section_name, const char * key_name, double * val)
 {
 	return ifs_PTR->GetDoubleNext(&Search, section_name,key_name,val);
 }
 
 
 // return double value of key in pointed section if section and key exist, throw EXS object otherwise
-float INIFILE_T::GetFloat(char * section_name, char * key_name)
+float INIFILE_T::GetFloat(const char * section_name, const char * key_name)
 {
 	return ifs_PTR->GetFloat(&Search, section_name,key_name);
 }
 
 // return float value of key in pointed section if section and key exist, if not - return def_value
-float INIFILE_T::GetFloat(char * section_name, char * key_name, float def_val)
+float INIFILE_T::GetFloat(const char * section_name, const char * key_name, float def_val)
 {
 	return ifs_PTR->GetFloat(&Search, section_name,key_name,def_val);
 }
-bool INIFILE_T::GetFloatNext(char * section_name, char * key_name, float * val)
+bool INIFILE_T::GetFloatNext(const char* section_name, const char* key_name, float* val)
 {
 	return ifs_PTR->GetFloatNext(&Search, section_name,key_name,val);
 }
 
 
-void INIFILE_T::DeleteKey(char * section_name, char * key_name)
+void INIFILE_T::DeleteKey(const char * section_name, const char * key_name)
 {
 	ifs_PTR->DeleteKey(section_name,key_name);
 }
 
 
-void INIFILE_T::DeleteKey(char * section_name, char * key_name, char * key_value)
+void INIFILE_T::DeleteKey(const char * section_name, const char * key_name, const char * key_value)
 {
 	ifs_PTR->DeleteKey(section_name,key_name,key_value);
 }
 
 
-bool INIFILE_T::TestKey(char * section_name, char * key_name, char * key_value)
+bool INIFILE_T::TestKey(const char * section_name, const char * key_name, const char * key_value)
 {
 	return ifs_PTR->TestKey(section_name,key_name,key_value);
 }
 
-void INIFILE_T::DeleteSection(char * section_name)
+void INIFILE_T::DeleteSection(const char * section_name)
 {
 	ifs_PTR->DeleteSection(section_name);
 }
@@ -975,7 +975,7 @@ bool INIFILE_T::CaseSensitive(bool v)
 	return ifs_PTR->CaseSensitive(v);
 }
 
-bool INIFILE_T::TestSection(char * section_name)
+bool INIFILE_T::TestSection(const char * section_name)
 {
 	return ifs_PTR->TestSection(section_name);
 };

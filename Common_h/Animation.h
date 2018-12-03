@@ -209,7 +209,7 @@ class AnimationService : public SERVICE
 public:
 	virtual ~AnimationService(){}
 	//Создать анимацию для модели, удалять через delete
-	virtual Animation * CreateAnimation(const char * animationName){};
+	virtual Animation * CreateAnimation(const char * animationName) = 0;
 
 };
 

@@ -607,7 +607,7 @@ SRSPARAM	TRANSFORM_TYPES[] = {
 SRSPARAM	PARAM_TYPES[] = {
 	{ "matrix", PARAM_MATRIX },
 	{ "texture", PARAM_TEXTURE },
-	{ "uint32_t", PARAM_DWORD },
+	{ "dword", PARAM_DWORD },
 	{ "float", PARAM_FLOAT } };
 
 // restores types

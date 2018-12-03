@@ -32,7 +32,7 @@ KEY_NODE::~KEY_NODE()
 	//if(r_PTR) delete r_PTR;
 }
 
-void KEY_NODE::SetName(char * name)
+void KEY_NODE::SetName(const char * name)
 {
 	if(name == nullptr) return;
 	if(key_name) delete key_name; key_name = nullptr;
@@ -43,7 +43,7 @@ void KEY_NODE::SetName(char * name)
 	strcpy(key_name,name);
 }
 
-void KEY_NODE::SetValue(char * value)
+void KEY_NODE::SetValue(const char * value)
 {
 	if(value == nullptr) return;
 	if(key_val) delete key_val; key_val = nullptr;
@@ -156,7 +156,7 @@ SECTION::~SECTION()
 	if(Name) delete Name;
 }
 
-void SECTION::SetName(char * name)
+void SECTION::SetName(const char * name)
 {
 	if(Name) delete Name;
 	if(name == nullptr)
@@ -204,7 +204,7 @@ void SECTION::DelNode(KEY_NODE * _node)
 	}
 }
 
-KEY_NODE * SECTION::FindKey(KEY_NODE * from, char * key_name, char * key_value)
+KEY_NODE * SECTION::FindKey(KEY_NODE * from, const char * key_name, const char * key_value)
 {
 	KEY_NODE * node;
 	uint32_t flags;
@@ -237,12 +237,12 @@ KEY_NODE * SECTION::FindKey(KEY_NODE * from, char * key_name, char * key_value)
 	return nullptr;
 }
 
-KEY_NODE * SECTION::FindKey(char * key_name, char * key_value)
+KEY_NODE * SECTION::FindKey(const char * key_name, const char * key_value)
 {
 	return FindKey(Root,key_name,key_value);
 }
 
-KEY_NODE * SECTION::FindKey(char * key_name)
+KEY_NODE * SECTION::FindKey(const char * key_name)
 {
 	return FindKey(Root,key_name,nullptr);
 }
@@ -625,12 +625,12 @@ bool IFS::FlushFile()
 }
 
 
-KEY_NODE * IFS::FindKey(char * section_name, char * key_name)
+KEY_NODE * IFS::FindKey(const char * section_name, const char * key_name)
 {
 	return FindKey(section_name,key_name,nullptr);
 }
 
-KEY_NODE * IFS::FindKey(char * section_name, char * key_name, char * key_value)
+KEY_NODE * IFS::FindKey(const char * section_name, const char * key_name, const char * key_value)
 {
 	SECTION * snode;
 	if(SectionRoot == nullptr) return nullptr;
@@ -651,7 +651,7 @@ KEY_NODE * IFS::FindKey(char * section_name, char * key_name, char * key_value)
 	return snode->FindKey(from,key_name,key_value);
 }*/
 
-SECTION * IFS::FindSection(char * section_name)
+SECTION * IFS::FindSection(const char * section_name)
 {
 	SECTION * node;
 
@@ -671,7 +671,7 @@ SECTION * IFS::FindSection(char * section_name)
 	return nullptr;
 }
 
-SECTION * IFS::FindSection(char * section_name, SECTION * snode)
+SECTION * IFS::FindSection(const char * section_name, SECTION * snode)
 {
 	SECTION * node;
 
@@ -712,7 +712,7 @@ SECTION * IFS::FindSection(char * section_name, SECTION * snode)
 	return nullptr;
 }
 
-SECTION * IFS::CreateSection(char * section_name)
+SECTION * IFS::CreateSection(const char * section_name)
 {
 	SECTION * node;
 	node = FindSection(section_name);
@@ -726,7 +726,7 @@ SECTION * IFS::CreateSection(char * section_name)
 	return node;
 }
 
-void IFS::DeleteSection(char * section_name)
+void IFS::DeleteSection(const char * section_name)
 {
 	SECTION * node;
 	node = FindSection(section_name);
@@ -740,7 +740,7 @@ void IFS::DeleteSection(char * section_name)
 	bDataChanged = true;
 }
 
-bool IFS::TestSection(char * section_name)
+bool IFS::TestSection(const char * section_name)
 {
 	SECTION * node;
 	node = FindSection(section_name);
@@ -750,7 +750,7 @@ bool IFS::TestSection(char * section_name)
 
 
 
-bool IFS::TestKey(char * section_name, char * key_name, char * key_value)
+bool IFS::TestKey(const char * section_name, const char * key_name, const char * key_value)
 {
 	SECTION * node;
 	node = FindSection(section_name);
@@ -759,12 +759,12 @@ bool IFS::TestKey(char * section_name, char * key_name, char * key_value)
 	return false;
 }
 
-void IFS::DeleteKey(char * section_name, char * key_name)
+void IFS::DeleteKey(const char * section_name, const char * key_name)
 {
 	DeleteKey(section_name,key_name,nullptr);
 }
 
-void IFS::DeleteKey(char * section_name, char * key_name, char * key_value)
+void IFS::DeleteKey(const char * section_name, const char * key_name, const char * key_value)
 {
 	SECTION * node;
 	KEY_NODE * knode;
@@ -780,12 +780,12 @@ void IFS::DeleteKey(char * section_name, char * key_name, char * key_value)
 	}
 }
 
-void IFS::ReadString(SEARCH_DATA * sd, char * section_name, char * key_name, char * buffer, uint32_t buffer_size)
+void IFS::ReadString(SEARCH_DATA * sd, const char * section_name, const char * key_name, char * buffer, uint32_t buffer_size)
 {
 	ReadString(sd,section_name,key_name,buffer,buffer_size,nullptr);
 }
 
-bool IFS::ReadString(SEARCH_DATA * sd, char * section_name, char * key_name, char * buffer, uint32_t buffer_size, char * def_string)
+bool IFS::ReadString(SEARCH_DATA * sd, const char * section_name, const char * key_name, char * buffer, uint32_t buffer_size, const char * def_string)
 {
 	KEY_NODE * node;
 	uint32_t write_size;
@@ -825,7 +825,7 @@ bool IFS::ReadString(SEARCH_DATA * sd, char * section_name, char * key_name, cha
 	return true;
 }
 
-bool IFS::ReadStringNext(SEARCH_DATA * sd, char * section_name, char * key_name, char * buffer, uint32_t buffer_size)
+bool IFS::ReadStringNext(SEARCH_DATA * sd, const char * section_name, const char * key_name, char * buffer, uint32_t buffer_size)
 {
 	SECTION * snode;
 	KEY_NODE * node;
@@ -875,21 +875,21 @@ bool IFS::ReadStringNext(SEARCH_DATA * sd, char * section_name, char * key_name,
 	return false;
 }
 
-long IFS::GetLong(SEARCH_DATA * sd, char * section_name, char * key_name)
+long IFS::GetLong(SEARCH_DATA * sd, const char * section_name, const char * key_name)
 {
 	char buffer[256];
 	ReadString(sd,section_name,key_name,buffer,sizeof(buffer));
 	return (long)atoll(buffer);
 }
 
-long IFS::GetLong(SEARCH_DATA * sd, char * section_name, char * key_name, long def_val)
+long IFS::GetLong(SEARCH_DATA * sd, const char * section_name, const char * key_name, long def_val)
 {
 	char buffer[256];
 	if(ReadString(sd,section_name,key_name,buffer,sizeof(buffer),"")) return (long)atoll(buffer);
 	return def_val;
 }
 
-bool IFS::GetLongNext(SEARCH_DATA * sd, char * section_name, char * key_name, long * val)
+bool IFS::GetLongNext(SEARCH_DATA * sd, const char * section_name, const char * key_name, long * val)
 {
 	char buffer[256];
 	if(ReadStringNext(sd,section_name,key_name,buffer,sizeof(buffer)))
@@ -900,21 +900,21 @@ bool IFS::GetLongNext(SEARCH_DATA * sd, char * section_name, char * key_name, lo
 	return false;
 }
 
-double IFS::GetDouble(SEARCH_DATA * sd, char * section_name, char * key_name)
+double IFS::GetDouble(SEARCH_DATA * sd, const char * section_name, const char * key_name)
 {
 	char buffer[256];
 	ReadString(sd,section_name,key_name,buffer,sizeof(buffer));
 	return atof(buffer);
 }
 
-double IFS::GetDouble(SEARCH_DATA * sd, char * section_name, char * key_name, double def_val)
+double IFS::GetDouble(SEARCH_DATA * sd, const char * section_name, const char * key_name, double def_val)
 {
 	char buffer[256];
 	if(ReadString(sd,section_name,key_name,buffer,sizeof(buffer),"")) return atof(buffer);
 	return def_val;
 }
 
-bool IFS::GetDoubleNext(SEARCH_DATA * sd, char * section_name, char * key_name, double * val)
+bool IFS::GetDoubleNext(SEARCH_DATA * sd, const char * section_name, const char * key_name, double * val)
 {
 	char buffer[256];
 	if(ReadStringNext(sd,section_name,key_name,buffer,sizeof(buffer)))
@@ -925,21 +925,21 @@ bool IFS::GetDoubleNext(SEARCH_DATA * sd, char * section_name, char * key_name, 
 	return false;
 }
 
-float IFS::GetFloat(SEARCH_DATA * sd, char * section_name, char * key_name)
+float IFS::GetFloat(SEARCH_DATA * sd, const char * section_name, const char * key_name)
 {
 	char buffer[256];
 	ReadString(sd,section_name,key_name,buffer,sizeof(buffer));
 	return (float)atof(buffer);
 }
 
-float IFS::GetFloat(SEARCH_DATA * sd, char * section_name, char * key_name, float def_val)
+float IFS::GetFloat(SEARCH_DATA * sd, const char * section_name, const char * key_name, float def_val)
 {
 	char buffer[256];
 	if(ReadString(sd,section_name,key_name,buffer,sizeof(buffer),"")) return (float)atof(buffer);
 	return def_val;
 }
 
-bool IFS::GetFloatNext(SEARCH_DATA * sd, char * section_name, char * key_name, float * val)
+bool IFS::GetFloatNext(SEARCH_DATA * sd, const char * section_name, const char * key_name, float * val)
 {
 	char buffer[256];
 	if(ReadStringNext(sd,section_name,key_name,buffer,sizeof(buffer)))
@@ -950,7 +950,7 @@ bool IFS::GetFloatNext(SEARCH_DATA * sd, char * section_name, char * key_name, f
 	return false;
 }
 
-void IFS::AddString(char * section_name, char * key_name, char * string)
+void IFS::AddString(const char * section_name, const char * key_name, const char * string)
 {
 	KEY_NODE * node;
 	SECTION * snode;
@@ -969,7 +969,7 @@ void IFS::AddString(char * section_name, char * key_name, char * string)
 
 }
 
-void IFS::WriteString(char * section_name, char * key_name, char * string)
+void IFS::WriteString(const char * section_name, const char * key_name, const char * string)
 {
 	KEY_NODE * node;
 	SECTION * snode;
@@ -988,28 +988,28 @@ void IFS::WriteString(char * section_name, char * key_name, char * string)
 	AddString(section_name,key_name,string);
 }
 
-void IFS::WriteLong(char * section_name, char * key_name, long value)
+void IFS::WriteLong(const char * section_name, const char * key_name, long value)
 {
 	char buffer[256];
 	ltoa(value,buffer,10);
 	WriteString(section_name,key_name,buffer);
 }
 
-void IFS::WriteDouble(char * section_name, char * key_name,double value)
+void IFS::WriteDouble(const char * section_name, const char * key_name,double value)
 {
 	char buffer[256];
 	sprintf(buffer,"%g",value);
 	WriteString(section_name,key_name,buffer);
 }
 
-void IFS::WriteFloat(char * section_name, char * key_name,float value)
+void IFS::WriteFloat(const char * section_name, const char * key_name,float value)
 {
 	char buffer[256];
 	sprintf(buffer,"%g",value);
 	WriteString(section_name,key_name,buffer);
 }
 
-uint32_t IFS::CompareStrings(char * s1, char * s2)
+uint32_t IFS::CompareStrings(const char * s1, const char * s2)
 {
 	uint32_t n;
 	if(s1 == nullptr || s2 == nullptr) return 1;
