@@ -3,7 +3,7 @@
 
 #include "../../../Common_h/vmodule_api.h"
 #include "../../../Common_h/particles/iparticlesystem.h"
-#include "../../ICommonnTypes.hh
+#include "../../ICommon/Types.h"
 #include "../../Manager/particlemanager.h"
 #include "../DataSource/DataSource.h"
 

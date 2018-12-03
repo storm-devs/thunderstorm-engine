@@ -9,9 +9,9 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "../Common_hhdx9render.h.
-#include "../Common_hhMatrix.h.
-#include "../Common_hhsail_base.h.
+#include "../Common_h/dx9render.h"
+#include "../Common_h/Matrix.h"
+#include "../Common_h/sail_base.h"
 
 extern float g_fSailHoleDepend;
 extern float GetSailSpeed(int holeQ,int holeMax,float maxSpeed,float fSailHoleDepend = g_fSailHoleDepend);

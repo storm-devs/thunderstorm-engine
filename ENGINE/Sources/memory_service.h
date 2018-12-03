@@ -6,14 +6,6 @@
    -------------------------------------------------------------------------------------------- */
 
 #include <cstdint>
-
-#ifndef _XBOX
-#include <Windows.h>
-#else
-#include <xtl.h>
-#endif
-
-#include "../../Common_h/vmemory_service.h"
 #include "mem_utils.h"
 #include "mem_pool.h"
 
@@ -57,7 +49,7 @@ typedef struct
 //#pragma pack(pop)
 
 
-class MEMORY_SERVICE : public VMEMORY_SERVICE
+class MEMORY_SERVICE
 {
 protected:
 //	MEM_EXE_STATE Exe_state;

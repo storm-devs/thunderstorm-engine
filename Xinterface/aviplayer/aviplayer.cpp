@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "aviplayer.h"
-#include "../...Common_hhdefines.hh
+#include "../../Common_h/defines.h"
 #include "../../../Shared/interface/messages.h"
 
 #pragma comment(lib,"amstrmid.lib")

@@ -8,7 +8,7 @@ Comments:
 Import library main file
 ******************************************************************************/
 #include "geom.h"
-#include "../Common_h/memop.h."
+#include "../Common_h/memop.h"
 #include <cstring>
 
 //create geometry func

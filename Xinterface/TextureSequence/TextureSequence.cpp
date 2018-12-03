@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include "../...Common_h_vmodule_api.hi
-#include "../...Common_h_defines.hs
-#include "../...Common_h_Matrix.hx
+#include "../../Common_h/vmodule_api.h"
+#include "../../Common_h/defines.h"
+#include "../../Common_h/Matrix.h"
 #include "TextureSequence.h"
 
 #define FILE_PATH "TextureSequence\\%s.tga"
