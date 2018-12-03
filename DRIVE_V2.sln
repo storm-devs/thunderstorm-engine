@@ -86,8 +86,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WorldMap", "WORLDMAP\WorldM
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sailors", "Sailors\Sailors.vcxproj", "{050FD297-5314-43E8-9C98-0004EAEA9A58}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MasterServer", "MasterServer\MasterServer.vcxproj", "{80869244-0A8A-4BB9-90F2-6FA1F001E2D9}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Seafoam", "Seafoam\Seafoam.vcxproj", "{39C03A7A-DC0F-4177-880B-BDCADCD0A1D8}"
 EndProject
 Global
@@ -264,8 +262,6 @@ Global
 		{050FD297-5314-43E8-9C98-0004EAEA9A58}.Debug|x86.Build.0 = Debug|Win32
 		{050FD297-5314-43E8-9C98-0004EAEA9A58}.Release|x86.ActiveCfg = Release|Win32
 		{050FD297-5314-43E8-9C98-0004EAEA9A58}.Release|x86.Build.0 = Release|Win32
-		{80869244-0A8A-4BB9-90F2-6FA1F001E2D9}.Debug|x86.ActiveCfg = Debug|Win32
-		{80869244-0A8A-4BB9-90F2-6FA1F001E2D9}.Release|x86.ActiveCfg = Release|Win32
 		{39C03A7A-DC0F-4177-880B-BDCADCD0A1D8}.Debug|x86.ActiveCfg = Debug|Win32
 		{39C03A7A-DC0F-4177-880B-BDCADCD0A1D8}.Debug|x86.Build.0 = Debug|Win32
 		{39C03A7A-DC0F-4177-880B-BDCADCD0A1D8}.Release|x86.ActiveCfg = Release|Win32
