@@ -923,7 +923,7 @@ void ROPE::SetAdd(int firstNum)
 	for(int rn=firstNum; rn<ropeQuantity; rn++)
 	{
 		if( rlist[rn]->segquant > 100 || rlist[rn]->segquant<0 )
-			rlist[rn]->segquant = rlist[rn]->segquant;
+			rlist[rn]->segquant = rlist[rn]->segquant; //~!~
 	}
 }
 

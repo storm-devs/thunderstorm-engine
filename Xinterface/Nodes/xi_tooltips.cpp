@@ -68,7 +68,7 @@ void CXI_ToolTip::SetByFormatString( XYRECT& rectOwner, INIFILE* pDefIni, const 
 	m_rActiveZone = rectOwner;
 
 	_snprintf( pcToolTipType, sizeof(pcToolTipType), "ToolTip" );
-	long m_nMaxStrWidth = -1;
+	long m_nMaxStrWidth = -1; //~!~
 
 	for( char* pcParam=(char*)pFmtStr; pcParam && pcParam[0]; )
 	{

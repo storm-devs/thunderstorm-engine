@@ -1148,12 +1148,13 @@ DWORD TOKEN::MakeHashValue(const char * string, DWORD max_syms)
 
 bool TOKEN::InitializeHashTable()
 {
+	static_assert(sizeof(Keywords) / sizeof(S_KEYWORD) < 256, "keywords num more then 256 - change index type");
 	dwKeywordsNum = sizeof(Keywords)/sizeof(S_KEYWORD);
-	if(dwKeywordsNum > 255)
-	{
-		trace("keywords num more then 256 - change index type");
-		return false;
-	}
+	//if(dwKeywordsNum > 255)
+	//{
+	//	trace("keywords num more then 256 - change index type");
+	//	return false;
+	//}
 
 	DWORD n;
 	DWORD hash;

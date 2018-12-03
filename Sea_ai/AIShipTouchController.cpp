@@ -101,7 +101,7 @@ void AIShipTouchController::Execute(float fDeltaTime)
 {
 	dword			i,j;
 	CMatrix			m;
-	CVECTOR			vBoxSize, v[4];
+	CVECTOR			vBoxSize;// , v[4];
 
 	if (GetAIShip()->isMainCharacter()) return;
 

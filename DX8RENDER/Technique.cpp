@@ -686,11 +686,11 @@ char *GetString(char * pBegin, dword dwSize, char * pCurrent)
 	// go for a null, or 0xA, or 0xD
 	if (pCurrent != pBegin)		// for first string
 	{
-		while ((*pCurrent && *pCurrent != 0xa && *pCurrent != 0xd) && !END_TEST) *pCurrent++;
+		while ((*pCurrent && *pCurrent != 0xa && *pCurrent != 0xd) && !END_TEST) *pCurrent++; //~!~
 		if (END_TEST) return 0;
 	}
 	// skip all nulls, or 0xA, or 0xD
-	while ((!(*pCurrent) || (*pCurrent == 0xa && *pCurrent == 0xd)) && !END_TEST) *pCurrent++;
+	while ((!(*pCurrent) || (*pCurrent == 0xa && *pCurrent == 0xd)) && !END_TEST) *pCurrent++; //~!~
 	if (END_TEST) return 0;
 	return pCurrent;
 }

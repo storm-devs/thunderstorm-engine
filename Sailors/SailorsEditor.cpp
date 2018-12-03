@@ -92,7 +92,8 @@ void SailorsEditor :: Realize(dword dltTime)
     menu.sailrs->shipWalk[0].sailorsPoints.Draw(rs, (menu.selected== 1 && menu.blocked== 1));
 
 	if (menu.blocked< 1)
-		menu.sailrs->shipWalk[0].sailorsPoints.Draw_(rs, (menu.selected== 1 && menu.blocked== 1));
+		menu.sailrs->shipWalk[0].sailorsPoints.Draw_(rs, false);
+		//menu.sailrs->shipWalk[0].sailorsPoints.Draw_(rs, (menu.selected== 1 && menu.blocked== 1));
 };
 
 

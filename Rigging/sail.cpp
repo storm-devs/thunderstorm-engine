@@ -1260,7 +1260,7 @@ void SAIL::LoadSailIni()
     // load square sail form
     ini->ReadString(section,"rollSSailForm",param,sizeof(param)-1,
         "0.2,0.8,1.0,0.8,0.4,1.0,1.3,1.0,0.4,0.8,1.0,0.8,0.2");
-    sscanf(param,"%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f", &SSailRollForm[0],
+    sscanf(param,"%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f", &SSailRollForm[0],
         &SSailRollForm[1], &SSailRollForm[2], &SSailRollForm[3], &SSailRollForm[4],
         &SSailRollForm[5], &SSailRollForm[6], &SSailRollForm[7], &SSailRollForm[8],
         &SSailRollForm[9], &SSailRollForm[10], &SSailRollForm[11], &SSailRollForm[12] );
@@ -1488,7 +1488,7 @@ float SAIL::Cannon_Trace(long iBallOwner, const CVECTOR &src,const CVECTOR &dst)
 		{
 			CVECTOR damagePoint = src+(dst-src)*retVal;
 			VAI_OBJBASE * pvai = (VAI_OBJBASE *)_CORE_API->GetEntityPointer(&gdata[slist[traceSail]->HostNum].shipEI);
-			ATTRIBUTES * pA;
+			ATTRIBUTES * pA = nullptr;
 			if(pvai!=null) pA=pvai->GetACharacter();
 			long charIdx=-1;
 			if(pA!=null) charIdx = pA->GetAttributeAsDword("index",-1);

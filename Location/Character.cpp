@@ -4501,7 +4501,7 @@ CVECTOR Character::GetHandLightPos()
 void Character::StopFightAnimation()
 {
 	MODEL * m = Model();
-	Animation * a;
+	Animation * a = nullptr;
 	if (m) 	a = m->GetAnimation();
 	if (a)
 	{

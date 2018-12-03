@@ -490,7 +490,7 @@ void FLAG::LoadIni()
         if(strcmp(TextureName,param))
         {
             delete TextureName;
-            NEW char[strlen(param)+1];
+            TextureName = NEW char[strlen(param)+1];
             strcpy(TextureName,param);
             RenderService->TextureRelease(texl);
             texl=RenderService->TextureCreate(TextureName);
@@ -771,7 +771,7 @@ void FLAG::SetAdd(int flagNum)
 
             flist[fn]->sv=nVert;
             flist[fn]->st=nIndx;
-            flist[fn]->vectQuant;
+            flist[fn]->vectQuant; //~!~
             if(flist[fn]->triangle)
             {
                 nVert+=(flist[fn]->nv=flist[fn]->vectQuant*2+3);

@@ -358,7 +358,7 @@ void MEM_USAGE_INFO::UpdateMemoryProfile(char * pFileName)
 
 	for(n=0;n<MEM_PROFILE_BLOCKS_NUM;n++)
 	{
-		if(n < nProfileBlocks)
+		if(n < nProfileBlocks) //~!~
 		{
 			if(nBlockTableSBS[n].nMax > pTempProfileInfo[n]) nProfileValue = nBlockTableSBS[n].nMax;
 			else nProfileValue = pTempProfileInfo[n];

@@ -54,6 +54,5 @@ bool VSTACK::Read(DATA * * _pblock)
 
 void VSTACK::Release()
 {
-	if(pBlock) 
-		STORM_DELETE(pBlock); 
+	STORM_DELETE(pBlock); 
 }

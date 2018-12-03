@@ -247,7 +247,7 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 
 	CVECTOR vCamPos, vCamAng; float fFov;
 	CMatrix	mView, IMatrix;
-	RS_RECT rr[1000];
+	//RS_RECT rr[1000];
 
 	Astronomy::pRS->GetCamera(vCamPos, vCamAng, fFov);
 

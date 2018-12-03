@@ -159,7 +159,7 @@ WdmSea::~WdmSea()
 
 void WdmSea::Update(float dltTime)
 {
-	dltTime = 1.0f/80.0f;
+	dltTime = 1.0f / 80.0f; //~!~
 	//Анимированная текстура
 	aniFrame += dltTime*WDM_SEA_ANIFPS;
 	float maxAni = sizeof(aniTextures)/sizeof(long);

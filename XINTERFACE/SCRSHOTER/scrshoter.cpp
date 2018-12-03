@@ -350,7 +350,7 @@ IDirect3DTexture9 * SCRSHOTER::GetTexFromSave(char * fileName, char **pDatStr)
 	HRESULT hr = D3D_OK;
 	D3DLOCKED_RECT outRect;
 	IDirect3DTexture9 * pt = null;
-	*pDatStr = 0;
+	*pDatStr = 0; //~!~
 
 	long datSize = 0;
 	char * pdat = null;

@@ -85,14 +85,11 @@ void ParticleManager::SetProjectTexture (const char* FileName)
 
 	pProjectTexture = pRS->TextureCreate(FileName);
 
-	std::string a;
 	fs::path path = FileName;
 	//a.GetFileTitle(FileName);
 	pProjectTextureNormalMap = pRS->TextureCreate((path.filename().string()+"nm").c_str());
 
 	TextureName = FileName;
-
-
 }
 
 const char* ParticleManager::GetProjectTextureName ()

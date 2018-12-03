@@ -98,8 +98,7 @@ void CORE::ResetCore()
 	SystemMessagesNum = 0;
 	Scan_Layer_Code = INVALID_LAYER_CODE;
 
-	if(State_file_name) 
-		STORM_DELETE(State_file_name); 
+	STORM_DELETE(State_file_name); 
 
 	Constructor_counter = 0;
 

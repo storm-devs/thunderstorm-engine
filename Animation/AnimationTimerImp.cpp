@@ -127,7 +127,7 @@ float AnimationTimerImp::GetTime() const
 //Назначить ActionPlayer для блендинга (isInverse == false -> kBlend = [0..1])
 void AnimationTimerImp::SetPlayer(long playerIndex, bool isInverse)
 {
-	Assert(playerIndex >= 0 || playerIndex < ANI_MAX_ACTIONS);
+	Assert(playerIndex >= 0 && playerIndex < ANI_MAX_ACTIONS);
 	//Устанавливаем себе
 	playersMask[playerIndex >> 5] |= 1 << (playerIndex & 31);
 	//Установим чего использовать
@@ -142,7 +142,7 @@ void AnimationTimerImp::SetPlayer(long playerIndex, bool isInverse)
 
 void AnimationTimerImp::ResetPlayer(long playerIndex)
 {
-	Assert(playerIndex >= 0 || playerIndex < ANI_MAX_ACTIONS);
+	Assert(playerIndex >= 0 && playerIndex < ANI_MAX_ACTIONS);
 	//Сбросим флажёк использования
 	playersMask[playerIndex >> 5] &= ~(1 << (playerIndex & 31));
 	((ActionPlayerImp *)&ani->Player(playerIndex))->TimerBlend() = 1.0f;
@@ -151,7 +151,7 @@ void AnimationTimerImp::ResetPlayer(long playerIndex)
 //Узнать, используется ли ActionPlayer
 bool AnimationTimerImp::IsUsedPlayer(long playerIndex, bool * isInverse)
 {
-	Assert(playerIndex >= 0 || playerIndex < ANI_MAX_ACTIONS);
+	Assert(playerIndex >= 0 && playerIndex < ANI_MAX_ACTIONS);
 	if(playersMask[playerIndex >> 5] & (1 << (playerIndex & 31)))
 	{
 		if(isInverse)
@@ -164,7 +164,7 @@ bool AnimationTimerImp::IsUsedPlayer(long playerIndex, bool * isInverse)
 //Получить велечину блендинга для плеера (если не используется то 1.0f)
 float AnimationTimerImp::GetPlayerValue(long playerIndex)
 {
-	Assert(playerIndex >= 0 || playerIndex < ANI_MAX_ACTIONS);
+	Assert(playerIndex >= 0 && playerIndex < ANI_MAX_ACTIONS);
 	if(playersMask[playerIndex >> 5] & (1 << (playerIndex & 31)))
 	{
 		if((inverseMask[playerIndex >> 5] & (1 << (playerIndex & 31))) != 0)

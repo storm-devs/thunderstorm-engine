@@ -8,12 +8,12 @@ void Menu :: Draw(VDX9RENDER * rs, SailorsPoints &sailorsPoints)
 
 	for (int i= 0; i< count; i++)
 		if(i!= selected && i!= blocked)
-			rs->Print(rs->GetCurFont(), D3DCOLOR_XRGB(100,100,100) ,10, 20 + 20*i,"%s" , line[i]);
+			rs->Print(rs->GetCurFont(), D3DCOLOR_XRGB(100,100,100) ,10, 20 + 20*i,"%s" , line[i].c_str());
 
-	rs->Print(rs->GetCurFont(), D3DCOLOR_XRGB(255,200,100) ,10, 20 + 20*selected,"%s" , line[selected]);
+	rs->Print(rs->GetCurFont(), D3DCOLOR_XRGB(255,200,100) ,10, 20 + 20*selected,"%s" , line[selected].c_str());
 
 	if(blocked>= 0)
-		rs->Print(rs->GetCurFont(), D3DCOLOR_XRGB(255,255,255) ,10, 20 + 20*blocked,"%s" , line[blocked]);
+		rs->Print(rs->GetCurFont(), D3DCOLOR_XRGB(255,255,255) ,10, 20 + 20*blocked,"%s" , line[blocked].c_str());
 
 
 	if (selected== 1 && blocked== 1){
@@ -82,14 +82,14 @@ void Menu :: Draw(VDX9RENDER * rs, SailorsPoints &sailorsPoints)
 		s1+= long(sailorsPoints.links.link[sailorsPoints.links.selected].first);
 		s1+= "('F2')";
 
-		rs->Print(rs->GetCurFont(), D3DCOLOR_XRGB(200,200,200) ,10, 140,"%s" , s1);
+		rs->Print(rs->GetCurFont(), D3DCOLOR_XRGB(200,200,200) ,10, 140,"%s" , s1.c_str());
 
 
 		s1= "point 2= "; 
 		s1+= long(sailorsPoints.links.link[sailorsPoints.links.selected].next);
 		s1+= "('F3')";
 
-		rs->Print(rs->GetCurFont(), D3DCOLOR_XRGB(200,200,200) ,10, 160,"%s" , s1);
+		rs->Print(rs->GetCurFont(), D3DCOLOR_XRGB(200,200,200) ,10, 160,"%s" , s1.c_str());
 
 		sailorsPoints.DrawLinks(rs);
 		} else {
@@ -123,7 +123,7 @@ void Menu :: Draw(VDX9RENDER * rs, SailorsPoints &sailorsPoints)
 		   s1+= long(count);
 		   s1+= ")";
 
-	rs->Print(rs->GetCurFont(), D3DCOLOR_XRGB(200,200,200) ,10, 470,"%s" , s1);
+	rs->Print(rs->GetCurFont(), D3DCOLOR_XRGB(200,200,200) ,10, 470,"%s" , s1.c_str());
 
 	//rs->Print(rs->GetCurFont(), D3DCOLOR_XRGB(200,200,200) ,10, 500,"%s" , "F1 - Send points to Sailors");
 	rs->Print(rs->GetCurFont(), D3DCOLOR_XRGB(200,200,200) ,10, 520,"%s" , "F5 - Save to file");

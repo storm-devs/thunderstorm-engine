@@ -341,7 +341,7 @@ LRESULT CALLBACK SourceViewWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM l
 					if(CDebug.SourceView->nTopLine == (DWORD)nPos) break;
 				case SB_THUMBPOSITION:
 					CDebug.SourceView->nTopLine = nPos;
-					if(CDebug.SourceView->nTopLine < 0) CDebug.SourceView->nTopLine = 0;
+					if(CDebug.SourceView->nTopLine < 0) CDebug.SourceView->nTopLine = 0; //~!~
 					if(CDebug.SourceView->nTopLine >= CDebug.SourceView->nLinesNum - CDebug.SourceView->nClientLinesSize) CDebug.SourceView->nTopLine = CDebug.SourceView->nLinesNum - CDebug.SourceView->nClientLinesSize;
 					CDebug.SourceView->UpdateGDIControls();
 					InvalidateRect(hwnd,0,true);

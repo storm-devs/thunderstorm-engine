@@ -1379,7 +1379,7 @@ void SoundService::DebugDraw ()
 	Ypos = 16;
 	for (dword i = 0; i < SoundSchemeChannels.size(); i++)
 	{
-		pRS->Print(510, Ypos, "[%d] %s", i, SoundSchemeChannels[i].soundName);
+		pRS->Print(510, Ypos, "[%d] %s", i, SoundSchemeChannels[i].soundName.c_str());
 		Ypos += 16;
 	}
 

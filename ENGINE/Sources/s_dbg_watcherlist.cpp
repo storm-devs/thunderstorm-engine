@@ -38,7 +38,7 @@ WATCHER_LIST::WATCHER_LIST(HWND hwnd, HINSTANCE hinst)
 		wsprintf(buffer,"E%d",n);
 		if (ini->ReadString(0, buffer, buffer, sizeof(buffer), ""))
 		{
-			if (n < 11)
+			if (n < 11) //~!~
 			{
 				SetItemText(n, 0, buffer);
 				SetItemText(n, 1, CDebug.ProcessExpression(buffer)); 

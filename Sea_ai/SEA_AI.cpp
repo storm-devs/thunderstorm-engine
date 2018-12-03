@@ -345,7 +345,7 @@ dword _cdecl SEA_AI::ProcessMessage(MESSAGE & message)
 		}
 		break;
 		// boal 08.08.06 метод пересчета орудий на корабле <--
-		case AI_MESSAGE_SEASAVE:
+		case AI_MESSAGE_SEASAVE: //~!~
 		{
 			char str[256];
 			Save(str);

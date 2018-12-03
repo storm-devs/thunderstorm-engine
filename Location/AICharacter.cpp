@@ -238,7 +238,7 @@ void AICharacter::CmdProcessGotoPoint(float dltTime)
 	{
 		goForce.x = command.pnt.x - curPos.x;
 		goForce.z = command.pnt.z - curPos.z;
-		float fl = sqrtf(~goForce);
+		fl = sqrtf(~goForce);
 	}
 	if(fl > 0.0f)
 	{	
@@ -346,7 +346,7 @@ void AICharacter::CmdUpdateGotoPoint(float dltTime)
 				//Продолжаем путь
 				StartMove();
 				command.isWait = false;
-				command.waitTime = 1.0f + rand()*1.0f/rand();
+				command.waitTime = 1.0f + rand()*1.0f/(rand()+1.0f);
 			}else{
 				if(command.cnt < 3)
 				{

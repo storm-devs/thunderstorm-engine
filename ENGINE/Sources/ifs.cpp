@@ -982,6 +982,7 @@ void IFS::WriteString(char * section_name, char * key_name, char * string)
 	{
 		node->SetValue(string);
 		bDataChanged = true;
+		delete snode;
 		return;
 	}
 	AddString(section_name,key_name,string);

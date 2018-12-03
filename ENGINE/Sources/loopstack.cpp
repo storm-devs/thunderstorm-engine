@@ -10,8 +10,7 @@ LOOPSTACK::LOOPSTACK()
 
 LOOPSTACK::~LOOPSTACK()
 {
-	if(pBlock) 
-		STORM_DELETE(pBlock);
+	STORM_DELETE(pBlock);
 }
 
 void LOOPSTACK::Push(LOOPBLOCK block)

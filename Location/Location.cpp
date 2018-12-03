@@ -1094,7 +1094,8 @@ void Location::DrawEnemyBars()
 		sort[sortCount].color = color;
 		sort[sortCount].hp = enemyBar[i].hp;
 		sort[sortCount].energy = enemyBar[i].energy;
-		selements[sortCount++] = &sort[sortCount];
+		selements[sortCount] = &sort[sortCount];
+		sortCount++;
 	}
 	//Cортировка по дистанции
 	for(long i = 0; i < sortCount - 1; i++)

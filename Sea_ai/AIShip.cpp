@@ -93,10 +93,10 @@ void AIShip::Execute(float fDeltaTime)
 
 	if (isMainCharacter())
 	{
-		if (!GetCameraController()) 
+		if (!pCameraController) 
 		{
 			pCameraController = NEW AIShipCameraController(this); Assert(pCameraController);
-			GetCameraController()->Init();
+			pCameraController->Init();
 		}
 	} else 
 	{ 

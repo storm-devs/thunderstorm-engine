@@ -387,7 +387,7 @@ void WorldMap::Execute(dword delta_time)
 
 void WorldMap::Realize(dword delta_time)
 {
-	if(AttributesPointer)
+	if(AttributesPointer && wdmObjects->playerShip)
 	{
 		CVECTOR wind(0.0f);
 		float x, z, ay;
@@ -868,7 +868,10 @@ bool WorldMap::CreateMerchantShip(const char * modelName, const char * locNameSt
 {
 	if(kSpeed < 0.1f) kSpeed = 0.1f;
 	WdmShip * ship = NEW WdmMerchantShip();
-	if(ship->killMe) return false;
+	if (ship->killMe) {
+		delete ship;
+		return false;
+	}
 	if(!CreateModel(ship, modelName)) return false;
  	AddLObject(ship, 100);
 	//»щем место куда плыть
@@ -931,7 +934,10 @@ bool WorldMap::CreateMerchantShipXZ(const char * modelName, float x1, float z1, 
 {
 	if(kSpeed < 0.1f) kSpeed = 0.1f;
 	WdmShip * ship = NEW WdmMerchantShip();
-	if(ship->killMe) return false;
+	if (ship->killMe) {
+		delete ship;
+		return false;
+	}
 	if(!CreateModel(ship, modelName)) return false;
  	AddLObject(ship, 100);
 	//»щем место куда плыть
@@ -965,7 +971,10 @@ bool WorldMap::CreateFollowShip(const char * modelName, float kSpeed, float time
 {
 	if(kSpeed < 0.1f) kSpeed = 0.1f;
 	WdmShip * ship = NEW WdmFollowShip();
-	if(ship->killMe) return false;
+	if(ship->killMe) {
+		delete ship;
+		return false;
+	}
 	if(!CreateModel(ship, modelName)) return false;
 	AddLObject(ship, 100);
 	//—корость
@@ -999,10 +1008,16 @@ bool WorldMap::CreateWarringShips(const char * modelName1, const char * modelNam
 	static const float pi = 3.14159265359f;
 	//—оздаЄм кораблики
 	WdmWarringShip * ship1 = NEW WdmWarringShip();
-	if(ship1->killMe) return false;
+	if(ship1->killMe) {
+		delete ship1;
+		return false;
+	}
 	if(!CreateModel(ship1, modelName1)) return false;
 	WdmWarringShip * ship2 = NEW WdmWarringShip();
-	if(ship2->killMe) return false;
+	if(ship2->killMe) {
+		delete ship2;
+		return false;
+	}
 	if(!CreateModel(ship2, modelName2)) return false;
 	float moveRadius = (ship1->modelRadius + ship2->modelRadius)*(0.4f + (rand() & 3)*(0.1f/3.0f));
 	float fullRadius = 0.6f*(moveRadius + 2.0f*max(ship1->modelRadius, ship2->modelRadius));

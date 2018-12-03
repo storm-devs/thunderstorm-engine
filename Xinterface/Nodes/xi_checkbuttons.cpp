@@ -227,7 +227,7 @@ void CXI_CHECKBUTTONS::SaveParametersToIni()
 		for( long n=0; n<m_aButton.size(); n++ ) {
 			sprintf( pcWriteKeyName, "pos%d", n+1 );
 			if( m_aButton[n]->bSetPos ) {
-				_snprintf( pcWriteParam, sizeof(pcWriteParam), "%d,%d", m_aButton[n]->pos.x, m_aButton[n]->pos.y );
+				_snprintf( pcWriteParam, sizeof(pcWriteParam), "%d,%d", (int)m_aButton[n]->pos.x, (int)m_aButton[n]->pos.y );
 				pIni->WriteString( m_nodeName, pcWriteKeyName, pcWriteParam );
 			} else {
 				pIni->DeleteKey( m_nodeName, pcWriteKeyName );

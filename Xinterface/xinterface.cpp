@@ -3008,6 +3008,10 @@ void XINTERFACE::IncrementGameTime(DWORD dwDeltaTime)
 
 char * AddAttributesStringsToBuffer(char * inBuffer, char * prevStr, ATTRIBUTES * pAttr)
 {
+	size_t prevLen = 0;
+	if(prevStr!=null) 
+		prevLen = strlen(prevStr)+_countof(".")-1;
+
 	int q = pAttr->GetAttributesNum();
 	for(int k=0; k<q; k++)
 	{
@@ -3018,8 +3022,8 @@ char * AddAttributesStringsToBuffer(char * inBuffer, char * prevStr, ATTRIBUTES 
 		char * attrName = pA->GetThisName();
 		if( attrName && attrVal && attrVal[0] )
 		{
-			int nadd = strlen("\n")+strlen(attrName)+strlen("=")+strlen(attrVal)+1;
-			if(prevStr!=null) nadd += strlen(prevStr)+strlen(".");
+			int nadd = _countof("\n")-1+strlen(attrName)+_countof("=")-1+strlen(attrVal)+1;
+			nadd += prevLen;
 			if(inBuffer!=null) nadd += strlen(inBuffer);
 
 			char * pNew = NEW char[nadd];

@@ -133,8 +133,8 @@ bool ShipTracks::ShipTrack::Update(SHIP_BASE * pShip)
 	pRS->TextureRelease(iTrackTexture1); iTrackTexture1 = -1;
 	pRS->TextureRelease(iTrackTexture2); iTrackTexture2 = -1;
 
-	this->pShip = pShip;
-	this->fTrackDistance = fTrackDistance;
+	this->pShip = pShip; 
+	this->fTrackDistance = fTrackDistance; //~!~
 
 	if (this->pShip)
 	{

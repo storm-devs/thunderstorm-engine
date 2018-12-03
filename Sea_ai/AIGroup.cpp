@@ -29,9 +29,12 @@ void AIGroup::AddShip(ENTITY_ID eidShip, ATTRIBUTES * pACharacter, ATTRIBUTES * 
 	AIShip * pShip = null;
 	if (pAMode)
 	{
-		if (std::string("war") == pAMode->GetThisAttr()) pShip = NEW AIShipWar();
-		if (std::string("trade") == pAMode->GetThisAttr()) pShip = NEW AIShipTrade();
-		if (std::string("boat") == pAMode->GetThisAttr()) pShip = NEW AIShipBoat();
+		if (std::string("war") == pAMode->GetThisAttr())
+			pShip = NEW AIShipWar();
+		else if (std::string("trade") == pAMode->GetThisAttr()) 
+			pShip = NEW AIShipTrade();
+		else if (std::string("boat") == pAMode->GetThisAttr()) 
+			pShip = NEW AIShipBoat();
 	}
 	if (!pShip) pShip = NEW AIShipWar();
 

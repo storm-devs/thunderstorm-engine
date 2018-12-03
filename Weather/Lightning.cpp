@@ -179,7 +179,7 @@ void LIGHTNING::CalcFlashPower(lightning_t * pL)
 
 dword LIGHTNING::AttributeChanged(ATTRIBUTES * pAttribute)
 {
-	std::string sTextureName;
+	//std::string sTextureName;
 
 	ATTRIBUTES * pParent = pAttribute->GetParent();
 

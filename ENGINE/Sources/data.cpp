@@ -1698,7 +1698,7 @@ bool DATA::Copy(DATA * pV)
 			return false;
 		}
 		copy_size = Number_of_elements * sizeof(DATA *);
-		memcpy(ArrayPTR,pV->ArrayPTR,copy_size);
+		memcpy(ArrayPTR,pV->ArrayPTR,copy_size); //~!~
 
 		return true;
 	}

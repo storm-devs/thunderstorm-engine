@@ -99,7 +99,7 @@ float NODER::Update(CMatrix &mtx, CVECTOR &cnt)
 	for(long l=0; l<nnext; l++)
 		if(next[l]!=0)
 		{
-			CVECTOR cnt;
+			CVECTOR cnt; //~!~
 			float r = static_cast<NODER*>(next[l])->Update(glob_mtx, cnt);
 			float rad = sqrtf(~(cnt-center)) + r;
 			if(rad>radius)	radius = rad;

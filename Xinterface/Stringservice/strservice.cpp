@@ -39,11 +39,12 @@ bool GetStringDescribe(char * inStr, char* strName, char * outStr)
 
 	while(strLenght>0 && strName[strLenght-1]>0 && strName[strLenght-1]<=32)
 		strLenght--;
-	strName[strLenght] = 0;
+	
 	if(strLenght<=0) {
 		api->Trace("Waring: Invalid name parameter for string: %s",inStr);
 		return false;
 	}
+	strName[strLenght] = 0;
 
 	// Get string value
 	strLenght = 0;
@@ -309,14 +310,16 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 		{
 			// fill string name
 			m_psStrName[i] = NEW char[strlen(strName)+1];
-			if(m_psStrName==NULL)
+			if(m_psStrName[i]==NULL)
 				STORM_THROW("allocate memory error")
 			strcpy(m_psStrName[i],strName);
 
 			// fill string self
 			m_psString[i] = NEW char[strlen(string)+1];
-			if(m_psString==NULL)
+			if (m_psString[i] == NULL) {
+				delete m_psStrName[i];
 				STORM_THROW("allocate memory error")
+			}
 			strcpy(m_psString[i],string);
 		} else {
 			// invalid string
@@ -542,6 +545,7 @@ long STRSERVICE::OpenUsersStringFile(char * fileName)
 	{
 		api->Trace("WARNING! Strings file \"%s\" not exist/or zero size",fileName);
 		api->fio->_CloseHandle(hfile);
+		delete pUSB;
 		return -1;
 	}
 

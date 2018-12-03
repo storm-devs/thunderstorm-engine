@@ -152,7 +152,7 @@ bool SHIP::BuildMasts()
 		NODE* pNode = (NODE*)pEnt->GetNode(iIdx);
 		if (!pNode) break;
 		const char *cNodeName = pNode->GetName();
-		if (strnicmp(cNodeName,MAST_IDENTIFY,strlen(MAST_IDENTIFY)) == 0)
+		if (strnicmp(cNodeName,MAST_IDENTIFY,_countof(MAST_IDENTIFY)-1) == 0)
 		{
 			CVECTOR vBSize,vBCenter,vUp,vDown,vTemp;
 
@@ -160,7 +160,7 @@ bool SHIP::BuildMasts()
 			if (!pAMasts)
 				pAMasts = GetACharacter()->CreateSubAClass(GetACharacter(),"Ship.Masts");
 
-			sscanf((const char*)&cNodeName[strlen(MAST_IDENTIFY)],"%d",&iNum);
+			sscanf((const char*)&cNodeName[_countof(MAST_IDENTIFY)-1],"%d",&iNum);
 			pMasts = (mast_t*)RESIZE(pMasts,sizeof(mast_t) * (iNumMasts+1));
 
 			mast_t * pM = &pMasts[iNumMasts];
