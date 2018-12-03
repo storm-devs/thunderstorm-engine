@@ -814,7 +814,7 @@ void BATTLE_NAVIGATOR::SetMainCharacterData()
 		{
 			fCharge = pTmpAttr->GetAttributeAsFloat("ChargeRatio",0);
 			fDamage = pTmpAttr->GetAttributeAsFloat("DamageRatio",0);
-			m_fCurAnglLeftDamage = GetBetwinFloat(m_fEndAnglLeftCharge,m_fBegAnglLeftCharge,fDamage);
+			m_fCurAnglLeftDamage = GetBetwinFloat(m_fEndAnglLeftCharge,m_fBegAnglLeftCharge,fDamage); //~!~
 			m_fCurAnglLeftCharge = GetBetwinFloat(m_fBegAnglLeftCharge,m_fCurAnglLeftDamage,fCharge);
 		}
 		// right cannons

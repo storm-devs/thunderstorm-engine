@@ -19,7 +19,6 @@ CameraDialog::CameraDialog(): rs(nullptr), col(nullptr), frames(0)
 	//ShowCursor(false);
 
 	track = 0;
-	track = 0;
 	time = 0.0f;
 }
 

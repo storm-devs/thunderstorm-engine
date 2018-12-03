@@ -392,7 +392,7 @@ long BIShipIcon::CalculateShipQuantity()
 		m_Ship[n].pAShip = 0;
 		m_Ship[n].nMaxHP = 100;
 		m_Ship[n].nMaxSP = 100;
-		m_Ship[n].sShipName = "";
+		m_Ship[n].sShipName.clear();
 	}
 
 	// взять корабль главного перса

@@ -32,7 +32,9 @@ long WMShipIcon::CalculateSignQuantity()
 				m_Sign[n].fStarProgress = pA->GetAttributeAsFloat("starprogress",0.f);
 				FULLRECT(m_Sign[n].rFaceUV);
 				BIUtils::ReadRectFromAttr( pA, "faceuv", m_Sign[n].rFaceUV, m_Sign[n].rFaceUV );
-				m_Sign[n].sText = pA->GetAttribute("text");
+				const char *attr = pA->GetAttribute("text");
+				if(attr != nullptr)
+					m_Sign[n].sText = attr;
 			} else {
 				m_Sign[n].bUse = false;
 			}
