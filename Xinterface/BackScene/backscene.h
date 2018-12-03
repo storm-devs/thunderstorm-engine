@@ -39,7 +39,7 @@ class InterfaceBackScene : public ENTITY
 		CVECTOR vLightPos;
 		NODE* pLightSrcNode;
 
-		LightParam() {bUse=false; pModel=0; pLightSrcNode=0; fColorTimer = 0.0f; }
+		LightParam() {bUse=false; pModel=nullptr; pLightSrcNode=nullptr; fColorTimer = 0.0f; }
 		~LightParam();
 		void UpdateParams(float fTime);
 	};
@@ -77,7 +77,7 @@ protected:
 		MODEL* pPassive;
 		std::string sEventName;
 
-		MenuDescr() {pActive=0; pPassive=0; bSelectable=false;}
+		MenuDescr() {pActive=nullptr; pPassive=nullptr; bSelectable=false;}
 		~MenuDescr();
 		void Set( CMatrix* pMtx, const char* pcActiveName, const char* pcPassiveName, const char* pcEvent, const char* pcPathName, const char* pcTechniqueName );
 	};
@@ -117,8 +117,8 @@ protected:
 		bool bUseTFactor;
 		DWORD dwTFactor;
 
-		AniModelDescr() {pModel=0;bUseTFactor=false;}
-		~AniModelDescr() {api->DeleteEntity(ei); pModel=0;}
+		AniModelDescr() {pModel=nullptr;bUseTFactor=false;}
+		~AniModelDescr() {api->DeleteEntity(ei); pModel=nullptr;}
 	};
 	std::vector<AniModelDescr*> m_apAniModel;
 

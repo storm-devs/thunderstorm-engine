@@ -37,7 +37,7 @@ IBIImage* BIImageRender::CreateImage( BIImageType type, const char* pcTextureNam
 	BIImageMaterial* pMaterial = CreateMaterial( pcTextureName, pcTechniqueName );
 	if( pMaterial )
 		return (IBIImage*)pMaterial->CreateImage( type, color, uv, nLeft,nTop, nRight,nBottom, nPrior );
-	return 0;
+	return nullptr;
 }
 
 IBIImage* BIImageRender::CreateImage( BIImageType type, const char* pcTextureName, dword color, FRECT& uv, RECT& pos, long nPrior, const char* pcTechniqueName )
@@ -45,7 +45,7 @@ IBIImage* BIImageRender::CreateImage( BIImageType type, const char* pcTextureNam
 	BIImageMaterial* pMaterial = CreateMaterial( pcTextureName, pcTechniqueName );
 	if( pMaterial )
 		return (IBIImage*)pMaterial->CreateImage( type, color, uv, pos.left,pos.top, pos.right,pos.bottom, nPrior );
-	return 0;
+	return nullptr;
 }
 
 BIImageMaterial* BIImageRender::FindMaterial( const char* pcTextureName, const char* pcTechniqueName )
@@ -54,7 +54,7 @@ BIImageMaterial* BIImageRender::FindMaterial( const char* pcTextureName, const c
 		if( m_apMaterial[n]->IsUseTexture(pcTextureName) &&
 			m_apMaterial[n]->IsUseTechnique(pcTechniqueName) )
 			return m_apMaterial[n];
-	return null;
+	return nullptr;
 }
 
 BIImageMaterial* BIImageRender::CreateMaterial( const char* pcTextureName, const char* pcTechniqueName )

@@ -11,10 +11,10 @@ INTERFACE_FUNCTION
 CREATE_CLASS(ANIMALS)
 //--------------------------------------------------------------------
 ANIMALS::ANIMALS()
-	:seagulls(0)
+	:seagulls(nullptr)
 	//,sharks(0)
-	,fishSchools(0)
-	,butterflies(0)
+	,fishSchools(nullptr)
+	,butterflies(nullptr)
 {	
 	seagulls = NEW TSeagulls();
 	//sharks = NEW TSharks();

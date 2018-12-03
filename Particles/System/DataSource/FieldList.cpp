@@ -322,7 +322,7 @@ DataColor* FieldList::FindColor (const char* AttrName)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 DataBool* FieldList::FindBool (const char* AttrName)
@@ -342,7 +342,7 @@ DataBool* FieldList::FindBool (const char* AttrName)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 DataFloat* FieldList::FindFloat (const char* AttrName)
@@ -362,7 +362,7 @@ DataFloat* FieldList::FindFloat (const char* AttrName)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 DataGraph* FieldList::FindGraph (const char* AttrName)
@@ -383,7 +383,7 @@ DataGraph* FieldList::FindGraph (const char* AttrName)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 DataString* FieldList::FindString (const char* AttrName)
@@ -404,7 +404,7 @@ DataString* FieldList::FindString (const char* AttrName)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 DataPosition* FieldList::FindPosition (const char* AttrName)
@@ -425,7 +425,7 @@ DataPosition* FieldList::FindPosition (const char* AttrName)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 DataUV* FieldList::FindUV (const char* AttrName)
@@ -445,7 +445,7 @@ DataUV* FieldList::FindUV (const char* AttrName)
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 FieldList::FieldDesc* FieldList::FindField (const char* Name)
@@ -462,7 +462,7 @@ FieldList::FieldDesc* FieldList::FindField (const char* Name)
 				}
 			}
 	}
-	return NULL;
+	return nullptr;
 }
 
 float FieldList::GetFloat (const char* AttrName, float def_value)

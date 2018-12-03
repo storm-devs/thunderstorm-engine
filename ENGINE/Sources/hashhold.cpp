@@ -2,8 +2,8 @@
 
 HASHHOLD::HASHHOLD()
 {
-	pHashTable = 0;
-	pLineSize = 0;
+	pHashTable = nullptr;
+	pLineSize = nullptr;
 	dwHashTableSize = 0;
 }
 
@@ -22,9 +22,9 @@ void HASHHOLD::Release()
 			if(pHashTable[n]) delete pHashTable[n];
 		}
 		delete pHashTable;
-		pHashTable = 0;
+		pHashTable = nullptr;
 	}
-	if(pLineSize) delete pLineSize; pLineSize = 0;
+	if(pLineSize) delete pLineSize; pLineSize = nullptr;
 	dwHashTableSize = 0;
 }
 
@@ -58,7 +58,7 @@ bool HASHHOLD::Add(DWORD dwHashValue, DWORD dwHoldValue)
 
 DWORD HASHHOLD::GetCodesNum(DWORD dwHashValue,DWORD * & pHashLine)
 {
-	pHashLine = 0;
+	pHashLine = nullptr;
 	if(dwHashValue >= dwHashTableSize)
 	{
 		api->Trace("ERROR: request for hash value out of range");

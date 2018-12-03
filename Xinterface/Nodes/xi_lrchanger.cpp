@@ -21,7 +21,7 @@ void SetRectanglePosition(XI_ONETEX_VERTEX v[4],FXYRECT & pr)
 CXI_LRCHANGER::CXI_LRCHANGER()
 {
 	m_idTex=-1;
-	m_rs = NULL;
+	m_rs = nullptr;
 
 	m_ShadowShift.x = m_ShadowShift.y = 0.f;
 	m_PressShadowShift.x = m_PressShadowShift.y = 0.f;
@@ -139,11 +139,11 @@ void CXI_LRCHANGER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 
 	// get group name and get texture for this
 	m_idTex = -1;
-	m_sGroupName = null;
+	m_sGroupName = nullptr;
 	if( ReadIniString(ini1,name1, ini2,name2, "group", param, sizeof(param),"") )
 	{
 		m_sGroupName = NEW char[strlen(param)+1];
-		if(m_sGroupName==null)
+		if(m_sGroupName== nullptr)
 			STORM_THROW("allocate memory error")
 		strcpy(m_sGroupName,param);
 		m_idTex = pPictureService->GetTextureID(param);

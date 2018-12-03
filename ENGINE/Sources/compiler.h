@@ -77,8 +77,8 @@ public:
 	char * pName;
 	SLIBHOLDER(): hInst(nullptr)
 	{
-		pLib = 0;
-		pName = 0;
+		pLib = nullptr;
+		pName = nullptr;
 	};
 	~SLIBHOLDER(){if(pLib) delete pLib; if(pName) delete pName;};
 	void SetName(const char * pFileName) {if(pName) delete pName; pName = NEW char[strlen(pFileName)+1];strcpy(pName,pFileName);}
@@ -216,12 +216,12 @@ public:
 	bool ProcessDebugExpression(char * pExpression, DATA & Result);
 	bool SetOnDebugExpression(char * pLValue, char * pRValue, DATA & Result);
 	bool ProcessDebugExpression0(char * pExpression, DATA & Result);
-	bool Compile(SEGMENT_DESC& Segment, char * pInternalCode = 0, DWORD pInternalCodeSize = 0);
+	bool Compile(SEGMENT_DESC& Segment, char * pInternalCode = nullptr, DWORD pInternalCodeSize = 0);
 	void CompileToken(SEGMENT_DESC& Segment,S_TOKEN_TYPE Token_type, DWORD data_blocks_num = 0,...);
 	void ResizeBCodeBuffer(SEGMENT_DESC& Segment,DWORD add_size);
 	bool BC_LoadSegment(char * file_name);
 	bool BC_SegmentIsLoaded(char * file_name);
-	bool BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * pDbgExpSource = 0);
+	bool BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * pDbgExpSource = nullptr);
 	bool BC_CallFunction(DWORD func_code, DWORD & ip, DATA * & pVResult);
 	void FindErrorSource();
 	S_TOKEN_TYPE BC_TokenGet(DWORD & ip, DWORD & token_data_size);
@@ -262,7 +262,7 @@ public:
 	bool CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD & inout,S_TOKEN_TYPE bound_type, DWORD continue_jump, DWORD break_offset, STRINGS_LIST & BreakTable);
 	S_TOKEN_TYPE CompileAuxiliaryTokens(SEGMENT_DESC& Segment);//, bool & bFunctionBlock, DWORD & inout);
 	bool BC_Jump(SEGMENT_DESC& Segment, DWORD offset);
-	void UpdateOffsets(SEGMENT_DESC& Segment, STRINGS_LIST & list, DWORD offset, char * sname = 0);
+	void UpdateOffsets(SEGMENT_DESC& Segment, STRINGS_LIST & list, DWORD offset, char * sname = nullptr);
 	S_TOKEN_TYPE DetectUnknown(DWORD & code);
 
 	void DumpAttributes(ATTRIBUTES * pA, long level);
@@ -322,7 +322,7 @@ public:
 	bool CompileExpression_L6(SEGMENT_DESC& Segment);
 	bool CompileExpression_L7(SEGMENT_DESC& Segment);
 
-	DATA * GetOperand(char * pCodeBase, DWORD & ip, S_TOKEN_TYPE * pTokenType = 0);
+	DATA * GetOperand(char * pCodeBase, DWORD & ip, S_TOKEN_TYPE * pTokenType = nullptr);
 
 
 };

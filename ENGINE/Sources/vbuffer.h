@@ -14,7 +14,7 @@ class VBUFFER
 	dword dwSize;
 public:
 	char * Ptr;
-	 VBUFFER() {dwSize = 0; Ptr = null;}
+	 VBUFFER() {dwSize = 0; Ptr = nullptr;}
 	~VBUFFER() {if(Ptr) delete Ptr;}
 	void Size(dword _size)
 	{

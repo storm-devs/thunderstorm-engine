@@ -41,7 +41,7 @@ float CameraFollow::fndkAy;
 
 CameraFollow::CameraFollow()
 {
-	lc = null;
+	lc = nullptr;
 	isBrn = true;
 	camay = 0.0f;
 	kRadInert = 1.0f;

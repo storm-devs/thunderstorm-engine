@@ -20,13 +20,13 @@ long Fader::currentTips = -1;
 
 Fader::Fader()
 {
-	rs = null;
+	rs = nullptr;
 	isWork = false;
 	haveFrame = false;
 	endFade = false;
 	alpha = 0.0f;
-	surface = null;
-	renderTarget = null;
+	surface = nullptr;
+	renderTarget = nullptr;
 	textureID = -1;
 	tipsID = -1;
 	eventStart = false;
@@ -38,8 +38,8 @@ Fader::~Fader()
 {
 	if(surface) rs->Release(surface);
 	if(renderTarget) renderTarget->Release();
-	surface = null;
-	renderTarget = null;
+	surface = nullptr;
+	renderTarget = nullptr;
 	if(rs)
 	{
 		if(textureID >= 0) rs->TextureRelease(textureID);
@@ -87,7 +87,7 @@ bool Fader::Init()
 		INIFILE * ini = api->fio->OpenIniFile(api->EngineIniFileName());
 		if(ini)
 		{
-			numberOfTips = ini->GetLong(null, "numoftips", -1);
+			numberOfTips = ini->GetLong(nullptr, "numoftips", -1);
 			delete ini;
 		}else numberOfTips = -1;
 		if(numberOfTips > 9999) numberOfTips = 9999;
@@ -128,7 +128,7 @@ dword _cdecl Fader::ProcessMessage(MESSAGE & message)
 		isAutodelete = message.Long() != 0;
 		haveFrame = false;
 		if(surface) surface->Release();
-		surface = null;
+		surface = nullptr;
 		eventStart = false;
 		eventEnd = false;
 		break;
@@ -239,7 +239,7 @@ void Fader::Realize(dword delta_time)
 				if(!isOk) _CORE_API->Trace("Screen shot for fader not created!");
 			}else{
 				//Копируем шот
-				if(rs->UpdateSurface(surface, null, 0, renderTarget, null) != D3D_OK)
+				if(rs->UpdateSurface(surface, nullptr, 0, renderTarget, nullptr) != D3D_OK)
 				{
 					_CORE_API->Trace("Can't copy fader screen shot to render target!");
 				}

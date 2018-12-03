@@ -6,29 +6,29 @@ static char Buffer1024[1024];
 FONT::FONT()
 {
 	api = (VAPI *)_CORE_API;
-	RenderService = 0;
-	Device = 0;
-	VBuffer = 0;
+	RenderService = nullptr;
+	Device = nullptr;
+	VBuffer = nullptr;
 	TextureID = -1;
 	Color = oldColor = 0xffffffff;
 	ZeroMemory(CharT,sizeof(CharT));
 	ZeroMemory(&Pos,sizeof(Pos));
 	bInverse = bOldInverse = false;
-    techniqueName = NULL;
-    textureName = NULL;
+    techniqueName = nullptr;
+    textureName = nullptr;
 }
 
 FONT::~FONT()
 {
-    if(techniqueName!=NULL)
+    if(techniqueName!= nullptr)
     {
         delete techniqueName;
-        techniqueName = NULL;
+        techniqueName = nullptr;
     }
-    if(textureName!=NULL)
+    if(textureName!= nullptr)
     {
         delete textureName;
-        textureName = NULL;
+        textureName = nullptr;
     }
 	if(VBuffer) VBuffer->Release();
 	if(RenderService)
@@ -85,7 +85,7 @@ bool FONT::Init(char * font_name, char * iniName, IDirect3DDevice9 * _device, VD
 	char * pData;
 
 	ini = api->fio->OpenIniFile(iniName);
-	if(ini == 0) return false;
+	if(ini == nullptr) return false;
 
 	m_fAspectRatioH = 1.f;
 	m_fAspectRatioV = _render->GetHeightDeformator();
@@ -112,13 +112,13 @@ bool FONT::Init(char * font_name, char * iniName, IDirect3DDevice9 * _device, VD
 
 	if( ini->ReadString(font_name,"Texture",buffer,sizeof(buffer)-1,"") )
     {
-        if( (textureName=NEW char[strlen(buffer)+1]) == NULL )
+        if( (textureName=NEW char[strlen(buffer)+1]) == nullptr )
             STORM_THROW("allocate memory error")
         strcpy(textureName,buffer);
     }
     if( ini->ReadString(font_name,"Techniques",buffer,sizeof(buffer)-1,"") )
     {
-        if( (techniqueName=NEW char[strlen(buffer)+1]) == NULL )
+        if( (techniqueName=NEW char[strlen(buffer)+1]) == nullptr )
             STORM_THROW("allocate memory error")
         strcpy(techniqueName,buffer);
     }
@@ -127,7 +127,7 @@ bool FONT::Init(char * font_name, char * iniName, IDirect3DDevice9 * _device, VD
 	Symbol_interval = ini->GetLong(font_name,"Symbol_interval",0);
 
 	bShadow = bOldShadow = false;
-	if(ini->TestKey(font_name,"Shadow",0)) bShadow = bOldShadow = true;
+	if(ini->TestKey(font_name,"Shadow",nullptr)) bShadow = bOldShadow = true;
 
 	Shadow_offsetx = ini->GetLong(font_name,"Shadow_offsetx",2);
 	Shadow_offsety = ini->GetLong(font_name,"Shadow_offsety",2);
@@ -172,8 +172,8 @@ bool FONT::Init(char * font_name, char * iniName, IDirect3DDevice9 * _device, VD
 	Device = _device;
 
 	IMAGE_VERTEX * pVertex;
-	Device->CreateVertexBuffer(sizeof(IMAGE_VERTEX)*MAX_SYMBOLS*SYM_VERTEXS,D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, IMAGE_FVF, D3DPOOL_SYSTEMMEM, &VBuffer, NULL);
-	if(VBuffer == 0) STORM_THROW(vbuffer error);
+	Device->CreateVertexBuffer(sizeof(IMAGE_VERTEX)*MAX_SYMBOLS*SYM_VERTEXS,D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, IMAGE_FVF, D3DPOOL_SYSTEMMEM, &VBuffer, nullptr);
+	if(VBuffer == nullptr) STORM_THROW(vbuffer error);
 	VBuffer->Lock(0,sizeof(IMAGE_VERTEX)*MAX_SYMBOLS*SYM_VERTEXS,(VOID**)&pVertex,0);
 	for(n=0;n<MAX_SYMBOLS*SYM_VERTEXS;n++)
 	{
@@ -223,7 +223,7 @@ void OffsetFRect(FLOAT_RECT & fr, float dx, float dy)
 
 long FONT::GetStringWidth(const char * Text)
 {
-	if(Text==NULL) return 0;
+	if(Text== nullptr) return 0;
 	FLOAT_RECT	pos;
 	float		xoffset = 0;
 	long		s_num	= strlen(Text);
@@ -333,7 +333,7 @@ long FONT::UpdateVertexBuffer(long x, long y, char * data_PTR)
 
 long FONT::Print(long x, long y, char * data_PTR)
 {
-	if(data_PTR==NULL || techniqueName==NULL) return 0;
+	if(data_PTR== nullptr || techniqueName== nullptr) return 0;
 	long s_num;
 	long xoffset=0L;
 	s_num = strlen(data_PTR);
@@ -414,7 +414,7 @@ void FONT::SetScale(float scale)
 
 void FONT::TempUnload()
 {
-    if(RenderService!=NULL)
+    if(RenderService!= nullptr)
     {
         if(TextureID!=-1L)
             RenderService->TextureRelease(TextureID);

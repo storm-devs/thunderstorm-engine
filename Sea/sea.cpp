@@ -34,7 +34,7 @@
 INTERFACE_FUNCTION
 CREATE_CLASS(SEA)
 
-SEA * SEA::pSea = null;
+SEA * SEA::pSea = nullptr;
 bool SEA::bIntel = false;
 bool SEA::bSSE = false;
 bool SEA::bDisableSSE = false;
@@ -106,7 +106,7 @@ SEA::SEA()
 	bTempFullMode = false;
 
 	// HyperThreading section
-	hEventCalcMaps = CreateEvent(null, false, false, null);
+	hEventCalcMaps = CreateEvent(nullptr, false, false, nullptr);
 
 	InitializeCriticalSection(&cs);
 	InitializeCriticalSection(&cs1);
@@ -119,7 +119,7 @@ SEA::SEA()
 
 	vWorldOffset = 0.f;
 
-	pRenderTargetBumpMap = null;
+	pRenderTargetBumpMap = nullptr;
 }
 
 SEA::~SEA()
@@ -180,10 +180,10 @@ bool SEA::Init()
 {
 	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	INIFILE * pEngineIni = fio->OpenIniFile(api->EngineIniFileName());
-	bool bDisableHyperThreading = (pEngineIni) ? pEngineIni->GetLong(null, "HyperThreading", 1) == 0 : false;
-	bDisableSSE = (pEngineIni) ? pEngineIni->GetLong(null, "DisableSSE", 0) != 0 : false;
+	bool bDisableHyperThreading = (pEngineIni) ? pEngineIni->GetLong(nullptr, "HyperThreading", 1) == 0 : false;
+	bDisableSSE = (pEngineIni) ? pEngineIni->GetLong(nullptr, "DisableSSE", 0) != 0 : false;
 	bIniFoamEnable = (pEngineIni) ? pEngineIni->GetLong("Sea", "FoamEnable", 1) != 0 : false;
-    bool bEnableSSE = (pEngineIni) ? pEngineIni->GetLong(null, "EnableSSE", 0) != 0 : false;   //boal
+    bool bEnableSSE = (pEngineIni) ? pEngineIni->GetLong(nullptr, "EnableSSE", 0) != 0 : false;   //boal
     STORM_DELETE(pEngineIni);
     if (bEnableSSE)
     {
@@ -206,11 +206,11 @@ bool SEA::Init()
 		{
 			//HANDLE & hEvent = aEventCalcBlock[aEventCalcBlock.Add()];
 			//hEvent = CreateEvent(null, false, false, null);
-			aEventCalcBlock.push_back(CreateEvent(null, false, false, null));
+			aEventCalcBlock.push_back(CreateEvent(nullptr, false, false, nullptr));
 
 			aThreads.push_back(HANDLE{});
 			HANDLE & hThread = aThreads.back();
-			hThread = CreateThread(null, 0, (LPTHREAD_START_ROUTINE)SEA::ThreadExecute, (void*)i, CREATE_SUSPENDED, null);
+			hThread = CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)SEA::ThreadExecute, (void*)i, CREATE_SUSPENDED, nullptr);
 			SetThreadPriority(hThread, THREAD_PRIORITY_NORMAL);
 			ResumeThread(hThread);
 
@@ -251,7 +251,7 @@ bool SEA::Init()
 	for (i=0; i<FRAMES; i++)
 	{
 		char str[256];
-		char * pFBuffer = null;
+		char * pFBuffer = nullptr;
 		dword dwSize;
 		sprintf(str, "resource\\sea\\sea%.4d.tga", i);
 		//sprintf(str, "resource\\sea\\sea0000.tga", i);
@@ -326,7 +326,7 @@ void SEA::BuildVolumeTexture()
 
 	if (pVolumeTexture)
 	for (i=0; i<4; i++)
-		pVolumeTexture->LockBox(i, &box[i], 0, 0);
+		pVolumeTexture->LockBox(i, &box[i], nullptr, 0);
 
 	for (i=0; i<aBumpMaps.size(); i++) rs->Release(aBumpMaps[i]);
 	aBumpMaps.clear();
@@ -418,7 +418,7 @@ void SEA::BuildVolumeTexture()
 			for (dword lev=0; lev<MIPSLVLS; lev++)
 			{
 				(*pBumpMap)->GetLevelDesc(lev, &d3dsd);
-				(*pBumpMap)->LockRect(lev, &d3dlr, 0, 0);
+				(*pBumpMap)->LockRect(lev, &d3dlr, nullptr, 0);
 
 				dword * pDstT = (dword*)pDst;
 				for(dword y=0; y<d3dsd.Height; y++)
@@ -1219,7 +1219,7 @@ void SEA::WaveXZBlock(SeaBlock * pB)
 
 SEA::SeaBlock * SEA::GetUndoneBlock()
 {
-	SeaBlock * pB = null;
+	SeaBlock * pB = nullptr;
 	for (long i=0; i<aBlocks.size(); i++) if (!aBlocks[i].bInProgress)
 	{
 		pB = &aBlocks[i];
@@ -1420,7 +1420,7 @@ void SEA::Realize(dword dwDeltaTime)
 		for (dword i=0; i<MIPSLVLS; i++)
 		{
 			HRESULT hr = pRenderTargetBumpMap->GetSurfaceLevel(i, &pFace);
-			rs->SetRenderTarget(pFace, null);
+			rs->SetRenderTarget(pFace, nullptr);
 			pFace->Release();
 			float w, h;
 			w = h = float(XWIDTH >> i);
@@ -1809,7 +1809,7 @@ float SEA::Trace(const CVECTOR & vSrc, const CVECTOR & vDst)
 	for (long i=0; i<iNumTests; i++)
 	{
 		CVECTOR vTemp = vSrc + float(i) * fDV * (vDst - vSrc);
-		float fWaveY = WaveXZ(vTemp.x, vTemp.z, null);
+		float fWaveY = WaveXZ(vTemp.x, vTemp.z, nullptr);
 
 		if (fWaveY > vTemp.y) return float(i) * fDV;
 	}
@@ -1824,7 +1824,7 @@ float SEA::Cannon_Trace(long iBallOwner, const CVECTOR & vSrc, const CVECTOR & v
 	if (fRes <= 1.0f)
 	{
 		CVECTOR vTemp = vSrc + fRes * (vDst - vSrc);
-		float fTmpY = WaveXZ(vTemp.x, vTemp.z, null);
+		float fTmpY = WaveXZ(vTemp.x, vTemp.z, nullptr);
 		api->Event(BALL_WATER_HIT, "lfff", iBallOwner, vTemp.x, fTmpY, vTemp.z);
 	}
 
@@ -1834,7 +1834,7 @@ float SEA::Cannon_Trace(long iBallOwner, const CVECTOR & vSrc, const CVECTOR & v
 dword SEA::AttributeChanged(ATTRIBUTES * pAttribute)
 {
 	ATTRIBUTES * pParent = pAttribute->GetParent();
-	ATTRIBUTES * pParent2 = (pParent) ? pParent->GetParent() : null;
+	ATTRIBUTES * pParent2 = (pParent) ? pParent->GetParent() : nullptr;
 
 	char * sName = pAttribute->GetThisName();
 	char * sValue = pAttribute->GetThisAttr();

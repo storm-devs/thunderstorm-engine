@@ -143,7 +143,7 @@ private:
 	CMatrix	mTexProjection;
 
 	void				SSE_WaveXZ(SeaVertex * * pArray);
-	float __fastcall	WaveXZ(float x, float z, CVECTOR * pNormal = null);
+	float __fastcall	WaveXZ(float x, float z, CVECTOR * pNormal = nullptr);
 
 	void			AddBlock(long iTX, long iTY, long iSize, long iLOD);
 	void			BuildTree(long iTX, long iTY, long iLev);
@@ -193,7 +193,7 @@ public:
 	virtual float Cannon_Trace(long iBallOwner, const CVECTOR &src, const CVECTOR &dst);
 
 	virtual bool Clip(const PLANE *planes, long nplanes, const CVECTOR &center, float radius, ADD_POLYGON_FUNC addpoly) { return false; }
-	virtual const char *GetCollideMaterialName() { return null; };
+	virtual const char *GetCollideMaterialName() { return nullptr; };
 	virtual bool GetCollideTriangle(TRIANGLE &triangle) { return false; }
 
 	bool EditMode_Update();

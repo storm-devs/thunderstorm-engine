@@ -19,28 +19,28 @@
 PtcData::PtcData()
 {
 	srand(GetTickCount());
-	data = null;
-	triangle = null;
+	data = nullptr;
+	triangle = nullptr;
 	numTriangles = 0;
-	vertex = null;
+	vertex = nullptr;
 	numVerteces = 0;
-	normal = null;
+	normal = nullptr;
 	numNormals = 0;
 	min = max = 0.0f;
-	map = null;
+	map = nullptr;
 	l = w = 0;
 	ls = ws = 0.0f;
-	indeces = null;
+	indeces = nullptr;
 	numIndeces = 0;
-	table = null;
+	table = nullptr;
 	lineSize = 0;
-	ctriangle = null;
+	ctriangle = nullptr;
 	numClTriangles = 0;
 	maxClTriangles = 0;
-	dbgTriangles = null;
-	dbgEdges = null;
+	dbgTriangles = nullptr;
+	dbgEdges = nullptr;
 	numSteps = 0;
-	materials = null;
+	materials = nullptr;
 	middle = 0.0f;
 }
 
@@ -55,7 +55,7 @@ PtcData::~PtcData()
 bool PtcData::Load(const char * path)
 {
 	Assert(data == null);
-	char * buf = null;
+	char * buf = nullptr;
 	dword size = 0;
 	middle = 0.0f;
 	//Загружаем данные
@@ -648,10 +648,10 @@ void PtcData::FindForce(long curNode, CVECTOR & force)
 //Получить материал нода
 const char * PtcData::GetMaterial(long curNode)
 {
-	if(!materials) return null;
-	if(curNode < 0 || curNode >= numTriangles) return null;
+	if(!materials) return nullptr;
+	if(curNode < 0 || curNode >= numTriangles) return nullptr;
 	long mtl = triangle[curNode].mtl;
-	if(mtl >= 15 || mtl < 0 || mtl >= materials->numMaterials) return null;
+	if(mtl >= 15 || mtl < 0 || mtl >= materials->numMaterials) return nullptr;
 	return materials->material[mtl];
 }
 

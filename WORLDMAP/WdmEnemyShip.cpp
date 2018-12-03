@@ -24,7 +24,7 @@
 
 WdmEnemyShip::WdmEnemyShip()
 {
-	saveAttribute = null;
+	saveAttribute = nullptr;
 	mx = mz = 0.0f;
 	ix = iz = 0.0f;
 	sx = sz = 0.0f;
@@ -38,7 +38,7 @@ WdmEnemyShip::WdmEnemyShip()
 	brnAlpha = 0.0f;
 	alpha = 0.0f;
 	type = -1;
-	attack = null;
+	attack = nullptr;
 	//Время жизни
 	liveTime = WDM_ENEMYSHIP_MINTIME + rand()*((WDM_ENEMYSHIP_MAXTIME - WDM_ENEMYSHIP_MINTIME)/RAND_MAX);
 	shipType = wdmest_unknow;
@@ -100,7 +100,7 @@ void WdmEnemyShip::Update(float dltTime)
 				{
 					delEnc = saveAttribute->GetThisName();
 				}
-				VDATA* pVDat = 0;
+				VDATA* pVDat = nullptr;
 				if(!killMe && delEnc && delEnc[0])
 				{
 					pVDat = api->Event("WorldMap_EncounterDelete", "s", delEnc);
@@ -325,7 +325,7 @@ void WdmEnemyShip::DeleteUpdate()
 	{
 		isEnableKill = true;
 		deleteAlpha = 0.999999f;
-		saveAttribute = 0;
+		saveAttribute = nullptr;
 	}
 }
 

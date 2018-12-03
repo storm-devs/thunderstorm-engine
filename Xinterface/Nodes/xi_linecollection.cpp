@@ -4,7 +4,7 @@
 
 CXI_LINECOLLECTION::CXI_LINECOLLECTION()
 {
-	m_rs = NULL;
+	m_rs = nullptr;
 	m_nNodeType = NODETYPE_LINECOLLECTION;
 }
 

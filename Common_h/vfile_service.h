@@ -44,9 +44,9 @@ public:
 	virtual BOOL   _SetFileAttributes(LPCTSTR lpFileName,DWORD dwFileAttributes)= 0;
 	virtual INIFILE * OpenIniFile(const char * file_name)= 0;
 	virtual BOOL FileExist(const char * file_name)= 0;
-	virtual BOOL LoadFile(const char * file_name, char * * ppBuffer, dword * dwSize = 0)= 0;
+	virtual BOOL LoadFile(const char * file_name, char * * ppBuffer, dword * dwSize = nullptr)= 0;
 	virtual INIFILE * CreateIniFile(const char * file_name, bool fail_if_exist)= 0;
-	virtual BOOL SetDrive(const char * pDriveName = 0)=0;
+	virtual BOOL SetDrive(const char * pDriveName = nullptr)=0;
 	virtual BOOL CacheDirectory(const char * pDirName)=0;
 	virtual BOOL UnCacheDirectory(const char * pDirName)=0;
 

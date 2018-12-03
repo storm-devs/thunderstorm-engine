@@ -22,16 +22,16 @@ Lights::Lights()
 	for(long i = 0; i < maxLights; i++) SetDefLightParam(i);
 	light[0].type = Light::t_amb;
 	light[0].color = CVECTOR(0.2f, 0.2f, 0.2f);
-	light[0].group = null;
+	light[0].group = nullptr;
 	light[0].isOn = false;
 	light[1].type = Light::t_sun;
 	light[1].color = CVECTOR(0.9f, 0.9f, 0.6f);
 	light[1].p = !CVECTOR(1.0f, 1.0f, 1.0f);
-	light[1].group = null;
+	light[1].group = nullptr;
 	light[1].isOn = false;
 	light[2].type = Light::t_sky;
 	light[2].color = CVECTOR(0.3f, 0.5f, 1.0f);
-	light[2].group = null;
+	light[2].group = nullptr;
 	light[2].isOn = false;
 }
 
@@ -76,7 +76,7 @@ void Lights::AddPointLight(const CVECTOR & color, const CVECTOR & pos, float att
 	{
 		light[numLights].group = NEW char[strlen(group) + 1];
 		strcpy(light[numLights].group, group);
-	}else light[numLights].group = null;
+	}else light[numLights].group = nullptr;
 	light[numLights].type = Light::t_point;
 	light[numLights].isOn = true;
 	numLights++;

@@ -8,15 +8,15 @@ std::vector<AIShip::can_fire_t>	AIShip::aShipFire;
 
 AIShip::AIShip(AI_OBJTYPE shiptype)
 {
-	pAShipBase = null;
+	pAShipBase = nullptr;
 	
-	pMoveController = null;
-	pTaskController = null;
-	pCannonController = null;
-	pCameraController = null;
-	pTouchController = null;
-	pRotateController = null;
-	pSpeedController = null;
+	pMoveController = nullptr;
+	pTaskController = nullptr;
+	pCannonController = nullptr;
+	pCameraController = nullptr;
+	pTouchController = nullptr;
+	pRotateController = nullptr;
+	pSpeedController = nullptr;
 
 	dtFireTime.Setup(FRAND(3.0f), 1.0f, 3.0f);
 	dtCheckSituation.Setup(FRAND(2.0f), 1.0f, 2.0f);
@@ -573,7 +573,7 @@ void AIShip::SwapShips(AIShip * pOtherShip)
 AIShip * AIShip::FindShip(ATTRIBUTES * pACharacter) 
 {
 	for (dword i=0; i<AIShip::AIShips.size(); i++) if (*AIShip::AIShips[i] == pACharacter) return AIShip::AIShips[i];
-	return null;
+	return nullptr;
 }
 
 void AIShip::ReloadCannons(ATTRIBUTES * pACharacter)
@@ -595,7 +595,7 @@ void AIShip::ShipSetAttack(dword dwPriority, ATTRIBUTES * pACharacter1, ATTRIBUT
 void AIShip::ShipSetRunAway(dword dwPriority, ATTRIBUTES * pACharacter1)
 {
 	AIShip * pShip = FindShip(pACharacter1);
-	if (pShip) pShip->GetTaskController()->SetNewTask(dwPriority, AITASK_RUNAWAY, null);
+	if (pShip) pShip->GetTaskController()->SetNewTask(dwPriority, AITASK_RUNAWAY, nullptr);
 }
 
 void AIShip::ShipSetMove(dword dwPriority, ATTRIBUTES * pACharacter1, ATTRIBUTES * pACharacter2)
@@ -613,7 +613,7 @@ void AIShip::ShipSetMove(dword dwPriority, ATTRIBUTES * pACharacter1, CVECTOR & 
 void AIShip::ShipSetDrift(dword dwPriority, ATTRIBUTES * pACharacter1)
 {
 	AIShip * pShip = FindShip(pACharacter1);
-	if (pShip) pShip->GetTaskController()->SetNewTask(dwPriority, AITASK_DRIFT, null);
+	if (pShip) pShip->GetTaskController()->SetNewTask(dwPriority, AITASK_DRIFT, nullptr);
 }
 
 void AIShip::ShipSetDefend(dword dwPriority, ATTRIBUTES * pACharacter1, ATTRIBUTES * pACharacter2)

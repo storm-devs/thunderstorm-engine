@@ -46,7 +46,7 @@ BLADE::BLADE_INFO::~BLADE_INFO()
 void BLADE::BLADE_INFO::DrawBlade(VDX9RENDER * rs,unsigned int blendValue,MODEL *mdl,NODE *manNode)
 {
 	MODEL *obj = (MODEL*)api->GetEntityPointer(&eid);
-	if(obj!=0)
+	if(obj!=nullptr)
 	{
 		CMatrix perMtx;
 
@@ -92,7 +92,7 @@ void BLADE::BLADE_INFO::DrawBlade(VDX9RENDER * rs,unsigned int blendValue,MODEL 
 		obj->Realize(0);
 
 		//--------------------------------------------------------------------------
-		rs->SetTexture(0, 0);
+		rs->SetTexture(0, nullptr);
 		rs->SetTransform(D3DTS_WORLD, CMatrix());
 
 		//move to the beginning
@@ -211,7 +211,7 @@ bool BLADE::Init()
 	GUARD(BLADE::BLADE())
 
 	col = (COLLIDE *)_CORE_API->CreateService("coll");
-	if(col==null)	STORM_THROW("No service: COLLIDE");
+	if(col== nullptr)	STORM_THROW("No service: COLLIDE");
 
 	_CORE_API->LayerAdd("realize",GetID(),65550);
 
@@ -252,7 +252,7 @@ void BLADE::Realize(dword Delta_Time)
 	CMatrix perMtx;
 	long sti;
 	MODEL *obj = (MODEL*)_CORE_API->GetEntityPointer(&gun);
-	if(obj!=0)
+	if(obj!=nullptr)
 	{
 		NODE *gunNode = obj->GetNode(0);
 		if((blendValue & 0xff000000) == 0xff000000)
@@ -367,10 +367,10 @@ void BLADE::GunFire()
 	long sti;
 
 	MODEL *obj = (MODEL*)_CORE_API->GetEntityPointer(&gun);
-	if( obj==0 ) // нет пистолета - посмотрим на саблю-пистолет
+	if( obj==nullptr ) // нет пистолета - посмотрим на саблю-пистолет
 		obj = (MODEL*)api->GetEntityPointer(&blade[1].eid);
 
-	if(obj!=0)
+	if(obj!=nullptr)
 	{
 		NODE *gunNode = obj->GetNode(0);
 		sti = -1;
@@ -564,13 +564,13 @@ void BLADE::TIEITEM_INFO::Release()
 	{
 		nItemIndex = -1;
 		api->DeleteEntity(eid);
-		if(locatorName) delete locatorName; locatorName=0;
+		if(locatorName) delete locatorName; locatorName=nullptr;
 	}
 }
 void BLADE::TIEITEM_INFO::DrawItem(VDX9RENDER * rs,unsigned int blendValue,MODEL *mdl,NODE *manNode)
 {
 	MODEL *obj = (MODEL*)api->GetEntityPointer(&eid);
-	if(obj!=0)
+	if(obj!=nullptr)
 	{
 		CMatrix perMtx;
 
@@ -619,7 +619,7 @@ void BLADE::TIEITEM_INFO::DrawItem(VDX9RENDER * rs,unsigned int blendValue,MODEL
 bool BLADE::TIEITEM_INFO::LoadItemModel(const char* mdlName, const char* locName)
 {
 	api->DeleteEntity(eid);
-	if(locatorName) delete locatorName; locatorName=0;
+	if(locatorName) delete locatorName; locatorName=nullptr;
 
 	if( !locName || !mdlName ) return false;
 

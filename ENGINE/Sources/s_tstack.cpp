@@ -6,7 +6,7 @@
 S_TSTACK::S_TSTACK()
 {
 	Unit_size = 0;
-	pStackData = 0;
+	pStackData = nullptr;
 	Buffer_size = 0;
 	Data_num = 0;
 }
@@ -24,14 +24,14 @@ S_TSTACK::~S_TSTACK()
 void S_TSTACK::Release()
 {
 	if(pStackData) delete pStackData;
-	pStackData = 0;
+	pStackData = nullptr;
 	Buffer_size = 0;
 	Data_num = 0;
 }
 
 bool S_TSTACK::Push(char * pUnit)
 {
-	if(pUnit == 0) return false;
+	if(pUnit == nullptr) return false;
 	if(Data_num > TSTACK_BUFFER_LIMIT) throw "stack overflaw";
 	if(Data_num >= Buffer_size)
 	{
@@ -45,7 +45,7 @@ bool S_TSTACK::Push(char * pUnit)
 
 bool S_TSTACK::Pop(char * pUnit)
 {
-	if(pUnit == 0) throw "invalid 'pUnit'";
+	if(pUnit == nullptr) throw "invalid 'pUnit'";
 	if(Data_num == 0) return false;
 	Data_num--;
 	memcpy(pUnit,pStackData + Data_num*Unit_size,Unit_size);
@@ -54,7 +54,7 @@ bool S_TSTACK::Pop(char * pUnit)
 
 bool S_TSTACK::Read(char * pUnit)
 {
-	if(pUnit == 0) throw "invalid 'pUnit'";
+	if(pUnit == nullptr) throw "invalid 'pUnit'";
 	if(Data_num == 0) return false;
 	memcpy(pUnit,pStackData + (Data_num - 1)*Unit_size,Unit_size);
 	return true;

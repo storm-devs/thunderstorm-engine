@@ -63,7 +63,7 @@ void AIShipTouchController::TestCollision(AIShip * pOtherShip)
 
 	vOurPos = GetAIShip()->GetPos();
 	vEnemyPos = pOtherShip->GetPos();
-	pOtherShip->GetPrediction(10.0f,&vEnemyPredictionPos,0);
+	pOtherShip->GetPrediction(10.0f,&vEnemyPredictionPos,nullptr);
 	vEnemyPos = vEnemyPredictionPos;
 
 	vBoxSize = pOtherShip->GetBoxsize() / 2.0f;

@@ -69,7 +69,7 @@ public:
 //--------------------------------------------------------------------------------------------
 private:
 	//Нарисовать
-	void Render(VDX9RENDER * rs, const char * tech = null);
+	void Render(VDX9RENDER * rs, const char * tech = nullptr);
 	//Настроить преобразования текстурных координат
 	void PresetMain(VDX9RENDER * rs);
 

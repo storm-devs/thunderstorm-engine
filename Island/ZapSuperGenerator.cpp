@@ -7,10 +7,10 @@ bool ISLAND::DoZapSuperGeneratorDecodeFile(char * sname)
 	{
 		TGA_H	tga_head;
 
-		fio->_ReadFile(hFile, &tga_head, sizeof(tga_head), 0);
+		fio->_ReadFile(hFile, &tga_head, sizeof(tga_head), nullptr);
 		dword dwSize = tga_head.width;
 		byte * pTempMap = NEW byte[dwSize * dwSize];
-		fio->_ReadFile(hFile, pTempMap, dwSize * dwSize, 0);
+		fio->_ReadFile(hFile, pTempMap, dwSize * dwSize, nullptr);
 		fio->_CloseHandle(hFile);
 
 		mzShadow.DoZip(pTempMap, dwSize);
@@ -59,5 +59,5 @@ void ISLAND::DoZapSuperGeneratorInnerDecodeFiles(char * sub_dir, char * mask)
 
 void ISLAND::DoZapSuperGenerator()
 {
-	DoZapSuperGeneratorInnerDecodeFiles(0, "*.tga");
+	DoZapSuperGeneratorInnerDecodeFiles(nullptr, "*.tga");
 }

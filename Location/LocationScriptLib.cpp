@@ -10,7 +10,7 @@ struct LocationFindCacheElement
 {
 	LocationFindCacheElement()
 	{
-		name = null;
+		name = nullptr;
 		size = 0;
 		max = 0;
 		index = -1;
@@ -89,7 +89,7 @@ dword slNativeFastFind(VS_STACK * pS, LocationFindCacheElement * cache, long cac
 {
 	//Получить строки
 	VDATA * pStr = (VDATA*)pS->Pop();
-	char * nm = null;
+	char * nm = nullptr;
 	if(!pStr->Get(nm)) return IFUNCRESULT_FAILED;
 	if(nm) charactersFindBuf.Set(nm); else charactersFindBuf.Set("");
 	//Массив персонажей
@@ -194,7 +194,7 @@ dword __cdecl slNativeSetReloadBackImage(VS_STACK * pS)
 {
 	//Получить строки
 	VDATA * pStr = (VDATA*)pS->Pop();
-	char * nm = null;
+	char * nm = nullptr;
 	if(!pStr->Get(nm)) return IFUNCRESULT_FAILED;
 	//Устанавливаем картинку
 	VDX9RENDER * rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
@@ -241,7 +241,7 @@ dword __cdecl slNativeExecuteTechnique(VS_STACK * pS)
 {
 	//Получить строку
 	VDATA * pStr = (VDATA*)pS->Pop();
-	char * nm = null;
+	char * nm = nullptr;
 	if(!pStr->Get(nm)) return IFUNCRESULT_FAILED;
 	//Исполить технику
 	if(nm && nm[0])

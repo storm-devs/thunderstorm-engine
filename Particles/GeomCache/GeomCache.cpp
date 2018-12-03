@@ -46,7 +46,7 @@ GEOS* GeomCache::GetModel (const char* FileName)
 		if (Cache[n].FileName == FileName) return Cache[n].pGeom;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //Проверить существует ли такая модель в кэше

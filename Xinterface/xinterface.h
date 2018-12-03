@@ -109,7 +109,7 @@ public:
 	FXYPOINT					GetMousePoint() {return FXYPOINT(fXMousePos+m_lXMouse,fYMousePos+m_lYMouse);}
 	long						PrintIntoWindow(long wl,long wr, long idFont, DWORD dwFCol, DWORD dwBCol, long align, bool shadow, float scale, long sxs, long sys, long left, long top, char * str, int nWidthForScaleCorrecting=-1, int nSplit=0);
 
-	virtual CINODE *			FindNode(const char * sNodeName, CINODE * findRoot) {if(!findRoot) findRoot=m_pNodes; if(findRoot) return findRoot->FindNode(sNodeName); return 0;}
+	virtual CINODE *			FindNode(const char * sNodeName, CINODE * findRoot) {if(!findRoot) findRoot=m_pNodes; if(findRoot) return findRoot->FindNode(sNodeName); return nullptr;}
 	virtual void				ShowWindow( const char* pcWindowName, bool bShow );
 	virtual void				DisableWindow( const char* pcWindowName, bool bDisable );
 	virtual void				AddNodeToWindow( const char* pcNodeName, const char* pcWindowName );
@@ -274,7 +274,7 @@ protected:
 		long nCommandIndex;
         EVENT_ENTITY * next;
 
-		EVENT_ENTITY() {sEventName=0; sNodeName=0; nCommandIndex=0;}
+		EVENT_ENTITY() {sEventName=nullptr; sNodeName=nullptr; nCommandIndex=0;}
 		~EVENT_ENTITY() {PTR_STORM_DELETE(sEventName); PTR_STORM_DELETE(sNodeName); nCommandIndex=0;}
     };
     EVENT_ENTITY * m_pEvents;

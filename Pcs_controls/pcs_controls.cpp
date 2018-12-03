@@ -16,7 +16,7 @@ PCS_CONTROLS::PCS_CONTROLS()
 
 	nSystemControlsNum = 0;
 
-	pUserControls = 0;
+	pUserControls = nullptr;
 	nControlsNum = 0;
 
 	//nMouseXPrev = nMouseYPrev = 0;
@@ -74,7 +74,7 @@ void PCS_CONTROLS::Release()
 		delete pUserControls;
 	}
 	
-	pUserControls = 0;
+	pUserControls = nullptr;
 	nControlsNum = 0;
 		
 	nSystemControlsNum = 0;
@@ -126,7 +126,7 @@ bool PCS_CONTROLS::GetSystemControlDesc(long code, SYSTEM_CONTROL_DESC & _contro
 long PCS_CONTROLS::CreateControl(char * control_name)
 {
 	long n;
-	if(control_name == 0) return INVALID_CONTROL_CODE;
+	if(control_name == nullptr) return INVALID_CONTROL_CODE;
 	for(n=0;n<nControlsNum;n++)
 	{
 		if(_stricmp(control_name,pUserControls[n].name)==0) return n;
@@ -220,7 +220,7 @@ bool PCS_CONTROLS::GetControlState(char * control_name, CONTROL_STATE & _state_s
 	_state_struct.fValue = 0.0f;
 
 	if( m_bLockAll ) return true;
-	if(control_name == 0) return false;
+	if(control_name == nullptr) return false;
 	for(n=0;n<nControlsNum;n++)
 	{
 		if(_stricmp(control_name,pUserControls[n].name)==0) 
@@ -479,7 +479,7 @@ bool PCS_CONTROLS::SetControlFlags(long code, DWORD _flags)
 bool PCS_CONTROLS::SetControlState(char * control_name, CONTROL_STATE & _state_struct)
 {
 	long n;
-	if(control_name == 0) return false;
+	if(control_name == nullptr) return false;
 	for(n=0;n<nControlsNum;n++)
 	{
 		if(_stricmp(control_name,pUserControls[n].name)==0) return SetControlState(n,_state_struct);
@@ -502,7 +502,7 @@ long PCS_CONTROLS::LastControlTime()
 void PCS_CONTROLS::LockControl(char * control_name, bool mode)
 {
 	long n;
-	if(control_name==0 || control_name[0]==0) {
+	if(control_name==nullptr || control_name[0]==0) {
 		m_bLockAll = mode;
 		return;
 	}

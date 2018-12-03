@@ -6,7 +6,7 @@ TSink::TSink()
 	:enabled(false)
 	,texture(0)
 	,time(0)
-	,ivManager(0)
+	,ivManager(nullptr)
 {
 
 }
@@ -48,7 +48,7 @@ void TSink::Release()
 	if (ivManager)
 	{
 		delete ivManager;
-		ivManager = 0;
+		ivManager = nullptr;
 	}
 	if (texture)
 	{

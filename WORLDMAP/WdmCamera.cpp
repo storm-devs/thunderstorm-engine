@@ -41,7 +41,7 @@ WdmCamera::WdmCamera()
 
 WdmCamera::~WdmCamera()
 {
-	wdmObjects->camera = null;
+	wdmObjects->camera = nullptr;
 }
 
 void WdmCamera::Init(float defAy, float defHeight)

@@ -40,7 +40,7 @@ void FILE_SERVICE::FlushIniFiles()
 {
 	for(dword n=0;n<=Max_File_Index;n++) 
 	{
-		if(OpenFiles[n] == null) continue;
+		if(OpenFiles[n] == nullptr) continue;
 		OpenFiles[n]->FlushFile();
 	}
 }
@@ -49,7 +49,7 @@ FILE_SERVICE::FILE_SERVICE()
 {
 	Files_Num = 0;
 	Max_File_Index = 0;
-	for(dword n=0;n<_MAX_OPEN_INI_FILES;n++) OpenFiles[n] = null;
+	for(dword n=0;n<_MAX_OPEN_INI_FILES;n++) OpenFiles[n] = nullptr;
 
 }
 FILE_SERVICE::~FILE_SERVICE()
@@ -61,7 +61,7 @@ HANDLE FILE_SERVICE::_CreateFile(LPCTSTR lpFileName,DWORD dwDesiriedAccess,DWORD
 {
 	HANDLE fh;
 #ifndef _XBOX
-	fh = CreateFile(lpFileName,dwDesiriedAccess,dwShareMode,0,dwCreationDisposition,FILE_ATTRIBUTE_NORMAL,0);
+	fh = CreateFile(lpFileName,dwDesiriedAccess,dwShareMode,nullptr,dwCreationDisposition,FILE_ATTRIBUTE_NORMAL,nullptr);
 	//DWORD er = GetLastError();
 #else
 	bool bCached;
@@ -147,8 +147,8 @@ BOOL   FILE_SERVICE::_WriteFile(HANDLE hFile,LPCVOID lpBuffer,DWORD nNumberOfByt
 {
 	BOOL bRes;
 	dword dwR;
-	bRes = WriteFile(hFile,lpBuffer,nNumberOfBytesToWrite,&dwR,0);
-	if(lpNumberOfBytesWritten != 0) *lpNumberOfBytesWritten = dwR;
+	bRes = WriteFile(hFile,lpBuffer,nNumberOfBytesToWrite,&dwR,nullptr);
+	if(lpNumberOfBytesWritten != nullptr) *lpNumberOfBytesWritten = dwR;
 //	if(dwR != nNumberOfBytesToWrite) if(Exceptions_Mask & _X_NO_FILE_WRITE) STORM_THROW(_X_NO_FILE_WRITE);
 	return bRes;
 }
@@ -156,8 +156,8 @@ BOOL   FILE_SERVICE::_ReadFile(HANDLE hFile,LPVOID lpBuffer,DWORD nNumberOfBytes
 {
 	BOOL bRes;
 	dword dwR;
-	bRes = ReadFile(hFile,lpBuffer,nNumberOfBytesToRead,&dwR,0);
-	if(lpNumberOfBytesRead != 0) *lpNumberOfBytesRead = dwR;
+	bRes = ReadFile(hFile,lpBuffer,nNumberOfBytesToRead,&dwR,nullptr);
+	if(lpNumberOfBytesRead != nullptr) *lpNumberOfBytesRead = dwR;
 //	if(dwR != nNumberOfBytesToRead) if(Exceptions_Mask & _X_NO_FILE_READ) STORM_THROW(_X_NO_FILE_READ);
 	return bRes;
 }
@@ -284,11 +284,11 @@ INIFILE * FILE_SERVICE::CreateIniFile(const char * file_name, bool fail_if_exist
 	if(fh != INVALID_HANDLE_VALUE && fail_if_exist) 
 	{
 		_CloseHandle(fh);
-		return null;
+		return nullptr;
 	}
 	_CloseHandle(fh);
 	fh = _CreateFile(file_name,GENERIC_WRITE,0,CREATE_NEW);	
-	if(fh == INVALID_HANDLE_VALUE) return null;
+	if(fh == INVALID_HANDLE_VALUE) return nullptr;
 	_CloseHandle(fh);
 	return OpenIniFile(file_name);	
 }
@@ -302,13 +302,13 @@ INIFILE * FILE_SERVICE::OpenIniFile(const char * file_name)
 
 	for(n=0;n<=Max_File_Index;n++)
 	{
-		if( OpenFiles[n]==null || OpenFiles[n]->GetFileName()==null ) continue;
+		if( OpenFiles[n]== nullptr || OpenFiles[n]->GetFileName()== nullptr ) continue;
 		if(_stricmp(OpenFiles[n]->GetFileName(),file_name) == 0) 
 		{
 			OpenFiles[n]->IncReference();
 
 			inifile_T = NEW INIFILE_T(OpenFiles[n]);
-			if(inifile_T == null) THROW;
+			if(inifile_T == nullptr) THROW;
 //			POP_CONTROL(0)
 			return inifile_T;
 		}
@@ -316,15 +316,15 @@ INIFILE * FILE_SERVICE::OpenIniFile(const char * file_name)
 
 	for(n=0;n<_MAX_OPEN_INI_FILES;n++)
 	{
-		if(OpenFiles[n] != null) continue;
+		if(OpenFiles[n] != nullptr) continue;
 
 		OpenFiles[n] = NEW IFS(this);
-		if(OpenFiles[n] == null) THROW;//(FILE_SERVICE::OpenIniFile : no mem A);
+		if(OpenFiles[n] == nullptr) THROW;//(FILE_SERVICE::OpenIniFile : no mem A);
 		if(!OpenFiles[n]->LoadFile(file_name)) 
 		{
 			delete OpenFiles[n];
-			OpenFiles[n] = null;
-			return null;
+			OpenFiles[n] = nullptr;
+			return nullptr;
 		}
 		if(Max_File_Index < n) Max_File_Index = n;
 		OpenFiles[n]->IncReference();
@@ -336,12 +336,12 @@ INIFILE * FILE_SERVICE::OpenIniFile(const char * file_name)
 
 
 		inifile_T = NEW INIFILE_T(OpenFiles[n]);
-		if(inifile_T == null) THROW;
+		if(inifile_T == nullptr) THROW;
 		return inifile_T;
 	}
 //	POP_CONTROL(0)
 	//UNGUARD
-	return null;
+	return nullptr;
 }
 
 void FILE_SERVICE::RefDec(INIFILE * ini_obj)
@@ -357,7 +357,7 @@ void FILE_SERVICE::RefDec(INIFILE * ini_obj)
 		if(OpenFiles[n]->GetReference() == 0) 
 		{
 			delete OpenFiles[n];
-			OpenFiles[n] = null;
+			OpenFiles[n] = nullptr;
 		}
 		return;
 	}
@@ -370,28 +370,28 @@ void FILE_SERVICE::Close()
 	dword n;
 	for(n=0;n<_MAX_OPEN_INI_FILES;n++)
 	{
-		if(OpenFiles[n] == null) continue;
+		if(OpenFiles[n] == nullptr) continue;
 		delete OpenFiles[n];
-		OpenFiles[n] = null;
+		OpenFiles[n] = nullptr;
 	}
 }
 
 BOOL FILE_SERVICE::LoadFile(const char * file_name, char * * ppBuffer, dword * dwSize)
 {
-	if (ppBuffer == 0) return false;
+	if (ppBuffer == nullptr) return false;
 
 	HANDLE hFile = _CreateFile(file_name);
 	if (INVALID_HANDLE_VALUE == hFile) return false;
-	dword dwLowSize = _GetFileSize(hFile,0);
+	dword dwLowSize = _GetFileSize(hFile,nullptr);
 	if (dwSize) *dwSize = dwLowSize;
 	if (dwLowSize==0) 
 	{
-		*ppBuffer = null;
+		*ppBuffer = nullptr;
 		return false;
 	}
 
 	*ppBuffer = NEW char[dwLowSize];
-	_ReadFile(hFile,*ppBuffer,dwLowSize,0);
+	_ReadFile(hFile,*ppBuffer,dwLowSize,nullptr);
 	_CloseHandle(hFile);
 	return true;
 }

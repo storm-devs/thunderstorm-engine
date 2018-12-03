@@ -31,7 +31,7 @@ WdmPlayerShip::WdmPlayerShip()
 
 WdmPlayerShip::~WdmPlayerShip()
 {
-	wdmObjects->playerShip = null;
+	wdmObjects->playerShip = nullptr;
 }
 
 void WdmPlayerShip::PushOutFromIsland()
@@ -108,7 +108,7 @@ void WdmPlayerShip::Update(float dltTime)
 			if(wdmObjects->enemyShip == es)
 			{
 				es->isEntryPlayer = false;
-				wdmObjects->enemyShip = null;
+				wdmObjects->enemyShip = nullptr;
 			}
 			continue;
 		}
@@ -141,7 +141,7 @@ void WdmPlayerShip::Update(float dltTime)
 				if(wdmObjects->enemyShip == es)
 				{
 					es->isEntryPlayer = false;
-					wdmObjects->enemyShip = null;
+					wdmObjects->enemyShip = nullptr;
 					wdmObjects->enableSkipEnemy = false;
 				}
 			}
@@ -160,7 +160,7 @@ void WdmPlayerShip::Update(float dltTime)
 					if(wdmObjects->enemyShip == es)
 					{
 						es->isEntryPlayer = false;
-						wdmObjects->enemyShip = null;
+						wdmObjects->enemyShip = nullptr;
 					}
 				}
 			}

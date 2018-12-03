@@ -74,7 +74,7 @@ class MEM_ALLOC_ADDRESS
 public:
 	struct SOURCE_DESC
 	{
-		SOURCE_DESC(){pFileName = 0; dwLine = 0;};
+		SOURCE_DESC(){pFileName = nullptr; dwLine = 0;};
 		char * pFileName;
 		DWORD dwLine;
 	};

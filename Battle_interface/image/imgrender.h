@@ -12,11 +12,11 @@ public:
 	void Render();
     dword _cdecl ProcessMessage(MESSAGE & message);
 
-	IBIImage* CreateImage( BIImageType type, const char* pcTextureName, dword color, FRECT& uv, long nLeft,long nTop, long nRight,long nBottom, long nPrior=ImagePrioritet_DefaultValue, const char* pcTechniqueName=0 );
-	IBIImage* CreateImage( BIImageType type, const char* pcTextureName, dword color, FRECT& uv, RECT& pos, long nPrior=ImagePrioritet_DefaultValue, const char* pcTechniqueName=0 );
+	IBIImage* CreateImage( BIImageType type, const char* pcTextureName, dword color, FRECT& uv, long nLeft,long nTop, long nRight,long nBottom, long nPrior=ImagePrioritet_DefaultValue, const char* pcTechniqueName=nullptr );
+	IBIImage* CreateImage( BIImageType type, const char* pcTextureName, dword color, FRECT& uv, RECT& pos, long nPrior=ImagePrioritet_DefaultValue, const char* pcTechniqueName=nullptr );
 
 	BIImageMaterial* FindMaterial( const char* pcTextureName, const char* pcTechniqueName );
-	BIImageMaterial* CreateMaterial( const char* pcTextureName, const char* pcTechniqueName=0 );
+	BIImageMaterial* CreateMaterial( const char* pcTextureName, const char* pcTechniqueName=nullptr );
 	void DeleteMaterial( BIImageMaterial* pMat );
 
 	void ReleaseAllImages();

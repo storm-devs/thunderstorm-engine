@@ -4,9 +4,9 @@
 //--------------------------------------------------------------------
 TSinkSplash::TSinkSplash()
 	:enabled(false)
-	,sea(0)
+	,sea(nullptr)
 	,time(0)
-	,ps(0)
+	,ps(nullptr)
 {
 
 }

@@ -45,11 +45,11 @@ COMPILER::COMPILER()
 	File_Service._DeleteFile(COMPILER_ERRORLOG_FILENAME);
 	LabelTable.SetStringDataSize(sizeof(DWORD));
 	LabelUpdateTable.SetStringDataSize(sizeof(DOUBLE_DWORD));
-	ProgramDirectory = 0;
-	pEventMessage = 0;
+	ProgramDirectory = nullptr;
+	pEventMessage = nullptr;
 	bCompleted = false;
 	SegmentsNum = 0;
-	SegmentTable = 0;
+	SegmentTable = nullptr;
 //	FuncTab.KeepNameMode(true);	// true for displaying internal functions names
 //	VarTab.KeepNameMode(false);
 //	EventTab.KeepNameMode(false);
@@ -60,16 +60,16 @@ COMPILER::COMPILER()
 	strcpy(DebugSourceFileName,"no debug information");	
 	DebugSourceLine = 0;
 	InstructionPointer = 0;
-	pCompileTokenTempBuffer = 0;
-	pRun_fi = 0;
-	pRunCodeBase = 0;
+	pCompileTokenTempBuffer = nullptr;
+	pRun_fi = nullptr;
+	pRunCodeBase = nullptr;
 	SStack.SetVCompiler(this);
 	VarTab.SetVCompiler(this);
 	ClassTab.SetVCompiler(this);
 	ClassTab.InitSystemClasses();
 	srand(GetTickCount());
 	bEntityUpdate = true; 
-	pDebExpBuffer = 0;
+	pDebExpBuffer = nullptr;
 	nDebExpBufferSize = 0;
 	bDebugExpressionRun = false;
 	bTraceMode = true;
@@ -78,16 +78,16 @@ COMPILER::COMPILER()
 	bBreakOnError = false;
 	bRuntimeLog = false;
 	nRuntimeLogEventsNum = 0;
-	pRuntimeLogEvent = 0;
+	pRuntimeLogEvent = nullptr;
 	nRuntimeTicks = 0;
 	nRuntimeLogEventsBufferSize = 0;
 	nIOBufferSize = 0;
-	pIOBuffer = 0;
+	pIOBuffer = nullptr;
 
 	rAX.SetVCompiler(this);
 	rBX.SetVCompiler(this);
 	ExpressionResult.SetVCompiler(this);
-	rAP = 0;
+	rAP = nullptr;
 	//bScriptTrace = false;
 	bFirstRun = true;
 	
@@ -167,18 +167,18 @@ void COMPILER::Release()
 				SegmentTable[n].Files_list->Release();
 				delete SegmentTable[n].Files_list;
 			}
-			SegmentTable[n].Files_list = 0;
+			SegmentTable[n].Files_list = nullptr;
 
 		}
-		delete SegmentTable; SegmentTable = 0;
+		delete SegmentTable; SegmentTable = nullptr;
 		SegmentsNum = 0;
 	}
 	LabelTable.Release();
 	LabelUpdateTable.Release();
 	Token.Reset();
-	if(ProgramDirectory) delete ProgramDirectory; ProgramDirectory = 0;
+	if(ProgramDirectory) delete ProgramDirectory; ProgramDirectory = nullptr;
 	RunningSegmentID = INVALID_SEGMENT_INDEX;
-	if(pCompileTokenTempBuffer) delete pCompileTokenTempBuffer; pCompileTokenTempBuffer = 0;
+	if(pCompileTokenTempBuffer) delete pCompileTokenTempBuffer; pCompileTokenTempBuffer = nullptr;
 
 	FuncTab.Release();
 	VarTab.Release();
@@ -190,13 +190,13 @@ void COMPILER::Release()
 	SCodec.Release();
 	LibriaryFuncs.Release();
 
-	if(pDebExpBuffer) delete pDebExpBuffer; pDebExpBuffer = 0;
+	if(pDebExpBuffer) delete pDebExpBuffer; pDebExpBuffer = nullptr;
 	nDebExpBufferSize = 0;
 
 	
 	if(pRuntimeLogEvent) delete pRuntimeLogEvent;
 	nRuntimeLogEventsNum = 0;
-	pRuntimeLogEvent = 0;
+	pRuntimeLogEvent = nullptr;
 	nRuntimeLogEventsBufferSize = 0;
 
 	rAX.Release();
@@ -207,7 +207,7 @@ void COMPILER::Release()
 
 void __declspec(noinline) __cdecl COMPILER::SetProgramDirectory(char * dir_name)
 {
-	if(ProgramDirectory) delete ProgramDirectory; ProgramDirectory = 0;
+	if(ProgramDirectory) delete ProgramDirectory; ProgramDirectory = nullptr;
 	if(dir_name)
 	{
 		
@@ -277,13 +277,13 @@ char * COMPILER::LoadFile(char * file_name, DWORD & file_size, bool bFullPath)
 		else
 	fh = Core.fio->_CreateFile(buffer,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 	
-	if(fh == INVALID_HANDLE_VALUE) return 0;
-	fsize = Core.fio->_GetFileSize(fh,0);
-	if(fsize == INVALID_FILE_SIZE) {Core.fio->_CloseHandle(fh); return 0;}
+	if(fh == INVALID_HANDLE_VALUE) return nullptr;
+	fsize = Core.fio->_GetFileSize(fh,nullptr);
+	if(fsize == INVALID_FILE_SIZE) {Core.fio->_CloseHandle(fh); return nullptr;}
 	
 	pData = (char *)NEW char[fsize + 1];
 	Core.fio->_ReadFile(fh,pData,fsize,&dwR);
-	if(fsize != dwR) {delete pData; Core.fio->_CloseHandle(fh); return 0;}
+	if(fsize != dwR) {delete pData; Core.fio->_CloseHandle(fh); return nullptr;}
 	Core.fio->_CloseHandle(fh);
 	file_size = fsize;
 	pData[fsize] = 0;
@@ -299,15 +299,15 @@ void COMPILER::Trace(char * data_PTR, ...)
 	if(bTraceFilesOff) return;
 	//char LogBuffer[MAX_PATH + MAX_PATH];
 	char LogBuffer[4096];
-	if(data_PTR == 0) return;
-	HANDLE file_h = CreateFile(COMPILER_LOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,0,OPEN_ALWAYS,FILE_ATTRIBUTE_NORMAL,0);
-	SetFilePointer(file_h,0,0,FILE_END);
+	if(data_PTR == nullptr) return;
+	HANDLE file_h = CreateFile(COMPILER_LOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,nullptr,OPEN_ALWAYS,FILE_ATTRIBUTE_NORMAL,nullptr);
+	SetFilePointer(file_h,0,nullptr,FILE_END);
 	va_list args;
 	va_start(args,data_PTR);
 	_vsnprintf(LogBuffer,sizeof(LogBuffer) - 4,data_PTR,args);
 	strcat(LogBuffer,"\x0d\x0a");
 	DWORD bytes;
-	WriteFile(file_h,LogBuffer,strlen(LogBuffer),&bytes,0);
+	WriteFile(file_h,LogBuffer,strlen(LogBuffer),&bytes,nullptr);
 	va_end(args);
 	CloseHandle(file_h);
 	_flushall();
@@ -323,9 +323,9 @@ void COMPILER::DTrace(char * data_PTR, ...)
 	if(bTraceFilesOff) return;
 	//char LogBuffer[MAX_PATH + MAX_PATH];
 	char LogBuffer[4096];
-	if(data_PTR == 0) return;
+	if(data_PTR == nullptr) return;
 	HANDLE file_h = fio->_CreateFile(COMPILER_LOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,OPEN_ALWAYS);
-	fio->_SetFilePointer(file_h,0,0,FILE_END);
+	fio->_SetFilePointer(file_h,0,nullptr,FILE_END);
 	va_list args;
 	va_start(args,data_PTR);
 	_vsnprintf(LogBuffer,sizeof(LogBuffer) - 4,data_PTR,args);
@@ -360,7 +360,7 @@ bool COMPILER::AppendProgram(char * & pBase_program, DWORD & Base_program_size, 
 {
 	DWORD offset;
 	offset = Base_program_size;
-	if(pAppend_program == 0) return false;
+	if(pAppend_program == nullptr) return false;
 	if(bAddLinefeed)
 	{
 		pBase_program = (char *)RESIZE(pBase_program,Base_program_size + Append_program_size + 3); // +1 for terminating zero, +1 for 0xd +1 for 0xa
@@ -390,9 +390,9 @@ void COMPILER::SetError(char * data_PTR, ...)
 	if(bTraceFilesOff) return;
 	char LogBuffer[MAX_PATH + MAX_PATH];
 	char ErrorBuffer[MAX_PATH + MAX_PATH];
-	if(data_PTR == 0) return;
+	if(data_PTR == nullptr) return;
 	HANDLE file_h = fio->_CreateFile(COMPILER_ERRORLOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,OPEN_ALWAYS);
-	fio->_SetFilePointer(file_h,0,0,FILE_END);
+	fio->_SetFilePointer(file_h,0,nullptr,FILE_END);
 	va_list args;
 	va_start(args,data_PTR);
 	_vsnprintf(LogBuffer,sizeof(LogBuffer) - 4,data_PTR,args);
@@ -435,9 +435,9 @@ void COMPILER::SetWarning(char * data_PTR, ...)
 	if(bDebugExpressionRun) return;
 	char LogBuffer[MAX_PATH + MAX_PATH];
 	char ErrorBuffer[MAX_PATH + MAX_PATH];
-	if(data_PTR == 0) return;
+	if(data_PTR == nullptr) return;
 	HANDLE file_h = fio->_CreateFile(COMPILER_LOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,OPEN_ALWAYS);
-	fio->_SetFilePointer(file_h,0,0,FILE_END);
+	fio->_SetFilePointer(file_h,0,nullptr,FILE_END);
 	va_list args;
 	va_start(args,data_PTR);
 	_vsnprintf(LogBuffer,sizeof(LogBuffer) - 4,data_PTR,args);
@@ -477,7 +477,7 @@ void COMPILER::LoadPreprocess()
 	INIFILE * engine_ini;
 
 	engine_ini = _CORE_API->fio->OpenIniFile(api->EngineIniFileName());
-	if(engine_ini != null)
+	if(engine_ini != nullptr)
 	{
 		if(engine_ini->GetLong("script","debuginfo",0) == 0) 
 		{
@@ -566,12 +566,12 @@ bool COMPILER::CreateProgram(char * file_name)
 bool __declspec(noinline) __cdecl COMPILER::Run()
 {
 	DWORD function_code;
-	pRun_fi = 0;
+	pRun_fi = nullptr;
 	function_code = FuncTab.FindFunc("Main");
 	DATA * pResult;
 	bFirstRun = false;
 	BC_Execute(function_code,pResult);
-	pRun_fi = 0;
+	pRun_fi = nullptr;
 
 	
 	
@@ -649,12 +649,12 @@ void COMPILER::SetEventHandler(char * event_name, char * func_name,long flag, bo
 	DWORD func_code;
 	FUNCINFO fi;
 
-	if(event_name == null)
+	if(event_name == nullptr)
 	{
 		SetError("Invalid event name for SetEventHandler");
 		return;
 	}
-	if(func_name == null)
+	if(func_name == nullptr)
 	{
 		SetError("Invalid function name for SetEventHandler");
 		return;
@@ -679,13 +679,13 @@ void COMPILER::SetEventHandler(char * event_name, char * func_name,long flag, bo
 void COMPILER::DelEventHandler(char * event_name, char * func_name)
 {
 	DWORD func_code;
-	if(event_name == null)
+	if(event_name == nullptr)
 	{
 		SetError("Bad event name");
 		return;
 	}
 
-	if(func_name == null)
+	if(func_name == nullptr)
 	{
 		SetError("Bad func name");
 		return;
@@ -740,15 +740,15 @@ VDATA * COMPILER::ProcessEvent(char * event_name)
 	current_debug_mode = 0;
 #endif
 
-	pVD = 0;
-	if(event_name == null) 
+	pVD = nullptr;
+	if(event_name == nullptr) 
 	{
 		SetError("Invalid event name in ProcessEvent");
-		return 0;
+		return nullptr;
 	}
 
 	event_code = EventTab.FindEvent(event_name);
-	if(event_code == INVALID_EVENT_CODE) return 0;	// no handlers
+	if(event_code == INVALID_EVENT_CODE) return nullptr;	// no handlers
 	EventTab.GetEvent(ei,event_code);
 	for(n=0;n<ei.elements;n++)
 	{
@@ -794,7 +794,7 @@ VDATA * COMPILER::ProcessEvent(char * event_name)
 		if(nStackVars != SStack.GetDataNum())
 		{
 			SStack.InvalidateFrom(nStackVars);	// restore stack state - crash situation
-			pVD = 0;
+			pVD = nullptr;
 			SetError("process event stack error");
 		}
 
@@ -806,7 +806,7 @@ VDATA * COMPILER::ProcessEvent(char * event_name)
 	
 	nRuntimeTicks += nTimeOnEvent;
 
-	pRun_fi = 0;
+	pRun_fi = nullptr;
 #ifndef _XBOX
 	if(current_debug_mode == TMODE_CONTINUE) CDebug.SetTraceMode(TMODE_CONTINUE);
 	//SetFocus(Core.App_Hwnd);		// VANO CHANGES
@@ -827,7 +827,7 @@ void COMPILER::ProcessEvent(char * event_name, MESSAGE * pMs)
 {
 	pEventMessage = pMs;
 	ProcessEvent(event_name);
-	pEventMessage = 0;
+	pEventMessage = nullptr;
 }
 
 VDATA * COMPILER::ProcessEvent(char * event_name, MESSAGE message)
@@ -835,7 +835,7 @@ VDATA * COMPILER::ProcessEvent(char * event_name, MESSAGE message)
 	VDATA * pVD;
 	pEventMessage = &message;
 	pVD = ProcessEvent(event_name);
-	pEventMessage = 0;
+	pEventMessage = nullptr;
 	return pVD;
 }
 
@@ -885,7 +885,7 @@ void COMPILER::UnloadSegment(char * segment_name)
 bool COMPILER::BC_SegmentIsLoaded(char * file_name)
 {
 	DWORD n;
-	if(file_name == null)
+	if(file_name == nullptr)
 	{
 		SetError("Invalid segment name");
 		return false;
@@ -908,7 +908,7 @@ bool COMPILER::BC_LoadSegment(char * file_name)
 
 	LabelUpdateTable.Release();
 
-	if(file_name == null)
+	if(file_name == nullptr)
 	{
 		SetError("Invalid segment name");
 		return false;
@@ -947,8 +947,8 @@ bool COMPILER::BC_LoadSegment(char * file_name)
 	strcpy(SegmentTable[index].name,file_name);
 	SegmentTable[index].id = id;
 	SegmentTable[index].bUnload = false;
-	SegmentTable[index].pData = 0;
-	SegmentTable[index].pCode = 0;
+	SegmentTable[index].pData = nullptr;
+	SegmentTable[index].pCode = nullptr;
 	SegmentTable[index].BCode_Program_size = 0;
 	SegmentTable[index].BCode_Buffer_size = 0;
 	
@@ -973,7 +973,7 @@ bool COMPILER::BC_LoadSegment(char * file_name)
 
 bool COMPILER::ProcessDebugExpression(char * pExpression, DATA & Result)
 {
-	if(pExpression == 0) return false;
+	if(pExpression == nullptr) return false;
 
 	DWORD nDataSize;
 
@@ -990,7 +990,7 @@ bool COMPILER::ProcessDebugExpression(char * pExpression, DATA & Result)
 
 bool COMPILER::SetOnDebugExpression(char * pLValue, char * pRValue, DATA & Result)
 {
-	if(pLValue == 0 || pRValue == 0) return false;
+	if(pLValue == nullptr || pRValue == nullptr) return false;
 
 	DWORD nDataSize;
 
@@ -1011,9 +1011,9 @@ bool COMPILER::ProcessDebugExpression0(char * pExpression, DATA & Result)
 	bool bRes;
 	DATA * pResult;
 
-	pResult = 0;
+	pResult = nullptr;
 
-	if(pExpression == 0) return false;
+	if(pExpression == nullptr) return false;
 
 	bDebugExpressionRun = true;
 
@@ -1021,8 +1021,8 @@ bool COMPILER::ProcessDebugExpression0(char * pExpression, DATA & Result)
 	Segment.name = "Debug Expression";
 	Segment.id = RunningSegmentID;
 	Segment.bUnload = false;
-	Segment.pData = 0;
-	Segment.pCode = 0;
+	Segment.pData = nullptr;
+	Segment.pCode = nullptr;
 	Segment.BCode_Program_size = 0;
 	Segment.BCode_Buffer_size = 0;
 	Segment.Files_list = &DbgLocalSL;
@@ -1121,7 +1121,7 @@ void COMPILER::ProcessFrame(DWORD DeltaTime)
 		if(SegmentTable[n].pCode) delete SegmentTable[n].pCode;
 		if(SegmentTable[n].name) delete SegmentTable[n].name;
 		if(SegmentTable[n].Files_list) delete SegmentTable[n].Files_list;
-		SegmentTable[n].Files_list = 0;
+		SegmentTable[n].Files_list = nullptr;
 
 		for(i=n;i<(SegmentsNum-1);i++)
 		{
@@ -1330,16 +1330,16 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 	Control_offset = 0;
 	strcpy(file_name,Segment.name);
 	
-	if(pInternalCode == 0)
+	if(pInternalCode == nullptr)
 	{
 		Segment.Files_list->AddUnicalString(file_name);
 		file_code = Segment.Files_list->GetStringCode(file_name);
-		pProgram = 0;
+		pProgram = nullptr;
 		Program_size = 0;
 		pSegmentSource = LoadFile(file_name,SegmentSize);
 		AppendProgram(pProgram,Program_size,pSegmentSource,SegmentSize,true);
 		Segment.pData = pProgram;
-		if(pProgram == 0) 
+		if(pProgram == nullptr) 
 		{
 			SetError("file not found: %s",file_name);
 			return false;
@@ -1465,7 +1465,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 				file_code = Segment.Files_list->GetStringCode(Token.GetData());
 				Control_offset = (DWORD)Token.GetProgramControl() - (DWORD)Token.GetProgramBase();	// store program scan point
 				pApend_file = LoadFile(Token.GetData(),Append_file_size);
-				if(pApend_file == 0) 
+				if(pApend_file == nullptr) 
 				{
 					SetError("can't load file: %s", Token.GetData());
 					return false;
@@ -1601,7 +1601,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 						fi.arguments = 0;
 						fi.decl_file_name = DebugSourceFileName;
 						fi.decl_line = DebugSourceLine;
-						fi.pImportedFunc = 0;
+						fi.pImportedFunc = nullptr;
 						func_code = FuncTab.AddFunc(fi);
 
 						if(func_code == INVALID_FUNC_CODE)
@@ -1621,7 +1621,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 					do
 					{
 						Token.Get();
-						if(Token.GetData() == 0)
+						if(Token.GetData() == nullptr)
 						{
 							SetError("Invalid variable name");
 							return false;
@@ -1846,7 +1846,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 				do
 				{
 					Token.Get();
-					if(Token.GetData() == 0)
+					if(Token.GetData() == nullptr)
 					{
 						SetError("Invalid variable name");
 						return false;
@@ -1903,7 +1903,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 
 			// get class name
 			Token.Get();	
-			if(Token.GetData() == 0) { SetError("Invalid class name"); break; }
+			if(Token.GetData() == nullptr) { SetError("Invalid class name"); break; }
 			memset(&ci,0,sizeof(ci));
 			
 			ci.name = (char *)NEW char[strlen(Token.GetData())+1];
@@ -2073,21 +2073,21 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, DWORD pInter
 	}
 
 
-	if(pInternalCode == 0)	
+	if(pInternalCode == nullptr)	
 	{
-		if(Segment.pData) delete Segment.pData;	Segment.pData = 0;
+		if(Segment.pData) delete Segment.pData;	Segment.pData = nullptr;
 	}
 	HANDLE fh;
 	DWORD dwR;
 	if(bWriteCodeFile)
 	{
 		
-		_splitpath(Segment.name,0,0,file_name,0);
+		_splitpath(Segment.name,nullptr,nullptr,file_name,nullptr);
 		strcat(file_name,".b");
-		fh = CreateFile(file_name,GENERIC_WRITE,FILE_SHARE_READ,0,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL,0);
+		fh = CreateFile(file_name,GENERIC_WRITE,FILE_SHARE_READ,nullptr,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL,nullptr);
 		if(fh != INVALID_HANDLE_VALUE)
 		{
-			WriteFile(fh,Segment.pCode,Segment.BCode_Program_size,&dwR,0);
+			WriteFile(fh,Segment.pCode,Segment.BCode_Program_size,&dwR,nullptr);
 			CloseHandle(fh);
 		}
 	}
@@ -2132,7 +2132,7 @@ S_TOKEN_TYPE COMPILER::CompileAuxiliaryTokens(SEGMENT_DESC& Segment)//, bool & b
 			case DEBUG_FILE_NAME:
 				if(!bDebugInfo) break;
 				DebugSourceLine = DSL_INI_VALUE;
-				if(Token.GetData() == 0)
+				if(Token.GetData() == nullptr)
 				{
 					SetError("Invalid DBG_FILE_NAME");
 					return DEBUG_FILE_NAME;
@@ -2162,7 +2162,7 @@ void COMPILER::CopyOffsets(SEGMENT_DESC& Segment, STRINGS_LIST & srclist, STRING
 	DWORD n;
 	DWORD i;
 	DWORD jump_voffset;
-	if(sname == 0)
+	if(sname == nullptr)
 	{
 		for(n=0;n<srclist.GetStringsCount();n++)
 		{
@@ -2192,7 +2192,7 @@ void COMPILER::UpdateOffsets(SEGMENT_DESC& Segment, STRINGS_LIST & list, DWORD o
 {
 	DWORD n;
 	DWORD jump_voffset;
-	if(sname == 0)
+	if(sname == nullptr)
 	{
 		for(n=0;n<list.GetStringsCount();n++)
 		{
@@ -2270,12 +2270,12 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 			
 			if(Token.Get() == STRING)
 			{
-				if(Token.GetData()==0) { SetError("Invalid event handler"); return false;}
+				if(Token.GetData()==nullptr) { SetError("Invalid event handler"); return false;}
 				strcpy(gs,Token.GetData());
 			} 
 			else
 			{
-				if(Token.GetData()==0) { SetError("Invalid event handler"); return false;}
+				if(Token.GetData()==nullptr) { SetError("Invalid event handler"); return false;}
 				def_code = DefTab.FindDef(Token.GetData());
 				if(def_code != INVALID_DEF_CODE)
 				{
@@ -2290,7 +2290,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 			if(Token.Get() != COMMA) { SetError("Invalid event handler"); return false;}
 			if(Token.Get() == STRING)
 			{
-				if(Token.GetData()==0) { SetError("Invalid event handler"); return false;}
+				if(Token.GetData()==nullptr) { SetError("Invalid event handler"); return false;}
 				//SetEventHandler(gs,Token.GetData(),1,true);
 				SetEventHandler(gs,Token.GetData(),0,true);
 			} else { SetError("Invalid event handler"); return false;}
@@ -3310,7 +3310,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 				else
 				{
 					// access word
-					if(Token.GetData() == 0) { SetError("Invalid access string"); return false;	}
+					if(Token.GetData() == nullptr) { SetError("Invalid access string"); return false;	}
 					Token.LowCase();
 					dwAWCode = SCodec.Convert(Token.GetData());
 					//CompileToken(Segment,ADVANCE_AP);
@@ -3370,7 +3370,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, DWORD 
 				return false;
 			}
 			// else its access word
-			if(Token.GetData() == 0)
+			if(Token.GetData() == nullptr)
 			{
 				SetError("Invalid access string");
 				return false;
@@ -3595,7 +3595,7 @@ bool COMPILER::BC_CallFunction(DWORD func_code, DWORD & ip, DATA * & pVResult)
 	else
 	if(call_fi.segment_id == IMPORTED_SEGMENT_ID)
 	{
-		pVResult = 0;
+		pVResult = nullptr;
 		RDTSC_B(nTicks);
 		//BC_CallIntFunction(func_code,pVResult,arguments);
 		DWORD nResult;
@@ -3720,12 +3720,12 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 	bDebugWaitForThisFunc = false;
 
 	//ExpressionResult.SetVCompiler(this);
-	pVReturnResult = 0;
-	pVResult = 0;
+	pVReturnResult = nullptr;
+	pVResult = nullptr;
 
 	ZeroMemory(&fi,sizeof(fi));
 
-	if(pDbgExpSource == 0)
+	if(pDbgExpSource == nullptr)
 	{
 
 	//ZeroMemory(&fi,sizeof(fi));
@@ -3759,7 +3759,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 		SetError("Function (%s) segment not loaded",fi.name);
 		return false;
 	}
-	if(SegmentTable[segment_index].pCode == 0)
+	if(SegmentTable[segment_index].pCode == nullptr)
 	{
 		SetError("Segment (%s) not loaded",SegmentTable[segment_index].name);
 		return false;
@@ -3825,7 +3825,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 	nLeftOperandIndex = INVALID_ARRAY_INDEX;
 	nLeftOperandCode = INVALID_VAR_CODE;
 	bLeftOperandType = 0xffffffff;
-	pLeftOperandAClass = 0;
+	pLeftOperandAClass = nullptr;
 
 	//S_TOKEN_TYPE oldToken_type;
 	do
@@ -3880,13 +3880,13 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 				if(!BC_Jump(SegmentTable[segment_index],jump_offset)) return false;
 			break;
 			case LOCAL_VARIABLE:
-				pLeftOperandAClass = 0;						// reset attribute
+				pLeftOperandAClass = nullptr;						// reset attribute
 				nLeftOperandIndex = INVALID_ARRAY_INDEX;	// reset index
 				nLeftOperandCode = *((long *)&pRunCodeBase[TLR_DataOffset]);
 				bLeftOperandType = LOCAL_VARIABLE;
 			break;
 			case VARIABLE:
-				pLeftOperandAClass = 0;						// reset attribute
+				pLeftOperandAClass = nullptr;						// reset attribute
 				nLeftOperandIndex = INVALID_ARRAY_INDEX;	// reset index
 				nLeftOperandCode = *((long *)&pRunCodeBase[TLR_DataOffset]);
 				bLeftOperandType = VARIABLE;
@@ -3896,7 +3896,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 
 				if(nLeftOperandIndex == INVALID_ARRAY_INDEX)
 				{
-					if(pLeftOperandAClass == 0)
+					if(pLeftOperandAClass == nullptr)
 					{
 						
 						if(bLeftOperandType == VARIABLE)
@@ -3907,17 +3907,17 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 						else
 						{
 							pV = SStack.Read(pRun_fi->stack_offset,nLeftOperandCode);
-							if(pV == 0) { SetError("Local variable not found"); return false; }
+							if(pV == nullptr) { SetError("Local variable not found"); return false; }
 						}
 						pLeftOperandAClass = pV->GetAClass();
 					}
-					if(pLeftOperandAClass == 0) {SetError("AClass ERROR n1"); return false; }
+					if(pLeftOperandAClass == nullptr) {SetError("AClass ERROR n1"); return false; }
 					pLeftOperandAClass = pLeftOperandAClass->VerifyAttributeClassByCode(*((long *)&pRunCodeBase[TLR_DataOffset]));
 					break;
 				} 
 				else
 				{
-					if(pLeftOperandAClass == 0)
+					if(pLeftOperandAClass == nullptr)
 					{
 						
 						if(bLeftOperandType == VARIABLE)
@@ -3928,11 +3928,11 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 						else
 						{
 							pV = SStack.Read(pRun_fi->stack_offset,nLeftOperandCode);
-							if(pV == 0) { SetError("Local variable not found"); return false; }
+							if(pV == nullptr) { SetError("Local variable not found"); return false; }
 						}
 						pLeftOperandAClass = pV->GetAClass(nLeftOperandIndex);
 					}
-					if(pLeftOperandAClass == 0) {SetError("AClass ERROR n1"); return false; }
+					if(pLeftOperandAClass == nullptr) {SetError("AClass ERROR n1"); return false; }
 					pLeftOperandAClass = pLeftOperandAClass->VerifyAttributeClassByCode(*((long *)&pRunCodeBase[TLR_DataOffset]));
 					break;
 				}
@@ -3941,7 +3941,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 				if(nLeftOperandCode == INVALID_VAR_CODE) { SetError("no Lvalue"); return false; }
 				if(nLeftOperandIndex == INVALID_ARRAY_INDEX)
 				{
-					if(pLeftOperandAClass == 0)
+					if(pLeftOperandAClass == nullptr)
 					{
 						
 						if(bLeftOperandType == VARIABLE)
@@ -3952,17 +3952,17 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 						else
 						{
 							pV = SStack.Read(pRun_fi->stack_offset,nLeftOperandCode);
-							if(pV == 0) { SetError("Local variable not found"); return false; }
+							if(pV == nullptr) { SetError("Local variable not found"); return false; }
 						}
 						pLeftOperandAClass = pV->GetAClass();
 					}
-					if(pLeftOperandAClass == 0) {SetError("AClass ERROR n1"); return false; }
+					if(pLeftOperandAClass == nullptr) {SetError("AClass ERROR n1"); return false; }
 					pLeftOperandAClass = pLeftOperandAClass->VerifyAttributeClass((char *)&pRunCodeBase[TLR_DataOffset]);
 					break;
 				} 
 				else
 				{
-					if(pLeftOperandAClass == 0)
+					if(pLeftOperandAClass == nullptr)
 					{
 						
 						if(bLeftOperandType == VARIABLE)
@@ -3973,11 +3973,11 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 						else
 						{
 							pV = SStack.Read(pRun_fi->stack_offset,nLeftOperandCode);
-							if(pV == 0) { SetError("Local variable not found"); return false; }
+							if(pV == nullptr) { SetError("Local variable not found"); return false; }
 						}
 						pLeftOperandAClass = pV->GetAClass(nLeftOperandIndex);
 					}
-					if(pLeftOperandAClass == 0) {SetError("AClass ERROR n1"); return false; }
+					if(pLeftOperandAClass == nullptr) {SetError("AClass ERROR n1"); return false; }
 					pLeftOperandAClass = pLeftOperandAClass->VerifyAttributeClass((char *)&pRunCodeBase[TLR_DataOffset]);
 					break;
 				}
@@ -3986,7 +3986,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 				if(nLeftOperandCode == INVALID_VAR_CODE) { SetError("no Lvalue"); return false; }
 				if(nLeftOperandIndex == INVALID_ARRAY_INDEX)
 				{
-					if(pLeftOperandAClass == 0)
+					if(pLeftOperandAClass == nullptr)
 					{
 						
 						if(bLeftOperandType == VARIABLE)
@@ -3997,11 +3997,11 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 						else
 						{
 							pV = SStack.Read(pRun_fi->stack_offset,nLeftOperandCode);
-							if(pV == 0) { SetError("Local variable not found"); return false; }
+							if(pV == nullptr) { SetError("Local variable not found"); return false; }
 						}
 						pLeftOperandAClass = pV->GetAClass();
 					}
-					if(pLeftOperandAClass == 0) {SetError("AClass ERROR n1"); return false; }
+					if(pLeftOperandAClass == nullptr) {SetError("AClass ERROR n1"); return false; }
 
 					vtype = BC_TokenGet();
 					var_code = *((long *)&pRunCodeBase[TLR_DataOffset]);
@@ -4014,7 +4014,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 					else
 					{
 						pVV = SStack.Read(pRun_fi->stack_offset,var_code);
-						if(pVV == 0) { SetError("Local variable not found"); return false; }
+						if(pVV == nullptr) { SetError("Local variable not found"); return false; }
 					}
 					pVV->Get(pAccess_string);
 
@@ -4024,7 +4024,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 				} 
 				else
 				{
-					if(pLeftOperandAClass == 0)
+					if(pLeftOperandAClass == nullptr)
 					{
 						
 						if(bLeftOperandType == VARIABLE)
@@ -4035,11 +4035,11 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 						else
 						{
 							pV = SStack.Read(pRun_fi->stack_offset,nLeftOperandCode);
-							if(pV == 0) { SetError("Local variable not found"); return false; }
+							if(pV == nullptr) { SetError("Local variable not found"); return false; }
 						}
 						pLeftOperandAClass = pV->GetAClass(nLeftOperandIndex);
 					}
-					if(pLeftOperandAClass == 0) {SetError("AClass ERROR n1"); return false; }
+					if(pLeftOperandAClass == nullptr) {SetError("AClass ERROR n1"); return false; }
 					
 					vtype = BC_TokenGet();
 					var_code = *((long *)&pRunCodeBase[TLR_DataOffset]);
@@ -4052,7 +4052,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 					else
 					{
 						pVV = SStack.Read(pRun_fi->stack_offset,var_code);
-						if(pVV == 0) { SetError("Local variable not found"); return false; }
+						if(pVV == nullptr) { SetError("Local variable not found"); return false; }
 					}
 					pVV->Get(pAccess_string);
 
@@ -4148,14 +4148,14 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 				else
 				{
 					pVV = SStack.Read(pRun_fi->stack_offset,var_code);
-					if(pVV == 0) { SetError("Local variable not found"); return false; }
+					if(pVV == nullptr) { SetError("Local variable not found"); return false; }
 				}
 				pVV = pVV->GetVarPointer();
 				if(pVV->GetType() != VAR_STRING) { SetError("string call argument isnt string var"); return false; }
 				pVV->Get(pAccess_string);	// func name
 				func_code = FuncTab.FindFunc(pAccess_string);
 				if(func_code == INVALID_FUNC_CODE) { SetError("function '%s' not found",pAccess_string); return false; }
-				pVResult = 0;
+				pVResult = nullptr;
 				if(!BC_CallFunction(func_code,ip,pVResult)) return false;
 				if(pVResult) 
 				{
@@ -4165,7 +4165,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 			break;
 			case CALL_FUNCTION:
 				memcpy(&func_code,&pCodeBase[ip],sizeof(dword));
-				pVResult = 0;
+				pVResult = nullptr;
 				if(!BC_CallFunction(func_code,ip,pVResult)) return false;
 				//if(pVResult) SStack.Pop();
 			break;
@@ -4187,7 +4187,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 				}
 				// at this moment result expression placed in EX register
 				
-				if(pDbgExpSource == 0)	// skip stack unwind for dbg expression process	// ????????
+				if(pDbgExpSource == nullptr)	// skip stack unwind for dbg expression process	// ????????
 						SStack.InvalidateFrom(fi.stack_offset);
 
 				// copy result into stack
@@ -4196,7 +4196,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 				pVReturnResult = pV;
 
 				// check return type
-				if(pDbgExpSource == 0)	// skip test for dbg expression process
+				if(pDbgExpSource == nullptr)	// skip test for dbg expression process
 				if(fi.return_type != pV->GetType())
 				{
 					SetError("%s function return %s value",
@@ -4266,12 +4266,12 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 				else
 				{
 					pV = SStack.Read(pRun_fi->stack_offset,nLeftOperandCode);
-					if(pV == 0) { SetError("Local variable not found"); return false; }
+					if(pV == nullptr) { SetError("Local variable not found"); return false; }
 				}
 				if(nLeftOperandIndex != INVALID_ARRAY_INDEX)
 				{
 					pV = (DATA*)pV->GetArrayElement(nLeftOperandIndex);
-					if(pV == 0) { SetError("invalid array index"); return false; }
+					if(pV == nullptr) { SetError("invalid array index"); return false; }
 					
 				}
 				//BC_ProcessExpression(&ExpressionResult);
@@ -4330,13 +4330,13 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 				else
 				{
 					pV = SStack.Read(pRun_fi->stack_offset,nLeftOperandCode);
-					if(pV == 0) { SetError("Local variable not found"); return false; }
+					if(pV == nullptr) { SetError("Local variable not found"); return false; }
 				}
 				if(nLeftOperandIndex == INVALID_ARRAY_INDEX) pV->Inc();
 				else 
 				{
 					pV = (DATA*)pV->GetArrayElement(nLeftOperandIndex);
-					if(pV == 0) { SetError("invalid array index"); return false; }
+					if(pV == nullptr) { SetError("invalid array index"); return false; }
 					pV->Inc();
 				}
 			break;
@@ -4350,13 +4350,13 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 				else
 				{
 					pV = SStack.Read(pRun_fi->stack_offset,nLeftOperandCode);
-					if(pV == 0) { SetError("Local variable not found"); return false; }
+					if(pV == nullptr) { SetError("Local variable not found"); return false; }
 				}
 				if(nLeftOperandIndex == INVALID_ARRAY_INDEX) pV->Dec();
 				else 
 				{
 					pV = (DATA*)pV->GetArrayElement(nLeftOperandIndex);
-					if(pV == 0) { SetError("invalid array index"); return false; }
+					if(pV == nullptr) { SetError("invalid array index"); return false; }
 					pV->Dec();
 				}
 			break;
@@ -4727,8 +4727,8 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 				}
 				else bUseIndex = false;
 
-				pVDst = 0;
-				pVSrc = 0;
+				pVDst = nullptr;
+				pVSrc = nullptr;
 
 				// destination
 				Token_type = BC_TokenGet(ip,token_data_size);
@@ -4748,7 +4748,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 					break;
 					case LOCAL_VARIABLE:
 						pVDst = SStack.Read(pRun_fi->stack_offset,*((dword *)&pCodeBase[ip]));
-						if(pVDst == 0) { SetError("Local variable not found"); return false; }
+						if(pVDst == nullptr) { SetError("Local variable not found"); return false; }
 						//if(bUseIndex) pVDst = pVDst->GetArrayElement(dwBXIndex);
 						if(!pVDst) return false;
 						if(pVDst->GetType()!=VAR_REFERENCE) {SetError("'%s' isnt reference",vi.name);return false;}
@@ -4771,7 +4771,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 					break;
 					case LOCAL_VARIABLE:
 						pVSrc = SStack.Read(pRun_fi->stack_offset,*((dword *)&pCodeBase[ip]));
-						if(pVSrc == 0) { SetError("Local variable not found"); return false; }
+						if(pVSrc == nullptr) { SetError("Local variable not found"); return false; }
 						if(bUseIndex) pVSrc = pVSrc->GetArrayElement(dwBXIndex);
 						if(!pVSrc) return false;
 					break;
@@ -4785,8 +4785,8 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 			break;
 			case MOVE:
 
-				pVDst = 0;
-				pVSrc = 0;
+				pVDst = nullptr;
+				pVSrc = nullptr;
 				// find destination
 				Token_type = BC_TokenGet(ip,token_data_size);
 				switch(Token_type)
@@ -4804,9 +4804,9 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 							if(pRun_fi)
 							{
 								pVDst = SStack.Read(pRun_fi->stack_offset,nLeftOperandCode);
-								if(pVDst == 0) { SetError("Local variable not found"); return false; }
+								if(pVDst == nullptr) { SetError("Local variable not found"); return false; }
 							}else{
-								pVDst = 0;
+								pVDst = nullptr;
 								SetError("Internal error, line 4808! Current function not defined..."); return false;
 							}							
 							
@@ -4822,7 +4822,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 					return false;
 				}
 				
-				if(pVDst == 0) { SetError("no LValue"); return false; }
+				if(pVDst == nullptr) { SetError("no LValue"); return false; }
 
 				// find source
 				Token_type = BC_TokenGet(ip,token_data_size);
@@ -4838,7 +4838,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 				}
 
 				// check for attribute operations
-				if(pLeftOperandAClass != 0)
+				if(pLeftOperandAClass != nullptr)
 				{
 					// set attribute class value
 					char * pChar;
@@ -4983,7 +4983,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 					break;
 					case LOCAL_VARIABLE:
 						pVar = SStack.Read(pRun_fi->stack_offset,*((dword *)&pCodeBase[ip]));
-						if(pVar == 0) { SetError("Local variable not found"); return false; }
+						if(pVar == nullptr) { SetError("Local variable not found"); return false; }
 						if(pVar->IsReference())
 						{
 							if(bUseIndex)
@@ -5056,7 +5056,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 					break;
 					case LOCAL_VARIABLE:
 						pVar = SStack.Read(pRun_fi->stack_offset,*((dword *)&pCodeBase[ip]));
-						if(pVar == 0) { SetError("Local variable not found"); return false; }
+						if(pVar == nullptr) { SetError("Local variable not found"); return false; }
 						pVar->Copy(pV);
 					break;
 					case AX:
@@ -5215,7 +5215,7 @@ bool COMPILER::BC_Execute(DWORD function_code, DATA * & pVReturnResult, char * p
 					break;
 					case LOCAL_VARIABLE:
 						pV = SStack.Read(pRun_fi->stack_offset,*((long *)&pRunCodeBase[TLR_DataOffset]));
-						if(pV == 0) { SetError("Local variable not found"); break; /*return false;*/ }
+						if(pV == nullptr) { SetError("Local variable not found"); break; /*return false;*/ }
 
 						ExpressionResult.ClearType();
 						ExpressionResult.Copy(pV);
@@ -5278,7 +5278,7 @@ void COMPILER::CompileString(SEGMENT_DESC& Segment)
 	dword string_size;
 	char * pData;
 	pData = Token.GetData();
-	if(pData != 0) 
+	if(pData != nullptr) 
 	{
 		string_size = strlen(Token.GetData()) + 1;
 		CompileToken(Segment,STRING,2,(char *)&string_size,sizeof(dword),Token.GetData(),string_size);
@@ -5441,7 +5441,7 @@ void COMPILER::ClearEvents()
 void COMPILER::SaveDataDebug(char * data_PTR, ...)
 {
 	char LogBuffer[MAX_PATH + MAX_PATH];
-	if(data_PTR == 0) return;
+	if(data_PTR == nullptr) return;
 	//fio->_SetFilePointer(hSaveFileFileHandle,0,0,FILE_END);
 	va_list args;
 	va_start(args,data_PTR);
@@ -5453,7 +5453,7 @@ void COMPILER::SaveDataDebug(char * data_PTR, ...)
 
 void COMPILER::SaveData(const void * data_PTR, DWORD data_size)
 {
-	if(data_PTR == 0) return;
+	if(data_PTR == nullptr) return;
 
 	if (dwCurPointer + data_size > dwMaxSize)
 	{
@@ -5482,7 +5482,7 @@ void COMPILER::SaveData(const void * data_PTR, DWORD data_size)
 
 bool COMPILER::ReadData(void * data_PTR, DWORD data_size)
 {
-	if(data_PTR == 0) 
+	if(data_PTR == nullptr) 
 	{
 		dwCurPointer += data_size;
 		return true;
@@ -5587,8 +5587,8 @@ ATTRIBUTES * COMPILER::TraceARoot(ATTRIBUTES * pA, char * & pAccess)
 	char * pAS;
 	long slen;
 	
-	if(pA == 0) return 0;				// error or invalid argument
-	if(pA->GetParent() == 0) return pA;	// root found
+	if(pA == nullptr) return nullptr;				// error or invalid argument
+	if(pA->GetParent() == nullptr) return pA;	// root found
 	
 	slen = strlen(pA->GetThisName())+1;
 	
@@ -5596,7 +5596,7 @@ ATTRIBUTES * COMPILER::TraceARoot(ATTRIBUTES * pA, char * & pAccess)
 	
 	strcpy(pAS,pA->GetThisName());
 	
-	if(pAccess == 0)
+	if(pAccess == nullptr)
 	{
 		pAccess = pAS;
 	} 
@@ -5663,7 +5663,7 @@ DWORD COMPILER::ReadVDword()
 void COMPILER::SaveString(const char * pS)
 {
 	DWORD n;
-	if(pS == 0) 
+	if(pS == nullptr) 
 	{
 		WriteVDword(0);
 		return;
@@ -5678,7 +5678,7 @@ char * COMPILER::ReadString()
 	DWORD n;
 	char * pBuffer;
 	n = ReadVDword();
-	if(n == 0) return 0;
+	if(n == 0) return nullptr;
 	
 	pBuffer = NEW char[n];
 	ReadData(pBuffer,n);
@@ -5797,14 +5797,14 @@ bool COMPILER::ReadVariable(char * name,/* DWORD code,*/ bool bDim, DWORD a_inde
 			if(!bSkipVariable) 
 			{	pV->Set(eid);
 				
-				if(pV->AttributesClass == 0) pV->AttributesClass = NEW ATTRIBUTES(&SCodec);
-				ReadAttributesData(pV->AttributesClass,0);
+				if(pV->AttributesClass == nullptr) pV->AttributesClass = NEW ATTRIBUTES(&SCodec);
+				ReadAttributesData(pV->AttributesClass,nullptr);
 			} 
 			else
 			{
 				
 				pTA = NEW ATTRIBUTES(&SCodec);
-				ReadAttributesData(pTA,0);
+				ReadAttributesData(pTA,nullptr);
 				delete pTA;
 			}
 		break;
@@ -5826,7 +5826,7 @@ bool COMPILER::ReadVariable(char * name,/* DWORD code,*/ bool bDim, DWORD a_inde
 			pV->SetReference(pVRef);
 		break;
 		case VAR_AREFERENCE:
-			pA = null;
+			pA = nullptr;
 			var_index = ReadVDword();
 			if(var_index == 0xffffffff) break;
 			array_index = ReadVDword();
@@ -5848,7 +5848,7 @@ bool COMPILER::ReadVariable(char * name,/* DWORD code,*/ bool bDim, DWORD a_inde
 				pVRef = pVRef->GetArrayElement(array_index);
 			}
 			
-			if(pVRef->AttributesClass == 0) pVRef->AttributesClass = NEW ATTRIBUTES(&SCodec);
+			if(pVRef->AttributesClass == nullptr) pVRef->AttributesClass = NEW ATTRIBUTES(&SCodec);
 			if(pString)
 			{
 				pA = pVRef->AttributesClass->CreateSubAClass(pVRef->AttributesClass,pString);
@@ -5873,7 +5873,7 @@ void COMPILER::SaveVariable(DATA * pV, bool bdim)
 	S_TOKEN_TYPE eType;
 	ENTITY_ID eid;
 
-	if(pV == 0)
+	if(pV == nullptr)
 	{
 		SetError("Zero Variable Pointer");
 		return;
@@ -5927,7 +5927,7 @@ void COMPILER::SaveVariable(DATA * pV, bool bdim)
 		break;
 		case VAR_REFERENCE:
 
-			if(pV->GetReference()==0)
+			if(pV->GetReference()==nullptr)
 			{
 				// uninitialized reference
 				WriteVDword(0xffffffff);
@@ -5946,7 +5946,7 @@ void COMPILER::SaveVariable(DATA * pV, bool bdim)
 
 		break;
 		case VAR_AREFERENCE:
-			pString = 0;
+			pString = nullptr;
 			try
 			{
 				pA = TraceARoot(pV->AttributesClass,pString);
@@ -5957,7 +5957,7 @@ void COMPILER::SaveVariable(DATA * pV, bool bdim)
 				WriteVDword(0xffffffff);
 				break;
 			}
-			if(pA == 0)
+			if(pA == nullptr)
 			{
 				WriteVDword(0xffffffff);
 				if(pString) delete pString;
@@ -5994,7 +5994,7 @@ bool COMPILER::SaveState(HANDLE fh)
 	VARINFO vi;
 
 	if (pBuffer) delete pBuffer;
-	pBuffer = null;
+	pBuffer = nullptr;
 
 	dwCurPointer = 0;
 	dwMaxSize = 0;
@@ -6013,7 +6013,7 @@ bool COMPILER::SaveState(HANDLE fh)
 	edh.dwExtDataOffset = 0;
 	edh.dwExtDataSize = 0;
 
-	fio->_WriteFile(fh, &edh, sizeof(edh), null);
+	fio->_WriteFile(fh, &edh, sizeof(edh), nullptr);
 	
 	// 1. Program Directory
 	SaveString(ProgramDirectory);
@@ -6060,15 +6060,15 @@ bool COMPILER::SaveState(HANDLE fh)
 		compress2((Bytef*)pDst, &dwPackLen, (Bytef*)pBuffer, dwCurPointer, Z_BEST_COMPRESSION);
 		RDTSC_E(dw2);
 
-		fio->_WriteFile(fh, &dwCurPointer, sizeof(dwCurPointer), null);
-		fio->_WriteFile(fh, &dwPackLen, sizeof(dwPackLen), null);
-		fio->_WriteFile(fh, pDst, dwPackLen, null);
+		fio->_WriteFile(fh, &dwCurPointer, sizeof(dwCurPointer), nullptr);
+		fio->_WriteFile(fh, &dwPackLen, sizeof(dwPackLen), nullptr);
+		fio->_WriteFile(fh, pDst, dwPackLen, nullptr);
 		
 		delete pDst;
 	}
 
 	if (pBuffer) delete pBuffer;
-	pBuffer = null;
+	pBuffer = nullptr;
 
 	return true;
 }
@@ -6084,20 +6084,20 @@ bool COMPILER::LoadState(HANDLE fh)
 	//hSaveFileFileHandle = fh;
 
 	if (pBuffer) delete pBuffer;
-	pBuffer = null;
+	pBuffer = nullptr;
 
 	EXTDATA_HEADER exdh;
-	fio->_ReadFile(fh, &exdh, sizeof(exdh), null);
+	fio->_ReadFile(fh, &exdh, sizeof(exdh), nullptr);
 
 	dword dwPackLen;
-	fio->_ReadFile(fh, &dwMaxSize, sizeof(dwMaxSize), null);
-	fio->_ReadFile(fh, &dwPackLen, sizeof(dwPackLen), null);
+	fio->_ReadFile(fh, &dwMaxSize, sizeof(dwMaxSize), nullptr);
+	fio->_ReadFile(fh, &dwPackLen, sizeof(dwPackLen), nullptr);
 	if( dwPackLen==0 || dwPackLen>0x8000000 ||
 		dwMaxSize==0 || dwMaxSize>0x8000000 )
 			return false;
 	char * pCBuffer = NEW char[dwPackLen];
 	pBuffer = NEW char[dwMaxSize];
-	fio->_ReadFile(fh, (void*)pCBuffer, dwPackLen, null);
+	fio->_ReadFile(fh, (void*)pCBuffer, dwPackLen, nullptr);
 	uncompress((Bytef*)pBuffer, &dwMaxSize, (Bytef*)pCBuffer, dwPackLen);
 	delete pCBuffer;
 	dwCurPointer = 0;
@@ -6157,7 +6157,7 @@ bool COMPILER::LoadState(HANDLE fh)
 	for(n=0;n<nVarNum;n++)
 	{
 		pString = ReadString();
-		if(pString == 0) 
+		if(pString == nullptr) 
 		{
 			SetError("missing variable name");
 			return false;
@@ -6170,7 +6170,7 @@ bool COMPILER::LoadState(HANDLE fh)
 	OnLoad();
 
 	if (pBuffer) delete pBuffer;
-	pBuffer = null;
+	pBuffer = nullptr;
 
 	return true;
 }
@@ -6183,7 +6183,7 @@ void COMPILER::ReadAttributesData(ATTRIBUTES * pRoot, ATTRIBUTES * pParent)
 	//char * pName;
 	char * pValue;
 
-	if(pRoot == 0)
+	if(pRoot == nullptr)
 	{
 		nSubClassesNum = ReadVDword();
 		nNameCode = ReadVDword();
@@ -6195,7 +6195,7 @@ void COMPILER::ReadAttributesData(ATTRIBUTES * pRoot, ATTRIBUTES * pParent)
 		if(pValue) delete pValue;
 		for(n=0;n<nSubClassesNum;n++)
 		{
-			ReadAttributesData(0,pRoot);
+			ReadAttributesData(nullptr,pRoot);
 		}
 
 		return;
@@ -6212,7 +6212,7 @@ void COMPILER::ReadAttributesData(ATTRIBUTES * pRoot, ATTRIBUTES * pParent)
 	for(n=0;n<nSubClassesNum;n++)
 	{
 		//ReadAttributesData(pRoot->GetAttributeClass(n));
-		ReadAttributesData(0,pRoot);
+		ReadAttributesData(nullptr,pRoot);
 	}
 
 
@@ -6224,11 +6224,11 @@ void COMPILER::ReadAttributesData(ATTRIBUTES * pRoot, ATTRIBUTES * pParent)
 void COMPILER::SaveAttributesData(ATTRIBUTES * pRoot)
 {
 	DWORD n;
-	if(pRoot == 0) 
+	if(pRoot == nullptr) 
 	{
 		WriteVDword(0);	// number of subclasses
-		SaveString(0);	// attribute name
-		SaveString(0);	// attribute value
+		SaveString(nullptr);	// attribute name
+		SaveString(nullptr);	// attribute value
 		return;
 	}
 	WriteVDword(pRoot->GetAttributesNum());	// number of subclasses
@@ -6261,7 +6261,7 @@ bool COMPILER::SetSaveData(char * file_name, void * save_data, long data_size)
 	fio->SetDrive();
 	if (fh == INVALID_HANDLE_VALUE) return false;
 
-	dwFileSize = Core.fio->_GetFileSize(fh, 0);
+	dwFileSize = Core.fio->_GetFileSize(fh, nullptr);
 	VDATA* pVDat = (VDATA*)api->GetScriptVariable("savefile_info");
 	if( pVDat && pVDat->GetString() )
 		_snprintf(exdh.sFileInfo,sizeof(exdh.sFileInfo),"%s",pVDat->GetString());
@@ -6269,15 +6269,15 @@ bool COMPILER::SetSaveData(char * file_name, void * save_data, long data_size)
 	exdh.dwExtDataOffset = dwFileSize;
 	exdh.dwExtDataSize = data_size;
 
-	fio->_WriteFile(fh, &exdh, sizeof(exdh), null);
-	fio->_SetFilePointer(fh, dwFileSize, 0, FILE_BEGIN);
+	fio->_WriteFile(fh, &exdh, sizeof(exdh), nullptr);
+	fio->_SetFilePointer(fh, dwFileSize, nullptr, FILE_BEGIN);
 
 	char * pDst = NEW char[data_size * 2];
 	dword dwPackLen = data_size * 2;
 	compress2((Bytef*)pDst, &dwPackLen, (Bytef*)save_data, data_size, Z_BEST_COMPRESSION);
 
-	fio->_WriteFile(fh, &dwPackLen, sizeof(dwPackLen), null);
-	fio->_WriteFile(fh, pDst, dwPackLen, null);
+	fio->_WriteFile(fh, &dwPackLen, sizeof(dwPackLen), nullptr);
+	fio->_WriteFile(fh, pDst, dwPackLen, nullptr);
 	fio->_CloseHandle(fh);
 
 	delete pDst;
@@ -6448,37 +6448,37 @@ void * COMPILER::GetSaveData(char * file_name, long & data_size)
 	if (fh == INVALID_HANDLE_VALUE) 
 	{
 		SetError("cant open save file: %s",file_name);
-		return 0;
+		return nullptr;
 	}
 
 	DWORD dwHWFileSize;
 	if( fio->_GetFileSize(fh,&dwHWFileSize) < sizeof(EXTDATA_HEADER) + sizeof(dword) ) {
 		data_size = 0;
 		fio->_CloseHandle(fh);
-		return 0;
+		return nullptr;
 	}
 
 	dword dw2;
 	RDTSC_B(dw2);
 	EXTDATA_HEADER exdh;
-	fio->_SetFilePointer(fh, 0, 0, FILE_BEGIN);
-	fio->_ReadFile(fh, &exdh, sizeof(exdh), null);
+	fio->_SetFilePointer(fh, 0, nullptr, FILE_BEGIN);
+	fio->_ReadFile(fh, &exdh, sizeof(exdh), nullptr);
 	if( exdh.dwExtDataSize <=0 ) {
 		data_size = 0;
 		fio->_CloseHandle(fh);
-		return 0;
+		return nullptr;
 	}
 
 	dword dwPackLen;
-	fio->_SetFilePointer(fh, exdh.dwExtDataOffset, 0, FILE_BEGIN);
-	fio->_ReadFile(fh, &dwPackLen, sizeof(dwPackLen), null);
+	fio->_SetFilePointer(fh, exdh.dwExtDataOffset, nullptr, FILE_BEGIN);
+	fio->_ReadFile(fh, &dwPackLen, sizeof(dwPackLen), nullptr);
 	if( dwPackLen==0 || dwPackLen>0x8000000 ) {
 		data_size = 0;
 		fio->_CloseHandle(fh);
-		return 0;
+		return nullptr;
 	}
 	char * pCBuffer = NEW char[dwPackLen];
-	fio->_ReadFile(fh, pCBuffer, dwPackLen, null);
+	fio->_ReadFile(fh, pCBuffer, dwPackLen, nullptr);
 	char * pBuffer = NEW char[exdh.dwExtDataSize];
 	dword dwDestLen = exdh.dwExtDataSize;
 	uncompress((Bytef*)pBuffer, &dwDestLen, (Bytef*)pCBuffer, dwPackLen);
@@ -6642,7 +6642,7 @@ DWORD COMPILER::SetScriptFunction(IFUNCINFO * pFuncInfo)
 	S_TOKEN_TYPE TokenType;
 	DWORD nFuncHandle;
 
-	if(pFuncInfo->pFuncName == 0)
+	if(pFuncInfo->pFuncName == nullptr)
 	{
 		SetError("Invalid function name in SetScriptFunction(...)");
 		return INVALID_FUNCHANDLE;
@@ -6668,7 +6668,7 @@ DWORD COMPILER::SetScriptFunction(IFUNCINFO * pFuncInfo)
 	
 	fi.name = pFuncInfo->pFuncName;
 	fi.decl_file_name = pFuncInfo->pDeclFileName;
-	if(fi.decl_file_name == 0) fi.decl_file_name = "unknown";
+	if(fi.decl_file_name == nullptr) fi.decl_file_name = "unknown";
 	fi.decl_line = pFuncInfo->nDeclLine;
 	fi.pImportedFunc = pFuncInfo->pFuncAddress;
 	fi.arguments = pFuncInfo->nArguments;
@@ -6677,7 +6677,7 @@ DWORD COMPILER::SetScriptFunction(IFUNCINFO * pFuncInfo)
 	fi.offset = INVALID_FUNC_OFFSET;
 	fi.stack_offset = 0xffffffff;
 
-	if(pFuncInfo->pReturnValueName == 0) fi.return_type = TVOID;
+	if(pFuncInfo->pReturnValueName == nullptr) fi.return_type = TVOID;
 	else
 	{
 		TokenType = Token.Keyword2TokenType(pFuncInfo->pReturnValueName);
@@ -6730,18 +6730,18 @@ DATA * COMPILER::GetOperand(char * pCodeBase, DWORD & ip, S_TOKEN_TYPE * pTokenT
 		return vi.pDClass;
 		case LOCAL_VARIABLE:
 			pVar = SStack.Read(pRun_fi->stack_offset,*((dword *)&pCodeBase[ip]));
-			if(pVar == 0) { SetError("Local variable not found"); return false; }
+			if(pVar == nullptr) { SetError("Local variable not found"); return nullptr; }
 		return pVar;
 		case AX: return &rAX;
 		case BX: return &rBX;
 		case EX: return &ExpressionResult;
 		case AP:
-		return 0;
+		return nullptr;
 		default:
 			SetError("invalid operand");
-		return 0;
+		return nullptr;
 	}
-	return 0;
+	return nullptr;
 }
 
 void COMPILER::FormatAllDialog(char * directory_name)
@@ -6778,7 +6778,7 @@ void COMPILER::FormatDialog(char * file_name)
 	DWORD nTxt,nLnk;
 	bool bExportString;
 	
-	if(file_name == 0) return;
+	if(file_name == nullptr) return;
 
 	nTxt = 0;
 	nLnk = 0;
@@ -6788,7 +6788,7 @@ void COMPILER::FormatDialog(char * file_name)
 
 
 	pFileData = LoadFile(file_name,FileSize,true);
-	if(pFileData == 0) { return;}
+	if(pFileData == nullptr) { return;}
 
 	fh = Core.fio->_CreateFile(sFileName,GENERIC_WRITE,FILE_SHARE_READ,CREATE_ALWAYS);
 	if(fh == INVALID_HANDLE_VALUE) return;
@@ -7002,7 +7002,7 @@ void COMPILER::FormatDialog(char * file_name)
 	wsprintf(buffer,"};");
 	Core.fio->_WriteFile(fhH,sNewLine,strlen(sNewLine),&dwR);
 	Core.fio->_WriteFile(fhH,buffer,strlen(buffer),&dwR);
-	Core.fio->_SetFilePointer(fhH,0,0,FILE_BEGIN);
+	Core.fio->_SetFilePointer(fhH,0,nullptr,FILE_BEGIN);
 	wsprintf(buffer,"string DLG_TEXT[%d] = {",nTxt);
 	Core.fio->_WriteFile(fhH,buffer,strlen(buffer),&dwR);
 	

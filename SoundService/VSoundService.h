@@ -64,7 +64,7 @@ public:
 									 bool _looped = false,      // looped?
 									 bool _cached = false,      // unload after stoppping?
 									 long _time = 0,            // fade in, if _time > 0
-									 CVECTOR *_startPosition = 0,
+									 CVECTOR *_startPosition = nullptr,
 									 float _minDistance = -1.0f,
 									 float _maxDistance = -1.0f,
 									 long  _loopPauseTime = 0,

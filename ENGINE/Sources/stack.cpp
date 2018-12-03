@@ -3,7 +3,7 @@
 
 VSTACK::VSTACK()
 {
-	pBlock = 0;
+	pBlock = nullptr;
 	Block_Num = 0;
 	Block_Size = 0;
 }
@@ -37,7 +37,7 @@ bool VSTACK::Pop(DATA * * _pblock)
 {
 	if(Block_Num == 0) 
 	{
-		if(_pblock) *_pblock = 0; 
+		if(_pblock) *_pblock = nullptr; 
 		return false;
 	}
 	if(_pblock) memcpy(_pblock,&pBlock[Block_Num - 1],sizeof(DATA *));

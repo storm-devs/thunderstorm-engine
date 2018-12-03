@@ -72,7 +72,7 @@ bool SEA::SunRoad_Render2()
 
 	D3DXMATRIX mInv;
 	memcpy (mInv.m, _mWorldViewProj.m, sizeof(float)* 16);
-	D3DXMatrixInverse(&mInv, NULL, &mInv);
+	D3DXMatrixInverse(&mInv, nullptr, &mInv);
 	D3DXMatrixTranspose(&mInv, &mInv);
 	D3DXPlaneTransform(&plane, &plane, &mInv);
 	Render().SetClipPlane (0, (FLOAT *)&plane);
@@ -95,7 +95,7 @@ bool SEA::SunRoad_Render2()
 
 		Render().BeginScene();
 		bool bCool = Render().SetRenderTarget(pReflectionSurface, pZStencil);
-		bCool = D3D_OK != Render().Clear(0, null, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET, 0x0, 1.0f, 0);
+		bCool = D3D_OK != Render().Clear(0, nullptr, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET, 0x0, 1.0f, 0);
 
 		//CMatrix mView;
 		//EnvMap_GetSideMatrix((D3DCUBEMAP_FACES)i, mView);
@@ -167,7 +167,7 @@ bool SEA::EnvMap_Render2()
 
 	D3DXMATRIX mInv;
 	memcpy (mInv.m, _mWorldViewProj.m, sizeof(float)* 16);
-	D3DXMatrixInverse(&mInv, NULL, &mInv);
+	D3DXMatrixInverse(&mInv, nullptr, &mInv);
 	D3DXMatrixTranspose(&mInv, &mInv);
 	D3DXPlaneTransform(&plane, &plane, &mInv);
 	Render().SetClipPlane (0, (FLOAT *)&plane);
@@ -190,7 +190,7 @@ bool SEA::EnvMap_Render2()
 		//bool bCool = Render().SetRenderTarget(pEnvMap, i, 0, pZStencil);
 		//bool bCool = Render().SetRenderTarget(pEnvMap, i, 0, pZStencil);
 		bool bCool = Render().SetRenderTarget(pReflectionSurface, pReflectionSurfaceDepth);
-		bCool = D3D_OK != Render().Clear(0, null, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET, 0x0, 1.0f, 0);
+		bCool = D3D_OK != Render().Clear(0, nullptr, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET, 0x0, 1.0f, 0);
 
 		//CMatrix mView;
 		//EnvMap_GetSideMatrix((D3DCUBEMAP_FACES)i, mView);
@@ -264,7 +264,7 @@ bool SEA::SunRoad_Render()
 
 		Render().BeginScene();
 		bool bCool = Render().SetRenderTarget(pSunRoadMap, i, 0, pZStencil);
-		bCool = D3D_OK != Render().Clear(0, null, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET, 0x0, 1.0f, 0);
+		bCool = D3D_OK != Render().Clear(0, nullptr, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET, 0x0, 1.0f, 0);
 
 		CMatrix mView;
 		EnvMap_GetSideMatrix((D3DCUBEMAP_FACES)i, mView);
@@ -319,7 +319,7 @@ bool SEA::EnvMap_Render()
 
 		Render().BeginScene();
 		bool bCool = Render().SetRenderTarget(pEnvMap, i, 0, pZStencil);
-		bCool = D3D_OK != Render().Clear(0, null, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET, Colors[i]/*0x0*/, 1.0f, 0);
+		bCool = D3D_OK != Render().Clear(0, nullptr, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET, Colors[i]/*0x0*/, 1.0f, 0);
 
 		CMatrix mView;
 		EnvMap_GetSideMatrix((D3DCUBEMAP_FACES)i, mView);

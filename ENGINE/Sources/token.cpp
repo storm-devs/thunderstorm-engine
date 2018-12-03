@@ -224,13 +224,13 @@ S_KEYWORD Keywords[] =
 
 TOKEN::TOKEN()
 {
-	pTokenData = 0;
+	pTokenData = nullptr;
 	eTokenType = UNKNOWN;
 	TokenDataBufferSize = 0;
 	ZeroMemory(ProgramSteps,sizeof(ProgramSteps));
 	ProgramStepsNum = 0;
-	Program = 0;
-	ProgramBase = 0;
+	Program = nullptr;
+	ProgramBase = nullptr;
 	Lines_in_token = 0;
 
 	InitializeHashTable();
@@ -242,7 +242,7 @@ void TOKEN::Release()
 	for(n=0;n<TOKENHASHTABLE_SIZE;n++)
 	{
 		if(KeywordsHash[n].pIndex) delete KeywordsHash[n].pIndex;
-		KeywordsHash[n].pIndex = 0;
+		KeywordsHash[n].pIndex = nullptr;
 	}
 }
 
@@ -278,13 +278,13 @@ DWORD TOKEN::GetProgramOffset()
 void TOKEN::Reset()
 {
 	if(pTokenData) delete pTokenData;
-	pTokenData = 0;
+	pTokenData = nullptr;
 	eTokenType = UNKNOWN;
 	TokenDataBufferSize = 0;
 	ZeroMemory(ProgramSteps,sizeof(ProgramSteps));
 	ProgramStepsNum = 0;
-	Program = 0;
-	ProgramBase = 0;
+	Program = nullptr;
+	ProgramBase = nullptr;
 }
 
 bool TOKEN::Is(S_TOKEN_TYPE ttype)
@@ -823,7 +823,7 @@ void TOKEN::StartArgument(char* & pointer, bool bKeepControlSymbols)
 bool TOKEN::IsNumber(char * pointer)
 {
 	DWORD n;
-	if(pointer == 0) return false;
+	if(pointer == nullptr) return false;
 	for(n=0;pointer[n];n++)
 	{
 		if(pointer[n] < 0x20 && n > 0) return true;				// end on white space
@@ -836,7 +836,7 @@ bool TOKEN::IsNumber(char * pointer)
 bool TOKEN::IsFloatNumber(char * pointer)
 {
 	DWORD n;
-	if(pointer == 0) return false;
+	if(pointer == nullptr) return false;
 	for(n=0;pointer[n];n++)
 	{
 		if(pointer[n] == '.')
@@ -947,7 +947,7 @@ S_TOKEN_TYPE TOKEN::ProcessToken(char* & pointer, bool bKeepData)
 	pointer += SetTokenData(pointer,bKeepData);
 
 	eTokenType = UNKNOWN;
-	if(GetData() == 0)
+	if(GetData() == nullptr)
 	{
 		pointer++;
 		DISCARD_DATABUFFER

@@ -7,7 +7,7 @@
 
 S_VARTAB::S_VARTAB()
 {
-	pTable = 0;
+	pTable = nullptr;
 	Buffer_size = 0;
 	Var_num = 0;
 //	bKeepName = false;
@@ -16,7 +16,7 @@ S_VARTAB::S_VARTAB()
 	for(n=0;n<VTHASHT_SIZE;n++)
 	{
 		HashLine[n].nNumElements = 0;
-		HashLine[n].pElements = 0;
+		HashLine[n].pElements = nullptr;
 	}
 }
 
@@ -35,7 +35,7 @@ void  S_VARTAB::Release()
 			if(pTable[n].pDClass) delete pTable[n].pDClass;
 			if(pTable[n].name) delete pTable[n].name;	
 		}
-		delete pTable; pTable = 0;
+		delete pTable; pTable = nullptr;
 	}
 	Buffer_size = 0;
 	Var_num = 0;
@@ -43,7 +43,7 @@ void  S_VARTAB::Release()
 	{
 		HashLine[n].nNumElements = 0;
 		if(HashLine[n].pElements)  delete HashLine[n].pElements;
-		HashLine[n].pElements = 0;
+		HashLine[n].pElements = nullptr;
 	}
 }
 
@@ -67,7 +67,7 @@ dword S_VARTAB::AddVar(VARINFO& vi)
 	dword n;
 	dword hash;
 
-	if(vi.name == 0) return INVALID_VAR_CODE;
+	if(vi.name == nullptr) return INVALID_VAR_CODE;
 
 	//trace("%s : %d",vi.name,(long)vi.bArray);
 
@@ -121,7 +121,7 @@ dword S_VARTAB::AddVar(VARINFO& vi)
 	pTable[Var_num].elements = vi.elements;
 	pTable[Var_num].type = vi.type;
 	pTable[Var_num].hash = hash;
-	pTable[Var_num].name = 0;
+	pTable[Var_num].name = nullptr;
 	
 	pTable[Var_num].pDClass = NEW DATA;
 	pTable[Var_num].pDClass->SetVCompiler(pVCompiler);
@@ -178,7 +178,7 @@ void S_VARTAB::InvalidateBySegmentID(dword segment_id)
 dword S_VARTAB::FindVar(const char * var_name)
 {
 	DWORD hash_index,n,hash,ni;
-	if(var_name == 0) return INVALID_VAR_CODE;
+	if(var_name == nullptr) return INVALID_VAR_CODE;
 	hash = MakeHashValue(var_name);
 	hash_index = VTMAKEHASHINDEX(hash);
 	for(n=0;n<HashLine[hash_index].nNumElements;n++)

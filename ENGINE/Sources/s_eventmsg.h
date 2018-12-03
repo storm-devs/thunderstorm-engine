@@ -14,7 +14,7 @@ public:
 	char * pEventName;
 	bool bProcess;
 	bool bInvalide;
-	S_EVENTMSG(){bInvalide = false; bProcess = false; pMessageClass = 0; nTime = 0; nPeriod = 0;pEventName = 0;};
+	S_EVENTMSG(){bInvalide = false; bProcess = false; pMessageClass = nullptr; nTime = 0; nPeriod = 0;pEventName = nullptr;};
 	S_EVENTMSG(char * _name,MESSAGE_SCRIPT * _pc, DWORD _period) 
 	{
 		bInvalide = false;

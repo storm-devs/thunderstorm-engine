@@ -16,18 +16,18 @@
 // Конструктор / деструктор
 BaseEmitter::BaseEmitter(ParticleSystem* pSystem)
 {
-	pEmitter = NULL;
+	pEmitter = nullptr;
 	Visible = true;
-	pFields = NULL;
+	pFields = nullptr;
 	IsAttachedFlag = false;
 	OldMatrixNotInitialized = true;
 	LifeTime = 0.0f;
 	pMaster = pSystem;
 	ElapsedTime = 0.0f;
 	Position = Vector (0.0f);
-	EmissionDirX = NULL;
-	EmissionDirY = NULL;
-	EmissionDirZ = NULL;
+	EmissionDirX = nullptr;
+	EmissionDirY = nullptr;
+	EmissionDirZ = nullptr;
 	Stoped = false;
 }
 

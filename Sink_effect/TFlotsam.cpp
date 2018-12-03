@@ -8,7 +8,7 @@ ENTITY_ID TFlotsam::modelIDs[FLOTSAM_MODELS_COUNT];
 
 //--------------------------------------------------------------------
 TFlotsam::TFlotsam()
-	:sea(0)
+	:sea(nullptr)
 	,enabled(false)
 {
 

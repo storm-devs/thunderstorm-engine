@@ -2,8 +2,8 @@
 
 MapZipper::MapZipper()
 {
-	pWordTable = null;
-	pRealData = null;
+	pWordTable = nullptr;
+	pRealData = nullptr;
 }
 
 MapZipper::~MapZipper()
@@ -97,16 +97,16 @@ bool MapZipper::Load(std::string sFileName)
 
 	HANDLE hFile = fio->_CreateFile(sFileName.c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
 	if (hFile == INVALID_HANDLE_VALUE) return false;
-	fio->_ReadFile(hFile, &dwSizeX, sizeof(dwSizeX), null);
-	fio->_ReadFile(hFile, &dwDX, sizeof(dwDX), null);
-	fio->_ReadFile(hFile, &dwBlockSize, sizeof(dwBlockSize), null);
-	fio->_ReadFile(hFile, &dwBlockShift, sizeof(dwBlockShift), null);
-	fio->_ReadFile(hFile, &dwShiftNumBlocksX, sizeof(dwShiftNumBlocksX), null);
-	fio->_ReadFile(hFile, &dwNumRealBlocks, sizeof(dwNumRealBlocks), null);
+	fio->_ReadFile(hFile, &dwSizeX, sizeof(dwSizeX), nullptr);
+	fio->_ReadFile(hFile, &dwDX, sizeof(dwDX), nullptr);
+	fio->_ReadFile(hFile, &dwBlockSize, sizeof(dwBlockSize), nullptr);
+	fio->_ReadFile(hFile, &dwBlockShift, sizeof(dwBlockShift), nullptr);
+	fio->_ReadFile(hFile, &dwShiftNumBlocksX, sizeof(dwShiftNumBlocksX), nullptr);
+	fio->_ReadFile(hFile, &dwNumRealBlocks, sizeof(dwNumRealBlocks), nullptr);
 	pWordTable = NEW word[dwDX * dwDX];
-	fio->_ReadFile(hFile, pWordTable, sizeof(word) * dwDX * dwDX, null);
+	fio->_ReadFile(hFile, pWordTable, sizeof(word) * dwDX * dwDX, nullptr);
 	pRealData = NEW byte[dwNumRealBlocks * dwBlockSize * dwBlockSize];
-	fio->_ReadFile(hFile, pRealData, sizeof(byte) * dwNumRealBlocks * dwBlockSize * dwBlockSize, null);
+	fio->_ReadFile(hFile, pRealData, sizeof(byte) * dwNumRealBlocks * dwBlockSize * dwBlockSize, nullptr);
 	fio->_CloseHandle(hFile);
 	return true;
 }
@@ -115,14 +115,14 @@ bool MapZipper::Save(std::string sFileName)
 {
 	HANDLE hFile = fio->_CreateFile(sFileName.c_str(), GENERIC_WRITE, FILE_SHARE_READ, OPEN_ALWAYS);
 	if (hFile == INVALID_HANDLE_VALUE) return false;
-	fio->_WriteFile(hFile, &dwSizeX, sizeof(dwSizeX), null);
-	fio->_WriteFile(hFile, &dwDX, sizeof(dwDX), null);
-	fio->_WriteFile(hFile, &dwBlockSize, sizeof(dwBlockSize), null);
-	fio->_WriteFile(hFile, &dwBlockShift, sizeof(dwBlockShift), null);
-	fio->_WriteFile(hFile, &dwShiftNumBlocksX, sizeof(dwShiftNumBlocksX), null);
-	fio->_WriteFile(hFile, &dwNumRealBlocks, sizeof(dwNumRealBlocks), null);
-	fio->_WriteFile(hFile, pWordTable, sizeof(word) * dwDX * dwDX, null);
-	fio->_WriteFile(hFile, pRealData, sizeof(byte) * dwNumRealBlocks * dwBlockSize * dwBlockSize, null);
+	fio->_WriteFile(hFile, &dwSizeX, sizeof(dwSizeX), nullptr);
+	fio->_WriteFile(hFile, &dwDX, sizeof(dwDX), nullptr);
+	fio->_WriteFile(hFile, &dwBlockSize, sizeof(dwBlockSize), nullptr);
+	fio->_WriteFile(hFile, &dwBlockShift, sizeof(dwBlockShift), nullptr);
+	fio->_WriteFile(hFile, &dwShiftNumBlocksX, sizeof(dwShiftNumBlocksX), nullptr);
+	fio->_WriteFile(hFile, &dwNumRealBlocks, sizeof(dwNumRealBlocks), nullptr);
+	fio->_WriteFile(hFile, pWordTable, sizeof(word) * dwDX * dwDX, nullptr);
+	fio->_WriteFile(hFile, pRealData, sizeof(byte) * dwNumRealBlocks * dwBlockSize * dwBlockSize, nullptr);
 	fio->_CloseHandle(hFile);
 	return true;
 }

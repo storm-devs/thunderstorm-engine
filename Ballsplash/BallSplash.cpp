@@ -11,8 +11,8 @@ CREATE_CLASS(BALLSPLASH)
 
 //--------------------------------------------------------------------
 BALLSPLASH::BALLSPLASH()
-	:sea(0)
-	,renderer(0)
+	:sea(nullptr)
+	,renderer(nullptr)
 {
 }
 
@@ -152,7 +152,7 @@ void BALLSPLASH::InitializeSplashes()
 	for (int i = 0; i < MAX_SPLASHES; ++i)
 	{
 		splashes[i].Release();
-		splashes[i].Initialize(psIni, null, sea, renderer);
+		splashes[i].Initialize(psIni, nullptr, sea, renderer);
 	}
 
 	delete psIni;
@@ -173,7 +173,7 @@ TSplash *BALLSPLASH::TryToAddSplash(const CVECTOR &_pos, const CVECTOR &_dir)
 		}
 	}
 
-	return 0;
+	return nullptr;
 }
 
 //--------------------------------------------------------------------

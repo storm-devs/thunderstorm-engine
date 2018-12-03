@@ -311,7 +311,7 @@ int DataSource::FindEmitter (const char* Name)
 FieldList* DataSource::CreateBillBoardParticle (const char* ParticleName, const char* EmitterName)
 {
 	int EmitterIndex = FindEmitter(EmitterName);
-	if (EmitterIndex == -1) return NULL;
+	if (EmitterIndex == -1) return nullptr;
 
 	Emitters[EmitterIndex].Particles.push_back(ParticleDesc{});
 	//ParticleDesc *pDesc = &Emitters[EmitterIndex].Particles[Emitters[EmitterIndex].Particles.Add()];
@@ -369,7 +369,7 @@ FieldList* DataSource::CreateBillBoardParticle (const char* ParticleName, const 
 FieldList* DataSource::CreateModelParticle (const char* ParticleName, const char* EmitterName)
 {
 	int EmitterIndex = FindEmitter(EmitterName);
-	if (EmitterIndex == -1) return NULL;
+	if (EmitterIndex == -1) return nullptr;
 
 	Emitters[EmitterIndex].Particles.push_back(ParticleDesc{});
 	//ParticleDesc *pDesc = &Emitters[EmitterIndex].Particles[Emitters[EmitterIndex].Particles.Add()];

@@ -11,8 +11,8 @@ CREATE_CLASS(SINKEFFECT)
 
 //--------------------------------------------------------------------
 SINKEFFECT::SINKEFFECT()
-	:sea(0)
-	,renderer(0)
+	:sea(nullptr)
+	,renderer(nullptr)
 {
 }
 
@@ -138,7 +138,7 @@ void SINKEFFECT::InitializeSinks()
 	for (int i = 0; i < MAX_SINKS; ++i)
 	{
 		sinks[i].Release();
-		sinks[i].Initialize(psIni, null, sea, renderer);
+		sinks[i].Initialize(psIni, nullptr, sea, renderer);
 	}
 
 	delete psIni;
@@ -156,7 +156,7 @@ TSink *SINKEFFECT::TryToAddSink(const CVECTOR &_pos, float _r)
 		}
 	}
 
-	return 0;
+	return nullptr;
 }
 
 //--------------------------------------------------------------------

@@ -3,7 +3,7 @@
 
 MESSAGE_ICONS::MESSAGE_ICONS()
 {
-	rs = null;
+	rs = nullptr;
 
 	m_bShowMsgIcon = false;
 	m_idMsgIconsTexture = -1;
@@ -138,7 +138,7 @@ void MESSAGE_ICONS::Draw()
 void MESSAGE_ICONS::StartData(ATTRIBUTES * pAData[MESSAGE_ICONS_COLUMN_QUANTITY], long pLeft[MESSAGE_ICONS_COLUMN_QUANTITY])
 {
 	int i,j;
-	if(pAData==null) return;
+	if(pAData== nullptr) return;
 
 	for(i=0; i<MESSAGE_ICONS_COLUMN_QUANTITY; i++)
 	{
@@ -181,7 +181,7 @@ bool MESSAGE_ICONS::InitData(ENTITY_ID & host_eid, VDX9RENDER * _rs, ATTRIBUTES 
 	m_fBlindTimeDown = pARoot->GetAttributeAsFloat("BlindDownTime",1.f);
 
 	char * stmp = pARoot->GetAttribute("texture");
-	if(stmp!=null)	m_idMsgIconsTexture = rs->TextureCreate(stmp);
+	if(stmp!= nullptr)	m_idMsgIconsTexture = rs->TextureCreate(stmp);
 	m_nHorzTextureSize = pARoot->GetAttributeAsDword("TexHSize",1);
 	m_nVertTextureSize = pARoot->GetAttributeAsDword("TexVSize",1);
 
@@ -196,14 +196,14 @@ bool MESSAGE_ICONS::InitData(ENTITY_ID & host_eid, VDX9RENDER * _rs, ATTRIBUTES 
 		m_pMsgColumns[i].rowQ = 0;
 		m_pMsgColumns[i].startVertex = i*m_nMsgIconRowQnt;
 		m_pMsgColumns[i].pRow = NEW COLUMN_DESCRIBER::ROW_DESCR[m_nMsgIconRowQnt];
-		if(m_pMsgColumns[i].pRow==null)
+		if(m_pMsgColumns[i].pRow== nullptr)
 		{
 			STORM_THROW("allocate memory error");
 		}
 	}
 
 	BI_COLOR_VERTEX * pVBuf = (BI_COLOR_VERTEX*)rs->LockVertexBuffer(m_vMsgIconBufID);
-	if(pVBuf!=null)
+	if(pVBuf!= nullptr)
 	{
 		for(i=0; i<m_nMsgIconRowQnt*MESSAGE_ICONS_COLUMN_QUANTITY*4; i++)
 		{
@@ -215,7 +215,7 @@ bool MESSAGE_ICONS::InitData(ENTITY_ID & host_eid, VDX9RENDER * _rs, ATTRIBUTES 
 	}
 
 	WORD * pIBuf = (WORD*)rs->LockIndexBuffer(m_iMsgIconBufID);
-	if(pIBuf!=null)
+	if(pIBuf!= nullptr)
 	{
 		for(i=0; i<m_nMsgIconRowQnt*MESSAGE_ICONS_COLUMN_QUANTITY; i++)
 		{

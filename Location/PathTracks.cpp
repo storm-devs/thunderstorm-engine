@@ -13,14 +13,14 @@
 
 PathTracks::PathTracks()
 {
-	point = null;
+	point = nullptr;
 	numPoints = 0;
 }
 
 PathTracks::~PathTracks()
 {
 	if(point) delete point;
-	point = null;
+	point = nullptr;
 	numPoints = 0;
 }
 
@@ -34,10 +34,10 @@ bool PathTracks::Load(const char * fileName)
 	Assert(sizeof(AntFileTrackElement) == sizeof(Point));
 
 	if(point) delete point;
-	point = 0;
+	point = nullptr;
 	numPoints = 0;
 
-	char* data = null;
+	char* data = nullptr;
 	dword size = 0;
 	if( api->fio->LoadFile(fileName,&data,&size)==FALSE || !data )
 	{

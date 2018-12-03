@@ -96,7 +96,7 @@ void CXI_EDITBOX::Draw(bool bSelected,dword Delta_Time)
 
 	// show out string
 	ATTRIBUTES * pA = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
-	char * tmpstr = null;
+	char * tmpstr = nullptr;
 	if(pA) tmpstr = pA->GetAttribute("strdata");
 	if(tmpstr) m_rs->ExtPrint(m_nStrFontNum,0xFFFFFFFF,0,ALIGN_CENTER,true,m_fStrScale,m_screenSize.x,m_screenSize.y,(m_rect.left+m_rect.right)/2,m_nTopStringPos,"%s",tmpstr);
 }
@@ -138,7 +138,7 @@ int CXI_EDITBOX::CommandExecute(int wActCode)
 			{
 				if(m_nCurAlphaNum<0 || m_nCurAlphaNum>=m_nAlphaQuantity) break;
 				ATTRIBUTES * pA = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
-				if(pA==null) break;
+				if(pA== nullptr) break;
 				char param[256];	param[0] = 0;
 				char * tmpstr = pA->GetAttribute("strdata");
 				switch(m_alpha[m_bUpChrRegistrOffset+m_nCurAlphaNum])
@@ -345,7 +345,7 @@ void CXI_EDITBOX::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	if( ReadIniString(ini1,name1, ini2,name2, "alphabet", param, sizeof(param)-1,"") )
 	{
 		char * pTmpStr = pStringService->GetString(pStringService->GetStringNum(param));
-		if(pTmpStr==null) pTmpStr = param;
+		if(pTmpStr== nullptr) pTmpStr = param;
 		int nLen = strlen(pTmpStr);
 		if(nLen>sizeof(m_alpha)/2-1) nLen = sizeof(m_alpha)/2-1;
 		strncpy(m_alpha,pTmpStr,nLen);
@@ -355,7 +355,7 @@ void CXI_EDITBOX::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	if( ReadIniString(ini1,name1, ini2,name2, "alphabetUP", param,sizeof(param)-1,"") )
 	{
 		char * pTmpStr = pStringService->GetString(pStringService->GetStringNum(param));
-		if(pTmpStr==null) pTmpStr = param;
+		if(pTmpStr== nullptr) pTmpStr = param;
 		int nLen = strlen(pTmpStr);
 		if(nLen>sizeof(m_alpha)/2-1) nLen = sizeof(m_alpha)/2-1;
 		strncpy(&m_alpha[sizeof(m_alpha)/2],pTmpStr,nLen);

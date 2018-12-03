@@ -23,16 +23,16 @@ CAviPlayer::CAviPlayer()
 	m_bContinue = true;
 	m_bShowVideo = true;
 
-    pDD = NULL;
-    pPrimarySurface = NULL;
-	pVideoSurface	= NULL;
-	pAMStream = NULL;
-	pPrimaryVidStream = NULL;
-	pDDStream = NULL;
-	pSample = NULL;
+    pDD = nullptr;
+    pPrimarySurface = nullptr;
+	pVideoSurface	= nullptr;
+	pAMStream = nullptr;
+	pPrimaryVidStream = nullptr;
+	pDDStream = nullptr;
+	pSample = nullptr;
 
-	pTmpRenderTarget = NULL;
-	pTex = NULL;
+	pTmpRenderTarget = nullptr;
+	pTex = nullptr;
 	m_bFirstDraw = true;
 	m_bMakeUninitializeDD = false;
 }
@@ -44,7 +44,7 @@ CAviPlayer::~CAviPlayer()
 
 bool CAviPlayer::Init()
 {
-	if( (rs=(VDX9RENDER *)_CORE_API->CreateService("dx9render")) == NULL )
+	if( (rs=(VDX9RENDER *)_CORE_API->CreateService("dx9render")) == nullptr )
 	{
 		STORM_THROW("Can`t create render service");
 	}
@@ -70,7 +70,7 @@ void CAviPlayer::Execute(dword delta_time)
 {
 	if(m_bContinue==false)
 	{
-		if(pAMStream!=NULL)
+		if(pAMStream!= nullptr)
 			pAMStream->SetState(STREAMSTATE_STOP);
 		CleanupInterfaces();
 		api->Event("ievntEndVideo");
@@ -86,7 +86,7 @@ void CAviPlayer::Realize(dword delta_time)
 	HRESULT hr;
 	DDSURFACEDESC ddsd;
 	ddsd.dwSize = sizeof(ddsd);
-	if(pSample==NULL)
+	if(pSample== nullptr)
 	{
 		m_bContinue = false;
 		return;
@@ -94,13 +94,13 @@ void CAviPlayer::Realize(dword delta_time)
 
 	if(m_bFirstDraw)
 	{
-		rs->Clear( 0,NULL,D3DCLEAR_TARGET,0,0,0);
+		rs->Clear( 0, nullptr,D3DCLEAR_TARGET,0,0,0);
 		m_bFirstDraw = false;
 	}
 
-	if( (hr=pSample->Update(0, NULL, NULL, NULL)) == S_OK )
+	if( (hr=pSample->Update(0, nullptr, nullptr, NULL)) == S_OK )
 	{
-		hr = pVideoSurface->Lock( NULL, &ddsd, 0, NULL );
+		hr = pVideoSurface->Lock(nullptr, &ddsd, 0, nullptr );
 		if(hr!=S_OK) return;
 
 		D3DLOCKED_RECT d3dlkRect;
@@ -119,7 +119,7 @@ void CAviPlayer::Realize(dword delta_time)
 		}
 
 		pTex->UnlockRect(0);
-		pVideoSurface->Unlock(NULL);
+		pVideoSurface->Unlock(nullptr);
 
 		if(m_bShowVideo)
 		{
@@ -146,7 +146,7 @@ dword _cdecl CAviPlayer::ProcessMessage(MESSAGE & message)
 			if( !PlayMedia(vidName) )
 			{
 				CleanupInterfaces();
-				api->PostEvent("ievntEndVideo",1,null);
+				api->PostEvent("ievntEndVideo",1, nullptr);
 			}
 		}
 		break;
@@ -163,7 +163,7 @@ bool CAviPlayer::PlayMedia(char * fileName)
 	MultiByteToWideChar(CP_ACP, 0, fileName, -1, wPath,
 		sizeof(wPath)/sizeof(wPath[0]));    
 
-	if(pAMStream==null) return false;
+	if(pAMStream== nullptr) return false;
 
 	hr = pAMStream->OpenFile(wPath, 0);
     if (FAILED(hr)) {
@@ -182,14 +182,14 @@ bool CAviPlayer::PlayMedia(char * fileName)
         return false;
     }
     ddsd.dwSize = sizeof(ddsd);
-    hr = pDDStream->GetFormat(&ddsd, NULL, NULL, NULL);
+    hr = pDDStream->GetFormat(&ddsd, nullptr, nullptr, nullptr);
     if (FAILED(hr)) {
 		api->Trace("Video Error!!! Can`t get stream format");
         return false;
     }
 	long srcWidth = ddsd.dwWidth;
 	long srcHeight = ddsd.dwHeight;
-	hr = pDD->CreateSurface(&ddsd, &pVideoSurface, NULL);
+	hr = pDD->CreateSurface(&ddsd, &pVideoSurface, nullptr);
     if (FAILED(hr)) {
 		api->Trace("Video Error!!! Can`t create surface for video imaging");
         return false;
@@ -198,7 +198,7 @@ bool CAviPlayer::PlayMedia(char * fileName)
 	lockRect.left = 0;			lockRect.top = 0;
 	lockRect.right = srcWidth;	lockRect.bottom = srcHeight;
 
-	hr = pDDStream->CreateSample((IDirectDrawSurface*)pVideoSurface, NULL, 0, &pSample);
+	hr = pDDStream->CreateSample((IDirectDrawSurface*)pVideoSurface, nullptr, 0, &pSample);
     if (FAILED(hr)) {
 		api->Trace("Video Error!!! Can`t create sample for this video");
         return false;
@@ -225,7 +225,7 @@ bool CAviPlayer::PlayMedia(char * fileName)
 
 	D3DSURFACE_DESC d3d9surf_desc;
 
-	IDirect3DSurface9 * pd3dsurf = null;
+	IDirect3DSurface9 * pd3dsurf = nullptr;
 	rs->GetRenderTarget(&pd3dsurf);
 	pd3dsurf->GetDesc(&d3d9surf_desc);
 	pd3dsurf->Release();
@@ -268,7 +268,7 @@ bool CAviPlayer::GetInterfaces()
         return false;
 	m_bMakeUninitializeDD = true;
 
-	hr = DirectDrawCreate(NULL, &pDD, NULL);
+	hr = DirectDrawCreate(nullptr, &pDD, nullptr);
     if (FAILED(hr)) {
 		api->Trace("Video Error!!! Can`t create DirectDraw interface");
         return false;
@@ -278,24 +278,24 @@ bool CAviPlayer::GetInterfaces()
 		api->Trace("Video Error!!! Can`t SetCooperativeLevel for DirectDraw");
         return false;
     }
-	hr = CoCreateInstance(CLSID_AMMultiMediaStream, NULL, CLSCTX_INPROC_SERVER,
+	hr = CoCreateInstance(CLSID_AMMultiMediaStream, nullptr, CLSCTX_INPROC_SERVER,
 		IID_IAMMultiMediaStream, (void **)&pAMStream);
     if (FAILED(hr)) {
 		api->Trace("Video Error!!! Can`t create interface AMMultiMediaStream");
         return false;
     }
 
-	hr = pAMStream->Initialize(STREAMTYPE_READ, AMMSF_NOGRAPHTHREAD, NULL);
+	hr = pAMStream->Initialize(STREAMTYPE_READ, AMMSF_NOGRAPHTHREAD, nullptr);
     if (FAILED(hr)) {
 		api->Trace("Video Error!!! Can`t initialize interface AMMultiMediaStream");
         return false;
     }
-	hr = pAMStream->AddMediaStream(pDD, &MSPID_PrimaryVideo, 0, NULL);
+	hr = pAMStream->AddMediaStream(pDD, &MSPID_PrimaryVideo, 0, nullptr);
     if (FAILED(hr)) {
 		api->Trace("Video Error!!! Can`t add video stream");
         return false;
     }
-	hr = pAMStream->AddMediaStream(NULL, &MSPID_PrimaryAudio, AMMSF_ADDDEFAULTRENDERER, NULL);
+	hr = pAMStream->AddMediaStream(nullptr, &MSPID_PrimaryAudio, AMMSF_ADDDEFAULTRENDERER, nullptr);
     if (FAILED(hr)) {
 		api->Trace("Video Error!!! Can`t add audio stream");
         return false;
@@ -317,8 +317,8 @@ void CAviPlayer::CleanupInterfaces()
 
 	IRELEASE(pTmpRenderTarget);
 
-	if(pTex!=NULL && rs!=NULL)	rs->Release(pTex);
-	pTex=NULL;
+	if(pTex!= nullptr && rs!= nullptr)	rs->Release(pTex);
+	pTex= nullptr;
 
 	if( m_bMakeUninitializeDD ) CoUninitialize();
 	m_bMakeUninitializeDD = false;

@@ -34,14 +34,14 @@ WdmEventWindow::WdmEventWindow()
 	textureBkg = -1;
 	textureButton = -1;
 	buttonFont = FONT_DEFAULT;
-	text = null;
-	token = null;
+	text = nullptr;
+	token = nullptr;
 	numTokens = 0;
 	maxTokens = 0;
 	textureBkg = wdmObjects->rs->TextureCreate("WorldMap\\Interfaces\\eventbkg.tga");
 	textureButton = wdmObjects->rs->TextureCreate("WorldMap\\Interfaces\\button.tga");
 	buttonPosY = 0;
-	SetAnswers("Yes", 0);
+	SetAnswers("Yes", nullptr);
 	//„итаем атрибуты
 	if(wdmObjects->wm->AttributesPointer)
 	{
@@ -111,11 +111,11 @@ void WdmEventWindow::SplitText()
 		ht = text;
 	}
 	//»щем токены
-	for(char * tk = null, * t = ht; true; t++)
+	for(char * tk = nullptr, * t = ht; true; t++)
 	{
 		if(*t != ' ' && *t)
 		{
-			if(tk == null) tk = t;
+			if(tk == nullptr) tk = t;
 		}else{
 			bool isExit = !*t;
 			if(tk)
@@ -136,7 +136,7 @@ void WdmEventWindow::SplitText()
 				}else{
 					if(maxsw < token[numTokens].w) maxsw = token[numTokens].w;
 				}
-				tk = null;
+				tk = nullptr;
 				numTokens++;
 			}
 			if(isExit) break;

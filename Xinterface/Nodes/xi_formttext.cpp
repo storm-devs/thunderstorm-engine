@@ -8,7 +8,7 @@
 
 static void SubRightWord(char* buf,int fontNum,int width,VDX9RENDER *rs)
 {
-	if(buf==NULL) return;
+	if(buf== nullptr) return;
 	long bufSize = strlen(buf);
 	for(char* pEnd = buf+bufSize; pEnd>buf; pEnd--)
 	{
@@ -24,27 +24,27 @@ CXI_FORMATEDTEXT::STRING_DESCRIBER::STRING_DESCRIBER(char* ls) : color(0)
 {
 	long sdStrSize = strlen(ls);
 	if (sdStrSize == 0)
-		lineStr = NULL;
+		lineStr = nullptr;
 	else
 	{
-		if ((lineStr = NEW char[sdStrSize + 1]) == NULL)
+		if ((lineStr = NEW char[sdStrSize + 1]) == nullptr)
 		{
 			STORM_THROW("allocate memory error");
 		}
 		strcpy(lineStr, ls);
 	}
-	next = NULL;
+	next = nullptr;
 	strNum = 0;
-	prev = NULL;
+	prev = nullptr;
 	strGroup = 0;
 }
 
 CXI_FORMATEDTEXT::STRING_DESCRIBER* CXI_FORMATEDTEXT::STRING_DESCRIBER::Add(char* ls,int groupNum)
 {
-	if(ls==NULL)
-		return NULL;
+	if(ls== nullptr)
+		return nullptr;
 	STRING_DESCRIBER* newSD = NEW STRING_DESCRIBER(ls);
-	if(newSD==NULL)
+	if(newSD== nullptr)
 	{
 		STORM_THROW("allocate memory error");
 	}
@@ -68,10 +68,10 @@ CXI_FORMATEDTEXT::CXI_FORMATEDTEXT()
 	m_allStrings = 0;
 
 	m_nAllTextStrings = 0;
-	m_listCur = m_listRoot = null;
+	m_listCur = m_listRoot = nullptr;
 
 	m_nStringGroupQuantity = 0;
-	m_pVidTex = null;
+	m_pVidTex = nullptr;
 	m_idVBuf = -1;
 	m_nCurGroupNum = 0;
 
@@ -87,7 +87,7 @@ CXI_FORMATEDTEXT::CXI_FORMATEDTEXT()
 
 	m_nUpRectOffset = 0;
 
-	m_sScrollerName = null;
+	m_sScrollerName = nullptr;
 
 	m_bSelectableCursor = false;
 	m_bUseOneStringAdding = false;
@@ -112,7 +112,7 @@ void CXI_FORMATEDTEXT::Draw(bool bSelected,dword Delta_Time)
 			m_rs->SetRenderState(D3DRS_TEXTUREFACTOR,m_dwBackColor);
 			m_rs->DrawPrimitive(D3DPT_TRIANGLESTRIP,m_idVBuf,sizeof(XI_ONLYONETEX_VERTEX),12,2,"iTFRectangle");
 		}
-		if( m_pVidTex != null )
+		if( m_pVidTex != nullptr )
 		{
 			m_rs->SetTexture(0,m_pVidTex->m_pTexture);
 			m_rs->DrawPrimitive(D3DPT_TRIANGLESTRIP,m_idVBuf,sizeof(XI_ONLYONETEX_VERTEX),0,2,"iDinamicPictures");
@@ -145,10 +145,10 @@ void CXI_FORMATEDTEXT::Draw(bool bSelected,dword Delta_Time)
 
 	long curY = m_rect.top + m_nVAlignmentOffset;
 	int i=0;
-	for(STRING_DESCRIBER* sd=m_listCur;sd!=NULL && i<m_allStrings;sd=sd->next,i++)
+	for(STRING_DESCRIBER* sd=m_listCur;sd!= nullptr && i<m_allStrings;sd=sd->next,i++)
 	{
 		// отобразить строки
-		if(sd->lineStr!=NULL && sd->lineStr[0]!=0)
+		if(sd->lineStr!= nullptr && sd->lineStr[0]!=0)
 		{
 			if( sd->m_tags.size() == 0 )
 				m_rs->ExtPrint(m_idFont,sd->color,0,m_nAlignment,true,m_fFontScale,m_screenSize.x,m_screenSize.y, m_nPrintLeftOffset,curY,
@@ -203,7 +203,7 @@ int CXI_FORMATEDTEXT::CommandExecute(int wActCode)
 {
 	if(m_bUse && !m_bFrized)
 	{
-		if(m_listCur==null) return -1;
+		if(m_listCur== nullptr) return -1;
 		STRING_DESCRIBER * pOldCur = m_listCur;
 		if(wActCode == ACTION_MOUSECLICK || wActCode == ACTION_MOUSERCLICK)
 		{
@@ -231,7 +231,7 @@ int CXI_FORMATEDTEXT::CommandExecute(int wActCode)
 				{
 					STRING_DESCRIBER* pStrDscr = m_listCur;
 					for(int i=0; i<m_allStrings; i++)
-						if( pStrDscr->prev == null ) break;
+						if( pStrDscr->prev == nullptr ) break;
 						else pStrDscr = pStrDscr->prev;
 					SetCurLine( pStrDscr );
 					ControlSyncronouseNodes();
@@ -241,7 +241,7 @@ int CXI_FORMATEDTEXT::CommandExecute(int wActCode)
 				{
 					STRING_DESCRIBER* pStrDscr = m_listCur;
 					for(int i=0; i<m_allStrings; i++)
-						if( pStrDscr->next == null ) break;
+						if( pStrDscr->next == nullptr ) break;
 						else pStrDscr = pStrDscr->next;
 					SetCurLine( pStrDscr );
 					ControlSyncronouseNodes();
@@ -313,9 +313,9 @@ bool CXI_FORMATEDTEXT::IsClick(int buttonID,long xPos,long yPos)
 	if(nNum<0 || nNum>=m_allStrings) return true;
 
 	STRING_DESCRIBER* pdescr = m_listCur;
-	for(int i=0; i<nNum && pdescr!=null; i++)
+	for(int i=0; i<nNum && pdescr!= nullptr; i++)
 		pdescr = pdescr->next;
-	if(pdescr!=null && m_nCurGroupNum!=pdescr->strGroup) SetVertexToNewGroup(true,FindUpGroup(pdescr->strGroup),FindDownGroup(pdescr->strGroup));
+	if(pdescr!= nullptr && m_nCurGroupNum!=pdescr->strGroup) SetVertexToNewGroup(true,FindUpGroup(pdescr->strGroup),FindDownGroup(pdescr->strGroup));
 	if(m_nStringGroupQuantity>0)
 		api->Event("SetScrollerPos","sf",m_nodeName,(float)m_nCurGroupNum/(float)m_nStringGroupQuantity);
 	else
@@ -338,9 +338,9 @@ void CXI_FORMATEDTEXT::ChangePosition( XYRECT &rNewPos )
 	m_rectCursorPosition.left = m_rect.left;
 	m_rectCursorPosition.right = m_rect.right;
 
-	XI_ONLYONETEX_VERTEX * pv = null;
+	XI_ONLYONETEX_VERTEX * pv = nullptr;
 	if(m_idVBuf!=-1) pv = (XI_ONLYONETEX_VERTEX *)m_rs->LockVertexBuffer(m_idVBuf);
-	if(pv!=null)
+	if(pv!= nullptr)
 	{
 		pv[0].tu = pv[1].tu = 0.f;
 		pv[2].tu = pv[3].tu = 1.f;
@@ -470,9 +470,9 @@ void CXI_FORMATEDTEXT::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 	m_rectCursorPosition.left = m_rect.left;
 	m_rectCursorPosition.right = m_rect.right;
 
-	XI_ONLYONETEX_VERTEX * pv = null;
+	XI_ONLYONETEX_VERTEX * pv = nullptr;
 	if(m_idVBuf!=-1) pv = (XI_ONLYONETEX_VERTEX *)m_rs->LockVertexBuffer(m_idVBuf);
-	if(pv!=null)
+	if(pv!= nullptr)
 	{
 		pv[0].tu = pv[1].tu = 0.f;
 		pv[2].tu = pv[3].tu = 1.f;
@@ -577,7 +577,7 @@ void CXI_FORMATEDTEXT::ReleaseString( STRING_DESCRIBER * pCur )
 	if( m_listRoot == pCur ) m_listRoot = pCur->next;
 	if( pCur->prev ) pCur->prev->next = pCur->next;
 	if( pCur->next ) pCur->next->prev = pCur->prev;
-	pCur->next = pCur->prev = 0;
+	pCur->next = pCur->prev = nullptr;
 	m_nAllTextStrings--;
 	PTR_STORM_DELETE( pCur->lineStr );
 	delete pCur;
@@ -586,13 +586,13 @@ void CXI_FORMATEDTEXT::ReleaseString( STRING_DESCRIBER * pCur )
 void CXI_FORMATEDTEXT::ReleaseStringes()
 {
 	while( m_listRoot ) ReleaseString( m_listRoot );
-	m_listCur = NULL;
+	m_listCur = nullptr;
 	m_nAllTextStrings = 0;
 }
 
 bool CXI_FORMATEDTEXT::GetLineNext(int fontNum,char* &pInStr,char* buf,int bufSize)
 {
-	if(pInStr==NULL || buf==NULL) return false;
+	if(pInStr== nullptr || buf== nullptr) return false;
 	char *pStart = pInStr;
 	int bYesEOL=0;
 	while(*pInStr!=0)
@@ -666,7 +666,7 @@ bool CXI_FORMATEDTEXT::GetLineNext(int fontNum,char* &pInStr,char* buf,int bufSi
 
 void CXI_FORMATEDTEXT::GetOneLine(int fontNum,char* pStr,char* buf,int bufSize)
 {
-	if(pStr==NULL || buf==NULL) return;
+	if(pStr== nullptr || buf== nullptr) return;
 
 	char *pStart = pStr;
 	int bYesEOL=0;
@@ -697,7 +697,7 @@ void CXI_FORMATEDTEXT::GetOneLine(int fontNum,char* pStr,char* buf,int bufSize)
 void CXI_FORMATEDTEXT::SetFormatedText(char * str)
 {
 	// удалим старые строки
-	while(m_listRoot!=NULL)
+	while(m_listRoot!= nullptr)
 	{
 		m_listCur = m_listRoot;
 		m_listRoot = m_listRoot->next;
@@ -721,7 +721,7 @@ void CXI_FORMATEDTEXT::SetPointer(float fPos)
 	{
 		m_listCur = m_listRoot;
 		for(int nq = (int)(m_nAllTextStrings*fPos); nq>0; nq--)
-			if(m_listCur!=null && m_listCur->next!=null) m_listCur=m_listCur->next;
+			if(m_listCur!= nullptr && m_listCur->next!= nullptr) m_listCur=m_listCur->next;
 			else break;
 	}
 	CheckScrollButtons();
@@ -778,14 +778,14 @@ long CXI_FORMATEDTEXT::GetAllHeight()
 
 long CXI_FORMATEDTEXT::AddFormatedText(const char * str)
 {
-	if(str==null) return 0;
+	if(str== nullptr) return 0;
 	m_nVAlignmentOffset = 0;
 
-	STRING_DESCRIBER *	dscrTmp = null;
+	STRING_DESCRIBER *	dscrTmp = nullptr;
 
 	// find last string
-	if(m_listRoot!=null)
-		for(dscrTmp=m_listRoot; dscrTmp->next!=null; dscrTmp=dscrTmp->next);
+	if(m_listRoot!= nullptr)
+		for(dscrTmp=m_listRoot; dscrTmp->next!= nullptr; dscrTmp=dscrTmp->next);
 
 	char newStr[512];
 	char * pstr = (char*)str;
@@ -796,9 +796,9 @@ long CXI_FORMATEDTEXT::AddFormatedText(const char * str)
 	if( m_bUseOneStringAdding )
 	{
 		GetOneLine( m_idFont,pstr,newStr,sizeof(newStr) );
-		if(m_listRoot==null)
+		if(m_listRoot== nullptr)
 		{
-			if( (dscrTmp=m_listRoot=NEW STRING_DESCRIBER(newStr)) == NULL )
+			if( (dscrTmp=m_listRoot=NEW STRING_DESCRIBER(newStr)) == nullptr )
 			{
 				STORM_THROW("allocate memory error");
 			}
@@ -816,9 +816,9 @@ long CXI_FORMATEDTEXT::AddFormatedText(const char * str)
 	{
 		while(GetLineNext(m_idFont,pstr,newStr,sizeof(newStr)))
 		{
-			if(m_listRoot==null)
+			if(m_listRoot== nullptr)
 			{
-				if( (dscrTmp=m_listRoot=NEW STRING_DESCRIBER(newStr)) == NULL )
+				if( (dscrTmp=m_listRoot=NEW STRING_DESCRIBER(newStr)) == nullptr )
 				{
 					STORM_THROW("allocate memory error");
 				}
@@ -835,13 +835,13 @@ long CXI_FORMATEDTEXT::AddFormatedText(const char * str)
 	}
 
 	m_nAllTextStrings += textQ;
-	if( dscrTmp!=null)
+	if( dscrTmp!= nullptr)
 	{
 		m_nStringGroupQuantity++;
 		api->Event("DisableScroll","sl",m_nodeName,m_nAllTextStrings<m_allStrings);
 	}
 
-	if(m_listCur==null)
+	if(m_listCur== nullptr)
 	{
 		m_listCur = m_listRoot;
 		SetVertexToNewGroup(true,FindUpGroup(0),FindDownGroup(0));
@@ -927,7 +927,7 @@ dword _cdecl CXI_FORMATEDTEXT::MessageProc(long msgcode, MESSAGE & message)
 	case 0: // добавить текст к форматированному списку и вернуть количество занимаемых строк
 		{
 			VDATA * pvdat = message.ScriptVariablePointer();
-			if(pvdat!=null)
+			if(pvdat!= nullptr)
 			{
 				int retVar = AddFormatedText(pvdat->GetString());
 				CheckScrollButtons();
@@ -952,15 +952,15 @@ dword _cdecl CXI_FORMATEDTEXT::MessageProc(long msgcode, MESSAGE & message)
 	case 3: // заполнить атрибуты размерами текстов
 		{
 			ATTRIBUTES * pAttr = message.AttributePointer();
-			if(pAttr==null) return 0;
+			if(pAttr== nullptr) return 0;
 			int i=0;
 			int oldgroup = -1;
 			int idx=0;
-			if(m_listCur!=null && m_listCur->prev!=null) oldgroup = m_listCur->prev->strGroup;
-			for(STRING_DESCRIBER* sd=m_listCur;sd!=null && i<m_allStrings;sd=sd->next,i++)
+			if(m_listCur!= nullptr && m_listCur->prev!= nullptr) oldgroup = m_listCur->prev->strGroup;
+			for(STRING_DESCRIBER* sd=m_listCur;sd!= nullptr && i<m_allStrings;sd=sd->next,i++)
 			{
 				// отобразить строки
-				if(sd->lineStr!=null && sd->lineStr[0]!=0 && sd->strGroup!=oldgroup)
+				if(sd->lineStr!= nullptr && sd->lineStr[0]!=0 && sd->strGroup!=oldgroup)
 				{
 					oldgroup = sd->strGroup;
 					char atrName[128];
@@ -980,16 +980,16 @@ dword _cdecl CXI_FORMATEDTEXT::MessageProc(long msgcode, MESSAGE & message)
 	case 4: // заполнить аттрибуты Y координатами вершины текста
 		{
 			ATTRIBUTES * pAttr = message.AttributePointer();
-			if(pAttr==null) return 0;
+			if(pAttr== nullptr) return 0;
 
 			int i=0;
 			int oldgroup = -1;
 			int idx=0;
-			if(m_listCur!=null && m_listCur->prev!=null)	oldgroup = m_listCur->prev->strGroup;
-			for(STRING_DESCRIBER* sd=m_listCur;sd!=NULL && i<m_allStrings;sd=sd->next,i++)
+			if(m_listCur!= nullptr && m_listCur->prev!= nullptr)	oldgroup = m_listCur->prev->strGroup;
+			for(STRING_DESCRIBER* sd=m_listCur;sd!= nullptr && i<m_allStrings;sd=sd->next,i++)
 			{
 				// отобразить строки
-				if(sd->lineStr!=NULL && sd->lineStr[0]!=0 && sd->strGroup!=oldgroup)
+				if(sd->lineStr!= nullptr && sd->lineStr[0]!=0 && sd->strGroup!=oldgroup)
 				{
 					oldgroup = sd->strGroup;
 					char atrName[128];
@@ -1020,7 +1020,7 @@ dword _cdecl CXI_FORMATEDTEXT::MessageProc(long msgcode, MESSAGE & message)
 	case 7: // установить строки на заданные позиции
 		{
 			ATTRIBUTES * pA = message.AttributePointer();
-			if(pA!=null) SetSpecialStrings(pA);
+			if(pA!= nullptr) SetSpecialStrings(pA);
 		}
 		break;
 
@@ -1031,7 +1031,7 @@ dword _cdecl CXI_FORMATEDTEXT::MessageProc(long msgcode, MESSAGE & message)
 
 			if(grNum<0) grNum = m_nStringGroupQuantity-1;
 
-			for(STRING_DESCRIBER* sd = m_listRoot; sd!=null; sd=sd->next)
+			for(STRING_DESCRIBER* sd = m_listRoot; sd!= nullptr; sd=sd->next)
 				if(sd->strGroup==grNum)	sd->color = newColor;
 		}
 		break;
@@ -1039,7 +1039,7 @@ dword _cdecl CXI_FORMATEDTEXT::MessageProc(long msgcode, MESSAGE & message)
 	case 9: // Узнать количество строк которое займет строка
 		{
 			VDATA * pvdat = message.ScriptVariablePointer();
-			if(pvdat!=null)
+			if(pvdat!= nullptr)
 			{
 				char * tmpStr = pvdat->GetString();
 				char buf[512];
@@ -1054,7 +1054,7 @@ dword _cdecl CXI_FORMATEDTEXT::MessageProc(long msgcode, MESSAGE & message)
 		{
 			int grNum = message.Long();
 			VDATA * pvdat = message.ScriptVariablePointer();
-			if( pvdat != null ) ReplaceString( grNum, pvdat->GetString() );
+			if( pvdat != nullptr ) ReplaceString( grNum, pvdat->GetString() );
 		}
 		break;
 
@@ -1067,7 +1067,7 @@ dword _cdecl CXI_FORMATEDTEXT::MessageProc(long msgcode, MESSAGE & message)
 			long n = message.Long();
 			long curY = m_rect.top + m_nVAlignmentOffset;
 			int i=0;
-			for(STRING_DESCRIBER* sd=m_listCur;sd!=NULL && i<m_allStrings;sd=sd->next,i++)
+			for(STRING_DESCRIBER* sd=m_listCur;sd!= nullptr && i<m_allStrings;sd=sd->next,i++)
 			{
 				if( sd->strGroup == n ) return curY;
 				curY += m_vertOffset;
@@ -1087,39 +1087,39 @@ dword _cdecl CXI_FORMATEDTEXT::MessageProc(long msgcode, MESSAGE & message)
 long CXI_FORMATEDTEXT::FindUpGroup(long grNum)
 {
 	STRING_DESCRIBER * dscrTmp = m_listCur;
-	if(dscrTmp==null) return 0;
+	if(dscrTmp== nullptr) return 0;
 	long upPos = 0;
 	if(grNum<0) grNum=0;
 	if(grNum>=m_nStringGroupQuantity) grNum=m_nStringGroupQuantity-1;
 
 	if(dscrTmp->strGroup>=grNum)
 	{
-		for(; dscrTmp!=null && dscrTmp->strGroup>=grNum; dscrTmp=dscrTmp->prev)	upPos--;
+		for(; dscrTmp!= nullptr && dscrTmp->strGroup>=grNum; dscrTmp=dscrTmp->prev)	upPos--;
 		upPos++;
 		return upPos;
 	}
 
-	for(; dscrTmp!=null && dscrTmp->strGroup<grNum; dscrTmp=dscrTmp->next)	upPos++;
-	if(dscrTmp==null) upPos--;
+	for(; dscrTmp!= nullptr && dscrTmp->strGroup<grNum; dscrTmp=dscrTmp->next)	upPos++;
+	if(dscrTmp== nullptr) upPos--;
 	return upPos;
 }
 
 long CXI_FORMATEDTEXT::FindDownGroup(long grNum)
 {
 	STRING_DESCRIBER * dscrTmp = m_listCur;
-	if(dscrTmp==null) return 0;
+	if(dscrTmp== nullptr) return 0;
 	long upPos = 0;
 	if(grNum<0) grNum=0;
 	if(grNum>=m_nStringGroupQuantity) grNum=m_nStringGroupQuantity-1;
 
 	if(dscrTmp->strGroup>grNum)
 	{
-		for(; dscrTmp!=null && dscrTmp->strGroup>grNum; dscrTmp=dscrTmp->prev)	upPos--;
-		if(dscrTmp==null) upPos++;
+		for(; dscrTmp!= nullptr && dscrTmp->strGroup>grNum; dscrTmp=dscrTmp->prev)	upPos--;
+		if(dscrTmp== nullptr) upPos++;
 		return upPos;
 	}
 
-	for(; dscrTmp!=null && dscrTmp->strGroup<=grNum; dscrTmp=dscrTmp->next)	upPos++;
+	for(; dscrTmp!= nullptr && dscrTmp->strGroup<=grNum; dscrTmp=dscrTmp->next)	upPos++;
 	return upPos-1;
 }
 
@@ -1133,13 +1133,13 @@ void CXI_FORMATEDTEXT::SetVertexToNewGroup(bool bUpDirect, long upIdx, long down
 
 	bool bChange = false;
 
-	for(;upIdx<0 && m_listCur!=null; m_listCur=m_listCur->prev)
+	for(;upIdx<0 && m_listCur!= nullptr; m_listCur=m_listCur->prev)
 	{
 		bChange = true;
 		upIdx++; downIdx++;
 	}
 
-	for(;downIdx>=m_allStrings && m_listCur!=null; m_listCur=m_listCur->next)
+	for(;downIdx>=m_allStrings && m_listCur!= nullptr; m_listCur=m_listCur->next)
 	{
 		bChange = true;
 		upIdx--; downIdx--;
@@ -1150,14 +1150,14 @@ void CXI_FORMATEDTEXT::SetVertexToNewGroup(bool bUpDirect, long upIdx, long down
 
 	STRING_DESCRIBER * tmpDscr = m_listCur;
 	for(i=0; i<upIdx; i++)
-		if(tmpDscr==null) break;
+		if(tmpDscr== nullptr) break;
 		else tmpDscr = tmpDscr->next;
-	if(tmpDscr!=null) m_nCurGroupNum = tmpDscr->strGroup;
+	if(tmpDscr!= nullptr) m_nCurGroupNum = tmpDscr->strGroup;
 	else	m_nCurGroupNum = 0;
 
-	XI_ONLYONETEX_VERTEX * pv = null;
+	XI_ONLYONETEX_VERTEX * pv = nullptr;
 	if(m_idVBuf!=-1) pv = (XI_ONLYONETEX_VERTEX *)m_rs->LockVertexBuffer(m_idVBuf);
-	if(pv!=null)
+	if(pv!= nullptr)
 	{
 		m_rectCursorPosition.top = m_rect.top - m_nUpRectOffset + m_vertOffset*upIdx;
 		m_rectCursorPosition.bottom = m_rect.top - m_nUpRectOffset + m_vertOffset*(downIdx+1);
@@ -1187,9 +1187,9 @@ void CXI_FORMATEDTEXT::MouseThis(float fX, float fY)
 	if(nNum<0 || nNum>=m_allStrings) return;
 
 	STRING_DESCRIBER* pdescr = m_listCur;
-	for(int i=0; i<nNum && pdescr!=null; i++)
+	for(int i=0; i<nNum && pdescr!= nullptr; i++)
 		pdescr = pdescr->next;
-	if(pdescr!=null && m_nCurGroupNum!=pdescr->strGroup) SetVertexToNewGroup(true,FindUpGroup(pdescr->strGroup),FindDownGroup(pdescr->strGroup));
+	if(pdescr!= nullptr && m_nCurGroupNum!=pdescr->strGroup) SetVertexToNewGroup(true,FindUpGroup(pdescr->strGroup),FindDownGroup(pdescr->strGroup));
 	if(m_nStringGroupQuantity>0)
 		api->Event("SetScrollerPos","sf",m_nodeName,(float)m_nCurGroupNum/(float)m_nStringGroupQuantity);
 	else
@@ -1202,16 +1202,16 @@ void CXI_FORMATEDTEXT::CheckScrollButtons()
 {
 	bool oldUp = m_bUpEnable;
 	bool oldDown = m_bDownEnable;
-	if(m_listCur==null)
+	if(m_listCur== nullptr)
 	{
 		m_bUpEnable = m_bDownEnable = false;
 	}
 	else
 	{
-		m_bUpEnable = m_listCur->prev!=null;
+		m_bUpEnable = m_listCur->prev!= nullptr;
 		STRING_DESCRIBER* psd = m_listCur;
-		for(int i=0; i<m_allStrings && psd!=null; i++,psd=psd->next);
-		m_bDownEnable = psd!=null;
+		for(int i=0; i<m_allStrings && psd!= nullptr; i++,psd=psd->next);
+		m_bDownEnable = psd!= nullptr;
 	}
 
 	if( oldUp==m_bUpEnable && oldDown==m_bDownEnable) return;
@@ -1219,7 +1219,7 @@ void CXI_FORMATEDTEXT::CheckScrollButtons()
 		m_idDownEnableTexture==-1 && m_idDownDisableTexture==-1 ) return;
 
 	XI_ONLYONETEX_VERTEX * pv = (XI_ONLYONETEX_VERTEX *)m_rs->LockVertexBuffer(m_idVBuf);
-	if(pv!=null)
+	if(pv!= nullptr)
 	{
 		if(oldUp!=m_bUpEnable )
 			if(m_bUpEnable)
@@ -1269,10 +1269,10 @@ void CXI_FORMATEDTEXT::CheckScrollButtons()
 
 void CXI_FORMATEDTEXT::SetSpecialStrings(ATTRIBUTES * pARoot)
 {
-	if(pARoot==null) return;
+	if(pARoot== nullptr) return;
 
 	// удалим старые строки
-	while(m_listRoot!=NULL)
+	while(m_listRoot!= nullptr)
 	{
 		m_listCur = m_listRoot;
 		m_listRoot = m_listRoot->next;
@@ -1286,9 +1286,9 @@ void CXI_FORMATEDTEXT::SetSpecialStrings(ATTRIBUTES * pARoot)
 	for(int i=0; i<q; i++)
 	{
 		ATTRIBUTES * pA = pARoot->GetAttributeClass(i);
-		if(pA==null) continue;
+		if(pA== nullptr) continue;
 		char * tmpstr = pA->GetAttribute("str");
-		if(tmpstr==null) continue;
+		if(tmpstr== nullptr) continue;
 		int pos = pA->GetAttributeAsDword("pos",-1);
 		while(pos>m_nAllTextStrings)
 			AddFormatedText("\n");
@@ -1306,7 +1306,7 @@ void CXI_FORMATEDTEXT::ControlSyncronouseNodes()
 {
 	for( long n=0; n<(long)m_asSyncNodes.size(); n++ )
 	{
-		CINODE * pNode = ((XINTERFACE*)g_idInterface.pointer)->FindNode( m_asSyncNodes[n].c_str(), 0 );
+		CINODE * pNode = ((XINTERFACE*)g_idInterface.pointer)->FindNode( m_asSyncNodes[n].c_str(), nullptr );
 		if( !pNode ) continue;
 		switch( pNode->m_nNodeType )
 		{
@@ -1343,7 +1343,7 @@ void CXI_FORMATEDTEXT::ReplaceString( long nGrpNum, const char * pSrcStr )
 	if( nGrpNum < 0 ) return;
 	if( nGrpNum > m_nStringGroupQuantity ) nGrpNum = m_nStringGroupQuantity;
 
-	if( m_listCur && m_listCur->strGroup==nGrpNum ) m_listCur = 0;
+	if( m_listCur && m_listCur->strGroup==nGrpNum ) m_listCur = nullptr;
 
 	STRING_DESCRIBER * dscrCur;
 	for( dscrCur=m_listRoot; dscrCur; dscrCur=dscrCur->next )
@@ -1433,7 +1433,7 @@ void CXI_FORMATEDTEXT::SetCurLine(STRING_DESCRIBER* pNewCurLine)
 
 	if( !m_bSelectableCursor )
 	{
-		if(m_nAllTextStrings>0 && m_listCur!=null)
+		if(m_nAllTextStrings>0 && m_listCur!= nullptr)
 			api->Event( "SetScrollerPos", "sf", m_nodeName, (float)m_listCur->strNum/(float)m_nAllTextStrings );
 		else
 			api->Event( "SetScrollerPos", "sf", m_nodeName, 0.f );
@@ -1445,7 +1445,7 @@ void CXI_FORMATEDTEXT::SetCurLine(STRING_DESCRIBER* pNewCurLine)
 void CXI_FORMATEDTEXT::ScrollerUpdate()
 {
 	if( !m_sScrollerName ) return;
-	CINODE * pNode = ((XINTERFACE*)g_idInterface.pointer)->FindNode( m_sScrollerName, 0 );
+	CINODE * pNode = ((XINTERFACE*)g_idInterface.pointer)->FindNode( m_sScrollerName, nullptr );
 	if( !pNode ) return;
 
 	if( pNode->m_nNodeType != NODETYPE_SCROLLER )

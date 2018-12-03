@@ -20,7 +20,7 @@
 
 LocLife::LocLife()
 {
-	location = null;
+	location = nullptr;
 	node = -1;
 	kSpeed = 1.0f;
 	speed = 0.6f;
@@ -58,17 +58,17 @@ bool LocLife::Init(Location * loc)
 	if(!api->Send_Message(model, "ls", MSG_MODEL_LOAD_ANI, GetAniName())) return false;
 	//Определям место положения
 	location = loc;
-	if(FindRandomPos(pos) < 0){ location = null; return false; }
+	if(FindRandomPos(pos) < 0){ location = nullptr; return false; }
 	FindPos();
 	ay = rand()*(6.28f/RAND_MAX);
 	//Анимация
 	MODEL * m = (MODEL *)_CORE_API->GetEntityPointer(&model);
-	if(!m){ location = null; return false; }
+	if(!m){ location = nullptr; return false; }
 	NODE * node = m->GetNode(0);
 	if(node) node->SetTechnique("DLightModel");
 	Animation * ani = m->GetAnimation();
-	if(!ani){ location = null; return false; }
-	if(!PostInit(ani)){ location = null; return false; }
+	if(!ani){ location = nullptr; return false; }
+	if(!PostInit(ani)){ location = nullptr; return false; }
 	return true;
 }
 

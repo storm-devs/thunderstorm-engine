@@ -10,12 +10,12 @@
 DECK_CAMERA::DECK_CAMERA()
 {
 	vb_id = 0;
-	RenderService = 0;
+	RenderService = nullptr;
 	ZeroMemory(&camera_pos,sizeof(camera_pos));
 	camera_pos.y = 1.0f;
 	ZeroMemory(&camera_ang,sizeof(camera_ang));
-	pACharacter = null;
-	pathNode = null;
+	pACharacter = nullptr;
+	pathNode = nullptr;
 	bLoad = false;
 }
 
@@ -347,7 +347,7 @@ void DECK_CAMERA::SetStartPos()
 		for(int i=0; i<1000; i++)
 		{
 			NODE* root = pModel->GetNode(i);
-			if(root==NULL) break;
+			if(root== nullptr) break;
 			GEOS::INFO gi;
 			root->geo->GetInfo(gi);
 			int j;
@@ -523,7 +523,7 @@ dword DECK_CAMERA::AttributeChanged(ATTRIBUTES * pAttr)
 
 void DECK_CAMERA::SetViewPoint(CVECTOR & cViewPoint)
 {
-	if(pathNode==null) return;
+	if(pathNode== nullptr) return;
 
     /*// расчитать позицию камеры
     CVECTOR s_pos;
@@ -558,7 +558,7 @@ void DECK_CAMERA::SetViewPoint(CVECTOR & cViewPoint)
 
 float DECK_CAMERA::MultiTrace(const CVECTOR & cvUp, const CVECTOR & cvDown, float fHBase)
 {
-	if(pathNode==null) return 2.f;
+	if(pathNode== nullptr) return 2.f;
 
 	float fRet = 2.f;
 

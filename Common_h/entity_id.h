@@ -22,8 +22,8 @@ struct ENTITY_ID
 		memset(&creation_time,0,sizeof(creation_time));
 		atom_position = 0;
 		class_code = 0;
-		pointer = 0;
-		pName = 0;
+		pointer = nullptr;
+		pName = nullptr;
 	};
 	ENTITY_CREATION_TIME creation_time;
 	dword  atom_position;

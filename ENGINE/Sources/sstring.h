@@ -9,16 +9,16 @@ class SSTRING
 {
 	char * pDataPointer;
 	public:
-	 SSTRING(){pDataPointer = 0;};
+	 SSTRING(){pDataPointer = nullptr;};
 	 SSTRING(const char * p){if(!p) return; pDataPointer = NEW char[strlen(p) + 1]; strcpy(pDataPointer,p);};
-	 SSTRING(const SSTRING& ss) : pDataPointer(0)
+	 SSTRING(const SSTRING& ss) : pDataPointer(nullptr)
 	 {
 		 pDataPointer = NEW char[strlen(ss.pDataPointer)+1];
 		 strcpy(pDataPointer,ss.pDataPointer);
 	 }
 	~SSTRING()
 	{
-		if(pDataPointer) delete pDataPointer; pDataPointer = 0;
+		if(pDataPointer) delete pDataPointer; pDataPointer = nullptr;
 	};
 	SSTRING& operator = (const SSTRING& ss) 
 	{
@@ -40,22 +40,22 @@ class SSTRING
 	bool operator ==(const char * p) 
 	{
 		if(pDataPointer == p) return true;
-		if(pDataPointer == 0 || p == 0) return false;
+		if(pDataPointer == nullptr || p == nullptr) return false;
 		if(strcmp(pDataPointer,p)==0) return true;
 		return false;
 	};
 	bool operator !=(const char * p) 
 	{
 		if(pDataPointer == p) return false;
-		if(pDataPointer == 0 || p == 0) return true;
+		if(pDataPointer == nullptr || p == nullptr) return true;
 		if(strcmp(pDataPointer,p)==0) return false;
 		return true;
 	};
 	void operator +=(const char * p)
 	{
 		char * pp;
-		if(p == 0) return;
-		if(pDataPointer == 0)
+		if(p == nullptr) return;
+		if(pDataPointer == nullptr)
 		{
 			pDataPointer = NEW char[strlen(p) + 1]; strcpy(pDataPointer,p);
 			return;
@@ -70,7 +70,7 @@ class SSTRING
 	{
 		char * pp;
 		DWORD nLen;
-		if(pDataPointer == 0)
+		if(pDataPointer == nullptr)
 		{
 			pDataPointer = NEW char[2]; 
 			pDataPointer[0] = sym;

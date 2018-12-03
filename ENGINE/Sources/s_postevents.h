@@ -9,7 +9,7 @@ class POSTEVENTS_LIST
 	S_EVENTMSG ** pTable;
 	DWORD		 nClassesNum;
 public:
-	 POSTEVENTS_LIST(){nClassesNum = 0; pTable = 0; };
+	 POSTEVENTS_LIST(){nClassesNum = 0; pTable = nullptr; };
 	~POSTEVENTS_LIST(){Release();};
 	void Release()
 	{
@@ -18,7 +18,7 @@ public:
 		{
 			for(n=0;n<nClassesNum;n++) delete pTable[n];
 			delete pTable;
-			pTable = 0;
+			pTable = nullptr;
 		}
 		nClassesNum = 0;
 	};
@@ -40,7 +40,7 @@ public:
 	}
 	S_EVENTMSG * Read(DWORD _n)
 	{
-		if(_n >= nClassesNum) return 0;
+		if(_n >= nClassesNum) return nullptr;
 		return pTable[_n];
 	};
 	DWORD GetClassesNum() {return nClassesNum;}

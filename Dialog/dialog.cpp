@@ -15,7 +15,7 @@
 INTERFACE_FUNCTION
 CREATE_CLASS(DIALOG)
 
-VDX9RENDER * DIALOG::RenderService = 0;
+VDX9RENDER * DIALOG::RenderService = nullptr;
 FRECT DIALOG::m_frScreenData;
 
 inline void SetVerticesForSquare(XI_TEX_VERTEX* pV, FRECT uv, float left,float top, float right,float bottom)
@@ -176,7 +176,7 @@ void __declspec(noinline) __cdecl DIALOG::DlgLinkDescribe::ChangeText(ATTRIBUTES
 				nEditVarIndex = pA->GetAttributeAsDword("edit",0);
 				nEditCharIndex = 0;
 			}
-			DIALOG::AddToStringArrayLimitedByWidth(pA->GetThisAttr(),nFontID,fScale,nWindowWidth, asText, 0,100);
+			DIALOG::AddToStringArrayLimitedByWidth(pA->GetThisAttr(),nFontID,fScale,nWindowWidth, asText, nullptr,100);
 			anLineEndIndex.push_back( asText.size() );
 		}
 	}
@@ -336,7 +336,7 @@ DIALOG::DIALOG()
 	play = -1;
 	start = true;
 
-	RenderService = 0;
+	RenderService = nullptr;
 
 	m_idVBufBack = -1;
 	m_idIBufBack = -1;
@@ -969,9 +969,9 @@ dword DIALOG::AttributeChanged(ATTRIBUTES * pA)
 	//search for default settings
 	bool parLinks = false;
 	ATTRIBUTES *par = pA->GetParent();
-	if(par!=0) {
+	if(par!=nullptr) {
 		const char *parname = par->GetThisName();
-		if(parname!=0 && _stricmp(parname, "Links")==0)	parLinks = true;
+		if(parname!=nullptr && _stricmp(parname, "Links")==0)	parLinks = true;
 	}
 
 	const char *nm = pA->GetThisName();

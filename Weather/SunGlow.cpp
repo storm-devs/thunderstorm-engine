@@ -16,8 +16,8 @@ SUNGLOW::SUNGLOW()
 	iOverflowTex = -1;
 	iReflTexture = -1;
 
-	pVWSunTrace = null;
-	pVWSailsTrace = null;
+	pVWSunTrace = nullptr;
+	pVWSailsTrace = nullptr;
 
 	bMoon = false;
 
@@ -41,7 +41,7 @@ SUNGLOW::~SUNGLOW()
 
 bool SUNGLOW::Init()
 {
-	pRS = 0;
+	pRS = nullptr;
 
 	SetDevice();
 
@@ -59,7 +59,7 @@ void SUNGLOW::SetDevice()
 	pWeather = (WEATHER_BASE*)_CORE_API->GetEntityPointer(&ent); Assert(pWeather);
 
 	if ( api->FindClass(&ent,"SKY",0) ) pSky = (SKY*)api->GetEntityPointer(&ent);
-	else pSky = 0;
+	else pSky = nullptr;
 
 	if( idRectBuf==-1 )
 		idRectBuf = pRS->CreateVertexBuffer( SUNGLOWVERTEX_FORMAT, sizeof(SUNGLOWVERTEX)*8, D3DUSAGE_WRITEONLY );
@@ -135,7 +135,7 @@ float SUNGLOW::LayerTrace(CVECTOR & vSrc, VIDWALKER * pVW)
 
 	pWeather->GetVector(whv_sun_pos, &vDst);
 	vDst = vSrc + (!vDst) * 10000.0f;
-	return pCollide->Trace(*pVW, vSrc, vDst, 0, 0);
+	return pCollide->Trace(*pVW, vSrc, vDst, nullptr, 0);
 }
 
 void SUNGLOW::Realize(dword Delta_Time)

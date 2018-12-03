@@ -35,7 +35,7 @@ public:
 		return true;
 	}
 
-	bool Pop(tEType * _op = 0)
+	bool Pop(tEType * _op = nullptr)
 	{
 		if (Free())
 			return false;
@@ -62,7 +62,7 @@ public:
 	tEType * TopElement()
 	{
 		if (Free())
-			return 0;
+			return nullptr;
 
 		return &elements[firstElement];
 	}

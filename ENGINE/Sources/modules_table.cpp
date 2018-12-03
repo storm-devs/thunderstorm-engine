@@ -29,8 +29,8 @@ char * MODULES_TABLE::GetPath(dword path_code){return 0;}
 MODULES_TABLE::MODULES_TABLE() 
 {
 	Paths_Count = 0;
-	Paths_Table = 0;
-	pTable = 0;
+	Paths_Table = nullptr;
+	pTable = nullptr;
 	nModulesNum = 0;
 }
 
@@ -47,7 +47,7 @@ void MODULES_TABLE::Release()
 	{
 		for(n = 0; n < nModulesNum; n++) FreeLibrary(pTable[n].hInst);
 		delete pTable;
-		pTable = 0;
+		pTable = nullptr;
 		nModulesNum = 0;
 	}
 
@@ -57,7 +57,7 @@ void MODULES_TABLE::Release()
 		delete Paths_Table;
 	}
 	Paths_Count = 0;
-	Paths_Table = null;
+	Paths_Table = nullptr;
 
 }
 
@@ -71,15 +71,15 @@ bool MODULES_TABLE::SetModulesPath(char * _name)
 		delete Paths_Table;
 	}
 	Paths_Count = 0;
-	Paths_Table = null;
-	if(_name == null) return true;
+	Paths_Table = nullptr;
+	if(_name == nullptr) return true;
 
 
 	Paths_Table = (char **)NEW char[sizeof(char *)];
-	if(Paths_Table == null) THROW;
+	if(Paths_Table == nullptr) THROW;
 
 	Paths_Table[0] = (char *)NEW char[strlen(_name) + 1];
-	if(Paths_Table[0] == null) THROW;
+	if(Paths_Table[0] == nullptr) THROW;
 	strcpy(Paths_Table[0],_name);
 	Paths_Count = 1;
 	UNGUARD
@@ -89,13 +89,13 @@ bool MODULES_TABLE::SetModulesPath(char * _name)
 bool MODULES_TABLE::AddModulesPath(char * _name)
 {
 	GUARD(MODULES_TABLE::AddModulesPath)
-	if(Paths_Table == null) return SetModulesPath(_name);
-	if(_name == null) return false;
+	if(Paths_Table == nullptr) return SetModulesPath(_name);
+	if(_name == nullptr) return false;
 	Paths_Table = (char **)RESIZE(Paths_Table,(Paths_Count + 1)*sizeof(char *));
-	if(Paths_Table == null) THROW;
+	if(Paths_Table == nullptr) THROW;
 
 	Paths_Table[Paths_Count] = (char *)NEW char[strlen(_name) + 1];
-	if(Paths_Table[Paths_Count] == null) THROW;
+	if(Paths_Table[Paths_Count] == nullptr) THROW;
 	strcpy(Paths_Table[Paths_Count],_name);
 	Paths_Count++;
 	UNGUARD
@@ -112,7 +112,7 @@ bool MODULES_TABLE::LoadModule(char * _mname, long path_code, MODULE_STATE& ms)
 
 	char full_name[_MAX_PATH];
 	
-	if(_mname == null) return false;
+	if(_mname == nullptr) return false;
 
 	// invalid path code
 	if((dword)path_code >= Paths_Count) {SET_ERROR("invalid path"); return false;}
@@ -123,12 +123,12 @@ bool MODULES_TABLE::LoadModule(char * _mname, long path_code, MODULE_STATE& ms)
 	//gdi_display.Print("Load libriary: %s",full_name);
 	// load library
 	hInst = LoadLibrary(full_name);
-	if(hInst == null){SET_ERROR("cant load libriary"); return false;}
+	if(hInst == nullptr){SET_ERROR("cant load libriary"); return false;}
 	ms.hInst = hInst;
 	//gdi_display.Print("load ok");
 	// get procedure address
 	api_func_PTR = (DLLAPIFUNC)GetProcAddress(hInst,"DMAInterface");
-	if(api_func_PTR == null) {SET_ERROR("interface function not found"); FreeLibrary(hInst); return false; }
+	if(api_func_PTR == nullptr) {SET_ERROR("interface function not found"); FreeLibrary(hInst); return false; }
 	ms.api_func_PTR = api_func_PTR;
 	UNGUARD
 	return true;
@@ -137,7 +137,7 @@ bool MODULES_TABLE::LoadModule(char * _mname, long path_code, MODULE_STATE& ms)
 
 VMA * MODULES_TABLE::GetClassesRoot(dword _n)
 {
-	if(_n >= nModulesNum) return 0;
+	if(_n >= nModulesNum) return nullptr;
 	return pTable[_n].api_func_PTR(_CORE_API,_VSYSTEM_API);
 }
 
@@ -163,7 +163,7 @@ void __declspec(noinline) __declspec(dllexport) __cdecl MODULES_TABLE::Load_Modu
 	for(n=0;n<Path_scan;n++)
 	{
 		// searching modules directory for modules
-		if(Paths_Table == null)
+		if(Paths_Table == nullptr)
 		{
 			full_name[0] = 0;
 			path_code = n;
@@ -219,7 +219,7 @@ void __declspec(noinline) __declspec(dllexport) __cdecl MODULES_TABLE::Load_Modu
 
 char * MODULES_TABLE::GetPath(dword path_code)
 {
-	if(path_code >= Paths_Count) return null;
+	if(path_code >= Paths_Count) return nullptr;
 	return Paths_Table[path_code];
 }
 

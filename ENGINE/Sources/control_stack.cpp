@@ -4,7 +4,7 @@
 #include "externs.h"
 
 
-CONTROL_STACK::CONTROL_STACK() {initiate_blocks = 0; Data_PTR = null; used_blocks = 0;};
+CONTROL_STACK::CONTROL_STACK() {initiate_blocks = 0; Data_PTR = nullptr; used_blocks = 0;};
 CONTROL_STACK::	~CONTROL_STACK()
 {
 	if(Data_PTR) delete Data_PTR;
@@ -15,14 +15,14 @@ bool CONTROL_STACK::Init()
 	initiate_blocks = DEFAULT_CONTROL_STACK_SIZE;
 
 	Data_PTR = (void *) NEW char[CONTROL_BLOCK_SIZE*initiate_blocks];
-	if(Data_PTR == null) return false;
+	if(Data_PTR == nullptr) return false;
 	return true;
 };
 void CONTROL_STACK::Release() 
 {
 	if(Data_PTR) delete Data_PTR; 
 	initiate_blocks = 0; 
-	Data_PTR = null; 
+	Data_PTR = nullptr; 
 	used_blocks = 0;
 };
 void CONTROL_STACK::Clear() {used_blocks = 0;};
@@ -33,12 +33,12 @@ bool CONTROL_STACK::Push(void * pointer, dword class_code, dword ctp)
 	CONTROL_BLOCK * cb_PTR;
 	char * mem_PTR;
 	//if(pointer) Memory_Service.Lock(pointer);
-	if(Data_PTR == null) return false;
+	if(Data_PTR == nullptr) return false;
 	if(used_blocks >= initiate_blocks)
 	{
 		initiate_blocks = initiate_blocks*2;
 		Data_PTR = RESIZE(Data_PTR,CONTROL_BLOCK_SIZE*initiate_blocks);
-		if(Data_PTR == null) return false;
+		if(Data_PTR == nullptr) return false;
 	}
 	mem_PTR = (char*)Data_PTR + used_blocks*CONTROL_BLOCK_SIZE;
 	cb_PTR = (CONTROL_BLOCK *)mem_PTR;
@@ -57,11 +57,11 @@ bool CONTROL_STACK::Pop(CONTROL_BLOCK * cb_PTR)
 	{
 		STORM_THROW(invalid pop);
 	}
-	if(Data_PTR == null) return false;
+	if(Data_PTR == nullptr) return false;
 	used_blocks--;
 	b_PTR = (CONTROL_BLOCK *)((char *)Data_PTR + used_blocks*CONTROL_BLOCK_SIZE);
 	//trace(" POP: %d class: %d ctp: %d",b_PTR->pointer,b_PTR->class_code,b_PTR->ctp);
-	if(cb_PTR != null)
+	if(cb_PTR != nullptr)
 	{
 		mem_PTR = (char*)Data_PTR + used_blocks*CONTROL_BLOCK_SIZE;
 		memcpy(cb_PTR,mem_PTR,CONTROL_BLOCK_SIZE);
@@ -77,7 +77,7 @@ bool CONTROL_STACK::ScanPointer(void * pointer)
 	char * mem_PTR;
 	dword n;
 	if(used_blocks == 0) return false;
-	if(Data_PTR == null) return false;
+	if(Data_PTR == nullptr) return false;
 	for(n=0;n<used_blocks;n++)
 	{
 		mem_PTR = (char*)Data_PTR + n*CONTROL_BLOCK_SIZE;
@@ -93,7 +93,7 @@ bool CONTROL_STACK::ScanClass(dword class_code)
 	char * mem_PTR;
 	dword n;
 	if(used_blocks == 0) return false;
-	if(Data_PTR == null) return false;
+	if(Data_PTR == nullptr) return false;
 	for(n=0;n<used_blocks;n++)
 	{
 		mem_PTR = (char*)Data_PTR + n*CONTROL_BLOCK_SIZE;
@@ -108,7 +108,7 @@ bool CONTROL_STACK::ScanClassCTP(dword class_code,dword ctp_code)
 	char * mem_PTR;
 	dword n;
 	if(used_blocks == 0) return false;
-	if(Data_PTR == null) return false;
+	if(Data_PTR == nullptr) return false;
 	for(n=0;n<used_blocks;n++)
 	{
 		mem_PTR = (char*)Data_PTR + n*CONTROL_BLOCK_SIZE;
@@ -126,7 +126,7 @@ bool CONTROL_STACK::ScanClassCTPInv(dword class_code,dword ctp_code)
 	char * mem_PTR;
 	dword n;
 	if(used_blocks == 0) return false;
-	if(Data_PTR == null) return false;
+	if(Data_PTR == nullptr) return false;
 	for(n=0;n<used_blocks;n++)
 	{
 		mem_PTR = (char*)Data_PTR + n*CONTROL_BLOCK_SIZE;
@@ -145,7 +145,7 @@ bool CONTROL_STACK::ScanCTP(dword ctp_code)
 	char * mem_PTR;
 	dword n;
 	if(used_blocks == 0) return false;
-	if(Data_PTR == null) return false;
+	if(Data_PTR == nullptr) return false;
 	for(n=0;n<used_blocks;n++)
 	{
 		mem_PTR = (char*)Data_PTR + n*CONTROL_BLOCK_SIZE;
@@ -159,7 +159,7 @@ bool CONTROL_STACK::Read(CONTROL_BLOCK * cb_PTR)
 	char * mem_PTR;
 	if(cb_PTR) memset(cb_PTR,0,sizeof(CONTROL_BLOCK));
 	if(used_blocks == 0) return false;
-	if(Data_PTR == null) return false;
+	if(Data_PTR == nullptr) return false;
 	mem_PTR = (char*)Data_PTR + (used_blocks - 1)*CONTROL_BLOCK_SIZE;
 	if(cb_PTR) memcpy(cb_PTR,mem_PTR,sizeof(CONTROL_BLOCK));
 	return true;

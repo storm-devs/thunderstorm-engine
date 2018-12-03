@@ -462,7 +462,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 	//functions_num = sizeof(FuncNameTable)/sizeof(char *);
 	functions_num = sizeof(IntFuncTable)/sizeof(INTFUNCDESC);
 
-	if(func_code >= functions_num) return null;
+	if(func_code >= functions_num) return nullptr;
 
 	DATA * pResult;
 	DATA * pV;
@@ -488,15 +488,15 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 	MESSAGE_SCRIPT ms;
 	DWORD s_off;
 
-	pResult = 0;
+	pResult = nullptr;
 
-	pEid = 0;
+	pEid = nullptr;
 	TempFloat1 = 0;
 	TempLong1 = 0;
 
 	api = _CORE_API;
 
-	pVResult = 0;	// default - no return value
+	pVResult = nullptr;	// default - no return value
 
 	long slen,slen2;
 	char sVarName[64];
@@ -543,7 +543,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 		case FUNC_TEST_REF:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA); break;}
 			pV = pV->GetVarPointer();
-			if(pV == 0)
+			if(pV == nullptr)
 			{
 				TempLong1 = 0;
 			}
@@ -572,7 +572,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA); break;}
 			pV->Get(pChar);
 			pV2->Get(TempLong1);
-			if(Core.Controls != 0) Core.Controls->LockControl(pChar,TempLong1!=0);
+			if(Core.Controls != nullptr) Core.Controls->LockControl(pChar,TempLong1!=0);
 		break;
 		/*case FUNC_SAVEVARIABLE:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA); break;};	// var ref
@@ -741,12 +741,12 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 		case FUNC_CLEAR_ENTITY_AP:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA); break;}
 			pV->Get(TempEid);
-			Core.Entity_SetAttributePointer(&TempEid,0);
+			Core.Entity_SetAttributePointer(&TempEid,nullptr);
 		break;
 		case FUNC_CREATE_CONTROL:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA); break;}
 			pV->Get(pChar);
-			if(Core.Controls != 0) TempLong1 = Core.Controls->CreateControl(pChar);
+			if(Core.Controls != nullptr) TempLong1 = Core.Controls->CreateControl(pChar);
 			else TempLong1 = -1;
 			pV = SStack.Push();
 			pV->Set(TempLong1);
@@ -891,7 +891,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 			if(!pV) {SetError(INVALID_FA);break;}
 			if(pV->GetType()!=VAR_STRING) {SetError("invalid argument type");break;}
 			pV->Get(pChar);
-			if(pChar == 0)
+			if(pChar == nullptr)
 			{
 				TempLong1 = 0;
 			}
@@ -908,10 +908,10 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 			switch(pV->GetType())
 			{
 				case VAR_REFERENCE:
-					pV->SetReference(0);
+					pV->SetReference(nullptr);
 				break;
 				case VAR_AREFERENCE:
-					pV->SetAReference(0);
+					pV->SetAReference(nullptr);
 				break;
 			}
 		break;
@@ -922,7 +922,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};// firstn
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};// string
 			pV->Get(pChar);
-			if(pChar == 0)
+			if(pChar == nullptr)
 			{
 				SetError("Invalid string argument");
 				pV = SStack.Push();
@@ -978,7 +978,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 			pV->Get(pChar);
 			pV2->Get(pChar2);
 			pV3->Get(TempLong1);
-			if(pChar == 0 || pChar2 == 0)
+			if(pChar == nullptr || pChar2 == nullptr)
 			{
 				SetError("Invalid string argument");
 				pV = SStack.Push();
@@ -1104,7 +1104,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 
 			if(pV->GetType() != VAR_REFERENCE) {SetError(INVALID_FA); break;};
 			pV = pV->GetVarPointer();
-			if(pV == 0) {SetError(INVALID_FA); break;};
+			if(pV == nullptr) {SetError(INVALID_FA); break;};
 			if(!pV->IsArray()) {SetError("Not array"); break;};
 			pV2->Get(TempLong1);
 			if(TempLong1 <= 0) {SetError(INVALID_FA); break;};
@@ -1118,7 +1118,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			if(pV->GetType() != VAR_REFERENCE) {SetError(INVALID_FA); break;};
 			pV = pV->GetVarPointer();
-			if(pV == 0) {SetError(INVALID_FA); break;};
+			if(pV == nullptr) {SetError(INVALID_FA); break;};
 			if(!pV->IsArray()) {SetError("Not array"); break;};
 			TempLong1 = pV->GetElementsNum();
 			pV = SStack.Push();
@@ -1200,7 +1200,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 			pV = pV->GetVarPointer();
 			pV->Get(TempEid);
 			pV = SStack.Push();
-			if(Core.GetEntityPointer(&TempEid) != 0) TempLong1 = 1;
+			if(Core.GetEntityPointer(&TempEid) != nullptr) TempLong1 = 1;
 			else TempLong1 = 0;
 			pV->Set(TempLong1);
 			pVResult = pV;
@@ -1305,17 +1305,17 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 		break;
 		//
 		case FUNC_GET_EVENTDATA:
-			if(pEventMessage == 0)
+			if(pEventMessage == nullptr)
 			{
 				SetError("No data on this event");
-				return null;
+				return nullptr;
 			}
 			char format_sym;
 			format_sym = pEventMessage->GetCurrentFormatType();
 			if(format_sym == 0)
 			{
 				SetError("No (more) data on this event");
-				return null;
+				return nullptr;
 			}
 			switch(format_sym)
 			{
@@ -1359,7 +1359,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 				return pResult;
 				default:
 					SetError("Invalid data type in event message: '%c'",format_sym);
-				return null;
+				return nullptr;
 			}
 		break;
 		case FUNC_EXECUTE:
@@ -1423,7 +1423,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 				pMS = NEW MESSAGE_SCRIPT;
 				CreateMessage(pMS,s_off,2);
 				pMS->ResetIndex();
-			} else pMS = 0;
+			} else pMS = nullptr;
 
 			pEM = NEW S_EVENTMSG(pChar,pMS,TempLong1);
 			EventMsg.Add(pEM);
@@ -1515,7 +1515,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 				return pV;
 				default:
 					SetError("Invalid func 'abs' argument");
-				return null;
+				return nullptr;
 			}
 		break;
 
@@ -1528,7 +1528,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 					if(TempLong1 < 0)
 					{
 						SetError("Negative func 'sqrt' argument");
-						return null;
+						return nullptr;
 					}
 					TempLong1 = (long)sqrtf((float)TempLong1);
 					pV = SStack.Push();
@@ -1540,7 +1540,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 					if(TempFloat1 < 0)
 					{
 						SetError("Negative func 'sqrt' argument");
-						return null;
+						return nullptr;
 					}
 					TempFloat1 = (float)sqrt(TempFloat1);
 					pV = SStack.Push();
@@ -1549,7 +1549,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 				return pV;
 				default:
 					SetError("Invalid func 'sqrt' argument");
-				return null;
+				return nullptr;
 			}
 		break;
 		case FUNC_SQR:
@@ -1572,15 +1572,15 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 				return pV;
 				default:
 					SetError("Invalid func 'sqr' argument");
-				return null;
+				return nullptr;
 			}
 		break;
 		case FUNC_SIN:
 			pV = SStack.Pop();
-			if(pV == 0)
+			if(pV == nullptr)
 			{
 				SetError("Missing func 'sin' argument(s)");
-				return null;
+				return nullptr;
 			}
 			switch(pV->GetType())
 			{
@@ -1594,7 +1594,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 				break;
 				default:
 					SetError("Invalid func 'sin' argument");
-				return null;
+				return nullptr;
 			}
 			pV = SStack.Push();
 			pV->Set(TempFloat1);
@@ -1615,7 +1615,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 				break;
 				default:
 					SetError("Invalid func 'cos' argument");
-				return null;
+				return nullptr;
 			}
 			pV = SStack.Push();
 			pV->Set(TempFloat1);
@@ -1635,7 +1635,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 				break;
 				default:
 					SetError("Invalid func 'tan' argument");
-				return null;
+				return nullptr;
 			}
 			pV = SStack.Push();
 			pV->Set(TempFloat1);
@@ -1655,7 +1655,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 				break;
 				default:
 					SetError("Invalid func 'atan' argument");
-				return null;
+				return nullptr;
 			}
 			pV = SStack.Push();
 			pV->Set(TempFloat1);
@@ -1678,7 +1678,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 						break;
 						default:
 							SetError("Invalid func 'atan2' argument");
-						return null;
+						return nullptr;
 					}
 					pV->Get(TempFloat1);
 					pV2->Get(TempFloat2);
@@ -1689,7 +1689,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 				return pV;
 				default:
 					SetError("Invalid func 'atan2' argument");
-				return null;
+				return nullptr;
 			}
 		break;
 		case FUNC_COPYATTRIBUTES:
@@ -1701,7 +1701,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 			pRoot = pV->GetAClass();
 			pA = pV2->GetAClass();
 
-			if(pA == 0 || pRoot == 0) {SetError("AClass ERROR n1"); break;}
+			if(pA == nullptr || pRoot == nullptr) {SetError("AClass ERROR n1"); break;}
 			pRoot->Copy(pA);
 		break;
 		case FUNC_DELETE_ATTRIBUTE:
@@ -1711,7 +1711,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			//pV->Get(TempEid);
 			pRoot = pV->GetAClass();
-			if(pRoot == 0) {SetError("AClass ERROR n1"); break;}
+			if(pRoot == nullptr) {SetError("AClass ERROR n1"); break;}
 			pA = pRoot->FindAClass(pRoot,pChar);
 			pRoot->DeleteAttributeClassX(pA);
 		break;
@@ -1769,7 +1769,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 			pA = pV->GetAClass();
 
 			if(pA) pA = pA->GetAttributeClass(TempLong1);
-			if(pA == 0) {SetError("incorrect argument index");break;};
+			if(pA == nullptr) {SetError("incorrect argument index");break;};
 			pV = SStack.Push();
 			pV->SetType(VAR_AREFERENCE);
 			pV->SetAReference(pA);
@@ -1802,7 +1802,7 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 			pV = pV->GetVarPointer();
 			if(!(pV->GetType() == VAR_AREFERENCE || pV->GetType() == VAR_OBJECT)) {SetError(BAD_FA);break;};
 			pA = pV->GetAClass();
-			if(pA == 0) {SetError("AClass ERROR n1"); break;}
+			if(pA == nullptr) {SetError("AClass ERROR n1"); break;}
 #ifndef _TOFF
 			DumpAttributes(pA,0);
 #endif
@@ -1853,14 +1853,14 @@ DATA * COMPILER::BC_CallIntFunction(DWORD func_code,DATA * & pVResult,DWORD argu
 			_CORE_API->InitiateStateLoading(pChar);
 		break;
 	}
-	return null;
+	return nullptr;
 }
 
 void COMPILER::DumpAttributes(ATTRIBUTES * pA, long level)
 {
 	char buffer[128];
 	DWORD n;
-	if(pA == 0) return;
+	if(pA == nullptr) return;
 
 	if(level >= 128) level = 127;
 	if(level != 0) memset(buffer,' ',level); buffer[level] = 0;
@@ -1885,14 +1885,14 @@ bool COMPILER::CreateMessage(MESSAGE_SCRIPT * pMs, DWORD s_off, DWORD var_offset
 	DATA * pV;
 	DWORD n;
 
-	if(pMs == 0) return false;
+	if(pMs == nullptr) return false;
 
 	// read format string
 	pV = SStack.Read(s_off,var_offset); if(!pV){SetError(INVALID_FA); return false;};
 	var_offset++;
 	// set pointer to format string
 	pV->Get(Format_string);
-	if(Format_string == 0)
+	if(Format_string == nullptr)
 	{
 		SetError("format string is null"); return false;
 	}

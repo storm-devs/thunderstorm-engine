@@ -151,7 +151,7 @@ WdmIslands::WdmIslands()
 	if(!patch->Load("RESOURCE\\MODELS\\WorldMap\\islands\\islands_patch.ptc"))
 	{
 		delete patch;
-		patch = null;
+		patch = nullptr;
 	}
 }
 
@@ -160,13 +160,13 @@ WdmIslands::~WdmIslands()
 	if(patch)
 	{
 		delete patch;
-		patch = null;
+		patch = nullptr;
 	}
-	wdmObjects->islands = null;
+	wdmObjects->islands = nullptr;
 	for(long i = 0; i < islands.size(); i++)
 	{
 		wdmObjects->wm->DeleteObject(islands[i].model);
-		islands[i].model = null;
+		islands[i].model = nullptr;
 	}
 	if(baseModel) wdmObjects->wm->DeleteObject(baseModel);
 	islands.clear();
@@ -287,7 +287,7 @@ bool WdmIslands::ObstacleTest(float x, float z, float radius)
 		vrt.x = pos.x;
 		vrt.y = 0.0f;
 		vrt.z = pos.z;
-		if(island.model->geo->Clip(p, 4, vrt, 50.0f, 0)) return true;
+		if(island.model->geo->Clip(p, 4, vrt, 50.0f, nullptr)) return true;
 	}
 	return false;
 }
@@ -550,7 +550,7 @@ void WdmIslands::Update(float dltTime)
 			}
 		}
 	}
-	wdmObjects->curIsland = null;
+	wdmObjects->curIsland = nullptr;
 	wdmObjects->wm->AttributesPointer->SetAttribute("island", "");
 	ATTRIBUTES * a = wdmObjects->wm->AttributesPointer->FindAClass(wdmObjects->wm->AttributesPointer, "island");
 	if(a)
@@ -821,7 +821,7 @@ void WdmIslands::GetNearPointToArea(const char * islandName, float & x, float & 
 	checkMode = false;
 	GEOS::VERTEX v;
 	v.x = 0.0f; v.y = 0.0f; v.z = 0.0f;
-	islands[i].area->geo->Clip(null, 0, v, wdmObjects->worldSizeX*wdmObjects->worldSizeX + wdmObjects->worldSizeZ*wdmObjects->worldSizeZ, FindNearPoint);
+	islands[i].area->geo->Clip(nullptr, 0, v, wdmObjects->worldSizeX*wdmObjects->worldSizeX + wdmObjects->worldSizeZ*wdmObjects->worldSizeZ, FindNearPoint);
 	if(checkMode)
 	{
 		x = centPos.x;
@@ -867,7 +867,7 @@ bool WdmIslands::IsShipInArea(long islIndex, CVECTOR & pos)
 	vrt.x = pos.x;
 	vrt.y = 0.0f;
 	vrt.z = pos.z;
-	return islands[islIndex].area->geo->Clip(p, 4, vrt, 1000.0f, 0);
+	return islands[islIndex].area->geo->Clip(p, 4, vrt, 1000.0f, nullptr);
 }
 
 
@@ -916,7 +916,7 @@ void WdmIslandWaves::Render(VDX9RENDER * rs, float k)
 	//Ставим общую прозрачность
 	float a = sinf(k*PI)*(1.0f - k*0.5f)*1.25f;
 	//Рисуем модель
-	SetTech("WdmIslandWaves", null);
+	SetTech("WdmIslandWaves", nullptr);
 	rs->SetRenderState(D3DRS_TEXTUREFACTOR, (long(a*a*a*a*255.0f) << 24) | 0xffffff);
 	WdmRenderModel::LRender(rs);
 }

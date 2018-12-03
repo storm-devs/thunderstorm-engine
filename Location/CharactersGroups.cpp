@@ -30,10 +30,10 @@
 
 CharactersGroups::CharactersGroups()
 {
-	groups = null;
+	groups = nullptr;
 	numGroups = 0;
 	maxGroups = 0;
-	location = null;
+	location = nullptr;
 	waveTime = 10.0f;
 	curExecuteChr = -1;
 }
@@ -53,7 +53,7 @@ CharactersGroups::~CharactersGroups()
 
 CharactersGroups::String::String()
 {
-	name = null;
+	name = nullptr;
 	len = 0;
 	max = 0;
 	hash = 0;
@@ -61,7 +61,7 @@ CharactersGroups::String::String()
 
 CharactersGroups::String::String(const char * str)
 {
-	name = null;
+	name = nullptr;
 	len = 0;
 	max = 0;
 	hash = 0;
@@ -710,7 +710,7 @@ long CharactersGroups::RegistryGroup(const char * groupName)
 		grp->relations[numGroups - 1].curState = rs_friend;
 		grp->relations[numGroups - 1].actState = rs_friend;
 		grp->relations[numGroups - 1].relState = rs_friend;
-	}else grp->relations = null;
+	}else grp->relations = nullptr;
 	grp->numChr = 0;
 	return numGroups - 1;
 }
@@ -722,7 +722,7 @@ void CharactersGroups::ReleaseGroup(const char * groupName)
 	if( numGroups > 1 )
 	{
 		groups[idxgrp] = groups[numGroups-1];
-		groups[numGroups-1] = 0;
+		groups[numGroups-1] = nullptr;
 	}
 	numGroups--;
 }
@@ -920,7 +920,7 @@ void CharactersGroups::MsgSetAlarmReaction(MESSAGE & message)
 //Исключить персонажа из всех групп
 void CharactersGroups::RemoveCharacterFromAllGroups(ENTITY_ID * chr)
 {
-	Character * ch = chr != null ? (Character *)api->GetEntityPointer(chr) : null;
+	Character * ch = chr != nullptr ? (Character *)api->GetEntityPointer(chr) : nullptr;
 	//Удалим персонажа из предыдущей группы
 	for(long i = 0; i < numGroups; i++)
 	{
@@ -929,7 +929,7 @@ void CharactersGroups::RemoveCharacterFromAllGroups(ENTITY_ID * chr)
 		for(long j = 0; j < g->numChr; )
 		{
 			Character * c = (Character *)api->GetEntityPointer(&cid[j]);
-			if(c == null || c == ch)
+			if(c == nullptr || c == ch)
 			{
 				cid[j] = cid[--g->numChr];
 			}else j++;
@@ -965,7 +965,7 @@ CharactersGroups::Group * CharactersGroups::FindGroup(const char * name)
 {
 	long gi = FindGroupIndex(name);
 	if(gi < 0) 
-		return null;
+		return nullptr;
 	return groups[gi];
 }
 

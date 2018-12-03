@@ -39,12 +39,12 @@ CREATE_CLASS(MAST)
 
 MAST::MAST()
 {
-	RenderService = 0;
+	RenderService = nullptr;
     wMoveCounter=0;
     bUse=false;
-	m_pMastNode = 0;
+	m_pMastNode = nullptr;
 
-	m_mount_param.pNode = 0;
+	m_mount_param.pNode = nullptr;
 }
 
 MAST::~MAST()
@@ -133,11 +133,11 @@ void MAST::Realize(dword Delta_Time)
 
 	if( m_mount_param.pNode ) {
 		Mount( m_mount_param.modelEI, m_mount_param.shipEI, m_mount_param.pNode );
-		m_mount_param.pNode = 0;
+		m_mount_param.pNode = nullptr;
 	}
 
     MODEL *mdl;
-    if( (mdl=(MODEL*)_CORE_API->GetEntityPointer(&model_id))!=0 )
+    if( (mdl=(MODEL*)_CORE_API->GetEntityPointer(&model_id))!=nullptr )
     {
 		RenderService->SetRenderState(D3DRS_LIGHTING,true);
         mdl->Realize(Delta_Time);
@@ -193,9 +193,9 @@ dword _cdecl MAST::ProcessMessage(MESSAGE & message)
 void _cdecl MAST::Mount( ENTITY_ID modelEI, ENTITY_ID shipEI, NODE* mastNodePointer )
 {
 	m_pMastNode = mastNodePointer;
-	if(mastNodePointer==NULL) return;
+	if(mastNodePointer== nullptr) return;
     MODEL * oldmdl=(MODEL*)_CORE_API->GetEntityPointer(&modelEI);
-    if(oldmdl==0) return; // ничего не валим, если нет старой модели
+    if(oldmdl==nullptr) return; // ничего не валим, если нет старой модели
     oldmodel_id=modelEI;
     ship_id=shipEI;
 
@@ -209,22 +209,22 @@ void _cdecl MAST::Mount( ENTITY_ID modelEI, ENTITY_ID shipEI, NODE* mastNodePoin
     bVant = api->FindClass(&vantEI,"vant",0);
 
 	// найдем аттрибуты
-	VAI_OBJBASE * pVAI = NULL;	pVAI = (VAI_OBJBASE*)api->GetEntityPointer(&shipEI);
-	ATTRIBUTES * pA = NULL;	if(pVAI!=NULL) pA = pVAI->GetACharacter();
+	VAI_OBJBASE * pVAI = nullptr;	pVAI = (VAI_OBJBASE*)api->GetEntityPointer(&shipEI);
+	ATTRIBUTES * pA = nullptr;	if(pVAI!= nullptr) pA = pVAI->GetACharacter();
 
-	ATTRIBUTES * pAMasts = NULL; if(pA!=NULL) pAMasts = pA->FindAClass(pA,"Ship.Masts");
+	ATTRIBUTES * pAMasts = nullptr; if(pA!= nullptr) pAMasts = pA->FindAClass(pA,"Ship.Masts");
 	float fMastDamage = 0.f;
-	if(pAMasts!=NULL)
+	if(pAMasts!= nullptr)
 		fMastDamage = pAMasts->GetAttributeAsFloat((char*)mastNodePointer->GetName(),0.f);
 	long chrIdx = -1;
-	if(pA!=NULL)	chrIdx = pA->GetAttributeAsDword("index",-1);
+	if(pA!= nullptr)	chrIdx = pA->GetAttributeAsDword("index",-1);
 	api->Event("EventMastFall", "lsl", chrIdx, mastNodePointer->GetName(), fMastDamage<1.f);
 	if(fMastDamage<1.f)
 	{
 		if(bSail) api->Send_Message(sailEI, "lls", MSG_SAIL_MAST_PROCESSING, chrIdx, mastNodePointer->GetName());
 	}
 
-    if(mastNodePointer!=null) //~!~
+    if(mastNodePointer!= nullptr) //~!~
     {
         int i,j;
 
@@ -234,10 +234,10 @@ void _cdecl MAST::Mount( ENTITY_ID modelEI, ENTITY_ID shipEI, NODE* mastNodePoin
         // пройдем по всем веревкам данной мачты и отключим их
 		if(bVant) api->Send_Message(vantEI, "lip", MSG_VANT_DEL_MAST, modelEI, mastNodePointer);
 		MODEL * mdl = (MODEL*)_CORE_API->GetEntityPointer(&model_id);
-		if(mdl!=NULL)	for(i=0; i<10000; i++)
+		if(mdl!= nullptr)	for(i=0; i<10000; i++)
 		{
 			NODE* nod=mdl->GetNode(i);
-			if(nod==NULL || nod->geo==NULL) break;
+			if(nod== nullptr || nod->geo== nullptr) break;
 			GEOS::INFO gi; nod->geo->GetInfo(gi);
 			for(j=0; j<gi.nlabels; j++)
 			{
@@ -459,7 +459,7 @@ void MAST::doMove(dword DeltaTime)
     float rtime=DELTA_TIME_ROTATE((float)DeltaTime);
 
     MODEL* mdl = (MODEL*)api->GetEntityPointer(&model_id); // это модель геометрии мачты
-    if(mdl!=0)
+    if(mdl!=nullptr)
     {
         if(bFallUnderWater) // если мачта уже тонет
         {
@@ -502,7 +502,7 @@ void MAST::doMove(dword DeltaTime)
             {
                 bNextClass=false;
 				// коллизим с островом
-                if( api->FindClass(&findEI,"ISLAND",0) && api->GetEntityPointer(&findEI)!=NULL )
+                if( api->FindClass(&findEI,"ISLAND",0) && api->GetEntityPointer(&findEI)!= nullptr )
 				{
 					modEI = ((ISLAND_BASE*)api->GetEntityPointer(&findEI))->GetModelEID();
 
@@ -527,7 +527,7 @@ void MAST::doMove(dword DeltaTime)
 				// коллизим с кораблем
 				if(_CORE_API->FindClass(&findEI,"SHIP",0))	do
                 {
-					if( api->GetEntityPointer(&findEI)==NULL ) continue;
+					if( api->GetEntityPointer(&findEI)== nullptr ) continue;
 					modEI = ((VAI_OBJBASE*)api->GetEntityPointer(&findEI))->GetModelEID();
                     CVECTOR dp;
                     int tmp;
@@ -648,7 +648,7 @@ void MAST::AllRelease()
 
 	if( m_mount_param.pNode ) {
 		Mount( m_mount_param.modelEI, m_mount_param.shipEI, m_mount_param.pNode );
-		m_mount_param.pNode = 0;
+		m_mount_param.pNode = nullptr;
 	}
 
     // удалить группу парусов
@@ -664,5 +664,5 @@ void MAST::AllRelease()
 
     // удалить модель
     _CORE_API->DeleteEntity(model_id);
-	m_pMastNode = 0;
+	m_pMastNode = nullptr;
 }

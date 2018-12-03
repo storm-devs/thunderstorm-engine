@@ -8,12 +8,12 @@
 FLAG::FLAG()
 {
     bUse=false;
-    RenderService=0;
-    TextureName=0;
+    RenderService=nullptr;
+    TextureName=nullptr;
     bFirstRun=true;
     texl=-1;
-    flist=0; flagQuantity=0;
-    gdata=0; groupQuantity=0;
+    flist=nullptr; flagQuantity=0;
+    gdata=nullptr; groupQuantity=0;
     bYesDeleted=false;
     wFlagLast=0;
 	vBuf = iBuf = -1;
@@ -152,14 +152,14 @@ dword _cdecl FLAG::ProcessMessage(MESSAGE & message)
 
 			MODEL *host_mdl;
 			host_mdl=(MODEL*)api->GetEntityPointer(&eidModel);
-			if( host_mdl==0 ) {
+			if( host_mdl==nullptr ) {
 				api->Trace("Missing INIT message to FLAG: bad MODEL");
 			}
 
 			if(groupQuantity==0)
 			{
 				gdata = NEW GROUPDATA[1];
-				if(gdata==0)
+				if(gdata==nullptr)
 					STORM_THROW("Not memory allocation");
 
 				groupQuantity=1;
@@ -168,7 +168,7 @@ dword _cdecl FLAG::ProcessMessage(MESSAGE & message)
 			{
 				GROUPDATA *oldgdata=gdata;
 				gdata = NEW GROUPDATA[groupQuantity+1];
-				if(gdata==0)
+				if(gdata==nullptr)
 					STORM_THROW("Not memory allocation");
 				memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
 				delete oldgdata; groupQuantity++;
@@ -184,7 +184,7 @@ dword _cdecl FLAG::ProcessMessage(MESSAGE & message)
 			for(j=0;true;j++)
 			{
 				nod=host_mdl->GetNode(j);
-				if(nod==NULL || nod->geo==NULL) break;
+				if(nod== nullptr || nod->geo== nullptr) break;
 
 				nod->geo->GetInfo(gi);
 				for(i=0; i<gi.nlabels; i++)
@@ -228,7 +228,7 @@ void FLAG::SetTextureCoordinate()
         {
             for(int fn=0; fn<flagQuantity; fn++)
             {
-				if(flist[fn]==NULL) continue;
+				if(flist[fn]== nullptr) continue;
                 sIdx=flist[fn]->sv;
                 addtu=1.f/(float)FlagTextureQuantity;
                 stu=addtu*flist[fn]->texNum;
@@ -266,7 +266,7 @@ void FLAG::SetTextureCoordinate()
 
 void FLAG::DoMove(FLAGDATA *pr,float delta_time)
 {
-	if(pr==NULL) return;
+	if(pr== nullptr) return;
     CVECTOR cPos;
     cPos=  *pr->pMatWorld*pr->spos;
 
@@ -358,13 +358,13 @@ void FLAG::AddLabel(GEOS::LABEL &gl, NODE *nod)
     int grNum;
 
     // for fail parameters do not set of data
-    if( nod==0 ) return;
+    if( nod==nullptr ) return;
 
     grNum=atoi(&gl.group_name[4]);
 
 	int fn;
     for(fn=0; fn<flagQuantity; fn++)
-        if( flist[fn]!=NULL &&
+        if( flist[fn]!= nullptr &&
 			flist[fn]->HostGroup==groupQuantity-1 &&
             flist[fn]->grNum==grNum &&
             flist[fn]->nod==nod)
@@ -376,7 +376,7 @@ void FLAG::AddLabel(GEOS::LABEL &gl, NODE *nod)
     {
         // create new flag
         fd = NEW FLAGDATA;
-        if(fd==0)
+        if(fd==nullptr)
             STORM_THROW("Not memory allocation");
         PZERO(fd,sizeof(FLAGDATA));
         fd->triangle=true; // this is Vimpel
@@ -391,7 +391,7 @@ void FLAG::AddLabel(GEOS::LABEL &gl, NODE *nod)
         if(flagQuantity==0)
         {
             flist= NEW FLAGDATA*[1];
-            if(flist==0)
+            if(flist==nullptr)
                 STORM_THROW("Not memory allocation");
             flagQuantity=1;
         }
@@ -399,7 +399,7 @@ void FLAG::AddLabel(GEOS::LABEL &gl, NODE *nod)
         {
             FLAGDATA **oldflist=flist;
             flist = NEW FLAGDATA*[flagQuantity+1];
-            if(flist==0)
+            if(flist==nullptr)
                 STORM_THROW("Not memory allocation");
             memcpy(flist,oldflist,sizeof(FLAGDATA*)*flagQuantity);
             delete oldflist; flagQuantity++;
@@ -448,7 +448,7 @@ void FLAG::SetTreangle()
     {
         for(int fn=0; fn<flagQuantity; fn++)
         {
-			if(flist[fn]==NULL) continue;
+			if(flist[fn]== nullptr) continue;
             idx=flist[fn]->st;
             for(i=0; i<(int)flist[fn]->nt; i++)
             {
@@ -485,7 +485,7 @@ void FLAG::LoadIni()
     int tmp;
 	// load texture parameters
     ini->ReadString(section,"TextureName",param,sizeof(param)-1,"flagall.tga");
-    if(TextureName!=0)
+    if(TextureName!=nullptr)
     {
         if(strcmp(TextureName,param))
         {
@@ -622,7 +622,7 @@ void FLAG::DoSTORM_DELETE()
     {
         int gs=0; // число неудаленных флагов в группе
         for(int fn=0; fn<flagQuantity; fn++)
-            if(flist[fn]!=NULL && flist[fn]->HostGroup==gn)
+            if(flist[fn]!= nullptr && flist[fn]->HostGroup==gn)
             {
                 // если флаг помечен удаленным, то удалить физически
                 if(gdata[gn].bDeleted || flist[fn]->bDeleted || flist[fn]->nv<=0 || flist[fn]->nt<=0)
@@ -651,11 +651,11 @@ void FLAG::DoSTORM_DELETE()
     int nfn=0;
     for(int fn=0; fn<flagQuantity; fn++)
     {
-		if(flist[fn]==NULL) continue;
+		if(flist[fn]== nullptr) continue;
         if(flist[fn]->bDeleted)
         {
             delete flist[fn];
-			flist[fn]=NULL;
+			flist[fn]= nullptr;
             continue;
         }
 
@@ -668,8 +668,8 @@ void FLAG::DoSTORM_DELETE()
         VERTEX_BUFFER_RELEASE(RenderService,vBuf);
         INDEX_BUFFER_RELEASE(RenderService,iBuf);
         flagQuantity= groupQuantity= 0;
-        delete flist; flist=0;
-        delete gdata; gdata=0;
+        delete flist; flist=nullptr;
+        delete gdata; gdata=nullptr;
     }
     else
         if(nfn!=flagQuantity || ngn!=groupQuantity)
@@ -716,7 +716,7 @@ void FLAG::SetAdd(int flagNum)
     nIndx*=3;
     for(int fn=flagNum; fn<flagQuantity; fn++)
     {
-		if(flist[fn]==NULL) continue;
+		if(flist[fn]== nullptr) continue;
         CVECTOR bmpos,empos;
         float len;
 
@@ -735,14 +735,14 @@ void FLAG::SetAdd(int flagNum)
             delete flist[fn];
             if(flagQuantity==1)
             {
-                delete flist; flist=0; flagQuantity=0;
+                delete flist; flist=nullptr; flagQuantity=0;
             }
             else
             {
                 FLAGDATA **oldflist=flist;
                 flagQuantity--;
                 flist = NEW FLAGDATA*[flagQuantity];
-                if(flist==0)
+                if(flist==nullptr)
                     flist=oldflist;
                 if(fn>0)
                     memcpy(flist,oldflist,sizeof(FLAGDATA*)*fn);
@@ -756,7 +756,7 @@ void FLAG::SetAdd(int flagNum)
         {
             // установить номер текстуры
 			VDATA * pvdat = api->Event("GetRiggingData","sll","GetFlagTexNum",flist[fn]->triangle,gdata[flist[fn]->HostGroup].nation);
-            if(pvdat==null)	flist[fn]->texNum = 0;
+            if(pvdat== nullptr)	flist[fn]->texNum = 0;
 			else	flist[fn]->texNum = pvdat->GetLong();
 
             flist[fn]->vectQuant=(int)(len/FLAGVECTORLEN); // число сегментов флага
@@ -808,7 +808,7 @@ void FLAG::MoveOtherHost(ENTITY_ID newm_id,long flagNum,ENTITY_ID oldm_id)
     {
         GROUPDATA *oldgdata=gdata;
         gdata = NEW GROUPDATA[groupQuantity+1];
-        if(gdata==0)
+        if(gdata==nullptr)
             STORM_THROW("Not memory allocation");
         memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
         delete oldgdata;
@@ -823,7 +823,7 @@ void FLAG::MoveOtherHost(ENTITY_ID newm_id,long flagNum,ENTITY_ID oldm_id)
     // найдем нужный нам флаг
 	int fn;
     for(fn=0; fn<flagQuantity; fn++)
-        if(flist[fn]!=NULL && flist[fn]->grNum==flagNum && flist[fn]->HostGroup==oldgn) break;
+        if(flist[fn]!= nullptr && flist[fn]->grNum==flagNum && flist[fn]->HostGroup==oldgn) break;
     // переназначим его хоз€ина на нового хоз€ина
     if(fn<flagQuantity)
         flist[fn]->HostGroup=newgn;

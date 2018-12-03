@@ -20,7 +20,7 @@ INTERFACE_FUNCTION
 CREATE_CLASS(SOUND)
 //--------------------------------------------------------------------
 SOUND::SOUND()
-	:soundService(0)
+	:soundService(nullptr)
 {
 }
 

@@ -18,7 +18,7 @@ extern long g_iBallOwnerIdx;
 //////////////////////////////////////////////////////////////////////
 SAILONE::SAILONE()
 {
-    RenderService = 0;
+    RenderService = nullptr;
 
     ZERO(tm);
     ZERO(ss);
@@ -31,11 +31,11 @@ SAILONE::SAILONE()
     wind_add=1;  // ветров на 1
     VertIdx=0;
     SumWind=0;
-    sroll=0;
+    sroll=nullptr;
     sailWidth=0;
     sailHeight=0;
-    pMatWorld=0;
-    pp=0;
+    pMatWorld=nullptr;
+    pp=nullptr;
     oldWindAngl=0;
     MaxSumWind=0;
     maxSpeed=0;
@@ -43,7 +43,7 @@ SAILONE::SAILONE()
     m_dwRow=0;
     m_dwCol=0;
     HostNum=0;
-    hostNode=0;
+    hostNode=nullptr;
     HorzIdx=0;
     groupNum=0;
     curSpeed=0;
@@ -57,7 +57,7 @@ SAILONE::SAILONE()
 
 	m_bIsGerald = false;
 	m_nGeraldTex = -1;
-	m_pGeraldTex = null;
+	m_pGeraldTex = nullptr;
 
 	m_fHorzGeraldScale = 1.f;
 	m_fVertGeraldScale = 1.f;
@@ -65,10 +65,10 @@ SAILONE::SAILONE()
 
 SAILONE::~SAILONE()
 {
-	ROPE_BASE * prb = NULL;
+	ROPE_BASE * prb = nullptr;
 	ENTITY_ID eid;
 	if( api->FindClass(&eid,"ROPE",0) )	prb = (ROPE_BASE*)eid.pointer;
-	if( prb!=NULL && (sailtrope.pnttie[0] || sailtrope.pnttie[1] || sailtrope.pnttie[2] || sailtrope.pnttie[3]) )
+	if( prb!= nullptr && (sailtrope.pnttie[0] || sailtrope.pnttie[1] || sailtrope.pnttie[2] || sailtrope.pnttie[3]) )
 		prb->DoDeleteUntie(pp->gdata[HostNum].modelEI,hostNode,groupNum);
 
     PTR_STORM_DELETE(sroll);
@@ -959,7 +959,7 @@ void SAILONE::SetGeometry()
     CVECTOR normLD;
 
 	SAILGEOMETRY * pG;
-	if(sroll!=NULL)	pG = &sroll->oldgeo;
+	if(sroll!= nullptr)	pG = &sroll->oldgeo;
 	else pG = &sgeo;
 
     float tmpCol=1.f/(float)(SAIL_COL_MAX-1);
@@ -1009,7 +1009,7 @@ void SAILONE::SetGeometry()
     ss.boundSphere.r = sqrtf(
         ~(ss.hardPoints[0] - ss.boundSphere.c) );
 
-	if(sroll!=NULL)	sgeo.dopV = sroll->oldgeo.dopV;
+	if(sroll!= nullptr)	sgeo.dopV = sroll->oldgeo.dopV;
 }
 
 void SAILONE::SetRolling(bool bRoll)
@@ -1061,7 +1061,7 @@ void SAILONE::DoRollingStep(DWORD Delta_Time)
         if(delta<0.f) {
             bRolling=true; // теперь парус считается свернутым до конца
             memcpy(&sgeo,&sroll->oldgeo,sizeof(SAILGEOMETRY)); // вернем нормальные параметры геометрии
-            delete sroll; sroll=0;
+            delete sroll; sroll=nullptr;
             return; // больше не надо сворачивать парус
         }
     }
@@ -1072,7 +1072,7 @@ void SAILONE::DoRollingStep(DWORD Delta_Time)
         if(sroll->delta>1.f) {
             bRolling=false;
             memcpy(&sgeo,&sroll->oldgeo,sizeof(SAILGEOMETRY));
-            delete sroll; sroll=0;
+            delete sroll; sroll=nullptr;
             return;
         }
     }
@@ -1508,7 +1508,7 @@ float SAILONE::SSailTrace(CVECTOR &src,CVECTOR &dst,bool bCannonTrace)
 		{
 			VAI_OBJBASE * pVai = (VAI_OBJBASE*)api->GetEntityPointer(&pp->gdata[HostNum].shipEI);
 			int charIdx = -1;
-			if(pVai!=NULL && pVai->GetACharacter()!=NULL)
+			if(pVai!= nullptr && pVai->GetACharacter()!= nullptr)
 				charIdx = pVai->GetACharacter()->GetAttributeAsDword("index");
 			if(charIdx!=-1)
 				api->Event("DoSailHole","llssllllf", g_iBallOwnerIdx, charIdx,"*",
@@ -1564,7 +1564,7 @@ float SAILONE::TSailTrace(CVECTOR &src,CVECTOR &dst,bool bCannonTrace)
 		{
 			VAI_OBJBASE * pVai = (VAI_OBJBASE*)api->GetEntityPointer(&pp->gdata[HostNum].shipEI);
 			int charIdx = -1;
-			if(pVai!=NULL && pVai->GetACharacter()!=NULL)
+			if(pVai!= nullptr && pVai->GetACharacter()!= nullptr)
 				charIdx = pVai->GetACharacter()->GetAttributeAsDword("index");
 			if(charIdx!=-1)
 				api->Event("DoSailHole","llssllllf", g_iBallOwnerIdx, charIdx,"*",
@@ -1788,11 +1788,11 @@ void SAILONE::SetTurnLimits()
 {
 	if(ss.eSailType!=SAIL_TREANGLE) return;
 	if(!ss.turningSail) return;
-	if(sailtrope.rrs[0]==null) return;
+	if(sailtrope.rrs[0]== nullptr) return;
 	ENTITY_ID ropeEI;
 	if( !api->FindClass(&ropeEI,"ROPE",0) ) return;
 	ROPE_BASE * prbase = (ROPE_BASE*)api->GetEntityPointer(&ropeEI);
-	if(prbase==null) return;
+	if(prbase== nullptr) return;
 
 	CVECTOR cv1,cv0;
 

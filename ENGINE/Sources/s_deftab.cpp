@@ -5,7 +5,7 @@
 
 S_DEFTAB::S_DEFTAB()
 {
-	pTable = 0;
+	pTable = nullptr;
 	Buffer_size = 0;
 	Def_num = 0;
 //	bKeepName = false;
@@ -13,7 +13,7 @@ S_DEFTAB::S_DEFTAB()
 	for(n=0;n<DTHASHT_SIZE;n++)
 	{
 		HashLine[n].nNumElements = 0;
-		HashLine[n].pElements = 0;
+		HashLine[n].pElements = nullptr;
 	}
 
 }
@@ -36,7 +36,7 @@ void  S_DEFTAB::Release()
 				if(pTable[n].data4b != 0) delete ((char *)pTable[n].data4b);
 			}
 		}
-		delete pTable; pTable = 0;
+		delete pTable; pTable = nullptr;
 	}
 	Buffer_size = 0;
 	Def_num = 0;
@@ -44,7 +44,7 @@ void  S_DEFTAB::Release()
 	{
 		HashLine[n].nNumElements = 0;
 		if(HashLine[n].pElements)  delete HashLine[n].pElements;
-		HashLine[n].pElements = 0;
+		HashLine[n].pElements = nullptr;
 	}
 
 }
@@ -70,7 +70,7 @@ dword S_DEFTAB::AddDef(DEFINFO& di)
 	dword hash;
 
 
-	if(di.name == 0) return INVALID_DEF_CODE;
+	if(di.name == nullptr) return INVALID_DEF_CODE;
 	hash = MakeHashValue(di.name);
 	
 	for(n=0;n<Def_num;n++)
@@ -109,7 +109,7 @@ dword S_DEFTAB::AddDef(DEFINFO& di)
 	pTable[n].segment_id = di.segment_id;
 	//pTable[Def_num] = di;
 	pTable[Def_num].hash = hash;
-	pTable[Def_num].name = 0;
+	pTable[Def_num].name = nullptr;
 	UpdateHashTable(Def_num,hash,true);
 	if(true)//bKeepName)
 	{
@@ -168,7 +168,7 @@ dword S_DEFTAB::FindDef(char * def_name)
 {
 	dword n;
 	dword hash;
-	if(def_name == 0) return INVALID_DEF_CODE;
+	if(def_name == nullptr) return INVALID_DEF_CODE;
 	hash = MakeHashValue(def_name);
 	
 	DWORD hash_index,ni;

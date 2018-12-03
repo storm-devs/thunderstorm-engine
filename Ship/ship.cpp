@@ -13,15 +13,15 @@ CREATE_CLASS(ShipTracks)
 std::string	SHIP::sExecuteLayer;
 std::string	SHIP::sRealizeLayer;
 
-VDX9RENDER					* SHIP::pRS = null;
-SEA_BASE					* SHIP::pSea = null;
-ISLAND_BASE					* SHIP::pIsland = null;
-COLLIDE						* SHIP::pCollide = null;
-VGEOMETRY					* SHIP::pGS = null;
+VDX9RENDER					* SHIP::pRS = nullptr;
+SEA_BASE					* SHIP::pSea = nullptr;
+ISLAND_BASE					* SHIP::pIsland = nullptr;
+COLLIDE						* SHIP::pCollide = nullptr;
+VGEOMETRY					* SHIP::pGS = nullptr;
 
 SHIP::SHIP()
 {
-	pShipsLights = null;
+	pShipsLights = nullptr;
 	vSpeedAccel = 0.0f;
 	uniIDX = 0;
 	bUse = false;
@@ -58,10 +58,10 @@ SHIP::SHIP()
 	fRockingY = 1.0f;
 	fRockingAZ = 1.0f;
 
-	pMasts = null;
+	pMasts = nullptr;
 
 	bModelUpperShip = false;
-	pModelUpperShip = null;
+	pModelUpperShip = nullptr;
 }
 
 SHIP::~SHIP()
@@ -111,10 +111,10 @@ void SHIP::LoadServices()
 
 	//api->LayerDel(sRealizeLayer,model_id);		// delete from realize
 
-	pIsland = null;
-	pSea = null;
-	pRS = null;
-	pGS = null;
+	pIsland = nullptr;
+	pSea = nullptr;
+	pRS = nullptr;
+	pGS = nullptr;
 
 	pGS = (VGEOMETRY *)api->CreateService("geometry");						Assert(pGS);
 	pRS = (VDX9RENDER *)api->CreateService("dx9render");	Assert(pRS);

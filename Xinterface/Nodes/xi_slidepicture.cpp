@@ -36,12 +36,12 @@ void SetTextureCoordinate(XI_ONETEX_VERTEX v[4],FXYRECT tr, float angle)
 CXI_SLIDEPICTURE::CXI_SLIDEPICTURE()
 {
 	nLifeTime = 0;
-	m_rs=0;
+	m_rs=nullptr;
 	m_idTex=-1L;
 	m_nNodeType = NODETYPE_SLIDEPICTURE;
-	pSlideSpeedList = NULL;
+	pSlideSpeedList = nullptr;
 	nSlideListSize = 0;
-	strTechniqueName = null;
+	strTechniqueName = nullptr;
 }
 
 CXI_SLIDEPICTURE::~CXI_SLIDEPICTURE()
@@ -57,7 +57,7 @@ void CXI_SLIDEPICTURE::Draw(bool bSelected,dword Delta_Time)
 		m_rs->TextureSet(0,m_idTex);
 		m_rs->SetSamplerState(0, D3DSAMP_ADDRESSU,D3DTADDRESS_WRAP);
 		m_rs->SetSamplerState(0, D3DSAMP_ADDRESSV,D3DTADDRESS_WRAP);
-		if(strTechniqueName==null)
+		if(strTechniqueName== nullptr)
 			m_rs->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP,XI_ONETEX_FVF,2,m_v,sizeof(XI_ONETEX_VERTEX),"iVideo");
 		else
 			m_rs->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP,XI_ONETEX_FVF,2,m_v,sizeof(XI_ONETEX_VERTEX),strTechniqueName);
@@ -82,7 +82,7 @@ void CXI_SLIDEPICTURE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 	{
 		if(strlen(param)>0)
 		{	strTechniqueName = NEW char[strlen(param)+1];
-			if(strTechniqueName==null)
+			if(strTechniqueName== nullptr)
 			{	STORM_THROW("allocate memory error");
 			}
 			strcpy(strTechniqueName,param);
@@ -116,7 +116,7 @@ void CXI_SLIDEPICTURE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 	nLifeTime = 0;
 	nCurSlide = 0;
 	nSlideListSize = 0;
-	pSlideSpeedList = NULL;
+	pSlideSpeedList = nullptr;
 
 	bool bUse1Ini = true;
 	// Расчет размера таблицы скоростей
@@ -138,7 +138,7 @@ void CXI_SLIDEPICTURE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 	if(nSlideListSize>0)
 	{
 		pSlideSpeedList = NEW SLIDE_SPEED[nSlideListSize];
-		if(pSlideSpeedList==null)	{STORM_THROW("allocate memory error");}
+		if(pSlideSpeedList== nullptr)	{STORM_THROW("allocate memory error");}
 	}
 
 	// заполняем таблицу скоростей

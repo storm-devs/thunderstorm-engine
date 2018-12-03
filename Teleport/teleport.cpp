@@ -11,7 +11,7 @@ CREATE_CLASS(FINDDIALOGNODES)
 
 bool GetStringLine(char * &pStr, char * bufer, long bufSize)
 {
-	if(pStr==null || bufer==null || bufSize==0) return false;
+	if(pStr== nullptr || bufer== nullptr || bufSize==0) return false;
 	bufer[0] = 0;
 
 	char * ps = pStr;
@@ -36,9 +36,9 @@ bool GetStringLine(char * &pStr, char * bufer, long bufSize)
 
 void GetQuotedString(char * inBuf, char * outBuf, long bufSize)
 {
-	if(outBuf==null || bufSize<=0) return;
+	if(outBuf== nullptr || bufSize<=0) return;
 	*outBuf = 0;
-	if(inBuf==null) return;
+	if(inBuf== nullptr) return;
 
 	while(*inBuf && *inBuf!='\"') inBuf++;
 	if(*inBuf) inBuf++;
@@ -55,8 +55,8 @@ void GetQuotedString(char * inBuf, char * outBuf, long bufSize)
 
 TMPTELEPORT::TMPTELEPORT()
 {
-	rs=NULL;
-	m_descrArray=NULL;
+	rs= nullptr;
+	m_descrArray= nullptr;
 	m_nStrQuantity = m_nCurStr = m_nCurShowPos = 0;
 }
 
@@ -160,7 +160,7 @@ void TMPTELEPORT::Realize(dword Delta_Time)
 
 void TMPTELEPORT::ReleaseAll()
 {
-	if(m_descrArray!=NULL)
+	if(m_descrArray!= nullptr)
 	{
 		for(int i=0; i<m_nStrQuantity; i++)
 		{
@@ -195,10 +195,10 @@ void TMPTELEPORT::SetShowData(ATTRIBUTES * pA)
 {
 	ReleaseAll();
 	m_nStrQuantity = 0;
-	if(pA==NULL) return;
+	if(pA== nullptr) return;
 	m_nStrQuantity = pA->GetAttributesNum();
 	if(m_nStrQuantity==0) return;
-	if((m_descrArray=NEW TELEPORT_DESCR[m_nStrQuantity])==NULL)
+	if((m_descrArray=NEW TELEPORT_DESCR[m_nStrQuantity])== nullptr)
 	{
 		STORM_THROW("Allocate memory error");
 	}
@@ -206,10 +206,10 @@ void TMPTELEPORT::SetShowData(ATTRIBUTES * pA)
 	for(int i=0;i<m_nStrQuantity;i++)
 	{
 		char * tmpStr = pA->GetAttribute(i);
-		m_descrArray[i].name = NULL;
+		m_descrArray[i].name = nullptr;
 		m_descrArray[i].num = i;
-		if(tmpStr==NULL) continue;
-		if( (m_descrArray[i].name=NEW char[strlen(tmpStr)+1]) == NULL )
+		if(tmpStr== nullptr) continue;
+		if( (m_descrArray[i].name=NEW char[strlen(tmpStr)+1]) == nullptr )
 		{
 			STORM_THROW("Allocate memory error");
 		}
@@ -228,8 +228,8 @@ void TMPTELEPORT::SortShowData()
 		bContinueSort = false;
 		for(int i=1; i<m_nStrQuantity; i++)
 		{
-			if(m_descrArray[i-1].name==NULL) continue;
-			if(m_descrArray[i].name==NULL)
+			if(m_descrArray[i-1].name== nullptr) continue;
+			if(m_descrArray[i].name== nullptr)
 			{
 				XChange(m_descrArray[i-1],m_descrArray[i]);
 				bContinueSort = true;
@@ -299,7 +299,7 @@ bool FINDDIALOGNODES::Init()
 				return false;
 			}
 
-			long filesize = api->fio->_GetFileSize(hfile,0);
+			long filesize = api->fio->_GetFileSize(hfile,nullptr);
 			if(filesize==0)
 			{
 				api->Trace("Empty dialog file %s",fileName);
@@ -308,7 +308,7 @@ bool FINDDIALOGNODES::Init()
 			}
 
 			char * fileBuf = NEW char[filesize+1];
-			if(fileBuf==null)
+			if(fileBuf== nullptr)
 			{
 				api->Trace("Can`t create buffer for read dialog file %s",fileName);
 				api->fio->_CloseHandle(hfile);

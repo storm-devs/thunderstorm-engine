@@ -10,7 +10,7 @@ bool bTraceFilesOff = false;
 void  trace(char * data_PTR,...)
 {
 	if(bTraceFilesOff) return;
-	if(data_PTR == 0) return;
+	if(data_PTR == nullptr) return;
 	static BOOL First = true;
 	if(First)
 	{
@@ -18,15 +18,15 @@ void  trace(char * data_PTR,...)
 		First = false;
 	}
 
-	HANDLE file_h = CreateFile(LOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,0,OPEN_ALWAYS,FILE_ATTRIBUTE_NORMAL,0);
-	SetFilePointer(file_h,0,0,FILE_END);
+	HANDLE file_h = CreateFile(LOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,nullptr,OPEN_ALWAYS,FILE_ATTRIBUTE_NORMAL,nullptr);
+	SetFilePointer(file_h,0,nullptr,FILE_END);
 	va_list args;
 	
 	va_start(args,data_PTR);
 	_vsnprintf(Buffer_4k,sizeof(Buffer_4k) - 4,data_PTR,args);
 	strcat(Buffer_4k,"\x0d\x0a");
 	DWORD bytes;
-	WriteFile(file_h,Buffer_4k,strlen(Buffer_4k),&bytes,0);
+	WriteFile(file_h,Buffer_4k,strlen(Buffer_4k),&bytes,nullptr);
 	va_end(args);
 
 	FlushFileBuffers(file_h);

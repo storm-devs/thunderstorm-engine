@@ -18,9 +18,9 @@
 
 ActionPlayerImp::ActionPlayerImp()
 {
-	ani = null;
+	ani = nullptr;
 	playerIndex = -1;
-	action = null;
+	action = nullptr;
 	isPlay = false;
 	isPause = false;
 	isAutostop = true;
@@ -54,7 +54,7 @@ void ActionPlayerImp::SetAnimation(AnimationImp * animation, long index)
 bool ActionPlayerImp::SetAction(const char * actionName)
 {
 	if(actionName && action && _stricmp(action->GetName(), actionName) == null) return true;
-	action = null;
+	action = nullptr;
 	isPlay = isPause = false;
 	isAutostop = true;
 	kBlendTimer = 1.0f;
@@ -65,7 +65,7 @@ bool ActionPlayerImp::SetAction(const char * actionName)
 		return false;
 	}
 	action = ani->GetActionInfo(actionName);
-	if(action == null)
+	if(action == nullptr)
 	{
 		ani->ApeSetnewaction(playerIndex);
 		return false;
@@ -86,7 +86,7 @@ bool ActionPlayerImp::SetAction(const char * actionName)
 const char * ActionPlayerImp::GetAction() const
 {
 	if(action) return action->GetName();
-	return null;
+	return nullptr;
 }
 
 //”правление проигрыванием
@@ -225,7 +225,7 @@ float ActionPlayerImp::GetBlend()
 //ѕолучить пользовательские данные дл€ этого действи€
 const char * ActionPlayerImp::GetData(const char * dataName) const
 {
-	if(!action) return null;
+	if(!action) return nullptr;
 	return action->GetUserData().GetData(dataName);
 }
 

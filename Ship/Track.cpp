@@ -1,7 +1,7 @@
 #include "Track.h"
 
-VDX9RENDER * ShipTracks::ShipTrack::pRS = null;
-SEA_BASE * ShipTracks::ShipTrack::pSea = null;
+VDX9RENDER * ShipTracks::ShipTrack::pRS = nullptr;
+SEA_BASE * ShipTracks::ShipTrack::pSea = nullptr;
 long ShipTracks::ShipTrack::iRefCount = 0;
 dword ShipTracks::ShipTrack::dwMaxBufferSize1 = 0, ShipTracks::ShipTrack::dwMaxBufferSize2 = 0;
 long ShipTracks::ShipTrack::iVTmpBuffer1 = -1, ShipTracks::ShipTrack::iVTmpBuffer2 = -1;

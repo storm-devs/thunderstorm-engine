@@ -26,7 +26,7 @@ LOCAL_COLLIDE *COLL::CreateLocalCollide(const char *layerName)
 float COLL::Trace(ENTITY_ID &entity, const CVECTOR &src, const CVECTOR &dst)
 {
 	COLLISION_OBJECT *cob = static_cast<COLLISION_OBJECT*>(_CORE_API->GetEntityPointer(&entity));
-	if(static_cast<ENTITY*>(cob)==null)	return 2.0f;
+	if(static_cast<ENTITY*>(cob)== nullptr)	return 2.0f;
 
 	last_trace_eid = entity;
 	return cob->Trace(src, dst);
@@ -39,7 +39,7 @@ float COLL::Trace(VIDWALKER &walker, const CVECTOR &src, const CVECTOR &dst, con
 {
 	float best_res = 2.0f;
 	ENTITY_ID *eid = walker.GetID();
-	while (eid != 0)
+	while (eid != nullptr)
 	{
 		long e;
 		for(e=0; e<entities; e++)
@@ -47,7 +47,7 @@ float COLL::Trace(VIDWALKER &walker, const CVECTOR &src, const CVECTOR &dst, con
 		if(e==entities)
 		{
 			COLLISION_OBJECT *cob = static_cast<COLLISION_OBJECT*>(_CORE_API->GetEntityPointer(eid));
-			if(cob!=null)
+			if(cob!= nullptr)
 			{
 				float res = cob->Trace(src, dst);
 				if(res<best_res)
@@ -74,7 +74,7 @@ bool COLL::Clip(VIDWALKER &walker, const PLANE *planes, long nplanes, const CVEC
 	bool retval = false;
 
 	ENTITY_ID *eid = walker.GetID();
-	while(eid!=0)
+	while(eid!=nullptr)
 	{
 		long e;
 		for(e=0; e<entities; e++)
@@ -82,7 +82,7 @@ bool COLL::Clip(VIDWALKER &walker, const PLANE *planes, long nplanes, const CVEC
 		if(e==entities)
 		{
 			COLLISION_OBJECT *cob = static_cast<COLLISION_OBJECT*>(_CORE_API->GetEntityPointer(eid));
-			if(cob!=null)
+			if(cob!= nullptr)
 			{
 				last_trace_eid = *eid;
 				if(cob->Clip(planes, nplanes, center, radius, addpoly)==true)

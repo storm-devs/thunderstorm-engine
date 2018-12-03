@@ -52,7 +52,7 @@ public:
 	virtual void SetPlayer(long playerIndex, bool isInverse = false);
 	virtual void ResetPlayer(long playerIndex);
 	//”знать, используетс€ ли ActionPlayer
-	virtual bool IsUsedPlayer(long playerIndex, bool * isInverse = null);
+	virtual bool IsUsedPlayer(long playerIndex, bool * isInverse = nullptr);
 	//ѕолучить велечину блендинга дл€ плеера (если не используетс€ то 1.0f)
 	virtual float GetPlayerValue(long playerIndex);
 

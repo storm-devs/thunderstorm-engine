@@ -35,12 +35,12 @@ Location::Location()
 	locators = NEW LocatorArray * [maxLocators];
 	patchJump = -1;
 	isDebugView = true;
-	sphereVertex = null;
+	sphereVertex = nullptr;
 	sphereNumTrgs = 0;
 	lastLoadStaticModel = -1;
 	srand(GetTickCount() | 1);
 	isPause = false;
-	lights = null;
+	lights = nullptr;
 	curMessage = 0;
 	for(long i = 0; i < sizeof(message)/sizeof(DmgMessage); i++) message[i].alpha = 0.0f;
 	locationTimeUpdate = 0.0f;
@@ -69,7 +69,7 @@ Location::~Location()
 	for(long i = 0; i < numLocators; i++) delete locators[i];
 	delete locators;
 	if(sphereVertex) delete sphereVertex;
-	sphereVertex = null;
+	sphereVertex = nullptr;
 }
 
 
@@ -153,7 +153,7 @@ void Location::Realize(dword delta_time)
 		//Отрисовка патча
 		ptc.DebugDraw(rs, delta_time*0.001f);
 		//Информация о локации
-		const char * c = null;
+		const char * c = nullptr;
 		if(AttributesPointer)
 		{
 			c = AttributesPointer->GetAttribute("id");
@@ -372,7 +372,7 @@ dword _cdecl Location::ProcessMessage(MESSAGE & message)
 		u0 = message.Float();	//x
 		v0 = message.Float();	//y
 		u1 = message.Float();	//z
-		return supervisor.CheckPosition(u0, v0, u1, null);
+		return supervisor.CheckPosition(u0, v0, u1, nullptr);
 	case MSG_LOCATION_SETCHRPOSITIONS:
 		supervisor.SetSavePositions();
 		break;
@@ -404,19 +404,19 @@ dword _cdecl Location::ProcessMessage(MESSAGE & message)
 //Найти группу локаторов
 LocatorArray * Location::FindLocatorsGroup(const char * gName)
 {
-	if(!gName || !gName[0]) return null;
+	if(!gName || !gName[0]) return nullptr;
 	long hash = LocatorArray::CalcHashString(gName);
 	for(long i = 0; i < numLocators; i++)
 	{
 		if(locators[i]->CompareGroup(gName, hash)) return locators[i];
 	}
-	return null;
+	return nullptr;
 }
 
 long Location::LoadStaticModel(const char * modelName, const char * tech, long level, bool useDynamicLights)
 {
 	lights = (Lights *)_CORE_API->GetEntityPointer(&lightsid);
-	long im = model.CreateModel(modelName, tech, level, true, useDynamicLights?GetLights():0);
+	long im = model.CreateModel(modelName, tech, level, true, useDynamicLights?GetLights():nullptr);
 	if(im < 0) return -1;
 	//Указатель на геометрию
 	MODEL * mdl = model[im];
@@ -511,7 +511,7 @@ bool __declspec(dllexport) __cdecl Location::LoadJumpPatch(const char * modelNam
 	if(patchJump >= 0) model.DeleteModel(patchJump);
 	patchJump = -1;
 	if(!modelName || !modelName[0]) return false;
-	patchJump = model.CreateModel(modelName, "", 0, false, 0);
+	patchJump = model.CreateModel(modelName, "", 0, false, nullptr);
 	return patchJump >= 0;
 }
 
@@ -768,7 +768,7 @@ void Location::DrawLocators(LocatorArray * la)
 			mPos.m[2][1] *= rad;
 			mPos.m[2][2] *= rad;
 			rs->SetTransform(D3DTS_WORLD, mPos);
-			rs->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE, sphereNumTrgs, sphereVertex, sizeof(SphVertex), null);
+			rs->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE, sphereNumTrgs, sphereVertex, sizeof(SphVertex), nullptr);
 		}
 		if(isSet) while(rs->TechniqueExecuteNext()){};
 	}

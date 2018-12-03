@@ -23,11 +23,11 @@ CREATE_CLASS(CoastFoam)
 ISLAND::ISLAND()
 {
 	bForeignModels = false;
-	pRS = null;
-	pGS = null;
-	pDepthMap = null;
-	pShadowMap = null;
-	pIslandTraceWalker = null;
+	pRS = nullptr;
+	pGS = nullptr;
+	pDepthMap = nullptr;
+	pShadowMap = nullptr;
+	pIslandTraceWalker = nullptr;
 	bDrawReflections = false;
 
 	fCurrentImmersion = 0.0f;
@@ -244,7 +244,7 @@ dword _cdecl ISLAND::ProcessMessage(MESSAGE & message)
 			message.String(sizeof(cFoamDir)-1, cFoamDir);
 			message.String(sizeof(cModelsDir)-1, cModelsDir);
 			message.String(sizeof(cModelsID)-1, cModelsID);
-			Mount(cModelsID, cModelsDir, 0);
+			Mount(cModelsID, cModelsDir, nullptr);
 			CreateHeightMap(cFoamDir, cModelsID);
 			//CreateShadowMap(cModelsDir, cModelsID);
 		break;
@@ -444,7 +444,7 @@ void ISLAND::CreateDirectories(char * pDir)
 		strncpy(sTemp, pLast, pStr - pLast); sTemp[pStr - pLast] = '\0';
 		pLast = ++pStr;
 		strcat(sCurDir, sTemp); strcat(sCurDir, "\\");
-		BOOL bOk = fio->_CreateDirectory(sCurDir, null);
+		BOOL bOk = fio->_CreateDirectory(sCurDir, nullptr);
 	}
 #endif
 }
@@ -477,10 +477,10 @@ bool ISLAND::CreateShadowMap(char * pDir, char * pName)
 	{
 		TGA_H	tga_head;
 
-		fio->_ReadFile(hFile, &tga_head, sizeof(tga_head), 0);
+		fio->_ReadFile(hFile, &tga_head, sizeof(tga_head), nullptr);
 		dword dwSize = tga_head.width;
 		pShadowMap = NEW byte[dwSize * dwSize];
-		fio->_ReadFile(hFile, pShadowMap, dwSize * dwSize, 0);
+		fio->_ReadFile(hFile, pShadowMap, dwSize * dwSize, nullptr);
 		fio->_CloseHandle(hFile);
 
 		mzShadow.DoZip(pShadowMap, dwSize);
@@ -592,10 +592,10 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 		hFile = fio->_CreateFile(fileName.c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
 		if (hFile != INVALID_HANDLE_VALUE)
 		{
-			fio->_ReadFile(hFile, &tga_head, sizeof(tga_head), 0);
+			fio->_ReadFile(hFile, &tga_head, sizeof(tga_head), nullptr);
 			iDMapSize = tga_head.width;
 			pDepthMap = NEW byte[iDMapSize * iDMapSize];
-			fio->_ReadFile(hFile, pDepthMap, iDMapSize * iDMapSize, 0);
+			fio->_ReadFile(hFile, pDepthMap, iDMapSize * iDMapSize, nullptr);
 			fio->_CloseHandle(hFile);
 
 			mzDepth.DoZip(pDepthMap, iDMapSize);
@@ -769,8 +769,8 @@ bool ISLAND::SaveTga8(char * fname, byte * pBuffer, dword dwSizeX, dword dwSizeY
 		api->Trace("Island: Can't create island file! %s", fname);
 		return false;
 	}
-	api->fio->_WriteFile(hFile, &tga_head, sizeof(tga_head), 0);
-	fio->_WriteFile(hFile, pBuffer, dwSizeX * dwSizeY, 0);
+	api->fio->_WriteFile(hFile, &tga_head, sizeof(tga_head), nullptr);
+	fio->_WriteFile(hFile, pBuffer, dwSizeX * dwSizeY, nullptr);
 	fio->_CloseHandle(hFile);
 	
 	return true;
@@ -857,7 +857,7 @@ float ISLAND::Cannon_Trace(long iBallOwner, const CVECTOR & vSrc, const CVECTOR 
 
 float ISLAND::Trace(const CVECTOR & vSrc, const CVECTOR & vDst)
 {
-	return pCollide->Trace(*pIslandTraceWalker, vSrc, vDst, null, 0);
+	return pCollide->Trace(*pIslandTraceWalker, vSrc, vDst, nullptr, 0);
 }
 
 // Path section

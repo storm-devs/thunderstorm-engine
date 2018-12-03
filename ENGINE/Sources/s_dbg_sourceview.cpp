@@ -120,7 +120,7 @@ LRESULT CALLBACK SourceViewWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM l
 				break;
 				case 'C':
 					if(CDebug.SourceView->nEndSelection == CDebug.SourceView->nStartSelection) break;
-					if(OpenClipboard(0))//hwnd))
+					if(OpenClipboard(nullptr))//hwnd))
 					{
 						EmptyClipboard();
 						long dwBytes;
@@ -202,7 +202,7 @@ LRESULT CALLBACK SourceViewWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM l
 			{
 				CDebug.SourceView->bDrag = false;
 				ReleaseCapture();
-				SetCursor(LoadCursor(null, IDC_ARROW));
+				SetCursor(LoadCursor(nullptr, IDC_ARROW));
 				
 				if (abs(CDebug.SourceView->pntDragPos.x - xPos) < 3 && abs(CDebug.SourceView->pntDragPos.y - yPos) < 3)
 				{
@@ -329,7 +329,7 @@ LRESULT CALLBACK SourceViewWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM l
 						CDebug.SourceView->nTopLine = 0;
 					if(CDebug.SourceView->nTopLine >= CDebug.SourceView->nLinesNum - CDebug.SourceView->nClientLinesSize) CDebug.SourceView->nTopLine = CDebug.SourceView->nLinesNum - CDebug.SourceView->nClientLinesSize;
 					CDebug.SourceView->UpdateGDIControls();
-					InvalidateRect(hwnd,0,true);
+					InvalidateRect(hwnd,nullptr,true);
 				break;
 				case SB_LINEDOWN:
 					CDebug.SourceView->LineUpDown(true);
@@ -344,7 +344,7 @@ LRESULT CALLBACK SourceViewWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM l
 					if(CDebug.SourceView->nTopLine < 0) CDebug.SourceView->nTopLine = 0; //~!~
 					if(CDebug.SourceView->nTopLine >= CDebug.SourceView->nLinesNum - CDebug.SourceView->nClientLinesSize) CDebug.SourceView->nTopLine = CDebug.SourceView->nLinesNum - CDebug.SourceView->nClientLinesSize;
 					CDebug.SourceView->UpdateGDIControls();
-					InvalidateRect(hwnd,0,true);
+					InvalidateRect(hwnd,nullptr,true);
 				break;
 			}
 
@@ -372,12 +372,12 @@ SOURCE_VIEW::SOURCE_VIEW(HWND _hMain, HINSTANCE _hInst)
 	nActiveLine = 0xffffffff;
 	nControlLine = 0xffffffff;
 	nTopLine = 0;
-	pLineOffset = 0;
-	pBookmarks = null;
+	pLineOffset = nullptr;
+	pBookmarks = nullptr;
 	nLinesNum = 0;
 	nSourceFileSize = 0;
-	pSourceFile = 0;
-	hFont = 0;
+	pSourceFile = nullptr;
+	hFont = nullptr;
 	hInst = _hInst;
 	hMain = _hMain;
 	Pos.left = Pos.top = 0;
@@ -406,20 +406,20 @@ SOURCE_VIEW::SOURCE_VIEW(HWND _hMain, HINSTANCE _hInst)
 	wndclass.cbClsExtra = 0;
 	wndclass.cbWndExtra = sizeof(WORD);
 	wndclass.hInstance = _hInst;
-	wndclass.hIcon = 0;
-	wndclass.hCursor = LoadCursor(NULL,IDC_ARROW);
+	wndclass.hIcon = nullptr;
+	wndclass.hCursor = LoadCursor(nullptr,IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
-	wndclass.lpszMenuName = NULL;
+	wndclass.lpszMenuName = nullptr;
 	wndclass.lpszClassName = SVClass;
-	wndclass.hIconSm = null;//LoadIcon(NULL,IDI_APPLICATION);
+	wndclass.hIconSm = nullptr;//LoadIcon(NULL,IDI_APPLICATION);
 	RegisterClassEx(&wndclass);
 
 
 	hOwn = CreateWindowEx(WS_EX_CLIENTEDGE,
 		SVClass,
 		SVClass, WS_CHILD|WS_VISIBLE|WS_VSCROLL,
-		0, 0, Pos.right - Pos.left, Pos.bottom - Pos.top, hMain, NULL, hInst, NULL); 
-    if(hOwn == NULL) throw "cant create source view"; 
+		0, 0, Pos.right - Pos.left, Pos.bottom - Pos.top, hMain, nullptr, hInst, nullptr); 
+    if(hOwn == nullptr) throw "cant create source view"; 
 
 	SetFocus(hOwn);
 	//OpenSourceFile("program\\ps.c");
@@ -512,15 +512,15 @@ bool SOURCE_VIEW::OpenSourceFile(const char * _filename)
 
 	fh = Core.fio->_CreateFile(DirectoryName);
 	if(fh == INVALID_HANDLE_VALUE) return false;
-	nDataSize = Core.fio->_GetFileSize(fh,0);
+	nDataSize = Core.fio->_GetFileSize(fh,nullptr);
 
 	nTopLine = 0;
 	if(pSourceFile) delete pSourceFile; 
 	nSourceFileSize = 0;
 	if(pLineOffset) delete pLineOffset;
-	pLineOffset = 0;
+	pLineOffset = nullptr;
 	if(pBookmarks) delete pBookmarks;
-	pBookmarks = 0;
+	pBookmarks = nullptr;
 	nLinesNum = 0;
 	nActiveLine = 0xffffffff;
 
@@ -530,7 +530,7 @@ bool SOURCE_VIEW::OpenSourceFile(const char * _filename)
 	if(dwR != nDataSize)
 	{
 		delete pSourceFile;
-		pSourceFile = 0;
+		pSourceFile = nullptr;
 		return false;
 	}
 	pSourceFile[nDataSize] = 0;
@@ -554,7 +554,7 @@ bool SOURCE_VIEW::OpenSourceFile(const char * _filename)
 	pBookmarks = (bool*)RESIZE(pBookmarks, nLinesNum);
 	PZERO(pBookmarks, nLinesNum * sizeof(pBookmarks[0]));
 	UpdateGDIControls();
-	InvalidateRect(hOwn,0,true);
+	InvalidateRect(hOwn,nullptr,true);
 	strcpy(SourceFileName,_filename);
 	SetFocus(hOwn);
 
@@ -659,13 +659,13 @@ void SOURCE_VIEW::OnPaint()
 
 			if(n == nActiveLine)
 			{
-				MoveToEx(dc,Pos.left,y + nFontHeight - 1, (LPPOINT) NULL); 
+				MoveToEx(dc,Pos.left,y + nFontHeight - 1, (LPPOINT)nullptr); 
 				LineTo(dc,Pos.right,y + nFontHeight - 1); 
 			}
 			
 			if(nStartSelection == nEndSelection || n != Cursor.line)
 			{
-				TabbedTextOut(dc,x,y,pSourceFile + pLineOffset[n],nTextLen,0,0,0);
+				TabbedTextOut(dc,x,y,pSourceFile + pLineOffset[n],nTextLen,0,nullptr,0);
 			}
 			else
 			{
@@ -679,7 +679,7 @@ void SOURCE_VIEW::OnPaint()
 				
 				if(nFrom > 0)
 				{
-					w = LOWORD(TabbedTextOut(dc,x,y,pSourceFile + pLineOffset[n],nFrom,0,0,0));
+					w = LOWORD(TabbedTextOut(dc,x,y,pSourceFile + pLineOffset[n],nFrom,0,nullptr,0));
 					x += w;
 				}
 
@@ -688,7 +688,7 @@ void SOURCE_VIEW::OnPaint()
 				SetTextColor(dc,WRGB(255,255,255));
 
 				CopyPasteRect.left = x;
-				w = LOWORD(TabbedTextOut(dc,x,y,pSourceFile + pLineOffset[n] + nFrom,nTo - nFrom,0,0,0));
+				w = LOWORD(TabbedTextOut(dc,x,y,pSourceFile + pLineOffset[n] + nFrom,nTo - nFrom,0,nullptr,0));
 				x += w;
 				CopyPasteRect.right = CopyPasteRect.left + w;
 				CopyPasteRect.top = y;
@@ -703,7 +703,7 @@ void SOURCE_VIEW::OnPaint()
 				SetBkMode(dc,TRANSPARENT);
 
 				SetTextColor(dc,WRGB(0,0,0));
-				TabbedTextOut(dc,x,y,pSourceFile + pLineOffset[n] + nTo,nTextLen - nTo,0,0,0);
+				TabbedTextOut(dc,x,y,pSourceFile + pLineOffset[n] + nTo,nTextLen - nTo,0,nullptr,0);
 
 				x = 16;
 
@@ -740,7 +740,7 @@ void SOURCE_VIEW::LineUpDown(bool down, DWORD _nlines)
 
 			//nTopLine += _nlines;
 			UpdateGDIControls();
-			InvalidateRect(hOwn,0,true);
+			InvalidateRect(hOwn,nullptr,true);
 		}
 	}
 	else
@@ -750,7 +750,7 @@ void SOURCE_VIEW::LineUpDown(bool down, DWORD _nlines)
 			if(nTopLine < _nlines) nTopLine = 0;
 			else nTopLine -= _nlines;
 			UpdateGDIControls();
-			InvalidateRect(hOwn,0,true);
+			InvalidateRect(hOwn,nullptr,true);
 		}
 	}
 }
@@ -782,7 +782,7 @@ void SOURCE_VIEW::SetActiveLine(DWORD line)
 		if(newtopline < 0) newtopline = 0;
 		if(newtopline + nClientLinesSize >= nLinesNum) newtopline = nLinesNum - nClientLinesSize;
 		nTopLine = newtopline;
-		InvalidateRect(hOwn,0,true);
+		InvalidateRect(hOwn,nullptr,true);
 		UpdateGDIControls();
 	}
 
@@ -831,7 +831,7 @@ void SOURCE_VIEW::StartSelection(DWORD x_pos)
 		
 
 		BeginPath(dc);
-		TabbedTextOut(dc,X_OFFSET,0,pLine,nSymNum+1,0,0,0);
+		TabbedTextOut(dc,X_OFFSET,0,pLine,nSymNum+1,0,nullptr,0);
 		EndPath(dc);
 		r = PathToRegion(dc); 
 		if(r) 
@@ -879,7 +879,7 @@ void SOURCE_VIEW::MoveSelection(DWORD x_pos)
 		//nLen = LOWORD(GetTabbedTextExtent(dc,pLine,nSymNum+1,0,0));
 
 		BeginPath(dc);
-		TabbedTextOut(dc,X_OFFSET,0,pLine,nSymNum+1,0,0,0);
+		TabbedTextOut(dc,X_OFFSET,0,pLine,nSymNum+1,0,nullptr,0);
 		EndPath(dc);
 		r = PathToRegion(dc); 
 		if(r) 
@@ -926,8 +926,8 @@ void SOURCE_VIEW::InvalidateLineSection(DWORD line, DWORD r1, DWORD r2)
 	RECT SelectionRect = Pos;
 	SelectionRect.top = (line - nTopLine) * nFontHeight;
 	SelectionRect.bottom = SelectionRect.top + nFontHeight;
-	SelectionRect.left = LOWORD(GetTabbedTextExtent(dc,pLine,r1+1,0,0));
-	SelectionRect.right = LOWORD(GetTabbedTextExtent(dc,pLine,r2+2,0,0));
+	SelectionRect.left = LOWORD(GetTabbedTextExtent(dc,pLine,r1+1,0,nullptr));
+	SelectionRect.right = LOWORD(GetTabbedTextExtent(dc,pLine,r2+2,0,nullptr));
 	
 	InvalidateRect(hOwn,&SelectionRect,true);
 	
@@ -962,7 +962,7 @@ void SOURCE_VIEW::DetCursorPos(DWORD x_pos, DWORD y_pos)
 
 	while(!(pLine[nSymNum] == 0xd || pLine[nSymNum] == 0xa  || pLine[nSymNum] == 0))
 	{
-		nLen = LOWORD(GetTabbedTextExtent(dc,pLine,nSymNum + 1,0,0));
+		nLen = LOWORD(GetTabbedTextExtent(dc,pLine,nSymNum + 1,0,nullptr));
 		if(nLen + X_OFFSET /*+ old_pos.x_pos*/ >= x_pos)
 		{
 			//nEndSelection = nSymNum;
@@ -1017,7 +1017,7 @@ void SOURCE_VIEW::ToogleBookmark()
 			htBookmarks[sFilename] = nActiveLine;
 		else
 			htBookmarks.erase(sFilename);
-		InvalidateRect(hMain, null, true);
+		InvalidateRect(hMain, nullptr, true);
 	}
 }
 
@@ -1025,7 +1025,7 @@ void SOURCE_VIEW::ClearAllBookmarks()
 {
 	for (long i=0; i<nLinesNum; i++) pBookmarks[i] = 0;
 	htBookmarks.clear();
-	InvalidateRect(hMain, null, true);
+	InvalidateRect(hMain, nullptr, true);
 }
 
 void SOURCE_VIEW::GoNextBookmark()
@@ -1051,7 +1051,7 @@ char * SOURCE_VIEW::GetToken(char * pStr, std::string & sResult)
 	if (!pStr || !pStr[0])
 	{
 		sResult = "";
-		return null;
+		return nullptr;
 	}
 
 	while (*pStr)
@@ -1074,7 +1074,7 @@ char * SOURCE_VIEW::GetToken(char * pStr, std::string & sResult)
 	cToken[dwTokenSize] = 0;
 	sResult = cToken;
 
-	return (*pStr) ? pStr : null;
+	return (*pStr) ? pStr : nullptr;
 }
 
 bool SOURCE_VIEW::SetVariableOnChange(const char * pString, bool bSet)
@@ -1082,12 +1082,12 @@ bool SOURCE_VIEW::SetVariableOnChange(const char * pString, bool bSet)
 	long iDigit;
 	std::string sVarName, sToken, sDigit;
 	char * pStr = (char*)pString;
-	VDATA * pObject = null;
+	VDATA * pObject = nullptr;
 
 	pStr = GetToken(pStr, sVarName);
 	if (!pStr)
 	{
-		pObject = (VDATA *)_CORE_API->GetScriptVariable(sVarName.c_str(), null);
+		pObject = (VDATA *)_CORE_API->GetScriptVariable(sVarName.c_str(), nullptr);
 		if (!pObject) return false;
 		// set VOC to alone variable
 		return true;
@@ -1101,14 +1101,14 @@ bool SOURCE_VIEW::SetVariableOnChange(const char * pString, bool bSet)
 		{
 			return false;
 		}
-		VDATA * pV = (VDATA *)_CORE_API->GetScriptVariable(sVarName.c_str(), null); if (!pV) return false;
+		VDATA * pV = (VDATA *)_CORE_API->GetScriptVariable(sVarName.c_str(), nullptr); if (!pV) return false;
 		sscanf(sDigit.c_str(), "%d", &iDigit);
 		pObject = pV->GetArrayElement(iDigit);
 		pStr = GetToken(pStr, sToken);
 	}
 	else if (sToken == ".")
 	{
-		pObject = (VDATA *)_CORE_API->GetScriptVariable(sVarName.c_str(), null);
+		pObject = (VDATA *)_CORE_API->GetScriptVariable(sVarName.c_str(), nullptr);
 	}
 	else
 		return false;

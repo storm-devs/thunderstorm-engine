@@ -35,7 +35,7 @@ protected:
 	bool			bDead;
 
 public:
-	VAI_INNEROBJ() { pACharacter = null; bDead = false; ObjType = AIOBJ_UNKNOWN; };
+	VAI_INNEROBJ() { pACharacter = nullptr; bDead = false; ObjType = AIOBJ_UNKNOWN; };
 	virtual ~VAI_INNEROBJ() {};
 
 	// check for fire possibility

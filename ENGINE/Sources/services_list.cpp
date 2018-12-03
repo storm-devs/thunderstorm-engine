@@ -3,7 +3,7 @@
 
 SERVICES_LIST::SERVICES_LIST()
 {
-	List = 0;
+	List = nullptr;
 	Search_module_code = 0;
 	Objects = 0;
 }
@@ -32,7 +32,7 @@ SERVICE * SERVICES_LIST::Add(dword module_code,dword class_code,SERVICE * pointe
 
 	Objects++;
 
-	if(List == 0)
+	if(List == nullptr)
 	{
 		// add first node ------------------------------------------
 		List = node_PTR;
@@ -50,7 +50,7 @@ SERVICE * SERVICES_LIST::AddRef(dword module_code)
 {
 	SERVICE_NODE * node_PTR;
 	node_PTR = FindNode(module_code);
-	if(node_PTR == 0) return 0;
+	if(node_PTR == nullptr) return nullptr;
 	node_PTR->reference++;
 	return node_PTR->pointer;
 }
@@ -64,7 +64,7 @@ SERVICE * SERVICES_LIST::Find(dword module_code)
 		if(node_PTR->module_code == module_code) return node_PTR->pointer;
 		node_PTR = (SERVICE_NODE *)node_PTR->linkL;
 	}
-	return 0;
+	return nullptr;
 }
 
 SERVICE * SERVICES_LIST::Find(dword module_code, dword class_code)
@@ -79,7 +79,7 @@ SERVICE * SERVICES_LIST::Find(dword module_code, dword class_code)
 		}
 		node_PTR = (SERVICE_NODE *)node_PTR->linkL;
 	}
-	return 0;
+	return nullptr;
 }
 
 SERVICE_NODE * SERVICES_LIST::FindNode(dword module_code)
@@ -91,7 +91,7 @@ SERVICE_NODE * SERVICES_LIST::FindNode(dword module_code)
 		if(node_PTR->module_code == module_code) return node_PTR;
 		node_PTR = (SERVICE_NODE *)node_PTR->linkL;
 	}
-	return 0;
+	return nullptr;
 }
 
 SERVICE_NODE * SERVICES_LIST::FindNode(SERVICE * sp)
@@ -103,7 +103,7 @@ SERVICE_NODE * SERVICES_LIST::FindNode(SERVICE * sp)
 		if(node_PTR->pointer == sp) return node_PTR;
 		node_PTR = (SERVICE_NODE *)node_PTR->linkL;
 	}
-	return 0;
+	return nullptr;
 }
 
 dword SERVICES_LIST::Release(dword module_code, dword class_code)
@@ -155,7 +155,7 @@ void SERVICES_LIST::Release()
 		node_PTR = List;
 	}
 
-	List = 0;
+	List = nullptr;
 }
 
 SERVICE * SERVICES_LIST::GetService()
@@ -165,7 +165,7 @@ SERVICE * SERVICES_LIST::GetService()
 		Search_module_code = List->module_code;
 		return List->pointer;
 	}
-	return 0;
+	return nullptr;
 }
 
 SERVICE * SERVICES_LIST::GetServiceNext()
@@ -184,11 +184,11 @@ SERVICE * SERVICES_LIST::GetServiceNext()
 				Search_module_code = node_L->module_code;
 				return node_L->pointer;	
 			}
-			return 0;
+			return nullptr;
 		}
 		node_PTR = (SERVICE_NODE *)node_PTR->linkL;
 	}
-	return 0;
+	return nullptr;
 
 }
 
@@ -200,7 +200,7 @@ SERVICE * SERVICES_LIST::GetService(dword & class_code)
 		class_code = List->class_code;
 		return List->pointer;
 	}
-	return 0;
+	return nullptr;
 }
 
 SERVICE * SERVICES_LIST::GetServiceNext(dword & class_code)
@@ -220,18 +220,18 @@ SERVICE * SERVICES_LIST::GetServiceNext(dword & class_code)
 				class_code = node_L->class_code;
 				return node_L->pointer;	
 			}
-			return 0;
+			return nullptr;
 		}
 		node_PTR = (SERVICE_NODE *)node_PTR->linkL;
 	}
-	return 0;
+	return nullptr;
 }
 
 dword SERVICES_LIST::GetRef(SERVICE * sp)
 {
 	SERVICE_NODE * node_PTR;
 	node_PTR = FindNode(sp);
-	if(node_PTR == null) STORM_THROW(no service);
+	if(node_PTR == nullptr) STORM_THROW(no service);
 	return node_PTR->reference;
 }
 
@@ -239,6 +239,6 @@ void SERVICES_LIST::SetRef(SERVICE * sp, dword ref)
 {
 	SERVICE_NODE * node_PTR;
 	node_PTR = FindNode(sp);
-	if(node_PTR == null) STORM_THROW(no service);
+	if(node_PTR == nullptr) STORM_THROW(no service);
 	node_PTR->reference = ref;
 }

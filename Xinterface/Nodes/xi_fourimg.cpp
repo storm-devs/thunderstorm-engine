@@ -6,7 +6,7 @@
 
 CXI_FOURIMAGE::CXI_FOURIMAGE()
 {
-	m_rs = NULL;
+	m_rs = nullptr;
 	m_bClickable = true;
 	m_oneStrFont = -1;
 	m_twoStrFont = -1;
@@ -14,8 +14,8 @@ CXI_FOURIMAGE::CXI_FOURIMAGE()
 	m_oneBadTexture = m_twoBadTexture = -1;
 	vBuf = -1;
 	m_nTexturesQuantity = 0;
-	m_nTextureId = NULL;
-	m_sGroupName = NULL;
+	m_nTextureId = nullptr;
+	m_sGroupName = nullptr;
 }
 
 CXI_FOURIMAGE::~CXI_FOURIMAGE()
@@ -41,7 +41,7 @@ int CXI_FOURIMAGE::CommandExecute(int wActCode)
 		case ACTION_UPSTEP:
 			{
 				VDATA * pvdat = api->Event("FI_UpCom","l",m_nSelectItem);
-				if(pvdat==null || pvdat->GetLong()==0)	newSelectItem-=2;
+				if(pvdat== nullptr || pvdat->GetLong()==0)	newSelectItem-=2;
 			}
 			break;
 		case ACTION_DOWNSTEP:
@@ -158,7 +158,7 @@ void CXI_FOURIMAGE::Draw(bool bSelected,dword Delta_Time)
 				{
 					posY = m_imgRect[i].top + m_nOneStrOffset;
 
-					if(m_pOneStr[i]!=NULL)
+					if(m_pOneStr[i]!= nullptr)
 						m_rs->ExtPrint(m_oneStrFont,color,0, nAlignment1, false, 1.f, m_screenSize.x,
 							m_screenSize.y,	posX+m_xOneOffset,posY,"%s",m_pOneStr[i]);
 					else if(m_oneStr[i]!=-1)
@@ -168,7 +168,7 @@ void CXI_FOURIMAGE::Draw(bool bSelected,dword Delta_Time)
 				if(bUseTwoString)
 				{
 					posY = m_imgRect[i].top + m_nTwoStrOffset;
-					if(m_pTwoStr[i]!=NULL)
+					if(m_pTwoStr[i]!= nullptr)
 						m_rs->ExtPrint(m_twoStrFont,color,0, nAlignment2, false, 1.f, m_screenSize.x,
 							m_screenSize.y,	posX+m_xTwoOffset,posY,"%s",m_pTwoStr[i]);
 					else if(m_twoStr[i]!=-1)
@@ -282,37 +282,37 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 	}
 
 	ATTRIBUTES * pAttribute = _CORE_API->Entity_GetAttributeClass(&g_idInterface,"FourImage");
-	if(pAttribute!=NULL)
+	if(pAttribute!= nullptr)
 	{
 		m_nSelectItem = pAttribute->GetAttributeAsDword("current",0);
 		// get bad picture
 		char * sBadPict;
-		if( (sBadPict=pAttribute->GetAttribute("BadOnePicture")) != NULL)
+		if( (sBadPict=pAttribute->GetAttribute("BadOnePicture")) != nullptr)
 			m_oneBadTexture = m_rs->TextureCreate(sBadPict);
 		else	m_oneBadTexture = -1;
-		if( (sBadPict=pAttribute->GetAttribute("BadTwoPicture")) != NULL)
+		if( (sBadPict=pAttribute->GetAttribute("BadTwoPicture")) != nullptr)
 			m_twoBadTexture = m_rs->TextureCreate(sBadPict);
 		else	m_twoBadTexture = -1;
 
 		// get textures
 		ATTRIBUTES * pA = pAttribute->GetAttributeClass("ImagesGroup");
-		if(pA==0) m_nTexturesQuantity=0;
+		if(pA==nullptr) m_nTexturesQuantity=0;
 		else
 		{
 			m_nTexturesQuantity = pA->GetAttributesNum();
 			m_nTextureId = NEW long[m_nTexturesQuantity];
 			m_sGroupName = NEW char*[m_nTexturesQuantity];
-			if(m_sGroupName==NULL || m_nTextureId==NULL)
+			if(m_sGroupName== nullptr || m_nTextureId== nullptr)
 			{
 				STORM_THROW("Allocate memory error");
 			}
 			for(i=0; i<m_nTexturesQuantity; i++)
 			{
 				char * stmp = pA->GetAttribute(i);
-				if(stmp==NULL) m_sGroupName[i]=NULL;
+				if(stmp== nullptr) m_sGroupName[i]= nullptr;
 				else
 				{
-					if( (m_sGroupName[i]=NEW char[strlen(stmp)+1])==NULL )
+					if( (m_sGroupName[i]=NEW char[strlen(stmp)+1])== nullptr )
 					{
 						STORM_THROW("Allocate memory error");
 					}
@@ -327,7 +327,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 		{
 			sprintf(param,"pic%d",i+1);
 			ATTRIBUTES * pAttrTmp = pAttribute->GetAttributeClass(param);
-			if(pAttrTmp!=NULL)
+			if(pAttrTmp!= nullptr)
 			{
 				m_bUsed[i] = pAttrTmp->GetAttributeAsDword("selected",0)!=0;
 				m_oneTexID[i] = pAttrTmp->GetAttributeAsDword("tex1",-1);
@@ -337,29 +337,29 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 				if(m_twoTexID[i]!=-1 && m_twoTexID[i]<m_nTexturesQuantity) m_twoImgID[i] = pPictureService->GetImageNum(m_sGroupName[m_twoTexID[i]],pAttrTmp->GetAttribute("img2"));
 				else m_twoImgID[i] = -1;
 				char * tmps = pAttrTmp->GetAttribute("str1");
-				if(tmps!=NULL && *tmps=='#')
+				if(tmps!= nullptr && *tmps=='#')
 				{
-					if( (m_pOneStr[i]=NEW char[strlen(tmps)]) == NULL )
+					if( (m_pOneStr[i]=NEW char[strlen(tmps)]) == nullptr )
 						STORM_THROW("allocate memory error");
 					strcpy(m_pOneStr[i],&tmps[1]);
 					m_oneStr[i] = -1L;
 				}
 				else
 				{
-					m_pOneStr[i] = NULL;
+					m_pOneStr[i] = nullptr;
 					m_oneStr[i] = pStringService->GetStringNum(tmps);
 				}
 				tmps = pAttrTmp->GetAttribute("str2");
-				if(tmps!=NULL && *tmps=='#')
+				if(tmps!= nullptr && *tmps=='#')
 				{
-					if( (m_pTwoStr[i]=NEW char[strlen(tmps)]) == NULL )
+					if( (m_pTwoStr[i]=NEW char[strlen(tmps)]) == nullptr )
 						STORM_THROW("allocate memory error");
 					strcpy(m_pTwoStr[i],&tmps[1]);
 					m_twoStr[i] = -1L;
 				}
 				else
 				{
-					m_pTwoStr[i] = NULL;
+					m_pTwoStr[i] = nullptr;
 					m_twoStr[i] = pStringService->GetStringNum(tmps);
 				}
 			}
@@ -369,8 +369,8 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 				m_twoImgID[i] = -1L;
 				m_oneStr[i] = -1L;
 				m_twoStr[i] = -1L;
-				m_pOneStr[i] = NULL;
-				m_pTwoStr[i] = NULL;
+				m_pOneStr[i] = nullptr;
+				m_pTwoStr[i] = nullptr;
 				if(m_oneBadTexture==-1) m_oneTexID[i] = -1;
 				else m_oneTexID[i] = 0;
 				if(m_twoBadTexture==-1) m_twoTexID[i] = -1;
@@ -392,7 +392,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 	if( ReadIniString(ini1,name1, ini2,name2, "border", param, sizeof(param),"") )
 	{
 		tmpstr = GetSubStr(param, param1, sizeof(param1));
-		if( (m_sBorderGroupName = NEW char[strlen(param1)+1])==null )
+		if( (m_sBorderGroupName = NEW char[strlen(param1)+1])== nullptr )
 			STORM_THROW("allocate memory error")
 		strcpy(m_sBorderGroupName,param1);
 		m_texBorder = pPictureService->GetTextureID(m_sBorderGroupName);
@@ -403,7 +403,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 	{
 		m_bShowBorder = false;
 		m_texBorder = -1;
-		m_sBorderGroupName = null;
+		m_sBorderGroupName = nullptr;
 	}
 
 	// create index & vertex buffers
@@ -445,7 +445,7 @@ void CXI_FOURIMAGE::ReleaseAll()
 void CXI_FOURIMAGE::FillVertex()
 {
 	XI_ONETEX_VERTEX* pVert = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(vBuf);
-	if(pVert!=NULL)
+	if(pVert!= nullptr)
 	{
 		FXYRECT textRect1,textRect2;
 
@@ -514,7 +514,7 @@ void CXI_FOURIMAGE::Update(bool bSelected,dword DeltaTime)
 {
 	//
 	XI_ONETEX_VERTEX* pVert = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(vBuf);
-	if(pVert!=NULL)
+	if(pVert!= nullptr)
 	{
 		int idx = 0;
 		DWORD setColor = 0xFFFFFFFF;
@@ -651,23 +651,23 @@ void CXI_FOURIMAGE::ChangeItem(int nItemNum)
 {
     char param[256];
 	ATTRIBUTES * pAttribute = _CORE_API->Entity_GetAttributeClass(&g_idInterface,"FourImage");
-	if(pAttribute!=NULL)
+	if(pAttribute!= nullptr)
 	{
 		for(int i=(nItemNum==-1?0:nItemNum);i<(nItemNum==-1?4:nItemNum+1);i++)
 		{
-			if(m_pOneStr[i]!=NULL)
+			if(m_pOneStr[i]!= nullptr)
 			{
 				delete m_pOneStr[i];
-				m_pOneStr[i] = NULL;
+				m_pOneStr[i] = nullptr;
 			}
-			if(m_pTwoStr[i]!=NULL)
+			if(m_pTwoStr[i]!= nullptr)
 			{
 				delete m_pTwoStr[i];
-				m_pTwoStr[i] = NULL;
+				m_pTwoStr[i] = nullptr;
 			}
 			sprintf(param,"pic%d",i+1);
 			ATTRIBUTES * pAttrTmp = pAttribute->GetAttributeClass(param);
-			if(pAttrTmp!=NULL)
+			if(pAttrTmp!= nullptr)
 			{
 				char * sptr;
 				m_bUsed[i] = pAttrTmp->GetAttributeAsDword("selected",0)!=0;
@@ -678,8 +678,8 @@ void CXI_FOURIMAGE::ChangeItem(int nItemNum)
 				if(m_twoTexID[i]==-1) m_twoImgID[i] = -1;
 				else m_twoImgID[i] = pPictureService->GetImageNum(m_sGroupName[m_twoTexID[i]],pAttrTmp->GetAttribute("img2"));
 				sptr = pAttrTmp->GetAttribute("str1");
-				if(sptr!=NULL && *sptr=='#')
-					if( (m_pOneStr[i]=NEW char[strlen(sptr)]) == NULL )
+				if(sptr!= nullptr && *sptr=='#')
+					if( (m_pOneStr[i]=NEW char[strlen(sptr)]) == nullptr )
 					{
 						STORM_THROW("allocate memory error")
 					}
@@ -687,8 +687,8 @@ void CXI_FOURIMAGE::ChangeItem(int nItemNum)
 				else	m_oneStr[i] = pStringService->GetStringNum(sptr);
 
 				sptr = pAttrTmp->GetAttribute("str2");
-				if(sptr!=NULL && *sptr=='#')
-					if( (m_pTwoStr[i]=NEW char[strlen(sptr)]) == NULL )
+				if(sptr!= nullptr && *sptr=='#')
+					if( (m_pTwoStr[i]=NEW char[strlen(sptr)]) == nullptr )
 					{
 						STORM_THROW("allocate memory error")
 					}
@@ -701,8 +701,8 @@ void CXI_FOURIMAGE::ChangeItem(int nItemNum)
 				m_twoImgID[i] = -1L;
 				m_oneStr[i] = -1L;
 				m_twoStr[i] = -1L;
-				m_pOneStr[i] = NULL;
-				m_pTwoStr[i] = NULL;
+				m_pOneStr[i] = nullptr;
+				m_pTwoStr[i] = nullptr;
 			}
 		}
 

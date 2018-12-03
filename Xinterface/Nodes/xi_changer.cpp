@@ -5,14 +5,14 @@
 CXI_CHANGER::CXI_CHANGER()
 {
     m_nPlaceQuantity = 0;
-    m_pPlace = NULL;
+    m_pPlace = nullptr;
 
     m_dwFoneColor = ARGB(255,0,0,0);
     m_xOffset = 0.f;
     m_yOffset = 0.f;
 
 	m_idBackTex = -1;
-    IDirect3DTexture9 *m_pTex = NULL;
+    IDirect3DTexture9 *m_pTex = nullptr;
 
 	m_bClickable = true;
 	m_nNodeType = NODETYPE_CHANGER;
@@ -60,7 +60,7 @@ void CXI_CHANGER::Draw(bool bSelected,dword Delta_Time)
 		{
 			m_rs->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP,XI_ONETEX_FVF,2,&m_pTexVert[4],sizeof(XI_ONETEX_VERTEX),"iRectangle");
 		}
-		m_rs->SetTexture(0,m_pTex ? m_pTex->m_pTexture : 0);
+		m_rs->SetTexture(0,m_pTex ? m_pTex->m_pTexture : nullptr);
         m_rs->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP,XI_ONETEX_FVF,2,m_pTexVert,sizeof(XI_ONETEX_VERTEX),"iChanger");
 	}
 }
@@ -89,7 +89,7 @@ void CXI_CHANGER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
     if(m_nPlaceQuantity>0)
     {
         m_pPlace = NEW XYRECT[m_nPlaceQuantity];
-        if(m_pPlace==NULL)
+        if(m_pPlace== nullptr)
             STORM_THROW("Allocate memory error")
         ZeroMemory(m_pPlace,sizeof(XYRECT)*m_nPlaceQuantity);
     }
@@ -127,7 +127,7 @@ void CXI_CHANGER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
     m_xOffset = fPnt.x;	m_yOffset = fPnt.y;
 
     // get video texture (for inside picture)
-	m_pTex = null;
+	m_pTex = nullptr;
 	if( ReadIniString(ini1,name1, ini2,name2, "videoTexture", param, sizeof(param),"") )
 		m_pTex = m_rs->GetVideoTexture(param);
 
@@ -147,7 +147,7 @@ void CXI_CHANGER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 
     m_nCurrentPos = 0;
 	ATTRIBUTES* pAttr = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
-    if(pAttr!=NULL) m_nCurrentPos = pAttr->GetAttributeAsDword("current",0);
+    if(pAttr!= nullptr) m_nCurrentPos = pAttr->GetAttributeAsDword("current",0);
 
     SetRectanglesToPosition(0);
 }
@@ -202,7 +202,7 @@ int CXI_CHANGER::CommandExecute(int wActCode)
             SetRectanglesToPosition(m_nCurrentPos);
             // set attribute to new position
             ATTRIBUTES* pAttr = _CORE_API->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
-            if(pAttr!=NULL)
+            if(pAttr!= nullptr)
                 pAttr->SetAttributeUseDword("current",m_nCurrentPos);
         }
 	}
@@ -304,7 +304,7 @@ dword _cdecl CXI_CHANGER::MessageProc(long msgcode, MESSAGE & message)
 				SetRectanglesToPosition(m_nCurrentPos);
 				// set attribute to new position
 				ATTRIBUTES* pAttr = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
-				if(pAttr!=null)	pAttr->SetAttributeUseDword("current",m_nCurrentPos);
+				if(pAttr!= nullptr)	pAttr->SetAttributeUseDword("current",m_nCurrentPos);
 			}
 		}
 	break;

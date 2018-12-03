@@ -78,8 +78,8 @@ public:
 
 
 public:
-	MODEL(){ renderTuner = null; };
-	virtual ~MODEL(){ renderTuner = null; };
+	MODEL(){ renderTuner = nullptr; };
+	virtual ~MODEL(){ renderTuner = nullptr; };
 
 	virtual NODE *GetNode(long n) = 0;
 	virtual NODE *FindNode(const char *cNodeName) = 0;

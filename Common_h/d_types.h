@@ -31,7 +31,7 @@ struct FRECT
 
 struct CODESOURCE
 {
-	CODESOURCE(){pFileName = 0; line = 0xffffffff;};
+	CODESOURCE(){pFileName = nullptr; line = 0xffffffff;};
 	char * pFileName;
 	dword  line;
 };

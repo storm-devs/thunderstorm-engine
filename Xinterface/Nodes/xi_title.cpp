@@ -3,7 +3,7 @@
 
 CXI_TITLE::CXI_TITLE()
 {
-	m_sGroupName = NULL;
+	m_sGroupName = nullptr;
 	m_idTex = -1L;
 
 	m_idString = -1L;
@@ -118,7 +118,7 @@ void CXI_TITLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 
 	// get title string
 	char * pChar = api->Entity_GetAttribute(&g_idInterface,"title");
-	if(pChar!=null && pChar[0]!='#')
+	if(pChar!= nullptr && pChar[0]!='#')
 		m_idString = pStringService->GetStringNum(pChar);
 	else
 		m_idString = -1;
@@ -126,7 +126,7 @@ void CXI_TITLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	m_nStringWidth = GetIniLong(ini1,name1, ini2,name2, "stringWidth", 0);
 	if(m_nStringWidth==0)
 	{
-		if(pChar!=NULL && pChar[0]=='#')
+		if(pChar!= nullptr && pChar[0]=='#')
 			m_nStringWidth = m_rs->StringWidth(&pChar[1],m_fontID,m_fontScale,m_screenSize.x);
 		else
 			m_nStringWidth = m_rs->StringWidth(pStringService->GetString(m_idString),m_fontID,m_fontScale,m_screenSize.x);
@@ -136,14 +136,14 @@ void CXI_TITLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	if( ReadIniString(ini1,name1, ini2,name2, "imgGroupName", param, sizeof(param),"") )
 	{
 		m_sGroupName = NEW char[strlen(param)+1];
-		if(m_sGroupName==NULL)
+		if(m_sGroupName== nullptr)
 			STORM_THROW("allocate memory error")
 		strcpy(m_sGroupName,param);
 		m_idTex = pPictureService->GetTextureID(m_sGroupName);
 	}
 	else
 	{
-		m_sGroupName = null;
+		m_sGroupName = nullptr;
 		m_idTex = -1;
 	}
 
@@ -188,7 +188,7 @@ void CXI_TITLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 
 	// fill index buffer
 	WORD* pIndex = (WORD*)m_rs->LockIndexBuffer(m_idIBuf);
-	if(pIndex==NULL)
+	if(pIndex== nullptr)
 		STORM_THROW("index buffer not create")
 	for(i=0; i<rectangleQuantity; i++)
 	{
@@ -203,7 +203,7 @@ void CXI_TITLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 
 	// fill vertex buffer
 	XI_ONETEX_VERTEX* pVert = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVBuf);
-	if(pVert==NULL)
+	if(pVert== nullptr)
 		STORM_THROW("vertex buffer not create")
 	for(i=0; i<m_nVert; i++)
 	{
@@ -274,7 +274,7 @@ void CXI_TITLE::FillVertexBuffer()
 {
 	long i;
 	XI_ONETEX_VERTEX* pVert = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVBuf);
-	if( pVert != NULL )
+	if( pVert != nullptr )
 	{
 		// fill center rectangle (were string is showing)
 		pVert[0].pos.x = float(m_StringCenter.x - m_nStringWidth/2);

@@ -44,7 +44,7 @@ GEOMETRY::ANIMATION_VB GEOMETRY::GetAnimationVBDesc(long vb)
 	return avb[vb-SHIFT_VALUE];
 }
 
-VERTEX_TRANSFORM transform_func = 0;
+VERTEX_TRANSFORM transform_func = nullptr;
 void GEOMETRY::SetVBConvertFunc(VERTEX_TRANSFORM _transform_func)
 {
 	transform_func = _transform_func;
@@ -64,7 +64,7 @@ bool GEOMETRY::Init()
 	ini = api->fio->OpenIniFile(api->EngineIniFileName());
 	if(ini)
 	{
-		geoLog = ini->GetLong(0,"geometry_log",0)==1;
+		geoLog = ini->GetLong(nullptr,"geometry_log",0)==1;
 		delete ini;
 	}
 
@@ -88,12 +88,12 @@ int vrtSize;
 GEOS * GEOMETRY::CreateGeometry(const char * file_name,const char * light_file_name, long flags, const char *lmPath)
 {
 	char fnt[256], lfn[256];
-	if(light_file_name!=0)
+	if(light_file_name!=nullptr)
 	{
 		sprintf(lightPath, "%s\\%s", lmPath, file_name);
 		//strcpy(lightPath, light_file_name);
 		char *bs = strrchr(lightPath, '\\');
-		if(bs!=0)	*bs = 0;
+		if(bs!=nullptr)	*bs = 0;
 	}
 
 #ifndef _XBOX
@@ -111,9 +111,9 @@ GEOS * GEOMETRY::CreateGeometry(const char * file_name,const char * light_file_n
 	try
 	{
 		sprintf(fnt, "resource\\models\\%s.gm", file_name);
-		if(light_file_name==0 || strlen(light_file_name)==0)
+		if(light_file_name==nullptr || strlen(light_file_name)==0)
 		{
-			gp = ::CreateGeometry(fnt, null, GSR,flags);
+			gp = ::CreateGeometry(fnt, nullptr, GSR,flags);
 		}
 		else
 		{
@@ -129,12 +129,12 @@ GEOS * GEOMETRY::CreateGeometry(const char * file_name,const char * light_file_n
 	catch(const char *ee)
 	{
 		_CORE_API->Trace("%s: %s", fnt, ee);
-		return 0;
+		return nullptr;
 	}
 	catch(...)
 	{
 		_CORE_API->Trace("Invalid model: %s", fnt);
-		return 0;
+		return nullptr;
 	}
 
 #ifndef _XBOX
@@ -156,7 +156,7 @@ GEOS * GEOMETRY::CreateGeometry(const char * file_name,const char * light_file_n
 
 ANIMATION *GEOMETRY::LoadAnimation(const char *anim)
 {
-	return null;
+	return nullptr;
 }
 
 void GEOMETRY::DeleteGeometry(GEOS * gid)
@@ -200,7 +200,7 @@ int GEOM_SERVICE_R::FileSize(GEOS::ID file)
 }
 void GEOM_SERVICE_R::ReadFile(GEOS::ID file, void *data, long bytes)
 {
-	_CORE_API->fio->_ReadFile((HANDLE)file,data,bytes,0);
+	_CORE_API->fio->_ReadFile((HANDLE)file,data,bytes,nullptr);
 }
 
 void GEOM_SERVICE_R::CloseFile(GEOS::ID file)
@@ -399,8 +399,8 @@ GEOS::ID GEOM_SERVICE_R::CreateVertexBuffer(long type, long size)
 
 void * GEOM_SERVICE_R::LockVertexBuffer(GEOS::ID vb)
 {
-	if(vb==INVALID_BUFFER_ID)	return 0;
-	if(RenderService==0) return 0;
+	if(vb==INVALID_BUFFER_ID)	return nullptr;
+	if(RenderService==nullptr) return nullptr;
 	if(vb>=SHIFT_VALUE)	return avb[vb-SHIFT_VALUE].buff;
 	return RenderService->LockVertexBuffer(vb);
 }
@@ -433,9 +433,9 @@ GEOS::ID GEOM_SERVICE_R::CreateIndexBuffer(long size)
 
 void * GEOM_SERVICE_R::LockIndexBuffer(GEOS::ID ib)
 {
-	if(ib==INVALID_BUFFER_ID)	return 0;
+	if(ib==INVALID_BUFFER_ID)	return nullptr;
 	if(RenderService) return RenderService->LockIndexBuffer(ib);
-	return 0;
+	return nullptr;
 }
 
 void GEOM_SERVICE_R::UnlockIndexBuffer(GEOS::ID ib)
@@ -491,7 +491,7 @@ void GEOM_SERVICE_R::DrawIndexedPrimitive(long minv, long numv, long vrtsize, lo
 	}
 
 	//draw animation
-	if(transform_func!=0)
+	if(transform_func!=nullptr)
 	{
 		VGEOMETRY::ANIMATION_VB *cavb = &avb[CurentVertexBuffer-SHIFT_VALUE];
 

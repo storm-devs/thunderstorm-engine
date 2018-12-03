@@ -460,7 +460,7 @@ long Sharks::Shark::GenerateTrack(word * inds, Vertex * vrt, word base, SEA_BASE
 
 Sharks::Sharks()
 {
-	rs = null;
+	rs = nullptr;
 	camPos = 0.0f;
 	shipcode = _CORE_API->Class_Name2Code("ship");
 	numShakes = 3 + (GetTickCount() & 3);
@@ -555,7 +555,7 @@ void Sharks::Execute(dword delta_time)
 		for(long j = i + 1; j < num; j++) shark[i].Repulsion(shark[j]);
 	//”читываем корабли
 	ENTITY_ID id;
-	bool res = _CORE_API->FindClass(&id, null, shipcode);
+	bool res = _CORE_API->FindClass(&id, nullptr, shipcode);
 	for(; res; res = _CORE_API->FindClassNext(&id))
 	{
 		//”казатель на объект

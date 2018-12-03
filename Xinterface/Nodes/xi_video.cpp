@@ -3,8 +3,8 @@
 
 CXI_VIDEO::CXI_VIDEO()
 {
-	m_rs=0;
-	pTex=0;
+	m_rs=nullptr;
+	pTex=nullptr;
 	m_nNodeType = NODETYPE_VIDEO;
 }
 
@@ -30,7 +30,7 @@ void CXI_VIDEO::Draw(bool bSelected,dword Delta_Time)
 			v[i].pos.z = 1.f;
 		}
 
-		m_rs->SetTexture(0,pTex ? pTex->m_pTexture : 0);
+		m_rs->SetTexture(0,pTex ? pTex->m_pTexture : nullptr);
 		if(vid_counter++>10)
 			m_rs->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP,XI_ONETEX_FVF,2,v,sizeof(XI_ONETEX_VERTEX),"iVideo");
 	}

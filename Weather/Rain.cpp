@@ -7,8 +7,8 @@ RAIN::RAIN()
 	aSeaDrops.reserve(512);
 	aShips.reserve(16);
 
-	pWeather = null;
-	pRainBlocks = null;
+	pWeather = nullptr;
+	pRainBlocks = nullptr;
 	dwNumDrops = 0;
 	iVertexBuffer = -1;
 	iRainbowTex = -1;
@@ -216,7 +216,7 @@ void RAIN::RealizeDrops(dword Delta_Time)
 	vCamPos = mView.Pos();
 
 	ENTITY_ID sea_id;
-	SEA_BASE * pSea = null;
+	SEA_BASE * pSea = nullptr;
 	if (api->FindClass(&sea_id, "sea", 0)) pSea = (SEA_BASE*)api->GetEntityPointer(&sea_id);
 
 	VIDWALKER * pVW = api->LayerGetWalker("rain_drops");
@@ -230,7 +230,7 @@ void RAIN::RealizeDrops(dword Delta_Time)
 
 	if (pVW) for (long i=0; i<iNumNewDrops1 + iNumNewDrops2; i++)
 	{
-		SHIP_BASE * pShip = null;
+		SHIP_BASE * pShip = nullptr;
 		float fA, fS, fR;
 		CVECTOR vSrc, vDst;
 
@@ -248,7 +248,7 @@ void RAIN::RealizeDrops(dword Delta_Time)
 		vSrc = CVECTOR(vCamPos.x + fR * sinf(fA), vCamPos.y + 75.0f, vCamPos.z + fR * cosf(fA));
 		vDst = CVECTOR(vSrc.x, vCamPos.y - 75.0f, vSrc.z);
 
-		float fTest1 = Collide().Trace(*pVW, vSrc, vDst, null, 0);
+		float fTest1 = Collide().Trace(*pVW, vSrc, vDst, nullptr, 0);
 		float fTest2 = 2.0f;
 
 		if (pSea) 
@@ -312,7 +312,7 @@ void RAIN::RealizeDrops(dword Delta_Time)
 	{
 		if (!api->ValidateEntity(&aShips[i].eid))
 		{
-			aShips[i].pShip = null;
+			aShips[i].pShip = nullptr;
 		}
 	}
 

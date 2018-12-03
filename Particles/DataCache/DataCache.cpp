@@ -40,10 +40,10 @@ void DataCache::CacheSystem (const char* FileName)
 		return;
 	}
 
-	DWORD FileSize = api->fio->_GetFileSize(pSysFile, 0);
+	DWORD FileSize = api->fio->_GetFileSize(pSysFile, nullptr);
 
 	BYTE* pMemBuffer = NEW BYTE[FileSize];
-	api->fio->_ReadFile(pSysFile, pMemBuffer, FileSize, 0);
+	api->fio->_ReadFile(pSysFile, pMemBuffer, FileSize, nullptr);
 
 	//Создаем данные из файла...
 	CreateDataSource (pMemBuffer, FileSize, pathStr.c_str());
@@ -82,7 +82,7 @@ DataSource* DataCache::GetParticleSystemDataSource (const char* FileName)
 		if (Cache[n].FileName == pathStr) return Cache[n].pData;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //Проверить указатель на валидность

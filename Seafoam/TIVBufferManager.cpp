@@ -10,11 +10,11 @@ TIVBufferManager::TIVBufferManager(VDX9RENDER *_renderer, long _vType, long _vSi
 	,iCount(_iCount)
 	,vCount(_vCount)
 	,elementsCount(_count)
-	,used(0)
+	,used(nullptr)
 	,locked(false)
-	,indexes(0)
-	,vertices(0)
-	,ivIndexes(0)
+	,indexes(nullptr)
+	,vertices(nullptr)
+	,ivIndexes(nullptr)
 	,count(0)
 {
 	iBuffer = renderer->CreateIndexBuffer(elementsCount * iCount * sizeof(WORD));
@@ -109,8 +109,8 @@ void TIVBufferManager::GetPointers(long _i, WORD **iPointer, void **vPointer, lo
 {
 	if ((_i < 0) || !locked)
 	{
-		*iPointer = 0;
-		*vPointer = 0;
+		*iPointer = nullptr;
+		*vPointer = nullptr;
 		return;
 	}
 

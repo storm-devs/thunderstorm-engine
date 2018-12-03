@@ -8,10 +8,10 @@ extern VAPI * api;
 
 S_STACK::S_STACK()
 {
-	pStackData = 0;
+	pStackData = nullptr;
 	Buffer_size = 0;
 	Data_num = 0;
-	pVCompiler = 0;
+	pVCompiler = nullptr;
 }
 
 S_STACK::~S_STACK()
@@ -31,7 +31,7 @@ void S_STACK::Release()
 		}
 		delete pStackData;
 	}
-	pStackData = 0;
+	pStackData = nullptr;
 	Buffer_size = 0;
 	Data_num = 0;
 }

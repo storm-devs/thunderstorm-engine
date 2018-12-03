@@ -21,7 +21,7 @@
 
 WdmRenderModel::WdmRenderModel()
 {
-	geo = null;
+	geo = nullptr;
 	alpha = 1.0f;
 	tech = WDM_MODEL_TECH;
 	techa = WDM_MODEL_TECHA;
@@ -129,7 +129,7 @@ void WdmRenderModel::Render(VDX9RENDER * rs)
 		float dist = v.x*p.Nx + v.y*p.Ny + v.z*p.Nz - p.D;
 		if(dist < -radius) return;
 	}
-	geo->Draw(null, 0, null);
+	geo->Draw(nullptr, 0, nullptr);
 	wdmObjects->gs->SetTechnique("");
 }
 

@@ -154,7 +154,7 @@ struct INTFUNCDESC
 
 struct THLINE
 {
-	THLINE(){dwNum = 0; pIndex = 0;};
+	THLINE(){dwNum = 0; pIndex = nullptr;};
 	DWORD  dwNum;
 	BYTE * pIndex;
 };

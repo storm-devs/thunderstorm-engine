@@ -82,18 +82,18 @@ long LCOLL::SetBox(const CVECTOR &boxSize, const CMatrix &transform, bool testOn
 	//added faces
 	addedFaces = 0;
 	//start vertex of face
-	sVrt = 0;
+	sVrt = nullptr;
 	//F0(v0,v1,v2), F1(v0,v1,v2,v3)...
-	addVerts = 0;
+	addVerts = nullptr;
 
-	col->Clip(*walker, &plane[0], 6, boxCenter, boxRadius, AddPolyColl, 0, 0);
+	col->Clip(*walker, &plane[0], 6, boxCenter, boxRadius, AddPolyColl, nullptr, 0);
 	return 0;
 }
 
 const CVECTOR *LCOLL::GetFace(long &numVertices)
 {
 	numVertices = 0;
-	return 0;
+	return nullptr;
 }
 
 float LCOLL::Trace(const CVECTOR &src, const CVECTOR &dst)

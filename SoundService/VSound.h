@@ -17,7 +17,7 @@ public:
 	virtual bool Play (const char *_name,
 					   bool _simpleCache = false,
 					   long _time = 0,
-					   const CVECTOR *_startPosition = 0,
+					   const CVECTOR *_startPosition = nullptr,
 					   float _minDistance = -1.0f,
 					   float _maxDistance = -1.0f,
 					   long  _loopPauseTime = 0,

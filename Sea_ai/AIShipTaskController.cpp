@@ -192,7 +192,7 @@ void AIShipTaskController::SetNewTask(dword dwPriority, dword _dwNewTaskType, CV
 	
 	pTask->SetActive(true);
 	pTask->dwTaskType = _dwNewTaskType;
-	pTask->pATaskCharacter = null;
+	pTask->pATaskCharacter = nullptr;
 	//pTask->pTaskAIObj = null;
 	pTask->vTaskPnt = vPnt;
 }

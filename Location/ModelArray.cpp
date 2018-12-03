@@ -20,7 +20,7 @@
 
 ModelArray::ModelArray()
 {
-	model = null;
+	model = nullptr;
 	numModels = 0;
 	maxModels = 0;
 	modelspath[0] = 0;
@@ -109,9 +109,9 @@ long ModelArray::CreateModel(const char * modelName, const char * technique, lon
 		model[numModels].name[MA_MAX_NAME_LENGTH - 1] = 0;
 	}
 	model[numModels].hash = CalcHashString(model[numModels].name);
-	model[numModels].slider = null;
-	model[numModels].rotator = null;
-	model[numModels].reflection = null;
+	model[numModels].slider = nullptr;
+	model[numModels].rotator = nullptr;
+	model[numModels].reflection = nullptr;
 	model[numModels].flags = 0;
 	model[numModels].isVisible = isVisible;
 	//Устанавливаем технику модельки
@@ -138,11 +138,11 @@ void ModelArray::DeleteModel(long modelIndex)
 	Assert(modelIndex >= 0 && modelIndex < numModels);
 	//Удаляем эфекты
 	if(model[modelIndex].slider) delete model[modelIndex].slider;
-	model[modelIndex].slider = null;
+	model[modelIndex].slider = nullptr;
 	if(model[modelIndex].rotator) delete model[modelIndex].rotator;
-	model[modelIndex].rotator = null;
+	model[modelIndex].rotator = nullptr;
 	if(model[modelIndex].reflection) delete model[modelIndex].reflection;
-	model[modelIndex].reflection = null;
+	model[modelIndex].reflection = nullptr;
 	//Удаляем модельку
 	_CORE_API->DeleteEntity(model[modelIndex].modelrealizer);
 	_CORE_API->DeleteEntity(model[modelIndex].id);
@@ -220,7 +220,7 @@ Animation * ModelArray::GetAnimation(long modelIndex)
 {
 	Assert(modelIndex >= 0 && modelIndex < numModels);
 	MODEL * m = (MODEL *)_CORE_API->GetEntityPointer(&model[modelIndex].id);
-	if(!m) return null;
+	if(!m) return nullptr;
 	return m->GetAnimation();
 }
 

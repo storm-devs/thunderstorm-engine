@@ -6,10 +6,10 @@
 AIShipCameraController::AIShipCameraController(AIShip * _pAIShip)
 {
 	dwTarget = RELATION_UNKNOWN;
-	pTargetAPointer = null;
+	pTargetAPointer = nullptr;
 	fDelta = 0.0f;
 	iCrosshairTex = -1;
-	pACrosshair = null;
+	pACrosshair = nullptr;
 	SetAIShip(_pAIShip);
 }
 
@@ -41,7 +41,7 @@ void AIShipCameraController::Execute(float fDeltaTime)
 {
 	bCameraOutside = pACrosshair->GetAttributeAsDword("OutsideCamera") != 0;
 
-	pTargetAPointer = null;
+	pTargetAPointer = nullptr;
 	dwTarget = RELATION_UNKNOWN;
 	CVECTOR vOurPos = GetAIShip()->GetPos();
 

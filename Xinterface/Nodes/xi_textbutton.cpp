@@ -4,9 +4,9 @@
 
 CXI_TEXTBUTTON::CXI_TEXTBUTTON()
 {
-	m_rs = null;
+	m_rs = nullptr;
 
-	m_sGroupName = null;
+	m_sGroupName = nullptr;
 	m_idTex = -1;
 	m_idShadowTex = -1;
 
@@ -26,9 +26,9 @@ CXI_TEXTBUTTON::CXI_TEXTBUTTON()
 	m_bSelected = true;
 	m_bMouseSelect = true;
 
-	m_pTex = null;
+	m_pTex = nullptr;
 	m_nNodeType = NODETYPE_TEXTBUTTON;
-	m_sString = null;
+	m_sString = nullptr;
 	m_bVideoToBack = true;
 
 	m_dwBackColor = ARGB(128,0,0,0);
@@ -49,7 +49,7 @@ void CXI_TEXTBUTTON::Draw(bool bSelected,dword Delta_Time)
 		if(bSelected^m_bCurrentSelected)
 		{
 			XI_ONETEX_VERTEX *pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
-			if(pVert!=NULL)
+			if(pVert!= nullptr)
 			{
 				FXYRECT texRect;
 				m_bCurrentSelected = bSelected;
@@ -129,7 +129,7 @@ void CXI_TEXTBUTTON::Draw(bool bSelected,dword Delta_Time)
 		if(m_bVideoToBack)
 		{
 			// show midle video fragment
-			if(bSelected && m_pTex!=null)
+			if(bSelected && m_pTex!= nullptr)
 			{
 				m_rs->SetTexture(0,m_pTex->m_pTexture);
 				if(m_nPressedDelay>0)
@@ -157,7 +157,7 @@ void CXI_TEXTBUTTON::Draw(bool bSelected,dword Delta_Time)
 		if(!m_bVideoToBack)
 		{
 			// show midle video fragment
-			if(bSelected && m_pTex!=null)
+			if(bSelected && m_pTex!= nullptr)
 			{
 				m_rs->SetTexture(0,m_pTex->m_pTexture);
 				if(m_nPressedDelay>0)
@@ -167,7 +167,7 @@ void CXI_TEXTBUTTON::Draw(bool bSelected,dword Delta_Time)
 			}
 		}
 
-		if(m_idString!=-1 || m_sString!=null)
+		if(m_idString!=-1 || m_sString!= nullptr)
 			if(m_nPressedDelay>0)
 			{
 				m_rs->ExtPrint(m_nFontNum,m_dwFontColor,0,ALIGN_CENTER,true,m_fFontScale,m_screenSize.x,
@@ -224,13 +224,13 @@ void CXI_TEXTBUTTON::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
 	m_dwUnselFontColor = GetIniARGB(ini1,name1, ini2,name2, "unselectableFontColor", ARGB(255,128,128,128));
 
 	// get group name and get texture for this
-	m_sGroupName = null;
+	m_sGroupName = nullptr;
 	m_idTex = -1;
 	if( ReadIniString(ini1,name1, ini2,name2, "group", param, sizeof(param),"") )
 	{
 		m_idTex = pPictureService->GetTextureID(param);
 		m_sGroupName = NEW char[strlen(param)+1];
-		if(m_sGroupName==NULL)
+		if(m_sGroupName== nullptr)
 			STORM_THROW("allocate memory error")
 		strcpy(m_sGroupName,param);
 	}
@@ -271,7 +271,7 @@ void CXI_TEXTBUTTON::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
 		m_idString = pStringService->GetStringNum(param);
 
 	// get video fragment parameters
-	m_pTex = null;
+	m_pTex = nullptr;
 	if( ReadIniString(ini1,name1, ini2,name2, "midVideo", param, sizeof(param),"") )
 		m_pTex = m_rs->GetVideoTexture(param);
 
@@ -285,7 +285,7 @@ void CXI_TEXTBUTTON::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
 	// Lock buffers for write
 	XI_ONETEX_VERTEX *pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
 	WORD *pIndx = (WORD*) m_rs->LockIndexBuffer(m_idIBuf);
-	if(pVert==NULL || pIndx==NULL)
+	if(pVert== nullptr || pIndx== nullptr)
 		STORM_THROW("can not create the index&vertex buffers")
 
 	// fill triangles buffer
@@ -561,7 +561,7 @@ dword _cdecl CXI_TEXTBUTTON::MessageProc(long msgcode, MESSAGE & message)
 			param[sizeof(param)-1] = 0;
 			PTR_STORM_DELETE(m_sString); m_idString = -1;
 			if( param[0] == '#' ) {
-				if( (m_sString=NEW char[strlen(param)]) == null )
+				if( (m_sString=NEW char[strlen(param)]) == nullptr )
 				{ STORM_THROW("allocate memory error"); }
 				strcpy(m_sString,&param[1]);
 			} else {

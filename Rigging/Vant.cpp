@@ -9,14 +9,14 @@
 VANT::VANT()
 {
     bUse=false;
-    RenderService=0;
-    TextureName=0;
+    RenderService=nullptr;
+    TextureName=nullptr;
     texl=-1;
     bRunFirstTime=true;
     bYesDeleted=false;
     wVantLast=0;
-    gdata=0; groupQuantity=0;
-    vlist=0; vantQuantity=0;
+    gdata=nullptr; groupQuantity=0;
+    vlist=nullptr; vantQuantity=0;
     vBuf = iBuf = -1;
     nVert = nIndx = 0;
 }
@@ -147,16 +147,16 @@ dword _cdecl VANT::ProcessMessage(MESSAGE & message)
     case MSG_VANT_INIT:
 		{
 			int oldvantQuantity = vantQuantity;
-			if(gdata==0)
+			if(gdata==nullptr)
 			{
-				if( (gdata=NEW GROUPDATA[1]) == 0 )
+				if( (gdata=NEW GROUPDATA[1]) == nullptr )
 					STORM_THROW("Not memory allocation");
 				groupQuantity = 1;
 			}
 			else
 			{
 				GROUPDATA *oldgdata=gdata;
-				if((gdata=NEW GROUPDATA[groupQuantity+1]) == 0)
+				if((gdata=NEW GROUPDATA[groupQuantity+1]) == nullptr)
 					STORM_THROW("Not memory allocation");
 				memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
 				delete oldgdata; groupQuantity++;
@@ -166,7 +166,7 @@ dword _cdecl VANT::ProcessMessage(MESSAGE & message)
 			gdata[groupQuantity-1].model_id = message.EntityID();
 			MODEL* mdl;
 			mdl=(MODEL*)_CORE_API->GetEntityPointer(&gdata[groupQuantity-1].model_id);
-			if(mdl==0)
+			if(mdl==nullptr)
 				STORM_THROW("Bad Vant INIT");
 
 			gdata[groupQuantity-1].pMatWorld=&mdl->mtx;
@@ -192,7 +192,7 @@ dword _cdecl VANT::ProcessMessage(MESSAGE & message)
 			{
 				if(groupQuantity==1)
 				{
-					delete gdata; gdata=0;
+					delete gdata; gdata=nullptr;
 					groupQuantity=0;
 				}
 				else
@@ -200,7 +200,7 @@ dword _cdecl VANT::ProcessMessage(MESSAGE & message)
 					groupQuantity--;
 					GROUPDATA *oldgdata=gdata;
 					gdata=NEW GROUPDATA[groupQuantity];
-					if(gdata==0) gdata=oldgdata;
+					if(gdata==nullptr) gdata=oldgdata;
 					else
 					{
 						memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
@@ -220,7 +220,7 @@ dword _cdecl VANT::ProcessMessage(MESSAGE & message)
 
 			gdata[groupQuantity-1].vantQuantity = vantQuantity-oldvantQuantity;
 			gdata[groupQuantity-1].vantIdx= NEW int[vantQuantity-oldvantQuantity];
-			if(gdata[groupQuantity-1].vantIdx==NULL)	{STORM_THROW("allocate memory error");}
+			if(gdata[groupQuantity-1].vantIdx== nullptr)	{STORM_THROW("allocate memory error");}
 
 			int idx=0;
 			for(int vn=oldvantQuantity; vn<vantQuantity; vn++)
@@ -255,7 +255,7 @@ dword _cdecl VANT::ProcessMessage(MESSAGE & message)
 		{
 			ENTITY_ID tmp_id = message.EntityID();
 			NODE * mastNode = (NODE*)message.Pointer();
-			if(mastNode==NULL) break;
+			if(mastNode== nullptr) break;
 			for(int i=0; i<groupQuantity; i++)
 				if(gdata[i].model_id==tmp_id)
 				{
@@ -439,7 +439,7 @@ void VANT::AddLabel(GEOS::LABEL &lbl,NODE *nod)
     VANTDATA *vd;
     int  vantNum;
 
-    if(nod==0) return;
+    if(nod==nullptr) return;
 
     vantNum = atoi( &lbl.name[4] );
 
@@ -454,12 +454,12 @@ void VANT::AddLabel(GEOS::LABEL &lbl,NODE *nod)
     {
         //создаем новый вант
         vd= NEW VANTDATA;
-        if(vd==0)
+        if(vd==nullptr)
             STORM_THROW("Not memory allocate");
         PZERO(vd,sizeof(VANTDATA));
         vd->bDeleted=false;
         vd->vantNum=vantNum;
-        vd->pUpMatWorld=vd->pDownMatWorld=0;
+        vd->pUpMatWorld=vd->pDownMatWorld=nullptr;
         vd->HostGroup=groupQuantity-1;
 
         if(vantQuantity==0)
@@ -471,7 +471,7 @@ void VANT::AddLabel(GEOS::LABEL &lbl,NODE *nod)
         {
             VANTDATA **oldvlist=vlist;
             vlist = NEW VANTDATA*[vantQuantity+1];
-            if(vlist==0)
+            if(vlist==nullptr)
                 STORM_THROW("Not memory allocate");
             memcpy(vlist,oldvlist,sizeof(VANTDATA*)*vantQuantity);
             delete oldvlist; vantQuantity++;
@@ -488,14 +488,14 @@ void VANT::AddLabel(GEOS::LABEL &lbl,NODE *nod)
         break;
     case 'l': // left edge of vant
 		vd->pLeft = CVECTOR(lbl.m[3][0],lbl.m[3][1],lbl.m[3][2]) - gdata[groupQuantity-1].pMatWorld->Pos();// + nod->glob_mtx.Pos();
-		if(vd->pDownMatWorld==0)
+		if(vd->pDownMatWorld==nullptr)
 			vd->pDownMatWorld=&nod->glob_mtx; // get host matrix
 		else if(vd->pDownMatWorld!=&nod->glob_mtx)
 			vd->pDownMatWorld->MulToInv(nod->glob_mtx*vd->pLeft,vd->pLeft);
         break;
     case 'r': // right edge of vant
 		vd->pRight = CVECTOR(lbl.m[3][0],lbl.m[3][1],lbl.m[3][2]) - gdata[groupQuantity-1].pMatWorld->Pos();// + nod->glob_mtx.Pos();
-		if(vd->pDownMatWorld==0)
+		if(vd->pDownMatWorld==nullptr)
 			vd->pDownMatWorld=&nod->glob_mtx; // get host matrix
 		else if(vd->pDownMatWorld!=&nod->glob_mtx)
 			vd->pDownMatWorld->MulToInv(nod->glob_mtx*vd->pLeft,vd->pLeft);
@@ -532,7 +532,7 @@ void VANT::SetAll()
             }
             else
             {
-                delete vlist; vlist=0;
+                delete vlist; vlist=nullptr;
             }
             if(vn==vantQuantity) break;
         }
@@ -761,7 +761,7 @@ void VANT::SetAdd(int firstNum)
     // set vertex and index buffers
     for(int vn=firstNum; vn<vantQuantity; vn++)
     {
-        while( vlist[vn]->pUpMatWorld==0 || vlist[vn]->pDownMatWorld==0 )
+        while( vlist[vn]->pUpMatWorld==nullptr || vlist[vn]->pDownMatWorld==nullptr )
         {
             delete vlist[vn];
             vantQuantity--;
@@ -769,7 +769,7 @@ void VANT::SetAdd(int firstNum)
             {
                 VANTDATA **oldvlist=vlist;
                 vlist = NEW VANTDATA*[vantQuantity];
-                if(vlist==0)
+                if(vlist==nullptr)
                     vlist=oldvlist;
                 if(vn>0)
                     memcpy(vlist,oldvlist,sizeof(VANTDATA*)*vn);
@@ -780,7 +780,7 @@ void VANT::SetAdd(int firstNum)
             }
             else
             {
-                delete vlist; vlist=0;
+                delete vlist; vlist=nullptr;
             }
             if(vn==vantQuantity) break;
         }
@@ -860,8 +860,8 @@ void VANT::DoSTORM_DELETE()
         vantQuantity = groupQuantity = 0;
 		VERTEX_BUFFER_RELEASE(RenderService,vBuf);
 		INDEX_BUFFER_RELEASE(RenderService,iBuf);
-        delete vlist; vlist=0;
-        delete gdata; gdata=0;
+        delete vlist; vlist=nullptr;
+        delete gdata; gdata=nullptr;
     }
     else
         if(nvn!=vantQuantity || ngn!=groupQuantity)

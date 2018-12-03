@@ -95,7 +95,7 @@ public:
 	virtual long GetDevicesNum(){return 0;};
 	virtual bool GetDeviceDesc(long code, DEVICE_DESC & _device_desc){return false;};
 	virtual long GetDeviceControlsNum(long device_code){return 0;};
-	virtual char * GetDeviceControlName(long device_code, long code){return 0;};
+	virtual char * GetDeviceControlName(long device_code, long code){return nullptr;};
 
 	virtual long AddControlTreeNode(long nParent,const char* pcBaseControl,const char* pcOutControl,float fTimeOut){return -1;}
 
@@ -125,7 +125,7 @@ public:
 
 	// Получить буфер нажатык клавиш за кадр (с учетом языка)
 	virtual long GetKeyBufferLength() {return 0;}
-	virtual const KeyDescr* GetKeyBuffer() {return null;}
+	virtual const KeyDescr* GetKeyBuffer() {return nullptr;}
 	virtual void ClearKeyBuffer() {}
 };
 

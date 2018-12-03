@@ -17,7 +17,7 @@ public:
 	 S_STACK();
 	~S_STACK();
 	void Release();
-	DATA * Push(DATA * pdataclass = 0);
+	DATA * Push(DATA * pdataclass = nullptr);
 	DATA * Pop();
 	DATA * Read(DWORD offset,DWORD index);
 	DATA * Read();

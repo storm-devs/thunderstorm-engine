@@ -200,7 +200,7 @@ private:
 //Получить атакуещего персонажа
 inline Character * NPCharacter::GetAttackedCharacter()
 {
-	if(task.task != npct_fight) return null;
+	if(task.task != npct_fight) return nullptr;
 	return (Character *)api->GetEntityPointer(&task.target);
 }
 

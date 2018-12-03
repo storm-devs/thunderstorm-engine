@@ -50,7 +50,7 @@ struct FUNCINFO
 
 struct HASHLINE
 {
-	HASHLINE(){nNumElements = 0; pElements = 0;};
+	HASHLINE(){nNumElements = 0; pElements = nullptr;};
 	DWORD nNumElements;
 	DWORD * pElements;
 };

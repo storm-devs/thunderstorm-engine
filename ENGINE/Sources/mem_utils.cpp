@@ -51,7 +51,7 @@ void MEM_USAGE_INFO::Register(char * pFileName, DWORD nLine, DWORD nMemSize)
 {
 	DWORD n;
 
-	if(pFileName == 0)
+	if(pFileName == nullptr)
 	{
 		n = 0;
 		pMemBL[n].nTotalBlocks++;
@@ -97,7 +97,7 @@ void MEM_USAGE_INFO::Unregister(char * pFileName, DWORD nLine, DWORD nMemSize)
 {
 	DWORD n;
 
-	if(pFileName == 0)
+	if(pFileName == nullptr)
 	{
 		n = 0;
 		pMemBL[n].nCurrentAllocated -= nMemSize;
@@ -373,7 +373,7 @@ void MEM_USAGE_INFO::UpdateMemoryProfile(char * pFileName)
 
 MEM_ALLOC_ADDRESS::MEM_ALLOC_ADDRESS()
 {
-	pData = 0; 
+	pData = nullptr; 
 	dwRecordsNum = 0;
 	dwBufferSize = 0;
 /*	dwBufferSize = 128;
@@ -394,7 +394,7 @@ MEM_ALLOC_ADDRESS::~MEM_ALLOC_ADDRESS()
 		}
 		free(pData);
 	}
-	pData = 0; 
+	pData = nullptr; 
 	dwRecordsNum = 0;
 }
 
@@ -402,7 +402,7 @@ DWORD  MEM_ALLOC_ADDRESS::GetAddress(const char * pFileName, DWORD dwLine)
 {
 	//return 0xffffffff;
 	DWORD n;
-	if(pFileName == 0) return 0xffffffff;
+	if(pFileName == nullptr) return 0xffffffff;
 	for(n=0;n<dwRecordsNum;n++)
 	{
 		if(pData[n].dwLine != dwLine) continue;

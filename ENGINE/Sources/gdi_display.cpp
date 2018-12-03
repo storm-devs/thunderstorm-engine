@@ -14,15 +14,15 @@
 
 GDI_DISPLAY::GDI_DISPLAY()
 {
-	hBitmap = 0;
-	hFont = 0;
+	hBitmap = nullptr;
+	hFont = nullptr;
 	width = 0;
 	height = 0;
 	memset(buffer,0,BUFFER_SIZE);
-	ms_PTR = 0;
+	ms_PTR = nullptr;
 	MS_Count = 0;
 	Log_File = true;
-	hwnd = 0;
+	hwnd = nullptr;
 }
 
 GDI_DISPLAY::~GDI_DISPLAY()
@@ -35,7 +35,7 @@ GDI_DISPLAY::~GDI_DISPLAY()
 void GDI_DISPLAY::Release()
 {
 	if(ms_PTR) delete ms_PTR;
-	ms_PTR = null;
+	ms_PTR = nullptr;
 }
 
 void GDI_DISPLAY::Switch(bool on)
@@ -49,7 +49,7 @@ void GDI_DISPLAY::Switch(bool on)
 		ys = GetSystemMetrics(SM_CYSCREEN);
 		MoveWindow(hwnd,(xs - width)/2,(ys - height)/2,width,height,false);
 		//InvalidateRect(0,0,false);
-		InvalidateRect(hwnd,0,true);
+		InvalidateRect(hwnd,nullptr,true);
 		//ShowWindow(hwnd,SW_SHOWNORMAL);
 	}
 };
@@ -64,7 +64,7 @@ void GDI_DISPLAY::Init(HINSTANCE hInstance, HWND _hwnd, long w, long h)
 	ys = GetSystemMetrics(SM_CYSCREEN);
 	MoveWindow(hwnd,(xs - w)/2,(ys - h)/2,w,h,false);
 	hBitmap =  LoadBitmap(hInstance,MAKEINTRESOURCE(storm_logo_bmp));
-	InvalidateRect(hwnd,0,true);
+	InvalidateRect(hwnd,nullptr,true);
 	ShowWindow(hwnd,SW_SHOWNORMAL);
 
 	hFont = CreateFont(FONT_SIZE,0,0,0,FW_BOLD,1,false,false,DEFAULT_CHARSET,
@@ -88,7 +88,7 @@ void GDI_DISPLAY::On_Paint(HWND hwnd)
 	long dis = 2;
 
 
-	if(hBitmap == 0) return;
+	if(hBitmap == nullptr) return;
 
 	dc = BeginPaint(hwnd,&PS);
 	dcmem = CreateCompatibleDC(dc);
@@ -148,7 +148,7 @@ void GDI_DISPLAY::On_Paint(HWND hwnd)
 void GDI_DISPLAY::Set_Text(char * text_PTR,...)
 {
 	if(gdi_off) return;
-	if(text_PTR == 0) return;
+	if(text_PTR == nullptr) return;
 	va_list args;
 	va_start(args,text_PTR);
 	vsprintf(buffer,text_PTR,args);
@@ -165,7 +165,7 @@ bool GDI_DISPLAY::Set_Message_Stack(long lines)
 	if(ms_PTR) delete ms_PTR;
 
 	ms_PTR = (char *)NEW char[lines*BUFFER_SIZE];
-	if(ms_PTR == null) return false;
+	if(ms_PTR == nullptr) return false;
 	memset(ms_PTR,0,lines*BUFFER_SIZE);
 	MS_Lines = lines;
 	return true;
@@ -173,7 +173,7 @@ bool GDI_DISPLAY::Set_Message_Stack(long lines)
 
 void GDI_DISPLAY::Print(char * text_PTR,...)
 {
-	if(text_PTR == 0) return;
+	if(text_PTR == nullptr) return;
 	va_list args;
 	char buffer[256];
 	va_start(args,text_PTR);
@@ -183,8 +183,8 @@ void GDI_DISPLAY::Print(char * text_PTR,...)
 	char * copy_PTR;
 	long size;
 
-	if(ms_PTR == null) Set_Message_Stack(DEFAULT_DISPLAY_STACK_SIZE);
-	if(ms_PTR == null) return;
+	if(ms_PTR == nullptr) Set_Message_Stack(DEFAULT_DISPLAY_STACK_SIZE);
+	if(ms_PTR == nullptr) return;
 
 	if(MS_Count >= MS_Lines)
 	{
@@ -221,15 +221,15 @@ void GDI_DISPLAY::Print(char * text_PTR,...)
 
 void GDI_DISPLAY::Print_Add(char * text_PTR,...)
 {
-	if(text_PTR == 0) return;
+	if(text_PTR == nullptr) return;
 	va_list args;
 	char buffer[256];
 	va_start(args,text_PTR);
 	vsprintf(buffer,text_PTR,args);
 	va_end(args);
 
-	if(ms_PTR == null) Set_Message_Stack(DEFAULT_DISPLAY_STACK_SIZE);
-	if(ms_PTR == null) return;
+	if(ms_PTR == nullptr) Set_Message_Stack(DEFAULT_DISPLAY_STACK_SIZE);
+	if(ms_PTR == nullptr) return;
 
 	if(MS_Count > MS_Lines) return;
 	strcat(ms_PTR + (MS_Count - 1)*BUFFER_SIZE,buffer);

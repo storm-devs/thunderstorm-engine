@@ -44,14 +44,14 @@ public:
 				for (n=0; n<HTable[m].nStringsNum; n++) delete HTable[m].pElements[n].pStr;
 				delete HTable[m].pElements;
 			}
-			HTable[m].pElements = null; 
+			HTable[m].pElements = nullptr; 
 			HTable[m].nStringsNum = 0;
 		}
 	}
 	
 	dword Convert(const char * pString, long iLen)
 	{
-		if (pString == 0) return 0xffffffff;
+		if (pString == nullptr) return 0xffffffff;
 
 		char cTemp[1024];
 		strncpy(cTemp, pString, iLen);
@@ -63,7 +63,7 @@ public:
 
 	dword Convert(const char * pString)
 	{
-		if (pString == 0) return 0xffffffff;
+		if (pString == nullptr) return 0xffffffff;
 		bool bNew;
 		return Convert(pString, bNew);
 	}
@@ -79,7 +79,7 @@ public:
 		dword nTableIndex;
 		dword nStringCode;
 		dword n;
-		if (pString == 0) return 0xffffffff;
+		if (pString == nullptr) return 0xffffffff;
 		nHash = MakeHashValue(pString);
 		nTableIndex = nHash & (HASH_TABLE_SIZE - 1);
 
@@ -159,7 +159,7 @@ public:
 				return HTable[nHTIndex].pElements[nHTEIndex].pStr;
 			}
 		}
-		return 0;
+		return nullptr;
 
 	}
 
@@ -176,7 +176,7 @@ public:
 			}
 			return HTable[nHTIndex].pElements[nHTEIndex].pStr;
 		}
-		return 0;
+		return nullptr;
 	}
 	//*/
 };

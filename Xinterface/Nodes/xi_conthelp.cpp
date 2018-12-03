@@ -13,14 +13,14 @@ CXI_CONTEXTHELP::CXI_CONTEXTHELP()
     m_nHelpWidth = 0;
 
     m_helpQuantity = 0;
-    m_pHelpList = NULL;
-    m_curHelp = NULL;
+    m_pHelpList = nullptr;
+    m_curHelp = nullptr;
     m_defaultString = -1;
 
     m_nMaxDelayCounter = 0;
     m_nCurDelayCounter = 0;
     m_idTempString = -1;
-    m_sTempString = NULL;
+    m_sTempString = nullptr;
 
     m_idFont = -1;
 	m_nNodeType = NODETYPE_CONTEXTHELP;
@@ -55,12 +55,12 @@ bool CXI_CONTEXTHELP::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2,
 
 void CXI_CONTEXTHELP::ReleaseAll()
 {
-	if(m_pHelpList!=NULL)
+	if(m_pHelpList!= nullptr)
 		for(int i=0; i<m_helpQuantity; i++)
 			PTR_STORM_DELETE(m_pHelpList[i].nodeName);
     PTR_STORM_DELETE(m_pHelpList);
     m_helpQuantity = 0;
-    m_curHelp=NULL;
+    m_curHelp= nullptr;
 
 	FONT_RELEASE(m_rs,m_idFont);
 	PTR_STORM_DELETE(m_sTempString);
@@ -110,7 +110,7 @@ void CXI_CONTEXTHELP::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
     // Create help stringes array
 	if(m_helpQuantity>0)
 	{
-		if( (m_pHelpList=NEW HELPENTITY[m_helpQuantity]) == null )
+		if( (m_pHelpList=NEW HELPENTITY[m_helpQuantity]) == nullptr )
 			STORM_THROW("allocate memory error")
 		ZeroMemory(m_pHelpList,sizeof(HELPENTITY)*m_helpQuantity);
 		ini1->ReadString(name1,"helpstr",param,sizeof(param)-1,"");
@@ -120,7 +120,7 @@ void CXI_CONTEXTHELP::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 			sscanf(param,"%[^,],%[^,]",nodeName,stringName);
 			if(nodeName[0]!=0)
 			{
-				if( (m_pHelpList[i].nodeName=NEW char[strlen(nodeName)+1]) == null )
+				if( (m_pHelpList[i].nodeName=NEW char[strlen(nodeName)+1]) == nullptr )
 					STORM_THROW("allocate memory error")
 				strcpy(m_pHelpList[i].nodeName,nodeName);
 				m_pHelpList[i].idHelpString = pStringService->GetStringNum(stringName);
@@ -131,7 +131,7 @@ void CXI_CONTEXTHELP::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 	else
 	{
 		m_helpQuantity=0;
-		m_pHelpList = null;
+		m_pHelpList = nullptr;
 	}
 
 	// fill vertex parameters
@@ -203,10 +203,10 @@ void CXI_CONTEXTHELP::SaveParametersToIni()
 
 void CXI_CONTEXTHELP::ChangeNode(CINODE * pNode)
 {
-    if(m_curHelp!=NULL)
+    if(m_curHelp!= nullptr)
         if(m_curHelp->pNode==pNode) return;
 
-    if(m_pHelpList!=NULL)
+    if(m_pHelpList!= nullptr)
     {
 		int i;
         for(i=0; i<m_helpQuantity; i++)
@@ -214,23 +214,23 @@ void CXI_CONTEXTHELP::ChangeNode(CINODE * pNode)
         if(i<m_helpQuantity)
             m_curHelp = &m_pHelpList[i];
         else
-            m_curHelp = NULL;
+            m_curHelp = nullptr;
     }
 }
 
 void CXI_CONTEXTHELP::SetTempHelp(const char * pStr)
 {
-    if(pStr==NULL) return;
+    if(pStr== nullptr) return;
 
     // удалим старую временную строку
-    if(m_sTempString!=NULL)
+    if(m_sTempString!= nullptr)
         delete m_sTempString;
-    m_sTempString = NULL;
+    m_sTempString = nullptr;
 
 	long nCurStrWidth = 0;
     if(pStr[0]=='#')
     { // получим непосредственно строку помощи
-        if( (m_sTempString=NEW char[strlen(pStr)]) == NULL )
+        if( (m_sTempString=NEW char[strlen(pStr)]) == nullptr )
             STORM_THROW("allocate memory error")
         strcpy(m_sTempString,&pStr[1]);
 		nCurStrWidth = m_rs->StringWidth(m_sTempString,m_idFont,m_fMaxScale,m_screenSize.x);
@@ -256,13 +256,13 @@ char * CXI_CONTEXTHELP::GetCurrentHelpString(DWORD deltaTime)
         m_nCurDelayCounter = 0;
 
     if(m_nCurDelayCounter>0)
-        if(m_sTempString!=NULL)
+        if(m_sTempString!= nullptr)
             return m_sTempString;
         else
             if(m_idTempString!=-1)
                 return pStringService->GetString(m_idTempString);
 
-    if(m_curHelp!=NULL)
+    if(m_curHelp!= nullptr)
         return pStringService->GetString(m_curHelp->idHelpString);
 
     return pStringService->GetString(m_defaultString);
@@ -274,9 +274,9 @@ dword _cdecl CXI_CONTEXTHELP::MessageProc(long msgcode, MESSAGE & message)
 	{
 	case 0: // удалим старую временную строку
 		{
-			if(m_sTempString!=NULL)
+			if(m_sTempString!= nullptr)
 				delete m_sTempString;
-			m_sTempString = NULL;
+			m_sTempString = nullptr;
 			m_idTempString = -1;
 		}
 		break;
@@ -284,10 +284,10 @@ dword _cdecl CXI_CONTEXTHELP::MessageProc(long msgcode, MESSAGE & message)
 	case 1: // получить временную строку
 		{
 			VDATA * pvdat = message.ScriptVariablePointer();
-			if(pvdat==null) return 0;
-			if(m_sTempString==null && m_idTempString==-1) return 0;
+			if(pvdat== nullptr) return 0;
+			if(m_sTempString== nullptr && m_idTempString==-1) return 0;
 
-			if(m_sTempString!=null)
+			if(m_sTempString!= nullptr)
 			{
 				pvdat->Set(m_sTempString);
 				return 1;
@@ -296,7 +296,7 @@ dword _cdecl CXI_CONTEXTHELP::MessageProc(long msgcode, MESSAGE & message)
 			if(m_idTempString>=0)
 			{
 				char * pstr = pStringService->GetStringName(m_idTempString);
-				if(pstr!=null)
+				if(pstr!= nullptr)
 				{
 					pvdat->Set(pstr);
 					return 1;

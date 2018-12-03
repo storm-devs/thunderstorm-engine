@@ -138,7 +138,7 @@ public:
 	virtual void SetPlayer(long playerIndex, bool isInverse = false) = null;
 	virtual void ResetPlayer(long playerIndex) = null;
 	//Узнать, используется ли ActionPlayer
-	virtual bool IsUsedPlayer(long playerIndex, bool * isInverse = null) = null;
+	virtual bool IsUsedPlayer(long playerIndex, bool * isInverse = nullptr) = null;
 	//Получить велечину блендинга для плеера (если не используется то 1.0f)
 	virtual float GetPlayerValue(long playerIndex) = null;
 };
@@ -164,7 +164,7 @@ public:
 	//Удалить обработчик внутреннего события
 	virtual void DelEvent(long eventID) = null;
 	//Установить обработчик внешнего события
-	virtual void SetEventListener(AnimationEventListener * ael = null) = null;
+	virtual void SetEventListener(AnimationEventListener * ael = nullptr) = null;
 	//Доступ к костям
 	//Получить количество костей в скелете
 	virtual long GetNumBones() const = null;

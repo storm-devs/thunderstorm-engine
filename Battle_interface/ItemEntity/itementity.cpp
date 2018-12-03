@@ -109,7 +109,7 @@ bool ItemEntity::ReadAndCreate()
 			SetTechnique( pcTechnique );
 		}
 	}
-	m_bVisible = m_pModel!=0;
+	m_bVisible = m_pModel!=nullptr;
 	if( m_bVisible )
 		CreateParticle();
 	return true;
@@ -118,16 +118,16 @@ bool ItemEntity::ReadAndCreate()
 void ItemEntity::SetBeginData()
 {
 	m_bVisible = false;
-	m_pModel = 0;
+	m_pModel = nullptr;
 	m_bTieToLocator = false;
-	m_pParticle = 0;
+	m_pParticle = nullptr;
 }
 
 void ItemEntity::Release()
 {
 	if( m_pModel ) {
 		api->DeleteEntity( m_eidModel );
-		m_pModel = 0;
+		m_pModel = nullptr;
 	}
 	DeleteParticle();
 }
@@ -273,7 +273,7 @@ void ItemEntity::EventListener::Event(Animation * animation, long playerIndex, c
 		MODEL* pMdl = (MODEL*)api->GetEntityPointer(&m_eidListenedModel);
 		if( pMdl ) {
 			Animation * a = pMdl->GetAnimation();
-			if( a ) a->SetEventListener(0);
+			if( a ) a->SetEventListener(nullptr);
 		}
 		item->EndEventProcess();
 		return;
@@ -309,6 +309,6 @@ void ItemEntity::DeleteParticle()
 			if( api->Send_Message(eidParticle, "ll", PS_VALIDATE_PARTICLE, (long)m_pParticle) )
 				m_pParticle->Pause(true);
 		}
-		m_pParticle = 0;
+		m_pParticle = nullptr;
 	}
 }

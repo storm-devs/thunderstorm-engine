@@ -72,7 +72,7 @@ void DublicateString( char* &pDstStr, const char* pSrcStr )
 {
     if (!pSrcStr || pSrcStr[0] == 0)  // boal fix
 	{
-		pDstStr = 0;
+		pDstStr = nullptr;
 	}
 	else
 	{

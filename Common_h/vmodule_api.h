@@ -53,8 +53,8 @@ public:
 	long GetHash() {return nHash;}
 	void Set(VMA * _p){pNext = _p;};
 	virtual bool Service() {return false;}
-	virtual char * GetName() {return null;}
-	virtual void * CreateClass() {return null;}
+	virtual char * GetName() {return nullptr;}
+	virtual void * CreateClass() {return nullptr;}
 	virtual void RefDec(){nReference--;};
 	virtual long GetReference(){return nReference;}
 	virtual void Clear(){nReference = 0;};

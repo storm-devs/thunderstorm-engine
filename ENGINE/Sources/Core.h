@@ -189,7 +189,7 @@ public:
 	// memory managment functions
 	void *	MemAllocate(size_t size,char * p, unsigned long n);					
 	void	MemFree(void * block_ptr);
-	void *	MemReallocate(void * block_ptr,size_t size,char * p = 0, unsigned long n = 0);
+	void *	MemReallocate(void * block_ptr,size_t size,char * p = nullptr, unsigned long n = 0);
 
 
 	// common programm control

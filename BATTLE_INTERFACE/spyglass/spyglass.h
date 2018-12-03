@@ -20,7 +20,7 @@ class ISPYGLASS : public ENTITY
 		FRECT rUV;
 		RECT rPos;
 
-		ImageParam() {pImage=0;};
+		ImageParam() {pImage=nullptr;};
 		~ImageParam() {Release();}
 		void Release();
 		void LoadFromAttr(BIImageRender* pImgRender, ATTRIBUTES* pA,const char* pcDefName,long nDefLeftPos,long nDefTopPos,long nDefRightPos,long nDefBottomPos,long nPrior);
@@ -37,7 +37,7 @@ class ISPYGLASS : public ENTITY
 		std::string sText;
 		long nAlign;
 
-		TextParam() {rs=0; nFontID=-1;}
+		TextParam() {rs=nullptr; nFontID=-1;}
 		~TextParam() {Release();}
 		void Release() {if(rs && nFontID>=0) rs->UnloadFont(nFontID); nFontID=-1;}
 		void LoadFromAttr(VDX9RENDER* rs,ATTRIBUTES* pA,const char* pcDefText,long nDefXPos,long nDefYPos);

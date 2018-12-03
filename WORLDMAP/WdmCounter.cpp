@@ -34,10 +34,10 @@ const char * WdmCounter::skytex[WMD_NUM_SKYS] =
 
 WdmCounter::WdmCounter()
 {
-	sky = null;
-	d[0] = d[1] = null;
-	m[0] = m[1] = null;
-	y[0] = y[1] = y[2] = y[3] = null;
+	sky = nullptr;
+	d[0] = d[1] = nullptr;
+	m[0] = m[1] = nullptr;
+	y[0] = y[1] = y[2] = y[3] = nullptr;
 
 	Assert(wdmObjects->rs);
 	float kDef = wdmObjects->rs->GetHeightDeformator();

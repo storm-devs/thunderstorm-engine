@@ -17,7 +17,7 @@ public:
 		dwCurSize = 0;
 		dwMaxSize = 0;
 		bSave = bLoad = false;
-		pSaveBuffer = null;
+		pSaveBuffer = nullptr;
 	}
 
 	~CSaveLoad() 
@@ -45,7 +45,7 @@ public:
 
 	void CreateWrite()
 	{
-		pSaveBuffer = null;
+		pSaveBuffer = nullptr;
 		dwCurSize = 0;
 		dwMaxSize = 0;
 		bSave = true;
@@ -212,9 +212,9 @@ public:
 	{
 		long iIndex = LoadLong();
 		std::string str = LoadString();
-		if (str == "character" && iIndex < 0) return null;
+		if (str == "character" && iIndex < 0) return nullptr;
 		VDATA * pV = api->Event("SeaLoad_GetPointer", "sl", pStr, iIndex);
-		return (pV) ? pV->GetAClass() : null;
+		return (pV) ? pV->GetAClass() : nullptr;
 	}
 };
 

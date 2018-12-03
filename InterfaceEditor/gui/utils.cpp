@@ -1,6 +1,6 @@
 #include "utils.h"
 
-VDX9RENDER* EdUtils::m_pRender = 0;
+VDX9RENDER* EdUtils::m_pRender = nullptr;
 
 bool EdUtils::CheckPointInsideRect( const EdPoint& epnt, const EdRect& erect )
 {

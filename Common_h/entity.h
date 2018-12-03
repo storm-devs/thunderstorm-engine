@@ -53,14 +53,14 @@ public:
 	inline ENTITY_ID GetID(){return Entity_ID;}
 	ENTITY()
 	{
-		AttributesPointer = null;
+		AttributesPointer = nullptr;
 		_VSYSTEM_API->SetEntityPointer(this);
 		Entity_ID = _VSYSTEM_API->GetEntityID();
 		_VSYSTEM_API->Push(Entity_ID.pointer,Entity_ID.class_code);
 	
-		__pGeoService = null;
-		__pRenderService = null;
-		__pCollideService = null;
+		__pGeoService = nullptr;
+		__pRenderService = nullptr;
+		__pCollideService = nullptr;
 		bServer = false;
 		bFirstTestServer = true;
 		dwNetID = DST_INVALID;

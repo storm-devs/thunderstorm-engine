@@ -15,7 +15,7 @@ void DX9RENDER::PrepareCapture()
 	ZeroMemory(lpbi, sizeof(BITMAPINFO));
 	lpbi->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	SelectObject(hCaptureDC, OldBmp);
-	GetDIBits(hCaptureDC, hCaptureBitmap, 0, screen_size.y, NULL, lpbi, DIB_RGB_COLORS);
+	GetDIBits(hCaptureDC, hCaptureBitmap, 0, screen_size.y, nullptr, lpbi, DIB_RGB_COLORS);
 
 	bPreparedCapture = true;
 }
@@ -39,8 +39,8 @@ void DX9RENDER::SaveCaptureBuffers()
 		TgaHead.height = (WORD)screen_size.y;
 		sprintf(cFileName, "k3cap_%04d.tga", fi + i);
 		HANDLE hFile = fio->_CreateFile(cFileName, GENERIC_WRITE, FILE_SHARE_READ, CREATE_ALWAYS);
-		WriteFile(hFile, &TgaHead, sizeof(TGA_H), &Written, 0);
-		WriteFile(hFile, aCaptureBuffers[i], screen_size.x * screen_size.y * sizeof(dword), &Written, NULL);
+		WriteFile(hFile, &TgaHead, sizeof(TGA_H), &Written, nullptr);
+		WriteFile(hFile, aCaptureBuffers[i], screen_size.x * screen_size.y * sizeof(dword), &Written, nullptr);
 		CloseHandle(hFile);
 	}
 

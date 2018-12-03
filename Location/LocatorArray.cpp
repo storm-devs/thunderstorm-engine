@@ -16,9 +16,9 @@
 
 LocatorArray::LocatorArray(const char * groupName)
 {
-	locator = null;
+	locator = nullptr;
 	numLocators = 0;
-	locatorNames = null;
+	locatorNames = nullptr;
 	bytesInLNArray = 0;
 	if(groupName)
 	{

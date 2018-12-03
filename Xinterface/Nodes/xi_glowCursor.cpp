@@ -6,8 +6,8 @@ CXI_GLOWCURSOR::CXI_GLOWCURSOR()
 {
 	m_nNodeType = NODETYPE_GLOWCURSOR;
 	m_idBackTex = -1;
-    m_pBackTex = null;
-	m_pPrevNode = null;
+    m_pBackTex = nullptr;
+	m_pPrevNode = nullptr;
 	m_bShowGlow = false;
 	m_bGlowToBack = false;
 }
@@ -88,7 +88,7 @@ void CXI_GLOWCURSOR::Draw(bool bSelected,dword Delta_Time)
 					m_rs->TextureSet(0,m_idBackTex);
 					m_rs->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP,XI_ONETEX_FVF,2,m_pTexVert,sizeof(XI_ONETEX_VERTEX),"iGlow");
 				}
-				if(m_pBackTex!=null)
+				if(m_pBackTex!= nullptr)
 				{
 					m_rs->SetTexture(0,m_pBackTex->m_pTexture);
 					m_rs->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP,XI_ONETEX_FVF,2,m_pTexVert,sizeof(XI_ONETEX_VERTEX),"iGlow");
@@ -104,7 +104,7 @@ void CXI_GLOWCURSOR::Draw(bool bSelected,dword Delta_Time)
 					m_rs->TextureSet(0,m_idBackTex);
 					m_rs->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP,XI_ONETEX_FVF,8,&m_pTexVert[4],sizeof(XI_ONETEX_VERTEX),"iGlow");
 				}
-				if(m_pBackTex!=null)
+				if(m_pBackTex!= nullptr)
 				{
 					m_rs->SetTexture(0,m_pBackTex->m_pTexture);
 					m_rs->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP,XI_ONETEX_FVF,8,&m_pTexVert[4],sizeof(XI_ONETEX_VERTEX),"iGlow");
@@ -179,7 +179,7 @@ void CXI_GLOWCURSOR::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
     m_xOffset=fPnt.x;	m_yOffset=fPnt.y;
 
     // get video texture (for inside picture)
-	m_pBackTex = null;
+	m_pBackTex = nullptr;
 	if( ReadIniString(ini1,name1, ini2,name2, "videoTexture", param, sizeof(param),"") )
 		m_pBackTex = m_rs->GetVideoTexture(param);
 

@@ -151,7 +151,7 @@ void Astronomy::PLANETS::Realize(double dDeltaTime, double dHour)
 
 void Astronomy::PLANETS::TimeUpdate(ATTRIBUTES * pAP)
 {
-	ATTRIBUTES * pAPlan = pAP ? pAP->GetAttributeClass("Planets") : 0;
+	ATTRIBUTES * pAPlan = pAP ? pAP->GetAttributeClass("Planets") : nullptr;
 	fPlanetScale = 1.f;
 	fPlanetFade = 1.f;
 	fFadeTimeStart = -1.f;

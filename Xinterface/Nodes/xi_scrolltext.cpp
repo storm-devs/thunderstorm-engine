@@ -7,13 +7,13 @@
 
 CXI_SCROLLTEXT::CXI_SCROLLTEXT()
 {
-    m_pScroller = NULL;
+    m_pScroller = nullptr;
     m_nMaxStringes = 0;
 	m_dwFontColor = ARGB(255,255,255,255);
-	m_pText = NULL;
+	m_pText = nullptr;
 
 	m_nPiceQuantity = 0;
-	m_pStrList = 0;
+	m_pStrList = nullptr;
 	m_nNodeType = NODETYPE_SCROLLTEXT;
 }
 
@@ -63,7 +63,7 @@ void CXI_SCROLLTEXT::ReleaseAll()
 
 void CXI_SCROLLTEXT::ClearText()
 {
-    m_pScroller = NULL;
+    m_pScroller = nullptr;
     m_nMaxStringes = 0;
 	m_dwFontColor = ARGB(255,255,255,255);
 	PTR_STORM_DELETE(m_pText);
@@ -78,9 +78,9 @@ void CXI_SCROLLTEXT::SetText(char *newText)
 	STRING_PICE spl[MAX_PICE_RESERV];
 	ClearText();
 
-	if(newText!=NULL)
+	if(newText!= nullptr)
 	{
-		if( (m_pText=NEW char[strlen(newText)+1]) == NULL )
+		if( (m_pText=NEW char[strlen(newText)+1]) == nullptr )
 			STORM_THROW("allocate memory error")
 		strcpy(m_pText,newText);
 
@@ -156,13 +156,13 @@ void CXI_SCROLLTEXT::SaveParametersToIni()
 
 void CXI_SCROLLTEXT::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 {
-    m_pScroller = null;
+    m_pScroller = nullptr;
     m_nMaxStringes = 0;
 	m_dwFontColor = ARGB(255,255,255,255);
-	m_pText = null;
+	m_pText = nullptr;
 
 	m_nPiceQuantity = 0;
-	m_pStrList = 0;
+	m_pStrList = nullptr;
 }
 
 void CXI_SCROLLTEXT::TextDownShift(float )

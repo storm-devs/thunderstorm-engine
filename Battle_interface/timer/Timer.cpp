@@ -77,8 +77,8 @@ bool BITimer::ReadAndCreate()
 	BIUtils::ReadRectFromAttr( AttributesPointer, "timerforeuv", rForeUV, rForeUV );
 
 	// read texture & color
-	char* pcBackTexture = AttributesPointer ? AttributesPointer->GetAttribute("timerbacktexture") : 0;
-	char* pcForeTexture = AttributesPointer ? AttributesPointer->GetAttribute("timerforetexture") : 0;
+	char* pcBackTexture = AttributesPointer ? AttributesPointer->GetAttribute("timerbacktexture") : nullptr;
+	char* pcForeTexture = AttributesPointer ? AttributesPointer->GetAttribute("timerforetexture") : nullptr;
 	dword dwColorBack = AttributesPointer ? AttributesPointer->GetAttributeAsDword("timerbackcolor",0xFFFFFFFF) : 0xFFFFFFFF;
 	dword dwColorFore = AttributesPointer ? AttributesPointer->GetAttributeAsDword("timerforecolor",0xFFFFFFFF) : 0xFFFFFFFF;
 
@@ -98,8 +98,8 @@ void BITimer::SetBeginData()
 	m_pRender = (VDX9RENDER*)api->CreateService("dx9render");
 	Assert( m_pRender );
 	m_pImgRndr = NEW BIImageRender( m_pRender );
-	m_pBackImage = 0;
-	m_pForeImage = 0;
+	m_pBackImage = nullptr;
+	m_pForeImage = nullptr;
 }
 
 void BITimer::Release()
@@ -120,6 +120,6 @@ void BITimer::CloseTimer( bool bTimeOut )
 	m_fCurTimerCounter = 0.f;
 	m_pForeImage->CutSide( 0.f, 0.f, 0.f, 0.f );
 	if( bTimeOut ) {
-		api->Event( (char*)m_sEventName.c_str(), 0 );
+		api->Event( (char*)m_sEventName.c_str(), nullptr );
 	}
 }

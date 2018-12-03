@@ -5,7 +5,7 @@ extern CORE Core;
 
 PROGRAM::PROGRAM(): ProgramBlock(nullptr)
 {
-	ProgramDirectory = 0;
+	ProgramDirectory = nullptr;
 	ProgramNum = 0;
 	DeleteFile(COMPILER_LOG_FILENAME);
 	DeleteFile(COMPILER_ERRORLOG_FILENAME);
@@ -18,7 +18,7 @@ PROGRAM::~PROGRAM()
 
 void PROGRAM::Release()
 {
-	if(ProgramDirectory) delete ProgramDirectory; ProgramDirectory = 0;
+	if(ProgramDirectory) delete ProgramDirectory; ProgramDirectory = nullptr;
 	DWORD n;
 	if(ProgramBlock)
 	{
@@ -28,7 +28,7 @@ void PROGRAM::Release()
 			delete ProgramBlock[n];
 		}
 		delete ProgramBlock;
-		ProgramBlock = 0;
+		ProgramBlock = nullptr;
 	}
 }
 
@@ -70,7 +70,7 @@ void PROGRAM::StopProgram(char * program_name)
 
 void PROGRAM::SetProgramDirectory(char * dir_name)
 {
-	if(ProgramDirectory) delete ProgramDirectory; ProgramDirectory = 0;
+	if(ProgramDirectory) delete ProgramDirectory; ProgramDirectory = nullptr;
 	if(dir_name)
 	{
 
@@ -134,7 +134,7 @@ void PROGRAM::ClearEvents()
 bool PROGRAM::SaveState(HANDLE fh)
 {
 	DWORD n;
-	Core.fio->_WriteFile(fh,&ProgramNum,sizeof(ProgramNum),0);
+	Core.fio->_WriteFile(fh,&ProgramNum,sizeof(ProgramNum),nullptr);
 	for(n=0;n<ProgramNum;n++)
 	{
 		ProgramBlock[n]->SaveState(fh);
@@ -146,7 +146,7 @@ bool PROGRAM::LoadState(HANDLE fh)
 {
 	DWORD n;
 	Release();
-	Core.fio->_ReadFile(fh,&ProgramNum,sizeof(ProgramNum),0);
+	Core.fio->_ReadFile(fh,&ProgramNum,sizeof(ProgramNum),nullptr);
 	ProgramBlock = (COMPILER **)RESIZE(ProgramBlock,ProgramNum*sizeof(COMPILER *));
 	for(n=0;n<ProgramNum;n++)
 	{

@@ -198,7 +198,7 @@ inline PtcData & Location::GetPtcData()
 //Получить модельку патча для прыжков
 inline MODEL * Location::JmpPatch()
 {
-	if(patchJump < 0) return null;
+	if(patchJump < 0) return nullptr;
 	return model[patchJump];	
 }
 

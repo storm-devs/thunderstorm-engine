@@ -139,7 +139,7 @@ MEMPOOL::MEMPOOL(DWORD _nBlockSize, DWORD _nBlocksNum)
 	nBlocksNum = _nBlocksNum;
 	//pPoolData = (char *)NEW char[(nBlockSize + POOLHEADERSIZE)* nBlocksNum];
 	pPoolData = (char *)malloc((nBlockSize + POOLHEADERSIZE)* nBlocksNum);
-	if(pPoolData == 0) throw ER_NOMEM;
+	if(pPoolData == nullptr) throw ER_NOMEM;
 
 	nSTLevelsNum = 1;
 	//pSTLevel = (BITLEVEL * *)NEW char[sizeof(BITLEVEL *) * nSTLevelsNum];
@@ -161,7 +161,7 @@ void * MEMPOOL::GetMemory()
 			nBlockSize = 10;
 		}//*/
 		nMissed++;
-		return 0;
+		return nullptr;
 	}
 	pSTLevel[0]->SetBit(nIndex,bDwordFull);
 	nUsedBlocks++;

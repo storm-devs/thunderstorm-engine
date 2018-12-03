@@ -25,7 +25,7 @@ void SetVertexRectanglePos(XI_ONLYONETEX_VERTEX * pv,FXYRECT & posRect)
 
 CXI_SCROLLER::CXI_SCROLLER()
 {
-	m_rs=NULL;
+	m_rs= nullptr;
 	m_nNodeType = NODETYPE_SCROLLER;
 
 	m_idBaseTex = -1;
@@ -152,7 +152,7 @@ void CXI_SCROLLER::MakeOwnedControl()
 {
 	for( long n=0; n<(long)m_asOwnedNodes.size(); n++ )
 	{
-		CINODE * pNode = ((XINTERFACE*)g_idInterface.pointer)->FindNode( m_asOwnedNodes[n].c_str(), 0 );
+		CINODE * pNode = ((XINTERFACE*)g_idInterface.pointer)->FindNode( m_asOwnedNodes[n].c_str(), nullptr );
 		if( !pNode ) continue;
 		switch( pNode->m_nNodeType )
 		{
@@ -197,10 +197,10 @@ void CXI_SCROLLER::DownPress()
 
 float CXI_SCROLLER::GetOwnedStep()
 {
-	CINODE * pNode = 0;
+	CINODE * pNode = nullptr;
 	for(long n=0; n<(long)m_asOwnedNodes.size(); n++ )
 	{
-		pNode = ((XINTERFACE*)g_idInterface.pointer)->FindNode( m_asOwnedNodes[n].c_str(), 0 );
+		pNode = ((XINTERFACE*)g_idInterface.pointer)->FindNode( m_asOwnedNodes[n].c_str(), nullptr );
 		if( pNode ) break;
 	}
 	if( !pNode ) return 0.f;
@@ -279,7 +279,7 @@ void CXI_SCROLLER::SetRollerPos(float pos)
 	m_rollerCur.bottom = m_rollerCur.top+m_rollerHeight;
 
 	XI_ONLYONETEX_VERTEX * pV = (XI_ONLYONETEX_VERTEX *)m_rs->LockVertexBuffer(m_idVBuf);
-	if(pV!=NULL)
+	if(pV!= nullptr)
 	{
 		SetVertexRectanglePos(&pV[12],m_rollerCur);
 		m_rs->UnLockVertexBuffer(m_idVBuf);
@@ -296,7 +296,7 @@ void CXI_SCROLLER::LinkNodeChanged(float fPos)
 void CXI_SCROLLER::FillVertexBuffer()
 {
 	XI_ONLYONETEX_VERTEX * pV = (XI_ONLYONETEX_VERTEX *)m_rs->LockVertexBuffer(m_idVBuf);
-	if(pV!=NULL)
+	if(pV!= nullptr)
 	{
 		for(int i=0;i<16;i++)
 			pV[i].pos.z = 1.f;

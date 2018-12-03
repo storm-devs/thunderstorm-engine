@@ -13,14 +13,14 @@ extern char * XI_ParseStr(char * inStr, char * buf, size_t bufSize, char devChar
 
 HELPCHOOSER::HELPCHOOSER()
 {
-	rs = null;
+	rs = nullptr;
 	m_idMouseTexture = -1;
 	m_idPicTexture = -1;
 	m_idBackTexture = -1;
 	m_idVBuf = -1;
-	m_pRectList = null;
+	m_pRectList = nullptr;
 	m_nRectQ = 0;
-	m_psRectName = null;
+	m_psRectName = nullptr;
 }
 
 HELPCHOOSER::~HELPCHOOSER()
@@ -60,7 +60,7 @@ void HELPCHOOSER::Execute(dword Delta_Time)
 	api->Controls->GetControlState("HelpChooser_Action",cs);
 	if(cs.state == CST_ACTIVATED)
 	{
-		if(m_nCurRect>=0 && m_nCurRect<m_nRectQ && m_psRectName!=null)
+		if(m_nCurRect>=0 && m_nCurRect<m_nRectQ && m_psRectName!= nullptr)
 		{
 			api->Event("EventEndHelpChooser","s",m_psRectName[m_nCurRect]);
 		}
@@ -132,7 +132,7 @@ void HELPCHOOSER::Execute(dword Delta_Time)
 
 	if(m_idVBuf==-1) return;
 	HCHOOSER_VERTEX * pv = (HCHOOSER_VERTEX *)rs->LockVertexBuffer(m_idVBuf);
-	if(pv==null) return;
+	if(pv== nullptr) return;
 	pv[14].pos.x = pv[15].pos.x = m_fCurMouseX - m_nMouseCornerX;
 	pv[16].pos.x = pv[17].pos.x = m_fCurMouseX - m_nMouseCornerX + m_nMouseWidth;
 	pv[14].pos.y = pv[16].pos.y = m_fCurMouseY - m_nMouseCornerY;
@@ -202,9 +202,9 @@ bool HELPCHOOSER::RunChooser(char * ChooserGroup)
 
 	AllRelease();
 
-	if(ChooserGroup==null) return false;
+	if(ChooserGroup== nullptr) return false;
 	ini = api->fio->OpenIniFile("resource\\ini\\helpchooser.ini");
-	if(ini==null)
+	if(ini== nullptr)
 	{
 		api->Trace("Can`t open INI file \"resource\\ini\\helpchooser.ini\"");
 		return false;
@@ -241,13 +241,13 @@ bool HELPCHOOSER::RunChooser(char * ChooserGroup)
 	{
 		m_pRectList = NEW FRECT[m_nRectQ];
 		m_psRectName = NEW char*[m_nRectQ];
-		if(m_pRectList==null || m_psRectName==null)	{THROW("Allocate memory error");}
+		if(m_pRectList== nullptr || m_psRectName== nullptr)	{THROW("Allocate memory error");}
 	}
 	// заполняем все прямоугольники
 	ini->ReadString(ChooserGroup,"rect",param,sizeof(param)-1,"");
 	for(i=0; i<m_nRectQ; i++)
 	{
-		m_psRectName[i] = null;
+		m_psRectName[i] = nullptr;
 		char * tmpStr = param;
 
 		tmpStr = XI_ParseStr(tmpStr,param2,sizeof(param2));
@@ -257,7 +257,7 @@ bool HELPCHOOSER::RunChooser(char * ChooserGroup)
 		if(j>0)
 		{
 			m_psRectName[i] = NEW char[j+2];
-			if(m_psRectName[i]==null) {STORM_THROW("Allocate memory error");}
+			if(m_psRectName[i]== nullptr) {STORM_THROW("Allocate memory error");}
 			strcpy(m_psRectName[i],param2);
 		}
 
@@ -291,7 +291,7 @@ bool HELPCHOOSER::RunChooser(char * ChooserGroup)
 	else
 	{
 		HCHOOSER_VERTEX * pv = (HCHOOSER_VERTEX *)rs->LockVertexBuffer(m_idVBuf);
-		if(pv!=null)
+		if(pv!= nullptr)
 		{
 			for(i=0; i<18; i++)
 			{
@@ -337,7 +337,7 @@ void HELPCHOOSER::SetRectangle(long newRectNum)
 	}
 	if(m_idVBuf==-1) return;
 	HCHOOSER_VERTEX * pv = (HCHOOSER_VERTEX *)rs->LockVertexBuffer(m_idVBuf);
-	if(pv==null) return;
+	if(pv== nullptr) return;
 	m_nCurRect = newRectNum;
 
 	pv[1].tu = pv[7].tu = pv[9].tu = pv[10].tu = pv[11].tu = m_pRectList[newRectNum].left;
@@ -360,7 +360,7 @@ void HELPCHOOSER::SetRectangle(long newRectNum)
 
 long HELPCHOOSER::GetRectangleLeft()
 {
-	if(m_nCurRect<0 || m_nCurRect>=m_nRectQ || m_pRectList==null) return 0;
+	if(m_nCurRect<0 || m_nCurRect>=m_nRectQ || m_pRectList== nullptr) return 0;
 	float left = m_pRectList[m_nCurRect].left;
 	float top = m_pRectList[m_nCurRect].top;
 	float right = m_pRectList[m_nCurRect].right;
@@ -397,7 +397,7 @@ long HELPCHOOSER::GetRectangleLeft()
 
 long HELPCHOOSER::GetRectangleRight()
 {
-	if(m_nCurRect<0 || m_nCurRect>=m_nRectQ || m_pRectList==null) return 0;
+	if(m_nCurRect<0 || m_nCurRect>=m_nRectQ || m_pRectList== nullptr) return 0;
 	float left = m_pRectList[m_nCurRect].left;
 	float top = m_pRectList[m_nCurRect].top;
 	float right = m_pRectList[m_nCurRect].right;
@@ -434,7 +434,7 @@ long HELPCHOOSER::GetRectangleRight()
 
 long HELPCHOOSER::GetRectangleUp()
 {
-	if(m_nCurRect<0 || m_nCurRect>=m_nRectQ || m_pRectList==null) return 0;
+	if(m_nCurRect<0 || m_nCurRect>=m_nRectQ || m_pRectList== nullptr) return 0;
 	float left = m_pRectList[m_nCurRect].left;
 	float top = m_pRectList[m_nCurRect].top;
 	float right = m_pRectList[m_nCurRect].right;
@@ -471,7 +471,7 @@ long HELPCHOOSER::GetRectangleUp()
 
 long HELPCHOOSER::GetRectangleDown()
 {
-	if(m_nCurRect<0 || m_nCurRect>=m_nRectQ || m_pRectList==null) return 0;
+	if(m_nCurRect<0 || m_nCurRect>=m_nRectQ || m_pRectList== nullptr) return 0;
 	float left = m_pRectList[m_nCurRect].left;
 	float top = m_pRectList[m_nCurRect].top;
 	float right = m_pRectList[m_nCurRect].right;
@@ -531,7 +531,7 @@ bool HELPCHOOSER::MouseMove()
 
 long HELPCHOOSER::GetRectangleFromPos(float x, float y)
 {
-	if(m_pRectList==null) return m_nCurRect;
+	if(m_pRectList== nullptr) return m_nCurRect;
 	x /= m_fScreenWidth;
 	y /= m_fScreenHeight;
 	for(long i=0; i<m_nRectQ; i++)

@@ -38,7 +38,7 @@ public:
 	bool	Save(std::string sFileName);
 	bool	Load(std::string sFileName);
 
-	bool	isLoaded() { return pRealData != null; }
+	bool	isLoaded() { return pRealData != nullptr; }
 };
 
 class ISLAND : public ISLAND_BASE
@@ -123,7 +123,7 @@ public:
 	float		Trace(const CVECTOR &src, const CVECTOR &dst);
 	bool		Clip(const PLANE *planes, long nplanes, const CVECTOR &center, float radius, ADD_POLYGON_FUNC addpoly) { return false; };
 
-	const char	*GetCollideMaterialName() { return 0; };
+	const char	*GetCollideMaterialName() { return nullptr; };
 	bool		GetCollideTriangle(TRIANGLE &triangle) { return false; };
 
 // inherit functions CANNON_TRACE_BASE
@@ -136,11 +136,11 @@ public:
 	ENTITY_ID	GetSeabedEID() { return seabed_id; };
 
 	bool		Check2DBoxDepth(CVECTOR vPos, CVECTOR vSize, float fAngY, float fMinDepth);
-	bool		GetDepth(float x, float z, float * fRes = 0);
-	bool		GetDepthFast(float x, float z, float * fRes = 0);
+	bool		GetDepth(float x, float z, float * fRes = nullptr);
+	bool		GetDepthFast(float x, float z, float * fRes = nullptr);
 	bool		GetDepth(FRECT * pRect, float * fMinH, float * fMaxH);
 
-	bool		GetShadow(float x, float z, float * fRes = 0);
+	bool		GetShadow(float x, float z, float * fRes = nullptr);
 
 	float		GetCurrentImmersion() { return fCurrentImmersion; };
 };

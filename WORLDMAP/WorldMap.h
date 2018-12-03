@@ -97,15 +97,15 @@ private:
 
 	//Утилитные
 	//Создать шторм, если это возможно
-	bool CreateStorm(bool isTornado, float time = -1.0f, ATTRIBUTES * save = null);
+	bool CreateStorm(bool isTornado, float time = -1.0f, ATTRIBUTES * save = nullptr);
 	//Создать кораблик купца
-	bool CreateMerchantShip(const char * modelName, const char * locNameStart, const char * locNameEnd, float kSpeed, float time = -1.0f, ATTRIBUTES * save = null);
+	bool CreateMerchantShip(const char * modelName, const char * locNameStart, const char * locNameEnd, float kSpeed, float time = -1.0f, ATTRIBUTES * save = nullptr);
 	// boal Создать кораблик купца в координатах
-	bool CreateMerchantShipXZ(const char * modelName, float x1, float z1, float x2, float z2, float kSpeed, float time = -1.0f, ATTRIBUTES * save = null);
+	bool CreateMerchantShipXZ(const char * modelName, float x1, float z1, float x2, float z2, float kSpeed, float time = -1.0f, ATTRIBUTES * save = nullptr);
 	//Создать кораблик преследующий нас
-	bool CreateFollowShip(const char * modelName, float kSpeed, float time = -1.0f, ATTRIBUTES * save = null);
+	bool CreateFollowShip(const char * modelName, float kSpeed, float time = -1.0f, ATTRIBUTES * save = nullptr);
 	//Создать пару воюющих кораблики
-	bool CreateWarringShips(const char * modelName1, const char * modelName2, float time = -1.0f, ATTRIBUTES * save1 = null, ATTRIBUTES * save2 = null);
+	bool CreateWarringShips(const char * modelName1, const char * modelName2, float time = -1.0f, ATTRIBUTES * save1 = nullptr, ATTRIBUTES * save2 = nullptr);
 	//Удалить все энкоунтеры
 	void ReleaseEncounters();
 	//Создать атрибут для сохранения параметров энкоунтера

@@ -9,7 +9,7 @@ AIGroup::AIGroup(const char * pGroupName)
 	Assert(pGroupName);
 
 	bFirstExecute = true;
-	pACommander = null;
+	pACommander = nullptr;
 
 	sGroupName = pGroupName;
 	
@@ -26,7 +26,7 @@ AIGroup::~AIGroup()
 void AIGroup::AddShip(ENTITY_ID eidShip, ATTRIBUTES * pACharacter, ATTRIBUTES * pAShip)
 {
 	ATTRIBUTES * pAMode = pACharacter->FindAClass(pACharacter, "Ship.Mode");
-	AIShip * pShip = null;
+	AIShip * pShip = nullptr;
 	if (pAMode)
 	{
 		if (std::string("war") == pAMode->GetThisAttr())
@@ -181,26 +181,26 @@ AIGroup * AIGroup::CreateNewGroup(const char * pGroupName)
 
 AIGroup * AIGroup::FindGroup(ATTRIBUTES * pACharacter)
 {
-	if (!pACharacter) return null;
+	if (!pACharacter) return nullptr;
 	for (dword i=0;i<AIGroup::AIGroups.size();i++) 
 	{
 		AIGroup * pGroup = AIGroup::AIGroups[i];
 		for (dword j=0;j<pGroup->aGroupShips.size();j++)
 			if (*pGroup->aGroupShips[j] == pACharacter) return pGroup;
 	}
-	return null;
+	return nullptr;
 }
 
 AIGroup * AIGroup::FindGroup(const char * pGroupName)
 {
 	for (dword i=0;i<AIGroup::AIGroups.size();i++) if (AIGroup::AIGroups[i]->GetName() == pGroupName) return AIGroup::AIGroups[i];
-	return null;
+	return nullptr;
 }
 
 AIGroup * AIGroup::FindMainGroup()
 {
 	for (dword i=0;i<AIGroup::AIGroups.size();i++) if (AIGroups[i]->isMainGroup()) return AIGroups[i];
-	return null;
+	return nullptr;
 }
 
 void AIGroup::SailMainGroup(CVECTOR vPos, float fAngle, ATTRIBUTES * pACharacter)
@@ -295,7 +295,7 @@ AIShip * AIGroup::ExtractShip(ATTRIBUTES * pACharacter)
 			return pAIShip;
 		}
 	}
-	return null;
+	return nullptr;
 }
 
 ATTRIBUTES * AIGroup::GetCommanderACharacter()

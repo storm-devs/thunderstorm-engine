@@ -13,7 +13,7 @@ class IINPUT
 public:
 	IINPUT(){};
 	virtual ~IINPUT(){};
-	virtual float GetKeyState(dword key_code, dword * value = 0)= 0;
+	virtual float GetKeyState(dword key_code, dword * value = nullptr)= 0;
 	virtual void ProcessKeyState(){};
 	virtual void SetKeyState(dword key_code, dword * value){};
 };

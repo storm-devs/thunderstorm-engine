@@ -45,7 +45,7 @@ class SoundService: public VSoundService
 		tSoundCache()
 		{
 			dwNameHash = 0;
-			sound = NULL;
+			sound = nullptr;
 			fTimeFromLastPlay = 0.0f;
 		}
 	};
@@ -70,7 +70,7 @@ class SoundService: public VSoundService
 		tPlayedSound()
 		{
 			bFree = true;
-			channel = NULL;
+			channel = nullptr;
 			type = VOLUME_FX;
 
 			fFaderNeedVolume = 0;
@@ -205,7 +205,7 @@ public:
 									 bool _looped = false,
 									 bool _cached = false,
 									 long _time = 0,
-									 CVECTOR *_startPosition = 0,
+									 CVECTOR *_startPosition = nullptr,
 									 float _minDistance = -1.0f,
 									 float _maxDistance = -1.0f,
 									 long  _loopPauseTime = 0,

@@ -10,7 +10,7 @@
 
 S_FUNCTAB::S_FUNCTAB()
 {
-	pTable = 0;
+	pTable = nullptr;
 	Buffer_size = 0;
 	Func_num = 0;
 	//bKeepName = false;
@@ -18,7 +18,7 @@ S_FUNCTAB::S_FUNCTAB()
 	for(n=0;n<HASHT_SIZE;n++)
 	{
 		HashLine[n].nNumElements = 0;
-		HashLine[n].pElements = 0;
+		HashLine[n].pElements = nullptr;
 	}
 }
 
@@ -44,9 +44,9 @@ void  S_FUNCTAB::Release()
 				delete pTable[n].pLocal;
 			}
 			if(pTable[n].decl_file_name) delete pTable[n].decl_file_name;
-			pTable[n].decl_file_name = 0;
+			pTable[n].decl_file_name = nullptr;
 		}
-		delete pTable; pTable = 0;
+		delete pTable; pTable = nullptr;
 	}
 	Buffer_size = 0;
 	Func_num = 0;
@@ -54,7 +54,7 @@ void  S_FUNCTAB::Release()
 	{
 		HashLine[n].nNumElements = 0;
 		if(HashLine[n].pElements)  delete HashLine[n].pElements;
-		HashLine[n].pElements = 0;
+		HashLine[n].pElements = nullptr;
 	}
 }
 
@@ -64,7 +64,7 @@ bool S_FUNCTAB::GetFunc(FUNCINFO& fi,dword func_code)
 
 	if(pTable[func_code].segment_id == IMPORTED_SEGMENT_ID)
 	{
-		if(pTable[func_code].pImportedFunc == 0)
+		if(pTable[func_code].pImportedFunc == nullptr)
 		{
 			return false;
 		}
@@ -92,7 +92,7 @@ dword S_FUNCTAB::AddFunc(FUNCINFO& fi)
 	dword hash;
 	DWORD hash_index;
 
-	if(fi.name == 0) return INVALID_FUNC_CODE;
+	if(fi.name == nullptr) return INVALID_FUNC_CODE;
 	size_t file_name_len = strlen(fi.decl_file_name) + 1;
 	hash = MakeHashValue(fi.name);
 	hash_index = MAKEHASHINDEX(hash);
@@ -141,11 +141,11 @@ dword S_FUNCTAB::AddFunc(FUNCINFO& fi)
 	}
 	pTable[Func_num] = fi;
 	pTable[Func_num].hash = hash;
-	pTable[Func_num].name = 0;
+	pTable[Func_num].name = nullptr;
 	pTable[Func_num].arguments = fi.arguments;
 	pTable[Func_num].ext_args = 0;
 	pTable[Func_num].var_num = 0;
-	pTable[Func_num].pLocal = 0;
+	pTable[Func_num].pLocal = nullptr;
 	pTable[Func_num].decl_line = fi.decl_line;
 	pTable[Func_num].fTimeUsage = 0;
 	pTable[Func_num].nNumberOfCalls = 0;
@@ -212,11 +212,11 @@ void S_FUNCTAB::InvalidateBySegmentID(dword segment_id)
 			}
 			delete pTable[n].pLocal;
 		}
-		pTable[n].pLocal = 0;
+		pTable[n].pLocal = nullptr;
 		pTable[n].var_num = 0;
 		pTable[n].arguments = 0;
 		if(pTable[n].decl_file_name) delete pTable[n].decl_file_name;
-		pTable[n].decl_file_name = 0;
+		pTable[n].decl_file_name = nullptr;
 
 	}
 }
@@ -238,12 +238,12 @@ void S_FUNCTAB::InvalidateFunction(dword nFuncHandle)
 			}
 			delete pTable[n].pLocal;
 		}
-		pTable[n].pLocal = 0;
+		pTable[n].pLocal = nullptr;
 		//pTable[n].var_num = 0;
 		//pTable[n].arguments = 0;
 		if(pTable[n].decl_file_name) delete pTable[n].decl_file_name;
-		pTable[n].decl_file_name = 0;
-		pTable[n].pImportedFunc = 0;
+		pTable[n].decl_file_name = nullptr;
+		pTable[n].pImportedFunc = nullptr;
 	}
 }
 
@@ -251,7 +251,7 @@ dword S_FUNCTAB::FindFunc(char * func_name)
 {
 	dword n;
 	dword hash;
-	if(func_name == 0) return INVALID_FUNC_CODE;
+	if(func_name == nullptr) return INVALID_FUNC_CODE;
 	hash = MakeHashValue(func_name);
 
 	DWORD hash_index,nNum,ni;
@@ -302,7 +302,7 @@ bool S_FUNCTAB::AddFuncVar(dword func_code, LVARINFO & lvi)
 	dword hash;
 	dword n;
 	if(func_code >= Func_num) return false;
-	if(lvi.name == 0) return false;
+	if(lvi.name == nullptr) return false;
 
 	hash = MakeHashValue(lvi.name);
 	for(n=0;n<pTable[func_code].var_num;n++)
@@ -314,7 +314,7 @@ bool S_FUNCTAB::AddFuncVar(dword func_code, LVARINFO & lvi)
 	vindex = pTable[func_code].var_num;
 	pTable[func_code].var_num++;
 	pTable[func_code].pLocal = (LVARINFO *)RESIZE(pTable[func_code].pLocal,pTable[func_code].var_num*sizeof(LVARINFO));
-	pTable[func_code].pLocal[vindex].name = 0;
+	pTable[func_code].pLocal[vindex].name = nullptr;
 	if(true)//bKeepName)
 	{
 
@@ -344,7 +344,7 @@ dword S_FUNCTAB::FindVar(dword func_code, char * var_name)
 {
 	dword hash;
 	dword n;
-	if(var_name == 0) return INVALID_VAR_CODE;
+	if(var_name == nullptr) return INVALID_VAR_CODE;
 	if(func_code >= Func_num) return INVALID_VAR_CODE;
 	hash = MakeHashValue(var_name);
 	for(n=0;n<pTable[func_code].var_num;n++)

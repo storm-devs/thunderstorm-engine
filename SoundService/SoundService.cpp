@@ -9,7 +9,7 @@
 //для debug
 #include "..\common_h\dx9render.h"
 #include "DebugEntity.h"
-VDX9RENDER* pRS = NULL;
+VDX9RENDER* pRS = nullptr;
 
 INTERFACE_FUNCTION
 CREATE_SERVICE(SoundService)	
@@ -43,9 +43,9 @@ SoundService::SoundService()
 
 
 	bShowDebugInfo = false;
-	OGG_sound[0] = NULL;
-	OGG_sound[1] = NULL;
-	fmod_system = NULL;
+	OGG_sound[0] = nullptr;
+	OGG_sound[1] = nullptr;
+	fmod_system = nullptr;
 	bInited = false;
 
 	vListenerPos.x = 0.0f;
@@ -290,19 +290,19 @@ void  SoundService::RunStart()
 		if (!is_playing || status != FMOD_OK)
 		{
 			PlayingSounds[i].bFree = true;
-			PlayingSounds[i].channel = NULL;
+			PlayingSounds[i].channel = nullptr;
 
-			if (i == 0 && OGG_sound[0] != NULL)
+			if (i == 0 && OGG_sound[0] != nullptr)
 			{
 				status = OGG_sound[0]->release();
 				FMOD_ERROR("FMOD_SOUND:release", status);
-				OGG_sound[0] = NULL;
+				OGG_sound[0] = nullptr;
 			}
-			if (i == 1 && OGG_sound[1] != NULL)
+			if (i == 1 && OGG_sound[1] != nullptr)
 			{
 				status = OGG_sound[1]->release();
 				FMOD_ERROR("FMOD_SOUND:release", status);
-				OGG_sound[1] = NULL;
+				OGG_sound[1] = nullptr;
 			}
 			
 		}
@@ -412,7 +412,7 @@ TSD_ID  SoundService::SoundPlay (const char *_name,
 	SoundName += FileName;
 
 
-	FMOD::Sound* sound = NULL;
+	FMOD::Sound* sound = nullptr;
 	int SoundIdx = 0;
 	if (_type == MP3_STEREO)
 	{
@@ -424,7 +424,7 @@ TSD_ID  SoundService::SoundPlay (const char *_name,
 
 			dword dwMode = FMOD_LOOP_OFF;
 			if (_looped) dwMode = FMOD_LOOP_NORMAL;
-			status = fmod_system->createStream(SoundName.c_str(), FMOD_HARDWARE | FMOD_2D | dwMode, 0, &sound);
+			status = fmod_system->createStream(SoundName.c_str(), FMOD_HARDWARE | FMOD_2D | dwMode, nullptr, &sound);
 			FMOD_ERROR("FMOD_SOUND:createStream", status);
 			if (status != FMOD_OK)
 			{
@@ -852,7 +852,7 @@ void SoundService::SetCameraPosition (const CVECTOR &_cameraPosition)
 	vListenerPos.y = _cameraPosition.y;
 	vListenerPos.z = _cameraPosition.z;
 
-	status = fmod_system->set3DListenerAttributes(0, &vListenerPos, NULL, &vListenerForward, &vListenerTop);
+	status = fmod_system->set3DListenerAttributes(0, &vListenerPos, nullptr, &vListenerForward, &vListenerTop);
 	FMOD_ERROR("FMOD:set3DListenerAttributes",status);
 }
 
@@ -870,7 +870,7 @@ void SoundService::SetCameraOrientation (const CVECTOR &_nose, const CVECTOR &_h
 	vListenerTop.y = head.y;
 	vListenerTop.z = head.z;
 
-	status = fmod_system->set3DListenerAttributes(0, &vListenerPos, NULL, &vListenerForward, &vListenerTop);
+	status = fmod_system->set3DListenerAttributes(0, &vListenerPos, nullptr, &vListenerForward, &vListenerTop);
 	FMOD_ERROR("FMOD:set3DListenerAttributes",status);
 }
 
@@ -983,7 +983,7 @@ void SoundService::SoundStop (TSD_ID _id, long _time)
 			if (PlayingSounds[0].fFaderDeltaInSec <= 0.00001f)
 			{
 				status = OGG_sound[0]->release();
-				OGG_sound[0] = NULL;
+				OGG_sound[0] = nullptr;
 			}
 
 
@@ -995,7 +995,7 @@ void SoundService::SoundStop (TSD_ID _id, long _time)
 			if (PlayingSounds[1].fFaderDeltaInSec <= 0.00001f)
 			{
 				status = OGG_sound[1]->release();
-				OGG_sound[1] = NULL;
+				OGG_sound[1] = nullptr;
 			}
 
 			start = 2;
@@ -1037,14 +1037,14 @@ void SoundService::SoundStop (TSD_ID _id, long _time)
 				status = OGG_sound[0]->release();
 				FMOD_ERROR("FMOD_SOUND:release",status);
 			}
-			OGG_sound[0] = NULL;
+			OGG_sound[0] = nullptr;
 
 			if (OGG_sound[1])
 			{
 				status = OGG_sound[1]->release();
 				FMOD_ERROR("FMOD_SOUND:release",status);
 			}
-			OGG_sound[1] = NULL;
+			OGG_sound[1] = nullptr;
 		}
 
 		//--------- удаляем все звуки нах. -----------------------------------------
@@ -1091,14 +1091,14 @@ void SoundService::SoundStop (TSD_ID _id, long _time)
 		{
 			status = OGG_sound[0]->release();
 			FMOD_ERROR("FMOD_SOUND:release",status);
-			OGG_sound[0] = NULL;
+			OGG_sound[0] = nullptr;
 		}
 
 		if (_id == 1 && OGG_sound[1] && status == FMOD_OK)
 		{
 			status = OGG_sound[1]->release();
 			FMOD_ERROR("FMOD_SOUND:release",status);
-			OGG_sound[1] = NULL;
+			OGG_sound[1] = nullptr;
 		}
 	}
 
@@ -1258,7 +1258,7 @@ void SoundService::DebugDraw ()
 
 
 	float fTotal;
-	fmod_system->getCPUUsage(NULL, NULL, NULL, &fTotal);
+	fmod_system->getCPUUsage(nullptr, nullptr, nullptr, &fTotal);
 	int CurrentAlloc, PeakAlloc;
 	FMOD::Memory_GetStats(&CurrentAlloc, &PeakAlloc);
 
@@ -1417,10 +1417,10 @@ int SoundService::GetFromCache (const char* szName, eSoundType _type)
 
 
 	tSoundCache Cache;
-	status = fmod_system->createSound(szName, mode, 0, &Cache.sound);
+	status = fmod_system->createSound(szName, mode, nullptr, &Cache.sound);
 	//FMOD_ERROR("FMOD_SOUND:createSound",status);
 
-	if (Cache.sound == NULL)
+	if (Cache.sound == nullptr)
 	{
 		//api->Trace("Problem with sound loading !!! '%s'", szName);
 		return -1;
@@ -1693,7 +1693,7 @@ void SoundService::ProcessSoundSchemes ()
 		{
 			if (SoundSchemeChannels[i].timeToNextPlay) continue;
 			SoundSchemeChannels[i].timeToNextPlay = -1;
-			SoundPlay(SoundSchemeChannels[i].soundName.c_str(), PCM_STEREO, VOLUME_FX, false, true, false, 0, 0, -1.f, -1.f, 0, SoundSchemeChannels[i].volume);
+			SoundPlay(SoundSchemeChannels[i].soundName.c_str(), PCM_STEREO, VOLUME_FX, false, true, false, 0, nullptr, -1.f, -1.f, 0, SoundSchemeChannels[i].volume);
 		}
 		else
 		{
@@ -1704,7 +1704,7 @@ void SoundService::ProcessSoundSchemes ()
 				{
 					SoundSchemeChannels[i].timeToNextPlay = SoundSchemeChannels[i].minDelayTime 
 						+ (long) rand((float) (SoundSchemeChannels[i].maxDelayTime - SoundSchemeChannels[i].minDelayTime));
-					SoundPlay(SoundSchemeChannels[i].soundName.c_str(), PCM_STEREO, VOLUME_FX, false, false, false, 0, 0, -1.f, -1.f, 0, SoundSchemeChannels[i].volume);
+					SoundPlay(SoundSchemeChannels[i].soundName.c_str(), PCM_STEREO, VOLUME_FX, false, false, false, 0, nullptr, -1.f, -1.f, 0, SoundSchemeChannels[i].volume);
 				}
 		}//looped
 	}

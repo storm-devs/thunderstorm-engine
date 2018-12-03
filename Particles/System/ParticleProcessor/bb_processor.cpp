@@ -94,7 +94,7 @@ BB_ParticleData* BillBoardProcessor::AllocParticle ()
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //"Убить" партикл
@@ -191,7 +191,7 @@ void BillBoardProcessor::AddParticle (ParticleSystem* pSystem, const Vector& vel
 	const char* pEmitterName = pFields->GetString(ATTACHEDEMITTER_NAME);
 	if (_stricmp (pEmitterName, "none") == 0)
 	{
-		pData->AttachedEmitter = NULL;
+		pData->AttachedEmitter = nullptr;
 	} else
 		{
 			pData->AttachedEmitter = pSystem->FindEmitter(pEmitterName);

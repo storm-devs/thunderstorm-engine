@@ -6,7 +6,7 @@ LIGHTNING::LIGHTNING()
 	iLightningTexture = -1;
 	iFlashTexture = -1;
 	
-	pVWSunTrace = null;
+	pVWSunTrace = nullptr;
 }
 
 LIGHTNING::~LIGHTNING()
@@ -171,7 +171,7 @@ void LIGHTNING::CalcFlashPower(lightning_t * pL)
 
 	for (dword i=0; i<3; i++)
 	{
-		float fRes = pCollide->Trace(*pVWSunTrace, vCamPos, vTrace[i], 0, 0);
+		float fRes = pCollide->Trace(*pVWSunTrace, vCamPos, vTrace[i], nullptr, 0);
 		if (fRes <= 1.0f) fPower -= 0.31f;
 	}
 	pL->fPower = fPower;

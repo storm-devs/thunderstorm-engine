@@ -3,7 +3,7 @@
 
 S_CLASSTAB::S_CLASSTAB()
 {
-	pTable = 0;
+	pTable = nullptr;
 	Buffer_size = 0;
 	nClassesNum = 0;
 }
@@ -29,7 +29,7 @@ void  S_CLASSTAB::Release()
 			}
 			if(pTable[n].name) delete pTable[n].name;	
 		}
-		delete pTable; pTable = 0;
+		delete pTable; pTable = nullptr;
 	}
 	Buffer_size = 0;
 	nClassesNum = 0;
@@ -56,7 +56,7 @@ dword S_CLASSTAB::AddClass(CLASSINFO& ci, bool bRegisterOnly)
 	dword hash;
 	dword nClassN;
 
-	if(ci.name == 0) return INVALID_CLASS_CODE;
+	if(ci.name == nullptr) return INVALID_CLASS_CODE;
 
 	hash = MakeHashValue(ci.name);
 	
@@ -98,7 +98,7 @@ dword S_CLASSTAB::AddClass(CLASSINFO& ci, bool bRegisterOnly)
 	// class not found, add a new one
 	
 	// check for class components description
-	if(ci.nComponentsNum && ci.pComponent == 0) return INVALID_CLASS_CODE;
+	if(ci.nComponentsNum && ci.pComponent == nullptr) return INVALID_CLASS_CODE;
 	
 	
 	// adjust buffer size
@@ -113,7 +113,7 @@ dword S_CLASSTAB::AddClass(CLASSINFO& ci, bool bRegisterOnly)
 	{
 		pTable[nClassN].segment_id = 0xffffffff;
 		pTable[nClassN].nComponentsNum = 0;
-		pTable[nClassN].pComponent = 0;
+		pTable[nClassN].pComponent = nullptr;
 	}
 	else
 	{
@@ -164,7 +164,7 @@ void S_CLASSTAB::InvalidateBySegmentID(dword segment_id)
 	{
 		if(pTable[n].segment_id != segment_id) continue;
 		if(pTable[n].pComponent) delete pTable[n].pComponent;
-		pTable[n].pComponent = 0;
+		pTable[n].pComponent = nullptr;
 		pTable[n].nComponentsNum = 0;
 		pTable[n].bClassRegistredOnly = true;
 		pTable[n].segment_id = INVALID_SEGMENT_ID;
@@ -175,7 +175,7 @@ dword S_CLASSTAB::FindClass(const char * class_name)
 {
 	dword n;
 	dword hash;
-	if(class_name == 0) return INVALID_CLASS_CODE;
+	if(class_name == nullptr) return INVALID_CLASS_CODE;
 	hash = MakeHashValue(class_name);
 	for(n=0;n<nClassesNum;n++)
 	{

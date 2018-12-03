@@ -75,7 +75,7 @@ public:
 	virtual ~ModelArray();
 	
 	//Создать модель
-	long CreateModel(const char * modelName, const char * technique, long level, bool isVisible = true, void* pLights=0);
+	long CreateModel(const char * modelName, const char * technique, long level, bool isVisible = true, void* pLights=nullptr);
 	//Удалить модель
 	void DeleteModel(long modelIndex);
 	//Установить модели анимацию
@@ -153,7 +153,7 @@ inline bool ModelArray::IsValidateIndex(long index)
 inline const char * ModelArray::GetModelName(long index)
 {
 	if(index >= 0 && index < numModels) return model[index].name;
-	return null;
+	return nullptr;
 }
 
 #endif

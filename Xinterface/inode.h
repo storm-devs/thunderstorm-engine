@@ -117,7 +117,7 @@ public:
 		//CINODE *			pControl;
 		int					command;
 		COMMAND_REDIRECT	*next;
-		COMMAND_REDIRECT() {sControlName=0; next=0;}
+		COMMAND_REDIRECT() {sControlName=nullptr; next=nullptr;}
 		~COMMAND_REDIRECT() {PTR_STORM_DELETE(sControlName);}
 	};
 	struct COMMAND_ACTION
@@ -129,7 +129,7 @@ public:
 		COMMAND_REDIRECT *pNextControl;
 		char *			 sEventName;
 		long			 nActionDelay;
-		COMMAND_ACTION() {bUse=false; sRetControl=0; pNextControl=0; sEventName=0;}
+		COMMAND_ACTION() {bUse=false; sRetControl=nullptr; pNextControl=nullptr; sEventName=nullptr;}
 		~COMMAND_ACTION() {PTR_STORM_DELETE(sRetControl); PTR_STORM_DELETE(sEventName); while(pNextControl) {COMMAND_REDIRECT* pOld=pNextControl; pNextControl=pNextControl->next; delete pOld;} }
 	};
 public:
@@ -179,7 +179,7 @@ public:
 
 	static float	GetIniFloat(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, char * keyName, float fDefault=0.f);
 	static long		GetIniLong(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, char * keyName, long iDefault=0);
-	static bool		ReadIniString(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, char * keyName, char * buf, size_t bufSize, char * strDef=null);
+	static bool		ReadIniString(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, char * keyName, char * buf, size_t bufSize, char * strDef= nullptr);
 	static bool		GetIniBool(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, char * keyName, bool bDefault = false);
 	static XYRECT 	GetIniLongRect(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, char * keyName, XYRECT & rectDefault);
 	static FXYRECT	GetIniFloatRect(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, char * keyName, FXYRECT & rectDefault);

@@ -4,7 +4,7 @@
 
 void SubRightWord(char* buf,int fontNum,int width,VDX9RENDER *rs)
 {
-	if(buf==NULL) return;
+	if(buf== nullptr) return;
 	long bufSize = strlen(buf);
 	for(char* pEnd = buf+bufSize; pEnd>buf; pEnd--)
 	{
@@ -18,7 +18,7 @@ void SubRightWord(char* buf,int fontNum,int width,VDX9RENDER *rs)
 
 bool CXI_QUESTTITLE::GetLineNext(int fontNum,char* &pInStr,char* buf,int bufSize)
 {
-	if(pInStr==NULL || buf==NULL) return false;
+	if(pInStr== nullptr || buf== nullptr) return false;
 	char *pStart = pInStr;
 	bool bYesEOL=false;
 	while(*pInStr!=0)
@@ -57,12 +57,12 @@ CXI_QUESTTITLE::CXI_QUESTTITLE()
 	m_stringQuantity = 0;
 	m_allStrings = 0;
 
-	m_strList = NULL;
+	m_strList = nullptr;
 	m_curIdx=0;
 	m_selectOffset = 8;
 	m_fontOffset = 4;
 	m_bSelected = true;
-	m_iconGroupName = null;
+	m_iconGroupName = nullptr;
 
 	m_nCommonQuantity = 0;
 }
@@ -145,7 +145,7 @@ bool CXI_QUESTTITLE::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, 
 void CXI_QUESTTITLE::ReleaseAll()
 {
 	FONT_RELEASE(m_rs,m_idFont);
-	if(m_strList!=NULL)
+	if(m_strList!= nullptr)
 		for(int i=0;i<m_stringQuantity;i++)
 			for(int j=0;j<m_strList[i].lineQuantity;j++)
 				PTR_STORM_DELETE(m_strList[i].name[j]);
@@ -255,11 +255,11 @@ void CXI_QUESTTITLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
 	if( ReadIniString(ini1,name1, ini2,name2, "iconGroup", param, sizeof(param),"") )
 	{
 		m_iconGroupName = NEW char[strlen(param)+1];
-		if(m_iconGroupName==null)
+		if(m_iconGroupName== nullptr)
 			{STORM_THROW("allocate memory error");}
 		strcpy(m_iconGroupName,param);
 	}
-	else	m_iconGroupName = null;
+	else	m_iconGroupName = nullptr;
 	m_texId = ptrOwner->PictureService()->GetTextureID(m_iconGroupName);
 
 	if( ReadIniString(ini1,name1, ini2,name2, "completeIcon", param, sizeof(param),"") )
@@ -286,7 +286,7 @@ void CXI_QUESTTITLE::SetNewTopQuest(ATTRIBUTES * pA,int topNum)
 	int i;
 	m_nCommonQuantity = 0;
 	// удалим старые строки
-	if(m_strList!=NULL)
+	if(m_strList!= nullptr)
 	{
 		for(i=0;i<m_stringQuantity;i++)
 			for(int j=0;j<m_strList[i].lineQuantity;j++)
@@ -295,7 +295,7 @@ void CXI_QUESTTITLE::SetNewTopQuest(ATTRIBUTES * pA,int topNum)
 		m_stringQuantity = 0;
 	} // boal перенес наверх, иначе не трется, если квестов нет, а были уже
 	
-	if(pA==NULL) return;
+	if(pA== nullptr) return;
 	long aq = pA->GetAttributesNum();
 	if(topNum<0 || topNum>=aq)
 	{
@@ -319,7 +319,7 @@ void CXI_QUESTTITLE::SetNewTopQuest(ATTRIBUTES * pA,int topNum)
 
 		// создание массива строк
 		if(m_stringQuantity<=0) return;
-		if( (m_strList=NEW STRING_DESCRIBER[m_stringQuantity]) == NULL )
+		if( (m_strList=NEW STRING_DESCRIBER[m_stringQuantity]) == nullptr )
 		{
 			STORM_THROW("allocate memory error");
 		}
@@ -330,7 +330,7 @@ void CXI_QUESTTITLE::SetNewTopQuest(ATTRIBUTES * pA,int topNum)
 			m_strList[i].lineQuantity = 0;
 			m_strList[i].dwSpecColor = 0;
 			ATTRIBUTES * pAttr = pA->GetAttributeClass(topNum+i);
-			if(pAttr==NULL)
+			if(pAttr== nullptr)
 			{
 				m_strList[i].complete = false;
 				m_strList[i].lineQuantity = 0;

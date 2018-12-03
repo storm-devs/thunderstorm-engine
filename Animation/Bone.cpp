@@ -19,9 +19,9 @@
 
 Bone::Bone()
 {
-	parent = null;
-	ang = null;
-	pos = null;
+	parent = nullptr;
+	ang = nullptr;
+	pos = nullptr;
 	numFrames = 0;
 }
 
@@ -37,8 +37,8 @@ void Bone::SetNumFrames(long num, CVECTOR & sPos, bool isRoot)
 {
 	if(ang) delete ang;
 	if(pos) delete pos;
-	ang = null;
-	pos = null;
+	ang = nullptr;
+	pos = nullptr;
 	numFrames = num;
 	if(numFrames <= 0)
 	{

@@ -11,7 +11,7 @@ class SDBG_STATICLIST
 	long nLines;
 public:
 
-	 SDBG_STATICLIST(){hMain = 0; nLines = 0;};
+	 SDBG_STATICLIST(){hMain = nullptr; nLines = 0;};
 	~SDBG_STATICLIST(){};
 	bool Init(long lines, RECT rParent, RECT rChild, HINSTANCE hInstance, HWND _hmain)
 	{
@@ -32,7 +32,7 @@ public:
 			hOwn[n] = CreateWindow("STATIC","",WS_CHILD|WS_VISIBLE|WS_BORDER,
 				rChild.left,line_y,
 				rChild.right-rChild.left,height,hMain,NULL,hInstance,NULL);
-			if(hOwn[n] == 0) 
+			if(hOwn[n] == nullptr) 
 			{
 				lines = n;
 				return false;

@@ -43,7 +43,7 @@ WdmStorm::WdmStorm()
 	isTornado = false;
 	strcpy(cloudPosName, "cloudPos  ");
 	strcpy(rotSpdName, "rotSpd ");
-	saveAttribute = null;
+	saveAttribute = nullptr;
 	//Позиция шторма, направление перемещения время жизни
 	isActiveTime = 2.0f;
 	//Угл относительно корабля

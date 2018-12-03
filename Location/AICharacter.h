@@ -115,7 +115,7 @@ protected:
 	void CmdUpdateEscape(float dltTime);
 
 	//Ќайти индекс нода дл€ данной координаты
-	long FindNodeIndex(const CVECTOR & pos, float * hy = null);
+	long FindNodeIndex(const CVECTOR & pos, float * hy = nullptr);
 	//Ќайти направление куда идти (ориентаци€ на местности)
 	bool FindDirectional();
 	//Ќайти расталкивающие силы

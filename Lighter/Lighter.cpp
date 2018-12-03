@@ -18,7 +18,7 @@
 
 Lighter::Lighter()
 {
-	rs = null;
+	rs = nullptr;
 	initCounter = 10;
 	isInited = false;
 	waitChange = 0.0f;
@@ -34,11 +34,11 @@ bool Lighter::Init()
 	//Проверяем, будем ли работать
 	INIFILE * ini = api->fio->OpenIniFile("resource\\ini\\loclighter.ini");
 	if(!ini) return false;
-	long isLoading = ini->GetLong(null, "loading", 0);	
-	autoTrace = ini->GetLong(null, "autotrace", 0) != 0;
-	autoSmooth = ini->GetLong(null, "autosmooth", 0) != 0;
-	window.isSmallSlider = ini->GetLong(null, "smallslider", 0) != 0;
-	geometry.useColor = ini->GetLong(null, "usecolor", 0) != 0;
+	long isLoading = ini->GetLong(nullptr, "loading", 0);	
+	autoTrace = ini->GetLong(nullptr, "autotrace", 0) != 0;
+	autoSmooth = ini->GetLong(nullptr, "autosmooth", 0) != 0;
+	window.isSmallSlider = ini->GetLong(nullptr, "smallslider", 0) != 0;
+	geometry.useColor = ini->GetLong(nullptr, "usecolor", 0) != 0;
 	delete ini;
 	if(!isLoading) return false;
 	//DX9 render

@@ -22,7 +22,7 @@ XI_TableLineDescribe::~XI_TableLineDescribe()
 	for (const auto &cell : m_aCell)
 		delete cell;
 
-	m_pTable = 0;
+	m_pTable = nullptr;
 }
 
 void XI_TableLineDescribe::Draw( float fTop )
@@ -74,9 +74,9 @@ void XI_TableLineDescribe::SetData( long nRowIndex, ATTRIBUTES* pLA, bool bHeade
 	for( c=0; c<10000; c++ )
 	{
 		sprintf( pcAttrName, "td%d", c+1 );
-		ATTRIBUTES* pA = (pLA ? pLA->GetAttributeClass( pcAttrName ) : 0);
+		ATTRIBUTES* pA = (pLA ? pLA->GetAttributeClass( pcAttrName ) : nullptr);
 		if( !pA && c>=m_pTable->m_nColQuantity ) break;
-		XI_TableCellDescribe* pTD = 0;
+		XI_TableCellDescribe* pTD = nullptr;
 		if( c >= m_aCell.size() ) {
 			pTD = NEW XI_TableCellDescribe( m_pTable, this );
 			m_aCell.push_back( pTD );
@@ -114,8 +114,8 @@ XI_TableCellDescribe::~XI_TableCellDescribe()
 {
 	m_aImage.clear();
 	m_aStrings.clear();
-	m_pLine = 0;
-	m_pTable = 0;
+	m_pLine = nullptr;
+	m_pTable = nullptr;
 }
 
 void XI_TableCellDescribe::Draw( float fLeft, float fTop )
@@ -295,7 +295,7 @@ void XI_TableCellDescribe::LoadImageParam(ImgDescribe* pImg,ATTRIBUTES* pA)
 	pImg->offset.x = pImg->offset.y = 0;
 	if( pA->GetAttribute("offset") )
 		sscanf( pA->GetAttribute("offset"), "%d,%d", &pImg->offset.x,&pImg->offset.y );
-	if( (pcStr=pA->GetAttribute("valign")) != null ) {
+	if( (pcStr=pA->GetAttribute("valign")) != nullptr ) {
 		nImgAlign = ALIGN_TOP;
 		if( _stricmp(pcStr,"center")==0 ) nImgAlign = ALIGN_CENTER;
 		else if( _stricmp(pcStr,"bottom")==0 ) nImgAlign = ALIGN_BOTTOM;
@@ -311,7 +311,7 @@ void XI_TableCellDescribe::LoadImageParam(ImgDescribe* pImg,ATTRIBUTES* pA)
 
 CXI_TABLE::CXI_TABLE()
 {
-	m_rs = null;
+	m_rs = nullptr;
 	m_bClickable = true;
 	m_nNodeType = NODETYPE_TABLE;
 
@@ -329,7 +329,7 @@ CXI_TABLE::CXI_TABLE()
 	m_nTopIndex = 0;
 
 	m_SelectImg.DisableDraw( true );
-	m_pHeader = null;
+	m_pHeader = nullptr;
 	m_bDoColsSelect = false;
 
 	m_bFirstFrame = true;
@@ -1098,7 +1098,7 @@ void CXI_TABLE::UpdateTableCells()
 		sprintf( pcTmp, "tr%d", r + m_nTopIndex + 1 );
 		pAttr = pARoot->GetAttributeClass( pcTmp );
 		if( !pAttr ) break;
-		XI_TableLineDescribe* pTL = 0;
+		XI_TableLineDescribe* pTL = nullptr;
 		if( r >= m_aLine.size() )
 		{
 			pTL = NEW XI_TableLineDescribe( this );
@@ -1318,7 +1318,7 @@ void CXI_TABLE::SetTopIndex( long nTopIndex )
 void CXI_TABLE::UpdateScroller()
 {
 	if( m_sScrollerName.empty() ) return;
-	CINODE* pNode = ptrOwner->FindNode( m_sScrollerName.c_str(), 0 );
+	CINODE* pNode = ptrOwner->FindNode( m_sScrollerName.c_str(), nullptr );
 	if( !pNode || pNode->m_nNodeType != NODETYPE_SCROLLER ) return;
 	CXI_SCROLLER* pScroll = (CXI_SCROLLER*)pNode;
 

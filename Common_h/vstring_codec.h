@@ -9,7 +9,7 @@ public:
 	virtual DWORD GetNum(){return 0;};
 	virtual DWORD Convert(const char * pString){return 0;};
 	virtual DWORD Convert(const char * pString, long iLen) {return 0;};
-	virtual char * Convert(DWORD code){return 0;};
+	virtual char * Convert(DWORD code){return nullptr;};
 	virtual void VariableChanged() {};
 };
 

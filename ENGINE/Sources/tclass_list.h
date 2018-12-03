@@ -40,7 +40,7 @@ public:
 	}
 	ClassType * Read(DWORD _n)
 	{
-		if(_n >= nClassesNum) return 0;
+		if(_n >= nClassesNum) return nullptr;
 		return pTable[_n];
 	};
 	DWORD GetClassesNum() {return nClassesNum;}

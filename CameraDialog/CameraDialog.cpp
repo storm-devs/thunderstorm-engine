@@ -18,7 +18,7 @@ CameraDialog::CameraDialog(): rs(nullptr), col(nullptr), frames(0)
 	fov = FOV;
 	//ShowCursor(false);
 
-	track = 0;
+	track = nullptr;
 	time = 0.0f;
 }
 
@@ -75,7 +75,7 @@ inline float LerpAng(float a, float b, float k)
 
 void CameraDialog::Execute(dword Delta_Time)
 {
-	if(track==0)	return;
+	if(track==nullptr)	return;
 
 	float dtime = 1.0f/float(_CORE_API->EngineFps());
 	time += Delta_Time*0.001f;
@@ -86,16 +86,16 @@ void CameraDialog::Execute(dword Delta_Time)
 
 	CVECTOR perPos, perAng;
 	MODEL *mdl = (MODEL*)_CORE_API->GetEntityPointer(&person);
-	if(mdl==0)	return;
+	if(mdl==nullptr)	return;
 
 	CMatrix perMtx = mdl->mtx;
 
 	ATTRIBUTES *atr = api->Entity_GetAttributeClass(&personId,"act.type");
-	if(atr==0)	perMtx.Pos().y += HDISP1;
+	if(atr==nullptr)	perMtx.Pos().y += HDISP1;
 	else
 	{
 		const char *mdlType = atr->GetThisAttr();
-		if(mdlType==0)	perMtx.Pos().y += HDISP1;
+		if(mdlType==nullptr)	perMtx.Pos().y += HDISP1;
 		else
 			if(strcmpi(mdlType, "sit")==0)	perMtx.Pos().y += 1.2f;
 			else	if(strcmpi(mdlType, "gov")==0)	perMtx.Pos().y += 1.0f;
@@ -124,7 +124,7 @@ void CameraDialog::Execute(dword Delta_Time)
 void CameraDialog::Realize(dword Delta_Time)
 {
 	MODEL *mdl = (MODEL*)_CORE_API->GetEntityPointer(&person);
-	if(mdl==0)	return;
+	if(mdl==nullptr)	return;
 	//-------------------------------------------------------
 	static bool inited = false;
 	static ENTITY_ID sMod[2];
@@ -214,7 +214,7 @@ dword _cdecl CameraDialog::ProcessMessage(MESSAGE &msg)
 			time = 0.0f;
 			char trackName[256];
 			msg.String(sizeof trackName, trackName);
-			if(track!=0)	delete track;
+			if(track!=nullptr)	delete track;
 
 			char fname[256];
 			strcpy(fname, "resource\\animation\\");
@@ -222,11 +222,11 @@ dword _cdecl CameraDialog::ProcessMessage(MESSAGE &msg)
 			strcat(fname, ".cam");
 			//loading animation
 			HANDLE cam = _CORE_API->fio->_CreateFile(fname);
-			long nbytes = _CORE_API->fio->_SetFilePointer(cam, 0, 0, FILE_END);
-			_CORE_API->fio->_SetFilePointer(cam, 0, 0, FILE_BEGIN);
+			long nbytes = _CORE_API->fio->_SetFilePointer(cam, 0, nullptr, FILE_END);
+			_CORE_API->fio->_SetFilePointer(cam, 0, nullptr, FILE_BEGIN);
 			frames = nbytes/6/sizeof(float);
 			track = NEW ANIFRAME[frames];
-			_CORE_API->fio->_ReadFile(cam, track, nbytes, 0);
+			_CORE_API->fio->_ReadFile(cam, track, nbytes, nullptr);
 			_CORE_API->fio->_CloseHandle(cam);
 		}
 		break;

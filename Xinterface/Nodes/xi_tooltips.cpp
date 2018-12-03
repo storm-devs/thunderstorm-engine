@@ -15,8 +15,8 @@ CXI_ToolTip::CXI_ToolTip( VXSERVICE* pPicService, VSTRSERVICE* pStrService, XYPO
 	if( !m_rs ) {STORM_THROW("No service: dx9render");};
 
 	m_nTextureID = -1;
-	m_pV = 0;
-	m_pI = 0;
+	m_pV = nullptr;
+	m_pI = nullptr;
 	m_nSquareQ = 0;
 	m_dwBackColor = ARGB(255,128,128,128);
 
@@ -72,7 +72,7 @@ void CXI_ToolTip::SetByFormatString( XYRECT& rectOwner, INIFILE* pDefIni, const 
 
 	for( char* pcParam=(char*)pFmtStr; pcParam && pcParam[0]; )
 	{
-		if( 0 == CXI_UTILS::StringGetTokenID( pcParam, tokenID, sizeof(tokenID) ) ) break;
+		if( nullptr == CXI_UTILS::StringGetTokenID( pcParam, tokenID, sizeof(tokenID) ) ) break;
 		long nTokenCode = CXI_UTILS::StringGetTokenCode( tokenID );
 		if( CXI_UTILS::StringGetTokenString( pcParam, tokenString, sizeof(tokenString) ) )
 		{
@@ -108,13 +108,13 @@ void CXI_ToolTip::SetByFormatString( XYRECT& rectOwner, INIFILE* pDefIni, const 
 		if( pDefIni->ReadString( pcToolTipType,"font_id", param,sizeof(param), ""  ) )
 			m_nFontID = m_rs->LoadFont( param );
 		m_fFontScale = pDefIni->GetFloat( pcToolTipType,"font_scale", m_fFontScale );
-		m_dwFontColor = CINODE::GetIniARGB( pDefIni,pcToolTipType, 0,0, "font_color", m_dwFontColor );
+		m_dwFontColor = CINODE::GetIniARGB( pDefIni,pcToolTipType, nullptr,nullptr, "font_color", m_dwFontColor );
 		if( m_nMaxStrWidth <=0 )
 			m_nMaxStrWidth = pDefIni->GetLong( pcToolTipType,"str_width", m_pntScreenSize.x );
-		m_pntTextOffset = CINODE::GetIniLongPoint( pDefIni,pcToolTipType, 0,0, "str_offset", m_pntTextOffset );
+		m_pntTextOffset = CINODE::GetIniLongPoint( pDefIni,pcToolTipType, nullptr,nullptr, "str_offset", m_pntTextOffset );
 
 		// read back info
-		m_dwBackColor = CINODE::GetIniARGB( pDefIni,pcToolTipType, 0,0, "back_color", m_dwBackColor );
+		m_dwBackColor = CINODE::GetIniARGB( pDefIni,pcToolTipType, nullptr,nullptr, "back_color", m_dwBackColor );
 		m_nLeftSideWidth = pDefIni->GetLong( pcToolTipType, "back_leftwidth", m_nLeftSideWidth );
 		m_nRightSideWidth = pDefIni->GetLong( pcToolTipType, "back_rightwidth", m_nRightSideWidth );
 		if( pDefIni->ReadString( pcToolTipType, "back_imagegroup", param,sizeof(param), "" ) )

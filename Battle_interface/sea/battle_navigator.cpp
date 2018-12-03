@@ -36,13 +36,13 @@ void BATTLE_NAVIGATOR::CalculateTextureRect(FRECT & texRect, long num, long hq, 
 
 BATTLE_NAVIGATOR::BATTLE_NAVIGATOR()
 {
-	m_pOwnerEI = 0;
+	m_pOwnerEI = nullptr;
 	m_dwFireZoneColor=0x20FF0050;
-	rs=NULL;
+	rs= nullptr;
 
 	m_fShipSpeedScale = 1.f;
 
-	m_pIslandTexture = NULL;
+	m_pIslandTexture = nullptr;
 	m_fCurScale = m_fDefaultScale = 1.f;
 	m_bYesIsland = false;
 
@@ -70,8 +70,8 @@ BATTLE_NAVIGATOR::BATTLE_NAVIGATOR()
 	m_nvShips = 0;
 
 	m_speedFont = -1;
-	m_wb = 0;
-	m_pAWeather = 0;
+	m_wb = nullptr;
+	m_pAWeather = nullptr;
 
 	m_curCharge = -1;
 	m_bNotEnoughBallFlag = false;
@@ -84,7 +84,7 @@ BATTLE_NAVIGATOR::~BATTLE_NAVIGATOR()
 
 void BATTLE_NAVIGATOR::Draw()
 {
-	if(rs==NULL) return;
+	if(rs== nullptr) return;
 	int n;
 
 	// set world matrix
@@ -101,7 +101,7 @@ void BATTLE_NAVIGATOR::Draw()
 	rs->SetSamplerState(0, D3DSAMP_ADDRESSV,D3DTADDRESS_CLAMP);
 	if(m_idIslandTexture>=0)
 		rs->TextureSet(0,m_idIslandTexture);
-	if(m_pIslandTexture!=NULL)
+	if(m_pIslandTexture!= nullptr)
 		rs->SetTexture(0,m_pIslandTexture);
 	if(m_bYesIsland)
 		rs->DrawPrimitive(D3DPT_TRIANGLEFAN,m_idMapVBuf,sizeof(BI_ONETEXTURE_VERTEX),0,RADIAL_QUANTITY,"battle_island");
@@ -192,7 +192,7 @@ void BATTLE_NAVIGATOR::Draw()
 
 void BATTLE_NAVIGATOR::Update()
 {
-	if(rs==NULL) return;
+	if(rs== nullptr) return;
 
 	UpdateWindParam();
 	SetMainCharacterData();
@@ -200,7 +200,7 @@ void BATTLE_NAVIGATOR::Update()
 
 	// change compas buffer
 	BI_ONETEXTURE_VERTEX * pV = (BI_ONETEXTURE_VERTEX *)rs->LockVertexBuffer(m_idEmptyVBuf);
-	if(pV!=NULL)
+	if(pV!= nullptr)
 	{
 		SetRectangleVertexPos(&pV[4],(float)m_XNavigator,(float)m_YNavigator,(float)m_NavigationWidth,(float)m_NavigationWidth,-m_fAngle);
 		SetRectangleVertexPos(&pV[8],(float)m_XNavigator,(float)m_YNavigator,(float)m_windWidth,(float)m_windHeight,m_fWindAngle-m_fAngle);
@@ -208,7 +208,7 @@ void BATTLE_NAVIGATOR::Update()
 	}
 	// change cannon charge buffer
 	pV = (BI_ONETEXTURE_VERTEX *)rs->LockVertexBuffer(m_idCannonVBuf);
-	if(pV!=NULL)
+	if(pV!= nullptr)
 	{
 		m_nvCannonCharge = m_nvCannonReady = m_nvCannonDamage = 0;
 
@@ -283,7 +283,7 @@ void BATTLE_NAVIGATOR::Update()
 	}
 	// change speed buffer
 	pV = (BI_ONETEXTURE_VERTEX *)rs->LockVertexBuffer(m_idSpeedVBuf);
-	if(pV!=NULL)
+	if(pV!= nullptr)
 	{
 		SetRectangleSegVertexPos(pV,(float)m_XNavigator,(float)m_YNavigator,(float)m_NavigationWidth,(float)m_NavigationWidth,m_fBegAnglWindSpeed,m_fCurAnglWindSpeed);
 		m_nvSpeed = SetRectangleSegVertexTex(pV,.5f,.5f,1.f,1.f,m_fBegAnglWindSpeed,m_fCurAnglWindSpeed);
@@ -304,11 +304,11 @@ void BATTLE_NAVIGATOR::Update()
 void BATTLE_NAVIGATOR::UpdateFireRangeBuffer()
 {
 	BI_NOTEXTURE_VERTEX *pv = (BI_NOTEXTURE_VERTEX *)rs->LockVertexBuffer(m_idFireZoneVBuf);
-	if(pv==null) return;
+	if(pv== nullptr) return;
 
 	SHIP_DESCRIBE_LIST::SHIP_DESCR * psd = g_ShipList.GetMainCharacterShip();
 	ATTRIBUTES * pAttr = g_ShipList.GetMainCharacterShipAttr();
-	if(psd!=null && pAttr!=null)
+	if(psd!= nullptr && pAttr!= nullptr)
 	{
 		FillOneSideFireRange(&pv[0],pAttr,psd->pAttr,"cannonf");
 		FillOneSideFireRange(&pv[(BI_ONESIDE_SIZE+1)],pAttr,psd->pAttr,"cannonr");
@@ -320,17 +320,17 @@ void BATTLE_NAVIGATOR::UpdateFireRangeBuffer()
 
 void BATTLE_NAVIGATOR::FillOneSideFireRange(BI_NOTEXTURE_VERTEX * pv,ATTRIBUTES * pShip,ATTRIBUTES * pChar,char * pstr)
 {
-	if(pv==NULL || pShip==NULL || pChar==NULL || pstr==NULL) return;
+	if(pv== nullptr || pShip== nullptr || pChar== nullptr || pstr== nullptr) return;
 
 	float fDirAng=0.f, fSizeAng=0.f, fFireZone=0.f;
 	ATTRIBUTES * pA;
-	if((pA=BIUtils::GetAttributesFromPath(pShip,"Cannons","Borts",pstr,0))!=NULL)
+	if((pA=BIUtils::GetAttributesFromPath(pShip,"Cannons","Borts",pstr,0))!= nullptr)
 	{
 		fSizeAng = pA->GetAttributeAsFloat("FireZone",0.f);
 		fDirAng = pA->GetAttributeAsFloat("FireDir",0.f);
 	}
 
-	if((pA=BIUtils::GetAttributesFromPath(pChar,"Cannons","Borts",pstr,0))!=NULL)
+	if((pA=BIUtils::GetAttributesFromPath(pChar,"Cannons","Borts",pstr,0))!= nullptr)
 		fFireZone = pA->GetAttributeAsFloat("MaxFireDistance",0.f);
 	fFireZone *= m_fMapRadius/(m_fWorldRad*m_fCurScale);
 	if(fFireZone>m_fMapRadius) fFireZone = m_fMapRadius;
@@ -350,7 +350,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER *RenderService,ENTITY* pOwnerEI)
 	char * tmpstr;
 
 	m_pOwnerEI = pOwnerEI;
-	if(RenderService==NULL) return;
+	if(RenderService== nullptr) return;
 	rs = RenderService;
 
 	m_dwChargeCannon = ARGB(255,255,0,0);
@@ -408,44 +408,44 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER *RenderService,ENTITY* pOwnerEI)
 	m_dwBackGradColor2 = BIUtils::GetLongFromAttr(pARoot, "argbBackMinColor", ARGB(55,0,0,128));
 
 	// get strings parameters
-	tmpstr = BIUtils::GetStringFromAttr(pARoot, "speedShowFont", null);
-	if(tmpstr==null)	m_speedFont = -1;
+	tmpstr = BIUtils::GetStringFromAttr(pARoot, "speedShowFont", nullptr);
+	if(tmpstr== nullptr)	m_speedFont = -1;
 	else m_speedFont = rs->LoadFont(tmpstr);
 	m_ySpeedShow = m_YNavigator + BIUtils::GetLongFromAttr(pARoot, "speedOutYOffset", -m_NavigationHeight/2);
 	m_xShipSpeed = m_XNavigator + BIUtils::GetLongFromAttr(pARoot, "shipSpeedXOffset", 10);
 	m_xWindSpeed = m_XNavigator + BIUtils::GetLongFromAttr(pARoot, "windSpeedXOffset", -20);
 	m_fFontScale = BIUtils::GetFloatFromAttr(pARoot, "fontScale", 1.f);
 
-	tmpstr = BIUtils::GetStringFromAttr(pARoot, "compasTexture", null);
-	if(tmpstr==null)	m_idCompasTex = -1;
+	tmpstr = BIUtils::GetStringFromAttr(pARoot, "compasTexture", nullptr);
+	if(tmpstr== nullptr)	m_idCompasTex = -1;
 	else m_idCompasTex = rs->TextureCreate(tmpstr);
 
-	tmpstr = BIUtils::GetStringFromAttr(pARoot, "speedTexture", null);
-	if(tmpstr==null)	m_idSpeedTex = -1;
+	tmpstr = BIUtils::GetStringFromAttr(pARoot, "speedTexture", nullptr);
+	if(tmpstr== nullptr)	m_idSpeedTex = -1;
 	else m_idSpeedTex = rs->TextureCreate(tmpstr);
 
-	tmpstr = BIUtils::GetStringFromAttr(pARoot, "cannonsTexture", null);
-	if(tmpstr==null)	m_idCannonTex = -1;
+	tmpstr = BIUtils::GetStringFromAttr(pARoot, "cannonsTexture", nullptr);
+	if(tmpstr== nullptr)	m_idCannonTex = -1;
 	else m_idCannonTex = rs->TextureCreate(tmpstr);
 
-	tmpstr = BIUtils::GetStringFromAttr(pARoot, "emptyTexture", null);
-	if(tmpstr==null)	m_idEmptyTex = -1;
+	tmpstr = BIUtils::GetStringFromAttr(pARoot, "emptyTexture", nullptr);
+	if(tmpstr== nullptr)	m_idEmptyTex = -1;
 	else m_idEmptyTex = rs->TextureCreate(tmpstr);
 
-	tmpstr = BIUtils::GetStringFromAttr(pARoot, "windTexture", null);
-	if(tmpstr==null)	m_idWindTex = -1;
+	tmpstr = BIUtils::GetStringFromAttr(pARoot, "windTexture", nullptr);
+	if(tmpstr== nullptr)	m_idWindTex = -1;
 	else m_idWindTex = rs->TextureCreate(tmpstr);
 
-	tmpstr = BIUtils::GetStringFromAttr(pARoot, "chargeTexture", null);
-	if(tmpstr==null)	m_idChargeTexture = -1;
+	tmpstr = BIUtils::GetStringFromAttr(pARoot, "chargeTexture", nullptr);
+	if(tmpstr== nullptr)	m_idChargeTexture = -1;
 	else m_idChargeTexture = rs->TextureCreate(tmpstr);
 
-	tmpstr = BIUtils::GetStringFromAttr(pARoot, "sailstateTexture", null);
-	if(tmpstr==null)	m_idSailTexture = -1;
+	tmpstr = BIUtils::GetStringFromAttr(pARoot, "sailstateTexture", nullptr);
+	if(tmpstr== nullptr)	m_idSailTexture = -1;
 	else m_idSailTexture = rs->TextureCreate(tmpstr);
 
-	tmpstr = BIUtils::GetStringFromAttr(pARoot, "windStateTexture", null);
-	if(tmpstr==null)	m_idWindTexture = -1;
+	tmpstr = BIUtils::GetStringFromAttr(pARoot, "windStateTexture", nullptr);
+	if(tmpstr== nullptr)	m_idWindTexture = -1;
 	else m_idWindTexture = rs->TextureCreate(tmpstr);
 
 	// get cannon charge angles
@@ -469,49 +469,49 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER *RenderService,ENTITY* pOwnerEI)
 
 	// текущий тип заряда
 	m_ChargeGreed.x = 1; m_ChargeGreed.y = 1;
-	if( (tmpstr=BIUtils::GetStringFromAttr(pARoot,"chargeTextureGreed",null))!=null )
+	if( (tmpstr=BIUtils::GetStringFromAttr(pARoot,"chargeTextureGreed", nullptr))!= nullptr )
 		sscanf(tmpstr,"%d,%d",&m_ChargeGreed.x,&m_ChargeGreed.y);
 	if(m_ChargeGreed.x<1) m_ChargeGreed.x = 1;
 	if(m_ChargeGreed.y<1) m_ChargeGreed.y = 1;
 	m_ChargePos.x = 160;	m_ChargePos.y = 160;
-	if( (tmpstr=BIUtils::GetStringFromAttr(pARoot,"chargePos",null))!=null )
+	if( (tmpstr=BIUtils::GetStringFromAttr(pARoot,"chargePos", nullptr))!= nullptr )
 		sscanf(tmpstr,"%d,%d",&m_ChargePos.x,&m_ChargePos.y);
 	m_ChargePos.x += m_XNavigator;// - m_NavigationWidth/2;
 	m_ChargePos.y += m_YNavigator;// - m_NavigationHeight/2;
 	m_ChargeSize.x = 32;	m_ChargeSize.y = 32;
-	if( (tmpstr=BIUtils::GetStringFromAttr(pARoot,"chargePictureSize",null))!=null )
+	if( (tmpstr=BIUtils::GetStringFromAttr(pARoot,"chargePictureSize", nullptr))!= nullptr )
 		sscanf(tmpstr,"%d,%d",&m_ChargeSize.x,&m_ChargeSize.y);
 
 	// иконка ветра
 	m_curSailState = 0;
 	m_WindGreed.x = 1; m_WindGreed.y = 1;
-	if( (tmpstr=BIUtils::GetStringFromAttr(pARoot,"windTextureGreed",null))!=null )
+	if( (tmpstr=BIUtils::GetStringFromAttr(pARoot,"windTextureGreed", nullptr))!= nullptr )
 		sscanf(tmpstr,"%d,%d",&m_WindGreed.x,&m_WindGreed.y);
 	if(m_WindGreed.x<1) m_WindGreed.x = 1;
 	if(m_WindGreed.y<1) m_WindGreed.y = 1;
 	m_WindPos.x = 160;	m_WindPos.y = 160;
-	if( (tmpstr=BIUtils::GetStringFromAttr(pARoot,"windPos",null))!=null )
+	if( (tmpstr=BIUtils::GetStringFromAttr(pARoot,"windPos", nullptr))!= nullptr )
 		sscanf(tmpstr,"%d,%d",&m_WindPos.x,&m_WindPos.y);
 	m_WindPos.x += m_XNavigator;
 	m_WindPos.y += m_YNavigator;
 	m_WindSize.x = 32;	m_WindSize.y = 32;
-	if( (tmpstr=BIUtils::GetStringFromAttr(pARoot,"windPictureSize",null))!=null )
+	if( (tmpstr=BIUtils::GetStringFromAttr(pARoot,"windPictureSize", nullptr))!= nullptr )
 		sscanf(tmpstr,"%d,%d",&m_WindSize.x,&m_WindSize.y);
 
 	// иконка положения парусов
 	m_curSailState = 0;
 	m_SailGreed.x = 1; m_SailGreed.y = 1;
-	if( (tmpstr=BIUtils::GetStringFromAttr(pARoot,"sailstateTextureGreed",null))!=null )
+	if( (tmpstr=BIUtils::GetStringFromAttr(pARoot,"sailstateTextureGreed", nullptr))!= nullptr )
 		sscanf(tmpstr,"%d,%d",&m_SailGreed.x,&m_SailGreed.y);
 	if(m_SailGreed.x<1) m_SailGreed.x = 1;
 	if(m_SailGreed.y<1) m_SailGreed.y = 1;
 	m_SailPos.x = 160;	m_SailPos.y = 160;
-	if( (tmpstr=BIUtils::GetStringFromAttr(pARoot,"sailstatePos",null))!=null )
+	if( (tmpstr=BIUtils::GetStringFromAttr(pARoot,"sailstatePos", nullptr))!= nullptr )
 		sscanf(tmpstr,"%d,%d",&m_SailPos.x,&m_SailPos.y);
 	m_SailPos.x += m_XNavigator;
 	m_SailPos.y += m_YNavigator;
 	m_SailSize.x = 32;	m_SailSize.y = 32;
-	if( (tmpstr=BIUtils::GetStringFromAttr(pARoot,"sailstatePictureSize",null))!=null )
+	if( (tmpstr=BIUtils::GetStringFromAttr(pARoot,"sailstatePictureSize", nullptr))!= nullptr )
 		sscanf(tmpstr,"%d,%d",&m_SailSize.x,&m_SailSize.y);
 
 	// create buffers
@@ -531,7 +531,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER *RenderService,ENTITY* pOwnerEI)
 
 	// fill constant value for vertex buffer
 	BI_ONETEXTURE_VERTEX * pV = (BI_ONETEXTURE_VERTEX *)rs->LockVertexBuffer(m_idEmptyVBuf);
-	if(pV!=NULL)
+	if(pV!= nullptr)
 	{
 		for(i=0; i<12; i++)
 		{
@@ -546,7 +546,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER *RenderService,ENTITY* pOwnerEI)
 	}
 	// cannon charge vertexs
 	pV = (BI_ONETEXTURE_VERTEX *)rs->LockVertexBuffer(m_idCannonVBuf);
-	if(pV!=NULL)
+	if(pV!= nullptr)
 	{
 		for(i=0; i<7*4; i++)
 		{
@@ -557,7 +557,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER *RenderService,ENTITY* pOwnerEI)
 	}
 	// speed show vertexs
 	pV = (BI_ONETEXTURE_VERTEX *)rs->LockVertexBuffer(m_idSpeedVBuf);
-	if(pV!=NULL)
+	if(pV!= nullptr)
 	{
 		for(i=0; i<7*2; i++)
 		{
@@ -569,7 +569,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER *RenderService,ENTITY* pOwnerEI)
 	// map vertexes
 	m_fMapRadius = BIUtils::GetFloatFromAttr(pARoot,"mapRadius",100.f);
 	pV = (BI_ONETEXTURE_VERTEX *)rs->LockVertexBuffer(m_idMapVBuf);
-	if(pV!=NULL)
+	if(pV!= nullptr)
 	{
 		for(i=0; i<RADIAL_QUANTITY+2; i++)
 		{
@@ -582,7 +582,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER *RenderService,ENTITY* pOwnerEI)
 	}
 	// зона поражения пушками
 	BI_NOTEXTURE_VERTEX *pv = (BI_NOTEXTURE_VERTEX*)rs->LockVertexBuffer(m_idFireZoneVBuf);
-	if(pv!=NULL)
+	if(pv!= nullptr)
 	{
 		CVECTOR vCenter = CVECTOR((float)m_XNavigator,(float)m_YNavigator,1.f);
 		for(i=0; i<FIRERANGE_QUANTITY; i++)
@@ -594,7 +594,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER *RenderService,ENTITY* pOwnerEI)
 	}
 	// корабли на карте
 	BI_COLORONLY_VERTEX * pcv = (BI_COLORONLY_VERTEX*)rs->LockVertexBuffer(m_idShipsVBuf);
-	if(pcv!=NULL)
+	if(pcv!= nullptr)
 	{
 		for(i=0; i<MAX_ENEMY_SHIP_QUANTITY*3; i++)
 		{
@@ -606,7 +606,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER *RenderService,ENTITY* pOwnerEI)
 
 	// треугольный градиент для подложки
 	pcv = (BI_COLORONLY_VERTEX*)rs->LockVertexBuffer(m_idGradBackVBuf);
-	if(pcv!=NULL)
+	if(pcv!= nullptr)
 	{
 		pcv[0].w = pcv[1].w = pcv[2].w = 0.5f;
 		pcv[0].pos.z = pcv[1].pos.z = pcv[2].pos.z = 1.f;
@@ -633,7 +633,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER *RenderService,ENTITY* pOwnerEI)
 
 	// Текущий тип заряда
 	pV = (BI_ONETEXTURE_VERTEX *)rs->LockVertexBuffer(m_idCurChargeVBuf);
-	if(pV!=NULL)
+	if(pV!= nullptr)
 	{
 		for(i=0; i<4*3; i++)
 		{
@@ -652,7 +652,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER *RenderService,ENTITY* pOwnerEI)
 
 long BATTLE_NAVIGATOR::SetRectangleVertexPos(BI_ONETEXTURE_VERTEX *v, float x,float y, float width,float height, float angle)
 {
-	if(v==NULL) return 0;
+	if(v== nullptr) return 0;
 
 	if(angle==0)
 	{
@@ -682,7 +682,7 @@ long BATTLE_NAVIGATOR::SetRectangleVertexPos(BI_ONETEXTURE_VERTEX *v, float x,fl
 
 long BATTLE_NAVIGATOR::SetRectangleVertexTex(BI_ONETEXTURE_VERTEX *v, float x,float y, float width,float height, float angle)
 {
-	if(v==NULL) return 0;
+	if(v== nullptr) return 0;
 
 	if(angle==0)
 	{
@@ -712,7 +712,7 @@ long BATTLE_NAVIGATOR::SetRectangleVertexTex(BI_ONETEXTURE_VERTEX *v, float x,fl
 
 long BATTLE_NAVIGATOR::SetCircleVertexPos(BI_ONETEXTURE_VERTEX * v, float x,float y, float rad, float angle)
 {
-	if(v==NULL) return 0;
+	if(v== nullptr) return 0;
 
 	float addAngle=angle;
 	int idx=0;
@@ -735,7 +735,7 @@ long BATTLE_NAVIGATOR::SetCircleVertexPos(BI_ONETEXTURE_VERTEX * v, float x,floa
 
 long BATTLE_NAVIGATOR::SetCircleVertexTex(BI_ONETEXTURE_VERTEX * v, float x,float y, float rad, float angle)
 {
-	if(v==NULL) return 0;
+	if(v== nullptr) return 0;
 
 	float addAngle=angle;
 	int idx=0;
@@ -763,7 +763,7 @@ void BATTLE_NAVIGATOR::SetMainCharacterData()
 	m_fCurAnglForwardCharge = 0;
 	m_fCurAnglBackCharge = m_fBegAnglBackCharge;
 	SHIP_DESCRIBE_LIST::SHIP_DESCR * psd = g_ShipList.GetMainCharacterShip();
-	if(psd==NULL) return;
+	if(psd== nullptr) return;
 
 	// get map center
 	if(g_bExternMapCenter)
@@ -805,12 +805,12 @@ void BATTLE_NAVIGATOR::SetMainCharacterData()
 	m_fCurAnglForwardCharge = m_fBegAnglForwardCharge;
 	m_fCurAnglBackCharge = m_fBegAnglBackCharge;
 	ATTRIBUTES * pBortsAttr = BIUtils::GetAttributesFromPath(psd->pAttr,"cannons","borts",0);
-	if(pBortsAttr!=NULL)
+	if(pBortsAttr!= nullptr)
 	{
 		ATTRIBUTES * pTmpAttr;
 		float fCharge, fDamage;
 		// left cannons
-		if( (pTmpAttr=pBortsAttr->GetAttributeClass("cannonl"))!=NULL )
+		if( (pTmpAttr=pBortsAttr->GetAttributeClass("cannonl"))!= nullptr )
 		{
 			fCharge = pTmpAttr->GetAttributeAsFloat("ChargeRatio",0);
 			fDamage = pTmpAttr->GetAttributeAsFloat("DamageRatio",0);
@@ -818,7 +818,7 @@ void BATTLE_NAVIGATOR::SetMainCharacterData()
 			m_fCurAnglLeftCharge = GetBetwinFloat(m_fBegAnglLeftCharge,m_fCurAnglLeftDamage,fCharge);
 		}
 		// right cannons
-		if( (pTmpAttr=pBortsAttr->GetAttributeClass("cannonr"))!=NULL )
+		if( (pTmpAttr=pBortsAttr->GetAttributeClass("cannonr"))!= nullptr )
 		{
 			fCharge = pTmpAttr->GetAttributeAsFloat("ChargeRatio",0);
 			fDamage = pTmpAttr->GetAttributeAsFloat("DamageRatio",0);
@@ -826,7 +826,7 @@ void BATTLE_NAVIGATOR::SetMainCharacterData()
 			m_fCurAnglRightCharge = GetBetwinFloat(m_fBegAnglRightCharge,m_fCurAnglRightDamage,fCharge);
 		}
 		// forward cannons
-		if( (pTmpAttr=pBortsAttr->GetAttributeClass("cannonf"))!=NULL )
+		if( (pTmpAttr=pBortsAttr->GetAttributeClass("cannonf"))!= nullptr )
 		{
 			fCharge = pTmpAttr->GetAttributeAsFloat("ChargeRatio",0);
 			fDamage = pTmpAttr->GetAttributeAsFloat("DamageRatio",0);
@@ -834,7 +834,7 @@ void BATTLE_NAVIGATOR::SetMainCharacterData()
 			m_fCurAnglForwardCharge = GetBetwinFloat(m_fBegAnglForwardCharge,m_fCurAnglForwardDamage,fCharge);
 		}
 		// backward cannons
-		if( (pTmpAttr=pBortsAttr->GetAttributeClass("cannonb"))!=NULL )
+		if( (pTmpAttr=pBortsAttr->GetAttributeClass("cannonb"))!= nullptr )
 		{
 			fCharge = pTmpAttr->GetAttributeAsFloat("ChargeRatio",0);
 			fDamage = pTmpAttr->GetAttributeAsFloat("DamageRatio",0);
@@ -847,14 +847,14 @@ void BATTLE_NAVIGATOR::SetMainCharacterData()
 void BATTLE_NAVIGATOR::SetAnotherShip()
 {
 	BI_COLORONLY_VERTEX * pv = (BI_COLORONLY_VERTEX*)rs->LockVertexBuffer(m_idShipsVBuf);
-	if(pv==NULL) return;
+	if(pv== nullptr) return;
 	SHIP_DESCRIBE_LIST::SHIP_DESCR *pMainCharacter=g_ShipList.GetMainCharacterShip();
 	int idx=0;
 	float fSqrMapRad = m_fMapRadius*m_fMapRadius;
 
 	m_nvShips=0L;
 	// Fill ships buffer
-	for(SHIP_DESCRIBE_LIST::SHIP_DESCR *psd=g_ShipList.GetShipRoot(); psd!=NULL; psd=psd->next)
+	for(SHIP_DESCRIBE_LIST::SHIP_DESCR *psd=g_ShipList.GetShipRoot(); psd!= nullptr; psd=psd->next)
 	{
 		// не рисовать корабль основного героя
 		if(psd == pMainCharacter) continue;
@@ -898,8 +898,8 @@ void BATTLE_NAVIGATOR::SetAnotherShip()
 
 void BATTLE_NAVIGATOR::ReleaseAll()
 {
-	m_wb = 0;
-	m_pAWeather = 0;
+	m_wb = nullptr;
+	m_pAWeather = nullptr;
 	m_bYesIsland = false;
 
 	// текстуры
@@ -913,10 +913,10 @@ void BATTLE_NAVIGATOR::ReleaseAll()
 	TEXTURE_RELEASE(rs,m_idWindTexture);
 	TEXTURE_RELEASE(rs,m_idSailTexture);
 
-	if(m_pIslandTexture!=NULL)
+	if(m_pIslandTexture!= nullptr)
 	{
 		rs->Release(m_pIslandTexture);
-		m_pIslandTexture=NULL;
+		m_pIslandTexture= nullptr;
 	}
 
 	VERTEX_BUFFER_RELEASE(rs,m_idEmptyVBuf);
@@ -934,7 +934,7 @@ void BATTLE_NAVIGATOR::ReleaseAll()
 		m_speedFont = -1L;
 	}
 
-	rs=NULL;
+	rs= nullptr;
 }
 
 float BATTLE_NAVIGATOR::CalculateCrossX(int side, float w, float h, float angl)
@@ -971,7 +971,7 @@ float BATTLE_NAVIGATOR::CalculateCrossY(int side, float w, float h, float angl)
 
 long BATTLE_NAVIGATOR::SetRectangleSegVertexPos(BI_ONETEXTURE_VERTEX *v, float x,float y, float width,float height, float begAngle, float endAngle)
 {
-	if(v==NULL) return 0;
+	if(v== nullptr) return 0;
 
 	while(begAngle<0) begAngle+=2*PI;
 	while(begAngle>2*PI) begAngle-=2*PI;
@@ -1036,7 +1036,7 @@ long BATTLE_NAVIGATOR::SetRectangleSegVertexPos(BI_ONETEXTURE_VERTEX *v, float x
 
 long BATTLE_NAVIGATOR::SetRectangleSegVertexTex(BI_ONETEXTURE_VERTEX *v, float x,float y, float width,float height, float begAngle, float endAngle)
 {
-	if(v==NULL) return 0;
+	if(v== nullptr) return 0;
 
 	while(begAngle<0) begAngle+=2*PI;
 	while(begAngle>2*PI) begAngle-=2*PI;
@@ -1102,19 +1102,19 @@ long BATTLE_NAVIGATOR::SetRectangleSegVertexTex(BI_ONETEXTURE_VERTEX *v, float x
 void BATTLE_NAVIGATOR::SetIsland()
 {
 	ENTITY_ID ei;
-	MODEL * pM=NULL;
+	MODEL * pM= nullptr;
 	CVECTOR posCenter;
 	float islSize = 0;
 	if( api->FindClass(&ei,"ISLAND",0) ||
 		api->FindClass(&ei,"NetIsland",0) )
 	{
 		ISLAND_BASE * pIsl = (ISLAND_BASE*)api->GetEntityPointer(&ei);
-		if(pIsl!=NULL)
+		if(pIsl!= nullptr)
 		{
 			pM = (MODEL*)api->GetEntityPointer(&pIsl->GetModelEID());
 		}
 	}
-	if(pM!=NULL)
+	if(pM!= nullptr)
 	{
 		pM->Update();
 		// Get island size
@@ -1122,7 +1122,7 @@ void BATTLE_NAVIGATOR::SetIsland()
 		posCenter = pM->mtx.Pos();
 		xMin=xMax=posCenter.x; zMin=zMax=posCenter.z; yMin=yMax=posCenter.y;
 		int i=0;
-		for(NODE * pN=pM->GetNode(0); pN!=NULL; pN=pM->GetNode(++i))
+		for(NODE * pN=pM->GetNode(0); pN!= nullptr; pN=pM->GetNode(++i))
 		{
 			GEOS::INFO gi;
 			pN->geo->GetInfo(gi);
@@ -1142,7 +1142,7 @@ void BATTLE_NAVIGATOR::SetIsland()
 		islSize = (xMax-xMin)>(zMax-zMin)?(xMax-xMin):(zMax-zMin);
 		islSize *= 1.1f;
 
-		IDirect3DSurface9 *pRenderTarg=NULL, *pOldRenderTarg=NULL;
+		IDirect3DSurface9 *pRenderTarg= nullptr, *pOldRenderTarg= nullptr;
 		if( rs->GetRenderTarget(&pOldRenderTarg)==D3D_OK )
 		{
 			if( rs->CreateTexture(MAP_TEXTURE_WIDTH,MAP_TEXTURE_HEIGHT,1,D3DUSAGE_RENDERTARGET,D3DFMT_R5G6B5,D3DPOOL_DEFAULT,&m_pIslandTexture) == D3D_OK )
@@ -1152,7 +1152,7 @@ void BATTLE_NAVIGATOR::SetIsland()
 				{
 					IDirect3DSurface9 * pStencil;
 					rs->GetDepthStencilSurface(&pStencil);
-					if( rs->SetRenderTarget(pRenderTarg,NULL) == D3D_OK )
+					if( rs->SetRenderTarget(pRenderTarg, nullptr) == D3D_OK )
 					{
 						CMatrix matw,matv,oldmatv;
 						D3DMATRIX matp,oldmatp;
@@ -1166,7 +1166,7 @@ void BATTLE_NAVIGATOR::SetIsland()
 						matp._44 = 1.f;
 						rs->SetTransform(D3DTS_PROJECTION, &matp);
 						// fill fone color
-						rs->Clear(0,NULL,D3DCLEAR_TARGET,m_dwSeaColor,1.f,0);
+						rs->Clear(0, nullptr,D3DCLEAR_TARGET,m_dwSeaColor,1.f,0);
 						// show island
 						if( rs->TechniqueExecuteStart("battle_island_gettexture") )
 						{
@@ -1185,7 +1185,7 @@ void BATTLE_NAVIGATOR::SetIsland()
 		}
 	}
 
-	if(m_pIslandTexture!=NULL) m_bYesIsland = true;
+	if(m_pIslandTexture!= nullptr) m_bYesIsland = true;
 	else m_bYesIsland = false;
 	m_fXIsland = posCenter.x;
 	m_fYIsland = posCenter.z;
@@ -1202,7 +1202,7 @@ void BATTLE_NAVIGATOR::UpdateMiniMap()
 	radius=m_fWorldRad*m_fCurScale/m_fIslandRadius;
 
 	BI_ONETEXTURE_VERTEX * pV = (BI_ONETEXTURE_VERTEX *)rs->LockVertexBuffer(m_idMapVBuf);
-	if(pV!=NULL)
+	if(pV!= nullptr)
 	{
 		SetCircleVertexTex(pV,x,y,radius,-m_fAngle);
 		rs->UnLockVertexBuffer(m_idMapVBuf);
@@ -1212,7 +1212,7 @@ void BATTLE_NAVIGATOR::UpdateMiniMap()
 void BATTLE_NAVIGATOR::UpdateCurrentCharge()
 {
 	VDATA * pVD = api->Event("GetCurrentCharge");
-	if(pVD==NULL) return;
+	if(pVD== nullptr) return;
 	long curCharge = m_curCharge;
 	long curSailState = m_curSailState;
 	long curWindPic = m_curWindPic;
@@ -1228,7 +1228,7 @@ void BATTLE_NAVIGATOR::UpdateCurrentCharge()
 	if(m_curWindPic<0) m_curWindPic = 0;
 
 	BI_ONETEXTURE_VERTEX * pV = (BI_ONETEXTURE_VERTEX*)rs->LockVertexBuffer(m_idCurChargeVBuf);
-	if(pV!=NULL)
+	if(pV!= nullptr)
 	{
 		FRECT texRect;
 		CalculateTextureRect(texRect,m_curCharge,m_ChargeGreed.x,m_ChargeGreed.y);

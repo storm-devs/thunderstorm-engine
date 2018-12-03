@@ -176,8 +176,8 @@ public:
 	virtual void	SetRotate(float fRotSpeed);
 	virtual float	GetRotate();
 
-	virtual float	GetBrakingDistance(float * pfTime = 0);
-	virtual float	GetRotationAngle(float * pfTime = 0);
+	virtual float	GetBrakingDistance(float * pfTime = nullptr);
+	virtual float	GetRotationAngle(float * pfTime = nullptr);
 
 	virtual float 	GetCurrentSpeed();
 
@@ -191,7 +191,7 @@ public:
 	virtual float Trace(const CVECTOR &src, const CVECTOR &dst);
 	virtual bool Clip(const PLANE *planes, long nplanes, const CVECTOR &center, float radius, ADD_POLYGON_FUNC addpoly) { return false; };
 
-	virtual const char *GetCollideMaterialName() { return 0; };
+	virtual const char *GetCollideMaterialName() { return nullptr; };
 	virtual bool GetCollideTriangle(TRIANGLE &triangle) { return false; };
 
 // inherit functions CANNON_TRACE_BASE

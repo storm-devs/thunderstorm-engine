@@ -21,12 +21,12 @@
 
 Lights::Lights()
 {
-	rs = null;
-	collide = null;
-	types = null;
+	rs = nullptr;
+	collide = nullptr;
+	types = nullptr;
 	numTypes = 0;
 	maxTypes = 0;
-	lights = null;
+	lights = nullptr;
 	numLights = 0;
 	maxLights = 0;
 	for(long i = 0; i < 8; i++) {lt[i].light = -1; lt[i].set = false;}
@@ -344,7 +344,7 @@ void Lights::AddLight(long index, const CVECTOR & pos)
 #ifndef _XBOX
 	//Отправим сообщение лайтеру
 	ENTITY_ID eid;
-	if(api->FindClass(&eid, null, lighter_code))
+	if(api->FindClass(&eid, nullptr, lighter_code))
 	{
 		api->Send_Message(eid, "sffffffffffs", "AddLight",
 			pos.x,

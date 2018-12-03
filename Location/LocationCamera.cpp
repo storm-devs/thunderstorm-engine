@@ -61,10 +61,10 @@ LocationCamera::LocationCamera()
 	freeAx = freeAy = 0.0f;
 	cf.SetLocationCamera(this);
 	isTeleport = true;
-	character = null;
+	character = nullptr;
 	lockAx = false;
 	isViewExecute = false;
-	location = null;
+	location = nullptr;
 	isLockFPMode = false;
 	isLookMode = false;
 	isSpecialMode = false;
@@ -337,7 +337,7 @@ dword _cdecl LocationCamera::ProcessMessage(MESSAGE & message)
 	{
 	case MSG_CAMERA_SETTARGET:
 		chr = message.EntityID();
-		if(_CORE_API->GetEntityPointer(&chr) == 0)
+		if(_CORE_API->GetEntityPointer(&chr) == nullptr)
 		{
 			_CORE_API->Trace("LocationCamera -> MSG_CAMERA_SETTARGET -> invalidate character id");
 			return 0;
@@ -433,7 +433,7 @@ bool LocationCamera::Set()
 	chradius = c->GetRadius();
 	character = c;
 	location = (Location *)_CORE_API->GetEntityPointer(&loc);
-	return location != null;
+	return location != nullptr;
 }
 
 //Изменить режим работы камеры

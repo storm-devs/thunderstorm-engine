@@ -13,7 +13,7 @@ WATCHER_LIST::WATCHER_LIST(HWND hwnd, HINSTANCE hinst)
 	
 	SetEditMask(0xffffffff);
 
-	hMenu = 0;
+	hMenu = nullptr;
 	Initialize(hwnd,hinst,0,0,0);
 	SetBindMask(BM_BIND_RIGHT|BM_BIND_BOTTOM);
 	
@@ -36,7 +36,7 @@ WATCHER_LIST::WATCHER_LIST(HWND hwnd, HINSTANCE hinst)
 	if(ini)
 	{
 		wsprintf(buffer,"E%d",n);
-		if (ini->ReadString(0, buffer, buffer, sizeof(buffer), ""))
+		if (ini->ReadString(nullptr, buffer, buffer, sizeof(buffer), ""))
 		{
 			if (n < 11) //~!~
 			{
@@ -46,7 +46,7 @@ WATCHER_LIST::WATCHER_LIST(HWND hwnd, HINSTANCE hinst)
 			n++;
 			
 			wsprintf(buffer,"E%d",n);
-			while(ini->ReadStringNext(0,buffer,buffer,sizeof(buffer)))
+			while(ini->ReadStringNext(nullptr,buffer,buffer,sizeof(buffer)))
 			{
 				if (n < 11)
 				{
@@ -63,7 +63,7 @@ WATCHER_LIST::WATCHER_LIST(HWND hwnd, HINSTANCE hinst)
 			for (int n=0; n<11; n++)
 			{
 				sprintf(buffer, "E%d", n);
-				if (ini->ReadString(0, buffer, buffer, sizeof(buffer), ""))
+				if (ini->ReadString(nullptr, buffer, buffer, sizeof(buffer), ""))
 				{
 					SetItemText(n, 0, buffer);
 					SetItemText(n, 1, CDebug.ProcessExpression(buffer));
@@ -83,7 +83,7 @@ WATCHER_LIST::WATCHER_LIST(HWND hwnd, HINSTANCE hinst)
 
 WATCHER_LIST::~WATCHER_LIST()
 {
-	if(hMenu) DestroyMenu(hMenu); hMenu = 0;
+	if(hMenu) DestroyMenu(hMenu); hMenu = nullptr;
 	if(ini) delete ini;
 }
 
@@ -100,7 +100,7 @@ void WATCHER_LIST::ItemChanged(long Item_index, long Subitem_index)
 	case 0:
 		SetItemText(Item_index,1,CDebug.ProcessExpression(buffer));
 		wsprintf(keyname,"E%d",Item_index);
-		ini->WriteString(0,keyname,buffer);
+		ini->WriteString(nullptr,keyname,buffer);
 	break;
 	case 1:
 		GetItemText(Item_index,0,buffer,sizeof(buffer));

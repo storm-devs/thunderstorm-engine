@@ -13,13 +13,13 @@ MODELR::MODELR()
 	bSetupFog = false;
 	LightPath[0] = 0;
 	lmPath[0] = 0;
-	ani = null;
+	ani = nullptr;
 	memset(aniVerts, 0, sizeof(aniVerts));
-	d3dDestVB = 0;
+	d3dDestVB = nullptr;
 	for(long i = 0; i < ANI_MAX_ACTIONS; i++) aniPos[i] = -1.0f;
-	root = null;
+	root = nullptr;
 	useBlend = false;
-	idxBuff = 0;
+	idxBuff = nullptr;
 	nAniVerts = 0;
 }
 
@@ -27,13 +27,13 @@ CMatrix *bones;
 
 MODELR::~MODELR()
 {
-	if(d3dDestVB!=0)	d3dDestVB->Release();
+	if(d3dDestVB!=nullptr)	d3dDestVB->Release();
 	if(root) delete root;
 	for(int i = 0; i < MODEL_ANI_MAXBUFFERS; i++)
 		if(aniVerts[i].v) delete aniVerts[i].v;
 	if(ani) delete ani;
 
-	if(idxBuff!=0)	delete idxBuff;
+	if(idxBuff!=nullptr)	delete idxBuff;
 }
 
 bool MODELR::Init()
@@ -261,7 +261,7 @@ void MODELR::Realize(dword Delta_Time)
 	if(ani)
 	{
 		//create VB
-		if(d3dDestVB==0)
+		if(d3dDestVB==nullptr)
 		{
 			//calculate total number of vertices
 			GEOS::INFO gi;
@@ -297,7 +297,7 @@ void MODELR::Realize(dword Delta_Time)
 
 		bones = &ani->GetAnimationMatrix(0);
 		root->Draw();
-		GeometyService->SetVBConvertFunc(0);
+		GeometyService->SetVBConvertFunc(nullptr);
 		if(!alreadyTransformed)
 		{
 			aniPos[0] = -2.0f;
@@ -387,10 +387,10 @@ dword _cdecl MODELR::ProcessMessage(MESSAGE &message)
 			NODER::gs = GeometyService;
 			NODER::rs = rs;
 			root = NEW NODER();
-			if(!root->Init(LightPath, str, "", CMatrix(0.0f,0.0f,0.0f, 0.0f,0.0f,0.0f), mtx, null, lmPath))
+			if(!root->Init(LightPath, str, "", CMatrix(0.0f,0.0f,0.0f, 0.0f,0.0f,0.0f), mtx, nullptr, lmPath))
 			{
 				delete root;
-				root = null;
+				root = nullptr;
 				api->DeleteEntity(GetID());
 				api->fio->SetDrive();
 				return 0;
@@ -514,7 +514,7 @@ bool MODELR::Clip(const PLANE *planes, long nplanes, const CVECTOR &center, floa
 	clip_c = &center;
 	clip_r = radius;
 	clip_ap = addpoly;
-	if(clip_ap==0)	clip_geosap = 0;	else	clip_geosap = AddPolygon;
+	if(clip_ap==nullptr)	clip_geosap = nullptr;	else	clip_geosap = AddPolygon;
 	return root->Clip();
 }
 extern NODE *bestTraceNode;
@@ -568,7 +568,7 @@ float MODELR::Trace(const CVECTOR &src, const CVECTOR &dst)
 		GEOS::INFO gi;
 
 		//load indices
-		if(idxBuff==0)
+		if(idxBuff==nullptr)
 		{
 			unsigned short *idx = (unsigned short*)rs->LockIndexBuffer(root->geo->GetIndexBuffer());
 			if (idx == nullptr)

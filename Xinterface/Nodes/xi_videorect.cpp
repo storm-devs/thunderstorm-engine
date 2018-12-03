@@ -5,7 +5,7 @@
 
 CXI_VIDEORECT::CXI_VIDEORECT()
 {
-	m_rs=0;
+	m_rs=nullptr;
 	m_nNodeType = NODETYPE_VIDEORECT;
 }
 
@@ -21,7 +21,7 @@ void CXI_VIDEORECT::Draw(bool bSelected,dword Delta_Time)
 		if( api->ValidateEntity(&m_eiVideo) )
 		{
 			IDirect3DTexture9 * pTex = ((xiBaseVideo*)m_eiVideo.pointer)->GetCurrentVideoTexture();
-			if(pTex!=null)
+			if(pTex!= nullptr)
 			{
 				// Create rectangle
 				XI_ONETEX_VERTEX v[4];
@@ -112,7 +112,7 @@ void CXI_VIDEORECT::StartVideoPlay(char * videoFileName)
 	if( api->ValidateEntity(&m_eiVideo) ) {
 		api->DeleteEntity(m_eiVideo);
 	}
-	if(videoFileName==null) return;
+	if(videoFileName== nullptr) return;
 
 #ifndef _XBOX
 	api->CreateEntity( &m_eiVideo, "CAviPlayer" );

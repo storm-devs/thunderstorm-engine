@@ -8,7 +8,7 @@ class IDWALKER : VIDWALKER
 {
 	void * pLayer;
 public:
-	 IDWALKER(){pInterface = null; pLayer = null;Search_Link = null;};
+	 IDWALKER(){pInterface = nullptr; pLayer = nullptr;Search_Link = nullptr;};
 	~IDWALKER(){if(pInterface) pInterface->Invalidate();};
 	ENTITY_ID * GetID();
 	ENTITY_ID * GetIDNext();
@@ -36,12 +36,12 @@ public:
 	};
 	ENTITY_ID * GetID()
 	{ 
-		if(Invalide) return 0;
+		if(Invalide) return nullptr;
 		return pReal->GetID();
 	};
 	ENTITY_ID * GetIDNext()
 	{
-		if(Invalide) return 0;
+		if(Invalide) return nullptr;
 		return pReal->GetIDNext();
 	};
 	void Invalidate()

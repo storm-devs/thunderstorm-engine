@@ -28,7 +28,7 @@ class PARTICLES : public ENTITY
 		SystemInfo ()
 		{
 			PassedTime = 0;
-			pSystem = NULL;
+			pSystem = nullptr;
 			LifeTime = 0xFFFFFF00;
 		}
 	};

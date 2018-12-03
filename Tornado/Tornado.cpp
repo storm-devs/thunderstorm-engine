@@ -24,11 +24,11 @@ Tornado::Tornado() : particles(pillar), noiseCloud(pillar), debris(pillar)
 {
 	ib = -1;
 	vb = -1;
-	rs = null;
+	rs = nullptr;
 	eventCounter = 0.0f;
 	liveTime = 60.0f;
 	galhpa = 1.0f;
-	soundService = null;
+	soundService = nullptr;
 	sID = SOUND_INVALID_ID;
 }
 
@@ -102,7 +102,7 @@ void Tornado::Execute(dword delta_time)
 		if(galhpa < 0.0f)
 		{
 			galhpa = 0.0f;
-			_CORE_API->Event("TornadoDelete", null);
+			_CORE_API->Event("TornadoDelete", nullptr);
 			_CORE_API->DeleteEntity(GetID());
 		}
 	}else liveTime -= dltTime;	

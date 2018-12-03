@@ -20,7 +20,7 @@ class XI_TableCellDescribe
 	{
 		CXI_IMAGE* pImage;
 		POINT offset;
-		ImgDescribe() {pImage=0; offset.x=offset.y=0;}
+		ImgDescribe() {pImage=nullptr; offset.x=offset.y=0;}
 		~ImgDescribe() {STORM_DELETE(pImage);}
 	};
 

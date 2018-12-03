@@ -10,7 +10,7 @@ class VS_STACK
 public:
 	VS_STACK(){};
 	virtual ~VS_STACK(){};
-	virtual DATA * Push(DATA * pdataclass = 0)= 0;
+	virtual DATA * Push(DATA * pdataclass = nullptr)= 0;
 	virtual DATA * Pop()= 0;
 	virtual DATA * Read(DWORD offset,DWORD index)= 0;
 	virtual DATA * Read()= 0;

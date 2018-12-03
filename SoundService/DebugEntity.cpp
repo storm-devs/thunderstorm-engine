@@ -6,7 +6,7 @@
 
 SoundVisualisationEntity::SoundVisualisationEntity()
 {
-	pSound = NULL;
+	pSound = nullptr;
 }
 
 SoundVisualisationEntity::~SoundVisualisationEntity()

@@ -30,7 +30,7 @@ SHIPPOINTER::~SHIPPOINTER()
 
 bool SHIPPOINTER::Init()
 {
-	if( (rs=(VDX9RENDER *)api->CreateService("dx9render")) == NULL )
+	if( (rs=(VDX9RENDER *)api->CreateService("dx9render")) == nullptr )
 	{
 		STORM_THROW("Can`t create render service");
 	}
@@ -39,7 +39,7 @@ bool SHIPPOINTER::Init()
 	if(m_idVBuf<0) return false;
 
 	SPV_VERTEX * pv = (SPV_VERTEX*)rs->LockVertexBuffer(m_idVBuf);
-	if(pv!=null)
+	if(pv!= nullptr)
 	{
 		pv[0].tu = 0.f;		pv[0].tv = 0.f;
 		pv[1].tu = 0.f;		pv[1].tv = 1.f;
@@ -49,7 +49,7 @@ bool SHIPPOINTER::Init()
 	}
 
 	ATTRIBUTES * pA = api->Entity_GetAttributeClass(&GetID(),"textures");
-	if( pA==null )
+	if( pA== nullptr )
 	{
 		api->Trace("WARNING! object SHIPPOINTER hav`t attribute TEXTURES");
 		return false;
@@ -66,7 +66,7 @@ void SHIPPOINTER::Execute(dword delta_time)
 {
 	if(!m_bVisible) return;
 
-	if(m_pShip!=null)
+	if(m_pShip!= nullptr)
 	{
 		m_fShiftVal += m_fShiftSpeed * delta_time;
 		while(m_fShiftVal>PIm2)	m_fShiftVal -= PIm2;
@@ -95,7 +95,7 @@ dword _cdecl SHIPPOINTER::ProcessMessage(MESSAGE & message)
 		{
 			long chrIdx = message.Long();
 			m_pShip = FindShipByChrIndex(chrIdx);
-			if(m_pShip==null)
+			if(m_pShip== nullptr)
 			{
 				m_bVisible = false;
 				return 0;
@@ -120,10 +120,10 @@ dword _cdecl SHIPPOINTER::ProcessMessage(MESSAGE & message)
 void SHIPPOINTER::UpdateShipPointer()
 {
 	if(!m_bVisible)	return;
-	if(m_pShip==null) return;
+	if(m_pShip== nullptr) return;
 
 	SPV_VERTEX * pv = (SPV_VERTEX*)rs->LockVertexBuffer(m_idVBuf);
-	if(pv!=null)
+	if(pv!= nullptr)
 	{
 		CVECTOR campos,camang;
 		float camper;
@@ -149,13 +149,13 @@ void SHIPPOINTER::UpdateShipPointer()
 
 VAI_OBJBASE * SHIPPOINTER::FindShipByChrIndex(long chrIdx)
 {
-	if(chrIdx==-1)	return null;
+	if(chrIdx==-1)	return nullptr;
 
 	ENTITY_ID ei;
 	if( api->FindClass(&ei,"ship",0) ) do
 	{
 		VAI_OBJBASE * ps = (VAI_OBJBASE*)api->GetEntityPointer(&ei);
-		if(ps!=null && ps->GetACharacter()!=null)
+		if(ps!= nullptr && ps->GetACharacter()!= nullptr)
 		{
 			if( (long)ps->GetACharacter()->GetAttributeAsDword("index",-2) == chrIdx )
 				return ps;
@@ -165,12 +165,12 @@ VAI_OBJBASE * SHIPPOINTER::FindShipByChrIndex(long chrIdx)
 	if( NetFindClass(false,&ei,"netship") ) do
 	{
 		VAI_OBJBASE * ps = (VAI_OBJBASE*)api->GetEntityPointer(&ei);
-		if(ps!=null && ps->GetACharacter()!=null)
+		if(ps!= nullptr && ps->GetACharacter()!= nullptr)
 		{
 			if( (long)ps->GetACharacter()->GetAttributeAsDword("id",-2) == chrIdx )
 				return ps;
 		}
 	} while( NetFindClassNext(false,&ei) );
 
-	return null;
+	return nullptr;
 }

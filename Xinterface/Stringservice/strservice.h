@@ -35,7 +35,7 @@ public:
 	void	SetLanguage(const char* sLanguage);
 	char*	GetLanguage();
 
-	char*	GetString(const char* stringName, char* sBuffer=0, size_t bufferSize=0);
+	char*	GetString(const char* stringName, char* sBuffer=nullptr, size_t bufferSize=0);
 	long	GetStringNum(const char* stringName);
 	char*	GetString(long strNum);
 	char*	GetStringName(long strNum);

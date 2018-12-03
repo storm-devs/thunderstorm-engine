@@ -13,9 +13,9 @@ CXI_PCEDITBOX::CXI_PCEDITBOX()
 	m_pntFontOffset.y = 0;
 	m_fFontScale = 0;
 
-	m_pLeftImage = 0;
-	m_pRightImage = 0;
-	m_pMiddleImage = 0;
+	m_pLeftImage = nullptr;
+	m_pRightImage = nullptr;
+	m_pMiddleImage = nullptr;
 
 	m_nEditPos = -1;
 	m_nFirstShowCharacterIndex = 0;

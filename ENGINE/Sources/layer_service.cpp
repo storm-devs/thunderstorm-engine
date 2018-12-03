@@ -12,10 +12,10 @@ dword LAYER_SERVICE::GetIndex(char * layer_name)
 {
 	GUARD(LAYER_SERVICE::GetIndex)
 	dword n;
-	if(layer_name == null) return INVALID_LAYER_CODE;
+	if(layer_name == nullptr) return INVALID_LAYER_CODE;
 	for(n=0;n<=lss.Layer_max_index;n++)
 	{
-		if(Layer_Table[n] == null) continue;
+		if(Layer_Table[n] == nullptr) continue;
 		if(Layer_Table[n]->ls.Deleted) continue;
 		if(_stricmp(layer_name,Layer_Table[n]->Name)== 0) return n;
 	}
@@ -28,10 +28,10 @@ bool LAYER_SERVICE::Verify(char * layer_name)
 {
 	GUARD(LAYER_SERVICE::Verify)
 	dword n;
-	if(layer_name == null) return false;
+	if(layer_name == nullptr) return false;
 	for(n=0;n<=lss.Layer_max_index;n++)
 	{
-		if(Layer_Table[n] == null) continue;
+		if(Layer_Table[n] == nullptr) continue;
 		if(_stricmp(layer_name,Layer_Table[n]->Name)== 0) return true;
 	}
 	UNGUARD
@@ -41,12 +41,12 @@ bool LAYER_SERVICE::Verify(char * layer_name)
 void LAYER_SERVICE::Fit(dword index, char * layer_name, LAYER_STATE ls)
 {
 	GUARD(LAYER_SERVICE::FitLayer)
-	if(layer_name == null) STORM_THROW(zero name);
+	if(layer_name == nullptr) STORM_THROW(zero name);
 	if(index > lss.Layer_max_index) STORM_THROW(invalid index);
-	if(Layer_Table[index] != null) THROW;
+	if(Layer_Table[index] != nullptr) THROW;
 
 	Layer_Table[index] = NEW LAYER(layer_name,ls.Ordered,ls.System,ls.System_flags);
-	if(Layer_Table[index] == null) THROW;
+	if(Layer_Table[index] == nullptr) THROW;
 	Layer_Table[index]->ls = ls;
 	UNGUARD
 }
@@ -55,10 +55,10 @@ bool LAYER_SERVICE::Create(char * layer_name, bool ordered, bool fail_if_exist)
 {
 	GUARD(LAYER_SERVICE::Create)
 	dword n;
-	if(layer_name == null) return false;
+	if(layer_name == nullptr) return false;
 	for(n=0;n<_MAX_LAYERS;n++)
 	{
-		if(Layer_Table[n] != null) 
+		if(Layer_Table[n] != nullptr) 
 		{
 			if(Layer_Table[n]->ls.Deleted) continue;
 			// name must be unical
@@ -75,7 +75,7 @@ bool LAYER_SERVICE::Create(char * layer_name, bool ordered, bool fail_if_exist)
 		}
 
 		Layer_Table[n] = NEW LAYER(layer_name,ordered,0,0);
-		if(Layer_Table[n] == null) THROW;
+		if(Layer_Table[n] == nullptr) THROW;
 		if(lss.Layer_max_index < n) lss.Layer_max_index = n;
 		lss.Layers_number++;
 		return true;
@@ -91,7 +91,7 @@ void LAYER_SERVICE::Erase(dword index)
 	LAYER * l_PTR;
 
 	if(index < 0 || index > lss.Layer_max_index) {_STORM_THROW(NON_FATAL,ghost layer);}
-	l_PTR = Layer_Table[index]; if(l_PTR == null) {_STORM_THROW(NON_FATAL,ghost layer);}
+	l_PTR = Layer_Table[index]; if(l_PTR == nullptr) {_STORM_THROW(NON_FATAL,ghost layer);}
 
 /*  transfer this block to core
 	if(Scan_Layer_Code == index) Scan_Layer_Code = INVALID_LAYER_CODE;
@@ -106,12 +106,12 @@ void LAYER_SERVICE::Erase(dword index)
 	
 	// delete layer object
 	delete Layer_Table[index];
-	Layer_Table[index] = null;
+	Layer_Table[index] = nullptr;
 	if(lss.Layers_number > 0) lss.Layers_number--; else THROW;
 	if(index == lss.Layer_max_index)
 	for(index = lss.Layer_max_index;index>0;index--)
 	{
-		if(Layer_Table[index] != null)
+		if(Layer_Table[index] != nullptr)
 		{
 			lss.Layer_max_index = index;
 			return;
@@ -220,7 +220,7 @@ void LAYER_SERVICE::Clean()
 	
 	for(n=0;n<=lss.Layer_max_index;n++)
 	{
-		if(Layer_Table[n] == null) continue;
+		if(Layer_Table[n] == nullptr) continue;
 		if(!Layer_Table[n]->ls.Deleted) continue;
 		Erase(n);
 	}
@@ -235,7 +235,7 @@ void LAYER_SERVICE::Release()
 	dword n;
 	for(n=0;n<=lss.Layer_max_index;n++)
 	{
-		if(Layer_Table[n] == null) continue;
+		if(Layer_Table[n] == nullptr) continue;
 		Erase(n);
 	}
 	UNGUARD
@@ -245,24 +245,24 @@ LAYER * LAYER_SERVICE::GetLayer(char * layer_name)
 {
 	dword index;
 	index = GetIndex(layer_name);
-	if(index == INVALID_LAYER_CODE) return null;
+	if(index == INVALID_LAYER_CODE) return nullptr;
 	return Layer_Table[index];
 }
 
 LAYER * LAYER_SERVICE::GetLayer(dword index)
 {
-	if(index == INVALID_LAYER_CODE || index > lss.Layer_max_index) return null;
+	if(index == INVALID_LAYER_CODE || index > lss.Layer_max_index) return nullptr;
 	return Layer_Table[index];
 }
 
 bool LAYER_SERVICE::Add(dword index, ENTITY_ID eid, dword priority)
 {
-	if(Layer_Table[index] == 0) STORM_THROW(invalid layer index);
+	if(Layer_Table[index] == nullptr) STORM_THROW(invalid layer index);
 	if(!Layer_Table[index]->Add(eid,priority)) THROW;
 	return true;
 }
 
 void LAYER_SERVICE::Del(dword index, ENTITY_ID eid)
 {
-	if(Layer_Table[index] != 0) Layer_Table[index]->Del(eid);
+	if(Layer_Table[index] != nullptr) Layer_Table[index]->Del(eid);
 }

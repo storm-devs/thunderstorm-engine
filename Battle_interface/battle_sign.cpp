@@ -5,8 +5,8 @@ BISignIcon::BISignIcon( ENTITY_ID& BIEntityID, VDX9RENDER* pRS )
 {
 	Assert( pRS );
 
-	m_pARoot = 0;
-	m_pAData = 0;
+	m_pARoot = nullptr;
+	m_pAData = nullptr;
 
 	m_idHostEntity = BIEntityID;
 	m_pRS = pRS;

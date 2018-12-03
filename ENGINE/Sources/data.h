@@ -9,7 +9,7 @@ class VIRTUAL_COMPILER
 public:
 	virtual void SetError(char * data_PTR, ...){};
 	virtual void SetWarning(char * data_PTR, ...){};
-	virtual VSTRING_CODEC * GetVSC(){return 0;}
+	virtual VSTRING_CODEC * GetVSC(){return nullptr;}
 };
 
 /*struct OBJECT_DESC

@@ -10,7 +10,7 @@ InterfaceBackScene::LightParam::~LightParam()
 	bUse=false;
 	if( pModel ) {
 		api->DeleteEntity( eiModel );
-		pModel = 0;
+		pModel = nullptr;
 	}
 }
 
@@ -65,9 +65,9 @@ void InterfaceBackScene::LightParam::UpdateParams( float fTime )
 InterfaceBackScene::MenuDescr::~MenuDescr()
 {
 	api->DeleteEntity(eiActive);
-	pActive = 0;
+	pActive = nullptr;
 	api->DeleteEntity(eiPassive);
-	pPassive = 0;
+	pPassive = nullptr;
 }
 
 void InterfaceBackScene::MenuDescr::Set( CMatrix* pMtx, const char* pcActiveName, const char* pcPassiveName, const char* pcEvent, const char* pcPathName, const char* pcTechniqueName )
@@ -114,8 +114,8 @@ void InterfaceBackScene::MenuDescr::Set( CMatrix* pMtx, const char* pcActiveName
 
 InterfaceBackScene::InterfaceBackScene()
 {
-	m_pModel = null;
-	m_pLocators = null;
+	m_pModel = nullptr;
+	m_pLocators = nullptr;
 
 	m_vCamPos = 0.f;
 	m_vCamAng = 0.f;
@@ -124,10 +124,10 @@ InterfaceBackScene::InterfaceBackScene()
 	m_nFlareTexture = -1;
 
 	//Мухи
-	flys = null;
+	flys = nullptr;
 	numFlys = 0;
 	maxFlys = 0;
-	fly = null;
+	fly = nullptr;
 	numFly = 0;
 	flyTex = -1;
 }
@@ -137,8 +137,8 @@ InterfaceBackScene::~InterfaceBackScene()
 	RestoreLight();
 	api->DeleteEntity( m_eiModel );
 	api->DeleteEntity( m_eiLocators );
-	m_pLocators = null;
-	m_pModel = null;
+	m_pLocators = nullptr;
+	m_pModel = nullptr;
 	ReleaseMenuList();
 
 	for (const auto &light : m_aLights)
@@ -150,8 +150,8 @@ InterfaceBackScene::~InterfaceBackScene()
 	if( m_nFlareTexture >=0 ) m_pRS->TextureRelease(m_nFlareTexture); m_nFlareTexture = -1;
 
 	if(flyTex >= 0) m_pRS->TextureRelease(flyTex); flyTex = -1;
-	if(flys) delete flys; flys = 0;
-	if(fly) delete fly; fly = 0;
+	if(flys) delete flys; flys = nullptr;
+	if(fly) delete fly; fly = nullptr;
 }
 
 bool InterfaceBackScene::Init()
@@ -332,21 +332,21 @@ dword _cdecl InterfaceBackScene::ProcessMessage(MESSAGE & message)
 	case 8: // set light source
 		{
 			message.String( sizeof(param), param ); // light attributes name
-			InitLight( AttributesPointer ? AttributesPointer->GetAttributeClass(param) : 0 );
+			InitLight( AttributesPointer ? AttributesPointer->GetAttributeClass(param) : nullptr );
 		}
 	break;
 
 	case 9: // add animation model
 		{
 			message.String( sizeof(param), param ); // animation model attributes name
-			InitAniModel( AttributesPointer ? AttributesPointer->GetAttributeClass(param) : 0 );
+			InitAniModel( AttributesPointer ? AttributesPointer->GetAttributeClass(param) : nullptr );
 		}
 	break;
 
 	case 10: // add model
 		{
 			message.String( sizeof(param), param ); // model attributes name
-			InitStaticModel( AttributesPointer ? AttributesPointer->GetAttributeClass(param) : 0 );
+			InitStaticModel( AttributesPointer ? AttributesPointer->GetAttributeClass(param) : nullptr );
 		}
 	break;
 	}
@@ -358,11 +358,11 @@ void InterfaceBackScene::LoadModel( const char* pcModelName )
 	// delete all
 	if( m_pModel ) {
 		api->DeleteEntity( m_eiModel );
-		m_pModel = null;
+		m_pModel = nullptr;
 	}
 	if( m_pLocators ) {
 		api->DeleteEntity( m_eiLocators );
-		m_pLocators = null;
+		m_pLocators = nullptr;
 	}
 	VGEOMETRY* pGeo = (VGEOMETRY*)api->CreateService("Geometry");
 	if( pGeo ) pGeo->SetTexturePath((std::string("MainMenu\\")+XINTERFACE::pThis->StringService()->GetLanguage()+"\\").c_str());
@@ -384,7 +384,7 @@ void InterfaceBackScene::SetCameraPosition( const char* pcLocatorName )
 {
 	//FindLocator( pcLocatorName, 0, &m_vCamPos, &m_vCamAng.y );
 	Matrix mtx;
-	FindLocator( pcLocatorName, (CMatrix*)&mtx, &m_vCamPos, 0 );
+	FindLocator( pcLocatorName, (CMatrix*)&mtx, &m_vCamPos, nullptr );
 	Vector vAddZ;
 	mtx.GetAngles( m_vCamAng.x, m_vCamAng.y, m_vCamAng.z );
 	vAddZ = mtx.MulNormal( Vector(0.f,0.f,1.f) );
@@ -409,7 +409,7 @@ void InterfaceBackScene::SetShipPosition( const char* pcLocName, ATTRIBUTES* pAC
 
 	CVECTOR pos;
 	float fYAng;
-	if( FindLocator( pcLocName, 0, &pos, &fYAng ) )
+	if( FindLocator( pcLocName, nullptr, &pos, &fYAng ) )
 	{
 		pAPos->SetAttributeUseFloat("x", pos.x);
 		pAPos->SetAttributeUseFloat("y", pos.y);
@@ -499,7 +499,7 @@ void InterfaceBackScene::CreateMenuList( long nStartIndex, ATTRIBUTES* pAMenu )
 	{
 		pA = pAMenu->GetAttributeClass(n);
 		if( !pA ) continue;
-		if( !FindLocator( pA->GetAttribute("locname"), &mtx, 0, 0 ) )
+		if( !FindLocator( pA->GetAttribute("locname"), &mtx, nullptr, nullptr ) )
 		{
 			api->Trace( "Warning! Interface Back scene: Can`t find locator %s", pA->GetAttribute("locname") );
 		}
@@ -625,7 +625,7 @@ void InterfaceBackScene::InitLight( ATTRIBUTES* pAParam )
 
 	// find transform from locator
 	CMatrix locMtx;
-	FindLocator( pAParam->GetAttribute("locator"), &locMtx, 0, 0 );
+	FindLocator( pAParam->GetAttribute("locator"), &locMtx, nullptr, nullptr );
 	pLight->vLightPos = locMtx.Pos();
 
 	// load model
@@ -653,7 +653,7 @@ void InterfaceBackScene::InitLight( ATTRIBUTES* pAParam )
 				m_fFlareSize = pAParam->GetAttributeAsFloat("flaresize",0.2f);
 				AddLampFlys( m_vFlarePos );
 
-				ATTRIBUTES* pA = 0;
+				ATTRIBUTES* pA = nullptr;
 				if( AttributesPointer ) pA = AttributesPointer->CreateSubAClass(AttributesPointer,"lightpos");
 				if( pA ) {
 					pA->SetAttributeUseFloat("x",m_vFlarePos.x);
@@ -804,7 +804,7 @@ void InterfaceBackScene::InitAniModel( ATTRIBUTES* pAParam )
 	}
 
 	CMatrix mtx;
-	if( !FindLocator( pAParam->GetAttribute("locator"), &mtx, 0, 0 ) ) mtx.SetIdentity();
+	if( !FindLocator( pAParam->GetAttribute("locator"), &mtx, nullptr, nullptr ) ) mtx.SetIdentity();
 
 	AniModelDescr* pObj = NEW AniModelDescr;
 	Assert(pObj);
@@ -848,7 +848,7 @@ void InterfaceBackScene::InitStaticModel( ATTRIBUTES* pAParam )
 	}
 
 	CMatrix mtx;
-	if( !FindLocator( pAParam->GetAttribute("locator"), &mtx, 0, 0 ) ) mtx.SetIdentity();
+	if( !FindLocator( pAParam->GetAttribute("locator"), &mtx, nullptr, nullptr ) ) mtx.SetIdentity();
 
 	AniModelDescr* pObj = NEW AniModelDescr;
 	Assert(pObj);

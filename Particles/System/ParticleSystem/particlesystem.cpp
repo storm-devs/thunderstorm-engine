@@ -62,7 +62,7 @@ void ParticleSystem::CreateFromDataSource (DataSource* pDataSource)
 	for (int n = 0; n < EmitterCount; n++)
 	{
 		DataSource::EmitterDesc* pEmitterDecription = pDataSource->GetEmitterDesc(n);
-		IEmitter* pEmitter = NULL;
+		IEmitter* pEmitter = nullptr;
 		switch (pEmitterDecription->Type)
 		{
 			case POINT_EMITTER:
@@ -198,7 +198,7 @@ IEmitter* ParticleSystem::FindEmitterByData (FieldList* Data)
 		if (Emitters[n].pEmitter->GetData() == Data) return Emitters[n].pEmitter;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 IEmitter* ParticleSystem::FindEmitter (const char* name)
@@ -208,7 +208,7 @@ IEmitter* ParticleSystem::FindEmitter (const char* name)
 		if (_stricmp (Emitters[n].pEmitter->GetName(), name) == 0) return Emitters[n].pEmitter;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 

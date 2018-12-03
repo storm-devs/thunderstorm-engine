@@ -34,9 +34,9 @@ public:
 	virtual bool isRealCubeMap() const = 0;
 
 	// render scene to cube map
-	virtual bool Render(const char *cLayerName, dword dwFlags = CM_FACE_ALL, CVECTOR * vPos = 0) = 0;
+	virtual bool Render(const char *cLayerName, dword dwFlags = CM_FACE_ALL, CVECTOR * vPos = nullptr) = 0;
 
-	virtual bool DrawCube(CVECTOR *vPos = 0, float fSize = 512.0f) = 0;
+	virtual bool DrawCube(CVECTOR *vPos = nullptr, float fSize = 512.0f) = 0;
 
 	// set this cube map (or side) to texture stage
 	virtual void SetTexture(dword dwStage, dword dwFace = CM_FACE_POSX) = 0;

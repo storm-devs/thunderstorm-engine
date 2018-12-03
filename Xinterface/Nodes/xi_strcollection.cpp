@@ -5,9 +5,9 @@
 
 CXI_STRCOLLECTION::CXI_STRCOLLECTION()
 {
-	m_rs=null;
+	m_rs= nullptr;
 
-	m_pStrDescr=null;
+	m_pStrDescr= nullptr;
 	m_nStr=0;
 	m_nNodeType = NODETYPE_STRINGCOLLECTION;
 
@@ -29,7 +29,7 @@ void CXI_STRCOLLECTION::Draw(bool bSelected,dword Delta_Time)
 	if(m_bUse)
 	{
 		for(int i=0; i<m_nStr; i++)
-			if(m_pStrDescr[i].strStr!=null)
+			if(m_pStrDescr[i].strStr!= nullptr)
 				m_rs->ExtPrint( m_pStrDescr[i].nFontNum, m_pStrDescr[i].foreColor,
 				m_pStrDescr[i].backColor, m_pStrDescr[i].wAlignment, m_pStrDescr[i].bShadow, m_pStrDescr[i].fScale,
 				m_screenSize.x,m_screenSize.y, m_pStrDescr[i].scrPos.x, m_pStrDescr[i].scrPos.y, "%s",
@@ -258,7 +258,7 @@ dword _cdecl CXI_STRCOLLECTION::MessageProc(long msgcode, MESSAGE & message)
 			message.String(sizeof(paramID),paramID);	// msg
 			message.String(sizeof(paramStr),paramStr);	// msg
 			STRINGDESCR * pstr = CreateNewDinamicString(paramID,paramStr);
-			if(pstr==null) return -1;
+			if(pstr== nullptr) return -1;
 			// string font
 			char fontName[256];
 			message.String(sizeof(fontName),fontName);	// msg
@@ -355,16 +355,16 @@ void CXI_STRCOLLECTION::ChangeStringPos(long num, XYPOINT& pntNewPos)
 
 CXI_STRCOLLECTION::STRINGDESCR * CXI_STRCOLLECTION::CreateNewDinamicString(char * strID, char * strStr)
 {
-	if(strID==null || strID[0]==0) return null;
+	if(strID== nullptr || strID[0]==0) return nullptr;
 	int i;
 	for(i=0; i<m_nStr; i++)
 	{
-		if(m_pStrDescr[i].strID!=null && _stricmp(m_pStrDescr[i].strID,strID)==0)
+		if(m_pStrDescr[i].strID!= nullptr && _stricmp(m_pStrDescr[i].strID,strID)==0)
 			break;
 	}
 	if(i<m_nStr)
 	{
-		if(strStr==null || strStr[0]==0)
+		if(strStr== nullptr || strStr[0]==0)
 		{
 			PTR_STORM_DELETE(m_pStrDescr[i].strID);
 			PTR_STORM_DELETE(m_pStrDescr[i].strStr);
@@ -372,27 +372,27 @@ CXI_STRCOLLECTION::STRINGDESCR * CXI_STRCOLLECTION::CreateNewDinamicString(char 
 			m_nStr--;
 			if(m_nStr>i)
 				memcpy(&m_pStrDescr[i],&m_pStrDescr[i+1],sizeof(STRINGDESCR)*(m_nStr-i));
-			return null;
+			return nullptr;
 		}
 		FONT_RELEASE(m_rs,m_pStrDescr[i].nFontNum);
 		PTR_STORM_DELETE(m_pStrDescr[i].strStr);
 		m_pStrDescr[i].strStr = NEW char[strlen(strStr)+1];
-		if(m_pStrDescr[i].strStr==null)	{THROW("allocate memory error");}
+		if(m_pStrDescr[i].strStr== nullptr)	{THROW("allocate memory error");}
 		strcpy(m_pStrDescr[i].strStr,strStr);
 		return &m_pStrDescr[i];
 	}
-	if( strStr==null || strStr[0]==0 ) return null;
+	if( strStr== nullptr || strStr[0]==0 ) return nullptr;
 	STRINGDESCR * pOld = m_pStrDescr;
 	m_nStr++;
 	m_pStrDescr = NEW STRINGDESCR[m_nStr];
-	if( m_pStrDescr == null )	{THROW("allocate memory error");}
+	if( m_pStrDescr == nullptr )	{THROW("allocate memory error");}
 	if( pOld && i )	memcpy(m_pStrDescr,pOld,sizeof(STRINGDESCR)*i);
 	if( pOld ) delete pOld;
 	ZeroMemory( &m_pStrDescr[i], sizeof(STRINGDESCR) );
 	m_pStrDescr[i].nFontNum = -1;
 	m_pStrDescr[i].strID = NEW char[strlen(strID)+1];
 	m_pStrDescr[i].strStr = NEW char[strlen(strStr)+1];
-	if( m_pStrDescr[i].strID==null || m_pStrDescr[i].strStr==null )
+	if( m_pStrDescr[i].strID== nullptr || m_pStrDescr[i].strStr== nullptr )
 	{	THROW("allocate memory error");}
 	strcpy( m_pStrDescr[i].strID, strID );
 	strcpy( m_pStrDescr[i].strStr, strStr );

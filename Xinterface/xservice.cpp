@@ -10,10 +10,10 @@ XSERVICE::XSERVICE()
 {
 	m_dwListQuantity = 0;
 	m_dwImageQuantity = 0;
-	m_pList = NULL;
-	m_pImage = NULL;
+	m_pList = nullptr;
+	m_pImage = nullptr;
 
-	m_pRS = NULL;
+	m_pRS = nullptr;
 }
 
 XSERVICE::~XSERVICE()
@@ -49,7 +49,7 @@ void XSERVICE::Init(VDX9RENDER* pRS,long lWidth,long lHeight)
 
 long XSERVICE::GetTextureID(const char* sImageListName)
 {
-	if(sImageListName!=NULL)
+	if(sImageListName!= nullptr)
 	{
 		for(int i=0; i<m_dwListQuantity; i++)
 			if( !_stricmp(m_pList[i].sImageListName,sImageListName) )
@@ -80,7 +80,7 @@ long XSERVICE::FindGroup(const char* sImageListName)
 
 bool XSERVICE::ReleaseTextureID(const char* sImageListName)
 {
-	if(sImageListName==NULL) return false;
+	if(sImageListName== nullptr) return false;
 
 	for(int i=0; i<m_dwListQuantity; i++)
 		if( !_stricmp(m_pList[i].sImageListName,sImageListName) )
@@ -230,7 +230,7 @@ void XSERVICE::LoadAllPicturesInfo()
 	if(m_dwListQuantity>0)
 	{
 		m_pList = NEW IMAGELISTDESCR[m_dwListQuantity];
-		if(m_pList==NULL)
+		if(m_pList== nullptr)
 			STORM_THROW("memory allocate error")
 	}
 
@@ -262,9 +262,9 @@ void XSERVICE::LoadAllPicturesInfo()
 			// resize image list
 			PICTUREDESCR *oldpImage = m_pImage;
 			m_pImage = NEW PICTUREDESCR[m_dwImageQuantity + m_pList[i].pictureQuantity];
-			if(m_pImage==NULL)
+			if(m_pImage== nullptr)
 				STORM_THROW("allocate memory error")
-			if(oldpImage!=NULL)
+			if(oldpImage!= nullptr)
 			{
 				memcpy(m_pImage,oldpImage,m_dwImageQuantity*sizeof(PICTUREDESCR));
 				delete oldpImage;
@@ -299,27 +299,27 @@ void XSERVICE::LoadAllPicturesInfo()
 
 void XSERVICE::ReleaseAll()
 {
-	if(m_pList!=NULL)
+	if(m_pList!= nullptr)
 	{
 		for(int i=0; i<m_dwListQuantity; i++)
 		{
 			if(m_pList[i].textureQuantity!=0)
 				m_pRS->TextureRelease(m_pList[i].textureID);
 
-			if(m_pList[i].sImageListName!=NULL)
+			if(m_pList[i].sImageListName!= nullptr)
 				delete m_pList[i].sImageListName;
-			if(m_pList[i].sTextureName!=NULL)
+			if(m_pList[i].sTextureName!= nullptr)
 				delete m_pList[i].sTextureName;
 		}
 
 		delete m_pList;
 	}
 
-	if(m_pImage!=NULL)
+	if(m_pImage!= nullptr)
 	{
 		for(int i=0; i<m_dwImageQuantity; i++)
 		{
-			if(m_pImage[i].sPictureName!=NULL)
+			if(m_pImage[i].sPictureName!= nullptr)
 				delete m_pImage[i].sPictureName;
 		}
 
@@ -334,8 +334,8 @@ long XSERVICE::GetImageNum(const char* sImageListName, const char* sImageName)
 {
 	long retVal=-1;
 
-	if(sImageName!=NULL)
-		if(sImageListName!=NULL)
+	if(sImageName!= nullptr)
+		if(sImageListName!= nullptr)
 		{
 			for(int i=0; i<m_dwListQuantity; i++)
 				if( !_stricmp(m_pList[i].sImageListName,sImageListName) )

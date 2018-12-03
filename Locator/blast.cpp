@@ -5,12 +5,12 @@
 
 BLAST::BLAST()
 {
-	rs = 0;
-	gs = 0;
-	Item = 0;
+	rs = nullptr;
+	gs = nullptr;
+	Item = nullptr;
 	AngleDeviation = 1.57f;
 	ItemsNum = 0;
-	pSea = 0;
+	pSea = nullptr;
 }
 
 BLAST::~BLAST()
@@ -24,7 +24,7 @@ BLAST::~BLAST()
 		}
 		ItemsNum = 0;
 		delete Item; 
-		Item = 0;
+		Item = nullptr;
 	}
 }
 
@@ -71,7 +71,7 @@ void BLAST::AddGeometry(char * name, long num)
 	//Item[n].geo = gs->CreateGeometry(name,0,0);
 	
 	Item = (GEOPARTICLE*)RESIZE(Item,sizeof(GEOPARTICLE)*(ItemsNum+num));
-	gp = gs->CreateGeometry(name,0,0);
+	gp = gs->CreateGeometry(name,nullptr,0);
 	for(n=0;n<num;n++)
 	{
 		if(n == 0) Item[n + ItemsNum].bDouble = false;
@@ -237,7 +237,7 @@ void BLAST::Realize(dword Delta_Time)
 		{
 			Center.BuildMatrix(Item[n].ang,Item[n].pos);
 			rs->SetTransform(D3DTS_WORLD, Center);
-			Item[n].geo->Draw((GEOS::PLANE *)rs->GetPlanes(), 0, null);
+			Item[n].geo->Draw((GEOS::PLANE *)rs->GetPlanes(), 0, nullptr);
 		}
 	}
 }

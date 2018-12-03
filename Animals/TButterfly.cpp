@@ -114,7 +114,7 @@ void TButterfly::Calculate (long _dTime, COLLIDE *_collide, VIDWALKER *_walker)
 	{
 		float ray = _collide->Trace(*_walker, centerPosition, 
 											  centerPosition + CVECTOR(velocityDelta * centerVelocity.x, 0.f, velocityDelta * centerVelocity.z), 
-											  0, 0);
+											  nullptr, 0);
 		if (ray <= 1.0f)
 			centerVelocity = -centerVelocity;
 	}

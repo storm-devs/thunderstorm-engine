@@ -30,10 +30,10 @@ LocationEffects::LocationEffects()
 	for(long i = 0; i < LFX_SPLASHES_NUM; i++) chrSplash[i].time = -1.0f;
 	splashesTxt = -1;
 	//Мухи
-	flys = null;
+	flys = nullptr;
 	numFlys = 0;
 	maxFlys = 0;
-	fly = null;
+	fly = nullptr;
 	numFly = 0;
 	flyTex = -1;
 	//Шотган
@@ -523,7 +523,7 @@ void LocationEffects::ProcessedShotgun(float dltTime)
 {
 	if(!isShgInited) return;
 	CVECTOR winDir = 0.0f;
-	VDATA * param = _CORE_API->Event("EWhr_GetWindAngle", 0);
+	VDATA * param = _CORE_API->Event("EWhr_GetWindAngle", nullptr);
 	if(param)
 	{
 		float ang;
@@ -531,7 +531,7 @@ void LocationEffects::ProcessedShotgun(float dltTime)
 		winDir.x = sinf(ang);
 		winDir.z = cosf(ang);
 	}
-	param = _CORE_API->Event("EWhr_GetWindSpeed", 0);
+	param = _CORE_API->Event("EWhr_GetWindSpeed", nullptr);
 	if(param)
 	{
 		float spd;

@@ -253,10 +253,10 @@ void NPCharacter::Update(float dltTime)
 		bool isDebugEx = location->IsExDebugView();
 		//if(AttributesPointer && AttributesPointer->GetAttributeAsDword("hideInfo", 0)) return;
 		const float rad = 25.0f;
-		const char * id = null;
+		const char * id = nullptr;
 		if(AttributesPointer) id = AttributesPointer->GetAttribute("id");
 		if(!id) id = "<none>";
-		const char * fid = null;
+		const char * fid = nullptr;
 		Character * chr = (Character *)_CORE_API->GetEntityPointer(&task.target);
 		if(chr)
 		{
@@ -401,7 +401,7 @@ bool NPCharacter::SetNewTask(NPCTask tsk, MESSAGE & message)
 		SetFightMode(false);
 		SetRunMode(true);
 		task.target = message.EntityID();
-		return (api->GetEntityPointer(&task.target) != null);
+		return (api->GetEntityPointer(&task.target) != nullptr);
 	case npct_dead:
 		CmdStay();
 		Dead();
@@ -441,7 +441,7 @@ void NPCharacter::UpdateFollowCharacter(float dltTime)
 {
 	//Цель
 	NPCharacter * c = (NPCharacter *)_CORE_API->GetEntityPointer(&task.target);
-	if(!c || c->deadName != null || c->liveValue < 0)
+	if(!c || c->deadName != nullptr || c->liveValue < 0)
 	{
 		NPCTask tsk = task.task;
 		task.task = npct_none;
@@ -477,7 +477,7 @@ void NPCharacter::UpdateEscapeCharacter(float dltTime)
 {
 	//Персонаж от которого убегаем
 	NPCharacter * c = (NPCharacter *)_CORE_API->GetEntityPointer(&task.target);
-	if(!c || c->deadName != null || c->liveValue < 0)
+	if(!c || c->deadName != nullptr || c->liveValue < 0)
 	{
 		NPCTask tsk = task.task;
 		task.task = npct_none;
@@ -506,7 +506,7 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 	SetFightMode(true);
 	//Цель
 	NPCharacter * c = (NPCharacter *)_CORE_API->GetEntityPointer(&task.target);
-	if(!c || c->deadName != null || c->liveValue < 0 || c == this)
+	if(!c || c->deadName != nullptr || c->liveValue < 0 || c == this)
 	{
 		NPCTask tsk = task.task;
 		task.task = npct_none;
@@ -858,7 +858,7 @@ void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter * enemy)
 	{
 		float kSel;
 		long counter = 0;
-		Character * enemy = null;
+		Character * enemy = nullptr;
 		for(long i = 0, j = -1; i < enemyCounter; i++)
 		{
 			EnemyState & es = enemies[i];

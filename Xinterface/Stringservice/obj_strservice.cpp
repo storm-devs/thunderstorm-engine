@@ -3,12 +3,12 @@
 
 OBJ_STRSERVICE::OBJ_STRSERVICE()
 {
-	m_pStrService = null;
+	m_pStrService = nullptr;
 }
 
 OBJ_STRSERVICE::~OBJ_STRSERVICE()
 {
-	m_pStrService = null;
+	m_pStrService = nullptr;
 }
 
 bool OBJ_STRSERVICE::Init()
@@ -27,7 +27,7 @@ dword _cdecl OBJ_STRSERVICE::ProcessMessage(MESSAGE & message)
 		{
 			char param[256];
 			message.String(sizeof(param)-1,param);
-			if(m_pStrService!=null) return m_pStrService->OpenUsersStringFile(param);
+			if(m_pStrService!= nullptr) return m_pStrService->OpenUsersStringFile(param);
 			return -1;
 		}
 		break;
@@ -41,11 +41,11 @@ dword _cdecl OBJ_STRSERVICE::ProcessMessage(MESSAGE & message)
 		{
 			long nUsrID = message.Long();
 			VDATA * pvdat = message.ScriptVariablePointer();
-			char * inStr = pvdat==null ? null : pvdat->GetString();
+			char * inStr = pvdat== nullptr ? nullptr : pvdat->GetString();
 			pvdat = message.ScriptVariablePointer();
-			char * outStr = null;
-			if(m_pStrService!=null) outStr = m_pStrService->TranslateFromUsers(nUsrID,inStr);
-			if(outStr!=null && pvdat!=null)	pvdat->Set(outStr);
+			char * outStr = nullptr;
+			if(m_pStrService!= nullptr) outStr = m_pStrService->TranslateFromUsers(nUsrID,inStr);
+			if(outStr!= nullptr && pvdat!= nullptr)	pvdat->Set(outStr);
 			else
 				pvdat->Set("");
 		}
@@ -53,9 +53,9 @@ dword _cdecl OBJ_STRSERVICE::ProcessMessage(MESSAGE & message)
 	case MSG_STRSERVICE_GET_LANGUAGE:
 		{
 			VDATA * pvdat = message.ScriptVariablePointer();
-			char * outStr = null;
-			if(m_pStrService!=null) outStr = m_pStrService->GetLanguage();
-			if(outStr!=null && pvdat!=null)	pvdat->Set(outStr);
+			char * outStr = nullptr;
+			if(m_pStrService!= nullptr) outStr = m_pStrService->GetLanguage();
+			if(outStr!= nullptr && pvdat!= nullptr)	pvdat->Set(outStr);
 			else	pvdat->Set("");
 		}
 		break;

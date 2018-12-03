@@ -325,7 +325,7 @@ IParticleSystem* ParticleManager::CreateParticleSystemEx (const char* FileName, 
 	if (!pDataSource)
 	{
 		api->Trace("Particle system '%s' can't loading. Reason: Not found in cache", FileName);
-		return NULL;
+		return nullptr;
 	}
 
 //	api->Trace("Create system '%s'", FileName);
@@ -373,7 +373,7 @@ ModelProcessor* ParticleManager::GetMDLProcessor ()
 IParticleSystem* ParticleManager::CreateEmptyParticleSystemEx  (const char* FileName, int Line)
 {
 	//NEED WRITE !!!
-	return NULL;
+	return nullptr;
 }
 
 bool ParticleManager::ValidateSystem (IParticleSystem* pSystem)
@@ -435,7 +435,7 @@ const char* ParticleManager::GetFirstGeomName (const char* FileName)
 	GeomNameParser Parser;
 	EnumUsedGeom.clear();
 	DataSource* pDataSource = pDataCache->GetParticleSystemDataSource (FileName);
-	if (!pDataSource) return NULL;
+	if (!pDataSource) return nullptr;
 
 	DWORD count = pDataSource->GetEmitterCount();
 
@@ -463,7 +463,7 @@ const char* ParticleManager::GetFirstGeomName (const char* FileName)
 
 	}
 
-	if (EnumUsedGeom.size() == 0) return NULL;
+	if (EnumUsedGeom.size() == 0) return nullptr;
 	const char* FirstName = EnumUsedGeom[IteratorIndex].c_str();
 	IteratorIndex++;
 	return FirstName;
@@ -472,7 +472,7 @@ const char* ParticleManager::GetFirstGeomName (const char* FileName)
 
 const char* ParticleManager::GetNextGeomName ()
 {
-	if (IteratorIndex >= EnumUsedGeom.size()) return NULL;
+	if (IteratorIndex >= EnumUsedGeom.size()) return nullptr;
 	const char* FirstName = EnumUsedGeom[IteratorIndex].c_str();
 	IteratorIndex++;
 	return FirstName;
@@ -495,7 +495,7 @@ void ParticleManager::CreateGeomCache ()
 	for (DWORD n = 0; n < SystemCount; n++)
 	{
 		const char* pSystemName = pDataCache->GetCachedNameByIndex(n);
-		const char* GeomName = NULL;
+		const char* GeomName = nullptr;
 		GeomName = GetFirstGeomName(pSystemName);
 
 		while (GeomName)
@@ -615,7 +615,7 @@ void ParticleManager::CacheReloaded ()
 FieldList* ParticleManager::Editor_CreatePointEmitter (const char* SystemName, const char* EmitterName)
 {
 	DataSource* pDataSource = pDataCache->GetParticleSystemDataSource (SystemName);
-	if (!pDataSource) return NULL;
+	if (!pDataSource) return nullptr;
 
 	FieldList* pData = pDataSource->CreateEmptyPointEmitter(EmitterName);
 
@@ -627,7 +627,7 @@ FieldList* ParticleManager::Editor_CreatePointEmitter (const char* SystemName, c
 FieldList* ParticleManager::Editor_CreateBillBoardParticle (const char* SystemName, const char*EmitterName, const char* ParticleName)
 {
 	DataSource* pDataSource = pDataCache->GetParticleSystemDataSource (SystemName);
-	if (!pDataSource) return NULL;
+	if (!pDataSource) return nullptr;
 
 	FieldList* pData = pDataSource->CreateBillBoardParticle (ParticleName, EmitterName);
 
@@ -639,7 +639,7 @@ FieldList* ParticleManager::Editor_CreateBillBoardParticle (const char* SystemNa
 FieldList* ParticleManager::Editor_CreateModelParticle (const char* SystemName, const char*EmitterName, const char* ParticleName)
 {
 	DataSource* pDataSource = pDataCache->GetParticleSystemDataSource (SystemName);
-	if (!pDataSource) return NULL;
+	if (!pDataSource) return nullptr;
 
 	FieldList* pData = pDataSource->CreateModelParticle (ParticleName, EmitterName);
 

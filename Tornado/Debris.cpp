@@ -22,7 +22,7 @@ Debris::Debris(Pillar & _pillar) : pillar(_pillar)
 	flyCounter = 0;
 	shipcode = _CORE_API->Class_Name2Code("ship");
 	SetGlobalAlpha(1.0f);
-	soundService = null;
+	soundService = nullptr;
 	lastPlayTime = 0.0f;
 }
 
@@ -198,7 +198,7 @@ MODEL * Debris::SelectModel(float & maxSpd)
 bool Debris::IsShip()
 {
 	ENTITY_ID id;
-	bool res = _CORE_API->FindClass(&id, null, shipcode);
+	bool res = _CORE_API->FindClass(&id, nullptr, shipcode);
 	if(!res) return false;
 	CVECTOR p(pillar.GetX(0.0f), 0.0f, pillar.GetZ(0.0f));
 	CVECTOR pos;

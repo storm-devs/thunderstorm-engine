@@ -33,11 +33,11 @@ CVECTOR Blots::dir, Blots::normal;
 Blots::Blots()
 {
 	for(long i = 0; i < BLOTS_MAX; i++) blot[i].isUsed = 0;
-	rs = null;
+	rs = nullptr;
 	textureID = -1;
 	useVrt = 0;
-	blotsInfo = null;
-	pCharAttributeRoot = null;
+	blotsInfo = nullptr;
+	pCharAttributeRoot = nullptr;
 	updateBlot = 0;
 }
 

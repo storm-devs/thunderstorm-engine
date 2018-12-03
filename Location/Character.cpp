@@ -118,14 +118,14 @@ char * Character::fightNamesTbl[fgt_max] =
 
 Character::ActionCharacter::ActionCharacter()
 {
-	name = null;
+	name = nullptr;
 	tblend = 0.0f;
 }
 
 void Character::ActionCharacter::SetName(const char * _name)
 {
 	if(name) delete name;
-	name = null;
+	name = nullptr;
 	if(_name && _name[0])
 	{
 		long l = strlen(_name) + 1;
@@ -144,7 +144,7 @@ void Character::ActionCharacter::ChangeName(const char * _name)
 Character::ActionCharacter::~ActionCharacter()
 {
 	if(name) delete name;
-	name = null;
+	name = nullptr;
 }
 
 Character::ActionMove::ActionMove()
@@ -261,7 +261,7 @@ Character::RTuner::RTuner()
 	chrAlpha = 1.0f;
 	camAlpha = 1.0f;
 	selected = 0.0f;
-	character = null;
+	character = nullptr;
 	isVisible = true;
 }
 
@@ -351,10 +351,10 @@ Character::Character()
 	isPlayerEnemy = false;
 	enemyBarsAlpha = 0.0f;
 	isLookFromEyes = false;
-	soundService = null;
+	soundService = nullptr;
 	currentNode = -1;
 	tuner.character = this;
-	location = null;
+	location = nullptr;
 	//Размеры персонажа
 	radiusNrm = 0.7f;
 	radiusFgt = 1.5f;
@@ -502,7 +502,7 @@ Character::Character()
 	isTurn = 0.0f;
 	isFightWOWps = false;
 	movecs = 1.0f;
-	curMove = null;
+	curMove = nullptr;
 	speed = 0.0f;
 	turnspd = turnSpeed;
 	chclass = 0.5f;
@@ -519,7 +519,7 @@ Character::Character()
 	ayStackPointer = 0;
 	isResetAutoAction = true;
 	isSetPriorityAction = false;
-	deadName = null;
+	deadName = nullptr;
 	curIdleIndex = -1;
 	isFired = true;
 	isLockIdleForCamera = false;
@@ -534,7 +534,7 @@ Character::Character()
 	isEnableJump = false;
 	jumpSound = SOUND_INVALID_ID;
 	isNFHit = false;
-	characterID = null;
+	characterID = nullptr;
 	lockMove = false;
 	lockRotate = false;
 	impulse = 0.0f;
@@ -608,7 +608,7 @@ bool Character::Init()
 	//Море
 	_CORE_API->FindClass(&sea, "sea", 0);
 	//Сохраним идентификатор
-	const char * id = null;
+	const char * id = nullptr;
 	if(AttributesPointer) id = AttributesPointer->GetAttribute("id");
 	if(!id) id = "<none>";
 	long len = strlen(id) + 1;
@@ -1272,8 +1272,8 @@ void Character::Attack(Character * enemy, FightAction type)
 			}
 		}*/
 	}else memset(&enemyAttack, 0, sizeof(enemyAttack));
-	VDATA * res = null;
-	const char * aname = null;
+	VDATA * res = nullptr;
+	const char * aname = nullptr;
 	switch(type)
 	{
 	case fgt_attack_fast:
@@ -1338,10 +1338,10 @@ void Character::Attack(Character * enemy, FightAction type)
 			{
 				if(!isEnable)
 				{
-					res = null;
+					res = nullptr;
 				}
 			}else{
-				res = null;
+				res = nullptr;
 			}
 		}
 	}
@@ -1830,7 +1830,7 @@ void Character::Move(float dltTime)
 			SEA_BASE * sb = (SEA_BASE *)_CORE_API->GetEntityPointer(&sea);
 			if(sb && location->IsSwimming())
 			{
-				seaY = sb->WaveXZ(curPos.x, curPos.z, null);
+				seaY = sb->WaveXZ(curPos.x, curPos.z, nullptr);
 				if(seaY > curPos.y + 0.01f && PriorityActionIsJump())
 				{
 					PlaySound("jump_water");
@@ -1871,8 +1871,8 @@ void Character::Move(float dltTime)
 					{
 						//Продолжим проигрывание
 						a->Player(0).Play();
-					}else priorityAction.SetName(null);
-				}else priorityAction.SetName(null);
+					}else priorityAction.SetName(nullptr);
+				}else priorityAction.SetName(nullptr);
 			}
 		}
 		if(isJumpSnd)
@@ -2153,7 +2153,7 @@ void Character::ActionEvent(const char * actionName, Animation * animation, long
 			_CORE_API->Send_Message(blade, "ll", MSG_BLADE_HAND, 1);
 			if(event == ae_end)
 			{
-				priorityAction.SetName(null);
+				priorityAction.SetName(nullptr);
 				animation->Player(0).Pause();
 				animation->Player(0).SetPosition(1.0f);
 			}
@@ -2164,7 +2164,7 @@ void Character::ActionEvent(const char * actionName, Animation * animation, long
 			_CORE_API->Send_Message(blade, "ll", MSG_BLADE_BELT, 1);
 			if(event == ae_end)
 			{
-				priorityAction.SetName(null);
+				priorityAction.SetName(nullptr);
 				animation->Player(0).Pause();
 				animation->Player(0).SetPosition(1.0f);
 			}
@@ -2175,7 +2175,7 @@ void Character::ActionEvent(const char * actionName, Animation * animation, long
 			if(event == ae_end)
 			{
 				//Закончился выстрел
-				priorityAction.SetName(null);
+				priorityAction.SetName(nullptr);
 				animation->Player(0).Pause();
 				animation->Player(0).SetPosition(1.0f);
 				if(fgtCurType == fgt_fire)
@@ -2187,7 +2187,7 @@ void Character::ActionEvent(const char * actionName, Animation * animation, long
 		if(recoil.name && _stricmp(priorityAction.name, recoil.name) == 0)
 		{
 			if(rand() % 10 > 7) recoilLook = true; //в стоянии проиграть дразнилку
-			priorityAction.SetName(null);
+			priorityAction.SetName(nullptr);
 		}else
 		if(deadName && _stricmp(priorityAction.name, deadName) == 0)
 		{
@@ -2197,7 +2197,7 @@ void Character::ActionEvent(const char * actionName, Animation * animation, long
 		}else
 		if( PriorityActionIsJump() )
 		{
-			priorityAction.SetName(null);
+			priorityAction.SetName(nullptr);
 			animation->Player(0).Pause();
 			animation->Player(0).SetPosition(1.0f);
 
@@ -2205,7 +2205,7 @@ void Character::ActionEvent(const char * actionName, Animation * animation, long
 			SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(&sea);
 			if(sb)
 			{
-				if( sb->WaveXZ(curPos.x, curPos.z, null) - curPos.y > CHARACTER_SEA_SWIM )
+				if( sb->WaveXZ(curPos.x, curPos.z, nullptr) - curPos.y > CHARACTER_SEA_SWIM )
 					SetPriorityAction(fall_water.name);
 				else
 					SetPriorityAction(fall_land.name);
@@ -2215,7 +2215,7 @@ void Character::ActionEvent(const char * actionName, Animation * animation, long
 		}else
 		if( _stricmp(priorityAction.name, fall_land.name)==0 || _stricmp(priorityAction.name, fall_water.name)==0 )
 		{
-			priorityAction.SetName(null);
+			priorityAction.SetName(nullptr);
 			animation->Player(0).Pause();
 			animation->Player(0).SetPosition(1.0f);
 		}
@@ -2231,7 +2231,7 @@ void Character::ActionEvent(Animation * animation, long playerIndex, const char 
 {
 	if(playerIndex) return;
 	const char * actionName = animation->Player(playerIndex).GetAction();
-	const char * alliace = 0;
+	const char * alliace = nullptr;
 	if(!actionName) return;
 	if(_stricmp(eventName, "LStep") == 0)
 	{
@@ -2245,7 +2245,7 @@ void Character::ActionEvent(Animation * animation, long playerIndex, const char 
 	{
 		PlaySound("swiming");
 	}else
-	if((alliace = GetValueByPrefix(eventName, "SndAlliace_")) != 0)
+	if((alliace = GetValueByPrefix(eventName, "SndAlliace_")) != nullptr)
 	{
 		PlaySound(alliace);
 	}else
@@ -2331,9 +2331,9 @@ void Character::ActionEvent(Animation * animation, long playerIndex, const char 
 	{
 		api->Event("Event_ChrSnd_Body", "i", GetID());
 	}else
-	if((alliace=GetValueByPrefix(eventName, "itemaction_")) != 0)
+	if((alliace=GetValueByPrefix(eventName, "itemaction_")) != nullptr)
 	{
-		char* pcActionName = 0;
+		char* pcActionName = nullptr;
 		long nIdx = -1;
 		if( strnicmp(alliace,"set",3)==0 ) {
 			pcActionName = "set";
@@ -2384,7 +2384,7 @@ void Character::ActionEvent(Animation * animation, long playerIndex, const char 
 						enemy = chr->GetID();
 						chr->Hit(fgt_hit_fire);
 					}
-					_CORE_API->Event("Location_CharacterFire", "iifl", GetID(), enemy, kDist, chr != null);
+					_CORE_API->Event("Location_CharacterFire", "iifl", GetID(), enemy, kDist, chr != nullptr);
 				}
 			}
 		}else
@@ -2434,7 +2434,7 @@ void Character::PlayStep()
 	if(sb && location->IsSwimming())
 	{
 		//Проверим высоту моря
-		seaY = sb->WaveXZ(curPos.x, curPos.z, null);
+		seaY = sb->WaveXZ(curPos.x, curPos.z, nullptr);
 		if(seaY > curPos.y)
 		{
 			PlaySound("step_water", false, true);
@@ -2645,7 +2645,7 @@ bool Character::zLoadModel(MESSAGE & message)
 	}else{
 		_CORE_API->Trace("Shadow not created!");
 	}
-	if(_CORE_API->FindClass(null, "sea", 0))
+	if(_CORE_API->FindClass(nullptr, "sea", 0))
 	{
 		_CORE_API->CreateEntity(&waterrings, "waterrings");
 	}
@@ -2723,7 +2723,7 @@ bool Character::zActionPlay(MESSAGE & message)
 		Animation * a = m->GetAnimation();
 		if(!a) return false;
 		UpdateActionCharacterData(userIdle, a);
-	}else userIdle.SetName(null);
+	}else userIdle.SetName(nullptr);
 	return true;
 }
 
@@ -2906,7 +2906,7 @@ dword Character::zExMessage(MESSAGE & message)
 	}else
 	if(_stricmp(msg, "IsDead") == 0)
 	{
-		return deadName != 0;
+		return deadName != nullptr;
 	}else
 	if(!deadName)
 	{
@@ -3228,7 +3228,7 @@ void Character::UpdateActionMoveData(ActionMove & am, Animation * a)
 	s = a->Player(1).GetData("Turn speed");
 	if(s && s[0]) am.turnspd = float(atof(s));
 	//reset player
-	a->Player(1).SetAction(null);
+	a->Player(1).SetAction(nullptr);
 }
 
 void Character::UpdateActionCharacterData(ActionCharacter & ac, Animation * a)
@@ -3243,7 +3243,7 @@ void Character::UpdateActionCharacterData(ActionCharacter & ac, Animation * a)
 	if(s && s[0]) ac.tblend = float(atof(s));
 	if(ac.tblend < 0.0f) ac.tblend = 0.0f;
 	//reset player
-	a->Player(2).SetAction(null);
+	a->Player(2).SetAction(nullptr);
 }
 
 void Character::UpdateActionIdleData(ActionIdle & ai, Animation * a)
@@ -3264,7 +3264,7 @@ void Character::UpdateActionIdleData(ActionIdle & ai, Animation * a)
 	if(ai.p > 1.0f) ai.p = 1.0f;
 	if(ai.p < 0.0f) ai.p = 0.0f;
 	//reset player
-	a->Player(2).SetAction(null);
+	a->Player(2).SetAction(nullptr);
 }
 
 void Character::UpdateActionDeadData(ActionDead & ai, Animation * a)
@@ -3292,7 +3292,7 @@ void Character::UpdateActionDeadData(ActionDead & ai, Animation * a)
 	if(ai.ang < 0.0f) ai.ang = 0.0f;
 	ai.ang *= 3.141592654f/180.0f;
 	//reset player
-	a->Player(2).SetAction(null);
+	a->Player(2).SetAction(nullptr);
 }
 
 
@@ -3316,15 +3316,15 @@ bool Character::SetAction(const char * actionName, float tblend, float movespeed
 		if(tblend <= 0.0f)
 		{
 			a->Player(0).Stop();
-			a->Player(0).SetAction(null);
+			a->Player(0).SetAction(nullptr);
 			a->Player(1).Stop();
-			a->Player(1).SetAction(null);
+			a->Player(1).SetAction(nullptr);
 			return true;
 		}
 		if(a->Player(1).IsPlaying())
 		{
 			a->Player(1).Stop();
-			a->Player(1).SetAction(null);
+			a->Player(1).SetAction(nullptr);
 		}
 		if(!a->Player(0).IsPlaying()) return true;
 		float start = 0.0f;
@@ -3341,7 +3341,7 @@ bool Character::SetAction(const char * actionName, float tblend, float movespeed
 			a->Player(0).SetAutoStop(true);
 		}else{
 			a->Player(0).Stop();
-			a->Player(0).SetAction(null);
+			a->Player(0).SetAction(nullptr);
 		}
 		return true;
 	}
@@ -3349,7 +3349,7 @@ bool Character::SetAction(const char * actionName, float tblend, float movespeed
 	api->Send_Message(blade, "l", 1003);
 	//Индекс текущего плеера
 	if(a->Player(0).IsPlaying()) a->CopyPlayerState(0, 1);
-	a->Player(0).SetAction(null);
+	a->Player(0).SetAction(nullptr);
 	bool res = a->Player(0).SetAction(actionName) && a->Player(0).Play();
 	a->Timer(0).ResetTimer();
 	a->Timer(1).ResetTimer();
@@ -3362,7 +3362,7 @@ bool Character::SetAction(const char * actionName, float tblend, float movespeed
 		a->Timer(0).SetPlayer(1, true);
 	}else{
 		a->Player(1).Stop();
-		a->Player(1).SetAction(null);
+		a->Player(1).SetAction(nullptr);
 	}
 	return res;
 }
@@ -3381,7 +3381,7 @@ void Character::UpdateAnimation()
 			{
 				api->Trace("Character animation: not set priority action: \"%s\"", priorityAction.name);
 			}
-			curMove = null;
+			curMove = nullptr;
 			fgtCurType = fgtSetType = fgt_none;
 			fgtSetIndex = -1;
 		}
@@ -3392,7 +3392,7 @@ void Character::UpdateAnimation()
 		{
 			api->Trace("Character animation: not set priority action: \"%s\"", swim.name);
 		}
-		curMove = null;
+		curMove = nullptr;
 		fgtCurType = fgtSetType = fgt_none;
 		fgtSetIndex = -1;
 	}else{
@@ -3402,7 +3402,7 @@ void Character::UpdateAnimation()
 			if(isNFHit)
 			{
 				isNFHit = false;
-				curMove = null;
+				curMove = nullptr;
 				if (userIdle.name && (_stricmp(userIdle.name, "Ground_SitDown")==0 || _stricmp(userIdle.name, "Ground_StandUp")==0))
 				{
 					api->Trace("Not int: \"%s\"", userIdle.name);
@@ -3571,7 +3571,7 @@ void Character::UpdateAnimation()
 							}
 						}else{
 							_CORE_API->Trace("Character: No set idle animation!!!");
-							if(noBlendTime <= 0.0f) SetAction(null, 0.3f, 0.0f, turnSpeed);
+							if(noBlendTime <= 0.0f) SetAction(nullptr, 0.3f, 0.0f, turnSpeed);
 						}
 					}else{
 						//Шагаем в сторну
@@ -3601,11 +3601,11 @@ void Character::UpdateAnimation()
 							if(noBlendTime <= 0.0f) api->Trace("Character animation: not set idle action: \"%s\"", an);
 						}
 					}else{
-						SetAction(null, curMove->tblend, 0.0f, turnSpeed);
+						SetAction(nullptr, curMove->tblend, 0.0f, turnSpeed);
 						curIdleIndex = -1;
 						if(noBlendTime <= 0.0f) _CORE_API->Trace("Character: No set idle animation!!!");
 					}
-					curMove = null;
+					curMove = nullptr;
 				}
 			}
 		}else{
@@ -3859,7 +3859,7 @@ void Character::UpdateAnimation()
 				}
 				fgtSetType = fgt_none;
 				fgtSetIndex = -1;
-				curMove = null;
+				curMove = nullptr;
 				curIdleIndex = -1;
 			}else{
 				_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
@@ -3931,7 +3931,7 @@ void Character::UpdateAnimation()
 							}
 						}else{
 							if(noBlendTime <= 0.0f) _CORE_API->Trace("Character: No set idle animation!!!");
-							SetAction(null, 0.3f, 0.0f, turnSpeed);
+							SetAction(nullptr, 0.3f, 0.0f, turnSpeed);
 							curIdleIndex = -1;
 						}
 					}else{
@@ -3945,11 +3945,11 @@ void Character::UpdateAnimation()
 								if(noBlendTime <= 0.0f) api->Trace("Character animation: not set fight idle \"%s\" action", an);
 							}
 						}else{
-							SetAction(null, curMove->tblend, 0.0f, turnSpeed);
+							SetAction(nullptr, curMove->tblend, 0.0f, turnSpeed);
 							if(noBlendTime <= 0.0f) _CORE_API->Trace("Character: No set idle animation!!!");
 							curIdleIndex = -1;
 						}
-						curMove = null;
+						curMove = nullptr;
 					}
 				}
 			}
@@ -3973,7 +3973,7 @@ const char * Character::FindIdleAnimation(float & tblend)
 		if(numActionIdles <= 0)
 		{
 			tblend = 0.0f;
-			return null;
+			return nullptr;
 		}
 		if(!isLockIdleForCamera)
 		{
@@ -4011,7 +4011,7 @@ const char * Character::FindIdleAnimation(float & tblend)
 			return actionTurnR.name;
 		}
 	}
-	return null;
+	return nullptr;
 }
 
 const char * Character::FindFightIdleAnimation(float & tblend)
@@ -4096,11 +4096,11 @@ float Character::GetAniPlayTime()
 
 Character * Character::FindDialogCharacter()
 {
-	if(IsFight() || liveValue < 0 || deadName) return null;
+	if(IsFight() || liveValue < 0 || deadName) return nullptr;
 	//Найдём окружающих персонажей
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
 	static long num = 0;
-	if(!location->supervisor.FindCharacters(fndCharacter, num, this, 3.0f)) return null;
+	if(!location->supervisor.FindCharacters(fndCharacter, num, this, 3.0f)) return nullptr;
 	//Выбираем лутшего
 	float minDst;
 	long j = -1;
@@ -4133,12 +4133,12 @@ Character * Character::FindDialogCharacter()
 		}
 	}
 	if(j >= 0) return fndCharacter[j].c;
-	return null;
+	return nullptr;
 }
 
 bool Character::SetPriorityAction(const char * action)
 {
-	priorityAction.SetName(null);
+	priorityAction.SetName(nullptr);
 	if(!action) return false;
 	MODEL * m = Model();
 	if(!m) return false;
@@ -4151,8 +4151,8 @@ bool Character::SetPriorityAction(const char * action)
 	priorityActionRotSpd = 0.0f;
 	if(!a->Player(1).SetAction(action))
 	{
-		a->Player(1).SetAction(null);
-		priorityAction.SetName(null);
+		a->Player(1).SetAction(nullptr);
+		priorityAction.SetName(nullptr);
 		return false;
 	}
 	UpdateActionCharacterData(priorityAction, a);
@@ -4290,7 +4290,7 @@ Character * Character::FindGunTarget(float & kDist, bool bOnlyEnemyTest)
 	//Найдём окружающих персонажей
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
 	static long num = 0;
-	if(!location->supervisor.FindCharacters(fndCharacter, num, this, CHARACTER_FIGHT_FIREDIST, CHARACTER_FIGHT_FIREANG, 0.4f, 30.0f, false)) return null;
+	if(!location->supervisor.FindCharacters(fndCharacter, num, this, CHARACTER_FIGHT_FIREDIST, CHARACTER_FIGHT_FIREANG, 0.4f, 30.0f, false)) return nullptr;
 	float minDst;
 	long j = -1;
 	for(long i = 0; i < num; i++)
@@ -4329,7 +4329,7 @@ Character * Character::FindGunTarget(float & kDist, bool bOnlyEnemyTest)
 		if(kDist > 1.0f) kDist = 1.0f;
 		return fndCharacter[j].c;
 	}
-	return null;
+	return nullptr;
 }
 
 #include <stdio.h>
@@ -4442,14 +4442,14 @@ CVECTOR Character::GetEnemyDirForImpulse()
 //Получить постфикс
 const char * Character::GetValueByPrefix(const char * str, const char * pref)
 {
-	if(!str || !str[0]) return 0;
-	if(!pref || !pref[0]) return 0;
+	if(!str || !str[0]) return nullptr;
+	if(!pref || !pref[0]) return nullptr;
 	while(true)
 	{
 		if(*pref == 0) return str;
 		if(*str++ != *pref++) break;
 	}
-	return 0;
+	return nullptr;
 
 
 
@@ -4458,7 +4458,7 @@ const char * Character::GetValueByPrefix(const char * str, const char * pref)
 CVECTOR Character::GetHandLightPos()
 {
 	MODEL * mdlChr = Model();
-	NODE * mdlNode = mdlChr ? mdlChr->GetNode(0) : 0;
+	NODE * mdlNode = mdlChr ? mdlChr->GetNode(0) : nullptr;
 	if( mdlNode )
 	{
 		long sti = -1;
@@ -4505,7 +4505,7 @@ void Character::StopFightAnimation()
 	if (m) 	a = m->GetAnimation();
 	if (a)
 	{
-		priorityAction.SetName(null);
+		priorityAction.SetName(nullptr);
 		a->Player(0).Pause();
 		a->Player(0).SetPosition(1.0f);
 		fgtSetType = fgtCurType = fgt_none;

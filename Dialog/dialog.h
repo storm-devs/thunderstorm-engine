@@ -65,7 +65,7 @@ private:
 		long nShowQuantity;
 		long nSelectLine;
 
-		TextDescribe() {rs=0; nFontID=-1;}
+		TextDescribe() {rs=nullptr; nFontID=-1;}
 		virtual ~TextDescribe() {Release();}
 		virtual void Release() {if( rs && nFontID>=0 ) rs->UnloadFont(nFontID); nFontID = -1; asText.clear();}
 	};
@@ -105,7 +105,7 @@ private:
 		float fCursorCurrentTime,fCursorVisibleTime, fCursorInvisibleTime;
 		DIALOG* pDlg;
 
-		DlgLinkDescribe() : TextDescribe() {pDlg=0;}
+		DlgLinkDescribe() : TextDescribe() {pDlg=nullptr;}
 		virtual ~DlgLinkDescribe() {Release();}
 		virtual void Release() {TextDescribe::Release();}
 		void __declspec(dllexport) __cdecl ChangeText(ATTRIBUTES* pALinks);

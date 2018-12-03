@@ -8,8 +8,8 @@
 PARTICLES::PARTICLES()
 {
 	bSystemDelete = false;
-	pService = NULL;
-	pManager = NULL;
+	pService = nullptr;
+	pManager = nullptr;
 	CreationCapture = false;
 }
 
@@ -222,7 +222,7 @@ PARTICLE_SYSTEM* PARTICLES::CreateSystem (const char* pFileName, dword LifeTime)
 	if (!pSys)
 	{
 		//api->Trace("Can't create particles system '%s'", pFileName);
-		return NULL;
+		return nullptr;
 	}
 
 	pSys->AutoDelete(false);

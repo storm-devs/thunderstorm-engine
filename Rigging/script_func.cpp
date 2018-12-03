@@ -34,7 +34,7 @@ DWORD __cdecl _GetAssembledString(VS_STACK * pS)
 	char * formatStr = pFormatStr->GetString();
 
 	char retString[1024];	retString[0] = 0;
-	if(formatStr!=null && pAttr!=null)
+	if(formatStr!= nullptr && pAttr!= nullptr)
 	{
 		bool bBuildAccessString = false;
 		char accessString[sizeof(retString)];
@@ -55,8 +55,8 @@ DWORD __cdecl _GetAssembledString(VS_STACK * pS)
 							nAttrNameStart = 3;
 						}
 						ATTRIBUTES * pA = pAttr->FindAClass(pAttr,&accessString[nAttrNameStart]);
-						char * writeStr = null;
-						if(pA!=null)	writeStr = pA->GetThisAttr();
+						char * writeStr = nullptr;
+						if(pA!= nullptr)	writeStr = pA->GetThisAttr();
 						if(writeStr) switch(accessString[0])
 						{
 						case 's':	strcat(retString,writeStr); break;
@@ -142,7 +142,7 @@ DWORD __cdecl _RandomHole2Sail(VS_STACK * pS)
 
 	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
 
-	SAILONE_BASE * pSail = null;
+	SAILONE_BASE * pSail = nullptr;
 	ENTITY_ID	ei;
 	if( api->FindClass(&ei,"sail",0) || NetFindClass(true,&ei,"NetSail") )
 	{
@@ -166,7 +166,7 @@ DWORD __cdecl _RandomHole2Sail(VS_STACK * pS)
 		holeIdx[i] = holeIdx[holeArraySize];
 	}
 
-	if(pSail!=null && holeMask!=_holeData)
+	if(pSail!= nullptr && holeMask!=_holeData)
 	{
 		pSail->SetAllHole(holeMask);
 		pSail->CalculateMirrorSailIndex();
@@ -197,7 +197,7 @@ DWORD __cdecl _DeleteOneSailHole(VS_STACK * pS)
 	int _groupNum;
 	sscanf(_groupName,"%d",&_groupNum);
 
-	SAILONE_BASE * pSail = null;
+	SAILONE_BASE * pSail = nullptr;
 	ENTITY_ID	ei;
 	if( api->FindClass(&ei,"sail",0) || NetFindClass(true,&ei,"NetSail") )
 	{
@@ -221,7 +221,7 @@ DWORD __cdecl _DeleteOneSailHole(VS_STACK * pS)
 		holeIdx[i] = holeIdx[holeArraySize];
 	}
 
-	if(pSail!=null && holeMask!=_holeData)
+	if(pSail!= nullptr && holeMask!=_holeData)
 	{
 		pSail->SetAllHole(holeMask);
 		pSail->CalculateMirrorSailIndex();

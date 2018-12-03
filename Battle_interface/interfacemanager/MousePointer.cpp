@@ -13,7 +13,7 @@ MousePointer::MousePointer(BI_ManagerBase* pManager,ATTRIBUTES* pARoot)
 	m_pManager = pManager;
 	m_pARoot = pARoot;
 
-	m_pIcon = 0;
+	m_pIcon = nullptr;
 	m_mousepos.x = 0.f; m_mousepos.y = 0.f;
 	m_mousesensivity.x = 1.f; m_mousesensivity.y = 1.f;
 
@@ -39,7 +39,7 @@ void MousePointer::Update()
 void MousePointer::InitMouseCursors()
 {
 	m_nCurrentCursor = -1;
-	ATTRIBUTES* pACursors = m_pARoot ? m_pARoot->GetAttributeClass("cursors") : 0;
+	ATTRIBUTES* pACursors = m_pARoot ? m_pARoot->GetAttributeClass("cursors") : nullptr;
 	if( !pACursors ) return;
 
 	BIUtils::ReadPosFromAttr(pACursors,"size", m_cursorsize.x,m_cursorsize.y, 32,32);

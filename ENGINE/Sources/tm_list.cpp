@@ -11,10 +11,10 @@ static char TM_LIST_Buffer[MAX_STR_SIZE];
 
 TM_LIST::TM_LIST()
 {
-	hInst = null;
-	hMain = null;
-	hOwn = null;
-	hEdit = null;
+	hInst = nullptr;
+	hMain = nullptr;
+	hOwn = nullptr;
+	hEdit = nullptr;
 	ZeroMemory(&Pos,sizeof(Pos));
 	Columns_Num = 0;
 	Items_Num = 0;
@@ -23,13 +23,13 @@ TM_LIST::TM_LIST()
 	edit_subitem = -1;
 	ZeroMemory(CharID,sizeof(CharID));
 	EditMask = 0;
-	hFont = 0;
+	hFont = nullptr;
 }
 
 TM_LIST::~TM_LIST()
 {
 	if(hOwn) DestroyWindow(hOwn);
-	if(hEdit) DestroyWindow(hEdit); hEdit = 0;
+	if(hEdit) DestroyWindow(hEdit); hEdit = nullptr;
 }
 
 void TM_LIST::Initialize(HWND hwnd, HINSTANCE hinst, dword style, dword style_ex)
@@ -44,8 +44,8 @@ void TM_LIST::Initialize(HWND hwnd, HINSTANCE hinst, dword style, dword style_ex
 	InitCommonControlsEx(&icc);
 
 	hOwn = CreateWindowEx(WS_EX_CLIENTEDGE, WC_LISTVIEW,"", WS_CHILD | LVS_REPORT | LVS_SHOWSELALWAYS,
-		0, 0, CW_USEDEFAULT, CW_USEDEFAULT, hMain, NULL, hInst, NULL); 
-    if(hOwn == NULL) throw "cant create list view"; 
+		0, 0, CW_USEDEFAULT, CW_USEDEFAULT, hMain, nullptr, hInst, nullptr); 
+    if(hOwn == nullptr) throw "cant create list view"; 
 	//ListView_SetExtendedListViewStyle(hOwn,LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES|LVS_EX_SUBITEMIMAGES);
 	ListView_SetExtendedListViewStyle(hOwn,LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES);
 	ShowWindow(hOwn,SW_SHOWNORMAL);
@@ -182,7 +182,7 @@ char * TM_LIST::GetSelectedName()
 {
 	long index;
 	index  = ListView_GetSelectionMark(hOwn);
-	if(index < 0) return 0;
+	if(index < 0) return nullptr;
 	ListView_GetItemText(hOwn,index,0,TM_LIST_Buffer,sizeof(TM_LIST_Buffer));
 	return TM_LIST_Buffer;
 }
@@ -255,7 +255,7 @@ void TM_LIST::ProcessMessageBase(DWORD iMsg, DWORD wParam, DWORD lParam)
 				case EN_KILLFOCUS:
 					if(hEdit == (HWND)lParam)
 					{
-						if(hEdit) DestroyWindow(hEdit); hEdit = 0;
+						if(hEdit) DestroyWindow(hEdit); hEdit = nullptr;
 					}
 				break;
 				case EN_UPDATE:
@@ -283,7 +283,7 @@ void TM_LIST::ProcessMessageBase(DWORD iMsg, DWORD wParam, DWORD lParam)
 								edit_item = -1;
 								edit_subitem = -1;
 							}
-							if(hEdit) DestroyWindow(hEdit); hEdit = 0;
+							if(hEdit) DestroyWindow(hEdit); hEdit = nullptr;
 						}
 					}
 				break;
@@ -342,7 +342,7 @@ void TM_LIST::ProcessMessageBase(DWORD iMsg, DWORD wParam, DWORD lParam)
 							OffsetRect(&EditPos,list_rect.left + 2,list_rect.top + 2);
 							if(EditPos.right + 2 > list_rect.right) EditPos.right = list_rect.right - 2;
 							GetItemText(lpnmlv->iItem,lpnmlv->iSubItem,TextEditBuffer,sizeof(TextEditBuffer));
-							if(hEdit) DestroyWindow(hEdit); hEdit = 0;
+							if(hEdit) DestroyWindow(hEdit); hEdit = nullptr;
 							 
 								hEdit = CreateWindowEx(WS_EX_TOPMOST,"EDIT","",WS_CHILD | WS_VISIBLE | ES_AUTOHSCROLL | ES_MULTILINE | ES_WANTRETURN | ES_AUTOVSCROLL ,
 								//hEdit = CreateWindowEx(WS_EX_TOPMOST,"STATIC","",WS_CHILD | WS_VISIBLE | ES_AUTOHSCROLL | ES_MULTILINE | ES_WANTRETURN | ES_AUTOVSCROLL ,
@@ -351,7 +351,7 @@ void TM_LIST::ProcessMessageBase(DWORD iMsg, DWORD wParam, DWORD lParam)
 								EditPos.right-EditPos.left,
 								EditPos.bottom-EditPos.top,
 								GetMainWindowHandle(),
-								NULL,GetInstance(),NULL);
+								nullptr,GetInstance(), nullptr);
 							if(hFont)
 							{
 								SendMessage(hEdit,WM_SETFONT,(WPARAM)hFont,0);

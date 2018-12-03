@@ -14,7 +14,7 @@
 
 //============================================================================================
 
-WdmObjects * wdmObjects = null;
+WdmObjects * wdmObjects = nullptr;
 
 //============================================================================================
 //Конструирование, деструктурирование
@@ -25,21 +25,21 @@ WdmObjects::WdmObjects()
 	Assert(!wdmObjects);
 	srand(GetTickCount());
 	wdmObjects = this;
-	wm = null;
-	rs = null;
-	gs = null;
-	camera = null;
-	islands = null;
-	playerShip = null;
-	ships = null;
+	wm = nullptr;
+	rs = nullptr;
+	gs = nullptr;
+	camera = nullptr;
+	islands = nullptr;
+	playerShip = nullptr;
+	ships = nullptr;
 	numShips = 0;
 	maxShips = 0;
-	storms = null;
+	storms = nullptr;
 	numStorms = 0;
 	maxStorms = 0;
 	isDebug = false;
 	Clear();
-	enemyShip = null;
+	enemyShip = nullptr;
 	enableSkipEnemy = false;
 	playarInStorm = false;
 	worldSizeX = 2000.0f;
@@ -54,7 +54,7 @@ WdmObjects::~WdmObjects()
 {
 	if(ships) delete ships;
 	if(storms) delete storms;
-	wdmObjects = null;
+	wdmObjects = nullptr;
 	for(long i = 0; i < models.size(); i++)
 	{
 		delete models[i].geo;
@@ -74,14 +74,14 @@ void WdmObjects::Clear()
 {
 	if(ships) delete ships;
 	if(storms) delete storms;
-	wm = null;
-	rs = null;
-	gs = null;
-	islands = null;
-	ships = null;
+	wm = nullptr;
+	rs = nullptr;
+	gs = nullptr;
+	islands = nullptr;
+	ships = nullptr;
 	numShips = 0;
 	maxShips = 0;
-	storms = null;
+	storms = nullptr;
 	numStorms = 0;
 	maxStorms = 0;
 	isDebug = false;
@@ -154,7 +154,7 @@ void WdmObjects::DelStorm(WdmStorm * storm)
 //Создать геометрию
 GEOS * WdmObjects::CreateGeometry(const char * path)
 {
-	if(!path || !path[0] || !gs) return null;
+	if(!path || !path[0] || !gs) return nullptr;
 	//Ищим среди добавленных
 	dword hash = CalcHash(path);
 	long i = hash & (sizeof(entryModels)/sizeof(entryModels[0]) - 1);

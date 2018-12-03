@@ -6,8 +6,8 @@
 
 BATTLE_LAND_INTERFACE::BATTLE_LAND_INTERFACE() : m_bShowCommandos(false)
 {
-	m_pRS = null;
-	m_pManSign = null;
+	m_pRS = nullptr;
+	m_pManSign = nullptr;
 }
 
 BATTLE_LAND_INTERFACE::~BATTLE_LAND_INTERFACE()
@@ -124,7 +124,7 @@ void BATTLE_LAND_INTERFACE::SetParameters()
 
 void BATTLE_LAND_INTERFACE::Release()
 {
-	m_pRS = NULL;
+	m_pRS = nullptr;
 	STORM_DELETE( m_pManSign );
 
 	m_TextInfo.clear();
@@ -136,21 +136,21 @@ void BATTLE_LAND_INTERFACE::EndShow()
 
 void BATTLE_LAND_INTERFACE::SetShowParameters()
 {
-	ATTRIBUTES * pA = AttributesPointer ? AttributesPointer->GetAttributeClass("Parameters") : null;
+	ATTRIBUTES * pA = AttributesPointer ? AttributesPointer->GetAttributeClass("Parameters") : nullptr;
 	m_bShowCommandos = 0!=BIUtils::GetLongFromAttr(pA, "DoShowCommandos", true);
 
 	m_pManSign = NEW BIManSign( GetID(), m_pRS );
 	Assert(m_pManSign);
-	m_pManSign->Init( AttributesPointer, (AttributesPointer?AttributesPointer->GetAttributeClass("ManSign"):0) );
+	m_pManSign->Init( AttributesPointer, (AttributesPointer?AttributesPointer->GetAttributeClass("ManSign"):nullptr) );
 
-	BIUtils::FillTextInfoArray( m_pRS, AttributesPointer?AttributesPointer->GetAttributeClass("textinfo"):0, m_TextInfo );
+	BIUtils::FillTextInfoArray( m_pRS, AttributesPointer?AttributesPointer->GetAttributeClass("textinfo"):nullptr, m_TextInfo );
 
-	m_Images.Init( m_pRS, AttributesPointer?AttributesPointer->GetAttributeClass("imageslist"):0 );
+	m_Images.Init( m_pRS, AttributesPointer?AttributesPointer->GetAttributeClass("imageslist"):nullptr );
 }
 
 void BATTLE_LAND_INTERFACE::UpdateCommandos()
 {
-	ATTRIBUTES * pA = AttributesPointer ? AttributesPointer->GetAttributeClass("data") : null;
+	ATTRIBUTES * pA = AttributesPointer ? AttributesPointer->GetAttributeClass("data") : nullptr;
 	if( pA ) pA = pA->GetAttributeClass("icons");
 	if( !pA ) return;
 }

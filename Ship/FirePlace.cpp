@@ -5,10 +5,10 @@ ENTITY_ID	FirePlace::eidSound;
 
 FirePlace::FirePlace()
 {
-	SetShip(null);
+	SetShip(nullptr);
 	SetActive(false);
-	pParticleSmoke = null;
-	pParticleFire = null;
+	pParticleSmoke = nullptr;
+	pParticleFire = nullptr;
 	iBallCharacterIndex = -1;
 	iSoundID = 0;
 }
@@ -56,8 +56,8 @@ void FirePlace::DeleteParticle()
 
 	//STORM_DELETE(pParticleSmoke);
 	//STORM_DELETE(pParticleFire);
-	pParticleSmoke = 0;
-	pParticleFire = 0;
+	pParticleSmoke = nullptr;
+	pParticleFire = nullptr;
 }
 
 void FirePlace::Run(const char * pParticleSmokeName, const char * pParticleFireName, long _iBallCharacterIndex, const char * pSoundName, float _fRunTime)

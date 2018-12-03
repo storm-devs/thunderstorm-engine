@@ -29,8 +29,8 @@ public:
 	void SetHash(long _hash) {nHash = _hash;}
 	long GetHash() {return nHash;}
 	virtual bool Service() {return false;}
-	virtual char * GetName() {return null;}
-	virtual void * CreateClass() {return null;}
+	virtual char * GetName() {return nullptr;}
+	virtual void * CreateClass() {return nullptr;}
 };
 
 #define MAKE_CLASS(a)	class a##vmacd : public VMA { public: char * GetName() {return TEXT(#a);} void * CreateClass() {return new a;}} a##vmacd a##vmaci;

@@ -2,8 +2,8 @@
 
 InfoHandler::InfoHandler()
 {
-	m_pSurface = null;
-	m_pRenderTarget = null;
+	m_pSurface = nullptr;
+	m_pRenderTarget = nullptr;
 }
 
 InfoHandler::~InfoHandler()
@@ -51,11 +51,11 @@ bool InfoHandler::Init()
 		api->Trace("Screen shot for info shower not created!");
 		if(m_pSurface)
 		{
-			m_rs->Release(m_pSurface); m_pSurface=0;
+			m_rs->Release(m_pSurface); m_pSurface=nullptr;
 		}
 		if(m_pRenderTarget)
 		{
-			m_rs->Release(m_pRenderTarget); m_pRenderTarget=0;
+			m_rs->Release(m_pRenderTarget); m_pRenderTarget=nullptr;
 		}
 		return false;
 	}
@@ -69,10 +69,10 @@ void InfoHandler::Execute(dword delta_time)
 
 void InfoHandler::Realize(dword delta_time)
 {
-	if(m_pSurface==null || m_pRenderTarget==null) return;
+	if(m_pSurface== nullptr || m_pRenderTarget== nullptr) return;
 	m_rs->MakePostProcess();
 	// Поддерживаем постоянный экран
-	if(m_rs->UpdateSurface(m_pSurface, null, 0, m_pRenderTarget, null) != D3D_OK)
+	if(m_rs->UpdateSurface(m_pSurface, nullptr, 0, m_pRenderTarget, nullptr) != D3D_OK)
 	{
 		api->Trace("Can't copy fader screen shot to render target!");
 	}
@@ -90,7 +90,7 @@ dword _cdecl InfoHandler::ProcessMessage(MESSAGE & message)
 
 bool InfoHandler::DoPreOut()
 {
-	if( AttributesPointer == null ) return false;
+	if( AttributesPointer == nullptr ) return false;
 
 	bool isOK = false;
 	DWORD dwBCol, dwFCol;
@@ -102,7 +102,7 @@ bool InfoHandler::DoPreOut()
 	int nRowQ;
 
 	inStrStart = AttributesPointer->GetAttribute("infoStr");
-	if(inStrStart!=null)
+	if(inStrStart!= nullptr)
 	{
 		dwBCol = AttributesPointer->GetAttributeAsDword("backColor",0);
 		dwFCol = AttributesPointer->GetAttributeAsDword("foreColor",0);
@@ -129,7 +129,7 @@ bool InfoHandler::DoPreOut()
 	if( m_pRenderTarget->GetDesc(&desc) != D3D_OK ) return false;
 
 	int ntmp = 0;
-	char * ps = null;
+	char * ps = nullptr;
 	if(inStrStart)
 	{
 		ntmp = m_rs->StringWidth(inStrStart,0,fScale);
@@ -139,7 +139,7 @@ bool InfoHandler::DoPreOut()
 		if(nInsideRectWidth>(int)desc.Width) nInsideRectWidth = desc.Width;
 
 		nRowQ = 0;
-		for(ps=inStrStart; ps!=null && *ps;)
+		for(ps=inStrStart; ps!= nullptr && *ps;)
 		{
 			ps = GetCutString(ps,nOutWidth,fScale);
 			nRowQ++;
@@ -159,7 +159,7 @@ bool InfoHandler::DoPreOut()
 	if( isOK )
 	{
 		// show picture
-		if(picTexureFile!=null)
+		if(picTexureFile!= nullptr)
 		{
 			int picID = m_rs->TextureCreate(picTexureFile);
 			if(picID>=0)
@@ -202,7 +202,7 @@ bool InfoHandler::DoPreOut()
 			// show strings
 			ntmp = 0;
 			int topY = (desc.Height - nRowQ*nOutOffset)/2;
-			for(ps=inStrStart; ps!=null && *ps;)
+			for(ps=inStrStart; ps!= nullptr && *ps;)
 			{
 				char * oldps = ps;
 				ps = GetCutString(ps,nOutWidth,fScale);
@@ -229,7 +229,7 @@ char * InfoHandler::GetCutString( char * pstr, int nOutWidth, float fScale )
 	// удаляем первые переходы на новую строку
 	while(pstr && (*pstr==0x0A || *pstr==0x0D || *pstr==32) )	pstr++;
 
-	char * oldps = null;
+	char * oldps = nullptr;
 	char *ps;
 	for(ps=pstr; ps && *ps; ps++)
 	{
@@ -260,7 +260,7 @@ char * InfoHandler::GetCutString( char * pstr, int nOutWidth, float fScale )
 	}
 
 	int nt = ps-pstr;
-	if(nt<=0) return null;
+	if(nt<=0) return nullptr;
 	if(nt>=1023)
 	{
 		nt = 1023;
@@ -281,9 +281,9 @@ char * InfoHandler::GetCutString( char * pstr, int nOutWidth, float fScale )
 
 void InfoHandler::StringToBufer(char * outStr, int sizeBuf, char * inStr, int copySize)
 {
-	if(outStr==null || sizeBuf<=0) return;
+	if(outStr== nullptr || sizeBuf<=0) return;
 	outStr[0] = 0;
-	if(inStr==null) return;
+	if(inStr== nullptr) return;
 	while(*inStr && (*inStr==0x0A || *inStr==0x0D || *inStr==32)) inStr++;
 
 	int n = strlen(inStr);

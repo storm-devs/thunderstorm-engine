@@ -13,9 +13,9 @@ SHIP_CAMERA::SHIP_CAMERA()
 	SetActive(false);
 
 	ZERO(vAng);
-	pRS = null;
-	pSea = null;
-	pIsland = null;
+	pRS = nullptr;
+	pSea = nullptr;
+	pIsland = nullptr;
 	lIlsInitCnt = 0;
 
 	fDistanceDlt = 0.0f;
@@ -201,7 +201,7 @@ dword SHIP_CAMERA::AttributeChanged(ATTRIBUTES * pAttr)
 void SHIP_CAMERA::ShipsCollision(CVECTOR & pos)
 {
 	ENTITY_ID id;
-	bool res = _CORE_API->FindClass(&id, null, shipcode);
+	bool res = _CORE_API->FindClass(&id, nullptr, shipcode);
 	if(!res) return;
 	CVECTOR p;
 	for(; res; res = _CORE_API->FindClassNext(&id))
@@ -240,19 +240,19 @@ bool SHIP_CAMERA::IslandCollision(CVECTOR & pos)
 {
 	const float camRadius = 0.4f;
 	//Island
-	if(pIsland == null)
+	if(pIsland == nullptr)
 	{
 		if(lIlsInitCnt < 10)
 		{
 			ENTITY_ID island_id;
 			if (api->FindClass(&island_id,"island",0)) pIsland = (ISLAND_BASE*)api->GetEntityPointer(&island_id);
 			lIlsInitCnt++;
-			if(pIsland == null) return false;
+			if(pIsland == nullptr) return false;
 		}else return false;
 	}
 	//Model
 	MODEL * mdl = (MODEL*)api->GetEntityPointer(&pIsland->GetModelEID());
-	if(mdl == null) return false;
+	if(mdl == nullptr) return false;
 	//Find direction, distance
 	CVECTOR dir = pos - vCenter;
 	float dist = ~dir;

@@ -2,8 +2,8 @@
 
 AISeaGoods::AISeaGoods()
 {
-	pSea = null;
-	pGeoService = null;
+	pSea = nullptr;
+	pGeoService = nullptr;
 
 	bDeleteGoodAnyway = false;
 
@@ -114,7 +114,7 @@ void AISeaGoods::Realize(dword dwDeltaTime)
 			CMatrix m; m.BuildPosition(pI->vPos.x, pI->vPos.y, pI->vPos.z);
 			
 			AIHelper::pRS->SetTransform(D3DTS_WORLD, m);
-			aGoods[i]->pGeo->Draw((GEOS::PLANE*)AIHelper::pRS->GetPlanes(), 0, null);
+			aGoods[i]->pGeo->Draw((GEOS::PLANE*)AIHelper::pRS->GetPlanes(), 0, nullptr);
 		}
 
 	AIHelper::pRS->SetRenderState(D3DRS_LIGHTING, false);
@@ -135,7 +135,7 @@ dword AISeaGoods::AttributeChanged(ATTRIBUTES * pAttribute)
 		aGoods.push_back(pG);
 		pG->sModel = sTmpModel;
 		pG->aItems.push_back(TmpItem);
-		pG->pGeo = pGeoService->CreateGeometry((sModelPath + "\\" + sTmpModel).c_str(), 0, 0);
+		pG->pGeo = pGeoService->CreateGeometry((sModelPath + "\\" + sTmpModel).c_str(), nullptr, 0);
 		return 0;
 	}
 

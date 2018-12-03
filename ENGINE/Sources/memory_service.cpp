@@ -24,8 +24,8 @@ MEMORY_SERVICE::MEMORY_SERVICE()
 	Allocated_memory_user	= 0;
 	Allocated_memory_system	= 0;
 	Blocks = 0;
-	Mem_link = null;
-	Search_Pointer = null;
+	Mem_link = nullptr;
+	Search_Pointer = nullptr;
 	Minimal_Pointer = null;
 	Maximal_Pointer = null;
 	dwTotalMemory = 0;
@@ -36,7 +36,7 @@ MEMORY_SERVICE::MEMORY_SERVICE()
 						 // But.. here must be TRUE for proper work
 
 	nMPoolClassesNum = 0;
-	pMPool = 0;
+	pMPool = nullptr;
 	bPoolOn = false;
 }
 
@@ -72,7 +72,7 @@ void * MEMORY_SERVICE::PoolAllocate(long size)
 			}
 		}
 	}
-	return 0;//Allocate(size);
+	return nullptr;//Allocate(size);
 }
 
 void * MEMORY_SERVICE::Allocate(long size)
@@ -94,7 +94,7 @@ void * MEMORY_SERVICE::Allocate(long size)
 #endif
 	MEM_BLOCK * mb_PTR;
 
-	if(size == 0) return null;
+	if(size == 0) return nullptr;
 	data_PTR = (char *)malloc(sizeof(MEM_BLOCK) + size);
 
 /*	if((DWORD)data_PTR == 0x01927648)
@@ -102,10 +102,10 @@ void * MEMORY_SERVICE::Allocate(long size)
 		data_PTR = data_PTR;
 	}
 */
-	if(data_PTR == null)
+	if(data_PTR == nullptr)
 	{
 		if(Exceptions_Mask & _X_NO_MEM) STORM_THROW(_X_NO_MEM);
-		return null;
+		return nullptr;
 	}
 
 	if(size < SBCNUM) SBCounter[size]++;
@@ -125,7 +125,7 @@ void * MEMORY_SERVICE::Allocate(long size)
 	mb_PTR->address = cMemAddress.GetAddress(CodeSource.pFileName,CodeSource.line);
 //#endif
 	mb_PTR->link_L = (char *)Mem_link;
-	mb_PTR->link_R = null;
+	mb_PTR->link_R = nullptr;
 
 //	mb_PTR->check_sum = CONST_CHECKSUM;
 
@@ -159,7 +159,7 @@ DWORD MEMORY_SERVICE::PoolFind(void * block_PTR)
 	DWORD n;
 	for(n=0;n<nMPoolClassesNum;n++)
 	{
-		if(pMPool[n] == 0) continue;
+		if(pMPool[n] == nullptr) continue;
 		if(pMPool[n]->IsInPool(block_PTR)) return pMPool[n]->GetBlocksize();
 
 	}
@@ -172,7 +172,7 @@ bool MEMORY_SERVICE::PoolFree(void * block_PTR, DWORD nBlockSize)
 	if(nBlockSize != 0xffffffff)
 	{
 		if(nBlockSize >= nMPoolClassesNum) return false;
-		if(pMPool[nBlockSize] == 0) return false;
+		if(pMPool[nBlockSize] == nullptr) return false;
 		if(pMPool[nBlockSize]->FreeMemory((void *)block_PTR))
 		{
 			if(nBlockSize < SBCNUM)
@@ -186,7 +186,7 @@ bool MEMORY_SERVICE::PoolFree(void * block_PTR, DWORD nBlockSize)
 	}
 	for(n=0;n<nMPoolClassesNum;n++)
 	{
-		if(pMPool[n] == 0) continue;
+		if(pMPool[n] == nullptr) continue;
 		if(pMPool[n]->IsInPool(block_PTR))
 		{
 			pMPool[n]->FreeMemory(block_PTR);
@@ -231,7 +231,7 @@ void MEMORY_SERVICE::Free(void * block_PTR)
 
 	// decrement reference to memory block
 
-	if(block_PTR == 0)
+	if(block_PTR == nullptr)
 	{
 		//trace("Attempt to Free() null pointer");
 		return;
@@ -294,13 +294,13 @@ void * MEMORY_SERVICE::Reallocate(void * block_PTR,long size)
 	char * data_PTR;
 	char * old_data_PTR;
 
-	if(block_PTR == null) return Allocate(size);
+	if(block_PTR == nullptr) return Allocate(size);
 
 	// return null if arguments are invalid
 	if(size <= 0)
 	{
 		if(block_PTR) Free(block_PTR);
-		return null;
+		return nullptr;
 	}
 
 #ifdef SBPOOL
@@ -315,8 +315,8 @@ void * MEMORY_SERVICE::Reallocate(void * block_PTR,long size)
 			if(nBlockSize == (DWORD)size) return block_PTR;
 			void * pTemp;
 			pTemp = PoolAllocate(size);
-			if(pTemp == 0) pTemp = Allocate(size);
-			if(pTemp == 0) THROW("no mem");
+			if(pTemp == nullptr) pTemp = Allocate(size);
+			if(pTemp == nullptr) THROW("no mem");
 			if((DWORD)size > nBlockSize) memcpy(pTemp,block_PTR,nBlockSize);
 			else memcpy(pTemp,block_PTR,size);
 			PoolFree(block_PTR,nBlockSize);
@@ -374,7 +374,7 @@ void * MEMORY_SERVICE::Reallocate(void * block_PTR,long size)
 	// pointer to reallocated block
 	mb_PTR = (MEM_BLOCK *)data_PTR;
 
-	if(data_PTR == null)
+	if(data_PTR == nullptr)
 	{
 		// if failed
 		// remove references from pointers list and update system info
@@ -392,7 +392,7 @@ void * MEMORY_SERVICE::Reallocate(void * block_PTR,long size)
 		trace("cant resize  old : %d    new : %d   header : %d",data_size,size,sizeof(MEM_BLOCK));
 		if(Exceptions_Mask & _X_NO_MEM) STORM_THROW(_X_NO_MEM);
 
-		return null;
+		return nullptr;
 	}
 
 	if(old_data_PTR != data_PTR)
@@ -428,7 +428,7 @@ void * MEMORY_SERVICE::Reallocate(void * block_PTR,long size)
 
 	return (void *)((char *)data_PTR + sizeof(MEM_BLOCK));
 	//UNGUARD
-	return null;
+	return nullptr;
 }
 
 
@@ -468,7 +468,7 @@ void MEMORY_SERVICE::GlobalFree()
 		{
 			if(pMPool[n]) delete pMPool[n];
 		}
-		delete pMPool; pMPool = 0;
+		delete pMPool; pMPool = nullptr;
 		nMPoolClassesNum = 0;
 	}
 #endif
@@ -529,7 +529,7 @@ void MEMORY_SERVICE::GlobalFree()
 
 		}
 		Free((char *)Mem_link + sizeof(MEM_BLOCK));
-		if(Blocks <= 0 && Mem_link != null) throw "MBLFREE_ERROR";	// ... ; fatal, close programm
+		if(Blocks <= 0 && Mem_link != nullptr) throw "MBLFREE_ERROR";	// ... ; fatal, close programm
 	}
 	Minimal_Pointer = null;
 	Maximal_Pointer = null;
@@ -570,9 +570,9 @@ void * MEMORY_SERVICE::GetNextPointer()
 #endif
 
 	MEM_BLOCK * mb_PTR;
-	if(!ValidateBlock(Search_Pointer/*,0*/)) return null;
+	if(!ValidateBlock(Search_Pointer/*,0*/)) return nullptr;
 	mb_PTR = (MEM_BLOCK *)((char *)Search_Pointer - sizeof(MEM_BLOCK));
-	if(mb_PTR->link_L == null) Search_Pointer = null;
+	if(mb_PTR->link_L == nullptr) Search_Pointer = nullptr;
 	else Search_Pointer = (void *)((char *)mb_PTR->link_L +  sizeof(MEM_BLOCK));
 	return Search_Pointer;
 
@@ -594,7 +594,7 @@ void MEMORY_SERVICE::ProcessMemProfile(char * pFileName)
 	MEMPOOL * * pTempMPool;
 
 	nMPoolClassesNum = 0;
-	pMPool = 0;
+	pMPool = nullptr;
 	bPoolOn = false;
 
 	if(!pFileName) return;
@@ -629,12 +629,12 @@ void MEMORY_SERVICE::ProcessMemProfile(char * pFileName)
 		//trace("B: %d",nProfileValue);
 		if(n == 0)
 		{
-			pTempMPool[n] = 0;
+			pTempMPool[n] = nullptr;
 			continue;
 		}
 		if(nProfileValue == 0)
 		{
-			pTempMPool[n] = 0;
+			pTempMPool[n] = nullptr;
 			continue;
 		}
 		pTempMPool[n] = new MEMPOOL(n,nProfileValue);
@@ -662,7 +662,7 @@ char * MEMORY_SERVICE::GetFileName(void * pMemory)
 	mb_PTR = (MEM_BLOCK *)((char *)pMemory - sizeof(MEM_BLOCK));
 
 	//#ifdef DEBUGCLASSES
-		return cMemAddress.GetSource(mb_PTR->address,0);
+		return cMemAddress.GetSource(mb_PTR->address,nullptr);
 	//#endif
 
 	return "unknown";

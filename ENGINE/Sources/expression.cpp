@@ -40,7 +40,7 @@ bool COMPILER::BC_ProcessExpression(DATA * value)
 			if(pRun_fi)
 			{
 				pV = SStack.Read(pRun_fi->stack_offset,var_code);
-				if(pV == 0) { SetError("Local variable not found"); return false; }
+				if(pV == nullptr) { SetError("Local variable not found"); return false; }
 			} else return false;
 		}
 		
@@ -324,7 +324,7 @@ void COMPILER::BC_ProcessExpression_L5(DATA * value, bool bSkip)
 				break;
 				case VAR_STRING:
 					value->Get(sVal);
-					if(sVal == 0) iVal = 1;
+					if(sVal == nullptr) iVal = 1;
 					else 
 					if(sVal[0] == 0) iVal = 1;
 					else iVal = 0;
@@ -428,7 +428,7 @@ void COMPILER::BC_ProcessExpression_L7(DATA * value, bool bSkip)
 			else
 			{
 				pVV = SStack.Read(pRun_fi->stack_offset,var_code);
-				if(pVV == 0) { SetError("Local variable not found"); return; }
+				if(pVV == nullptr) { SetError("Local variable not found"); return; }
 			}
 			pVV = pVV->GetVarPointer();
 			if(pVV->GetType() != VAR_STRING) { SetError("string call argument isnt string var"); return; }
@@ -436,7 +436,7 @@ void COMPILER::BC_ProcessExpression_L7(DATA * value, bool bSkip)
 			func_code = FuncTab.FindFunc(pString);
 			if(func_code == INVALID_FUNC_CODE) { SetError("function '%s' not found",pString); return; }
 
-			pFuncResult = 0;
+			pFuncResult = nullptr;
 			if(!BC_CallFunction(func_code,ip,pFuncResult)) return;
 			if(pFuncResult) 
 			{
@@ -466,7 +466,7 @@ void COMPILER::BC_ProcessExpression_L7(DATA * value, bool bSkip)
 				}
 				//DWORD func_code,ip;
 				memcpy(&func_code,&pRunCodeBase[TLR_DataOffset],sizeof(dword));
-				pFuncResult = 0;
+				pFuncResult = nullptr;
 				if(!BC_CallFunction(func_code,ip,pFuncResult)) return;
 				if(pFuncResult) 
 				{
@@ -489,7 +489,7 @@ void COMPILER::BC_ProcessExpression_L7(DATA * value, bool bSkip)
 				if(pRun_fi)
 				{
 					pV = SStack.Read(pRun_fi->stack_offset,var_code);
-					if(pV == 0) { SetError("Local variable not found"); break; }
+					if(pV == nullptr) { SetError("Local variable not found"); break; }
 				} else return;
 			}
 
@@ -502,7 +502,7 @@ void COMPILER::BC_ProcessExpression_L7(DATA * value, bool bSkip)
 			if(pV->IsReference())
 			{
 				pVV = pV->GetVarPointer();
-				if(pVV == 0) { SetError("Bad Reference"); break; }
+				if(pVV == nullptr) { SetError("Bad Reference"); break; }
 				if(pVV->IsArray()) bref2a = true;
 			}
 
@@ -519,7 +519,7 @@ void COMPILER::BC_ProcessExpression_L7(DATA * value, bool bSkip)
 				{
 					if(bref2a) pV = pVV->GetArrayElement(index);
 					else pV = pV->GetArrayElement(index);
-					if(pV == 0) 
+					if(pV == nullptr) 
 					{
 						SetError("invalid array index"); 
 						while(BC_TokenGet() == DEBUG_LINE_CODE){};
@@ -580,7 +580,7 @@ void COMPILER::BC_ProcessExpression_L7(DATA * value, bool bSkip)
 			}
 			// accessing to atribute (string) value
 			pRoot = pV->GetAClass();	// root attribute class
-			if(pRoot == 0)
+			if(pRoot == nullptr)
 			{
 				SetError("zero AClass root");
 				value->Set("ERROR: zero AClass root"); 
@@ -595,7 +595,7 @@ void COMPILER::BC_ProcessExpression_L7(DATA * value, bool bSkip)
 			{
 				if(TokenType() == ACCESS_WORD_CODE)
 				{
-					if(pRoot == 0) 
+					if(pRoot == nullptr) 
 					{
 						value->Set(""); 
 						SetError("missed attribute: %s",SCodec.Convert(*((long *)&pRunCodeBase[TLR_DataOffset])));
@@ -606,7 +606,7 @@ void COMPILER::BC_ProcessExpression_L7(DATA * value, bool bSkip)
 						return;
 					}
 					pRoot = pRoot->GetAttributeClassByCode(*((long *)&pRunCodeBase[TLR_DataOffset]));
-					if(pRoot == 0) 
+					if(pRoot == nullptr) 
 					{
 						value->Set(""); 
 						SetError("missed attribute: %s",SCodec.Convert(*((long *)&pRunCodeBase[TLR_DataOffset]))); 
@@ -619,7 +619,7 @@ void COMPILER::BC_ProcessExpression_L7(DATA * value, bool bSkip)
 				} else
 				if(TokenType() == ACCESS_WORD)
 				{
-					if(pRoot == 0) 
+					if(pRoot == nullptr) 
 					{
 						value->Set(""); 
 						SetError("missed attribute: %s",(char *)&pRunCodeBase[TLR_DataOffset]); 
@@ -630,7 +630,7 @@ void COMPILER::BC_ProcessExpression_L7(DATA * value, bool bSkip)
 						return;
 					}
 					pRoot = pRoot->GetAttributeClass((char *)&pRunCodeBase[TLR_DataOffset]);
-					if(pRoot == 0) 
+					if(pRoot == nullptr) 
 					{
 						value->Set(""); 
 						SetError("missed attribute: %s",(char *)&pRunCodeBase[TLR_DataOffset]); 
@@ -657,7 +657,7 @@ void COMPILER::BC_ProcessExpression_L7(DATA * value, bool bSkip)
 						if(pRun_fi)
 						{
 							pV = SStack.Read(pRun_fi->stack_offset,var_code);
-							if(pV == 0) { SetError("Local variable not found"); break; }
+							if(pV == nullptr) { SetError("Local variable not found"); break; }
 						} else return;
 					}
 
@@ -667,7 +667,7 @@ void COMPILER::BC_ProcessExpression_L7(DATA * value, bool bSkip)
 					TempData.Get(pString);
 
 					pRoot = pRoot->FindAClass(pRoot,pString);
-					if(pRoot == 0) 
+					if(pRoot == nullptr) 
 					{
 						value->Set(""); 
 						SetError("missed attribute %s",pString); 
@@ -1317,7 +1317,7 @@ bool COMPILER::CompileExpression_L7(SEGMENT_DESC& Segment)
 						else
 						{
 							// access word
-							if(Token.GetData() == 0) { SetError("Invalid access string"); return false;	}
+							if(Token.GetData() == nullptr) { SetError("Invalid access string"); return false;	}
 							Token.LowCase();
 							dwAWCode = SCodec.Convert(Token.GetData());
 							CompileToken(Segment,ADVANCE_AP);

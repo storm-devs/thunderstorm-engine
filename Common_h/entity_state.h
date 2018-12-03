@@ -27,7 +27,7 @@ public:
 	virtual dword	Dword()		{return 0;};
 	virtual float	Float()		{return 0;};
 	virtual double	Double()	{return 0;};
-	virtual char *	Pointer()	{return null;}; 
+	virtual char *	Pointer()	{return nullptr;}; 
 	virtual void	String(dword buffer_size, char * buffer){};
 	virtual void	MemoryBlock(dword memsize, char * buffer){};
 	virtual void	Struct(dword sizeofstruct, char * s){}; 

@@ -2,19 +2,19 @@
 #include "AIShip.h"
 #include "../Common_h/filesystem.h"
 
-AIFort	* AIFort::pAIFort = null;
+AIFort	* AIFort::pAIFort = nullptr;
 
 AIFort::AIFort()
 {
 	dtFiredTimer.Setup(FRAND(1.0f), 1.0f);
-	pLastTraceFort = null;
-	pShipsLights = null;
+	pLastTraceFort = nullptr;
+	pShipsLights = nullptr;
 	pAIFort = this;
 }
 
 AIFort::~AIFort()
 {
-	pAIFort = null;
+	pAIFort = nullptr;
 	for (dword i=0; i<aForts.size(); i++) STORM_DELETE(aForts[i]);
 }
 
@@ -80,7 +80,7 @@ void AIFort::Execute(dword Delta_Time)
 
 			if (!pC->isFired() && pC->isReady2Fire() && bFiredTimer) 
 			{
-				AIShip	* pFireAIShip = null;
+				AIShip	* pFireAIShip = nullptr;
 				float	fMinDistance = 1e10f;
 				CVECTOR vCPos = pC->GetPos();
 				float fMaxFireDistance = AICannon::CalcMaxFireDistance(vCPos.y, fSpeedV0, 0.35f); // FIX-ME
@@ -235,7 +235,7 @@ AIFort::AI_FORT * AIFort::FindFort(ENTITY_ID eidModel)
 	{
 		if (aForts[i]->GetModelEID().pointer == eidModel.pointer) return aForts[i];
 	}
-	return null;
+	return nullptr;
 }
 
 dword AIFort::ProcessMessage(MESSAGE & message)
@@ -244,7 +244,7 @@ dword AIFort::ProcessMessage(MESSAGE & message)
 	long		iCharacterIndex;
 	ENTITY_ID	eidFortModel, eidBlot;
 	ATTRIBUTES	* pFortAPLabel, * pCharacter, * pIslandAP;
-	AI_FORT		* pFort = null;
+	AI_FORT		* pFort = nullptr;
 
 	switch (message.Long())
 	{
@@ -311,7 +311,7 @@ bool AIFort::ScanFortForCannons(AI_FORT * pFort, char * pModelsDir, char * pLoca
 		for (long i=0; i<info.nlabels; i++)
 		{
 			pNode->geo->GetLabel(i, label);
-			AICannon * pCannon = null;
+			AICannon * pCannon = nullptr;
 			
 			if (strnicmp(label.name, "cannon", 6) == 0 && pFort->dwCannonType != -1) {
 				pFort->aCannons.push_back(AICannon{});
@@ -362,12 +362,12 @@ float AIFort::GetPower()
 ATTRIBUTES * AIFort::GetACharacter()
 {
 	if (pLastTraceFort) return pLastTraceFort->GetACharacter();
-	return null;
+	return nullptr;
 }
 
 float AIFort::Trace(const CVECTOR & vSrc, const CVECTOR & vDst) 
 { 
-	pLastTraceFort = null;
+	pLastTraceFort = nullptr;
 
 	float fBestRes = 2.0f;
 	float fBestDistance = 1e10f; 
@@ -416,7 +416,7 @@ AIFort::AI_FORT	* AIFort::FindFort(ATTRIBUTES * pACharacter)
 	{
 		if (GetFort(i)->GetACharacter() == pACharacter) return GetFort(i);
 	}
-	return null;
+	return nullptr;
 }
 
 CVECTOR AIFort::AI_FORT::GetAttackPoint(VAI_INNEROBJ * pObj) 

@@ -5,8 +5,8 @@
 
 WM_INTERFACE::WM_INTERFACE(): rs(nullptr)
 {
-	m_pShipIcon = 0;
-	m_pCommandList = 0;
+	m_pShipIcon = nullptr;
+	m_pCommandList = nullptr;
 
 	m_nCommandListVerticalOffset = 0;
 	m_nMainCharIndex = -1;
@@ -87,7 +87,7 @@ void WM_INTERFACE::LoadIniFile()
 {
 	m_pShipIcon = NEW WMShipIcon(GetID(), rs);
 	Assert(m_pShipIcon);
-	ATTRIBUTES* pA = AttributesPointer ? AttributesPointer->GetAttributeClass("wm_sign") : 0;
+	ATTRIBUTES* pA = AttributesPointer ? AttributesPointer->GetAttributeClass("wm_sign") : nullptr;
 	m_pShipIcon->Init( AttributesPointer, pA );
 	m_nCommandListVerticalOffset = pA ? pA->GetAttributeAsDword("commandlistverticaloffset") : -48;
 

@@ -3,7 +3,7 @@
 
 CXI_TABSECTION::CXI_TABSECTION()
 {
-	m_rs = null;
+	m_rs = nullptr;
 	m_bClickable = true;
 	m_nNodeType = NODETYPE_TABSECTION;
 

@@ -4,7 +4,7 @@
 
 PARTICLE_SYSTEM::PARTICLE_SYSTEM(IParticleSystem* _pSystem)
 {
-	pManager = NULL;
+	pManager = nullptr;
 	pSystem = _pSystem;
 }
 
@@ -13,7 +13,7 @@ PARTICLE_SYSTEM::~PARTICLE_SYSTEM()
 	pManager->DeleteResource(this);
 
 	if (pSystem) pSystem->Release();
-	pSystem = NULL;
+	pSystem = nullptr;
 }
 
 void	PARTICLE_SYSTEM::Stop()

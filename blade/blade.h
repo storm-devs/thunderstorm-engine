@@ -50,7 +50,7 @@ class BLADE : public ENTITY
 		ENTITY_ID eid;
 		char * locatorName;
 
-		TIEITEM_INFO() {nItemIndex=-1; locatorName=0;}
+		TIEITEM_INFO() {nItemIndex=-1; locatorName=nullptr;}
 		~TIEITEM_INFO() {Release();}
 		void Release();
 		void DrawItem(VDX9RENDER * rs,unsigned int blendValue,MODEL *mdl,NODE *manNode);

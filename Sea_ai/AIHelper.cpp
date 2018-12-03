@@ -4,16 +4,16 @@
 
 AIHelper		Helper;
 
-VDX9RENDER		* AIHelper::pRS = null;
-ISLAND_BASE		* AIHelper::pIsland = null;
-COLLIDE			* AIHelper::pCollide = null;
-ATTRIBUTES		* AIHelper::pASeaCameras = null;
+VDX9RENDER		* AIHelper::pRS = nullptr;
+ISLAND_BASE		* AIHelper::pIsland = nullptr;
+COLLIDE			* AIHelper::pCollide = nullptr;
+ATTRIBUTES		* AIHelper::pASeaCameras = nullptr;
 
 float			AIHelper::fGravity = 9.81f;
 
 AIHelper::AIHelper()
 {
-	pRelations = null;
+	pRelations = nullptr;
 }
 
 AIHelper::~AIHelper()
@@ -24,9 +24,9 @@ AIHelper::~AIHelper()
 bool AIHelper::Uninit()
 {
 	//pRS = null;
-	pIsland = null;
+	pIsland = nullptr;
 	//pCollide = null;
-	pASeaCameras = null;
+	pASeaCameras = nullptr;
 	aCharacters.clear();
 	aMainCharacters.clear();
 	dwRelationSize = 0;
@@ -44,7 +44,7 @@ bool AIHelper::SetDevice()
 
 bool AIHelper::Init()
 {
-	pIsland = null;
+	pIsland = nullptr;
 
 	ENTITY_ID eidIsland;
 	if (api->FindClass(&eidIsland, "island", 0))
@@ -145,7 +145,7 @@ bool AIHelper::isNeutral(ATTRIBUTES * pA1, ATTRIBUTES * pA2) const
 
 VAI_INNEROBJ * AIHelper::FindAIInnerObj(ATTRIBUTES * pACharacter)
 {
-	VAI_INNEROBJ * pObj = null;
+	VAI_INNEROBJ * pObj = nullptr;
 	if (AIFort::pAIFort) pObj = AIFort::pAIFort->FindFort(pACharacter);
 	if (!pObj) pObj = AIShip::FindShip(pACharacter);
 	return pObj;

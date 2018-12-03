@@ -4,10 +4,10 @@
 
 CXI_BUTTON::CXI_BUTTON()
 {
-	m_rs = null;
-	m_sGroupName = null;
+	m_rs = nullptr;
+	m_sGroupName = nullptr;
 	m_idTex = -1;
-	m_pTex = null;
+	m_pTex = nullptr;
 
 	fXShadow = 0.f;
 	fYShadow = 0.f;
@@ -88,9 +88,9 @@ void CXI_BUTTON::Draw(bool bSelected,dword Delta_Time)
 		}
 
 		if(m_idTex!=-1)	m_rs->TextureSet(0,m_idTex);
-		else	m_rs->SetTexture(0,m_pTex ? m_pTex->m_pTexture : 0);
+		else	m_rs->SetTexture(0,m_pTex ? m_pTex->m_pTexture : nullptr);
 
-		if(m_idTex>=0 || m_pTex!=null)
+		if(m_idTex>=0 || m_pTex!= nullptr)
 		{
 			m_rs->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP,XI_ONETEX_FVF,2,vShadow,sizeof(XI_ONETEX_VERTEX),"iShadow");
 			if(m_bClickable && m_bSelected)
@@ -167,7 +167,7 @@ void CXI_BUTTON::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	{
 		m_idTex = pPictureService->GetTextureID(param);
 		m_sGroupName = NEW char[strlen(param)+1];
-		if(m_sGroupName==null)
+		if(m_sGroupName== nullptr)
 			STORM_THROW("allocate memory error")
 		strcpy(m_sGroupName,param);
 
@@ -295,12 +295,12 @@ dword _cdecl CXI_BUTTON::MessageProc(long msgcode, MESSAGE & message)
 			paramLen = strlen(param);
 			if(paramLen==0) break;
 
-			if(m_sGroupName==null || _stricmp(m_sGroupName,param)!=0)
+			if(m_sGroupName== nullptr || _stricmp(m_sGroupName,param)!=0)
 			{
 				PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName,m_idTex);
 				PTR_STORM_DELETE(m_sGroupName);
 				m_sGroupName = NEW char[paramLen+1];
-				if(m_sGroupName==NULL)
+				if(m_sGroupName== nullptr)
 					STORM_THROW("allocate memory error")
 				strcpy(m_sGroupName,param);
 				m_idTex = pPictureService->GetTextureID(m_sGroupName);

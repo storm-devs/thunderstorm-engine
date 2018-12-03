@@ -11,7 +11,7 @@ CREATE_CLASS(WaterRings)
 
 //------------------------------------------------------------------------------------
 WaterRings::WaterRings()
-	:ivManager(0)
+	:ivManager(nullptr)
 {
 }
 

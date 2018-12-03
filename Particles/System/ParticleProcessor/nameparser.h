@@ -25,7 +25,7 @@ public:
  __forceinline const char* GetRandomName (const char* names)
  {
 	 Tokenize (names);
-	 if (Tokens.size() == 0) return NULL;
+	 if (Tokens.size() == 0) return nullptr;
 
 	 return Tokens[(rand () % Tokens.size())];
  }

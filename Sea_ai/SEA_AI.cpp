@@ -279,7 +279,7 @@ dword _cdecl SEA_AI::ProcessMessage(MESSAGE & message)
 			z = message.Float();
 			ay = message.Float();
 			
-			AIGroup::SailMainGroup(CVECTOR(x,y,z), ay, null);
+			AIGroup::SailMainGroup(CVECTOR(x,y,z), ay, nullptr);
 		}
 		break;
 		case AI_MESSAGE_SAIL_2_CHARACTER:

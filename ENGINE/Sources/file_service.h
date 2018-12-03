@@ -13,8 +13,8 @@ public:
 	 INIFILE_T(IFS * iR)
 	 {
 		ifs_PTR = iR;
-		Search.Section = 0;
-		Search.Key = 0;
+		Search.Section = nullptr;
+		Search.Key = nullptr;
 	 };
 	~INIFILE_T();
 	
@@ -83,7 +83,7 @@ public:
 #define CACHEDIRSTABLESIZE	1024
 struct HASHLINEDESC
 {
-	HASHLINEDESC(){dwElementsNum = 0; pDirName = 0;};
+	HASHLINEDESC(){dwElementsNum = 0; pDirName = nullptr;};
 	DWORD dwElementsNum;
 	char ** pDirName;
 };

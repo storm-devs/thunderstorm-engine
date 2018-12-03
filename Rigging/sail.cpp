@@ -112,23 +112,23 @@ SAIL::SAIL()
     globalWind.ang.x=0.f;
     globalWind.ang.y=0.f;
     globalWind.ang.z=1.f;
-    WindVect = null;
+    WindVect = nullptr;
 
     texl = -1;
 	m_nEmptyGerbTex = -1;
 
     bFirstRun=true; wFirstIndx=0;
     bDeleteState=false;
-    RenderService=0;
+    RenderService=nullptr;
 
     bCannonTrace=false;
 
-    groupQuantity=0; gdata=0;
-    sailQuantity=0; slist=0;
+    groupQuantity=0; gdata=nullptr;
+    sailQuantity=0; slist=nullptr;
     bUse=false;
 
 	m_nMastCreatedCharacter = -1;
-	m_sMastName = null;
+	m_sMastName = nullptr;
 
 	sg.indxBuf = -1; sg.vertBuf = -1;
 
@@ -139,13 +139,13 @@ SAIL::SAIL()
 
 SAIL::~SAIL()
 {
-    if(slist!=null)
+    if(slist!= nullptr)
     {
         for(int i=0; i<sailQuantity; i++)
             PTR_STORM_DELETE(slist[i]);
         PTR_STORM_DELETE(slist);
     }
-    if(gdata!=null)
+    if(gdata!= nullptr)
     {
         for(int i=0; i<groupQuantity; i++)
 		{
@@ -189,7 +189,7 @@ void SAIL::SetDevice()
 
     LoadSailIni();
 
-    if(WindVect==null)
+    if(WindVect== nullptr)
     {
         WindVect=NEW float[WINDVECTOR_QUANTITY];
         if(WindVect)
@@ -233,8 +233,8 @@ void SAIL::Execute(dword Delta_Time)
 		else if( api->Controls->GetDebugAsyncKeyState('0')<0 ) nTmpMastNum = 0;
 		if( nTmpMastNum >= 0 )
 		{
-			MODEL * pTmpMdl = 0;
-			if( (pTmpMdl=(MODEL*)api->GetEntityPointer(&gdata[0].modelEI)) !=0 )
+			MODEL * pTmpMdl = nullptr;
+			if( (pTmpMdl=(MODEL*)api->GetEntityPointer(&gdata[0].modelEI)) !=nullptr )
 			{
 				char pcTmpMastName[256];
 				sprintf(pcTmpMastName,"mast%d",nTmpMastNum);
@@ -329,7 +329,7 @@ void SAIL::Execute(dword Delta_Time)
 			if(gdata[i].bDeleted) continue;
             MODEL* cmod;
             cmod=(MODEL*)_CORE_API->GetEntityPointer(&gdata[i].modelEI);
-            if(cmod==0) continue;
+            if(cmod==nullptr) continue;
             gdata[i].boxCenter = gdata[i].boxSize = slist[gdata[i].sailIdx[0]]->ss.boundSphere.rc;//CVECTOR(0.f,0.f,0.f);
             gdata[i].speed_c=0.f;
             gdata[i].maxSpeed=0.f;
@@ -337,7 +337,7 @@ void SAIL::Execute(dword Delta_Time)
 			gdata[i].bFinalSailDoOld = gdata[i].bFinalSailDo;
 			gdata[i].bFinalSailDo = false;
 			VDATA * pvdat = api->Event("evntGetSRollSpeed", "l", GetCharacterForGroup(i));
-			if(pvdat==null)	gdata[i].fRollingSpeed = ROLLINGSPEED;
+			if(pvdat== nullptr)	gdata[i].fRollingSpeed = ROLLINGSPEED;
 			else gdata[i].fRollingSpeed = pvdat->GetFloat() * ROLLINGSPEED;
         }
 
@@ -432,10 +432,10 @@ void SAIL::Execute(dword Delta_Time)
 			if(gdata[i].bYesShip)
 			{
 				VAI_OBJBASE * pVai = (VAI_OBJBASE *)_CORE_API->GetEntityPointer(&gdata[i].shipEI);
-				if(pVai!=null && pVai->GetACharacter()!=null)
+				if(pVai!= nullptr && pVai->GetACharacter()!= nullptr)
 				{
 					ATTRIBUTES * pA = pVai->GetACharacter()->GetAttributeClass("Ship");
-					if(pA!=null)
+					if(pA!= nullptr)
 						pA->SetAttributeUseDword("SP",(long)fSP);
 				}
 			}
@@ -577,7 +577,7 @@ dword _cdecl SAIL::ProcessMessage(MESSAGE & message)
 			else
 			{
 				gdata = NEW GROUPDATA[1];
-				groupQuantity = 1; sailQuantity=0; slist=0;
+				groupQuantity = 1; sailQuantity=0; slist=nullptr;
 			}
 			// Set new data into buffer
 			gdata[groupQuantity-1].bDeleted = false;
@@ -606,13 +606,13 @@ dword _cdecl SAIL::ProcessMessage(MESSAGE & message)
 			}
 
 			MODEL *mdl;
-			if((mdl=(MODEL*)_CORE_API->GetEntityPointer(&gdata[groupQuantity-1].modelEI))!=0)
+			if((mdl=(MODEL*)_CORE_API->GetEntityPointer(&gdata[groupQuantity-1].modelEI))!=nullptr)
 			{
 				GEOS::INFO gi;   GEOS::LABEL gl;
 				for(int j=0; true; j++)
 				{
 					NODE* nod = mdl->GetNode(j);
-					if(nod==null || nod->geo==null) break;
+					if(nod== nullptr || nod->geo== nullptr) break;
 
 					nod->geo->GetInfo(gi);
 					for(i=0; i<gi.nlabels; i++)
@@ -642,7 +642,7 @@ dword _cdecl SAIL::ProcessMessage(MESSAGE & message)
         nod=(NODE*)message.Pointer();
         int gNum; gNum=message.Long();
         CVECTOR* pos; pos=(CVECTOR*)message.Pointer();
-        if(pos==0) break;
+        if(pos==nullptr) break;
         int ropenum; ropenum=message.Long();
 
         for(i=0; i<sailQuantity; i++)
@@ -668,7 +668,7 @@ dword _cdecl SAIL::ProcessMessage(MESSAGE & message)
                 CVECTOR epos;
                 if(so->ss.turningSail && posNum!=0) // установка только для поворачивающихся парусов
                 if(_CORE_API->FindClass(&tmpEI,"rope",0))
-                if(so->sailtrope.rrs[0]==0)
+                if(so->sailtrope.rrs[0]==nullptr)
                 {
                     so->sailtrope.rrs[0]=NEW ROTATEROPEDSAIL;
                     so->sailtrope.rrs[0]->ropenum=ropenum;
@@ -700,7 +700,7 @@ dword _cdecl SAIL::ProcessMessage(MESSAGE & message)
                         so->sailtrope.rrs[0]->b=tmpv;
                     }
                 }
-                else if(so->sailtrope.rrs[1]==0)
+                else if(so->sailtrope.rrs[1]==nullptr)
                 {
                     so->sailtrope.rrs[1]=NEW ROTATEROPEDSAIL;
                     so->sailtrope.rrs[1]->ropenum=ropenum;
@@ -888,7 +888,7 @@ dword _cdecl SAIL::ProcessMessage(MESSAGE & message)
 			param[sizeof(param)-1] = 0;
 			int slen = strlen(param);
 			if(slen>0)
-				if( (m_sMastName=NEW char[slen+1]) == null )
+				if( (m_sMastName=NEW char[slen+1]) == nullptr )
 					{STORM_THROW("allocate memory error");}
 				else strcpy(m_sMastName,param);
 		}
@@ -1042,7 +1042,7 @@ void SAIL::SetAllSails(int groupNum)
                 {
                     SAILONE** oldslist=slist;
                     slist=NEW SAILONE*[sailQuantity];
-                    if(!slist) {slist=oldslist; oldslist=0;}
+                    if(!slist) {slist=oldslist; oldslist=nullptr;}
                     if(i>0) memcpy(slist,oldslist,sizeof(SAILONE*)*i);
                     if(i<sailQuantity) memcpy(&slist[i],&oldslist[i+1],sizeof(SAILONE*)*(sailQuantity-i));
                     PTR_STORM_DELETE(oldslist);
@@ -1065,15 +1065,15 @@ void SAIL::SetAllSails(int groupNum)
 		if(gdata[groupNum].bYesShip && !gdata[groupNum].bDeleted)
 		{
 			ATTRIBUTES * pACh = ((VAI_OBJBASE*)gdata[groupNum].shipEI.pointer)->GetACharacter();
-			ATTRIBUTES * pA = null;
+			ATTRIBUTES * pA = nullptr;
 			// Запустим установку текстур на паруса
 			SetSailTextures( groupNum, api->Event("GetSailTextureData","l",pACh->GetAttributeAsDword("index",-1)) );
-			if(pACh!=null)
+			if(pACh!= nullptr)
 			{
 				pA = pACh->FindAClass(pA,"ship.sails");
-				if(pA==null) pA = pACh->CreateSubAClass(pACh,"ship.sails");
+				if(pA== nullptr) pA = pACh->CreateSubAClass(pACh,"ship.sails");
 			}
-			if(pA!=null)
+			if(pA!= nullptr)
 			{
 				char param[256];
 				sprintf(param,"%d",gdata[groupNum].maxHole);
@@ -1081,13 +1081,13 @@ void SAIL::SetAllSails(int groupNum)
 				for(int i=0;i<(int)pA->GetAttributesNum();i++)
 				{
 					ATTRIBUTES * pAttr = pA->GetAttributeClass(i);
-					if(pAttr!=null) for(int j=0; j<(int)pAttr->GetAttributesNum(); j++)
+					if(pAttr!= nullptr) for(int j=0; j<(int)pAttr->GetAttributesNum(); j++)
 					{
 						ATTRIBUTES *pASail = pAttr->GetAttributeClass(j);
-						if(pASail!=null)
+						if(pASail!= nullptr)
 						{
 							SAILONE * ps = FindSailFromData(groupNum,pAttr->GetThisName(),pASail->GetThisName());
-							if(ps!=null)
+							if(ps!= nullptr)
 							{
 								ps->SetAllHole(pASail->GetAttributeAsDword("hd"));
 								/*if( (ps->ss.eSailType==SAIL_TREANGLE?10:12) == (int)ps->ss.holeCount )
@@ -1418,7 +1418,7 @@ void SAIL::FirstRun()
     for(sn=wFirstIndx; sn<sailQuantity; sn++)
     {
         bool bChange=false;
-        if(slist[sn]->sroll==0 && !slist[sn]->bRolling) // производим перерасчет натяжения веревки если парус не в режиме поднятия
+        if(slist[sn]->sroll==nullptr && !slist[sn]->bRolling) // производим перерасчет натяжения веревки если парус не в режиме поднятия
         for(i=0; i<2; i++)
             if(slist[sn]->sailtrope.rrs[i])
             {
@@ -1489,9 +1489,9 @@ float SAIL::Cannon_Trace(long iBallOwner, const CVECTOR &src,const CVECTOR &dst)
 			CVECTOR damagePoint = src+(dst-src)*retVal;
 			VAI_OBJBASE * pvai = (VAI_OBJBASE *)_CORE_API->GetEntityPointer(&gdata[slist[traceSail]->HostNum].shipEI);
 			ATTRIBUTES * pA = nullptr;
-			if(pvai!=null) pA=pvai->GetACharacter();
+			if(pvai!= nullptr) pA=pvai->GetACharacter();
 			long charIdx=-1;
-			if(pA!=null) charIdx = pA->GetAttributeAsDword("index",-1);
+			if(pA!= nullptr) charIdx = pA->GetAttributeAsDword("index",-1);
 			api->Event(SHIP_SAIL_DAMAGE,"lfff",charIdx, damagePoint.x,damagePoint.y,damagePoint.z);
 		}
 	}
@@ -1531,7 +1531,7 @@ void SAIL::DoSailToNewHost(ENTITY_ID newModelEI, ENTITY_ID newHostEI, int grNum,
     {
 		GROUPDATA *oldgdata=gdata;
         gdata= NEW GROUPDATA[groupQuantity+1];
-        if(gdata==0)
+        if(gdata==nullptr)
             STORM_THROW("Not memory allocation");
         memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
 		gdata[gn].bYesShip = false;
@@ -1554,9 +1554,9 @@ void SAIL::DoSailToNewHost(ENTITY_ID newModelEI, ENTITY_ID newHostEI, int grNum,
 	for(i=0; i<gdata[gn].sailQuantity; i++)
 		if(gdata[gn].sailIdx[i]==sn) break;
 
-	if(m_nMastCreatedCharacter>=0 && slist[sn]!=null)
+	if(m_nMastCreatedCharacter>=0 && slist[sn]!= nullptr)
 		api->Event("DoSailHole","llssllllf", -1, m_nMastCreatedCharacter,
-					(m_sMastName==null?"#":m_sMastName),
+					(m_sMastName== nullptr?"#":m_sMastName),
 					slist[sn]->hostNode->GetName(),slist[sn]->groupNum,
 					slist[sn]->GetMaxHoleCount(),
 					(1<<slist[sn]->GetMaxHoleCount())-1,
@@ -1574,7 +1574,7 @@ void SAIL::DoSailToNewHost(ENTITY_ID newModelEI, ENTITY_ID newHostEI, int grNum,
 		else
 		{
 			int* oldIdx=gdata[gn].sailIdx;
-			if((gdata[gn].sailIdx= NEW int[gdata[gn].sailQuantity+1])==0)
+			if((gdata[gn].sailIdx= NEW int[gdata[gn].sailQuantity+1])==nullptr)
 				{STORM_THROW("Not memory allocation");}
 			memcpy(gdata[gn].sailIdx,oldIdx,sizeof(int)*gdata[gn].sailQuantity);
 			delete oldIdx; gdata[gn].sailQuantity++;
@@ -1612,7 +1612,7 @@ void SAIL::DoSailToNewHost(ENTITY_ID newModelEI, ENTITY_ID newHostEI, int grNum,
     slist[sn]->sailtrope.pnttie[0] = slist[sn]->sailtrope.pnttie[1] =
     slist[sn]->sailtrope.pnttie[2] = slist[sn]->sailtrope.pnttie[3] = false;
     slist[sn]->sailtrope.pPos[0] = slist[sn]->sailtrope.pPos[1] =
-    slist[sn]->sailtrope.pPos[2] = slist[sn]->sailtrope.pPos[3] = null;
+    slist[sn]->sailtrope.pPos[2] = slist[sn]->sailtrope.pPos[3] = nullptr;
     slist[sn]->ss.turningSail = false;
 }
 
@@ -1648,16 +1648,16 @@ void SAIL::DeleteSailGroup()
 	if(sailQuantity==0 || groupQuantity==0)
 	{
 		for(i=0;i<old_sailQuantity;i++) {PTR_STORM_DELETE(oldslist[i]);}
-		slist=null;
+		slist= nullptr;
 		for(i=0;i<old_groupQuantity;i++) {PTR_STORM_DELETE(oldgdata[i].sailIdx);}
-		gdata=null;
+		gdata= nullptr;
 		sailQuantity=0;	groupQuantity=0;
 	}
 	else
 	{
 		slist = NEW SAILONE*[sailQuantity];
 		gdata = NEW GROUPDATA[groupQuantity];
-		if(slist==null || gdata==null)	{STORM_THROW("allocate memory error");}
+		if(slist== nullptr || gdata== nullptr)	{STORM_THROW("allocate memory error");}
 
 		groupQuantity = 0;
 		sailQuantity = 0;
@@ -1666,15 +1666,15 @@ void SAIL::DeleteSailGroup()
 			PTR_STORM_DELETE(oldgdata[gn].sailIdx);
 			// подсчет число парусов в группе
 			int nsn = 0;
-			for( sn=0; sn<old_sailQuantity; sn++ )	if(oldslist[sn]!=null && oldslist[sn]->HostNum==gn) nsn++;
+			for( sn=0; sn<old_sailQuantity; sn++ )	if(oldslist[sn]!= nullptr && oldslist[sn]->HostNum==gn) nsn++;
 			if(nsn==0) continue;
 			//  в новом месте создаем запись о группе парусов
 			memcpy(&gdata[groupQuantity],&oldgdata[gn],sizeof(GROUPDATA));
-			if( (gdata[groupQuantity].sailIdx=NEW int[nsn]) == null )	{STORM_THROW("allocate memory error");}
+			if( (gdata[groupQuantity].sailIdx=NEW int[nsn]) == nullptr )	{STORM_THROW("allocate memory error");}
 			gdata[groupQuantity].sailQuantity = nsn;
 			// заполняем список парусов для группы и общий
 			for( sn=0,nsn=0; sn<old_sailQuantity; sn++ )
-				if(oldslist[sn]!=null && oldslist[sn]->HostNum==gn)
+				if(oldslist[sn]!= nullptr && oldslist[sn]->HostNum==gn)
 				{
 					gdata[groupQuantity].sailIdx[nsn++] = sailQuantity;
 					slist[sailQuantity] = oldslist[sn];
@@ -1762,7 +1762,7 @@ void SAIL::DoNoRopeSailToNewHost(ENTITY_ID newModel, ENTITY_ID newHost, ENTITY_I
     ENTITY_ID rope_id;
     if( !_CORE_API->FindClass(&rope_id,"rope",0) ) return; // нет веревок нет концерта
     ROPE_BASE *rb = (ROPE_BASE*)_CORE_API->GetEntityPointer(&rope_id);
-    if(rb==null) return;
+    if(rb== nullptr) return;
 
     // найдем группу старого хозяина
 	int ogn;
@@ -1772,25 +1772,25 @@ void SAIL::DoNoRopeSailToNewHost(ENTITY_ID newModel, ENTITY_ID newHost, ENTITY_I
 
     // новый root NODE
     MODEL *nmdl = (MODEL*)api->GetEntityPointer(&newModel);
-    if(nmdl==null) return;
+    if(nmdl== nullptr) return;
     NODE *nroot = nmdl->GetNode(0);
-    if(nroot==null) return;
+    if(nroot== nullptr) return;
 
     MODEL *omdl = (MODEL*)api->GetEntityPointer(&gdata[ogn].modelEI);
-    if(omdl==null) return;
+    if(omdl== nullptr) return;
 
     // в найденной группе пройдемся по парусам
     for(int si=0; si<gdata[ogn].sailQuantity; si++)
     {
         int sn=gdata[ogn].sailIdx[si];
-        NODE *nod=null;
+        NODE *nod= nullptr;
         for(int k=0; k<1000; k++)
         {
             nod = omdl->GetNode(k);
-            if(nod==null) break;
+            if(nod== nullptr) break;
             if(nod==slist[sn]->hostNode) break;
         }
-        if(nod==null) continue;
+        if(nod== nullptr) continue;
 
         GEOS *tgeo = slist[sn]->hostNode->geo;
         GEOS::INFO gi; tgeo->GetInfo(gi);
@@ -1869,25 +1869,25 @@ void _cdecl sailPrint(VDX9RENDER *rs, const CVECTOR & pos3D, float rad, long lin
 
 SAILONE * SAIL::FindSailFromData(int gn,char* nodeName,char* grName)
 {
-	if(nodeName==null || grName==null) return null;
+	if(nodeName== nullptr || grName== nullptr) return nullptr;
 	int grNum;
 	sscanf(grName,"%d",&grNum);
 	for(int i=0; i<gdata[gn].sailQuantity; i++)
 	{
 		int sn = gdata[gn].sailIdx[i];
-		if( slist[sn]->hostNode!=null &&
+		if( slist[sn]->hostNode!= nullptr &&
 			strcmp(slist[sn]->hostNode->GetName(),nodeName)==0 &&
 			slist[sn]->groupNum==grNum )	return slist[sn];
 	}
-	return null;
+	return nullptr;
 }
 
 void SAIL::SetSailTextures(long grNum, VDATA* pvd)
 {
-	if( grNum<0 || grNum>=groupQuantity || pvd==null ) return;
+	if( grNum<0 || grNum>=groupQuantity || pvd== nullptr ) return;
 
 	ATTRIBUTES * pA = pvd->GetAClass();
-	if(pA==null) return;
+	if(pA== nullptr) return;
 
 	gdata[grNum].maxSP = pA->GetAttributeAsDword("MaxSP",gdata[grNum].maxSP);
 
@@ -1902,7 +1902,7 @@ void SAIL::SetSailTextures(long grNum, VDATA* pvd)
 	for(int i=0; i<gdata[grNum].sailQuantity; i++)
 	{
 		SAILONE * so = slist[gdata[grNum].sailIdx[i]];
-		if(so==null || so->hostNode==null) continue;
+		if(so== nullptr || so->hostNode== nullptr) continue;
 		char param[256];
 		sprintf(param,"%s",so->hostNode->GetName());
 		ATTRIBUTES* pAGerald = pA->GetAttributeClass( param );
@@ -1915,7 +1915,7 @@ void SAIL::SetSailTextures(long grNum, VDATA* pvd)
 				pGeraldTexture->AddRef();
 				so->m_pGeraldTex = pGeraldTexture;
 			}
-			if( so->m_nGeraldTex!=-1 || so->m_pGeraldTex!=0 ) {
+			if( so->m_nGeraldTex!=-1 || so->m_pGeraldTex!=nullptr ) {
 				so->m_bIsGerald = true;
 				so->m_fHorzGeraldScale = pAGerald->GetAttributeAsFloat( "hscale", 0.5f );
 				so->m_fVertGeraldScale = pAGerald->GetAttributeAsFloat( "vscale", so->m_fHorzGeraldScale );
@@ -1936,7 +1936,7 @@ int SAIL::FindGroupForCharacter(int chrIdx)
 	{
 		if( gdata[gn].bDeleted || !gdata[gn].bYesShip ) continue;
 		ATTRIBUTES* pA = ((VAI_OBJBASE*)gdata[gn].shipEI.pointer)->GetACharacter();
-		if(pA!=null)
+		if(pA!= nullptr)
 			if( (int)pA->GetAttributeAsDword("index",-1) == chrIdx )
 				return gn;
 	}
@@ -1945,16 +1945,16 @@ int SAIL::FindGroupForCharacter(int chrIdx)
 
 int SAIL::GetCharacterForGroup(int grNum)
 {
-	ATTRIBUTES* pA = null;
+	ATTRIBUTES* pA = nullptr;
 	if( gdata[grNum].bYesShip )
 		pA = ((VAI_OBJBASE*)gdata[grNum].shipEI.pointer)->GetACharacter();
-	if(pA!=null) return (int)pA->GetAttributeAsDword("index",-1);
+	if(pA!= nullptr) return (int)pA->GetAttributeAsDword("index",-1);
 	return -1;
 }
 
 SAILONE_BASE * SAIL::FindSailForCharacter(int chrIdx,char* nodeName,int grNum)
 {
-	if( nodeName==null ) return null;
+	if( nodeName== nullptr ) return nullptr;
 
 	int gn = FindGroupForCharacter(chrIdx);
 
@@ -1963,14 +1963,14 @@ SAILONE_BASE * SAIL::FindSailForCharacter(int chrIdx,char* nodeName,int grNum)
 		for(int idx=0; idx<gdata[gn].sailQuantity; idx++)
 		{
 			int sn = gdata[gn].sailIdx[idx];
-			if( slist[sn]->hostNode!=null &&
+			if( slist[sn]->hostNode!= nullptr &&
 				slist[sn]->groupNum==grNum &&
 				strcmp(slist[sn]->hostNode->GetName(),nodeName)==0 )
 				return slist[sn];
 		}
 	}
 
-	return null;
+	return nullptr;
 }
 
 void SAIL::LostRender()
@@ -2031,7 +2031,7 @@ int SAIL::GetSailStateForCharacter(int chrIdx)
 
 dword _cdecl SAIL::ScriptProcessing(char * name, MESSAGE & message)
 {
-	if( name==null ) return 0;
+	if( name== nullptr ) return 0;
 
 	if( _stricmp(name,"RandomSailsDmg")==0 )
 	{
@@ -2081,7 +2081,7 @@ void SAIL::DoRandomsSailsDmg(int chrIdx, int gn, float fDmg)
 			fDmg, (float)slist[sn]->maxSpeed/gdata[gn].speed_m,
 			nNewHoleCount, slist[sn]->GetMaxHoleCount(), slist[sn]->GetHoleDword());
 		slist[sn]->ss.hole[holeIdx] = bOldHole;
-		if(pvd==null)
+		if(pvd== nullptr)
 		{
 			api->Trace("WARNING!!! Event evntRandomSailDmg not float return!");
 			return;
@@ -2110,7 +2110,7 @@ void SAIL::DoRandomsSailsDmg(int chrIdx, int gn, float fDmg)
 
 dword SAIL::AttributeChanged(ATTRIBUTES * pAttr)
 {
-	if(pAttr==null) return 0;
+	if(pAttr== nullptr) return 0;
 	if( * pAttr == "MinSpeed" )	m_fMinSpeedVal = pAttr->GetAttributeAsFloat();
 	return 0;
 }

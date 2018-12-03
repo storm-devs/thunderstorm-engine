@@ -11,10 +11,10 @@
 
 BI_InterfaceManager::BI_InterfaceManager()
 {
-	m_pRS = 0;
-	m_pImgRender = 0;
-	m_pMouse = 0;
-	m_pInterfaceSheet = 0;
+	m_pRS = nullptr;
+	m_pImgRender = nullptr;
+	m_pMouse = nullptr;
+	m_pInterfaceSheet = nullptr;
 }
 
 BI_InterfaceManager::~BI_InterfaceManager()

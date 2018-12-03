@@ -124,7 +124,7 @@ void PCINPUT::ProcessKeyState()
 
 	for(n=0;n<KEY_CODES_NUM;n++)
 	{
-		state = GetKeyState(n,0);
+		state = GetKeyState(n,nullptr);
 		switch(KeyState[n].state)
 		{
 			case KS_RELEASED:

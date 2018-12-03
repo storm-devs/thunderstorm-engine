@@ -34,8 +34,8 @@ SEAFOAM::SEAFOAM()
 	,isStorm(false)
 	,soundService(nullptr)
 {
-	psIni = null;
-	renderer = null;
+	psIni = nullptr;
+	renderer = nullptr;
 }
 
 //--------------------------------------------------------------------
@@ -129,7 +129,7 @@ void SEAFOAM::AddShip(ENTITY_ID * pShipEID)
 //--------------------------------------------------------------------
 void SEAFOAM::ReleaseShipFoam()
 {
-	tShipFoamInfo *foamInfo = 0;
+	tShipFoamInfo *foamInfo = nullptr;
 
 	for (int ship = 0; ship < shipsCount; ship++)
 	{
@@ -462,8 +462,8 @@ void SEAFOAM::RealizeShipFoam_Mesh(tShipFoamInfo &_shipFoamInfo, dword _dTime)
 	_shipFoamInfo.carcass[0]->Execute(_dTime, _shipFoamInfo.shipModel->mtx, _shipFoamInfo.levelStarts[0]);
 	_shipFoamInfo.carcass[1]->Execute(_dTime, _shipFoamInfo.shipModel->mtx, _shipFoamInfo.levelStarts[1]);
 
-	_shipFoamInfo.carcass[0]->Realize(0);
-	_shipFoamInfo.carcass[1]->Realize(0);
+	_shipFoamInfo.carcass[0]->Realize(nullptr);
+	_shipFoamInfo.carcass[1]->Realize(nullptr);
 }
 
 //--------------------------------------------------------------------
@@ -479,7 +479,7 @@ dword _cdecl SEAFOAM::ProcessMessage(MESSAGE & message)
 	case MSG_SHIP_DELETE:
 		{
 			ATTRIBUTES *attrs = message.AttributePointer();
-			tShipFoamInfo *foamInfo = 0;
+			tShipFoamInfo *foamInfo = nullptr;
 			if (attrs)
 				for (int ship = 0; ship < shipsCount; ship++)
 				{
@@ -511,7 +511,7 @@ void SEAFOAM::Realize(dword _dTime)
 	dword ticks = 0;
 	RDTSC_B(ticks)
 
-	tShipFoamInfo *foamInfo = 0;
+	tShipFoamInfo *foamInfo = nullptr;
 	int ship;
 
 	for (ship = 0; ship < shipsCount; ship++)
@@ -547,7 +547,7 @@ void SEAFOAM::Realize(dword _dTime)
 void SEAFOAM::Execute(dword _dTime)
 {
 	GUARD(SEAFOAM::Execute);
-	tShipFoamInfo *foamInfo = 0;
+	tShipFoamInfo *foamInfo = nullptr;
 	float shipSpeed, speedA;
 
 	for (int ship = 0; ship < shipsCount; ship++)

@@ -6,7 +6,7 @@ STRINGS_LIST::STRINGS_LIST()
 {
 	List_size = 0;
 	Strings = 0;
-	String_Table_PTR = null;
+	String_Table_PTR = nullptr;
 	used_data_size = 0;
 	dword n;
 	for(n=0;n<CACHE_SIZE;n++) Cache[n] = INVALID_ORDINAL_NUMBER;
@@ -29,7 +29,7 @@ dword STRINGS_LIST::GetStringsCount() { return Strings; }
 
 char * STRINGS_LIST::GetString(dword code)
 {
-	if(code >= Strings || String_Table_PTR == null) return null;
+	if(code >= Strings || String_Table_PTR == nullptr) return nullptr;
 	return String_Table_PTR[code] + used_data_size + sizeof(DWORD);
 }
 
@@ -37,10 +37,10 @@ char * STRINGS_LIST::GetString(dword code)
 bool STRINGS_LIST::AddString(char * _char_PTR)
 {
 	GUARD(STRINGS_LIST::AddString)
-	if(_char_PTR == null) STORM_THROW(zero string);
+	if(_char_PTR == nullptr) STORM_THROW(zero string);
 	DWORD hash;
 	hash = MakeHashValue(_char_PTR);	
-	if(String_Table_PTR == null)	// first time
+	if(String_Table_PTR == nullptr)	// first time
 	{
 
 		String_Table_PTR = (char * *)NEW char[sizeof(char*)*SL_BLOCK_SIZE];
@@ -54,7 +54,7 @@ bool STRINGS_LIST::AddString(char * _char_PTR)
 	
 
 	String_Table_PTR[Strings] = (char *)NEW char[strlen(_char_PTR) + 1 + used_data_size + sizeof(DWORD)];
-	if(String_Table_PTR[Strings] == null) return false;
+	if(String_Table_PTR[Strings] == nullptr) return false;
 	memset(String_Table_PTR[Strings],0,used_data_size + sizeof(DWORD));
 	*((DWORD *)(String_Table_PTR[Strings])) = hash;
 	strcpy(String_Table_PTR[Strings] + used_data_size + sizeof(DWORD),_char_PTR);
@@ -67,12 +67,12 @@ void STRINGS_LIST::Release()
 {
 	GUARD(STRINGS_LIST::Release)
 	dword n;
-	if(Strings <= 0 || String_Table_PTR == null) return;
+	if(Strings <= 0 || String_Table_PTR == nullptr) return;
 	for(n = 0; n < Strings; n++) delete String_Table_PTR[n];
 	delete String_Table_PTR;
 	List_size = 0;
 	Strings = 0;
-	String_Table_PTR = null;		
+	String_Table_PTR = nullptr;		
 	for(n=0;n<CACHE_SIZE;n++) Cache[n] = INVALID_ORDINAL_NUMBER;
 	Cache_Pos = 0;
 	UNGUARD
@@ -84,7 +84,7 @@ dword STRINGS_LIST::GetStringCode(char * _char_PTR)
 	dword n;
 	DWORD hash;
 
-	if(Strings <= 0 || String_Table_PTR == null  || _char_PTR == null)
+	if(Strings <= 0 || String_Table_PTR == nullptr  || _char_PTR == nullptr)
 	{
 		return INVALID_ORDINAL_NUMBER;
 	}
@@ -144,7 +144,7 @@ bool STRINGS_LIST::AddUnicalString(char * _char_PTR)
 
 bool STRINGS_LIST::GetStringData(dword code,void * data_PTR)
 {
-	if(code >= Strings || String_Table_PTR == null || data_PTR == null) return false;
+	if(code >= Strings || String_Table_PTR == nullptr || data_PTR == nullptr) return false;
 	memcpy(data_PTR,String_Table_PTR[code] + sizeof(DWORD),used_data_size);
 	return true;
 }
@@ -152,7 +152,7 @@ bool STRINGS_LIST::GetStringData(dword code,void * data_PTR)
 bool STRINGS_LIST::SetStringData(dword code,void * data_PTR)
 {
 	GUARD(STRINGS_LIST::SetStringData)
-	if(code >= Strings || String_Table_PTR == null || data_PTR == null) return false;
+	if(code >= Strings || String_Table_PTR == nullptr || data_PTR == nullptr) return false;
 	memcpy(String_Table_PTR[code] + sizeof(DWORD),data_PTR,used_data_size);
 	UNGUARD
 	return true;
@@ -168,7 +168,7 @@ void STRINGS_LIST::SetStringDataSize(dword _size)
 void STRINGS_LIST::DeleteString(dword code)
 {
 	dword n;
-	if(code >= Strings || String_Table_PTR == null) return;
+	if(code >= Strings || String_Table_PTR == nullptr) return;
 	delete String_Table_PTR[code];
 	if(code == (Strings - 1))
 	{

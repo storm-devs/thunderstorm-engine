@@ -31,7 +31,7 @@ Player::Player()
 	isSetBlock = false;
 #ifndef _XBOX
 	kSMReload = 1.0f;
-	locCam = null;
+	locCam = nullptr;
 	shootgunMode = false;
 	//shootgunMode = false;
 #endif
@@ -80,7 +80,7 @@ void Player::Move(float dltTime)
 
 	bool oldSGMode = shootgunMode;
 	shootgunMode = false;
-	VDATA * vd = api->Event("EventSGMode", 0);
+	VDATA * vd = api->Event("EventSGMode", nullptr);
 	if(vd)
 	{
 		long data = 0;
@@ -305,7 +305,7 @@ void Player::Update(float dltTime)
 	api->Send_Message(baterfl, "lff", MSG_ANIMALS_BUTTERFLIES_XYZ, curPos.x, curPos.z);
 	//Перебираем персонажей в поисках врагов к игроку
 	ENTITY_ID eid;
-	if(api->FindClass(&eid, null, chrGroups))
+	if(api->FindClass(&eid, nullptr, chrGroups))
 	{
 		for(long i = 0; i < location->supervisor.numCharacters; i++)
 		{
@@ -603,7 +603,7 @@ Player * Player::FindAttackCharacter()
 	//Найдём окружающих персонажей
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
 	static long num = 0;
-	if(!location->supervisor.FindCharacters(fndCharacter, num, this, CHARACTER_ATTACK_DIST*1.1f)) return null;
+	if(!location->supervisor.FindCharacters(fndCharacter, num, this, CHARACTER_ATTACK_DIST*1.1f)) return nullptr;
 	//Выбираем лутшего
 	float minDst;
 	long task = -1;
@@ -652,7 +652,7 @@ Player * Player::FindAttackCharacter()
 		if(!isEnemy) //~!~
 		{
 			ENTITY_ID eid;
-			if(api->FindClass(&eid, null, chrGroups))
+			if(api->FindClass(&eid, nullptr, chrGroups))
 			{
 				if(!api->Send_Message(eid, "sii", "IsEnemy", GetID(), chr->GetID())) continue;
 			}
@@ -675,7 +675,7 @@ Player * Player::FindAttackCharacter()
 		}
 	}
 	if(j >= 0) return (Player *)fndCharacter[j].c;
-	return null;
+	return nullptr;
 }
 
 

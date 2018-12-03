@@ -3,10 +3,10 @@
 
 CXI_BOUNDER::CXI_BOUNDER()
 {
-	m_rs = NULL;
+	m_rs = nullptr;
 
 	m_idTex = -1L;
-	m_sGroupName = NULL;
+	m_sGroupName = nullptr;
 
 	m_idVBuf = -1L; m_idIBuf = -1L;
 	m_nVert = 0; m_nIndx = 0;
@@ -60,7 +60,7 @@ void CXI_BOUNDER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	m_dwColor = GetIniARGB(ini1,name1, ini2,name2, "color", 0xFFFFFFFF);
 
 	// Get texture name and load that texture
-	m_sGroupName = null;
+	m_sGroupName = nullptr;
 	if( ReadIniString(ini1,name1, ini2,name2, "groupName", param, sizeof(param),"") )
 	{
 		m_sGroupName = NEW char[strlen(param)+1];
@@ -110,7 +110,7 @@ void CXI_BOUNDER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	// Fill buffers
 	XI_ONETEX_VERTEX *pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
 	WORD *pIndx = (WORD*) m_rs->LockIndexBuffer(m_idIBuf);
-	if(pVert==NULL || pIndx==NULL)
+	if(pVert== nullptr || pIndx== nullptr)
 		STORM_THROW("can not create the index&vertex buffers")
 
 	for(i=0; i<m_nVert; i++)
@@ -295,7 +295,7 @@ void CXI_BOUNDER::ChangePosition( XYRECT &rNewPos )
 	// Fill buffers
 	XI_ONETEX_VERTEX *pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
 
-	if( pVert == NULL )
+	if( pVert == nullptr )
 		STORM_THROW("can not create the index&vertex buffers")
 
 	long i;

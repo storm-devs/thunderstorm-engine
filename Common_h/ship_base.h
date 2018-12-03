@@ -68,8 +68,8 @@ public:
 	virtual void	SetRotate(float fRotSpeed) = 0;
 	virtual float	GetRotate() = 0;
 
-	virtual float	GetBrakingDistance(float * pfTime = 0) = 0;
-	virtual float	GetRotationAngle(float * pfTime = 0) = 0;
+	virtual float	GetBrakingDistance(float * pfTime = nullptr) = 0;
+	virtual float	GetRotationAngle(float * pfTime = nullptr) = 0;
 
 	virtual float 	GetCurrentSpeed() = 0;
 

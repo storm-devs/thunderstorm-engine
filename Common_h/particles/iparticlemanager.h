@@ -58,7 +58,7 @@ public:
 	virtual long GetProjectTexture () = 0;
 
 	//Установить текстуру проекта
-	virtual void SetProjectTexture (const char* FileName = NULL) = 0;
+	virtual void SetProjectTexture (const char* FileName = nullptr) = 0;
 
 
 

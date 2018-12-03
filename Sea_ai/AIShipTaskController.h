@@ -14,7 +14,7 @@ class AITask
 	bool			bActive;
 
 public:
-	AITask() : bActive(false) { dwTaskType = AITASK_NONE; pATaskCharacter = null; vTaskPnt = 0.0f; };
+	AITask() : bActive(false) { dwTaskType = AITASK_NONE; pATaskCharacter = nullptr; vTaskPnt = 0.0f; };
 
 	dword			dwTaskType;
 

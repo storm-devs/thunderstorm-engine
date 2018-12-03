@@ -7,7 +7,7 @@
 class SEA_BASE : public CANNON_TRACE_BASE
 {
 public:
-	virtual float __fastcall WaveXZ(float x, float z, CVECTOR * vNormal = null) { return 0.0f; };
+	virtual float __fastcall WaveXZ(float x, float z, CVECTOR * vNormal = nullptr) { return 0.0f; };
 };
 
 #endif

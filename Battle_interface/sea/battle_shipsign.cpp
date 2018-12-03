@@ -9,7 +9,7 @@ BIShipIcon::BIShipIcon( ENTITY_ID& BIEntityID, VDX9RENDER* pRS )
 
 	m_idHostEntity = BIEntityID;
 	m_pRS = pRS;
-	m_pCommandList = 0;
+	m_pCommandList = nullptr;
 
 	m_nVBufID = -1;
 	m_nIBufID = -1;
@@ -388,8 +388,8 @@ long BIShipIcon::CalculateShipQuantity()
 	for( n=0; n<MAX_SHIP_QUANTITY; n++ )
 	{
 		m_Ship[n].nCharacterIndex = -1;
-		m_Ship[n].pASailorQuantity = 0;
-		m_Ship[n].pAShip = 0;
+		m_Ship[n].pASailorQuantity = nullptr;
+		m_Ship[n].pAShip = nullptr;
 		m_Ship[n].nMaxHP = 100;
 		m_Ship[n].nMaxSP = 100;
 		m_Ship[n].sShipName.clear();
@@ -641,7 +641,7 @@ long BIShipIcon::GetCurrentCommandMode()
 
 ATTRIBUTES* BIShipIcon::GetSailorQuantityAttribute( SHIP_DESCRIBE_LIST::SHIP_DESCR * pSD )
 {
-	if( !pSD || !pSD->pAttr ) return null;
+	if( !pSD || !pSD->pAttr ) return nullptr;
 	ATTRIBUTES* pA = pSD->pAttr->GetAttributeClass( "Crew" );
 	if( pA ) pA = pA->GetAttributeClass( "quantity" );
 	return pA;

@@ -3,7 +3,7 @@
 
 LOOPSTACK::LOOPSTACK()
 {
-	pBlock = 0;
+	pBlock = nullptr;
 	Block_Num = 0;
 	Block_Size = 0;
 }

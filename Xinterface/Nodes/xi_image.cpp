@@ -15,11 +15,11 @@ CXI_IMAGE::CXI_IMAGE()
 
 	m_bDisableDraw = false;
 
-	m_pcPictureListName = 0;
+	m_pcPictureListName = nullptr;
 	m_nPictureNum = -1;
 
 	m_nTextureID = -1;
-	m_pTexture = 0;
+	m_pTexture = nullptr;
 
 	m_frUV.left = 0.f;
 	m_frUV.top = 0.f;
@@ -85,7 +85,7 @@ void CXI_IMAGE::LoadAccordingToString( const char * pcImageParam )
 	m_bThisIsColorRectangle = true;
 	for( char* pcParam=(char*)pcImageParam; pcParam && pcParam[0]; )
 	{
-		if( 0 == CXI_UTILS::StringGetTokenID( pcParam, tokenID, sizeof(tokenID) ) ) break;
+		if( nullptr == CXI_UTILS::StringGetTokenID( pcParam, tokenID, sizeof(tokenID) ) ) break;
 		long nTokenCode = CXI_UTILS::StringGetTokenCode( tokenID );
 		switch( nTokenCode )
 		{

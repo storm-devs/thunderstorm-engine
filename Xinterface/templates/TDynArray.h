@@ -43,7 +43,7 @@ public:
 	// release function
 	void	ReleaseAll()
 	{
-		if( m_pBuffer!=null ) delete[] m_pBuffer;	m_pBuffer = null;
+		if( m_pBuffer!= nullptr ) delete[] m_pBuffer;	m_pBuffer = null;
 		m_dwSize = m_dwReservSize = 0;
 	}
 
@@ -96,7 +96,7 @@ public:
 	}
 	T *		Add(T * list, int nSize) // for char * access
 	{
-		if(list==null) return null;
+		if(list== nullptr) return nullptr;
 		ResizeBuffer(m_dwSize+nSize);
 		for(int n=0; n<nSize; n++)	m_pBuffer[m_dwSize+n] = list[n];
 		m_dwSize += nSize;

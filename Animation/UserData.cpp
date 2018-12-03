@@ -16,10 +16,10 @@
 
 UserData::UserData()
 {
-	data = null;
+	data = nullptr;
 	numData = 0;
 	maxData = 0;	
-	strings = null;
+	strings = nullptr;
 	numBytes = 0;
 	maxBytes = 0;
 }
@@ -82,7 +82,7 @@ void UserData::FreeExtra()
 //Найти пользовательские данные
 const char * UserData::GetData(const char * dataName)
 {
-	if(!dataName || !dataName[0]) return null;
+	if(!dataName || !dataName[0]) return nullptr;
 	//1 Вычислим хэшь значение строки
 	long hash = CalcHashString(dataName);
 	//2 Поищем данные с таким названием
@@ -92,7 +92,7 @@ const char * UserData::GetData(const char * dataName)
 			if(_stricmp(dataName, strings + data[i].name) == 0)
 					return strings + data[i].data;
 		}	
-	return null;
+	return nullptr;
 }
 
 

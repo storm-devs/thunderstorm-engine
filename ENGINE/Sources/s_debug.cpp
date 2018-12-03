@@ -22,12 +22,12 @@ char filefilter[256] =
 };
 DWORD WINAPI BackgroundThreadProc(LPVOID lpParameter)
 {
-	if(CDebug.hMain == 0) CDebug.OpenDebugWindow_NT(CDebug.hInst);
+	if(CDebug.hMain == nullptr) CDebug.OpenDebugWindow_NT(CDebug.hInst);
 
 	MSG msg;
 	while(true)
 	{
-		if(PeekMessage(&msg,NULL,0U,0U,PM_REMOVE))
+		if(PeekMessage(&msg, nullptr,0U,0U,PM_REMOVE))
 		{
 			if (WM_QUIT == msg.message) 
 			{
@@ -47,7 +47,7 @@ DWORD WINAPI BackgroundThreadProc(LPVOID lpParameter)
 	GetExitCodeThread(CDebug.hDebugThread,&dwExitCode);
  	ExitThread(dwExitCode);
 	CloseHandle(CDebug.hDebugThread);
-	CDebug.hDebugThread = 0;
+	CDebug.hDebugThread = nullptr;
 	
  	return 0;
 }
@@ -158,10 +158,10 @@ LRESULT CALLBACK DebugWndProc(HWND hwnd,UINT iMsg,WPARAM wParam,LPARAM lParam)
 				case ID_FORMAT_ALLDIALOGS:
 					ZeroMemory(&bi,sizeof(bi));
 					bi.hwndOwner = hwnd; 
-					bi.pidlRoot = 0; 
+					bi.pidlRoot = nullptr; 
 					bi.pszDisplayName = buffer; 
 					bi.lpszTitle = "Select Dialog Folder"; 
-					bi.lpfn = 0; 
+					bi.lpfn = nullptr; 
 					bi.lParam = 0; 
 					bi.iImage = 0; 
 					if(SHGetPathFromIDList(SHBrowseForFolder(&bi),buffer))
@@ -291,7 +291,7 @@ void S_DEBUG::BreakOn(char * filename,DWORD line)
 	if(WatcherList)
 	{
 		WatcherList->Refresh();
-		InvalidateRect(WatcherList->GetWindowHandle(),0,true);
+		InvalidateRect(WatcherList->GetWindowHandle(),nullptr,true);
 
 	}
 	if(SourceView)
@@ -312,14 +312,14 @@ S_DEBUG::S_DEBUG()
 	MainThreadID = GetCurrentThreadId();
 	BreakFileName[0] = 0;
 	BreakLineCode = 0;
-	hDebugThread = 0;
+	hDebugThread = nullptr;
 	DebugThreadID = 0;
 	ProgramDirectory[0] = 0;
 	sLastFileName[0] = 0;
-	hInst = 0;
-	hMain = 0;
-	WatcherList = 0;
-	SourceView = 0;
+	hInst = nullptr;
+	hMain = nullptr;
+	WatcherList = nullptr;
+	SourceView = nullptr;
 	hFont = CreateFont(FONT_HEIGHT,0,0,0,
 		//FW_BOLD,
 		FW_MEDIUM,
@@ -327,7 +327,7 @@ S_DEBUG::S_DEBUG()
 		OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,ANTIALIASED_QUALITY,VARIABLE_PITCH,
 		"Courier New");
 		//"arial");
-	pExpResBuffer = 0;
+	pExpResBuffer = nullptr;
 	bTrace = false;
 	Breaks.ReadProject(PROJECT_NAME);
 }
@@ -352,22 +352,22 @@ S_DEBUG::~S_DEBUG()
 void S_DEBUG::Release()
 {
 	Breaks.Release();
-	if(WatcherList) delete WatcherList; WatcherList = 0;
-	if(SourceView) delete SourceView; SourceView = 0;
-	if(pExpResBuffer) delete pExpResBuffer; pExpResBuffer = 0;
+	if(WatcherList) delete WatcherList; WatcherList = nullptr;
+	if(SourceView) delete SourceView; SourceView = nullptr;
+	if(pExpResBuffer) delete pExpResBuffer; pExpResBuffer = nullptr;
 }
 
 bool S_DEBUG::OpenDebugWindow(HINSTANCE hInstance)
 {
 	hInst =	hInstance;
 	SetTraceMode(TMODE_CONTINUE);
-	hDebugThread = CreateThread(0,0,BackgroundThreadProc,0,0,&DebugThreadID);
+	hDebugThread = CreateThread(nullptr,0,BackgroundThreadProc,nullptr,0,&DebugThreadID);
 	return true;
 }
 
 bool S_DEBUG::OpenDebugWindow_NT(HINSTANCE hInstance)
 {
-	if(hMain != 0) return true;
+	if(hMain != nullptr) return true;
 	//hInst =	hInstance;
 
 	WNDCLASSEX wndclass;
@@ -378,12 +378,12 @@ bool S_DEBUG::OpenDebugWindow_NT(HINSTANCE hInstance)
 	wndclass.cbClsExtra = 0;
 	wndclass.cbWndExtra = sizeof(WORD);
 	wndclass.hInstance = hInstance;
-	wndclass.hIcon = LoadIcon(NULL,IDI_APPLICATION);
-	wndclass.hCursor = LoadCursor(NULL,IDC_ARROW);
+	wndclass.hIcon = LoadIcon(nullptr,IDI_APPLICATION);
+	wndclass.hCursor = LoadCursor(nullptr,IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wndclass.lpszMenuName = "DebugMenu";//NULL;
 	wndclass.lpszClassName = DClass;
-	wndclass.hIconSm = LoadIcon(NULL,IDI_APPLICATION);
+	wndclass.hIconSm = LoadIcon(nullptr,IDI_APPLICATION);
 	RegisterClassEx(&wndclass);
 
 	long xs,ys;
@@ -402,7 +402,7 @@ bool S_DEBUG::OpenDebugWindow_NT(HINSTANCE hInstance)
 
 	MoveWindow(hMain,0,0,xs,ys - 32,false);
 	
-	if(hMain == 0) return false;
+	if(hMain == nullptr) return false;
 
 	ProcessRegistry_Open();
 
@@ -438,7 +438,7 @@ bool S_DEBUG::OpenDebugWindow_NT(HINSTANCE hInstance)
 
 	
 
-	InvalidateRect(0,0,0);
+	InvalidateRect(nullptr,nullptr,0);
 	WatcherListRect.left = 0;
 	WatcherListRect.top = 0;
 	WatcherListRect.right = DBGWIN_WIDTH;
@@ -448,7 +448,7 @@ bool S_DEBUG::OpenDebugWindow_NT(HINSTANCE hInstance)
 	SourceViewRect.bottom = DBGWIN_HEIGHT;
 	SourceViewRect.right = DBGWIN_WIDTH;
 
-	if(WatcherList) delete WatcherList; WatcherList = 0;
+	if(WatcherList) delete WatcherList; WatcherList = nullptr;
 
 	WatcherList = NEW WATCHER_LIST(hMain,hInstance);
 	if(WatcherList)
@@ -456,7 +456,7 @@ bool S_DEBUG::OpenDebugWindow_NT(HINSTANCE hInstance)
 		SendMessage(WatcherList->GetWindowHandle(),WM_SETFONT,(WPARAM)hFont,0);
 		WatcherList->SetFont(hFont);
 	}
-	if(SourceView) delete SourceView; SourceView = 0;
+	if(SourceView) delete SourceView; SourceView = nullptr;
 
 	SourceView = NEW SOURCE_VIEW(hMain,hInstance);
 	if(SourceView)
@@ -493,9 +493,9 @@ bool S_DEBUG::OpenDebugWindow_NT(HINSTANCE hInstance)
 void S_DEBUG::CloseDebugWindow()
 {
 	if(hMain) DestroyWindow(hMain);	
-	hMain = 0;
-	if(WatcherList) delete WatcherList; WatcherList = 0;
-	if(SourceView) delete SourceView; SourceView = 0;
+	hMain = nullptr;
+	if(WatcherList) delete WatcherList; WatcherList = nullptr;
+	if(SourceView) delete SourceView; SourceView = nullptr;
 	SetTraceMode(TMODE_CLOSE);
 	BreakFileName[0] = 0;
 }
@@ -690,7 +690,7 @@ void S_DEBUG::Add2RecentFiles(char * pFileName)
 	MENUITEMINFO mii;
 
 
-	if(pFileName == 0) return;
+	if(pFileName == nullptr) return;
 
 
 	if(nRecentFilesNum >= RECENT_FILES_MAX) bAdd = false;
@@ -708,7 +708,7 @@ void S_DEBUG::Add2RecentFiles(char * pFileName)
 		wsprintf(kn,"file%d",n);
 		dwSize = sizeof(buffer);
 		buffer[0] = 0;
-		if(RegQueryValueEx(hKey,kn,0,0,(unsigned char *)buffer,&dwSize) == ERROR_SUCCESS)
+		if(RegQueryValueEx(hKey,kn,nullptr,nullptr,(unsigned char *)buffer,&dwSize) == ERROR_SUCCESS)
 		{
 			if(_stricmp(buffer,pFileName)==0) 
 			{
@@ -791,7 +791,7 @@ bool S_DEBUG::ProcessRegistry_Open()
 	if(!hKey) if(RegCreateKey(HKEY_CURRENT_USER,"SDIIDEBUGGER",&hKey) != ERROR_SUCCESS) return false;
 
 	dwSize = sizeof(DWORD);
-	nRes = RegQueryValueEx(hKey,"Recent Files Num",0,0,(unsigned char *)&nRecentFilesNum,&dwSize);
+	nRes = RegQueryValueEx(hKey,"Recent Files Num",nullptr,nullptr,(unsigned char *)&nRecentFilesNum,&dwSize);
 	if(nRes != ERROR_SUCCESS)
 	{
 		// write default value
@@ -835,7 +835,7 @@ bool S_DEBUG::ProcessRegistry_Open()
 			wsprintf(kn,"file%d",n);
 			dwSize = sizeof(buffer);
 			buffer[0] = 0;
-			RegQueryValueEx(hKey,kn,0,0,(unsigned char *)buffer,&dwSize);
+			RegQueryValueEx(hKey,kn,nullptr,nullptr,(unsigned char *)buffer,&dwSize);
 		
 			ZeroMemory(&mii,sizeof(mii));
 			mii.cbSize = sizeof(mii);
@@ -875,7 +875,7 @@ long S_DEBUG::GetRecentFileALine(char * pFileName)
 	DWORD dwLine;
 
 
-	if(pFileName == 0) return 0;
+	if(pFileName == nullptr) return 0;
 
 	RegOpenKeyEx(HKEY_CURRENT_USER,"SDIIDEBUGGER",0,KEY_ALL_ACCESS,&hKey);
 	if(!hKey) return 0;
@@ -885,14 +885,14 @@ long S_DEBUG::GetRecentFileALine(char * pFileName)
 		wsprintf(kn,"file%d",n);
 		dwSize = sizeof(buffer);
 		buffer[0] = 0;
-		if(RegQueryValueEx(hKey,kn,0,0,(unsigned char *)buffer,&dwSize) == ERROR_SUCCESS)
+		if(RegQueryValueEx(hKey,kn,nullptr,nullptr,(unsigned char *)buffer,&dwSize) == ERROR_SUCCESS)
 		{
 			if(_stricmp(buffer,pFileName)==0) 
 			{
 				wsprintf(kn,"line%d",n);
 
 				dwSize = sizeof(DWORD);
-				if(RegQueryValueEx(hKey,kn,0,0,(unsigned char *)&dwLine,&dwSize) == ERROR_SUCCESS)
+				if(RegQueryValueEx(hKey,kn,nullptr,nullptr,(unsigned char *)&dwLine,&dwSize) == ERROR_SUCCESS)
 				{
 					RegCloseKey(hKey);
 					return dwLine;
@@ -913,7 +913,7 @@ void S_DEBUG::SaveRecentFileALine(char * pFileName, long nLine)
 	char kn[MAX_PATH];
 	DWORD dwSize;
 
-	if(pFileName == 0) return;
+	if(pFileName == nullptr) return;
 
 	RegOpenKeyEx(HKEY_CURRENT_USER,"SDIIDEBUGGER",0,KEY_ALL_ACCESS,&hKey);
 	if(!hKey) if(RegCreateKey(HKEY_CURRENT_USER,"SDIIDEBUGGER",&hKey) != ERROR_SUCCESS) return;
@@ -923,7 +923,7 @@ void S_DEBUG::SaveRecentFileALine(char * pFileName, long nLine)
 		wsprintf(kn,"file%d",n);
 		dwSize = sizeof(buffer);
 		buffer[0] = 0;
-		if(RegQueryValueEx(hKey,kn,0,0,(unsigned char *)buffer,&dwSize) == ERROR_SUCCESS)
+		if(RegQueryValueEx(hKey,kn,nullptr,nullptr,(unsigned char *)buffer,&dwSize) == ERROR_SUCCESS)
 		{
 			if(_stricmp(buffer,pFileName)==0) 
 			{

@@ -4,12 +4,12 @@
 
 CXI_PICTURE::CXI_PICTURE()
 {
-	m_rs = 0;
+	m_rs = nullptr;
 	m_idTex = -1;
-	m_pD3D8Texture = 0;
-	m_pTex = null;
+	m_pD3D8Texture = nullptr;
+	m_pTex = nullptr;
 	m_nNodeType = NODETYPE_PICTURE;
-	m_pcGroupName = null;
+	m_pcGroupName = nullptr;
 	m_bMakeBlind = false;
 	m_fCurBlindTime = 0.f;
 	m_bBlindUp = true;
@@ -52,7 +52,7 @@ void CXI_PICTURE::Draw(bool bSelected,dword Delta_Time)
 		{
 			if(m_idTex!=-1)	m_rs->TextureSet(0,m_idTex);
 			else if( m_pD3D8Texture ) m_rs->SetTexture( 0,m_pD3D8Texture );
-			else m_rs->SetTexture(0,m_pTex ? m_pTex->m_pTexture : 0);
+			else m_rs->SetTexture(0,m_pTex ? m_pTex->m_pTexture : nullptr);
 			m_rs->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP,XI_ONETEX_FVF,2,m_v,sizeof(XI_ONETEX_VERTEX),"iVideo");
 		}
 	}
@@ -89,7 +89,7 @@ void CXI_PICTURE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 		texRect = GetIniFloatRect(ini1,name1, ini2,name2, "textureRect", texRect);
 	}
 
-	m_pTex = null;
+	m_pTex = nullptr;
 	if( ReadIniString(ini1,name1, ini2,name2, "videoName", param, sizeof(param),"") )
 		m_pTex = m_rs->GetVideoTexture(param);
 
@@ -312,7 +312,7 @@ dword _cdecl CXI_PICTURE::MessageProc(long msgcode, MESSAGE & message)
 		{
 			char srcNodeName[256];
 			message.String( sizeof(srcNodeName), srcNodeName );
-			CINODE* pNod = (CINODE*)ptrOwner->FindNode(srcNodeName,0);
+			CINODE* pNod = (CINODE*)ptrOwner->FindNode(srcNodeName,nullptr);
 			if( pNod->m_nNodeType != NODETYPE_PICTURE ) {
 				api->Trace("Warning! XINTERFACE:: node with name %s have not picture type.", srcNodeName);
 			} else {
@@ -323,7 +323,7 @@ dword _cdecl CXI_PICTURE::MessageProc(long msgcode, MESSAGE & message)
 				}
 				if( pOtherPic->m_pcGroupName ) {
 					m_pcGroupName = pOtherPic->m_pcGroupName;
-					pOtherPic->m_pcGroupName = 0;
+					pOtherPic->m_pcGroupName = nullptr;
 				}
 				if( pOtherPic->m_idTex != -1 ) {
 					m_idTex = pOtherPic->m_idTex;
@@ -404,7 +404,7 @@ void CXI_PICTURE::SetNewPictureByPointer( IDirect3DBaseTexture9* pTex )
 void CXI_PICTURE::ReleasePicture()
 {
 	PICTURE_TEXTURE_RELEASE( pPictureService, m_pcGroupName, m_idTex );
-	if( m_pD3D8Texture ) m_pD3D8Texture->Release(); m_pD3D8Texture = null;
+	if( m_pD3D8Texture ) m_pD3D8Texture->Release(); m_pD3D8Texture = nullptr;
 	STORM_DELETE( m_pcGroupName );
 	TEXTURE_RELEASE( m_rs, m_idTex );
 	VIDEOTEXTURE_RELEASE( m_rs, m_pTex );

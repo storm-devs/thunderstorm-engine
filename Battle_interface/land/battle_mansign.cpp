@@ -8,7 +8,7 @@ BIManSign::BIManSign( ENTITY_ID& BIEntityID, VDX9RENDER* pRS )
 
 	m_idHostEntity = BIEntityID;
 	m_pRS = pRS;
-	m_pCommandList = 0;
+	m_pCommandList = nullptr;
 	m_nManQuantity = 0;
 
 	m_nVBufID = -1;
@@ -384,7 +384,7 @@ long BIManSign::CalculateManQuantity()
 		m_Man[n].nShootCurrent = 0;
 	}
 
-	ATTRIBUTES* pAttr = m_pARoot ? m_pARoot->GetAttributeClass("data") : 0;
+	ATTRIBUTES* pAttr = m_pARoot ? m_pARoot->GetAttributeClass("data") : nullptr;
 	if( pAttr ) pAttr = pAttr->GetAttributeClass("icons");
 	char attrname[128];
 	if( pAttr ) for(n=0; n<MAX_MAN_QUANTITY; n++) {
@@ -643,7 +643,7 @@ float BIManSign::GetGunProgressByIndex(long nIdx)
 
 void BIManSign::CheckDataChange()
 {
-	ATTRIBUTES * pAttr = m_pARoot ? m_pARoot->GetAttributeClass("data") : 0;
+	ATTRIBUTES * pAttr = m_pARoot ? m_pARoot->GetAttributeClass("data") : nullptr;
 	if( pAttr && BoolACompare(pAttr,"alarm",m_bIsAlarmOn) ) m_bMakeVertexFill = true;
 	if( pAttr ) pAttr = pAttr->GetAttributeClass("icons");
 	if( !pAttr ) return;

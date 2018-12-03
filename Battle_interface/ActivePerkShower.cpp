@@ -3,19 +3,19 @@
 
 ActivePerkShower::ActivePerkShower()
 {
-	rs = null;
+	rs = nullptr;
 
 	m_idVBuf = -1;
 	m_idIBuf = -1;
 
 	m_nTextureQ = 0;
-	m_pTexDescr = null;
+	m_pTexDescr = nullptr;
 
 	m_nShowPlaceQ = 0;
-	m_pShowPlaces = null;
+	m_pShowPlaces = nullptr;
 
 	m_nIShowQ = 0;
-	m_pIconsList = null;
+	m_pIconsList = nullptr;
 }
 
 ActivePerkShower::~ActivePerkShower()
@@ -25,12 +25,12 @@ ActivePerkShower::~ActivePerkShower()
 
 bool ActivePerkShower::Init()
 {
-	if( (rs=(VDX9RENDER *)_CORE_API->CreateService("dx9render")) == NULL )
+	if( (rs=(VDX9RENDER *)_CORE_API->CreateService("dx9render")) == nullptr )
 	{
 		STORM_THROW("Can`t create render service");
 	}
 
-	if( AttributesPointer==null ) return false;
+	if( AttributesPointer== nullptr ) return false;
 	if( !CreateTextures(AttributesPointer->GetAttributeClass("Textures")) ) return false;
 	if( !CreateShowPlaces(AttributesPointer->GetAttributeClass("ShowParam")) )
 	{
@@ -51,7 +51,7 @@ void ActivePerkShower::Execute(dword delta_time)
 
 void ActivePerkShower::Realize(dword delta_time)
 {
-	if(m_pTexDescr==null) return;
+	if(m_pTexDescr== nullptr) return;
 	rs->MakePostProcess();
 
 	for(int i=0; i<m_nTextureQ; i++)
@@ -84,20 +84,20 @@ dword _cdecl ActivePerkShower::ProcessMessage(MESSAGE & message)
 
 bool ActivePerkShower::CreateTextures(ATTRIBUTES * pATextureRoot)
 {
-	if(pATextureRoot==null) return false;
+	if(pATextureRoot== nullptr) return false;
 
 	int q = pATextureRoot->GetAttributesNum();
 	if(q<=0) return false;
 
 	m_pTexDescr = NEW _TEXTURE_DESCR[q];
-	if(m_pTexDescr==null)
+	if(m_pTexDescr== nullptr)
 	{	THROW("allocate memory error");
 	}
 
 	for(int i=0; i<q; i++)
 	{
 		ATTRIBUTES * pA = pATextureRoot->GetAttributeClass(i);
-		if(pA==null)
+		if(pA== nullptr)
 		{
 			m_pTexDescr[i].m_idTexture = -1;
 			m_pTexDescr[i].m_nCol = 1;
@@ -120,13 +120,13 @@ bool ActivePerkShower::CreateTextures(ATTRIBUTES * pATextureRoot)
 
 bool ActivePerkShower::CreateShowPlaces(ATTRIBUTES * pAPlacesRoot)
 {
-	if(pAPlacesRoot==null) return false;
+	if(pAPlacesRoot== nullptr) return false;
 	ATTRIBUTES * pAttr;
 
 	m_nIconWidth = 64;
 	m_nIconHeight = 64;
 	pAttr = pAPlacesRoot->GetAttributeClass("IconSize");
-	if(pAttr!=null)
+	if(pAttr!= nullptr)
 	{
 		m_nIconWidth = pAttr->GetAttributeAsDword("horz",64);
 		m_nIconHeight = pAttr->GetAttributeAsDword("vert",64);
@@ -135,7 +135,7 @@ bool ActivePerkShower::CreateShowPlaces(ATTRIBUTES * pAPlacesRoot)
 	m_nSpaceHorz = 4;
 	m_nSpaceVert = 4;
 	pAttr = pAPlacesRoot->GetAttributeClass("IconSpace");
-	if(pAttr!=null)
+	if(pAttr!= nullptr)
 	{
 		m_nSpaceHorz = pAttr->GetAttributeAsDword("horz",4);
 		m_nSpaceVert = pAttr->GetAttributeAsDword("vert",4);
@@ -147,7 +147,7 @@ bool ActivePerkShower::CreateShowPlaces(ATTRIBUTES * pAPlacesRoot)
 	rectBound.right		= 624;
 	rectBound.bottom	= 464;
 	pAttr = pAPlacesRoot->GetAttributeClass("PosRect");
-	if(pAttr!=null)
+	if(pAttr!= nullptr)
 	{
 		rectBound.left		= pAttr->GetAttributeAsDword("left", rectBound.left);
 		rectBound.top		= pAttr->GetAttributeAsDword("top", rectBound.top);
@@ -162,7 +162,7 @@ bool ActivePerkShower::CreateShowPlaces(ATTRIBUTES * pAPlacesRoot)
 
 	m_nShowPlaceQ = nHorzQ*nVertQ;
 	m_pShowPlaces = NEW _SHOW_PLACE[m_nShowPlaceQ];
-	if(m_pShowPlaces==null)
+	if(m_pShowPlaces== nullptr)
 	{	THROW("allocate memory error");
 	}
 
@@ -183,13 +183,13 @@ bool ActivePerkShower::CreateShowPlaces(ATTRIBUTES * pAPlacesRoot)
 
 bool ActivePerkShower::InitIconsList(ATTRIBUTES * pAIconsRoot)
 {
-	if( pAIconsRoot==null ) return true;
+	if( pAIconsRoot== nullptr ) return true;
 
 	int q = pAIconsRoot->GetAttributesNum();
 	m_nIShowQ = q;
 	if(m_nIShowQ==0) return true;
 	m_pIconsList = NEW _PICTURE_DESCR[q];
-	if(m_pIconsList==null)
+	if(m_pIconsList== nullptr)
 	{	THROW("allocate memory error");
 	}
 	for(int i=0; i<q; i++)
@@ -197,7 +197,7 @@ bool ActivePerkShower::InitIconsList(ATTRIBUTES * pAIconsRoot)
 		m_pIconsList[i].m_nPicNum = 0;
 		m_pIconsList[i].m_nPicTexIdx = 0;
 		ATTRIBUTES * pA = pAIconsRoot->GetAttributeClass(i); 
-		if(pA!=null)
+		if(pA!= nullptr)
 		{
 			m_pIconsList[i].m_nPicNum = pA->GetAttributeAsDword("texture",0);
 			m_pIconsList[i].m_nPicTexIdx = pA->GetAttributeAsDword("pic_idx",0);
@@ -210,7 +210,7 @@ bool ActivePerkShower::InitIconsList(ATTRIBUTES * pAIconsRoot)
 
 void ActivePerkShower::AddIconToList(ATTRIBUTES * pAItemDescr)
 {
-	if(pAItemDescr==null) return;
+	if(pAItemDescr== nullptr) return;
 	int picNum = pAItemDescr->GetAttributeAsDword("pic_idx");
 	int texNum = pAItemDescr->GetAttributeAsDword("texture");
 
@@ -221,17 +221,17 @@ void ActivePerkShower::AddIconToList(ATTRIBUTES * pAItemDescr)
 	}
 
 	m_nIShowQ++;
-	if(m_pIconsList==null)	m_pIconsList = NEW _PICTURE_DESCR[m_nIShowQ];
+	if(m_pIconsList== nullptr)	m_pIconsList = NEW _PICTURE_DESCR[m_nIShowQ];
 	else
 	{
 		_PICTURE_DESCR * old_pIconsList = m_pIconsList;
 		m_pIconsList = NEW _PICTURE_DESCR[m_nIShowQ];
-		if(m_pIconsList!=null)
+		if(m_pIconsList!= nullptr)
 		{	memcpy(m_pIconsList,old_pIconsList,sizeof(_PICTURE_DESCR)*(m_nIShowQ-1));
 		}
 		delete old_pIconsList;
 	}
-	if(m_pIconsList==null)	{THROW("allocate memory error");}
+	if(m_pIconsList== nullptr)	{THROW("allocate memory error");}
 	m_pIconsList[m_nIShowQ-1].m_nPicTexIdx = texNum;
 	m_pIconsList[m_nIShowQ-1].m_nPicNum = picNum;
 
@@ -240,7 +240,7 @@ void ActivePerkShower::AddIconToList(ATTRIBUTES * pAItemDescr)
 
 void ActivePerkShower::DelIconFromList(ATTRIBUTES * pAIconDescr)
 {
-	if(pAIconDescr==null) return;
+	if(pAIconDescr== nullptr) return;
 	int picNum = pAIconDescr->GetAttributeAsDword("pic_idx");
 	int texNum = pAIconDescr->GetAttributeAsDword("texture");
 
@@ -267,7 +267,7 @@ void ActivePerkShower::FillVIBuffers()
 	int pi,ti,start_idx;
 
 	BI_ONETEXTURE_VERTEX * pvb = (BI_ONETEXTURE_VERTEX*)rs->LockVertexBuffer(m_idVBuf);
-	if(pvb==null) return;
+	if(pvb== nullptr) return;
 
 	start_idx = 0;
 	for(ti=0; ti<m_nTextureQ; ti++)
@@ -289,7 +289,7 @@ void ActivePerkShower::FillVIBuffers()
 
 void ActivePerkShower::FillRectData(void * vbuf,FRECT & rectPos,FRECT & rectTex)
 {
-	if(vbuf==null) return;
+	if(vbuf== nullptr) return;
 	BI_ONETEXTURE_VERTEX * ptmp = (BI_ONETEXTURE_VERTEX*)vbuf;
 	ptmp[0].pos.x = rectPos.left;		ptmp[0].pos.y = rectPos.top;
 	ptmp[1].pos.x = rectPos.left;		ptmp[1].pos.y = rectPos.bottom;

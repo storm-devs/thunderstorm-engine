@@ -4,7 +4,7 @@
 
 COMPRESS::COMPRESS()
 {
-	pBTCompressionTable = 0;
+	pBTCompressionTable = nullptr;
 	dwBTCompressionTableSize = 0;
 }
 
@@ -16,7 +16,7 @@ COMPRESS::~COMPRESS()
 void COMPRESS::Release()
 {
 	if(pBTCompressionTable) delete pBTCompressionTable;
-	pBTCompressionTable = 0;
+	pBTCompressionTable = nullptr;
 	dwBTCompressionTableSize = 0;
 }
 
@@ -46,7 +46,7 @@ bool COMPRESS::Pack(const char * pSource, DWORD nSourceSize, char * & pDestinati
 
 	SCodec.Release();
 
-	if(pSource == 0) return false;
+	if(pSource == nullptr) return false;
 
 	DWORD nOldCode;
 	nBufferSize = 1024;
@@ -78,7 +78,7 @@ bool COMPRESS::Pack(const char * pSource, DWORD nSourceSize, char * & pDestinati
 	nCode = SCodec.Convert(pDataBuffer,nDataSize,bNew);
 	AppendCode(pDestination,nPackedSize,nCode);
 	
-	if(pDataBuffer) free(pDataBuffer); pDataBuffer = 0;
+	if(pDataBuffer) free(pDataBuffer); pDataBuffer = nullptr;
 
 	return true;
 }
@@ -101,9 +101,9 @@ bool COMPRESS::APack(const char * pSource, DWORD nSourceSize, char * & pDestinat
 	Release();
 	SCodec.Release();
 
-	if(pSource == 0) return false;
+	if(pSource == nullptr) return false;
 
-	pCodedData = 0;
+	pCodedData = nullptr;
 
 	// set buffer for accumulating word
 	nBufferSize = 1024;
@@ -143,7 +143,7 @@ bool COMPRESS::APack(const char * pSource, DWORD nSourceSize, char * & pDestinat
 	nCode = SCodec.Convert(pDataBuffer,nDataSize,bNew);
 	AAppendCode(pCodedData,nPackedSize,nCode,dwBitsOnCode,dwBitsCoded);
 	
-	if(pDataBuffer) free(pDataBuffer); pDataBuffer = 0;
+	if(pDataBuffer) free(pDataBuffer); pDataBuffer = nullptr;
 
 	pDestination = pCodedData;
 	return true;
@@ -154,9 +154,9 @@ bool COMPRESS::AppendCode(char * & pDestination, DWORD & nPackedSize, DWORD nCod
 	DWORD nBSize;
 	char * pB;
 	nBSize = 3;
-	if(pDestination == 0) pDestination = (char *)malloc(nBSize);
+	if(pDestination == nullptr) pDestination = (char *)malloc(nBSize);
 	else pDestination = (char *)realloc(pDestination,nPackedSize + nBSize);
-	if(pDestination == 0) return false;
+	if(pDestination == nullptr) return false;
 	pB = (char *)&nCode;
 	*((char *)(pDestination + nPackedSize)) = pB[0]; nPackedSize++;
 	*((char *)(pDestination + nPackedSize)) = pB[1]; nPackedSize++;
@@ -194,7 +194,7 @@ bool COMPRESS::AAppendCode(char * & pDest, DWORD & dwDestinationBufferSize, DWOR
 	dwSrcMask = 0x1 << dwBitsOnCode;
 
 	
-	if(pDest == 0) 
+	if(pDest == nullptr) 
 	{
 		dwDestinationBufferSize = 1;
 		pDest = (char *)malloc(dwDestinationBufferSize);
@@ -211,7 +211,7 @@ bool COMPRESS::AAppendCode(char * & pDest, DWORD & dwDestinationBufferSize, DWOR
 		if(DestMask == 0)
 		{
 			dwDestinationBufferSize++;
-			if(pDest == 0) pDest = (char *)malloc(dwDestinationBufferSize);
+			if(pDest == nullptr) pDest = (char *)malloc(dwDestinationBufferSize);
 			else pDest = (char *)realloc(pDest,dwDestinationBufferSize);
 
 
@@ -240,9 +240,9 @@ bool COMPRESS::AAppendCode(char * & pDest, DWORD & dwDestinationBufferSize, DWOR
 
 bool COMPRESS::AppendData(char * & pDestination, DWORD & nUnpackedSize, char * pData, DWORD nSize)
 {
-	if(pDestination == 0) pDestination = (char *)malloc(nSize);
+	if(pDestination == nullptr) pDestination = (char *)malloc(nSize);
 	else pDestination = (char *)realloc(pDestination,nUnpackedSize + nSize);
-	if(pDestination == 0) return false;
+	if(pDestination == nullptr) return false;
 	memcpy(pDestination + nUnpackedSize,pData,nSize);
 	nUnpackedSize += nSize;
 	return true;
@@ -265,8 +265,8 @@ bool COMPRESS::TranslateCode(DWORD code, char * & pDataBuffer, DWORD & nBufferSi
 	DWORD  nSize;
 	char * pData;
 	pData = SCodec.Convert(code,nSize);
-	if(pData == 0) return false;
-	if(pDataBuffer == 0)
+	if(pData == nullptr) return false;
+	if(pDataBuffer == nullptr)
 	{
 		nBufferSize = nSize;
 		nDataSize = nSize;

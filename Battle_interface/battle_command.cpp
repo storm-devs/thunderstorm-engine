@@ -103,7 +103,7 @@ long BICommandList::ExecuteConfirm()
 	if( !m_aUsedCommand[m_nSelectedCommandIndex].sCommandName.empty() ) {
 		m_sCurrentCommandName = m_aUsedCommand[m_nSelectedCommandIndex].sCommandName;
 		VDATA * pVD = api->Event("BI_CommandEndChecking","s",m_sCurrentCommandName.c_str());
-		if(pVD!=null)	pVD->Get(endCode);
+		if(pVD!= nullptr)	pVD->Get(endCode);
 	}
 	else
 	{
@@ -219,7 +219,7 @@ void BICommandList::Init()
 	FULLRECT(m_frActiveIconUV2);
 	m_sActiveIconNote = "";
 
-	pAList = 0;
+	pAList = nullptr;
 	if( m_pARoot ) pAList = m_pARoot->GetAttributeClass( "CommandList" );
 	if( pAList ) {
 		// get icon parameters
@@ -258,10 +258,10 @@ void BICommandList::Init()
 			m_sActiveIconNote = attr;
 	}
 
-	pAList = 0;
+	pAList = nullptr;
 	if( m_pARoot ) pAList = m_pARoot->GetAttributeClass( "CommandTextures" );
 
-	pATextures = 0;
+	pATextures = nullptr;
 	if( pAList ) pATextures = pAList->GetAttributeClass( "list" );
 	if( pATextures )
 	{
@@ -500,14 +500,14 @@ void BICommandList::SetNote( const char* pcNote, long nX, long nY )
 
 ATTRIBUTES* BICommandList::GetCurrentCommandAttribute()
 {
-	if( m_sCurrentCommandName.empty() ) return null;
+	if( m_sCurrentCommandName.empty() ) return nullptr;
 
-	ATTRIBUTES* pAR = null;
+	ATTRIBUTES* pAR = nullptr;
 	if( m_nCurrentCommandMode & BI_COMMODE_ABILITY_ICONS )
 		pAR = m_pARoot->GetAttributeClass( "AbilityIcons" );
 	else
 		pAR = m_pARoot->GetAttributeClass( "Commands" );
-	if( !pAR ) return null;
+	if( !pAR ) return nullptr;
 
 	long q = pAR->GetAttributesNum();
 	for( long n=0; n<q; n++ )
@@ -517,5 +517,5 @@ ATTRIBUTES* BICommandList::GetCurrentCommandAttribute()
 		char* pcCommName = pA->GetAttribute("event");
 		if( m_sCurrentCommandName == pcCommName ) return pA;
 	}
-	return 0;
+	return nullptr;
 }

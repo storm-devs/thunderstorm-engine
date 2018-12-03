@@ -25,7 +25,7 @@ struct DEFINFO
 
 struct DTHASHLINE
 {
-	DTHASHLINE(){nNumElements = 0; pElements = 0;};
+	DTHASHLINE(){nNumElements = 0; pElements = nullptr;};
 	DWORD nNumElements;
 	DWORD * pElements;
 };

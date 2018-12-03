@@ -9,7 +9,7 @@ BREAKPOINTS_TABLE::BREAKPOINTS_TABLE()
 {
 	fio = &File_Service;
 	nPoints = 0;
-	pTable = 0;
+	pTable = nullptr;
 	ProjectName[0] = 0;
 	//bReleased = false;
 }
@@ -53,7 +53,7 @@ void BREAKPOINTS_TABLE::Release()
 		}
 		delete pTable;
 	}
-	pTable = 0;
+	pTable = nullptr;
 	nPoints = 0;
 	//bReleased = true;
 }
@@ -86,7 +86,7 @@ void BREAKPOINTS_TABLE::UpdateProjectFile()
 bool MakeLineCode(char * buffer, DWORD & nLineCode)
 {
 	DWORD n;
-	if(buffer == 0) return false;
+	if(buffer == nullptr) return false;
 	n = 0;
 	while(buffer[n])
 	{
@@ -135,7 +135,7 @@ void BREAKPOINTS_TABLE::AddBreakPoint(const char * filename, DWORD line)
 {
 	DWORD n;
 
-	if(filename == 0) return;
+	if(filename == nullptr) return;
 	
 	for(n=0;n<nPoints;n++)
 	{
@@ -163,7 +163,7 @@ void BREAKPOINTS_TABLE::FlipBreakPoint(const char * filename, DWORD line)
 void BREAKPOINTS_TABLE::DelBreakPoint(const char * filename, DWORD line)
 {
 	DWORD n;
-	if(filename == 0) return;
+	if(filename == nullptr) return;
 	for(n=0;n<nPoints;n++)
 	{
 		if(pTable[n].nLineNumber != line) continue;
@@ -185,7 +185,7 @@ void BREAKPOINTS_TABLE::DelBreakPoint(const char * filename, DWORD line)
 bool BREAKPOINTS_TABLE::Find(const char * filename, DWORD line)
 {
 	DWORD n;
-	if(filename == 0) return false;
+	if(filename == nullptr) return false;
 	for(n=0;n<nPoints;n++)
 	{
 		if(pTable[n].nLineNumber != line) continue;

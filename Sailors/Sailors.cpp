@@ -823,7 +823,7 @@ void ShipWalk::Init(ENTITY_ID &_shipID, int editorMode, char *shipType)
 
 	} else //Режим редактора
 	{
-		ship = NULL;
+		ship = nullptr;
 	}
 
 	UNGUARD_SAILORS

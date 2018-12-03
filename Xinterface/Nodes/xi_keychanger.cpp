@@ -5,9 +5,9 @@
 
 CXI_KEYCHANGER::CXI_KEYCHANGER()
 {
-	m_rs = null;
-	m_pControlsID = null;
-	m_pbControlsStick = null;
+	m_rs = nullptr;
+	m_pControlsID = nullptr;
+	m_pbControlsStick = nullptr;
 	m_nNodeType = NODETYPE_KEYCHANGER;
 	m_bKeyCheck = false;
 	m_keysQuantity = 0;
@@ -35,7 +35,7 @@ void CXI_KEYCHANGER::Draw(bool bSelected,dword Delta_Time)
 				{
 					bool bAllowChange = false;
 					VDATA * pdat = api->Event("evntKeyChoose","ll",i,cs.fValue>0);
-					if(pdat!=null) bAllowChange = pdat->GetLong()!=0;
+					if(pdat!= nullptr) bAllowChange = pdat->GetLong()!=0;
 					if(bAllowChange)
 					{
 						m_bUse = false;
@@ -97,7 +97,7 @@ dword _cdecl CXI_KEYCHANGER::MessageProc(long msgcode, MESSAGE & message)
 
 void CXI_KEYCHANGER::SetChoosingControls(ATTRIBUTES * pA)
 {
-	if(pA==null) return;
+	if(pA== nullptr) return;
 
 	PTR_STORM_DELETE(m_pControlsID);
 	PTR_STORM_DELETE(m_pbControlsStick);
@@ -106,7 +106,7 @@ void CXI_KEYCHANGER::SetChoosingControls(ATTRIBUTES * pA)
 
 	m_pControlsID = NEW long[m_keysQuantity];
 	m_pbControlsStick = NEW bool[m_keysQuantity];
-	if(m_pControlsID==null || m_pbControlsStick==null)
+	if(m_pControlsID== nullptr || m_pbControlsStick== nullptr)
 	{
 		STORM_THROW("Allocate memory error");
 	}
@@ -118,12 +118,12 @@ void CXI_KEYCHANGER::SetChoosingControls(ATTRIBUTES * pA)
 		m_pbControlsStick[i] = false;
 		m_pControlsID[i] = api->Controls->CreateControl(contrlName);
 		char * keyCode = pA->GetAttribute(i);
-		if(keyCode!=null)
+		if(keyCode!= nullptr)
 		{
 			api->Controls->MapControl(m_pControlsID[i],atoi(keyCode));
 		}
 		ATTRIBUTES * pAttr = pA->GetAttributeClass(i);
-		if(pAttr!=null)
+		if(pAttr!= nullptr)
 			if( pAttr->GetAttributeAsDword("stick",0) != 1 )
 				m_pbControlsStick[i] = true;
 	}

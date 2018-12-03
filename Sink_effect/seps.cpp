@@ -5,22 +5,22 @@ SEPS_PS::SEPS_PS()
 {
 	api = (VAPI *)_CORE_API;
 
-	TechniqueName = 0;
+	TechniqueName = nullptr;
 
 	ParticleColor = 0xffffffff;
 
 	bTrackAngle = 0;
 
-	l_PTR = 0;
-	r_PTR = 0;
+	l_PTR = nullptr;
+	r_PTR = nullptr;
 
 	bLinkEmitter = false;
 
-	RenderService = 0;
+	RenderService = nullptr;
 	ParticlesNum = 0;
 	TexturesNum = 0;
-	Particle = 0;
-	VBuffer = 0;
+	Particle = nullptr;
+	VBuffer = nullptr;
 
 	Emitter.x = Emitter.y = Emitter.z = 0;
 	Camera_EmitterPos.x = Camera_EmitterPos.y = Camera_EmitterPos.z = 0;
@@ -49,7 +49,7 @@ SEPS_PS::SEPS_PS()
 	fWindPower = 0;
 	fWindEffect = 0;
 
-	pFlowTrack = 0;
+	pFlowTrack = nullptr;
 	nFlowTrackSize = 0;
 	bUseFlowTrack = false;
 	bLayOnSurface = false;
@@ -128,9 +128,9 @@ SEPS_PS::~SEPS_PS()
 		for(n=0;n<TexturesNum;n++) RenderService->TextureRelease(TextureID[n]);
 		api->FreeService("dx9render");
 	}
-	if(Particle) delete Particle; Particle = 0;
-	if(pFlowTrack) delete pFlowTrack; pFlowTrack = 0;
-	if(TechniqueName) delete TechniqueName; TechniqueName = 0;
+	if(Particle) delete Particle; Particle = nullptr;
+	if(pFlowTrack) delete pFlowTrack; pFlowTrack = nullptr;
+	if(TechniqueName) delete TechniqueName; TechniqueName = nullptr;
 
 }
 
@@ -141,7 +141,7 @@ void SEPS_PS::SetLeftNode(SEPS_PS * node) {	l_PTR = node; }
 void SEPS_PS::SetRightNode(SEPS_PS * node) { r_PTR = node; }
 void SEPS_PS::Attach(SEPS_PS * * Root,SEPS_PS * * Top)
 {
-	if(*Root == 0)
+	if(*Root == nullptr)
 	{
 		*Root = this;
 		*Top = this;
@@ -253,16 +253,16 @@ bool SEPS_PS::Init(INIFILE * ini, char * psname)
 	fTrackPointRadius = ini->GetFloat(psname,PSKEY_TRACKPOINTRADIUS,1.0f);
 
 
-	if(ini->TestKey(psname,PSKEY_COLORINVERSE,0)) bColorInverse = true;
+	if(ini->TestKey(psname,PSKEY_COLORINVERSE,nullptr)) bColorInverse = true;
 	else bColorInverse = false;
 
-	if(ini->TestKey(psname,PSKEY_UNIFORMEMIT,0)) bUniformEmit = true;
+	if(ini->TestKey(psname,PSKEY_UNIFORMEMIT,nullptr)) bUniformEmit = true;
 	else bUniformEmit = false;
 
-	if(ini->TestKey(psname,PSKEY_RANDOMDIRECTION,0)) bRandomDirection = true;
+	if(ini->TestKey(psname,PSKEY_RANDOMDIRECTION,nullptr)) bRandomDirection = true;
 	else bRandomDirection = false;
 
-	if(ini->TestKey(psname,PSKEY_NONSTOPEMIT,0)) bRepeat = true;
+	if(ini->TestKey(psname,PSKEY_NONSTOPEMIT,nullptr)) bRepeat = true;
 	else bRepeat = false;
 
 
@@ -272,7 +272,7 @@ bool SEPS_PS::Init(INIFILE * ini, char * psname)
 
 
 	Particle = (PARTICLE *) NEW char[ParticlesNum*sizeof(PARTICLE)];
-	if(Particle == 0) STORM_THROW(mem error);
+	if(Particle == nullptr) STORM_THROW(mem error);
 
 	memset(Particle,0,ParticlesNum*sizeof(PARTICLE));
 
@@ -339,7 +339,7 @@ bool SEPS_PS::Init(INIFILE * ini, char * psname)
 
 	// create vertex buffer
 	RenderService->CreateVertexBuffer(sizeof(PARTICLE_VERTEX)*VERTEXS_ON_PARTICLE*ParticlesNum, D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, PARTICLE_FVF, D3DPOOL_SYSTEMMEM, &VBuffer);
-	if(VBuffer == 0) STORM_THROW(vbuffer error);
+	if(VBuffer == nullptr) STORM_THROW(vbuffer error);
 
 	UpdateVertexBuffer();
 
@@ -488,7 +488,7 @@ void SEPS_PS::LayOnSurface(dword index)
 	CVECTOR from,to;
 	float dist;
 	pLink = (COLLISION_OBJECT *)api->GetEntityPointer(&SurfaceID);
-	if(pLink == null) return;
+	if(pLink == nullptr) return;
 	from = Particle[index].pos;
 	to = from;
 	from.y =100.0f;

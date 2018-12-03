@@ -25,7 +25,7 @@ public:
 	MemFile::MemFile ()
 	{
 		DataIsMy = false;
-		Data = NULL;
+		Data = nullptr;
 		MaxLen = 0;
 		CurPos = 0;
 		BiggestWritePos = 0;
@@ -101,7 +101,7 @@ public:
 		if (DataIsMy)
 		{
 			delete Data;
-			Data = NULL;
+			Data = nullptr;
 		}
 	}
 

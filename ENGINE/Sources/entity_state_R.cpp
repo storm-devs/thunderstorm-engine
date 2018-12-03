@@ -10,10 +10,10 @@ char Signature_Buff[] = "ES";
 
 ENTITY_STATE_GEN_R::ENTITY_STATE_GEN_R()
 {
-	Buffer = null;
+	Buffer = nullptr;
 	Buffer_size = 0;
 	Data_size = 0;
-	Format_string = null;
+	Format_string = nullptr;
 }
 
 ENTITY_STATE_GEN_R::~ENTITY_STATE_GEN_R()
@@ -26,7 +26,7 @@ void ENTITY_STATE_GEN_R::Init(VFILE_SERVICE * _fio,HANDLE _file_handle)
 {
 	GUARD(ENTITY_STATE_GEN_R::Init)
 	fio = _fio;
-	if(fio == null) THROW;
+	if(fio == nullptr) THROW;
 	file_handle = _file_handle;
 	if(file_handle == INVALID_HANDLE_VALUE) THROW;
 	UNGUARD
@@ -39,7 +39,7 @@ void ENTITY_STATE_GEN_R::CloseState()
 	dword dwR;
 
 	// if no state data - return
-	if(Format_string == null) return;
+	if(Format_string == nullptr) return;
 
 	// write signature
 	sizeofstruct = strlen(Signature);
@@ -47,7 +47,7 @@ void ENTITY_STATE_GEN_R::CloseState()
 	if(dwR != sizeofstruct) THROW;
 
 	// write size of format string
-	if(Format_string == null) sizeofstruct = 0;
+	if(Format_string == nullptr) sizeofstruct = 0;
 	else sizeofstruct = strlen(Format_string) + 1;
 	fio->_WriteFile(file_handle,&sizeofstruct,sizeof(sizeofstruct),&dwR);
 	if(dwR != sizeof(sizeofstruct)) THROW;
@@ -67,7 +67,7 @@ void ENTITY_STATE_GEN_R::CloseState()
 	// reset buffer pointer and format string
 	Data_size = 0;
 	if(Format_string) delete Format_string;
-	Format_string = null;
+	Format_string = nullptr;
 
 	UNGUARD
 }
@@ -80,7 +80,7 @@ void ENTITY_STATE_GEN_R::VerifyFreeSpace(dword add_data_size)
 	if((Data_size + add_data_size) >= Buffer_size) 
 	{
 		Buffer = (char *)RESIZE(Buffer,Buffer_size*2);
-		if(Buffer == null) THROW;
+		if(Buffer == nullptr) THROW;
 		Buffer_size = Buffer_size*2;
 	}
 	UNGUARD
@@ -106,25 +106,25 @@ void _cdecl ENTITY_STATE_GEN_R::SetState(char * Format,...)
 
 	// upload or append format string
 	if(!Format) STORM_THROW(empty format string);
-	if(Format_string == null)
+	if(Format_string == nullptr)
 	{
 
 		Format_string = (char *)NEW char[strlen(Format)+1];
-		if(Format_string == null) THROW;
+		if(Format_string == nullptr) THROW;
 		strcpy(Format_string,Format);
 	} else
 	{
 		Format_string = (char *)RESIZE(Format_string,strlen(Format_string) + strlen(Format) + 1);
-		if(Format_string == null) THROW;
+		if(Format_string == nullptr) THROW;
 		strcat(Format_string,Format);
 	}
 
 	// allocate memory for buffer, if mem still not allocated
-	if(Buffer == null)
+	if(Buffer == nullptr)
 	{
 
 		Buffer = (char *)NEW char[INITIAL_BUFFER_SIZE];
-		if(Buffer == null) THROW;
+		if(Buffer == nullptr) THROW;
 		Buffer_size = INITIAL_BUFFER_SIZE;
 	}
 
@@ -184,8 +184,8 @@ void _cdecl ENTITY_STATE_GEN_R::SetState(char * Format,...)
 }
 ENTITY_STATE_R::ENTITY_STATE_R()
 {
-	Format_string = null;
-	Buffer = null;
+	Format_string = nullptr;
+	Buffer = nullptr;
 	Buffer_size = 0;
 	Format_index = 0;
 }
@@ -202,7 +202,7 @@ void ENTITY_STATE_R::Init(VFILE_SERVICE * _fio,HANDLE _file_handle)
 	//dword dwR;
 	GUARD(ENTITY_STATE_R::Init)
 	fio = _fio;
-	if(fio == null) THROW;
+	if(fio == nullptr) THROW;
 	file_handle = _file_handle;
 	if(file_handle == INVALID_HANDLE_VALUE) THROW;
 
@@ -216,10 +216,10 @@ void ENTITY_STATE_R::LoadStateBlock()
 	dword sizeofstruct;
 	dword dwR;
 
-	if(Format_string) delete Format_string; Format_string = null;
+	if(Format_string) delete Format_string; Format_string = nullptr;
 	Format_index = 0;
 	Data_index = 0;
-	Data_PTR = null;
+	Data_PTR = nullptr;
 	// read block signature
 	sizeofstruct = strlen(Signature);
 	fio->_ReadFile(file_handle,Signature_Buff,sizeofstruct,&dwR);
@@ -245,7 +245,7 @@ void ENTITY_STATE_R::LoadStateBlock()
 	if(dwR != sizeof(Buffer_size)) THROW;
 
 	// allocate or resize mem for data
-	if(Buffer == null)
+	if(Buffer == nullptr)
 	{
 		Buffer_size = Data_size;
 
@@ -276,11 +276,11 @@ void ENTITY_STATE_R::ValidateFormat(char c)
 	if(Format_string)
 	if(Format_index >= strlen(Format_string))
 	{
-		delete Format_string; Format_string = null;
+		delete Format_string; Format_string = nullptr;
 		Format_index = 0;
 	}
-	if(Format_string == null) LoadStateBlock();
-	if(Format_string == null) STORM_THROW(no state data);
+	if(Format_string == nullptr) LoadStateBlock();
+	if(Format_string == nullptr) STORM_THROW(no state data);
 	if(Format_string[Format_index] != c) STORM_THROW(incorrect state data);
 	Format_index++;
 	UNGUARD
@@ -340,7 +340,7 @@ void ENTITY_STATE_R::String(dword dest_buffer_size, char * buffer)
 {
 	GUARD(ENTITY_STATE_R::String)
 	dword size;
-	if(buffer == null) STORM_THROW(invalid buffer);
+	if(buffer == nullptr) STORM_THROW(invalid buffer);
 	ValidateFormat('s');
 	Data_PTR += sizeof(dword); 
 	if(Data_PTR > (Buffer + Data_size)) STORM_THROW(no data);	
@@ -355,7 +355,7 @@ void ENTITY_STATE_R::MemoryBlock(dword memsize, char * buffer)
 {
 	GUARD(ENTITY_STATE_R::MemoryBlock)
 	dword size;
-	if(buffer == null) STORM_THROW(invalid buffer);
+	if(buffer == nullptr) STORM_THROW(invalid buffer);
 	ValidateFormat('m');
 	Data_PTR += sizeof(dword); 
 	if(Data_PTR > (Buffer + Data_size)) STORM_THROW(no data);	
@@ -371,7 +371,7 @@ void ENTITY_STATE_R::Struct(dword memsize, char * buffer)
 {
 	GUARD(ENTITY_STATE_R::Struct)
 	dword size;
-	if(buffer == null) STORM_THROW(invalid buffer);
+	if(buffer == nullptr) STORM_THROW(invalid buffer);
 	ValidateFormat('v');
 	Data_PTR += sizeof(dword); 
 	if(Data_PTR > (Buffer + Data_size)) STORM_THROW(no data);	

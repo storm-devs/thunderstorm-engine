@@ -18,20 +18,20 @@
 
 LGeometry::LGeometry()
 {
-	object = null;
+	object = nullptr;
 	numObjects = 0;
 	maxObjects = 0;
-	vrt = null;
+	vrt = nullptr;
 	numVrt = 0;
 	maxVrt = 0;
-	trg = null;
+	trg = nullptr;
 	numTrg = 0;
 	maxTrg = 0;
-	vbuffer = null;
+	vbuffer = nullptr;
 	numVBuffers = 0;
 	maxVBuffers = 0;
-	shadows = null;
-	drawbuf = null;
+	shadows = nullptr;
+	drawbuf = nullptr;
 	radius = 0.0f;
 	modelsPath[0] = 0;
 	lightPath[0] = 0;
@@ -192,7 +192,7 @@ bool LGeometry::Process(VDX9RENDER * rs, long numLights)
 				vrt = (Vertex *)RESIZE(vrt, maxVrt*sizeof(Vertex));
 			}
 			//Копируем
-			byte * pnt = null;
+			byte * pnt = nullptr;
 			if(vbuf->Lock(0, desc.Size, (VOID**)&pnt, 0) != D3D_OK)
 			{
 				api->Trace("Location lighter: vertex buffer no locked, model %s, vbID %i", object[i].nameReal, vbID);
@@ -218,7 +218,7 @@ bool LGeometry::Process(VDX9RENDER * rs, long numLights)
 				vrt[numVrt].alpha = 0xff000000;
 				vrt[numVrt].flags = Vertex::f_zero;
 				vrt[numVrt].vbid = vbID;
-				vrt[numVrt].shadow = null;
+				vrt[numVrt].shadow = nullptr;
 				vrt[numVrt].addr = v*stride + 6*sizeof(float);
 				vrt[numVrt].obj = i;
 				vrt[numVrt].cindex = cindex++;
@@ -371,7 +371,7 @@ void LGeometry::DrawNormals(VDX9RENDER * rs)
 void LGeometry::UpdateColors(VDX9RENDER * rs)
 {
 	long lockedVB = -1;
-	byte * pnt = null;
+	byte * pnt = nullptr;
 	for(long i = 0; i < numVrt; i++)
 	{
 		if(vrt[i].vbid != lockedVB)
@@ -435,7 +435,7 @@ bool LGeometry::Save()
 				dir[p] = 0;
 				if(_access(dir, 0) == -1)
 				{
-					if(!CreateDirectory(dir, null))
+					if(!CreateDirectory(dir, nullptr))
 					{
 						isCont = true;
 						break;

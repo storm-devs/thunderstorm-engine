@@ -17,7 +17,7 @@
 
 struct CLASS_COMPONENT
 {
-	CLASS_COMPONENT() {name = 0; nFlags = 0; nID = 0xffffffff; nElements = 0;};
+	CLASS_COMPONENT() {name = nullptr; nFlags = 0; nID = 0xffffffff; nElements = 0;};
 	dword nID;
 	dword nFlags;
 	char * name;

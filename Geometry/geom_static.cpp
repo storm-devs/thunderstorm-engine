@@ -21,9 +21,9 @@ GEOS* _cdecl CreateGeometry(const char *fname, const char *lightname, GEOM_SERVI
 GEOM::GEOM(const char *fname, const char *lightname, GEOM_SERVICE &_srv, long flags) : srv(_srv)
 {
 	long ltfl;
-	unsigned int *colData=0;
+	unsigned int *colData=nullptr;
 	int flsz = 0;
-	if(lightname!=NULL)
+	if(lightname!= nullptr)
 	{
 		ltfl = srv.OpenFile(lightname);
 		flsz = srv.FileSize(ltfl);
@@ -32,7 +32,7 @@ GEOM::GEOM(const char *fname, const char *lightname, GEOM_SERVICE &_srv, long fl
 			colData = (unsigned int *)srv.malloc(flsz);
 			srv.ReadFile(ltfl, colData, flsz);
 		}
-		else	lightname=0;
+		else	lightname=nullptr;
 		srv.CloseFile(ltfl);
 	}
 
@@ -142,10 +142,10 @@ GEOM::GEOM(const char *fname, const char *lightname, GEOM_SERVICE &_srv, long fl
 	srv.free(rvb);
 	//read vertices
 	unsigned int *_colData = colData;
-	if(lightname!=NULL && flsz/4!=nvertices)
+	if(lightname!= nullptr && flsz/4!=nvertices)
 	{
 		srv.free(colData);
-		lightname=NULL;
+		lightname= nullptr;
 	}
 	for(v=0; v<rhead.nvrtbuffs; v++)
 	{
@@ -154,7 +154,7 @@ GEOM::GEOM(const char *fname, const char *lightname, GEOM_SERVICE &_srv, long fl
 		for(long vr=0; vr<vbuff[v].nverts; vr++)
 		{
 			RDF_VERTEX0 *prv = (RDF_VERTEX0*)(long(vrt) + vbuff[v].stride*vr);
-			if(lightname!=NULL)	prv->color = *_colData++;
+			if(lightname!= nullptr)	prv->color = *_colData++;
 			//prv->norm.x = 0.0f;
 		}
 
@@ -181,7 +181,7 @@ GEOM::GEOM(const char *fname, const char *lightname, GEOM_SERVICE &_srv, long fl
 
 	srv.CloseFile(file);
 
-	if(lightname!=NULL)	srv.free(colData);
+	if(lightname!= nullptr)	srv.free(colData);
 
 	for(long t=0; t<rhead.ntextures; t++)
 		tlookup[t] = srv.CreateTexture(&globname[tname[t]]);
@@ -257,7 +257,7 @@ void GEOM::Draw(const PLANE *pl, long np, MATERIAL_FUNC mtf) const
 		VERTEX_BUFFER *vb = &vbuff[object[o].vertex_buff];
 		srv.SetVertexBuffer(vb->stride, vb->dev_buff);
 		srv.SetMaterial(material[object[o].material]);
-		if(mtf!=0)	mtf(material[object[o].material]);
+		if(mtf!=nullptr)	mtf(material[object[o].material]);
 		srv.DrawIndexedPrimitive(object[o].start_vertex, object[o].num_vertices, vb->stride, object[o].striangle*3, object[o].ntriangles);
 	}
 }

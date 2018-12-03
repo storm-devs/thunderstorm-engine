@@ -96,11 +96,11 @@ char* SkipToken(char* str, char* cmp)
 	int flag;
 	char *str1,*cmp1;
 
-	if (str==0 || cmp==0) return 0;
+	if (str==nullptr || cmp==nullptr) return nullptr;
 	cmp1 = cmp;
 
-	if ((str == NULL)||(cmp == NULL)) return NULL;
-	if (strlen(str)==0) return NULL;
+	if ((str == nullptr)||(cmp == nullptr)) return nullptr;
+	if (strlen(str)==0) return nullptr;
 
 	int lens = strlen(str);
 	int lenc = strlen(cmp);
@@ -128,7 +128,7 @@ char* SkipToken(char* str, char* cmp)
 		while (*str == 32) str++;
 		return str;
 	}
-	return NULL;
+	return nullptr;
 }
 
 char* FindToken(char* str,char* cmp)
@@ -136,11 +136,11 @@ char* FindToken(char* str,char* cmp)
 	int flag;
 	char *str1,*cmp1;
 
-	if (str==0 || cmp==0) return 0;
+	if (str==nullptr || cmp==nullptr) return nullptr;
 	cmp1 = cmp;
 
-	if ((str == NULL)||(cmp == NULL)) return NULL;
-	if (strlen(str)==0) return NULL;
+	if ((str == nullptr)||(cmp == nullptr)) return nullptr;
+	if (strlen(str)==0) return nullptr;
 
 	int lens = strlen(str);
 	int lenc = strlen(cmp);
@@ -164,13 +164,13 @@ char* FindToken(char* str,char* cmp)
 		str++;
 	}
 	if (flag) return str;
-	return NULL;
+	return nullptr;
 }
 
 // Get token before symbol skip
 char*	GetTokenWhile(char* src, char* dst, char* skip)
 {
-	if (!src || !dst || !skip) return 0;
+	if (!src || !dst || !skip) return nullptr;
 	dst[0] = 0;
 	char *dst1 = dst;
 	long lensrc = strlen(src);
@@ -627,11 +627,11 @@ CTechnique::CTechnique(VDX9RENDER * _pRS)
 	dwCurSavedStatesPos = 0;
 	dwCurParamsMax = 0;
 
-	pShaders = null;
-	pBlocks = null;
-	pParams = null;
-	pSavedStates = null;
-	pCurParams = null;
+	pShaders = nullptr;
+	pBlocks = nullptr;
+	pParams = nullptr;
+	pSavedStates = nullptr;
+	pCurParams = nullptr;
 
 	pRS = _pRS;
 
@@ -682,16 +682,16 @@ CTechnique::~CTechnique()
 
 char *GetString(char * pBegin, dword dwSize, char * pCurrent)
 {
-	if (END_TEST) return 0;
+	if (END_TEST) return nullptr;
 	// go for a null, or 0xA, or 0xD
 	if (pCurrent != pBegin)		// for first string
 	{
 		while ((*pCurrent && *pCurrent != 0xa && *pCurrent != 0xd) && !END_TEST) *pCurrent++; //~!~
-		if (END_TEST) return 0;
+		if (END_TEST) return nullptr;
 	}
 	// skip all nulls, or 0xA, or 0xD
 	while ((!(*pCurrent) || (*pCurrent == 0xa && *pCurrent == 0xd)) && !END_TEST) *pCurrent++; //~!~
-	if (END_TEST) return 0;
+	if (END_TEST) return nullptr;
 	return pCurrent;
 }
 
@@ -812,7 +812,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 	DWORD	* pPassBegin = pPass;
 	dword	dwTextureIndex, dwAdditionalFlags = 0;
 	char	* pTemp, temp[256];
-	while (0 != (*pStr = GetString(pFile,dwSize,*pStr)))
+	while (nullptr != (*pStr = GetString(pFile,dwSize,*pStr)))
 	{
 #define SKIP3	{ (*pStr)++; continue; }
 		*pStr = _strlwr(*pStr);
@@ -842,7 +842,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 			if (pTemp = SkipToken(*pStr,RESTORE_STATES_CHECK))
 			{
 				*pPass++ = CODE_RESTORE;
-				*pPass++ = GetCode(pTemp,RESTORE_TYPES,sizeof(RESTORE_TYPES)/sizeof(SRSPARAM),false);
+				*pPass++ = GetCode(pTemp,RESTORE_TYPES,sizeof(RESTORE_TYPES)/sizeof(SRSPARAM),nullptr);
 				// clear STSS and SRS bUse
 				ClearSRS_STSS_bUse();
 				SKIP3;
@@ -870,7 +870,7 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 				sscanf(temp,"%lu", &dwIndex);
 				*pPass++ = dwIndex;
 				GetTokenWhile(SkipToken(*pStr,"="),temp,";");
-				*pPass++ = GetCode(temp,&MYSETVERTEXSHADERCONSTANT[0],sizeof(MYSETVERTEXSHADERCONSTANT) / sizeof(SRSPARAM),null,false);
+				*pPass++ = GetCode(temp,&MYSETVERTEXSHADERCONSTANT[0],sizeof(MYSETVERTEXSHADERCONSTANT) / sizeof(SRSPARAM), nullptr,false);
 				SKIP3;
 			}
 
@@ -980,11 +980,11 @@ dword CTechnique::ProcessPass(char * pFile, dword dwSize, char **pStr)
 			{
 				//
 				GetTokenWhile(SkipToken(*pStr,"."),temp,"=");
-				dword dwCode = GetCode(temp,TRANSFORM_TYPES,sizeof(TRANSFORM_TYPES)/sizeof(SRSPARAM), false);
+				dword dwCode = GetCode(temp,TRANSFORM_TYPES,sizeof(TRANSFORM_TYPES)/sizeof(SRSPARAM), nullptr);
 				if (dwCode==0xFFFFFFFF)	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 				{
 					// maybe world0-world256
-					if (0==(pTemp = SkipToken(*pStr,WORLD_TRANSFORM_CHECK))) THROW("transform. error!");
+					if (nullptr==(pTemp = SkipToken(*pStr,WORLD_TRANSFORM_CHECK))) THROW("transform. error!");
 					sscanf(pTemp,"%lu", &dwCode);
 					dwCode = (DWORD)D3DTS_WORLDMATRIX(dwCode);
 				}
@@ -1041,7 +1041,7 @@ dword CTechnique::ProcessTechnique(char *pFile, dword dwSize, char **pStr)
 	// clear STSS and SRS bUse
 	ClearSRS_STSS_bUse();
 	// search for pass and '}'
-	while (0 != (*pStr = GetString(pFile,dwSize,*pStr)))
+	while (nullptr != (*pStr = GetString(pFile,dwSize,*pStr)))
 	{
 #define SKIP2	{ (*pStr)++; continue; }
 		*pStr = _strlwr(*pStr);
@@ -1076,7 +1076,7 @@ dword CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, dword dwSi
 	dword dwStream = 0, dwOffset = 0;
 	dword dwIndexes[_countof(MYDECLUSAGE)] = { 0 };
 
-	while (0 != (*pStr = GetString(pFile,dwSize,*pStr)))
+	while (nullptr != (*pStr = GetString(pFile,dwSize,*pStr)))
 	{
 		*pStr = _strlwr(*pStr);
 		ClearComment(*pStr);
@@ -1146,7 +1146,7 @@ char *CTechnique::GetToken(char *pToken, char *pResult, bool & bToken)
 	bToken = false;
 	while (*pToken && !sDelimTable[*pToken]) pToken++;
 	pResult[pToken - pStart] = 0;
-	if (pToken - pStart == 0 && *pToken == 0) return null;
+	if (pToken - pStart == 0 && *pToken == 0) return nullptr;
 	if (pToken - pStart == 0 && sDelimTable[*pToken])
 	{
 		bToken = true;
@@ -1165,9 +1165,9 @@ char *CTechnique::Preprocessor(char *pBuffer, dword & dwSize)
 	char		*pStr = pBuffer;
 	dword		dwBufSize = strlen(pBuffer);
 	dword		i, dwNumDefines = 0;
-	char		* pProgram = null;
+	char		* pProgram = nullptr;
 	dword		dwProgramSize = 0;
-	define_t	* pDefines = null;
+	define_t	* pDefines = nullptr;
 	dword		dwMaxDefineElements = 0;
 	dword		dwMaxProgramElements = 0;
 	dword		dwNewSize;
@@ -1179,7 +1179,7 @@ char *CTechnique::Preprocessor(char *pBuffer, dword & dwSize)
 		if (pBuffer[i] == 0x9) pBuffer[i] = ' ';
 	}
 
-	while (0 != (pStr = GetString(pBuffer,dwBufSize,pStr)))
+	while (nullptr != (pStr = GetString(pBuffer,dwBufSize,pStr)))
 	{
 		//pStr = _strlwr(pStr);
 		ClearComment(pStr);
@@ -1202,7 +1202,7 @@ char *CTechnique::Preprocessor(char *pBuffer, dword & dwSize)
 		// else real code string
 		bool bNewString = false;
 		char *pToken = pStr;
-		while(0 != (pToken = GetToken(pToken,sToken,bToken)))
+		while(nullptr != (pToken = GetToken(pToken,sToken,bToken)))
 		{
 			dword dwTempLen = strlen(sToken);
 			if (!bToken)
@@ -1253,8 +1253,8 @@ dword CTechnique::ProcessShaderAsm(shader_t * pS, char *pFile, dword dwSize, cha
 {
 	dword dwFileSize;
 	dword dwTotalLen = 0;
-	char *pBuffer = null;
-	while (0 != (*pStr = GetString(pFile,dwSize,*pStr)))
+	char *pBuffer = nullptr;
+	while (nullptr != (*pStr = GetString(pFile,dwSize,*pStr)))
 	{
 		//*pStr = _strlwr(*pStr);
 		ClearComment(*pStr);
@@ -1262,7 +1262,7 @@ dword CTechnique::ProcessShaderAsm(shader_t * pS, char *pFile, dword dwSize, cha
 		if (isEndBracket(*pStr)) break;		// end of declaration
 
 		char *pTemp = *pStr;
-		char *pTempBuffer = null;
+		char *pTempBuffer = nullptr;
 
 		if (isInclude(*pStr))
 		{
@@ -1287,7 +1287,7 @@ dword CTechnique::ProcessShaderAsm(shader_t * pS, char *pFile, dword dwSize, cha
 		TOTAL_SKIP;
 	}
 #ifndef _XBOX
-	ID3DXBuffer * CompiledShader = null, * ErrorShader = null;
+	ID3DXBuffer * CompiledShader = nullptr, * ErrorShader = nullptr;
 #else
 	LPXGBUFFER	CompiledShader = null, ErrorShader = null;
 #endif
@@ -1297,12 +1297,12 @@ dword CTechnique::ProcessShaderAsm(shader_t * pS, char *pFile, dword dwSize, cha
 	if(HLSL)
 	{
 		if(dwShaderType == CODE_SVS)
-			hr = D3DXCompileShader(pBuffer, dwTotalLen, 0, 0, "main", "vs_3_0", D3DXSHADER_OPTIMIZATION_LEVEL3, &CompiledShader, &ErrorShader, 0);
+			hr = D3DXCompileShader(pBuffer, dwTotalLen, nullptr, nullptr, "main", "vs_3_0", D3DXSHADER_OPTIMIZATION_LEVEL3, &CompiledShader, &ErrorShader, nullptr);
 		else
-			hr = D3DXCompileShader(pBuffer, dwTotalLen, 0, 0, "main", "ps_3_0", D3DXSHADER_OPTIMIZATION_LEVEL3, &CompiledShader, &ErrorShader, 0);
+			hr = D3DXCompileShader(pBuffer, dwTotalLen, nullptr, nullptr, "main", "ps_3_0", D3DXSHADER_OPTIMIZATION_LEVEL3, &CompiledShader, &ErrorShader, nullptr);
 	}
 	else
-		hr = D3DXAssembleShader(pBuffer, dwTotalLen, NULL, 0, 0, &CompiledShader, &ErrorShader);
+		hr = D3DXAssembleShader(pBuffer, dwTotalLen, nullptr, nullptr, 0, &CompiledShader, &ErrorShader);
 
 //#ifndef _XBOX
 /*#else
@@ -1347,7 +1347,7 @@ dword CTechnique::ProcessVertexShader(char *pFile, dword dwSize, char **pStr)
 	shader_t *pS = &pShaders[AddShader(temp)];
 	pS->dwShaderType = CODE_SVS;
 
-	while (0 != (*pStr = GetString(pFile,dwSize,*pStr)))
+	while (nullptr != (*pStr = GetString(pFile,dwSize,*pStr)))
 	{
 		*pStr = _strlwr(*pStr);
 		ClearComment(*pStr);
@@ -1371,7 +1371,7 @@ dword CTechnique::ProcessPixelShader(char *pFile, dword dwSize, char **pStr)
 	shader_t *pS = &pShaders[AddShader(temp)];
 	pS->dwShaderType = CODE_SPS;
 
-	while (0 != (*pStr = GetString(pFile,dwSize,*pStr)))
+	while (nullptr != (*pStr = GetString(pFile,dwSize,*pStr)))
 	{
 		*pStr = _strlwr(*pStr);
 		ClearComment(*pStr);
@@ -1432,7 +1432,7 @@ dword CTechnique::ProcessBlock(char * pFile, dword dwSize, char **pStr)
 		}
 
 	// search for technique and '}'
-	while (0 != (*pStr = GetString(pFile,dwSize,*pStr)))
+	while (nullptr != (*pStr = GetString(pFile,dwSize,*pStr)))
 	{
 #define SKIP1	{ (*pStr)++; continue; }
 		*pStr = _strlwr(*pStr);
@@ -1533,10 +1533,10 @@ bool CTechnique::DecodeFile(char *sname)
 	sprintf(fname,"%s%s",SHA_DIR,sname);
 	strcpy(sCurrentFileName,sname);
 	HANDLE hFile = fio->_CreateFile(fname,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
-	dword dwSize = fio->_GetFileSize(hFile,0);
+	dword dwSize = fio->_GetFileSize(hFile,nullptr);
 	Assert(dwSize!=0);
 	char *pFile = NEW char[dwSize];
-	fio->_ReadFile(hFile,pFile,dwSize,0);
+	fio->_ReadFile(hFile,pFile,dwSize,nullptr);
 	fio->_CloseHandle(hFile);
 
 	// change 0xd and 0xa to 0x0
@@ -1550,7 +1550,7 @@ bool CTechnique::DecodeFile(char *sname)
 
 	//dwCurBlock = 0;
 
-	while (0 != (pStr = GetString(pFile, dwSize, pStr)))
+	while (nullptr != (pStr = GetString(pFile, dwSize, pStr)))
 	{
 #define SKIP	{ pStr++; continue; }
 		pStr = _strlwr(pStr);
@@ -1622,7 +1622,7 @@ bool CTechnique::ExecutePassNext()
 bool CTechnique::ExecutePassClose()
 {
 	ClearSavedStates();
-	pRS->SetPixelShader(0);
+	pRS->SetPixelShader(nullptr);
 	return true;
 }
 

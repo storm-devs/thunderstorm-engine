@@ -33,8 +33,8 @@ class BaseEmitter : public IEmitter
 		{
 			ActiveCount = 0;
 			Remain = 0.0f;
-			EmissionRate = NULL;
-			pFields = NULL;
+			EmissionRate = nullptr;
+			pFields = nullptr;
 			Type = UNKNOWN_PARTICLE;
 		}
 

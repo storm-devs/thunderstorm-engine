@@ -5,7 +5,7 @@
 
 IBoardingStatus::IBoardingStatus()
 {
-	rs = NULL;
+	rs = nullptr;
 }
 
 IBoardingStatus::~IBoardingStatus()
@@ -14,7 +14,7 @@ IBoardingStatus::~IBoardingStatus()
 
 bool IBoardingStatus::Init()
 {
-	if( (rs=(VDX9RENDER *)_CORE_API->CreateService("dx9render")) == NULL )
+	if( (rs=(VDX9RENDER *)_CORE_API->CreateService("dx9render")) == nullptr )
 	{
 		STORM_THROW("Can`t create render service");
 	}
@@ -45,7 +45,7 @@ dword _cdecl IBoardingStatus::ProcessMessage(MESSAGE & message)
 
 void IBoardingStatus::Realize(dword delta_time)
 {
-	if(rs==NULL) return;
+	if(rs== nullptr) return;
 
 	rs->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP,BI_COLORONLY_VERTEX_FORMAT,2,m_MyChar,sizeof(BI_COLORONLY_VERTEX),"battle_only_color");
 	rs->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP,BI_COLORONLY_VERTEX_FORMAT,2,m_EnemyChar,sizeof(BI_COLORONLY_VERTEX),"battle_only_color");
@@ -55,7 +55,7 @@ void IBoardingStatus::Create()
 {
 	// Установить параметры для иконки активного действия
 	ATTRIBUTES * pA = api->Entity_GetAttributePointer(&GetID());
-	if(pA!=NULL)
+	if(pA!= nullptr)
 	{
 		m_myPos.x = (float)pA->GetAttributeAsDword("myLeft",10);
 		m_myPos.y = (float)pA->GetAttributeAsDword("myTop",460);

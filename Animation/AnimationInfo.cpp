@@ -18,9 +18,9 @@ AnimationInfo::AnimationInfo(const char * animationName)
 {
 	Assert(strlen(animationName) < 64);
 	strcpy(name, animationName);
-	bone = null;
+	bone = nullptr;
 	numBones = 0;
-	action = null;
+	action = nullptr;
 	numActions = 0;
 	refCounter = 0;
 	downtime = 0;
@@ -53,7 +53,7 @@ ActionInfo * AnimationInfo::AddAction(const char * anctionName, long startframe,
 	Assert(anctionName);
 	//Ищем повторение
 	for(long i = 0; i < numActions; i++)
-		if(action[i][0] == anctionName) return null;
+		if(action[i][0] == anctionName) return nullptr;
 	//Всё нормально - новое действие
 	numActions++;
 	action = (ActionInfo **)RESIZE(action, numActions*4);	
@@ -76,6 +76,6 @@ ActionInfo * AnimationInfo::FindAction(const char * actionName)
 {
 	for(long i = 0; i < numActions; i++)
 		if(action[i][0] == actionName) return action[i];
-	return null;
+	return nullptr;
 }
 

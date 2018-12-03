@@ -47,18 +47,18 @@ CORE::CORE()
 	Reset_flag = false;
 	Initialized = false;
 	bEngineIniProcessed = false;
-	App_Hwnd = null;
-	State_file_name = null;
+	App_Hwnd = nullptr;
+	State_file_name = nullptr;
 	ZeroMemory(&CoreState,sizeof(CoreState));
 	CoreState.engine_version = ENGINE_VERSION;
 	Root_flag = false;
-	Atoms_PTR = null;
+	Atoms_PTR = nullptr;
 	SystemMessagesNum = 0;
 	Exit_flag = false;
 	State_loading = false;
 	Constructor_counter = 0;
 	Memory_Leak_flag = false;
-	Controls = 0;
+	Controls = nullptr;
 	fTimeScale = 1.0f;
 	bNetActive = false;
 	nSplitScreenshotGrid = 4;
@@ -123,7 +123,7 @@ void CORE::CleanUp()
 	{
 		for(n=0;n<=CoreState.Atoms_max_orbit;n++)
 		{
-			if(Atoms_PTR[n] == null) continue;
+			if(Atoms_PTR[n] == nullptr) continue;
 			// if(Atoms_PTR[n]->as.Service) continue;
 
 //			PUSH_CONTROL(Atoms_PTR[n]->atom_id.pointer,Atoms_PTR[n]->atom_id.class_code,CTP_DESTRUCTOR)
@@ -154,7 +154,7 @@ void CORE::CleanUp()
 
 
 
-	if(Atoms_PTR) delete Atoms_PTR; Atoms_PTR = null;
+	if(Atoms_PTR) delete Atoms_PTR; Atoms_PTR = nullptr;
 
 
 	Services_List.Release();
@@ -164,7 +164,7 @@ void CORE::CleanUp()
 	Services_List.Release();
 	DeleteLayerList.Release();
 	//Control_Stack.Clear();
-	if(State_file_name) delete State_file_name; State_file_name = null;
+	if(State_file_name) delete State_file_name; State_file_name = nullptr;
 
 	//UNGUARD
 }
@@ -210,27 +210,27 @@ void __declspec(noinline) __cdecl CORE::InitBase()
 	GUARD(CORE::InitBase())
 
 	engine_ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
- 	if(engine_ini != null)
+ 	if(engine_ini != nullptr)
 	{
-		if(engine_ini->ReadString(0,"modules path",String,sizeof(String),""))
+		if(engine_ini->ReadString(nullptr,"modules path",String,sizeof(String),""))
 		{
 			Modules_Table.SetModulesPath(String);
-			while(engine_ini->ReadStringNext(0,"modules path",String,sizeof(String)))
+			while(engine_ini->ReadStringNext(nullptr,"modules path",String,sizeof(String)))
 			{
 				Modules_Table.AddModulesPath(String);
 			}
 		}
 
-		if(engine_ini->ReadString(0,"offclass",String,sizeof(String),""))
+		if(engine_ini->ReadString(nullptr,"offclass",String,sizeof(String),""))
 		{
 			ClassesOff.AddString(String);
-			while(engine_ini->ReadStringNext(0,"offclass",String,sizeof(String)))
+			while(engine_ini->ReadStringNext(nullptr,"offclass",String,sizeof(String)))
 			{
 				ClassesOff.AddString(String);
 			}
 		}
 
-		nSplitScreenshotGrid = engine_ini->GetLong( 0, "SplitScreenShotGrid", 4 );
+		nSplitScreenshotGrid = engine_ini->GetLong( nullptr, "SplitScreenShotGrid", 4 );
 
 		delete engine_ini;
 	}
@@ -268,7 +268,7 @@ bool CORE::Run()
 	if (bDebugWindow)
 		for(dword n=0;n<CoreState.Atoms_max_orbit;n++)
 		{
-			if(Atoms_PTR[n] == null) continue;
+			if(Atoms_PTR[n] == nullptr) continue;
 			Atoms_PTR[n]->as.Execute_ticks_av = 0;
 			Atoms_PTR[n]->as.Realize_ticks_av = 0;
 		}
@@ -317,7 +317,7 @@ bool CORE::Run()
 		Timer.fDeltaTime *= fTimeScale;
 	}
 
-	VDATA * pVData = (VDATA *)GetScriptVariable("fHighPrecisionDeltaTime", null);
+	VDATA * pVData = (VDATA *)GetScriptVariable("fHighPrecisionDeltaTime", nullptr);
 	if (pVData) pVData->Set(Timer.fDeltaTime * 0.001f);
 
 	if(!Initialized)
@@ -436,9 +436,9 @@ bool __declspec(noinline) __cdecl CORE::Initialize()
 	gdi_display.Print(CMS_INITIALIZING_CORE);
 
 	engine_ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
- 	if(engine_ini == null) STORM_THROW(no 'engine.ini' file);
+ 	if(engine_ini == nullptr) STORM_THROW(no 'engine.ini' file);
 
-	if(!engine_ini->ReadString(0,"modules path",string,sizeof(string),""))
+	if(!engine_ini->ReadString(nullptr,"modules path",string,sizeof(string),""))
 	{
 		gdi_display.Print("No 'modules path' key in engine.ini");
 		gdi_display.Print("Scanning current directory");
@@ -446,7 +446,7 @@ bool __declspec(noinline) __cdecl CORE::Initialize()
 	} else
 	{
 		Modules_Table.SetModulesPath(string);	// set modules path
-		while(engine_ini->ReadStringNext(0,"modules path",string,sizeof(string)))
+		while(engine_ini->ReadStringNext(nullptr,"modules path",string,sizeof(string)))
 		{
 			Modules_Table.AddModulesPath(string);
 		}
@@ -481,9 +481,9 @@ bool CORE::LoadCoreState(CORE_STATE cs)
 	gdi_display.Print("loading core state");
 
 	engine_ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
-	if(engine_ini == null) STORM_THROW(no 'engine.ini' file);
+	if(engine_ini == nullptr) STORM_THROW(no 'engine.ini' file);
 
-	if(!engine_ini->ReadString(0,"modules path",string,sizeof(string),0))
+	if(!engine_ini->ReadString(nullptr,"modules path",string,sizeof(string),nullptr))
 	{
 		gdi_display.Print("No 'modules path' key in engine.ini");
 		gdi_display.Print("Scanning current directory");
@@ -491,7 +491,7 @@ bool CORE::LoadCoreState(CORE_STATE cs)
 	} else
 	{
 		Modules_Table.SetModulesPath(string);	// set modules path
-		while(engine_ini->ReadStringNext(0,"modules path",string,sizeof(string)))
+		while(engine_ini->ReadStringNext(nullptr,"modules path",string,sizeof(string)))
 		{
 			Modules_Table.AddModulesPath(string);
 		}
@@ -564,9 +564,9 @@ void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 	bEngineIniProcessed = true;
 
 	engine_ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
-	if(engine_ini == null) STORM_THROW(no 'engine.ini' file);
+	if(engine_ini == nullptr) STORM_THROW(no 'engine.ini' file);
 
-	res = engine_ini->ReadString(0,"program_directory",String,sizeof(String),"");
+	res = engine_ini->ReadString(nullptr,"program_directory",String,sizeof(String),"");
 	if(res)
 	{
 		Compiler.SetProgramDirectory(String);
@@ -574,18 +574,18 @@ void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 	}
 
 #ifndef _XBOX
-	res = engine_ini->ReadString(0,"controls",String,sizeof(String),"");
+	res = engine_ini->ReadString(nullptr,"controls",String,sizeof(String),"");
 	if(res)
 	{
 		//if(Controls) delete Controls; Controls = 0;
 		_CORE_API->Controls = (CONTROLS *)MakeClass(String);
 		//if(_CORE_API->Controls == 0) _CORE_API->Controls = new CONTROLS;
-		if(_CORE_API->Controls == 0) _CORE_API->Controls = (CONTROLS *)MakeClass("controls");
+		if(_CORE_API->Controls == nullptr) _CORE_API->Controls = (CONTROLS *)MakeClass("controls");
 
 	}
 	else
 	{
-		if(Controls) delete Controls; Controls = 0;
+		if(Controls) delete Controls; Controls = nullptr;
 
 		_CORE_API->Controls = NEW CONTROLS;
 	}
@@ -594,7 +594,7 @@ void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 	if(!Controls) THROW("no xbox_controls");
 #endif
 
-	res = engine_ini->ReadString(0,"run",String,sizeof(String),"");
+	res = engine_ini->ReadString(nullptr,"run",String,sizeof(String),"");
 	if(res)
 	{
 		//if(!Program.RunProgram(String)) STORM_THROW(fail to run program);
@@ -613,7 +613,7 @@ void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 		}
 	}
 
-	res = engine_ini->ReadString(0,"load class",String,sizeof(String),"");
+	res = engine_ini->ReadString(nullptr,"load class",String,sizeof(String),"");
 	if(!res)
 	{
 		//delete engine_ini;
@@ -621,8 +621,8 @@ void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 	}
 	while(res)
 	{
-		CreateEntity(0,String);
-		res = engine_ini->ReadStringNext(0,"load class",String,sizeof(String));
+		CreateEntity(nullptr,String);
+		res = engine_ini->ReadStringNext(nullptr,"load class",String,sizeof(String));
 	}
 
 	delete engine_ini;
@@ -686,7 +686,7 @@ bool __declspec(noinline) __cdecl CORE::LoadClassesTable()
 bool __declspec(noinline) __cdecl CORE::CreateAtomsTable(dword _space)
 {
 	GUARD(CORE::CreateAtomsTable)
-	if(Atoms_PTR != null ) return false;
+	if(Atoms_PTR != nullptr ) return false;
 
 	gdi_display.Print(CMS_CREATE_ATOMS_SPACE,_space);
 
@@ -696,7 +696,7 @@ bool __declspec(noinline) __cdecl CORE::CreateAtomsTable(dword _space)
 	//Atoms_PTR = (C_ATOM * *)new char[CoreState.Atoms_space*sizeof(C_ATOM*)];
 	Atoms_PTR = (C_ATOM * *)NEW char[CoreState.Atoms_space*sizeof(C_ATOM*)];
 
-	if(Atoms_PTR == null)
+	if(Atoms_PTR == nullptr)
 	{
 		gdi_display.Print(CMS_ERROR);
 		return false;
@@ -725,7 +725,7 @@ void CORE::ReleaseAtoms()
 	{
 		for(n=0;n<=CoreState.Atoms_max_orbit;n++)
 		{
-			if(Atoms_PTR[n] == null) continue;
+			if(Atoms_PTR[n] == nullptr) continue;
 			//if(Atoms_PTR[n]->as.Service) continue; // free services later
 			EraseEntity(Atoms_PTR[n]->atom_id);
 		}
@@ -733,7 +733,7 @@ void CORE::ReleaseAtoms()
 	CoreState.Atoms_number = 0;
 	CoreState.Atoms_max_orbit = 0;
 	CoreState.Atoms_min_free_orbit = 0;
-	if(Atoms_PTR) delete Atoms_PTR; Atoms_PTR = null;
+	if(Atoms_PTR) delete Atoms_PTR; Atoms_PTR = nullptr;
 	ZeroMemory(&CoreState.Creation_Time,sizeof(CoreState.Creation_Time));
 	UNGUARD
 }
@@ -849,7 +849,7 @@ void CORE::CheckAutoExceptions(dword xflag)
 
 bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name)
 {
-	return CreateEntity(id_PTR,class_name,0);
+	return CreateEntity(id_PTR,class_name,nullptr);
 }
 
 //bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name)
@@ -875,7 +875,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 	long  hash;
 	bool  bClassFound;
 
-	if(_pModuleClassRoot == 0) return false;
+	if(_pModuleClassRoot == nullptr) return false;
 
 	bClassFound = false;
 	hash = MakeHashValue(class_name);
@@ -917,7 +917,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 	atom_PTR = CreateAtom(hash);
 
 	// ... throw() system error
-	if(atom_PTR == null) STORM_THROW(Cant create Atom);
+	if(atom_PTR == nullptr) STORM_THROW(Cant create Atom);
 	atom_PTR->atom_id.pName = pClass->GetName();
 
 	// obtain module interface class
@@ -940,7 +940,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 	// PUSH_CONTROL push control operation code will made on base object (entity) constructor
 
 	// create new class, object constructor would be called
-	Entity_PTR = null;
+	Entity_PTR = nullptr;
 
 	Constructor_counter++;
 	#ifndef EX_OFF
@@ -972,13 +972,13 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 
 	if(!Constructor_counter) THROW;
 	Constructor_counter--;
-	System_Api.entityID_PTR = null;
+	System_Api.entityID_PTR = nullptr;
 
 	// Push was made in Entity base class constructor
-	POP_CONTROL(0)
+	POP_CONTROL(nullptr)
 
 	// class description already exist, but class not implemented ... write to log
-	if(Entity_PTR == null)
+	if(Entity_PTR == nullptr)
 	{
 		// xbox
 		// Modules_Table.ModuleReferenceDec(class_search_data.module_code);
@@ -1010,7 +1010,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 
 		if(!Entity_PTR->Init())
 		{
-			POP_CONTROL(0)
+			POP_CONTROL(nullptr)
 			MarkEntityAsDeleted(Entity_PTR->GetID());
 			CheckAutoExceptions(_X_NO_CREATE_ENTITY);
 			return false;
@@ -1033,7 +1033,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 		}
 	#endif
 
-	POP_CONTROL(0)
+	POP_CONTROL(nullptr)
 
 
 
@@ -1069,24 +1069,24 @@ C_ATOM * CORE::CreateAtom(dword class_code)
 	GUARD(CORE::CreateAtom)
 	dword n;
 
-	if(Atoms_PTR == null ) THROW;
+	if(Atoms_PTR == nullptr ) THROW;
 
 	if(CoreState.Atoms_number >= CoreState.Atoms_space)
 	{
 		dword new_space;
 		new_space = 2*CoreState.Atoms_space;
 		Atoms_PTR = (C_ATOM **)RESIZE(Atoms_PTR,new_space*sizeof(C_ATOM*));
-		if(Atoms_PTR == null) STORM_THROW(Resizing Atoms Space Error);
+		if(Atoms_PTR == nullptr) STORM_THROW(Resizing Atoms Space Error);
 		memset((char *)Atoms_PTR + CoreState.Atoms_space*sizeof(C_ATOM*),0,CoreState.Atoms_space*sizeof(C_ATOM*));
 		CoreState.Atoms_space = new_space;
 	}
 
 	for(n=CoreState.Atoms_min_free_orbit;n<CoreState.Atoms_space;n++)
 	{
-		if(Atoms_PTR[n] != null) continue;
+		if(Atoms_PTR[n] != nullptr) continue;
 
 		Atoms_PTR[n] = NEW C_ATOM;
-		if(Atoms_PTR[n] == null) THROW;
+		if(Atoms_PTR[n] == nullptr) THROW;
 
 		if(CoreState.Atoms_max_orbit < n) CoreState.Atoms_max_orbit = n;
 
@@ -1094,7 +1094,7 @@ C_ATOM * CORE::CreateAtom(dword class_code)
 		if(CoreState.Atoms_min_free_orbit == n)
 		for(;CoreState.Atoms_min_free_orbit<CoreState.Atoms_space;CoreState.Atoms_min_free_orbit++)
 		{
-			if(Atoms_PTR[CoreState.Atoms_min_free_orbit] == null) break;
+			if(Atoms_PTR[CoreState.Atoms_min_free_orbit] == nullptr) break;
 		}
 
 		Atoms_PTR[n]->atom_id.creation_time = CoreState.Creation_Time;
@@ -1102,41 +1102,41 @@ C_ATOM * CORE::CreateAtom(dword class_code)
 		Atoms_PTR[n]->atom_id.class_code = class_code;
 		Atoms_PTR[n]->as.Deleted = false;
 		//Atoms_PTR[n]->as.Service = false;
-		Atoms_PTR[n]->atom_id.pointer = 0;
+		Atoms_PTR[n]->atom_id.pointer = nullptr;
 		CoreState.Atoms_number++;
 		return Atoms_PTR[n];
 	}
 	UNGUARD
-	return null;
+	return nullptr;
 }
 
 C_ATOM * CORE::FitAtom(ENTITY_ID entity_id, ATOM_STATE atom_state)
 {
 	GUARD(CORE::FitAtom)
-	if(Atoms_PTR == null ) THROW;
+	if(Atoms_PTR == nullptr ) THROW;
 	if(entity_id.atom_position > CoreState.Atoms_max_orbit) THROW;
-	if(Atoms_PTR[entity_id.atom_position] != null) THROW;
+	if(Atoms_PTR[entity_id.atom_position] != nullptr) THROW;
 
 	Atoms_PTR[entity_id.atom_position] = NEW C_ATOM;
-	if(Atoms_PTR[entity_id.atom_position] == null) THROW;
+	if(Atoms_PTR[entity_id.atom_position] == nullptr) THROW;
 	Atoms_PTR[entity_id.atom_position]->as = atom_state;
 	Atoms_PTR[entity_id.atom_position]->atom_id = entity_id;
-	Atoms_PTR[entity_id.atom_position]->atom_id.pointer = null;
+	Atoms_PTR[entity_id.atom_position]->atom_id.pointer = nullptr;
 	return Atoms_PTR[entity_id.atom_position];
 	UNGUARD
-	return null;
+	return nullptr;
 }
 
 bool CORE::DeleteAtom(C_ATOM * atom_PTR)
 {
 	GUARD(CORE::DeleteAtom)
 	dword ap;
-	if(Atoms_PTR == null || atom_PTR == null) return false;
+	if(Atoms_PTR == nullptr || atom_PTR == nullptr) return false;
 	ap = atom_PTR->atom_id.atom_position;
 	if(ap >= CoreState.Atoms_space) THROW;
 	if(Atoms_PTR[ap] != atom_PTR) THROW;
 	delete Atoms_PTR[ap];
-	Atoms_PTR[ap] = null;
+	Atoms_PTR[ap] = nullptr;
 	CoreState.Atoms_number--;
 	if(CoreState.Atoms_min_free_orbit > ap) CoreState.Atoms_min_free_orbit = ap;
 	UNGUARD
@@ -1204,13 +1204,13 @@ bool CORE::FindClass(ENTITY_ID * id_PTR,char * class_name,dword class_code)
 	dword n;
 	dword hash;
 
-	if(Atoms_PTR == null ) THROW;
-	if(class_name != null) hash = MakeHashValue(class_name);
+	if(Atoms_PTR == nullptr ) THROW;
+	if(class_name != nullptr) hash = MakeHashValue(class_name);
 	else hash = class_code;
 
 	for(n=0;n<=CoreState.Atoms_max_orbit;n++)
 	{
-		if(Atoms_PTR[n] == null) continue;
+		if(Atoms_PTR[n] == nullptr) continue;
 		if(Atoms_PTR[n]->as.Deleted) continue;
 		if(Atoms_PTR[n]->atom_id.class_code == hash)
 		{
@@ -1234,14 +1234,14 @@ bool CORE::FindClassNext(ENTITY_ID * id_PTR)
 	VALIDATE_API_CALLS // no necessary
 	dword n;
 
-	if(Atoms_PTR == null )
+	if(Atoms_PTR == nullptr )
 	{
 		if(id_PTR) *id_PTR = ENTITY_ID();
 		return false;				// sys error
 	}
 	for(n=(Atom_Search_Position + 1);n<=CoreState.Atoms_max_orbit;n++)
 	{
-		if(Atoms_PTR[n] == null) continue;//break;
+		if(Atoms_PTR[n] == nullptr) continue;//break;
 		if(Atoms_PTR[n]->as.Deleted) continue;
 		if(Atoms_PTR[n]->atom_id.class_code == Atom_Search_Class_Code)
 		{
@@ -1260,7 +1260,7 @@ bool CORE::CompareID(ENTITY_ID * ida_PTR,ENTITY_ID * idb_PTR)
 {
 	GUARD(CORE::CompareID)
 	VALIDATE_API_CALLS // no necessary
-	if(ida_PTR == null || idb_PTR == null) return false;
+	if(ida_PTR == nullptr || idb_PTR == nullptr) return false;
 	if(memcmp(ida_PTR,idb_PTR,sizeof(ENTITY_ID)) == 0) return true;
 	UNGUARD
 	return false;
@@ -1270,8 +1270,8 @@ bool CORE::GetEntity(ENTITY_ID * id_PTR)
 {
 	GUARD(CORE::GetEntity)
 	VALIDATE_API_CALLS // no necessary
-	if(Atoms_PTR == null) THROW;
-	if(id_PTR == null) return false;
+	if(Atoms_PTR == nullptr) THROW;
+	if(id_PTR == nullptr) return false;
 
 	// scan all entities
 	if(Scan_Layer_Code == INVALID_LAYER_CODE)
@@ -1315,8 +1315,8 @@ bool CORE::GetEntityNext(ENTITY_ID * id_PTR)
 {
 	GUARD(CORE::GetEntityNext)
 	VALIDATE_API_CALLS // no necessary
-	if(Atoms_PTR == null ) THROW;
-	if(id_PTR == null) return false;
+	if(Atoms_PTR == nullptr ) THROW;
+	if(id_PTR == nullptr) return false;
 
 	if(Scan_Layer_Code == INVALID_LAYER_CODE)
 	{
@@ -1371,9 +1371,9 @@ ENTITY * CORE::GetEntityPointer(ENTITY_ID * id_PTR)
 	ENTITY * ep;
 	GUARD(CORE::GetEntityPointer)
 	VALIDATE_API_CALLS
-	if(!ValidateEntity(id_PTR)) return null;
+	if(!ValidateEntity(id_PTR)) return nullptr;
 	ep = (ENTITY *)Atoms_PTR[id_PTR->atom_position]->atom_id.pointer;
-	if(Atoms_PTR[id_PTR->atom_position]->as.Deleted) return null;
+	if(Atoms_PTR[id_PTR->atom_position]->as.Deleted) return nullptr;
 	UNGUARD
 	return ep;
 }
@@ -1386,12 +1386,12 @@ bool CORE::ValidateEntity(ENTITY_ID * id_PTR)
 	GUARD(CORE::ValidateEntity)
 	//VALIDATE_API_CALLS
 	dword pos;
-	if(id_PTR) id_PTR->pointer = 0;
-	if(id_PTR == null) return false;
+	if(id_PTR) id_PTR->pointer = nullptr;
+	if(id_PTR == nullptr) return false;
 	// check fo valid object position and pointer
 	pos = id_PTR->atom_position; if(pos >= CoreState.Atoms_space) return false;
-	if(Atoms_PTR[pos] == null) return false;
-	if(Atoms_PTR[pos]->atom_id.pointer == null)
+	if(Atoms_PTR[pos] == nullptr) return false;
+	if(Atoms_PTR[pos]->atom_id.pointer == nullptr)
 	{
 		CheckAutoExceptions(_X_NO_ENTITY);
 		return false;
@@ -1403,7 +1403,7 @@ bool CORE::ValidateEntity(ENTITY_ID * id_PTR)
 	// compare id structure
 	if(memcmp(&Atoms_PTR[pos]->atom_id,id_PTR,sizeof(ENTITY_ID)) != 0)
 	{
-		id_PTR->pointer = 0;
+		id_PTR->pointer = nullptr;
 		return false;
 	}
 
@@ -1423,7 +1423,7 @@ bool CORE::MarkEntityAsDeleted(ENTITY_ID entity_id)
 	if(!ValidateEntity(&entity_id)) return false;
 	Atoms_PTR[entity_id.atom_position]->as.Deleted = true;
 	DeleteEntityList.AddData(&entity_id);
-	POP_CONTROL(0)
+	POP_CONTROL(nullptr)
 	UNGUARD
 	return true;
 }
@@ -1579,7 +1579,7 @@ bool CORE::EraseEntity(ENTITY_ID entity_id)
 
 	for(n=0;n<=CommonLayers.lss.Layer_max_index;n++)
 	{
-		if(CommonLayers.Layer_Table[n] == null) continue;
+		if(CommonLayers.Layer_Table[n] == nullptr) continue;
 		if(Atoms_PTR[entity_id.atom_position]->TstLayerAttribute(n,false))
 			CommonLayers.Layer_Table[n]->Del(entity_id);
 	}
@@ -1590,7 +1590,7 @@ bool CORE::EraseEntity(ENTITY_ID entity_id)
 	{
 		for(CoreState.Atoms_max_orbit = entity_id.atom_position; CoreState.Atoms_max_orbit > 0;CoreState.Atoms_max_orbit--)
 		{
-			if(Atoms_PTR[CoreState.Atoms_max_orbit] == null) continue;
+			if(Atoms_PTR[CoreState.Atoms_max_orbit] == nullptr) continue;
 			break;
 		}
 	}
@@ -1610,11 +1610,11 @@ bool CORE::Convert_Pointer2ID(void * _entity_pointer,ENTITY_ID * id_PTR)
 	ENTITY_ID eid;
 	entity_PTR = (ENTITY *)_entity_pointer;
 	eid = entity_PTR->GetID();
-	if(Atoms_PTR == null ) THROW;
+	if(Atoms_PTR == nullptr ) THROW;
 	if(eid.atom_position > CoreState.Atoms_max_orbit) THROW;
-	if(Atoms_PTR[eid.atom_position] == null) THROW;
+	if(Atoms_PTR[eid.atom_position] == nullptr) THROW;
 	if(Atoms_PTR[eid.atom_position]->atom_id.pointer != _entity_pointer) THROW;
-	if(id_PTR != null) memcpy(id_PTR,&Atoms_PTR[eid.atom_position]->atom_id,sizeof(ENTITY_ID));
+	if(id_PTR != nullptr) memcpy(id_PTR,&Atoms_PTR[eid.atom_position]->atom_id,sizeof(ENTITY_ID));
 	UNGUARD
 	return true;
 }
@@ -1688,7 +1688,7 @@ bool CORE::LayerCreate(char * layer_name, bool ordered, bool fail_if_exist, bool
 
 C_ATOM * CORE::GetAtom(ENTITY_ID * id_PTR)
 {
-	if(!ValidateEntity(id_PTR)) return null;
+	if(!ValidateEntity(id_PTR)) return nullptr;
 	return Atoms_PTR[id_PTR->atom_position];
 }
 
@@ -1844,7 +1844,7 @@ VIDWALKER * CORE::LayerGetWalker(char * layer_name)
 {
 	LAYER * pl;
 	pl = CommonLayers.GetLayer(layer_name);
-	if(pl == null)
+	if(pl == nullptr)
 	{
 		CommonLayers.Create(layer_name,true,false);
 		pl = CommonLayers.GetLayer(layer_name);
@@ -1861,10 +1861,10 @@ void * CORE::MemAllocate(size_t size,char * pFileName, unsigned long nLine)
 	void * pPTR;
 	CodeSource.pFileName = pFileName; CodeSource.line = nLine;
 	pPTR = Memory_Service.Allocate(size);
-	CodeSource.pFileName = 0; CodeSource.line = 0xffffffff;
+	CodeSource.pFileName = nullptr; CodeSource.line = 0xffffffff;
 	return pPTR;
 	UNGUARD
-	return 0;
+	return nullptr;
 }
 void CORE::MemFree(void * block_ptr)
 {
@@ -1897,11 +1897,11 @@ void * CORE::MemReallocate(void * block_ptr,size_t size,char * pFileName, unsign
 	void * pPTR;
 	CodeSource.pFileName = pFileName; CodeSource.line = nLine;
 	pPTR = Memory_Service.Reallocate(block_ptr,size);
-	CodeSource.pFileName = 0; CodeSource.line = 0xffffffff;
+	CodeSource.pFileName = nullptr; CodeSource.line = 0xffffffff;
 	return pPTR;
 
 	UNGUARD
-	return 0;
+	return nullptr;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -1939,13 +1939,13 @@ bool CORE::DeleteEntity(ENTITY_ID entity_id)
 void * CORE::GetUserData(long * data_size)
 {
 	VALIDATE_API_CALLS
-	return null;
+	return nullptr;
 }
 
 void * CORE::SetUserData(void * ud_PTR,long data_size)
 {
 	VALIDATE_API_CALLS
-	return null;
+	return nullptr;
 }
 void CORE::SetTimeScale(float _scale)
 {
@@ -1981,7 +1981,7 @@ dword _cdecl CORE::Send_Message(ENTITY_ID Destination,char * Format,...)
 	// push into stack new top entity
 	PUSH_CONTROL(Destination.pointer,Destination.class_code,CTP_MESSAGE)
 	rc = ((ENTITY *)Destination.pointer)->ProcessMessage(message);	// transfer control
-	POP_CONTROL(0)	// pop from stack entity
+	POP_CONTROL(nullptr)	// pop from stack entity
 	va_end(message.args);
 	UNGUARD
 	return rc;
@@ -1996,7 +1996,7 @@ dword _cdecl CORE::PostEvent(char * Event_name, dword post_time, char * Format,.
 
 	ENTITY_ID id;
 
-	if(Format != 0)
+	if(Format != nullptr)
 	{
 		pMS = NEW MESSAGE_SCRIPT;
 		va_start(message.args,Format);
@@ -2045,7 +2045,7 @@ dword _cdecl CORE::PostEvent(char * Event_name, dword post_time, char * Format,.
 			}
 		}
 		va_end(message.args);
-	} else pMS = 0;
+	} else pMS = nullptr;
 
 	pEM = NEW S_EVENTMSG(Event_name,pMS,post_time);
 	pEM->bProcess = true;
@@ -2060,12 +2060,12 @@ VDATA * _cdecl CORE::Event(char * Event_name, char * Format,...)
 	PUSH_CONTROL(0,0,0)
 
 
-	pVD = 0;
-	if(Format == 0)
+	pVD = nullptr;
+	if(Format == nullptr)
 	{
 		pVD = Compiler.ProcessEvent(Event_name);
 
-		POP_CONTROL(0)
+		POP_CONTROL(nullptr)
 		return pVD;
 	}
 	MESSAGE message;
@@ -2075,7 +2075,7 @@ VDATA * _cdecl CORE::Event(char * Event_name, char * Format,...)
 	pVD = Compiler.ProcessEvent(Event_name,message);
 
 	va_end(message.args);
-	POP_CONTROL(0)
+	POP_CONTROL(nullptr)
 	UNGUARD
 	return pVD;
 }
@@ -2102,7 +2102,7 @@ void * CORE::MakeClass(char * class_name)
 	VMA * pClass;
 	long  hash;
 
-	if(_pModuleClassRoot == 0) return 0;
+	if(_pModuleClassRoot == nullptr) return nullptr;
 
 	hash = MakeHashValue(class_name);
 	pClass = _pModuleClassRoot;
@@ -2117,14 +2117,14 @@ void * CORE::MakeClass(char * class_name)
 		}
 		pClass = pClass->Next();
 	}
-	return 0;
+	return nullptr;
 }
 
 
 void CORE::FreeServices()
 {
 	VMA * pClass;
-	if(_pModuleClassRoot == 0) return;
+	if(_pModuleClassRoot == nullptr) return;
 	pClass = _pModuleClassRoot;
 	do
 	{
@@ -2135,7 +2135,7 @@ void CORE::FreeServices()
 		pClass = pClass->Next();
 	}
 	while(pClass);
-	Controls = 0;
+	Controls = nullptr;
 }
 
 VMA * CORE::FindVMA(char * class_name)
@@ -2143,11 +2143,11 @@ VMA * CORE::FindVMA(char * class_name)
 	VMA * pClass;
 	long  hash;
 
-	if(_pModuleClassRoot == 0) return 0;
+	if(_pModuleClassRoot == nullptr) return nullptr;
 
 	hash = MakeHashValue(class_name);
 	pClass = _pModuleClassRoot;
-	if(!pClass) return 0;
+	if(!pClass) return nullptr;
 	do
 	{
 		if(pClass->GetHash() == hash)
@@ -2158,16 +2158,16 @@ VMA * CORE::FindVMA(char * class_name)
 			}
 		}
 		pClass = pClass->Next();
-		if(!pClass) return 0;
+		if(!pClass) return nullptr;
 	} while(pClass->Next());
-	return 0;
+	return nullptr;
 }
 
 VMA * CORE::FindVMA(long hash)
 {
 	VMA * pClass;
 
-	if(_pModuleClassRoot == 0) return 0;
+	if(_pModuleClassRoot == nullptr) return nullptr;
 
 	pClass = _pModuleClassRoot;
 	do
@@ -2178,7 +2178,7 @@ VMA * CORE::FindVMA(long hash)
 		}
 		pClass = pClass->Next();
 	} while(pClass->Next());
-	return 0;
+	return nullptr;
 }
 
 void * CORE::CreateService(char * service_name)
@@ -2192,23 +2192,23 @@ void * CORE::CreateService(char * service_name)
 	GUARD(CORE::CreateService)
 
 	pClass = FindVMA(service_name);
-	if(pClass == 0)
+	if(pClass == nullptr)
 	{
 		CheckAutoExceptions(_X_NO_SERVICE);
-		return 0;
+		return nullptr;
 	}
 
 	if(pClass->GetHash() == 0)
 	{
 		CheckAutoExceptions(_X_NO_SERVICE);
-		return 0;
+		return nullptr;
 	}
 
 	if(pClass->GetReference() > 0) return pClass->CreateClass();
 
 	PUSH_CONTROL(0,0,0)
 	service_PTR = (SERVICE *)pClass->CreateClass();
-	POP_CONTROL(0)
+	POP_CONTROL(nullptr)
 
 	class_code = MakeHashValue(service_name);
 	pClass->SetHash(class_code);
@@ -2231,11 +2231,11 @@ void * CORE::CreateService(char * service_name)
 		TraceCurrent();	POP_CONTROL(0); STORM_THROW(CreateService: Init func);
 	}
 	#endif
-	POP_CONTROL(0)
+	POP_CONTROL(nullptr)
 
 	PUSH_CONTROL(0,0,0)
 	Services_List.Add(class_code,class_code,service_PTR);
-	POP_CONTROL(0)
+	POP_CONTROL(nullptr)
 
 	UNGUARD
 	return service_PTR;
@@ -2297,7 +2297,7 @@ void CORE::ProcessExecute()
 	for(n=0;n<=CommonLayers.lss.Layer_max_index;n++)
 	{
 		l_PTR = CommonLayers.Layer_Table[n];
-		if(l_PTR == null) continue;
+		if(l_PTR == nullptr) continue;
 		flags = l_PTR->ls.Flags & LRFLAG_FROZEN; if(flags != 0) continue;	// skip frozen layers
 		flags = l_PTR->ls.Flags & LRFLAG_EXECUTE; if(flags == 0) continue;	// skip non execute layers
 		eid_PTR = l_PTR->GetID();
@@ -2311,7 +2311,7 @@ void CORE::ProcessExecute()
 				ticks = __rdtsc();
 				PUSH_CONTROL(eid_PTR->pointer,eid_PTR->class_code,CTP_EXECUTE)
 				((ENTITY *)eid_PTR->pointer)->Execute(deltatime);
-				POP_CONTROL(0)
+				POP_CONTROL(nullptr)
 				ticks = __rdtsc() - ticks;
 				//trace("Ex En: %s",eid_PTR->pName);
 
@@ -2347,7 +2347,7 @@ void CORE::ProcessRealize()
 	for(n=0;n<=CommonLayers.lss.Layer_max_index;n++)
 	{
 		l_PTR = CommonLayers.Layer_Table[n];
-		if(l_PTR == null) continue;
+		if(l_PTR == nullptr) continue;
 		flags = l_PTR->ls.Flags & LRFLAG_FROZEN; if(flags != 0) continue;	// skip frozen layers
 		flags = l_PTR->ls.Flags & LRFLAG_REALIZE; if(flags == 0) continue;	// skip non realize layers
 		eid_PTR = l_PTR->GetID();
@@ -2361,7 +2361,7 @@ void CORE::ProcessRealize()
 				ticks = __rdtsc();
 				PUSH_CONTROL(eid_PTR->pointer,eid_PTR->class_code,CTP_REALIZE)
 				((ENTITY *)eid_PTR->pointer)->Realize(deltatime);
-				POP_CONTROL(0)
+				POP_CONTROL(nullptr)
 				ticks = __rdtsc() - ticks;
 				//trace("Re En: %s",eid_PTR->pName);
 
@@ -2390,7 +2390,7 @@ void CORE::ProcessSystemMessagesBuffer()
 	for(n=0;n<=CommonLayers.lss.Layer_max_index;n++)
 	{
 		l_PTR = CommonLayers.Layer_Table[n];
-		if(l_PTR == null) continue;
+		if(l_PTR == nullptr) continue;
 		flags = l_PTR->ls.Flags & LRFLAG_FROZEN; if(flags != 0) continue;	// skip frozen layers
 		flags = l_PTR->ls.Flags & LRFLAG_SYS_MESSAGES; if(flags == 0) continue;	// skip layers
 		eid_PTR = l_PTR->GetID();
@@ -2403,7 +2403,7 @@ void CORE::ProcessSystemMessagesBuffer()
 				{
 					PUSH_CONTROL(eid_PTR->pointer,eid_PTR->class_code,CTP_MESSAGE_SYSTEM)
 					((ENTITY *)eid_PTR->pointer)->ProcessMessage(MessageStack[i].iMsg,MessageStack[i].wParam,MessageStack[i].lParam);
-					POP_CONTROL(0)
+					POP_CONTROL(nullptr)
 				}
 			}
 			eid_PTR = l_PTR->GetNextID();
@@ -2527,14 +2527,14 @@ bool CORE::SaveState(char * file_name)
 
 	strcpy(sPfname,PathBuffer);
 	strcat(sPfname,"p");
-	nSourceSize = fio->_GetFileSize(fh,0);
+	nSourceSize = fio->_GetFileSize(fh,nullptr);
 
 
 	pSource = (char *)malloc(nSourceSize);
-	pDestination = 0;
+	pDestination = nullptr;
 	nPackedSize = 0;
 
-	fio->_SetFilePointer(fh,0,0,FILE_BEGIN);
+	fio->_SetFilePointer(fh,0,nullptr,FILE_BEGIN);
 	fio->_ReadFile(fh,pSource,nSourceSize,&dwR);
 	if(pSource)
 	{
@@ -2612,7 +2612,7 @@ bool CORE::SaveState(char * file_name)
 	esg.CloseState();
 
 	// switch on all engine objects
-	SetEntityScanLayer(0);
+	SetEntityScanLayer(nullptr);
 	// write objects id and atoms states
 	for(n=0;n<CoreState.Atoms_number;n++)
 	{
@@ -2627,7 +2627,7 @@ bool CORE::SaveState(char * file_name)
 	esg.SetState("m",sizeof(CommonLayers.lss),&CommonLayers.lss);
 	for(i=0;i<_MAX_LAYERS;i++)
 	{
-		if(CommonLayers.Layer_Table[i] == null) continue;
+		if(CommonLayers.Layer_Table[i] == nullptr) continue;
 		// save layers index, name length, name and layer state
 		esg.SetState("uusm",i,strlen(CommonLayers.Layer_Table[i]->Name) + 1,CommonLayers.Layer_Table[i]->Name,
 			sizeof(CommonLayers.Layer_Table[i]->ls),&CommonLayers.Layer_Table[i]->ls);
@@ -2639,7 +2639,7 @@ bool CORE::SaveState(char * file_name)
 		{
 			if(n == 0) { id_PTR = CommonLayers.Layer_Table[i]->GetID(&Priority);	}
 			else { id_PTR = CommonLayers.Layer_Table[i]->GetNextID(&Priority);	}
-			if(id_PTR == null) THROW;
+			if(id_PTR == nullptr) THROW;
 			// save object priority and id
 			esg.SetState("um",Priority,sizeof(ENTITY_ID),id_PTR);
 		}
@@ -2682,11 +2682,11 @@ bool CORE::SaveState(char * file_name)
 		// save objects id
 		esg.SetState("m",sizeof(id),&id);
 		entity_PTR = GetEntityPointer(&id);
-		if(entity_PTR == null) THROW;
+		if(entity_PTR == nullptr) THROW;
 		// transfer control to entity, for saving objects data
 		PUSH_CONTROL(entity_PTR,id.class_code,CTP_CREATESTATE)
 		entity_PTR->CreateState(&esg);
-		POP_CONTROL(0)
+		POP_CONTROL(nullptr)
 		esg.CloseState();
 	}
 
@@ -2714,9 +2714,9 @@ bool CORE::InitiateStateLoading(char * file_name)
 	if(State_file_name) delete State_file_name;
 
 	State_file_name = (char *)NEW char[strlen(file_name) + 1];
-	if(State_file_name == null) THROW;
+	if(State_file_name == nullptr) THROW;
 	strcpy(State_file_name,file_name);
-	POP_CONTROL(0)
+	POP_CONTROL(nullptr)
 	UNGUARD
 	return true;
 }
@@ -2769,7 +2769,7 @@ void CORE::ProcessStateLoading()
 	Compiler.LoadState(fh);
 	fio->_CloseHandle(fh);
 
-	if(State_file_name) delete State_file_name; State_file_name = null;
+	if(State_file_name) delete State_file_name; State_file_name = nullptr;
 	State_loading = false;
 
 	return;
@@ -2781,14 +2781,14 @@ void CORE::ProcessStateLoading()
 	// decompression
 	pfh = fio->_CreateFile(State_file_name,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 	if(pfh == INVALID_HANDLE_VALUE) return;
-	nPackedSize = fio->_GetFileSize(pfh,0);
+	nPackedSize = fio->_GetFileSize(pfh,nullptr);
 	if(nPackedSize == INVALID_FILE_SIZE) { fio->_CloseHandle(pfh); return;}
 	pDestination = (char *)malloc(nPackedSize);
-	if(pDestination == 0) THROW;
+	if(pDestination == nullptr) THROW;
 	fio->_ReadFile(pfh,pDestination,nPackedSize,&dwR);
 	fio->_CloseHandle(pfh);
 
-	pUnpacked = 0;
+	pUnpacked = nullptr;
 	nUnpackedSize = 0;
 	if(Compiler.Compress.Unpack(pDestination,nPackedSize,pUnpacked,nUnpackedSize))
 	{
@@ -2805,7 +2805,7 @@ void CORE::ProcessStateLoading()
 	// open state file
 	//fh = fio->_CreateFile(State_file_name,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 	fh = fio->_CreateFile("tempout.tmp",GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
-	delete State_file_name; State_file_name = null;
+	delete State_file_name; State_file_name = nullptr;
 	if(fh == INVALID_HANDLE_VALUE)
 	{
 		trace(State_file_name);
@@ -2817,7 +2817,7 @@ void CORE::ProcessStateLoading()
 	fio->_CloseHandle(fh);
 	fio->_DeleteFile("tempout.tmp");
 
-	if(State_file_name) delete State_file_name; State_file_name = null;
+	if(State_file_name) delete State_file_name; State_file_name = nullptr;
 	State_loading = false;
 
 	return;
@@ -2919,7 +2919,7 @@ void CORE::ProcessStateLoading()
 		es.MemoryBlock(sizeof(entity_id),(char *)&entity_id);
 		// obtain entity pointer
 		entity_PTR = GetEntityPointer(&entity_id);
-		if(entity_PTR == null) THROW;
+		if(entity_PTR == nullptr) THROW;
 		#ifndef EX_OFF
 		try {
 		#endif
@@ -2932,7 +2932,7 @@ void CORE::ProcessStateLoading()
 				TraceCurrent();
 				STORM_THROW(state loading error);
 			}
-			POP_CONTROL(0)
+			POP_CONTROL(nullptr)
 		#ifndef EX_OFF
 		}
 		catch(_EXS xobj)
@@ -2975,7 +2975,7 @@ void CORE::ProcessRunStart(dword section_code)
 		{
 			PUSH_CONTROL(service_PTR,class_code,CTP_RUNSTART)
 			service_PTR->RunStart();
-			POP_CONTROL(0)
+			POP_CONTROL(nullptr)
 		}
 		service_PTR = Services_List.GetServiceNext(class_code);
 	}
@@ -2996,7 +2996,7 @@ void CORE::ProcessRunEnd(dword section_code)
 		{
 			PUSH_CONTROL(service_PTR,class_code,CTP_RUNSTART)
 			service_PTR->RunEnd();
-			POP_CONTROL(0)
+			POP_CONTROL(nullptr)
 		}
 		service_PTR = Services_List.GetServiceNext(class_code);
 	}
@@ -3052,7 +3052,7 @@ bool CORE::InitObject(ENTITY_ID eid)
 		STORM_THROW(cant init);
 	}
 	#endif
-	POP_CONTROL(0)
+	POP_CONTROL(nullptr)
 
 	UNGUARD
 	return true;
@@ -3097,8 +3097,8 @@ ATTRIBUTES * CORE::Entity_GetAttributeClass(ENTITY_ID * id_PTR, char * name)
 {
 	ENTITY * pE;
 	pE = GetEntityPointer(id_PTR);
-	if(pE == 0) return 0;
-	if(pE->AttributesPointer == 0) return 0;
+	if(pE == nullptr) return nullptr;
+	if(pE->AttributesPointer == nullptr) return nullptr;
 	//FindAClass(ATTRIBUTES * pRoot, char * access_string)
 	return pE->AttributesPointer->FindAClass(pE->AttributesPointer,name);
 	//return pE->AttributesPointer->GetAttributeClass(name);
@@ -3108,8 +3108,8 @@ char *	CORE::Entity_GetAttribute(ENTITY_ID * id_PTR, char * name)
 {
 	ENTITY * pE;
 	pE = GetEntityPointer(id_PTR);
-	if(pE == 0) return 0;
-	if(pE->AttributesPointer == 0) return 0;
+	if(pE == nullptr) return nullptr;
+	if(pE->AttributesPointer == nullptr) return nullptr;
 	return pE->AttributesPointer->GetAttribute(name);
 }
 
@@ -3117,8 +3117,8 @@ DWORD	CORE::Entity_GetAttributeAsDword(ENTITY_ID * id_PTR, char * name, DWORD de
 {
 	ENTITY * pE;
 	pE = GetEntityPointer(id_PTR);
-	if(pE == 0) return def;
-	if(pE->AttributesPointer == 0) return def;
+	if(pE == nullptr) return def;
+	if(pE->AttributesPointer == nullptr) return def;
 	return pE->AttributesPointer->GetAttributeAsDword(name,def);
 
 }
@@ -3127,8 +3127,8 @@ FLOAT	CORE::Entity_GetAttributeAsFloat(ENTITY_ID * id_PTR, char * name, FLOAT de
 {
 	ENTITY * pE;
 	pE = GetEntityPointer(id_PTR);
-	if(pE == 0) return def;
-	if(pE->AttributesPointer == 0) return def;
+	if(pE == nullptr) return def;
+	if(pE->AttributesPointer == nullptr) return def;
 	return pE->AttributesPointer->GetAttributeAsFloat(name,def);
 }
 
@@ -3136,8 +3136,8 @@ BOOL	CORE::Entity_SetAttribute(ENTITY_ID * id_PTR, char * name, char * attribute
 {
 	ENTITY * pE;
 	pE = GetEntityPointer(id_PTR);
-	if(pE == 0) return false;
-	if(pE->AttributesPointer == 0) return false;
+	if(pE == nullptr) return false;
+	if(pE->AttributesPointer == nullptr) return false;
 	return pE->AttributesPointer->SetAttribute(name,attribute);
 }
 
@@ -3145,8 +3145,8 @@ BOOL	CORE::Entity_SetAttributeUseDword(ENTITY_ID * id_PTR, char * name, DWORD va
 {
 	ENTITY * pE;
 	pE = GetEntityPointer(id_PTR);
-	if(pE == 0) return false;
-	if(pE->AttributesPointer == 0) return false;
+	if(pE == nullptr) return false;
+	if(pE->AttributesPointer == nullptr) return false;
 	return pE->AttributesPointer->SetAttributeUseDword(name,val);
 }
 
@@ -3154,8 +3154,8 @@ BOOL	CORE::Entity_SetAttributeUseFloat(ENTITY_ID * id_PTR, char * name, FLOAT va
 {
 	ENTITY * pE;
 	pE = GetEntityPointer(id_PTR);
-	if(pE == 0) return false;
-	if(pE->AttributesPointer == 0) return false;
+	if(pE == nullptr) return false;
+	if(pE->AttributesPointer == nullptr) return false;
 	return pE->AttributesPointer->SetAttributeUseFloat(name,val);
 }
 
@@ -3163,7 +3163,7 @@ void CORE::Entity_SetAttributePointer(ENTITY_ID * id_PTR, ATTRIBUTES * pA)
 {
 	ENTITY * pE;
 	pE = GetEntityPointer(id_PTR);
-	if(pE == 0) return;
+	if(pE == nullptr) return;
 	pE->AttributesPointer = pA;
 }
 
@@ -3171,7 +3171,7 @@ dword	CORE::Entity_AttributeChanged(ENTITY_ID * id_PTR, ATTRIBUTES * pA)
 {
 	ENTITY * pE;
 	pE = GetEntityPointer(id_PTR);
-	if(pE == 0) return 0;
+	if(pE == nullptr) return 0;
 	return pE->AttributeChanged(pA);
 }
 
@@ -3179,7 +3179,7 @@ ATTRIBUTES * CORE::Entity_GetAttributePointer(ENTITY_ID * id_PTR)
 {
 	ENTITY * pE;
 	pE = GetEntityPointer(id_PTR);
-	if(pE == 0) return 0;
+	if(pE == nullptr) return nullptr;
 	return pE->AttributesPointer;
 }
 
@@ -3188,7 +3188,7 @@ void CORE::EraseEntities()
 	DWORD n;
 	for(n=0;n<=CoreState.Atoms_max_orbit;n++)
 	{
-		if(Atoms_PTR[n] == null) continue;
+		if(Atoms_PTR[n] == nullptr) continue;
 		EraseEntity(Atoms_PTR[n]->atom_id);
 	}
 }
@@ -3198,7 +3198,7 @@ void CORE::DeleteEntities()
 	DWORD n;
 	for(n=0;n<=CoreState.Atoms_max_orbit;n++)
 	{
-		if(Atoms_PTR[n] == null) continue;
+		if(Atoms_PTR[n] == nullptr) continue;
 		DeleteEntity(Atoms_PTR[n]->atom_id);
 	}
 }
@@ -3260,7 +3260,7 @@ void CORE::DumpEntitiesInfo()
 
 	for(n=0;n<=CoreState.Atoms_max_orbit;n++)
 	{
-		if(Atoms_PTR[n] == null) continue;
+		if(Atoms_PTR[n] == nullptr) continue;
 
 		pClass = FindVMA(Atoms_PTR[n]->atom_id.class_code);
 		if(pClass)
@@ -3283,7 +3283,7 @@ void CORE::DumpEntitiesInfo()
 	for(n=0;n<=CommonLayers.lss.Layer_max_index;n++)
 	{
 		l_PTR = CommonLayers.Layer_Table[n];
-		if(l_PTR == null) continue;
+		if(l_PTR == nullptr) continue;
 
 		flags = l_PTR->ls.Flags & LRFLAG_FROZEN;
 		if(flags != 0)
@@ -3324,7 +3324,7 @@ bool CORE::SetSaveData(char * file_name, void * data_ptr, long data_size)
 
 void CORE::GetMemoryState(MSTATE * pMemStateStructure)
 {
-	if(pMemStateStructure != 0)
+	if(pMemStateStructure != nullptr)
 	{
 		long blocks = 0;
 		float mem = 0.0;
@@ -3371,11 +3371,11 @@ void * CORE::GetScriptVariable(const char * pVariableName, DWORD * pdwVarIndex)
 	VARINFO vi;
 
 	dwVarIndex = Compiler.VarTab.FindVar(pVariableName);
-	if(dwVarIndex == INVALID_VAR_CODE) return 0;
+	if(dwVarIndex == INVALID_VAR_CODE) return nullptr;
 
 	if(!Compiler.VarTab.GetVar(vi,dwVarIndex))
 	{
-		return 0;
+		return nullptr;
 	}
 	if(pdwVarIndex) *pdwVarIndex = dwVarIndex;
 	return vi.pDClass;

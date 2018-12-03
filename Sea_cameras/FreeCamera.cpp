@@ -13,8 +13,8 @@ FREE_CAMERA::FREE_CAMERA()
 	SetOn(false);
 	SetActive(false);
 
-	pIslandBase = null;
-	pRS = null;
+	pIslandBase = nullptr;
+	pRS = nullptr;
 	ZERO2(vPos,vAng);
 	vPos.z = 250.0f;
 	vPos.y = 3.0f;
@@ -130,7 +130,7 @@ void FREE_CAMERA::Move(DWORD DeltaTime)
 	CVECTOR vDst = vPos + 2000.0f*CVECTOR(s0*c1, -s1, c0*c1);
 
 	VIDWALKER *pVW = _CORE_API->LayerGetWalker("sun_trace");
-	float fRes = pCollide->Trace(*pVW,vPos,vDst,0,0);
+	float fRes = pCollide->Trace(*pVW,vPos,vDst,nullptr,0);
 	if (fRes > 1.0f) vRes = vDst;
 	else 
 	{

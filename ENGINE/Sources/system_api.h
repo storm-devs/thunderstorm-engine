@@ -6,7 +6,7 @@
 class SYSTEM_API : public VSYSTEM_API
 {
 public:
-	SYSTEM_API() {entityID_PTR = null; Exceptions = false;ExceptionsNF = false;};
+	SYSTEM_API() {entityID_PTR = nullptr; Exceptions = false;ExceptionsNF = false;};
 	virtual ~SYSTEM_API(){};
 	void Push(void * pointer, dword class_code);
 	void Pop(void * pointer);

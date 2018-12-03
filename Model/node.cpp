@@ -3,8 +3,8 @@
 #include "modelr.h"
 #include <stdio.h>
 
-VGEOMETRY *NODER::gs=0;
-VDX9RENDER *NODER::rs=0;
+VGEOMETRY *NODER::gs=nullptr;
+VDX9RENDER *NODER::rs=nullptr;
 static long nlab=0;
 long NODER::depth=-1;
 long NODER::node;
@@ -16,7 +16,7 @@ extern GEOS::ADD_POLYGON_FUNC clip_geosap;
 extern ADD_POLYGON_FUNC clip_ap;
 char nm[256];
 GEOS::PLANE clip_gp[256];
-NODE *bestTraceNode = null;
+NODE *bestTraceNode = nullptr;
 GEOS *clipGeo;
 
 #ifdef SHOW_SPHERES
@@ -80,7 +80,7 @@ bool NODER::Clip()
 
 	if(flags&CLIP_ENABLE_TREE)
 		for(long l=0; l<nnext; l++)
-			if(next[l]!=0 && static_cast<NODER*>(next[l])->Clip()==true)
+			if(next[l]!=nullptr && static_cast<NODER*>(next[l])->Clip()==true)
 				retval = true;
 	return retval;
 }
@@ -97,7 +97,7 @@ float NODER::Update(CMatrix &mtx, CVECTOR &cnt)
 	radius = geo_radius;
 
 	for(long l=0; l<nnext; l++)
-		if(next[l]!=0)
+		if(next[l]!=nullptr)
 		{
 			CVECTOR cnt; //~!~
 			float r = static_cast<NODER*>(next[l])->Update(glob_mtx, cnt);
@@ -127,7 +127,7 @@ float NODER::Trace(const CVECTOR &src, const CVECTOR &dst)
 	if(flags&TRACE_ENABLE_TREE)
 		for(long n=0; n<nnext; n++)
 		{
-			if(next[n]==0)	continue;
+			if(next[n]==nullptr)	continue;
 			float d = static_cast<NODER*>(next[n])->Trace(src, dst);
 			if(d<best_dist)
 			{
@@ -159,14 +159,14 @@ NODER::NODER()
 #ifdef SHOW_SPHERES
 	sphere = 0;
 #endif
-	geo = 0;
+	geo = nullptr;
 	nnext = 0;
-	next = 0;
-	parent = 0;
-	sys_modelName = 0;
-	sys_TexPath = 0;
-	sys_LightPath = 0;
-	sys_lmPath = 0;
+	next = nullptr;
+	parent = nullptr;
+	sys_modelName = nullptr;
+	sys_TexPath = nullptr;
+	sys_LightPath = nullptr;
+	sys_lmPath = nullptr;
 
 	max_view_dist = 0.f;
 }
@@ -175,7 +175,7 @@ bool NODER::Init(const char *lightPath, const char *pname, const char *oname, CM
 
 	name[0] = 0;
 	technique[0] = 0;
-	geoMaterialFunc = 0;
+	geoMaterialFunc = nullptr;
 	flags = VISIBLE | VISIBLE_TREE | CLIP_ENABLE | CLIP_ENABLE_TREE | TRACE_ENABLE | TRACE_ENABLE_TREE;
 
 	loc_mtx = m;
@@ -207,9 +207,9 @@ bool NODER::Init(const char *lightPath, const char *pname, const char *oname, CM
 	geo = gs->CreateGeometry(nm, lp, 0, lmPath);
 	if(!geo)
 	{
-		delete sys_modelName; sys_modelName = 0;
-		delete sys_LightPath; sys_LightPath = 0;
-		delete sys_lmPath; sys_lmPath = 0;
+		delete sys_modelName; sys_modelName = nullptr;
+		delete sys_LightPath; sys_LightPath = nullptr;
+		delete sys_lmPath; sys_lmPath = nullptr;
 		return false;
 	}
 
@@ -220,7 +220,7 @@ bool NODER::Init(const char *lightPath, const char *pname, const char *oname, CM
 	geo_center = CVECTOR(gi.boxcenter.x, gi.boxcenter.y, gi.boxcenter.z);
 
 	parent = par;
-	if(parent==0)	strcpy(name, pname);
+	if(parent==nullptr)	strcpy(name, pname);
 	//calculate number of labels
 	long idGeo = geo->FindName("geometry");
 	nnext = 0;
@@ -229,8 +229,8 @@ bool NODER::Init(const char *lightPath, const char *pname, const char *oname, CM
 
 	if(nnext>0)
 	{
-		next = (NODE**)RESIZE(0, sizeof(NODE*)*nnext);
-		for(long ii=0;ii<nnext;ii++)next[ii] = 0;
+		next = (NODE**)RESIZE(nullptr, sizeof(NODE*)*nnext);
+		for(long ii=0;ii<nnext;ii++)next[ii] = nullptr;
 		long sti = -1;
 		long l = 0;
 		while((sti = geo->FindLabelG(sti+1, idGeo))>-1)
@@ -274,7 +274,7 @@ NODER::~NODER()
 
 	if(geo) delete geo;
 	for(long l=0; l<nnext; l++)
-		if(next[l]!=0)	delete next[l];
+		if(next[l]!=nullptr)	delete next[l];
 	if(nnext>0)	delete next;
 	if(sys_modelName) delete sys_modelName;
 	if(sys_LightPath) delete sys_LightPath;
@@ -286,7 +286,7 @@ void NODER::ReleaseGeometry()
 {
 	if(isReleaed) return;
 	delete geo;
-	geo = null;
+	geo = nullptr;
 	isReleaed = true;
 	for(long i = 0; i < nnext; i++)
 	{
@@ -413,7 +413,7 @@ void NODER::Draw()
 	//draw all children
 	if(flags&VISIBLE_TREE)
 		for(long l=0; l<nnext; l++)
-			if(next[l]!=0)
+			if(next[l]!=nullptr)
 				static_cast<NODER*>(next[l])->Draw();
 }
 
@@ -429,7 +429,7 @@ NODER *NODER::FindNode(const char *cNodeName)
 		NODER *nd = static_cast<NODER*>(next[i])->FindNode(cNodeName);
 		if (nd) return nd;
 	}
-	return null;
+	return nullptr;
 }
 
 //----------------------------------------------------------
@@ -447,16 +447,16 @@ NODER *NODER::GetNode(long n)
 	node++;
 	for(long l=0; l<nnext; l++)
 	{
-		if(next[l]==0)	continue;
+		if(next[l]==nullptr)	continue;
 		NODER *g = static_cast<NODER*>(next[l])->GetNode(n);
-		if(g!=null)
+		if(g!= nullptr)
 		{
 			depth--;
 			return g;
 		}
 	}
 	depth--;
-	return null;
+	return nullptr;
 }
 
 //-------------------------------------------------------------------
@@ -472,7 +472,7 @@ const char *NODER::GetName()
 //-------------------------------------------------------------------
 NODE *NODER::Unlink()
 {
-	return 0;
+	return nullptr;
 }
 
 //-------------------------------------------------------------------
@@ -495,7 +495,7 @@ ENTITY_ID NODER::Unlink2Model()
 	mdl->root = this;
 
 	//for non-root
-	if(parent!=0)
+	if(parent!=nullptr)
 	{
 		//get parent matrix
 		mdl->mtx = parent->glob_mtx;
@@ -503,7 +503,7 @@ ENTITY_ID NODER::Unlink2Model()
 		for(long l=0; l<parent->nnext; l++)
 			if(parent->next[l]==this)
 			{
-				parent->next[l] = 0;
+				parent->next[l] = nullptr;
 				break;
 			}
 	}
@@ -518,7 +518,7 @@ ENTITY_ID NODER::Unlink2Model()
 void NODER::Link(ENTITY_ID id, bool transform)
 {
 	MODELR *mdl = (MODELR*)_CORE_API->GetEntityPointer(&id);
-	if(mdl==0)	return;
+	if(mdl==nullptr)	return;
 
 	//increment number of children
 	nnext++;
@@ -534,7 +534,7 @@ void NODER::Link(ENTITY_ID id, bool transform)
 	}
 
 	//prevent self-deleting
-	mdl->root = 0;
+	mdl->root = nullptr;
 	//delete model
 	_CORE_API->DeleteEntity(id);
 }

@@ -5,14 +5,14 @@
 LAYER::LAYER(char * name,bool ordered,bool system,dword system_flags)
 {
 	ls.Flags = 0;
-	Base_Link = null;
+	Base_Link = nullptr;
 	ls.Ordered = ordered;
 	ls.System = system;
 	ls.Deleted = false;
 	Count = 0;
 	ls.System_flags = system_flags;
 	strcpy(Name,name);
-	walkers = null;
+	walkers = nullptr;
 	walkers_num = 0;
 } 
 
@@ -38,9 +38,9 @@ bool LAYER::Add(ENTITY_ID eid)
 	
 
 	ln_PTR = (LAYER_NODE *)NEW LAYER_NODE;
-	if(ln_PTR == null) return false;
+	if(ln_PTR == nullptr) return false;
 	ln_PTR->id = eid;
-	ln_PTR->link_R = null;
+	ln_PTR->link_R = nullptr;
 	ln_PTR->link_L = Base_Link;
 	ln_PTR->priority = 0;
 	if(Base_Link) Base_Link->link_R = ln_PTR;
@@ -59,13 +59,13 @@ bool LAYER::Add(ENTITY_ID eid, dword priority)
 
 
 	ln_PTR = (LAYER_NODE *)NEW LAYER_NODE;
-	if(ln_PTR == null) return false;
+	if(ln_PTR == nullptr) return false;
 	ln_PTR->id = eid;
 	ln_PTR->priority = priority;
 
-	if(Base_Link == null) 
+	if(Base_Link == nullptr) 
 	{
-		ln_PTR->link_R = null;
+		ln_PTR->link_R = nullptr;
 		ln_PTR->link_L = Base_Link;
 		if(Base_Link) Base_Link->link_R = ln_PTR;
 		Base_Link = ln_PTR;
@@ -86,11 +86,11 @@ bool LAYER::Add(ENTITY_ID eid, dword priority)
 			Count++;
 			return true;
 		}
-		if(scanln_PTR->link_L == null)
+		if(scanln_PTR->link_L == nullptr)
 		{
 			scanln_PTR->link_L = ln_PTR;
 			ln_PTR->link_R = scanln_PTR;
-			ln_PTR->link_L = 0;
+			ln_PTR->link_L = nullptr;
 			Count++;
 			return true;
 		}
@@ -159,81 +159,81 @@ dword LAYER::GetPriority(ENTITY_ID eid)
 
 ENTITY_ID * LAYER::WalkerGetID(LPBYTE& sl)
 {
-	if(ls.Deleted) return null;
+	if(ls.Deleted) return nullptr;
 	if(Base_Link)
 	{
 		sl = (LPBYTE)Base_Link;
 		return &Base_Link->id;
 	}
-	sl = null;
-	return null;
+	sl = nullptr;
+	return nullptr;
 }
 
 ENTITY_ID * LAYER::WalkerGetNextID(LPBYTE& sl)
 {
 	LAYER_NODE * ln_PTR;
-	if(ls.Deleted) return null;
+	if(ls.Deleted) return nullptr;
 	if(sl)
 	{
 		ln_PTR = (LAYER_NODE *)sl;
 		sl = (LPBYTE)ln_PTR->link_L;
 		ln_PTR = (LAYER_NODE *)sl;
-		if(sl == null) return null;
+		if(sl == nullptr) return nullptr;
 		return &ln_PTR->id;
 	}
-	return null;
+	return nullptr;
 }
 
 
 
 ENTITY_ID * LAYER::GetID()
 {
-	if(ls.Deleted) return null;
+	if(ls.Deleted) return nullptr;
 	if(Base_Link)
 	{
 		Search_Link = Base_Link;
 		return &Base_Link->id;
 	}
-	Search_Link = null;
-	return null;
+	Search_Link = nullptr;
+	return nullptr;
 }
 
 ENTITY_ID * LAYER::GetNextID()
 {
-	if(ls.Deleted) return null;
+	if(ls.Deleted) return nullptr;
 	if(Search_Link)
 	{
 		Search_Link = Search_Link->link_L;
-		if(Search_Link == null) return null;
+		if(Search_Link == nullptr) return nullptr;
 		return &Search_Link->id;
 	}
-	return null;
+	return nullptr;
 }
 
 ENTITY_ID * LAYER::GetID(dword * priority_PTR)
 {
-	if(ls.Deleted) return null;
+	if(ls.Deleted) return nullptr;
 	if(Base_Link)
 	{
 		Search_Link = Base_Link;
 		if(priority_PTR) *priority_PTR = Base_Link->priority;
 		return &Base_Link->id;
 	}
-	Search_Link = null;
-	return null;
+	Search_Link = nullptr;
+	return nullptr;
 }
 
 ENTITY_ID * LAYER::GetNextID(dword * priority_PTR)
 {
-	if(ls.Deleted) return null;
+	if(ls.Deleted) return nullptr;
 	if(Search_Link)
 	{
 		Search_Link = Search_Link->link_L;
-		if(Search_Link == null) return null;
+		if(Search_Link == nullptr) return nullptr;
 		if(priority_PTR) *priority_PTR = Search_Link->priority;
 		return &Search_Link->id;
 	}
-	return null;
+	return nullptr;
 }
 
 void LAYER::SetFlag(dword flag)
@@ -251,7 +251,7 @@ VIDWALKER * LAYER::GetWalker()
 {
 	TIDWALKER * tidw;
 
-	if(walkers == null) walkers = (IDWALKER **)NEW char[sizeof(IDWALKER *)]; 
+	if(walkers == nullptr) walkers = (IDWALKER **)NEW char[sizeof(IDWALKER *)]; 
 	else walkers = (IDWALKER **)RESIZE(walkers,(walkers_num + 1)*sizeof(IDWALKER *)); 
 
 	walkers[walkers_num] = NEW IDWALKER;
@@ -275,7 +275,7 @@ void LAYER::DelWalker(void * pw)
 			{
 				delete walkers[0];
 				delete walkers;
-				walkers = null;
+				walkers = nullptr;
 				walkers_num = 0;
 				return;
 			}
@@ -299,11 +299,11 @@ void IDWALKER::Invalidate()
 ENTITY_ID * IDWALKER::GetID()
 {
 	if(pLayer) return ((LAYER *)pLayer)->WalkerGetID(Search_Link);
-	return null;
+	return nullptr;
 }
 
 ENTITY_ID * IDWALKER::GetIDNext()
 {
 	if(pLayer) return ((LAYER *)pLayer)->WalkerGetNextID(Search_Link);
-	return null;
+	return nullptr;
 }

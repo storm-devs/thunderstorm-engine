@@ -29,9 +29,9 @@ public:
 // API functions : (virtual API)
 
 	// memory managment functions
-	virtual void *	MemAllocate(size_t size,char * p = 0, unsigned long n = 0)= 0;
+	virtual void *	MemAllocate(size_t size,char * p = nullptr, unsigned long n = 0)= 0;
 	virtual void	MemFree(void * block_ptr)= 0;
-	virtual void *	MemReallocate(void * block_ptr,size_t size,char * p = 0, unsigned long n = 0)= 0;
+	virtual void *	MemReallocate(void * block_ptr,size_t size,char * p = nullptr, unsigned long n = 0)= 0;
 
 	// common programm control
 	
@@ -159,9 +159,9 @@ public:
 	virtual dword GetDeltaTime()= 0;
 
 	// return key state for predefined game keys
-	virtual float GetKeyState(dword key_code, dword * value = 0)= 0;
+	virtual float GetKeyState(dword key_code, dword * value = nullptr)= 0;
 	// declare event
-	virtual VDATA * _cdecl Event(char * Event_name, char * Format = 0,...)= 0;
+	virtual VDATA * _cdecl Event(char * Event_name, char * Format = nullptr,...)= 0;
 
 	virtual dword _cdecl PostEvent(char * Event_name, dword post_time, char * Format,...)= 0;
 	// execute script
@@ -180,7 +180,7 @@ public:
 	virtual char * EngineIniFileName()=0;
 	virtual DWORD AttributeName2Code(const char * pAttributeName)=0;
 
-	virtual void * GetScriptVariable(const char * pVariableName, DWORD * pdwVarIndex = 0)=0;
+	virtual void * GetScriptVariable(const char * pVariableName, DWORD * pdwVarIndex = nullptr)=0;
 	virtual void SetNetActive(bool bActive) = 0;
 
 	virtual void _cdecl BTrace(const char * Format,...) = 0;		// Trace with beep

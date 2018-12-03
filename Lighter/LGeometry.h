@@ -20,9 +20,9 @@ class LGeometry
 	{
 		Object()
 		{
-			name = null;
-			nameReal = null;
-			m = null;
+			name = nullptr;
+			nameReal = nullptr;
+			m = nullptr;
 			lBufSize = 0;
 		};
 		char * name;			//Путь то col файла

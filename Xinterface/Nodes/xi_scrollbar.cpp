@@ -9,8 +9,8 @@
 CXI_SCROLLBAR::CXI_SCROLLBAR()
 {
 	m_idTex=-1;
-	m_sGroupName = NULL;
-	m_rs = NULL;
+	m_sGroupName = nullptr;
+	m_rs = nullptr;
 
 	m_fXShadow = 0.f;
 	m_fYShadow = 0.f;
@@ -62,7 +62,7 @@ void CXI_SCROLLBAR::Draw(bool bSelected,dword Delta_Time)
 		if(bSelected^m_bPrevSelectStatus)
 		{
 			XI_ONETEX_VERTEX *pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
-			if(pVert!=NULL)
+			if(pVert!= nullptr)
 			{
 				m_bPrevSelectStatus = bSelected;
 				if(bSelected)
@@ -164,11 +164,11 @@ void CXI_SCROLLBAR::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 
 	// get group name and get texture for this
 	m_idTex = -1;
-	m_sGroupName = null;
+	m_sGroupName = nullptr;
 	if( ReadIniString(ini1,name1, ini2,name2, "group", param, sizeof(param),"") )
 	{
 		m_sGroupName = NEW char[strlen(param)+1];
-		if(m_sGroupName==null)
+		if(m_sGroupName== nullptr)
 			STORM_THROW("allocate memory error")
 		strcpy(m_sGroupName,param);
 		m_idTex = pPictureService->GetTextureID(param);
@@ -197,7 +197,7 @@ void CXI_SCROLLBAR::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 	// Lock buffers for write
 	XI_ONETEX_VERTEX *pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
 	WORD *pIndx = (WORD*) m_rs->LockIndexBuffer(m_idIBuf);
-	if(pVert==NULL || pIndx==NULL)
+	if(pVert== nullptr || pIndx== nullptr)
 		STORM_THROW("can not create the index&vertex buffers")
 
 	// fill triangles buffer

@@ -114,7 +114,7 @@ private:
 
 	bool Slider(long id, float y, const char * text, float & value, float min = 0.0f, float max = 1.0f, bool drawVal = false);
 	bool ColorPicker(long id, float y, CVECTOR & ref, float st, CVECTOR & res);
-	bool Button(float x, float y, float w, float h, const char * text, long * act = null, long init = -1);
+	bool Button(float x, float y, float w, float h, const char * text, long * act = nullptr, long init = -1);
 	void Checker(float x, float y, const char * text, bool & res);
 	long SelPreset();
 

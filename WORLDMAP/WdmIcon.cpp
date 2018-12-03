@@ -18,7 +18,7 @@
 
 WdmIcon::WdmIcon()
 {
-	lastShip = null;
+	lastShip = nullptr;
 	icon[0].u = -1.0f;
 	icon[1].u = -1.0f;
 	texture = wdmObjects->rs->TextureCreate("WorldMap\\Interfaces\\BigIcons.tga");
@@ -39,7 +39,7 @@ void WdmIcon::Update(float dltTime)
 	{
 		lastShip = wdmObjects->enemyShip;
 		icon[1] = icon[0];
-		if(lastShip != null)
+		if(lastShip != nullptr)
 		{			
 			icon[0].alpha = 0.0f;
 			switch(lastShip->shipType)

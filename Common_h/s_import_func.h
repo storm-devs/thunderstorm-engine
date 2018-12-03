@@ -14,10 +14,10 @@ struct IFUNCINFO
 {
 	IFUNCINFO(): nArguments(0)
 	{
-		pFuncName = 0;
-		pReturnValueName = 0;
-		pFuncAddress = 0;
-		pDeclFileName = 0;
+		pFuncName = nullptr;
+		pReturnValueName = nullptr;
+		pFuncAddress = nullptr;
+		pDeclFileName = nullptr;
 		nDeclLine = 0;
 	}
 	;

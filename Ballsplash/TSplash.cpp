@@ -1,7 +1,7 @@
 #include "BallSplashDefines.h"
 #include "TSplash.h"
 
-VDX9RENDER *TSplash::renderer = 0;
+VDX9RENDER *TSplash::renderer = nullptr;
 bool TSplash::startRender = true;
 float dU = 1.f / SPLASH_FRAMES_COUNT;
 
@@ -419,7 +419,7 @@ void TSplash::Realize2(dword _dTime)
 						 VPLANES_COUNT*4*topIndex,
 						 0,
 						 VPLANES_COUNT*2*topIndex,
-						 0);
+						 nullptr);
 
 	RDTSC_E(ticksRealize);
 	TSplash::realizeTicks += ticksRealize;

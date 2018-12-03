@@ -21,7 +21,7 @@ CREATE_CLASS(SHADOW)
 static const long vbuff_size = 1024;
 static long ref=0;
 #define TEXTURE_SIZE 128
-IDirect3DTexture9 *shTex = null, *blurTex = null;
+IDirect3DTexture9 *shTex = nullptr, *blurTex = nullptr;
 IDirect3DVertexBuffer9 *vbuff;
 
 
@@ -47,7 +47,7 @@ bool SHADOW::Init()
 	GUARD(SHADOW::SHADOW())
 
 	col = (COLLIDE *)_CORE_API->CreateService("coll");
-	if(col==null)	STORM_THROW("No service: COLLIDE");
+	if(col== nullptr)	STORM_THROW("No service: COLLIDE");
 
 	_CORE_API->LayerAdd("realize",GetID(),900);
 
@@ -57,10 +57,10 @@ bool SHADOW::Init()
 	if(ref==0)
 	{
 		rs->CreateTexture(TEXTURE_SIZE, TEXTURE_SIZE, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &shTex);
-		if(shTex==0)	rs->CreateTexture(TEXTURE_SIZE, TEXTURE_SIZE, 1, D3DUSAGE_RENDERTARGET, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &shTex);
+		if(shTex==nullptr)	rs->CreateTexture(TEXTURE_SIZE, TEXTURE_SIZE, 1, D3DUSAGE_RENDERTARGET, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &shTex);
 
 		rs->CreateTexture(TEXTURE_SIZE, TEXTURE_SIZE, 1, D3DUSAGE_RENDERTARGET, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &blurTex);
-		if(blurTex==0)	rs->CreateTexture(TEXTURE_SIZE, TEXTURE_SIZE, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &blurTex);
+		if(blurTex==nullptr)	rs->CreateTexture(TEXTURE_SIZE, TEXTURE_SIZE, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &blurTex);
 
 		rs->CreateVertexBuffer(sizeof(SHADOW_VERTEX)*(vbuff_size + 128), D3DUSAGE_WRITEONLY|D3DUSAGE_DYNAMIC, SHADOW_FVF, D3DPOOL_DEFAULT, &vbuff);
 
@@ -175,7 +175,7 @@ void SHADOW::Realize(dword Delta_Time)
 
 	CVECTOR hdest = headPos + !(headPos - light_pos)*100.0f;
 	VIDWALKER *walker = _CORE_API->LayerGetWalker("shadow");
-	float ray = col->Trace(*walker, headPos, hdest, 0, 0);
+	float ray = col->Trace(*walker, headPos, hdest, nullptr, 0);
 	CVECTOR cen;
 	float radius;
 	if(ray<=1.0f)
@@ -209,7 +209,7 @@ void SHADOW::Realize(dword Delta_Time)
 	{
 		CVECTOR ps = ObjPos;
 		ps.y += gi.radius*0.111f*float(it);
-		if(col->Trace(*walker, ps, lightPos, 0, 0)>1.0f)
+		if(col->Trace(*walker, ps, lightPos, nullptr, 0)>1.0f)
 			minVal += 0.1f;
 	}
 
@@ -273,10 +273,10 @@ void SHADOW::Realize(dword Delta_Time)
 
 	IDirect3DSurface9 *texsurf;
 	shTex->GetSurfaceLevel( 0, &texsurf );
-	rs->SetRenderTarget( texsurf, 0 );
+	rs->SetRenderTarget( texsurf, nullptr );
 	rs->Release(texsurf);
 
-	rs->Clear(0L, NULL, D3DCLEAR_TARGET, 0, 0.0f, 0L);
+	rs->Clear(0L, nullptr, D3DCLEAR_TARGET, 0, 0.0f, 0L);
 	rs->BeginScene();
 
 	rs->SetRenderState(D3DRS_TEXTUREFACTOR, DENSITY);
@@ -421,10 +421,10 @@ void SHADOW::Smooth()
 
 	IDirect3DSurface9 *texsurf;
 	blurTex->GetSurfaceLevel( 0, &texsurf );
-	rs->SetRenderTarget( texsurf, 0 );
+	rs->SetRenderTarget( texsurf, nullptr );
 	rs->Release(texsurf);
 
-	rs->Clear(0L, NULL, D3DCLEAR_TARGET, 0, 0.0f, 0L);
+	rs->Clear(0L, nullptr, D3DCLEAR_TARGET, 0, 0.0f, 0L);
 	rs->BeginScene();
 
 	rs->SetTexture(0, shTex);
@@ -482,10 +482,10 @@ void SHADOW::RestoreRender()
 	if (ref++ == 0)
 	{
 		rs->CreateTexture(TEXTURE_SIZE, TEXTURE_SIZE, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &shTex);
-		if (shTex == 0)	rs->CreateTexture(TEXTURE_SIZE, TEXTURE_SIZE, 1, D3DUSAGE_RENDERTARGET, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &shTex);
+		if (shTex == nullptr)	rs->CreateTexture(TEXTURE_SIZE, TEXTURE_SIZE, 1, D3DUSAGE_RENDERTARGET, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &shTex);
 
 		rs->CreateTexture(TEXTURE_SIZE, TEXTURE_SIZE, 1, D3DUSAGE_RENDERTARGET, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &blurTex);
-		if (blurTex == 0)	rs->CreateTexture(TEXTURE_SIZE, TEXTURE_SIZE, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &blurTex);
+		if (blurTex == nullptr)	rs->CreateTexture(TEXTURE_SIZE, TEXTURE_SIZE, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &blurTex);
 
 		rs->CreateVertexBuffer(sizeof(SHADOW_VERTEX)*(vbuff_size + 128), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, SHADOW_FVF, D3DPOOL_DEFAULT, &vbuff);
 	}

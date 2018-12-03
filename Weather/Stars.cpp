@@ -134,7 +134,7 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 	if (INVALID_HANDLE_VALUE != hFile)
 	{
 		dword dwSize;
-		fio->_ReadFile(hFile, &dwSize, sizeof(dwSize), null);
+		fio->_ReadFile(hFile, &dwSize, sizeof(dwSize), nullptr);
 
 		static D3DVERTEXELEMENT9 VertexElem[] = {
 		{ 0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },
@@ -155,15 +155,15 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 		if(INVALID_HANDLE_VALUE != hOutFile)
 		{
 			dword dwFileLen;
-			dwFileLen = fio->_GetFileSize(hOutFile,null);
+			dwFileLen = fio->_GetFileSize(hOutFile, nullptr);
 			if( dwFileLen == dwSize*(sizeof(Astronomy::STARS::Star)+sizeof(CVECTOR)+sizeof(DWORD)) )
 			{
 				//aStars.AddElements(dwSize);
 				aStars.resize(aStars.size() + dwSize);
-				fio->_SetFilePointer(hOutFile,0,0,FILE_BEGIN);
-				fio->_ReadFile(hOutFile, aStars.data(), sizeof(Astronomy::STARS::Star)*dwSize, null);
-				fio->_ReadFile(hOutFile, pVPos, sizeof(CVECTOR)*dwSize, null);
-				fio->_ReadFile(hOutFile, pVColors, sizeof(DWORD)*dwSize, null);
+				fio->_SetFilePointer(hOutFile,0,nullptr,FILE_BEGIN);
+				fio->_ReadFile(hOutFile, aStars.data(), sizeof(Astronomy::STARS::Star)*dwSize, nullptr);
+				fio->_ReadFile(hOutFile, pVPos, sizeof(CVECTOR)*dwSize, nullptr);
+				fio->_ReadFile(hOutFile, pVColors, sizeof(DWORD)*dwSize, nullptr);
 				bRecalculateData = false;
 			}
 			fio->_CloseHandle(hOutFile);
@@ -178,10 +178,10 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 				aStars.push_back(Star{});
 				Star & s = aStars.back();
 
-				fio->_ReadFile(hFile, &s.fRA, sizeof(s.fRA), null);
-				fio->_ReadFile(hFile, &s.fDec, sizeof(s.fDec), null);
-				fio->_ReadFile(hFile, &s.fMag, sizeof(s.fMag), null);
-				fio->_ReadFile(hFile, &s.cSpectr[0], sizeof(s.cSpectr), null);
+				fio->_ReadFile(hFile, &s.fRA, sizeof(s.fRA), nullptr);
+				fio->_ReadFile(hFile, &s.fDec, sizeof(s.fDec), nullptr);
+				fio->_ReadFile(hFile, &s.fMag, sizeof(s.fMag), nullptr);
+				fio->_ReadFile(hFile, &s.cSpectr[0], sizeof(s.cSpectr), nullptr);
 				s.dwColor = Spectr[s.cSpectr[0]];
 
 				if (s.fMag < fMaxMag) fMaxMag = s.fMag;
@@ -200,9 +200,9 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 			hOutFile = fio->_CreateFile("resource\\star.dat",GENERIC_WRITE,0,CREATE_ALWAYS);
 			if( INVALID_HANDLE_VALUE != hOutFile )
 			{
-				fio->_WriteFile(hOutFile, aStars.data(), sizeof(Astronomy::STARS::Star)*dwSize, null);
-				fio->_WriteFile(hOutFile, pVPos, sizeof(CVECTOR)*dwSize, null);
-				fio->_WriteFile(hOutFile, pVColors, sizeof(DWORD)*dwSize, null);
+				fio->_WriteFile(hOutFile, aStars.data(), sizeof(Astronomy::STARS::Star)*dwSize, nullptr);
+				fio->_WriteFile(hOutFile, pVPos, sizeof(CVECTOR)*dwSize, nullptr);
+				fio->_WriteFile(hOutFile, pVColors, sizeof(DWORD)*dwSize, nullptr);
 				fio->_CloseHandle(hOutFile);
 			}
 		}
@@ -305,7 +305,7 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 	Astronomy::pRS->SetRenderState( D3DRS_POINTSPRITEENABLE, false );
 	Astronomy::pRS->SetRenderState( D3DRS_POINTSCALEENABLE,  false );
 
-	Astronomy::pRS->SetStreamSource(1, null, 0);
+	Astronomy::pRS->SetStreamSource(1, nullptr, 0);
 
 	/*Astronomy::pRS->GetTransform(D3DTS_VIEW, mView);
 	Astronomy::pRS->GetCamera(vCamPos, vCamAng, fFov);

@@ -57,7 +57,7 @@ WdmShip::~WdmShip()
 {
 	wdmObjects->DelShip(this);
 	wdmObjects->rs->TextureRelease(wmtexture);
-	if((WdmShip *)wdmObjects->enemyShip == this) wdmObjects->enemyShip = null;
+	if((WdmShip *)wdmObjects->enemyShip == this) wdmObjects->enemyShip = nullptr;
 }
 
 bool WdmShip::Load(const char * modelName)

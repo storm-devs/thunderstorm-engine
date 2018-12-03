@@ -17,11 +17,11 @@ GDI_DISPLAY gdi_display;
 
 CORE Core;
 VAPI * _CORE_API; // ~!~ TODO: remove
-VAPI * api = 0;
+VAPI * api = nullptr;
 
-VMA * _pModuleClassRoot = 0;
+VMA * _pModuleClassRoot = nullptr;
 
-VFILE_SERVICE * fio = 0;
+VFILE_SERVICE * fio = nullptr;
 
 bool bBackspaceExit = false;
 bool bDebugWindow = false, bAcceleration = false;
@@ -90,16 +90,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 	if (ini)
 	{
 		bMemoryStats = ini->GetLong("stats", "memory_stats", 0) == 1;
-		ini->ReadString(0, "mem_profile", sMemProfileFileName, sizeof(sMemProfileFileName), "");
+		ini->ReadString(nullptr, "mem_profile", sMemProfileFileName, sizeof(sMemProfileFileName), "");
 
-		dwMaxFPS = (dword)ini->GetLong(0, "max_fps", 0);
-		bDebugWindow = ini->GetLong(0, "DebugWindow", 0) == 1;
-		bAcceleration = ini->GetLong(0, "Acceleration", 0) == 1;
-		bBackspaceExit = ini->GetLong(0, "BackSpaceExit", 0) == 1;
-		bTraceFilesOff = ini->GetLong(0, "tracefilesoff", 0) == 1;
-		bFirstLaunch = ini->GetLong(0, "firstlaunch", 1) != 0;
+		dwMaxFPS = (dword)ini->GetLong(nullptr, "max_fps", 0);
+		bDebugWindow = ini->GetLong(nullptr, "DebugWindow", 0) == 1;
+		bAcceleration = ini->GetLong(nullptr, "Acceleration", 0) == 1;
+		bBackspaceExit = ini->GetLong(nullptr, "BackSpaceExit", 0) == 1;
+		bTraceFilesOff = ini->GetLong(nullptr, "tracefilesoff", 0) == 1;
+		bFirstLaunch = ini->GetLong(nullptr, "firstlaunch", 1) != 0;
 		if (bFirstLaunch)
-			ini->WriteLong(0, "firstlaunch", 0);
+			ini->WriteLong(nullptr, "firstlaunch", 0);
 
 		delete ini;
 	}
@@ -114,7 +114,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 		memset(&si, 0, sizeof(si));
 		si.cb = sizeof(si);
 
-		BOOL bProcess = CreateProcessA("config.exe", NULL, NULL, NULL, FALSE, NULL, NULL, NULL, &si, &pi);
+		BOOL bProcess = CreateProcessA("config.exe", nullptr, nullptr, nullptr, FALSE, NULL, nullptr, nullptr, &si, &pi);
 		if (bProcess == TRUE)
 		{
 			CloseHandle(pi.hProcess);
@@ -141,9 +141,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 	wndclass.hIcon = LoadIcon(hInstance, "IDI_ICON1");
 	wndclass.hCursor = LoadCursor(hInstance, "NULL_CURSOR");//LoadCursor(NULL,IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-	wndclass.lpszMenuName = NULL;
+	wndclass.lpszMenuName = nullptr;
 	wndclass.lpszClassName = SPLASH_CLASS;
-	wndclass.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
+	wndclass.hIconSm = LoadIcon(nullptr, IDI_APPLICATION);
 	RegisterClassEx(&wndclass);
 
 	hwnd = CreateWindow(SPLASH_CLASS, SPLASH_CLASS,
@@ -166,7 +166,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 
 		while (true)
 		{
-			if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
+			if (PeekMessage(&msg, nullptr, 0U, 0U, PM_REMOVE))
 			{
 				if (WM_QUIT == msg.message) { break; }
 				else
@@ -261,7 +261,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 		}
 	}
 	Core.ReleaseBase();
-	ClipCursor(0);
+	ClipCursor(nullptr);
 	trace("System exit and cleanup:");
 	trace("Mem state: User memory: %d  MSSystem: %d  Blocks: %d", Memory_Service.Allocated_memory_user, Memory_Service.Allocated_memory_system, Memory_Service.Blocks);
 
@@ -326,8 +326,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			DestroyWindow(hwnd);
 			return 0;
 		case WM_DESTROY:
-			Core.Event("DestroyWindow", null);
-			Core.Event("ExitApplication", null);
+			Core.Event("DestroyWindow", nullptr);
+			Core.Event("ExitApplication", nullptr);
 			CDebug.Release();
 			/*try { */Core.CleanUp();/* } catch(...) { gdi_display.Print("Cleanup exs");};*/
 			gdi_display.Release();
@@ -337,7 +337,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 			//trace("System exit and cleanup:");
 			//trace("Mem state: User memory: %d  MSSystem: %d  Blocks: %d",Memory_Service.Allocated_memory_user,Memory_Service.Allocated_memory_system,Memory_Service.Blocks);
-			InvalidateRect(0, 0, 0);
+			InvalidateRect(nullptr, nullptr, 0);
 			PostQuitMessage(0);
 			break;
 		case SD_SERVERMESSAGE:

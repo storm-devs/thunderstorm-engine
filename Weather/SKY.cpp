@@ -9,11 +9,11 @@ SKY::SKY()
 	iFogVertsID = -1;
 	iFogIndexID = -1;
 	fAngleY = 0.0f;
-	pRS = null;
+	pRS = nullptr;
 	memset(TexturesID,-1,sizeof(TexturesID));
 	memset(TexturesNextID,-1,sizeof(TexturesNextID));
-	pAstronomy = 0;
-	pSunGlow = 0;
+	pAstronomy = nullptr;
+	pSunGlow = nullptr;
 }
 
 SKY::~SKY()
@@ -602,7 +602,7 @@ DWORD SKY::GetPixelColor(IDirect3DTexture9* pTex, float fu, float fv)
 	long y = (long)(texdesc.Height * fv);
 
 	D3DLOCKED_RECT lockRect;
-	if ( (hok=pRS->LockRect(pTex, 0, &lockRect, 0, D3DLOCK_READONLY)) == D3D_OK )
+	if ( (hok=pRS->LockRect(pTex, 0, &lockRect, nullptr, D3DLOCK_READONLY)) == D3D_OK )
 	{
 		DWORD * pLine = (DWORD*)( (DWORD)lockRect.pBits + y * lockRect.Pitch );
 		dwCol = pLine[x];

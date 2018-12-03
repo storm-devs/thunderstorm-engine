@@ -18,7 +18,7 @@
 
 AnimationTimerImp::AnimationTimerImp()
 {
-	ani = null;
+	ani = nullptr;
 	for(long i = 0; i < ANITM_PLAYERSMAX; i++)
 	{
 		playersMask[i] = 0;

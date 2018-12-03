@@ -24,7 +24,7 @@ CREATE_SERVICE(DX9RENDER)
 CREATE_SCRIPTLIBRIARY(DX9RENDER_SCRIPT_LIBRIARY)
 
 
-DX9RENDER * DX9RENDER::pRS = null;
+DX9RENDER * DX9RENDER::pRS = nullptr;
 
 DWORD __cdecl DX9SetTexturePath(VS_STACK * pS)
 {
@@ -134,7 +134,7 @@ struct DX9SphVertex
 };
 
 dword DX9sphereNumTrgs;
-DX9SphVertex * DX9sphereVertex = null;
+DX9SphVertex * DX9sphereVertex = nullptr;
 
 void CreateSphere()
 {
@@ -256,7 +256,7 @@ const dword DX9RENDER::rectsVBuffer_SizeInRects = 512;
 //################################################################################
 DX9RENDER::DX9RENDER()
 {
-	rectsVBuffer = null;
+	rectsVBuffer = nullptr;
 
 	bPostProcessEnabled = true;
 	bPostProcessError = false;
@@ -264,29 +264,29 @@ DX9RENDER::DX9RENDER()
 	GlowIntensity = 200;
 	fBlurSize = 0.8f;
 
-	pPostProcessTexture = NULL;
-	pSmallPostProcessTexture = NULL;
-	pSmallPostProcessTexture2 = NULL;
+	pPostProcessTexture = nullptr;
+	pSmallPostProcessTexture = nullptr;
+	pSmallPostProcessTexture2 = nullptr;
 
 
-	pPostProcessSurface = NULL;
-	pSmallPostProcessSurface = NULL;
-	pSmallPostProcessSurface2 = NULL;
+	pPostProcessSurface = nullptr;
+	pSmallPostProcessSurface = nullptr;
+	pSmallPostProcessSurface2 = nullptr;
 
 
-	pOriginalScreenSurface = NULL;
-	pOriginalDepthSurface = NULL;
+	pOriginalScreenSurface = nullptr;
+	pOriginalDepthSurface = nullptr;
 
 	pRS = this;
-	d3d = NULL;
-	d3d9 = NULL;
-	aniVBuffer = null;
+	d3d = nullptr;
+	d3d9 = nullptr;
+	aniVBuffer = nullptr;
 	numAniVerteces = 0;
-	pVTL = NULL;
+	pVTL = nullptr;
 	nFontQuantity = 0;
 	idFontCurrent = 0;
-	fontIniFileName = NULL;
-	pTechnique = null;
+	fontIniFileName = nullptr;
+	pTechnique = nullptr;
 
 	bLoadTextureEnabled = true;
 
@@ -300,7 +300,7 @@ DX9RENDER::DX9RENDER()
 	ZERO(TexPaths);
 
 	bDropVideoConveyor = false;
-	pDropConveyorVBuffer = null;
+	pDropConveyorVBuffer = nullptr;
 
 	aspectRatio = -1.0f;
 	ZeroMemory(FontList, sizeof(FontList));
@@ -313,10 +313,10 @@ DX9RENDER::DX9RENDER()
 
 	m_fHeightDeformator = 1.f;
 
-	progressImage = null;
+	progressImage = nullptr;
 	progressImageSize = 0;
 	progressTexture = -1;
-	progressTipsImage = null;
+	progressTipsImage = nullptr;
 	progressTipsImageSize = 0;
 	progressTipsTexture = -1;
 	loadFrame = 0;
@@ -349,8 +349,8 @@ bool  DX9RENDER::Init()
 		char str[256];
 	for (long i = 0; i<MAX_STEXTURES; i++) Textures[i].ref = NULL;
 
-	d3d = NULL;
-	d3d9 = NULL;
+	d3d = nullptr;
+	d3d9 = nullptr;
 
 	INIFILE * ini;
 	ini = api->fio->OpenIniFile(api->EngineIniFileName());
@@ -358,27 +358,27 @@ bool  DX9RENDER::Init()
 	{
 		//bPostProcessEnabled = ini->GetLong(0, "PostProcess", 0) == 1;
 		bPostProcessEnabled = false; //~!~
-		bShowFps = ini->GetLong(0, "show_fps", 0) == 1;
-		bShowExInfo = ini->GetLong(0, "show_exinfo", 0) == 1;
-		bSafeRendering = ini->GetLong(0, "safe_render", 0) == 0;
-		bDropVideoConveyor = ini->GetLong(0, "DropVideoConveyor", 0) != 0;
-		texLog = ini->GetLong(0, "texture_log", 0) == 1;
-		bUseLargeBackBuffer = ini->GetLong(0, "UseLargeBackBuffer", 0) != 0;
+		bShowFps = ini->GetLong(nullptr, "show_fps", 0) == 1;
+		bShowExInfo = ini->GetLong(nullptr, "show_exinfo", 0) == 1;
+		bSafeRendering = ini->GetLong(nullptr, "safe_render", 0) == 0;
+		bDropVideoConveyor = ini->GetLong(nullptr, "DropVideoConveyor", 0) != 0;
+		texLog = ini->GetLong(nullptr, "texture_log", 0) == 1;
+		bUseLargeBackBuffer = ini->GetLong(nullptr, "UseLargeBackBuffer", 0) != 0;
 
 #ifndef _XBOX
-		bWindow = ini->GetLong(0, "full_screen", 1) == 0;
+		bWindow = ini->GetLong(nullptr, "full_screen", 1) == 0;
 #else
 		bWindow = false;
 #endif
 
-		nTextureDegradation = ini->GetLong(0, "texture_degradation", 0);
+		nTextureDegradation = ini->GetLong(nullptr, "texture_degradation", 0);
 
-		screen_size.x = ini->GetLong(0, "screen_x", 1024);
-		screen_size.y = ini->GetLong(0, "screen_y", 768);
-		fNearClipPlane = ini->GetFloat(0, "NearClipPlane", 0.1f);
-		fFarClipPlane = ini->GetFloat(0, "FarClipPlane", 4000.0f);
-		bBackBufferCanLock = ini->GetLong(0, "lockable_back_buffer", 0) != 0;
-		ini->ReadString(0, "screen_bpp", str, sizeof(str), "D3DFMT_R5G6B5");
+		screen_size.x = ini->GetLong(nullptr, "screen_x", 1024);
+		screen_size.y = ini->GetLong(nullptr, "screen_y", 768);
+		fNearClipPlane = ini->GetFloat(nullptr, "NearClipPlane", 0.1f);
+		fFarClipPlane = ini->GetFloat(nullptr, "FarClipPlane", 4000.0f);
+		bBackBufferCanLock = ini->GetLong(nullptr, "lockable_back_buffer", 0) != 0;
+		ini->ReadString(nullptr, "screen_bpp", str, sizeof(str), "D3DFMT_R5G6B5");
 		screen_bpp = D3DFMT_R5G6B5;
 		stencil_format = D3DFMT_D16;
 		if (_stricmp(str, "D3DFMT_A8R8G8B8") == 0) { screen_bpp = D3DFMT_A8R8G8B8; stencil_format = D3DFMT_D24S8; }
@@ -392,16 +392,16 @@ bool  DX9RENDER::Init()
 		pTechnique->DecodeFiles();
 
 		// получить стартовый ини файл для шрифтов
-		if (!ini->ReadString(0, "startFontIniFile", str, sizeof(str) - 1, ""))
+		if (!ini->ReadString(nullptr, "startFontIniFile", str, sizeof(str) - 1, ""))
 		{
 			api->Trace("Not finded 'startFontIniFile' parameter into ENGINE.INI file");
 			sprintf(str, "resource\\ini\\fonts.ini");
 		}
-		if ((fontIniFileName = NEW char[strlen(str) + 1]) == null)
+		if ((fontIniFileName = NEW char[strlen(str) + 1]) == nullptr)
 			STORM_THROW("allocate memory error");
 		strcpy(fontIniFileName, str);
 		// get start font quantity
-		if (!ini->ReadString(0, "font", str, sizeof(str) - 1, ""))
+		if (!ini->ReadString(nullptr, "font", str, sizeof(str) - 1, ""))
 		{
 			api->Trace("Start font not defined");
 			sprintf(str, "normal");
@@ -456,10 +456,10 @@ bool  DX9RENDER::Init()
 		pARender->SetAttributeUseDword("screen_y", screen_size.y);
 	}
 
-	pDropConveyorVBuffer = null;
-	rectsVBuffer = null;
-	d3d9->CreateVertexBuffer(2 * sizeof(CVECTOR), D3DUSAGE_WRITEONLY, D3DFVF_XYZ, D3DPOOL_MANAGED, &pDropConveyorVBuffer, NULL);
-	d3d9->CreateVertexBuffer(rectsVBuffer_SizeInRects * 6 * sizeof(RECT_VERTEX), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, RS_RECT_VERTEX_FORMAT, D3DPOOL_DEFAULT, &rectsVBuffer, NULL);//D3DPOOL_MANAGED
+	pDropConveyorVBuffer = nullptr;
+	rectsVBuffer = nullptr;
+	d3d9->CreateVertexBuffer(2 * sizeof(CVECTOR), D3DUSAGE_WRITEONLY, D3DFVF_XYZ, D3DPOOL_MANAGED, &pDropConveyorVBuffer, nullptr);
+	d3d9->CreateVertexBuffer(rectsVBuffer_SizeInRects * 6 * sizeof(RECT_VERTEX), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, RS_RECT_VERTEX_FORMAT, D3DPOOL_DEFAULT, &rectsVBuffer, nullptr);//D3DPOOL_MANAGED
 	if (!pDropConveyorVBuffer || !rectsVBuffer)
 	{
 		return false;
@@ -506,16 +506,16 @@ DX9RENDER::~DX9RENDER()
 	S_RELEASE(rectsVBuffer, 8);
 
 
-	if (progressImage) delete progressImage; progressImage = null;
+	if (progressImage) delete progressImage; progressImage = nullptr;
 	for (int i = 0; i<nFontQuantity; i++)
 	{
-		if (FontList[i].font != NULL)
+		if (FontList[i].font != nullptr)
 			delete FontList[i].font;
-		if (FontList[i].name != NULL)
+		if (FontList[i].name != nullptr)
 			delete FontList[i].name;
 	}
 	nFontQuantity = 0;
-	if (fontIniFileName != NULL) delete fontIniFileName;
+	if (fontIniFileName != nullptr) delete fontIniFileName;
 
 	STORM_DELETE(DX9sphereVertex);
 	STORM_DELETE(pTechnique);
@@ -630,7 +630,7 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 {
 	GUARD(DX9RENDER::InitDevice)
 
-		aniVBuffer = null;
+		aniVBuffer = nullptr;
 	numAniVerteces = 0;
 
 	screen_size.x = width;
@@ -640,7 +640,7 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 	hwnd = _hwnd;
 	api->Trace("Initializing DirectX 9");
 	d3d = Direct3DCreate9(D3D_SDK_VERSION);
-	if (d3d == NULL)
+	if (d3d == nullptr)
 	{
 		//MessageBox(hwnd, "Direct3DCreate9 error", "InitDevice::Direct3DCreate9", MB_OK);
 		api->Trace("Direct3DCreate9 error : InitDevice::Direct3DCreate9");
@@ -738,9 +738,9 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 
 	if (bPostProcessEnabled)
 	{
-		d3d9->CreateTexture(width, height, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pPostProcessTexture, NULL);
-		d3d9->CreateTexture((int)fSmallWidth, (int)fSmallHeight, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pSmallPostProcessTexture, NULL);
-		d3d9->CreateTexture((int)(fSmallWidth*2.0f), (int)(fSmallHeight*2.0f), 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pSmallPostProcessTexture2, NULL);
+		d3d9->CreateTexture(width, height, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pPostProcessTexture, nullptr);
+		d3d9->CreateTexture((int)fSmallWidth, (int)fSmallHeight, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pSmallPostProcessTexture, nullptr);
+		d3d9->CreateTexture((int)(fSmallWidth*2.0f), (int)(fSmallHeight*2.0f), 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pSmallPostProcessTexture2, nullptr);
 	}
 
 	if (!pPostProcessTexture || !pSmallPostProcessTexture || !pSmallPostProcessTexture2)
@@ -792,8 +792,8 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 
 	for (long b = 0; b<MAX_BUFFERS; b++)
 	{
-		VertexBuffers[b].buff = 0;
-		IndexBuffers[b].buff = 0;
+		VertexBuffers[b].buff = nullptr;
+		IndexBuffers[b].buff = nullptr;
 	}
 
 	long num_stages;
@@ -872,12 +872,12 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 bool DX9RENDER::ReleaseDevice()
 {
 	if (aniVBuffer) aniVBuffer->Release();
-	aniVBuffer = null;
+	aniVBuffer = nullptr;
 	numAniVerteces = 0;
 	for (long b = 0; b<MAX_BUFFERS; b++)
 	{
-		if (VertexBuffers[b].buff)	VertexBuffers[b].buff->Release(); VertexBuffers[b].buff = 0;
-		if (IndexBuffers[b].buff)	IndexBuffers[b].buff->Release(); IndexBuffers[b].buff = 0;
+		if (VertexBuffers[b].buff)	VertexBuffers[b].buff->Release(); VertexBuffers[b].buff = nullptr;
+		if (IndexBuffers[b].buff)	IndexBuffers[b].buff->Release(); IndexBuffers[b].buff = nullptr;
 	}
 
 	bool res = true;
@@ -886,15 +886,15 @@ bool DX9RENDER::ReleaseDevice()
 		{
 			if (CHECKD3DERR(Textures[t].d3dtex->Release()) == false)	res = false;
 			Textures[t].ref = NULL;
-			if (Textures[t].name != NULL)	delete Textures[t].name;
+			if (Textures[t].name != nullptr)	delete Textures[t].name;
 		}
 
 	if (d3d9) d3d9->SetGammaRamp(0, D3DSGR_NO_CALIBRATION, &DefaultRamp);
 
-	if (d3d9 != NULL && CHECKD3DERR(d3d9->Release()) == false)	res = false;
-	d3d9 = NULL;
-	if (d3d != NULL && CHECKD3DERR(d3d->Release()) == false)	res = false;
-	d3d = NULL;
+	if (d3d9 != nullptr && CHECKD3DERR(d3d9->Release()) == false)	res = false;
+	d3d9 = nullptr;
+	if (d3d != nullptr && CHECKD3DERR(d3d->Release()) == false)	res = false;
+	d3d = nullptr;
 	return res;
 }
 
@@ -971,7 +971,7 @@ void DX9RENDER::BlurGlowTexture()
 	SetTexture(1, pPostProcessTexture);
 	SetTexture(2, pPostProcessTexture);
 	SetTexture(3, pPostProcessTexture);
-	SetRenderTarget(pSmallPostProcessSurface2, NULL);
+	SetRenderTarget(pSmallPostProcessSurface2, nullptr);
 	DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, POST_PROCESS_FVF, 2, PostProcessQuad, sizeof(QuadVertex), "PostProcessBlur");
 
 
@@ -984,7 +984,7 @@ void DX9RENDER::BlurGlowTexture()
 		SetTexture(1, pSmallPostProcessTexture2);
 		SetTexture(2, pSmallPostProcessTexture2);
 		SetTexture(3, pSmallPostProcessTexture2);
-		SetRenderTarget(pSmallPostProcessSurface, NULL);
+		SetRenderTarget(pSmallPostProcessSurface, nullptr);
 		DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, POST_PROCESS_FVF, 2, PostProcessQuad, sizeof(QuadVertex), "PostProcessBlur");
 
 		CreateRenderQuad(fSmallWidth*2.0f, fSmallHeight*2.0f, fSmallWidth, fSmallHeight);
@@ -993,7 +993,7 @@ void DX9RENDER::BlurGlowTexture()
 		SetTexture(1, pSmallPostProcessTexture);
 		SetTexture(2, pSmallPostProcessTexture);
 		SetTexture(3, pSmallPostProcessTexture);
-		SetRenderTarget(pSmallPostProcessSurface2, NULL);
+		SetRenderTarget(pSmallPostProcessSurface2, nullptr);
 		DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, POST_PROCESS_FVF, 2, PostProcessQuad, sizeof(QuadVertex), "PostProcessBlur");
 	}
 
@@ -1003,7 +1003,7 @@ void DX9RENDER::BlurGlowTexture()
 	SetTexture(1, pSmallPostProcessTexture2);
 	SetTexture(2, pSmallPostProcessTexture2);
 	SetTexture(3, pSmallPostProcessTexture2);
-	SetRenderTarget(pSmallPostProcessSurface, NULL);
+	SetRenderTarget(pSmallPostProcessSurface, nullptr);
 	DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, POST_PROCESS_FVF, 2, PostProcessQuad, sizeof(QuadVertex), "PostProcessBlur");
 }
 
@@ -1075,9 +1075,9 @@ void DX9RENDER::CopyPostProcessToScreen()
 
 void DX9RENDER::ClearPostProcessSurface(IDirect3DSurface9* pSurf)
 {
-	HRESULT hr = SetRenderTarget(pSurf, NULL);
+	HRESULT hr = SetRenderTarget(pSurf, nullptr);
 	hr = BeginScene();
-	hr = d3d9->Clear(0, NULL, D3DCLEAR_TARGET, 0x0, 0.0f, 0x0);
+	hr = d3d9->Clear(0, nullptr, D3DCLEAR_TARGET, 0x0, 0.0f, 0x0);
 	hr = EndScene();
 }
 
@@ -1214,7 +1214,7 @@ bool DX9RENDER::DX9EndScene()
 
 	if (bVideoCapture) MakeCapture();
 
-	HRESULT hRes = d3d9->Present(NULL, NULL, NULL, NULL);
+	HRESULT hRes = d3d9->Present(nullptr, nullptr, nullptr, nullptr);
 
 	if (hRes == D3DERR_DEVICELOST)
 	{
@@ -1274,7 +1274,7 @@ long DX9RENDER::TextureCreate(const char *fname)
 	pathStr = path.string();
 	fname = pathStr.c_str(); //~!~ msvc still doesn't have working c_str for path
 
-	if (fname == NULL)
+	if (fname == nullptr)
 	{
 		api->Trace("Can't create texture with null name");
 		return -1L;
@@ -1335,7 +1335,7 @@ long DX9RENDER::TextureCreate(const char *fname)
 
 		Textures[t].hash = hf;
 
-		if ((Textures[t].name = NEW char[strlen(_fname) + 1]) == NULL)
+		if ((Textures[t].name = NEW char[strlen(_fname) + 1]) == nullptr)
 			STORM_THROW("allocate memory error");
 		strcpy(Textures[t].name, _fname);
 		Textures[t].isCubeMap = false;
@@ -1354,7 +1354,7 @@ bool DX9RENDER::TextureLoad(long t)
 	char fn[_MAX_FNAME];
 	Textures[t].dwSize = 0;
 	//wsprintf(fn,"resource\\textures\\%s.tx",fname);
-	if (Textures[t].name == 0) return false;
+	if (Textures[t].name == nullptr) return false;
 	wsprintf(fn, TEXTURESDIR, Textures[t].name);
 	for (long s = 0, d = 0; fn[d]; s++)
 	{
@@ -1372,7 +1372,7 @@ bool DX9RENDER::TextureLoad(long t)
 			api->Trace("Can't load texture %s", fn);
 		}
 		delete Textures[t].name;
-		Textures[t].name = 0;
+		Textures[t].name = nullptr;
 		return false;
 	}
 	//Читаем заголовок
@@ -1385,7 +1385,7 @@ bool DX9RENDER::TextureLoad(long t)
 			api->Trace("Can't load texture %s", fn);
 		}
 		delete Textures[t].name;
-		Textures[t].name = 0;
+		Textures[t].name = nullptr;
 		api->fio->_CloseHandle(file);
 		return false;
 	}
@@ -1398,7 +1398,7 @@ bool DX9RENDER::TextureLoad(long t)
 	{
 		if (bTrace) api->Trace("Invalidate texture format %s, not loading it.", fn);
 		delete Textures[t].name;
-		Textures[t].name = 0;
+		Textures[t].name = nullptr;
 		api->fio->_CloseHandle(file);
 		return false;
 	}
@@ -1419,14 +1419,14 @@ bool DX9RENDER::TextureLoad(long t)
 	{
 		//Загрузка обычной текстуры
 		//Позиция в файле
-		if (seekposition) api->fio->_SetFilePointer(file, seekposition, 0, FILE_CURRENT);
+		if (seekposition) api->fio->_SetFilePointer(file, seekposition, nullptr, FILE_CURRENT);
 		//Создаём текстуру
-		IDirect3DTexture9 * tex = null;
+		IDirect3DTexture9 * tex = nullptr;
 		if (CHECKD3DERR(d3d9->CreateTexture(head.width, head.height, head.nmips, 0, d3dFormat, D3DPOOL_MANAGED, &tex, NULL)) == true || !tex)
 		{
 			if (bTrace) api->Trace("Texture %s is not created (width: %i, height: %i, num mips: %i, format: %s), not loading it.", fn, head.width, head.height, head.nmips, formatTxt);
 			delete Textures[t].name;
-			Textures[t].name = 0;
+			Textures[t].name = nullptr;
 			api->fio->_CloseHandle(file);
 			return false;
 		}
@@ -1437,7 +1437,7 @@ bool DX9RENDER::TextureLoad(long t)
 			Textures[t].dwSize += head.mip_size;
 			//Получаем поверхность мипа
 			bool isError = false;
-			IDirect3DSurface9 * surface = null;
+			IDirect3DSurface9 * surface = nullptr;
 			if (CHECKD3DERR(tex->GetSurfaceLevel(m, &surface)) == true || !surface)
 			{
 				isError = true;
@@ -1453,7 +1453,7 @@ bool DX9RENDER::TextureLoad(long t)
 			{
 				if (bTrace) api->Trace("Can't loading mip %i, texture %s is not created (width: %i, height: %i, num mips: %i, format: %s), not loading it.", m, fn, head.width, head.height, head.nmips, formatTxt);
 				delete Textures[t].name;
-				Textures[t].name = 0;
+				Textures[t].name = nullptr;
 				api->fio->_CloseHandle(file);
 				tex->Release();
 				return false;
@@ -1472,7 +1472,7 @@ bool DX9RENDER::TextureLoad(long t)
 		{
 			if (bTrace) api->Trace("Cube map texture can't has not squared sides %s, not loading it.", fn);
 			delete Textures[t].name;
-			Textures[t].name = 0;
+			Textures[t].name = nullptr;
 			api->fio->_CloseHandle(file);
 			return false;
 		}
@@ -1482,49 +1482,49 @@ bool DX9RENDER::TextureLoad(long t)
 		{
 			if (bTrace) api->Trace("Cube map texture %s is not created (size: %i, num mips: %i, format: %s), not loading it.", fn, head.width, head.nmips, formatTxt);
 			delete Textures[t].name;
-			Textures[t].name = 0;
+			Textures[t].name = nullptr;
 			api->fio->_CloseHandle(file);
 			return false;
 		}
 		if (!(devcaps.TextureCaps & D3DPTEXTURECAPS_MIPCUBEMAP)) head.nmips = 1;
 		//Создаём текстуру
-		IDirect3DCubeTexture9 * tex = null;
+		IDirect3DCubeTexture9 * tex = nullptr;
 		if (CHECKD3DERR(d3d9->CreateCubeTexture(head.width, head.nmips, 0, d3dFormat, D3DPOOL_MANAGED, &tex, NULL)) == true || !tex)
 		{
 			if (bTrace) api->Trace("Cube map texture %s is not created (size: %i, num mips: %i, format: %s), not loading it.", fn, head.width, head.nmips, formatTxt);
 			delete Textures[t].name;
-			Textures[t].name = 0;
+			Textures[t].name = nullptr;
 			api->fio->_CloseHandle(file);
 			return false;
 		}
 		//Загружаем сторны
 		bool isError = false;
-		if (seekposition) api->fio->_SetFilePointer(file, seekposition, 0, FILE_CURRENT);
+		if (seekposition) api->fio->_SetFilePointer(file, seekposition, nullptr, FILE_CURRENT);
 		dword sz = LoadCubmapSide(file, tex, D3DCUBEMAP_FACE_POSITIVE_Z, head.nmips, head.mip_size, head.width, isSwizzled);
 		if (sz)
 		{
 			Textures[t].dwSize += sz;
-			if (seekposition) api->fio->_SetFilePointer(file, seekposition, 0, FILE_CURRENT);
+			if (seekposition) api->fio->_SetFilePointer(file, seekposition, nullptr, FILE_CURRENT);
 			sz = LoadCubmapSide(file, tex, D3DCUBEMAP_FACE_POSITIVE_X, head.nmips, head.mip_size, head.width, isSwizzled);
 			if (sz)
 			{
 				Textures[t].dwSize += sz;
-				if (seekposition) api->fio->_SetFilePointer(file, seekposition, 0, FILE_CURRENT);
+				if (seekposition) api->fio->_SetFilePointer(file, seekposition, nullptr, FILE_CURRENT);
 				sz = LoadCubmapSide(file, tex, D3DCUBEMAP_FACE_NEGATIVE_Z, head.nmips, head.mip_size, head.width, isSwizzled);
 				if (sz)
 				{
 					Textures[t].dwSize += sz;
-					if (seekposition) api->fio->_SetFilePointer(file, seekposition, 0, FILE_CURRENT);
+					if (seekposition) api->fio->_SetFilePointer(file, seekposition, nullptr, FILE_CURRENT);
 					sz = LoadCubmapSide(file, tex, D3DCUBEMAP_FACE_NEGATIVE_X, head.nmips, head.mip_size, head.width, isSwizzled);
 					if (sz)
 					{
 						Textures[t].dwSize += sz;
-						if (seekposition) api->fio->_SetFilePointer(file, seekposition, 0, FILE_CURRENT);
+						if (seekposition) api->fio->_SetFilePointer(file, seekposition, nullptr, FILE_CURRENT);
 						sz = LoadCubmapSide(file, tex, D3DCUBEMAP_FACE_POSITIVE_Y, head.nmips, head.mip_size, head.width, isSwizzled);
 						if (sz)
 						{
 							Textures[t].dwSize += sz;
-							if (seekposition) api->fio->_SetFilePointer(file, seekposition, 0, FILE_CURRENT);
+							if (seekposition) api->fio->_SetFilePointer(file, seekposition, nullptr, FILE_CURRENT);
 							sz = LoadCubmapSide(file, tex, D3DCUBEMAP_FACE_NEGATIVE_Y, head.nmips, head.mip_size, head.width, isSwizzled);
 							if (!sz) isError = true;
 							Textures[t].dwSize += sz;
@@ -1542,7 +1542,7 @@ bool DX9RENDER::TextureLoad(long t)
 		{
 			if (bTrace) api->Trace("Cube map texture %s can't loading (size: %i, num mips: %i, format: %s), not loading it.", fn, head.width, head.nmips, formatTxt);
 			delete Textures[t].name;
-			Textures[t].name = 0;
+			Textures[t].name = nullptr;
 			api->fio->_CloseHandle(file);
 			tex->Release();
 			return false;
@@ -1560,10 +1560,10 @@ bool DX9RENDER::TextureLoad(long t)
 		char s[256];
 		if (totSize == 0) api->fio->_DeleteFile("texLoad.txt");
 		HANDLE fh = api->fio->_CreateFile("texLoad.txt", GENERIC_WRITE, FILE_SHARE_WRITE, OPEN_ALWAYS);
-		api->fio->_SetFilePointer(fh, 0, 0, FILE_END);
+		api->fio->_SetFilePointer(fh, 0, nullptr, FILE_END);
 		totSize += Textures[t].dwSize;
 		sprintf(s, "%.2f, size: %d, %d * %d, %s\n", totSize / 1024.0f / 1024.0f, Textures[t].dwSize, head.width, head.height, Textures[t].name);
-		api->fio->_WriteFile(fh, s, strlen(s), 0);
+		api->fio->_WriteFile(fh, s, strlen(s), nullptr);
 		api->fio->_FlushFileBuffers(fh);
 		api->fio->_CloseHandle(fh);
 
@@ -1579,7 +1579,7 @@ bool DX9RENDER::TextureLoad(long t)
 
 IDirect3DBaseTexture9 * DX9RENDER::GetBaseTexture(long iTexture)
 {
-	return (iTexture >= 0) ? Textures[iTexture].d3dtex : null;
+	return (iTexture >= 0) ? Textures[iTexture].d3dtex : nullptr;
 }
 
 dword DX9RENDER::LoadCubmapSide(HANDLE file, IDirect3DCubeTexture9 * tex, D3DCUBEMAP_FACES face, dword numMips, dword mipSize, dword size, bool isSwizzled)
@@ -1592,7 +1592,7 @@ dword DX9RENDER::LoadCubmapSide(HANDLE file, IDirect3DCubeTexture9 * tex, D3DCUB
 		texsize += mipSize;
 		//Получаем поверхность мипа
 		bool isError = false;
-		IDirect3DSurface9 * surface = null;
+		IDirect3DSurface9 * surface = nullptr;
 		if (CHECKD3DERR(tex->GetCubeMapSurface(face, m, &surface)) == true || !surface)
 		{
 			isError = true;
@@ -1722,7 +1722,7 @@ bool DX9RENDER::TextureRelease(long texid)
 	if (texid == -1)	return true;
 	Textures[texid].ref--;
 	if (Textures[texid].ref != 0) return false;
-	if (Textures[texid].name != NULL)
+	if (Textures[texid].name != nullptr)
 	{
 
 		//#ifndef _XBOX
@@ -1733,17 +1733,17 @@ bool DX9RENDER::TextureRelease(long texid)
 			HANDLE fh = api->fio->_CreateFile("texLoad.txt", GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, OPEN_ALWAYS);
 
 			totSize -= Textures[texid].dwSize;
-			int bytes = api->fio->_GetFileSize(fh, 0);
+			int bytes = api->fio->_GetFileSize(fh, nullptr);
 			char *buf = NEW char[bytes + 1];
-			api->fio->_ReadFile(fh, buf, bytes, 0);
+			api->fio->_ReadFile(fh, buf, bytes, nullptr);
 			buf[bytes] = 0;
 
 			char *str = strstr(buf, Textures[texid].name);
-			if (str != 0)
+			if (str != nullptr)
 			{
-				api->fio->_SetFilePointer(fh, str - buf, 0, FILE_BEGIN);
+				api->fio->_SetFilePointer(fh, str - buf, nullptr, FILE_BEGIN);
 				const char *s = "*";
-				api->fio->_WriteFile(fh, s, 1, 0);
+				api->fio->_WriteFile(fh, s, 1, nullptr);
 			}
 			delete buf;
 			api->fio->_FlushFileBuffers(fh);
@@ -1771,13 +1771,13 @@ bool DX9RENDER::TextureRelease(long texid)
 		//#endif
 
 		delete Textures[texid].name;
-		Textures[texid].name = NULL;
+		Textures[texid].name = nullptr;
 	}
 	if (Textures[texid].loaded == false)	return false;
 
 	if (Textures[texid].d3dtex)
 		if (CHECKD3DERR(Textures[texid].d3dtex->Release()) == true)	return false;
-	Textures[texid].d3dtex = NULL;
+	Textures[texid].d3dtex = nullptr;
 	dwTotalSize -= Textures[texid].dwSize;
 
 	return true;
@@ -1965,7 +1965,7 @@ long DX9RENDER::CreateVertexBuffer(long type, long size, dword dwUsage)
 
 	long b;
 	for (b = 0; b<MAX_BUFFERS; b++)
-		if (VertexBuffers[b].buff == NULL)	
+		if (VertexBuffers[b].buff == nullptr)	
 			break;
 
 	if (b == MAX_BUFFERS)	
@@ -1983,7 +1983,7 @@ long DX9RENDER::CreateVertexBuffer(long type, long size, dword dwUsage)
 
 IDirect3DVertexBuffer9 * DX9RENDER::GetVertexBuffer(long id)
 {
-	if (id < 0 || id >= MAX_BUFFERS) return null;
+	if (id < 0 || id >= MAX_BUFFERS) return nullptr;
 	return VertexBuffers[id].buff;
 }
 
@@ -1998,7 +1998,7 @@ long DX9RENDER::CreateIndexBuffer(long size, dword dwUsage)
 {
 	long b;
 	for (b = 0; b<MAX_BUFFERS; b++)
-		if (IndexBuffers[b].buff == NULL)	break;
+		if (IndexBuffers[b].buff == nullptr)	break;
 
 	if (b == MAX_BUFFERS)	
 		return -1;
@@ -2119,7 +2119,7 @@ void DX9RENDER::RenderAnimation(long ib, void * src, long numVrts, long minv, lo
 		if (numVrts > numAniVerteces)
 		{
 			if (aniVBuffer) aniVBuffer->Release();
-			aniVBuffer = null;
+			aniVBuffer = nullptr;
 			numAniVerteces = 0;
 			if (CHECKD3DERR(d3d9->CreateVertexBuffer(size,
 				D3DUSAGE_WRITEONLY,
@@ -2179,7 +2179,7 @@ void * DX9RENDER::LockIndexBuffer(long id, dword dwFlags)
 	if (bDeviceLost)
 		return nullptr;
 
-	BYTE * ptr = null;
+	BYTE * ptr = nullptr;
 	IndexBuffers[id].dwNumLocks++;
 	if (CHECKD3DERR(IndexBuffers[id].buff->Lock(0, IndexBuffers[id].size, (VOID**)&ptr, dwFlags)))	
 		return nullptr;
@@ -2196,19 +2196,19 @@ void DX9RENDER::UnLockIndexBuffer(long id)
 //################################################################################
 void DX9RENDER::ReleaseVertexBuffer(long id)
 {
-	if (VertexBuffers[id].buff == NULL)	return;
+	if (VertexBuffers[id].buff == nullptr)	return;
 	CHECKD3DERR(
 		VertexBuffers[id].buff->Release());
-	VertexBuffers[id].buff = NULL;
+	VertexBuffers[id].buff = nullptr;
 	VertexBuffers[id].dwNumLocks = 0;
 }
 //################################################################################
 void DX9RENDER::ReleaseIndexBuffer(long id)
 {
-	if (IndexBuffers[id].buff == NULL)	return;
+	if (IndexBuffers[id].buff == nullptr)	return;
 	CHECKD3DERR(
 		IndexBuffers[id].buff->Release());
-	IndexBuffers[id].buff = NULL;
+	IndexBuffers[id].buff = nullptr;
 	IndexBuffers[id].dwNumLocks = 0;
 }
 
@@ -2301,9 +2301,9 @@ void DX9RENDER::RestoreRender()
 	fSmallHeight = 128;
 	if (bPostProcessEnabled)
 	{
-		d3d9->CreateTexture(screen_size.x, screen_size.y, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pPostProcessTexture, NULL);
-		d3d9->CreateTexture((int)fSmallWidth, (int)fSmallHeight, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pSmallPostProcessTexture, NULL);
-		d3d9->CreateTexture((int)(fSmallWidth*2.0f), (int)(fSmallHeight*2.0f), 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pSmallPostProcessTexture2, NULL);
+		d3d9->CreateTexture(screen_size.x, screen_size.y, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pPostProcessTexture, nullptr);
+		d3d9->CreateTexture((int)fSmallWidth, (int)fSmallHeight, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pSmallPostProcessTexture, nullptr);
+		d3d9->CreateTexture((int)(fSmallWidth*2.0f), (int)(fSmallHeight*2.0f), 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pSmallPostProcessTexture2, nullptr);
 	}
 	if (!pPostProcessTexture || !pSmallPostProcessTexture || !pSmallPostProcessTexture2)
 	{
@@ -2329,7 +2329,7 @@ void DX9RENDER::RestoreRender()
 		ClearPostProcessSurface(pSmallPostProcessSurface2);
 	}
 	ClearPostProcessSurface(pOriginalScreenSurface);
-	d3d9->CreateVertexBuffer(rectsVBuffer_SizeInRects * 6 * sizeof(RECT_VERTEX), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, RS_RECT_VERTEX_FORMAT, D3DPOOL_DEFAULT, &rectsVBuffer, NULL);
+	d3d9->CreateVertexBuffer(rectsVBuffer_SizeInRects * 6 * sizeof(RECT_VERTEX), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, RS_RECT_VERTEX_FORMAT, D3DPOOL_DEFAULT, &rectsVBuffer, nullptr);
 	for (long b = 0; b<MAX_BUFFERS; b++)
 	{
 		if (VertexBuffers[b].buff)
@@ -2386,7 +2386,7 @@ bool DX9RENDER::ResetDevice()
 {
 	ENTITY_ID eid;
 
-	api->SetEntityScanLayer(null);
+	api->SetEntityScanLayer(nullptr);
 	if (api->GetEntity(&eid)) do { ((ENTITY*)eid.pointer)->LostRender(); } while (api->GetEntityNext(&eid));
 	LostRender();
 
@@ -2394,7 +2394,7 @@ bool DX9RENDER::ResetDevice()
 		return false;
 
 	RestoreRender();
-	api->SetEntityScanLayer(null);
+	api->SetEntityScanLayer(nullptr);
 	if (api->GetEntity(&eid)) do { ((ENTITY*)eid.pointer)->RestoreRender(); } while (api->GetEntityNext(&eid));
 	return true;
 }
@@ -2527,7 +2527,7 @@ long _cdecl DX9RENDER::Print(long x, long y, char * format, ...)
 {
 	GUARD(DX9RENDER::Print)
 		if (idFontCurrent<0 || idFontCurrent >= nFontQuantity) return 0;
-	if (FontList[idFontCurrent].font == NULL || FontList[idFontCurrent].ref == 0) return 0;
+	if (FontList[idFontCurrent].font == nullptr || FontList[idFontCurrent].ref == 0) return 0;
 
 	va_list args;
 	va_start(args, format);
@@ -2542,7 +2542,7 @@ long _cdecl DX9RENDER::Print(long nFontNum, DWORD color, long x, long y, char * 
 {
 	GUARD(DX9RENDER::Print)
 		if (nFontNum<0 || nFontNum >= nFontQuantity) return 0;
-	if (FontList[nFontNum].font == NULL || FontList[nFontNum].ref == 0) return 0;
+	if (FontList[nFontNum].font == nullptr || FontList[nFontNum].ref == 0) return 0;
 
 	va_list args;
 	va_start(args, format);
@@ -2561,7 +2561,7 @@ long DX9RENDER::StringWidth(char * string, long nFontNum, float fScale, long scr
 {
 	if (nFontNum<0 || nFontNum >= nFontQuantity) return 0;
 	FONT * pFont = FontList[nFontNum].font;
-	if (FontList[nFontNum].ref == 0 || pFont == NULL) return 0;
+	if (FontList[nFontNum].ref == 0 || pFont == nullptr) return 0;
 
 	pFont->StoreFontParameters();
 
@@ -2585,7 +2585,7 @@ long DX9RENDER::CharWidth(char ch, long nFontNum, float fScale, long scrWidth)
 long DX9RENDER::CharHeight(long fontID)
 {
 	if (fontID<0 || fontID >= nFontQuantity) return 0;
-	if (FontList[fontID].ref == 0 || FontList[fontID].font == NULL) return 0;
+	if (FontList[fontID].ref == 0 || FontList[fontID].font == nullptr) return 0;
 
 	return FontList[fontID].font->GetHeight();
 }
@@ -2598,7 +2598,7 @@ long _cdecl DX9RENDER::ExtPrint(long nFontNum, DWORD foreColor, DWORD backColor,
 
 		if (nFontNum<0 || nFontNum >= nFontQuantity) return 0;
 	FONT * pFont = FontList[nFontNum].font;
-	if (FontList[nFontNum].ref == 0 || pFont == NULL) return 0;
+	if (FontList[nFontNum].ref == 0 || pFont == nullptr) return 0;
 
 	va_list args;
 	va_start(args, format);
@@ -2647,7 +2647,7 @@ long _cdecl DX9RENDER::ExtPrint(long nFontNum, DWORD foreColor, DWORD backColor,
 
 long DX9RENDER::LoadFont(char * fontName)
 {
-	if (fontName == NULL) return -1L;
+	if (fontName == nullptr) return -1L;
 	char sDup[256];
 	if (strlen(fontName)<sizeof(sDup) - 1) strcpy(sDup, fontName);
 	else
@@ -2673,7 +2673,7 @@ long DX9RENDER::LoadFont(char * fontName)
 		}
 	if (nFontQuantity<MAX_FONTS)
 	{
-		if ((FontList[i].font = NEW FONT) == NULL)
+		if ((FontList[i].font = NEW FONT) == nullptr)
 			STORM_THROW("allocate memory error");
 		if (!FontList[i].font->Init(fontName, fontIniFileName, d3d9, this))
 		{
@@ -2683,7 +2683,7 @@ long DX9RENDER::LoadFont(char * fontName)
 		}
 		FontList[i].hash = hashVal;
 		FontList[i].ref = 1;
-		if ((FontList[i].name = NEW char[strlen(fontName) + 1]) == NULL)
+		if ((FontList[i].name = NEW char[strlen(fontName) + 1]) == nullptr)
 			STORM_THROW("allocate memory error");
 		strcpy(FontList[i].name, fontName);
 		nFontQuantity++;
@@ -2695,7 +2695,7 @@ long DX9RENDER::LoadFont(char * fontName)
 
 bool DX9RENDER::UnloadFont(char * fontName)
 {
-	if (fontName == NULL) return false;
+	if (fontName == nullptr) return false;
 	char sDup[256];
 	if (strlen(fontName)<sizeof(sDup) - 1) strcpy(sDup, fontName);
 	else
@@ -2733,7 +2733,7 @@ bool DX9RENDER::UnloadFont(long fontID)
 
 bool DX9RENDER::SetCurFont(char * fontName)
 {
-	if (fontName == NULL) return false;
+	if (fontName == nullptr) return false;
 	char sDup[256];
 	if (strlen(fontName)<sizeof(sDup) - 1) strcpy(sDup, fontName);
 	else
@@ -2773,27 +2773,27 @@ char * DX9RENDER::GetFontIniFileName()
 }
 bool DX9RENDER::SetFontIniFileName(char * iniName)
 {
-	if (fontIniFileName != NULL && iniName != NULL && _stricmp(fontIniFileName, iniName) == 0) return true;
-	if (fontIniFileName != NULL)
+	if (fontIniFileName != nullptr && iniName != nullptr && _stricmp(fontIniFileName, iniName) == 0) return true;
+	if (fontIniFileName != nullptr)
 		delete fontIniFileName;
-	if (iniName == NULL)
+	if (iniName == nullptr)
 	{
-		fontIniFileName = NULL;
+		fontIniFileName = nullptr;
 		return false;
 	}
 	else
 	{
-		if ((fontIniFileName = NEW char[strlen(iniName) + 1]) == NULL)
+		if ((fontIniFileName = NEW char[strlen(iniName) + 1]) == nullptr)
 			STORM_THROW("allocate memory error")
 			strcpy(fontIniFileName, iniName);
 	}
 
 	for (int n = 0; n<nFontQuantity; n++)
 	{
-		if (FontList[n].font != NULL) {
+		if (FontList[n].font != nullptr) {
 			delete FontList[n].font;
 		}
-		if ((FontList[n].font = NEW FONT) == NULL)
+		if ((FontList[n].font = NEW FONT) == nullptr)
 			STORM_THROW("allocate memory error")
 			FontList[n].font->Init(FontList[n].name, fontIniFileName, d3d9, this);
 		if (FontList[n].ref == 0) FontList[n].font->TempUnload();
@@ -2961,8 +2961,8 @@ void DX9RENDER::MakeScreenShot()
 	r.left = 0; r.right = screen_size.x;
 	r.top = 0; r.bottom = screen_size.y;
 	p.x = p.y = 0;
-	renderTarget = null;
-	surface = null;
+	renderTarget = nullptr;
+	surface = nullptr;
 
 	//Получаем картинку
 	if (FAILED(GetRenderTarget(&renderTarget)))
@@ -2987,7 +2987,7 @@ void DX9RENDER::MakeScreenShot()
 		return;
 	}
 	renderTarget->Release();
-	renderTarget = null;
+	renderTarget = nullptr;
 	//Получаем имя файла
 	for (i = 0; i < 10000; i++)
 	{
@@ -3004,14 +3004,14 @@ void DX9RENDER::MakeScreenShot()
 		api->Trace("Can't create screenshot file");
 		return;
 	}
-	fio->_WriteFile(fh, &Dhdr, sizeof(TGA_H), 0);
+	fio->_WriteFile(fh, &Dhdr, sizeof(TGA_H), nullptr);
 
 	Surface = (DWORD*)lr.pBits;
 	Surface += lr.Pitch*screen_size.y >> 2;
 	for (i = 0; i<screen_size.y; i++)
 	{
 		Surface -= lr.Pitch >> 2;
-		fio->_WriteFile(fh, Surface, screen_size.x * 4, 0);
+		fio->_WriteFile(fh, Surface, screen_size.x * 4, nullptr);
 	}
 	surface->UnlockRect();
 	surface->Release();
@@ -3133,7 +3133,7 @@ void DX9RENDER::DrawRects(RS_RECT *pRSR, dword dwRectsNum, const char *cBlockNam
 		dword drawCount = dwRectsNum;
 		if (drawCount > rectsVBuffer_SizeInRects) drawCount = rectsVBuffer_SizeInRects;
 		//Буфер
-		RECT_VERTEX * data = null;
+		RECT_VERTEX * data = nullptr;
 		if (rectsVBuffer->Lock(0, drawCount * 6 * sizeof(RECT_VERTEX), (VOID**)&data, D3DLOCK_DISCARD) != D3D_OK) return;
 		if (!data) return;
 		//Заполняем буфер
@@ -3498,13 +3498,13 @@ HRESULT DX9RENDER::GetDeviceCaps(D3DCAPS9 * pCaps)
 
 CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
 {
-	if (sVideoName == null) return null;
-	CVideoTexture *retVal = null;
+	if (sVideoName == nullptr) return nullptr;
+	CVideoTexture *retVal = nullptr;
 	VideoTextureEntity *pVTLcur = pVTL;
 
 	// check already loaded
 	unsigned long newHash = hash_string(sVideoName);
-	while (pVTLcur != null)
+	while (pVTLcur != nullptr)
 	{
 		if (pVTLcur->hash == newHash && _stricmp(pVTLcur->name, sVideoName) == 0)
 		{
@@ -3524,22 +3524,22 @@ CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
 
 	// create new video texture
 	pVTLcur = NEW VideoTextureEntity;
-	if (pVTLcur == null)
+	if (pVTLcur == nullptr)
 		STORM_THROW("memory allocate error");
 	pVTLcur->next = pVTL;
-	pVTLcur->VideoTexture = 0;
+	pVTLcur->VideoTexture = nullptr;
 	pVTLcur->hash = newHash;
 	pVTLcur->ref = 1;
-	if ((pVTLcur->name = NEW char[strlen(sVideoName) + 1]) == null)
+	if ((pVTLcur->name = NEW char[strlen(sVideoName) + 1]) == nullptr)
 		STORM_THROW("memory allocate error");
 	strcpy(pVTLcur->name, sVideoName);
 	ENTITY_ID ei;
 	api->CreateEntity(&ei, "TextureSequence");
 	pVTLcur->VideoTexture = (CVideoTexture*)api->GetEntityPointer(&ei);
-	if (pVTLcur->VideoTexture != null)
+	if (pVTLcur->VideoTexture != nullptr)
 	{
 		pVTLcur->videoTexture_id = ei;
-		if (pVTLcur->VideoTexture->Initialize(this, sVideoName, true) == null) {
+		if (pVTLcur->VideoTexture->Initialize(this, sVideoName, true) == nullptr) {
 			delete pVTLcur;
 			api->DeleteEntity(ei);
 		}
@@ -3560,31 +3560,31 @@ CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
 void DX9RENDER::ReleaseVideoTexture(CVideoTexture* pVTexture)
 {
 	VideoTextureEntity *cur = pVTL;
-	VideoTextureEntity *prev = null;
+	VideoTextureEntity *prev = nullptr;
 
-	if (cur != null) do
+	if (cur != nullptr) do
 	{
 		if (cur->VideoTexture == pVTexture)
 		{
 			cur->ref--;
 			if (cur->ref>0) return;
-			if (prev == null)
+			if (prev == nullptr)
 				pVTL = cur->next;
 			else
 				prev->next = cur->next;
 			api->DeleteEntity(cur->videoTexture_id);
-			if (cur->name != NULL) delete cur->name;
+			if (cur->name != nullptr) delete cur->name;
 			delete cur;
 			break;
 		}
 		prev = cur;
-	} while ((cur = cur->next) != null);
+	} while ((cur = cur->next) != nullptr);
 }
 
 void DX9RENDER::PlayToTexture()
 {
 	VideoTextureEntity *cur = pVTL;
-	while (cur != null)
+	while (cur != nullptr)
 	{
 		if (api->ValidateEntity(&pVTL->videoTexture_id))
 		{
@@ -3594,7 +3594,7 @@ void DX9RENDER::PlayToTexture()
 		else
 		{
 			api->Trace("ERROR: void DX9RENDER::PlayToTexture()");
-			if (cur->name != NULL) delete cur->name;
+			if (cur->name != nullptr) delete cur->name;
 			VideoTextureEntity * pcur = cur;
 			cur = cur->next;
 			if (pVTL == pcur) pVTL = cur;
@@ -3827,7 +3827,7 @@ void DX9RENDER::ProgressView()
 	TextureSet(0, progressTexture);
 	DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1, 2, v, sizeof(v[0]), "ProgressTech");
 	EndScene();
-	d3d9->Present(NULL, NULL, NULL, NULL);
+	d3d9->Present(nullptr, nullptr, nullptr, nullptr);
 	BeginScene();
 	//Следующий кадр
 	loadFrame++;
@@ -3946,19 +3946,19 @@ void DX9RENDER::SetLoadTextureEnable(bool bEnable)
 
 IDirect3DBaseTexture9 * DX9RENDER::CreateTextureFromFileInMemory(const char * pFile, dword dwSize)
 {
-	if (!pFile || !dwSize) return null;
+	if (!pFile || !dwSize) return nullptr;
 
-	IDirect3DTexture9 * pTexture = null;
+	IDirect3DTexture9 * pTexture = nullptr;
 	TGA_H * pTga = (TGA_H *)pFile;
 	D3DFORMAT d3dFormat = (pTga->bpp == 16) ? D3DFMT_DXT1 : D3DFMT_DXT3;
-	D3DXCreateTextureFromFileInMemoryEx((LPDIRECT3DDEVICE9)GetD3DDevice(), pFile, dwSize, D3DX_DEFAULT, D3DX_DEFAULT, 1, 0, d3dFormat, D3DPOOL_MANAGED, D3DX_DEFAULT, D3DX_DEFAULT, 0, null, null, &pTexture);
+	D3DXCreateTextureFromFileInMemoryEx((LPDIRECT3DDEVICE9)GetD3DDevice(), pFile, dwSize, D3DX_DEFAULT, D3DX_DEFAULT, 1, 0, d3dFormat, D3DPOOL_MANAGED, D3DX_DEFAULT, D3DX_DEFAULT, 0, nullptr, nullptr, &pTexture);
 
 	return pTexture;
 }
 
 IDirect3DVolumeTexture9 * DX9RENDER::CreateVolumeTexture(dword Width, dword Height, dword Depth, dword Levels, dword Usage, D3DFORMAT Format, D3DPOOL Pool)
 {
-	IDirect3DVolumeTexture9 * pVolumeTexture = null;
+	IDirect3DVolumeTexture9 * pVolumeTexture = nullptr;
 	CHECKD3DERR(d3d9->CreateVolumeTexture(Width, Height, Depth, Levels, Usage, Format, Pool, &pVolumeTexture, NULL));
 	return pVolumeTexture;
 }
@@ -4025,6 +4025,6 @@ const CMatrix & DX9RENDER::GetProjection()
 
 IDirect3DBaseTexture9* DX9RENDER::GetTextureFromID(long nTextureID)
 {
-	if (nTextureID<0) return null;
+	if (nTextureID<0) return nullptr;
 	return Textures[nTextureID].d3dtex;
 }

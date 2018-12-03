@@ -25,7 +25,7 @@ void SetRectangleColor(XI_ONETEX_VERTEX v[4],DWORD color)
 
 CXI_TWOPICTURE::CXI_TWOPICTURE()
 {
-	m_rs=0;
+	m_rs=nullptr;
 	m_idOneTex=m_idTwoTex = -1L;
 	m_nNodeType = NODETYPE_TWOPICTURE;
 	m_bSelected = true;
@@ -174,7 +174,7 @@ void CXI_TWOPICTURE::UpdateRectangles()
 		SetRectangleColor(m_vOne,m_dwSelectColor);
 		SetRectangleColor(m_vTwo,m_dwDarkColor);
 
-		if(pA!=NULL) pA->SetAttributeUseDword("current",0);
+		if(pA!= nullptr) pA->SetAttributeUseDword("current",0);
 	}
 	else
 	{
@@ -187,7 +187,7 @@ void CXI_TWOPICTURE::UpdateRectangles()
 		SetRectangleColor(m_vOne,m_dwDarkColor);
 		SetRectangleColor(m_vTwo,m_dwSelectColor);
 
-		if(pA!=NULL) pA->SetAttributeUseDword("current",1);
+		if(pA!= nullptr) pA->SetAttributeUseDword("current",1);
 	}
 }
 

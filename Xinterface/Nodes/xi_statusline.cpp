@@ -4,8 +4,8 @@
 
 CXI_STATUSLINE::CXI_STATUSLINE()
 {
-	m_rs=NULL;
-	m_sGroupName = NULL;
+	m_rs= nullptr;
+	m_sGroupName = nullptr;
 	m_idTex = -1L;
 	m_vBuf = -1L;	m_iBuf = -1L;
 	m_nVert = 0;	m_nIndx = 0;
@@ -70,7 +70,7 @@ void CXI_STATUSLINE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
 	XI_ONLYONETEX_VERTEX *pVBuf = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_vBuf);
 	WORD				 *pIBuf = (WORD*)m_rs->LockIndexBuffer(m_iBuf);
 
-	if(pVBuf!=null && pIBuf!=null)
+	if(pVBuf!= nullptr && pIBuf!= nullptr)
 	{
 		FXYRECT scrRect1,scrRect2;
 
@@ -78,8 +78,8 @@ void CXI_STATUSLINE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
         m_fLineOffset = GetIniFloat(ini1,name1, ini2,name2, "lineOffset", 0.f);
         float fMediumX = float(m_rect.right-m_rect.left)-m_fLineOffset*2.f;
         ATTRIBUTES *pAttr = _CORE_API->Entity_GetAttributeClass(&g_idInterface,"StatusLine");
-        if(pAttr!=NULL)	pAttr = pAttr->GetAttributeClass(m_nodeName);
-        if(pAttr!=NULL)
+        if(pAttr!= nullptr)	pAttr = pAttr->GetAttributeClass(m_nodeName);
+        if(pAttr!= nullptr)
         {
             float fMaxValue = pAttr->GetAttributeAsFloat("Max",0);
             float fMinValue = pAttr->GetAttributeAsFloat("Min",0);
@@ -130,8 +130,8 @@ void CXI_STATUSLINE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
     else
         STORM_THROW("Can't vertex or index buffer create");
 
-	if(pVBuf!=null) m_rs->UnLockVertexBuffer(m_vBuf);
-	if(pIBuf!=null) m_rs->UnLockIndexBuffer(m_iBuf);
+	if(pVBuf!= nullptr) m_rs->UnLockVertexBuffer(m_vBuf);
+	if(pIBuf!= nullptr) m_rs->UnLockIndexBuffer(m_iBuf);
 }
 
 bool CXI_STATUSLINE::IsClick(int buttonID,long xPos,long yPos)
@@ -177,8 +177,8 @@ void CXI_STATUSLINE::Refresh()
 	XI_ONLYONETEX_VERTEX *pVBuf = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_vBuf);
 
     ATTRIBUTES *pAttr = api->Entity_GetAttributeClass(&g_idInterface,"StatusLine");
-    if(pAttr!=NULL)	pAttr = pAttr->GetAttributeClass(m_nodeName);
-    if(pAttr!=NULL)
+    if(pAttr!= nullptr)	pAttr = pAttr->GetAttributeClass(m_nodeName);
+    if(pAttr!= nullptr)
 	{
 		float fMediumX = float(m_rect.right-m_rect.left)-m_fLineOffset*2.f;
 		float fMaxValue = pAttr->GetAttributeAsFloat("Max",0);
@@ -217,5 +217,5 @@ void CXI_STATUSLINE::Refresh()
 		pVBuf[7].pos.x = scrRect2.right;   pVBuf[7].pos.y = scrRect2.bottom; pVBuf[7].tu = texRect2.right;   pVBuf[7].tv = texRect2.bottom;
 	}
 
-	if(pVBuf!=null) m_rs->UnLockVertexBuffer(m_vBuf);
+	if(pVBuf!= nullptr) m_rs->UnLockVertexBuffer(m_vBuf);
 }

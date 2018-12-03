@@ -238,7 +238,7 @@ inline long Triangle::NextIndex(long index)
 //Найти ближнюю точку в треугольнике к данной, лежащей в плоскости треугольника, true - внутри треугольника
 inline bool Triangle::FindClosestPoint(const Vector & trgNormal, Vector & pointOnPlane) const
 {
-	const Vector * cPoint = null;
+	const Vector * cPoint = nullptr;
 	for(long i = 0; i < 3; i++)
 	{
 		//Ребро

@@ -22,8 +22,8 @@
 
 LightProcessor::LightProcessor()
 {
-	geometry = null;
-	window = null;
+	geometry = nullptr;
+	window = nullptr;
 	shadowTriangle = -1;
 	smoothVertex = -1;
 	blurVertex = -1;

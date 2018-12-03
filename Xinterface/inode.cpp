@@ -11,22 +11,22 @@ CINODE::CINODE()
 	m_nDoDelay = 0;
 	m_nCurrentCommandNumber = -1;
 	m_bUse = true;
-	m_next=0;
-	m_list=0;
+	m_next=nullptr;
+	m_list=nullptr;
 	m_bClickable=false;
 	m_bSelected=false;
 	m_bLockStatus=false;
 	m_bBreakPress=false;
 	m_bMouseSelect=false;
-	m_nodeName=null;
+	m_nodeName= nullptr;
 	ZeroMemory(m_pCommands,sizeof(COMMAND_ACTION)*COMMAND_QUANTITY);
 	m_bShowGlowCursor = true;
-	m_strHelpTextureFile = null;
+	m_strHelpTextureFile = nullptr;
 	m_bUseUserGlowCursor = false;
 	m_bUseUserGlowOffset = false;
 	m_bInProcessingMessageForThisNode = false;
 	m_bDeleting = false;
-	m_pToolTip = 0;
+	m_pToolTip = nullptr;
 	m_bMakeActionInDeclick = false;
 }
 
@@ -48,13 +48,13 @@ CINODE::~CINODE()
 		STORM_DELETE(m_pCommands[i].sEventName);
 
 		COMMAND_REDIRECT * pContrl = m_pCommands[i].pNextControl;
-		while(pContrl!=null)
+		while(pContrl!= nullptr)
 		{
 			COMMAND_REDIRECT * pOld = pContrl;
 			pContrl = pContrl->next;
 			delete pOld;
 		}
-		m_pCommands[i].pNextControl = 0;
+		m_pCommands[i].pNextControl = nullptr;
 	}
 	STORM_DELETE( m_pToolTip );
 }
@@ -71,23 +71,23 @@ void CINODE::FrameProcess(dword DeltaTime)
 		{
 			// redirect command to subnodes
 			COMMAND_REDIRECT * pContrl = m_pCommands[m_nCurrentCommandNumber].pNextControl;
-			while(pContrl!=null)
+			while(pContrl!= nullptr)
 			{
 				if( pContrl->sControlName )
 				{
-					CINODE* pTmpNod = ptrOwner->FindNode( pContrl->sControlName, 0 );
+					CINODE* pTmpNod = ptrOwner->FindNode( pContrl->sControlName, nullptr );
 					if( pTmpNod )
 						pTmpNod->CommandExecute( pContrl->command );
 				}
 				pContrl = pContrl->next;
 			}
 
-			if(m_pCommands[m_nCurrentCommandNumber].sEventName!=null)
+			if(m_pCommands[m_nCurrentCommandNumber].sEventName!= nullptr)
                 api->Send_Message(g_idInterface,"lssl",MSG_INTERFACE_SET_EVENT,m_pCommands[m_nCurrentCommandNumber].sEventName,m_nodeName,m_nCurrentCommandNumber);
 
 			if( m_pCommands[m_nCurrentCommandNumber].sRetControl )
 			{
-				CINODE* pTmpNod = ptrOwner->FindNode( m_pCommands[m_nCurrentCommandNumber].sRetControl, 0 );
+				CINODE* pTmpNod = ptrOwner->FindNode( m_pCommands[m_nCurrentCommandNumber].sRetControl, nullptr );
 				if( pTmpNod )
 					api->Send_Message(g_idInterface,"lp",MSG_INTERFACE_SET_CURRENT_NODE,pTmpNod);
 			}
@@ -105,7 +105,7 @@ void CINODE::FrameProcess(dword DeltaTime)
 
 CINODE* CINODE::DoAction(int wActCode,bool &bBreakPress,bool bFirstPress)
 {
-	if(m_nNodeType==NODETYPE_TEXTBUTTON && !m_bSelected) return null;
+	if(m_nNodeType==NODETYPE_TEXTBUTTON && !m_bSelected) return nullptr;
 	bBreakPress = m_bBreakPress;
 	if(m_bLockStatus) return this;
 
@@ -148,15 +148,15 @@ CINODE* CINODE::DoAction(int wActCode,bool &bBreakPress,bool bFirstPress)
 	// return other or self node
 	if(m_nCurrentCommandNumber==-1)
 	{
-		if(n<COMMAND_QUANTITY)	return ptrOwner->FindNode( m_pCommands[n].sRetControl, 0 );
-		else	return ptrOwner->FindNode( m_pCommands[i].sRetControl, 0 );
+		if(n<COMMAND_QUANTITY)	return ptrOwner->FindNode( m_pCommands[n].sRetControl, nullptr );
+		else	return ptrOwner->FindNode( m_pCommands[i].sRetControl, nullptr );
 	}
-	return null;
+	return nullptr;
 }
 
 CINODE* CINODE::FindNode(CINODE* pNod, const char* sNodName)
 {
-	if( !sNodName ) return null;
+	if( !sNodName ) return nullptr;
 	while( pNod ) {
 		if( pNod->m_nodeName && _stricmp(sNodName,pNod->m_nodeName)==0 ) break;
 		if( pNod->m_list ) {
@@ -251,8 +251,8 @@ void CINODE::GetAbsoluteRect(XYRECT & rect,int at)
 
 char * CINODE::GetSubStr(char * inStr, char * buf, size_t bufSize, char devChar)
 {
-	if(bufSize<=0 || buf==null) return inStr;
-	if(inStr==null) {buf[0]=0; return null;}
+	if(bufSize<=0 || buf== nullptr) return inStr;
+	if(inStr== nullptr) {buf[0]=0; return nullptr;}
 	int curSize=0;
 	char* curStr;
 	for(curStr=inStr; *curStr!=0; curStr++)
@@ -268,8 +268,8 @@ char * CINODE::GetSubStr(char * inStr, char * buf, size_t bufSize, char devChar)
 
 bool CINODE::GetMidStr(char * inStr, char * buf, size_t bufSize, char * begStr, char * endStr)
 {
-	if(bufSize<=0 || buf==null) return false;
-	if(inStr==null || begStr==null || endStr==null) {buf[0]=0; return false;}
+	if(bufSize<=0 || buf== nullptr) return false;
+	if(inStr== nullptr || begStr== nullptr || endStr== nullptr) {buf[0]=0; return false;}
 	int lenIn = strlen(inStr);
 	int lenBeg = strlen(begStr);
 	int lenEnd = strlen(endStr);
@@ -329,7 +329,7 @@ void CINODE::ShowToolTip()
 
 char * CINODE::GetDataStr(char * inStr, char * strOrder, ...)
 {
-	if(inStr==null || strOrder==null) return null;
+	if(inStr== nullptr || strOrder== nullptr) return nullptr;
 	va_list vl;
 	va_start(vl, strOrder);
 	char param[256];
@@ -432,7 +432,7 @@ bool CINODE::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9REND
 	if( ReadIniString(ini1,name1, ini2,name2, "HelpTextureFile",param,sizeof(param)-1,"") )
 	{
 		m_strHelpTextureFile = NEW char[strlen(param)+1];
-		if(m_strHelpTextureFile!=null)
+		if(m_strHelpTextureFile!= nullptr)
 		{
 			strcpy(m_strHelpTextureFile,param);
 		}
@@ -496,11 +496,11 @@ long CINODE::GetIniLong(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, ch
 bool CINODE::ReadIniString(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, char * keyName, char * buf, size_t bufSize, char * strDef)
 {
 	bool bYes = false;
-	if(strDef==0) strDef="";
+	if(strDef==nullptr) strDef="";
 	if( ini1 && name1 && ini1->ReadString(name1, keyName, buf, bufSize-1, strDef) )	bYes = true;
 	if(!bYes)
 		if( ini2 && name2 && ini2->ReadString(name2, keyName, buf, bufSize-1, strDef) )	bYes = true;
-	if(!bYes && strDef!=null) //~!
+	if(!bYes && strDef!= nullptr) //~!
 	{
 		if(buf)
 		{

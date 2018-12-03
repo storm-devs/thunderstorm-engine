@@ -30,7 +30,7 @@ TOUCH::TOUCH()
 	iNumShips = 0;
 	fScale = 6.0f;
 	dwDeltaTime = 0;
-	pIslandBase = null;
+	pIslandBase = nullptr;
 	bUseTouch = false;
 }
 
@@ -107,7 +107,7 @@ void TOUCH::Execute(dword dwCoreDeltaTime)
 		//iTempDeltaTime -= DELTA_TIME;
 		//iDeltaTime = (iTempDeltaTime>DELTA_TIME) ? DELTA_TIME : iTempDeltaTime;
 		iDeltaTime = dwCoreDeltaTime;
-		for (i=0;i<iNumShips;i++) Touch(i,INVALID_SHIP_IDX,0,0,0.0f,0.0f);
+		for (i=0;i<iNumShips;i++) Touch(i,INVALID_SHIP_IDX,nullptr,nullptr,0.0f,0.0f);
 	}
 
 	FakeTouch();	// просто выталкиваем корабли которые все таки находятся в друг друге

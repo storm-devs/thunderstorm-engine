@@ -10,7 +10,7 @@ S_EVENTTAB::S_EVENTTAB()
 	DWORD n;
 	for(n=0;n<HASHTABLE_SIZE;n++)
 	{
-		pTable[n] = 0;
+		pTable[n] = nullptr;
 		Buffer_size[n] = 0;
 		Event_num[n] = 0;
 	}
@@ -59,7 +59,7 @@ void  S_EVENTTAB::Release()
 				if(pTable[i][n].pFuncInfo) delete pTable[i][n].pFuncInfo;
 				if(pTable[i][n].name) delete pTable[i][n].name;	
 			}
-			delete pTable[i]; pTable[i] = 0;
+			delete pTable[i]; pTable[i] = nullptr;
 		}
 		Buffer_size[i] = 0;
 		Event_num[i] = 0;
@@ -132,7 +132,7 @@ dword S_EVENTTAB::AddEventHandler(char * event_name, dword func_code, dword func
 	
 	pTable[ti][Event_num[ti]].elements = 1;
 	pTable[ti][Event_num[ti]].hash = hash;
-	pTable[ti][Event_num[ti]].name = 0;
+	pTable[ti][Event_num[ti]].name = nullptr;
 
 	pTable[ti][Event_num[ti]].pFuncInfo = (EVENT_FUNC_INFO*)NEW char[sizeof(EVENT_FUNC_INFO)];
 	pTable[ti][Event_num[ti]].pFuncInfo[0].func_code = func_code;
@@ -180,7 +180,7 @@ bool S_EVENTTAB::DelEventHandler(char * event_name, dword func_code)
 	dword hash;
 	dword n;
 	BYTE ti;
-	if(event_name == 0) return false;
+	if(event_name == nullptr) return false;
 	hash = MakeHashValue(event_name);
 	
 	ti = HASH2INDEX(hash);
@@ -203,7 +203,7 @@ void S_EVENTTAB::SetStatus(char * event_name, dword func_code, dword status)
 	dword n,i;
 	BYTE ti;
 
-	if(event_name == 0) return;
+	if(event_name == nullptr) return;
 
 	hash = MakeHashValue(event_name);
 	ti = HASH2INDEX(hash);
@@ -270,7 +270,7 @@ dword S_EVENTTAB::FindEvent(char * event_name)
 	dword n;
 	dword hash;
 	BYTE ti;
-	if(event_name == 0) return INVALID_EVENT_CODE;
+	if(event_name == nullptr) return INVALID_EVENT_CODE;
 	hash = MakeHashValue(event_name);
 	ti = HASH2INDEX(hash);
 	for(n=0;n<Event_num[ti];n++)

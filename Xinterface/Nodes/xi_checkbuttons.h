@@ -7,7 +7,7 @@
 
 struct ButtonDescribe
 {
-	ButtonDescribe() { pImg=null; bSetPos=false; }
+	ButtonDescribe() { pImg= nullptr; bSetPos=false; }
 	~ButtonDescribe() { STORM_DELETE( pImg ); }
 
 	struct StrDescribe

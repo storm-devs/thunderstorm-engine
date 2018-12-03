@@ -10,7 +10,7 @@
 
 #include "WdmRenderObject.h"
 
-WdmRenderObject * WdmRenderObject::firstObject = null;
+WdmRenderObject * WdmRenderObject::firstObject = nullptr;
 
 //============================================================================================
 //Конструирование, деструктурирование
@@ -24,21 +24,21 @@ WdmRenderObject::WdmRenderObject()
 	{
 		for(prevObject = firstObject; prevObject->nextObject; prevObject = prevObject->nextObject);
 		prevObject->nextObject = this;
-		nextObject = null;
+		nextObject = nullptr;
 	}else{
 		firstObject = this;
-		prevObject = null;
-		nextObject = null;
+		prevObject = nullptr;
+		nextObject = nullptr;
 	}
 }
 
 WdmRenderObject::~WdmRenderObject()
 {
-	if(prevObject == null)
+	if(prevObject == nullptr)
 	{
 		Assert(WdmRenderObject::firstObject == this);
 		WdmRenderObject::firstObject = nextObject;
-		if(nextObject) nextObject->prevObject = null;
+		if(nextObject) nextObject->prevObject = nullptr;
 	}else{
 		Assert(WdmRenderObject::firstObject != this);
 		prevObject->nextObject = nextObject;

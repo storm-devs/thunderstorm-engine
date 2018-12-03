@@ -5,7 +5,7 @@
 
 CXI_BORDER::CXI_BORDER()
 {
-	m_rs = NULL;
+	m_rs = nullptr;
 
 	m_idTex = -1;
 
@@ -14,8 +14,8 @@ CXI_BORDER::CXI_BORDER()
 
 	m_nSquareQ = 0;
 	m_nNodeType = NODETYPE_BORDER;
-	m_pBackImage = null;
-	m_pCaptionImage = null;
+	m_pBackImage = nullptr;
+	m_pCaptionImage = nullptr;
 }
 
 CXI_BORDER::~CXI_BORDER()

@@ -6,7 +6,7 @@ class CText
 	char * pString;
 
 public:
-	CText() {pString=0;}
+	CText() {pString=nullptr;}
 	CText(char * str, BOOL bNewCreate=true)
 	{
 		if(bNewCreate && str) {
@@ -23,7 +23,7 @@ public:
 				strncpy(pString,str,nSize);
 				pString[nSize] = 0;
 			}
-		} else pString=0;
+		} else pString=nullptr;
 	}
 	CText(CText & text)
 	{
@@ -33,11 +33,11 @@ public:
 			pString = new char[n+1];
 			memcpy(pString,text.pString,n*sizeof(char));
 			pString[n] = 0;
-		} else pString=0;
+		} else pString=nullptr;
 	}
-	~CText() {if(pString) delete pString; pString=0;}
+	~CText() {if(pString) delete pString; pString=nullptr;}
 
-	void Release() {if(pString) delete pString; pString=0;}
+	void Release() {if(pString) delete pString; pString=nullptr;}
 	bool IsEmpty() {return !pString;}
 	size_t size() {if(!pString) return 0; return strlen(pString);}
 
@@ -113,7 +113,7 @@ public:
 					}
 					delete pString;
 					pString = pNew;
-				} else {delete pString; pString=0;}
+				} else {delete pString; pString=nullptr;}
 				break;
 			}
 		return *this;

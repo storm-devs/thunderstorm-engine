@@ -77,10 +77,10 @@ public:
 
 	// bort section
 		float	GetBortHeightAngle(long iBortIndex);
-		bool	isCanFireBort(dword dwBort, CVECTOR & vFirePos, float * pfZapasDistance = null);
-		dword	GetFirstFireBort(CVECTOR & vFirePos, float * pfZapasDistance = null);
+		bool	isCanFireBort(dword dwBort, CVECTOR & vFirePos, float * pfZapasDistance = nullptr);
+		dword	GetFirstFireBort(CVECTOR & vFirePos, float * pfZapasDistance = nullptr);
 		bool	isHaveEnoughtBallsForBort(dword dwBortIdx);
-		dword	GetNextFireBort(dword dwPrevBort, CVECTOR & vFirePos, float * pfZapasDistance = null);
+		dword	GetNextFireBort(dword dwPrevBort, CVECTOR & vFirePos, float * pfZapasDistance = nullptr);
 		CVECTOR	GetBortDirection(dword dwBort);
 		dword	GetBestFireBortOnlyDistance(CVECTOR vFirePos, float fZapasDistance);
 		CVECTOR GetFirePos(CVECTOR & vFireDir);

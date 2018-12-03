@@ -28,7 +28,7 @@ ENTITY_ID SYSTEM_API::GetEntityID()
 {
 	ENTITY_ID id;
 	ZeroMemory(&id,sizeof(id));
-	if(entityID_PTR == null) return id;
+	if(entityID_PTR == nullptr) return id;
 	return *entityID_PTR;
 }
 

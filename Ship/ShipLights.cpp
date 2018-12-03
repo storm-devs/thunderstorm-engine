@@ -2,8 +2,8 @@
 #include "ShipLights.h"
 #include <algorithm>
 
-VDX9RENDER * ShipLights::pRS = null;
-COLLIDE * ShipLights::pCollide = null;
+VDX9RENDER * ShipLights::pRS = nullptr;
+COLLIDE * ShipLights::pCollide = nullptr;
 
 ShipLights::ShipLights()
 {
@@ -18,7 +18,7 @@ ShipLights::ShipLights()
 	iMinLight = 1000;
 	iMaxLight = -1;
 
-	pSea = null;
+	pSea = nullptr;
 }
 
 ShipLights::~ShipLights()
@@ -112,7 +112,7 @@ ShipLights::LightType * ShipLights::FindLightType(std::string sLightType)
 	for (dword i=0; i<aLightTypes.size(); i++)
 		if (aLightTypes[i].sLightType == sLightType) return &aLightTypes[i];
 
-	return null;
+	return nullptr;
 }
 
 void ShipLights::AddDynamicLights(VAI_OBJBASE * pObject, const CVECTOR & vPos)
@@ -188,7 +188,7 @@ void ShipLights::AddFlare(VAI_OBJBASE * pObject, bool bLight, MODEL * pModel, co
 	ShipLight * pL = &aLights.back();
 	memcpy(m, label.m, sizeof(m));
 
-	pL->pNode = null;
+	pL->pNode = nullptr;
 	pL->vPos = m.Pos();
 
 	if (str[0] != 'f' && !bLight) return;
@@ -296,7 +296,7 @@ void ShipLights::KillMast(VAI_OBJBASE * pObject, NODE * pNode, bool bNow)
 		if (aLights[i].pNode->parent != pNode && aLights[i].pNode != pNode) continue;
 		if (bNow)
 		{
-			aLights[i].pNode = null;
+			aLights[i].pNode = nullptr;
 			aLights[i].bOff = true;
 			aLights[i].bBrokenTimeOff = true;
 			//aLights.ExtractNoShift(i);
@@ -466,19 +466,19 @@ void ShipLights::Execute(dword dwDeltaTime)
 
 			if (vwSailsTrace)
 			{
-				float fDistance = pCollide->Trace(*vwSailsTrace, L.vCurPos, vCamPos, null, 0);
+				float fDistance = pCollide->Trace(*vwSailsTrace, L.vCurPos, vCamPos, nullptr, 0);
 				L.fFlareAlphaMax = (fDistance >= 1.0f) ? 1.0f : 0.2f;
 			}
 
 			if (vwSunTrace)
 			{
-				float fDistance = pCollide->Trace(*vwSunTrace, L.vCurPos, vCamPos, null, 0);
+				float fDistance = pCollide->Trace(*vwSunTrace, L.vCurPos, vCamPos, nullptr, 0);
 				float fLen = fDistance * sqrtf(~(vCamPos - L.vCurPos));
 				L.bVisible = fDistance >= 1.0f || (fLen < 0.6f);
 
 				if (!L.bOff && L.bVisible)
 				{
-					float fDistance = pCollide->Trace(*vwSunTrace, vCamPos, L.vCurPos, null, 0);
+					float fDistance = pCollide->Trace(*vwSunTrace, vCamPos, L.vCurPos, nullptr, 0);
 					float fLen = (1.0f - fDistance) * sqrtf(~(vCamPos - L.vCurPos));
 
 					L.bVisible = fLen < 0.6f;

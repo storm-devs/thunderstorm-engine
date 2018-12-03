@@ -19,7 +19,7 @@ public:
 	void FreeAll();
 	void LockBuffers();
 	void UnlockBuffers();
-	void GetPointers(long _i, WORD **iPointer, void **vPointer, long *vOffset = 0);
+	void GetPointers(long _i, WORD **iPointer, void **vPointer, long *vOffset = nullptr);
 	void DrawBuffers(char *_technique);
 
 private:

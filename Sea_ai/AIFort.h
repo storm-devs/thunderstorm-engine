@@ -42,7 +42,7 @@ public:
 			virtual float Cannon_Trace(long iBallOwner, const CVECTOR &src, const CVECTOR &dst) { return 2.0f; };
 			virtual float Trace(const CVECTOR & vSrc, const CVECTOR & vDst) { return 2.0f; };
 			virtual bool Clip(const PLANE * planes, long nplanes, const CVECTOR & vCenter, float radius, ADD_POLYGON_FUNC addpoly) { return false; };
-			virtual const char * GetCollideMaterialName() { return null; };
+			virtual const char * GetCollideMaterialName() { return nullptr; };
 			virtual bool GetCollideTriangle(TRIANGLE & triangle) { return false; };
 		};
 
@@ -178,7 +178,7 @@ public:
 		virtual float Trace(const CVECTOR & vSrc, const CVECTOR & vDst);
 		virtual bool Clip(const PLANE * planes, long nplanes, const CVECTOR & vCenter, float radius, ADD_POLYGON_FUNC addpoly) { return false; };
 
-		virtual const char * GetCollideMaterialName() { return null; };
+		virtual const char * GetCollideMaterialName() { return nullptr; };
 		virtual bool GetCollideTriangle(TRIANGLE & triangle) { return false; };
 
 	// inherit functions CANNON_TRACE_BASE
@@ -188,7 +188,7 @@ public:
 		ATTRIBUTES	* GetACharacter();
 
 		CMatrix		* GetMatrix() { return &mtxFort; };
-		MODEL		* GetModel() { return null; };
+		MODEL		* GetModel() { return nullptr; };
 		ENTITY_ID	GetModelEID() { ENTITY_ID eid; return eid; };
 		CVECTOR		GetPos() { return CVECTOR(0.0f,0.0f,0.0f); };
 		CVECTOR		GetAng() { return CVECTOR(0.0f,0.0f,0.0f); };

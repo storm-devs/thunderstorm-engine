@@ -11,14 +11,14 @@ class DSTRING_CODEC
 {
 	struct HTSUBELEMENT
 	{
-		HTSUBELEMENT() {pDString = 0; nSize = 0;};
+		HTSUBELEMENT() {pDString = nullptr; nSize = 0;};
 		char * pDString;
 		DWORD  nSize;
 	};
 
 	struct HTDELEMENT
 	{
-		HTDELEMENT() {ppDat = 0; nStringsNum = 0;};
+		HTDELEMENT() {ppDat = nullptr; nStringsNum = 0;};
 		HTSUBELEMENT * ppDat;
 		DWORD   nStringsNum;
 	};
@@ -51,7 +51,7 @@ public:
 				for(n=0;n<HTable[m].nStringsNum;n++) delete HTable[m].ppDat[n].pDString;
 				delete HTable[m].ppDat;
 			}
-			HTable[m].ppDat = 0; HTable[m].nStringsNum = 0;
+			HTable[m].ppDat = nullptr; HTable[m].nStringsNum = 0;
 		}
 	}
 
@@ -61,7 +61,7 @@ public:
 		DWORD nTableIndex;
 		DWORD nStringCode;
 		DWORD n;
-		if(pString == 0) return 0xffffffff;
+		if(pString == nullptr) return 0xffffffff;
 
 		if(nDataSize == 1)
 		{
@@ -124,13 +124,13 @@ public:
 		}
 		if(nTableIndex >= DHASH_TABLE_SIZE)
 		{
-			return 0;
+			return nullptr;
 		}
 		//n = code & 0xffff;
 		n = code >> 8;
 		if(n >= HTable[nTableIndex].nStringsNum)
 		{
-			return 0;
+			return nullptr;
 		}
 		nSize = HTable[nTableIndex].ppDat[n].nSize;
 		return HTable[nTableIndex].ppDat[n].pDString;

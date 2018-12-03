@@ -49,7 +49,7 @@ MDL_ParticleData* ModelProcessor::AllocParticle ()
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void ModelProcessor::FreeParticle (MDL_ParticleData* pItem)
@@ -156,7 +156,7 @@ void ModelProcessor::AddParticle (ParticleSystem* pSystem, const Vector& velocit
 	const char* pEmitterName = pFields->GetString(ATTACHEDEMITTER_NAME);
 	if (_stricmp (pEmitterName, "none") == 0)
 	{
-		pData->AttachedEmitter = NULL;
+		pData->AttachedEmitter = nullptr;
 	} else
 	{
 		pData->AttachedEmitter = pSystem->FindEmitter(pEmitterName);
@@ -303,7 +303,7 @@ void ModelProcessor::Draw()
 
 		
 		pMasterManager->Render()->SetTransform(D3DTS_WORLD, Matrix (pR->RenderAngle, pR->RenderPos));
-		pR->pScene->Draw(NULL, 0, NULL);
+		pR->pScene->Draw(nullptr, 0, nullptr);
 		
 	}
 

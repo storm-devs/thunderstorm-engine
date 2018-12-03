@@ -63,9 +63,9 @@ char AnimationServiceImp::key[1024];
 
 AnimationServiceImp::AnimationServiceImp()
 {
-	ainfo = null;
+	ainfo = nullptr;
 	numInfos = 0;
-	animation = null;
+	animation = nullptr;
 	numAnimations = 0;
 	AnimationImp::SetAnimationService(this);
 }
@@ -116,7 +116,7 @@ void AnimationServiceImp::RunStart()
 				//Выгружаем никем не используемую анимацию
 				//_CORE_API->Trace("Download animation %s", ainfo[i]->GetName());
 				delete ainfo[i];
-				ainfo[i] = null;
+				ainfo[i] = nullptr;
 			}
 		}
 	//Исполним все анимации
@@ -149,7 +149,7 @@ Animation * AnimationServiceImp::CreateAnimation(const char * animationName)
 	if(i == numInfos)
 	{
 		i = LoadAnimation(animationName);
-		if(i < 0) return null;
+		if(i < 0) return nullptr;
 	}
 	long aniIndex = i;
 	//Анимация загружена, создаём менеджер анимации
@@ -159,7 +159,7 @@ Animation * AnimationServiceImp::CreateAnimation(const char * animationName)
 	{
 		numAnimations += 64;
 		animation = (AnimationImp **)RESIZE(animation, numAnimations*4);
-		for(long j = i; j < numAnimations; j++) animation[j] = null;
+		for(long j = i; j < numAnimations; j++) animation[j] = nullptr;
 	}
 	animation[i] = NEW AnimationImp(i, ainfo[aniIndex]);
 	return animation[i];
@@ -171,7 +171,7 @@ void AnimationServiceImp::DeleteAnimation(AnimationImp * ani)
 	Assert(ani);
 	Assert(ani->GetThisID() >= 0 || ani->GetThisID() < numAnimations);
 	Assert(animation[ani->GetThisID()] == ani);
-	animation[ani->GetThisID()] = null;
+	animation[ani->GetThisID()] = nullptr;
 }
 
 //Событие
@@ -199,7 +199,7 @@ long AnimationServiceImp::LoadAnimation(const char * animationName)
 	//Получаем имя jfa файла со скелетом
 	strcpy(path, ASKW_PATH_JFA);
 	int l = strlen(path);
-	if(!ani->ReadString(null, ASKW_JFA_FILE, path + l, MAX_PATH - l - 1, null))
+	if(!ani->ReadString(nullptr, ASKW_JFA_FILE, path + l, MAX_PATH - l - 1, nullptr))
 	{
 		_CORE_API->Trace("Incorrect key \"%s\" in animation file %s.ani", ASKW_JFA_FILE, animationName);
 		delete ani;
@@ -216,7 +216,7 @@ long AnimationServiceImp::LoadAnimation(const char * animationName)
 		return -1;
 	}
 	//Глобальные пользовательские данные
-	LoadUserData(ani, null, info->GetUserData(), animationName);
+	LoadUserData(ani, nullptr, info->GetUserData(), animationName);
 	//Зачитаем действия
 	for(bool isHaveSection = ani->GetSectionName(path, 63);
 		isHaveSection;
@@ -243,7 +243,7 @@ long AnimationServiceImp::LoadAnimation(const char * animationName)
 		}
 		//Добавляем действие
 		ActionInfo * aci = info->AddAction(path, stime, etime);
-		if(aci == null)
+		if(aci == nullptr)
 		{
 			_CORE_API->Trace("Warning! Action [%s] of animation file %s.ani is repeated, skip it", path, animationName);
 			continue;
@@ -393,7 +393,7 @@ long AnimationServiceImp::LoadAnimation(const char * animationName)
 	{
 		numInfos += 64;
 		ainfo = (AnimationInfo **)RESIZE(ainfo, numInfos*4);
-		for(long j = i; j < numInfos; j++) ainfo[j] = null;
+		for(long j = i; j < numInfos; j++) ainfo[j] = nullptr;
 	}
 	ainfo[i] = info;
 	return i;
@@ -482,7 +482,7 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 		}
 		//Читаем заголовок файла
 		ANFILE::HEADER header;
-		if(!_CORE_API->fio->_ReadFile(fl, &header, sizeof(ANFILE::HEADER), 0) || header.nFrames <= 0 || header.nJoints <= 0 || header.framesPerSec < 0.0f || header.framesPerSec > 1000.0f)
+		if(!_CORE_API->fio->_ReadFile(fl, &header, sizeof(ANFILE::HEADER), nullptr) || header.nFrames <= 0 || header.nJoints <= 0 || header.framesPerSec < 0.0f || header.framesPerSec > 1000.0f)
 		{
 			_CORE_API->Trace("Incorrect file header in animation file: %s", fname);
 			_CORE_API->fio->_CloseHandle(fl);
@@ -496,7 +496,7 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 		info->CreateBones(header.nJoints);
 		//Устанавливаем родителей
 		long * prntIndeces = NEW long[header.nJoints];
-		if(!_CORE_API->fio->_ReadFile(fl, prntIndeces, header.nJoints*sizeof(long), 0))
+		if(!_CORE_API->fio->_ReadFile(fl, prntIndeces, header.nJoints*sizeof(long), nullptr))
 		{
 			_CORE_API->Trace("Incorrect parent indeces block in animation file: %s", fname);
 			delete prntIndeces;
@@ -512,7 +512,7 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 		delete prntIndeces;
 		//Стартовые позиции костей
 		CVECTOR * vrt = NEW CVECTOR[header.nJoints];
-		if(!_CORE_API->fio->_ReadFile(fl, vrt, header.nJoints*sizeof(CVECTOR), 0))
+		if(!_CORE_API->fio->_ReadFile(fl, vrt, header.nJoints*sizeof(CVECTOR), nullptr))
 		{
 			_CORE_API->Trace("Incorrect start joints position block block in animation file: %s", fname);
 			delete vrt;
@@ -527,7 +527,7 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 
 		//Позиции рутовой кости
 		vrt = NEW CVECTOR[header.nFrames];
-		if(!_CORE_API->fio->_ReadFile(fl, vrt, header.nFrames*sizeof(CVECTOR), 0))
+		if(!_CORE_API->fio->_ReadFile(fl, vrt, header.nFrames*sizeof(CVECTOR), nullptr))
 		{
 			_CORE_API->Trace("Incorrect root joint position block block in animation file: %s", fname);
 			delete vrt;
@@ -541,7 +541,7 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 		D3DXQUATERNION *ang = NEW D3DXQUATERNION[header.nFrames];
 		for(long i = 0; i < header.nJoints; i++)
 		{
-			if(!_CORE_API->fio->_ReadFile(fl, ang, header.nFrames*sizeof(*ang), 0))
+			if(!_CORE_API->fio->_ReadFile(fl, ang, header.nFrames*sizeof(*ang), nullptr))
 			{
 				_CORE_API->Trace("Incorrect joint angle block (%i) block in animation file: %s", i, fname);
 				_CORE_API->fio->_CloseHandle(fl);

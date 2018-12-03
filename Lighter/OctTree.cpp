@@ -16,7 +16,7 @@
 
 OctTree::OTNode::OTNode(CVECTOR & _min, CVECTOR & _max)
 {
-	for(long i = 0; i < 8; i++) node[i] = null;
+	for(long i = 0; i < 8; i++) node[i] = nullptr;
 	min = _min; max = _max;
 	vrt = NEW Vertex * [LLOT_MAX];
 	num = 0;
@@ -34,11 +34,11 @@ OctTree::OTNode::~OTNode()
 
 OctTree::OctTree()
 {
-	root = null;
-	verts = null;
+	root = nullptr;
+	verts = nullptr;
 	numVerts = 0;
 	maxVerts = 0;
-	vrt = null;
+	vrt = nullptr;
 	numVrt = 0;
 }
 
@@ -111,7 +111,7 @@ bool OctTree::AddVertex(OTNode * node, Vertex * v)
 				Assert(c < 8);
 			}
 			delete node->vrt;
-			node->vrt = null;
+			node->vrt = nullptr;
 			node->num = 0;
 		}
 	}
@@ -138,7 +138,7 @@ void OctTree::Optimize(OTNode * node)
 				if(node->node[i]->num <= 0)
 				{
 					delete node->node[i];
-					node->node[i] = null;
+					node->node[i] = nullptr;
 				}
 			}else Optimize(node->node[i]);
 		}
@@ -172,7 +172,7 @@ void OctTree::FindVerts(OTNode * node)
 	//Уточнёная проверка
 
 	//Если нет своего масива отправим к детям
-	if(node->vrt == null)
+	if(node->vrt == nullptr)
 	{
 		for(long i = 0; i < 8; i++) if(node->node[i]) FindVerts(node->node[i]);
 	}else{

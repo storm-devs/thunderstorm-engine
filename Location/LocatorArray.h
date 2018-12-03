@@ -37,11 +37,11 @@ public:
 //--------------------------------------------------------------------------------------------
 public:
 	//Добавить локатор
-	void AddLocator(CMatrix & mtx, const char * name = null);
+	void AddLocator(CMatrix & mtx, const char * name = nullptr);
 	//Изменить матрицу локатора
 	void SetNewMatrix(long locIndex, CMatrix & mtx);
 	//Найти ближайший локатор по шарику
-	float FindNearesLocator(float x, float y, float z, long * locIndex = null);
+	float FindNearesLocator(float x, float y, float z, long * locIndex = nullptr);
 	//Найти ближайший локатор по цилиндру
 	long FindNearesLocatorCl(float x, float y, float z, float height2, float & dist);
 	//Найти локатор по имени
@@ -95,8 +95,8 @@ public:
 //Получить имя локатора
 inline const char * LocatorArray::LocatorName(long locIndex)
 {
-	if(locIndex < 0 || locIndex >= numLocators) return null;
-	if(locator[locIndex].name < 0) return null;
+	if(locIndex < 0 || locIndex >= numLocators) return nullptr;
+	if(locator[locIndex].name < 0) return nullptr;
 	return locatorNames + locator[locIndex].name;
 }
 

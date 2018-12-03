@@ -39,14 +39,14 @@ long WMShipCommandList::CommandAdding()
 	for(long i=0; i<attrQuant; i++)
 	{
 		ATTRIBUTES * pA = pAttr->GetAttributeClass(i);
-		if(pA==null) continue; // нет такого атрибута
+		if(pA== nullptr) continue; // нет такого атрибута
 		if(pA->GetAttributeAsDword("enable",0)==0) continue; // команда недоступна
 		long pictureNum = pA->GetAttributeAsDword("picNum",0);
 		long selPictureNum = pA->GetAttributeAsDword("selPicNum",0);
 		long texNum = pA->GetAttributeAsDword("texNum",-1);
 		char * eventName = pA->GetAttribute("event");
 		retVal += AddToIconList( texNum, pictureNum, selPictureNum, -1,
-			-1, eventName, -1, null, pA->GetAttribute("note") );
+			-1, eventName, -1, nullptr, pA->GetAttribute("note") );
 	}
 
 	return retVal;

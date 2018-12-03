@@ -8,10 +8,10 @@ WATERFLARE::WATERFLARE()
 	GUARD(WATERFLARE::WATERFLARE())
 	iFlareTex = -1;
 	iFlaresNum = 0;
-	RS = null;
-	pWeather = null;
-	pfAlpha = null;
-	pRSRect = null;
+	RS = nullptr;
+	pWeather = nullptr;
+	pfAlpha = nullptr;
+	pRSRect = nullptr;
 	UNGUARD
 }
 

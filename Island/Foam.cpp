@@ -2,7 +2,7 @@
 
 CoastFoam::CoastFoam()
 {
-	pSea = null;
+	pSea = nullptr;
 	iVBuffer = -1;
 	iIBuffer = -1;
 	iCursorTex = -1;
@@ -702,10 +702,10 @@ void CoastFoam::Save()
 	INIFILE * pI = fio->CreateIniFile(sID.c_str(), false);
 	if (!pI) return;
 
-	pI->WriteLong(null, "NumFoams", aFoams.size());
-	pI->WriteDouble(null, "MaxFoamDistance", fMaxFoamDistance);
-	pI->WriteDouble(null, "FoamDeltaY", fFoamDeltaY);
-	pI->WriteLong(null, "FoamDivides", iFoamDivides);
+	pI->WriteLong(nullptr, "NumFoams", aFoams.size());
+	pI->WriteDouble(nullptr, "MaxFoamDistance", fMaxFoamDistance);
+	pI->WriteDouble(nullptr, "FoamDeltaY", fFoamDeltaY);
+	pI->WriteLong(nullptr, "FoamDivides", iFoamDivides);
 
 	for (long i=0; i<aFoams.size(); i++)
 	{
@@ -764,10 +764,10 @@ void CoastFoam::Load()
 	if (!pI) return;
 	
 	clear();
-	long iNumFoams = pI->GetLong(null, "NumFoams", 0);
-	fMaxFoamDistance = pI->GetFloat(null, "MaxFoamDistance", 1000.0f);
-	fFoamDeltaY = pI->GetFloat(null, "FoamDeltaY", 0.2f);
-	iFoamDivides = pI->GetLong(null, "FoamDivides", 4);
+	long iNumFoams = pI->GetLong(nullptr, "NumFoams", 0);
+	fMaxFoamDistance = pI->GetFloat(nullptr, "MaxFoamDistance", 1000.0f);
+	fFoamDeltaY = pI->GetFloat(nullptr, "FoamDeltaY", 0.2f);
+	iFoamDivides = pI->GetLong(nullptr, "FoamDivides", 4);
 	for (long i=0; i<iNumFoams; i++)
 	{
 		//Foam * pF = aFoams[aFoams.Add(NEW Foam)];

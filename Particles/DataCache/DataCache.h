@@ -18,7 +18,7 @@ class DataCache
 
 		LoadedDataSource ()
 		{
-			pData = NULL;
+			pData = nullptr;
 		}
 	};
 	

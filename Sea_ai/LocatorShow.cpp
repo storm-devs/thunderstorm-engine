@@ -5,8 +5,8 @@ SeaLocatorShow::SeaLocatorShow()
 	fScale = 0.7f;
 	bShow = false;
 	sphereNumTrgs = 0;
-	sphereVertex = null;
-	pALocators = 0;
+	sphereVertex = nullptr;
+	pALocators = nullptr;
 }
 
 SeaLocatorShow::~SeaLocatorShow()
@@ -25,7 +25,7 @@ void SeaLocatorShow::SetDevice()
 
 bool SeaLocatorShow::isLocator(ATTRIBUTES * pA)
 {
-	return pA->FindAClass(pA,"z") != 0;
+	return pA->FindAClass(pA,"z") != nullptr;
 }
 
 CVECTOR SeaLocatorShow::GetLocatorPos(ATTRIBUTES * pA)

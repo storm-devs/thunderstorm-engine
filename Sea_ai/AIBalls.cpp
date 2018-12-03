@@ -1,16 +1,16 @@
 #include "AIBalls.h"
 #include "AIFort.h"
 
-AIBalls * AIBalls::pAIBalls = null;
+AIBalls * AIBalls::pAIBalls = nullptr;
 
 AIBalls::AIBalls()
 {
-	pSail = null;
-	pSea = null;
-	pFort = null;
-	pIsland = null;
+	pSail = nullptr;
+	pSea = nullptr;
+	pFort = nullptr;
+	pIsland = nullptr;
 
-	pVWShips = null;
+	pVWShips = nullptr;
 	//pVWForts = null;
 	pAIBalls = this;
 
@@ -24,7 +24,7 @@ AIBalls::~AIBalls()
 {
 	dword	i, j;
 
-	pAIBalls = null;
+	pAIBalls = nullptr;
 
 	AIHelper::pRS->TextureRelease(dwTextureIndex);
 
@@ -135,7 +135,7 @@ void AIBalls::AddBall(ATTRIBUTES * pABall)
 	float fDir = GetAFloat("Dir");
 	pBall->fDirX = cosf(fDir);
 	pBall->fDirZ = sinf(fDir);
-	pBall->pParticle = null;
+	pBall->pParticle = nullptr;
 
 	pBall->sBallEvent = pABall->GetAttribute("Event");
 
@@ -232,7 +232,7 @@ void AIBalls::Execute(dword Delta_Time)
 				pSail->Cannon_Trace(pBall->iBallOwner, vSrc, vDst);
 
 			// ship trace
-			if (pVWShips && (pEID = pVWShips->GetID()) != 0) do
+			if (pVWShips && (pEID = pVWShips->GetID()) != nullptr) do
 			{
 				CANNON_TRACE_BASE * pShip = (CANNON_TRACE_BASE*)api->GetEntityPointer(pEID);
 				fRes = pShip->Cannon_Trace(pBall->iBallOwner, vSrc, vDst);
@@ -430,7 +430,7 @@ void AIBalls::Load(CSaveLoad * pSL)
 			pSL->Load2Buffer((char *)pB);
 			if (pB->pParticle)
 			{
-				pB->pParticle = null;
+				pB->pParticle = nullptr;
 				ENTITY_ID eidParticle;
 				if (api->FindClass(&eidParticle,"particles",0))
 				{

@@ -22,7 +22,7 @@ Supervisor::Supervisor()
 	time = 0.0f;
 	waveTime = 0.0f;
 	curUpdate = 0;
-	player = null;
+	player = nullptr;
 }
 
 Supervisor::~Supervisor()
@@ -360,7 +360,7 @@ long Supervisor::FindForvardLocator(LocatorArray * la, const CVECTOR & pos, cons
 		if(!la->GetLocatorPos(i, lpos.x, lpos.y, lpos.z)) continue;
 		if(lookChr)
 		{
-			if(!CheckPosition(lpos.x, lpos.y, lpos.z, null)) continue;
+			if(!CheckPosition(lpos.x, lpos.y, lpos.z, nullptr)) continue;
 		}
 		lpos -= pos; lpos.y = 0.0f;
 		float cs = lpos.x*lpos.x + lpos.z*lpos.z;
@@ -381,7 +381,7 @@ long Supervisor::FindForvardLocator(LocatorArray * la, const CVECTOR & pos, cons
 	}
 	if(l >= 0 && la->GetLocatorPos(l, lpos.x, lpos.y, lpos.z))
 	{
-		if(!CheckPosition(lpos.x, lpos.y, lpos.z, null))
+		if(!CheckPosition(lpos.x, lpos.y, lpos.z, nullptr))
 		{
 			return FindForvardLocator(la, pos, norm, true);
 		}

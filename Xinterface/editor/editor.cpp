@@ -12,7 +12,7 @@ GIEditor::GIEditor(XINTERFACE* pInterface)
 
 	m_bShowMode = false;
 
-	m_pEditableNode = null;
+	m_pEditableNode = nullptr;
 	m_fLastKeyPressTime = -1.f;
 
 	m_pImageBack = NEW CXI_IMAGE;
@@ -41,7 +41,7 @@ GIEditor::~GIEditor()
 
 void GIEditor::Release()
 {
-	m_pGIOwner = 0;
+	m_pGIOwner = nullptr;
 	m_bShowMode = false;
 
 	STORM_DELETE( m_pImageBack );
@@ -280,11 +280,11 @@ void GIEditor::ChangeNodeName()
 {
 	if( m_pNodeList->GetSelectString()=="Nothing" || m_pNodeList->GetSelectString()=="" )
 	{
-		m_pEditableNode = null;
+		m_pEditableNode = nullptr;
 		return;
 	}
 
-	m_pEditableNode = m_pGIOwner->FindNode( m_pNodeList->GetSelectString().c_str(), 0 );
+	m_pEditableNode = m_pGIOwner->FindNode( m_pNodeList->GetSelectString().c_str(), nullptr );
 }
 
 void GIEditor::ChangeSubNodeName()

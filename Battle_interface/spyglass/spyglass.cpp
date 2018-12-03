@@ -58,13 +58,13 @@ void ISPYGLASS::TextParam::Print()
 
 ISPYGLASS::ISPYGLASS()
 {
-	rs = null;
-	m_pImgRender = null;
+	rs = nullptr;
+	m_pImgRender = nullptr;
 	m_bIsOn = false;
 	m_bIsPresentShipInfo = false;
 	m_nInfoCharacterIndex = -1;
 
-	m_pFortObj = 0;
+	m_pFortObj = nullptr;
 
 	m_fInfoKeepDelay = 0.f;
 	m_fMaxInfoKeepDelay = 1.5f;
@@ -77,7 +77,7 @@ ISPYGLASS::~ISPYGLASS()
 
 bool ISPYGLASS::Init()
 {
-	if( (rs=(VDX9RENDER *)api->CreateService("dx9render")) == null ) {
+	if( (rs=(VDX9RENDER *)api->CreateService("dx9render")) == nullptr ) {
 		STORM_THROW("Can`t create render service");
 	}
 
@@ -203,7 +203,7 @@ dword _cdecl ISPYGLASS::ProcessMessage(MESSAGE & message)
 			float fActivateTime = message.Long() * .001f;
 			float fUpdateTime = message.Long() * .001f;
 			ChangeTelescopeType(param,fZoomScale,fActivateTime,fUpdateTime);
-			m_pFortObj = 0;
+			m_pFortObj = nullptr;
 		}
 	break;
 
@@ -296,7 +296,7 @@ void ISPYGLASS::Release()
 ATTRIBUTES* ISPYGLASS::GetAttr(const char* pcAttrName)
 {
 	if( AttributesPointer ) return AttributesPointer->FindAClass(AttributesPointer,pcAttrName);
-	return 0;
+	return nullptr;
 }
 
 void ISPYGLASS::TurnOnTelescope(bool bTurnOn)
@@ -309,7 +309,7 @@ void ISPYGLASS::TurnOnTelescope(bool bTurnOn)
 		m_Camera.fCurActivateTime = 0.f;
 		m_Camera.fCurUpdatingTime = m_Camera.fUpdateTime;
 
-		m_pFortObj = 0;
+		m_pFortObj = nullptr;
 
 		api->Event(TELESCOPE_ACTIVE,"l", 1);
 		api->Event("BI_VISIBLE", "l", 0);

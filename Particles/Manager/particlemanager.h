@@ -118,7 +118,7 @@ public:
 //Получить глобальную текстуру проекта 
  virtual long GetProjectTexture ();
 //Установить текстуру проекта
- virtual void SetProjectTexture (const char* FileName = NULL);
+ virtual void SetProjectTexture (const char* FileName = nullptr);
  
  
 

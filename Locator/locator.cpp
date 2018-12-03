@@ -7,15 +7,15 @@ CREATE_CLASS(BLAST)
 
 LOCATOR::LOCATOR()
 {
-	gs = 0;
-	geo = 0;
+	gs = nullptr;
+	geo = nullptr;
 	groupID = -1;
 	stringIndex = -1;
 }
 
 LOCATOR::~LOCATOR()
 {
-	if(geo) delete geo; geo = 0;
+	if(geo) delete geo; geo = nullptr;
 }
 
 bool LOCATOR::Init() 
@@ -79,13 +79,13 @@ void LOCATOR::LocateForI(VDATA * pData)
 	long		groupID;
 	long		i, n;
 
-	if(pData == 0)
+	if(pData == nullptr)
 	{
 		api->Trace("?void LOCATOR::LocateForI(VDATA * pData)");
 		return;
 	}
 	pA = pData->GetAClass();
-	if(pA == null)
+	if(pA == nullptr)
 	{
 		api->Trace("?void LOCATOR::LocateForI(VDATA * pData)");
 		return;
@@ -300,7 +300,7 @@ dword _cdecl LOCATOR::ProcessMessage(MESSAGE & message)
 
 		case LM_SET_GEOMETRY:
 			message.String(sizeof(name),name);
-			if(geo) delete geo; geo = 0;
+			if(geo) delete geo; geo = nullptr;
 			rs->SetLoadTextureEnable(false);
 			geo = gs->CreateGeometry(name,"",0);
 			rs->SetLoadTextureEnable(true);

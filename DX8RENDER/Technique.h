@@ -135,14 +135,14 @@ protected:
 
 	bool		ExecutePassClose();
 
-	dword		GetCode(char *pStr, SRSPARAM *pParam, dword dwNumParam, dword *pPassCode = 0, bool bCanBeNumber = false);
+	dword		GetCode(char *pStr, SRSPARAM *pParam, dword dwNumParam, dword *pPassCode = nullptr, bool bCanBeNumber = false);
 	dword		GetSRSIndex(char *pStr);
 	dword		GetSTSSIndex(char *pStr);
 	dword		GetSAMPIndex(char *pStr);
 	dword		GetIndex(char *pStr, SRSPARAM *pParam, dword dwNumParam, bool bCanBeNumber);
 
 	char		*GetToken(char *pToken, char *pResult, bool & bToken);
-	void		InnerDecodeFiles(char *sub_dir = 0);
+	void		InnerDecodeFiles(char *sub_dir = nullptr);
 
 	void		ClearSRS_STSS_bUse();
 
@@ -151,7 +151,7 @@ public:
 	void		SetCurrentBlock(const char *name, dword _dwNumParams, void *pParams);
 
 	bool		DecodeFile(char *sname);
-	void		DecodeFiles(char *sub_dir = 0);
+	void		DecodeFiles(char *sub_dir = nullptr);
 
 	bool		ExecutePassStart();
 	bool		ExecutePassNext();

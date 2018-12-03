@@ -72,14 +72,14 @@ rec_loop:;
 			stack->node = node;
 			stack->dise = dise;
 			stack->dist = dist;
-			if(node->right==0)	stack->second = 0;
+			if(node->right==0)	stack->second = nullptr;
 			else	stack->second = &sroot[node->node + node->right];
 			dise = dist;
 			node = &sroot[node->node];
 			goto rec_loop;
 		}
 		else
-			if(node->right==0)	second = 0;
+			if(node->right==0)	second = nullptr;
 			else	second = &sroot[node->node + node->right];
 	else
 		if(node->right!=0)
@@ -88,14 +88,14 @@ rec_loop:;
 			stack->node = node;
 			stack->dise = dise;
 			stack->dist = dist;
-			if(node->left==0)	stack->second = 0;
+			if(node->left==0)	stack->second = nullptr;
 			else	stack->second = &sroot[node->node];
 			dise = dist;
 			node = &sroot[node->node + node->right];
 			goto rec_loop;
 		}
 		else
-			if(node->left==0)	second = 0;
+			if(node->left==0)	second = nullptr;
 			else	second = &sroot[node->node];
 
 rec_return:;
@@ -148,7 +148,7 @@ loop0:
 	}
 
 	//----------last test----------
-	if(second==0)
+	if(second==nullptr)
 	{
 rec_avoid:;
 		if(stack<_stack)
@@ -296,7 +296,7 @@ rec_loop:;
 				{
 					traceid = face;
 					//if test only
-					if(addpoly==0)	return true;
+					if(addpoly==nullptr)	return true;
 					//if clipping
 					if(addpoly((GEOS::VERTEX*)&poly[0], nverts)==false)	return true;
 				}

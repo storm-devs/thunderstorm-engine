@@ -8,8 +8,8 @@ CXI_IMGCOLLECTION::CXI_IMGCOLLECTION()
 	texl=-1;
 	vBuf=-1; iBuf=-1;
 	nVert=0; nIndx=0;
-	m_rs=NULL;
-	sGroupName=NULL;
+	m_rs= nullptr;
+	sGroupName= nullptr;
 	m_nNodeType = NODETYPE_IMAGECOLLECTION;
 	m_nCurSection = 0;
 	m_xyCommonOffset.x = 0;
@@ -87,7 +87,7 @@ void CXI_IMGCOLLECTION::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *n
 	long n;
 
 	// Get texture name and load that texture
-	sGroupName = null;
+	sGroupName = nullptr;
 	texl = -1;
 	if( ReadIniString(ini1,name1, ini2,name2, "groupName", param, sizeof(param),"") )
 	{
@@ -123,7 +123,7 @@ void CXI_IMGCOLLECTION::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *n
 		XI_ONETEX_VERTEX *pVBuf = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(vBuf);
 		WORD	*pIBuf = (WORD*)m_rs->LockIndexBuffer(iBuf);
 
-		if(pVBuf!=null && pIBuf!=null)
+		if(pVBuf!= nullptr && pIBuf!= nullptr)
 		{
 			FXYRECT texRect;
 			XYRECT  scrRect;
@@ -199,8 +199,8 @@ void CXI_IMGCOLLECTION::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *n
 			}
 		}
 
-		if(pVBuf!=null) m_rs->UnLockVertexBuffer(vBuf);
-		if(pIBuf!=null) m_rs->UnLockIndexBuffer(iBuf);
+		if(pVBuf!= nullptr) m_rs->UnLockVertexBuffer(vBuf);
+		if(pIBuf!= nullptr) m_rs->UnLockIndexBuffer(iBuf);
 	}
 }
 
@@ -243,7 +243,7 @@ void CXI_IMGCOLLECTION::UpdateBuffers()
 	XI_ONETEX_VERTEX *pVBuf = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(vBuf);
 	WORD	*pIBuf = (WORD*)m_rs->LockIndexBuffer(iBuf);
 
-	if(pVBuf!=null && pIBuf!=null)
+	if(pVBuf!= nullptr && pIBuf!= nullptr)
 	{
 		FXYRECT texRect;
 		XYRECT  scrRect;
@@ -262,8 +262,8 @@ void CXI_IMGCOLLECTION::UpdateBuffers()
 		}
 	}
 
-	if(pVBuf!=null) m_rs->UnLockVertexBuffer(vBuf);
-	if(pIBuf!=null) m_rs->UnLockIndexBuffer(iBuf);
+	if(pVBuf!= nullptr) m_rs->UnLockVertexBuffer(vBuf);
+	if(pIBuf!= nullptr) m_rs->UnLockIndexBuffer(iBuf);
 }
 bool CXI_IMGCOLLECTION::IsClick(int buttonID,long xPos,long yPos)
 {

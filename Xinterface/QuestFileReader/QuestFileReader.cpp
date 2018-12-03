@@ -40,7 +40,7 @@ static char * GetTitleString(char* buf, char* &ptr, int &slen);
 
 long GetToken(const char* &ps)
 {
-	if(ps==NULL) return TOKEN_INVALID;
+	if(ps== nullptr) return TOKEN_INVALID;
 
 	// удаляем предшествующие пробелы и символы табуляции
 	while(*ps==32 || *ps==9) ps++;
@@ -93,7 +93,7 @@ long GET_DIGIT(char ch)
 // Функции работы со строками
 static long GetLongFromString(char* &pInStr)
 {
-	if(pInStr==NULL) return INVALID_LONG;
+	if(pInStr== nullptr) return INVALID_LONG;
 
 	// удалим лишние пробелы
 	while(*pInStr<=' ') pInStr++;
@@ -125,7 +125,7 @@ void GetSubStringFromString(const char* &pInStr,char* pOutBuf,int bufSize)
 
 static const char* GetNextString(const char* &pInStr)
 {
-	if(pInStr==NULL || pInStr[0]==0) return NULL;
+	if(pInStr== nullptr || pInStr[0]==0) return nullptr;
 
 	while(true)
 	{
@@ -143,19 +143,19 @@ static const char* GetNextString(const char* &pInStr)
 		return pstart;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 static const char * GetTitleString(char* buf, const char* &ptr, int &slen)
 {
-	if(buf==NULL) {slen=0;return NULL;}
+	if(buf== nullptr) {slen=0;return nullptr;}
 	buf[0]=0;
 	const char* startp = ptr;
-	while(ptr!=NULL)
+	while(ptr!= nullptr)
 	{
 		// Возмем очередную строку
 		const char* cstr = GetNextString(ptr);
-		if(ptr!=cstr && cstr!=NULL)
+		if(ptr!=cstr && cstr!= nullptr)
 		{
 			// если полученная строка является заголовком квеста
 			const char *tmpstr = cstr;
@@ -166,7 +166,7 @@ static const char * GetTitleString(char* buf, const char* &ptr, int &slen)
 				GetSubStringFromString(tmpstr,buf,256);
 				const char * retVal = ptr;
 				// найдем конец заголовка квеста
-				while(ptr!=NULL)
+				while(ptr!= nullptr)
 				{
 					tmpstr = ptr;
 					tokType = GetToken(tmpstr);
@@ -177,24 +177,24 @@ static const char * GetTitleString(char* buf, const char* &ptr, int &slen)
 				if(ptr!=tmpstr)
 					slen = (long)ptr-(long)retVal;
 				else
-					if(retVal!=NULL)
+					if(retVal!= nullptr)
 						slen = strlen(retVal);
 					else
 						slen = 0;
-				if(retVal!=NULL)
+				if(retVal!= nullptr)
 				return retVal;
 			}
 		}
 		else break;
 	}
 	buf[0]=0; slen=0;
-	return NULL;
+	return nullptr;
 }
 
 
 QUEST_FILE_READER::QUEST_FILE_READER()
 {
-	m_pFileBuf = null;
+	m_pFileBuf = nullptr;
 }
 
 QUEST_FILE_READER::~QUEST_FILE_READER()
@@ -217,7 +217,7 @@ bool QUEST_FILE_READER::InitQuestsQuery()
 				continue;
 			}
 
-			DWORD filesize = api->fio->_GetFileSize( hfile, 0 );
+			DWORD filesize = api->fio->_GetFileSize( hfile, nullptr );
 			if( filesize == 0 )
 			{
 				api->Trace( "Empty quest log file %s", m_aQuestFileName[n].c_str() );
@@ -226,7 +226,7 @@ bool QUEST_FILE_READER::InitQuestsQuery()
 			}
 
 			long foffset = 0;
-			if( m_pFileBuf == null )
+			if( m_pFileBuf == nullptr )
 			{
 				m_pFileBuf = NEW char[filesize+1];
 			}
@@ -236,7 +236,7 @@ bool QUEST_FILE_READER::InitQuestsQuery()
 				m_pFileBuf = (char*)RESIZE( m_pFileBuf, foffset+filesize+1 );
 			}
 
-			if( m_pFileBuf == null ) {
+			if( m_pFileBuf == nullptr ) {
 				STORM_THROW("allocate memory error");
 			}
 
@@ -251,7 +251,7 @@ bool QUEST_FILE_READER::InitQuestsQuery()
 		}
 	}
 
-	if( m_pFileBuf==null || m_pFileBuf[0]==0 ) return false;
+	if( m_pFileBuf== nullptr || m_pFileBuf[0]==0 ) return false;
 	return true;
 }
 
@@ -338,11 +338,11 @@ bool QUEST_FILE_READER::AssembleStringToBuffer(const char* pSrc, long nSrcSize, 
 
 const char* QUEST_FILE_READER::GetInsertStringByID(char* pID,std::vector<UserData>& aUserData)
 {
-	if(!pID) return 0;
+	if(!pID) return nullptr;
 	for(long n=0; n<aUserData.size(); n++)
 		if( aUserData[n].id == pID )
 			return aUserData[n].str.c_str();
-	return 0;
+	return nullptr;
 }
 
 long QUEST_FILE_READER::AddToBuff(const char* pDst, long nDstSize, const char* pSrc, long nSrcSize)
@@ -427,7 +427,7 @@ void QUEST_FILE_READER::FillUserDataList(char * sStrData,std::vector<UserData>& 
 
 void QUEST_FILE_READER::SetQuestTextFileName(const char * pcFileName)
 {
-	if( pcFileName == null || pcFileName[0] == 0 ) return;
+	if( pcFileName == nullptr || pcFileName[0] == 0 ) return;
 
 	// check for already included:
 	for( long n=0; n<m_aQuestFileName.size(); n++ )
@@ -444,7 +444,7 @@ void QUEST_FILE_READER::SetQuestTextFileName(const char * pcFileName)
 		return;
 	}
 	// его размер
-	DWORD filesize = api->fio->_GetFileSize( hfile, 0 );
+	DWORD filesize = api->fio->_GetFileSize( hfile, nullptr );
 	if( filesize == 0 )
 	{
 		api->Trace( "Empty quest log file %s", pcFileName );

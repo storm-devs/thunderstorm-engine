@@ -37,8 +37,8 @@
 
 Grass::Grass()
 {
-	miniMap = null;
-	block = null;
+	miniMap = nullptr;
+	block = nullptr;
 	numElements = 0;
 	texture = -1;
 	phase[0] = 0.1f;
@@ -57,7 +57,7 @@ Grass::Grass()
 	strcpy(textureName, GRASS_DEFTEXTURE);
 
 	vb = ib = -1;
-	vbuffer = null;
+	vbuffer = nullptr;
 
 	quality = rq_full;
 	windAng = 0.0f;
@@ -81,7 +81,7 @@ Grass::~Grass()
 		if(vb >= 0)
 		{
 			if(vbuffer) rs->UnLockVertexBuffer(vb);
-			vbuffer = null;
+			vbuffer = nullptr;
 			rs->ReleaseVertexBuffer(vb);
 		}
 		if(ib >= 0) rs->ReleaseIndexBuffer(ib);
@@ -103,7 +103,7 @@ bool Grass::Init()
 
     // boal выбор шайдера -->
     isGrassLightsOn = 1;
-    VDATA * param = _CORE_API->Event("GOpt_isGrassLightsOn", 0);
+    VDATA * param = _CORE_API->Event("GOpt_isGrassLightsOn", nullptr);
 	if (param)
 	{
   		param->Get(isGrassLightsOn);
@@ -159,10 +159,10 @@ bool Grass::LoadData(const char * patchName)
 	//Текстура травы
 	texture = rs->TextureCreate(textureName);
 	//Уталим старое
-	if(miniMap) delete miniMap; miniMap = null;
-	if(block) delete block; block = null;
+	if(miniMap) delete miniMap; miniMap = nullptr;
+	if(block) delete block; block = nullptr;
 	//Загружаем файл с данными
-	byte * load = null;
+	byte * load = nullptr;
 	dword size = 0;
 	if(!_CORE_API->fio->LoadFile(patchName, (char**)&load, &size)) return false;
 	try{
@@ -229,8 +229,8 @@ bool Grass::LoadData(const char * patchName)
 		}
 	}catch(const char * error){
 		_CORE_API->Trace("Grass: incorrect grs file %s (%s)", patchName, error);
-		if(miniMap) delete miniMap; miniMap = null;
-		if(block) delete block; block = null;
+		if(miniMap) delete miniMap; miniMap = nullptr;
+		if(block) delete block; block = nullptr;
 	}
 	delete load;
 	return true;
@@ -255,7 +255,7 @@ void Grass::Execute(dword delta_time)
 		initForce++;
 	}
 
-	VDATA * param = _CORE_API->Event("GOpt_GetGrassQuality", 0);
+	VDATA * param = _CORE_API->Event("GOpt_GetGrassQuality", nullptr);
 	long res = rq_full;
 	if(param && param->Get(res))
 	{
@@ -267,7 +267,7 @@ void Grass::Execute(dword delta_time)
 	}
 	if(quality == rq_off) return;
 	//Параметры верта
-	param = _CORE_API->Event("EWhr_GetWindAngle", 0);
+	param = _CORE_API->Event("EWhr_GetWindAngle", nullptr);
 	if(param)
 	{
 		float ang;
@@ -283,7 +283,7 @@ void Grass::Execute(dword delta_time)
 		winDir.x = sinf(ang);
 		winDir.z = cosf(ang);
 	}
-	param = _CORE_API->Event("EWhr_GetWindSpeed", 0);
+	param = _CORE_API->Event("EWhr_GetWindSpeed", nullptr);
 	if(param)
 	{
 		float spd;
@@ -795,7 +795,7 @@ __forceinline void Grass::DrawBuffer()
 	if(vbuffer)
 	{
 		rs->UnLockVertexBuffer(vb);
-		vbuffer = null;
+		vbuffer = nullptr;
 	}
 	// boal выбор шайдера -->
 	if (numPoints > 0)

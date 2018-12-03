@@ -9,7 +9,7 @@ CREATE_CLASS(PARTICLES)
 
 ParticleService::ParticleService ()
 {
-	pDefaultManager = NULL;
+	pDefaultManager = nullptr;
 	sysDelete = false;
 }
 
@@ -40,7 +40,7 @@ IParticleManager* ParticleService::CreateManagerEx (const char* ProjectName, con
 	manager.FileName = File;
 	CreatedManagers.push_back(manager);
 
-	if (ProjectName != NULL)
+	if (ProjectName != nullptr)
 	{
 		pManager->OpenProject(ProjectName);
 	}
@@ -74,7 +74,7 @@ IParticleManager* ParticleService::GetManagerByIndex (DWORD Index)
 
 bool ParticleService::Init ()
 {
-	pDefaultManager = CreateManagerEx (NULL, __FILE__, __LINE__);
+	pDefaultManager = CreateManagerEx (nullptr, __FILE__, __LINE__);
 	Assert (pDefaultManager);
 	pDefaultManager->OpenDefaultProject();
 	return true;

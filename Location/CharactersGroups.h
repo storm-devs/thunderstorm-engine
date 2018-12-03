@@ -104,7 +104,7 @@ private:
 	//Удалить все неактивные или неправильные цели
 	void RemoveAllInvalidTargets();
 	//Удалить неактивные или неправильные цели
-	bool RemoveInvalidTargets(Character * chr, Character * check = null);
+	bool RemoveInvalidTargets(Character * chr, Character * check = nullptr);
 
 private:
 	//Проверить на действительность цель
@@ -163,11 +163,11 @@ public:
 	//Найти группу по имени
 	long FindGroupIndex(const char * name);
 	//Найти отношение групп
-	Relation & FindRelation(MESSAGE & message, bool * selfgroup = null);
+	Relation & FindRelation(MESSAGE & message, bool * selfgroup = nullptr);
 	//Найти отношение групп
-	Relation & FindRelation(const char * name1, const char * name2, bool * selfgroup = null);
+	Relation & FindRelation(const char * name1, const char * name2, bool * selfgroup = nullptr);
 	//Найти отношение групп
-	Relation & FindRelation(long g1, long g2, bool * selfgroup = null);
+	Relation & FindRelation(long g1, long g2, bool * selfgroup = nullptr);
 	//Получить индекс группы персонажа
 	long GetCharacterGroup(Character * c);
 

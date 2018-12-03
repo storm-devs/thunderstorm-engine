@@ -195,14 +195,14 @@ ControlTree::ControlChild* ControlTree::FindControlChild(long idx)
 
 ControlTree::ControlChild* ControlTree::FindControlChild(long idx,ControlChild* pParent)
 {
-	if(!pParent) return 0;
+	if(!pParent) return nullptr;
 	if( pParent->index == idx ) return pParent;
 	for(long n=0; n<pParent->aChild.size(); n++)
 	{
 		ControlChild* pCC = FindControlChild(idx,&pParent->aChild[n]);
 		if( pCC ) return pCC;
 	}
-	return 0;
+	return nullptr;
 }
 
 bool ControlTree::AddOutControl( const char* pcOutControlName, bool isActive )

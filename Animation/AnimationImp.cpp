@@ -15,7 +15,7 @@
 
 
 //Указатель на сервис анимации
-AnimationServiceImp * AnimationImp::aniService = null;
+AnimationServiceImp * AnimationImp::aniService = nullptr;
 
 //============================================================================================
 //Конструирование, деструктурирование
@@ -34,7 +34,7 @@ AnimationImp::AnimationImp(long id, AnimationInfo * animationInfo)
 	}
 	matrix = NEW CMatrix[aniInfo->NumBones()];
 	memset(ae_listeners, 0, sizeof(ae_listeners));
-	ae_listenersExt = null;
+	ae_listenersExt = nullptr;
 	//Автонормализация
 	isAutoNormalize = true;
 	//Пользовательский блендинг
@@ -90,7 +90,7 @@ void AnimationImp::DelEvent(long eventID)
 	Assert(event < ae_numevents);
 	Assert(lindex < ANIIMP_MAXLISTENERS);
 	Assert(ae_listeners[event][lindex]);
-	ae_listeners[event][lindex] = null;
+	ae_listeners[event][lindex] = nullptr;
 }
 
 //Установить обработчик внешнего события

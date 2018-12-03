@@ -13,11 +13,11 @@ ROPE::ROPE()
     bUse=false;
     bYesDeleted=false;
     wRopeLast=0;
-    RenderService=0;
-    gdata=0; groupQuantity=0;
-    rlist=0; ropeQuantity=0;
+    RenderService=nullptr;
+    gdata=nullptr; groupQuantity=0;
+    rlist=nullptr; ropeQuantity=0;
 
-    TextureName=0; texl=-1;
+    TextureName=nullptr; texl=-1;
     bFirstRun=true;
 
 	ZERO(mat);
@@ -192,18 +192,18 @@ dword _cdecl ROPE::ProcessMessage(MESSAGE & message)
 			ENTITY_ID tmp_shipEI = message.EntityID();
 			ENTITY_ID tmp_modelEI = message.EntityID();
 			MODEL* mdl = (MODEL*)_CORE_API->GetEntityPointer(&tmp_modelEI);
-			if( mdl==null )
+			if( mdl== nullptr )
 			{
 				api->Trace("WARNING!!! Missing INIT message to ROPE - bad ship model");
 				return 0;
 			}
 
 			int wFirstRope = ropeQuantity;
-			if(gdata!=0)
+			if(gdata!=nullptr)
 			{
 				GROUPDATA* oldgdata=gdata;
 				gdata = NEW GROUPDATA[groupQuantity+1];
-				if(gdata==NULL)
+				if(gdata== nullptr)
 				{
 					STORM_THROW("allocate memory error");
 				}
@@ -213,7 +213,7 @@ dword _cdecl ROPE::ProcessMessage(MESSAGE & message)
 			else
 			{
 				gdata = NEW GROUPDATA[1]; groupQuantity=1;
-				if(gdata==NULL)
+				if(gdata== nullptr)
 				{
 					STORM_THROW("allocate memory error");
 				}
@@ -277,7 +277,7 @@ dword _cdecl ROPE::ProcessMessage(MESSAGE & message)
 				}
 			}
 			gdata[groupQuantity-1].ropeIdx = NEW int[gdata[groupQuantity-1].ropeQuantity];
-			if( gdata[groupQuantity-1].ropeIdx==NULL )
+			if( gdata[groupQuantity-1].ropeIdx== nullptr )
 			{
 				STORM_THROW("allocate memory error");
 			}
@@ -513,7 +513,7 @@ void ROPE::AddLabel(GEOS::LABEL &lbl,NODE *nod, bool bDontSage)
     int  ropeNum,grNum;
     int  rn;
 
-    if(nod==0) return;
+    if(nod==nullptr) return;
 
 	if( bDontSage ) ropeNum = atoi( &lbl.name[4] ); // fal
 	else ropeNum = atoi( &lbl.name[5] ); // rope
@@ -530,7 +530,7 @@ void ROPE::AddLabel(GEOS::LABEL &lbl,NODE *nod, bool bDontSage)
     if(rn==ropeQuantity) // добавляем новую веревку
     {
         // изменим список веревок
-        if(rlist==0)
+        if(rlist==nullptr)
         {
             rlist=NEW ROPEDATA*[1];
             ropeQuantity=1;
@@ -592,7 +592,7 @@ void ROPE::AddLabel(GEOS::LABEL &lbl,NODE *nod, bool bDontSage)
 
     // now getting all two points
     CVECTOR ce,cb;
-    if( rd->bMatWorld!=0 && rd->eMatWorld!=0 )
+    if( rd->bMatWorld!=nullptr && rd->eMatWorld!=nullptr )
     {
 		cb=*rd->bMatWorld*rd->pBeg;
 		ce=*rd->eMatWorld*rd->pEnd;
@@ -605,7 +605,7 @@ void ROPE::AddLabel(GEOS::LABEL &lbl,NODE *nod, bool bDontSage)
 			if(ropeQuantity==1)
 			{
 				delete rlist;
-				rlist=0;
+				rlist=nullptr;
 			}
 			else
 			{
@@ -665,12 +665,12 @@ void ROPE::AddLabel(GEOS::LABEL &lbl,NODE *nod, bool bDontSage)
 			if(_CORE_API->FindClass(&sailEI,"sail",0))
 			{
 				MODEL* mdl=(MODEL*)_CORE_API->GetEntityPointer(&gdata[rd->HostGroup].modelEI);
-				if(mdl==0)
+				if(mdl==nullptr)
 					rd->btie=rd->etie=false;
 				else for(int i=0; i<10000; i++)
 				{
 					NODE* nd=mdl->GetNode(i);
-					if(nd==0) break;
+					if(nd==nullptr) break;
 
 					if( rd->btie && rd->bMatWorld==&nd->glob_mtx )
 						_CORE_API->Send_Message(sailEI,"lplpl",MSG_SAIL_ROPE_TIE,nd,rd->bgnum,&rd->pBeg,rd->ropeNum);
@@ -691,7 +691,7 @@ void ROPE::GetEndPoint(CVECTOR* cv,int ropenum,ENTITY_ID &mdl_id)
 {
     int rn;
 
-    if(cv==0) // плохой указатель на вектор
+    if(cv==nullptr) // плохой указатель на вектор
         return;
 
     // выяснить какой конец веревки нам надо получить
@@ -878,10 +878,10 @@ void ROPE::SetAdd(int firstNum)
     for(int rn=firstNum; rn<ropeQuantity; rn++)
     {
         // удалить плохие веревки
-        while( rlist[rn]->bMatWorld==0 || rlist[rn]->eMatWorld==0 )
+        while( rlist[rn]->bMatWorld==nullptr || rlist[rn]->eMatWorld==nullptr )
         {
 			long gn = rlist[rn]->HostGroup;
-			const char* pcModlName = 0;
+			const char* pcModlName = nullptr;
 			MODEL* pMdl = (MODEL*)api->GetEntityPointer(&gdata[gn].modelEI);
 			if( pMdl && pMdl->GetNode(0) )
 				pcModlName = pMdl->GetNode(0)->GetName();
@@ -896,7 +896,7 @@ void ROPE::SetAdd(int firstNum)
             {
                 ROPEDATA** oldrlist=rlist;
                 rlist = NEW ROPEDATA*[ropeQuantity];
-                if(rlist==0)
+                if(rlist==nullptr)
                     rlist=oldrlist;
                 if(rn>0)
                     memcpy(rlist,oldrlist,sizeof(ROPEDATA*)*rn);
@@ -1008,7 +1008,7 @@ void ROPE::DoSTORM_DELETE()
         {
             int *oldropeIdx = gdata[gn].ropeIdx;
             gdata[gn].ropeIdx = NEW int[rq];
-            if(gdata[gn].ropeIdx==0)
+            if(gdata[gn].ropeIdx==nullptr)
                 gdata[gn].ropeIdx=oldropeIdx;
 
             gdata[gn].ropeQuantity=rq;

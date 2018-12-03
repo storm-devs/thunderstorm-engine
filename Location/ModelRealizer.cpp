@@ -16,7 +16,7 @@ extern long		iCausticTex[32];
 
 LocModelRealizer::LocModelRealizer()
 {
-	lights = 0;
+	lights = nullptr;
 	bShow = true;
 }
 

@@ -154,7 +154,7 @@ void AICharacter::CharacterTeleport()
 bool AICharacter::CmdNone()
 {
 	command.cmd = aicmd_none;
-	command.exch = null;
+	command.exch = nullptr;
 	return true;
 }
 
@@ -162,7 +162,7 @@ bool AICharacter::CmdNone()
 bool AICharacter::CmdStay()
 {
 	command.cmd = aicmd_stay;
-	command.exch = null;
+	command.exch = nullptr;
 	StopMove();
 	return true;
 }
@@ -184,7 +184,7 @@ bool AICharacter::CmdGotoPoint(float x, float y, float z, float rad, long node, 
 	command.isWait = false;
 	command.isBusy = isCheckBusyPos;
 	command.cnt = 0;
-	command.exch = null;
+	command.exch = nullptr;
 	StartMove();
 	return true;
 }
@@ -199,7 +199,7 @@ bool AICharacter::CmdEscape(float x, float y, float z, float rad)
 	command.radius = rad;
 	command.waitTime = 0.0f;
 	command.isWait = false;
-	command.exch = null;
+	command.exch = nullptr;
 	StartMove();
 	return true;
 }

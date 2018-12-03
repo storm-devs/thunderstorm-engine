@@ -4,7 +4,7 @@
 #include "xi_util.h"
 #include "..\inode.h"
 
-CXI_UTILS * CXI_UTILS::pThis = 0;
+CXI_UTILS * CXI_UTILS::pThis = nullptr;
 
 CXI_UTILS::CXI_UTILS()
 {
@@ -111,7 +111,7 @@ void CXI_UTILS::StringLeftClamp( char*& pcString )
 
 const char* CXI_UTILS::StringGetTokenID( char*& pcString, char* pcBuffer, long nBufferSize )
 {
-	if( !pcString || !pcBuffer || nBufferSize<=0 ) return 0;
+	if( !pcString || !pcBuffer || nBufferSize<=0 ) return nullptr;
 	pcBuffer[0] = 0;
 
 	StringLeftClamp( pcString );
@@ -139,12 +139,12 @@ const char* CXI_UTILS::StringGetTokenID( char*& pcString, char* pcBuffer, long n
 	while( pcString[0] == '=' ) pcString++;
 
 	if( pcBuffer[0] ) return pcBuffer;
-	return 0;
+	return nullptr;
 }
 
 const char* CXI_UTILS::StringGetTokenString( char*& pcString, char* pcBuffer, long nBufferSize )
 {
-	if( !pcString || !pcBuffer || nBufferSize<=0 ) return 0;
+	if( !pcString || !pcBuffer || nBufferSize<=0 ) return nullptr;
 	pcBuffer[0] = 0;
 
 	StringLeftClamp( pcString );
@@ -168,7 +168,7 @@ const char* CXI_UTILS::StringGetTokenString( char*& pcString, char* pcBuffer, lo
 	while( pcString[0] == ',' ) pcString++;
 
 	if( pcBuffer[0] ) return pcBuffer;
-	return 0;
+	return nullptr;
 }
 
 long CXI_UTILS::StringGetTokenCode( const char* pcTokenID )
@@ -200,7 +200,7 @@ DWORD CXI_UTILS::StringGetColor( const char* pcARGBString )
 void CXI_UTILS::StringDoublicate( const char* pcSrc, char*& pcDst )
 {
 	if( pcDst ) delete pcDst;
-	pcDst = 0;
+	pcDst = nullptr;
 	if( pcSrc )
 	{
 		pcDst = NEW char[strlen(pcSrc)+1];
@@ -267,7 +267,7 @@ void CXI_UTILS::StringFillStringArray( const char* pcString, std::vector<std::st
 	asStringsArray.clear();
 
 	// create new
-	while( 0 != CXI_UTILS::StringGetTokenString(pcSrcStr, tmpstr, sizeof(tmpstr)) )
+	while( nullptr != CXI_UTILS::StringGetTokenString(pcSrcStr, tmpstr, sizeof(tmpstr)) )
 	{
 		if( !tmpstr[0] ) 
 			continue;
@@ -279,7 +279,7 @@ long CXI_UTILS::SplitStringByWidth( const char* pcText, long nFontID, float fFon
 {
 	long nMaxUsingWidth = 0;
 	const char * pcSrcStr = pcText;
-	if( pcSrcStr == 0 ) return nMaxUsingWidth;
+	if( pcSrcStr == nullptr ) return nMaxUsingWidth;
 	VDX9RENDER * rs = (VDX9RENDER*)api->CreateService("dx9render");
 	asOutStr.clear();
 

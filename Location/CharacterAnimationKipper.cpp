@@ -17,12 +17,12 @@
 
 CharacterAnimationKipper::CharacterAnimationKipper()
 {
-	asr = null;
-	aniMan = null;
-	aniWoman = null;
+	asr = nullptr;
+	aniMan = nullptr;
+	aniWoman = nullptr;
 	for(long i = 0; i < sizeof(lockTextures)/sizeof(long); i++) lockTextures[i] = -1;
 	numLTextures = 0;
-	rs = null;
+	rs = nullptr;
 }
 
 CharacterAnimationKipper::~CharacterAnimationKipper()

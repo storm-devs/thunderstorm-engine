@@ -17,7 +17,7 @@ struct VARINFO
 {
 	VARINFO()
 	{
-		pDClass = 0; name = 0; type = UNKNOWN; bArray = false; elements = 0;
+		pDClass = nullptr; name = nullptr; type = UNKNOWN; bArray = false; elements = 0;
 		segment_id = INVALID_SEGMENT_ID; hash = 0;
 	};
 	dword segment_id;
@@ -35,7 +35,7 @@ class S_DEBUG;
 
 struct VTHASHLINE
 {
-	VTHASHLINE(){nNumElements = 0; pElements = 0;};
+	VTHASHLINE(){nNumElements = 0; pElements = nullptr;};
 	DWORD nNumElements;
 	DWORD * pElements;
 };

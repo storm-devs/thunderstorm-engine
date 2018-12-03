@@ -20,8 +20,8 @@ protected:
 
 	//long index;
 public:
-	 MESSAGE_SCRIPT(){format = 0; index = 0; pData = 0; Data_size = 0; ReadPointer = 0;};
-	~MESSAGE_SCRIPT(){if(format) delete format; format = 0; if(pData) delete pData; pData = 0;};
+	 MESSAGE_SCRIPT(){format = nullptr; index = 0; pData = nullptr; Data_size = 0; ReadPointer = nullptr;};
+	~MESSAGE_SCRIPT(){if(format) delete format; format = nullptr; if(pData) delete pData; pData = nullptr;};
 	ENTITY_ID Sender_ID;
 	void Move2Start() {ResetIndex();};
 	//va_list args;
@@ -37,7 +37,7 @@ public:
 				arg_size = sizeof(float); 
 			break;
 			case 's':
-				if(data == 0) arg_size = 1;
+				if(data == nullptr) arg_size = 1;
 				else arg_size = strlen(data) + 1; 
 			break;
 			case 'i':
@@ -52,7 +52,7 @@ public:
 			default: throw "Invalid MESSAGE_SCRIPT data type";
 		}
 		pData = (char *)RESIZE(pData,Data_size + arg_size);
-		if(GetCurrentFormatType() == 's' && data == 0)
+		if(GetCurrentFormatType() == 's' && data == nullptr)
 		{
 			char bf = 0;
 			memcpy((char *)(pData + Data_size),&bf,1);
@@ -163,7 +163,7 @@ public:
 		strcpy(format,_format);
 		//format =  _format; 
 		if(pData) delete pData;
-		pData = 0; Data_size = 0; ReadPointer = 0;
+		pData = nullptr; Data_size = 0; ReadPointer = nullptr;
 		index = 0;
 	}
 	char GetCurrentFormatType()

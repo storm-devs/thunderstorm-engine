@@ -48,8 +48,8 @@ BATTLE_INTERFACE::BATTLE_INTERFACE()
 	g_IslandDescr.ReleaseAll();
 	g_ShipList.ReleaseAll();
 	//m_pMessageIcons = null;
-	m_pShipIcon = null;
-	rs = NULL;
+	m_pShipIcon = nullptr;
+	rs = nullptr;
 	BIUtils::idBattleInterface = GetID();
 	m_bShowCommandMenu = true;
 	m_bShowBattleNavigator = true;
@@ -60,7 +60,7 @@ BATTLE_INTERFACE::BATTLE_INTERFACE()
 	m_bNeedIslandSet = true;
 	m_bMyShipView = false;
 	m_bShowBattleBorder = false;
-	m_pShipInfoImages = 0;
+	m_pShipInfoImages = nullptr;
 }
 
 BATTLE_INTERFACE::~BATTLE_INTERFACE()
@@ -75,7 +75,7 @@ BATTLE_INTERFACE::~BATTLE_INTERFACE()
 
 bool BATTLE_INTERFACE::Init()
 {
-	if( (rs=(VDX9RENDER *)_CORE_API->CreateService("dx9render")) == NULL )
+	if( (rs=(VDX9RENDER *)_CORE_API->CreateService("dx9render")) == nullptr )
 	{
 		STORM_THROW("Can`t create render service");
 	}
@@ -183,14 +183,14 @@ void BATTLE_INTERFACE::LoadIniFile()
     GUARD(BATTLE_INTERFACE::LoadIniFile)
 
 	m_fBlinkSpeed = .003f;
-	if(AttributesPointer!=null)
+	if(AttributesPointer!= nullptr)
 		m_fBlinkSpeed = AttributesPointer->GetAttributeAsFloat("blindSpeed",m_fBlinkSpeed);
 	m_fCurBlinkTime = 0;
 
 	BattleNavigator.Init(rs,this);
 
-	ATTRIBUTES * pA = null;
-	if(AttributesPointer!=null)
+	ATTRIBUTES * pA = nullptr;
+	if(AttributesPointer!= nullptr)
 	{
 		m_bShowCommandMenu = AttributesPointer->GetAttributeAsDword("ShowCommands",1) != 0;
 		m_bShowBattleNavigator = AttributesPointer->GetAttributeAsDword("ShowNavigator",1) != 0;
@@ -214,9 +214,9 @@ void BATTLE_INTERFACE::LoadIniFile()
 	STORM_DELETE( m_pShipIcon );
 	m_pShipIcon = NEW BIShipIcon( GetID(), rs );
 	Assert( m_pShipIcon );
-	m_pShipIcon->Init( AttributesPointer, AttributesPointer ? AttributesPointer->GetAttributeClass("ShipIcon") : null );
+	m_pShipIcon->Init( AttributesPointer, AttributesPointer ? AttributesPointer->GetAttributeClass("ShipIcon") : nullptr );
 
-	m_pShipInfoImages = NEW ShipInfoImages(rs,AttributesPointer ? AttributesPointer->GetAttributeClass("ShipInfoImages") : null);
+	m_pShipInfoImages = NEW ShipInfoImages(rs,AttributesPointer ? AttributesPointer->GetAttributeClass("ShipInfoImages") : nullptr);
 	if( m_pShipInfoImages ) {
 		m_pShipInfoImages->SetVisible(AttributesPointer ? (AttributesPointer->GetAttributeAsDword("ShifInfoVisible",0)!=0) : false);
 	}
@@ -314,7 +314,7 @@ dword _cdecl BATTLE_INTERFACE::ProcessMessage(MESSAGE & message)
 void BATTLE_INTERFACE::CheckSeaState()
 {
 	SHIP_DESCRIBE_LIST::SHIP_DESCR * main_sd = g_ShipList.GetMainCharacterShip();
-	if(main_sd==NULL) return;
+	if(main_sd== nullptr) return;
 
 	long nReloadTargetIndex=-1;
 	float sqrRadius = api->Entity_GetAttributeAsFloat(&BIUtils::idBattleInterface,"boardRadius",0.f);
@@ -326,7 +326,7 @@ void BATTLE_INTERFACE::CheckSeaState()
 	bool bSailTo=false,	bLandTroops=false,	bMap=true;
 	bool bAttack=false,	bDefend=false,		bReload=false;
 
-	for(SHIP_DESCRIBE_LIST::SHIP_DESCR * ps = g_ShipList.GetShipRoot(); ps!=NULL; ps=ps->next)
+	for(SHIP_DESCRIBE_LIST::SHIP_DESCR * ps = g_ShipList.GetShipRoot(); ps!= nullptr; ps=ps->next)
 	{
 		if(ps==main_sd) continue;
 		bSailTo = true;
@@ -358,10 +358,10 @@ void BATTLE_INTERFACE::CheckSeaState()
 		}
 	}
 
-	if( g_IslandDescr.GetFirstLocator() != null )
+	if( g_IslandDescr.GetFirstLocator() != nullptr )
 		bSailTo = true;
 
-	if( g_IslandDescr.GetFirstEnemyFort() != null )
+	if( g_IslandDescr.GetFirstEnemyFort() != nullptr )
 		bAttack=true;
 
 	api->Event(BI_EVENT_SET_SEA_STATE,"lllllll",bSailTo,bLandTroops,bMap,bAttack,bDefend,bReload,nReloadTargetIndex);
