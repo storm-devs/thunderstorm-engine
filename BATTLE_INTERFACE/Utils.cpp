@@ -8,29 +8,29 @@ DWORD BIUtils::g_dwBlinkColor;
 
 long BIUtils::GetLongFromAttr(ATTRIBUTES * pA, const char * name, long defVal)
 {
-	if(pA==null || name==null) return defVal;
+	if(pA== nullptr || name== nullptr) return defVal;
 	return pA->GetAttributeAsDword(name,defVal);
 }
 
 float BIUtils::GetFloatFromAttr(ATTRIBUTES * pA, const char * name, float defVal)
 {
-	if(pA==null || name==null) return defVal;
+	if(pA== nullptr || name== nullptr) return defVal;
 	return pA->GetAttributeAsFloat(name,defVal);
 }
 
 bool BIUtils::ReadStringFromAttr(ATTRIBUTES * pA, const char * name, char * buf, long bufSize, const char * defVal)
 {
-	if(buf==null || bufSize<1) return false;
+	if(buf== nullptr || bufSize<1) return false;
 	buf[0] = 0;
 	const char * strGet;
 	bool bRet = true;
-	if( pA==null || (strGet=pA->GetAttribute(name))==null )
+	if( pA== nullptr || (strGet=pA->GetAttribute(name))== nullptr )
 	{
 		strGet = defVal;
 		bRet = false;
 	}
 
-	if(strGet!=null)
+	if(strGet!= nullptr)
 	{
 		if( (int)strlen(strGet)>bufSize-1 )
 		{
@@ -45,9 +45,9 @@ bool BIUtils::ReadStringFromAttr(ATTRIBUTES * pA, const char * name, char * buf,
 
 char * BIUtils::GetStringFromAttr(ATTRIBUTES * pA, const char * name, const char * defVal)
 {
-	if(pA==null || name==null) return (char*)defVal;
+	if(pA== nullptr || name== nullptr) return (char*)defVal;
 	char * aVal = pA->GetAttribute(name);
-	if(aVal==null) return (char*)defVal;
+	if(aVal== nullptr) return (char*)defVal;
 	return aVal;
 }
 
@@ -164,9 +164,9 @@ ATTRIBUTES * _cdecl BIUtils::GetAttributesFromPath(ATTRIBUTES * pA,...)
 	char * sName;
 	ATTRIBUTES *pTmpAttr = pA;
 	va_start( arglist, pA );
-	while( (sName=va_arg(arglist,char*))!=NULL )
+	while( (sName=va_arg(arglist,char*))!= nullptr )
 	{
-		if(pTmpAttr==NULL) return NULL;
+		if(pTmpAttr== nullptr) return nullptr;
 		pTmpAttr = pTmpAttr->GetAttributeClass(sName);
 	}
 	va_end(arglist);
@@ -248,7 +248,7 @@ void BIUtils::PrintTextInfoArray(std::vector<BITextInfo>& tia)
 
 BITextInfo::BITextInfo()
 {
-	pRS = 0;
+	pRS = nullptr;
 	nFont = -1;
 }
 
@@ -284,7 +284,7 @@ void BITextInfo::Init(VDX9RENDER* rs, ATTRIBUTES *pA)
 
 	sText = pA->GetAttribute( "text" );
 
-	pARefresh = 0;
+	pARefresh = nullptr;
 	if( pA->GetAttributeAsDword("refreshable",0) )
 		pARefresh = pA;
 }
@@ -302,7 +302,7 @@ void BITextInfo::Print()
 
 BILinesInfo::BILinesInfo()
 {
-	pRS = 0;
+	pRS = nullptr;
 }
 
 BILinesInfo::~BILinesInfo()
@@ -362,8 +362,8 @@ void BILinesInfo::Draw()
 
 BIImagesInfo::BIImagesInfo()
 {
-	pRS = 0;
-	pImgRender = 0;
+	pRS = nullptr;
+	pImgRender = nullptr;
 }
 
 BIImagesInfo::~BIImagesInfo()
@@ -416,7 +416,7 @@ void BIImagesInfo::Draw()
 
 BIBorderInfo::BIBorderInfo(): dwColor1(0), dwColor2(0), fCur(0), fSpeed(0)
 {
-	pRS = 0;
+	pRS = nullptr;
 	nVBuf = -1;
 	nTexID = -1;
 	bUp = true;
