@@ -967,7 +967,7 @@ void CXI_VIMAGESCROLL::ChangeScroll(int nScrollItemNum)
 		}
 
         int nScrollLastNum;
-        if( nScrollItemNum!=-1 )
+        if( nScrollItemNum!=-1 ) //~!~
             nScrollLastNum = nScrollItemNum+1;
         else
         {

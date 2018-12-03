@@ -430,7 +430,7 @@ long PtcData::Move(long curNode, const CVECTOR & to, CVECTOR & pos, long depth)
 			return curNode;
 		}
 	}
-	if(loopCounter >= 256)
+	if(loopCounter >= 256) //~!~
 	{
 		if(to.y != pos.y)
 		{

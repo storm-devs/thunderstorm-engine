@@ -624,7 +624,7 @@ Player * Player::FindAttackCharacter()
 		//Мёртвых пропускаем
 		if(chr->liveValue < 0 || chr->deadName) continue;
 		//Отсеиваем неинтересных
-		if(isEnemy)
+		if(isEnemy) //~!~
 		{
 			if(chr->task.task != npct_fight ||
 				api->GetEntityPointer(&chr->task.target) != this) continue;
@@ -649,7 +649,7 @@ Player * Player::FindAttackCharacter()
 			*/
 		}
 		//Невражеских пропускаем
-		if(!isEnemy)
+		if(!isEnemy) //~!~
 		{
 			ENTITY_ID eid;
 			if(api->FindClass(&eid, null, chrGroups))

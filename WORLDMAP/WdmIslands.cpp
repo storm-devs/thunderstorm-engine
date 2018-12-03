@@ -363,7 +363,7 @@ void WdmIslands::SetIslandsData(ATTRIBUTES * apnt, bool isChange)
 			}
 		}
 		//Текст
-		labels[index].text = text ? text : "";
+		labels[index].text = text ? text : ""; //~!~
 		//Шрифт
 		labels[index].font = LabelsAddFont(font);
 		//Картинка

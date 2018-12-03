@@ -493,13 +493,14 @@ public:
 	void Dump(ATTRIBUTES * pA, long level)
 	{
 		char buffer[128];
-		DWORD n;
 		if (pA == 0) return;
 
 		if (level >= 128) level = 127;
-		if (level != 0) memset(buffer,' ',level); buffer[level] = 0;
+		if (level != 0) 
+			memset(buffer,' ',level); 
+		buffer[level] = 0;
 
-		for(n=0;n<pA->GetAttributesNum();n++)
+		for(DWORD n = 0;n<pA->GetAttributesNum();n++)
 		{
 			xtrace("%s%s = %s", buffer, pA->GetAttributeName(n), pA->GetAttribute(n));
 			Dump(pA->GetAttributeClass(pA->GetAttributeName(n)), level + 2);

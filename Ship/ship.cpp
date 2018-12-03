@@ -1199,7 +1199,7 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 	RecalculateWorldOffset();
 	bUse = uniIDX==0;
 
-	char temp_str[256];
+	char temp_str[1024];
 	sprintf(temp_str,"ships\\%s\\%s",cShipIniName,cShipIniName);
 
 	api->CreateEntity(&model_id,"MODELR");

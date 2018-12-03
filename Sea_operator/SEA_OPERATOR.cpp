@@ -143,7 +143,7 @@ void SEA_OPERATOR::Realize(dword _dTime)
 		return;
 
 	static CVECTOR upVector(0.0f, 1.0f, 0.0f);
-	if (enabled && active)
+	if (active)
 	{
 		renderer->SetCamera(cameraPos, cameraTargetPos, upVector);
 		renderer->Print(0, 30, "cam: [%3.1f;%3.1f;%3.1f], tgt: [%3.1f;%3.1f;%3.1f]",

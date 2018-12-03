@@ -70,6 +70,7 @@ void DataGraph::SetValues (const GraphVertex* MinValues, DWORD MinValuesSize, co
 //Устанавливает "значение по умолчанию"
 void DataGraph::SetDefaultValue (float MaxValue, float MinValue)
 {
+	//~!~
 	MinGraph.clear();
 	MaxGraph.clear();
 
@@ -77,12 +78,12 @@ void DataGraph::SetDefaultValue (float MaxValue, float MinValue)
 	Min.Val = MinValue;
 	Min.Time = MIN_GRAPH_TIME;
 	MinGraph.push_back(Min);
-	Min.Time = MAX_GRAPH_TIME;
+	//Min.Time = MAX_GRAPH_TIME;
 	MinGraph.push_back(Min);
 
 	GraphVertex Max;
-	Max.Val = MinValue;
-	Max.Time = MIN_GRAPH_TIME;
+	Max.Val = MaxValue;
+	//Max.Time = MIN_GRAPH_TIME;
 	MaxGraph.push_back(Max);
 	Max.Time = MAX_GRAPH_TIME;
 	MaxGraph.push_back(Max);

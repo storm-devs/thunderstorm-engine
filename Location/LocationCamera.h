@@ -144,6 +144,7 @@ private:
 	float chradius;				//Радиус персонажа
 
 	//динамическое изменение перспективы (пьянство)
+	//~!~ rearrange this!
 	struct {
 		bool isOn;
 		float fMinFov;

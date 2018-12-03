@@ -413,11 +413,11 @@ bool DECK_CAMERA::GetCrossXZ(CVECTOR &spos,CVECTOR &dv, CVECTOR &p1,CVECTOR &p2,
     // проверка на dz=0 для направляющего вектора
     if( !bNoCross )
         if(EQU_FLOAT(dv.z,0.f))
-            if(bZset) { if(spos.z!=zRes) bNoCross=true; }
+            if(bZset) { if(spos.z!=zRes) bNoCross=true; } //~!~
             else {bZset=true; zRes=spos.z;}
 
     // проверка на dx=0 для отрезка
-    if( !bNoCross )
+    if( !bNoCross ) //~!~
         if(EQU_FLOAT(p1.x,p2.x))
             if(bXset) { if(p1.x!=xRes) bNoCross=true; }
             else {bXset=true; xRes=p1.x;}

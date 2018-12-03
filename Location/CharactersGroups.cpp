@@ -964,9 +964,9 @@ CharactersGroups::Group * CharactersGroups::GetGroup(MESSAGE & message, bool isR
 CharactersGroups::Group * CharactersGroups::FindGroup(const char * name)
 {
 	long gi = FindGroupIndex(name);
-	if(gi < 0) return null;
+	if(gi < 0) 
+		return null;
 	return groups[gi];
-	if(!name) return null;
 }
 
 //Найти группу по имени

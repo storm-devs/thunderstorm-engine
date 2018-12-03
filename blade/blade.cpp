@@ -167,7 +167,7 @@ bool BLADE::BLADE_INFO::LoadBladeModel(MESSAGE &message)
 	char mdlName[200];
 	message.String(sizeof(mdlName), mdlName);
 	mdlName[sizeof(mdlName) - 1] = 0;
-	if(strlen(mdlName) > 0)
+	if(mdlName[0] != '\0')
 	{
 		//Путь до модельки
 		char path[256];
@@ -334,7 +334,7 @@ bool BLADE::LoadGunModel(MESSAGE &message)
 	char mdlName[200];
 	message.String(sizeof(mdlName), mdlName);
 	mdlName[sizeof(mdlName) - 1] = 0;
-	if(strlen(mdlName) > 0)
+	if(mdlName[0] != '\0')
 	{
 		//Путь до модельки
 		char path[256];

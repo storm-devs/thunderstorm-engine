@@ -209,7 +209,7 @@ void AIShipTaskController::SetNewTask(dword dwPriority, dword _dwNewTaskType, AT
 bool AIShipTaskController::isAttack(ATTRIBUTES * pAOtherCharacter)
 {
 	AITask * pTask = GetCurrentTask();
-	if (pTask && pTask->pATaskCharacter == pAOtherCharacter)
+	if (pTask && pTask->pATaskCharacter == pAOtherCharacter) //~!~
 	{
 		switch (pTask->dwTaskType)
 		{

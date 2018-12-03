@@ -390,7 +390,7 @@ void Sharks::Shark::Event(Animation * animation, long index, long eventID, Anima
 		animation->Player(0).SetAction(actStand);
 		aniTime = 3.0f + rand()*3.0f/RAND_MAX;
 	}else{
-		if(jumpTime <= 0.0f && spos.y > -0.1f && ~(rnd & 0xf0))
+		if(jumpTime <= 0.0f && spos.y > -0.1f && ~(rnd & 0xf0)) //~!~
 		{
 			//Выпрыгиваем из воды
 			animation->Player(0).SetAction(actJump);

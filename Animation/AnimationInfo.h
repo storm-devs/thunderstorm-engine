@@ -97,8 +97,8 @@ inline void AnimationInfo::SetNumFrames(long _numFrames)
 //Установить скорость исполнения
 inline void AnimationInfo::SetFPS(float _fps)
 {
-	if(fps < 0.0f) fps = 0.0f;
-	if(fps > 1000000.0f) fps = 1000000.0f;
+	if(_fps < 0.0f) fps = 0.0f;
+	if(_fps > 1000000.0f) fps = 1000000.0f;
 	fps = _fps;
 }
 

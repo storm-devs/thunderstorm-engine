@@ -651,7 +651,7 @@ dword WorldMap::AttributeChanged(ATTRIBUTES * apnt)
 				if(enc == cur) break;
 				enc++;
 			}
-			if(i >= 0 && i < wdmObjects->numShips)
+			if(i < wdmObjects->numShips)
 			{
 				Assert(wdmObjects->ships[i]);
 				wdmObjects->ships[i]->GetPosition(x, z, ay);
@@ -1137,7 +1137,7 @@ ATTRIBUTES * WorldMap::GetEncSaveData(const char * type, const char * retName)
 	if(i == 1000000) return null;
 	//Создаём ветку
 	ATTRIBUTES * a = saveData->CreateSubAClass(saveData, atrName);
-	if(!a) return false;
+	if(!a) return null;
 	//Устанавливаем тип
 	a->SetAttribute("type", (char *)type);
 	//Сохраняем имя

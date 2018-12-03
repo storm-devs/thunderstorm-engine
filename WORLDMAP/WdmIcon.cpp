@@ -97,7 +97,7 @@ void WdmIcon::Update(float dltTime)
 //Отрисовка
 void WdmIcon::LRender(VDX9RENDER * rs)
 {
-	return;
+	return; //~!~
 	Vertex vrt[6];
 	rs->TextureSet(0, texture);
 	float w, h;

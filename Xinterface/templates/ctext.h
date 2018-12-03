@@ -109,7 +109,7 @@ public:
 					if(pNew)
 					{
 						if(n>0) memcpy(pNew,pString,n);
-						if(n<q) memcpy(&pNew[n],&pString[n+q2],q-n);
+						if(n<q) memcpy(&pNew[n],&pString[n+q2],q-n); //~!~
 					}
 					delete pString;
 					pString = pNew;

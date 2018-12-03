@@ -151,20 +151,21 @@ void ROPE::Realize(dword Delta_Time)
 
 			bool bDraw = RenderService->TechniqueExecuteStart("ShipRope");
 
-            if (bDraw)
-				for(int i=0; i<groupQuantity; i++)
-					if(!gdata[i].bDeleted && gdata[i].nt!=0 && nVert!=0)
-						if((~(gdata[i].pMatWorld->Pos()-cp))*pr<fMaxRopeDist) // если расстояние до корабля не больше максимального
+			if (bDraw) {
+				for (int i = 0; i < groupQuantity; i++)
+					if (!gdata[i].bDeleted && gdata[i].nt != 0 && nVert != 0)
+						if ((~(gdata[i].pMatWorld->Pos() - cp))*pr < fMaxRopeDist) // если расстояние до корабля не больше максимального
 						{
 							((SHIP_BASE*)gdata[i].shipEI.pointer)->SetLightAndFog(true);
-							RenderService->SetTransform(D3DTS_WORLD,(D3DXMATRIX*)gdata[i].pMatWorld);
+							RenderService->SetTransform(D3DTS_WORLD, (D3DXMATRIX*)gdata[i].pMatWorld);
 
-							RenderService->TextureSet(0,texl);
+							RenderService->TextureSet(0, texl);
 							RenderService->SetMaterial(mat);
 							RenderService->DrawBuffer(vBuf, sizeof(ROPEVERTEX), iBuf, 0, nVert, gdata[i].st, gdata[i].nt);
 							((SHIP_BASE*)gdata[i].shipEI.pointer)->RestoreLightAndFog();
 						}
-			if (bDraw) while (RenderService->TechniqueExecuteNext()) {};
+				while (RenderService->TechniqueExecuteNext()) {};
+			}
 
 			RDTSC_E(rtm);
             realize_tm=rtm;
@@ -904,26 +905,32 @@ void ROPE::SetAdd(int firstNum)
                 if(oldrlist!=rlist)
                     delete oldrlist;
             }
-            else
-                delete rlist;
+			else {
+				delete rlist;
+				rlist = nullptr;
+			}
             if(rn==ropeQuantity) break;
         }
         if(rn==ropeQuantity) break;
 
-        rlist[rn]->bUse=true;
-        rlist[rn]->nv=(rlist[rn]->segquant+1)*ROPE_EDGE+2;
-        rlist[rn]->nt=(rlist[rn]->segquant+1)*ROPE_EDGE*2;
-        rlist[rn]->segnum=0;
-        if(rlist[rn]->segquant<=2)
-            rlist[rn]->ropeWave=-ROPE_WAVE*.2f;
-        else
-            rlist[rn]->ropeWave=-ROPE_WAVE;
+		if (rlist != nullptr) {
+			rlist[rn]->bUse = true;
+			rlist[rn]->nv = (rlist[rn]->segquant + 1)*ROPE_EDGE + 2;
+			rlist[rn]->nt = (rlist[rn]->segquant + 1)*ROPE_EDGE * 2;
+			rlist[rn]->segnum = 0;
+			if (rlist[rn]->segquant <= 2)
+				rlist[rn]->ropeWave = -ROPE_WAVE * .2f;
+			else
+				rlist[rn]->ropeWave = -ROPE_WAVE;
+		}
     }
 
-	for(int rn=firstNum; rn<ropeQuantity; rn++)
-	{
-		if( rlist[rn]->segquant > 100 || rlist[rn]->segquant<0 )
-			rlist[rn]->segquant = rlist[rn]->segquant; //~!~
+	if (rlist != nullptr) {
+		for (int rn = firstNum; rn < ropeQuantity; rn++)
+		{
+			if (rlist[rn]->segquant > 100 || rlist[rn]->segquant < 0)
+				rlist[rn]->segquant = rlist[rn]->segquant; //~!~
+		}
 	}
 }
 

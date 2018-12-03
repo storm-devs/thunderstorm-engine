@@ -1328,7 +1328,7 @@ void Character::Attack(Character * enemy, FightAction type)
 		fgtSetIndex = -1;
 		return;
 	}
-	if(aname)
+	if(aname) //~!~
 	{
 		res = api->Event("ChrAttackAction", "is", GetID(), aname);
 		if(res)
@@ -3107,7 +3107,7 @@ bool Character::BuildJump(CVECTOR pos,float fAng)
 			jumpPoints = i + 1;
 
 			//Проверим приземление на джамп патч
-			if( jpm ) {
+			if( jpm ) { //~!~
 				dst = src = osculationPoint;
 				src.y += 10.f;
 				dst.y -= 20.f;

@@ -46,7 +46,8 @@ public:
 	Tokens.clear();
 	strncpy (NamesString, names, MAX_STRING_SIZE);
   int StrLen = strlen (NamesString);
-  if (NamesString[StrLen-1] != ';') strcat (NamesString, ";");
+  if (StrLen > 0 && NamesString[StrLen-1] != ';') 
+	  strcat (NamesString, ";");
   StrLen = strlen (NamesString);
 
   int FromChar = 0;
@@ -57,7 +58,7 @@ public:
       NamesString[n] = 0;
 
       char* ModelName = NamesString + FromChar;
-      if (strlen (ModelName) > 0)
+      if (ModelName[0] != '\0')
       {
 				Tokens.push_back(ModelName);
       }

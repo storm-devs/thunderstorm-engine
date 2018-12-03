@@ -101,7 +101,7 @@ void TButterfly::Calculate (long _dTime, COLLIDE *_collide, VIDWALKER *_walker)
 	}
 	centerVelocity = !(centerVelocity + (rand(DISPLACE_SPEED) * timeDelta) * displaceVector);
 
-	float activity = 1.0f - activeTime / fullActiveTime;
+	float activity = 1.0f - activeTime / fullActiveTime; //~!~
 	if (activity < MIN_ACTIVITY)
 		activity = MIN_ACTIVITY;
 

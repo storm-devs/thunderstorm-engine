@@ -2037,7 +2037,7 @@ void XINTERFACE::DoControl()
 		if (cs.state == CST_ACTIVATED)	bFirstPress = true;
 			// enter button press
 		api->Controls->GetControlState(INTERFACE_CONTROL_ENTER,cs);
-		if (cs.state == CST_ACTIVATED)
+		if (cs.state == CST_ACTIVATED) //~!~
 			curKS.enterButton = true;
 		if (cs.state == CST_ACTIVATED)	bFirstPress = true;
 		api->Controls->GetControlState("IStartButton",cs);
@@ -2273,7 +2273,7 @@ void XINTERFACE::MouseClick(bool bFirstClick)
 	}
 	m_nMouseLastClickTimeCur = m_nMouseLastClickTimeMax;
 
-	if(clickNod!=NULL)
+	if(clickNod!=NULL) //~!~
 		if(m_pCurNode==NULL || !m_pCurNode->m_bLockStatus)
 		{
 			if(bFirstClick)	m_pMouseNode=clickNod;
@@ -2531,7 +2531,8 @@ bool __declspec(dllexport) __cdecl XINTERFACE::SFLB_DoSaveFileData(char * saveNa
 {
 	if(saveName==null || saveData==null) return false;
 	long slen = strlen(saveData)+1;
-	if(slen<=1) return false;
+	if(slen<=1) 
+		return false;
 
 	ENTITY_ID ei;
 	if( !api->FindClass(&ei,"SCRSHOTER",0) ) return false;
@@ -2545,7 +2546,8 @@ bool __declspec(dllexport) __cdecl XINTERFACE::SFLB_DoSaveFileData(char * saveNa
 	if(pdat==null)	{ THROW("allocate memory error"); }
 
 	((SAVE_DATA_HANDLE*)pdat)->StringDataSize = slen;
-	if(slen>0) memcpy( &pdat[sizeof(SAVE_DATA_HANDLE)], saveData, slen );
+	//if(slen>0) 
+	memcpy( &pdat[sizeof(SAVE_DATA_HANDLE)], saveData, slen );
 
 	long ssize = 0;
 	if(dscr.Height>0)
@@ -3167,7 +3169,7 @@ void XINTERFACE::LoadOptionsFile(char * fileName, ATTRIBUTES * pAttr)
 	if(pOutBuffer)
 	{
 		api->fio->_ReadFile(fh, pOutBuffer, dwSaveSize, &dwRealSize);
-		if(pAttr)
+		if(pAttr) //~!~
 		{
 			char * pBuf = pOutBuffer;
 #ifdef _XBOX
@@ -3202,7 +3204,7 @@ void XINTERFACE::LoadOptionsFile(char * fileName, ATTRIBUTES * pAttr)
 				char param1[512], param2[512];
 				param1[0] = param2[0] = 0;
 				sscanf(pBuf,"%[^=]=%[^\n]", param1, param2);
-				if( strlen(param1)>0 && strlen(param2)>0 )
+				if( param1[0] != '\0' && param2[0] != '\0' )
 				{
 					ATTRIBUTES * pA = pAttr->CreateSubAClass(pAttr,param1);
 					pA->SetValue(param2);
@@ -3426,7 +3428,7 @@ void CONTROLS_CONTAINER::Execute(dword delta_time)
 				CONTROL_STATE insideCS;
 				api->Controls->GetControlState(pDescr->controlName, insideCS);
 
-				switch(insideCS.state)
+				switch(insideCS.state) //~!~
 				{
 				case CST_ACTIVATED:
 					if(csPrev.state!=CST_ACTIVE && csPrev.state!=CST_ACTIVATED)

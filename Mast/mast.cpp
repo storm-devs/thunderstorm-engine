@@ -224,7 +224,7 @@ void _cdecl MAST::Mount( ENTITY_ID modelEI, ENTITY_ID shipEI, NODE* mastNodePoin
 		if(bSail) api->Send_Message(sailEI, "lls", MSG_SAIL_MAST_PROCESSING, chrIdx, mastNodePointer->GetName());
 	}
 
-    if(mastNodePointer!=null)
+    if(mastNodePointer!=null) //~!~
     {
         int i,j;
 

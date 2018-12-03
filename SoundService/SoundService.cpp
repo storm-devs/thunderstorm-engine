@@ -586,7 +586,7 @@ TSD_ID  SoundService::SoundPlay (const char *_name,
 		FMOD_ERROR("FMOD_SOUND:setVolume",status);
 	}
 
-	PlayingSounds[SoundIdx].Name = SoundName;
+	PlayingSounds[SoundIdx].Name = std::move(SoundName);
 	PlayingSounds[SoundIdx].sound_type = _type;
 
 

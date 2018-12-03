@@ -500,7 +500,7 @@ bool CINODE::ReadIniString(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2,
 	if( ini1 && name1 && ini1->ReadString(name1, keyName, buf, bufSize-1, strDef) )	bYes = true;
 	if(!bYes)
 		if( ini2 && name2 && ini2->ReadString(name2, keyName, buf, bufSize-1, strDef) )	bYes = true;
-	if(!bYes && strDef!=null)
+	if(!bYes && strDef!=null) //~!
 	{
 		if(buf)
 		{

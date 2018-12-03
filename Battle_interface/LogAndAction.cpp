@@ -132,7 +132,7 @@ dword _cdecl ILogAndActions::ProcessMessage(MESSAGE & message)
 						else
 						{
 							for(STRING_DESCR* prev=m_sRoot; prev!=null && prev->next!=last; prev=prev->next)
-								if(prev!=null && prev->next==last)
+								if(prev!=null && prev->next==last) //~!~
 									{ prev->next = last->next;	break; }
 						}
 						PTR_STORM_DELETE(last);

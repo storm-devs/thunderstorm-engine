@@ -300,12 +300,10 @@ void SEAFOAM::InterpolateLeftParticle(tShipFoamInfo &_shipFoamInfo, int z, dword
 //--------------------------------------------------------------------
 void SEAFOAM::InterpolateRightParticle(tShipFoamInfo &_shipFoamInfo, int z, dword _dTime)
 {
-	CVECTOR ang{}, finalAng{}, testPoint;
+	CVECTOR ang{}, finalAng{};
 	CMatrix finalMatrix;
-	float seaY, interpK;
-	int curY;
-	CVECTOR lowPoint, highPoint, lastTestPoint, finalPos;
-	int testY, lastTestY;
+	float interpK;
+	CVECTOR lowPoint, highPoint, finalPos;
 	float lowSeaY, highSeaY, seaK;
 
 	lowPoint = _shipFoamInfo.shipModel->mtx * (_shipFoamInfo.hull[1][z].center[TRACE_STEPS_Y-1]);
@@ -338,13 +336,13 @@ void SEAFOAM::InterpolateRightParticle(tShipFoamInfo &_shipFoamInfo, int z, dwor
 		return;
 	}
 
-	curY = 0;
-	testPoint = _shipFoamInfo.hull[1][z].center[curY];
-	lastTestPoint = testPoint;
-	testY = curY;
-	lastTestY = testY;
+	int curY = 0;
+	CVECTOR testPoint = _shipFoamInfo.hull[1][z].center[curY];
+	CVECTOR lastTestPoint = testPoint;
+	int testY = curY;
+	int lastTestY = testY;
 
-	seaY = /*__max(lowSeaY, highSeaY)*/(lowSeaY + highSeaY) / 2.0f;
+	float seaY = /*__max(lowSeaY, highSeaY)*/(lowSeaY + highSeaY) / 2.0f;
 	for (curY = 0; curY < TRACE_STEPS_Y; ++curY)
 	{
 		testPoint = _shipFoamInfo.shipModel->mtx * _shipFoamInfo.hull[1][z].center[curY];
@@ -356,7 +354,7 @@ void SEAFOAM::InterpolateRightParticle(tShipFoamInfo &_shipFoamInfo, int z, dwor
 		testY = curY;
 	}
 
-	if (curY < TRACE_STEPS_Y)
+	if (curY > 0 && curY < TRACE_STEPS_Y) //~!~
 	{ //successful search
 		interpK = (seaY - lastTestPoint.y) / (testPoint.y - lastTestPoint.y);
 		testPoint = _shipFoamInfo.hull[1][z].center[curY];

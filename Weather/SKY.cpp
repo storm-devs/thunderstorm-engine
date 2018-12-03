@@ -324,7 +324,7 @@ void SKY::Realize(dword Delta_Time)
 						pRS->TextureSet(0, TexturesID[i]);
 						pRS->TextureSet(1, TexturesNextID[i]);
 						pRS->DrawBuffer(iSkyVertsID, sizeof(SKYVERTEX), iSkyIndexID, 0, 20, i * 6, 2);
-						if (Delta_Time==0)
+						if (Delta_Time==0) //~!~
 							pRS->DrawBuffer(iSkyVertsID, sizeof(SKYVERTEX), iSkyIndexID, 0, 40, 30 + i * 6, 2);
 					}
 				} while (pRS->TechniqueExecuteNext());
