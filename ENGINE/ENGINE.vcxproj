@@ -137,7 +137,6 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Common_h\rands.cpp" />
     <ClCompile Include="sources\classes_table.cpp" />
     <ClCompile Include="sources\compiler.cpp">
       <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">All</AssemblerOutput>

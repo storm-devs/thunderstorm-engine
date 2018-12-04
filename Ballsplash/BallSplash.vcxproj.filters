@@ -18,9 +18,6 @@
     <ClCompile Include="BallSplash.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\COMMON_H\rands.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TSplash.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

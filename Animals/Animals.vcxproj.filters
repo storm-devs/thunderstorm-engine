@@ -21,9 +21,6 @@
     <ClCompile Include="AnimalsDefines.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\COMMON_H\rands.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TButterflies.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

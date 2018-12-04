@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\COMMON_H\rands.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="seps.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

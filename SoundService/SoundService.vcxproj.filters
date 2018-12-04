@@ -20,9 +20,6 @@
     <ClCompile Include="DebugEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common_h\rands.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SoundService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

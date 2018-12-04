@@ -153,9 +153,6 @@
     <ClCompile Include="sources\token.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common_h\rands.cpp">
-      <Filter>common_h</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\Zlib\adler32.c">
       <Filter>ZLib</Filter>
     </ClCompile>
