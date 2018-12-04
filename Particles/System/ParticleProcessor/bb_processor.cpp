@@ -35,7 +35,7 @@
 BillBoardProcessor::BillBoardProcessor ()
 {
 	Particles.reserve(MAX_BILLBOARDS);
-	pMemArray = (MemArrayItem*)NEW char[sizeof(MemArrayItem) * MAX_BILLBOARDS];
+	pMemArray = new MemArrayItem[MAX_BILLBOARDS];
 
 	for (uint32_t n = 0; n < MAX_BILLBOARDS; n++)
 	{

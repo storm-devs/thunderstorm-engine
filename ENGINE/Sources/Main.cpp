@@ -390,35 +390,49 @@ void ProcessKeys(HWND hwnd, int code, int Press)
 	}
 }
 
-void * _cdecl operator new(size_t size)
+void * __cdecl operator new(std::size_t size)
 {
 	return Memory_Service.Allocate(size);
 }
 
-void * _cdecl operator new(size_t size, char * pFileName, unsigned long nLine)
+extern void * operator new (std::size_t count, std::align_val_t al) 
 {
-	CodeSource.pFileName = pFileName; CodeSource.line = nLine;
+	return Memory_Service.Allocate(count);
+}
+
+void * __cdecl operator new(std::size_t size, char * file, std::size_t line)
+{
+	CodeSource.pFileName = (char*)file; CodeSource.line = line;
 	return Memory_Service.Allocate(size);
 }
 
-void _cdecl operator delete(void * block_ptr)
+void __cdecl operator delete(void * block_ptr) noexcept
 {
 	Memory_Service.Free(block_ptr);
 }
 
-void _cdecl operator delete(void * block_ptr, char * pFileName, unsigned long nLine)
+void __cdecl operator delete(void* ptr, std::align_val_t al) noexcept
+{
+	Memory_Service.Free(ptr);
+}
+void __cdecl operator delete(void* ptr, std::size_t sz, std::align_val_t al) noexcept
+{
+	Memory_Service.Free(ptr);
+}
+
+void __cdecl operator delete(void * block_ptr, char * file, std::size_t line) noexcept
 {
 	Memory_Service.Free(block_ptr);
 }
 
-void * _cdecl resize(void * block_ptr, size_t size)
+void * __cdecl resize(void * block_ptr, std::size_t size)
 {
 	return Memory_Service.Reallocate(block_ptr, size);
 }
 
-void * _cdecl resize(void * block_ptr, size_t size, char * pFileName, unsigned long nLine)
+void * __cdecl resize(void * block_ptr, std::size_t size, char * file, std::size_t line)
 {
-	CodeSource.pFileName = pFileName; CodeSource.line = nLine;
+	CodeSource.pFileName = (char*)file; CodeSource.line = line;
 	return Memory_Service.Reallocate(block_ptr, size);
 }
 
