@@ -389,7 +389,7 @@ IDirect3DTexture9 * SCRSHOTER::GetTexFromSave(char * fileName, char **pDatStr)
 				idx++;
 			}
 	}*/
-	PTR_STORM_DELETE(pdat);
+	delete pdat;
 
 	if( hr==D3D_OK ) return pt;
 	if(*pDatStr) delete (*pDatStr); *pDatStr = nullptr;
