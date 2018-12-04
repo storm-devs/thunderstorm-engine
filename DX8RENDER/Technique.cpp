@@ -955,7 +955,8 @@ uint32_t CTechnique::ProcessPass(char * pFile, uint32_t dwSize, char **pStr)
 			{
 				*pPass++ = CODE_SPS;
 				GetTokenWhile(SkipToken(*pStr,"\""),temp,"\"");
-				*pPass++ = AddShader(temp);
+				auto i = AddShader(temp);
+				*pPass++ = i;
 				SKIP3;
 			}
 
@@ -963,7 +964,8 @@ uint32_t CTechnique::ProcessPass(char * pFile, uint32_t dwSize, char **pStr)
 			{
 				*pPass++ = CODE_SVS;
 				GetTokenWhile(SkipToken(*pStr,"\""),temp,"\"");
-				*pPass++ = AddShader(temp);
+				auto i = AddShader(temp);
+				*pPass++ = i;
 				SKIP3;
 			}
 
@@ -1344,7 +1346,8 @@ uint32_t CTechnique::ProcessVertexShader(char *pFile, uint32_t dwSize, char **pS
 	char *pName = SkipToken(*pStr,VERTEX_SHADER);
 	GetTokenWhile(pName,&temp[0]," ");
 
-	shader_t *pS = &pShaders[AddShader(temp)];
+	auto i = AddShader(temp);
+	shader_t *pS = &pShaders[i];
 	pS->dwShaderType = CODE_SVS;
 
 	while (nullptr != (*pStr = GetString(pFile,dwSize,*pStr)))
@@ -1368,7 +1371,8 @@ uint32_t CTechnique::ProcessPixelShader(char *pFile, uint32_t dwSize, char **pSt
 	char *pName = SkipToken(*pStr,PIXEL_SHADER);
 	GetTokenWhile(pName,&temp[0]," ");
 
-	shader_t *pS = &pShaders[AddShader(temp)];
+	auto i = AddShader(temp);
+	shader_t *pS = &pShaders[i];
 	pS->dwShaderType = CODE_SPS;
 
 	while (nullptr != (*pStr = GetString(pFile,dwSize,*pStr)))

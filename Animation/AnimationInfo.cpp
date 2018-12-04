@@ -45,7 +45,7 @@ void AnimationInfo::CreateBones(long numbones)
 	Assert(bone == nullptr || numBones == 0);
 	Assert(numbones > 0 && numbones <= 256);
 	numBones = numbones;
-	bone = NEW Bone[numBones];
+	bone = (Bone*)NEW char[sizeof(Bone) * numBones];
 }
 
 //Создать действие
