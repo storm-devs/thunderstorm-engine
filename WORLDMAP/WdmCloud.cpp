@@ -39,7 +39,7 @@ WdmCloud::WdmCloud()
 	lightningWaitTime = 0.0f;
 	curLightning = -1;
 	//Дождик
-	for(long i = 0; i < sizeof(rain)/sizeof(rain[0]); i++)
+	for(size_t i = 0; i < sizeof(rain)/sizeof(rain[0]); i++)
 	{
 		rain[i].isLive = false;
 	}
@@ -68,7 +68,7 @@ void WdmCloud::Update(float dltTime)
 	Move(dltTime);
 	//Время для перемещения партиклов внутри облака
 	float dlt = dltTime*0.1f;
-	for(long i = 0; i < numRects; i++)
+	for(size_t i = 0; i < numRects; i++)
 	{
 		rect[i].vPos = pos + move[i].pos;
 		rect[i].vPos.y = WdmStormCloudHeight;
@@ -153,7 +153,7 @@ void WdmCloud::Update(float dltTime)
 		}
 	}
 	//Дождик
-	for(long i = 0; i < sizeof(rain)/sizeof(rain[0]); i++)
+	for(size_t i = 0; i < sizeof(rain)/sizeof(rain[0]); i++)
 	{
 		Rain & r = rain[i];
 		if(!r.isLive) continue;
@@ -180,7 +180,7 @@ void WdmCloud::Update(float dltTime)
 	rainBurnTime -= dltTime;
 	if(rainBurnTime <= 0.0f)
 	{
-		for(long i = 0; i < sizeof(rain)/sizeof(rain[0]); i++)
+		for(size_t i = 0; i < sizeof(rain)/sizeof(rain[0]); i++)
 		{
 			Rain & r = rain[i];
 			if(!r.isLive)
@@ -219,7 +219,7 @@ void WdmCloud::Move(float dltTime)
 long WdmCloud::FillRain(RS_RECT * rainRect, long rcnt)
 {
 	//Рисуем дождь
-	for(long i = 0; i < sizeof(rain)/sizeof(rain[0]); i++)
+	for(size_t i = 0; i < sizeof(rain)/sizeof(rain[0]); i++)
 	{
 		Rain & r = rain[i];
 		if(!r.isLive) continue;
@@ -244,7 +244,7 @@ void WdmCloud::Render(VDX9RENDER * rs)
 	Vertex lght[4];
 	rs->TextureSet(0, lightning);
 	uint32_t lightningColor = (uint8_t(globalAlpha*255.0f) << 24) | 0x00ffffff;
-	for(long i = 0; i < numRects; i++)
+	for(size_t i = 0; i < numRects; i++)
 	{
 		RS_RECT & r = rect[i];
 		if(r.dwColor & 0x0000ff00)
@@ -296,7 +296,7 @@ void WdmCloud::BuildCloud(long n)
 {
 	curMove = 0;
 	numRects = 0;
-	for(long i = 0; i < n; i++, numRects++)
+	for(size_t i = 0; i < n; i++, numRects++)
 	{
 		FindPartPos(move[i].pos);
 		uint32_t sz = rand() & 0xff;

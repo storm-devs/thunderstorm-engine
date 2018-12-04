@@ -41,7 +41,7 @@ LGeometry::~LGeometry()
 {
 	if(object)
 	{
-		for(long i = 0; i < numObjects; i++)
+		for(size_t i = 0; i < numObjects; i++)
 		{
 			delete object[i].name;
 			delete object[i].nameReal;
@@ -109,7 +109,7 @@ void LGeometry::AddObject(const char * name, ENTITY_ID & model)
 bool LGeometry::Process(VDX9RENDER * rs, long numLights)
 {
 	//Подготовка данных для освещения
-	for(long i = 0; i < numObjects; i++)
+	for(size_t i = 0; i < numObjects; i++)
 	{
 		//Вершины--------------------------------------------------------------------------------
 		//Индекс в конечном файле
@@ -319,7 +319,7 @@ bool LGeometry::Process(VDX9RENDER * rs, long numLights)
 	min = vrt[0].p;
 	max = vrt[0].p;
 	long lghtpnt = 0;
-	for(long i = 0; i < numVrt; i++)
+	for(size_t i = 0; i < numVrt; i++)
 	{
 		Vertex & v = vrt[i];
 		v.shadow = shadows + lghtpnt;
@@ -350,7 +350,7 @@ void LGeometry::DrawNormals(VDX9RENDER * rs)
 	if(!drawbuf) drawbuf = NEW CVECTOR[1024];
 	rs->SetRenderState(D3DRS_TEXTUREFACTOR, 0xff00ff00);
 	long p = 0;
-	for(long i = 0; i < numVrt; i++)
+	for(size_t i = 0; i < numVrt; i++)
 	{
 		drawbuf[p + 0] = vrt[i].p;
 		drawbuf[p + 1] = vrt[i].p + vrt[i].n;
@@ -372,7 +372,7 @@ void LGeometry::UpdateColors(VDX9RENDER * rs)
 {
 	long lockedVB = -1;
 	uint8_t * pnt = nullptr;
-	for(long i = 0; i < numVrt; i++)
+	for(size_t i = 0; i < numVrt; i++)
 	{
 		if(vrt[i].vbid != lockedVB)
 		{
@@ -402,7 +402,7 @@ void LGeometry::UpdateColors(VDX9RENDER * rs)
 //Протрейсить луч
 float LGeometry::Trace(CVECTOR & src, CVECTOR & dst)
 {
-	for(long i = 0; i < numObjects; i++)
+	for(size_t i = 0; i < numObjects; i++)
 	{
 		float res = object[i].m->Trace(src, dst);
 		if(res <= 1.0f) return res;
@@ -421,7 +421,7 @@ bool LGeometry::Save()
 	bool result = true;
 	long bufSize = 16384;
 	uint32_t * buf = NEW uint32_t[bufSize];
-	for(long i = 0, pnt = 0; i < numObjects; i++)
+	for(size_t i = 0, pnt = 0; i < numObjects; i++)
 	{
 		if(object[i].lBufSize <= 0) continue;
 		//Создаём путь
@@ -455,7 +455,7 @@ bool LGeometry::Save()
 			continue;
 		}
 		long sv = 0;
-		for(long j = 0, n = object[i].lBufSize; j < n; j++)
+		for(size_t j = 0, n = object[i].lBufSize; j < n; j++)
 		{
 			CVECTOR c = vrt[pnt].c*vrt[pnt].mc*255.0f; pnt++;
 			if(c.x < 0.0f) c.x = 0.0f;

@@ -89,7 +89,7 @@ void Pillar::Update(float dltTime)
 	if(phaseX3 > 2.0f*TRND_PI) phaseX3 -= 2.0f*TRND_PI;
 	phaseZ3 += dltTime*(0.28f + 0.2f*sinf(phaseZ1));
 	if(phaseZ3 > 2.0f*TRND_PI) phaseZ3 -= 2.0f*TRND_PI;
-	for(long i = 0; i < TRND_NUMSEC; i++)
+	for(size_t i = 0; i < TRND_NUMSEC; i++)
 	{
 		float kHeight = i/float(TRND_NUMSEC - 1);
 		section[i].x = GetX(kHeight*TRND_HEIGHT);
@@ -99,7 +99,7 @@ void Pillar::Update(float dltTime)
 
 void Pillar::FillVertexBuffer(Vertex * buffer)
 {
-	for(long i = 0; i < TRND_NUMSEC; i++)
+	for(size_t i = 0; i < TRND_NUMSEC; i++)
 	{
 		Section & s = section[i];
 		for(uint16_t j = 0; j < TRND_SEGMENTS; j++, buffer++)
@@ -116,7 +116,7 @@ void Pillar::FillVertexBuffer(Vertex * buffer)
 void Pillar::FillIndexBuffer(uint16_t * buffer)
 {
 	//По секциям
-	for(long i = 0; i < TRND_NUMSEC - 1; i++)
+	for(size_t i = 0; i < TRND_NUMSEC - 1; i++)
 	{
 		uint16_t base = uint16_t(i*TRND_SEGMENTS);
 		uint16_t * buf = buffer + base*2*3;

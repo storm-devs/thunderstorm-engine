@@ -474,9 +474,9 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 	Access.SetVCompiler(this);
 	float TempFloat1;
 	float TempFloat2;
-	long  TempLong1;
-	long  TempLong2;
-	long  TempLong;
+	int32_t  TempLong1;
+	int32_t  TempLong2;
+	int32_t  TempLong;
 	char * pChar;
 	char * pChar2;
 	ENTITY_ID TempEid;
@@ -1876,7 +1876,7 @@ void COMPILER::DumpAttributes(ATTRIBUTES * pA, long level)
 // assume first param - format string
 bool COMPILER::CreateMessage(MESSAGE_SCRIPT * pMs, uint32_t s_off, uint32_t var_offset, bool s2s)
 {
-	long  TempLong1;
+	int32_t  TempLong1;
 	float TempFloat1;
 	ENTITY_ID TempEid;
 	ATTRIBUTES * pA;

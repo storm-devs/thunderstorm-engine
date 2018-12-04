@@ -121,7 +121,7 @@ long ModelArray::CreateModel(const char * modelName, const char * technique, lon
 	}*/
 	if(technique && technique[0])
 	{
-		for(long i = 0; i < 1024; i++)
+		for(size_t i = 0; i < 1024; i++)
 		{
 			NODE * nd = m->GetNode(i);
 			if(!nd) break;
@@ -176,7 +176,7 @@ long ModelArray::FindModel(const char * modelName)
 	//Ищем хэшь значение
 	uint32_t hash = CalcHashString(buf);
 	//Ищем модельку
-	for(long i = 0; i < numModels; i++)
+	for(size_t i = 0; i < numModels; i++)
 	{
 		if(model[i].hash == hash)
 		{
@@ -264,7 +264,7 @@ void ModelArray::SetReflection(long modelIndex, float scale)
 //Анимировать текстурные координаты
 void ModelArray::Update(float dltTime)
 {
-	for(long i = 0; i < numModels; i++)
+	for(size_t i = 0; i < numModels; i++)
 	{
 		if(model[i].slider)
 		{
@@ -373,7 +373,7 @@ void ModelArray::Relection::Restore(MODEL * model, VDX9RENDER * rs)
 void ModelArray::UpdatePath(char * path)
 {
 	long j = 0;
-	for(long i = 0; path[i]; i++)
+	for(size_t i = 0; path[i]; i++)
 	{
 		if(path[i] == '\\')
 		{
@@ -389,7 +389,7 @@ void ModelArray::UpdatePath(char * path)
 //Проверить видимость 2-х точек
 bool ModelArray::VisibleTest(const CVECTOR & p1, const CVECTOR & p2)
 {
-	for(long i = 0; i < numModels; i++)
+	for(size_t i = 0; i < numModels; i++)
 	{
 		if(model[i].isVisible)
 		{
@@ -405,7 +405,7 @@ float ModelArray::Trace(const CVECTOR & src, const CVECTOR & dst)
 {
 	isHavecTrg = false;
 	float k = 2.0f;
-	for(long i = 0; i < numModels; i++)
+	for(size_t i = 0; i < numModels; i++)
 	{
 		if(model[i].isVisible)
 		{
@@ -429,7 +429,7 @@ bool ModelArray::GetCollideTriangle(TRIANGLE & trg)
 
 void ModelArray::Clip(PLANE * p, long numPlanes, CVECTOR & cnt, float rad, bool (* fnc)(const CVECTOR * vtx, long num))
 {
-	for(long i = 0; i < numModels; i++)
+	for(size_t i = 0; i < numModels; i++)
 	{
 		if(model[i].isVisible)
 		{

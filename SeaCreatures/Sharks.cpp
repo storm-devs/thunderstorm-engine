@@ -341,7 +341,7 @@ inline void Sharks::Shark::IslandCollision(ISLAND_BASE * ib, long numPnt, float 
 	float vz = 0.0f;
 	MODEL * mdl = (MODEL *)api->GetEntityPointer(&ib->GetSeabedEID());
 	if(!mdl) return;
-	for(long i = 0; i < numPnt; i++)
+	for(size_t i = 0; i < numPnt; i++)
 	{
 		float x = sinf(i*step);
 		float z = cosf(i*step);
@@ -418,7 +418,7 @@ long Sharks::Shark::GenerateTrack(uint16_t * inds, Vertex * vrt, uint16_t base, 
 	float width = 1.0f*1.5f*k;
 	//Индексы
 	Assert(sizeof(indeces)/sizeof(uint16_t) == 30);
-	for(long i = 0; i < 30; i++) inds[i] = indeces[i] + base;
+	for(size_t i = 0; i < 30; i++) inds[i] = indeces[i] + base;
 	//Вершины
 	CVECTOR s(0.0f, 0.0f, 0.75f);
 	vrt[0].pos = s;
@@ -441,7 +441,7 @@ long Sharks::Shark::GenerateTrack(uint16_t * inds, Vertex * vrt, uint16_t base, 
 	vrt[7].u = 0.0f; vrt[7].v = 1.0f;
 	vrt[8].u = 0.5f; vrt[8].v = 1.0f;
 	vrt[9].u = 1.0f; vrt[9].v = 1.0f;
-	for(long i = 0; i < 10; i++)
+	for(size_t i = 0; i < 10; i++)
 	{
 		vrt[i].pos = mdl->mtx*CVECTOR(vrt[i].pos);
 		vrt[i].pos.y = sb->WaveXZ(vrt[i].pos.x, vrt[i].pos.z) + 0.001f;
@@ -480,7 +480,7 @@ bool Sharks::Init()
 {
 	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	if(!rs) STORM_THROW("No service: dx9render");
-	for(long i = 0; i < numShakes; i++)
+	for(size_t i = 0; i < numShakes; i++)
 		if(!shark[i].Init(0.0f, 0.0f)) return false;
 	//Лаера исполнения
 	char execute[64];
@@ -497,7 +497,7 @@ bool Sharks::Init()
 	//Установим уровни исполнения
 	_CORE_API->LayerAdd(execute, GetID(), eprt);
 	_CORE_API->LayerAdd(realize, GetID(), rprt);
-	for(long i = 0; i < numShakes; i++)
+	for(size_t i = 0; i < numShakes; i++)
 	{
 		_CORE_API->LayerAdd(execute, shark[i].model, emdl);
 		_CORE_API->LayerAdd(realize, shark[i].model, rmdl);
@@ -549,10 +549,10 @@ void Sharks::Execute(uint32_t delta_time)
 	float dltTime = delta_time*0.001f;
 	const long num = numShakes;
 	//Сбросим состояния
-	for(long i = 0; i < num; i++) shark[i].Reset(camPos.x, camPos.z);
+	for(size_t i = 0; i < num; i++) shark[i].Reset(camPos.x, camPos.z);
 	//Разчитаем силы
-	for(long i = 0; i < num - 1; i++)
-		for(long j = i + 1; j < num; j++) shark[i].Repulsion(shark[j]);
+	for(size_t i = 0; i < num - 1; i++)
+		for(size_t j = i + 1; j < num; j++) shark[i].Repulsion(shark[j]);
 	//Учитываем корабли
 	ENTITY_ID id;
 	bool res = _CORE_API->FindClass(&id, nullptr, shipcode);
@@ -567,7 +567,7 @@ void Sharks::Execute(uint32_t delta_time)
 		CVECTOR s = ship->GetBoxsize();
 		float rd2 = (s.x*s.x + s.z*s.z)*3.0f;
 		//Говорим акулам о короблях
-		for(long i = 0; i < num; i++) shark[i].ShipApply(shipPos.x, shipPos.z, rd2);
+		for(size_t i = 0; i < num; i++) shark[i].ShipApply(shipPos.x, shipPos.z, rd2);
 	}
 	//Море
 	SEA_BASE * sb = (SEA_BASE *)_CORE_API->GetEntityPointer(&sea);
@@ -582,7 +582,7 @@ void Sharks::Execute(uint32_t delta_time)
 		_CORE_API->FindClass(&island, "island", 0);
 	}
 	//Расчитываем новые позиции
-	for(long i = 0; i < num; i++) shark[i].Coordination(camPos.x, camPos.z, dltTime, sb, ib);
+	for(size_t i = 0; i < num; i++) shark[i].Coordination(camPos.x, camPos.z, dltTime, sb, ib);
 	//Обрабатываем перископ
 	if(!ib)
 	{
@@ -657,7 +657,7 @@ void Sharks::Realize(uint32_t delta_time)
 	SEA_BASE * sb = (SEA_BASE *)_CORE_API->GetEntityPointer(&sea);
 	if(!sb) return;
 	long num = 0;
-	for(long i = 0; i < numShakes; i++)
+	for(size_t i = 0; i < numShakes; i++)
 	{
 		num += shark[i].GenerateTrack(indeces + num*3, vrt + num, uint16_t(num), sb);
 	}
@@ -674,7 +674,7 @@ void Sharks::Realize(uint32_t delta_time)
 	if(!ib) return;
 	float maxRad = 0.0f;
 	long s = 30;
-	for(long i = 0; i < numShakes; i++)
+	for(size_t i = 0; i < numShakes; i++)
 	{
 		float r = sqrtf(~(shark[i].spos - shark[i].pos));
 		if(r > maxRad) maxRad = r;

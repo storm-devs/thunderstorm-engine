@@ -58,9 +58,9 @@ void LightProcessor::Process()
 			Vertex * vrt = geometry->vrt;
 			long numVrt = geometry->numVrt;
 			long numLights = lights->Num();
-			for(long i = 0; i < numVrt; i++)
+			for(size_t i = 0; i < numVrt; i++)
 			{
-				for(long j = 0; j < numLights; j++)
+				for(size_t j = 0; j < numLights; j++)
 				{
 					if(vrt[i].shadow[j].nrm > 0.0)
 					{
@@ -115,9 +115,9 @@ void LightProcessor::Process()
 		Vertex * vrt = geometry->vrt;
 		long numVrt = geometry->numVrt;
 		long numLights = lights->Num();
-		for(long i = 0; i < numVrt; i++)
+		for(size_t i = 0; i < numVrt; i++)
 		{
-			for(long j = 0; j < numLights; j++)
+			for(size_t j = 0; j < numLights; j++)
 			{
 				vrt[i].shadow[j].v = 0.0f;
 				vrt[i].shadow[j].nrm = 0.0f;
@@ -144,7 +144,7 @@ void LightProcessor::Process()
 	{
 		Vertex * vrt = geometry->vrt;
 		long numVrt = geometry->numVrt;
-		for(long i = 0; i < numVrt; i++) vrt[i].bc = 0.0f;
+		for(size_t i = 0; i < numVrt; i++) vrt[i].bc = 0.0f;
 		window->isResetBlurLight = false;
 		CalcLights();
 	}
@@ -169,10 +169,10 @@ void LightProcessor::UpdateLightsParam()
 	float cs, att;
 	float dst;
 	CVECTOR nrm;
-	for(long i = 0; i < numVrt; i++)
+	for(size_t i = 0; i < numVrt; i++)
 	{
 		Vertex & v = vrt[i];
-		for(long j = 0; j < numLights; j++)
+		for(size_t j = 0; j < numLights; j++)
 		{
 			Light & lt = ls[j];
 			Shadow & swh = v.shadow[j];
@@ -226,7 +226,7 @@ void LightProcessor::UpdateLightsParam()
 void LightProcessor::CalcShadows()
 {
 	//Вычисляем затенения
-	for(long i = 0; i < LIGHTPRC_TRACE_NUM && shadowTriangle < geometry->numTrg; i++, shadowTriangle++) ApplyTriangleShadows(geometry->trg[shadowTriangle]);
+	for(size_t i = 0; i < LIGHTPRC_TRACE_NUM && shadowTriangle < geometry->numTrg; i++, shadowTriangle++) ApplyTriangleShadows(geometry->trg[shadowTriangle]);
 	if(shadowTriangle == geometry->numTrg) shadowTriangle = -1;
 }
 
@@ -236,7 +236,7 @@ void LightProcessor::ApplyTriangleShadows(Triangle & t)
 	Lights & ls = *lights;
 	long num = ls.Num();
 	Vertex * vrt = geometry->vrt;
-	for(long i = 0; i < num; i++)
+	for(size_t i = 0; i < num; i++)
 	{
 		//Нужно ли трейсить
 		if(ls[i].type == Light::t_none || ls[i].type == Light::t_amb) continue;
@@ -312,7 +312,7 @@ void LightProcessor::SmoothShadows()
 	Lights & ls = *lights;
 	long num = ls.Num();
 	Vertex * vrt = geometry->vrt;
-	for(long i = 0; i < LIGHTPRC_SMOOTH_NUM && smoothVertex < geometry->numVrt; i++, smoothVertex++)
+	for(size_t i = 0; i < LIGHTPRC_SMOOTH_NUM && smoothVertex < geometry->numVrt; i++, smoothVertex++)
 	{
 		Vertex & v = vrt[smoothVertex];
 		//Ищем окружающие вершины
@@ -353,7 +353,7 @@ void LightProcessor::SmoothShadows()
 			double sm = 0.0;
 			double kNorm = 0.0f;
 			//По всем вершинам
-			for(long j = 0; j < numVerts; j++)
+			for(size_t j = 0; j < numVerts; j++)
 			{
 				if(lookNorm && (v.n | verts[j].v->n) <= 0.6f) continue;
 				double k = sqrt(verts[j].r2)*kSmoothRad;
@@ -383,7 +383,7 @@ void LightProcessor::BlurLight()
 	double blurRad2 = blurRad*blurRad;
 	Vertex * vrt = geometry->vrt;
 	long numVrt = geometry->numVrt;
-	for(long i = 0; i < LIGHTPRC_BLUR_NUM && blurVertex < numVrt; i++, blurVertex++)
+	for(size_t i = 0; i < LIGHTPRC_BLUR_NUM && blurVertex < numVrt; i++, blurVertex++)
 	{
 		Vertex & v = vrt[blurVertex];
 		//Ищем окружающие вершины
@@ -398,7 +398,7 @@ void LightProcessor::BlurLight()
 		step = 1;
 		double r = 0.0, g = 0.0, b = 0.0, sum = 0.0;
 		//По всем вершинам
-		for(long j = 0; j < numVerts; j += step)
+		for(size_t j = 0; j < numVerts; j += step)
 		{
 			Vertex & vs = *verts[j].v;
 			if(vs.c.x + vs.c.y + vs.c.z <= 0.0f) continue;
@@ -446,7 +446,7 @@ void LightProcessor::CalcLights(long lit, bool isCos, bool isAtt, bool isSdw)
 	Vertex * vrt = geometry->vrt;
 	float kBlur = window->kBlur;
 	CVECTOR c, nrm;
-	for(long i = 0; i < num; i++)
+	for(size_t i = 0; i < num; i++)
 	{
 		if(!ls[i].isOn) continue;
 		if(ls[i].type != Light::t_sun && ls[i].type != Light::t_sky && ls[i].type != Light::t_point) continue;
@@ -461,7 +461,7 @@ void LightProcessor::CalcLights(long lit, bool isCos, bool isAtt, bool isSdw)
 		c = v.bc*(kBlur*kBlur*2.0f);
 		float sw;
 		double vl;
-		for(long i = 0; i < num; i++)
+		for(size_t i = 0; i < num; i++)
 		{
 			Light & lt = ls[i];
 			if(!lt.isOn) continue;

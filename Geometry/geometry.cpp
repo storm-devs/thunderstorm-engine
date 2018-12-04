@@ -187,7 +187,7 @@ GEOS::ID GEOM_SERVICE_R::OpenFile(const char *fname)
 	if(RenderService) RenderService->ProgressView();
 	HANDLE fl = _CORE_API->fio->_CreateFile(fname,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 	if(fl==INVALID_HANDLE_VALUE)
-		if(strcmpi(&fname[strlen(fname)-4], ".col")==0);//	_CORE_API->Trace("geometry::can't open file %s", fname);
+		if(_strcmpi(&fname[strlen(fname)-4], ".col")==0);//	_CORE_API->Trace("geometry::can't open file %s", fname);
 		else	throw "can't open geometry file";
 	return (GEOS::ID)fl;
 }
@@ -221,7 +221,7 @@ void GEOM_SERVICE_R::free(void *ptr)
 GEOS::ID GEOM_SERVICE_R::CreateTexture(const char *fname)
 {
 	char tex[256];
-	if(strcmpi(fname, "shadow.tga")==0)
+	if(_strcmpi(fname, "shadow.tga")==0)
 	{
 		sprintf(tex, "lighting\\%s\\%s", lightPath, fname);
 	}

@@ -29,7 +29,7 @@ Debris::Debris(Pillar & _pillar) : pillar(_pillar)
 
 Debris::~Debris()
 {
-	for(long i = 0; i < numModels; i++) _CORE_API->DeleteEntity(mdl[i].mdl->GetID());
+	for(size_t i = 0; i < numModels; i++) _CORE_API->DeleteEntity(mdl[i].mdl->GetID());
 }
 
 void Debris::Init()
@@ -85,7 +85,7 @@ void Debris::Update(float dltTime)
 	}
 	//Полёт
 	float h = pillar.GetHeight();
-	for(long i = 0; i < flyCounter; i++)
+	for(size_t i = 0; i < flyCounter; i++)
 	{
 		//Обновляем позицию по высоте
 		fly[i].ay += dltTime*fly[i].maxSpeed;
@@ -122,7 +122,7 @@ void Debris::Update(float dltTime)
 
 void Debris::Draw(VDX9RENDER * rs)
 {
-	for(long i = 0; i < flyCounter; i++)
+	for(size_t i = 0; i < flyCounter; i++)
 	{
 		//Позиция модельки
 		CVECTOR pos;
@@ -174,8 +174,8 @@ void Debris::AddModel(const char * modelName, float prt, float spd)
 void Debris::NormalazedModels()
 {
 	float sum = 0.0f;
-	for(long i = 0; i < numModels; i++) sum += mdl[i].prt;
-	for(long i = 0; i < numModels; i++) mdl[i].prt /= sum;
+	for(size_t i = 0; i < numModels; i++) sum += mdl[i].prt;
+	for(size_t i = 0; i < numModels; i++) mdl[i].prt /= sum;
 }
 
 MODEL * Debris::SelectModel(float & maxSpd)

@@ -534,7 +534,7 @@ long HELPCHOOSER::GetRectangleFromPos(float x, float y)
 	if(m_pRectList== nullptr) return m_nCurRect;
 	x /= m_fScreenWidth;
 	y /= m_fScreenHeight;
-	for(long i=0; i<m_nRectQ; i++)
+	for(size_t i=0; i<m_nRectQ; i++)
 	{
 		if( m_pRectList[i].left<=x && m_pRectList[i].right>=x &&
 			m_pRectList[i].top<=y && m_pRectList[i].bottom>=y )

@@ -160,7 +160,7 @@ void PtcData::SFLB_PotectionLoad()
 	if(hdr.ver == PTC_VERSION) materials = (PtcMaterials *)(table + lineSize*numTriangles);
 	//Ищим среднюю точку
 	middle = 0.0f;
-	for(long i = 0; i < numVerteces; i++)
+	for(size_t i = 0; i < numVerteces; i++)
 	{
 		middle.x += vertex[i].x;
 		middle.y += vertex[i].y;
@@ -182,7 +182,7 @@ long PtcData::FindNode(const CVECTOR & pos, float & y)
 	long node = -1;
 	float h = 0.0f;
 	float dist = -1.0f;
-	for(long i = 0; i < m.size; i++)
+	for(size_t i = 0; i < m.size; i++)
 	{
 		PtcTriangle & trg = triangle[indeces[m.start + i]];
 		//Проверяем поподание в треугольник
@@ -574,7 +574,7 @@ float PtcData::Trace(const CVECTOR & s, const CVECTOR & d)
 			if(xi < 0 || xi >= w) continue;
 			PtcMap & m = map[zi*w + xi];
 			uint16_t * ids = indeces + m.start;
-			for(long i = 0; i < m.size; i++)
+			for(size_t i = 0; i < m.size; i++)
 			{
 				float kn = Trace(triangle[ids[i]], s, d);
 				if(kn < k) k = kn;
@@ -624,7 +624,7 @@ void PtcData::FindForce(long curNode, CVECTOR & force)
 	force = 0.0f;
 	if(curNode < 0 || curNode >= numTriangles) return;
 	short * nb = triangle[curNode].nb;
-	for(long i = 0; i < 3; i++)
+	for(size_t i = 0; i < 3; i++)
 	{
 		if(nb[i] >= 0) continue;
 		//Нормаль к ребру
@@ -676,7 +676,7 @@ PtcData::Triangle * PtcData::GetTriangles(float x, float z, float sx, float sz, 
 			if(xi < 0 || xi >= w) continue;
 			PtcMap & m = map[zi*w + xi];
 			uint16_t * ids = indeces + m.start;
-			for(long i = 0; i < m.size; i++) AddClTriangle(ids[i]);
+			for(size_t i = 0; i < m.size; i++) AddClTriangle(ids[i]);
 		}
 	}
 	num = numClTriangles;
@@ -686,7 +686,7 @@ PtcData::Triangle * PtcData::GetTriangles(float x, float z, float sx, float sz, 
 //Добавить треугольник в буфер
 inline void PtcData::AddClTriangle(long i)
 {
-	for(long j = 0; j < numClTriangles; j++)
+	for(size_t j = 0; j < numClTriangles; j++)
 		if(ctriangle[j].index == i) return;
 	if(numClTriangles >= maxClTriangles)
 	{
@@ -727,7 +727,7 @@ void PtcData::DebugDraw(VDX9RENDER * rs, float dltTime)
 	if(!dbgTriangles)
 	{
 		dbgTriangles = NEW DbgVertex[numTriangles*3];
-		for(long i = 0; i < numTriangles; i++)
+		for(size_t i = 0; i < numTriangles; i++)
 		{
 			dbgTriangles[i*3 + 0].x = vertex[triangle[i].i[0]].x;
 			dbgTriangles[i*3 + 0].y = vertex[triangle[i].i[0]].y;
@@ -746,9 +746,9 @@ void PtcData::DebugDraw(VDX9RENDER * rs, float dltTime)
 	if(!dbgEdges)
 	{
 		dbgEdges = NEW DbgVertex[numTriangles*3*2];
-		for(long i = 0; i < numTriangles; i++)
+		for(size_t i = 0; i < numTriangles; i++)
 		{
-			for(long j = 0; j < 3; j++)
+			for(size_t j = 0; j < 3; j++)
 			{
 				float y = 0.05f;
 				if(triangle[i].nb[j] >= 0 && triangle[i].nb[j] < i) y += 0.01f;

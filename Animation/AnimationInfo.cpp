@@ -18,7 +18,7 @@
 AnimationInfo::AnimationInfo(const char * animationName)
 {
 	Assert(strlen(animationName) < 64);
-	strcpy(name, animationName);
+	strcpy_s(name, animationName);
 	bone = nullptr;
 	numBones = 0;
 	action = nullptr;
@@ -33,7 +33,7 @@ AnimationInfo::~AnimationInfo()
 	if(bone) delete [] bone;
 	if(action)
 	{
-		for(long i = 0; i < numActions; i++)
+		for(size_t i = 0; i < numActions; i++)
 				if(action[i]) delete action[i];
 		delete action;
 	}
@@ -53,7 +53,7 @@ ActionInfo * AnimationInfo::AddAction(const char * anctionName, long startframe,
 {
 	Assert(anctionName);
 	//Ищем повторение
-	for(long i = 0; i < numActions; i++)
+	for(size_t i = 0; i < numActions; i++)
 		if(action[i][0] == anctionName) return nullptr;
 	//Всё нормально - новое действие
 	numActions++;
@@ -75,7 +75,7 @@ bool AnimationInfo::operator == (const char * animationName)
 //Найти действие по имени
 ActionInfo * AnimationInfo::FindAction(const char * actionName)
 {
-	for(long i = 0; i < numActions; i++)
+	for(size_t i = 0; i < numActions; i++)
 		if(action[i][0] == actionName) return action[i];
 	return nullptr;
 }

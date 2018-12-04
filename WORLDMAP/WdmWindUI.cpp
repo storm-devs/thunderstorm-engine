@@ -149,7 +149,7 @@ void WdmWindUI::LRender(VDX9RENDER * rs)
 	FillRectUV(buf, 0.0f, 0.0f, 1.0f, 1.0f);
 	FillRectUV1(buf, -0.5f, 0.0f, 1.0f, 1.0f);
 	CMatrix rot(0.0f, 1.8f*(1.0f - widForce), 0.0f, 0.5f, 0.0f, 0.0f);
-	for(long i = 0; i < 6; i++)
+	for(size_t i = 0; i < 6; i++)
 	{
 		CVECTOR v(buf[i].tu1, 0.0f, buf[i].tv1);
 		CVECTOR vrot = rot*v;

@@ -32,7 +32,7 @@ CVECTOR Blots::dir, Blots::normal;
 
 Blots::Blots()
 {
-	for(long i = 0; i < BLOTS_MAX; i++) blot[i].isUsed = 0;
+	for(size_t i = 0; i < BLOTS_MAX; i++) blot[i].isUsed = 0;
 	rs = nullptr;
 	textureID = -1;
 	useVrt = 0;
@@ -74,9 +74,9 @@ uint32_t _cdecl Blots::ProcessMessage(MESSAGE & message)
 		{
 			blotsInfo = pCharAttributeRoot->CreateSubAClass(pCharAttributeRoot, "ship.blots");
 			char buf[32];
-			sprintf(buf, "%i", BLOTS_MAX);
+			sprintf_s(buf, "%i", BLOTS_MAX);
 			blotsInfo->SetValue(buf);
-			for(long i = 0; i < BLOTS_MAX; i++) LoadBlot(i);
+			for(size_t i = 0; i < BLOTS_MAX; i++) LoadBlot(i);
 		}
 		break;
 	case MSG_BLOTS_HIT:
@@ -226,7 +226,7 @@ void Blots::SetNodesCollision(NODE * n, bool isSet)
 		n->flags |= n->flags >> 24;
 		n->flags &= 0x00ffffff;
 	}
-	for(long i = 0 ; i < n->nnext; i++) SetNodesCollision(n->next[i], isSet);
+	for(size_t i = 0 ; i < n->nnext; i++) SetNodesCollision(n->next[i], isSet);
 }
 
 //Сохранить параметры дыр
@@ -235,7 +235,7 @@ void Blots::SaveBlot(long i)
 	if(!blotsInfo) return;
 	//Имя атрибута
 	char name[16];
-	sprintf(name, "b%.3i", i);
+	sprintf_s(name, "b%.3i", i);
 	if(blot[i].isUsed)
 	{
 		ATTRIBUTES * blt = blotsInfo->CreateSubAClass(blotsInfo, name);
@@ -258,7 +258,7 @@ void Blots::LoadBlot(long i)
 	if(!blotsInfo) return;
 	//Имя атрибута
 	char name[16];
-	sprintf(name, "b%.3i", i);
+	sprintf_s(name, "b%.3i", i);
 	ATTRIBUTES * blt = blotsInfo->FindAClass(blotsInfo, name);
 	if(blt)
 	{
@@ -308,7 +308,7 @@ void Blots::Realize(uint32_t delta_time)
 	rs->SetTransform(D3DTS_WORLD, m->mtx);
 	rs->TextureSet(0, textureID);
 	//Рисуем все добавленные пятна
-	for(long i = 0; i < BLOTS_MAX; i++)
+	for(size_t i = 0; i < BLOTS_MAX; i++)
 	{
 		//Пропустим неиспользуемых
 		if(!blot[i].isUsed) continue;
@@ -397,7 +397,7 @@ void Blots::Realize(uint32_t delta_time)
 			long numVrt = blot[i].numTrgs*3;
 			//Массив
 			Vertex * v = vrt + blot[i].startIndex;
-			for(long j = 0; j < numVrt; j++) v[j].c = color;
+			for(size_t j = 0; j < numVrt; j++) v[j].c = color;
 		}
 	}
 	//Рисуем

@@ -185,7 +185,7 @@ private:
 	float m_fMinGrassLod;
 	
 	// boal параметры травы
-	long isGrassLightsOn;
+	int32_t isGrassLightsOn;
 };
 
 #endif

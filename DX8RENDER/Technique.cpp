@@ -1481,7 +1481,7 @@ void CTechnique::ClearSRS_STSS_bUse()
 
 void CTechnique::DecodeFiles(char *sub_dir)
 {
-	uint32_t dwRDTSC;
+	uint64_t dwRDTSC;
 	RDTSC_B(dwRDTSC);
 	pPassStorage = NEW uint32_t[16384];
 

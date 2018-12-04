@@ -1339,7 +1339,7 @@ void CXI_TABLE::RecalculateLineHeights()
 		nY += m_anRowsHeights[n++];
 
 	// берем реальные размеры строк
-	for(long i=0; i<m_aLine.size(); i++,n++)
+	for(size_t i=0; i<m_aLine.size(); i++,n++)
 	{
 		if( n < m_anRowsHeights.size() )
 			m_anRowsHeights[n] = m_aLine[i]->GetLineHeight();

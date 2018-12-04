@@ -16,7 +16,7 @@ CXI_GLOWER::~CXI_GLOWER()
 void CXI_GLOWER::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	m_rs->TextureSet(0,m_texID);
-	for(long i=0; i<m_nQuantity; i++)
+	for(size_t i=0; i<m_nQuantity; i++)
 	{
 		if(m_glows[i].action!=GLOW_ACTION_NONE)
 		{

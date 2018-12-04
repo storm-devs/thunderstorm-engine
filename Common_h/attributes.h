@@ -33,8 +33,8 @@ class ATTRIBUTES
 		va_list args;
 
 		va_start(args,data_PTR);
-		_vsnprintf(xBuffer_4k,sizeof(xBuffer_4k) - 4,data_PTR,args);
-		strcat(xBuffer_4k,"\x0d\x0a");
+		_vsnprintf_s(xBuffer_4k,sizeof(xBuffer_4k) - 4,data_PTR,args);
+		strcat_s(xBuffer_4k,"\x0d\x0a");
 		uint32_t bytes;
 		WriteFile(file_h,xBuffer_4k,strlen(xBuffer_4k),(LPDWORD)&bytes,nullptr);
 		va_end(args);
@@ -124,8 +124,9 @@ public:
 			return;
 		}
 
-		Attribute = (char *)RESIZE(Attribute,GetLen(strlen(_val)+1));
-		strcpy(Attribute,_val);
+		size_t alignedLen = GetLen(strlen(_val) + 1);
+		Attribute = (char *)RESIZE(Attribute,alignedLen);
+		strcpy_s(Attribute,alignedLen,_val);
 
 		if (bBreak) pVStringCodec->VariableChanged();
 	};
@@ -235,7 +236,7 @@ public:
 	BOOL SetAttributeUseDword(const char * name, uint32_t val)
 	{
 		char buffer[128];
-		ultoa(val,buffer,10);
+		_ultoa_s(val,buffer,10);
 		if (name)
 			return SetAttribute(name,buffer);
 		else
@@ -246,7 +247,7 @@ public:
 	BOOL SetAttributeUseFloat(const char * name, FLOAT val)
 	{
 		char buffer[128];
-		sprintf(buffer, "%g", val);
+		sprintf_s(buffer, "%g", val);
 		if (name)
 			return SetAttribute(name,buffer);
 		else
@@ -268,8 +269,9 @@ public:
 		if(attribute)
 		{
 			len = strlen(attribute);
-			pAttributes[Attributes_num]->Attribute = NEW char[GetLen(len + 1)];
-			strcpy(pAttributes[Attributes_num]->Attribute,attribute);
+			size_t alignedLen = GetLen(len + 1);
+			pAttributes[Attributes_num]->Attribute = NEW char[alignedLen];
+			strcpy_s(pAttributes[Attributes_num]->Attribute,alignedLen,attribute);
 		}
 		else pAttributes[Attributes_num]->Attribute = nullptr;
 		Attributes_num++;
@@ -413,8 +415,9 @@ public:
 		if(attribute)
 		{
 			len = strlen(attribute);
-			pAttributes[Attributes_num]->Attribute = NEW char[GetLen(len + 1)];
-			strcpy(pAttributes[Attributes_num]->Attribute,attribute);
+			size_t alignedLen = GetLen(len + 1);
+			pAttributes[Attributes_num]->Attribute = NEW char[alignedLen];
+			strcpy_s(pAttributes[Attributes_num]->Attribute,alignedLen,attribute);
 		} else pAttributes[Attributes_num]->Attribute = nullptr;
 		Attributes_num++;
 		return pAttributes[Attributes_num-1];
@@ -448,8 +451,9 @@ public:
 			{
 				if(attribute)
 				{
-					pAttributes[n]->Attribute = (char *)RESIZE(pAttributes[n]->Attribute, GetLen(len + 1));
-					strcpy(pAttributes[n]->Attribute,attribute);
+					size_t alignedLen = GetLen(len + 1);
+					pAttributes[n]->Attribute = (char *)RESIZE(pAttributes[n]->Attribute,alignedLen);
+					strcpy_s(pAttributes[n]->Attribute,alignedLen,attribute);
 				}
 				else
 				{
@@ -470,8 +474,9 @@ public:
 		pAttributes[Attributes_num]->nNameCode = name_code;
 		if(attribute)
 		{
-			pAttributes[n]->Attribute = NEW char[GetLen(len + 1)];
-			strcpy(pAttributes[n]->Attribute,attribute);
+			size_t alignedLen = GetLen(len + 1);
+			pAttributes[n]->Attribute = NEW char[alignedLen];
+			strcpy_s(pAttributes[n]->Attribute, alignedLen, attribute);
 		}
 		else pAttributes[Attributes_num]->Attribute = nullptr;
 		Attributes_num++;

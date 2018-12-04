@@ -239,7 +239,7 @@ inline long Triangle::NextIndex(long index)
 inline bool Triangle::FindClosestPoint(const Vector & trgNormal, Vector & pointOnPlane) const
 {
 	const Vector * cPoint = nullptr;
-	for(long i = 0; i < 3; i++)
+	for(size_t i = 0; i < 3; i++)
 	{
 		//Ребро
 		const Vector & ps = p[i];

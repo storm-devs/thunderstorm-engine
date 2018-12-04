@@ -155,13 +155,13 @@ void CreateSphere()
 	CVECTOR light = !CVECTOR(0.0f, 0.0f, 1.0f);
 	float kColor;
 	//заполняем вершины
-	for (long i = 0, t = 0; i < a2; i++)
+	for (size_t i = 0, t = 0; i < a2; i++)
 	{
 		float r1 = sinf(myPI*i / float(a2));
 		float y1 = cosf(myPI*i / float(a2));
 		float r2 = sinf(myPI*(i + 1) / float(a2));
 		float y2 = cosf(myPI*(i + 1) / float(a2));
-		for (long j = 0; j < a1; j++)
+		for (size_t j = 0; j < a1; j++)
 		{
 			float x1 = sinf(2.0f*myPI*j / float(a1));
 			float z1 = cosf(2.0f*myPI*j / float(a1));
@@ -348,7 +348,7 @@ bool  DX9RENDER::Init()
 {
 	GUARD(DX9RENDER::Init)
 		char str[256];
-	for (long i = 0; i<MAX_STEXTURES; i++) Textures[i].ref = NULL;
+	for (size_t i = 0; i<MAX_STEXTURES; i++) Textures[i].ref = NULL;
 
 	d3d = nullptr;
 	d3d9 = nullptr;
@@ -430,7 +430,7 @@ bool  DX9RENDER::Init()
 		// videocapture section
 		fFixedFPS = ini->GetFloat("VideoCapture", "FPS", 25); if (fFixedFPS == 0.0f) fFixedFPS = 25.0f;
 		long iCapBuffers = ini->GetLong("VideoCapture", "Buffers", 0);
-		for (long i = 0; i<iCapBuffers; i++)
+		for (size_t i = 0; i<iCapBuffers; i++)
 			aCaptureBuffers.push_back(NEW char[sizeof(uint32_t) * screen_size.x * screen_size.y]);
 
 		delete ini;
@@ -1189,7 +1189,7 @@ bool DX9RENDER::DX9EndScene()
 	{
 		CVECTOR * pV;
 		pDropConveyorVBuffer->Lock(0, 0, (VOID**)&pV, 0);
-		for (long i = 0; i<2; i++)
+		for (size_t i = 0; i<2; i++)
 			pV[i] = CVECTOR(1e6f, 1e6f, 1e6f);
 		pDropConveyorVBuffer->Unlock();
 		d3d9->SetStreamSource(0, pDropConveyorVBuffer, 0, sizeof(CVECTOR));
@@ -1697,7 +1697,7 @@ bool DX9RENDER::TextureSet(long stage, long texid)
 	/*/sort textures
 	for(t=0; t<t2l; t++)
 	for(long tt=t; tt<t2l; tt++)
-	if(strcmpi(Textures[tex2load[tt]].name, Textures[tex2load[t]].name)<0)
+	if(_strcmpi(Textures[tex2load[tt]].name, Textures[tex2load[t]].name)<0)
 	{
 	int ttemp = tex2load[t];
 	tex2load[t] = tex2load[tt];
@@ -3779,7 +3779,7 @@ void DX9RENDER::ProgressView()
 		uint32_t color;
 		float u, v;
 	} v[4];
-	for (long i = 0; i < 4; i++)
+	for (size_t i = 0; i < 4; i++)
 	{
 		v[i].z = 0.5;
 		v[i].rhw = 2.0;
@@ -3797,7 +3797,7 @@ void DX9RENDER::ProgressView()
 	v[2].u = 0.0f; v[2].v = 1.0f;
 	v[3].u = 1.0f; v[3].v = 1.0f;
 	TextureSet(0, backTexture);
-	if (backTexture < 0) for (long i = 0; i < 4; i++) v[i].color = 0;
+	if (backTexture < 0) for (size_t i = 0; i < 4; i++) v[i].color = 0;
 	if (backTexture >= 0 && progressTipsTexture >= 0)
 	{
 		TextureSet(1, progressTipsTexture);
@@ -3806,7 +3806,7 @@ void DX9RENDER::ProgressView()
 	else {
 		DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1, 2, v, sizeof(v[0]), "ProgressBackTech");
 	}
-	if (backTexture < 0) for (long i = 0; i < 4; i++) v[i].color = 0xffffffff;
+	if (backTexture < 0) for (size_t i = 0; i < 4; i++) v[i].color = 0xffffffff;
 	//Анимированный объект
 	CVECTOR pos(vp.Width*progressFramesPosX, vp.Height*progressFramesPosY, 0.0f);
 	CVECTOR size(vp.Width*progressFramesWidth, vp.Width*progressFramesHeight*m_fHeightDeformator, 0.0f);

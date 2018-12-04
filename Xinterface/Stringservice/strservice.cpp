@@ -489,7 +489,7 @@ long STRSERVICE::GetStringNum(const char* stringName)
 	GUARD(long STRSERVICE::GetStringNum(const char* stringName))
 
 	if(stringName!= nullptr)
-		for(long i=0; i<m_nStringQuantity; i++)
+		for(size_t i=0; i<m_nStringQuantity; i++)
 			if( !_stricmp(m_psStrName[i],stringName) )
 				return i;
 	return -1L;
@@ -789,7 +789,7 @@ uint32_t __cdecl _Language_OpenFile(VS_STACK * pS)
 uint32_t __cdecl _Language_CloseFile(VS_STACK * pS)
 {
 	VDATA * pLngFileID = (VDATA*)pS->Pop();	if (!pLngFileID) return IFUNCRESULT_FAILED;
-	long nLngFileID=-1;	pLngFileID->Get(nLngFileID);
+	int32_t nLngFileID=-1;	pLngFileID->Get(nLngFileID);
 
 	g_StringServicePointer->CloseUsersStringFile(nLngFileID);
 
@@ -803,7 +803,7 @@ uint32_t __cdecl _Language_ConvertString(VS_STACK * pS)
 	char * strInStr=nullptr;	pInStr->Get(strInStr);
 
 	VDATA * pLngFileID = (VDATA*)pS->Pop();	if (!pLngFileID) return IFUNCRESULT_FAILED;
-	long nLngFileID=-1;	pLngFileID->Get(nLngFileID);
+	int32_t nLngFileID=-1;	pLngFileID->Get(nLngFileID);
 
 	char * strOutStr = g_StringServicePointer->TranslateFromUsers(nLngFileID,strInStr);
 
@@ -924,7 +924,7 @@ uint32_t __cdecl _SetMouseSensitivity(VS_STACK * pS)
 uint32_t __cdecl _ControlMakeInvert(VS_STACK * pS)
 {
 	VDATA * pControlFlag = (VDATA*)pS->Pop();	if (!pControlFlag) return IFUNCRESULT_FAILED;
-	long nControlFlag = 0;	pControlFlag->Get(nControlFlag);
+	int32_t nControlFlag = 0;	pControlFlag->Get(nControlFlag);
 
 	VDATA * pControlName = (VDATA*)pS->Pop();	if (!pControlName) return IFUNCRESULT_FAILED;
 	char * sCntrlName = nullptr;	pControlName->Get(sCntrlName);

@@ -165,7 +165,7 @@ void WdmEnemyShip::FindShipsForce()
 	sx = 0.0f;
 	sz = 0.0f;
 	WdmShip ** s = wdmObjects->ships;
-	for(long i = 0; i < wdmObjects->numShips; i++)
+	for(size_t i = 0; i < wdmObjects->numShips; i++)
 	{
 		if(!s[i]) continue;
 		if(s[i] == this) continue;
@@ -339,7 +339,7 @@ bool WdmEnemyShip::GeneratePosition(float objRadius, float brnDltAng, float & x,
 	float psay = ((WdmEnemyShip *)wdmObjects->playerShip)->ay;
 	//Поля возможных вариантов
 	uint8_t field[32];
-	for(long i = 0; i < 32; i++) field[i] = 0;
+	for(size_t i = 0; i < 32; i++) field[i] = 0;
 	//Попытки расстановок
 	while(true)
 	{

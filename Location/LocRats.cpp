@@ -54,7 +54,7 @@ uint32_t _cdecl LocRats::ProcessMessage(MESSAGE & message)
 	Location * location = (Location *)_CORE_API->GetEntityPointer(&loc);
 	if(!location) return 0;
 	//Заводим крыс
-	for(long i = 0; i < num; i++) rat[i].Init(location);
+	for(size_t i = 0; i < num; i++) rat[i].Init(location);
 	return 1;
 }
 
@@ -67,7 +67,7 @@ void LocRats::Execute(uint32_t delta_time)
 void LocRats::Realize(uint32_t delta_time)
 {
 	float dltTime = delta_time*0.001f;
-	for(long i = 0; i < num; i++) rat[i].Update(dltTime);
+	for(size_t i = 0; i < num; i++) rat[i].Update(dltTime);
 
 }
 

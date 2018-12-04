@@ -7,6 +7,7 @@
 #ifndef _Matrix_h_
 #define _Matrix_h_
 
+#include <cstddef>
 #include "Vector4.h"
 #include "Plane.h"
 
@@ -1121,7 +1122,7 @@ inline Matrix & Matrix::InverseWhithScale()
 		m[2][1] = float(det*mtmp[2][1]);
 		m[2][2] = float(det*mtmp[2][2]);
 	}else{
-		for(long i = 0; i < 16; i++) matrix[i] = 0.0f;
+		for(size_t i = 0; i < 16; i++) matrix[i] = 0.0f;
 	}
 	//Позиция
 	pos = -(MulNormal(pos));

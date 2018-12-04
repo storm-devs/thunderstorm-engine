@@ -73,7 +73,7 @@ Window::~Window()
 	if(rs && font != FONT_DEFAULT) rs->UnloadFont("Lighter");
 	if(list)
 	{
-		for(long i = 0; i < numElements; i++) delete list[i].name;
+		for(size_t i = 0; i < numElements; i++) delete list[i].name;
 		delete list;
 	}
 }
@@ -167,8 +167,8 @@ void Window::InitList(Lights & ls)
 	list[6].name = NEW char[strlen(str) + 1];
 	strcpy(list[6].name, str);
 	list[6].type = ListElement::t_savelight;
-	for(long i = 0; i < maxSize; i++) ls[i].isMark = false;
-	for(long i = 0; i < maxSize; i++)
+	for(size_t i = 0; i < maxSize; i++) ls[i].isMark = false;
+	for(size_t i = 0; i < maxSize; i++)
 	{
 		if(ls[i].isMark) continue;
 		switch(ls[i].type)
@@ -991,7 +991,7 @@ void Window::SavePreset(long prs)
 	if(!ini) return;
 	char sect[32];
 	sprintf(sect, "prs%i", prs);
-	for(long i = 0; i < numElements; i++)
+	for(size_t i = 0; i < numElements; i++)
 	{
 		switch(list[i].type)
 		{
@@ -1053,7 +1053,7 @@ void Window::LoadPreset(long prs)
 	if(!ini) return;
 	char sect[32];
 	sprintf(sect, "prs%i", prs);
-	for(long i = 0; i < numElements; i++)
+	for(size_t i = 0; i < numElements; i++)
 	{
 		switch(list[i].type)
 		{
@@ -1113,14 +1113,14 @@ char * Window::GenerateName(const char * f, const char * n)
 {
 	strcpy(stringBuffer, f);
 	strcat(stringBuffer, n);
-	for(long i = 0; stringBuffer[i]; i++)
+	for(size_t i = 0; stringBuffer[i]; i++)
 		if(stringBuffer[i] == ' ') stringBuffer[i] = '_';
 	return stringBuffer;
 }
 
 void Window::UpdateColors()
 {
-	for(long i = 0; i < numElements; i++)
+	for(size_t i = 0; i < numElements; i++)
 	{
 		switch(list[i].type)
 		{

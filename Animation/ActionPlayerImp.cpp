@@ -295,7 +295,7 @@ void ActionPlayerImp::CopyState(ActionPlayerImp & from)
 	//Проигрывать зацикленно
 	isLoop = from.isLoop;
 	//Маска для свершившихся событий
-	for(long i = 0; i < ACTIONPLAYEREVENTFLAGS; i++)
+	for(size_t i = 0; i < ACTIONPLAYEREVENTFLAGS; i++)
 		eventsMask[i] = from.eventsMask[i];
 	//Коэфициент блендинга
 	kBlend = from.kBlend;
@@ -408,7 +408,7 @@ void ActionPlayerImp::CheckEvents()
 {
 	if(!action) return;
 	long num = action->GetNumEvents();
-	for(long i = 0; i < num; i++)
+	for(size_t i = 0; i < num; i++)
 	{
 		long mask = 1 << (i & 31);
 		if(eventsMask[i >> 5] & mask) continue;
@@ -424,6 +424,6 @@ void ActionPlayerImp::CheckEvents()
 //Сброс флажков произошедших событий
 void ActionPlayerImp::ResetEventsMask()
 {
-	for(long i = 0; i < ACTIONPLAYEREVENTFLAGS; i++) eventsMask[i] = 0;
+	for(size_t i = 0; i < ACTIONPLAYEREVENTFLAGS; i++) eventsMask[i] = 0;
 }
 

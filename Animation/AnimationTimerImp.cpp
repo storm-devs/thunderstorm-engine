@@ -19,7 +19,7 @@
 AnimationTimerImp::AnimationTimerImp()
 {
 	ani = nullptr;
-	for(long i = 0; i < ANITM_PLAYERSMAX; i++)
+	for(size_t i = 0; i < ANITM_PLAYERSMAX; i++)
 	{
 		playersMask[i] = 0;
 		inverseMask[i] = 0;
@@ -97,7 +97,7 @@ void AnimationTimerImp::ResetTimer()
 	curTime = 0.0f;
 	kTime = 0.0f;
 	value = 0.0f;
-	for(long i = 0; i < ANITM_PLAYERSMAX; i++)
+	for(size_t i = 0; i < ANITM_PLAYERSMAX; i++)
 	{
 		playersMask[i] = 0;
 		inverseMask[i] = 0;
@@ -189,7 +189,7 @@ void AnimationTimerImp::Execute(long dltTime)
 		value = curTime*kTime;
 		if(value > 1.0f) value = 1.0f;
 		//Расставляем коэфициенты блендинга
-		for(long i = 0; i < ANI_MAX_ACTIONS; i++)
+		for(size_t i = 0; i < ANI_MAX_ACTIONS; i++)
 		{
 			if(playersMask[i >> 5] & (1 << (i & 31)))
 			{

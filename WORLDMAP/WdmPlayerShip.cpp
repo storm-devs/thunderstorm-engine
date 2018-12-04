@@ -59,7 +59,7 @@ void WdmPlayerShip::PushOutFromIsland()
 		}
 	}
 	//Неполучилось, попробуем случайно подвигать
-	for(long i = 0; i < 256; i++)
+	for(size_t i = 0; i < 256; i++)
 	{
 		float _x = x + areaRad*rand()*1.0f/RAND_MAX;
 		float _z = z + areaRad*rand()*1.0f/RAND_MAX;
@@ -218,7 +218,7 @@ bool WdmPlayerShip::ExitFromMap()
 {
 	//Ищем селектированные
 	long found = -1;
-	for(long i = 0; i < wdmObjects->numShips; i++)
+	for(size_t i = 0; i < wdmObjects->numShips; i++)
 	{
 		wdmObjects->ships[i]->isSelect = false;
 		if(wdmObjects->ships[i] == this) continue;
@@ -244,7 +244,7 @@ long WdmPlayerShip::TestInStorm()
 {
 	bool inStormZone = false;
 	bool isTornado = false;
-	for(long i = 0; i < wdmObjects->numStorms; i++)
+	for(size_t i = 0; i < wdmObjects->numStorms; i++)
 	{
 		if(wdmObjects->storms[i]->killMe) continue;
 		if(wdmObjects->storms[i]->CheckIntersection(mtx.Pos().x, mtx.Pos().z, actionRadius))

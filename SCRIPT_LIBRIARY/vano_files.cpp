@@ -5,7 +5,7 @@
 uint32_t __cdecl _RDTSC_B(VS_STACK * pS)
 {
 	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
-	uint32_t dwRDTSC;
+	uint64_t dwRDTSC;
 	RDTSC_B(dwRDTSC);
 	pVR->Set((long)dwRDTSC);
 	return IFUNCRESULT_OK;
@@ -15,7 +15,7 @@ uint32_t __cdecl _RDTSC_E(VS_STACK * pS)
 {
 	VDATA * pValue = (VDATA*)pS->Pop();
 	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
-	uint32_t dwRDTSC =	(uint32_t)pValue->GetLong();
+	uint64_t dwRDTSC =	(uint32_t)pValue->GetLong();
 	RDTSC_E(dwRDTSC);
 	pVR->Set((long)dwRDTSC);
 	return IFUNCRESULT_OK;

@@ -84,7 +84,7 @@ void Bone::SetAngles(const D3DXQUATERNION * aArray, long numAng)
 	Assert(numAng == numFrames);
 	Assert(aArray);
 	Assert(ang);
-	for(long i = 0; i < numAng; i++)
+	for(size_t i = 0; i < numAng; i++)
 	{
 		float x = Clamp(aArray[i].x, "Animation is break: qt.x < -1.0f or qt.x > 1.0f !!!");
 		float y = Clamp(aArray[i].y, "Animation is break: qt.y < -1.0f or qt.y > 1.0f !!!");

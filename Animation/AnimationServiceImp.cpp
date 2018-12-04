@@ -74,7 +74,7 @@ AnimationServiceImp::~AnimationServiceImp()
 {
 	if(animation)
 	{
-		for(long i = 0; i < numAnimations; i++)
+		for(size_t i = 0; i < numAnimations; i++)
 			if(animation[i])
 			{
 				_CORE_API->Trace("No release Animation pnt:0x%x for %s.ani", animation[i], animation[i]->GetAnimationInfo()->GetName());
@@ -84,7 +84,7 @@ AnimationServiceImp::~AnimationServiceImp()
 	}
 	if(ainfo)
 	{
-		for(long i = 0; i < numInfos; i++)
+		for(size_t i = 0; i < numInfos; i++)
 				if(ainfo[i]) delete ainfo[i];
 		delete ainfo;
 	}
@@ -107,7 +107,7 @@ void AnimationServiceImp::RunStart()
 	uint32_t dltTime = _CORE_API->GetDeltaTime();
 	if(dltTime > 1000) dltTime = 1000;
 	//Просмотрим все анимации
-	for(long i = 0; i < numInfos; i++)
+	for(size_t i = 0; i < numInfos; i++)
 		if(ainfo[i])
 		{
 			ainfo[i]->AddDowntime(dltTime);
@@ -159,7 +159,7 @@ Animation * AnimationServiceImp::CreateAnimation(const char * animationName)
 	{
 		numAnimations += 64;
 		animation = (AnimationImp **)RESIZE(animation, numAnimations*4);
-		for(long j = i; j < numAnimations; j++) animation[j] = nullptr;
+		for(size_t j = i; j < numAnimations; j++) animation[j] = nullptr;
 	}
 	animation[i] = NEW AnimationImp(i, ainfo[aniIndex]);
 	return animation[i];
@@ -186,9 +186,9 @@ long AnimationServiceImp::LoadAnimation(const char * animationName)
 {
 	//Формируем имя файла
 	static char path[MAX_PATH];
-	strcpy(path, ASKW_PATH_ANI);
-	strcat(path, animationName);
-	strcat(path, ".ani");
+	strcpy_s(path, ASKW_PATH_ANI);
+	strcat_s(path, animationName);
+	strcat_s(path, ".ani");
 	//Открываем ini файл, описывающий анимацию
 	INIFILE * ani = _CORE_API->fio->OpenIniFile(path);
 	if(!ani)
@@ -197,7 +197,7 @@ long AnimationServiceImp::LoadAnimation(const char * animationName)
 		return -1;
 	}
 	//Получаем имя jfa файла со скелетом
-	strcpy(path, ASKW_PATH_JFA);
+	strcpy_s(path, ASKW_PATH_JFA);
 	int l = strlen(path);
 	if(!ani->ReadString(nullptr, ASKW_JFA_FILE, path + l, MAX_PATH - l - 1, nullptr))
 	{
@@ -393,7 +393,7 @@ long AnimationServiceImp::LoadAnimation(const char * animationName)
 	{
 		numInfos += 64;
 		ainfo = (AnimationInfo **)RESIZE(ainfo, numInfos*4);
-		for(long j = i; j < numInfos; j++) ainfo[j] = nullptr;
+		for(size_t j = i; j < numInfos; j++) ainfo[j] = nullptr;
 	}
 	ainfo[i] = info;
 	return i;
@@ -519,7 +519,7 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 			_CORE_API->fio->_CloseHandle(fl);
 			return false;
 		}
-		for(long i = 0; i < header.nJoints; i++)
+		for(size_t i = 0; i < header.nJoints; i++)
 		{
 			info->GetBone(i).SetNumFrames(header.nFrames, vrt[i], i == 0);
 		}
@@ -539,7 +539,7 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 
 		//Углы
 		D3DXQUATERNION *ang = NEW D3DXQUATERNION[header.nFrames];
-		for(long i = 0; i < header.nJoints; i++)
+		for(size_t i = 0; i < header.nJoints; i++)
 		{
 			if(!_CORE_API->fio->_ReadFile(fl, ang, header.nFrames*sizeof(*ang), nullptr))
 			{
@@ -552,11 +552,11 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 		delete ang;
 
 		//-----------------------------------------------
-		for(long i = 0; i < header.nJoints; i++)
+		for(size_t i = 0; i < header.nJoints; i++)
 		{
 			info->GetBone(i).BuildStartMatrix();
 		}
-		for(long i = 0; i < header.nJoints; i++)
+		for(size_t i = 0; i < header.nJoints; i++)
 		{
 			info->GetBone(i).start.Transposition();
 		}

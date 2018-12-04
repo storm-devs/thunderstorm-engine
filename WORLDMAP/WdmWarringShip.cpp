@@ -45,7 +45,7 @@ void WdmWarringShip::Update(float dltTime)
 	{
 		brnTime = 0.0f;
 		//Половина для левого борта
-		for(long i = 0; i < sizeof(move)/(2*sizeof(MoveInfo)); i++, numRects++)
+		for(size_t i = 0; i < sizeof(move)/(2*sizeof(MoveInfo)); i++, numRects++)
 		{
 			rect[numRects].vPos = mtx.Pos() + CVECTOR(0.0f, 2.0f, 0.0f);
 			rect[numRects].vPos += mtx.Vz()*2.5f*(1.0f - rand()*2.0f/RAND_MAX);
@@ -59,7 +59,7 @@ void WdmWarringShip::Update(float dltTime)
 			move[numRects].v = mtx.Vx()*30.0f*(0.6f + rand()*(0.4f/RAND_MAX));
 		}
 		//Половина для правого борта
-		for(long i = 0; i < sizeof(move)/(2*sizeof(MoveInfo)); i++, numRects++)
+		for(size_t i = 0; i < sizeof(move)/(2*sizeof(MoveInfo)); i++, numRects++)
 		{
 			rect[numRects].vPos = mtx.Pos() + CVECTOR(0.0f, 2.0f, 0.0f);
 			rect[numRects].vPos += mtx.Vz()*2.5f*(1.0f - rand()*2.0f/RAND_MAX);
@@ -74,7 +74,7 @@ void WdmWarringShip::Update(float dltTime)
 		}
 	}
 	//Двигаем
-	for(long i = 0; i < numRects; i++)
+	for(size_t i = 0; i < numRects; i++)
 	{
 		MoveInfo & mi = move[i];
 		mi.time += mi.kTime*dltTime;
@@ -82,7 +82,7 @@ void WdmWarringShip::Update(float dltTime)
 		{
 			//Убиваем партикл
 			numRects--;
-			for(long j = i; j < numRects; j++)
+			for(size_t j = i; j < numRects; j++)
 			{
 				rect[j] = rect[j + 1];
 				move[j] = move[j + 1];

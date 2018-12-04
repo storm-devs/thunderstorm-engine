@@ -43,7 +43,7 @@ Location::Location()
 	isPause = false;
 	lights = nullptr;
 	curMessage = 0;
-	for(long i = 0; i < sizeof(message)/sizeof(DmgMessage); i++) message[i].alpha = 0.0f;
+	for(size_t i = 0; i < sizeof(message)/sizeof(DmgMessage); i++) message[i].alpha = 0.0f;
 	locationTimeUpdate = 0.0f;
 	enemyBarsCount = 0;
 	bSwimming = true;
@@ -67,7 +67,7 @@ Location::~Location()
 	_CORE_API->DeleteEntity(loceffectsid);
 	api->DeleteEntity(blood);
 
-	for(long i = 0; i < numLocators; i++) delete locators[i];
+	for(size_t i = 0; i < numLocators; i++) delete locators[i];
 	delete locators;
 	if(sphereVertex) delete sphereVertex;
 	sphereVertex = nullptr;
@@ -111,7 +111,7 @@ void Location::Execute(uint32_t delta_time)
 	if(!isDebugView) Update(delta_time);
 	//Обсчёт сообщений
 	float dltTime = delta_time*0.001f;
-	for(long i = 0; i < sizeof(message)/sizeof(DmgMessage); i++)
+	for(size_t i = 0; i < sizeof(message)/sizeof(DmgMessage); i++)
 	{
 		if(message[i].alpha <= 0.0f) continue;
 		message[i].p.y += dltTime*0.2f;
@@ -121,7 +121,7 @@ void Location::Execute(uint32_t delta_time)
 	Grass * grs = (Grass *)api->GetEntityPointer(&grass);
 	if(grs)
 	{
-		for(long i = 0; i < supervisor.numCharacters; i++)
+		for(size_t i = 0; i < supervisor.numCharacters; i++)
 		{
 			supervisor.character[i].c->GetGrassPosition(grs->characters[i].pos, grs->characters[i].lastPos);
 			grs->characters[i].chr = supervisor.character[i].c;
@@ -147,7 +147,7 @@ void Location::Realize(uint32_t delta_time)
 	while (fCausticFrame >= 32.0f) fCausticFrame -= 32.0f;
 
 	//Отрисовка локаторов
-	for(long i = 0; i < numLocators; i++)
+	for(size_t i = 0; i < numLocators; i++)
 		if(locators[i]->isVisible) DrawLocators(locators[i]);
 	if(IsDebugView())
 	{
@@ -163,7 +163,7 @@ void Location::Realize(uint32_t delta_time)
 		rs->Print(10, 10, "Location ID: '%s'", c);
 		if(IsExDebugView())
 		{
-			for(long i = 0; i < model.Models(); i++)
+			for(size_t i = 0; i < model.Models(); i++)
 			{
 				rs->Print(10, 40 + i*26, "%2i mdl: '%s.gm'", i, model.GetModelName(i));
 			}
@@ -407,7 +407,7 @@ LocatorArray * Location::FindLocatorsGroup(const char * gName)
 {
 	if(!gName || !gName[0]) return nullptr;
 	long hash = LocatorArray::CalcHashString(gName);
-	for(long i = 0; i < numLocators; i++)
+	for(size_t i = 0; i < numLocators; i++)
 	{
 		if(locators[i]->CompareGroup(gName, hash)) return locators[i];
 	}
@@ -447,7 +447,7 @@ long Location::LoadStaticModel(const char * modelName, const char * tech, long l
 	GEOS::INFO ginfo;
 	GEOS::LABEL label;
 	g->GetInfo(ginfo);
-	for(long i = 0; i < ginfo.nlabels; i++)
+	for(size_t i = 0; i < ginfo.nlabels; i++)
 	{
 		g->GetLabel(i, label);
 		if(!label.group_name || !label.group_name[0]) continue;
@@ -671,14 +671,14 @@ void Location::UpdateLocators()
 	if(atr)
 	{
 		//Создаём новые атрибуты
-		for(long i = 0; i < numLocators; i++)
+		for(size_t i = 0; i < numLocators; i++)
 		{
 			char * groupName = locators[i]->GetGroupName();
 			atr->CreateSubAClass(atr, groupName);
 			ATTRIBUTES * at = atr->FindAClass(atr, groupName);
 			if(at)
 			{
-				for(long j = 0; j < locators[i]->Num(); j++)
+				for(size_t j = 0; j < locators[i]->Num(); j++)
 				{
 					at->CreateSubAClass(at, locators[i]->Name(j));
 					ATTRIBUTES * a = at->FindAClass(at, locators[i]->Name(j));
@@ -753,7 +753,7 @@ void Location::DrawLocators(LocatorArray * la)
 		bool isSet = rs->TechniqueExecuteStart("DbgDrawLocators");
 		rs->SetRenderState(D3DRS_TEXTUREFACTOR, la->color);
 		//Рисуем
-		for(long i = 0; i < la->Num(); i++)
+		for(size_t i = 0; i < la->Num(); i++)
 		{
 			//Рисуем шарик
 			la->GetLocatorPos(i, mPos);
@@ -791,7 +791,7 @@ void Location::DrawLocators(LocatorArray * la)
 	float d = view.Vz() | view.Pos();
 	float viewDst = la->viewDist*la->viewDist;
 	//Рисуем
-	for(long i = 0; i < la->Num(); i++)
+	for(size_t i = 0; i < la->Num(); i++)
 	{
 		float lbh = la->GetLocatorRadius(i)*la->kViewRadius;
 		if(lbh <= 0.0f) continue;
@@ -849,13 +849,13 @@ void Location::CreateSphere()
 	float kColor;
 	//Заполняем вершины
 	long t = 0;
-	for(long i = 0; i < a2; i++)
+	for(size_t i = 0; i < a2; i++)
 	{
 		float r1 = sinf(myPI*i/float(a2));
 		float y1 = cosf(myPI*i/float(a2));
 		float r2 = sinf(myPI*(i + 1)/float(a2));
 		float y2 = cosf(myPI*(i + 1)/float(a2));
-		for(long j = 0; j < a1; j++)
+		for(size_t j = 0; j < a1; j++)
 		{
 			float x1 = sinf(2.0f*myPI*j/float(a1));
 			float z1 = cosf(2.0f*myPI*j/float(a1));
@@ -1025,7 +1025,7 @@ void Location::TestLocatorsInPatch(MESSAGE & message)
 		return;
 	}
 	CVECTOR pos;
-	for(long i = 0; i < num; i++)
+	for(size_t i = 0; i < num; i++)
 	{
 		la->GetLocatorPos(i, pos.x, pos.y, pos.z);
 		float y = 0.0f;
@@ -1062,14 +1062,14 @@ void Location::DrawEnemyBars()
 		float energy;
 	} sort[sizeof(enemyBar)/sizeof(enemyBar[0])];
 	SortElement * selements[sizeof(enemyBar)/sizeof(enemyBar[0])];
-	long sortCount = 0;
+	uint32_t sortCount = 0;
 	rs->GetTransform(D3DTS_VIEW, view);
 	rs->GetTransform(D3DTS_PROJECTION, prj);
 	mtx.EqMultiply(view, prj);
 	view.Transposition();
 	rs->GetViewport(&vp);
 	//Перебираем все записи
-	for(long i = 0; i < enemyBarsCount; i++)
+	for(size_t i = 0; i < enemyBarsCount; i++)
 	{
 		//Ищем позицию точки на экране
 		CVECTOR & pos3D = enemyBar[i].p;
@@ -1099,20 +1099,22 @@ void Location::DrawEnemyBars()
 		sortCount++;
 	}
 	//Cортировка по дистанции
-	for(long i = 0; i < sortCount - 1; i++)
-	{
-		for(long j = i + 1; j < sortCount; j++)
+	if (sortCount > 1) {
+		for (size_t i = 0; i < sortCount - 1; i++)
 		{
-			if(selements[i]->vrt.z < selements[j]->vrt.z)
+			for (size_t j = i + 1; j < sortCount; j++)
 			{
-				  SortElement * tmp = selements[i];
-				  selements[i] = selements[j];
-				  selements[j] = tmp;
+				if (selements[i]->vrt.z < selements[j]->vrt.z)
+				{
+					SortElement * tmp = selements[i];
+					selements[i] = selements[j];
+					selements[j] = tmp;
+				}
 			}
 		}
 	}
 	//Отрисовка
-	for(long i = 0; i < sortCount; i++)
+	for(size_t i = 0; i < sortCount; i++)
 	{
 		MTX_PRJ_VECTOR & vrt = selements[i]->vrt;
 		uint32_t & color = selements[i]->color;

@@ -435,7 +435,7 @@ bool CameraFollow::ApplyPoly(const CVECTOR * v, long n)
 	//Заполняем параметры плоскостей, проходящих через рёбра
 	static EdgeInfo edge[32];
 	if(n > 32) n = 32;
-	for(long i = 0; i < n; i++)
+	for(size_t i = 0; i < n; i++)
 	{
 		//Ребро
 		long j = i + 1;
@@ -486,7 +486,7 @@ void CameraFollow::ApplyPolyFindNearest(EdgeInfo * e, long ne, const CVECTOR & p
 	//Тестируем с рёбрами, определяя близжайшее растояние
 	CVECTOR pnt;
 	float minDist = -1.0f;
-	for(long i = 0; i < ne; i++)
+	for(size_t i = 0; i < ne; i++)
 	{
 		//Дистанция до плоскости от точки
 		float d = (pos | e[i].n) - e[i].d;
@@ -597,7 +597,7 @@ float CameraFollow::Trace(const CVECTOR & src, const CVECTOR & dst)
 	s = src - up*LCF_RADIUS;
 	k[4] = SubTrace(s, s + dir);
 	float kRes = 2.0f;
-	for(long i = 0; i < 5; i++) if(kRes > k[i]) kRes = k[i];
+	for(size_t i = 0; i < 5; i++) if(kRes > k[i]) kRes = k[i];
 	return kRes;
 	
 }

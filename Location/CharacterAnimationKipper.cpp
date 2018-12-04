@@ -20,7 +20,7 @@ CharacterAnimationKipper::CharacterAnimationKipper()
 	asr = nullptr;
 	aniMan = nullptr;
 	aniWoman = nullptr;
-	for(long i = 0; i < sizeof(lockTextures)/sizeof(long); i++) lockTextures[i] = -1;
+	for(size_t i = 0; i < sizeof(lockTextures)/sizeof(long); i++) lockTextures[i] = -1;
 	numLTextures = 0;
 	rs = nullptr;
 }
@@ -31,7 +31,7 @@ CharacterAnimationKipper::~CharacterAnimationKipper()
 	if(aniWoman) delete aniWoman;
 	if(rs)
 	{
-		for(long i = 0; i < sizeof(lockTextures)/sizeof(long); i++) 
+		for(size_t i = 0; i < sizeof(lockTextures)/sizeof(long); i++) 
 			if(lockTextures[i] >= 0) rs->TextureRelease(lockTextures[i]);
 	}
 }

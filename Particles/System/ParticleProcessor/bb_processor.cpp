@@ -55,7 +55,7 @@ BillBoardProcessor::BillBoardProcessor ()
 	uint16_t * pTrgs = (uint16_t*)pRS->LockIndexBuffer(pIBuffer);
 	Assert(pTrgs != NULL);
 
-	for (long i = 0; i < MAX_BILLBOARDS; i++)
+	for (size_t i = 0; i < MAX_BILLBOARDS; i++)
 	{
 		pTrgs[i * 6 + 0] = uint16_t(i * 4 + 0);
 		pTrgs[i * 6 + 1] = uint16_t(i * 4 + 1);

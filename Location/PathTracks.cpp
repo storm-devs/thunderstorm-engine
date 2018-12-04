@@ -81,7 +81,7 @@ bool PathTracks::Load(const char * fileName)
 void PathTracks::Draw(VDX9RENDER* render)
 {
 	/*render.FlushBufferedLines();
-	for(long i = 0; i < numPoints - 1; i++)
+	for(size_t i = 0; i < numPoints - 1; i++)
 	{
 		render.DrawBufferedLine(point[i].p1, 0xff00ff00, point[i + 1].p1, 0xff00ffff, false);
 		render.DrawBufferedLine(point[i].p2, 0xff00ff00, point[i + 1].p2, 0xff00ffff, false);

@@ -69,7 +69,7 @@ void Blood::Execute(uint32_t delta_time)
 			uint32_t dwCol = (uint32_t)(255.f/BLOOD_BLENDOUT_TIME * aBlood[n].fLiveTime);
 			if( dwCol > 255 ) dwCol = 255;
 			dwCol = (dwCol<<24) | 0xFFFFFF;
-			for(long i=0,m=aBlood[n].nStartIdx; i<aBlood[n].nIdxQ; i++,m++)
+			for(size_t i=0,m=aBlood[n].nStartIdx; i<aBlood[n].nIdxQ; i++,m++)
 			{
 				if( m >= MAX_BLOOD_TRIANGLES ) m -= MAX_BLOOD_TRIANGLES;
 				pvBloodT[m].v[0].dwCol = dwCol;
@@ -245,7 +245,7 @@ void Blood::BuildBloodDataByCollision(const CVECTOR& cpos)
 	case 6: fU0=0.5f; fV0=0.5f; break;
 	case 7: fU0=0.75f; fV0=0.5f; break;
 	}
-	for(long i=0, n=curBlood.nStartIdx; i<nClipTQ; i++,n++)
+	for(size_t i=0, n=curBlood.nStartIdx; i<nClipTQ; i++,n++)
 	{
 		if( n>=MAX_BLOOD_TRIANGLES ) n -= MAX_BLOOD_TRIANGLES;
 		SetVertexByPos(pvBloodT[n].v[0], clipT[i].v[0], cpos, fU0,fV0);

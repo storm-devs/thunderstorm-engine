@@ -123,7 +123,7 @@ void WdmRenderModel::Render(VDX9RENDER * rs)
 	static CMatrix mtx;
 	rs->GetTransform(D3DTS_WORLD, mtx);
 	CVECTOR v = mtx*center;
-	for(long i = 0; i < 4; i++)
+	for(size_t i = 0; i < 4; i++)
 	{
 		PLANE & p = plane[i];
 		float dist = v.x*p.Nx + v.y*p.Ny + v.z*p.Nz - p.D;

@@ -288,7 +288,7 @@ void NODER::ReleaseGeometry()
 	delete geo;
 	geo = nullptr;
 	isReleaed = true;
-	for(long i = 0; i < nnext; i++)
+	for(size_t i = 0; i < nnext; i++)
 	{
 		if (!next[i]) continue;
 		((NODER *)next[i])->ReleaseGeometry();
@@ -309,7 +309,7 @@ void NODER::RestoreGeometry()
 	if(!geo) throw "No geometry";
 
 	isReleaed = false;
-	for(long i = 0; i < nnext; i++)
+	for(size_t i = 0; i < nnext; i++)
 	{
 		if (!next[i]) continue;
 		((NODER *)next[i])->RestoreGeometry();
@@ -423,7 +423,7 @@ void NODER::Draw()
 NODER *NODER::FindNode(const char *cNodeName)
 {
 	if (_stricmp(cNodeName,name)==0) return this;
-	for(long i=0; i<nnext; i++)
+	for(size_t i=0; i<nnext; i++)
 	{
 		if (!next[i]) continue;
 		NODER *nd = static_cast<NODER*>(next[i])->FindNode(cNodeName);

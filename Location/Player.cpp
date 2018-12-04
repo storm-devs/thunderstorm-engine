@@ -83,7 +83,7 @@ void Player::Move(float dltTime)
 	VDATA * vd = api->Event("EventSGMode", nullptr);
 	if(vd)
 	{
-		long data = 0;
+		int32_t data = 0;
 		if(vd->Get(data)) shootgunMode = (data != 0);
 	}
 	if(oldSGMode != shootgunMode)
@@ -307,7 +307,7 @@ void Player::Update(float dltTime)
 	ENTITY_ID eid;
 	if(api->FindClass(&eid, nullptr, chrGroups))
 	{
-		for(long i = 0; i < location->supervisor.numCharacters; i++)
+		for(size_t i = 0; i < location->supervisor.numCharacters; i++)
 		{
 			Character * chr = location->supervisor.character[i].c;
 			if(chr != this && chr)
@@ -602,7 +602,7 @@ Player * Player::FindAttackCharacter()
 {
 	//Найдём окружающих персонажей
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
-	static long num = 0;
+	static uint32_t num = 0;
 	if(!location->supervisor.FindCharacters(fndCharacter, num, this, CHARACTER_ATTACK_DIST*1.1f)) return nullptr;
 	//Выбираем лутшего
 	float minDst;
@@ -613,7 +613,7 @@ Player * Player::FindAttackCharacter()
 	float cdx = sinf(ay);
 	float cdz = cosf(ay);
 	long j = -1;
-	for(long i = 0; i < num; i++)
+	for(size_t i = 0; i < num; i++)
 	{
 		//Персонаж
 		Supervisor::FindCharacter & fc = fndCharacter[i];
@@ -711,7 +711,7 @@ void Player::FireFromShootgun()
 	};
 	ChrsDmg chrs[16];
 	long numChrs = 0;
-	for(long i = 0; i < 6; i++)
+	for(size_t i = 0; i < 6; i++)
 	{
 		//Получим позицию куда попадёт картечина
 		float r = rand()*3.0f/RAND_MAX;
@@ -760,7 +760,7 @@ void Player::FireFromShootgun()
 		}
 	}
 	delete walker;
-	for(long i = 0; i < numChrs; i++)
+	for(size_t i = 0; i < numChrs; i++)
 	{
 		api->Event("Location_CharacterSGFire", "iif", GetID(), chrs[i].chr->GetID(), chrs[i].dmg);
 	}

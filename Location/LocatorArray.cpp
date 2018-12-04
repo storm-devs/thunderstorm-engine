@@ -78,7 +78,7 @@ float LocatorArray::FindNearesLocator(float x, float y, float z, long * locIndex
 	if(locIndex) *locIndex = -1;
 	float dist = 1000000000.0f;
 	CVECTOR v(x, y, z);
-	for(long i = 0; i < numLocators; i++)
+	for(size_t i = 0; i < numLocators; i++)
 	{
 		float d = ~(locator[i].mtx.Pos() - v);
 		if(dist > d)
@@ -94,7 +94,7 @@ float LocatorArray::FindNearesLocator(float x, float y, float z, long * locIndex
 long LocatorArray::FindNearesLocatorCl(float x, float y, float z, float height2, float & dist)
 {
 	long locIndex = -1;
-	for(long i = 0; i < numLocators; i++)
+	for(size_t i = 0; i < numLocators; i++)
 	{
 		//if(fabsf(y - locator[i].mtx.Pos().y) > height2) continue;
 		float r = GetLocatorRadius(i);
@@ -126,7 +126,7 @@ long LocatorArray::FindByName(const char * locName)
 {
 	if(!locName) return -1;
 	long hash = CalcHashString(locName);
-	for(long i = 0; i < numLocators; i++)
+	for(size_t i = 0; i < numLocators; i++)
 	{
 		if(locator[i].name >= 0)
 		{

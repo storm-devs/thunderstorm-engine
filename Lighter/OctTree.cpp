@@ -16,7 +16,7 @@
 
 OctTree::OTNode::OTNode(CVECTOR & _min, CVECTOR & _max)
 {
-	for(long i = 0; i < 8; i++) node[i] = nullptr;
+	for(size_t i = 0; i < 8; i++) node[i] = nullptr;
 	min = _min; max = _max;
 	vrt = NEW Vertex * [LLOT_MAX];
 	num = 0;
@@ -25,7 +25,7 @@ OctTree::OTNode::OTNode(CVECTOR & _min, CVECTOR & _max)
 OctTree::OTNode::~OTNode()
 {
 	if(vrt) delete vrt;
-	for(long i = 0; i < 8; i++) if(node[i]) delete node[i];
+	for(size_t i = 0; i < 8; i++) if(node[i]) delete node[i];
 }
 
 //============================================================================================
@@ -54,7 +54,7 @@ void OctTree::Init(LGeometry * g)
 	vrt = g->vrt;
 	numVrt = g->numVrt;
 	root = NEW OTNode(g->min, g->max);
-	for(long i = 0; i < numVrt; i++) AddVertex(root, vrt + i);
+	for(size_t i = 0; i < numVrt; i++) AddVertex(root, vrt + i);
 	Optimize(root);
 	/*
 	for(i = 0; i < numVrt; i++)
@@ -69,9 +69,9 @@ long OctTree::Check(OTNode * node, Vertex * v, long num)
 {
 	if(node->vrt)
 	{
-		for(long i = 0; i < node->num; i++) if(node->vrt[i] == v) num++;
+		for(size_t i = 0; i < node->num; i++) if(node->vrt[i] == v) num++;
 	}else{
-		for(long i = 0; i < 8; i++) if(node->node[i]) num += Check(node->node[i], v, 0);
+		for(size_t i = 0; i < 8; i++) if(node->node[i]) num += Check(node->node[i], v, 0);
 	}
 	return num;
 }
@@ -130,7 +130,7 @@ void OctTree::Optimize(OTNode * node)
 {
 	if(!node->vrt)
 	{
-		for(long i = 0; i < 8; i++)
+		for(size_t i = 0; i < 8; i++)
 		{
 			if(!node->node[i]) continue;
 			if(node->node[i]->vrt)
@@ -174,9 +174,9 @@ void OctTree::FindVerts(OTNode * node)
 	//Если нет своего масива отправим к детям
 	if(node->vrt == nullptr)
 	{
-		for(long i = 0; i < 8; i++) if(node->node[i]) FindVerts(node->node[i]);
+		for(size_t i = 0; i < 8; i++) if(node->node[i]) FindVerts(node->node[i]);
 	}else{
-		for(long i = 0; i < node->num; i++)
+		for(size_t i = 0; i < node->num; i++)
 		{
 			float r = ~(node->vrt[i]->p - vertsPos);
 			if(r < vertsR)

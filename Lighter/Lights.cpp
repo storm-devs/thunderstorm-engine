@@ -19,7 +19,7 @@ Lights::Lights()
 	maxLights = 256;
 	numLights = 3;
 	light = (Light *)RESIZE(nullptr, maxLights*sizeof(Light));
-	for(long i = 0; i < maxLights; i++) SetDefLightParam(i);
+	for(size_t i = 0; i < maxLights; i++) SetDefLightParam(i);
 	light[0].type = Light::t_amb;
 	light[0].color = CVECTOR(0.2f, 0.2f, 0.2f);
 	light[0].group = nullptr;
@@ -39,7 +39,7 @@ Lights::~Lights()
 {
 	if(light)
 	{
-		for(long i = 0; i < numLights; i++) if(light[i].group) delete light[i].group;
+		for(size_t i = 0; i < numLights; i++) if(light[i].group) delete light[i].group;
 		delete light;
 	}
 }
@@ -98,7 +98,7 @@ void Lights::PostInit()
 	//Соберём все существующие группы
 	char ** grp = NEW char * [numLights + 1];
 	long numGrp = 0;
-	for(long i = 0; i < numLights; i++)
+	for(size_t i = 0; i < numLights; i++)
 	{
 		if(!light[i].group) continue;
 		long j;
@@ -113,7 +113,7 @@ void Lights::PostInit()
 		light = (Light *)RESIZE(light, maxLights*sizeof(Light));
 	}
 	long num = numLights;
-	for(long i = 0; i < numGrp; i++)
+	for(size_t i = 0; i < numGrp; i++)
 	{
 		memset(&light[numLights], 0, sizeof(light[numLights]));
 		light[numLights].group = NEW char[strlen(grp[i]) + 1];
@@ -122,7 +122,7 @@ void Lights::PostInit()
 		light[numLights].isOn = true;
 		//Собираем параметры
 		float nrm = 0.0f;
-		for(long j = 0; j < numLights; j++)
+		for(size_t j = 0; j < numLights; j++)
 		{
 			if(light[j].group && _stricmp(light[j].group, grp[i]) == 0)
 			{
@@ -176,7 +176,7 @@ void Lights::UpdateLights(long lit)
 
 		if(light[i].type == Light::t_group)
 		{
-			for(long j = 0; j < numLights; j++)
+			for(size_t j = 0; j < numLights; j++)
 			{
 				if(light[j].type == Light::t_point && light[j].group)
 				{

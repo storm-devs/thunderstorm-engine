@@ -1,7 +1,8 @@
 #ifndef TDYNLIST_HPP
 #define TDYNLIST_HPP
 
-#include <assert.h>
+#include <cstddef>
+#include <cassert>
 
 #define DYNAMIC_ARRAY_BLOCK_SIZE	100
 

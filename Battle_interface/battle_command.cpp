@@ -94,7 +94,7 @@ long BICommandList::ExecuteConfirm()
 {
 	if( m_nSelectedCommandIndex >= m_aUsedCommand.size() ) return 0; // error!
 
-	long endCode=0;
+	int32_t endCode=0;
 	long nTargIndex = 0;
 	std::string sLocName;
 

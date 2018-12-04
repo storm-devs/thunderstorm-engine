@@ -15,7 +15,7 @@ MODELR::MODELR()
 	ani = nullptr;
 	memset(aniVerts, 0, sizeof(aniVerts));
 	d3dDestVB = nullptr;
-	for(long i = 0; i < ANI_MAX_ACTIONS; i++) aniPos[i] = -1.0f;
+	for(size_t i = 0; i < ANI_MAX_ACTIONS; i++) aniPos[i] = -1.0f;
 	root = nullptr;
 	useBlend = false;
 	idxBuff = nullptr;
@@ -279,7 +279,7 @@ void MODELR::Realize(uint32_t Delta_Time)
 		dest_vb = d3dDestVB;
 
 		alreadyTransformed = true;
-		for(long i = 0; i < 2; i++)
+		for(size_t i = 0; i < 2; i++)
 		{
 			if(ani->Player(i).IsPlaying())
 			{

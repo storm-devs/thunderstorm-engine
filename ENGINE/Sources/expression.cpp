@@ -47,7 +47,7 @@ bool COMPILER::BC_ProcessExpression(DATA * value)
 		if(Token_type == SQUARE_OPEN_BRACKET)
 		{
 			DATA array_index;
-			long index;
+			int32_t index;
 			array_index.SetVCompiler(this);
 
 			if(!pV->IsArray()) { SetError("invalid '[' operator"); return false; }
@@ -113,7 +113,7 @@ bool COMPILER::BC_ProcessExpression(DATA * value)
 void COMPILER::BC_ProcessExpression_L0(DATA * value)
 {
 	S_TOKEN_TYPE op;
-	long lRes;
+	int32_t lRes;
 	DATA value2;
 	value2.SetVCompiler(this);
 
@@ -273,7 +273,7 @@ void COMPILER::BC_ProcessExpression_L4(DATA * value, bool bSkip)
 {
 	DATA TempVal;
 	TempVal.SetVCompiler(this);
-	long Deg;
+	int32_t Deg;
 
 	BC_ProcessExpression_L5(value,bSkip);
 	if(TokenIs(OP_POWER))
@@ -308,7 +308,7 @@ void COMPILER::BC_ProcessExpression_L5(DATA * value, bool bSkip)
 		else
 		if(op == OP_BOOL_NEG)
 		{
-			long iVal;
+			int32_t iVal;
 			char * sVal;
 			
 			switch(value->GetType())
@@ -355,7 +355,7 @@ void COMPILER::BC_ProcessExpression_L7(DATA * value, bool bSkip)
 {
 	VARINFO vi;
 	uint32_t var_code;
-	long index;
+	int32_t index;
 	DATA array_index;
 	DATA TempData;
 	TempData.SetVCompiler(this);

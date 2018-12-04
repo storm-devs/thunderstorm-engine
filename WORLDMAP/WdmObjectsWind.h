@@ -107,7 +107,7 @@ public:
 		dir[5].x = 0.0f; dir[5].y = 1.0f; dir[5].i = 1; dir[5].j = 0;
 		dir[6].x = -diag; dir[6].y = diag; dir[6].i = 1; dir[6].j = -1;
 		dir[7].x = -1.0f; dir[7].y = 0.0f; dir[7].i = 0; dir[7].j = -1;
-		for(long i = 0; i < 1000; i++)
+		for(size_t i = 0; i < 1000; i++)
 		{
 			Step(1000.0f);
 		}
@@ -181,7 +181,7 @@ private:
 		if(steps >= WindFieldSteps)
 		{		
 			steps = 0;
-			for(long i = 0; i < 4; i++)
+			for(size_t i = 0; i < 4; i++)
 			{
 				float ang = rand()*(3.14159265358979f*2.0f/RAND_MAX);
 				float amp = rand()*(4.0f/RAND_MAX);
@@ -190,12 +190,12 @@ private:
 			}
 		}
 		steps++;
-		for(long i = 0; i < 4; i++)
+		for(size_t i = 0; i < 4; i++)
 		{
 			initors[i][0].x += initors[i][1].x;
 			initors[i][0].y += initors[i][1].y;
 		}
-		for(long i = 0; i < WindFieldSize; i++)
+		for(size_t i = 0; i < WindFieldSize; i++)
 		{			
 			float w2 = i*1.0f/(WindFieldSize - 1);
 			float w1 = 1.0f - w2;
@@ -234,7 +234,7 @@ private:
 				step = cs_copy2;
 				return;
 			}
-			for(long j = 1; j < WindFieldSize - 1; j++)
+			for(size_t j = 1; j < WindFieldSize - 1; j++)
 			{
 				Point & pnt = tmp[i][j];
 				float x = tmp[i][j].x*0.2f;
@@ -287,7 +287,7 @@ private:
 		Point * from = &field[0][0];
 		Wind * to = &wind[frame][0][0];
 		long count = WindFieldSize*WindFieldSize;
-		for(long i = 0; i < count; i++, from++, to++)
+		for(size_t i = 0; i < count; i++, from++, to++)
 		{
 			to->x = from->x;
 			to->z = from->y;

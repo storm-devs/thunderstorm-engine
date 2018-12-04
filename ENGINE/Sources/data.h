@@ -45,26 +45,6 @@ friend COMPILER;
 	uint32_t nGlobalVarTableIndex;
 public:
 
-	void * operator new(size_t size)
-	{
-		return ::operator new(size);
-	};
-	void * operator new(size_t size, void * p)
-	{
-		return p;
-	};
-	void operator delete(void * p) {::operator delete (p);};
-	void operator delete(void * p, void * pp) {};
-
-	void * operator new(size_t size, char * pf, uint32_t line)
-	{
-		return ::operator new(size,pf,line);
-	};
-	void operator delete(void * p, char * pf, uint32_t line) 
-	{
-		::operator delete (p,pf,line);
-	};
-
 	ATTRIBUTES * AttributesClass;
 	//ATTRIBUTES Attributes;
 	DATA * GetReference();
@@ -78,20 +58,20 @@ public:
 	DATA(S_TOKEN_TYPE _element_type);
 	DATA(uint32_t _num_of_elements, S_TOKEN_TYPE _element_type);
 	~DATA();
-	void Set(long value);
+	void Set(int32_t value);
 	void Set(float value);
 	void Set(char * value);
 	void Set(char * attribute_name, char * attribute_value);
-	bool Get(long & value);
+	bool Get(int32_t & value);
 	bool Get(float & value);
 	bool Get(char * & value);
 	bool Get(char * attribute_name, char * & value);
 
-	bool Set(long value, uint32_t index);
+	bool Set(int32_t value, uint32_t index);
 	bool Set(float value, uint32_t index);
 	bool Set(char * value, uint32_t index);
 
-	bool Get(long & value, uint32_t index);
+	bool Get(int32_t & value, uint32_t index);
 	bool Get(float & value, uint32_t index);
 	bool Get(char * & value, uint32_t index);
 	
@@ -130,7 +110,7 @@ public:
 	bool Copy(DATA * pV, uint32_t index);
 	bool CopyOnElement(DATA * pV, uint32_t index);
 	bool Inverse();
-	bool Power(long Deg);
+	bool Power(int32_t Deg);
 	bool Power(DATA * pV);
 	bool Multiply(DATA * pV);
 	bool Divide(DATA * pV);

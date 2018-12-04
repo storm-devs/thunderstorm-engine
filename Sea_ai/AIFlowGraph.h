@@ -1,11 +1,11 @@
 #ifndef AI_FLOW_GRAPH_HPP
 #define AI_FLOW_GRAPH_HPP
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/defines.h"
 #include <vector>
 #include <string>
 #include <algorithm>
+#include "../Common_h/vmodule_api.h"
+#include "../Common_h/defines.h"
 
 #define INVALID_ARRAY_INDEX			0xFFFFFFFF
 

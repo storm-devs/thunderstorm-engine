@@ -302,7 +302,7 @@ void PEOPLE_ON_SHIP::AddShipWalk(ENTITY_ID &_shipID, int vCount, VDATA *vArray, 
 
 	// getting graph vertices
 	float x,y,z;
-	long   vType;
+	int32_t vType;
 	for (int i = 0; i<vCount; i++)
 	{
 		vArray->Get(x, i*3);
@@ -318,7 +318,7 @@ void PEOPLE_ON_SHIP::AddShipWalk(ENTITY_ID &_shipID, int vCount, VDATA *vArray, 
 
 	// getting links between graph vertices
 	int nElements = gArray->GetElementsNum();
-	long gCouple = 0;
+	int32_t gCouple = 0;
 
 	for (int i=0; i<nElements; i++)
 	{

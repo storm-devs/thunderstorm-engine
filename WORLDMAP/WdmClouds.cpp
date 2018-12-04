@@ -46,7 +46,7 @@ __forceinline bool WdmClouds::Cloud::Reset(bool isFirstTime)
 	float nrm = 1.0f/sqrtf(scaleX*scaleX + scaleZ*scaleZ);
 	scaleX *= nrm; scaleZ *= nrm;
 	//Определяем стартовые позиции
-	for(long i = 0; i < count; i++)
+	for(size_t i = 0; i < count; i++)
 	{
 		float ang = rand()*(2.0f*PI/RAND_MAX);
 		float rad = rand()*(WdmCloudsCloudRad/RAND_MAX);
@@ -93,7 +93,7 @@ __forceinline void WdmClouds::Cloud::Update(float dltTime)
 	const float maxWorldZ = 0.5f*wdmObjects->worldSizeZ;
 	//Двигаем облака
 	long outsideCount = 0;
-	for(long i = 0; i < count; i++)
+	for(size_t i = 0; i < count; i++)
 	{
 		//Партикл
 		Cld & cld = cloud[i];
@@ -190,7 +190,7 @@ __forceinline void WdmClouds::Cloud::Update(float dltTime)
 
 __forceinline long WdmClouds::Cloud::FillRects(RS_RECT * rects, long cnt, float galpha)
 {
-	for(long i = 0; i < count; i++)
+	for(size_t i = 0; i < count; i++)
 	{
 		Cld & c = cloud[i];
 		//Вычисляем альфу
@@ -246,7 +246,7 @@ __forceinline void WdmClouds::Cloud::Kill(const Cloud & cld)
 WdmClouds::WdmClouds()
 {
 	//Выставим позиции и направления группам
-	for(long i = 0; i < sizeof(clouds)/sizeof(Cloud); i++)
+	for(size_t i = 0; i < sizeof(clouds)/sizeof(Cloud); i++)
 	{
 		clouds[i].Reset(true);
 	}
@@ -264,19 +264,19 @@ WdmClouds::~WdmClouds()
 void WdmClouds::Update(float dltTime)
 {
 	//Перезаводим убитые
-	for(long i = 0; i < sizeof(clouds)/sizeof(Cloud); i++)
+	for(size_t i = 0; i < sizeof(clouds)/sizeof(Cloud); i++)
 	{
 		if(clouds[i].Reset()) break;
 	}
 	//Обновляем позиции
-	for(long i = 0; i < sizeof(clouds)/sizeof(Cloud); i++)
+	for(size_t i = 0; i < sizeof(clouds)/sizeof(Cloud); i++)
 	{
 		clouds[i].Update(dltTime);
 	}
 	//Удаляем сильно пересекающиеся
-	for(long i = 0; i < sizeof(clouds)/sizeof(Cloud) - 1; i++)
+	for(size_t i = 0; i < sizeof(clouds)/sizeof(Cloud) - 1; i++)
 	{
-		for(long j = i + 1; j < sizeof(clouds)/sizeof(Cloud); j++)
+		for(size_t j = i + 1; j < sizeof(clouds)/sizeof(Cloud); j++)
 		{
 			clouds[j].Kill(clouds[i]);
 		}
@@ -300,7 +300,7 @@ void WdmClouds::LRender(VDX9RENDER * rs)
 	alpha *= alpha;
 	//Рисуем видимые
 	long count = 0;
-	for(long i = 0; i < sizeof(clouds)/sizeof(Cloud); i++)
+	for(size_t i = 0; i < sizeof(clouds)/sizeof(Cloud); i++)
 	{
 		//Получаем сферу
 		CVECTOR c;

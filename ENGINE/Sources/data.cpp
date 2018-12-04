@@ -198,7 +198,7 @@ void DATA::SetAReference(ATTRIBUTES * pARef)
 	ReferenceIndex = reference_index;
 }*/
 
-void DATA::Set(long value)
+void DATA::Set(int32_t value)
 {
 	//if(bRef) 
 	if(Data_type == VAR_REFERENCE)
@@ -330,7 +330,7 @@ void DATA::Get(ENTITY_ID & eid)
 	eid = object_id;
 }
 
-bool DATA::Get(long & value)
+bool DATA::Get(int32_t & value)
 {
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
@@ -405,7 +405,7 @@ bool DATA::Get(char * attribute_name, char * & value)
 }
 
 
-bool DATA::Get(long & value, uint32_t index)
+bool DATA::Get(int32_t & value, uint32_t index)
 {
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
@@ -477,7 +477,7 @@ bool DATA::Get(char * & value, uint32_t index)
 	return true;	*/
 }
 
-bool DATA::Set(long value, uint32_t index)
+bool DATA::Set(int32_t value, uint32_t index)
 {
 	//if(bRef) 
 	if(Data_type == VAR_REFERENCE)
@@ -974,7 +974,7 @@ bool DATA::Inverse()
 }
 bool DATA::Power(DATA * pV)
 {
-	long lV;
+	int32_t lV;
 	if(pV->GetType() != VAR_INTEGER)
 	{
 		Error("bad power argument");
@@ -984,7 +984,7 @@ bool DATA::Power(DATA * pV)
 	return Power(lV);
 }
 
-bool DATA::Power(long Deg)
+bool DATA::Power(int32_t Deg)
 {
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)

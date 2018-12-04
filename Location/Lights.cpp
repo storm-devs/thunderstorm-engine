@@ -29,7 +29,7 @@ Lights::Lights()
 	lights = nullptr;
 	numLights = 0;
 	maxLights = 0;
-	for(long i = 0; i < 8; i++) {lt[i].light = -1; lt[i].set = false;}
+	for(size_t i = 0; i < 8; i++) {lt[i].light = -1; lt[i].set = false;}
 	numLampModels = 0;
 	lighter_code = _CORE_API->Class_Name2Code("Lighter");
 }
@@ -39,7 +39,7 @@ Lights::~Lights()
 	aMovingLight.clear();
 	if(types)
 	{
-		for(long i = 0; i < numTypes; i++)
+		for(size_t i = 0; i < numTypes; i++)
 		{
 			if(types[i].corona >= 0 && rs) rs->TextureRelease(types[i].corona);
 			delete types[i].name;
@@ -157,11 +157,11 @@ void Lights::Execute(uint32_t delta_time)
 #ifdef LIGHTS_DEBUG
 	if(api->Controls->GetDebugAsyncKeyState(VK_F11) < 0)
 	{
-		for(long i = 0; i < numTypes; i++) UpdateLightTypes(i);
+		for(size_t i = 0; i < numTypes; i++) UpdateLightTypes(i);
 	}
 #endif
 #endif
-	for(long i = 0; i < numLights; i++)
+	for(size_t i = 0; i < numLights; i++)
 	{
 		//Смотрим что есть
 		LightType & l = types[lights[i].type];
@@ -207,7 +207,7 @@ void Lights::Realize(uint32_t delta_time)
 	rs->SetTransform(D3DTS_VIEW,CMatrix());
 	rs->SetTransform(D3DTS_WORLD,CMatrix());
 	float camPDist = -(pos.x*camMtx.Vx().z + pos.y*camMtx.Vy().z + pos.z*camMtx.Vz().z);
-	for(long i = 0, n = 0; i < numLights; i++)
+	for(size_t i = 0, n = 0; i < numLights; i++)
 	{
 		//Источник
 		Light & ls = lights[i];
@@ -315,7 +315,7 @@ void Lights::Realize(uint32_t delta_time)
 long Lights::FindLight(const char * name)
 {
 	if(!name || !name[0]) return -1;
-	for(long i = 0; i < numTypes; i++)
+	for(size_t i = 0; i < numTypes; i++)
 		if(_stricmp(name, types[i].name) == 0) return i;
 	return -1;
 }
