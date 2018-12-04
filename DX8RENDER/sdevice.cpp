@@ -525,7 +525,7 @@ DX9RENDER::~DX9RENDER()
 
 	if (bPreparedCapture)
 	{
-		DELETE_ARRAY(lpbi);
+		STORM_DELETE(lpbi);
 		ReleaseDC(api->GetAppHWND(), hDesktopDC);
 		DeleteDC(hCaptureDC);
 		DeleteObject(hCaptureBitmap);

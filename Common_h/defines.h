@@ -56,6 +56,7 @@ struct FRECT
 #define PId2	(PI / 2.0f)
 #define PId4	(PI / 4.0f)
 
+#pragma intrinsic(__rdtsc)
 #define RDTSC_B(x)	{ x = __rdtsc(); }
 #define RDTSC_E(x)	{ x = __rdtsc() - x; }
 
@@ -72,18 +73,15 @@ struct FRECT
 	#undef SQR
 #endif
 
-inline uint32_t F2DW( float f ) { return *((uint32_t*)&f); }
+inline uint32_t F2DW( float f ) { return *reinterpret_cast<uint32_t*>(&f); }
 
-#ifdef _XBOX
-#define IS_XBOX(a,b)		a
-#else
-#define IS_XBOX(a,b)		b
-#endif
-
-//#define FTOL(l,f)			{ __asm fld uint32_t ptr [f] __asm fistp uint32_t ptr l }
+#pragma intrinsic(_mm_cvt_ss2si)
+inline int ftoi(float f)
+{
+	return _mm_cvt_ss2si(_mm_load_ss(&f));
+}
 #define FTOL(l,f)			{ l = _mm_cvt_ss2si(_mm_load_ss(&f)); }
 #define GET_DATA(x,p)		{ memcpy(&(x),p,sizeof(x));p+=sizeof(x); }
-#define FREE(x)				{ if (x) free(x); x=0; }
 #define STORM_DELETE(x)			{ if (x) delete x; x=0; }
 #define DELETE_ARRAY(x)		{ if (x) delete []x; x=0; }
 #define DELETE_ENTITY(x)	{ if (_CORE_API->ValidateEntity(&x)) _CORE_API->DeleteEntity(x); }

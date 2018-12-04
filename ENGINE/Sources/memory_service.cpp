@@ -205,6 +205,8 @@ bool MEMORY_SERVICE::PoolFree(void * block_PTR, uint32_t nBlockSize)
 
 void MEMORY_SERVICE::Free(void * block_PTR)
 {
+	if (block_PTR == nullptr)
+		return;
 
 	//GUARD(MEMORY_SERVICE::Free)
 	MEM_BLOCK * mb_PTR;
