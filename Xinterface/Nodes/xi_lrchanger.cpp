@@ -171,7 +171,7 @@ void CXI_LRCHANGER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 void CXI_LRCHANGER::ReleaseAll()
 {
 	PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName,m_idTex);
-	PTR_STORM_DELETE(m_sGroupName);
+	STORM_DELETE(m_sGroupName);
 }
 
 int CXI_LRCHANGER::CommandExecute(int wActCode)

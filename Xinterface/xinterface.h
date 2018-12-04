@@ -275,7 +275,7 @@ protected:
         EVENT_ENTITY * next;
 
 		EVENT_ENTITY() {sEventName=nullptr; sNodeName=nullptr; nCommandIndex=0;}
-		~EVENT_ENTITY() {PTR_STORM_DELETE(sEventName); PTR_STORM_DELETE(sNodeName); nCommandIndex=0;}
+		~EVENT_ENTITY() {STORM_DELETE(sEventName); STORM_DELETE(sNodeName); nCommandIndex=0;}
     };
     EVENT_ENTITY * m_pEvents;
 

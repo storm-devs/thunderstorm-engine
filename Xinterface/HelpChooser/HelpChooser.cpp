@@ -183,13 +183,13 @@ void HELPCHOOSER::AllRelease()
 	TEXTURE_RELEASE(rs,m_idPicTexture);
 	TEXTURE_RELEASE(rs,m_idBackTexture);
 	VERTEX_BUF_RELEASE(rs,m_idVBuf);
-	PTR_STORM_DELETE(m_pRectList);
+	STORM_DELETE(m_pRectList);
 	for(int i=0; i<m_nRectQ; i++)
 	{
-		PTR_STORM_DELETE(m_psRectName[i]);
+		STORM_DELETE(m_psRectName[i]);
 	}
 	m_nRectQ = 0;
-	PTR_STORM_DELETE(m_psRectName);
+	STORM_DELETE(m_psRectName);
 }
 
 bool HELPCHOOSER::RunChooser(char * ChooserGroup)

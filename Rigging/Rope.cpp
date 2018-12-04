@@ -38,21 +38,21 @@ ROPE::~ROPE()
 	if(rlist)
 	{
 		for(int i=0; i<ropeQuantity; i++)
-			PTR_STORM_DELETE(rlist[i]);
-		PTR_STORM_DELETE(rlist);
+			STORM_DELETE(rlist[i]);
+		STORM_DELETE(rlist);
 		ropeQuantity = 0;
 	}
 	// очистка и удаление списка групп
 	if(gdata)
 	{
 		for(int i=0; i<groupQuantity; i++)
-			PTR_STORM_DELETE(gdata[i].ropeIdx);
-		PTR_STORM_DELETE(gdata);
+			STORM_DELETE(gdata[i].ropeIdx);
+		STORM_DELETE(gdata);
 		groupQuantity = 0;
 	}
 	// удаление текстур
 	TEXTURE_RELEASE(RenderService,texl);
-	PTR_STORM_DELETE(TextureName);
+	STORM_DELETE(TextureName);
 
 	VERTEX_BUFFER_RELEASE(RenderService,vBuf);
 	INDEX_BUFFER_RELEASE(RenderService,iBuf);
@@ -248,7 +248,7 @@ uint32_t _cdecl ROPE::ProcessMessage(MESSAGE & message)
 			if(wFirstRope == ropeQuantity)
 			{
 				groupQuantity--;
-				if(groupQuantity<=0) PTR_STORM_DELETE(gdata);
+				if(groupQuantity<=0) STORM_DELETE(gdata);
 				return 0;
 			}
 

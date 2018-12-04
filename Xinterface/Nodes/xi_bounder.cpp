@@ -43,7 +43,7 @@ void CXI_BOUNDER::ReleaseAll()
 	m_bUse = false;
 
 	PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName,m_idTex);
-	PTR_STORM_DELETE(m_sGroupName);
+	STORM_DELETE(m_sGroupName);
 
 	VERTEX_BUF_RELEASE(m_rs,m_idVBuf);
 	INDEX_BUF_RELEASE(m_rs,m_idIBuf);

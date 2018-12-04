@@ -57,13 +57,13 @@ void CXI_CONTEXTHELP::ReleaseAll()
 {
 	if(m_pHelpList!= nullptr)
 		for(int i=0; i<m_helpQuantity; i++)
-			PTR_STORM_DELETE(m_pHelpList[i].nodeName);
-    PTR_STORM_DELETE(m_pHelpList);
+			STORM_DELETE(m_pHelpList[i].nodeName);
+    STORM_DELETE(m_pHelpList);
     m_helpQuantity = 0;
     m_curHelp= nullptr;
 
 	FONT_RELEASE(m_rs,m_idFont);
-	PTR_STORM_DELETE(m_sTempString);
+	STORM_DELETE(m_sTempString);
     m_nCurDelayCounter = 0;
 }
 

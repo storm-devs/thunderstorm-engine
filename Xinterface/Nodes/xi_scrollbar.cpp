@@ -266,7 +266,7 @@ void CXI_SCROLLBAR::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 void CXI_SCROLLBAR::ReleaseAll()
 {
 	PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName,m_idTex);
-	PTR_STORM_DELETE(m_sGroupName);
+	STORM_DELETE(m_sGroupName);
 	VERTEX_BUF_RELEASE(m_rs,m_idVBuf);
 	INDEX_BUF_RELEASE(m_rs,m_idIBuf);
 	FONT_RELEASE(m_rs,m_nFontID);

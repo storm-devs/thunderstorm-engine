@@ -180,7 +180,6 @@ struct XI_THREETEX_VERTEX
 	float tu3,tv3;
 };
 
-#define PTR_STORM_DELETE(p) if(p!=NULL) {delete p; p=NULL;}
 #define TEXTURE_RELEASE(rs,idtex) if(rs!=NULL && idtex!=-1) {rs->TextureRelease(idtex); idtex=-1;}
 #define VERTEX_BUF_RELEASE(rs,vb) if(rs!=NULL && vb!=-1) {rs->ReleaseVertexBuffer(vb); vb=-1;}
 #define INDEX_BUF_RELEASE(rs,ib) if(rs!=NULL && ib!=-1) {rs->ReleaseIndexBuffer(ib); ib=-1;}

@@ -811,7 +811,7 @@ void CXI_SCROLLIMAGE::ReleaseAll()
 {
 	int i;
 
-	PTR_STORM_DELETE(m_sSpecTechniqueName);
+	STORM_DELETE(m_sSpecTechniqueName);
 
 	if (m_idBadPic && m_idBadTexture)
 		for(i=0; i<m_nSlotsQnt; i++)
@@ -823,13 +823,13 @@ void CXI_SCROLLIMAGE::ReleaseAll()
 			m_idBadPic[i] = -1;
 		}
 
-	PTR_STORM_DELETE(m_idBadPic);
-	PTR_STORM_DELETE(m_idBadTexture);
+	STORM_DELETE(m_idBadPic);
+	STORM_DELETE(m_idBadTexture);
 
 	if(m_Image!= nullptr)
 	{
 		for(i=0; i<m_nListSize; i++) m_Image[i].Release(m_nSlotsQnt);
-		PTR_STORM_DELETE(m_Image);
+		STORM_DELETE(m_Image);
 	}
 
 	while(m_pScroll!= nullptr)
@@ -842,21 +842,21 @@ void CXI_SCROLLIMAGE::ReleaseAll()
 	for(i=0;i<m_nGroupQuantity;i++)
 	{
 		PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName[i],m_nGroupTex[i]);
-		PTR_STORM_DELETE(m_sGroupName[i]);
+		STORM_DELETE(m_sGroupName[i]);
 	}
-	PTR_STORM_DELETE(m_sGroupName);
-	PTR_STORM_DELETE(m_nGroupTex);
+	STORM_DELETE(m_sGroupName);
+	STORM_DELETE(m_nGroupTex);
 
 	PICTURE_TEXTURE_RELEASE(pPictureService,m_sBorderGroupName,m_texBorder);
-	PTR_STORM_DELETE(m_sBorderGroupName);
+	STORM_DELETE(m_sBorderGroupName);
 
 	FONT_RELEASE(m_rs,m_nOneStrFont);
 	FONT_RELEASE(m_rs,m_nTwoStrFont);
 
-	PTR_STORM_DELETE(m_dwCurColor);
-	PTR_STORM_DELETE(m_dwNormalColor);
-	PTR_STORM_DELETE(m_dwSelectColor);
-	PTR_STORM_DELETE(m_pPicOffset);
+	STORM_DELETE(m_dwCurColor);
+	STORM_DELETE(m_dwNormalColor);
+	STORM_DELETE(m_dwSelectColor);
+	STORM_DELETE(m_pPicOffset);
 
 	m_nGroupQuantity = 0;
 	m_nSlotsQnt = 0;
@@ -1073,7 +1073,7 @@ void CXI_SCROLLIMAGE::DeleteImage(int imgNum)
 	m_nListSize--;
 	if(m_nListSize<=0)
 	{
-		PTR_STORM_DELETE(m_Image);
+		STORM_DELETE(m_Image);
 		return;
 	}
 
@@ -1101,7 +1101,7 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 	char param[256];
 	//UpdateTexturesGroup();
 
-	PTR_STORM_DELETE(m_sSpecTechniqueName);
+	STORM_DELETE(m_sSpecTechniqueName);
 
 	for(i=0; i<m_nSlotsQnt; i++)
 	{
@@ -1115,7 +1115,7 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 	if(m_Image!= nullptr)
 	{
 		for(i=0; i<m_nListSize; i++) m_Image[i].Release(m_nSlotsQnt);
-		PTR_STORM_DELETE(m_Image);
+		STORM_DELETE(m_Image);
 	}
 
 	while(m_pScroll!= nullptr)
@@ -1129,10 +1129,10 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 	for(i=0;i<m_nGroupQuantity;i++)
 	{
 		PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName[i],m_nGroupTex[i]);
-		PTR_STORM_DELETE(m_sGroupName[i]);
+		STORM_DELETE(m_sGroupName[i]);
 	}
-	PTR_STORM_DELETE(m_sGroupName);
-	PTR_STORM_DELETE(m_nGroupTex);
+	STORM_DELETE(m_sGroupName);
+	STORM_DELETE(m_nGroupTex);
 
 	m_nListSize=0;	m_nNotUsedQuantity=0;
 
@@ -1514,10 +1514,10 @@ void CXI_SCROLLIMAGE::UpdateTexturesGroup()
 			for(i=0; i<nPrevQ; i++)
 			{
 				PICTURE_TEXTURE_RELEASE(pPictureService,pPrevGroup[i],prevTex[i]);
-				PTR_STORM_DELETE(pPrevGroup[i]);
+				STORM_DELETE(pPrevGroup[i]);
 			}
-			PTR_STORM_DELETE(pPrevGroup);
-			PTR_STORM_DELETE(prevTex);
+			STORM_DELETE(pPrevGroup);
+			STORM_DELETE(prevTex);
 		}
 	}
 }
@@ -1535,18 +1535,18 @@ int CXI_SCROLLIMAGE::FindTexGroupFromOld(char * *pGroupList, char * groupName, i
 
 void CXI_SCROLLIMAGE::IMAGEDESCRIBE::Release(int nQnt)
 {
-	PTR_STORM_DELETE(bUseSpecTechnique);
-	PTR_STORM_DELETE(tex);
-	PTR_STORM_DELETE(ptex);
-	PTR_STORM_DELETE(img);
+	STORM_DELETE(bUseSpecTechnique);
+	STORM_DELETE(tex);
+	STORM_DELETE(ptex);
+	STORM_DELETE(img);
 
-	for(int i=0; i<nQnt; i++)	PTR_STORM_DELETE(saveName[i]);
-	PTR_STORM_DELETE(saveName);
+	for(int i=0; i<nQnt; i++)	STORM_DELETE(saveName[i]);
+	STORM_DELETE(saveName);
 
 	str1 = -1;
 	str2 = -1;
-	PTR_STORM_DELETE(string1);
-	PTR_STORM_DELETE(string2);
+	STORM_DELETE(string1);
+	STORM_DELETE(string2);
 }
 
 void CXI_SCROLLIMAGE::IMAGEDESCRIBE::Clear(int nQnt)
@@ -1557,13 +1557,13 @@ void CXI_SCROLLIMAGE::IMAGEDESCRIBE::Clear(int nQnt)
 		tex[i] = -1;
 		ptex[i] = nullptr;
 		img[i] = -1;
-		PTR_STORM_DELETE(saveName[i]);
+		STORM_DELETE(saveName[i]);
 	}
 
 	str1 = -1;
 	str2 = -1;
-	PTR_STORM_DELETE(string1);
-	PTR_STORM_DELETE(string2);
+	STORM_DELETE(string1);
+	STORM_DELETE(string2);
 }
 
 uint32_t _cdecl CXI_SCROLLIMAGE::MessageProc(long msgcode, MESSAGE & message)

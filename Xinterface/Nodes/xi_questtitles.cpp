@@ -148,9 +148,9 @@ void CXI_QUESTTITLE::ReleaseAll()
 	if(m_strList!= nullptr)
 		for(int i=0;i<m_stringQuantity;i++)
 			for(int j=0;j<m_strList[i].lineQuantity;j++)
-				PTR_STORM_DELETE(m_strList[i].name[j]);
-	PTR_STORM_DELETE(m_strList);
-	PTR_STORM_DELETE(m_iconGroupName);
+				STORM_DELETE(m_strList[i].name[j]);
+	STORM_DELETE(m_strList);
+	STORM_DELETE(m_iconGroupName);
 	m_stringQuantity = 0;
 }
 
@@ -290,8 +290,8 @@ void CXI_QUESTTITLE::SetNewTopQuest(ATTRIBUTES * pA,int topNum)
 	{
 		for(i=0;i<m_stringQuantity;i++)
 			for(int j=0;j<m_strList[i].lineQuantity;j++)
-				PTR_STORM_DELETE(m_strList[i].name[j]);
-		PTR_STORM_DELETE(m_strList);
+				STORM_DELETE(m_strList[i].name[j]);
+		STORM_DELETE(m_strList);
 		m_stringQuantity = 0;
 	} // boal перенес наверх, иначе не трется, если квестов нет, а были уже
 	

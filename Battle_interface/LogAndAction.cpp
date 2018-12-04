@@ -78,8 +78,8 @@ void ILogAndActions::Execute(uint32_t delta_time)
 					m_sRoot = sd->next;
 				else
 					prev_sd->next = sd->next;
-				PTR_STORM_DELETE(sd->str);
-				PTR_STORM_DELETE(sd);
+				STORM_DELETE(sd->str);
+				STORM_DELETE(sd);
 				sd = m_sRoot;
 				continue;
 			}
@@ -119,7 +119,7 @@ uint32_t _cdecl ILogAndActions::ProcessMessage(MESSAGE & message)
 				if(last== nullptr)	SetString(param,true);
 				else
 				{
-					PTR_STORM_DELETE(last->str);
+					STORM_DELETE(last->str);
 					if(param[0]!=0)
 					{
 						if( (last->str=NEW char[strlen(param)+1]) == nullptr )
@@ -135,7 +135,7 @@ uint32_t _cdecl ILogAndActions::ProcessMessage(MESSAGE & message)
 								if(prev!= nullptr && prev->next==last) //~!~
 									{ prev->next = last->next;	break; }
 						}
-						PTR_STORM_DELETE(last);
+						STORM_DELETE(last);
 					}
 				}
 			}
@@ -173,7 +173,7 @@ uint32_t _cdecl ILogAndActions::ProcessMessage(MESSAGE & message)
 		{
 			STRING_DESCR * p = m_sRoot;
 			m_sRoot = p->next;
-			PTR_STORM_DELETE(p->str);
+			STORM_DELETE(p->str);
 			delete p;
 		}
 		break;
@@ -393,7 +393,7 @@ void ILogAndActions::Release()
 	{
 		STRING_DESCR * p = m_sRoot;
 		m_sRoot = p->next;
-		PTR_STORM_DELETE(p->str);
+		STORM_DELETE(p->str);
 		delete p;
 	}
 	m_ActionHint1.Release();
@@ -450,7 +450,7 @@ void ILogAndActions::SetString(char * str, bool immortal)
 				if( (tmpDescr->offset-=offsetDelta)<0 )
 				{
 					m_sRoot = tmpDescr->next;
-					PTR_STORM_DELETE(tmpDescr->str);
+					STORM_DELETE(tmpDescr->str);
 					delete tmpDescr;
 					tmpDescr = m_sRoot;
 					continue;

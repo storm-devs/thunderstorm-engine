@@ -154,7 +154,7 @@ void CXI_CHANGER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 
 void CXI_CHANGER::ReleaseAll()
 {
-	PTR_STORM_DELETE(m_pPlace);
+	STORM_DELETE(m_pPlace);
 	TEXTURE_RELEASE(m_rs,m_idBackTex);
 	VIDEOTEXTURE_RELEASE(m_rs,m_pTex);
 }

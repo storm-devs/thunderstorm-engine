@@ -118,7 +118,7 @@ public:
 		int					command;
 		COMMAND_REDIRECT	*next;
 		COMMAND_REDIRECT() {sControlName=nullptr; next=nullptr;}
-		~COMMAND_REDIRECT() {PTR_STORM_DELETE(sControlName);}
+		~COMMAND_REDIRECT() {STORM_DELETE(sControlName);}
 	};
 	struct COMMAND_ACTION
 	{
@@ -130,7 +130,7 @@ public:
 		char *			 sEventName;
 		long			 nActionDelay;
 		COMMAND_ACTION() {bUse=false; sRetControl=nullptr; pNextControl=nullptr; sEventName=nullptr;}
-		~COMMAND_ACTION() {PTR_STORM_DELETE(sRetControl); PTR_STORM_DELETE(sEventName); while(pNextControl) {COMMAND_REDIRECT* pOld=pNextControl; pNextControl=pNextControl->next; delete pOld;} }
+		~COMMAND_ACTION() {STORM_DELETE(sRetControl); STORM_DELETE(sEventName); while(pNextControl) {COMMAND_REDIRECT* pOld=pNextControl; pNextControl=pNextControl->next; delete pOld;} }
 	};
 public:
 	CINODE();

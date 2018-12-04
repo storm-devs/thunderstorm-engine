@@ -37,7 +37,7 @@ void CXI_STATUSLINE::ReleaseAll()
 	PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName,m_idTex);
 	VERTEX_BUF_RELEASE(m_rs,m_vBuf);
 	INDEX_BUF_RELEASE(m_rs,m_iBuf);
-	PTR_STORM_DELETE(m_sGroupName);
+	STORM_DELETE(m_sGroupName);
 }
 
 int CXI_STATUSLINE::CommandExecute(int wActCode)

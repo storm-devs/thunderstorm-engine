@@ -421,20 +421,20 @@ void CXI_FOURIMAGE::ReleaseAll()
 	for(i=0; i<m_nTexturesQuantity; i++)
 	{
 		PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName[i],m_nTextureId[i]);
-		PTR_STORM_DELETE(m_sGroupName[i]);
+		STORM_DELETE(m_sGroupName[i]);
 	}
-	PTR_STORM_DELETE(m_sGroupName);
-	PTR_STORM_DELETE(m_nTextureId);
+	STORM_DELETE(m_sGroupName);
+	STORM_DELETE(m_nTextureId);
 	PICTURE_TEXTURE_RELEASE(pPictureService,m_sBorderGroupName,m_texBorder);
 
 	for(i=0; i<4; i++)
 	{
-		PTR_STORM_DELETE(m_pOneStr[i]);
-		PTR_STORM_DELETE(m_pTwoStr[i]);
+		STORM_DELETE(m_pOneStr[i]);
+		STORM_DELETE(m_pTwoStr[i]);
 	}
 
 	// release all image list names
-	PTR_STORM_DELETE(m_sBorderGroupName);
+	STORM_DELETE(m_sBorderGroupName);
 
 	FONT_RELEASE(m_rs,m_oneStrFont);
 	FONT_RELEASE(m_rs,m_twoStrFont);

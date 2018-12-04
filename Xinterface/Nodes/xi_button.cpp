@@ -208,7 +208,7 @@ void CXI_BUTTON::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 void CXI_BUTTON::ReleaseAll()
 {
 	PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName,m_idTex);
-	PTR_STORM_DELETE(m_sGroupName);
+	STORM_DELETE(m_sGroupName);
 	FONT_RELEASE(m_rs,m_nFontNum);
 	VIDEOTEXTURE_RELEASE(m_rs,m_pTex);
 }
@@ -298,7 +298,7 @@ uint32_t _cdecl CXI_BUTTON::MessageProc(long msgcode, MESSAGE & message)
 			if(m_sGroupName== nullptr || _stricmp(m_sGroupName,param)!=0)
 			{
 				PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName,m_idTex);
-				PTR_STORM_DELETE(m_sGroupName);
+				STORM_DELETE(m_sGroupName);
 				m_sGroupName = NEW char[paramLen+1];
 				if(m_sGroupName== nullptr)
 					STORM_THROW("allocate memory error")

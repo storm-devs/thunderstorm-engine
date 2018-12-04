@@ -24,19 +24,19 @@ VANT::VANT()
 VANT::~VANT()
 {
     TEXTURE_RELEASE(RenderService,texl);
-    PTR_STORM_DELETE(TextureName);
+    STORM_DELETE(TextureName);
     while(groupQuantity>0)
 	{
 		groupQuantity--;
-        PTR_STORM_DELETE(gdata[groupQuantity].vantIdx);
+        STORM_DELETE(gdata[groupQuantity].vantIdx);
 	}
-    PTR_STORM_DELETE(gdata);
+    STORM_DELETE(gdata);
     while(vantQuantity>0)
 	{
 		vantQuantity--;
-        PTR_STORM_DELETE(vlist[vantQuantity]);
+        STORM_DELETE(vlist[vantQuantity]);
 	}
-    PTR_STORM_DELETE(vlist);
+    STORM_DELETE(vlist);
 	VERTEX_BUFFER_RELEASE(RenderService,vBuf);
 	INDEX_BUFFER_RELEASE(RenderService,iBuf);
 	nVert = nIndx = 0;

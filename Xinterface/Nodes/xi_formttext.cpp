@@ -194,7 +194,7 @@ void CXI_FORMATEDTEXT::ReleaseAll()
 	TEXTURE_RELEASE(m_rs,m_idUpDisableTexture);
 	TEXTURE_RELEASE(m_rs,m_idDownEnableTexture);
 	TEXTURE_RELEASE(m_rs,m_idDownDisableTexture);
-	PTR_STORM_DELETE(m_sScrollerName);
+	STORM_DELETE(m_sScrollerName);
 	ReleaseStringes();
 	m_asSyncNodes.clear();
 }
@@ -579,7 +579,7 @@ void CXI_FORMATEDTEXT::ReleaseString( STRING_DESCRIBER * pCur )
 	if( pCur->next ) pCur->next->prev = pCur->prev;
 	pCur->next = pCur->prev = nullptr;
 	m_nAllTextStrings--;
-	PTR_STORM_DELETE( pCur->lineStr );
+	STORM_DELETE( pCur->lineStr );
 	delete pCur;
 }
 
@@ -701,8 +701,8 @@ void CXI_FORMATEDTEXT::SetFormatedText(char * str)
 	{
 		m_listCur = m_listRoot;
 		m_listRoot = m_listRoot->next;
-		PTR_STORM_DELETE(m_listCur->lineStr);
-		PTR_STORM_DELETE(m_listCur);
+		STORM_DELETE(m_listCur->lineStr);
+		STORM_DELETE(m_listCur);
 	}
 	m_nStringGroupQuantity = 0;
 	m_nAllTextStrings = 0;
@@ -1276,8 +1276,8 @@ void CXI_FORMATEDTEXT::SetSpecialStrings(ATTRIBUTES * pARoot)
 	{
 		m_listCur = m_listRoot;
 		m_listRoot = m_listRoot->next;
-		PTR_STORM_DELETE(m_listCur->lineStr);
-		PTR_STORM_DELETE(m_listCur);
+		STORM_DELETE(m_listCur->lineStr);
+		STORM_DELETE(m_listCur);
 	}
 	m_nStringGroupQuantity = 0;
 	m_nAllTextStrings = 0;

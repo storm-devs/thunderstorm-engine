@@ -23,17 +23,17 @@ FLAG::FLAG()
 FLAG::~FLAG()
 {
     TEXTURE_RELEASE(RenderService,texl);
-    PTR_STORM_DELETE(TextureName);
-    PTR_STORM_DELETE(gdata);
+    STORM_DELETE(TextureName);
+    STORM_DELETE(gdata);
 	VERTEX_BUFFER_RELEASE(RenderService,vBuf);
 	INDEX_BUFFER_RELEASE(RenderService,iBuf);
 
     while(flagQuantity>0)
 	{
 		flagQuantity--;
-        PTR_STORM_DELETE(flist[flagQuantity]);
+        STORM_DELETE(flist[flagQuantity]);
 	}
-    PTR_STORM_DELETE(flist);
+    STORM_DELETE(flist);
 }
 
 bool FLAG::Init()

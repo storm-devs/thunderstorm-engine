@@ -494,8 +494,8 @@ void CXI_TEXTBUTTON::ReleaseAll()
 {
 	PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName,m_idTex);
 	TEXTURE_RELEASE(m_rs,m_idShadowTex);
-	PTR_STORM_DELETE(m_sGroupName);
-	PTR_STORM_DELETE(m_sString);
+	STORM_DELETE(m_sGroupName);
+	STORM_DELETE(m_sString);
 	VERTEX_BUF_RELEASE(m_rs,m_idVBuf);
 	INDEX_BUF_RELEASE(m_rs,m_idIBuf);
 	VIDEOTEXTURE_RELEASE(m_rs,m_pTex);
@@ -559,7 +559,7 @@ uint32_t _cdecl CXI_TEXTBUTTON::MessageProc(long msgcode, MESSAGE & message)
 			char param[256];
 			message.String(sizeof(param)-1,param);
 			param[sizeof(param)-1] = 0;
-			PTR_STORM_DELETE(m_sString); m_idString = -1;
+			STORM_DELETE(m_sString); m_idString = -1;
 			if( param[0] == '#' ) {
 				if( (m_sString=NEW char[strlen(param)]) == nullptr )
 				{ STORM_THROW("allocate memory error"); }

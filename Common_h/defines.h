@@ -80,10 +80,7 @@ inline int ftoi(float f)
 {
 	return _mm_cvt_ss2si(_mm_load_ss(&f));
 }
-#define FTOL(l,f)			{ l = _mm_cvt_ss2si(_mm_load_ss(&f)); }
-#define GET_DATA(x,p)		{ memcpy(&(x),p,sizeof(x));p+=sizeof(x); }
-#define STORM_DELETE(x)			{ if (x) delete x; x=0; }
-#define DELETE_ARRAY(x)		{ if (x) delete []x; x=0; }
+#define STORM_DELETE(x)			{ delete x; x=0; }
 #define DELETE_ENTITY(x)	{ if (_CORE_API->ValidateEntity(&x)) _CORE_API->DeleteEntity(x); }
 #define RELEASE(x)			{ if (x) x->Release(); x = 0; }
 #define SQR(a)				( (a)*(a) )
@@ -96,9 +93,6 @@ inline int ftoi(float f)
 #define MIN3(x,y,z)			( ((x) < (y)) ? ((x) < (z) ? (x) : (z)) : ((y) < (z) ? (y) : (z)) )
 #define CLAMP(x)			( ((x) > 1.0f) ? 1.0f : (((x) < 0.0f) ? 0.0f : (x)) )
 #define RGB(r,g,b)			( uint32_t(b)|(uint32_t(g)<<8L)|(uint32_t(r)<<16L) )
-#define RGB565(r,g,b)		uint16_t( ((uint32_t(b) >> 3L)) | ((uint32_t(g) >> 2L) << 5L) | ((uint32_t(r) >> 3L) << 11L) )
-#define RGB1555(r,g,b)		uint16_t( ((uint32_t(b) >> 3L)) | ((uint32_t(g) >> 3L) << 5L) | ((uint32_t(r) >> 3L) << 10L) )
-#define ARGB1555(a,r,g,b)	uint16_t( (uint32_t(a&1L) << 15L) | ((uint32_t(b) >> 3L)) | ((uint32_t(g) >> 3L) << 5L) | ((uint32_t(r) >> 3L) << 10L) )
 #define ARGB(a,r,g,b)		( uint32_t(b)|(uint32_t(g)<<8L)|(uint32_t(r)<<16L)|(uint32_t(a)<<24L) )
 #define STORM_ZERO(x,y)		{ memset(x, 0, y); }
 #define ZERO(x)				{ STORM_ZERO(&x,sizeof(x)); }

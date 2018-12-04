@@ -43,7 +43,7 @@ void CXI_IMGCOLLECTION::ReleaseAll()
 	PICTURE_TEXTURE_RELEASE(pPictureService,sGroupName,texl);
 	VERTEX_BUF_RELEASE(m_rs,vBuf);
 	INDEX_BUF_RELEASE(m_rs,iBuf);
-	PTR_STORM_DELETE(sGroupName);
+	STORM_DELETE(sGroupName);
 }
 
 int CXI_IMGCOLLECTION::CommandExecute(int wActCode)
@@ -382,7 +382,7 @@ uint32_t _cdecl CXI_IMGCOLLECTION::MessageProc(long msgcode, MESSAGE & message)
 
 			if( !sGroupName || _stricmp(sGroupName,param)!=0 )
 			{
-				PTR_STORM_DELETE(sGroupName);
+				STORM_DELETE(sGroupName);
 				PICTURE_TEXTURE_RELEASE(pPictureService,sGroupName,texl);
 
 				// имя группы

@@ -276,7 +276,7 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 
 			float fAlpha = fFadeValue * fTmpK[i%5]*fTmpRnd[i%7] * s.fAlpha * 255.0f * Bring2Range(1.0f, 0.01f, -2.0f, fMaxMag, s.fMag);
 
-			uint32_t dwAlpha; FTOL(dwAlpha, fAlpha);
+			uint32_t dwAlpha = ftoi(fAlpha);
 			pVColors[i] = (dwAlpha << 24L) | s.dwColor;
 		}
 		Astronomy::pRS->UnLockVertexBuffer(iVertexBufferColors);

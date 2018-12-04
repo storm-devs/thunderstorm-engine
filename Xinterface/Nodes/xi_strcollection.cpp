@@ -131,12 +131,12 @@ void CXI_STRCOLLECTION::ReleaseAll()
 {
 	for(int i=0; i<m_nStr; i++)
 	{
-		PTR_STORM_DELETE(m_pStrDescr[i].strID);
-		PTR_STORM_DELETE(m_pStrDescr[i].strStr);
-		PTR_STORM_DELETE(m_pStrDescr[i].sFontName);
+		STORM_DELETE(m_pStrDescr[i].strID);
+		STORM_DELETE(m_pStrDescr[i].strStr);
+		STORM_DELETE(m_pStrDescr[i].sFontName);
 		FONT_RELEASE(m_rs,m_pStrDescr[i].nFontNum);
 	}
-	PTR_STORM_DELETE(m_pStrDescr);
+	STORM_DELETE(m_pStrDescr);
 	m_nStr = 0;
 }
 
@@ -366,8 +366,8 @@ CXI_STRCOLLECTION::STRINGDESCR * CXI_STRCOLLECTION::CreateNewDinamicString(char 
 	{
 		if(strStr== nullptr || strStr[0]==0)
 		{
-			PTR_STORM_DELETE(m_pStrDescr[i].strID);
-			PTR_STORM_DELETE(m_pStrDescr[i].strStr);
+			STORM_DELETE(m_pStrDescr[i].strID);
+			STORM_DELETE(m_pStrDescr[i].strStr);
 			FONT_RELEASE(m_rs,m_pStrDescr[i].nFontNum);
 			m_nStr--;
 			if(m_nStr>i)
@@ -375,7 +375,7 @@ CXI_STRCOLLECTION::STRINGDESCR * CXI_STRCOLLECTION::CreateNewDinamicString(char 
 			return nullptr;
 		}
 		FONT_RELEASE(m_rs,m_pStrDescr[i].nFontNum);
-		PTR_STORM_DELETE(m_pStrDescr[i].strStr);
+		STORM_DELETE(m_pStrDescr[i].strStr);
 		m_pStrDescr[i].strStr = NEW char[strlen(strStr)+1];
 		if(m_pStrDescr[i].strStr== nullptr)	{THROW("allocate memory error");}
 		strcpy(m_pStrDescr[i].strStr,strStr);

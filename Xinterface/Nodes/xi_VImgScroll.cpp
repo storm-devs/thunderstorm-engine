@@ -794,7 +794,7 @@ void CXI_VIMAGESCROLL::ReleaseAll()
 {
 	int i;
 
-	PTR_STORM_DELETE(m_sSpecTechniqueName);
+	STORM_DELETE(m_sSpecTechniqueName);
 
 	for(i=0; i<m_nSlotsQnt; i++)
 	{
@@ -804,13 +804,13 @@ void CXI_VIMAGESCROLL::ReleaseAll()
 		else m_idBadTexture[i] = -1;
 		m_idBadPic[i] = -1;
 	}
-	PTR_STORM_DELETE(m_idBadPic);
-	PTR_STORM_DELETE(m_idBadTexture);
+	STORM_DELETE(m_idBadPic);
+	STORM_DELETE(m_idBadTexture);
 
 	if(m_Image!= nullptr)
 	{
 		for(i=0; i<m_nListSize; i++) m_Image[i].Release(m_nSlotsQnt,m_nStringQuantity);
-		PTR_STORM_DELETE(m_Image);
+		STORM_DELETE(m_Image);
 	}
 
 	while(m_pScroll!= nullptr)
@@ -823,13 +823,13 @@ void CXI_VIMAGESCROLL::ReleaseAll()
 	for(i=0;i<m_nGroupQuantity;i++)
 	{
 		PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName[i],m_nGroupTex[i]);
-		PTR_STORM_DELETE(m_sGroupName[i]);
+		STORM_DELETE(m_sGroupName[i]);
 	}
-	PTR_STORM_DELETE(m_sGroupName);
-	PTR_STORM_DELETE(m_nGroupTex);
+	STORM_DELETE(m_sGroupName);
+	STORM_DELETE(m_nGroupTex);
 
 	PICTURE_TEXTURE_RELEASE(pPictureService,m_sBorderGroupName,m_texBorder);
-	PTR_STORM_DELETE(m_sBorderGroupName);
+	STORM_DELETE(m_sBorderGroupName);
 
 	// release all strings parameters
 	for(i=0; i<m_nStringQuantity; i++)
@@ -837,11 +837,11 @@ void CXI_VIMAGESCROLL::ReleaseAll()
 		FONT_RELEASE(m_rs, m_pStrParam[i].m_nFont);
 	}
 
-	PTR_STORM_DELETE(m_dwCurColor);
-	PTR_STORM_DELETE(m_dwNormalColor);
-	PTR_STORM_DELETE(m_dwSelectColor);
-	PTR_STORM_DELETE(m_pPicOffset);
-	PTR_STORM_DELETE(m_pStrParam);
+	STORM_DELETE(m_dwCurColor);
+	STORM_DELETE(m_dwNormalColor);
+	STORM_DELETE(m_dwSelectColor);
+	STORM_DELETE(m_pPicOffset);
+	STORM_DELETE(m_pStrParam);
 
 	m_nSlotsQnt = 0;
 	m_nStringQuantity = 0;
@@ -1037,7 +1037,7 @@ void CXI_VIMAGESCROLL::DeleteImage(int imgNum)
 	m_nListSize--;
 	if(m_nListSize<=0)
 	{
-		PTR_STORM_DELETE(m_Image);
+		STORM_DELETE(m_Image);
 		return;
 	}
 
@@ -1065,7 +1065,7 @@ void CXI_VIMAGESCROLL::RefreshScroll()
 	char param[256];
 	//UpdateTexturesGroup();
 
-	PTR_STORM_DELETE(m_sSpecTechniqueName);
+	STORM_DELETE(m_sSpecTechniqueName);
 
 	for(i=0; i<m_nSlotsQnt; i++)
 	{
@@ -1079,7 +1079,7 @@ void CXI_VIMAGESCROLL::RefreshScroll()
 	if(m_Image!= nullptr)
 	{
 		for(i=0; i<m_nListSize; i++) m_Image[i].Release(m_nSlotsQnt,m_nStringQuantity);
-		PTR_STORM_DELETE(m_Image);
+		STORM_DELETE(m_Image);
 	}
 
 	while(m_pScroll!= nullptr)
@@ -1093,10 +1093,10 @@ void CXI_VIMAGESCROLL::RefreshScroll()
 	for(i=0;i<m_nGroupQuantity;i++)
 	{
 		PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName[i],m_nGroupTex[i]);
-		PTR_STORM_DELETE(m_sGroupName[i]);
+		STORM_DELETE(m_sGroupName[i]);
 	}
-	PTR_STORM_DELETE(m_sGroupName);
-	PTR_STORM_DELETE(m_nGroupTex);
+	STORM_DELETE(m_sGroupName);
+	STORM_DELETE(m_nGroupTex);
 
 	m_nListSize=0;	m_nNotUsedQuantity=0;
 
@@ -1478,10 +1478,10 @@ void CXI_VIMAGESCROLL::UpdateTexturesGroup()
 			for(i=0; i<nPrevQ; i++)
 			{
 				PICTURE_TEXTURE_RELEASE(pPictureService,pPrevGroup[i],prevTex[i]);
-				PTR_STORM_DELETE(pPrevGroup[i]);
+				STORM_DELETE(pPrevGroup[i]);
 			}
-			PTR_STORM_DELETE(pPrevGroup);
-			PTR_STORM_DELETE(prevTex);
+			STORM_DELETE(pPrevGroup);
+			STORM_DELETE(prevTex);
 		}
 	}
 }
@@ -1501,21 +1501,21 @@ void CXI_VIMAGESCROLL::IMAGEDESCRIBE::Release(int nQnt, int nStr)
 {
 	int i;
 
-	PTR_STORM_DELETE(bUseSpecTechnique);
-	PTR_STORM_DELETE(tex);
-	PTR_STORM_DELETE(ptex);
-	PTR_STORM_DELETE(img);
+	STORM_DELETE(bUseSpecTechnique);
+	STORM_DELETE(tex);
+	STORM_DELETE(ptex);
+	STORM_DELETE(img);
 
-	for(i=0; i<nQnt; i++)	PTR_STORM_DELETE(saveName[i]);
-	PTR_STORM_DELETE(saveName);
+	for(i=0; i<nQnt; i++)	STORM_DELETE(saveName[i]);
+	STORM_DELETE(saveName);
 
 	for(i=0; i<nStr; i++)
 	{
 		strNum[i] = -1;
-		PTR_STORM_DELETE( strSelf[i] );
+		STORM_DELETE( strSelf[i] );
 	}
-	PTR_STORM_DELETE(strNum);
-	PTR_STORM_DELETE(strSelf);
+	STORM_DELETE(strNum);
+	STORM_DELETE(strSelf);
 }
 
 void CXI_VIMAGESCROLL::IMAGEDESCRIBE::Clear(int nQnt, int nStr)
@@ -1528,13 +1528,13 @@ void CXI_VIMAGESCROLL::IMAGEDESCRIBE::Clear(int nQnt, int nStr)
 		tex[i] = -1;
 		ptex[i] = nullptr;
 		img[i] = -1;
-		PTR_STORM_DELETE(saveName[i]);
+		STORM_DELETE(saveName[i]);
 	}
 
 	for(i=0; i<nStr; i++)
 	{
 		strNum[i] = -1;
-		PTR_STORM_DELETE( strSelf[i] );
+		STORM_DELETE( strSelf[i] );
 	}
 }
 

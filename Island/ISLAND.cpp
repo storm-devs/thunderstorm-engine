@@ -275,11 +275,10 @@ inline float ISLAND::GetShadowTemp(long iX, long iZ)
 
 bool ISLAND::GetShadow(float x, float z, float * fRes)
 {
-	long  iX, iZ;
-	float fX = (x - vBoxCenter.x) / fShadowMapStep; FTOL(iX,fX); 
-	float fZ = (z - vBoxCenter.z) / fShadowMapStep; FTOL(iZ,fZ); 
+	float fX = (x - vBoxCenter.x) / fShadowMapStep; 
+	float fZ = (z - vBoxCenter.z) / fShadowMapStep;
 
-	*fRes = GetShadowTemp(iX + mzShadow.GetSizeX() / 2, iZ + mzShadow.GetSizeX() / 2);
+	*fRes = GetShadowTemp(ftoi(fX) + mzShadow.GetSizeX() / 2, ftoi(fZ) + mzShadow.GetSizeX() / 2);
 	
 	return true;
 }
@@ -340,11 +339,10 @@ bool ISLAND::GetDepthFast(float x, float z, float * fRes)
 		return false;
 	}
 	
-	long iX, iZ;
-	float fX = (x * fStep1divDX) + float(iDMapSize >> 1); FTOL(iX, fX); 
-	float fZ = (z * fStep1divDZ) + float(iDMapSize >> 1); FTOL(iZ, fZ);
-	
-	*fRes = GetDepthNoCheck(iX, iZ);
+	float fX = (x * fStep1divDX) + float(iDMapSize >> 1); 
+	float fZ = (z * fStep1divDZ) + float(iDMapSize >> 1);
+
+	*fRes = GetDepthNoCheck(ftoi(fX), ftoi(fZ));
 	return true;
 }
 
@@ -360,11 +358,10 @@ bool ISLAND::GetDepth(float x, float z, float * fRes)
 		return false;
 	}
 	
-	long iX, iZ;
-	float fX = (x * fStep1divDX) + float(iDMapSize >> 1); FTOL(iX, fX); 
-	float fZ = (z * fStep1divDZ) + float(iDMapSize >> 1); FTOL(iZ, fZ);
+	float fX = (x * fStep1divDX) + float(iDMapSize >> 1);
+	float fZ = (z * fStep1divDZ) + float(iDMapSize >> 1);
 
-	*fRes = GetDepthNoCheck(iX, iZ);
+	*fRes = GetDepthNoCheck(ftoi(fX), ftoi(fZ));
 
 	return true;
 }

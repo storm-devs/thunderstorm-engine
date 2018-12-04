@@ -32,9 +32,9 @@ CXI_PCEDITBOX::~CXI_PCEDITBOX()
 void CXI_PCEDITBOX::ReleaseAll()
 {
 	FONT_RELEASE( m_rs, m_nFontID );
-	PTR_STORM_DELETE( m_pLeftImage );
-	PTR_STORM_DELETE( m_pRightImage );
-	PTR_STORM_DELETE( m_pMiddleImage );
+	STORM_DELETE( m_pLeftImage );
+	STORM_DELETE( m_pRightImage );
+	STORM_DELETE( m_pMiddleImage );
 }
 
 void CXI_PCEDITBOX::Draw(bool bSelected,uint32_t Delta_Time)
@@ -211,7 +211,7 @@ void CXI_PCEDITBOX::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 			m_pLeftImage->SetPosition( m_rect.left, m_rect.top, IPType_LeftTop );
 			nMiddleLeft += m_pLeftImage->GetWidth();
 		} else {
-			PTR_STORM_DELETE( m_pLeftImage );
+			STORM_DELETE( m_pLeftImage );
 		}
 	}
 	if( m_pRightImage ) {
@@ -221,10 +221,10 @@ void CXI_PCEDITBOX::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 			m_pRightImage->SetPosition( m_rect.right, m_rect.top, IPType_RightTop );
 			nMiddleRight -= m_pRightImage->GetWidth();
 		} else {
-			PTR_STORM_DELETE( m_pRightImage );
+			STORM_DELETE( m_pRightImage );
 		}
 	}
-	if( nMiddleLeft >= nMiddleRight ) {PTR_STORM_DELETE( m_pMiddleImage );}
+	if( nMiddleLeft >= nMiddleRight ) {STORM_DELETE( m_pMiddleImage );}
 	if( m_pMiddleImage )
 	{
 		if( m_pMiddleImage->IsImagePresent() )
@@ -232,7 +232,7 @@ void CXI_PCEDITBOX::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 			m_pMiddleImage->SetSize( nMiddleRight - nMiddleLeft, nHeight );
 			m_pMiddleImage->SetPosition( nMiddleLeft, m_rect.top, IPType_LeftTop );
 		} else {
-			PTR_STORM_DELETE( m_pMiddleImage );
+			STORM_DELETE( m_pMiddleImage );
 		}
 	}
 

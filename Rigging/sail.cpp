@@ -1,7 +1,7 @@
 #include "sail.h"
+#include "../Common_h/defines.h"
 #include "../Common_h/model.h"
 #include "../Common_h/sail_msg.h"
-#include "../Common_h/defines.h"
 #include "../Common_h/Weather_Base.h"
 #include "../Common_h/ship_base.h"
 #include "../Common_h/Sd2_h/VAI_ObjBase.h"
@@ -141,25 +141,26 @@ SAIL::~SAIL()
     if(slist!= nullptr)
     {
         for(int i=0; i<sailQuantity; i++)
-            PTR_STORM_DELETE(slist[i]);
-        PTR_STORM_DELETE(slist);
+            STORM_DELETE(slist[i]);
+        STORM_DELETE(slist);
     }
     if(gdata!= nullptr)
     {
         for(int i=0; i<groupQuantity; i++)
 		{
-            PTR_STORM_DELETE(gdata[i].sailIdx);
+            STORM_DELETE(gdata[i].sailIdx);
 		}
-        VOIDPTR_STORM_DELETE(gdata);
+		delete (char*)gdata;
+		gdata = nullptr;
     }
 
 	VERTEX_BUFFER_RELEASE(RenderService,sg.vertBuf);
 	INDEX_BUFFER_RELEASE(RenderService,sg.indxBuf);
     TEXTURE_RELEASE(RenderService,texl);
 	TEXTURE_RELEASE(RenderService,m_nEmptyGerbTex);
-    PTR_STORM_DELETE(WindVect);
+    STORM_DELETE(WindVect);
 	m_nMastCreatedCharacter = -1;
-	PTR_STORM_DELETE(m_sMastName);
+	STORM_DELETE(m_sMastName);
 }
 
 bool SAIL::Init()
@@ -288,7 +289,7 @@ void SAIL::Execute(uint32_t Delta_Time)
                 LoadSailIni();
                 if(oldWindQnt!=WINDVECTOR_QUANTITY) // если изменили размер таблицы ветров
                 {
-                    PTR_STORM_DELETE(WindVect);
+                    STORM_DELETE(WindVect);
                     WindVect=NEW float[WINDVECTOR_QUANTITY];
                     if(WindVect) // расчет таблицы векторов ветра
                         for(i=0; i<WINDVECTOR_QUANTITY; i++ )
@@ -570,7 +571,8 @@ uint32_t _cdecl SAIL::ProcessMessage(MESSAGE & message)
 				GROUPDATA* oldgdata = gdata;
 				gdata = NEW GROUPDATA[groupQuantity+1];
 				memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
-				VOIDPTR_STORM_DELETE(oldgdata);
+                delete oldgdata;
+				oldgdata = nullptr;
 				groupQuantity++;
 			}
 			else
@@ -878,7 +880,7 @@ uint32_t _cdecl SAIL::ProcessMessage(MESSAGE & message)
 
 	// начать/закончить присоединение парусов к падающей мачте
 	case MSG_SAIL_MAST_PROCESSING:
-		PTR_STORM_DELETE(m_sMastName);
+		STORM_DELETE(m_sMastName);
 		m_nMastCreatedCharacter = message.Long();
 		if(m_nMastCreatedCharacter!=-1)
 		{
@@ -1035,7 +1037,7 @@ void SAIL::SetAllSails(int groupNum)
             {
                 //STORM_THROW("SAIL: Null size");
 				api->Trace("SAIL: Can`t init sail");
-                PTR_STORM_DELETE(slist[i]);
+                STORM_DELETE(slist[i]);
                 sailQuantity--;
                 if(sailQuantity>0)
                 {
@@ -1044,9 +1046,9 @@ void SAIL::SetAllSails(int groupNum)
                     if(!slist) {slist=oldslist; oldslist=nullptr;}
                     if(i>0) memcpy(slist,oldslist,sizeof(SAILONE*)*i);
                     if(i<sailQuantity) memcpy(&slist[i],&oldslist[i+1],sizeof(SAILONE*)*(sailQuantity-i));
-                    PTR_STORM_DELETE(oldslist);
+                    STORM_DELETE(oldslist);
                 }
-                else	{PTR_STORM_DELETE(slist);}
+                else	{STORM_DELETE(slist);}
 				i--;
             }
         }
@@ -1111,13 +1113,15 @@ void SAIL::SetAllSails(int groupNum)
             if(gdata)
             {
                 memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
-                VOIDPTR_STORM_DELETE(oldgdata);
+                delete oldgdata;
+				oldgdata = nullptr;
             }
             else gdata=oldgdata;
         }
         else
         {
-            VOIDPTR_STORM_DELETE(gdata);
+			delete gdata;
+			gdata = nullptr;
         }
     }
 }
@@ -1543,7 +1547,8 @@ void SAIL::DoSailToNewHost(ENTITY_ID newModelEI, ENTITY_ID newHostEI, int grNum,
         gdata[gn].modelEI=newModelEI;
 		gdata[gn].dwSailsColor = 0xFFFFFFFF;
 		gdata[gn].maxSP = 100;
-        VOIDPTR_STORM_DELETE(oldgdata);
+        delete oldgdata;
+		oldgdata = nullptr;
 		groupQuantity++;
 		bDeleteState = true;
     }
@@ -1594,7 +1599,7 @@ void SAIL::DoSailToNewHost(ENTITY_ID newModelEI, ENTITY_ID newHostEI, int grNum,
 			ATTRIBUTES * pA = pVai->GetACharacter()->GetAttributeClass("Ship");
 			if(pA) pA->SetAttributeUseDword("SP",0);
 		}
-        PTR_STORM_DELETE(gdata[oldg].sailIdx);
+        STORM_DELETE(gdata[oldg].sailIdx);
 		gdata[oldg].sailQuantity = 0;
 		gdata[oldg].bDeleted = true;
     }
@@ -1606,8 +1611,8 @@ void SAIL::DoSailToNewHost(ENTITY_ID newModelEI, ENTITY_ID newHostEI, int grNum,
 	bDeleteState = true;
 
     // изменим некоторые значения для нашего паруса
-    PTR_STORM_DELETE(slist[sn]->sailtrope.rrs[0]);
-    PTR_STORM_DELETE(slist[sn]->sailtrope.rrs[1]);
+    STORM_DELETE(slist[sn]->sailtrope.rrs[0]);
+    STORM_DELETE(slist[sn]->sailtrope.rrs[1]);
     slist[sn]->sailtrope.pnttie[0] = slist[sn]->sailtrope.pnttie[1] =
     slist[sn]->sailtrope.pnttie[2] = slist[sn]->sailtrope.pnttie[3] = false;
     slist[sn]->sailtrope.pPos[0] = slist[sn]->sailtrope.pPos[1] =
@@ -1626,7 +1631,7 @@ void SAIL::DeleteSailGroup()
     // удалим все паруса из удаленных группы //
     //---------------------------------------//
     for(sn=0,sailQuantity=0; sn<old_sailQuantity; sn++)
-        if(gdata[slist[sn]->HostNum].bDeleted || slist[sn]->bDeleted)	{PTR_STORM_DELETE(slist[sn]);}
+        if(gdata[slist[sn]->HostNum].bDeleted || slist[sn]->bDeleted)	{STORM_DELETE(slist[sn]);}
 		else	sailQuantity++;
 
 	if(sailQuantity==0)
@@ -1637,7 +1642,7 @@ void SAIL::DeleteSailGroup()
 		if(!gdata[gn].bDeleted) groupQuantity++;
 		else
 		{
-			PTR_STORM_DELETE(gdata[gn].sailIdx);
+			STORM_DELETE(gdata[gn].sailIdx);
 			gdata[gn].sailQuantity = 0;
 		}
 
@@ -1646,9 +1651,9 @@ void SAIL::DeleteSailGroup()
 	GROUPDATA *oldgdata = gdata;
 	if(sailQuantity==0 || groupQuantity==0)
 	{
-		for(i=0;i<old_sailQuantity;i++) {PTR_STORM_DELETE(oldslist[i]);}
+		for(i=0;i<old_sailQuantity;i++) {STORM_DELETE(oldslist[i]);}
 		slist= nullptr;
-		for(i=0;i<old_groupQuantity;i++) {PTR_STORM_DELETE(oldgdata[i].sailIdx);}
+		for(i=0;i<old_groupQuantity;i++) {STORM_DELETE(oldgdata[i].sailIdx);}
 		gdata= nullptr;
 		sailQuantity=0;	groupQuantity=0;
 	}
@@ -1662,7 +1667,7 @@ void SAIL::DeleteSailGroup()
 		sailQuantity = 0;
 		for( gn=0; gn<old_groupQuantity; gn++ )
 		{
-			PTR_STORM_DELETE(oldgdata[gn].sailIdx);
+			STORM_DELETE(oldgdata[gn].sailIdx);
 			// подсчет число парусов в группе
 			int nsn = 0;
 			for( sn=0; sn<old_sailQuantity; sn++ )	if(oldslist[sn]!= nullptr && oldslist[sn]->HostNum==gn) nsn++;
@@ -1684,8 +1689,9 @@ void SAIL::DeleteSailGroup()
 			groupQuantity++;
 		}
 	}
-	VOIDPTR_STORM_DELETE(oldgdata);
-	PTR_STORM_DELETE(oldslist);
+	delete oldgdata;
+	oldgdata = nullptr;
+	STORM_DELETE(oldslist);
 
     //подсчет новых параметров буферов вертексов и индексов
     long vIndx=0; // индекс на вертекс буфер

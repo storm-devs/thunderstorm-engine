@@ -77,7 +77,7 @@ void CXI_SLIDEPICTURE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 	char param[255];
 	FXYPOINT fPos;
 
-	PTR_STORM_DELETE(strTechniqueName);
+	STORM_DELETE(strTechniqueName);
 	if( ReadIniString(ini1,name1, ini2,name2, "techniqueName", param, sizeof(param),"") )
 	{
 		if(strlen(param)>0)
@@ -171,8 +171,8 @@ void CXI_SLIDEPICTURE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 void CXI_SLIDEPICTURE::ReleaseAll()
 {
 	TEXTURE_RELEASE(m_rs,m_idTex);
-	PTR_STORM_DELETE(pSlideSpeedList);
-	PTR_STORM_DELETE(strTechniqueName);
+	STORM_DELETE(pSlideSpeedList);
+	STORM_DELETE(strTechniqueName);
 	nSlideListSize=0;
 }
 

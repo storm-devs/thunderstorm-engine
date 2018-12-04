@@ -66,10 +66,10 @@ void CXI_SCROLLTEXT::ClearText()
     m_pScroller = nullptr;
     m_nMaxStringes = 0;
 	m_dwFontColor = ARGB(255,255,255,255);
-	PTR_STORM_DELETE(m_pText);
+	STORM_DELETE(m_pText);
 
 	m_nPiceQuantity = 0;
-	PTR_STORM_DELETE(m_pStrList);
+	STORM_DELETE(m_pStrList);
 }
 
 void CXI_SCROLLTEXT::SetText(char *newText)

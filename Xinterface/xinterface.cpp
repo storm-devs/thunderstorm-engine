@@ -174,8 +174,8 @@ XINTERFACE::~XINTERFACE()
 		pPictureService = nullptr;
 	}
 
-	PTR_STORM_DELETE(pQuestService);
-	PTR_STORM_DELETE( m_pEditor );
+	STORM_DELETE(pQuestService);
+	STORM_DELETE( m_pEditor );
 
 	ReleaseSaveFindList();
 }
@@ -654,7 +654,7 @@ uint32_t XINTERFACE::ProcessMessage(MESSAGE & message)
 			{
 				if( m_stringes[i].sStringName!= nullptr && _stricmp(m_stringes[i].sStringName,param)==0 )
 				{
-					PTR_STORM_DELETE(m_stringes[i].sStringName);
+					STORM_DELETE(m_stringes[i].sStringName);
 					FONT_RELEASE(pRenderService,m_stringes[i].fontNum);
 					m_nStringQuantity--;
 					m_stringes[i].sStringName = m_stringes[m_nStringQuantity].sStringName;
@@ -2407,17 +2407,17 @@ void XINTERFACE::ReleaseOld()
 	if( m_pEditor ) m_pEditor->ReCreate();
 
 	ReleaseContextHelpData();
-	PTR_STORM_DELETE(m_strDefHelpTextureFile);
+	STORM_DELETE(m_strDefHelpTextureFile);
 
 	oldKeyState.dwKeyCode = 0;
 	if(m_stringes!= nullptr)
 	{
         for(int i=0; i<m_nStringQuantity; i++)
 		{
-            PTR_STORM_DELETE(m_stringes[i].sStringName);
+            STORM_DELETE(m_stringes[i].sStringName);
 			FONT_RELEASE(pRenderService,m_stringes[i].fontNum);
 		}
-		PTR_STORM_DELETE(m_stringes);
+		STORM_DELETE(m_stringes);
 		m_nStringQuantity = 0;
 	}
 
@@ -2442,9 +2442,9 @@ void XINTERFACE::ReleaseOld()
 	while(m_imgLists!= nullptr)
 	{
 		PICTURE_TEXTURE_RELEASE(pPictureService,m_imgLists->sImageListName,m_imgLists->idTexture);
-		PTR_STORM_DELETE(m_imgLists->sImageListName);
-		PTR_STORM_DELETE(m_imgLists->sImageName);
-		PTR_STORM_DELETE(m_imgLists->sPicture);
+		STORM_DELETE(m_imgLists->sImageListName);
+		STORM_DELETE(m_imgLists->sImageName);
+		STORM_DELETE(m_imgLists->sPicture);
 		IMAGE_ENTITY * pCur = m_imgLists;
 		m_imgLists = m_imgLists->next;
 		delete pCur;
@@ -2497,7 +2497,7 @@ uint32_t XINTERFACE::AttributeChanged(ATTRIBUTES *patr)
 		// set picture
 		if( _stricmp(patr->GetThisName(),"pic") == 0 )
 		{
-			PTR_STORM_DELETE(pImList->sPicture);
+			STORM_DELETE(pImList->sPicture);
 			if(patr->GetThisAttr()!= nullptr)
 			{
 				if( (pImList->sPicture=NEW char[strlen(patr->GetThisAttr())+1]) == nullptr )
@@ -2511,7 +2511,7 @@ uint32_t XINTERFACE::AttributeChanged(ATTRIBUTES *patr)
 		if( _stricmp(patr->GetThisName(),"tex") == 0 )
 		{
 			if(pImList->sImageListName!= nullptr) pPictureService->ReleaseTextureID(pImList->sImageListName);
-			PTR_STORM_DELETE(pImList->sImageListName);
+			STORM_DELETE(pImList->sImageListName);
 			if(patr->GetThisAttr()!= nullptr)
 			{
 				if( (pImList->sImageListName=NEW char[strlen(patr->GetThisAttr())+1]) == nullptr )
@@ -2592,8 +2592,8 @@ void XINTERFACE::ReleaseSaveFindList()
 	{
 		SAVE_FIND_DATA * p = m_pSaveFindRoot;
 		m_pSaveFindRoot = m_pSaveFindRoot->next;
-		PTR_STORM_DELETE(p->save_file_name);
-		PTR_STORM_DELETE(p);
+		STORM_DELETE(p->save_file_name);
+		STORM_DELETE(p);
 	}
 }
 
@@ -2870,9 +2870,9 @@ void XINTERFACE::ReleaseDinamicPic(char * sPicName)
 	if(findImg== nullptr) return;
 
 	PICTURE_TEXTURE_RELEASE(pPictureService,findImg->sImageListName,findImg->idTexture);
-	PTR_STORM_DELETE(findImg->sImageListName);
-	PTR_STORM_DELETE(findImg->sImageName);
-	PTR_STORM_DELETE(findImg->sPicture);
+	STORM_DELETE(findImg->sImageListName);
+	STORM_DELETE(findImg->sImageName);
+	STORM_DELETE(findImg->sPicture);
 	if(prevImg== nullptr) m_imgLists = findImg->next;
 	else prevImg->next = findImg->next;
 }
@@ -3390,13 +3390,13 @@ CONTROLS_CONTAINER::~CONTROLS_CONTAINER()
 		{
 			CONTEINER_DESCR::CONTROL_DESCR * pCntrl = pCont->pControls;
 			pCont->pControls = pCont->pControls->next;
-			PTR_STORM_DELETE(pCntrl->controlName);
-			PTR_STORM_DELETE(pCntrl);
+			STORM_DELETE(pCntrl->controlName);
+			STORM_DELETE(pCntrl);
 		}
 
-		PTR_STORM_DELETE(pCont->resultName);
+		STORM_DELETE(pCont->resultName);
 
-		PTR_STORM_DELETE(pCont);
+		STORM_DELETE(pCont);
 	}
 }
 
