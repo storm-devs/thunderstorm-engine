@@ -139,7 +139,7 @@ void CXI_PCEDITBOX::SaveParametersToIni()
 	}
 
 	// save position
-	_snprintf( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
+	sprintf_s( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
 	pIni->WriteString( m_nodeName, "position", pcWriteParam );
 
 	delete pIni;
@@ -322,7 +322,7 @@ void CXI_PCEDITBOX::UpdateString(std::string & str )
 			// определение первого выводимого символа
 			char param[2048];
 			param[sizeof(param)-1] = 0;
-			_snprintf( param,sizeof(param)-1, "%s",str.c_str() );
+			sprintf_s( param,sizeof(param)-1, "%s",str.c_str() );
 			for( m_nFirstShowCharacterIndex=0; m_nFirstShowCharacterIndex<m_nEditPos; m_nFirstShowCharacterIndex++ )
 			{
 				if( m_rs->StringWidth( &param[m_nFirstShowCharacterIndex], m_nFontID, m_fFontScale ) <= (m_rect.right - m_rect.left - 2*m_pntFontOffset.x) )

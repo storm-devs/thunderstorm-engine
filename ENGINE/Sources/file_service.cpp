@@ -69,33 +69,33 @@ HANDLE FILE_SERVICE::_CreateFile(const char * lpFileName,uint32_t dwDesiriedAcce
 	char file_name_buffer[MAX_PATH];
 	/*if(sDriveLetter[0])	
 	{
-		strcpy(xbox_file_name,sDriveLetter);
-		strcat(xbox_file_name,lpFileName);
+		strcpy_s(xbox_file_name,sDriveLetter);
+		strcat_s(xbox_file_name,lpFileName);
 	}
-	else strcpy(xbox_file_name,lpFileName);//*/
+	else strcpy_s(xbox_file_name,lpFileName);//*/
 	if(_stricmp(sDriveLetter,XBOXDRIVE_DVD)==0)
 	{
 		if(IsCached(lpFileName))
 		{
 			bCached = true;
-			strcpy(xbox_file_name,XBOXDRIVE_CACHE);
-			strcat(xbox_file_name,lpFileName);
+			strcpy_s(xbox_file_name,XBOXDRIVE_CACHE);
+			strcat_s(xbox_file_name,lpFileName);
 		}
 		else
 		{
 			bCached = false;
-			strcpy(xbox_file_name,XBOXDRIVE_DVD);
-			strcat(xbox_file_name,lpFileName);
+			strcpy_s(xbox_file_name,XBOXDRIVE_DVD);
+			strcat_s(xbox_file_name,lpFileName);
 		}
 	}
 	else
 	{
 		if(sDriveLetter[0])	
 		{
-			strcpy(xbox_file_name,sDriveLetter);
-			strcat(xbox_file_name,lpFileName);
+			strcpy_s(xbox_file_name,sDriveLetter);
+			strcat_s(xbox_file_name,lpFileName);
 		}
-		else strcpy(xbox_file_name,lpFileName);
+		else strcpy_s(xbox_file_name,lpFileName);
 	}
 	
 
@@ -104,15 +104,15 @@ HANDLE FILE_SERVICE::_CreateFile(const char * lpFileName,uint32_t dwDesiriedAcce
 	{
 		// if file isn't in cache - copy to cache (time distributed caching)
 		
-		strcpy(file_name_buffer,XBOXDRIVE_DVD);
-		strcat(file_name_buffer,lpFileName);
+		strcpy_s(file_name_buffer,XBOXDRIVE_DVD);
+		strcat_s(file_name_buffer,lpFileName);
 		bool bRes = CopyFile(file_name_buffer,xbox_file_name,false)!=0;
 		if(bRes) fh = CreateFile(xbox_file_name,dwDesiriedAccess,dwShareMode,0,dwCreationDisposition,FILE_ATTRIBUTE_NORMAL,0);
 		else fh = CreateFile(file_name_buffer,dwDesiriedAccess,dwShareMode,0,dwCreationDisposition,FILE_ATTRIBUTE_NORMAL,0);
 
 		/*//trace("file cache miss");
-		strcpy(xbox_file_name,XBOXDRIVE_DVD);
-		strcat(xbox_file_name,lpFileName);
+		strcpy_s(xbox_file_name,XBOXDRIVE_DVD);
+		strcat_s(xbox_file_name,lpFileName);
 		fh = CreateFile(xbox_file_name,dwDesiriedAccess,dwShareMode,0,dwCreationDisposition,FILE_ATTRIBUTE_NORMAL,0);
 		//*/
 	}
@@ -134,10 +134,10 @@ BOOL   FILE_SERVICE::_DeleteFile(const char * lpFileName)
 	char xbox_file_name[MAX_PATH];
 	if(sDriveLetter[0])	
 	{
-		strcpy(xbox_file_name,sDriveLetter);
-		strcat(xbox_file_name,lpFileName);
+		strcpy_s(xbox_file_name,sDriveLetter);
+		strcat_s(xbox_file_name,lpFileName);
 	}
-	else strcpy(xbox_file_name,lpFileName);
+	else strcpy_s(xbox_file_name,lpFileName);
 	return DeleteFile(xbox_file_name);
 #else
 	return DeleteFile(lpFileName);
@@ -168,9 +168,9 @@ HANDLE FILE_SERVICE::_FindFirstFile(const char * lpFileName,LPWIN32_FIND_DATA lp
 	hFile = FindFirstFile(lpFileName,lpFindFileData);
 #else
 	char xbox_file_name[MAX_PATH];
-	//strcpy(xbox_file_name,"d:\\");
-	strcpy(xbox_file_name,sDriveLetter);
-	strcat(xbox_file_name,lpFileName);
+	//strcpy_s(xbox_file_name,"d:\\");
+	strcpy_s(xbox_file_name,sDriveLetter);
+	strcat_s(xbox_file_name,lpFileName);
 	hFile = FindFirstFile(xbox_file_name,lpFindFileData);
 #endif
 	return hFile;
@@ -192,10 +192,10 @@ uint32_t  FILE_SERVICE::_GetCurrentDirectory(uint32_t nBufferLength,char * lpBuf
 #ifndef _XBOX
 	return GetCurrentDirectory(nBufferLength,lpBuffer);
 #else
-	//if(nBufferLength > strlen("d:\\") && lpBuffer) strcpy(lpBuffer,"d:\\");
+	//if(nBufferLength > strlen("d:\\") && lpBuffer) strcpy_s(lpBuffer,"d:\\");
 	//return strlen("d:\\");
 
-	if(nBufferLength > strlen(sDriveLetter) && lpBuffer) strcpy(lpBuffer,sDriveLetter);
+	if(nBufferLength > strlen(sDriveLetter) && lpBuffer) strcpy_s(lpBuffer,sDriveLetter);
 	return strlen(sDriveLetter);
 
 #endif
@@ -401,7 +401,7 @@ BOOL FILE_SERVICE::SetDrive(const char * pDriveName)
 #ifdef _XBOX
 	if(pDriveName == 0)
 	{
-		strcpy(sDriveLetter,XBOXDRIVE_DVD);
+		strcpy_s(sDriveLetter,XBOXDRIVE_DVD);
 		return true;
 	}
 	if(!pDriveName[0]) 
@@ -410,7 +410,7 @@ BOOL FILE_SERVICE::SetDrive(const char * pDriveName)
 		return true;
 	}
 	if(strlen(pDriveName) > 4) return false;
-	strcpy(sDriveLetter,pDriveName);
+	strcpy_s(sDriveLetter,pDriveName);
 	return true;
 #else
 	return false;
@@ -446,10 +446,10 @@ bool XDirCopy(const char *_srcDir, const char *_destDir, const char *_mask)
 	if (!srcFilename)
 		return false;
 
-	strcpy(srcFilename, _srcDir);
+	strcpy_s(srcFilename, _srcDir);
 	if (_srcDir[strlen(_srcDir)-1] != '\\')
-		strcat(srcFilename, "\\");
-	strcat(srcFilename, _mask);
+		strcat_s(srcFilename, "\\");
+	strcat_s(srcFilename, _mask);
 
 	bool bRes;
 	bRes = CreateDirectory(_destDir, 0)==TRUE;
@@ -480,10 +480,10 @@ bool XDirSTORM_DELETE(const char *_srcDir)
 	if (!srcFilename)
 		return false;
 
-	strcpy(srcFilename, _srcDir);
+	strcpy_s(srcFilename, _srcDir);
 	if (_srcDir[strlen(_srcDir)-1] != '\\')
-		strcat(srcFilename, "\\");
-	strcat(srcFilename, _mask);
+		strcat_s(srcFilename, "\\");
+	strcat_s(srcFilename, _mask);
 
 	//bool bRes;
 	//bRes = CreateDirectory(_destDir, 0)==TRUE;
@@ -552,15 +552,15 @@ bool XProcessFile(const char *_srcDir, const char *_destDir, const char *_mask, 
 	char *srcName = new char[strlen(_srcDir)+strlen(_findData.cFileName)+2];
 	char *destName = new char[strlen(_destDir)+strlen(_findData.cFileName)+2];
 	
-	strcpy(srcName, _srcDir);
+	strcpy_s(srcName, _srcDir);
 	if (_srcDir[strlen(_srcDir)-1] != '\\')
-		strcat(srcName, "\\");
-	strcat(srcName, _findData.cFileName);
+		strcat_s(srcName, "\\");
+	strcat_s(srcName, _findData.cFileName);
 
-	strcpy(destName, _destDir);
+	strcpy_s(destName, _destDir);
 	if (_destDir[strlen(_destDir)-1] != '\\')
-		strcat(destName, "\\");
-	strcat(destName, _findData.cFileName);
+		strcat_s(destName, "\\");
+	strcat_s(destName, _findData.cFileName);
 
 	if (!(_findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
 	{ //file
@@ -587,10 +587,10 @@ bool XProcessFileSTORM_DELETE(const char *_srcDir, const char *_mask, const WIN3
 
 	char *srcName = new char[strlen(_srcDir)+strlen(_findData.cFileName)+2];
 	
-	strcpy(srcName, _srcDir);
+	strcpy_s(srcName, _srcDir);
 	if (_srcDir[strlen(_srcDir)-1] != '\\')
-		strcat(srcName, "\\");
-	strcat(srcName, _findData.cFileName);
+		strcat_s(srcName, "\\");
+	strcat_s(srcName, _findData.cFileName);
 
 	if (!(_findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
 	{ //file
@@ -640,7 +640,7 @@ BOOL FILE_SERVICE::CacheDirectory(const char * pDirName)
 	char sDNDst[MAX_PATH];
 	char sDirectoryName[MAX_PATH];
 
-	strcpy(sDirectoryName,pDirName);
+	strcpy_s(sDirectoryName,pDirName);
 
 	dwHashIndex = MakeHashValue(pDirName)%CACHEDIRSTABLESIZE;
 	for(n=0;n<CacheDirs[dwHashIndex].dwElementsNum;n++)
@@ -650,7 +650,7 @@ BOOL FILE_SERVICE::CacheDirectory(const char * pDirName)
 	CacheDirs[dwHashIndex].dwElementsNum++;
 	CacheDirs[dwHashIndex].pDirName = (char **)RESIZE(CacheDirs[dwHashIndex].pDirName,CacheDirs[dwHashIndex].dwElementsNum*sizeof(char *));
 	CacheDirs[dwHashIndex].pDirName[n] = (char *)NEW char[strlen(pDirName) + 1];
-	strcpy(CacheDirs[dwHashIndex].pDirName[n],pDirName);
+	strcpy_s(CacheDirs[dwHashIndex].pDirName[n],pDirName);
 	
 	// Copy Directory
 
@@ -661,18 +661,18 @@ BOOL FILE_SERVICE::CacheDirectory(const char * pDirName)
 		if(sDirectoryName[n] == '\\')
 		{
 			sDirectoryName[n] = 0;
-			strcpy(sDNDst,XBOXDRIVE_CACHE);
-			strcat(sDNDst,sDirectoryName);
+			strcpy_s(sDNDst,XBOXDRIVE_CACHE);
+			strcat_s(sDNDst,sDirectoryName);
 			bool bRes = CreateDirectory(sDNDst, 0)==TRUE;
 			sDirectoryName[n] = '\\';
 		}
 		n++;
 	}
-	strcpy(sDNSrc,XBOXDRIVE_DVD);
-	strcat(sDNSrc,sDirectoryName);
+	strcpy_s(sDNSrc,XBOXDRIVE_DVD);
+	strcat_s(sDNSrc,sDirectoryName);
 
-	strcpy(sDNDst,XBOXDRIVE_CACHE);
-	strcat(sDNDst,sDirectoryName);
+	strcpy_s(sDNDst,XBOXDRIVE_CACHE);
+	strcat_s(sDNDst,sDirectoryName);
 
 	XDirCopy(sDNSrc,sDNDst,"*.*");
 
@@ -710,8 +710,8 @@ void FILE_SERVICE::MarkDirectoryCached(const char * pDirName)
 	{
 		
 		pTemp = (char *)NEW char[dwLen + 2];
-		strcpy(pTemp,pDirName);
-		strcat(pTemp,"\\");
+		strcpy_s(pTemp,pDirName);
+		strcat_s(pTemp,"\\");
 		dwHashIndex = MakeHashValue(pTemp)%CACHEDIRSTABLESIZE;
 		for(n=0;n<CacheDirs[dwHashIndex].dwElementsNum;n++)
 		{
@@ -734,19 +734,19 @@ void FILE_SERVICE::MarkDirectoryCached(const char * pDirName)
 	else
 	{
 		CacheDirs[dwHashIndex].pDirName[n] = (char *)NEW char[strlen(pDirName) + 1];
-		strcpy(CacheDirs[dwHashIndex].pDirName[n],pDirName);
+		strcpy_s(CacheDirs[dwHashIndex].pDirName[n],pDirName);
 	}
 
 	/*if(pDirName[dwLen]== '\\')
 	{
 		CacheDirs[dwHashIndex].pDirName[n] = (char *)NEW char[strlen(pDirName) + 1];
-		strcpy(CacheDirs[dwHashIndex].pDirName[n],pDirName);
+		strcpy_s(CacheDirs[dwHashIndex].pDirName[n],pDirName);
 	}
 	else
 	{
 		CacheDirs[dwHashIndex].pDirName[n] = (char *)NEW char[strlen(pDirName) + 2];
-		strcpy(CacheDirs[dwHashIndex].pDirName[n],pDirName);
-		strcat(CacheDirs[dwHashIndex].pDirName[n],"\\");
+		strcpy_s(CacheDirs[dwHashIndex].pDirName[n],pDirName);
+		strcat_s(CacheDirs[dwHashIndex].pDirName[n],"\\");
 	}*/
 	//trace("cached dir: %s",CacheDirs[dwHashIndex].pDirName[n]);
 	
@@ -792,8 +792,8 @@ BOOL FILE_SERVICE::UnCacheDirectory(const char * pDirName)
 
 	// Remove Directory
 
-	strcpy(sDNDst,XBOXDRIVE_CACHE);
-	strcat(sDNDst,pDirName);
+	strcpy_s(sDNDst,XBOXDRIVE_CACHE);
+	strcat_s(sDNDst,pDirName);
 
 	XDirSTORM_DELETE(sDNDst);
 	
@@ -812,7 +812,7 @@ BOOL FILE_SERVICE::IsCached(const char * pFileName)
 	uint32_t i;
 
 	dwLen = strlen(pFileName);
-	strcpy(sDirName,pFileName);
+	strcpy_s(sDirName,pFileName);
 
 	for(n=dwLen;n>=0;n--)
 	{

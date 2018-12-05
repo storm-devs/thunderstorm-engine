@@ -75,9 +75,10 @@ void CXI_PICTURE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	if( ReadIniString(ini1,name1, ini2,name2, "groupName", param, sizeof(param),"") )
 	{
 		m_idTex = pPictureService->GetTextureID( param );
-		m_pcGroupName = NEW char[strlen(param)+1];
+		const auto len = strlen(param)+1;
+		m_pcGroupName = NEW char[len];
 		Assert( m_pcGroupName );
-		strcpy( m_pcGroupName, param );
+		memcpy( m_pcGroupName, param, len );
 
 		if( ReadIniString(ini1,name1, ini2,name2, "picName", param, sizeof(param),"") )
 			pPictureService->GetTexturePos( m_pcGroupName, param, texRect );
@@ -155,7 +156,7 @@ void CXI_PICTURE::SaveParametersToIni()
 	}
 
 	// save position
-	_snprintf( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
+	sprintf_s( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
 	pIni->WriteString( m_nodeName, "position", pcWriteParam );
 
 	delete pIni;
@@ -179,7 +180,7 @@ void CXI_PICTURE::SetNewPictureFromDir(char * dirName)
 	WIN32_FIND_DATA	wfd;
 	char param[512];
 
-	sprintf(param,"resource\\textures\\%s\\*.tx",dirName);
+	sprintf_s(param,"resource\\textures\\%s\\*.tx",dirName);
 
 	HANDLE h = api->fio->_FindFirstFile(param,&wfd);
 	for(findQ=0; h!=INVALID_HANDLE_VALUE;)
@@ -199,7 +200,7 @@ void CXI_PICTURE::SetNewPictureFromDir(char * dirName)
 		if(h!=INVALID_HANDLE_VALUE)
 		{
 			api->fio->_FindClose(h);
-			sprintf(param,"%s\\%s",dirName,wfd.cFileName);
+			sprintf_s(param,"%s\\%s",dirName,wfd.cFileName);
 			int paramlen = strlen(param);
 			if(paramlen<sizeof(param) && paramlen>=3)	param[paramlen-3] = 0;
 			SetNewPicture(false,param);
@@ -214,9 +215,10 @@ void CXI_PICTURE::SetNewPictureByGroup( char* groupName, char* picName )
 		ReleasePicture();
 		if( groupName )
 		{
+			const auto len = strlen(groupName)+1;
 			m_pcGroupName = NEW char[strlen(groupName)+1];
 			Assert( m_pcGroupName );
-			strcpy( m_pcGroupName, groupName );
+			memcpy( m_pcGroupName, groupName, len );
 			m_idTex = pPictureService->GetTextureID( groupName );
 		}
 	}

@@ -239,7 +239,7 @@ void BIShipIcon::Init( ATTRIBUTES* pRoot, ATTRIBUTES* pA )
 
 		for( n=0; n<MAX_SHIP_QUANTITY; n++ )
 		{
-			_snprintf( param,sizeof(param), "iconoffset%d", n+1 );
+			sprintf_s( param,sizeof(param), "iconoffset%d", n+1 );
 			pcTmp = pA->GetAttribute( param );
 			if( pcTmp ) sscanf( pcTmp,"%f,%f", &m_Ship[n].pntPos.x, &m_Ship[n].pntPos.y );
 		}

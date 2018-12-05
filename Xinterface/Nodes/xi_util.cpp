@@ -203,9 +203,12 @@ void CXI_UTILS::StringDoublicate( const char* pcSrc, char*& pcDst )
 	pcDst = nullptr;
 	if( pcSrc )
 	{
-		pcDst = NEW char[strlen(pcSrc)+1];
-		if( pcDst ) strcpy( pcDst, pcSrc );
-		else STORM_THROW("allocate memory error");
+		const auto len = strlen(pcSrc) + 1;
+		pcDst = NEW char[len];
+		if( pcDst ) 
+			memcpy( pcDst, pcSrc, len );
+		else 
+			STORM_THROW("allocate memory error");
 	}
 }
 
@@ -342,7 +345,7 @@ float CXI_UTILS::GetByStrNumFromAttribute_Float( ATTRIBUTES* pA, const char* pSt
 {
 	if( !pA ) return fDefValue;
 	char stmp[64];
-	_snprintf( stmp,sizeof(stmp), "%s%d", pStr, num );
+	sprintf_s( stmp,sizeof(stmp), "%s%d", pStr, num );
 	return pA->GetAttributeAsFloat( stmp, fDefValue );
 }
 
@@ -430,7 +433,7 @@ void CXI_UTILS::PrintTextIntoWindow(VDX9RENDER* pRender,
 	}
 
 	char tmpstr[4096];
-	_snprintf(tmpstr,sizeof(tmpstr),"%s",pcString);
+	sprintf_s(tmpstr,sizeof(tmpstr),"%s",pcString);
 	char* pc = tmpstr;
 
 	// режем левый край

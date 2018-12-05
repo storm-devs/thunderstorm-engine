@@ -166,10 +166,11 @@ void CXI_BUTTON::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	if( ReadIniString(ini1,name1, ini2,name2, "group", param, sizeof(param),"") )
 	{
 		m_idTex = pPictureService->GetTextureID(param);
-		m_sGroupName = NEW char[strlen(param)+1];
+		const auto len = strlen(param) + 1;
+		m_sGroupName = NEW char[len];
 		if(m_sGroupName== nullptr)
 			STORM_THROW("allocate memory error")
-		strcpy(m_sGroupName,param);
+		memcpy(m_sGroupName,param,len);
 
 		// get button picture name
 		if( ReadIniString(ini1,name1, ini2,name2, "picture", param, sizeof(param),"") )
@@ -255,7 +256,7 @@ void CXI_BUTTON::SaveParametersToIni()
 	}
 
 	// save position
-	_snprintf( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
+	sprintf_s( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
 	pIni->WriteString( m_nodeName, "position", pcWriteParam );
 
 	delete pIni;
@@ -289,20 +290,19 @@ uint32_t _cdecl CXI_BUTTON::MessageProc(long msgcode, MESSAGE & message)
 	case 2: // Сменить картинку
 		{
 			char param[256];
-			int paramLen;
-
 			message.String(sizeof(param),param);
-			paramLen = strlen(param);
-			if(paramLen==0) break;
+			const auto len = strlen(param) + 1;
+			if(len==1) break;
 
 			if(m_sGroupName== nullptr || _stricmp(m_sGroupName,param)!=0)
 			{
 				PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName,m_idTex);
 				STORM_DELETE(m_sGroupName);
-				m_sGroupName = NEW char[paramLen+1];
+
+				m_sGroupName = NEW char[len];
 				if(m_sGroupName== nullptr)
 					STORM_THROW("allocate memory error")
-				strcpy(m_sGroupName,param);
+				memcpy(m_sGroupName,param,len);
 				m_idTex = pPictureService->GetTextureID(m_sGroupName);
 			}
 

@@ -72,7 +72,7 @@ void WATERFLARE::Execute(uint32_t Delta_Time)
 	{
 		char str[256];
 		// create texture
-		sprintf(str,"%swaterflare.tga",WATERFLARE_DIR);
+		sprintf_s(str,"%swaterflare.tga",WATERFLARE_DIR);
 		if (iFlareTex>0) RS->TextureRelease(iFlareTex);
 		iFlareTex = RS->TextureCreate(str);
 		GenerateFlares();

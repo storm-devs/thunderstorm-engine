@@ -60,7 +60,7 @@ COMPILER::COMPILER()
 	InitInternalFunctions();
 	bWriteCodeFile = false;
 	bDebugInfo = false;
-	strcpy(DebugSourceFileName,"no debug information");	
+	strcpy_s(DebugSourceFileName,"no debug information");	
 	DebugSourceLine = 0;
 	InstructionPointer = 0;
 	pCompileTokenTempBuffer = nullptr;
@@ -213,10 +213,10 @@ void __declspec(noinline) __cdecl COMPILER::SetProgramDirectory(char * dir_name)
 	if(ProgramDirectory) delete ProgramDirectory; ProgramDirectory = nullptr;
 	if(dir_name)
 	{
-		
-		ProgramDirectory = NEW char[strlen(dir_name) + strlen("\\") + 1];
-		strcpy(ProgramDirectory,dir_name);
-		strcat(ProgramDirectory,"\\");
+		const auto len = strlen(dir_name) + strlen("\\") + 1;
+		ProgramDirectory = NEW char[len];
+		strcpy_s(ProgramDirectory, len, dir_name);
+		strcat_s(ProgramDirectory, len, "\\");
 	}
 #ifndef _XBOX
 	CDebug.SetProgramDirectory(dir_name);
@@ -237,20 +237,20 @@ char * COMPILER::LoadFile(char * file_name, uint32_t & file_size, bool bFullPath
 
 		if(ProgramDirectory)
 		{
-			strcpy(buffer,ProgramDirectory);
+			strcpy_s(buffer,ProgramDirectory);
 #ifdef STARFORCE_PROTECTION
-			strcat(buffer,"xyz");
+			strcat_s(buffer,"xyz");
 #endif
-			strcat(buffer,file_name);
+			strcat_s(buffer,file_name);
 		} 
 		else
 		{
 
 #ifdef STARFORCE_PROTECTION
-			strcpy(buffer,"xyz");
-			strcat(buffer,file_name);
+			strcpy_s(buffer,"xyz");
+			strcat_s(buffer,file_name);
 #else
-			strcpy(buffer,file_name);
+			strcpy_s(buffer,file_name);
 #endif
 
 			
@@ -307,8 +307,8 @@ void COMPILER::Trace(char * data_PTR, ...)
 	SetFilePointer(file_h,0,nullptr,FILE_END);
 	va_list args;
 	va_start(args,data_PTR);
-	_vsnprintf(LogBuffer,sizeof(LogBuffer) - 4,data_PTR,args);
-	strcat(LogBuffer,"\x0d\x0a");
+	_vsnprintf_s(LogBuffer,sizeof(LogBuffer) - 4,data_PTR,args);
+	strcat_s(LogBuffer,"\x0d\x0a");
 	uint32_t bytes;
 	WriteFile(file_h,LogBuffer,strlen(LogBuffer),(LPDWORD)&bytes,nullptr);
 	va_end(args);
@@ -331,8 +331,8 @@ void COMPILER::DTrace(char * data_PTR, ...)
 	fio->_SetFilePointer(file_h,0,nullptr,FILE_END);
 	va_list args;
 	va_start(args,data_PTR);
-	_vsnprintf(LogBuffer,sizeof(LogBuffer) - 4,data_PTR,args);
-	strcat(LogBuffer,"\x0d\x0a");
+	_vsnprintf_s(LogBuffer,sizeof(LogBuffer) - 4,data_PTR,args);
+	strcat_s(LogBuffer,"\x0d\x0a");
 	uint32_t bytes;
 	fio->_WriteFile(file_h,LogBuffer,strlen(LogBuffer),&bytes);
 	va_end(args);
@@ -398,25 +398,25 @@ void COMPILER::SetError(char * data_PTR, ...)
 	fio->_SetFilePointer(file_h,0,nullptr,FILE_END);
 	va_list args;
 	va_start(args,data_PTR);
-	_vsnprintf(LogBuffer,sizeof(LogBuffer) - 4,data_PTR,args);
-	strcat(LogBuffer,"\x0d\x0a");
+	_vsnprintf_s(LogBuffer,sizeof(LogBuffer) - 4,data_PTR,args);
+	strcat_s(LogBuffer,"\x0d\x0a");
 	uint32_t bytes;
 	FindErrorSource();
 	
 	switch(CompilerStage)
 	{
 		case CS_SYSTEM:
-			wsprintf(ErrorBuffer,"ERROR - file: %s; line: %d",DebugSourceFileName,DebugSourceLine + 1);
+			sprintf_s(ErrorBuffer,"ERROR - file: %s; line: %d",DebugSourceFileName,DebugSourceLine + 1);
 		break;
 		case CS_COMPILATION:
-			wsprintf(ErrorBuffer,"COMPILE ERROR - file: %s; line: %d",DebugSourceFileName,DebugSourceLine + 1);
+			sprintf_s(ErrorBuffer,"COMPILE ERROR - file: %s; line: %d",DebugSourceFileName,DebugSourceLine + 1);
 		break;
 		case CS_RUNTIME:
-			wsprintf(ErrorBuffer,"RUNTIME ERROR - file: %s; line: %d",DebugSourceFileName,DebugSourceLine + 1);
+			sprintf_s(ErrorBuffer,"RUNTIME ERROR - file: %s; line: %d",DebugSourceFileName,DebugSourceLine + 1);
 		break;
 	}
-	//wsprintf(ErrorBuffer,"ERROR - file: %s; line: %d",DebugSourceFileName,DebugSourceLine + 1);
-	lstrcat(ErrorBuffer,"\x0d\x0a");
+	//sprintf_s(ErrorBuffer,"ERROR - file: %s; line: %d",DebugSourceFileName,DebugSourceLine + 1);
+	strcat_s(ErrorBuffer,"\x0d\x0a");
 	fio->_WriteFile(file_h,ErrorBuffer,lstrlen(ErrorBuffer),&bytes);
 	fio->_WriteFile(file_h,LogBuffer,lstrlen(LogBuffer),&bytes);
 	va_end(args);
@@ -443,13 +443,13 @@ void COMPILER::SetWarning(char * data_PTR, ...)
 	fio->_SetFilePointer(file_h,0,nullptr,FILE_END);
 	va_list args;
 	va_start(args,data_PTR);
-	_vsnprintf(LogBuffer,sizeof(LogBuffer) - 4,data_PTR,args);
-	strcat(LogBuffer,"\x0d\x0a");
+	_vsnprintf_s(LogBuffer,sizeof(LogBuffer) - 4,data_PTR,args);
+	strcat_s(LogBuffer,"\x0d\x0a");
 	uint32_t bytes;
 	FindErrorSource();
 	
-	wsprintf(ErrorBuffer,"WARNING - file: %s; line: %d",DebugSourceFileName,DebugSourceLine + 1);
-	lstrcat(ErrorBuffer,"\x0d\x0a");
+	sprintf_s(ErrorBuffer,"WARNING - file: %s; line: %d",DebugSourceFileName,DebugSourceLine + 1);
+	strcat_s(ErrorBuffer,"\x0d\x0a");
 	fio->_WriteFile(file_h,ErrorBuffer,lstrlen(ErrorBuffer),&bytes);
 	fio->_WriteFile(file_h,LogBuffer,lstrlen(LogBuffer),&bytes);
 	va_end(args);
@@ -465,8 +465,8 @@ void COMPILER::SetWarning(char * data_PTR, ...)
 	SetFilePointer(file_h,0,0,FILE_END);
 	va_list args;
 	va_start(args,data_PTR);
-	_vsnprintf(LogBuffer,sizeof(LogBuffer) - 4,data_PTR,args);
-	strcat(LogBuffer,"\x0d\x0a");
+	_vsnprintf_s(LogBuffer,sizeof(LogBuffer) - 4,data_PTR,args);
+	strcat_s(LogBuffer,"\x0d\x0a");
 	DWORD bytes;
 	WriteFile(file_h,"WARNING: ",strlen("WARNING: "),&bytes,0);
 	WriteFile(file_h,LogBuffer,strlen(LogBuffer),&bytes,0);
@@ -945,9 +945,10 @@ bool COMPILER::BC_LoadSegment(char * file_name)
 	index = SegmentsNum;
 	SegmentsNum++;
 	SegmentTable = (SEGMENT_DESC *)RESIZE(SegmentTable,SegmentsNum*sizeof(SEGMENT_DESC));
-	
-	SegmentTable[index].name = NEW char[strlen(file_name) + 1];
-	strcpy(SegmentTable[index].name,file_name);
+
+	const auto len = strlen(file_name) + 1;
+	SegmentTable[index].name = NEW char[len];
+	memcpy(SegmentTable[index].name, file_name, len);
 	SegmentTable[index].id = id;
 	SegmentTable[index].bUnload = false;
 	SegmentTable[index].pData = nullptr;
@@ -986,7 +987,7 @@ bool COMPILER::ProcessDebugExpression(char * pExpression, DATA & Result)
 		pDebExpBuffer = (char *)RESIZE(pDebExpBuffer,nDataSize);
 		nDebExpBufferSize = nDataSize;
 	}
-	wsprintf(pDebExpBuffer,"return %s;",pExpression);
+	sprintf_s(pDebExpBuffer, nDebExpBufferSize, "return %s;",pExpression);
 	return ProcessDebugExpression0(pDebExpBuffer,Result);
 
 }
@@ -995,15 +996,13 @@ bool COMPILER::SetOnDebugExpression(char * pLValue, char * pRValue, DATA & Resul
 {
 	if(pLValue == nullptr || pRValue == nullptr) return false;
 
-	uint32_t nDataSize;
-
-	nDataSize = strlen(pLValue) + strlen(pRValue) + 5;
+	uint32_t nDataSize = strlen(pLValue) + strlen(pRValue) + 5;
 	if(nDataSize > nDebExpBufferSize)
 	{
 		pDebExpBuffer = (char *)RESIZE(pDebExpBuffer,nDataSize);
 		nDebExpBufferSize = nDataSize;
 	}
-	wsprintf(pDebExpBuffer,"%s = %s;",pLValue,pRValue);
+	sprintf_s(pDebExpBuffer,nDataSize,"%s = %s;",pLValue,pRValue);
 	return ProcessDebugExpression0(pDebExpBuffer,Result);
 }
 
@@ -1331,7 +1330,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 	
 	
 	Control_offset = 0;
-	strcpy(file_name,Segment.name);
+	strcpy_s(file_name,Segment.name);
 	
 	if(pInternalCode == nullptr)
 	{
@@ -1361,7 +1360,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 
 	
 	// register functions and variables ---------
-	strcpy(func_name,"null");
+	strcpy_s(func_name,"null");
 	inout = 0;
 	bracket_inout = 0;
 	bFunctionBlock = false;
@@ -1369,7 +1368,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 	Token.SetProgram(pProgram,pProgram);
 	if(bDebugInfo) 
 	{
-		strcpy(DebugSourceFileName,Segment.name);	
+		strcpy_s(DebugSourceFileName,Segment.name);	
 	}
 	DebugSourceLine = DSL_INI_VALUE;
 	bool bExtern;
@@ -1421,7 +1420,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 		break;
 		case DEBUG_FILE_NAME:
 			DebugSourceLine = DSL_INI_VALUE;
-			strcpy(DebugSourceFileName,Token.GetData());
+			strcpy_s(DebugSourceFileName,Token.GetData());
 		break;
 		case INCLUDE_LIBRIARY:
 			SCRIPT_LIBRIARY * pLib;
@@ -1478,13 +1477,13 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 					if(bDebugInfo)
 					{
 						uint32_t aps;
-						strcpy(dbg_file_name,"#file \"");
-						strcat(dbg_file_name,Token.GetData());
-						strcat(dbg_file_name,"\";");
+						strcpy_s(dbg_file_name,"#file \"");
+						strcat_s(dbg_file_name,Token.GetData());
+						strcat_s(dbg_file_name,"\";");
 						aps = strlen(dbg_file_name);
 						char * pTempS;
 						pTempS = NEW char[aps + 1];
-						strcpy(pTempS,dbg_file_name);
+						strcpy_s(pTempS,aps + 1,dbg_file_name);
 						AppendProgram(pProgram,Program_size,pTempS,aps,false);
 					}
 					AppendProgram(pProgram,Program_size,pApend_file,Append_file_size,true);
@@ -1497,7 +1496,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 			//DefineTable
 			if(inout == 0)
 			{
-				strcpy(var_name,Token.GetData());
+				strcpy_s(var_name,Token.GetData());
 				di.name = var_name;
 				di.segment_id = Segment.id;
 				Token.Get();
@@ -1522,10 +1521,12 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 						memcpy(&di.data4b,&fvalue,sizeof(float));
 					break;
 					case STRING:
-						
-						di.data4b = (uint32_t)(NEW char[strlen(Token.GetData()) + 1]);
-						strcpy((char *)di.data4b,Token.GetData());
-					break;
+					{
+						const auto len = strlen(Token.GetData()) + 1;
+						di.data4b = (uint32_t)NEW char[len];
+						memcpy((void *)di.data4b, Token.GetData(), len);
+						break;
+					}					
 					case OP_MINUS:
 
 					break;
@@ -1542,7 +1543,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 		/*case DEFINE_COMMAND:	// create define
 			if(inout == 0)
 			{
-				strcpy(var_name,Token.GetData());
+				strcpy_s(var_name,Token.GetData());
 				Token.Get();
 				if(Token.GetType() == NUMBER || Token.GetType() == FLOAT_NUMBER || Token.GetType() == STRING)
 				{
@@ -1591,7 +1592,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 						Token.Get();		// function name
 						bFunctionBlock = true;		// we are stepped into func area
 						
-						strcpy(func_name,Token.GetData());
+						strcpy_s(func_name,Token.GetData());
 						
 						fi.segment_id = Segment.id;
 						if(bExtern) fi.offset = INVALID_FUNC_OFFSET;
@@ -1629,7 +1630,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 							SetError("Invalid variable name");
 							return false;
 						}
-						strcpy(var_name,Token.GetData());
+						strcpy_s(var_name,Token.GetData());
 						vi.name = var_name;
 						vi.segment_id = Segment.id;
 						vi.elements = 1;
@@ -1854,7 +1855,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 						SetError("Invalid variable name");
 						return false;
 					}
-					strcpy(var_name,Token.GetData());
+					strcpy_s(var_name,Token.GetData());
 					lvi.name = var_name;
 					lvi.elements = 1;
 					lvi.bArray = false;
@@ -1902,30 +1903,32 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 		break;
 		// class declaration -------------------
 		case CLASS_DECL:
-			if(bDotFlag) break;
+		{
+			if (bDotFlag) break;
 
 			// get class name
-			Token.Get();	
-			if(Token.GetData() == nullptr) { SetError("Invalid class name"); break; }
-			memset(&ci,0,sizeof(ci));
-			
-			ci.name = (char *)NEW char[strlen(Token.GetData())+1];
-			strcpy(ci.name,Token.GetData());
-		
-			// start processing class components
-			if(SkipAuxiliaryTokens() != BLOCK_IN) {SetError("missed '{'"); return false;}
+			Token.Get();
+			if (Token.GetData() == nullptr) { SetError("Invalid class name"); break; }
+			memset(&ci, 0, sizeof(ci));
 
-			while(SkipAuxiliaryTokens() != BLOCK_OUT)
+			const auto len = strlen(Token.GetData()) + 1;
+			ci.name = (char *)NEW char[len];
+			memcpy(ci.name, Token.GetData(), len);
+
+			// start processing class components
+			if (SkipAuxiliaryTokens() != BLOCK_IN) { SetError("missed '{'"); return false; }
+
+			while (SkipAuxiliaryTokens() != BLOCK_OUT)
 			{
-				memset(&cc,0,sizeof(cc));
+				memset(&cc, 0, sizeof(cc));
 				Token.StepBack();				// step on last token, for ReGet operation
 				Token_type = Token.Get(true);	// get with token string keeped
-				
+
 				// get component class ID (class registred only and must be filled with data at the end 
 				// of first pass)
-				memset(&cci,0,sizeof(cci));
+				memset(&cci, 0, sizeof(cci));
 				cci.name = Token.GetData();
-				cc.nID = ClassTab.AddClass(cci,true);
+				cc.nID = ClassTab.AddClass(cci, true);
 
 
 				// start processing components with the same class type
@@ -1933,89 +1936,90 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 				{
 
 					// now get the component name
-					if(Token.Get() != UNKNOWN) {SetError("wrong variable or function name"); return false;};
+					if (Token.Get() != UNKNOWN) { SetError("wrong variable or function name"); return false; };
 					// note: component name memory will be deleted by ClassTab
-					
-					cc.name = (char *)NEW char[strlen(Token.GetData())+1];
-					strcpy(cc.name,Token.GetData());
+
+					const auto len = strlen(Token.GetData()) + 1;
+					cc.name = (char *)NEW char[len];
+					memcpy(cc.name, Token.GetData(), len);
 					cc.nElements = 1;	// assumed for all except arrays
 
 					// now we determine type of component - variable or function
-					switch(Token.Get())
+					switch (Token.Get())
 					{
-						case SEPARATOR:
-							// this is single variable declaration
-							// add class component
-							cc.nFlags = CCF_VARIABLE;
-							ci.nComponentsNum++;
-							ci.pComponent = (CLASS_COMPONENT *)RESIZE(ci.pComponent,ci.nComponentsNum * sizeof(CLASS_COMPONENT));
-							ci.pComponent[ci.nComponentsNum - 1] = cc;
+					case SEPARATOR:
+						// this is single variable declaration
+						// add class component
+						cc.nFlags = CCF_VARIABLE;
+						ci.nComponentsNum++;
+						ci.pComponent = (CLASS_COMPONENT *)RESIZE(ci.pComponent, ci.nComponentsNum * sizeof(CLASS_COMPONENT));
+						ci.pComponent[ci.nComponentsNum - 1] = cc;
 
 						break;
-						case OPEN_BRACKET:
-							// this is function declaration
-							// for now just skip 
-							while(Token.Get()!=SEPARATOR){};
+					case OPEN_BRACKET:
+						// this is function declaration
+						// for now just skip 
+						while (Token.Get() != SEPARATOR) {};
 						break;
-						case SQUARE_OPEN_BRACKET:
-							// this is array declaration
-							switch(Token.Get())	// array dimension
+					case SQUARE_OPEN_BRACKET:
+						// this is array declaration
+						switch (Token.Get())	// array dimension
+						{
+						case NUMBER:
+							cc.nElements = (long)atoll(Token.GetData());
+							break;
+						case UNKNOWN:
+							if (!DefTab.GetDef(di, DefTab.FindDef(Token.GetData())))
 							{
-								case NUMBER:
-									cc.nElements = (long)atoll(Token.GetData());
-								break;
-								case UNKNOWN:
-									if(!DefTab.GetDef(di,DefTab.FindDef(Token.GetData())))
-									{
-										SetError("invalid array size");
-										return false;
-									}
-									if(di.deftype != NUMBER)
-									{
-										SetError("invalid array size");
-										return false;
-									}
-									cc.nElements = di.data4b;
-								break;
-								default:
-									SetError("invalid array size");
+								SetError("invalid array size");
 								return false;
 							}
-							
-							Token.Get();	// square close bracket
-							Token.Get();	// next token
-							cc.nFlags = CCF_VARARRAY;
-							ci.nComponentsNum++;
-							ci.pComponent = (CLASS_COMPONENT *)RESIZE(ci.pComponent,ci.nComponentsNum * sizeof(CLASS_COMPONENT));
-							ci.pComponent[ci.nComponentsNum - 1] = cc;
-
-						break;
-						case COMMA:
-							// this is several variables declaration
-							// add class component
-							cc.nFlags = CCF_VARIABLE;
-							ci.nComponentsNum++;
-							ci.pComponent = (CLASS_COMPONENT *)RESIZE(ci.pComponent,ci.nComponentsNum * sizeof(CLASS_COMPONENT));
-							ci.pComponent[ci.nComponentsNum - 1] = cc;
-
-						break;
-						
-						default:
+							if (di.deftype != NUMBER)
+							{
+								SetError("invalid array size");
+								return false;
+							}
+							cc.nElements = di.data4b;
 							break;
-					}
-				
-				} while(Token.GetType() != SEPARATOR);
-			
-			} 
+						default:
+							SetError("invalid array size");
+							return false;
+						}
 
-			if(SkipAuxiliaryTokens() != SEPARATOR) {SetError("missed ';'"); return false;}
+						Token.Get();	// square close bracket
+						Token.Get();	// next token
+						cc.nFlags = CCF_VARARRAY;
+						ci.nComponentsNum++;
+						ci.pComponent = (CLASS_COMPONENT *)RESIZE(ci.pComponent, ci.nComponentsNum * sizeof(CLASS_COMPONENT));
+						ci.pComponent[ci.nComponentsNum - 1] = cc;
+
+						break;
+					case COMMA:
+						// this is several variables declaration
+						// add class component
+						cc.nFlags = CCF_VARIABLE;
+						ci.nComponentsNum++;
+						ci.pComponent = (CLASS_COMPONENT *)RESIZE(ci.pComponent, ci.nComponentsNum * sizeof(CLASS_COMPONENT));
+						ci.pComponent[ci.nComponentsNum - 1] = cc;
+
+						break;
+
+					default:
+						break;
+					}
+
+				} while (Token.GetType() != SEPARATOR);
+
+			}
+
+			if (SkipAuxiliaryTokens() != SEPARATOR) { SetError("missed ';'"); return false; }
 			ClassTab.AddClass(ci);
 
-			if(ci.pComponent) delete ci.pComponent;
+			if (ci.pComponent) delete ci.pComponent;
 			delete ci.name;
 
-		break;
-
+			break;
+		}
 
 		case BLOCK_IN: inout++; break;
 		case BLOCK_OUT: 
@@ -2044,7 +2048,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 
 	if(bDebugInfo)
 	{
-		strcpy(DebugSourceFileName,Segment.name);
+		strcpy_s(DebugSourceFileName,Segment.name);
 		fnsize = strlen(Segment.name);
 		CompileToken(Segment,DEBUG_FILE_NAME,3,(char *)&DebugSourceLine,sizeof(uint32_t),
 				(char *)&fnsize,sizeof(uint32_t),
@@ -2086,7 +2090,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 	{
 		
 		_splitpath(Segment.name,nullptr,nullptr,file_name,nullptr);
-		strcat(file_name,".b");
+		strcat_s(file_name,".b");
 		fh = CreateFile(file_name,GENERIC_WRITE,FILE_SHARE_READ,nullptr,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL,nullptr);
 		if(fh != INVALID_HANDLE_VALUE)
 		{
@@ -2140,7 +2144,7 @@ S_TOKEN_TYPE COMPILER::CompileAuxiliaryTokens(SEGMENT_DESC& Segment)//, bool & b
 					SetError("Invalid DBG_FILE_NAME");
 					return DEBUG_FILE_NAME;
 				}
-				strcpy(DebugSourceFileName,Token.GetData());
+				strcpy_s(DebugSourceFileName,Token.GetData());
 				fnsize = strlen(Token.GetData());
 
 				CompileToken(Segment,DEBUG_FILE_NAME,3,(char *)&DebugSourceLine,sizeof(uint32_t),
@@ -2274,7 +2278,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, uint32
 			if(Token.Get() == STRING)
 			{
 				if(Token.GetData()==nullptr) { SetError("Invalid event handler"); return false;}
-				strcpy(gs,Token.GetData());
+				strcpy_s(gs,Token.GetData());
 			} 
 			else
 			{
@@ -2286,7 +2290,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, uint32
 					if(di.deftype != STRING) { SetError("Invalid event handler"); return false;}
 					if(di.data4b == 0) { SetError("Invalid define"); return false;}
 						else
-					strcpy(gs,(char *)di.data4b);
+					strcpy_s(gs,(char *)di.data4b);
 				}
 				else { SetError("Invalid event handler"); return false;}
 			}
@@ -4376,7 +4380,7 @@ bool COMPILER::BC_Execute(uint32_t function_code, DATA * & pVReturnResult, char 
 							{
 								float fV1;
 								ExpressionResult.Get(fV1);
-								sprintf(gs,"%.7f",fV1);
+								sprintf_s(gs,"%.7f",fV1);
 								ExpressionResult.Set(gs);
 								
 							}
@@ -4855,7 +4859,7 @@ bool COMPILER::BC_Execute(uint32_t function_code, DATA * & pVReturnResult, char 
 					{
 						float fV1;
 						ExpressionResult.Get(fV1);
-						sprintf(gs,"%.7f",fV1);
+						sprintf_s(gs,"%.7f",fV1);
 						ExpressionResult.Set(gs);	
 					}
 					// 2 signs precision --------------------------------
@@ -5448,8 +5452,8 @@ void COMPILER::SaveDataDebug(char * data_PTR, ...)
 	//fio->_SetFilePointer(hSaveFileFileHandle,0,0,FILE_END);
 	va_list args;
 	va_start(args,data_PTR);
-	_vsnprintf(LogBuffer,sizeof(LogBuffer) - 4,data_PTR,args);
-	strcat(LogBuffer,"\x0d\x0a");
+	_vsnprintf_s(LogBuffer,sizeof(LogBuffer) - 4,data_PTR,args);
+	strcat_s(LogBuffer,"\x0d\x0a");
 	//fio->_WriteFile(hSaveFileFileHandle,LogBuffer,strlen(LogBuffer),&bytes);
 	va_end(args);
 }
@@ -5587,17 +5591,14 @@ bool COMPILER::FindReferencedVariableByRootA(ATTRIBUTES * pA, uint32_t & var_ind
 
 ATTRIBUTES * COMPILER::TraceARoot(ATTRIBUTES * pA, char * & pAccess)
 {
-	char * pAS;
-	long slen;
-	
 	if(pA == nullptr) return nullptr;				// error or invalid argument
 	if(pA->GetParent() == nullptr) return pA;	// root found
 	
-	slen = strlen(pA->GetThisName())+1;
+	long slen = strlen(pA->GetThisName()) + 1;
 	
-	pAS = NEW char[slen];
+	char * pAS = NEW char[slen];
 	
-	strcpy(pAS,pA->GetThisName());
+	memcpy(pAS, pA->GetThisName(), slen);
 	
 	if(pAccess == nullptr)
 	{
@@ -5605,9 +5606,10 @@ ATTRIBUTES * COMPILER::TraceARoot(ATTRIBUTES * pA, char * & pAccess)
 	} 
 	else
 	{
-		pAS = (char *)RESIZE(pAS,slen + strlen(pAccess) + 1);
-		strcat(pAS,".");
-		strcat(pAS,pAccess);
+		const auto len = slen + strlen(pAccess) + 1;
+		pAS = (char *)RESIZE(pAS, len);
+		strcat_s(pAS, len, ".");
+		strcat_s(pAS, len, pAccess);
 		delete pAccess;
 		pAccess = pAS;
 	}
@@ -5896,7 +5898,7 @@ void COMPILER::SaveVariable(DATA * pV, bool bdim)
 	{
 		for(n=0;n<pV->GetElementsNum();n++)
 		{
-			//sprintf(gs,"    [index : %d]\n",n);
+			//sprintf_s(gs,"    [index : %d]\n",n);
 			//OutputDebugString(gs);
 			SaveVariable(pV->GetArrayElement(n),true);
 		}
@@ -6011,8 +6013,8 @@ bool COMPILER::SaveState(HANDLE fh)
 	EXTDATA_HEADER edh;
 	VDATA* pVDat = (VDATA*)api->GetScriptVariable("savefile_info");
 	if( pVDat && pVDat->GetString() )
-		_snprintf(edh.sFileInfo,sizeof(edh.sFileInfo),"%s",pVDat->GetString());
-	else _snprintf(edh.sFileInfo,sizeof(edh.sFileInfo),"save");
+		sprintf_s(edh.sFileInfo,sizeof(edh.sFileInfo),"%s",pVDat->GetString());
+	else sprintf_s(edh.sFileInfo,sizeof(edh.sFileInfo),"save");
 	edh.dwExtDataOffset = 0;
 	edh.dwExtDataSize = 0;
 
@@ -6267,8 +6269,8 @@ bool COMPILER::SetSaveData(char * file_name, void * save_data, long data_size)
 	dwFileSize = Core.fio->_GetFileSize(fh, nullptr);
 	VDATA* pVDat = (VDATA*)api->GetScriptVariable("savefile_info");
 	if( pVDat && pVDat->GetString() )
-		_snprintf(exdh.sFileInfo,sizeof(exdh.sFileInfo),"%s",pVDat->GetString());
-	else _snprintf(exdh.sFileInfo,sizeof(exdh.sFileInfo),"save");
+		sprintf_s(exdh.sFileInfo,sizeof(exdh.sFileInfo),"%s",pVDat->GetString());
+	else sprintf_s(exdh.sFileInfo,sizeof(exdh.sFileInfo),"save");
 	exdh.dwExtDataOffset = dwFileSize;
 	exdh.dwExtDataSize = data_size;
 
@@ -6312,7 +6314,7 @@ bool COMPILER::SetSaveData(char * file_name, void * save_data, long data_size)
 
 	if(file_name[0] == 'U' && file_name[1] ==':')
 	{
-		strcpy(sFileName,file_name);
+		strcpy_s(sFileName,file_name);
 	}
 	else
 	{
@@ -6320,21 +6322,21 @@ bool COMPILER::SetSaveData(char * file_name, void * save_data, long data_size)
 		sh = XFindFirstSaveGame("U:\\",&fd);
 		if(INVALID_HANDLE_VALUE == sh) return false;
 		for(n=0;fd.szSaveGameName[n];n++) sTemp[n] = (char)fd.szSaveGameName[n];	sTemp[n] = 0;
-		sprintf(sFileName,"%s%s",fd.szSaveGameDirectory,sTemp);
+		sprintf_s(sFileName,"%s%s",fd.szSaveGameDirectory,sTemp);
 		if(_stricmp(sTemp,file_name)==0) bFound = true;
 		while(!bFound)
 		{
 			if(!XFindNextSaveGame(sh,&fd)) break;
 
 			for(n=0;fd.szSaveGameName[n];n++) sTemp[n] = (char)fd.szSaveGameName[n];	sTemp[n] = 0;
-			sprintf(sFileName,"%s%s",fd.szSaveGameDirectory,sTemp);
+			sprintf_s(sFileName,"%s%s",fd.szSaveGameDirectory,sTemp);
 			if(_stricmp(sTemp,file_name)==0) bFound = true;
 		}
 		if(!bFound) return false;
 		XFindClose(sh);
 	}
 #else
-	strcpy(sFileName,file_name);
+	strcpy_s(sFileName,file_name);
 #endif
 
 	// open save file
@@ -6752,15 +6754,15 @@ void COMPILER::FormatAllDialog(char * directory_name)
 	HANDLE fh;
 	WIN32_FIND_DATA ffd;
 	char sFileName[MAX_PATH];
-	wsprintf(sFileName,"%s\\*.c",directory_name);
+	sprintf_s(sFileName,"%s\\*.c",directory_name);
 	fh = Core.fio->_FindFirstFile(sFileName,&ffd);
 	if(fh != INVALID_HANDLE_VALUE)
 	{
-		wsprintf(sFileName,"%s\\%s",directory_name,ffd.cFileName);
+		sprintf_s(sFileName,"%s\\%s",directory_name,ffd.cFileName);
 		FormatDialog(sFileName);
 		while(Core.fio->_FindNextFile(fh,&ffd))
 		{
-			wsprintf(sFileName,"%s\\%s",directory_name,ffd.cFileName);
+			sprintf_s(sFileName,"%s\\%s",directory_name,ffd.cFileName);
 			FormatDialog(sFileName);
 		}
 	}
@@ -6786,8 +6788,8 @@ void COMPILER::FormatDialog(char * file_name)
 	nTxt = 0;
 	nLnk = 0;
 	
-	//wsprintf(sFileName,"PROGRAM\\%sc",file_name);
-	strcpy(sFileName,file_name);
+	//sprintf_s(sFileName,"PROGRAM\\%sc",file_name);
+	strcpy_s(sFileName,file_name);
 
 
 	pFileData = LoadFile(file_name,FileSize,true);
@@ -6796,10 +6798,10 @@ void COMPILER::FormatDialog(char * file_name)
 	fh = Core.fio->_CreateFile(sFileName,GENERIC_WRITE,FILE_SHARE_READ,CREATE_ALWAYS);
 	if(fh == INVALID_HANDLE_VALUE) return;
 
-	//wsprintf(sFileName,"PROGRAM\\%s",file_name);
-	strcpy(sFileName,file_name);
+	//sprintf_s(sFileName,"PROGRAM\\%s",file_name);
+	strcpy_s(sFileName,file_name);
 	sFileName[strlen(sFileName)-1] = 0;
-	strcat(sFileName,"h");
+	strcat_s(sFileName,"h");
 	fhH = Core.fio->_CreateFile(sFileName,GENERIC_WRITE,FILE_SHARE_READ,CREATE_ALWAYS);
 	if(fhH == INVALID_HANDLE_VALUE) {Core.fio->_CloseHandle(fh); delete pFileData; return;}
 
@@ -6813,16 +6815,16 @@ void COMPILER::FormatDialog(char * file_name)
 	{
 		if(file_name[n] == '\\') break;
 	}
-	wsprintf(sFileName,"DIALOGS%s",(char *)(file_name + n));
+	sprintf_s(sFileName,"DIALOGS%s",(char *)(file_name + n));
 	sFileName[strlen(sFileName)-1] = 0;
-	strcat(sFileName,"h");
-	wsprintf(buffer,"#include \"%s\"",sFileName);
+	strcat_s(sFileName,"h");
+	sprintf_s(buffer,"#include \"%s\"",sFileName);
 
 	Core.fio->_WriteFile(fh,buffer,strlen(buffer),&dwR);
 	Core.fio->_WriteFile(fh,sNewLine,strlen(sNewLine),&dwR);
 
 
-	wsprintf(buffer,"string DLG_TEXT[0] = {        ");
+	sprintf_s(buffer,"string DLG_TEXT[0] = {        ");
 	Core.fio->_WriteFile(fhH,buffer,strlen(buffer),&dwR);
 	Core.fio->_WriteFile(fhH,sNewLine,strlen(sNewLine),&dwR);
 
@@ -6847,7 +6849,7 @@ void COMPILER::FormatDialog(char * file_name)
 						Core.fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
 
 						//Core.fio->_WriteFile(fhH,sNewLine,strlen(sNewLine),&dwR);
-						//wsprintf(sFileName,"// [NODE START] ",nTxt); 
+						//sprintf_s(sFileName,"// [NODE START] ",nTxt); 
 						//Core.fio->_WriteFile(fhH,sFileName,strlen(sFileName),&dwR);
 						//Core.fio->_WriteFile(fhH,sNewLine,strlen(sNewLine),&dwR);
 
@@ -6886,7 +6888,7 @@ void COMPILER::FormatDialog(char * file_name)
 									Core.fio->_WriteFile(fhH,Token.GetData(),strlen(Token.GetData()),&dwR);
 									Core.fio->_WriteFile(fhH,",",_countof(",")-1,&dwR);
 									Core.fio->_WriteFile(fhH,sNewLine,newline_len,&dwR);
-									wsprintf(sFileName,"DLG_TEXT[%d]",nTxt);
+									sprintf_s(sFileName,"DLG_TEXT[%d]",nTxt);
 									Core.fio->_WriteFile(fh,sFileName,strlen(sFileName),&dwR);
 									nTxt++;
 								
@@ -6966,7 +6968,7 @@ void COMPILER::FormatDialog(char * file_name)
 											Core.fio->_WriteFile(fhH,Token.GetData(),strlen(Token.GetData()),&dwR);
 											Core.fio->_WriteFile(fhH,",",_countof(",")-1,&dwR);
 											Core.fio->_WriteFile(fhH,sNewLine, newline_len,&dwR);
-											wsprintf(sFileName,"DLG_TEXT[%d]",nTxt);
+											sprintf_s(sFileName,"DLG_TEXT[%d]",nTxt);
 											Core.fio->_WriteFile(fh,sFileName,strlen(sFileName),&dwR);
 											nTxt++;
 										}
@@ -7002,11 +7004,11 @@ void COMPILER::FormatDialog(char * file_name)
 
 	delete pFileData;
 
-	wsprintf(buffer,"};");
+	sprintf_s(buffer,"};");
 	Core.fio->_WriteFile(fhH,sNewLine,strlen(sNewLine),&dwR);
 	Core.fio->_WriteFile(fhH,buffer,strlen(buffer),&dwR);
 	Core.fio->_SetFilePointer(fhH,0,nullptr,FILE_BEGIN);
-	wsprintf(buffer,"string DLG_TEXT[%d] = {",nTxt);
+	sprintf_s(buffer,"string DLG_TEXT[%d] = {",nTxt);
 	Core.fio->_WriteFile(fhH,buffer,strlen(buffer),&dwR);
 	
 	Core.fio->_CloseHandle(fhH);

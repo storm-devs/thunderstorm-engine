@@ -371,11 +371,11 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
     // set parameters for blind
 	for(i=0; i<m_nSlotsQnt; i++)
 	{
-		sprintf(param,"dwNormalColorARGB%d",i+1);
+		sprintf_s(param,"dwNormalColorARGB%d",i+1);
 		m_dwCurColor[i] = m_dwNormalColor[i] = GetIniARGB(ini1,name1, ini2,name2, param, ARGB(255,128,128,128));
-		sprintf(param,"dwSelectColorARGB%d",i+1);
+		sprintf_s(param,"dwSelectColorARGB%d",i+1);
 		m_dwSelectColor[i] = GetIniARGB(ini1,name1, ini2,name2, param, ARGB(255,64,64,64));
-		sprintf(param,"PicOffset%d",i+1);
+		sprintf_s(param,"PicOffset%d",i+1);
 		m_pPicOffset[i] = GetIniLong(ini1,name1, ini2,name2, param, 0);
 		m_idBadTexture[i] = -1;
 		m_idBadPic[i] = -1;
@@ -421,11 +421,12 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 		char * sTechnique = pAttribute->GetAttribute("SpecTechniqueName");
 		if(sTechnique!= nullptr)
 		{
-			if( (m_sSpecTechniqueName=NEW char[strlen(sTechnique)+1])== nullptr )
+			const auto len = strlen(sTechnique)+1;
+			if( (m_sSpecTechniqueName=NEW char[len])== nullptr )
 			{
 				STORM_THROW("Allocate memory error");
 			}
-			strcpy(m_sSpecTechniqueName,sTechnique);
+			memcpy(m_sSpecTechniqueName,sTechnique,len);
 		}
 		// get images quantity
 		m_nListSize = pAttribute->GetAttributeAsDword("ListSize",0);
@@ -461,12 +462,13 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 				{
 					char * stmp = pA->GetAttribute(i);
 					if(stmp== nullptr) continue;
-					m_sGroupName[i] = NEW char[strlen(stmp)+1];
+					const auto len = strlen(stmp)+1;
+					m_sGroupName[i] = NEW char[len];
 					if(m_sGroupName[i]== nullptr)
 					{
 						STORM_THROW("allocate memory error");
 					}
-					strcpy(m_sGroupName[i],stmp);
+					memcpy(m_sGroupName[i],stmp,len);
 					m_nGroupTex[i] = pPictureService->GetTextureID(m_sGroupName[i]);
 				}
 			}
@@ -476,7 +478,7 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 		for(n=0; n<m_nSlotsQnt; n++)
 		{
 			char * sBadPict;
-			sprintf(param,"BadPicture%d",n+1);
+			sprintf_s(param,"BadPicture%d",n+1);
 			if( (sBadPict=pAttribute->GetAttribute(param)) != nullptr)
 			{
 				m_idBadTexture[n] = m_rs->TextureCreate(sBadPict);
@@ -484,11 +486,11 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 			}
 			else
 			{
-				sprintf(param,"BadTex%d",n+1);
+				sprintf_s(param,"BadTex%d",n+1);
 				m_idBadTexture[n] = pAttribute->GetAttributeAsDword(param,-1);
 				if(m_idBadTexture[n]>=0)
 				{
-					sprintf(param,"BadPic%d",n+1);
+					sprintf_s(param,"BadPic%d",n+1);
 					m_idBadPic[n] = pPictureService->GetImageNum(m_sGroupName[m_idBadTexture[n]],pAttribute->GetAttribute(param));
 				}
 				else	m_idBadPic[n] = -1;
@@ -501,7 +503,7 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 		{
 			char attrName[256];
 			char * sStringName;
-			sprintf( attrName,"pic%d",i+1);
+			sprintf_s( attrName,"pic%d",i+1);
 			ATTRIBUTES * pListEntity = pAttribute->GetAttributeClass(attrName);
 
 			// Fill image descriptor by default value
@@ -545,10 +547,11 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 					sStringName = pListEntity->GetAttribute("str1");
 					if(sStringName!= nullptr && sStringName[0]=='#')
 					{
-						m_Image[i].string1 = NEW char[strlen(sStringName)];
+						const auto len = strlen(sStringName);
+						m_Image[i].string1 = NEW char[len];
 						if(m_Image[i].string1== nullptr)
 							STORM_THROW("allocate memory error")
-						strcpy(m_Image[i].string1,&(sStringName[1]));
+						memcpy(m_Image[i].string1,&(sStringName[1]), len);
 					}
 					else
 						m_Image[i].str1 = pStringService->GetStringNum(sStringName);
@@ -560,10 +563,11 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 					sStringName = pListEntity->GetAttribute("str2");
 					if(sStringName!= nullptr && sStringName[0]=='#')
 					{
-						m_Image[i].string2 = NEW char[strlen(sStringName)];
+						const auto len = strlen(sStringName);
+						m_Image[i].string2 = NEW char[len];
 						if(m_Image[i].string2== nullptr)
 							STORM_THROW("allocate memory error")
-						strcpy(m_Image[i].string2,&(sStringName[1]));
+						memcpy(m_Image[i].string2,&(sStringName[1]),len);
 					}
 					else
 						m_Image[i].str2 = pStringService->GetStringNum(sStringName);
@@ -573,21 +577,22 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 				char * tmpStr;
 				for(n=0; n<m_nSlotsQnt; n++)
 				{
-					sprintf(param,"name%d",n+1);
+					sprintf_s(param,"name%d",n+1);
 					tmpStr=pListEntity->GetAttribute(param);
 					if(tmpStr!= nullptr)
 					{
-						if( (m_Image[i].saveName[n]=NEW char[strlen(tmpStr)+1])==nullptr )
+						const auto len = strlen(tmpStr) + 1;
+						if( (m_Image[i].saveName[n]=NEW char[len])==nullptr )
 							{STORM_THROW("allocate memory error");}
-						strcpy(m_Image[i].saveName[n],tmpStr);
+						memcpy(m_Image[i].saveName[n],tmpStr, len);
 					}
-					sprintf(param,"tex%d",n+1);
+					sprintf_s(param,"tex%d",n+1);
 					m_Image[i].tex[n] = pListEntity->GetAttributeAsDword(param,-1);
-					sprintf(param,"img%d",n+1);
+					sprintf_s(param,"img%d",n+1);
 					if(m_Image[i].tex[n]!=-1)
 						m_Image[i].img[n] = pPictureService->GetImageNum(m_sGroupName[m_Image[i].tex[n]],pListEntity->GetAttribute(param));
 					else	m_Image[i].img[n] = -1;
-					sprintf(param,"spec%d",n+1);
+					sprintf_s(param,"spec%d",n+1);
 					m_Image[i].bUseSpecTechnique[n] = pListEntity->GetAttributeAsDword(param,0)!=0;
 				}
 			}
@@ -599,9 +604,10 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 	if( ReadIniString(ini1,name1, ini2,name2, "border", param, sizeof(param),"") )
 	{
 		tmpstr = GetSubStr(param, param1, sizeof(param1));
-		if( (m_sBorderGroupName = NEW char[strlen(param1)+1])== nullptr )
+		const auto len = strlen(param1) + 1;
+		if( (m_sBorderGroupName = NEW char[len])== nullptr )
 			STORM_THROW("allocate memory error")
-		strcpy(m_sBorderGroupName,param1);
+		memcpy(m_sBorderGroupName,param1,len);
 		m_texBorder = pPictureService->GetTextureID(m_sBorderGroupName);
 		m_nBorderPicture = pPictureService->GetImageNum(m_sBorderGroupName,tmpstr);
 		m_bShowBorder = m_texBorder!=-1;
@@ -960,7 +966,7 @@ void CXI_SCROLLIMAGE::SaveParametersToIni()
 	}
 
 	// save position
-	_snprintf( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rAbsolutePosition.left, m_rAbsolutePosition.top, m_rAbsolutePosition.right, m_rAbsolutePosition.bottom );
+	sprintf_s( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rAbsolutePosition.left, m_rAbsolutePosition.top, m_rAbsolutePosition.right, m_rAbsolutePosition.bottom );
 	pIni->WriteString( m_nodeName, "position", pcWriteParam );
 
 	delete pIni;
@@ -996,7 +1002,7 @@ void CXI_SCROLLIMAGE::ChangeScroll(int nScrollItemNum)
         {
 			m_Image[i].Clear(m_nSlotsQnt);
 
-            sprintf(sAttrName,"pic%d",i+1);
+            sprintf_s(sAttrName,"pic%d",i+1);
             pAttribute=pAttr->GetAttributeClass(sAttrName);
 
             if(pAttribute!= nullptr)
@@ -1007,10 +1013,11 @@ void CXI_SCROLLIMAGE::ChangeScroll(int nScrollItemNum)
 					sStringName = pAttribute->GetAttribute("str1");
 					if(sStringName!= nullptr && sStringName[0]=='#')
 					{
-						m_Image[i].string1 = NEW char[strlen(sStringName)];
+						const auto len = strlen(sStringName);
+						m_Image[i].string1 = NEW char[len];
 						if(m_Image[i].string1== nullptr)
 							STORM_THROW("allocate memory error")
-						strcpy(m_Image[i].string1,&(sStringName[1]));
+						memcpy(m_Image[i].string1,&(sStringName[1]),len);
 					}
 					else
 						m_Image[i].str1 = pStringService->GetStringNum(sStringName);
@@ -1022,10 +1029,11 @@ void CXI_SCROLLIMAGE::ChangeScroll(int nScrollItemNum)
 					sStringName = pAttribute->GetAttribute("str2");
 					if(sStringName!= nullptr && sStringName[0]=='#')
 					{
-						m_Image[i].string2 = NEW char[strlen(sStringName)];
+						const auto len = strlen(sStringName);
+						m_Image[i].string2 = NEW char[len];
 						if(m_Image[i].string2== nullptr)
 							STORM_THROW("allocate memory error")
-						strcpy(m_Image[i].string2,&(sStringName[1]));
+						memcpy(m_Image[i].string2,&(sStringName[1]),len);
 					}
 					else
 						m_Image[i].str2 = pStringService->GetStringNum(sStringName);
@@ -1035,21 +1043,22 @@ void CXI_SCROLLIMAGE::ChangeScroll(int nScrollItemNum)
 				char * tmpStr;
 				for(n=0; n<m_nSlotsQnt; n++)
 				{
-					sprintf(param,"name%d",n+1);
+					sprintf_s(param,"name%d",n+1);
 					tmpStr=pAttribute->GetAttribute(param);
 					if(tmpStr!= nullptr)
 					{
-						if( (m_Image[i].saveName[n]=NEW char[strlen(tmpStr)+1])==nullptr )
+						const auto len = strlen(tmpStr) + 1;
+						if( (m_Image[i].saveName[n]=NEW char[len])==nullptr )
 							{STORM_THROW("allocate memory error");}
-						strcpy(m_Image[i].saveName[n],tmpStr);
+						memcpy(m_Image[i].saveName[n],tmpStr,len);
 					}
-					sprintf(param,"tex%d",n+1);
+					sprintf_s(param,"tex%d",n+1);
 					m_Image[i].tex[n] = pAttribute->GetAttributeAsDword(param,-1);
-					sprintf(param,"img%d",n+1);
+					sprintf_s(param,"img%d",n+1);
 					if(m_Image[i].tex[n]!=-1)
 						m_Image[i].img[n] = pPictureService->GetImageNum(m_sGroupName[m_Image[i].tex[n]],pAttribute->GetAttribute(param));
 					else	m_Image[i].img[n] = -1;
-					sprintf(param,"spec%d",n+1);
+					sprintf_s(param,"spec%d",n+1);
 					m_Image[i].bUseSpecTechnique[n] = pAttribute->GetAttributeAsDword(param,0)!=0;
 				}
             }
@@ -1144,11 +1153,12 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 		char * sTechnique = pAttribute->GetAttribute("SpecTechniqueName");
 		if(sTechnique!= nullptr)
 		{
-			if( (m_sSpecTechniqueName=NEW char[strlen(sTechnique)+1])== nullptr )
+			const auto len = strlen(sTechnique) + 1;
+			if( (m_sSpecTechniqueName=NEW char[len])== nullptr )
 			{
 				STORM_THROW("Allocate memory error");
 			}
-			strcpy(m_sSpecTechniqueName,sTechnique);
+			memcpy(m_sSpecTechniqueName,sTechnique,len);
 		}
 		// get images quantity
 		m_nListSize = pAttribute->GetAttributeAsDword("ListSize",0);
@@ -1184,12 +1194,13 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 				{
 					char * stmp = pA->GetAttribute(i);
 					if(stmp== nullptr) continue;
-					m_sGroupName[i] = NEW char[strlen(stmp)+1];
+					const auto len = strlen(stmp) + 1;
+					m_sGroupName[i] = NEW char[len];
 					if(m_sGroupName[i]== nullptr)
 					{
 						STORM_THROW("allocate memory error");
 					}
-					strcpy(m_sGroupName[i],stmp);
+					memcpy(m_sGroupName[i],stmp,len);
 					m_nGroupTex[i] = pPictureService->GetTextureID(m_sGroupName[i]);
 				}
 			}
@@ -1199,7 +1210,7 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 		for(n=0; n<m_nSlotsQnt; n++)
 		{
 			char * sBadPict;
-			sprintf(param,"BadPicture%d",n+1);
+			sprintf_s(param,"BadPicture%d",n+1);
 			if( (sBadPict=pAttribute->GetAttribute(param)) != nullptr)
 			{
 				m_idBadTexture[n] = m_rs->TextureCreate(sBadPict);
@@ -1207,11 +1218,11 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 			}
 			else
 			{
-				sprintf(param,"BadTex%d",n+1);
+				sprintf_s(param,"BadTex%d",n+1);
 				m_idBadTexture[n] = pAttribute->GetAttributeAsDword(param,-1);
 				if(m_idBadTexture[n]>=0)
 				{
-					sprintf(param,"BadPic%d",n+1);
+					sprintf_s(param,"BadPic%d",n+1);
 					m_idBadPic[n] = pPictureService->GetImageNum(m_sGroupName[m_idBadTexture[n]],pAttribute->GetAttribute(param));
 				}
 				else	m_idBadPic[n] = -1;
@@ -1224,7 +1235,7 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 		{
 			char attrName[256];
 			char * sStringName;
-			sprintf( attrName,"pic%d",i+1);
+			sprintf_s( attrName,"pic%d",i+1);
 			ATTRIBUTES * pListEntity = pAttribute->GetAttributeClass(attrName);
 
 			// Fill image descriptor by default value
@@ -1267,10 +1278,11 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 					sStringName = pListEntity->GetAttribute("str1");
 					if(sStringName!= nullptr && sStringName[0]=='#')
 					{
-						m_Image[i].string1 = NEW char[strlen(sStringName)];
+						const auto len = strlen(sStringName);
+						m_Image[i].string1 = NEW char[len];
 						if(m_Image[i].string1== nullptr)
 							STORM_THROW("allocate memory error")
-						strcpy(m_Image[i].string1,&(sStringName[1]));
+						memcpy(m_Image[i].string1,&(sStringName[1]),len);
 					}
 					else
 						m_Image[i].str1 = pStringService->GetStringNum(sStringName);
@@ -1282,10 +1294,11 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 					sStringName = pListEntity->GetAttribute("str2");
 					if(sStringName!= nullptr && sStringName[0]=='#')
 					{
-						m_Image[i].string2 = NEW char[strlen(sStringName)];
+						const auto len = strlen(sStringName);
+						m_Image[i].string2 = NEW char[len];
 						if(m_Image[i].string2== nullptr)
 							STORM_THROW("allocate memory error")
-						strcpy(m_Image[i].string2,&(sStringName[1]));
+						memcpy(m_Image[i].string2,&(sStringName[1]),len);
 					}
 					else
 						m_Image[i].str2 = pStringService->GetStringNum(sStringName);
@@ -1295,21 +1308,22 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 				char * tmpStr;
 				for(n=0; n<m_nSlotsQnt; n++)
 				{
-					sprintf(param,"name%d",n+1);
+					sprintf_s(param,"name%d",n+1);
 					tmpStr=pListEntity->GetAttribute(param);
 					if(tmpStr!= nullptr)
 					{
-						if( (m_Image[i].saveName[n]=NEW char[strlen(tmpStr)+1])==nullptr )
+						const auto len = strlen(tmpStr) + 1;
+						if( (m_Image[i].saveName[n]=NEW char[len])==nullptr )
 							{STORM_THROW("allocate memory error");}
-						strcpy(m_Image[i].saveName[n],tmpStr);
+						memcpy(m_Image[i].saveName[n],tmpStr,len);
 					}
-					sprintf(param,"tex%d",n+1);
+					sprintf_s(param,"tex%d",n+1);
 					m_Image[i].tex[n] = pListEntity->GetAttributeAsDword(param,-1);
-					sprintf(param,"img%d",n+1);
+					sprintf_s(param,"img%d",n+1);
 					if(m_Image[i].tex[n]!=-1)
 						m_Image[i].img[n] = pPictureService->GetImageNum(m_sGroupName[m_Image[i].tex[n]],pListEntity->GetAttribute(param));
 					else	m_Image[i].img[n] = -1;
-					sprintf(param,"spec%d",n+1);
+					sprintf_s(param,"spec%d",n+1);
 					m_Image[i].bUseSpecTechnique[n] = pListEntity->GetAttributeAsDword(param,0)!=0;
 				}
 			}
@@ -1501,11 +1515,12 @@ void CXI_SCROLLIMAGE::UpdateTexturesGroup()
 				}
 				else
 				{
-					m_sGroupName[i] = NEW char[strlen(stmp)+1];
+					const auto len = strlen(stmp) + 1;
+					m_sGroupName[i] = NEW char[len];
 					if(m_sGroupName[i]== nullptr) {
 						STORM_THROW("allocate memory error");
 					}
-					strcpy(m_sGroupName[i],stmp);
+					memcpy(m_sGroupName[i],stmp,len);
 					m_nGroupTex[i] = pPictureService->GetTextureID(m_sGroupName[i]);
 				}
 			}

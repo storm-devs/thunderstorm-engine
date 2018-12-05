@@ -58,13 +58,13 @@ LGeometry::~LGeometry()
 //Установить путь до моделек
 void LGeometry::SetModelsPath(const char * mPath)
 {
-	strcpy(modelsPath, mPath);
+	strcpy_s(modelsPath, mPath);
 }
 
 //Установить путь для текущей погоды
 void LGeometry::SetLightPath(const char * lPath)
 {
-	strcpy(lightPath, lPath);
+	strcpy_s(lightPath, lPath);
 }
 
 //Добавить объект
@@ -75,20 +75,22 @@ void LGeometry::AddObject(const char * name, ENTITY_ID & model)
 		maxObjects += 16;
 		object = (Object *)RESIZE(object, maxObjects*sizeof(Object));
 	}
-	object[numObjects].nameReal = NEW char[strlen(name) + strlen(modelsPath) + 8];
+	auto len = strlen(name) + strlen(modelsPath) + 8;
+	object[numObjects].nameReal = NEW char[len];
 	object[numObjects].nameReal[0] = 0;
-	strcat(object[numObjects].nameReal, modelsPath);
-	strcat(object[numObjects].nameReal, name);
-	strcat(object[numObjects].nameReal, ".gm");
+	strcat_s(object[numObjects].nameReal, len, modelsPath);
+	strcat_s(object[numObjects].nameReal, len, name);
+	strcat_s(object[numObjects].nameReal, len, ".gm");
 	object[numObjects].name = NEW char[strlen(name) + 2048];
+	len = strlen(name) + 2048;
 	object[numObjects].name[0] = 0;
-	strcat(object[numObjects].name, "resource\\models\\");
-	strcat(object[numObjects].name, modelsPath);
-	strcat(object[numObjects].name, "\\");
-	strcat(object[numObjects].name, name);
-	strcat(object[numObjects].name, "_");
-	strcat(object[numObjects].name, lightPath);
-	strcat(object[numObjects].name, ".col");
+	strcat_s(object[numObjects].name, len, "resource\\models\\");
+	strcat_s(object[numObjects].name, len, modelsPath);
+	strcat_s(object[numObjects].name, len, "\\");
+	strcat_s(object[numObjects].name, len, name);
+	strcat_s(object[numObjects].name, len, "_");
+	strcat_s(object[numObjects].name, len, lightPath);
+	strcat_s(object[numObjects].name, len, ".col");
 	char * str = object[numObjects].name;
 	for(long s = 0, d = 0; str[d]; s++)
 	{

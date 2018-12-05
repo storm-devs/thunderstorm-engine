@@ -216,7 +216,7 @@ void WdmInterfaceObject::FillSRectColor(Vertex * vrt, uint32_t color)
 //Вывести текст в заданную полоску по горизонтали и в заданной высоте
 void WdmInterfaceObject::Print(long font, long color, float xleft, float xright, float y, const char * format, ...)
 {
-	_vsnprintf(stringBuffer, sizeof(stringBuffer), format, ((char *)&format + sizeof(char *)));
+	_vsnprintf_s(stringBuffer, sizeof(stringBuffer), format, ((char *)&format + sizeof(char *)));
 	long strw = wdmObjects->rs->StringWidth(stringBuffer, font);
 	float x = (xright + xleft - strw)*0.5f;
 	wdmObjects->rs->Print(font, color, long(x), long(y), stringBuffer);

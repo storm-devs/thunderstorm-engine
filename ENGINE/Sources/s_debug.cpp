@@ -99,9 +99,9 @@ LRESULT CALLBACK DebugWndProc(HWND hwnd,UINT iMsg,WPARAM wParam,LPARAM lParam)
 						
 						GetMenuItemInfo(hFileSubMenu,n,true,&mii);
 
-						strcpy(CDebug.sLastFileName,buffer);
+						strcpy_s(CDebug.sLastFileName,buffer);
 						CDebug.SourceView->OpenSourceFile(buffer);
-						sprintf(wintext,"SDebug - %s",buffer);
+						sprintf_s(wintext,"SDebug - %s",buffer);
 						SetWindowText(hwnd,wintext);
 						CDebug.Add2RecentFiles(buffer);
 						CDebug.SourceView->SetActiveLine(CDebug.GetRecentFileALine(buffer));
@@ -285,7 +285,7 @@ LRESULT CALLBACK DebugWndProc(HWND hwnd,UINT iMsg,WPARAM wParam,LPARAM lParam)
 
 void S_DEBUG::BreakOn(char * filename,uint32_t line)
 {
-	strcpy(BreakFileName,filename);
+	strcpy_s(BreakFileName,filename);
 	BreakLineCode = line;
 	ShowWindow(hMain,SW_NORMAL);
 	if(WatcherList)
@@ -299,7 +299,7 @@ void S_DEBUG::BreakOn(char * filename,uint32_t line)
 		SourceView->OpenSourceFile(BreakFileName);
 		//SourceView->SetActiveLine(BreakLineCode);
 		char wintext[MAX_PATH];
-		sprintf(wintext,"SDebug - %s",filename);
+		sprintf_s(wintext,"SDebug - %s",filename);
 		SetWindowText(hMain,wintext);
 		SourceView->SetActiveLine(BreakLineCode);
 		
@@ -415,7 +415,7 @@ bool S_DEBUG::OpenDebugWindow_NT(HINSTANCE hInstance)
 		MENUITEMINFO mii;
 		hFileSubMenu = GetSubMenu(hMenu,0);
 		
-		strcpy(sb,"c:\\projects\\drive_v2\\engine\\programs\\seadogs.c");
+		strcpy_s(sb,"c:\\projects\\drive_v2\\engine\\programs\\seadogs.c");
 		PZERO(&mii,sizeof(mii));
 		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_TYPE ;
@@ -527,8 +527,9 @@ char * S_DEBUG::ProcessExpression(char * pExpression)
 		Result.Convert(VAR_STRING);
 		if(Result.Get(pC))
 		{
-			pExpResBuffer = (char *)RESIZE(pExpResBuffer,strlen(pC) + 1);
-			strcpy(pExpResBuffer,pC);
+			const auto len = strlen(pC) + 1;
+			pExpResBuffer = (char *)RESIZE(pExpResBuffer,len);
+			memcpy(pExpResBuffer,pC,len);
 			return pExpResBuffer;
 		}
 	}
@@ -573,17 +574,17 @@ bool S_DEBUG::BrowseFile(char * buffer, const char * filter)
 	Core.fio->_SetCurrentDirectory(DirectoryName);
 	if(bRes) 
 	{
-		strcat(DirectoryName,"\\");
-		strcat(DirectoryName,ProgramDirectory);
-		strcat(DirectoryName,"\\");
-		strcpy(buffer,file_name + strlen(DirectoryName)); 
-		//strcpy(buffer,file_name);
+		strcat_s(DirectoryName,"\\");
+		strcat_s(DirectoryName,ProgramDirectory);
+		strcat_s(DirectoryName,"\\");
+		strcpy_s(buffer,MAX_PATH,file_name + strlen(DirectoryName)); 
+		//strcpy_s(buffer,file_name);
 		return true;
 	}
 	return false;
 }
 
-bool S_DEBUG::BrowseFileWP(char * buffer, const char * filter)
+bool S_DEBUG::BrowseFileWP(char *buffer, const char * filter)
 {
 	char DirectoryName[MAX_PATH];
 	Core.fio->_GetCurrentDirectory(sizeof(DirectoryName),DirectoryName);
@@ -606,7 +607,7 @@ bool S_DEBUG::BrowseFileWP(char * buffer, const char * filter)
 	Core.fio->_SetCurrentDirectory(DirectoryName);
 	if(bRes) 
 	{
-		strcpy(buffer,file_name);
+		strcpy_s(buffer, MAX_PATH, file_name);
 		return true;
 	}
 	return false;
@@ -616,7 +617,7 @@ void S_DEBUG::SetProgramDirectory(char * dir_name)
 {
 	if(dir_name)
 	{
-		strcpy(ProgramDirectory,dir_name);
+		strcpy_s(ProgramDirectory,dir_name);
 		if(SourceView) SourceView->SetProgramDirectory(dir_name);
 	}
 }
@@ -705,7 +706,7 @@ void S_DEBUG::Add2RecentFiles(char * pFileName)
 
 	for(uint32_t n=0;n<nRecentFilesNum;n++)
 	{
-		wsprintf(kn,"file%d",n);
+		sprintf_s(kn,"file%d",n);
 		dwSize = sizeof(buffer);
 		buffer[0] = 0;
 		if(RegQueryValueEx(hKey,kn,nullptr,nullptr,(unsigned char *)buffer,(LPDWORD)&dwSize) == ERROR_SUCCESS)
@@ -719,7 +720,7 @@ void S_DEBUG::Add2RecentFiles(char * pFileName)
 		}
 	}
 
-	wsprintf(kn,"file%d",nRecentFilesIndex);
+	sprintf_s(kn,"file%d",nRecentFilesIndex);
 	RegSetValueEx(hKey,kn,0,REG_SZ,(const unsigned char *)pFileName,strlen(pFileName)+1);
 
 	if(!bAdd)
@@ -832,7 +833,7 @@ bool S_DEBUG::ProcessRegistry_Open()
 		
 		for(n=0;n<nRecentFilesNum;n++)
 		{
-			wsprintf(kn,"file%d",n);
+			sprintf_s(kn,"file%d",n);
 			dwSize = sizeof(buffer);
 			buffer[0] = 0;
 			RegQueryValueEx(hKey,kn,nullptr,nullptr,(unsigned char *)buffer,(LPDWORD)&dwSize);
@@ -882,14 +883,14 @@ long S_DEBUG::GetRecentFileALine(char * pFileName)
 
 	for(uint32_t n=0;n<nRecentFilesNum;n++)
 	{
-		wsprintf(kn,"file%d",n);
+		sprintf_s(kn,"file%d",n);
 		dwSize = sizeof(buffer);
 		buffer[0] = 0;
 		if(RegQueryValueEx(hKey,kn,nullptr,nullptr,(unsigned char *)buffer,(LPDWORD)&dwSize) == ERROR_SUCCESS)
 		{
 			if(_stricmp(buffer,pFileName)==0) 
 			{
-				wsprintf(kn,"line%d",n);
+				sprintf_s(kn,"line%d",n);
 
 				dwSize = sizeof(uint32_t);
 				if(RegQueryValueEx(hKey,kn,nullptr,nullptr,(unsigned char *)&dwLine,(LPDWORD)&dwSize) == ERROR_SUCCESS)
@@ -920,14 +921,14 @@ void S_DEBUG::SaveRecentFileALine(char * pFileName, long nLine)
 
 	for(uint32_t n=0;n<nRecentFilesNum;n++)
 	{
-		wsprintf(kn,"file%d",n);
+		sprintf_s(kn,"file%d",n);
 		dwSize = sizeof(buffer);
 		buffer[0] = 0;
 		if(RegQueryValueEx(hKey,kn,nullptr,nullptr,(unsigned char *)buffer,(LPDWORD)&dwSize) == ERROR_SUCCESS)
 		{
 			if(_stricmp(buffer,pFileName)==0) 
 			{
-				wsprintf(kn,"line%d",n);
+				sprintf_s(kn,"line%d",n);
 				RegSetValueEx(hKey,kn,0,REG_DWORD,(const unsigned char *)&nLine,sizeof(uint32_t));	
 				RegCloseKey(hKey);
 				return;
@@ -943,9 +944,9 @@ void S_DEBUG::OpenNewFile()
 	char buffer[1024], wintext[1024];
 	if(CDebug.BrowseFile(buffer,filefilter))
 	{
-		strcpy(CDebug.sLastFileName,buffer);
+		strcpy_s(CDebug.sLastFileName,buffer);
 		CDebug.SourceView->OpenSourceFile(buffer);
-		sprintf(wintext,"SDebug - %s",buffer);
+		sprintf_s(wintext,"SDebug - %s",buffer);
 		SetWindowText(CDebug.GetWindowHandle(), wintext);
 		CDebug.Add2RecentFiles(buffer);
 	}

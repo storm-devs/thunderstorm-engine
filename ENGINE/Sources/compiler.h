@@ -79,7 +79,14 @@ public:
 		pName = nullptr;
 	};
 	~SLIBHOLDER(){if(pLib) delete pLib; if(pName) delete pName;};
-	void SetName(const char * pFileName) {if(pName) delete pName; pName = NEW char[strlen(pFileName)+1];strcpy(pName,pFileName);}
+	void SetName(const char * pFileName)
+	{
+		if(pName) 
+			delete pName;
+		const auto len = strlen(pFileName) + 1;
+		pName = NEW char[len];
+		memcpy(pName, pFileName, len);
+	}
 };
 
 #ifndef _XBOX

@@ -585,13 +585,15 @@ uint32_t XINTERFACE::ProcessMessage(MESSAGE & message)
             pEvent->next = m_pEvents;
             m_pEvents = pEvent;
 			//
-            pEvent->sEventName = NEW char[strlen(param)+1];
+			auto len = strlen(param) + 1;
+            pEvent->sEventName = NEW char[len];
             if(pEvent->sEventName== nullptr)	THROW("allocate memory error");
-            strcpy(pEvent->sEventName,param);
+            memcpy(pEvent->sEventName,param,len);
 			//
-			pEvent->sNodeName = NEW char[strlen(nodeName)+1];
+			len = strlen(nodeName) + 1;
+			pEvent->sNodeName = NEW char[len];
 			if(pEvent->sNodeName== nullptr)	THROW("allocate memory error");
-			strcpy(pEvent->sNodeName,nodeName);
+			memcpy(pEvent->sNodeName,nodeName,len);
 			//
 			if( nCommand>=0 && nCommand<COMMAND_QUANTITY )
 				pEvent->nCommandIndex = pCommandsList[nCommand].code;
@@ -615,9 +617,10 @@ uint32_t XINTERFACE::ProcessMessage(MESSAGE & message)
 				m_stringes = (STRING_ENTITY*)RESIZE(m_stringes,m_nStringQuantity*sizeof(STRING_ENTITY));
 				if(m_stringes== nullptr)	THROW("allocate memory error");
 
-				m_stringes[l].sStringName = NEW char[strlen(param)+1];
+				const auto len = strlen(param) + 1;
+				m_stringes[l].sStringName = NEW char[len];
 				if(m_stringes[l].sStringName == nullptr)	THROW("allocate memory error");
-				strcpy(m_stringes[l].sStringName,param);
+				memcpy(m_stringes[l].sStringName,param,len);
 			}
 			else
 			{
@@ -1058,11 +1061,11 @@ uint32_t XINTERFACE::ProcessMessage(MESSAGE & message)
 				api->fio->SetDrive();
 #endif
 			}
-			sprintf(param2,"%2.2d:%2.2d:%2.2d", systTime.wHour,systTime.wMinute,systTime.wSecond);
+			sprintf_s(param2,"%2.2d:%2.2d:%2.2d", systTime.wHour,systTime.wMinute,systTime.wSecond);
 			VDATA *pvdat = message.ScriptVariablePointer();
 			if(pvdat) pvdat->Set(param2);
 
-			sprintf(param2,"%2.2d.%2.2d.%d", systTime.wDay,systTime.wMonth,systTime.wYear);
+			sprintf_s(param2,"%2.2d.%2.2d.%d", systTime.wDay,systTime.wMonth,systTime.wYear);
 			pvdat = message.ScriptVariablePointer();
 			if(pvdat) pvdat->Set(param2);
 		}
@@ -1115,7 +1118,7 @@ void XINTERFACE::LoadIni()
 	ini = api->fio->OpenIniFile((char*)RESOURCE_FILENAME);
 	if(!ini) THROW("ini file not found!");
 
-	sprintf(section,"COMMON");
+	sprintf_s(section,"COMMON");
 
 	// установить параметры экрана
 	if(ini->GetLong(platform, "bDynamicScaling", 0) != 0)
@@ -1170,7 +1173,7 @@ void XINTERFACE::LoadIni()
 #ifndef _XBOX
 	char	param[256];
 	ini->ReadString(section,"MousePointer",param,sizeof(param)-1,"");
-	char param2[sizeof(param)];
+	char param2[256];
 	sscanf(param,"%[^,],%d,size:(%d,%d),pos:(%d,%d)",param2,&m_lMouseSensitive,&MouseSize.x,&MouseSize.y,&m_lXMouse,&m_lYMouse);
 	m_idTex = pRenderService->TextureCreate(param2);
 	RECT Screen_Rect;
@@ -1231,7 +1234,7 @@ void XINTERFACE::LoadDialog(char *sFileName)
 	}
 	ownerIni = api->fio->OpenIniFile("RESOURCE\\INI\\INTERFACES\\defaultnode.ini");
 
-	sprintf(section,"MAIN");
+	sprintf_s(section,"MAIN");
 
 	// load items
 	CINODE *curnod = m_pNodes;
@@ -1333,8 +1336,10 @@ void XINTERFACE::LoadDialog(char *sFileName)
 	}
 	if( ini->ReadString(section,"DefaultHelp",param,sizeof(param)-1,"") )
 	{
-		m_strDefHelpTextureFile = NEW char[strlen(param)+1];
-		if(m_strDefHelpTextureFile)	strcpy(m_strDefHelpTextureFile,param);
+		const auto len = strlen(param) + 1;
+		m_strDefHelpTextureFile = NEW char[len];
+		if(m_strDefHelpTextureFile)	
+			memcpy(m_strDefHelpTextureFile,param,len);
 	}
 	m_frectDefHelpTextureUV = FXYRECT(0.f,0.f, 1.f,1.f);
 	if( ini->ReadString(section,"DefaultHelpUV",param,sizeof(param)-1,"") )
@@ -1395,8 +1400,8 @@ void __declspec(dllexport) __cdecl XINTERFACE::SFLB_CreateNode(INIFILE* pOwnerIn
 		sNodeName = "?";
 
 	char param[1024];
-	if( !pOwnerIni->ReadString( sNodeType, "class", param,sizeof(param)-1,param) )
-		_snprintf( param, sizeof(param)-1, "%s", sNodeType );
+	if( !pOwnerIni->ReadString( sNodeType, "class", param,sizeof(param)-1, ""))
+		sprintf_s( param, "%s", sNodeType );
 
 	CINODE* pNewNod = nullptr;
 	pNewNod = NewNode(param);
@@ -1408,9 +1413,10 @@ void __declspec(dllexport) __cdecl XINTERFACE::SFLB_CreateNode(INIFILE* pOwnerIn
 		pNewNod->SetPriority( priority );
 		XYPOINT xypScreenSize;
 		xypScreenSize.x = dwScreenWidth; xypScreenSize.y = dwScreenHeight;
-		pNewNod->m_nodeName = NEW char[strlen(sNodeName)+1];
+		const auto len = strlen(sNodeName) + 1;
+		pNewNod->m_nodeName = NEW char[len];
 		if( !pNewNod->m_nodeName )	THROW("allocate memory error");
-		strcpy( pNewNod->m_nodeName, sNodeName );
+		memcpy(pNewNod->m_nodeName, sNodeName, len);
 		if( !pNewNod->Init( pUserIni,sNodeName, pOwnerIni,sNodeType, pRenderService,GlobalRect,xypScreenSize ) )
 		{
 			delete pNewNod;
@@ -2486,9 +2492,10 @@ uint32_t XINTERFACE::AttributeChanged(ATTRIBUTES *patr)
 			pImList = NEW IMAGE_ENTITY;
 			if(pImList== nullptr)	{THROW("Allocation memory error");}
 			PZERO(pImList,sizeof(IMAGE_ENTITY));
-			if( (pImList->sImageName=NEW char[strlen(sImageName)+1]) == nullptr )
+			const auto len = strlen(sImageName) + 1;
+			if( (pImList->sImageName=NEW char[len]) == nullptr )
 				{THROW("Allocate memory error");}
-			strcpy(pImList->sImageName,sImageName);
+			memcpy(pImList->sImageName,sImageName,len);
 			// insert that into images list
 			pImList->next = m_imgLists;
 			m_imgLists = pImList;
@@ -2500,9 +2507,10 @@ uint32_t XINTERFACE::AttributeChanged(ATTRIBUTES *patr)
 			STORM_DELETE(pImList->sPicture);
 			if(patr->GetThisAttr()!= nullptr)
 			{
-				if( (pImList->sPicture=NEW char[strlen(patr->GetThisAttr())+1]) == nullptr )
+				const auto len = strlen(patr->GetThisAttr())+1;
+				if( (pImList->sPicture=NEW char[len]) == nullptr )
 					{THROW("Allocate memory error");}
-				strcpy(pImList->sPicture,patr->GetThisAttr());
+				memcpy(pImList->sPicture,patr->GetThisAttr(),len);
 			}
 			if(pImList->sImageListName== nullptr) return 0;
 			pImList->imageID = pPictureService->GetImageNum(pImList->sImageListName,pImList->sPicture);
@@ -2514,9 +2522,10 @@ uint32_t XINTERFACE::AttributeChanged(ATTRIBUTES *patr)
 			STORM_DELETE(pImList->sImageListName);
 			if(patr->GetThisAttr()!= nullptr)
 			{
-				if( (pImList->sImageListName=NEW char[strlen(patr->GetThisAttr())+1]) == nullptr )
+				const auto len = strlen(patr->GetThisAttr())+1;
+				if( (pImList->sImageListName=NEW char[len]) == nullptr )
 					{THROW("Allocate memory error");}
-				strcpy(pImList->sImageListName,patr->GetThisAttr());
+				memcpy(pImList->sImageListName,patr->GetThisAttr(),len);
 			}
 			pImList->idTexture = pPictureService->GetTextureID(pImList->sImageListName);
 			pImList->imageID = pPictureService->GetImageNum(pImList->sImageListName,pImList->sPicture);
@@ -2606,9 +2615,10 @@ void XINTERFACE::AddFindData(char * sSaveFileName, long file_size, FILETIME file
 		p->file_size = file_size;
 		p->next = m_pSaveFindRoot;
 		m_pSaveFindRoot = p;
-		p->save_file_name = new char[strlen(sSaveFileName)+1];
+		const auto len = strlen(sSaveFileName)+1;
+		p->save_file_name = new char[len];
 		if( p->save_file_name )
-			strcpy(p->save_file_name,sSaveFileName);
+			memcpy(p->save_file_name,sSaveFileName,len);
 	}
 }
 
@@ -2657,11 +2667,11 @@ char * XINTERFACE::SaveFileFind(long saveNum, char * buffer, size_t bufSize, lon
 		// get file name for searching (whith full path)
 		char param[1024];
 		char * sSavePath = AttributesPointer->GetAttribute("SavePath");
-		if(sSavePath== nullptr) sprintf(param,"*");
+		if(sSavePath== nullptr) sprintf_s(param,"*");
 		else
 		{
 			api->fio->_CreateDirectory(sSavePath,nullptr);
-			sprintf(param,"%s\\*",sSavePath);
+			sprintf_s(param,"%s\\*",sSavePath);
 		}
 		// start save file finding
 		HANDLE h = api->fio->_FindFirstFile(param,&wfd);
@@ -2692,7 +2702,7 @@ char * XINTERFACE::SaveFileFind(long saveNum, char * buffer, size_t bufSize, lon
 				sTemp[n] = 0;
 				if( n>=6 && strnicmp(sTemp,"options",6)!=0 )
 				{
-					sprintf( sFullName, "%s%s", fd.szSaveGameDirectory, sTemp );
+					sprintf_s( sFullName, "%s%s", fd.szSaveGameDirectory, sTemp );
 					file_sz = (fd.wfd.nFileSizeLow + (1<<14) - 1) >> 14;
 					AddFindData( sFullName, file_sz, fd.wfd.ftLastWriteTime );
 				}
@@ -2719,7 +2729,7 @@ char * XINTERFACE::SaveFileFind(long saveNum, char * buffer, size_t bufSize, lon
 	{
 		int q = strlen(pSFD->save_file_name);
 		if( q >= (int)bufSize ) q = bufSize-1;
-		if( q>0 ) strncpy(buffer, pSFD->save_file_name, q);
+		if( q>0 ) strncpy_s(buffer, bufSize, pSFD->save_file_name, q);
 		if( q>=0 ) buffer[q]=0;
 	}
 	return buffer;
@@ -2754,8 +2764,8 @@ bool XINTERFACE::NewSaveFileName(char * fileName)
 	WIN32_FIND_DATA	wfd;
 	sSavePath = AttributesPointer->GetAttribute("SavePath");
 
-	if(sSavePath== nullptr) sprintf(param,"%s",fileName);
-	else sprintf(param,"%s\\%s",sSavePath,fileName);
+	if(sSavePath== nullptr) sprintf_s(param,"%s",fileName);
+	else sprintf_s(param,"%s\\%s",sSavePath,fileName);
 
 	HANDLE h = api->fio->_FindFirstFile(param,&wfd);
 	if (h == INVALID_HANDLE_VALUE) return true;
@@ -2772,8 +2782,8 @@ void XINTERFACE::DeleteSaveFile(char * fileName)
 	char * sSavePath = AttributesPointer->GetAttribute("SavePath");
 #ifndef _XBOX
 	WIN32_FIND_DATA	wfd;
-	if(sSavePath== nullptr) sprintf(param,"%s",fileName);
-	else sprintf(param,"%s\\%s",sSavePath,fileName);
+	if(sSavePath== nullptr) sprintf_s(param,"%s",fileName);
+	else sprintf_s(param,"%s\\%s",sSavePath,fileName);
 	HANDLE h = api->fio->_FindFirstFile(param,&wfd);
 	if (INVALID_HANDLE_VALUE != h)
 	{
@@ -2788,7 +2798,7 @@ void XINTERFACE::DeleteSaveFile(char * fileName)
 		if(fileName[i]=='\\') startIdx = i+1;
 	for(j=0,i=startIdx; fileName[i]!=0,j<255; i++,j++) wparam[j] = fileName[i];
 	wparam[j] = 0;
-	if(startIdx>0)	sprintf(param,"%c:\\",*fileName);
+	if(startIdx>0)	sprintf_s(param,"%c:\\",*fileName);
 	else param[0] = 0;
 	XDeleteSaveGame(param,wparam);
 #endif
@@ -2915,7 +2925,7 @@ long XINTERFACE::PrintIntoWindow(long wl,long wr, long idFont, uint32_t dwFCol, 
 			int maxWidth = 0;
 			int nPrev = -1;
 			char strLocTmp[1024];
-			strcpy(strLocTmp,str);
+			strcpy_s(strLocTmp,str);
 			while( nPrev ) //~!~
 			{
 				int nStart = FindMaxStrForWidth(pRenderService, nWidthForScaleCorrecting, strLocTmp, idFont, scale);
@@ -3032,19 +3042,19 @@ char * AddAttributesStringsToBuffer(char * inBuffer, char * prevStr, ATTRIBUTES 
 
 			if(inBuffer)
 			{
-				strcat(pNew,inBuffer);
-				strcat(pNew,"\n");
+				strcat_s(pNew,nadd,inBuffer);
+				strcat_s(pNew,nadd,"\n");
 			}
 
 			if(prevStr)
 			{
-				strcat(pNew,prevStr);
-				strcat(pNew,".");
+				strcat_s(pNew,nadd,prevStr);
+				strcat_s(pNew,nadd,".");
 			}
 
-			strcat(pNew,attrName);
-			strcat(pNew,"=");
-			strcat(pNew,attrVal);
+			strcat_s(pNew,nadd,attrName);
+			strcat_s(pNew,nadd,"=");
+			strcat_s(pNew,nadd,attrVal);
 
 			if(inBuffer)	delete inBuffer;
 			inBuffer = pNew;
@@ -3053,8 +3063,8 @@ char * AddAttributesStringsToBuffer(char * inBuffer, char * prevStr, ATTRIBUTES 
 		if(pA->GetAttributesNum()!=0)
 		{
 			char param[512]; param[0]=0;
-			if(prevStr)	sprintf(param,"%s.",prevStr);
-			strcat(param,pA->GetThisName());
+			if(prevStr)	sprintf_s(param,"%s.",prevStr);
+			strcat_s(param,pA->GetThisName());
 			inBuffer = AddAttributesStringsToBuffer(inBuffer,param,pA);
 		}
 	}
@@ -3082,13 +3092,13 @@ void XINTERFACE::SaveOptionsFile(char * fileName, ATTRIBUTES * pAttr)
 		api->Trace("cant create options ini file");
 		return;
 	}
-	strcpy(FullPath,PathBuffer);
-	strcat(FullPath,fileName);
+	strcpy_s(FullPath,PathBuffer);
+	strcat_s(FullPath,fileName);
 
-	strcat(PathBuffer,"saveimage.xbx");
+	strcat_s(PathBuffer,"saveimage.xbx");
 	CopyFile("d:\\resource\\textures\\options.xbx",PathBuffer,FALSE);
 #else
-	strcpy(FullPath,fileName);
+	strcpy_s(FullPath,fileName);
 #endif
 
 	api->fio->SetDrive(XBOXDRIVE_NONE);
@@ -3143,10 +3153,10 @@ void XINTERFACE::LoadOptionsFile(char * fileName, ATTRIBUTES * pAttr)
 		api->Trace("cant open options ini file");
 		return;
 	}
-	strcpy(FullPath,PathBuffer);
-	strcat(FullPath,fileName);
+	strcpy_s(FullPath,PathBuffer);
+	strcat_s(FullPath,fileName);
 #else
-	strcpy(FullPath,fileName);
+	strcpy_s(FullPath,fileName);
 #endif
 
 	api->fio->SetDrive(XBOXDRIVE_NONE);
@@ -3291,11 +3301,11 @@ int XINTERFACE::LoadIsExist()
 	WIN32_FIND_DATA	wfd;
 	char param[1024];
 	char * sSavePath = AttributesPointer->GetAttribute("SavePath");
-	if(sSavePath== nullptr) sprintf(param,"*");
+	if(sSavePath== nullptr) sprintf_s(param,"*");
 	else
 	{
 		api->fio->_CreateDirectory(sSavePath,nullptr);
-		sprintf(param,"%s\\*",sSavePath);
+		sprintf_s(param,"%s\\*",sSavePath);
 	}
 
 	HANDLE h = api->fio->_FindFirstFile(param,&wfd);
@@ -3308,8 +3318,8 @@ int XINTERFACE::LoadIsExist()
 			findQ--; continue;
 		}
 
-		if(sSavePath== nullptr) sprintf(param, "%s", wfd.cFileName);
-		else	sprintf(param, "%s\\%s", sSavePath, wfd.cFileName);
+		if(sSavePath== nullptr) sprintf_s(param, "%s", wfd.cFileName);
+		else	sprintf_s(param, "%s\\%s", sSavePath, wfd.cFileName);
 
 		char datBuf[512];
 		if( SFLB_GetSaveFileData(param, sizeof(datBuf), datBuf) )
@@ -3340,7 +3350,7 @@ int XINTERFACE::LoadIsExist()
 		char stmp[512];
 		for(int j=0;fd.szSaveGameName[j];j++) datBuf[j] = (char)fd.szSaveGameName[j];
 		datBuf[j] = 0;
-		sprintf(stmp, "%s%s", fd.szSaveGameDirectory, datBuf);
+		sprintf_s(stmp, "%s%s", fd.szSaveGameDirectory, datBuf);
 		if( SFLB_GetSaveFileData(stmp, sizeof(datBuf), datBuf) )
 		{
 			int nLen = strlen(datBuf);
@@ -3361,7 +3371,7 @@ void XINTERFACE::PrecreateDirForFile(const char* pcFullFileName)
 {
 	if( !pcFullFileName ) return;
 	char path[MAX_PATH];
-	_snprintf(path,sizeof(path),"%s",pcFullFileName);
+	sprintf_s(path,sizeof(path),"%s",pcFullFileName);
 	long n;
 	for(n=strlen(pcFullFileName)-1; n>0; n--)
 		if( path[n]=='\\' ) {
@@ -3509,9 +3519,10 @@ void CONTROLS_CONTAINER::AddContainer( char * container )
 	pContainers->pControls = nullptr;
 	pContainers->next = pCont;
 
-	pContainers->resultName = NEW char[strlen(container)+1];
+	const auto len = strlen(container) + 1;
+	pContainers->resultName = NEW char[len];
 	if(!pContainers->resultName) STORM_THROW("allocate memory error");
-	strcpy(pContainers->resultName,container);
+	memcpy(pContainers->resultName,container,len);
 }
 
 void CONTROLS_CONTAINER::SetContainerLimitVal( char * container, float fLimitVal )
@@ -3535,9 +3546,11 @@ void CONTROLS_CONTAINER::AddControlsToContainer( char * container, char * contro
 
 	pCont->pControls->fValLimit = fValLimit;
 	pCont->pControls->next = pCtrl;
-	pCont->pControls->controlName = NEW char[strlen(controlName)+1];
+
+	const auto len = strlen(controlName) + 1;
+	pCont->pControls->controlName = NEW char[len];
 	if(!pCont->pControls->controlName) STORM_THROW("allocate memory error");
-	strcpy( pCont->pControls->controlName, controlName );
+	memcpy(pCont->pControls->controlName, controlName, len);
 }
 
 CONTROLS_CONTAINER::CONTEINER_DESCR * CONTROLS_CONTAINER::FindContainer(char * sContainer)
@@ -3576,7 +3589,7 @@ bool CheckPCcd()
 	int drive, curdrive;
 
 	char nameDrv[32];
-	strcpy(nameDrv,"A:\\");
+	strcpy_s(nameDrv,"A:\\");
 
 	/* Save current drive. */
 	curdrive = _getdrive();
@@ -3589,7 +3602,7 @@ bool CheckPCcd()
 		if( (nTmp=GetDriveType(nameDrv))==DRIVE_CDROM )
 		{
 			char CheckName[1024];
-			sprintf(CheckName,"%c:\\%s", drive-1+'A', CHECK_FILE_NAME);
+			sprintf_s(CheckName,"%c:\\%s", drive-1+'A', CHECK_FILE_NAME);
 			SetErrorMode(SEM_FAILCRITICALERRORS);
 			HANDLE hFile = CreateFile( CheckName, GENERIC_READ, FILE_SHARE_READ,
 			nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr );

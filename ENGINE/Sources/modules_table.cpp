@@ -81,9 +81,10 @@ bool MODULES_TABLE::SetModulesPath(char * _name)
 	Paths_Table = (char **)NEW char[sizeof(char *)];
 	if(Paths_Table == nullptr) THROW;
 
-	Paths_Table[0] = (char *)NEW char[strlen(_name) + 1];
+	const auto len = strlen(_name) + 1;
+	Paths_Table[0] = (char *)NEW char[len];
 	if(Paths_Table[0] == nullptr) THROW;
-	strcpy(Paths_Table[0],_name);
+	memcpy(Paths_Table[0],_name,len);
 	Paths_Count = 1;
 	UNGUARD
 	return true;
@@ -97,9 +98,10 @@ bool MODULES_TABLE::AddModulesPath(char * _name)
 	Paths_Table = (char **)RESIZE(Paths_Table,(Paths_Count + 1)*sizeof(char *));
 	if(Paths_Table == nullptr) THROW;
 
-	Paths_Table[Paths_Count] = (char *)NEW char[strlen(_name) + 1];
+	const auto len = strlen(_name) + 1;
+	Paths_Table[Paths_Count] = (char *)NEW char[len];
 	if(Paths_Table[Paths_Count] == nullptr) THROW;
-	strcpy(Paths_Table[Paths_Count],_name);
+	memcpy(Paths_Table[Paths_Count],_name,len);
 	Paths_Count++;
 	UNGUARD
 	return true;
@@ -120,8 +122,8 @@ bool MODULES_TABLE::LoadModule(char * _mname, long path_code, MODULE_STATE& ms)
 	// invalid path code
 	if((uint32_t)path_code >= Paths_Count) {SET_ERROR("invalid path"); return false;}
 
-	if(strlen(GetPath(path_code)) > 0) wsprintf(full_name,"%s\\%s",GetPath(path_code),_mname);
-	else strcpy(full_name,_mname);
+	if(strlen(GetPath(path_code)) > 0) sprintf_s(full_name,"%s\\%s",GetPath(path_code),_mname);
+	else strcpy_s(full_name,_mname);
 
 	//gdi_display.Print("Load libriary: %s",full_name);
 	// load library
@@ -174,12 +176,12 @@ void __declspec(noinline) __declspec(dllexport) __cdecl MODULES_TABLE::Load_Modu
 		}
 		else
 		{
-			strcpy(full_name,Paths_Table[n]);
+			strcpy_s(full_name,Paths_Table[n]);
 			path_code = n;
 			gdi_display.Print("Scanning %s",Paths_Table[n]);
 		}
 		
-		strcat(full_name,MODULE_WILD_MASK);
+		strcat_s(full_name,MODULE_WILD_MASK);
 		gdi_display.Print_Add("Loading modules...");
 
 		//char gs[256];
@@ -328,7 +330,7 @@ char * MODULES_TABLE::GetModuleName(uint32_t code)
 		SET_ERROR("invalid module path code");
 		return null;
 	}
-	wsprintf(gstring,"%s\\%s",GetPath(ms.path_code),list.GetString(code));
+	sprintf_s(gstring,"%s\\%s",GetPath(ms.path_code),list.GetString(code));
 
 	return gstring;
 }
@@ -350,7 +352,7 @@ bool MODULES_TABLE::SetModulesPath(char * _name)
 	if(Paths_Table == null) THROW;
 	Paths_Table[0] = (char *)new char[strlen(_name) + 1];
 	if(Paths_Table[0] == null) THROW;
-	strcpy(Paths_Table[0],_name);
+	strcpy_s(Paths_Table[0],_name);
 	Paths_Count = 1;
 	UNGUARD
 	return true;
@@ -365,7 +367,7 @@ bool MODULES_TABLE::AddModulesPath(char * _name)
 	if(Paths_Table == null) THROW;
 	Paths_Table[Paths_Count] = (char *)new char[strlen(_name) + 1];
 	if(Paths_Table[Paths_Count] == null) THROW;
-	strcpy(Paths_Table[Paths_Count],_name);
+	strcpy_s(Paths_Table[Paths_Count],_name);
 	Paths_Count++;
 	UNGUARD
 	return true;
@@ -395,8 +397,8 @@ bool MODULES_TABLE::LoadModule(char * _mname, long path_code, MODULE_STATE& ms)
 	// invalid path code
 	if((uint32_t)path_code >= Paths_Count) {SET_ERROR("invalid path"); return false;}
 
-	if(strlen(GetPath(path_code)) > 0) wsprintf(full_name,"%s\\%s",GetPath(path_code),_mname);
-	else strcpy(full_name,_mname);
+	if(strlen(GetPath(path_code)) > 0) sprintf_s(full_name,"%s\\%s",GetPath(path_code),_mname);
+	else strcpy_s(full_name,_mname);
 
 	//gdi_display.Print("Load libriary: %s",full_name);
 	// load library
@@ -467,12 +469,12 @@ long MODULES_TABLE::Load_ModulesTable()
 		}
 		else
 		{
-			strcpy(full_name,Paths_Table[n]);
+			strcpy_s(full_name,Paths_Table[n]);
 			path_code = n;
 			gdi_display.Print("Scanning %s",Paths_Table[n]);
 		}
 		
-		strcat(full_name,MODULE_WILD_MASK);
+		strcat_s(full_name,MODULE_WILD_MASK);
 
 		hFile = File_Service._FindFirstFile(full_name,&find_data);
 		if(hFile == INVALID_HANDLE_VALUE) 

@@ -111,7 +111,7 @@ void TM_LIST::AddColumn(char * name, long length)
     lvc.cx = length; 
     lvc.pszText = string;
 	//lvc.iOrder = Columns_Num;
-	if(name) strcpy(string,name); else strcpy(string,"");
+	if(name) strcpy_s(string,name); else strcpy_s(string,"");
 	lvc.iSubItem = Columns_Num; 
     if(ListView_InsertColumn(hOwn,Columns_Num,&lvc) == -1) throw "cant add column"; 
 	Columns_Num++;
@@ -130,7 +130,7 @@ void TM_LIST::AddItem(char * name)
 	lvi.iItem = Items_Num; 
 	lvi.iSubItem = 0; 
 	lvi.lParam = 0;
-	if(name) strcpy(string,name); else strcpy(string,"");
+	if(name) strcpy_s(string,name); else strcpy_s(string,"");
 	ListView_InsertItem(hOwn, &lvi); 
 	Items_Num++;
 }
@@ -394,7 +394,7 @@ long TM_LIST::GetItemsCount()
 
 void TM_LIST::SetCharID(char * text)
 {
-	if(text) strcpy(CharID,text);
+	if(text) strcpy_s(CharID,text);
 }
 
 char * TM_LIST::GetCharID()

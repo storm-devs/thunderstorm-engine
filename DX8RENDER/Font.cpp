@@ -113,15 +113,17 @@ bool FONT::Init(char * font_name, char * iniName, IDirect3DDevice9 * _device, VD
 
 	if( ini->ReadString(font_name,"Texture",buffer,sizeof(buffer)-1,"") )
     {
-        if( (textureName=NEW char[strlen(buffer)+1]) == nullptr )
+		const auto len = strlen(buffer) + 1;
+        if( (textureName=NEW char[len]) == nullptr )
             STORM_THROW("allocate memory error")
-        strcpy(textureName,buffer);
+        strcpy_s(textureName, len, buffer);
     }
     if( ini->ReadString(font_name,"Techniques",buffer,sizeof(buffer)-1,"") )
     {
-        if( (techniqueName=NEW char[strlen(buffer)+1]) == nullptr )
+		const auto len = strlen(buffer) + 1;
+        if( (techniqueName=NEW char[len]) == nullptr )
             STORM_THROW("allocate memory error")
-        strcpy(techniqueName,buffer);
+        strcpy_s(techniqueName, len, buffer);
     }
 	Texture_XSize = ini->GetLong(font_name,"Texture_xsize",1);
 	Texture_YSize = ini->GetLong(font_name,"Texture_ysize",1);
@@ -139,13 +141,13 @@ bool FONT::Init(char * font_name, char * iniName, IDirect3DDevice9 * _device, VD
 	{
 		if(n >= 'a' && n <= 'z')
 		{
-			wsprintf(key_name,"char_%c_",(char)n);
+			sprintf_s(key_name,"char_%c_",(char)n);
 		}else
-			if(n=='=') wsprintf(key_name,"char_equ");
-			else	wsprintf(key_name,"char_%c",(char)n);
+			if(n=='=') sprintf_s(key_name,"char_equ");
+			else	sprintf_s(key_name,"char_%c",(char)n);
 		if(!ini->ReadString(font_name,key_name,buffer,sizeof(buffer),""))
 		{
-			wsprintf(key_name,"ascii_%d",n);
+			sprintf_s(key_name,"ascii_%d",n);
 			if(!ini->ReadString(font_name,key_name,buffer,sizeof(buffer),"")) continue;
 		}
 		pData = buffer;
@@ -209,7 +211,7 @@ long _cdecl FONT::Printf(long x, long y, char * data_PTR, ...)
 {
 	va_list args;
 	va_start(args,data_PTR);
-	_vsnprintf(Buffer1024,sizeof(Buffer1024),data_PTR,args);
+	_vsnprintf_s(Buffer1024,sizeof(Buffer1024),data_PTR,args);
 	va_end(args);
 	return Print(x,y,Buffer1024);
 }

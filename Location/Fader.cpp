@@ -145,7 +145,7 @@ uint32_t _cdecl Fader::ProcessMessage(MESSAGE & message)
 			//Текстура подсказки
 			if(numberOfTips > 0)
 			{
-				sprintf(_name, "tips\\tips_%.4u.tga", rand() % numberOfTips);
+				sprintf_s(_name, "tips\\tips_%.4u.tga", rand() % numberOfTips);
 				tipsID = rs->TextureCreate(_name);
 				rs->SetTipsImage(_name);
 			}
@@ -161,7 +161,7 @@ uint32_t _cdecl Fader::ProcessMessage(MESSAGE & message)
 			//Текстура подсказки
 			if(numberOfTips > 0)
 			{
-				//sprintf(_name, "tips\\tips_%.4u.tga", rand() % numberOfTips);
+				//sprintf_s(_name, "tips\\tips_%.4u.tga", rand() % numberOfTips);
 				char * pTipsName = rs->GetTipsImage();
 				if(pTipsName)
 				{

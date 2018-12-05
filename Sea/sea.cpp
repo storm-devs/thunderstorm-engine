@@ -253,8 +253,8 @@ bool SEA::Init()
 		char str[256];
 		char * pFBuffer = nullptr;
 		uint32_t dwSize;
-		sprintf(str, "resource\\sea\\sea%.4d.tga", i);
-		//sprintf(str, "resource\\sea\\sea0000.tga", i);
+		sprintf_s(str, "resource\\sea\\sea%.4d.tga", i);
+		//sprintf_s(str, "resource\\sea\\sea0000.tga", i);
 		fio->LoadFile(str, &pFBuffer, &dwSize);
 		if (!pFBuffer)
 		{

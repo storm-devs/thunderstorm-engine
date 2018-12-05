@@ -30,10 +30,11 @@ public:
 	{
 		if (bSave)
 		{
-			char * pFFSave = NEW char[dwCurSize * 2 + 8 + 1];
-			sprintf(pFFSave, "%.8x", dwCurSize);
+			const auto size = dwCurSize * 2 + 8 + 1;
+			char * pFFSave = NEW char[size];
+			sprintf_s(pFFSave, size, "%.8x", dwCurSize);
 			for (uint32_t i=0; i<dwCurSize; i++)
-				sprintf(&pFFSave[8 + i * 2], "%.2x", uint8_t(pSaveBuffer[i]));
+				sprintf_s(&pFFSave[8 + i * 2], size, "%.2x", uint8_t(pSaveBuffer[i]));
 
 			VDATA * pV = api->Event("SeaLoad_GetPointer", "sl", "seasave", -1);
 			if (pV)
@@ -63,13 +64,13 @@ public:
 		char * pSave = pV->GetAClass()->GetAttribute("save");
 		uint32_t dwSize;
 		char str[256];
-		strncpy(str, pSave, 8);
+		strncpy_s(str, pSave, 8);
 		str[8] = 0;
 		sscanf(str, "%x", &dwSize);
 		pSaveBuffer = NEW char[dwSize];
 		for (uint32_t i=0; i<dwSize; i++)
 		{
-			strncpy(str, &pSave[8 + i * 2], 2); str[2] = 0;
+			strncpy_s(str, &pSave[8 + i * 2], 2); str[2] = 0;
 			uint32_t dwValue;
 			sscanf(str, "%x", &dwValue);
 			pSaveBuffer[i] = char(dwValue);

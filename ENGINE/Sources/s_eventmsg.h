@@ -21,8 +21,9 @@ public:
 		bProcess = false;
 		pMessageClass = _pc; nTime = 0; nPeriod = _period;
 
-		pEventName = NEW char[strlen(_name)+1];
-		strcpy(pEventName,_name);
+		const auto len = strlen(_name) + 1;
+		pEventName = NEW char[len];
+		strcpy_s(pEventName, len, _name);
 	};
 	~S_EVENTMSG()
 	{

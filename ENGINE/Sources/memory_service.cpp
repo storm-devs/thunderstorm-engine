@@ -514,8 +514,8 @@ void MEMORY_SERVICE::GlobalFree()
 				buf[0] = 0;
 				for(int i = 0, j = 0; i < dataSize; i++)
 				{
-					if(data[i]) sprintf(buf + strlen(buf), "%.2x('%c') ", data[i], data[i]);
-						else sprintf(buf + strlen(buf), "%.2x(   ) ", data[i]);
+					if(data[i]) sprintf_s(buf + strlen(buf), sizeof(buf), "%.2x('%c') ", data[i], data[i]);
+						else sprintf_s(buf + strlen(buf), sizeof(buf), "%.2x(   ) ", data[i]);
 					if(j >= 7)
 					{
 						trace("       %s", buf);

@@ -38,7 +38,7 @@ void BREAKPOINTS_TABLE::Release()
 			for(n=0;n<nPoints;n++)
 			{
 				if(!pTable[n].pFileName) continue;
-				sprintf(buffer,"%s,%d",pTable[n].pFileName,pTable[n].nLineNumber);
+				sprintf_s(buffer,"%s,%d",pTable[n].pFileName,pTable[n].nLineNumber);
 				ini->AddString(SECTION_NAME,"B",buffer);
 			}
 			delete ini;
@@ -76,7 +76,7 @@ void BREAKPOINTS_TABLE::UpdateProjectFile()
 			for(n=0;n<nPoints;n++)
 			{
 				if(!pTable[n].pFileName) continue;
-				sprintf(buffer,"%s,%d",pTable[n].pFileName,pTable[n].nLineNumber);
+				sprintf_s(buffer,"%s,%d",pTable[n].pFileName,pTable[n].nLineNumber);
 				ini->AddString(SECTION_NAME,"B",buffer);
 			}
 			delete ini;
@@ -115,7 +115,7 @@ bool BREAKPOINTS_TABLE::ReadProject(char * filename)
 	ini = fio->OpenIniFile(filename);
 	if(ini)
 	{
-		strcpy(ProjectName,filename);
+		strcpy_s(ProjectName,filename);
 		if(ini->ReadString(SECTION_NAME,"B",buffer,sizeof(buffer),""))
 		{
 			if(MakeLineCode(buffer,nLineNumber)) AddBreakPoint(buffer,nLineNumber);
@@ -148,8 +148,9 @@ void BREAKPOINTS_TABLE::AddBreakPoint(const char * filename, uint32_t line)
 	pTable = (BREAKPOINT_DESC *)RESIZE(pTable,(nPoints + 1)*sizeof(BREAKPOINT_DESC));
 	pTable[nPoints].nLineNumber = line;
 
-	pTable[nPoints].pFileName = NEW char[strlen(filename)+1];
-	strcpy(pTable[nPoints].pFileName,filename);
+	const auto len = strlen(filename)+1;
+	pTable[nPoints].pFileName = NEW char[len];
+	memcpy(pTable[nPoints].pFileName,filename,len);
 	nPoints++;
 
 	//UpdateProjectFile();

@@ -59,7 +59,7 @@ long XSERVICE::GetTextureID(const char* sImageListName)
 				if(m_pList[i].textureQuantity<=0)
 				{
 					char sTexName[256];
-					sprintf(sTexName,"INTERFACES\\%s",m_pList[i].sTextureName);
+					sprintf_s(sTexName,"INTERFACES\\%s",m_pList[i].sTextureName);
 					m_pList[i].textureID = m_pRS->TextureCreate(sTexName);
 					m_pList[i].textureQuantity = 1;
 				} else
@@ -244,12 +244,12 @@ void XSERVICE::LoadAllPicturesInfo()
 			m_pList[i].textureID = -1L;
 
 			// get list name
-			m_pList[i].sImageListName = NEW char[strlen(section)+1];
-			strcpy(m_pList[i].sImageListName,section);
+			m_pList[i].sImageListName = NEW char[sizeof section];
+			strcpy_s(m_pList[i].sImageListName,sizeof section,section);
 			// get texture name
 			ini->ReadString(section,"sTextureName",param,sizeof(param)-1,"");
-			m_pList[i].sTextureName = NEW char[strlen(param)+1];
-			strcpy(m_pList[i].sTextureName,param);
+			m_pList[i].sTextureName = NEW char[sizeof param];
+			strcpy_s(m_pList[i].sTextureName,sizeof param,param);
 
 			// get texture width & height
 			m_pList[i].textureWidth = ini->GetLong(section,"wTextureWidth",1024);
@@ -287,8 +287,9 @@ void XSERVICE::LoadAllPicturesInfo()
 				m_pImage[j].pTextureRect.right  = nRight;
 				m_pImage[j].pTextureRect.bottom = nBottom;
 
-				m_pImage[j].sPictureName = NEW char[strlen(picName)+1];
-				strcpy(m_pImage[j].sPictureName,picName);
+				const auto len = strlen(picName) + 1;
+				m_pImage[j].sPictureName = NEW char[len];
+				memcpy(m_pImage[j].sPictureName,picName,len);
 
 				ini->ReadStringNext(section,"picture",param,sizeof(param)-1);
 			}

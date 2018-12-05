@@ -74,7 +74,7 @@ void CXI_KEYCHANGER::SaveParametersToIni()
 	}
 
 	// save position
-	_snprintf( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
+	sprintf_s( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
 	pIni->WriteString( m_nodeName, "position", pcWriteParam );
 
 	delete pIni;
@@ -114,7 +114,7 @@ void CXI_KEYCHANGER::SetChoosingControls(ATTRIBUTES * pA)
 	char contrlName[128];
 	for(int i=0; i<m_keysQuantity; i++)
 	{
-		sprintf(contrlName,"cntrl_%d",i);
+		sprintf_s(contrlName,"cntrl_%d",i);
 		m_pbControlsStick[i] = false;
 		m_pControlsID[i] = api->Controls->CreateControl(contrlName);
 		char * keyCode = pA->GetAttribute(i);

@@ -93,7 +93,6 @@ uint32_t S_FUNCTAB::AddFunc(FUNCINFO& fi)
 	uint32_t hash_index;
 
 	if(fi.name == nullptr) return INVALID_FUNC_CODE;
-	size_t file_name_len = strlen(fi.decl_file_name) + 1;
 	hash = MakeHashValue(fi.name);
 	hash_index = MAKEHASHINDEX(hash);
 
@@ -117,8 +116,9 @@ uint32_t S_FUNCTAB::AddFunc(FUNCINFO& fi)
 
 			if(pTable[n].decl_file_name) delete pTable[n].decl_file_name;
 
-			pTable[n].decl_file_name = NEW char[file_name_len];
-			strcpy(pTable[n].decl_file_name,fi.decl_file_name);
+			const auto len = strlen(fi.decl_file_name) + 1;
+			pTable[n].decl_file_name = NEW char[len];
+			memcpy(pTable[n].decl_file_name,fi.decl_file_name,len);
 			pTable[n].code = n;
 			UpdateHashTable(n,hash,true);
 			return n;
@@ -150,8 +150,9 @@ uint32_t S_FUNCTAB::AddFunc(FUNCINFO& fi)
 	pTable[Func_num].fTimeUsage = 0;
 	pTable[Func_num].nNumberOfCalls = 0;
 
-	pTable[Func_num].decl_file_name = NEW char[strlen(fi.decl_file_name) + 1];
-	strcpy(pTable[Func_num].decl_file_name,fi.decl_file_name);
+	const auto len = strlen(fi.decl_file_name) + 1;
+	pTable[Func_num].decl_file_name = NEW char[len];
+	memcpy(pTable[Func_num].decl_file_name,fi.decl_file_name,len);
 	pTable[Func_num].code = Func_num;
 	pTable[Func_num].pImportedFunc = fi.pImportedFunc;
 
@@ -166,9 +167,9 @@ uint32_t S_FUNCTAB::AddFunc(FUNCINFO& fi)
 	{
 		if(fi.name)
 		{
-
-			pTable[Func_num].name = NEW char[strlen(fi.name) + 1];
-			strcpy(pTable[Func_num].name,fi.name);
+			const auto len = strlen(fi.name) + 1;
+			pTable[Func_num].name = NEW char[len];
+			memcpy(pTable[Func_num].name,fi.name,len);
 		}
 	}
 	Func_num++;
@@ -317,9 +318,9 @@ bool S_FUNCTAB::AddFuncVar(uint32_t func_code, LVARINFO & lvi)
 	pTable[func_code].pLocal[vindex].name = nullptr;
 	if(true)//bKeepName)
 	{
-
-		pTable[func_code].pLocal[vindex].name = NEW char[strlen(lvi.name)+1];
-		strcpy(pTable[func_code].pLocal[vindex].name,lvi.name);
+		const auto len = strlen(lvi.name) + 1;
+		pTable[func_code].pLocal[vindex].name = NEW char[len];
+		memcpy(pTable[func_code].pLocal[vindex].name,lvi.name,len);
 	}
 	pTable[func_code].pLocal[vindex].bArray = lvi.bArray;
 	pTable[func_code].pLocal[vindex].hash = hash;

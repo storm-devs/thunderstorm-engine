@@ -449,12 +449,12 @@ void WorldMap::Realize(uint32_t delta_time)
 #endif
 	}
 	//
-	char * tmp = aDate->GetAttribute("sec"); if(tmp) strcpy(wdmObjects->attrSec, tmp);
-	tmp = aDate->GetAttribute("min"); if(tmp) strcpy(wdmObjects->attrMin, tmp);
-	tmp = aDate->GetAttribute("hour"); if(tmp) strcpy(wdmObjects->attrHour, tmp);
-	tmp = aDate->GetAttribute("day"); if(tmp) strcpy(wdmObjects->attrDay, tmp);
-	tmp = aDate->GetAttribute("month"); if(tmp) strcpy(wdmObjects->attrMonth, tmp);
-	tmp = aDate->GetAttribute("year"); if(tmp) strcpy(wdmObjects->attrYear, tmp);
+	char * tmp = aDate->GetAttribute("sec"); if(tmp) strcpy_s(wdmObjects->attrSec, tmp);
+	tmp = aDate->GetAttribute("min"); if(tmp) strcpy_s(wdmObjects->attrMin, tmp);
+	tmp = aDate->GetAttribute("hour"); if(tmp) strcpy_s(wdmObjects->attrHour, tmp);
+	tmp = aDate->GetAttribute("day"); if(tmp) strcpy_s(wdmObjects->attrDay, tmp);
+	tmp = aDate->GetAttribute("month"); if(tmp) strcpy_s(wdmObjects->attrMonth, tmp);
+	tmp = aDate->GetAttribute("year"); if(tmp) strcpy_s(wdmObjects->attrYear, tmp);
 	//---------------------------------------------------------
 	if(camera && !wdmObjects->isPause) camera->Move(dltTime, rs);
 	bool isKill = false;
@@ -658,7 +658,7 @@ uint32_t WorldMap::AttributeChanged(ATTRIBUTES * apnt)
 				WdmEnemyShip * es = (WdmEnemyShip *)wdmObjects->ships[i];
 				pa->SetAttributeUseFloat("time", es->GetLiveTime());
 				char buf[32];
-				sprintf(buf, "%i", es->type);
+				sprintf_s(buf, "%i", es->type);
 				pa->SetAttribute("type", buf);
 				pa->SetAttributeUseDword("select", es->isSelect);
 				pa->SetAttribute("id", (char *)((WdmEnemyShip *)wdmObjects->ships[i])->GetAttributeName());
@@ -1122,7 +1122,7 @@ ATTRIBUTES * WorldMap::GetEncSaveData(const char * type, const char * retName)
 	long i;
 	for(i = 0; i < 1000000; i++, encCounter++)
 	{
-		sprintf(atrName, "enc_%u", encCounter);
+		sprintf_s(atrName, "enc_%u", encCounter);
 		ATTRIBUTES * a = saveData->FindAClass(saveData, atrName);
 		if(!a) break;
 		if(a->FindAClass(a, "needDelete"))

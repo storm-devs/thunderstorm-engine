@@ -853,7 +853,7 @@ void SHIP::MastFall(mast_t * pM)
 		pShipsLights->KillMast(this, pM->pNode, false);
 
 		char str[256];
-		sprintf(str, "%s", pM->pNode->GetName());
+		sprintf_s(str, "%s", pM->pNode->GetName());
 		ATTRIBUTES * pAMasts = GetACharacter()->FindAClass(GetACharacter(),"Ship.Masts");
 		if (!pAMasts)
 			pAMasts = GetACharacter()->CreateSubAClass(GetACharacter(),"Ship.Masts");
@@ -1184,7 +1184,7 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 		return false;
 	}
 
-	strcpy(cShipIniName,pName);
+	strcpy_s(cShipIniName,pName);
 
 	//api->Trace("Create ship with type = %s", cShipIniName);
 
@@ -1204,7 +1204,7 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 	bUse = uniIDX==0;
 
 	char temp_str[1024];
-	sprintf(temp_str,"ships\\%s\\%s",cShipIniName,cShipIniName);
+	sprintf_s(temp_str,"ships\\%s\\%s",cShipIniName,cShipIniName);
 
 	api->CreateEntity(&model_id,"MODELR");
 	api->Send_Message(GetModelEID(),"ls",MSG_MODEL_LOAD_GEO,temp_str);
@@ -1328,7 +1328,7 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 		fUpperShipAY = pAUpperShipModel->GetAttributeAsFloat("ay", 0.0f);
 		fUpperShipY = pAUpperShipModel->GetAttributeAsFloat("y", State.vBoxSize.y * 2.0f + 10.0f);
 
-		strcpy(temp_str, pAUpperShipModel->GetThisAttr());
+		strcpy_s(temp_str, pAUpperShipModel->GetThisAttr());
 
 		bModelUpperShip = true;
 		api->CreateEntity(&model_uppership_id, "MODELR");
@@ -1611,7 +1611,7 @@ void SHIP::Load(CSaveLoad * pSL)
 	sRealizeLayer = pSL->LoadString();
 	sExecuteLayer = pSL->LoadString();
 	std::string sTmp = pSL->LoadString();
-	strcpy(cShipIniName, sTmp.c_str());
+	strcpy_s(cShipIniName, sTmp.c_str());
 	pSL->LoadLong();
 	fGravity = pSL->LoadFloat();
 	fSailState = pSL->LoadFloat();

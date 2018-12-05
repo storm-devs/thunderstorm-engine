@@ -239,7 +239,7 @@ void PEOPLE_ON_SHIP::Realize(uint32_t _dTime)
 	}
 
 	char counterName[16];
-	sprintf(counterName, "people: %d", peopleCount);
+	sprintf_s(counterName, "people: %d", peopleCount);
 
 	//long lw = renderer->StringWidth(counterName)/2;
 	//renderer->Print(long(0), long(0), counterName);

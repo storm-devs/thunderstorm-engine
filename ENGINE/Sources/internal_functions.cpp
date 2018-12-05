@@ -1082,16 +1082,16 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV = pV->GetReference();
 			if(!pV){SetError(INVALID_FA);break;};
-			if(pV->IsReference()) strcpy(sVarName,"ref:"); else sVarName[0] = 0;
+			if(pV->IsReference()) strcpy_s(sVarName,"ref:"); else sVarName[0] = 0;
 			pV = pV->GetVarPointer();
 			switch(pV->GetType())
 			{
-			case VAR_INTEGER: strcat(sVarName,"int"); break;
-			case VAR_FLOAT: strcat(sVarName,"float"); break;
-			case VAR_STRING: strcat(sVarName,"string"); break;
-			case VAR_OBJECT: strcat(sVarName,"object"); break;
-			case VAR_REFERENCE: strcat(sVarName,"ref"); break;
-			case VAR_AREFERENCE: strcat(sVarName,"aref"); break;
+			case VAR_INTEGER: strcat_s(sVarName,"int"); break;
+			case VAR_FLOAT: strcat_s(sVarName,"float"); break;
+			case VAR_STRING: strcat_s(sVarName,"string"); break;
+			case VAR_OBJECT: strcat_s(sVarName,"object"); break;
+			case VAR_REFERENCE: strcat_s(sVarName,"ref"); break;
+			case VAR_AREFERENCE: strcat_s(sVarName,"aref"); break;
 			}
 			pV = SStack.Push();
 			pV->Set(sVarName);

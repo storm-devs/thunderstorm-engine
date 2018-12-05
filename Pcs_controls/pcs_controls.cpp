@@ -134,8 +134,9 @@ long PCS_CONTROLS::CreateControl(char * control_name)
 	n = nControlsNum;
 	nControlsNum++;
 	pUserControls = (USER_CONTROL *)RESIZE(pUserControls,nControlsNum * sizeof(USER_CONTROL));
-	pUserControls[n].name = NEW char[strlen(control_name) + 1];
-	strcpy(pUserControls[n].name,control_name);
+	const auto len = strlen(control_name) + 1;
+	pUserControls[n].name = NEW char[len];
+	memcpy(pUserControls[n].name,control_name,len);
 	pUserControls[n].system_code = UNASSIGNED_CONTROL;
 	pUserControls[n].flags = 0;
 	pUserControls[n].state = CST_INACTIVE;

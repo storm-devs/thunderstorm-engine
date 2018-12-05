@@ -22,16 +22,16 @@ static void SubRightWord(char* buf,int fontNum,int width,VDX9RENDER *rs)
 
 CXI_FORMATEDTEXT::STRING_DESCRIBER::STRING_DESCRIBER(char* ls) : color(0)
 {
-	long sdStrSize = strlen(ls);
-	if (sdStrSize == 0)
+	const auto len = strlen(ls) + 1;
+	if (len == 1)
 		lineStr = nullptr;
 	else
 	{
-		if ((lineStr = NEW char[sdStrSize + 1]) == nullptr)
+		if ((lineStr = NEW char[len]) == nullptr)
 		{
 			STORM_THROW("allocate memory error");
 		}
-		strcpy(lineStr, ls);
+		memcpy(lineStr, ls,len);
 	}
 	next = nullptr;
 	strNum = 0;
@@ -409,7 +409,7 @@ void CXI_FORMATEDTEXT::SaveParametersToIni()
 	}
 
 	// save position
-	_snprintf( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
+	sprintf_s( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
 	pIni->WriteString( m_nodeName, "position", pcWriteParam );
 
 	delete pIni;
@@ -431,9 +431,10 @@ void CXI_FORMATEDTEXT::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 
 	if( ReadIniString(ini1,name1, ini2,name2, "scrollerName", param, sizeof(param),"") )
 	{
-		m_sScrollerName = NEW char[strlen(param)+1];
+		const auto len = strlen(param)+1;
+		m_sScrollerName = NEW char[len];
 		Assert( m_sScrollerName );
-		strcpy( m_sScrollerName, param );
+		memcpy( m_sScrollerName, param,len );
 	}
 
 	ReadIniString(ini1,name1, ini2,name2, "alignment", param, sizeof(param),"left");
@@ -644,7 +645,7 @@ bool CXI_FORMATEDTEXT::GetLineNext(int fontNum,char* &pInStr,char* buf,int bufSi
 			}
 			j++;
 		}
-		strncpy(buf,pStart,i-1);
+		strncpy_s(buf,bufSize,pStart,i);
 		buf[i]=0;
 		pInStr = &pStart[i];
 	} else {
@@ -682,7 +683,7 @@ void CXI_FORMATEDTEXT::GetOneLine(int fontNum,char* pStr,char* buf,int bufSize)
 	if(lineSize==0) return;
 	if(lineSize>bufSize-1) lineSize=bufSize-1;
 
-	strncpy(buf,pStart,lineSize);
+	strncpy_s(buf,bufSize,pStart,lineSize);
 	buf[lineSize]=0;
 	long strWidth = m_rs->StringWidth(buf,fontNum);
 
@@ -964,7 +965,7 @@ uint32_t _cdecl CXI_FORMATEDTEXT::MessageProc(long msgcode, MESSAGE & message)
 				{
 					oldgroup = sd->strGroup;
 					char atrName[128];
-					sprintf(atrName,"line%d",idx);
+					sprintf_s(atrName,"line%d",idx);
 					pAttr->SetAttributeUseDword(atrName,i);
 					idx++;
 				}
@@ -993,7 +994,7 @@ uint32_t _cdecl CXI_FORMATEDTEXT::MessageProc(long msgcode, MESSAGE & message)
 				{
 					oldgroup = sd->strGroup;
 					char atrName[128];
-					sprintf(atrName,"line%d",idx);
+					sprintf_s(atrName,"line%d",idx);
 					pAttr->SetAttributeUseDword(atrName,m_rect.top + m_vertOffset*i-m_hostRect.top);
 					idx++;
 				}

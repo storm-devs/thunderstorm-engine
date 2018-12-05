@@ -350,7 +350,7 @@ long QUEST_FILE_READER::AddToBuff(const char* pDst, long nDstSize, const char* p
 	if(!pSrc || !pDst) return 0;
 	if( nSrcSize<0 ) nSrcSize = strlen(pSrc);
 	if( nSrcSize>nDstSize-1 ) nSrcSize = nDstSize-1;
-	if( nSrcSize>0 ) strncpy((char*)pDst, pSrc, nSrcSize);
+	if( nSrcSize>0 ) strncpy_s((char*)pDst, nDstSize, pSrc, nSrcSize);
 	return nSrcSize;
 }
 

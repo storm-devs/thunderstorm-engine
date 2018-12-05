@@ -54,7 +54,7 @@ Grass::Grass()
 	winDir = !CVECTOR(0.0f, 0.0f, 1.0f);
 	numCharacters = 0;
 
-	strcpy(textureName, GRASS_DEFTEXTURE);
+	strcpy_s(textureName, GRASS_DEFTEXTURE);
 
 	vb = ib = -1;
 	vbuffer = nullptr;
@@ -241,9 +241,9 @@ void Grass::SetTexture(const char * texName)
 {
 	if(!texName || !texName[0] || strlen(texName) > 63)
 	{
-		strcpy(textureName, GRASS_DEFTEXTURE);
+		strcpy_s(textureName, GRASS_DEFTEXTURE);
 	}else{
-		strcpy(textureName, texName);
+		strcpy_s(textureName, texName);
 	}
 }
 

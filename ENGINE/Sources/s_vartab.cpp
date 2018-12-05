@@ -133,9 +133,9 @@ uint32_t S_VARTAB::AddVar(VARINFO& vi)
 	{
 		if(vi.name)
 		{
-			
-			pTable[Var_num].name = NEW char[strlen(vi.name) + 1];
-			strcpy(pTable[Var_num].name,vi.name);
+			const auto len = strlen(vi.name) + 1;
+			pTable[Var_num].name = NEW char[len];
+			memcpy(pTable[Var_num].name,vi.name,len);
 		}
 	}
 	Var_num++;

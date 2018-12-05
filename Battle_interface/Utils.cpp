@@ -34,10 +34,10 @@ bool BIUtils::ReadStringFromAttr(ATTRIBUTES * pA, const char * name, char * buf,
 	{
 		if( (int)strlen(strGet)>bufSize-1 )
 		{
-			strncpy(buf,strGet,bufSize-1);
+			strncpy_s(buf,bufSize,strGet,bufSize-1);
 			buf[bufSize-1] = 0;
 		}
-		else strcpy(buf,strGet);
+		else strcpy_s(buf,bufSize,strGet);
 	} else bRet = false;
 
 	return bRet;

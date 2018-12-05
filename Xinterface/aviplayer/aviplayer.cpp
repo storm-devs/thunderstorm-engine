@@ -142,7 +142,7 @@ uint32_t _cdecl CAviPlayer::ProcessMessage(MESSAGE & message)
 			char param[256];
 			char vidName[256];
 			message.String(sizeof(param)-1,param);
-			sprintf(vidName,"%s\\%s",VIDEO_DIRECTORY,param);
+			sprintf_s(vidName,"%s\\%s",VIDEO_DIRECTORY,param);
 			if( !PlayMedia(vidName) )
 			{
 				CleanupInterfaces();

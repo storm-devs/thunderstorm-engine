@@ -486,9 +486,9 @@ bool Sharks::Init()
 	char execute[64];
 	char realize[64];
 	const char * attr = AttributesPointer->GetAttribute("execute");
-	if(attr && attr[0]) strcpy(execute, attr); else strcpy(execute, "execute");
+	if(attr && attr[0]) strcpy_s(execute, attr); else strcpy_s(execute, "execute");
 	attr = AttributesPointer->GetAttribute("realize");
-	if(attr && attr[0]) strcpy(realize, attr); else strcpy(realize, "realize");
+	if(attr && attr[0]) strcpy_s(realize, attr); else strcpy_s(realize, "realize");
 	//Уровни исполнения
 	long emdl = AttributesPointer->GetAttributeAsDword("executeModels", 77);
 	long rmdl = AttributesPointer->GetAttributeAsDword("realizeModels", 77);

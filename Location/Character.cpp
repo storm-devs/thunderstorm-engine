@@ -452,21 +452,21 @@ Character::Character()
 	char buf[64];
 	for(long i = 0; i < 4; i++)
 	{
-		_snprintf(buf, sizeof(buf) - 1, "attack_fast_%i", i + 1);
+		sprintf_s(buf, sizeof(buf) - 1, "attack_fast_%i", i + 1);
 		attackFast[i].SetName(buf);
-		_snprintf(buf, sizeof(buf) - 1, "attack_force_%i", i + 1);
+		sprintf_s(buf, sizeof(buf) - 1, "attack_force_%i", i + 1);
 		attackForce[i].SetName(buf);
-		_snprintf(buf, sizeof(buf) - 1, "attack_round_%i", i + 1);
+		sprintf_s(buf, sizeof(buf) - 1, "attack_round_%i", i + 1);
 		attackRound[i].SetName(buf);
-		_snprintf(buf, sizeof(buf) - 1, "attack_break_%i", i + 1);
+		sprintf_s(buf, sizeof(buf) - 1, "attack_break_%i", i + 1);
 		attackBreak[i].SetName(buf);
-		_snprintf(buf, sizeof(buf) - 1, "attack_feint_%i", i + 1);
+		sprintf_s(buf, sizeof(buf) - 1, "attack_feint_%i", i + 1);
 		attackFeint[i].SetName(buf);
-		_snprintf(buf, sizeof(buf) - 1, "attack_feintc_%i", i + 1);
+		sprintf_s(buf, sizeof(buf) - 1, "attack_feintc_%i", i + 1);
 		attackFeintC[i].SetName(buf);
-		_snprintf(buf, sizeof(buf) - 1, "hit_attack_%i", i + 1);
+		sprintf_s(buf, sizeof(buf) - 1, "hit_attack_%i", i + 1);
 		hit[i].SetName(buf);
-		_snprintf(buf, sizeof(buf) - 1, "parry_%i", i + 1);
+		sprintf_s(buf, sizeof(buf) - 1, "parry_%i", i + 1);
 		parry[i].SetName(buf);
 	}
 	numAttackFast = 3;
@@ -614,7 +614,7 @@ bool Character::Init()
 	if(!id) id = "<none>";
 	long len = strlen(id) + 1;
 	characterID = NEW char[len];
-	strcpy(characterID, id);
+	strcpy_s(characterID, len, id);
 	//Добавим в группу
 	ENTITY_ID grps;
 	_CORE_API->FindClass(&grps, "CharactersGroups", 0);
@@ -758,7 +758,7 @@ uint32_t Character::AttributeChanged(ATTRIBUTES * apnt)
 		if(characterID) delete characterID;
 		long len = strlen(id) + 1;
 		characterID = NEW char[len];
-		strcpy(characterID, id);
+		strcpy_s(characterID, len, id);
 	}else
 	if(_stricmp(apnt->GetThisName(), "actions") == 0 && apnt->GetParent() && !apnt->GetParent()->GetParent())
 	{
@@ -1447,7 +1447,7 @@ void Character::Hit(FightAction type)
 		api->FindClass(&eid, "ILogAndActions", 0);
 	}
 	char sbuf[256];
-	sprintf(sbuf, "Hit! cur act: %s", fightNamesTbl[fgtCurType]);
+	sprintf_s(sbuf, "Hit! cur act: %s", fightNamesTbl[fgtCurType]);
 	api->Send_Message(eid, "lls", 45020, false, sbuf);
 	//!!!
 	//*/
@@ -2598,8 +2598,8 @@ bool Character::zLoadModel(MESSAGE & message)
 	VGEOMETRY * gs = (VGEOMETRY *)_CORE_API->CreateService("geometry");
 	if(gs) gs->SetTexturePath("characters\\");
 	//Путь до модельки
-	strcpy(mpath, "characters\\");
-	strcat(mpath, name);
+	strcpy_s(mpath, "characters\\");
+	strcat_s(mpath, name);
 	//Создаём и загружаем модельку
 	if(!_CORE_API->CreateEntity(&mdl, "modelr"))
 	{
@@ -3629,7 +3629,7 @@ void Character::UpdateAnimation()
 					ENTITY_ID eid;
 					api->FindClass(&eid, "ILogAndActions", 0);
 					char sbuf[256];
-					sprintf(sbuf, "Set act: %s", fightNamesTbl[fgtSetType]);
+					sprintf_s(sbuf, "Set act: %s", fightNamesTbl[fgtSetType]);
 					api->Send_Message(eid, "lls", 45020, false, sbuf);
 					if(fgtCurType == fgt_blockhit && fgtSetType == fgt_blockhit)
 					{
@@ -4373,13 +4373,13 @@ void Character::FindNearCharacters(MESSAGE & message)
 		VDATA * e = (VDATA *)array->GetArrayElement(i);
 		//Устанавливаем поля
 		e->Set("index", fc.c->AttributesPointer->GetAttribute("index"));
-		sprintf(buf, "%f", sqrtf(fc.d2));
+		sprintf_s(buf, "%f", sqrtf(fc.d2));
 		e->Set("dist", buf);
-		sprintf(buf, "%f", fc.dx);
+		sprintf_s(buf, "%f", fc.dx);
 		e->Set("dx", buf);
-		sprintf(buf, "%f", fc.dy);
+		sprintf_s(buf, "%f", fc.dy);
 		e->Set("dy", buf);
-		sprintf(buf, "%f", fc.dz);
+		sprintf_s(buf, "%f", fc.dz);
 		e->Set("dz", buf);
 	}
 	num->Set(nn);

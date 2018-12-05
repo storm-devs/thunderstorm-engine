@@ -51,10 +51,10 @@ void TFlotsam::Initialize(SEA_BASE *_sea)
 	if (!modelsInitialized)
 	{
 		//modelsInitialized = true;
-		strcpy(modelNames[0], "particles\\palka01");
-		strcpy(modelNames[1], "particles\\palka02");
-		strcpy(modelNames[2], "particles\\palka03");
-		strcpy(modelNames[3], "particles\\palka04");
+		strcpy_s(modelNames[0], "particles\\palka01");
+		strcpy_s(modelNames[1], "particles\\palka02");
+		strcpy_s(modelNames[2], "particles\\palka03");
+		strcpy_s(modelNames[3], "particles\\palka04");
 
 		for (int i=0; i<FLOTSAM_MODELS_COUNT; i++)
 		{

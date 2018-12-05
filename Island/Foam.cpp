@@ -711,22 +711,22 @@ void CoastFoam::Save()
 	for (long i=0; i<aFoams.size(); i++)
 	{
 		Foam * pF = aFoams[i];
-		sprintf(cSection, "foam_%d", i);
+		sprintf_s(cSection, "foam_%d", i);
 		pI->WriteLong(cSection, "NumParts", pF->aFoamParts.size());
 		
-		sprintf(cTemp, "%.0f, %.0f", pF->fAlphaMin, pF->fAlphaMax);
+		sprintf_s(cTemp, "%.0f, %.0f", pF->fAlphaMin, pF->fAlphaMax);
 		pI->WriteString(cSection, "Alpha", cTemp);
 		
-		sprintf(cTemp, "%.3f, %.3f", pF->fSpeedMin, pF->fSpeedMax);
+		sprintf_s(cTemp, "%.3f, %.3f", pF->fSpeedMin, pF->fSpeedMax);
 		pI->WriteString(cSection, "Speed", cTemp);
 		
-		sprintf(cTemp, "%.3f, %.3f", pF->fBrakingMin, pF->fBrakingMax);
+		sprintf_s(cTemp, "%.3f, %.3f", pF->fBrakingMin, pF->fBrakingMax);
 		pI->WriteString(cSection, "Braking", cTemp);
 
-		sprintf(cTemp, "%.3f, %.3f", pF->fAppearMin, pF->fAppearMax);
+		sprintf_s(cTemp, "%.3f, %.3f", pF->fAppearMin, pF->fAppearMax);
 		pI->WriteString(cSection, "Appear", cTemp);
 
-		sprintf(cTemp, "%.3f", pF->fTexScaleX);
+		sprintf_s(cTemp, "%.3f", pF->fTexScaleX);
 		pI->WriteString(cSection, "TexScaleX", cTemp);
 
 		pI->WriteLong(cSection, "NumFoams", pF->iNumFoams);
@@ -737,8 +737,8 @@ void CoastFoam::Save()
 		for (long j=0; j<pF->aFoamParts.size(); j++)
 		{
 			FoamPart * pFP = &pF->aFoamParts[j];
-			sprintf(cKey, "key_%d", j);
-			sprintf(cTemp, "%.4f, %.4f, %.4f, %.4f", pFP->v[0].x, pFP->v[0].z, pFP->v[1].x, pFP->v[1].z);
+			sprintf_s(cKey, "key_%d", j);
+			sprintf_s(cTemp, "%.4f, %.4f, %.4f, %.4f", pFP->v[0].x, pFP->v[0].z, pFP->v[1].x, pFP->v[1].z);
 			pI->WriteString(cSection, cKey, cTemp);
 		}
 	}
@@ -775,7 +775,7 @@ void CoastFoam::Load()
 		aFoams.push_back(NEW Foam);
 		Foam * pF = aFoams.back();
 
-		sprintf(cSection, "foam_%d", i);
+		sprintf_s(cSection, "foam_%d", i);
 
 		long iNumParts = pI->GetLong(cSection, "NumParts", 0);
 
@@ -803,7 +803,7 @@ void CoastFoam::Load()
 
 		for (long j=0; j<((iNumParts) ? iNumParts : 100000); j++)
 		{
-			sprintf(cKey, "key_%d", j);
+			sprintf_s(cKey, "key_%d", j);
 			CVECTOR v1, v2; v1.y = v2.y = 0.0f;
 			pI->ReadString(cSection, cKey, cTemp, sizeof(cTemp), "");
 			if (!cTemp[0]) break;

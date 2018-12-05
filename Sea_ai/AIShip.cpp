@@ -48,7 +48,7 @@ void AIShip::SetSeaAIAttributes(ATTRIBUTES * pAAttr, VAI_INNEROBJ * pObj)
 {
 	char str[256];
 	uint32_t dwIdx = pAAttr->GetAttributesNum();
-	sprintf(str,"l%d",dwIdx);
+	sprintf_s(str,"l%d",dwIdx);
 	pAAttr = pAAttr->CreateAttribute(str,"");
 
 	// set common attributes

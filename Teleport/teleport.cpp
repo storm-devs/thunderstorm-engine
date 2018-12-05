@@ -28,7 +28,7 @@ bool GetStringLine(char * &pStr, char * bufer, long bufSize)
 
 	if(bufSize>0)
 	{
-		strncpy(bufer,pStart,bufSize);
+		strcpy_s(bufer,bufSize,pStart);
 		bufer[bufSize] = 0;
 	}
 	return true;
@@ -209,11 +209,12 @@ void TMPTELEPORT::SetShowData(ATTRIBUTES * pA)
 		m_descrArray[i].name = nullptr;
 		m_descrArray[i].num = i;
 		if(tmpStr== nullptr) continue;
-		if( (m_descrArray[i].name=NEW char[strlen(tmpStr)+1]) == nullptr )
+		const auto len = strlen(tmpStr) + 1;
+		if( (m_descrArray[i].name=NEW char[len]) == nullptr )
 		{
 			STORM_THROW("Allocate memory error");
 		}
-		strcpy(m_descrArray[i].name,tmpStr);
+		memcpy(m_descrArray[i].name,tmpStr,len);
 	}
 
 	SortShowData();
@@ -263,16 +264,16 @@ bool FINDFILESINTODIRECTORY::Init()
 		char * maskName = AttributesPointer->GetAttribute("mask");
 		char fullName[512];
 		fullName[0]=0;
-		if(dirName) sprintf(fullName,"%s\\",dirName);
-		if(maskName) strcat(fullName,maskName);
-		else strcat(fullName,"*.*");
+		if(dirName) sprintf_s(fullName,"%s\\",dirName);
+		if(maskName) strcat_s(fullName,maskName);
+		else strcat_s(fullName,"*.*");
 		WIN32_FIND_DATA finddat;
 		HANDLE hdl = api->fio->_FindFirstFile( fullName, &finddat );
 		ATTRIBUTES * pA = AttributesPointer->CreateSubAClass(AttributesPointer,"filelist");
 		for(int file_idx=0; hdl!=INVALID_HANDLE_VALUE; file_idx++)
 		{
 			char sname[32];
-			sprintf(sname,"id%d",file_idx);
+			sprintf_s(sname,"id%d",file_idx);
 			if(finddat.cFileName)
 				pA->SetAttribute(sname,finddat.cFileName);
 			if( !api->fio->_FindNextFile(hdl, &finddat) ) break;
@@ -339,7 +340,7 @@ bool FINDDIALOGNODES::Init()
 				GetQuotedString(param,param2,sizeof(param2)-1);
 				if(strlen(param2)>0)
 				{
-					sprintf(param,"id%d",nodIdx);
+					sprintf_s(param,"id%d",nodIdx);
 					nodIdx++;
 					pA->SetAttribute(param,param2);
 				}

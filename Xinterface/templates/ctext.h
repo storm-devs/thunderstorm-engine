@@ -11,7 +11,7 @@ public:
 	{
 		if(bNewCreate && str) {
 			pString = new char[strlen(str)+1];
-			if(pString) strcpy(pString,str);
+			if(pString) strcpy_s(pString,str);
 		} else pString=str;
 	}
 	CText(char * str, size_t nSize)
@@ -20,7 +20,7 @@ public:
 			pString = new char[nSize+1];
 			if(pString)
 			{
-				strncpy(pString,str,nSize);
+				strncpy_s(pString,str,nSize);
 				pString[nSize] = 0;
 			}
 		} else pString=nullptr;
@@ -51,7 +51,7 @@ public:
 		Release();
 		if(!pStr) return *this;
 		pString = new char[strlen(pStr)+1];
-		if(pString) strcpy(pString,pStr);
+		if(pString) strcpy_s(pString,pStr);
 		return *this;
 	}
 	CText & operator =(CText & text) {return *this=text.pString;}
@@ -75,8 +75,8 @@ public:
 		int m = strlen(pStr);
 		char * newStr = new char[n+m+1];
 		if(!newStr) return *this;
-		strncpy(newStr,pString,n);
-		strncpy(&newStr[n],pStr,m);
+		strncpy_s(newStr,pString,n);
+		strncpy_s(&newStr[n],pStr,m);
 		newStr[n+m] = 0;
 		delete pString;
 		pString = newStr;

@@ -28,8 +28,8 @@ void  trace(char * data_PTR,...)
 	va_list args;
 	
 	va_start(args,data_PTR);
-	_vsnprintf(Buffer_4k,sizeof(Buffer_4k) - 4,data_PTR,args);
-	strcat(Buffer_4k,"\x0d\x0a");
+	_vsnprintf_s(Buffer_4k,sizeof(Buffer_4k) - 4,data_PTR,args);
+	strcat_s(Buffer_4k,"\x0d\x0a");
 	uint32_t bytes;
 	WriteFile(file_h,Buffer_4k,strlen(Buffer_4k),(LPDWORD)&bytes,nullptr);
 	va_end(args);

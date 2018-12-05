@@ -33,8 +33,8 @@ class ATTRIBUTES
 		va_list args;
 
 		va_start(args,data_PTR);
-		_vsnprintf(xBuffer_4k,sizeof(xBuffer_4k) - 4,data_PTR,args);
-		strcat(xBuffer_4k,"\x0d\x0a");
+		_vsnprintf_s(xBuffer_4k,sizeof(xBuffer_4k) - 4,data_PTR,args);
+		strcat_s(xBuffer_4k,"\x0d\x0a");
 		uint32_t bytes;
 		WriteFile(file_h,xBuffer_4k,strlen(xBuffer_4k),(LPDWORD)&bytes,nullptr);
 		va_end(args);
@@ -124,8 +124,9 @@ public:
 			return;
 		}
 
-		Attribute = (char *)RESIZE(Attribute,GetLen(strlen(_val)+1));
-		strcpy(Attribute,_val);
+		const auto len = GetLen(strlen(_val) + 1);
+		Attribute = (char *)RESIZE(Attribute, len);
+		strcpy_s(Attribute, len, _val);
 
 		if (bBreak) pVStringCodec->VariableChanged();
 	};
@@ -235,7 +236,7 @@ public:
 	BOOL SetAttributeUseDword(const char * name, uint32_t val)
 	{
 		char buffer[128];
-		ultoa(val,buffer,10);
+		_ultoa_s(val,buffer,10);
 		if (name)
 			return SetAttribute(name,buffer);
 		else
@@ -246,7 +247,7 @@ public:
 	BOOL SetAttributeUseFloat(const char * name, FLOAT val)
 	{
 		char buffer[128];
-		sprintf(buffer, "%g", val);
+		sprintf_s(buffer, "%g", val);
 		if (name)
 			return SetAttribute(name,buffer);
 		else
@@ -257,7 +258,6 @@ public:
 
 	ATTRIBUTES * CreateAttribute(const char * name, const char * attribute)
 	{
-		uint32_t len;
 		if(name == nullptr) return nullptr;
 		pAttributes = (ATTRIBUTES **)RESIZE(pAttributes,GetALen(Attributes_num + 1) * sizeof(ATTRIBUTES *));
 
@@ -267,9 +267,9 @@ public:
 
 		if(attribute)
 		{
-			len = strlen(attribute);
-			pAttributes[Attributes_num]->Attribute = NEW char[GetLen(len + 1)];
-			strcpy(pAttributes[Attributes_num]->Attribute,attribute);
+			const auto len = GetLen(strlen(attribute) + 1);
+			pAttributes[Attributes_num]->Attribute = NEW char[len];
+			strcpy_s(pAttributes[Attributes_num]->Attribute, len, attribute);
 		}
 		else pAttributes[Attributes_num]->Attribute = nullptr;
 		Attributes_num++;
@@ -404,7 +404,6 @@ public:
 
 	ATTRIBUTES * CreateAttribute(uint32_t name_code, const char * attribute)
 	{
-		uint32_t len;
 		pAttributes = (ATTRIBUTES **)RESIZE(pAttributes,GetALen(Attributes_num + 1) * sizeof(ATTRIBUTES *));
 
 		pAttributes[Attributes_num] = NEW ATTRIBUTES(pVStringCodec);
@@ -412,9 +411,9 @@ public:
 		pAttributes[Attributes_num]->nNameCode = name_code;
 		if(attribute)
 		{
-			len = strlen(attribute);
-			pAttributes[Attributes_num]->Attribute = NEW char[GetLen(len + 1)];
-			strcpy(pAttributes[Attributes_num]->Attribute,attribute);
+			const auto len = GetLen(strlen(attribute) + 1);
+			pAttributes[Attributes_num]->Attribute = NEW char[len];
+			strcpy_s(pAttributes[Attributes_num]->Attribute, len, attribute);
 		} else pAttributes[Attributes_num]->Attribute = nullptr;
 		Attributes_num++;
 		return pAttributes[Attributes_num-1];
@@ -432,24 +431,19 @@ public:
 
 	uint32_t SetAttribute(uint32_t name_code, const char * attribute)
 	{
-		uint32_t n;
-		uint32_t len;
+		uint32_t len = 0;
 		if(attribute)
-			len = strlen(attribute);
+			len = GetLen(strlen(attribute) + 1);
 
-		//xtrace("1");
-
-//		uint32_t dw1;
-//		RDTSC_B(dw1);
-
+		uint32_t n;
 		for(n=0;n<Attributes_num;n++)
 		{
 			if(pAttributes[n]->nNameCode == name_code)
 			{
 				if(attribute)
 				{
-					pAttributes[n]->Attribute = (char *)RESIZE(pAttributes[n]->Attribute, GetLen(len + 1));
-					strcpy(pAttributes[n]->Attribute,attribute);
+					pAttributes[n]->Attribute = (char *)RESIZE(pAttributes[n]->Attribute, len);
+					strcpy_s(pAttributes[n]->Attribute, len, attribute);
 				}
 				else
 				{
@@ -470,14 +464,11 @@ public:
 		pAttributes[Attributes_num]->nNameCode = name_code;
 		if(attribute)
 		{
-			pAttributes[n]->Attribute = NEW char[GetLen(len + 1)];
-			strcpy(pAttributes[n]->Attribute,attribute);
+			pAttributes[n]->Attribute = NEW char[len];
+			strcpy_s(pAttributes[n]->Attribute, len, attribute);
 		}
 		else pAttributes[Attributes_num]->Attribute = nullptr;
 		Attributes_num++;
-
-//		RDTSC_E(dw1);
-//		xtrace("SA = %d", dw1);
 
 		return (Attributes_num - 1);
 	};

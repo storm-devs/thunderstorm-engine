@@ -80,12 +80,14 @@ void CXI_SLIDEPICTURE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 	STORM_DELETE(strTechniqueName);
 	if( ReadIniString(ini1,name1, ini2,name2, "techniqueName", param, sizeof(param),"") )
 	{
-		if(strlen(param)>0)
-		{	strTechniqueName = NEW char[strlen(param)+1];
+		const auto len = strlen(param) + 1;
+		if(strlen(param)>1)
+		{	
+			strTechniqueName = NEW char[len];
 			if(strTechniqueName== nullptr)
 			{	STORM_THROW("allocate memory error");
 			}
-			strcpy(strTechniqueName,param);
+			memcpy(strTechniqueName,param,len);
 		}
 	}
 
@@ -206,7 +208,7 @@ void CXI_SLIDEPICTURE::SaveParametersToIni()
 	}
 
 	// save position
-	_snprintf( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
+	sprintf_s( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
 	pIni->WriteString( m_nodeName, "position", pcWriteParam );
 
 	delete pIni;

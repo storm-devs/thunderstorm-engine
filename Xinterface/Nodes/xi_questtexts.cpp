@@ -4,16 +4,16 @@
 
 CXI_QUESTTEXTS::STRING_DESCRIBER::STRING_DESCRIBER(char* ls)
 {
-	long sdStrSize = strlen(ls);
-	if(sdStrSize==0)
+	const auto len = strlen(ls)+1;
+	if(len==1)
 		lineStr = nullptr;
 	else
 	{
-		if( (lineStr=NEW char[sdStrSize+1]) == nullptr )
+		if( (lineStr=NEW char[len]) == nullptr )
 		{
 			STORM_THROW("allocate memory error");
 		}
-		strcpy(lineStr,ls);
+		memcpy(lineStr,ls,len);
 	}
 	complete = false;
 	next = nullptr;
@@ -88,7 +88,7 @@ bool GetNextIdFromList(char* &sptr, char* bufQuestID,size_t nSizeBufQuestID, cha
 	}
 	if(idSize==0) return false;
 	if((size_t)idSize>=bufSize) idSize=bufSize-1;
-	strncpy(buf,sstart,idSize);
+	strncpy_s(buf,bufSize,sstart,idSize);
 	buf[idSize]=0;
 	return true;
 }
@@ -135,7 +135,7 @@ bool CXI_QUESTTEXTS::GetLineNext(int fontNum,char* &pInStr,char* buf,int bufSize
 	if(lineSize==0) return false;
 	if(lineSize>bufSize-1) lineSize=bufSize-1;
 
-	strncpy(buf,pStart,lineSize);
+	strncpy_s(buf,bufSize,pStart,lineSize);
 	buf[lineSize]=0;
 	long strWidth = m_rs->StringWidth(buf,fontNum);
 	if( strWidth <= m_rect.right - m_rect.left ) return true;
@@ -256,7 +256,7 @@ void CXI_QUESTTEXTS::SaveParametersToIni()
 	}
 
 	// save position
-	_snprintf( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
+	sprintf_s( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
 	pIni->WriteString( m_nodeName, "position", pcWriteParam );
 
 	delete pIni;

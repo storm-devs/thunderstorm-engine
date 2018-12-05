@@ -232,7 +232,7 @@ void WdmEventWindow::SetAnswers(const char * _yes, const char * _no)
 	}
 	if(!yesWidth && !noWidth)
 	{
-		strcpy(yes, "Ok");
+		strcpy_s(yes, "Ok");
 		yesWidth = wdmObjects->rs->StringWidth(yes, buttonFont);
 		if(yesWidth < 8) yesWidth = 8;
 		yesWidth += 2*WDM_EW_BSW;

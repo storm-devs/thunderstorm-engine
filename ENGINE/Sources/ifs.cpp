@@ -40,7 +40,7 @@ void KEY_NODE::SetName(const char * name)
 
 	key_name = NEW char[name_size];
 	if(key_name == nullptr) THROW;
-	strcpy(key_name,name);
+	strcpy_s(key_name,name_size,name);
 }
 
 void KEY_NODE::SetValue(const char * value)
@@ -51,7 +51,7 @@ void KEY_NODE::SetValue(const char * value)
 
 	key_val = NEW char[val_size];
 	if(key_val == nullptr) THROW;
-	strcpy(key_val,value);
+	strcpy_s(key_val,val_size,value);
 }
 
 char * KEY_NODE::GetName()
@@ -165,10 +165,10 @@ void SECTION::SetName(const char * name)
 	}
 	else
 	{
-
-		Name = NEW char[strlen(name)+1];
+		const auto len = strlen(name) + 1;
+		Name = NEW char[len];
 		if(Name == nullptr) THROW;
-		strcpy(Name,name);
+		strcpy_s(Name,len,name);
 	}
 }
 
@@ -350,8 +350,6 @@ bool IFS::LoadFile(const char * _file_name)
 	HANDLE fh;
 	uint32_t dwR;
 	uint32_t file_size;
-	uint32_t name_size;
-	char * file_data;
 
 	if(_file_name == nullptr) return false;
 	fh = fs->_CreateFile(_file_name,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
@@ -361,7 +359,7 @@ bool IFS::LoadFile(const char * _file_name)
 	if(file_size == INVALID_FILE_SIZE) {fs->_CloseHandle(fh); return false;}
 
 
-	file_data = NEW char[file_size + 1];	// +1 for zero at the end
+	char* file_data = NEW char[file_size + 1];	// +1 for zero at the end
 	if(file_data == nullptr) {fs->_CloseHandle(fh); return false;}
 	file_data[file_size] = 0;
 
@@ -370,13 +368,12 @@ bool IFS::LoadFile(const char * _file_name)
 
 	fs->_CloseHandle(fh);
 
-	name_size = strlen(_file_name);
+	uint32_t name_size = strlen(_file_name) + 1;
 
-	FileName = NEW char[name_size + 1];
+	FileName = NEW char[name_size];
 
 	if(FileName == nullptr) {delete file_data; fs->_CloseHandle(fh); return false;}
-	FileName[name_size] = 0;
-	strcpy(FileName,_file_name);
+	strcpy_s(FileName, name_size, _file_name);
 
 	Format(file_data,file_size + 1);
 
@@ -802,7 +799,7 @@ bool IFS::ReadString(SEARCH_DATA * sd, const char * section_name, const char * k
 			if(buffer) buffer[0] = 0;
 			//STORM_THROW(string not found);
 		}else
-		if(buffer) strcpy(buffer,def_string);
+		if(buffer) strcpy_s(buffer,buffer_size,def_string);
 		return false;
 	}
 
@@ -814,14 +811,14 @@ bool IFS::ReadString(SEARCH_DATA * sd, const char * section_name, const char * k
 	if(char_PTR == nullptr)
 	{
 		if(def_string == nullptr) STORM_THROW(no key value);
-		strcpy(buffer,def_string);
+		strcpy_s(buffer,buffer_size,def_string);
 		return false;
 	}
 
 	write_size = strlen(char_PTR) + 1;
 	//if(write_size > buffer_size) STORM_THROW(buffer size too small); // boal закоменчено по наводке Ёдди, не давало грузить новую ани
 
-	strcpy(buffer,node->GetValue());
+	strcpy_s(buffer,buffer_size,node->GetValue());
 	return true;
 }
 
@@ -861,7 +858,7 @@ bool IFS::ReadStringNext(SEARCH_DATA * sd, const char * section_name, const char
 				write_size = strlen(char_PTR) + 1;
 				if(write_size > buffer_size) STORM_THROW(buffer size too small);
 
-				strcpy(buffer,node->GetValue());
+				strcpy_s(buffer,buffer_size,node->GetValue());
 				sd->Key = node;
 				sd->Section = snode;
 				return true;
@@ -998,14 +995,14 @@ void IFS::WriteLong(const char * section_name, const char * key_name, long value
 void IFS::WriteDouble(const char * section_name, const char * key_name,double value)
 {
 	char buffer[256];
-	sprintf(buffer,"%g",value);
+	sprintf_s(buffer,"%g",value);
 	WriteString(section_name,key_name,buffer);
 }
 
 void IFS::WriteFloat(const char * section_name, const char * key_name,float value)
 {
 	char buffer[256];
-	sprintf(buffer,"%g",value);
+	sprintf_s(buffer,"%g",value);
 	WriteString(section_name,key_name,buffer);
 }
 
@@ -1030,7 +1027,7 @@ bool IFS::GetSectionName(char * section_name_buffer, long buffer_size)
 	if(section_name_buffer == nullptr) throw "zero buffer";
 	len = strlen(node->GetName());
 	if(len > buffer_size) throw "buffer too small";
-	strcpy(section_name_buffer,node->GetName());
+	strcpy_s(section_name_buffer,buffer_size,node->GetName());
 	SectionSNode = node;
 	return true;
 }
@@ -1054,7 +1051,7 @@ bool IFS::GetSectionNameNext(char * section_name_buffer, long buffer_size)
 			}
 			len = strlen(node->GetName());
 			if(len > buffer_size) throw "buffer too small";
-			strcpy(section_name_buffer,node->GetName());
+			strcpy_s(section_name_buffer,buffer_size,node->GetName());
 			SectionSNode = node;
 			return true;
 		}

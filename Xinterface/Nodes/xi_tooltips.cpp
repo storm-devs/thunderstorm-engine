@@ -67,7 +67,7 @@ void CXI_ToolTip::SetByFormatString( XYRECT& rectOwner, INIFILE* pDefIni, const 
 
 	m_rActiveZone = rectOwner;
 
-	_snprintf( pcToolTipType, sizeof(pcToolTipType), "ToolTip" );
+	sprintf_s( pcToolTipType, sizeof(pcToolTipType), "ToolTip" );
 	long m_nMaxStrWidth = -1; //~!~
 
 	for( char* pcParam=(char*)pFmtStr; pcParam && pcParam[0]; )
@@ -83,7 +83,7 @@ void CXI_ToolTip::SetByFormatString( XYRECT& rectOwner, INIFILE* pDefIni, const 
 				if( tokenString[0]=='#' ) m_sText = &tokenString[1];
 				else m_sText = m_pStrService->GetString( m_pStrService->GetStringNum(tokenString) );
 			break;
-			case InterfaceToken_class: _snprintf( pcToolTipType, sizeof(pcToolTipType), "%s", tokenString ); break;
+			case InterfaceToken_class: sprintf_s( pcToolTipType, sizeof(pcToolTipType), "%s", tokenString ); break;
 			case InterfaceToken_width: m_nMaxStrWidth = CXI_UTILS::StringGetLong( pStr );
 			}
 		}

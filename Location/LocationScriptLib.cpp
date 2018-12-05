@@ -38,7 +38,7 @@ struct LocationFindCacheElement
 			if(name) delete name;
 			name = new char[max];
 		}
-		strcpy(name, str);
+		memcpy(name, str, size);
 	};
 
 	char * name;

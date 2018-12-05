@@ -27,7 +27,7 @@ void ISLAND::DoZapSuperGeneratorInnerDecodeFiles(char * sub_dir, char * mask)
 	char				file_mask[256];
 	WIN32_FIND_DATA		wfd;
 
-	sprintf(file_mask, "resource\\foam\\%s%s%s", (sub_dir) ? sub_dir : "", (sub_dir) ? "\\" : "", "*.*");
+	sprintf_s(file_mask, "resource\\foam\\%s%s%s", (sub_dir) ? sub_dir : "", (sub_dir) ? "\\" : "", "*.*");
 
 	HANDLE hFile = FindFirstFile(file_mask, &wfd);
 	if (hFile != INVALID_HANDLE_VALUE) 
@@ -37,21 +37,21 @@ void ISLAND::DoZapSuperGeneratorInnerDecodeFiles(char * sub_dir, char * mask)
 			if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			{
 				if (wfd.cFileName[0] == '.') continue;
-				sprintf(file_mask, "%s%s%s", (sub_dir) ? sub_dir : "", (sub_dir) ? "\\" : "", wfd.cFileName);
+				sprintf_s(file_mask, "%s%s%s", (sub_dir) ? sub_dir : "", (sub_dir) ? "\\" : "", wfd.cFileName);
 				DoZapSuperGeneratorInnerDecodeFiles(file_mask, mask);
 			}
 		} while (FindNextFile(hFile, &wfd));
 		FindClose(hFile);
 	}
 
-	sprintf(file_mask, "resource\\foam\\%s%s%s", (sub_dir) ? sub_dir : "", (sub_dir) ? "\\" : "", mask);
+	sprintf_s(file_mask, "resource\\foam\\%s%s%s", (sub_dir) ? sub_dir : "", (sub_dir) ? "\\" : "", mask);
 
 	hFile = FindFirstFile(file_mask, &wfd);
 	if (hFile != INVALID_HANDLE_VALUE) 
 	{
 		do 
 		{ 
-			sprintf(file_mask, "resource\\foam\\%s\\%s", (sub_dir) ? sub_dir : "", wfd.cFileName);
+			sprintf_s(file_mask, "resource\\foam\\%s\\%s", (sub_dir) ? sub_dir : "", wfd.cFileName);
 			DoZapSuperGeneratorDecodeFile(file_mask); 
 		} while (FindNextFile(hFile, &wfd));
 		FindClose(hFile);

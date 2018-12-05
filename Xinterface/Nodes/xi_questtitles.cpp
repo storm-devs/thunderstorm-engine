@@ -30,7 +30,7 @@ bool CXI_QUESTTITLE::GetLineNext(int fontNum,char* &pInStr,char* buf,int bufSize
 	long lineSize = (long)pInStr-(long)pStart;
 	if(lineSize==0) return false;
 
-	strncpy(buf,pStart,lineSize);
+	strncpy_s(buf,bufSize,pStart,lineSize);
 	buf[lineSize]=0;
 	long strWidth = m_rs->StringWidth(buf,fontNum);
 	long needWidth = m_rect.right-m_rect.left-m_iconWidth;
@@ -217,7 +217,7 @@ void CXI_QUESTTITLE::SaveParametersToIni()
 	}
 
 	// save position
-	_snprintf( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
+	sprintf_s( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
 	pIni->WriteString( m_nodeName, "position", pcWriteParam );
 
 	delete pIni;
@@ -254,10 +254,11 @@ void CXI_QUESTTITLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
 	m_iconVOffset = m_vertOffset/2 - m_iconHeight/2;
 	if( ReadIniString(ini1,name1, ini2,name2, "iconGroup", param, sizeof(param),"") )
 	{
-		m_iconGroupName = NEW char[strlen(param)+1];
+		const auto len = strlen(param)+1;
+		m_iconGroupName = NEW char[len];
 		if(m_iconGroupName== nullptr)
 			{STORM_THROW("allocate memory error");}
-		strcpy(m_iconGroupName,param);
+		memcpy(m_iconGroupName,param,len);
 	}
 	else	m_iconGroupName = nullptr;
 	m_texId = ptrOwner->PictureService()->GetTextureID(m_iconGroupName);
@@ -351,8 +352,9 @@ void CXI_QUESTTITLE::SetNewTopQuest(ATTRIBUTES * pA,int topNum)
 					int ln = 0;
 					while( GetLineNext(m_idFont,pstr,lineName,sizeof(lineName)) )
 					{
-						m_strList[i].name[ln] = NEW char[strlen(lineName)+1];
-						strcpy(m_strList[i].name[ln],lineName);
+						const auto len = strlen(lineName)+1;
+						m_strList[i].name[ln] = NEW char[len];
+						memcpy(m_strList[i].name[ln],lineName, len);
 						ln++;
 					}
 					m_strList[i].lineQuantity = ln;

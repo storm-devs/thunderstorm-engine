@@ -18,7 +18,7 @@
 AnimationInfo::AnimationInfo(const char * animationName)
 {
 	Assert(strlen(animationName) < 64);
-	strcpy(name, animationName);
+	strcpy_s(name, animationName);
 	bone = nullptr;
 	numBones = 0;
 	action = nullptr;

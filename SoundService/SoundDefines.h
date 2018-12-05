@@ -94,7 +94,7 @@ enum eSoundMessage
 { \
 	static char _tmpString[2048]; \
  \
-	sprintf(_tmpString, s, p); \
+	sprintf_s(_tmpString, s, p); \
 	_VSYSTEM_API->Trace(_tmpString); \
 	throw _tmpString; \
 }

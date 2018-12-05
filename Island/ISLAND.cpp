@@ -287,8 +287,8 @@ void ISLAND::AddLocationModel(ENTITY_ID & eid, char * pIDStr, char * pDir)
 {
 	Assert(pDir && pIDStr);
 	bForeignModels = true;
-	strcpy(cModelsDir, pDir);
-	strcpy(cModelsID, pIDStr);
+	strcpy_s(cModelsDir, pDir);
+	strcpy_s(cModelsID, pIDStr);
 	api->LayerAdd("island_trace", eid, 10);
 }
 
@@ -431,7 +431,7 @@ void ISLAND::CreateDirectories(char * pDir)
 	char sCurDir[256], sTemp[256];
 
 	fio->_GetCurrentDirectory(sizeof(sCurDir), sCurDir);
-	if (strlen(sCurDir) && sCurDir[strlen(sCurDir) - 1] != '\\') strcat(sCurDir, "\\");
+	if (strlen(sCurDir) && sCurDir[strlen(sCurDir) - 1] != '\\') strcat_s(sCurDir, "\\");
 
 	char * pLast, * pStr;
 
@@ -440,9 +440,9 @@ void ISLAND::CreateDirectories(char * pDir)
 	{
 		pStr = strchr(pStr, '\\');
 		if (!pStr) break;
-		strncpy(sTemp, pLast, pStr - pLast); sTemp[pStr - pLast] = '\0';
+		strncpy_s(sTemp, pLast, pStr - pLast); sTemp[pStr - pLast] = '\0';
 		pLast = ++pStr;
-		strcat(sCurDir, sTemp); strcat(sCurDir, "\\");
+		strcat_s(sCurDir, sTemp); strcat_s(sCurDir, "\\");
 		BOOL bOk = fio->_CreateDirectory(sCurDir, nullptr);
 	}
 #endif
@@ -460,7 +460,7 @@ bool ISLAND::CreateShadowMap(char * pDir, char * pName)
 	fs::path path = fs::path() / "resource" / "foam" / pDir / AttributesPointer->GetAttribute("LightingPath");
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 	//sDir.Format("resource\\foam\\%s\\%s\\", pDir, AttributesPointer->GetAttribute("LightingPath")); sDir.CheckPath();
-	//sprintf(fname, "%s%s.tga", (const char*)sDir.c_str(), pName);
+	//sprintf_s(fname, "%s%s.tga", (const char*)sDir.c_str(), pName);
 	std::string fileName = path.string() + pName + ".tga";
 
 	CreateDirectories((char*)sDir.c_str());
@@ -572,8 +572,8 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 	std::string fileName = path.string() + ".tga";
 	std::string iniName = path.string() + ".ini";
 	//sDir.Format("resource\\\\foam\\\\%s\\\\", pDir); sDir.CheckPath();
-	//sprintf(fname, "%s%s.tga", (const char*)sDir.c_str(), pName);
-	//sprintf(iname, "%s%s.ini", (const char*)sDir.c_str(), pName);
+	//sprintf_s(fname, "%s%s.tga", (const char*)sDir.c_str(), pName);
+	//sprintf_s(iname, "%s%s.ini", (const char*)sDir.c_str(), pName);
 
 	CreateDirectories((char*)sDir.c_str());
 
@@ -741,9 +741,9 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 	}
 	char str[512];
 	pI->WriteString("Main", "DepthFile", (char*) fileName.c_str());
-	sprintf(str, "%f,%f,%f", vBoxCenter.x, vBoxCenter.y, vBoxCenter.z);
+	sprintf_s(str, "%f,%f,%f", vBoxCenter.x, vBoxCenter.y, vBoxCenter.z);
 	pI->WriteString("Main", "vBoxCenter", str);
-	sprintf(str, "%f,%f,%f", vBoxSize.x, vBoxSize.y, vBoxSize.z);
+	sprintf_s(str, "%f,%f,%f", vBoxSize.x, vBoxSize.y, vBoxSize.z);
 	pI->WriteString("Main", "vBoxSize", str);
 	delete pI;
 

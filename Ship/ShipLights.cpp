@@ -181,7 +181,7 @@ void ShipLights::AddFlare(VAI_OBJBASE * pObject, bool bLight, MODEL * pModel, co
 	char str[256], str2[256];
 	ZERO(str);
 	if (!label.name) return;
-	strcpy(str, label.name);
+	strcpy_s(str, label.name);
 	strlwr(str);
 
 	aLights.push_back(ShipLight{});
@@ -201,11 +201,11 @@ void ShipLights::AddFlare(VAI_OBJBASE * pObject, bool bLight, MODEL * pModel, co
 		str2[0] = str[2]; str2[1] = '\0';
 		int iMastIndex = atoi(str2);
 
-		sprintf(str2, "mast%d", iMastIndex);
+		sprintf_s(str2, "mast%d", iMastIndex);
 		// rey found
 		if (str[3] >= 'a' && str[3] <= 'z')
 		{
-			sprintf(str2, "rey_%c%d", str[3], iMastIndex);
+			sprintf_s(str2, "rey_%c%d", str[3], iMastIndex);
 		}
 
 		if (!SetLabel(pL, pModel, str2))

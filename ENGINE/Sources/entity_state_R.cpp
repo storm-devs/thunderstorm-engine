@@ -107,15 +107,16 @@ void _cdecl ENTITY_STATE_GEN_R::SetState(char * Format,...)
 	if(!Format) STORM_THROW(empty format string);
 	if(Format_string == nullptr)
 	{
-
-		Format_string = (char *)NEW char[strlen(Format)+1];
+		const auto len = strlen(Format) + 1;
+		Format_string = (char *)NEW char[len];
 		if(Format_string == nullptr) THROW;
-		strcpy(Format_string,Format);
+		memcpy(Format_string,Format,len);
 	} else
 	{
-		Format_string = (char *)RESIZE(Format_string,strlen(Format_string) + strlen(Format) + 1);
+		const auto len = strlen(Format_string) + strlen(Format) + 1;
+		Format_string = (char *)RESIZE(Format_string,len);
 		if(Format_string == nullptr) THROW;
-		strcat(Format_string,Format);
+		strcat_s(Format_string,len,Format);
 	}
 
 	// allocate memory for buffer, if mem still not allocated

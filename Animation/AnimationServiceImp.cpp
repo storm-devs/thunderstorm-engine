@@ -186,9 +186,9 @@ long AnimationServiceImp::LoadAnimation(const char * animationName)
 {
 	//Формируем имя файла
 	static char path[MAX_PATH];
-	strcpy(path, ASKW_PATH_ANI);
-	strcat(path, animationName);
-	strcat(path, ".ani");
+	strcpy_s(path, ASKW_PATH_ANI);
+	strcat_s(path, animationName);
+	strcat_s(path, ".ani");
 	//Открываем ini файл, описывающий анимацию
 	INIFILE * ani = _CORE_API->fio->OpenIniFile(path);
 	if(!ani)
@@ -197,7 +197,7 @@ long AnimationServiceImp::LoadAnimation(const char * animationName)
 		return -1;
 	}
 	//Получаем имя jfa файла со скелетом
-	strcpy(path, ASKW_PATH_JFA);
+	strcpy_s(path, ASKW_PATH_JFA);
 	int l = strlen(path);
 	if(!ani->ReadString(nullptr, ASKW_JFA_FILE, path + l, MAX_PATH - l - 1, nullptr))
 	{

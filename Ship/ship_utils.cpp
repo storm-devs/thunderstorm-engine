@@ -192,7 +192,7 @@ bool SHIP::BuildMasts()
 				pM->vDst = CVECTOR(vTemp.x,vUp.y,vTemp.z);
 			}
 
-			sprintf(str,"%s",pNode->GetName());
+			sprintf_s(str,"%s",pNode->GetName());
 			ATTRIBUTES * pAMast = pAMasts->FindAClass(pAMasts,str);
 			if (pAMast && pAMast->GetAttributeAsFloat()>=1.0f)
 			{

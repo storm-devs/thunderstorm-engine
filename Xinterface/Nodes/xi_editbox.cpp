@@ -144,14 +144,14 @@ int CXI_EDITBOX::CommandExecute(int wActCode)
 				switch(m_alpha[m_bUpChrRegistrOffset+m_nCurAlphaNum])
 				{
 				case '*':
-					if(tmpstr) sprintf(param,"%s",tmpstr);
+					if(tmpstr) sprintf_s(param,"%s",tmpstr);
 					if(strlen(param)>0) param[strlen(param)-1] = 0;
 					pA->SetAttribute("strdata",param);
 					return -1;
 					break;
 				case '^':
-					if(tmpstr) sprintf(param,"%s ",tmpstr);
-					else sprintf(param," ");
+					if(tmpstr) sprintf_s(param,"%s ",tmpstr);
+					else sprintf_s(param," ");
 					break;
 				case '~':
 					api->Event("NodeOk","s",m_nodeName);
@@ -166,8 +166,8 @@ int CXI_EDITBOX::CommandExecute(int wActCode)
 					return -1;
 					break;
 				default:
-					if(tmpstr) sprintf(param,"%s%c",tmpstr,m_alpha[m_bUpChrRegistrOffset+m_nCurAlphaNum]);
-					else sprintf(param,"%c",m_alpha[m_bUpChrRegistrOffset+m_nCurAlphaNum]);
+					if(tmpstr) sprintf_s(param,"%s%c",tmpstr,m_alpha[m_bUpChrRegistrOffset+m_nCurAlphaNum]);
+					else sprintf_s(param,"%c",m_alpha[m_bUpChrRegistrOffset+m_nCurAlphaNum]);
 				}
 				int nLimit = pA->GetAttributeAsDword("maxlen",0);
 				if( nLimit>0 && (int)strlen(param)>nLimit ) return -1;
@@ -296,7 +296,7 @@ void CXI_EDITBOX::SaveParametersToIni()
 	}
 
 	// save position
-	_snprintf( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
+	sprintf_s( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
 	pIni->WriteString( m_nodeName, "position", pcWriteParam );
 
 	delete pIni;
@@ -348,18 +348,18 @@ void CXI_EDITBOX::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 		if(pTmpStr== nullptr) pTmpStr = param;
 		int nLen = strlen(pTmpStr);
 		if(nLen>sizeof(m_alpha)/2-1) nLen = sizeof(m_alpha)/2-1;
-		strncpy(m_alpha,pTmpStr,nLen);
-		m_alpha[nLen] = 0;
+		strncpy_s(m_alpha,pTmpStr,nLen);
+		//m_alpha[nLen] = 0;
 		m_nAlphaQuantity = strlen(m_alpha);
 	}
 	if( ReadIniString(ini1,name1, ini2,name2, "alphabetUP", param,sizeof(param)-1,"") )
 	{
 		char * pTmpStr = pStringService->GetString(pStringService->GetStringNum(param));
 		if(pTmpStr== nullptr) pTmpStr = param;
-		int nLen = strlen(pTmpStr);
-		if(nLen>sizeof(m_alpha)/2-1) nLen = sizeof(m_alpha)/2-1;
-		strncpy(&m_alpha[sizeof(m_alpha)/2],pTmpStr,nLen);
-		m_alpha[nLen+sizeof(m_alpha)/2] = 0;
+		auto len = strlen(pTmpStr) + 1;
+		if(len>sizeof(m_alpha)/2-1) len = sizeof(m_alpha)/2-1;
+		strcpy_s(&m_alpha[sizeof(m_alpha)/2],len,pTmpStr);
+		//m_alpha[len+sizeof(m_alpha)/2] = 0;
 
 		if( (size_t)m_nAlphaQuantity != strlen(&m_alpha[sizeof(m_alpha)/2]) ) {
 			api->Trace("WARNING!!! parameters alphabet & alphabetUP is different");

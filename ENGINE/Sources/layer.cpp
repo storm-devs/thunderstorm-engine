@@ -11,7 +11,7 @@ LAYER::LAYER(char * name,bool ordered,bool system,uint32_t system_flags)
 	ls.Deleted = false;
 	Count = 0;
 	ls.System_flags = system_flags;
-	strcpy(Name,name);
+	strcpy_s(Name,name);
 	walkers = nullptr;
 	walkers_num = 0;
 } 

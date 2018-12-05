@@ -44,7 +44,7 @@ void CXI_SCROLLEDPICTURE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char 
 	m_aScale.clear();
 	for( n=1; n<20; n++ )
 	{
-		sprintf( keyName, "scale%d", n );
+		sprintf_s( keyName, "scale%d", n );
 		FXYPOINT fpTemp;
 		fpTemp.x = fpTemp.y = 2.f;
 		fpTemp = GetIniFloatPoint( ini1,name1, ini2,name2, keyName, fpTemp );

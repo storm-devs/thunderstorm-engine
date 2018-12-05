@@ -74,7 +74,7 @@ uint32_t _cdecl Blots::ProcessMessage(MESSAGE & message)
 		{
 			blotsInfo = pCharAttributeRoot->CreateSubAClass(pCharAttributeRoot, "ship.blots");
 			char buf[32];
-			sprintf(buf, "%i", BLOTS_MAX);
+			sprintf_s(buf, "%i", BLOTS_MAX);
 			blotsInfo->SetValue(buf);
 			for(long i = 0; i < BLOTS_MAX; i++) LoadBlot(i);
 		}
@@ -235,7 +235,7 @@ void Blots::SaveBlot(long i)
 	if(!blotsInfo) return;
 	//Имя атрибута
 	char name[16];
-	sprintf(name, "b%.3i", i);
+	sprintf_s(name, "b%.3i", i);
 	if(blot[i].isUsed)
 	{
 		ATTRIBUTES * blt = blotsInfo->CreateSubAClass(blotsInfo, name);
@@ -258,7 +258,7 @@ void Blots::LoadBlot(long i)
 	if(!blotsInfo) return;
 	//Имя атрибута
 	char name[16];
-	sprintf(name, "b%.3i", i);
+	sprintf_s(name, "b%.3i", i);
 	ATTRIBUTES * blt = blotsInfo->FindAClass(blotsInfo, name);
 	if(blt)
 	{

@@ -157,7 +157,7 @@ bool CXI_STRCOLLECTION::GetInternalNameList( std::vector<std::string>& aStr )
 		//aStr.Add();
 		aStr.push_back(std::string{});
 		char param[512];
-		_snprintf( param,sizeof(param), "%d - %s", n+1, pStringService->GetStringName( m_pStrDescr[n].strNum ) );
+		sprintf_s( param,sizeof(param), "%d - %s", n+1, pStringService->GetStringName( m_pStrDescr[n].strNum ) );
 		aStr[n+1] = param;
 	}
 	return aStr.size() > 1;
@@ -224,7 +224,7 @@ void CXI_STRCOLLECTION::SaveParametersToIni()
 
 
 		if( m_pStrDescr[n].strStr )
-			_snprintf( param, sizeof(param), "#%s,font:%s,pos:{%d,%d},fc:{%d,%d,%d,%d},bc:{%d,%d,%d,%d},scale:%.2f,state:{%s}",
+			sprintf_s( param, sizeof(param), "#%s,font:%s,pos:{%d,%d},fc:{%d,%d,%d,%d},bc:{%d,%d,%d,%d},scale:%.2f,state:{%s}",
 				m_pStrDescr[n].strStr, // strID
 				m_pStrDescr[n].sFontName, // font name
 				m_pStrDescr[n].scrPos.x, m_pStrDescr[n].scrPos.y, // pos
@@ -233,7 +233,7 @@ void CXI_STRCOLLECTION::SaveParametersToIni()
 				m_pStrDescr[n].fScale,
 				pcState	);
 		else
-			_snprintf( param, sizeof(param), "%s,font:%s,pos:{%d,%d},fc:{%d,%d,%d,%d},bc:{%d,%d,%d,%d},scale:%.2f,state:{%s}",
+			sprintf_s( param, sizeof(param), "%s,font:%s,pos:{%d,%d},fc:{%d,%d,%d,%d},bc:{%d,%d,%d,%d},scale:%.2f,state:{%s}",
 				pStringService->GetStringName( m_pStrDescr[n].strNum ), // strID
 				m_pStrDescr[n].sFontName, // font name
 				m_pStrDescr[n].scrPos.x, m_pStrDescr[n].scrPos.y, // pos
@@ -376,9 +376,10 @@ CXI_STRCOLLECTION::STRINGDESCR * CXI_STRCOLLECTION::CreateNewDinamicString(char 
 		}
 		FONT_RELEASE(m_rs,m_pStrDescr[i].nFontNum);
 		STORM_DELETE(m_pStrDescr[i].strStr);
-		m_pStrDescr[i].strStr = NEW char[strlen(strStr)+1];
+		const auto len = strlen(strStr) + 1;
+		m_pStrDescr[i].strStr = NEW char[len];
 		if(m_pStrDescr[i].strStr== nullptr)	{THROW("allocate memory error");}
-		strcpy(m_pStrDescr[i].strStr,strStr);
+		memcpy(m_pStrDescr[i].strStr,strStr,len);
 		return &m_pStrDescr[i];
 	}
 	if( strStr== nullptr || strStr[0]==0 ) return nullptr;
@@ -390,11 +391,13 @@ CXI_STRCOLLECTION::STRINGDESCR * CXI_STRCOLLECTION::CreateNewDinamicString(char 
 	if( pOld ) delete pOld;
 	PZERO( &m_pStrDescr[i], sizeof(STRINGDESCR) );
 	m_pStrDescr[i].nFontNum = -1;
-	m_pStrDescr[i].strID = NEW char[strlen(strID)+1];
-	m_pStrDescr[i].strStr = NEW char[strlen(strStr)+1];
+	const auto len1 = strlen(strID) + 1;
+	const auto len2 = strlen(strStr) + 1;
+	m_pStrDescr[i].strID = NEW char[len1];
+	m_pStrDescr[i].strStr = NEW char[len2];
 	if( m_pStrDescr[i].strID== nullptr || m_pStrDescr[i].strStr== nullptr )
 	{	THROW("allocate memory error");}
-	strcpy( m_pStrDescr[i].strID, strID );
-	strcpy( m_pStrDescr[i].strStr, strStr );
+	memcpy( m_pStrDescr[i].strID, strID, len1 );
+	memcpy( m_pStrDescr[i].strStr, strStr, len2 );
 	return &m_pStrDescr[i];
 }

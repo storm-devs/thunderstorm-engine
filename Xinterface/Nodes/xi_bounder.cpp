@@ -63,8 +63,9 @@ void CXI_BOUNDER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	m_sGroupName = nullptr;
 	if( ReadIniString(ini1,name1, ini2,name2, "groupName", param, sizeof(param),"") )
 	{
-		m_sGroupName = NEW char[strlen(param)+1];
-		strcpy(m_sGroupName,param);
+		const auto len = strlen(param) + 1;
+		m_sGroupName = NEW char[len];
+		memcpy(m_sGroupName,param,len);
 		m_idTex = pPictureService->GetTextureID(m_sGroupName);
 	}
 
@@ -475,7 +476,7 @@ void CXI_BOUNDER::SaveParametersToIni()
 	}
 
 	// save position
-	_snprintf( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
+	sprintf_s( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
 	pIni->WriteString( m_nodeName, "position", pcWriteParam );
 
 	delete pIni;

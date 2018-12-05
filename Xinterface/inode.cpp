@@ -292,7 +292,7 @@ bool CINODE::GetMidStr(char * inStr, char * buf, size_t bufSize, char * begStr, 
 	if(lcn<=fcn) {buf[0]=0; return false;}
 
 	if(lcn-fcn>(int)bufSize-1)	lcn = fcn+bufSize-1;
-	strncpy(buf,&inStr[fcn],lcn-fcn);
+	strncpy_s(buf,bufSize,&inStr[fcn],lcn-fcn);
 	buf[lcn-fcn] = 0;
 	return true;
 }
@@ -431,10 +431,11 @@ bool CINODE::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9REND
 
 	if( ReadIniString(ini1,name1, ini2,name2, "HelpTextureFile",param,sizeof(param)-1,"") )
 	{
-		m_strHelpTextureFile = NEW char[strlen(param)+1];
+		const auto len = strlen(param) + 1;
+		m_strHelpTextureFile = NEW char[len];
 		if(m_strHelpTextureFile!= nullptr)
 		{
-			strcpy(m_strHelpTextureFile,param);
+			memcpy(m_strHelpTextureFile,param,len);
 		}
 	}
 	m_frectHelpTextureUV = GetIniFloatRect( ini1,name1, ini2,name2, "HelpTextureUV", FXYRECT(0.0,0.0, 1.0,1.0));
@@ -506,7 +507,7 @@ bool CINODE::ReadIniString(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2,
 		{
 			int strDefLen = strlen(strDef);
 			if(strDefLen>(int)bufSize-1)	strDefLen = bufSize-1;
-			if(strDefLen>0) strncpy(buf,strDef,strDefLen);
+			if(strDefLen>0) strncpy_s(buf,bufSize,strDef,strDefLen);
 			buf[strDefLen]=0;
 		}
 	}

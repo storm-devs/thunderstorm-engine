@@ -55,7 +55,7 @@ public:
 		if (pString == nullptr) return 0xffffffff;
 
 		char cTemp[1024];
-		strncpy(cTemp, pString, iLen);
+		strncpy_s(cTemp, pString, iLen);
 		cTemp[iLen] = 0;
 
 		bool bNew;
@@ -100,8 +100,9 @@ public:
 		pE->nStringsNum++;
 		pE->pElements = (HTSUBELEMENT *)RESIZE(pE->pElements, GetNum(pE->nStringsNum) * sizeof(HTSUBELEMENT));
 
-		pE->pElements[n].pStr = NEW char[strlen(pString) + 1];
-		strcpy(pE->pElements[n].pStr, pString);
+		const auto len = strlen(pString) + 1;
+		pE->pElements[n].pStr = NEW char[len];
+		memcpy(pE->pElements[n].pStr, pString, len);
 		pE->pElements[n].dwHashCode = nHash;
 
 		nStringCode = (nTableIndex << 16) | (n & 0xffff);

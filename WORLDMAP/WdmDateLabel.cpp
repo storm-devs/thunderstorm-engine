@@ -19,18 +19,18 @@
 WdmDateLabel::WdmDateLabel()
 {
 	txSkyClock = -1;
-	strcpy(month[0], "january");
-	strcpy(month[1], "february");
-	strcpy(month[2], "march");
-	strcpy(month[3], "april");
-	strcpy(month[4], "may");
-	strcpy(month[5], "june");
-	strcpy(month[6], "july");
-	strcpy(month[7], "august");
-	strcpy(month[8], "september");
-	strcpy(month[9], "october");
-	strcpy(month[10], "november");
-	strcpy(month[11], "december");
+	strcpy_s(month[0], "january");
+	strcpy_s(month[1], "february");
+	strcpy_s(month[2], "march");
+	strcpy_s(month[3], "april");
+	strcpy_s(month[4], "may");
+	strcpy_s(month[5], "june");
+	strcpy_s(month[6], "july");
+	strcpy_s(month[7], "august");
+	strcpy_s(month[8], "september");
+	strcpy_s(month[9], "october");
+	strcpy_s(month[10], "november");
+	strcpy_s(month[11], "december");
 	//Init
 	txTextBar = wdmObjects->rs->TextureCreate("WorldMap\\Interfaces\\textbar.tga");
 	txSkyClock = wdmObjects->rs->TextureCreate("WorldMap\\Interfaces\\sky.tga");

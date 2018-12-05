@@ -21,7 +21,7 @@ extern VSYSTEM_API * _VSYSTEM_API;
 extern VAPI * _CORE_API;
 extern CONTROL_BLOCK Control_Block;
 
-#define SET_ERROR(x) {Error_Flag = true; if(x) strcpy(Last_Error,x); }
+#define SET_ERROR(x) {Error_Flag = true; if(x) strcpy_s(Last_Error,x); }
 #define GET_ERROR Last_Error
 #define CLR_ERROR {Error_Flag = false; Last_Error[0] = 0;}
 #define TST_ERROR Error_Flag

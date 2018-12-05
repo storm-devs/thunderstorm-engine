@@ -245,7 +245,7 @@ void BIManSign::Init( ATTRIBUTES* pRoot, ATTRIBUTES* pA )
 
 		for( n=0; n<MAX_MAN_QUANTITY; n++ )
 		{
-			_snprintf( param,sizeof(param), "iconoffset%d", n+1 );
+			sprintf_s( param,sizeof(param), "iconoffset%d", n+1 );
 			pcTmp = pA->GetAttribute( param );
 			if( pcTmp ) sscanf( pcTmp,"%f,%f", &m_Man[n].pntPos.x, &m_Man[n].pntPos.y );
 		}
@@ -389,7 +389,7 @@ long BIManSign::CalculateManQuantity()
 	if( pAttr ) pAttr = pAttr->GetAttributeClass("icons");
 	char attrname[128];
 	if( pAttr ) for(n=0; n<MAX_MAN_QUANTITY; n++) {
-		_snprintf( attrname, sizeof(attrname), "id%d", n );
+		sprintf_s( attrname, sizeof(attrname), "id%d", n );
 		ATTRIBUTES* pA = pAttr->GetAttributeClass(attrname);
 		if( !pA ) continue;
 		m_Man[m_nManQuantity].nCharacterIndex = -1;
@@ -653,7 +653,7 @@ void BIManSign::CheckDataChange()
 	for( long n=0; n<MAX_MAN_QUANTITY; n++ )
 	{
 		if( m_Man[n].nSlotIndex < 0 ) continue;
-		_snprintf( attrname,sizeof(attrname), "id%d", m_Man[n].nSlotIndex );
+		sprintf_s( attrname,sizeof(attrname), "id%d", m_Man[n].nSlotIndex );
 		ATTRIBUTES* pA = pAttr->GetAttributeClass( attrname );
 		if( !pA ) continue;
 

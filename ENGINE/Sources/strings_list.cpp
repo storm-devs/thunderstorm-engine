@@ -52,12 +52,12 @@ bool STRINGS_LIST::AddString(char * _char_PTR)
 		List_size = List_size + SL_BLOCK_SIZE;
 	}
 	
-
-	String_Table_PTR[Strings] = (char *)NEW char[strlen(_char_PTR) + 1 + used_data_size + sizeof(uint32_t)];
+	const auto len = strlen(_char_PTR) + 1;
+	String_Table_PTR[Strings] = (char *)NEW char[len + used_data_size + sizeof(uint32_t)];
 	if(String_Table_PTR[Strings] == nullptr) return false;
 	memset(String_Table_PTR[Strings],0,used_data_size + sizeof(uint32_t));
 	*((uint32_t *)(String_Table_PTR[Strings])) = hash;
-	strcpy(String_Table_PTR[Strings] + used_data_size + sizeof(uint32_t),_char_PTR);
+	memcpy(String_Table_PTR[Strings] + used_data_size + sizeof(uint32_t), _char_PTR, len);
 	Strings++;
 	UNGUARD
 	return true;

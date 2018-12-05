@@ -120,9 +120,10 @@ void CXI_CONTEXTHELP::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 			sscanf(param,"%[^,],%[^,]",nodeName,stringName);
 			if(nodeName[0]!=0)
 			{
-				if( (m_pHelpList[i].nodeName=NEW char[strlen(nodeName)+1]) == nullptr )
+				const auto len = strlen(nodeName) + 1;
+				if( (m_pHelpList[i].nodeName=NEW char[len]) == nullptr )
 					STORM_THROW("allocate memory error")
-				strcpy(m_pHelpList[i].nodeName,nodeName);
+				memcpy(m_pHelpList[i].nodeName,nodeName,len);
 				m_pHelpList[i].idHelpString = pStringService->GetStringNum(stringName);
 			}
 			ini1->ReadStringNext(name1,"helpstr",param,sizeof(param)-1);
@@ -195,7 +196,7 @@ void CXI_CONTEXTHELP::SaveParametersToIni()
 	}
 
 	// save position
-	_snprintf( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
+	sprintf_s( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
 	pIni->WriteString( m_nodeName, "position", pcWriteParam );
 
 	delete pIni;
@@ -230,9 +231,10 @@ void CXI_CONTEXTHELP::SetTempHelp(const char * pStr)
 	long nCurStrWidth = 0;
     if(pStr[0]=='#')
     { // получим непосредственно строку помощи
-        if( (m_sTempString=NEW char[strlen(pStr)]) == nullptr )
+		const auto len = strlen(pStr);
+        if( (m_sTempString=NEW char[len]) == nullptr )
             STORM_THROW("allocate memory error")
-        strcpy(m_sTempString,&pStr[1]);
+        memcpy(m_sTempString,&pStr[1],len);
 		nCurStrWidth = m_rs->StringWidth(m_sTempString,m_idFont,m_fMaxScale,m_screenSize.x);
     }
     else // или же имя строки в списке локализации

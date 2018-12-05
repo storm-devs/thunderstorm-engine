@@ -41,7 +41,7 @@ public:
  __forceinline void Tokenize (const char* names)
  {
 	Tokens.clear();
-	strncpy (NamesString, names, MAX_STRING_SIZE);
+	strncpy_s(NamesString, names, MAX_STRING_SIZE);
   int StrLen = strlen (NamesString);
   if (StrLen > 0 && NamesString[StrLen-1] != ';') 
 	  strcat (NamesString, ";");

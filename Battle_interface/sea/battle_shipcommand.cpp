@@ -294,7 +294,7 @@ long BIShipCommandList::ChargeAdding()
 		tmpDat->Get(m_aChargeQuantity[i],i+1);
 
 		char param[128];
-		_snprintf( param,sizeof(param), "charge%d",i+1 );
+		sprintf_s( param,sizeof(param), "charge%d",i+1 );
 		ATTRIBUTES* pA = pAList ? pAList->GetAttributeClass(param) : nullptr;
 		long nNormalPicIndex = pA ? pA->GetAttributeAsDword("picNum",-1) : -1;
 		long nSelectPicIndex = pA ? pA->GetAttributeAsDword("selPicNum",-1) : -1;

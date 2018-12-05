@@ -791,7 +791,9 @@ uint32_t CTechnique::AddShader(char *pShaderName)
 	pShaders = (shader_t*)RESIZE(pShaders,sizeof(shader_t) * (dwNumShaders+1));
 	shader_t *pS = &pShaders[dwNumShaders];
 	ZERO(pShaders[dwNumShaders]);
-	COPY_STRING(pS->pName,pShaderName);
+	const auto len = strlen(pShaderName) + 1;
+	pS->pName = NEW char[len];
+	memcpy(pS->pName, pShaderName, len);
 	pS->dwHashName = hash_string(pShaderName);
 	pS->pVertexDecl = nullptr;
 	pS->pVertexShader = nullptr;
@@ -1156,7 +1158,7 @@ char *CTechnique::GetToken(char *pToken, char *pResult, bool & bToken)
 		pResult[1] = 0;
 		return pToken+1;
 	}
-	strncpy(pResult,pStart,pToken - pStart);
+	strncpy_s(pResult,pToken - pStart+1, pStart,pToken - pStart);
 	return pToken;
 }
 
@@ -1195,9 +1197,15 @@ char *CTechnique::Preprocessor(char *pBuffer, uint32_t & dwSize)
 				dwMaxDefineElements = dwNewSize;
 				pDefines = (define_t*)RESIZE(pDefines,sizeof(define_t) * dwMaxDefineElements);
 			}
-			COPY_STRING(pDefines[dwNumDefines].pName,sName);
-			COPY_STRING(pDefines[dwNumDefines].pValue,sValue);
-			pDefines[dwNumDefines].dwNameLen = strlen(sName);
+			auto len = strlen(sName) + 1;
+			pDefines[dwNumDefines].pName = NEW char[len];
+			memcpy(pDefines[dwNumDefines].pName, sName, len);
+
+			len = strlen(sValue) + 1;
+			pDefines[dwNumDefines].pValue = NEW char[len];
+			memcpy(pDefines[dwNumDefines].pValue, sValue, len);
+
+			pDefines[dwNumDefines].dwNameLen = len - 1;
 			dwNumDefines++;
 			pStr++; continue;
 		}
@@ -1212,7 +1220,7 @@ char *CTechnique::Preprocessor(char *pBuffer, uint32_t & dwSize)
 				// find define
 				for (i=0;i<dwNumDefines;i++) if (dwTempLen==pDefines[i].dwNameLen && _stricmp(pDefines[i].pName,sToken)==0)
 				{
-					if (pDefines[i].pValue) strcpy(sToken,pDefines[i].pValue);
+					if (pDefines[i].pValue) strcpy_s(sToken,pDefines[i].pValue);
 					dwTempLen = strlen(sToken);
 					break;
 				}
@@ -1224,7 +1232,7 @@ char *CTechnique::Preprocessor(char *pBuffer, uint32_t & dwSize)
 				dwMaxProgramElements = dwNewSize;
 				pProgram = (char*)RESIZE(pProgram,dwMaxProgramElements);
 			}
-			strcpy(&pProgram[dwProgramSize],sToken);
+			strcpy_s(&pProgram[dwProgramSize], dwNewSize-dwProgramSize, sToken);
 			dwProgramSize += dwTempLen;
 			bNewString = true;
 		}
@@ -1270,7 +1278,7 @@ uint32_t CTechnique::ProcessShaderAsm(shader_t * pS, char *pFile, uint32_t dwSiz
 		{
 			char sIncFileName[256],sName[256];
 			GetTokenWhile(SkipToken(*pStr,"\""),&sName[0],"\"");
-			sprintf(sIncFileName,"%s\\%s",sCurrentDir,sName);
+			sprintf_s(sIncFileName,"%s\\%s",sCurrentDir,sName);
 			if (!fio->LoadFile(sIncFileName,&pTempBuffer,&dwFileSize))
 			{
 				api->Trace("ERROR: in file %s, file not found : %s", sCurrentFileName, sIncFileName);
@@ -1282,8 +1290,8 @@ uint32_t CTechnique::ProcessShaderAsm(shader_t * pS, char *pFile, uint32_t dwSiz
 
 		long iLen = strlen(pTemp)-1;
 		pBuffer = (char*)RESIZE(pBuffer,dwTotalLen + iLen + 4);
-		strcpy(&pBuffer[dwTotalLen],pTemp);
-		strcpy(&pBuffer[dwTotalLen+iLen+1],"\r\n\0");
+		strcpy_s(&pBuffer[dwTotalLen], iLen + 4,pTemp);
+		strcpy_s(&pBuffer[dwTotalLen+iLen+1], 3,"\r\n");
 		dwTotalLen += iLen + 2;
 		STORM_DELETE(pTempBuffer);
 		TOTAL_SKIP;
@@ -1312,8 +1320,9 @@ uint32_t CTechnique::ProcessShaderAsm(shader_t * pS, char *pFile, uint32_t dwSiz
 #endif*/
 	if (D3D_OK != hr && ErrorShader)
 	{
-		char * pErrStr = NEW char[ErrorShader->GetBufferSize() + 1];
-		strncpy(pErrStr, (char*)ErrorShader->GetBufferPointer(), ErrorShader->GetBufferSize());
+		const auto len = ErrorShader->GetBufferSize() + 1;
+		char * pErrStr = NEW char[len];
+		strncpy_s(pErrStr, len, (char*)ErrorShader->GetBufferPointer(), ErrorShader->GetBufferSize());
 		pErrStr[ErrorShader->GetBufferSize()] = 0;
 		api->Trace("ERROR: in compile shader %s\nerror:\n%s", pS->pName, pErrStr);
 		RELEASE(CompiledShader);
@@ -1402,10 +1411,12 @@ uint32_t CTechnique::ProcessBlock(char * pFile, uint32_t dwSize, char **pStr)
 
 	// get name this block
 		char *pName = SkipToken(*pStr,BLOCK);
-		strcpy(sCurrentBlockName,pName);
+		strcpy_s(sCurrentBlockName,pName);
 		GetTokenWhile(pName,&temp[0],"(");
 		pB->dwHashBlockName = hash_string(temp);
-		COPY_STRING(pB->pBlockName,temp);
+		const auto len = strlen(temp) + 1;
+		pB->pBlockName = NEW char[len];
+		memcpy(pB->pBlockName, temp, len);
 		for (i=0;i<dwNumBlocks;i++)
 			if (pBlocks[i].dwHashBlockName == pB->dwHashBlockName && (_stricmp(pBlocks[i].pBlockName,pB->pBlockName)==0))
 			{
@@ -1429,8 +1440,9 @@ uint32_t CTechnique::ProcessBlock(char * pFile, uint32_t dwSize, char **pStr)
 			pB->pParams[dwNumParams] = pParams[dwNumParams].dwCode;
 			// get parameter name
 			pParamStr = GetTokenWhile(pParamStr,&temp[0],",");
-			pParams[dwNumParams].cName = NEW char[strlen(temp)+1];
-			strcpy(pParams[dwNumParams].cName,temp);
+			const auto len = strlen(temp) + 1;
+			pParams[dwNumParams].cName = NEW char[len];
+			strcpy_s(pParams[dwNumParams].cName, len, temp);
 			dwNumParams++;
 			pB->dwNumParams++;
 		}
@@ -1502,8 +1514,8 @@ void CTechnique::InnerDecodeFiles(char *sub_dir)
 	char				file_mask[256];
 	WIN32_FIND_DATA		wfd;
 
-	sprintf(sCurrentDir,"%s%s",SHA_DIR,(sub_dir) ? sub_dir : "");
-	sprintf(file_mask,"%s\\*.*",sCurrentDir);
+	sprintf_s(sCurrentDir,"%s%s",SHA_DIR,(sub_dir) ? sub_dir : "");
+	sprintf_s(file_mask,"%s\\*.*",sCurrentDir);
 
 	HANDLE hFile = fio->_FindFirstFile(file_mask,&wfd);
 	if (hFile != INVALID_HANDLE_VALUE)
@@ -1513,14 +1525,14 @@ void CTechnique::InnerDecodeFiles(char *sub_dir)
 			if (wfd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)
 			{
 				if (wfd.cFileName[0] == '.') continue;
-				sprintf(file_mask,"%s\\%s",(sub_dir) ? sub_dir : "",wfd.cFileName);
+				sprintf_s(file_mask,"%s\\%s",(sub_dir) ? sub_dir : "",wfd.cFileName);
 				InnerDecodeFiles(file_mask);
 			}
 			else
 			{
 				if (SkipToken(wfd.cFileName,SHA_EXT))
 				{
-					sprintf(file_mask,"%s\\%s",(sub_dir) ? sub_dir : "",wfd.cFileName);
+					sprintf_s(file_mask,"%s\\%s",(sub_dir) ? sub_dir : "",wfd.cFileName);
 					DecodeFile(file_mask);
 				}
 			}
@@ -1534,8 +1546,8 @@ bool CTechnique::DecodeFile(char *sname)
 {
 	char fname[256];
 
-	sprintf(fname,"%s%s",SHA_DIR,sname);
-	strcpy(sCurrentFileName,sname);
+	sprintf_s(fname,"%s%s",SHA_DIR,sname);
+	strcpy_s(sCurrentFileName,sname);
 	HANDLE hFile = fio->_CreateFile(fname,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 	uint32_t dwSize = fio->_GetFileSize(hFile,nullptr);
 	Assert(dwSize!=0);
@@ -1938,7 +1950,7 @@ void CTechnique::SetCurrentBlock(const char * name, uint32_t _dwNumParams, void 
 	if(name && name[0])
 	{
 
-	strcpy(sCurrentBlockName,name);	
+	strcpy_s(sCurrentBlockName,name);	
 	_strlwr(sCurrentBlockName);
 	//dwHashCode = hash_string(sCurrentBlockName);
 	dwCurNumParams = _dwNumParams;

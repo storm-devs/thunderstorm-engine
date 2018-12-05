@@ -59,7 +59,7 @@ void LOCATOR::LocateForI_L2(ATTRIBUTES * pA,GEOS * g, GEOS::LABEL & label)
 	for(stringIndex = 0; (stringIndex = g->FindLabelG(stringIndex, groupID))>=0; stringIndex++)
 	{
 		g->GetLabel(stringIndex, label2);
-		wsprintf(name,"l%d",n);
+		sprintf_s(name,"l%d",n);
 		pAA = pA->CreateSubAClass(pA,name);
 		pAA->SetAttributeUseFloat("x",label2.m[3][0]);
 		pAA->SetAttributeUseFloat("y",label2.m[3][1]);
@@ -97,7 +97,7 @@ void LOCATOR::LocateForI(VDATA * pData)
 	}
 	char sFileLocators[256];
 	ATTRIBUTES * pAFilesPath = pA->FindAClass(pA, "filespath.models");
-	sprintf(sFileLocators, "%s\\%s", (pAFilesPath) ? pAFilesPath->GetThisAttr() : "", pA->GetAttribute("locators"));
+	sprintf_s(sFileLocators, "%s\\%s", (pAFilesPath) ? pAFilesPath->GetThisAttr() : "", pA->GetAttribute("locators"));
 	rs->SetLoadTextureEnable(false);
 	g = gs->CreateGeometry(sFileLocators, "", 0);
 	rs->SetLoadTextureEnable(true);

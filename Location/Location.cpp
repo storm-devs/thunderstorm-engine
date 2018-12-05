@@ -497,10 +497,10 @@ bool Location::LoadCharacterPatch(const char * ptcName)
 {
 	//Формируем путь до файла
 	char path[512];
-	strcpy(path, "resource\\models\\");
-	strcat(path, model.modelspath);
-	strcat(path, ptcName);
-	strcat(path, ".ptc");
+	strcpy_s(path, "resource\\models\\");
+	strcat_s(path, model.modelspath);
+	strcat_s(path, ptcName);
+	strcat_s(path, ".ptc");
 	//Загружаем патч
 	bool result = ptc.Load(path);
 	if(!result) _CORE_API->Trace("Can't loaded patch data file %s.ptc for npc.", ptcName);
@@ -525,10 +525,10 @@ bool __declspec(dllexport) __cdecl Location::LoadGrass(const char * modelName, c
 	if(!grs) return false;
 	if(texture && texture[0]) grs->SetTexture(texture);
 	char nm[512];
-	strcpy(nm, "resource\\models\\");
-	strcat(nm, model.modelspath);
-	strcat(nm, modelName);
-	strcat(nm, ".grs");
+	strcpy_s(nm, "resource\\models\\");
+	strcat_s(nm, model.modelspath);
+	strcat_s(nm, modelName);
+	strcat_s(nm, ".grs");
 	long ll = strlen(nm);
 	if(grs->LoadData(nm)) return true;
 	_CORE_API->Trace("Can't load grass data file: %s", nm);
@@ -928,7 +928,7 @@ void _cdecl Location::Print(const CVECTOR & pos3D, float rad, long line, float a
 	static char buf[256];
 	scale *= 2.0f;
 	//Печатаем в буфер
-	long len = _vsnprintf(buf, sizeof(buf) - 1, format, (char *)(&format + 1));
+	long len = _vsnprintf_s(buf, sizeof(buf) - 1, format, (char *)(&format + 1));
 	buf[sizeof(buf) - 1] = 0;
 	//Ищем позицию точки на экране
 	static CMatrix mtx, view, prj;
@@ -1011,7 +1011,7 @@ void Location::TestLocatorsInPatch(MESSAGE & message)
 	LocatorArray * la = FindLocatorsGroup(buf);
 	if(!la)
 	{
-		_snprintf(buf + 2048, sizeof(buf) - 2048, "Warning: Locators group '%s' not found.", buf);
+		sprintf_s(buf + 2048, sizeof(buf) - 2048, "Warning: Locators group '%s' not found.", buf);
 		buf[sizeof(buf) - 1] = 0;
 		api->Event("LocatorsEventTrace", "lsss", 0, buf + 2048, buf, "");
 		return;
@@ -1019,7 +1019,7 @@ void Location::TestLocatorsInPatch(MESSAGE & message)
 	long num = la->Num();
 	if(num <= 0)
 	{
-		_snprintf(buf, sizeof(buf), "Warning: Locators group '%s' not contain locators.", la->GetGroupName());
+		sprintf_s(buf, sizeof(buf), "Warning: Locators group '%s' not contain locators.", la->GetGroupName());
 		buf[sizeof(buf) - 1] = 0;
 		api->Event("LocatorsEventTrace", "lsss", 0, buf, la->GetGroupName(), "");
 		return;
@@ -1031,14 +1031,14 @@ void Location::TestLocatorsInPatch(MESSAGE & message)
 		float y = 0.0f;
 		if(ptc.FindNode(pos, y) < 0)
 		{
-			_snprintf(buf, sizeof(buf), "Error: Locator '%s':'%s' not in patch.", la->GetGroupName(), la->LocatorName(i));
+			sprintf_s(buf, sizeof(buf), "Error: Locator '%s':'%s' not in patch.", la->GetGroupName(), la->LocatorName(i));
 			buf[sizeof(buf) - 1] = 0;
 			api->Event("LocatorsEventTrace", "lsss", 1, buf, la->GetGroupName(), la->LocatorName(i));
 		}else{
 			float ldist = pos.y - y;
 			if(fabsf(ldist) > 0.2f)
 			{
-				_snprintf(buf, sizeof(buf), "Warning: Locator '%s':'%s' very far from patch: %fm", la->GetGroupName(), la->LocatorName(i), ldist);
+				sprintf_s(buf, sizeof(buf), "Warning: Locator '%s':'%s' very far from patch: %fm", la->GetGroupName(), la->LocatorName(i), ldist);
 				buf[sizeof(buf) - 1] = 0;
 				api->Event("LocatorsEventTrace", "lsss", 0, buf, la->GetGroupName(), la->LocatorName(i));
 			}
@@ -1200,7 +1200,7 @@ void Location::LoadCaustic()
 	char tex[256];
 	for (long i=0; i<32; i++)
 	{
-		sprintf(tex, "weather\\caustic\\caustic%.2d.tga", i);
+		sprintf_s(tex, "weather\\caustic\\caustic%.2d.tga", i);
 		iCausticTex[i] = Render().TextureCreate(tex);
 	}
 }

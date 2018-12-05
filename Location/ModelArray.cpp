@@ -43,8 +43,8 @@ long ModelArray::CreateModel(const char * modelName, const char * technique, lon
 {
 	if(!modelName || !modelName[0]) return -1;
 	//Путь для модельки
-	strcpy(resPath, modelspath);
-	strcat(resPath, modelName);
+	strcpy_s(resPath, modelspath);
+	strcat_s(resPath, modelName);
 	//Путь для текстур
 	VGEOMETRY * gs = (VGEOMETRY *)_CORE_API->CreateService("geometry");
 	if(!gs)
@@ -102,7 +102,7 @@ long ModelArray::CreateModel(const char * modelName, const char * technique, lon
 	//Сохраняем имя модельки
 	if(strlen(modelName) < MA_MAX_NAME_LENGTH)
 	{
-		strcpy(model[numModels].name, modelName);
+		strcpy_s(model[numModels].name, modelName);
 	}else{
 		_CORE_API->Trace("Model name %s is very long", maxModels);
 		memcpy(model[numModels].name, modelName, MA_MAX_NAME_LENGTH);
@@ -168,7 +168,7 @@ long ModelArray::FindModel(const char * modelName)
 	char buf[MA_MAX_NAME_LENGTH];
 	if(strlen(modelName) < MA_MAX_NAME_LENGTH)
 	{
-		strcpy(buf, modelName);
+		strcpy_s(buf, modelName);
 	}else{
 		memcpy(buf, modelName, MA_MAX_NAME_LENGTH);
 		buf[MA_MAX_NAME_LENGTH - 1] = 0;
@@ -294,13 +294,13 @@ void ModelArray::Update(float dltTime)
 void ModelArray::UpdateModelsPath()
 {
 	UpdatePath(modelspath);
-	strcat(modelspath, "\\");
+	strcat_s(modelspath, "\\");
 }
 
 void ModelArray::UpdateTexturesPath()
 {
 	UpdatePath(texturespath);
-	strcat(texturespath, "\\");
+	strcat_s(texturespath, "\\");
 }
 
 void ModelArray::UpdateLightPath()

@@ -312,11 +312,12 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 				if(stmp== nullptr) m_sGroupName[i]= nullptr;
 				else
 				{
-					if( (m_sGroupName[i]=NEW char[strlen(stmp)+1])== nullptr )
+					const auto len = strlen(stmp) + 1;
+					if( (m_sGroupName[i]=NEW char[len])== nullptr )
 					{
 						STORM_THROW("Allocate memory error");
 					}
-					strcpy(m_sGroupName[i],stmp);
+					memcpy(m_sGroupName[i],stmp,len);
 				}
 			}
 		}
@@ -325,7 +326,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 
 		for(i=0; i<4; i++)
 		{
-			sprintf(param,"pic%d",i+1);
+			sprintf_s(param,"pic%d",i+1);
 			ATTRIBUTES * pAttrTmp = pAttribute->GetAttributeClass(param);
 			if(pAttrTmp!= nullptr)
 			{
@@ -339,9 +340,10 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 				char * tmps = pAttrTmp->GetAttribute("str1");
 				if(tmps!= nullptr && *tmps=='#')
 				{
-					if( (m_pOneStr[i]=NEW char[strlen(tmps)]) == nullptr )
+					const auto len = strlen(tmps);
+					if( (m_pOneStr[i]=NEW char[len]) == nullptr )
 						STORM_THROW("allocate memory error");
-					strcpy(m_pOneStr[i],&tmps[1]);
+					memcpy(m_pOneStr[i],&tmps[1],len);
 					m_oneStr[i] = -1L;
 				}
 				else
@@ -352,9 +354,10 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 				tmps = pAttrTmp->GetAttribute("str2");
 				if(tmps!= nullptr && *tmps=='#')
 				{
-					if( (m_pTwoStr[i]=NEW char[strlen(tmps)]) == nullptr )
+					const auto len = strlen(tmps);
+					if( (m_pTwoStr[i]=NEW char[len]) == nullptr )
 						STORM_THROW("allocate memory error");
-					strcpy(m_pTwoStr[i],&tmps[1]);
+					memcpy(m_pTwoStr[i],&tmps[1],len);
 					m_twoStr[i] = -1L;
 				}
 				else
@@ -382,7 +385,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 	bool bRelativeRect = !GetIniLong(ini1,name1, ini2,name2, "bAbsoluteRectangle");
 	for(i=0; i<4; i++)
 	{
-		sprintf(param,"position%d",i+1);
+		sprintf_s(param,"position%d",i+1);
 		m_imgRect[i] = GetIniLongRect(ini1,name1, ini2,name2, param, XYRECT(0,0,0,0));
         if(bRelativeRect)
             GetRelativeRect(m_imgRect[i]);
@@ -392,9 +395,9 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 	if( ReadIniString(ini1,name1, ini2,name2, "border", param, sizeof(param),"") )
 	{
 		tmpstr = GetSubStr(param, param1, sizeof(param1));
-		if( (m_sBorderGroupName = NEW char[strlen(param1)+1])== nullptr )
+		if( (m_sBorderGroupName = NEW char[sizeof param1])== nullptr )
 			STORM_THROW("allocate memory error")
-		strcpy(m_sBorderGroupName,param1);
+		strcpy_s(m_sBorderGroupName,sizeof param1,param1);
 		m_texBorder = pPictureService->GetTextureID(m_sBorderGroupName);
 		m_nBorderPicture = pPictureService->GetImageNum(m_sBorderGroupName,tmpstr);
 		m_bShowBorder = m_texBorder!=-1 && m_nBorderPicture!=-1;
@@ -638,9 +641,9 @@ void CXI_FOURIMAGE::SaveParametersToIni()
 	char pcWriteKeyName[256];
 	for( long n=0; n<4; n++ )
 	{
-		_snprintf( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d",
+		sprintf_s( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d",
 			m_imgRect[n].left, m_imgRect[n].top, m_imgRect[n].right, m_imgRect[n].bottom );
-		_snprintf( pcWriteKeyName, sizeof(pcWriteKeyName), "position%d", n );
+		sprintf_s( pcWriteKeyName, sizeof(pcWriteKeyName), "position%d", n );
 		pIni->WriteString( m_nodeName, pcWriteKeyName, pcWriteParam );
 	}
 
@@ -665,7 +668,7 @@ void CXI_FOURIMAGE::ChangeItem(int nItemNum)
 				delete m_pTwoStr[i];
 				m_pTwoStr[i] = nullptr;
 			}
-			sprintf(param,"pic%d",i+1);
+			sprintf_s(param,"pic%d",i+1);
 			ATTRIBUTES * pAttrTmp = pAttribute->GetAttributeClass(param);
 			if(pAttrTmp!= nullptr)
 			{
@@ -678,21 +681,27 @@ void CXI_FOURIMAGE::ChangeItem(int nItemNum)
 				if(m_twoTexID[i]==-1) m_twoImgID[i] = -1;
 				else m_twoImgID[i] = pPictureService->GetImageNum(m_sGroupName[m_twoTexID[i]],pAttrTmp->GetAttribute("img2"));
 				sptr = pAttrTmp->GetAttribute("str1");
-				if(sptr!= nullptr && *sptr=='#')
-					if( (m_pOneStr[i]=NEW char[strlen(sptr)]) == nullptr )
+				if (sptr != nullptr && *sptr == '#')
+				{
+					const auto len = strlen(sptr);
+					if ((m_pOneStr[i] = NEW char[len]) == nullptr)
 					{
 						STORM_THROW("allocate memory error")
 					}
-					else	strcpy(m_pOneStr[i],&sptr[1]);
+					memcpy(m_pOneStr[i], &sptr[1], len);
+				}
 				else	m_oneStr[i] = pStringService->GetStringNum(sptr);
 
 				sptr = pAttrTmp->GetAttribute("str2");
-				if(sptr!= nullptr && *sptr=='#')
-					if( (m_pTwoStr[i]=NEW char[strlen(sptr)]) == nullptr )
+				if (sptr != nullptr && *sptr == '#')
+				{
+					const auto len = strlen(sptr);
+					if ((m_pTwoStr[i] = NEW char[len]) == nullptr)
 					{
 						STORM_THROW("allocate memory error")
 					}
-					else	strcpy(m_pTwoStr[i],&sptr[1]);
+					memcpy(m_pTwoStr[i], &sptr[1], len);
+				}
 				else	m_twoStr[i] = pStringService->GetStringNum(sptr);
 			}
 			else

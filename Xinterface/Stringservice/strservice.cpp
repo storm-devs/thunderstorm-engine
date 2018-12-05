@@ -190,8 +190,9 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 
 	// установим новое имя для языка
 	STORM_DELETE(m_sLanguage);
-	if( (m_sLanguage=NEW char[strlen(sLanguage)+1]) == nullptr ) {THROW("Allocate memory error");}
-	strcpy(m_sLanguage,sLanguage);
+	const auto len = strlen(sLanguage) + 1;
+	if( (m_sLanguage=NEW char[len]) == nullptr ) {THROW("Allocate memory error");}
+	memcpy(m_sLanguage,sLanguage,len);
 
 	while(true)
 	{
@@ -202,18 +203,20 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 		// получим директорию для текстовых файлов данного языка
 		if( ini->ReadString("DIRECTORY",m_sLanguage,param,sizeof(param)-1,"") )
 		{
-			if( (m_sLanguageDir=NEW char[strlen(param)+1]) == nullptr )
+			const auto len = strlen(param) + 1;
+			if( (m_sLanguageDir=NEW char[len]) == nullptr )
 				{STORM_THROW("Allocate memory error");}
-			strcpy(m_sLanguageDir,param);
+			memcpy(m_sLanguageDir,param,len);
 		}
 		else	api->Trace("WARNING! Not found directory record for language %s",sLanguage);
 
 		// получим имя ини файла со строками общего использования для этого языка
 		if( ini->ReadString("COMMON","strings",param,sizeof(param)-1,"") )
 		{
-			if( (m_sIniFileName=NEW char[strlen(param)+1]) == nullptr )
+			const auto len = strlen(param) + 1;
+			if( (m_sIniFileName=NEW char[len]) == nullptr )
 				{STORM_THROW("Allocate memory error");}
-			strcpy(m_sIniFileName,param);
+			memcpy(m_sIniFileName,param,len);
 		}
 		else	api->Trace("WARNING! Not found common strings file record");
 
@@ -225,9 +228,10 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 			if(_stricmp(m_sLanguage,param)==0) break;
 			api->Trace("WARNING! Language %s not exist some ini parameters. Language set to default %s",m_sLanguage,param);
 			STORM_DELETE(m_sLanguage);
-			m_sLanguage = NEW char[strlen(param)+1];
+			const auto len = strlen(param) + 1;
+			m_sLanguage = NEW char[len];
 			if(m_sLanguage== nullptr) {STORM_THROW("Allocate memory error");}
-			strcpy(m_sLanguage,param);
+			memcpy(m_sLanguage,param,len);
 		}
 		else break;
 	}
@@ -239,10 +243,10 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 	{
 		char fullIniPath[512];
 		if( ini->ReadString("FONTS",m_sLanguage,param,sizeof(param)-1,"") ) {
-			sprintf(fullIniPath,"resource\\ini\\%s",param);
+			sprintf_s(fullIniPath,"resource\\ini\\%s",param);
 		} else {
 			api->Trace("Warning: Not found font record for language %s",m_sLanguage);
-			sprintf(fullIniPath,"resource\\ini\\fonts.ini");
+			sprintf_s(fullIniPath,"resource\\ini\\fonts.ini");
 		}
 		RenderService->SetFontIniFileName(fullIniPath);
 	}
@@ -270,7 +274,7 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 	}
 
 	// initialize ini file
-	sprintf(param,"resource\\ini\\texts\\%s\\%s",m_sLanguageDir,m_sIniFileName);
+	sprintf_s(param,"resource\\ini\\texts\\%s\\%s",m_sLanguageDir,m_sIniFileName);
 	ini = api->fio->OpenIniFile(param);
 	if(!ini)
 	{
@@ -309,18 +313,20 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 		if( GetStringDescribe(param,strName,string) )
 		{
 			// fill string name
-			m_psStrName[i] = NEW char[strlen(strName)+1];
+			auto len = strlen(param) + 1;
+			m_psStrName[i] = NEW char[len];
 			if(m_psStrName[i]== nullptr)
 				STORM_THROW("allocate memory error")
-			strcpy(m_psStrName[i],strName);
+			strcpy_s(m_psStrName[i],len,strName);
 
 			// fill string self
-			m_psString[i] = NEW char[strlen(string)+1];
+			len = strlen(string) + 1;
+			m_psString[i] = NEW char[len];
 			if (m_psString[i] == nullptr) {
 				delete m_psStrName[i];
 				STORM_THROW("allocate memory error")
 			}
-			strcpy(m_psString[i],string);
+			memcpy(m_psString[i],string,len);
 		} else {
 			// invalid string
 			m_psStrName[i] = nullptr;
@@ -414,12 +420,12 @@ char* STRSERVICE::GetString(const char* stringName, char* sBuffer, size_t buffer
 		for(int i=0; i<m_nStringQuantity; i++)
 			if( !_stricmp(m_psStrName[i],stringName) )
 			{
-				size_t length = strlen(m_psString[i])+1;
+				auto len = strlen(m_psString[i]) + 1;
 				if( sBuffer== nullptr ) bufferSize = 0;
-				if(bufferSize<length) length=bufferSize;
+				if(bufferSize<len) len=bufferSize;
 
-				if(length>0)
-					strncpy(sBuffer,m_psString[i],length);
+				if(len>0)
+					strcpy_s(sBuffer,bufferSize,m_psString[i]);
 
 				return m_psString[i];
 			}
@@ -459,19 +465,19 @@ void STRSERVICE::LoadIni()
 	if( !ini->ReadString("COMMON","defaultLanguage",param,sizeof(param)-1,"") )
 	{
 		api->Trace("WARNING! Language ini file have not default language.");
-		strcpy(param,"English");
+		strcpy_s(param,"English");
 	}
 	delete ini;
 
 #ifdef _XBOX
 	switch ( XGetLanguage() )
 	{
-	case XC_LANGUAGE_GERMAN: strcpy(param,"German"); break;
-	case XC_LANGUAGE_FRENCH: strcpy(param,"French"); break;
-	case XC_LANGUAGE_SPANISH: strcpy(param,"Spanish"); break;
-	case XC_LANGUAGE_ENGLISH: strcpy(param,"English"); break;
-	//case XC_LANGUAGE_ITALIAN: strcpy(param,"Russian"); break;
-//	default: strcpy(param,"English"); break;
+	case XC_LANGUAGE_GERMAN: strcpy_s(param,"German"); break;
+	case XC_LANGUAGE_FRENCH: strcpy_s(param,"French"); break;
+	case XC_LANGUAGE_SPANISH: strcpy_s(param,"Spanish"); break;
+	case XC_LANGUAGE_ENGLISH: strcpy_s(param,"English"); break;
+	//case XC_LANGUAGE_ITALIAN: strcpy_s(param,"Russian"); break;
+//	default: strcpy_s(param,"English"); break;
 	}
 #endif
 	if(param[0]!=0)	SetLanguage(param);
@@ -538,7 +544,7 @@ long STRSERVICE::OpenUsersStringFile(char * fileName)
 
 	// strings reading
 	char param[512];
-	sprintf(param,"resource\\ini\\TEXTS\\%s\\%s",m_sLanguageDir,fileName);
+	sprintf_s(param,"resource\\ini\\TEXTS\\%s\\%s",m_sLanguageDir,fileName);
 	HANDLE hfile = api->fio->_CreateFile(param,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 	long filesize = api->fio->_GetFileSize(hfile,nullptr);
 	if(filesize<=0)
@@ -565,9 +571,10 @@ long STRSERVICE::OpenUsersStringFile(char * fileName)
 	fileBuf[readsize]=0;
 
 	pUSB->nref = 1;
-	pUSB->fileName = NEW char[strlen(fileName)+1];
+	const auto len = strlen(fileName) + 1;
+	pUSB->fileName = NEW char[len];
 	if(pUSB->fileName== nullptr)	{STORM_THROW("Allocate memory error")}
-	strcpy(pUSB->fileName,fileName);
+	memcpy(pUSB->fileName,fileName,len);
 	pUSB->blockID = GetFreeUsersID();
 
 	long stridx = 0;
@@ -737,7 +744,7 @@ bool STRSERVICE::GetNextUsersString(char *src,long &idx,char* *strName,char* *st
 	{
 		*strName = NEW char[nameEnd-nameBeg+2];
 		if(*strName== nullptr) {STORM_THROW("Allocate memory error")}
-		strncpy(*strName,nameBeg,nameEnd-nameBeg+1);
+		strncpy_s(*strName,nameEnd-nameBeg+2,nameBeg,nameEnd-nameBeg+1);
 		strName[0][nameEnd-nameBeg+1] = 0;
 	}
 
@@ -745,7 +752,7 @@ bool STRSERVICE::GetNextUsersString(char *src,long &idx,char* *strName,char* *st
 	{
 		*strData = NEW char[dataEnd-dataBeg+2];
 		if(*strData== nullptr) {STORM_THROW("Allocate memory error")}
-		strncpy(*strData,dataBeg,dataEnd-dataBeg+1);
+		strncpy_s(*strData,dataEnd-dataBeg+2,dataBeg,dataEnd-dataBeg+1);
 		strData[0][dataEnd-dataBeg+1] = 0;
 	}
 
@@ -865,13 +872,13 @@ uint32_t __cdecl _LanguageGetFaderPic(VS_STACK * pS)
 				if(strPicName[nInLen-1]=='\\')
 					break;
 			if(nInLen>0) {
-				strncpy(newPicName,strPicName,nInLen); newPicName[nInLen]=0;
+				strncpy_s(newPicName,strPicName,nInLen); newPicName[nInLen]=0;
 			}
-			strcat(newPicName,g_StringServicePointer->GetLanguage());
-			strcat(newPicName,"\\");
-			strcat(newPicName,&strPicName[nInLen]);
+			strcat_s(newPicName,g_StringServicePointer->GetLanguage());
+			strcat_s(newPicName,"\\");
+			strcat_s(newPicName,&strPicName[nInLen]);
 		} else {
-			strcpy(newPicName,strPicName);
+			strcpy_s(newPicName,strPicName);
 		}
 	}
 
@@ -1145,7 +1152,7 @@ uint32_t __cdecl _InterfaceFindFolders(VS_STACK * pS)
 			if( wfd.cFileName[0] != '.' )
 			{
 				char pctmp[64];
-				sprintf( pctmp, "f%d", n++ );
+				sprintf_s( pctmp, "f%d", n++ );
 				pA->SetAttribute( pctmp, wfd.cFileName );
 			}
 		}
@@ -1193,9 +1200,9 @@ uint32_t __cdecl _DialogAddParamToStr(VS_STACK * pS)
 	param[0] = 0;
 	if( pcDatID && pcDatVal ) {
 		if( pcSrcStr && pcSrcStr[0]!=0 ) {
-			_snprintf( param,sizeof(param), "%s@<%s>%s", pcSrcStr,pcDatID, pcDatVal );
+			sprintf_s( param,sizeof(param), "%s@<%s>%s", pcSrcStr,pcDatID, pcDatVal );
 		} else {
-			_snprintf( param,sizeof(param), "@<%s>%s", pcDatID, pcDatVal );
+			sprintf_s( param,sizeof(param), "@<%s>%s", pcDatID, pcDatVal );
 		}
 	}
 

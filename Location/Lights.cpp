@@ -89,8 +89,9 @@ bool Lights::Init()
 			//Обнулим
 			memset(&types[numTypes], 0, sizeof(types[numTypes]));
 			//Сохраняем имя
-			types[numTypes].name = NEW char[strlen(lName) + 1];
-			strcpy(types[numTypes].name, lName);
+			const auto len = strlen(lName) + 1;
+			types[numTypes].name = NEW char[len];
+			memcpy(types[numTypes].name, lName, len);
 			//Зачитываем параметры
 			types[numTypes].color.b = ini->GetFloat(lName, "b", 1.0f);
 			types[numTypes].color.g = ini->GetFloat(lName, "g", 1.0f);

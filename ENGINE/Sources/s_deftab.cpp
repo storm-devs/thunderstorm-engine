@@ -115,9 +115,9 @@ uint32_t S_DEFTAB::AddDef(DEFINFO& di)
 	{
 		if(di.name)
 		{
-
-			pTable[Def_num].name = NEW char[strlen(di.name) + 1];
-			strcpy(pTable[Def_num].name,di.name);
+			const auto len = strlen(di.name) + 1;
+			pTable[Def_num].name = NEW char[len];
+			memcpy(pTable[Def_num].name,di.name,len);
 		}
 	}
 	Def_num++;

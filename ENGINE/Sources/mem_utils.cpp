@@ -22,8 +22,9 @@ MEM_USAGE_INFO::MEM_USAGE_INFO()
 	pMemBL = (MEM_USAGE_INFO_BLOCK *)malloc(sizeof(MEM_USAGE_INFO_BLOCK));
 	nMemBLNum = 1;
 	pMemBL[0].nLine = 0;
-	pMemBL[0].pFileName = (char *)malloc(strlen("unknown file") + 1);
-	strcpy(pMemBL[0].pFileName,"unknown file");
+	const auto len = sizeof "unknown file" + 1;
+	pMemBL[0].pFileName = (char *)malloc(len);
+	strcpy_s(pMemBL[0].pFileName, len, "unknown file");
 	pMemBL[0].nTotalAllocated = 0;
 	pMemBL[0].nTotalBlocks = 0;
 	pMemBL[0].nCurrentAllocated = 0;
@@ -84,8 +85,9 @@ void MEM_USAGE_INFO::Register(char * pFileName, uint32_t nLine, uint32_t nMemSiz
 	nMemBLNum++;
 	pMemBL = (MEM_USAGE_INFO_BLOCK *)realloc(pMemBL,nMemBLNum*sizeof(MEM_USAGE_INFO_BLOCK));
 	pMemBL[n].nLine = nLine;
-	pMemBL[n].pFileName = (char *)malloc(strlen(pFileName) + 1);
-	strcpy(pMemBL[n].pFileName,pFileName);
+	const auto len = strlen(pFileName) + 1;
+	pMemBL[n].pFileName = (char *)malloc(len);
+	strcpy_s(pMemBL[n].pFileName, len, pFileName);
 	pMemBL[n].nTotalBlocks = 1;
 	pMemBL[n].nTotalAllocated = nMemSize;
 	pMemBL[n].nCurrentAllocated = nMemSize;
@@ -431,9 +433,10 @@ uint32_t  MEM_ALLOC_ADDRESS::GetAddress(const char * pFileName, uint32_t dwLine)
 		}
 	}
 	pData[dwRecordsNum].dwLine = dwLine;
-	pData[dwRecordsNum].pFileName = (char *)malloc(strlen(pFileName) + 1);
+	const auto len = strlen(pFileName) + 1;
+	pData[dwRecordsNum].pFileName = (char *)malloc(len);
 	if(!pData[dwRecordsNum].pFileName) throw "MEM_ALLOC_ADDRESS::GetAddress";
-	strcpy(pData[dwRecordsNum].pFileName,pFileName);
+	strcpy_s(pData[dwRecordsNum].pFileName, len, pFileName);
 	dwRecordsNum++;
 	return dwRecordsNum - 1;
 }

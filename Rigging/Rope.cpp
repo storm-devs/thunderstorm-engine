@@ -722,7 +722,7 @@ void ROPE::LoadIni()
 	ini = _CORE_API->fio->OpenIniFile("resource\\ini\\rigging.ini");
 	if(!ini) THROW("rigging.ini file not found!");
 
-	sprintf(section,"ROPES");
+	sprintf_s(section,"ROPES");
 
     // имя текстуры
     ini->ReadString(section,"TextureName",param,sizeof(param)-1,"sail_rope.tga");
@@ -731,16 +731,18 @@ void ROPE::LoadIni()
         if(strcmp(TextureName,param))
             if(RenderService)
             {
-                delete TextureName; TextureName=NEW char[strlen(param)+1];
-                strcpy(TextureName,param);
+				const auto len = strlen(param) + 1;
+                delete TextureName; TextureName=NEW char[len];
+                memcpy(TextureName,param,len);
                 RenderService->TextureRelease(texl);
                 texl=RenderService->TextureCreate(TextureName);
             }
     }
     else
     {
-        TextureName=NEW char[strlen(param)+1];
-        strcpy(TextureName,param);
+		const auto len = strlen(param) + 1;
+        TextureName=NEW char[len];
+        memcpy(TextureName,param,len);
     }
     // длина одного сегмента веревки
     ROPE_SEG_LENGTH=ini->GetFloat(section,"fSEG_LENGTH",2.f);

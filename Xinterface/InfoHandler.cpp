@@ -244,7 +244,7 @@ char * InfoHandler::GetCutString( char * pstr, int nOutWidth, float fScale )
 			if(n==0) continue;
 			if(n>=1023) break;
 
-			strncpy(param,pstr,n);
+			strncpy_s(param,pstr,n);
 			param[n] = 0;
 			int j = m_rs->StringWidth(param,0,fScale);
 			if( j<nOutWidth )
@@ -267,7 +267,7 @@ char * InfoHandler::GetCutString( char * pstr, int nOutWidth, float fScale )
 		ps = pstr+nt;
 	}
 
-	strncpy(param,pstr,nt);
+	strncpy_s(param,pstr,nt);
 	param[nt] = 0;
 	int jt = m_rs->StringWidth(param,0,fScale);
 	if( jt<nOutWidth )
@@ -292,7 +292,7 @@ void InfoHandler::StringToBufer(char * outStr, int sizeBuf, char * inStr, int co
 
 	if(n<1) return;
 
-	strncpy(outStr,inStr,n);
+	strncpy_s(outStr,sizeBuf,inStr,n);
 	outStr[n] = 0;
 }
 

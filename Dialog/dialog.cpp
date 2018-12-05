@@ -82,7 +82,7 @@ void __declspec(noinline) __cdecl DIALOG::DlgTextDescribe::Init(VDX9RENDER* pRS,
 
 	char FName[MAX_PATH];
 	if( pIni ) pIni->ReadString("DIALOG","mainfont",FName,MAX_PATH,"DIALOG2");
-	else strcpy(FName,"DIALOG2");
+	else strcpy_s(FName,"DIALOG2");
 	nFontID = rs->LoadFont(FName);
 
 	dwColor = ARGB(255,210,227,227);
@@ -196,7 +196,7 @@ void __declspec(noinline) __cdecl DIALOG::DlgLinkDescribe::Init(VDX9RENDER* pRS,
 
 	char FName[MAX_PATH];
 	if( pIni ) pIni->ReadString("DIALOG","subfont",FName,MAX_PATH,"DIALOG3");
-	else strcpy(FName,"DIALOG3");
+	else strcpy_s(FName,"DIALOG3");
 	nFontID = rs->LoadFont(FName);
 
 	dwColor = 0xFF808080;
@@ -348,7 +348,7 @@ DIALOG::DIALOG()
 
 	m_bDlgChanged = true;
 
-	strcpy(charDefSnd,"\0");
+	strcpy_s(charDefSnd,"\0");
 
 	bEditMode = false;
 	m_DlgLinks.SetDlg(this);
@@ -926,10 +926,10 @@ void DIALOG::Realize(uint32_t Delta_Time)
 				if( !goName || _stricmp(goName, selectedLinkName)==0 ) EmergencyExit();
 				else {
 					AttributesPointer->SetAttribute("CurrentNode",goName);
-					strcpy(selectedLinkName, goName);
+					strcpy_s(selectedLinkName, goName);
 
 					//set default
-					strcpy(soundName, charDefSnd);
+					strcpy_s(soundName, charDefSnd);
 					api->Event("DialogEvent");
 				}
 			}
@@ -977,7 +977,7 @@ uint32_t DIALOG::AttributeChanged(ATTRIBUTES * pA)
 	//play sound d.speech
 	if(!parLinks && nm && _stricmp(nm,"greeting")==0) //was "snd"
 	{
-		strcpy(soundName, pA->GetThisAttr());
+		strcpy_s(soundName, pA->GetThisAttr());
 		if(start) play = 0;
 	}
 

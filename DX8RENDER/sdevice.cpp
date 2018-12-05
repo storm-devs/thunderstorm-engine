@@ -396,16 +396,17 @@ bool  DX9RENDER::Init()
 		if (!ini->ReadString(nullptr, "startFontIniFile", str, sizeof(str) - 1, ""))
 		{
 			api->Trace("Not finded 'startFontIniFile' parameter into ENGINE.INI file");
-			sprintf(str, "resource\\ini\\fonts.ini");
+			sprintf_s(str, "resource\\ini\\fonts.ini");
 		}
-		if ((fontIniFileName = NEW char[strlen(str) + 1]) == nullptr)
+		const auto len = strlen(str) + 1;
+		if ((fontIniFileName = NEW char[len]) == nullptr)
 			STORM_THROW("allocate memory error");
-		strcpy(fontIniFileName, str);
+		strcpy_s(fontIniFileName, len, str);
 		// get start font quantity
 		if (!ini->ReadString(nullptr, "font", str, sizeof(str) - 1, ""))
 		{
 			api->Trace("Start font not defined");
-			sprintf(str, "normal");
+			sprintf_s(str, "normal");
 		}
 		if (LoadFont(str) == -1L)
 			api->Trace("can not init start font: %s", str);
@@ -1256,7 +1257,7 @@ long DX9RENDER::TextureCreate(const char *fname)
 		}
 
 		TexPaths[dwSetupNumber].str[0] = 0;
-		if (fname && fname[0]) strcpy(TexPaths[dwSetupNumber].str, fname);
+		if (fname && fname[0]) strcpy_s(TexPaths[dwSetupNumber].str, fname);
 		iSetupPath = 0;
 		return -1;
 	}
@@ -1268,18 +1269,19 @@ long DX9RENDER::TextureCreate(const char *fname)
 	// ~!~
 	//__debugbreak();
 	//fs::path path = fs::path() / "resource" / "textures" / fname;
-	fs::path path = fname;
-	std::string pathStr = path.extension().string();
-	if (_stricmp(pathStr.c_str(), ".tx") == 0)
-		path.replace_extension();
-	pathStr = path.string();
-	fname = pathStr.c_str(); //~!~ msvc still doesn't have working c_str for path
 
 	if (fname == nullptr)
 	{
 		api->Trace("Can't create texture with null name");
 		return -1L;
 	}
+
+	fs::path path = fname;
+	std::string pathStr = path.extension().string();
+	if (_stricmp(pathStr.c_str(), ".tx") == 0)
+		path.replace_extension();
+	pathStr = path.string();
+	fname = pathStr.c_str(); //~!~ msvc still doesn't have working c_str for path
 
 	if (!bLoadTextureEnabled) return -1;
 
@@ -1299,16 +1301,16 @@ long DX9RENDER::TextureCreate(const char *fname)
 				if (fname[j] == '\\') break;
 
 			_fname[0] = 0;
-			strncpy(_fname, fname, j + 1);
+			strncpy_s(_fname, fname, j + 1);
 			_fname[j + 1] = 0;
-			strcat(_fname, TexPaths[i].str);
-			strcat(_fname, &fname[j + 1]);
+			strcat_s(_fname, TexPaths[i].str);
+			strcat_s(_fname, &fname[j + 1]);
 			bTrace = false;
 		}
 		else
 		{
 			bTrace = true;
-			strcpy(_fname, fname);
+			strcpy_s(_fname, fname);
 		}
 
 		if (strlen(_fname) > _countof(".tx") - 1)
@@ -1336,9 +1338,10 @@ long DX9RENDER::TextureCreate(const char *fname)
 
 		Textures[t].hash = hf;
 
-		if ((Textures[t].name = NEW char[strlen(_fname) + 1]) == nullptr)
+		const auto len = strlen(_fname) + 1;
+		if ((Textures[t].name = NEW char[len]) == nullptr)
 			STORM_THROW("allocate memory error");
-		strcpy(Textures[t].name, _fname);
+		strcpy_s(Textures[t].name, len, _fname);
 		Textures[t].isCubeMap = false;
 		Textures[t].loaded = false;
 		Textures[t].ref++;
@@ -1354,9 +1357,9 @@ bool DX9RENDER::TextureLoad(long t)
 	//Формируем путь до текстуры
 	char fn[_MAX_FNAME];
 	Textures[t].dwSize = 0;
-	//wsprintf(fn,"resource\\textures\\%s.tx",fname);
+	//sprintf_s(fn,"resource\\textures\\%s.tx",fname);
 	if (Textures[t].name == nullptr) return false;
-	wsprintf(fn, TEXTURESDIR, Textures[t].name);
+	sprintf_s(fn, TEXTURESDIR, Textures[t].name);
 	for (long s = 0, d = 0; fn[d]; s++)
 	{
 		if (d > 0 && fn[d - 1] == '\\' && fn[s] == '\\') continue;
@@ -1563,7 +1566,7 @@ bool DX9RENDER::TextureLoad(long t)
 		HANDLE fh = api->fio->_CreateFile("texLoad.txt", GENERIC_WRITE, FILE_SHARE_WRITE, OPEN_ALWAYS);
 		api->fio->_SetFilePointer(fh, 0, nullptr, FILE_END);
 		totSize += Textures[t].dwSize;
-		sprintf(s, "%.2f, size: %d, %d * %d, %s\n", totSize / 1024.0f / 1024.0f, Textures[t].dwSize, head.width, head.height, Textures[t].name);
+		sprintf_s(s, "%.2f, size: %d, %d * %d, %s\n", totSize / 1024.0f / 1024.0f, Textures[t].dwSize, head.width, head.height, Textures[t].name);
 		api->fio->_WriteFile(fh, s, strlen(s), nullptr);
 		api->fio->_FlushFileBuffers(fh);
 		api->fio->_CloseHandle(fh);
@@ -2532,7 +2535,7 @@ long _cdecl DX9RENDER::Print(long x, long y, char * format, ...)
 
 	va_list args;
 	va_start(args, format);
-	_vsnprintf(Buff_4k, sizeof(Buff_4k), format, args);
+	_vsnprintf_s(Buff_4k, sizeof(Buff_4k), format, args);
 	va_end(args);
 
 	return FontList[idFontCurrent].font->Print(x, y, Buff_4k);
@@ -2547,7 +2550,7 @@ long _cdecl DX9RENDER::Print(long nFontNum, uint32_t color, long x, long y, char
 
 	va_list args;
 	va_start(args, format);
-	_vsnprintf(Buff_4k, sizeof(Buff_4k), format, args);
+	_vsnprintf_s(Buff_4k, sizeof(Buff_4k), format, args);
 	va_end(args);
 
 	FontList[nFontNum].font->StoreFontParameters();
@@ -2603,7 +2606,7 @@ long _cdecl DX9RENDER::ExtPrint(long nFontNum, uint32_t foreColor, uint32_t back
 
 	va_list args;
 	va_start(args, format);
-	_vsnprintf(Buff_4k, sizeof(Buff_4k), format, args);
+	_vsnprintf_s(Buff_4k, sizeof(Buff_4k), format, args);
 	va_end(args);
 
 	pFont->StoreFontParameters();
@@ -2650,10 +2653,10 @@ long DX9RENDER::LoadFont(char * fontName)
 {
 	if (fontName == nullptr) return -1L;
 	char sDup[256];
-	if (strlen(fontName)<sizeof(sDup) - 1) strcpy(sDup, fontName);
+	if (strlen(fontName)<sizeof(sDup) - 1) strcpy_s(sDup, fontName);
 	else
 	{
-		strncpy(sDup, fontName, sizeof(sDup) - 1);
+		strncpy_s(sDup, fontName, sizeof(sDup) - 1);
 		sDup[sizeof(sDup) - 1] = 0;
 	}
 	fontName = strupr(sDup);
@@ -2684,9 +2687,10 @@ long DX9RENDER::LoadFont(char * fontName)
 		}
 		FontList[i].hash = hashVal;
 		FontList[i].ref = 1;
-		if ((FontList[i].name = NEW char[strlen(fontName) + 1]) == nullptr)
+		const auto len = strlen(fontName) + 1;
+		if ((FontList[i].name = NEW char[len]) == nullptr)
 			STORM_THROW("allocate memory error");
-		strcpy(FontList[i].name, fontName);
+		strcpy_s(FontList[i].name, len, fontName);
 		nFontQuantity++;
 	}
 	else
@@ -2698,10 +2702,10 @@ bool DX9RENDER::UnloadFont(char * fontName)
 {
 	if (fontName == nullptr) return false;
 	char sDup[256];
-	if (strlen(fontName)<sizeof(sDup) - 1) strcpy(sDup, fontName);
+	if (strlen(fontName)<sizeof(sDup) - 1) strcpy_s(sDup, fontName);
 	else
 	{
-		strncpy(sDup, fontName, sizeof(sDup) - 1);
+		strncpy_s(sDup, fontName, sizeof(sDup) - 1);
 		sDup[sizeof(sDup) - 1] = 0;
 	}
 	fontName = strupr(sDup);
@@ -2736,10 +2740,10 @@ bool DX9RENDER::SetCurFont(char * fontName)
 {
 	if (fontName == nullptr) return false;
 	char sDup[256];
-	if (strlen(fontName)<sizeof(sDup) - 1) strcpy(sDup, fontName);
+	if (strlen(fontName)<sizeof(sDup) - 1) strcpy_s(sDup, fontName);
 	else
 	{
-		strncpy(sDup, fontName, sizeof(sDup) - 1);
+		strncpy_s(sDup, fontName, sizeof(sDup) - 1);
 		sDup[sizeof(sDup) - 1] = 0;
 	}
 	fontName = strupr(sDup);
@@ -2784,9 +2788,10 @@ bool DX9RENDER::SetFontIniFileName(char * iniName)
 	}
 	else
 	{
-		if ((fontIniFileName = NEW char[strlen(iniName) + 1]) == nullptr)
+		const auto len = strlen(iniName) + 1;
+		if ((fontIniFileName = NEW char[len]) == nullptr)
 			STORM_THROW("allocate memory error")
-			strcpy(fontIniFileName, iniName);
+			strcpy_s(fontIniFileName, len, iniName);
 	}
 
 	for (int n = 0; n<nFontQuantity; n++)
@@ -2992,7 +2997,7 @@ void DX9RENDER::MakeScreenShot()
 	//Получаем имя файла
 	for (i = 0; i < 10000; i++)
 	{
-		wsprintf(file_name, "Corsairs3_%04d.tga", i);
+		sprintf_s(file_name, "Corsairs3_%04d.tga", i);
 		if (_access(file_name, 0) == -1) break;
 	}
 	//Сохраняем картинку
@@ -3531,9 +3536,10 @@ CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
 	pVTLcur->VideoTexture = nullptr;
 	pVTLcur->hash = newHash;
 	pVTLcur->ref = 1;
-	if ((pVTLcur->name = NEW char[strlen(sVideoName) + 1]) == nullptr)
+	const auto len = strlen(sVideoName) + 1;
+	if ((pVTLcur->name = NEW char[len]) == nullptr)
 		STORM_THROW("memory allocate error");
-	strcpy(pVTLcur->name, sVideoName);
+	strcpy_s(pVTLcur->name, len, sVideoName);
 	ENTITY_ID ei;
 	api->CreateEntity(&ei, "TextureSequence");
 	pVTLcur->VideoTexture = (CVideoTexture*)api->GetEntityPointer(&ei);
@@ -3691,7 +3697,7 @@ void DX9RENDER::SetProgressImage(const char * image)
 		if (progressImage) delete progressImage;
 		progressImage = new char[progressImageSize];
 	}
-	strcpy(progressImage, image);
+	strcpy_s(progressImage, s, image);
 }
 
 void DX9RENDER::SetTipsImage(const char * image)
@@ -3708,7 +3714,7 @@ void DX9RENDER::SetTipsImage(const char * image)
 		if (progressTipsImage) delete progressTipsImage;
 		progressTipsImage = NEW char[progressTipsImageSize];
 	}
-	strcpy(progressTipsImage, image);
+	memcpy(progressTipsImage, image, s);
 }
 
 char * DX9RENDER::GetTipsImage()

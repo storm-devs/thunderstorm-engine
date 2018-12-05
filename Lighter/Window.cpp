@@ -64,7 +64,7 @@ Window::Window()
 	lastPreset = -1;
 	prsComment[0] = 0;
 	slidDltX = 0.0f;
-	strcpy(ver, "Location lighter v1.03");
+	strcpy_s(ver, "Location lighter v1.03");
 }
 
 Window::~Window()
@@ -135,37 +135,30 @@ void Window::InitList(Lights & ls)
 	numElements = 7;
 	list = NEW ListElement[numElements + maxSize];
 	memset(list, 0, (numElements + maxSize)*sizeof(ListElement));
-	const char * str = "Quick process";
-	list[0].name = NEW char[strlen(str) + 1];
-	strcpy(list[0].name, str);
+	list[0].name = NEW char[sizeof "Quick process"];
+	strcpy_s(list[0].name, sizeof "Quick process", "Quick process");
 	list[0].type = ListElement::t_quick;
 	list[0].h = 200.0f;
-	str = "Trace shadows";
-	list[1].name = NEW char[strlen(str) + 1];
-	strcpy(list[1].name, str);
+	list[1].name = NEW char[sizeof "Trace shadows"];
+	strcpy_s(list[1].name, sizeof "Trace shadows", "Trace shadows");
 	list[1].type = ListElement::t_trace;
-	str = "Smooth shadows";
-	list[2].name = NEW char[strlen(str) + 1];
-	strcpy(list[2].name, str);
+	list[2].name = NEW char[sizeof "Smooth shadows"];
+	strcpy_s(list[2].name, sizeof"Smooth shadows" , "Smooth shadows");
 	list[2].type = ListElement::t_smooth;
-	str = "Blur light";
-	list[3].name = NEW char[strlen(str) + 1];
-	strcpy(list[3].name, str);
+	list[3].name = NEW char[sizeof "Blur light"];
+	strcpy_s(list[3].name, sizeof "Blur light",  "Blur light");
 	list[3].type = ListElement::t_blur;
 	list[3].h = 100.0f;
-	str = "Save presets";
-	list[4].name = NEW char[strlen(str) + 1];
-	strcpy(list[4].name, str);
+	list[4].name = NEW char[sizeof "Save presets"];
+	strcpy_s(list[4].name,sizeof "Save presets", "Save presets");
 	list[4].type = ListElement::t_save;
 	list[4].h = 180.0f;
-	str = "Load presets";
-	list[5].name = NEW char[strlen(str) + 1];
-	strcpy(list[5].name, str);
+	list[5].name = NEW char[sizeof "Load presets"];
+	strcpy_s(list[5].name, sizeof "Load presets", "Load presets");
 	list[5].type = ListElement::t_load;
 	list[5].h = 180.0f;
-	str = "Save lights";
-	list[6].name = NEW char[strlen(str) + 1];
-	strcpy(list[6].name, str);
+	list[6].name = NEW char[sizeof "Save lights"];
+	strcpy_s(list[6].name,sizeof "Save lights", "Save lights");
 	list[6].type = ListElement::t_savelight;
 	for(long i = 0; i < maxSize; i++) ls[i].isMark = false;
 	for(long i = 0; i < maxSize; i++)
@@ -177,9 +170,8 @@ void Window::InitList(Lights & ls)
 			break;
 		case Light::t_amb:
 			{
-				str = "Ambient light";
-				list[numElements].name = NEW char[strlen(str) + 1];
-				strcpy(list[numElements].name, str);
+				list[numElements].name = NEW char[sizeof "Ambient light"];
+				strcpy_s(list[numElements].name, sizeof "Ambient light", "Ambient light");
 				list[numElements].type = ListElement::t_amb;
 				list[numElements].c = ls[i].color;
 				list[numElements].st = 0.0f;
@@ -198,9 +190,8 @@ void Window::InitList(Lights & ls)
 			break;
 		case Light::t_sun:
 			{
-				str = "Sun light";
-				list[numElements].name = NEW char[strlen(str) + 1];
-				strcpy(list[numElements].name, str);
+				list[numElements].name = NEW char[sizeof "Sun light"];
+				strcpy_s(list[numElements].name, sizeof "Sun light", "Sun light");
 				list[numElements].type = ListElement::t_light;
 				list[numElements].c = ls[i].color;
 				list[numElements].st = 0.0f;
@@ -219,9 +210,8 @@ void Window::InitList(Lights & ls)
 			break;
 		case Light::t_sky:
 			{
-				str = "Sky light";
-				list[numElements].name = NEW char[strlen(str) + 1];
-				strcpy(list[numElements].name, str);
+				list[numElements].name = NEW char[sizeof "Sky light"];
+				strcpy_s(list[numElements].name, sizeof "Sky light", "Sky light");
 				list[numElements].type = ListElement::t_light;
 				list[numElements].c = ls[i].color;
 				list[numElements].st = 0.0f;
@@ -240,11 +230,11 @@ void Window::InitList(Lights & ls)
 			break;
 		case Light::t_group:
 			{
-				str = "Group ";
-				list[numElements].name = NEW char[strlen(ls[i].group) + strlen(str) + 1];
+			const auto len = strlen(ls[i].group) + sizeof "Group ";
+			list[numElements].name = NEW char[len];
 				list[numElements].name[0] = 0;
-				strcat(list[numElements].name, str);
-				strcat(list[numElements].name, ls[i].group);
+				strcat_s(list[numElements].name, len, "Group ");
+				strcat_s(list[numElements].name, len, ls[i].group);
 				list[numElements].type = ListElement::t_glight;
 				list[numElements].c = ls[i].color;
 				list[numElements].st = 0.0f;
@@ -672,7 +662,7 @@ void Window::DrawLRect(float x1, float y1, float x2, float y2, uint32_t bkgColor
 
 void Window::Print(long color, float xleft, float xright, float y, float scale, bool isAlign, const char * format, ...)
 {
-	_vsnprintf(stringBuffer, sizeof(stringBuffer), format, ((char *)&format + sizeof(char *)));
+	_vsnprintf_s(stringBuffer, sizeof(stringBuffer), format, ((char *)&format + sizeof(char *)));
 	float x = xleft;
 	if(isAlign)
 	{
@@ -970,7 +960,7 @@ long Window::SelPreset()
 			if(ini)
 			{
 				char sect[32];
-				sprintf(sect, "prs%i", ins);
+				sprintf_s(sect, "prs%i", ins);
 				prsComment[0] = 0;
 				if(!ini->ReadString(sect, "comment", prsComment, 64, "")) prsComment[0] = 0;
 				prsComment[63] = 0;
@@ -990,7 +980,7 @@ void Window::SavePreset(long prs)
 	INIFILE * ini = api->fio->OpenIniFile("resource\\ini\\loclighter.ini");
 	if(!ini) return;
 	char sect[32];
-	sprintf(sect, "prs%i", prs);
+	sprintf_s(sect, "prs%i", prs);
 	for(long i = 0; i < numElements; i++)
 	{
 		switch(list[i].type)
@@ -1052,7 +1042,7 @@ void Window::LoadPreset(long prs)
 	INIFILE * ini = api->fio->OpenIniFile("resource\\ini\\loclighter.ini");
 	if(!ini) return;
 	char sect[32];
-	sprintf(sect, "prs%i", prs);
+	sprintf_s(sect, "prs%i", prs);
 	for(long i = 0; i < numElements; i++)
 	{
 		switch(list[i].type)
@@ -1111,8 +1101,8 @@ void Window::LoadPreset(long prs)
 
 char * Window::GenerateName(const char * f, const char * n)
 {
-	strcpy(stringBuffer, f);
-	strcat(stringBuffer, n);
+	strcpy_s(stringBuffer, f);
+	strcat_s(stringBuffer, n);
 	for(long i = 0; stringBuffer[i]; i++)
 		if(stringBuffer[i] == ' ') stringBuffer[i] = '_';
 	return stringBuffer;

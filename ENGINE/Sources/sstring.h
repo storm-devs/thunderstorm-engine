@@ -10,11 +10,18 @@ class SSTRING
 	char * pDataPointer;
 	public:
 	 SSTRING(){pDataPointer = nullptr;};
-	 SSTRING(const char * p){if(!p) return; pDataPointer = NEW char[strlen(p) + 1]; strcpy(pDataPointer,p);};
+	 SSTRING(const char * p){
+	 	if(!p) 
+			return;
+		const auto len = strlen(p) + 1;
+	 	pDataPointer = NEW char[len]; 
+	 	strcpy_s(pDataPointer, len, p);
+	 }
 	 SSTRING(const SSTRING& ss) : pDataPointer(nullptr)
 	 {
-		 pDataPointer = NEW char[strlen(ss.pDataPointer)+1];
-		 strcpy(pDataPointer,ss.pDataPointer);
+		 const auto len = strlen(ss.pDataPointer)+1;
+		 pDataPointer = NEW char[len];
+		 strcpy_s(pDataPointer, len, ss.pDataPointer);
 	 }
 	~SSTRING()
 	{
@@ -24,8 +31,9 @@ class SSTRING
 	{
 		if(this == &ss) return *this;
 		if(pDataPointer) delete pDataPointer;
-		pDataPointer = NEW char[strlen(ss.pDataPointer)+1];
-		strcpy(pDataPointer,ss.pDataPointer);
+		const auto len = strlen(ss.pDataPointer)+1;
+		pDataPointer = NEW char[len];
+		strcpy_s(pDataPointer, len, ss.pDataPointer);
 		return *this;
 	}
 	SSTRING& operator = (const char sym) 
@@ -57,12 +65,15 @@ class SSTRING
 		if(p == nullptr) return;
 		if(pDataPointer == nullptr)
 		{
-			pDataPointer = NEW char[strlen(p) + 1]; strcpy(pDataPointer,p);
+			const auto len = strlen(p) + 1;
+			pDataPointer = NEW char[len]; 
+			strcpy_s(pDataPointer, len, p);
 			return;
 		}
-		pp = NEW char[strlen(pDataPointer) + strlen(p) + 1];
-		strcpy(pp,pDataPointer);
-		strcat(pp,p);
+		const auto len = strlen(pDataPointer) + strlen(p) + 1;
+		pp = NEW char[len];
+		strcpy_s(pp, len, pDataPointer);
+		strcat_s(pp, len, p);
 		delete pDataPointer;
 		pDataPointer = pp;
 	};
@@ -79,7 +90,7 @@ class SSTRING
 		}
 		nLen = strlen(pDataPointer);
 		pp = NEW char[nLen + 2];
-		strcpy(pp,pDataPointer);
+		strcpy_s(pp, nLen + 2, pDataPointer);
 		pp[nLen] = sym;
 		pp[nLen + 1] = 0;
 		delete pDataPointer;
@@ -90,11 +101,12 @@ class SSTRING
 		char buffer[256];
 		va_list args;
 		va_start(args,format_string);
-		_vsnprintf(buffer,sizeof(buffer),format_string,args);
+		_vsnprintf_s(buffer,sizeof(buffer),format_string,args);
 		va_end(args);
 		if(pDataPointer) delete pDataPointer;
-		pDataPointer = NEW char[strlen(buffer)+1];
-		strcpy(pDataPointer,buffer);
+		const auto len = strlen(buffer) + 1;
+		pDataPointer = NEW char[len];
+		strcpy_s(pDataPointer, len, buffer);
 		return *this;
 	}
 };

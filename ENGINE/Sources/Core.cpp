@@ -1168,7 +1168,7 @@ void CORE::CheckMemoryLeak_Classes()
 				if(mes.ctp != CTP_CORE)
 				{
 					pClass = FindVMA(mes.class_code);
-					if(pClass) strcpy(gstring,pClass->GetName());
+					if(pClass) strcpy_s(gstring,pClass->GetName());
 					gdi_display.Print("Memory leak %d byte(s):",Memory_Service.GetBlockSize(mcheck_PTR));
 					gdi_display.Print("(%x) %s -> %s",
 						(uint32_t)mcheck_PTR,gstring,CTP_NAME(mes.ctp));
@@ -2252,7 +2252,7 @@ void _cdecl CORE::BTrace(const char * format, ...)
 	GUARD(CORE::Trace)
 	va_list args;
 	va_start(args,format);
-	_vsnprintf(buffer_4k,sizeof(buffer_4k) - 4,format,args);
+	_vsnprintf_s(buffer_4k,sizeof(buffer_4k) - 4,format,args);
 	va_end(args);
 	if(!gdi_display.gdi_off) gdi_display.Print(buffer_4k);
 	else trace(buffer_4k);
@@ -2265,7 +2265,7 @@ void _cdecl CORE::Trace(const char * format, ...)
 	GUARD(CORE::Trace)
 	va_list args;
 	va_start(args,format);
-	_vsnprintf(buffer_4k,sizeof(buffer_4k) - 4,format,args);
+	_vsnprintf_s(buffer_4k,sizeof(buffer_4k) - 4,format,args);
 	va_end(args);
 	if(!gdi_display.gdi_off) gdi_display.Print(buffer_4k);
 	else trace(buffer_4k);
@@ -2429,7 +2429,7 @@ void CORE::TraceCurrent()
 		if(cb.ctp != CTP_CORE)
 		{
 			pClass = FindVMA(cb.class_code);
-			if(pClass) strcpy(gstring,pClass->GetName());
+			if(pClass) strcpy_s(gstring,pClass->GetName());
 			trace("Object: %s -> %s",
 				//Classes_Table.GetString(cb.class_code),
 				gstring,
@@ -2474,7 +2474,7 @@ bool CORE::SaveState(char * file_name)
 
 	if(file_name[0] == 'U' && file_name[1] ==':')
 	{
-		strcpy(FullPath,file_name);
+		strcpy_s(FullPath,file_name);
 
 	}
 	else
@@ -2489,12 +2489,12 @@ bool CORE::SaveState(char * file_name)
 		{
 			trace("cant create save game");
 		}
-		strcpy(FullPath,PathBuffer);
-		strcat(FullPath,file_name);
+		strcpy_s(FullPath,PathBuffer);
+		strcat_s(FullPath,file_name);
 	}
 
 #else
-	strcpy(FullPath,file_name);
+	strcpy_s(FullPath,file_name);
 #endif
 
 	fio->SetDrive(XBOXDRIVE_NONE);
@@ -2506,7 +2506,7 @@ bool CORE::SaveState(char * file_name)
 	fio->_CloseHandle(fh);
 
 #ifdef _XBOX
-	strcat(PathBuffer,"saveimage.xbx");
+	strcat_s(PathBuffer,"saveimage.xbx");
 	CopyFile("d:\\resource\\textures\\saveimage.xbx",PathBuffer,FALSE);
 #endif
 
@@ -2528,8 +2528,8 @@ bool CORE::SaveState(char * file_name)
 	uint32_t nPackedSize;
 	char sPfname[MAX_PATH];
 
-	strcpy(sPfname,PathBuffer);
-	strcat(sPfname,"p");
+	strcpy_s(sPfname,PathBuffer);
+	strcat_s(sPfname,"p");
 	nSourceSize = fio->_GetFileSize(fh,nullptr);
 
 
@@ -2716,9 +2716,10 @@ bool CORE::InitiateStateLoading(char * file_name)
 	fio->_CloseHandle(fh);
 	if(State_file_name) delete State_file_name;
 
-	State_file_name = (char *)NEW char[strlen(file_name) + 1];
+	const auto len = strlen(file_name) + 1;
+	State_file_name = (char *)NEW char[len];
 	if(State_file_name == nullptr) THROW;
-	strcpy(State_file_name,file_name);
+	strcpy_s(State_file_name, len, file_name);
 	POP_CONTROL(nullptr)
 	UNGUARD
 	return true;

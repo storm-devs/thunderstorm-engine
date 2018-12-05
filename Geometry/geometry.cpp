@@ -15,7 +15,7 @@ VGEOMETRY::ANIMATION_VB avb[AVB_MAX];	//!!! temporary
 
 GEOMETRY::GEOMETRY()
 {
-	strcpy(texturePath, "");
+	strcpy_s(texturePath, "");
 }
 
 GEOMETRY::~GEOMETRY()
@@ -28,7 +28,7 @@ const char *GEOMETRY::GetTexturePath()
 }
 void GEOMETRY::SetTexturePath(const char *path)
 {
-	strcpy(texturePath, path);
+	strcpy_s(texturePath, path);
 }
 
 //=================================================================================================
@@ -36,7 +36,7 @@ void GEOMETRY::SetTexturePath(const char *path)
 //=================================================================================================
 void GEOMETRY::SetTechnique(const char *name)
 {
-	strcpy(technique, name);
+	strcpy_s(technique, name);
 }
 
 GEOMETRY::ANIMATION_VB GEOMETRY::GetAnimationVBDesc(long vb)
@@ -90,8 +90,8 @@ GEOS * GEOMETRY::CreateGeometry(const char * file_name,const char * light_file_n
 	char fnt[256], lfn[256];
 	if(light_file_name!=nullptr)
 	{
-		sprintf(lightPath, "%s\\%s", lmPath, file_name);
-		//strcpy(lightPath, light_file_name);
+		sprintf_s(lightPath, "%s\\%s", lmPath, file_name);
+		//strcpy_s(lightPath, light_file_name);
 		char *bs = strrchr(lightPath, '\\');
 		if(bs!=nullptr)	*bs = 0;
 	}
@@ -110,18 +110,18 @@ GEOS * GEOMETRY::CreateGeometry(const char * file_name,const char * light_file_n
 	GEOS * gp;
 	try
 	{
-		sprintf(fnt, "resource\\models\\%s.gm", file_name);
+		sprintf_s(fnt, "resource\\models\\%s.gm", file_name);
 		if(light_file_name==nullptr || strlen(light_file_name)==0)
 		{
 			gp = ::CreateGeometry(fnt, nullptr, GSR,flags);
 		}
 		else
 		{
-			//sprintf(lfn, "resource\\lighting\\%s.col", light_file_name);
+			//sprintf_s(lfn, "resource\\lighting\\%s.col", light_file_name);
 			const char *elf = light_file_name;
 			if(elf[0] == '\\')	elf++;
 			if(elf[0] == '\\')	elf++;
-			sprintf(lfn, "resource\\models\\%s_%s.col", file_name, elf);
+			sprintf_s(lfn, "resource\\models\\%s_%s.col", file_name, elf);
 			gp = ::CreateGeometry(fnt, lfn,GSR,flags);
 		}
 
@@ -223,12 +223,12 @@ GEOS::ID GEOM_SERVICE_R::CreateTexture(const char *fname)
 	char tex[256];
 	if(strcmpi(fname, "shadow.tga")==0)
 	{
-		sprintf(tex, "lighting\\%s\\%s", lightPath, fname);
+		sprintf_s(tex, "lighting\\%s\\%s", lightPath, fname);
 	}
 	else
 	{
-		strcpy(tex, texturePath);
-		strcat(tex, fname);
+		strcpy_s(tex, texturePath);
+		strcat_s(tex, fname);
 	}
 	if(RenderService)
 	{

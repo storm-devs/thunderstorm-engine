@@ -74,7 +74,7 @@ void XI_TableLineDescribe::SetData( long nRowIndex, ATTRIBUTES* pLA, bool bHeade
 	long c;
 	for( c=0; c<10000; c++ )
 	{
-		sprintf( pcAttrName, "td%d", c+1 );
+		sprintf_s( pcAttrName, "td%d", c+1 );
 		ATTRIBUTES* pA = (pLA ? pLA->GetAttributeClass( pcAttrName ) : nullptr);
 		if( !pA && c>=m_pTable->m_nColQuantity ) break;
 		XI_TableCellDescribe* pTD = nullptr;
@@ -180,7 +180,7 @@ void XI_TableCellDescribe::SetData( long nColIndex, ATTRIBUTES* pAttr, bool bHea
 	else {
 		char tmpaname[16];
 		while(true) {
-			_snprintf( tmpaname,sizeof(tmpaname),"icon%d", nIconQuantity+1 );
+			sprintf_s( tmpaname,sizeof(tmpaname),"icon%d", nIconQuantity+1 );
 			pA = pAttr->GetAttributeClass( tmpaname );
 			if( !pA ) break;
 			if( (long)m_aImage.size() <= nIconQuantity )
@@ -623,7 +623,7 @@ void CXI_TABLE::SaveParametersToIni()
 	}
 
 	// save position
-	_snprintf( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
+	sprintf_s( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
 	pIni->WriteString( m_nodeName, "position", pcWriteParam );
 
 	// save cols width
@@ -709,7 +709,7 @@ void CXI_TABLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	// font list
 	if( ini1 && name1 ) {
 		for(n=0; n<100; n++) {
-			_snprintf( pctmp, sizeof(pctmp), "fontlist%d", n+1 );
+			sprintf_s( pctmp, sizeof(pctmp), "fontlist%d", n+1 );
 			if( !ini1->ReadString(name1,pctmp, param,sizeof(param),"") )
 				break;
 			m_anFontList.push_back( m_rs->LoadFont(param) );
@@ -1096,7 +1096,7 @@ void CXI_TABLE::UpdateTableCells()
 	q = m_bVariableLineHeight ? 1000 : (m_nRowQuantity - (m_pHeader?1:0));
 	for( r=0; (nY<m_rect.bottom)&&(r<q); r++ )
 	{
-		sprintf( pcTmp, "tr%d", r + m_nTopIndex + 1 );
+		sprintf_s( pcTmp, "tr%d", r + m_nTopIndex + 1 );
 		pAttr = pARoot->GetAttributeClass( pcTmp );
 		if( !pAttr ) break;
 		XI_TableLineDescribe* pTL = nullptr;
@@ -1283,7 +1283,7 @@ void CXI_TABLE::UpdateLineQuantity()
 	// поиск минимального элемента
 	while(true)
 	{
-		sprintf( pcAttrName, "tr%d", nmin*2 );
+		sprintf_s( pcAttrName, "tr%d", nmin*2 );
 		if( pARoot->GetAttributeClass( pcAttrName ) )
 			nmin *= 2;
 		else break; // следующий элемент бинарного дерева несуществует
@@ -1295,7 +1295,7 @@ void CXI_TABLE::UpdateLineQuantity()
 	{
 		long n = (nmin + nmax) / 2;
 		if( n == nmin ) break;
-		sprintf( pcAttrName, "tr%d", n );
+		sprintf_s( pcAttrName, "tr%d", n );
 		if( pARoot->GetAttributeClass( pcAttrName ) ) // элемент есть - значит старшая половина может иметь конец
 		{
 			nmin = n;

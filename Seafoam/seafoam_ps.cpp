@@ -161,8 +161,9 @@ bool SEAFOAM_PS::Init(INIFILE * ini, char * psname)
 		_CORE_API->Trace("Particle system: %s",psname);
 		STORM_THROW(no technique for particle system);
 	}
-	TechniqueName = NEW char[strlen(string) + 1];
-	strcpy(TechniqueName,string);
+	const auto len = strlen(string) + 1;
+	TechniqueName = NEW char[len];
+	memcpy(TechniqueName,string,len);
 
 	// configure particles
 	ParticlesNum = ini->GetLong(psname,PSKEY_PNUM,32);

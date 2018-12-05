@@ -237,7 +237,7 @@ void SAIL::Execute(uint32_t Delta_Time)
 			if( (pTmpMdl=(MODEL*)api->GetEntityPointer(&gdata[0].modelEI)) !=nullptr )
 			{
 				char pcTmpMastName[256];
-				sprintf(pcTmpMastName,"mast%d",nTmpMastNum);
+				sprintf_s(pcTmpMastName,"mast%d",nTmpMastNum);
 				NODE* nod = pTmpMdl->FindNode(pcTmpMastName);
 				if(nod)
 				{
@@ -891,7 +891,7 @@ uint32_t _cdecl SAIL::ProcessMessage(MESSAGE & message)
 			if(slen>0)
 				if( (m_sMastName=NEW char[slen+1]) == nullptr )
 					{STORM_THROW("allocate memory error");}
-				else strcpy(m_sMastName,param);
+				else strcpy_s(m_sMastName,slen+1,param);
 		}
 	break;
 
@@ -1077,7 +1077,7 @@ void SAIL::SetAllSails(int groupNum)
 			if(pA!= nullptr)
 			{
 				char param[256];
-				sprintf(param,"%d",gdata[groupNum].maxHole);
+				sprintf_s(param,"%d",gdata[groupNum].maxHole);
 				pA->SetValue(param);
 				for(int i=0;i<(int)pA->GetAttributesNum();i++)
 				{
@@ -1206,7 +1206,7 @@ void SAIL::LoadSailIni()
 	ini = _CORE_API->fio->OpenIniFile("resource\\ini\\rigging.ini");
 	if(!ini) THROW("rigging.ini file not found!");
 
-	sprintf(section,"SAILS");
+	sprintf_s(section,"SAILS");
 
 	// load texture names
     texQuantity= (int)ini->GetLong(section,"TextureCount",1);
@@ -1842,7 +1842,7 @@ void _cdecl sailPrint(VDX9RENDER *rs, const CVECTOR & pos3D, float rad, long lin
 {
 	static char buf[256];
 	//Печатаем в буфер
-	long len = _vsnprintf(buf, sizeof(buf) - 1, format, (char *)(&format + 1));
+	long len = _vsnprintf_s(buf, sizeof(buf) - 1, format, (char *)(&format + 1));
 	buf[sizeof(buf) - 1] = 0;
 	//Ищем позицию точки на экране
 	static CMatrix mtx, view, prj;
@@ -1909,7 +1909,7 @@ void SAIL::SetSailTextures(long grNum, VDATA* pvd)
 		SAILONE * so = slist[gdata[grNum].sailIdx[i]];
 		if(so== nullptr || so->hostNode== nullptr) continue;
 		char param[256];
-		sprintf(param,"%s",so->hostNode->GetName());
+		sprintf_s(param,"%s",so->hostNode->GetName());
 		ATTRIBUTES* pAGerald = pA->GetAttributeClass( param );
 		if( pAGerald ) {
 			if( pAGerald->GetAttribute("Gerald") )

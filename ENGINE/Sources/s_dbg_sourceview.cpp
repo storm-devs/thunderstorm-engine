@@ -506,10 +506,10 @@ bool SOURCE_VIEW::OpenSourceFile(const char * _filename)
 	char DirectoryName[MAX_PATH];
 	Core.fio->_GetCurrentDirectory(sizeof(DirectoryName),DirectoryName);
 	
-	strcat(DirectoryName,"\\");
-	strcat(DirectoryName,ProgramDirectory);
-	strcat(DirectoryName,"\\");
-	strcat(DirectoryName,_filename);
+	strcat_s(DirectoryName,"\\");
+	strcat_s(DirectoryName,ProgramDirectory);
+	strcat_s(DirectoryName,"\\");
+	strcat_s(DirectoryName,_filename);
 
 	fh = Core.fio->_CreateFile(DirectoryName);
 	if(fh == INVALID_HANDLE_VALUE) return false;
@@ -556,7 +556,7 @@ bool SOURCE_VIEW::OpenSourceFile(const char * _filename)
 	PZERO(pBookmarks, nLinesNum * sizeof(pBookmarks[0]));
 	UpdateGDIControls();
 	InvalidateRect(hOwn,nullptr,true);
-	strcpy(SourceFileName,_filename);
+	strcpy_s(SourceFileName,_filename);
 	SetFocus(hOwn);
 
 	// set bookmarks]
@@ -696,7 +696,7 @@ void SOURCE_VIEW::OnPaint()
 				CopyPasteRect.bottom = y + nFontHeight;
 
 				char * str = new char[nTo - nFrom + 1];
-				strncpy(str, pSourceFile + pLineOffset[n] + nFrom, nTo - nFrom);
+				strncpy_s(str, nTo - nFrom + 1, pSourceFile + pLineOffset[n] + nFrom, nTo - nFrom);
 				str[nTo - nFrom] = 0;
 				sCopyPasteBuffer = str;
 				delete str;
@@ -758,7 +758,7 @@ void SOURCE_VIEW::LineUpDown(bool down, uint32_t _nlines)
 
 void SOURCE_VIEW::SetProgramDirectory(char * dir_name)
 {
-	if(dir_name) strcpy(ProgramDirectory,dir_name);
+	if(dir_name) strcpy_s(ProgramDirectory,dir_name);
 }
 
 void SOURCE_VIEW::SetActiveLine(uint32_t line)

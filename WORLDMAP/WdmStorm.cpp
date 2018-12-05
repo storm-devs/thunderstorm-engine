@@ -41,8 +41,8 @@ char WdmStorm::rotSpdName[16];
 WdmStorm::WdmStorm()
 {
 	isTornado = false;
-	strcpy(cloudPosName, "cloudPos  ");
-	strcpy(rotSpdName, "rotSpd ");
+	strcpy_s(cloudPosName, "cloudPos  ");
+	strcpy_s(rotSpdName, "rotSpd ");
 	saveAttribute = nullptr;
 	//Позиция шторма, направление перемещения время жизни
 	isActiveTime = 2.0f;

@@ -1110,7 +1110,7 @@ void SoundService::SoundStop (TSD_ID _id, long _time)
 void SoundService::AnalyseNameStringAndAddToAlias(tAlias *_alias, const char *in_string)
 {
 	static char tempString2[COMMON_STRING_LENGTH];
-	strncpy (tempString2, in_string, COMMON_STRING_LENGTH);
+	strncpy_s(tempString2, in_string, COMMON_STRING_LENGTH);
 
 	tAliasSound snd;
 
@@ -1443,7 +1443,7 @@ void _cdecl SoundService::DebugPrint3D(const CVECTOR & pos3D, float rad, long li
 
 	static char buf[256];
 	//Печатаем в буфер
-	long len = _vsnprintf(buf, sizeof(buf) - 1, format, (char *)(&format + 1));
+	long len = _vsnprintf_s(buf, sizeof(buf) - 1, format, (char *)(&format + 1));
 	buf[sizeof(buf) - 1] = 0;
 	//Ищем позицию точки на экране
 	static CMatrix mtx, view, prj;
@@ -1624,7 +1624,7 @@ bool SoundService::AddScheme (const char *_schemeName)
 bool SoundService::AddSoundSchemeChannel (char *in_string, bool _looped /*= false*/)
 {
 	static char tempString2[COMMON_STRING_LENGTH];
-	strncpy (tempString2, in_string, COMMON_STRING_LENGTH);
+	strncpy_s(tempString2, in_string, COMMON_STRING_LENGTH);
 
 	char * col = strchr(tempString2, ',');
 	if (!col)

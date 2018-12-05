@@ -18,18 +18,18 @@
 
 WdmWindUI::WdmWindUI()
 {
-	strcpy(month[0], "january");
-	strcpy(month[1], "february");
-	strcpy(month[2], "march");
-	strcpy(month[3], "april");
-	strcpy(month[4], "may");
-	strcpy(month[5], "june");
-	strcpy(month[6], "july");
-	strcpy(month[7], "august");
-	strcpy(month[8], "september");
-	strcpy(month[9], "october");
-	strcpy(month[10], "november");
-	strcpy(month[11], "december");
+	strcpy_s(month[0], "january");
+	strcpy_s(month[1], "february");
+	strcpy_s(month[2], "march");
+	strcpy_s(month[3], "april");
+	strcpy_s(month[4], "may");
+	strcpy_s(month[5], "june");
+	strcpy_s(month[6], "july");
+	strcpy_s(month[7], "august");
+	strcpy_s(month[8], "september");
+	strcpy_s(month[9], "october");
+	strcpy_s(month[10], "november");
+	strcpy_s(month[11], "december");
 	txBack = wdmObjects->rs->TextureCreate("WorldMap\\Interfaces\\back.tga");
 	txSky = wdmObjects->rs->TextureCreate("WorldMap\\Interfaces\\sky.tga");
 	txSkyMask = wdmObjects->rs->TextureCreate("WorldMap\\Interfaces\\sky_mask.tga");
@@ -172,7 +172,7 @@ void WdmWindUI::LRender(VDX9RENDER * rs)
 	DrawRects(buf, 1, "WdmDrawMapBlend");
 	//Пишем дату
 	char tbuf[128];
-	_snprintf(tbuf, sizeof(tbuf) - 1, "%i %s %i", wdmObjects->wm->day, month[wdmObjects->wm->mon - 1], wdmObjects->wm->year);
+	sprintf_s(tbuf, sizeof(tbuf) - 1, "%i %s %i", wdmObjects->wm->day, month[wdmObjects->wm->mon - 1], wdmObjects->wm->year);
 	tbuf[sizeof(tbuf) - 1] = 0;
 	long font = dateFont >= 0 ? dateFont : FONT_DEFAULT;
 	long fw = rs->StringWidth(tbuf, font);
@@ -195,12 +195,12 @@ void WdmWindUI::LRender(VDX9RENDER * rs)
 	FillRectColor(buf, 0xffffffff);
 	DrawRects(buf, 1, "WdmDrawMapBlend");
 	//Пишем количество припасов
-	_snprintf(tbuf, sizeof(tbuf) - 1, "%i%s",  food > 99999 ? 99999 : food, food > 99999 ? "+" : "");
+	sprintf_s(tbuf, sizeof(tbuf) - 1, "%i%s",  food > 99999 ? 99999 : food, food > 99999 ? "+" : "");
 	tbuf[sizeof(tbuf) - 1] = 0;
 	fw = rs->StringWidth(tbuf, font);
 	rs->Print(font, 0xffffffff, long(cx - (w - cx)*0.3f - fw*0.5f), long(cy + 30.0f), tbuf);
 
-	_snprintf(tbuf, sizeof(tbuf) - 1, "%i%s", rum > 99999 ? 99999 : rum, rum > 99999 ? "+" : "");
+	sprintf_s(tbuf, sizeof(tbuf) - 1, "%i%s", rum > 99999 ? 99999 : rum, rum > 99999 ? "+" : "");
 	tbuf[sizeof(tbuf) - 1] = 0;
 	fw = rs->StringWidth(tbuf, font);
 	rs->Print(font, 0xffffffff, long(cx + (w - cx)*0.3f - fw*0.5f), long(cy + 30.0f), tbuf);

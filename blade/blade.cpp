@@ -172,8 +172,8 @@ bool BLADE::BLADE_INFO::LoadBladeModel(MESSAGE &message)
 	{
 		//Путь до модельки
 		char path[256];
-		strcpy(path, "Ammo\\");
-		strcat(path, mdlName);
+		strcpy_s(path, "Ammo\\");
+		strcat_s(path, mdlName);
 		//Путь до текстур
 		VGEOMETRY * gs = (VGEOMETRY *)_CORE_API->CreateService("geometry");
 		if(gs) gs->SetTexturePath("Ammo\\");
@@ -339,8 +339,8 @@ bool BLADE::LoadGunModel(MESSAGE &message)
 	{
 		//Путь до модельки
 		char path[256];
-		strcpy(path, "Ammo\\");
-		strcat(path, mdlName);
+		strcpy_s(path, "Ammo\\");
+		strcat_s(path, mdlName);
 		//Путь до текстур
 		VGEOMETRY * gs = (VGEOMETRY *)_CORE_API->CreateService("geometry");
 		if(gs) gs->SetTexturePath("Ammo\\");
@@ -624,14 +624,15 @@ bool BLADE::TIEITEM_INFO::LoadItemModel(const char* mdlName, const char* locName
 
 	if( !locName || !mdlName ) return false;
 
-	locatorName = new char[strlen(locName)+1];
+	const auto len = strlen(locName) + 1;
+	locatorName = new char[len];
 	Assert(locatorName);
-	strcpy(locatorName,locName);
+	memcpy(locatorName,locName,len);
 
 	//Путь до модельки
 	char path[256];
-	strcpy(path, "Ammo\\");
-	strcat(path, mdlName);
+	strcpy_s(path, "Ammo\\");
+	strcat_s(path, mdlName);
 	//Путь до текстур
 	VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
 	if(gs) gs->SetTexturePath("Ammo\\");

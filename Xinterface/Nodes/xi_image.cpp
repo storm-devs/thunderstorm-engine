@@ -55,9 +55,10 @@ void CXI_IMAGE::LoadFromBase( const char * sListName, const char * sPictureName,
 
 	if( sListName )
 	{
-		m_pcPictureListName = NEW char[strlen(sListName)+1];
+		const auto len = strlen(sListName)+1;
+		m_pcPictureListName = NEW char[len];
 		if( !m_pcPictureListName ) {STORM_THROW("allocate memory error");}
-		strcpy( m_pcPictureListName, sListName );
+		memcpy( m_pcPictureListName, sListName, len );
 	}
 	m_nTextureID = XINTERFACE::GetPictureService()->GetTextureID( m_pcPictureListName );
 	m_nPictureNum = XINTERFACE::GetPictureService()->GetImageNum( m_pcPictureListName, sPictureName );

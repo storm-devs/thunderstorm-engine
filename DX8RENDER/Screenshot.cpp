@@ -28,7 +28,7 @@ void DX9RENDER::SaveCaptureBuffers()
 	long fi;
 	for (fi=iCaptureFrameIndex; fi<iCaptureFrameIndex + 10000; fi++)
 	{
-		sprintf(cFileName, "k3cap_%04d.tga", fi);
+		sprintf_s(cFileName, "k3cap_%04d.tga", fi);
 		if (_access(cFileName, 0) == -1) break;
 	}
 
@@ -37,7 +37,7 @@ void DX9RENDER::SaveCaptureBuffers()
 		TGA_H TgaHead = {0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32};
 		TgaHead.width = (uint16_t)screen_size.x;
 		TgaHead.height = (uint16_t)screen_size.y;
-		sprintf(cFileName, "k3cap_%04d.tga", fi + i);
+		sprintf_s(cFileName, "k3cap_%04d.tga", fi + i);
 		HANDLE hFile = fio->_CreateFile(cFileName, GENERIC_WRITE, FILE_SHARE_READ, CREATE_ALWAYS);
 		WriteFile(hFile, &TgaHead, sizeof(TGA_H), (LPDWORD)&Written, nullptr);
 		WriteFile(hFile, aCaptureBuffers[i], screen_size.x * screen_size.y * sizeof(uint32_t), (LPDWORD)&Written, nullptr);

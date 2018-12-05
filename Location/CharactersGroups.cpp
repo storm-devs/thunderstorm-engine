@@ -88,7 +88,7 @@ void CharactersGroups::String::operator = (const char * str)
 			max = (len + 16) & ~15;
 			name = NEW char[max];
 		}
-		strcpy(name, str);
+		strcpy_s(name, len + 1, str);
 		hash = LocatorArray::CalcHashString(str);
 	}
 }
@@ -832,7 +832,7 @@ bool CharactersGroups::MoveCharacterToGroup(MESSAGE & message)
 	if(grp->numChr >= MAX_CHARACTERS) return false;//fix
 	//Разместим в новой
 	grp->c[grp->numChr++] = eid;
-	strcpy(chr->group, grpName);
+	strcpy_s(chr->group, grpName);
 	RemoveInvalidTargets(chr);
 	return true;
 }
@@ -1073,7 +1073,7 @@ void CharactersGroups::SaveData()
 		{
 			//Раздел отношений
 			char buf[16];
-			sprintf(buf, "r%.4i", cnt++);
+			sprintf_s(buf, "r%.4i", cnt++);
 			ATTRIBUTES * grp = saveData->CreateSubAClass(saveData, buf);
 			//Сохраним параметры групп
 			grp->SetAttribute("name1", groups[i]->name.name);

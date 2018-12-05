@@ -167,10 +167,11 @@ void CXI_SCROLLBAR::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 	m_sGroupName = nullptr;
 	if( ReadIniString(ini1,name1, ini2,name2, "group", param, sizeof(param),"") )
 	{
-		m_sGroupName = NEW char[strlen(param)+1];
+		const auto len = strlen(param)+1;
+		m_sGroupName = NEW char[len];
 		if(m_sGroupName== nullptr)
 			STORM_THROW("allocate memory error")
-		strcpy(m_sGroupName,param);
+		memcpy(m_sGroupName,param,len);
 		m_idTex = pPictureService->GetTextureID(param);
 	}
 
@@ -357,7 +358,7 @@ void CXI_SCROLLBAR::SaveParametersToIni()
 	}
 
 	// save position
-	_snprintf( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
+	sprintf_s( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
 	pIni->WriteString( m_nodeName, "position", pcWriteParam );
 
 	delete pIni;

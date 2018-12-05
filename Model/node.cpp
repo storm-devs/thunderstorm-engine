@@ -182,25 +182,29 @@ bool NODER::Init(const char *lightPath, const char *pname, const char *oname, CM
 	glob_mtx.EqMultiply(loc_mtx, globm);
 
 	nlab++;
-	if(oname[0]==0)	sprintf(nm, "%s", pname);
-	else	sprintf(nm, "%s_%s", pname, oname);
+	if(oname[0]==0)	sprintf_s(nm, "%s", pname);
+	else	sprintf_s(nm, "%s_%s", pname, oname);
 
 	char lp[256];
-	//sprintf(lp, "%s\\%s", lightPath, nm);
-	sprintf(lp, "%s", lightPath);
+	//sprintf_s(lp, "%s\\%s", lightPath, nm);
+	sprintf_s(lp, "%s", lightPath);
 
-	sys_modelName = NEW char[strlen(nm) + 1];
-	strcpy(sys_modelName, nm);
+	auto len = strlen(nm) + 1;
+	sys_modelName = NEW char[len];
+	memcpy(sys_modelName, nm, len);
 
-	sys_LightPath = NEW char[strlen(lp) + 1];
-	strcpy(sys_LightPath, lp);
+	len = strlen(lp) + 1;
+	sys_LightPath = NEW char[len];
+	memcpy(sys_LightPath, lp, len);
 
-	sys_lmPath = NEW char[strlen(lmPath) + 1];
-	strcpy(sys_lmPath, lmPath);
+	len = strlen(lmPath) + 1;
+	sys_lmPath = NEW char[len];
+	memcpy(sys_lmPath, lmPath, len);
 
 	const char * tPath = gs->GetTexturePath();
-	sys_TexPath = NEW char[strlen(tPath) + 1];
-	strcpy(sys_TexPath, tPath);
+	len = strlen(tPath) + 1;
+	sys_TexPath = NEW char[len];
+	memcpy(sys_TexPath, tPath, len);
 
 	isReleaed = false;
 
@@ -220,7 +224,7 @@ bool NODER::Init(const char *lightPath, const char *pname, const char *oname, CM
 	geo_center = CVECTOR(gi.boxcenter.x, gi.boxcenter.y, gi.boxcenter.z);
 
 	parent = par;
-	if(parent==nullptr)	strcpy(name, pname);
+	if(parent==nullptr)	strcpy_s(name, pname);
 	//calculate number of labels
 	long idGeo = geo->FindName("geometry");
 	nnext = 0;
@@ -248,7 +252,7 @@ bool NODER::Init(const char *lightPath, const char *pname, const char *oname, CM
 
 			if(!next[l]->Init(lightPath, pname, lb.name, mt, glob_mtx, this, lmPath)) return false;
 
-			strcpy(((NODER*)next[l])->name, lb.name);
+			strcpy_s(((NODER*)next[l])->name, lb.name);
 			l++;
 		}
 	}
@@ -300,8 +304,9 @@ void NODER::RestoreGeometry()
 	if(!isReleaed) return;
 
 	const char * tPath = gs->GetTexturePath();
-	char * ttPath = NEW char[strlen(tPath) + 1];
-	strcpy(ttPath, tPath);
+	const auto len = strlen(tPath) + 1;
+	char * ttPath = NEW char[len];
+	memcpy(ttPath, tPath, len);
 	gs->SetTexturePath(sys_TexPath);
 	geo = gs->CreateGeometry(sys_modelName, sys_LightPath, 0, sys_lmPath);
 	gs->SetTexturePath(ttPath);
@@ -544,7 +549,7 @@ void NODER::Link(ENTITY_ID id, bool transform)
 //-------------------------------------------------------------------
 void NODER::SetTechnique(const char *name)
 {
-	strcpy(technique, name);
+	strcpy_s(technique, name);
 }
 
 //-------------------------------------------------------------------

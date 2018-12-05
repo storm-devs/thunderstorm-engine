@@ -151,7 +151,7 @@ void GDI_DISPLAY::Set_Text(char * text_PTR,...)
 	if(text_PTR == nullptr) return;
 	va_list args;
 	va_start(args,text_PTR);
-	vsprintf(buffer,text_PTR,args);
+	vsprintf_s(buffer,text_PTR,args);
 	va_end(args);
 	RECT r;
 	GetClientRect(hwnd,&r);
@@ -177,7 +177,7 @@ void GDI_DISPLAY::Print(char * text_PTR,...)
 	va_list args;
 	char buffer[256];
 	va_start(args,text_PTR);
-	vsprintf(buffer,text_PTR,args);
+	vsprintf_s(buffer,text_PTR,args);
 	va_end(args);
 
 	char * copy_PTR;
@@ -225,14 +225,14 @@ void GDI_DISPLAY::Print_Add(char * text_PTR,...)
 	va_list args;
 	char buffer[256];
 	va_start(args,text_PTR);
-	vsprintf(buffer,text_PTR,args);
+	vsprintf_s(buffer,text_PTR,args);
 	va_end(args);
 
 	if(ms_PTR == nullptr) Set_Message_Stack(DEFAULT_DISPLAY_STACK_SIZE);
 	if(ms_PTR == nullptr) return;
 
 	if(MS_Count > MS_Lines) return;
-	strcat(ms_PTR + (MS_Count - 1)*BUFFER_SIZE,buffer);
+	strcat_s(ms_PTR + (MS_Count - 1)*BUFFER_SIZE, BUFFER_SIZE, buffer);
 
 	if(Log_File) trace(buffer);
 

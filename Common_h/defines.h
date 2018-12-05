@@ -100,7 +100,7 @@ inline int ftoi(float f)
 #define ZERO3(x,y,z)		{ ZERO2(x,y) ZERO(z) }
 #define ZERO4(x,y,z,a)		{ ZERO2(x,y) ZERO2(z,a) }
 #define PZERO(x,size)		{ STORM_ZERO(x,size); }
-#define COPY_STRING(a,b)	{ a = NEW char[strlen(b)+1]; if (a) strcpy(a,b); }
+#define COPY_STRING(a,b)	{ a = NEW char[strlen(b)+1]; if (a) strcpy_s(a,b); }
 #define COLOR2VECTOR(a)		CVECTOR(float((a&0xFF0000)>>0x10),float((a&0xFF00)>>0x8),float(a&0xFF));
 #define COLOR2VECTOR4(a)	CVECTOR4(float((a&0xFF0000)>>0x10) / 255.0f, float((a&0xFF00)>>0x8) / 255.0f, float(a&0xFF) / 255.0f, float((a&0xFF000000)>>0x18) / 255.0f);
 

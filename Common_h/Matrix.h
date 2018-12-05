@@ -744,7 +744,7 @@ __forceinline CMatrix & CMatrix::BuildProjectionMatrix(float viewAngle, float vp
 
 __forceinline void CMatrix::Projection(CVECTOR * srcArray, MTX_PRJ_VECTOR * dstArray, long num, float vphWidth05, float vphHeight05, long srcStrcSize, long dstStrcSize)
 {
-	register float k;
+	float k;
 	for(; num > 0; num--)
 	{
 		dstArray->x = matrix[0]*srcArray->x + matrix[4]*srcArray->y + matrix[8]*srcArray->z + matrix[12];

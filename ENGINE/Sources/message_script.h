@@ -159,9 +159,10 @@ public:
 		if(!_format) throw "MESSAGE_SCRIPT: cant reset with empty format string";
 		if(format) delete format;
 
-		format = NEW char[strlen(_format) + 1];
+		const auto len = strlen(_format) + 1;
+		format = NEW char[len];
 		index = 0; 
-		strcpy(format,_format);
+		strcpy_s(format, len, _format);
 		//format =  _format; 
 		if(pData) delete pData;
 		pData = nullptr; Data_size = 0; ReadPointer = nullptr;

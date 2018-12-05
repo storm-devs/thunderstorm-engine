@@ -218,9 +218,9 @@ uint32_t _cdecl CameraDialog::ProcessMessage(MESSAGE &msg)
 			if(track!=nullptr)	delete track;
 
 			char fname[256];
-			strcpy(fname, "resource\\animation\\");
-			strcat(fname, trackName);
-			strcat(fname, ".cam");
+			strcpy_s(fname, "resource\\animation\\");
+			strcat_s(fname, trackName);
+			strcat_s(fname, ".cam");
 			//loading animation
 			HANDLE cam = _CORE_API->fio->_CreateFile(fname);
 			long nbytes = _CORE_API->fio->_SetFilePointer(cam, 0, nullptr, FILE_END);

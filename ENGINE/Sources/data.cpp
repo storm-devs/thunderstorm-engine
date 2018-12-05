@@ -255,8 +255,9 @@ void DATA::Set(char * value)
 	sValue = nullptr;
 	if(value == nullptr) return;
 
-	sValue = NEW char[strlen(value)+1];
-	strcpy(sValue,value);
+	const auto len = strlen(value) + 1;
+	sValue = NEW char[len];
+	memcpy(sValue,value,len);
 }
 
 void DATA::Set(char * attribute_name, char * attribute_value)
@@ -473,7 +474,7 @@ bool DATA::Get(char * & value, uint32_t index)
 /*	char * * ppChar;
 	ppChar = (char **)ArrayPointer;
 	if(ppChar[index] == null) value[0] = 0;
-	else strcpy(value,ppChar[index]);
+	else strcpy_s(value,ppChar[index]);
 	return true;	*/
 }
 
@@ -553,7 +554,7 @@ bool DATA::Set(char * value, uint32_t index)
 	if(ppChar[index] != null) delete ppChar[index];
 	ppChar[index] = null;
 	ppChar[index] = NEW char[strlen(value) + 1];
-	strcpy(ppChar[index],value);
+	strcpy_s(ppChar[index],value);
 	return true;	*/
 }
 
@@ -750,7 +751,7 @@ bool DATA::Convert(S_TOKEN_TYPE type)
 			case VAR_FLOAT: Data_type = type; fValue = (float)lValue; return true;
 			case VAR_STRING:
 				Data_type = type;
-				_ltoa(lValue,buffer,10);
+				_ltoa_s(lValue,buffer,10);
 				Set(buffer);
 			return true;
 			default: Error(INVALID_CONVERSATION); return false;
@@ -1249,8 +1250,8 @@ bool DATA::Plus(DATA * pV)
 					size = strlen(sValue) + strlen(pV->sValue) + 1;
 
 					sTemp = NEW char[size];
-					strcpy(sTemp,sValue);
-					strcat(sTemp,pV->sValue);
+					strcpy_s(sTemp,size,sValue);
+					strcat_s(sTemp,size,pV->sValue);
 					Set(sTemp);
 					delete sTemp;
 				break;
@@ -1271,8 +1272,8 @@ bool DATA::Plus(DATA * pV)
 					size = strlen(sValue) + strlen(pV->sValue) + 1;
 
 					sTemp = NEW char[size];
-					strcpy(sTemp,sValue);
-					strcat(sTemp,pV->sValue);
+					strcpy_s(sTemp,size,sValue);
+					strcat_s(sTemp,size,pV->sValue);
 					Set(sTemp);
 					delete sTemp;
 				break;
@@ -1290,35 +1291,35 @@ bool DATA::Plus(DATA * pV)
 						size = strlen(sValue) + strlen(pV->AttributesClass->GetThisAttr()) + 1;
 
 						sTemp = NEW char[size];
-						strcpy(sTemp,sValue);
-						strcat(sTemp,pV->AttributesClass->GetThisAttr());
+						strcpy_s(sTemp,size,sValue);
+						strcat_s(sTemp,size,pV->AttributesClass->GetThisAttr());
 					}
 					else 
 					{
 						size = strlen(pV->AttributesClass->GetThisAttr()) + 1;
 
 						sTemp = NEW char[size];
-						strcpy(sTemp,pV->AttributesClass->GetThisAttr());
+						strcpy_s(sTemp,size,pV->AttributesClass->GetThisAttr());
 					}
 					Set(sTemp);
 					delete sTemp;
 				break;
 				case VAR_INTEGER:
-					_ltoa(pV->lValue,buffer,10);
+					_ltoa_s(pV->lValue,buffer,10);
 					if(sValue!=nullptr)
 					{
 						size = strlen(sValue) + strlen(buffer) + 1;
 
 						sTemp = NEW char[size];
-						strcpy(sTemp,sValue);
-						strcat(sTemp,buffer);
+						strcpy_s(sTemp,size,sValue);
+						strcat_s(sTemp,size,buffer);
 					}
 					else 
 					{
 						size = strlen(buffer) + 1;
 
 						sTemp = NEW char[size];
-						strcpy(sTemp,buffer);
+						strcpy_s(sTemp,size,buffer);
 					}
 					Set(sTemp);
 					delete sTemp;
@@ -1330,15 +1331,15 @@ bool DATA::Plus(DATA * pV)
 						size = strlen(sValue) + strlen(buffer) + 1;
 
 						sTemp = NEW char[size];
-						strcpy(sTemp,sValue);
-						strcat(sTemp,buffer);
+						strcpy_s(sTemp,size,sValue);
+						strcat_s(sTemp,size,buffer);
 					}
 					else 
 					{
 						size = strlen(buffer) + 1;
 
 						sTemp = NEW char[size];
-						strcpy(sTemp,buffer);
+						strcpy_s(sTemp,size,buffer);
 					}
 					Set(sTemp);
 					delete sTemp;
@@ -1350,7 +1351,7 @@ bool DATA::Plus(DATA * pV)
 						size = strlen(pV->sValue) + 1;
 
 						sTemp = NEW char[size];
-						strcpy(sTemp,pV->sValue);
+						strcpy_s(sTemp,size,pV->sValue);
 					}
 					else 
 					{
@@ -1358,8 +1359,8 @@ bool DATA::Plus(DATA * pV)
 						size = strlen(sValue) + strlen(pV->sValue) + 1;
 
 						sTemp = NEW char[size];
-						strcpy(sTemp,sValue);
-						strcat(sTemp,pV->sValue);
+						strcpy_s(sTemp,size,sValue);
+						strcat_s(sTemp,size,pV->sValue);
 					}
 					Set(sTemp);
 					delete sTemp;
@@ -2295,7 +2296,7 @@ bool DATA::RefConvert()
 void DATA::BadIndex(uint32_t index, uint32_t array_size)
 {
 	char buffer[MAX_PATH];
-	wsprintf(buffer,"invalid index %d [size:%d]",index,array_size);
+	sprintf_s(buffer,"invalid index %d [size:%d]",index,array_size);
 	Error(buffer);
 }
 

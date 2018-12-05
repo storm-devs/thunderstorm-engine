@@ -90,8 +90,9 @@ void CXI_IMGCOLLECTION::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *n
 	texl = -1;
 	if( ReadIniString(ini1,name1, ini2,name2, "groupName", param, sizeof(param),"") )
 	{
-		sGroupName = NEW char[strlen(param)+1];
-		strcpy(sGroupName,param);
+		const auto len = strlen(param)+1;
+		sGroupName = NEW char[len];
+		memcpy(sGroupName,param,len);
 		texl = pPictureService->GetTextureID(sGroupName);
 	}
 
@@ -314,7 +315,7 @@ void CXI_IMGCOLLECTION::SaveParametersToIni()
 
 	pIni->DeleteSection( m_nodeName );
 
-	_snprintf( pcWriteParam, sizeof(pcWriteParam), "%d,%d", m_xyCommonOffset.x, m_xyCommonOffset.y );
+	sprintf_s( pcWriteParam, sizeof(pcWriteParam), "%d,%d", m_xyCommonOffset.x, m_xyCommonOffset.y );
 	pIni->AddString( m_nodeName, "offset", pcWriteParam );
 
 	long n;
@@ -334,7 +335,7 @@ void CXI_IMGCOLLECTION::SaveParametersToIni()
 			{
 				if( n == m_aSections[nGrp].nStartNum )
 				{
-					_snprintf( pcWriteParam, sizeof(pcWriteParam), "editsection:%s", m_aSections[nGrp].sName.c_str() );
+					sprintf_s( pcWriteParam, sizeof(pcWriteParam), "editsection:%s", m_aSections[nGrp].sName.c_str() );
 					pIni->AddString( m_nodeName, "picture", pcWriteParam );
 				}
 				/*else
@@ -343,7 +344,7 @@ void CXI_IMGCOLLECTION::SaveParametersToIni()
 						pIni->AddString( m_nodeName, "picture", "editsection:end" );
 					}*/
 			}
-			_snprintf( pcWriteParam, sizeof(pcWriteParam), "%s,col:{%d,%d,%d,%d},pos:{%d,%d,%d,%d}",
+			sprintf_s( pcWriteParam, sizeof(pcWriteParam), "%s,col:{%d,%d,%d,%d},pos:{%d,%d,%d,%d}",
 				m_aEditInfo[n].sName.c_str(),
 				ALPHA(m_aEditInfo[n].dwColor), RED(m_aEditInfo[n].dwColor), GREEN(m_aEditInfo[n].dwColor), BLUE(m_aEditInfo[n].dwColor),
 				m_aEditInfo[n].nLeft, m_aEditInfo[n].nTop, m_aEditInfo[n].nRight, m_aEditInfo[n].nBottom );
@@ -386,8 +387,9 @@ uint32_t _cdecl CXI_IMGCOLLECTION::MessageProc(long msgcode, MESSAGE & message)
 				PICTURE_TEXTURE_RELEASE(pPictureService,sGroupName,texl);
 
 				// имя группы
-				sGroupName = NEW char[strlen(param)+1];
-				strcpy(sGroupName,param);
+				const auto len = strlen(param)+1;
+				sGroupName = NEW char[len];
+				memcpy(sGroupName,param,len);
 				texl = pPictureService->GetTextureID(sGroupName);
 			}
 		}

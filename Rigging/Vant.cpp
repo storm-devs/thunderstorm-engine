@@ -572,7 +572,7 @@ void VANT::LoadIni()
 	ini = _CORE_API->fio->OpenIniFile("resource\\ini\\rigging.ini");
 	if(!ini) THROW("rigging.ini file not found!");
 
-	sprintf(section,"VANTS");
+	sprintf_s(section,"VANTS");
 
     // имя текстуры
     ini->ReadString(section,"TextureName",param,sizeof(param)-1,"vant.tga");
@@ -581,16 +581,19 @@ void VANT::LoadIni()
         if(strcmp(TextureName,param))
             if(RenderService)
             {
-                delete TextureName; TextureName=NEW char[strlen(param)+1];
-                strcpy(TextureName,param);
+                delete TextureName;
+				const auto len = strlen(param) + 1;
+            	TextureName=NEW char[len];
+                memcpy(TextureName,param,len);
                 RenderService->TextureRelease(texl);
                 texl=RenderService->TextureCreate(TextureName);
             }
     }
     else
     {
-        TextureName=NEW char[strlen(param)+1];
-        strcpy(TextureName,param);
+		const auto len = strlen(param) + 1;
+        TextureName=NEW char[len];
+        memcpy(TextureName,param,len);
     }
     // толщина веревки
     ROPE_WIDTH=ini->GetFloat(section,"fWidth",0.1f);

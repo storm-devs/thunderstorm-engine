@@ -497,21 +497,21 @@ void ISPYGLASS::ChangeTargetData(const char* pcShipName, const char* pcShipType,
 
 	// boal дистанция до -->
 	if( fSailTo >= 0.f ) {
-		_snprintf(param,sizeof(param),"%.1f",fSailTo);
+		sprintf_s(param,sizeof(param),"%.1f",fSailTo);
 		m_txtSailTo.sText = param;
 	} else {
 		m_txtSailTo.sText = "";
 	}
 	// boal <--
 	if( fShipSpeed >= 0.f ) {
-		_snprintf(param,sizeof(param),"%.1f",fShipSpeed);
+		sprintf_s(param,sizeof(param),"%.1f",fShipSpeed);
 		m_txtShipSpeed.sText = param;
 	} else {
 		m_txtShipSpeed.sText = "";
 	}
 
 	if( nCurCannons>=0 && nMaxCannons>=0 ) {
-		_snprintf(param,sizeof(param),"%d/%d",nCurCannons,nMaxCannons);
+		sprintf_s(param,sizeof(param),"%d/%d",nCurCannons,nMaxCannons);
 		m_txtCannons.sText = param;
 		if( m_Cannon.pImage ) m_Cannon.pImage->CutSide(0.f,0.f,0.f,0.f); // покажем boal
 	} else {
@@ -538,7 +538,7 @@ void ISPYGLASS::ChangeTargetData(const char* pcShipName, const char* pcShipType,
 	}
 
 	if( nShipCrew>=0 ) {
-		_snprintf(param,sizeof(param),"%d",nShipCrew);
+		sprintf_s(param,sizeof(param),"%d",nShipCrew);
 		m_txtShipCrew.sText = param;
 	} else {
 		m_txtShipCrew.sText = "";
@@ -575,8 +575,8 @@ void ISPYGLASS::ChangeTargetData(const char* pcShipName, const char* pcShipType,
 	}
 
 	if( m_CaptainFace.pImage ) {
-		if( nFace>=0 ) _snprintf(param,sizeof(param),"battle_interface\\portraits\\face_%d.tga",nFace);
-		else _snprintf(param,sizeof(param),"%s",pcFaceTexture);
+		if( nFace>=0 ) sprintf_s(param,sizeof(param),"battle_interface\\portraits\\face_%d.tga",nFace);
+		else sprintf_s(param,sizeof(param),"%s",pcFaceTexture);
 		FRECT frUV;
 		frUV.left = 0.f; frUV.right = 1.f;
 		frUV.top = 0.f; frUV.bottom = 1.f;
@@ -584,7 +584,7 @@ void ISPYGLASS::ChangeTargetData(const char* pcShipName, const char* pcShipType,
 	}
 	// boal далее правлю иконки скилов, чтоб скрывались/показывались
 	if( nFencing>=0 ) {
-		_snprintf(param,sizeof(param),"%d",nFencing);
+		sprintf_s(param,sizeof(param),"%d",nFencing);
 		m_TextCaptainFencing.sText = param;
 		if( m_ImgCaptainFencing.pImage ) m_ImgCaptainFencing.pImage->CutSide(0.f,0.f,0.f,0.f);
 	}
@@ -594,7 +594,7 @@ void ISPYGLASS::ChangeTargetData(const char* pcShipName, const char* pcShipType,
 	}
 	
 	if( nCannon>=0 ) {
-		_snprintf(param,sizeof(param),"%d",nCannon);
+		sprintf_s(param,sizeof(param),"%d",nCannon);
 		m_TextCaptainCannon.sText = param;
 		if( m_ImgCaptainCannon.pImage ) m_ImgCaptainCannon.pImage->CutSide(0.f,0.f,0.f,0.f);
 	}
@@ -603,7 +603,7 @@ void ISPYGLASS::ChangeTargetData(const char* pcShipName, const char* pcShipType,
 	    if( m_ImgCaptainCannon.pImage ) m_ImgCaptainCannon.pImage->CutSide(0.f,1.f,0.f,0.f);
 	}
 	if( nAccuracy>=0 ) {
-		_snprintf(param,sizeof(param),"%d",nAccuracy);
+		sprintf_s(param,sizeof(param),"%d",nAccuracy);
 		m_TextCaptainAccuracy.sText = param;
 		if( m_ImgCaptainAccuracy.pImage ) m_ImgCaptainAccuracy.pImage->CutSide(0.f,0.f,0.f,0.f);
 	}
@@ -612,7 +612,7 @@ void ISPYGLASS::ChangeTargetData(const char* pcShipName, const char* pcShipType,
 	    if( m_ImgCaptainAccuracy.pImage ) m_ImgCaptainAccuracy.pImage->CutSide(0.f,1.f,0.f,0.f);
 	}
 	if( nNavigation>=0 ) {
-		_snprintf(param,sizeof(param),"%d",nNavigation);
+		sprintf_s(param,sizeof(param),"%d",nNavigation);
 		m_TextCaptainNavigation.sText = param;
 		if( m_ImgCaptainNavigation.pImage ) m_ImgCaptainNavigation.pImage->CutSide(0.f,0.f,0.f,0.f);
 	}
@@ -621,7 +621,7 @@ void ISPYGLASS::ChangeTargetData(const char* pcShipName, const char* pcShipType,
 	    if( m_ImgCaptainNavigation.pImage ) m_ImgCaptainNavigation.pImage->CutSide(0.f,1.f,0.f,0.f);
 	}
 	if( nBoarding>=0 ) {
-		_snprintf(param,sizeof(param),"%d",nBoarding);
+		sprintf_s(param,sizeof(param),"%d",nBoarding);
 		m_TextCaptainBoarding.sText = param;
 		if( m_ImgCaptainBoarding.pImage ) m_ImgCaptainBoarding.pImage->CutSide(0.f,0.f,0.f,0.f);
 	}

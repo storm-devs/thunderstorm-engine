@@ -122,7 +122,7 @@ void CXI_CHECKBUTTONS::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 	char pcKeyName[128];
 	for( long n=0; n<100; n++ )
 	{
-		sprintf( pcKeyName, "section%d", n+1 );
+		sprintf_s( pcKeyName, "section%d", n+1 );
 		if( !ReadIniString(ini1,name1, ini2,name2, pcKeyName, param, sizeof(param),"") ) break;
 		const char* pTmpChar = param;
 		bool bSelect = CXI_UTILS::StringGetLong( pTmpChar ) != 0;
@@ -133,7 +133,7 @@ void CXI_CHECKBUTTONS::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 	// special positions for sections
 	if( m_bIndividualPos ) {
 		for( long n=0; n<m_aButton.size(); n++ ) {
-			sprintf( pcKeyName, "pos%d", n+1 );
+			sprintf_s( pcKeyName, "pos%d", n+1 );
 			if( ReadIniString(ini1,name1, ini2,name2, pcKeyName, param, sizeof(param),"") ) {
 				const char* pTmpChar = param;
 				m_aButton[n]->bSetPos = true;
@@ -221,14 +221,14 @@ void CXI_CHECKBUTTONS::SaveParametersToIni()
 	}
 
 	// save position
-	_snprintf( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
+	sprintf_s( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
 	pIni->WriteString( m_nodeName, "position", pcWriteParam );
 
 	if( m_bIndividualPos ) {
 		for( long n=0; n<m_aButton.size(); n++ ) {
-			sprintf( pcWriteKeyName, "pos%d", n+1 );
+			sprintf_s( pcWriteKeyName, "pos%d", n+1 );
 			if( m_aButton[n]->bSetPos ) {
-				_snprintf( pcWriteParam, sizeof(pcWriteParam), "%d,%d", (int)m_aButton[n]->pos.x, (int)m_aButton[n]->pos.y );
+				sprintf_s( pcWriteParam, sizeof(pcWriteParam), "%d,%d", (int)m_aButton[n]->pos.x, (int)m_aButton[n]->pos.y );
 				pIni->WriteString( m_nodeName, pcWriteKeyName, pcWriteParam );
 			} else {
 				pIni->DeleteKey( m_nodeName, pcWriteKeyName );
@@ -492,7 +492,7 @@ void CXI_CHECKBUTTONS::WriteToAttributeButtonState( long nButtonIndex )
 {
 	if( nButtonIndex < 0 || nButtonIndex >= m_aButton.size() ) return;
 	char atrName[128];
-	_snprintf( atrName, sizeof(atrName), "state%d", nButtonIndex+1 );
+	sprintf_s( atrName, sizeof(atrName), "state%d", nButtonIndex+1 );
 	ATTRIBUTES* pA = ptrOwner->AttributesPointer->GetAttributeClass( m_nodeName );
 	if( !pA ) pA = ptrOwner->AttributesPointer->CreateSubAClass( ptrOwner->AttributesPointer, m_nodeName );
 	if( pA ) pA->SetAttributeUseDword( atrName, m_aButton[nButtonIndex]->bChoose ? 1 : 0 );

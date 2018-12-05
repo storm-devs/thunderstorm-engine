@@ -374,16 +374,16 @@ int SailorsPoints :: WriteToFile(std::string fileName)
 
 	for (int i= 0; i< points.count; i++){
 
-		_snprintf(str, sizeof(str), "%s%d", "point ", i);
-		_snprintf(buffer, sizeof(buffer), "%f,%f,%f,%d", points.point[i].x, points.point[i].y, points.point[i].z, points.point[i].pointType);
+		sprintf_s(str, sizeof(str), "%s%d", "point ", i);
+		sprintf_s(buffer, sizeof(buffer), "%f,%f,%f,%d", points.point[i].x, points.point[i].y, points.point[i].z, points.point[i].pointType);
 		pIni->WriteString("POINT_DATA", str, buffer);
 	};
 
 
 	for (int i= 0; i< links.count; i++){
 
-		_snprintf(str, sizeof(str), "%s%d", "link ", i);
-		_snprintf(buffer, sizeof(buffer), "%d,%d", links.link[i].first, links.link[i].next);
+		sprintf_s(str, sizeof(str), "%s%d", "link ", i);
+		sprintf_s(buffer, sizeof(buffer), "%d,%d", links.link[i].first, links.link[i].next);
 		pIni->WriteString("LINK_DATA", str, buffer);
 	};
 
@@ -419,7 +419,7 @@ int SailorsPoints :: ReadFromFile(std::string fileName)
 	points.point.resize(points.count);
 	for (int i= 0; i< points.count; i++ ){
 		//points.point.Add();
-		_snprintf(str, sizeof(str), "%s%d", "point ", i);
+		sprintf_s(str, sizeof(str), "%s%d", "point ", i);
 		pIni->ReadString("POINT_DATA",str,param,sizeof(param)-1);
 
 		sscanf(param,"%f,%f,%f,%lu", &x, &y, &z, &type);
@@ -439,7 +439,7 @@ int SailorsPoints :: ReadFromFile(std::string fileName)
 	for (int i= 0; i< links.count; i++ ){
 		//links.link.Add();
 
-		_snprintf(str, sizeof(str), "%s%d", "link ", i);
+		sprintf_s(str, sizeof(str), "%s%d", "link ", i);
 		pIni->ReadString("LINK_DATA",str,param,sizeof(param)-1);
 
 		sscanf(param,"%d,%d", &first, &next);

@@ -9,6 +9,7 @@
 //============================================================================================
 
 #include "Lights.h"
+#include <algorithm>
 
 //============================================================================================
 //Конструирование, деструктурирование
@@ -74,8 +75,10 @@ void Lights::AddPointLight(const CVECTOR & color, const CVECTOR & pos, float att
 	light[numLights].range = range;
 	if(group && group[0])
 	{
-		light[numLights].group = NEW char[strlen(group) + 1];
-		strcpy(light[numLights].group, group);
+		const auto len = strlen(group) + 1;
+		light[numLights].group = NEW char[len];
+		//strcpy_s(light[numLights].group, group);
+		std::copy(group, group + len, light[numLights].group);
 	}else light[numLights].group = nullptr;
 	light[numLights].type = Light::t_point;
 	light[numLights].isOn = true;
@@ -116,8 +119,10 @@ void Lights::PostInit()
 	for(long i = 0; i < numGrp; i++)
 	{
 		memset(&light[numLights], 0, sizeof(light[numLights]));
-		light[numLights].group = NEW char[strlen(grp[i]) + 1];
-		strcpy(light[numLights].group, grp[i]);
+		const auto len = strlen(grp[i]) + 1;
+		light[numLights].group = NEW char[len];
+		//strcpy_s(light[numLights].group, grp[i]);
+		std::copy(grp[i], grp[i] + len, light[numLights].group);
 		light[numLights].type = Light::t_group;
 		light[numLights].isOn = true;
 		//Собираем параметры

@@ -38,10 +38,10 @@ void _cdecl SYSTEM_API::Trace(char * data_PTR,...)
 {
 	va_list args;
 	va_start(args,data_PTR);
-	_vsnprintf(buffer,sizeof(buffer) - 4,data_PTR,args);
+	_vsnprintf_s(buffer,sizeof(buffer) - 4,data_PTR,args);
 	va_end(args);
 	trace(buffer);
-	strcat(buffer,"\x0d\x0a");
+	strcat_s(buffer,"\x0d\x0a");
 	OutputDebugString(buffer);
 }
 

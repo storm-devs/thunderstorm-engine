@@ -258,7 +258,7 @@ bool HELPCHOOSER::RunChooser(char * ChooserGroup)
 		{
 			m_psRectName[i] = NEW char[j+2];
 			if(m_psRectName[i]== nullptr) {STORM_THROW("Allocate memory error");}
-			strcpy(m_psRectName[i],param2);
+			strcpy_s(m_psRectName[i],j+2,param2);
 		}
 
 		tmpStr = XI_ParseStr(tmpStr,param2,sizeof(param2));

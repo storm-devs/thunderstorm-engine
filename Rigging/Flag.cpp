@@ -479,7 +479,7 @@ void FLAG::LoadIni()
 	ini = _CORE_API->fio->OpenIniFile("resource\\ini\\rigging.ini");
 	if(!ini) THROW("rigging.ini file not found!");
 
-	sprintf(section,"FLAGS");
+	sprintf_s(section,"FLAGS");
 
     bool texChange=false;
     int tmp;
@@ -490,16 +490,18 @@ void FLAG::LoadIni()
         if(strcmp(TextureName,param))
         {
             delete TextureName;
-            TextureName = NEW char[strlen(param)+1];
-            strcpy(TextureName,param);
+			const auto len = strlen(param) + 1;
+            TextureName = NEW char[len];
+            memcpy(TextureName,param,len);
             RenderService->TextureRelease(texl);
             texl=RenderService->TextureCreate(TextureName);
         }
     }
     else
     {
-        TextureName=NEW char[strlen(param)+1];
-        strcpy(TextureName,param);
+		const auto len = strlen(param) + 1;
+        TextureName=NEW char[len];
+        memcpy(TextureName,param,len);
     }
 
 

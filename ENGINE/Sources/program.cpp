@@ -73,9 +73,9 @@ void PROGRAM::SetProgramDirectory(char * dir_name)
 	if(ProgramDirectory) delete ProgramDirectory; ProgramDirectory = nullptr;
 	if(dir_name)
 	{
-
-		ProgramDirectory = NEW char[strlen(dir_name) + 1];
-		strcpy(ProgramDirectory,dir_name);
+		const auto len = strlen(dir_name) + 1;
+		ProgramDirectory = NEW char[len];
+		memcpy(ProgramDirectory,dir_name,len);
 	}
 }
 VDATA * PROGRAM::ProcessEvent(char * event_name, MESSAGE message)

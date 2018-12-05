@@ -144,7 +144,7 @@ uint32_t AISeaGoods::AttributeChanged(ATTRIBUTES * pAttribute)
 	if (*pAttribute == "Time")		{ TmpItem.fTime = pAttribute->GetAttributeAsFloat(); return 0; }
 	if (*pAttribute == "Quantity")	{ TmpItem.iQuantity = pAttribute->GetAttributeAsDword(); return 0; }
 	if (*pAttribute == "Model")		{ sTmpModel = pAttribute->GetThisAttr(); return 0; }
-	if (*pAttribute == "Good")		{ strcpy(TmpItem.sGoodName, pAttribute->GetThisAttr()); return 0; }
+	if (*pAttribute == "Good")		{ strcpy_s(TmpItem.sGoodName, pAttribute->GetThisAttr()); return 0; }
 	
 	if (*pParent == "Pos")
 	{

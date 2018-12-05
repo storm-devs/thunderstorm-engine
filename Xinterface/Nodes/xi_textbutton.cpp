@@ -229,10 +229,11 @@ void CXI_TEXTBUTTON::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
 	if( ReadIniString(ini1,name1, ini2,name2, "group", param, sizeof(param),"") )
 	{
 		m_idTex = pPictureService->GetTextureID(param);
-		m_sGroupName = NEW char[strlen(param)+1];
+		const auto len = strlen(param) + 1;
+		m_sGroupName = NEW char[len];
 		if(m_sGroupName== nullptr)
 			STORM_THROW("allocate memory error")
-		strcpy(m_sGroupName,param);
+		memcpy(m_sGroupName,param,len);
 	}
 
 	m_idShadowTex = -1;
@@ -544,7 +545,7 @@ void CXI_TEXTBUTTON::SaveParametersToIni()
 	}
 
 	// save position
-	_snprintf( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
+	sprintf_s( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
 	pIni->WriteString( m_nodeName, "position", pcWriteParam );
 
 	delete pIni;
@@ -561,9 +562,14 @@ uint32_t _cdecl CXI_TEXTBUTTON::MessageProc(long msgcode, MESSAGE & message)
 			param[sizeof(param)-1] = 0;
 			STORM_DELETE(m_sString); m_idString = -1;
 			if( param[0] == '#' ) {
-				if( (m_sString=NEW char[strlen(param)]) == nullptr )
-				{ STORM_THROW("allocate memory error"); }
-				strcpy(m_sString,&param[1]);
+				{
+					const auto len = strlen(param);
+					if ((m_sString = NEW char[len]) == nullptr)
+					{
+						STORM_THROW("allocate memory error");
+					}
+					memcpy(m_sString, &param[1], len);
+				}
 			} else {
 				m_idString = pStringService->GetStringNum( param );
 			}

@@ -505,8 +505,8 @@ void AIShipCannonController::Realize(float fDeltaTime)
 	str[0] = 0;
 	for (uint32_t i=0;i<aShipBorts.size();i++)
 	{
-		sprintf(tmp,"%.3f, ",GetBortHeightAngle(i));
-		strcat(str,tmp);
+		sprintf_s(tmp,"%.3f, ",GetBortHeightAngle(i));
+		strcat_s(str,tmp);
 	}
 	pRS->Print(0,20,str);*/
 #ifndef _XBOX
@@ -586,7 +586,7 @@ bool AIShipCannonController::Init(ATTRIBUTES *_pAShip)
 
 		// create damages
 		char str[512];
-		sprintf(str, "%s.damages", (char*)pBort->sName.c_str());
+		sprintf_s(str, "%s.damages", (char*)pBort->sName.c_str());
 		pABorts->CreateSubAClass(pABorts, str);
 	}
 
@@ -623,9 +623,9 @@ bool AIShipCannonController::ScanShipForCannons()
 				aShipBorts[j].fOurBortFireHeight += m.Pos().y;
 				pCannon->Init(GetAIShip(), GetAIShip()->GetShipEID(), label);
 
-				sprintf(str, "%s.damages", label.group_name);
+				sprintf_s(str, "%s.damages", label.group_name);
 				ATTRIBUTES * pADamages = pABorts->FindAClass(pABorts, str);
-				sprintf(str, "c%d", aShipBorts[j].aCannons.size() - 1);
+				sprintf_s(str, "c%d", aShipBorts[j].aCannons.size() - 1);
 				float fDamage = pADamages->GetAttributeAsFloat(str, 0.0f);
 				pADamages->SetAttributeUseFloat(str, fDamage);
 				pCannon->SetDamage(fDamage);
@@ -711,7 +711,7 @@ void AIShipCannonController::CheckCannonsBoom(float fTmpCannonDamage, const CVEC
 	{
 		AISHIP_BORT * pBort = &aShipBorts[i];
 
-		sprintf(str, "%s.damages", (char*)pBort->sName.c_str());
+		sprintf_s(str, "%s.damages", (char*)pBort->sName.c_str());
 		ATTRIBUTES * pADamages = pABorts->FindAClass(pABorts, str); Assert(pADamages);
 		ATTRIBUTES * pACurBort = pABorts->FindAClass(pABorts, (char*)pBort->sName.c_str()); Assert(pACurBort);
 
@@ -725,7 +725,7 @@ void AIShipCannonController::CheckCannonsBoom(float fTmpCannonDamage, const CVEC
 			if (fDistance > fMaxCannonDamageDistance) continue;
 			VDATA * pVData = api->Event(CANNON_DAMAGE, "affffff", GetAIShip()->GetACharacter(), fTmpCannonDamage, pC->GetDamage(), fDistance, vPnt.x, vPnt.y, vPnt.z);
 
-			sprintf(str, "c%d", j);
+			sprintf_s(str, "c%d", j);
 
 			pC->SetDamage(pVData->GetFloat());
 			pADamages->SetAttributeUseFloat(str, pC->GetDamage());
@@ -751,7 +751,7 @@ void AIShipCannonController::ResearchCannons()
 	{
 		AISHIP_BORT * pBort = &aShipBorts[i];
 
-		sprintf(str, "%s.damages", (char*)pBort->sName.c_str());
+		sprintf_s(str, "%s.damages", (char*)pBort->sName.c_str());
 		ATTRIBUTES * pADamages = pABorts->FindAClass(pABorts, str); Assert(pADamages);
 		ATTRIBUTES * pACurBort = pABorts->FindAClass(pABorts, (char*)pBort->sName.c_str()); Assert(pACurBort);
         pBort->dwNumDamagedCannons = 0;   // нигде не используется, может рудимент?
@@ -759,7 +759,7 @@ void AIShipCannonController::ResearchCannons()
 		for (j=0; j<pBort->aCannons.size(); j++)
 		{
 			AICannon * pC = &pBort->aCannons[j];
-			sprintf(str, "c%d", j);
+			sprintf_s(str, "c%d", j);
 			float fDamage = pADamages->GetAttributeAsFloat(str, 0.0f);
 			pC->SetDamage(fDamage);
 			pADamages->SetAttributeUseFloat(str, pC->GetDamage());
