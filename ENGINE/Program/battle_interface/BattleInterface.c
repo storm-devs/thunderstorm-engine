@@ -1167,19 +1167,19 @@ ref GetCurrentCharge()
 		{
 		case GOOD_BALLS:
 			BI_intNRetValue[0] = 32;
-			BattleInterface.textinfo.Ammo.text = XI_convertString("Balls")+": "+sti(pchar.ship.cargo.goods.balls);
+			BattleInterface.textinfo.Ammo.text = sti(pchar.ship.cargo.goods.balls);
 			break;
 		case GOOD_GRAPES:
 			BI_intNRetValue[0] = 35;
-			BattleInterface.textinfo.Ammo.text = XI_convertString("Grapes")+": "+sti(pchar.ship.cargo.goods.grapes);
+			BattleInterface.textinfo.Ammo.text = sti(pchar.ship.cargo.goods.grapes);
 			break;
 		case GOOD_KNIPPELS:
 			BI_intNRetValue[0] = 34;
-			BattleInterface.textinfo.Ammo.text = XI_convertString("Knippels")+": "+sti(pchar.ship.cargo.goods.knippels);
+			BattleInterface.textinfo.Ammo.text = sti(pchar.ship.cargo.goods.knippels);
 			break;
 		case GOOD_BOMBS:
 			BI_intNRetValue[0] = 33;
-			BattleInterface.textinfo.Ammo.text = XI_convertString("Bombs")+": "+sti(pchar.ship.cargo.goods.bombs);
+			BattleInterface.textinfo.Ammo.text = sti(pchar.ship.cargo.goods.bombs);
 			break;
 		}
 	}
@@ -1196,6 +1196,10 @@ ref GetCurrentCharge()
 	}
 
 	BI_intNRetValue[2] = 61;
+  
+  // Powder
+  BI_intNRetValue[3] = 51;
+  BattleInterface.textinfo.Powder.text = sti(pchar.ship.cargo.goods.powder)
 
 	return &BI_intNRetValue;
 }
@@ -1608,8 +1612,13 @@ void SetParameterData()
 	//
 	BattleInterface.navigation.chargeTexture			= "battle_interface\list_icon2.tga";
 	BattleInterface.navigation.chargeTextureGreed		= "8,8";
-	BattleInterface.navigation.chargePos				= "0,"+RecalculateVIcon(270);
+	BattleInterface.navigation.chargePos				= RecalculateHIcon(-30)+","+RecalculateVIcon(270);
 	BattleInterface.navigation.chargePictureSize		= RecalculateHIcon(48)+","+RecalculateVIcon(48);
+  //
+	BattleInterface.navigation.powderTexture			= "battle_interface\list_icon2.tga";
+	BattleInterface.navigation.powderTextureGreed		= "8,8";
+	BattleInterface.navigation.powderPos				= RecalculateHIcon(30)+","+RecalculateVIcon(270);
+	BattleInterface.navigation.powderPictureSize		= RecalculateHIcon(48)+","+RecalculateVIcon(48);
 	//
 	BattleInterface.navigation.sailstateTexture			= "battle_interface\list_icon2.tga";
 	BattleInterface.navigation.sailstateTextureGreed	= "8,8";
@@ -1671,11 +1680,19 @@ void SetParameterData()
 	BattleInterface.textinfo.Ammo.scale = 0.9;
 	BattleInterface.textinfo.Ammo.color = argb(255,255,255,255);
 	//BattleInterface.textinfo.Ammo.shadow = false;
-	BattleInterface.textinfo.Ammo.pos.x = sti(showWindow.right) - RecalculateHIcon(104);
+	BattleInterface.textinfo.Ammo.pos.x = sti(showWindow.right) - RecalculateHIcon(135);
 	BattleInterface.textinfo.Ammo.pos.y = RecalculateVIcon(399);
 	BattleInterface.textinfo.Ammo.text = XI_convertString("Ammunition");
 	BattleInterface.textinfo.Ammo.refreshable = true;
-
+  //
+  BattleInterface.textinfo.Powder.font = "interface_normal";
+	BattleInterface.textinfo.Powder.scale = 0.9;
+	BattleInterface.textinfo.Powder.color = argb(255,255,255,255);
+	BattleInterface.textinfo.Powder.pos.x = sti(showWindow.right) - RecalculateHIcon(74);
+	BattleInterface.textinfo.Powder.pos.y = RecalculateVIcon(399);
+	BattleInterface.textinfo.Powder.text = XI_convertString("Powder");
+	BattleInterface.textinfo.Powder.refreshable = true;
+  //
 	BattleInterface.LineInfo.speed.color = argb(255,0,0,0);
 	BattleInterface.LineInfo.speed.begin.x = sti(showWindow.right) - RecalculateHIcon(168);
 	BattleInterface.LineInfo.speed.begin.y = RecalculateVIcon(334);

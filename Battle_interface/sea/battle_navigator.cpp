@@ -54,6 +54,7 @@ BATTLE_NAVIGATOR::BATTLE_NAVIGATOR()
 	m_idEmptyTex = -1;
 	m_idIslandTexture = -1;
 	m_idChargeTexture = -1;
+	m_idPowderTexture = -1;
 	m_idWindTex = -1;
 	m_idWindTexture = -1;
 	m_idSailTexture = -1;
@@ -182,6 +183,12 @@ void BATTLE_NAVIGATOR::Draw()
 			rs->DrawPrimitive(D3DPT_TRIANGLESTRIP,m_idCurChargeVBuf,sizeof(BI_ONETEXTURE_VERTEX),0,2,"battle_texure_blend_tf");
 		else
 			rs->DrawPrimitive(D3DPT_TRIANGLESTRIP,m_idCurChargeVBuf,sizeof(BI_ONETEXTURE_VERTEX),0,2,"battle_rectangle");
+	}
+	if(m_curPowder>=0)
+	{
+		rs->TextureSet(0,m_idPowderTexture);
+		//rs->SetRenderState(D3DRS_TEXTUREFACTOR,(BIUtils::g_dwBlinkColor<<24L)|0xFFFFFF);
+		rs->DrawPrimitive(D3DPT_TRIANGLESTRIP,m_idCurChargeVBuf,sizeof(BI_ONETEXTURE_VERTEX),12,2,"battle_rectangle");
 	}
 	// показать иконку ветра
 	rs->TextureSet(0,m_idWindTexture);
@@ -441,6 +448,10 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER *RenderService,ENTITY* pOwnerEI)
 	if(tmpstr== nullptr)	m_idChargeTexture = -1;
 	else m_idChargeTexture = rs->TextureCreate(tmpstr);
 
+	tmpstr = BIUtils::GetStringFromAttr(pARoot, "powderTexture", nullptr);
+	if(tmpstr== nullptr)	m_idPowderTexture = -1;
+	else m_idPowderTexture = rs->TextureCreate(tmpstr);
+
 	tmpstr = BIUtils::GetStringFromAttr(pARoot, "sailstateTexture", nullptr);
 	if(tmpstr== nullptr)	m_idSailTexture = -1;
 	else m_idSailTexture = rs->TextureCreate(tmpstr);
@@ -483,6 +494,21 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER *RenderService,ENTITY* pOwnerEI)
 	if( (tmpstr=BIUtils::GetStringFromAttr(pARoot,"chargePictureSize", nullptr))!= nullptr )
 		sscanf(tmpstr,"%d,%d",&m_ChargeSize.x,&m_ChargeSize.y);
 
+	// порох
+	m_PowderGreed.x = 1; m_PowderGreed.y = 1;
+	if( (tmpstr=BIUtils::GetStringFromAttr(pARoot,"powderTextureGreed", nullptr))!= nullptr )
+		sscanf(tmpstr,"%d,%d",&m_PowderGreed.x,&m_PowderGreed.y);
+	if(m_PowderGreed.x<1) m_PowderGreed.x = 1;
+	if(m_PowderGreed.y<1) m_PowderGreed.y = 1;
+	m_PowderPos.x = 160;	m_PowderPos.y = 160;
+	if( (tmpstr=BIUtils::GetStringFromAttr(pARoot,"powderPos", nullptr))!= nullptr )
+		sscanf(tmpstr,"%d,%d",&m_PowderPos.x,&m_PowderPos.y);
+	m_PowderPos.x += m_XNavigator;// - m_NavigationWidth/2;
+	m_PowderPos.y += m_YNavigator;// - m_NavigationHeight/2;
+	m_PowderSize.x = 32;	m_PowderSize.y = 32;
+	if( (tmpstr=BIUtils::GetStringFromAttr(pARoot,"powderPictureSize", nullptr))!= nullptr )
+		sscanf(tmpstr,"%d,%d",&m_PowderSize.x,&m_PowderSize.y);
+
 	// иконка ветра
 	m_curSailState = 0;
 	m_WindGreed.x = 1; m_WindGreed.y = 1;
@@ -523,7 +549,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER *RenderService,ENTITY* pOwnerEI)
 	m_idFireZoneVBuf = rs->CreateVertexBuffer(BI_NOTEX_VERTEX_FORMAT,FIRERANGE_QUANTITY*sizeof(BI_NOTEXTURE_VERTEX),D3DUSAGE_WRITEONLY);
 	m_idShipsVBuf = rs->CreateVertexBuffer(BI_COLORONLY_VERTEX_FORMAT,MAX_ENEMY_SHIP_QUANTITY*3*sizeof(BI_COLORONLY_VERTEX),D3DUSAGE_WRITEONLY);
 	m_idGradBackVBuf = rs->CreateVertexBuffer(BI_COLORONLY_VERTEX_FORMAT,3*sizeof(BI_COLORONLY_VERTEX),D3DUSAGE_WRITEONLY);
-	m_idCurChargeVBuf = rs->CreateVertexBuffer(BI_ONETEX_VERTEX_FORMAT,3*4*sizeof(BI_ONETEXTURE_VERTEX),D3DUSAGE_WRITEONLY);
+	m_idCurChargeVBuf = rs->CreateVertexBuffer(BI_ONETEX_VERTEX_FORMAT,4*4*sizeof(BI_ONETEXTURE_VERTEX),D3DUSAGE_WRITEONLY);
 	if(m_idEmptyVBuf==-1 || m_idCannonVBuf==-1 || m_idSpeedVBuf==-1 || m_idMapVBuf==-1 || m_idFireZoneVBuf==-1 || m_idShipsVBuf==-1 || m_idGradBackVBuf==-1 || m_idCurChargeVBuf==-1)
 	{
 		STORM_THROW("Can`t create vertex\index buffer");
@@ -636,7 +662,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER *RenderService,ENTITY* pOwnerEI)
 	pV = (BI_ONETEXTURE_VERTEX *)rs->LockVertexBuffer(m_idCurChargeVBuf);
 	if(pV!= nullptr)
 	{
-		for(i=0; i<4*3; i++)
+		for(i=0; i<4*4; i++)
 		{
 			pV[i].pos.z = 1.f;
 			pV[i].w = .5f;
@@ -647,6 +673,8 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER *RenderService,ENTITY* pOwnerEI)
 			(float)m_WindSize.x, (float)m_WindSize.y);
 		SetRectangleVertexPos(&pV[8], (float)m_SailPos.x,(float)m_SailPos.y,
 			(float)m_SailSize.x, (float)m_SailSize.y);
+		SetRectangleVertexPos(&pV[12], (float)m_PowderPos.x,(float)m_PowderPos.y,
+			(float)m_PowderSize.x, (float)m_PowderSize.y);
 		rs->UnLockVertexBuffer(m_idCurChargeVBuf);
 	}
 }
@@ -910,6 +938,7 @@ void BATTLE_NAVIGATOR::ReleaseAll()
 	TEXTURE_RELEASE(rs,m_idEmptyTex);
 	TEXTURE_RELEASE(rs,m_idIslandTexture);
 	TEXTURE_RELEASE(rs,m_idChargeTexture);
+	TEXTURE_RELEASE(rs,m_idPowderTexture);
 	TEXTURE_RELEASE(rs,m_idWindTex);
 	TEXTURE_RELEASE(rs,m_idWindTexture);
 	TEXTURE_RELEASE(rs,m_idSailTexture);
@@ -1217,16 +1246,20 @@ void BATTLE_NAVIGATOR::UpdateCurrentCharge()
 	long curCharge = m_curCharge;
 	long curSailState = m_curSailState;
 	long curWindPic = m_curWindPic;
+	long curPowder = m_curPowder;
 	pVD->Get(curCharge,0);
 	pVD->Get(curSailState,1);
 	pVD->Get(curWindPic,2);
-	if(curCharge==m_curCharge && curSailState==m_curSailState && curWindPic==m_curWindPic) return;
+	pVD->Get(curPowder,3);
+	if(curCharge==m_curCharge && curSailState==m_curSailState && curWindPic==m_curWindPic && curPowder==m_curPowder) return;
 	m_curCharge = curCharge;
 	m_curSailState = curSailState;
 	m_curWindPic = curWindPic;
+	m_curPowder = curPowder;
 	if(m_curCharge<0) m_curCharge = 0;
 	if(m_curSailState<0) m_curSailState = 0;
 	if(m_curWindPic<0) m_curWindPic = 0;
+	if(m_curPowder<0) m_curPowder = 0;
 
 	BI_ONETEXTURE_VERTEX * pV = (BI_ONETEXTURE_VERTEX*)rs->LockVertexBuffer(m_idCurChargeVBuf);
 	if(pV!= nullptr)
@@ -1249,6 +1282,12 @@ void BATTLE_NAVIGATOR::UpdateCurrentCharge()
 		pV[9].tu = texRect.left;		pV[9].tv = texRect.bottom;
 		pV[10].tu = texRect.right;		pV[10].tv = texRect.top;
 		pV[11].tu = texRect.right;		pV[11].tv = texRect.bottom;
+
+		CalculateTextureRect(texRect,m_curPowder,m_PowderGreed.x,m_PowderGreed.y);
+		pV[12].tu = texRect.left;		pV[12].tv = texRect.top;
+		pV[13].tu = texRect.left;		pV[13].tv = texRect.bottom;
+		pV[14].tu = texRect.right;		pV[14].tv = texRect.top;
+		pV[15].tu = texRect.right;		pV[15].tv = texRect.bottom;
 
 		rs->UnLockVertexBuffer(m_idCurChargeVBuf);
 	}

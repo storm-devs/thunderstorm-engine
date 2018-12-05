@@ -135,6 +135,7 @@ protected:
 	long	m_idIslandTexture; // остров
 	long	m_idWindTex;	// ветер
 	long	m_idChargeTexture; // текущий тип заряда пушек
+	long	m_idPowderTexture; // текущий порох
 	long	m_idWindTexture; // скорость ветра
 	long	m_idSailTexture; // положение парусов/скорость корабля
 	IDirect3DTexture9 * m_pIslandTexture;
@@ -181,6 +182,11 @@ protected:
 	POINT	m_ChargePos;
 	POINT	m_ChargeSize;
 	long	m_curCharge;
+	// иконка пороха
+	POINT	m_PowderGreed;
+	POINT	m_PowderPos;
+	POINT	m_PowderSize;
+	long	m_curPowder;
 	// иконка ветра
 	long	m_curWindPic;
 	POINT	m_WindGreed;

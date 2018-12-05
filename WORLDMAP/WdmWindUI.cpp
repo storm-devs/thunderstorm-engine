@@ -42,6 +42,7 @@ WdmWindUI::WdmWindUI()
 	dateFont = -1;
 	morale = 0.0f;
 	food = 0;
+	rum = 0;
 }
 
 WdmWindUI::~WdmWindUI()
@@ -108,10 +109,15 @@ void WdmWindUI::LRender(VDX9RENDER * rs)
 		{
 			food = long(data->GetFloat() + 0.5f);
 		}
+		data = api->Event("WorldMap_GetRum");
+		if(data)
+		{
+			rum = long(data->GetFloat() + 0.5f);
+		}
 		if(morale < -1.0f) morale = -1.0f;
 		if(morale > 1.0f) morale = 1.0f;
 		if(food < 0) food = 0;
-		if(food > 1000000000) morale = 1000000000;
+		if(rum < 0) rum = 0;
 	}
 	//Параметры ветра у игрока
 	float x, y, ay;
@@ -189,9 +195,13 @@ void WdmWindUI::LRender(VDX9RENDER * rs)
 	FillRectColor(buf, 0xffffffff);
 	DrawRects(buf, 1, "WdmDrawMapBlend");
 	//Пишем количество припасов
-	_snprintf(tbuf, sizeof(tbuf) - 1, "%i", food);
+	_snprintf(tbuf, sizeof(tbuf) - 1, "%i%s",  food > 99999 ? 99999 : food, food > 99999 ? "+" : "");
 	tbuf[sizeof(tbuf) - 1] = 0;
 	fw = rs->StringWidth(tbuf, font);
-	rs->Print(font, 0xffffffff, long(cx - fw*0.5f), long(cy + 30.0f), tbuf);
+	rs->Print(font, 0xffffffff, long(cx - (w - cx)*0.3f - fw*0.5f), long(cy + 30.0f), tbuf);
 
+	_snprintf(tbuf, sizeof(tbuf) - 1, "%i%s", rum > 99999 ? 99999 : rum, rum > 99999 ? "+" : "");
+	tbuf[sizeof(tbuf) - 1] = 0;
+	fw = rs->StringWidth(tbuf, font);
+	rs->Print(font, 0xffffffff, long(cx + (w - cx)*0.3f - fw*0.5f), long(cy + 30.0f), tbuf);
 }

@@ -245,6 +245,13 @@ float wdmGetFood()
 {
 	return makefloat(CalculateFood());
 }
+
+#event_handler("WorldMap_GetRum", "wdmGetRum");
+float wdmGetRum()
+{
+	return makefloat(42);
+}
+
 //  квестовый отлов входа в море по начилию НПС в случайке
 void wdmEnterSeaQuest(string _chrId)
 {

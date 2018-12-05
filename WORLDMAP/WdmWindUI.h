@@ -40,6 +40,7 @@ private:
 	long dateFont;
 	float morale;
 	long food;
+	long rum;
 	char month[12][128];
 };
 
