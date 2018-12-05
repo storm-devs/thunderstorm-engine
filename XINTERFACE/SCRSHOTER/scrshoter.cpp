@@ -311,12 +311,13 @@ IDirect3DTexture9 * SCRSHOTER::AddSaveTexture(char * dirName, char * fileName)
 	ps->dataString = nullptr;
 	ps->next = m_list;
 	m_list = ps;
-	m_list->fileName = NEW char[strlen(fileName)+1];
+	const auto len = strlen(fileName) + 1;
+	m_list->fileName = NEW char[len];
 	if(m_list->fileName== nullptr)	{STORM_THROW("Allocate memory error");}
-	strcpy(m_list->fileName,fileName);
+	memcpy(m_list->fileName,fileName,len);
 	char param[1024];
-	if(dirName== nullptr || dirName[0] == 0)	sprintf(param,"%s",fileName);
-	else	sprintf(param,"%s\\%s",dirName,fileName);
+	if(dirName== nullptr || dirName[0] == 0)	sprintf_s(param,"%s",fileName);
+	else	sprintf_s(param,"%s\\%s",dirName,fileName);
 	m_list->m_pTex = GetTexFromSave(param, &ps->dataString);
 	return m_list->m_pTex;
 }
@@ -375,7 +376,7 @@ IDirect3DTexture9 * SCRSHOTER::GetTexFromSave(char * fileName, char **pDatStr)
 			int strLen = startIdx-sizeof(SAVE_DATA_HANDLE);
 			*pDatStr = NEW char[strLen+1];
 			if(!*pDatStr) {STORM_THROW("allocate memory error");}
-			strncpy(*pDatStr, &pdat[sizeof(SAVE_DATA_HANDLE)], strLen);
+			strncpy_s(*pDatStr, strLen+1, &pdat[sizeof(SAVE_DATA_HANDLE)], strLen);
 			(*pDatStr)[strLen] = 0;
 		}
 	}
