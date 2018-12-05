@@ -87,7 +87,7 @@ const char * UserData::GetData(const char * dataName)
 	//1 Вычислим хэшь значение строки
 	long hash = CalcHashString(dataName);
 	//2 Поищем данные с таким названием
-	for(size_t i = 0; i < numData; i++)	
+	for(long i = 0; i < numData; i++)	
 		if(data[i].hashCode == hash)
 		{
 			if(_stricmp(dataName, strings + data[i].name) == 0)

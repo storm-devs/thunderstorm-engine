@@ -172,13 +172,13 @@ inline void SetRectangleTexture(BI_COLOR_VERTEX * pv, float fl,float ft, float f
 }
 inline bool GetVDATABool(VDATA * pvd,bool defVal)
 {
-	int32_t tmp=defVal;
+	long tmp=defVal;
 	if(pvd!= nullptr) pvd->Get(tmp);
 	return (tmp!=0);
 }
 inline long GetVDATALong(VDATA * pvd,long defVal)
 {
-	int32_t tmp=defVal;
+	long tmp=defVal;
 	if(pvd!= nullptr) pvd->Get(tmp);
 	return tmp;
 }

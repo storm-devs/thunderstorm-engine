@@ -45,7 +45,7 @@ WdmIslands::WdmIslands()
 	//Находим размеры мира и перебираем локаторы
 	CVECTOR vmin, vmax, center = 0.0f, vmn, vmx;
 	bool isMin = false, isMax = false;
-	for(size_t i = 0; i < ginfo.nlabels; i++)
+	for(long i = 0; i < ginfo.nlabels; i++)
 	{
 		baseModel->geo->GetLabel(i, label);
 		if(!label.group_name || !label.group_name[0]) continue;
@@ -89,7 +89,7 @@ WdmIslands::WdmIslands()
 	}
 	//Зачитываем острова
 	std::string name;
-	for(size_t i = 0; i < ginfo.nlabels; i++)
+	for(long i = 0; i < ginfo.nlabels; i++)
 	{
 		//Получаем информацию
 		baseModel->geo->GetLabel(i, label);
@@ -163,7 +163,7 @@ WdmIslands::~WdmIslands()
 		patch = nullptr;
 	}
 	wdmObjects->islands = nullptr;
-	for(size_t i = 0; i < islands.size(); i++)
+	for(long i = 0; i < islands.size(); i++)
 	{
 		wdmObjects->wm->DeleteObject(islands[i].model);
 		islands[i].model = nullptr;
@@ -189,7 +189,7 @@ bool WdmIslands::CollisionTest(CMatrix & objMtx, float length, float width, bool
 	centPos = 0.0f;
 	checkMode = !heighTest;
 	//Проходимся по всем островам
-	for(size_t i = 0; i < islands.size(); i++)
+	for(long i = 0; i < islands.size(); i++)
 	{
 		//Остров с которым работаем
 		Islands & island = islands[i];
@@ -258,7 +258,7 @@ bool _cdecl WdmIslands::AddEdges(const GEOS::VERTEX * vrt, long numVrt)
 	if(d < 0) return true;
 	//Добавляем рёбра
 	numEdges += numVrt;
-	for(size_t i = 0; i < numVrt; i++)
+	for(long i = 0; i < numVrt; i++)
 	{
 		centPos += curMatrix*CVECTOR(vrt[i].x, 0.0f, vrt[i].z);
 	}
@@ -272,7 +272,7 @@ bool WdmIslands::ObstacleTest(float x, float z, float radius)
 	if(radius <= 0.0f) return false;
 	CVECTOR wPos(x, 0.0f, z);
 	//Проходимся по всем островам
-	for(size_t i = 0; i < islands.size(); i++)
+	for(long i = 0; i < islands.size(); i++)
 	{
 		//Остров с которым работаем
 		Islands & island = islands[i];
@@ -463,7 +463,7 @@ bool WdmIslands::LabelsFindLocator(const char * name, CVECTOR & pos)
 	GEOS::INFO ginfo;
 	GEOS::LABEL label;
 	baseModel->geo->GetInfo(ginfo);
-	for(size_t i = 0; i < ginfo.nlabels; i++)
+	for(long i = 0; i < ginfo.nlabels; i++)
 	{
 		baseModel->geo->GetLabel(i, label);
 		if(!label.group_name || !label.group_name[0]) continue;
@@ -481,7 +481,7 @@ bool WdmIslands::LabelsFindLocator(const char * name, CVECTOR & pos)
 long WdmIslands::LabelsAddFont(const char * name)
 {
 	if(!name) name = "";
-	for(size_t i = 0; i < fonts.size(); i++)
+	for(long i = 0; i < fonts.size(); i++)
 	{
 		if(_stricmp(fonts[i].name.c_str(), name) == 0)
 		{
@@ -503,12 +503,12 @@ void WdmIslands::LabelsRelease()
 {
 	//Удаляем все метки
 	labels.clear();
-	for(size_t i = 0; i < sizeof(labelsEntry)/sizeof(labelsEntry[0]); i++)
+	for(long i = 0; i < sizeof(labelsEntry)/sizeof(labelsEntry[0]); i++)
 	{
 		labelsEntry[i] = -1;
 	}
 	//Удаляем все шрифты
-	for(size_t i = 0; i < fonts.size(); i++)
+	for(long i = 0; i < fonts.size(); i++)
 	{
 		if(fonts[i].id != FONT_DEFAULT)
 		{
@@ -531,7 +531,7 @@ void WdmIslands::Update(float dltTime)
 		CVECTOR pos;
 		wdmObjects->playerShip->GetPosition(pos.x, pos.z, pos.y);
 		pos.y = 0.0f;
-		for(size_t i = 0; i < islands.size(); i++)
+		for(long i = 0; i < islands.size(); i++)
 		{
 			if(IsShipInArea(i, pos))
 			{
@@ -606,7 +606,7 @@ void WdmIslands::LRender(VDX9RENDER * rs)
 	//Проецируем на экран
 	labelSort.clear();
 	MTX_PRJ_VECTOR prjVertex;
-	for(size_t i = 0; i < labels.size(); i++)
+	for(long i = 0; i < labels.size(); i++)
 	{
 		//Метка
 		Label & label = labels[i];
@@ -639,7 +639,7 @@ void WdmIslands::LRender(VDX9RENDER * rs)
 	//Размещаем метки, чтобы не пересекались по порядку
 	//!!!
 	//Рисуем иконоки и пишем текст
-	for(size_t i = 0; i < labelSort.size(); i++)
+	for(long i = 0; i < labelSort.size(); i++)
 	{
 		//Метка
 		Label & label = labels[labelSort[i]];
@@ -771,7 +771,7 @@ bool WdmIslands::GetQuestLocator(const char * locName, CVECTOR & p)
 		p = 0.0f;
 		return false;
 	}
-	for(size_t i = 0; i < quests.size(); i++)
+	for(long i = 0; i < quests.size(); i++)
 	{
 		if(quests[i].name == locName)
 		{
@@ -786,7 +786,7 @@ bool WdmIslands::GetQuestLocator(const char * locName, CVECTOR & p)
 //Проверить попадание кораблика в зону острова
 bool WdmIslands::CheckIslandArea(const char * islandName, float x, float z)
 {
-	for(size_t i = 0; i < islands.size(); i++)
+	for(long i = 0; i < islands.size(); i++)
 	{
 		if(!islands[i].area) continue;
 		if(islands[i].modelName == islandName)
@@ -832,7 +832,7 @@ void WdmIslands::GetNearPointToArea(const char * islandName, float & x, float & 
 bool _cdecl WdmIslands::FindNearPoint(const GEOS::VERTEX * vrt, long numVrt)
 {
 	//Пропустим кривые данные
-	for(size_t i = 0; i < numVrt; i++)
+	for(long i = 0; i < numVrt; i++)
 	{
 		float dx = vrt[i].x - curPos.x;
 		float dz = vrt[i].z - curPos.z;

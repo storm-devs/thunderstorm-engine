@@ -25,8 +25,8 @@ public:
 	_EXS(XTYPE type,char * _szdata)
 	{
 		xtype = type;
-		if(_szdata) strcpy_s(string,_szdata);
-		else strcpy_s(string,"EXS( unknown )");
+		if(_szdata) strcpy(string,_szdata);
+		else strcpy(string,"EXS( unknown )");
 	};
 	~_EXS(){};
 	char  string[290];

@@ -44,8 +44,7 @@ public:
 	bool Enabled();
 
 	static bool startRender;
-	static uint64_t lockTicks, fillTicks, unlockTicks, realizeTicks;
-	static uint32_t processCount, topIndex, topIndex2;
+	static uint32_t lockTicks, fillTicks, unlockTicks, realizeTicks, processCount, topIndex, topIndex2;
 
 private:
 	float HeightF(uint32_t _time, float _r, float _k);

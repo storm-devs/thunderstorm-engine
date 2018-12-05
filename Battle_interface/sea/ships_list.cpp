@@ -86,9 +86,9 @@ void SetNLongData(VDATA * pvd, int n, ...)
 
 	for(int i=0; i<n; i++)
 	{
-		int32_t * pIVal = va_arg(args,int32_t*);
+		long * pIVal = va_arg(args,long*);
 		if(!pIVal) break;
-		int32_t nDefVal = va_arg(args,int32_t);
+		long nDefVal = va_arg(args,long);
 		if(pvd) pvd->Get(*pIVal,i);
 		else *pIVal = nDefVal;
 	}

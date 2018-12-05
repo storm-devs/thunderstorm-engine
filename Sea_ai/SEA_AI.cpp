@@ -34,7 +34,7 @@ void SEA_AI::SetDevice()
 {
 }
 
-uint64_t dwRDTSC;
+uint32_t dwRDTSC;
 
 void SEA_AI::Execute(uint32_t Delta_Time)
 {

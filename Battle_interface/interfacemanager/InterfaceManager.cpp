@@ -60,7 +60,7 @@ void BI_InterfaceManager::Realize(uint32_t delta_time)
 	if( m_pInterfaceSheet )
 		m_pInterfaceSheet->Update();
 
-	for( size_t n=0; n<m_aNodes.size(); n++ )
+	for( long n=0; n<m_aNodes.size(); n++ )
 		m_aNodes[n]->Update();
 
 	m_pMouse->Update();

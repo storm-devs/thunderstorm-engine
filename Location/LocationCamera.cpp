@@ -243,7 +243,7 @@ void LocationCamera::Realize(uint32_t delta_time)
 					//kMorph = 0.0f;
 					oldPos = camPos;
 					oldLookTo = lookTo;
-					for(size_t i = 0; i < 10; i++) cf.Update(0.1f);
+					for(long i = 0; i < 10; i++) cf.Update(0.1f);
 				}
 				cf.Update(dltTime*character->CameraTurnSpeed());
 				isViewExecute = false;

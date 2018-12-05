@@ -211,13 +211,13 @@ void SeaLocatorShow::CreateSphere()
 	CVECTOR light = !CVECTOR(0.0f, 0.0f, 1.0f);
 	float kColor;
 	//Заполняем вершины
-	for(size_t i = 0, t = 0; i < a2; i++)
+	for(long i = 0, t = 0; i < a2; i++)
 	{
 		float r1 = sinf(myPI*i/float(a2));
 		float y1 = cosf(myPI*i/float(a2));
 		float r2 = sinf(myPI*(i + 1)/float(a2));
 		float y2 = cosf(myPI*(i + 1)/float(a2));
-		for(size_t j = 0; j < a1; j++)
+		for(long j = 0; j < a1; j++)
 		{
 			float x1 = sinf(2.0f*myPI*j/float(a1));
 			float z1 = cosf(2.0f*myPI*j/float(a1));

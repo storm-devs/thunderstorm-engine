@@ -392,7 +392,7 @@ void SEAFOAM::RealizeShipFoam_Particles(tShipFoamInfo &_shipFoamInfo, uint32_t _
 		InterpolateRightParticle(_shipFoamInfo, z, _dTime);
 	}
 
-	uint64_t ticks = 0;
+	uint32_t ticks = 0;
 	RDTSC_B(ticks)
 
 	CVECTOR frontEmitterPos = 0.5f*(_shipFoamInfo.levelStarts[0][0] + _shipFoamInfo.levelStarts[1][0]);
@@ -505,7 +505,7 @@ void SEAFOAM::Realize(uint32_t _dTime)
 {
 	GUARD(SEAFOAM::Realize)
 
-	uint64_t ticks = 0;
+	uint32_t ticks = 0;
 	RDTSC_B(ticks)
 
 	tShipFoamInfo *foamInfo = nullptr;

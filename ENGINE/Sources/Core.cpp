@@ -604,7 +604,7 @@ void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 		if(!Compiler.CreateProgram(String)) STORM_THROW(fail to create program);
 		if(!Compiler.Run()) STORM_THROW(fail to run program);
 		// Тест версии скрипта
-		int32_t iScriptVersion = 0xFFFFFFFF;
+		long iScriptVersion = 0xFFFFFFFF;
 		VDATA * pVScriptVersion = (VDATA *)api->GetScriptVariable("iScriptVersion");
 		if (pVScriptVersion) pVScriptVersion->Get(iScriptVersion);
 
@@ -2278,7 +2278,7 @@ void _cdecl CORE::Trace(const char * format, ...)
 void CORE::ProcessExecute()
 {
 	GUARD(CORE::ProcessExecute())
-	uint64_t ticks;
+	uint32_t ticks;
 	ATOM_STATE * pAs;
 
 	/*if (GetAsyncKeyState('7') < 0)
@@ -2338,7 +2338,7 @@ void CORE::ProcessExecute()
 void CORE::ProcessRealize()
 {
 	GUARD(CORE::ProcessRealize())
-	uint64_t ticks;
+	uint32_t ticks;
 	ATOM_STATE * pAs;
 	ProcessRunStart(SECTION_REALIZE);
 

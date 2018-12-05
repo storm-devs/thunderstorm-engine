@@ -23,7 +23,7 @@
 
 NoiseCloud::NoiseCloud(Pillar & _pillar) : pillar(_pillar)
 {
-	for(size_t i = 0; i < sizeof(rect)/sizeof(Rect); i++)
+	for(long i = 0; i < sizeof(rect)/sizeof(Rect); i++)
 	{
 		rect[i].a = rand()*2.0f*TRND_PI/RAND_MAX;
 		rect[i].r = i*(TRND_CLDRADIUS/float(sizeof(rect)/sizeof(Rect) - 1));
@@ -46,7 +46,7 @@ NoiseCloud::~NoiseCloud()
 
 void NoiseCloud::Update(float dltTime)
 {
-	for(size_t i = 0; i < sizeof(rect)/sizeof(Rect); i++)
+	for(long i = 0; i < sizeof(rect)/sizeof(Rect); i++)
 	{
 		if(rect[i].r >= TRND_CLDRADIUS) rect[i].r = 0.0f;
 		float k = rect[i].r/TRND_CLDRADIUS;
@@ -91,7 +91,7 @@ void NoiseCloud::Update(float dltTime)
 void NoiseCloud::Draw(VDX9RENDER * rs)
 {
 	rs->TextureSet(0, texture);
-	for(size_t i = 0; i < sizeof(rect)/sizeof(Rect); i++)
+	for(long i = 0; i < sizeof(rect)/sizeof(Rect); i++)
 	{
 		//Размер
 		float size = rect[i].size;

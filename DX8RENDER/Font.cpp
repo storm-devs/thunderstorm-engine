@@ -229,7 +229,7 @@ long FONT::GetStringWidth(const char * Text)
 	float		xoffset = 0;
 	long		s_num	= strlen(Text);
 
-	for(size_t i=0; i<s_num; i++)
+	for(long i=0; i<s_num; i++)
 	{
 		pos = CharT[(uint8_t)Text[i]].Pos;
 		if(fScale!=1.f)

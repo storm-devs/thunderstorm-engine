@@ -729,7 +729,7 @@ VDATA * COMPILER::ProcessEvent(char * event_name)
 	EVENTINFO ei;
 	uint32_t current_debug_mode;
 
-	uint64_t dwRDTSC, nTicks;
+	uint32_t dwRDTSC, nTicks;
 	uint32_t nTimeOnEvent;
 
 	RDTSC_B(dwRDTSC);
@@ -3688,7 +3688,7 @@ bool COMPILER::BC_Execute(uint32_t function_code, DATA * & pVReturnResult, char 
 	uint32_t func_code;
 	uint32_t nLeftOperandCode;
 	uint32_t bLeftOperandType;
-	int32_t nLeftOperandIndex;
+	long  nLeftOperandIndex;
 	S_TOKEN_TYPE Token_type;
 	FUNCINFO fi;
 	VARINFO vi;
@@ -3697,7 +3697,7 @@ bool COMPILER::BC_Execute(uint32_t function_code, DATA * & pVReturnResult, char 
 //	DATA   ExpressionResult;	// while compile expression not ready, each function have its own register
 	char * pCodeBase;
 	bool  bExit;
-	int32_t  lvalue;
+	long  lvalue;
 	S_TOKEN_TYPE vtype;
 	DATA * pVV;
 	uint32_t  var_code;
@@ -3712,7 +3712,7 @@ bool COMPILER::BC_Execute(uint32_t function_code, DATA * & pVReturnResult, char 
 	DATA * pVDst;
 	DATA * pVSrc;
 	bool bUseIndex;
-	int32_t dwBXIndex;
+	long dwBXIndex;
 
 
 
@@ -5866,7 +5866,7 @@ bool COMPILER::ReadVariable(char * name,/* DWORD code,*/ bool bDim, uint32_t a_i
 
 void COMPILER::SaveVariable(DATA * pV, bool bdim)
 {
-	int32_t   nLongValue;
+	long   nLongValue;
 	float  fFloatValue;
 	char * pString;
 	uint32_t  var_index;

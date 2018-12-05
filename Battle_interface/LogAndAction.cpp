@@ -122,10 +122,9 @@ uint32_t _cdecl ILogAndActions::ProcessMessage(MESSAGE & message)
 					STORM_DELETE(last->str);
 					if(param[0]!=0)
 					{
-						const auto len = strlen(param) + 1;
-						if( (last->str=NEW char[len]) == nullptr )
+						if( (last->str=NEW char[strlen(param)+1]) == nullptr )
 							{ STORM_THROW("allocate memory error"); }
-						strcpy_s(last->str,len,param);
+						strcpy(last->str,param);
 					}
 					else
 					{
@@ -422,13 +421,12 @@ void ILogAndActions::SetString(char * str, bool immortal)
 	}
 	// он будет последним в списке
 	newDescr->next = nullptr;
-	const auto len = strlen(str) + 1;
 	// занесем в него заданную строку
-	if( (newDescr->str=NEW char[len]) == nullptr )
+	if( (newDescr->str=NEW char[strlen(str)+1]) == nullptr )
 	{
 		STORM_THROW("Allocate memory error");
 	}
-	strcpy_s(newDescr->str,len,str);
+	strcpy(newDescr->str,str);
 	// Поставим максимальную видимость
 	if(immortal)	newDescr->alpha = 10000.f;
 	else	newDescr->alpha = 255.f;
@@ -476,7 +474,7 @@ void ILogAndActions::SetAction(char * actionName)
 	pA = api->Entity_GetAttributeClass(&g_ILogAndActions,"ActiveActions");
 	if(pA!= nullptr) pA = pA->GetAttributeClass(actionName);
 	if(pA== nullptr) return;
-	strcpy_s(m_sActionName,actionName);
+	strcpy(m_sActionName,actionName);
 	// set texture coordinates for this action icon
 	FRECT texRect;
 	long curIconNum = pA->GetAttributeAsDword("IconNum",0);

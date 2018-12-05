@@ -121,7 +121,7 @@ bool Grass::Init()
 	if(ib < 0) return false;
 	uint16_t * index = (uint16_t *)rs->LockIndexBuffer(ib);
 	if(!index) return false;
-	for(size_t i = 0, point = 0; i < GRASS_MAX_POINTS; i++, index += 6, point += 4)
+	for(long i = 0, point = 0; i < GRASS_MAX_POINTS; i++, index += 6, point += 4)
 	{
 		index[0] = uint16_t(point + 0);
 		index[1] = uint16_t(point + 1);
@@ -133,7 +133,7 @@ bool Grass::Init()
 	rs->UnLockIndexBuffer(ib);
 	//Константы
 	static const float pi2 = 2.0f*3.141592653f;
-	for(size_t i = 0; i < 16; i++)
+	for(long i = 0; i < 16; i++)
 	{
 		//Таблица углов
 		consts[i].x = sinf(i*pi2/16.0f);
@@ -181,20 +181,20 @@ bool Grass::LoadData(const char * patchName)
 		miniX = hdr.miniX;
 		miniZ = hdr.miniZ;
 		//Последняя проверка
-		for(size_t i = 0, pnt = 0; i < minisize; i++)
+		for(long i = 0, pnt = 0; i < minisize; i++)
 		{
 			if(pnt != miniMap[i].start)  throw "incorrect file data -> minimap";
 			pnt += miniMap[i].num[0];
 		}
 		//Создаём блоки
 		uint8_t translate[16];
-		for(size_t i = 0; i < 16; i++)
+		for(long i = 0; i < 16; i++)
 		{
 			translate[i] = uint8_t((i*255)/15);
 		}
 		block = NEW GRSMapElementEx[elements];
 		GRSMapElement * src = (GRSMapElement *)(load + sizeof(GRSHeader) + minisize*sizeof(GRSMiniMapElement));
-		for(size_t i = 0; i < elements; i++)
+		for(long i = 0; i < elements; i++)
 		{
 			GRSMapElement & sb = src[i];
 			GRSMapElementEx & b = block[i];
@@ -219,7 +219,7 @@ bool Grass::LoadData(const char * patchName)
 				float cx = startX + x*GRASS_BLK_DST;
 				GRSMapElementEx * el = block + line[x].start;
 				long count = line[x].num[0];
-				for(size_t i = 0; i < count; i++)
+				for(long i = 0; i < count; i++)
 				{
 					el[i].x += cx;
 					el[i].z += cz;
@@ -256,7 +256,7 @@ void Grass::Execute(uint32_t delta_time)
 	}
 
 	VDATA * param = _CORE_API->Event("GOpt_GetGrassQuality", nullptr);
-	int32_t res = rq_full;
+	long res = rq_full;
 	if(param && param->Get(res))
 	{
 		if(res < rq_full) res = rq_full;
@@ -314,7 +314,7 @@ void Grass::Execute(uint32_t delta_time)
 	phase[5] += dltTime*0.019f;
 	phase[6] += dltTime*0.057f;
 	const float pi2 = 2.0f*3.141592653f;
-	for(size_t i = 0; i < sizeof(phase)/sizeof(phase[0]); i++) if(phase[i] > pi2*256.0f) phase[i] -= pi2*256.0f;
+	for(long i = 0; i < sizeof(phase)/sizeof(phase[0]); i++) if(phase[i] > pi2*256.0f) phase[i] -= pi2*256.0f;
 	//Коэфициенты для расчёта отклонений
 	cosPh1 = 0.4f + 0.15f*cosf(phase[1]);
 	sinPh2 = 0.51f + 0.09f*sinf(phase[2]);
@@ -451,7 +451,7 @@ void Grass::Realize(uint32_t delta_time)
 		lColor = 0.3f;
 	}
 	//Пересчитаем параметры углов
-	for(size_t i = 0; i < 16; i++)
+	for(long i = 0; i < 16; i++)
 	{
 		consts[i].z = fabsf(-consts[i].y*lDir.x + consts[i].x*lDir.z);
 		if(consts[i].z < 0.0f) consts[i].z = 0.0f;
@@ -483,7 +483,7 @@ void Grass::Realize(uint32_t delta_time)
 	PLANE * pln = rs->GetPlanes();
 	PLANE plane[5];
 	plane[0].Nx = plane[0].Ny = plane[0].Nz = 0.0f;
-	for(size_t i = 0; i < 4; i++)
+	for(long i = 0; i < 4; i++)
 	{
 		plane[i + 1] = pln[i];
 		plane[0].Nx += pln[i].Nx;
@@ -538,7 +538,7 @@ void Grass::Realize(uint32_t delta_time)
 
 	rs->SetRenderState(D3DRS_FOGDENSITY, dwOldFogDensity);
 
-	for(size_t i = 0; i < numCharacters; i++)
+	for(long i = 0; i < numCharacters; i++)
 	{
 		if(characters[i].useCounter > 2)
 		{
@@ -610,7 +610,7 @@ __forceinline void Grass::RenderBlock(const CVECTOR & camPos, PLANE * plane, lon
 	if(kLod < m_fMinGrassLod) kLod = m_fMinGrassLod;
 	//Определим персонажей попадающих в текущий блок
 	numBlockChr = 0;
-	for(size_t i = 0; i < numCharacters; i++)
+	for(long i = 0; i < numCharacters; i++)
 	{
 		//Пропостим сильно выпадающих персонажей
 		if(characters[i].pos.x + 0.9f < min.x) continue;
@@ -629,7 +629,7 @@ __forceinline void Grass::RenderBlock(const CVECTOR & camPos, PLANE * plane, lon
 //Проверка на видимость бокса
 inline bool Grass::VisibleTest(const PLANE * plane, long numPlanes, const CVECTOR & min, const CVECTOR & max)
 {
-	for(size_t i = 0; i < numPlanes; i++)
+	for(long i = 0; i < numPlanes; i++)
 	{
 		float d = plane[i].D;
 		float minX = min.x*plane[i].Nx;
@@ -691,7 +691,7 @@ inline void Grass::RenderBlock(GRSMiniMapElement & mme, float kLod)
 	}
 	//Цикл по травинкам
 	float alpha;
-	for(size_t i = 0; i < num; i++)
+	for(long i = 0; i < num; i++)
 	{
 		//Альфа
 		if(i < lodNum){ alpha = 1.0f; }else{ alpha = kBlend; }

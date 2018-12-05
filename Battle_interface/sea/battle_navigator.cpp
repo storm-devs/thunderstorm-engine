@@ -1214,9 +1214,9 @@ void BATTLE_NAVIGATOR::UpdateCurrentCharge()
 {
 	VDATA * pVD = api->Event("GetCurrentCharge");
 	if(pVD== nullptr) return;
-	int32_t curCharge = m_curCharge;
-	int32_t curSailState = m_curSailState;
-	int32_t curWindPic = m_curWindPic;
+	long curCharge = m_curCharge;
+	long curSailState = m_curSailState;
+	long curWindPic = m_curWindPic;
 	pVD->Get(curCharge,0);
 	pVD->Get(curSailState,1);
 	pVD->Get(curWindPic,2);

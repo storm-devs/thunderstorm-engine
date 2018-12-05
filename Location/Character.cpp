@@ -450,7 +450,7 @@ Character::Character()
 	numActionFightDead =4;
 	//Атаки блоки финты парирование
 	char buf[64];
-	for(size_t i = 0; i < 4; i++)
+	for(long i = 0; i < 4; i++)
 	{
 		_snprintf(buf, sizeof(buf) - 1, "attack_fast_%i", i + 1);
 		attackFast[i].SetName(buf);
@@ -576,9 +576,9 @@ Character::~Character()
 	api->Send_Message(grps, "si", "UnloadCharacter", GetID());
 
 	//Анализируем детекторы
-//	for(size_t i = 0; i < numDetectors; i++) detector[i]->Exit(this);
+//	for(long i = 0; i < numDetectors; i++) detector[i]->Exit(this);
 	//Удаляем детекторы
-	for(size_t i = 0; i < numDetectors; i++) delete detector[i];
+	for(long i = 0; i < numDetectors; i++) delete detector[i];
 	//
 	if(location && !isDeleted) location->supervisor.DelCharacter(this);
 	_CORE_API->DeleteEntity(shadow);
@@ -787,7 +787,7 @@ uint32_t Character::AttributeChanged(ATTRIBUTES * apnt)
 		{
 			long num = at->GetAttributesNum();
 			long j = 0;
-			for(size_t i = 0; i < num && j < sizeof(actionDead)/sizeof(ActionDead); i++)
+			for(long i = 0; i < num && j < sizeof(actionDead)/sizeof(ActionDead); i++)
 			{
 				const char * iname = at->GetAttribute(i);
 				if(!iname || !iname[0]) continue;
@@ -803,7 +803,7 @@ uint32_t Character::AttributeChanged(ATTRIBUTES * apnt)
 			curIdleIndex = -1;
 			long num = at->GetAttributesNum();
 			long j = 0;
-			for(size_t i = 0; i < num && j < sizeof(actionIdle)/sizeof(ActionIdle); i++)
+			for(long i = 0; i < num && j < sizeof(actionIdle)/sizeof(ActionIdle); i++)
 			{
 				const char * iname = at->GetAttribute(i);
 				if(!iname || !iname[0]) continue;
@@ -850,7 +850,7 @@ uint32_t Character::AttributeChanged(ATTRIBUTES * apnt)
 		{
 			long num = at->GetAttributesNum();
 			long j = 0;
-			for(size_t i = 0; i < num && j < sizeof(actionFightDead)/sizeof(ActionDead); i++)
+			for(long i = 0; i < num && j < sizeof(actionFightDead)/sizeof(ActionDead); i++)
 			{
 				const char * iname = at->GetAttribute(i);
 				if(!iname || !iname[0]) continue;
@@ -865,7 +865,7 @@ uint32_t Character::AttributeChanged(ATTRIBUTES * apnt)
 		{
 			long num = at->GetAttributesNum();
 			long j = 0;
-			for(size_t i = 0; i < num && j < sizeof(actionFightIdle)/sizeof(ActionIdle); i++)
+			for(long i = 0; i < num && j < sizeof(actionFightIdle)/sizeof(ActionIdle); i++)
 			{
 				const char * iname = at->GetAttribute(i);
 				if(!iname || !iname[0]) continue;
@@ -954,7 +954,7 @@ void Character::ReadFightActions(ATTRIBUTES * at, ActionCharacter actions[4], lo
 	{
 		long num = at->GetAttributesNum();
 		long j = 0;
-		for(size_t i = 0; i < num && j < 4; i++)
+		for(long i = 0; i < num && j < 4; i++)
 		{
 			const char * iname = at->GetAttribute(i);
 			if(!iname || !iname[0]) continue;
@@ -1224,7 +1224,7 @@ bool Character::IsFightEnable()
 {
 	//Спросим у скрипта о возможности стрельбы
 	VDATA * vd = _CORE_API->Event("Location_CharacterIsFight", "i", GetID());
-	int32_t res = 0;
+	long res = 0;
 	if(vd && vd->Get(res))
 	{
 		if(!res) return false;
@@ -1334,7 +1334,7 @@ void Character::Attack(Character * enemy, FightAction type)
 		res = api->Event("ChrAttackAction", "is", GetID(), aname);
 		if(res)
 		{
-			int32_t isEnable = 1;
+			long isEnable = 1;
 			if(res->Get(isEnable))
 			{
 				if(!isEnable)
@@ -1556,7 +1556,7 @@ bool Character::IsGunLoad()
 	if(!isFight || liveValue < 0 || deadName) return false;
 	//Спросим у скрипта о возможности стрельбы
 	VDATA * vd = _CORE_API->Event("Location_CharacterIsFire", "i", GetID());
-	int32_t res = 0;
+	long res = 0;
 	if(vd && vd->Get(res))
 	{
 		if(!res) return false;
@@ -1586,8 +1586,8 @@ void Character::Dead()
 	//Разбрасываем веса в зависимости от направления
 	float _ay = ay;
 	static Supervisor::FindCharacter fnd[MAX_CHARACTERS];
-	static uint32_t numChr = 0;
-	for(size_t i = 0; i < num; i++)
+	static long numChr = 0;
+	for(long i = 0; i < num; i++)
 	{
 		ay = _ay + dead[i].ang;
 		if(location->supervisor.FindCharacters(fnd, numChr, this, 2.0f, 0.0f, 0.0f)) dead[i].p *= 0.1f;
@@ -1974,7 +1974,7 @@ void Character::Update(float dltTime)
 	if(lockMove) dltTime = 0.0f;
 	//Посчитаем время для работы групп
 	{
-		for(size_t i = 0; i < numTargets; i++)
+		for(long i = 0; i < numTargets; i++)
 		{
 			grpTargets[i].time += dltTime;
 		}
@@ -2058,7 +2058,7 @@ void Character::Update(float dltTime)
 	*/
 	UpdateAnimation();
 	//Анализируем детекторы
-	for(size_t i = 0; i < numDetectors; i++) detector[i]->Check(dltTime, this);
+	for(long i = 0; i < numDetectors; i++) detector[i]->Check(dltTime, this);
 	//Если упали - пишем дебажную строчку
 	if(curPos.y < -1000.0f)
 	{
@@ -2682,7 +2682,7 @@ bool Character::zAddDetector(MESSAGE & message)
 	group[255] = 0;
 	if(!group[0]) return false;
 	//Проверяем на созданность
-	for(size_t i = 0; i < numDetectors; i++)
+	for(long i = 0; i < numDetectors; i++)
 	{
 		if(_stricmp(detector[i]->la->GetGroupName(), group) == 0) return false;
 	}
@@ -2698,7 +2698,7 @@ bool Character::zDelDetector(MESSAGE & message)
 	char group[256];
 	message.String(256, group);
 	group[255] = 0;
-	for(size_t i = 0; i < numDetectors; i++)
+	for(long i = 0; i < numDetectors; i++)
 	{
 		if(_stricmp(detector[i]->la->GetGroupName(), group) == 0)
 		{
@@ -3045,7 +3045,7 @@ bool Character::TestJump(CVECTOR pos)
 	//Проверяем траекторию падения
 	const float speed = 3.3f;
 	CVECTOR v(speed*sinf(ay), vy, speed*cosf(ay));
-	for(size_t i = 0; i < CHARACTER_MAXJUMPPOINTS; i++)
+	for(long i = 0; i < CHARACTER_MAXJUMPPOINTS; i++)
 	{
 		//Сохраняем позицию в треке
 		jumpTrack[i] = pos;
@@ -3087,7 +3087,7 @@ bool Character::BuildJump(CVECTOR pos,float fAng)
 	const float speed = 3.3f;
 	CVECTOR v(speed*sinf(fAng), speed, speed*cosf(fAng)); // скорость прыжка
 	//Строим трек для прыжка
-	for(size_t i = 0; i < CHARACTER_MAXJUMPPOINTS; i++)
+	for(long i = 0; i < CHARACTER_MAXJUMPPOINTS; i++)
 	{
 		//Сохраняем позицию в треке
 		jumpTrack[i] = pos;
@@ -4100,12 +4100,12 @@ Character * Character::FindDialogCharacter()
 	if(IsFight() || liveValue < 0 || deadName) return nullptr;
 	//Найдём окружающих персонажей
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
-	static uint32_t num = 0;
+	static long num = 0;
 	if(!location->supervisor.FindCharacters(fndCharacter, num, this, 3.0f)) return nullptr;
 	//Выбираем лутшего
 	float minDst;
 	long j = -1;
-	for(size_t i = 0; i < num; i++)
+	for(long i = 0; i < num; i++)
 	{
 		//Персонаж
 		Supervisor::FindCharacter & fc = fndCharacter[i];
@@ -4212,13 +4212,13 @@ inline void Character::CheckAttackHit()
 	}
 	//Найдём окружающих персонажей
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
-	uint32_t num = 0;
+	long num = 0;
 	if(!location->supervisor.FindCharacters(fndCharacter, num, this, attackDist, attackAng, 0.1f, 0.0f, false, true)) return;
 	//Перебираем всех врагов
 	bool isParry = false;
 	bool isHrrrSound = true;
 	bool isUseEnergy = true; // снять энергию один раз boal
-	for(size_t i = 0; i < num; i++)
+	for(long i = 0; i < num; i++)
 	{
 		//Персонаж
 		Supervisor::FindCharacter & fc = fndCharacter[i];
@@ -4290,11 +4290,11 @@ Character * Character::FindGunTarget(float & kDist, bool bOnlyEnemyTest)
 
 	//Найдём окружающих персонажей
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
-	static uint32_t num = 0;
+	static long num = 0;
 	if(!location->supervisor.FindCharacters(fndCharacter, num, this, CHARACTER_FIGHT_FIREDIST, CHARACTER_FIGHT_FIREANG, 0.4f, 30.0f, false)) return nullptr;
 	float minDst;
 	long j = -1;
-	for(size_t i = 0; i < num; i++)
+	for(long i = 0; i < num; i++)
 	{
 		Supervisor::FindCharacter & fc = fndCharacter[i];
 		if(fc.d2 <= 0.0f || fc.c->radius <= 0.0f) continue;
@@ -4348,18 +4348,18 @@ void Character::FindNearCharacters(MESSAGE & message)
 	//Ищем персонажей
 	//Найдём окружающих персонажей
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
-	static uint32_t n = 0;
+	static long n = 0;
 	if(!location->supervisor.FindCharacters(fndCharacter, n, this, rad, viewAng, planeDist, ax, isSort))
 	{
 		num->Set(0L);
 		return;
 	}
-	num->Set((int32_t)n);
+	num->Set(n);
 	if(!n) return;
 	if(n > long(array->GetElementsNum())) array->SetElementsNum(n);
 	char buf[64];
 	long nn = 0;
-	for(size_t i = 0; i < n; i++)
+	for(long i = 0; i < n; i++)
 	{
 		//Информация
 		Supervisor::FindCharacter & fc = fndCharacter[i];

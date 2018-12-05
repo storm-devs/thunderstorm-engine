@@ -388,7 +388,7 @@ const char *GEOM::GetTextureName(long tx) const
 long GEOM::FindName(const char *name) const
 {
 	for(long n=0; n<rhead.names; n++)
-		if(_strcmpi(&globname[names[n]], name)==0)
+		if(strcmpi(&globname[names[n]], name)==0)
 			return long(&globname[names[n]]);
 	return -1;
 }

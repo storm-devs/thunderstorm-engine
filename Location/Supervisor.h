@@ -11,8 +11,6 @@
 #ifndef _Supervisor_H_
 #define _Supervisor_H_
 
-#include <cstdint>
-
 class Character;
 class LocatorArray;
 struct CVECTOR;
@@ -55,7 +53,7 @@ public:
 	//Проверить на свободность позицию
 	bool CheckPosition(float x, float y, float z, Character * c);
 	//Найти по радиусу персонажей
-	bool FindCharacters(FindCharacter fndCharacter[MAX_CHARACTERS], uint32_t & numFndCharacters, Character * chr, float radius, float angTest = 0.0f, float nearPlane = 0.4f, float ax = 0.0f, bool isSort = false, bool lookCenter = false);
+	bool FindCharacters(FindCharacter fndCharacter[MAX_CHARACTERS], long & numFndCharacters, Character * chr, float radius, float angTest = 0.0f, float nearPlane = 0.4f, float ax = 0.0f, bool isSort = false, bool lookCenter = false);
 
 	void Update(float dltTime);
 	void PreUpdate(float dltTime);

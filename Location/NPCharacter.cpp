@@ -94,7 +94,7 @@ bool NPCharacter::PostInit()
 {
 	api->FindClass(&charactersGroups, "CharactersGroups", 0);
 	float tmp;
-	int32_t tmpBool;
+	long tmpBool;
 	VDATA * vd;
 	//Параметры аттаки
 	vd = api->Event("NPC_Event_GetAttackActive", "i", GetID());
@@ -774,7 +774,7 @@ void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter * enemy)
 	//Если ничего не желаем - экономим ресурсы и ничего больше не делаем
 	if(!(wishAttact | wishDefence)) return;
 	//Получаем режим выбора цели для атаки
-	int32_t isAdaptive = true;
+	long isAdaptive = true;
 	VDATA * vd = api->Event("NPC_Event_AdaptiveTargetSelect", "i", GetID());
 	if(vd) vd->Get(isAdaptive);
 	//Коректируем с учётом наличия групп
@@ -788,7 +788,7 @@ void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter * enemy)
 	}
 	//Собираем всех окружающих
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
-	static uint32_t num = 0;
+	static long num = 0;
 	if(!location->supervisor.FindCharacters(fndCharacter, num, this, CHARACTER_ATTACK_DIST, 0.0f, 0.01f, 0.0f, false)) return;
 	if(!num) return;
 	//Наша группа
@@ -801,7 +801,7 @@ void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter * enemy)
 	//Вычисляем врагов
 	bool isFreeBack = isRecoilEnable;
 	static const float backAng = -cosf(45.0f*(3.1415926535f/180.0f));
-	for(size_t i = 0; i < num; i++)
+	for(long i = 0; i < num; i++)
 	{
 		//Персонаж
 		Supervisor::FindCharacter & fc = fndCharacter[i];
@@ -860,7 +860,7 @@ void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter * enemy)
 		float kSel;
 		long counter = 0;
 		Character * enemy = nullptr;
-		for(size_t i = 0, j = -1; i < enemyCounter; i++)
+		for(long i = 0, j = -1; i < enemyCounter; i++)
 		{
 			EnemyState & es = enemies[i];
 			float k = es.state*1.0f + (es.dir + 1.0f)*0.5f;
@@ -886,7 +886,7 @@ void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter * enemy)
 	bool isBreakAttack = false;
 	long attacked = 0;
 	static const float attackAng = cosf(0.5f*CHARACTER_ATTACK_ANG*(3.1415926535f/180.0f));
-	for(size_t i = 0; i < enemyCounter; i++)
+	for(long i = 0; i < enemyCounter; i++)
 	{
 		if(enemies[i].look >= attackAng)
 		{
@@ -1002,7 +1002,7 @@ void NPCharacter::DoFightAttack(Character * enemy, long enemyCounter, bool wishD
 		count++;
 	}
 	float max = 0.0f;
-	for(size_t i = 0; i < count; i++)
+	for(long i = 0; i < count; i++)
 	{
 		max += attack[i].prb;
 	}
@@ -1194,7 +1194,7 @@ void NPCharacter::FailureCommand(NPCTask task)
 NPCharacter::NPCTask NPCharacter::GetTaskID(const char * taskName)
 {
 	if(!taskName || !taskName[0]) return npct_unknow;
-	for(size_t i = 0; i < npct_max; i++)
+	for(long i = 0; i < npct_max; i++)
 	{
 		const char * task = GetTaskName(NPCTask(i));
 		if(_stricmp(task, taskName) == 0) return NPCTask(i);

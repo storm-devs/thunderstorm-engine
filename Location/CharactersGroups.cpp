@@ -42,7 +42,7 @@ CharactersGroups::~CharactersGroups()
 {
 	if(groups)
 	{
-		for(size_t i = 0; i < numGroups; i++)
+		for(long i = 0; i < numGroups; i++)
 		{
 			if(groups[i]->relations) delete groups[i]->relations;
 			delete groups[i];
@@ -148,10 +148,10 @@ void CharactersGroups::Execute(uint32_t delta_time)
 	float playerAlarm = 0.0f;
 	bool playerActive = false;
 	bool isDeactivate = false;
-	for(size_t i = 0; i < numGroups; i++)
+	for(long i = 0; i < numGroups; i++)
 	{
 		Relation * rel = groups[i]->relations;
-		for(size_t j = 0; j <= i; j++)
+		for(long j = 0; j <= i; j++)
 		{
 			rel[j].alarm -= dltTime*rel[j].alarmdown;
 			if(rel[j].alarm < 0.0f) rel[j].alarm = 0.0f;
@@ -218,7 +218,7 @@ void CharactersGroups::CharacterVisibleCheck(Character * chr)
 	if(gi < 0) return;
 	Group * grp = groups[gi];
 	//Видимая область
-	uint32_t num;
+	long num;
 	if(location->supervisor.FindCharacters(fnd, num, chr, grp->look, CGS_VIEWANGLE, 0.05f))
 	{
 		FindEnemyFromFindList(chr, grp, num, true);
@@ -231,12 +231,12 @@ void CharactersGroups::CharacterVisibleCheck(Character * chr)
 }
 
 //Проверить найденных персонажей на врагов
-void CharactersGroups::FindEnemyFromFindList(Character * chr, Group * grp, uint32_t num, bool visCheck)
+void CharactersGroups::FindEnemyFromFindList(Character * chr, Group * grp, long num, bool visCheck)
 {
 	Character * targets[MAX_CHARACTERS];
 	long numTrg = 0;
 	//По всем найденным персонажем
-	for(size_t i = 0; i < num; i++)
+	for(long i = 0; i < num; i++)
 	{
 		//Группа найденного персонажа
 		long gi = GetCharacterGroup(fnd[i].c);
@@ -254,7 +254,7 @@ void CharactersGroups::FindEnemyFromFindList(Character * chr, Group * grp, uint3
 	//Сообщим окружающим об обнаруженных целях
 	if(numTrg > 0 && location->supervisor.FindCharacters(fnd, num, chr, grp->say))
 	{
-		for(size_t i = 0; i < num; i++)
+		for(long i = 0; i < num; i++)
 		{
 			Character * c = fnd[i].c;
 			//Если невидим, то пропустим его
@@ -265,7 +265,7 @@ void CharactersGroups::FindEnemyFromFindList(Character * chr, Group * grp, uint3
 			//Группа найденного персонажа
 			Relation & r = FindRelation(grp->index, cgrp);
 			if(r.curState != rs_friend) continue;
-			for(size_t j = 0; j < numTrg; j++)
+			for(long j = 0; j < numTrg; j++)
 			{
 				if(grp->index != cgrp)
 				{
@@ -299,7 +299,7 @@ bool CharactersGroups::AddEnemyTarget(Character * chr, Character * enemy, float 
 	if(r.isActive) r.curState = r.actState;
 	if(r.actState != rs_enemy) return false;
 	//Ищим среди добавленных
-	for(size_t i = 0; i < chr->numTargets; i++)
+	for(long i = 0; i < chr->numTargets; i++)
 	{
 		if(enemy == api->GetEntityPointer(&chr->grpTargets[i].chr))
 		{
@@ -321,7 +321,7 @@ bool CharactersGroups::AddEnemyTarget(Character * chr, Character * enemy, float 
 void CharactersGroups::RemoveAllInvalidTargets()
 {
 	//Обновим списки целей
-	for(size_t i = 0; i < location->supervisor.numCharacters; i++)
+	for(long i = 0; i < location->supervisor.numCharacters; i++)
 	{
 		RemoveInvalidTargets(location->supervisor.character[i].c);
 	}
@@ -338,7 +338,7 @@ bool CharactersGroups::RemoveInvalidTargets(Character * chr, Character * check)
 		return false;
 	}
 	bool isValidate = false;
-	for(size_t i = 0; i < chr->numTargets; )
+	for(long i = 0; i < chr->numTargets; )
 	{
 		bool isDelete = true;
 		Character::GrpTarget & trg = chr->grpTargets[i];
@@ -522,7 +522,7 @@ bool CharactersGroups::MsgGetOptimalTarget(MESSAGE & message)
 		//Выберем оптимальную цель
 		float value;
 		s = -1;
-		for(size_t i = 0; i < c->numTargets; i++)
+		for(long i = 0; i < c->numTargets; i++)
 		{
 			//Указатель на персонажа
 			NPCharacter * nc = (NPCharacter *)api->GetEntityPointer(&c->grpTargets[i].chr);
@@ -530,7 +530,7 @@ bool CharactersGroups::MsgGetOptimalTarget(MESSAGE & message)
 			if(!nc->IsSetBlade()) continue;
 			//Соберём количество персонажей воюющих с этим хмырём
 			long n = 0;
-			for(size_t j = 0; j < numChr; j++)
+			for(long j = 0; j < numChr; j++)
 			{
 				if(cEx[j].c == nc || cEx[j].c == c) continue;
 				if(((NPCharacter *)cEx[j].c)->GetAttackedCharacter() == nc) n++;
@@ -593,7 +593,7 @@ void CharactersGroups::MsgAttack(MESSAGE & message)
 	if(r.alarm >= r.alarmmax) r.isActive = true;
 	if(r.isActive) r.curState = r.actState;
 	//Установим враждебные отношения у всех дружественных к пострадавшей групп
-	for(size_t i = 0; i < numGroups; i++)
+	for(long i = 0; i < numGroups; i++)
 	{
 		if(gHit == groups[i]) continue;
 		if(gAttack == groups[i]) continue;
@@ -626,10 +626,10 @@ void CharactersGroups::MsgAddTarget(MESSAGE & message)
 	//Добавляем врага
 	AddEnemyTarget(chr, enemy, message.Float());
 	//Сообщаем окружающим о новой цели
-	uint32_t num = 0;
+	long num = 0;
 	if(location->supervisor.FindCharacters(fnd, num, chr, groups[g1]->say))
 	{
-		for(size_t i = 0; i < num; i++)
+		for(long i = 0; i < num; i++)
 		{
 			Character * c = fnd[i].c;
 			//Если невидим, то пропустим его
@@ -689,7 +689,7 @@ long CharactersGroups::RegistryGroup(const char * groupName)
 	{
 		//Таблица отношений
 		grp->relations = NEW Relation[numGroups];
-		for(size_t i = 0; i < numGroups - 1; i++)
+		for(long i = 0; i < numGroups - 1; i++)
 		{
 			grp->relations[i].alarm = CGS_START_ALARM;
 			grp->relations[i].alarmdown = CGS_ALARMDOWN;
@@ -922,11 +922,11 @@ void CharactersGroups::RemoveCharacterFromAllGroups(ENTITY_ID * chr)
 {
 	Character * ch = chr != nullptr ? (Character *)api->GetEntityPointer(chr) : nullptr;
 	//Удалим персонажа из предыдущей группы
-	for(size_t i = 0; i < numGroups; i++)
+	for(long i = 0; i < numGroups; i++)
 	{
 		Group * g = groups[i];
 		ENTITY_ID * cid  = g->c;
-		for(size_t j = 0; j < g->numChr; )
+		for(long j = 0; j < g->numChr; )
 		{
 			Character * c = (Character *)api->GetEntityPointer(&cid[j]);
 			if(c == nullptr || c == ch)
@@ -977,7 +977,7 @@ inline long CharactersGroups::FindGroupIndex(const char * name)
 	long h = String::GetHash(name);
 
 	//Ищем среди зарегистрированных
-	for(size_t i = 0; i < numGroups; i++)
+	for(long i = 0; i < numGroups; i++)
 	{
 		if(groups[i]->name.Cmp(name, l, h)) return i;
 	}
@@ -1046,7 +1046,7 @@ inline long CharactersGroups::GetCharacterGroup(Character * c)
 void CharactersGroups::ClearAllTargets()
 {
 	//Обновим списки целей
-	for(size_t i = 0; i < location->supervisor.numCharacters; i++)
+	for(long i = 0; i < location->supervisor.numCharacters; i++)
 	{
 		location->supervisor.character[i].c->numTargets = 0;
 	}
@@ -1067,9 +1067,9 @@ void CharactersGroups::SaveData()
 	if(saveData) AttributesPointer->DeleteAttributeClassX(saveData);
 	saveData = AttributesPointer->CreateSubAClass(AttributesPointer, "savedata");
 	//Сохраняем отношения групп
-	for(size_t i = 0, cnt = 0; i < numGroups; i++)
+	for(long i = 0, cnt = 0; i < numGroups; i++)
 	{
-		for(size_t j = 0; j < i; j++)
+		for(long j = 0; j < i; j++)
 		{
 			//Раздел отношений
 			char buf[16];
@@ -1119,7 +1119,7 @@ void CharactersGroups::LoadDataRelations()
 	ATTRIBUTES * saveData = AttributesPointer->FindAClass(AttributesPointer, "savedata");
 	if(!saveData) return;
 	long numG = saveData->GetAttributesNum();
-	for(size_t i = 0; i < numG; i++)
+	for(long i = 0; i < numG; i++)
 	{
 		ATTRIBUTES * grp = saveData->GetAttributeClass(i);
 		//Регестрируем первую группу
@@ -1174,9 +1174,9 @@ void CharactersGroups::LoadDataRelations()
 //Установить отношения для активных групп
 void CharactersGroups::RestoreStates()
 {
-	for(size_t i = 0, cnt = 0; i < numGroups; i++)
+	for(long i = 0, cnt = 0; i < numGroups; i++)
 	{
-		for(size_t j = 0; j < i; j++)
+		for(long j = 0; j < i; j++)
 		{
 			Relation & r = FindRelation(i, j);
 			bool oldState = r.isActive;
@@ -1196,9 +1196,9 @@ void CharactersGroups::RestoreStates()
 void CharactersGroups::DumpRelations()
 {
 	//Сохраняем отношения групп
-	for(size_t i = 0; i < numGroups; i++)
+	for(long i = 0; i < numGroups; i++)
 	{
-		for(size_t j = 0; j < i; j++)
+		for(long j = 0; j < i; j++)
 		{
 			api->Trace("\"%s\" <-> \"%s\"", groups[i]->name.name, groups[j]->name.name);
 			//Сохраним отношения
@@ -1216,7 +1216,7 @@ void CharactersGroups::DumpRelations()
 	}
 	api->Trace("Groups info:");
 	api->Trace("");
-	for(size_t i = 0; i < numGroups; i++)
+	for(long i = 0; i < numGroups; i++)
 	{
 		api->Trace("name: \"%s\"", groups[i]->name.name);
 		api->Trace("    look: %f", groups[i]->look);

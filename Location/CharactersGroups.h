@@ -97,7 +97,7 @@ private:
 	//Проверка обнаружения персонажем остальных
 	void CharacterVisibleCheck(Character * chr);
 	//Проверить найденных персонажей на врагов
-	void FindEnemyFromFindList(Character * chr, Group * grp, uint32_t num, bool visCheck);
+	void FindEnemyFromFindList(Character * chr, Group * grp, long num, bool visCheck);
 	//Добавить или обновить врага
 	bool AddEnemyTarget(Character * chr, Character * enemy, float maxtime = -1.0);
 	//Удалить все неактивные или неправильные цели

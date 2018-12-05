@@ -1,4 +1,5 @@
-#include <cstddef>
+
+
 #include "LocationScriptLib.h"
 #include "../Common_h/dx9render.h"
 #include "Fader.h"
@@ -73,7 +74,7 @@ void slAddToCache(LocationFindCacheElement * element, long size, const char * na
 	Assert(name[0]);
 	//Ищем ячейку для записи
 	long j = 0;
-	for(size_t i = 0, min = element[i].use; i < size; i++)
+	for(long i = 0, min = element[i].use; i < size; i++)
 	{
 		if(element[i].index < 0){ j = i; break; }
 		if(element[i].use < min){ j = i; min = element[i].use; }
@@ -105,14 +106,14 @@ uint32_t slNativeFastFind(VS_STACK * pS, LocationFindCacheElement * cache, long 
 		return IFUNCRESULT_OK;
 	}
 	//Снижаем значения использования в кеше
-	for(size_t i = 0; i < cacheSize; i++)
+	for(long i = 0; i < cacheSize; i++)
 	{
 		cache[i].use--;
 		if(cache[i].use < 0) cache[i].use = 0;
 	}
 	//Смотрим в кеше
 	bool res;
-	for(size_t i = 0; i < cacheSize; i++)
+	for(long i = 0; i < cacheSize; i++)
 	{
 		if(cache[i].index < 0) continue;
 		if(!cache[i].Cmp(charactersFindBuf)) continue;
@@ -137,8 +138,8 @@ uint32_t slNativeFastFind(VS_STACK * pS, LocationFindCacheElement * cache, long 
 		}
 	}
 	//Придётся искать по массиву
-	const auto num = pArray->GetElementsNum();
-	for(size_t i = 0; i < num; i++)
+	long num = pArray->GetElementsNum();
+	for(long i = 0; i < num; i++)
 	{
 		VDATA * vd = (VDATA *)pArray->GetArrayElement(i);
 		if(CheckID(vd, charactersFindBuf.name, res))
@@ -146,7 +147,7 @@ uint32_t slNativeFastFind(VS_STACK * pS, LocationFindCacheElement * cache, long 
 			if(res)
 			{
 				slAddToCache(cache, cacheSize, charactersFindBuf.name, i);
-				pReturn->Set((int32_t)i);
+				pReturn->Set(i);
 				return IFUNCRESULT_OK;
 			}
 		}
@@ -229,7 +230,7 @@ uint32_t __cdecl slNativeSleep(VS_STACK * pS)
 {
 	//Получить строки
 	VDATA * pInt = (VDATA*)pS->Pop();
-	int32_t delay = 1;
+	long delay = 1;
 	if(!pInt || !pInt->Get(delay)) return IFUNCRESULT_FAILED;
 	if(delay < 1) delay = 1;
 	Sleep(delay);

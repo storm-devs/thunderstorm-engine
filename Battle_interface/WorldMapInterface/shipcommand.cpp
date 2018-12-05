@@ -37,7 +37,7 @@ long WMShipCommandList::CommandAdding()
 	if( !pAttr ) return 0;
 	long attrQuant = pAttr->GetAttributesNum();
 
-	for(size_t i=0; i<attrQuant; i++)
+	for(long i=0; i<attrQuant; i++)
 	{
 		ATTRIBUTES * pA = pAttr->GetAttributeClass(i);
 		if(pA== nullptr) continue; // нет такого атрибута

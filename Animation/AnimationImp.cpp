@@ -27,7 +27,7 @@ AnimationImp::AnimationImp(long id, AnimationInfo * animationInfo)
 	aniInfo = animationInfo;
 	aniInfo->AddRef();
 	thisID = id;
-	for(size_t i = 0; i < ANI_MAX_ACTIONS; i++)
+	for(long i = 0; i < ANI_MAX_ACTIONS; i++)
 	{
 		action[i].SetAnimation(this, i);
 		timer[i].SetAnimation(this);
@@ -72,7 +72,7 @@ long AnimationImp::SetEvent(AnimationEvent event, long index, AnimationEventList
 {
 	Assert(event < ae_numevents);
 	if(!ael) return -1;
-	for(size_t i = 0; i < ANIIMP_MAXLISTENERS; i++)
+	for(long i = 0; i < ANIIMP_MAXLISTENERS; i++)
 		if(!ae_listeners[event][i])
 		{
 			ae_listeners[event][i] = ael;
@@ -125,7 +125,7 @@ void AnimationImp::CopyPlayerState(long indexSrc, long indexDst, bool copyTimerS
 	Assert(indexDst >= 0 && indexDst < ANI_MAX_ACTIONS);
 	if(indexSrc == indexDst) return;
 	action[indexDst].CopyState(action[indexSrc]);
-	for(size_t i = 0; i < ANI_MAX_ACTIONS; i++)
+	for(long i = 0; i < ANI_MAX_ACTIONS; i++)
 	{
 		bool isInv = false;
 		if(timer[i].IsUsedPlayer(indexSrc, &isInv))
@@ -177,10 +177,10 @@ bool AnimationImp::IsUserBlend()
 void AnimationImp::Execute(long dltTime)
 {
 	//Исполним animation
-	for(size_t i = 0; i < ANI_MAX_ACTIONS; i++)
+	for(long i = 0; i < ANI_MAX_ACTIONS; i++)
 						action[i].Execute(dltTime);
 	//Исполним таймеры
-	for(size_t i = 0; i < ANI_MAX_ACTIONS; i++)
+	for(long i = 0; i < ANI_MAX_ACTIONS; i++)
 						timer[i].Execute(dltTime);
 	//Расчитаем матрицы анимации
 	BuildAnimationMatrices();
@@ -194,7 +194,7 @@ void AnimationImp::BuildAnimationMatrices()
 	//Посмотрим сколько плееров играет, считаем текущии коэфициенты блендинга
 	long plCnt = 0;
 	float normBlend = 0.0f;
-	for(size_t i = 0; i < ANI_MAX_ACTIONS; i++)
+	for(long i = 0; i < ANI_MAX_ACTIONS; i++)
 		if(action[i].IsPlaying())
 		{
 			plCnt++;
@@ -230,7 +230,7 @@ void AnimationImp::BuildAnimationMatrices()
 
 			float kBlend = 1.0f - action[0].kBlendCurrent*normBlend;
 			//-------------------------------------------------------------------------
-			for(size_t j = 0; j < nbones; j++)
+			for(long j = 0; j < nbones; j++)
 			{
 				Bone &bn = aniInfo->GetBone(j);
 				CMatrix inmtx;
@@ -264,7 +264,7 @@ void AnimationImp::BuildAnimationMatrices()
 				}
 
 				//-------------------------------------------------------------------------
-				for(size_t j = 0; j < nbones; j++)
+				for(long j = 0; j < nbones; j++)
 				{
 					Bone &bn = aniInfo->GetBone(j);
 					CMatrix inmtx;
@@ -291,7 +291,7 @@ void AnimationImp::BuildAnimationMatrices()
 					}
 
 					//-------------------------------------------------------------------------
-					for(size_t j = 0; j < nbones; j++)
+					for(long j = 0; j < nbones; j++)
 					{
 						Bone &bn = aniInfo->GetBone(j);
 						CMatrix inmtx;
@@ -311,10 +311,10 @@ void AnimationImp::BuildAnimationMatrices()
 					__debugbreak();
 					/*_asm int 3;*/
 				//	float frame = 0.0f;
-				//	for(size_t j = 0; j < nbones; j++)
+				//	for(long j = 0; j < nbones; j++)
 				//		aniInfo->GetBone(j).BlendFrame(frame);
 				}
-	for(size_t j=0; j<nbones; j++)
+	for(long j=0; j<nbones; j++)
 	{
 		Bone &bn = aniInfo->GetBone(j);
 		matrix[j] = CMatrix(bn.start)*CMatrix(bn.matrix);
@@ -325,7 +325,7 @@ void AnimationImp::BuildAnimationMatrices()
 //Разослать события
 void AnimationImp::SendEvent(AnimationEvent event, long index)
 {
-	for(size_t i = 0; i < ANIIMP_MAXLISTENERS; i++)
+	for(long i = 0; i < ANIIMP_MAXLISTENERS; i++)
 	{
 		if(ae_listeners[event][i])
 		{

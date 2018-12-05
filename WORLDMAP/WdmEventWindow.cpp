@@ -165,7 +165,7 @@ void WdmEventWindow::SplitText()
 	//Расчитываем координаты окна
 	w -= 2*WDM_EW_WSPACE;
 	float y = headerWidth ? rs->CharHeight(headerFont) + 2 : 0.0f;
-	for(size_t i = 0; i < numTokens;)
+	for(long i = 0; i < numTokens;)
 	{
 		//Смотрим сколько поместится на строке
 		long strW = -spaceW;
@@ -189,7 +189,7 @@ void WdmEventWindow::SplitText()
 		if(i + j >= numTokens) sp = float(spaceW);
 		//Раставляем координаты
 		float x = winX + WDM_EW_WSPACE;
-		for(size_t k = 0; k < j; k++)
+		for(long k = 0; k < j; k++)
 		{
 			token[i + k].x = long(x);
 			x += token[i + k].w + sp;
@@ -201,7 +201,7 @@ void WdmEventWindow::SplitText()
 	buttonPosY = long(y);
 	winY = (scrh - winH)*0.5f;
 	y = winY + WDM_EW_UPSPACE;
-	for(size_t i = 0; i < numTokens; i++) token[i].y += long(y);
+	for(long i = 0; i < numTokens; i++) token[i].y += long(y);
 }
 
 //Установить варианты ответов
@@ -328,7 +328,7 @@ void WdmEventWindow::LRender(VDX9RENDER * rs)
 	}
 	//Текст
 	if(headerWidth) rs->Print(headerFont, 0xffffffff, long(winX + (winW - headerWidth)*0.5f), long(winY + WDM_EW_UPSPACE), text);
-	for(size_t i = 0; i < numTokens; i++)
+	for(long i = 0; i < numTokens; i++)
 		rs->Print(textFont, 0xffffffff, token[i].x, token[i].y, token[i].string);
 
 	//Подгонка размеров окна

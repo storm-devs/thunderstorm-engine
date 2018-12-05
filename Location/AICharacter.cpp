@@ -422,7 +422,7 @@ bool AICharacter::FindDirectional()
 	if(!location->GetPtcData().FindPathDir(command.tnode, CVECTOR(command.tpnt), command.node, command.pnt, command.tnode, command.tpnt)) return false;
 	if(location->IsDebugView())
 	{
-		for(size_t i = 0; i < location->GetPtcData().numSteps; i++)
+		for(long i = 0; i < location->GetPtcData().numSteps; i++)
 		{
 			location->DrawLine(location->GetPtcData().stepPos[i] + CVECTOR(0, 0.01f, 0), 0xffff00ff, location->GetPtcData().stepPos[i] + CVECTOR(0, 2.01f, 0), 0xff2f80ff, false);
 		}
@@ -436,7 +436,7 @@ void AICharacter::CalcRepulsionForces()
 	if(numColCharacter <= 0) return;
 	float k;
 	float kn = 1.0f/numColCharacter;
-	for(size_t i = 0; i < numColCharacter; i++)
+	for(long i = 0; i < numColCharacter; i++)
 	{
 		Supervisor::CharacterInfo & ci = location->supervisor.colchr[startColCharacter + i];
 		if(ci.d == 0.0f) continue;

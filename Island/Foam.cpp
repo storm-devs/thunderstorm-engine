@@ -1,6 +1,5 @@
 #include "Foam.h"
 #include "../Common_h/math3d/Plane.h"
-#include "../Common_h/defines.h"
 
 CoastFoam::CoastFoam()
 {
@@ -121,7 +120,7 @@ void CoastFoam::Realize(uint32_t Delta_Time)
 		aRects.clear();
 
 		Foam * pF = aFoams[i];
-		for (size_t j=0; j<pF->aFoamParts.size(); j++)
+		for (long j=0; j<pF->aFoamParts.size(); j++)
 		{
 			RS_LINE rl, r2;
 			rl.dwColor = 0xFFFFFFFF;
@@ -195,9 +194,9 @@ void CoastFoam::Realize(uint32_t Delta_Time)
 			for (long i=0; i<aFoams.size(); i++)
 			{
 				Foam * pF = aFoams[i];
-				for (size_t j=0; j<pF->aFoamParts.size(); j++)
+				for (long j=0; j<pF->aFoamParts.size(); j++)
 				{
-					for (size_t k=0; k<2; k++)
+					for (long k=0; k<2; k++)
 					{
 						MTX_PRJ_VECTOR vP;
 						CVECTOR v = pF->aFoamParts[j].v[k];
@@ -409,7 +408,7 @@ void CoastFoam::ExecuteFoamType2(Foam * pF, float fDeltaTime)
 
 	dwNumPenasExecuted++;
 
-	for (size_t k=0; k<pF->iNumFoams; k++)
+	for (long k=0; k<pF->iNumFoams; k++)
 	{
 		long kk = (k == 1) ? 0 : 1;
 
@@ -603,7 +602,7 @@ void CoastFoam::ExecuteFoamType1(Foam * pF, float fDeltaTime)
 			if (y == 0 && pWP->p[y].fPos >= 0.6f)
 			{
 				//pWP->p[y].fSpeed *= 0.95f;
-				for (size_t k=0; k<8; k++)
+				for (long k=0; k<8; k++)
 					pWP->p[k].fSpeed *= (1.0f - Clampf(fDeltaTime * 2.0f));
 			}
 
@@ -668,7 +667,7 @@ void CoastFoam::RecalculateFoam(long iFoam)
 		FoamPart * pF2 = &pF->aFoamParts[i + 1];
 
 		float dx = (pF1->v[0] - pF2->v[0]).GetLength() / float(iFoamDivides);
-		for (size_t j=0; j<iFoamDivides; j++)
+		for (long j=0; j<iFoamDivides; j++)
 		{
 			if (j == 0 && i != 0) continue;
 
@@ -680,7 +679,7 @@ void CoastFoam::RecalculateFoam(long iFoam)
 			pWP->v[1] = pF1->v[0] + float(j) / float(iFoamDivides - 1) * (pF2->v[0] - pF1->v[0]);
 
 			float fStartPos = sinf(ii / 14.0f * PI) * 0.1f;
-			for (size_t k=0; k<8; k++)
+			for (long k=0; k<8; k++)
 			{
 				pWP->p[k].fPos = fStartPos + (float(k) / 7.0f) * 0.4f;
 				pWP->p[k].fSpeed = 2.0f;//RRnd(pF->fSpeedMin, pF->fSpeedMax);
@@ -735,7 +734,7 @@ void CoastFoam::Save()
 		pI->WriteString(cSection, "Texture", (char*)pF->sTexture.c_str());
 		pI->WriteLong(cSection, "Type", pF->Type);
 
-		for (size_t j=0; j<pF->aFoamParts.size(); j++)
+		for (long j=0; j<pF->aFoamParts.size(); j++)
 		{
 			FoamPart * pFP = &pF->aFoamParts[j];
 			sprintf(cKey, "key_%d", j);
@@ -802,7 +801,7 @@ void CoastFoam::Load()
 		pF->iTexture = Render().TextureCreate((std::string("weather\\coastfoam\\") + cTemp).c_str());
 		pF->Type = (FOAMTYPE)pI->GetLong(cSection, "Type", FOAM_TYPE_2);
 
-		for (size_t j=0; j<((iNumParts) ? iNumParts : 100000); j++)
+		for (long j=0; j<((iNumParts) ? iNumParts : 100000); j++)
 		{
 			sprintf(cKey, "key_%d", j);
 			CVECTOR v1, v2; v1.y = v2.y = 0.0f;

@@ -259,7 +259,7 @@ long BIShipCommandList::CommandAdding()
 	if( !pAttr ) return 0;
 	long attrQuant = pAttr->GetAttributesNum();
 
-	for(size_t i=0; i<attrQuant; i++)
+	for(long i=0; i<attrQuant; i++)
 	{
 		ATTRIBUTES * pA = pAttr->GetAttributeClass(i);
 		if(pA== nullptr) continue; // нет такого атрибута
@@ -281,7 +281,7 @@ long BIShipCommandList::ChargeAdding()
 	// Определим количество каждого заряда на борту
 	VDATA * tmpDat = api->Event("BI_GetChargeQuantity","l",m_nCurrentCommandCharacterIndex);
 	if(tmpDat== nullptr) return 0;
-	int32_t lIdx=0; // количество типов заряда
+	long lIdx=0; // количество типов заряда
 	tmpDat->Get(lIdx,0);
 	if(lIdx<=0) return 0;
 
@@ -310,7 +310,7 @@ long BIShipCommandList::UserIconsAdding()
 	if( !pAttr ) return 0;
 	long attrQuant = pAttr->GetAttributesNum();
 
-	for(size_t i=0; i<attrQuant; i++)
+	for(long i=0; i<attrQuant; i++)
 	{
 		ATTRIBUTES * pA = pAttr->GetAttributeClass(i);
 		if(pA== nullptr) continue; // нет такого атрибута
@@ -332,7 +332,7 @@ long BIShipCommandList::AbilityAdding()
 	if( !pAttr ) return 0;
 	long attrQuant = pAttr->GetAttributesNum();
 
-	for(size_t i=0; i<attrQuant; i++)
+	for(long i=0; i<attrQuant; i++)
 	{
 		ATTRIBUTES * pA = pAttr->GetAttributeClass(i);
 		if(pA== nullptr) continue; // нет такого атрибута
@@ -415,7 +415,7 @@ void BIShipCommandList::AddFlagPictureToIcon( long nCharIdx )
 {
 	VDATA* pvdat = api->Event("evntGetSmallFlagData","l",nCharIdx);
 	if( !pvdat ) return;
-	int32_t nTex,nPic,nBackPic;
+	long nTex,nPic,nBackPic;
 	pvdat->Get(nTex,0);
 	pvdat->Get(nPic,1);
 	pvdat->Get(nBackPic,2);

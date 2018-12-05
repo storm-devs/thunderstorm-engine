@@ -2052,7 +2052,7 @@ void XINTERFACE::DoControl()
 			curKS.backButton = true;
 		if (cs.state == CST_ACTIVATED)	bFirstPress = true;
 
-		int32_t nWeel = 0;
+		long nWeel = 0;
 		if(m_pMouseWeel) m_pMouseWeel->Get(nWeel);
 		if( nWeel!=0 && m_pCurNode && m_pCurNode->IsWeelActive() )
 		{

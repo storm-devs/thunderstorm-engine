@@ -8,9 +8,6 @@
 #include "../Common_h/model.h"
 #include "../Common_h/geometry.h"
 #include "../Sea_ai/AIFlowGraph.h"
-#include <string>
-#include <vector>
-
 
 class MapZipper
 {

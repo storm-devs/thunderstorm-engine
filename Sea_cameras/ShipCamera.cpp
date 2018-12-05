@@ -282,7 +282,7 @@ bool SHIP_CAMERA::IslandCollision(CVECTOR & pos)
 	src = vCenter - up*camRadius;
 	k[4] = mdl->Trace(src, src + dr);
 	float kRes = 2.0f;
-	for(size_t i = 0; i < 5; i++) if(kRes > k[i]) kRes = k[i];
+	for(long i = 0; i < 5; i++) if(kRes > k[i]) kRes = k[i];
 	if(kRes < 1.0f) pos = vCenter + (pos - vCenter)*kRes - dir*camRadius;
 	return kRes < 1.0f;
 }

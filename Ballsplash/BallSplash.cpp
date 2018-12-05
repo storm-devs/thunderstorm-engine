@@ -83,7 +83,7 @@ void BALLSPLASH::Realize(uint32_t _dTime)
 {
 	GUARD(BALLSPLASH::Realize)
 
-	uint64_t ticks;
+	uint32_t ticks;
 	RDTSC_B(ticks);
 
 	TSplash::lockTicks    = 0;

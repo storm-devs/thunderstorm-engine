@@ -28,7 +28,7 @@ Supervisor::Supervisor()
 Supervisor::~Supervisor()
 {
 	isDelete = true;
-	for(size_t i = 0; i < numCharacters; i++)
+	for(long i = 0; i < numCharacters; i++)
 	{
 		character[i].c->AlreadySTORM_DELETE();
 		_CORE_API->DeleteEntity(character[i].c->GetID());
@@ -48,7 +48,7 @@ void Supervisor::AddCharacter(Character * ch)
 //Удалить персонажа из локации
 void Supervisor::DelCharacter(Character * ch)
 {
-	for(size_t i = 0; i < numCharacters; i++)
+	for(long i = 0; i < numCharacters; i++)
 		if(character[i].c == ch)
 		{
 			character[i] = character[--numCharacters];
@@ -61,7 +61,7 @@ void Supervisor::Update(float dltTime)
 	//Если нет персонажей, ничего не делаем
 	if(!numCharacters) return;
 	//Перемещаем персонажей
-	for(size_t i = 0; i < numCharacters; i++)
+	for(long i = 0; i < numCharacters; i++)
 	{
 		character[i].c->Move(dltTime);
 		character[i].c->colMove = 0.0f;
@@ -77,7 +77,7 @@ void Supervisor::Update(float dltTime)
 		character[i].c->startColCharacter = chr;
 		CVECTOR curPos(character[i].c->curPos);
 		float radius = character[i].c->radius;
-		for(size_t j = i + 1; j < numCharacters; j++)
+		for(long j = i + 1; j < numCharacters; j++)
 		{
 			//Пропустим мёртвых
 			Character * ci = character[i].c;
@@ -178,7 +178,7 @@ void Supervisor::Update(float dltTime)
 void Supervisor::PreUpdate(float dltTime)
 {
 	//Сбрасываем состояние персонажей
-	for(size_t i = 0; i < numCharacters; i++) character[i].c->Reset();
+	for(long i = 0; i < numCharacters; i++) character[i].c->Reset();
 	_CORE_API->Event("CharactersStateUpdate", "f", dltTime);
 }
 
@@ -190,7 +190,7 @@ void Supervisor::PostUpdate(float dltTime)
 	//Корректируем время при превышении предела
 	if(time > 10000.0f)
 	{
-		for(size_t i = 0; i < numCharacters; i++) character[i].lastTime -= time;
+		for(long i = 0; i < numCharacters; i++) character[i].lastTime -= time;
 		time -= 10000.0f;
 	}
 	//Если не пришло время обновления, пропустим ход
@@ -203,7 +203,7 @@ void Supervisor::PostUpdate(float dltTime)
 	//Исполняем текущего персонажа
 	if(numCharacters)
 	{
-		for(size_t i = 0; i < 5; i++)
+		for(long i = 0; i < 5; i++)
 		{
 			if(curUpdate >= numCharacters) break;
 			float dlt = time - character[curUpdate].lastTime;
@@ -220,7 +220,7 @@ void Supervisor::PostUpdate(float dltTime)
 //Установить позиции для загрузки
 void Supervisor::SetSavePositions()
 {
-	for(size_t i = 0; i < numCharacters; i++)
+	for(long i = 0; i < numCharacters; i++)
 	{
 		if(!character[i].c) continue;
 		character[i].c->SetSavePosition();
@@ -230,7 +230,7 @@ void Supervisor::SetSavePositions()
 //Удалить позиции для загрузки
 void Supervisor::DelSavePositions(bool isTeleport)
 {
-	for(size_t i = 0; i < numCharacters; i++)
+	for(long i = 0; i < numCharacters; i++)
 	{
 		if(!character[i].c) continue;
 		character[i].c->DelSavePosition(isTeleport);
@@ -240,7 +240,7 @@ void Supervisor::DelSavePositions(bool isTeleport)
 //Проверить на свободность позицию
 bool Supervisor::CheckPosition(float x, float y, float z, Character * c)
 {
-	for(size_t i = 0; i < numCharacters; i++)
+	for(long i = 0; i < numCharacters; i++)
 	{
 		if(character[i].c == c) continue;
 		float dx = x - character[i].c->curPos.x;
@@ -254,7 +254,7 @@ bool Supervisor::CheckPosition(float x, float y, float z, Character * c)
 }
 
 //Найти по радиусу персонажей
-bool Supervisor::FindCharacters(FindCharacter fndCharacter[MAX_CHARACTERS], uint32_t & numFndCharacters, Character * chr, float radius, float angTest, float nearPlane, float ax, bool isSort, bool lookCenter)
+bool Supervisor::FindCharacters(FindCharacter fndCharacter[MAX_CHARACTERS], long & numFndCharacters, Character * chr, float radius, float angTest, float nearPlane, float ax, bool isSort, bool lookCenter)
 {
 	numFndCharacters = 0;
 	if(!chr || radius < 0.0f) return false;
@@ -288,7 +288,7 @@ bool Supervisor::FindCharacters(FindCharacter fndCharacter[MAX_CHARACTERS], uint
 	ax *= ax;
 	float testY = y + chr->height*0.5f;
 	//Просматриваем персонажей
-	for(size_t i = 0; i < numCharacters; i++)
+	for(long i = 0; i < numCharacters; i++)
 	{
 		//Исключим себя
 		if(character[i].c == chr) continue;
@@ -327,12 +327,12 @@ bool Supervisor::FindCharacters(FindCharacter fndCharacter[MAX_CHARACTERS], uint
 		fndCharacter[numFndCharacters].d2 = d;
 		numFndCharacters++;
 	}
-	if(isSort && numFndCharacters > 1)
+	if(isSort)
 	{
-		for(size_t i = 0; i < numFndCharacters - 1; i++)
+		for(long i = 0; i < numFndCharacters - 1; i++)
 		{
-			size_t k = i;
-			for(size_t j = i + 1; j < numFndCharacters; j++)
+			long k = i;
+			for(long j = i + 1; j < numFndCharacters; j++)
 			{
 				if(fndCharacter[k].d2 > fndCharacter[j].d2) k = j;
 			}
@@ -355,7 +355,7 @@ long Supervisor::FindForvardLocator(LocatorArray * la, const CVECTOR & pos, cons
 	CVECTOR lpos;
 	float maxcs;
 	long l = -1;
-	for(size_t i = 0; i < num; i++)
+	for(long i = 0; i < num; i++)
 	{
 		if(!la->GetLocatorPos(i, lpos.x, lpos.y, lpos.z)) continue;
 		if(lookChr)

@@ -77,7 +77,7 @@ void WdmShip::Teleport(float x, float z, float ay)
 {
 	mtx.BuildMatrix(0.0f, ay, 0.0f, x, 0.0f, z);
 	this->ay = ay;
-	for(size_t i = 0; i < WDM_SHIP_WMSZ; i++)
+	for(long i = 0; i < WDM_SHIP_WMSZ; i++)
 	{
 		lines[i].x = x;
 		lines[i].z = z;
@@ -231,7 +231,7 @@ void WdmShip::LRender(VDX9RENDER * rs)
 		vrt[0].color = color;
 		vrt[0].tu = 0.5f;
 		vrt[0].tv = 0.0f;
-		for(size_t i = 0; i < WDM_SHIP_WMSZ; i++)
+		for(long i = 0; i < WDM_SHIP_WMSZ; i++)
 		{
 			float k = (WDM_SHIP_SPEED/5.0f)*powf((i + 1)*1.0f/WDM_SHIP_WMSZ, 0.4f)*lines[i].size;
 			float dx = -cosf(lines[i].ay)*k;

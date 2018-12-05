@@ -27,7 +27,7 @@ LocationEffects::LocationEffects()
 {
 	//Всплеск
 	chrSplashRefCounter = 0;
-	for(size_t i = 0; i < LFX_SPLASHES_NUM; i++) chrSplash[i].time = -1.0f;
+	for(long i = 0; i < LFX_SPLASHES_NUM; i++) chrSplash[i].time = -1.0f;
 	splashesTxt = -1;
 	//Мухи
 	flys = nullptr;
@@ -173,7 +173,7 @@ inline void LocationEffects::DrawParticles(void * prts, long num, long size, lon
 	rs->SetTransform(D3DTS_WORLD,CMatrix());
 	rs->TextureSet(0, texture);
 	long n = 0;
-	for(size_t i = 0; i < num; i++)
+	for(long i = 0; i < num; i++)
 	{
 		Particle * parts = (Particle *)prts;
 		prts = (char *)prts + size;
@@ -261,7 +261,7 @@ void LocationEffects::ProcessedChrSplash(float dltTime)
 {
 	dltTime *= 0.9f;
 	if(chrSplashRefCounter <= 0) return;
-	for(size_t i = 0; i < LFX_SPLASHES_NUM; i++)
+	for(long i = 0; i < LFX_SPLASHES_NUM; i++)
 	{
 		ChrSplash & spl = chrSplash[i];
 		//Смотрим время жизни
@@ -277,7 +277,7 @@ void LocationEffects::ProcessedChrSplash(float dltTime)
 		if(aprt < 0.1f) aprt *= 10.0f; else if(aprt > 0.5f) aprt = 1.0f - (aprt - 0.5f)/(1.0f - 0.5f); else aprt = 1.0f;
 		aprt = aprt*255.0f*0.2f;
 		//Партиклы
-		for(size_t j = 0; j < LFX_SPLASHES_P_NUM; j++)
+		for(long j = 0; j < LFX_SPLASHES_P_NUM; j++)
 		{
 			spl.prt[j].pos += spl.prt[j].dir*dltTime;
 			spl.prt[j].alpha = aprt;
@@ -312,7 +312,7 @@ void LocationEffects::AddLampFlys(CVECTOR & pos)
 	numFly += flys[numFlys].num;
 	fly = (ParticleFly *)RESIZE(fly, numFly*sizeof(ParticleFly));
 	//Каждой мухи
-	for(size_t i = 0; i < flys[numFlys].num; i++)
+	for(long i = 0; i < flys[numFlys].num; i++)
 	{
 		ParticleFly & f = fly[flys[numFlys].start + i];
 		f.ax = rand()*2.0f*LFX_PI/RAND_MAX;
@@ -342,7 +342,7 @@ void LocationEffects::ProcessedFlys(float dltTime)
 	float day = dltTime*1.4f;
 	float da = dltTime*5.6f;
 	//Расчитываем
-	for(size_t i = 0; i < numFlys; i++)
+	for(long i = 0; i < numFlys; i++)
 	{
 		//Коэфициент видимости
 		CVECTOR dir = cam - flys[i].pos;
@@ -355,7 +355,7 @@ void LocationEffects::ProcessedFlys(float dltTime)
 		if(k > 1.0f) k = 1.0f;
 		//Обновляем мух
 		ParticleFly * fl = fly + flys[i].start;
-		for(size_t j = 0; j < flys[i].num; j++)
+		for(long j = 0; j < flys[i].num; j++)
 		{
 			ParticleFly & f = fl[j];
 			//Углы
@@ -427,7 +427,7 @@ void LocationEffects::SGEnvPrt(const CVECTOR & pos, const CVECTOR & ndir)
 	SGInited();
 	long max = sizeof(flinders)/sizeof(flinders[0]);
 	long num = 4 + (rand() & 3);
-	for(size_t i = 0; i < num && numFlinders < max; i++)
+	for(long i = 0; i < num && numFlinders < max; i++)
 	{
 		flinders[numFlinders].pos = pos;
 		flinders[numFlinders].spd = ndir;
@@ -460,7 +460,7 @@ void LocationEffects::SGBldPrt(const CVECTOR & pos, const CVECTOR & ndir)
 	SGInited();
 	long max = sizeof(blood)/sizeof(blood[0]);
 	long num = 16 + (rand() & 7);
-	for(size_t i = 0; i < num && numBlood < max; i++)
+	for(long i = 0; i < num && numBlood < max; i++)
 	{
 		blood[numBlood].pos = pos;
 		blood[numBlood].spd = ndir;
@@ -492,7 +492,7 @@ void LocationEffects::SGFirePrt(const CVECTOR & pos, const CVECTOR & ndir)
 	SGInited();
 	long max = sizeof(smoke)/sizeof(smoke[0]);
 	long num = 5 + (rand() & 3);
-	for(size_t i = 0; i < num && numSmoke < max; i++)
+	for(long i = 0; i < num && numSmoke < max; i++)
 	{
 		smoke[numSmoke].pos = pos;
 		smoke[numSmoke].spd = ndir;

@@ -54,7 +54,7 @@ void ISLAND_DESCRIBER::SetIsland(ATTRIBUTES * pAIsland)
 		m_pLocators[i].bDiseased = false;
 		VDATA * pvdat = api->Event("evntGetLandData","a",pATmp);
 		if(pvdat) {
-			int32_t lTmp;
+			long lTmp;
 			if( pvdat->Get(lTmp,0) )
 				if( lTmp==0 ) m_pLocators[i].locatorType = ISLAND_LOCATOR_LAND;
 				else if( lTmp==1 ) m_pLocators[i].locatorType = ISLAND_LOCATOR_FORT;

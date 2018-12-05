@@ -44,7 +44,7 @@ WdmObjects::WdmObjects()
 	playarInStorm = false;
 	worldSizeX = 2000.0f;
 	worldSizeZ = 2000.0f;
-	for(size_t i = 0; i < sizeof(entryModels)/sizeof(entryModels[0]); i++)
+	for(long i = 0; i < sizeof(entryModels)/sizeof(entryModels[0]); i++)
 	{
 		entryModels[i] = -1;
 	}
@@ -55,7 +55,7 @@ WdmObjects::~WdmObjects()
 	if(ships) delete ships;
 	if(storms) delete storms;
 	wdmObjects = nullptr;
-	for(size_t i = 0; i < models.size(); i++)
+	for(long i = 0; i < models.size(); i++)
 	{
 		delete models[i].geo;
 	}
@@ -119,7 +119,7 @@ void WdmObjects::AddShip(WdmShip * ship)
 void WdmObjects::DelShip(WdmShip * ship)
 {
 	Assert(ship);
-	for(size_t i = 0; i < numShips; i++)
+	for(long i = 0; i < numShips; i++)
 		if(ships[i] == ship)
 		{
 			ships[i] = ships[--numShips];
@@ -142,7 +142,7 @@ void WdmObjects::AddStorm(WdmStorm * storm)
 void WdmObjects::DelStorm(WdmStorm * storm)
 {
 	Assert(storm);
-	for(size_t i = 0; i < numStorms; i++)
+	for(long i = 0; i < numStorms; i++)
 		if(storms[i] == storm)
 		{
 			storms[i] = storms[--numStorms];
@@ -211,7 +211,7 @@ void WdmObjects::DrawCircle(const CVECTOR & pos, float radius, uint32_t color)
 
 void WdmObjects::DrawCircle(CMatrix & mtx, float radius, uint32_t color)
 {
-	for(size_t i = 0; i < 64; i++)
+	for(long i = 0; i < 64; i++)
 	{
 		vertex[i].v.x = radius*sinf(2.0f*WdmObjects_myPI*i/63);
 		vertex[i].v.y = 0.0f;
@@ -235,7 +235,7 @@ void WdmObjects::DrawVector(const CVECTOR & start, const CVECTOR & end, uint32_t
 	float r = 0.03f*len;
 
 	long t = 0;
-	for(size_t i = 0, imax = 8; i < imax; i++)
+	for(long i = 0, imax = 8; i < imax; i++)
 	{
 		float y1 = r*sinf(2.0f*WdmObjects_myPI*i/float(imax));
 		float x1 = r*cosf(2.0f*WdmObjects_myPI*i/float(imax));
@@ -419,7 +419,7 @@ const char * WdmObjects::GetWindSaveString(std::string & windData)
 	AddDataToString(windData, uint8_t(size >> 16));
 	AddDataToString(windData, uint8_t(size >> 24));
 	const uint8_t * buf = (const uint8_t *)&windField;
-	for(size_t i = 0; i < size; i++)
+	for(long i = 0; i < size; i++)
 	{
 		AddDataToString(windData, buf[i]);
 	}
@@ -452,7 +452,7 @@ void WdmObjects::SetWindSaveString(const char * str)
 		return;
 	}
 	uint8_t * buf = (uint8_t *)&windField;
-	for(size_t i = 0; i < size; i++)
+	for(long i = 0; i < size; i++)
 	{
 		long data = GetDataFromString(str);
 		if(data < 0)

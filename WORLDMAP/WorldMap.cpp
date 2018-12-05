@@ -56,7 +56,7 @@ WorldMap::WorldMap()
 	firstPrObject = -1;
 	firstMrObject = -1;
 	firstLrObject = -1;
-	for(size_t i = 0; i < WDMAP_MAXOBJECTS; i++) object[i].next = i + 1;
+	for(long i = 0; i < WDMAP_MAXOBJECTS; i++) object[i].next = i + 1;
 	object[WDMAP_MAXOBJECTS - 1].next = -1;
 	wdmObjects->wm = this;
 	camera = nullptr;
@@ -82,12 +82,12 @@ WorldMap::~WorldMap()
 		AttributesPointer->SetAttribute("WindData", wdmObjects->GetWindSaveString(bufForSave));
 	}
 	//Оставим параметры энкоунтеров невредимыми
-	for(size_t i = 0; i < wdmObjects->numShips; i++)
+	for(long i = 0; i < wdmObjects->numShips; i++)
 	{
 		if(wdmObjects->ships[i] == wdmObjects->playerShip) continue;
 		((WdmEnemyShip *)wdmObjects->ships[i])->SetSaveAttribute(nullptr);
 	}
-	for(size_t i = 0; i < wdmObjects->numStorms; i++)
+	for(long i = 0; i < wdmObjects->numStorms; i++)
 	{
 		wdmObjects->storms[i]->SetSaveAttribute(nullptr);
 	}
@@ -590,12 +590,12 @@ uint32_t WorldMap::AttributeChanged(ATTRIBUTES * apnt)
 	if(!apnt || !AttributesPointer) return 0;
 	if(_stricmp(apnt->GetThisName(), "deleteUpdate") == 0)
 	{
-		for(size_t i = 0; i < wdmObjects->numShips; i++)
+		for(long i = 0; i < wdmObjects->numShips; i++)
 		{
 			if(wdmObjects->ships[i] == wdmObjects->playerShip) continue;
 			((WdmEnemyShip *)wdmObjects->ships[i])->DeleteUpdate();
 		}
-		for(size_t i = 0; i < wdmObjects->numStorms; i++)
+		for(long i = 0; i < wdmObjects->numStorms; i++)
 		{
 			wdmObjects->storms[i]->DeleteUpdate();
 		}
@@ -985,7 +985,7 @@ bool WorldMap::CreateFollowShip(const char * modelName, float kSpeed, float time
 	VDATA * isSkipEnable = api->Event("WorldMap_IsSkipEnable");
 	if(isSkipEnable)
 	{
-		int32_t skipEnable = 0;
+		long skipEnable = 0;
 		if(isSkipEnable->Get(skipEnable))
 		{
 			((WdmEnemyShip *)ship)->canSkip = skipEnable != 0;
@@ -1099,13 +1099,13 @@ void WorldMap::ResetScriptInterfaces()
 void WorldMap::ReleaseEncounters()
 {
 	//Оставим параметры энкоунтеров невредимыми
-	for(size_t i = 0; i < wdmObjects->numShips; i++)
+	for(long i = 0; i < wdmObjects->numShips; i++)
 	{
 		if(wdmObjects->ships[i] == wdmObjects->playerShip) continue;
 		((WdmEnemyShip *)wdmObjects->ships[i])->SetSaveAttribute(nullptr);
 		wdmObjects->ships[i]->killMe = true;
 	}
-	for(size_t i = 0; i < wdmObjects->numStorms; i++)
+	for(long i = 0; i < wdmObjects->numStorms; i++)
 	{
 		wdmObjects->storms[i]->SetSaveAttribute(nullptr);
 		wdmObjects->storms[i]->killMe = true;

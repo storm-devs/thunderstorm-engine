@@ -25,12 +25,12 @@ struct ATOM_STATE
 	uint32_t Layers_mask[_LAYERS_BITMASK_DWORDS];
 	uint32_t SysLayers_mask[_LAYERS_BITMASK_DWORDS];
 
-	uint64_t Realize_ticks_av;
-	uint64_t Realize_ticks_max;
-	uint64_t Execute_ticks_av;
-	uint64_t Execute_ticks_max;
-	uint64_t Message_ticks_av;
-	uint64_t Message_ticks_max;
+	uint32_t Realize_ticks_av;
+	uint32_t Realize_ticks_max;
+	uint32_t Execute_ticks_av;
+	uint32_t Execute_ticks_max;
+	uint32_t Message_ticks_av;
+	uint32_t Message_ticks_max;
 
 };
 

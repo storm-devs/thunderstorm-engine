@@ -31,7 +31,7 @@ bool Lizards::Init()
 	Location * location = (Location *)_CORE_API->GetEntityPointer(&loc);
 	if(!location) return false;
 	//Заводим ящерец
-	for(size_t i = 0; i < num; i++) lizard[i].Init(location);
+	for(long i = 0; i < num; i++) lizard[i].Init(location);
 	//Исполнение
 	_CORE_API->LayerCreate("realize", true, false);
 	_CORE_API->LayerSetFlags("realize", LRFLAG_REALIZE);
@@ -48,7 +48,7 @@ void Lizards::Execute(uint32_t delta_time)
 void Lizards::Realize(uint32_t delta_time)
 {
 	float dltTime = delta_time*0.001f;
-	for(size_t i = 0; i < num; i++) lizard[i].Update(dltTime);
+	for(long i = 0; i < num; i++) lizard[i].Update(dltTime);
 
 }
 

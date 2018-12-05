@@ -902,7 +902,7 @@ void InterfaceBackScene::AddLampFlys(CVECTOR & pos)
 	numFly += flys[numFlys].num;
 	fly = (ParticleFly *)RESIZE(fly, numFly*sizeof(ParticleFly));
 	//Каждой мухи
-	for(size_t i = 0; i < flys[numFlys].num; i++)
+	for(long i = 0; i < flys[numFlys].num; i++)
 	{
 		ParticleFly & f = fly[flys[numFlys].start + i];
 		f.ax = rand()*PIm2/RAND_MAX;
@@ -932,7 +932,7 @@ void InterfaceBackScene::ProcessedFlys(float dltTime)
 	float day = dltTime*1.4f;
 	float da = dltTime*5.6f;
 	//Расчитываем
-	for(size_t i = 0; i < numFlys; i++)
+	for(long i = 0; i < numFlys; i++)
 	{
 		//Коэфициент видимости
 		CVECTOR dir = cam - flys[i].pos;
@@ -945,7 +945,7 @@ void InterfaceBackScene::ProcessedFlys(float dltTime)
 		if(k > 1.0f) k = 1.0f;
 		//Обновляем мух
 		ParticleFly * fl = fly + flys[i].start;
-		for(size_t j = 0; j < flys[i].num; j++)
+		for(long j = 0; j < flys[i].num; j++)
 		{
 			ParticleFly & f = fl[j];
 			//Углы
@@ -993,7 +993,7 @@ void InterfaceBackScene::DrawParticles(void * prts, long num, long size, long te
 	m_pRS->SetTransform(D3DTS_WORLD,CMatrix());
 	m_pRS->TextureSet(0, texture);
 	long n = 0;
-	for(size_t i = 0; i < num; i++)
+	for(long i = 0; i < num; i++)
 	{
 		Particle * parts = (Particle *)prts;
 		prts = (char *)prts + size;

@@ -16,7 +16,7 @@
 
 TornadoParticles::TornadoParticles(Pillar & _pillar) : pillar(_pillar)
 {
-	for(size_t i = 0; i < sizeof(groundPrt)/sizeof(GroundParticle); i++)
+	for(long i = 0; i < sizeof(groundPrt)/sizeof(GroundParticle); i++)
 	{
 		groundPrt[i].pos = 0.0f;
 		groundPrt[i].size = GetRand(25.0f, 0.3f);
@@ -29,7 +29,7 @@ TornadoParticles::TornadoParticles(Pillar & _pillar) : pillar(_pillar)
 		groundPrt[i].dt = 0.0f;
 		groundPrt[i].p = 1.5f + 2.5f*rand()/RAND_MAX;
 	}
-	for(size_t i = 0; i < sizeof(pillarPrt)/sizeof(PillarParticle); i++)
+	for(long i = 0; i < sizeof(pillarPrt)/sizeof(PillarParticle); i++)
 	{
 		pillarPrt[i].ang = pillar.RandomPos(pillarPrt[i].pos);
 		pillarPrt[i].sz = pillarPrt[i].size = GetRand(10.0f, 0.3f);
@@ -66,7 +66,7 @@ void TornadoParticles::Update(float dltTime)
 	}
 	//seaLevel -= 0.5f;
 	//Партиклы у земли
-	for(size_t i = 0; i < sizeof(groundPrt)/sizeof(GroundParticle); i++)
+	for(long i = 0; i < sizeof(groundPrt)/sizeof(GroundParticle); i++)
 	{
 		float k = pillarPrt[i].k;
 		//Время жизни частицы
@@ -101,7 +101,7 @@ void TornadoParticles::Update(float dltTime)
 		//if(groundPrt[i].pos.y > 3.0f) groundPrt[i].alpha *= 1.0f - (groundPrt[i].pos.y - 3.0f)/(30.0f - 3.0f);
 	}
 	//Партиклы столба
-	for(size_t i = 0; i < sizeof(pillarPrt)/sizeof(PillarParticle); i++)
+	for(long i = 0; i < sizeof(pillarPrt)/sizeof(PillarParticle); i++)
 	{
 		float kh = pillar.GetKHeight(pillarPrt[i].pos.y);
 		float k = pillarPrt[i].k;
@@ -138,7 +138,7 @@ void TornadoParticles::Draw(VDX9RENDER * rs)
 inline void TornadoParticles::DrawParticles(VDX9RENDER * rs, void * prts, long num, long size, long texture, const char * tech)
 {
 	long n = 0;
-	for(size_t i = 0; i < num; i++)
+	for(long i = 0; i < num; i++)
 	{
 		Particle * parts = (Particle *)prts;
 		prts = (char *)prts + size;

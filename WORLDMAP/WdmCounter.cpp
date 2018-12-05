@@ -52,9 +52,9 @@ WdmCounter::WdmCounter()
 	mtx.Vz() *= -0.25f;
 
 
-	for(size_t i = 0; i < WMD_NUM_SKYS; i++) skytx[i] = -1;
+	for(long i = 0; i < WMD_NUM_SKYS; i++) skytx[i] = -1;
 	lastSkys[0] = lastSkys[1] = -1;
-	for(size_t i = 0; i < sizeof(skyseq)/sizeof(long); i++) skyseq[i] = -1;
+	for(long i = 0; i < sizeof(skyseq)/sizeof(long); i++) skyseq[i] = -1;
 	skyCounter = 0;
 	dayCounter = -1;
 }
@@ -77,7 +77,7 @@ WdmCounter::~WdmCounter()
 	if(y[3]) delete y[3];
 	if(wdmObjects->rs)
 	{
-		for(size_t i = 0; i < WMD_NUM_SKYS; i++)
+		for(long i = 0; i < WMD_NUM_SKYS; i++)
 		{
 			if(skytx[i] >= 0) wdmObjects->rs->TextureRelease(skytx[i]);
 		}
@@ -97,10 +97,10 @@ bool WdmCounter::Init()
 	if(!LoadModel(y[1], "counter\\y2", "WdmCounterDrawNumber")) return false;
 	if(!LoadModel(y[2], "counter\\y3", "WdmCounterDrawNumber")) return false;
 	if(!LoadModel(y[3], "counter\\y4", "WdmCounterDrawNumber")) return false;
-	for(size_t i = 0; i < WMD_NUM_SKYS; i++) skytx[i] = wdmObjects->rs->TextureCreate(skytex[i]);
+	for(long i = 0; i < WMD_NUM_SKYS; i++) skytx[i] = wdmObjects->rs->TextureCreate(skytex[i]);
 	lastSkys[0] = sky->GetTexture(0);
 	lastSkys[1] = sky->GetTexture(1);
-	for(size_t i = 0; i < sizeof(skyseq)/sizeof(long); i += 2)
+	for(long i = 0; i < sizeof(skyseq)/sizeof(long); i += 2)
 	{
 		skyseq[i + 0] = skytx[(rand() % (WMD_NUM_SKYS/2))*2 + 0];
 		skyseq[i + 1] = skytx[(rand() % (WMD_NUM_SKYS/2))*2 + 1];

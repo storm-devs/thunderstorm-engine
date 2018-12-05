@@ -82,11 +82,11 @@ WdmStorm::WdmStorm()
 	num = 6;
 	//Битовое поле расположения облаков
 	uint8_t w[8];
-	for(size_t i = 0; i < 8; i++) w[i] = 0;
+	for(long i = 0; i < 8; i++) w[i] = 0;
 	//Раскидываем облака
 	long x, z;
 	bool globSign = (rand() & 1) != 0;
-	for(size_t i = 0; i < num; i++)
+	for(long i = 0; i < num; i++)
 	{
 		cloud[i] = (WdmCloud *)wdmObjects->wm->AddObject(NEW WdmCloud(), 101);
 		if(cloud[i])
@@ -119,7 +119,7 @@ WdmStorm::~WdmStorm()
 {
 	if(rainTexture >= 0) wdmObjects->rs->TextureRelease(rainTexture);
 	rainTexture = -1;
-	for(size_t i = 0; i < num; i++)
+	for(long i = 0; i < num; i++)
 	{
 		wdmObjects->wm->DeleteObject(cloud[i]);
 	}
@@ -132,7 +132,7 @@ bool WdmStorm::CheckIntersection(float x, float z, float r)
 	//Дистанция пересечения
 	r = (r + WDM_STORM_CLOUDRAD)*(r + WDM_STORM_CLOUDRAD);
 	//Проходимся по всем облакам
-	for(size_t i = 0; i < num; i++)
+	for(long i = 0; i < num; i++)
 		if(cloud[i])
 		{
 			float cx = pos.x + cloudPos[i].x;
@@ -210,7 +210,7 @@ void WdmStorm::Update(float dltTime)
 		}
 	}
 	//Устанавливаем облакам позиции
-	for(size_t i = 0; i < num; i++)
+	for(long i = 0; i < num; i++)
 		if(cloud[i])
 		{
 			//Повернём облако вокруг центра
@@ -233,7 +233,7 @@ void WdmStorm::LRender(VDX9RENDER * rs)
 		mtr.Pos() = pos;
 		mtr.Pos().y = 0.1f;
 		wdmObjects->DrawCircle(mtr, wdmObjects->stormZone, 0x2f202040);
-		for(size_t i = 0; i < num; i++)
+		for(long i = 0; i < num; i++)
 			if(cloud[i])
 			{
 				mtr.Pos() = pos + cloudPos[i];
@@ -243,7 +243,7 @@ void WdmStorm::LRender(VDX9RENDER * rs)
 	}
 
 	long count = 0;
-	for(size_t i = 0; i < num; i++)
+	for(long i = 0; i < num; i++)
 	{
 		if(cloud[i])
 		{

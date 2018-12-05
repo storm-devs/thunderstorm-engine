@@ -8,9 +8,8 @@
 //	Информация об одном действие
 //============================================================================================
 
-#include <cstdio>
-#include <cstddef>
 #include "ActionInfo.h"
+#include <stdio.h>
 
 //============================================================================================
 //Конструирование, деструктурирование
@@ -23,7 +22,7 @@ ActionInfo::ActionInfo(const char * aname, long startframe, long endframe)
 	Assert(strlen(aname) < 64);
 	Assert(startframe >= 0);
 	Assert(startframe <= endframe);
-	strcpy_s(name, aname);
+	strcpy(name, aname);
 	startFrame = startframe;
 	endFrame = endframe;
 	kRate = 1.0f;
@@ -50,7 +49,7 @@ bool ActionInfo::AddEvent(const char * ename, float frame, ExtAnimationEventType
 	if(t > 0.0f) t /= endFrame - startFrame;
 	if(t > 1.0f) t = 1.0f;
 	//Заполним структуру
-	strcpy_s(event[numEvents].name, ename);
+	strcpy(event[numEvents].name, ename);
 	event[numEvents].time = t;
 	event[numEvents].event = eventType;
 	numEvents++;
