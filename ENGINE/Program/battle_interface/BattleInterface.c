@@ -1199,6 +1199,7 @@ ref GetCurrentCharge()
   
   // Powder
   BI_intNRetValue[3] = 51;
+  BI_intNRetValue[4] = sti(pchar.ship.cargo.goods.powder == 0);
   BattleInterface.textinfo.Powder.text = sti(pchar.ship.cargo.goods.powder)
 
 	return &BI_intNRetValue;

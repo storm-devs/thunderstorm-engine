@@ -187,6 +187,7 @@ protected:
 	POINT	m_PowderPos;
 	POINT	m_PowderSize;
 	long	m_curPowder;
+	bool	m_bPowderRunOut; // для мигания
 	// иконка ветра
 	long	m_curWindPic;
 	POINT	m_WindGreed;

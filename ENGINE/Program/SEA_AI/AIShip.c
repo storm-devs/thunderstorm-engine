@@ -1715,7 +1715,8 @@ int Ship_FindOtherBallType(ref rCharacter, float fMinEnemyDistance, bool bBalls,
 void Ship_NotEnoughBalls()
 {
 	bNotEnoughBalls = GetEventData();
-	// boal -->
+	/* espkk.
+  // boal -->
 	if (!bNotEnoughBalls)
 	{
 	    if (GetCargoGoods(pchar, GOOD_POWDER) < 1)
@@ -1723,7 +1724,7 @@ void Ship_NotEnoughBalls()
 	        bNotEnoughBalls = true;
 	    }
 	}
-	// boal <--
+	// boal <--*/
 
 }
 

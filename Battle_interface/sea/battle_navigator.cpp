@@ -179,16 +179,13 @@ void BATTLE_NAVIGATOR::Draw()
 	{
 		rs->TextureSet(0,m_idChargeTexture);
 		rs->SetRenderState(D3DRS_TEXTUREFACTOR,(BIUtils::g_dwBlinkColor<<24L)|0xFFFFFF);
-		if(m_bNotEnoughBallFlag)
-			rs->DrawPrimitive(D3DPT_TRIANGLESTRIP,m_idCurChargeVBuf,sizeof(BI_ONETEXTURE_VERTEX),0,2,"battle_texure_blend_tf");
-		else
-			rs->DrawPrimitive(D3DPT_TRIANGLESTRIP,m_idCurChargeVBuf,sizeof(BI_ONETEXTURE_VERTEX),0,2,"battle_rectangle");
+		rs->DrawPrimitive(D3DPT_TRIANGLESTRIP,m_idCurChargeVBuf,sizeof(BI_ONETEXTURE_VERTEX),0,2,m_bNotEnoughBallFlag ? "battle_texure_blend_tf" : "battle_rectangle");
 	}
 	if(m_curPowder>=0)
 	{
 		rs->TextureSet(0,m_idPowderTexture);
-		//rs->SetRenderState(D3DRS_TEXTUREFACTOR,(BIUtils::g_dwBlinkColor<<24L)|0xFFFFFF);
-		rs->DrawPrimitive(D3DPT_TRIANGLESTRIP,m_idCurChargeVBuf,sizeof(BI_ONETEXTURE_VERTEX),12,2,"battle_rectangle");
+		rs->SetRenderState(D3DRS_TEXTUREFACTOR,(BIUtils::g_dwBlinkColor<<24L)|0xFFFFFF);
+		rs->DrawPrimitive(D3DPT_TRIANGLESTRIP,m_idCurChargeVBuf,sizeof(BI_ONETEXTURE_VERTEX),12,2,m_bPowderRunOut ? "battle_texure_blend_tf" : "battle_rectangle");
 	}
 	// показать иконку ветра
 	rs->TextureSet(0,m_idWindTexture);
@@ -1247,10 +1244,13 @@ void BATTLE_NAVIGATOR::UpdateCurrentCharge()
 	long curSailState = m_curSailState;
 	long curWindPic = m_curWindPic;
 	long curPowder = m_curPowder;
+	long isPowderRunOut = 0;
 	pVD->Get(curCharge,0);
 	pVD->Get(curSailState,1);
 	pVD->Get(curWindPic,2);
 	pVD->Get(curPowder,3);
+	pVD->Get(isPowderRunOut,4);
+	m_bPowderRunOut = isPowderRunOut;
 	if(curCharge==m_curCharge && curSailState==m_curSailState && curWindPic==m_curWindPic && curPowder==m_curPowder) return;
 	m_curCharge = curCharge;
 	m_curSailState = curSailState;
