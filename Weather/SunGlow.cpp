@@ -145,7 +145,6 @@ void SUNGLOW::Realize(uint32_t Delta_Time)
 	pRS->GetTransform(D3DTS_VIEW, View);
 
 	float	fFov;
-	CVECTOR vSrc, vDst;
 	CVECTOR vSun, vSunPos, vSunDir;
 	CVECTOR vCamPos, vCamAng, vCamDir; 
 	
@@ -394,9 +393,8 @@ void SUNGLOW::DrawReflection()
 	if (!bHaveReflection) return;
 
 	float	fFov;
-	CVECTOR vSrc, vDst;
 	CVECTOR vSun, vSunPos, vSunDir;
-	CVECTOR vCamPos, vCamAng, vCamDir; 
+	CVECTOR vCamPos, vCamAng; 
 
 	pWeather->GetVector(whv_sun_pos,&vSunPos);
 	pRS->GetCamera(vCamPos,vCamAng,fFov);

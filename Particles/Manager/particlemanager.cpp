@@ -220,7 +220,7 @@ void ParticleManager::Execute (float DeltaTime)
 
 	//pRS->Clear(0, NULL, D3DCLEAR_STENCIL | D3DCLEAR_TARGET |D3DCLEAR_ZBUFFER, 0xFF404080, 1.0f, 0);
 
-	uint32_t TicksTime, ProcessTime;
+	uint64_t TicksTime, ProcessTime;
 	RDTSC_B(TicksTime);
 	ProcessTime = TicksTime;
 

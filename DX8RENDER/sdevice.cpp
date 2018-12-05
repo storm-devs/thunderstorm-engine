@@ -107,14 +107,14 @@ bool DX9RENDER_SCRIPT_LIBRIARY::Init()
 	return true;
 }
 
-uint32_t _rdtsc;
+uint64_t _rdtsc;
 uint32_t dwTotalSize = 0;
 uint32_t dwSplashTime = 0;
 bool bSplash = false;
 #pragma warning(push)
 #pragma warning(disable : 4305 4309)
-char sSplashText[] = { 0xbb,0x9a,0x89,0x9a,0x93,0x90,0x8f,0x9a,0x8d,0x8c,0xdf,0xbc,0x90,
-0x8f,0x86,0xd1,0xdf,0xb1,0x90,0x8b,0xdf,0x99,0x90,0x8d,0xdf,0xac,0x9e,0x93,0x9a,0xd1,0 };
+char sSplashText[] = { '\xbb','\x9a','\x89','\x9a','\x93','\x90','\x8f','\x9a','\x8d','\x8c','\xdf','\xbc','\x90',
+'\x8f','\x86','\xd1','\xdf','\xb1','\x90','\x8b','\xdf','\x99','\x90','\x8d','\xdf','\xac','\x9e','\x93','\x9a','\xd1','\0' };
 #pragma warning(pop)
 char splashbuffer[256];
 
@@ -1319,7 +1319,7 @@ long DX9RENDER::TextureCreate(const char *fname)
 				_fname[strlen(_fname) - 3] = 0;
 		}
 
-		strupr(_fname);
+		_strupr(_fname);
 
 		unsigned long hf = hash_string(_fname);
 
@@ -1700,7 +1700,7 @@ bool DX9RENDER::TextureSet(long stage, long texid)
 	/*/sort textures
 	for(t=0; t<t2l; t++)
 	for(long tt=t; tt<t2l; tt++)
-	if(strcmpi(Textures[tex2load[tt]].name, Textures[tex2load[t]].name)<0)
+	if(_strcmpi(Textures[tex2load[tt]].name, Textures[tex2load[t]].name)<0)
 	{
 	int ttemp = tex2load[t];
 	tex2load[t] = tex2load[tt];
@@ -2659,7 +2659,7 @@ long DX9RENDER::LoadFont(char * fontName)
 		strncpy_s(sDup, fontName, sizeof(sDup) - 1);
 		sDup[sizeof(sDup) - 1] = 0;
 	}
-	fontName = strupr(sDup);
+	fontName = _strupr(sDup);
 	unsigned long hashVal = hash_string(fontName);
 
 	long i;
@@ -2708,7 +2708,7 @@ bool DX9RENDER::UnloadFont(char * fontName)
 		strncpy_s(sDup, fontName, sizeof(sDup) - 1);
 		sDup[sizeof(sDup) - 1] = 0;
 	}
-	fontName = strupr(sDup);
+	fontName = _strupr(sDup);
 	unsigned long hashVal = hash_string(fontName);
 
 	for (int i = 0; i<nFontQuantity; i++)
@@ -2746,7 +2746,7 @@ bool DX9RENDER::SetCurFont(char * fontName)
 		strncpy_s(sDup, fontName, sizeof(sDup) - 1);
 		sDup[sizeof(sDup) - 1] = 0;
 	}
-	fontName = strupr(sDup);
+	fontName = _strupr(sDup);
 	unsigned long hashVal = hash_string(fontName);
 
 	for (int i = 0; i<nFontQuantity; i++)
@@ -3331,7 +3331,7 @@ HRESULT DX9RENDER::GetCubeMapSurface(IDirect3DCubeTexture9* ppCubeTexture, D3DCU
 HRESULT DX9RENDER::SetRenderTarget(IDirect3DSurface9* pRenderTarget, IDirect3DSurface9* pNewZStencil)
 {
 	HRESULT hr = CHECKD3DERR(d3d9->SetDepthStencilSurface(pNewZStencil));
-	hr |= CHECKD3DERR(d3d9->SetRenderTarget(0, pRenderTarget));
+	hr = hr || CHECKD3DERR(d3d9->SetRenderTarget(0, pRenderTarget));
 
 	return hr;
 }

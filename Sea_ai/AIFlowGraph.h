@@ -177,20 +177,19 @@ inline bool AIFlowGraph::Save(INIFILE * pIni)
 {
 	Assert(pIni);
 
-	std::string		sTemp,sKey;
 	pIni->DeleteSection((char*)sSectionName.c_str());
 	for (uint32_t i=0;i<aPoints.size();i++)
 	{
-		sTemp = "";
+		std::string sTemp;
 		sTemp += aPoints[i].vPos.x; sTemp += ",";
 		sTemp += aPoints[i].vPos.z; sTemp += ",";
-		sTemp += (long)aPoints[i].aEdges.size(); sTemp += ",";
+		sTemp += aPoints[i].aEdges.size(); sTemp += ",";
 		for (uint32_t j=0;j<aPoints[i].aEdges.size();j++)
 		{
-			sTemp += (long)aEdges[aPoints[i].aEdges[j]].dw1; sTemp += ",";
-			sTemp += (long)aEdges[aPoints[i].aEdges[j]].dw2; sTemp += ",";
+			sTemp += aEdges[aPoints[i].aEdges[j]].dw1; sTemp += ",";
+			sTemp += aEdges[aPoints[i].aEdges[j]].dw2; sTemp += ",";
 		}
-		sKey = "pnt" + std::to_string(i);
+		std::string sKey = "pnt" + std::to_string(i);
 		pIni->WriteString((char*)sSectionName.c_str(),(char*)sKey.c_str(),(char*)sTemp.c_str());
 	}
 	return true;

@@ -225,11 +225,10 @@ void SEAFOAM::CreateTracePoints(tShipFoamInfo *_shipFoamInfo)
 //--------------------------------------------------------------------
 void SEAFOAM::InterpolateLeftParticle(tShipFoamInfo &_shipFoamInfo, int z, uint32_t _dTime)
 {
-	CVECTOR ang, finalAng, testPoint{};
-	CMatrix finalMatrix;
+	CVECTOR testPoint{};
 	float seaY, interpK;
 	int curY;
-	CVECTOR lowPoint, highPoint, lastTestPoint, finalPos;
+	CVECTOR lowPoint, highPoint, lastTestPoint;
 	int testY, lastTestY;
 	float lowSeaY, highSeaY, seaK;
 
@@ -297,10 +296,8 @@ void SEAFOAM::InterpolateLeftParticle(tShipFoamInfo &_shipFoamInfo, int z, uint3
 //--------------------------------------------------------------------
 void SEAFOAM::InterpolateRightParticle(tShipFoamInfo &_shipFoamInfo, int z, uint32_t _dTime)
 {
-	CVECTOR ang{}, finalAng{};
-	CMatrix finalMatrix;
 	float interpK;
-	CVECTOR lowPoint, highPoint, finalPos;
+	CVECTOR lowPoint, highPoint;
 	float lowSeaY, highSeaY, seaK;
 
 	lowPoint = _shipFoamInfo.shipModel->mtx * (_shipFoamInfo.hull[1][z].center[TRACE_STEPS_Y-1]);
@@ -392,7 +389,7 @@ void SEAFOAM::RealizeShipFoam_Particles(tShipFoamInfo &_shipFoamInfo, uint32_t _
 		InterpolateRightParticle(_shipFoamInfo, z, _dTime);
 	}
 
-	uint32_t ticks = 0;
+	uint64_t ticks = 0;
 	RDTSC_B(ticks)
 
 	CVECTOR frontEmitterPos = 0.5f*(_shipFoamInfo.levelStarts[0][0] + _shipFoamInfo.levelStarts[1][0]);
@@ -505,7 +502,7 @@ void SEAFOAM::Realize(uint32_t _dTime)
 {
 	GUARD(SEAFOAM::Realize)
 
-	uint32_t ticks = 0;
+	uint64_t ticks = 0;
 	RDTSC_B(ticks)
 
 	tShipFoamInfo *foamInfo = nullptr;

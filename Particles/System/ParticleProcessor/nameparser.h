@@ -44,7 +44,7 @@ public:
 	strncpy_s(NamesString, names, MAX_STRING_SIZE);
   int StrLen = strlen (NamesString);
   if (StrLen > 0 && NamesString[StrLen-1] != ';') 
-	  strcat (NamesString, ";");
+	  strcat_s(NamesString, ";");
   StrLen = strlen (NamesString);
 
   int FromChar = 0;

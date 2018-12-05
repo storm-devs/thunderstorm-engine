@@ -20,10 +20,10 @@ long TSplash::vBuffer2      = 0;
 long TSplash::texture       = 0;
 long TSplash::texture2		= 0;
 
-uint32_t TSplash::lockTicks	= 0;
-uint32_t TSplash::fillTicks	= 0;
-uint32_t TSplash::unlockTicks  = 0;
-uint32_t TSplash::realizeTicks = 0;
+uint64_t TSplash::lockTicks	= 0;
+uint64_t TSplash::fillTicks	= 0;
+uint64_t TSplash::unlockTicks  = 0;
+uint64_t TSplash::realizeTicks = 0;
 uint32_t TSplash::processCount = 0;
 uint32_t TSplash::topIndex		= 0;
 uint32_t TSplash::topIndex2	= 0;
@@ -203,7 +203,7 @@ bool TSplash::Process(uint32_t _dTime)
 	static GRID_VERTEX *startVertices;
 	midY = sea->WaveXZ(center.x, center.z) + SPLASH_MOVE_Y;
 
-	uint32_t ticksLock;
+	uint64_t ticksLock;
 	RDTSC_B(ticksLock);
 	if (startRender)
 	{
@@ -212,7 +212,7 @@ bool TSplash::Process(uint32_t _dTime)
 	}
 	RDTSC_E(ticksLock);
 	TSplash::lockTicks += ticksLock;
-	uint32_t ticksFill;
+	uint64_t ticksFill;
 	RDTSC_B(ticksFill);
 
 	GRID_VERTEX *vertices = startVertices + topIndex*GRID_STEPS*GRID_STEPS;
@@ -268,7 +268,7 @@ void TSplash::PostProcess()
 {
 	if (startRender)
 		return;
-	uint32_t ticksUnlock;
+	uint64_t ticksUnlock;
 	RDTSC_B(ticksUnlock);
 	renderer->UnLockVertexBuffer(vBuffer);
 	RDTSC_E(ticksUnlock);
@@ -286,7 +286,7 @@ bool TSplash::Process2(uint32_t _dTime)
 
 	// VERTICES 2
 	static GRID_VERTEX2 *startVertices2;
-	uint32_t ticksLock;
+	uint64_t ticksLock;
 	RDTSC_B(ticksLock);
 	if (startRender)
 	{
@@ -295,7 +295,7 @@ bool TSplash::Process2(uint32_t _dTime)
 	}
 	RDTSC_E(ticksLock);
 	TSplash::lockTicks += ticksLock;
-	uint32_t ticksFill;
+	uint64_t ticksFill;
 	RDTSC_B(ticksFill);
 
 	GRID_VERTEX2 *vertices = startVertices2 + topIndex*4*VPLANES_COUNT;
@@ -363,7 +363,7 @@ void TSplash::PostProcess2()
 {
 	if (startRender)
 		return;
-	uint32_t ticksUnlock;
+	uint64_t ticksUnlock;
 	RDTSC_B(ticksUnlock);
 	renderer->UnLockVertexBuffer(vBuffer2);
 	RDTSC_E(ticksUnlock);
@@ -376,7 +376,7 @@ void TSplash::Realize(uint32_t _dTime)
 	if (startRender)
 		return;
 
-	uint32_t ticksRealize;
+	uint64_t ticksRealize;
 	RDTSC_B(ticksRealize);
 
 	static uint32_t ambient, tfactor, oldAmbient, alpha;
@@ -403,7 +403,7 @@ void TSplash::Realize2(uint32_t _dTime)
 	if (!topIndex)
 		return;
 
-	uint32_t ticksRealize;
+	uint64_t ticksRealize;
 	RDTSC_B(ticksRealize);
 
 	static uint32_t ambient, fogColor, oldAmbient;

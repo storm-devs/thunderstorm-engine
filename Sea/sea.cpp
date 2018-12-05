@@ -358,7 +358,7 @@ void SEA::BuildVolumeTexture()
 				float fTop		= GET_MASSIVE(0, -1) - fCenter;
 				float fBottom	= GET_MASSIVE(0, 1) - fCenter;
 
-				CVECTOR vRes, vRes1, d0, d1, d2, d3, d4, d5, d6, d7;
+				CVECTOR vRes, vRes1, d0, d1, d2, d3;
 
 				uint32_t dwNums = 0;
 				if (fLeft < 0.0f) dwNums++;
@@ -1350,7 +1350,7 @@ void SEA::Realize(uint32_t dwDeltaTime)
 
 	//pSeaParameters->SetTexture(0, pAnimTexture);
 
-	uint32_t dwTotalRDTSC;
+	uint64_t dwTotalRDTSC;
 	RDTSC_B(dwTotalRDTSC);
 
 	CMatrix mView, mIView;
@@ -1443,7 +1443,7 @@ void SEA::Realize(uint32_t dwDeltaTime)
 
 	memset(pIndices, 0xFF, NUM_VERTEXS * sizeof(pIndices[0]) * 3);
 
-	uint32_t dwX;
+	uint64_t dwX;
 	RDTSC_B(dwX);
 	//SetEvent(hEventCalcMaps);
 	CalculateHeightMap(fFrame1, 1.0f / 255.0f, pSeaFrame1, aBumps);
@@ -1481,7 +1481,7 @@ void SEA::Realize(uint32_t dwDeltaTime)
 
 	bool bHT = false;
 
-	uint32_t dwBlockRDTSC;
+	uint64_t dwBlockRDTSC;
 	RDTSC_B(dwBlockRDTSC);
 
 	if (bHyperThreading)			// P4 / PRESCOTT Version

@@ -214,7 +214,6 @@ bool PCS_CONTROLS::GetControlState(char * control_name, CONTROL_STATE & _state_s
 
 	long n;
 	bool bControlFound = false;
-	CONTROL_STATE local_state_struct;
 
 	_state_struct.state = CST_INACTIVE;
 	_state_struct.lValue = 0;

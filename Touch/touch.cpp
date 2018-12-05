@@ -67,7 +67,7 @@ uint32_t _cdecl TOUCH::ProcessMessage(MESSAGE & message)
 }
 
 long MaxDepth, CurDepth;
-uint32_t dwRdtsc;
+uint64_t dwRdtsc;
 CVECTOR vGlobalRecoil;
 
 void TOUCH::Realize(uint32_t DeltaTime)
@@ -449,11 +449,10 @@ long TOUCH::GetTouchPoint(long iIdx, const CVECTOR & vPos)
 // fSlide - blow slide coefficient
 float TOUCH::Touch(long idx, long skip_idx, CVECTOR *vPos, CVECTOR *vAng, float fPower, float fSlide)
 {
-	CVECTOR		vPos1, vAng1, vRecoil, vSavePos;
+	CVECTOR		vPos1, vAng1, vRecoil;
 	float		fPower1, fSlide1, fPowerReturn = 0.0f;
 	long		i;
 	SHIP_BASE	* pOur, * pEnemy;
-	STRENGTH	strength;
 
 	Assert(idx >= 0 && idx < iNumShips);
 

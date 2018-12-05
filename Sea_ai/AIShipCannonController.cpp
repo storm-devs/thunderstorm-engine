@@ -226,7 +226,7 @@ void AIShipCannonController::AddTrg(CVECTOR *pVerts, uint32_t dwColor)
 float AIShipCannonController::GetBortHeightAngle(long iBortIndex)
 {
 	CMatrix m;
-	CVECTOR v,vZ;
+	CVECTOR v;
 
 	GetAIShip()->GetMatrix()->Get3X3(&m);
 

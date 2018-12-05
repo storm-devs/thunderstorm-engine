@@ -46,9 +46,8 @@ void TSinkSplash::Start(const CVECTOR &_pos, uint16_t *_indexes, SINK_VERTEX *_v
 //	_VSYSTEM_API->Trace("i=%X, v=%X", _indexes, _vertexes);
 	float stepSize = GRID_LENGTH / GRID_STEPS;
 	float halfSize = GRID_LENGTH / 2.0f;
-	int x,z;
-	for (z=0; z < GRID_STEPS; ++z)
-	for (x=0; x < GRID_STEPS; ++x)
+	for (uint16_t z=0; z < GRID_STEPS; ++z)
+	for (uint16_t x=0; x < GRID_STEPS; ++x)
 	{
 		_vertexes->pos.x = center.x + stepSize * x - halfSize;
 		_vertexes->pos.z = center.z + stepSize * z - halfSize;
@@ -59,8 +58,8 @@ void TSinkSplash::Start(const CVECTOR &_pos, uint16_t *_indexes, SINK_VERTEX *_v
 		++_vertexes;
 	}
 
-	for (z=0; z < GRID_STEPS - 1; ++z)
-	for (x=0; x < GRID_STEPS - 1; ++x)
+	for (uint16_t z=0; z < GRID_STEPS - 1; ++z)
+	for (uint16_t x=0; x < GRID_STEPS - 1; ++x)
 	{
 		*(_indexes++) = vOffset + GRID_STEPS * z     + x	 ;
 		*(_indexes++) = vOffset + GRID_STEPS * (z+1) + x	 ;

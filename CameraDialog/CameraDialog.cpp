@@ -85,7 +85,6 @@ void CameraDialog::Execute(uint32_t Delta_Time)
 	CVECTOR prevPos = pos;
 	CVECTOR prevAng = ang;
 
-	CVECTOR perPos, perAng;
 	MODEL *mdl = (MODEL*)_CORE_API->GetEntityPointer(&person);
 	if(mdl==nullptr)	return;
 
@@ -98,8 +97,8 @@ void CameraDialog::Execute(uint32_t Delta_Time)
 		const char *mdlType = atr->GetThisAttr();
 		if(mdlType==nullptr)	perMtx.Pos().y += HDISP1;
 		else
-			if(strcmpi(mdlType, "sit")==0)	perMtx.Pos().y += 1.2f;
-			else	if(strcmpi(mdlType, "gov")==0)	perMtx.Pos().y += 1.0f;
+			if(_strcmpi(mdlType, "sit")==0)	perMtx.Pos().y += 1.2f;
+			else	if(_strcmpi(mdlType, "gov")==0)	perMtx.Pos().y += 1.0f;
 						else	perMtx.Pos().y += HDISP1;
 	}
 

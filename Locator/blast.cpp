@@ -108,7 +108,7 @@ void BLAST::SetBlastCenter(CVECTOR pos, CVECTOR ang)
 			Item[n].dir.y += AngleDeviation*rand()/RAND_MAX - AngleDeviation/2.0f;
 			Item[n].dir.z += AngleDeviation*rand()/RAND_MAX - AngleDeviation/2.0f;
 			Item[n].dir = !Item[n].dir;
-			Item[n].speed = rand()*0.025f/RAND_MAX + 0.005;
+			Item[n].speed = rand()*0.025f/RAND_MAX + 0.005f;
 
 		}
 	}
@@ -117,9 +117,6 @@ void BLAST::SetBlastCenter(CVECTOR pos, CVECTOR ang)
 void BLAST::ProcessTime(uint32_t DT)
 {
 	uint32_t n;
-	float a;
-	bool bStop;
-	float Delta_Time;
 	float res;
 	
 	
@@ -129,8 +126,8 @@ void BLAST::ProcessTime(uint32_t DT)
 		pSea = (CANNON_TRACE_BASE *)api->GetEntityPointer(&sea_eid);
 	}
 
-	Delta_Time = DT;//*0.1;
-	bStop = true;
+	float Delta_Time = (float)DT;//*0.1;
+	bool bStop = true;
 	if(Item)
 	{
 		for(n=0;n<ItemsNum;n++)
@@ -147,13 +144,13 @@ void BLAST::ProcessTime(uint32_t DT)
 			
 
 			//Item[n].pos.y -= Delta_Time*0.0005;
-			Item[n].dir.y -= Delta_Time*0.0008;
-			Item[n].pos.y += Item[n].dir.y*0.01*Delta_Time;
+			Item[n].dir.y -= Delta_Time*0.0008f;
+			Item[n].pos.y += Item[n].dir.y*0.01f*Delta_Time;
 			
 
-			Item[n].ang.x += Item[n].ang_speed.x*Delta_Time*0.05;
-			Item[n].ang.y += Item[n].ang_speed.y*Delta_Time*0.05;
-			Item[n].ang.z += Item[n].ang_speed.z*Delta_Time*0.05;
+			Item[n].ang.x += Item[n].ang_speed.x*Delta_Time*0.05f;
+			Item[n].ang.y += Item[n].ang_speed.y*Delta_Time*0.05f;
+			Item[n].ang.z += Item[n].ang_speed.z*Delta_Time*0.05f;
 
 			if(Item[n].pos.y > 0) bStop = false;
 

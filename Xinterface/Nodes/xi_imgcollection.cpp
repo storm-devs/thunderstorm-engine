@@ -104,7 +104,7 @@ void CXI_IMGCOLLECTION::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *n
 	int imgQuantity=0;
 	if( ini1->ReadString(name1,"picture",param,sizeof(param)-1,"") )
 		do {
-			if( strnicmp(param,"editsection:",12) != 0 ) imgQuantity++;
+			if( _strnicmp(param,"editsection:",12) != 0 ) imgQuantity++;
 		} while(ini1->ReadStringNext(name1,"picture",param,sizeof(param)-1));
 
 	m_bRelativeRect = !GetIniLong(ini1,name1, ini2,name2, "bAbsoluteRectangle", 0);
@@ -131,7 +131,7 @@ void CXI_IMGCOLLECTION::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *n
 			ini1->ReadString(name1,"picture",param,sizeof(param)-1,"");
 			for(int i=0; i<imgQuantity; i++)
 			{
-				if( strnicmp(param,"editsection:",12) != 0 )
+				if( _strnicmp(param,"editsection:",12) != 0 )
 				{
 					uint32_t dwColor = ARGB(255,128,128,128);
 					char param2[256];

@@ -729,7 +729,7 @@ VDATA * COMPILER::ProcessEvent(char * event_name)
 	EVENTINFO ei;
 	uint32_t current_debug_mode;
 
-	uint32_t dwRDTSC, nTicks;
+	uint64_t dwRDTSC, nTicks;
 	uint32_t nTimeOnEvent;
 
 	RDTSC_B(dwRDTSC);
@@ -3589,7 +3589,7 @@ bool COMPILER::BC_CallFunction(uint32_t func_code, uint32_t & ip, DATA * & pVRes
 #ifndef _XBOX	
 	nDebugEnterMode = CDebug.GetTraceMode();
 #endif
-	uint32_t nTicks;
+	uint64_t nTicks;
 	if(call_fi.segment_id == INTERNAL_SEGMENT_ID)
 	{
 		if(bRuntimeLog) FuncTab.AddCall(func_code);
@@ -6056,7 +6056,7 @@ bool COMPILER::SaveState(HANDLE fh)
 	}
 
 
-	uint32_t dw2;
+	uint64_t dw2;
 	if (dwCurPointer)
 	{
 		char * pDst = NEW char[dwCurPointer * 2];
@@ -6463,7 +6463,7 @@ void * COMPILER::GetSaveData(char * file_name, long & data_size)
 		return nullptr;
 	}
 
-	uint32_t dw2;
+	uint64_t dw2;
 	RDTSC_B(dw2);
 	EXTDATA_HEADER exdh;
 	fio->_SetFilePointer(fh, 0, nullptr, FILE_BEGIN);

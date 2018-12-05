@@ -627,7 +627,7 @@ void CXI_TABLE::SaveParametersToIni()
 	pIni->WriteString( m_nodeName, "position", pcWriteParam );
 
 	// save cols width
-	std::string sTmp = "";
+	std::string sTmp;
 	for( long n=0; n<m_anColsWidth.size(); n++ )
 	{
 		if( n>0 ) sTmp += ",";
@@ -681,7 +681,7 @@ void CXI_TABLE::SetInternalName( std::string& sName )
 		m_EditData.bAllEditable = true;
 	} else {
 		m_EditData.bAllEditable = false;
-		m_EditData.bColsEditable = (strnicmp(sName.c_str(),"col",3) == 0);
+		m_EditData.bColsEditable = (_strnicmp(sName.c_str(),"col",3) == 0);
 		m_EditData.nEditableIndex = atoi( &sName.c_str()[3] ) - 1;
 	}
 }

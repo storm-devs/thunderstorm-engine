@@ -124,7 +124,6 @@ void ShipLights::AddDynamicLights(VAI_OBJBASE * pObject, const CVECTOR & vPos)
 	for (uint32_t i=0; i<aLights.size(); i++) if (aLights[i].pObject == pObject && aLights[i].bDynamicLight) dwNum++;
 	if (dwNum >= 4) return;
 
-	ShipLight * pL;
 	std::string sLightType = "cannondefault";
 	LightType * pLT = FindLightType(sLightType);
 	if (!pLT) 
@@ -182,7 +181,7 @@ void ShipLights::AddFlare(VAI_OBJBASE * pObject, bool bLight, MODEL * pModel, co
 	ZERO(str);
 	if (!label.name) return;
 	strcpy_s(str, label.name);
-	strlwr(str);
+	_strlwr(str);
 
 	aLights.push_back(ShipLight{});
 	//ShipLight * pL = &aLights[aLights.Add()];

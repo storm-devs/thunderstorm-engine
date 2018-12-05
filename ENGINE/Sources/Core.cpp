@@ -2278,7 +2278,7 @@ void _cdecl CORE::Trace(const char * format, ...)
 void CORE::ProcessExecute()
 {
 	GUARD(CORE::ProcessExecute())
-	uint32_t ticks;
+	uint64_t ticks;
 	ATOM_STATE * pAs;
 
 	/*if (GetAsyncKeyState('7') < 0)
@@ -2338,7 +2338,7 @@ void CORE::ProcessExecute()
 void CORE::ProcessRealize()
 {
 	GUARD(CORE::ProcessRealize())
-	uint32_t ticks;
+	uint64_t ticks;
 	ATOM_STATE * pAs;
 	ProcessRunStart(SECTION_REALIZE);
 

@@ -2336,11 +2336,11 @@ void Character::ActionEvent(Animation * animation, long playerIndex, const char 
 	{
 		char* pcActionName = nullptr;
 		long nIdx = -1;
-		if( strnicmp(alliace,"set",3)==0 ) {
+		if( _strnicmp(alliace,"set",3)==0 ) {
 			pcActionName = "set";
 			if( alliace[3]>='0' && alliace[3]<='9' )
 				nIdx = atoi(&alliace[3]);
-		} else if( strnicmp(alliace,"reset",5)==0 ) {
+		} else if( _strnicmp(alliace,"reset",5)==0 ) {
 			pcActionName = "reset";
 			if( alliace[5]>='0' && alliace[5]<='9' )
 				nIdx = atoi(&alliace[5]);

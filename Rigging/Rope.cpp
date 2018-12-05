@@ -94,7 +94,7 @@ bool ROPE::LoadState(ENTITY_STATE * state)
 FILETIME ft_old;
 void ROPE::Execute(uint32_t Delta_Time)
 {
-    uint32_t rtm;
+    uint64_t rtm;
 	RDTSC_B(rtm);
 
     if(bFirstRun)
@@ -134,7 +134,7 @@ void ROPE::Realize(uint32_t Delta_Time)
 {
     if(bUse)
     {
-        uint32_t rtm;
+        uint64_t rtm;
 
 		RDTSC_B(rtm);
 	    if (Delta_Time==0)
@@ -415,7 +415,7 @@ void ROPE::SetVertexes(ROPEDATA *pr,float dtime)
 
     int vertnum = pr->sv;
 
-    CVECTOR cvb,cve,cv;
+    CVECTOR cvb,cve;
     // Get begin point into Ship coordinate
     gdata[pr->HostGroup].pMatWorld->MulToInv(*pr->bMatWorld*pr->pBeg,cvb);
     // Get end point into Ship coordinate

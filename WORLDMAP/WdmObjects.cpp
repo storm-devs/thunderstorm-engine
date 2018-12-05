@@ -389,7 +389,7 @@ float WdmObjects::GetWind(float x, float z, CVECTOR & dir)
 //Обновить состояние ветра
 void WdmObjects::UpdateWind(float dltTime)
 {
-	dltTime = dltTime / 2.0;
+	dltTime = dltTime / 2.0f;
 	windField.Step(dltTime);
 
 	/*

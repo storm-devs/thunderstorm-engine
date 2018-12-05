@@ -1000,7 +1000,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			n = TempLong1;
 			while(n + (uint32_t)slen2 <= (uint32_t)slen)
 			{
-				if(strnicmp(pChar + n,pChar2,slen2) == 0)
+				if(_strnicmp(pChar + n,pChar2,slen2) == 0)
 				{
 					pV = SStack.Push();
 					pV->Set((long)n);
@@ -1490,7 +1490,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV->Get(TempFloat1);
 			pV2->Get(TempLong1);
 			pV = SStack.Push();
-			gcvt(TempFloat1,TempLong1,gs);
+			_gcvt(TempFloat1,TempLong1,gs);
 			pV->Set(gs);
 			pVResult = pV;
 		return pV;

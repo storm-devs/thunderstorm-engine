@@ -62,8 +62,8 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 			ATTRIBUTES * pAS = pASpectrs->GetAttributeClass(i);
 			char str[2];
 			str[0] = pAS->GetThisName()[0]; str[1] = 0;
-			strupr(str); Spectr[str[0]] = pAS->GetAttributeAsDword();
-			strlwr(str); Spectr[str[0]] = pAS->GetAttributeAsDword();
+			_strupr(str); Spectr[str[0]] = pAS->GetAttributeAsDword();
+			_strlwr(str); Spectr[str[0]] = pAS->GetAttributeAsDword();
 		}
 	}
 
@@ -251,7 +251,6 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 
 	Astronomy::pRS->GetCamera(vCamPos, vCamAng, fFov);
 
-	uint32_t dw1;
 	//RDTSC_B(dw1);
 
 	float fMaxMag = Bring2Range(fTelescopeMagnitude, fVisualMagnitude, 0.14f, 1.285f, fFov);

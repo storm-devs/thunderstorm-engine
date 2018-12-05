@@ -764,8 +764,6 @@ void MEMORY_SERVICE::DumpMemoryState()
 
 	uint32_t dwBlocks;
 	uint32_t dwMem;
-	uint32_t dwTLine;
-	char * pTFileName;
 
 	for(n=0;n<cMemAddress.dwRecordsNum;n++)
 	{

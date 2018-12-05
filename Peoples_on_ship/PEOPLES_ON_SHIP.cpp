@@ -161,7 +161,6 @@ void PEOPLE_ON_SHIP::Realize(uint32_t _dTime)
 {
 	GUARD(PEOPLE_ON_SHIP::Realize)
 
-	CVECTOR shipPos, shipAng;
 	CMatrix m,m2;
 	CVECTOR manCenter(0.0f, 1.0f, 0.0f), manPos;
 

@@ -2700,7 +2700,7 @@ char * XINTERFACE::SaveFileFind(long saveNum, char * buffer, size_t bufSize, lon
 				for(n=0; fd.szSaveGameName[n]; n++)
 					sTemp[n] = (char)fd.szSaveGameName[n];
 				sTemp[n] = 0;
-				if( n>=6 && strnicmp(sTemp,"options",6)!=0 )
+				if( n>=6 && _strnicmp(sTemp,"options",6)!=0 )
 				{
 					sprintf_s( sFullName, "%s%s", fd.szSaveGameDirectory, sTemp );
 					file_sz = (fd.wfd.nFileSizeLow + (1<<14) - 1) >> 14;

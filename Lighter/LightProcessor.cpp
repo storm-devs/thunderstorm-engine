@@ -418,7 +418,7 @@ void LightProcessor::BlurLight()
 			if(csd > 1.0) csd = 1.0;
 			if(k <= 0.0) continue;
 			if(k > 1.0) k = 1.0;
-			k = powf(1.0 - k, pw)*(css*csd*kCos + kCos1);
+			k = powf(1.0f - k, pw)*(css*csd*kCos + kCos1);
 			r += vs.c.x*k;
 			g += vs.c.y*k;
 			b += vs.c.z*k;
@@ -445,7 +445,7 @@ void LightProcessor::CalcLights(long lit, bool isCos, bool isAtt, bool isSdw)
 	long num = ls.Num();
 	Vertex * vrt = geometry->vrt;
 	float kBlur = window->kBlur;
-	CVECTOR c, nrm;
+	CVECTOR c;
 	for(long i = 0; i < num; i++)
 	{
 		if(!ls[i].isOn) continue;

@@ -326,7 +326,7 @@ void CXI_CHECKBUTTONS::SetInternalName(std::string& sName )
 		m_nEditableSectionIndex = -1;
 	} else {
 		m_nEditableSectionIndex = -1;
-		if( strnicmp(sName.c_str(),"btn",3) == 0 ) {
+		if( _strnicmp(sName.c_str(),"btn",3) == 0 ) {
 			m_nEditableSectionIndex = atoi( &sName.c_str()[3] ) - 1;
 		}
 	}

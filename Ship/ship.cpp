@@ -145,7 +145,7 @@ CVECTOR SHIP::ShipRocking(float fDeltaTime)
 
 	CVECTOR vAng2 = State.vAng;
 
-	CVECTOR point, fang, fpos;
+	CVECTOR point, fang;
 	fang.x = 0.0f;	fang.y = 0.0f;	fang.z = 0.0f;
 	float fFullY = 0.0f, fup = 0.0f;
 

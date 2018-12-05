@@ -563,7 +563,6 @@ bool SOURCE_VIEW::OpenSourceFile(const char * _filename)
 	std::string sSourceFileName = SourceFileName;
 	for (int n=0; n<nLinesNum; n++)
 	{
-		uint32_t dwTmpFind;
 		std::string sTmp = sSourceFileName + "," + std::to_string(n);
 		//if (htBookmarks.Find(sTmp, dwTmpFind)) 
 		if (htBookmarks.count(sTmp) > 0) 
@@ -639,7 +638,6 @@ void SOURCE_VIEW::OnPaint()
 
 			{
 			nLineStatus = CDebug.GetLineStatus(SourceFileName,n);
-			uint32_t dwTmpFind;
 			RECT SelectionRect;
 			SelectionRect = Pos;
 			SelectionRect.top = y;

@@ -1201,11 +1201,12 @@ char *CTechnique::Preprocessor(char *pBuffer, uint32_t & dwSize)
 			pDefines[dwNumDefines].pName = NEW char[len];
 			memcpy(pDefines[dwNumDefines].pName, sName, len);
 
+			pDefines[dwNumDefines].dwNameLen = len - 1;
+
 			len = strlen(sValue) + 1;
 			pDefines[dwNumDefines].pValue = NEW char[len];
 			memcpy(pDefines[dwNumDefines].pValue, sValue, len);
 
-			pDefines[dwNumDefines].dwNameLen = len - 1;
 			dwNumDefines++;
 			pStr++; continue;
 		}
@@ -1493,7 +1494,7 @@ void CTechnique::ClearSRS_STSS_bUse()
 
 void CTechnique::DecodeFiles(char *sub_dir)
 {
-	uint32_t dwRDTSC;
+	uint64_t dwRDTSC;
 	RDTSC_B(dwRDTSC);
 	pPassStorage = NEW uint32_t[16384];
 
@@ -1703,7 +1704,7 @@ bool CTechnique::ExecutePass(bool bStart)
 						AddState2Restore3(dwCode,State,dwSaveValue);
 					}
 					if (State == D3DRS_SLOPESCALEDEPTHBIAS && dwValue > 100)
-						pRS->SetRenderState(State, F2DW(dwValue*-0.001));
+						pRS->SetRenderState(State, F2DW(dwValue*-0.001f));
 					else
 						pRS->SetRenderState(State, dwValue);
 				}

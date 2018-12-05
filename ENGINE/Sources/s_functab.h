@@ -78,7 +78,7 @@ public:
 	bool  AddFuncVar(uint32_t func_code, LVARINFO & lvi);
 	bool  AddFuncArg(uint32_t func_code, LVARINFO & lvi, bool bExt = false);
 	uint32_t FindVar(uint32_t func_code, char * var_name);
-	void  AddTime(uint32_t func_code, uint32_t time);
+	void  AddTime(uint32_t func_code, uint64_t time);
 	void  SetTimeUsage(uint32_t func_code,double f);
 	void  AddCall(uint32_t func_code);
 	void InvalidateFunction(uint32_t nFuncHandle);

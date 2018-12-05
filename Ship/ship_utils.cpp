@@ -153,7 +153,7 @@ bool SHIP::BuildMasts()
 		NODE* pNode = (NODE*)pEnt->GetNode(iIdx);
 		if (!pNode) break;
 		const char *cNodeName = pNode->GetName();
-		if (strnicmp(cNodeName,MAST_IDENTIFY,_countof(MAST_IDENTIFY)-1) == 0)
+		if (_strnicmp(cNodeName,MAST_IDENTIFY,_countof(MAST_IDENTIFY)-1) == 0)
 		{
 			CVECTOR vBSize,vBCenter,vUp,vDown,vTemp;
 

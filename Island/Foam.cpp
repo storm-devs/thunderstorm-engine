@@ -93,7 +93,7 @@ void CoastFoam::Realize(uint32_t Delta_Time)
 	mWV.EqMultiply(mWorld, mView);
 	mWVP.EqMultiply(mWV, mProjection);
 
-	uint32_t dw1;
+	uint64_t dw1;
 	dwNumPenasExecuted = 0;
 	RDTSC_B(dw1);
 	for (long i=0; i<aFoams.size(); i++)

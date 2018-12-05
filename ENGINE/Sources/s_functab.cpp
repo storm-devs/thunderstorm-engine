@@ -364,7 +364,7 @@ bool S_FUNCTAB::GetVar(LVARINFO & lvi, uint32_t func_code, uint32_t var_code)
 	return true;
 }
 
-void S_FUNCTAB::AddTime(uint32_t func_code, uint32_t time)
+void S_FUNCTAB::AddTime(uint32_t func_code, uint64_t time)
 {
 	if(func_code >= Func_num) return;
 	pTable[func_code].fTimeUsage += time;

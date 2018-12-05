@@ -213,7 +213,7 @@ bool SAIL::LoadState(ENTITY_STATE * state)
 
 void SAIL::Execute(uint32_t Delta_Time)
 {
-    uint32_t rtime;
+    uint64_t rtime;
     int i;
 
 	// тестовая убойка мачт
@@ -453,9 +453,6 @@ void SAIL::Realize(uint32_t Delta_Time)
 	int i,j,idx;
     if(bUse)
     {
-        uint32_t tm_draw;
-
-        //_asm rdtsc	_asm mov tm_draw,eax
 		bool bDraw = RenderService->TechniqueExecuteStart("ShipSail");
 		if (!bDraw) return;
         RenderService->SetMaterial(mat);

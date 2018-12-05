@@ -314,17 +314,17 @@ bool AIFort::ScanFortForCannons(AI_FORT * pFort, char * pModelsDir, char * pLoca
 			pNode->geo->GetLabel(i, label);
 			AICannon * pCannon = nullptr;
 			
-			if (strnicmp(label.name, "cannon", 6) == 0 && pFort->dwCannonType != -1) {
+			if (_strnicmp(label.name, "cannon", 6) == 0 && pFort->dwCannonType != -1) {
 				pFort->aCannons.push_back(AICannon{});
 				pCannon = &pFort->aCannons.back();
 				//pCannon = &pFort->aCannons[pFort->aCannons.Add()];
 			}
-			if (strnicmp(label.name, "culverin", 8) == 0 && pFort->dwCulverinType != -1) {
+			if (_strnicmp(label.name, "culverin", 8) == 0 && pFort->dwCulverinType != -1) {
 				pFort->aCulverins.push_back(AICannon{});
 				pCannon = &pFort->aCulverins.back();
 				//pCannon = &pFort->aCulverins[pFort->aCulverins.Add()];
 			}
-			if (strnicmp(label.name, "mortar", 6) == 0 && pFort->dwMortarType != -1)
+			if (_strnicmp(label.name, "mortar", 6) == 0 && pFort->dwMortarType != -1)
 			{
 				pFort->aMortars.push_back(AICannon{});
 				pCannon = &pFort->aMortars.back();

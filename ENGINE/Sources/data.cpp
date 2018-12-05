@@ -764,7 +764,7 @@ bool DATA::Convert(S_TOKEN_TYPE type)
 			case VAR_FLOAT: return true;
 			case VAR_STRING: 
 				Data_type = type; 
-				gcvt(fValue,10,buffer);
+				_gcvt(fValue,10,buffer);
 				Set(buffer);
 			return true;
 			default: Error(INVALID_CONVERSATION); return false;
@@ -1325,7 +1325,7 @@ bool DATA::Plus(DATA * pV)
 					delete sTemp;
 				break;
 				case VAR_FLOAT:
-					gcvt(pV->fValue,5,buffer);
+					_gcvt(pV->fValue,5,buffer);
 					if(sValue!=nullptr)
 					{
 						size = strlen(sValue) + strlen(buffer) + 1;

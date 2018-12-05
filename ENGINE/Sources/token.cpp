@@ -297,7 +297,7 @@ bool TOKEN::Is(S_TOKEN_TYPE ttype)
 void TOKEN::LowCase()
 {
 	if(pTokenData[0] == 0) return;
-	strlwr(pTokenData);
+	_strlwr(pTokenData);
 }
 
 char * TOKEN::GetData()

@@ -101,7 +101,7 @@ public:
 		if(q1<q2) return *this;
 		int q = q1-q2+1;
 		for(int n=0; n<q; n++)
-			if ( strnicmp(&pString[n],pStr,q2)==0 )
+			if ( _strnicmp(&pString[n],pStr,q2)==0 )
 			{
 				if(q1>q2)
 				{

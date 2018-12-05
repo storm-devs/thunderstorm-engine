@@ -612,11 +612,11 @@ bool CXI_FORMATEDTEXT::GetLineNext(int fontNum,char* &pInStr,char* buf,int bufSi
 		long i,j;
 		for( i=0,j=0; i<lineSize && i<bufSize-1; i++ ) {
 			if( pStart[i]=='<' ) {
-				if( strnicmp(&pStart[i],"<color",6)==0 ) {
+				if( _strnicmp(&pStart[i],"<color",6)==0 ) {
 					while( i<lineSize && i<bufSize-1 && pStart[i]!='>' )
 						i++;
 					continue;
-				} else if( strnicmp(&pStart[i],"</color>",8)==0 ) {
+				} else if( _strnicmp(&pStart[i],"</color>",8)==0 ) {
 					i += 7;
 					continue;
 				}
@@ -634,11 +634,11 @@ bool CXI_FORMATEDTEXT::GetLineNext(int fontNum,char* &pInStr,char* buf,int bufSi
 		long q = strlen(buf); // это длина строки без тагов
 		for( i=0,j=0; j<q; i++ ) {
 			if( pStart[i]=='<' ) {
-				if( strnicmp(&pStart[i],"<color",6)==0 ) {
+				if( _strnicmp(&pStart[i],"<color",6)==0 ) {
 					while( i<lineSize && i<bufSize-1 && pStart[i]!='>' )
 						i++;
 					continue;
-				} else if( strnicmp(&pStart[i],"</color>",8)==0 ) {
+				} else if( _strnicmp(&pStart[i],"</color>",8)==0 ) {
 					i += 7;
 					continue;
 				}
@@ -867,14 +867,14 @@ void CXI_FORMATEDTEXT::MakeTagChecking( bool& tagState, uint32_t& tagColor, uint
 		if( str[0]=='<' )
 		{
 			if( tagState ) {
-				if( strnicmp(str,"</color>",8)==0 )
+				if( _strnicmp(str,"</color>",8)==0 )
 				{
 					tagState = false;
 					q = (long)str-(long)tagBegin;
 					str += 8;
 				}
 			} else {
-				if( strnicmp(str,"<color=",7)==0 )
+				if( _strnicmp(str,"<color=",7)==0 )
 				{
 					tagState = true;
 					long a=255,r=255,g=255,b=255;

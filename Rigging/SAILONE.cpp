@@ -171,7 +171,7 @@ void SAILONE::FillIndex(uint16_t* pt)
     int   idx,iy,ix,jx,jy,cix,ciy,dix;
     int   holeI;
     int   holeStart,noholeStart;
-    uint32_t rtm;
+    uint64_t rtm;
     bool  ishole;
     int   xIdx[5],yIdx[5];
     int   tmpx,tmpy;
@@ -406,7 +406,7 @@ void SAILONE::FillVertex(SAILVERTEX *pv)
 {
     uint16_t ix,iy,idx;
     CVECTOR pcur,dV,ddV,dddV;
-    CVECTOR norm,dnorm;
+    CVECTOR dnorm;
     CVECTOR dStart;
 
     float tmpCol=1.f/(float)(SAIL_COL_MAX-1);
@@ -1474,8 +1474,6 @@ float SAILONE::SSailTrace(CVECTOR &src,CVECTOR &dst,bool bCannonTrace)
     float tmpVal;
     bool DoHole=false;
 
-    CVECTOR vReal,vDist;
-
     int i=0; int idx=0;
     for(int ix=0; ix<3; ix++,i++)
     {
@@ -1527,7 +1525,6 @@ float SAILONE::TSailTrace(CVECTOR &src,CVECTOR &dst,bool bCannonTrace)
     float retVal=2.f;
     float tmpVal;
 
-    CVECTOR vmin,vmax;
     bool DoHole=false;
     int i,ix,iy;
 

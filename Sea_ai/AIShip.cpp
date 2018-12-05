@@ -136,7 +136,7 @@ void AIShip::Execute(float fDeltaTime)
 
 	if (isMainCharacter())
 	{
-		uint32_t dw7;
+		uint64_t dw7;
 		// delete old state
 			
 		// create new state
@@ -430,7 +430,7 @@ CVECTOR	AIShip::GetFollowPoint(VAI_INNEROBJ * pOtherObj)
 
 CVECTOR	AIShip::GetAttackPoint(VAI_INNEROBJ * pOtherObj) 
 {
-	CVECTOR vDst, vSrc = pOtherObj->GetPos();
+	CVECTOR vSrc = pOtherObj->GetPos();
 	vSrc.y = 0.0f;
 
 	CVECTOR	vBestPos = GetPos();

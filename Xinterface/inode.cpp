@@ -277,7 +277,7 @@ bool CINODE::GetMidStr(char * inStr, char * buf, size_t bufSize, char * begStr, 
 	int i;
 	int fcn=-1, lcn=-1;
 	for(i=0; i<=lenIn-lenBeg; i++)
-		if(strnicmp(&inStr[i],begStr,lenBeg)==0)
+		if(_strnicmp(&inStr[i],begStr,lenBeg)==0)
 		{
 			fcn=i; break;
 		}
@@ -285,7 +285,7 @@ bool CINODE::GetMidStr(char * inStr, char * buf, size_t bufSize, char * begStr, 
 	fcn += lenBeg;
 
 	for(i=fcn; i<=lenIn-lenEnd; i++)
-		if(strnicmp(&inStr[i],endStr,lenEnd)==0)
+		if(_strnicmp(&inStr[i],endStr,lenEnd)==0)
 		{
 			lcn=i; break;
 		}

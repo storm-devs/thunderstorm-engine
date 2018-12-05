@@ -56,7 +56,6 @@ struct FRECT
 #define PId2	(PI / 2.0f)
 #define PId4	(PI / 4.0f)
 
-#pragma intrinsic(__rdtsc)
 #define RDTSC_B(x)	{ x = __rdtsc(); }
 #define RDTSC_E(x)	{ x = __rdtsc() - x; }
 
@@ -75,7 +74,6 @@ struct FRECT
 
 inline uint32_t F2DW( float f ) { return *reinterpret_cast<uint32_t*>(&f); }
 
-#pragma intrinsic(_mm_cvt_ss2si)
 inline int ftoi(float f)
 {
 	return _mm_cvt_ss2si(_mm_load_ss(&f));

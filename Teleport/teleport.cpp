@@ -335,7 +335,7 @@ bool FINDDIALOGNODES::Init()
 			int nodIdx = 0;
 			while( GetStringLine(pStr, param, sizeof(param)-1) )
 			{
-				if( strlen(param)<5 || strnicmp(param,"case",4) ) continue;
+				if( strlen(param)<5 || _strnicmp(param,"case",4) ) continue;
 				char param2[512];
 				GetQuotedString(param,param2,sizeof(param2)-1);
 				if(strlen(param2)>0)

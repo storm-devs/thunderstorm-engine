@@ -988,7 +988,7 @@ void IFS::WriteString(const char * section_name, const char * key_name, const ch
 void IFS::WriteLong(const char * section_name, const char * key_name, long value)
 {
 	char buffer[256];
-	ltoa(value,buffer,10);
+	_ltoa(value,buffer,10);
 	WriteString(section_name,key_name,buffer);
 }
 

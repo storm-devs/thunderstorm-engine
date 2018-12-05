@@ -189,7 +189,7 @@ void BICommandList::SetUpDown(bool bUp,bool bDown)
 void BICommandList::Init()
 {
 	Assert( m_pImgRender );
-	long n,q,i;
+	long n,q;
 	ATTRIBUTES *pAList, *pATextures;
 
 	m_LeftTopPoint.x = 120;

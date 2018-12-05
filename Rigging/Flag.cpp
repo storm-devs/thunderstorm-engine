@@ -118,8 +118,6 @@ void FLAG::Realize(uint32_t Delta_Time)
 {
     if(bUse)
     {
-        uint32_t rtm;
-
         //_asm rdtsc _asm mov rtm,eax
 
         RenderService->TextureSet(0,texl);

@@ -52,7 +52,6 @@ void AIShipCameraController::Execute(float fDeltaTime)
 	{
 		uint32_t	i, j, iMax;
 		CMatrix m;
-		RS_RECT rCam;
 
 		AIHelper::pRS->GetTransform(D3DTS_VIEW,m); m.Transposition();	CVECTOR vZ = m.Vz();
 
