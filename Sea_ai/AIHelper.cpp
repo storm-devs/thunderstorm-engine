@@ -60,8 +60,8 @@ ATTRIBUTES * AIHelper::GetMainCharacter(ATTRIBUTES * pACharacter)
 	if (dwIdx != INVALID_ARRAY_INDEX)
 		return aMainCharacters[dwIdx];
 	return null;*/
-	const auto it = std::find(aCharacters.begin(), aCharacters.end(), pACharacter);
-	return it != aCharacters.end() ? *it : nullptr;
+	const auto it = std::find(aCharacters.begin(), aCharacters.end(), pACharacter); //~!~
+	return it != aCharacters.end() ? aMainCharacters[it-aCharacters.begin()] : nullptr;
 }
 
 void AIHelper::AddCharacter(ATTRIBUTES * pACharacter, ATTRIBUTES * pAMainCharacter)
@@ -72,9 +72,9 @@ void AIHelper::AddCharacter(ATTRIBUTES * pACharacter, ATTRIBUTES * pAMainCharact
 	//	aMainCharacters[dwIdx] = pAMainCharacter;
 	//	return;
 	//}
-	const auto it = std::find(aCharacters.begin(), aCharacters.end(), pACharacter);
+	const auto it = std::find(aCharacters.begin(), aCharacters.end(), pACharacter); //~!~
 	if (it != aCharacters.end()) {
-		*it = pAMainCharacter;
+		aMainCharacters[it - aCharacters.begin()] = pAMainCharacter;
 		return;
 	}
 	aCharacters.push_back(pACharacter);
