@@ -67,8 +67,8 @@ class ParticleManager : public IParticleManager
 	void DeleteAllSystems ();
 
 	float TimeFromLastStatUpdate;
-	uint32_t nowTickTime;
-	uint32_t nowUpdateTime;
+	uint64_t nowTickTime;
+	uint64_t nowUpdateTime;
 	uint32_t ActiveSystems;
 	uint32_t ActiveEmitters;
 	uint32_t ActiveBillboardParticles;

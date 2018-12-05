@@ -9,6 +9,7 @@
 #include "externs.h"
 #include "entity_state_R.h"
 #include "system_log.h"
+#include <cinttypes>
 
 #define CORE_MODULE_WILD_MASK		"*.dll"
 #define CORE_DEFAULT_MODULES_PATH	"Modules\\"
@@ -2311,11 +2312,11 @@ void CORE::ProcessExecute()
 				if(!Atoms_PTR[eid_PTR->atom_position]->as.Deleted)
 				{
 				//trace("Ex St: %s",eid_PTR->pName);
-				ticks = __rdtsc();
+					RDTSC_B(ticks);
 				PUSH_CONTROL(eid_PTR->pointer,eid_PTR->class_code,CTP_EXECUTE)
 				((ENTITY *)eid_PTR->pointer)->Execute(deltatime);
 				POP_CONTROL(nullptr)
-				ticks = __rdtsc() - ticks;
+				RDTSC_E(ticks);
 				//trace("Ex En: %s",eid_PTR->pName);
 
 				pAs = &Atoms_PTR[eid_PTR->atom_position]->as;
@@ -2361,11 +2362,11 @@ void CORE::ProcessRealize()
 				if(!Atoms_PTR[eid_PTR->atom_position]->as.Deleted)
 				{
 				//trace("Re St: %s",eid_PTR->pName);
-				ticks = __rdtsc();
+				RDTSC_B(ticks);
 				PUSH_CONTROL(eid_PTR->pointer,eid_PTR->class_code,CTP_REALIZE)
 				((ENTITY *)eid_PTR->pointer)->Realize(deltatime);
 				POP_CONTROL(nullptr)
-				ticks = __rdtsc() - ticks;
+				RDTSC_E(ticks);
 				//trace("Re En: %s",eid_PTR->pName);
 
 				pAs = &Atoms_PTR[eid_PTR->atom_position]->as;
@@ -3246,14 +3247,19 @@ uint32_t CORE::MakeHashValue(const char * string)
 
 void CORE::DumpEntitiesInfo()
 {
+	LARGE_INTEGER li;
+	if (!QueryPerformanceFrequency(&li))
+		throw nullptr;
+	double freq = double(li.QuadPart)/1000.0;
+
 	uint32_t n;
 	char * ptr;
 	VMA * pClass;
 
-	trace("Script commands executed: %d", dwNumberScriptCommandsExecuted);
+	trace("Script commands executed: %" PRIu32, dwNumberScriptCommandsExecuted);
 
 	trace("Entity Dump -----------------------------------");
-	trace("Allocated Memory: %f kb in %d block(s)",
+	trace("Allocated Memory: %f kb in %" PRIu32 " block(s)",
 		(Memory_Service.Allocated_memory_user + Memory_Service.Allocated_memory_system)/1024.0f,//(1024*1024),
 		Memory_Service.Blocks);
 	if(!Atoms_PTR)
@@ -3274,8 +3280,8 @@ void CORE::DumpEntitiesInfo()
 			if(ptr)
 			{
 				trace("Class: %s", ptr);
-				trace("     : Realize:  Cur( %d ) Max( %d )", Atoms_PTR[n]->as.Realize_ticks_av,Atoms_PTR[n]->as.Realize_ticks_max);
-				trace("     : Execute:  Cur( %d ) Max( %d )", Atoms_PTR[n]->as.Execute_ticks_av,Atoms_PTR[n]->as.Execute_ticks_max);
+				trace("     : Realize:  Cur( %fms ) Max( %fms )", Atoms_PTR[n]->as.Realize_ticks_av/freq, Atoms_PTR[n]->as.Realize_ticks_max/freq);
+				trace("     : Execute:  Cur( %fms ) Max( %fms )", Atoms_PTR[n]->as.Execute_ticks_av/freq, Atoms_PTR[n]->as.Execute_ticks_max/freq);
 			}
 		}
 	}

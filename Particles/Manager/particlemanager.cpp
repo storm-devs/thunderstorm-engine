@@ -12,6 +12,7 @@
 #include "../ICommon/IEmitter.h"
 #include "../System/DataSource/DataString.h"
 #include "../ICommon/Names.h"
+#include "../../Common_h/defines.h"
 
 
 uint32_t GraphRead = 0;

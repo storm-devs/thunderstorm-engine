@@ -16,8 +16,6 @@
 #define INVALID_OFFSET			0xffffffff
 #define DSL_INI_VALUE			0
 //#define IOBUFFER_SIZE			65535
-#define RDTSC_B(x)	{ x = __rdtsc(); }
-#define RDTSC_E(x)	{ x = __rdtsc() - x; }
 #define WARNINGS_OFF
 //#define DTRACEOFF
 #define SBUPDATE 4

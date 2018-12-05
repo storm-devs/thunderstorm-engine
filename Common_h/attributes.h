@@ -18,9 +18,6 @@
 // SetAttributeUseDword(attribute_name, DWORD val) - create or modify attribute, converted from uint32_t to string
 // SetAttributeUseFloat(attribute_name, FLOAT val) - create or modify attribute, converted from float to string
 
-#define RDTSC_B(x)	{ x = __rdtsc(); }
-#define RDTSC_E(x)	{ x = __rdtsc() - x; }
-
 class ATTRIBUTES
 {
 	void  xtrace(const char * data_PTR,...)

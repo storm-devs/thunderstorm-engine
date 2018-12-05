@@ -56,8 +56,11 @@ struct FRECT
 #define PId2	(PI / 2.0f)
 #define PId4	(PI / 4.0f)
 
-#define RDTSC_B(x)	{ x = __rdtsc(); }
-#define RDTSC_E(x)	{ x = __rdtsc() - x; }
+#define RDTSC_B(x) { LARGE_INTEGER li; QueryPerformanceCounter(&li); x = li.QuadPart; }
+#define RDTSC_E(x) { LARGE_INTEGER li; QueryPerformanceCounter(&li); x = li.QuadPart - x; }
+
+//#define RDTSC_B(x)	{ x = __rdtsc(); }
+//#define RDTSC_E(x)	{ x = __rdtsc() - x; }
 
 // Defines
 #ifdef RGB
