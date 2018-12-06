@@ -123,3 +123,26 @@ block ParticlesFire()
 	}
 }
 
+block AdvancedParticles()
+{
+	technique t0
+	{
+		pass p0
+		{
+			FogEnable = false;
+			ZWriteenable = false;
+		  
+			SrcBlend = one;
+			DestBlend = invsrcalpha;
+			AlphaTestEnable = false;
+			AlphaBlendEnable = true;
+	  
+			PixelShader = "PS_Particles";
+			VertexShader = "VS_Particles";
+
+			Render.Draw
+
+			Restore.States
+		}
+	}
+}

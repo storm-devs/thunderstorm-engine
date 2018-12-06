@@ -30,6 +30,7 @@ void DataCache::CacheSystem (const char* FileName)
 	if (_stricmp(pathStr.c_str(), ".xps") != 0)
 		path += ".xps";
 	pathStr = path.string();
+	std::transform(pathStr.begin(), pathStr.end(), pathStr.begin(), ::tolower);
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 
 	HANDLE pSysFile = api->fio->_CreateFile(pathStr.c_str());
@@ -76,6 +77,7 @@ DataSource* DataCache::GetParticleSystemDataSource (const char* FileName)
 	if (_stricmp(pathStr.c_str(), ".xps") != 0)
 		path += ".xps";
 	pathStr = path.string();
+	std::transform(pathStr.begin(), pathStr.end(), pathStr.begin(), ::tolower);
 
 	for (int n = 0; n < Cache.size(); n++)
 	{

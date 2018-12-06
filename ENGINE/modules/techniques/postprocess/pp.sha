@@ -3,8 +3,8 @@ block PostProcess()
 	technique t0
 	{
 		pass p0
-    {
-      ZEnable = false;
+		{
+			ZEnable = false;
 			AlphaTestEnable = false;
 			AlphaBlendEnable = false;
 			fogEnable = false;

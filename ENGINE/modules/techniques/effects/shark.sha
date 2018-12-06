@@ -1,4 +1,3 @@
-
 block Shark()
 {
 	technique t0
@@ -14,8 +13,8 @@ block Shark()
 			ColorArg1[0] = current;
 			ColorArg2[0] = texture;
 			ColorOp[0] = modulate;
-	            	ColorOp[1] = disable;
-	        	AlphaOp[0] = disable;
+	        ColorOp[1] = disable;
+	        AlphaOp[0] = disable;
 
 			Render.Draw
 

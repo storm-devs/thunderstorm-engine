@@ -1,4 +1,3 @@
-
 block sh_Editor_back()
 {
 	technique t0
@@ -25,7 +24,6 @@ block sh_Editor_back()
 	}
 }
 
-
 block sh_Editor_front()
 {
 	technique t0
@@ -51,4 +49,3 @@ block sh_Editor_front()
 		}
 	}
 }
-

@@ -392,6 +392,8 @@ bool  DX9RENDER::Init()
 		pTechnique = NEW CTechnique(this);
 		pTechnique->DecodeFiles();
 
+		effects_.compile("modules/techniques/shadow/shadow.fx");
+
 		// получить стартовый ини файл для шрифтов
 		if (!ini->ReadString(nullptr, "startFontIniFile", str, sizeof(str) - 1, ""))
 		{
@@ -715,6 +717,7 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 		//if(CHECKD3DERR(E_FAIL)==true)	return false;
 		if (CHECKD3DERR(d3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &d3d9)) == true)	return false;
 	}
+	effects_.setDevice(d3d9);
 #else
 	if (getBestVideoMode(d3d, d3dpp, !(d3dpp.BackBufferFormat == D3DFMT_R5G6B5)))
 	{
@@ -2491,6 +2494,9 @@ void DX9RENDER::RunStart()
 	// boal del_cheat
 	if (api->Controls->GetDebugAsyncKeyState(VK_F11) < 0)
 	{
+		effects_.release();
+		effects_.compile("modules/techniques/shadow/shadow.fx");
+
 		STORM_DELETE(pTechnique);
 		pTechnique = NEW CTechnique(this);
 		pTechnique->DecodeFiles();
@@ -3079,9 +3085,14 @@ void DX9RENDER::FindPlanes(IDirect3DDevice9 * d3dDevice)
 	viewplane[3].D = (pos.x*viewplane[3].Nx + pos.y*viewplane[3].Ny + pos.z*viewplane[3].Nz);
 }
 
+bool eff = false;
+
 bool DX9RENDER::TechniqueSetParamsAndStart(const char *cBlockName, uint32_t _dwNumParams, void *pParams)
 {
 	if (!cBlockName) return false;
+	if (_stricmp(cBlockName, "shadow_model") == 0 || _stricmp(cBlockName, "shadow_draw") == 0 || _stricmp(cBlockName, "shadow_smooth") == 0) {
+		return eff = effects_.begin(cBlockName);
+	}
 	pTechnique->SetCurrentBlock(cBlockName, _dwNumParams, pParams);
 	return pTechnique->ExecutePassStart();
 }
@@ -3089,13 +3100,22 @@ bool DX9RENDER::TechniqueSetParamsAndStart(const char *cBlockName, uint32_t _dwN
 bool _cdecl DX9RENDER::TechniqueExecuteStart(const char *cBlockName, uint32_t _dwNumParams, ...)
 {
 	if (!cBlockName) return false;
-	pTechnique->SetCurrentBlock(cBlockName, _dwNumParams, 1 + &_dwNumParams);
-	return pTechnique->ExecutePassStart();
+
+	if (_stricmp(cBlockName, "shadow_model") == 0 || _stricmp(cBlockName, "shadow_draw") == 0 || _stricmp(cBlockName, "shadow_smooth") == 0) {
+		return eff = effects_.begin(cBlockName);
+	}
+	else {
+		pTechnique->SetCurrentBlock(cBlockName, _dwNumParams, 1 + &_dwNumParams);
+		return pTechnique->ExecutePassStart();
+	}
 }
 
 bool DX9RENDER::TechniqueExecuteNext()
 {
-	return pTechnique->ExecutePassNext();
+	if(eff)
+		return eff = effects_.next();
+	else
+		return pTechnique->ExecutePassNext();
 }
 
 void DX9RENDER::DrawRects(RS_RECT *pRSR, uint32_t dwRectsNum, const char *cBlockName, uint32_t dwSubTexturesX, uint32_t dwSubTexturesY, float fScaleX, float fScaleY, uint32_t dwNumParams, ...)

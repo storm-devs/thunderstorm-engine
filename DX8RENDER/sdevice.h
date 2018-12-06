@@ -6,6 +6,7 @@
 #include "../Common_h/dx9render.h"
 #include "../Common_h/defines.h"
 #include "../Common_h/VideoTexture.h"
+#include "Effects.h"
 #include <vector>
 #include <stack>
 
@@ -108,6 +109,7 @@ class DX9RENDER  : public VDX9RENDER
 	float				Fov;
 
 	CTechnique			* pTechnique;
+	Effects			effects_;
 
     char				* fontIniFileName;
     long				nFontQuantity;
