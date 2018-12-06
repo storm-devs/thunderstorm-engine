@@ -393,6 +393,7 @@ bool  DX9RENDER::Init()
 		pTechnique->DecodeFiles();
 
 		effects_.compile("modules/techniques/shadow/shadow.fx");
+		effects_.compile("modules/techniques/effects/GrassEx.fx");
 
 		// получить стартовый ини файл для шрифтов
 		if (!ini->ReadString(nullptr, "startFontIniFile", str, sizeof(str) - 1, ""))
@@ -2496,6 +2497,7 @@ void DX9RENDER::RunStart()
 	{
 		effects_.release();
 		effects_.compile("modules/techniques/shadow/shadow.fx");
+		effects_.compile("modules/techniques/effects/GrassEx.fx");
 
 		STORM_DELETE(pTechnique);
 		pTechnique = NEW CTechnique(this);
@@ -3090,7 +3092,8 @@ bool eff = false;
 bool DX9RENDER::TechniqueSetParamsAndStart(const char *cBlockName, uint32_t _dwNumParams, void *pParams)
 {
 	if (!cBlockName) return false;
-	if (_stricmp(cBlockName, "shadow_model") == 0 || _stricmp(cBlockName, "shadow_draw") == 0 || _stricmp(cBlockName, "shadow_smooth") == 0) {
+	if (_stricmp(cBlockName, "shadow_model") == 0 || _stricmp(cBlockName, "shadow_draw") == 0 || _stricmp(cBlockName, "shadow_smooth") == 0
+		|| _stricmp(cBlockName, "GrassEx") == 0 || _stricmp(cBlockName, "GrassEx_dark") == 0) {
 		return eff = effects_.begin(cBlockName);
 	}
 	pTechnique->SetCurrentBlock(cBlockName, _dwNumParams, pParams);
@@ -3100,8 +3103,8 @@ bool DX9RENDER::TechniqueSetParamsAndStart(const char *cBlockName, uint32_t _dwN
 bool _cdecl DX9RENDER::TechniqueExecuteStart(const char *cBlockName, uint32_t _dwNumParams, ...)
 {
 	if (!cBlockName) return false;
-
-	if (_stricmp(cBlockName, "shadow_model") == 0 || _stricmp(cBlockName, "shadow_draw") == 0 || _stricmp(cBlockName, "shadow_smooth") == 0) {
+	if (_stricmp(cBlockName, "shadow_model") == 0 || _stricmp(cBlockName, "shadow_draw") == 0 || _stricmp(cBlockName, "shadow_smooth") == 0
+		|| _stricmp(cBlockName, "GrassEx") == 0 || _stricmp(cBlockName, "GrassEx_dark") == 0) {
 		return eff = effects_.begin(cBlockName);
 	}
 	else {

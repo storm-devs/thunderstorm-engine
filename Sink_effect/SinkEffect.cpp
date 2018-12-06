@@ -5,7 +5,7 @@
 #include "../Common_h/Cvector.h"
 #include "../SoundService/VSoundService.h"
 #include "SinkEffect.H"
-#include "../Peoples_on_ship/PEOPLES_ON_SHIP.h"
+#include "../Common_h/ship_base.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(SINKEFFECT)

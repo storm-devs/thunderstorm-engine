@@ -1077,7 +1077,7 @@ D3DVERTEXELEMENT9 * CurDeclElement(shader_t *pS)
 uint32_t CTechnique::ProcessVertexDeclaration(shader_t *pS, char *pFile, uint32_t dwSize, char **pStr)
 {
 	uint32_t dwTemp;;
-	uint32_t dwStream = 0, dwOffset = 0;pDecl
+	uint32_t dwStream = 0, dwOffset = 0;
 	uint32_t dwIndexes[_countof(MYDECLUSAGE)] = { 0 };
 
 	while (nullptr != (*pStr = GetString(pFile,dwSize,*pStr)))

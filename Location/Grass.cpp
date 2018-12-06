@@ -35,6 +35,8 @@
 //Конструирование, деструктурирование
 //============================================================================================
 
+IDirect3DVertexDeclaration9 * Grass::vertexDecl_ = nullptr;
+
 Grass::Grass()
 {
 	miniMap = nullptr;
@@ -113,6 +115,8 @@ bool Grass::Init()
 	//DX9 render
 	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	if(!rs) STORM_THROW("No service: dx9render");
+	//Vertex declaration
+	CreateVertexDeclaration();
 	//Буфер для динамических данных
 	vb = rs->CreateVertexBuffer(0, GRASS_MAX_POINTS*4*sizeof(Vertex), D3DUSAGE_DYNAMIC);
 	if(vb < 0) return false;
@@ -800,6 +804,7 @@ __forceinline void Grass::DrawBuffer()
 	// boal выбор шайдера -->
 	if (numPoints > 0)
 	{
+		rs->SetVertexDeclaration(vertexDecl_);
 		if (isGrassLightsOn == 1)
 		{
 			rs->DrawBuffer(vb, sizeof(Vertex), ib, 0, numPoints * 4, 0, numPoints * 2, "GrassEx");
@@ -825,5 +830,20 @@ __forceinline long Grass::GetColor(CVECTOR color)
 	long g = long(color.y*255.0f);
 	long b = long(color.x*255.0f);
 	return (r << 16) | (g << 8) | b;
+}
+
+void Grass::CreateVertexDeclaration()
+{
+	const D3DVERTEXELEMENT9 VertexElements[] =
+	{
+		{0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},
+		{0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR,  0},
+		{0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR,  1},
+		{0, 20, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},
+		D3DDECL_END()
+	};
+
+	if(vertexDecl_ == nullptr)
+		rs->CreateVertexDeclaration(VertexElements, &vertexDecl_);
 }
 

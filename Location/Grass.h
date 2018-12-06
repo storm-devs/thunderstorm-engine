@@ -28,6 +28,8 @@ class Grass : public ENTITY
 {
 #pragma pack(push, 1)
 
+	static IDirect3DVertexDeclaration9 * vertexDecl_;
+
 	struct Vertex
 	{
 		float x, y, z;
@@ -130,6 +132,8 @@ private:
 	void DrawBuffer();
 	//Получить цвет
 	static long GetColor(CVECTOR color);
+	//Vertex declaration
+	void CreateVertexDeclaration();
 
 private:
 	//Сервис рендера
