@@ -163,8 +163,8 @@ bool SCRSHOTER::MakeScreenShot()
 			}
 		}
 
-		delete pHorzOff;
-		delete pVertOff;
+		delete[] pHorzOff;
+		delete[] pVertOff;
 	}
 
 	// закрываем открытые буфера
