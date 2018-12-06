@@ -465,7 +465,7 @@ void QUEST_FILE_READER::SetQuestTextFileName(const char * pcFileName)
 	pBuf[readsize] = 0;
 
 	AddQuestFromBuffer( pBuf );
-	delete pBuf;
+	delete[] pBuf;
 }
 
 void QUEST_FILE_READER::AddQuestFromBuffer( const char* pcSrcBuffer )

@@ -477,9 +477,9 @@ bool LGeometry::Save()
 		fclose(fl);
 	}
 	::SetCurrentDirectory(oldPath);
-	delete oldPath;
-	delete dir;
-	delete buf;
+	delete[] oldPath;
+	delete[] dir;
+	delete[] buf;
 	return result;
 }
 

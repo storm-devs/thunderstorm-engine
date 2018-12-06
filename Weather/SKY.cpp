@@ -111,7 +111,7 @@ void SKY::CreateFogSphere()
 	pRS->UnLockVertexBuffer(iFogVertsID);
 	pRS->UnLockIndexBuffer(iFogIndexID);
 
-	delete pVerts;
+	delete[] pVerts;
 }
 
 void SKY::UpdateFogSphere()

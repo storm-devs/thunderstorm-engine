@@ -6067,7 +6067,7 @@ bool COMPILER::SaveState(HANDLE fh)
 		fio->_WriteFile(fh, &dwPackLen, sizeof(dwPackLen), nullptr);
 		fio->_WriteFile(fh, pDst, dwPackLen, nullptr);
 		
-		delete pDst;
+		delete[] pDst;
 	}
 
 	if (pBuffer) delete pBuffer;
@@ -6102,7 +6102,7 @@ bool COMPILER::LoadState(HANDLE fh)
 	pBuffer = NEW char[dwMaxSize];
 	fio->_ReadFile(fh, (void*)pCBuffer, dwPackLen, nullptr);
 	uncompress((Bytef*)pBuffer, (uLongf *)&dwMaxSize, (Bytef*)pCBuffer, dwPackLen);
-	delete pCBuffer;
+	delete[] pCBuffer;
 	dwCurPointer = 0;
 
 	// Release all data
@@ -6283,7 +6283,7 @@ bool COMPILER::SetSaveData(char * file_name, void * save_data, long data_size)
 	fio->_WriteFile(fh, pDst, dwPackLen, nullptr);
 	fio->_CloseHandle(fh);
 
-	delete pDst;
+	delete[] pDst;
 
 	return true;
 }
@@ -6486,7 +6486,7 @@ void * COMPILER::GetSaveData(char * file_name, long & data_size)
 	uint32_t dwDestLen = exdh.dwExtDataSize;
 	uncompress((Bytef*)pBuffer, (uLongf *)&dwDestLen, (Bytef*)pCBuffer, dwPackLen);
 	fio->_CloseHandle(fh);
-	delete pCBuffer;
+	delete[] pCBuffer;
 	RDTSC_E(dw2);
 	//api->Trace("GetSaveData = %d", dw2);
 

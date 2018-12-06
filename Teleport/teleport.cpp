@@ -322,7 +322,7 @@ bool FINDDIALOGNODES::Init()
 			{
 				api->Trace("Can`t read dialog file: %s",fileName);
 				api->fio->_CloseHandle(hfile);
-				delete fileBuf;
+				delete[] fileBuf;
 				return false;
 			}
 			api->fio->_CloseHandle(hfile);
@@ -346,7 +346,7 @@ bool FINDDIALOGNODES::Init()
 				}
 			}
 
-			delete fileBuf;
+			delete[] fileBuf;
 			return true;
 		}
 	}

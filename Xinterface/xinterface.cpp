@@ -2572,7 +2572,7 @@ bool __declspec(dllexport) __cdecl XINTERFACE::SFLB_DoSaveFileData(char * saveNa
 	}
 
 	api->SetSaveData(saveName,pdat, sizeof(SAVE_DATA_HANDLE) + slen + ssize);
-	delete pdat;
+	delete[] pdat;
 	return true;
 }
 
@@ -3222,7 +3222,7 @@ void XINTERFACE::LoadOptionsFile(char * fileName, ATTRIBUTES * pAttr)
 				while(*pBuf && (*pBuf==13 || *pBuf==10)) pBuf++;
 			}
 		}
-		delete pOutBuffer;
+		delete[] pOutBuffer;
 	}
 
 	api->fio->_CloseHandle(fh);

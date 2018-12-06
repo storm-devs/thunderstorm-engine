@@ -164,7 +164,7 @@ void Lights::PostInit()
 		light[numLights].range *= nrm;
 		numLights++;
 	}
-	delete grp;
+	delete[] grp;
 }
 
 void Lights::UpdateLights(long lit)

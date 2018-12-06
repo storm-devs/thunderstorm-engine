@@ -499,7 +499,7 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 		if(!_CORE_API->fio->_ReadFile(fl, prntIndeces, header.nJoints*sizeof(long), nullptr))
 		{
 			_CORE_API->Trace("Incorrect parent indeces block in animation file: %s", fname);
-			delete prntIndeces;
+			delete[] prntIndeces;
 			_CORE_API->fio->_CloseHandle(fl);
 			return false;
 		}
@@ -509,13 +509,13 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 			Assert(prntIndeces[i] != i);
 			info->GetBone(i).SetParent(&info->GetBone(prntIndeces[i]));
 		}
-		delete prntIndeces;
+		delete[] prntIndeces;
 		//Стартовые позиции костей
 		CVECTOR * vrt = NEW CVECTOR[header.nJoints];
 		if(!_CORE_API->fio->_ReadFile(fl, vrt, header.nJoints*sizeof(CVECTOR), nullptr))
 		{
 			_CORE_API->Trace("Incorrect start joints position block block in animation file: %s", fname);
-			delete vrt;
+			delete[] vrt;
 			_CORE_API->fio->_CloseHandle(fl);
 			return false;
 		}
@@ -523,19 +523,19 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 		{
 			info->GetBone(i).SetNumFrames(header.nFrames, vrt[i], i == 0);
 		}
-		delete vrt;
+		delete[] vrt;
 
 		//Позиции рутовой кости
 		vrt = NEW CVECTOR[header.nFrames];
 		if(!_CORE_API->fio->_ReadFile(fl, vrt, header.nFrames*sizeof(CVECTOR), nullptr))
 		{
 			_CORE_API->Trace("Incorrect root joint position block block in animation file: %s", fname);
-			delete vrt;
+			delete[] vrt;
 			_CORE_API->fio->_CloseHandle(fl);
 			return false;
 		}
 		info->GetBone(0).SetPositions(vrt, header.nFrames);
-		delete vrt;
+		delete[] vrt;
 
 		//Углы
 		D3DXQUATERNION *ang = NEW D3DXQUATERNION[header.nFrames];
@@ -549,7 +549,7 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 			}
 			info->GetBone(i).SetAngles(ang, header.nFrames);
 		}
-		delete ang;
+		delete[] ang;
 
 		//-----------------------------------------------
 		for(long i = 0; i < header.nJoints; i++)

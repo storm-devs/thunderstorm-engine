@@ -364,7 +364,7 @@ bool IFS::LoadFile(const char * _file_name)
 	file_data[file_size] = 0;
 
 	fs->_ReadFile(fh,file_data,file_size,&dwR);
-	if(file_size != dwR) {delete file_data; fs->_CloseHandle(fh); return false;}
+	if(file_size != dwR) {delete[] file_data; fs->_CloseHandle(fh); return false;}
 
 	fs->_CloseHandle(fh);
 
@@ -372,12 +372,12 @@ bool IFS::LoadFile(const char * _file_name)
 
 	FileName = NEW char[name_size];
 
-	if(FileName == nullptr) {delete file_data; fs->_CloseHandle(fh); return false;}
+	if(FileName == nullptr) {delete[] file_data; fs->_CloseHandle(fh); return false;}
 	strcpy_s(FileName, name_size, _file_name);
 
 	Format(file_data,file_size + 1);
 
-	delete file_data;
+	delete[] file_data;
 
 	return true;
 }

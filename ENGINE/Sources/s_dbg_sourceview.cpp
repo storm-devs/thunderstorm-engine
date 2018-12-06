@@ -697,7 +697,7 @@ void SOURCE_VIEW::OnPaint()
 				strncpy_s(str, nTo - nFrom + 1, pSourceFile + pLineOffset[n] + nFrom, nTo - nFrom);
 				str[nTo - nFrom] = 0;
 				sCopyPasteBuffer = str;
-				delete str;
+				delete[] str;
 
 				SetBkMode(dc,TRANSPARENT);
 

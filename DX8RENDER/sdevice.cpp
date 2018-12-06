@@ -1749,7 +1749,7 @@ bool DX9RENDER::TextureRelease(long texid)
 				const char *s = "*";
 				api->fio->_WriteFile(fh, s, 1, nullptr);
 			}
-			delete buf;
+			delete[] buf;
 			api->fio->_FlushFileBuffers(fh);
 			api->fio->_CloseHandle(fh);
 
@@ -3232,7 +3232,7 @@ void DX9RENDER::DrawSprites(RS_SPRITE * pRSS, uint32_t dwSpritesNum, const char 
 		DrawPrimitiveUP(D3DPT_QUADLIST, RS_SPRITE_VERTEX_FORMAT, dwSpritesNum, pRSS, sizeof(RS_SPRITE));
 #endif
 	} while (cBlockName && TechniqueExecuteNext());
-	delete pIndices;
+	delete[] pIndices;
 }
 
 void DX9RENDER::DrawLines(RS_LINE *pRSL, uint32_t dwLinesNum, const char *cBlockName, uint32_t dwNumParams, ...)

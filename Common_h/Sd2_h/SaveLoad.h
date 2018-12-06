@@ -184,7 +184,7 @@ public:
 		char * pBuffer = NEW char[dwLen];
 		Read(pBuffer, dwLen);
 		str = pBuffer;
-		delete pBuffer;
+		delete[] pBuffer;
 		return str;
 	}
 

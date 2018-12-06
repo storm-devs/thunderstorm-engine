@@ -60,7 +60,7 @@ void __declspec(noinline) __cdecl DIALOG::DlgTextDescribe::ChangeText(const char
 			DIALOG::AddToStringArrayLimitedByWidth(pcTmp,nFontID,fScale,nWindowWidth, asText, &anPageEndIndex,nShowQuantity);
 			if( anPageEndIndex.size()==0 || anPageEndIndex[anPageEndIndex.size()-1]!=asText.size() )
 				anPageEndIndex.push_back( asText.size() );
-			delete pcTmp;
+			delete[] pcTmp;
 		}
 	}
 	DIALOG::AddToStringArrayLimitedByWidth(&pcText[i],nFontID,fScale,nWindowWidth, asText, &anPageEndIndex,nShowQuantity);

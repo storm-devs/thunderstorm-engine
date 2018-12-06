@@ -310,7 +310,7 @@ void NODER::RestoreGeometry()
 	gs->SetTexturePath(sys_TexPath);
 	geo = gs->CreateGeometry(sys_modelName, sys_LightPath, 0, sys_lmPath);
 	gs->SetTexturePath(ttPath);
-	delete ttPath;
+	delete[] ttPath;
 	if(!geo) throw "No geometry";
 
 	isReleaed = false;

@@ -49,7 +49,7 @@ void DataCache::CacheSystem (const char* FileName)
 	CreateDataSource (pMemBuffer, FileSize, pathStr.c_str());
 
 
-	delete pMemBuffer;
+	delete[] pMemBuffer;
 
 	api->fio->_CloseHandle(pSysFile);
 }
