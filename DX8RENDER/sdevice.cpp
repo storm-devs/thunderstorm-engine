@@ -389,13 +389,10 @@ bool  DX9RENDER::Init()
 		//stencil_format = D3DFMT_D24S8;
 		if (!InitDevice(bWindow, api->GetAppHWND(), screen_size.x, screen_size.y)) return false;
 
+		RecompileEffects();
+
 		pTechnique = NEW CTechnique(this);
 		pTechnique->DecodeFiles();
-
-		effects_.compile("modules/techniques/shadow/shadow.fx");
-		effects_.compile("modules/techniques/weather/caustic.fx");
-		effects_.compile("modules/techniques/effects/grass.fx");
-		effects_.compile("modules/techniques/worldmap/worldmap.fx");
 
 		// получить стартовый ини файл для шрифтов
 		if (!ini->ReadString(nullptr, "startFontIniFile", str, sizeof(str) - 1, ""))
@@ -2392,6 +2389,17 @@ void DX9RENDER::RestoreRender()
 	d3d9->GetGammaRamp(0, &DefaultRamp);
 }
 
+void DX9RENDER::RecompileEffects()
+{
+	effects_.release();
+
+	for (auto& p : fs::recursive_directory_iterator("modules/techniques"))
+		if (fs::is_regular_file(p) && p.path().extension() == ".fx") {
+			auto s = p.path().string(); // hug microsoft 
+			effects_.compile(s.c_str());
+		}
+}
+
 bool DX9RENDER::ResetDevice()
 {
 	ENTITY_ID eid;
@@ -2497,11 +2505,7 @@ void DX9RENDER::RunStart()
 	// boal del_cheat
 	if (api->Controls->GetDebugAsyncKeyState(VK_F11) < 0)
 	{
-		effects_.release();
-		effects_.compile("modules/techniques/shadow/shadow.fx");
-		effects_.compile("modules/techniques/weather/caustic.fx");
-		effects_.compile("modules/techniques/effects/grass.fx");
-		effects_.compile("modules/techniques/worldmap/worldmap.fx");
+		RecompileEffects();
 
 		STORM_DELETE(pTechnique);
 		pTechnique = NEW CTechnique(this);
@@ -3096,13 +3100,10 @@ bool eff = false;
 bool DX9RENDER::TechniqueSetParamsAndStart(const char *cBlockName, uint32_t _dwNumParams, void *pParams)
 {
 	if (!cBlockName) return false;
-	if (_stricmp(cBlockName, "shadow_model") == 0 || _stricmp(cBlockName, "shadow_draw") == 0 || _stricmp(cBlockName, "shadow_smooth") == 0
-		|| _stricmp(cBlockName, "GrassEx") == 0 || _stricmp(cBlockName, "GrassEx_dark") == 0
-		|| _stricmp(cBlockName, "caustic") == 0
-		|| _memicmp(cBlockName, "Wdm", 3) == 0) 
-	{
-		return eff = effects_.begin(cBlockName);
-	}
+	bool eff = effects_.begin(cBlockName);
+	if (eff)
+		return eff;
+
 	pTechnique->SetCurrentBlock(cBlockName, _dwNumParams, pParams);
 	return pTechnique->ExecutePassStart();
 }
@@ -3110,25 +3111,19 @@ bool DX9RENDER::TechniqueSetParamsAndStart(const char *cBlockName, uint32_t _dwN
 bool _cdecl DX9RENDER::TechniqueExecuteStart(const char *cBlockName, uint32_t _dwNumParams, ...)
 {
 	if (!cBlockName) return false;
-	if (_stricmp(cBlockName, "shadow_model") == 0 || _stricmp(cBlockName, "shadow_draw") == 0 || _stricmp(cBlockName, "shadow_smooth") == 0
-		|| _stricmp(cBlockName, "GrassEx") == 0 || _stricmp(cBlockName, "GrassEx_dark") == 0
-		|| _stricmp(cBlockName, "caustic") == 0
-		|| _memicmp(cBlockName, "Wdm", 3) == 0)
-	{
-		return eff = effects_.begin(cBlockName);
-	}
-	else {
-		pTechnique->SetCurrentBlock(cBlockName, _dwNumParams, 1 + &_dwNumParams);
-		return pTechnique->ExecutePassStart();
-	}
+	bool eff = effects_.begin(cBlockName);
+	if (eff)
+		return eff;
+
+	pTechnique->SetCurrentBlock(cBlockName, _dwNumParams, 1 + &_dwNumParams);
+	return pTechnique->ExecutePassStart();
 }
 
 bool DX9RENDER::TechniqueExecuteNext()
 {
 	if(eff)
 		return eff = effects_.next();
-	else
-		return pTechnique->ExecutePassNext();
+	return pTechnique->ExecutePassNext();
 }
 
 void DX9RENDER::DrawRects(RS_RECT *pRSR, uint32_t dwRectsNum, const char *cBlockName, uint32_t dwSubTexturesX, uint32_t dwSubTexturesY, float fScaleX, float fScaleY, uint32_t dwNumParams, ...)

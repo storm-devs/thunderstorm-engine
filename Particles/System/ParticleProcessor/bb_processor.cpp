@@ -43,7 +43,7 @@ BillBoardProcessor::BillBoardProcessor ()
 	pRS = (VDX9RENDER*)api->CreateService("DX9Render");
 	Assert (pRS);
 
-	CreateVertexDeclaration();
+	//CreateVertexDeclaration();
 
 	int RectVertexSize =  sizeof(RECT_VERTEX);
 
@@ -506,7 +506,7 @@ void BillBoardProcessor::Draw()
 
 	Vector4 cGlobal(0.0f, 1.0f, 0.5f, 0.0f);
 
-	pRS->SetVertexDeclaration(vertexDecl_);
+	//pRS->SetVertexDeclaration(vertexDecl_);
 
 	pRS->SetVertexShaderConstantF(0, (const float*)const1.v4, 1);
 	pRS->SetVertexShaderConstantF(1, (const float*)const2.v4, 1);

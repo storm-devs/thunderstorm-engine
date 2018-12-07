@@ -77,7 +77,7 @@ bool Effects::begin(const std::string & techniqueName)
 	auto technique = techniques_.find(techniqueName);
 	if (technique == techniques_.end())
 	{
-		api->Trace("Warning: technique (%s) not found!", techniqueName.c_str());
+		//api->Trace("Warning: technique (%s) not found!", techniqueName.c_str());
 		return false;
 	}
 

@@ -1,6 +1,6 @@
 #include "particles_shaders.h"
 
-technique Particles
+technique particles
 {
 	pass p0
 	{
@@ -24,7 +24,7 @@ technique Particles
 	}
 }
 
-technique Particles_Inv
+technique particles_inv
 {
 	pass p0
 	{
@@ -35,7 +35,7 @@ technique Particles_Inv
 		FogEnable = true;
 		Lighting = false;
 		Texcoordindex[0] = 0;
-		Colorarg1[0] = texture_complement;
+		Colorarg1[0] = texture | complement;
 		Colorarg2[0] = current;
 		Colorop[0] = modulate;
 		ColorOp[1] = disable;
@@ -48,29 +48,7 @@ technique Particles_Inv
 	}
 }
 
-
-technique Particles_InvOld
-{
-	pass p0
-	{
-		CullMode = none;
-		AlphaTestEnable = false;
-		AlphaBlendEnable = true;
-		ZWriteEnable = false;
-		FogEnable = true;
-		Texcoordindex[0] = 0;
-		Colorarg2[0] = tfactor;
-		Colorarg1[0] = texture;
-		Colorop[0] = blenddiffusealpha;
-		ColorOp[1] = disable;
-		alphaop[0] = disable;
-		TextureFactor = 0xff000000;
-		Srcblend = zero;
-		Destblend = invsrccolor;
-	}
-}
-
-technique ParticlesFire
+technique particlesfire
 {
 	pass p0
 	{
@@ -98,7 +76,7 @@ technique AdvancedParticles
 {
 	pass p0
 	{
-		FogEnable = false;
+		/*FogEnable = false;
 		ZWriteenable = false;
 	  
 		SrcBlend = one;
@@ -107,6 +85,6 @@ technique AdvancedParticles
 		AlphaBlendEnable = true;
   
 		PixelShader = PIXEL_SHADER;
-		VertexShader = VERTEX_SHADER;
+		VertexShader = VERTEX_SHADER;*/
 	}
 }

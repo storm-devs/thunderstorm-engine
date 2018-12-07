@@ -693,6 +693,8 @@ public:
 
 	void LostRender();
 	void RestoreRender();
+
+	void RecompileEffects();
 };
 
 #endif
