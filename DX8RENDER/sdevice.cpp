@@ -3100,7 +3100,7 @@ bool eff = false;
 bool DX9RENDER::TechniqueSetParamsAndStart(const char *cBlockName, uint32_t _dwNumParams, void *pParams)
 {
 	if (!cBlockName) return false;
-	bool eff = effects_.begin(cBlockName);
+	eff = effects_.begin(cBlockName);
 	if (eff)
 		return eff;
 
@@ -3111,19 +3111,20 @@ bool DX9RENDER::TechniqueSetParamsAndStart(const char *cBlockName, uint32_t _dwN
 bool _cdecl DX9RENDER::TechniqueExecuteStart(const char *cBlockName, uint32_t _dwNumParams, ...)
 {
 	if (!cBlockName) return false;
-	bool eff = effects_.begin(cBlockName);
+	eff = effects_.begin(cBlockName);
 	if (eff)
 		return eff;
 
-	pTechnique->SetCurrentBlock(cBlockName, _dwNumParams, 1 + &_dwNumParams);
-	return pTechnique->ExecutePassStart();
+		pTechnique->SetCurrentBlock(cBlockName, _dwNumParams, 1 + &_dwNumParams);
+		return pTechnique->ExecutePassStart();
 }
 
 bool DX9RENDER::TechniqueExecuteNext()
 {
 	if(eff)
 		return eff = effects_.next();
-	return pTechnique->ExecutePassNext();
+
+		return pTechnique->ExecutePassNext();
 }
 
 void DX9RENDER::DrawRects(RS_RECT *pRSR, uint32_t dwRectsNum, const char *cBlockName, uint32_t dwSubTexturesX, uint32_t dwSubTexturesY, float fScaleX, float fScaleY, uint32_t dwNumParams, ...)
