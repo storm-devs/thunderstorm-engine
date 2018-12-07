@@ -8,7 +8,10 @@ inline bool Effects::ErrorHandler(HRESULT hr, const char * file, unsigned line, 
 {
 	if (hr != D3D_OK)
 	{
-		api->Trace("[%s:%s:%d] %s: %s (%s)", file, func, line, DXGetErrorString(hr), DXGetErrorDescription(hr), expr);
+		if(currentTechnique_ != nullptr)
+			api->Trace("[%s:%s:%d] %s: %s (%s) in technique (%s)", file, func, line, DXGetErrorString(hr), DXGetErrorDescription(hr), expr, currentTechnique_->desc.Name);
+		else
+			api->Trace("[%s:%s:%d] %s: %s (%s)", file, func, line, DXGetErrorString(hr), DXGetErrorDescription(hr), expr);
 		return true;
 	}
 
@@ -83,7 +86,7 @@ bool Effects::begin(const std::string & techniqueName)
 
 	currentTechnique_ = technique->second;
 	auto fx = currentTechnique_->fx;
-	fx->SetTechnique(currentTechnique_->handle);
+	CHECKD3DERR(fx->SetTechnique(currentTechnique_->handle));
 
 	UINT passes = 0;
 	CHECKD3DERR(fx->Begin(&passes, 0));

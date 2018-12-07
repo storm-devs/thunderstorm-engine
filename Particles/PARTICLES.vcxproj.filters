@@ -46,9 +46,6 @@
     <Filter Include="Common_H\Math3D">
       <UniqueIdentifier>{cd3c2f4c-0fcf-4b42-b8b0-b264094d40b0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Technique">
-      <UniqueIdentifier>{0e6ba0c8-15d0-4cb3-af36-56a5643d63b4}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DataCache\DataCache.cpp">
@@ -266,13 +263,5 @@
     <ClInclude Include="..\Common_h\math3d\Vector4.h">
       <Filter>Common_H\Math3D</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\Engine\Modules\Techniques\Particles\Particles.sha">
-      <Filter>Technique</Filter>
-    </None>
-    <None Include="..\Engine\Modules\Techniques\Particles\PSys.sha">
-      <Filter>Technique</Filter>
-    </None>
   </ItemGroup>
 </Project>

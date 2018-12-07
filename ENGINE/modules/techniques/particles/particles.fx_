@@ -1,4 +1,4 @@
-#include "particles_shaders.h"
+//#include "particles_shaders.h"
 
 technique particles
 {
@@ -71,7 +71,7 @@ technique particlesfire
 		Alphaop[0] = modulate;
 	}
 }
-
+/*
 technique AdvancedParticles
 {
 	pass p0
@@ -84,7 +84,7 @@ technique AdvancedParticles
 		AlphaTestEnable = false;
 		AlphaBlendEnable = true;
   
-		PixelShader = PIXEL_SHADER;
-		VertexShader = VERTEX_SHADER;*/
+		//PixelShader = PIXEL_SHADER;
+		//VertexShader = VERTEX_SHADER;
 	}
-}
+}*/

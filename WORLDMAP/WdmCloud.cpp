@@ -17,6 +17,7 @@
 #define WdmStormSizeMin			40.0f
 #define WdmStormSizeMax			60.0f
 
+IDirect3DVertexDeclaration9 * WdmCloud::vertexDecl_ = nullptr;
 
 //============================================================================================
 //Конструирование, деструктурирование

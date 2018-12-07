@@ -22,13 +22,11 @@
 #define WdmCloudsSizeMin		30.0f
 #define WdmCloudsSizeMax		50.0f
 
+IDirect3DVertexDeclaration9 * WdmClouds::vertexDecl_ = nullptr;
+
 WdmClouds::Cloud::Cloud()
 {
 	count = 0;
-}
-
-WdmClouds::Cloud::~Cloud()
-{
 }
 
 __forceinline bool WdmClouds::Cloud::Reset(bool isFirstTime)

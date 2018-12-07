@@ -88,8 +88,7 @@ void ParticleManager::SetProjectTexture (const char* FileName)
 	pProjectTexture = pRS->TextureCreate(FileName);
 
 	fs::path path = FileName;
-	//a.GetFileTitle(FileName);
-	pProjectTextureNormalMap = pRS->TextureCreate((path.filename().string()+"nm").c_str());
+	pProjectTextureNormalMap = pRS->TextureCreate((path.stem().string()+"nm").c_str());
 
 	TextureName = FileName;
 }
