@@ -135,7 +135,7 @@ void Astronomy::PLANETS::Realize(double dDeltaTime, double dHour)
 		p.fAngle = 0.0f;
 		p.fSize = aPlanets[i].fScale * fPlanetScale * aPlanets[i].fFakeScale * 10.0f;
 		Astronomy::pRS->TextureSet(0, aPlanets[i].iTexture);
-		Astronomy::pRS->DrawRects(&p, 1, "Planet");
+		Astronomy::pRS->DrawRects(&p, 1, "planet");
 
 		/*if (aPlanets[i].pGeo)
 		{

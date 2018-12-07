@@ -2498,7 +2498,7 @@ void DX9RENDER::RunStart()
 	bInsideScene = true;
 
 	// execute default technique for set default render/texture states
-	if (TechniqueExecuteStart("default")) do{} while (TechniqueExecuteNext());
+	//if (TechniqueExecuteStart("default")) do{} while (TechniqueExecuteNext());
 
 #ifndef _XBOX
 

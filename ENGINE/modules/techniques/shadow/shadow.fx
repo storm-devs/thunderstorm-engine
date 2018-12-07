@@ -4,7 +4,7 @@ technique shadow_model
   {
     AlphaTestEnable = false;
     AlphaBlendEnable = false;
-    fogEnable = false;
+    FogEnable = false;
 
     ColorOp[0] = SelectArg1;
     ColorArg1[0] = TFactor;

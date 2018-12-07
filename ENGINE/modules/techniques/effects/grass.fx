@@ -4,9 +4,9 @@ technique GrassEx
 {
 	pass p0
 	{
-		lighting = false;
+		Lighting = false;
 		alpharef = 80;
-		cullmode = none;
+		CullMode = none;
 
 		AlphaTestEnable = true;
 		AlphaBlendEnable = true;
@@ -29,9 +29,9 @@ technique GrassEx_dark
 {
 	pass p0
 	{
-		lighting = false;
+		Lighting = false;
 		alpharef = 80;
-		cullmode = none;
+		CullMode = none;
 
 		AlphaTestEnable = true;
 		AlphaBlendEnable = true;

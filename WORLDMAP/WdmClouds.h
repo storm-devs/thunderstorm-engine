@@ -39,7 +39,6 @@ class WdmClouds : public WdmRenderObject
 		};
 
 		Cloud();
-		~Cloud();
 
 		//≈сли облако переродилось то возвращает true
 		bool Reset(bool isFirstTime = false);

@@ -10,10 +10,10 @@ technique particles
 		ZWriteEnable = false;
 		FogEnable = true;
 		Lighting = false;
-		Texcoordindex[0] = 0;
-		Colorarg1[0] = texture;
-		Colorarg2[0] = current;
-		Colorop[0] = modulate;
+		TexCoordIndex[0] = 0;
+		ColorArg1[0] = texture;
+		ColorArg2[0] = current;
+		ColorOp[0] = modulate;
 		ColorOp[1] = disable;
 		Srcblend = srcalpha;
 		Destblend = invsrcalpha;
@@ -34,10 +34,10 @@ technique particles_inv
 		ZWriteEnable = false;
 		FogEnable = true;
 		Lighting = false;
-		Texcoordindex[0] = 0;
-		Colorarg1[0] = texture | complement;
-		Colorarg2[0] = current;
-		Colorop[0] = modulate;
+		TexCoordIndex[0] = 0;
+		ColorArg1[0] = texture | complement;
+		ColorArg2[0] = current;
+		ColorOp[0] = modulate;
 		ColorOp[1] = disable;
 		Srcblend = srcalpha;
 		Destblend = invsrcalpha;
@@ -58,10 +58,10 @@ technique particlesfire
 		ZWriteEnable = false;
 		FogEnable = true;
 		Lighting = false;
-		Texcoordindex[0] = 0;
-		Colorarg1[0] = texture;
-		Colorarg2[0] = current;
-		Colorop[0] = modulate;
+		TexCoordIndex[0] = 0;
+		ColorArg1[0] = texture;
+		ColorArg2[0] = current;
+		ColorOp[0] = modulate;
 		ColorOp[1] = disable;
 		Srcblend = srcalpha;
 		Destblend = one;
@@ -77,7 +77,7 @@ technique AdvancedParticles
 	pass p0
 	{
 		FogEnable = false;
-		ZWriteenable = false;
+		ZWriteEnable = false;
 	  
 		SrcBlend = one;
 		DestBlend = invsrcalpha;

@@ -297,7 +297,7 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 	Astronomy::pRS->SetStreamSource(0, Astronomy::pRS->GetVertexBuffer(iVertexBuffer), sizeof(CVECTOR));
 	Astronomy::pRS->SetStreamSource(1, Astronomy::pRS->GetVertexBuffer(iVertexBufferColors), sizeof(uint32_t));
 
-	if (Astronomy::pRS->TechniqueExecuteStart("Stars")) do {
+	if (Astronomy::pRS->TechniqueExecuteStart("stars")) do {
 		Astronomy::pRS->DrawPrimitive(D3DPT_POINTLIST, 0, aStars.size());
 	} while (Astronomy::pRS->TechniqueExecuteNext());
 

@@ -109,11 +109,11 @@ technique WdmClouds
 		Lighting = false;
 		FogEnable = false;
 
-		zwriteenable = false;
+		ZWriteEnable = false;
 		
 		SrcBlend = srcalpha;
 		DestBlend = invsrcalpha;
-		cullmode = none;
+		CullMode = none;
 		
 		AlphaTestEnable = false;
 		AlphaBlendEnable = true;
@@ -147,11 +147,11 @@ technique WdmLightning
 		Lighting = false;
 		FogEnable = false;
 
-		zwriteenable = false;
+		ZWriteEnable = false;
 		
 		SrcBlend = srcalpha;
 		DestBlend = one;
-		cullmode = none;
+		CullMode = none;
 		
 		AlphaTestEnable = false;
 		AlphaBlendEnable = true;
@@ -172,11 +172,11 @@ technique WdmRain
 		Lighting = false;
 		FogEnable = false;
 
-		zwriteenable = false;
+		ZWriteEnable = false;
 		
 		SrcBlend = srcalpha;
 		DestBlend = invsrcalpha;
-		cullmode = none;
+		CullMode = none;
 		
 		AlphaTestEnable = false;
 		AlphaBlendEnable = true;
@@ -198,11 +198,11 @@ technique WdmWarringShipClouds
 		Lighting = false;
 		FogEnable = false;
 
-		zwriteenable = false;
+		ZWriteEnable = false;
 		
 		SrcBlend = srcalpha;
 		DestBlend = invsrcalpha;
-		cullmode = none;
+		CullMode = none;
 		
 		AlphaTestEnable = false;
 		AlphaBlendEnable = true;
@@ -226,11 +226,11 @@ technique WdmShipWaterTrack
 		Lighting = false;
 		FogEnable = false;
 
-		zwriteenable = false;
+		ZWriteEnable = false;
 		
 		SrcBlend = one;
 		DestBlend = one;
-		cullmode = none;
+		CullMode = none;
 		
 		AlphaTestEnable = false;
 		AlphaBlendEnable = true;
@@ -250,12 +250,12 @@ technique WdmDebugDraw
 		Lighting = false;
 		FogEnable = false;
 
-		zenable = false;
-		zwriteenable = false;
+		ZEnable = false;
+		ZWriteEnable = false;
 		
 		SrcBlend = srcalpha;
 		DestBlend = invsrcalpha;
-		cullmode = none;
+		CullMode = none;
 		
 		AlphaTestEnable = false;
 		AlphaBlendEnable = true;
@@ -276,12 +276,12 @@ technique WdmDrawLabelIcon
 		Lighting = false;
 		FogEnable = false;
 
-		zenable = false;
-		zwriteenable = false;
+		ZEnable = false;
+		ZWriteEnable = false;
 		
 		SrcBlend = srcalpha;
 		DestBlend = invsrcalpha;
-		cullmode = none;
+		CullMode = none;
 		
 		AlphaTestEnable = false;
 		AlphaBlendEnable = true;
@@ -317,12 +317,12 @@ technique WdmDrawMapBlend
 		Lighting = false;
 		FogEnable = false;
 
-		zenable = false;
-		zwriteenable = false;
+		ZEnable = false;
+		ZWriteEnable = false;
 		
 		SrcBlend = srcalpha;
 		DestBlend = invsrcalpha;
-		cullmode = none;
+		CullMode = none;
 		
 		AlphaTestEnable = false;
 		AlphaBlendEnable = true;
@@ -349,8 +349,8 @@ technique WdmSeaDraw1
 		AddressU[0] = clamp;
 		AddressV[0] = clamp;
 
-		zenable = false;
-		zwriteenable = false;
+		ZEnable = false;
+		ZWriteEnable = false;
 
 		AlphaTestEnable = false;
 		AlphaBlendEnable = false;
@@ -373,8 +373,8 @@ technique WdmSeaDraw2
 		AddressU[0] = clamp;
 		AddressV[0] = clamp;
 
-		zenable = false;
-		zwriteenable = false;
+		ZEnable = false;
+		ZWriteEnable = false;
 
 		AlphaTestEnable = false;
 		AlphaBlendEnable = true;
@@ -403,8 +403,8 @@ technique WdmSeaDraw3
 		TexCoordIndex[0] = 0;
 		TexCoordIndex[1] = 0;			
 
-		zenable = false;
-		zwriteenable = false;
+		ZEnable = false;
+		ZWriteEnable = false;
 
 		AlphaTestEnable = false;
 		AlphaBlendEnable = true;
@@ -436,8 +436,8 @@ technique WdmSeaDraw4
 		TexCoordIndex[0] = 0;
 		TexCoordIndex[1] = 0;
 
-		zenable = false;
-		zwriteenable = false;
+		ZEnable = false;
+		ZWriteEnable = false;
 
 		AlphaTestEnable = false;
 		AlphaBlendEnable = true;
@@ -474,8 +474,8 @@ technique WdmSeaDrawFlare
 		Lighting = false;
 		FogEnable = false;
 
-		zenable = true;
-		zwriteenable = false;
+		ZEnable = true;
+		ZWriteEnable = false;
 
 		AlphaTestEnable = false;
 		AlphaBlendEnable = true;
@@ -524,9 +524,9 @@ technique WdmInterfaceDrawSky
 		Lighting = false;
 		FogEnable = false;
 		
-		zenable = false;
-		zwriteenable = false;
-		cullmode = none;
+		ZEnable = false;
+		ZWriteEnable = false;
+		CullMode = none;
 		
 		AlphaTestEnable = false;
 		AlphaBlendEnable = true;

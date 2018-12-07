@@ -13,8 +13,6 @@
 
 #define LIGHTS_DEBUG
 
-#define LIGHTS_TECHNIQ	"Coronas"
-
 //============================================================================================
 //Конструирование, деструктурирование
 //============================================================================================
@@ -306,7 +304,7 @@ void Lights::Realize(uint32_t delta_time)
 		buf[n*6 + 5].v = 1.0f;
 		n++;
 		rs->TextureSet(0, l.corona);
-		rs->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, n*2, buf, sizeof(Vertex), LIGHTS_TECHNIQ);
+		rs->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, n*2, buf, sizeof(Vertex), "Coronas");
 		n = 0;
 	}
 	rs->SetTransform(D3DTS_VIEW, camMtx);

@@ -355,7 +355,7 @@ void SKY::Realize(uint32_t Delta_Time)
 	D3DXMatrixTranslation(&pMatTranslate, vPos.x, vPos.y / 6.0f, vPos.z);
 	D3DXMatrixMultiply(&pMatWorld, &pMatWorld, &pMatTranslate);
 	pRS->SetTransform(D3DTS_WORLD, &pMatWorld);
-	pRS->DrawBuffer(iFogVertsID, sizeof(FOGVERTEX), iFogIndexID, 0, iFogNumVerts, 0, iFogNumTrgs / 3, "SkyFog");
+	pRS->DrawBuffer(iFogVertsID, sizeof(FOGVERTEX), iFogIndexID, 0, iFogNumVerts, 0, iFogNumTrgs / 3, "skyfog");
 }
 
 uint32_t SKY::AttributeChanged(ATTRIBUTES * pAttribute)
