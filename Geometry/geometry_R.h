@@ -8,12 +8,11 @@
 //-------------------------------------------------------------------
 //animated vertices
 //-------------------------------------------------------------------
-class GEOMETRY  : public VGEOMETRY
+class GEOMETRY final : public VGEOMETRY
 {
 	VDX9RENDER * RenderService;
 public:
 	GEOMETRY();
-	virtual ~GEOMETRY();
 	bool Init();
 	bool LoadState(ENTITY_STATE * state);
 	GEOS * CreateGeometry(const char * file_name,const char * light_file_name, long flags, const char *lmPath);
@@ -30,18 +29,19 @@ public:
 };
 
 
-class GEOM_SERVICE_R : public GEOM_SERVICE
+class GEOM_SERVICE_R final : public GEOM_SERVICE 
 {
+	static IDirect3DVertexDeclaration9 * vertexDecl_;
+
 	VDX9RENDER * RenderService;
 	GEOS::ID CurentIndexBuffer;
 	GEOS::ID CurentVertexBuffer;
 	uint32_t	 CurentVertexBufferSize;
 	bool	bCaustic;
+
 public:
 	void SetRenderService(VDX9RENDER * render_service);
 
-
-	virtual ~GEOM_SERVICE_R();
 	GEOS::ID OpenFile(const char *fname);
 	int FileSize(GEOS::ID file);
 	void ReadFile(GEOS::ID file, void *data, long bytes);

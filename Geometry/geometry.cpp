@@ -4,6 +4,8 @@
 INTERFACE_FUNCTION
 CREATE_SERVICE(GEOMETRY)
 
+IDirect3DVertexDeclaration9 * GEOM_SERVICE_R::vertexDecl_ = nullptr;
+
 char technique[256] = "";
 char RenderServiceName[] = "dx9render";
 GEOM_SERVICE_R GSR;
@@ -17,10 +19,6 @@ GEOMETRY::GEOMETRY()
 {
 	strcpy_s(texturePath, "");
 }
-
-GEOMETRY::~GEOMETRY()
-{
-};
 
 const char *GEOMETRY::GetTexturePath()
 {
@@ -176,10 +174,17 @@ void GEOM_SERVICE_R::SetRenderService(VDX9RENDER * render_service)
 	CurentIndexBuffer = INVALID_BUFFER_ID;
 	CurentVertexBuffer = INVALID_BUFFER_ID;
 	CurentVertexBufferSize = 0;
-}
 
-GEOM_SERVICE_R::~GEOM_SERVICE_R()
-{
+	const D3DVERTEXELEMENT9 VertexElements[] =
+	{
+		{0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},
+		{0, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD,  0},
+		{0, 24, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR,  0},
+		{0, 28, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 1},
+		D3DDECL_END()
+	};
+	if(vertexDecl_ == nullptr)
+		RenderService->CreateVertexDeclaration(VertexElements, &vertexDecl_);
 }
 
 GEOS::ID GEOM_SERVICE_R::OpenFile(const char *fname)
@@ -465,7 +470,7 @@ void GEOM_SERVICE_R::DrawIndexedPrimitive(long minv, long numv, long vrtsize, lo
 {
 	if(!RenderService) return;
 
-	uint32_t oldZBias;
+	//uint32_t oldZBias;
 
 	if (bCaustic)
 	{
@@ -485,9 +490,11 @@ void GEOM_SERVICE_R::DrawIndexedPrimitive(long minv, long numv, long vrtsize, lo
 		RenderService->SetVertexShaderConstantF(0, mWVP, 4);
 		RenderService->SetVertexShaderConstantF(4, mWorld, 4);
 
-		RenderService->GetRenderState(D3DRS_SLOPESCALEDEPTHBIAS, &oldZBias);
-		float SSBias = -0.6f;
-		RenderService->SetRenderState(D3DRS_SLOPESCALEDEPTHBIAS, *(int*)&SSBias);
+		RenderService->SetVertexDeclaration(vertexDecl_);
+
+		//RenderService->GetRenderState(D3DRS_SLOPESCALEDEPTHBIAS, &oldZBias);
+		//float SSBias = -0.6f;
+		//RenderService->SetRenderState(D3DRS_SLOPESCALEDEPTHBIAS, *(int*)&SSBias);
 	}
 
 	//draw animation
@@ -506,7 +513,7 @@ void GEOM_SERVICE_R::DrawIndexedPrimitive(long minv, long numv, long vrtsize, lo
 		else
 		{
 			RenderService->SetStreamSource(0, transformed_vb, cavb->stride);
-			RenderService->DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, CurentVertexBuffer, 0, CurentIndexBuffer, minv, numv, startidx, numtrg, "vano_caustic");
+			RenderService->DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, CurentVertexBuffer, 0, CurentIndexBuffer, minv, numv, startidx, numtrg, "caustic");
 		}
 		return;
 	}
@@ -515,13 +522,13 @@ void GEOM_SERVICE_R::DrawIndexedPrimitive(long minv, long numv, long vrtsize, lo
 		if (!bCaustic)
 			RenderService->DrawBuffer(CurentVertexBuffer,vrtsize,CurentIndexBuffer,minv,numv,startidx, numtrg, technique);
 		else
-			RenderService->DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, CurentVertexBuffer, vrtsize, CurentIndexBuffer, minv, numv, startidx, numtrg, "vano_caustic");
+			RenderService->DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, CurentVertexBuffer, vrtsize, CurentIndexBuffer, minv, numv, startidx, numtrg, "caustic");
 	}
 
-	if (bCaustic)
-	{
-		RenderService->SetRenderState(D3DRS_SLOPESCALEDEPTHBIAS, oldZBias);
-	}
+	//if (bCaustic)
+	//{
+	//	RenderService->SetRenderState(D3DRS_SLOPESCALEDEPTHBIAS, oldZBias);
+	//}
 }
 
 GEOS::ID GEOM_SERVICE_R::CreateLight(const GEOS::LIGHT)

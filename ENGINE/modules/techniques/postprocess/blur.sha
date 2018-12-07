@@ -1,28 +1,23 @@
-block PostProcessBlur()
+#include "blur_shader.h"
+
+technique PostProcessBlur
 {
-	technique t0
+	pass p0
 	{
-		pass p0
-		{
-			addressu[0] = clamp;
-			addressv[0] = clamp;
-			addressu[1] = clamp;
-			addressv[1] = clamp;
-			addressu[2] = clamp;
-			addressv[2] = clamp;
-			addressu[3] = clamp;
-			addressv[3] = clamp;
-    
-			ZEnable = false;
-			AlphaTestEnable = false;
-			AlphaBlendEnable = false;
-			fogEnable = false;
+		addressu[0] = clamp;
+		addressv[0] = clamp;
+		addressu[1] = clamp;
+		addressv[1] = clamp;
+		addressu[2] = clamp;
+		addressv[2] = clamp;
+		addressu[3] = clamp;
+		addressv[3] = clamp;
 
- 			PixelShader = "BlurPS";
+		ZEnable = false;
+		AlphaTestEnable = false;
+		AlphaBlendEnable = false;
+		fogEnable = false;
 
-			Render.Draw
-
-			Restore.States
-		}
+		PixelShader = SHADER;
 	}
 }
