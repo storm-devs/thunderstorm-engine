@@ -391,11 +391,6 @@ void Grass::Realize(uint32_t delta_time)
 	rs->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	rs->SetRenderState(D3DRS_ZENABLE, TRUE);
 
-
-
-
-
-
 	//if(api->Controls->GetDebugAsyncKeyState('H') < 0) return;
 
 	//Если нет карты, то нет и рисования
@@ -503,7 +498,7 @@ void Grass::Realize(uint32_t delta_time)
 	rs->TextureSet(0, texture);
 	rs->TextureSet(1, texture);
 	//Ставим константы
-	rs->SetVertexShaderConstantF(0, (const float*)consts, sizeof(consts)/sizeof(VSConstant));
+	rs->SetVertexShaderConstantF(0, (const float*)consts, sizeof(consts) / sizeof(VSConstant));
 	//rs->SetFVFConstant(0, consts, 40);
 	//Позиция камеры на карте
 	long camx = long((pos.x/m_fDataScale - startX)/GRASS_BLK_DST);
@@ -834,6 +829,9 @@ __forceinline long Grass::GetColor(CVECTOR color)
 
 void Grass::CreateVertexDeclaration()
 {
+	if (vertexDecl_ != nullptr)
+		return;
+
 	const D3DVERTEXELEMENT9 VertexElements[] =
 	{
 		{0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},
@@ -843,7 +841,6 @@ void Grass::CreateVertexDeclaration()
 		D3DDECL_END()
 	};
 
-	if(vertexDecl_ == nullptr)
-		rs->CreateVertexDeclaration(VertexElements, &vertexDecl_);
+	rs->CreateVertexDeclaration(VertexElements, &vertexDecl_);
 }
 

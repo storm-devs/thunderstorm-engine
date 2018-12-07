@@ -3104,7 +3104,8 @@ bool _cdecl DX9RENDER::TechniqueExecuteStart(const char *cBlockName, uint32_t _d
 {
 	if (!cBlockName) return false;
 	if (_stricmp(cBlockName, "shadow_model") == 0 || _stricmp(cBlockName, "shadow_draw") == 0 || _stricmp(cBlockName, "shadow_smooth") == 0
-		|| _stricmp(cBlockName, "GrassEx") == 0 || _stricmp(cBlockName, "GrassEx_dark") == 0) {
+		|| _stricmp(cBlockName, "GrassEx") == 0 || _stricmp(cBlockName, "GrassEx_dark") == 0)
+	{
 		return eff = effects_.begin(cBlockName);
 	}
 	else {
@@ -3443,6 +3444,11 @@ HRESULT DX9RENDER::GetVertexShader(IDirect3DVertexShader9** ppShader)
 HRESULT DX9RENDER::GetPixelShader(IDirect3DPixelShader9** ppShader)
 {
 	return CHECKD3DERR(d3d9->GetPixelShader(ppShader));
+}
+
+ID3DXEffect * DX9RENDER::GetEffectPointer(const char * techniqueName)
+{
+	return effects_.getEffectPointer(techniqueName);
 }
 
 HRESULT DX9RENDER::SetTexture(uint32_t Stage, IDirect3DBaseTexture9* pTexture)

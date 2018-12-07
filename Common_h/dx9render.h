@@ -3,6 +3,8 @@
 
 #include <cstdint>
 #include <d3d9.h>
+#include <d3dx9.h>
+
 #include "../Common_h/vmodule_api.h"
 #include "../Common_h/types3d.h"
 #include "../Common_h/Matrix.h"
@@ -250,7 +252,7 @@ public:
 		virtual HRESULT SetFVF(uint32_t handle) = 0;
 		virtual HRESULT GetVertexShader(IDirect3DVertexShader9** ppShader) = 0;
 		virtual HRESULT GetPixelShader(IDirect3DPixelShader9** ppShader) = 0;
-
+		virtual ID3DXEffect * GetEffectPointer(const char *techniqueName) = 0;
 
 	// D3D Render Target/Begin/End/Clear
 		virtual HRESULT GetRenderTarget(IDirect3DSurface9** ppRenderTarget) = 0;

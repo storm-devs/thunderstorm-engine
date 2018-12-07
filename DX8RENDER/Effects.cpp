@@ -41,6 +41,8 @@ void Effects::compile(const char * fxPath)
 		return;
 	}
 
+	effects_.push_back(fx);
+
 	D3DXHANDLE technique = nullptr;
 	CHECKD3DERR(fx->FindNextValidTechnique(nullptr, &technique));
 	while(technique != nullptr)
@@ -54,7 +56,6 @@ void Effects::compile(const char * fxPath)
 		}
 		else 
 		{
-			effects_.push_back(fx);
 			techniques_[desc.Name] = new Technique{ fx, technique, desc };
 		}
 
@@ -64,8 +65,8 @@ void Effects::compile(const char * fxPath)
 
 void Effects::release()
 {
-	//for(const auto fx : effects_)
-	//	fx->Release();
+	for(const auto fx : effects_)
+		fx->Release();
 	effects_.clear();
 	techniques_.clear();
 	currentTechnique_ = nullptr;
@@ -114,4 +115,10 @@ bool Effects::next()
 		currentTechnique_ = nullptr;
 	}
 	return false;
+}
+
+ID3DXEffect * Effects::getEffectPointer(const std::string & techniqueName)
+{
+	auto technique = techniques_.find(techniqueName);
+	return technique != techniques_.end()? technique->second->fx : nullptr;
 }

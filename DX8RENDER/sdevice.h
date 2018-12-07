@@ -430,7 +430,7 @@ public:
 	HRESULT SetFVF(uint32_t handle) override;
 	HRESULT GetVertexShader(IDirect3DVertexShader9** ppShader) override;
 	HRESULT GetPixelShader(IDirect3DPixelShader9** ppShader) override;
-
+	ID3DXEffect * GetEffectPointer(const char *techniqueName) override;
 
 	// D3D Render Target/Begin/End/Clear
 	HRESULT GetRenderTarget(IDirect3DSurface9** ppRenderTarget) override;
