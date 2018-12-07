@@ -23,6 +23,8 @@ class ParticleSystem;
 
 class BillBoardProcessor
 {
+	static IDirect3DVertexDeclaration9 * vertexDecl_;
+	void CreateVertexDeclaration();
 
 	struct RECT_VERTEX
 	{

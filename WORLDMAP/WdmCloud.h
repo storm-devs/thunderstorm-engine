@@ -18,6 +18,9 @@
 
 class WdmCloud : public WdmRenderObject
 {
+	static IDirect3DVertexDeclaration9 * vertexDecl_;
+	void CreateVertexDeclaration(VDX9RENDER * rs);
+
 	struct MoveInfo
 	{
 		CVECTOR pos;

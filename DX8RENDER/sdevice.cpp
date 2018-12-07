@@ -395,6 +395,7 @@ bool  DX9RENDER::Init()
 		effects_.compile("modules/techniques/shadow/shadow.fx");
 		effects_.compile("modules/techniques/weather/caustic.fx");
 		effects_.compile("modules/techniques/effects/grass.fx");
+		effects_.compile("modules/techniques/worldmap/worldmap.fx");
 
 		// получить стартовый ини файл для шрифтов
 		if (!ini->ReadString(nullptr, "startFontIniFile", str, sizeof(str) - 1, ""))
@@ -2500,6 +2501,7 @@ void DX9RENDER::RunStart()
 		effects_.compile("modules/techniques/shadow/shadow.fx");
 		effects_.compile("modules/techniques/weather/caustic.fx");
 		effects_.compile("modules/techniques/effects/grass.fx");
+		effects_.compile("modules/techniques/worldmap/worldmap.fx");
 
 		STORM_DELETE(pTechnique);
 		pTechnique = NEW CTechnique(this);
@@ -3096,7 +3098,8 @@ bool DX9RENDER::TechniqueSetParamsAndStart(const char *cBlockName, uint32_t _dwN
 	if (!cBlockName) return false;
 	if (_stricmp(cBlockName, "shadow_model") == 0 || _stricmp(cBlockName, "shadow_draw") == 0 || _stricmp(cBlockName, "shadow_smooth") == 0
 		|| _stricmp(cBlockName, "GrassEx") == 0 || _stricmp(cBlockName, "GrassEx_dark") == 0
-		|| _stricmp(cBlockName, "caustic") == 0) 
+		|| _stricmp(cBlockName, "caustic") == 0
+		|| _memicmp(cBlockName, "Wdm", 3) == 0) 
 	{
 		return eff = effects_.begin(cBlockName);
 	}
@@ -3109,7 +3112,8 @@ bool _cdecl DX9RENDER::TechniqueExecuteStart(const char *cBlockName, uint32_t _d
 	if (!cBlockName) return false;
 	if (_stricmp(cBlockName, "shadow_model") == 0 || _stricmp(cBlockName, "shadow_draw") == 0 || _stricmp(cBlockName, "shadow_smooth") == 0
 		|| _stricmp(cBlockName, "GrassEx") == 0 || _stricmp(cBlockName, "GrassEx_dark") == 0
-		|| _stricmp(cBlockName, "caustic") == 0)
+		|| _stricmp(cBlockName, "caustic") == 0
+		|| _memicmp(cBlockName, "Wdm", 3) == 0)
 	{
 		return eff = effects_.begin(cBlockName);
 	}

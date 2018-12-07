@@ -14,8 +14,6 @@
 //Сколько всего может быть плашек
 #define MAX_BILLBOARDS 4096
 
-
-
 #define UV_TX1 0
 #define UV_TX2 2
 #define UV_TY1 3
@@ -30,7 +28,7 @@
 #define PLOD 5.0f
 //=============================================================
 
-
+IDirect3DVertexDeclaration9 * BillBoardProcessor::vertexDecl_ = nullptr;
 
 BillBoardProcessor::BillBoardProcessor ()
 {
@@ -44,6 +42,8 @@ BillBoardProcessor::BillBoardProcessor ()
 
 	pRS = (VDX9RENDER*)api->CreateService("DX9Render");
 	Assert (pRS);
+
+	CreateVertexDeclaration();
 
 	int RectVertexSize =  sizeof(RECT_VERTEX);
 
@@ -506,6 +506,7 @@ void BillBoardProcessor::Draw()
 
 	Vector4 cGlobal(0.0f, 1.0f, 0.5f, 0.0f);
 
+	pRS->SetVertexDeclaration(vertexDecl_);
 
 	pRS->SetVertexShaderConstantF(0, (const float*)const1.v4, 1);
 	pRS->SetVertexShaderConstantF(1, (const float*)const2.v4, 1);
@@ -522,7 +523,6 @@ void BillBoardProcessor::Draw()
 
 	pRS->SetVertexShaderConstantF(3, (const float*)matView.matrix, 4);
 	pRS->SetVertexShaderConstantF(7, (const float*)matProjection.matrix, 4);
-
 
 	pRS->SetTransform(D3DTS_VIEW, Matrix());
 	pRS->SetTransform(D3DTS_WORLD, Matrix());
@@ -563,4 +563,25 @@ void BillBoardProcessor::Clear ()
 		FreeParticle (Particles[j]);
 	}
 	Particles.clear();
+}
+
+void BillBoardProcessor::CreateVertexDeclaration()
+{
+	if (vertexDecl_ != nullptr)
+		return;
+
+	const D3DVERTEXELEMENT9 VertexElements[] =
+	{
+		{0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},
+		{0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR,  0},
+		{0, 16, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},
+		{0, 24, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 1},
+		{0, 32, D3DDECLTYPE_FLOAT1, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT, 0},
+		{0, 36, D3DDECLTYPE_FLOAT1, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BLENDWEIGHT, 0},
+		{0, 40, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 2},
+		{0, 52, D3DDECLTYPE_FLOAT1, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 3},
+		D3DDECL_END()
+	};
+
+	pRS->CreateVertexDeclaration(VertexElements, &vertexDecl_);
 }

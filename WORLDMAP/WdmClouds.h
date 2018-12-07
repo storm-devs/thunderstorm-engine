@@ -19,6 +19,9 @@ class WdmCloud;
 
 class WdmClouds : public WdmRenderObject  
 {
+	static IDirect3DVertexDeclaration9 * vertexDecl_;
+	void CreateVertexDeclaration(VDX9RENDER * rs);
+
 	struct Cloud
 	{
 		struct Cld
