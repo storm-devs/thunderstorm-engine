@@ -4,9 +4,9 @@
 
 #define CHECKD3DERR(expr) ErrorHandler(expr, __FILE__, __LINE__, __func__, #expr)
 
-inline bool Effects::ErrorHandler(HRESULT hr, const char * file, unsigned line, const char * func, const char * expr)
+inline bool Effects::ErrorHandler(HRESULT hr, const char * file, unsigned line, const char * func, const char * expr) const
 {
-	if (hr != D3D_OK)
+	if (hr != D3D_OK && hr != S_FALSE)
 	{
 		if(currentTechnique_ != nullptr)
 			api->Trace("[%s:%s:%d] %s: %s (%s) in technique (%s)", file, func, line, DXGetErrorString(hr), DXGetErrorDescription(hr), expr, currentTechnique_->desc.Name);
@@ -37,7 +37,7 @@ void Effects::compile(const char * fxPath)
 	ID3DXEffect *fx;
 	ID3DXBuffer *errors = nullptr;
 	CHECKD3DERR(D3DXCreateEffectFromFile(device_, fxPath, 
-		nullptr, nullptr, D3DXSHADER_DEBUG, nullptr, &fx, &errors));
+		nullptr, nullptr, D3DXSHADER_OPTIMIZATION_LEVEL3, nullptr, &fx, &errors));
 
 	if (errors) {
 		MessageBoxA(nullptr, static_cast<char*>(errors->GetBufferPointer()), nullptr, MB_OK);
@@ -77,10 +77,10 @@ void Effects::release()
 
 bool Effects::begin(const std::string & techniqueName)
 {
-	auto technique = techniques_.find(techniqueName);
+	const auto technique = techniques_.find(techniqueName);
 	if (technique == techniques_.end())
 	{
-		//api->Trace("Warning: technique (%s) not found!", techniqueName.c_str());
+		api->Trace("Warning: technique (%s) not found!", techniqueName.c_str());
 		return false;
 	}
 
@@ -122,6 +122,6 @@ bool Effects::next()
 
 ID3DXEffect * Effects::getEffectPointer(const std::string & techniqueName)
 {
-	auto technique = techniques_.find(techniqueName);
+	const auto technique = techniques_.find(techniqueName);
 	return technique != techniques_.end()? technique->second->fx : nullptr;
 }

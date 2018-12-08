@@ -16,6 +16,8 @@
 class SEA : public SEA_BASE
 {
 private:
+	static IDirect3DVertexDeclaration9 * vertexDecl_;
+
 	struct SeaVertex
 	{
 		CVECTOR		vPos;
@@ -180,6 +182,7 @@ private:
 
 	static uint32_t	ThreadExecute(long iThreadIndex);
 	void __declspec(dllexport) __cdecl SFLB_CreateBuffers();
+	void CreateVertexDeclaration();
 public:
 
 	SEA();

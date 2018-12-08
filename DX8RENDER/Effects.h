@@ -24,7 +24,7 @@ private:
 	Technique *currentTechnique_;
 	unsigned int currentPass_;
 
-	inline bool Effects::ErrorHandler(HRESULT hr, const char * file, unsigned line, const char * func, const char * expr);
+	inline bool ErrorHandler(HRESULT hr, const char * file, unsigned line, const char * func, const char * expr) const;
 
 public:
 	Effects(Effects &) = delete;

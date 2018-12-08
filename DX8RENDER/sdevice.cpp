@@ -287,7 +287,7 @@ DX9RENDER::DX9RENDER()
 	nFontQuantity = 0;
 	idFontCurrent = 0;
 	fontIniFileName = nullptr;
-	pTechnique = nullptr;
+	//pTechnique = nullptr;
 
 	bLoadTextureEnabled = true;
 
@@ -391,8 +391,8 @@ bool  DX9RENDER::Init()
 
 		RecompileEffects();
 
-		pTechnique = NEW CTechnique(this);
-		pTechnique->DecodeFiles();
+		//pTechnique = NEW CTechnique(this);
+		//pTechnique->DecodeFiles();
 
 		// получить стартовый ини файл для шрифтов
 		if (!ini->ReadString(nullptr, "startFontIniFile", str, sizeof(str) - 1, ""))
@@ -522,7 +522,7 @@ DX9RENDER::~DX9RENDER()
 	if (fontIniFileName != nullptr) delete fontIniFileName;
 
 	STORM_DELETE(DX9sphereVertex);
-	STORM_DELETE(pTechnique);
+	//STORM_DELETE(pTechnique);
 	ReleaseDevice();
 	api->EngineDisplay(true);
 
@@ -2507,9 +2507,9 @@ void DX9RENDER::RunStart()
 	{
 		RecompileEffects();
 
-		STORM_DELETE(pTechnique);
-		pTechnique = NEW CTechnique(this);
-		pTechnique->DecodeFiles();
+		//STORM_DELETE(pTechnique);
+		//pTechnique = NEW CTechnique(this);
+		//pTechnique->DecodeFiles();
 	}
 
 	SetRenderState(D3DRS_FILLMODE, (api->Controls->GetDebugAsyncKeyState('F') < 0) ? D3DFILL_WIREFRAME : D3DFILL_SOLID);
@@ -3095,36 +3095,24 @@ void DX9RENDER::FindPlanes(IDirect3DDevice9 * d3dDevice)
 	viewplane[3].D = (pos.x*viewplane[3].Nx + pos.y*viewplane[3].Ny + pos.z*viewplane[3].Nz);
 }
 
-bool eff = false;
-
 bool DX9RENDER::TechniqueSetParamsAndStart(const char *cBlockName, uint32_t _dwNumParams, void *pParams)
 {
 	if (!cBlockName) return false;
-	eff = effects_.begin(cBlockName);
-	if (eff)
-		return eff;
+	return effects_.begin(cBlockName);
 
-	pTechnique->SetCurrentBlock(cBlockName, _dwNumParams, pParams);
-	return pTechnique->ExecutePassStart();
+	//pTechnique->SetCurrentBlock(cBlockName, _dwNumParams, pParams);
+	//return pTechnique->ExecutePassStart();
 }
 
 bool _cdecl DX9RENDER::TechniqueExecuteStart(const char *cBlockName, uint32_t _dwNumParams, ...)
 {
 	if (!cBlockName) return false;
-	eff = effects_.begin(cBlockName);
-	if (eff)
-		return eff;
-
-		pTechnique->SetCurrentBlock(cBlockName, _dwNumParams, 1 + &_dwNumParams);
-		return pTechnique->ExecutePassStart();
+	return effects_.begin(cBlockName);
 }
 
 bool DX9RENDER::TechniqueExecuteNext()
 {
-	if(eff)
-		return eff = effects_.next();
-
-		return pTechnique->ExecutePassNext();
+	return effects_.next();
 }
 
 void DX9RENDER::DrawRects(RS_RECT *pRSR, uint32_t dwRectsNum, const char *cBlockName, uint32_t dwSubTexturesX, uint32_t dwSubTexturesY, float fScaleX, float fScaleY, uint32_t dwNumParams, ...)

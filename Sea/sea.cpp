@@ -38,6 +38,7 @@ SEA * SEA::pSea = nullptr;
 bool SEA::bIntel = false;
 bool SEA::bSSE = false;
 bool SEA::bDisableSSE = false;
+IDirect3DVertexDeclaration9 * SEA::vertexDecl_ = nullptr;
 
 SEA::SEA()
 {
@@ -176,9 +177,26 @@ void SEA::SFLB_CreateBuffers()
 	pVSea = NEW SeaVertex[NUM_VERTEXS];
 }
 
+void SEA::CreateVertexDeclaration()
+{
+	if (vertexDecl_ != nullptr)
+		return;
+
+	const D3DVERTEXELEMENT9 VertexElements[] =
+	{
+		{0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},
+		{0, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,  0},
+		{0, 24, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},
+		D3DDECL_END()
+	};
+
+	rs->CreateVertexDeclaration(VertexElements, &vertexDecl_);
+}
+
 bool SEA::Init()
 {
 	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	CreateVertexDeclaration();
 	INIFILE * pEngineIni = fio->OpenIniFile(api->EngineIniFileName());
 	bool bDisableHyperThreading = (pEngineIni) ? pEngineIni->GetLong(nullptr, "HyperThreading", 1) == 0 : false;
 	bDisableSSE = (pEngineIni) ? pEngineIni->GetLong(nullptr, "DisableSSE", 0) != 0 : false;
@@ -1547,6 +1565,8 @@ void SEA::Realize(uint32_t dwDeltaTime)
 		fTmp += fDeltaTime * fBumpSpeed;
 		while (fTmp >= 1.0f) fTmp -= 1.0f;
 
+		rs->SetVertexDeclaration(vertexDecl_);
+
 		rs->SetVertexShaderConstantF(GC_CONSTANT, (const float*)&CVECTOR4(0.0f, 1.0f, 0.5f, -0.04f), 1);
 		rs->SetVertexShaderConstantF(GC_CONSTANT2, (const float*)&CVECTOR4(2.0f, -1.0f, 0.00036621652552071f, (bFogEnable) ? fFogSeaDensity : 0.0f), 1);
 		rs->SetVertexShaderConstantF(GC_SHADOW_CONST1, (const float*)&CVECTOR4(fFoamV, fFoamK, fFoamUV, 6.0f), 1);
@@ -1601,7 +1621,7 @@ void SEA::Realize(uint32_t dwDeltaTime)
 			rs->SetTexture(3, pEnvMap);
 			rs->DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, iVSeaBuffer, sizeof(SeaVertex), iISeaBuffer, 0, iVStart, 0, iTStart, "Sea2");
 
-			if (fFoamK > 0.0f && bFoamEnable && bIniFoamEnable && (dwPSVersionHi >= 2 || (dwPSVersionHi==1 && dwPSVersionLo >= 4)))
+			/*if (fFoamK > 0.0f && bFoamEnable && bIniFoamEnable && (dwPSVersionHi >= 2 || (dwPSVersionHi==1 && dwPSVersionLo >= 4)))
 			{
 				//Render sea foam
 				rs->SetPixelShaderConstantF(0, (const float*)&CVECTOR4(fFoamTextureDisturb, 0.0f, 0.0f, 0.0f), 1);
@@ -1609,7 +1629,7 @@ void SEA::Realize(uint32_t dwDeltaTime)
 				rs->TextureSet(0, iFoamTexture);
 				rs->SetTexture(4, (pVolumeTexture) ? (IDirect3DBaseTexture9*)pVolumeTexture : (IDirect3DBaseTexture9*)pRenderTargetBumpMap);
 				rs->DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, iVSeaBuffer, sizeof(SeaVertex), iISeaBuffer, 0, iVStart, 0, iTStart, "Foam_14");
-			}
+			}*/
 
 			rs->SetTexture(0, (pVolumeTexture) ? (IDirect3DBaseTexture9*)pVolumeTexture : (IDirect3DBaseTexture9*)pRenderTargetBumpMap);
 			rs->SetTexture(3, pSunRoadMap);

@@ -1,4 +1,4 @@
-technique Splash
+technique splash
 {
 	pass p0
 	{
@@ -23,7 +23,7 @@ technique Splash
 	}
 }
 
-technique Splash2
+technique splash2
 {
 	pass p0
 	{

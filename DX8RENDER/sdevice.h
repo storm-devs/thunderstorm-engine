@@ -108,7 +108,7 @@ class DX9RENDER  : public VDX9RENDER
 	CVECTOR				Pos, Ang;
 	float				Fov;
 
-	CTechnique			* pTechnique;
+	//CTechnique			* pTechnique;
 	Effects			effects_;
 
     char				* fontIniFileName;
