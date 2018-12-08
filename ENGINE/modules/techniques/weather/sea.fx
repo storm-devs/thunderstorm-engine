@@ -1,5 +1,27 @@
 #include "sea_shaders.h"
 
+technique Sea2_Foam
+{
+	pass p0
+	{
+		FogTableMode = none;
+		CullMode = none;
+		FogVertexMode = none;
+		ColorVertex = true;
+		SpecularEnable = false;
+		AlphaBlendEnable = true;
+		AlphaTestEnable = false;
+		SrcBlend = srcalpha;
+		DestBlend = one;
+		Lighting = false;
+		NormalizeNormals = false;
+		LocalViewer = true;
+
+		VertexShader = SEA2FOAM_VERTEX_SHADER;
+		PixelShader = SEA2FOAM_PIXEL_SHADER;
+	}
+}
+
 technique Sea2_SunRoad
 {
 	pass p0

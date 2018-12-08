@@ -1610,26 +1610,21 @@ void SEA::Realize(uint32_t dwDeltaTime)
 		}
 		else
 		{
-			D3DCAPS9 d3dCaps;
-			rs->GetDeviceCaps(&d3dCaps);
-			uint32_t dwPSVersionLo = LOBYTE(d3dCaps.PixelShaderVersion);
-			uint32_t dwPSVersionHi = HIBYTE(d3dCaps.PixelShaderVersion);
-
 			rs->SetVertexShaderConstantF(GC_FREE + 8, (const float*)&CMatrix(0.0f, 0.0f, PId2), 4);			// Matrix!!
 
 			rs->SetTexture(0, (pVolumeTexture) ? (IDirect3DBaseTexture9*)pVolumeTexture : (IDirect3DBaseTexture9*)pRenderTargetBumpMap);
 			rs->SetTexture(3, pEnvMap);
 			rs->DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, iVSeaBuffer, sizeof(SeaVertex), iISeaBuffer, 0, iVStart, 0, iTStart, "Sea2");
 
-			/*if (fFoamK > 0.0f && bFoamEnable && bIniFoamEnable && (dwPSVersionHi >= 2 || (dwPSVersionHi==1 && dwPSVersionLo >= 4)))
+			if (fFoamK > 0.0f && bFoamEnable && bIniFoamEnable)
 			{
 				//Render sea foam
 				rs->SetPixelShaderConstantF(0, (const float*)&CVECTOR4(fFoamTextureDisturb, 0.0f, 0.0f, 0.0f), 1);
 
 				rs->TextureSet(0, iFoamTexture);
 				rs->SetTexture(4, (pVolumeTexture) ? (IDirect3DBaseTexture9*)pVolumeTexture : (IDirect3DBaseTexture9*)pRenderTargetBumpMap);
-				rs->DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, iVSeaBuffer, sizeof(SeaVertex), iISeaBuffer, 0, iVStart, 0, iTStart, "Foam_14");
-			}*/
+				rs->DrawIndexedPrimitiveNoVShader(D3DPT_TRIANGLELIST, iVSeaBuffer, sizeof(SeaVertex), iISeaBuffer, 0, iVStart, 0, iTStart, "Sea2_Foam");
+			}
 
 			rs->SetTexture(0, (pVolumeTexture) ? (IDirect3DBaseTexture9*)pVolumeTexture : (IDirect3DBaseTexture9*)pRenderTargetBumpMap);
 			rs->SetTexture(3, pSunRoadMap);
