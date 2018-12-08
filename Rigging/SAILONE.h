@@ -148,7 +148,7 @@ struct SAILSTATE {
 };
 
 struct SAILTIME {
-    uint32_t idx,vert,noholedraw,holedraw;
+    uint64_t idx,vert,noholedraw,holedraw;
 };
 
 class SAIL;

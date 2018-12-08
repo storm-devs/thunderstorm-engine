@@ -30,9 +30,6 @@
     <ClCompile Include="sdevice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Technique.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Effects.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -42,9 +39,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sdevice.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Technique.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="texture.h">
@@ -73,8 +67,5 @@
     <None Include="..\Engine\Modules\Techniques\RDebug\Vector.sha">
       <Filter>Data\Techniques</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\Engine\glow.txt" />
   </ItemGroup>
 </Project>

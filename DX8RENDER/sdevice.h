@@ -6,12 +6,10 @@
 #include "../Common_h/dx9render.h"
 #include "../Common_h/defines.h"
 #include "../Common_h/VideoTexture.h"
+#include "Font.h"
 #include "Effects.h"
 #include <vector>
 #include <stack>
-
-#include "Technique.h"
-#include "Font.h"
 
 #define MAX_STEXTURES	1024
 #define MAX_BUFFERS		1024
@@ -108,7 +106,6 @@ class DX9RENDER  : public VDX9RENDER
 	CVECTOR				Pos, Ang;
 	float				Fov;
 
-	//CTechnique			* pTechnique;
 	Effects			effects_;
 
     char				* fontIniFileName;
@@ -326,21 +323,20 @@ public:
 	bool SetFontIniFileName(char * iniName) override;
 
 	// DX9Render: Techniques Section
-	bool TechniqueSetParamsAndStart(const char * cBlockName, uint32_t _dwNumParams = 0, void * pParams = nullptr) override;
-	bool _cdecl TechniqueExecuteStart(const char * cBlockName, uint32_t _dwNumParams = 0, ...) override;
+	bool _cdecl TechniqueExecuteStart(const char * cBlockName) override;
 	bool TechniqueExecuteNext() override;
 
 	// DX9Render: Draw Section
-	void _cdecl DrawRects(RS_RECT * pRSR, uint32_t dwRectsNum, const char * cBlockName = nullptr, uint32_t dwSubTexturesX = 1, uint32_t dwSubTexturesY = 1, float fScaleX = 1.0f, float fScaleY = 1.0f, uint32_t dwNumParams = 0, ...) override;
-	void _cdecl DrawSprites(RS_SPRITE * pRSS, uint32_t dwSpritesNum, const char * cBlockName = nullptr, uint32_t dwNumParams = 0, ...) override;
-	void _cdecl DrawLines(RS_LINE * pRSL, uint32_t dwLinesNum, const char * cBlockName = nullptr, uint32_t dwNumParams = 0, ...) override;
-	void _cdecl DrawLines2D(RS_LINE2D * pRSL2D, uint32_t dwLinesNum, const char * cBlockName = nullptr, uint32_t dwNumParams = 0, ...) override;
+	void _cdecl DrawRects(RS_RECT * pRSR, uint32_t dwRectsNum, const char * cBlockName = nullptr, uint32_t dwSubTexturesX = 1, uint32_t dwSubTexturesY = 1, float fScaleX = 1.0f, float fScaleY = 1.0f) override;
+	void _cdecl DrawSprites(RS_SPRITE * pRSS, uint32_t dwSpritesNum, const char * cBlockName = nullptr) override;
+	void _cdecl DrawLines(RS_LINE * pRSL, uint32_t dwLinesNum, const char * cBlockName = nullptr) override;
+	void _cdecl DrawLines2D(RS_LINE2D * pRSL2D, uint32_t dwLinesNum, const char * cBlockName = nullptr) override;
 
-	void _cdecl DrawBuffer(long vbuff, long stride, long ibuff, long minv, long numv, long startidx, long numtrg, const char *cBlockName = nullptr, uint32_t dwNumParams = 0, ...) override;
-	void _cdecl DrawIndexedPrimitiveNoVShader(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iIBuff, long iMinV, long iNumV, long iStartIdx, long iNumTrg, const char *cBlockName = nullptr, uint32_t dwNumParams = 0, ...) override;
-	void _cdecl DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iStartV, long iNumPT, const char *cBlockName = nullptr, uint32_t dwNumParams = 0, ...) override;
-	void _cdecl DrawPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, uint32_t dwVertexBufferFormat, uint32_t dwNumPT, void *pVerts, uint32_t dwStride, const char *cBlockName = nullptr, uint32_t dwNumParams = 0, ...) override;
-	void _cdecl DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, uint32_t dwMinIndex, uint32_t dwNumVertices, uint32_t dwPrimitiveCount, const void *pIndexData, D3DFORMAT IndexDataFormat, const void *pVertexData, uint32_t dwVertexStride, const char *cBlockName = nullptr, uint32_t dwNumParams = 0, ...) override;
+	void _cdecl DrawBuffer(long vbuff, long stride, long ibuff, long minv, long numv, long startidx, long numtrg, const char *cBlockName = nullptr) override;
+	void _cdecl DrawIndexedPrimitiveNoVShader(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iIBuff, long iMinV, long iNumV, long iStartIdx, long iNumTrg, const char *cBlockName = nullptr) override;
+	void _cdecl DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iStartV, long iNumPT, const char *cBlockName = nullptr) override;
+	void _cdecl DrawPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, uint32_t dwVertexBufferFormat, uint32_t dwNumPT, void *pVerts, uint32_t dwStride, const char *cBlockName = nullptr) override;
+	void _cdecl DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, uint32_t dwMinIndex, uint32_t dwNumVertices, uint32_t dwPrimitiveCount, const void *pIndexData, D3DFORMAT IndexDataFormat, const void *pVertexData, uint32_t dwVertexStride, const char *cBlockName = nullptr) override;
 
    	// DX9Render: Video Section
 	void				PlayToTexture() override;
@@ -487,11 +483,11 @@ public:
 	//-----------------------------
 	long CreateVertexBuffer(long type, long nverts,uint32_t usage);
 	long CreateIndexBuffer(long ntrgs, uint32_t dwUsage = D3DUSAGE_WRITEONLY);
-	void _cdecl DrawBuffer(long vbuff, long stride, long ibuff, long minv, long numv, long startidx, long numtrg, char *cBlockName = 0, uint32_t dwNumParams = 0, ...);
-	void _cdecl DrawIndexedPrimitiveNoVShader(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iIBuff, long iMinV, long iNumV, long iStartIdx, long iNumTrg, char *cBlockName = 0, uint32_t dwNumParams = 0, ...);
-	void _cdecl DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iStartV, long iNumPT, char *cBlockName = 0, uint32_t dwNumParams = 0, ...);
-	void _cdecl DrawPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, uint32_t dwVertexBufferFormat, uint32_t dwNumPT, void *pVerts, uint32_t dwStride, char *cBlockName = 0, uint32_t dwNumParams = 0, ...);
-	void _cdecl DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, uint32_t dwMinIndex, uint32_t dwNumVertices, uint32_t dwPrimitiveCount, const void *pIndexData, D3DFORMAT IndexDataFormat, const void *pVertexData, uint32_t dwVertexStride, char *cBlockName = 0, uint32_t dwNumParams = 0, ...);
+	void _cdecl DrawBuffer(long vbuff, long stride, long ibuff, long minv, long numv, long startidx, long numtrg, char *cBlockName = 0);
+	void _cdecl DrawIndexedPrimitiveNoVShader(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iIBuff, long iMinV, long iNumV, long iStartIdx, long iNumTrg, char *cBlockName = 0);
+	void _cdecl DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iStartV, long iNumPT, char *cBlockName = 0);
+	void _cdecl DrawPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, uint32_t dwVertexBufferFormat, uint32_t dwNumPT, void *pVerts, uint32_t dwStride, char *cBlockName = 0);
+	void _cdecl DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, uint32_t dwMinIndex, uint32_t dwNumVertices, uint32_t dwPrimitiveCount, const void *pIndexData, D3DFORMAT IndexDataFormat, const void *pVertexData, uint32_t dwVertexStride, char *cBlockName = 0);
 
 	void RenderAnimation(long ib, void * src, long numVrts, long minv, long numv,  long startidx, long numtrg, bool isUpdateVB);
 
@@ -559,10 +555,10 @@ public:
 	void FindPlanes(IDirect3DDevice9 * d3dDevice);
 	PLANE * GetPlanes();
 
-	void _cdecl DrawRects(RS_RECT *pRSR, uint32_t dwRectsNum, char *cBlockName = 0, uint32_t dwSubTexturesX = 1, uint32_t dwSubTexturesY = 1, uint32_t dwNumParams = 0, ...);
+	void _cdecl DrawRects(RS_RECT *pRSR, uint32_t dwRectsNum, char *cBlockName = 0, uint32_t dwSubTexturesX = 1, uint32_t dwSubTexturesY = 1);
 	void _cdecl DrawSprites(RS_SPRITE *pRSS, uint32_t dwSpritesNum, char *cBlockName, uint32_t dwNumParams, ...);
-	void _cdecl DrawLines(RS_LINE *pRSL, uint32_t dwLinesNum, char *cBlockName = 0, uint32_t dwNumParams = 0, ...);
-	void _cdecl DrawLines2D(RS_LINE2D *pRSL2D, uint32_t dwLinesNum, char *cBlockName = 0, uint32_t dwNumParams = 0, ...);
+	void _cdecl DrawLines(RS_LINE *pRSL, uint32_t dwLinesNum, char *cBlockName = 0);
+	void _cdecl DrawLines2D(RS_LINE2D *pRSL2D, uint32_t dwLinesNum, char *cBlockName = 0);
 
 	//------------------
 	HRESULT CreateVertexBuffer(UINT Length, DWORD Usage, DWORD FVF, D3DPOOL Pool, IDirect3DVertexBuffer9** ppVertexBuffer);
@@ -669,7 +665,7 @@ public:
 	bool ResetDevice();
 
 	void MakeDrawVector(RS_LINE * pLines, uint32_t dwNumSubLines, const CMatrix & mMatrix, CVECTOR vUp, CVECTOR v1, CVECTOR v2, float fScale, uint32_t dwColor);
-	void _cdecl DrawVector(const CVECTOR & v1, const CVECTOR & v2, uint32_t dwColor, const char * pTechniqueName = "DX9Vector", uint32_t dwNumParams = 0, ...) override;
+	void _cdecl DrawVector(const CVECTOR & v1, const CVECTOR & v2, uint32_t dwColor, const char * pTechniqueName = "DX9Vector") override;
 	IDirect3DBaseTexture9 * GetBaseTexture(long iTexture) override;
 
 	IDirect3DBaseTexture9 * CreateTextureFromFileInMemory(const char * pFile, uint32_t dwSize) override;

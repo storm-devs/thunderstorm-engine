@@ -165,16 +165,6 @@
       <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">All</AssemblerOutput>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
-    <ClCompile Include="Technique.cpp">
-      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;DX9RENDER_EXPORTS</PreprocessorDefinitions>
-      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
-      <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">All</AssemblerOutput>
-      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;DX9RENDER_EXPORTS</PreprocessorDefinitions>
-      <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">All</AssemblerOutput>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common_h\dx9render.h" />
@@ -182,7 +172,6 @@
     <ClInclude Include="Effects.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="sdevice.h" />
-    <ClInclude Include="Technique.h" />
     <ClInclude Include="texture.h" />
   </ItemGroup>
   <ItemGroup>
@@ -190,9 +179,6 @@
     <None Include="..\Engine\modules\techniques\PostProcess\glow.sha" />
     <None Include="..\Engine\modules\techniques\PostProcess\pp.sha" />
     <None Include="..\Engine\Modules\Techniques\RDebug\Vector.sha" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\Engine\glow.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

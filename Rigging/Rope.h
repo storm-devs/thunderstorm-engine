@@ -123,8 +123,8 @@ private:
     long vBuf,iBuf;
     uint32_t nVert,nIndx;
 
-    uint32_t execute_tm;
-    uint32_t realize_tm;
+    uint64_t execute_tm;
+    uint64_t realize_tm;
 };
 
 

@@ -287,7 +287,6 @@ DX9RENDER::DX9RENDER()
 	nFontQuantity = 0;
 	idFontCurrent = 0;
 	fontIniFileName = nullptr;
-	//pTechnique = nullptr;
 
 	bLoadTextureEnabled = true;
 
@@ -390,9 +389,6 @@ bool  DX9RENDER::Init()
 		if (!InitDevice(bWindow, api->GetAppHWND(), screen_size.x, screen_size.y)) return false;
 
 		RecompileEffects();
-
-		//pTechnique = NEW CTechnique(this);
-		//pTechnique->DecodeFiles();
 
 		// получить стартовый ини файл для шрифтов
 		if (!ini->ReadString(nullptr, "startFontIniFile", str, sizeof(str) - 1, ""))
@@ -522,7 +518,6 @@ DX9RENDER::~DX9RENDER()
 	if (fontIniFileName != nullptr) delete fontIniFileName;
 
 	STORM_DELETE(DX9sphereVertex);
-	//STORM_DELETE(pTechnique);
 	ReleaseDevice();
 	api->EngineDisplay(true);
 
@@ -2021,7 +2016,7 @@ long DX9RENDER::CreateIndexBuffer(long size, uint32_t dwUsage)
 }
 //################################################################################
 void DX9RENDER::DrawBuffer(long vbuff, long stride, long ibuff, long minv,
-	long numv, long startidx, long numtrg, const char *cBlockName, uint32_t dwNumParams, ...)
+	long numv, long startidx, long numtrg, const char *cBlockName)
 {
 	bool bDraw = true;
 
@@ -2039,7 +2034,7 @@ void DX9RENDER::DrawBuffer(long vbuff, long stride, long ibuff, long minv,
 	//else VertexBuffer already set
 
 	if (cBlockName && cBlockName[0]) 
-		bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
+		bDraw = TechniqueExecuteStart(cBlockName);
 
 	if (bDraw) do
 	{
@@ -2049,7 +2044,7 @@ void DX9RENDER::DrawBuffer(long vbuff, long stride, long ibuff, long minv,
 }
 
 void DX9RENDER::DrawIndexedPrimitiveNoVShader(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iIBuff, long iMinV,
-	long iNumV, long iStartIdx, long iNumTrg, const char *cBlockName, uint32_t dwNumParams, ...)
+	long iNumV, long iStartIdx, long iNumTrg, const char *cBlockName)
 {
 	bool bDraw = true;
 
@@ -2064,7 +2059,7 @@ void DX9RENDER::DrawIndexedPrimitiveNoVShader(D3DPRIMITIVETYPE dwPrimitiveType, 
 		) == true)	return;
 	}
 
-	if (cBlockName && cBlockName[0]) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
+	if (cBlockName && cBlockName[0]) bDraw = TechniqueExecuteStart(cBlockName);
 	if (bDraw) do
 	{
 		dwNumDrawPrimitive++;
@@ -2072,10 +2067,10 @@ void DX9RENDER::DrawIndexedPrimitiveNoVShader(D3DPRIMITIVETYPE dwPrimitiveType, 
 	} while (cBlockName && TechniqueExecuteNext());
 }
 
-void DX9RENDER::DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, uint32_t dwMinIndex, uint32_t dwNumVertices, uint32_t dwPrimitiveCount, const void *pIndexData, D3DFORMAT IndexDataFormat, const void *pVertexData, uint32_t dwVertexStride, const char *cBlockName, uint32_t dwNumParams, ...)
+void DX9RENDER::DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, uint32_t dwMinIndex, uint32_t dwNumVertices, uint32_t dwPrimitiveCount, const void *pIndexData, D3DFORMAT IndexDataFormat, const void *pVertexData, uint32_t dwVertexStride, const char *cBlockName)
 {
 	bool bDraw = true;
-	if (cBlockName && cBlockName[0]) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
+	if (cBlockName && cBlockName[0]) bDraw = TechniqueExecuteStart(cBlockName);
 	if (bDraw) do
 	{
 		dwNumDrawPrimitive++;
@@ -2083,13 +2078,13 @@ void DX9RENDER::DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, uint32_
 	} while (cBlockName && TechniqueExecuteNext());
 }
 
-void DX9RENDER::DrawPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, uint32_t dwVertexBufferFormat, uint32_t dwNumPT, void *pVerts, uint32_t dwStride, const char *cBlockName, uint32_t dwNumParams, ...)
+void DX9RENDER::DrawPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, uint32_t dwVertexBufferFormat, uint32_t dwNumPT, void *pVerts, uint32_t dwStride, const char *cBlockName)
 {
 	bool bDraw = true;
 
 	if (CHECKD3DERR(SetFVF(dwVertexBufferFormat)) == true)	return;
 
-	if (cBlockName && cBlockName[0]) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
+	if (cBlockName && cBlockName[0]) bDraw = TechniqueExecuteStart(cBlockName);
 	if (bDraw) do
 	{
 		dwNumDrawPrimitive++;
@@ -2097,7 +2092,7 @@ void DX9RENDER::DrawPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, uint32_t dwVer
 	} while (cBlockName && TechniqueExecuteNext());
 }
 
-void DX9RENDER::DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iStartV, long iNumPT, const char *cBlockName, uint32_t dwNumParams, ...)
+void DX9RENDER::DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iStartV, long iNumPT, const char *cBlockName)
 {
 	bool bDraw = true;
 
@@ -2106,7 +2101,7 @@ void DX9RENDER::DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, lon
 	if (CHECKD3DERR(d3d9->SetStreamSource(0, VertexBuffers[iVBuff].buff, 0, iStride)
 	) == true)	return;
 
-	if (cBlockName && cBlockName[0]) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
+	if (cBlockName && cBlockName[0]) bDraw = TechniqueExecuteStart(cBlockName);
 	if (bDraw) do
 	{
 		dwNumDrawPrimitive++;
@@ -2506,10 +2501,6 @@ void DX9RENDER::RunStart()
 	if (api->Controls->GetDebugAsyncKeyState(VK_F11) < 0)
 	{
 		RecompileEffects();
-
-		//STORM_DELETE(pTechnique);
-		//pTechnique = NEW CTechnique(this);
-		//pTechnique->DecodeFiles();
 	}
 
 	SetRenderState(D3DRS_FILLMODE, (api->Controls->GetDebugAsyncKeyState('F') < 0) ? D3DFILL_WIREFRAME : D3DFILL_SOLID);
@@ -3095,16 +3086,7 @@ void DX9RENDER::FindPlanes(IDirect3DDevice9 * d3dDevice)
 	viewplane[3].D = (pos.x*viewplane[3].Nx + pos.y*viewplane[3].Ny + pos.z*viewplane[3].Nz);
 }
 
-bool DX9RENDER::TechniqueSetParamsAndStart(const char *cBlockName, uint32_t _dwNumParams, void *pParams)
-{
-	if (!cBlockName) return false;
-	return effects_.begin(cBlockName);
-
-	//pTechnique->SetCurrentBlock(cBlockName, _dwNumParams, pParams);
-	//return pTechnique->ExecutePassStart();
-}
-
-bool _cdecl DX9RENDER::TechniqueExecuteStart(const char *cBlockName, uint32_t _dwNumParams, ...)
+bool _cdecl DX9RENDER::TechniqueExecuteStart(const char *cBlockName)
 {
 	if (!cBlockName) return false;
 	return effects_.begin(cBlockName);
@@ -3115,7 +3097,7 @@ bool DX9RENDER::TechniqueExecuteNext()
 	return effects_.next();
 }
 
-void DX9RENDER::DrawRects(RS_RECT *pRSR, uint32_t dwRectsNum, const char *cBlockName, uint32_t dwSubTexturesX, uint32_t dwSubTexturesY, float fScaleX, float fScaleY, uint32_t dwNumParams, ...)
+void DX9RENDER::DrawRects(RS_RECT *pRSR, uint32_t dwRectsNum, const char *cBlockName, uint32_t dwSubTexturesX, uint32_t dwSubTexturesY, float fScaleX, float fScaleY)
 {
 	if (!pRSR || dwRectsNum == 0 || !rectsVBuffer) return;
 
@@ -3212,7 +3194,7 @@ void DX9RENDER::DrawRects(RS_RECT *pRSR, uint32_t dwRectsNum, const char *cBlock
 		//Рисуем буфер
 		rectsVBuffer->Unlock();
 		CHECKD3DERR(SetFVF(RS_RECT_VERTEX_FORMAT));
-		if (cBlockName && cBlockName[0]) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
+		if (cBlockName && cBlockName[0]) bDraw = TechniqueExecuteStart(cBlockName);
 		if (bDraw) do
 		{
 			CHECKD3DERR(SetStreamSource(0, rectsVBuffer, sizeof(RECT_VERTEX)));
@@ -3223,7 +3205,7 @@ void DX9RENDER::DrawRects(RS_RECT *pRSR, uint32_t dwRectsNum, const char *cBlock
 	d3d9->SetTransform(D3DTS_VIEW, camMtx);
 }
 
-void DX9RENDER::DrawSprites(RS_SPRITE * pRSS, uint32_t dwSpritesNum, const char * cBlockName, uint32_t dwNumParams, ...)
+void DX9RENDER::DrawSprites(RS_SPRITE * pRSS, uint32_t dwSpritesNum, const char * cBlockName)
 {
 	uint32_t	i;
 #define RS_SPRITE_VERTEX_FORMAT	(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1)
@@ -3240,7 +3222,7 @@ void DX9RENDER::DrawSprites(RS_SPRITE * pRSS, uint32_t dwSpritesNum, const char 
 	SetFVF(RS_SPRITE_VERTEX_FORMAT);
 
 	bool bDraw = true;
-	if (cBlockName && cBlockName[0]) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
+	if (cBlockName && cBlockName[0]) bDraw = TechniqueExecuteStart(cBlockName);
 	if (bDraw) do
 	{
 #ifndef _XBOX
@@ -3252,7 +3234,7 @@ void DX9RENDER::DrawSprites(RS_SPRITE * pRSS, uint32_t dwSpritesNum, const char 
 	delete[] pIndices;
 }
 
-void DX9RENDER::DrawLines(RS_LINE *pRSL, uint32_t dwLinesNum, const char *cBlockName, uint32_t dwNumParams, ...)
+void DX9RENDER::DrawLines(RS_LINE *pRSL, uint32_t dwLinesNum, const char *cBlockName)
 {
 	if (!pRSL || dwLinesNum == 0) return;
 
@@ -3260,14 +3242,14 @@ void DX9RENDER::DrawLines(RS_LINE *pRSL, uint32_t dwLinesNum, const char *cBlock
 
 	bool		bDraw = true;
 
-	if (cBlockName && cBlockName[0]) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
+	if (cBlockName && cBlockName[0]) bDraw = TechniqueExecuteStart(cBlockName);
 	if (bDraw) do
 	{
 		DrawPrimitiveUP(D3DPT_LINELIST, RS_LINE_VERTEX_FORMAT, dwLinesNum, pRSL, sizeof(RS_LINE));
 	} while (cBlockName && TechniqueExecuteNext());
 }
 
-void DX9RENDER::DrawLines2D(RS_LINE2D *pRSL2D, uint32_t dwLinesNum, const char *cBlockName, uint32_t dwNumParams, ...)
+void DX9RENDER::DrawLines2D(RS_LINE2D *pRSL2D, uint32_t dwLinesNum, const char *cBlockName)
 {
 	if (!pRSL2D || dwLinesNum == 0) return;
 
@@ -3275,7 +3257,7 @@ void DX9RENDER::DrawLines2D(RS_LINE2D *pRSL2D, uint32_t dwLinesNum, const char *
 
 	bool		bDraw = true;
 
-	if (cBlockName && cBlockName[0]) bDraw = TechniqueSetParamsAndStart(cBlockName, dwNumParams, 1 + &dwNumParams);
+	if (cBlockName && cBlockName[0]) bDraw = TechniqueExecuteStart(cBlockName);
 	if (bDraw) do
 	{
 		DrawPrimitiveUP(D3DPT_LINELIST, RS_LINE2D_VERTEX_FORMAT, dwLinesNum, pRSL2D, sizeof(RS_LINE2D));
@@ -3935,7 +3917,7 @@ void DX9RENDER::MakeDrawVector(RS_LINE * pLines, uint32_t dwNumSubLines, const C
 	}
 }
 
-void DX9RENDER::DrawVector(const CVECTOR & v1, const CVECTOR & v2, uint32_t dwColor, const char * pTechniqueName, uint32_t dwNumParams, ...)
+void DX9RENDER::DrawVector(const CVECTOR & v1, const CVECTOR & v2, uint32_t dwColor, const char * pTechniqueName)
 {
 	RS_LINE lines[51 * 2];
 	CMatrix	mView;
@@ -3951,7 +3933,7 @@ void DX9RENDER::DrawVector(const CVECTOR & v1, const CVECTOR & v2, uint32_t dwCo
 	CMatrix mWorldSave;
 	GetTransform(D3DTS_WORLD, mWorldSave);
 	SetTransform(D3DTS_WORLD, CMatrix());
-	DrawLines(lines, 51, pTechniqueName, 0);
+	DrawLines(lines, 51, pTechniqueName);
 	SetTransform(D3DTS_WORLD, mWorldSave);
 }
 

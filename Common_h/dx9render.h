@@ -146,22 +146,21 @@ public:
 		virtual bool SetFontIniFileName(char * iniName) = 0;
 
 	// DX9Render: Techniques Section
-		virtual bool TechniqueSetParamsAndStart(const char * cBlockName, uint32_t _dwNumParams = 0, void * pParams = nullptr) = 0;
-		virtual bool _cdecl TechniqueExecuteStart(const char * cBlockName, uint32_t _dwNumParams = 0, ...) = 0;
+		virtual bool _cdecl TechniqueExecuteStart(const char * cBlockName) = 0;
 		virtual bool TechniqueExecuteNext() = 0;
 
 	// DX9Render: Draw Section
-		virtual void _cdecl DrawRects(RS_RECT * pRSR, uint32_t dwRectsNum, const char * cBlockName = nullptr, uint32_t dwSubTexturesX = 1, uint32_t dwSubTexturesY = 1, float fScaleX = 1.0f, float fScaleY = 1.0f, uint32_t dwNumParams = 0, ...) = 0;
-		virtual void _cdecl DrawSprites(RS_SPRITE * pRSS, uint32_t dwSpritesNum, const char * cBlockName = nullptr, uint32_t dwNumParams = 0, ...) = 0;
-		virtual void _cdecl DrawLines(RS_LINE * pRSL, uint32_t dwLinesNum, const char * cBlockName = nullptr, uint32_t dwNumParams = 0, ...) = 0;
-		virtual void _cdecl DrawVector(const CVECTOR & v1, const CVECTOR & v2, uint32_t dwColor, const char * pTechniqueName = "DX9Vector", uint32_t dwNumParams = 0, ...) = 0;
-		virtual void _cdecl DrawLines2D(RS_LINE2D * pRSL2D, uint32_t dwLinesNum, const char * cBlockName = nullptr, uint32_t dwNumParams = 0, ...) = 0;
+		virtual void _cdecl DrawRects(RS_RECT * pRSR, uint32_t dwRectsNum, const char * cBlockName = nullptr, uint32_t dwSubTexturesX = 1, uint32_t dwSubTexturesY = 1, float fScaleX = 1.0f, float fScaleY = 1.0f) = 0;
+		virtual void _cdecl DrawSprites(RS_SPRITE * pRSS, uint32_t dwSpritesNum, const char * cBlockName = nullptr) = 0;
+		virtual void _cdecl DrawLines(RS_LINE * pRSL, uint32_t dwLinesNum, const char * cBlockName = nullptr) = 0;
+		virtual void _cdecl DrawVector(const CVECTOR & v1, const CVECTOR & v2, uint32_t dwColor, const char * pTechniqueName = "DX9Vector") = 0;
+		virtual void _cdecl DrawLines2D(RS_LINE2D * pRSL2D, uint32_t dwLinesNum, const char * cBlockName = nullptr) = 0;
 
-		virtual void _cdecl DrawBuffer(long vbuff, long stride, long ibuff, long minv, long numv, long startidx, long numtrg, const char *cBlockName = nullptr, uint32_t dwNumParams = 0, ...)= 0;
-		virtual void _cdecl DrawIndexedPrimitiveNoVShader(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iIBuff, long iMinV, long iNumV, long iStartIdx, long iNumTrg, const char *cBlockName = nullptr, uint32_t dwNumParams = 0, ...) = 0;
-		virtual void _cdecl DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iStartV, long iNumPT, const char *cBlockName = nullptr, uint32_t dwNumParams = 0, ...) = 0;
-		virtual void _cdecl DrawPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, uint32_t dwVertexBufferFormat, uint32_t dwNumPT, void *pVerts, uint32_t dwStride, const char *cBlockName = nullptr, uint32_t dwNumParams = 0, ...) = 0;
-		virtual void _cdecl DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, uint32_t dwMinIndex, uint32_t dwNumVertices, uint32_t dwPrimitiveCount, const void *pIndexData, D3DFORMAT IndexDataFormat, const void *pVertexData, uint32_t dwVertexStride, const char *cBlockName = nullptr, uint32_t dwNumParams = 0, ...) = 0;
+		virtual void _cdecl DrawBuffer(long vbuff, long stride, long ibuff, long minv, long numv, long startidx, long numtrg, const char *cBlockName = nullptr)= 0;
+		virtual void _cdecl DrawIndexedPrimitiveNoVShader(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iIBuff, long iMinV, long iNumV, long iStartIdx, long iNumTrg, const char *cBlockName = nullptr) = 0;
+		virtual void _cdecl DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iStartV, long iNumPT, const char *cBlockName = nullptr) = 0;
+		virtual void _cdecl DrawPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, uint32_t dwVertexBufferFormat, uint32_t dwNumPT, void *pVerts, uint32_t dwStride, const char *cBlockName = nullptr) = 0;
+		virtual void _cdecl DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, uint32_t dwMinIndex, uint32_t dwNumVertices, uint32_t dwPrimitiveCount, const void *pIndexData, D3DFORMAT IndexDataFormat, const void *pVertexData, uint32_t dwVertexStride, const char *cBlockName = nullptr) = 0;
 
    	// DX9Render: Video Section
 		virtual void				PlayToTexture() = 0;
