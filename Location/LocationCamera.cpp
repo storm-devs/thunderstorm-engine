@@ -453,7 +453,6 @@ void LocationCamera::SetMode(CameraWorkMode wm)
 //Исполнение камеры вида из глаз
 void LocationCamera::ExecuteLook(float dltTime)
 {
-	const float blendSpd = 1.0f;
 	//Определим точку размещения камеры
 	MODEL * mdl = character->Model();
 	if(!mdl) return;
@@ -502,8 +501,6 @@ void LocationCamera::ExecuteTopos(float dltTime)
 void LocationCamera::ExecuteFree(float dltTime)
 {
 	if(LOWORD(GetKeyState(VK_NUMLOCK)) != 0) return;
-
-	CVECTOR oldPos(camPos);
 
 	const float pi = 3.14159265359f;
 	freeAx -= dAx*0.1f;
