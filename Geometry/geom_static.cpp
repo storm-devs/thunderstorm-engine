@@ -135,7 +135,7 @@ GEOM::GEOM(const char *fname, const char *lightname, GEOM_SERVICE &_srv, long fl
 		vbuff[v].stride = sizeof(RDF_VERTEX0) + (rvb[v].type&3)*8 + (rvb[v].type>>2)*8;
 		vbuff[v].size = rvb[v].size;
 		vbuff[v].nverts = vbuff[v].size/vbuff[v].stride;
-		vbuff[v].dev_buff = srv.CreateVertexBuffer(rvb[v].type, rvb[v].size);
+		vbuff[v].dev_buff = vbuff[v].nverts > 0 ? srv.CreateVertexBuffer(rvb[v].type, rvb[v].size) : -1;
 		nvertices += vbuff[v].nverts;
 	}
 	srv.free(rvb);
