@@ -802,11 +802,11 @@ __forceinline void Grass::DrawBuffer()
 		rs->SetVertexDeclaration(vertexDecl_);
 		if (isGrassLightsOn == 1)
 		{
-			rs->DrawBuffer(vb, sizeof(Vertex), ib, 0, numPoints * 4, 0, numPoints * 2, "GrassEx");
+			rs->DrawBuffer(vb, sizeof(Vertex), ib, 0, numPoints * 4, 0, numPoints * 2, "Grass");
 		}
 		else
 		{
-			rs->DrawBuffer(vb, sizeof(Vertex), ib, 0, numPoints * 4, 0, numPoints * 2, "GrassEx_dark");
+			rs->DrawBuffer(vb, sizeof(Vertex), ib, 0, numPoints * 4, 0, numPoints * 2, "GrassDark");
 		}
 	// boal выбор шайдера <--
 		numPoints = 0;

@@ -1,4 +1,4 @@
-technique blade
+technique Blade
 {
 	pass p0
 	{

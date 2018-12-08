@@ -1,4 +1,4 @@
-technique ship_baba
+technique FoamPoints
 {
 	pass p0
 	{
@@ -6,13 +6,12 @@ technique ship_baba
 		Lighting = false;
 		CullMode = none;
 		AlphaTestEnable = false;
-		AlphaBlendEnable = true;
+		AlphaBlendEnable = false;
 
 		ColorOp[0] = selectarg1;
 		ColorArg1[0] = diffuse;
 
-		AlphaOp[0] = selectarg1;
-		AlphaArg1[0] = diffuse;
+		AlphaOp[0] = disable;
 
 		ColorOp[1] = disable;
 	}

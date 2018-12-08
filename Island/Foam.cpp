@@ -171,9 +171,9 @@ void CoastFoam::Realize(uint32_t Delta_Time)
 
 		CMatrix mI; mI.SetIdentity();
 		Render().SetWorld(mI);
-		if (bEditMode) Render().DrawLines(aLines.data(), aLines.size() / 2, "AILine");
+		if (bEditMode) Render().DrawLines(aLines.data(), aLines.size() / 2, "Line");
 
-		Render().DrawRects(aRects.data(), aRects.size(), "islanded_points");
+		Render().DrawRects(aRects.data(), aRects.size(), "FoamPoints");
 	}
 
 	bool bShift = api->Controls->GetDebugAsyncKeyState(VK_SHIFT) < 0;
@@ -223,7 +223,7 @@ void CoastFoam::Realize(uint32_t Delta_Time)
 		FillSpriteVertex(spr[3], x + dx, y,			0.1f, 0xFFFFFFFF, 1.0f, 0.0f);
 
 		Render().TextureSet(0, iCursorTex);
-		Render().DrawSprites(spr, 1, "AISpite");
+		Render().DrawSprites(spr, 1, "Sprite");
 
 		bool bSelected = iEditFoam >= 0 && iEditFoamPart >= 0 && iEditFoamVertex >= 0;
 

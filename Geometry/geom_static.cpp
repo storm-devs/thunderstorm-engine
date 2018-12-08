@@ -64,7 +64,6 @@ GEOM::GEOM(const char *fname, const char *lightname, GEOM_SERVICE &_srv, long fl
 	light = (LIGHT*)srv.malloc(sizeof LIGHT * rhead.nlights);
 	for(long l=0; l<rhead.nlights; l++)
 	{
-
 		light[l].flags = rlig[l].flags;
 		light[l].type = (LIGHT_TYPE)rlig[l].type;
 		light[l].name = &globname[rlig[l].name];

@@ -145,7 +145,7 @@ void BLADE::BLADE_INFO::DrawBlade(VDX9RENDER * rs,unsigned int blendValue,MODEL 
 				vrt[1].diffuse = color[0];
 				vrtTime[0] = time;
 
-				bool bDraw = rs->TechniqueExecuteStart("blade");
+				bool bDraw = rs->TechniqueExecuteStart("Blade");
 				if(bDraw)
 				{
 					if(first>0)	rs->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, FVF, first*2, &vrt[0], sizeof vrt[0]);

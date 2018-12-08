@@ -48,7 +48,7 @@ technique FaderWithTips
 	}
 }
 
-technique coronas
+technique Coronas
 {
 	pass p0
 	{

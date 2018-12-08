@@ -258,7 +258,7 @@ void GIEditor::DrawSizeBox()
 
 		rsl[6].vPos.x = (float)m_pEditableNode->m_rect.left;		rsl[6].vPos.y = (float)m_pEditableNode->m_rect.bottom;
 		rsl[7].vPos.x = (float)m_pEditableNode->m_rect.left;		rsl[7].vPos.y = (float)m_pEditableNode->m_rect.top;
-		m_pRS->DrawLines( rsl, 4, "AILine" );
+		m_pRS->DrawLines( rsl, 4, "Line" );
 		// boal -->
 		// idFont, dwFCol, dwBCol, align, shadow, scale, sxs, sys,
 									//left, top, "%s", str

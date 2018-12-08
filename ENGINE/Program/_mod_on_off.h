@@ -12,7 +12,7 @@
 #define VERSION_WWW     "http://www.seaward.ru"
 
 // Show special message for test game statment
-#define MOD_BETTATESTMODE			"Off"  // On -DEV version; Test - TST ver; Off - relize
+#define MOD_BETTATESTMODE			"On"  // On -DEV version; Test - TST ver; Off - relize
 
 // гловальная строковая переменная
 string sGlobalTemp;

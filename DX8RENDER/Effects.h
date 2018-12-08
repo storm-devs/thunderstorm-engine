@@ -1,10 +1,10 @@
 #pragma once
 
-#include <d3d9.h>
-#include <d3dx9.h>
+#include <cstdint>
 #include <vector>
 #include <unordered_map>
-
+#include <d3d9.h>
+#include <d3dx9.h>
 
 class Effects final
 {
@@ -22,7 +22,9 @@ private:
 	std::unordered_map<std::string, Technique*> techniques_;
 
 	Technique *currentTechnique_;
-	unsigned int currentPass_;
+	uint32_t currentPass_;
+
+	std::string_view debugMsg_;
 
 	inline bool ErrorHandler(HRESULT hr, const char * file, unsigned line, const char * func, const char * expr) const;
 

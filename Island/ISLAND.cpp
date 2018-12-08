@@ -217,7 +217,7 @@ void ISLAND::Realize(uint32_t Delta_Time)
 		}
 		CMatrix m;
 		pRS->SetTransform(D3DTS_WORLD,m);
-		pRS->DrawLines(&aLines[0], aLines.size() / 2, "AILine");
+		pRS->DrawLines(&aLines[0], aLines.size() / 2, "Line");
 	}
 #endif
 }

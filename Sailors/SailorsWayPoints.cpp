@@ -92,13 +92,13 @@ void SailorsPoints :: Draw(VDX9RENDER * rs, bool pointmode)
 		} else
 		pRSR.dwColor= COLOR_SHADOW_SELECTED;
 
-		rs->DrawRects(&pRSR,1,"sh_Editor_back");
+		rs->DrawRects(&pRSR,1,"EditorBack");
 
 		pRSR.fSize= 0.15f;
 		pRSR.dwColor= COLOR_POINT;
 
 		if (pointmode)
-		rs->DrawRects(&pRSR,1,"sh_Editor_front");
+		rs->DrawRects(&pRSR,1,"EditorFront");
 	};
 
 
@@ -107,17 +107,17 @@ void SailorsPoints :: Draw(VDX9RENDER * rs, bool pointmode)
 
 		pRSR.fSize= 0.25f;
 		pRSR.dwColor= COLOR_SHADOW;
-		rs->DrawRects(&pRSR,1,"sh_Editor_back");
+		rs->DrawRects(&pRSR,1,"EditorBack");
 
 		pRSR.fSize= 0.20f;
 		pRSR.dwColor= COLOR_SHADOW_SELECTED;
-		rs->DrawRects(&pRSR,1,"sh_Editor_back");
+		rs->DrawRects(&pRSR,1,"EditorBack");
 
 		pRSR.fSize= 0.20f;
 		pRSR.dwColor= COLOR_SELECTED;
 
 
-		rs->DrawRects(&pRSR,1,"sh_Editor_front");
+		rs->DrawRects(&pRSR,1,"EditorFront");
 
 //		rs->DrawSphere(CVECTOR(points.point[points.selected].x,points.point[points.selected].y,points.point[points.selected].z),0.5f,0xFFFFFFFF);
 
@@ -145,14 +145,14 @@ void SailorsPoints :: Draw(VDX9RENDER * rs, bool pointmode)
 			pRSL[0].dwColor= COLOR_SHADOW;
 			pRSL[1].dwColor= COLOR_SHADOW;
 
-			rs->DrawLines(&pRSL[0],1,"sh_Editor_back");
+			rs->DrawLines(&pRSL[0],1,"EditorBack");
 
 
 
 			pRSL[0].dwColor= COLOR_GRAY;
 			pRSL[1].dwColor= COLOR_GRAY;
 
-			rs->DrawLines(&pRSL[0],1,"sh_Editor_front");
+			rs->DrawLines(&pRSL[0],1,"EditorFront");
 		};
 
 };
@@ -173,12 +173,12 @@ void SailorsPoints :: Draw_(VDX9RENDER * rs, bool pointmode)
 		pRSR.fSize= 0.15f;
 		pRSR.dwColor= COLOR_SHADOW;
 
-		rs->DrawRects(&pRSR,1,"sh_Editor_back");
+		rs->DrawRects(&pRSR,1,"EditorBack");
 
 		pRSR.fSize= 0.15f;
 		pRSR.dwColor= COLOR_GRAY;
 
-		rs->DrawRects(&pRSR,1,"sh_Editor_front");
+		rs->DrawRects(&pRSR,1,"EditorFront");
 	};
 
 
@@ -199,14 +199,14 @@ void SailorsPoints :: Draw_(VDX9RENDER * rs, bool pointmode)
 		pRSL[0].dwColor= COLOR_SHADOW;
 		pRSL[1].dwColor= COLOR_SHADOW;
 
-		rs->DrawLines(&pRSL[0],1,"sh_Editor_back");
+		rs->DrawLines(&pRSL[0],1,"EditorBack");
 
 
 
 		pRSL[0].dwColor= COLOR_GRAY;
 		pRSL[1].dwColor= COLOR_GRAY;
 
-		rs->DrawLines(&pRSL[0],1,"sh_Editor_front");
+		rs->DrawLines(&pRSL[0],1,"EditorFront");
 	};
 
 };
@@ -232,26 +232,26 @@ void SailorsPoints :: DrawLinks(VDX9RENDER * rs)
 		pRSL[0].dwColor= COLOR_SHADOW;
 		pRSL[1].dwColor= COLOR_SHADOW;
 
-		rs->DrawLines(&pRSL[0],1,"sh_Editor_back");
+		rs->DrawLines(&pRSL[0],1,"EditorBack");
 
 
 		if (links.selected== m){
 			pRSL[0].dwColor= COLOR_SELECTED;
 			pRSL[1].dwColor= COLOR_SELECTED;
-			rs->DrawLines(&pRSL[0],1,"sh_Editor_back");
+			rs->DrawLines(&pRSL[0],1,"EditorBack");
 
 			pRSL[0].vPos.x+= 0.1f; pRSL[1].vPos.x+= 0.1f;
 			pRSL[0].vPos.z+= 0.1f; pRSL[1].vPos.z+= 0.1f;
 
-			rs->DrawLines(&pRSL[0],1,"sh_Editor_back");
+			rs->DrawLines(&pRSL[0],1,"EditorBack");
 
 			pRSL[0].vPos.y+= 0.1f; pRSL[1].vPos.y+= 0.1f;
-			rs->DrawLines(&pRSL[0],1,"sh_Editor_back");
+			rs->DrawLines(&pRSL[0],1,"EditorBack");
 
 		} else {
 			pRSL[0].dwColor= COLOR_POINT;
 			pRSL[1].dwColor= COLOR_POINT;
-			rs->DrawLines(&pRSL[0],1,"sh_Editor_front");
+			rs->DrawLines(&pRSL[0],1,"EditorFront");
 		};
 
 	};

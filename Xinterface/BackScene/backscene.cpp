@@ -790,7 +790,7 @@ void InterfaceBackScene::FlareShow(long idx)
 	m_pRS->TextureSet(0,m_nFlareTexture);
 	CMatrix mtx; mtx.SetIdentity();
 	m_pRS->SetWorld( mtx );
-	m_pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, 2, buffer, sizeof(Vertex), "coronas");
+	m_pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, 2, buffer, sizeof(Vertex), "Coronas");
 }
 
 void InterfaceBackScene::InitAniModel( ATTRIBUTES* pAParam )

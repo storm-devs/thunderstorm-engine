@@ -1991,7 +1991,7 @@ ref procGetSailTextureData()
 	}
 	BI_objRetValue.normalTex = "ships\parus_" + sUpgrade + ".tga";
 	///выставление герба (перенести ниже в каэйз наций. все что в этом кейзе убрать
-	BI_objRetValue.geraldTex = "";//"ships\gerald\chuckskull.tga";
+	//BI_objRetValue.geraldTex = "";//"ships\gerald\chuckskull.tga";
 	BI_objRetValue.sailscolor = argb(255,255,255,255);
 
 	//BI_objRetValue.geraldTexPointer = 0; // (IDirect3DTexture8*)

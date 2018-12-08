@@ -1,16 +1,18 @@
-technique AILine
+technique ShipCannonAngles
 {
 	pass p0
 	{
 		ZEnable = false;
 		Lighting = false;
 		CullMode = none;
-		SpecularEnable = false;
 		AlphaTestEnable = false;
-		AlphaBlendEnable = false;
+		AlphaBlendEnable = true;
 
 		ColorOp[0] = selectarg1;
 		ColorArg1[0] = diffuse;
+
+		AlphaOp[0] = selectarg1;
+		AlphaArg1[0] = diffuse;
 
 		ColorOp[1] = disable;
 	}

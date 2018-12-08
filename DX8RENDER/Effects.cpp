@@ -1,6 +1,6 @@
 #include "Effects.h"
+#include "../Common_h/vmodule_api.h"
 #include <DxErr.h>
-#include "../common_h/vmodule_api.h"
 
 #define CHECKD3DERR(expr) ErrorHandler(expr, __FILE__, __LINE__, __func__, #expr)
 
@@ -8,10 +8,7 @@ inline bool Effects::ErrorHandler(HRESULT hr, const char * file, unsigned line, 
 {
 	if (hr != D3D_OK && hr != S_FALSE)
 	{
-		if(currentTechnique_ != nullptr)
-			api->Trace("[%s:%s:%d] %s: %s (%s) in technique (%s)", file, func, line, DXGetErrorString(hr), DXGetErrorDescription(hr), expr, currentTechnique_->desc.Name);
-		else
-			api->Trace("[%s:%s:%d] %s: %s (%s)", file, func, line, DXGetErrorString(hr), DXGetErrorDescription(hr), expr);
+		api->Trace("[%s:%s:%d] %s: %s (%s) (%.*s)", file, func, line, DXGetErrorString(hr), DXGetErrorDescription(hr), expr, debugMsg_.size(), debugMsg_.data());
 		return true;
 	}
 
@@ -34,13 +31,14 @@ void Effects::setDevice(IDirect3DDevice9 * device)
 
 void Effects::compile(const char * fxPath)
 {
+	debugMsg_ = fxPath;
 	ID3DXEffect *fx;
 	ID3DXBuffer *errors = nullptr;
 	CHECKD3DERR(D3DXCreateEffectFromFile(device_, fxPath, 
 		nullptr, nullptr, D3DXSHADER_OPTIMIZATION_LEVEL3, nullptr, &fx, &errors));
 
 	if (errors) {
-		MessageBoxA(nullptr, static_cast<char*>(errors->GetBufferPointer()), nullptr, MB_OK);
+		api->Trace(static_cast<const char*>(errors->GetBufferPointer()));
 		return;
 	}
 
@@ -77,6 +75,7 @@ void Effects::release()
 
 bool Effects::begin(const std::string & techniqueName)
 {
+	debugMsg_ = techniqueName;
 	const auto technique = techniques_.find(techniqueName);
 	if (technique == techniques_.end())
 	{
@@ -105,6 +104,7 @@ bool Effects::next()
 {
 	if (currentTechnique_) 
 	{
+		debugMsg_ = currentTechnique_->desc.Name;
 		auto fx = currentTechnique_->fx;
 		CHECKD3DERR(fx->EndPass());
 

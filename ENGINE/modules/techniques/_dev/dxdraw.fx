@@ -1,4 +1,4 @@
-technique DX9Vector
+technique DXVector
 {
 	pass p0
 	{
@@ -16,7 +16,7 @@ technique DX9Vector
 	}
 }
 
-technique DX9Sphere
+technique DXSphere
 {
 	pass p0
 	{

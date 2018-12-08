@@ -1,4 +1,4 @@
-technique AISpite
+technique Sprite
 {
 	pass p0
 	{

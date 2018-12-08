@@ -1499,7 +1499,7 @@ void SoundService::Draw2DCircle (const CVECTOR& center, uint32_t dwColor, float 
 		line[0].dwColor = dwColor;
 		line[1].vPos = vEnd;
 		line[1].dwColor = dwColor;
-		pRS->DrawLines(line, 1, "AILine");
+		pRS->DrawLines(line, 1, "Line");
 		//pRS->DrawVector(vStart, vEnd, dwColor);
 		vStartPoint = vPoint;
 	}
@@ -1512,7 +1512,7 @@ void SoundService::Draw2DCircle (const CVECTOR& center, uint32_t dwColor, float 
 	line[0].dwColor = dwColor;
 	line[1].vPos = vEnd;
 	line[1].dwColor = dwColor;
-	pRS->DrawLines(line, 1, "AILine");
+	pRS->DrawLines(line, 1, "Line");
 
 
 	vStartPoint = CVECTOR(cosf(0)*fRadius2, 0.0f, sinf(0)*fRadius2);
@@ -1529,7 +1529,7 @@ void SoundService::Draw2DCircle (const CVECTOR& center, uint32_t dwColor, float 
 		line[0].dwColor = dwColor2;
 		line[1].vPos = vEnd;
 		line[1].dwColor = dwColor2;
-		pRS->DrawLines(line, 1, "AILine");
+		pRS->DrawLines(line, 1, "Line");
 		//pRS->DrawVector(vStart, vEnd, dwColor);
 		vStartPoint = vPoint;
 	}
@@ -1542,34 +1542,34 @@ void SoundService::Draw2DCircle (const CVECTOR& center, uint32_t dwColor, float 
 	line[0].dwColor = dwColor2;
 	line[1].vPos = vEnd;
 	line[1].dwColor = dwColor2;
-	pRS->DrawLines(line, 1, "AILine");
+	pRS->DrawLines(line, 1, "Line");
 
 
 	line[0].vPos = CVECTOR (fRadius, 0.0f, 0.0f) + center;
 	line[0].dwColor = dwColor;
 	line[1].vPos = CVECTOR (fRadius2, 0.0f, 0.0f) + center;
 	line[1].dwColor = dwColor;
-	pRS->DrawLines(line, 1, "AILine");
+	pRS->DrawLines(line, 1, "Line");
 
 
 	line[0].vPos = CVECTOR (-fRadius, 0.0f, 0.0f) + center;
 	line[0].dwColor = dwColor;
 	line[1].vPos = CVECTOR (-fRadius2, 0.0f, 0.0f) + center;
 	line[1].dwColor = dwColor;
-	pRS->DrawLines(line, 1, "AILine");
+	pRS->DrawLines(line, 1, "Line");
 
 
 	line[0].vPos = CVECTOR (0.0f, 0.0f, fRadius) + center;
 	line[0].dwColor = dwColor;
 	line[1].vPos = CVECTOR (0.0f, 0.0f, fRadius2) + center;
 	line[1].dwColor = dwColor;
-	pRS->DrawLines(line, 1, "AILine");
+	pRS->DrawLines(line, 1, "Line");
 
 	line[0].vPos = CVECTOR (0.0f, 0.0f, -fRadius) + center;
 	line[0].dwColor = dwColor;
 	line[1].vPos = CVECTOR (0.0f, 0.0f, -fRadius2) + center;
 	line[1].dwColor = dwColor;
-	pRS->DrawLines(line, 1, "AILine");
+	pRS->DrawLines(line, 1, "Line");
 
 	//pRS->DrawVector(vStart, vEnd, dwColor);
 }

@@ -500,7 +500,7 @@ void AIShipCannonController::Realize(float fDeltaTime)
 			AIHelper::pRS->DrawSphere(vCPos, fMaxCannonDamageDistance, 0xFFFFFF);
 		}
 	}
-	//AIHelper::pRS->DrawRects(&rs, 1, "AILine");
+	//AIHelper::pRS->DrawRects(&rs, 1, "Line");
 	/*char tmp[256], str[256];
 	str[0] = 0;
 	for (uint32_t i=0;i<aShipBorts.size();i++)
@@ -550,7 +550,7 @@ void AIShipCannonController::Realize(float fDeltaTime)
 
 			CMatrix m;
 			AIHelper::pRS->SetTransform(D3DTS_WORLD,m);
-			if (Verts.size()) AIHelper::pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST,TR_FORMAT,Verts.size() / 3,&Verts[0], sizeof(tr_vertex),"ship_baba");
+			if (Verts.size()) AIHelper::pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST,TR_FORMAT,Verts.size() / 3,&Verts[0], sizeof(tr_vertex),"ShipCannonAngles");
 		}
 	}
 #endif

@@ -1,4 +1,4 @@
-technique CannonBalls
+technique Cannonballs
 {
 	pass p0
 	{

@@ -267,7 +267,7 @@ void AIShipTouchController::Realize(float fDeltaTime)
 
 		m.SetIdentity();
 		AIHelper::pRS->SetTransform(D3DTS_WORLD,m);
-		AIHelper::pRS->DrawLines(&rsLines[0],rsLines.size()/2,"AILine");
+		AIHelper::pRS->DrawLines(&rsLines[0],rsLines.size()/2,"Line");
 	}*/
 #endif
 }

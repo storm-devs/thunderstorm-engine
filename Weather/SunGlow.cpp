@@ -572,7 +572,7 @@ void SUNGLOW::DrawRect(uint32_t dwColor,const CVECTOR& pos,float fSize,float fAn
 	lines[2].vPos = vp2;	lines[3].vPos = vp3;
 	lines[4].vPos = vp3;	lines[5].vPos = vp4;
 	lines[6].vPos = vp4;	lines[7].vPos = vp1;
-	pRS->DrawLines( lines, 4, "AILine" );*/
+	pRS->DrawLines( lines, 4, "Line" );*/
 }
 
 float SUNGLOW::GetSunFadeoutFactor(const CVECTOR& vSunPos,float fSunSize)

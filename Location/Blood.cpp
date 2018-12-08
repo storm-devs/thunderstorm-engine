@@ -97,10 +97,10 @@ void Blood::Realize(uint32_t delta_time)
 
 		if( nStartT + nUsedTQ <= MAX_BLOOD_TRIANGLES )
 		{
-			pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, nUsedTQ, (void*)&pvBloodT[nStartT], sizeof(BloodVertex), "blood");
+			pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, nUsedTQ, (void*)&pvBloodT[nStartT], sizeof(BloodVertex), "Blood");
 		} else {
-			pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, MAX_BLOOD_TRIANGLES-nStartT, (void*)&pvBloodT[nStartT], sizeof(BloodVertex), "blood");
-			pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, nStartT + nUsedTQ - MAX_BLOOD_TRIANGLES, (void*)pvBloodT, sizeof(BloodVertex), "blood");
+			pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, MAX_BLOOD_TRIANGLES-nStartT, (void*)&pvBloodT[nStartT], sizeof(BloodVertex), "Blood");
+			pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, nStartT + nUsedTQ - MAX_BLOOD_TRIANGLES, (void*)pvBloodT, sizeof(BloodVertex), "Blood");
 		}
 
 		pRS->SetRenderState(D3DRS_TEXTUREFACTOR,dwOldTF);

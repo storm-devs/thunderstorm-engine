@@ -1,4 +1,4 @@
-technique sh_Editor_back
+technique EditorBack
 {
 	pass p0
 	{
@@ -15,7 +15,7 @@ technique sh_Editor_back
 	}
 }
 
-technique sh_Editor_front
+technique EditorFront
 {
 	pass p0
 	{

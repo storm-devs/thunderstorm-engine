@@ -99,7 +99,7 @@ void AIShipMoveController::Realize(float fDeltaTime)
 	line[0].vPos = GetAIShip()->GetPos() + 50.0f * (!vDeflectForce);
 	line[1].dwColor = 0xFFFFFF;
 	line[1].vPos = GetAIShip()->GetPos();
-	AIHelper::pRS->DrawLines(&line[0],1,"AILine");
+	AIHelper::pRS->DrawLines(&line[0],1,"Line");
 	vDeflectForce = 0.0f;
 
 	if (!GetAIShip()->isMainCharacter())
@@ -115,7 +115,7 @@ void AIShipMoveController::Realize(float fDeltaTime)
 		}
 		CMatrix m;
 		AIHelper::pRS->SetTransform(D3DTS_WORLD, m);
-		if (aLines.size() >= 2) AIHelper::pRS->DrawLines(&aLines[0], aLines.size()/2, "AILine");
+		if (aLines.size() >= 2) AIHelper::pRS->DrawLines(&aLines[0], aLines.size()/2, "Line");
 	}
 	*/
 }

@@ -231,7 +231,7 @@ void TOUCH::DrawShips()
 	}
 
 	if (aLines.size())
-		pRS->DrawLines2D(&aLines[0], aLines.size() / 2, "AILine");
+		pRS->DrawLines2D(&aLines[0], aLines.size() / 2, "Line");
 }
 
 BOOL TOUCH::BuildContour(long ship_idx)

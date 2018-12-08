@@ -1,11 +1,11 @@
 #include "grass_shader.h"
 
-technique GrassEx
+technique Grass
 {
 	pass p0
 	{
 		Lighting = false;
-		alpharef = 80;
+		AlphaRef = 80;
 		CullMode = none;
 
 		AlphaTestEnable = true;
@@ -25,12 +25,12 @@ technique GrassEx
 	}
 }
 
-technique GrassEx_dark
+technique GrassDark
 {
 	pass p0
 	{
 		Lighting = false;
-		alpharef = 80;
+		AlphaRef = 80;
 		CullMode = none;
 
 		AlphaTestEnable = true;
