@@ -355,7 +355,7 @@ void BILinesInfo::Init(VDX9RENDER* rs, ATTRIBUTES *pA)
 
 void BILinesInfo::Draw()
 {
-	pRS->DrawLines2D( &lines[0], lines.size()/2, "AILine" );
+	pRS->DrawLines2D( &lines[0], lines.size()/2, "Line" );
 }
 
 
