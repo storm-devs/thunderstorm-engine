@@ -21,7 +21,7 @@ ModelProcessor::ModelProcessor (ParticleManager* pManager)
 {
 	Particles.reserve(MAX_MODELS);
 	pMasterManager = pManager;
-	pMemArray = new MemArrayItem[MAX_MODELS];
+	pMemArray = NEW MemArrayItem[MAX_MODELS];
 
 	for (uint32_t n = 0; n < MAX_MODELS; n++)
 	{

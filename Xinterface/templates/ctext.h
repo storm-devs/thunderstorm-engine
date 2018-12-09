@@ -10,14 +10,14 @@ public:
 	CText(char * str, BOOL bNewCreate=true)
 	{
 		if(bNewCreate && str) {
-			pString = new char[strlen(str)+1];
+			pString = NEW char[strlen(str)+1];
 			if(pString) strcpy_s(pString,str);
 		} else pString=str;
 	}
 	CText(char * str, size_t nSize)
 	{
 		if(str) {
-			pString = new char[nSize+1];
+			pString = NEW char[nSize+1];
 			if(pString)
 			{
 				strncpy_s(pString,str,nSize);
@@ -30,7 +30,7 @@ public:
 		if(text.pString)
 		{
 			int n = strlen(text.pString);
-			pString = new char[n+1];
+			pString = NEW char[n+1];
 			memcpy(pString,text.pString,n*sizeof(char));
 			pString[n] = 0;
 		} else pString=nullptr;
@@ -50,7 +50,7 @@ public:
 		if(pString==pStr) return *this;
 		Release();
 		if(!pStr) return *this;
-		pString = new char[strlen(pStr)+1];
+		pString = NEW char[strlen(pStr)+1];
 		if(pString) strcpy_s(pString,pStr);
 		return *this;
 	}
@@ -73,7 +73,7 @@ public:
 		if(!pStr) return *this;
 		int n = strlen(pString);
 		int m = strlen(pStr);
-		char * newStr = new char[n+m+1];
+		char * newStr = NEW char[n+m+1];
 		if(!newStr) return *this;
 		strncpy_s(newStr,pString,n);
 		strncpy_s(&newStr[n],pStr,m);
@@ -105,7 +105,7 @@ public:
 			{
 				if(q1>q2)
 				{
-					char * pNew = new char[q1-q2+1];
+					char * pNew = NEW char[q1-q2+1];
 					if(pNew)
 					{
 						if(n>0) memcpy(pNew,pString,n);

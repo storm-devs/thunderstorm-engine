@@ -1214,6 +1214,8 @@ void SoundService::InitAliases ()
 		do
 		LoadAliasFile(findData.cFileName);
 		while (api->fio->_FindNextFile(foundFile, &findData) == TRUE);
+		if(foundFile != INVALID_HANDLE_VALUE)
+			api->fio->_FindClose(foundFile);
 	}
 }
 

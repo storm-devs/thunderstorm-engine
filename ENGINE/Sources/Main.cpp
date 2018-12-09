@@ -406,6 +406,12 @@ void * __cdecl operator new(std::size_t size, char * file, std::size_t line)
 	return Memory_Service.Allocate(size);
 }
 
+void * operator new(std::size_t count, std::align_val_t al, char * file, std::size_t line) 
+{
+	CodeSource.pFileName = (char*)file; CodeSource.line = line;
+	return Memory_Service.Allocate(count);
+}
+
 void __cdecl operator delete(void * block_ptr) noexcept
 {
 	Memory_Service.Free(block_ptr);

@@ -33,7 +33,7 @@ IDirect3DVertexDeclaration9 * BillBoardProcessor::vertexDecl_ = nullptr;
 BillBoardProcessor::BillBoardProcessor ()
 {
 	Particles.reserve(MAX_BILLBOARDS);
-	pMemArray = new MemArrayItem[MAX_BILLBOARDS];
+	pMemArray = NEW MemArrayItem[MAX_BILLBOARDS];
 
 	for (uint32_t n = 0; n < MAX_BILLBOARDS; n++)
 	{

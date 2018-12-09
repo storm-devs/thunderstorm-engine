@@ -72,6 +72,7 @@ public:
 	void __cdecl operator delete(void* ptr, std::size_t sz, std::align_val_t al) noexcept { _CORE_API->MemFree(ptr); } \
 	void * __cdecl resize(void * ptr, std::size_t count){ return _CORE_API->MemReallocate(ptr,count);} \
 	void * __cdecl operator new(size_t count,char * file, std::size_t line) { if(!_CORE_API) GetCoreApi(); return _CORE_API->MemAllocate(count,file,line);} \
+	void * __cdecl operator new(std::size_t count, std::align_val_t al, char * file, std::size_t line) { if(!_CORE_API) GetCoreApi(); return _CORE_API->MemAllocate(count,file,line);} \
 	void __cdecl operator delete(void * ptr,char * file, std::size_t line) noexcept { _CORE_API->MemFree(ptr); } \
 	void * __cdecl resize(void * ptr, size_t count,char * file, std::size_t line){ return _CORE_API->MemReallocate(ptr,count,file,line);}
 #else

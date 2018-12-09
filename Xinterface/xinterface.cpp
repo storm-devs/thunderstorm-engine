@@ -2609,14 +2609,14 @@ void XINTERFACE::ReleaseSaveFindList()
 void XINTERFACE::AddFindData(char * sSaveFileName, long file_size, FILETIME file_time)
 {
 	if(!sSaveFileName || sSaveFileName[0]=='\0') return;
-	SAVE_FIND_DATA * p = new SAVE_FIND_DATA;
+	SAVE_FIND_DATA * p = NEW SAVE_FIND_DATA;
 	if(p) {
 		p->time = file_time;
 		p->file_size = file_size;
 		p->next = m_pSaveFindRoot;
 		m_pSaveFindRoot = p;
 		const auto len = strlen(sSaveFileName)+1;
-		p->save_file_name = new char[len];
+		p->save_file_name = NEW char[len];
 		if( p->save_file_name )
 			memcpy(p->save_file_name,sSaveFileName,len);
 	}

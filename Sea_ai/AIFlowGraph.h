@@ -299,7 +299,7 @@ inline void AIFlowGraph::BuildTable()
 	uint32_t dwNumPoints = aPoints.size();
 
 	STORM_DELETE(pTable);
-	pTable = new table_t[SQR(dwNumPoints)];
+	pTable = NEW table_t[SQR(dwNumPoints)];
 	for (i=0;i<SQR(dwNumPoints);i++) 
 	{
 		pTable[i].p = INVALID_ARRAY_INDEX;
@@ -370,7 +370,7 @@ inline float AIFlowGraph::GetPathDistance(uint32_t dwP1, uint32_t dwP2)
 
 inline AIFlowGraph::VectorPath * AIFlowGraph::GetVectorPath(uint32_t dwP1, uint32_t dwP2)
 {
-	VectorPath	* pVPath = new VectorPath();
+	VectorPath	* pVPath = NEW VectorPath();
 	Path		* pPath = GetPath(dwP1,dwP2);
 	if (pPath)
 	{
@@ -386,7 +386,7 @@ inline AIFlowGraph::Path * AIFlowGraph::GetPath(uint32_t dwP1, uint32_t dwP2)
 	Assert(dwP1 < aPoints.size() && dwP2 < aPoints.size());
 	uint32_t dwNumPoints = aPoints.size();
 
-	Path *pP = new Path(nullptr);
+	Path *pP = NEW Path(nullptr);
 	pP->AddPoint(dwP1,0.0f);
 	uint32_t dwPnt = pTable[dwP2 + dwP1 * dwNumPoints].p;
 	while(dwPnt != INVALID_ARRAY_INDEX)
@@ -401,7 +401,7 @@ inline AIFlowGraph::Path * AIFlowGraph::GetPath(uint32_t dwP1, uint32_t dwP2)
 
 inline std::vector<AIFlowGraph::npoint_t> * AIFlowGraph::GetNearestPoints(CVECTOR & vP)
 {
-	std::vector<npoint_t>* aNearestPoints = new std::vector<npoint_t>(aPoints.size());
+	std::vector<npoint_t>* aNearestPoints = NEW std::vector<npoint_t>(aPoints.size());
 	for (uint32_t i = 0;i<aPoints.size();i++)
 	{
 		//npoint_t * pN = &(*aNearestPoints)[(*aNearestPoints).Add()];

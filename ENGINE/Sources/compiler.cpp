@@ -6763,6 +6763,7 @@ void COMPILER::FormatAllDialog(char * directory_name)
 			sprintf_s(sFileName,"%s\\%s",directory_name,ffd.cFileName);
 			FormatDialog(sFileName);
 		}
+		Core.fio->_FindClose(fh);
 	}
 }
 
