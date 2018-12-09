@@ -64,17 +64,12 @@ public:
 #ifndef _ENGINE_IN_
 #define ENGINE_MODULE "engine.exe"
 #define INTERFACE_FUNCTION	VMA * _pModuleClassRoot = 0; VAPI * _CORE_API; VAPI * api; VFILE_SERVICE * fio; VSYSTEM_API * _VSYSTEM_API; extern "C" DLL_MODULE_API_FUNCTION _cdecl DMAInterface(VAPI * api_PTR,VSYSTEM_API * sapi_PTR){_CORE_API = api_PTR; api = api_PTR; fio = api_PTR->fio; _VSYSTEM_API = sapi_PTR; return _pModuleClassRoot;} \
-	void GetCoreApi() { HMODULE hEngine = LoadLibraryA(ENGINE_MODULE); PROC GetCoreApi = GetProcAddress(hEngine, "GetCoreApi");	_CORE_API = reinterpret_cast<VAPI*(*)()>(GetCoreApi)(); } \
-	void * __cdecl operator new(std::size_t count) { if(!_CORE_API) GetCoreApi(); return _CORE_API->MemAllocate(count);} \
-	void * __cdecl operator new (std::size_t count, std::align_val_t al) { if(!_CORE_API) GetCoreApi(); return _CORE_API->MemAllocate(count);} \
-	void __cdecl operator delete(void * ptr) noexcept { _CORE_API->MemFree(ptr); } \
-	void __cdecl operator delete(void* ptr, std::align_val_t al) noexcept { _CORE_API->MemFree(ptr); } \
-	void __cdecl operator delete(void* ptr, std::size_t sz, std::align_val_t al) noexcept { _CORE_API->MemFree(ptr); } \
-	void * __cdecl resize(void * ptr, std::size_t count){ return _CORE_API->MemReallocate(ptr,count);} \
-	void * __cdecl operator new(size_t count,char * file, std::size_t line) { if(!_CORE_API) GetCoreApi(); return _CORE_API->MemAllocate(count,file,line);} \
-	void * __cdecl operator new(std::size_t count, std::align_val_t al, char * file, std::size_t line) { if(!_CORE_API) GetCoreApi(); return _CORE_API->MemAllocate(count,file,line);} \
-	void __cdecl operator delete(void * ptr,char * file, std::size_t line) noexcept { _CORE_API->MemFree(ptr); } \
-	void * __cdecl resize(void * ptr, size_t count,char * file, std::size_t line){ return _CORE_API->MemReallocate(ptr,count,file,line);}
+	void * __cdecl operator new(std::size_t count) { return malloc(count); } \
+	void * __cdecl operator new (std::size_t count, std::align_val_t al) { return malloc(count); } \
+	void __cdecl operator delete(void * ptr) noexcept { free(ptr); } \
+	void __cdecl operator delete(void* ptr, std::align_val_t al) noexcept { free(ptr); } \
+	void __cdecl operator delete(void* ptr, std::size_t sz, std::align_val_t al) noexcept { free(ptr); } \
+	void * __cdecl resize(void * ptr, std::size_t count){ return realloc(ptr, count); }
 #else
 #define INTERFACE_FUNCTION
 #endif

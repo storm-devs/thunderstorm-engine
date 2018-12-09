@@ -57,7 +57,7 @@ void Effects::compile(const char * fxPath)
 		}
 		else 
 		{
-			techniques_[desc.Name] = new Technique{ fx, technique, desc };
+			techniques_.emplace(desc.Name, Technique(fx, technique, desc));
 		}
 
 		CHECKD3DERR(fx->FindNextValidTechnique(technique, &technique));
@@ -83,7 +83,7 @@ bool Effects::begin(const std::string & techniqueName)
 		return false;
 	}
 
-	currentTechnique_ = technique->second;
+	currentTechnique_ = &technique->second;
 	auto fx = currentTechnique_->fx;
 	CHECKD3DERR(fx->SetTechnique(currentTechnique_->handle));
 
@@ -123,5 +123,5 @@ bool Effects::next()
 ID3DXEffect * Effects::getEffectPointer(const std::string & techniqueName)
 {
 	const auto technique = techniques_.find(techniqueName);
-	return technique != techniques_.end()? technique->second->fx : nullptr;
+	return technique != techniques_.end()? technique->second.fx : nullptr;
 }

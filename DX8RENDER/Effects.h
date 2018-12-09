@@ -11,6 +11,7 @@ class Effects final
 private:
 	struct Technique
 	{
+		Technique(ID3DXEffect * fx, D3DXHANDLE handle, D3DXTECHNIQUE_DESC desc) : fx(fx), handle(handle), desc(desc) { }
 		ID3DXEffect *fx;
 		D3DXHANDLE handle;
 		D3DXTECHNIQUE_DESC desc;
@@ -19,9 +20,9 @@ private:
 	IDirect3DDevice9 *device_;
 
 	std::vector<ID3DXEffect*> effects_;
-	std::unordered_map<std::string, Technique*> techniques_;
+	std::unordered_map<std::string, Technique> techniques_;
 
-	Technique *currentTechnique_;
+	const Technique *currentTechnique_;
 	uint32_t currentPass_;
 
 	std::string_view debugMsg_;

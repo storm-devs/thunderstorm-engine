@@ -43,27 +43,7 @@ friend COMPILER;
 
 	DATA * ArrayPTR;
 	uint32_t nGlobalVarTableIndex;
-public:
-
-	void * operator new(size_t size)
-	{
-		return ::operator new(size);
-	};
-	void * operator new(size_t size, void * p)
-	{
-		return p;
-	};
-	void operator delete(void * p) {::operator delete (p);};
-	void operator delete(void * p, void * pp) {};
-
-	void * operator new(size_t size, char * pf, uint32_t line)
-	{
-		return ::operator new(size,pf,line);
-	};
-	void operator delete(void * p, char * pf, uint32_t line) 
-	{
-		::operator delete (p,pf,line);
-	};
+public:	
 
 	ATTRIBUTES * AttributesClass;
 	//ATTRIBUTES Attributes;
