@@ -155,16 +155,6 @@ void BIImageRender::DeleteString( IBIString* str )
 		m_apStrings.erase(it);
 }
 
-void BIImageRender::ReleaseAllStrings()
-{
-	//while( m_apStrings.size()>0 ){
-	//	STORM_DELETE( m_apStrings[0] );
-	//}
-	for (const auto &string : m_apStrings)
-		delete (char*)string;
-	m_apStrings.clear();
-}
-
 void BIImageRender::CutPrioritetRangeByStrings()
 {
 	for( long n=0; n<m_apStrings.size(); n++ )
@@ -198,15 +188,13 @@ void BIImageRender::SetBaseScreenSize(long nHSize, long nVSize, long nHOffset, l
 
 void BIImageRender::Release()
 {
-	//~!~ ???
-	//while( m_apMaterial.size()>0 ){
-	//	STORM_DELETE( m_apMaterial[0] );
-	//}
-	for (const auto &material : m_apMaterial)
-		delete (char*)material;
-	m_apMaterial.clear();
+	// destructors themselves erase pointers from vectors
 
-	ReleaseAllStrings();
+	while (m_apMaterial.size() > 0)
+		delete m_apMaterial.front();
+
+	while (m_apStrings.size() > 0)
+		delete m_apStrings.front();
 }
 
 bool BIImageRender::GetFirstPrioritetRange()

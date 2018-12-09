@@ -279,8 +279,7 @@ void BICommandList::Init()
 				if( td.nRows < 1 ) 
 					td.nRows = 1;
 
-				BIImageMaterial * pMat = m_pImgRender->CreateMaterial(td.sFileName.c_str()); 
-				Assert( pMat );
+				m_pImgRender->CreateMaterial(td.sFileName.c_str()); 
 
 				m_aTexture.push_back(td);
 			}

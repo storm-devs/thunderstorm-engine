@@ -30,7 +30,6 @@ public:
 	IBIString* CreateString( const char* text, const char* font_name, float font_scale, uint32_t font_color, long valign, long halign, long nLeft, long nTop, long nRight, long nBottom, long nPrior=ImagePrioritet_DefaultValue);
 	IBIString* CreateString( const char* text, const char* font_name, float font_scale, uint32_t font_color, long valign, long halign, RECT& pos, long nPrior=ImagePrioritet_DefaultValue);
 	void DeleteString( IBIString* str );
-	void ReleaseAllStrings();
 	void CutPrioritetRangeByStrings();
 
 	void SetBaseScreenSize(long nHSize, long nVSize, long nHOffset, long nVOffset);
