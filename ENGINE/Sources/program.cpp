@@ -27,7 +27,7 @@ void PROGRAM::Release()
 			ProgramBlock[n]->Release();
 			delete ProgramBlock[n];
 		}
-		delete ProgramBlock;
+		free(ProgramBlock);
 		ProgramBlock = nullptr;
 	}
 }
@@ -39,7 +39,7 @@ bool PROGRAM::RunProgram(char * program_name)
 	if(Running(program_name)) return true;
 	code = ProgramNum;
 	ProgramNum++;
-	ProgramBlock = (COMPILER **)RESIZE(ProgramBlock,ProgramNum*sizeof(COMPILER *));
+	ProgramBlock = (COMPILER **)realloc(ProgramBlock,ProgramNum*sizeof(COMPILER *));
 
 	ProgramBlock[code] = NEW COMPILER;
 	ProgramBlock[code]->SetProgramDirectory(ProgramDirectory);
@@ -47,7 +47,7 @@ bool PROGRAM::RunProgram(char * program_name)
 	{
 		delete ProgramBlock[code];
 		ProgramNum--;
-		ProgramBlock = (COMPILER **)RESIZE(ProgramBlock,ProgramNum*sizeof(COMPILER *));
+		ProgramBlock = (COMPILER **)realloc(ProgramBlock,ProgramNum*sizeof(COMPILER *));
 		return false;
 	}
 	return ProgramBlock[code]->Run();
@@ -119,7 +119,7 @@ void PROGRAM::ProcessFrame(uint32_t DeltaTime)
 		ProgramNum--;
 	}
 	if(old_size != ProgramNum)
-		ProgramBlock = (COMPILER **)RESIZE(ProgramBlock,ProgramNum*sizeof(COMPILER *));
+		ProgramBlock = (COMPILER **)realloc(ProgramBlock,ProgramNum*sizeof(COMPILER *));
 }
 
 void PROGRAM::ClearEvents()
@@ -147,7 +147,7 @@ bool PROGRAM::LoadState(HANDLE fh)
 	uint32_t n;
 	Release();
 	Core.fio->_ReadFile(fh,&ProgramNum,sizeof(ProgramNum),nullptr);
-	ProgramBlock = (COMPILER **)RESIZE(ProgramBlock,ProgramNum*sizeof(COMPILER *));
+	ProgramBlock = (COMPILER **)realloc(ProgramBlock,ProgramNum*sizeof(COMPILER *));
 	for(n=0;n<ProgramNum;n++)
 	{
 

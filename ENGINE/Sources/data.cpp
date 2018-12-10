@@ -22,7 +22,6 @@ DATA::DATA()
 {
 	Data_type = UNKNOWN;
 	Number_of_elements = 0;
-	ArrayPTR = nullptr;
 	lValue = 0;
 	fValue = 0;
 	sValue = nullptr;
@@ -33,16 +32,34 @@ DATA::DATA()
 //	bRef = false;
 	pReference = nullptr;
 	AttributesClass = nullptr;
-	ArrayPTR = nullptr;
 	nGlobalVarTableIndex = 0xffffffff;
-	
+}
+
+DATA::DATA(DATA &&data) noexcept(false)
+{
+	Data_type = data.Data_type;
+	Number_of_elements = data.Number_of_elements;
+	lValue = data.lValue;
+	fValue = data.fValue;
+	sValue = data.sValue;
+	bArray = data.bArray;
+	bEntity = data.bEntity;
+	pVCompiler = data.pVCompiler;
+	Segment_id = data.Segment_id;
+	pReference = data.pReference;
+	AttributesClass = data.AttributesClass;
+	nGlobalVarTableIndex = data.nGlobalVarTableIndex;
+	object_id = data.object_id;
+	ArrayPTR = std::move(data.ArrayPTR);
+
+	data.sValue = nullptr;
+	data.AttributesClass = nullptr;
 }
 
 DATA::DATA(S_TOKEN_TYPE _element_type)
 {
 	Data_type = _element_type;
 	Number_of_elements = 0;
-	ArrayPTR = nullptr;
 	lValue = 0;
 	fValue = 0;
 	sValue = nullptr;
@@ -61,7 +78,6 @@ DATA::DATA(uint32_t _num_of_elements, S_TOKEN_TYPE _element_type)
 {
 	nGlobalVarTableIndex = 0xffffffff;
 	Number_of_elements = _num_of_elements;
-	ArrayPTR = nullptr;
 	lValue = 0;
 	fValue = 0;
 	sValue = nullptr;
@@ -76,11 +92,12 @@ DATA::DATA(uint32_t _num_of_elements, S_TOKEN_TYPE _element_type)
 	
 	uint32_t n;
 
-	ArrayPTR = (DATA *) NEW char[Number_of_elements * sizeof(DATA)];
+	ArrayPTR.reserve(Number_of_elements);
 	for(n=0;n<Number_of_elements;n++)
 	{
+		ArrayPTR.emplace_back(_element_type);
 		//ArrayPTR[n] = 
-		new(&ArrayPTR[n])DATA(_element_type);
+		//new(&ArrayPTR[n])DATA(_element_type);
 		//ArrayPTR[n]->SetVCompiler((VIRTUAL_COMPILER *)0);	// ???! compiler pointer isnt set for this constructor
 	}
 /*	switch(Data_type)
@@ -115,13 +132,12 @@ void DATA::Release()
 	if(sValue) delete sValue; sValue = nullptr;
 	if(bArray)
 	{
-		for(n=0;n<Number_of_elements;n++)
+		/*for(n=0;n<Number_of_elements;n++)
 		{
 			ArrayPTR[n].~DATA();
 			//delete ArrayPTR[n];
-		}
-		delete (char *)ArrayPTR;
-		ArrayPTR = nullptr;
+		}*/
+		ArrayPTR.clear();
 	}
 	if(!(Data_type == VAR_REFERENCE || Data_type == VAR_AREFERENCE)) 
 	{
@@ -689,7 +705,7 @@ void DATA::SetType(S_TOKEN_TYPE _element_type, uint32_t array_size)
 	if(array_size > 1)
 	{
 		bArray = true;
-		if(ArrayPTR)
+		/*if(ArrayPTR)
 		{
 			for(n=0;n<Number_of_elements;n++)
 			{
@@ -697,32 +713,23 @@ void DATA::SetType(S_TOKEN_TYPE _element_type, uint32_t array_size)
 				ArrayPTR[n].~DATA();
 				//delete ArrayPTR[n];
 			}
-		}
+		}*/
+		ArrayPTR.clear();
 		Number_of_elements = array_size;
-		ArrayPTR = (DATA *)RESIZE(ArrayPTR, Number_of_elements * sizeof(DATA));
+		ArrayPTR.reserve(Number_of_elements);
 		for(n=0;n<Number_of_elements;n++)
 		{
 			//ArrayPTR[n] = NEW DATA(_element_type);
 			//ArrayPTR[n]->SetVCompiler(pVCompiler);
-			new (&ArrayPTR[n]) DATA(_element_type);
-			ArrayPTR[n].SetVCompiler(pVCompiler);
+			//new (&ArrayPTR[n]) DATA(_element_type);
+			ArrayPTR.emplace_back(_element_type);
+			ArrayPTR.back().SetVCompiler(pVCompiler);
 		}
 
 	} 
 	else 
 	{
-		if(ArrayPTR)
-		{
-			for(n=0;n<Number_of_elements;n++)
-			{
-				//delete ArrayPTR[n];
-				ArrayPTR[n].~DATA();
-
-			}
-			delete ArrayPTR;
-		}
-		
-		ArrayPTR = nullptr;
+		ArrayPTR.clear();
 		Number_of_elements = 1;
 	}
 }
@@ -840,7 +847,6 @@ bool DATA::Convert(S_TOKEN_TYPE type)
 
 void  DATA::SetElementsNum(uint32_t _asize)
 {
-	uint32_t n;
 	if(Data_type == VAR_REFERENCE)
 	{
 		if(pReference) { pReference->SetElementsNum(_asize); return;}
@@ -854,24 +860,25 @@ void  DATA::SetElementsNum(uint32_t _asize)
 
 	if(_asize < Number_of_elements)
 	{
-		for(n=_asize;n<Number_of_elements;n++)
+		/*for(n=_asize;n<Number_of_elements;n++)
 		{
 			//delete ArrayPTR[n];
 			ArrayPTR[n].~DATA();
 
-		}
+		}*/
 		Number_of_elements = _asize;
-		ArrayPTR = (DATA *)RESIZE(ArrayPTR,Number_of_elements * sizeof(DATA));
+		ArrayPTR.resize(Number_of_elements);
 		return;
 	}
 
-	ArrayPTR = (DATA *)RESIZE(ArrayPTR,_asize * sizeof(DATA));
+	ArrayPTR.reserve(_asize);
 	//for(n=(Number_of_elements - 1);n<_asize;n++)
-	for(n=Number_of_elements;n<_asize;n++)
+	for(uint32_t n = Number_of_elements;n<_asize;n++)
 	{
 		//ArrayPTR[n] = NEW DATA(Data_type);
-		new (&ArrayPTR[n]) DATA(Data_type);
-		ArrayPTR[n].SetVCompiler( ArrayPTR[0].pVCompiler );
+		//new (&ArrayPTR[n]) DATA(Data_type);
+		ArrayPTR.emplace_back(Data_type);
+		ArrayPTR.back().SetVCompiler( ArrayPTR[0].pVCompiler );
 
 	}
 	Number_of_elements = _asize;
@@ -1699,7 +1706,8 @@ bool DATA::Copy(DATA * pV)
 			return false;
 		}
 		copy_size = Number_of_elements * sizeof(DATA *);
-		memcpy(ArrayPTR,pV->ArrayPTR,copy_size); //~!~
+		memcpy(ArrayPTR.data(),pV->ArrayPTR.data(),copy_size); //~!~
+		//ArrayPTR = pV->ArrayPTR;
 
 		return true;
 	}

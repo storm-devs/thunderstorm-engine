@@ -41,7 +41,7 @@ friend COMPILER;
 	DATA * pReference;
 	//long   ReferenceIndex;
 
-	DATA * ArrayPTR;
+	std::vector<DATA> ArrayPTR;
 	uint32_t nGlobalVarTableIndex;
 public:	
 
@@ -55,6 +55,9 @@ public:
 	uint32_t GetSegmentID(){return Segment_id;};
 	void  SetVCompiler(VIRTUAL_COMPILER * pVC);
 	DATA();
+	DATA(const DATA&) = delete;
+	DATA(DATA&&) noexcept(false);
+	DATA & operator=(const DATA&) = delete;
 	DATA(S_TOKEN_TYPE _element_type);
 	DATA(uint32_t _num_of_elements, S_TOKEN_TYPE _element_type);
 	~DATA();
