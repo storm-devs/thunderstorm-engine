@@ -5,6 +5,7 @@
 #include <cstdio>
 #include "memop.h"
 #include "vstring_codec.h"
+#include <vector>
 
 #define INVALID_ATTRIBUTE_HANDLE	0xffffffff
 //--------------------------------------------------------------------------------------------------------------
@@ -45,10 +46,9 @@ class ATTRIBUTES
 #else
 	VSTRING_CODEC * pVStringCodec;
 #endif
-	uint32_t Attributes_num;
 	uint32_t nNameCode;
 	char * Attribute;
-	ATTRIBUTES * * pAttributes;
+	std::vector<ATTRIBUTES *> pAttributes;
 	ATTRIBUTES * pParent;
 	bool bBreak;
 
@@ -56,28 +56,27 @@ class ATTRIBUTES
 
 	ATTRIBUTES * CreateNewAttribute(uint32_t name_code)
 	{
-		pAttributes = (ATTRIBUTES **)RESIZE(pAttributes,GetALen(Attributes_num + 1) * sizeof(ATTRIBUTES *));
+		auto attr = pAttributes.emplace_back(new ATTRIBUTES(pVStringCodec));
 
-		pAttributes[Attributes_num] = NEW ATTRIBUTES(pVStringCodec);
-		pAttributes[Attributes_num]->SetParent(this);
-		pAttributes[Attributes_num]->nNameCode = name_code;
-		pAttributes[Attributes_num]->Attribute = nullptr;
-		Attributes_num++;
+		attr->SetParent(this);
+		attr->nNameCode = name_code;
 
-		return pAttributes[Attributes_num - 1];
+		return attr;
 	}
 
 public:
 	ATTRIBUTES(VSTRING_CODEC * p)
 	{
 		pVStringCodec = p;
-		pAttributes = nullptr;
-		Attributes_num = 0;
 		Attribute = nullptr;
 		pParent = nullptr;
 		bBreak = false;
 		nNameCode = pVStringCodec->Convert("root");
-	};
+	}
+
+	ATTRIBUTES(const ATTRIBUTES&) = delete;
+	ATTRIBUTES(ATTRIBUTES&&) = delete;
+	ATTRIBUTES & operator=(const ATTRIBUTES&) = delete;
 
 	~ATTRIBUTES()
 	{
@@ -122,7 +121,8 @@ public:
 		}
 
 		const auto len = GetLen(strlen(_val) + 1);
-		Attribute = (char *)RESIZE(Attribute, len);
+		delete Attribute;
+		Attribute =  new char[len];
 		strcpy_s(Attribute, len, _val);
 
 		if (bBreak) pVStringCodec->VariableChanged();
@@ -149,27 +149,24 @@ public:
 	void ReleaseLeafs()
 	{
 		uint32_t n;
-		if(pAttributes)
-		{
-			for (n=0; n<Attributes_num; n++) delete pAttributes[n];
-			delete pAttributes;
-		}
-		pAttributes = nullptr;
-		Attributes_num = 0;
+		for (const auto & attribute : pAttributes)
+			delete attribute;
+		pAttributes.clear();
 	};
 
-	__forceinline uint32_t GetAttributesNum() {return Attributes_num;}
+	uint32_t GetAttributesNum() {return pAttributes.size();}
 
 	ATTRIBUTES * GetAttributeClass(const char * name)
 	{
-		for (uint32_t n=0; n<Attributes_num; n++)
-			if (_stricmp(name, pAttributes[n]->GetThisName()) == 0) return pAttributes[n];
+		for (const auto & attribute : pAttributes)
+			if (_stricmp(name, attribute->GetThisName()) == 0) 
+				return attribute;
 		return nullptr;
 	};
 
 	__forceinline ATTRIBUTES * GetAttributeClass(uint32_t n)
 	{
-		return (n >= Attributes_num) ? nullptr : pAttributes[n];
+		return n >= pAttributes.size() ? nullptr : pAttributes[n];
 	};
 
 	ATTRIBUTES * VerifyAttributeClass(const char * name)
@@ -180,19 +177,20 @@ public:
 
 	__forceinline char * GetAttribute(uint32_t n)
 	{
-		return (n >= Attributes_num) ? nullptr : pAttributes[n]->Attribute;
+		return n >= pAttributes.size() ? nullptr : pAttributes[n]->Attribute;
 	};
 
 	__forceinline char * GetAttributeName(uint32_t n)
 	{
-		return (n >= Attributes_num) ? nullptr : pAttributes[n]->GetThisName();
+		return n >= pAttributes.size() ? nullptr : pAttributes[n]->GetThisName();
 	};
 
 	char * GetAttribute(const char * name)
 	{
 		if (name == nullptr) return nullptr;
-		for(uint32_t n=0; n<Attributes_num; n++)
-			if (_stricmp(name,pAttributes[n]->GetThisName())== 0) return pAttributes[n]->Attribute;
+		for (const auto & attribute : pAttributes)
+			if (_stricmp(name,attribute->GetThisName())== 0) 
+				return attribute->Attribute;
 		return nullptr;
 	};
 
@@ -256,21 +254,19 @@ public:
 	ATTRIBUTES * CreateAttribute(const char * name, const char * attribute)
 	{
 		if(name == nullptr) return nullptr;
-		pAttributes = (ATTRIBUTES **)RESIZE(pAttributes,GetALen(Attributes_num + 1) * sizeof(ATTRIBUTES *));
+		auto attr = pAttributes.emplace_back(new ATTRIBUTES(pVStringCodec));
 
-		pAttributes[Attributes_num] = NEW ATTRIBUTES(pVStringCodec);
-		pAttributes[Attributes_num]->SetParent(this);
-		pAttributes[Attributes_num]->SetName(name);
+		attr->SetParent(this);
+		attr->SetName(name);
 
 		if(attribute)
 		{
 			const auto len = GetLen(strlen(attribute) + 1);
-			pAttributes[Attributes_num]->Attribute = NEW char[len];
-			strcpy_s(pAttributes[Attributes_num]->Attribute, len, attribute);
+			attr->Attribute = NEW char[len];
+			strcpy_s(attr->Attribute, len, attribute);
 		}
-		else pAttributes[Attributes_num]->Attribute = nullptr;
-		Attributes_num++;
-		return pAttributes[Attributes_num-1];
+
+		return attr;
 	};
 
 	inline uint32_t SetAttribute(const char * name, const char * attribute)
@@ -280,44 +276,35 @@ public:
 
 	void Copy(ATTRIBUTES * pASource)
 	{
-		uint32_t n,ah;
 		if(pASource == nullptr) return;
 		ReleaseLeafs();
-		for(n=0;n<pASource->Attributes_num;n++)
+		for (const auto & attribute : pASource->pAttributes)
 		{
-			ah = SetAttribute(pASource->pAttributes[n]->GetThisName(),pASource->pAttributes[n]->Attribute);
-			pAttributes[ah]->Copy(pASource->pAttributes[n]);
+			uint32_t i = SetAttribute(attribute->GetThisName(), attribute->Attribute);
+			pAttributes[i]->Copy(attribute);
 		}
 	};
 
 	BOOL DeleteAttributeClassX(ATTRIBUTES * pA)
 	{
-		uint32_t n,i;
 		if(pA == nullptr) return false;
 		if(pA == this)
 		{
-			if(pAttributes)
-			{
-				for(n=0;n<Attributes_num;n++) delete pAttributes[n];
-				delete pAttributes;
-				pAttributes = nullptr;
-				Attributes_num = 0;
-			}
+			for (const auto & attribute : pAttributes)
+				delete attribute;
+			pAttributes.clear();
 		}
 		else
 		{
-			for(n=0;n<Attributes_num;n++)
+			for(uint32_t n = 0;n<pAttributes.size();n++)
 			{
 				if(pAttributes[n] == pA)
 				{
 					delete pA;
-					for(i=n;i<(Attributes_num - 1);i++)
-					{
+					for(uint32_t i = n;i<pAttributes.size() - 1;i++)
 						pAttributes[i] = pAttributes[i+1];
-					}
 
-					Attributes_num--;
-					pAttributes = (ATTRIBUTES **)RESIZE(pAttributes,GetALen(Attributes_num) * sizeof(ATTRIBUTES *));
+					pAttributes.pop_back();
 					return true;
 				}
 				if(pAttributes[n]->DeleteAttributeClassX(pA)) return true;
@@ -386,8 +373,9 @@ public:
 
 	__forceinline ATTRIBUTES * GetAttributeClassByCode(uint32_t name_code)
 	{
-		for (uint32_t n=0; n<Attributes_num; n++)
-			if(name_code == pAttributes[n]->nNameCode) return pAttributes[n];
+		for (const auto & attribute : pAttributes)
+			if(name_code == attribute->nNameCode) 
+				return attribute;
 		return nullptr;
 	};
 
@@ -401,19 +389,18 @@ public:
 
 	ATTRIBUTES * CreateAttribute(uint32_t name_code, const char * attribute)
 	{
-		pAttributes = (ATTRIBUTES **)RESIZE(pAttributes,GetALen(Attributes_num + 1) * sizeof(ATTRIBUTES *));
+		auto attr = pAttributes.emplace_back(new ATTRIBUTES(pVStringCodec));
 
-		pAttributes[Attributes_num] = NEW ATTRIBUTES(pVStringCodec);
-		pAttributes[Attributes_num]->SetParent(this);
-		pAttributes[Attributes_num]->nNameCode = name_code;
+		attr->SetParent(this);
+		attr->nNameCode = name_code;
 		if(attribute)
 		{
 			const auto len = GetLen(strlen(attribute) + 1);
-			pAttributes[Attributes_num]->Attribute = NEW char[len];
-			strcpy_s(pAttributes[Attributes_num]->Attribute, len, attribute);
-		} else pAttributes[Attributes_num]->Attribute = nullptr;
-		Attributes_num++;
-		return pAttributes[Attributes_num-1];
+			attr->Attribute = NEW char[len];
+			strcpy_s(attr->Attribute, len, attribute);
+		}
+
+		return attr;
 	};
 
 	__forceinline uint32_t GetALen(uint32_t dwLen)
@@ -432,14 +419,15 @@ public:
 		if(attribute)
 			len = GetLen(strlen(attribute) + 1);
 
-		uint32_t n;
-		for(n=0;n<Attributes_num;n++)
+		size_t n;
+		for(n=0;n<pAttributes.size();n++)
 		{
 			if(pAttributes[n]->nNameCode == name_code)
 			{
 				if(attribute)
 				{
-					pAttributes[n]->Attribute = (char *)RESIZE(pAttributes[n]->Attribute, len);
+					delete pAttributes[n]->Attribute;
+					pAttributes[n]->Attribute = new char[len];
 					strcpy_s(pAttributes[n]->Attribute, len, attribute);
 				}
 				else
@@ -454,20 +442,17 @@ public:
 			}
 		}
 
-		pAttributes = (ATTRIBUTES **)RESIZE(pAttributes,GetALen(Attributes_num + 1) * sizeof(ATTRIBUTES *));
+		auto attr = pAttributes.emplace_back(new ATTRIBUTES(pVStringCodec));
 
-		pAttributes[Attributes_num] = NEW ATTRIBUTES(pVStringCodec);
-		pAttributes[Attributes_num]->SetParent(this);
-		pAttributes[Attributes_num]->nNameCode = name_code;
+		attr->SetParent(this);
+		attr->nNameCode = name_code;
 		if(attribute)
 		{
 			pAttributes[n]->Attribute = NEW char[len];
 			strcpy_s(pAttributes[n]->Attribute, len, attribute);
 		}
-		else pAttributes[Attributes_num]->Attribute = nullptr;
-		Attributes_num++;
 
-		return (Attributes_num - 1);
+		return pAttributes.size() - 1;
 	};
 
 	__forceinline uint32_t GetThisNameCode()
