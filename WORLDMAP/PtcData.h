@@ -61,7 +61,7 @@ public:
 	const char * GetMaterial(long curNode);
 
 	//Получить треугольники пересекающии данный квадрат
-	Triangle * GetTriangles(float x, float z, float sx, float sz, long & num);
+	//Triangle * GetTriangles(float x, float z, float sx, float sz, long & num);
 
 
 	//Результаты последнего перемещения
@@ -97,7 +97,7 @@ private:
 	//Проверить пересечение треугольника с отрезком
 	float Trace(PtcTriangle & trg, const CVECTOR & s, const CVECTOR & d);
 	//Добавить треугольник в буфер
-	void AddClTriangle(long i);
+	//void AddClTriangle(long i);
 
 //private:
 public:

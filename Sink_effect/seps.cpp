@@ -882,6 +882,7 @@ bool SEPS_PS::Complete()
 	return bComplete;
 }
 
+/*
 void SEPS_PS::AddTrackPoint(CVECTOR pos)
 {
 	bUseFlowTrack = true;
@@ -889,7 +890,7 @@ void SEPS_PS::AddTrackPoint(CVECTOR pos)
 	pFlowTrack = (CVECTOR *)RESIZE(pFlowTrack,nFlowTrackSize*sizeof(CVECTOR));
 	pFlowTrack[nFlowTrackSize - 1] = pos;
 
-}
+}*/
 
 void SEPS_PS::SetFlowTrack(uint32_t index)
 {

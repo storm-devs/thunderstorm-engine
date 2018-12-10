@@ -660,6 +660,7 @@ SECTION * IFS::FindSection(const char * section_name)
 		if(section_name == nullptr)
 		{
 			if(node->GetName() == nullptr) return node;
+			return nullptr;
 		}
 		if(node->GetName() != nullptr)
 		if(_stricmp(section_name,node->GetName()) == 0) return node;

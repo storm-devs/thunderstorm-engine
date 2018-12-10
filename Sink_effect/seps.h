@@ -149,7 +149,7 @@ class SEPS_PS
 	long  DeltaTimeSLE; // SinceLastEmission
 	bool  EmitParticle();
 	long  nSystemLifeTime;
-	void  AddTrackPoint(CVECTOR pos);
+	//void  AddTrackPoint(CVECTOR pos);
 	CVECTOR * pFlowTrack;
 	uint32_t nFlowTrackSize;
 	bool  bUseFlowTrack;

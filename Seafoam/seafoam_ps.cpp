@@ -816,14 +816,14 @@ bool SEAFOAM_PS::Complete()
 	return bComplete;
 }
 
+/*
 void SEAFOAM_PS::AddTrackPoint(CVECTOR pos)
 {
 	bUseFlowTrack = true;
 	nFlowTrackSize++;
 	pFlowTrack = (CVECTOR *)RESIZE(pFlowTrack,nFlowTrackSize*sizeof(CVECTOR));
 	pFlowTrack[nFlowTrackSize - 1] = pos;
-
-}
+}*/
 
 void SEAFOAM_PS::SetFlowTrack(uint32_t index)
 {

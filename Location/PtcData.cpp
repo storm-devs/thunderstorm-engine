@@ -654,7 +654,7 @@ const char * PtcData::GetMaterial(long curNode)
 	if(mtl >= 15 || mtl < 0 || mtl >= materials->numMaterials) return nullptr;
 	return materials->material[mtl];
 }
-
+/*
 //Получить треугольники пересекающии данный квадрат
 PtcData::Triangle * PtcData::GetTriangles(float x, float z, float sx, float sz, long & num)
 {
@@ -708,7 +708,7 @@ inline void PtcData::AddClTriangle(long i)
 	ct.n.x = normal[triangle[i].n].x;
 	ct.n.y = normal[triangle[i].n].y;
 	ct.n.z = normal[triangle[i].n].z;
-}
+}*/
 
 //Вычислить высоту точки на плоскосте треугольника
 inline float PtcData::FindHeight(long trgID, float x, float z)

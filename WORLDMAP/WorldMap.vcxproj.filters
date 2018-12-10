@@ -88,9 +88,6 @@
     <Filter Include="Source\PtcData">
       <UniqueIdentifier>{d49c6844-8f88-4567-a45d-c31a36c93635}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Techniques">
-      <UniqueIdentifier>{0cdb95ff-fb01-479f-a937-50786a27c90f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WdmShip.cpp">
@@ -284,13 +281,5 @@
     <ClInclude Include="PtcData.h">
       <Filter>Source\PtcData</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\ENGINE\Modules\Techniques\worldmap.sha">
-      <Filter>Techniques</Filter>
-    </None>
-    <None Include="..\Engine\Modules\Techniques\Effects\worldmap.sha">
-      <Filter>Techniques</Filter>
-    </None>
   </ItemGroup>
 </Project>

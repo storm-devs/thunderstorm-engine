@@ -151,7 +151,7 @@ class SEAFOAM_PS : VPARTICLE_SYSTEM
 	long  DeltaTimeSLE; // SinceLastEmission
 	bool  EmitParticle();
 	long  nSystemLifeTime;
-	void  AddTrackPoint(CVECTOR pos);
+	//void  AddTrackPoint(CVECTOR pos);
 	CVECTOR * pFlowTrack;
 	uint32_t nFlowTrackSize;
 	bool  bUseFlowTrack;
