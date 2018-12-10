@@ -332,7 +332,7 @@ void WdmIslands::SetIslandsData(ATTRIBUTES * apnt, bool isChange)
 			continue;
 		}
 		//»щим метку среди существующих
-		uint32_t hash = wdmObjects->CalcHash(id);
+		uint32_t hash = TOREMOVE::HashNoCase(id);
 		long index = LabelsFind(id, hash);
 		if(index < 0)
 		{

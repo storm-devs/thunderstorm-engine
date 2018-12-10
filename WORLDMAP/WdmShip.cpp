@@ -317,7 +317,7 @@ bool WdmShip::CheckPosition(float x, float z, float objRadius)
 	if(z + objRadius > 0.5f*wdmObjects->worldSizeZ) return false;
 	//Корабли
 	long i;
-	for(i = 0; i < wdmObjects->numShips; i++)
+	for(i = 0; i < wdmObjects->ships.size(); i++)
 	{
 		if(!wdmObjects->ships[i]->isLive) continue;
 		if(wdmObjects->ships[i]->killMe) continue;
@@ -326,7 +326,7 @@ bool WdmShip::CheckPosition(float x, float z, float objRadius)
 		if(dx*dx + dz*dz < wdmObjects->ships[i]->modelRadius2) return false;
 	}
 	//Острова
-	if(i >= wdmObjects->numShips)
+	if(i >= wdmObjects->ships.size())
 	{
 		if(wdmObjects->islands)
 		{

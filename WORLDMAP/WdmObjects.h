@@ -15,7 +15,7 @@
 #include "../Common_h/Matrix.h"
 
 #include "WdmObjectsWind.h"
-#include <string>
+
 #include <vector>
 
 class WdmIslands;
@@ -86,17 +86,13 @@ public:
 	//Корабль игрока
 	WdmShip * playerShip;
 	//Все существующие корабли
-	WdmShip ** ships;
-	long numShips;
-	long maxShips;
+	std::vector<WdmShip *> ships;
 
 	WdmEnemyShip * enemyShip;
 	bool enableSkipEnemy;
 
 	//Шторма	
-	WdmStorm ** storms;
-	long numStorms;	//Количество штормов
-	long maxStorms;
+	std::vector<WdmStorm *> storms;
 	bool playarInStorm;
 
 	const char * curIsland;
@@ -143,9 +139,6 @@ public:
 	long entryModels[1024];			//Таблица быстрого поиска геометрии
 	std::string modelPath;
 
-	//Найти хэщь-значение строки
-	static uint32_t CalcHash(const char * str);
-
 	//Получить направление и силу ветра
 	float GetWind(float x, float z, CVECTOR & dir);
 	//Обновить состояние ветра
@@ -172,26 +165,6 @@ private:
 };
 
 extern WdmObjects * wdmObjects;
-
-//Найти хэщь-значение строки
-inline uint32_t WdmObjects::CalcHash(const char * str)
-{
-	if(!str) return 0;
-	unsigned long hval = 0;
-	while(*str != '\0')
-	{
-		char c = *str++;
-		if(c >= 'A' && c <= 'Z') c += 'a' - 'A';
-		hval = (hval<<4) + (unsigned long int)c;
-		unsigned long g = hval & ((unsigned long int) 0xf << (32 - 4));
-		if(g != 0)
-		{
-			hval ^= g >> (32 - 8);
-			hval ^= g;
-		}		
-	}
-	return hval;
-}
 
 #endif
 

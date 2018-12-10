@@ -71,12 +71,12 @@ WorldMap::~WorldMap()
 		AttributesPointer->SetAttribute("WindData", wdmObjects->GetWindSaveString(bufForSave));
 	}
 	//Оставим параметры энкоунтеров невредимыми
-	for(long i = 0; i < wdmObjects->numShips; i++)
+	for(long i = 0; i < wdmObjects->ships.size(); i++)
 	{
 		if(wdmObjects->ships[i] == wdmObjects->playerShip) continue;
 		((WdmEnemyShip *)wdmObjects->ships[i])->SetSaveAttribute(nullptr);
 	}
-	for(long i = 0; i < wdmObjects->numStorms; i++)
+	for(long i = 0; i < wdmObjects->storms.size(); i++)
 	{
 		wdmObjects->storms[i]->SetSaveAttribute(nullptr);
 	}
@@ -461,8 +461,8 @@ void WorldMap::Realize(uint32_t delta_time)
 			}else i = object[i].next;
 	}
 	//Текущее количество событий
-	if(aStorm) aStorm->SetAttributeUseDword("num", wdmObjects->numStorms);
-	if(aEncounter) aEncounter->SetAttributeUseDword("num", wdmObjects->numShips - (wdmObjects->playerShip != nullptr));
+	if(aStorm) aStorm->SetAttributeUseDword("num", wdmObjects->storms.size());
+	if(aEncounter) aEncounter->SetAttributeUseDword("num", wdmObjects->ships.size() - (wdmObjects->playerShip != nullptr));
 	//События
 	encTime += dltTime;
 	if(encTime >= 1.0f && wdmObjects->playerShip && !wdmObjects->isPause)
@@ -576,12 +576,12 @@ uint32_t WorldMap::AttributeChanged(ATTRIBUTES * apnt)
 	if(!apnt || !AttributesPointer) return 0;
 	if(_stricmp(apnt->GetThisName(), "deleteUpdate") == 0)
 	{
-		for(long i = 0; i < wdmObjects->numShips; i++)
+		for(long i = 0; i < wdmObjects->ships.size(); i++)
 		{
 			if(wdmObjects->ships[i] == wdmObjects->playerShip) continue;
 			((WdmEnemyShip *)wdmObjects->ships[i])->DeleteUpdate();
 		}
-		for(long i = 0; i < wdmObjects->numStorms; i++)
+		for(long i = 0; i < wdmObjects->storms.size(); i++)
 		{
 			wdmObjects->storms[i]->DeleteUpdate();
 		}
@@ -603,7 +603,7 @@ uint32_t WorldMap::AttributeChanged(ATTRIBUTES * apnt)
 		if(pa == aStorm)
 		{
 			long cur = long(pa->GetAttributeAsDword("cur"));
-			if(cur >= 0 && cur < wdmObjects->numStorms)
+			if(cur >= 0 && cur < wdmObjects->storms.size())
 			{
 				Assert(wdmObjects->storms[cur]);
 				wdmObjects->storms[cur]->GetPosition(x, z);
@@ -619,13 +619,13 @@ uint32_t WorldMap::AttributeChanged(ATTRIBUTES * apnt)
 			long cur = long(pa->GetAttributeAsDword("cur"));
 			//Определим индекс энкоунтера
 			long i = 0;
-			for(long enc = 0; i < wdmObjects->numShips; i++)
+			for(long enc = 0; i < wdmObjects->ships.size(); i++)
 			{
 				if(wdmObjects->ships[i] == wdmObjects->playerShip) continue;
 				if(enc == cur) break;
 				enc++;
 			}
-			if(i < wdmObjects->numShips)
+			if(i < wdmObjects->ships.size())
 			{
 				Assert(wdmObjects->ships[i]);
 				wdmObjects->ships[i]->GetPosition(x, z, ay);
@@ -644,13 +644,13 @@ uint32_t WorldMap::AttributeChanged(ATTRIBUTES * apnt)
 				{
 					Assert(es->attack != es);
 					long i, j = 0;
-					for(i = 0; i < wdmObjects->numShips; i++)
+					for(i = 0; i < wdmObjects->ships.size(); i++)
 					{
 						if(wdmObjects->ships[i] == wdmObjects->playerShip) continue;
 						if(wdmObjects->ships[i] == es->attack) break;
 						j++;
 					}
-					if(i >= wdmObjects->numShips) j = -1;
+					if(i >= wdmObjects->ships.size()) j = -1;
 					pa->SetAttributeUseDword("attack", j);
 				}else{
 					pa->SetAttributeUseDword("attack", -1);
@@ -822,7 +822,7 @@ WdmRenderObject * WorldMap::CreateModel(WdmRenderModel * rm, const char * modelN
 //Создать шторм, если это возможно, и установить время жизни
 bool WorldMap::CreateStorm(bool isTornado, float time, ATTRIBUTES * save)
 {
-	if(wdmObjects->numStorms >= WDM_MAX_STORMS) return false;
+	if(wdmObjects->storms.size() >= WDM_MAX_STORMS) return false;
 	WdmStorm * s = NEW WdmStorm();
 	AddLObject(s, 800);
 	if(!AddObject(s)) return false;
@@ -1076,13 +1076,13 @@ void WorldMap::ResetScriptInterfaces()
 void WorldMap::ReleaseEncounters()
 {
 	//Оставим параметры энкоунтеров невредимыми
-	for(long i = 0; i < wdmObjects->numShips; i++)
+	for(long i = 0; i < wdmObjects->ships.size(); i++)
 	{
 		if(wdmObjects->ships[i] == wdmObjects->playerShip) continue;
 		((WdmEnemyShip *)wdmObjects->ships[i])->SetSaveAttribute(nullptr);
 		wdmObjects->ships[i]->killMe = true;
 	}
-	for(long i = 0; i < wdmObjects->numStorms; i++)
+	for(long i = 0; i < wdmObjects->storms.size(); i++)
 	{
 		wdmObjects->storms[i]->SetSaveAttribute(nullptr);
 		wdmObjects->storms[i]->killMe = true;

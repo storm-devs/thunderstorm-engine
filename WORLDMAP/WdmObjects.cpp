@@ -11,6 +11,7 @@
 #include "WdmObjects.h"
 #include "../Common_h/vmodule_api.h"
 #include "../Common_h/geometry.h"
+#include "../Common_h/defines.h"
 
 //============================================================================================
 
@@ -31,12 +32,6 @@ WdmObjects::WdmObjects()
 	camera = nullptr;
 	islands = nullptr;
 	playerShip = nullptr;
-	ships = nullptr;
-	numShips = 0;
-	maxShips = 0;
-	storms = nullptr;
-	numStorms = 0;
-	maxStorms = 0;
 	isDebug = false;
 	Clear();
 	enemyShip = nullptr;
@@ -52,8 +47,6 @@ WdmObjects::WdmObjects()
 
 WdmObjects::~WdmObjects()
 {
-	if(ships) delete ships;
-	if(storms) delete storms;
 	wdmObjects = nullptr;
 	for(long i = 0; i < models.size(); i++)
 	{
@@ -72,18 +65,10 @@ void WdmObjects::SetWorldSize(float x, float z)
 
 void WdmObjects::Clear()
 {
-	if(ships) delete ships;
-	if(storms) delete storms;
 	wm = nullptr;
 	rs = nullptr;
 	gs = nullptr;
 	islands = nullptr;
-	ships = nullptr;
-	numShips = 0;
-	maxShips = 0;
-	storms = nullptr;
-	numStorms = 0;
-	maxStorms = 0;
 	isDebug = false;
 	isPause = false;
 	shipSpeedOppositeWind = 0.8f;
@@ -108,47 +93,36 @@ void WdmObjects::Clear()
 void WdmObjects::AddShip(WdmShip * ship)
 {
 	Assert(ship);
-	if(numShips >= maxShips)
-	{
-		maxShips += 16;
-		ships = (WdmShip **)RESIZE(ships, maxShips*4);
-	}
-	ships[numShips++] = ship;
+	ships.push_back(ship);
 }
 
 void WdmObjects::DelShip(WdmShip * ship)
 {
 	Assert(ship);
-	for(long i = 0; i < numShips; i++)
-		if(ships[i] == ship)
-		{
-			ships[i] = ships[--numShips];
-			return;
+	for (auto & it : ships) {
+		if (it == ship) {
+			it = ships.back();
+			ships.pop_back();
+			break;
 		}
-	__debugbreak();
+	}
 }
 
 void WdmObjects::AddStorm(WdmStorm * storm)
 {
 	Assert(storm);
-	if(numStorms >= maxStorms)
-	{
-		maxStorms += 16;
-		storms = (WdmStorm **)RESIZE(storms, maxStorms*4);
-	}
-	storms[numStorms++] = storm;
+	storms.push_back(storm);
 }
 
 void WdmObjects::DelStorm(WdmStorm * storm)
 {
-	Assert(storm);
-	for(long i = 0; i < numStorms; i++)
-		if(storms[i] == storm)
-		{
-			storms[i] = storms[--numStorms];
-			return;
+	for (auto & it : storms) {
+		if (it == storm) {
+			it = storms.back();
+			storms.pop_back();
+			break;
 		}
-	__debugbreak();
+	}
 }
 
 //—оздать геометрию
@@ -156,7 +130,7 @@ GEOS * WdmObjects::CreateGeometry(const char * path)
 {
 	if(!path || !path[0] || !gs) return nullptr;
 	//»щим среди добавленных
-	uint32_t hash = CalcHash(path);
+	uint32_t hash = TOREMOVE::HashNoCase(path);
 	long i = hash & (sizeof(entryModels)/sizeof(entryModels[0]) - 1);
 	for(i = entryModels[i]; i >= 0; i = models[i].next)
 	{

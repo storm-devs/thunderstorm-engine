@@ -164,15 +164,14 @@ void WdmEnemyShip::FindShipsForce()
 {
 	sx = 0.0f;
 	sz = 0.0f;
-	WdmShip ** s = wdmObjects->ships;
-	for(long i = 0; i < wdmObjects->numShips; i++)
+	for(const auto & ship : wdmObjects->ships)
 	{
-		if(!s[i]) continue;
-		if(s[i] == this) continue;
-		if(s[i] == wdmObjects->playerShip && !isLookOnPlayer) continue;
+		if(!ship) continue;
+		if(ship == this) continue;
+		if(ship == wdmObjects->playerShip && !isLookOnPlayer) continue;
 		//Вертор от него до нас
-		float fx = mtx.Pos().x - s[i]->mtx.Pos().x;
-		float fz = mtx.Pos().z - s[i]->mtx.Pos().z;
+		float fx = mtx.Pos().x - ship->mtx.Pos().x;
+		float fz = mtx.Pos().z - ship->mtx.Pos().z;
 		//Дистанция
 		float fl = fx*fx + fz*fz - 25.0f*25.0f;
 		if( fl > 25.0f*25.0f ) continue;
@@ -184,8 +183,8 @@ void WdmEnemyShip::FindShipsForce()
 		sz += fz;
 		//Отклонение
 		fl = fx*fx + fz*fz;
-		fx *= s[i]->mtx.Vz().x;
-		fz *= s[i]->mtx.Vz().z;
+		fx *= ship->mtx.Vz().x;
+		fz *= ship->mtx.Vz().z;
 		sx += -fz*0.01f;
 		sz += fx*0.01f;
 	}

@@ -99,7 +99,7 @@ void WdmPlayerShip::Update(float dltTime)
 	wdmObjects->playarInStorm = (i == -2);
 	//Корабли
 	wdmObjects->enableSkipEnemy = false;
-	for(i = 0; i < wdmObjects->numShips; i++)
+	for(i = 0; i < wdmObjects->ships.size(); i++)
 	{
 		//Пропустим ненужных
 		WdmEnemyShip * es = ((WdmEnemyShip *)wdmObjects->ships[i]);
@@ -218,7 +218,7 @@ bool WdmPlayerShip::ExitFromMap()
 {
 	//Ищем селектированные
 	long found = -1;
-	for(long i = 0; i < wdmObjects->numShips; i++)
+	for(long i = 0; i < wdmObjects->ships.size(); i++)
 	{
 		wdmObjects->ships[i]->isSelect = false;
 		if(wdmObjects->ships[i] == this) continue;
@@ -244,7 +244,7 @@ long WdmPlayerShip::TestInStorm()
 {
 	bool inStormZone = false;
 	bool isTornado = false;
-	for(long i = 0; i < wdmObjects->numStorms; i++)
+	for(long i = 0; i < wdmObjects->storms.size(); i++)
 	{
 		if(wdmObjects->storms[i]->killMe) continue;
 		if(wdmObjects->storms[i]->CheckIntersection(mtx.Pos().x, mtx.Pos().z, actionRadius))
