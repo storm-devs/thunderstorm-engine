@@ -9,7 +9,7 @@
 //============================================================================================
 
 #include "ActionInfo.h"
-#include <stdio.h>
+#include "../Common_h/Exs.h"
 
 //============================================================================================
 //Конструирование, деструктурирование
@@ -30,10 +30,6 @@ ActionInfo::ActionInfo(const char * aname, long startframe, long endframe)
 	isLoop = false;
 	for(int i = 0; i < 8; i++) bonesMask[0] = 0xffffffff;
 	numEvents = 0;
-}
-
-ActionInfo::~ActionInfo()
-{
 }
 
 //Добавить событие
@@ -60,7 +56,7 @@ bool ActionInfo::AddEvent(const char * ename, float frame, ExtAnimationEventType
 //Работа с действием
 //--------------------------------------------------------------------------------------------
 //Сравнить с текущим именем
-bool ActionInfo::operator == (const char * actionName)
+bool ActionInfo::operator == (const char * actionName) const
 {
 	return _stricmp(actionName, name) == 0;
 }

@@ -400,7 +400,7 @@ long AnimationServiceImp::LoadAnimation(const char * animationName)
 }
 
 //Загрузить из текущей секции пользовательские данные
-void AnimationServiceImp::LoadUserData(INIFILE * ani, const char * sectionName, UserData & data, const char * animationName)
+void AnimationServiceImp::LoadUserData(INIFILE * ani, const char * sectionName, std::unordered_map<std::string, std::string> & data, const char * animationName)
 {
 	if(ani->ReadString((char *)sectionName, ASKW_DATA, key, 1023, ""))
 	{
@@ -438,7 +438,7 @@ void AnimationServiceImp::LoadUserData(INIFILE * ani, const char * sectionName, 
 			}
 			key[p++] = 0;
 			//Проверяем наличие данных
-			if(data.GetData(key + 1))
+			if(data.count(key + 1))
 			{
 				if(sectionName)
 					_CORE_API->Trace("Incorrect %s in action [%s] of animation file %s.ani\nUser data repeated", ASKW_DATA, sectionName, animationName);
@@ -463,9 +463,8 @@ void AnimationServiceImp::LoadUserData(INIFILE * ani, const char * sectionName, 
 			key[p] = 0;
 			//Добавляем данные
 			//_CORE_API->Trace("Add user data \"%s\", \"%s\" of \"%s\"", key + 1, uds, sectionName);
-			data.AddData(key + 1, uds);
+			data[key + 1] = uds;
 		}while(ani->ReadStringNext((char *)sectionName, ASKW_DATA, key, 1023));
-		data.FreeExtra();
 	}
 }
 

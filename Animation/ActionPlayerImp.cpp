@@ -225,8 +225,11 @@ float ActionPlayerImp::GetBlend()
 //Получить пользовательские данные для этого действия
 const char * ActionPlayerImp::GetData(const char * dataName) const
 {
-	if(!action) return nullptr;
-	return action->GetUserData().GetData(dataName);
+	if(!action) 
+		return nullptr;
+ 	const auto & userData = action->GetUserData();
+	const auto it = userData.find(dataName);
+	return it != userData.end() ? it->second.c_str(): nullptr;
 }
 
 //--------------------------------------------------------------------------------------------

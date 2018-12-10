@@ -115,7 +115,9 @@ CMatrix & AnimationImp::GetAnimationMatrix(long iBone) const
 //ѕолучить пользовательские данные дл€ анимации
 const char * AnimationImp::GetData(const char * dataName) const
 {
-	return aniInfo->GetUserData().GetData(dataName);
+	const auto & userData = aniInfo->GetUserData();
+	const auto it = userData.find(dataName);
+	return it != userData.end() ? it->second.c_str(): nullptr;
 }
 
 // опировать состо€ние одного плеера в другой

@@ -51,7 +51,7 @@ private:
 	//Загрузить анимацию
 	long LoadAnimation(const char * animationName);
 	//Загрузить из текущей секции пользовательские данные
-	void LoadUserData(INIFILE * ani, const char * sectionName, UserData & data, const char * animationName);
+	void LoadUserData(INIFILE * ani, const char * sectionName, std::unordered_map<std::string, std::string> & data, const char * animationName);
 	//Загрузить AN
 	bool LoadAN(const char * fname, AnimationInfo * info);
 

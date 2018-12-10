@@ -13,8 +13,9 @@
 
 #include "ActionInfo.h"
 #include "Bone.h"
-#include "UserData.h"
-
+#include "../Common_h/Exs.h"
+#include <vector>
+#include <string>
 
 class AnimationInfo  
 {
@@ -58,7 +59,7 @@ public:
 	//Получить время анимации
 	long GetAniNumFrames();
 	//Доступ к пользовательским данным
-	UserData & GetUserData();
+	std::unordered_map<std::string, std::string> & GetUserData();
 	//Получить скорость исполнения анимации
 	float GetFPS();
 
@@ -74,13 +75,12 @@ private:
 	Bone * bone;			//Кости с ключами анимации
 	long numBones;			//Количество костей в скелете
 
-	ActionInfo ** action;	//Действия
-	long numActions;		//Количество действий
+	std::vector<ActionInfo> actions;	//Действия
 
 	long refCounter;		//Счётчик ссылок на эту анимацию
 	long downtime;			//Время простоя
 
-	UserData userData;		//Пользовательские данные
+	std::unordered_map<std::string, std::string> userData;		//Пользовательские данные
 };
 
 //============================================================================================
@@ -158,7 +158,7 @@ inline long AnimationInfo::GetAniNumFrames()
 }
 
 //Доступ к пользовательским данным
-inline UserData & AnimationInfo::GetUserData()
+inline std::unordered_map<std::string, std::string> & AnimationInfo::GetUserData()
 {
 	return userData;
 }
