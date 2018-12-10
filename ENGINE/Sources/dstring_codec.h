@@ -4,6 +4,7 @@
 
 #include "../../Common_h/memop.h"
 #include <malloc.h>
+#include <cstring>
 
 #define DHASH_TABLE_SIZE	255
 #define DHASH_SINGLESYM		DHASH_TABLE_SIZE
