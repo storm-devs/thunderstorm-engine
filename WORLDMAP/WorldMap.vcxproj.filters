@@ -46,15 +46,6 @@
     <Filter Include="Source\Interface\Wind rose">
       <UniqueIdentifier>{2d8fc352-29d9-45ad-a921-cfdeae3190a8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Interface\Old interfaces">
-      <UniqueIdentifier>{3ddbb263-78fa-416a-9942-b80e19f87c22}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Interface\Old interfaces\Date label">
-      <UniqueIdentifier>{8232187f-f757-4c48-9b20-d5a528c3c581}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Interface\Old interfaces\Event window">
-      <UniqueIdentifier>{acdd592c-b40e-4367-9ba3-e5a2fc6e44cb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Interface\Wind UI">
       <UniqueIdentifier>{1da362ca-d2c3-401c-967f-3d60d941eb05}</UniqueIdentifier>
     </Filter>
@@ -125,12 +116,6 @@
     </ClCompile>
     <ClCompile Include="WdmWindRose.cpp">
       <Filter>Source\Interface\Wind rose</Filter>
-    </ClCompile>
-    <ClCompile Include="WdmDateLabel.cpp">
-      <Filter>Source\Interface\Old interfaces\Date label</Filter>
-    </ClCompile>
-    <ClCompile Include="WdmEventWindow.cpp">
-      <Filter>Source\Interface\Old interfaces\Event window</Filter>
     </ClCompile>
     <ClCompile Include="WdmWindUI.cpp">
       <Filter>Source\Interface\Wind UI</Filter>
@@ -205,12 +190,6 @@
     </ClInclude>
     <ClInclude Include="WdmWindRose.h">
       <Filter>Source\Interface\Wind rose</Filter>
-    </ClInclude>
-    <ClInclude Include="WdmDateLabel.h">
-      <Filter>Source\Interface\Old interfaces\Date label</Filter>
-    </ClInclude>
-    <ClInclude Include="WdmEventWindow.h">
-      <Filter>Source\Interface\Old interfaces\Event window</Filter>
     </ClInclude>
     <ClInclude Include="WdmWindUI.h">
       <Filter>Source\Interface\Wind UI</Filter>

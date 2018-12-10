@@ -127,7 +127,6 @@ private:
 	ATTRIBUTES * aInfo;
 	ATTRIBUTES * saveData;
 
-	WdmEventWindow * eventWindow;
 	WdmWaitMenu * waitMenu;
 
 	//Событие

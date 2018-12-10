@@ -9,28 +9,18 @@
 //============================================================================================
 
 #include "../../Shared/messages.h"
-
 #include "WorldMap.h"
-
 #include "WdmCameraStdCtrl.h"
-
 #include "WdmSea.h"
-
 #include "WdmRenderModel.h"
-
 #include "WdmIslands.h"
-
 #include "WdmClouds.h"
 #include "WdmStorm.h"
-
 #include "WdmPlayerShip.h"
 #include "WdmFollowShip.h"
 #include "WdmMerchantShip.h"
 #include "WdmWarringShip.h"
-
 #include "WdmWindUI.h"
-#include "WdmEventWindow.h"
-//#include "WaitMenu.h"
 #include "WdmIcon.h"
 #include "../Common_h/defines.h"
 
@@ -66,7 +56,6 @@ WorldMap::WorldMap()
 	aEncounter = nullptr;
 	aInfo = nullptr;
 	saveData = nullptr;
-	eventWindow = nullptr;
 	timeScale = 1.0f;
 	hour = 11.0f;
 	day = 14;
@@ -280,9 +269,6 @@ bool WorldMap::Init()
 	//AddLObject(cnt, 10099);
 	//Иконка
 	AddLObject(AddObject(NEW WdmIcon(), 1000), 10099);
-
-	eventWindow = NEW WdmEventWindow();
-	AddLObject(AddObject(eventWindow, 1001), 10100);
 
 	//Загружаем энкоунтеры, если таковы были
 	if(saveData)
@@ -609,15 +595,6 @@ uint32_t WorldMap::AttributeChanged(ATTRIBUTES * apnt)
 			AttributesPointer->SetAttributeUseFloat("playerShipX", x);
 			AttributesPointer->SetAttributeUseFloat("playerShipZ", z);
 			AttributesPointer->SetAttributeUseFloat("playerShipAY", ay);
-		}
-	}else
-	if(_stricmp(apnt->GetThisName(), "update") == 0)
-	{
-		ATTRIBUTES * pa = apnt->GetParent();
-		if(pa && *pa == "eventWindow")
-		{
-			eventWindow->ActivateEvent(pa->GetAttribute("text"), pa->GetAttribute("yes"), pa->GetAttribute("no"));
-			return 0;
 		}
 	}else
 	if(_stricmp(apnt->GetThisName(), "cur") == 0)
