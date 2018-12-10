@@ -43,7 +43,7 @@ public:
 			if (HTable[m].pElements)
 			{
 				for (n=0; n<HTable[m].nStringsNum; n++) delete HTable[m].pElements[n].pStr;
-				delete HTable[m].pElements;
+				free(HTable[m].pElements);
 			}
 			HTable[m].pElements = nullptr; 
 			HTable[m].nStringsNum = 0;
@@ -98,7 +98,7 @@ public:
 
 		n = pE->nStringsNum;
 		pE->nStringsNum++;
-		pE->pElements = (HTSUBELEMENT *)RESIZE(pE->pElements, GetNum(pE->nStringsNum) * sizeof(HTSUBELEMENT));
+		pE->pElements = (HTSUBELEMENT *)realloc(pE->pElements, GetNum(pE->nStringsNum) * sizeof(HTSUBELEMENT));
 
 		const auto len = strlen(pString) + 1;
 		pE->pElements[n].pStr = NEW char[len];

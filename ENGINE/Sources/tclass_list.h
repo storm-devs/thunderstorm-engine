@@ -17,7 +17,7 @@ public:
 		if(pTable)
 		{
 			for(n=0;n<nClassesNum;n++) delete pTable[n];
-			delete pTable;
+			free(pTable);
 			pTable = 0;
 		}
 		nClassesNum = 0;
@@ -27,7 +27,7 @@ public:
 		uint32_t n;
 		n = nClassesNum;
 		nClassesNum++;
-		pTable = (ClassType**)RESIZE(pTable,nClassesNum*sizeof(ClassType*));
+		pTable = (ClassType**)realloc(pTable,nClassesNum*sizeof(ClassType*));
 		pTable[n] = pClass;
 	};
 	void Del(uint32_t _n)

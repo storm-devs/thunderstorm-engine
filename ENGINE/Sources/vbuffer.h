@@ -14,11 +14,10 @@ class VBUFFER
 public:
 	char * Ptr;
 	 VBUFFER() {dwSize = 0; Ptr = nullptr;}
-	~VBUFFER() {if(Ptr) delete Ptr;}
+	~VBUFFER() { free(Ptr);}
 	void Size(uint32_t _size)
 	{
-		if(!Ptr) Ptr = (char*)NEW char[_size];
-		else Ptr = (char*)RESIZE(Ptr,_size);
+		Ptr = (char*)realloc(Ptr,_size);
 		if(!Ptr) THROW; 
 		dwSize = _size; };
 };

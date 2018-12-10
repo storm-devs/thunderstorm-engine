@@ -50,7 +50,6 @@ COMPILER::COMPILER()
 	pEventMessage = nullptr;
 	bCompleted = false;
 	SegmentsNum = 0;
-	SegmentTable = nullptr;
 //	FuncTab.KeepNameMode(true);	// true for displaying internal functions names
 //	VarTab.KeepNameMode(false);
 //	EventTab.KeepNameMode(false);
@@ -79,7 +78,6 @@ COMPILER::COMPILER()
 	bBreakOnError = false;
 	bRuntimeLog = false;
 	nRuntimeLogEventsNum = 0;
-	pRuntimeLogEvent = nullptr;
 	nRuntimeTicks = 0;
 	nRuntimeLogEventsBufferSize = 0;
 	nIOBufferSize = 0;
@@ -155,25 +153,22 @@ void COMPILER::Release()
 	}
 */
 	//--------------------------------------------------------
-	
-	if(SegmentTable)
-	{
-		for(n=0;n<SegmentsNum;n++)
-		{
-			if(SegmentTable[n].name) delete SegmentTable[n].name;
-			if(SegmentTable[n].pData) delete SegmentTable[n].pData;
-			if(SegmentTable[n].pCode) delete SegmentTable[n].pCode;
-			if(SegmentTable[n].Files_list) 
-			{
-				SegmentTable[n].Files_list->Release();
-				delete SegmentTable[n].Files_list;
-			}
-			SegmentTable[n].Files_list = nullptr;
 
+	for(n=0;n<SegmentsNum;n++)
+	{
+		if(SegmentTable[n].name) delete SegmentTable[n].name;
+		if(SegmentTable[n].pData) delete SegmentTable[n].pData;
+		if(SegmentTable[n].pCode) delete SegmentTable[n].pCode;
+		if(SegmentTable[n].Files_list) 
+		{
+			SegmentTable[n].Files_list->Release();
+			delete SegmentTable[n].Files_list;
 		}
-		delete SegmentTable; SegmentTable = nullptr;
-		SegmentsNum = 0;
+		SegmentTable[n].Files_list = nullptr;
+
 	}
+	SegmentTable.clear();
+	SegmentsNum = 0;
 	LabelTable.Release();
 	LabelUpdateTable.Release();
 	Token.Reset();
@@ -195,9 +190,7 @@ void COMPILER::Release()
 	nDebExpBufferSize = 0;
 
 	
-	if(pRuntimeLogEvent) delete pRuntimeLogEvent;
 	nRuntimeLogEventsNum = 0;
-	pRuntimeLogEvent = nullptr;
 	nRuntimeLogEventsBufferSize = 0;
 
 	rAX.Release();
@@ -364,7 +357,11 @@ bool COMPILER::AppendProgram(char * & pBase_program, uint32_t & Base_program_siz
 	if(pAppend_program == nullptr) return false;
 	if(bAddLinefeed)
 	{
-		pBase_program = (char *)RESIZE(pBase_program,Base_program_size + Append_program_size + 3); // +1 for terminating zero, +1 for 0xd +1 for 0xa
+		//pBase_program = (char *)RESIZE(pBase_program,Base_program_size + Append_program_size + 3); // +1 for terminating zero, +1 for 0xd +1 for 0xa
+		const auto newPtr = new char[Base_program_size + Append_program_size + 3];
+		memcpy(newPtr, pBase_program, Base_program_size);
+		delete pBase_program;
+		pBase_program = newPtr;
 		Base_program_size = Base_program_size + Append_program_size + 2;
 		memcpy(&pBase_program[offset],pAppend_program,Append_program_size);
 		pBase_program[Base_program_size - 2] = 0xd; // code blocks separator to prevent data merging
@@ -374,7 +371,11 @@ bool COMPILER::AppendProgram(char * & pBase_program, uint32_t & Base_program_siz
 		Append_program_size += 2;
 		return true;
 	}
-		pBase_program = (char *)RESIZE(pBase_program,Base_program_size + Append_program_size + 2); // +1 for terminating zero, +1 for ';'
+		//pBase_program = (char *)RESIZE(pBase_program,Base_program_size + Append_program_size + 2); // +1 for terminating zero, +1 for ';'
+		const auto newPtr = new char[Base_program_size + Append_program_size + 2];
+		memcpy(newPtr, pBase_program, Base_program_size);
+		delete pBase_program;
+		pBase_program = newPtr;
 		Base_program_size = Base_program_size + Append_program_size + 1;
 		memcpy(&pBase_program[offset],pAppend_program,Append_program_size);
 		pBase_program[Base_program_size - 1] = ';'; // code blocks separator to prevent data merging
@@ -942,7 +943,8 @@ bool COMPILER::BC_LoadSegment(char * file_name)
 
 	index = SegmentsNum;
 	SegmentsNum++;
-	SegmentTable = (SEGMENT_DESC *)RESIZE(SegmentTable,SegmentsNum*sizeof(SEGMENT_DESC));
+	//SegmentTable = (SEGMENT_DESC *)RESIZE(SegmentTable,SegmentsNum*sizeof(SEGMENT_DESC));
+	SegmentTable.resize(SegmentsNum);
 
 	const auto len = strlen(file_name) + 1;
 	SegmentTable[index].name = NEW char[len];
@@ -963,7 +965,8 @@ bool COMPILER::BC_LoadSegment(char * file_name)
 		delete SegmentTable[index].name;
 		delete SegmentTable[index].Files_list;
 		SegmentsNum--;
-		SegmentTable = (SEGMENT_DESC *)RESIZE(SegmentTable,SegmentsNum*sizeof(SEGMENT_DESC));
+		//SegmentTable = (SEGMENT_DESC *)RESIZE(SegmentTable,SegmentsNum*sizeof(SEGMENT_DESC));
+		SegmentTable.resize(SegmentsNum);
 		FuncTab.InvalidateBySegmentID(id);
 		VarTab.InvalidateBySegmentID(id);
 		ClassTab.InvalidateBySegmentID(id);
@@ -982,7 +985,11 @@ bool COMPILER::ProcessDebugExpression(char * pExpression, DATA & Result)
 	nDataSize = strlen(pExpression) + strlen("return ") + 2;
 	if(nDataSize > nDebExpBufferSize)
 	{
-		pDebExpBuffer = (char *)RESIZE(pDebExpBuffer,nDataSize);
+	//	pDebExpBuffer = (char *)RESIZE(pDebExpBuffer,nDataSize);
+		auto newPtr = new char[nDataSize];
+		memcpy(newPtr, pDebExpBuffer, nDebExpBufferSize);
+		delete pDebExpBuffer;
+		pDebExpBuffer = newPtr;
 		nDebExpBufferSize = nDataSize;
 	}
 	sprintf_s(pDebExpBuffer, nDebExpBufferSize, "return %s;",pExpression);
@@ -997,7 +1004,11 @@ bool COMPILER::SetOnDebugExpression(char * pLValue, char * pRValue, DATA & Resul
 	uint32_t nDataSize = strlen(pLValue) + strlen(pRValue) + 5;
 	if(nDataSize > nDebExpBufferSize)
 	{
-		pDebExpBuffer = (char *)RESIZE(pDebExpBuffer,nDataSize);
+		//pDebExpBuffer = (char *)RESIZE(pDebExpBuffer,nDataSize);
+		auto newPtr = new char[nDataSize];
+		memcpy(newPtr, pDebExpBuffer, nDebExpBufferSize);
+		delete pDebExpBuffer;
+		pDebExpBuffer = newPtr;
 		nDebExpBufferSize = nDataSize;
 	}
 	sprintf_s(pDebExpBuffer,nDataSize,"%s = %s;",pLValue,pRValue);
@@ -1128,7 +1139,8 @@ void COMPILER::ProcessFrame(uint32_t DeltaTime)
 			SegmentTable[i] = SegmentTable[i+1];
 		}
 		SegmentsNum--;
-		SegmentTable = (SEGMENT_DESC *)RESIZE(SegmentTable,SegmentsNum*sizeof(SEGMENT_DESC));
+		//SegmentTable = (SEGMENT_DESC *)RESIZE(SegmentTable,SegmentsNum*sizeof(SEGMENT_DESC));
+		SegmentTable.resize(SegmentsNum);
 		// reset search
 		n = 0;
 	}
@@ -1165,7 +1177,11 @@ void COMPILER::ResizeBCodeBuffer(SEGMENT_DESC& Segment,uint32_t add_size)
 	if((Segment.BCode_Program_size + add_size) >= Segment.BCode_Buffer_size)
 	{
 		Segment.BCode_Buffer_size += BCODE_BUFFER_BLOCKSIZE;
-		Segment.pCode = (char *)RESIZE(Segment.pCode,Segment.BCode_Buffer_size);
+		//Segment.pCode = (char *)RESIZE(Segment.pCode,Segment.BCode_Buffer_size);
+		auto newPtr = new char[Segment.BCode_Buffer_size];
+		memcpy(newPtr, Segment.pCode, Segment.BCode_Program_size);
+		delete Segment.pCode;
+		Segment.pCode = newPtr;
 	}
 }
 
@@ -1196,8 +1212,11 @@ void COMPILER::CompileToken(SEGMENT_DESC& Segment,S_TOKEN_TYPE Token_type, uint3
 		return;
 	}
 
-	pCompileTokenTempBuffer = (char *)RESIZE(pCompileTokenTempBuffer,data_blocks_num * (sizeof(char *) + sizeof(uint32_t)));
-	
+	//pCompileTokenTempBuffer = (char *)RESIZE(pCompileTokenTempBuffer,data_blocks_num * (sizeof(char *) + sizeof(uint32_t)));
+	auto newPtr = new char[data_blocks_num * (sizeof(char *) + sizeof(uint32_t))];
+	delete pCompileTokenTempBuffer;
+	pCompileTokenTempBuffer = newPtr;
+
 	// gather data blocks information and count total data size ----------------
 	va_start(args,data_blocks_num);
 	write_size = 0;
@@ -1946,13 +1965,19 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 					switch (Token.Get())
 					{
 					case SEPARATOR:
+					{
 						// this is single variable declaration
 						// add class component
 						cc.nFlags = CCF_VARIABLE;
 						ci.nComponentsNum++;
-						ci.pComponent = (CLASS_COMPONENT *)RESIZE(ci.pComponent, ci.nComponentsNum * sizeof(CLASS_COMPONENT));
-						ci.pComponent[ci.nComponentsNum - 1] = cc;
+						//ci.pComponent = (CLASS_COMPONENT *)RESIZE(ci.pComponent, ci.nComponentsNum * sizeof(CLASS_COMPONENT));
+						auto newPtr = new CLASS_COMPONENT[ci.nComponentsNum];
+						memcpy(newPtr, ci.pComponent, (ci.nComponentsNum - 1) * sizeof(CLASS_COMPONENT));
+						delete ci.pComponent;
+						ci.pComponent = newPtr;
 
+						ci.pComponent[ci.nComponentsNum - 1] = cc;
+					}
 						break;
 					case OPEN_BRACKET:
 						// this is function declaration
@@ -1960,6 +1985,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 						while (Token.Get() != SEPARATOR) {};
 						break;
 					case SQUARE_OPEN_BRACKET:
+					{
 						// this is array declaration
 						switch (Token.Get())	// array dimension
 						{
@@ -1988,18 +2014,29 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 						Token.Get();	// next token
 						cc.nFlags = CCF_VARARRAY;
 						ci.nComponentsNum++;
-						ci.pComponent = (CLASS_COMPONENT *)RESIZE(ci.pComponent, ci.nComponentsNum * sizeof(CLASS_COMPONENT));
-						ci.pComponent[ci.nComponentsNum - 1] = cc;
+						//ci.pComponent = (CLASS_COMPONENT *)RESIZE(ci.pComponent, ci.nComponentsNum * sizeof(CLASS_COMPONENT));
+						auto newPtr = new CLASS_COMPONENT[ci.nComponentsNum];
+						memcpy(newPtr, ci.pComponent, (ci.nComponentsNum - 1) * sizeof(CLASS_COMPONENT));
+						delete ci.pComponent;
+						ci.pComponent = newPtr;
 
+						ci.pComponent[ci.nComponentsNum - 1] = cc;
+					}
 						break;
 					case COMMA:
+					{
 						// this is several variables declaration
 						// add class component
 						cc.nFlags = CCF_VARIABLE;
 						ci.nComponentsNum++;
-						ci.pComponent = (CLASS_COMPONENT *)RESIZE(ci.pComponent, ci.nComponentsNum * sizeof(CLASS_COMPONENT));
-						ci.pComponent[ci.nComponentsNum - 1] = cc;
+						//ci.pComponent = (CLASS_COMPONENT *)RESIZE(ci.pComponent, ci.nComponentsNum * sizeof(CLASS_COMPONENT));
+						auto newPtr = new CLASS_COMPONENT[ci.nComponentsNum];
+						memcpy(newPtr, ci.pComponent, (ci.nComponentsNum - 1) * sizeof(CLASS_COMPONENT));
+						delete ci.pComponent;
+						ci.pComponent = newPtr;
 
+						ci.pComponent[ci.nComponentsNum - 1] = cc;
+					}
 						break;
 
 					default:
@@ -5463,7 +5500,12 @@ void COMPILER::SaveData(const void * data_PTR, uint32_t data_size)
 	if (dwCurPointer + data_size > dwMaxSize)
 	{
 		uint32_t dwNewAllocate = (1 + (dwCurPointer + data_size) / (1024*1024)) * (1024*1024);
-		pBuffer = (char*)RESIZE(pBuffer, dwNewAllocate);
+		//pBuffer = (char*)RESIZE(pBuffer, dwNewAllocate);
+		auto newPtr = new char[dwNewAllocate];
+		memcpy(newPtr, pBuffer, dwMaxSize);
+		delete pBuffer;
+		pBuffer = newPtr;
+
 		dwMaxSize = dwNewAllocate;
 	}
 
@@ -5605,7 +5647,11 @@ ATTRIBUTES * COMPILER::TraceARoot(ATTRIBUTES * pA, char * & pAccess)
 	else
 	{
 		const auto len = slen + strlen(pAccess) + 1;
-		pAS = (char *)RESIZE(pAS, len);
+		//pAS = (char *)RESIZE(pAS, len);
+		auto newPtr = new char[len];
+		memcpy(newPtr, pAS, len);
+		delete pAS;
+		pAS = newPtr;
 		strcat_s(pAS, len, ".");
 		strcat_s(pAS, len, pAccess);
 		delete pAccess;
@@ -6632,7 +6678,8 @@ void COMPILER::AddRuntimeEvent()
 	{
 		if(nRuntimeLogEventsBufferSize == 0) nRuntimeLogEventsBufferSize = 180;
 		else nRuntimeLogEventsBufferSize *= 2;
-		pRuntimeLogEvent = (uint32_t *)RESIZE(pRuntimeLogEvent,nRuntimeLogEventsBufferSize*sizeof(uint32_t));
+		//pRuntimeLogEvent = (uint32_t *)RESIZE(pRuntimeLogEvent,nRuntimeLogEventsBufferSize*sizeof(uint32_t));
+		pRuntimeLogEvent.resize(nRuntimeLogEventsBufferSize);
 	}
 	pRuntimeLogEvent[nRuntimeLogEventsNum - 1] = nRuntimeTicks;
 	nRuntimeTicks = 0;

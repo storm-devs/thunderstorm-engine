@@ -1,8 +1,9 @@
 #ifndef _DSTRING_CODEC_H_
 #define _DSTRING_CODEC_H_
 
-#include <memory.h>
+
 #include "../../Common_h/memop.h"
+#include <malloc.h>
 
 #define DHASH_TABLE_SIZE	255
 #define DHASH_SINGLESYM		DHASH_TABLE_SIZE
@@ -49,7 +50,7 @@ public:
 			if(HTable[m].ppDat)
 			{
 				for(n=0;n<HTable[m].nStringsNum;n++) delete HTable[m].ppDat[n].pDString;
-				delete HTable[m].ppDat;
+				free(HTable[m].ppDat);
 			}
 			HTable[m].ppDat = nullptr; HTable[m].nStringsNum = 0;
 		}
@@ -98,7 +99,7 @@ public:
 
 		n = HTable[nTableIndex].nStringsNum;
 		HTable[nTableIndex].nStringsNum++;
-		HTable[nTableIndex].ppDat = (HTSUBELEMENT*)RESIZE(HTable[nTableIndex].ppDat,HTable[nTableIndex].nStringsNum * sizeof(HTSUBELEMENT));
+		HTable[nTableIndex].ppDat = (HTSUBELEMENT*)realloc(HTable[nTableIndex].ppDat,HTable[nTableIndex].nStringsNum * sizeof(HTSUBELEMENT));
 
 		HTable[nTableIndex].ppDat[n].pDString = NEW char[nDataSize];
 		HTable[nTableIndex].ppDat[n].nSize = nDataSize;

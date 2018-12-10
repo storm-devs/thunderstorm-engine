@@ -112,7 +112,7 @@ class COMPILER : public VIRTUAL_COMPILER
 	STRINGS_LIST LabelUpdateTable;
 	TOKEN	Token;
 	MESSAGE * pEventMessage;
-	SEGMENT_DESC * SegmentTable;
+	std::vector<SEGMENT_DESC> SegmentTable;
 	uint32_t SegmentsNum;
 	uint32_t RunningSegmentID;
 	uint32_t InstructionPointer;
@@ -142,7 +142,7 @@ class COMPILER : public VIRTUAL_COMPILER
 	bool bRuntimeLog;
 	uint32_t nRuntimeLogEventsBufferSize;
 	uint32_t nRuntimeLogEventsNum;
-	uint32_t * pRuntimeLogEvent;
+	std::vector<uint32_t> pRuntimeLogEvent;
 	uint32_t nRuntimeTicks;
 
 	bool bFirstRun;

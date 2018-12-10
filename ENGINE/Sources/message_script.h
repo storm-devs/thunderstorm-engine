@@ -22,7 +22,7 @@ protected:
 	//long index;
 public:
 	 MESSAGE_SCRIPT(){format = nullptr; index = 0; pData = nullptr; Data_size = 0; ReadPointer = nullptr;};
-	~MESSAGE_SCRIPT(){if(format) delete format; format = nullptr; if(pData) delete pData; pData = nullptr;};
+	~MESSAGE_SCRIPT(){ delete format; free(pData);};
 	ENTITY_ID Sender_ID;
 	void Move2Start() {ResetIndex();};
 	//va_list args;
@@ -52,7 +52,7 @@ public:
 			break;
 			default: throw "Invalid MESSAGE_SCRIPT data type";
 		}
-		pData = (char *)RESIZE(pData,Data_size + arg_size);
+		pData = (char *)realloc(pData,Data_size + arg_size);
 		if(GetCurrentFormatType() == 's' && data == nullptr)
 		{
 			char bf = 0;
@@ -164,8 +164,10 @@ public:
 		index = 0; 
 		strcpy_s(format, len, _format);
 		//format =  _format; 
-		if(pData) delete pData;
-		pData = nullptr; Data_size = 0; ReadPointer = nullptr;
+		free(pData);
+		pData = nullptr; 
+		Data_size = 0; 
+		ReadPointer = nullptr;
 		index = 0;
 	}
 	char GetCurrentFormatType()

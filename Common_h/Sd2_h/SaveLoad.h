@@ -42,7 +42,7 @@ public:
 
 			delete[] pFFSave;
 		}
-		STORM_DELETE(pSaveBuffer);
+		free(pSaveBuffer);
 	}
 
 	void CreateWrite()
@@ -67,7 +67,7 @@ public:
 		strncpy_s(str, pSave, 8);
 		str[8] = 0;
 		sscanf(str, "%x", &dwSize);
-		pSaveBuffer = NEW char[dwSize];
+		pSaveBuffer = (char*)malloc(dwSize);
 		for (uint32_t i=0; i<dwSize; i++)
 		{
 			strncpy_s(str, &pSave[8 + i * 2], 2); str[2] = 0;
@@ -82,7 +82,7 @@ public:
 		if (dwMaxSize <= dwCurSize + dwSize)
 		{
 			dwMaxSize = 2048 * ((dwCurSize + dwSize + 2048) / 2048);
-			pSaveBuffer = (char *)RESIZE(pSaveBuffer, dwMaxSize);
+			pSaveBuffer = (char*)realloc(pSaveBuffer, dwMaxSize);
 		}
 		memcpy(&pSaveBuffer[dwCurSize], pBuffer, dwSize);
 		dwCurSize += dwSize;

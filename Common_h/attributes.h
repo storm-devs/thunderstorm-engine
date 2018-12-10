@@ -148,7 +148,6 @@ public:
 
 	void ReleaseLeafs()
 	{
-		uint32_t n;
 		for (const auto & attribute : pAttributes)
 			delete attribute;
 		pAttributes.clear();
@@ -426,15 +425,16 @@ public:
 			{
 				if(attribute)
 				{
-					delete pAttributes[n]->Attribute;
+					const auto oldPtr = pAttributes[n]->Attribute;
 					pAttributes[n]->Attribute = new char[len];
 					strcpy_s(pAttributes[n]->Attribute, len, attribute);
+					delete[] oldPtr;
 				}
 				else
 				{
 					if(pAttributes[n]->Attribute)
 					{
-						delete pAttributes[n]->Attribute;
+						delete[] pAttributes[n]->Attribute;
 					}
 					pAttributes[n]->Attribute = nullptr;
 				}
