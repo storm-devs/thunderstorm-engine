@@ -19,14 +19,14 @@
 
 class AnimationImp;
 
-class AnimationServiceImp : public AnimationService
+class AnimationServiceImp final : public AnimationService
 {
 //--------------------------------------------------------------------------------------------
 //Конструирование, деструктурирование
 //--------------------------------------------------------------------------------------------
 public:
 	AnimationServiceImp();
-	virtual ~AnimationServiceImp();
+	~AnimationServiceImp();
 	
 	//Место исполнения
 	virtual uint32_t RunSection();
@@ -56,11 +56,8 @@ private:
 	bool LoadAN(const char * fname, AnimationInfo * info);
 
 	
-	AnimationInfo ** ainfo;
-	long numInfos;
-
-	AnimationImp ** animation;
-	long numAnimations;
+	std::vector<AnimationInfo *> ainfo;
+	std::vector<AnimationImp *> animations;
 
 	static char key[1024];
 };

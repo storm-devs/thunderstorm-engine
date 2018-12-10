@@ -21,14 +21,14 @@
 
 class AnimationServiceImp;
 
-class AnimationImp : public Animation
+class AnimationImp final : public Animation
 {
 //--------------------------------------------------------------------------------------------
 //Конструирование, деструктурирование
 //--------------------------------------------------------------------------------------------
 public:
 	AnimationImp(long id, AnimationInfo * animationInfo);
-	virtual ~AnimationImp();
+	~AnimationImp();
 
 	//Установить указатель на сервис анимации
 	static void SetAnimationService(AnimationServiceImp * animationService);

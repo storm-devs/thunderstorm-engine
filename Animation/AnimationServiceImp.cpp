@@ -63,31 +63,22 @@ char AnimationServiceImp::key[1024];
 
 AnimationServiceImp::AnimationServiceImp()
 {
-	ainfo = nullptr;
-	numInfos = 0;
-	animation = nullptr;
-	numAnimations = 0;
 	AnimationImp::SetAnimationService(this);
 }
 
 AnimationServiceImp::~AnimationServiceImp()
 {
-	if(animation)
+	for (const auto & animation : animations)
 	{
-		for(long i = 0; i < numAnimations; i++)
-			if(animation[i])
-			{
-				_CORE_API->Trace("No release Animation pnt:0x%x for %s.ani", animation[i], animation[i]->GetAnimationInfo()->GetName());
-				delete animation[i];
-			}
-		delete animation;
+		if (animation)
+		{
+			_CORE_API->Trace("No release Animation pnt:0x%x for %s.ani", animation, animation->GetAnimationInfo()->GetName());
+			delete animation;
+		}
 	}
-	if(ainfo)
-	{
-		for(long i = 0; i < numInfos; i++)
-				if(ainfo[i]) delete ainfo[i];
-		delete ainfo;
-	}
+
+	for(const auto & info : ainfo)
+		delete info;
 }
 
 //============================================================================================
@@ -107,7 +98,7 @@ void AnimationServiceImp::RunStart()
 	uint32_t dltTime = _CORE_API->GetDeltaTime();
 	if(dltTime > 1000) dltTime = 1000;
 	//Просмотрим все анимации
-	for(long i = 0; i < numInfos; i++)
+	for(long i = 0; i < ainfo.size(); i++)
 		if(ainfo[i])
 		{
 			ainfo[i]->AddDowntime(dltTime);
@@ -120,13 +111,13 @@ void AnimationServiceImp::RunStart()
 			}
 		}
 	//Исполним все анимации
-	for(int i = 0; i < numAnimations; i++)
-		if(animation[i])
+	for(int i = 0; i < animations.size(); i++)
+		if(animations[i])
 		{
 			long dt;
 			for(dt = dltTime; dt > ASRV_MAXDLTTIME; dt -= ASRV_MAXDLTTIME)
-								animation[i]->Execute(ASRV_MAXDLTTIME);
-			if(dt > 0) animation[i]->Execute(dt);
+								animations[i]->Execute(ASRV_MAXDLTTIME);
+			if(dt > 0) animations[i]->Execute(dt);
 			//_CORE_API->Trace("Animation: 0x%.8x Time: %f", animation[i], animation[i]->Player(0).GetPosition());
 		}
 }
@@ -141,37 +132,35 @@ Animation * AnimationServiceImp::CreateAnimation(const char * animationName)
 {
 	//Ищем анимацию, если нет, то загружаем
 	long i;
-	for(i = 0; i < numInfos; i++)
+	for(i = 0; i < ainfo.size(); i++)
 		if(ainfo[i])
 		{
 			if(ainfo[i][0] == animationName) break;
 		}
-	if(i == numInfos)
+	if(i == ainfo.size())
 	{
 		i = LoadAnimation(animationName);
 		if(i < 0) return nullptr;
 	}
 	long aniIndex = i;
 	//Анимация загружена, создаём менеджер анимации
-	for(i = 0; i < numAnimations; i++)
-		if(!animation[i])  break;
-	if(i == numAnimations)
+	for(i = 0; i < animations.size(); i++)
+		if(!animations[i])  break;
+	if(i == animations.size())
 	{
-		numAnimations += 64;
-		animation = (AnimationImp **)RESIZE(animation, numAnimations*4);
-		for(long j = i; j < numAnimations; j++) animation[j] = nullptr;
+		animations.emplace_back(nullptr);;
 	}
-	animation[i] = NEW AnimationImp(i, ainfo[aniIndex]);
-	return animation[i];
+	animations[i] = NEW AnimationImp(i, ainfo[aniIndex]);
+	return animations[i];
 }
 
 //Удалить анимацию (вызывается из деструктора)
 void AnimationServiceImp::DeleteAnimation(AnimationImp * ani)
 {
 	Assert(ani);
-	Assert(ani->GetThisID() >= 0 || ani->GetThisID() < numAnimations);
-	Assert(animation[ani->GetThisID()] == ani);
-	animation[ani->GetThisID()] = nullptr;
+	Assert(ani->GetThisID() >= 0 || ani->GetThisID() < animations.size());
+	Assert(animations[ani->GetThisID()] == ani);
+	animations[ani->GetThisID()] = nullptr;
 }
 
 //Событие
@@ -386,15 +375,12 @@ long AnimationServiceImp::LoadAnimation(const char * animationName)
 	delete ani;
 	//Ищем свободный указатель
 	long i;
-	for(i = 0; i < numInfos; i++)
-					if(!ainfo[i]) break;
+	for(i = 0; i < ainfo.size(); i++)
+		if(!ainfo[i]) break;
 	//Если нет такого, расширем массив
-	if(i == numInfos)
-	{
-		numInfos += 64;
-		ainfo = (AnimationInfo **)RESIZE(ainfo, numInfos*4);
-		for(long j = i; j < numInfos; j++) ainfo[j] = nullptr;
-	}
+	if(i == ainfo.size())
+		ainfo.emplace_back(nullptr);
+
 	ainfo[i] = info;
 	return i;
 }

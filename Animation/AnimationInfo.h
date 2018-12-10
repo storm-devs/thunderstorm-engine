@@ -17,14 +17,14 @@
 #include <vector>
 #include <string>
 
-class AnimationInfo  
+class AnimationInfo final
 {
 //--------------------------------------------------------------------------------------------
 //Конструирование, деструктурирование
 //--------------------------------------------------------------------------------------------
 public:
 	AnimationInfo(const char * animationName);
-	virtual ~AnimationInfo();
+	~AnimationInfo();
 	//Установить количество кадров в анимации
 	void SetNumFrames(long _numFrames);
 	//Создать кости
