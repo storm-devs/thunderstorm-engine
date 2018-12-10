@@ -31,16 +31,16 @@ public:
 		if (bSave)
 		{
 			const auto size = dwCurSize * 2 + 8 + 1;
-			char * pFFSave = NEW char[size];
+			auto pFFSave = new char[size];
 			sprintf_s(pFFSave, size, "%.8x", dwCurSize);
 			for (uint32_t i=0; i<dwCurSize; i++)
-				sprintf_s(&pFFSave[8 + i * 2], size, "%.2x", uint8_t(pSaveBuffer[i]));
+				sprintf_s(&pFFSave[8 + i * 2], 3, "%.2x", uint8_t(pSaveBuffer[i]));
 
 			VDATA * pV = api->Event("SeaLoad_GetPointer", "sl", "seasave", -1);
 			if (pV)
 				pV->GetAClass()->SetAttribute("save", pFFSave);
 
-			STORM_DELETE(pFFSave);
+			delete[] pFFSave;
 		}
 		STORM_DELETE(pSaveBuffer);
 	}
