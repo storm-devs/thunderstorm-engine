@@ -4,6 +4,7 @@
 #include "../../Common_h/entity_id.h"
 #include "common_h.h"
 #include "idwalker.h"
+#include <vector>
 
 #define _MAX_LAYER_NAME		290
 
@@ -52,7 +53,7 @@ public:
 
 	VIDWALKER * GetWalker();
 	void DelWalker(void *);
-	IDWALKER * * walkers;
+	std::vector<IDWALKER*> walkers;
 	uint32_t walkers_num;
 
 	ENTITY_ID * WalkerGetID(LPBYTE& sl);

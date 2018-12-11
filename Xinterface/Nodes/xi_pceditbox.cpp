@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "xi_pceditbox.h"
 #include "xi_image.h"
-#include "../../InterfaceEditor/InterfaceEditor.h"
+#include "xi_util.h"
 
 #define WIDTH_SCALE_USED	0.9f
 #define HEIGHT_SCALE_USED	0.9f

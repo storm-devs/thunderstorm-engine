@@ -3,6 +3,7 @@
 
 //#include <windows.h>
 #include "token.h"
+#include <vector>
 
 struct LOOPBLOCK
 {
@@ -13,12 +14,11 @@ struct LOOPBLOCK
 
 class LOOPSTACK
 {
-	LOOPBLOCK * pBlock;
+	std::vector<LOOPBLOCK> pBlock;
 	long Block_Num;
 	long Block_Size;
 public:
 	 LOOPSTACK();
-	~LOOPSTACK();
 	void Push(LOOPBLOCK block);
 	bool Pop(LOOPBLOCK * pblock);
 	bool Read(LOOPBLOCK * pblock);

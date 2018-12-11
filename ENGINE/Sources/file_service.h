@@ -80,14 +80,6 @@ public:
 
 };
 
-#define CACHEDIRSTABLESIZE	1024
-struct HASHLINEDESC
-{
-	HASHLINEDESC(){dwElementsNum = 0; pDirName = nullptr;};
-	uint32_t dwElementsNum;
-	char ** pDirName;
-};
-
 class FILE_SERVICE : public VFILE_SERVICE
 {
 protected:
@@ -95,8 +87,6 @@ protected:
 	IFS * OpenFiles[_MAX_OPEN_INI_FILES];
 	uint32_t Files_Num;
 	uint32_t Max_File_Index;
-
-	HASHLINEDESC CacheDirs[CACHEDIRSTABLESIZE];
 
 public:
 

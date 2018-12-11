@@ -1,14 +1,10 @@
 #ifndef _ENTITY_STATE_R_H_
 #define _ENTITY_STATE_R_H_
 
-#ifndef _XBOX
 #include <Windows.h>
-#else
-#include <xtl.h>
-#endif
-
 #include "../../Common_h/entity_state.h"
 #include "../../Common_h/vfile_service.h"
+#include <vector>
 
 #define INITIAL_BUFFER_SIZE		1024
 
@@ -16,7 +12,7 @@ class ENTITY_STATE_GEN_R : public ENTITY_STATE_GEN
 {
 	HANDLE file_handle;
 	VFILE_SERVICE * fio;
-	char * Buffer;
+	std::vector<char> Buffer;
 	uint32_t  Buffer_size;
 	uint32_t  Data_size;
 	char * Format_string;

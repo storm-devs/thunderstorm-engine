@@ -2,7 +2,7 @@
 #include "xi_table.h"
 #include "xi_scroller.h"
 #include "../../Common_h/strutils.h"
-#include "../../InterfaceEditor/InterfaceEditor.h"
+#include "xi_util.h"
 
 #define ALIGN_BOTTOM	16
 #define ALIGN_TOP		17

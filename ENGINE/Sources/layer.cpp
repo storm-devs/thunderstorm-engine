@@ -12,7 +12,6 @@ LAYER::LAYER(char * name,bool ordered,bool system,uint32_t system_flags)
 	Count = 0;
 	ls.System_flags = system_flags;
 	strcpy_s(Name,name);
-	walkers = nullptr;
 	walkers_num = 0;
 } 
 
@@ -29,7 +28,6 @@ LAYER::~LAYER()
 			delete walkers[n];
 		}
 	}
-	if(walkers) delete walkers;
 }
 
 bool LAYER::Add(ENTITY_ID eid)
@@ -251,8 +249,7 @@ VIDWALKER * LAYER::GetWalker()
 {
 	TIDWALKER * tidw;
 
-	if(walkers == nullptr) walkers = (IDWALKER **)NEW char[sizeof(IDWALKER *)]; 
-	else walkers = (IDWALKER **)RESIZE(walkers,(walkers_num + 1)*sizeof(IDWALKER *)); 
+	walkers.resize(walkers_num + 1); 
 
 	walkers[walkers_num] = NEW IDWALKER;
 
@@ -274,8 +271,6 @@ void LAYER::DelWalker(void * pw)
 			if(walkers_num == 1)
 			{
 				delete walkers[0];
-				delete walkers;
-				walkers = nullptr;
 				walkers_num = 0;
 				return;
 			}
@@ -285,7 +280,7 @@ void LAYER::DelWalker(void * pw)
 				walkers[n] = walkers[n + 1];
 			}
 			walkers_num--;
-			walkers = (IDWALKER**)RESIZE(walkers,walkers_num*sizeof(IDWALKER *));
+			walkers.resize(walkers_num);
 			return;
 		}
 	}

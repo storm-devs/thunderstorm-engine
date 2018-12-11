@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "xi_checkbuttons.h"
-#include "../../InterfaceEditor/InterfaceEditor.h"
+#include "xi_util.h"
 
 #define PicName(bDisable,bSelect) ( (bDisable && !m_sDisablePicture.empty()) ? m_sDisablePicture : ((bSelect) ? m_sSelectPicture : m_sNormalPicture) )
 #define PicColor(bDisable,bSelect) ( (bDisable) ? m_dwDisablePicColor : ((bSelect) ? m_dwSelectPicColor : m_dwNormalPicColor) )

@@ -2,10 +2,11 @@
 #define _HASHHOLD_H_
 
 #include "../../Common_h/vmodule_api.h"
+#include <vector>
 
 class HASHHOLD
 {
-	uint32_t * * pHashTable;
+	std::vector<std::vector<uint32_t>> pHashTable;
 	uint32_t * pLineSize;
 	uint32_t dwHashTableSize;
 public:

@@ -3,14 +3,8 @@
 
 LOOPSTACK::LOOPSTACK()
 {
-	pBlock = nullptr;
 	Block_Num = 0;
 	Block_Size = 0;
-}
-
-LOOPSTACK::~LOOPSTACK()
-{
-	STORM_DELETE(pBlock);
 }
 
 void LOOPSTACK::Push(LOOPBLOCK block)
@@ -18,15 +12,7 @@ void LOOPSTACK::Push(LOOPBLOCK block)
 	Block_Num++;
 	if(Block_Num >= Block_Size)
 	{
-		if(Block_Size == 0)
-		{
-
-			pBlock = (LOOPBLOCK *)NEW char[sizeof(LOOPBLOCK)];
-			pBlock[0] = block;
-			Block_Size = 1;
-			return;
-		}
-		pBlock = (LOOPBLOCK *)RESIZE(pBlock,Block_Num * sizeof(LOOPBLOCK));
+		pBlock.resize(Block_Num);
 		Block_Size = Block_Num;
 		pBlock[Block_Num - 1] = block;
 	}

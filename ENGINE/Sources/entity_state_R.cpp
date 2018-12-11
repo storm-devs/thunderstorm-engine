@@ -9,7 +9,6 @@ char Signature_Buff[] = "ES";
 
 ENTITY_STATE_GEN_R::ENTITY_STATE_GEN_R()
 {
-	Buffer = nullptr;
 	Buffer_size = 0;
 	Data_size = 0;
 	Format_string = nullptr;
@@ -17,8 +16,7 @@ ENTITY_STATE_GEN_R::ENTITY_STATE_GEN_R()
 
 ENTITY_STATE_GEN_R::~ENTITY_STATE_GEN_R()
 {
-	if(Buffer) delete Buffer;
-	if(Format_string) delete Format_string;
+	delete Format_string;
 }
 
 void ENTITY_STATE_GEN_R::Init(VFILE_SERVICE * _fio,HANDLE _file_handle)
@@ -60,7 +58,7 @@ void ENTITY_STATE_GEN_R::CloseState()
 	if(dwR != sizeof(Data_size)) THROW;
 
 	// write data
-	fio->_WriteFile(file_handle,Buffer,Data_size,&dwR);
+	fio->_WriteFile(file_handle,Buffer.data(),Data_size,&dwR);
 	if(dwR != Data_size) THROW;
 
 	// reset buffer pointer and format string
@@ -78,9 +76,8 @@ void ENTITY_STATE_GEN_R::VerifyFreeSpace(uint32_t add_data_size)
 	GUARD(ENTITY_STATE_GEN_R::VerifyFreeSpace)
 	if((Data_size + add_data_size) >= Buffer_size) 
 	{
-		Buffer = (char *)RESIZE(Buffer,Buffer_size*2);
-		if(Buffer == nullptr) THROW;
-		Buffer_size = Buffer_size*2;
+		Buffer_size <<= 1;
+		Buffer.resize(Buffer_size);
 	}
 	UNGUARD
 }
@@ -90,7 +87,7 @@ void ENTITY_STATE_GEN_R::CopyData(uint32_t add_data_size)
 {
 	GUARD(ENTITY_STATE_GEN_R::CopyData)
 	VerifyFreeSpace(add_data_size);
-	memcpy(Buffer + Data_size,(char *)args,add_data_size);
+	memcpy(Buffer.data() + Data_size,(char *)args,add_data_size);
 	args += add_data_size;
 	Data_size += add_data_size;
 	UNGUARD
@@ -120,12 +117,10 @@ void _cdecl ENTITY_STATE_GEN_R::SetState(char * Format,...)
 	}
 
 	// allocate memory for buffer, if mem still not allocated
-	if(Buffer == nullptr)
+	if(Buffer.empty())
 	{
-
-		Buffer = (char *)NEW char[INITIAL_BUFFER_SIZE];
-		if(Buffer == nullptr) THROW;
 		Buffer_size = INITIAL_BUFFER_SIZE;
+		Buffer.resize(Buffer_size);
 	}
 
 	// read data to buffer
@@ -146,29 +141,29 @@ void _cdecl ENTITY_STATE_GEN_R::SetState(char * Format,...)
 				VerifyFreeSpace(sizeof(uint32_t));
 				tcharPTR = va_arg(args,char*);
 				sizeofstruct = strlen(tcharPTR) + 1;
-				memcpy(Buffer + Data_size,(char *)&sizeofstruct,sizeof(uint32_t));
+				memcpy(Buffer.data() + Data_size,(char *)&sizeofstruct,sizeof(uint32_t));
 				Data_size += sizeof(uint32_t);
 				VerifyFreeSpace(sizeofstruct);
-				memcpy(Buffer + Data_size,tcharPTR,sizeofstruct);
+				memcpy(Buffer.data() + Data_size,tcharPTR,sizeofstruct);
 				Data_size += sizeofstruct;
 			break;
 			case 'm':
 				VerifyFreeSpace(sizeof(uint32_t));
 				sizeofstruct = va_arg(args,uint32_t);
-				memcpy(Buffer + Data_size,(char *)&sizeofstruct,sizeof(uint32_t));
+				memcpy(Buffer.data() + Data_size,(char *)&sizeofstruct,sizeof(uint32_t));
 				Data_size += sizeof(uint32_t);
 				VerifyFreeSpace(sizeofstruct);
 				tcharPTR = va_arg(args,char*);
-				memcpy(Buffer + Data_size,tcharPTR,sizeofstruct);
+				memcpy(Buffer.data() + Data_size,tcharPTR,sizeofstruct);
 				Data_size += sizeofstruct;
 			break;
 			case 'v':
 				VerifyFreeSpace(sizeof(uint32_t));
 				sizeofstruct = va_arg(args,uint32_t);
-				memcpy(Buffer + Data_size,(char *)&sizeofstruct,sizeof(uint32_t));
+				memcpy(Buffer.data() + Data_size,(char *)&sizeofstruct,sizeof(uint32_t));
 				Data_size += sizeof(uint32_t);
 				VerifyFreeSpace(sizeofstruct);
-				memcpy(Buffer + Data_size,(char *)args,sizeofstruct);
+				memcpy(Buffer.data() + Data_size,(char *)args,sizeofstruct);
 				Data_size += sizeofstruct;
 				args += ((sizeofstruct + sizeof(int) - 1) & ~(sizeof(int) - 1));
 			break;

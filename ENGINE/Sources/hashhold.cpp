@@ -2,7 +2,6 @@
 
 HASHHOLD::HASHHOLD()
 {
-	pHashTable = nullptr;
 	pLineSize = nullptr;
 	dwHashTableSize = 0;
 }
@@ -14,17 +13,10 @@ HASHHOLD::~HASHHOLD()
 
 void HASHHOLD::Release()
 {
-	uint32_t n;
-	if(pHashTable)
-	{
-		for(n=0;n<dwHashTableSize;n++)
-		{
-			if(pHashTable[n]) delete pHashTable[n];
-		}
-		delete pHashTable;
-		pHashTable = nullptr;
-	}
-	if(pLineSize) delete pLineSize; pLineSize = nullptr;
+	pHashTable.clear();
+
+	delete pLineSize; 
+	pLineSize = nullptr;
 	dwHashTableSize = 0;
 }
 
@@ -32,9 +24,7 @@ bool HASHHOLD::Init(uint32_t _dwHashTableSize)
 {
 	Release();
 	dwHashTableSize = _dwHashTableSize;
-	pHashTable = (uint32_t **)NEW char[dwHashTableSize * sizeof(uint32_t*)];
-	if(!pHashTable) THROW;
-	memset(pHashTable,0,dwHashTableSize * sizeof(uint32_t*));
+	pHashTable.resize(dwHashTableSize);
 	pLineSize = (uint32_t *)NEW char[dwHashTableSize * sizeof(uint32_t)];
 	if(!pLineSize) THROW;
 	memset(pLineSize,0,dwHashTableSize * sizeof(uint32_t));
@@ -51,7 +41,7 @@ bool HASHHOLD::Add(uint32_t dwHashValue, uint32_t dwHoldValue)
 	}
 	n = pLineSize[dwHashValue];
 	pLineSize[dwHashValue]++;
-	pHashTable[dwHashValue] = (uint32_t *)RESIZE(pHashTable[dwHashValue],pLineSize[dwHashValue] * sizeof(uint32_t));
+	pHashTable[dwHashValue].resize(pLineSize[dwHashValue]);
 	pHashTable[dwHashValue][n] = dwHoldValue;
 	return true;
 }
@@ -64,7 +54,7 @@ uint32_t HASHHOLD::GetCodesNum(uint32_t dwHashValue,uint32_t * & pHashLine)
 		api->Trace("ERROR: request for hash value out of range");
 		return 0;
 	}
-	pHashLine = pHashTable[dwHashValue];
+	pHashLine = pHashTable[dwHashValue].data();
 	return pLineSize[dwHashValue];
 }
 

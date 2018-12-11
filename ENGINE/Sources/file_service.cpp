@@ -630,203 +630,20 @@ uint32_t FILE_SERVICE::MakeHashValue(const char * string)
 
 BOOL FILE_SERVICE::CacheDirectory(const char * pDirName)
 {
-#ifndef _XBOX
 	return false;
-#else
-	uint32_t dwHashIndex;
-	uint32_t n;
-
-	char sDNSrc[MAX_PATH];
-	char sDNDst[MAX_PATH];
-	char sDirectoryName[MAX_PATH];
-
-	strcpy_s(sDirectoryName,pDirName);
-
-	dwHashIndex = MakeHashValue(pDirName)%CACHEDIRSTABLESIZE;
-	for(n=0;n<CacheDirs[dwHashIndex].dwElementsNum;n++)
-	{
-		if(_stricmp(CacheDirs[dwHashIndex].pDirName[n],pDirName)==0) return true; // already cached
-	}
-	CacheDirs[dwHashIndex].dwElementsNum++;
-	CacheDirs[dwHashIndex].pDirName = (char **)RESIZE(CacheDirs[dwHashIndex].pDirName,CacheDirs[dwHashIndex].dwElementsNum*sizeof(char *));
-	CacheDirs[dwHashIndex].pDirName[n] = (char *)NEW char[strlen(pDirName) + 1];
-	strcpy_s(CacheDirs[dwHashIndex].pDirName[n],pDirName);
-	
-	// Copy Directory
-
-	// verify directory path 
-	n = 0;
-	while(sDirectoryName[n])
-	{
-		if(sDirectoryName[n] == '\\')
-		{
-			sDirectoryName[n] = 0;
-			strcpy_s(sDNDst,XBOXDRIVE_CACHE);
-			strcat_s(sDNDst,sDirectoryName);
-			bool bRes = CreateDirectory(sDNDst, 0)==TRUE;
-			sDirectoryName[n] = '\\';
-		}
-		n++;
-	}
-	strcpy_s(sDNSrc,XBOXDRIVE_DVD);
-	strcat_s(sDNSrc,sDirectoryName);
-
-	strcpy_s(sDNDst,XBOXDRIVE_CACHE);
-	strcat_s(sDNDst,sDirectoryName);
-
-	XDirCopy(sDNSrc,sDNDst,"*.*");
-
-	
-
-	return true;
-#endif
 }
 
 void FILE_SERVICE::MarkDirectoryCached(const char * pDirName)
 {
-#ifdef _XBOX
-	uint32_t dwLen;
-	uint32_t dwHashIndex;
-	uint32_t n;
-	char * pTemp;
-
-	if(!pDirName) return;
-
-	pTemp = 0;
-
-	dwLen = strlen(pDirName);
-	if(dwLen == 0) return;
-
-	if(pDirName[dwLen-1]== '\\')
-	{
-
-		dwHashIndex = MakeHashValue(pDirName)%CACHEDIRSTABLESIZE;
-		for(n=0;n<CacheDirs[dwHashIndex].dwElementsNum;n++)
-		{
-			if(_stricmp(CacheDirs[dwHashIndex].pDirName[n],pDirName)==0) return; // already marked
-		}
-	}
-	else
-	{
-		
-		pTemp = (char *)NEW char[dwLen + 2];
-		strcpy_s(pTemp,pDirName);
-		strcat_s(pTemp,"\\");
-		dwHashIndex = MakeHashValue(pTemp)%CACHEDIRSTABLESIZE;
-		for(n=0;n<CacheDirs[dwHashIndex].dwElementsNum;n++)
-		{
-			if(_stricmp(CacheDirs[dwHashIndex].pDirName[n],pTemp)==0)
-			{
-				delete pTemp;
-				return; // already marked
-			}
-		}
-		//delete pTemp;
-	}
-	
-	CacheDirs[dwHashIndex].dwElementsNum++;
-	CacheDirs[dwHashIndex].pDirName = (char **)RESIZE(CacheDirs[dwHashIndex].pDirName,CacheDirs[dwHashIndex].dwElementsNum*sizeof(char *));
-
-	if(pTemp)
-	{
-		CacheDirs[dwHashIndex].pDirName[n] = pTemp;
-	}
-	else
-	{
-		CacheDirs[dwHashIndex].pDirName[n] = (char *)NEW char[strlen(pDirName) + 1];
-		strcpy_s(CacheDirs[dwHashIndex].pDirName[n],pDirName);
-	}
-
-	/*if(pDirName[dwLen]== '\\')
-	{
-		CacheDirs[dwHashIndex].pDirName[n] = (char *)NEW char[strlen(pDirName) + 1];
-		strcpy_s(CacheDirs[dwHashIndex].pDirName[n],pDirName);
-	}
-	else
-	{
-		CacheDirs[dwHashIndex].pDirName[n] = (char *)NEW char[strlen(pDirName) + 2];
-		strcpy_s(CacheDirs[dwHashIndex].pDirName[n],pDirName);
-		strcat_s(CacheDirs[dwHashIndex].pDirName[n],"\\");
-	}*/
-	//trace("cached dir: %s",CacheDirs[dwHashIndex].pDirName[n]);
-	
-#endif
 }
 
 BOOL FILE_SERVICE::UnCacheDirectory(const char * pDirName)
 {
-#ifndef _XBOX
 	return false;
-#else
-	bool bFound;
-	char sDNDst[MAX_PATH];
-	uint32_t dwHashIndex;
-	uint32_t n;
-
-	dwHashIndex = MakeHashValue(pDirName)%CACHEDIRSTABLESIZE;
-	bFound = false;
-	for(n=0;n<CacheDirs[dwHashIndex].dwElementsNum;n++)
-	{
-		if(_stricmp(CacheDirs[dwHashIndex].pDirName[n],pDirName)==0)
-		{
-			bFound = true;
-			break;
-		}
-	}
-	if(!bFound) return true;	// directiry isnt cached
-
-	if(CacheDirs[dwHashIndex].dwElementsNum == 0)
-	{
-		trace("cache error"); return false;
-	}
-	
-	delete CacheDirs[dwHashIndex].pDirName[n];
-
-	if((CacheDirs[dwHashIndex].dwElementsNum - 1)>n)
-	{
-		
-		CacheDirs[dwHashIndex].pDirName[n] = CacheDirs[dwHashIndex].pDirName[CacheDirs[dwHashIndex].dwElementsNum-1]; 
-	}
-	CacheDirs[dwHashIndex].dwElementsNum--;
-	CacheDirs[dwHashIndex].pDirName = (char **)RESIZE(CacheDirs[dwHashIndex].pDirName,CacheDirs[dwHashIndex].dwElementsNum*sizeof(char *));
-
-	// Remove Directory
-
-	strcpy_s(sDNDst,XBOXDRIVE_CACHE);
-	strcat_s(sDNDst,pDirName);
-
-	XDirSTORM_DELETE(sDNDst);
-	
-	return true;
-
-#endif
-
 }
 
 BOOL FILE_SERVICE::IsCached(const char * pFileName)
 {
-	char sDirName[MAX_PATH];
-	uint32_t dwLen;
-	uint32_t dwHashIndex;
-	long  n;
-	uint32_t i;
-
-	dwLen = strlen(pFileName);
-	strcpy_s(sDirName,pFileName);
-
-	for(n=dwLen;n>=0;n--)
-	{
-		if(sDirName[n] == '\\')
-		{
-			dwHashIndex = MakeHashValue(sDirName)%CACHEDIRSTABLESIZE;
-			for(i=0;i<CacheDirs[dwHashIndex].dwElementsNum;i++)
-			{
-				if(_stricmp(CacheDirs[dwHashIndex].pDirName[i],sDirName)==0) return true;
-			}
-			return false;
-		}
-		sDirName[n] = 0;
-	}
 	return false;
 }
 
