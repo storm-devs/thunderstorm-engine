@@ -9,7 +9,6 @@ S_EVENTTAB::S_EVENTTAB()
 	uint32_t n;
 	for(n=0;n<HASHTABLE_SIZE;n++)
 	{
-		pTable[n] = nullptr;
 		Buffer_size[n] = 0;
 		Event_num[n] = 0;
 	}
@@ -26,20 +25,18 @@ void  S_EVENTTAB::Clear()
 	uint32_t n,m,i;
 	for(i=0;i<HASHTABLE_SIZE;i++)
 	{
-		if(pTable[i]) 
-		{
-			for(n=0;n<Event_num[i];n++)	
-			{ 
-				for(m=0;m<pTable[i][n].elements;m++) 
-				{
-					if(!pTable[i][n].pFuncInfo[m].bStatic) pTable[i][n].pFuncInfo[m].status = FSTATUS_DELETED;
-				}
-
-				//if(pTable[n].pFuncInfo) delete pTable[n].pFuncInfo;
-				//if(pTable[n].name) delete pTable[n].name;	
+		for(n=0;n<Event_num[i];n++)	
+		{ 
+			for(m=0;m<pTable[i][n].elements;m++) 
+			{
+				if(!pTable[i][n].pFuncInfo[m].bStatic)
+					pTable[i][n].pFuncInfo[m].status = FSTATUS_DELETED;
 			}
-			//delete pTable; pTable = 0;
+
+			//if(pTable[n].pFuncInfo) delete pTable[n].pFuncInfo;
+			//if(pTable[n].name) delete pTable[n].name;	
 		}
+		//delete pTable; pTable = 0;
 		//Buffer_size = 0;
 		//Event_num = 0;
 	}
@@ -51,15 +48,11 @@ void  S_EVENTTAB::Release()
 	uint32_t n,i;
 	for(i=0;i<HASHTABLE_SIZE;i++)
 	{
-		if(pTable[i]) 
-		{
-			for(n=0;n<Event_num[i];n++)	
-			{ 
-				if(pTable[i][n].pFuncInfo) delete pTable[i][n].pFuncInfo;
-				if(pTable[i][n].name) delete pTable[i][n].name;	
-			}
-			delete pTable[i]; pTable[i] = nullptr;
+		for(n=0;n<Event_num[i];n++)	
+		{ 
+			delete pTable[i][n].name;	
 		}
+
 		Buffer_size[i] = 0;
 		Event_num[i] = 0;
 	}
@@ -110,7 +103,7 @@ uint32_t S_EVENTTAB::AddEventHandler(char * event_name, uint32_t func_code, uint
 			// add function
 			i = pTable[ti][n].elements;
 			pTable[ti][n].elements++;
-			pTable[ti][n].pFuncInfo = (EVENT_FUNC_INFO*)RESIZE(pTable[ti][n].pFuncInfo,pTable[ti][n].elements*sizeof(EVENT_FUNC_INFO));
+			pTable[ti][n].pFuncInfo.resize(pTable[ti][n].elements);
 			
 			pTable[ti][n].pFuncInfo[i].func_code = func_code;
 			pTable[ti][n].pFuncInfo[i].segment_id = func_segment_id;
@@ -126,14 +119,14 @@ uint32_t S_EVENTTAB::AddEventHandler(char * event_name, uint32_t func_code, uint
 	if(Event_num[ti] >= Buffer_size[ti])
 	{
 		Buffer_size[ti] += BUFFER_BLOCK_SIZE;
-		pTable[ti] = (EVENTINFO *)RESIZE(pTable[ti],Buffer_size[ti]*sizeof(EVENTINFO));
+		pTable[ti].resize(Buffer_size[ti]);
 	}
 	
 	pTable[ti][Event_num[ti]].elements = 1;
 	pTable[ti][Event_num[ti]].hash = hash;
 	pTable[ti][Event_num[ti]].name = nullptr;
 
-	pTable[ti][Event_num[ti]].pFuncInfo = (EVENT_FUNC_INFO*)NEW char[sizeof(EVENT_FUNC_INFO)];
+	pTable[ti][Event_num[ti]].pFuncInfo.push_back(EVENT_FUNC_INFO{});
 	pTable[ti][Event_num[ti]].pFuncInfo[0].func_code = func_code;
 	pTable[ti][Event_num[ti]].pFuncInfo[0].segment_id = func_segment_id;
 	if(flag) pTable[ti][Event_num[ti]].pFuncInfo[0].status = FSTATUS_NEW;
@@ -242,7 +235,7 @@ bool S_EVENTTAB::DelEventHandler(uint8_t ti, uint32_t event_code, uint32_t func_
 		pTable[ti][event_code].pFuncInfo[n] = pTable[ti][event_code].pFuncInfo[n+1];
 	}
 	pTable[ti][event_code].elements--;
-	pTable[ti][event_code].pFuncInfo = (EVENT_FUNC_INFO*)RESIZE(pTable[ti][event_code].pFuncInfo,pTable[ti][event_code].elements*sizeof(EVENT_FUNC_INFO));
+	pTable[ti][event_code].pFuncInfo.resize(pTable[ti][event_code].elements);
 	return true;
 }
 

@@ -2,6 +2,7 @@
 #define _S_DEFTAB_H_
 
 #include "data.h"
+#include <vector>
 
 // when segment_id is INVALID_SEGMENT_ID, variable segment is unloaded
 // and variable value and type undefined
@@ -23,16 +24,16 @@ struct DEFINFO
 
 struct DTHASHLINE
 {
-	DTHASHLINE(){nNumElements = 0; pElements = nullptr;};
+	DTHASHLINE(){nNumElements = 0;};
 	uint32_t nNumElements;
-	uint32_t * pElements;
+	std::vector<uint32_t> pElements;
 };
 
 class S_DEFTAB
 {
 	uint32_t Buffer_size;
 	uint32_t Def_num;
-	DEFINFO * pTable;
+	std::vector<DEFINFO> pTable;
 	//bool bKeepName;
 	DTHASHLINE HashLine[DTHASHT_SIZE];
 public:

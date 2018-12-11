@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include "dstring_codec.h"
+#include <vector>
 
 struct PACKHEADER
 {
@@ -23,7 +24,7 @@ class COMPRESS
 {
 	PACKHEADER Header;
 	DSTRING_CODEC SCodec;
-	BITSCHANGE * pBTCompressionTable;
+	std::vector<BITSCHANGE> pBTCompressionTable;
 	uint32_t dwBTCompressionTableSize;
 public:
 	 COMPRESS();

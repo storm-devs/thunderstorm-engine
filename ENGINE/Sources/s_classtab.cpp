@@ -3,7 +3,6 @@
 
 S_CLASSTAB::S_CLASSTAB()
 {
-	pTable = nullptr;
 	Buffer_size = 0;
 	nClassesNum = 0;
 }
@@ -16,21 +15,19 @@ S_CLASSTAB::~S_CLASSTAB()
 void  S_CLASSTAB::Release()
 {
 	uint32_t n,m;
-	if(pTable) 
-	{
-		for(n=0;n<nClassesNum;n++)	
-		{ 
-			if(pTable[n].pComponent) 
-			{
-				// delete components names memory (allocated by Compiler)
-				for(m=0;m<pTable[n].nComponentsNum;m++) { if(pTable[n].pComponent[m].name) delete pTable[n].pComponent[m].name; }
-				// delete components info memory
-				delete pTable[n].pComponent;
-			}
-			if(pTable[n].name) delete pTable[n].name;	
+	for(n=0;n<nClassesNum;n++)	
+	{ 
+		if(pTable[n].pComponent) 
+		{
+			// delete components names memory (allocated by Compiler)
+			for(m=0;m<pTable[n].nComponentsNum;m++) 
+				delete pTable[n].pComponent[m].name;
+			// delete components info memory
+			delete pTable[n].pComponent;
 		}
-		delete pTable; pTable = nullptr;
+		delete pTable[n].name;	
 	}
+	pTable.clear();
 	Buffer_size = 0;
 	nClassesNum = 0;
 }
@@ -105,7 +102,7 @@ uint32_t S_CLASSTAB::AddClass(CLASSINFO& ci, bool bRegisterOnly)
 	if(nClassesNum >= Buffer_size)
 	{
 		Buffer_size += CLASS_BUFFER_BLOCK_SIZE;
-		pTable = (CLASSINFO *)RESIZE(pTable,Buffer_size*sizeof(CLASSINFO));
+		pTable.resize(Buffer_size);
 	}
 	
 	nClassN = nClassesNum;

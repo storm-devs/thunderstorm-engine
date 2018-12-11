@@ -2893,16 +2893,17 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, uint32
 		break;
 
 		case UNKNOWN:
+		{
 			uint32_t func_code;
 			uint32_t func_args;
 			FUNCINFO fi;
-		
 
 
-			if(DetectUnknown(func_code) == CALL_FUNCTION)
+
+			if (DetectUnknown(func_code) == CALL_FUNCTION)
 			{
-				if(CompileAuxiliaryTokens(Segment)!= OPEN_BRACKET) {SetError("missing '('"); return false;}
-				if(Token.Get() == CLOSE_BRACKET)
+				if (CompileAuxiliaryTokens(Segment) != OPEN_BRACKET) { SetError("missing '('"); return false; }
+				if (Token.Get() == CLOSE_BRACKET)
 				{
 					//function w/o arguments
 					func_args = 0;
@@ -2917,49 +2918,49 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, uint32
 					do
 					{
 						CompileExpression(Segment);
-						switch(Token.GetType())
+						switch (Token.GetType())
 						{
-							case CLOSE_BRACKET:
-								bNext = false;
+						case CLOSE_BRACKET:
+							bNext = false;
 							break;
-							case COMMA:
-								func_args++;
+						case COMMA:
+							func_args++;
 							break;
-							default:
-								SetError("invalid syntax");
+						default:
+							SetError("invalid syntax");
 							return false;
 						}
-					} while(bNext);
+					} while (bNext);
 				}
 
-				if(!FuncTab.GetFuncX(fi,func_code)){SetError("function not found"); return false;}
+				if (!FuncTab.GetFuncX(fi, func_code)) { SetError("function not found"); return false; }
 
-				if(fi.offset == INVALID_FUNC_OFFSET)
+				if (fi.offset == INVALID_FUNC_OFFSET)
 				{
 					// external function declared but not compiled yet
 					fi.arguments = fi.ext_args;
 				}
 
 				// off for debug needs
-				
-				if(fi.arguments != func_args)
+
+				if (fi.arguments != func_args)
 				{
-					switch(fi.segment_id)
+					switch (fi.segment_id)
 					{
-						case INTERNAL_SEGMENT_ID:
-							if(!IsIntFuncVarArgsNum(func_code))
-							{
-								SetError("function '%s(args:%d)' doesnt accept %d arguments",fi.name,fi.arguments,func_args);
-								return false;
-							}
+					case INTERNAL_SEGMENT_ID:
+						if (!IsIntFuncVarArgsNum(func_code))
+						{
+							SetError("function '%s(args:%d)' doesnt accept %d arguments", fi.name, fi.arguments, func_args);
+							return false;
+						}
 						break;
-						case IMPORTED_SEGMENT_ID:
-							// skip imported funcs checking for now
+					case IMPORTED_SEGMENT_ID:
+						// skip imported funcs checking for now
 						break;
-						default:
-							SetError("function %s(args:%d) doesnt accept %d arguments",fi.name,fi.arguments,func_args); 
+					default:
+						SetError("function %s(args:%d) doesnt accept %d arguments", fi.name, fi.arguments, func_args);
 						return false;
-					
+
 					}
 
 
@@ -2967,7 +2968,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, uint32
 					/*if(fi.segment_id != INTERNAL_SEGMENT_ID)
 					{
 						// not internal function cant accept different arguments number
-						SetError("function %s(args:%d) doesnt accept %d arguments",fi.name,fi.arguments,func_args); 
+						SetError("function %s(args:%d) doesnt accept %d arguments",fi.name,fi.arguments,func_args);
 						return false;
 					}
 					else
@@ -2982,14 +2983,15 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, uint32
 
 				}//*/
 
-				CompileToken(Segment,CALL_FUNCTION,1,(char *)&func_code,sizeof(uint32_t));
-				CompileToken(Segment,ARGS_NUM,1,(char *)&func_args,sizeof(uint32_t));
-				if(fi.return_type!=TVOID) CompileToken(Segment,STACK_POP_VOID);
-				
-				
+				CompileToken(Segment, CALL_FUNCTION, 1, (char *)&func_code, sizeof(uint32_t));
+				CompileToken(Segment, ARGS_NUM, 1, (char *)&func_args, sizeof(uint32_t));
+				if (fi.return_type != TVOID) CompileToken(Segment, STACK_POP_VOID);
+
+
 			}
 			else
-			if(!CompileUnknown(Segment)) return false;
+				if (!CompileUnknown(Segment)) return false;
+		}
 		break;
 		
 		case EXTERN:

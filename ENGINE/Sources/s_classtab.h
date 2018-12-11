@@ -2,6 +2,7 @@
 #define _S_CLASSTAB_H_
 
 #include "data.h"
+#include <vector>
 
 #define CLASS_BUFFER_BLOCK_SIZE	1024
 #define INVALID_CLASS_CODE		0xffffffff
@@ -39,7 +40,7 @@ class S_CLASSTAB
 	friend S_DEBUG;
 	uint32_t Buffer_size;
 	uint32_t nClassesNum;
-	CLASSINFO * pTable;
+	std::vector<CLASSINFO> pTable;
 	VIRTUAL_COMPILER * pVCompiler;
 public:
 	 S_CLASSTAB();

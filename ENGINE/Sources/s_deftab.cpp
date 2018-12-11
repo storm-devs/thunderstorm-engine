@@ -5,7 +5,6 @@
 
 S_DEFTAB::S_DEFTAB()
 {
-	pTable = nullptr;
 	Buffer_size = 0;
 	Def_num = 0;
 //	bKeepName = false;
@@ -13,7 +12,6 @@ S_DEFTAB::S_DEFTAB()
 	for(n=0;n<DTHASHT_SIZE;n++)
 	{
 		HashLine[n].nNumElements = 0;
-		HashLine[n].pElements = nullptr;
 	}
 
 }
@@ -26,25 +24,20 @@ S_DEFTAB::~S_DEFTAB()
 void  S_DEFTAB::Release()
 {
 	uint32_t n;
-	if(pTable) 
-	{
-		for(n=0;n<Def_num;n++)	
-		{ 
-			if(pTable[n].name) delete pTable[n].name;	
-			if(pTable[n].deftype == STRING) 
-			{
-				if(pTable[n].data4b != 0) delete ((char *)pTable[n].data4b);
-			}
+	for(n=0;n<Def_num;n++)	
+	{ 
+		if(pTable[n].name) delete pTable[n].name;	
+		if(pTable[n].deftype == STRING) 
+		{
+			if(pTable[n].data4b != 0) delete ((char *)pTable[n].data4b);
 		}
-		delete pTable; pTable = nullptr;
 	}
+	pTable.clear();
 	Buffer_size = 0;
 	Def_num = 0;
 	for(n=0;n<DTHASHT_SIZE;n++)
 	{
 		HashLine[n].nNumElements = 0;
-		if(HashLine[n].pElements)  delete HashLine[n].pElements;
-		HashLine[n].pElements = nullptr;
 	}
 
 }
@@ -102,7 +95,7 @@ uint32_t S_DEFTAB::AddDef(DEFINFO& di)
 	if(Def_num >= Buffer_size)
 	{
 		Buffer_size += DEF_BUFFER_BLOCK_SIZE;
-		pTable = (DEFINFO *)RESIZE(pTable,Buffer_size*sizeof(DEFINFO));
+		pTable.resize(Buffer_size);
 	}
 	pTable[n].data4b = di.data4b;
 	pTable[n].deftype = di.deftype;
@@ -203,13 +196,13 @@ void S_DEFTAB::UpdateHashTable(uint32_t code, uint32_t hash, bool in)
 			// take element out of list
 			HashLine[hash_index].pElements[n] = HashLine[hash_index].pElements[HashLine[hash_index].nNumElements - 1];
 			HashLine[hash_index].nNumElements--;
-			HashLine[hash_index].pElements = (uint32_t *)RESIZE(HashLine[hash_index].pElements,HashLine[hash_index].nNumElements * sizeof(uint32_t));
+			HashLine[hash_index].pElements.resize(HashLine[hash_index].nNumElements);
 			return;
 		}
 		else return;	// ok, already in list (? possible)
 	}
 	// not in list - add
 	HashLine[hash_index].nNumElements++;
-	HashLine[hash_index].pElements = (uint32_t *)RESIZE(HashLine[hash_index].pElements,HashLine[hash_index].nNumElements * sizeof(uint32_t));
+	HashLine[hash_index].pElements.resize(HashLine[hash_index].nNumElements);
 	HashLine[hash_index].pElements[HashLine[hash_index].nNumElements - 1] = code;
 }

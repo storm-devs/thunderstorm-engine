@@ -56,7 +56,6 @@ CORE::CORE()
 	PZERO(&CoreState,sizeof(CoreState));
 	CoreState.engine_version = ENGINE_VERSION;
 	Root_flag = false;
-	Atoms_PTR = nullptr;
 	SystemMessagesNum = 0;
 	Exit_flag = false;
 	State_loading = false;
@@ -123,7 +122,7 @@ void CORE::CleanUp()
 
 	//Program.Release();
 
-	if(Atoms_PTR)
+	if(Atoms_PTR.size() > 0)
 	{
 		for(n=0;n<=CoreState.Atoms_max_orbit;n++)
 		{
@@ -158,7 +157,7 @@ void CORE::CleanUp()
 
 
 
-	if(Atoms_PTR) delete Atoms_PTR; Atoms_PTR = nullptr;
+	Atoms_PTR.clear();
 
 
 	Services_List.Release();
@@ -690,7 +689,6 @@ bool __declspec(noinline) __cdecl CORE::LoadClassesTable()
 bool __declspec(noinline) __cdecl CORE::CreateAtomsTable(uint32_t _space)
 {
 	GUARD(CORE::CreateAtomsTable)
-	if(Atoms_PTR != nullptr ) return false;
 
 	gdi_display.Print(CMS_CREATE_ATOMS_SPACE,_space);
 
@@ -698,15 +696,8 @@ bool __declspec(noinline) __cdecl CORE::CreateAtomsTable(uint32_t _space)
 	CoreState.Atoms_space = _space;
 
 	//Atoms_PTR = (C_ATOM * *)new char[CoreState.Atoms_space*sizeof(C_ATOM*)];
-	Atoms_PTR = (C_ATOM * *)NEW char[CoreState.Atoms_space*sizeof(C_ATOM*)];
-
-	if(Atoms_PTR == nullptr)
-	{
-		gdi_display.Print(CMS_ERROR);
-		return false;
-	}
-	else gdi_display.Print_Add(CMS_DONE);
-	memset(Atoms_PTR,0,CoreState.Atoms_space*sizeof(C_ATOM*));
+	Atoms_PTR.resize(CoreState.Atoms_space);
+	gdi_display.Print_Add(CMS_DONE);
 	PZERO(&CoreState.Creation_Time,sizeof(CoreState.Creation_Time));
 
 	UNGUARD
@@ -725,7 +716,7 @@ void CORE::ReleaseAtoms()
 	GUARD(CORE::ReleaseAtoms)
 	uint32_t n;
 	// release atoms and entity objects
-	if(Atoms_PTR)
+	if(Atoms_PTR.size() > 0)
 	{
 		for(n=0;n<=CoreState.Atoms_max_orbit;n++)
 		{
@@ -737,7 +728,7 @@ void CORE::ReleaseAtoms()
 	CoreState.Atoms_number = 0;
 	CoreState.Atoms_max_orbit = 0;
 	CoreState.Atoms_min_free_orbit = 0;
-	if(Atoms_PTR) delete Atoms_PTR; Atoms_PTR = nullptr;
+	Atoms_PTR.clear();
 	PZERO(&CoreState.Creation_Time,sizeof(CoreState.Creation_Time));
 	UNGUARD
 }
@@ -1073,15 +1064,11 @@ C_ATOM * CORE::CreateAtom(uint32_t class_code)
 	GUARD(CORE::CreateAtom)
 	uint32_t n;
 
-	if(Atoms_PTR == nullptr ) THROW;
-
 	if(CoreState.Atoms_number >= CoreState.Atoms_space)
 	{
 		uint32_t new_space;
 		new_space = 2*CoreState.Atoms_space;
-		Atoms_PTR = (C_ATOM **)RESIZE(Atoms_PTR,new_space*sizeof(C_ATOM*));
-		if(Atoms_PTR == nullptr) STORM_THROW(Resizing Atoms Space Error);
-		memset((char *)Atoms_PTR + CoreState.Atoms_space*sizeof(C_ATOM*),0,CoreState.Atoms_space*sizeof(C_ATOM*));
+		Atoms_PTR.resize(new_space);
 		CoreState.Atoms_space = new_space;
 	}
 
@@ -1117,7 +1104,6 @@ C_ATOM * CORE::CreateAtom(uint32_t class_code)
 C_ATOM * CORE::FitAtom(ENTITY_ID entity_id, ATOM_STATE atom_state)
 {
 	GUARD(CORE::FitAtom)
-	if(Atoms_PTR == nullptr ) THROW;
 	if(entity_id.atom_position > CoreState.Atoms_max_orbit) THROW;
 	if(Atoms_PTR[entity_id.atom_position] != nullptr) THROW;
 
@@ -1135,7 +1121,7 @@ bool CORE::DeleteAtom(C_ATOM * atom_PTR)
 {
 	GUARD(CORE::DeleteAtom)
 	uint32_t ap;
-	if(Atoms_PTR == nullptr || atom_PTR == nullptr) return false;
+	if(atom_PTR == nullptr) return false;
 	ap = atom_PTR->atom_id.atom_position;
 	if(ap >= CoreState.Atoms_space) THROW;
 	if(Atoms_PTR[ap] != atom_PTR) THROW;
@@ -1208,7 +1194,6 @@ bool CORE::FindClass(ENTITY_ID * id_PTR,char * class_name,uint32_t class_code)
 	uint32_t n;
 	uint32_t hash;
 
-	if(Atoms_PTR == nullptr ) THROW;
 	if(class_name != nullptr) hash = MakeHashValue(class_name);
 	else hash = class_code;
 
@@ -1238,11 +1223,6 @@ bool CORE::FindClassNext(ENTITY_ID * id_PTR)
 	VALIDATE_API_CALLS // no necessary
 	uint32_t n;
 
-	if(Atoms_PTR == nullptr )
-	{
-		if(id_PTR) *id_PTR = ENTITY_ID();
-		return false;				// sys error
-	}
 	for(n=(Atom_Search_Position + 1);n<=CoreState.Atoms_max_orbit;n++)
 	{
 		if(Atoms_PTR[n] == nullptr) continue;//break;
@@ -1274,7 +1254,6 @@ bool CORE::GetEntity(ENTITY_ID * id_PTR)
 {
 	GUARD(CORE::GetEntity)
 	VALIDATE_API_CALLS // no necessary
-	if(Atoms_PTR == nullptr) THROW;
 	if(id_PTR == nullptr) return false;
 
 	// scan all entities
@@ -1319,7 +1298,6 @@ bool CORE::GetEntityNext(ENTITY_ID * id_PTR)
 {
 	GUARD(CORE::GetEntityNext)
 	VALIDATE_API_CALLS // no necessary
-	if(Atoms_PTR == nullptr ) THROW;
 	if(id_PTR == nullptr) return false;
 
 	if(Scan_Layer_Code == INVALID_LAYER_CODE)
@@ -1614,7 +1592,6 @@ bool CORE::Convert_Pointer2ID(void * _entity_pointer,ENTITY_ID * id_PTR)
 	ENTITY_ID eid;
 	entity_PTR = (ENTITY *)_entity_pointer;
 	eid = entity_PTR->GetID();
-	if(Atoms_PTR == nullptr ) THROW;
 	if(eid.atom_position > CoreState.Atoms_max_orbit) THROW;
 	if(Atoms_PTR[eid.atom_position] == nullptr) THROW;
 	if(Atoms_PTR[eid.atom_position]->atom_id.pointer != _entity_pointer) THROW;
@@ -3262,11 +3239,6 @@ void CORE::DumpEntitiesInfo()
 	trace("Allocated Memory: %f kb in %" PRIu32 " block(s)",
 		(Memory_Service.Allocated_memory_user + Memory_Service.Allocated_memory_system)/1024.0f,//(1024*1024),
 		Memory_Service.Blocks);
-	if(!Atoms_PTR)
-	{
-		trace("No entities");
-		return;
-	}
 
 	for(n=0;n<=CoreState.Atoms_max_orbit;n++)
 	{

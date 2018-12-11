@@ -7,20 +7,19 @@
 CONTROL_STACK::CONTROL_STACK() {initiate_blocks = 0; Data_PTR = nullptr; used_blocks = 0;};
 CONTROL_STACK::	~CONTROL_STACK()
 {
-	if(Data_PTR) delete Data_PTR;
+	free(Data_PTR);
 };
 bool CONTROL_STACK::Init() 
 {
 	Release();
 	initiate_blocks = DEFAULT_CONTROL_STACK_SIZE;
 
-	Data_PTR = (void *) NEW char[CONTROL_BLOCK_SIZE*initiate_blocks];
-	if(Data_PTR == nullptr) return false;
-	return true;
+	Data_PTR = (void *) malloc(CONTROL_BLOCK_SIZE*initiate_blocks);
+	return Data_PTR != nullptr;
 };
 void CONTROL_STACK::Release() 
 {
-	if(Data_PTR) delete Data_PTR; 
+	free(Data_PTR); 
 	initiate_blocks = 0; 
 	Data_PTR = nullptr; 
 	used_blocks = 0;
@@ -37,7 +36,7 @@ bool CONTROL_STACK::Push(void * pointer, uint32_t class_code, uint32_t ctp)
 	if(used_blocks >= initiate_blocks)
 	{
 		initiate_blocks = initiate_blocks*2;
-		Data_PTR = RESIZE(Data_PTR,CONTROL_BLOCK_SIZE*initiate_blocks);
+		Data_PTR = realloc(Data_PTR,CONTROL_BLOCK_SIZE*initiate_blocks);
 		if(Data_PTR == nullptr) return false;
 	}
 	mem_PTR = (char*)Data_PTR + used_blocks*CONTROL_BLOCK_SIZE;

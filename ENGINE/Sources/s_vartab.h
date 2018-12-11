@@ -2,6 +2,7 @@
 #define _S_VARTAB_H_
 
 #include "data.h"
+#include <vector>
 
 // when segment_id is INVALID_SEGMENT_ID, variable segment is unloaded
 // and variable value and type undefined
@@ -32,9 +33,9 @@ class S_DEBUG;
 
 struct VTHASHLINE
 {
-	VTHASHLINE(){nNumElements = 0; pElements = nullptr;};
+	VTHASHLINE(){nNumElements = 0;};
 	uint32_t nNumElements;
-	uint32_t * pElements;
+	std::vector<uint32_t> pElements;
 };
 
 
@@ -44,7 +45,7 @@ class S_VARTAB
 
 	uint32_t Buffer_size;
 	uint32_t Var_num;
-	VARINFO * pTable;
+	std::vector<VARINFO> pTable;
 	//bool bKeepName;
 	uint32_t Global_var_num;
 	VIRTUAL_COMPILER * pVCompiler;

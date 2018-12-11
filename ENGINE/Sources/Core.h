@@ -21,6 +21,7 @@
 #include "services_list.h"
 #include "layer_service.h"
 #include "compiler.h"
+#include <vector>
 //#include "program.h"
 
 #define ENGINE_SCRIPT_VERSION		54128
@@ -135,7 +136,7 @@ public:
 	CORE_STATE CoreState;
 	char * State_file_name;
 
-	C_ATOM * * Atoms_PTR;
+	std::vector<C_ATOM*> Atoms_PTR;
 	uint32_t Atom_Search_Position;		// first version
 	uint32_t Atom_Search_Class_Code;	// first version
 	uint32_t Atom_Get_Position;		// first version

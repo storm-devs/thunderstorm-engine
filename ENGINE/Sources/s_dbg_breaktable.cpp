@@ -10,7 +10,6 @@ BREAKPOINTS_TABLE::BREAKPOINTS_TABLE()
 {
 	fio = &File_Service;
 	nPoints = 0;
-	pTable = nullptr;
 	ProjectName[0] = 0;
 	//bReleased = false;
 }
@@ -46,15 +45,12 @@ void BREAKPOINTS_TABLE::Release()
 		ProjectName[0] = 0;
 	}
 
-	if(pTable)
+	for(n=0;n<nPoints;n++)
 	{
-		for(n=0;n<nPoints;n++)
-		{
-			if(pTable[n].pFileName) delete pTable[n].pFileName;
-		}
-		delete pTable;
+		delete pTable[n].pFileName;
 	}
-	pTable = nullptr;
+
+	pTable.clear();
 	nPoints = 0;
 	//bReleased = true;
 }
@@ -145,7 +141,7 @@ void BREAKPOINTS_TABLE::AddBreakPoint(const char * filename, uint32_t line)
 		return;	// already in list
 	}
 
-	pTable = (BREAKPOINT_DESC *)RESIZE(pTable,(nPoints + 1)*sizeof(BREAKPOINT_DESC));
+	pTable.resize(nPoints + 1);
 	pTable[nPoints].nLineNumber = line;
 
 	const auto len = strlen(filename)+1;

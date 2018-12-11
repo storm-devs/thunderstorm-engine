@@ -32,7 +32,7 @@ friend LRESULT CALLBACK SourceViewWndProc(HWND,UINT,WPARAM,LPARAM);
 	bool bDrag;
 	uint32_t nFontHeight;
 	char * pSourceFile;
-	uint32_t * pLineOffset;
+	std::vector<uint32_t> pLineOffset;
 	uint32_t nLinesNum;
 	uint32_t nSourceFileSize;
 	uint32_t nTopLine;
@@ -50,7 +50,7 @@ public:
 	std::vector<std::string> aStrings;
 	HWND hOwn;
 	RECT CopyPasteRect;
-	bool * pBookmarks;
+	std::vector<bool> pBookmarks;
 	std::string sFindStr;
 	std::unordered_map<std::string, uint32_t>	htBookmarks;
 

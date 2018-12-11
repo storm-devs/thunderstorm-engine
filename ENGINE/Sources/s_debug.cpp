@@ -528,7 +528,8 @@ char * S_DEBUG::ProcessExpression(char * pExpression)
 		if(Result.Get(pC))
 		{
 			const auto len = strlen(pC) + 1;
-			pExpResBuffer = (char *)RESIZE(pExpResBuffer,len);
+			delete pExpResBuffer;
+			pExpResBuffer = new char[len];
 			memcpy(pExpResBuffer,pC,len);
 			return pExpResBuffer;
 		}

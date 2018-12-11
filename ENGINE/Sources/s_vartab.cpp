@@ -6,7 +6,6 @@
 
 S_VARTAB::S_VARTAB()
 {
-	pTable = nullptr;
 	Buffer_size = 0;
 	Var_num = 0;
 //	bKeepName = false;
@@ -15,7 +14,6 @@ S_VARTAB::S_VARTAB()
 	for(n=0;n<VTHASHT_SIZE;n++)
 	{
 		HashLine[n].nNumElements = 0;
-		HashLine[n].pElements = nullptr;
 	}
 }
 
@@ -27,22 +25,18 @@ S_VARTAB::~S_VARTAB()
 void  S_VARTAB::Release()
 {
 	uint32_t n;
-	if(pTable) 
-	{
-		for(n=0;n<Var_num;n++)	
-		{ 
-			if(pTable[n].pDClass) delete pTable[n].pDClass;
-			if(pTable[n].name) delete pTable[n].name;	
-		}
-		delete pTable; pTable = nullptr;
+	for(n=0;n<Var_num;n++)	
+	{ 
+		if(pTable[n].pDClass) delete pTable[n].pDClass;
+		if(pTable[n].name) delete pTable[n].name;	
 	}
+	pTable.clear();
 	Buffer_size = 0;
 	Var_num = 0;
 	for(n=0;n<VTHASHT_SIZE;n++)
 	{
 		HashLine[n].nNumElements = 0;
-		if(HashLine[n].pElements)  delete HashLine[n].pElements;
-		HashLine[n].pElements = nullptr;
+		HashLine[n].pElements.clear();
 	}
 }
 
@@ -112,7 +106,7 @@ uint32_t S_VARTAB::AddVar(VARINFO& vi)
 	if(Var_num >= Buffer_size)
 	{
 		Buffer_size += VAR_BUFFER_BLOCK_SIZE;
-		pTable = (VARINFO *)RESIZE(pTable,Buffer_size*sizeof(VARINFO));
+		pTable.resize(Buffer_size);
 	}
 	//pTable[Var_num] = vi;
 	pTable[Var_num].bArray = vi.bArray;
@@ -227,13 +221,13 @@ void S_VARTAB::UpdateHashTable(uint32_t code, uint32_t hash, bool in)
 			// take element out of list
 			HashLine[hash_index].pElements[n] = HashLine[hash_index].pElements[HashLine[hash_index].nNumElements - 1];
 			HashLine[hash_index].nNumElements--;
-			HashLine[hash_index].pElements = (uint32_t *)RESIZE(HashLine[hash_index].pElements,HashLine[hash_index].nNumElements * sizeof(uint32_t));
+			HashLine[hash_index].pElements.resize(HashLine[hash_index].nNumElements);
 			return;
 		}
 		else return;	// ok, already in list (? possible)
 	}
 	// not in list - add
 	HashLine[hash_index].nNumElements++;
-	HashLine[hash_index].pElements = (uint32_t *)RESIZE(HashLine[hash_index].pElements,HashLine[hash_index].nNumElements * sizeof(uint32_t));
+	HashLine[hash_index].pElements.resize(HashLine[hash_index].nNumElements);
 	HashLine[hash_index].pElements[HashLine[hash_index].nNumElements - 1] = code;
 }

@@ -2,6 +2,7 @@
 #define _BREAKPOINTS_TABLE_H_
 
 #include "Core.h"
+#include <vector>
 
 struct BREAKPOINT_DESC
 {
@@ -12,7 +13,7 @@ struct BREAKPOINT_DESC
 class BREAKPOINTS_TABLE
 {
 	uint32_t nPoints;
-	BREAKPOINT_DESC * pTable;
+	std::vector<BREAKPOINT_DESC> pTable;
 	char ProjectName[MAX_PATH];
 	VFILE_SERVICE * fio;
 	bool bReleased;

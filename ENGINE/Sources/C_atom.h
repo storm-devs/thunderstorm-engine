@@ -38,7 +38,6 @@ class C_ATOM
 {
 public:
 	C_ATOM();
-	~C_ATOM(){};
 	void SetLayerAttribute(uint32_t index,bool system);
 	void ClrLayerAttribute(uint32_t index,bool system);
 	bool TstLayerAttribute(uint32_t index,bool system);

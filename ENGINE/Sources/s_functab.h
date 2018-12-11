@@ -3,6 +3,7 @@
 
 #include "s_vartab.h"
 #include "../../Common_h/s_import_func.h"
+#include <vector>
 
 #define FUNC_BUFFER_BLOCK_SIZE	1024
 #define INVALID_FUNC_CODE		0xffffffff
@@ -33,7 +34,7 @@ struct FUNCINFO
 	uint32_t arguments;
 	uint32_t var_num;
 	uint32_t stack_offset;
-	LVARINFO * pLocal;
+	std::vector<LVARINFO> pLocal;
 	S_TOKEN_TYPE return_type;
 	char * decl_file_name;
 	uint32_t  decl_line;
@@ -48,16 +49,16 @@ struct FUNCINFO
 
 struct HASHLINE
 {
-	HASHLINE(){nNumElements = 0; pElements = nullptr;};
+	HASHLINE(){nNumElements = 0;}
 	uint32_t nNumElements;
-	uint32_t * pElements;
+	std::vector<uint32_t> pElements;
 };
 
 class S_FUNCTAB
 {
 	uint32_t Buffer_size;
 	uint32_t Func_num;
-	FUNCINFO * pTable;
+	std::vector<FUNCINFO> pTable;
 	//bool bKeepName;
 
 	HASHLINE HashLine[HASHT_SIZE];

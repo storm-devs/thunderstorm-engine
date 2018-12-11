@@ -9,7 +9,7 @@
 
 class S_STACK : public VS_STACK
 {
-	DATA * * pStackData;
+	std::vector<DATA*> pStackData;
 	uint32_t Buffer_size;
 	uint32_t Data_num;
 	VIRTUAL_COMPILER * pVCompiler;

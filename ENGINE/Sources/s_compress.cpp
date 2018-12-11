@@ -5,7 +5,6 @@
 
 COMPRESS::COMPRESS()
 {
-	pBTCompressionTable = nullptr;
 	dwBTCompressionTableSize = 0;
 }
 
@@ -16,8 +15,6 @@ COMPRESS::~COMPRESS()
 
 void COMPRESS::Release()
 {
-	if(pBTCompressionTable) delete pBTCompressionTable;
-	pBTCompressionTable = nullptr;
 	dwBTCompressionTableSize = 0;
 }
 
@@ -27,8 +24,7 @@ void COMPRESS::SetBitsChange(uint32_t dwChangeOffset, uint32_t dwBits)
 	n = dwBTCompressionTableSize;
 	dwBTCompressionTableSize++;
 
-	if(!pBTCompressionTable) pBTCompressionTable = (BITSCHANGE *)NEW char[dwBTCompressionTableSize*sizeof(BITSCHANGE)];
-	else pBTCompressionTable = (BITSCHANGE *)RESIZE(pBTCompressionTable,dwBTCompressionTableSize*sizeof(BITSCHANGE));
+	pBTCompressionTable.resize(dwBTCompressionTableSize);
 
 	pBTCompressionTable[n].dwBits = dwBits;
 	pBTCompressionTable[n].dwChangeOffset = dwChangeOffset;

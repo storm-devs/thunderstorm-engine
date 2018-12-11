@@ -24,7 +24,7 @@ struct EVENT_FUNC_INFO
 struct EVENTINFO
 {
 	uint32_t hash;
-	EVENT_FUNC_INFO * pFuncInfo;
+	std::vector<EVENT_FUNC_INFO> pFuncInfo;
 	char * name;
 	uint32_t elements;
 };
@@ -35,7 +35,7 @@ class S_EVENTTAB
 {
 	uint32_t Buffer_size[HASHTABLE_SIZE];
 	uint32_t Event_num[HASHTABLE_SIZE];
-	EVENTINFO * pTable[HASHTABLE_SIZE];
+	std::vector<EVENTINFO> pTable[HASHTABLE_SIZE];
 	//bool bKeepName;
 public:
 	 S_EVENTTAB();

@@ -373,8 +373,6 @@ SOURCE_VIEW::SOURCE_VIEW(HWND _hMain, HINSTANCE _hInst)
 	nActiveLine = 0xffffffff;
 	nControlLine = 0xffffffff;
 	nTopLine = 0;
-	pLineOffset = nullptr;
-	pBookmarks = nullptr;
 	nLinesNum = 0;
 	nSourceFileSize = 0;
 	pSourceFile = nullptr;
@@ -442,8 +440,6 @@ SOURCE_VIEW::SOURCE_VIEW(HWND _hMain, HINSTANCE _hInst)
 SOURCE_VIEW::~SOURCE_VIEW()
 {
 	if(pSourceFile) delete pSourceFile;
-	if(pLineOffset) delete pLineOffset;
-	if(pBookmarks) delete pBookmarks;
 
 	INIFILE * pI = Core.fio->OpenIniFile(PROJECT_NAME);
 	if (pI)
@@ -518,10 +514,6 @@ bool SOURCE_VIEW::OpenSourceFile(const char * _filename)
 	nTopLine = 0;
 	if(pSourceFile) delete pSourceFile; 
 	nSourceFileSize = 0;
-	if(pLineOffset) delete pLineOffset;
-	pLineOffset = nullptr;
-	if(pBookmarks) delete pBookmarks;
-	pBookmarks = nullptr;
 	nLinesNum = 0;
 	nActiveLine = 0xffffffff;
 
@@ -538,7 +530,7 @@ bool SOURCE_VIEW::OpenSourceFile(const char * _filename)
 	nSourceFileSize = nDataSize;
 
 	nLinesNum = 1;
-	pLineOffset = (uint32_t *)RESIZE(pLineOffset,nLinesNum*sizeof(uint32_t));
+	pLineOffset.resize(nLinesNum);
 	pLineOffset[0] = 0;
 
 	for(n=0;n<nDataSize;n++)
@@ -547,13 +539,12 @@ bool SOURCE_VIEW::OpenSourceFile(const char * _filename)
 		{
 			if(pSourceFile[n + 1] == 0xa) n++;
 			nLinesNum++;
-			pLineOffset = (uint32_t *)RESIZE(pLineOffset,nLinesNum*sizeof(uint32_t));
+			pLineOffset.resize(nLinesNum);
 			pLineOffset[nLinesNum - 1] = n + 1;
 		}
 	}
 	if(nLinesNum > 0) nActiveLine = 0;
-	pBookmarks = (bool*)RESIZE(pBookmarks, nLinesNum);
-	PZERO(pBookmarks, nLinesNum * sizeof(pBookmarks[0]));
+	pBookmarks.resize(nLinesNum);
 	UpdateGDIControls();
 	InvalidateRect(hOwn,nullptr,true);
 	strcpy_s(SourceFileName,_filename);
@@ -1010,7 +1001,7 @@ void SOURCE_VIEW::ToogleBookmark()
 {
 	if (nActiveLine < nLinesNum)
 	{
-		pBookmarks[nActiveLine] ^= 1;
+		pBookmarks[nActiveLine] = !pBookmarks[nActiveLine];
 		std::string sFilename = std::string(SourceFileName) + "," + std::to_string(nActiveLine);
 		if (pBookmarks[nActiveLine]) 
 			htBookmarks[sFilename] = nActiveLine;

@@ -10,7 +10,6 @@
 
 S_FUNCTAB::S_FUNCTAB()
 {
-	pTable = nullptr;
 	Buffer_size = 0;
 	Func_num = 0;
 	//bKeepName = false;
@@ -18,7 +17,6 @@ S_FUNCTAB::S_FUNCTAB()
 	for(n=0;n<HASHT_SIZE;n++)
 	{
 		HashLine[n].nNumElements = 0;
-		HashLine[n].pElements = nullptr;
 	}
 }
 
@@ -30,31 +28,22 @@ S_FUNCTAB::~S_FUNCTAB()
 void  S_FUNCTAB::Release()
 {
 	uint32_t n,i;
-	if(pTable)
+	for(n=0;n<Func_num;n++)
 	{
-		for(n=0;n<Func_num;n++)
+		delete pTable[n].name;
+		for(i=0;i<pTable[n].var_num;i++)
 		{
-			if(pTable[n].name) delete pTable[n].name;
-			if(pTable[n].pLocal)
-			{
-				for(i=0;i<pTable[n].var_num;i++)
-				{
-					if(pTable[n].pLocal[i].name) delete pTable[n].pLocal[i].name;
-				}
-				delete pTable[n].pLocal;
-			}
-			if(pTable[n].decl_file_name) delete pTable[n].decl_file_name;
-			pTable[n].decl_file_name = nullptr;
+			delete pTable[n].pLocal[i].name;
 		}
-		delete pTable; pTable = nullptr;
+		pTable[n].pLocal.clear();
+		delete pTable[n].decl_file_name;
+		pTable[n].decl_file_name = nullptr;
 	}
 	Buffer_size = 0;
 	Func_num = 0;
 	for(n=0;n<HASHT_SIZE;n++)
 	{
 		HashLine[n].nNumElements = 0;
-		if(HashLine[n].pElements)  delete HashLine[n].pElements;
-		HashLine[n].pElements = nullptr;
 	}
 }
 
@@ -137,7 +126,7 @@ uint32_t S_FUNCTAB::AddFunc(FUNCINFO& fi)
 	if(Func_num >= Buffer_size)
 	{
 		Buffer_size += FUNC_BUFFER_BLOCK_SIZE;
-		pTable = (FUNCINFO *)RESIZE(pTable,Buffer_size*sizeof(FUNCINFO));
+		pTable.resize(Buffer_size);
 	}
 	pTable[Func_num] = fi;
 	pTable[Func_num].hash = hash;
@@ -145,7 +134,6 @@ uint32_t S_FUNCTAB::AddFunc(FUNCINFO& fi)
 	pTable[Func_num].arguments = fi.arguments;
 	pTable[Func_num].ext_args = 0;
 	pTable[Func_num].var_num = 0;
-	pTable[Func_num].pLocal = nullptr;
 	pTable[Func_num].decl_line = fi.decl_line;
 	pTable[Func_num].fTimeUsage = 0;
 	pTable[Func_num].nNumberOfCalls = 0;
@@ -205,15 +193,11 @@ void S_FUNCTAB::InvalidateBySegmentID(uint32_t segment_id)
 		if(pTable[n].segment_id != segment_id) continue;
 		UpdateHashTable(n,pTable[n].hash,false);
 		pTable[n].offset = INVALID_FUNC_OFFSET;
-		if(pTable[n].pLocal)
+		for(i=0;i<pTable[n].var_num;i++)
 		{
-			for(i=0;i<pTable[n].var_num;i++)
-			{
-				if(pTable[n].pLocal[i].name) delete pTable[n].pLocal[i].name;
-			}
-			delete pTable[n].pLocal;
+			if(pTable[n].pLocal[i].name) delete pTable[n].pLocal[i].name;
 		}
-		pTable[n].pLocal = nullptr;
+		pTable[n].pLocal.clear();
 		pTable[n].var_num = 0;
 		pTable[n].arguments = 0;
 		if(pTable[n].decl_file_name) delete pTable[n].decl_file_name;
@@ -231,15 +215,11 @@ void S_FUNCTAB::InvalidateFunction(uint32_t nFuncHandle)
 		n = nFuncHandle;
 		UpdateHashTable(n,pTable[n].hash,false);
 		pTable[n].offset = INVALID_FUNC_OFFSET;
-		if(pTable[n].pLocal)
+		for(i=0;i<pTable[n].var_num;i++)
 		{
-			for(i=0;i<pTable[n].var_num;i++)
-			{
-				if(pTable[n].pLocal[i].name) delete pTable[n].pLocal[i].name;
-			}
-			delete pTable[n].pLocal;
+			if(pTable[n].pLocal[i].name) delete pTable[n].pLocal[i].name;
 		}
-		pTable[n].pLocal = nullptr;
+		pTable[n].pLocal.clear();
 		//pTable[n].var_num = 0;
 		//pTable[n].arguments = 0;
 		if(pTable[n].decl_file_name) delete pTable[n].decl_file_name;
@@ -314,7 +294,7 @@ bool S_FUNCTAB::AddFuncVar(uint32_t func_code, LVARINFO & lvi)
 
 	vindex = pTable[func_code].var_num;
 	pTable[func_code].var_num++;
-	pTable[func_code].pLocal = (LVARINFO *)RESIZE(pTable[func_code].pLocal,pTable[func_code].var_num*sizeof(LVARINFO));
+	pTable[func_code].pLocal.resize(pTable[func_code].var_num);
 	pTable[func_code].pLocal[vindex].name = nullptr;
 	if(true)//bKeepName)
 	{
@@ -396,13 +376,13 @@ void S_FUNCTAB::UpdateHashTable(uint32_t code, uint32_t hash, bool in)
 			// take element out of list
 			HashLine[hash_index].pElements[n] = HashLine[hash_index].pElements[HashLine[hash_index].nNumElements - 1];
 			HashLine[hash_index].nNumElements--;
-			HashLine[hash_index].pElements = (uint32_t *)RESIZE(HashLine[hash_index].pElements,HashLine[hash_index].nNumElements * sizeof(uint32_t));
+			HashLine[hash_index].pElements.resize(HashLine[hash_index].nNumElements);
 			return;
 		}
 		else return;	// ok, already in list (? possible)
 	}
 	// not in list - add
 	HashLine[hash_index].nNumElements++;
-	HashLine[hash_index].pElements = (uint32_t *)RESIZE(HashLine[hash_index].pElements,HashLine[hash_index].nNumElements * sizeof(uint32_t));
+	HashLine[hash_index].pElements.resize(HashLine[hash_index].nNumElements);
 	HashLine[hash_index].pElements[HashLine[hash_index].nNumElements - 1] = code;
 }
