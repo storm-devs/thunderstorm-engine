@@ -121,9 +121,10 @@ public:
 		}
 
 		const auto len = GetLen(strlen(_val) + 1);
-		delete Attribute;
+		const auto oldPtr = Attribute;
 		Attribute =  new char[len];
 		strcpy_s(Attribute, len, _val);
+		delete[] oldPtr;
 
 		if (bBreak) pVStringCodec->VariableChanged();
 	};
@@ -140,9 +141,10 @@ public:
 		}
 		pAttributes = 0;
 		Attributes_num = 0;*/
-		if (bBreak) pVStringCodec->VariableChanged();
+		if (bBreak) 
+			pVStringCodec->VariableChanged();
 		ReleaseLeafs();
-		if(Attribute) delete Attribute;
+		delete Attribute;
 		Attribute = nullptr;
 	};
 
