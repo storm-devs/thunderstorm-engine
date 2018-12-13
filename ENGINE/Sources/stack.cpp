@@ -22,12 +22,12 @@ void VSTACK::Push(DATA * block)
 		if(Block_Size == 0)
 		{
 
-			pBlock = (DATA * *)NEW char[sizeof(DATA *)];
+			pBlock = (DATA * *)malloc(sizeof(DATA *));
 			pBlock[0] = block;
 			Block_Size = 1;
 			return;
 		}
-		pBlock = (DATA * *)RESIZE(pBlock,Block_Num * sizeof(DATA *));
+		pBlock = (DATA * *)realloc(pBlock,Block_Num * sizeof(DATA *));
 		Block_Size = Block_Num;
 	}
 	pBlock[Block_Num - 1] = block;
@@ -54,5 +54,5 @@ bool VSTACK::Read(DATA * * _pblock)
 
 void VSTACK::Release()
 {
-	STORM_DELETE(pBlock); 
+	free(pBlock); 
 }

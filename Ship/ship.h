@@ -104,7 +104,7 @@ struct ship_point_t
 	CVECTOR			vDeadDir, vCurDeadDir;
 	CVECTOR			vKeelContour[MAX_KEEL_POINTS];
 	long			iNumMasts;
-	mast_t			* pMasts;
+	std::vector<mast_t>	pMasts;
 	bool			bShip2Strand;
 	bool			bMounted;
 	bool			bKeelContour;

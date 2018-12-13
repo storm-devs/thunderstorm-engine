@@ -106,7 +106,6 @@ XINTERFACE::XINTERFACE()
 	m_bMouseClick = false;
 	m_bDblMouseClick = false;
 
-	m_stringes = nullptr;
 	m_nStringQuantity = 0;
 	m_imgLists = nullptr;
 
@@ -614,8 +613,7 @@ uint32_t XINTERFACE::ProcessMessage(MESSAGE & message)
 			if(l==m_nStringQuantity)
 			{
 				m_nStringQuantity++;
-				m_stringes = (STRING_ENTITY*)RESIZE(m_stringes,m_nStringQuantity*sizeof(STRING_ENTITY));
-				if(m_stringes== nullptr)	THROW("allocate memory error");
+				m_stringes.resize(m_nStringQuantity);
 
 				const auto len = strlen(param) + 1;
 				m_stringes[l].sStringName = NEW char[len];
@@ -2416,16 +2414,12 @@ void XINTERFACE::ReleaseOld()
 	STORM_DELETE(m_strDefHelpTextureFile);
 
 	oldKeyState.dwKeyCode = 0;
-	if(m_stringes!= nullptr)
+    for(int i=0; i<m_nStringQuantity; i++)
 	{
-        for(int i=0; i<m_nStringQuantity; i++)
-		{
-            STORM_DELETE(m_stringes[i].sStringName);
-			FONT_RELEASE(pRenderService,m_stringes[i].fontNum);
-		}
-		STORM_DELETE(m_stringes);
-		m_nStringQuantity = 0;
+        STORM_DELETE(m_stringes[i].sStringName);
+		FONT_RELEASE(pRenderService,m_stringes[i].fontNum);
 	}
+	m_nStringQuantity = 0;
 
     while(m_pEvents!= nullptr)
     {
@@ -2549,7 +2543,7 @@ bool __declspec(dllexport) __cdecl XINTERFACE::SFLB_DoSaveFileData(char * saveNa
 	D3DSURFACE_DESC dscr;
 	ptex->GetLevelDesc(0,&dscr);
 
-	char * pdat = NEW char[sizeof(SAVE_DATA_HANDLE) + slen];
+	char * pdat = (char*)malloc(sizeof(SAVE_DATA_HANDLE) + slen);
 	if(pdat== nullptr)	{ THROW("allocate memory error"); }
 
 	((SAVE_DATA_HANDLE*)pdat)->StringDataSize = slen;
@@ -2563,7 +2557,7 @@ bool __declspec(dllexport) __cdecl XINTERFACE::SFLB_DoSaveFileData(char * saveNa
 		if( ptex->LockRect(0,&lockRect, nullptr,0) == D3D_OK )
 		{
 			ssize = lockRect.Pitch*dscr.Height;
-			pdat = (char*)RESIZE(pdat, sizeof(SAVE_DATA_HANDLE) + slen + ssize);
+			pdat = (char*)realloc(pdat, sizeof(SAVE_DATA_HANDLE) + slen + ssize);
 			((SAVE_DATA_HANDLE*)pdat)->SurfaceDataSize = ssize;
 			memcpy( &pdat[sizeof(SAVE_DATA_HANDLE)+slen], lockRect.pBits, ssize);
 			ptex->UnlockRect(0);
@@ -2572,7 +2566,7 @@ bool __declspec(dllexport) __cdecl XINTERFACE::SFLB_DoSaveFileData(char * saveNa
 	}
 
 	api->SetSaveData(saveName,pdat, sizeof(SAVE_DATA_HANDLE) + slen + ssize);
-	delete[] pdat;
+	free(pdat);
 	return true;
 }
 

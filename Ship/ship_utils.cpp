@@ -162,7 +162,7 @@ bool SHIP::BuildMasts()
 				pAMasts = GetACharacter()->CreateSubAClass(GetACharacter(),"Ship.Masts");
 
 			sscanf((const char*)&cNodeName[_countof(MAST_IDENTIFY)-1],"%d",&iNum);
-			pMasts = (mast_t*)RESIZE(pMasts,sizeof(mast_t) * (iNumMasts+1));
+			pMasts.resize(iNumMasts+1);
 
 			mast_t * pM = &pMasts[iNumMasts];
 			pM->iMastNum = iNum;

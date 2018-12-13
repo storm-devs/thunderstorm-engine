@@ -16,7 +16,7 @@ ENTITY_STATE_GEN_R::ENTITY_STATE_GEN_R()
 
 ENTITY_STATE_GEN_R::~ENTITY_STATE_GEN_R()
 {
-	delete Format_string;
+	free(Format_string);
 }
 
 void ENTITY_STATE_GEN_R::Init(VFILE_SERVICE * _fio,HANDLE _file_handle)
@@ -63,7 +63,7 @@ void ENTITY_STATE_GEN_R::CloseState()
 
 	// reset buffer pointer and format string
 	Data_size = 0;
-	if(Format_string) delete Format_string;
+	free(Format_string);
 	Format_string = nullptr;
 
 	UNGUARD
@@ -105,13 +105,13 @@ void _cdecl ENTITY_STATE_GEN_R::SetState(char * Format,...)
 	if(Format_string == nullptr)
 	{
 		const auto len = strlen(Format) + 1;
-		Format_string = (char *)NEW char[len];
+		Format_string = (char *)malloc(len);
 		if(Format_string == nullptr) THROW;
 		memcpy(Format_string,Format,len);
 	} else
 	{
 		const auto len = strlen(Format_string) + strlen(Format) + 1;
-		Format_string = (char *)RESIZE(Format_string,len);
+		Format_string = (char *)realloc(Format_string,len);
 		if(Format_string == nullptr) THROW;
 		strcat_s(Format_string,len,Format);
 	}
@@ -187,8 +187,8 @@ ENTITY_STATE_R::ENTITY_STATE_R()
 
 ENTITY_STATE_R::~ENTITY_STATE_R()
 {
-	if(Format_string) delete Format_string;
-	if(Buffer) delete Buffer;
+	free(Format_string);
+	free(Buffer);
 }
 
 void ENTITY_STATE_R::Init(VFILE_SERVICE * _fio,HANDLE _file_handle)
@@ -211,7 +211,7 @@ void ENTITY_STATE_R::LoadStateBlock()
 	uint32_t sizeofstruct;
 	uint32_t dwR;
 
-	if(Format_string) delete Format_string; Format_string = nullptr;
+	free(Format_string); Format_string = nullptr;
 	Format_index = 0;
 	Data_index = 0;
 	Data_PTR = nullptr;
@@ -244,14 +244,14 @@ void ENTITY_STATE_R::LoadStateBlock()
 	{
 		Buffer_size = Data_size;
 
-		Buffer = (char *)NEW char[Buffer_size];
+		Buffer = (char *)malloc(Buffer_size);
 		if(!Buffer) THROW;
 	}
 	else
 	{
 		if(Buffer_size < Data_size)
 		{
-			Buffer = (char *)RESIZE(Buffer,Data_size);
+			Buffer = (char *)realloc(Buffer,Data_size);
 			if(!Buffer) THROW;
 			Buffer_size = Data_size;
 		}
@@ -271,7 +271,7 @@ void ENTITY_STATE_R::ValidateFormat(char c)
 	if(Format_string)
 	if(Format_index >= strlen(Format_string))
 	{
-		delete Format_string; Format_string = nullptr;
+		free(Format_string); Format_string = nullptr;
 		Format_index = 0;
 	}
 	if(Format_string == nullptr) LoadStateBlock();

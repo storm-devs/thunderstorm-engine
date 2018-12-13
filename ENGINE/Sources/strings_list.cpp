@@ -43,12 +43,12 @@ bool STRINGS_LIST::AddString(char * _char_PTR)
 	if(String_Table_PTR == nullptr)	// first time
 	{
 
-		String_Table_PTR = (char * *)NEW char[sizeof(char*)*SL_BLOCK_SIZE];
+		String_Table_PTR = (char * *)malloc(sizeof(char*)*SL_BLOCK_SIZE);
 		List_size = SL_BLOCK_SIZE;
 	}
 	if(Strings >= List_size)		// enlarge list size
 	{
-		String_Table_PTR = (char **)RESIZE(String_Table_PTR,(List_size + SL_BLOCK_SIZE)*sizeof(char*));
+		String_Table_PTR = (char **)realloc(String_Table_PTR,(List_size + SL_BLOCK_SIZE)*sizeof(char*));
 		List_size = List_size + SL_BLOCK_SIZE;
 	}
 	
@@ -69,7 +69,7 @@ void STRINGS_LIST::Release()
 	uint32_t n;
 	if(Strings <= 0 || String_Table_PTR == nullptr) return;
 	for(n = 0; n < Strings; n++) delete String_Table_PTR[n];
-	delete String_Table_PTR;
+	free(String_Table_PTR);
 	List_size = 0;
 	Strings = 0;
 	String_Table_PTR = nullptr;		

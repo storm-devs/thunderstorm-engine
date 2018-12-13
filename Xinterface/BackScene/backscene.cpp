@@ -126,10 +126,8 @@ InterfaceBackScene::InterfaceBackScene()
 	m_nFlareTexture = -1;
 
 	//Мухи
-	flys = nullptr;
 	numFlys = 0;
 	maxFlys = 0;
-	fly = nullptr;
 	numFly = 0;
 	flyTex = -1;
 }
@@ -152,8 +150,6 @@ InterfaceBackScene::~InterfaceBackScene()
 	if( m_nFlareTexture >=0 ) m_pRS->TextureRelease(m_nFlareTexture); m_nFlareTexture = -1;
 
 	if(flyTex >= 0) m_pRS->TextureRelease(flyTex); flyTex = -1;
-	if(flys) delete flys; flys = nullptr;
-	if(fly) delete fly; fly = nullptr;
 }
 
 bool InterfaceBackScene::Init()
@@ -891,7 +887,7 @@ void InterfaceBackScene::AddLampFlys(CVECTOR & pos)
 	if(numFlys >= maxFlys)
 	{
 		maxFlys += 8;
-		flys = (LampFlys *)RESIZE(flys, maxFlys*sizeof(LampFlys));
+		flys.resize(maxFlys);
 	}
 	//Заполняем параметры
 	//Общие
@@ -900,7 +896,7 @@ void InterfaceBackScene::AddLampFlys(CVECTOR & pos)
 	flys[numFlys].start = numFly;
 	flys[numFlys].num = 4 + (rand() & 4);//1 + (rand() & 7);
 	numFly += flys[numFlys].num;
-	fly = (ParticleFly *)RESIZE(fly, numFly*sizeof(ParticleFly));
+	fly.resize(numFly);
 	//Каждой мухи
 	for(long i = 0; i < flys[numFlys].num; i++)
 	{
@@ -944,7 +940,7 @@ void InterfaceBackScene::ProcessedFlys(float dltTime)
 		k = 3.0f*(1.0f - k);
 		if(k > 1.0f) k = 1.0f;
 		//Обновляем мух
-		ParticleFly * fl = fly + flys[i].start;
+		ParticleFly * fl = &fly[flys[i].start];
 		for(long j = 0; j < flys[i].num; j++)
 		{
 			ParticleFly & f = fl[j];
@@ -982,7 +978,7 @@ void InterfaceBackScene::ProcessedFlys(float dltTime)
 		}
 	}
 	//Рисуем
-	DrawParticles(fly, numFly, sizeof(ParticleFly), flyTex, "LocFly", true, 4);
+	DrawParticles(fly.data(), numFly, sizeof(ParticleFly), flyTex, "LocFly", true, 4);
 }
 
 void InterfaceBackScene::DrawParticles(void * prts, long num, long size, long texture, const char * tech, bool isEx, long numU)

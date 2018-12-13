@@ -33,7 +33,6 @@ MODULES_TABLE::MODULES_TABLE()
 {
 	Paths_Count = 0;
 	Paths_Table = nullptr;
-	pTable = nullptr;
 	nModulesNum = 0;
 }
 
@@ -46,18 +45,14 @@ void MODULES_TABLE::Release()
 {
 	uint32_t n;
 
-	if(pTable)
-	{
-		for(n = 0; n < nModulesNum; n++) FreeLibrary(pTable[n].hInst);
-		delete pTable;
-		pTable = nullptr;
-		nModulesNum = 0;
-	}
+	for(n = 0; n < nModulesNum; n++) 
+		FreeLibrary(pTable[n].hInst);
+	nModulesNum = 0;
 
 	if(Paths_Table)
 	{
 		for(n=0;n<Paths_Count;n++) delete Paths_Table[n];
-		delete Paths_Table;
+		free(Paths_Table);
 	}
 	Paths_Count = 0;
 	Paths_Table = nullptr;
@@ -71,14 +66,14 @@ bool MODULES_TABLE::SetModulesPath(char * _name)
 	if(Paths_Table)
 	{
 		for(n=0;n<Paths_Count;n++) delete Paths_Table[n];
-		delete Paths_Table;
+		free(Paths_Table);
 	}
 	Paths_Count = 0;
 	Paths_Table = nullptr;
 	if(_name == nullptr) return true;
 
 
-	Paths_Table = (char **)NEW char[sizeof(char *)];
+	Paths_Table = (char **)malloc(sizeof(char *));
 	if(Paths_Table == nullptr) THROW;
 
 	const auto len = strlen(_name) + 1;
@@ -95,7 +90,7 @@ bool MODULES_TABLE::AddModulesPath(char * _name)
 	GUARD(MODULES_TABLE::AddModulesPath)
 	if(Paths_Table == nullptr) return SetModulesPath(_name);
 	if(_name == nullptr) return false;
-	Paths_Table = (char **)RESIZE(Paths_Table,(Paths_Count + 1)*sizeof(char *));
+	Paths_Table = (char **)realloc(Paths_Table,(Paths_Count + 1)*sizeof(char *));
 	if(Paths_Table == nullptr) THROW;
 
 	const auto len = strlen(_name) + 1;
@@ -201,7 +196,7 @@ void __declspec(noinline) __declspec(dllexport) __cdecl MODULES_TABLE::Load_Modu
 				{
 					i = nModulesNum;
 					nModulesNum++;
-					pTable = (MODULE_STATE *)RESIZE(pTable,sizeof(MODULE_STATE) * nModulesNum);
+					pTable.resize(nModulesNum);
 					pTable[i] = ms;
 					pTable[i].api_func_PTR = ms.api_func_PTR;
 					pTable[i].hInst = ms.hInst;

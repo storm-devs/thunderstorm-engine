@@ -233,7 +233,7 @@ bool NODER::Init(const char *lightPath, const char *pname, const char *oname, CM
 
 	if(nnext>0)
 	{
-		next = (NODE**)RESIZE(nullptr, sizeof(NODE*)*nnext);
+		next = (NODE**)malloc(sizeof(NODE*)*nnext);
 		for(long ii=0;ii<nnext;ii++)next[ii] = nullptr;
 		long sti = -1;
 		long l = 0;
@@ -279,7 +279,7 @@ NODER::~NODER()
 	if(geo) delete geo;
 	for(long l=0; l<nnext; l++)
 		if(next[l]!=nullptr)	delete next[l];
-	if(nnext>0)	delete next;
+	if(nnext>0)	free(next);
 	if(sys_modelName) delete sys_modelName;
 	if(sys_LightPath) delete sys_LightPath;
 	if(sys_lmPath) delete sys_lmPath;
@@ -527,7 +527,7 @@ void NODER::Link(ENTITY_ID id, bool transform)
 
 	//increment number of children
 	nnext++;
-	next = (NODE**)RESIZE(next, sizeof (NODE*)*nnext);
+	next = (NODE**)realloc(next, sizeof (NODE*)*nnext);
 	next[nnext-1] = mdl->root;
 
 	//modify loc_mtx of node

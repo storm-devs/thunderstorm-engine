@@ -16,7 +16,7 @@ class MODULES_TABLE
 	char * * Paths_Table;
 	char gstring[_MAX_PATH];
 	uint32_t nModulesNum;
-	MODULE_STATE * pTable;
+	std::vector<MODULE_STATE> pTable;
 public:
 
 	~MODULES_TABLE();

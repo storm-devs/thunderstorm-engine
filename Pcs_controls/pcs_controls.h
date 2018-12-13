@@ -26,7 +26,7 @@ class PCS_CONTROLS : public CONTROLS
 	VAPI * api;
 	
 	long nSystemControlsNum;
-	USER_CONTROL * pUserControls;
+	std::vector<USER_CONTROL> pUserControls;
 	long nControlsNum;
 	uint32_t nFrameCounter;
 	long nLastControlTime;

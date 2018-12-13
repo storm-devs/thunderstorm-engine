@@ -242,7 +242,7 @@ void TOKEN::Release()
 	uint32_t n;
 	for(n=0;n<TOKENHASHTABLE_SIZE;n++)
 	{
-		if(KeywordsHash[n].pIndex) delete KeywordsHash[n].pIndex;
+		if(KeywordsHash[n].pIndex) free(KeywordsHash[n].pIndex);
 		KeywordsHash[n].pIndex = nullptr;
 	}
 }
@@ -1164,7 +1164,7 @@ bool TOKEN::InitializeHashTable()
 		hash = MakeHashValue(Keywords[n].name,4)%TOKENHASHTABLE_SIZE;
 
 		KeywordsHash[hash].dwNum++;
-		KeywordsHash[hash].pIndex = (uint8_t*)RESIZE(KeywordsHash[hash].pIndex,KeywordsHash[hash].dwNum);
+		KeywordsHash[hash].pIndex = (uint8_t*)realloc(KeywordsHash[hash].pIndex,KeywordsHash[hash].dwNum);
 		KeywordsHash[hash].pIndex[KeywordsHash[hash].dwNum-1] = (uint8_t)n;
 	}
 

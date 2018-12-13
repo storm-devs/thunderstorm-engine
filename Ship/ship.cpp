@@ -62,8 +62,6 @@ SHIP::SHIP()
 	fRockingY = 1.0f;
 	fRockingAZ = 1.0f;
 
-	pMasts = nullptr;
-
 	bModelUpperShip = false;
 	pModelUpperShip = nullptr;
 }
@@ -76,7 +74,6 @@ SHIP::~SHIP()
 	api->Send_Message(flag_id, "li", MSG_FLAG_DEL_GROUP, GetModelEID());
 	api->Send_Message(vant_id, "li", MSG_VANT_DEL_GROUP, GetModelEID());
 	api->DeleteEntity(blots_id);
-	STORM_DELETE(pMasts);
 
 	ENTITY_ID eidTmp;
 	if (api->FindClass(&eidTmp, "ShipTracks", 0))

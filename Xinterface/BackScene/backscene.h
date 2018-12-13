@@ -154,10 +154,10 @@ protected:
 		uint32_t color;
 		float u, v;
 	};
-	LampFlys * flys;
+	std::vector<LampFlys> flys;
 	long numFlys;
 	long maxFlys;
-	ParticleFly * fly;
+	std::vector<ParticleFly> fly;
 	long numFly;
 	long flyTex;
 	Vertex buffer[256*6];

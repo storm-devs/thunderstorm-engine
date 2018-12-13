@@ -246,7 +246,7 @@ protected:
 		int		eAlignment;
 		float	fScale;
 	};
-	STRING_ENTITY *m_stringes;
+	std::vector<STRING_ENTITY> m_stringes;
 	int		m_nStringQuantity;
 
 	// dinamic images data

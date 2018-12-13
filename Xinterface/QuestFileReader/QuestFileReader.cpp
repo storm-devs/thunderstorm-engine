@@ -228,12 +228,12 @@ bool QUEST_FILE_READER::InitQuestsQuery()
 			long foffset = 0;
 			if( m_pFileBuf == nullptr )
 			{
-				m_pFileBuf = NEW char[filesize+1];
+				m_pFileBuf = (char*)malloc(filesize+1);
 			}
 			else
 			{
 				foffset = strlen( m_pFileBuf );
-				m_pFileBuf = (char*)RESIZE( m_pFileBuf, foffset+filesize+1 );
+				m_pFileBuf = (char*)realloc( m_pFileBuf, foffset+filesize+1 );
 			}
 
 			if( m_pFileBuf == nullptr ) {
@@ -257,7 +257,7 @@ bool QUEST_FILE_READER::InitQuestsQuery()
 
 void QUEST_FILE_READER::CloseQuestsQuery()
 {
-	STORM_DELETE( m_pFileBuf );
+	free(m_pFileBuf);
 	m_aQuestData.clear();
 	m_sCurQuestTitle.clear();
 }

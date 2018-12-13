@@ -16,7 +16,6 @@ PCS_CONTROLS::PCS_CONTROLS()
 
 	nSystemControlsNum = 0;
 
-	pUserControls = nullptr;
 	nControlsNum = 0;
 
 	//nMouseXPrev = nMouseYPrev = 0;
@@ -65,16 +64,11 @@ void PCS_CONTROLS::AppState(bool state)
 void PCS_CONTROLS::Release()
 {
 	long n;
-	if(pUserControls)
+	for(n=0;n<nControlsNum;n++)
 	{
-		for(n=0;n<nControlsNum;n++)
-		{
-			if(pUserControls[n].name) delete pUserControls[n].name;
-		}
-		delete pUserControls;
+		if(pUserControls[n].name) delete pUserControls[n].name;
 	}
 	
-	pUserControls = nullptr;
 	nControlsNum = 0;
 		
 	nSystemControlsNum = 0;
@@ -133,7 +127,7 @@ long PCS_CONTROLS::CreateControl(char * control_name)
 	}
 	n = nControlsNum;
 	nControlsNum++;
-	pUserControls = (USER_CONTROL *)RESIZE(pUserControls,nControlsNum * sizeof(USER_CONTROL));
+	pUserControls.resize(nControlsNum);
 	const auto len = strlen(control_name) + 1;
 	pUserControls[n].name = NEW char[len];
 	memcpy(pUserControls[n].name,control_name,len);

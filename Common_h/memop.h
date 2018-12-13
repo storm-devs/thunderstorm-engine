@@ -11,4 +11,4 @@ extern void operator delete(void* ptr, std::align_val_t al) noexcept;
 extern void operator delete(void* ptr, std::size_t sz, std::align_val_t al) noexcept;
 
 #define NEW new
-#define RESIZE(x,y) realloc(x,y)
+//#define RESIZE(x,y) realloc(x,y)
