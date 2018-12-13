@@ -390,30 +390,6 @@ void ProcessKeys(HWND hwnd, int code, int Press)
 	}
 }
 
-void * __cdecl operator new(std::size_t size)
-{
-	return malloc(size);
-}
-
-void * __cdecl operator new (std::size_t count, std::align_val_t al) 
-{
-	return malloc(count);
-}
-
-void __cdecl operator delete(void * block_ptr) noexcept
-{
-	free(block_ptr);
-}
-
-void __cdecl operator delete(void* ptr, std::align_val_t al) noexcept
-{
-	free(ptr);
-}
-void __cdecl operator delete(void* ptr, std::size_t sz, std::align_val_t al) noexcept
-{
-	free(ptr);
-}
-
 void EmergencyExit()
 {
 	System_Api.SetX();

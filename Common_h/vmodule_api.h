@@ -63,13 +63,7 @@ public:
 
 #ifndef _ENGINE_IN_
 #define ENGINE_MODULE "engine.exe"
-#define INTERFACE_FUNCTION	VMA * _pModuleClassRoot = 0; VAPI * _CORE_API; VAPI * api; VFILE_SERVICE * fio; VSYSTEM_API * _VSYSTEM_API; extern "C" DLL_MODULE_API_FUNCTION _cdecl DMAInterface(VAPI * api_PTR,VSYSTEM_API * sapi_PTR){_CORE_API = api_PTR; api = api_PTR; fio = api_PTR->fio; _VSYSTEM_API = sapi_PTR; return _pModuleClassRoot;} \
-	void * __cdecl operator new(std::size_t count) { return malloc(count); } \
-	void * __cdecl operator new (std::size_t count, std::align_val_t al) { return malloc(count); } \
-	void __cdecl operator delete(void * ptr) noexcept { free(ptr); } \
-	void __cdecl operator delete(void* ptr, std::align_val_t al) noexcept { free(ptr); } \
-	void __cdecl operator delete(void* ptr, std::size_t sz, std::align_val_t al) noexcept { free(ptr); } \
-	void * __cdecl resize(void * ptr, std::size_t count){ return realloc(ptr, count); }
+#define INTERFACE_FUNCTION	VMA * _pModuleClassRoot = 0; VAPI * _CORE_API; VAPI * api; VFILE_SERVICE * fio; VSYSTEM_API * _VSYSTEM_API; extern "C" DLL_MODULE_API_FUNCTION _cdecl DMAInterface(VAPI * api_PTR,VSYSTEM_API * sapi_PTR){_CORE_API = api_PTR; api = api_PTR; fio = api_PTR->fio; _VSYSTEM_API = sapi_PTR; return _pModuleClassRoot;}
 #else
 #define INTERFACE_FUNCTION
 #endif
