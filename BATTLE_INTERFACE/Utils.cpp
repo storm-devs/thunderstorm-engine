@@ -384,7 +384,7 @@ void BIImagesInfo::Init(VDX9RENDER* rs, ATTRIBUTES *pA)
 	if(!pA || !rs) return;
 
 	pRS = rs;
-	pImgRender = NEW BIImageRender(rs);
+	pImgRender = new BIImageRender(rs);
 	if(!pImgRender) return;
 
 	long q = pA->GetAttributesNum();
