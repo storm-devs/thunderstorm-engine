@@ -24,7 +24,7 @@ class BLAST : public ENTITY
 {
 	VDX9RENDER * rs;
 	VGEOMETRY * gs;
-	GEOPARTICLE * Item;
+	std::vector<GEOPARTICLE> Item;
 	CANNON_TRACE_BASE * pSea;
 	ENTITY_ID sea_eid;
 	float AngleDeviation;

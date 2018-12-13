@@ -19,7 +19,7 @@ Lights::Lights()
 {
 	maxLights = 256;
 	numLights = 3;
-	light = (Light *)RESIZE(nullptr, maxLights*sizeof(Light));
+	light.resize(maxLights);
 	for(long i = 0; i < maxLights; i++) SetDefLightParam(i);
 	light[0].type = Light::t_amb;
 	light[0].color = CVECTOR(0.2f, 0.2f, 0.2f);
@@ -38,11 +38,8 @@ Lights::Lights()
 
 Lights::~Lights()
 {
-	if(light)
-	{
-		for(long i = 0; i < numLights; i++) if(light[i].group) delete light[i].group;
-		delete light;
-	}
+	for(long i = 0; i < numLights; i++)
+		delete light[i].group;
 }
 
 void Lights::AddAmbient(const CVECTOR & color)
@@ -64,7 +61,7 @@ void Lights::AddPointLight(const CVECTOR & color, const CVECTOR & pos, float att
 	if(numLights > maxLights)
 	{
 		maxLights += 32;
-		light = (Light *)RESIZE(light, maxLights*sizeof(Light));
+		light.resize(maxLights);
 	}
 	SetDefLightParam(numLights);
 	light[numLights].color = color;
@@ -113,7 +110,7 @@ void Lights::PostInit()
 	if(numLights + numGrp > maxLights)
 	{
 		maxLights += numGrp + 4;
-		light = (Light *)RESIZE(light, maxLights*sizeof(Light));
+		light.resize(maxLights);
 	}
 	long num = numLights;
 	for(long i = 0; i < numGrp; i++)

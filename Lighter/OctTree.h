@@ -40,7 +40,7 @@ public:
 	void FindVerts(CVECTOR & pos, float r);
 
 
-	OctFndVerts * verts;
+	std::vector<OctFndVerts> verts;
 	long numVerts;
 	long maxVerts;
 

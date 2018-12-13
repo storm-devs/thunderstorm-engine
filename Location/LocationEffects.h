@@ -129,10 +129,10 @@ private:
 	void AddLampFlys(CVECTOR & pos);
 	void ProcessedFlys(float dltTime);
 
-	LampFlys * flys;
+	std::vector<LampFlys> flys;
 	long numFlys;
 	long maxFlys;
-	ParticleFly * fly;
+	std::vector<ParticleFly> fly;
 	long numFly;
 	long flyTex;
 

@@ -57,19 +57,19 @@ public:
 	bool Save();
 
 
-	Object * object;
+	std::vector<Object> object;
 	long numObjects;
 	long maxObjects;
 
-	Vertex * vrt;
+	std::vector<Vertex> vrt;
 	long numVrt;
 	long maxVrt;
 
-	Triangle * trg;
+	std::vector<Triangle> trg;
 	long numTrg;
 	long maxTrg;
 
-	VertexBuffer * vbuffer;
+	std::vector<VertexBuffer> vbuffer;
 	long numVBuffers;
 	long maxVBuffers;
 

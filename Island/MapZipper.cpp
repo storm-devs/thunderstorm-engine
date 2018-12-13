@@ -14,7 +14,7 @@ MapZipper::~MapZipper()
 void MapZipper::UnInit()
 {
 	STORM_DELETE(pWordTable);
-	STORM_DELETE(pRealData);
+	free(pRealData);
 }
 
 void MapZipper::DoZip(uint8_t * pSrc, uint32_t _dwSizeX)
@@ -34,8 +34,8 @@ void MapZipper::DoZip(uint8_t * pSrc, uint32_t _dwSizeX)
 
 	dwShiftNumBlocksX = Number2Shift(dwDX);
 
-	pWordTable = NEW uint16_t[dwDX * dwDX];
-	pRealData = NEW uint8_t[dwSizeX * dwSizeX];
+	pWordTable = new uint16_t[dwDX * dwDX];
+	pRealData = (uint8_t*)malloc(dwSizeX * dwSizeX);
 	for (i=0; i<dwDX * dwDX; i++)
 	{
 		y = i / dwDX;
@@ -68,7 +68,7 @@ void MapZipper::DoZip(uint8_t * pSrc, uint32_t _dwSizeX)
 			pWordTable[i] = uint16_t(0x8000) | uint16_t(byTest);
 	}
 	dwNumRealBlocks = dwRealIndex;
-	pRealData = (uint8_t*)RESIZE(pRealData, dwRealIndex * dwBlockSize * dwBlockSize);
+	pRealData = (uint8_t*)realloc(pRealData, dwRealIndex * dwBlockSize * dwBlockSize);
 
 	for (y=0; y<_dwSizeX; y++)
 		for (x=0; x<_dwSizeX; x++)
@@ -105,7 +105,7 @@ bool MapZipper::Load(std::string sFileName)
 	fio->_ReadFile(hFile, &dwNumRealBlocks, sizeof(dwNumRealBlocks), nullptr);
 	pWordTable = NEW uint16_t[dwDX * dwDX];
 	fio->_ReadFile(hFile, pWordTable, sizeof(uint16_t) * dwDX * dwDX, nullptr);
-	pRealData = NEW uint8_t[dwNumRealBlocks * dwBlockSize * dwBlockSize];
+	pRealData = (uint8_t*)malloc(dwNumRealBlocks * dwBlockSize * dwBlockSize);
 	fio->_ReadFile(hFile, pRealData, sizeof(uint8_t) * dwNumRealBlocks * dwBlockSize * dwBlockSize, nullptr);
 	fio->_CloseHandle(hFile);
 	return true;

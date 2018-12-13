@@ -144,7 +144,7 @@ private:
 	long lastLoadStaticModel;
 	
 	//Все локаторы
-	LocatorArray ** locators;
+	std::vector<LocatorArray*> locators;
 	long numLocators;
 	long maxLocators;
 

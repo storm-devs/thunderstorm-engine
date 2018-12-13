@@ -30,7 +30,6 @@
 
 CharactersGroups::CharactersGroups()
 {
-	groups = nullptr;
 	numGroups = 0;
 	maxGroups = 0;
 	location = nullptr;
@@ -40,14 +39,10 @@ CharactersGroups::CharactersGroups()
 
 CharactersGroups::~CharactersGroups()
 {
-	if(groups)
+	for(long i = 0; i < numGroups; i++)
 	{
-		for(long i = 0; i < numGroups; i++)
-		{
-			if(groups[i]->relations) delete groups[i]->relations;
-			delete groups[i];
-		}
-		delete groups;
+		delete groups[i]->relations;
+		delete groups[i];
 	}
 }
 
@@ -675,7 +670,7 @@ long CharactersGroups::RegistryGroup(const char * groupName)
 	if(numGroups >= maxGroups)
 	{
 		maxGroups += 16;
-		groups = (Group **)RESIZE(groups, sizeof(Group *)*maxGroups);
+		groups.resize(maxGroups);
 	}
 	Group * grp = NEW Group();
 	grp->index = numGroups;

@@ -38,7 +38,7 @@ private:
 	void SetDefLightParam(long i);
 
 private:
-	Light * light;
+	std::vector<Light> light;
 	long numLights;
 	long maxLights;
 };

@@ -18,16 +18,12 @@
 
 LGeometry::LGeometry()
 {
-	object = nullptr;
 	numObjects = 0;
 	maxObjects = 0;
-	vrt = nullptr;
 	numVrt = 0;
 	maxVrt = 0;
-	trg = nullptr;
 	numTrg = 0;
 	maxTrg = 0;
-	vbuffer = nullptr;
 	numVBuffers = 0;
 	maxVBuffers = 0;
 	shadows = nullptr;
@@ -39,18 +35,11 @@ LGeometry::LGeometry()
 
 LGeometry::~LGeometry()
 {
-	if(object)
+	for(long i = 0; i < numObjects; i++)
 	{
-		for(long i = 0; i < numObjects; i++)
-		{
-			delete object[i].name;
-			delete object[i].nameReal;
-		}
-		delete object;
+		delete object[i].name;
+		delete object[i].nameReal;
 	}
-	if(vrt) delete vrt;
-	if(trg) delete trg;
-	if(vbuffer) delete vbuffer;
 	if(shadows) delete shadows;
 	if(drawbuf) delete drawbuf;
 }
@@ -73,7 +62,7 @@ void LGeometry::AddObject(const char * name, ENTITY_ID & model)
 	if(numObjects >= maxObjects)
 	{
 		maxObjects += 16;
-		object = (Object *)RESIZE(object, maxObjects*sizeof(Object));
+		object.resize(maxObjects);
 	}
 	auto len = strlen(name) + strlen(modelsPath) + 8;
 	object[numObjects].nameReal = NEW char[len];
@@ -149,7 +138,7 @@ bool LGeometry::Process(VDX9RENDER * rs, long numLights)
 		if(numVBuffers + info.nvrtbuffs > maxVBuffers)
 		{
 			maxVBuffers += info.nvrtbuffs + 16;
-			vbuffer = (VertexBuffer *)RESIZE(vbuffer, maxVBuffers*sizeof(VertexBuffer));
+			vbuffer.resize(maxVBuffers);
 		}
 		for(long vb = 0; vb < info.nvrtbuffs; vb++)
 		{
@@ -191,7 +180,7 @@ bool LGeometry::Process(VDX9RENDER * rs, long numLights)
 			if(numVrt + num > maxVrt)
 			{
 				maxVrt = numVrt + num + 64;
-				vrt = (Vertex *)RESIZE(vrt, maxVrt*sizeof(Vertex));
+				vrt.resize(maxVrt);
 			}
 			//Копируем
 			uint8_t * pnt = nullptr;
@@ -289,7 +278,7 @@ bool LGeometry::Process(VDX9RENDER * rs, long numLights)
 				if(numTrg >= maxTrg)
 				{
 					maxTrg += 256;
-					trg = (Triangle *)RESIZE(trg, maxTrg*sizeof(Triangle));
+					trg.resize(maxTrg);
 				}
 				trg[numTrg].n = nrm*(1.0f/sq);
 				trg[numTrg].sq = sq;

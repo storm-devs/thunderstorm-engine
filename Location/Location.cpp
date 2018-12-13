@@ -33,7 +33,7 @@ Location::Location()
 {
 	numLocators = 0;
 	maxLocators = 16;
-	locators = NEW LocatorArray * [maxLocators];
+	locators.resize(maxLocators);
 	patchJump = -1;
 	isDebugView = true;
 	sphereVertex = nullptr;
@@ -67,10 +67,9 @@ Location::~Location()
 	_CORE_API->DeleteEntity(loceffectsid);
 	api->DeleteEntity(blood);
 
-	for(long i = 0; i < numLocators; i++) delete locators[i];
-	delete locators;
-	if(sphereVertex) delete sphereVertex;
-	sphereVertex = nullptr;
+	for(long i = 0; i < numLocators; i++) 
+		delete locators[i];
+	delete sphereVertex;
 }
 
 
@@ -462,7 +461,7 @@ long Location::LoadStaticModel(const char * modelName, const char * tech, long l
 			if(numLocators == maxLocators)
 			{
 				maxLocators += 16;
-				locators = (LocatorArray **)RESIZE(locators, maxLocators*sizeof(LocatorArray *));
+				locators.resize(maxLocators);
 			}
 			numLocators++;
 			locators[j] = NEW LocatorArray(label.group_name);

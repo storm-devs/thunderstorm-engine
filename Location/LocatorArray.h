@@ -78,7 +78,7 @@ private:
 	char * group;
 	long hash;
 	//Локаторы
-	LocatorInfro * locator;
+	std::vector<LocatorInfro> locator;
 	long numLocators;
 	//Имена локаторов
 	char * locatorNames;

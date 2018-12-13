@@ -30,10 +30,8 @@ LocationEffects::LocationEffects()
 	for(long i = 0; i < LFX_SPLASHES_NUM; i++) chrSplash[i].time = -1.0f;
 	splashesTxt = -1;
 	//Мухи
-	flys = nullptr;
 	numFlys = 0;
 	maxFlys = 0;
-	fly = nullptr;
 	numFly = 0;
 	flyTex = -1;
 	//Шотган
@@ -58,8 +56,6 @@ LocationEffects::~LocationEffects()
 		if(texHor >= 0) rs->TextureRelease(texHor);
 		if(flyTex >= 0) rs->TextureRelease(flyTex);
 	}
-	if(flys) delete flys;
-	if(fly) delete fly;
 }
 
 //Инициализация
@@ -301,7 +297,7 @@ void LocationEffects::AddLampFlys(CVECTOR & pos)
 	if(numFlys >= maxFlys)
 	{
 		maxFlys += 8;
-		flys = (LampFlys *)RESIZE(flys, maxFlys*sizeof(LampFlys));
+		flys.resize(maxFlys);
 	}
 	//Заполняем параметры
 	//Общие
@@ -310,7 +306,7 @@ void LocationEffects::AddLampFlys(CVECTOR & pos)
 	flys[numFlys].start = numFly;
 	flys[numFlys].num = 1 + (rand() & 7);
 	numFly += flys[numFlys].num;
-	fly = (ParticleFly *)RESIZE(fly, numFly*sizeof(ParticleFly));
+	fly.resize(numFly);
 	//Каждой мухи
 	for(long i = 0; i < flys[numFlys].num; i++)
 	{
@@ -354,7 +350,7 @@ void LocationEffects::ProcessedFlys(float dltTime)
 		k = 3.0f*(1.0f - k);
 		if(k > 1.0f) k = 1.0f;
 		//Обновляем мух
-		ParticleFly * fl = fly + flys[i].start;
+		ParticleFly * fl = &fly[flys[i].start];
 		for(long j = 0; j < flys[i].num; j++)
 		{
 			ParticleFly & f = fl[j];
@@ -392,7 +388,7 @@ void LocationEffects::ProcessedFlys(float dltTime)
 		}
 	}
 	//Рисуем
-	DrawParticles(fly, numFly, sizeof(ParticleFly), flyTex, "LocFly", true, 4);
+	DrawParticles(fly.data(), numFly, sizeof(ParticleFly), flyTex, "LocFly", true, 4);
 }
 
 //---------------------------------------------------------------------------------

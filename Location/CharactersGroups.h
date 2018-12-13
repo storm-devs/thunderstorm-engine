@@ -185,7 +185,7 @@ public:
 	const char * GetTextState(RelState state);
 
 private:
-	Group ** groups;		//Группы
+	std::vector<Group*> groups;		//Группы
 	long numGroups;			//Количество групп
 	long maxGroups;			//Количество групп
 	Location * location;	//Текущая локация

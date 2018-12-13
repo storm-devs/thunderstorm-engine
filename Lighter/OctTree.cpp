@@ -35,7 +35,6 @@ OctTree::OTNode::~OTNode()
 OctTree::OctTree()
 {
 	root = nullptr;
-	verts = nullptr;
 	numVerts = 0;
 	maxVerts = 0;
 	vrt = nullptr;
@@ -44,17 +43,16 @@ OctTree::OctTree()
 
 OctTree::~OctTree()
 {
-	if(root) delete root;
-	if(verts) delete verts;
+	delete root;
 }
 
 //Инициализировать дерево
 void OctTree::Init(LGeometry * g)
 {
-	vrt = g->vrt;
+	vrt = g->vrt.data();
 	numVrt = g->numVrt;
 	root = NEW OTNode(g->min, g->max);
-	for(long i = 0; i < numVrt; i++) AddVertex(root, vrt + i);
+	for(long i = 0; i < numVrt; i++) AddVertex(root, &vrt[i]);
 	Optimize(root);
 	/*
 	for(i = 0; i < numVrt; i++)
@@ -184,7 +182,7 @@ void OctTree::FindVerts(OTNode * node)
 				if(numVerts >= maxVerts)
 				{
 					maxVerts += 1024;
-					verts = (OctFndVerts *)RESIZE(verts, maxVerts*sizeof(OctFndVerts));
+					verts.resize(maxVerts);
 				}
 				verts[numVerts].v = node->vrt[i];
 				verts[numVerts++].r2 = r;

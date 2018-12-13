@@ -55,7 +55,7 @@ void LightProcessor::Process()
 		if(shadowTriangle == -1)
 		{
 			//Нормализуем результат
-			Vertex * vrt = geometry->vrt;
+			Vertex * vrt = geometry->vrt.data();
 			long numVrt = geometry->numVrt;
 			long numLights = lights->Num();
 			for(long i = 0; i < numVrt; i++)
@@ -112,7 +112,7 @@ void LightProcessor::Process()
 		window->isLockCtrl = true;
 		window->tracePrc = 0.0f;
 		//Сбрасываем состояние цветов
-		Vertex * vrt = geometry->vrt;
+		Vertex * vrt = geometry->vrt.data();
 		long numVrt = geometry->numVrt;
 		long numLights = lights->Num();
 		for(long i = 0; i < numVrt; i++)
@@ -142,7 +142,7 @@ void LightProcessor::Process()
 	}
 	if(window->isResetBlurLight)
 	{
-		Vertex * vrt = geometry->vrt;
+		Vertex * vrt = geometry->vrt.data();
 		long numVrt = geometry->numVrt;
 		for(long i = 0; i < numVrt; i++) vrt[i].bc = 0.0f;
 		window->isResetBlurLight = false;
@@ -162,7 +162,7 @@ void LightProcessor::Process()
 
 void LightProcessor::UpdateLightsParam()
 {
-	Vertex * vrt = geometry->vrt;
+	Vertex * vrt = geometry->vrt.data();
 	long numVrt = geometry->numVrt;
 	long numLights = lights->Num();
 	Lights & ls = *lights;
@@ -235,7 +235,7 @@ void LightProcessor::ApplyTriangleShadows(Triangle & t)
 {
 	Lights & ls = *lights;
 	long num = ls.Num();
-	Vertex * vrt = geometry->vrt;
+	Vertex * vrt = geometry->vrt.data();
 	for(long i = 0; i < num; i++)
 	{
 		//Нужно ли трейсить
@@ -311,13 +311,13 @@ void LightProcessor::SmoothShadows()
 	double smoothRad2 = smoothRad*smoothRad;
 	Lights & ls = *lights;
 	long num = ls.Num();
-	Vertex * vrt = geometry->vrt;
+	std::vector<Vertex> &vrt = geometry->vrt;
 	for(long i = 0; i < LIGHTPRC_SMOOTH_NUM && smoothVertex < geometry->numVrt; i++, smoothVertex++)
 	{
 		Vertex & v = vrt[smoothVertex];
 		//Ищем окружающие вершины
 		octtree->FindVerts(v.p, smoothRad);
-		OctFndVerts * verts = octtree->verts;
+		OctFndVerts * verts = octtree->verts.data();
 		long numVerts = octtree->numVerts;
 
 		if(false)
@@ -333,7 +333,7 @@ void LightProcessor::SmoothShadows()
 				if(r < r2)
 				{
 					Assert(numV < sizeof(ov)/sizeof(OctFndVerts));
-					ov[numV++] = vrt + n;
+					ov[numV++] = &vrt[n];
 				}
 			}
 			if(numVerts != numV) api->Trace("numVerts(%i) != numV(%i)", numVerts, numV);
@@ -381,14 +381,14 @@ void LightProcessor::BlurLight()
 	float kCos = window->blurCos;
 	float kCos1 = 1.0f - window->blurCos;
 	double blurRad2 = blurRad*blurRad;
-	Vertex * vrt = geometry->vrt;
+	Vertex * vrt = geometry->vrt.data();
 	long numVrt = geometry->numVrt;
 	for(long i = 0; i < LIGHTPRC_BLUR_NUM && blurVertex < numVrt; i++, blurVertex++)
 	{
 		Vertex & v = vrt[blurVertex];
 		//Ищем окружающие вершины
 		octtree->FindVerts(v.p, blurRad);
-		OctFndVerts * verts = octtree->verts;
+		OctFndVerts * verts = octtree->verts.data();
 		long numVerts = octtree->numVerts;
 
 		continue;
@@ -443,7 +443,7 @@ void LightProcessor::CalcLights(long lit, bool isCos, bool isAtt, bool isSdw)
 	lights->UpdateLights(lit);
 	Lights & ls = *lights;
 	long num = ls.Num();
-	Vertex * vrt = geometry->vrt;
+	Vertex * vrt = geometry->vrt.data();
 	float kBlur = window->kBlur;
 	CVECTOR c;
 	for(long i = 0; i < num; i++)

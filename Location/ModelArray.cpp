@@ -20,7 +20,6 @@
 
 ModelArray::ModelArray()
 {
-	model = nullptr;
 	numModels = 0;
 	maxModels = 0;
 	modelspath[0] = 0;
@@ -31,11 +30,8 @@ ModelArray::ModelArray()
 
 ModelArray::~ModelArray()
 {
-	if(model)
-	{
-		while(numModels) DeleteModel(numModels - 1);
-		delete model;
-	}
+	while(numModels) 
+		DeleteModel(numModels - 1);
 }
 
 //Создать модель
@@ -57,7 +53,7 @@ long ModelArray::CreateModel(const char * modelName, const char * technique, lon
 	if(numModels == maxModels)
 	{
 		maxModels += 4;
-		model = (LocationModel *)RESIZE(model, maxModels*sizeof(LocationModel));
+		model.resize(maxModels);
 	}
 	//Создаём модельку
 	ENTITY_ID id,idModelRealizer;

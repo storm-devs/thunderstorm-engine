@@ -123,11 +123,11 @@ private:
 	//Установленные источники освещения
 	struct{bool set; long light;} lt[8];
 	//Виды источников освещения
-	LightType * types;
+	std::vector<LightType> types;
 	long numTypes;
 	long maxTypes;
 	//Существующие источники освещения
-	Light * lights;
+	std::vector<Light> lights;
 	long numLights;
 	long maxLights;
 	long lighter_code;

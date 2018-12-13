@@ -21,10 +21,8 @@ Lights::Lights()
 {
 	rs = nullptr;
 	collide = nullptr;
-	types = nullptr;
 	numTypes = 0;
 	maxTypes = 0;
-	lights = nullptr;
 	numLights = 0;
 	maxLights = 0;
 	for(long i = 0; i < 8; i++) {lt[i].light = -1; lt[i].set = false;}
@@ -35,17 +33,12 @@ Lights::Lights()
 Lights::~Lights()
 {
 	aMovingLight.clear();
-	if(types)
+	for(long i = 0; i < numTypes; i++)
 	{
-		for(long i = 0; i < numTypes; i++)
-		{
-			if(types[i].corona >= 0 && rs) rs->TextureRelease(types[i].corona);
-			delete types[i].name;
-		}
-		delete types;
+		if(types[i].corona >= 0 && rs) rs->TextureRelease(types[i].corona);
+		delete types[i].name;
 	}
 	if(rs) for(long i = 1; i < 8; i++) rs->LightEnable(i, false);
-	if(lights) delete lights;
 }
 
 //Инициализация
@@ -82,7 +75,7 @@ bool Lights::Init()
 			if(numTypes >= maxTypes)
 			{
 				maxTypes += 16;
-				types = (LightType *)RESIZE(types, maxTypes*sizeof(LightType));
+				types.resize(maxTypes);
 			}
 			//Обнулим
 			memset(&types[numTypes], 0, sizeof(types[numTypes]));
@@ -327,7 +320,7 @@ void Lights::AddLight(long index, const CVECTOR & pos)
 	if(numLights >= maxLights)
 	{
 		maxLights += 32;
-		lights = (Light *)RESIZE(lights, maxLights*sizeof(Light));
+		lights.resize(maxLights);
 	}
 	lights[numLights].color = types[index].color;
 	lights[numLights].pos.x = pos.x;

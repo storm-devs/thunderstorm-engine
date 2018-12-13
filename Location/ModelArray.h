@@ -129,7 +129,7 @@ private:
 	static void UpdatePath(char * path);
 private:
 	//Модели локации
-	LocationModel * model;
+	std::vector<LocationModel> model;
 	long numModels;
 	long maxModels;
 	TRIANGLE ctrg;

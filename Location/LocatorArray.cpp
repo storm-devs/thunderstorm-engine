@@ -16,7 +16,6 @@
 
 LocatorArray::LocatorArray(const char * groupName)
 {
-	locator = nullptr;
 	numLocators = 0;
 	locatorNames = nullptr;
 	bytesInLNArray = 0;
@@ -37,9 +36,8 @@ LocatorArray::LocatorArray(const char * groupName)
 
 LocatorArray::~LocatorArray()
 {
-	if(group) delete group;
-	if(locator) delete locator;
-	if(locatorNames) delete locatorNames;
+	delete group;
+	free(locatorNames);
 }
 
 //============================================================================================
@@ -49,14 +47,14 @@ LocatorArray::~LocatorArray()
 //Добавить локатор
 void LocatorArray::AddLocator(CMatrix & mtx, const char * name)
 {
-	locator = (LocatorInfro *)RESIZE(locator, (numLocators + 1)*sizeof(LocatorInfro));
+	locator.resize(numLocators + 1);
 	locator[numLocators].mtx = mtx;
 	locator[numLocators].radius = -1.0f;
 	long slen = 0;
 	if(name && name[0])
 	{
 		slen = strlen(name) + 1;
-		locatorNames = (char *)RESIZE(locatorNames, bytesInLNArray + slen);
+		locatorNames = (char *)realloc(locatorNames, bytesInLNArray + slen);
 		locator[numLocators].name = bytesInLNArray;
 		memcpy(locatorNames + bytesInLNArray, name, slen);
 		locator[numLocators].hash = CalcHashString(locatorNames + bytesInLNArray);
