@@ -96,7 +96,7 @@ void BITimer::SetBeginData()
 
 	m_pRender = (VDX9RENDER*)api->CreateService("dx9render");
 	Assert( m_pRender );
-	m_pImgRndr = NEW BIImageRender( m_pRender );
+	m_pImgRndr = new BIImageRender( m_pRender );
 	m_pBackImage = nullptr;
 	m_pForeImage = nullptr;
 }

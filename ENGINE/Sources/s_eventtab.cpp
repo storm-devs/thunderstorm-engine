@@ -138,7 +138,7 @@ uint32_t S_EVENTTAB::AddEventHandler(char * event_name, uint32_t func_code, uint
 		if(event_name)
 		{
 			const auto len = strlen(event_name) + 1;
-			pTable[ti][Event_num[ti]].name = NEW char[len];
+			pTable[ti][Event_num[ti]].name = new char[len];
 			memcpy(pTable[ti][Event_num[ti]].name,event_name,len);
 		}
 	}

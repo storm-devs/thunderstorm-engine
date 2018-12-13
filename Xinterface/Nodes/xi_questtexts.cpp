@@ -9,7 +9,7 @@ CXI_QUESTTEXTS::STRING_DESCRIBER::STRING_DESCRIBER(char* ls)
 		lineStr = nullptr;
 	else
 	{
-		if( (lineStr=NEW char[len]) == nullptr )
+		if( (lineStr=new char[len]) == nullptr )
 		{
 			STORM_THROW("allocate memory error");
 		}
@@ -23,7 +23,7 @@ CXI_QUESTTEXTS::STRING_DESCRIBER::STRING_DESCRIBER(char* ls)
 CXI_QUESTTEXTS::STRING_DESCRIBER* CXI_QUESTTEXTS::STRING_DESCRIBER::Add(char* ls,bool complete)
 {
 	if(ls== nullptr) return nullptr;
-	STRING_DESCRIBER* newSD = NEW STRING_DESCRIBER(ls);
+	STRING_DESCRIBER* newSD = new STRING_DESCRIBER(ls);
 	if(newSD== nullptr)
 	{
 		STORM_THROW("allocate memory error");
@@ -332,7 +332,7 @@ void CXI_QUESTTEXTS::StartQuestShow(ATTRIBUTES * pA,int qn)
 				{
 					if(m_listCur== nullptr)
 					{
-						if( (m_listCur=m_listRoot=NEW STRING_DESCRIBER(newStr)) == nullptr )
+						if( (m_listCur=m_listRoot=new STRING_DESCRIBER(newStr)) == nullptr )
 						{
 							STORM_THROW("allocate memory error");
 						}

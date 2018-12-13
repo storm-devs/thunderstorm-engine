@@ -156,7 +156,7 @@ uint32_t _cdecl FLAG::ProcessMessage(MESSAGE & message)
 
 			if(groupQuantity==0)
 			{
-				gdata = NEW GROUPDATA[1];
+				gdata = new GROUPDATA[1];
 				if(gdata==nullptr)
 					STORM_THROW("Not memory allocation");
 
@@ -165,7 +165,7 @@ uint32_t _cdecl FLAG::ProcessMessage(MESSAGE & message)
 			else
 			{
 				GROUPDATA *oldgdata=gdata;
-				gdata = NEW GROUPDATA[groupQuantity+1];
+				gdata = new GROUPDATA[groupQuantity+1];
 				if(gdata==nullptr)
 					STORM_THROW("Not memory allocation");
 				memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
@@ -373,7 +373,7 @@ void FLAG::AddLabel(GEOS::LABEL &gl, NODE *nod)
     if(fn==flagQuantity)
     {
         // create new flag
-        fd = NEW FLAGDATA;
+        fd = new FLAGDATA;
         if(fd==nullptr)
             STORM_THROW("Not memory allocation");
         PZERO(fd,sizeof(FLAGDATA));
@@ -388,7 +388,7 @@ void FLAG::AddLabel(GEOS::LABEL &gl, NODE *nod)
 
         if(flagQuantity==0)
         {
-            flist= NEW FLAGDATA*[1];
+            flist= new FLAGDATA*[1];
             if(flist==nullptr)
                 STORM_THROW("Not memory allocation");
             flagQuantity=1;
@@ -396,7 +396,7 @@ void FLAG::AddLabel(GEOS::LABEL &gl, NODE *nod)
         else
         {
             FLAGDATA **oldflist=flist;
-            flist = NEW FLAGDATA*[flagQuantity+1];
+            flist = new FLAGDATA*[flagQuantity+1];
             if(flist==nullptr)
                 STORM_THROW("Not memory allocation");
             memcpy(flist,oldflist,sizeof(FLAGDATA*)*flagQuantity);
@@ -489,7 +489,7 @@ void FLAG::LoadIni()
         {
             delete TextureName;
 			const auto len = strlen(param) + 1;
-            TextureName = NEW char[len];
+            TextureName = new char[len];
             memcpy(TextureName,param,len);
             RenderService->TextureRelease(texl);
             texl=RenderService->TextureCreate(TextureName);
@@ -498,7 +498,7 @@ void FLAG::LoadIni()
     else
     {
 		const auto len = strlen(param) + 1;
-        TextureName=NEW char[len];
+        TextureName=new char[len];
         memcpy(TextureName,param,len);
     }
 
@@ -682,7 +682,7 @@ void FLAG::DoSTORM_DELETE()
             flagQuantity=nfn; groupQuantity=ngn;
 
             FLAGDATA **oldflist = flist;
-            flist = NEW FLAGDATA*[flagQuantity];
+            flist = new FLAGDATA*[flagQuantity];
             if(flist)
             {
                 memcpy(flist,oldflist,sizeof(FLAGDATA*)*flagQuantity);
@@ -692,7 +692,7 @@ void FLAG::DoSTORM_DELETE()
                 flist = oldflist;
 
             GROUPDATA *oldgdata = gdata;
-            gdata = NEW GROUPDATA[groupQuantity];
+            gdata = new GROUPDATA[groupQuantity];
             if(gdata)
             {
                 memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
@@ -741,7 +741,7 @@ void FLAG::SetAdd(int flagNum)
             {
                 FLAGDATA **oldflist=flist;
                 flagQuantity--;
-                flist = NEW FLAGDATA*[flagQuantity];
+                flist = new FLAGDATA*[flagQuantity];
                 if(flist==nullptr)
                     flist=oldflist;
                 if(fn>0)
@@ -807,7 +807,7 @@ void FLAG::MoveOtherHost(ENTITY_ID newm_id,long flagNum,ENTITY_ID oldm_id)
     if(newgn==groupQuantity)
     {
         GROUPDATA *oldgdata=gdata;
-        gdata = NEW GROUPDATA[groupQuantity+1];
+        gdata = new GROUPDATA[groupQuantity+1];
         if(gdata==nullptr)
             STORM_THROW("Not memory allocation");
         memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);

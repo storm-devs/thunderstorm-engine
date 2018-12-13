@@ -517,7 +517,7 @@ bool SOURCE_VIEW::OpenSourceFile(const char * _filename)
 	nLinesNum = 0;
 	nActiveLine = 0xffffffff;
 
-	pSourceFile = NEW char[nDataSize + 1];
+	pSourceFile = new char[nDataSize + 1];
 	Core.fio->_ReadFile(fh,pSourceFile,nDataSize,&dwR);
 	Core.fio->_CloseHandle(fh);
 	if(dwR != nDataSize)

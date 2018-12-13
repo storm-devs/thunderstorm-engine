@@ -145,7 +145,7 @@ void BREAKPOINTS_TABLE::AddBreakPoint(const char * filename, uint32_t line)
 	pTable[nPoints].nLineNumber = line;
 
 	const auto len = strlen(filename)+1;
-	pTable[nPoints].pFileName = NEW char[len];
+	pTable[nPoints].pFileName = new char[len];
 	memcpy(pTable[nPoints].pFileName,filename,len);
 	nPoints++;
 

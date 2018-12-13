@@ -33,7 +33,7 @@ void TMP_LONG_STACK::Push(long data)
 			return;
 		}
 		long *pold = ldat;
-		ldat = NEW long[datsize+sizeIncr];
+		ldat = new long[datsize+sizeIncr];
 		if(ldat== nullptr)	{STORM_THROW("allocate memory error");}
 		if(pold!= nullptr)
 		{
@@ -148,7 +148,7 @@ void SHIP_DESCRIBE_LIST::Add(long mainChrIndex, long chIdx, ATTRIBUTES * pChAttr
 {
 	assert(pChAttr!=NULL);
 	assert(pShipAttr!=NULL);
-	SHIP_DESCR * pr = NEW SHIP_DESCR;
+	SHIP_DESCR * pr = new SHIP_DESCR;
 	if(pr== nullptr)
 	{
 		STORM_THROW("Can`t allocate memory");

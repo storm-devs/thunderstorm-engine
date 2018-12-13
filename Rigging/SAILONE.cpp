@@ -1040,7 +1040,7 @@ void SAILONE::SetRolling(bool bRoll)
 
     // создаем новый блок сворачивания паруса
     if(!sroll){
-        sroll=NEW SAILROLLING;
+        sroll=new SAILROLLING;
         memcpy(&sroll->oldgeo,&sgeo,sizeof(SAILGEOMETRY));
         if(bRoll)   sroll->delta=1.f;
         else   sroll->delta=0.f;

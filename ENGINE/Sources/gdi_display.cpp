@@ -1,7 +1,6 @@
 #include "gdi_display.h"
 #include "resource.h"
 #include "system_log.h"
-#include "../../Common_h/memop.h"
 #include <cstdio>
 
 #define DEFAULT_DISPLAY_STACK_SIZE	12
@@ -164,7 +163,7 @@ bool GDI_DISPLAY::Set_Message_Stack(long lines)
 {
 	if(ms_PTR) delete ms_PTR;
 
-	ms_PTR = (char *)NEW char[lines*BUFFER_SIZE];
+	ms_PTR = (char *)new char[lines*BUFFER_SIZE];
 	if(ms_PTR == nullptr) return false;
 	memset(ms_PTR,0,lines*BUFFER_SIZE);
 	MS_Lines = lines;

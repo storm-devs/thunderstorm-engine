@@ -39,7 +39,7 @@ void ShipTracks::ResetTrack(SHIP_BASE * pShip)
 
 void ShipTracks::AddShip(SHIP_BASE * pShip)
 {
-	ShipTrack * pST = NEW ShipTrack;
+	ShipTrack * pST = new ShipTrack;
 	
 	if (pST->Update(pShip))
 		aShips.push_back(pST);

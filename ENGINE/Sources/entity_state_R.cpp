@@ -1,6 +1,5 @@
 #include "entity_state_R.h"
 #include "../../Common_h/Exs.h"
-#include "../../Common_h/memop.h"
 
 
 const char Signature[] = "ES";
@@ -228,7 +227,7 @@ void ENTITY_STATE_R::LoadStateBlock()
 
 	// allocate mem for format string
 
-	Format_string = (char *)NEW char[format_size];
+	Format_string = (char *)new char[format_size];
 	if(!Format_string) THROW;
 
 	// read format string

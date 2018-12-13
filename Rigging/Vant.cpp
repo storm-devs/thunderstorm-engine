@@ -147,14 +147,14 @@ uint32_t _cdecl VANT::ProcessMessage(MESSAGE & message)
 			int oldvantQuantity = vantQuantity;
 			if(gdata==nullptr)
 			{
-				if( (gdata=NEW GROUPDATA[1]) == nullptr )
+				if( (gdata=new GROUPDATA[1]) == nullptr )
 					STORM_THROW("Not memory allocation");
 				groupQuantity = 1;
 			}
 			else
 			{
 				GROUPDATA *oldgdata=gdata;
-				if((gdata=NEW GROUPDATA[groupQuantity+1]) == nullptr)
+				if((gdata=new GROUPDATA[groupQuantity+1]) == nullptr)
 					STORM_THROW("Not memory allocation");
 				memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
 				delete oldgdata; groupQuantity++;
@@ -197,7 +197,7 @@ uint32_t _cdecl VANT::ProcessMessage(MESSAGE & message)
 				{
 					groupQuantity--;
 					GROUPDATA *oldgdata=gdata;
-					gdata=NEW GROUPDATA[groupQuantity];
+					gdata=new GROUPDATA[groupQuantity];
 					if(gdata==nullptr) gdata=oldgdata;
 					else
 					{
@@ -217,7 +217,7 @@ uint32_t _cdecl VANT::ProcessMessage(MESSAGE & message)
 			gdata[groupQuantity-1].sVert=nVert; gdata[groupQuantity-1].nVert=0;
 
 			gdata[groupQuantity-1].vantQuantity = vantQuantity-oldvantQuantity;
-			gdata[groupQuantity-1].vantIdx= NEW int[vantQuantity-oldvantQuantity];
+			gdata[groupQuantity-1].vantIdx= new int[vantQuantity-oldvantQuantity];
 			if(gdata[groupQuantity-1].vantIdx== nullptr)	{STORM_THROW("allocate memory error");}
 
 			int idx=0;
@@ -451,7 +451,7 @@ void VANT::AddLabel(GEOS::LABEL &lbl,NODE *nod)
     if(vn==vantQuantity)
     {
         //создаем новый вант
-        vd= NEW VANTDATA;
+        vd= new VANTDATA;
         if(vd==nullptr)
             STORM_THROW("Not memory allocate");
         PZERO(vd,sizeof(VANTDATA));
@@ -462,13 +462,13 @@ void VANT::AddLabel(GEOS::LABEL &lbl,NODE *nod)
 
         if(vantQuantity==0)
         {
-            vlist=NEW VANTDATA*[1];
+            vlist=new VANTDATA*[1];
             vantQuantity=1;
         }
         else
         {
             VANTDATA **oldvlist=vlist;
-            vlist = NEW VANTDATA*[vantQuantity+1];
+            vlist = new VANTDATA*[vantQuantity+1];
             if(vlist==nullptr)
                 STORM_THROW("Not memory allocate");
             memcpy(vlist,oldvlist,sizeof(VANTDATA*)*vantQuantity);
@@ -516,7 +516,7 @@ void VANT::SetAll()
             if(vantQuantity>0)
             {
                 VANTDATA **oldvlist=vlist;
-                vlist = NEW VANTDATA*[vantQuantity];
+                vlist = new VANTDATA*[vantQuantity];
                 if(vlist)
                 {
                     if(vn>0)
@@ -581,7 +581,7 @@ void VANT::LoadIni()
             {
                 delete TextureName;
 				const auto len = strlen(param) + 1;
-            	TextureName=NEW char[len];
+            	TextureName=new char[len];
                 memcpy(TextureName,param,len);
                 RenderService->TextureRelease(texl);
                 texl=RenderService->TextureCreate(TextureName);
@@ -590,7 +590,7 @@ void VANT::LoadIni()
     else
     {
 		const auto len = strlen(param) + 1;
-        TextureName=NEW char[len];
+        TextureName=new char[len];
         memcpy(TextureName,param,len);
     }
     // толщина веревки
@@ -769,7 +769,7 @@ void VANT::SetAdd(int firstNum)
             if(vantQuantity>0)
             {
                 VANTDATA **oldvlist=vlist;
-                vlist = NEW VANTDATA*[vantQuantity];
+                vlist = new VANTDATA*[vantQuantity];
                 if(vlist==nullptr)
                     vlist=oldvlist;
                 if(vn>0)

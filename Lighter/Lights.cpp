@@ -73,7 +73,7 @@ void Lights::AddPointLight(const CVECTOR & color, const CVECTOR & pos, float att
 	if(group && group[0])
 	{
 		const auto len = strlen(group) + 1;
-		light[numLights].group = NEW char[len];
+		light[numLights].group = new char[len];
 		//strcpy_s(light[numLights].group, group);
 		std::copy(group, group + len, light[numLights].group);
 	}else light[numLights].group = nullptr;
@@ -96,7 +96,7 @@ void Lights::SetDefLightParam(long i)
 void Lights::PostInit()
 {
 	//Соберём все существующие группы
-	char ** grp = NEW char * [numLights + 1];
+	char ** grp = new char * [numLights + 1];
 	long numGrp = 0;
 	for(long i = 0; i < numLights; i++)
 	{
@@ -117,7 +117,7 @@ void Lights::PostInit()
 	{
 		memset(&light[numLights], 0, sizeof(light[numLights]));
 		const auto len = strlen(grp[i]) + 1;
-		light[numLights].group = NEW char[len];
+		light[numLights].group = new char[len];
 		//strcpy_s(light[numLights].group, grp[i]);
 		std::copy(grp[i], grp[i] + len, light[numLights].group);
 		light[numLights].type = Light::t_group;

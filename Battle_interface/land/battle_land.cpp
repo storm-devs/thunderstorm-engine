@@ -139,7 +139,7 @@ void BATTLE_LAND_INTERFACE::SetShowParameters()
 	ATTRIBUTES * pA = AttributesPointer ? AttributesPointer->GetAttributeClass("Parameters") : nullptr;
 	m_bShowCommandos = 0!=BIUtils::GetLongFromAttr(pA, "DoShowCommandos", true);
 
-	m_pManSign = NEW BIManSign( GetID(), m_pRS );
+	m_pManSign = new BIManSign( GetID(), m_pRS );
 	Assert(m_pManSign);
 	m_pManSign->Init( AttributesPointer, (AttributesPointer?AttributesPointer->GetAttributeClass("ManSign"):nullptr) );
 

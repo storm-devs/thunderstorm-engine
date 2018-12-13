@@ -202,7 +202,7 @@ uint32_t _cdecl ROPE::ProcessMessage(MESSAGE & message)
 			if(gdata!=nullptr)
 			{
 				GROUPDATA* oldgdata=gdata;
-				gdata = NEW GROUPDATA[groupQuantity+1];
+				gdata = new GROUPDATA[groupQuantity+1];
 				if(gdata== nullptr)
 				{
 					STORM_THROW("allocate memory error");
@@ -212,7 +212,7 @@ uint32_t _cdecl ROPE::ProcessMessage(MESSAGE & message)
 			}
 			else
 			{
-				gdata = NEW GROUPDATA[1]; groupQuantity=1;
+				gdata = new GROUPDATA[1]; groupQuantity=1;
 				if(gdata== nullptr)
 				{
 					STORM_THROW("allocate memory error");
@@ -276,7 +276,7 @@ uint32_t _cdecl ROPE::ProcessMessage(MESSAGE & message)
 					nIndx+=rlist[rn]->nt*3;
 				}
 			}
-			gdata[groupQuantity-1].ropeIdx = NEW int[gdata[groupQuantity-1].ropeQuantity];
+			gdata[groupQuantity-1].ropeIdx = new int[gdata[groupQuantity-1].ropeQuantity];
 			if( gdata[groupQuantity-1].ropeIdx== nullptr )
 			{
 				STORM_THROW("allocate memory error");
@@ -532,17 +532,17 @@ void ROPE::AddLabel(GEOS::LABEL &lbl,NODE *nod, bool bDontSage)
         // изменим список веревок
         if(rlist==nullptr)
         {
-            rlist=NEW ROPEDATA*[1];
+            rlist=new ROPEDATA*[1];
             ropeQuantity=1;
         }
         else
         {
             ROPEDATA** oldrlist=rlist;
-            rlist= NEW ROPEDATA*[ropeQuantity+1];
+            rlist= new ROPEDATA*[ropeQuantity+1];
             memcpy(rlist,oldrlist,sizeof(ROPEDATA*)*ropeQuantity);
             delete oldrlist; ropeQuantity++;
         }
-        rd = rlist[ropeQuantity-1] = NEW ROPEDATA;
+        rd = rlist[ropeQuantity-1] = new ROPEDATA;
         PZERO(rd,sizeof(ROPEDATA));
         rd->ropeNum = ropeNum;
         rd->HostGroup = groupQuantity-1;
@@ -610,7 +610,7 @@ void ROPE::AddLabel(GEOS::LABEL &lbl,NODE *nod, bool bDontSage)
 			else
 			{
 				ROPEDATA** oldrlist=rlist;
-				rlist=NEW ROPEDATA*[ropeQuantity-1];
+				rlist=new ROPEDATA*[ropeQuantity-1];
 				if(rn>0)
 					memcpy(rlist,oldrlist,sizeof(ROPEDATA*)*rn);
 				if(rn<ropeQuantity-1)
@@ -732,7 +732,7 @@ void ROPE::LoadIni()
             if(RenderService)
             {
 				const auto len = strlen(param) + 1;
-                delete TextureName; TextureName=NEW char[len];
+                delete TextureName; TextureName=new char[len];
                 memcpy(TextureName,param,len);
                 RenderService->TextureRelease(texl);
                 texl=RenderService->TextureCreate(TextureName);
@@ -741,7 +741,7 @@ void ROPE::LoadIni()
     else
     {
 		const auto len = strlen(param) + 1;
-        TextureName=NEW char[len];
+        TextureName=new char[len];
         memcpy(TextureName,param,len);
     }
     // длина одного сегмента веревки
@@ -809,7 +809,7 @@ void ROPE::FirstRun()
                 nIndx+=rlist[rn]->nt*3;
             }
         }
-        gdata[gn].ropeIdx = NEW int[gdata[gn].ropeQuantity];
+        gdata[gn].ropeIdx = new int[gdata[gn].ropeQuantity];
         int idx=0;
         for(rn=wRopeLast; rn<ropeQuantity; rn++)
             if(rlist[rn]->HostGroup==gn)
@@ -897,7 +897,7 @@ void ROPE::SetAdd(int firstNum)
             if(ropeQuantity)
             {
                 ROPEDATA** oldrlist=rlist;
-                rlist = NEW ROPEDATA*[ropeQuantity];
+                rlist = new ROPEDATA*[ropeQuantity];
                 if(rlist==nullptr)
                     rlist=oldrlist;
                 if(rn>0)
@@ -1009,7 +1009,7 @@ void ROPE::DoSTORM_DELETE()
         if(rq<gdata[gn].ropeQuantity)
         {
             int *oldropeIdx = gdata[gn].ropeIdx;
-            gdata[gn].ropeIdx = NEW int[rq];
+            gdata[gn].ropeIdx = new int[rq];
             if(gdata[gn].ropeIdx==nullptr)
                 gdata[gn].ropeIdx=oldropeIdx;
 

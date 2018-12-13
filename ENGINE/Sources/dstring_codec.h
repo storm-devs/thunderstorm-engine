@@ -1,8 +1,6 @@
 #ifndef _DSTRING_CODEC_H_
 #define _DSTRING_CODEC_H_
 
-
-#include "../../Common_h/memop.h"
 #include <malloc.h>
 #include <cstring>
 
@@ -102,7 +100,7 @@ public:
 		HTable[nTableIndex].nStringsNum++;
 		HTable[nTableIndex].ppDat = (HTSUBELEMENT*)realloc(HTable[nTableIndex].ppDat,HTable[nTableIndex].nStringsNum * sizeof(HTSUBELEMENT));
 
-		HTable[nTableIndex].ppDat[n].pDString = NEW char[nDataSize];
+		HTable[nTableIndex].ppDat[n].pDString = new char[nDataSize];
 		HTable[nTableIndex].ppDat[n].nSize = nDataSize;
 		memcpy(HTable[nTableIndex].ppDat[n].pDString,pString,nDataSize);
 		//nStringCode = (nTableIndex<<16)| (n & 0xffff);

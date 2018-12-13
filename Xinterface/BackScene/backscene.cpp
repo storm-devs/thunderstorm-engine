@@ -501,7 +501,7 @@ void InterfaceBackScene::CreateMenuList( long nStartIndex, ATTRIBUTES* pAMenu )
 		{
 			api->Trace( "Warning! Interface Back scene: Can`t find locator %s", pA->GetAttribute("locname") );
 		}
-		MenuDescr* pMD = NEW MenuDescr;
+		MenuDescr* pMD = new MenuDescr;
 		Assert(pMD);;
 		pMD->Set( &mtx, pA->GetAttribute("sel"), pA->GetAttribute("norm"), pA->GetAttribute("event"), pA->GetAttribute("path"), pA->GetAttribute("technique") );
 		m_aMenuDescr.push_back( pMD );
@@ -584,7 +584,7 @@ void InterfaceBackScene::InitLight( ATTRIBUTES* pAParam )
 {
 	if( !pAParam ) return;
 
-	LightParam* pLight = NEW LightParam();
+	LightParam* pLight = new LightParam();
 	Assert(pLight);
 
 	m_aLights.push_back(pLight);
@@ -804,7 +804,7 @@ void InterfaceBackScene::InitAniModel( ATTRIBUTES* pAParam )
 	CMatrix mtx;
 	if( !FindLocator( pAParam->GetAttribute("locator"), &mtx, nullptr, nullptr ) ) mtx.SetIdentity();
 
-	AniModelDescr* pObj = NEW AniModelDescr;
+	AniModelDescr* pObj = new AniModelDescr;
 	Assert(pObj);
 
 	ANIMATION* pAniService = (ANIMATION*)api->CreateService("AnimationServiceImp");
@@ -848,7 +848,7 @@ void InterfaceBackScene::InitStaticModel( ATTRIBUTES* pAParam )
 	CMatrix mtx;
 	if( !FindLocator( pAParam->GetAttribute("locator"), &mtx, nullptr, nullptr ) ) mtx.SetIdentity();
 
-	AniModelDescr* pObj = NEW AniModelDescr;
+	AniModelDescr* pObj = new AniModelDescr;
 	Assert(pObj);
 
 	VGEOMETRY* pGeo = (VGEOMETRY*)api->CreateService("Geometry");

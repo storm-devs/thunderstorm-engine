@@ -4,7 +4,6 @@
 #include "messages.h"
 #include "internal_modules.h"
 #include "../../Common_h/Exs.h"
-#include "../../Common_h/memop.h"
 #include "common_h.h"
 #include "../../Common_h/defines.h"
 
@@ -77,7 +76,7 @@ bool MODULES_TABLE::SetModulesPath(char * _name)
 	if(Paths_Table == nullptr) THROW;
 
 	const auto len = strlen(_name) + 1;
-	Paths_Table[0] = (char *)NEW char[len];
+	Paths_Table[0] = (char *)new char[len];
 	if(Paths_Table[0] == nullptr) THROW;
 	memcpy(Paths_Table[0],_name,len);
 	Paths_Count = 1;
@@ -94,7 +93,7 @@ bool MODULES_TABLE::AddModulesPath(char * _name)
 	if(Paths_Table == nullptr) THROW;
 
 	const auto len = strlen(_name) + 1;
-	Paths_Table[Paths_Count] = (char *)NEW char[len];
+	Paths_Table[Paths_Count] = (char *)new char[len];
 	if(Paths_Table[Paths_Count] == nullptr) THROW;
 	memcpy(Paths_Table[Paths_Count],_name,len);
 	Paths_Count++;

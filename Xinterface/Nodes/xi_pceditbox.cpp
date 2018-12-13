@@ -179,19 +179,19 @@ void CXI_PCEDITBOX::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 	// read images
 	if( ReadIniString(ini1,name1, ini2,name2, "leftImage", param, sizeof(param),"") )
 	{
-		m_pLeftImage = NEW CXI_IMAGE;
+		m_pLeftImage = new CXI_IMAGE;
 		if( m_pLeftImage )
 			m_pLeftImage->LoadAccordingToString( param );
 	}
 	if( ReadIniString(ini1,name1, ini2,name2, "RightImage", param, sizeof(param),"") )
 	{
-		m_pRightImage = NEW CXI_IMAGE;
+		m_pRightImage = new CXI_IMAGE;
 		if( m_pRightImage )
 			m_pRightImage->LoadAccordingToString( param );
 	}
 	if( ReadIniString(ini1,name1, ini2,name2, "MiddleImage", param, sizeof(param),"") )
 	{
-		m_pMiddleImage = NEW CXI_IMAGE;
+		m_pMiddleImage = new CXI_IMAGE;
 		if( m_pMiddleImage )
 			m_pMiddleImage->LoadAccordingToString( param );
 	}

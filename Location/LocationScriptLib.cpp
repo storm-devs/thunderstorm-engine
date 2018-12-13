@@ -36,7 +36,7 @@ struct LocationFindCacheElement
 		{
 			max = (size + 15) & ~15;
 			if(name) delete name;
-			name = NEW char[max];
+			name = new char[max];
 		}
 		memcpy(name, str, size);
 	};

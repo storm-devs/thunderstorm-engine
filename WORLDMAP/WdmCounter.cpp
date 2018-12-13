@@ -243,7 +243,7 @@ void WdmCounter::LRender(VDX9RENDER * rs)
 
 bool WdmCounter::LoadModel(WdmRenderModel * & pnt, const char * name, const char * tech)
 {
-	pnt = NEW WdmRenderModel();
+	pnt = new WdmRenderModel();
 	if(!pnt->Load(name)) return false;
 	pnt->mtx = mtx;
 	pnt->SetTech(tech, tech);

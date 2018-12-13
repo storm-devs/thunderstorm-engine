@@ -32,7 +32,7 @@ AnimationImp::AnimationImp(long id, AnimationInfo * animationInfo)
 		action[i].SetAnimation(this, i);
 		timer[i].SetAnimation(this);
 	}
-	matrix = NEW CMatrix[aniInfo->NumBones()];
+	matrix = new CMatrix[aniInfo->NumBones()];
 	memset(ae_listeners, 0, sizeof(ae_listeners));
 	ae_listenersExt = nullptr;
 	//Автонормализация

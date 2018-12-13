@@ -56,7 +56,7 @@ void TButterflies::Init()
 
 	walker = _CORE_API->LayerGetWalker("shadow");
 
-	ivManager = NEW TIVBufferManager(renderService, 
+	ivManager = new TIVBufferManager(renderService, 
 									 BUTTERFLY_VERTEX_TYPE, 
 									 sizeof(tButterflyVertex), 
 									 3*4, 6, butterfliesCount);

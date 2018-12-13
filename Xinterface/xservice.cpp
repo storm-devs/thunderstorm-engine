@@ -231,7 +231,7 @@ void XSERVICE::LoadAllPicturesInfo()
 	// create list pointers array
 	if(m_dwListQuantity>0)
 	{
-		m_pList = NEW IMAGELISTDESCR[m_dwListQuantity];
+		m_pList = new IMAGELISTDESCR[m_dwListQuantity];
 		if(m_pList== nullptr)
 			STORM_THROW("memory allocate error")
 	}
@@ -244,11 +244,11 @@ void XSERVICE::LoadAllPicturesInfo()
 			m_pList[i].textureID = -1L;
 
 			// get list name
-			m_pList[i].sImageListName = NEW char[sizeof section];
+			m_pList[i].sImageListName = new char[sizeof section];
 			strcpy_s(m_pList[i].sImageListName,sizeof section,section);
 			// get texture name
 			ini->ReadString(section,"sTextureName",param,sizeof(param)-1,"");
-			m_pList[i].sTextureName = NEW char[sizeof param];
+			m_pList[i].sTextureName = new char[sizeof param];
 			strcpy_s(m_pList[i].sTextureName,sizeof param,param);
 
 			// get texture width & height
@@ -263,7 +263,7 @@ void XSERVICE::LoadAllPicturesInfo()
 
 			// resize image list
 			PICTUREDESCR *oldpImage = m_pImage;
-			m_pImage = NEW PICTUREDESCR[m_dwImageQuantity + m_pList[i].pictureQuantity];
+			m_pImage = new PICTUREDESCR[m_dwImageQuantity + m_pList[i].pictureQuantity];
 			if(m_pImage== nullptr)
 				STORM_THROW("allocate memory error")
 			if(oldpImage!= nullptr)
@@ -288,7 +288,7 @@ void XSERVICE::LoadAllPicturesInfo()
 				m_pImage[j].pTextureRect.bottom = nBottom;
 
 				const auto len = strlen(picName) + 1;
-				m_pImage[j].sPictureName = NEW char[len];
+				m_pImage[j].sPictureName = new char[len];
 				memcpy(m_pImage[j].sPictureName,picName,len);
 
 				ini->ReadStringNext(section,"picture",param,sizeof(param)-1);

@@ -432,7 +432,7 @@ bool CINODE::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9REND
 	if( ReadIniString(ini1,name1, ini2,name2, "HelpTextureFile",param,sizeof(param)-1,"") )
 	{
 		const auto len = strlen(param) + 1;
-		m_strHelpTextureFile = NEW char[len];
+		m_strHelpTextureFile = new char[len];
 		if(m_strHelpTextureFile!= nullptr)
 		{
 			memcpy(m_strHelpTextureFile,param,len);
@@ -455,7 +455,7 @@ bool CINODE::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9REND
 
 	if( ReadIniString(ini1,name1, ini2,name2, "tooltip", param,sizeof(param), "") )
 	{
-		m_pToolTip = NEW CXI_ToolTip( pPictureService, pStringService, m_screenSize );
+		m_pToolTip = new CXI_ToolTip( pPictureService, pStringService, m_screenSize );
 		Assert( m_pToolTip );
 		m_pToolTip->SetByFormatString( m_rect, ini2, param );
 	}

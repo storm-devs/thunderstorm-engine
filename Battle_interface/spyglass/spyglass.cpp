@@ -83,7 +83,7 @@ bool ISPYGLASS::Init()
 		STORM_THROW("Can`t create render service");
 	}
 
-	m_pImgRender = NEW BIImageRender( rs );
+	m_pImgRender = new BIImageRender( rs );
 	Assert(m_pImgRender);
 
 	m_Lens.LoadFromAttr(m_pImgRender, GetAttr("lens"), "battle_interface\\spyglass\\eye_badTub.tga", 0,0,1024,768, 8000);

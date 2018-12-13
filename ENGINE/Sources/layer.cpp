@@ -1,6 +1,5 @@
 #include "layer.h"
 #include "../../Common_h/Exs.h"
-#include "../../Common_h/memop.h"
 
 LAYER::LAYER(char * name,bool ordered,bool system,uint32_t system_flags)
 {
@@ -35,7 +34,7 @@ bool LAYER::Add(ENTITY_ID eid)
 	LAYER_NODE * ln_PTR;
 	
 
-	ln_PTR = (LAYER_NODE *)NEW LAYER_NODE;
+	ln_PTR = (LAYER_NODE *)new LAYER_NODE;
 	if(ln_PTR == nullptr) return false;
 	ln_PTR->id = eid;
 	ln_PTR->link_R = nullptr;
@@ -56,7 +55,7 @@ bool LAYER::Add(ENTITY_ID eid, uint32_t priority)
 	if(!ls.Ordered) return Add(eid);
 
 
-	ln_PTR = (LAYER_NODE *)NEW LAYER_NODE;
+	ln_PTR = (LAYER_NODE *)new LAYER_NODE;
 	if(ln_PTR == nullptr) return false;
 	ln_PTR->id = eid;
 	ln_PTR->priority = priority;
@@ -251,9 +250,9 @@ VIDWALKER * LAYER::GetWalker()
 
 	walkers.resize(walkers_num + 1); 
 
-	walkers[walkers_num] = NEW IDWALKER;
+	walkers[walkers_num] = new IDWALKER;
 
-	tidw = (TIDWALKER *)NEW TIDWALKER(walkers[walkers_num]);
+	tidw = (TIDWALKER *)new TIDWALKER(walkers[walkers_num]);
 	walkers[walkers_num]->SetLayer((void *)this);
 	walkers[walkers_num]->SetInterface((void *)tidw);
 	walkers_num++;

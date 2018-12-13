@@ -138,21 +138,21 @@ bool WorldMap::Init()
 	//Создаём объекты карты
 	WdmRenderObject * ro;
 	//Создаём острова
-	ro = AddObject(NEW WdmIslands());
+	ro = AddObject(new WdmIslands());
 	AddObject(ro, -100000);
 	AddLObject(ro, 500);
 	//
 	rs->ProgressView();
 	//Создаём море
-	WdmSea * sea = NEW WdmSea();
+	WdmSea * sea = new WdmSea();
 	AddObject(sea);
 	AddPObject(sea, 10);
 	AddLObject(sea, -1);
 	//Создаём облака
-	AddLObject(AddObject(NEW WdmClouds()), 10000);
+	AddLObject(AddObject(new WdmClouds()), 10000);
 	rs->ProgressView();
 	//Создаём камеру
-	camera = NEW WdmCameraStdCtrl();
+	camera = new WdmCameraStdCtrl();
 	float camAy = 0.0f;
 	float camH = -1.0f;
 	bool camLock = false;
@@ -171,7 +171,7 @@ bool WorldMap::Init()
 	camera->Init(camAy, camH);
 	camera->lock = camLock;
 	//Создаём корабль игрока
-	ro = CreateModel(NEW WdmPlayerShip(), "Ship");
+	ro = CreateModel(new WdmPlayerShip(), "Ship");
 	Assert(ro);
 	AddLObject(ro, 100);
 	float psX = 50.0f;
@@ -255,20 +255,20 @@ bool WorldMap::Init()
 	//Создаём элементы интерфейса
 
 	//Дата
-	WdmWindUI * windUI = NEW WdmWindUI();
+	WdmWindUI * windUI = new WdmWindUI();
 	windUI->SetAttributes(AttributesPointer);
 	AddLObject(AddObject(windUI, 1001), 10100);
 
 	//Компас
-	//ro = CreateModel(NEW WdmWindRose(), "WindRose");
+	//ro = CreateModel(new WdmWindRose(), "WindRose");
 	//AddLObject(ro, 10099);
 	//Календарь
-	//WdmCounter * cnt = NEW WdmCounter();
+	//WdmCounter * cnt = new WdmCounter();
 	//if(!cnt->Init()) _CORE_API->Trace("Counter not created");
 
 	//AddLObject(cnt, 10099);
 	//Иконка
-	AddLObject(AddObject(NEW WdmIcon(), 1000), 10099);
+	AddLObject(AddObject(new WdmIcon(), 1000), 10099);
 
 	//Загружаем энкоунтеры, если таковы были
 	if(saveData)
@@ -823,7 +823,7 @@ WdmRenderObject * WorldMap::CreateModel(WdmRenderModel * rm, const char * modelN
 bool WorldMap::CreateStorm(bool isTornado, float time, ATTRIBUTES * save)
 {
 	if(wdmObjects->storms.size() >= WDM_MAX_STORMS) return false;
-	WdmStorm * s = NEW WdmStorm();
+	WdmStorm * s = new WdmStorm();
 	AddLObject(s, 800);
 	if(!AddObject(s)) return false;
 	if(time > 0.0f)
@@ -841,7 +841,7 @@ bool WorldMap::CreateStorm(bool isTornado, float time, ATTRIBUTES * save)
 bool WorldMap::CreateMerchantShip(const char * modelName, const char * locNameStart, const char * locNameEnd, float kSpeed, float time, ATTRIBUTES * save)
 {
 	if(kSpeed < 0.1f) kSpeed = 0.1f;
-	WdmShip * ship = NEW WdmMerchantShip();
+	WdmShip * ship = new WdmMerchantShip();
 	if (ship->killMe) {
 		delete ship;
 		return false;
@@ -907,7 +907,7 @@ bool WorldMap::CreateMerchantShip(const char * modelName, const char * locNameSt
 bool WorldMap::CreateMerchantShipXZ(const char * modelName, float x1, float z1, float x2, float z2, float kSpeed, float time, ATTRIBUTES * save)
 {
 	if(kSpeed < 0.1f) kSpeed = 0.1f;
-	WdmShip * ship = NEW WdmMerchantShip();
+	WdmShip * ship = new WdmMerchantShip();
 	if (ship->killMe) {
 		delete ship;
 		return false;
@@ -944,7 +944,7 @@ bool WorldMap::CreateMerchantShipXZ(const char * modelName, float x1, float z1, 
 bool WorldMap::CreateFollowShip(const char * modelName, float kSpeed, float time, ATTRIBUTES * save)
 {
 	if(kSpeed < 0.1f) kSpeed = 0.1f;
-	WdmShip * ship = NEW WdmFollowShip();
+	WdmShip * ship = new WdmFollowShip();
 	if(ship->killMe) {
 		delete ship;
 		return false;
@@ -981,13 +981,13 @@ bool WorldMap::CreateWarringShips(const char * modelName1, const char * modelNam
 {
 	static const float pi = 3.14159265359f;
 	//Создаём кораблики
-	WdmWarringShip * ship1 = NEW WdmWarringShip();
+	WdmWarringShip * ship1 = new WdmWarringShip();
 	if(ship1->killMe) {
 		delete ship1;
 		return false;
 	}
 	if(!CreateModel(ship1, modelName1)) return false;
-	WdmWarringShip * ship2 = NEW WdmWarringShip();
+	WdmWarringShip * ship2 = new WdmWarringShip();
 	if(ship2->killMe) {
 		delete ship2;
 		return false;

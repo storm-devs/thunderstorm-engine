@@ -15,20 +15,20 @@ GIEditor::GIEditor(XINTERFACE* pInterface)
 	m_pEditableNode = nullptr;
 	m_fLastKeyPressTime = -1.f;
 
-	m_pImageBack = NEW CXI_IMAGE;
+	m_pImageBack = new CXI_IMAGE;
 	Assert( m_pImageBack );
 	m_pImageBack->SetPosition( 100, 60 );
 	m_pImageBack->SetSize( 600, 400 );
 	m_pImageBack->SetColor( 0xD0606060 );
 	m_pImageBack->SetThisRectangleNotUseTexture( true );
 
-	m_pNodeList = NEW GIEditorList( this );
+	m_pNodeList = new GIEditorList( this );
 	Assert( m_pNodeList );
 	m_pNodeList->SetPosition( 120,80, 360, 380 );
 	LinkEvent( m_pNodeList->m_pChangeSelected, (GIEditorEvent)&GIEditor::ChangeNodeName );
 
 	m_bSubNameOn = false;
-	m_pSubNameList = NEW GIEditorList( this );
+	m_pSubNameList = new GIEditorList( this );
 	Assert( m_pSubNameList );
 	m_pSubNameList->SetPosition( 380,80, 500,380 );
 	LinkEvent( m_pSubNameList->m_pChangeSelected, (GIEditorEvent)&GIEditor::ChangeSubNodeName );

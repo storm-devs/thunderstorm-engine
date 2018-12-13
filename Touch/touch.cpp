@@ -45,7 +45,7 @@ uint32_t _cdecl TOUCH::ProcessMessage(MESSAGE & message)
 	switch(message.Long())
 	{
 		case MSG_SHIP_CREATE:
-			pShips[iNumShips] = NEW TOUCH_SHIP;
+			pShips[iNumShips] = new TOUCH_SHIP;
 			PZERO(pShips[iNumShips],sizeof(TOUCH_SHIP));
 			pShips[iNumShips]->eID = message.EntityID();
 			iNumShips++;

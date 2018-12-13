@@ -1420,12 +1420,12 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			if(arguments >= 4)	// event w/o message
 			{
 
-				pMS = NEW MESSAGE_SCRIPT;
+				pMS = new MESSAGE_SCRIPT;
 				CreateMessage(pMS,s_off,2);
 				pMS->ResetIndex();
 			} else pMS = nullptr;
 
-			pEM = NEW S_EVENTMSG(pChar,pMS,TempLong1);
+			pEM = new S_EVENTMSG(pChar,pMS,TempLong1);
 			EventMsg.Add(pEM);
 			for(n=0;n<arguments;n++){SStack.Pop();}
 		break;

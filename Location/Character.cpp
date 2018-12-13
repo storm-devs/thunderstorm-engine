@@ -130,7 +130,7 @@ void Character::ActionCharacter::SetName(const char * _name)
 	if(_name && _name[0])
 	{
 		long l = strlen(_name) + 1;
-		name = NEW char[l];
+		name = new char[l];
 		memcpy(name, _name, l);
 	}
 }
@@ -613,7 +613,7 @@ bool Character::Init()
 	if(AttributesPointer) id = AttributesPointer->GetAttribute("id");
 	if(!id) id = "<none>";
 	long len = strlen(id) + 1;
-	characterID = NEW char[len];
+	characterID = new char[len];
 	strcpy_s(characterID, len, id);
 	//Добавим в группу
 	ENTITY_ID grps;
@@ -757,7 +757,7 @@ uint32_t Character::AttributeChanged(ATTRIBUTES * apnt)
 		if(!id) id = "<none>";
 		if(characterID) delete characterID;
 		long len = strlen(id) + 1;
-		characterID = NEW char[len];
+		characterID = new char[len];
 		strcpy_s(characterID, len, id);
 	}else
 	if(_stricmp(apnt->GetThisName(), "actions") == 0 && apnt->GetParent() && !apnt->GetParent()->GetParent())
@@ -2689,7 +2689,7 @@ bool Character::zAddDetector(MESSAGE & message)
 	//Ищем группу
 	LocatorArray * la = location->FindLocatorsGroup(group);
 	if(!la) return false;
-	detector[numDetectors++] = NEW Detector(la);
+	detector[numDetectors++] = new Detector(la);
 	return true;
 }
 

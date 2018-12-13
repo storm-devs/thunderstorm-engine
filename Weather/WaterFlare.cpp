@@ -84,8 +84,8 @@ void WATERFLARE::Execute(uint32_t Delta_Time)
 void WATERFLARE::GenerateFlares()
 {
 	iFlaresNum = 1024 + (rand()%64);
-	pRSRect = (RS_RECT*)NEW RS_RECT[iFlaresNum];
-	pfAlpha = (float*)NEW float[iFlaresNum];
+	pRSRect = (RS_RECT*)new RS_RECT[iFlaresNum];
+	pfAlpha = (float*)new float[iFlaresNum];
 	for (long i=0;i<iFlaresNum;i++)
 	{
 		pfAlpha[i] = FRAND(-40.0f);

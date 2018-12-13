@@ -452,7 +452,7 @@ void QUEST_FILE_READER::SetQuestTextFileName(const char * pcFileName)
 		return;
 	}
 	// создаем буфер для него
-	char* pBuf = NEW char[filesize+1];
+	char* pBuf = new char[filesize+1];
 	Assert( pBuf );
 	// читаем в этот буфер из файла
 	uint32_t readsize;

@@ -162,7 +162,7 @@ bool SEAFOAM_PS::Init(INIFILE * ini, char * psname)
 		STORM_THROW(no technique for particle system);
 	}
 	const auto len = strlen(string) + 1;
-	TechniqueName = NEW char[len];
+	TechniqueName = new char[len];
 	memcpy(TechniqueName,string,len);
 
 	// configure particles
@@ -209,7 +209,7 @@ bool SEAFOAM_PS::Init(INIFILE * ini, char * psname)
 	ChaosVal = 0.0001f;
 
 
-	Particle = (PARTICLE *) NEW char[ParticlesNum*sizeof(PARTICLE)];
+	Particle = (PARTICLE *) new char[ParticlesNum*sizeof(PARTICLE)];
 	if(Particle == nullptr) STORM_THROW(mem error);
 
 	memset(Particle,0,ParticlesNum*sizeof(PARTICLE));

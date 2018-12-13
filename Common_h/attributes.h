@@ -3,7 +3,6 @@
 
 #include <cstdint>
 #include <cstdio>
-#include "memop.h"
 #include "vstring_codec.h"
 #include <vector>
 
@@ -263,7 +262,7 @@ public:
 		if(attribute)
 		{
 			const auto len = GetLen(strlen(attribute) + 1);
-			attr->Attribute = NEW char[len];
+			attr->Attribute = new char[len];
 			strcpy_s(attr->Attribute, len, attribute);
 		}
 
@@ -397,7 +396,7 @@ public:
 		if(attribute)
 		{
 			const auto len = GetLen(strlen(attribute) + 1);
-			attr->Attribute = NEW char[len];
+			attr->Attribute = new char[len];
 			strcpy_s(attr->Attribute, len, attribute);
 		}
 
@@ -450,7 +449,7 @@ public:
 		attr->nNameCode = name_code;
 		if(attribute)
 		{
-			pAttributes[n]->Attribute = NEW char[len];
+			pAttributes[n]->Attribute = new char[len];
 			strcpy_s(pAttributes[n]->Attribute, len, attribute);
 		}
 

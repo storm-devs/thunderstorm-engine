@@ -108,7 +108,7 @@ void CXI_BORDER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	// get back image
 	if( ReadIniString( ini1,name1, ini2,name2, "backimage", param,sizeof(param), "" ) )
 	{
-		m_pBackImage = NEW CXI_IMAGE;
+		m_pBackImage = new CXI_IMAGE;
 		if( m_pBackImage )
 		{
 			m_pBackImage->LoadAccordingToString( param );
@@ -121,7 +121,7 @@ void CXI_BORDER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	m_mCaptionDividerHeight = GetIniLong(ini1,name1, ini2,name2, "captiondividerheight", 2);
 	if( m_nCaptionHeight>0 && ReadIniString( ini1,name1, ini2,name2, "captionimage", param,sizeof(param), "" ) )
 	{
-		m_pCaptionImage = NEW CXI_IMAGE;
+		m_pCaptionImage = new CXI_IMAGE;
 		if( m_pCaptionImage )
 		{
 			m_pCaptionImage->LoadAccordingToString( param );

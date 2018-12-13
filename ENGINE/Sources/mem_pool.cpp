@@ -15,7 +15,7 @@ BITLEVEL::BITLEVEL(uint32_t _nManagedBits)
 {
 	nManagedBits = _nManagedBits;
 	nDwordsNum = nManagedBits/DWORDBITS + 1;
-	//pBits = (DWORD *) NEW DWORD[nDwordsNum];
+	//pBits = (DWORD *) new DWORD[nDwordsNum];
 	pBits = (uint32_t *) malloc(nDwordsNum * sizeof(uint32_t));
 	memset(pBits,0,nDwordsNum*sizeof(uint32_t));
 	nTestCounter = 0;
@@ -137,12 +137,12 @@ MEMPOOL::MEMPOOL(uint32_t _nBlockSize, uint32_t _nBlocksNum)
 {
 	nBlockSize = _nBlockSize;
 	nBlocksNum = _nBlocksNum;
-	//pPoolData = (char *)NEW char[(nBlockSize + POOLHEADERSIZE)* nBlocksNum];
+	//pPoolData = (char *)new char[(nBlockSize + POOLHEADERSIZE)* nBlocksNum];
 	pPoolData = (char *)malloc((nBlockSize + POOLHEADERSIZE)* nBlocksNum);
 	if(pPoolData == nullptr) throw ER_NOMEM;
 
 	nSTLevelsNum = 1;
-	//pSTLevel = (BITLEVEL * *)NEW char[sizeof(BITLEVEL *) * nSTLevelsNum];
+	//pSTLevel = (BITLEVEL * *)new char[sizeof(BITLEVEL *) * nSTLevelsNum];
 	pSTLevel = (BITLEVEL * *)malloc(sizeof(BITLEVEL *) * nSTLevelsNum);
 	pSTLevel[0] = new BITLEVEL(nBlocksNum);
 	nUsedBlocks = 0;

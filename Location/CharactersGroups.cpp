@@ -73,7 +73,7 @@ void CharactersGroups::String::operator = (const char * str)
 	if(!str || !str[0])
 	{
 		len = 0;
-		name = NEW char[1];
+		name = new char[1];
 		name[0] = 0;
 	}else{
 		len = strlen(str);
@@ -81,7 +81,7 @@ void CharactersGroups::String::operator = (const char * str)
 		{
 			if(name) delete name;
 			max = (len + 16) & ~15;
-			name = NEW char[max];
+			name = new char[max];
 		}
 		strcpy_s(name, len + 1, str);
 		hash = LocatorArray::CalcHashString(str);
@@ -672,7 +672,7 @@ long CharactersGroups::RegistryGroup(const char * groupName)
 		maxGroups += 16;
 		groups.resize(maxGroups);
 	}
-	Group * grp = NEW Group();
+	Group * grp = new Group();
 	grp->index = numGroups;
 	grp->name = groupName;
 	grp->look = CGS_LOOK;
@@ -683,7 +683,7 @@ long CharactersGroups::RegistryGroup(const char * groupName)
 	if(numGroups)
 	{
 		//Таблица отношений
-		grp->relations = NEW Relation[numGroups];
+		grp->relations = new Relation[numGroups];
 		for(long i = 0; i < numGroups - 1; i++)
 		{
 			grp->relations[i].alarm = CGS_START_ALARM;

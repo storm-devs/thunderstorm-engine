@@ -21,15 +21,15 @@ ParticleManager::ParticleManager (ParticleService* service) : IParticleManager (
 {
 	pService = service;
 	ShowStat = false;
-	MDL_Processor = NEW ModelProcessor(this);
-	BB_Processor = NEW BillBoardProcessor;
+	MDL_Processor = new ModelProcessor(this);
+	BB_Processor = new BillBoardProcessor;
 	GlobalDelete = false;
 	TimeFromLastStatUpdate = 100.0f;
 	pRS = (VDX9RENDER*)api->CreateService("DX9Render");
 	Assert (pRS != NULL);
 
-	pDataCache = NEW DataCache(this);
-	pGeomCache = NEW GeomCache;
+	pDataCache = new DataCache(this);
+	pGeomCache = new GeomCache;
 
 	pProjectTexture = -1;
 	pProjectTextureNormalMap = -1;
@@ -349,7 +349,7 @@ void ParticleManager::DeleteAllSystems ()
 
 ParticleSystem* ParticleManager::CreateParticleSystemFromDataSource (DataSource* pDataSource)
 {
-	ParticleSystem* pSys = NEW ParticleSystem(this);
+	ParticleSystem* pSys = new ParticleSystem(this);
 	pSys->CreateFromDataSource(pDataSource);
 
 	SystemDesc SysDesc;

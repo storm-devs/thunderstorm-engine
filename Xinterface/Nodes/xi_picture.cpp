@@ -76,7 +76,7 @@ void CXI_PICTURE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	{
 		m_idTex = pPictureService->GetTextureID( param );
 		const auto len = strlen(param)+1;
-		m_pcGroupName = NEW char[len];
+		m_pcGroupName = new char[len];
 		Assert( m_pcGroupName );
 		memcpy( m_pcGroupName, param, len );
 
@@ -216,7 +216,7 @@ void CXI_PICTURE::SetNewPictureByGroup( char* groupName, char* picName )
 		if( groupName )
 		{
 			const auto len = strlen(groupName)+1;
-			m_pcGroupName = NEW char[strlen(groupName)+1];
+			m_pcGroupName = new char[strlen(groupName)+1];
 			Assert( m_pcGroupName );
 			memcpy( m_pcGroupName, groupName, len );
 			m_idTex = pPictureService->GetTextureID( groupName );

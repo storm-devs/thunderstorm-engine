@@ -10,7 +10,7 @@ BICommandList::BICommandList( ENTITY_ID& eid, ATTRIBUTES* pA, VDX9RENDER* rs )
 	m_pARoot = pA;
 	m_pRS = rs;
 
-	m_pImgRender = NEW BIImageRender( rs );
+	m_pImgRender = new BIImageRender( rs );
 	Assert( m_pImgRender );
 
 	m_nStartUsedCommandIndex = 0;

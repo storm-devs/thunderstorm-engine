@@ -225,7 +225,7 @@ uint32_t _cdecl CameraDialog::ProcessMessage(MESSAGE &msg)
 			long nbytes = _CORE_API->fio->_SetFilePointer(cam, 0, nullptr, FILE_END);
 			_CORE_API->fio->_SetFilePointer(cam, 0, nullptr, FILE_BEGIN);
 			frames = nbytes/6/sizeof(float);
-			track = NEW ANIFRAME[frames];
+			track = new ANIFRAME[frames];
 			_CORE_API->fio->_ReadFile(cam, track, nbytes, nullptr);
 			_CORE_API->fio->_CloseHandle(cam);
 		}

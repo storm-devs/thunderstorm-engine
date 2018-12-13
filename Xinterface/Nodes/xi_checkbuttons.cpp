@@ -334,7 +334,7 @@ void CXI_CHECKBUTTONS::SetInternalName(std::string& sName )
 
 void CXI_CHECKBUTTONS::AddButton( const char* pcText, bool bDisable, bool bSelect )
 {
-	ButtonDescribe * pBD = NEW ButtonDescribe;
+	ButtonDescribe * pBD = new ButtonDescribe;
 	Assert( pBD );
 	//pBD->aStr.Add();
 	ButtonDescribe::StrDescribe strDescribe;
@@ -346,7 +346,7 @@ void CXI_CHECKBUTTONS::AddButton( const char* pcText, bool bDisable, bool bSelec
 	pBD->aStr.push_back(strDescribe);
 	pBD->bDisable = bDisable;
 	pBD->bChoose = bSelect;
-	pBD->pImg = NEW CXI_IMAGE();
+	pBD->pImg = new CXI_IMAGE();
 	Assert( pBD->pImg );
 	pBD->pImg->LoadFromBase( m_sIconGroupName.c_str(), PicName(bDisable,bSelect).c_str() );
 	pBD->pImg->SetColor( PicColor(bDisable,bSelect) );

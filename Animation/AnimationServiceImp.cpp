@@ -150,7 +150,7 @@ Animation * AnimationServiceImp::CreateAnimation(const char * animationName)
 	{
 		animations.emplace_back(nullptr);;
 	}
-	animations[i] = NEW AnimationImp(i, ainfo[aniIndex]);
+	animations[i] = new AnimationImp(i, ainfo[aniIndex]);
 	return animations[i];
 }
 
@@ -195,7 +195,7 @@ long AnimationServiceImp::LoadAnimation(const char * animationName)
 		return -1;
 	}
 	//Описатель онимации
-	AnimationInfo * info = NEW AnimationInfo(animationName);
+	AnimationInfo * info = new AnimationInfo(animationName);
 	//Зачитаем кости
 	if(!LoadAN(path, info))
 	{
@@ -480,7 +480,7 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 		//Заводим нужное число костей
 		info->CreateBones(header.nJoints);
 		//Устанавливаем родителей
-		long * prntIndeces = NEW long[header.nJoints];
+		long * prntIndeces = new long[header.nJoints];
 		if(!_CORE_API->fio->_ReadFile(fl, prntIndeces, header.nJoints*sizeof(long), nullptr))
 		{
 			_CORE_API->Trace("Incorrect parent indeces block in animation file: %s", fname);
@@ -496,7 +496,7 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 		}
 		delete[] prntIndeces;
 		//Стартовые позиции костей
-		CVECTOR * vrt = NEW CVECTOR[header.nJoints];
+		CVECTOR * vrt = new CVECTOR[header.nJoints];
 		if(!_CORE_API->fio->_ReadFile(fl, vrt, header.nJoints*sizeof(CVECTOR), nullptr))
 		{
 			_CORE_API->Trace("Incorrect start joints position block block in animation file: %s", fname);
@@ -511,7 +511,7 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 		delete[] vrt;
 
 		//Позиции рутовой кости
-		vrt = NEW CVECTOR[header.nFrames];
+		vrt = new CVECTOR[header.nFrames];
 		if(!_CORE_API->fio->_ReadFile(fl, vrt, header.nFrames*sizeof(CVECTOR), nullptr))
 		{
 			_CORE_API->Trace("Incorrect root joint position block block in animation file: %s", fname);
@@ -523,7 +523,7 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 		delete[] vrt;
 
 		//Углы
-		D3DXQUATERNION *ang = NEW D3DXQUATERNION[header.nFrames];
+		D3DXQUATERNION *ang = new D3DXQUATERNION[header.nFrames];
 		for(long i = 0; i < header.nJoints; i++)
 		{
 			if(!_CORE_API->fio->_ReadFile(fl, ang, header.nFrames*sizeof(*ang), nullptr))

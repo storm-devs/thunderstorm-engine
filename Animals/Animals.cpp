@@ -16,10 +16,10 @@ ANIMALS::ANIMALS()
 	,fishSchools(nullptr)
 	,butterflies(nullptr)
 {	
-	seagulls = NEW TSeagulls();
-	//sharks = NEW TSharks();
-	fishSchools = NEW TFishSchools();
-	butterflies = NEW TButterflies();
+	seagulls = new TSeagulls();
+	//sharks = new TSharks();
+	fishSchools = new TFishSchools();
+	butterflies = new TButterflies();
 }
 
 //--------------------------------------------------------------------

@@ -402,7 +402,7 @@ void SEA_AI::Load(const char * pStr)
 	uint32_t dwNumGroups = SL.LoadDword();
 	for (uint32_t i=0; i<dwNumGroups; i++) 
 	{
-		AIGroup::AIGroups.push_back(NEW AIGroup());
+		AIGroup::AIGroups.push_back(new AIGroup());
 		AIGroup::AIGroups.back()->Load(&SL);
 	}
 

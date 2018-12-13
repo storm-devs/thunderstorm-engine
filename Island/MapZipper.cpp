@@ -103,7 +103,7 @@ bool MapZipper::Load(std::string sFileName)
 	fio->_ReadFile(hFile, &dwBlockShift, sizeof(dwBlockShift), nullptr);
 	fio->_ReadFile(hFile, &dwShiftNumBlocksX, sizeof(dwShiftNumBlocksX), nullptr);
 	fio->_ReadFile(hFile, &dwNumRealBlocks, sizeof(dwNumRealBlocks), nullptr);
-	pWordTable = NEW uint16_t[dwDX * dwDX];
+	pWordTable = new uint16_t[dwDX * dwDX];
 	fio->_ReadFile(hFile, pWordTable, sizeof(uint16_t) * dwDX * dwDX, nullptr);
 	pRealData = (uint8_t*)malloc(dwNumRealBlocks * dwBlockSize * dwBlockSize);
 	fio->_ReadFile(hFile, pRealData, sizeof(uint8_t) * dwNumRealBlocks * dwBlockSize * dwBlockSize, nullptr);

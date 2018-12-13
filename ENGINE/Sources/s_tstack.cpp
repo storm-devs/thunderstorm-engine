@@ -1,6 +1,5 @@
 #include <memory.h> 
 #include "s_tstack.h"
-#include "../../Common_h/memop.h"
 #include <malloc.h>
 
 S_TSTACK::S_TSTACK()

@@ -45,17 +45,17 @@ void Bone::SetNumFrames(long num, CVECTOR & sPos, bool isRoot)
 		return;
 	}
 #ifdef ANI_COMPRESS_ENABLE
-	ang = NEW COMP_QUATERNION[num];
+	ang = new COMP_QUATERNION[num];
 	memset(ang, 0, numFrames*sizeof(ang[0]));
 #else
-	ang = NEW D3DXQUATERNION[num];
+	ang = new D3DXQUATERNION[num];
 	memset(ang, 0, numFrames*sizeof(ang[0]));
 #endif
 
 
 	if(isRoot)
 	{
-		pos = NEW CVECTOR[num];
+		pos = new CVECTOR[num];
 		memset(pos, 0, numFrames*sizeof(CVECTOR));
 	}
 	pos0 = sPos;

@@ -11,7 +11,7 @@ void DX9RENDER::PrepareCapture()
 	hCaptureBitmap = CreateCompatibleBitmap(hDesktopDC, screen_size.x, screen_size.y);
 
 	HBITMAP OldBmp = (HBITMAP)SelectObject(hCaptureDC, hCaptureBitmap);
-	lpbi = (LPBITMAPINFO)(NEW char[sizeof(BITMAPINFOHEADER) + 256 * sizeof(RGBQUAD)]);
+	lpbi = (LPBITMAPINFO)(new char[sizeof(BITMAPINFOHEADER) + 256 * sizeof(RGBQUAD)]);
 	PZERO(lpbi, sizeof(BITMAPINFO));
 	lpbi->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	SelectObject(hCaptureDC, OldBmp);

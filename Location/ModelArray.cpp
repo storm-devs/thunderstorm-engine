@@ -224,7 +224,7 @@ Animation * ModelArray::GetAnimation(long modelIndex)
 void ModelArray::SetUVSlide(long modelIndex, float u0, float v0, float u1, float v1)
 {
 	Assert(modelIndex >= 0 && modelIndex < numModels);
-	if(!model[modelIndex].slider) model[modelIndex].slider = NEW UVSlider;
+	if(!model[modelIndex].slider) model[modelIndex].slider = new UVSlider;
 	UVSlider * sl = model[modelIndex].slider;
 	sl->u0 = sl->v0 = 0.0f;
 	sl->u1 = sl->v1 = 0.0f;
@@ -238,7 +238,7 @@ void ModelArray::SetUVSlide(long modelIndex, float u0, float v0, float u1, float
 void ModelArray::SetRotation(long modelIndex, float rx, float ry, float rz)
 {
 	Assert(modelIndex >= 0 && modelIndex < numModels);
-	if(!model[modelIndex].rotator) model[modelIndex].rotator = NEW Rotator;
+	if(!model[modelIndex].rotator) model[modelIndex].rotator = new Rotator;
 	model[modelIndex].rotator->rx = rx;
 	model[modelIndex].rotator->ry = ry;
 	model[modelIndex].rotator->rz = rz;
@@ -248,7 +248,7 @@ void ModelArray::SetRotation(long modelIndex, float rx, float ry, float rz)
 void ModelArray::SetReflection(long modelIndex, float scale)
 {
 	Assert(modelIndex >= 0 && modelIndex < numModels);
-	if(!model[modelIndex].reflection) model[modelIndex].reflection = NEW Relection();
+	if(!model[modelIndex].reflection) model[modelIndex].reflection = new Relection();
 	if(scale < 0.0f) scale = 0.0f;
 	if(scale > 1.0f) scale = 1.0f;
 	uint32_t alpha = uint32_t(scale*255.0f);

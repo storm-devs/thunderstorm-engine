@@ -1,6 +1,5 @@
 #include "strings_list.h"
 #include "../../Common_h/Exs.h"
-#include "../../Common_h/memop.h"
 
 STRINGS_LIST::STRINGS_LIST()
 {
@@ -53,7 +52,7 @@ bool STRINGS_LIST::AddString(char * _char_PTR)
 	}
 	
 	const auto len = strlen(_char_PTR) + 1;
-	String_Table_PTR[Strings] = (char *)NEW char[len + used_data_size + sizeof(uint32_t)];
+	String_Table_PTR[Strings] = (char *)new char[len + used_data_size + sizeof(uint32_t)];
 	if(String_Table_PTR[Strings] == nullptr) return false;
 	memset(String_Table_PTR[Strings],0,used_data_size + sizeof(uint32_t));
 	*((uint32_t *)(String_Table_PTR[Strings])) = hash;

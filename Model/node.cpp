@@ -190,20 +190,20 @@ bool NODER::Init(const char *lightPath, const char *pname, const char *oname, CM
 	sprintf_s(lp, "%s", lightPath);
 
 	auto len = strlen(nm) + 1;
-	sys_modelName = NEW char[len];
+	sys_modelName = new char[len];
 	memcpy(sys_modelName, nm, len);
 
 	len = strlen(lp) + 1;
-	sys_LightPath = NEW char[len];
+	sys_LightPath = new char[len];
 	memcpy(sys_LightPath, lp, len);
 
 	len = strlen(lmPath) + 1;
-	sys_lmPath = NEW char[len];
+	sys_lmPath = new char[len];
 	memcpy(sys_lmPath, lmPath, len);
 
 	const char * tPath = gs->GetTexturePath();
 	len = strlen(tPath) + 1;
-	sys_TexPath = NEW char[len];
+	sys_TexPath = new char[len];
 	memcpy(sys_TexPath, tPath, len);
 
 	isReleaed = false;
@@ -248,7 +248,7 @@ bool NODER::Init(const char *lightPath, const char *pname, const char *oname, CM
 			mt.Vz() = CVECTOR(lb.m[2][0], lb.m[2][1], lb.m[2][2]);
 			mt.Pos() = CVECTOR(lb.m[3][0], lb.m[3][1], lb.m[3][2]);
 
-			next[l] = NEW NODER();
+			next[l] = new NODER();
 
 			if(!next[l]->Init(lightPath, pname, lb.name, mt, glob_mtx, this, lmPath)) return false;
 
@@ -305,7 +305,7 @@ void NODER::RestoreGeometry()
 
 	const char * tPath = gs->GetTexturePath();
 	const auto len = strlen(tPath) + 1;
-	char * ttPath = NEW char[len];
+	char * ttPath = new char[len];
 	memcpy(ttPath, tPath, len);
 	gs->SetTexturePath(sys_TexPath);
 	geo = gs->CreateGeometry(sys_modelName, sys_LightPath, 0, sys_lmPath);

@@ -255,7 +255,7 @@ void CXI_QUESTTITLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
 	if( ReadIniString(ini1,name1, ini2,name2, "iconGroup", param, sizeof(param),"") )
 	{
 		const auto len = strlen(param)+1;
-		m_iconGroupName = NEW char[len];
+		m_iconGroupName = new char[len];
 		if(m_iconGroupName== nullptr)
 			{STORM_THROW("allocate memory error");}
 		memcpy(m_iconGroupName,param,len);
@@ -320,7 +320,7 @@ void CXI_QUESTTITLE::SetNewTopQuest(ATTRIBUTES * pA,int topNum)
 
 		// создание массива строк
 		if(m_stringQuantity<=0) return;
-		if( (m_strList=NEW STRING_DESCRIBER[m_stringQuantity]) == nullptr )
+		if( (m_strList=new STRING_DESCRIBER[m_stringQuantity]) == nullptr )
 		{
 			STORM_THROW("allocate memory error");
 		}
@@ -353,7 +353,7 @@ void CXI_QUESTTITLE::SetNewTopQuest(ATTRIBUTES * pA,int topNum)
 					while( GetLineNext(m_idFont,pstr,lineName,sizeof(lineName)) )
 					{
 						const auto len = strlen(lineName)+1;
-						m_strList[i].name[ln] = NEW char[len];
+						m_strList[i].name[ln] = new char[len];
 						memcpy(m_strList[i].name[ln],lineName, len);
 						ln++;
 					}

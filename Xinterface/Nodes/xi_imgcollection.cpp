@@ -91,7 +91,7 @@ void CXI_IMGCOLLECTION::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *n
 	if( ReadIniString(ini1,name1, ini2,name2, "groupName", param, sizeof(param),"") )
 	{
 		const auto len = strlen(param)+1;
-		sGroupName = NEW char[len];
+		sGroupName = new char[len];
 		memcpy(sGroupName,param,len);
 		texl = pPictureService->GetTextureID(sGroupName);
 	}
@@ -388,7 +388,7 @@ uint32_t _cdecl CXI_IMGCOLLECTION::MessageProc(long msgcode, MESSAGE & message)
 
 				// имя группы
 				const auto len = strlen(param)+1;
-				sGroupName = NEW char[len];
+				sGroupName = new char[len];
 				memcpy(sGroupName,param,len);
 				texl = pPictureService->GetTextureID(sGroupName);
 			}

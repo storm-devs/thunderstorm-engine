@@ -337,10 +337,10 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 
 	if(m_nSlotsQnt>0)
 	{
-		m_dwCurColor = NEW uint32_t[m_nSlotsQnt];
-		m_dwNormalColor = NEW uint32_t[m_nSlotsQnt];
-		m_dwSelectColor = NEW uint32_t[m_nSlotsQnt];
-		m_pPicOffset = NEW long[m_nSlotsQnt];
+		m_dwCurColor = new uint32_t[m_nSlotsQnt];
+		m_dwNormalColor = new uint32_t[m_nSlotsQnt];
+		m_dwSelectColor = new uint32_t[m_nSlotsQnt];
+		m_pPicOffset = new long[m_nSlotsQnt];
 		if( !m_dwCurColor || !m_dwNormalColor ||
 			!m_dwSelectColor || !m_pPicOffset ) {
 			STORM_THROW("allocate memory error");
@@ -362,7 +362,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 	m_nStringQuantity = GetIniLong( ini1,name1, ini2,name2, "StringsQuantity", 0);
 	if( m_nStringQuantity > 0 )
 	{
-		m_pStrParam = NEW StringParams[m_nStringQuantity];
+		m_pStrParam = new StringParams[m_nStringQuantity];
 		Assert( m_pStrParam );
 	}
 
@@ -404,7 +404,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 		if(sTechnique!= nullptr)
 		{
 			const auto len = strlen(sTechnique) + 1;
-			if( (m_sSpecTechniqueName=NEW char[len])== nullptr )
+			if( (m_sSpecTechniqueName=new char[len])== nullptr )
 			{
 				STORM_THROW("Allocate memory error");
 			}
@@ -416,7 +416,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 		m_nListSize += m_nNotUsedQuantity;
 		// create images array
 		if(m_nListSize>0)
-			m_Image = NEW IMAGEDESCRIBE[m_nListSize];
+			m_Image = new IMAGEDESCRIBE[m_nListSize];
 		else
 		{
 			m_Image = nullptr;
@@ -433,8 +433,8 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 			m_nGroupQuantity = pA->GetAttributesNum();
 			if(m_nGroupQuantity!=0)
 			{
-				m_nGroupTex = NEW long[m_nGroupQuantity];
-				m_sGroupName = NEW char*[m_nGroupQuantity];
+				m_nGroupTex = new long[m_nGroupQuantity];
+				m_sGroupName = new char*[m_nGroupQuantity];
 				if( m_nGroupTex== nullptr || m_sGroupName== nullptr )
 				{
 					STORM_THROW("allocate memory error");
@@ -444,7 +444,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 					char * stmp = pA->GetAttribute(i);
 					if(stmp== nullptr) continue;
 					const auto len = strlen(stmp) + 1;
-					m_sGroupName[i] = NEW char[len];
+					m_sGroupName[i] = new char[len];
 					if(m_sGroupName[i]== nullptr)
 					{
 						STORM_THROW("allocate memory error");
@@ -458,8 +458,8 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 		// get bad picture
 		if(m_nSlotsQnt>0)
 		{
-			m_idBadTexture = NEW long[m_nSlotsQnt];
-			m_idBadPic = NEW long[m_nSlotsQnt];
+			m_idBadTexture = new long[m_nSlotsQnt];
+			m_idBadPic = new long[m_nSlotsQnt];
 			if( !m_idBadTexture || !m_idBadPic ) {
 				STORM_THROW("allocate memory error");
 			}
@@ -498,8 +498,8 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 			// Fill image descriptor by default value
 			//------------------------------------------------------
 			if( m_nStringQuantity > 0 ) {
-				m_Image[i].strNum = NEW long[m_nStringQuantity];
-				m_Image[i].strSelf = NEW char*[m_nStringQuantity];
+				m_Image[i].strNum = new long[m_nStringQuantity];
+				m_Image[i].strSelf = new char*[m_nStringQuantity];
 			} else {
 				m_Image[i].strNum = nullptr;
 				m_Image[i].strSelf = nullptr;
@@ -511,11 +511,11 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 			}
 			if(m_nSlotsQnt>0)
 			{
-				m_Image[i].bUseSpecTechnique =  NEW bool[m_nSlotsQnt];
-				m_Image[i].img = NEW long[m_nSlotsQnt];
-				m_Image[i].ptex = NEW IDirect3DTexture9*[m_nSlotsQnt];
-				m_Image[i].saveName = NEW char*[m_nSlotsQnt];
-				m_Image[i].tex = NEW long[m_nSlotsQnt];
+				m_Image[i].bUseSpecTechnique =  new bool[m_nSlotsQnt];
+				m_Image[i].img = new long[m_nSlotsQnt];
+				m_Image[i].ptex = new IDirect3DTexture9*[m_nSlotsQnt];
+				m_Image[i].saveName = new char*[m_nSlotsQnt];
+				m_Image[i].tex = new long[m_nSlotsQnt];
 				if( !m_Image[i].bUseSpecTechnique || !m_Image[i].img ||
 					!m_Image[i].ptex || !m_Image[i].saveName ||
 					!m_Image[i].tex )
@@ -548,7 +548,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 					if(sStringName!= nullptr && sStringName[0]=='#')
 					{
 						const auto len = strlen(sStringName);
-						m_Image[i].strSelf[k] = NEW char[len];
+						m_Image[i].strSelf[k] = new char[len];
 						if( m_Image[i].strSelf[k] == nullptr )
 							STORM_THROW("allocate memory error")
 						memcpy( m_Image[i].strSelf[k], &(sStringName[1]), len );
@@ -566,7 +566,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 					if(tmpStr!= nullptr)
 					{
 						const auto len = strlen(tmpStr) + 1;
-						if( (m_Image[i].saveName[n]=NEW char[len])==nullptr )
+						if( (m_Image[i].saveName[n]=new char[len])==nullptr )
 							{STORM_THROW("allocate memory error");}
 						memcpy(m_Image[i].saveName[n],tmpStr, len);
 					}
@@ -593,7 +593,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 	{
 		tmpstr = GetSubStr(param, param1, sizeof(param1));
 		const auto len = strlen(param1) + 1;
-		if( (m_sBorderGroupName = NEW char[len])== nullptr )
+		if( (m_sBorderGroupName = new char[len])== nullptr )
 			STORM_THROW("allocate memory error")
 		memcpy(m_sBorderGroupName,param1,len);
 		m_texBorder = pPictureService->GetTextureID(m_sBorderGroupName);
@@ -633,7 +633,7 @@ float CXI_VIMAGESCROLL::ChangeDinamicParameters(float fYDelta)
 	{
 		if( pScroll== nullptr )
 		{
-			pScroll = NEW SCROLLENTITY;
+			pScroll = new SCROLLENTITY;
 			if(pScroll== nullptr)
 				STORM_THROW("allocate memory error")
 
@@ -1000,7 +1000,7 @@ void CXI_VIMAGESCROLL::ChangeScroll(int nScrollItemNum)
 					if(sStringName!= nullptr && sStringName[0]=='#')
 					{
 						const auto len = strlen(sStringName);
-						m_Image[i].strSelf[n] = NEW char[len];
+						m_Image[i].strSelf[n] = new char[len];
 						if(m_Image[i].strSelf[n]== nullptr)
 							STORM_THROW("allocate memory error")
 						memcpy(m_Image[i].strSelf[n],&(sStringName[1]),len);
@@ -1018,7 +1018,7 @@ void CXI_VIMAGESCROLL::ChangeScroll(int nScrollItemNum)
 					if(tmpStr!= nullptr)
 					{
 						const auto len = strlen(tmpStr) + 1;
-						if( (m_Image[i].saveName[n]=NEW char[len])==nullptr )
+						if( (m_Image[i].saveName[n]=new char[len])==nullptr )
 							{STORM_THROW("allocate memory error");}
 						memcpy(m_Image[i].saveName[n],tmpStr, len);
 					}
@@ -1049,7 +1049,7 @@ void CXI_VIMAGESCROLL::DeleteImage(int imgNum)
 	}
 
 	IMAGEDESCRIBE * pOldImgs = m_Image;
-	m_Image = NEW IMAGEDESCRIBE[m_nListSize];
+	m_Image = new IMAGEDESCRIBE[m_nListSize];
 	if(m_Image== nullptr)	{STORM_THROW("memory allocate error")}
 	if(imgNum>0)
 		memcpy(m_Image,pOldImgs,imgNum*sizeof(IMAGEDESCRIBE));
@@ -1116,7 +1116,7 @@ void CXI_VIMAGESCROLL::RefreshScroll()
 		if(sTechnique!= nullptr)
 		{
 			const auto len = strlen(sTechnique) + 1;
-			if( (m_sSpecTechniqueName=NEW char[len])== nullptr )
+			if( (m_sSpecTechniqueName=new char[len])== nullptr )
 			{
 				STORM_THROW("Allocate memory error");
 			}
@@ -1129,7 +1129,7 @@ void CXI_VIMAGESCROLL::RefreshScroll()
 		// create images array
 		if(m_nListSize>0)
 		{
-			m_Image = NEW IMAGEDESCRIBE[m_nListSize];
+			m_Image = new IMAGEDESCRIBE[m_nListSize];
 			for( i=0; i<m_nListSize; i++ )
 			{
 				m_Image[i].bUseSpecTechnique = nullptr;
@@ -1152,8 +1152,8 @@ void CXI_VIMAGESCROLL::RefreshScroll()
 			if(m_nGroupQuantity!=0)
 			{
 				// set new groups
-				m_nGroupTex = NEW long[m_nGroupQuantity];
-				m_sGroupName = NEW char*[m_nGroupQuantity];
+				m_nGroupTex = new long[m_nGroupQuantity];
+				m_sGroupName = new char*[m_nGroupQuantity];
 				if( m_nGroupTex== nullptr || m_sGroupName== nullptr )
 				{
 					STORM_THROW("allocate memory error");
@@ -1163,7 +1163,7 @@ void CXI_VIMAGESCROLL::RefreshScroll()
 					char * stmp = pA->GetAttribute(i);
 					if(stmp== nullptr) continue;
 					const auto len = strlen(stmp) + 1;
-					m_sGroupName[i] = NEW char[len];
+					m_sGroupName[i] = new char[len];
 					if(m_sGroupName[i]== nullptr)
 					{
 						STORM_THROW("allocate memory error");
@@ -1209,8 +1209,8 @@ void CXI_VIMAGESCROLL::RefreshScroll()
 			// Fill image descriptor by default value
 			//------------------------------------------------------
 			if( m_nStringQuantity > 0 ) {
-				m_Image[i].strNum = NEW long[m_nStringQuantity];
-				m_Image[i].strSelf = NEW char*[m_nStringQuantity];
+				m_Image[i].strNum = new long[m_nStringQuantity];
+				m_Image[i].strSelf = new char*[m_nStringQuantity];
 			} else {
 				m_Image[i].strNum = nullptr;
 				m_Image[i].strSelf = nullptr;
@@ -1221,11 +1221,11 @@ void CXI_VIMAGESCROLL::RefreshScroll()
 				m_Image[i].strSelf[k] = nullptr;
 			}
 			if(m_nSlotsQnt>0) {
-				m_Image[i].bUseSpecTechnique =  NEW bool[m_nSlotsQnt];
-				m_Image[i].img = NEW long[m_nSlotsQnt];
-				m_Image[i].ptex = NEW IDirect3DTexture9*[m_nSlotsQnt];
-				m_Image[i].saveName = NEW char*[m_nSlotsQnt];
-				m_Image[i].tex = NEW long[m_nSlotsQnt];
+				m_Image[i].bUseSpecTechnique =  new bool[m_nSlotsQnt];
+				m_Image[i].img = new long[m_nSlotsQnt];
+				m_Image[i].ptex = new IDirect3DTexture9*[m_nSlotsQnt];
+				m_Image[i].saveName = new char*[m_nSlotsQnt];
+				m_Image[i].tex = new long[m_nSlotsQnt];
 				if( !m_Image[i].bUseSpecTechnique || !m_Image[i].img ||
 					!m_Image[i].ptex || !m_Image[i].saveName ||
 					!m_Image[i].tex )
@@ -1258,7 +1258,7 @@ void CXI_VIMAGESCROLL::RefreshScroll()
 					if(sStringName!= nullptr && sStringName[0]=='#')
 					{
 						const auto len = strlen(sStringName);
-						m_Image[i].strSelf[k] = NEW char[len];
+						m_Image[i].strSelf[k] = new char[len];
 						if(m_Image[i].strSelf[k]== nullptr)
 							STORM_THROW("allocate memory error")
 						memcpy(m_Image[i].strSelf[k],&(sStringName[1]),len);
@@ -1276,7 +1276,7 @@ void CXI_VIMAGESCROLL::RefreshScroll()
 					if(tmpStr!= nullptr)
 					{
 						const auto len = strlen(tmpStr) + 1;
-						if( (m_Image[i].saveName[n]=NEW char[len])==nullptr )
+						if( (m_Image[i].saveName[n]=new char[len])==nullptr )
 							{STORM_THROW("allocate memory error");}
 						memcpy(m_Image[i].saveName[n],tmpStr,len);
 					}
@@ -1451,8 +1451,8 @@ void CXI_VIMAGESCROLL::UpdateTexturesGroup()
 		m_nGroupQuantity = pA->GetAttributesNum();
 		if(m_nGroupQuantity!=0)
 		{
-			m_nGroupTex = NEW long[m_nGroupQuantity];
-			m_sGroupName = NEW char*[m_nGroupQuantity];
+			m_nGroupTex = new long[m_nGroupQuantity];
+			m_sGroupName = new char*[m_nGroupQuantity];
 			if( m_nGroupTex== nullptr || m_sGroupName== nullptr ) {
 				STORM_THROW("allocate memory error");
 			}
@@ -1477,7 +1477,7 @@ void CXI_VIMAGESCROLL::UpdateTexturesGroup()
 				else
 				{
 					const auto len = strlen(stmp) + 1;
-					m_sGroupName[i] = NEW char[len];
+					m_sGroupName[i] = new char[len];
 					if(m_sGroupName[i]== nullptr) {
 						STORM_THROW("allocate memory error");
 					}

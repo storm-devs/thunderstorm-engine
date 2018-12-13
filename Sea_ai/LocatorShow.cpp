@@ -206,7 +206,7 @@ void SeaLocatorShow::CreateSphere()
 	const long a2 = (a1/2);
 
 	sphereNumTrgs = a1*a2*2;
-	sphereVertex = NEW SphVertex[sphereNumTrgs*6];
+	sphereVertex = new SphVertex[sphereNumTrgs*6];
 
 	CVECTOR light = !CVECTOR(0.0f, 0.0f, 1.0f);
 	float kColor;

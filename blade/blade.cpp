@@ -625,7 +625,7 @@ bool BLADE::TIEITEM_INFO::LoadItemModel(const char* mdlName, const char* locName
 	if( !locName || !mdlName ) return false;
 
 	const auto len = strlen(locName) + 1;
-	locatorName = NEW char[len];
+	locatorName = new char[len];
 	Assert(locatorName);
 	memcpy(locatorName,locName,len);
 

@@ -114,14 +114,14 @@ bool FONT::Init(char * font_name, char * iniName, IDirect3DDevice9 * _device, VD
 	if( ini->ReadString(font_name,"Texture",buffer,sizeof(buffer)-1,"") )
     {
 		const auto len = strlen(buffer) + 1;
-        if( (textureName=NEW char[len]) == nullptr )
+        if( (textureName=new char[len]) == nullptr )
             STORM_THROW("allocate memory error")
         strcpy_s(textureName, len, buffer);
     }
     if( ini->ReadString(font_name,"Techniques",buffer,sizeof(buffer)-1,"") )
     {
 		const auto len = strlen(buffer) + 1;
-        if( (techniqueName=NEW char[len]) == nullptr )
+        if( (techniqueName=new char[len]) == nullptr )
             STORM_THROW("allocate memory error")
         strcpy_s(techniqueName, len, buffer);
     }

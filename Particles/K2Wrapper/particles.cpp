@@ -228,7 +228,7 @@ PARTICLE_SYSTEM* PARTICLES::CreateSystem (const char* pFileName, uint32_t LifeTi
 
 	pSys->AutoDelete(false);
 
-	PARTICLE_SYSTEM* pNewPS = NEW PARTICLE_SYSTEM(pSys);
+	PARTICLE_SYSTEM* pNewPS = new PARTICLE_SYSTEM(pSys);
 	pNewPS->SetManager(this);
 
 

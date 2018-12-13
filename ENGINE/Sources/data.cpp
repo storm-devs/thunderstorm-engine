@@ -272,7 +272,7 @@ void DATA::Set(char * value)
 	if(value == nullptr) return;
 
 	const auto len = strlen(value) + 1;
-	sValue = NEW char[len];
+	sValue = new char[len];
 	memcpy(sValue,value,len);
 }
 
@@ -299,7 +299,7 @@ void DATA::Set(char * attribute_name, char * attribute_value)
 			return;
 		}
 
-		AttributesClass = NEW ATTRIBUTES(pVCompiler->GetVSC());
+		AttributesClass = new ATTRIBUTES(pVCompiler->GetVSC());
 	}
 	AttributesClass->SetAttribute(attribute_name,attribute_value);
 	//Attributes.SetAttribute(attribute_name,attribute_value);
@@ -569,7 +569,7 @@ bool DATA::Set(char * value, uint32_t index)
 	ppChar = (char **)ArrayPointer;
 	if(ppChar[index] != null) delete ppChar[index];
 	ppChar[index] = null;
-	ppChar[index] = NEW char[strlen(value) + 1];
+	ppChar[index] = new char[strlen(value) + 1];
 	strcpy_s(ppChar[index],value);
 	return true;	*/
 }
@@ -595,7 +595,7 @@ bool DATA::Set(char * attribute_name, char * attribute_value, uint32_t index)
 /*
 	OBJECT_DESC * pOD;
 	pOD = (OBJECT_DESC *)ArrayPointer;
-	if(pOD[index].pAttributes == null ) pOD[index].pAttributes = NEW ATTRIBUTES;
+	if(pOD[index].pAttributes == null ) pOD[index].pAttributes = new ATTRIBUTES;
 	pOD[index].pAttributes->SetAttribute(attribute_name,attribute_value);
 	return true;*/
 }
@@ -719,7 +719,7 @@ void DATA::SetType(S_TOKEN_TYPE _element_type, uint32_t array_size)
 		ArrayPTR.reserve(Number_of_elements);
 		for(n=0;n<Number_of_elements;n++)
 		{
-			//ArrayPTR[n] = NEW DATA(_element_type);
+			//ArrayPTR[n] = new DATA(_element_type);
 			//ArrayPTR[n]->SetVCompiler(pVCompiler);
 			//new (&ArrayPTR[n]) DATA(_element_type);
 			ArrayPTR.emplace_back(_element_type);
@@ -781,7 +781,7 @@ bool DATA::Convert(S_TOKEN_TYPE type)
 		if(sValue == nullptr) 
 		{ 
 
-			sValue = NEW char[1];
+			sValue = new char[1];
 			sValue[0] = 0;
 			//Error(INVALID_CONVERSATION); return false;
 		}
@@ -875,7 +875,7 @@ void  DATA::SetElementsNum(uint32_t _asize)
 	//for(n=(Number_of_elements - 1);n<_asize;n++)
 	for(uint32_t n = Number_of_elements;n<_asize;n++)
 	{
-		//ArrayPTR[n] = NEW DATA(Data_type);
+		//ArrayPTR[n] = new DATA(Data_type);
 		//new (&ArrayPTR[n]) DATA(Data_type);
 		ArrayPTR.emplace_back(Data_type);
 		ArrayPTR.back().SetVCompiler( ArrayPTR[0].pVCompiler );
@@ -1256,7 +1256,7 @@ bool DATA::Plus(DATA * pV)
 					Convert(VAR_STRING);
 					size = strlen(sValue) + strlen(pV->sValue) + 1;
 
-					sTemp = NEW char[size];
+					sTemp = new char[size];
 					strcpy_s(sTemp,size,sValue);
 					strcat_s(sTemp,size,pV->sValue);
 					Set(sTemp);
@@ -1278,7 +1278,7 @@ bool DATA::Plus(DATA * pV)
 					Convert(VAR_STRING);
 					size = strlen(sValue) + strlen(pV->sValue) + 1;
 
-					sTemp = NEW char[size];
+					sTemp = new char[size];
 					strcpy_s(sTemp,size,sValue);
 					strcat_s(sTemp,size,pV->sValue);
 					Set(sTemp);
@@ -1297,7 +1297,7 @@ bool DATA::Plus(DATA * pV)
 					{
 						size = strlen(sValue) + strlen(pV->AttributesClass->GetThisAttr()) + 1;
 
-						sTemp = NEW char[size];
+						sTemp = new char[size];
 						strcpy_s(sTemp,size,sValue);
 						strcat_s(sTemp,size,pV->AttributesClass->GetThisAttr());
 					}
@@ -1305,7 +1305,7 @@ bool DATA::Plus(DATA * pV)
 					{
 						size = strlen(pV->AttributesClass->GetThisAttr()) + 1;
 
-						sTemp = NEW char[size];
+						sTemp = new char[size];
 						strcpy_s(sTemp,size,pV->AttributesClass->GetThisAttr());
 					}
 					Set(sTemp);
@@ -1317,7 +1317,7 @@ bool DATA::Plus(DATA * pV)
 					{
 						size = strlen(sValue) + strlen(buffer) + 1;
 
-						sTemp = NEW char[size];
+						sTemp = new char[size];
 						strcpy_s(sTemp,size,sValue);
 						strcat_s(sTemp,size,buffer);
 					}
@@ -1325,7 +1325,7 @@ bool DATA::Plus(DATA * pV)
 					{
 						size = strlen(buffer) + 1;
 
-						sTemp = NEW char[size];
+						sTemp = new char[size];
 						strcpy_s(sTemp,size,buffer);
 					}
 					Set(sTemp);
@@ -1337,7 +1337,7 @@ bool DATA::Plus(DATA * pV)
 					{
 						size = strlen(sValue) + strlen(buffer) + 1;
 
-						sTemp = NEW char[size];
+						sTemp = new char[size];
 						strcpy_s(sTemp,size,sValue);
 						strcat_s(sTemp,size,buffer);
 					}
@@ -1345,7 +1345,7 @@ bool DATA::Plus(DATA * pV)
 					{
 						size = strlen(buffer) + 1;
 
-						sTemp = NEW char[size];
+						sTemp = new char[size];
 						strcpy_s(sTemp,size,buffer);
 					}
 					Set(sTemp);
@@ -1357,7 +1357,7 @@ bool DATA::Plus(DATA * pV)
 						if(pV->sValue == nullptr) return false;
 						size = strlen(pV->sValue) + 1;
 
-						sTemp = NEW char[size];
+						sTemp = new char[size];
 						strcpy_s(sTemp,size,pV->sValue);
 					}
 					else 
@@ -1365,7 +1365,7 @@ bool DATA::Plus(DATA * pV)
 						if(pV->sValue == nullptr) return false;
 						size = strlen(sValue) + strlen(pV->sValue) + 1;
 
-						sTemp = NEW char[size];
+						sTemp = new char[size];
 						strcpy_s(sTemp,size,sValue);
 						strcat_s(sTemp,size,pV->sValue);
 					}
@@ -1741,7 +1741,7 @@ bool DATA::Copy(DATA * pV)
 					Error(UNINIT_REF);
 					return false;
 				}
-				if(pVV->AttributesClass == nullptr) pVV->AttributesClass = NEW ATTRIBUTES(pVCompiler->GetVSC());
+				if(pVV->AttributesClass == nullptr) pVV->AttributesClass = new ATTRIBUTES(pVCompiler->GetVSC());
 				pVV->AttributesClass->Copy(pV->AttributesClass);
 			}
 			else
@@ -1752,7 +1752,7 @@ bool DATA::Copy(DATA * pV)
 				}
 				else
 				{
-					if(AttributesClass == nullptr) AttributesClass = NEW ATTRIBUTES(pVCompiler->GetVSC());
+					if(AttributesClass == nullptr) AttributesClass = new ATTRIBUTES(pVCompiler->GetVSC());
 					AttributesClass->Copy(pV->AttributesClass);
 				}
 			}
@@ -1966,7 +1966,7 @@ ATTRIBUTES * DATA::GetAClass()
 			return nullptr;
 		}
 
-		AttributesClass = NEW ATTRIBUTES(pVCompiler->GetVSC());
+		AttributesClass = new ATTRIBUTES(pVCompiler->GetVSC());
 	}
 	return AttributesClass;
 }

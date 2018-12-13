@@ -104,8 +104,8 @@ void CXI_KEYCHANGER::SetChoosingControls(ATTRIBUTES * pA)
 	m_keysQuantity = pA->GetAttributesNum();
 	if(m_keysQuantity<=0) return;
 
-	m_pControlsID = NEW long[m_keysQuantity];
-	m_pbControlsStick = NEW bool[m_keysQuantity];
+	m_pControlsID = new long[m_keysQuantity];
+	m_pbControlsStick = new bool[m_keysQuantity];
 	if(m_pControlsID== nullptr || m_pbControlsStick== nullptr)
 	{
 		STORM_THROW("Allocate memory error");

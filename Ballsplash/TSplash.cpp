@@ -89,10 +89,10 @@ void TSplash::Initialize(INIFILE * _ini, IDirect3DDevice9 *_device, SEA_BASE *_s
 	if (!buffersUsage++)
 	{
 		/*
-		iBuffer  = NEW WORD[TRIANGLES_COUNT*3];
-		vBuffer  = NEW GRID_VERTEX[GRID_STEPS*GRID_STEPS];
-		iBuffer2 = NEW WORD[VPLANES_COUNT*6];
-		vBuffer2 = NEW GRID_VERTEX[VPLANES_COUNT*4];
+		iBuffer  = new WORD[TRIANGLES_COUNT*3];
+		vBuffer  = new GRID_VERTEX[GRID_STEPS*GRID_STEPS];
+		iBuffer2 = new WORD[VPLANES_COUNT*6];
+		vBuffer2 = new GRID_VERTEX[VPLANES_COUNT*4];
 		*/
 		iBuffer = renderer->CreateIndexBuffer(MAX_SPLASHES*TRIANGLES_COUNT*3*sizeof(uint16_t), D3DUSAGE_WRITEONLY);
 		vBuffer = renderer->CreateVertexBuffer(GRID_FVF, MAX_SPLASHES*GRID_STEPS*GRID_STEPS*sizeof(GRID_VERTEX), D3DUSAGE_WRITEONLY);

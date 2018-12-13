@@ -726,7 +726,7 @@ void PtcData::DebugDraw(VDX9RENDER * rs, float dltTime)
 	if(numTriangles <= 0) return;
 	if(!dbgTriangles)
 	{
-		dbgTriangles = NEW DbgVertex[numTriangles*3];
+		dbgTriangles = new DbgVertex[numTriangles*3];
 		for(long i = 0; i < numTriangles; i++)
 		{
 			dbgTriangles[i*3 + 0].x = vertex[triangle[i].i[0]].x;
@@ -745,7 +745,7 @@ void PtcData::DebugDraw(VDX9RENDER * rs, float dltTime)
 	}
 	if(!dbgEdges)
 	{
-		dbgEdges = NEW DbgVertex[numTriangles*3*2];
+		dbgEdges = new DbgVertex[numTriangles*3*2];
 		for(long i = 0; i < numTriangles; i++)
 		{
 			for(long j = 0; j < 3; j++)

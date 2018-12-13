@@ -239,8 +239,8 @@ bool HELPCHOOSER::RunChooser(char * ChooserGroup)
 	// создаем массив координат прямоугольников выбора
 	if(m_nRectQ>0)
 	{
-		m_pRectList = NEW FRECT[m_nRectQ];
-		m_psRectName = NEW char*[m_nRectQ];
+		m_pRectList = new FRECT[m_nRectQ];
+		m_psRectName = new char*[m_nRectQ];
 		if(m_pRectList== nullptr || m_psRectName== nullptr)	{THROW("Allocate memory error");}
 	}
 	// заполняем все прямоугольники
@@ -256,7 +256,7 @@ bool HELPCHOOSER::RunChooser(char * ChooserGroup)
 			else break;
 		if(j>0)
 		{
-			m_psRectName[i] = NEW char[j+2];
+			m_psRectName[i] = new char[j+2];
 			if(m_psRectName[i]== nullptr) {STORM_THROW("Allocate memory error");}
 			strcpy_s(m_psRectName[i],j+2,param2);
 		}

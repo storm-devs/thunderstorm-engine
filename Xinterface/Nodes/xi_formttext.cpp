@@ -27,7 +27,7 @@ CXI_FORMATEDTEXT::STRING_DESCRIBER::STRING_DESCRIBER(char* ls) : color(0)
 		lineStr = nullptr;
 	else
 	{
-		if ((lineStr = NEW char[len]) == nullptr)
+		if ((lineStr = new char[len]) == nullptr)
 		{
 			STORM_THROW("allocate memory error");
 		}
@@ -43,7 +43,7 @@ CXI_FORMATEDTEXT::STRING_DESCRIBER* CXI_FORMATEDTEXT::STRING_DESCRIBER::Add(char
 {
 	if(ls== nullptr)
 		return nullptr;
-	STRING_DESCRIBER* newSD = NEW STRING_DESCRIBER(ls);
+	STRING_DESCRIBER* newSD = new STRING_DESCRIBER(ls);
 	if(newSD== nullptr)
 	{
 		STORM_THROW("allocate memory error");
@@ -432,7 +432,7 @@ void CXI_FORMATEDTEXT::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 	if( ReadIniString(ini1,name1, ini2,name2, "scrollerName", param, sizeof(param),"") )
 	{
 		const auto len = strlen(param)+1;
-		m_sScrollerName = NEW char[len];
+		m_sScrollerName = new char[len];
 		Assert( m_sScrollerName );
 		memcpy( m_sScrollerName, param,len );
 	}
@@ -799,7 +799,7 @@ long CXI_FORMATEDTEXT::AddFormatedText(const char * str)
 		GetOneLine( m_idFont,pstr,newStr,sizeof(newStr) );
 		if(m_listRoot== nullptr)
 		{
-			if( (dscrTmp=m_listRoot=NEW STRING_DESCRIBER(newStr)) == nullptr )
+			if( (dscrTmp=m_listRoot=new STRING_DESCRIBER(newStr)) == nullptr )
 			{
 				STORM_THROW("allocate memory error");
 			}
@@ -819,7 +819,7 @@ long CXI_FORMATEDTEXT::AddFormatedText(const char * str)
 		{
 			if(m_listRoot== nullptr)
 			{
-				if( (dscrTmp=m_listRoot=NEW STRING_DESCRIBER(newStr)) == nullptr )
+				if( (dscrTmp=m_listRoot=new STRING_DESCRIBER(newStr)) == nullptr )
 				{
 					STORM_THROW("allocate memory error");
 				}
@@ -1393,7 +1393,7 @@ void CXI_FORMATEDTEXT::InsertStringBefore( STRING_DESCRIBER * pNextDescr, const 
 	// разложим полученную строку на строки влезающие в область вывода
 	while( GetLineNext(m_idFont,pstr,newStr,sizeof(newStr)) )
 	{
-		STRING_DESCRIBER * pNewDescr = NEW STRING_DESCRIBER(newStr);
+		STRING_DESCRIBER * pNewDescr = new STRING_DESCRIBER(newStr);
 		if( !pNewDescr ) {STORM_THROW("allocate memory error");}
 
 		pNewDescr->strNum = -1;

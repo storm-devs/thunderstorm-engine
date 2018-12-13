@@ -450,7 +450,7 @@ bool S_DEBUG::OpenDebugWindow_NT(HINSTANCE hInstance)
 
 	if(WatcherList) delete WatcherList; WatcherList = nullptr;
 
-	WatcherList = NEW WATCHER_LIST(hMain,hInstance);
+	WatcherList = new WATCHER_LIST(hMain,hInstance);
 	if(WatcherList)
 	{
 		SendMessage(WatcherList->GetWindowHandle(),WM_SETFONT,(WPARAM)hFont,0);
@@ -458,7 +458,7 @@ bool S_DEBUG::OpenDebugWindow_NT(HINSTANCE hInstance)
 	}
 	if(SourceView) delete SourceView; SourceView = nullptr;
 
-	SourceView = NEW SOURCE_VIEW(hMain,hInstance);
+	SourceView = new SOURCE_VIEW(hMain,hInstance);
 	if(SourceView)
 	{
 		SourceView->SetFont(hFont);

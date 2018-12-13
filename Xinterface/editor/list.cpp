@@ -9,21 +9,21 @@ GIEditorList::GIEditorList(GIEditor* pEditor)
 	m_pEditor = pEditor;
 	Assert( m_pEditor );
 
-	m_pChangeSelected = NEW GIEditorEventHandler;
+	m_pChangeSelected = new GIEditorEventHandler;
 	Assert( m_pChangeSelected );
 
-	m_pBackImage = NEW CXI_IMAGE;
+	m_pBackImage = new CXI_IMAGE;
 	Assert( m_pBackImage );
 	m_pBackImage->SetThisRectangleNotUseTexture( true );
 	m_pBackImage->SetColor( 0xFF8080D0 );
 
-	m_pSelectImage = NEW CXI_IMAGE;
+	m_pSelectImage = new CXI_IMAGE;
 	Assert( m_pSelectImage );
 	m_bShowSelect = false;
 	m_pSelectImage->SetThisRectangleNotUseTexture( true );
 	m_pSelectImage->SetColor( 0xFF80D080 );
 
-	m_pFont = NEW GIFont( pEditor, "interface_normal" );
+	m_pFont = new GIFont( pEditor, "interface_normal" );
 	Assert( m_pFont );
 	m_pFont->SetHeight( 10.f );
 

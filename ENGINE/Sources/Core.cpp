@@ -2,7 +2,6 @@
 #include "../../Common_h/vmodule_api.h"
 #include "messages.h"
 #include "vbuffer.h"
-#include "../../Common_h/memop.h"
 
 #include "../../Common_h/dx9render.h"
 #include "../../Common_h/defines.h"
@@ -590,7 +589,7 @@ void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 	{
 		if(Controls) delete Controls; Controls = nullptr;
 
-		_CORE_API->Controls = NEW CONTROLS;
+		_CORE_API->Controls = new CONTROLS;
 	}
 #else
 	if(!Controls) Controls = (CONTROLS *)MakeClass("xbox_controls");
@@ -1076,7 +1075,7 @@ C_ATOM * CORE::CreateAtom(uint32_t class_code)
 	{
 		if(Atoms_PTR[n] != nullptr) continue;
 
-		Atoms_PTR[n] = NEW C_ATOM;
+		Atoms_PTR[n] = new C_ATOM;
 		if(Atoms_PTR[n] == nullptr) THROW;
 
 		if(CoreState.Atoms_max_orbit < n) CoreState.Atoms_max_orbit = n;
@@ -1107,7 +1106,7 @@ C_ATOM * CORE::FitAtom(ENTITY_ID entity_id, ATOM_STATE atom_state)
 	if(entity_id.atom_position > CoreState.Atoms_max_orbit) THROW;
 	if(Atoms_PTR[entity_id.atom_position] != nullptr) THROW;
 
-	Atoms_PTR[entity_id.atom_position] = NEW C_ATOM;
+	Atoms_PTR[entity_id.atom_position] = new C_ATOM;
 	if(Atoms_PTR[entity_id.atom_position] == nullptr) THROW;
 	Atoms_PTR[entity_id.atom_position]->as = atom_state;
 	Atoms_PTR[entity_id.atom_position]->atom_id = entity_id;
@@ -1979,7 +1978,7 @@ uint32_t _cdecl CORE::PostEvent(char * Event_name, uint32_t post_time, char * Fo
 
 	if(Format != nullptr)
 	{
-		pMS = NEW MESSAGE_SCRIPT;
+		pMS = new MESSAGE_SCRIPT;
 		va_start(message.args,Format);
 		message.Reset(Format);
 		pMS->Reset(Format);
@@ -2028,7 +2027,7 @@ uint32_t _cdecl CORE::PostEvent(char * Event_name, uint32_t post_time, char * Fo
 		va_end(message.args);
 	} else pMS = nullptr;
 
-	pEM = NEW S_EVENTMSG(Event_name,pMS,post_time);
+	pEM = new S_EVENTMSG(Event_name,pMS,post_time);
 	pEM->bProcess = true;
 	Compiler.AddPostEvent(pEM);
 	return 0;
@@ -2695,7 +2694,7 @@ bool CORE::InitiateStateLoading(char * file_name)
 	if(State_file_name) delete State_file_name;
 
 	const auto len = strlen(file_name) + 1;
-	State_file_name = (char *)NEW char[len];
+	State_file_name = (char *)new char[len];
 	if(State_file_name == nullptr) THROW;
 	strcpy_s(State_file_name, len, file_name);
 	POP_CONTROL(nullptr)

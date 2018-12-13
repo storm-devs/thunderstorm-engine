@@ -90,7 +90,7 @@ bool ActivePerkShower::CreateTextures(ATTRIBUTES * pATextureRoot)
 	int q = pATextureRoot->GetAttributesNum();
 	if(q<=0) return false;
 
-	m_pTexDescr = NEW _TEXTURE_DESCR[q];
+	m_pTexDescr = new _TEXTURE_DESCR[q];
 	if(m_pTexDescr== nullptr)
 	{	THROW("allocate memory error");
 	}
@@ -162,7 +162,7 @@ bool ActivePerkShower::CreateShowPlaces(ATTRIBUTES * pAPlacesRoot)
 	if(nVertQ<=0) nVertQ = 1;
 
 	m_nShowPlaceQ = nHorzQ*nVertQ;
-	m_pShowPlaces = NEW _SHOW_PLACE[m_nShowPlaceQ];
+	m_pShowPlaces = new _SHOW_PLACE[m_nShowPlaceQ];
 	if(m_pShowPlaces== nullptr)
 	{	THROW("allocate memory error");
 	}
@@ -189,7 +189,7 @@ bool ActivePerkShower::InitIconsList(ATTRIBUTES * pAIconsRoot)
 	int q = pAIconsRoot->GetAttributesNum();
 	m_nIShowQ = q;
 	if(m_nIShowQ==0) return true;
-	m_pIconsList = NEW _PICTURE_DESCR[q];
+	m_pIconsList = new _PICTURE_DESCR[q];
 	if(m_pIconsList== nullptr)
 	{	THROW("allocate memory error");
 	}
@@ -222,11 +222,11 @@ void ActivePerkShower::AddIconToList(ATTRIBUTES * pAItemDescr)
 	}
 
 	m_nIShowQ++;
-	if(m_pIconsList== nullptr)	m_pIconsList = NEW _PICTURE_DESCR[m_nIShowQ];
+	if(m_pIconsList== nullptr)	m_pIconsList = new _PICTURE_DESCR[m_nIShowQ];
 	else
 	{
 		_PICTURE_DESCR * old_pIconsList = m_pIconsList;
-		m_pIconsList = NEW _PICTURE_DESCR[m_nIShowQ];
+		m_pIconsList = new _PICTURE_DESCR[m_nIShowQ];
 		if(m_pIconsList!= nullptr)
 		{	memcpy(m_pIconsList,old_pIconsList,sizeof(_PICTURE_DESCR)*(m_nIShowQ-1));
 		}

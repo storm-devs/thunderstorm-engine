@@ -94,7 +94,7 @@ void AIShip::Execute(float fDeltaTime)
 	{
 		if (!pCameraController) 
 		{
-			pCameraController = NEW AIShipCameraController(this); Assert(pCameraController);
+			pCameraController = new AIShipCameraController(this); Assert(pCameraController);
 			pCameraController->Init();
 		}
 	} else 
@@ -244,12 +244,12 @@ void AIShip::CreateShip(ENTITY_ID _eidShip, ATTRIBUTES * _pACharacter, ATTRIBUTE
 		pShip->State.vAng.y = vInitPos->y;
 	}
 
-	pCannonController = NEW AIShipCannonController(this); GetCannonController()->Init(pAShipBase);
-	pTaskController = NEW AIShipTaskController(this); GetTaskController()->Init();
-	pMoveController = NEW AIShipMoveController(this); GetMoveController()->Init();
-	pTouchController = NEW AIShipTouchController(this); GetTouchController()->Init();
-	pRotateController = NEW AIShipRotateController(this); GetRotateController()->Init();
-	pSpeedController = NEW AIShipSpeedController(this); GetSpeedController()->Init();	
+	pCannonController = new AIShipCannonController(this); GetCannonController()->Init(pAShipBase);
+	pTaskController = new AIShipTaskController(this); GetTaskController()->Init();
+	pMoveController = new AIShipMoveController(this); GetMoveController()->Init();
+	pTouchController = new AIShipTouchController(this); GetTouchController()->Init();
+	pRotateController = new AIShipRotateController(this); GetRotateController()->Init();
+	pSpeedController = new AIShipSpeedController(this); GetSpeedController()->Init();	
 }
 
 bool AIShip::isCanPlace(CVECTOR vNewPos) const
@@ -666,12 +666,12 @@ void AIShip::Load(CSaveLoad * pSL)
 	pVCharacter->Set(eidShip, GetIndex(GetACharacter()));
 
 	// create controllers
-	pCannonController = NEW AIShipCannonController(this); 
-	pTaskController = NEW AIShipTaskController(this); 
-	pMoveController = NEW AIShipMoveController(this); 
-	pTouchController = NEW AIShipTouchController(this); 
-	pRotateController = NEW AIShipRotateController(this); 
-	pSpeedController = NEW AIShipSpeedController(this); 
+	pCannonController = new AIShipCannonController(this); 
+	pTaskController = new AIShipTaskController(this); 
+	pMoveController = new AIShipMoveController(this); 
+	pTouchController = new AIShipTouchController(this); 
+	pRotateController = new AIShipRotateController(this); 
+	pSpeedController = new AIShipSpeedController(this); 
 
 	api->Event(SHIP_CREATELOADSHIP, "l", GetIndex(GetACharacter()));
 
@@ -680,7 +680,7 @@ void AIShip::Load(CSaveLoad * pSL)
 	bool bCameraController = pSL->LoadDword() != 0;
 	if (bCameraController) 
 	{
-		pCameraController = NEW AIShipCameraController(this); 
+		pCameraController = new AIShipCameraController(this); 
 		pCameraController->Load(pSL);
 	}
 	pMoveController->Load(pSL);

@@ -5,7 +5,6 @@
 
 #include <cstdint>
 #include <cstring>
-#include "../../common_h/memop.h"
 
 #define VFSEEK_SET          (0x00000000)
 #define VFSEEK_CURRENT      (0x00000001)
@@ -63,7 +62,7 @@ public:
 	inline void OpenWrite (uint32_t MaxSize)
 	{
 		DataIsMy = true;
-		Data = NEW uint8_t[MaxSize];
+		Data = new uint8_t[MaxSize];
 		memset (Data, 0, MaxSize);
 		MaxLen = MaxSize;
 		CurPos = 0;

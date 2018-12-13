@@ -85,7 +85,7 @@ void FieldList::Load (MemFile* File)
 
 void FieldList::CreateEmptyBoolField (const char* Name, bool def_value)
 {
-	DataBool* Field = NEW DataBool;
+	DataBool* Field = new DataBool;
 	Field->SetName(Name);
 	Field->SetValue(def_value);
 
@@ -100,7 +100,7 @@ void FieldList::CreateEmptyBoolField (const char* Name, bool def_value)
 
 void FieldList::CreateEmptyFloatField (const char* Name, float def_value)
 {
-	DataFloat* Field = NEW DataFloat;
+	DataFloat* Field = new DataFloat;
 	Field->SetName(Name);
 	Field->SetValue(def_value);
 
@@ -115,7 +115,7 @@ void FieldList::CreateEmptyFloatField (const char* Name, float def_value)
 
 void FieldList::CreateEmptyGraphField (const char* Name, float def_value_min, float def_value_max)
 {
-	DataGraph* Field = NEW DataGraph;
+	DataGraph* Field = new DataGraph;
 	Field->SetName(Name);
 	Field->SetDefaultValue(def_value_max, def_value_min);
 
@@ -130,7 +130,7 @@ void FieldList::CreateEmptyGraphField (const char* Name, float def_value_min, fl
 
 void FieldList::CreateEmptyPositionField (const char* Name, const Vector& def_value)
 {
-	DataPosition* Field = NEW DataPosition;
+	DataPosition* Field = new DataPosition;
 	Field->SetName(Name);
 	Field->SetValue(def_value);
 
@@ -145,7 +145,7 @@ void FieldList::CreateEmptyPositionField (const char* Name, const Vector& def_va
 
 void FieldList::CreateEmptyStringField (const char* Name, const char* def_value)
 {
-	DataString* Field = NEW DataString;
+	DataString* Field = new DataString;
 	Field->SetName(Name);
 	Field->SetValue(def_value);
 
@@ -161,7 +161,7 @@ void FieldList::CreateEmptyStringField (const char* Name, const char* def_value)
 
 void FieldList::CreateEmptyUVField (const char* Name)
 {
-	DataUV* Field = NEW DataUV;
+	DataUV* Field = new DataUV;
 	Field->SetName(Name);
 	Field->SetValues(&Vector4(0.0f, 0.0f, 1.0f, 1.0f), 1);
 
@@ -176,7 +176,7 @@ void FieldList::CreateEmptyUVField (const char* Name)
 
 void FieldList::CreateEmptyColorField (const char* Name, uint32_t def_value)
 {
-	DataColor* Field = NEW DataColor;
+	DataColor* Field = new DataColor;
 	Field->SetName(Name);
 	ColorVertex defVal[2];
 	defVal[0].MinValue = def_value;
@@ -197,7 +197,7 @@ void FieldList::CreateEmptyColorField (const char* Name, uint32_t def_value)
 
 void FieldList::CreateBoolField (MemFile* pMemFile)
 {
-	DataBool* Field = NEW DataBool;
+	DataBool* Field = new DataBool;
 	Field->Load(pMemFile);
 
 	FieldDesc pDesc;
@@ -211,7 +211,7 @@ void FieldList::CreateBoolField (MemFile* pMemFile)
 
 void FieldList::CreateFloatField (MemFile* pMemFile)
 {
-	DataFloat* Field = NEW DataFloat;
+	DataFloat* Field = new DataFloat;
 	Field->Load(pMemFile);
 
 	FieldDesc pDesc;
@@ -225,7 +225,7 @@ void FieldList::CreateFloatField (MemFile* pMemFile)
 
 void FieldList::CreateGraphField (MemFile* pMemFile)
 {
-	DataGraph* Field = NEW DataGraph;
+	DataGraph* Field = new DataGraph;
 	Field->Load(pMemFile);
 
 	FieldDesc pDesc;
@@ -239,7 +239,7 @@ void FieldList::CreateGraphField (MemFile* pMemFile)
 
 void FieldList::CreatePositionField (MemFile* pMemFile)
 {
-	DataPosition* Field = NEW DataPosition;
+	DataPosition* Field = new DataPosition;
 	Field->Load(pMemFile);
 
 	FieldDesc pDesc;
@@ -253,7 +253,7 @@ void FieldList::CreatePositionField (MemFile* pMemFile)
 
 void FieldList::CreateStringField (MemFile* pMemFile)
 {
-	DataString* Field = NEW DataString;
+	DataString* Field = new DataString;
 	Field->Load(pMemFile);
 
 	FieldDesc pDesc;
@@ -267,7 +267,7 @@ void FieldList::CreateStringField (MemFile* pMemFile)
 
 void FieldList::CreateUVField (MemFile* pMemFile)
 {
-	DataUV* Field = NEW DataUV;
+	DataUV* Field = new DataUV;
 	Field->Load(pMemFile);
 
 	FieldDesc pDesc;
@@ -281,7 +281,7 @@ void FieldList::CreateUVField (MemFile* pMemFile)
 
 void FieldList::CreateColorField (MemFile* pMemFile)
 {
-	DataColor* Field = NEW DataColor;
+	DataColor* Field = new DataColor;
 	Field->Load(pMemFile);
 
 	FieldDesc pDesc;

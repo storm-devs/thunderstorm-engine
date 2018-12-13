@@ -72,7 +72,7 @@ void CXI_STRCOLLECTION::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *n
 
 	if(m_nStr)
 	{
-		m_pStrDescr = NEW STRINGDESCR[m_nStr];
+		m_pStrDescr = new STRINGDESCR[m_nStr];
 
 		// Set strings
 		int a_fc,r_fc,g_fc,b_fc;
@@ -377,7 +377,7 @@ CXI_STRCOLLECTION::STRINGDESCR * CXI_STRCOLLECTION::CreateNewDinamicString(char 
 		FONT_RELEASE(m_rs,m_pStrDescr[i].nFontNum);
 		STORM_DELETE(m_pStrDescr[i].strStr);
 		const auto len = strlen(strStr) + 1;
-		m_pStrDescr[i].strStr = NEW char[len];
+		m_pStrDescr[i].strStr = new char[len];
 		if(m_pStrDescr[i].strStr== nullptr)	{THROW("allocate memory error");}
 		memcpy(m_pStrDescr[i].strStr,strStr,len);
 		return &m_pStrDescr[i];
@@ -385,7 +385,7 @@ CXI_STRCOLLECTION::STRINGDESCR * CXI_STRCOLLECTION::CreateNewDinamicString(char 
 	if( strStr== nullptr || strStr[0]==0 ) return nullptr;
 	STRINGDESCR * pOld = m_pStrDescr;
 	m_nStr++;
-	m_pStrDescr = NEW STRINGDESCR[m_nStr];
+	m_pStrDescr = new STRINGDESCR[m_nStr];
 	if( m_pStrDescr == nullptr )	{THROW("allocate memory error");}
 	if( pOld && i )	memcpy(m_pStrDescr,pOld,sizeof(STRINGDESCR)*i);
 	if( pOld ) delete pOld;
@@ -393,8 +393,8 @@ CXI_STRCOLLECTION::STRINGDESCR * CXI_STRCOLLECTION::CreateNewDinamicString(char 
 	m_pStrDescr[i].nFontNum = -1;
 	const auto len1 = strlen(strID) + 1;
 	const auto len2 = strlen(strStr) + 1;
-	m_pStrDescr[i].strID = NEW char[len1];
-	m_pStrDescr[i].strStr = NEW char[len2];
+	m_pStrDescr[i].strID = new char[len1];
+	m_pStrDescr[i].strStr = new char[len2];
 	if( m_pStrDescr[i].strID== nullptr || m_pStrDescr[i].strStr== nullptr )
 	{	THROW("allocate memory error");}
 	memcpy( m_pStrDescr[i].strID, strID, len1 );

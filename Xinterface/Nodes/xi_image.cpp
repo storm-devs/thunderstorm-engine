@@ -56,7 +56,7 @@ void CXI_IMAGE::LoadFromBase( const char * sListName, const char * sPictureName,
 	if( sListName )
 	{
 		const auto len = strlen(sListName)+1;
-		m_pcPictureListName = NEW char[len];
+		m_pcPictureListName = new char[len];
 		if( !m_pcPictureListName ) {STORM_THROW("allocate memory error");}
 		memcpy( m_pcPictureListName, sListName, len );
 	}

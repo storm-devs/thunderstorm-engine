@@ -57,7 +57,7 @@ void TFishSchools::Init()
 
 	for (int i=0; i<fishSchoolsCount; i++)
 	{
-		fishSchools[i] = NEW TFishSchool();
+		fishSchools[i] = new TFishSchool();
 		fishSchools[i]->TDynamicObject::Initialize(CVECTOR(0.0f, 0.0f, 0.0f), maxDistance);
 		fishSchools[i]->depth = 0.05f;
 		fishSchools[i]->time = 0;

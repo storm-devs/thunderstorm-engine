@@ -22,7 +22,7 @@ public:
 		pMessageClass = _pc; nTime = 0; nPeriod = _period;
 
 		const auto len = strlen(_name) + 1;
-		pEventName = NEW char[len];
+		pEventName = new char[len];
 		strcpy_s(pEventName, len, _name);
 	};
 	~S_EVENTMSG()

@@ -291,7 +291,7 @@ void CoastFoam::Realize(uint32_t Delta_Time)
 
 		if (bShift && csCopy.state == CST_ACTIVATED && bSelected)
 		{
-			Foam * pF = NEW Foam();
+			Foam * pF = new Foam();
 			*pF = *aFoams[iEditFoam];
 			
 			for (long i=0; i<pF->aFoamParts.size(); i++)
@@ -311,7 +311,7 @@ void CoastFoam::Realize(uint32_t Delta_Time)
 			{
 				// insert new foam
 				CMatrix mIView = Render().GetView(); mIView.Transposition();
-				Foam * pF = NEW Foam();
+				Foam * pF = new Foam();
 
 
 
@@ -771,8 +771,8 @@ void CoastFoam::Load()
 	iFoamDivides = pI->GetLong(nullptr, "FoamDivides", 4);
 	for (long i=0; i<iNumFoams; i++)
 	{
-		//Foam * pF = aFoams[aFoams.Add(NEW Foam)];
-		aFoams.push_back(NEW Foam);
+		//Foam * pF = aFoams[aFoams.Add(new Foam)];
+		aFoams.push_back(new Foam);
 		Foam * pF = aFoams.back();
 
 		sprintf_s(cSection, "foam_%d", i);

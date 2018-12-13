@@ -36,7 +36,7 @@ WdmIslands::WdmIslands()
 	LabelsRelease();
 	wdmObjects->islands = this;
 	//Грузим базовую модель
-	baseModel = (WdmRenderModel *)wdmObjects->wm->CreateModel(NEW WdmRenderModel(), "islands\\islands", false, false, false, 1);
+	baseModel = (WdmRenderModel *)wdmObjects->wm->CreateModel(new WdmRenderModel(), "islands\\islands", false, false, false, 1);
 	if(!baseModel || !baseModel->geo) return;
 	//Информация о геометрии
 	GEOS::INFO ginfo;
@@ -106,7 +106,7 @@ WdmIslands::WdmIslands()
 		name = "islands\\";
 		name += label.name;
 		//Загружаем
-		WdmRenderModel * model = (WdmRenderModel *)wdmObjects->wm->CreateModel(NEW WdmRenderModel(), name.c_str(), false, false, true, 2);
+		WdmRenderModel * model = (WdmRenderModel *)wdmObjects->wm->CreateModel(new WdmRenderModel(), name.c_str(), false, false, true, 2);
 		if(model)
 		{
 			//Общее
@@ -122,7 +122,7 @@ WdmIslands::WdmIslands()
 			isl.worldPosition = model->mtx.Pos();
 			//Моделька, описывающая область острова
 			name += "_area";
-			isl.area = (WdmRenderModel *)wdmObjects->wm->CreateModel(NEW WdmRenderModel(), name.c_str(), false, false, false, 3);
+			isl.area = (WdmRenderModel *)wdmObjects->wm->CreateModel(new WdmRenderModel(), name.c_str(), false, false, false, 3);
 			if(!isl.area)
 			{
 				api->Trace("World map: can't load model of island's area: %s", name.c_str());
@@ -131,7 +131,7 @@ WdmIslands::WdmIslands()
 			name = "islands\\";
 			name += label.name;
 			name += "_palms";
-			isl.palms = (WdmRenderModel *)wdmObjects->wm->CreateModel(NEW WdmRenderModel(), name.c_str(), false, false, true, 4, 800);
+			isl.palms = (WdmRenderModel *)wdmObjects->wm->CreateModel(new WdmRenderModel(), name.c_str(), false, false, true, 4, 800);
 			if(isl.palms)
 			{
 				static const char * techName = "WdmModelDrawStdAlphaTest";
@@ -141,7 +141,7 @@ WdmIslands::WdmIslands()
 			name = "islands\\";
 			name += label.name;
 			name += "_waves";
-			isl.waves = (WdmIslandWaves *)wdmObjects->wm->CreateModel(NEW WdmIslandWaves(), name.c_str(), false, false, true, 4);
+			isl.waves = (WdmIslandWaves *)wdmObjects->wm->CreateModel(new WdmIslandWaves(), name.c_str(), false, false, true, 4);
 		}else{
 			api->Trace("World map: can't load model of island: %s", name.c_str());
 		}

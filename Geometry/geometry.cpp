@@ -215,7 +215,7 @@ void GEOM_SERVICE_R::CloseFile(GEOS::ID file)
 
 void * GEOM_SERVICE_R::malloc(long bytes)
 {
-	return NEW char[bytes];
+	return new char[bytes];
 }
 
 void GEOM_SERVICE_R::free(void *ptr)
@@ -391,7 +391,7 @@ GEOS::ID GEOM_SERVICE_R::CreateVertexBuffer(long type, long size)
 		for(a=0; a<AVB_MAX; a++)
 			if(avb[a].nvertices==0)
 				break;
-		avb[a].buff = NEW char[size];
+		avb[a].buff = new char[size];
 		avb[a].stride = sizeof(GEOS::VERTEX0);
 		avb[a].nvertices = size/sizeof(GEOS::AVERTEX0);
 		avb[a].fvf = FVF;

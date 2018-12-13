@@ -198,7 +198,7 @@ void TMPTELEPORT::SetShowData(ATTRIBUTES * pA)
 	if(pA== nullptr) return;
 	m_nStrQuantity = pA->GetAttributesNum();
 	if(m_nStrQuantity==0) return;
-	if((m_descrArray=NEW TELEPORT_DESCR[m_nStrQuantity])== nullptr)
+	if((m_descrArray=new TELEPORT_DESCR[m_nStrQuantity])== nullptr)
 	{
 		STORM_THROW("Allocate memory error");
 	}
@@ -210,7 +210,7 @@ void TMPTELEPORT::SetShowData(ATTRIBUTES * pA)
 		m_descrArray[i].num = i;
 		if(tmpStr== nullptr) continue;
 		const auto len = strlen(tmpStr) + 1;
-		if( (m_descrArray[i].name=NEW char[len]) == nullptr )
+		if( (m_descrArray[i].name=new char[len]) == nullptr )
 		{
 			STORM_THROW("Allocate memory error");
 		}
@@ -308,7 +308,7 @@ bool FINDDIALOGNODES::Init()
 				return false;
 			}
 
-			char * fileBuf = NEW char[filesize+1];
+			char * fileBuf = new char[filesize+1];
 			if(fileBuf== nullptr)
 			{
 				api->Trace("Can`t create buffer for read dialog file %s",fileName);

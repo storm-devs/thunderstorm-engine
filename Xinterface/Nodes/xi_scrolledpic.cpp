@@ -75,7 +75,7 @@ void CXI_SCROLLEDPICTURE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char 
 					m_aImg[i].fpSize.x = pA->GetAttributeAsFloat( "width", -1.f );
 					m_aImg[i].fpSize.y = pA->GetAttributeAsFloat( "height", -1.f );
 
-					m_aImg[i].pImg = NEW CXI_IMAGE;
+					m_aImg[i].pImg = new CXI_IMAGE;
 					Assert( m_aImg[i].pImg );
 					const char* pcGroupName = pA->GetAttribute( "group" );
 					if( pcGroupName )

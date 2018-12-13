@@ -3,7 +3,6 @@
 #include "token.h"
 #include "system_log.h"
 
-#include "../../Common_h/memop.h"
 #include "../../Common_h/vapi.h"
 #include "../../Common_h/defines.h"
 
@@ -577,7 +576,7 @@ long TOKEN::SetTokenData(char * pointer, bool bKeepControlSymbols)
 	{
 		if(pTokenData) delete pTokenData;
 
-		pTokenData = NEW char[Data_size + 1];
+		pTokenData = new char[Data_size + 1];
 		TokenDataBufferSize = Data_size + 1;
 	}
 	memcpy(pTokenData,pointer,Data_size);
@@ -593,7 +592,7 @@ long TOKEN::SetNTokenData(char * pointer, long Data_size)
 	{
 		if(pTokenData) delete pTokenData;
 
-		pTokenData = NEW char[Data_size + 1];
+		pTokenData = new char[Data_size + 1];
 		TokenDataBufferSize = Data_size + 1;
 	}
 	memcpy(pTokenData,pointer,Data_size);

@@ -150,7 +150,7 @@ void CreateSphere()
 	const long a2 = (a1 / 2);
 
 	DX9sphereNumTrgs = a1 * a2 * 2;
-	DX9sphereVertex = NEW DX9SphVertex[DX9sphereNumTrgs * 6];
+	DX9sphereVertex = new DX9SphVertex[DX9sphereNumTrgs * 6];
 
 	CVECTOR light = !CVECTOR(0.0f, 0.0f, 1.0f);
 	float kColor;
@@ -397,7 +397,7 @@ bool  DX9RENDER::Init()
 			sprintf_s(str, "resource\\ini\\fonts.ini");
 		}
 		const auto len = strlen(str) + 1;
-		if ((fontIniFileName = NEW char[len]) == nullptr)
+		if ((fontIniFileName = new char[len]) == nullptr)
 			STORM_THROW("allocate memory error");
 		strcpy_s(fontIniFileName, len, str);
 		// get start font quantity
@@ -430,7 +430,7 @@ bool  DX9RENDER::Init()
 		fFixedFPS = ini->GetFloat("VideoCapture", "FPS", 25); if (fFixedFPS == 0.0f) fFixedFPS = 25.0f;
 		long iCapBuffers = ini->GetLong("VideoCapture", "Buffers", 0);
 		for (long i = 0; i<iCapBuffers; i++)
-			aCaptureBuffers.push_back(NEW char[sizeof(uint32_t) * screen_size.x * screen_size.y]);
+			aCaptureBuffers.push_back(new char[sizeof(uint32_t) * screen_size.x * screen_size.y]);
 
 		delete ini;
 
@@ -1337,7 +1337,7 @@ long DX9RENDER::TextureCreate(const char *fname)
 		Textures[t].hash = hf;
 
 		const auto len = strlen(_fname) + 1;
-		if ((Textures[t].name = NEW char[len]) == nullptr)
+		if ((Textures[t].name = new char[len]) == nullptr)
 			STORM_THROW("allocate memory error");
 		strcpy_s(Textures[t].name, len, _fname);
 		Textures[t].isCubeMap = false;
@@ -1644,7 +1644,7 @@ bool DX9RENDER::LoadTextureSurface(HANDLE file, IDirect3DSurface9 * suface, uint
 	//------------------------------------------------------------------------------------------
 	//Буфер для перемешивания текстур
 	void * buffer = null;
-	if (!isSwizzled) buffer = NEW char[mipSize];
+	if (!isSwizzled) buffer = new char[mipSize];
 	//Байт на пиксель
 	uint32_t bytesPerPixel = mipSize / (width*height);
 	//Указатель на поверхность
@@ -1661,7 +1661,7 @@ bool DX9RENDER::LoadTextureSurface(HANDLE file, IDirect3DSurface9 * suface, uint
 	//Переформатирование
 	if (!isSwizzled)
 	{
-		uint8_t * notAlignedBuffer = NEW uint8_t[mipSize + 16];
+		uint8_t * notAlignedBuffer = new uint8_t[mipSize + 16];
 		uint8_t * alignedBuffer = (uint8_t *)(((uint32_t)notAlignedBuffer + 15) & ~15);
 		XGSwizzleRect(buffer, width*bytesPerPixel, 0, alignedBuffer, width, height, 0, bytesPerPixel);
 		memcpy(lock.pBits, alignedBuffer, mipSize);
@@ -1736,7 +1736,7 @@ bool DX9RENDER::TextureRelease(long texid)
 
 			totSize -= Textures[texid].dwSize;
 			int bytes = api->fio->_GetFileSize(fh, nullptr);
-			char *buf = NEW char[bytes + 1];
+			char *buf = new char[bytes + 1];
 			api->fio->_ReadFile(fh, buf, bytes, nullptr);
 			buf[bytes] = 0;
 
@@ -1755,7 +1755,7 @@ bool DX9RENDER::TextureRelease(long texid)
 			totSize -= Textures[texid].dwSize;
 			fseek(flstat, 0, SEEK_END);
 			int bytes = ftell(flstat);
-			char *buf = NEW char[bytes+1];
+			char *buf = new char[bytes+1];
 			fseek(flstat, 0, SEEK_SET);
 			fread(buf, bytes, sizeof *buf, flstat);
 			buf[bytes] = 0;
@@ -2684,7 +2684,7 @@ long DX9RENDER::LoadFont(char * fontName)
 		}
 	if (nFontQuantity<MAX_FONTS)
 	{
-		if ((FontList[i].font = NEW FONT) == nullptr)
+		if ((FontList[i].font = new FONT) == nullptr)
 			STORM_THROW("allocate memory error");
 		if (!FontList[i].font->Init(fontName, fontIniFileName, d3d9, this))
 		{
@@ -2695,7 +2695,7 @@ long DX9RENDER::LoadFont(char * fontName)
 		FontList[i].hash = hashVal;
 		FontList[i].ref = 1;
 		const auto len = strlen(fontName) + 1;
-		if ((FontList[i].name = NEW char[len]) == nullptr)
+		if ((FontList[i].name = new char[len]) == nullptr)
 			STORM_THROW("allocate memory error");
 		strcpy_s(FontList[i].name, len, fontName);
 		nFontQuantity++;
@@ -2796,7 +2796,7 @@ bool DX9RENDER::SetFontIniFileName(char * iniName)
 	else
 	{
 		const auto len = strlen(iniName) + 1;
-		if ((fontIniFileName = NEW char[len]) == nullptr)
+		if ((fontIniFileName = new char[len]) == nullptr)
 			STORM_THROW("allocate memory error")
 			strcpy_s(fontIniFileName, len, iniName);
 	}
@@ -2806,7 +2806,7 @@ bool DX9RENDER::SetFontIniFileName(char * iniName)
 		if (FontList[n].font != nullptr) {
 			delete FontList[n].font;
 		}
-		if ((FontList[n].font = NEW FONT) == nullptr)
+		if ((FontList[n].font = new FONT) == nullptr)
 			STORM_THROW("allocate memory error")
 			FontList[n].font->Init(FontList[n].name, fontIniFileName, d3d9, this);
 		if (FontList[n].ref == 0) FontList[n].font->TempUnload();
@@ -3211,7 +3211,7 @@ void DX9RENDER::DrawSprites(RS_SPRITE * pRSS, uint32_t dwSpritesNum, const char 
 #define RS_SPRITE_VERTEX_FORMAT	(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1)
 	if (dwSpritesNum == 0) return;
 
-	uint16_t * pIndices = NEW uint16_t[dwSpritesNum * 6];
+	uint16_t * pIndices = new uint16_t[dwSpritesNum * 6];
 
 	for (i = 0; i<dwSpritesNum; i++)
 	{
@@ -3533,7 +3533,7 @@ CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
 	}
 
 	// create new video texture
-	pVTLcur = NEW VideoTextureEntity;
+	pVTLcur = new VideoTextureEntity;
 	if (pVTLcur == nullptr)
 		STORM_THROW("memory allocate error");
 	pVTLcur->next = pVTL;
@@ -3541,7 +3541,7 @@ CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
 	pVTLcur->hash = newHash;
 	pVTLcur->ref = 1;
 	const auto len = strlen(sVideoName) + 1;
-	if ((pVTLcur->name = NEW char[len]) == nullptr)
+	if ((pVTLcur->name = new char[len]) == nullptr)
 		STORM_THROW("memory allocate error");
 	strcpy_s(pVTLcur->name, len, sVideoName);
 	ENTITY_ID ei;
@@ -3716,7 +3716,7 @@ void DX9RENDER::SetTipsImage(const char * image)
 	{
 		progressTipsImageSize = s;
 		if (progressTipsImage) delete progressTipsImage;
-		progressTipsImage = NEW char[progressTipsImageSize];
+		progressTipsImage = new char[progressTipsImageSize];
 	}
 	memcpy(progressTipsImage, image, s);
 }

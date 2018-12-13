@@ -88,7 +88,7 @@ WdmStorm::WdmStorm()
 	bool globSign = (rand() & 1) != 0;
 	for(long i = 0; i < num; i++)
 	{
-		cloud[i] = (WdmCloud *)wdmObjects->wm->AddObject(NEW WdmCloud(), 101);
+		cloud[i] = (WdmCloud *)wdmObjects->wm->AddObject(new WdmCloud(), 101);
 		if(cloud[i])
 		{
 			wdmObjects->wm->AddLObject(cloud[i], 900);

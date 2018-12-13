@@ -204,7 +204,7 @@ void CXI_UTILS::StringDoublicate( const char* pcSrc, char*& pcDst )
 	if( pcSrc )
 	{
 		const auto len = strlen(pcSrc) + 1;
-		pcDst = NEW char[len];
+		pcDst = new char[len];
 		if( pcDst ) 
 			memcpy( pcDst, pcSrc, len );
 		else 

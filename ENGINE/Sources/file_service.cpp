@@ -1,7 +1,5 @@
 #include "file_service.h"
-#include "system_log.h"
 #include "../../Common_h/Exs.h"
-#include "../../Common_h/memop.h"
 
 #ifdef _XBOX
 bool XProcessFile(const char *_srcDir, const char *_destDir, const char *_mask, const WIN32_FIND_DATA &_findData);
@@ -307,7 +305,7 @@ INIFILE * FILE_SERVICE::OpenIniFile(const char * file_name)
 		{
 			OpenFiles[n]->IncReference();
 
-			inifile_T = NEW INIFILE_T(OpenFiles[n]);
+			inifile_T = new INIFILE_T(OpenFiles[n]);
 			if(inifile_T == nullptr) THROW;
 //			POP_CONTROL(0)
 			return inifile_T;
@@ -318,7 +316,7 @@ INIFILE * FILE_SERVICE::OpenIniFile(const char * file_name)
 	{
 		if(OpenFiles[n] != nullptr) continue;
 
-		OpenFiles[n] = NEW IFS(this);
+		OpenFiles[n] = new IFS(this);
 		if(OpenFiles[n] == nullptr) THROW;//(FILE_SERVICE::OpenIniFile : no mem A);
 		if(!OpenFiles[n]->LoadFile(file_name)) 
 		{
@@ -335,7 +333,7 @@ INIFILE * FILE_SERVICE::OpenIniFile(const char * file_name)
 		//return OpenFiles[n]->inifile_T;
 
 
-		inifile_T = NEW INIFILE_T(OpenFiles[n]);
+		inifile_T = new INIFILE_T(OpenFiles[n]);
 		if(inifile_T == nullptr) THROW;
 		return inifile_T;
 	}
@@ -390,7 +388,7 @@ BOOL FILE_SERVICE::LoadFile(const char * file_name, char * * ppBuffer, uint32_t 
 		return false;
 	}
 
-	*ppBuffer = NEW char[dwLowSize];
+	*ppBuffer = new char[dwLowSize];
 	_ReadFile(hFile,*ppBuffer,dwLowSize,nullptr);
 	_CloseHandle(hFile);
 	return true;

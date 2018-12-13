@@ -106,7 +106,7 @@ uint32_t S_FUNCTAB::AddFunc(FUNCINFO& fi)
 			if(pTable[n].decl_file_name) delete pTable[n].decl_file_name;
 
 			const auto len = strlen(fi.decl_file_name) + 1;
-			pTable[n].decl_file_name = NEW char[len];
+			pTable[n].decl_file_name = new char[len];
 			memcpy(pTable[n].decl_file_name,fi.decl_file_name,len);
 			pTable[n].code = n;
 			UpdateHashTable(n,hash,true);
@@ -139,7 +139,7 @@ uint32_t S_FUNCTAB::AddFunc(FUNCINFO& fi)
 	pTable[Func_num].nNumberOfCalls = 0;
 
 	const auto len = strlen(fi.decl_file_name) + 1;
-	pTable[Func_num].decl_file_name = NEW char[len];
+	pTable[Func_num].decl_file_name = new char[len];
 	memcpy(pTable[Func_num].decl_file_name,fi.decl_file_name,len);
 	pTable[Func_num].code = Func_num;
 	pTable[Func_num].pImportedFunc = fi.pImportedFunc;
@@ -156,7 +156,7 @@ uint32_t S_FUNCTAB::AddFunc(FUNCINFO& fi)
 		if(fi.name)
 		{
 			const auto len = strlen(fi.name) + 1;
-			pTable[Func_num].name = NEW char[len];
+			pTable[Func_num].name = new char[len];
 			memcpy(pTable[Func_num].name,fi.name,len);
 		}
 	}
@@ -299,7 +299,7 @@ bool S_FUNCTAB::AddFuncVar(uint32_t func_code, LVARINFO & lvi)
 	if(true)//bKeepName)
 	{
 		const auto len = strlen(lvi.name) + 1;
-		pTable[func_code].pLocal[vindex].name = NEW char[len];
+		pTable[func_code].pLocal[vindex].name = new char[len];
 		memcpy(pTable[func_code].pLocal[vindex].name,lvi.name,len);
 	}
 	pTable[func_code].pLocal[vindex].bArray = lvi.bArray;

@@ -66,7 +66,7 @@ void TSharks::Init()
 	int i;
 	for (i=0; i<sharksCount; i++)
 	{
-		sharks[i] = NEW TShark();
+		sharks[i] = new TShark();
 		sharks[i]->TDynamicObject::Initialize(CVECTOR(0.0f, 0.0f, 0.0f), maxDistance);
 		sharks[i]->depth = 0;
 		sharks[i]->time = 0;
@@ -77,13 +77,13 @@ void TSharks::Init()
 	shipsCount = 0;
 	if (_CORE_API->FindClass(&shipID, "ship", 0))
 	{
-		ships[shipsCount] = NEW TShip();
+		ships[shipsCount] = new TShip();
 		ships[shipsCount]->ship = (SHIP_BASE*) _CORE_API->GetEntityPointer(&shipID);
 		TDynamicSystem::AddDeflector(ships[i]);
 		++shipsCount;
 		while (_CORE_API->FindClassNext(&shipID))
 		{
-			ships[shipsCount] = NEW TShip();
+			ships[shipsCount] = new TShip();
 			ships[shipsCount]->ship = (SHIP_BASE*) _CORE_API->GetEntityPointer(&shipID);
 			//TDynamicSystem::AddDeflector(ships[i]);
 			++shipsCount;

@@ -230,7 +230,7 @@ void CXI_TEXTBUTTON::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
 	{
 		m_idTex = pPictureService->GetTextureID(param);
 		const auto len = strlen(param) + 1;
-		m_sGroupName = NEW char[len];
+		m_sGroupName = new char[len];
 		if(m_sGroupName== nullptr)
 			STORM_THROW("allocate memory error")
 		memcpy(m_sGroupName,param,len);
@@ -564,7 +564,7 @@ uint32_t _cdecl CXI_TEXTBUTTON::MessageProc(long msgcode, MESSAGE & message)
 			if( param[0] == '#' ) {
 				{
 					const auto len = strlen(param);
-					if ((m_sString = NEW char[len]) == nullptr)
+					if ((m_sString = new char[len]) == nullptr)
 					{
 						STORM_THROW("allocate memory error");
 					}

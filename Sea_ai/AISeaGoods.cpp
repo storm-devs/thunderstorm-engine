@@ -132,7 +132,7 @@ uint32_t AISeaGoods::AttributeChanged(ATTRIBUTES * pAttribute)
 			aGoods[i]->aItems.push_back(TmpItem);
 			return 0;
 		}
-		goods_t * pG = NEW goods_t;
+		goods_t * pG = new goods_t;
 		aGoods.push_back(pG);
 		pG->sModel = sTmpModel;
 		pG->aItems.push_back(TmpItem);

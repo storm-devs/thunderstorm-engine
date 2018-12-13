@@ -129,7 +129,7 @@ long PCS_CONTROLS::CreateControl(char * control_name)
 	nControlsNum++;
 	pUserControls.resize(nControlsNum);
 	const auto len = strlen(control_name) + 1;
-	pUserControls[n].name = NEW char[len];
+	pUserControls[n].name = new char[len];
 	memcpy(pUserControls[n].name,control_name,len);
 	pUserControls[n].system_code = UNASSIGNED_CONTROL;
 	pUserControls[n].flags = 0;

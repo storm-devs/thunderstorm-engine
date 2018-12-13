@@ -1,5 +1,4 @@
 #include "layer_service.h"
-#include "../../Common_h/memop.h"
 
 extern uint32_t Exceptions_Mask;
 
@@ -46,7 +45,7 @@ void LAYER_SERVICE::Fit(uint32_t index, char * layer_name, LAYER_STATE ls)
 	if(index > lss.Layer_max_index) STORM_THROW(invalid index);
 	if(Layer_Table[index] != nullptr) THROW;
 
-	Layer_Table[index] = NEW LAYER(layer_name,ls.Ordered,ls.System,ls.System_flags);
+	Layer_Table[index] = new LAYER(layer_name,ls.Ordered,ls.System,ls.System_flags);
 	if(Layer_Table[index] == nullptr) THROW;
 	Layer_Table[index]->ls = ls;
 	UNGUARD
@@ -75,7 +74,7 @@ bool LAYER_SERVICE::Create(char * layer_name, bool ordered, bool fail_if_exist)
 			continue;
 		}
 
-		Layer_Table[n] = NEW LAYER(layer_name,ordered,0,0);
+		Layer_Table[n] = new LAYER(layer_name,ordered,0,0);
 		if(Layer_Table[n] == nullptr) THROW;
 		if(lss.Layer_max_index < n) lss.Layer_max_index = n;
 		lss.Layers_number++;

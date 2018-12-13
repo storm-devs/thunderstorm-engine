@@ -87,7 +87,7 @@ void AIHelper::CalculateRelations()
 
 	STORM_DELETE(pRelations);
 	dwRelationSize = aCharacters.size();
-	pRelations = NEW uint32_t[SQR(dwRelationSize)];
+	pRelations = new uint32_t[SQR(dwRelationSize)];
 	for (y=0;y<dwRelationSize;y++)
 		for (x=0;x<dwRelationSize;x++) if (x != y)
 		{

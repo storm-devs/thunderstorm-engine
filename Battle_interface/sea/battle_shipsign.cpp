@@ -121,7 +121,7 @@ void BIShipIcon::Init( ATTRIBUTES* pRoot, ATTRIBUTES* pA )
 
 	m_pARoot = pRoot;
 
-	m_pCommandList = NEW BIShipCommandList( m_idHostEntity, pRoot, m_pRS );
+	m_pCommandList = new BIShipCommandList( m_idHostEntity, pRoot, m_pRS );
 
 	// default value
 	m_nBackTextureID = -1;

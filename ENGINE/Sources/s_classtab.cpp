@@ -85,7 +85,7 @@ uint32_t S_CLASSTAB::AddClass(CLASSINFO& ci, bool bRegisterOnly)
 			if(ci.nComponentsNum)
 			{
 
-				pTable[n].pComponent = (CLASS_COMPONENT *)NEW CLASS_COMPONENT[ci.nComponentsNum];
+				pTable[n].pComponent = (CLASS_COMPONENT *)new CLASS_COMPONENT[ci.nComponentsNum];
 				memcpy(pTable[n].pComponent,ci.pComponent,ci.nComponentsNum * sizeof(CLASS_COMPONENT));
 			}
 
@@ -119,7 +119,7 @@ uint32_t S_CLASSTAB::AddClass(CLASSINFO& ci, bool bRegisterOnly)
 		if(ci.nComponentsNum)
 		{
 
-			pTable[nClassN].pComponent = (CLASS_COMPONENT *)NEW CLASS_COMPONENT[ci.nComponentsNum];
+			pTable[nClassN].pComponent = (CLASS_COMPONENT *)new CLASS_COMPONENT[ci.nComponentsNum];
 			memcpy(pTable[nClassN].pComponent,ci.pComponent,ci.nComponentsNum * sizeof(CLASS_COMPONENT));
 		}
 	}
@@ -127,7 +127,7 @@ uint32_t S_CLASSTAB::AddClass(CLASSINFO& ci, bool bRegisterOnly)
 	pTable[nClassN].hash = hash;
 
 	const auto len = strlen(ci.name) + 1;
-	pTable[nClassN].name = NEW char[len];
+	pTable[nClassN].name = new char[len];
 	memcpy(pTable[nClassN].name,ci.name,len);
 	
 	nClassesNum++;

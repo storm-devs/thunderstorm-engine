@@ -51,7 +51,7 @@ void __declspec(noinline) __cdecl DIALOG::DlgTextDescribe::ChangeText(const char
 		if( pcText[n]=='\\' &&
 			(pcText[n+1]=='n' || pcText[n+1]=='N') )
 		{
-			char* pcTmp = NEW char[4 + n-i];
+			char* pcTmp = new char[4 + n-i];
 			Assert(pcTmp);
 			if( n-i > 0 ) memcpy( pcTmp, &pcText[i], (n-i)*sizeof(char) );
 			memcpy( &pcTmp[n-i], "...", 4*sizeof(char) );

@@ -346,7 +346,7 @@ void MEM_USAGE_INFO::UpdateMemoryProfile(char * pFileName)
 	uint32_t * pTempProfileInfo;
 	uint32_t nProfileValue;
 	api->fio->_ReadFile(fh,&nProfileBlocks,sizeof(nProfileBlocks),&dwR);
-	pTempProfileInfo = NEW uint32_t[nProfileBlocks];
+	pTempProfileInfo = new uint32_t[nProfileBlocks];
 	api->fio->_ReadFile(fh,pTempProfileInfo,nProfileBlocks*sizeof(uint32_t),&dwR);
 	api->fio->_CloseHandle(fh);
 

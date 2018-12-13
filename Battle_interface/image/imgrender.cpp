@@ -62,7 +62,7 @@ BIImageMaterial* BIImageRender::CreateMaterial( const char* pcTextureName, const
 	BIImageMaterial* pMaterial = FindMaterial( pcTextureName, pcTechniqueName?pcTechniqueName:"battle_tex_col_Rectangle" );
 	if( !pMaterial )
 	{
-		pMaterial = NEW BIImageMaterial( m_pRS, this );
+		pMaterial = new BIImageMaterial( m_pRS, this );
 		Assert( pMaterial );
 		pMaterial->SetTexture( pcTextureName );
 		pMaterial->SetTechnique( pcTechniqueName );
@@ -126,7 +126,7 @@ void BIImageRender::ChangeMaterialPosByPrioritet(BIImageMaterial* pMat)
 
 IBIString* BIImageRender::CreateString( const char* text, const char* font_name, float font_scale, uint32_t font_color, long valign, long halign, long nLeft, long nTop, long nRight, long nBottom, long nPrior)
 {
-	BIString* pStr = NEW BIString(this,m_pRS);
+	BIString* pStr = new BIString(this,m_pRS);
 	if( !pStr ) return pStr;
 
 	pStr->SetFont( font_name );

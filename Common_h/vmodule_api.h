@@ -2,7 +2,6 @@
 #define _VMODULE_API_H_
 
 #include "vapi.h"
-#include "memop.h"
 #include "Exs.h"
 
 class VMA;
@@ -67,7 +66,7 @@ public:
 #else
 #define INTERFACE_FUNCTION
 #endif
-#define CREATE_CLASS(a)	class a##vmacd : public VMA { public: a##vmacd(VMA * & _pR){pNext = _pR;_pR = this;}; char * GetName() {return TEXT(#a);} void * CreateClass() {nReference++; return NEW a;}}; a##vmacd a##vmaci(_pModuleClassRoot);
-#define CREATE_SERVICE(a)	class a##vmacd : public VMA { public: a * pService; a##vmacd(VMA * & _pR){pNext = _pR;_pR = this; pService = 0; }; char * GetName() {return TEXT(#a);} void * CreateClass() {if(pService == 0) pService = NEW a; nReference++; return pService;} bool Service() {return true;} void Clear(){nReference = 0; if(pService) delete pService; pService = 0;};}; a##vmacd a##vmaci(_pModuleClassRoot);
-#define CREATE_SCRIPTLIBRIARY(a)	class a##vmacd : public VMA { public: /*a * pLibraryInitClass;*/ a##vmacd(VMA * & _pR){pNext = _pR;_pR = this; /*pLibraryInitClass = 0;*/ }; char * GetName() {return TEXT(#a);} void * CreateClass() {/*if(pLibraryInitClass == 0) pLibraryInitClass = NEW a; nReference++; return pLibraryInitClass;*/ return NEW a;} bool ScriptLibriary() {return true;} /*void Clear(){nReference = 0; if(pLibraryInitClass) delete pLibraryInitClass; pLibraryInitClass = 0;}*/;}; a##vmacd a##vmaci(_pModuleClassRoot);
+#define CREATE_CLASS(a)	class a##vmacd : public VMA { public: a##vmacd(VMA * & _pR){pNext = _pR;_pR = this;}; char * GetName() {return TEXT(#a);} void * CreateClass() {nReference++; return new a;}}; a##vmacd a##vmaci(_pModuleClassRoot);
+#define CREATE_SERVICE(a)	class a##vmacd : public VMA { public: a * pService; a##vmacd(VMA * & _pR){pNext = _pR;_pR = this; pService = 0; }; char * GetName() {return TEXT(#a);} void * CreateClass() {if(pService == 0) pService = new a; nReference++; return pService;} bool Service() {return true;} void Clear(){nReference = 0; if(pService) delete pService; pService = 0;};}; a##vmacd a##vmaci(_pModuleClassRoot);
+#define CREATE_SCRIPTLIBRIARY(a)	class a##vmacd : public VMA { public: /*a * pLibraryInitClass;*/ a##vmacd(VMA * & _pR){pNext = _pR;_pR = this; /*pLibraryInitClass = 0;*/ }; char * GetName() {return TEXT(#a);} void * CreateClass() {/*if(pLibraryInitClass == 0) pLibraryInitClass = new a; nReference++; return pLibraryInitClass;*/ return new a;} bool ScriptLibriary() {return true;} /*void Clear(){nReference = 0; if(pLibraryInitClass) delete pLibraryInitClass; pLibraryInitClass = 0;}*/;}; a##vmacd a##vmaci(_pModuleClassRoot);
 #endif

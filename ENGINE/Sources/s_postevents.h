@@ -1,7 +1,6 @@
 #ifndef _POSTEVENTS_H_
 #define _POSTEVENTS_H_
 
-#include "../../Common_h/memop.h"
 #include "s_eventmsg.h"
 
 class POSTEVENTS_LIST

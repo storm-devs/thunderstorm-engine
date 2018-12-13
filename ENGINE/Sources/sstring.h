@@ -14,13 +14,13 @@ class SSTRING
 	 	if(!p) 
 			return;
 		const auto len = strlen(p) + 1;
-	 	pDataPointer = NEW char[len]; 
+	 	pDataPointer = new char[len]; 
 	 	strcpy_s(pDataPointer, len, p);
 	 }
 	 SSTRING(const SSTRING& ss) : pDataPointer(nullptr)
 	 {
 		 const auto len = strlen(ss.pDataPointer)+1;
-		 pDataPointer = NEW char[len];
+		 pDataPointer = new char[len];
 		 strcpy_s(pDataPointer, len, ss.pDataPointer);
 	 }
 	~SSTRING()
@@ -32,14 +32,14 @@ class SSTRING
 		if(this == &ss) return *this;
 		if(pDataPointer) delete pDataPointer;
 		const auto len = strlen(ss.pDataPointer)+1;
-		pDataPointer = NEW char[len];
+		pDataPointer = new char[len];
 		strcpy_s(pDataPointer, len, ss.pDataPointer);
 		return *this;
 	}
 	SSTRING& operator = (const char sym) 
 	{
 		if(pDataPointer) delete pDataPointer;
-		pDataPointer = NEW char[2];
+		pDataPointer = new char[2];
 		pDataPointer[0] = sym;
 		pDataPointer[1] = 0;
 		return *this;
@@ -66,12 +66,12 @@ class SSTRING
 		if(pDataPointer == nullptr)
 		{
 			const auto len = strlen(p) + 1;
-			pDataPointer = NEW char[len]; 
+			pDataPointer = new char[len]; 
 			strcpy_s(pDataPointer, len, p);
 			return;
 		}
 		const auto len = strlen(pDataPointer) + strlen(p) + 1;
-		pp = NEW char[len];
+		pp = new char[len];
 		strcpy_s(pp, len, pDataPointer);
 		strcat_s(pp, len, p);
 		delete pDataPointer;
@@ -83,13 +83,13 @@ class SSTRING
 		uint32_t nLen;
 		if(pDataPointer == nullptr)
 		{
-			pDataPointer = NEW char[2]; 
+			pDataPointer = new char[2]; 
 			pDataPointer[0] = sym;
 			pDataPointer[1] = sym;
 			return;
 		}
 		nLen = strlen(pDataPointer);
-		pp = NEW char[nLen + 2];
+		pp = new char[nLen + 2];
 		strcpy_s(pp, nLen + 2, pDataPointer);
 		pp[nLen] = sym;
 		pp[nLen + 1] = 0;
@@ -105,7 +105,7 @@ class SSTRING
 		va_end(args);
 		if(pDataPointer) delete pDataPointer;
 		const auto len = strlen(buffer) + 1;
-		pDataPointer = NEW char[len];
+		pDataPointer = new char[len];
 		strcpy_s(pDataPointer, len, buffer);
 		return *this;
 	}

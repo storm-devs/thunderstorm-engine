@@ -41,7 +41,7 @@ bool PROGRAM::RunProgram(char * program_name)
 	ProgramNum++;
 	ProgramBlock = (COMPILER **)realloc(ProgramBlock,ProgramNum*sizeof(COMPILER *));
 
-	ProgramBlock[code] = NEW COMPILER;
+	ProgramBlock[code] = new COMPILER;
 	ProgramBlock[code]->SetProgramDirectory(ProgramDirectory);
 	if(!ProgramBlock[code]->CreateProgram(program_name))
 	{
@@ -74,7 +74,7 @@ void PROGRAM::SetProgramDirectory(char * dir_name)
 	if(dir_name)
 	{
 		const auto len = strlen(dir_name) + 1;
-		ProgramDirectory = NEW char[len];
+		ProgramDirectory = new char[len];
 		memcpy(ProgramDirectory,dir_name,len);
 	}
 }
@@ -151,7 +151,7 @@ bool PROGRAM::LoadState(HANDLE fh)
 	for(n=0;n<ProgramNum;n++)
 	{
 
-		ProgramBlock[n] = NEW COMPILER;
+		ProgramBlock[n] = new COMPILER;
 		if(!ProgramBlock[n]->LoadState(fh)) return false;
 	}
 	return true;

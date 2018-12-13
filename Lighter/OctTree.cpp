@@ -18,7 +18,7 @@ OctTree::OTNode::OTNode(CVECTOR & _min, CVECTOR & _max)
 {
 	for(long i = 0; i < 8; i++) node[i] = nullptr;
 	min = _min; max = _max;
-	vrt = NEW Vertex * [LLOT_MAX];
+	vrt = new Vertex * [LLOT_MAX];
 	num = 0;
 }
 
@@ -51,7 +51,7 @@ void OctTree::Init(LGeometry * g)
 {
 	vrt = g->vrt.data();
 	numVrt = g->numVrt;
-	root = NEW OTNode(g->min, g->max);
+	root = new OTNode(g->min, g->max);
 	for(long i = 0; i < numVrt; i++) AddVertex(root, &vrt[i]);
 	Optimize(root);
 	/*
@@ -91,14 +91,14 @@ bool OctTree::AddVertex(OTNode * node, Vertex * v)
 		}else{
 			//Переполнение, надо распределять по детям
 			CVECTOR cnt = (node->min + node->max)*0.5f;
-			node->node[0] = NEW OTNode(CVECTOR(min.x, min.y, min.z), CVECTOR(cnt.x, cnt.y, cnt.z));
-			node->node[1] = NEW OTNode(CVECTOR(min.x, min.y, cnt.z), CVECTOR(cnt.x, cnt.y, max.z));
-			node->node[2] = NEW OTNode(CVECTOR(cnt.x, min.y, cnt.z), CVECTOR(max.x, cnt.y, max.z));
-			node->node[3] = NEW OTNode(CVECTOR(cnt.x, min.y, min.z), CVECTOR(max.x, cnt.y, cnt.z));
-			node->node[4] = NEW OTNode(CVECTOR(min.x, cnt.y, min.z), CVECTOR(cnt.x, max.y, cnt.z));
-			node->node[5] = NEW OTNode(CVECTOR(min.x, cnt.y, cnt.z), CVECTOR(cnt.x, max.y, max.z));
-			node->node[6] = NEW OTNode(CVECTOR(cnt.x, cnt.y, cnt.z), CVECTOR(max.x, max.y, max.z));
-			node->node[7] = NEW OTNode(CVECTOR(cnt.x, cnt.y, min.z), CVECTOR(max.x, max.y, cnt.z));
+			node->node[0] = new OTNode(CVECTOR(min.x, min.y, min.z), CVECTOR(cnt.x, cnt.y, cnt.z));
+			node->node[1] = new OTNode(CVECTOR(min.x, min.y, cnt.z), CVECTOR(cnt.x, cnt.y, max.z));
+			node->node[2] = new OTNode(CVECTOR(cnt.x, min.y, cnt.z), CVECTOR(max.x, cnt.y, max.z));
+			node->node[3] = new OTNode(CVECTOR(cnt.x, min.y, min.z), CVECTOR(max.x, cnt.y, cnt.z));
+			node->node[4] = new OTNode(CVECTOR(min.x, cnt.y, min.z), CVECTOR(cnt.x, max.y, cnt.z));
+			node->node[5] = new OTNode(CVECTOR(min.x, cnt.y, cnt.z), CVECTOR(cnt.x, max.y, max.z));
+			node->node[6] = new OTNode(CVECTOR(cnt.x, cnt.y, cnt.z), CVECTOR(max.x, max.y, max.z));
+			node->node[7] = new OTNode(CVECTOR(cnt.x, cnt.y, min.z), CVECTOR(max.x, max.y, cnt.z));
 			for(long n = 0; n < node->num; n++)
 			{
 				long c;

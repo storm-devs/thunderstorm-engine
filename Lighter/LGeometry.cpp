@@ -65,12 +65,12 @@ void LGeometry::AddObject(const char * name, ENTITY_ID & model)
 		object.resize(maxObjects);
 	}
 	auto len = strlen(name) + strlen(modelsPath) + 8;
-	object[numObjects].nameReal = NEW char[len];
+	object[numObjects].nameReal = new char[len];
 	object[numObjects].nameReal[0] = 0;
 	strcat_s(object[numObjects].nameReal, len, modelsPath);
 	strcat_s(object[numObjects].nameReal, len, name);
 	strcat_s(object[numObjects].nameReal, len, ".gm");
-	object[numObjects].name = NEW char[strlen(name) + 2048];
+	object[numObjects].name = new char[strlen(name) + 2048];
 	len = strlen(name) + 2048;
 	object[numObjects].name[0] = 0;
 	strcat_s(object[numObjects].name, len, "resource\\models\\");
@@ -305,7 +305,7 @@ bool LGeometry::Process(VDX9RENDER * rs, long numLights)
 		}
 	}
 	if(numVrt <= 0) return false;
-	shadows = NEW Shadow[numVrt*numLights];
+	shadows = new Shadow[numVrt*numLights];
 	memset(shadows, 0, numVrt*numLights*sizeof(Shadow));
 	min = vrt[0].p;
 	max = vrt[0].p;
@@ -338,7 +338,7 @@ bool LGeometry::Process(VDX9RENDER * rs, long numLights)
 //Нарисовать нормали
 void LGeometry::DrawNormals(VDX9RENDER * rs)
 {
-	if(!drawbuf) drawbuf = NEW CVECTOR[1024];
+	if(!drawbuf) drawbuf = new CVECTOR[1024];
 	rs->SetRenderState(D3DRS_TEXTUREFACTOR, 0xff00ff00);
 	long p = 0;
 	for(long i = 0; i < numVrt; i++)
@@ -405,13 +405,13 @@ float LGeometry::Trace(CVECTOR & src, CVECTOR & dst)
 bool LGeometry::Save()
 {
 	//Сохраняем текущий путь
-	char * oldPath = NEW char[4096];
+	char * oldPath = new char[4096];
 	::GetCurrentDirectory(4096, oldPath);
-	char * dir = NEW char[4096];
+	char * dir = new char[4096];
 	//Сохраняем объекты
 	bool result = true;
 	long bufSize = 16384;
-	uint32_t * buf = NEW uint32_t[bufSize];
+	uint32_t * buf = new uint32_t[bufSize];
 	for(long i = 0, pnt = 0; i < numObjects; i++)
 	{
 		if(object[i].lBufSize <= 0) continue;

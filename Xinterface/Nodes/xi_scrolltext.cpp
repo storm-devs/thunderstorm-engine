@@ -81,7 +81,7 @@ void CXI_SCROLLTEXT::SetText(char *newText)
 	if(newText!= nullptr)
 	{
 		const auto len = strlen(newText) + 1;
-		if( (m_pText=NEW char[len]) == nullptr )
+		if( (m_pText=new char[len]) == nullptr )
 			STORM_THROW("allocate memory error")
 		memcpy(m_pText,newText,len);
 

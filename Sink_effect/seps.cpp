@@ -226,7 +226,7 @@ bool SEPS_PS::Init(INIFILE * ini, char * psname)
 	}
 
 	const auto len = strlen(string) + 1;
-	TechniqueName = NEW char[strlen(string) + 1];
+	TechniqueName = new char[strlen(string) + 1];
 	memcpy(TechniqueName,string,len);
 
 	// configure particles
@@ -273,7 +273,7 @@ bool SEPS_PS::Init(INIFILE * ini, char * psname)
 	ChaosVal = 0.0001f;
 
 
-	Particle = (PARTICLE *) NEW char[ParticlesNum*sizeof(PARTICLE)];
+	Particle = (PARTICLE *) new char[ParticlesNum*sizeof(PARTICLE)];
 	if(Particle == nullptr) STORM_THROW(mem error);
 
 	memset(Particle,0,ParticlesNum*sizeof(PARTICLE));

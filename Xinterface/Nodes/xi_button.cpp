@@ -167,7 +167,7 @@ void CXI_BUTTON::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	{
 		m_idTex = pPictureService->GetTextureID(param);
 		const auto len = strlen(param) + 1;
-		m_sGroupName = NEW char[len];
+		m_sGroupName = new char[len];
 		if(m_sGroupName== nullptr)
 			STORM_THROW("allocate memory error")
 		memcpy(m_sGroupName,param,len);
@@ -299,7 +299,7 @@ uint32_t _cdecl CXI_BUTTON::MessageProc(long msgcode, MESSAGE & message)
 				PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName,m_idTex);
 				STORM_DELETE(m_sGroupName);
 
-				m_sGroupName = NEW char[len];
+				m_sGroupName = new char[len];
 				if(m_sGroupName== nullptr)
 					STORM_THROW("allocate memory error")
 				memcpy(m_sGroupName,param,len);

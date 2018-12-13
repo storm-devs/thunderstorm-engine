@@ -69,7 +69,7 @@ bool PathTracks::Load(const char * fileName)
 		return false;
 	}
 	//Сохраняем данные
-	point = NEW Point[nPoints];
+	point = new Point[nPoints];
 	Assert( point );
 	memcpy(point, (uint8_t *)data + sizeof(AntFileHeader) + nStringSize + sizeof(AntFileBone)*nBoneCount, sizeof(AntFileTrackElement)*nPoints);
 	numPoints = nPoints;

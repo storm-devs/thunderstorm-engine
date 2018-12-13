@@ -8,13 +8,12 @@ Comments:
 Import library main file
 ******************************************************************************/
 #include "geom.h"
-#include "../Common_h/memop.h"
 #include <cstring>
 
 //create geometry func
 GEOS* _cdecl CreateGeometry(const char *fname, const char *lightname, GEOM_SERVICE &srv, long flags)
 {
-	return NEW GEOM(fname, lightname, srv, flags);
+	return new GEOM(fname, lightname, srv, flags);
 }
 
 //geometry constructor does all init

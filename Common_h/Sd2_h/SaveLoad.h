@@ -2,7 +2,6 @@
 #define SAVE_LOAD_HPP
 
 #include <string>
-#include "../../Common_h/memop.h"
 #include "../../Common_h/defines.h"
 
 class CSaveLoad
@@ -181,7 +180,7 @@ public:
 		uint32_t dwLen;
 		Read(&dwLen, sizeof(dwLen));
 		if (dwLen == 0) return std::string();
-		char * pBuffer = NEW char[dwLen];
+		char * pBuffer = new char[dwLen];
 		Read(pBuffer, dwLen);
 		str = pBuffer;
 		delete[] pBuffer;
@@ -199,7 +198,7 @@ public:
 	{
 		uint32_t dwSize;
 		Read(&dwSize, sizeof(dwSize));
-		*pBuffer = NEW char[dwSize];
+		*pBuffer = new char[dwSize];
 		Read(*pBuffer, dwSize);
 	}
 

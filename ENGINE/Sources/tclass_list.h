@@ -1,8 +1,6 @@
 #ifndef _TCLASS_LIST_
 #define _TCLASS_LIST_
 
-#include "../../Common_h/memop.h"
-
 template <class ClassType>
 class TCLASS_LIST
 {

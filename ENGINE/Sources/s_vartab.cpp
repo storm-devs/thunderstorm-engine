@@ -1,4 +1,3 @@
-#include "../../Common_h/memop.h"
 #include "s_vartab.h"
 //#include <string.h>
 
@@ -86,7 +85,7 @@ uint32_t S_VARTAB::AddVar(VARINFO& vi)
 				pTable[n].type = vi.type;
 				if(pTable[n].pDClass) delete pTable[n].pDClass;
 				
-				pTable[n].pDClass = NEW DATA;
+				pTable[n].pDClass = new DATA;
 				pTable[n].pDClass->SetVCompiler(pVCompiler);
 				pTable[n].pDClass->SetType(vi.type,vi.elements);
 
@@ -116,7 +115,7 @@ uint32_t S_VARTAB::AddVar(VARINFO& vi)
 	pTable[Var_num].hash = hash;
 	pTable[Var_num].name = nullptr;
 	
-	pTable[Var_num].pDClass = NEW DATA;
+	pTable[Var_num].pDClass = new DATA;
 	pTable[Var_num].pDClass->SetVCompiler(pVCompiler);
 	pTable[Var_num].pDClass->SetType(vi.type,vi.elements);
 	pTable[Var_num].pDClass->SetGlobalVarTableIndex(Var_num);
@@ -128,7 +127,7 @@ uint32_t S_VARTAB::AddVar(VARINFO& vi)
 		if(vi.name)
 		{
 			const auto len = strlen(vi.name) + 1;
-			pTable[Var_num].name = NEW char[len];
+			pTable[Var_num].name = new char[len];
 			memcpy(pTable[Var_num].name,vi.name,len);
 		}
 	}

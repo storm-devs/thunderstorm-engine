@@ -44,7 +44,7 @@ void BIImageMaterial::Render(long nBegPrior, long nEndPrior)
 
 const BIImage* BIImageMaterial::CreateImage( BIImageType type, uint32_t color, FRECT& uv, long nLeft,long nTop, long nRight,long nBottom, long nPrior )
 {
-	BIImage* pImg = NEW BIImage( m_pRS, this );
+	BIImage* pImg = new BIImage( m_pRS, this );
 	Assert( pImg );
 	pImg->SetColor( color );
 	pImg->SetPosition( nLeft, nTop, nRight, nBottom );

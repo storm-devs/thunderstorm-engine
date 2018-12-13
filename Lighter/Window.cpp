@@ -133,31 +133,31 @@ void Window::InitList(Lights & ls)
 {
 	long maxSize = ls.Num();
 	numElements = 7;
-	list = NEW ListElement[numElements + maxSize];
+	list = new ListElement[numElements + maxSize];
 	memset(list, 0, (numElements + maxSize)*sizeof(ListElement));
-	list[0].name = NEW char[sizeof "Quick process"];
+	list[0].name = new char[sizeof "Quick process"];
 	strcpy_s(list[0].name, sizeof "Quick process", "Quick process");
 	list[0].type = ListElement::t_quick;
 	list[0].h = 200.0f;
-	list[1].name = NEW char[sizeof "Trace shadows"];
+	list[1].name = new char[sizeof "Trace shadows"];
 	strcpy_s(list[1].name, sizeof "Trace shadows", "Trace shadows");
 	list[1].type = ListElement::t_trace;
-	list[2].name = NEW char[sizeof "Smooth shadows"];
+	list[2].name = new char[sizeof "Smooth shadows"];
 	strcpy_s(list[2].name, sizeof"Smooth shadows" , "Smooth shadows");
 	list[2].type = ListElement::t_smooth;
-	list[3].name = NEW char[sizeof "Blur light"];
+	list[3].name = new char[sizeof "Blur light"];
 	strcpy_s(list[3].name, sizeof "Blur light",  "Blur light");
 	list[3].type = ListElement::t_blur;
 	list[3].h = 100.0f;
-	list[4].name = NEW char[sizeof "Save presets"];
+	list[4].name = new char[sizeof "Save presets"];
 	strcpy_s(list[4].name,sizeof "Save presets", "Save presets");
 	list[4].type = ListElement::t_save;
 	list[4].h = 180.0f;
-	list[5].name = NEW char[sizeof "Load presets"];
+	list[5].name = new char[sizeof "Load presets"];
 	strcpy_s(list[5].name, sizeof "Load presets", "Load presets");
 	list[5].type = ListElement::t_load;
 	list[5].h = 180.0f;
-	list[6].name = NEW char[sizeof "Save lights"];
+	list[6].name = new char[sizeof "Save lights"];
 	strcpy_s(list[6].name,sizeof "Save lights", "Save lights");
 	list[6].type = ListElement::t_savelight;
 	for(long i = 0; i < maxSize; i++) ls[i].isMark = false;
@@ -170,7 +170,7 @@ void Window::InitList(Lights & ls)
 			break;
 		case Light::t_amb:
 			{
-				list[numElements].name = NEW char[sizeof "Ambient light"];
+				list[numElements].name = new char[sizeof "Ambient light"];
 				strcpy_s(list[numElements].name, sizeof "Ambient light", "Ambient light");
 				list[numElements].type = ListElement::t_amb;
 				list[numElements].c = ls[i].color;
@@ -190,7 +190,7 @@ void Window::InitList(Lights & ls)
 			break;
 		case Light::t_sun:
 			{
-				list[numElements].name = NEW char[sizeof "Sun light"];
+				list[numElements].name = new char[sizeof "Sun light"];
 				strcpy_s(list[numElements].name, sizeof "Sun light", "Sun light");
 				list[numElements].type = ListElement::t_light;
 				list[numElements].c = ls[i].color;
@@ -210,7 +210,7 @@ void Window::InitList(Lights & ls)
 			break;
 		case Light::t_sky:
 			{
-				list[numElements].name = NEW char[sizeof "Sky light"];
+				list[numElements].name = new char[sizeof "Sky light"];
 				strcpy_s(list[numElements].name, sizeof "Sky light", "Sky light");
 				list[numElements].type = ListElement::t_light;
 				list[numElements].c = ls[i].color;
@@ -231,7 +231,7 @@ void Window::InitList(Lights & ls)
 		case Light::t_group:
 			{
 			const auto len = strlen(ls[i].group) + sizeof "Group ";
-			list[numElements].name = NEW char[len];
+			list[numElements].name = new char[len];
 				list[numElements].name[0] = 0;
 				strcat_s(list[numElements].name, len, "Group ");
 				strcat_s(list[numElements].name, len, ls[i].group);

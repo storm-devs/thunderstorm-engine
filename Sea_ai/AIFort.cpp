@@ -168,7 +168,7 @@ bool AIFort::AddFort(ATTRIBUTES * pIslandAP, ATTRIBUTES * pFortLabelAP, ATTRIBUT
 	char * pLocatorsName = pLocatorsAP->GetThisAttr(); Assert(pLocatorsName);
 	char * pModelsDir = pModelsDirAP->GetThisAttr(); Assert(pModelsDir);
 
-	AI_FORT * pFort = NEW AI_FORT(pFortLabelAP);
+	AI_FORT * pFort = new AI_FORT(pFortLabelAP);
 	pFort->SetACharacter(pFortCharacter);
 	pFort->SetModelEID(eidModel);
 	pFort->SetBlotEID(eidBlot);

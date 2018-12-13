@@ -127,7 +127,7 @@ void BIManSign::Init( ATTRIBUTES* pRoot, ATTRIBUTES* pA )
 
 	m_pARoot = pRoot;
 
-	m_pCommandList = NEW BIManCommandList( m_idHostEntity, pRoot, m_pRS );
+	m_pCommandList = new BIManCommandList( m_idHostEntity, pRoot, m_pRS );
 
 	// default value
 	m_nBackTextureID = -1;

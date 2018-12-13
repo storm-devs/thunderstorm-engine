@@ -2,7 +2,6 @@
 
 #include "../../Common_h/Exs.h"
 #include <stdio.h>
-#include "../../Common_h/memop.h"
 #include "../../Common_h/vmodule_api.h"
 
 #define		COMMENT			';'
@@ -38,7 +37,7 @@ void KEY_NODE::SetName(const char * name)
 	if(key_name) delete key_name; key_name = nullptr;
 	name_size = strlen(name) + 1;
 
-	key_name = NEW char[name_size];
+	key_name = new char[name_size];
 	if(key_name == nullptr) THROW;
 	strcpy_s(key_name,name_size,name);
 }
@@ -49,7 +48,7 @@ void KEY_NODE::SetValue(const char * value)
 	if(key_val) delete key_val; key_val = nullptr;
 	val_size = strlen(value) + 1;
 
-	key_val = NEW char[val_size];
+	key_val = new char[val_size];
 	if(key_val == nullptr) THROW;
 	strcpy_s(key_val,val_size,value);
 }
@@ -166,7 +165,7 @@ void SECTION::SetName(const char * name)
 	else
 	{
 		const auto len = strlen(name) + 1;
-		Name = NEW char[len];
+		Name = new char[len];
 		if(Name == nullptr) THROW;
 		strcpy_s(Name,len,name);
 	}
@@ -182,7 +181,7 @@ KEY_NODE * SECTION::AddNode()
 {
 	KEY_NODE * node;
 
-	node = NEW KEY_NODE;
+	node = new KEY_NODE;
 	if(node == nullptr) throw "node creation error";
 	node->Add(&Root,&Top);
 	return node;
@@ -359,7 +358,7 @@ bool IFS::LoadFile(const char * _file_name)
 	if(file_size == INVALID_FILE_SIZE) {fs->_CloseHandle(fh); return false;}
 
 
-	char* file_data = NEW char[file_size + 1];	// +1 for zero at the end
+	char* file_data = new char[file_size + 1];	// +1 for zero at the end
 	if(file_data == nullptr) {fs->_CloseHandle(fh); return false;}
 	file_data[file_size] = 0;
 
@@ -370,7 +369,7 @@ bool IFS::LoadFile(const char * _file_name)
 
 	uint32_t name_size = strlen(_file_name) + 1;
 
-	FileName = NEW char[name_size];
+	FileName = new char[name_size];
 
 	if(FileName == nullptr) {delete[] file_data; fs->_CloseHandle(fh); return false;}
 	strcpy_s(FileName, name_size, _file_name);
@@ -397,7 +396,7 @@ void IFS::Format(char * file_data, long file_size)
 
 
 
-	Current_Section = NEW SECTION;
+	Current_Section = new SECTION;
 	Current_Section->Add(&SectionRoot,&SectionTop);
 
 	data_PTR = nullptr;
@@ -453,7 +452,7 @@ void IFS::Format(char * file_data, long file_size)
 						//node->SetName(&data_PTR[i+1]);
 						//node->SetFlags(KNF_SECTION);
 
-						Current_Section = NEW SECTION;
+						Current_Section = new SECTION;
 						Current_Section->Add(&SectionRoot,&SectionTop);
 						Current_Section->SetName(&data_PTR[i+1]);
 						break;
@@ -716,7 +715,7 @@ SECTION * IFS::CreateSection(const char * section_name)
 	node = FindSection(section_name);
 	if(node) return node;
 
-	node = NEW SECTION;
+	node = new SECTION;
 	if(node == nullptr) throw "section creation error";
 	node->Add(&SectionRoot,&SectionTop);
 	node->SetName(section_name);

@@ -191,7 +191,7 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 	// установим новое имя для языка
 	STORM_DELETE(m_sLanguage);
 	const auto len = strlen(sLanguage) + 1;
-	if( (m_sLanguage=NEW char[len]) == nullptr ) {THROW("Allocate memory error");}
+	if( (m_sLanguage=new char[len]) == nullptr ) {THROW("Allocate memory error");}
 	memcpy(m_sLanguage,sLanguage,len);
 
 	while(true)
@@ -204,7 +204,7 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 		if( ini->ReadString("DIRECTORY",m_sLanguage,param,sizeof(param)-1,"") )
 		{
 			const auto len = strlen(param) + 1;
-			if( (m_sLanguageDir=NEW char[len]) == nullptr )
+			if( (m_sLanguageDir=new char[len]) == nullptr )
 				{STORM_THROW("Allocate memory error");}
 			memcpy(m_sLanguageDir,param,len);
 		}
@@ -214,7 +214,7 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 		if( ini->ReadString("COMMON","strings",param,sizeof(param)-1,"") )
 		{
 			const auto len = strlen(param) + 1;
-			if( (m_sIniFileName=NEW char[len]) == nullptr )
+			if( (m_sIniFileName=new char[len]) == nullptr )
 				{STORM_THROW("Allocate memory error");}
 			memcpy(m_sIniFileName,param,len);
 		}
@@ -229,7 +229,7 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 			api->Trace("WARNING! Language %s not exist some ini parameters. Language set to default %s",m_sLanguage,param);
 			STORM_DELETE(m_sLanguage);
 			const auto len = strlen(param) + 1;
-			m_sLanguage = NEW char[len];
+			m_sLanguage = new char[len];
 			if(m_sLanguage== nullptr) {STORM_THROW("Allocate memory error");}
 			memcpy(m_sLanguage,param,len);
 		}
@@ -295,8 +295,8 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 	// create strings & string names arreys
 	if(newSize>0)
 	{
-		m_psString = NEW char*[newSize];
-		m_psStrName = NEW char*[newSize];
+		m_psString = new char*[newSize];
+		m_psStrName = new char*[newSize];
 		if(m_psStrName== nullptr || m_psString== nullptr)
 			STORM_THROW("Allocate memory error")
 	} else {
@@ -314,14 +314,14 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 		{
 			// fill string name
 			auto len = strlen(param) + 1;
-			m_psStrName[i] = NEW char[len];
+			m_psStrName[i] = new char[len];
 			if(m_psStrName[i]== nullptr)
 				STORM_THROW("allocate memory error")
 			strcpy_s(m_psStrName[i],len,strName);
 
 			// fill string self
 			len = strlen(string) + 1;
-			m_psString[i] = NEW char[len];
+			m_psString[i] = new char[len];
 			if (m_psString[i] == nullptr) {
 				delete m_psStrName[i];
 				STORM_THROW("allocate memory error")
@@ -539,7 +539,7 @@ long STRSERVICE::OpenUsersStringFile(char * fileName)
 		return pUSB->blockID;
 	}
 
-	pUSB = NEW UsersStringBlock;
+	pUSB = new UsersStringBlock;
 	if(pUSB== nullptr)	{STORM_THROW("Allocate memory error")}
 
 	// strings reading
@@ -555,7 +555,7 @@ long STRSERVICE::OpenUsersStringFile(char * fileName)
 		return -1;
 	}
 
-	char * fileBuf = NEW char[filesize+1];
+	char * fileBuf = new char[filesize+1];
 	if(fileBuf== nullptr) {STORM_THROW("Allocate memory error")}
 
 	long readsize;
@@ -572,7 +572,7 @@ long STRSERVICE::OpenUsersStringFile(char * fileName)
 
 	pUSB->nref = 1;
 	const auto len = strlen(fileName) + 1;
-	pUSB->fileName = NEW char[len];
+	pUSB->fileName = new char[len];
 	if(pUSB->fileName== nullptr)	{STORM_THROW("Allocate memory error")}
 	memcpy(pUSB->fileName,fileName,len);
 	pUSB->blockID = GetFreeUsersID();
@@ -587,8 +587,8 @@ long STRSERVICE::OpenUsersStringFile(char * fileName)
 	if(pUSB->nStringsQuantity==0) {
 		api->Trace("WARNING! Strings file \"%s\" not contain strings",fileName);
 	} else {
-		pUSB->psStrName = NEW char*[pUSB->nStringsQuantity];
-		pUSB->psString = NEW char*[pUSB->nStringsQuantity];
+		pUSB->psStrName = new char*[pUSB->nStringsQuantity];
+		pUSB->psString = new char*[pUSB->nStringsQuantity];
 		if(pUSB->psStrName== nullptr || pUSB->psString== nullptr)
 		{STORM_THROW("Allocate memory error")}
 		stridx = 0;
@@ -742,7 +742,7 @@ bool STRSERVICE::GetNextUsersString(char *src,long &idx,char* *strName,char* *st
 
 	if(strName!= nullptr && nameBeg<=nameEnd)
 	{
-		*strName = NEW char[nameEnd-nameBeg+2];
+		*strName = new char[nameEnd-nameBeg+2];
 		if(*strName== nullptr) {STORM_THROW("Allocate memory error")}
 		strncpy_s(*strName,nameEnd-nameBeg+2,nameBeg,nameEnd-nameBeg+1);
 		strName[0][nameEnd-nameBeg+1] = 0;
@@ -750,7 +750,7 @@ bool STRSERVICE::GetNextUsersString(char *src,long &idx,char* *strName,char* *st
 
 	if(strData!= nullptr && dataBeg<=dataEnd)
 	{
-		*strData = NEW char[dataEnd-dataBeg+2];
+		*strData = new char[dataEnd-dataBeg+2];
 		if(*strData== nullptr) {STORM_THROW("Allocate memory error")}
 		strncpy_s(*strData,dataEnd-dataBeg+2,dataBeg,dataEnd-dataBeg+1);
 		strData[0][dataEnd-dataBeg+1] = 0;

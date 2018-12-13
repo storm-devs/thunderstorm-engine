@@ -104,7 +104,7 @@ void RAIN::GenerateRain()
 	fWindAngle = pWeather->GetFloat(whf_wind_angle);
 	fRainWindSpeed = fWindPower * 0.2f;
 
-	pRainBlocks = NEW rainblock_t[dwNumRainBlocks];
+	pRainBlocks = new rainblock_t[dwNumRainBlocks];
 
 	pRainBlocks[0].vPos = CVECTOR(0.0f, 0.0f, 0.0f);
 	pRainBlocks[1].vPos = CVECTOR(0.0f, fRainHeight, 0.0f);

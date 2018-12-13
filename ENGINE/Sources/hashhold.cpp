@@ -25,7 +25,7 @@ bool HASHHOLD::Init(uint32_t _dwHashTableSize)
 	Release();
 	dwHashTableSize = _dwHashTableSize;
 	pHashTable.resize(dwHashTableSize);
-	pLineSize = (uint32_t *)NEW char[dwHashTableSize * sizeof(uint32_t)];
+	pLineSize = (uint32_t *)new char[dwHashTableSize * sizeof(uint32_t)];
 	if(!pLineSize) THROW;
 	memset(pLineSize,0,dwHashTableSize * sizeof(uint32_t));
 	return true;

@@ -478,7 +478,7 @@ bool ISLAND::CreateShadowMap(char * pDir, char * pName)
 
 		fio->_ReadFile(hFile, &tga_head, sizeof(tga_head), nullptr);
 		uint32_t dwSize = tga_head.width;
-		pShadowMap = NEW uint8_t[dwSize * dwSize];
+		pShadowMap = new uint8_t[dwSize * dwSize];
 		fio->_ReadFile(hFile, pShadowMap, dwSize * dwSize, nullptr);
 		fio->_CloseHandle(hFile);
 
@@ -488,7 +488,7 @@ bool ISLAND::CreateShadowMap(char * pDir, char * pName)
 		return true;
 	}
 
-	pShadowMap = NEW uint8_t[DMAP_SIZE * DMAP_SIZE];
+	pShadowMap = new uint8_t[DMAP_SIZE * DMAP_SIZE];
 
 	float	fX, fZ;
 	uint32_t	x, z;
@@ -536,7 +536,7 @@ bool ISLAND::CreateShadowMap(char * pDir, char * pName)
 void ISLAND::Blur8(uint8_t * * pBuffer, uint32_t dwSize)
 {
 	uint32_t	x, z; 
-	uint8_t	* pNewBuffer = NEW uint8_t[dwSize * dwSize];
+	uint8_t	* pNewBuffer = new uint8_t[dwSize * dwSize];
 	uint32_t	dwMask = dwSize - 1;
 	// do blur for shadow map
 	for (z = 0; z < dwSize; z++)
@@ -593,7 +593,7 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 		{
 			fio->_ReadFile(hFile, &tga_head, sizeof(tga_head), nullptr);
 			iDMapSize = tga_head.width;
-			pDepthMap = NEW uint8_t[iDMapSize * iDMapSize];
+			pDepthMap = new uint8_t[iDMapSize * iDMapSize];
 			fio->_ReadFile(hFile, pDepthMap, iDMapSize * iDMapSize, nullptr);
 			fio->_CloseHandle(hFile);
 
@@ -654,7 +654,7 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 	fStep1divDX = 1.0f / fStepDX;
 	fStep1divDZ = 1.0f / fStepDZ;
 
-	pDepthMap = NEW uint8_t[iDMapSize * iDMapSize];
+	pDepthMap = new uint8_t[iDMapSize * iDMapSize];
 	PZERO(pDepthMap, iDMapSize * iDMapSize);
 
 	vBoxSize /= 2.0f;
@@ -678,7 +678,7 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 	fStep1divDX = 1.0f / fStepDX;
 	fStep1divDZ = 1.0f / fStepDZ;
 
-	pDepthMap = NEW uint8_t[iDMapSize * iDMapSize];
+	pDepthMap = new uint8_t[iDMapSize * iDMapSize];
 
 	float	fEarthPercent = 0.0f;
 	float	fX,fZ;

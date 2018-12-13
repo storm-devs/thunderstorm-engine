@@ -84,7 +84,7 @@ public:
 		if(pName) 
 			delete pName;
 		const auto len = strlen(pFileName) + 1;
-		pName = NEW char[len];
+		pName = new char[len];
 		memcpy(pName, pFileName, len);
 	}
 };

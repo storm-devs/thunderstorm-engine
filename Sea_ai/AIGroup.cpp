@@ -31,13 +31,13 @@ void AIGroup::AddShip(ENTITY_ID eidShip, ATTRIBUTES * pACharacter, ATTRIBUTES * 
 	if (pAMode)
 	{
 		if (std::string("war") == pAMode->GetThisAttr())
-			pShip = NEW AIShipWar();
+			pShip = new AIShipWar();
 		else if (std::string("trade") == pAMode->GetThisAttr()) 
-			pShip = NEW AIShipTrade();
+			pShip = new AIShipTrade();
 		else if (std::string("boat") == pAMode->GetThisAttr()) 
-			pShip = NEW AIShipBoat();
+			pShip = new AIShipBoat();
 	}
-	if (!pShip) pShip = NEW AIShipWar();
+	if (!pShip) pShip = new AIShipWar();
 
 	CVECTOR vShipPos = CVECTOR(vInitGroupPos.x, vInitGroupPos.y, vInitGroupPos.z) - (aGroupShips.size() * AIGroup::fDistanceBetweenGroupShips) * CVECTOR(sinf(vInitGroupPos.y), 0.0f, cosf(vInitGroupPos.y));
 
@@ -174,7 +174,7 @@ float AIGroup::GetPower()
 AIGroup * AIGroup::CreateNewGroup(const char * pGroupName)
 {
 	Assert(pGroupName);
-	AIGroup * pAIGroup = NEW AIGroup(pGroupName);
+	AIGroup * pAIGroup = new AIGroup(pGroupName);
 	AIGroup::AIGroups.push_back(pAIGroup);
 
 	return pAIGroup;
@@ -411,7 +411,7 @@ void AIGroup::Load(CSaveLoad * pSL)
 	uint32_t dwNum = pSL->LoadDword();
 	for (uint32_t i=0; i<dwNum; i++)
 	{
-		AIShip * pShip = NEW AIShipWar();
+		AIShip * pShip = new AIShipWar();
 		AIShip::AIShips.push_back(pShip);		// add to global array
 		aGroupShips.push_back(pShip);			// add to local group array
 		pShip->Load(pSL);

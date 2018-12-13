@@ -160,7 +160,7 @@ public:
 		if(format) delete format;
 
 		const auto len = strlen(_format) + 1;
-		format = NEW char[len];
+		format = new char[len];
 		index = 0; 
 		strcpy_s(format, len, _format);
 		//format =  _format; 

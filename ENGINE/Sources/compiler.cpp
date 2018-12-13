@@ -205,7 +205,7 @@ void __declspec(noinline) __cdecl COMPILER::SetProgramDirectory(char * dir_name)
 	if(dir_name)
 	{
 		const auto len = strlen(dir_name) + strlen("\\") + 1;
-		ProgramDirectory = NEW char[len];
+		ProgramDirectory = new char[len];
 		strcpy_s(ProgramDirectory, len, dir_name);
 		strcat_s(ProgramDirectory, len, "\\");
 	}
@@ -275,7 +275,7 @@ char * COMPILER::LoadFile(char * file_name, uint32_t & file_size, bool bFullPath
 	fsize = Core.fio->_GetFileSize(fh,nullptr);
 	if(fsize == INVALID_FILE_SIZE) {Core.fio->_CloseHandle(fh); return nullptr;}
 	
-	pData = (char *)NEW char[fsize + 1];
+	pData = (char *)new char[fsize + 1];
 	Core.fio->_ReadFile(fh,pData,fsize,&dwR);
 	if(fsize != dwR) {delete pData; Core.fio->_CloseHandle(fh); return nullptr;}
 	Core.fio->_CloseHandle(fh);
@@ -339,7 +339,7 @@ void COMPILER::DTrace(char * data_PTR, ...)
 	char * pBase;
 	new_program_size = Base_program_size + Append_program_size + 2;
 	
-	pBase = NEW char[new_program_size];
+	pBase = new char[new_program_size];
 	pTemp = pBase;
 	memcpy(pTemp,pBase_program,Base_program_size);
 	pTemp += Base_program_size;
@@ -947,7 +947,7 @@ bool COMPILER::BC_LoadSegment(char * file_name)
 	SegmentTable.resize(SegmentsNum);
 
 	const auto len = strlen(file_name) + 1;
-	SegmentTable[index].name = NEW char[len];
+	SegmentTable[index].name = new char[len];
 	memcpy(SegmentTable[index].name, file_name, len);
 	SegmentTable[index].id = id;
 	SegmentTable[index].bUnload = false;
@@ -956,7 +956,7 @@ bool COMPILER::BC_LoadSegment(char * file_name)
 	SegmentTable[index].BCode_Program_size = 0;
 	SegmentTable[index].BCode_Buffer_size = 0;
 	
-	SegmentTable[index].Files_list = NEW STRINGS_LIST;
+	SegmentTable[index].Files_list = new STRINGS_LIST;
 	SegmentTable[index].Files_list->SetStringDataSize(sizeof(OFFSET_INFO));
 	bool bRes;
 	bRes = Compile(SegmentTable[index]);
@@ -1472,7 +1472,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 			pLib = (SCRIPT_LIBRIARY *)pClass->CreateClass();
 			if(pLib) pLib->Init();
 
-			pH = NEW SLIBHOLDER;
+			pH = new SLIBHOLDER;
 			pH->pLib = pLib;
 			pH->SetName(Token.GetData());
 			LibriaryFuncs.Add(pH);
@@ -1499,7 +1499,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 						strcat_s(dbg_file_name,"\";");
 						aps = strlen(dbg_file_name);
 						char * pTempS;
-						pTempS = NEW char[aps + 1];
+						pTempS = new char[aps + 1];
 						strcpy_s(pTempS,aps + 1,dbg_file_name);
 						AppendProgram(pProgram,Program_size,pTempS,aps,false);
 					}
@@ -1540,7 +1540,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 					case STRING:
 					{
 						const auto len = strlen(Token.GetData()) + 1;
-						di.data4b = (uint32_t)NEW char[len];
+						di.data4b = (uint32_t)new char[len];
 						memcpy((void *)di.data4b, Token.GetData(), len);
 						break;
 					}					
@@ -1929,7 +1929,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 			memset(&ci, 0, sizeof(ci));
 
 			const auto len = strlen(Token.GetData()) + 1;
-			ci.name = (char *)NEW char[len];
+			ci.name = (char *)new char[len];
 			memcpy(ci.name, Token.GetData(), len);
 
 			// start processing class components
@@ -1957,7 +1957,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 					// note: component name memory will be deleted by ClassTab
 
 					const auto len = strlen(Token.GetData()) + 1;
-					cc.name = (char *)NEW char[len];
+					cc.name = (char *)new char[len];
 					memcpy(cc.name, Token.GetData(), len);
 					cc.nElements = 1;	// assumed for all except arrays
 
@@ -5638,7 +5638,7 @@ ATTRIBUTES * COMPILER::TraceARoot(ATTRIBUTES * pA, char * & pAccess)
 	
 	long slen = strlen(pA->GetThisName()) + 1;
 	
-	char * pAS = NEW char[slen];
+	char * pAS = new char[slen];
 	
 	memcpy(pAS, pA->GetThisName(), slen);
 	
@@ -5731,7 +5731,7 @@ char * COMPILER::ReadString()
 	n = ReadVDword();
 	if(n == 0) return nullptr;
 	
-	pBuffer = NEW char[n];
+	pBuffer = new char[n];
 	ReadData(pBuffer,n);
 	return pBuffer;
 }
@@ -5848,13 +5848,13 @@ bool COMPILER::ReadVariable(char * name,/* DWORD code,*/ bool bDim, uint32_t a_i
 			if(!bSkipVariable) 
 			{	pV->Set(eid);
 				
-				if(pV->AttributesClass == nullptr) pV->AttributesClass = NEW ATTRIBUTES(&SCodec);
+				if(pV->AttributesClass == nullptr) pV->AttributesClass = new ATTRIBUTES(&SCodec);
 				ReadAttributesData(pV->AttributesClass,nullptr);
 			} 
 			else
 			{
 				
-				pTA = NEW ATTRIBUTES(&SCodec);
+				pTA = new ATTRIBUTES(&SCodec);
 				ReadAttributesData(pTA,nullptr);
 				delete pTA;
 			}
@@ -5899,7 +5899,7 @@ bool COMPILER::ReadVariable(char * name,/* DWORD code,*/ bool bDim, uint32_t a_i
 				pVRef = pVRef->GetArrayElement(array_index);
 			}
 			
-			if(pVRef->AttributesClass == nullptr) pVRef->AttributesClass = NEW ATTRIBUTES(&SCodec);
+			if(pVRef->AttributesClass == nullptr) pVRef->AttributesClass = new ATTRIBUTES(&SCodec);
 			if(pString)
 			{
 				pA = pVRef->AttributesClass->CreateSubAClass(pVRef->AttributesClass,pString);
@@ -6105,7 +6105,7 @@ bool COMPILER::SaveState(HANDLE fh)
 	uint64_t dw2;
 	if (dwCurPointer)
 	{
-		char * pDst = NEW char[dwCurPointer * 2];
+		char * pDst = new char[dwCurPointer * 2];
 		uint32_t dwPackLen = dwCurPointer * 2;
 		RDTSC_B(dw2);
 		compress2((Bytef*)pDst, (uLongf *)&dwPackLen, (Bytef*)pBuffer, dwCurPointer, Z_BEST_COMPRESSION);
@@ -6146,8 +6146,8 @@ bool COMPILER::LoadState(HANDLE fh)
 	if( dwPackLen==0 || dwPackLen>0x8000000 ||
 		dwMaxSize==0 || dwMaxSize>0x8000000 )
 			return false;
-	char * pCBuffer = NEW char[dwPackLen];
-	pBuffer = NEW char[dwMaxSize];
+	char * pCBuffer = new char[dwPackLen];
+	pBuffer = new char[dwMaxSize];
 	fio->_ReadFile(fh, (void*)pCBuffer, dwPackLen, nullptr);
 	uncompress((Bytef*)pBuffer, (uLongf *)&dwMaxSize, (Bytef*)pCBuffer, dwPackLen);
 	delete[] pCBuffer;
@@ -6323,7 +6323,7 @@ bool COMPILER::SetSaveData(char * file_name, void * save_data, long data_size)
 	fio->_WriteFile(fh, &exdh, sizeof(exdh), nullptr);
 	fio->_SetFilePointer(fh, dwFileSize, nullptr, FILE_BEGIN);
 
-	char * pDst = NEW char[data_size * 2];
+	char * pDst = new char[data_size * 2];
 	uint32_t dwPackLen = data_size * 2;
 	compress2((Bytef*)pDst, (uLongf *)&dwPackLen, (Bytef*)save_data, data_size, Z_BEST_COMPRESSION);
 
@@ -6411,7 +6411,7 @@ bool COMPILER::SetSaveData(char * file_name, void * save_data, long data_size)
 	}
 
 	// prepare org data buffer
-	pOrgData = NEW char[dwOrgDataSize];
+	pOrgData = new char[dwOrgDataSize];
 	if(pOrgData == 0) 
 	{
 		SetError("no memory");
@@ -6528,9 +6528,9 @@ void * COMPILER::GetSaveData(char * file_name, long & data_size)
 		fio->_CloseHandle(fh);
 		return nullptr;
 	}
-	char * pCBuffer = NEW char[dwPackLen];
+	char * pCBuffer = new char[dwPackLen];
 	fio->_ReadFile(fh, pCBuffer, dwPackLen, nullptr);
-	char * pBuffer = NEW char[exdh.dwExtDataSize];
+	char * pBuffer = new char[exdh.dwExtDataSize];
 	uint32_t dwDestLen = exdh.dwExtDataSize;
 	uncompress((Bytef*)pBuffer, (uLongf *)&dwDestLen, (Bytef*)pCBuffer, dwPackLen);
 	fio->_CloseHandle(fh);
@@ -6605,7 +6605,7 @@ void * COMPILER::GetSaveData(char * file_name, long & data_size)
 	}
 
 	// prepare ext data buffer
-	pExtData = NEW char[exdh.dwExtDataSize];
+	pExtData = new char[exdh.dwExtDataSize];
 	if(pExtData == 0) 
 	{
 		SetError("no memory");
@@ -6620,7 +6620,7 @@ void * COMPILER::GetSaveData(char * file_name, long & data_size)
 	DWORD dwOrgDataSize;
 
 	dwOrgDataSize = exdh.dwExtDataOffset - sizeof(exdh);
-	pOrgData = NEW char[dwOrgDataSize];
+	pOrgData = new char[dwOrgDataSize];
 	if(pOrgData == 0) 
 	{
 		SetError("no memory");

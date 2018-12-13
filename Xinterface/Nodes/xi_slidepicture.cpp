@@ -83,7 +83,7 @@ void CXI_SLIDEPICTURE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 		const auto len = strlen(param) + 1;
 		if(strlen(param)>1)
 		{	
-			strTechniqueName = NEW char[len];
+			strTechniqueName = new char[len];
 			if(strTechniqueName== nullptr)
 			{	STORM_THROW("allocate memory error");
 			}
@@ -139,7 +139,7 @@ void CXI_SLIDEPICTURE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 
 	if(nSlideListSize>0)
 	{
-		pSlideSpeedList = NEW SLIDE_SPEED[nSlideListSize];
+		pSlideSpeedList = new SLIDE_SPEED[nSlideListSize];
 		if(pSlideSpeedList== nullptr)	{STORM_THROW("allocate memory error");}
 	}
 

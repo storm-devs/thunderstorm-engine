@@ -191,7 +191,7 @@ void SAIL::SetDevice()
 
     if(WindVect== nullptr)
     {
-        WindVect=NEW float[WINDVECTOR_QUANTITY];
+        WindVect=new float[WINDVECTOR_QUANTITY];
         if(WindVect)
             // расчет таблицы векторов ветра
             for( i=0; i<WINDVECTOR_QUANTITY; i++ )
@@ -290,7 +290,7 @@ void SAIL::Execute(uint32_t Delta_Time)
                 if(oldWindQnt!=WINDVECTOR_QUANTITY) // если изменили размер таблицы ветров
                 {
                     STORM_DELETE(WindVect);
-                    WindVect=NEW float[WINDVECTOR_QUANTITY];
+                    WindVect=new float[WINDVECTOR_QUANTITY];
                     if(WindVect) // расчет таблицы векторов ветра
                         for(i=0; i<WINDVECTOR_QUANTITY; i++ )
                             WindVect[i]=sinf((float)i/(float)(WINDVECTOR_QUANTITY)*2.f*PI);
@@ -566,7 +566,7 @@ uint32_t _cdecl SAIL::ProcessMessage(MESSAGE & message)
 			if(gdata)
 			{
 				GROUPDATA* oldgdata = gdata;
-				gdata = NEW GROUPDATA[groupQuantity+1];
+				gdata = new GROUPDATA[groupQuantity+1];
 				memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
                 delete oldgdata;
 				oldgdata = nullptr;
@@ -574,7 +574,7 @@ uint32_t _cdecl SAIL::ProcessMessage(MESSAGE & message)
 			}
 			else
 			{
-				gdata = NEW GROUPDATA[1];
+				gdata = new GROUPDATA[1];
 				groupQuantity = 1; sailQuantity=0; slist=nullptr;
 			}
 			// Set new data into buffer
@@ -668,7 +668,7 @@ uint32_t _cdecl SAIL::ProcessMessage(MESSAGE & message)
                 if(_CORE_API->FindClass(&tmpEI,"rope",0))
                 if(so->sailtrope.rrs[0]==nullptr)
                 {
-                    so->sailtrope.rrs[0]=NEW ROTATEROPEDSAIL;
+                    so->sailtrope.rrs[0]=new ROTATEROPEDSAIL;
                     so->sailtrope.rrs[0]->ropenum=ropenum;
                     so->sailtrope.rrs[0]->tiePoint=posNum;
                     CVECTOR bpos;
@@ -700,7 +700,7 @@ uint32_t _cdecl SAIL::ProcessMessage(MESSAGE & message)
                 }
                 else if(so->sailtrope.rrs[1]==nullptr)
                 {
-                    so->sailtrope.rrs[1]=NEW ROTATEROPEDSAIL;
+                    so->sailtrope.rrs[1]=new ROTATEROPEDSAIL;
                     so->sailtrope.rrs[1]->ropenum=ropenum;
                     so->sailtrope.rrs[1]->tiePoint=posNum;
                     CVECTOR bpos;
@@ -886,7 +886,7 @@ uint32_t _cdecl SAIL::ProcessMessage(MESSAGE & message)
 			param[sizeof(param)-1] = 0;
 			int slen = strlen(param);
 			if(slen>0)
-				if( (m_sMastName=NEW char[slen+1]) == nullptr )
+				if( (m_sMastName=new char[slen+1]) == nullptr )
 					{STORM_THROW("allocate memory error");}
 				else strcpy_s(m_sMastName,slen+1,param);
 		}
@@ -925,13 +925,13 @@ void SAIL::AddSailLabel(GEOS::LABEL &lbl, NODE *nod, bool bSailUp)
         if(slist)
         {
             SAILONE** oldslist=slist;
-            slist = NEW SAILONE*[sailQuantity+1];
+            slist = new SAILONE*[sailQuantity+1];
             memcpy(slist,oldslist,sizeof(SAILONE*)*sailQuantity);
             delete oldslist;
         }
         else
-            slist = NEW SAILONE*[1];
-        cs=slist[sailQuantity]=NEW SAILONE;
+            slist = new SAILONE*[1];
+        cs=slist[sailQuantity]=new SAILONE;
         sailQuantity++;
         cs->pp=this;
         cs->HostNum = groupQuantity-1;
@@ -1039,7 +1039,7 @@ void SAIL::SetAllSails(int groupNum)
                 if(sailQuantity>0)
                 {
                     SAILONE** oldslist=slist;
-                    slist=NEW SAILONE*[sailQuantity];
+                    slist=new SAILONE*[sailQuantity];
                     if(!slist) {slist=oldslist; oldslist=nullptr;}
                     if(i>0) memcpy(slist,oldslist,sizeof(SAILONE*)*i);
                     if(i<sailQuantity) memcpy(&slist[i],&oldslist[i+1],sizeof(SAILONE*)*(sailQuantity-i));
@@ -1052,7 +1052,7 @@ void SAIL::SetAllSails(int groupNum)
 
     if(gdata[groupNum].sailQuantity>0)
     {
-        gdata[groupNum].sailIdx = NEW int[gdata[groupNum].sailQuantity];
+        gdata[groupNum].sailIdx = new int[gdata[groupNum].sailQuantity];
         int idx=0;
         for(int i=0; i<sailQuantity; i++)
             if(slist[i]->HostNum==groupNum)
@@ -1106,7 +1106,7 @@ void SAIL::SetAllSails(int groupNum)
         if(groupQuantity>0)
         {
 			GROUPDATA* oldgdata=gdata;
-            gdata=NEW GROUPDATA[groupQuantity];
+            gdata=new GROUPDATA[groupQuantity];
             if(gdata)
             {
                 memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
@@ -1530,7 +1530,7 @@ void SAIL::DoSailToNewHost(ENTITY_ID newModelEI, ENTITY_ID newHostEI, int grNum,
     if(gn==groupQuantity) // нет такого хозяина - создаем нового
     {
 		GROUPDATA *oldgdata=gdata;
-        gdata= NEW GROUPDATA[groupQuantity+1];
+        gdata= new GROUPDATA[groupQuantity+1];
         if(gdata==nullptr)
             STORM_THROW("Not memory allocation");
         memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
@@ -1569,13 +1569,13 @@ void SAIL::DoSailToNewHost(ENTITY_ID newModelEI, ENTITY_ID newHostEI, int grNum,
 		// добавим найденный парус в новую группу
 		if(gdata[gn].sailQuantity==0)
 		{
-			gdata[gn].sailIdx= NEW int[1];
+			gdata[gn].sailIdx= new int[1];
 			gdata[gn].sailQuantity=1;
 		}
 		else
 		{
 			int* oldIdx=gdata[gn].sailIdx;
-			if((gdata[gn].sailIdx= NEW int[gdata[gn].sailQuantity+1])==nullptr)
+			if((gdata[gn].sailIdx= new int[gdata[gn].sailQuantity+1])==nullptr)
 				{STORM_THROW("Not memory allocation");}
 			memcpy(gdata[gn].sailIdx,oldIdx,sizeof(int)*gdata[gn].sailQuantity);
 			delete oldIdx; gdata[gn].sailQuantity++;
@@ -1656,8 +1656,8 @@ void SAIL::DeleteSailGroup()
 	}
 	else
 	{
-		slist = NEW SAILONE*[sailQuantity];
-		gdata = NEW GROUPDATA[groupQuantity];
+		slist = new SAILONE*[sailQuantity];
+		gdata = new GROUPDATA[groupQuantity];
 		if(slist== nullptr || gdata== nullptr)	{STORM_THROW("allocate memory error");}
 
 		groupQuantity = 0;
@@ -1671,7 +1671,7 @@ void SAIL::DeleteSailGroup()
 			if(nsn==0) continue;
 			//  в новом месте создаем запись о группе парусов
 			memcpy(&gdata[groupQuantity],&oldgdata[gn],sizeof(GROUPDATA));
-			if( (gdata[groupQuantity].sailIdx=NEW int[nsn]) == nullptr )	{STORM_THROW("allocate memory error");}
+			if( (gdata[groupQuantity].sailIdx=new int[nsn]) == nullptr )	{STORM_THROW("allocate memory error");}
 			gdata[groupQuantity].sailQuantity = nsn;
 			// заполняем список парусов для группы и общий
 			for( sn=0,nsn=0; sn<old_sailQuantity; sn++ )

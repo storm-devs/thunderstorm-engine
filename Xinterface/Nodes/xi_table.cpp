@@ -79,7 +79,7 @@ void XI_TableLineDescribe::SetData( long nRowIndex, ATTRIBUTES* pLA, bool bHeade
 		if( !pA && c>=m_pTable->m_nColQuantity ) break;
 		XI_TableCellDescribe* pTD = nullptr;
 		if( c >= m_aCell.size() ) {
-			pTD = NEW XI_TableCellDescribe( m_pTable, this );
+			pTD = new XI_TableCellDescribe( m_pTable, this );
 			m_aCell.push_back( pTD );
 		} else {
 			pTD = m_aCell[c];
@@ -266,7 +266,7 @@ void XI_TableCellDescribe::LoadImageParam(ImgDescribe* pImg,ATTRIBUTES* pA)
 	long nW,nH,nImgAlign;
 
 	if( !pImg->pImage ) {
-		pImg->pImage = NEW CXI_IMAGE;
+		pImg->pImage = new CXI_IMAGE;
 		Assert( pImg->pImage );
 	}
 
@@ -1085,7 +1085,7 @@ void CXI_TABLE::UpdateTableCells()
 	ATTRIBUTES* pAttr = pARoot->GetAttributeClass( "hr" );
 	if( pAttr )
 	{
-		if( !m_pHeader ) m_pHeader = NEW XI_TableLineDescribe( this );
+		if( !m_pHeader ) m_pHeader = new XI_TableLineDescribe( this );
 		Assert( m_pHeader );
 		m_pHeader->SetData( 0, pAttr, true );
 		nY += m_anRowsHeights[0];
@@ -1102,7 +1102,7 @@ void CXI_TABLE::UpdateTableCells()
 		XI_TableLineDescribe* pTL = nullptr;
 		if( r >= m_aLine.size() )
 		{
-			pTL = NEW XI_TableLineDescribe( this );
+			pTL = new XI_TableLineDescribe( this );
 			m_aLine.push_back( pTL );
 		} else
 			pTL = m_aLine[r];

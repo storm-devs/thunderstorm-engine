@@ -22,10 +22,10 @@ LocatorArray::LocatorArray(const char * groupName)
 	if(groupName)
 	{
 		long l = strlen(groupName) + 1;	
-		group = NEW char[l];
+		group = new char[l];
 		memcpy(group, groupName, l);
 	}else{
-		group = NEW char[1];
+		group = new char[1];
 		group[0] = 0;
 	}
 	hash = CalcHashString(group);

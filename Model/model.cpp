@@ -385,7 +385,7 @@ uint32_t _cdecl MODELR::ProcessMessage(MESSAGE &message)
 			message.String(255,str);
 			NODER::gs = GeometyService;
 			NODER::rs = rs;
-			root = NEW NODER();
+			root = new NODER();
 			if(!root->Init(LightPath, str, "", CMatrix(0.0f,0.0f,0.0f, 0.0f,0.0f,0.0f), mtx, nullptr, lmPath))
 			{
 				delete root;
@@ -402,7 +402,7 @@ uint32_t _cdecl MODELR::ProcessMessage(MESSAGE &message)
 			message.String(255,str);
 			NODER::gs = GeometyService;
 			NODER::rs = rs;
-			root = NEW NODER();
+			root = new NODER();
 
 			if(!root->Init(LightPath, str, "", CMatrix(0.0f,0.0f,0.0f, 0.0f,0.0f,0.0f), mtx, null, lmPath))
 			{
@@ -592,7 +592,7 @@ float MODELR::Trace(const CVECTOR &src, const CVECTOR &dst)
 				}
 			}
 
-			idxBuff = NEW unsigned short[nt*3];
+			idxBuff = new unsigned short[nt*3];
 			for(long vb=0; vb<gi.nvrtbuffs; vb++)
 			{
 				long avb = root->geo->GetVertexBuffer(vb);

@@ -101,20 +101,20 @@ void SEAFOAM::AddShip(ENTITY_ID * pShipEID)
 	foamInfo->shipModel = foamInfo->ship->GetModel();
 	foamInfo->shipModel->GetNode(0)->geo->GetInfo(foamInfo->hullInfo);
 	foamInfo->enabled = true;
-	foamInfo->frontEmitter[0] = NEW SEAFOAM_PS();
+	foamInfo->frontEmitter[0] = new SEAFOAM_PS();
 	foamInfo->frontEmitter[0]->Init(psIni, "seafoam");
-	foamInfo->frontEmitter[1] = NEW SEAFOAM_PS();
+	foamInfo->frontEmitter[1] = new SEAFOAM_PS();
 	foamInfo->frontEmitter[1]->Init(psIni, "seafoam2");
-	foamInfo->frontEmitter[2] = NEW SEAFOAM_PS();
+	foamInfo->frontEmitter[2] = new SEAFOAM_PS();
 	foamInfo->frontEmitter[2]->Init(psIni, "seafoam_front");
 
 	CreateTracePoints(foamInfo);
 	float wideK = sqrtf(foamInfo->hullInfo.boxsize.y / 17.f);
-	foamInfo->carcass[0] = NEW TCarcass(TRACE_STEPS_Z, MEASURE_POINTS, renderer, true);
+	foamInfo->carcass[0] = new TCarcass(TRACE_STEPS_Z, MEASURE_POINTS, renderer, true);
 	foamInfo->carcass[0]->Initialize();
 	foamInfo->carcass[0]->InitCircleMeasure(wideK*1.4f, wideK*-1.f, .55f);
 
-	foamInfo->carcass[1] = NEW TCarcass(TRACE_STEPS_Z, MEASURE_POINTS, renderer, false);
+	foamInfo->carcass[1] = new TCarcass(TRACE_STEPS_Z, MEASURE_POINTS, renderer, false);
 	foamInfo->carcass[1]->Initialize();
 	foamInfo->carcass[1]->InitCircleMeasure(wideK*1.4f, wideK*1.f, .55f);
 

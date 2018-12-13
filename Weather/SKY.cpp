@@ -62,7 +62,7 @@ void SKY::CreateFogSphere()
 	iNumLevels = 64;
 	iNumAngles = 8;
 	iFogNumVerts = iNumAngles * iNumLevels + 1;
-	FOGVERTEX * pVerts = NEW FOGVERTEX[iFogNumVerts];
+	FOGVERTEX * pVerts = new FOGVERTEX[iFogNumVerts];
 	iFogVertsID = pRS->CreateVertexBuffer(FOGVERTEX_FORMAT,iFogNumVerts * sizeof(SKYVERTEX),D3DUSAGE_WRITEONLY);
 	FOGVERTEX * pVertBuf = (FOGVERTEX*)pRS->LockVertexBuffer(iFogVertsID);
 

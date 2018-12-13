@@ -137,7 +137,7 @@ void CXI_TITLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	if( ReadIniString(ini1,name1, ini2,name2, "imgGroupName", param, sizeof(param),"") )
 	{
 		const auto len = strlen(param) + 1;
-		m_sGroupName = NEW char[len];
+		m_sGroupName = new char[len];
 		if(m_sGroupName== nullptr)
 			STORM_THROW("allocate memory error")
 		memcpy(m_sGroupName,param,len);

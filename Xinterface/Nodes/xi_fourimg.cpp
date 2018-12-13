@@ -300,8 +300,8 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 		else
 		{
 			m_nTexturesQuantity = pA->GetAttributesNum();
-			m_nTextureId = NEW long[m_nTexturesQuantity];
-			m_sGroupName = NEW char*[m_nTexturesQuantity];
+			m_nTextureId = new long[m_nTexturesQuantity];
+			m_sGroupName = new char*[m_nTexturesQuantity];
 			if(m_sGroupName== nullptr || m_nTextureId== nullptr)
 			{
 				STORM_THROW("Allocate memory error");
@@ -313,7 +313,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 				else
 				{
 					const auto len = strlen(stmp) + 1;
-					if( (m_sGroupName[i]=NEW char[len])== nullptr )
+					if( (m_sGroupName[i]=new char[len])== nullptr )
 					{
 						STORM_THROW("Allocate memory error");
 					}
@@ -341,7 +341,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 				if(tmps!= nullptr && *tmps=='#')
 				{
 					const auto len = strlen(tmps);
-					if( (m_pOneStr[i]=NEW char[len]) == nullptr )
+					if( (m_pOneStr[i]=new char[len]) == nullptr )
 						STORM_THROW("allocate memory error");
 					memcpy(m_pOneStr[i],&tmps[1],len);
 					m_oneStr[i] = -1L;
@@ -355,7 +355,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 				if(tmps!= nullptr && *tmps=='#')
 				{
 					const auto len = strlen(tmps);
-					if( (m_pTwoStr[i]=NEW char[len]) == nullptr )
+					if( (m_pTwoStr[i]=new char[len]) == nullptr )
 						STORM_THROW("allocate memory error");
 					memcpy(m_pTwoStr[i],&tmps[1],len);
 					m_twoStr[i] = -1L;
@@ -395,7 +395,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 	if( ReadIniString(ini1,name1, ini2,name2, "border", param, sizeof(param),"") )
 	{
 		tmpstr = GetSubStr(param, param1, sizeof(param1));
-		if( (m_sBorderGroupName = NEW char[sizeof param1])== nullptr )
+		if( (m_sBorderGroupName = new char[sizeof param1])== nullptr )
 			STORM_THROW("allocate memory error")
 		strcpy_s(m_sBorderGroupName,sizeof param1,param1);
 		m_texBorder = pPictureService->GetTextureID(m_sBorderGroupName);
@@ -684,7 +684,7 @@ void CXI_FOURIMAGE::ChangeItem(int nItemNum)
 				if (sptr != nullptr && *sptr == '#')
 				{
 					const auto len = strlen(sptr);
-					if ((m_pOneStr[i] = NEW char[len]) == nullptr)
+					if ((m_pOneStr[i] = new char[len]) == nullptr)
 					{
 						STORM_THROW("allocate memory error")
 					}
@@ -696,7 +696,7 @@ void CXI_FOURIMAGE::ChangeItem(int nItemNum)
 				if (sptr != nullptr && *sptr == '#')
 				{
 					const auto len = strlen(sptr);
-					if ((m_pTwoStr[i] = NEW char[len]) == nullptr)
+					if ((m_pTwoStr[i] = new char[len]) == nullptr)
 					{
 						STORM_THROW("allocate memory error")
 					}

@@ -211,14 +211,14 @@ void XINTERFACE::SetDevice()
 	LoadIni();
 
 	// Create pictures and string lists service
-	pPictureService = NEW XSERVICE;
+	pPictureService = new XSERVICE;
 	if(pPictureService== nullptr)
 	{
 		THROW("Not memory allocate");
 	}
 	pPictureService->Init(pRenderService,dwScreenWidth,dwScreenHeight);
 
-	pQuestService = NEW QUEST_FILE_READER;
+	pQuestService = new QUEST_FILE_READER;
 	if(pQuestService== nullptr)
 	{
 		THROW("Not memory allocate");
@@ -255,7 +255,7 @@ void XINTERFACE::SetDevice()
 
 	m_pMouseWeel = api->Event("evGetMouseWeel");
 
-	m_pEditor = NEW GIEditor(this);
+	m_pEditor = new GIEditor(this);
 
 	UNGUARD
 }
@@ -579,18 +579,18 @@ uint32_t XINTERFACE::ProcessMessage(MESSAGE & message)
 			message.String(sizeof(nodeName)-1,nodeName);
 			long nCommand = message.Long();
 			//
-            EVENT_ENTITY * pEvent = NEW EVENT_ENTITY;
+            EVENT_ENTITY * pEvent = new EVENT_ENTITY;
             if(pEvent== nullptr)	THROW("allocate memory error");
             pEvent->next = m_pEvents;
             m_pEvents = pEvent;
 			//
 			auto len = strlen(param) + 1;
-            pEvent->sEventName = NEW char[len];
+            pEvent->sEventName = new char[len];
             if(pEvent->sEventName== nullptr)	THROW("allocate memory error");
             memcpy(pEvent->sEventName,param,len);
 			//
 			len = strlen(nodeName) + 1;
-			pEvent->sNodeName = NEW char[len];
+			pEvent->sNodeName = new char[len];
 			if(pEvent->sNodeName== nullptr)	THROW("allocate memory error");
 			memcpy(pEvent->sNodeName,nodeName,len);
 			//
@@ -616,7 +616,7 @@ uint32_t XINTERFACE::ProcessMessage(MESSAGE & message)
 				m_stringes.resize(m_nStringQuantity);
 
 				const auto len = strlen(param) + 1;
-				m_stringes[l].sStringName = NEW char[len];
+				m_stringes[l].sStringName = new char[len];
 				if(m_stringes[l].sStringName == nullptr)	THROW("allocate memory error");
 				memcpy(m_stringes[l].sStringName,param,len);
 			}
@@ -1335,7 +1335,7 @@ void XINTERFACE::LoadDialog(char *sFileName)
 	if( ini->ReadString(section,"DefaultHelp",param,sizeof(param)-1,"") )
 	{
 		const auto len = strlen(param) + 1;
-		m_strDefHelpTextureFile = NEW char[len];
+		m_strDefHelpTextureFile = new char[len];
 		if(m_strDefHelpTextureFile)	
 			memcpy(m_strDefHelpTextureFile,param,len);
 	}
@@ -1412,7 +1412,7 @@ void __declspec(dllexport) __cdecl XINTERFACE::SFLB_CreateNode(INIFILE* pOwnerIn
 		XYPOINT xypScreenSize;
 		xypScreenSize.x = dwScreenWidth; xypScreenSize.y = dwScreenHeight;
 		const auto len = strlen(sNodeName) + 1;
-		pNewNod->m_nodeName = NEW char[len];
+		pNewNod->m_nodeName = new char[len];
 		if( !pNewNod->m_nodeName )	THROW("allocate memory error");
 		memcpy(pNewNod->m_nodeName, sNodeName, len);
 		if( !pNewNod->Init( pUserIni,sNodeName, pOwnerIni,sNodeType, pRenderService,GlobalRect,xypScreenSize ) )
@@ -1464,7 +1464,7 @@ void __declspec(dllexport) __cdecl XINTERFACE::SFLB_CreateNode(INIFILE* pOwnerIn
 					sscanf(stmp,"com:%[^:]:%[^,]",sSubCommand,sSubNodName);
 					if( (nSubCommand=FindCommand(sSubCommand))==-1 ) continue;
 
-					CINODE::COMMAND_REDIRECT *pHead = NEW CINODE::COMMAND_REDIRECT;
+					CINODE::COMMAND_REDIRECT *pHead = new CINODE::COMMAND_REDIRECT;
 					PZERO(pHead,sizeof(CINODE::COMMAND_REDIRECT));
 					if( pHead== nullptr )	THROW("allocate memory error");
 					pHead->next = pNewNod->m_pCommands[nComNum].pNextControl;
@@ -1505,42 +1505,42 @@ CINODE* XINTERFACE::NewNode(const char* pcNodType)
 {
 	if( !pcNodType ) return nullptr;
 	CINODE* pNewNod = nullptr;
-	if(!_stricmp(pcNodType,"BUTTON"))				pNewNod = NEW CXI_BUTTON;
-	else if(!_stricmp(pcNodType,"VIDEO"))			pNewNod = NEW CXI_VIDEO;
-	else if(!_stricmp(pcNodType,"SCROLLIMAGE"))		pNewNod = NEW CXI_SCROLLIMAGE;
-	else if(!_stricmp(pcNodType,"IMAGECOLLECTION"))	pNewNod = NEW CXI_IMGCOLLECTION;
-	else if(!_stricmp(pcNodType,"STRINGCOLLECTION"))	pNewNod = NEW CXI_STRCOLLECTION;
-	else if(!_stricmp(pcNodType,"FOURIMAGES"))		pNewNod = NEW CXI_FOURIMAGE;
-	else if(!_stricmp(pcNodType,"RECTANGLE"))		pNewNod = NEW CXI_RECTANGLE;
-	else if(!_stricmp(pcNodType,"BOUNDER"))			pNewNod = NEW CXI_BOUNDER;
-	else if(!_stricmp(pcNodType,"TITLE"))			pNewNod = NEW CXI_TITLE;
-	else if(!_stricmp(pcNodType,"TEXTBUTTON"))		pNewNod = NEW CXI_TEXTBUTTON;
-	else if(!_stricmp(pcNodType,"SCROLLBAR"))		pNewNod = NEW CXI_SCROLLBAR;
-	else if(!_stricmp(pcNodType,"LINECOLLECTION"))	pNewNod = NEW CXI_LINECOLLECTION;
-	else if(!_stricmp(pcNodType,"STATUSLINE"))	    pNewNod = NEW CXI_STATUSLINE;
-	else if(!_stricmp(pcNodType,"CHANGER"))   	    pNewNod = NEW CXI_CHANGER;
-	else if(!_stricmp(pcNodType,"PICTURE"))  		pNewNod = NEW CXI_PICTURE;
-	else if(!_stricmp(pcNodType,"GLOWS"))  			pNewNod = NEW CXI_GLOWER;
-	else if(!_stricmp(pcNodType,"LRCHANGER"))		pNewNod = NEW CXI_LRCHANGER;
-	else if(!_stricmp(pcNodType,"TWO_PICTURE"))		pNewNod = NEW CXI_TWOPICTURE;
-	else if(!_stricmp(pcNodType,"SCROLLER"))			pNewNod = NEW CXI_SCROLLER;
-	else if(!_stricmp(pcNodType,"QUESTTITLE"))		pNewNod = NEW CXI_QUESTTITLE;
-	else if(!_stricmp(pcNodType,"QUESTTEXT"))		pNewNod = NEW CXI_QUESTTEXTS;
-	else if(!_stricmp(pcNodType,"SLIDEPICTURE"))		pNewNod = NEW CXI_SLIDEPICTURE;
-	else if(!_stricmp(pcNodType,"FORMATEDTEXT"))		pNewNod = NEW CXI_FORMATEDTEXT;
-	else if(!_stricmp(pcNodType,"EDITBOX"))			pNewNod = NEW CXI_EDITBOX;
-	else if(!_stricmp(pcNodType,"SLIDER"))			pNewNod = NEW CXI_SLIDELINE;
-	else if(!_stricmp(pcNodType,"KEYCHOOSER"))		pNewNod = NEW CXI_KEYCHANGER;
-	else if(!_stricmp(pcNodType,"VIDEORECTANGLE"))	pNewNod = NEW CXI_VIDEORECT;
-	else if(!_stricmp(pcNodType,"VIMAGESCROLL"))		pNewNod = NEW CXI_VIMAGESCROLL;
-	else if(!_stricmp(pcNodType,"PCEDITBOX"))		pNewNod = NEW CXI_PCEDITBOX;
-	else if(!_stricmp(pcNodType,"SCROLLEDPICTURE"))	pNewNod = NEW CXI_SCROLLEDPICTURE;
-	else if(!_stricmp(pcNodType,"WINDOW"))			pNewNod = NEW CXI_WINDOW;
-	else if(!_stricmp(pcNodType,"CHECKBUTTON"))		pNewNod = NEW CXI_CHECKBUTTONS;
-	else if(!_stricmp(pcNodType,"TABLE"))			pNewNod = NEW CXI_TABLE;
-	else if(!_stricmp(pcNodType,"FRAME"))			pNewNod = NEW CXI_BORDER;
-	else if(!_stricmp(pcNodType,"CONTEXTHELP"))  	m_pContHelp = pNewNod = NEW CXI_CONTEXTHELP;
-	else if(!_stricmp(pcNodType,"GLOWCURSOR"))		m_pGlowCursorNode = pNewNod = NEW CXI_GLOWCURSOR;
+	if(!_stricmp(pcNodType,"BUTTON"))				pNewNod = new CXI_BUTTON;
+	else if(!_stricmp(pcNodType,"VIDEO"))			pNewNod = new CXI_VIDEO;
+	else if(!_stricmp(pcNodType,"SCROLLIMAGE"))		pNewNod = new CXI_SCROLLIMAGE;
+	else if(!_stricmp(pcNodType,"IMAGECOLLECTION"))	pNewNod = new CXI_IMGCOLLECTION;
+	else if(!_stricmp(pcNodType,"STRINGCOLLECTION"))	pNewNod = new CXI_STRCOLLECTION;
+	else if(!_stricmp(pcNodType,"FOURIMAGES"))		pNewNod = new CXI_FOURIMAGE;
+	else if(!_stricmp(pcNodType,"RECTANGLE"))		pNewNod = new CXI_RECTANGLE;
+	else if(!_stricmp(pcNodType,"BOUNDER"))			pNewNod = new CXI_BOUNDER;
+	else if(!_stricmp(pcNodType,"TITLE"))			pNewNod = new CXI_TITLE;
+	else if(!_stricmp(pcNodType,"TEXTBUTTON"))		pNewNod = new CXI_TEXTBUTTON;
+	else if(!_stricmp(pcNodType,"SCROLLBAR"))		pNewNod = new CXI_SCROLLBAR;
+	else if(!_stricmp(pcNodType,"LINECOLLECTION"))	pNewNod = new CXI_LINECOLLECTION;
+	else if(!_stricmp(pcNodType,"STATUSLINE"))	    pNewNod = new CXI_STATUSLINE;
+	else if(!_stricmp(pcNodType,"CHANGER"))   	    pNewNod = new CXI_CHANGER;
+	else if(!_stricmp(pcNodType,"PICTURE"))  		pNewNod = new CXI_PICTURE;
+	else if(!_stricmp(pcNodType,"GLOWS"))  			pNewNod = new CXI_GLOWER;
+	else if(!_stricmp(pcNodType,"LRCHANGER"))		pNewNod = new CXI_LRCHANGER;
+	else if(!_stricmp(pcNodType,"TWO_PICTURE"))		pNewNod = new CXI_TWOPICTURE;
+	else if(!_stricmp(pcNodType,"SCROLLER"))			pNewNod = new CXI_SCROLLER;
+	else if(!_stricmp(pcNodType,"QUESTTITLE"))		pNewNod = new CXI_QUESTTITLE;
+	else if(!_stricmp(pcNodType,"QUESTTEXT"))		pNewNod = new CXI_QUESTTEXTS;
+	else if(!_stricmp(pcNodType,"SLIDEPICTURE"))		pNewNod = new CXI_SLIDEPICTURE;
+	else if(!_stricmp(pcNodType,"FORMATEDTEXT"))		pNewNod = new CXI_FORMATEDTEXT;
+	else if(!_stricmp(pcNodType,"EDITBOX"))			pNewNod = new CXI_EDITBOX;
+	else if(!_stricmp(pcNodType,"SLIDER"))			pNewNod = new CXI_SLIDELINE;
+	else if(!_stricmp(pcNodType,"KEYCHOOSER"))		pNewNod = new CXI_KEYCHANGER;
+	else if(!_stricmp(pcNodType,"VIDEORECTANGLE"))	pNewNod = new CXI_VIDEORECT;
+	else if(!_stricmp(pcNodType,"VIMAGESCROLL"))		pNewNod = new CXI_VIMAGESCROLL;
+	else if(!_stricmp(pcNodType,"PCEDITBOX"))		pNewNod = new CXI_PCEDITBOX;
+	else if(!_stricmp(pcNodType,"SCROLLEDPICTURE"))	pNewNod = new CXI_SCROLLEDPICTURE;
+	else if(!_stricmp(pcNodType,"WINDOW"))			pNewNod = new CXI_WINDOW;
+	else if(!_stricmp(pcNodType,"CHECKBUTTON"))		pNewNod = new CXI_CHECKBUTTONS;
+	else if(!_stricmp(pcNodType,"TABLE"))			pNewNod = new CXI_TABLE;
+	else if(!_stricmp(pcNodType,"FRAME"))			pNewNod = new CXI_BORDER;
+	else if(!_stricmp(pcNodType,"CONTEXTHELP"))  	m_pContHelp = pNewNod = new CXI_CONTEXTHELP;
+	else if(!_stricmp(pcNodType,"GLOWCURSOR"))		m_pGlowCursorNode = pNewNod = new CXI_GLOWCURSOR;
 	else
 		api->Trace("Not supported node type:\"%s\"", pcNodType);
 	return pNewNod;
@@ -2483,11 +2483,11 @@ uint32_t XINTERFACE::AttributeChanged(ATTRIBUTES *patr)
 		// no this picture / create new
 		if(pImList== nullptr)
 		{
-			pImList = NEW IMAGE_ENTITY;
+			pImList = new IMAGE_ENTITY;
 			if(pImList== nullptr)	{THROW("Allocation memory error");}
 			PZERO(pImList,sizeof(IMAGE_ENTITY));
 			const auto len = strlen(sImageName) + 1;
-			if( (pImList->sImageName=NEW char[len]) == nullptr )
+			if( (pImList->sImageName=new char[len]) == nullptr )
 				{THROW("Allocate memory error");}
 			memcpy(pImList->sImageName,sImageName,len);
 			// insert that into images list
@@ -2502,7 +2502,7 @@ uint32_t XINTERFACE::AttributeChanged(ATTRIBUTES *patr)
 			if(patr->GetThisAttr()!= nullptr)
 			{
 				const auto len = strlen(patr->GetThisAttr())+1;
-				if( (pImList->sPicture=NEW char[len]) == nullptr )
+				if( (pImList->sPicture=new char[len]) == nullptr )
 					{THROW("Allocate memory error");}
 				memcpy(pImList->sPicture,patr->GetThisAttr(),len);
 			}
@@ -2517,7 +2517,7 @@ uint32_t XINTERFACE::AttributeChanged(ATTRIBUTES *patr)
 			if(patr->GetThisAttr()!= nullptr)
 			{
 				const auto len = strlen(patr->GetThisAttr())+1;
-				if( (pImList->sImageListName=NEW char[len]) == nullptr )
+				if( (pImList->sImageListName=new char[len]) == nullptr )
 					{THROW("Allocate memory error");}
 				memcpy(pImList->sImageListName,patr->GetThisAttr(),len);
 			}
@@ -2603,14 +2603,14 @@ void XINTERFACE::ReleaseSaveFindList()
 void XINTERFACE::AddFindData(char * sSaveFileName, long file_size, FILETIME file_time)
 {
 	if(!sSaveFileName || sSaveFileName[0]=='\0') return;
-	SAVE_FIND_DATA * p = NEW SAVE_FIND_DATA;
+	SAVE_FIND_DATA * p = new SAVE_FIND_DATA;
 	if(p) {
 		p->time = file_time;
 		p->file_size = file_size;
 		p->next = m_pSaveFindRoot;
 		m_pSaveFindRoot = p;
 		const auto len = strlen(sSaveFileName)+1;
-		p->save_file_name = NEW char[len];
+		p->save_file_name = new char[len];
 		if( p->save_file_name )
 			memcpy(p->save_file_name,sSaveFileName,len);
 	}
@@ -3030,7 +3030,7 @@ char * AddAttributesStringsToBuffer(char * inBuffer, char * prevStr, ATTRIBUTES 
 			nadd += prevLen;
 			if(inBuffer!= nullptr) nadd += strlen(inBuffer);
 
-			char * pNew = NEW char[nadd];
+			char * pNew = new char[nadd];
 			if(pNew== nullptr) continue;
 			pNew[0] = 0;
 
@@ -3167,7 +3167,7 @@ void XINTERFACE::LoadOptionsFile(char * fileName, ATTRIBUTES * pAttr)
 		return;
 	}
 
-	char * pOutBuffer = NEW char[dwSaveSize+1];
+	char * pOutBuffer = new char[dwSaveSize+1];
 	if(pOutBuffer)
 	{
 		api->fio->_ReadFile(fh, pOutBuffer, dwSaveSize, &dwRealSize);
@@ -3507,14 +3507,14 @@ void CONTROLS_CONTAINER::AddContainer( char * container )
 	if(pCont) return;
 
 	pCont = pContainers;
-	pContainers = NEW CONTEINER_DESCR;
+	pContainers = new CONTEINER_DESCR;
 	if(!pContainers) STORM_THROW("allocate memory error");
 	pContainers->fMaxVal = 1.f;
 	pContainers->pControls = nullptr;
 	pContainers->next = pCont;
 
 	const auto len = strlen(container) + 1;
-	pContainers->resultName = NEW char[len];
+	pContainers->resultName = new char[len];
 	if(!pContainers->resultName) STORM_THROW("allocate memory error");
 	memcpy(pContainers->resultName,container,len);
 }
@@ -3535,14 +3535,14 @@ void CONTROLS_CONTAINER::AddControlsToContainer( char * container, char * contro
 	if(pCtrl) return;
 
 	pCtrl = pCont->pControls;
-	pCont->pControls = NEW CONTEINER_DESCR::CONTROL_DESCR;
+	pCont->pControls = new CONTEINER_DESCR::CONTROL_DESCR;
 	if(!pCont->pControls) STORM_THROW("allocate memory error");
 
 	pCont->pControls->fValLimit = fValLimit;
 	pCont->pControls->next = pCtrl;
 
 	const auto len = strlen(controlName) + 1;
-	pCont->pControls->controlName = NEW char[len];
+	pCont->pControls->controlName = new char[len];
 	if(!pCont->pControls->controlName) STORM_THROW("allocate memory error");
 	memcpy(pCont->pControls->controlName, controlName, len);
 }

@@ -1,6 +1,5 @@
 #include "s_stack.h"
 #include "../../Common_h/Exs.h"
-#include "../../Common_h/memop.h"
 #include "../../Common_h/vapi.h"
 
 extern void trace(char * p,...);
@@ -49,7 +48,7 @@ DATA * S_STACK::Push(DATA * pdataclass)
 		for(n=offset;n<Buffer_size;n++)
 		{
 			//new(&pStackData[n]) DATA;
-			pStackData[n] = NEW DATA;
+			pStackData[n] = new DATA;
 			//pStackData[n].SetVCompiler(pVCompiler);
 			pStackData[n]->SetVCompiler(pVCompiler);
 		}

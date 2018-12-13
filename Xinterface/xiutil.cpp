@@ -76,14 +76,14 @@ void DublicateString( char* &pDstStr, const char* pSrcStr )
 	{
 		delete pDstStr;
 		const auto len = strlen(pSrcStr)+1;
-	    pDstStr = NEW char[len];
+	    pDstStr = new char[len];
 		Assert(pDstStr);
 		memcpy(pDstStr,pSrcStr,len);
 	}
 	/*
 	if( pSrcStr )
 	{
-		pDstStr = NEW char[strlen(pSrcStr)+1];
+		pDstStr = new char[strlen(pSrcStr)+1];
 		Assert(pDstStr);
 		strcpy_s(pDstStr,pSrcStr);
 	} else {

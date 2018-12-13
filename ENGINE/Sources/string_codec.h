@@ -101,7 +101,7 @@ public:
 		pE->pElements = (HTSUBELEMENT *)realloc(pE->pElements, GetNum(pE->nStringsNum) * sizeof(HTSUBELEMENT));
 
 		const auto len = strlen(pString) + 1;
-		pE->pElements[n].pStr = NEW char[len];
+		pE->pElements[n].pStr = new char[len];
 		memcpy(pE->pElements[n].pStr, pString, len);
 		pE->pElements[n].dwHashCode = nHash;
 

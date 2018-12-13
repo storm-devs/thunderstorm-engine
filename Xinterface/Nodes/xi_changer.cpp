@@ -88,7 +88,7 @@ void CXI_CHANGER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
     // create position array
     if(m_nPlaceQuantity>0)
     {
-        m_pPlace = NEW XYRECT[m_nPlaceQuantity];
+        m_pPlace = new XYRECT[m_nPlaceQuantity];
         if(m_pPlace== nullptr)
             STORM_THROW("Allocate memory error")
         PZERO(m_pPlace,sizeof(XYRECT)*m_nPlaceQuantity);

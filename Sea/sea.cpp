@@ -96,10 +96,10 @@ SEA::SEA()
 	vFogColor = 0.0f;
 	bFogEnable = false;
 
-	pSeaFrame1 = NEW float[XWIDTH * YWIDTH];
-	pSeaFrame2 = NEW float[XWIDTH * YWIDTH];
-	pSeaNormalsFrame1 = NEW float[2 * XWIDTH * YWIDTH];
-	pSeaNormalsFrame2 = NEW float[2 * XWIDTH * YWIDTH];
+	pSeaFrame1 = new float[XWIDTH * YWIDTH];
+	pSeaFrame2 = new float[XWIDTH * YWIDTH];
+	pSeaNormalsFrame1 = new float[2 * XWIDTH * YWIDTH];
+	pSeaNormalsFrame2 = new float[2 * XWIDTH * YWIDTH];
 
 	iVSeaBuffer = -1;
 	iISeaBuffer = -1;
@@ -173,8 +173,8 @@ void SEA::SFLB_CreateBuffers()
 	iVSeaBuffer = rs->CreateVertexBuffer(0, NUM_VERTEXS * sizeof(SeaVertex), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
 	iISeaBuffer = rs->CreateIndexBuffer(NUM_INDICES * 3 * sizeof(uint16_t), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
 
-	pIndices = NEW uint32_t[NUM_VERTEXS*3];
-	pVSea = NEW SeaVertex[NUM_VERTEXS];
+	pIndices = new uint32_t[NUM_VERTEXS*3];
+	pVSea = new SeaVertex[NUM_VERTEXS];
 }
 
 void SEA::CreateVertexDeclaration()
@@ -282,7 +282,7 @@ bool SEA::Init()
 
 		char * pFB = pFBuffer + sizeof(TGA_H);
 
-		uint8_t * pBuffer = NEW uint8_t[XWIDTH * YWIDTH];
+		uint8_t * pBuffer = new uint8_t[XWIDTH * YWIDTH];
 		aTmpBumps.push_back(pBuffer);
 
 		for (uint32_t y=0; y<YWIDTH; y++)
@@ -301,7 +301,7 @@ bool SEA::Init()
 
 	for (i=0; i<FRAMES; i++)
 	{
-		uint8_t * pBuffer = NEW uint8_t[XWIDTH * YWIDTH];
+		uint8_t * pBuffer = new uint8_t[XWIDTH * YWIDTH];
 		aBumps.push_back(pBuffer);
 
 		for (uint32_t y=0; y<YWIDTH; y++)
@@ -350,17 +350,17 @@ void SEA::BuildVolumeTexture()
 	aBumpMaps.clear();
 
 	uint32_t dwTexelSize = 4;
-	char * pDst = (char*)NEW char[XWIDTH * YWIDTH * dwTexelSize];
+	char * pDst = (char*)new char[XWIDTH * YWIDTH * dwTexelSize];
 
 	// build normals
 
 	aVectors.reserve(FRAMES);
 	for (i=0; i<FRAMES; i++)
 	{
-		uint32_t * pBuffer = NEW uint32_t[XWIDTH * YWIDTH];
+		uint32_t * pBuffer = new uint32_t[XWIDTH * YWIDTH];
 		aNormals.push_back(pBuffer);
 
-		CVECTOR * pVectors = NEW CVECTOR[XWIDTH * YWIDTH];
+		CVECTOR * pVectors = new CVECTOR[XWIDTH * YWIDTH];
 		aVectors.push_back(pVectors);
 
 		for (uint32_t y=0; y<YWIDTH; y++)
@@ -474,7 +474,7 @@ void SEA::BuildVolumeTexture()
 
 	for (j=1; j<4; j++)
 	{
-		CVECTOR * pVectors = NEW CVECTOR[(XWIDTH >> j) * (YWIDTH >> j)];
+		CVECTOR * pVectors = new CVECTOR[(XWIDTH >> j) * (YWIDTH >> j)];
 
 		for (i=0; i<FRAMES >> j; i++)
 		{

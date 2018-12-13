@@ -1649,7 +1649,7 @@ void SHIP::Load(CSaveLoad * pSL)
 	pSL->Load2Buffer((char *)&State);
 
 	iNumMasts = pSL->LoadLong();
-	//pMasts = NEW mast_t[iNumMasts];
+	//pMasts = new mast_t[iNumMasts];
 	for (i=0; i<(uint32_t)iNumMasts; i++) 
 	{
 		pMasts[i].vSrc = pSL->LoadVector();

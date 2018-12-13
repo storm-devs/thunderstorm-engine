@@ -123,7 +123,7 @@ uint32_t _cdecl ILogAndActions::ProcessMessage(MESSAGE & message)
 					if(param[0]!=0)
 					{
 						const auto len = strlen(param) + 1;
-						if( (last->str=NEW char[len]) == nullptr )
+						if( (last->str=new char[len]) == nullptr )
 							{ STORM_THROW("allocate memory error"); }
 						strcpy_s(last->str, len, param);
 					}
@@ -415,7 +415,7 @@ void ILogAndActions::SetString(char * str, bool immortal)
 	if(last!= nullptr && last->str!= nullptr && _stricmp(last->str,str)==0 ) return;
 
 	// создать новый дескриптор строки
-	STRING_DESCR * newDescr = NEW STRING_DESCR;
+	STRING_DESCR * newDescr = new STRING_DESCR;
 	if(newDescr== nullptr)
 	{
 		STORM_THROW("Allocate memory error");
@@ -424,7 +424,7 @@ void ILogAndActions::SetString(char * str, bool immortal)
 	newDescr->next = nullptr;
 	// занесем в него заданную строку
 	const auto len = strlen(str) + 1;
-	if( (newDescr->str=NEW char[len]) == nullptr )
+	if( (newDescr->str=new char[len]) == nullptr )
 	{
 		STORM_THROW("Allocate memory error");
 	}

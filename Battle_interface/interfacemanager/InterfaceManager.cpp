@@ -30,8 +30,8 @@ BI_InterfaceManager::~BI_InterfaceManager()
 bool BI_InterfaceManager::Init()
 {
 	m_pRS = (VDX9RENDER*)api->CreateService("DX9RENDER"); Assert(m_pRS);
-	m_pImgRender = NEW BIImageRender(m_pRS); Assert(m_pImgRender);
-	m_pMouse = NEW MousePointer(this,AttributesPointer); Assert(m_pMouse);
+	m_pImgRender = new BIImageRender(m_pRS); Assert(m_pImgRender);
+	m_pMouse = new MousePointer(this,AttributesPointer); Assert(m_pMouse);
 
 	long nBaseWidth = 800;
 	long nBaseHeight = 600;
@@ -91,13 +91,13 @@ uint32_t _cdecl BI_InterfaceManager::ProcessMessage(MESSAGE & message)
 
 BI_ManagerNodeBase* BI_InterfaceManager::CreateImageNode(const char* texture, const FRECT& uv, const RECT& pos, uint32_t color, long nPrioritet)
 {
-	BI_ManagerNodeBase* pNod = NEW BI_ImageNode(this, texture, uv, pos, color, nPrioritet);
+	BI_ManagerNodeBase* pNod = new BI_ImageNode(this, texture, uv, pos, color, nPrioritet);
 	return pNod;
 }
 
 BI_ManagerNodeBase* BI_InterfaceManager::CreateStringNode(const char* text, const char* font, uint32_t color, float scale, const RECT& pos, long nHAlign, long nVAlign, long prioritet)
 {
-	BI_ManagerNodeBase* pNod = NEW BI_StringNode(this, text, font, color, scale, pos, nHAlign, nVAlign, prioritet);
+	BI_ManagerNodeBase* pNod = new BI_StringNode(this, text, font, color, scale, pos, nHAlign, nVAlign, prioritet);
 	return pNod;
 }
 
@@ -121,7 +121,7 @@ long BI_InterfaceManager::MsgLoadSheet(MESSAGE & message)
 	message.String( sizeof(param), param );
 	if( _stricmp(param,"sea")==0 )
 	{ // грузим морской интерфейс
-		m_pInterfaceSheet = NEW BI_SeaGroup(this);
+		m_pInterfaceSheet = new BI_SeaGroup(this);
 		if( m_pInterfaceSheet ) {
 			m_pInterfaceSheet->Init();
 		}

@@ -14,7 +14,7 @@ public:
 		CTYPE * pM;
 		long nCopy;
 		long n;
-		pM = NEW CTYPE[size];
+		pM = new CTYPE[size];
 		if(size >= nSize) nCopy = nSize;
 		else nCopy = size;
 		for(n = 0; n < nCopy; n++)

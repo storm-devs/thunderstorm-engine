@@ -203,7 +203,7 @@ void CXI_ToolTip::CreateIndexBuffer()
 {
 	if( m_nSquareQ > 0 )
 	{
-		m_pI = NEW uint16_t[m_nSquareQ*6];
+		m_pI = new uint16_t[m_nSquareQ*6];
 		Assert( m_pI );
 	}
 }
@@ -212,7 +212,7 @@ void CXI_ToolTip::CreateVertexBuffer()
 {
 	if( m_nSquareQ > 0 )
 	{
-		m_pV = NEW XI_ONETEX_VERTEX[m_nSquareQ*4];
+		m_pV = new XI_ONETEX_VERTEX[m_nSquareQ*4];
 		Assert( m_pV );
 	}
 }

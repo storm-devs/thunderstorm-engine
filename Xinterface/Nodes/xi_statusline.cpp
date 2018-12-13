@@ -53,7 +53,7 @@ void CXI_STATUSLINE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
 	if( ReadIniString(ini1,name1, ini2,name2, "groupName", param, sizeof(param),"") )
 	{
 		const auto len = strlen(param) + 1;
-		m_sGroupName = NEW char[len];
+		m_sGroupName = new char[len];
 		memcpy(m_sGroupName,param,len);
 		m_idTex = pPictureService->GetTextureID(m_sGroupName);
 	}

@@ -37,7 +37,7 @@ bool WaterRings::Init()
 	renderService = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
 	if(!renderService)	STORM_THROW("No service: dx9render");
 
-	ivManager = NEW TIVBufferManager(renderService 
+	ivManager = new TIVBufferManager(renderService 
 									,RING_FVF
 									,sizeof(RING_VERTEX)
 									,TRIANGLES_COUNT*3

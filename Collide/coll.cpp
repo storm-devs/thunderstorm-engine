@@ -18,7 +18,7 @@ COLL::~COLL()
 //----------------------------------------------------------------------------------
 LOCAL_COLLIDE *COLL::CreateLocalCollide(const char *layerName)
 {
-	return NEW LCOLL(layerName, *_CORE_API);
+	return new LCOLL(layerName, *_CORE_API);
 }
 //----------------------------------------------------------------------------------
 //Ray tracing

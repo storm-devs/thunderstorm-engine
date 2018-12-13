@@ -32,7 +32,7 @@ void ISLAND_DESCRIBER::SetIsland(ATTRIBUTES * pAIsland)
 	ATTRIBUTES * pA = pAIsland->GetAttributeClass("reload");
 	if(pA== nullptr) return;
 	if( (m_nLocators=pA->GetAttributesNum()) == 0 ) return;
-	if( (m_pLocators=NEW LOCATOR_DESCR[m_nLocators])== nullptr )
+	if( (m_pLocators=new LOCATOR_DESCR[m_nLocators])== nullptr )
 	{
 		STORM_THROW("Can`t allocate memory");
 	}

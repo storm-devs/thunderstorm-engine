@@ -61,7 +61,7 @@ public:
 		uint32_t dwNeedReserv = ((dwNewSize-1)/m_dwBlockSize+1)*m_dwBlockSize;
 		if(dwNeedReserv==m_dwReservSize) return; // same size
 		T * pOldBuf = m_pBuffer;
-		m_pBuffer = NEW T[dwNeedReserv];
+		m_pBuffer = new T[dwNeedReserv];
 		assert(m_pBuffer);
 		if(pOldBuf) {
 			//memcpy(m_pBuffer,pOldBuf,sizeof(T)*m_dwSize);

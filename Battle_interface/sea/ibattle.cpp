@@ -205,18 +205,18 @@ void BATTLE_INTERFACE::LoadIniFile()
 	}
 
 	/*STORM_DELETE( m_pMessageIcons );
-	m_pMessageIcons = NEW MESSAGE_ICONS;
+	m_pMessageIcons = new MESSAGE_ICONS;
 	if(m_pMessageIcons==NULL) {
 		THROW("allocate memory error");
 	}
 	if(m_pMessageIcons)	m_pMessageIcons->InitData(GetID(),rs,pA);*/
 
 	STORM_DELETE( m_pShipIcon );
-	m_pShipIcon = NEW BIShipIcon( GetID(), rs );
+	m_pShipIcon = new BIShipIcon( GetID(), rs );
 	Assert( m_pShipIcon );
 	m_pShipIcon->Init( AttributesPointer, AttributesPointer ? AttributesPointer->GetAttributeClass("ShipIcon") : nullptr );
 
-	m_pShipInfoImages = NEW ShipInfoImages(rs,AttributesPointer ? AttributesPointer->GetAttributeClass("ShipInfoImages") : nullptr);
+	m_pShipInfoImages = new ShipInfoImages(rs,AttributesPointer ? AttributesPointer->GetAttributeClass("ShipInfoImages") : nullptr);
 	if( m_pShipInfoImages ) {
 		m_pShipInfoImages->SetVisible(AttributesPointer ? (AttributesPointer->GetAttributeAsDword("ShifInfoVisible",0)!=0) : false);
 	}

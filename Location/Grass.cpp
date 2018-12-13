@@ -180,7 +180,7 @@ bool Grass::LoadData(const char * patchName)
 		if(size != sizeof(GRSHeader) + minisize*sizeof(GRSMiniMapElement) + elements*sizeof(GRSMapElement)) throw "incorrect file data -> file size";
 		if(hdr.miniX <= 0 || hdr.miniX > 100000 || hdr.miniZ <= 0 || hdr.miniZ > 100000) throw "incorrect file data -> miniX, miniZ";
 		//Создаём миникарту
-		miniMap = NEW GRSMiniMapElement[minisize];
+		miniMap = new GRSMiniMapElement[minisize];
 		memcpy(miniMap, load + sizeof(GRSHeader), minisize*sizeof(GRSMiniMapElement));
 		miniX = hdr.miniX;
 		miniZ = hdr.miniZ;
@@ -196,7 +196,7 @@ bool Grass::LoadData(const char * patchName)
 		{
 			translate[i] = uint8_t((i*255)/15);
 		}
-		block = NEW GRSMapElementEx[elements];
+		block = new GRSMapElementEx[elements];
 		GRSMapElement * src = (GRSMapElement *)(load + sizeof(GRSHeader) + minisize*sizeof(GRSMiniMapElement));
 		for(long i = 0; i < elements; i++)
 		{
