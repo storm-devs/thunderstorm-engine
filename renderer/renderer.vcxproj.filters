@@ -47,10 +47,10 @@
     <ClInclude Include="..\COMMON_H\VideoTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common_h\dx9render.h">
+    <ClInclude Include="Effects.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Effects.h">
+    <ClInclude Include="..\Common_h\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

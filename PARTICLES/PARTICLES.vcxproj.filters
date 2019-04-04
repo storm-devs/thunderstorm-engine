@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="DataCache">
+      <UniqueIdentifier>{4fd91303-4fdf-40a3-a132-bb7aebed5ea7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeomCache">
+      <UniqueIdentifier>{a7e54b7d-5b7f-49ed-9802-e93744c6e848}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ICommon">
+      <UniqueIdentifier>{662c7ff0-0865-4023-b8cd-5793e3293db4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="K2Wrapper">
+      <UniqueIdentifier>{c7b0c119-be09-4816-bd1c-d10a241550ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{129387c4-1ee6-46f7-a51d-b0e9373d4185}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service">
+      <UniqueIdentifier>{b6d3ca9b-1741-4a02-a9bc-9d04ead85573}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System">
+      <UniqueIdentifier>{bd90611f-1718-4862-92ca-e52b67beadb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\DataDesc">
+      <UniqueIdentifier>{13d21666-b578-46f1-8520-e8fc2747d7a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\DataSource">
+      <UniqueIdentifier>{2c8920a7-041c-4a06-ae01-6448bae005df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Emitters">
+      <UniqueIdentifier>{6bce75f8-bc56-4f32-922b-1198bc5062b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\ParticleProcessor">
+      <UniqueIdentifier>{961e871a-3559-4655-9081-bf216e7a6d6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\ParticleSystem">
+      <UniqueIdentifier>{9187ac14-69ff-4d14-b2f8-b1a22106a666}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common_H">
+      <UniqueIdentifier>{195594b4-df34-4dc9-862c-fe0bcd87ff48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common_H\Particles">
+      <UniqueIdentifier>{bd7378d2-2859-476d-b270-86f09b205f01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common_H\Math3D">
+      <UniqueIdentifier>{cd3c2f4c-0fcf-4b42-b8b0-b264094d40b0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DataCache\DataCache.cpp">
+      <Filter>DataCache</Filter>
+    </ClCompile>
+    <ClCompile Include="GeomCache\GeomCache.cpp">
+      <Filter>GeomCache</Filter>
+    </ClCompile>
+    <ClCompile Include="K2Wrapper\particles.cpp">
+      <Filter>K2Wrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="K2Wrapper\psystem.cpp">
+      <Filter>K2Wrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\particlemanager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\particleservice.cpp">
+      <Filter>Service</Filter>
+    </ClCompile>
+    <ClCompile Include="System\DataDesc\data_desc.cpp">
+      <Filter>System\DataDesc</Filter>
+    </ClCompile>
+    <ClCompile Include="System\DataSource\DataBool.cpp">
+      <Filter>System\DataSource</Filter>
+    </ClCompile>
+    <ClCompile Include="System\DataSource\DataColor.cpp">
+      <Filter>System\DataSource</Filter>
+    </ClCompile>
+    <ClCompile Include="System\DataSource\DataFloat.cpp">
+      <Filter>System\DataSource</Filter>
+    </ClCompile>
+    <ClCompile Include="System\DataSource\DataGraph.cpp">
+      <Filter>System\DataSource</Filter>
+    </ClCompile>
+    <ClCompile Include="System\DataSource\DataPosition.cpp">
+      <Filter>System\DataSource</Filter>
+    </ClCompile>
+    <ClCompile Include="System\DataSource\DataSource.cpp">
+      <Filter>System\DataSource</Filter>
+    </ClCompile>
+    <ClCompile Include="System\DataSource\DataString.cpp">
+      <Filter>System\DataSource</Filter>
+    </ClCompile>
+    <ClCompile Include="System\DataSource\DataUV.cpp">
+      <Filter>System\DataSource</Filter>
+    </ClCompile>
+    <ClCompile Include="System\DataSource\FieldList.cpp">
+      <Filter>System\DataSource</Filter>
+    </ClCompile>
+    <ClCompile Include="System\Emitters\base.cpp">
+      <Filter>System\Emitters</Filter>
+    </ClCompile>
+    <ClCompile Include="System\Emitters\point.cpp">
+      <Filter>System\Emitters</Filter>
+    </ClCompile>
+    <ClCompile Include="System\ParticleProcessor\bb_processor.cpp">
+      <Filter>System\ParticleProcessor</Filter>
+    </ClCompile>
+    <ClCompile Include="System\ParticleProcessor\mdl_processor.cpp">
+      <Filter>System\ParticleProcessor</Filter>
+    </ClCompile>
+    <ClCompile Include="System\ParticleSystem\particlesystem.cpp">
+      <Filter>System\ParticleSystem</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DataCache\DataCache.h">
+      <Filter>DataCache</Filter>
+    </ClInclude>
+    <ClInclude Include="GeomCache\GeomCache.h">
+      <Filter>GeomCache</Filter>
+    </ClInclude>
+    <ClInclude Include="ICommon\BillBoard.h">
+      <Filter>ICommon</Filter>
+    </ClInclude>
+    <ClInclude Include="ICommon\ColorVertex.h">
+      <Filter>ICommon</Filter>
+    </ClInclude>
+    <ClInclude Include="ICommon\EditorTypes.h">
+      <Filter>ICommon</Filter>
+    </ClInclude>
+    <ClInclude Include="ICommon\GraphTime.h">
+      <Filter>ICommon</Filter>
+    </ClInclude>
+    <ClInclude Include="ICommon\GraphVertex.h">
+      <Filter>ICommon</Filter>
+    </ClInclude>
+    <ClInclude Include="ICommon\IEmitter.h">
+      <Filter>ICommon</Filter>
+    </ClInclude>
+    <ClInclude Include="ICommon\MemFile.h">
+      <Filter>ICommon</Filter>
+    </ClInclude>
+    <ClInclude Include="ICommon\Names.h">
+      <Filter>ICommon</Filter>
+    </ClInclude>
+    <ClInclude Include="ICommon\Particle.h">
+      <Filter>ICommon</Filter>
+    </ClInclude>
+    <ClInclude Include="ICommon\Types.h">
+      <Filter>ICommon</Filter>
+    </ClInclude>
+    <ClInclude Include="K2Wrapper\particles.h">
+      <Filter>K2Wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="K2Wrapper\psystem.h">
+      <Filter>K2Wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\particlemanager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Service\particleservice.h">
+      <Filter>Service</Filter>
+    </ClInclude>
+    <ClInclude Include="System\DataDesc\data_desc.h">
+      <Filter>System\DataDesc</Filter>
+    </ClInclude>
+    <ClInclude Include="System\DataSource\DataBool.h">
+      <Filter>System\DataSource</Filter>
+    </ClInclude>
+    <ClInclude Include="System\DataSource\DataColor.h">
+      <Filter>System\DataSource</Filter>
+    </ClInclude>
+    <ClInclude Include="System\DataSource\DataFloat.h">
+      <Filter>System\DataSource</Filter>
+    </ClInclude>
+    <ClInclude Include="System\DataSource\DataGraph.h">
+      <Filter>System\DataSource</Filter>
+    </ClInclude>
+    <ClInclude Include="System\DataSource\DataPosition.h">
+      <Filter>System\DataSource</Filter>
+    </ClInclude>
+    <ClInclude Include="System\DataSource\DataSource.h">
+      <Filter>System\DataSource</Filter>
+    </ClInclude>
+    <ClInclude Include="System\DataSource\DataString.h">
+      <Filter>System\DataSource</Filter>
+    </ClInclude>
+    <ClInclude Include="System\DataSource\DataUV.h">
+      <Filter>System\DataSource</Filter>
+    </ClInclude>
+    <ClInclude Include="System\DataSource\FieldList.h">
+      <Filter>System\DataSource</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Emitters\base.h">
+      <Filter>System\Emitters</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Emitters\point.h">
+      <Filter>System\Emitters</Filter>
+    </ClInclude>
+    <ClInclude Include="System\ParticleProcessor\bb_processor.h">
+      <Filter>System\ParticleProcessor</Filter>
+    </ClInclude>
+    <ClInclude Include="System\ParticleProcessor\mdl_processor.h">
+      <Filter>System\ParticleProcessor</Filter>
+    </ClInclude>
+    <ClInclude Include="System\ParticleProcessor\nameparser.h">
+      <Filter>System\ParticleProcessor</Filter>
+    </ClInclude>
+    <ClInclude Include="System\ParticleProcessor\physic.h">
+      <Filter>System\ParticleProcessor</Filter>
+    </ClInclude>
+    <ClInclude Include="System\ParticleSystem\particlesystem.h">
+      <Filter>System\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\math3D.h">
+      <Filter>Common_H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\particles.h">
+      <Filter>Common_H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\particles\gmx_QSort.h">
+      <Filter>Common_H\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\particles\iparticlemanager.h">
+      <Filter>Common_H\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\particles\iparticlesservice.h">
+      <Filter>Common_H\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\particles\iparticlesystem.h">
+      <Filter>Common_H\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\math3d\Box.h">
+      <Filter>Common_H\Math3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\math3d\Capsule.h">
+      <Filter>Common_H\Math3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\math3d\Color.h">
+      <Filter>Common_H\Math3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\math3d\Line.h">
+      <Filter>Common_H\Math3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\math3d\Matrix.h">
+      <Filter>Common_H\Math3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\math3d\Plane.h">
+      <Filter>Common_H\Math3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\math3d\Quaternion.h">
+      <Filter>Common_H\Math3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\math3d\Sphere.h">
+      <Filter>Common_H\Math3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\math3d\Triangle.h">
+      <Filter>Common_H\Math3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\math3d\Vector.h">
+      <Filter>Common_H\Math3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\math3d\Vector4.h">
+      <Filter>Common_H\Math3D</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
