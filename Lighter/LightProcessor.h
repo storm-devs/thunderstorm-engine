@@ -27,7 +27,7 @@ class LightProcessor
 public:
 	LightProcessor();
 	virtual ~LightProcessor();
-	void SetParams(LGeometry * g, Window * win, Lights * lit, OctTree * ot, VDX9RENDER * _rs);
+	void SetParams(LGeometry * g, Window * win, LighterLights * lit, OctTree * ot, VDX9RENDER * _rs);
 	void UpdateLightsParam();
 	
 	//Выполнить шаг вычислений
@@ -52,7 +52,7 @@ private:
 private:
 	LGeometry * geometry;
 	Window * window;
-	Lights * lights;
+	LighterLights * lights;
 	VDX9RENDER * rs;
 	OctTree * octtree;
 

@@ -4,6 +4,7 @@
 #include "../defines.h"
 #include "ships_list.h"
 #include <vector>
+#include <string>
 
 #define MAX_SHIP_QUANTITY	8
 

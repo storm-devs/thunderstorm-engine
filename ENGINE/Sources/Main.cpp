@@ -9,6 +9,7 @@
 #include "control_stack.h"
 #include "system_api.h"
 
+
 const int SPLASH_WIDTH = 600;
 const int SPLASH_HEIGHT = 400;
 const char SPLASH_CLASS[] = "Storm Engine";
@@ -23,7 +24,8 @@ CORE Core;
 VAPI * _CORE_API; // ~!~ TODO: remove
 VAPI * api = nullptr;
 
-VMA * _pModuleClassRoot = nullptr;
+//VMA * _pModuleClassRoot = nullptr;
+std::vector<VMA*> _pModuleClassRoot;
 
 VFILE_SERVICE * fio = nullptr;
 

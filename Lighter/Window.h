@@ -12,8 +12,7 @@
 #define _Window_H_
 
 #include "LTypes.h"
-
-class Lights;
+#include "Lights.h"
 
 class Window  
 {
@@ -68,7 +67,7 @@ public:
 	virtual ~Window();
 
 	bool Init(VDX9RENDER * rs);
-	void InitList(Lights & ls);
+	void InitList(LighterLights & ls);
 	void Draw(float dltTime);
 	void Reset(bool isVis);
 	

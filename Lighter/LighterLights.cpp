@@ -15,7 +15,7 @@
 //Конструирование, деструктурирование
 //============================================================================================
 
-Lights::Lights()
+LighterLights::LighterLights()
 {
 	maxLights = 256;
 	numLights = 3;
@@ -36,19 +36,19 @@ Lights::Lights()
 	light[2].isOn = false;
 }
 
-Lights::~Lights()
+LighterLights::~LighterLights()
 {
 	for(long i = 0; i < numLights; i++)
 		delete light[i].group;
 }
 
-void Lights::AddAmbient(const CVECTOR & color)
+void LighterLights::AddAmbient(const CVECTOR & color)
 {
 	light[0].color = color;
 	light[0].isOn = true;
 }
 
-void Lights::AddWeaterLights(const CVECTOR & color, const CVECTOR & dir)
+void LighterLights::AddWeaterLights(const CVECTOR & color, const CVECTOR & dir)
 {
 	light[1].color = color;
 	if(~dir > 0.0f) light[1].p = !dir;
@@ -56,7 +56,7 @@ void Lights::AddWeaterLights(const CVECTOR & color, const CVECTOR & dir)
 	light[2].isOn = true;
 }
 
-void Lights::AddPointLight(const CVECTOR & color, const CVECTOR & pos, float att0, float att1, float att2, float range, const char * group)
+void LighterLights::AddPointLight(const CVECTOR & color, const CVECTOR & pos, float att0, float att1, float att2, float range, const char * group)
 {
 	if(numLights > maxLights)
 	{
@@ -82,7 +82,7 @@ void Lights::AddPointLight(const CVECTOR & color, const CVECTOR & pos, float att
 	numLights++;
 }
 
-void Lights::SetDefLightParam(long i)
+void LighterLights::SetDefLightParam(long i)
 {
 	light[i].cosine = 1.0f;
 	light[i].shadow = 0.8f;
@@ -93,7 +93,7 @@ void Lights::SetDefLightParam(long i)
 	light[i].isMark = false;
 }
 
-void Lights::PostInit()
+void LighterLights::PostInit()
 {
 	//Соберём все существующие группы
 	char ** grp = new char * [numLights + 1];
@@ -164,7 +164,7 @@ void Lights::PostInit()
 	delete[] grp;
 }
 
-void Lights::UpdateLights(long lit)
+void LighterLights::UpdateLights(long lit)
 {
 	long i;
 	if(lit >= 0)

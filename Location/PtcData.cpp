@@ -645,6 +645,38 @@ void PtcData::FindForce(long curNode, CVECTOR & force)
 	}
 }
 
+//Найти силу отталкивающую от краёв
+void PtcData::FindForce(long curNode, const CVECTOR & pos, float dist, CVECTOR & force)
+{
+	force = 0.0f;
+	if(curNode < 0 || curNode >= numTriangles) return;
+	short * nb = triangle[curNode].nb;
+	for(long i = 0; i < 3; i++)
+	{
+		if(nb[i] >= 0) continue;
+		//Нормаль к ребру
+		long s = triangle[curNode].i[i];
+		long e = triangle[curNode].i[i < 2 ? i + 1 : 0];
+		//Вершины ребра
+		CVECTOR & vs = *(CVECTOR *)&vertex[s];
+		CVECTOR & ve = *(CVECTOR *)&vertex[e];
+		//Нормаль ребра
+		float nx = (ve.z - vs.z);
+		float nz = -(ve.x - vs.x);
+		float nl = sqrtf(nx*nx + nz*nz);
+		if(nl < 1e-10f) continue;
+		nx /= nl; nz /= nl;
+		//Дистанция до ребра
+		float d = pos.x*nx + pos.z*nz - vs.x*nx - vs.z*nz;
+		if(d >= dist) continue;
+		//Сила отталкивания
+		if(d < 0.5f) d = 0.5f;
+		d = 1.0f/d;
+		force.x += nx*d;
+		force.z += nz*d;
+	}
+}
+
 //Получить материал нода
 const char * PtcData::GetMaterial(long curNode)
 {

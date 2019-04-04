@@ -3,10 +3,10 @@
 
 #include "../inode.h"
 #include "defines.h"
+#include "font.h"
 
 class GIEditor;
 class CXI_IMAGE;
-class GIFont;
 
 class GIEditorList : public GIEditorObject
 {

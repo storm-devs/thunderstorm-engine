@@ -1,5 +1,6 @@
 #include "Track.h"
 #include "../Common_h/defines.h"
+#include <string>
 
 VDX9RENDER * ShipTracks::ShipTrack::pRS = nullptr;
 SEA_BASE * ShipTracks::ShipTrack::pSea = nullptr;

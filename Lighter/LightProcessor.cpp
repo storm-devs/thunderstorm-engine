@@ -34,7 +34,7 @@ LightProcessor::~LightProcessor()
 
 }
 
-void LightProcessor::SetParams(LGeometry * g, Window * win, Lights * lit, OctTree * ot, VDX9RENDER * _rs)
+void LightProcessor::SetParams(LGeometry * g, Window * win, LighterLights * lit, OctTree * ot, VDX9RENDER * _rs)
 {
 	geometry = g;
 	window = win;
@@ -165,7 +165,7 @@ void LightProcessor::UpdateLightsParam()
 	Vertex * vrt = geometry->vrt.data();
 	long numVrt = geometry->numVrt;
 	long numLights = lights->Num();
-	Lights & ls = *lights;
+	LighterLights & ls = *lights;
 	float cs, att;
 	float dst;
 	CVECTOR nrm;
@@ -233,7 +233,7 @@ void LightProcessor::CalcShadows()
 //Распределить затенение с треугольника на вершины
 void LightProcessor::ApplyTriangleShadows(Triangle & t)
 {
-	Lights & ls = *lights;
+	LighterLights & ls = *lights;
 	long num = ls.Num();
 	Vertex * vrt = geometry->vrt.data();
 	for(long i = 0; i < num; i++)
@@ -309,7 +309,7 @@ void LightProcessor::SmoothShadows()
 	float smoothRad = window->smoothRad;
 	float kSmoothRad = 1.0f/smoothRad;
 	double smoothRad2 = smoothRad*smoothRad;
-	Lights & ls = *lights;
+	LighterLights & ls = *lights;
 	long num = ls.Num();
 	std::vector<Vertex> &vrt = geometry->vrt;
 	for(long i = 0; i < LIGHTPRC_SMOOTH_NUM && smoothVertex < geometry->numVrt; i++, smoothVertex++)
@@ -441,7 +441,7 @@ void LightProcessor::BlurLight()
 void LightProcessor::CalcLights(long lit, bool isCos, bool isAtt, bool isSdw)
 {
 	lights->UpdateLights(lit);
-	Lights & ls = *lights;
+	LighterLights & ls = *lights;
 	long num = ls.Num();
 	Vertex * vrt = geometry->vrt.data();
 	float kBlur = window->kBlur;

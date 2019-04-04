@@ -54,6 +54,7 @@
     <IntDir>.\Release\</IntDir>
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -117,7 +118,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/FIXED:NO %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>legacy_stdio_definitions.lib;d3d9.lib;d3dx9.lib;dxerr.lib;odbc32.lib;odbccp32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>ENGINE.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -141,6 +142,1548 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Animals\Animals.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMALS_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMALS_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Animals\AnimalsDefines.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMALS_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMALS_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Animals\TButterflies.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMALS_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMALS_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Animals\TButterfly.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMALS_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMALS_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Animals\TDynamicObject.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMALS_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMALS_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Animals\TDynamicSystem.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMALS_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMALS_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Animals\TFishSchools.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMALS_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMALS_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Animals\TIVBufferManager.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMALS_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMALS_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Animals\TSeagulls.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMALS_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMALS_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Animals\TSharks.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMALS_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMALS_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Animation\ActionInfo.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Animation\ActionPlayerImp.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Animation\AnimationImp.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Animation\AnimationInfo.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Animation\AnimationServiceImp.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Animation\AnimationTimerImp.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Animation\Bone.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ANIMATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\BALLSPLASH\BallSplash.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;BALLSPLASH_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;BALLSPLASH_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\BALLSPLASH\TSplash.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;BALLSPLASH_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;BALLSPLASH_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\BATTLE_INTERFACE\ActivePerkShower.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;BATTLE_INTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;BATTLE_INTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\BATTLE_INTERFACE\battle_command.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\battle_sign.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\EnemyStatShower\enemystatshower.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\image\image.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\image\imgrender.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\image\material.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\image\string.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceGroup\BaseGroup.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceGroup\SeaGroup.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceManager.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceNode\BaseNode.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceNode\ImageNode.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceNode\StringNode.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\InterfaceManager\MousePointer.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\ItemEntity\itementity.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\land\battle_land.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\land\battle_mancommand.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\land\battle_mansign.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\land\IBoardingStatus.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\LogAndAction.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;BATTLE_INTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;BATTLE_INTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\BATTLE_INTERFACE\MessageIcons.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\sea\battle_navigator.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\sea\battle_shipcommand.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\sea\battle_shipsign.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\sea\ibattle.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\sea\island_descr.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\sea\ShipInfoImages.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\sea\ShipPointer.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\sea\ships_list.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\spyglass\spyglass.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\timer\Timer.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\Utils.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\WorldMapInterface\interface.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\WorldMapInterface\shipcommand.cpp" />
+    <ClCompile Include="..\BATTLE_INTERFACE\WorldMapInterface\shipsign.cpp" />
+    <ClCompile Include="..\blade\blade.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;BLADE_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;BLADE_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Blot\Blots.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;BLOT_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;BLOT_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\CameraDialog\CameraDialog.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;CAMERADIALOG_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;CAMERADIALOG_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Collide\coll.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;COLLIDE_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;COLLIDE_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Collide\local_collide.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;COLLIDE_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;COLLIDE_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Dialog\dialog.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;DIALOG_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;DIALOG_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Geometry\collide.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;GEOMETRY_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;GEOMETRY_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Geometry\geometry.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;GEOMETRY_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;GEOMETRY_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Geometry\geom_static.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;GEOMETRY_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;GEOMETRY_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Island\Foam.cpp" />
+    <ClCompile Include="..\Island\ISLAND.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ISLAND_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ISLAND_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Island\MapZipper.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ISLAND_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ISLAND_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Island\ZapSuperGenerator.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ISLAND_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;ISLAND_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Lighter\LGeometry.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LIGHTER_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LIGHTER_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Lighter\Lighter.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LIGHTER_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LIGHTER_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Lighter\LighterMain.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LIGHTER_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LIGHTER_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Lighter\LightProcessor.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LIGHTER_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LIGHTER_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Lighter\LighterLights.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LIGHTER_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LIGHTER_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Lighter\LObject.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LIGHTER_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LIGHTER_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Lighter\OctTree.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LIGHTER_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LIGHTER_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Lighter\Window.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LIGHTER_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LIGHTER_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\AICharacter.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\Blood.cpp" />
+    <ClCompile Include="..\Location\CameraFollow.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\Character.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\CharacterAnimationKipper.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\CharactersGroups.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\Fader.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\Grass.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\Lights.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\Lizard.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\Lizards.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\Location.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\LocationCamera.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\LocationEffects.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\LocationMain.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\LocationScriptLib.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\LocatorArray.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\LocEagle.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\LocLife.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\LocRat.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\LocRats.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\ModelArray.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\ModelRealizer.cpp" />
+    <ClCompile Include="..\Location\NPCharacter.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\PathTracks.cpp" />
+    <ClCompile Include="..\Location\Player.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\PtcData.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\Supervisor.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Location\WideScreen.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATION_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Locator\blast.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATOR_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATOR_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Locator\locator.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATOR_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;LOCATOR_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Mast\MAST.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;MAST_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;MAST_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Model\model.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;MODEL_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;MODEL_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Model\node.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;MODEL_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;MODEL_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\PARTICLES\DataCache\DataCache.cpp" />
+    <ClCompile Include="..\PARTICLES\GeomCache\GeomCache.cpp" />
+    <ClCompile Include="..\PARTICLES\K2Wrapper\particles.cpp" />
+    <ClCompile Include="..\PARTICLES\K2Wrapper\psystem.cpp" />
+    <ClCompile Include="..\PARTICLES\Manager\particlemanager.cpp" />
+    <ClCompile Include="..\PARTICLES\Service\particleservice.cpp" />
+    <ClCompile Include="..\PARTICLES\System\DataDesc\data_desc.cpp" />
+    <ClCompile Include="..\PARTICLES\System\DataSource\DataBool.cpp" />
+    <ClCompile Include="..\PARTICLES\System\DataSource\DataColor.cpp" />
+    <ClCompile Include="..\PARTICLES\System\DataSource\DataFloat.cpp" />
+    <ClCompile Include="..\PARTICLES\System\DataSource\DataGraph.cpp" />
+    <ClCompile Include="..\PARTICLES\System\DataSource\DataPosition.cpp" />
+    <ClCompile Include="..\PARTICLES\System\DataSource\DataSource.cpp" />
+    <ClCompile Include="..\PARTICLES\System\DataSource\DataString.cpp" />
+    <ClCompile Include="..\PARTICLES\System\DataSource\DataUV.cpp" />
+    <ClCompile Include="..\PARTICLES\System\DataSource\FieldList.cpp" />
+    <ClCompile Include="..\PARTICLES\System\Emitters\base.cpp" />
+    <ClCompile Include="..\PARTICLES\System\Emitters\point.cpp" />
+    <ClCompile Include="..\PARTICLES\System\ParticleProcessor\bb_processor.cpp" />
+    <ClCompile Include="..\PARTICLES\System\ParticleProcessor\mdl_processor.cpp" />
+    <ClCompile Include="..\PARTICLES\System\ParticleSystem\particlesystem.cpp" />
+    <ClCompile Include="..\PCS_CONTROLS\ControlTree.cpp" />
+    <ClCompile Include="..\PCS_CONTROLS\KeyBuffer.cpp" />
+    <ClCompile Include="..\PCS_CONTROLS\pcs_controls.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;PCS_CONTROLS_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;PCS_CONTROLS_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\renderer\Effects.cpp" />
+    <ClCompile Include="..\renderer\Font.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;Renderer_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;Renderer_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\renderer\Screenshot.cpp" />
+    <ClCompile Include="..\renderer\sdevice.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;Renderer_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;Renderer_EXPORTS</PreprocessorDefinitions>
+      <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">All</AssemblerOutput>
+      <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">All</AssemblerOutput>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Rigging\Flag.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;RIGGING_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;RIGGING_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Rigging\rigging_main.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;RIGGING_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;RIGGING_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Rigging\Rope.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;RIGGING_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;RIGGING_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Rigging\sail.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;RIGGING_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;RIGGING_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Rigging\SAILONE.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;RIGGING_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;RIGGING_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Rigging\script_func.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;RIGGING_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;RIGGING_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Rigging\Vant.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;RIGGING_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;RIGGING_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Sailors\Sailors.cpp" />
+    <ClCompile Include="..\Sailors\SailorsEditor.cpp" />
+    <ClCompile Include="..\Sailors\SailorsMain.cpp" />
+    <ClCompile Include="..\Sailors\SailorsMenu.cpp" />
+    <ClCompile Include="..\Sailors\SailorsWayPoints.cpp" />
+    <ClCompile Include="..\SCRIPT_LIBRIARY\script_libriary_test.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SCRIPT_LIBRIARY_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SCRIPT_LIBRIARY_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\SCRIPT_LIBRIARY\vano_files.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SCRIPT_LIBRIARY_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SCRIPT_LIBRIARY_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\SeaCreatures\SeaCreaturesMain.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEACREATURES_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEACREATURES_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\SeaCreatures\Sharks.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEACREATURES_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEACREATURES_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Seafoam\Seafoam.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEAFOAM_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEAFOAM_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Seafoam\SeafoamDefines.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEAFOAM_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEAFOAM_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Seafoam\seafoam_ps.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEAFOAM_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEAFOAM_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Seafoam\TCarcass.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEAFOAM_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEAFOAM_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Seafoam\TIVBufferManager.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEAFOAM_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEAFOAM_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Sea\EnvMap.cpp" />
+    <ClCompile Include="..\Sea\sea.cpp" />
+    <ClCompile Include="..\Sea_ai\AIBalls.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Sea_ai\AICannon.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Sea_ai\AIFort.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Sea_ai\AIGroup.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Sea_ai\AIHelper.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Sea_ai\AISeaGoods.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Sea_ai\AIShip.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Sea_ai\AIShipBoat.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Sea_ai\AIShipCameraController.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Sea_ai\AIShipCannonController.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Sea_ai\AIShipMoveController.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Sea_ai\AIShipRotateController.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Sea_ai\AIShipSpeedController.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Sea_ai\AIShipTaskController.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Sea_ai\AIShipTouchController.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Sea_ai\AIShipTrade.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Sea_ai\AIShipWar.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Sea_ai\LocatorShow.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Sea_ai\SeaSaveLoad.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Sea_ai\SEA_AI.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_AI_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\SEA_CAMERAS\DeckCamera.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_CAMERAS_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_CAMERAS_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\SEA_CAMERAS\FreeCamera.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_CAMERAS_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_CAMERAS_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\SEA_CAMERAS\SEA_CAMERAS.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_CAMERAS_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_CAMERAS_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\SEA_CAMERAS\ShipCamera.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_CAMERAS_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_CAMERAS_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\SEA_OPERATOR\SEA_OPERATOR.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_OPERATOR_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SEA_OPERATOR_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\shadow\shadow.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SHADOW_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SHADOW_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Ship\FirePlace.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;SHIP_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;SHIP_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Ship\ship.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;SHIP_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;SHIP_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Ship\ShipLights.cpp" />
+    <ClCompile Include="..\Ship\ship_utils.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;SHIP_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;SHIP_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Ship\Track.cpp" />
+    <ClCompile Include="..\SINK_EFFECT\seps.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SINK_EFFECT_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SINK_EFFECT_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\SINK_EFFECT\SinkEffect.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SINK_EFFECT_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SINK_EFFECT_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\SINK_EFFECT\TFlotsam.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SINK_EFFECT_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SINK_EFFECT_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\SINK_EFFECT\TIVBufferManager.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SINK_EFFECT_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SINK_EFFECT_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\SINK_EFFECT\TSink.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SINK_EFFECT_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SINK_EFFECT_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\SINK_EFFECT\TSinkSplash.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SINK_EFFECT_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SINK_EFFECT_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\SoundService\DebugEntity.cpp" />
+    <ClCompile Include="..\SoundService\SoundService.cpp" />
+    <ClCompile Include="..\SoundService\VSoundService.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SOUNDSERVICE_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SOUNDSERVICE_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Sound\SOUND.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SOUND_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SOUND_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Teleport\teleport.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;TELEPORT_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;TELEPORT_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Tornado\Debris.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;TORNADO_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;TORNADO_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Tornado\NoiseCloud.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;TORNADO_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;TORNADO_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Tornado\Pillar.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;TORNADO_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;TORNADO_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Tornado\Tornado.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;TORNADO_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;TORNADO_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Tornado\TornadoParticles.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;TORNADO_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;TORNADO_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Touch\touch.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;TOUCH_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;TOUCH_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WaterRings\TIVBufferManager.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WATERRINGS_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WATERRINGS_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WaterRings\WaterRings.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WATERRINGS_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WATERRINGS_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Weather\Astronomy.cpp" />
+    <ClCompile Include="..\Weather\Lightning.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WEATHER_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WEATHER_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Weather\Planets.cpp" />
+    <ClCompile Include="..\Weather\Rain.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WEATHER_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WEATHER_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Weather\SKY.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WEATHER_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WEATHER_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Weather\Stars.cpp" />
+    <ClCompile Include="..\Weather\SunGlow.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WEATHER_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WEATHER_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Weather\WaterFlare.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WEATHER_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WEATHER_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\Weather\Weather.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WEATHER_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WEATHER_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WORLDMAP\WdmCamera.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WORLDMAP\WdmCameraStdCtrl.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WORLDMAP\WdmCloud.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WORLDMAP\WdmClouds.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WORLDMAP\WdmCounter.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WORLDMAP\WdmEnemyShip.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WORLDMAP\WdmFollowShip.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WORLDMAP\WdmIcon.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WORLDMAP\WdmInterfaceObject.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WORLDMAP\WdmIslands.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WORLDMAP\WdmMerchantShip.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WORLDMAP\WdmObjects.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WORLDMAP\WdmPlayerShip.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WORLDMAP\WdmRenderModel.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WORLDMAP\WdmRenderObject.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WORLDMAP\WdmSea.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WORLDMAP\WdmShip.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WORLDMAP\WdmStorm.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WORLDMAP\WdmWarringShip.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WORLDMAP\WdmWindRose.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WORLDMAP\WdmWindUI.cpp" />
+    <ClCompile Include="..\WORLDMAP\WoldMapMain.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\WORLDMAP\WorldMap.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;WORLDMAP_EXPORTS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\XINTERFACE\aviplayer\aviplayer.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\XINTERFACE\BackScene\backscene.cpp" />
+    <ClCompile Include="..\XINTERFACE\editor\defines.cpp" />
+    <ClCompile Include="..\XINTERFACE\editor\editor.cpp" />
+    <ClCompile Include="..\XINTERFACE\editor\xfont.cpp" />
+    <ClCompile Include="..\XINTERFACE\editor\list.cpp" />
+    <ClCompile Include="..\XINTERFACE\HelpChooser\HelpChooser.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\XINTERFACE\InfoHandler.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\XINTERFACE\inode.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\XINTERFACE\nodes\xi_2picture.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_border.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_bounder.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_button.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_changer.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_checkbuttons.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_conthelp.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_editbox.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_formttext.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_fourimg.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_glowCursor.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_glower.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_image.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_imgcollection.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_keychanger.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_linecollection.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_lrchanger.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_pceditbox.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_picture.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_questtexts.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_questtitles.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_rectangle.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_scrollbar.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_scrolledpic.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_scroller.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_scrollimage.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_scrolltext.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_slideLine.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_slidepicture.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_statusline.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_strcollection.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_table.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_tabsection.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_textbutton.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_title.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_tooltips.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_util.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_video.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_videorect.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_VImgScroll.cpp" />
+    <ClCompile Include="..\XINTERFACE\nodes\xi_window.cpp" />
+    <ClCompile Include="..\XINTERFACE\QuestFileReader\QuestFileReader.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\XINTERFACE\SCRSHOTER\scrshoter.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\XINTERFACE\STRINGSERVICE\obj_strservice.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\XINTERFACE\STRINGSERVICE\strservice.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\XINTERFACE\TextureSequence\TextureSequence.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\XINTERFACE\xinterface.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\XINTERFACE\xiutil.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile Include="..\XINTERFACE\xservice.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_USRDLL;XINTERFACE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_MBCS</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+    </ClCompile>
     <ClCompile Include="sources\classes_table.cpp" />
     <ClCompile Include="sources\compiler.cpp">
       <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">All</AssemblerOutput>
@@ -172,7 +1715,6 @@
     <ClCompile Include="sources\memory_service.cpp" />
     <ClCompile Include="sources\mem_pool.cpp" />
     <ClCompile Include="sources\mem_utils.cpp" />
-    <ClCompile Include="sources\modules_table.cpp" />
     <ClCompile Include="sources\pcinput.cpp" />
     <ClCompile Include="sources\program.cpp" />
     <ClCompile Include="sources\services_list.cpp" />
@@ -212,6 +1754,46 @@
     <ClCompile Include="Sources\Zlib\zutil.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\BATTLE_INTERFACE\ActivePerkShower.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\battle_command.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\battle_sign.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\defines.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\EnemyStatShower\enemystatshower.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\image\defines.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\image\image.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\image\imgrender.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\image\material.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\image\string.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\InterfaceManager\BaseManager.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceGroup\BaseGroup.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceGroup\SeaGroup.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceManager.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceNode\AllNodes.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceNode\BaseNode.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceNode\ImageNode.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceNode\StringNode.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\InterfaceManager\MousePointer.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\ItemEntity\itementity.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\land\battle_land.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\land\battle_mancommand.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\land\battle_mansign.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\land\IBoardingStatus.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\LogAndAction.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\MessageIcons.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\sea\battle_navigator.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\sea\battle_shipcommand.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\sea\battle_shipsign.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\sea\ibattle.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\sea\island_descr.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\sea\ShipInfoImages.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\sea\ShipPointer.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\sea\ships_list.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\spyglass\spyglass.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\timer\Timer.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\Utils.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\WorldMapInterface\interface.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\WorldMapInterface\shipcommand.h" />
+    <ClInclude Include="..\BATTLE_INTERFACE\WorldMapInterface\shipsign.h" />
     <ClInclude Include="..\Common_h\Animation.h" />
     <ClInclude Include="..\Common_h\attributes.h" />
     <ClInclude Include="..\Common_h\Character.h" />
@@ -259,6 +1841,13 @@
     <ClInclude Include="..\Common_h\stringService.h" />
     <ClInclude Include="..\Common_h\s_import_func.h" />
     <ClInclude Include="..\Common_h\templates.h" />
+    <ClInclude Include="..\Common_h\templates\Array.h" />
+    <ClInclude Include="..\Common_h\templates\dtimer.h" />
+    <ClInclude Include="..\Common_h\templates\HTable.h" />
+    <ClInclude Include="..\Common_h\templates\map.h" />
+    <ClInclude Include="..\Common_h\templates\stack.h" />
+    <ClInclude Include="..\Common_h\templates\string.h" />
+    <ClInclude Include="..\Common_h\templates\tcommon.h" />
     <ClInclude Include="..\Common_h\tga.h" />
     <ClInclude Include="..\Common_h\triangle.h" />
     <ClInclude Include="..\Common_h\types3d.h" />
@@ -283,7 +1872,207 @@
     <ClInclude Include="..\Common_h\v_s_stack.h" />
     <ClInclude Include="..\Common_h\v_udp_transport.h" />
     <ClInclude Include="..\Common_h\Weather_Base.h" />
+    <ClInclude Include="..\Location\AICharacter.h" />
+    <ClInclude Include="..\Location\Blood.h" />
+    <ClInclude Include="..\Location\CameraFollow.h" />
+    <ClInclude Include="..\Location\CameraTracksFile.h" />
+    <ClInclude Include="..\Location\Character.h" />
+    <ClInclude Include="..\Location\CharacterAnimationKipper.h" />
+    <ClInclude Include="..\Location\CharactersGroups.h" />
+    <ClInclude Include="..\Location\Fader.h" />
+    <ClInclude Include="..\Location\Grass.h" />
+    <ClInclude Include="..\Location\grs.h" />
+    <ClInclude Include="..\Location\Lights.h" />
+    <ClInclude Include="..\Location\Lizard.h" />
+    <ClInclude Include="..\Location\Lizards.h" />
+    <ClInclude Include="..\Location\Location.h" />
+    <ClInclude Include="..\Location\LocationCamera.h" />
+    <ClInclude Include="..\Location\LocationEffects.h" />
+    <ClInclude Include="..\Location\LocationScriptLib.h" />
+    <ClInclude Include="..\Location\LocatorArray.h" />
+    <ClInclude Include="..\Location\LocEagle.h" />
+    <ClInclude Include="..\Location\LocLife.h" />
+    <ClInclude Include="..\Location\LocRat.h" />
+    <ClInclude Include="..\Location\LocRats.h" />
+    <ClInclude Include="..\Location\ModelArray.h" />
+    <ClInclude Include="..\Location\ModelRealizer.h" />
+    <ClInclude Include="..\Location\NPCharacter.h" />
+    <ClInclude Include="..\Location\PathTracks.h" />
+    <ClInclude Include="..\Location\Player.h" />
+    <ClInclude Include="..\Location\ptc.h" />
+    <ClInclude Include="..\Location\PtcData.h" />
+    <ClInclude Include="..\Location\Supervisor.h" />
+    <ClInclude Include="..\Location\WideScreen.h" />
+    <ClInclude Include="..\PARTICLES\DataCache\DataCache.h" />
+    <ClInclude Include="..\PARTICLES\GeomCache\GeomCache.h" />
+    <ClInclude Include="..\PARTICLES\ICommon\BillBoard.h" />
+    <ClInclude Include="..\PARTICLES\ICommon\ColorVertex.h" />
+    <ClInclude Include="..\PARTICLES\ICommon\EditorTypes.h" />
+    <ClInclude Include="..\PARTICLES\ICommon\GraphTime.h" />
+    <ClInclude Include="..\PARTICLES\ICommon\GraphVertex.h" />
+    <ClInclude Include="..\PARTICLES\ICommon\IEmitter.h" />
+    <ClInclude Include="..\PARTICLES\ICommon\MemFile.h" />
+    <ClInclude Include="..\PARTICLES\ICommon\Names.h" />
+    <ClInclude Include="..\PARTICLES\ICommon\Particle.h" />
+    <ClInclude Include="..\PARTICLES\ICommon\Types.h" />
+    <ClInclude Include="..\PARTICLES\K2Wrapper\particles.h" />
+    <ClInclude Include="..\PARTICLES\K2Wrapper\psystem.h" />
+    <ClInclude Include="..\PARTICLES\Manager\particlemanager.h" />
+    <ClInclude Include="..\PARTICLES\Service\particleservice.h" />
+    <ClInclude Include="..\PARTICLES\System\DataDesc\data_desc.h" />
+    <ClInclude Include="..\PARTICLES\System\DataSource\DataBool.h" />
+    <ClInclude Include="..\PARTICLES\System\DataSource\DataColor.h" />
+    <ClInclude Include="..\PARTICLES\System\DataSource\DataFloat.h" />
+    <ClInclude Include="..\PARTICLES\System\DataSource\DataGraph.h" />
+    <ClInclude Include="..\PARTICLES\System\DataSource\DataPosition.h" />
+    <ClInclude Include="..\PARTICLES\System\DataSource\DataSource.h" />
+    <ClInclude Include="..\PARTICLES\System\DataSource\DataString.h" />
+    <ClInclude Include="..\PARTICLES\System\DataSource\DataUV.h" />
+    <ClInclude Include="..\PARTICLES\System\DataSource\FieldList.h" />
+    <ClInclude Include="..\PARTICLES\System\Emitters\base.h" />
+    <ClInclude Include="..\PARTICLES\System\Emitters\point.h" />
+    <ClInclude Include="..\PARTICLES\System\ParticleProcessor\bb_processor.h" />
+    <ClInclude Include="..\PARTICLES\System\ParticleProcessor\mdl_processor.h" />
+    <ClInclude Include="..\PARTICLES\System\ParticleProcessor\nameparser.h" />
+    <ClInclude Include="..\PARTICLES\System\ParticleProcessor\physic.h" />
+    <ClInclude Include="..\PARTICLES\System\ParticleSystem\particlesystem.h" />
+    <ClInclude Include="..\Rigging\Flag.h" />
+    <ClInclude Include="..\Rigging\rigging_define.h" />
+    <ClInclude Include="..\Rigging\Rope.h" />
+    <ClInclude Include="..\Rigging\sail.h" />
+    <ClInclude Include="..\Rigging\SAILONE.h" />
+    <ClInclude Include="..\Rigging\script_func.h" />
+    <ClInclude Include="..\Rigging\Vant.h" />
+    <ClInclude Include="..\Sailors\Sailors.h" />
+    <ClInclude Include="..\Sailors\SailorsEditor.h" />
+    <ClInclude Include="..\Sailors\SailorsMenu.h" />
+    <ClInclude Include="..\Sailors\SailorsWayPoints.h" />
+    <ClInclude Include="..\SCRIPT_LIBRIARY\vano_files.h" />
+    <ClInclude Include="..\Sea_ai\AIBalls.h" />
+    <ClInclude Include="..\Sea_ai\AICannon.h" />
+    <ClInclude Include="..\Sea_ai\AIFort.h" />
+    <ClInclude Include="..\Sea_ai\AIGroup.h" />
+    <ClInclude Include="..\Sea_ai\AIHelper.h" />
+    <ClInclude Include="..\Sea_ai\AISeaGoods.h" />
+    <ClInclude Include="..\Sea_ai\AIShip.h" />
+    <ClInclude Include="..\Sea_ai\AIShipCameraController.h" />
+    <ClInclude Include="..\Sea_ai\AIShipCannonController.h" />
+    <ClInclude Include="..\Sea_ai\AIShipMoveController.h" />
+    <ClInclude Include="..\Sea_ai\AIShipRotateController.h" />
+    <ClInclude Include="..\Sea_ai\AIShipSpeedController.h" />
+    <ClInclude Include="..\Sea_ai\AIShipTaskController.h" />
+    <ClInclude Include="..\Sea_ai\AIShipTouchController.h" />
+    <ClInclude Include="..\Sea_ai\LocatorShow.h" />
+    <ClInclude Include="..\SEA_CAMERAS\Common_Camera.h" />
+    <ClInclude Include="..\SEA_CAMERAS\DeckCamera.h" />
+    <ClInclude Include="..\SEA_CAMERAS\FreeCamera.h" />
+    <ClInclude Include="..\SEA_CAMERAS\SEA_CAMERAS.h" />
+    <ClInclude Include="..\SEA_CAMERAS\ShipCamera.h" />
+    <ClInclude Include="..\SoundService\DebugEntity.h" />
+    <ClInclude Include="..\SoundService\Fmod4\api\inc\fmod.h" />
+    <ClInclude Include="..\SoundService\Fmod4\api\inc\fmod.hpp" />
+    <ClInclude Include="..\SoundService\Fmod4\api\inc\fmod_codec.h" />
+    <ClInclude Include="..\SoundService\Fmod4\api\inc\fmod_dsp.h" />
+    <ClInclude Include="..\SoundService\Fmod4\api\inc\fmod_errors.h" />
+    <ClInclude Include="..\SoundService\Fmod4\api\inc\fmod_output.h" />
+    <ClInclude Include="..\SoundService\SoundDefines.h" />
+    <ClInclude Include="..\SoundService\SoundService.h" />
+    <ClInclude Include="..\SoundService\VSound.h" />
+    <ClInclude Include="..\SoundService\VSoundService.h" />
+    <ClInclude Include="..\Weather\Astronomy.h" />
+    <ClInclude Include="..\Weather\Lightning.h" />
+    <ClInclude Include="..\Weather\Rain.h" />
+    <ClInclude Include="..\Weather\SKY.h" />
+    <ClInclude Include="..\Weather\SunGlow.h" />
+    <ClInclude Include="..\Weather\WaterFlare.h" />
+    <ClInclude Include="..\WORLDMAP\WdmCamera.h" />
+    <ClInclude Include="..\WORLDMAP\WdmCameraStdCtrl.h" />
+    <ClInclude Include="..\WORLDMAP\WdmCloud.h" />
+    <ClInclude Include="..\WORLDMAP\WdmClouds.h" />
+    <ClInclude Include="..\WORLDMAP\WdmCounter.h" />
+    <ClInclude Include="..\WORLDMAP\WdmEnemyShip.h" />
+    <ClInclude Include="..\WORLDMAP\WdmFollowShip.h" />
+    <ClInclude Include="..\WORLDMAP\WdmIcon.h" />
+    <ClInclude Include="..\WORLDMAP\WdmInterfaceObject.h" />
+    <ClInclude Include="..\WORLDMAP\WdmIslands.h" />
+    <ClInclude Include="..\WORLDMAP\WdmMerchantShip.h" />
+    <ClInclude Include="..\WORLDMAP\WdmObjects.h" />
+    <ClInclude Include="..\WORLDMAP\WdmObjectsWind.h" />
+    <ClInclude Include="..\WORLDMAP\WdmPlayerShip.h" />
+    <ClInclude Include="..\WORLDMAP\WdmRenderModel.h" />
+    <ClInclude Include="..\WORLDMAP\WdmRenderObject.h" />
+    <ClInclude Include="..\WORLDMAP\WdmSea.h" />
+    <ClInclude Include="..\WORLDMAP\WdmShip.h" />
+    <ClInclude Include="..\WORLDMAP\WdmStorm.h" />
+    <ClInclude Include="..\WORLDMAP\WdmWarringShip.h" />
+    <ClInclude Include="..\WORLDMAP\WdmWindRose.h" />
+    <ClInclude Include="..\WORLDMAP\WdmWindUI.h" />
+    <ClInclude Include="..\WORLDMAP\WorldMap.h" />
+    <ClInclude Include="..\XINTERFACE\aviplayer\aviplayer.h" />
+    <ClInclude Include="..\XINTERFACE\BackScene\backscene.h" />
+    <ClInclude Include="..\XINTERFACE\base_video.h" />
+    <ClInclude Include="..\XINTERFACE\defines.h" />
+    <ClInclude Include="..\XINTERFACE\editor\defines.h" />
+    <ClInclude Include="..\XINTERFACE\editor\editor.h" />
+    <ClInclude Include="..\XINTERFACE\editor\font.h" />
+    <ClInclude Include="..\XINTERFACE\editor\list.h" />
+    <ClInclude Include="..\XINTERFACE\helpchooser\HelpChooser.h" />
+    <ClInclude Include="..\XINTERFACE\InfoHandler.h" />
+    <ClInclude Include="..\XINTERFACE\inode.h" />
+    <ClInclude Include="..\XINTERFACE\NODES\all_xinode.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_2picture.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_border.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_bounder.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_button.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_changer.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_checkbuttons.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_conthelp.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_editbox.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_formttext.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_fourimg.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_glowCursor.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_glower.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_image.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_imgcollection.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_keychanger.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_linecollection.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_lrchanger.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_pceditbox.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_picture.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_questtexts.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_questtitles.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_rectangle.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_scrollbar.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_scrolledpic.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_scroller.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_scrollimage.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_scrolltext.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_slideLine.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_slidepicture.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_statusline.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_strcollection.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_table.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_tabsection.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_textbutton.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_title.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_tooltips.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_util.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_video.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_videorect.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_VImgScroll.h" />
+    <ClInclude Include="..\XINTERFACE\nodes\xi_window.h" />
+    <ClInclude Include="..\XINTERFACE\QuestFileReader\QuestFileReader.h" />
+    <ClInclude Include="..\XINTERFACE\SCRSHOTER\scrshoter.h" />
+    <ClInclude Include="..\XINTERFACE\STRINGSERVICE\obj_strservice.h" />
+    <ClInclude Include="..\XINTERFACE\STRINGSERVICE\strservice.h" />
+    <ClInclude Include="..\XINTERFACE\templates\ctext.h" />
+    <ClInclude Include="..\XINTERFACE\templates\TDynArray.h" />
+    <ClInclude Include="..\XINTERFACE\TextureSequence\TextureSequence.h" />
+    <ClInclude Include="..\XINTERFACE\vxservice.h" />
+    <ClInclude Include="..\XINTERFACE\xinterface.h" />
+    <ClInclude Include="..\XINTERFACE\xservice.h" />
     <ClInclude Include="Modules\Techniques\Weather\Shaders\reflect.h" />
+    <ClInclude Include="PROGRAM\BATTLE_INTERFACE\msg_control.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="sources\classes_table.h" />
     <ClInclude Include="sources\common_h.h" />
@@ -312,7 +2101,6 @@
     <ClInclude Include="sources\mem_utils.h" />
     <ClInclude Include="sources\messages.h" />
     <ClInclude Include="sources\message_script.h" />
-    <ClInclude Include="sources\modules_table.h" />
     <ClInclude Include="sources\pcinput.h" />
     <ClInclude Include="sources\program.h" />
     <ClInclude Include="sources\resource.h" />
@@ -426,22 +2214,21 @@
     <None Include="Modules\Techniques\Weather\water.sha" />
     <None Include="Modules\Techniques\Weather\WaterFlare.sha" />
     <None Include="Modules\Techniques\worldmap.sha" />
-    <None Include="Sources\arrow.cur" />
-    <None Include="SOURCES\cursor1.cur" />
-    <None Include="Sources\dragpoin.cur" />
-    <None Include="Sources\nodrop.cur" />
+    <None Include="REsOURCE\Textures\Weather\Astronomy\Planets\jupiter.tga.tx" />
+    <None Include="REsOURCE\Textures\Weather\Astronomy\Planets\mars.tga.tx" />
+    <None Include="REsOURCE\Textures\Weather\Astronomy\Planets\mercury.tga.tx" />
+    <None Include="REsOURCE\Textures\Weather\Astronomy\Planets\neptune.tga.tx" />
+    <None Include="REsOURCE\Textures\Weather\Astronomy\Planets\saturn.tga.tx" />
+    <None Include="REsOURCE\Textures\Weather\Astronomy\Planets\uranus.tga.tx" />
+    <None Include="REsOURCE\Textures\Weather\Astronomy\Planets\venus.tga.tx" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="SOURCES\icon1.ico" />
-    <Image Include="SOURCES\install.bmp" />
-    <Image Include="Sources\storm.bmp" />
-  </ItemGroup>
-  <ItemGroup>
+    <Text Include="..\SoundService\Fmod4\api\lib\which library do I use.txt" />
     <Text Include="Sources\core.txt" />
     <Text Include="SOURCES\syntax.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Sources\resource.rc" />
+    <Library Include="..\SoundService\Fmod4\api\lib\fmodex_vc.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

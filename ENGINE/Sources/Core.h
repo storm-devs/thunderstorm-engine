@@ -13,7 +13,6 @@
 
 #include "common_h.h"
 #include "c_atom.h"
-#include "modules_table.h"
 #include "fsdata_list.h"
 #include "layer.h"
 #include "timer.h"
@@ -127,7 +126,6 @@ public:
 	bool State_loading;
 	bool bEnableTimeScale;
 	
-	MODULES_TABLE Modules_Table;	// dlls names table
 	SERVICES_LIST Services_List;	// list for subsequent calls RunStart/RunEnd service functions
 	
 	HINSTANCE hInstance;

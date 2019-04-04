@@ -3,38 +3,6 @@
 
 #include "vapi.h"
 
-#ifdef _ENGINE_IN_
-extern VMA * _pModuleClassRoot;
-#else
-VMA * _pModuleClassRoot;
-#endif
-
-class VMA
-{
-protected:
-	VMA * pNext;
-	long  nHash;
-public:
-	VMA()
-	{
-		nHash = 0;
-		pNext = _pModuleClassRoot;
-		_pModuleClassRoot = this;
-	};
-	VMA * Next(){return pNext;}
-	virtual ~VMA(){};
-	long Build_Version() {return ENGINE_VERSION;};
-	void SetHash(long _hash) {nHash = _hash;}
-	long GetHash() {return nHash;}
-	virtual bool Service() {return false;}
-	virtual char * GetName() {return nullptr;}
-	virtual void * CreateClass() {return nullptr;}
-};
-
-#define MAKE_CLASS(a)	class a##vmacd : public VMA { public: char * GetName() {return TEXT(#a);} void * CreateClass() {return new a;}} a##vmacd a##vmaci;
-#define MAKE_SERVICE(a)	class a##vmacd : public VMA { public: char * GetName() {return TEXT(#a);} void * CreateClass() {return new a;} bool Service() {return true;}} a##vmacd a##vmaci;
-
-
 //-------------------------------------------------------------------------------------------------
 // Macros for declarating module api class
 // Syntax:
@@ -74,8 +42,6 @@ public:
 //void * operator new(size_t size); {return _CORE_API->MemAllocate(size);} void operator STORM_DELETE(void * block_ptr) { _CORE_API->MemFree(block_ptr); } void * resize(void * block_ptr,size_t size){ return _CORE_API->MemReallocate(block_ptr,size); }
 
 #endif
-typedef VMODULE_API * (__cdecl * DLLAPIFUNC)(VAPI *);
-
 
 //-------------------------------------------------------------------------------------------------
 // Macros for declarating service module api class

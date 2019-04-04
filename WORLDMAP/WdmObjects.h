@@ -17,6 +17,7 @@
 #include "WdmObjectsWind.h"
 
 #include <vector>
+#include <string>
 
 class WdmIslands;
 class WdmShip;

@@ -9,6 +9,7 @@
 #include "../Common_h/Cvector.h"
 #include "./Fmod4/api/inc/fmod.hpp"
 #include "./Fmod4/api/inc/fmod_errors.h"
+#include <string>
 
 
 #define MAX_SOUNDS_SLOTS 512

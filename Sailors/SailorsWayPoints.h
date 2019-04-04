@@ -2,6 +2,7 @@
 #include "../Common_h/dx9render.h"
 #include "../Common_h/Matrix.h"
 #include <vector>
+#include <string>
 #include "../Common_h/defines.h"
 
 

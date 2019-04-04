@@ -138,37 +138,6 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DebugEntity.cpp" />
-    <ClCompile Include="SoundService.cpp" />
-    <ClCompile Include="VSoundService.cpp">
-      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;SOUNDSERVICE_EXPORTS</PreprocessorDefinitions>
-      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
-      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;SOUNDSERVICE_EXPORTS</PreprocessorDefinitions>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="DebugEntity.h" />
-    <ClInclude Include="Fmod4\api\inc\fmod.h" />
-    <ClInclude Include="Fmod4\api\inc\fmod.hpp" />
-    <ClInclude Include="Fmod4\api\inc\fmod_codec.h" />
-    <ClInclude Include="Fmod4\api\inc\fmod_dsp.h" />
-    <ClInclude Include="Fmod4\api\inc\fmod_errors.h" />
-    <ClInclude Include="Fmod4\api\inc\fmod_output.h" />
-    <ClInclude Include="SoundDefines.h" />
-    <ClInclude Include="SoundService.h" />
-    <ClInclude Include="VSound.h" />
-    <ClInclude Include="VSoundService.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="Fmod4\api\lib\fmodex_vc.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Fmod4\api\lib\which library do I use.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\Engine\fmodex.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

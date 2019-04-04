@@ -48,7 +48,7 @@ private:
 	LGeometry geometry;
 	OctTree octTree;
 	Window window;
-	Lights lights;
+	LighterLights lights;
 	LightProcessor lightProcessor;
 
 	long initCounter;

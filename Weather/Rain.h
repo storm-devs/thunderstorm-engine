@@ -6,6 +6,7 @@
 #include "../Common_h/sea_base.h"
 #include "../Common_h/ship_base.h"
 #include <vector>
+#include <string>
 
 #define NUM_SEA_DROPS				500
 #define D3DRAINVERTEX_FORMAT		(D3DFVF_XYZ | D3DFVF_DIFFUSE)

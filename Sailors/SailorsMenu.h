@@ -1,5 +1,6 @@
 
 #include "Sailors.h"
+#include <string>
 
 
 class Menu{

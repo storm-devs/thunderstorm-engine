@@ -10,8 +10,6 @@
 #include "system_log.h"
 #include <cinttypes>
 
-#define CORE_MODULE_WILD_MASK		"*.dll"
-#define CORE_DEFAULT_MODULES_PATH	"Modules\\"
 #define CORE_DEFAULT_ATOMS_SPACE	128
 #define SYSTEM_CRUSH				"SYSTEM_CRUSH"
 #define SERVICE_REFERENCE_TRACK		"SRT"
@@ -24,7 +22,7 @@ extern bool bNetActive;
 // system layer flags
 
 extern bool bActive;
-extern VMA * _pModuleClassRoot;
+//extern VMA * _pModuleClassRoot;
 #define SERVICES_REFERENCE_FLAGS	0x1
 
 CREATE_SERVICE(CONTROLS)
@@ -214,14 +212,6 @@ void __declspec(noinline) __cdecl CORE::InitBase()
 	engine_ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
  	if(engine_ini != nullptr)
 	{
-		if(engine_ini->ReadString(nullptr,"modules path",String,sizeof(String),""))
-		{
-			Modules_Table.SetModulesPath(String);
-			while(engine_ini->ReadStringNext(nullptr,"modules path",String,sizeof(String)))
-			{
-				Modules_Table.AddModulesPath(String);
-			}
-		}
 
 		if(engine_ini->ReadString(nullptr,"offclass",String,sizeof(String),""))
 		{
@@ -236,7 +226,6 @@ void __declspec(noinline) __cdecl CORE::InitBase()
 
 		delete engine_ini;
 	}
-	Modules_Table.Load_ModulesTable();	// creating modules table
 	LoadClassesTable();					// creating classes table
 	UNGUARD
 }
@@ -245,7 +234,6 @@ void CORE::ReleaseBase()
 {
 	Compiler.Token.Release();
 	ClassesOff.Release();
-	Modules_Table.Release();
 }
 
 bool __declspec(noinline) __cdecl CORE::LoCheck()
@@ -429,31 +417,12 @@ void CORE::ProcessSystemMessage(UINT iMsg,WPARAM wParam,LPARAM lParam)
 //-------------------------------------------------------------------------------------------------
 bool __declspec(noinline) __cdecl CORE::Initialize()
 {
-	INIFILE * engine_ini;
 	char string[_MAX_PATH];
 
 	GUARD(CORE::Initialize())
 
 	ResetCore();
 	gdi_display.Print(CMS_INITIALIZING_CORE);
-
-	engine_ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
- 	if(engine_ini == nullptr) STORM_THROW(no 'engine.ini' file);
-
-	if(!engine_ini->ReadString(nullptr,"modules path",string,sizeof(string),""))
-	{
-		gdi_display.Print("No 'modules path' key in engine.ini");
-		gdi_display.Print("Scanning current directory");
-
-	} else
-	{
-		Modules_Table.SetModulesPath(string);	// set modules path
-		while(engine_ini->ReadStringNext(nullptr,"modules path",string,sizeof(string)))
-		{
-			Modules_Table.AddModulesPath(string);
-		}
-	}
-	delete engine_ini;
 
 	// create atoms space
 	if(!CreateAtomsTable(CORE_DEFAULT_ATOMS_SPACE)) return false;
@@ -475,30 +444,11 @@ bool __declspec(noinline) __cdecl CORE::Initialize()
 
 bool CORE::LoadCoreState(CORE_STATE cs)
 {
-	INIFILE * engine_ini;
 	char string[_MAX_PATH];
 
 	GUARD(CORE::LoadCoreState)
 	ResetCore();
 	gdi_display.Print("loading core state");
-
-	engine_ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
-	if(engine_ini == nullptr) STORM_THROW(no 'engine.ini' file);
-
-	if(!engine_ini->ReadString(nullptr,"modules path",string,sizeof(string),nullptr))
-	{
-		gdi_display.Print("No 'modules path' key in engine.ini");
-		gdi_display.Print("Scanning current directory");
-
-	} else
-	{
-		Modules_Table.SetModulesPath(string);	// set modules path
-		while(engine_ini->ReadStringNext(nullptr,"modules path",string,sizeof(string)))
-		{
-			Modules_Table.AddModulesPath(string);
-		}
-	}
-	delete engine_ini;
 
 	// pc/xbox mod - modules loaded on startup only and unloaded when app terminated
 	//Modules_Table.LoadModulesTable();							// creating modules table
@@ -633,54 +583,19 @@ void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 
 bool __declspec(noinline) __cdecl CORE::LoadClassesTable()
 {
-	GUARD(CORE::LoadClassesTable)
-	VMA * pModuleClasses;
 	VMA * pEClass;
-	uint32_t n;
 	long hash;
 
-	// set hash for internal classes
-	pEClass = _pModuleClassRoot;
-	if(pEClass)
+	for(auto c : _pModuleClassRoot)
 	{
-		hash = MakeHashValue(pEClass->GetName());
+		auto hash = MakeHashValue(pEClass->GetName());
 
-		if(ClassesOff.GetStringCode(pEClass->GetName()) != INVALID_ORDINAL_NUMBER) hash = 0;
-		pEClass->SetHash(hash);
-	}
-	while(pEClass->Next())
-	{
-		pEClass = pEClass->Next();
-		hash = MakeHashValue(pEClass->GetName());
-		if(ClassesOff.GetStringCode(pEClass->GetName()) != INVALID_ORDINAL_NUMBER) hash = 0;
+		if (ClassesOff.GetStringCode(pEClass->GetName()) != INVALID_ORDINAL_NUMBER) 
+			hash = 0;
+
 		pEClass->SetHash(hash);
 	}
 
-	// external classes
-	for(n = 0; n < Modules_Table.GetModulesCount(); n++)
-	{
-		pModuleClasses = Modules_Table.GetClassesRoot(n);
-		if(pModuleClasses)
-		{
-			pEClass = pModuleClasses;
-			if(pEClass)
-			{
-				hash = MakeHashValue(pEClass->GetName());
-				if(ClassesOff.GetStringCode(pEClass->GetName()) != INVALID_ORDINAL_NUMBER) hash = 0;
-				pEClass->SetHash(hash);
-			}
-			while(pEClass->Next())
-			{
-				pEClass = pEClass->Next();
-				hash = MakeHashValue(pEClass->GetName());
-				if(ClassesOff.GetStringCode(pEClass->GetName()) != INVALID_ORDINAL_NUMBER) hash = 0;
-				pEClass->SetHash(hash);
-			}
-			pEClass->Set(_pModuleClassRoot);
-			_pModuleClassRoot = pModuleClasses;
-		}
-	}
-	UNGUARD
 	return true;
 }
 
@@ -865,33 +780,22 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 	// temporary commented for debug purposes
 	// if(State_loading) STORM_THROW(attempt to create on load state);
 
-	VMA * pClass;
+	VMA * pClass = nullptr;
 	long  hash;
-	bool  bClassFound;
 
-	if(_pModuleClassRoot == nullptr) return false;
-
-	bClassFound = false;
 	hash = MakeHashValue(class_name);
 	if(hash == 0) return false;
-	pClass = _pModuleClassRoot;
-	do
-	{
-		if(pClass->GetHash() == hash)
+
+	for (const auto c : _pModuleClassRoot)
+		if (c->GetHash() == hash && _stricmp(class_name, c->GetName()) == 0)
 		{
-			if(_stricmp(class_name,pClass->GetName())==0)
-			{
-				bClassFound = true;
-				break;
-			}
+			pClass = c;
+			break;
 		}
-		pClass = pClass->Next();
-	}
-	//while(pClass->Next());
-	while(pClass);
+
 
 	// no class of this type
-	if(!bClassFound)
+	if(!pClass)
 	{
 		CheckAutoExceptions(_X_NO_CREATE_ENTITY);
 		return false;
@@ -1895,13 +1799,6 @@ void CORE::Reset()	{	Reset_flag = true;	}
 //
 HWND CORE::GetAppHWND() { return App_Hwnd; }
 HINSTANCE CORE::GetAppInstance(){return hInstance;}
-//------------------------------------------------------------------------------------------------
-// add modules search path
-//
-bool CORE::AddModulesPath(char * _path)
-{
-	return Modules_Table.AddModulesPath(_path);
-}
 
 //------------------------------------------------------------------------------------------------
 // Mark entity for following deletion
@@ -2079,85 +1976,40 @@ void CORE::FreeService(char * service_name)
 
 void * CORE::MakeClass(char * class_name)
 {
-	VMA * pClass;
-	long  hash;
+	long hash = MakeHashValue(class_name);
+	for (const auto c : _pModuleClassRoot)
+		if (c->GetHash() == hash && _stricmp(class_name, c->GetName()) == 0)
+			return c->CreateClass();
 
-	if(_pModuleClassRoot == nullptr) return nullptr;
-
-	hash = MakeHashValue(class_name);
-	pClass = _pModuleClassRoot;
-	while(pClass)
-	{
-		if(pClass->GetHash() == hash)
-		{
-			if(_stricmp(class_name,pClass->GetName())==0)
-			{
-				return pClass->CreateClass();
-			}
-		}
-		pClass = pClass->Next();
-	}
 	return nullptr;
 }
 
 
 void CORE::FreeServices()
 {
-	VMA * pClass;
-	if(_pModuleClassRoot == nullptr) return;
-	pClass = _pModuleClassRoot;
-	do
-	{
-		if(pClass->Service())
-		{
-			pClass->Clear();
-		}
-		pClass = pClass->Next();
-	}
-	while(pClass);
+	for(const auto c : _pModuleClassRoot)
+		if (c->Service())
+			c->Clear();
+
 	Controls = nullptr;
 }
 
 VMA * CORE::FindVMA(char * class_name)
 {
-	VMA * pClass;
-	long  hash;
+	long hash = MakeHashValue(class_name);
+	for (const auto c : _pModuleClassRoot)
+		if (c->GetHash() == hash && _stricmp(class_name, c->GetName()) == 0)
+			return c;
 
-	if(_pModuleClassRoot == nullptr) return nullptr;
-
-	hash = MakeHashValue(class_name);
-	pClass = _pModuleClassRoot;
-	if(!pClass) return nullptr;
-	do
-	{
-		if(pClass->GetHash() == hash)
-		{
-			if(_stricmp(class_name,pClass->GetName())==0)
-			{
-				return pClass;
-			}
-		}
-		pClass = pClass->Next();
-		if(!pClass) return nullptr;
-	} while(pClass->Next());
 	return nullptr;
 }
 
 VMA * CORE::FindVMA(long hash)
 {
-	VMA * pClass;
+	for (const auto c : _pModuleClassRoot)
+		if (c->GetHash() == hash)
+			return c;
 
-	if(_pModuleClassRoot == nullptr) return nullptr;
-
-	pClass = _pModuleClassRoot;
-	do
-	{
-		if(pClass->GetHash() == hash)
-		{
-			return pClass;
-		}
-		pClass = pClass->Next();
-	} while(pClass->Next());
 	return nullptr;
 }
 

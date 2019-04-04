@@ -101,19 +101,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Sailors.cpp" />
-    <ClCompile Include="SailorsEditor.cpp" />
-    <ClCompile Include="SailorsMain.cpp" />
-    <ClCompile Include="SailorsMenu.cpp" />
-    <ClCompile Include="SailorsWayPoints.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Sailors.h" />
-    <ClInclude Include="SailorsEditor.h" />
-    <ClInclude Include="SailorsMenu.h" />
-    <ClInclude Include="SailorsWayPoints.h" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\Engine\Modules\Techniques\Sailors_Editor\editor.sha" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

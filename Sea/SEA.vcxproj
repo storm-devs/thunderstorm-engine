@@ -145,10 +145,6 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="EnvMap.cpp" />
-    <ClCompile Include="sea.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\Common_h\sea_base.h" />
     <ClInclude Include="sea.h" />
     <ClInclude Include="SSE.h" />

@@ -129,7 +129,7 @@ bool Window::Init(VDX9RENDER * rs)
 	return true;
 }
 
-void Window::InitList(Lights & ls)
+void Window::InitList(LighterLights & ls)
 {
 	long maxSize = ls.Num();
 	numElements = 7;
