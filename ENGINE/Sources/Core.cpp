@@ -583,17 +583,16 @@ void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 
 bool __declspec(noinline) __cdecl CORE::LoadClassesTable()
 {
-	VMA * pEClass;
 	long hash;
 
 	for(auto c : _pModuleClassRoot)
 	{
-		auto hash = MakeHashValue(pEClass->GetName());
+		auto hash = MakeHashValue(c->GetName());
 
-		if (ClassesOff.GetStringCode(pEClass->GetName()) != INVALID_ORDINAL_NUMBER) 
+		if (ClassesOff.GetStringCode(c->GetName()) != INVALID_ORDINAL_NUMBER)
 			hash = 0;
 
-		pEClass->SetHash(hash);
+		c->SetHash(hash);
 	}
 
 	return true;

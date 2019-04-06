@@ -1301,9 +1301,6 @@
     <ClCompile Include="..\Seafoam\seafoam_ps.cpp">
       <Filter>Modules\Seafoam</Filter>
     </ClCompile>
-    <ClCompile Include="..\Seafoam\SeafoamDefines.cpp">
-      <Filter>Modules\Seafoam</Filter>
-    </ClCompile>
     <ClCompile Include="..\Seafoam\TCarcass.cpp">
       <Filter>Modules\Seafoam</Filter>
     </ClCompile>

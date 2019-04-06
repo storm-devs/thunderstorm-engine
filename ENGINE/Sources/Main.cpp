@@ -25,7 +25,7 @@ VAPI * _CORE_API; // ~!~ TODO: remove
 VAPI * api = nullptr;
 
 //VMA * _pModuleClassRoot = nullptr;
-std::vector<VMA*> _pModuleClassRoot;
+//extern std::vector<VMA*> _pModuleClassRoot { };
 
 VFILE_SERVICE * fio = nullptr;
 
