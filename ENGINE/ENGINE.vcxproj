@@ -19,15 +19,11 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v142</PlatformToolset>
-    <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
     <PlatformToolset>v142</PlatformToolset>
-    <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -44,45 +40,27 @@
     <_ProjectFileVersion>15.0.27128.1</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>.\Debug\</OutDir>
-    <IntDir>.\Debug\</IntDir>
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>.\release\</OutDir>
-    <IntDir>.\Release\</IntDir>
-    <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_ENGINE_IN_;WIN32;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader />
-      <PrecompiledHeaderOutputFile>.\Debug/ENGINE.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>.\Debug/</AssemblerListingLocation>
-      <ObjectFileName>.\Debug/</ObjectFileName>
-      <ProgramDataBaseFileName>.\Debug/</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>legacy_stdio_definitions.lib;d3d9.lib;d3dx9.lib;dxerr.lib;odbc32.lib;odbccp32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>ENGINE.exe</OutputFile>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>.\Debug/ENGINE.pdb</ProgramDatabaseFile>
+      <AdditionalDependencies>zlib.lib;legacy_stdio_definitions.lib;d3d9.lib;d3dx9.lib;dxerr.lib;odbc32.lib;odbccp32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
-      <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
+      <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -102,30 +80,16 @@
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;_ENGINE_IN_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <PrecompiledHeader />
-      <PrecompiledHeaderOutputFile>.\Release/ENGINE.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>.\Release/</AssemblerListingLocation>
-      <ObjectFileName>.\Release/</ObjectFileName>
-      <ProgramDataBaseFileName>.\Release/</ProgramDataBaseFileName>
-      <WarningLevel>Level3</WarningLevel>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
     </ClCompile>
     <Link>
       <AdditionalOptions>/FIXED:NO %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>legacy_stdio_definitions.lib;d3d9.lib;d3dx9.lib;dxerr.lib;odbc32.lib;odbccp32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>ENGINE.exe</OutputFile>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>.\Release/ENGINE.pdb</ProgramDatabaseFile>
+      <AdditionalDependencies>zlib.lib;legacy_stdio_definitions.lib;d3d9.lib;d3dx9.lib;dxerr.lib;odbc32.lib;odbccp32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
-      <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
-      <FixedBaseAddress>false</FixedBaseAddress>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -485,21 +449,6 @@
     <ClCompile Include="sources\s_vartab.cpp" />
     <ClCompile Include="sources\tm_list.cpp" />
     <ClCompile Include="sources\token.cpp" />
-    <ClCompile Include="Sources\Zlib\adler32.c" />
-    <ClCompile Include="Sources\Zlib\compress.c" />
-    <ClCompile Include="Sources\Zlib\crc32.c" />
-    <ClCompile Include="Sources\Zlib\deflate.c" />
-    <ClCompile Include="Sources\Zlib\gzio.c" />
-    <ClCompile Include="Sources\Zlib\infblock.c" />
-    <ClCompile Include="Sources\Zlib\infcodes.c" />
-    <ClCompile Include="Sources\Zlib\inffast.c" />
-    <ClCompile Include="Sources\Zlib\inflate.c" />
-    <ClCompile Include="Sources\Zlib\inftrees.c" />
-    <ClCompile Include="Sources\Zlib\infutil.c" />
-    <ClCompile Include="Sources\Zlib\maketree.c" />
-    <ClCompile Include="Sources\Zlib\trees.c" />
-    <ClCompile Include="Sources\Zlib\uncompr.c" />
-    <ClCompile Include="Sources\Zlib\zutil.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\BATTLE_INTERFACE\ActivePerkShower.h" />
@@ -819,7 +768,6 @@
     <ClInclude Include="..\XINTERFACE\vxservice.h" />
     <ClInclude Include="..\XINTERFACE\xinterface.h" />
     <ClInclude Include="..\XINTERFACE\xservice.h" />
-    <ClInclude Include="Modules\Techniques\Weather\Shaders\reflect.h" />
     <ClInclude Include="PROGRAM\BATTLE_INTERFACE\msg_control.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="sources\classes_table.h" />
@@ -881,87 +829,9 @@
     <ClInclude Include="sources\tm_list.h" />
     <ClInclude Include="sources\token.h" />
     <ClInclude Include="sources\vbuffer.h" />
-    <ClInclude Include="Sources\Zlib\deflate.h" />
-    <ClInclude Include="Sources\Zlib\infblock.h" />
-    <ClInclude Include="Sources\Zlib\infcodes.h" />
-    <ClInclude Include="Sources\Zlib\inffast.h" />
-    <ClInclude Include="Sources\Zlib\inffixed.h" />
-    <ClInclude Include="Sources\Zlib\inftrees.h" />
-    <ClInclude Include="Sources\Zlib\infutil.h" />
-    <ClInclude Include="Sources\Zlib\trees.h" />
-    <ClInclude Include="Sources\Zlib\zconf.h" />
-    <ClInclude Include="Sources\Zlib\zlib.h" />
-    <ClInclude Include="Sources\Zlib\zutil.h" />
     <ClInclude Include="strutils.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Modules\Techniques\Ai\baba.sha" />
-    <None Include="Modules\Techniques\Ai\balls.sha" />
-    <None Include="Modules\Techniques\Ai\crosshair.sha" />
-    <None Include="Modules\Techniques\Ai\line.sha" />
-    <None Include="Modules\Techniques\Ai\SeaLocatorsShow.sha" />
-    <None Include="modules\techniques\ai\sprite.sha" />
-    <None Include="Modules\Techniques\animation.sha" />
-    <None Include="Modules\Techniques\artifact.sha" />
-    <None Include="Modules\Techniques\blenditem.sha" />
-    <None Include="Modules\Techniques\butterfly.sha" />
-    <None Include="Modules\Techniques\Effects\blade.sha" />
-    <None Include="Modules\Techniques\Effects\maineffects.sha" />
-    <None Include="Modules\Techniques\Effects\shark.sha" />
-    <None Include="Modules\Techniques\Effects\tornado.sha" />
-    <None Include="Modules\Techniques\Effects\worldmap.sha" />
-    <None Include="Modules\Techniques\GameUtils\islanded_points.sha" />
-    <None Include="Modules\Techniques\GameUtils\spritetest.sha" />
-    <None Include="Modules\Techniques\geomdistanceblend.sha" />
-    <None Include="Modules\Techniques\Interfaces\battle_interface.sha" />
-    <None Include="Modules\Techniques\Interfaces\game_interface.sha" />
-    <None Include="Modules\Techniques\Interfaces\TextureSequence.sha" />
-    <None Include="Modules\Techniques\Interfaces\videoplayer.sha" />
-    <None Include="Modules\Techniques\Island\island.sha" />
-    <None Include="Modules\Techniques\location\loc_ambient.sha" />
-    <None Include="Modules\Techniques\location\maineffects.sha" />
-    <None Include="Modules\Techniques\mdebug.sha" />
-    <None Include="Modules\Techniques\new_seafoam.sha" />
-    <None Include="Modules\Techniques\randitem.sha" />
-    <None Include="Modules\Techniques\Render\dialog.sha" />
-    <None Include="Modules\Techniques\Render\EngineFont.sha" />
-    <None Include="Modules\Techniques\Render\texturedialogfon.sha" />
-    <None Include="Modules\Techniques\Shadow\shadow.sha" />
-    <None Include="Modules\Techniques\Ship\Flag.sha" />
-    <None Include="Modules\Techniques\Ship\Rope.sha" />
-    <None Include="Modules\Techniques\Ship\Sail.sha" />
-    <None Include="Modules\Techniques\Ship\ship_reflect.sha" />
-    <None Include="Modules\Techniques\Ship\Track.sha" />
-    <None Include="Modules\Techniques\Ship\Vant.sha" />
-    <None Include="Modules\Techniques\sink.sha" />
-    <None Include="Modules\Techniques\splash.sha" />
-    <None Include="Modules\Techniques\telescope.sha" />
-    <None Include="Modules\Techniques\Temp\SunFlare.sha" />
-    <None Include="Modules\Techniques\waterring.sha" />
-    <None Include="Modules\Techniques\Weather\Bump.sha" />
-    <None Include="Modules\Techniques\Weather\Cloud.sha" />
-    <None Include="Modules\Techniques\Weather\CoastFoam.sha" />
-    <None Include="Modules\Techniques\Weather\Lightning.sha" />
-    <None Include="modules\techniques\weather\LightPillar.sha" />
-    <None Include="modules\techniques\weather\Planets.sha" />
-    <None Include="Modules\Techniques\Weather\rain.sha" />
-    <None Include="Modules\Techniques\Weather\Rainbow.sha" />
-    <None Include="modules\techniques\weather\sea\G2MXSea.sha" />
-    <None Include="modules\techniques\weather\sea\G3Sea.sha" />
-    <None Include="modules\techniques\weather\sea\RadeonSea.sha" />
-    <None Include="modules\techniques\weather\sea\Sea2.sha" />
-    <None Include="modules\techniques\weather\sea\XBoxSea.sha" />
-    <None Include="Modules\Techniques\Weather\Shaders\ATIShaders.sha" />
-    <None Include="Modules\Techniques\Weather\Shaders\GF3Shaders.sha" />
-    <None Include="Modules\Techniques\Weather\Shaders\SeaFoam.sha" />
-    <None Include="Modules\Techniques\Weather\ShipFlare.sha" />
-    <None Include="Modules\Techniques\Weather\Sky.sha" />
-    <None Include="Modules\Techniques\Weather\Stars.sha" />
-    <None Include="Modules\Techniques\Weather\SunFlare.sha" />
-    <None Include="Modules\Techniques\Weather\SunGlow.sha" />
-    <None Include="Modules\Techniques\Weather\water.sha" />
-    <None Include="Modules\Techniques\Weather\WaterFlare.sha" />
-    <None Include="Modules\Techniques\worldmap.sha" />
     <None Include="REsOURCE\Textures\Weather\Astronomy\Planets\jupiter.tga.tx" />
     <None Include="REsOURCE\Textures\Weather\Astronomy\Planets\mars.tga.tx" />
     <None Include="REsOURCE\Textures\Weather\Astronomy\Planets\mercury.tga.tx" />
@@ -972,8 +842,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\SoundService\Fmod4\api\lib\which library do I use.txt" />
-    <Text Include="Sources\core.txt" />
-    <Text Include="SOURCES\syntax.txt" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\SoundService\Fmod4\api\lib\fmodex_vc.lib" />

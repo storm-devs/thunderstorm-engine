@@ -21,7 +21,7 @@
 #define SBUPDATE 4
 #define DEF_COMPILE_EXPRESSIONS
 
-#include "Zlib/zlib.h"
+#include "zlib.h"
 #include "../../Common_h/vapi.h"
 #include "file_service.h"
 
