@@ -1,16 +1,10 @@
 #include <Windows.h>
-#include "system_log.h"
 #include "Core.h"
 #include "s_debug.h"
 #include "../../Common_h/Exs.h"
 #include "file_service.h"
 #include "control_stack.h"
 #include "system_api.h"
-
-
-const int SPLASH_WIDTH = 600;
-const int SPLASH_HEIGHT = 400;
-const char SPLASH_CLASS[] = "Storm Engine";
 
 char ENGINE_INI_FILE_NAME[256] = "engine.ini";
 
@@ -19,9 +13,6 @@ FILE_SERVICE File_Service;
 CORE Core;
 VAPI * _CORE_API; // ~!~ TODO: remove
 VAPI * api = nullptr;
-
-//VMA * _pModuleClassRoot = nullptr;
-//extern std::vector<VMA*> _pModuleClassRoot { };
 
 VFILE_SERVICE * fio = nullptr;
 
@@ -48,64 +39,40 @@ void EmergencyExit();
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdShow)
 {
-	//~!~ TODO: replace with mutex
-	if (FindWindow(SPLASH_CLASS, SPLASH_CLASS) != nullptr)
+	if (!CreateEventA(nullptr, false, false, "Global\\FBBD2286-A9F1-4303-B60C-743C3D7AA7BE")
+		|| GetLastError() == ERROR_ALREADY_EXISTS) {
+		MessageBoxA(0, "Another instance is already running!", "Error", MB_ICONERROR);
 		return 0;
+	}
 
-	Core.hInstance = hInstance;
 	_CORE_API = &Core;
 	api = &Core;
 	fio = &File_Service;
 	_CORE_API->fio = &File_Service;
 	_VSYSTEM_API = &System_Api;
 
-	bool bMemoryStats = false;
-	char sMemProfileFileName[MAX_PATH] = "";
-	
-	bool bFirstLaunch = true;
 	uint32_t dwMaxFPS = 0;
 	INIFILE *ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
 	if (ini)
 	{
-		bMemoryStats = ini->GetLong("stats", "memory_stats", 0) == 1;
-		ini->ReadString(nullptr, "mem_profile", sMemProfileFileName, sizeof(sMemProfileFileName), "");
-
 		dwMaxFPS = (uint32_t)ini->GetLong(nullptr, "max_fps", 0);
 		bDebugWindow = ini->GetLong(nullptr, "DebugWindow", 0) == 1;
 		bAcceleration = ini->GetLong(nullptr, "Acceleration", 0) == 1;
 		bBackspaceExit = ini->GetLong(nullptr, "BackSpaceExit", 0) == 1;
 		bTraceFilesOff = ini->GetLong(nullptr, "tracefilesoff", 0) == 1;
-		bFirstLaunch = ini->GetLong(nullptr, "firstlaunch", 1) != 0;
-		if (bFirstLaunch)
-			ini->WriteLong(nullptr, "firstlaunch", 0);
 
 		delete ini;
 	}
 
-	if (bFirstLaunch)
-	{
-		PROCESS_INFORMATION pi;
-		STARTUPINFO si;
-		memset(&si, 0, sizeof(si));
-		si.cb = sizeof(si);
-
-		BOOL bProcess = CreateProcessA("config.exe", nullptr, nullptr, nullptr, FALSE, NULL, nullptr, nullptr, &si, &pi);
-		if (bProcess == TRUE)
-		{
-			CloseHandle(pi.hProcess);
-			CloseHandle(pi.hThread);
-			return 0;
-		}
-	}
-
-	//_CORE_API->SetExceptions(_X_NO_MEM|_X_NO_FILE|_X_NO_FILE_READ);
 	_CORE_API->SetExceptions(_X_NO_MEM | _X_NO_FILE_READ);
 
 	Control_Stack.Init();
 
 	MSG msg;
-	WNDCLASSEX wndclass;
+	
+	const auto windowName = "Thunderstorm";
 
+	WNDCLASSEX wndclass;
 	wndclass.cbSize = sizeof(wndclass);
 	wndclass.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
 	wndclass.lpfnWndProc = WndProc;
@@ -116,20 +83,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 	wndclass.hCursor = LoadCursor(hInstance, "NULL_CURSOR");//LoadCursor(NULL,IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 	wndclass.lpszMenuName = nullptr;
-	wndclass.lpszClassName = SPLASH_CLASS;
+	wndclass.lpszClassName = windowName;
 	wndclass.hIconSm = LoadIcon(nullptr, IDI_APPLICATION);
 	RegisterClassEx(&wndclass);
 
-	const auto hwnd = CreateWindow(SPLASH_CLASS, SPLASH_CLASS,
+	const auto hwnd = CreateWindowA(windowName, windowName,
 		WS_POPUP,
 		0, 0, 0, 0, NULL, NULL, hInstance, NULL);
 	ShowWindow(hwnd, SW_SHOWNORMAL);
 
 	Core.InitBase();
 
-	//SetProcessAffinityMask(GetCurrentProcess(), 0x3);
-
-	bool Run_result;
 
 	uint32_t dwOldTime = GetTickCount();
 #ifndef EX_OFF
@@ -162,8 +126,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 							if (dwNewTime - dwOldTime < dwMS) continue;
 							dwOldTime = dwNewTime;
 						}
-						if (!System_Hold) Run_result = Core.Run();
-						if (!Run_result)
+						if (!System_Hold && !Core.Run())
 						{
 							Core.CleanUp();
 							System_Hold = true;
@@ -213,9 +176,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
 	ENTITY_ID eidNET;
 	uint16_t wActive;
-#ifndef EX_OFF
-	try {
-#endif
 
 		switch (iMsg)
 		{
@@ -235,8 +195,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case WM_KEYDOWN:
-			if (bDebugWindow) ProcessKeys(hwnd, (int)wParam, 0);
-			//case WM_ACTIVATE:
+			if (bDebugWindow) 
+				ProcessKeys(hwnd, (int)wParam, 0);
 		case WM_KEYUP:
 		case WM_RBUTTONUP:
 		case WM_RBUTTONDOWN:
@@ -248,13 +208,13 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		case WM_LBUTTONDBLCLK:
 		case WM_CHAR:
 		case WM_MOUSEMOVE:
-			//case 0x20A:
-			//if(bActive)	Core.ProcessSystemMessage(iMsg,wParam,lParam);
-			if (Core.Controls) Core.Controls->EngineMessage(iMsg, wParam, lParam);
+			if (Core.Controls) 
+				Core.Controls->EngineMessage(iMsg, wParam, lParam);
 			break;
-		case 0x20A:
+		case WM_MOUSEWHEEL:
 			Core.Event("evMouseWeel", "l", (short)HIWORD(wParam));
-			if (Core.Controls) Core.Controls->EngineMessage(iMsg, wParam, lParam);
+			if (Core.Controls) 
+				Core.Controls->EngineMessage(iMsg, wParam, lParam);
 			break;
 		case WM_CLOSE:
 			DestroyWindow(hwnd);
@@ -263,35 +223,20 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			Core.Event("DestroyWindow", nullptr);
 			Core.Event("ExitApplication", nullptr);
 			CDebug.Release();
-			/*try { */Core.CleanUp();/* } catch(...) { gdi_display.Print("Cleanup exs");};*/
+			Core.CleanUp();
 			Control_Stack.Release();
 			File_Service.Close();
 			CDebug.CloseDebugWindow();
 
-			//trace("System exit and cleanup:");
-			//trace("Mem state: User memory: %d  MSSystem: %d  Blocks: %d",Memory_Service.Allocated_memory_user,Memory_Service.Allocated_memory_system,Memory_Service.Blocks);
 			InvalidateRect(nullptr, nullptr, 0);
 			PostQuitMessage(0);
 			break;
 		case SD_SERVERMESSAGE:
 		case SD_CLIENTMESSAGE:
 			if (Core.FindClass(&eidNET, "Net", 0))
-			{
 				Core.Send_Message(eidNET, "luu", iMsg, wParam, lParam);
-			}
-			break;
-			//return 0;
+		default: ;
 		}
-
-#ifndef EX_OFF
-	}
-	catch (...)
-	{
-		gdi_display.Print("ERROR in WndProc: System halted");
-		System_Hold = true;
-
-	}//*/
-#endif
 
 	return DefWindowProc(hwnd, iMsg, wParam, lParam);
 }
@@ -300,22 +245,16 @@ void ProcessKeys(HWND hwnd, int code, int Press)
 {
 	switch (code)
 	{
-		//case VK_ESCAPE:
-	case VK_BACK:
-		if (bBackspaceExit)
-		{
-			Core.Exit(); System_Hold = false;
-		}
-		break;
 	case VK_F5:
-		if (!CDebug.IsDebug()) CDebug.OpenDebugWindow(Core.hInstance);
+		if (!CDebug.IsDebug()) 
+			CDebug.OpenDebugWindow(Core.hInstance);
 		else
 		{
 			ShowWindow(CDebug.GetWindowHandle(), SW_NORMAL);
 			SetFocus(CDebug.SourceView->hOwn);
 		}
 		break;
-	default:break;
+	default:;
 	}
 }
 
