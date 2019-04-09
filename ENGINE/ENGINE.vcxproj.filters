@@ -572,15 +572,6 @@
     <ClCompile Include="sources\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sources\mem_pool.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\mem_utils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\memory_service.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sources\pcinput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1643,18 +1634,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sources\loopstack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\mem_pool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\mem_utils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\memop.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\memory_service.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Common_h\message.h">

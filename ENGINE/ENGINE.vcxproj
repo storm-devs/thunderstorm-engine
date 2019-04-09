@@ -424,9 +424,6 @@
     <ClCompile Include="sources\layer_service.cpp" />
     <ClCompile Include="sources\loopstack.cpp" />
     <ClCompile Include="sources\Main.cpp" />
-    <ClCompile Include="sources\memory_service.cpp" />
-    <ClCompile Include="sources\mem_pool.cpp" />
-    <ClCompile Include="sources\mem_utils.cpp" />
     <ClCompile Include="sources\pcinput.cpp" />
     <ClCompile Include="sources\program.cpp" />
     <ClCompile Include="sources\services_list.cpp" />
@@ -499,7 +496,6 @@
     <ClInclude Include="..\Common_h\Exs.h" />
     <ClInclude Include="..\Common_h\input.h" />
     <ClInclude Include="..\Common_h\key_codes.h" />
-    <ClInclude Include="..\Common_h\memop.h" />
     <ClInclude Include="..\Common_h\message.h" />
     <ClInclude Include="..\Common_h\script_libriary.h" />
     <ClInclude Include="..\Common_h\service.h" />
@@ -743,9 +739,6 @@
     <ClInclude Include="sources\layer.h" />
     <ClInclude Include="sources\layer_service.h" />
     <ClInclude Include="sources\loopstack.h" />
-    <ClInclude Include="sources\memory_service.h" />
-    <ClInclude Include="sources\mem_pool.h" />
-    <ClInclude Include="sources\mem_utils.h" />
     <ClInclude Include="sources\messages.h" />
     <ClInclude Include="sources\message_script.h" />
     <ClInclude Include="sources\pcinput.h" />

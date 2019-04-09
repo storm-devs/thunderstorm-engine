@@ -17,21 +17,21 @@ LCOLL::~LCOLL()
 
 VAPI *GlobApi;
 long addedFaces;
-long *sVrt;
-CVECTOR *addVerts;
+long *sVrt = nullptr;
+CVECTOR *addVerts = nullptr;
 
 bool AddPolyColl(const CVECTOR *vr, long nverts)
 {
 	//start vertex of face, max faces is REALLOC_QUANT
 	if((addedFaces&(REALLOC_QUANT-1))==0)
-		sVrt = (long*)GlobApi->MemReallocate(sVrt, sizeof(long)*(addedFaces + REALLOC_QUANT));
+		sVrt = (long*)realloc(sVrt, sizeof(long)*(addedFaces + REALLOC_QUANT));
 
 	if(addedFaces==0)	sVrt[addedFaces] = nverts;
 	else	sVrt[addedFaces] = sVrt[addedFaces-1] + nverts;
 
 	//F0(v0,v1,v2), F1(v0,v1,v2,v3)...
 	if(addedFaces==0 || (sVrt[addedFaces-1]&(REALLOC_QUANT-1))+nverts>REALLOC_QUANT )
-		addVerts = (CVECTOR*)GlobApi->MemReallocate(addVerts, sizeof(long)*(sVrt[addedFaces]/REALLOC_QUANT + REALLOC_QUANT));
+		addVerts = (CVECTOR*)realloc(addVerts, sizeof(long)*(sVrt[addedFaces]/REALLOC_QUANT + REALLOC_QUANT));
 
 	for(long v=0; v<nverts; v++)
 	{

@@ -175,12 +175,6 @@ public:
 //------------------------------------------------------------------------------------------------
 // API functions : (virtual API)
 
-	// memory managment functions
-	void *	MemAllocate(size_t size,char * p, unsigned long n);					
-	void	MemFree(void * block_ptr);
-	void *	MemReallocate(void * block_ptr,size_t size,char * p = nullptr, unsigned long n = 0);
-
-
 	// common programm control
 	
 	// shutdown core, delete all objects and close programm
@@ -322,8 +316,6 @@ public:
 	void * GetSaveData(char * file_name, long & data_size);
 	
 	bool SetSaveData(char * file_name, void * data_ptr, long data_size);
-
-	void GetMemoryState(MSTATE * pMemStateStructure);
 
 	uint32_t SetScriptFunction(IFUNCINFO * pFuncInfo);
 

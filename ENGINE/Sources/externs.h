@@ -3,7 +3,6 @@
 
 #include "gdi_display.h"
 #include "file_service.h"
-#include "memory_service.h"
 #include "control_stack.h"
 #include "system_api.h"
 #include "../../Common_h/vapi.h"
@@ -11,7 +10,6 @@
 extern uint32_t Exceptions_Mask;
 extern GDI_DISPLAY gdi_display;
 extern FILE_SERVICE File_Service;
-extern MEMORY_SERVICE Memory_Service;
 extern char Last_Error[512];
 extern bool Error_Flag;
 extern char * CTP_Name[];
@@ -29,8 +27,8 @@ extern CONTROL_BLOCK Control_Block;
 //#define CODE_CORE {Code_State.ctp = (word)CTP_CORE; Code_State.class_code = 0xffffffff; Memory_Service.SetState((word)CTP_CORE,0xffffffff,0);}
 #define CTP_NAME(x) CTP_Name[x]
 
-#define PUSH_CONTROL(ptr,code,c) {/*Control_Stack.Push(ptr,code,c);*/ Control_Block.pointer = ptr; Control_Block.class_code = code; Control_Block.ctp = c; Memory_Service.SetState((uint16_t)c,code); Control_Stack.Push(ptr,code,c);}
-#define POP_CONTROL(control_block_ptr) {Control_Stack.Pop(control_block_ptr); Control_Stack.Read(&Control_Block); Memory_Service.SetState((uint16_t)Control_Block.ctp,Control_Block.class_code);}
+#define PUSH_CONTROL(ptr,code,c) 
+#define POP_CONTROL(control_block_ptr) 
 
 
 #endif

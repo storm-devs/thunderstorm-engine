@@ -278,8 +278,6 @@ bool CORE::Run()
 	if(Reset_flag) ResetCore();				// reset to initial state
 	Timer.Run();							// calc delta time and programm fps
 
-	Memory_Service.MemStat.ProcessTime(Timer.rDelta_Time);
-
 	VDATA * pVCTime = (VDATA *)api->GetScriptVariable("iRealDeltaTime");
 	if (pVCTime) pVCTime->Set((long)GetRDeltaTime());
 
@@ -1736,56 +1734,6 @@ VIDWALKER * CORE::LayerGetWalker(char * layer_name)
 	}
 	return pl->GetWalker();
 }
-extern CODESOURCE CodeSource;
-
-void * CORE::MemAllocate(size_t size,char * pFileName, unsigned long nLine)
-{
-	GUARD(CORE::MemAllocate)
-	void * pPTR;
-	CodeSource.pFileName = pFileName; CodeSource.line = nLine;
-	pPTR = Memory_Service.Allocate(size);
-	CodeSource.pFileName = nullptr; CodeSource.line = 0xffffffff;
-	return pPTR;
-	UNGUARD
-	return nullptr;
-}
-void CORE::MemFree(void * block_ptr)
-{
-	if (!block_ptr) return;
-
-	GUARD(CORE::MemFree)
-	//if(System_Api.Exceptions) return;			// exception processing going, this line prevent core from
-	// generating other exceptions, which can damage control trace procedures. For example: if exceptions
-	// generated in object constructor, system trying to delete this object via delete (MemFree). If, in turn,
-	// one more exception occuried in this function, exceptions control would returned to system, not to
-	// unguard block and programm would stopped by system, loosing exception path information
-
-	if(Control_Stack.ScanPointer(block_ptr))	// if this block in executed objects list
-	{
-		if(Services_List.FindNode((SERVICE *)block_ptr))
-		{
-			// this is service pointer
-			//_asm int 3;
-		}
-		else MarkEntityAsDeleted(block_ptr); // this is entity
-		return;
-	}
-	Memory_Service.Free(block_ptr);
-	UNGUARD
-}
-
-void * CORE::MemReallocate(void * block_ptr,size_t size,char * pFileName, unsigned long nLine)
-{
-	GUARD(CORE::MemReallocate)
-	void * pPTR;
-	CodeSource.pFileName = pFileName; CodeSource.line = nLine;
-	pPTR = Memory_Service.Reallocate(block_ptr,size);
-	CodeSource.pFileName = nullptr; CodeSource.line = 0xffffffff;
-	return pPTR;
-
-	UNGUARD
-	return nullptr;
-}
 
 //-------------------------------------------------------------------------------------------------
 // exit to system
@@ -3086,9 +3034,9 @@ void CORE::DumpEntitiesInfo()
 	trace("Script commands executed: %" PRIu32, dwNumberScriptCommandsExecuted);
 
 	trace("Entity Dump -----------------------------------");
-	trace("Allocated Memory: %f kb in %" PRIu32 " block(s)",
+	/*trace("Allocated Memory: %f kb in %" PRIu32 " block(s)",
 		(Memory_Service.Allocated_memory_user + Memory_Service.Allocated_memory_system)/1024.0f,//(1024*1024),
-		Memory_Service.Blocks);
+		Memory_Service.Blocks);*/
 
 	for(n=0;n<=CoreState.Atoms_max_orbit;n++)
 	{
@@ -3152,28 +3100,6 @@ void * CORE::GetSaveData(char * file_name, long & data_size)
 bool CORE::SetSaveData(char * file_name, void * data_ptr, long data_size)
 {
 	return Compiler.SetSaveData(file_name,data_ptr,data_size);
-}
-
-void CORE::GetMemoryState(MSTATE * pMemStateStructure)
-{
-	if(pMemStateStructure != nullptr)
-	{
-		long blocks = 0;
-		float mem = 0.0;
-		for(uint32_t n=0;n<SBCNUM;n++)
-		{
-			blocks += Memory_Service.SBCounter[n];
-			mem += Memory_Service.SBCounter[n]*n;
-
-		}
-
-		pMemStateStructure->nBlocksNum = blocks;
-		pMemStateStructure->nMemorySize = uint32_t(mem);//*/
-
-
-		//pMemStateStructure->nBlocksNum = Memory_Service.Blocks;
-		//pMemStateStructure->nMemorySize = Memory_Service.Allocated_memory_user;
-	}
 }
 
 

@@ -4,7 +4,6 @@
 #include "Core.h"
 #include "s_debug.h"
 #include "../../Common_h/Exs.h"
-#include "memory_service.h"
 #include "file_service.h"
 #include "control_stack.h"
 #include "system_api.h"
@@ -16,7 +15,6 @@ const char SPLASH_CLASS[] = "Storm Engine";
 
 char ENGINE_INI_FILE_NAME[256] = "engine.ini";
 
-MEMORY_SERVICE Memory_Service;
 FILE_SERVICE File_Service;
 GDI_DISPLAY gdi_display;
 
@@ -42,7 +40,6 @@ CONTROL_BLOCK Control_Block;
 SYSTEM_API System_Api;
 VSYSTEM_API * _VSYSTEM_API;
 S_DEBUG CDebug;
-CODESOURCE CodeSource;
 
 uint32_t Exceptions_Mask;
 extern bool bTraceFilesOff;
@@ -109,9 +106,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 
 		delete ini;
 	}
-
-	Memory_Service.CollectInfo(bMemoryStats);
-	Memory_Service.ProcessMemProfile(sMemProfileFileName);
 
 	if (bFirstLaunch)
 	{
@@ -253,27 +247,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 	}
 #endif
 
-	if (Memory_Service.bCollectInfo)
-	{
-		Memory_Service.MemStat.Report();
-		ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
-		if (ini)
-		{
-			if (ini->GetLong("stats", "update_mem_profile", 0) == 1)
-			{
-				Memory_Service.MemStat.UpdateMemoryProfile("memory.mp");
-			}
-			delete ini;
-		}
-	}
 	Core.ReleaseBase();
 	ClipCursor(nullptr);
-	trace("System exit and cleanup:");
-	trace("Mem state: User memory: %d  MSSystem: %d  Blocks: %d", Memory_Service.Allocated_memory_user, Memory_Service.Allocated_memory_system, Memory_Service.Blocks);
-
-
-	Memory_Service.GlobalFree();
-
 
 	return msg.wParam;
 }

@@ -1158,15 +1158,15 @@ bool DX9RENDER::DX9EndScene()
 
 		if (bShowFps)
 		{
-			MSTATE sms;
-			api->GetMemoryState(&sms);
 			Print(screen_size.x - 100, 50, "%d", api->EngineFps());
+			/*MSTATE sms;
+			api->GetMemoryState(&sms);
 
 			//Print(80,50,"%d Kb",(ms.dwTotalPhys - ms.dwAvailPhys)/(1024));
 
 			Print(80, 50, "%.3f Mb", (ms.dwTotalPhys - ms.dwAvailPhys) / (1024.f*1024.f));
 			Print(80, 80, "%.3f Mb in %d blocks", sms.nMemorySize / (1024.f*1024.f), sms.nBlocksNum);
-
+			*/
 
 			if (bShowExInfo)
 			{
