@@ -2388,7 +2388,7 @@ void DX9RENDER::RecompileEffects()
 {
 	effects_.release();
 
-	for (auto& p : fs::recursive_directory_iterator("modules/techniques"))
+	for (auto& p : fs::recursive_directory_iterator("resource/techniques"))
 		if (fs::is_regular_file(p) && p.path().extension() == ".fx") {
 			auto s = p.path().string(); // hug microsoft 
 			effects_.compile(s.c_str());
