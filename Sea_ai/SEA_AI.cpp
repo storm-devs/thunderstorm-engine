@@ -2,7 +2,7 @@
 #include "AIGroup.h"
 #include "LocatorShow.h"
 #include "AISeaGoods.h"
-#include "../../Shared/messages.h"
+#include "../Shared/messages.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(SEA_AI)

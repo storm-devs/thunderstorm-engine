@@ -3,7 +3,7 @@
 #include "../../Common_h/particles.h"
 #include "../../Common_h/defines.h"
 #include "../../Common_h/filesystem.h"
-#include "../../../Shared/messages.h"
+#include "../../Shared/messages.h"
 
 
 PARTICLES::PARTICLES()

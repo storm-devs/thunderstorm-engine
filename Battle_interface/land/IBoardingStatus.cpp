@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "../../Common_h/Matrix.h"
-#include "../../../Shared/battle_interface/log_msg.h"
+#include "../../Shared/battle_interface/log_msg.h"
 #include "IBoardingStatus.h"
 
 IBoardingStatus::IBoardingStatus()

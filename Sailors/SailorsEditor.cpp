@@ -1,9 +1,9 @@
 
 #include "SailorsEditor.h"
 
-#include "../../Shared/sea_ai/Script_defines.h"
+#include "../Shared/sea_ai/Script_defines.h"
 #include "../Common_h/math3d/Matrix.h"
-#include "../../Shared/messages.h"
+#include "../Shared/messages.h"
 
 
 SailorsEditor :: SailorsEditor(): rs(nullptr), model(nullptr)

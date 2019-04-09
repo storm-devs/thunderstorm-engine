@@ -17,7 +17,7 @@
 #include "../ItemEntity/itementity.h"
 #include "../WorldMapInterface/interface.h"
 
-#include "../../../Shared/battle_interface/msg_control.h"
+#include "../../Shared/battle_interface/msg_control.h"
 
 #include "../interfacemanager/InterfaceManager.h"
 

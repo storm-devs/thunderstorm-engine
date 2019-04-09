@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../../Shared/messages.h"
+#include "../Shared/messages.h"
 //#include "..\common_h\defines.h"
 #include "../Common_h/Exs.h"
 #include "../Common_h/Cvector.h"

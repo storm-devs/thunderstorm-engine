@@ -3,7 +3,7 @@
 #include "../Common_h/defines.h"
 #include "../Common_h/Exs.h"
 #include "../Common_h/rands.h"
-#include "../../Shared/messages.h"
+#include "../Shared/messages.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(SEA_OPERATOR)

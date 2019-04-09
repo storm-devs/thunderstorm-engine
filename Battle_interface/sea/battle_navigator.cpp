@@ -6,7 +6,7 @@
 #include "../../Common_h/Island_Base.h"
 #include "ships_list.h"
 #include "../Utils.h"
-#include "../../../Shared/battle_interface/msg_control.h"
+#include "../../Shared/battle_interface/msg_control.h"
 
 #define NAVBACKGROUND_SIZESCALE	1.3f
 

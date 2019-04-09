@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "../../Shared/messages.h"
+#include "../Shared/messages.h"
 #include "../Common_h/Exs.h"
 #include "../Common_h/Cvector.h"
 #include "../Common_h/geos.h"

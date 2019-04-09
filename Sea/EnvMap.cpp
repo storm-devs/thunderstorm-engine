@@ -1,5 +1,5 @@
 #include "sea.h"
-#include "../../Shared/messages.h"
+#include "../Shared/messages.h"
 
 void SEA::EnvMap_GetSideMatrix(D3DCUBEMAP_FACES Face, CMatrix & mView)
 {

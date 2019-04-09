@@ -1,6 +1,6 @@
 #include "AIBalls.h"
 #include "AIFort.h"
-#include "../../Shared/messages.h"
+#include "../Shared/messages.h"
 
 AIBalls * AIBalls::pAIBalls = nullptr;
 

@@ -1,7 +1,7 @@
 #include "itementity.h"
 #include "../Utils.h"
 #include "../../Common_h/model.h"
-#include "../../../Shared/messages.h"
+#include "../../Shared/messages.h"
 
 ItemEntity::ItemEntity()
 {

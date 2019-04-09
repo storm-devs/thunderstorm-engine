@@ -8,11 +8,11 @@
 #include <stdio.h>
 #include "Sailors.h"
 
-#include "../../Shared/messages.h"
+#include "../Shared/messages.h"
 #include "../Common_h/Exs.h"
 #include "../Common_h/types3d.h"
-#include "../../Shared/sea_ai/Script_defines.h"
-#include "../../Shared/sea_ai/SeaPeople.h"
+#include "../Shared/sea_ai/Script_defines.h"
+#include "../Shared/sea_ai/SeaPeople.h"
 #include "../Ship/ship.h"
 
 #define GUARD_SAILORS(block)	{ static const TCHAR block_name[] = TEXT(#block); try {

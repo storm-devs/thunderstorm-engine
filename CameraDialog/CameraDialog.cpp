@@ -1,6 +1,6 @@
 #include "CameraDialog.h"
 #include "../Common_h/model.h"
-#include "../../Shared/messages.h"
+#include "../Shared/messages.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(CameraDialog)

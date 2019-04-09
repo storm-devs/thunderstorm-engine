@@ -11,7 +11,7 @@
 #include "../Common_h/geometry.h"
 
 #include "ModelArray.h"
-#include "../../Shared/messages.h"
+#include "../Shared/messages.h"
 #include "../Common_h/model.h"
 
 //============================================================================================

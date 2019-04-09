@@ -5,7 +5,7 @@
 #include "../xinterface.h"
 #include "../../Common_h/defines.h"
 #include "../../Common_h/math3d/Matrix.h"
-#include "../../../Shared/messages.h"
+#include "../../Shared/messages.h"
 
 InterfaceBackScene::LightParam::~LightParam()
 {

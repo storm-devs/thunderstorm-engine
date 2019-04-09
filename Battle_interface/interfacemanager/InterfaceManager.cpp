@@ -3,7 +3,7 @@
 #include "../image/image.h"
 #include "../Utils.h"
 #include "MousePointer.h"
-#include "../../../Shared/bimanager/messages.h"
+#include "../../Shared/bimanager/messages.h"
 #include "interfacenode/AllNodes.h"
 
 #include "interfacegroup/BaseGroup.h"

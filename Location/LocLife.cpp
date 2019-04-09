@@ -14,7 +14,7 @@
 #include "LocLife.h"
 #include "Location.h"
 #include "Character.h"
-#include "../../Shared/messages.h"
+#include "../Shared/messages.h"
 
 
 //============================================================================================

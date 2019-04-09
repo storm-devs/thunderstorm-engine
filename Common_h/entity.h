@@ -8,7 +8,7 @@
 #include "vsystem_api.h"
 #include "Exs.h"
 
-#include "../../Shared/net/Net_Defines.h"
+#include "../Shared/net/Net_Defines.h"
 
 //-------------------------------------------------------------------------------------------------
 // Pop operation (from run stack) for object constructor perform engine code

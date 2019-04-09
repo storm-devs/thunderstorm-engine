@@ -1,6 +1,6 @@
 #include "FirePlace.h"
-#include "../../Shared/sound.h"
-#include "../../Shared/messages.h"
+#include "../Shared/sound.h"
+#include "../Shared/messages.h"
 #include "../Common_h/Sd2_h/SaveLoad.h"
 
 ENTITY_ID	FirePlace::eidSound;

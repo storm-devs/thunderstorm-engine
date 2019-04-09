@@ -4,7 +4,7 @@
 #include "../Common_h/Cvector.h"
 #include "../Common_h/stringService.h"
 #include "QuestFileReader//QuestFileReader.h"
-#include "../../Shared/interface/messages.h"
+#include "../Shared/interface/messages.h"
 
 
 #define PI	3.14159265358979323846f

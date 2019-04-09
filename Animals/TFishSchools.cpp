@@ -1,7 +1,7 @@
 #include "TFishSchools.h"
 #include "../Common_h/ship_base.h"
 #include "../Common_h/rands.h"
-#include "../../Shared/messages.h"
+#include "../Shared/messages.h"
 #include "../Common_h/defines.h"
 
 #pragma warning (disable : 4244)

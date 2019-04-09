@@ -1,5 +1,5 @@
 #include "locator.h"
-#include "../../Shared/messages.h"
+#include "../Shared/messages.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(LOCATOR)

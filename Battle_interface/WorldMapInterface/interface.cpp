@@ -1,7 +1,7 @@
 #include "interface.h"
 #include "shipsign.h"
 #include "shipcommand.h"
-#include "../../../Shared/battle_interface/msg_control.h"
+#include "../../Shared/battle_interface/msg_control.h"
 
 WM_INTERFACE::WM_INTERFACE(): rs(nullptr)
 {

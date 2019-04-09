@@ -11,7 +11,7 @@
 #include "LocEagle.h"
 #include "Location.h"
 #include "../Common_h/geometry.h"
-#include "../../Shared/messages.h"
+#include "../Shared/messages.h"
 
 
 LocEagle::LocEagle()

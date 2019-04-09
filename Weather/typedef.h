@@ -7,10 +7,10 @@
 #include "../Common_h/dx9render.h"
 #include "../Common_h/defines.h"
 #include "../Common_h/Matrix.h"
-#include "../../Shared/messages.h"
+#include "../Shared/messages.h"
 #include "../Common_h/collide.h"
 #include "../Common_h/geos.h"
 #include "../Common_h/geometry.h"
-#include "../../Shared/sea_ai/Script_defines.h"
+#include "../Shared/sea_ai/Script_defines.h"
 
 #endif

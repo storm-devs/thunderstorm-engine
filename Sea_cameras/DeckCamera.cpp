@@ -2,7 +2,7 @@
 #include "../Common_h/ship_base.h"
 #include "../Common_h/geos.h"
 #include "../Common_h/defines.h"
-#include "../../Shared/messages.h"
+#include "../Shared/messages.h"
 #include "../Common_h/Sd2_h/SaveLoad.h"
 
 #define DISCR_F_VAL 0.00001f

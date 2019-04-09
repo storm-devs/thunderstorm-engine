@@ -12,7 +12,7 @@
 #include "Location.h"
 #include "CharactersGroups.h"
 #include "../Common_h/defines.h"
-#include "../../Shared/messages.h"
+#include "../Shared/messages.h"
 
 
 //============================================================================================

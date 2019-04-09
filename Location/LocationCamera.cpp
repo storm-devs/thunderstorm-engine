@@ -12,7 +12,7 @@
 #include "Location.h"
 #include "Character.h"
 #include "../Common_h/sea_base.h"
-#include "../../Shared/messages.h"
+#include "../Shared/messages.h"
 
 
 

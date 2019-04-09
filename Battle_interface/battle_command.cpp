@@ -2,7 +2,7 @@
 #include "image/imgrender.h"
 #include "sea/ships_list.h"
 #include "Utils.h"
-#include "../../Shared/battle_interface/msg_control.h"
+#include "../Shared/battle_interface/msg_control.h"
 
 BICommandList::BICommandList( ENTITY_ID& eid, ATTRIBUTES* pA, VDX9RENDER* rs )
 {

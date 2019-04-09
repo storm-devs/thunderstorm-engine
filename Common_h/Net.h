@@ -30,7 +30,7 @@
 
 #include "..\common_h\CVECTOR4.h"
 
-#include "..\..\Shared\NET\net_defines.h"
+#include "..\Shared\NET\net_defines.h"
 
 #include "..\common_h\math3d.h"
 #include "..\common_h\ShipLights.h"

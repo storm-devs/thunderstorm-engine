@@ -1,6 +1,6 @@
 #include "TSeagulls.h"
 #include "../Common_h/rands.h"
-#include "../../Shared/messages.h"
+#include "../Shared/messages.h"
 #include "../Common_h/model.h"
 
 //#pragma warning (disable : 4244)

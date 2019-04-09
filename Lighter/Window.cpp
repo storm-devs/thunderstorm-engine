@@ -12,7 +12,7 @@
 #include "Window.h"
 #include "Lights.h"
 #include "../Common_h/dx9render.h"
-#include "../../Shared/messages.h"
+#include "../Shared/messages.h"
 
 //============================================================================================
 //Конструирование, деструктурирование

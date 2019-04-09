@@ -8,7 +8,7 @@
 //
 //============================================================================================
 
-#include "../../Shared/messages.h"
+#include "../Shared/messages.h"
 #include "WorldMap.h"
 #include "WdmCameraStdCtrl.h"
 #include "WdmSea.h"

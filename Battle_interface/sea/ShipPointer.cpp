@@ -1,5 +1,5 @@
 #include "ShipPointer.h"
-#include "../../../Shared/battle_interface/msg_control.h"
+#include "../../Shared/battle_interface/msg_control.h"
 #include "../defines.h"
 #include "../../Common_h/ship_base.h"
 #include "../../Common_h/Net.h"
