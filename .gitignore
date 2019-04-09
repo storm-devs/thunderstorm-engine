@@ -265,8 +265,4 @@ __pycache__/
 *.exp
 *.dll
 *.exe
-/ENGINE/RESOURCE
-/ENGINE/SAVE
-/ENGINE/options
 *.nvuser
-/ENGINE/project.df
