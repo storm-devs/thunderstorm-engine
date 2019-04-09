@@ -46,34 +46,11 @@ LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 void ProcessKeys(HWND hwnd, int code, int Press);
 void EmergencyExit();
 
-
-/*
-#include "C:\Users\espkk\source\repos\breakpad\src\exception_handler.h"
-
-#pragma comment(lib, "common.lib")
-#pragma comment(lib, "exception_handler.lib")
-#pragma comment(lib, "crash_generation_client.lib")
-	
-bool CBK(const wchar_t* dump_path,
-const wchar_t* minidump_id,
-void* context,
-EXCEPTION_POINTERS* exinfo,
-MDRawAssertionInfo* assertion,
-bool succeeded)
-{
-//MessageBoxA(NULL, "TEST", "TEST", MB_OK);
-__debugbreak();
-bool bOk = google_breakpad::ExceptionHandler::WriteMinidump(dump_path, nullptr, nullptr);
-return bOk;
-};*/
-
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdShow)
 {
 	//~!~ TODO: replace with mutex
 	if (FindWindow(SPLASH_CLASS, SPLASH_CLASS) != nullptr)
 		return 0;
-
-	//auto handler = new google_breakpad::ExceptionHandler(L".", nullptr, nullptr, nullptr, google_breakpad::ExceptionHandler::HANDLER_ALL);
 
 	Core.hInstance = hInstance;
 	_CORE_API = &Core;
