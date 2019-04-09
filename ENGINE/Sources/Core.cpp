@@ -77,15 +77,12 @@ void CORE::ResetCore()
 	GUARD(CORE::ResetCore)
 
 	Reset_flag = false;
-	gdi_display.Print(CMS_RESET);
 	Initialized = false;
 	bEngineIniProcessed = false;
 
 	ReleaseAtoms();
 	ReleaseServices();
 	ReleaseLayers();
-
-	gdi_display.Switch(true);
 
 	Services_List.Release();
 
@@ -420,7 +417,6 @@ bool __declspec(noinline) __cdecl CORE::Initialize()
 	GUARD(CORE::Initialize())
 
 	ResetCore();
-	gdi_display.Print(CMS_INITIALIZING_CORE);
 
 	// create atoms space
 	if(!CreateAtomsTable(CORE_DEFAULT_ATOMS_SPACE)) return false;
@@ -429,7 +425,6 @@ bool __declspec(noinline) __cdecl CORE::Initialize()
 	DeleteEntityList.Init(sizeof(ENTITY_ID),2);
 	DeleteLayerList.Init(sizeof(uint32_t),8);
 
-	gdi_display.Print(CMS_INIT_COMPLETE);
 	Initialized = true;
 
 	//ProcessRootObjectCreation();
@@ -446,7 +441,6 @@ bool CORE::LoadCoreState(CORE_STATE cs)
 
 	GUARD(CORE::LoadCoreState)
 	ResetCore();
-	gdi_display.Print("loading core state");
 
 	// pc/xbox mod - modules loaded on startup only and unloaded when app terminated
 	//Modules_Table.LoadModulesTable();							// creating modules table
@@ -601,14 +595,11 @@ bool __declspec(noinline) __cdecl CORE::CreateAtomsTable(uint32_t _space)
 {
 	GUARD(CORE::CreateAtomsTable)
 
-	gdi_display.Print(CMS_CREATE_ATOMS_SPACE,_space);
-
 	// allocate space for atoms table
 	CoreState.Atoms_space = _space;
 
 	//Atoms_PTR = (C_ATOM * *)new char[CoreState.Atoms_space*sizeof(C_ATOM*)];
 	Atoms_PTR.resize(CoreState.Atoms_space);
-	gdi_display.Print_Add(CMS_DONE);
 	PZERO(&CoreState.Creation_Time,sizeof(CoreState.Creation_Time));
 
 	UNGUARD
@@ -2030,8 +2021,7 @@ void _cdecl CORE::BTrace(const char * format, ...)
 	va_start(args,format);
 	_vsnprintf_s(buffer_4k,sizeof(buffer_4k) - 4,format,args);
 	va_end(args);
-	if(!gdi_display.gdi_off) gdi_display.Print(buffer_4k);
-	else trace(buffer_4k);
+	trace(buffer_4k);
 	Beep(2000, 150);
 	UNGUARD
 }
@@ -2043,8 +2033,7 @@ void _cdecl CORE::Trace(const char * format, ...)
 	va_start(args,format);
 	_vsnprintf_s(buffer_4k,sizeof(buffer_4k) - 4,format,args);
 	va_end(args);
-	if(!gdi_display.gdi_off) gdi_display.Print(buffer_4k);
-	else trace(buffer_4k);
+	trace(buffer_4k);
 	UNGUARD
 }
 
@@ -2736,7 +2725,6 @@ void CORE::ProcessStateLoading()
 	Root_flag = true;
 	// state loading complete
 	State_loading = false;
-	gdi_display.Print("state loaded");
 	UNGUARD
 }
 
@@ -2781,12 +2769,6 @@ void CORE::ProcessRunEnd(uint32_t section_code)
 		service_PTR = Services_List.GetServiceNext(class_code);
 	}
 	UNGUARD
-}
-
-void CORE::EngineDisplay(bool on)
-{
-	gdi_display.Switch(on);
-	//InvalidateRect(0,0,false);	// xbox
 }
 
 uint32_t CORE::EngineFps()

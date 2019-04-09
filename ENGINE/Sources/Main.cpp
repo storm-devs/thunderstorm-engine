@@ -1,6 +1,5 @@
 #include <Windows.h>
 #include "system_log.h"
-#include "gdi_display.h"
 #include "Core.h"
 #include "s_debug.h"
 #include "../../Common_h/Exs.h"
@@ -16,7 +15,6 @@ const char SPLASH_CLASS[] = "Storm Engine";
 char ENGINE_INI_FILE_NAME[256] = "engine.ini";
 
 FILE_SERVICE File_Service;
-GDI_DISPLAY gdi_display;
 
 CORE Core;
 VAPI * _CORE_API; // ~!~ TODO: remove
@@ -128,7 +126,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 
 	Control_Stack.Init();
 
-	HWND hwnd;
 	MSG msg;
 	WNDCLASSEX wndclass;
 
@@ -146,12 +143,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 	wndclass.hIconSm = LoadIcon(nullptr, IDI_APPLICATION);
 	RegisterClassEx(&wndclass);
 
-	hwnd = CreateWindow(SPLASH_CLASS, SPLASH_CLASS,
+	const auto hwnd = CreateWindow(SPLASH_CLASS, SPLASH_CLASS,
 		WS_POPUP,
-		//WS_POPUP|WS_CAPTION|WS_BORDER,
-		0, 0, SPLASH_WIDTH, SPLASH_HEIGHT, NULL, NULL, hInstance, NULL);
-
-	gdi_display.Init(hInstance, hwnd, SPLASH_WIDTH, SPLASH_HEIGHT);
+		0, 0, 0, 0, NULL, NULL, hInstance, NULL);
+	ShowWindow(hwnd, SW_SHOWNORMAL);
 
 	Core.InitBase();
 
@@ -194,23 +189,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 						if (!Run_result)
 						{
 							Core.CleanUp();
-							gdi_display.Print("Unloading");
-							gdi_display.Switch(true);
-							if (System_Api.Exceptions || System_Api.ExceptionsNF)
-							{
-								gdi_display.Print("One or more exception(s) occuried on Run");
-								gdi_display.Print("See log file for details");
-								Sleep(ERROR_MESSAGE_DELAY);
-							}
-							if (Core.Memory_Leak_flag)
-							{
-								gdi_display.Print("Memory leak detected");
-								gdi_display.Print("See log file for details");
-								Sleep(ERROR_MESSAGE_DELAY);
-							}
-
 							System_Hold = true;
-							SendMessage(hwnd, WM_CLOSE, 0, 0L);
 						}
 					}
 					else
@@ -266,9 +245,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		case WM_CREATE:
 			Core.Set_Hwnd(hwnd);
 			return 0;
-		case WM_PAINT:
-			gdi_display.On_Paint(hwnd);
-			break;
 
 		case WM_SYSKEYUP:
 		case WM_SYSKEYDOWN:
@@ -311,7 +287,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			Core.Event("ExitApplication", nullptr);
 			CDebug.Release();
 			/*try { */Core.CleanUp();/* } catch(...) { gdi_display.Print("Cleanup exs");};*/
-			gdi_display.Release();
 			Control_Stack.Release();
 			File_Service.Close();
 			CDebug.CloseDebugWindow();
@@ -370,9 +345,7 @@ void ProcessKeys(HWND hwnd, int code, int Press)
 void EmergencyExit()
 {
 	System_Api.SetX();
-	gdi_display.Switch(true);
 	Core.TraceCurrent();
-	gdi_display.Print("FATAL EXCEPTION : System halted");
 	System_Hold = true;
 	Sleep(ERROR_MESSAGE_DELAY);
 	ExitProcess(0xFFBADBAD);

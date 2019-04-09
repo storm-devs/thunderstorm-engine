@@ -519,7 +519,6 @@ DX9RENDER::~DX9RENDER()
 
 	STORM_DELETE(DX9sphereVertex);
 	ReleaseDevice();
-	api->EngineDisplay(true);
 
 	if (bPreparedCapture)
 	{
@@ -841,7 +840,6 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 	}
 
 	SetCommonStates();
-	api->EngineDisplay(false);
 
 	screen_size.x = width;
 	screen_size.y = height;

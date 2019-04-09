@@ -1,14 +1,12 @@
 #ifndef _EXTERNS_H_
 #define _EXTERNS_H_
 
-#include "gdi_display.h"
 #include "file_service.h"
 #include "control_stack.h"
 #include "system_api.h"
 #include "../../Common_h/vapi.h"
 
 extern uint32_t Exceptions_Mask;
-extern GDI_DISPLAY gdi_display;
 extern FILE_SERVICE File_Service;
 extern char Last_Error[512];
 extern bool Error_Flag;

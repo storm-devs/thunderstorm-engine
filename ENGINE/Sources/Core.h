@@ -201,7 +201,6 @@ public:
 	// AND operation with core exceptions mask, returned current mask state
 	uint32_t ClrExceptions(uint32_t _flags);
 	// switch on/off engine gdi display 
-	void EngineDisplay(bool on);
 
 
 

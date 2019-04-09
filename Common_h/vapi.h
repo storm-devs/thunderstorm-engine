@@ -55,9 +55,6 @@ public:
 	virtual uint32_t SetExceptions(uint32_t _flags)= 0;
 	// AND operation with core exceptions mask inversion, return current mask state
 	virtual uint32_t ClrExceptions(uint32_t _flags)= 0;
-	// switch on/off engine gdi display 
-	virtual void EngineDisplay(bool on)= 0;
-
 
 	// work with objects classes
 	
