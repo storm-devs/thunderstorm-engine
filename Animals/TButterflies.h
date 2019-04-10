@@ -8,7 +8,7 @@
 #include "../Common_h/collide.h"
 #include "AnimalsDefines.h"
 #include "TButterfly.h"
-#include "TIVBufferManager.h"
+#include "../Common_h/TIVBufferManager.h"
 
 #define Y_REDEFINE_TIME		250
 

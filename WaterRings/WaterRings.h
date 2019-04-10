@@ -6,7 +6,7 @@
 #include "../Common_h/model.h"
 #include "../Common_h/sea_base.h"
 //#include "..\geom_lib\geos.h"
-#include "TIVBufferManager.h"
+#include "../Common_h/TIVBufferManager.h"
 
 #define MAX_RINGS     25
 #define FADE_IN_TIME  200

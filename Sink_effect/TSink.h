@@ -5,7 +5,7 @@
 #include "../Common_h/sea_base.h"
 #include "../Common_h/Cvector.h"
 #include "../SoundService/VSoundService.h"
-#include "TIVBufferManager.h"
+#include "../Common_h/TIVBufferManager.h"
 #include "TSinkSplash.h"
 #include "TFlotsam.h"
 

@@ -668,9 +668,6 @@
     <ClCompile Include="..\Animals\TFishSchools.cpp">
       <Filter>Modules\Animals</Filter>
     </ClCompile>
-    <ClCompile Include="..\Animals\TIVBufferManager.cpp">
-      <Filter>Modules\Animals</Filter>
-    </ClCompile>
     <ClCompile Include="..\Animals\TSeagulls.cpp">
       <Filter>Modules\Animals</Filter>
     </ClCompile>
@@ -1196,9 +1193,6 @@
     <ClCompile Include="..\Seafoam\TCarcass.cpp">
       <Filter>Modules\Seafoam</Filter>
     </ClCompile>
-    <ClCompile Include="..\Seafoam\TIVBufferManager.cpp">
-      <Filter>Modules\Seafoam</Filter>
-    </ClCompile>
     <ClCompile Include="..\shadow\shadow.cpp">
       <Filter>Modules\Shadow</Filter>
     </ClCompile>
@@ -1224,9 +1218,6 @@
       <Filter>Modules\SinkEffect</Filter>
     </ClCompile>
     <ClCompile Include="..\SINK_EFFECT\TFlotsam.cpp">
-      <Filter>Modules\SinkEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="..\SINK_EFFECT\TIVBufferManager.cpp">
       <Filter>Modules\SinkEffect</Filter>
     </ClCompile>
     <ClCompile Include="..\SINK_EFFECT\TSink.cpp">
@@ -1267,9 +1258,6 @@
     </ClCompile>
     <ClCompile Include="..\Touch\touch.cpp">
       <Filter>Modules\Touch</Filter>
-    </ClCompile>
-    <ClCompile Include="..\WaterRings\TIVBufferManager.cpp">
-      <Filter>Modules\Waterrings</Filter>
     </ClCompile>
     <ClCompile Include="..\WaterRings\WaterRings.cpp">
       <Filter>Modules\Waterrings</Filter>
@@ -1546,6 +1534,9 @@
     </ClCompile>
     <ClCompile Include="..\XINTERFACE\editor\xfont.cpp">
       <Filter>Modules\XINTERFACE\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\renderer\TIVBufferManager.cpp">
+      <Filter>Modules\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

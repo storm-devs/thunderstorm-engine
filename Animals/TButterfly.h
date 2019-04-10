@@ -5,7 +5,7 @@
 #include "../Common_h/Cvector.h"
 #include "../Common_h/model.h"
 #include "../Common_h/collide.h"
-#include "TIVBufferManager.h"
+#include "../Common_h/TIVBufferManager.h"
 
 ///////////////////////////////////////////////////////////////////
 // DEFINES & TYPES

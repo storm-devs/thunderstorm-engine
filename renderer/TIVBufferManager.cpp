@@ -1,4 +1,4 @@
-#include "TIVBufferManager.h"
+#include "../Common_h/TIVBufferManager.h"
 
 //--------------------------------------------------------------------
 TIVBufferManager::TIVBufferManager(VDX9RENDER *_renderer, long _vType, long _vSize, long _iCount, long _vCount, long _count)
@@ -14,13 +14,18 @@ TIVBufferManager::TIVBufferManager(VDX9RENDER *_renderer, long _vType, long _vSi
 	,locked(false)
 	,indexes(nullptr)
 	,vertices(nullptr)
+	,ivIndexes(nullptr)
 	,count(0)
 {
 	iBuffer = renderer->CreateIndexBuffer(elementsCount * iCount * sizeof(uint16_t));
 	vBuffer = renderer->CreateVertexBuffer(vType, elementsCount * vCount * vSize, D3DUSAGE_WRITEONLY);
 	used = new bool[elementsCount];
+	ivIndexes = new long[elementsCount];
 	for (int i=0; i < elementsCount; ++i)
+	{
+		ivIndexes[i] = -1;
 		used[i] = false;
+	}
 }
 
 //--------------------------------------------------------------------
@@ -28,6 +33,8 @@ TIVBufferManager::~TIVBufferManager()
 {
 	if (used)
 		delete[] used;
+	if (ivIndexes)
+		delete[] ivIndexes;
 	if (vBuffer)
 		renderer->ReleaseVertexBuffer(vBuffer);
 	if (iBuffer)
@@ -39,16 +46,24 @@ long TIVBufferManager::ReserveElement()
 {
 	for (int i=0; i < elementsCount; i++)
 	{
-		if (!used[i])
+		if (ivIndexes[i] == -1)
 		{
-			used[i] = true;
-			if (i == count)
-				++count;
-			return i;
+			for (int firstUnused=0; firstUnused<elementsCount; firstUnused++)
+			{
+				if (!used[firstUnused])
+				{
+					ivIndexes[i] = firstUnused;
+					used[firstUnused] = true;
+					if (i == count)
+						++count;
+					return i;
+				}
+			}
+			return -1; // no free elements
 		}
 	}
 
-	return -1;
+	return -1; // no free indexes
 }
 
 //--------------------------------------------------------------------
@@ -57,14 +72,20 @@ void TIVBufferManager::FreeElement(long _i)
 	if (_i < 0)
 		return;
 
-	used[_i] = false;
+	--count;
+	ivIndexes[count] = ivIndexes[_i];
+	used[count] = false;
+	ivIndexes[_i] = -1;
 }
 
 //--------------------------------------------------------------------
 void TIVBufferManager::FreeAll()
 {
 	for (int i=0; i < elementsCount; ++i)
+	{
 		used[i] = false;
+		ivIndexes[i] = -1;
+	}
 }
 
 //--------------------------------------------------------------------
@@ -93,6 +114,7 @@ void TIVBufferManager::GetPointers(long _i, uint16_t **iPointer, void **vPointer
 		return;
 	}
 
+	_i = ivIndexes[_i];
 	*iPointer = indexes + _i*iCount;
 	*vPointer = ((uint8_t *) vertices) + _i*vSize*vCount;
 	if (vOffset)
@@ -105,14 +127,14 @@ void TIVBufferManager::DrawBuffers(char *_technique)
 	if (locked || !count)
 		return;
 
-		renderer->DrawBuffer(vBuffer, 
-							 vSize, 
-							 iBuffer, 
-							 0, 
-							 count * vCount, 
-							 0, 
-							 count * iCount / 3, 
-							 _technique);
+	renderer->DrawBuffer(vBuffer, 
+						 vSize, 
+						 iBuffer, 
+						 0, 
+						 count * vCount, 
+						 0, 
+						 count * iCount / 3, 
+						 _technique);
 }
 
 //--------------------------------------------------------------------

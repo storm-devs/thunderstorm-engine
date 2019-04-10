@@ -87,7 +87,7 @@
       <WholeProgramOptimization>true</WholeProgramOptimization>
     </ClCompile>
     <Link>
-      <AdditionalOptions>/FIXED:NO %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/LTCG %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>legacy_stdio_definitions.lib;d3d9.lib;d3dx9.lib;dxerr.lib;odbc32.lib;odbccp32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
@@ -112,7 +112,6 @@
     <ClCompile Include="..\Animals\TDynamicObject.cpp" />
     <ClCompile Include="..\Animals\TDynamicSystem.cpp" />
     <ClCompile Include="..\Animals\TFishSchools.cpp" />
-    <ClCompile Include="..\Animals\TIVBufferManager.cpp" />
     <ClCompile Include="..\Animals\TSeagulls.cpp" />
     <ClCompile Include="..\Animals\TSharks.cpp" />
     <ClCompile Include="..\Animation\ActionInfo.cpp" />
@@ -243,6 +242,7 @@
     <ClCompile Include="..\renderer\Font.cpp" />
     <ClCompile Include="..\renderer\Screenshot.cpp" />
     <ClCompile Include="..\renderer\sdevice.cpp" />
+    <ClCompile Include="..\renderer\TIVBufferManager.cpp" />
     <ClCompile Include="..\Rigging\Flag.cpp" />
     <ClCompile Include="..\Rigging\rigging_main.cpp" />
     <ClCompile Include="..\Rigging\Rope.cpp" />
@@ -262,7 +262,6 @@
     <ClCompile Include="..\Seafoam\Seafoam.cpp" />
     <ClCompile Include="..\Seafoam\seafoam_ps.cpp" />
     <ClCompile Include="..\Seafoam\TCarcass.cpp" />
-    <ClCompile Include="..\Seafoam\TIVBufferManager.cpp" />
     <ClCompile Include="..\Sea\EnvMap.cpp" />
     <ClCompile Include="..\Sea\sea.cpp" />
     <ClCompile Include="..\Sea_ai\AIBalls.cpp" />
@@ -299,7 +298,6 @@
     <ClCompile Include="..\SINK_EFFECT\seps.cpp" />
     <ClCompile Include="..\SINK_EFFECT\SinkEffect.cpp" />
     <ClCompile Include="..\SINK_EFFECT\TFlotsam.cpp" />
-    <ClCompile Include="..\SINK_EFFECT\TIVBufferManager.cpp" />
     <ClCompile Include="..\SINK_EFFECT\TSink.cpp" />
     <ClCompile Include="..\SINK_EFFECT\TSinkSplash.cpp" />
     <ClCompile Include="..\SoundService\DebugEntity.cpp" />
@@ -313,7 +311,6 @@
     <ClCompile Include="..\Tornado\Tornado.cpp" />
     <ClCompile Include="..\Tornado\TornadoParticles.cpp" />
     <ClCompile Include="..\Touch\touch.cpp" />
-    <ClCompile Include="..\WaterRings\TIVBufferManager.cpp" />
     <ClCompile Include="..\WaterRings\WaterRings.cpp" />
     <ClCompile Include="..\Weather\Astronomy.cpp" />
     <ClCompile Include="..\Weather\Lightning.cpp" />
