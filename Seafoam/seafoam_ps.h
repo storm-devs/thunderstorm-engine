@@ -108,7 +108,6 @@ class SEAFOAM_PS : VPARTICLE_SYSTEM
 
 	bool bTrackAngle;
 
-	VAPI * api;
 	VDX9RENDER * RenderService;
 	VGEOMETRY * gs;
 

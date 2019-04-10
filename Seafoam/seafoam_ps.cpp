@@ -4,8 +4,6 @@
 SEAFOAM_PS::SEAFOAM_PS()
 	:enableEmit(true)
 {
-	api = (VAPI *)api;
-
 	TechniqueName = nullptr;
 
 	ParticleColor = 0xffffffff;

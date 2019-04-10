@@ -107,7 +107,6 @@ class SEPS_PS
 
 	bool bTrackAngle;
 
-	VAPI * api;
 	VDX9RENDER * RenderService;
 	VGEOMETRY * gs;
 

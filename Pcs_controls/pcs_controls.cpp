@@ -12,7 +12,6 @@ PCS_CONTROLS::PCS_CONTROLS()
 	fMouseSensivityY = 1.0f;
 
 	nFrameCounter = 0;
-	api = api;
 
 	nSystemControlsNum = 0;
 

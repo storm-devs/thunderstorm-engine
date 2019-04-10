@@ -7,7 +7,6 @@
 #define BAD_FA		"Bad function argument"
 #define MISSING_PARAMETER	"Missing function parameter(s)"
 
-extern VAPI * api;
 extern CORE Core;
 
 //#define _TOFF

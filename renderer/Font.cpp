@@ -6,7 +6,6 @@ static char Buffer1024[1024];
 
 FONT::FONT()
 {
-	api = (VAPI *)api;
 	RenderService = nullptr;
 	Device = nullptr;
 	VBuffer = nullptr;

@@ -10,7 +10,6 @@ class VMA;
 inline std::vector<VMA*> _pModuleClassRoot;
 extern VAPI* api;
 extern VSYSTEM_API* _VSYSTEM_API;
-extern VAPI* api;
 extern VFILE_SERVICE* fio;
 
 class VMA

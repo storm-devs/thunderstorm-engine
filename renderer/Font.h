@@ -43,7 +43,6 @@ struct FONT_SYMBOL
 
 class FONT
 {
-	VAPI * api;
 	VDX9RENDER * RenderService;
 	IDirect3DDevice9 * Device;
 	IDirect3DVertexBuffer9 * VBuffer;

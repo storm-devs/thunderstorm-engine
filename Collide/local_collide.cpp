@@ -15,7 +15,6 @@ LCOLL::~LCOLL()
 
 #define REALLOC_QUANT 1024	//mast be power of to due to AND
 
-VAPI *GlobApi;
 long addedFaces;
 long *sVrt = nullptr;
 CVECTOR *addVerts = nullptr;
@@ -76,9 +75,6 @@ long LCOLL::SetBox(const CVECTOR &boxSize, const CMatrix &transform, bool testOn
 	boxCenter = transform.Pos();
 	boxRadius = sqrtf(~boxSize);
 
-	
-	//we needs api to have resize function
-	GlobApi = &api;
 	//added faces
 	addedFaces = 0;
 	//start vertex of face

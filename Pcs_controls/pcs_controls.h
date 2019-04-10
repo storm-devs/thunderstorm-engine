@@ -23,7 +23,6 @@ class PCS_CONTROLS : public CONTROLS
 
 	float fMouseSensivityX;
 	float fMouseSensivityY;
-	VAPI * api;
 	
 	long nSystemControlsNum;
 	std::vector<USER_CONTROL> pUserControls;

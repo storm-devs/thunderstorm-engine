@@ -3,8 +3,6 @@
 
 SEPS_PS::SEPS_PS()
 {
-	api = (VAPI *)api;
-
 	TechniqueName = nullptr;
 
 	ParticleColor = 0xffffffff;
