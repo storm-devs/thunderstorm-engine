@@ -456,7 +456,6 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 //	char Format_string[MAX_PATH];
 	char Message_string[2*MAX_PATH];
 	ENTITY_ID entity_id;
-	VAPI * api;
 	uint32_t functions_num;
 
 	//functions_num = sizeof(FuncNameTable)/sizeof(char *);
@@ -493,8 +492,6 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 	pEid = nullptr;
 	TempFloat1 = 0;
 	TempLong1 = 0;
-
-	api = api;
 
 	pVResult = nullptr;	// default - no return value
 
