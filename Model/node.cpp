@@ -493,8 +493,8 @@ void NODER::Link(NODE *node)
 ENTITY_ID NODER::Unlink2Model()
 {
 	ENTITY_ID id;
-	_CORE_API->CreateEntity(&id, "modelr");
-	MODELR *mdl = (MODELR*)_CORE_API->GetEntityPointer(&id);
+	api->CreateEntity(&id, "modelr");
+	MODELR *mdl = (MODELR*)api->GetEntityPointer(&id);
 
 	//link node to as root
 	mdl->root = this;
@@ -522,7 +522,7 @@ ENTITY_ID NODER::Unlink2Model()
 //-------------------------------------------------------------------
 void NODER::Link(ENTITY_ID id, bool transform)
 {
-	MODELR *mdl = (MODELR*)_CORE_API->GetEntityPointer(&id);
+	MODELR *mdl = (MODELR*)api->GetEntityPointer(&id);
 	if(mdl==nullptr)	return;
 
 	//increment number of children
@@ -541,7 +541,7 @@ void NODER::Link(ENTITY_ID id, bool transform)
 	//prevent self-deleting
 	mdl->root = nullptr;
 	//delete model
-	_CORE_API->DeleteEntity(id);
+	api->DeleteEntity(id);
 }
 
 //-------------------------------------------------------------------

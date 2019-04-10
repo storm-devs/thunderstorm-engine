@@ -134,7 +134,7 @@ void CXI_BUTTON::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	if( ReadIniString(ini1,name1, ini2,name2, "font", param, sizeof(param),"") )
 	{
 		if( (m_nFontNum=m_rs->LoadFont(param))==-1 )
-			_CORE_API->Trace("can not load font:'%s'",param);
+			api->Trace("can not load font:'%s'",param);
 	}
 
 	// get face color

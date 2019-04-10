@@ -18,14 +18,14 @@ COLL::~COLL()
 //----------------------------------------------------------------------------------
 LOCAL_COLLIDE *COLL::CreateLocalCollide(const char *layerName)
 {
-	return new LCOLL(layerName, *_CORE_API);
+	return new LCOLL(layerName, *api);
 }
 //----------------------------------------------------------------------------------
 //Ray tracing
 //----------------------------------------------------------------------------------
 float COLL::Trace(ENTITY_ID &entity, const CVECTOR &src, const CVECTOR &dst)
 {
-	COLLISION_OBJECT *cob = static_cast<COLLISION_OBJECT*>(_CORE_API->GetEntityPointer(&entity));
+	COLLISION_OBJECT *cob = static_cast<COLLISION_OBJECT*>(api->GetEntityPointer(&entity));
 	if(static_cast<ENTITY*>(cob)== nullptr)	return 2.0f;
 
 	last_trace_eid = entity;
@@ -46,7 +46,7 @@ float COLL::Trace(VIDWALKER &walker, const CVECTOR &src, const CVECTOR &dst, con
 			if(*eid==exclude_list[e])	break;
 		if(e==entities)
 		{
-			COLLISION_OBJECT *cob = static_cast<COLLISION_OBJECT*>(_CORE_API->GetEntityPointer(eid));
+			COLLISION_OBJECT *cob = static_cast<COLLISION_OBJECT*>(api->GetEntityPointer(eid));
 			if(cob!= nullptr)
 			{
 				float res = cob->Trace(src, dst);
@@ -81,7 +81,7 @@ bool COLL::Clip(VIDWALKER &walker, const PLANE *planes, long nplanes, const CVEC
 			if(*eid==exclude_list[e])	break;
 		if(e==entities)
 		{
-			COLLISION_OBJECT *cob = static_cast<COLLISION_OBJECT*>(_CORE_API->GetEntityPointer(eid));
+			COLLISION_OBJECT *cob = static_cast<COLLISION_OBJECT*>(api->GetEntityPointer(eid));
 			if(cob!= nullptr)
 			{
 				last_trace_eid = *eid;

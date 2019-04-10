@@ -31,7 +31,7 @@ Supervisor::~Supervisor()
 	for(long i = 0; i < numCharacters; i++)
 	{
 		character[i].c->AlreadySTORM_DELETE();
-		_CORE_API->DeleteEntity(character[i].c->GetID());
+		api->DeleteEntity(character[i].c->GetID());
 	}
 
 }
@@ -179,7 +179,7 @@ void Supervisor::PreUpdate(float dltTime)
 {
 	//—брасываем состо€ние персонажей
 	for(long i = 0; i < numCharacters; i++) character[i].c->Reset();
-	_CORE_API->Event("CharactersStateUpdate", "f", dltTime);
+	api->Event("CharactersStateUpdate", "f", dltTime);
 }
 
 void Supervisor::PostUpdate(float dltTime)
@@ -210,7 +210,7 @@ void Supervisor::PostUpdate(float dltTime)
 			character[curUpdate].lastTime = time;
 			if(api->GetEntityPointer(&character[curUpdate].c->GetID()))
 			{
-				_CORE_API->Event("CharacterUpdate", "if", character[curUpdate].c->GetID(), dlt);
+				api->Event("CharacterUpdate", "if", character[curUpdate].c->GetID(), dlt);
 			}
 			curUpdate++;
 		}

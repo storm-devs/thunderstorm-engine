@@ -44,8 +44,8 @@ bool ANIMALS::Init()
 {
 	GUARD(ANIMALS::Init)
 
-	_CORE_API->LayerAdd("realize",GetID(),77);
-	_CORE_API->LayerAdd("execute",GetID(),77);
+	api->LayerAdd("realize",GetID(),77);
+	api->LayerAdd("execute",GetID(),77);
 
 	seagulls->Init();
 	//sharks->Init();

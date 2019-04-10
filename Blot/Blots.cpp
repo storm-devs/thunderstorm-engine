@@ -51,12 +51,12 @@ bool Blots::Init()
 {
 	GUARD(Blots::Init())
 	//DX9 render
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs) STORM_THROW("No service: dx9render");
 	//Layers
-	//_CORE_API->LayerCreate("realize", true, false);
-	//_CORE_API->LayerSetRealize("realize", true);
-	//_CORE_API->LayerAdd("realize", GetID(), 1000);
+	//api->LayerCreate("realize", true, false);
+	//api->LayerSetRealize("realize", true);
+	//api->LayerAdd("realize", GetID(), 1000);
 	textureID = rs->TextureCreate("blot.tga");
 	return true;
 	UNGUARD
@@ -89,7 +89,7 @@ uint32_t _cdecl Blots::ProcessMessage(MESSAGE & message)
 void Blots::Hit(MESSAGE & message)
 {
 	//Моделька коробля
-	MODEL * m = (MODEL *)_CORE_API->GetEntityPointer(&model);
+	MODEL * m = (MODEL *)api->GetEntityPointer(&model);
 	if(!m) return;
 	//Позиция
 	CVECTOR pos;
@@ -124,7 +124,7 @@ void Blots::Hit(MESSAGE & message)
 void Blots::AddBlot(long i, long rnd, const CVECTOR & lpos, const CVECTOR & dir, float time)
 {
 	//Моделька коробля
-	MODEL * m = (MODEL *)_CORE_API->GetEntityPointer(&model);
+	MODEL * m = (MODEL *)api->GetEntityPointer(&model);
 	if(!m) return;
 	blot[i].isUsed = false;
 	CVECTOR pos = m->mtx*CVECTOR(lpos);
@@ -291,7 +291,7 @@ void Blots::Realize(uint32_t delta_time)
 	if(updateBlot >= BLOTS_MAX) updateBlot = 0;
 	SaveBlot(updateBlot);
 	//Моделька коробля
-	MODEL * m = (MODEL *)_CORE_API->GetEntityPointer(&model);
+	MODEL * m = (MODEL *)api->GetEntityPointer(&model);
 	if(!m) return;
 	//Расстояние от камеры
 	CVECTOR pos, ang;

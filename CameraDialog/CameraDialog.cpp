@@ -25,7 +25,7 @@ CameraDialog::CameraDialog(): rs(nullptr), col(nullptr), frames(0)
 
 CameraDialog::~CameraDialog()
 {
-	_CORE_API->FreeService("coll");
+	api->FreeService("coll");
 //	ShowCursor(true);
 	if(track)	delete track;
 }
@@ -34,14 +34,14 @@ bool CameraDialog::Init()
 {
 	GUARD(CAMERA::CAMERA())
 
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs)	STORM_THROW("No service: dx9render");
 
-	col = (COLLIDE *)_CORE_API->CreateService("coll");
+	col = (COLLIDE *)api->CreateService("coll");
 	if(!col)	STORM_THROW("No service: collide");
 
-	_CORE_API->LayerAdd("execute",GetID(),2);
-	//_CORE_API->LayerAdd("realize",GetID(),1);
+	api->LayerAdd("execute",GetID(),2);
+	//api->LayerAdd("realize",GetID(),1);
 	
 	UNGUARD
 	return true;
@@ -78,14 +78,14 @@ void CameraDialog::Execute(uint32_t Delta_Time)
 {
 	if(track==nullptr)	return;
 
-	float dtime = 1.0f/float(_CORE_API->EngineFps());
+	float dtime = 1.0f/float(api->EngineFps());
 	time += Delta_Time*0.001f;
-	//dtime = 0.001f*_CORE_API->GetFloatDeltaTime();
+	//dtime = 0.001f*api->GetFloatDeltaTime();
 
 	CVECTOR prevPos = pos;
 	CVECTOR prevAng = ang;
 
-	MODEL *mdl = (MODEL*)_CORE_API->GetEntityPointer(&person);
+	MODEL *mdl = (MODEL*)api->GetEntityPointer(&person);
 	if(mdl==nullptr)	return;
 
 	CMatrix perMtx = mdl->mtx;
@@ -123,21 +123,21 @@ void CameraDialog::Execute(uint32_t Delta_Time)
 
 void CameraDialog::Realize(uint32_t Delta_Time)
 {
-	MODEL *mdl = (MODEL*)_CORE_API->GetEntityPointer(&person);
+	MODEL *mdl = (MODEL*)api->GetEntityPointer(&person);
 	if(mdl==nullptr)	return;
 	//-------------------------------------------------------
 	static bool inited = false;
 	static ENTITY_ID sMod[2];
 	if(!inited)
 	{
-		_CORE_API->CreateEntity(&sMod[0], "modelr");
-		_CORE_API->LayerAdd("execute",sMod[0],100);
-		_CORE_API->LayerAdd("realize",sMod[0],100);
-		_CORE_API->Send_Message(sMod[0], "ls", MSG_MODEL_LOAD_GEO, "sabel");
-		_CORE_API->CreateEntity(&sMod[1], "modelr");
-		_CORE_API->LayerAdd("execute",sMod[1],100);
-		_CORE_API->LayerAdd("realize",sMod[1],100);
-		_CORE_API->Send_Message(sMod[1], "ls", MSG_MODEL_LOAD_GEO, "sabel");
+		api->CreateEntity(&sMod[0], "modelr");
+		api->LayerAdd("execute",sMod[0],100);
+		api->LayerAdd("realize",sMod[0],100);
+		api->Send_Message(sMod[0], "ls", MSG_MODEL_LOAD_GEO, "sabel");
+		api->CreateEntity(&sMod[1], "modelr");
+		api->LayerAdd("execute",sMod[1],100);
+		api->LayerAdd("realize",sMod[1],100);
+		api->Send_Message(sMod[1], "ls", MSG_MODEL_LOAD_GEO, "sabel");
 		inited = true;
 	}
 	//draw locators
@@ -164,7 +164,7 @@ void CameraDialog::Realize(uint32_t Delta_Time)
 		mbn.Vy().x *= -1.0f;
 		mbn.Vz().x *= -1.0f;
 		CMatrix perMtx = mbn*mdl->mtx;
-		MODEL *smdl = (MODEL*)_CORE_API->GetEntityPointer(&sMod[0]);
+		MODEL *smdl = (MODEL*)api->GetEntityPointer(&sMod[0]);
 		smdl->mtx = perMtx;
 	}
 
@@ -190,7 +190,7 @@ void CameraDialog::Realize(uint32_t Delta_Time)
 		mbn.Vy().x *= -1.0f;
 		mbn.Vz().x *= -1.0f;
 		CMatrix perMtx = mbn*mdl->mtx;
-		MODEL *smdl = (MODEL*)_CORE_API->GetEntityPointer(&sMod[1]);
+		MODEL *smdl = (MODEL*)api->GetEntityPointer(&sMod[1]);
 		smdl->mtx = perMtx;
 	}
 
@@ -221,13 +221,13 @@ uint32_t _cdecl CameraDialog::ProcessMessage(MESSAGE &msg)
 			strcat_s(fname, trackName);
 			strcat_s(fname, ".cam");
 			//loading animation
-			HANDLE cam = _CORE_API->fio->_CreateFile(fname);
-			long nbytes = _CORE_API->fio->_SetFilePointer(cam, 0, nullptr, FILE_END);
-			_CORE_API->fio->_SetFilePointer(cam, 0, nullptr, FILE_BEGIN);
+			HANDLE cam = api->fio->_CreateFile(fname);
+			long nbytes = api->fio->_SetFilePointer(cam, 0, nullptr, FILE_END);
+			api->fio->_SetFilePointer(cam, 0, nullptr, FILE_BEGIN);
 			frames = nbytes/6/sizeof(float);
 			track = new ANIFRAME[frames];
-			_CORE_API->fio->_ReadFile(cam, track, nbytes, nullptr);
-			_CORE_API->fio->_CloseHandle(cam);
+			api->fio->_ReadFile(cam, track, nbytes, nullptr);
+			api->fio->_CloseHandle(cam);
 		}
 		break;
 	}

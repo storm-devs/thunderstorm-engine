@@ -30,13 +30,13 @@ bool BALLSPLASH::Init()
 	GUARD(BALLSPLASH::Init)
 
 	ENTITY_ID seaID;
-	_CORE_API->FindClass(&seaID, "sea", 0);
-	sea = (SEA_BASE*) _CORE_API->GetEntityPointer(&seaID);
+	api->FindClass(&seaID, "sea", 0);
+	sea = (SEA_BASE*) api->GetEntityPointer(&seaID);
 
-	renderer = (VDX9RENDER *) _CORE_API->CreateService("dx9render");
+	renderer = (VDX9RENDER *) api->CreateService("dx9render");
 
-	//_CORE_API->CreateEntity(&arrowModel,"MODELR");
-	//_CORE_API->Send_Message(arrowModel,"ls",MSG_MODEL_LOAD_GEO, "fish01");
+	//api->CreateEntity(&arrowModel,"MODELR");
+	//api->Send_Message(arrowModel,"ls",MSG_MODEL_LOAD_GEO, "fish01");
 	InitializeSplashes();
 
 	return true;
@@ -147,7 +147,7 @@ void BALLSPLASH::Execute(uint32_t _dTime)
 //--------------------------------------------------------------------
 void BALLSPLASH::InitializeSplashes()
 {
-	INIFILE *psIni = _CORE_API->fio->OpenIniFile("resource\\ini\\particles.ini");
+	INIFILE *psIni = api->fio->OpenIniFile("resource\\ini\\particles.ini");
 
 	for (int i = 0; i < MAX_SPLASHES; ++i)
 	{

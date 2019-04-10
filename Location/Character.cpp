@@ -225,21 +225,21 @@ void Character::Detector::Check(float dltTime, Character * ch)
 				if(lastEventTime > 1.0f)
 				{
 					lastEventTime = 0.0f;
-					_CORE_API->Event("Location_CharacterInLocator", "iissff", ch->location->GetID(), ch->GetID(), la->GetGroupName(), la->Name(lastLocator), dist, timeInLocator);
+					api->Event("Location_CharacterInLocator", "iissff", ch->location->GetID(), ch->GetID(), la->GetGroupName(), la->Name(lastLocator), dist, timeInLocator);
 				}else lastEventTime += dltTime;
 				return;
 			}else{
-				_CORE_API->Event("Location_CharacterExitFromLocator", "iissff", ch->location->GetID(), ch->GetID(), la->GetGroupName(), la->Name(lastLocator), dist, timeInLocator);
+				api->Event("Location_CharacterExitFromLocator", "iissff", ch->location->GetID(), ch->GetID(), la->GetGroupName(), la->Name(lastLocator), dist, timeInLocator);
 			}
 		}
 		timeInLocator = 0.0f;
 		lastEventTime = 0.0f;
 		lastLocator = lIndex;
-		_CORE_API->Event("Location_CharacterEntryToLocator", "iissf", ch->location->GetID(), ch->GetID(), la->GetGroupName(), la->Name(lastLocator), dist);
+		api->Event("Location_CharacterEntryToLocator", "iissf", ch->location->GetID(), ch->GetID(), la->GetGroupName(), la->Name(lastLocator), dist);
 	}else{
 		if(lastLocator >= 0)
 		{
-			_CORE_API->Event("Location_CharacterExitFromLocator", "iissf", ch->location->GetID(), ch->GetID(), la->GetGroupName(), la->Name(lastLocator), timeInLocator + dltTime);
+			api->Event("Location_CharacterExitFromLocator", "iissf", ch->location->GetID(), ch->GetID(), la->GetGroupName(), la->Name(lastLocator), timeInLocator + dltTime);
 			lastLocator = -1;
 		}
 	}
@@ -249,7 +249,7 @@ void Character::Detector::Exit(Character * ch)
 {
 	if(lastLocator >= 0)
 	{
-		_CORE_API->Event("Location_CharacterExitFromLocator", "iissf", ch->location->GetID(), ch->GetID(), la->GetGroupName(), la->Name(lastLocator), timeInLocator);
+		api->Event("Location_CharacterExitFromLocator", "iissf", ch->location->GetID(), ch->GetID(), la->GetGroupName(), la->Name(lastLocator), timeInLocator);
 	}
 	timeInLocator = 0.0f;
 	lastEventTime = 0.0f;
@@ -572,7 +572,7 @@ Character::~Character()
 
 	//Удаляемся из групп
 	ENTITY_ID grps;
-	_CORE_API->FindClass(&grps, "CharactersGroups", 0);
+	api->FindClass(&grps, "CharactersGroups", 0);
 	api->Send_Message(grps, "si", "UnloadCharacter", GetID());
 
 	//Анализируем детекторы
@@ -581,11 +581,11 @@ Character::~Character()
 	for(long i = 0; i < numDetectors; i++) delete detector[i];
 	//
 	if(location && !isDeleted) location->supervisor.DelCharacter(this);
-	_CORE_API->DeleteEntity(shadow);
-	_CORE_API->DeleteEntity(waterrings);
-	_CORE_API->DeleteEntity(mdl);
-	_CORE_API->DeleteEntity(blade);
-	_CORE_API->DeleteEntity(sign);
+	api->DeleteEntity(shadow);
+	api->DeleteEntity(waterrings);
+	api->DeleteEntity(mdl);
+	api->DeleteEntity(blade);
+	api->DeleteEntity(sign);
 	if(characterID) delete characterID;
 }
 
@@ -594,10 +594,10 @@ bool Character::Init()
 {
 	//Указатель на локацию
 	ENTITY_ID loc;
-	_CORE_API->FindClass(&loc, "location", 0);
-	location = (Location *)_CORE_API->GetEntityPointer(&loc);
+	api->FindClass(&loc, "location", 0);
+	location = (Location *)api->GetEntityPointer(&loc);
 	if(!location) return false;
-	_CORE_API->FindClass(&effects, "LocationEffects", 0);
+	api->FindClass(&effects, "LocationEffects", 0);
 	soundService = (VSoundService *)api->CreateService("SoundService");
 	//Регестрируем своё попадание в локацию
 	if(location->supervisor.numCharacters >= MAX_CHARACTERS)
@@ -607,7 +607,7 @@ bool Character::Init()
 	}
 	location->supervisor.AddCharacter(this);
 	//Море
-	_CORE_API->FindClass(&sea, "sea", 0);
+	api->FindClass(&sea, "sea", 0);
 	//Сохраним идентификатор
 	const char * id = nullptr;
 	if(AttributesPointer) id = AttributesPointer->GetAttribute("id");
@@ -617,7 +617,7 @@ bool Character::Init()
 	strcpy_s(characterID, len, id);
 	//Добавим в группу
 	ENTITY_ID grps;
-	_CORE_API->FindClass(&grps, "CharactersGroups", 0);
+	api->FindClass(&grps, "CharactersGroups", 0);
 	api->Send_Message(grps, "sis", "MoveCharacter", GetID(), group);
 	SetSignModel();
 	SetSignTechnique();
@@ -902,24 +902,24 @@ void Character::SetSignModel()
 		return;
 	}
 	//Путь до текстур
-	VGEOMETRY * gs = (VGEOMETRY *)_CORE_API->CreateService("geometry");
+	VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
 	if(gs) gs->SetTexturePath("quest_signs\\");
 	//Путь до модельки
 	std::string path = "quest_signs\\";
 	path += signModelName;
 	//Создаём и загружаем модельку
-	if(!_CORE_API->CreateEntity(&sign, "modelr"))
+	if(!api->CreateEntity(&sign, "modelr"))
 	{
 		if(gs) gs->SetTexturePath("");
 		return;
 	}
-	if(!_CORE_API->Send_Message(sign,
+	if(!api->Send_Message(sign,
 		"ls",
 		MSG_MODEL_LOAD_GEO,
 		path.c_str()))
 	{
 		if(gs) gs->SetTexturePath("");
-		_CORE_API->Trace("Quest sign model '%s' not loaded", path.c_str());
+		api->Trace("Quest sign model '%s' not loaded", path.c_str());
 		return;
 	}
 
@@ -929,8 +929,8 @@ void Character::SetSignModel()
 	}
 
 	if(gs) gs->SetTexturePath("");
-	_CORE_API->LayerAdd("realize", sign, 20000);
-	_CORE_API->LayerAdd("sun_trace", sign, 10);
+	api->LayerAdd("realize", sign, 20000);
+	api->LayerAdd("sun_trace", sign, 10);
 }
 
 void Character::SetSignTechnique()
@@ -980,7 +980,7 @@ void Character::ReadFightActions(ATTRIBUTES * at, ActionCharacter actions[4], lo
 
 MODEL * Character::Model()
 {
-	return (MODEL *)_CORE_API->GetEntityPointer(&mdl);
+	return (MODEL *)api->GetEntityPointer(&mdl);
 }
 
 //Переместить модельку в точку x, y, z
@@ -1223,13 +1223,13 @@ bool Character::SetFightMode(bool _isFight, bool isPlayAni)
 bool Character::IsFightEnable()
 {
 	//Спросим у скрипта о возможности стрельбы
-	VDATA * vd = _CORE_API->Event("Location_CharacterIsFight", "i", GetID());
+	VDATA * vd = api->Event("Location_CharacterIsFight", "i", GetID());
 	long res = 0;
 	if(vd && vd->Get(res))
 	{
 		if(!res) return false;
 	}else{
-//!!!		_CORE_API->Trace("Event \"Location_CharacterIsFight\" -> return type is not int");
+//!!!		api->Trace("Event \"Location_CharacterIsFight\" -> return type is not int");
 		return true;
 	}
 	return true;
@@ -1555,13 +1555,13 @@ bool Character::IsGunLoad()
 	if(!isGunSet) return false;
 	if(!isFight || liveValue < 0 || deadName) return false;
 	//Спросим у скрипта о возможности стрельбы
-	VDATA * vd = _CORE_API->Event("Location_CharacterIsFire", "i", GetID());
+	VDATA * vd = api->Event("Location_CharacterIsFire", "i", GetID());
 	long res = 0;
 	if(vd && vd->Get(res))
 	{
 		if(!res) return false;
 	}else{
-		_CORE_API->Trace("Event \"Location_CharacterIsFire\" -> return type is not int");
+		api->Trace("Event \"Location_CharacterIsFire\" -> return type is not int");
 		//return false;
 		//!!!
 		return true;
@@ -1828,7 +1828,7 @@ void Character::Move(float dltTime)
 		curJumpFallTime += dltTime;
 		if(isJumpSnd && priorityAction.name)
 		{
-			SEA_BASE * sb = (SEA_BASE *)_CORE_API->GetEntityPointer(&sea);
+			SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(&sea);
 			if(sb && location->IsSwimming())
 			{
 				seaY = sb->WaveXZ(curPos.x, curPos.z, nullptr);
@@ -1896,7 +1896,7 @@ void Character::Move(float dltTime)
 	if(swimChange <= 0.0f && location->IsSwimming())
 	{
 		bool old = isSwim;
-		SEA_BASE * sb = (SEA_BASE *)_CORE_API->GetEntityPointer(&sea);
+		SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(&sea);
 		isSwim = false;
 		isRunDisable = false;
 		if(sb)
@@ -1986,8 +1986,8 @@ void Character::Update(float dltTime)
 	{
 		float alpha = tuner.GetAlpha()*255.0f;
 		uint32_t blendColor = (uint32_t(alpha) << 24) | 0x00ffffff;
-		_CORE_API->Send_Message(blade, "ll", MSG_BLADE_ALPHA, blendColor);
-		_CORE_API->Send_Message(shadow, "ll", MSG_BLADE_ALPHA, blendColor);
+		api->Send_Message(blade, "ll", MSG_BLADE_ALPHA, blendColor);
+		api->Send_Message(shadow, "ll", MSG_BLADE_ALPHA, blendColor);
 	}
 	//
 	PtcData & ptc = location->GetPtcData();
@@ -2063,7 +2063,7 @@ void Character::Update(float dltTime)
 	if(curPos.y < -1000.0f)
 	{
 		//Assert(false);
-		_CORE_API->Trace("Character [%s] fall to underworld!!!", characterID ? characterID : "Unknow id");
+		api->Trace("Character [%s] fall to underworld!!!", characterID ? characterID : "Unknow id");
 		curPos.y = -500.0f;
 		vy = 0.0f;
 	}
@@ -2077,7 +2077,7 @@ void Character::Update(float dltTime)
 			{
 				tuner.alpha = 1.0f;
 				liveValue = 0.0f;
-				_CORE_API->Event("Location_CharacterEntryToLocation", "e", GetID());
+				api->Event("Location_CharacterEntryToLocation", "e", GetID());
 			}
 		}else{
 			if(tuner.alpha <= 0.0f)
@@ -2085,11 +2085,11 @@ void Character::Update(float dltTime)
 				tuner.alpha = 0.0f;
 				if(deadName)
 				{
-					_CORE_API->Event("Location_CharacterDead", "e", GetID());
+					api->Event("Location_CharacterDead", "e", GetID());
 				}else{
-					_CORE_API->Event("Location_CharacterExitFromLocation", "e", GetID());
+					api->Event("Location_CharacterExitFromLocation", "e", GetID());
 				}
-				_CORE_API->DeleteEntity(GetID());
+				api->DeleteEntity(GetID());
 			}
 		}
 	}
@@ -2150,8 +2150,8 @@ void Character::ActionEvent(const char * actionName, Animation * animation, long
 	{
 		if(_stricmp(priorityAction.name, CHARACTER_NORM_TO_FIGHT) == 0)
 		{
-			_CORE_API->Send_Message(blade, "ll", MSG_BLADE_HAND, 0);
-			_CORE_API->Send_Message(blade, "ll", MSG_BLADE_HAND, 1);
+			api->Send_Message(blade, "ll", MSG_BLADE_HAND, 0);
+			api->Send_Message(blade, "ll", MSG_BLADE_HAND, 1);
 			if(event == ae_end)
 			{
 				priorityAction.SetName(nullptr);
@@ -2161,8 +2161,8 @@ void Character::ActionEvent(const char * actionName, Animation * animation, long
 		}else
 		if(_stricmp(priorityAction.name, CHARACTER_FIGHT_TO_NORM) == 0)
 		{
-			_CORE_API->Send_Message(blade, "ll", MSG_BLADE_BELT, 0);
-			_CORE_API->Send_Message(blade, "ll", MSG_BLADE_BELT, 1);
+			api->Send_Message(blade, "ll", MSG_BLADE_BELT, 0);
+			api->Send_Message(blade, "ll", MSG_BLADE_BELT, 1);
 			if(event == ae_end)
 			{
 				priorityAction.SetName(nullptr);
@@ -2172,7 +2172,7 @@ void Character::ActionEvent(const char * actionName, Animation * animation, long
 		}else
 		if(shot.name && _stricmp(priorityAction.name, shot.name) == 0)
 		{
-			_CORE_API->Send_Message(blade, "l", MSG_BLADE_GUNBELT);
+			api->Send_Message(blade, "l", MSG_BLADE_GUNBELT);
 			if(event == ae_end)
 			{
 				//Закончился выстрел
@@ -2224,7 +2224,7 @@ void Character::ActionEvent(const char * actionName, Animation * animation, long
 	if(userIdle.name)
 	{
 		if(_stricmp(actionName, userIdle.name) != 0) return;
-		_CORE_API->Event("Location_Character_EndAction", "i", GetID());
+		api->Event("Location_Character_EndAction", "i", GetID());
 	}
 }
 
@@ -2352,13 +2352,13 @@ void Character::ActionEvent(Animation * animation, long playerIndex, const char 
 	{
 		if(_stricmp(priorityAction.name, CHARACTER_NORM_TO_FIGHT) == 0)
 		{
-			_CORE_API->Send_Message(blade, "ll", MSG_BLADE_HAND, 0);
-			_CORE_API->Send_Message(blade, "ll", MSG_BLADE_HAND, 1);
+			api->Send_Message(blade, "ll", MSG_BLADE_HAND, 0);
+			api->Send_Message(blade, "ll", MSG_BLADE_HAND, 1);
 		}else
 		if(_stricmp(priorityAction.name, CHARACTER_FIGHT_TO_NORM) == 0)
 		{
-			_CORE_API->Send_Message(blade, "ll", MSG_BLADE_BELT, 0);
-			_CORE_API->Send_Message(blade, "ll", MSG_BLADE_BELT, 1);
+			api->Send_Message(blade, "ll", MSG_BLADE_BELT, 0);
+			api->Send_Message(blade, "ll", MSG_BLADE_BELT, 1);
 		}else
 		if(shot.name && _stricmp(priorityAction.name, shot.name) == 0)
 		{
@@ -2366,15 +2366,15 @@ void Character::ActionEvent(Animation * animation, long playerIndex, const char 
 			{
 				if(_stricmp(eventName, CHARACTER_FIGHT_GUNBELT) == 0)
 				{
-					_CORE_API->Send_Message(blade, "l", MSG_BLADE_GUNBELT);
+					api->Send_Message(blade, "l", MSG_BLADE_GUNBELT);
 				}else
 				if(_stricmp(eventName, CHARACTER_FIGHT_GUNHAND) == 0)
 				{
-					_CORE_API->Send_Message(blade, "l", MSG_BLADE_GUNHAND);
+					api->Send_Message(blade, "l", MSG_BLADE_GUNHAND);
 				}else
 				if(_stricmp(eventName, CHARACTER_FIGHT_GUNFIRE) == 0)
 				{
-					_CORE_API->Send_Message(blade, "l", MSG_BLADE_GUNFIRE);
+					api->Send_Message(blade, "l", MSG_BLADE_GUNFIRE);
 					//PlaySound("pistol_shot");
 					isFired = true;
 					float kDist;
@@ -2385,7 +2385,7 @@ void Character::ActionEvent(Animation * animation, long playerIndex, const char 
 						enemy = chr->GetID();
 						chr->Hit(fgt_hit_fire);
 					}
-					_CORE_API->Event("Location_CharacterFire", "iifl", GetID(), enemy, kDist, chr != nullptr);
+					api->Event("Location_CharacterFire", "iifl", GetID(), enemy, kDist, chr != nullptr);
 				}
 			}
 		}else
@@ -2431,7 +2431,7 @@ void Character::PlayStep()
 {
 	if(!soundService) return;
 	if(isSwim) return;
-	SEA_BASE * sb = (SEA_BASE *)_CORE_API->GetEntityPointer(&sea);
+	SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(&sea);
 	if(sb && location->IsSwimming())
 	{
 		//Проверим высоту моря
@@ -2587,48 +2587,48 @@ bool Character::zLoadModel(MESSAGE & message)
 	char name[256];
 	char ani[256];
 	char mpath[300];
-	_CORE_API->DeleteEntity(shadow);
-	_CORE_API->DeleteEntity(waterrings);
-	_CORE_API->DeleteEntity(mdl);
+	api->DeleteEntity(shadow);
+	api->DeleteEntity(waterrings);
+	api->DeleteEntity(mdl);
 	message.String(256, name);
 	name[255] = 0;
 	message.String(256, ani);
 	ani[255] = 0;
 	//Путь до текстур
-	VGEOMETRY * gs = (VGEOMETRY *)_CORE_API->CreateService("geometry");
+	VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
 	if(gs) gs->SetTexturePath("characters\\");
 	//Путь до модельки
 	strcpy_s(mpath, "characters\\");
 	strcat_s(mpath, name);
 	//Создаём и загружаем модельку
-	if(!_CORE_API->CreateEntity(&mdl, "modelr"))
+	if(!api->CreateEntity(&mdl, "modelr"))
 	{
 		if(gs) gs->SetTexturePath("");
 		return false;
 	}
-	if(!_CORE_API->Send_Message(mdl,
+	if(!api->Send_Message(mdl,
 							"ls",
 							MSG_MODEL_LOAD_GEO,
 							mpath))
 	{
 		if(gs) gs->SetTexturePath("");
-		_CORE_API->Trace("Character model '%s' not loaded", mpath);
+		api->Trace("Character model '%s' not loaded", mpath);
 		return false;
 	}
 	if(gs) gs->SetTexturePath("");
-	if(!_CORE_API->Send_Message(mdl,
+	if(!api->Send_Message(mdl,
 									"ls",
 									MSG_MODEL_LOAD_ANI,
 									ani) != 0)
 	{
-		_CORE_API->Trace("Character animation '%s' not loaded", ani);
-		_CORE_API->DeleteEntity(mdl);
+		api->Trace("Character animation '%s' not loaded", ani);
+		api->DeleteEntity(mdl);
 		return false;
 	}
-	MODEL * m = (MODEL *)_CORE_API->GetEntityPointer(&mdl);
+	MODEL * m = (MODEL *)api->GetEntityPointer(&mdl);
 	if(!m)
 	{
-		_CORE_API->DeleteEntity(mdl);
+		api->DeleteEntity(mdl);
 		return false;
 	}
 	Animation * a = m->GetAnimation();
@@ -2638,17 +2638,17 @@ bool Character::zLoadModel(MESSAGE & message)
 		a->SetEvent(ae_end, 0, &eventListener);
 	}
 	m->SetRenderTuner(&tuner);
-	_CORE_API->LayerAdd("realize", mdl, 20);
-	_CORE_API->LayerAdd("sun_trace", mdl, 10);
-	if(_CORE_API->CreateEntity(&shadow, "shadow"))
+	api->LayerAdd("realize", mdl, 20);
+	api->LayerAdd("sun_trace", mdl, 10);
+	if(api->CreateEntity(&shadow, "shadow"))
 	{
-		_CORE_API->Send_Message(shadow, "li", 0, mdl);
+		api->Send_Message(shadow, "li", 0, mdl);
 	}else{
-		_CORE_API->Trace("Shadow not created!");
+		api->Trace("Shadow not created!");
 	}
-	if(_CORE_API->FindClass(nullptr, "sea", 0))
+	if(api->FindClass(nullptr, "sea", 0))
 	{
-		_CORE_API->CreateEntity(&waterrings, "waterrings");
+		api->CreateEntity(&waterrings, "waterrings");
 	}
 	UpdateActionsData();
 	return true;
@@ -2757,11 +2757,11 @@ bool Character::zSetBlade(MESSAGE & message)
 	float t = message.Float();
 	long s = message.Long();
 	long e = message.Long();
-	if(!_CORE_API->GetEntityPointer(&blade))
+	if(!api->GetEntityPointer(&blade))
 	{
-		if(!_CORE_API->CreateEntity(&blade, "blade")) return false;
+		if(!api->CreateEntity(&blade, "blade")) return false;
 	}
-	_CORE_API->Send_Message(blade, "llisfll", MSG_BLADE_SET, nBladeIdx, mdl, name, t, s, e);
+	api->Send_Message(blade, "llisfll", MSG_BLADE_SET, nBladeIdx, mdl, name, t, s, e);
 	UpdateWeapons();
 	return true;
 }
@@ -2775,11 +2775,11 @@ bool Character::zSetGun(MESSAGE & message)
 	name[sizeof(name) - 1] = 0;
 	isGunSet = true;
 	if(!name[0]) isGunSet = false;
-	if(!_CORE_API->GetEntityPointer(&blade))
+	if(!api->GetEntityPointer(&blade))
 	{
-		if(!_CORE_API->CreateEntity(&blade, "blade")) return false;
+		if(!api->CreateEntity(&blade, "blade")) return false;
 	}
-	_CORE_API->Send_Message(blade, "lis", MSG_BLADE_GUNSET, mdl, name);
+	api->Send_Message(blade, "lis", MSG_BLADE_GUNSET, mdl, name);
 	UpdateWeapons();
 	return true;
 }
@@ -2811,7 +2811,7 @@ bool Character::zTurnByLoc(MESSAGE & message)
 bool Character::zTurnByChr(MESSAGE & message)
 {
 	ENTITY_ID chr = message.EntityID();
-	Character * c = (Character *)_CORE_API->GetEntityPointer(&chr);
+	Character * c = (Character *)api->GetEntityPointer(&chr);
 	if(!c) return false;
 	Turn(c->curPos.x - curPos.x, c->curPos.z - curPos.z);
 	return true;
@@ -2829,7 +2829,7 @@ bool Character::zTurnByPoint(MESSAGE & message)
 bool Character::zDistByCharacter(MESSAGE & message, bool is2D)
 {
 	ENTITY_ID chr = message.EntityID();
-	Character * c = (Character *)_CORE_API->GetEntityPointer(&chr);
+	Character * c = (Character *)api->GetEntityPointer(&chr);
 	if(!c) return false;
 	float dx = curPos.x - c->curPos.x;
 	float dz = curPos.z - c->curPos.z;
@@ -3427,7 +3427,7 @@ void Character::UpdateAnimation()
 			if(isMove)
 			{
 				curIdleIndex = -1;
-				//_CORE_API->Trace("movesn = %f", movesn);
+				//api->Trace("movesn = %f", movesn);
 				if(movecs > CHARACTER_COS_STAIR || IsRun())
 				{
 					if(!IsRun())
@@ -3571,7 +3571,7 @@ void Character::UpdateAnimation()
 								if(noBlendTime <= 0.0f) api->Trace("Character animation: not set idle action: \"%s\"", an);
 							}
 						}else{
-							_CORE_API->Trace("Character: No set idle animation!!!");
+							api->Trace("Character: No set idle animation!!!");
 							if(noBlendTime <= 0.0f) SetAction(nullptr, 0.3f, 0.0f, turnSpeed);
 						}
 					}else{
@@ -3604,7 +3604,7 @@ void Character::UpdateAnimation()
 					}else{
 						SetAction(nullptr, curMove->tblend, 0.0f, turnSpeed);
 						curIdleIndex = -1;
-						if(noBlendTime <= 0.0f) _CORE_API->Trace("Character: No set idle animation!!!");
+						if(noBlendTime <= 0.0f) api->Trace("Character: No set idle animation!!!");
 					}
 					curMove = nullptr;
 				}
@@ -3651,7 +3651,7 @@ void Character::UpdateAnimation()
 					{
 						api->Trace("Character animation: not set fast attack action: \"%s\"", attackFast[fgtSetIndex].name);
 					}else{
-						_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
+						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
 						api->Event("Event_ChrSnd_Attack", "is", GetID(), "fast");
 						// boal перенос в момент удара api->Event("ChrFgtActApply", "is", GetID(), FGT_ATTACK_FAST);
 						camRotWait = camRotMax = 0.3f;
@@ -3667,7 +3667,7 @@ void Character::UpdateAnimation()
 					{
 						api->Trace("Character animation: not set force attack action: \"%s\"", attackForce[fgtSetIndex].name);
 					}else{
-						_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
+						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
 						api->Event("Event_ChrSnd_Attack", "is", GetID(), "force");
 						// boal перенос в момент удара api->Event("ChrFgtActApply", "is", GetID(), FGT_ATTACK_FORCE);
 						camRotWait = camRotMax = 0.3f;
@@ -3679,7 +3679,7 @@ void Character::UpdateAnimation()
 					{
 						api->Trace("Character animation: not set round attack action: \"%s\"", attackRound[fgtSetIndex].name);
 					}else{
-						_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
+						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
 						api->Event("Event_ChrSnd_Attack", "is", GetID(), "round");
 						// boal перенос в момент удара api->Event("ChrFgtActApply", "is", GetID(), FGT_ATTACK_ROUND);
 						camRotWait = camRotMax = 0.8f;
@@ -3690,7 +3690,7 @@ void Character::UpdateAnimation()
 					{
 						api->Trace("Character animation: not set break attack action: \"%s\"", attackBreak[fgtSetIndex].name);
 					}else{
-						_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
+						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
 						api->Event("Event_ChrSnd_Attack", "is", GetID(), "break");
 						// boal перенос в момент удара api->Event("ChrFgtActApply", "is", GetID(), FGT_ATTACK_BREAK);
 						camRotWait = camRotMax = 0.3f;
@@ -3702,7 +3702,7 @@ void Character::UpdateAnimation()
 					{
 						api->Trace("Character animation: not set feint action: \"%s\"", attackFeint[fgtSetIndex].name);
 					}else{
-						_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
+						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
 						api->Event("Event_ChrSnd_Attack", "is", GetID(), "feint");
 						api->Event("ChrFgtActApply", "is", GetID(), FGT_ATTACK_FEINT);
 						camRotWait = camRotMax = 0.3f;
@@ -3713,14 +3713,14 @@ void Character::UpdateAnimation()
 					{
 						api->Trace("Character animation: not set feint action: \"%s\"", attackFeintC[fgtSetIndex].name);
 					}else{
-						_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
+						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
 						api->Event("Event_ChrSnd_Attack", "is", GetID(), "feintc");
 						api->Event("ChrFgtActApply", "is", GetID(), "feintc"); // boal жрем энергию за успех
 						camRotWait = camRotMax = 0.3f;
 					}
 					break;
 				case fgt_fire:			//Выстрел из пистолета
-					_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
 					priorityAction.SetName(shot.name);
 					priorityAction.tblend = shot.tblend;
 					priorityActionMoveSpd = 0.0f;
@@ -3734,28 +3734,28 @@ void Character::UpdateAnimation()
                     {
 						if (rand() % 100 >= 50) break; // boal не всегда пробиваться в анимацию
 					}
-					_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
 					if(!(isSet = SetAction(hit[fgtSetIndex].name, hit[fgtSetIndex].tblend, 0.0f, 1.0f, true)))
 					{
 						api->Trace("Character animation: not set fight attack hit action: \"%s\"", hit[fgtSetIndex].name);
 					}
 					break;
 				case fgt_blockbreak:	//Реакция попадания удара по персонажу вводящая его в stall
-					_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
 					if(!(isSet = SetAction(blockbreak.name, blockbreak.tblend, 0.0f, 1.0f, true)))
 					{
 						api->Trace("Character animation: not set fight blockbreak action: \"%s\"", blockbreak.name);
 					}
 					break;
 				case fgt_hit_feint:		//Реакция от финта вводящая его в stall
-					_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
 					if(!(isSet = SetAction(hitFeint.name, hitFeint.tblend, 0.0f, 0.0f, true)))
 					{
 						api->Trace("Character animation: not set fight feint hit action: \"%s\"", hitFeint.name);
 					}
 					break;
 				case fgt_hit_parry:		//Реакция от парирования вводящая его в stall
-					_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
 					if(!(isSet = SetAction(hitParry.name, hitParry.tblend, 0.0f, 0.0f, true)))
 					{
 						api->Trace("Character animation: not set fight parry hit action: \"%s\"", hitParry.name);
@@ -3763,7 +3763,7 @@ void Character::UpdateAnimation()
 					api->Event("ChrFgtActApply", "is", GetID(), "hit_parry"); // boal баг фикс FGT_ATTACK_PARRY);
 					break;
 				case fgt_hit_round:		//Реакция отталкивание круговым ударом
-					_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
 					impulse.x -= 3.0f*sinf(ay);
 					impulse.z -= 3.0f*cosf(ay);
 					if(!(isSet = SetAction(hitRound.name, hitRound.tblend, 0.0f, 0.0f, true)))
@@ -3772,14 +3772,14 @@ void Character::UpdateAnimation()
 					}
 					break;
 				case fgt_hit_fire:		//Реакция от выстрела вводящая его в stall
-					_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
 					if(!(isSet = SetAction(hitFire.name, hitFire.tblend, 0.0f, 0.0f, true)))
 					{
 						api->Trace("Character animation: not set fight fire hit action: \"%s\"", hitFire.name);
 					}
 					break;
 				case fgt_block:			//Защита саблей
-					_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
 					if(_stricmp(pWeaponID, "topor") == 0)
 					{
 						if(!(isSet = SetAction(blockaxe.name, blockaxe.tblend, 0.0f, 5.0f, true)))
@@ -3800,7 +3800,7 @@ void Character::UpdateAnimation()
                     {
 						if (rand() % 100 >= 65) break; // boal не всегда пробиваться в анимацию
 					}
-					_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
 					if(_stricmp(pWeaponID, "topor") == 0)
 					{
 						if(!(isSet = SetAction(blockaxehit.name, blockaxehit.tblend, 0.0f, 2.0f, true)))
@@ -3817,14 +3817,14 @@ void Character::UpdateAnimation()
 					}
 					break;
 				case fgt_parry:			//Парирование, защитное движение вводящее противника в stall
-					_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
 					if(!(isSet = SetAction(parry[fgtSetIndex].name, parry[fgtSetIndex].tblend, 0.0f, 5.0f)))
 					{
 						api->Trace("Character animation: not set block(parry) action: \"%s\"", parry[fgtSetIndex].name);
 					}
 					break;
 				case fgt_recoil:		//Отскок назад
-					_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
 					PlaySound("recoil", true);
 					impulse.x -= 2.0f*sinf(ay);
 					impulse.z -= 2.0f*cosf(ay);
@@ -3835,7 +3835,7 @@ void Character::UpdateAnimation()
 					}
 					break;
 				case fgt_strafe_l:		//Отскок влево
-					_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
 					recoilSound = SOUND_INVALID_ID;//PlaySound("recoil", true);
 					impulse += 15.0f*CVECTOR(-cosf(ay), 0.0f, sinf(ay));
 					if(!(isSet = SetAction(strafe_l.name, strafe_l.tblend, 0.0f, 0.0f)))
@@ -3844,7 +3844,7 @@ void Character::UpdateAnimation()
 					}
 					break;
 				case fgt_strafe_r:		//Отскок влево
-					_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
 					recoilSound = SOUND_INVALID_ID;//PlaySound("recoil", true);
 					impulse -= 15.0f*CVECTOR(-cosf(ay), 0.0f, sinf(ay));
 					if(!(isSet = SetAction(strafe_r.name, strafe_r.tblend, 0.0f, 0.0f)))
@@ -3863,7 +3863,7 @@ void Character::UpdateAnimation()
 				curMove = nullptr;
 				curIdleIndex = -1;
 			}else{
-				_CORE_API->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
+				api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
 				if(isMove)
 				{
 					curIdleIndex = -1;
@@ -3931,7 +3931,7 @@ void Character::UpdateAnimation()
 								if(noBlendTime <= 0.0f) api->Trace("Character animation: not set fight idle \"%s\" action", an);
 							}
 						}else{
-							if(noBlendTime <= 0.0f) _CORE_API->Trace("Character: No set idle animation!!!");
+							if(noBlendTime <= 0.0f) api->Trace("Character: No set idle animation!!!");
 							SetAction(nullptr, 0.3f, 0.0f, turnSpeed);
 							curIdleIndex = -1;
 						}
@@ -3947,7 +3947,7 @@ void Character::UpdateAnimation()
 							}
 						}else{
 							SetAction(nullptr, curMove->tblend, 0.0f, turnSpeed);
-							if(noBlendTime <= 0.0f) _CORE_API->Trace("Character: No set idle animation!!!");
+							if(noBlendTime <= 0.0f) api->Trace("Character: No set idle animation!!!");
 							curIdleIndex = -1;
 						}
 						curMove = nullptr;
@@ -4259,7 +4259,7 @@ inline void Character::CheckAttackHit()
 				}
 			}
 			fc.c->Hit(hitReaction);
-			_CORE_API->Event("Location_CharacterAttack", "iisl", GetID(), fc.c->GetID(), aname, (long)isBlocked);
+			api->Event("Location_CharacterAttack", "iisl", GetID(), fc.c->GetID(), aname, (long)isBlocked);
 			// boal 12.09.06 отжор энергии по факту удара -->
 			if (isUseEnergy && fgtCurType != fgt_attack_feintc)
 			{// для fgt_attack_feintc идет отжор в анимации, а тут будет "финт", а он стоит 0
@@ -4388,7 +4388,7 @@ void Character::FindNearCharacters(MESSAGE & message)
 //Проверить видимость
 bool Character::CharactersVisibleTest(MESSAGE & message)
 {
-	Character * chr = (Character *)_CORE_API->GetEntityPointer(&message.EntityID());
+	Character * chr = (Character *)api->GetEntityPointer(&message.EntityID());
 	if(!chr) return false;
 	return VisibleTest(chr);
 }
@@ -4413,9 +4413,9 @@ void Character::UpdateWeapons()
 {
 	if(isFightWOWps)
 	{
-		_CORE_API->LayerDel("realize", blade);
+		api->LayerDel("realize", blade);
 	}else{
-		_CORE_API->LayerAdd("realize", blade, 65550);
+		api->LayerAdd("realize", blade, 65550);
 	}
 }
 

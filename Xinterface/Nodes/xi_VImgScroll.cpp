@@ -68,7 +68,7 @@ void CXI_VIMAGESCROLL::Draw(bool bSelected,uint32_t Delta_Time)
 				m_bDoMove = false;
 
 				// Set new current image
-				ATTRIBUTES* tmpAttr = _CORE_API->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
+				ATTRIBUTES* tmpAttr = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
 				if(tmpAttr!= nullptr)
 					tmpAttr->SetAttributeUseDword("current",m_nCurImage);
 
@@ -373,7 +373,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 		sprintf_s( param1, sizeof(param1), "font%d", i+1 );
 		if( ReadIniString(ini1,name1, ini2,name2, param1, param, sizeof(param),"") )
 			if( (m_pStrParam[i].m_nFont=m_rs->LoadFont(param)) == -1 )
-				_CORE_API->Trace("can not load font:'%s'",param);
+				api->Trace("can not load font:'%s'",param);
 		sprintf_s( param1, sizeof(param1), "dwXOffset%d", i+1 );
 		m_pStrParam[i].m_nStrX = GetIniLong(ini1,name1, ini2,name2, param1, 0);
 		if( m_pStrParam[i].m_nStrX > 0 ) m_pStrParam[i].m_nAlign = ALIGN_RIGHT;
@@ -960,7 +960,7 @@ void CXI_VIMAGESCROLL::SaveParametersToIni()
 
 void CXI_VIMAGESCROLL::ChangeScroll(int nScrollItemNum)
 {
-    ATTRIBUTES * pAttr = _CORE_API->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
+    ATTRIBUTES * pAttr = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
     if(pAttr!= nullptr)
     {
 		// проверим может весь список надо менять
@@ -1059,7 +1059,7 @@ void CXI_VIMAGESCROLL::DeleteImage(int imgNum)
 
 	if(m_nCurImage>=m_nListSize-m_nNotUsedQuantity) m_nCurImage=m_nListSize-m_nNotUsedQuantity-1;
 	if(m_nCurImage<0) m_nCurImage=0;
-	ATTRIBUTES * pA = _CORE_API->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
+	ATTRIBUTES * pA = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
 	if(pA!= nullptr) {
 		pA->SetAttributeUseDword("current",m_nCurImage);
 	}

@@ -181,7 +181,7 @@ void SAIL::SetDevice()
     mtx.SetIdentity();
 
     // получить сервис рендера
-	RenderService = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	RenderService = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!RenderService)
 	{
 		STORM_THROW("No service: dx9render");
@@ -277,11 +277,11 @@ void SAIL::Execute(uint32_t Delta_Time)
         //====================================================
         // Если был изменен ини-файл, то считать инфо из него
 	    WIN32_FIND_DATA	wfd;
-	    HANDLE h = _CORE_API->fio->_FindFirstFile("resource\\ini\\rigging.ini",&wfd);
+	    HANDLE h = api->fio->_FindFirstFile("resource\\ini\\rigging.ini",&wfd);
 	    if (INVALID_HANDLE_VALUE != h)
 	    {
 		    FILETIME ft_new = wfd.ftLastWriteTime;
-		    _CORE_API->fio->_FindClose(h);
+		    api->fio->_FindClose(h);
 
 		    if (CompareFileTime(&ft_old,&ft_new)!=0)
             {
@@ -313,9 +313,9 @@ void SAIL::Execute(uint32_t Delta_Time)
 
         // получим значение ветра
         ENTITY_ID ei;
-        if( _CORE_API->FindClass(&ei,"weather",0) )
+        if( api->FindClass(&ei,"weather",0) )
         {
-            WEATHER_BASE *wb = (WEATHER_BASE*)_CORE_API->GetEntityPointer(&ei);
+            WEATHER_BASE *wb = (WEATHER_BASE*)api->GetEntityPointer(&ei);
             globalWind.ang.x=wb->GetFloat(whf_wind_angle);
             globalWind.ang.z=cosf(globalWind.ang.x);
             globalWind.ang.x=sinf(globalWind.ang.x);
@@ -328,7 +328,7 @@ void SAIL::Execute(uint32_t Delta_Time)
         {
 			if(gdata[i].bDeleted) continue;
             MODEL* cmod;
-            cmod=(MODEL*)_CORE_API->GetEntityPointer(&gdata[i].modelEI);
+            cmod=(MODEL*)api->GetEntityPointer(&gdata[i].modelEI);
             if(cmod==nullptr) continue;
             gdata[i].boxCenter = gdata[i].boxSize = slist[gdata[i].sailIdx[0]]->ss.boundSphere.rc;//CVECTOR(0.f,0.f,0.f);
             gdata[i].speed_c=0.f;
@@ -431,7 +431,7 @@ void SAIL::Execute(uint32_t Delta_Time)
 
 			if(gdata[i].bYesShip)
 			{
-				VAI_OBJBASE * pVai = (VAI_OBJBASE *)_CORE_API->GetEntityPointer(&gdata[i].shipEI);
+				VAI_OBJBASE * pVai = (VAI_OBJBASE *)api->GetEntityPointer(&gdata[i].shipEI);
 				if(pVai!= nullptr && pVai->GetACharacter()!= nullptr)
 				{
 					ATTRIBUTES * pA = pVai->GetACharacter()->GetAttributeClass("Ship");
@@ -604,7 +604,7 @@ uint32_t _cdecl SAIL::ProcessMessage(MESSAGE & message)
 			}
 
 			MODEL *mdl;
-			if((mdl=(MODEL*)_CORE_API->GetEntityPointer(&gdata[groupQuantity-1].modelEI))!=nullptr)
+			if((mdl=(MODEL*)api->GetEntityPointer(&gdata[groupQuantity-1].modelEI))!=nullptr)
 			{
 				GEOS::INFO gi;   GEOS::LABEL gl;
 				for(int j=0; true; j++)
@@ -665,7 +665,7 @@ uint32_t _cdecl SAIL::ProcessMessage(MESSAGE & message)
 
                 CVECTOR epos;
                 if(so->ss.turningSail && posNum!=0) // установка только для поворачивающихся парусов
-                if(_CORE_API->FindClass(&tmpEI,"rope",0))
+                if(api->FindClass(&tmpEI,"rope",0))
                 if(so->sailtrope.rrs[0]==nullptr)
                 {
                     so->sailtrope.rrs[0]=new ROTATEROPEDSAIL;
@@ -684,7 +684,7 @@ uint32_t _cdecl SAIL::ProcessMessage(MESSAGE & message)
                         bpos=so->ss.hardPoints[1];
                         break;
                     }
-                    ((ROPE_BASE*)_CORE_API->GetEntityPointer(&tmpEI))->GetEndPoint(&epos,so->sailtrope.rrs[0]->ropenum,gdata[so->HostNum].modelEI);
+                    ((ROPE_BASE*)api->GetEntityPointer(&tmpEI))->GetEndPoint(&epos,so->sailtrope.rrs[0]->ropenum,gdata[so->HostNum].modelEI);
                     so->sailtrope.rrs[0]->r1=sqrtf(~(*pos - bpos));
                     so->sailtrope.rrs[0]->r2=sqrtf(~(*pos - epos));
                     if(so->ss.eSailType!=SAIL_TREANGLE)
@@ -717,7 +717,7 @@ uint32_t _cdecl SAIL::ProcessMessage(MESSAGE & message)
                         break;
                     }
                     so->sailtrope.rrs[1]->r1=sqrtf(~(*pos - bpos));
-                    ((ROPE_BASE*)_CORE_API->GetEntityPointer(&tmpEI))->GetEndPoint(&epos,so->sailtrope.rrs[1]->ropenum,gdata[so->HostNum].modelEI);
+                    ((ROPE_BASE*)api->GetEntityPointer(&tmpEI))->GetEndPoint(&epos,so->sailtrope.rrs[1]->ropenum,gdata[so->HostNum].modelEI);
                     so->sailtrope.rrs[1]->r2=sqrtf(~(*pos - epos));
                     if(so->ss.eSailType!=SAIL_TREANGLE)
                     {
@@ -1194,13 +1194,13 @@ void SAIL::LoadSailIni()
 
 	INIFILE * ini;
 	WIN32_FIND_DATA	wfd;
-	HANDLE h = _CORE_API->fio->_FindFirstFile("resource\\ini\\rigging.ini",&wfd);
+	HANDLE h = api->fio->_FindFirstFile("resource\\ini\\rigging.ini",&wfd);
 	if (INVALID_HANDLE_VALUE != h)
 	{
 		ft_old = wfd.ftLastWriteTime;
-		_CORE_API->fio->_FindClose(h);
+		api->fio->_FindClose(h);
 	}
-	ini = _CORE_API->fio->OpenIniFile("resource\\ini\\rigging.ini");
+	ini = api->fio->OpenIniFile("resource\\ini\\rigging.ini");
 	if(!ini) THROW("rigging.ini file not found!");
 
 	sprintf_s(section,"SAILS");
@@ -1413,7 +1413,7 @@ void SAIL::FirstRun()
     else       SetAllSails();
 
     ENTITY_ID ropeEI;
-    if(_CORE_API->FindClass(&ropeEI,"rope",0))
+    if(api->FindClass(&ropeEI,"rope",0))
     // расчет позиции согласно положения веревок
     for(sn=wFirstIndx; sn<sailQuantity; sn++)
     {
@@ -1424,7 +1424,7 @@ void SAIL::FirstRun()
             {
                 int tieNum=slist[sn]->sailtrope.rrs[i]->tiePoint;
                 CVECTOR endVect;
-                ((ROPE_BASE*)_CORE_API->GetEntityPointer(&ropeEI))->GetEndPoint(&endVect,slist[sn]->sailtrope.rrs[i]->ropenum,gdata[slist[sn]->HostNum].modelEI);
+                ((ROPE_BASE*)api->GetEntityPointer(&ropeEI))->GetEndPoint(&endVect,slist[sn]->sailtrope.rrs[i]->ropenum,gdata[slist[sn]->HostNum].modelEI);
                 CVECTOR medVect;
                 medVect=slist[sn]->ss.hardPoints[tieNum];
                 CVECTOR begVect;
@@ -1487,7 +1487,7 @@ float SAIL::Cannon_Trace(long iBallOwner, const CVECTOR &src,const CVECTOR &dst)
 		if( !slist[traceSail]->bFreeSail && !gdata[slist[traceSail]->HostNum].bDeleted )
 		{
 			CVECTOR damagePoint = src+(dst-src)*retVal;
-			VAI_OBJBASE * pvai = (VAI_OBJBASE *)_CORE_API->GetEntityPointer(&gdata[slist[traceSail]->HostNum].shipEI);
+			VAI_OBJBASE * pvai = (VAI_OBJBASE *)api->GetEntityPointer(&gdata[slist[traceSail]->HostNum].shipEI);
 			ATTRIBUTES * pA = nullptr;
 			if(pvai!= nullptr) pA=pvai->GetACharacter();
 			long charIdx=-1;
@@ -1762,8 +1762,8 @@ void SAIL::SetAddSails(int firstSail)
 void SAIL::DoNoRopeSailToNewHost(ENTITY_ID newModel, ENTITY_ID newHost, ENTITY_ID oldHost)
 {
     ENTITY_ID rope_id;
-    if( !_CORE_API->FindClass(&rope_id,"rope",0) ) return; // нет веревок нет концерта
-    ROPE_BASE *rb = (ROPE_BASE*)_CORE_API->GetEntityPointer(&rope_id);
+    if( !api->FindClass(&rope_id,"rope",0) ) return; // нет веревок нет концерта
+    ROPE_BASE *rb = (ROPE_BASE*)api->GetEntityPointer(&rope_id);
     if(rb== nullptr) return;
 
     // найдем группу старого хозяина

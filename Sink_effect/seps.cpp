@@ -3,7 +3,7 @@
 
 SEPS_PS::SEPS_PS()
 {
-	api = (VAPI *)_CORE_API;
+	api = (VAPI *)api;
 
 	TechniqueName = nullptr;
 
@@ -198,7 +198,7 @@ bool SEPS_PS::Init(INIFILE * ini, char * psname)
 	RenderService = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!RenderService)	STORM_THROW("No service: dx9render");
 
-	gs = (VGEOMETRY *)_CORE_API->CreateService("geometry");
+	gs = (VGEOMETRY *)api->CreateService("geometry");
 	//if(!gs) return false;
 
 	// read textures ------------------------------------------------------------
@@ -221,7 +221,7 @@ bool SEPS_PS::Init(INIFILE * ini, char * psname)
 
 	if(!ini->ReadString(psname,PSKEY_TECHNIQUE,string,sizeof(string),""))
 	{
-		_CORE_API->Trace("Particle system: %s",psname);
+		api->Trace("Particle system: %s",psname);
 		STORM_THROW(no technique for particle system);
 	}
 
@@ -667,7 +667,7 @@ void SEPS_PS::ProcessParticles(uint32_t DeltaTime)
 
 	}
 
-	//_CORE_API->Trace("Delta: %d",DeltaTime);
+	//api->Trace("Delta: %d",DeltaTime);
 
 	DeltaTimeSLE += DeltaTime;
 	if(DeltaTimeSLE >= (EmissionTime + CurrentEmissionTimeRand))
@@ -904,7 +904,7 @@ void SEPS_PS::SetFlowTrack(uint32_t index)
 	{
 		Particle[index].flow_track_index++;
 	}
-	//if(index==0)_CORE_API->Trace("track: %d",Particle[index].flow_track_index);
+	//if(index==0)api->Trace("track: %d",Particle[index].flow_track_index);
 }
 
 

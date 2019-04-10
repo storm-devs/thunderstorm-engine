@@ -17,13 +17,13 @@ TSeagulls::TSeagulls()
 //--------------------------------------------------------------------
 TSeagulls::~TSeagulls()
 {
-	_CORE_API->DeleteEntity(seagullModel);
+	api->DeleteEntity(seagullModel);
 }
 
 //--------------------------------------------------------------------
 void TSeagulls::LoadSettings()
 {
-	INIFILE * ini = _CORE_API->fio->OpenIniFile(ANIMALS_INI_FILENAME);
+	INIFILE * ini = api->fio->OpenIniFile(ANIMALS_INI_FILENAME);
 	if (!ini)
 	{
 		countAdd = SEAGULL_ADD_COUNT;
@@ -60,16 +60,16 @@ void TSeagulls::Init()
 	startY = 0.f;
 	LoadSettings();
 
-	renderService = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
-	soundService = (VSoundService *)_CORE_API->CreateService("SoundService");
+	renderService = (VDX9RENDER *)api->CreateService("dx9render");
+	soundService = (VSoundService *)api->CreateService("SoundService");
 
 	if(!renderService)	
 		STORM_THROW("!Seagulls: No service: dx9render");
 	//if(!soundService)	
 	//	STORM_THROW("!Seagulls: No service: sound");
 
-	_CORE_API->CreateEntity(&seagullModel,"MODELR");
-	_CORE_API->Send_Message(seagullModel,"ls",MSG_MODEL_LOAD_GEO, ANIMALS_SEAGULL_FILENAME);
+	api->CreateEntity(&seagullModel,"MODELR");
+	api->Send_Message(seagullModel,"ls",MSG_MODEL_LOAD_GEO, ANIMALS_SEAGULL_FILENAME);
 }
 
 //--------------------------------------------------------------------
@@ -217,7 +217,7 @@ void TSeagulls::Realize(uint32_t _dTime)
 	if (!count)
 		Add(cameraPos.x,cameraPos.y,cameraPos.z);
 
-	MODEL *seagull = (MODEL*)_CORE_API->GetEntityPointer(&seagullModel);
+	MODEL *seagull = (MODEL*)api->GetEntityPointer(&seagullModel);
 	if (!seagull)
 		return;
 

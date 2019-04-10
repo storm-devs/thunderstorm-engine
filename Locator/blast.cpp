@@ -21,15 +21,15 @@ BLAST::~BLAST()
 
 bool BLAST::Init() 
 {	
-	gs = (VGEOMETRY *)_CORE_API->CreateService("geometry");
+	gs = (VGEOMETRY *)api->CreateService("geometry");
 	if(!gs) return false;
-	rs = (VDX9RENDER*)_CORE_API->CreateService("dx9render");
+	rs = (VDX9RENDER*)api->CreateService("dx9render");
 	if(!rs) return false;
 
 	//	long n;
 	INIFILE * ini;
-	ini = _CORE_API->fio->OpenIniFile("resource\\ini\\particles\\particles.ini");
-	if(!ini) {_CORE_API->Trace("not found: resource\\ini\\particles\\particles.ini"); return false;}
+	ini = api->fio->OpenIniFile("resource\\ini\\particles\\particles.ini");
+	if(!ini) {api->Trace("not found: resource\\ini\\particles\\particles.ini"); return false;}
 
 	long RandomNum = ini->GetLong("geo", "randomnum", 0);
 
@@ -164,7 +164,7 @@ void BLAST::ProcessTime(uint32_t DT)
 		}*/
 	}
 
-	if(bStop) _CORE_API->DeleteEntity(GetID());
+	if(bStop) api->DeleteEntity(GetID());
 }
 
 uint32_t _cdecl BLAST::ProcessMessage(MESSAGE & message)

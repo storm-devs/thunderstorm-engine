@@ -1077,7 +1077,7 @@ bool SOURCE_VIEW::SetVariableOnChange(const char * pString, bool bSet)
 	pStr = GetToken(pStr, sVarName);
 	if (!pStr)
 	{
-		pObject = (VDATA *)_CORE_API->GetScriptVariable(sVarName.c_str(), nullptr);
+		pObject = (VDATA *)api->GetScriptVariable(sVarName.c_str(), nullptr);
 		if (!pObject) return false;
 		// set VOC to alone variable
 		return true;
@@ -1091,14 +1091,14 @@ bool SOURCE_VIEW::SetVariableOnChange(const char * pString, bool bSet)
 		{
 			return false;
 		}
-		VDATA * pV = (VDATA *)_CORE_API->GetScriptVariable(sVarName.c_str(), nullptr); if (!pV) return false;
+		VDATA * pV = (VDATA *)api->GetScriptVariable(sVarName.c_str(), nullptr); if (!pV) return false;
 		sscanf(sDigit.c_str(), "%d", &iDigit);
 		pObject = pV->GetArrayElement(iDigit);
 		pStr = GetToken(pStr, sToken);
 	}
 	else if (sToken == ".")
 	{
-		pObject = (VDATA *)_CORE_API->GetScriptVariable(sVarName.c_str(), nullptr);
+		pObject = (VDATA *)api->GetScriptVariable(sVarName.c_str(), nullptr);
 	}
 	else
 		return false;

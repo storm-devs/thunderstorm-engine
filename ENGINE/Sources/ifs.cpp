@@ -795,7 +795,7 @@ bool IFS::ReadString(SEARCH_DATA * sd, const char * section_name, const char * k
 		sd->Section = nullptr;
 		if(def_string == nullptr)
 		{
-			_CORE_API->Trace("Warning! IniFile Read String: section=%s, key=%s",section_name,key_name);
+			api->Trace("Warning! IniFile Read String: section=%s, key=%s",section_name,key_name);
 			if(buffer) buffer[0] = 0;
 			//STORM_THROW(string not found);
 		}else

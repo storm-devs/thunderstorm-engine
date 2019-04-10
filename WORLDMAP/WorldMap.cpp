@@ -121,20 +121,20 @@ bool WorldMap::Init()
 {
 	GUARD(LocationCamera::Init())
 	//Layers
-	_CORE_API->LayerCreate("execute", true, false);
-	_CORE_API->LayerSetExecute("execute", true);
-	_CORE_API->LayerCreate("realize", true, false);
-	_CORE_API->LayerSetRealize("realize", true);
-	_CORE_API->LayerAdd("execute", GetID(), 10000);
-	_CORE_API->LayerAdd("realize", GetID(), 10000);
+	api->LayerCreate("execute", true, false);
+	api->LayerSetExecute("execute", true);
+	api->LayerCreate("realize", true, false);
+	api->LayerSetRealize("realize", true);
+	api->LayerAdd("execute", GetID(), 10000);
+	api->LayerAdd("realize", GetID(), 10000);
 
 	//DX9 render
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs) STORM_THROW("No service: dx9render");
 	rs->SetPerspective((1.57f + 1.0f)/2);
 	wdmObjects->rs = rs;
 	//GS
-	wdmObjects->gs = (VGEOMETRY *)_CORE_API->CreateService("geometry");
+	wdmObjects->gs = (VGEOMETRY *)api->CreateService("geometry");
 	//Создаём объекты карты
 	WdmRenderObject * ro;
 	//Создаём острова
@@ -264,7 +264,7 @@ bool WorldMap::Init()
 	//AddLObject(ro, 10099);
 	//Календарь
 	//WdmCounter * cnt = new WdmCounter();
-	//if(!cnt->Init()) _CORE_API->Trace("Counter not created");
+	//if(!cnt->Init()) api->Trace("Counter not created");
 
 	//AddLObject(cnt, 10099);
 	//Иконка
@@ -383,13 +383,13 @@ void WorldMap::Realize(uint32_t delta_time)
 	if(!wdmObjects->isPause)
 	{
 		CONTROL_STATE cs;
-		_CORE_API->Controls->GetControlState("WMapCancel",cs);
+		api->Controls->GetControlState("WMapCancel",cs);
 		if(cs.state == CST_ACTIVATED)
 		{
 			if(wdmObjects->playerShip)
 			{
-				if(!((WdmPlayerShip *)wdmObjects->playerShip)->ExitFromMap()) _CORE_API->Event("ExitFromWorldMap");
-			}else _CORE_API->Event("ExitFromWorldMap");
+				if(!((WdmPlayerShip *)wdmObjects->playerShip)->ExitFromMap()) api->Event("ExitFromWorldMap");
+			}else api->Event("ExitFromWorldMap");
 		}
 	}
 	//---------------------------------------------------------
@@ -424,14 +424,14 @@ void WorldMap::Realize(uint32_t delta_time)
 			aDate->SetAttributeUseDword("day", day);
 
 #ifndef EVENTS_OFF
-			_CORE_API->Event("WorldMap_UpdateDate", "f", hour);
+			api->Event("WorldMap_UpdateDate", "f", hour);
 			wdmObjects->isNextDayUpdate = true;
-			_CORE_API->Event("NextDay");
+			api->Event("NextDay");
 #endif
 		}
 	}else{
 #ifndef EVENTS_OFF
-		_CORE_API->Event("WorldMap_UpdateDate", "f", hour);
+		api->Event("WorldMap_UpdateDate", "f", hour);
 #endif
 	}
 	//
@@ -470,7 +470,7 @@ void WorldMap::Realize(uint32_t delta_time)
 		float psx = 0.0f, psz = 0.0f, psay = 0.0f;
 		wdmObjects->playerShip->GetPosition(psx, psz, psay);
 #ifndef ENCS_OFF
-		_CORE_API->Event("WorldMap_EncounterCreate", "ffff", encTime, psx, psz, psay);
+		api->Event("WorldMap_EncounterCreate", "ffff", encTime, psx, psz, psay);
 #endif
 		encTime = 0.0f;
 	}
@@ -562,8 +562,8 @@ uint32_t _cdecl WorldMap::ProcessMessage(MESSAGE & message)
 	case MSG_WORLDMAP_LAUNCH_EXIT_TO_SEA:
 		if(wdmObjects->playerShip)
 		{
-			if(!((WdmPlayerShip *)wdmObjects->playerShip)->ExitFromMap()) _CORE_API->Event("ExitFromWorldMap");
-		}else _CORE_API->Event("ExitFromWorldMap");
+			if(!((WdmPlayerShip *)wdmObjects->playerShip)->ExitFromMap()) api->Event("ExitFromWorldMap");
+		}else api->Event("ExitFromWorldMap");
 		break;
 	}
 	return 0;

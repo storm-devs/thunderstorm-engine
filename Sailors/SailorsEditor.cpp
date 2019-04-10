@@ -29,14 +29,14 @@ SailorsEditor :: ~SailorsEditor()
 
 bool SailorsEditor :: Init()
 {
-	rs = (VDX9RENDER *) _CORE_API->CreateService("dx9render");
+	rs = (VDX9RENDER *) api->CreateService("dx9render");
 
 	bool result= api->CreateEntity(&sailors, "Sailors");
 
 
-	_CORE_API->LayerCreate("execute", true, false);
-	_CORE_API->LayerSetFlags("execute", LRFLAG_EXECUTE);
-	_CORE_API->LayerAdd("execute", GetID(), 0);
+	api->LayerCreate("execute", true, false);
+	api->LayerSetFlags("execute", LRFLAG_EXECUTE);
+	api->LayerAdd("execute", GetID(), 0);
 
 	api->LayerCreate("editor_realize", true, false);
 	api->LayerSetFlags("editor_realize", LRFLAG_REALIZE);

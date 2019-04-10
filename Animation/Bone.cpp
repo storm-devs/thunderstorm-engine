@@ -139,7 +139,7 @@ inline float Bone::Clamp(float v, const char * str)
 	bool isErr = false;
 	if(v < -1.0f){ v = -1.0f; isErr = true; }
 	if(v > 1.0f){ v = 1.0f; isErr = true; }
-	if(isErr && str) _CORE_API->Trace(str);
+	if(isErr && str) api->Trace(str);
 	return v;
 }
 

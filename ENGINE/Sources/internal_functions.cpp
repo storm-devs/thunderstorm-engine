@@ -7,7 +7,7 @@
 #define BAD_FA		"Bad function argument"
 #define MISSING_PARAMETER	"Missing function parameter(s)"
 
-extern VAPI * _CORE_API;
+extern VAPI * api;
 extern CORE Core;
 
 //#define _TOFF
@@ -494,7 +494,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 	TempFloat1 = 0;
 	TempLong1 = 0;
 
-	api = _CORE_API;
+	api = api;
 
 	pVResult = nullptr;	// default - no return value
 
@@ -697,15 +697,15 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV->Convert(VAR_STRING);
 			pV->Get(pChar);
 
-			//_CORE_API->SetEntityScanLayer(0)//pChar);
-			_CORE_API->FindClass(&entity_id,pChar,0);
+			//api->SetEntityScanLayer(0)//pChar);
+			api->FindClass(&entity_id,pChar,0);
 
 			pV2 = pV2->GetVarPointer();
 			pV2->Set(entity_id);
 			pV2->SetType(VAR_AREFERENCE);
-			pV2->SetAReference(_CORE_API->Entity_GetAttributePointer(&entity_id));
+			pV2->SetAReference(api->Entity_GetAttributePointer(&entity_id));
 
-			if(_CORE_API->ValidateEntity(&entity_id)) TempLong1 = 1;
+			if(api->ValidateEntity(&entity_id)) TempLong1 = 1;
 			else TempLong1 = 0;
 			pV = SStack.Push();
 			pV->Set(TempLong1);
@@ -714,13 +714,13 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 
 		case FUNC_FINDCLASSNEXT:
 			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
-			_CORE_API->FindClassNext(&entity_id);
+			api->FindClassNext(&entity_id);
 			pV2 = pV2->GetVarPointer();
 			pV2->Set(entity_id);
 			pV2->SetType(VAR_AREFERENCE);
-			pV2->SetAReference(_CORE_API->Entity_GetAttributePointer(&entity_id));
+			pV2->SetAReference(api->Entity_GetAttributePointer(&entity_id));
 
-			if(_CORE_API->ValidateEntity(&entity_id)) TempLong1 = 1;
+			if(api->ValidateEntity(&entity_id)) TempLong1 = 1;
 			else TempLong1 = 0;
 			pV = SStack.Push();
 			pV->Set(TempLong1);
@@ -1031,28 +1031,28 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV->Convert(VAR_STRING);
 			pV->Get(pChar);
 
-			_CORE_API->SetEntityScanLayer(pChar);
-			_CORE_API->GetEntity(&entity_id);
+			api->SetEntityScanLayer(pChar);
+			api->GetEntity(&entity_id);
 
 			pV2 = pV2->GetVarPointer();
 			pV2->Set(entity_id);
 			pV2->SetType(VAR_AREFERENCE);
-			pV2->SetAReference(_CORE_API->Entity_GetAttributePointer(&entity_id));
+			pV2->SetAReference(api->Entity_GetAttributePointer(&entity_id));
 
-			if(_CORE_API->ValidateEntity(&entity_id)) TempLong1 = 1;
+			if(api->ValidateEntity(&entity_id)) TempLong1 = 1;
 			else TempLong1 = 0;
 			pV = SStack.Push();
 			pV->Set(TempLong1);
 			pVResult = pV;
 		return pV;
 		case FUNC_GETENTITYNEXT:
-			_CORE_API->GetEntityNext(&entity_id);
+			api->GetEntityNext(&entity_id);
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV->GetVarPointer();
 			pV->Set(entity_id);
 			pV->SetType(VAR_AREFERENCE);
-			pV->SetAReference(_CORE_API->Entity_GetAttributePointer(&entity_id));
-			if(_CORE_API->ValidateEntity(&entity_id)) TempLong1 = 1;
+			pV->SetAReference(api->Entity_GetAttributePointer(&entity_id));
+			if(api->ValidateEntity(&entity_id)) TempLong1 = 1;
 			else TempLong1 = 0;
 			pV = SStack.Push();
 			pV->Set(TempLong1);
@@ -1133,42 +1133,42 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV->Get(pChar);
 			pV2->Get(TempLong1);
-			if(TempLong1 == 0) _CORE_API->LayerCreate(pChar,false,false);
-			else _CORE_API->LayerCreate(pChar,true,false);
+			if(TempLong1 == 0) api->LayerCreate(pChar,false,false);
+			else api->LayerCreate(pChar,true,false);
 		break;
 		case FUNC_LAYER_DELETE:
 			pV = SStack.Pop(); if(!pV) {SetError(INVALID_FA); break;};
 			pV->Get(pChar);
-			_CORE_API->LayerSTORM_DELETE(pChar);
+			api->LayerSTORM_DELETE(pChar);
 		break;
 		case FUNC_LAYER_DELETE_CONTENT:
 			pV = SStack.Pop(); if(!pV) {SetError(INVALID_FA); break;};
 			pV->Get(pChar);
-			_CORE_API->LayerDeleteContent(pChar);
+			api->LayerDeleteContent(pChar);
 		break;
 		case FUNC_LAYER_SET_REALIZE:
 			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV->Get(pChar);
 			pV2->Get(TempLong1);
-			if(TempLong1 == 0) _CORE_API->LayerSetRealize(pChar,false);
-			else _CORE_API->LayerSetRealize(pChar,true);
+			if(TempLong1 == 0) api->LayerSetRealize(pChar,false);
+			else api->LayerSetRealize(pChar,true);
 		break;
 		case FUNC_LAYER_SET_EXECUTE:
 			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV->Get(pChar);
 			pV2->Get(TempLong1);
-			if(TempLong1 == 0) _CORE_API->LayerSetExecute(pChar,false);
-			else _CORE_API->LayerSetExecute(pChar,true);
+			if(TempLong1 == 0) api->LayerSetExecute(pChar,false);
+			else api->LayerSetExecute(pChar,true);
 		break;
 		case FUNC_LAYER_SET_MESSAGES:
 			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV->Get(pChar);
 			pV2->Get(TempLong1);
-			if(TempLong1 == 0) _CORE_API->LayerClrFlags(pChar,LRFLAG_SYS_MESSAGES);
-			else _CORE_API->LayerSetFlags(pChar,LRFLAG_SYS_MESSAGES);
+			if(TempLong1 == 0) api->LayerClrFlags(pChar,LRFLAG_SYS_MESSAGES);
+			else api->LayerSetFlags(pChar,LRFLAG_SYS_MESSAGES);
 		break;
 		case FUNC_LAYER_ADDOBJECT:
 			pV3 = SStack.Pop(); if(!pV3){SetError(INVALID_FA);break;};
@@ -1177,22 +1177,22 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV->Get(pChar);
 			pV2->Get(TempEid);
 			pV3->Get(TempLong1);
-			_CORE_API->LayerAdd(pChar,TempEid,TempLong1);
+			api->LayerAdd(pChar,TempEid,TempLong1);
 		break;
 		case FUNC_LAYER_DELOBJECT:
 			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV->Get(pChar);
 			pV2->Get(TempEid);
-			_CORE_API->LayerDel(pChar,TempEid);
+			api->LayerDel(pChar,TempEid);
 		break;
 		case FUNC_LAYER_FREEZE:
 			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV->Get(pChar);
 			pV2->Get(TempLong1);
-			if(TempLong1 == 0) _CORE_API->LayerClrFlags(pChar,LRFLAG_FROZEN);
-			else _CORE_API->LayerSetFlags(pChar,LRFLAG_FROZEN);
+			if(TempLong1 == 0) api->LayerClrFlags(pChar,LRFLAG_FROZEN);
+			else api->LayerSetFlags(pChar,LRFLAG_FROZEN);
 		break;
 
 		case FUNC_IS_ENTITY_LOADED:
@@ -1279,7 +1279,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 		case FUNC_DELETE_ENTITY:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV->Get(entity_id);
-			_CORE_API->DeleteEntity(entity_id);
+			api->DeleteEntity(entity_id);
 		break;
 		//
 		case FUNC_DEL_EVENT_HANDLER:
@@ -1301,7 +1301,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 		//
 		case FUNC_EXIT_PROGRAM:
 			ExitProgram();
-			//_CORE_API->Exit();
+			//api->Exit();
 		break;
 		//
 		case FUNC_GET_EVENTDATA:
@@ -1346,7 +1346,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 					pResult->SetType(VAR_AREFERENCE);
 					entity_id = pEventMessage->EntityID();
 					pResult->Set(entity_id);
-					pResult->SetAReference(_CORE_API->Entity_GetAttributePointer(&entity_id));
+					pResult->SetAReference(api->Entity_GetAttributePointer(&entity_id));
 
 					pVResult = pResult;
 				return pResult;
@@ -1365,7 +1365,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 		case FUNC_EXECUTE:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV->Get(pChar);
-			_CORE_API->Execute(pChar);
+			api->Execute(pChar);
 		break;
 		case FUNC_LOAD_SEGMENT:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
@@ -1441,7 +1441,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 
 			uint32_t mresult;
 			mresult = 0;
-			pE = _CORE_API->GetEntityPointer(&entity_id);
+			pE = api->GetEntityPointer(&entity_id);
 			if(pE)
 			{
 				ms.ResetIndex();
@@ -1843,14 +1843,14 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			if(!pV){SetError(INVALID_FA);break;};
 			pV->Convert(VAR_STRING);
 			pV->Get(pChar);
-			_CORE_API->SaveState(pChar);
+			api->SaveState(pChar);
 		break;
 		case FUNC_LOADENGINESTATE:
 			pV = SStack.Pop();
 			if(!pV){SetError(INVALID_FA);break;};
 			pV->Convert(VAR_STRING);
 			pV->Get(pChar);
-			_CORE_API->InitiateStateLoading(pChar);
+			api->InitiateStateLoading(pChar);
 		break;
 	}
 	return nullptr;

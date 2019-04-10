@@ -707,28 +707,28 @@ void ShipWalk::CreateNewMan(SailorsPoints &sailorsPoints)
 	switch (rand() % 6) // 6 different character types
 	{
 	case 0:
-		_CORE_API->Send_Message(shipMan[current].modelID,"ls",MSG_MODEL_LOAD_GEO, "Lowcharacters\\Lo_Man_1");
+		api->Send_Message(shipMan[current].modelID,"ls",MSG_MODEL_LOAD_GEO, "Lowcharacters\\Lo_Man_1");
 		break;
 	case 1:
-		_CORE_API->Send_Message(shipMan[current].modelID,"ls",MSG_MODEL_LOAD_GEO, "Lowcharacters\\Lo_Man_2");
+		api->Send_Message(shipMan[current].modelID,"ls",MSG_MODEL_LOAD_GEO, "Lowcharacters\\Lo_Man_2");
 		break;
 	case 2:
-		_CORE_API->Send_Message(shipMan[current].modelID,"ls",MSG_MODEL_LOAD_GEO, "Lowcharacters\\Lo_Man_3");
+		api->Send_Message(shipMan[current].modelID,"ls",MSG_MODEL_LOAD_GEO, "Lowcharacters\\Lo_Man_3");
 		break;
 	case 3:
-		_CORE_API->Send_Message(shipMan[current].modelID,"ls",MSG_MODEL_LOAD_GEO, "Lowcharacters\\Lo_Man_Kamzol_1");
+		api->Send_Message(shipMan[current].modelID,"ls",MSG_MODEL_LOAD_GEO, "Lowcharacters\\Lo_Man_Kamzol_1");
 		break;
 	case 4:
-		_CORE_API->Send_Message(shipMan[current].modelID,"ls",MSG_MODEL_LOAD_GEO, "Lowcharacters\\Lo_Man_Kamzol_2");
+		api->Send_Message(shipMan[current].modelID,"ls",MSG_MODEL_LOAD_GEO, "Lowcharacters\\Lo_Man_Kamzol_2");
 		break;
 	case 5:
-		_CORE_API->Send_Message(shipMan[current].modelID,"ls",MSG_MODEL_LOAD_GEO, "Lowcharacters\\Lo_Man_Kamzol_3");
+		api->Send_Message(shipMan[current].modelID,"ls",MSG_MODEL_LOAD_GEO, "Lowcharacters\\Lo_Man_Kamzol_3");
 		break;
 	}
 
 	api->Send_Message(shipMan[current].modelID,"ls",MSG_MODEL_LOAD_ANI, "Lo_Man");
 
-	shipMan[current].model = (MODEL*)_CORE_API->GetEntityPointer(&shipMan[current].modelID);
+	shipMan[current].model = (MODEL*)api->GetEntityPointer(&shipMan[current].modelID);
 	shipMan[current].SetAnimation(0, shipState);
 
 	if (sailorsPoints.points.count)
@@ -771,7 +771,7 @@ void ShipWalk::Init(ENTITY_ID &_shipID, int editorMode, char *shipType)
 
 	ENTITY_ID seaID;
 	api->FindClass(&seaID, "sea", 0);
-	shipState.sea = (SEA_BASE*) _CORE_API->GetEntityPointer(&seaID);
+	shipState.sea = (SEA_BASE*) api->GetEntityPointer(&seaID);
 
 	if (!editorMode)
 	{ //Режим игры - создан корабль
@@ -1012,7 +1012,7 @@ bool Sailors::Init()
 {
 	GUARD_SAILORS(Sailors :: Init())
 
-	rs = (VDX9RENDER *) _CORE_API->CreateService("dx9render");
+	rs = (VDX9RENDER *) api->CreateService("dx9render");
 
 	api->LayerCreate("sea_realize", true, false);
 	api->LayerSetFlags("sea_realize", LRFLAG_REALIZE);

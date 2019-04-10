@@ -195,7 +195,7 @@ void SEA::CreateVertexDeclaration()
 
 bool SEA::Init()
 {
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	CreateVertexDeclaration();
 	INIFILE * pEngineIni = fio->OpenIniFile(api->EngineIniFileName());
 	bool bDisableHyperThreading = (pEngineIni) ? pEngineIni->GetLong(nullptr, "HyperThreading", 1) == 0 : false;

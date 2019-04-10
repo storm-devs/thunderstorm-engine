@@ -38,20 +38,20 @@ bool LocEagle::Init()
 {
 	//Точка, вокруг которой летаем
 	ENTITY_ID loc;
-	_CORE_API->FindClass(&loc, "location", 0);
-	Location * location = (Location *)_CORE_API->GetEntityPointer(&loc);
+	api->FindClass(&loc, "location", 0);
+	Location * location = (Location *)api->GetEntityPointer(&loc);
 	if(!location) return false;
 	cnt = location->GetPtcData().middle + CVECTOR(0.0f, 30.0f, 0.0f);
 	//Путь для текстур
-	VGEOMETRY * gs = (VGEOMETRY *)_CORE_API->CreateService("geometry");
+	VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
 	if(!gs)
 	{
-		_CORE_API->Trace("Can't create geometry service!");
+		api->Trace("Can't create geometry service!");
 		return false;
 	}
 	//Моделька
 	if(!api->CreateEntity(&mdl, "modelr")) return false;
-	_CORE_API->LayerAdd("realize", mdl, 20);
+	api->LayerAdd("realize", mdl, 20);
 	gs->SetTexturePath("Animals\\");
 	if(!api->Send_Message(mdl, "ls", MSG_MODEL_LOAD_GEO, "Animals\\eagle"))
 	{
@@ -62,16 +62,16 @@ bool LocEagle::Init()
 	//Анимация
 	if(!api->Send_Message(mdl, "ls", MSG_MODEL_LOAD_ANI, "eagle")) return false;
 	//Запускаем проигрывание анимации
-	MODEL * m = (MODEL *)_CORE_API->GetEntityPointer(&mdl);
+	MODEL * m = (MODEL *)api->GetEntityPointer(&mdl);
 	if(!m) return false;
 	Animation * ani = m->GetAnimation();
 	if(!ani) return false;
 	if(!ani->Player(0).SetAction("flight")) return false;
 	if(!ani->Player(0).Play()) return false;
 	//Включаем в список исполнения
-	_CORE_API->LayerCreate("execute", true, false);
-	_CORE_API->LayerSetFlags("execute", LRFLAG_EXECUTE);
-	_CORE_API->LayerAdd("execute", GetID(), 10);
+	api->LayerCreate("execute", true, false);
+	api->LayerSetFlags("execute", LRFLAG_EXECUTE);
+	api->LayerAdd("execute", GetID(), 10);
 	return true;	
 }
 
@@ -79,7 +79,7 @@ bool LocEagle::Init()
 void LocEagle::Execute(uint32_t delta_time)
 {
 	//Моделька
-	MODEL * m = (MODEL *)_CORE_API->GetEntityPointer(&mdl);
+	MODEL * m = (MODEL *)api->GetEntityPointer(&mdl);
 	if(!m) return;
 	//Обновляем позицию
 	float dltTime = delta_time*0.001f;

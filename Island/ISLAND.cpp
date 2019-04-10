@@ -198,7 +198,7 @@ void ISLAND::Realize(uint32_t Delta_Time)
 	uint32_t i;
 	for (i=0; i<aSpheres.size(); i++)
 	{
-		MODEL * pModel = (MODEL*)_CORE_API->GetEntityPointer(&aSpheres[i]);
+		MODEL * pModel = (MODEL*)api->GetEntityPointer(&aSpheres[i]);
 		CVECTOR vPos = AIPath.GetPointPos(i);
 		if (pModel)
 			pModel->mtx.BuildPosition(vPos.x,5.0f,vPos.z);

@@ -40,7 +40,7 @@ ILogAndActions::~ILogAndActions()
 
 bool ILogAndActions::Init()
 {
-	if( (rs=(VDX9RENDER *)_CORE_API->CreateService("dx9render")) == nullptr )
+	if( (rs=(VDX9RENDER *)api->CreateService("dx9render")) == nullptr )
 	{
 		STORM_THROW("Can`t create render service");
 	}
@@ -306,7 +306,7 @@ void ILogAndActions::Create(bool bFastComShow, bool bLogStringShow)
 	m_IconVertex[1].tv = m_IconVertex[3].tv = 1.f/(float)m_vertDiv;
 
 	// установить параметры для строк прошедших действий
-	pA = _CORE_API->Entity_GetAttributeClass(&g_ILogAndActions,"Log");
+	pA = api->Entity_GetAttributeClass(&g_ILogAndActions,"Log");
 	if(pA!= nullptr)
 	{
 		m_nWindowWidth = pA->GetAttributeAsDword("width",200);
@@ -348,7 +348,7 @@ void ILogAndActions::ActionChange(bool bFastComShow, bool bLogStringShow)
 	TEXTURE_RELEASE(rs,m_idIconTexture);
 
 	// Установить параметры для иконки активного действия
-	ATTRIBUTES * pA = _CORE_API->Entity_GetAttributeClass(&g_ILogAndActions,"ActiveActions");
+	ATTRIBUTES * pA = api->Entity_GetAttributeClass(&g_ILogAndActions,"ActiveActions");
 	if(pA!= nullptr)
 	{
 		m_idIconTexture = rs->TextureCreate(pA->GetAttribute("TextureName"));
@@ -470,7 +470,7 @@ void ILogAndActions::SetAction(char * actionName)
 	if(actionName== nullptr) return;
 	if( (strlen(actionName)+1)>sizeof(m_sActionName) )
 	{
-		_CORE_API->Trace("Action name: %s  - overup size of name");
+		api->Trace("Action name: %s  - overup size of name");
 		return;
 	}
 	pA = api->Entity_GetAttributeClass(&g_ILogAndActions,"ActiveActions");

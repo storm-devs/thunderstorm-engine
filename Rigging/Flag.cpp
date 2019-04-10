@@ -47,7 +47,7 @@ bool FLAG::Init()
 void FLAG::SetDevice()
 {
     // получить сервис рендера
-	RenderService = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	RenderService = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!RenderService)
 	{
 		STORM_THROW("No service: dx9render");
@@ -79,11 +79,11 @@ void FLAG::Execute(uint32_t Delta_Time)
         //====================================================
         // Если был изменен ини-файл, то считать инфо из него
     	WIN32_FIND_DATA	wfd;
-	    HANDLE h = _CORE_API->fio->_FindFirstFile("resource\\ini\\rigging.ini",&wfd);
+	    HANDLE h = api->fio->_FindFirstFile("resource\\ini\\rigging.ini",&wfd);
     	if (INVALID_HANDLE_VALUE != h)
 	    {
 		    FILETIME ft_new = wfd.ftLastWriteTime;
-    		_CORE_API->fio->_FindClose(h);
+    		api->fio->_FindClose(h);
 
 	    	if (CompareFileTime(&ft_old,&ft_new)!=0)
             {
@@ -93,9 +93,9 @@ void FLAG::Execute(uint32_t Delta_Time)
 
         // получим значение ветра
         ENTITY_ID ei;
-        if( _CORE_API->FindClass(&ei,"weather",0) )
+        if( api->FindClass(&ei,"weather",0) )
         {
-            WEATHER_BASE *wb = (WEATHER_BASE*)_CORE_API->GetEntityPointer(&ei);
+            WEATHER_BASE *wb = (WEATHER_BASE*)api->GetEntityPointer(&ei);
             globalWind.ang.x=wb->GetFloat(whf_wind_angle);
             globalWind.ang.z=cosf(globalWind.ang.x);
             globalWind.ang.x=sinf(globalWind.ang.x);
@@ -468,13 +468,13 @@ void FLAG::LoadIni()
 
 	INIFILE * ini;
 	WIN32_FIND_DATA	wfd;
-	HANDLE h = _CORE_API->fio->_FindFirstFile("resource\\ini\\rigging.ini",&wfd);
+	HANDLE h = api->fio->_FindFirstFile("resource\\ini\\rigging.ini",&wfd);
 	if (INVALID_HANDLE_VALUE != h)
 	{
 		ft_old = wfd.ftLastWriteTime;
-		_CORE_API->fio->_FindClose(h);
+		api->fio->_FindClose(h);
 	}
-	ini = _CORE_API->fio->OpenIniFile("resource\\ini\\rigging.ini");
+	ini = api->fio->OpenIniFile("resource\\ini\\rigging.ini");
 	if(!ini) THROW("rigging.ini file not found!");
 
 	sprintf_s(section,"FLAGS");

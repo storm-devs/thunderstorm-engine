@@ -14,13 +14,13 @@ IBoardingStatus::~IBoardingStatus()
 
 bool IBoardingStatus::Init()
 {
-	if( (rs=(VDX9RENDER *)_CORE_API->CreateService("dx9render")) == nullptr )
+	if( (rs=(VDX9RENDER *)api->CreateService("dx9render")) == nullptr )
 	{
 		STORM_THROW("Can`t create render service");
 	}
 
-	_CORE_API->SystemMessages(GetID(),true);
-	_CORE_API->LayerAdd("realize",GetID(),0xFFFFFFFF);
+	api->SystemMessages(GetID(),true);
+	api->LayerAdd("realize",GetID(),0xFFFFFFFF);
 
 	return true;
 }

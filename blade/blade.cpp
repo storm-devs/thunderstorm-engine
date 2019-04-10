@@ -175,7 +175,7 @@ bool BLADE::BLADE_INFO::LoadBladeModel(MESSAGE &message)
 		strcpy_s(path, "Ammo\\");
 		strcat_s(path, mdlName);
 		//Путь до текстур
-		VGEOMETRY * gs = (VGEOMETRY *)_CORE_API->CreateService("geometry");
+		VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
 		if(gs) gs->SetTexturePath("Ammo\\");
 		//Создаём модельку
 		api->CreateEntity(&eid, "modelr");
@@ -202,7 +202,7 @@ BLADE::BLADE()
 
 BLADE::~BLADE()
 {
-	_CORE_API->DeleteEntity(gun);
+	api->DeleteEntity(gun);
 
 	for( long i=0; i<ITEMS_INFO_QUANTITY; i++ ) items[i].Release();
 }
@@ -211,12 +211,12 @@ bool BLADE::Init()
 {
 	GUARD(BLADE::BLADE())
 
-	col = (COLLIDE *)_CORE_API->CreateService("coll");
+	col = (COLLIDE *)api->CreateService("coll");
 	if(col== nullptr)	STORM_THROW("No service: COLLIDE");
 
-	_CORE_API->LayerAdd("realize",GetID(),65550);
+	api->LayerAdd("realize",GetID(),65550);
 
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs)	STORM_THROW("No service: dx9render");
 	
 	UNGUARD
@@ -231,7 +231,7 @@ void BLADE::Realize(uint32_t Delta_Time)
 {
 	blade[0].time += 0.001f*(Delta_Time);
 
-	MODEL *mdl = (MODEL*)_CORE_API->GetEntityPointer(&man);
+	MODEL *mdl = (MODEL*)api->GetEntityPointer(&man);
 	if(!mdl) return;
 
 	NODE *manNode = mdl->GetNode(0);
@@ -252,7 +252,7 @@ void BLADE::Realize(uint32_t Delta_Time)
 	//draw gun
 	CMatrix perMtx;
 	long sti;
-	MODEL *obj = (MODEL*)_CORE_API->GetEntityPointer(&gun);
+	MODEL *obj = (MODEL*)api->GetEntityPointer(&gun);
 	if(obj!=nullptr)
 	{
 		NODE *gunNode = obj->GetNode(0);
@@ -329,7 +329,7 @@ bool BLADE::LoadBladeModel(MESSAGE &message)
 
 bool BLADE::LoadGunModel(MESSAGE &message)
 {
-	_CORE_API->DeleteEntity(gun);
+	api->DeleteEntity(gun);
 	man = message.EntityID();
 	//Имя модельки
 	char mdlName[200];
@@ -342,13 +342,13 @@ bool BLADE::LoadGunModel(MESSAGE &message)
 		strcpy_s(path, "Ammo\\");
 		strcat_s(path, mdlName);
 		//Путь до текстур
-		VGEOMETRY * gs = (VGEOMETRY *)_CORE_API->CreateService("geometry");
+		VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
 		if(gs) gs->SetTexturePath("Ammo\\");
 		//Создаём модельку
-		_CORE_API->CreateEntity(&gun, "modelr");
-		if(!_CORE_API->Send_Message(gun, "ls", MSG_MODEL_LOAD_GEO, path))
+		api->CreateEntity(&gun, "modelr");
+		if(!api->Send_Message(gun, "ls", MSG_MODEL_LOAD_GEO, path))
 		{
-			_CORE_API->DeleteEntity(gun);
+			api->DeleteEntity(gun);
 			if(gs) gs->SetTexturePath("");
 			return false;
 		}
@@ -359,7 +359,7 @@ bool BLADE::LoadGunModel(MESSAGE &message)
 
 void BLADE::GunFire()
 {
-	MODEL *mdl = (MODEL*)_CORE_API->GetEntityPointer(&man);
+	MODEL *mdl = (MODEL*)api->GetEntityPointer(&man);
 	NODE *manNode = mdl->GetNode(0);
 
 	//------------------------------------------------------
@@ -367,7 +367,7 @@ void BLADE::GunFire()
 	CMatrix perMtx;
 	long sti;
 
-	MODEL *obj = (MODEL*)_CORE_API->GetEntityPointer(&gun);
+	MODEL *obj = (MODEL*)api->GetEntityPointer(&gun);
 	if( obj==nullptr ) // нет пистолета - посмотрим на саблю-пистолет
 		obj = (MODEL*)api->GetEntityPointer(&blade[1].eid);
 
@@ -413,7 +413,7 @@ void BLADE::GunFire()
 			api->Send_Message(prt, "lsffffffl", PS_CREATEX, "gunfire", rp.x, rp.y, rp.z, 
 				resm.Vz().x, resm.Vz().y, resm.Vz().z, 0);
 		}
-		else _CORE_API->Trace("MSG_BLADE_GUNFIRE Can't find gun_fire locator");
+		else api->Trace("MSG_BLADE_GUNFIRE Can't find gun_fire locator");
 	}
 }
 
@@ -436,7 +436,7 @@ uint32_t _cdecl BLADE::ProcessMessage(MESSAGE &message)
 				blade[n].locatorName = sabergunBeltName;
 				blade[n].lifeTime = 0.0f;
 			}
-			//_CORE_API->Trace("MSG_BLADE_BELT::%s", beltName);
+			//api->Trace("MSG_BLADE_BELT::%s", beltName);
 		break;
 
 		case MSG_BLADE_HAND:
@@ -446,7 +446,7 @@ uint32_t _cdecl BLADE::ProcessMessage(MESSAGE &message)
 			} else if( n==1 ) {
 				blade[n].locatorName = sabergunHandName;
 			}
-			//_CORE_API->Trace("MSG_BLADE_HAND::%s", handName);
+			//api->Trace("MSG_BLADE_HAND::%s", handName);
 		break;
 
 		case MSG_BLADE_GUNSET:
@@ -454,15 +454,15 @@ uint32_t _cdecl BLADE::ProcessMessage(MESSAGE &message)
 		break;
 		case MSG_BLADE_GUNBELT:
 			gunLocName = gunBeltName;
-			//_CORE_API->Trace("MSG_BLADE_GUNBELT::%s", gunLocName);
+			//api->Trace("MSG_BLADE_GUNBELT::%s", gunLocName);
 		break;
 		case MSG_BLADE_GUNHAND:
 			gunLocName = gunHandName;
-			//_CORE_API->Trace("MSG_BLADE_GUNHAND::%s", gunLocName);
+			//api->Trace("MSG_BLADE_GUNHAND::%s", gunLocName);
 		break;
 		case MSG_BLADE_GUNFIRE:
 			GunFire();
-			//_CORE_API->Trace("MSG_BLADE_GUNFIRE::%s", handName);
+			//api->Trace("MSG_BLADE_GUNFIRE::%s", handName);
 		break;
 
 		case MSG_BLADE_TRACE_ON:
@@ -471,7 +471,7 @@ uint32_t _cdecl BLADE::ProcessMessage(MESSAGE &message)
 			{
 				blade[0].lifeTime = blade[0].defLifeTime;
 			}
-			//_CORE_API->Trace("MSG_BLADE_TRACE_ON::%f", lifeTime);
+			//api->Trace("MSG_BLADE_TRACE_ON::%f", lifeTime);
 		break;
 
 		case MSG_BLADE_TRACE_OFF:
@@ -480,15 +480,15 @@ uint32_t _cdecl BLADE::ProcessMessage(MESSAGE &message)
 			{
 				blade[0].lifeTime = 0.0f;
 			}
-			//_CORE_API->Trace("MSG_BLADE_TRACE_OFF");
+			//api->Trace("MSG_BLADE_TRACE_OFF");
 		break;
 
 		case MSG_BLADE_BLOOD:
-			//_CORE_API->Trace("MSG_BLADE_BLOOD");
+			//api->Trace("MSG_BLADE_BLOOD");
 		break;
 
 		case MSG_BLADE_LIGHT:
-			//_CORE_API->Trace("MSG_BLADE_LIGHT");
+			//api->Trace("MSG_BLADE_LIGHT");
 		break;
 		case MSG_BLADE_ALPHA:
 			blendValue = message.Long();

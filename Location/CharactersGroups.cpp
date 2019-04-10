@@ -118,13 +118,13 @@ bool CharactersGroups::Init()
 {
 	//”казатель на локацию
 	ENTITY_ID loc;
-	_CORE_API->FindClass(&loc, "location", 0);
-	location = (Location *)_CORE_API->GetEntityPointer(&loc);
+	api->FindClass(&loc, "location", 0);
+	location = (Location *)api->GetEntityPointer(&loc);
 	if(!location) return false;
 	RegistryGroup("");
-	_CORE_API->LayerCreate("execute", true, false);
-	_CORE_API->LayerSetFlags("execute", LRFLAG_EXECUTE);
-	_CORE_API->LayerAdd("execute", GetID(), 10);
+	api->LayerCreate("execute", true, false);
+	api->LayerSetFlags("execute", LRFLAG_EXECUTE);
+	api->LayerAdd("execute", GetID(), 10);
 	return true;
 }
 

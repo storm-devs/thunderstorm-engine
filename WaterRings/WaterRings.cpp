@@ -28,13 +28,13 @@ bool WaterRings::Init()
 {
 	GUARD(WaterRings::Init())
 
-	_CORE_API->LayerAdd("realize",GetID(),65551);
+	api->LayerAdd("realize",GetID(),65551);
 
 	ENTITY_ID seaID;
-	_CORE_API->FindClass(&seaID, "sea", 0);
-	sea = (SEA_BASE*) _CORE_API->GetEntityPointer(&seaID);
+	api->FindClass(&seaID, "sea", 0);
+	sea = (SEA_BASE*) api->GetEntityPointer(&seaID);
 
-	renderService = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	renderService = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!renderService)	STORM_THROW("No service: dx9render");
 
 	ivManager = new TIVBufferManager(renderService 

@@ -29,10 +29,10 @@ WideScreen::~WideScreen()
 bool WideScreen::Init()
 {
 	//Layers
-	_CORE_API->LayerCreate("realize", true, false);
-	_CORE_API->LayerSetRealize("realize", true);
-	_CORE_API->LayerAdd("realize", GetID(), -257);
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	api->LayerCreate("realize", true, false);
+	api->LayerSetRealize("realize", true);
+	api->LayerAdd("realize", GetID(), -257);
+	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs) STORM_THROW("No service: dx9render");
 	D3DVIEWPORT9 vp;
 	rs->GetViewport(&vp);
@@ -54,7 +54,7 @@ void WideScreen::Realize(uint32_t delta_time)
 {
 	//Текущее состояние
 	state += dlt*delta_time*0.001f;
-	if(state < 0.0f){ _CORE_API->DeleteEntity(GetID()); return; }
+	if(state < 0.0f){ api->DeleteEntity(GetID()); return; }
 	if(state > 1.0f){ state = 1.0f; dlt = 0.0f; }
 	//Рисуем
 	static struct{ float x, y, z, rhw; } buf[12];

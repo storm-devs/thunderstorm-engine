@@ -52,11 +52,11 @@ void SUNGLOW::SetDevice()
 {
 	ENTITY_ID	ent;
 
-	pRS = (VDX9RENDER *)_CORE_API->CreateService("dx9render"); Assert(pRS);
-	pCollide = (COLLIDE*)_CORE_API->CreateService("COLL"); Assert(pCollide);
+	pRS = (VDX9RENDER *)api->CreateService("dx9render"); Assert(pRS);
+	pCollide = (COLLIDE*)api->CreateService("COLL"); Assert(pCollide);
 
 	if (!api->FindClass(&ent,"Weather",0)) STORM_THROW("No found WEATHER entity!");
-	pWeather = (WEATHER_BASE*)_CORE_API->GetEntityPointer(&ent); Assert(pWeather);
+	pWeather = (WEATHER_BASE*)api->GetEntityPointer(&ent); Assert(pWeather);
 
 	if ( api->FindClass(&ent,"SKY",0) ) pSky = (SKY*)api->GetEntityPointer(&ent);
 	else pSky = nullptr;
@@ -181,7 +181,7 @@ void SUNGLOW::Realize(uint32_t Delta_Time)
 		fMinAlphaValue = 0.2f;
 	}
 
-	/*VIDWALKER * pVW = _CORE_API->LayerGetWalker("sun_trace");
+	/*VIDWALKER * pVW = api->LayerGetWalker("sun_trace");
 	if (pVW) 
 	{
 		vSrc = vCamPos;

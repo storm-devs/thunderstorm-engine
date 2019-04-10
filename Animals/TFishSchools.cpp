@@ -22,13 +22,13 @@ TFishSchools::~TFishSchools()
 			delete fishSchools[i];
 	}
 
-	_CORE_API->DeleteEntity(fishSchoolModel);
+	api->DeleteEntity(fishSchoolModel);
 }
 
 //--------------------------------------------------------------------
 void TFishSchools::LoadSettings()
 {
-	INIFILE * ini = _CORE_API->fio->OpenIniFile(ANIMALS_INI_FILENAME);
+	INIFILE * ini = api->fio->OpenIniFile(ANIMALS_INI_FILENAME);
 	if (!ini)
 		return;
 
@@ -43,12 +43,12 @@ void TFishSchools::Init()
 {
 	LoadSettings();
 
-	renderService = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	renderService = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!renderService)
 		STORM_THROW("!FishSchools: No service 'dx9render'");
 
-	_CORE_API->FindClass(&seaID, "sea", 0);
-	sea = (SEA_BASE*) _CORE_API->GetEntityPointer(&seaID);
+	api->FindClass(&seaID, "sea", 0);
+	sea = (SEA_BASE*) api->GetEntityPointer(&seaID);
 	if (!sea)
 	{
 		enabled = false;
@@ -68,8 +68,8 @@ void TFishSchools::Init()
 
 	TDynamicSystem::AddAttractor(&cameraObject);
 
-	_CORE_API->CreateEntity(&fishSchoolModel,"MODELR");
-	_CORE_API->Send_Message(fishSchoolModel,"ls",MSG_MODEL_LOAD_GEO, ANIMALS_FISHSCHOOL_FILENAME);
+	api->CreateEntity(&fishSchoolModel,"MODELR");
+	api->Send_Message(fishSchoolModel,"ls",MSG_MODEL_LOAD_GEO, ANIMALS_FISHSCHOOL_FILENAME);
 }
 
 //--------------------------------------------------------------------
@@ -137,14 +137,14 @@ void TFishSchools::Realize(uint32_t _dTime)
 	float   cameraPersp;
 	renderService->GetCamera(cameraPos, cameraAng, cameraPersp);
 */
-	sea = (SEA_BASE*) _CORE_API->GetEntityPointer(&seaID);
+	sea = (SEA_BASE*) api->GetEntityPointer(&seaID);
 	if (!sea)
 	{
 		enabled = false;
 		return;
 	}
 
-	MODEL *fishSchool = (MODEL*) _CORE_API->GetEntityPointer(&fishSchoolModel);
+	MODEL *fishSchool = (MODEL*) api->GetEntityPointer(&fishSchoolModel);
 	if (!fishSchool)
 		return;
 

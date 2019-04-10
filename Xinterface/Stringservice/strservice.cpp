@@ -448,7 +448,7 @@ void STRSERVICE::LoadIni()
 	char		param[256];
 
 	// initialize ini file
-	ini = _CORE_API->fio->OpenIniFile((char*)sLanguageFile);
+	ini = api->fio->OpenIniFile((char*)sLanguageFile);
 	if(!ini) {
 		api->Trace("Error: Language ini file not found!");
 		return;

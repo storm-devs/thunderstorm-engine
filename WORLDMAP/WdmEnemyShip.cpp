@@ -52,7 +52,7 @@ WdmEnemyShip::~WdmEnemyShip()
 	{
 		ATTRIBUTES * atr = saveAttribute->GetParent();
 		atr->DeleteAttributeClassX(saveAttribute);
-		_CORE_API->Event("WorldMap_DeleteShipEncounter", "l", type);
+		api->Event("WorldMap_DeleteShipEncounter", "l", type);
 	}*/
 }
 

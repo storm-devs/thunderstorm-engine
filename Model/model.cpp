@@ -39,10 +39,10 @@ bool MODELR::Init()
 {
 	GUARD(MODELR::Init)
 
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs)	STORM_THROW("No service: dx9render");
 
-	GeometyService = (VGEOMETRY *)_CORE_API->CreateService("geometry");
+	GeometyService = (VGEOMETRY *)api->CreateService("geometry");
 	if(!GeometyService) STORM_THROW("No service: geometry");
 
 	UNGUARD
@@ -339,7 +339,7 @@ uint32_t _cdecl MODELR::ProcessMessage(MESSAGE &message)
 		case MSG_MODEL_SET_PARENT:
 		{
 			/*ENTITY_ID ParentID = message.EntityID();
-			if (_CORE_API->ValidateEntity(&ParentID))
+			if (api->ValidateEntity(&ParentID))
 			{
 				parent = (MODEL*)ParentID.pointer;
 			}*/
@@ -427,7 +427,7 @@ uint32_t _cdecl MODELR::ProcessMessage(MESSAGE &message)
 		case MSG_MODEL_LOAD_ANI:		// set animation
 		{
 			message.String(255,str);
-			AnimationService * asr = (AnimationService *)_CORE_API->CreateService("AnimationServiceImp");
+			AnimationService * asr = (AnimationService *)api->CreateService("AnimationServiceImp");
 			ani = asr->CreateAnimation(str);
 			if(ani) return 1;
 			return 0;

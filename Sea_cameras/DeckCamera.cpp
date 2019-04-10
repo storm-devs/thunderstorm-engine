@@ -28,7 +28,7 @@ DECK_CAMERA::~DECK_CAMERA()
 bool DECK_CAMERA::Init()
 {
 	GUARD(DECK_CAMERA::Init())
-	_CORE_API->SystemMessages(GetID(),true);
+	api->SystemMessages(GetID(),true);
 	SetDevice();
 	UNGUARD
 	return true;
@@ -36,7 +36,7 @@ bool DECK_CAMERA::Init()
 
 void DECK_CAMERA::SetDevice()
 {
-	RenderService = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	RenderService = (VDX9RENDER *)api->CreateService("dx9render");
 	Assert(RenderService);
 }
 
@@ -75,18 +75,18 @@ void DECK_CAMERA::Move(uint32_t DeltaTime)
 
     pModel->Update();
 	CONTROL_STATE cs;
-	_CORE_API->Controls->GetControlState("DeckCamera_Turn_H",cs);
+	api->Controls->GetControlState("DeckCamera_Turn_H",cs);
 	camera_ang.y += fSensivityAzimuthAngle * 3.0f * (float)(cs.fValue);
 
-	_CORE_API->Controls->GetControlState("DeckCamera_Left",cs);
+	api->Controls->GetControlState("DeckCamera_Left",cs);
 	if(cs.state == CST_ACTIVE)
 		camera_ang.y -= fSensivityAzimuthAngle * 15.f * (float)(cs.fValue);
 
-	_CORE_API->Controls->GetControlState("DeckCamera_Right",cs);
+	api->Controls->GetControlState("DeckCamera_Right",cs);
 	if(cs.state == CST_ACTIVE)
 		camera_ang.y += fSensivityAzimuthAngle * 15.f * (float)(cs.fValue);
 
-	_CORE_API->Controls->GetControlState("DeckCamera_Turn_V",cs);
+	api->Controls->GetControlState("DeckCamera_Turn_V",cs);
 	camera_ang.x -= fSensivityHeightAngle * 3.0f * (float)(cs.fValue);
 
     if(camera_ang.x>CAMERA_MAX_X) camera_ang.x=CAMERA_MAX_X;
@@ -126,24 +126,24 @@ void DECK_CAMERA::Move(uint32_t DeltaTime)
     vShift.z = cx * cy;
 
 	/*CVECTOR strafeV = CVECTOR(0.f,0.f,0.f);
-	_CORE_API->Controls->GetControlState("DeckCamera_Left",cs);
+	api->Controls->GetControlState("DeckCamera_Left",cs);
 	if(cs.state == CST_ACTIVE)
 	{
 		strafeV = !(CVECTOR(0.f, -1.f, 0.f)^vShift);
 		speed=speed0;
 	}
 
-	_CORE_API->Controls->GetControlState("DeckCamera_Right",cs);
+	api->Controls->GetControlState("DeckCamera_Right",cs);
 	if(cs.state == CST_ACTIVE)
 	{
 		strafeV = !(CVECTOR(0.f, 1.f, 0.f)^vShift);
 		speed=speed0;
 	}*/
 
-	_CORE_API->Controls->GetControlState("DeckCamera_Forward",cs);
+	api->Controls->GetControlState("DeckCamera_Forward",cs);
 	if(cs.state == CST_ACTIVE) speed=speed0;
 
-	_CORE_API->Controls->GetControlState("DeckCamera_Backward",cs);
+	api->Controls->GetControlState("DeckCamera_Backward",cs);
     if(cs.state == CST_ACTIVE)
     {
         speed=speed0;

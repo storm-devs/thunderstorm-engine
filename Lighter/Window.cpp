@@ -388,11 +388,11 @@ void Window::Draw(float dltTime)
 	}else isActiveMouseState = false;
 	//Обновим позицию курсора
 	CONTROL_STATE cs;
-	_CORE_API->Controls->GetControlState("Turn H",cs);
+	api->Controls->GetControlState("Turn H",cs);
 	cursx += cs.lValue*3.0f;
 	if(cursx < 0.0f) cursx = 0.0f;
 	if(cursx > sw - 5.0f) cursx = sw - 5.0f;
-	_CORE_API->Controls->GetControlState("Turn V",cs);
+	api->Controls->GetControlState("Turn V",cs);
 	cursy += cs.lValue*3.0f;
 	if(cursy < 0.0f) cursy = 0.0f;
 	if(cursy > sh - 5.0f) cursy = sh - 5.0f;

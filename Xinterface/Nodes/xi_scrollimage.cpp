@@ -70,7 +70,7 @@ void CXI_SCROLLIMAGE::Draw(bool bSelected,uint32_t Delta_Time)
 				m_bDoMove = false;
 
 				// Set new current image
-				ATTRIBUTES* tmpAttr = _CORE_API->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
+				ATTRIBUTES* tmpAttr = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
 				if(tmpAttr!= nullptr)
 					tmpAttr->SetAttributeUseDword("current",m_nCurImage);
 
@@ -389,7 +389,7 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 		m_nOneStrScale = GetIniFloat(ini1,name1, ini2,name2, "scale1", 1.f);
 		if( ReadIniString(ini1,name1, ini2,name2, "font1", param, sizeof(param),"") )
 			if( (m_nOneStrFont=m_rs->LoadFont(param))==-1 )
-				_CORE_API->Trace("can not load font:'%s'",param);
+				api->Trace("can not load font:'%s'",param);
 		m_lOneStrX = GetIniLong(ini1,name1, ini2,name2, "dwXOffset1", 0);
 		if(m_lOneStrX>0) m_nOneStrAlign = ALIGN_RIGHT;
 		else if(m_lOneStrX<0) m_nOneStrAlign = ALIGN_LEFT;
@@ -403,7 +403,7 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 		m_nTwoStrScale = GetIniFloat(ini1,name1, ini2,name2, "scale2", 1.f);
 		if( ReadIniString(ini1,name1, ini2,name2, "font2", param, sizeof(param),"") )
 			if( (m_nTwoStrFont=m_rs->LoadFont(param))==-1 )
-				_CORE_API->Trace("can not load font:'%s'",param);
+				api->Trace("can not load font:'%s'",param);
 		m_lTwoStrX = GetIniLong(ini1,name1, ini2,name2, "dwXOffset2", 0);
 		if(m_lTwoStrX>0) m_nTwoStrAlign = ALIGN_RIGHT;
 		else if(m_lTwoStrX<0) m_nTwoStrAlign = ALIGN_LEFT;
@@ -974,7 +974,7 @@ void CXI_SCROLLIMAGE::SaveParametersToIni()
 
 void CXI_SCROLLIMAGE::ChangeScroll(int nScrollItemNum)
 {
-    ATTRIBUTES * pAttr = _CORE_API->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
+    ATTRIBUTES * pAttr = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
     if(pAttr!= nullptr)
     {
 		// проверим может весь список надо менять
@@ -1097,7 +1097,7 @@ void CXI_SCROLLIMAGE::DeleteImage(int imgNum)
 
 	if(m_nCurImage>=m_nListSize-m_nNotUsedQuantity) m_nCurImage=m_nListSize-m_nNotUsedQuantity-1;
 	if(m_nCurImage<0) m_nCurImage=0;
-	ATTRIBUTES * pA = _CORE_API->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
+	ATTRIBUTES * pA = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
 	if(pA!= nullptr) {
 		pA->SetAttributeUseDword("current",m_nCurImage);
 	}
@@ -1598,7 +1598,7 @@ uint32_t _cdecl CXI_SCROLLIMAGE::MessageProc(long msgcode, MESSAGE & message)
 			m_bDoMove = false;
 
 			// Set new current image
-			ATTRIBUTES* tmpAttr = _CORE_API->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
+			ATTRIBUTES* tmpAttr = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
 			if(tmpAttr!= nullptr)
 				tmpAttr->SetAttributeUseDword("current",m_nCurImage);
 

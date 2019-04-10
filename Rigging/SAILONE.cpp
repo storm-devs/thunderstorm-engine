@@ -1121,7 +1121,7 @@ void SAILONE::TurnSail(float fTurnStep)
 			if(sailtrope.pnttie[2])	*sailtrope.pPos[2] = ss.hardPoints[0];
 			if(sailtrope.pnttie[3])	*sailtrope.pPos[3] = ss.hardPoints[1];
 		}
-		else if(_CORE_API->FindClass(&ropeEI,"rope",0))
+		else if(api->FindClass(&ropeEI,"rope",0))
         {
             bool bChange=false;
             for(int i=0; i<2; i++)
@@ -1129,7 +1129,7 @@ void SAILONE::TurnSail(float fTurnStep)
                 {
                     int tieNum=sailtrope.rrs[i]->tiePoint;
                     CVECTOR endVect;
-                    ((ROPE_BASE*)_CORE_API->GetEntityPointer(&ropeEI))->GetEndPoint(&endVect,sailtrope.rrs[i]->ropenum,pp->gdata[HostNum].modelEI);
+                    ((ROPE_BASE*)api->GetEntityPointer(&ropeEI))->GetEndPoint(&endVect,sailtrope.rrs[i]->ropenum,pp->gdata[HostNum].modelEI);
                     CVECTOR medVect;
                     medVect=ss.hardPoints[tieNum];
                     CVECTOR begVect;

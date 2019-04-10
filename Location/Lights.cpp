@@ -27,7 +27,7 @@ Lights::Lights()
 	maxLights = 0;
 	for(long i = 0; i < 8; i++) {lt[i].light = -1; lt[i].set = false;}
 	numLampModels = 0;
-	lighter_code = _CORE_API->Class_Name2Code("Lighter");
+	lighter_code = api->Class_Name2Code("Lighter");
 }
 
 Lights::~Lights()
@@ -45,14 +45,14 @@ Lights::~Lights()
 bool Lights::Init()
 {
 	//DX9 render
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs) STORM_THROW("No service: dx9render");
-	collide = (COLLIDE *)_CORE_API->CreateService("COLL");
+	collide = (COLLIDE *)api->CreateService("COLL");
 	//Зачитаем параметры
-	INIFILE * ini = _CORE_API->fio->OpenIniFile("RESOURCE\\Ini\\lights.ini");
+	INIFILE * ini = api->fio->OpenIniFile("RESOURCE\\Ini\\lights.ini");
 	if(!ini)
 	{
-		_CORE_API->Trace("Location lights not inited -> RESOURCES\\Ini\\lights.ini not found");
+		api->Trace("Location lights not inited -> RESOURCES\\Ini\\lights.ini not found");
 		return false;
 	}
 	char lName[256];
@@ -65,7 +65,7 @@ bool Lights::Init()
 		{
 			if(_stricmp(lName, types[i].name) == 0)
 			{
-				_CORE_API->Trace("Location lights redefinition light: %s", lName);
+				api->Trace("Location lights redefinition light: %s", lName);
 				break;
 			}
 		}
@@ -129,16 +129,16 @@ bool Lights::Init()
 	delete ini;
 	if(numTypes == 0)
 	{
-		_CORE_API->Trace("Location lights not inited -> 0 light types");
+		api->Trace("Location lights not inited -> 0 light types");
 		return false;
 	}
 	//Начнём исполняться
-	_CORE_API->LayerCreate("execute", true, false);
-	_CORE_API->LayerSetFlags("execute", LRFLAG_EXECUTE);
-	_CORE_API->LayerAdd("execute", GetID(), 10);
-	_CORE_API->LayerCreate("realize", true, false);
-	_CORE_API->LayerSetFlags("realize", LRFLAG_REALIZE);
-	_CORE_API->LayerAdd("realize", GetID(), 1001000);
+	api->LayerCreate("execute", true, false);
+	api->LayerSetFlags("execute", LRFLAG_EXECUTE);
+	api->LayerAdd("execute", GetID(), 10);
+	api->LayerCreate("realize", true, false);
+	api->LayerSetFlags("realize", LRFLAG_REALIZE);
+	api->LayerAdd("realize", GetID(), 1001000);
 	return true;
 }
 
@@ -216,7 +216,7 @@ void Lights::Realize(uint32_t delta_time)
 		bool isVisible = d < l.coronaRange2;
 		if(!isVisible) continue;
 		//Видимость
-		VIDWALKER * walker = _CORE_API->LayerGetWalker("sun_trace");
+		VIDWALKER * walker = api->LayerGetWalker("sun_trace");
 		if(walker && collide)
 		{
 			float dist = collide->Trace(*walker, pos, CVECTOR(ls.pos.x, ls.pos.y, ls.pos.z), lampModels, numLampModels);
@@ -512,7 +512,7 @@ void Lights::DelCharacterLights()
 //Обновить типы источников
 void Lights::UpdateLightTypes(long i)
 {
-	INIFILE * ini = _CORE_API->fio->OpenIniFile("RESOURCE\\Ini\\lights.ini");
+	INIFILE * ini = api->fio->OpenIniFile("RESOURCE\\Ini\\lights.ini");
 	if(!ini) return;
 	//Имя источника
 	char * lName = types[i].name;

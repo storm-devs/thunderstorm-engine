@@ -42,10 +42,10 @@ long ModelArray::CreateModel(const char * modelName, const char * technique, lon
 	strcpy_s(resPath, modelspath);
 	strcat_s(resPath, modelName);
 	//Путь для текстур
-	VGEOMETRY * gs = (VGEOMETRY *)_CORE_API->CreateService("geometry");
+	VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
 	if(!gs)
 	{
-		_CORE_API->Trace("Can't create geometry service!");
+		api->Trace("Can't create geometry service!");
 		return -1;
 	}
 	gs->SetTexturePath(texturespath);
@@ -57,37 +57,37 @@ long ModelArray::CreateModel(const char * modelName, const char * technique, lon
 	}
 	//Создаём модельку
 	ENTITY_ID id,idModelRealizer;
-	if(!_CORE_API->CreateEntity(&id, "modelr")) return -1;
-	if(!_CORE_API->CreateEntity(&idModelRealizer, "LocModelRealizer")) {_CORE_API->DeleteEntity(id); return -1;}
-	_CORE_API->Send_Message(idModelRealizer,"lil",1,id,(long)pLights);
-	//if(isVisible) _CORE_API->LayerAdd("realize", idModelRealizer, level);
-	_CORE_API->LayerAdd("realize", idModelRealizer, level);
-	_CORE_API->Send_Message(idModelRealizer,"ll",2,isVisible);
-	MODEL * m = (MODEL *)_CORE_API->GetEntityPointer(&id);
+	if(!api->CreateEntity(&id, "modelr")) return -1;
+	if(!api->CreateEntity(&idModelRealizer, "LocModelRealizer")) {api->DeleteEntity(id); return -1;}
+	api->Send_Message(idModelRealizer,"lil",1,id,(long)pLights);
+	//if(isVisible) api->LayerAdd("realize", idModelRealizer, level);
+	api->LayerAdd("realize", idModelRealizer, level);
+	api->Send_Message(idModelRealizer,"ll",2,isVisible);
+	MODEL * m = (MODEL *)api->GetEntityPointer(&id);
 	if(!m)
 	{
 		gs->SetTexturePath("");
-		_CORE_API->DeleteEntity(id);
-		_CORE_API->DeleteEntity(idModelRealizer);
+		api->DeleteEntity(id);
+		api->DeleteEntity(idModelRealizer);
 		return -1;
 	}
 	//Загружаем
-	_CORE_API->Send_Message(id,
+	api->Send_Message(id,
 							"ls",
 							MSG_MODEL_SET_LIGHT_PATH,
 							lightpath);
-	_CORE_API->Send_Message(id,
+	api->Send_Message(id,
 							"ls",
 							MSG_MODEL_SET_LIGHT_LMPATH,
 							shadowpath);
-	if(!_CORE_API->Send_Message(id,
+	if(!api->Send_Message(id,
 							"ls",
 							MSG_MODEL_LOAD_GEO,
 							resPath))
 	{
 		gs->SetTexturePath("");
-		_CORE_API->DeleteEntity(id);
-		_CORE_API->DeleteEntity(idModelRealizer);
+		api->DeleteEntity(id);
+		api->DeleteEntity(idModelRealizer);
 		return -1;
 	}
 	gs->SetTexturePath("");
@@ -100,7 +100,7 @@ long ModelArray::CreateModel(const char * modelName, const char * technique, lon
 	{
 		strcpy_s(model[numModels].name, modelName);
 	}else{
-		_CORE_API->Trace("Model name %s is very long", maxModels);
+		api->Trace("Model name %s is very long", maxModels);
 		memcpy(model[numModels].name, modelName, MA_MAX_NAME_LENGTH);
 		model[numModels].name[MA_MAX_NAME_LENGTH - 1] = 0;
 	}
@@ -140,8 +140,8 @@ void ModelArray::DeleteModel(long modelIndex)
 	if(model[modelIndex].reflection) delete model[modelIndex].reflection;
 	model[modelIndex].reflection = nullptr;
 	//Удаляем модельку
-	_CORE_API->DeleteEntity(model[modelIndex].modelrealizer);
-	_CORE_API->DeleteEntity(model[modelIndex].id);
+	api->DeleteEntity(model[modelIndex].modelrealizer);
+	api->DeleteEntity(model[modelIndex].id);
 	numModels--;
 	if(modelIndex != numModels) model[modelIndex] = model[numModels];
 }
@@ -150,7 +150,7 @@ void ModelArray::DeleteModel(long modelIndex)
 bool ModelArray::SetAnimation(long modelIndex, const char * modelAni)
 {
 	Assert(modelIndex >= 0 && modelIndex < numModels);
-	return _CORE_API->Send_Message(model[modelIndex].id,
+	return api->Send_Message(model[modelIndex].id,
 									"ls",
 									MSG_MODEL_LOAD_ANI,
 									modelAni) != 0;
@@ -208,14 +208,14 @@ ENTITY_ID & ModelArray::RealizerID(long modelIndex)
 MODEL * ModelArray::operator [](long modelIndex)
 {
 	Assert(modelIndex >= 0 && modelIndex < numModels);
-	return (MODEL *)_CORE_API->GetEntityPointer(&model[modelIndex].id);
+	return (MODEL *)api->GetEntityPointer(&model[modelIndex].id);
 }
 
 //Получение анимации по индексу
 Animation * ModelArray::GetAnimation(long modelIndex)
 {
 	Assert(modelIndex >= 0 && modelIndex < numModels);
-	MODEL * m = (MODEL *)_CORE_API->GetEntityPointer(&model[modelIndex].id);
+	MODEL * m = (MODEL *)api->GetEntityPointer(&model[modelIndex].id);
 	if(!m) return nullptr;
 	return m->GetAnimation();
 }
@@ -231,7 +231,7 @@ void ModelArray::SetUVSlide(long modelIndex, float u0, float v0, float u1, float
 	sl->us0 = u0; sl->vs0 = v0;
 	sl->us1 = u1; sl->vs1 = v1;
 	MODEL * mdl = (*this)[modelIndex];
-	if(mdl) mdl->SetRenderTuner(sl); else _CORE_API->Trace("Location: Can't get model pointer for set RenderTuner");
+	if(mdl) mdl->SetRenderTuner(sl); else api->Trace("Location: Can't get model pointer for set RenderTuner");
 }
 
 //Установить модельке анимацию вращения
@@ -254,7 +254,7 @@ void ModelArray::SetReflection(long modelIndex, float scale)
 	uint32_t alpha = uint32_t(scale*255.0f);
 	model[modelIndex].reflection->tfactor = (alpha << 24) | 0x00ffffff;
 	MODEL * mdl = (*this)[modelIndex];
-	if(mdl) mdl->SetRenderTuner(model[modelIndex].reflection); else _CORE_API->Trace("Location: Can't get model pointer for set RenderTuner");
+	if(mdl) mdl->SetRenderTuner(model[modelIndex].reflection); else api->Trace("Location: Can't get model pointer for set RenderTuner");
 }
 
 //Анимировать текстурные координаты
@@ -281,7 +281,7 @@ void ModelArray::Update(float dltTime)
 		if(model[i].rotator)
 		{
 			CMatrix mtr(model[i].rotator->rx*dltTime, model[i].rotator->ry*dltTime, model[i].rotator->rz*dltTime);
-			MODEL * mdl = (MODEL *)_CORE_API->GetEntityPointer(&model[i].id);
+			MODEL * mdl = (MODEL *)api->GetEntityPointer(&model[i].id);
 			if(mdl) mdl->mtx = CMatrix(mtr, mdl->mtx);
 		}
 	}
@@ -389,7 +389,7 @@ bool ModelArray::VisibleTest(const CVECTOR & p1, const CVECTOR & p2)
 	{
 		if(model[i].isVisible)
 		{
-			MODEL * mdl = (MODEL *)_CORE_API->GetEntityPointer(&model[i].id);
+			MODEL * mdl = (MODEL *)api->GetEntityPointer(&model[i].id);
 			if(mdl->Trace(p1, p2) < 1.0f) return false;
 		}
 	}
@@ -405,7 +405,7 @@ float ModelArray::Trace(const CVECTOR & src, const CVECTOR & dst)
 	{
 		if(model[i].isVisible)
 		{
-			MODEL * mdl = (MODEL *)_CORE_API->GetEntityPointer(&model[i].id);
+			MODEL * mdl = (MODEL *)api->GetEntityPointer(&model[i].id);
 			float km = mdl->Trace(src, dst);
 			if(k > km)
 			{
@@ -429,7 +429,7 @@ void ModelArray::Clip(PLANE * p, long numPlanes, CVECTOR & cnt, float rad, bool 
 	{
 		if(model[i].isVisible)
 		{
-			MODEL * mdl = (MODEL *)_CORE_API->GetEntityPointer(&model[i].id);
+			MODEL * mdl = (MODEL *)api->GetEntityPointer(&model[i].id);
 			mdl->Clip(p, numPlanes, cnt, rad, fnc);
 		}
 	}

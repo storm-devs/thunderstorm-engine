@@ -47,12 +47,12 @@ bool SHADOW::Init()
 {
 	GUARD(SHADOW::SHADOW())
 
-	col = (COLLIDE *)_CORE_API->CreateService("coll");
+	col = (COLLIDE *)api->CreateService("coll");
 	if(col== nullptr)	STORM_THROW("No service: COLLIDE");
 
-	_CORE_API->LayerAdd("realize",GetID(),900);
+	api->LayerAdd("realize",GetID(),900);
 
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs)	STORM_THROW("No service: dx9render");
 
 	if(ref==0)
@@ -125,7 +125,7 @@ bool AddPoly(const CVECTOR *vr, long nverts)
 //------------------------------------------------------------------------------------
 void SHADOW::Realize(uint32_t Delta_Time)
 {
-	MODEL *obj = (MODEL*)_CORE_API->GetEntityPointer(&entity);
+	MODEL *obj = (MODEL*)api->GetEntityPointer(&entity);
 	if(!obj) return;
 
 	VDATA *pV = api->Event("EWhr_GetShadowDensity");
@@ -138,7 +138,7 @@ void SHADOW::Realize(uint32_t Delta_Time)
 	pV = api->Event("EWhr_GetFogDensity");
 	float fogDensity = pV->GetFloat();
 
-	//MODEL *obj = (MODEL*)_CORE_API->GetEntityPointer(&entity);
+	//MODEL *obj = (MODEL*)api->GetEntityPointer(&entity);
 	NODE *node = obj->GetNode(0);
 	GEOS::INFO gi;
 	node->geo->GetInfo(gi);
@@ -175,7 +175,7 @@ void SHADOW::Realize(uint32_t Delta_Time)
 	FindPlanes(visView, visPoj);
 
 	CVECTOR hdest = headPos + !(headPos - light_pos)*100.0f;
-	VIDWALKER *walker = _CORE_API->LayerGetWalker("shadow");
+	VIDWALKER *walker = api->LayerGetWalker("shadow");
 	float ray = col->Trace(*walker, headPos, hdest, nullptr, 0);
 	CVECTOR cen;
 	float radius;

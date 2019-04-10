@@ -14,7 +14,7 @@ extern char * CTP_Name[];
 extern CONTROL_STACK Control_Stack;
 extern SYSTEM_API System_Api;
 extern VSYSTEM_API * _VSYSTEM_API;
-extern VAPI * _CORE_API;
+extern VAPI * api;
 extern CONTROL_BLOCK Control_Block;
 
 #define SET_ERROR(x) {Error_Flag = true; if(x) strcpy_s(Last_Error,x); }

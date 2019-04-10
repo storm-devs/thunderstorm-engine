@@ -75,7 +75,7 @@ Sharks::Shark::Shark()
 
 Sharks::Shark::~Shark()
 {
-	_CORE_API->DeleteEntity(model);
+	api->DeleteEntity(model);
 }
 
 bool Sharks::Shark::Init(float vp_x, float vp_z, bool isLoadModel)
@@ -90,31 +90,31 @@ bool Sharks::Shark::Init(float vp_x, float vp_z, bool isLoadModel)
 	angs.y = SHARK_PI*rand()*(2.0f/RAND_MAX);
 	if(!isLoadModel) return true;
 	//Загружаем модельку
-	if(!_CORE_API->CreateEntity(&model, "modelr")) return false;
+	if(!api->CreateEntity(&model, "modelr")) return false;
 	//Путь для текстур
-	VGEOMETRY * gs = (VGEOMETRY *)_CORE_API->CreateService("geometry");
+	VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
 	if(!gs)
 	{
-		_CORE_API->Trace("Can't create geometry service!");
+		api->Trace("Can't create geometry service!");
 		return false;
 	}
 	gs->SetTexturePath("Animals\\");
-	if(!_CORE_API->Send_Message(model, "ls", MSG_MODEL_LOAD_GEO, "Animals\\shark"))
+	if(!api->Send_Message(model, "ls", MSG_MODEL_LOAD_GEO, "Animals\\shark"))
 	{
 		gs->SetTexturePath("");
-		_CORE_API->Trace("Shark model 'shark' not loaded");
-		_CORE_API->DeleteEntity(model);
+		api->Trace("Shark model 'shark' not loaded");
+		api->DeleteEntity(model);
 		return false;
 	}
 	gs->SetTexturePath("");
-	if(!_CORE_API->Send_Message(model, "ls", MSG_MODEL_LOAD_ANI, "shark"))
+	if(!api->Send_Message(model, "ls", MSG_MODEL_LOAD_ANI, "shark"))
 	{
-		_CORE_API->Trace("Shark animation 'shark' not loaded");
-		_CORE_API->DeleteEntity(model);
+		api->Trace("Shark animation 'shark' not loaded");
+		api->DeleteEntity(model);
 		return false;
 	}
 	//Ставим анимацию по умолчанию
-	MODEL * mdl = (MODEL *)_CORE_API->GetEntityPointer(&model);
+	MODEL * mdl = (MODEL *)api->GetEntityPointer(&model);
 	if(!mdl || !mdl->GetAnimation()) return false;
 	mdl->GetAnimation()->SetEvent(ae_end, 0, this);
 	mdl->GetAnimation()->Player(0).SetAction("stand");
@@ -181,7 +181,7 @@ inline void Sharks::Shark::ShipApply(float x, float z, float r2)
 inline void Sharks::Shark::Coordination(float cam_x, float cam_z, float dltTime, SEA_BASE * sb, ISLAND_BASE * ib)
 {
 	//Получим модельку
-	MODEL * mdl = (MODEL *)_CORE_API->GetEntityPointer(&model);
+	MODEL * mdl = (MODEL *)api->GetEntityPointer(&model);
 	if(!mdl) return;
 	//Сила расталкивания
 	float l = ~force;
@@ -407,7 +407,7 @@ void Sharks::Shark::Event(Animation * animation, long index, long eventID, Anima
 long Sharks::Shark::GenerateTrack(uint16_t * inds, Vertex * vrt, uint16_t base, SEA_BASE * sb)
 {
 	//Получим модельку
-	MODEL * mdl = (MODEL *)_CORE_API->GetEntityPointer(&model);
+	MODEL * mdl = (MODEL *)api->GetEntityPointer(&model);
 	if(!mdl) return 0;
 	float k = mdl->mtx.Pos().y;
 	if(k <= -1.2f) return 0;
@@ -462,7 +462,7 @@ Sharks::Sharks()
 {
 	rs = nullptr;
 	camPos = 0.0f;
-	shipcode = _CORE_API->Class_Name2Code("ship");
+	shipcode = api->Class_Name2Code("ship");
 	numShakes = 3 + (GetTickCount() & 3);
 	trackTx = -1;
 	periscope.time = -1.0;
@@ -471,14 +471,14 @@ Sharks::Sharks()
 
 Sharks::~Sharks()
 {
-	_CORE_API->DeleteEntity(periscope.model);
+	api->DeleteEntity(periscope.model);
 	if(rs) rs->TextureRelease(trackTx);
 }
 
 //Инициализация
 bool Sharks::Init()
 {
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs) STORM_THROW("No service: dx9render");
 	for(long i = 0; i < numShakes; i++)
 		if(!shark[i].Init(0.0f, 0.0f)) return false;
@@ -495,12 +495,12 @@ bool Sharks::Init()
 	long eprt = AttributesPointer->GetAttributeAsDword("executeParticles", 77);
 	long rprt = AttributesPointer->GetAttributeAsDword("realizeParticles", 100000);
 	//Установим уровни исполнения
-	_CORE_API->LayerAdd(execute, GetID(), eprt);
-	_CORE_API->LayerAdd(realize, GetID(), rprt);
+	api->LayerAdd(execute, GetID(), eprt);
+	api->LayerAdd(realize, GetID(), rprt);
 	for(long i = 0; i < numShakes; i++)
 	{
-		_CORE_API->LayerAdd(execute, shark[i].model, emdl);
-		_CORE_API->LayerAdd(realize, shark[i].model, rmdl);
+		api->LayerAdd(execute, shark[i].model, emdl);
+		api->LayerAdd(realize, shark[i].model, rmdl);
 	}
 	//Загрузим текстуру
 	trackTx = rs->TextureCreate("Animals\\SharkTrack.tga");
@@ -555,11 +555,11 @@ void Sharks::Execute(uint32_t delta_time)
 		for(long j = i + 1; j < num; j++) shark[i].Repulsion(shark[j]);
 	//Учитываем корабли
 	ENTITY_ID id;
-	bool res = _CORE_API->FindClass(&id, nullptr, shipcode);
-	for(; res; res = _CORE_API->FindClassNext(&id))
+	bool res = api->FindClass(&id, nullptr, shipcode);
+	for(; res; res = api->FindClassNext(&id))
 	{
 		//Указатель на объект
-		VAI_OBJBASE * ship = (VAI_OBJBASE *)_CORE_API->GetEntityPointer(&id);
+		VAI_OBJBASE * ship = (VAI_OBJBASE *)api->GetEntityPointer(&id);
 		if(!ship) break;
 		//Позиция корабля
 		CVECTOR shipPos = ship->GetMatrix()->Pos();
@@ -570,16 +570,16 @@ void Sharks::Execute(uint32_t delta_time)
 		for(long i = 0; i < num; i++) shark[i].ShipApply(shipPos.x, shipPos.z, rd2);
 	}
 	//Море
-	SEA_BASE * sb = (SEA_BASE *)_CORE_API->GetEntityPointer(&sea);
+	SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(&sea);
 	if(!sb)
 	{
-		_CORE_API->FindClass(&sea, "sea", 0);
+		api->FindClass(&sea, "sea", 0);
 		if(!sb) return;
 	}
-	ISLAND_BASE * ib = (ISLAND_BASE *)_CORE_API->GetEntityPointer(&island);
+	ISLAND_BASE * ib = (ISLAND_BASE *)api->GetEntityPointer(&island);
 	if(!ib)
 	{
-		_CORE_API->FindClass(&island, "island", 0);
+		api->FindClass(&island, "island", 0);
 	}
 	//Расчитываем новые позиции
 	for(long i = 0; i < num; i++) shark[i].Coordination(camPos.x, camPos.z, dltTime, sb, ib);
@@ -596,7 +596,7 @@ void Sharks::Execute(uint32_t delta_time)
 				periscope.pos.y += 2.0f*dltTime;
 				if(periscope.pos.y > 0.0f) periscope.pos.y = 0.0f;
 			}
-			MODEL * mdl = (MODEL *)_CORE_API->GetEntityPointer(&periscope.model);
+			MODEL * mdl = (MODEL *)api->GetEntityPointer(&periscope.model);
 			if(mdl)
 			{
 				mdl->mtx.BuildMatrix(CVECTOR(0.0f, periscope.ay, 0.0f), periscope.pos + CVECTOR(0.0f, 1.0f, 0.0f));
@@ -632,29 +632,29 @@ void Sharks::Execute(uint32_t delta_time)
 bool Sharks::LoadPeriscopeModel()
 {
 	if(!api->CreateEntity(&periscope.model, "modelr")) return false;
-	VGEOMETRY * gs = (VGEOMETRY *)_CORE_API->CreateService("geometry");
+	VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
 	if(!gs) return false;
 	gs->SetTexturePath("Animals\\");
-	if(!_CORE_API->Send_Message(periscope.model, "ls", MSG_MODEL_LOAD_GEO, "Animals\\periscope"))
+	if(!api->Send_Message(periscope.model, "ls", MSG_MODEL_LOAD_GEO, "Animals\\periscope"))
 	{
 		gs->SetTexturePath("");
-		_CORE_API->DeleteEntity(periscope.model);
+		api->DeleteEntity(periscope.model);
 		return false;
 	}
 	gs->SetTexturePath("");
-	MODEL * mdl = (MODEL *)_CORE_API->GetEntityPointer(&periscope.model);
+	MODEL * mdl = (MODEL *)api->GetEntityPointer(&periscope.model);
 	if(!mdl)
 	{
-		_CORE_API->DeleteEntity(periscope.model);
+		api->DeleteEntity(periscope.model);
 		return false;
 	}
-	_CORE_API->LayerAdd("sea_realize", periscope.model, 10);
+	api->LayerAdd("sea_realize", periscope.model, 10);
 	return true;
 }
 
 void Sharks::Realize(uint32_t delta_time)
 {
-	SEA_BASE * sb = (SEA_BASE *)_CORE_API->GetEntityPointer(&sea);
+	SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(&sea);
 	if(!sb) return;
 	long num = 0;
 	for(long i = 0; i < numShakes; i++)
@@ -670,7 +670,7 @@ void Sharks::Realize(uint32_t delta_time)
 	}
 
 	/*
-	ISLAND_BASE * ib = (ISLAND_BASE *)_CORE_API->GetEntityPointer(&island);
+	ISLAND_BASE * ib = (ISLAND_BASE *)api->GetEntityPointer(&island);
 	if(!ib) return;
 	float maxRad = 0.0f;
 	long s = 30;

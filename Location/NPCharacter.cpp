@@ -258,7 +258,7 @@ void NPCharacter::Update(float dltTime)
 		if(AttributesPointer) id = AttributesPointer->GetAttribute("id");
 		if(!id) id = "<none>";
 		const char * fid = nullptr;
-		Character * chr = (Character *)_CORE_API->GetEntityPointer(&task.target);
+		Character * chr = (Character *)api->GetEntityPointer(&task.target);
 		if(chr)
 		{
 			if(chr->AttributesPointer) fid = chr->AttributesPointer->GetAttribute("id");
@@ -441,7 +441,7 @@ bool NPCharacter::InitFightChartacter(ENTITY_ID & eid)
 void NPCharacter::UpdateFollowCharacter(float dltTime)
 {
 	//Цель
-	NPCharacter * c = (NPCharacter *)_CORE_API->GetEntityPointer(&task.target);
+	NPCharacter * c = (NPCharacter *)api->GetEntityPointer(&task.target);
 	if(!c || c->deadName != nullptr || c->liveValue < 0)
 	{
 		NPCTask tsk = task.task;
@@ -463,7 +463,7 @@ void NPCharacter::UpdateFollowCharacter(float dltTime)
 		if(dst > NPC_START_DIST_NPC*NPC_START_DIST_NPC)
 		{
 			CmdGotoPoint(c->curPos.x, c->curPos.y, c->curPos.z, NPC_STOP_DIST_NPC, c->currentNode, false);
-			_CORE_API->Event("Location_CharacterFollowGo", "si", GetTaskName(npct_followcharacter), GetID());
+			api->Event("Location_CharacterFollowGo", "si", GetTaskName(npct_followcharacter), GetID());
 		}
 	}else{
 		if(dst > NPC_RUN_DIST_NPC*NPC_RUN_DIST_NPC) SetRunMode(true);
@@ -477,7 +477,7 @@ void NPCharacter::UpdateFollowCharacter(float dltTime)
 void NPCharacter::UpdateEscapeCharacter(float dltTime)
 {
 	//Персонаж от которого убегаем
-	NPCharacter * c = (NPCharacter *)_CORE_API->GetEntityPointer(&task.target);
+	NPCharacter * c = (NPCharacter *)api->GetEntityPointer(&task.target);
 	if(!c || c->deadName != nullptr || c->liveValue < 0)
 	{
 		NPCTask tsk = task.task;
@@ -495,7 +495,7 @@ void NPCharacter::UpdateEscapeCharacter(float dltTime)
 		task.task = npct_none;
 		CmdStay();
 		SetRunMode(false);
-		_CORE_API->Event("Location_CharacterEscapeSlide", "si", GetTaskName(npct_escape), GetID());
+		api->Event("Location_CharacterEscapeSlide", "si", GetTaskName(npct_escape), GetID());
 	}
 }
 
@@ -506,7 +506,7 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 
 	SetFightMode(true);
 	//Цель
-	NPCharacter * c = (NPCharacter *)_CORE_API->GetEntityPointer(&task.target);
+	NPCharacter * c = (NPCharacter *)api->GetEntityPointer(&task.target);
 	if(!c || c->deadName != nullptr || c->liveValue < 0 || c == this)
 	{
 		NPCTask tsk = task.task;
@@ -627,7 +627,7 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 			{
 				//Надо подойти ближе
 				CmdGotoPoint(c->curPos.x, c->curPos.y, c->curPos.z, fDistTo, c->currentNode, false);
-				_CORE_API->Event("Location_CharacterFightGo", "si", GetTaskName(npct_followcharacter), GetID());
+				api->Event("Location_CharacterFightGo", "si", GetTaskName(npct_followcharacter), GetID());
 			}//else{
 				//Воюем
 			//}
@@ -1101,21 +1101,21 @@ void NPCharacter::EndGotoCommand()
 		task.task = npct_none;
 		CmdStay();
 		SetRunMode(false);
-		_CORE_API->Event("Location_CharacterEndTask", "si", GetTaskName(npct_gotopoint), GetID());
+		api->Event("Location_CharacterEndTask", "si", GetTaskName(npct_gotopoint), GetID());
 		return;
 	case npct_runtopoint:
 		task.task = npct_none;
 		CmdStay();
 		SetRunMode(false);
-		_CORE_API->Event("Location_CharacterEndTask", "si", GetTaskName(npct_runtopoint), GetID());
+		api->Event("Location_CharacterEndTask", "si", GetTaskName(npct_runtopoint), GetID());
 		return;
 	case npct_followcharacter:
 		CmdStay();
-		_CORE_API->Event("Location_CharacterFollowStay", "si", GetTaskName(npct_followcharacter), GetID());
+		api->Event("Location_CharacterFollowStay", "si", GetTaskName(npct_followcharacter), GetID());
 		return;
 	case npct_fight:
 		CmdStay();
-		_CORE_API->Event("Location_CharacterFightStay", "si", GetTaskName(npct_followcharacter), GetID());
+		api->Event("Location_CharacterFightStay", "si", GetTaskName(npct_followcharacter), GetID());
 		return;
 	}
 }
@@ -1126,13 +1126,13 @@ void NPCharacter::EndEscapeCommand()
 	task.task = npct_stay;
 	SetRunMode(false);
 	CmdStay();
-	_CORE_API->Event("Location_CharacterEndTask", "si", GetTaskName(npct_escape), GetID());
+	api->Event("Location_CharacterEndTask", "si", GetTaskName(npct_escape), GetID());
 }
 
 //С персонажем слишком часто коллизяться
 void NPCharacter::CollisionThreshold()
 {
-	_CORE_API->Event("Location_CharacterColThreshold", "si", GetTaskName(task.task), GetID());
+	api->Event("Location_CharacterColThreshold", "si", GetTaskName(task.task), GetID());
 }
 
 //Сохранить задачу в стеке
@@ -1187,7 +1187,7 @@ bool NPCharacter::PopTask()
 //Невозможно дальнейшее выполнение команды
 void NPCharacter::FailureCommand(NPCTask task)
 {
-	_CORE_API->Event("Location_CharacterTaskFailure", "si", GetTaskName(task), GetID());
+	api->Event("Location_CharacterTaskFailure", "si", GetTaskName(task), GetID());
 }
 
 //Получить тип задачи по имени

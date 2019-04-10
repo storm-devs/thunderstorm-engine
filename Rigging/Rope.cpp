@@ -70,7 +70,7 @@ bool ROPE::Init()
 void ROPE::SetDevice()
 {
     // получить сервис рендера
-	RenderService = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	RenderService = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!RenderService)
 	{
 		STORM_THROW("No service: dx9render");
@@ -191,7 +191,7 @@ uint32_t _cdecl ROPE::ProcessMessage(MESSAGE & message)
 		{
 			ENTITY_ID tmp_shipEI = message.EntityID();
 			ENTITY_ID tmp_modelEI = message.EntityID();
-			MODEL* mdl = (MODEL*)_CORE_API->GetEntityPointer(&tmp_modelEI);
+			MODEL* mdl = (MODEL*)api->GetEntityPointer(&tmp_modelEI);
 			if( mdl== nullptr )
 			{
 				api->Trace("WARNING!!! Missing INIT message to ROPE - bad ship model");
@@ -301,9 +301,9 @@ uint32_t _cdecl ROPE::ProcessMessage(MESSAGE & message)
                     bYesDeleted=true;
                     //rlist[i]->bUse=false;
                     /*ENTITY_ID sailEI;
-                    if(_CORE_API->FindClass(&sailEI,"sail",0))
+                    if(api->FindClass(&sailEI,"sail",0))
                         if(rlist[i]->btie || rlist[i]->etie) // отвяжем парус от веревки
-                            _CORE_API->Send_Message(sailEI,"ll",MSG_SAIL_ROPE_UNTIE,rope_number);*/
+                            api->Send_Message(sailEI,"ll",MSG_SAIL_ROPE_UNTIE,rope_number);*/
                     break;
                 }
             }
@@ -662,9 +662,9 @@ void ROPE::AddLabel(GEOS::LABEL &lbl,NODE *nod, bool bDontSage)
 			rd->vDeep=0.f;
 
 			ENTITY_ID sailEI;
-			if(_CORE_API->FindClass(&sailEI,"sail",0))
+			if(api->FindClass(&sailEI,"sail",0))
 			{
-				MODEL* mdl=(MODEL*)_CORE_API->GetEntityPointer(&gdata[rd->HostGroup].modelEI);
+				MODEL* mdl=(MODEL*)api->GetEntityPointer(&gdata[rd->HostGroup].modelEI);
 				if(mdl==nullptr)
 					rd->btie=rd->etie=false;
 				else for(int i=0; i<10000; i++)
@@ -673,9 +673,9 @@ void ROPE::AddLabel(GEOS::LABEL &lbl,NODE *nod, bool bDontSage)
 					if(nd==nullptr) break;
 
 					if( rd->btie && rd->bMatWorld==&nd->glob_mtx )
-						_CORE_API->Send_Message(sailEI,"lplpl",MSG_SAIL_ROPE_TIE,nd,rd->bgnum,&rd->pBeg,rd->ropeNum);
+						api->Send_Message(sailEI,"lplpl",MSG_SAIL_ROPE_TIE,nd,rd->bgnum,&rd->pBeg,rd->ropeNum);
 					if( rd->etie && rd->eMatWorld==&nd->glob_mtx )
-						_CORE_API->Send_Message(sailEI,"lplpl",MSG_SAIL_ROPE_TIE,nd,rd->egnum,&rd->pEnd,-rd->ropeNum);
+						api->Send_Message(sailEI,"lplpl",MSG_SAIL_ROPE_TIE,nd,rd->egnum,&rd->pEnd,-rd->ropeNum);
 				}
 			}
 			else
@@ -719,7 +719,7 @@ void ROPE::LoadIni()
     char    param[256];
 
 	INIFILE * ini;
-	ini = _CORE_API->fio->OpenIniFile("resource\\ini\\rigging.ini");
+	ini = api->fio->OpenIniFile("resource\\ini\\rigging.ini");
 	if(!ini) THROW("rigging.ini file not found!");
 
 	sprintf_s(section,"ROPES");

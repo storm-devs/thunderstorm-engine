@@ -197,7 +197,7 @@ uint32_t __cdecl slNativeSetReloadBackImage(VS_STACK * pS)
 	char * nm = nullptr;
 	if(!pStr->Get(nm)) return IFUNCRESULT_FAILED;
 	//Устанавливаем картинку
-	VDX9RENDER * rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	VDX9RENDER * rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(rs)
 	{
 		rs->SetProgressImage(nm);
@@ -207,21 +207,21 @@ uint32_t __cdecl slNativeSetReloadBackImage(VS_STACK * pS)
 
 uint32_t __cdecl slNativeReloadProgressStart(VS_STACK * pS)
 {
-	VDX9RENDER * rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	VDX9RENDER * rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(rs) rs->StartProgressView();
 	return IFUNCRESULT_OK;
 }
 
 uint32_t __cdecl slNativeReloadProgressUpdate(VS_STACK * pS)
 {
-	VDX9RENDER * rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	VDX9RENDER * rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(rs) rs->ProgressView();
 	return IFUNCRESULT_OK;
 }
 
 uint32_t __cdecl slNativeReloadProgressEnd(VS_STACK * pS)
 {
-	VDX9RENDER * rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	VDX9RENDER * rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(rs) rs->EndProgressView();
 	return IFUNCRESULT_OK;
 }
@@ -246,7 +246,7 @@ uint32_t __cdecl slNativeExecuteTechnique(VS_STACK * pS)
 	//Исполить технику
 	if(nm && nm[0])
 	{
-		VDX9RENDER * rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+		VDX9RENDER * rs = (VDX9RENDER *)api->CreateService("dx9render");
 		rs->TechniqueExecuteStart(nm);
 		while(rs->TechniqueExecuteNext());
 	}

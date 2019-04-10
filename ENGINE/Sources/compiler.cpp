@@ -31,7 +31,7 @@
 #endif
 
 extern bool bTraceFilesOff;
-extern VAPI * _CORE_API;
+extern VAPI * api;
 extern CORE Core;
 extern FILE_SERVICE File_Service;
 //extern char * FuncNameTable[];
@@ -478,7 +478,7 @@ void COMPILER::LoadPreprocess()
 {
 	INIFILE * engine_ini;
 
-	engine_ini = _CORE_API->fio->OpenIniFile(api->EngineIniFileName());
+	engine_ini = api->fio->OpenIniFile(api->EngineIniFileName());
 	if(engine_ini != nullptr)
 	{
 		if(engine_ini->GetLong("script","debuginfo",0) == 0) 
@@ -525,7 +525,7 @@ bool COMPILER::CreateProgram(char * file_name)
 	bool bRes;
 /*	INIFILE * engine_ini;
 
-	engine_ini = _CORE_API->fio->OpenIniFile(api->EngineIniFileName());
+	engine_ini = api->fio->OpenIniFile(api->EngineIniFileName());
 	if(engine_ini != null)
 	{
 		if(engine_ini->GetLong("script","debuginfo",0) == 0) 
@@ -4440,7 +4440,7 @@ bool COMPILER::BC_Execute(uint32_t function_code, DATA * & pVReturnResult, char 
 						if(nLeftOperandIndex != INVALID_ARRAY_INDEX) pV = (DATA*)pV->GetArrayElement(nLeftOperandIndex);
 						if(pV == 0) { SetError("bad array element"); return false; }
 						pV->Get(eid);
-						//_CORE_API->Entity_AttributeChanged(&eid,pLeftOperandAClass->GetThisName());
+						//api->Entity_AttributeChanged(&eid,pLeftOperandAClass->GetThisName());
 						if(bEntityUpdate) Core.Entity_AttributeChanged(&eid,pLeftOperandAClass);
 						break;
 					}
@@ -5472,7 +5472,7 @@ void COMPILER::ExitProgram()
 		DATA * pResult;
 		BC_Execute(function_code,pResult);
 	}
-	_CORE_API->Exit();
+	api->Exit();
 }
 
 void COMPILER::ClearEvents()

@@ -66,10 +66,10 @@ void MAST::SetDevice()
 {
 	GUARD(MAST::SetDevice())
 
-	RenderService = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	RenderService = (VDX9RENDER *)api->CreateService("dx9render");
     if(!RenderService) STORM_THROW("No service: dx9render");
 
-	pCollide = (COLLIDE*)_CORE_API->CreateService("COLL");
+	pCollide = (COLLIDE*)api->CreateService("COLL");
 	if (!pCollide) STORM_THROW("No service: collide");
 
     LoadIni();
@@ -104,11 +104,11 @@ void MAST::Execute(uint32_t Delta_Time)
         //====================================================
         // Если был изменен ини-файл, то считать инфо из него
         WIN32_FIND_DATA	wfd;
-	    HANDLE h = _CORE_API->fio->_FindFirstFile(MAST_INI_FILE,&wfd);
+	    HANDLE h = api->fio->_FindFirstFile(MAST_INI_FILE,&wfd);
         if (INVALID_HANDLE_VALUE != h)
 	    {
 		    FILETIME ft_new = wfd.ftLastWriteTime;
-    	    _CORE_API->fio->_FindClose(h);
+    	    api->fio->_FindClose(h);
 
 	        if (CompareFileTime(&ft_old,&ft_new)!=0)
             {
@@ -116,12 +116,12 @@ void MAST::Execute(uint32_t Delta_Time)
             }
 	    }
         doMove(Delta_Time);
-        MODEL* mdl=(MODEL*)_CORE_API->GetEntityPointer(&model_id);
+        MODEL* mdl=(MODEL*)api->GetEntityPointer(&model_id);
         if(mdl) mdl->Update();
     }
     else
     {
-        _CORE_API->DeleteEntity(GetID());
+        api->DeleteEntity(GetID());
     }
     UNGUARD
 }
@@ -137,7 +137,7 @@ void MAST::Realize(uint32_t Delta_Time)
 	}
 
     MODEL *mdl;
-    if( (mdl=(MODEL*)_CORE_API->GetEntityPointer(&model_id))!=nullptr )
+    if( (mdl=(MODEL*)api->GetEntityPointer(&model_id))!=nullptr )
     {
 		RenderService->SetRenderState(D3DRS_LIGHTING,true);
         mdl->Realize(Delta_Time);
@@ -194,7 +194,7 @@ void _cdecl MAST::Mount( ENTITY_ID modelEI, ENTITY_ID shipEI, NODE* mastNodePoin
 {
 	m_pMastNode = mastNodePointer;
 	if(mastNodePointer== nullptr) return;
-    MODEL * oldmdl=(MODEL*)_CORE_API->GetEntityPointer(&modelEI);
+    MODEL * oldmdl=(MODEL*)api->GetEntityPointer(&modelEI);
     if(oldmdl==nullptr) return; // ничего не валим, если нет старой модели
     oldmodel_id=modelEI;
     ship_id=shipEI;
@@ -233,7 +233,7 @@ void _cdecl MAST::Mount( ENTITY_ID modelEI, ENTITY_ID shipEI, NODE* mastNodePoin
 
         // пройдем по всем веревкам данной мачты и отключим их
 		if(bVant) api->Send_Message(vantEI, "lip", MSG_VANT_DEL_MAST, modelEI, mastNodePointer);
-		MODEL * mdl = (MODEL*)_CORE_API->GetEntityPointer(&model_id);
+		MODEL * mdl = (MODEL*)api->GetEntityPointer(&model_id);
 		if(mdl!= nullptr)	for(i=0; i<10000; i++)
 		{
 			NODE* nod=mdl->GetNode(i);
@@ -266,14 +266,14 @@ void _cdecl MAST::Mount( ENTITY_ID modelEI, ENTITY_ID shipEI, NODE* mastNodePoin
 			// валим также паруса связанные с данной мачтой
 			if(bSail)
 			{
-				_CORE_API->Send_Message(sailEI,"liii",MSG_SAIL_CHECK,shipEI,GetID(),model_id);
-				_CORE_API->Send_Message(sailEI,"li",MSG_SAIL_FREE_GROUP,GetID());
+				api->Send_Message(sailEI,"liii",MSG_SAIL_CHECK,shipEI,GetID(),model_id);
+				api->Send_Message(sailEI,"li",MSG_SAIL_FREE_GROUP,GetID());
 			}
 		}
 		if(bSail) api->Send_Message(sailEI, "ll", MSG_SAIL_MAST_PROCESSING, -1);
 
         // установим первоначальные параметры движения мачты
-        SHIP_BASE *sb; sb=(SHIP_BASE*)_CORE_API->GetEntityPointer(&shipEI);
+        SHIP_BASE *sb; sb=(SHIP_BASE*)api->GetEntityPointer(&shipEI);
         if(sb)
         {
             mm.ang= sb->State.vAng;
@@ -300,17 +300,17 @@ void _cdecl MAST::Mount( ENTITY_ID modelEI, ENTITY_ID shipEI, NODE* mastNodePoin
         ENTITY_ID tmpEI;
         float minDist=10000.f;
         SHIP_BASE *minDstShip;
-        if(_CORE_API->FindClass(&tmpEI,"ship",0)) do
+        if(api->FindClass(&tmpEI,"ship",0)) do
         {
             if(tmpEI==ship_id) continue;
-            SHIP_BASE *sb = (SHIP_BASE*)_CORE_API->GetEntityPointer(&tmpEI);
+            SHIP_BASE *sb = (SHIP_BASE*)api->GetEntityPointer(&tmpEI);
             float tmpDist = ~(sb->State.vPos-mm.mov);
             if(tmpDist<minDist)
             {
                 minDist = tmpDist;
                 minDstShip = sb;
             }
-        } while(_CORE_API->FindClassNext(&tmpEI));
+        } while(api->FindClassNext(&tmpEI));
         if(minDist<4000.f) // если ближайший корабль близко к нам, то валим мачту в противоположную сторону
         {
             CVECTOR vect;
@@ -389,13 +389,13 @@ void MAST::LoadIni()
 
 	INIFILE * ini;
 	WIN32_FIND_DATA	wfd;
-	HANDLE h = _CORE_API->fio->_FindFirstFile(MAST_INI_FILE,&wfd);
+	HANDLE h = api->fio->_FindFirstFile(MAST_INI_FILE,&wfd);
 	if (INVALID_HANDLE_VALUE != h) 
 	{
 		ft_old = wfd.ftLastWriteTime;
-		_CORE_API->fio->_FindClose(h);
+		api->fio->_FindClose(h);
 	}
-	ini = _CORE_API->fio->OpenIniFile((char*)MAST_INI_FILE);
+	ini = api->fio->OpenIniFile((char*)MAST_INI_FILE);
 	if(!ini) THROW("mast.ini file not found!");
 
 	sprintf_s(section,"MAST");
@@ -525,7 +525,7 @@ void MAST::doMove(uint32_t DeltaTime)
                     }
 				}
 				// коллизим с кораблем
-				if(_CORE_API->FindClass(&findEI,"SHIP",0))	do
+				if(api->FindClass(&findEI,"SHIP",0))	do
                 {
 					if( api->GetEntityPointer(&findEI)== nullptr ) continue;
 					modEI = ((VAI_OBJBASE*)api->GetEntityPointer(&findEI))->GetModelEID();
@@ -546,7 +546,7 @@ void MAST::doMove(uint32_t DeltaTime)
                             break;
                         }
                     }
-                }while(_CORE_API->FindClassNext(&findEI));
+                }while(api->FindClassNext(&findEI));
             }
 
             if(bp.y<=-MAST_WIDTH || ep.y<=-MAST_WIDTH)
@@ -610,7 +610,7 @@ int MAST::GetSlide(ENTITY_ID &mod, CVECTOR &pbeg, CVECTOR &pend, CVECTOR &dp, CV
                 if(sVal>MAX_SLIDING_LENGHT) return (retVal&(~SR_MOVE));
                 dp.y-=hVal;  vb.y-=hVal;  ve.y-=hVal;
                 hVal=0;
-                MODEL* pmdl=(MODEL*)_CORE_API->GetEntityPointer(&mod);
+                MODEL* pmdl=(MODEL*)api->GetEntityPointer(&mod);
                 if(pmdl)
                 {
                     NODE* pnod = pmdl->GetCollideNode();
@@ -663,6 +663,6 @@ void MAST::AllRelease()
 	api->Send_Message(ship_id,"lp",MSG_MAST_DELGEOMETRY,m_pMastNode);
 
     // удалить модель
-    _CORE_API->DeleteEntity(model_id);
+    api->DeleteEntity(model_id);
 	m_pMastNode = nullptr;
 }

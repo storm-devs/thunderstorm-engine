@@ -39,7 +39,7 @@ public:
 
 	MODEL *GetModelPointer()
 	{
-		Assert(_CORE_API->ValidateEntity(&eidObject));
+		Assert(api->ValidateEntity(&eidObject));
 		Assert(eidObject.pointer);
 		return (MODEL*)eidObject.pointer;
 	}

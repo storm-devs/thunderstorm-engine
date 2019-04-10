@@ -27,8 +27,8 @@ bool WATERFLARE::Init()
 {
 	GUARD(bool WATERFLARE::Init())
 
-	_CORE_API->LayerAdd("realize",GetID(),-1);
-	_CORE_API->LayerAdd("execute",GetID(),-1);
+	api->LayerAdd("realize",GetID(),-1);
+	api->LayerAdd("execute",GetID(),-1);
 	
 	SetDevice();
 
@@ -40,12 +40,12 @@ void WATERFLARE::SetDevice()
 {
 	GUARD(void WATERFLARE::SetDevice())
 
-	RS = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	RS = (VDX9RENDER *)api->CreateService("dx9render");
 	if (!RS) STORM_THROW("No service: dx9render");
 
 	ENTITY_ID	ent;
-	if (!_CORE_API->FindClass(&ent,"Weather",0)) STORM_THROW("No found WEATHER entity!");
-	pWeather = (WEATHER_BASE*)_CORE_API->GetEntityPointer(&ent);
+	if (!api->FindClass(&ent,"Weather",0)) STORM_THROW("No found WEATHER entity!");
+	pWeather = (WEATHER_BASE*)api->GetEntityPointer(&ent);
 
 	UNGUARD
 }

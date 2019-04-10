@@ -2,7 +2,7 @@
 #include "pcinput.h"
 #include "../../Common_h/vapi.h"
 
-extern VAPI * _CORE_API;
+extern VAPI * api;
 extern bool bActive;
 float PCINPUT::GetKeyState(uint32_t key_code, uint32_t * value)
 {
@@ -134,14 +134,14 @@ void PCINPUT::ProcessKeyState()
 				else
 				{
 					KeyState[n].state = KS_PRESSED;
-					_CORE_API->Event("key_event","lf",n,state);
+					api->Event("key_event","lf",n,state);
 				}
 			break;
 			case KS_PRESSED:
 				if(state == 0) 
 				{
 					KeyState[n].state = KS_RELEASED;
-					_CORE_API->Event("key_event","lf",n,state);
+					api->Event("key_event","lf",n,state);
 				}
 				else
 					KeyState[n].state = KS_HOLD;
@@ -150,7 +150,7 @@ void PCINPUT::ProcessKeyState()
 				if(state == 0) 
 				{
 					KeyState[n].state = KS_RELEASED;
-					_CORE_API->Event("key_event","lf",n,state);
+					api->Event("key_event","lf",n,state);
 				}
 				else break;
 			break;

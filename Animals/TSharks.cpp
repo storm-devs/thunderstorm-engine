@@ -30,13 +30,13 @@ TSharks::~TSharks()
 			delete ships[i];
 	}
 
-	_CORE_API->DeleteEntity(sharkModel);
+	api->DeleteEntity(sharkModel);
 }
 
 //--------------------------------------------------------------------
 void TSharks::LoadSettings()
 {
-	INIFILE * ini = _CORE_API->fio->OpenIniFile(ANIMALS_INI_FILENAME);
+	INIFILE * ini = api->fio->OpenIniFile(ANIMALS_INI_FILENAME);
 	if (!ini)
 		return;
 
@@ -51,12 +51,12 @@ void TSharks::Init()
 {
 	LoadSettings();
 
-	renderService = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	renderService = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!renderService)
 		STORM_THROW("!Sharks: No service 'dx9render'");
 
-	_CORE_API->FindClass(&seaID, "sea", 0);
-	sea = (SEA_BASE*) _CORE_API->GetEntityPointer(&seaID);
+	api->FindClass(&seaID, "sea", 0);
+	sea = (SEA_BASE*) api->GetEntityPointer(&seaID);
 	if (!sea)
 	{
 		enabled = false;
@@ -75,16 +75,16 @@ void TSharks::Init()
 
 	ENTITY_ID shipID;
 	shipsCount = 0;
-	if (_CORE_API->FindClass(&shipID, "ship", 0))
+	if (api->FindClass(&shipID, "ship", 0))
 	{
 		ships[shipsCount] = new TShip();
-		ships[shipsCount]->ship = (SHIP_BASE*) _CORE_API->GetEntityPointer(&shipID);
+		ships[shipsCount]->ship = (SHIP_BASE*) api->GetEntityPointer(&shipID);
 		TDynamicSystem::AddDeflector(ships[i]);
 		++shipsCount;
-		while (_CORE_API->FindClassNext(&shipID))
+		while (api->FindClassNext(&shipID))
 		{
 			ships[shipsCount] = new TShip();
-			ships[shipsCount]->ship = (SHIP_BASE*) _CORE_API->GetEntityPointer(&shipID);
+			ships[shipsCount]->ship = (SHIP_BASE*) api->GetEntityPointer(&shipID);
 			//TDynamicSystem::AddDeflector(ships[i]);
 			++shipsCount;
 			if (++shipsCount == SHARK_MAX_SHIPS)
@@ -94,8 +94,8 @@ void TSharks::Init()
 
 	TDynamicSystem::AddAttractor(&cameraObject);
 
-	_CORE_API->CreateEntity(&sharkModel,"MODELR");
-	_CORE_API->Send_Message(sharkModel,"ls",MSG_MODEL_LOAD_GEO, ANIMALS_SHARK_FILENAME);
+	api->CreateEntity(&sharkModel,"MODELR");
+	api->Send_Message(sharkModel,"ls",MSG_MODEL_LOAD_GEO, ANIMALS_SHARK_FILENAME);
 }
 
 //--------------------------------------------------------------------
@@ -160,7 +160,7 @@ void TSharks::Realize(uint32_t _dTime)
 	float   cameraPersp;
 	renderService->GetCamera(cameraPos, cameraAng, cameraPersp);
 */
-	MODEL *shark = (MODEL*) _CORE_API->GetEntityPointer(&sharkModel);
+	MODEL *shark = (MODEL*) api->GetEntityPointer(&sharkModel);
 	if (!shark)
 		return;
 

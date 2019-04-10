@@ -309,7 +309,7 @@ void AnimationImp::BuildAnimationMatrices()
 				}
 				else
 				{
-					_CORE_API->Trace("AnimationImp::BuildAnimationMatrices -> Not support mode");
+					api->Trace("AnimationImp::BuildAnimationMatrices -> Not support mode");
 					__debugbreak();
 					/*_asm int 3;*/
 				//	float frame = 0.0f;

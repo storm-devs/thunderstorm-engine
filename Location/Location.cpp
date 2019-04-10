@@ -56,15 +56,15 @@ Location::~Location()
 	ATTRIBUTES * atr = AttributesPointer->FindAClass(AttributesPointer, "locators");
 	if(atr) AttributesPointer->DeleteAttributeClassX(atr);
 #ifndef _XBOX
-	_CORE_API->DeleteEntity(cubeShotMaker);
-	_CORE_API->DeleteEntity(lighter);
+	api->DeleteEntity(cubeShotMaker);
+	api->DeleteEntity(lighter);
 #endif
-	_CORE_API->DeleteEntity(lizards);
-	_CORE_API->DeleteEntity(rats);
-	_CORE_API->DeleteEntity(eagle);
-	_CORE_API->DeleteEntity(grass);
-	_CORE_API->DeleteEntity(lightsid);
-	_CORE_API->DeleteEntity(loceffectsid);
+	api->DeleteEntity(lizards);
+	api->DeleteEntity(rats);
+	api->DeleteEntity(eagle);
+	api->DeleteEntity(grass);
+	api->DeleteEntity(lightsid);
+	api->DeleteEntity(loceffectsid);
 	api->DeleteEntity(blood);
 
 	for(long i = 0; i < numLocators; i++) 
@@ -77,26 +77,26 @@ Location::~Location()
 bool Location::Init()
 {
 	//DX9 render
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs) STORM_THROW("No service: dx9render");
 	rs->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-	_CORE_API->LayerCreate("execute", true, false);
-	_CORE_API->LayerSetFlags("execute", LRFLAG_EXECUTE);
-	_CORE_API->LayerAdd("execute", GetID(), 10);
+	api->LayerCreate("execute", true, false);
+	api->LayerSetFlags("execute", LRFLAG_EXECUTE);
+	api->LayerAdd("execute", GetID(), 10);
 
-	_CORE_API->LayerCreate("realize", true, false);
-	_CORE_API->LayerSetFlags("realize", LRFLAG_REALIZE);
-	_CORE_API->LayerAdd("realize", GetID(), 100000);
+	api->LayerCreate("realize", true, false);
+	api->LayerSetFlags("realize", LRFLAG_REALIZE);
+	api->LayerAdd("realize", GetID(), 100000);
 
-	_CORE_API->CreateEntity(&lightsid, "Lights");
-	_CORE_API->CreateEntity(&loceffectsid, "LocationEffects");
+	api->CreateEntity(&lightsid, "Lights");
+	api->CreateEntity(&loceffectsid, "LocationEffects");
 
 	enemyBarsTexture = rs->TextureCreate("LocEfx\\state_bars.tga");
 
 #ifndef _XBOX
-	_CORE_API->CreateEntity(&lighter, "Lighter");
-	_CORE_API->CreateEntity(&cubeShotMaker, "CubeShotMakerCam");
+	api->CreateEntity(&lighter, "Lighter");
+	api->CreateEntity(&cubeShotMaker, "CubeShotMakerCam");
 #endif
 	return true;
 }
@@ -186,7 +186,7 @@ void Location::Realize(uint32_t delta_time)
 
 void Location::Update(uint32_t delta_time)
 {
-	lights = (Lights *)_CORE_API->GetEntityPointer(&lightsid);
+	lights = (Lights *)api->GetEntityPointer(&lightsid);
 
 	const uint32_t max_delta_time = 500;
 	const float maxDltTime = 0.1f;
@@ -229,7 +229,7 @@ uint32_t _cdecl Location::ProcessMessage(MESSAGE & message)
 	case MSG_LOCATION_GET_MODEL:
 		if(lastLoadStaticModel < 0) return 0;
 		if(!model.IsValidateIndex(lastLoadStaticModel)) return 0;
-		if(!_CORE_API->ValidateEntity(&model.ID(lastLoadStaticModel))) return 0;
+		if(!api->ValidateEntity(&model.ID(lastLoadStaticModel))) return 0;
 		message.ScriptVariablePointer()->Set(model.ID(lastLoadStaticModel));
 		return 1;
 	case MSG_LOCATION_MODEL_SET_POS:
@@ -265,7 +265,7 @@ uint32_t _cdecl Location::ProcessMessage(MESSAGE & message)
 		return 1;
 	case MSG_LOCATION_MODEL_LAMPS:
 		if(lastLoadStaticModel < 0) return 0;
-		lights = (Lights *)_CORE_API->GetEntityPointer(&lightsid);
+		lights = (Lights *)api->GetEntityPointer(&lightsid);
 		if(!lights) return 0;
 		return lights->AddLampModel(model.ID(lastLoadStaticModel));
 	case MSG_LOCATION_MODEL_REFLECTION:
@@ -295,7 +295,7 @@ uint32_t _cdecl Location::ProcessMessage(MESSAGE & message)
 		model.UpdateModelsPath();
 
 #ifndef _XBOX
-		_CORE_API->Send_Message(lighter, "ss", "ModelsPath", model.modelspath);
+		api->Send_Message(lighter, "ss", "ModelsPath", model.modelspath);
 #endif
 
 		return 1;
@@ -310,7 +310,7 @@ uint32_t _cdecl Location::ProcessMessage(MESSAGE & message)
 		model.UpdateLightPath();
 
 #ifndef _XBOX
-		_CORE_API->Send_Message(lighter, "ss", "LightPath", model.lightpath);
+		api->Send_Message(lighter, "ss", "LightPath", model.lightpath);
 #endif
 
 		return 1;
@@ -383,7 +383,7 @@ uint32_t _cdecl Location::ProcessMessage(MESSAGE & message)
 		supervisor.DelSavePositions(false);
 		break;
 	case MSG_LOCATION_ADD_LIGHT:
-		lights = (Lights *)_CORE_API->GetEntityPointer(&lightsid);
+		lights = (Lights *)api->GetEntityPointer(&lightsid);
 		if(!lights) return false;
 		message.String(sizeof(name), name);
 		name[sizeof(name) - 1] = 0;
@@ -415,7 +415,7 @@ LocatorArray * Location::FindLocatorsGroup(const char * gName)
 
 long Location::LoadStaticModel(const char * modelName, const char * tech, long level, bool useDynamicLights)
 {
-	lights = (Lights *)_CORE_API->GetEntityPointer(&lightsid);
+	lights = (Lights *)api->GetEntityPointer(&lightsid);
 	long im = model.CreateModel(modelName, tech, level, true, useDynamicLights?GetLights():nullptr);
 	if(im < 0) return -1;
 	//Указатель на геометрию
@@ -438,8 +438,8 @@ long Location::LoadStaticModel(const char * modelName, const char * tech, long l
 		return -1;
 	}
 	//Добавим модельку в специальные слои
-	_CORE_API->LayerAdd("shadow", mdl->GetID(), 10);
-	_CORE_API->LayerAdd("sun_trace", mdl->GetID(), 10);
+	api->LayerAdd("shadow", mdl->GetID(), 10);
+	api->LayerAdd("sun_trace", mdl->GetID(), 10);
 	api->LayerAdd("blood", mdl->GetID(), 100);
 	api->LayerAdd("rain_drops", mdl->GetID(), 100);
 	//Зачитываем все локаторы
@@ -486,7 +486,7 @@ long Location::LoadStaticModel(const char * modelName, const char * tech, long l
 	}
 
 #ifndef _XBOX
-	_CORE_API->Send_Message(lighter, "ssi", "AddModel", modelName, mdl->GetID());
+	api->Send_Message(lighter, "ssi", "AddModel", modelName, mdl->GetID());
 #endif
 
 	return im;
@@ -502,7 +502,7 @@ bool Location::LoadCharacterPatch(const char * ptcName)
 	strcat_s(path, ".ptc");
 	//Загружаем патч
 	bool result = ptc.Load(path);
-	if(!result) _CORE_API->Trace("Can't loaded patch data file %s.ptc for npc.", ptcName);
+	if(!result) api->Trace("Can't loaded patch data file %s.ptc for npc.", ptcName);
 	return result;
 }
 
@@ -517,10 +517,10 @@ bool __declspec(dllexport) __cdecl Location::LoadJumpPatch(const char * modelNam
 
 bool __declspec(dllexport) __cdecl Location::LoadGrass(const char * modelName, const char * texture)
 {
-	_CORE_API->DeleteEntity(grass);
+	api->DeleteEntity(grass);
 	if(!modelName || !modelName[0]) return true;
-	_CORE_API->CreateEntity(&grass, "Grass");
-	Grass * grs = (Grass *)_CORE_API->GetEntityPointer(&grass);
+	api->CreateEntity(&grass, "Grass");
+	Grass * grs = (Grass *)api->GetEntityPointer(&grass);
 	if(!grs) return false;
 	if(texture && texture[0]) grs->SetTexture(texture);
 	char nm[512];
@@ -530,8 +530,8 @@ bool __declspec(dllexport) __cdecl Location::LoadGrass(const char * modelName, c
 	strcat_s(nm, ".grs");
 	long ll = strlen(nm);
 	if(grs->LoadData(nm)) return true;
-	_CORE_API->Trace("Can't load grass data file: %s", nm);
-	_CORE_API->DeleteEntity(grass);
+	api->Trace("Can't load grass data file: %s", nm);
+	api->DeleteEntity(grass);
 	return false;
 }
 
@@ -544,7 +544,7 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 	if(_stricmp(name, "AddFlys") == 0)
 	{
 		ENTITY_ID effects;
-		_CORE_API->FindClass(&effects, "LocationEffects", 0);
+		api->FindClass(&effects, "LocationEffects", 0);
 		float x = message.Float();
 		float y = message.Float();
 		float z = message.Float();
@@ -554,7 +554,7 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 	if(_stricmp(name, "DelFlys") == 0)
 	{
 		ENTITY_ID effects;
-		_CORE_API->FindClass(&effects, "LocationEffects", 0);
+		api->FindClass(&effects, "LocationEffects", 0);
 		api->Send_Message(effects, "s", "DelFlys");
 		return true;
 	}else
@@ -573,20 +573,20 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 	}else
 	if(_stricmp(name, "AddEagle") == 0)
 	{
-		_CORE_API->CreateEntity(&eagle, "LocEagle");
+		api->CreateEntity(&eagle, "LocEagle");
 		return true;
 	}else
 	if(_stricmp(name, "AddLizards") == 0)
 	{
-		_CORE_API->CreateEntity(&lizards, "Lizards");
+		api->CreateEntity(&lizards, "Lizards");
 		return true;
 	}else
 	if(_stricmp(name, "AddRats") == 0)
 	{
-		_CORE_API->CreateEntity(&rats, "LocRats");
-		if(!_CORE_API->Send_Message(rats, "l", message.Long()))
+		api->CreateEntity(&rats, "LocRats");
+		if(!api->Send_Message(rats, "l", message.Long()))
 		{
-			_CORE_API->DeleteEntity(rats);
+			api->DeleteEntity(rats);
 			return false;
 		}
 		return true;
@@ -625,7 +625,7 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 		long n = model.FindModel( modelname );
 		if( n>=0 )
 			//api->LayerDel("realize", model.RealizerID(n));
-			_CORE_API->Send_Message(model.RealizerID(n),"ll",2,0);
+			api->Send_Message(model.RealizerID(n),"ll",2,0);
 	}else
 	if(_stricmp(name, "ShowLocationModel") == 0)
 	{
@@ -635,7 +635,7 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 		long n = model.FindModel( modelname );
 		if( n>=0 )
 			//api->LayerAdd("realize", model.RealizerID(n), layer);
-			_CORE_API->Send_Message(model.RealizerID(n),"ll",2,1);
+			api->Send_Message(model.RealizerID(n),"ll",2,1);
 	} else
 	if(_stricmp(name, "SetGrassParams") == 0)
 	{
@@ -701,7 +701,7 @@ void Location::UpdateLocators()
 							v->SetAttributeUseFloat("y", mtx.Vz().y);
 							v->SetAttributeUseFloat("z", mtx.Vz().z);
 						}else{
-							_CORE_API->Trace("Location: Can't create attribute 'locators.%s.%s.vz'!", groupName, locators[i]->Name(j));
+							api->Trace("Location: Can't create attribute 'locators.%s.%s.vz'!", groupName, locators[i]->Name(j));
 						}
 						//vy
 						a->CreateSubAClass(a, "vy");
@@ -712,7 +712,7 @@ void Location::UpdateLocators()
 							v->SetAttributeUseFloat("y", mtx.Vy().y);
 							v->SetAttributeUseFloat("z", mtx.Vy().z);
 						}else{
-							_CORE_API->Trace("Location: Can't create attribute 'locators.%s.%s.vy'!", groupName, locators[i]->Name(j));
+							api->Trace("Location: Can't create attribute 'locators.%s.%s.vy'!", groupName, locators[i]->Name(j));
 						}
 						//vx
 						a->CreateSubAClass(a, "vx");
@@ -723,18 +723,18 @@ void Location::UpdateLocators()
 							v->SetAttributeUseFloat("y", mtx.Vx().y);
 							v->SetAttributeUseFloat("z", mtx.Vx().z);
 						}else{
-							_CORE_API->Trace("Location: Can't create attribute 'locators.%s.%s.vx'!", groupName, locators[i]->Name(j));
+							api->Trace("Location: Can't create attribute 'locators.%s.%s.vx'!", groupName, locators[i]->Name(j));
 						}
 					}else{
-						_CORE_API->Trace("Location: Can't create attribute 'locators.%s.%s'!", groupName, locators[i]->Name(j));
+						api->Trace("Location: Can't create attribute 'locators.%s.%s'!", groupName, locators[i]->Name(j));
 					}
 				}
 			}else{
-				_CORE_API->Trace("Location: Can't create attribute 'locators.%s'!", groupName);
+				api->Trace("Location: Can't create attribute 'locators.%s'!", groupName);
 			}
 		}
 	}else{
-		_CORE_API->Trace("Location: Can't create attribute 'locators'!");
+		api->Trace("Location: Can't create attribute 'locators'!");
 	}
 }
 

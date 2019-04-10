@@ -11,7 +11,6 @@ char ENGINE_INI_FILE_NAME[256] = "engine.ini";
 FILE_SERVICE File_Service;
 
 CORE Core;
-VAPI * _CORE_API; // ~!~ TODO: remove
 VAPI * api = nullptr;
 
 VFILE_SERVICE * fio = nullptr;
@@ -45,10 +44,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 		return 0;
 	}
 
-	_CORE_API = &Core;
 	api = &Core;
 	fio = &File_Service;
-	_CORE_API->fio = &File_Service;
+	api->fio = &File_Service;
 	_VSYSTEM_API = &System_Api;
 
 	uint32_t dwMaxFPS = 0;
@@ -64,7 +62,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 		delete ini;
 	}
 
-	_CORE_API->SetExceptions(_X_NO_MEM | _X_NO_FILE_READ);
+	api->SetExceptions(_X_NO_MEM | _X_NO_FILE_READ);
 
 	Control_Stack.Init();
 

@@ -31,7 +31,7 @@ HELPCHOOSER::~HELPCHOOSER()
 void HELPCHOOSER::SetDevice()
 {
     // получить сервис рендера
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs){STORM_THROW("No service: dx9render")}
 }
 
@@ -512,8 +512,8 @@ bool HELPCHOOSER::MouseMove()
 	float oldY = m_fCurMouseY;
 
 	CONTROL_STATE csv,csh;
-	_CORE_API->Controls->GetControlState("ITurnV",csv);
-	_CORE_API->Controls->GetControlState("ITurnH",csh);
+	api->Controls->GetControlState("ITurnV",csv);
+	api->Controls->GetControlState("ITurnH",csh);
 	if(csv.lValue==0 && csh.lValue==0) return false;
 	m_fCurMouseX += csh.fValue;
 	m_fCurMouseY -= csv.fValue;

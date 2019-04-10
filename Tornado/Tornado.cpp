@@ -50,15 +50,15 @@ Tornado::~Tornado()
 //Инициализация
 bool Tornado::Init()
 {
-	_CORE_API->LayerCreate("execute", true, false);
-	_CORE_API->LayerSetExecute("execute", true);	
-	_CORE_API->LayerCreate("realize", true, false);
-	_CORE_API->LayerSetRealize("realize", true);
-	_CORE_API->LayerAdd("execute", GetID(), 70000);
-	_CORE_API->LayerAdd("realize", GetID(), 70000);
+	api->LayerCreate("execute", true, false);
+	api->LayerSetExecute("execute", true);	
+	api->LayerCreate("realize", true, false);
+	api->LayerSetRealize("realize", true);
+	api->LayerAdd("execute", GetID(), 70000);
+	api->LayerAdd("realize", GetID(), 70000);
 
 	//DX9 render
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs) STORM_THROW("No service: dx9render");
 
 	//Создаём буфера для столба
@@ -94,7 +94,7 @@ void Tornado::Execute(uint32_t delta_time)
 	noiseCloud.Update(dltTime);
 	debris.Update(dltTime);
 	eventCounter += dltTime;
-	if(eventCounter > 1.0f) _CORE_API->Event("TornadoDamage", "fff", eventCounter, pillar.GetX(0.0f), pillar.GetZ(0.0f));
+	if(eventCounter > 1.0f) api->Event("TornadoDamage", "fff", eventCounter, pillar.GetX(0.0f), pillar.GetZ(0.0f));
 	if(liveTime < 0.0f)
 	{
 		SetAlpha(galhpa);
@@ -102,8 +102,8 @@ void Tornado::Execute(uint32_t delta_time)
 		if(galhpa < 0.0f)
 		{
 			galhpa = 0.0f;
-			_CORE_API->Event("TornadoDelete", nullptr);
-			_CORE_API->DeleteEntity(GetID());
+			api->Event("TornadoDelete", nullptr);
+			api->DeleteEntity(GetID());
 		}
 	}else liveTime -= dltTime;	
 	if(soundService && sID != SOUND_INVALID_ID)

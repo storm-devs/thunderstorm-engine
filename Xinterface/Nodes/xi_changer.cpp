@@ -201,7 +201,7 @@ int CXI_CHANGER::CommandExecute(int wActCode)
         {
             SetRectanglesToPosition(m_nCurrentPos);
             // set attribute to new position
-            ATTRIBUTES* pAttr = _CORE_API->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
+            ATTRIBUTES* pAttr = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
             if(pAttr!= nullptr)
                 pAttr->SetAttributeUseDword("current",m_nCurrentPos);
         }

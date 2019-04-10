@@ -19,7 +19,7 @@ SHIP_CAMERA::SHIP_CAMERA()
 
 	fDistanceDlt = 0.0f;
 	fAngleXDlt = fAngleYDlt = 0.0f;
-	shipcode = _CORE_API->Class_Name2Code("ship");
+	shipcode = api->Class_Name2Code("ship");
 	fModelAy = 0.0f;
 
 	fDistanceInertia = 15.0f;
@@ -200,13 +200,13 @@ uint32_t SHIP_CAMERA::AttributeChanged(ATTRIBUTES * pAttr)
 void SHIP_CAMERA::ShipsCollision(CVECTOR & pos)
 {
 	ENTITY_ID id;
-	bool res = _CORE_API->FindClass(&id, nullptr, shipcode);
+	bool res = api->FindClass(&id, nullptr, shipcode);
 	if(!res) return;
 	CVECTOR p;
-	for(; res; res = _CORE_API->FindClassNext(&id))
+	for(; res; res = api->FindClassNext(&id))
 	{
 		//Указатель на объект
-		VAI_OBJBASE * ship = (VAI_OBJBASE *)_CORE_API->GetEntityPointer(&id);
+		VAI_OBJBASE * ship = (VAI_OBJBASE *)api->GetEntityPointer(&id);
 		if(!ship) break;
 		if(ship == GetAIObj()) continue;
 		//Позиция камеры в системе корабля

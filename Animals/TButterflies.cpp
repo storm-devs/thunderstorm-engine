@@ -28,7 +28,7 @@ TButterflies::~TButterflies()
 //--------------------------------------------------------------------
 void TButterflies::LoadSettings()
 {
-	INIFILE * ini = _CORE_API->fio->OpenIniFile(ANIMALS_INI_FILENAME);
+	INIFILE * ini = api->fio->OpenIniFile(ANIMALS_INI_FILENAME);
 	if (!ini)
 		return;
 
@@ -46,15 +46,15 @@ void TButterflies::Init()
 {
 	LoadSettings();
 
-	renderService = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	renderService = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!renderService)	
 		STORM_THROW("!Butterflies: No service 'dx9render'");
 
-	collide = (COLLIDE *)_CORE_API->CreateService("coll");
+	collide = (COLLIDE *)api->CreateService("coll");
 	if (!collide)	
 		STORM_THROW("!Butterflies: No service COLLIDE");
 
-	walker = _CORE_API->LayerGetWalker("shadow");
+	walker = api->LayerGetWalker("shadow");
 
 	ivManager = new TIVBufferManager(renderService, 
 									 BUTTERFLY_VERTEX_TYPE, 
@@ -120,7 +120,7 @@ void TButterflies::Execute(uint32_t _dTime)
 	if (yDefineTime > Y_REDEFINE_TIME)
 	{
 		if (!walker)
-			walker = _CORE_API->LayerGetWalker("shadow");
+			walker = api->LayerGetWalker("shadow");
 
 		for (i = 0; i<butterfliesCount; i++)
 		{

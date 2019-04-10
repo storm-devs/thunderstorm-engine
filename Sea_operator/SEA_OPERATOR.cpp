@@ -33,11 +33,11 @@ SEA_OPERATOR::~SEA_OPERATOR()
 //--------------------------------------------------------------------
 bool SEA_OPERATOR::Init()
 {
-	_CORE_API->LayerAdd("realize", GetID(), 1);
-	_CORE_API->LayerAdd("execute", GetID(), 0);
-	//_CORE_API->SystemMessages(GetID(),true);
+	api->LayerAdd("realize", GetID(), 1);
+	api->LayerAdd("execute", GetID(), 0);
+	//api->SystemMessages(GetID(),true);
 
-	renderer = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	renderer = (VDX9RENDER *)api->CreateService("dx9render");
 
 	return true;
 }
@@ -173,14 +173,14 @@ void SEA_OPERATOR::Execute(uint32_t _dTime)
 void SEA_OPERATOR::FirstInit()
 {
 	ENTITY_ID seaID;
-	if (_CORE_API->FindClass(&seaID,"sea",0))
-		sea = (SEA_BASE*) _CORE_API->GetEntityPointer(&seaID);
+	if (api->FindClass(&seaID,"sea",0))
+		sea = (SEA_BASE*) api->GetEntityPointer(&seaID);
 
 	ENTITY_ID shipID;
-	if (_CORE_API->FindClass(&shipID,"ship",0))
+	if (api->FindClass(&shipID,"ship",0))
 		do
 			SetIfMyShip(shipID);
-		while (_CORE_API->FindClassNext(&shipID));
+		while (api->FindClassNext(&shipID));
 
 
 	enabled = this->AttributesPointer->GetAttributeAsDword("Enabled") != 0;
@@ -215,7 +215,7 @@ void SEA_OPERATOR::StartNewAction()
 	if (active && !currentAction)
 	{
 		active = false;
-		_CORE_API->SetTimeScale(1.0f);
+		api->SetTimeScale(1.0f);
 		sinceLastActionTime = 0;
 		return;
 	}
@@ -227,7 +227,7 @@ void SEA_OPERATOR::StartNewAction()
 	{
 		if (active)
 		{
-			_CORE_API->SetTimeScale(1.0f);
+			api->SetTimeScale(1.0f);
 			sinceLastActionTime = 0;
 		}
 		active = false;
@@ -236,13 +236,13 @@ void SEA_OPERATOR::StartNewAction()
 
 	active = true;
 	currentAction->timePassed = 0;
-	_CORE_API->SetTimeScale(currentAction->timeK);
+	api->SetTimeScale(currentAction->timeK);
 }
 
 //--------------------------------------------------------------------
 void SEA_OPERATOR::SetIfMyShip (ENTITY_ID &_shipID)
 {
-	SHIP_BASE *ship = (SHIP_BASE *) _CORE_API->GetEntityPointer(&_shipID);
+	SHIP_BASE *ship = (SHIP_BASE *) api->GetEntityPointer(&_shipID);
 	if (!ship)
 		return;
 	ATTRIBUTES *attr = ship->GetACharacter();

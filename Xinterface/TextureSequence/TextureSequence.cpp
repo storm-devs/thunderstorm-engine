@@ -55,7 +55,7 @@ IDirect3DTexture9* TextureSequence::Initialize(VDX9RENDER *pRS, const char* cTSf
 	INIFILE * ini = api->fio->OpenIniFile((char*)INI_FILENAME);
 	if(!ini)
 	{
-		_CORE_API->Trace("ini file %s not found!",INI_FILENAME);
+		api->Trace("ini file %s not found!",INI_FILENAME);
 		return nullptr;
 	}
 	m_dwDeltaTime = ini->GetLong((char*)cTSfileName,"timeDelay",128);
@@ -83,7 +83,7 @@ IDirect3DTexture9* TextureSequence::Initialize(VDX9RENDER *pRS, const char* cTSf
 	if( S_OK != m_pRS->CreateTexture(m_texWidth,m_texHeight,1,D3DUSAGE_RENDERTARGET,D3DFMT_A8R8G8B8,D3DPOOL_DEFAULT,&m_pTexture) )
 	{
 		m_pTexture= nullptr;
-		_CORE_API->Trace("Can`t create texture");
+		api->Trace("Can`t create texture");
 		delete ini; return nullptr;
 	}
 

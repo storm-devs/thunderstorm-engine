@@ -6,7 +6,7 @@ static char Buffer1024[1024];
 
 FONT::FONT()
 {
-	api = (VAPI *)_CORE_API;
+	api = (VAPI *)api;
 	RenderService = nullptr;
 	Device = nullptr;
 	VBuffer = nullptr;
@@ -190,7 +190,7 @@ bool FONT::Init(char * font_name, char * iniName, IDirect3DDevice9 * _device, VD
 	TextureID = RenderService->TextureCreate(textureName);
 	if(TextureID < 0)
     {
-		_CORE_API->Trace("Not Found Texture: %s",textureName);
+		api->Trace("Not Found Texture: %s",textureName);
         return false;
     }
 

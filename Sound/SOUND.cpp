@@ -34,12 +34,12 @@ bool SOUND::Init()
 {
 	GUARD(SOUND::Init)
 
-	soundService = (VSoundService *)_CORE_API->CreateService("SoundService");
+	soundService = (VSoundService *)api->CreateService("SoundService");
 	if (!soundService)
 		api->Trace("!SOUND: Can`t create sound service");
 
-	renderer = (VDX9RENDER *) _CORE_API->CreateService("dx9render");
-	_CORE_API->LayerAdd("realize",GetID(),-1);
+	renderer = (VDX9RENDER *) api->CreateService("dx9render");
+	api->LayerAdd("realize",GetID(),-1);
 
 	return true;
 	UNGUARD

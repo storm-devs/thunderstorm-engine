@@ -96,16 +96,16 @@ Grass::~Grass()
 bool Grass::Init()
 {
 	//Layers
-	_CORE_API->LayerCreate("execute", true, false);
-	_CORE_API->LayerSetExecute("execute", true);
-	_CORE_API->LayerAdd("execute", GetID(), 1000);
-	_CORE_API->LayerCreate("realize", true, false);
-	_CORE_API->LayerSetRealize("realize", true);
-	_CORE_API->LayerAdd("realize", GetID(), 1000);
+	api->LayerCreate("execute", true, false);
+	api->LayerSetExecute("execute", true);
+	api->LayerAdd("execute", GetID(), 1000);
+	api->LayerCreate("realize", true, false);
+	api->LayerSetRealize("realize", true);
+	api->LayerAdd("realize", GetID(), 1000);
 
     // boal выбор шайдера -->
     isGrassLightsOn = 1;
-    VDATA * param = _CORE_API->Event("GOpt_isGrassLightsOn", nullptr);
+    VDATA * param = api->Event("GOpt_isGrassLightsOn", nullptr);
 	if (param)
 	{
   		param->Get(isGrassLightsOn);
@@ -113,7 +113,7 @@ bool Grass::Init()
 	// boal выбор шайдера <--
 
 	//DX9 render
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs) STORM_THROW("No service: dx9render");
 	//Vertex declaration
 	CreateVertexDeclaration();
@@ -168,7 +168,7 @@ bool Grass::LoadData(const char * patchName)
 	//Загружаем файл с данными
 	uint8_t * load = nullptr;
 	uint32_t size = 0;
-	if(!_CORE_API->fio->LoadFile(patchName, (char**)&load, &size)) return false;
+	if(!api->fio->LoadFile(patchName, (char**)&load, &size)) return false;
 	try{
 		//Проверим данные
 		if(size < sizeof(GRSHeader)) throw "invalide file size";
@@ -232,7 +232,7 @@ bool Grass::LoadData(const char * patchName)
 			}
 		}
 	}catch(const char * error){
-		_CORE_API->Trace("Grass: incorrect grs file %s (%s)", patchName, error);
+		api->Trace("Grass: incorrect grs file %s (%s)", patchName, error);
 		if(miniMap) delete miniMap; miniMap = nullptr;
 		if(block) delete block; block = nullptr;
 	}
@@ -259,7 +259,7 @@ void Grass::Execute(uint32_t delta_time)
 		initForce++;
 	}
 
-	VDATA * param = _CORE_API->Event("GOpt_GetGrassQuality", nullptr);
+	VDATA * param = api->Event("GOpt_GetGrassQuality", nullptr);
 	long res = rq_full;
 	if(param && param->Get(res))
 	{
@@ -271,7 +271,7 @@ void Grass::Execute(uint32_t delta_time)
 	}
 	if(quality == rq_off) return;
 	//Параметры верта
-	param = _CORE_API->Event("EWhr_GetWindAngle", nullptr);
+	param = api->Event("EWhr_GetWindAngle", nullptr);
 	if(param)
 	{
 		float ang;
@@ -287,7 +287,7 @@ void Grass::Execute(uint32_t delta_time)
 		winDir.x = sinf(ang);
 		winDir.z = cosf(ang);
 	}
-	param = _CORE_API->Event("EWhr_GetWindSpeed", nullptr);
+	param = api->Event("EWhr_GetWindSpeed", nullptr);
 	if(param)
 	{
 		float spd;

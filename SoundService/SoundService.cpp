@@ -84,7 +84,7 @@ SoundService::~SoundService()
 //static TSD_ID i5 = 0;
 bool SoundService::Init()
 {
-	pRS = (VDX9RENDER *) _CORE_API->CreateService("DX9RENDER");
+	pRS = (VDX9RENDER *) api->CreateService("DX9RENDER");
 
 	status = FMOD::System_Create(&fmod_system);
 	FMOD_ERROR("FMOD:System_Create", status);

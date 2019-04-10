@@ -57,10 +57,10 @@ void SYSTEM_API::SetXNF()
 
 void * SYSTEM_API::GetCoreApi()
 {
-	return _CORE_API;
+	return api;
 }
 
 void * SYSTEM_API::CreateService(const char * pServiceName)
 {
-	return _CORE_API->CreateService((char*)pServiceName);
+	return api->CreateService((char*)pServiceName);
 }

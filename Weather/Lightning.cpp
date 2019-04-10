@@ -31,8 +31,8 @@ bool LIGHTNING::Init()
 
 void LIGHTNING::SetDevice()
 {
-	pRS = (VDX9RENDER *)_CORE_API->CreateService("dx9render"); Assert(pRS);
-	pCollide = (COLLIDE*)_CORE_API->CreateService("COLL"); Assert(pCollide);
+	pRS = (VDX9RENDER *)api->CreateService("dx9render"); Assert(pRS);
+	pCollide = (COLLIDE*)api->CreateService("COLL"); Assert(pCollide);
 }
 
 bool LIGHTNING::CreateState(ENTITY_STATE_GEN * state_gen)

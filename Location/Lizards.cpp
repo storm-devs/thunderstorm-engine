@@ -27,15 +27,15 @@ bool Lizards::Init()
 {
 	//Указатель на локацию
 	ENTITY_ID loc;
-	_CORE_API->FindClass(&loc, "location", 0);
-	Location * location = (Location *)_CORE_API->GetEntityPointer(&loc);
+	api->FindClass(&loc, "location", 0);
+	Location * location = (Location *)api->GetEntityPointer(&loc);
 	if(!location) return false;
 	//Заводим ящерец
 	for(long i = 0; i < num; i++) lizard[i].Init(location);
 	//Исполнение
-	_CORE_API->LayerCreate("realize", true, false);
-	_CORE_API->LayerSetFlags("realize", LRFLAG_REALIZE);
-	_CORE_API->LayerAdd("realize", GetID(), 100000);
+	api->LayerCreate("realize", true, false);
+	api->LayerSetFlags("realize", LRFLAG_REALIZE);
+	api->LayerAdd("realize", GetID(), 100000);
 	return true;
 }
 

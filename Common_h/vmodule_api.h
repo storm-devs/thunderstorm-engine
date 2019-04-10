@@ -8,7 +8,7 @@ class VMA;
 
 //extern VMA* _pModuleClassRoot;
 inline std::vector<VMA*> _pModuleClassRoot;
-extern VAPI* _CORE_API;
+extern VAPI* api;
 extern VSYSTEM_API* _VSYSTEM_API;
 extern VAPI* api;
 extern VFILE_SERVICE* fio;

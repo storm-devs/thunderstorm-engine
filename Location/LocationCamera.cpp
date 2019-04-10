@@ -83,22 +83,22 @@ LocationCamera::~LocationCamera()
 bool LocationCamera::Init()
 {
 	//DX9 render
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs) STORM_THROW("No service: dx9render");
 
-	_CORE_API->LayerCreate("execute", true, false);
-	_CORE_API->LayerSetFlags("execute", LRFLAG_EXECUTE);
-	_CORE_API->LayerAdd("execute", GetID(), 0);
+	api->LayerCreate("execute", true, false);
+	api->LayerSetFlags("execute", LRFLAG_EXECUTE);
+	api->LayerAdd("execute", GetID(), 0);
 
-	_CORE_API->LayerCreate("realize", true, false);
-	_CORE_API->LayerSetFlags("realize", LRFLAG_REALIZE);
-	_CORE_API->LayerAdd("realize", GetID(), 100000);
+	api->LayerCreate("realize", true, false);
+	api->LayerSetFlags("realize", LRFLAG_REALIZE);
+	api->LayerAdd("realize", GetID(), 100000);
 	
 	//Море
-	_CORE_API->FindClass(&sea, "sea", 0);
+	api->FindClass(&sea, "sea", 0);
 	
 	//Попробуем получить локацию
-	_CORE_API->FindClass(&loc, "location", 0);
+	api->FindClass(&loc, "location", 0);
 
 	rs->SetPerspective(LOCATIONCAMERA_PERSPECTIVE);
 	//rs->SetPerspective(1.0f);
@@ -143,7 +143,7 @@ void LocationCamera::Realize(uint32_t delta_time)
 	if(!Set()) return;
 	//Управление
 	float oldAx = ax;	
-	_CORE_API->Controls->GetControlState("ChrCamTurnV",cs);
+	api->Controls->GetControlState("ChrCamTurnV",cs);
 	dAx = -cs.lValue*0.05f;//*0.005f;
 	if(character->IsDead()) dAx = 0.0f;
 	float kvax = 8.0f*dltTime;	
@@ -165,7 +165,7 @@ void LocationCamera::Realize(uint32_t delta_time)
 	if(ax < axmin) ax = axmin;
 	if(ax > axmax) ax = axmax;
 	character->LockRotate(false);
-	_CORE_API->Controls->GetControlState("ChrTurnH",cs);
+	api->Controls->GetControlState("ChrTurnH",cs);
 	dAy = cs.lValue * 0.005f;
 	if(dAy > 1.0f) dAy = 1.0f;
 	if(dAy < -1.0f) dAy = -1.0f;
@@ -189,7 +189,7 @@ void LocationCamera::Realize(uint32_t delta_time)
 			//*
 			if(!character->IsFight() && !character->IsDialog() && !character->IsDead())
 			{
-				_CORE_API->Controls->GetControlState("ChrCamCameraSwitch",cs);
+				api->Controls->GetControlState("ChrCamCameraSwitch",cs);
 				if(cs.state == CST_ACTIVATED) isLookMode = !isLookMode;
 				isELook = isLookMode;
 			}//else isLookMode = false;
@@ -206,7 +206,7 @@ void LocationCamera::Realize(uint32_t delta_time)
 				isELook = isLookMode = false;
 				ax = lAx;
 			}else{
-				if(_CORE_API->Controls->GetControlState("ChrCamNormalize", cs))
+				if(api->Controls->GetControlState("ChrCamNormalize", cs))
 				{
 					if(cs.state == CST_ACTIVATED)
 					{
@@ -232,7 +232,7 @@ void LocationCamera::Realize(uint32_t delta_time)
 				if(isSpecialMode)
 				{
 					//Пересчитаем для специального режима велечину изменения угла
-					_CORE_API->Controls->GetControlState("ChrCamTurnH",cs);
+					api->Controls->GetControlState("ChrCamTurnH",cs);
 					dAy = cs.lValue * 0.05f;
 					if(dAy > 1.0f) dAy = 1.0f;
 					if(dAy < -1.0f) dAy = -1.0f;
@@ -294,7 +294,7 @@ void LocationCamera::Realize(uint32_t delta_time)
 		isTeleport = false;
 	}	
 	CVECTOR realPos = camPos;
-	SEA_BASE * sb = (SEA_BASE *)_CORE_API->GetEntityPointer(&sea);
+	SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(&sea);
 	if(sb && wmode != cwm_free && location->IsSwimming())
 	{
 		float seaY = sb->WaveXZ(camPos.x, camPos.z) + 1.0f;
@@ -337,9 +337,9 @@ uint32_t _cdecl LocationCamera::ProcessMessage(MESSAGE & message)
 	{
 	case MSG_CAMERA_SETTARGET:
 		chr = message.EntityID();
-		if(_CORE_API->GetEntityPointer(&chr) == nullptr)
+		if(api->GetEntityPointer(&chr) == nullptr)
 		{
-			_CORE_API->Trace("LocationCamera -> MSG_CAMERA_SETTARGET -> invalidate character id");
+			api->Trace("LocationCamera -> MSG_CAMERA_SETTARGET -> invalidate character id");
 			return 0;
 		}
 		return 1;
@@ -355,7 +355,7 @@ uint32_t _cdecl LocationCamera::ProcessMessage(MESSAGE & message)
 	case MSG_CAMERA_TOPOS:		
 		/*if(lockAx)
 		{
-			_CORE_API->Send_Message(GetID(), "l", MSG_CAMERA_FOLLOW);
+			api->Send_Message(GetID(), "l", MSG_CAMERA_FOLLOW);
 			return 1;
 		}*/
 		fromLook.x = message.Float();
@@ -423,7 +423,7 @@ uint32_t LocationCamera::AttributeChanged(ATTRIBUTES * apnt)
 bool LocationCamera::Set()
 {
 	//Указатель на персонажа
-	Character * c = (Character *)_CORE_API->GetEntityPointer(&chr);
+	Character * c = (Character *)api->GetEntityPointer(&chr);
 	if(!c) return false;
 	//Характеристики персонажа
 	c->GetPosition(pos);
@@ -432,7 +432,7 @@ bool LocationCamera::Set()
 	lheight = height*lookHeight;
 	chradius = c->GetRadius();
 	character = c;
-	location = (Location *)_CORE_API->GetEntityPointer(&loc);
+	location = (Location *)api->GetEntityPointer(&loc);
 	return location != nullptr;
 }
 

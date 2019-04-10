@@ -53,7 +53,7 @@ bool VANT::Init()
 void VANT::SetDevice()
 {
     // получить сервис рендера
-	RenderService = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	RenderService = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!RenderService)
 	{
 		STORM_THROW("No service: dx9render");
@@ -84,11 +84,11 @@ void VANT::Execute(uint32_t Delta_Time)
         //====================================================
         // Если был изменен ини-файл, то считать инфо из него
         WIN32_FIND_DATA	wfd;
-	    HANDLE h = _CORE_API->fio->_FindFirstFile("resource\\ini\\rigging.ini",&wfd);
+	    HANDLE h = api->fio->_FindFirstFile("resource\\ini\\rigging.ini",&wfd);
         if (INVALID_HANDLE_VALUE != h)
 	    {
 		    FILETIME ft_new = wfd.ftLastWriteTime;
-    	    _CORE_API->fio->_FindClose(h);
+    	    api->fio->_FindClose(h);
 
 	        if (CompareFileTime(&ft_old,&ft_new)!=0)
             {
@@ -163,7 +163,7 @@ uint32_t _cdecl VANT::ProcessMessage(MESSAGE & message)
 			gdata[groupQuantity-1].shipEI = message.EntityID();
 			gdata[groupQuantity-1].model_id = message.EntityID();
 			MODEL* mdl;
-			mdl=(MODEL*)_CORE_API->GetEntityPointer(&gdata[groupQuantity-1].model_id);
+			mdl=(MODEL*)api->GetEntityPointer(&gdata[groupQuantity-1].model_id);
 			if(mdl==nullptr)
 				STORM_THROW("Bad Vant INIT");
 
@@ -561,13 +561,13 @@ void VANT::LoadIni()
 
 	INIFILE * ini;
 	WIN32_FIND_DATA	wfd;
-	HANDLE h = _CORE_API->fio->_FindFirstFile("resource\\ini\\rigging.ini",&wfd);
+	HANDLE h = api->fio->_FindFirstFile("resource\\ini\\rigging.ini",&wfd);
 	if (INVALID_HANDLE_VALUE != h)
 	{
 		ft_old = wfd.ftLastWriteTime;
-		_CORE_API->fio->_FindClose(h);
+		api->fio->_FindClose(h);
 	}
-	ini = _CORE_API->fio->OpenIniFile("resource\\ini\\rigging.ini");
+	ini = api->fio->OpenIniFile("resource\\ini\\rigging.ini");
 	if(!ini) THROW("rigging.ini file not found!");
 
 	sprintf_s(section,"VANTS");

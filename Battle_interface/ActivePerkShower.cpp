@@ -26,7 +26,7 @@ ActivePerkShower::~ActivePerkShower()
 
 bool ActivePerkShower::Init()
 {
-	if( (rs=(VDX9RENDER *)_CORE_API->CreateService("dx9render")) == nullptr )
+	if( (rs=(VDX9RENDER *)api->CreateService("dx9render")) == nullptr )
 	{
 		STORM_THROW("Can`t create render service");
 	}

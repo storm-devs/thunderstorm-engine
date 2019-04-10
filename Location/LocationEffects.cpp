@@ -62,16 +62,16 @@ LocationEffects::~LocationEffects()
 bool LocationEffects::Init()
 {
 	//DX9 render
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs) STORM_THROW("No service: dx9render");
 
-	_CORE_API->LayerCreate("execute", true, false);
-	_CORE_API->LayerSetFlags("execute", LRFLAG_EXECUTE);
-	_CORE_API->LayerAdd("execute", GetID(), 10);
+	api->LayerCreate("execute", true, false);
+	api->LayerSetFlags("execute", LRFLAG_EXECUTE);
+	api->LayerAdd("execute", GetID(), 10);
 
-	_CORE_API->LayerCreate("realize", true, false);
-	_CORE_API->LayerSetFlags("realize", LRFLAG_REALIZE);
-	_CORE_API->LayerAdd("realize", GetID(), 1000000);
+	api->LayerCreate("realize", true, false);
+	api->LayerSetFlags("realize", LRFLAG_REALIZE);
+	api->LayerAdd("realize", GetID(), 1000000);
 
 	splashesTxt = rs->TextureCreate("LocEfx\\chrsplprt.tga");
 	flyTex = rs->TextureCreate("LocEfx\\firefly.tga");
@@ -519,7 +519,7 @@ void LocationEffects::ProcessedShotgun(float dltTime)
 {
 	if(!isShgInited) return;
 	CVECTOR winDir = 0.0f;
-	VDATA * param = _CORE_API->Event("EWhr_GetWindAngle", nullptr);
+	VDATA * param = api->Event("EWhr_GetWindAngle", nullptr);
 	if(param)
 	{
 		float ang;
@@ -527,7 +527,7 @@ void LocationEffects::ProcessedShotgun(float dltTime)
 		winDir.x = sinf(ang);
 		winDir.z = cosf(ang);
 	}
-	param = _CORE_API->Event("EWhr_GetWindSpeed", nullptr);
+	param = api->Event("EWhr_GetWindSpeed", nullptr);
 	if(param)
 	{
 		float spd;

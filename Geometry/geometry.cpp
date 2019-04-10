@@ -51,10 +51,10 @@ void GEOMETRY::SetVBConvertFunc(VERTEX_TRANSFORM _transform_func)
 static bool geoLog = false;
 bool GEOMETRY::Init()
 {
-	RenderService = (VDX9RENDER *)_CORE_API->CreateService(RenderServiceName);
+	RenderService = (VDX9RENDER *)api->CreateService(RenderServiceName);
 	if(!RenderService)
 	{
-		_CORE_API->Trace("No service: %s",RenderServiceName);
+		api->Trace("No service: %s",RenderServiceName);
 	}
 	GSR.SetRenderService(RenderService);
 
@@ -126,12 +126,12 @@ GEOS * GEOMETRY::CreateGeometry(const char * file_name,const char * light_file_n
 	}
 	catch(const char *ee)
 	{
-		_CORE_API->Trace("%s: %s", fnt, ee);
+		api->Trace("%s: %s", fnt, ee);
 		return nullptr;
 	}
 	catch(...)
 	{
-		_CORE_API->Trace("Invalid model: %s", fnt);
+		api->Trace("Invalid model: %s", fnt);
 		return nullptr;
 	}
 
@@ -190,9 +190,9 @@ void GEOM_SERVICE_R::SetRenderService(VDX9RENDER * render_service)
 GEOS::ID GEOM_SERVICE_R::OpenFile(const char *fname)
 {
 	if(RenderService) RenderService->ProgressView();
-	HANDLE fl = _CORE_API->fio->_CreateFile(fname,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
+	HANDLE fl = api->fio->_CreateFile(fname,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 	if(fl==INVALID_HANDLE_VALUE)
-		if(_strcmpi(&fname[strlen(fname)-4], ".col")==0);//	_CORE_API->Trace("geometry::can't open file %s", fname);
+		if(_strcmpi(&fname[strlen(fname)-4], ".col")==0);//	api->Trace("geometry::can't open file %s", fname);
 		else	throw "can't open geometry file";
 	return (GEOS::ID)fl;
 }
@@ -201,16 +201,16 @@ int GEOM_SERVICE_R::FileSize(GEOS::ID file)
 {
 	if((HANDLE)file==INVALID_HANDLE_VALUE)	return 0;
 	uint32_t sh;
-	return _CORE_API->fio->_GetFileSize((HANDLE)file, &sh);
+	return api->fio->_GetFileSize((HANDLE)file, &sh);
 }
 void GEOM_SERVICE_R::ReadFile(GEOS::ID file, void *data, long bytes)
 {
-	_CORE_API->fio->_ReadFile((HANDLE)file,data,bytes,nullptr);
+	api->fio->_ReadFile((HANDLE)file,data,bytes,nullptr);
 }
 
 void GEOM_SERVICE_R::CloseFile(GEOS::ID file)
 {
-	_CORE_API->fio->_CloseHandle((HANDLE)file);
+	api->fio->_CloseHandle((HANDLE)file);
 }
 
 void * GEOM_SERVICE_R::malloc(long bytes)

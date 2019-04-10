@@ -22,7 +22,7 @@ TFlotsam::~TFlotsam()
 
 	if (!modelsInitialized)
 		for (int i=0; i<FLOTSAM_MODELS_COUNT; i++)
-			_CORE_API->DeleteEntity(modelIDs[i]);
+			api->DeleteEntity(modelIDs[i]);
 }
 
 //--------------------------------------------------------------------
@@ -58,9 +58,9 @@ void TFlotsam::Initialize(SEA_BASE *_sea)
 
 		for (int i=0; i<FLOTSAM_MODELS_COUNT; i++)
 		{
-			_CORE_API->CreateEntity(&modelIDs[i],"MODELR");
-			_CORE_API->Send_Message(modelIDs[i],"ls",MSG_MODEL_LOAD_GEO, modelNames[i]);
-			models[i] = (MODEL*)_CORE_API->GetEntityPointer(&modelIDs[i]);
+			api->CreateEntity(&modelIDs[i],"MODELR");
+			api->Send_Message(modelIDs[i],"ls",MSG_MODEL_LOAD_GEO, modelNames[i]);
+			models[i] = (MODEL*)api->GetEntityPointer(&modelIDs[i]);
 		}
 	}
 

@@ -21,7 +21,7 @@ Debris::Debris(Pillar & _pillar) : pillar(_pillar)
 {
 	numModels = 0;
 	flyCounter = 0;
-	shipcode = _CORE_API->Class_Name2Code("ship");
+	shipcode = api->Class_Name2Code("ship");
 	SetGlobalAlpha(1.0f);
 	soundService = nullptr;
 	lastPlayTime = 0.0f;
@@ -29,7 +29,7 @@ Debris::Debris(Pillar & _pillar) : pillar(_pillar)
 
 Debris::~Debris()
 {
-	for(long i = 0; i < numModels; i++) _CORE_API->DeleteEntity(mdl[i].mdl->GetID());
+	for(long i = 0; i < numModels; i++) api->DeleteEntity(mdl[i].mdl->GetID());
 }
 
 void Debris::Init()
@@ -142,23 +142,23 @@ void Debris::AddModel(const char * modelName, float prt, float spd)
 	if(numModels > _countof(mdl)) return;
 	//Создаём модельку
 	ENTITY_ID id;
-	if(!_CORE_API->CreateEntity(&id, "modelr")) return;
-	MODEL * m = (MODEL *)_CORE_API->GetEntityPointer(&id);
+	if(!api->CreateEntity(&id, "modelr")) return;
+	MODEL * m = (MODEL *)api->GetEntityPointer(&id);
 	if(!m) return;
 	//Путь для текстур
-	VGEOMETRY * gs = (VGEOMETRY *)_CORE_API->CreateService("geometry");
+	VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
 	if(!gs) return;
 	gs->SetTexturePath("Tornado\\");
 	//Загружаем
 	try
 	{
-		_CORE_API->Send_Message(id,
+		api->Send_Message(id,
 								"ls",
 								MSG_MODEL_LOAD_GEO,
 								modelName);
 	}catch(...){
 		gs->SetTexturePath("");
-		_CORE_API->DeleteEntity(id);
+		api->DeleteEntity(id);
 		return;
 	}
 	gs->SetTexturePath("");
@@ -199,14 +199,14 @@ MODEL * Debris::SelectModel(float & maxSpd)
 bool Debris::IsShip()
 {
 	ENTITY_ID id;
-	bool res = _CORE_API->FindClass(&id, nullptr, shipcode);
+	bool res = api->FindClass(&id, nullptr, shipcode);
 	if(!res) return false;
 	CVECTOR p(pillar.GetX(0.0f), 0.0f, pillar.GetZ(0.0f));
 	CVECTOR pos;
-	for(; res; res = _CORE_API->FindClassNext(&id))
+	for(; res; res = api->FindClassNext(&id))
 	{
 		//Указатель на объект
-		VAI_OBJBASE * ship = (VAI_OBJBASE *)_CORE_API->GetEntityPointer(&id);
+		VAI_OBJBASE * ship = (VAI_OBJBASE *)api->GetEntityPointer(&id);
 		if(!ship) break;
 		//Позиция торнадо в системе корабля
 		Assert(ship->GetMatrix());

@@ -12,7 +12,7 @@ PCS_CONTROLS::PCS_CONTROLS()
 	fMouseSensivityY = 1.0f;
 
 	nFrameCounter = 0;
-	api = _CORE_API;
+	api = api;
 
 	nSystemControlsNum = 0;
 
@@ -20,7 +20,7 @@ PCS_CONTROLS::PCS_CONTROLS()
 
 	//nMouseXPrev = nMouseYPrev = 0;
 	RECT r;
-	GetWindowRect(_CORE_API->GetAppHWND(),&r);
+	GetWindowRect(api->GetAppHWND(),&r);
 	nMouseXPrev = r.left + (r.right - r.left)/2;
 	nMouseYPrev = r.top + (r.bottom - r.top)/2;
 
@@ -36,7 +36,7 @@ PCS_CONTROLS::PCS_CONTROLS()
 	}
 
 	//RECT r;
-	//GetWindowRect(_CORE_API->GetAppHWND(),&r);
+	//GetWindowRect(api->GetAppHWND(),&r);
 	//ClipCursor(&r);
 }
 
@@ -51,7 +51,7 @@ void PCS_CONTROLS::AppState(bool state)
 	if(state) 
 	{
 		//RECT r;
-		//GetWindowRect(_CORE_API->GetAppHWND(),&r);
+		//GetWindowRect(api->GetAppHWND(),&r);
 		//ClipCursor(&r);
 	}
 	else 
@@ -456,7 +456,7 @@ void PCS_CONTROLS::Update(uint32_t DeltaTime)
 	nMouseWheel = 0;
 
 	RECT r;
-	GetWindowRect(_CORE_API->GetAppHWND(),&r);
+	GetWindowRect(api->GetAppHWND(),&r);
 	nMouseXPrev = r.left + (r.right - r.left)/2;
 	nMouseYPrev = r.top + (r.bottom - r.top)/2;
 	SetCursorPos(nMouseXPrev,nMouseYPrev);

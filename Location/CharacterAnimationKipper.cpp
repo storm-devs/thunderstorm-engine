@@ -41,17 +41,17 @@ bool CharacterAnimationKipper::Init()
 {
 	//Проверим что единственные
 	ENTITY_ID eid;
-	if(_CORE_API->FindClass(&eid, "CharacterAnimationKipper", 0))
+	if(api->FindClass(&eid, "CharacterAnimationKipper", 0))
 	{
-		if(_CORE_API->GetEntityPointer(&eid) != this || _CORE_API->FindClassNext(&eid))
+		if(api->GetEntityPointer(&eid) != this || api->FindClassNext(&eid))
 		{
-			_CORE_API->Trace("CharacterAnimationKipper::Init() -> CharacterAnimationKipper already created");
+			api->Trace("CharacterAnimationKipper::Init() -> CharacterAnimationKipper already created");
 			return false;
 		}
 	}
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs) STORM_THROW("No service: dx9render");
-	AnimationService * asr = (AnimationService *)_CORE_API->CreateService("AnimationServiceImp");
+	AnimationService * asr = (AnimationService *)api->CreateService("AnimationServiceImp");
 	if(!asr) STORM_THROW("Anumation service not created!");
 	aniMan = asr->CreateAnimation("man");
 	aniWoman = asr->CreateAnimation("towngirl");

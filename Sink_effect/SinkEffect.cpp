@@ -31,10 +31,10 @@ bool SINKEFFECT::Init()
 	GUARD(SINKEFFECT::Init)
 
 	ENTITY_ID seaID;
-	_CORE_API->FindClass(&seaID, "sea", 0);
-	sea = (SEA_BASE*) _CORE_API->GetEntityPointer(&seaID);
+	api->FindClass(&seaID, "sea", 0);
+	sea = (SEA_BASE*) api->GetEntityPointer(&seaID);
 
-	renderer = (VDX9RENDER *) _CORE_API->CreateService("dx9render");
+	renderer = (VDX9RENDER *) api->CreateService("dx9render");
 
 	InitializeSinks();
 
@@ -59,10 +59,10 @@ uint32_t _cdecl SINKEFFECT::ProcessMessage(MESSAGE & message)
 			ATTRIBUTES *attrs = message.AttributePointer();
 			if (attrs)
 			{
-				if (_CORE_API->FindClass(&shipID, "ship", 0))
+				if (api->FindClass(&shipID, "ship", 0))
 				{
 					/*
-					shipBase = (SHIP_BASE *) _CORE_API->GetEntityPointer(&shipID);
+					shipBase = (SHIP_BASE *) api->GetEntityPointer(&shipID);
 					if (shipBase->GetACharacter() == attrs)
 					{
 						TryToAddSink(shipBase->GetPos(), shipBase->GetBoxsize().z / 2.0f);
@@ -71,13 +71,13 @@ uint32_t _cdecl SINKEFFECT::ProcessMessage(MESSAGE & message)
 
 					do 
 					{
-						shipBase = (SHIP_BASE *) _CORE_API->GetEntityPointer(&shipID);
+						shipBase = (SHIP_BASE *) api->GetEntityPointer(&shipID);
 						if (shipBase->GetACharacter() == attrs)
 						{
 							TryToAddSink(shipBase->GetPos(), shipBase->GetBoxsize().z / 2.0f);
 							return outValue;
 						}
-					} while (_CORE_API->FindClassNext(&shipID));
+					} while (api->FindClassNext(&shipID));
 				}//if (FindClass)
 			}//if (attrs)
 		}//case
@@ -134,7 +134,7 @@ void SINKEFFECT::Execute(uint32_t _dTime)
 //--------------------------------------------------------------------
 void SINKEFFECT::InitializeSinks()
 {
-	INIFILE *psIni = _CORE_API->fio->OpenIniFile("resource\\ini\\particles.ini");
+	INIFILE *psIni = api->fio->OpenIniFile("resource\\ini\\particles.ini");
 
 	for (int i = 0; i < MAX_SINKS; ++i)
 	{

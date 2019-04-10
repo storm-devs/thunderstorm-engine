@@ -205,7 +205,7 @@ public:
 
 	// ENTITY_ID functions
 		ENTITY_ID		GetShipEID() const { return eidShip; };
-		ENTITY			* GetShipPointer() const { return _CORE_API->GetEntityPointer(&GetShipEID()); };
+		ENTITY			* GetShipPointer() const { return api->GetEntityPointer(&GetShipEID()); };
 		SHIP_BASE		* GetShipBasePointer() const { return (SHIP_BASE*)GetShipPointer(); };
 		VAI_OBJBASE		* GetAIObjShipPointer() const { return (VAI_OBJBASE*)GetShipPointer(); };
 

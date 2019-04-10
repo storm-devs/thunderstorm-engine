@@ -53,27 +53,27 @@ bool Fader::Init()
 	GUARD(Fader::Init())
 	//Проверим что единственные
 	ENTITY_ID eid;
-	if(_CORE_API->FindClass(&eid, "Fader", 0))
+	if(api->FindClass(&eid, "Fader", 0))
 	{
-		if(_CORE_API->GetEntityPointer(&eid) != this || _CORE_API->FindClassNext(&eid))
+		if(api->GetEntityPointer(&eid) != this || api->FindClassNext(&eid))
 		{
-			if(fadeIn == ((Fader *)_CORE_API->GetEntityPointer(&eid))->fadeIn)
+			if(fadeIn == ((Fader *)api->GetEntityPointer(&eid))->fadeIn)
 			{
-				_CORE_API->Trace("Fader::Init() -> Fader already created, %s", fadeIn ? "fade in phase" : "fade out phase");
+				api->Trace("Fader::Init() -> Fader already created, %s", fadeIn ? "fade in phase" : "fade out phase");
 			}
 			//!!!
 			//return false;
 		}
 	}
 	//Layers
-	_CORE_API->LayerCreate("fader_realize", true, false);
-	_CORE_API->LayerSetRealize("fader_realize", true);
-	_CORE_API->LayerAdd("fader_realize", GetID(), -256);
-	_CORE_API->LayerCreate("fader_execute", true, false);
-	_CORE_API->LayerSetExecute("fader_execute", true);
-	_CORE_API->LayerAdd("fader_execute", GetID(), -256);
+	api->LayerCreate("fader_realize", true, false);
+	api->LayerSetRealize("fader_realize", true);
+	api->LayerAdd("fader_realize", GetID(), -256);
+	api->LayerCreate("fader_execute", true, false);
+	api->LayerSetExecute("fader_execute", true);
+	api->LayerAdd("fader_execute", GetID(), -256);
 	//DX9 render
-	rs = (VDX9RENDER *)_CORE_API->CreateService("dx9render");
+	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs) STORM_THROW("No service: dx9render");
 	D3DVIEWPORT9 vp;
 	rs->GetViewport(&vp);
@@ -182,18 +182,18 @@ void Fader::Execute(uint32_t delta_time)
 	if(deleteMe)
 	{
 		deleteMe++;
-		if(deleteMe >= 3) _CORE_API->DeleteEntity(GetID());
+		if(deleteMe >= 3) api->DeleteEntity(GetID());
 	}
 	if(eventStart)
 	{
 		eventStart = false;
 		if(!fadeIn)
 		{
-			_CORE_API->PostEvent("FaderEvent_StartFade", 0, "li", fadeIn, GetID());
-			//_CORE_API->Trace("FaderEvent_StartFade");
+			api->PostEvent("FaderEvent_StartFade", 0, "li", fadeIn, GetID());
+			//api->Trace("FaderEvent_StartFade");
 		}else{
-			_CORE_API->PostEvent("FaderEvent_StartFadeIn", 0, "li", fadeIn, GetID());
-		//	_CORE_API->Trace("FaderEvent_StartFadeIn");
+			api->PostEvent("FaderEvent_StartFadeIn", 0, "li", fadeIn, GetID());
+		//	api->Trace("FaderEvent_StartFadeIn");
 		}
 	}
 	if(eventEnd)
@@ -202,11 +202,11 @@ void Fader::Execute(uint32_t delta_time)
 		deleteMe = isAutodelete;
 		if(!fadeIn)
 		{
-			_CORE_API->PostEvent("FaderEvent_EndFade", 0, "li", fadeIn, GetID());
-			//_CORE_API->Trace("FaderEvent_EndFade");
+			api->PostEvent("FaderEvent_EndFade", 0, "li", fadeIn, GetID());
+			//api->Trace("FaderEvent_EndFade");
 		}else{
-			_CORE_API->PostEvent("FaderEvent_EndFadeIn", 0, "li", fadeIn, GetID());
-		//	_CORE_API->Trace("FaderEvent_EndFadeIn");
+			api->PostEvent("FaderEvent_EndFadeIn", 0, "li", fadeIn, GetID());
+		//	api->Trace("FaderEvent_EndFadeIn");
 		}
 	}
 }
@@ -236,12 +236,12 @@ void Fader::Realize(uint32_t delta_time)
 						}
 					}
 				}
-				if(!isOk) _CORE_API->Trace("Screen shot for fader not created!");
+				if(!isOk) api->Trace("Screen shot for fader not created!");
 			}else{
 				//Копируем шот
 				if(rs->UpdateSurface(surface, nullptr, 0, renderTarget, nullptr) != D3D_OK)
 				{
-					_CORE_API->Trace("Can't copy fader screen shot to render target!");
+					api->Trace("Can't copy fader screen shot to render target!");
 				}
 			}
 		}

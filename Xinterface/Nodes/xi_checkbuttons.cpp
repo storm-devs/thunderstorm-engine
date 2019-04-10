@@ -82,7 +82,7 @@ void CXI_CHECKBUTTONS::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 	if( ReadIniString(ini1,name1, ini2,name2, "font", param, sizeof(param),"") )
 	{
 		if( (m_nFontNum=m_rs->LoadFont(param))==-1 )
-			_CORE_API->Trace("can not load font:'%s'",param);
+			api->Trace("can not load font:'%s'",param);
 	}
 	m_fFontScale = GetIniFloat( ini1,name1, ini2,name2, "fontScale", 1.f );
 

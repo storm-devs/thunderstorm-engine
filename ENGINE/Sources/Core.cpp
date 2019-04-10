@@ -522,16 +522,16 @@ void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 	if(res)
 	{
 		//if(Controls) delete Controls; Controls = 0;
-		_CORE_API->Controls = (CONTROLS *)MakeClass(String);
-		//if(_CORE_API->Controls == 0) _CORE_API->Controls = new CONTROLS;
-		if(_CORE_API->Controls == nullptr) _CORE_API->Controls = (CONTROLS *)MakeClass("controls");
+		api->Controls = (CONTROLS *)MakeClass(String);
+		//if(api->Controls == 0) api->Controls = new CONTROLS;
+		if(api->Controls == nullptr) api->Controls = (CONTROLS *)MakeClass("controls");
 
 	}
 	else
 	{
 		if(Controls) delete Controls; Controls = nullptr;
 
-		_CORE_API->Controls = new CONTROLS;
+		api->Controls = new CONTROLS;
 	}
 #else
 	if(!Controls) Controls = (CONTROLS *)MakeClass("xbox_controls");
