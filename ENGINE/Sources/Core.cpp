@@ -84,7 +84,7 @@ void CORE::ResetCore()
 	DeleteServicesList.Release();
 	Services_List.Release();
 	DeleteLayerList.Release();
-	Control_Stack.Clear();
+	//Control_Stack.Clear();
 
 	SystemMessagesNum = 0;
 	Scan_Layer_Code = INVALID_LAYER_CODE;
@@ -106,7 +106,7 @@ void CORE::CleanUp()
 	Initialized = false;
 	bEngineIniProcessed = false;
 
-	Control_Stack.Clear();
+	//Control_Stack.Clear();
 
 	//Program.Release();
 
@@ -846,7 +846,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 	System_Api.entityID_PTR = nullptr;
 
 	// Push was made in Entity base class constructor
-	POP_CONTROL(nullptr)
+	//POP_CONTROL(nullptr)
 
 	// class description already exist, but class not implemented ... write to log
 	if(Entity_PTR == nullptr)
@@ -874,14 +874,14 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 	}
 	// call to entity initialize function
 	//PUSH_CONTROL(Entity_PTR,class_code,CTP_INIT)
-	PUSH_CONTROL(Entity_PTR,hash,CTP_INIT)
+	//PUSH_CONTROL(Entity_PTR,hash,CTP_INIT)
 	#ifndef EX_OFF
 		try {
 	#endif
 
 		if(!Entity_PTR->Init())
 		{
-			POP_CONTROL(nullptr)
+			//POP_CONTROL(nullptr)
 			MarkEntityAsDeleted(Entity_PTR->GetID());
 			CheckAutoExceptions(_X_NO_CREATE_ENTITY);
 			return false;
@@ -904,7 +904,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 		}
 	#endif
 
-	POP_CONTROL(nullptr)
+	//POP_CONTROL(nullptr)
 
 
 
@@ -1277,11 +1277,11 @@ bool CORE::ValidateEntity(ENTITY_ID * id_PTR)
 bool CORE::MarkEntityAsDeleted(ENTITY_ID entity_id)
 {
 	GUARD(CORE::MarkEntityAsDeleted(ENTITY_ID))
-	PUSH_CONTROL(0,0,0)
+	//PUSH_CONTROL(0,0,0)
 	if(!ValidateEntity(&entity_id)) return false;
 	Atoms_PTR[entity_id.atom_position]->as.Deleted = true;
 	DeleteEntityList.AddData(&entity_id);
-	POP_CONTROL(nullptr)
+	//POP_CONTROL(nullptr)
 	UNGUARD
 	return true;
 }
@@ -1767,21 +1767,21 @@ uint32_t _cdecl CORE::Send_Message(ENTITY_ID Destination,char * Format,...)
 	GUARD(CORE::Send_Message)
 	VALIDATE_API_CALLS
 	MESSAGE message;
-	CONTROL_BLOCK cb;
+	//CONTROL_BLOCK cb;
 	if(!ValidateEntity(&Destination)) return 0;				// check for valid destination
 	message.Reset(Format);									// reset message class
-	Control_Stack.Read(&cb);								// read top (current) entity information
-	if(cb.pointer)
-	message.Sender_ID = ((ENTITY *)cb.pointer)->GetID();	// set sender information
-	else
-	{
+	//Control_Stack.Read(&cb);								// read top (current) entity information
+	//if(cb.pointer)
+	//message.Sender_ID = ((ENTITY *)cb.pointer)->GetID();	// set sender information
+	//else
+	//{
 		PZERO(&message.Sender_ID,sizeof(ENTITY_ID));
-	}
+	//}
 	va_start(message.args,Format);
 	// push into stack new top entity
-	PUSH_CONTROL(Destination.pointer,Destination.class_code,CTP_MESSAGE)
+	//PUSH_CONTROL(Destination.pointer,Destination.class_code,CTP_MESSAGE)
 	rc = ((ENTITY *)Destination.pointer)->ProcessMessage(message);	// transfer control
-	POP_CONTROL(nullptr)	// pop from stack entity
+	//POP_CONTROL(nullptr)	// pop from stack entity
 	va_end(message.args);
 	UNGUARD
 	return rc;
@@ -1857,7 +1857,7 @@ VDATA * _cdecl CORE::Event(char * Event_name, char * Format,...)
 {
 	VDATA * pVD;
 	GUARD(CORE::Event)
-	PUSH_CONTROL(0,0,0)
+	//PUSH_CONTROL(0,0,0)
 
 
 	pVD = nullptr;
@@ -1865,7 +1865,7 @@ VDATA * _cdecl CORE::Event(char * Event_name, char * Format,...)
 	{
 		pVD = Compiler.ProcessEvent(Event_name);
 
-		POP_CONTROL(nullptr)
+		//POP_CONTROL(nullptr)
 		return pVD;
 	}
 	MESSAGE message;
@@ -1875,7 +1875,7 @@ VDATA * _cdecl CORE::Event(char * Event_name, char * Format,...)
 	pVD = Compiler.ProcessEvent(Event_name,message);
 
 	va_end(message.args);
-	POP_CONTROL(nullptr)
+	//POP_CONTROL(nullptr)
 	UNGUARD
 	return pVD;
 }
@@ -1961,13 +1961,13 @@ void * CORE::CreateService(char * service_name)
 
 	if(pClass->GetReference() > 0) return pClass->CreateClass();
 
-	PUSH_CONTROL(0,0,0)
+	//PUSH_CONTROL(0,0,0)
 	service_PTR = (SERVICE *)pClass->CreateClass();
-	POP_CONTROL(nullptr)
+	//POP_CONTROL(nullptr)
 
 	class_code = MakeHashValue(service_name);
 	pClass->SetHash(class_code);
-	PUSH_CONTROL(0,class_code,CTP_INIT)
+	//PUSH_CONTROL(0,class_code,CTP_INIT)
 	#ifndef EX_OFF
 	try {
 	#endif
@@ -1986,11 +1986,11 @@ void * CORE::CreateService(char * service_name)
 		TraceCurrent();	POP_CONTROL(0); STORM_THROW(CreateService: Init func);
 	}
 	#endif
-	POP_CONTROL(nullptr)
+	//POP_CONTROL(nullptr)
 
-	PUSH_CONTROL(0,0,0)
+	//PUSH_CONTROL(0,0,0)
 	Services_List.Add(class_code,class_code,service_PTR);
-	POP_CONTROL(nullptr)
+	//POP_CONTROL(nullptr)
 
 	UNGUARD
 	return service_PTR;
@@ -2062,9 +2062,9 @@ void CORE::ProcessExecute()
 				{
 				//trace("Ex St: %s",eid_PTR->pName);
 					RDTSC_B(ticks);
-				PUSH_CONTROL(eid_PTR->pointer,eid_PTR->class_code,CTP_EXECUTE)
+				//PUSH_CONTROL(eid_PTR->pointer,eid_PTR->class_code,CTP_EXECUTE)
 				((ENTITY *)eid_PTR->pointer)->Execute(deltatime);
-				POP_CONTROL(nullptr)
+				//POP_CONTROL(nullptr)
 				RDTSC_E(ticks);
 				//trace("Ex En: %s",eid_PTR->pName);
 
@@ -2112,9 +2112,9 @@ void CORE::ProcessRealize()
 				{
 				//trace("Re St: %s",eid_PTR->pName);
 				RDTSC_B(ticks);
-				PUSH_CONTROL(eid_PTR->pointer,eid_PTR->class_code,CTP_REALIZE)
+				//PUSH_CONTROL(eid_PTR->pointer,eid_PTR->class_code,CTP_REALIZE)
 				((ENTITY *)eid_PTR->pointer)->Realize(deltatime);
-				POP_CONTROL(nullptr)
+				//POP_CONTROL(nullptr)
 				RDTSC_E(ticks);
 				//trace("Re En: %s",eid_PTR->pName);
 
@@ -2154,9 +2154,9 @@ void CORE::ProcessSystemMessagesBuffer()
 				if(!Atoms_PTR[eid_PTR->atom_position]->as.Deleted)
 				for(i=0;i<SystemMessagesNum;i++)
 				{
-					PUSH_CONTROL(eid_PTR->pointer,eid_PTR->class_code,CTP_MESSAGE_SYSTEM)
+					//PUSH_CONTROL(eid_PTR->pointer,eid_PTR->class_code,CTP_MESSAGE_SYSTEM)
 					((ENTITY *)eid_PTR->pointer)->ProcessMessage(MessageStack[i].iMsg,MessageStack[i].wParam,MessageStack[i].lParam);
-					POP_CONTROL(nullptr)
+					//POP_CONTROL(nullptr)
 				}
 			}
 			eid_PTR = l_PTR->GetNextID();
@@ -2171,7 +2171,7 @@ void CORE::ProcessSystemMessagesBuffer()
 
 void CORE::TraceCurrent()
 {
-	GUARD(CORE::TraceCurrent)
+	/*GUARD(CORE::TraceCurrent)
 	CONTROL_BLOCK cb;
 	VMA * pClass;
 	if(Control_Stack.Read(&cb))
@@ -2188,7 +2188,7 @@ void CORE::TraceCurrent()
 		}
 	}
 	trace("Object: CORE");
-	UNGUARD
+	UNGUARD*/
 }
 
 // OR operation with core exceptions mask inversion, returned current mask state
@@ -2437,9 +2437,9 @@ bool CORE::SaveState(char * file_name)
 		entity_PTR = GetEntityPointer(&id);
 		if(entity_PTR == nullptr) THROW;
 		// transfer control to entity, for saving objects data
-		PUSH_CONTROL(entity_PTR,id.class_code,CTP_CREATESTATE)
+		//PUSH_CONTROL(entity_PTR,id.class_code,CTP_CREATESTATE)
 		entity_PTR->CreateState(&esg);
-		POP_CONTROL(nullptr)
+		//POP_CONTROL(nullptr)
 		esg.CloseState();
 	}
 
@@ -2458,7 +2458,7 @@ bool CORE::InitiateStateLoading(char * file_name)
 	VALIDATE_API_CALLS // no necessary
 
 	HANDLE fh;
-	PUSH_CONTROL(0,0,0)
+	//PUSH_CONTROL(0,0,0)
 	fio->SetDrive(XBOXDRIVE_NONE);
 	fh = fio->_CreateFile(file_name,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 	fio->SetDrive();
@@ -2470,7 +2470,7 @@ bool CORE::InitiateStateLoading(char * file_name)
 	State_file_name = (char *)new char[len];
 	if(State_file_name == nullptr) THROW;
 	strcpy_s(State_file_name, len, file_name);
-	POP_CONTROL(nullptr)
+	//POP_CONTROL(nullptr)
 	UNGUARD
 	return true;
 }
@@ -2678,7 +2678,7 @@ void CORE::ProcessStateLoading()
 		try {
 		#endif
 			// prepare to transfer control to object
-			PUSH_CONTROL(entity_PTR,entity_id.class_code,CTP_LOADSTATE)
+			//PUSH_CONTROL(entity_PTR,entity_id.class_code,CTP_LOADSTATE)
 			// transfer control for loading object state
 			if(!entity_PTR->LoadState(&es))
 			{
@@ -2686,7 +2686,7 @@ void CORE::ProcessStateLoading()
 				TraceCurrent();
 				STORM_THROW(state loading error);
 			}
-			POP_CONTROL(nullptr)
+			//POP_CONTROL(nullptr)
 		#ifndef EX_OFF
 		}
 		catch(_EXS xobj)
@@ -2726,9 +2726,9 @@ void CORE::ProcessRunStart(uint32_t section_code)
 		section = service_PTR->RunSection();
 		if(section == section_code)
 		{
-			PUSH_CONTROL(service_PTR,class_code,CTP_RUNSTART)
+			//PUSH_CONTROL(service_PTR,class_code,CTP_RUNSTART)
 			service_PTR->RunStart();
-			POP_CONTROL(nullptr)
+			//POP_CONTROL(nullptr)
 		}
 		service_PTR = Services_List.GetServiceNext(class_code);
 	}
@@ -2747,9 +2747,9 @@ void CORE::ProcessRunEnd(uint32_t section_code)
 		section = service_PTR->RunSection();
 		if(section == section_code)
 		{
-			PUSH_CONTROL(service_PTR,class_code,CTP_RUNSTART)
+			//PUSH_CONTROL(service_PTR,class_code,CTP_RUNSTART)
 			service_PTR->RunEnd();
-			POP_CONTROL(nullptr)
+			//POP_CONTROL(nullptr)
 		}
 		service_PTR = Services_List.GetServiceNext(class_code);
 	}
@@ -2772,7 +2772,7 @@ bool CORE::InitObject(ENTITY_ID eid)
 
 	Entity_PTR = (ENTITY *)entity_id.pointer;
 
-	PUSH_CONTROL(Entity_PTR,entity_id.class_code,CTP_INIT)
+	//PUSH_CONTROL(Entity_PTR,entity_id.class_code,CTP_INIT)
 	#ifndef EX_OFF
 	try {
 	#endif
@@ -2799,7 +2799,7 @@ bool CORE::InitObject(ENTITY_ID eid)
 		STORM_THROW(cant init);
 	}
 	#endif
-	POP_CONTROL(nullptr)
+	//POP_CONTROL(nullptr)
 
 	UNGUARD
 	return true;

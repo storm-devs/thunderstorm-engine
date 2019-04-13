@@ -16,7 +16,7 @@ bool Error_Flag = false;
 bool bNetActive;
 char Last_Error[512];
 
-CONTROL_STACK Control_Stack;
+//CONTROL_STACK Control_Stack;
 SYSTEM_API System_Api;
 VSYSTEM_API* _VSYSTEM_API;
 

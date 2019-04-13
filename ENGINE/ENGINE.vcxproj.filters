@@ -533,9 +533,6 @@
     <ClCompile Include="sources\classes_table.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sources\control_stack.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sources\Core.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

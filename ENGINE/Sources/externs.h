@@ -3,7 +3,6 @@
 
 #include "Core.h"
 #include "file_service.h"
-#include "control_stack.h"
 #include "system_api.h"
 #include "../../Common_h/vapi.h"
 
@@ -15,7 +14,6 @@ extern FILE_SERVICE File_Service;
 extern char Last_Error[512];
 extern bool Error_Flag;
 extern char * CTP_Name[];
-extern CONTROL_STACK Control_Stack;
 extern SYSTEM_API System_Api;
 extern VSYSTEM_API * _VSYSTEM_API;
 
@@ -34,8 +32,8 @@ extern bool bTraceFilesOff;
 //#define CODE_CORE {Code_State.ctp = (word)CTP_CORE; Code_State.class_code = 0xffffffff; Memory_Service.SetState((word)CTP_CORE,0xffffffff,0);}
 #define CTP_NAME(x) CTP_Name[x]
 
-#define PUSH_CONTROL(ptr,code,c) 
-#define POP_CONTROL(control_block_ptr) 
+//#define PUSH_CONTROL(ptr,code,c) 
+//#define POP_CONTROL(control_block_ptr) 
 
 
 #endif

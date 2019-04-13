@@ -2,7 +2,6 @@
 #include "Core.h"
 #include "s_debug.h"
 #include "file_service.h"
-#include "control_stack.h"
 #include "externs.h"
 
 S_DEBUG CDebug;
@@ -60,7 +59,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 	ShowWindow(hwnd, SW_SHOWNORMAL);
 
 	/* Init stuff */
-	Control_Stack.Init();
 	Core.InitBase();
 
 	/* Message loop */
@@ -125,7 +123,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		Core.Event("ExitApplication", nullptr);
 		CDebug.Release();
 		Core.CleanUp();
-		Control_Stack.Release();
 		File_Service.Close();
 		CDebug.CloseDebugWindow();
 
