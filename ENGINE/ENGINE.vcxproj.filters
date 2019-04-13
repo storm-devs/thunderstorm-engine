@@ -578,9 +578,6 @@
     <ClCompile Include="sources\stack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sources\stats.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sources\strings_list.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1538,7 +1535,7 @@
     <ClCompile Include="..\renderer\TIVBufferManager.cpp">
       <Filter>Modules\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="externs.cpp">
+    <ClCompile Include="sources\externs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

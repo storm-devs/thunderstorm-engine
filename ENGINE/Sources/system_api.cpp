@@ -3,8 +3,6 @@
 #include "Core.h"
 #include "system_log.h"
 
-extern CORE Core;
-
 void SYSTEM_API::Push(void * pointer, uint32_t class_code)
 {
 	//if(entityID_PTR) Control_Stack.Push(idbase.pointer,idbase.class_code,CTP_CONSTRUCTOR);

@@ -426,7 +426,6 @@
     <ClCompile Include="sources\program.cpp" />
     <ClCompile Include="sources\services_list.cpp" />
     <ClCompile Include="sources\stack.cpp" />
-    <ClCompile Include="sources\stats.cpp" />
     <ClCompile Include="sources\strings_list.cpp" />
     <ClCompile Include="sources\system_api.cpp" />
     <ClCompile Include="sources\system_log.cpp" />
