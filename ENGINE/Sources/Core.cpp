@@ -15,13 +15,7 @@
 #define SERVICE_REFERENCE_TRACK		"SRT"
 //#define STATE_COMPRESSION_ON
 //#define ENGINE_INI_FILE_NAME			"engine.ini"
-extern char ENGINE_INI_FILE_NAME[256];
-extern bool bDebugWindow, bAcceleration;
-extern bool bNetActive;
 
-// system layer flags
-
-extern bool bActive;
 //extern VMA * _pModuleClassRoot;
 #define SERVICES_REFERENCE_FLAGS	0x1
 
@@ -412,10 +406,6 @@ void CORE::ProcessSystemMessage(UINT iMsg,WPARAM wParam,LPARAM lParam)
 //-------------------------------------------------------------------------------------------------
 bool __declspec(noinline) __cdecl CORE::Initialize()
 {
-	char string[_MAX_PATH];
-
-	GUARD(CORE::Initialize())
-
 	ResetCore();
 
 	// create atoms space
@@ -437,9 +427,6 @@ bool __declspec(noinline) __cdecl CORE::Initialize()
 
 bool CORE::LoadCoreState(CORE_STATE cs)
 {
-	char string[_MAX_PATH];
-
-	GUARD(CORE::LoadCoreState)
 	ResetCore();
 
 	// pc/xbox mod - modules loaded on startup only and unloaded when app terminated
@@ -575,8 +562,6 @@ void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 
 bool __declspec(noinline) __cdecl CORE::LoadClassesTable()
 {
-	long hash;
-
 	for(auto c : _pModuleClassRoot)
 	{
 		auto hash = MakeHashValue(c->GetName());

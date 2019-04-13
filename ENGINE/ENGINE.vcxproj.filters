@@ -1538,6 +1538,9 @@
     <ClCompile Include="..\renderer\TIVBufferManager.cpp">
       <Filter>Modules\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="externs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\data.h">

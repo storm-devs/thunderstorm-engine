@@ -61,6 +61,7 @@
       <AdditionalDependencies>legacy_stdio_definitions.lib;d3d9.lib;d3dx9.lib;dxerr.lib;odbc32.lib;odbccp32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -402,6 +403,7 @@
     <ClCompile Include="..\XINTERFACE\xinterface.cpp" />
     <ClCompile Include="..\XINTERFACE\xiutil.cpp" />
     <ClCompile Include="..\XINTERFACE\xservice.cpp" />
+    <ClCompile Include="sources\externs.cpp" />
     <ClCompile Include="sources\classes_table.cpp" />
     <ClCompile Include="sources\compiler.cpp" />
     <ClCompile Include="sources\control_stack.cpp" />

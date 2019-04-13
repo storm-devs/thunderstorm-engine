@@ -8,7 +8,7 @@ extern CORE Core;
 void SYSTEM_API::Push(void * pointer, uint32_t class_code)
 {
 	//if(entityID_PTR) Control_Stack.Push(idbase.pointer,idbase.class_code,CTP_CONSTRUCTOR);
-	if(entityID_PTR) PUSH_CONTROL(pointer,class_code,CTP_CONSTRUCTOR);
+	if (entityID_PTR) PUSH_CONTROL(pointer, class_code, CTP_CONSTRUCTOR);
 }
 
 void SYSTEM_API::Pop(void * pointer)

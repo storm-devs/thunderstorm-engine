@@ -1,9 +1,10 @@
-#include <stdio.h>
+#include <cstdio>
 #include "compiler.h"
 #include "Core.h"
 #include "sstring.h"
 #include "s_debug.h"
 #include "../../Common_h/defines.h"
+#include "externs.h"
 
 //#define STARFORCE_PROTECTION
 
@@ -30,7 +31,6 @@
 #include "..\..\soundservice\vsoundservice.h"
 #endif
 
-extern bool bTraceFilesOff;
 extern VAPI * api;
 extern CORE Core;
 extern FILE_SERVICE File_Service;
