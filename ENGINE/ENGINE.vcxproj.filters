@@ -548,9 +548,6 @@
     <ClCompile Include="sources\ifs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sources\internal_modules.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sources\layer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -2321,9 +2318,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sources\internal_functions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\internal_modules.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sources\layer.h">
