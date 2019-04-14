@@ -4,6 +4,7 @@
 #include "SoundDefines.h"
 
 #include "../Common_h/Cvector.h"
+#include <cstdint>
 
 ///////////////////////////////////////////////////////////////////
 // INTERFACE DEFINITION

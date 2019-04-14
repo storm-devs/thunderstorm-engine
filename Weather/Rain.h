@@ -98,6 +98,9 @@ private:
 	long		iIBSeaDrops;
 	long		iVBSeaDrops;
 
+	VDX9RENDER* rs;
+	COLLIDE* cs;
+
 	void	GenerateRandomDrop(CVECTOR *vPos);
 	void	GenerateRain();
 	void	InitialSomeBlockParameters(long iIdx);

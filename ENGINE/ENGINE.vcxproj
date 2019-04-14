@@ -427,7 +427,6 @@
     <ClCompile Include="sources\services_list.cpp" />
     <ClCompile Include="sources\stack.cpp" />
     <ClCompile Include="sources\strings_list.cpp" />
-    <ClCompile Include="sources\system_api.cpp" />
     <ClCompile Include="sources\system_log.cpp" />
     <ClCompile Include="sources\s_classtab.cpp" />
     <ClCompile Include="sources\s_compress.cpp" />
@@ -511,7 +510,6 @@
     <ClInclude Include="..\Common_h\vmemory_service.h" />
     <ClInclude Include="..\Common_h\vmodule_api.h" />
     <ClInclude Include="..\Common_h\vstring_codec.h" />
-    <ClInclude Include="..\Common_h\vsystem_api.h" />
     <ClInclude Include="..\Common_h\v_s_stack.h" />
     <ClInclude Include="..\Location\AICharacter.h" />
     <ClInclude Include="..\Location\Blood.h" />
@@ -746,7 +744,6 @@
     <ClInclude Include="sources\stats.h" />
     <ClInclude Include="sources\strings_list.h" />
     <ClInclude Include="sources\string_codec.h" />
-    <ClInclude Include="sources\system_api.h" />
     <ClInclude Include="sources\system_log.h" />
     <ClInclude Include="sources\s_classtab.h" />
     <ClInclude Include="sources\s_compress.h" />

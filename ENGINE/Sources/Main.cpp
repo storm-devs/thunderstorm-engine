@@ -34,7 +34,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 	api = &Core;
 	fio = &File_Service;
 	api->fio = &File_Service;
-	_VSYSTEM_API = &System_Api;
+	//_VSYSTEM_API = &System_Api;
 
 	/* Read config */
 	uint32_t dwMaxFPS = 0;

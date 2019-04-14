@@ -25,16 +25,18 @@ CoastFoam::~CoastFoam()
 	Save();
 	clear();
 	
-	if (iVBuffer >= 0) Render().ReleaseVertexBuffer(iVBuffer); iVBuffer = -1;
-	if (iIBuffer >= 0) Render().ReleaseIndexBuffer(iIBuffer); iIBuffer = -1;
+	if (iVBuffer >= 0) rs->ReleaseVertexBuffer(iVBuffer); iVBuffer = -1;
+	if (iIBuffer >= 0) rs->ReleaseIndexBuffer(iIBuffer); iIBuffer = -1;
 }
 
 bool CoastFoam::Init()
 {
-	iVBuffer = Render().CreateVertexBuffer(D3DFVF_XYZ|D3DFVF_DIFFUSE|D3DFVF_TEX1|D3DFVF_TEXTUREFORMAT2, sizeof(FoamVertex) * 5000, D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY);
-	iIBuffer = Render().CreateIndexBuffer(10000 * 2 * 3, D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY);
+	rs = (VDX9RENDER*)api->CreateService("dx9render");
 
-	iCursorTex = Render().TextureCreate("cursor.tga");
+	iVBuffer = rs->CreateVertexBuffer(D3DFVF_XYZ|D3DFVF_DIFFUSE|D3DFVF_TEX1|D3DFVF_TEXTUREFORMAT2, sizeof(FoamVertex) * 5000, D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY);
+	iIBuffer = rs->CreateIndexBuffer(10000 * 2 * 3, D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY);
+
+	iCursorTex = rs->TextureCreate("cursor.tga");
 
 	Load();
 
@@ -50,14 +52,14 @@ void CoastFoam::Execute(uint32_t Delta_Time)
 
 void CoastFoam::ExtractRay (const D3DVIEWPORT9 & viewport, float fCursorX, float fCursorY, CVECTOR & raystart, CVECTOR & rayend)
 {
-	CMatrix matProj = Render().GetProjection();
+	CMatrix matProj = rs->GetProjection();
 	CVECTOR v;
 	v.x =  ( ( ( 2.0f * fCursorX ) / viewport.Width  ) - 1 ) / matProj.m[0][0];
 	v.y = -( ( ( 2.0f * fCursorY ) / viewport.Height ) - 1 ) / matProj.m[1][1];
 	v.z =  1.0f;
 
 	CMatrix mView3x3;
-	CMatrix mView = Render().GetView();
+	CMatrix mView = rs->GetView();
 	mView.Transposition ();
 	mView.Get3X3(&mView3x3);
 
@@ -72,7 +74,7 @@ void CoastFoam::ExtractRay (const D3DVIEWPORT9 & viewport, float fCursorX, float
 
 void CoastFoam::Realize(uint32_t Delta_Time)
 {
-	pFrustumPlanes = Render().GetPlanes();
+	pFrustumPlanes = rs->GetPlanes();
 
 	ENTITY_ID sea_id;
 	if (!pSea && api->FindClass(&sea_id, "sea", 0)) 
@@ -83,11 +85,11 @@ void CoastFoam::Realize(uint32_t Delta_Time)
 
 	float fDeltaTime = float(Delta_Time) * 0.001f;
 	D3DVIEWPORT9 vp;
-	Render().GetViewport(&vp);
+	rs->GetViewport(&vp);
 
-	CMatrix mWorld; mWorld.SetIdentity(); //Render().GetWorld();
-	CMatrix mView = Render().GetView();
-	CMatrix mProjection = Render().GetProjection();
+	CMatrix mWorld; mWorld.SetIdentity(); //rs->GetWorld();
+	CMatrix mView = rs->GetView();
+	CMatrix mProjection = rs->GetProjection();
 
 	CMatrix mWV, mWVP;
 	mWV.EqMultiply(mWorld, mView);
@@ -107,7 +109,7 @@ void CoastFoam::Realize(uint32_t Delta_Time)
 	}
 	RDTSC_E(dw1);
 
-	//Render().Print(0, 300, "dwNumPenasExecuted = %d, ticks = %d", dwNumPenasExecuted, dw1);
+	//rs->Print(0, 300, "dwNumPenasExecuted = %d, ticks = %d", dwNumPenasExecuted, dw1);
 
 	if (!bCanEdit) return;
 
@@ -170,10 +172,10 @@ void CoastFoam::Realize(uint32_t Delta_Time)
 		}
 
 		CMatrix mI; mI.SetIdentity();
-		Render().SetWorld(mI);
-		if (bEditMode) Render().DrawLines(aLines.data(), aLines.size() / 2, "Line");
+		rs->SetWorld(mI);
+		if (bEditMode) rs->DrawLines(aLines.data(), aLines.size() / 2, "Line");
 
-		Render().DrawRects(aRects.data(), aRects.size(), "FoamPoints");
+		rs->DrawRects(aRects.data(), aRects.size(), "FoamPoints");
 	}
 
 	bool bShift = api->Controls->GetDebugAsyncKeyState(VK_SHIFT) < 0;
@@ -222,8 +224,8 @@ void CoastFoam::Realize(uint32_t Delta_Time)
 		FillSpriteVertex(spr[2], x + dx, y + dy,	0.1f, 0xFFFFFFFF, 1.0f, 1.0f);
 		FillSpriteVertex(spr[3], x + dx, y,			0.1f, 0xFFFFFFFF, 1.0f, 0.0f);
 
-		Render().TextureSet(0, iCursorTex);
-		Render().DrawSprites(spr, 1, "Sprite");
+		rs->TextureSet(0, iCursorTex);
+		rs->DrawSprites(spr, 1, "Sprite");
 
 		bool bSelected = iEditFoam >= 0 && iEditFoamPart >= 0 && iEditFoamVertex >= 0;
 
@@ -310,7 +312,7 @@ void CoastFoam::Realize(uint32_t Delta_Time)
 			if (bShift)
 			{
 				// insert new foam
-				CMatrix mIView = Render().GetView(); mIView.Transposition();
+				CMatrix mIView = rs->GetView(); mIView.Transposition();
 				Foam * pF = new Foam();
 
 
@@ -390,7 +392,7 @@ void CoastFoam::InitNewFoam(Foam * pF)
 	pF->sTexture = "foam.tga";
 	pF->iNumFoams = 2;
 
-	pF->iTexture = Render().TextureCreate(("weather\\coastfoam\\" + pF->sTexture).c_str());
+	pF->iTexture = rs->TextureCreate(("weather\\coastfoam\\" + pF->sTexture).c_str());
 }
 
 void CoastFoam::ExecuteFoamType2(Foam * pF, float fDeltaTime)
@@ -399,7 +401,7 @@ void CoastFoam::ExecuteFoamType2(Foam * pF, float fDeltaTime)
 
 	CVECTOR vCamPos, vCamAng;
 	float fPerspective;
-	Render().GetCamera(vCamPos, vCamAng, fPerspective);
+	rs->GetCamera(vCamPos, vCamAng, fPerspective);
 
 	float fDistance = sqrtf(~(pF->aWorkParts[0].v[0] - vCamPos));
 	if (fDistance > fMaxFoamDistance) return;
@@ -461,8 +463,8 @@ void CoastFoam::ExecuteFoamType2(Foam * pF, float fDeltaTime)
 
 		pF->fMove[k] += pF->fSpeed[k] * fDeltaTime;
 
-		FoamVertex * pFV = (FoamVertex *)Render().LockVertexBuffer(iVBuffer, D3DLOCK_DISCARD);
-		uint16_t * pI = (uint16_t *)Render().LockIndexBuffer(iIBuffer, D3DLOCK_DISCARD);
+		FoamVertex * pFV = (FoamVertex *)rs->LockVertexBuffer(iVBuffer, D3DLOCK_DISCARD);
+		uint16_t * pI = (uint16_t *)rs->LockIndexBuffer(iIBuffer, D3DLOCK_DISCARD);
 
 		long iNumVertices = 0;
 
@@ -505,13 +507,13 @@ void CoastFoam::ExecuteFoamType2(Foam * pF, float fDeltaTime)
 			}	
 		}
 
-		Render().UnLockIndexBuffer(iIBuffer);
-		Render().UnLockVertexBuffer(iVBuffer);
+		rs->UnLockIndexBuffer(iIBuffer);
+		rs->UnLockVertexBuffer(iVBuffer);
 
 		CMatrix mI; mI.SetIdentity();
-		Render().SetWorld(mI);
-		Render().TextureSet(0, pF->iTexture);
-		Render().DrawBuffer(iVBuffer, sizeof(FoamVertex), iIBuffer, 0, iNumVertices, 0, 7 * 2 * (iLen - 1), "CoastFoam");
+		rs->SetWorld(mI);
+		rs->TextureSet(0, pF->iTexture);
+		rs->DrawBuffer(iVBuffer, sizeof(FoamVertex), iIBuffer, 0, iNumVertices, 0, 7 * 2 * (iLen - 1), "CoastFoam");
 	}
 }
 
@@ -521,7 +523,7 @@ bool CoastFoam::IsClipped(Foam * pF)
 
 	float fPerspective;
 	CVECTOR vCamPos, vCamAng;
-	Render().GetCamera(vCamPos, vCamAng, fPerspective);
+	rs->GetCamera(vCamPos, vCamAng, fPerspective);
 
 	CVECTOR		vP[4];
 	uint32_t		dwPlanesPoints[4];
@@ -560,15 +562,15 @@ void CoastFoam::ExecuteFoamType1(Foam * pF, float fDeltaTime)
 
 	CVECTOR vCamPos, vCamAng;
 	float fPerspective;
-	Render().GetCamera(vCamPos, vCamAng, fPerspective);
+	rs->GetCamera(vCamPos, vCamAng, fPerspective);
 
 	float fDistance = sqrtf(~(pF->aWorkParts[0].v[0] - vCamPos));
 	if (fDistance > fMaxFoamDistance) return;
 
 	if (IsClipped(pF)) return;
 
-	FoamVertex * pFV = (FoamVertex *)Render().LockVertexBuffer(iVBuffer, D3DLOCK_DISCARD);
-	uint16_t * pI = (uint16_t *)Render().LockIndexBuffer(iIBuffer, D3DLOCK_DISCARD);
+	FoamVertex * pFV = (FoamVertex *)rs->LockVertexBuffer(iVBuffer, D3DLOCK_DISCARD);
+	uint16_t * pI = (uint16_t *)rs->LockIndexBuffer(iIBuffer, D3DLOCK_DISCARD);
 
 	long iNumVertices = 0;
 
@@ -632,13 +634,13 @@ void CoastFoam::ExecuteFoamType1(Foam * pF, float fDeltaTime)
 		}	
 	}
 
-	Render().UnLockIndexBuffer(iIBuffer);
-	Render().UnLockVertexBuffer(iVBuffer);
+	rs->UnLockIndexBuffer(iIBuffer);
+	rs->UnLockVertexBuffer(iVBuffer);
 
 	CMatrix mI; mI.SetIdentity();
-	Render().SetWorld(mI);
-	Render().TextureSet(0, pF->iTexture);
-	Render().DrawBuffer(iVBuffer, sizeof(FoamVertex), iIBuffer, 0, iNumVertices, 0, 7 * 2 * (iLen - 1), "CoastFoam");
+	rs->SetWorld(mI);
+	rs->TextureSet(0, pF->iTexture);
+	rs->DrawBuffer(iVBuffer, sizeof(FoamVertex), iIBuffer, 0, iNumVertices, 0, 7 * 2 * (iLen - 1), "CoastFoam");
 }
 
 void CoastFoam::RecalculateFoam(long iFoam)
@@ -751,7 +753,7 @@ void CoastFoam::clear()
 	for (auto& foam : aFoams)
 	{
 		if (foam->iTexture >= 0)
-			Render().TextureRelease(foam->iTexture);
+			rs->TextureRelease(foam->iTexture);
 		delete foam;
 	}
 }
@@ -798,7 +800,7 @@ void CoastFoam::Load()
 
 		pI->ReadString(cSection, "Texture", cTemp, sizeof(cTemp), "foam.tga");
 		pF->sTexture = cTemp;
-		pF->iTexture = Render().TextureCreate((std::string("weather\\coastfoam\\") + cTemp).c_str());
+		pF->iTexture = rs->TextureCreate((std::string("weather\\coastfoam\\") + cTemp).c_str());
 		pF->Type = (FOAMTYPE)pI->GetLong(cSection, "Type", FOAM_TYPE_2);
 
 		for (long j=0; j<((iNumParts) ? iNumParts : 100000); j++)

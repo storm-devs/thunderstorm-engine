@@ -90,14 +90,7 @@ enum eSoundMessage
 	#define SOUND_TRACE2(a,b) _VSYSTEM_API->Trace(a,b);
 #endif
 
-#define THROW_STRING(s, p) \
-{ \
-	static char _tmpString[2048]; \
- \
-	sprintf_s(_tmpString, s, p); \
-	_VSYSTEM_API->Trace(_tmpString); \
-	throw _tmpString; \
-}
+#define THROW_STRING(s, p) { static char _tmpString[2048]; sprintf_s(_tmpString, s, p); throw _tmpString; }
 
 class SoundService;
 extern SoundService *soundService;

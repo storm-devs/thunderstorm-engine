@@ -5,7 +5,6 @@
 #include "attributes.h"
 #include "message.h"
 #include "entity_state.h"
-#include "vsystem_api.h"
 #include "Exs.h"
 
 #include "../Shared/net/Net_Defines.h"
@@ -30,7 +29,7 @@
 
 class CORE;
 
-extern VSYSTEM_API * _VSYSTEM_API;
+//extern VSYSTEM_API * _VSYSTEM_API;
 class VDX9RENDER;
 class VGEOMETRY;
 class COLLIDE;
@@ -48,14 +47,14 @@ private:
 
 public:
 	ATTRIBUTES * AttributesPointer;
-	inline ENTITY_ID GetID(){return Entity_ID;}
+	ENTITY_ID GetID(){return Entity_ID;}
 	ENTITY()
 	{
 		AttributesPointer = nullptr;
-		_VSYSTEM_API->SetEntityPointer(this);
-		Entity_ID = _VSYSTEM_API->GetEntityID();
-		_VSYSTEM_API->Push(Entity_ID.pointer,Entity_ID.class_code);
-	
+		//_VSYSTEM_API->SetEntityPointer(this);
+		//Entity_ID = _VSYSTEM_API->GetEntityID();
+		//_VSYSTEM_API->Push(Entity_ID.pointer,Entity_ID.class_code);
+
 		__pGeoService = nullptr;
 		__pRenderService = nullptr;
 		__pCollideService = nullptr;
@@ -65,8 +64,12 @@ public:
 	};
 	virtual ~ENTITY()
 	{
-		_VSYSTEM_API->Pop(Entity_ID.pointer);
+	//	_VSYSTEM_API->Pop(Entity_ID.pointer);
 	};
+	virtual void SetEntityID(ENTITY_ID & id) final {
+		id.pointer = this; 
+		Entity_ID = id;
+	}
 	virtual bool Init()											{return true;};
 	virtual void Execute(uint32_t Delta_Time)						{};
 	virtual void Realize(uint32_t Delta_Time)						{};
@@ -75,10 +78,6 @@ public:
 	virtual bool LoadState(ENTITY_STATE * state)				{return true;};
 	virtual bool CreateState(ENTITY_STATE_GEN * state_gen)		{return true;};
 	virtual uint32_t AttributeChanged(ATTRIBUTES *)				{return 0;};
-
-	virtual VDX9RENDER & Render() { if (!__pRenderService) __pRenderService = (VDX9RENDER*)_VSYSTEM_API->CreateService("dx9render"); return *__pRenderService; };
-	virtual VGEOMETRY & Geometry() { if (!__pGeoService) __pGeoService = (VGEOMETRY *)_VSYSTEM_API->CreateService("geometry"); return *__pGeoService; };
-	virtual COLLIDE & Collide() { if (!__pCollideService) __pCollideService = (COLLIDE *)_VSYSTEM_API->CreateService("coll"); return *__pCollideService; };
 
 	virtual void SetServer(bool bServer) { this->bServer = bServer; bFirstTestServer = false; };
 	virtual bool IsServer() 

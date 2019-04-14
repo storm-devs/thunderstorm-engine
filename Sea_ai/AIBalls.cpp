@@ -50,6 +50,7 @@ AIBalls::~AIBalls()
 
 bool AIBalls::Init()
 {
+	rs = (VDX9RENDER*)api->CreateService("dx9render");
 	SetDevice();
 	return true;
 }
@@ -168,7 +169,7 @@ void AIBalls::Execute(uint32_t Delta_Time)
 	//if (!pVWForts) pVWForts = (VIDWALKER*)api->LayerGetWalker("fort_cannon_trace");
 	if (!pVWShips) pVWShips = (VIDWALKER*)api->LayerGetWalker("ship_cannon_trace");
 
-	CMatrix mView = Render().GetView();
+	CMatrix mView = rs->GetView();
 
 	float fDeltaTime = 0.001f * float(Delta_Time);
 

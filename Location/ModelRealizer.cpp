@@ -68,20 +68,20 @@ void LocModelRealizer::Realize(uint32_t delta_time)
 			// 13 - (0, 0, 0, 0)
 
 			fCausticDelta = fCausticFrame - long(fCausticFrame);
-			Render().SetVertexShaderConstantF(10, (const float*)&CVECTOR4(fCausticScale, fCausticDelta, 0.0f, 0.0f), 1);
-			Render().SetVertexShaderConstantF(11, (const float*)&v4CausticColor, 1);
-			Render().SetVertexShaderConstantF(12, (const float*)&CVECTOR4(fFogDensity, 0.0f, 0.0f, 0.0f), 1);
-			Render().SetVertexShaderConstantF(13, (const float*)&CVECTOR4(0.0f, 0.0f, 0.0f, 0.0f), 1);
-			Render().SetVertexShaderConstantF(14, (const float*)&CVECTOR4(0.0f, 1.0f, 0.0f, 0.0f), 1);
-			Render().SetVertexShaderConstantF(15, (const float*)&CVECTOR4(1.0f / fCausticDistance, 1.0f, 0.0f, 0.0f), 1);
+			rs->SetVertexShaderConstantF(10, (const float*)&CVECTOR4(fCausticScale, fCausticDelta, 0.0f, 0.0f), 1);
+			rs->SetVertexShaderConstantF(11, (const float*)&v4CausticColor, 1);
+			rs->SetVertexShaderConstantF(12, (const float*)&CVECTOR4(fFogDensity, 0.0f, 0.0f, 0.0f), 1);
+			rs->SetVertexShaderConstantF(13, (const float*)&CVECTOR4(0.0f, 0.0f, 0.0f, 0.0f), 1);
+			rs->SetVertexShaderConstantF(14, (const float*)&CVECTOR4(0.0f, 1.0f, 0.0f, 0.0f), 1);
+			rs->SetVertexShaderConstantF(15, (const float*)&CVECTOR4(1.0f / fCausticDistance, 1.0f, 0.0f, 0.0f), 1);
 
-			Render().TextureSet(1, iCausticTex[long(fCausticFrame) % 32]);
-			Render().TextureSet(2, iCausticTex[(long(fCausticFrame) + 1) % 32]);
+			rs->TextureSet(1, iCausticTex[long(fCausticFrame) % 32]);
+			rs->TextureSet(2, iCausticTex[(long(fCausticFrame) + 1) % 32]);
 
 			// рисуем каустики
-			Geometry().SetCausticMode(true);
+			gs->SetCausticMode(true);
 			pE->Realize(0);
-			Geometry().SetCausticMode(false);
+			gs->SetCausticMode(false);
 		}
 	}
 }

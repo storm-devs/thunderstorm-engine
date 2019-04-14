@@ -737,12 +737,6 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name)
 //bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name)
 bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attributesPTR)
 {
-	GUARD(CORE::CreateEntity)
-//	CLASS_SEARCH_DATA class_search_data;
-	C_ATOM * atom_PTR;
-	//VMODULE_API * mapi_PTR;
-	ENTITY * Entity_PTR;
-
 	if(id_PTR) memset(id_PTR,0,sizeof(ENTITY_ID));
 	if(Constructor_counter)
 	{
@@ -754,9 +748,8 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 	// if(State_loading) STORM_THROW(attempt to create on load state);
 
 	VMA * pClass = nullptr;
-	long  hash;
 
-	hash = MakeHashValue(class_name);
+	long hash = MakeHashValue(class_name);
 	if(hash == 0) return false;
 
 	for (const auto c : _pModuleClassRoot)
@@ -785,7 +778,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 
 	// create atom structure
 	//atom_PTR = CreateAtom(class_code);
-	atom_PTR = CreateAtom(hash);
+	C_ATOM* atom_PTR = CreateAtom(hash);
 
 	// ... throw() system error
 	if(atom_PTR == nullptr) STORM_THROW(Cant create Atom);
@@ -805,22 +798,23 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 	//}
 
 	// set current entity atom id pointer
-	System_Api.entityID_PTR = &atom_PTR->atom_id;
+	//System_Api.entityID_PTR = &atom_PTR->atom_id;
 
 	// notify entrance to object constructor
 	// PUSH_CONTROL push control operation code will made on base object (entity) constructor
 
 	// create new class, object constructor would be called
-	Entity_PTR = nullptr;
+	//Entity_PTR = nullptr;
 
-	Constructor_counter++;
-	#ifndef EX_OFF
-	try {
-	#endif
+	//Constructor_counter++;
+	//#ifndef EX_OFF
+	//try {
+	//#endif
 		//Entity_PTR = (ENTITY*)mapi_PTR->CreateClass(class_search_data.module_class_id,false);
-		Entity_PTR = (ENTITY*)pClass->CreateClass();
-	#ifndef EX_OFF
-	}
+	ENTITY* Entity_PTR = (ENTITY*)pClass->CreateClass();
+	Entity_PTR->SetEntityID(atom_PTR->atom_id);
+	//#ifndef EX_OFF
+	/*}
 	catch(_EXS xobj)
 	{
 		TraceCurrent();
@@ -839,11 +833,11 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 		System_Api.entityID_PTR = null;
 		STORM_THROW(CreateEntity(Constructor));
 	}
-	#endif
+	#endif*/
 
-	if(!Constructor_counter) THROW;
-	Constructor_counter--;
-	System_Api.entityID_PTR = nullptr;
+	//if(!Constructor_counter) THROW;
+	//Constructor_counter--;
+	//System_Api.entityID_PTR = nullptr;
 
 	// Push was made in Entity base class constructor
 	//POP_CONTROL(nullptr)

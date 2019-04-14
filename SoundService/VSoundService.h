@@ -1,8 +1,6 @@
 #ifndef _VSOUND_H_
 #define _VSOUND_H_
 
-#include <dsound.h>
-#include "../Common_h/vmodule_api.h"
 #include "SoundDefines.h"
 #include "VSoundService.h"
 #include "VSound.h"

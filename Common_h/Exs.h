@@ -1,9 +1,8 @@
 #ifndef _EXS_H_
 #define _EXS_H_
+#include <spdlog/spdlog.h>
 
-#include "vsystem_api.h"
-
-extern VSYSTEM_API * _VSYSTEM_API;
+//extern VSYSTEM_API * _VSYSTEM_API;
 
 #define URE_MESSAGE	"User Rised Exception"
 
@@ -37,9 +36,9 @@ public:
 #undef STORM_THROW
 #endif
 
-#define THROW			{ _VSYSTEM_API->SetX();_VSYSTEM_API->Trace(URE_MESSAGE);_VSYSTEM_API->Trace("%s line %d",__FILE__,__LINE__); throw _EXS(FATAL,"URE"); }
-#define STORM_THROW(b)		{ _VSYSTEM_API->SetX();_VSYSTEM_API->Trace(URE_MESSAGE);_VSYSTEM_API->Trace("%s line %d",__FILE__,__LINE__);_VSYSTEM_API->Trace(TEXT(#b)); throw _EXS(FATAL,TEXT(#b));}
-#define _STORM_THROW(a,b)	{ _VSYSTEM_API->SetXNF();_VSYSTEM_API->Trace(URE_MESSAGE);_VSYSTEM_API->Trace("%s line %d",__FILE__,__LINE__);_VSYSTEM_API->Trace(TEXT(#b)); throw _EXS(a,TEXT(#b)); }
+#define THROW			throw "error"; //{ _VSYSTEM_API->SetX();_VSYSTEM_API->Trace(URE_MESSAGE);_VSYSTEM_API->Trace("%s line %d",__FILE__,__LINE__); throw _EXS(FATAL,"URE"); }
+#define STORM_THROW(b)		throw #b; //{ _VSYSTEM_API->SetX();_VSYSTEM_API->Trace(URE_MESSAGE);_VSYSTEM_API->Trace("%s line %d",__FILE__,__LINE__);_VSYSTEM_API->Trace(TEXT(#b)); throw _EXS(FATAL,TEXT(#b));}
+#define _STORM_THROW(a,b)	throw #a#b; //{ _VSYSTEM_API->SetXNF();_VSYSTEM_API->Trace(URE_MESSAGE);_VSYSTEM_API->Trace("%s line %d",__FILE__,__LINE__);_VSYSTEM_API->Trace(TEXT(#b)); throw _EXS(a,TEXT(#b)); }
 
 #ifdef EX_OFF
 
@@ -77,9 +76,11 @@ inline void __Storm_Assert__(bool expression, const char * file, long line, cons
 	{
 		if(str)
 		{
-			_VSYSTEM_API->Trace("Assert failed in %s line %d, expression string %s", file, line, str);
+			spdlog::critical("Assert failed in {} line {}, expression string {}", file, line, str);
+		//	_VSYSTEM_API->Trace("Assert failed in %s line %d, expression string %s", file, line, str);
 		}else{
-			_VSYSTEM_API->Trace("Assert failed in %s line %d", file, line);
+		//	_VSYSTEM_API->Trace("Assert failed in %s line %d", file, line);
+			spdlog::critical("Assert failed in {} line {}", file, line);
 		}
 #ifdef EX_OFF
 		__debugbreak();

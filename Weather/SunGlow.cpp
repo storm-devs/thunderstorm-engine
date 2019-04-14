@@ -412,8 +412,8 @@ void SUNGLOW::DrawReflection()
 	float fCoeffX = Bring2Range(1.0f, 0.6f, 0.0f, 1.0f, fSunHeightAngle);
 	float fCoeffY = Bring2Range(2.0f, 1.0f, 0.0f, 1.0f, fSunHeightAngle);
 	
-	Render().TextureSet(0, iReflTexture);
-	Render().DrawRects(&r_spr, 1, Reflection.sTechnique.c_str(), 0, 0, (bSimpleSea) ? fCoeffX : 1.0f, (bSimpleSea) ? fCoeffY : 1.0f);
+	pRS->TextureSet(0, iReflTexture);
+	pRS->DrawRects(&r_spr, 1, Reflection.sTechnique.c_str(), 0, 0, (bSimpleSea) ? fCoeffX : 1.0f, (bSimpleSea) ? fCoeffY : 1.0f);
 }
 
 uint32_t _cdecl SUNGLOW::ProcessMessage(MESSAGE & message)

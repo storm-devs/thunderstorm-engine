@@ -3,7 +3,6 @@
 
 #include "Core.h"
 #include "file_service.h"
-#include "system_api.h"
 #include "../../Common_h/vapi.h"
 
 extern CORE Core;
@@ -14,8 +13,8 @@ extern FILE_SERVICE File_Service;
 extern char Last_Error[512];
 extern bool Error_Flag;
 extern char * CTP_Name[];
-extern SYSTEM_API System_Api;
-extern VSYSTEM_API * _VSYSTEM_API;
+//extern SYSTEM_API System_Api;
+//extern VSYSTEM_API * _VSYSTEM_API;
 
 extern char ENGINE_INI_FILE_NAME[256];
 extern bool bDebugWindow, bAcceleration;

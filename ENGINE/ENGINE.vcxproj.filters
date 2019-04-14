@@ -578,9 +578,6 @@
     <ClCompile Include="sources\strings_list.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sources\system_api.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sources\system_log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -2410,9 +2407,6 @@
     <ClInclude Include="Sources\strings_list.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\system_api.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Sources\tclass_list.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -2492,9 +2486,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Common_h\vstring_codec.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\vsystem_api.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Common_h\v_s_stack.h">

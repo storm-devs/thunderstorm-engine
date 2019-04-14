@@ -1200,6 +1200,6 @@ void Location::LoadCaustic()
 	for (long i=0; i<32; i++)
 	{
 		sprintf_s(tex, "weather\\caustic\\caustic%.2d.tga", i);
-		iCausticTex[i] = Render().TextureCreate(tex);
+		iCausticTex[i] = rs->TextureCreate(tex);
 	}
 }
