@@ -1,7 +1,7 @@
 #include "ifs.h"
 
 #include "../../Common_h/Exs.h"
-#include <stdio.h>
+#include <cstdio>
 #include "../../Common_h/vmodule_api.h"
 
 #define		COMMENT			';'

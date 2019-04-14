@@ -2,7 +2,6 @@
 #define _LAYER_H_
 
 #include "../../Common_h/entity_id.h"
-#include "common_h.h"
 #include "idwalker.h"
 #include <vector>
 

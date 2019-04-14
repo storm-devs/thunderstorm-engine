@@ -1,6 +1,5 @@
 #include "Core.h"
 #include "../../Common_h/vmodule_api.h"
-#include "messages.h"
 #include "vbuffer.h"
 
 #include "../../Common_h/dx9render.h"

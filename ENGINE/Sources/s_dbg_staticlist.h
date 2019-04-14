@@ -2,11 +2,11 @@
 #define _SDBG_STATICLIST_H_
 
 #include <Windows.h>
-#include "dat.h"
+#include <vector>
 
 class SDBG_STATICLIST
 {
-	CDAT<HWND> hOwn; 
+	std::vector<HWND> hOwn; 
 	HWND hMain;
 	long nLines;
 public:
@@ -23,7 +23,7 @@ public:
 
 		hMain = _hmain;
 		
-		hOwn.SetSize(lines);
+		hOwn.resize(lines);
 		height = (rChild.bottom - rChild.top)/lines;
 		line_y = rChild.top;
 		

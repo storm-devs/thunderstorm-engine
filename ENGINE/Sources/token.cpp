@@ -1,7 +1,6 @@
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 #include "token.h"
-#include "system_log.h"
 
 #include "../../Common_h/vapi.h"
 #include "../../Common_h/defines.h"

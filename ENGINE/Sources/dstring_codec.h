@@ -1,8 +1,8 @@
 #ifndef _DSTRING_CODEC_H_
 #define _DSTRING_CODEC_H_
 
-#include <malloc.h>
 #include <cstring>
+#include <malloc.h>
 
 #define DHASH_TABLE_SIZE	255
 #define DHASH_SINGLESYM		DHASH_TABLE_SIZE

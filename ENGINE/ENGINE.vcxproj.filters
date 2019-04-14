@@ -2299,9 +2299,6 @@
     <ClInclude Include="Sources\Core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\dat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Sources\dstring_codec.h">
       <Filter>Header Files</Filter>
     </ClInclude>

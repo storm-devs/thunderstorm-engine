@@ -1,12 +1,6 @@
 #ifndef _INTERNAL_FUNCTIONS_H_
 #define _INTERNAL_FUNCTIONS_H_
 
-#ifndef _XBOX
-#include <Windows.h>
-#else
-#include <xtl.h>
-#endif
-
 
 #include "token.h"
 #include "data.h"

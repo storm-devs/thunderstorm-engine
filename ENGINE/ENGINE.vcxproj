@@ -716,7 +716,6 @@
     <ClInclude Include="sources\control_stack.h" />
     <ClInclude Include="sources\Core.h" />
     <ClInclude Include="sources\C_atom.h" />
-    <ClInclude Include="sources\dat.h" />
     <ClInclude Include="sources\data.h" />
     <ClInclude Include="sources\dstring_codec.h" />
     <ClInclude Include="sources\entity_state_R.h" />
