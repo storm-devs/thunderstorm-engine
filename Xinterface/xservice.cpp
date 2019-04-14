@@ -216,10 +216,10 @@ void XSERVICE::LoadAllPicturesInfo()
 
 	// initialize ini file
 	WIN32_FIND_DATA	wfd;
-	HANDLE h = api->fio->_FindFirstFile(LISTS_INIFILE,&wfd);
+	HANDLE h = fio->_FindFirstFile(LISTS_INIFILE,&wfd);
 	if (INVALID_HANDLE_VALUE != h)
-		api->fio->_FindClose(h);
-	ini = api->fio->OpenIniFile((char*)LISTS_INIFILE);
+		fio->_FindClose(h);
+	ini = fio->OpenIniFile((char*)LISTS_INIFILE);
 	if(!ini) THROW("ini file not found!");
 
 	m_dwListQuantity=0;

@@ -134,7 +134,7 @@ void SINKEFFECT::Execute(uint32_t _dTime)
 //--------------------------------------------------------------------
 void SINKEFFECT::InitializeSinks()
 {
-	INIFILE *psIni = api->fio->OpenIniFile("resource\\ini\\particles.ini");
+	INIFILE *psIni = fio->OpenIniFile("resource\\ini\\particles.ini");
 
 	for (int i = 0; i < MAX_SINKS; ++i)
 	{

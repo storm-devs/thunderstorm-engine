@@ -168,7 +168,7 @@ bool Grass::LoadData(const char * patchName)
 	//Загружаем файл с данными
 	uint8_t * load = nullptr;
 	uint32_t size = 0;
-	if(!api->fio->LoadFile(patchName, (char**)&load, &size)) return false;
+	if(!fio->LoadFile(patchName, (char**)&load, &size)) return false;
 	try{
 		//Проверим данные
 		if(size < sizeof(GRSHeader)) throw "invalide file size";

@@ -23,7 +23,7 @@ TSeagulls::~TSeagulls()
 //--------------------------------------------------------------------
 void TSeagulls::LoadSettings()
 {
-	INIFILE * ini = api->fio->OpenIniFile(ANIMALS_INI_FILENAME);
+	INIFILE * ini = fio->OpenIniFile(ANIMALS_INI_FILENAME);
 	if (!ini)
 	{
 		countAdd = SEAGULL_ADD_COUNT;

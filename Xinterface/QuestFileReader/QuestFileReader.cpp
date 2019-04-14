@@ -210,18 +210,18 @@ bool QUEST_FILE_READER::InitQuestsQuery()
 	{
 		for( long n=0; n<m_aQuestFileName.size(); n++ )
 		{
-			HANDLE hfile = api->fio->_CreateFile( m_aQuestFileName[n].c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING );
+			HANDLE hfile = fio->_CreateFile( m_aQuestFileName[n].c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING );
 			if(hfile==INVALID_HANDLE_VALUE)
 			{
 				api->Trace( "WARNING! Can`t open quest log file %s", m_aQuestFileName[n].c_str() );
 				continue;
 			}
 
-			uint32_t filesize = api->fio->_GetFileSize( hfile, nullptr );
+			uint32_t filesize = fio->_GetFileSize( hfile, nullptr );
 			if( filesize == 0 )
 			{
 				api->Trace( "Empty quest log file %s", m_aQuestFileName[n].c_str() );
-				api->fio->_CloseHandle( hfile );
+				fio->_CloseHandle( hfile );
 				continue;
 			}
 
@@ -241,12 +241,12 @@ bool QUEST_FILE_READER::InitQuestsQuery()
 			}
 
 			uint32_t readsize;
-			if( api->fio->_ReadFile( hfile, &m_pFileBuf[foffset], filesize, &readsize ) == FALSE ||
+			if( fio->_ReadFile( hfile, &m_pFileBuf[foffset], filesize, &readsize ) == FALSE ||
 				readsize != filesize )
 			{
 				api->Trace( "Can`t read quest log file: %s", m_aQuestFileName[n].c_str() );
 			}
-			api->fio->_CloseHandle( hfile );
+			fio->_CloseHandle( hfile );
 			m_pFileBuf[foffset+readsize] = 0;
 		}
 	}
@@ -437,18 +437,18 @@ void QUEST_FILE_READER::SetQuestTextFileName(const char * pcFileName)
 	m_aQuestFileName.push_back( std::string(pcFileName) );
 
 	// открываем этот файл
-	HANDLE hfile = api->fio->_CreateFile( pcFileName, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING );
+	HANDLE hfile = fio->_CreateFile( pcFileName, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING );
 	if(hfile==INVALID_HANDLE_VALUE)
 	{
 		api->Trace( "WARNING! Can`t open quest log file %s", pcFileName );
 		return;
 	}
 	// его размер
-	uint32_t filesize = api->fio->_GetFileSize( hfile, nullptr );
+	uint32_t filesize = fio->_GetFileSize( hfile, nullptr );
 	if( filesize == 0 )
 	{
 		api->Trace( "Empty quest log file %s", pcFileName );
-		api->fio->_CloseHandle( hfile );
+		fio->_CloseHandle( hfile );
 		return;
 	}
 	// создаем буфер для него
@@ -456,12 +456,12 @@ void QUEST_FILE_READER::SetQuestTextFileName(const char * pcFileName)
 	Assert( pBuf );
 	// читаем в этот буфер из файла
 	uint32_t readsize;
-	if( api->fio->_ReadFile( hfile, pBuf, filesize, &readsize ) == FALSE ||
+	if( fio->_ReadFile( hfile, pBuf, filesize, &readsize ) == FALSE ||
 		readsize != filesize )
 	{
 		api->Trace( "Can`t read quest log file: %s", pcFileName );
 	}
-	api->fio->_CloseHandle( hfile );
+	fio->_CloseHandle( hfile );
 	pBuf[readsize] = 0;
 
 	AddQuestFromBuffer( pBuf );

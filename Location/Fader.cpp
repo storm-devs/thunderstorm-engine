@@ -84,7 +84,7 @@ bool Fader::Init()
 	//Зачитаем количество типсов, если надо
 	if(!numberOfTips)
 	{
-		INIFILE * ini = api->fio->OpenIniFile(api->EngineIniFileName());
+		INIFILE * ini = fio->OpenIniFile(api->EngineIniFileName());
 		if(ini)
 		{
 			numberOfTips = ini->GetLong(nullptr, "numoftips", -1);

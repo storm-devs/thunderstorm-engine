@@ -277,11 +277,11 @@ void SAIL::Execute(uint32_t Delta_Time)
         //====================================================
         // Если был изменен ини-файл, то считать инфо из него
 	    WIN32_FIND_DATA	wfd;
-	    HANDLE h = api->fio->_FindFirstFile("resource\\ini\\rigging.ini",&wfd);
+	    HANDLE h = fio->_FindFirstFile("resource\\ini\\rigging.ini",&wfd);
 	    if (INVALID_HANDLE_VALUE != h)
 	    {
 		    FILETIME ft_new = wfd.ftLastWriteTime;
-		    api->fio->_FindClose(h);
+		    fio->_FindClose(h);
 
 		    if (CompareFileTime(&ft_old,&ft_new)!=0)
             {
@@ -1194,13 +1194,13 @@ void SAIL::LoadSailIni()
 
 	INIFILE * ini;
 	WIN32_FIND_DATA	wfd;
-	HANDLE h = api->fio->_FindFirstFile("resource\\ini\\rigging.ini",&wfd);
+	HANDLE h = fio->_FindFirstFile("resource\\ini\\rigging.ini",&wfd);
 	if (INVALID_HANDLE_VALUE != h)
 	{
 		ft_old = wfd.ftLastWriteTime;
-		api->fio->_FindClose(h);
+		fio->_FindClose(h);
 	}
-	ini = api->fio->OpenIniFile("resource\\ini\\rigging.ini");
+	ini = fio->OpenIniFile("resource\\ini\\rigging.ini");
 	if(!ini) THROW("rigging.ini file not found!");
 
 	sprintf_s(section,"SAILS");

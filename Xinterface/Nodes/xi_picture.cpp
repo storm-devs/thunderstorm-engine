@@ -149,7 +149,7 @@ void CXI_PICTURE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
+	INIFILE * pIni = fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
 		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;
@@ -182,24 +182,24 @@ void CXI_PICTURE::SetNewPictureFromDir(char * dirName)
 
 	sprintf_s(param,"resource\\textures\\%s\\*.tx",dirName);
 
-	HANDLE h = api->fio->_FindFirstFile(param,&wfd);
+	HANDLE h = fio->_FindFirstFile(param,&wfd);
 	for(findQ=0; h!=INVALID_HANDLE_VALUE;)
 	{	findQ++;
-		if(!api->fio->_FindNextFile(h,&wfd)) break;
+		if(!fio->_FindNextFile(h,&wfd)) break;
 	}
-	if(h!=INVALID_HANDLE_VALUE)	api->fio->_FindClose(h);
+	if(h!=INVALID_HANDLE_VALUE)	fio->_FindClose(h);
 
 	if(findQ>0)
 	{
 		findQ = rand()%findQ;
-		h = api->fio->_FindFirstFile(param,&wfd);
+		h = fio->_FindFirstFile(param,&wfd);
 		if(h!=INVALID_HANDLE_VALUE)	for(;findQ>0;findQ--)
 		{
-			if(!api->fio->_FindNextFile(h,&wfd)) break;
+			if(!fio->_FindNextFile(h,&wfd)) break;
 		}
 		if(h!=INVALID_HANDLE_VALUE)
 		{
-			api->fio->_FindClose(h);
+			fio->_FindClose(h);
 			sprintf_s(param,"%s\\%s",dirName,wfd.cFileName);
 			int paramlen = strlen(param);
 			if(paramlen<sizeof(param) && paramlen>=3)	param[paramlen-3] = 0;

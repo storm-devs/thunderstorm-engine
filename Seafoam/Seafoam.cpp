@@ -66,7 +66,7 @@ bool SEAFOAM::Init()
 	renderer = (VDX9RENDER *)api->CreateService("dx9render");
 	soundService = (VSoundService *)api->CreateService("SoundService");
 
-	psIni = api->fio->OpenIniFile("resource\\ini\\particles.ini");
+	psIni = fio->OpenIniFile("resource\\ini\\particles.ini");
 
 	InitializeShipFoam();
 

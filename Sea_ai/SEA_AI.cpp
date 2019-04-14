@@ -151,7 +151,7 @@ uint32_t _cdecl SEA_AI::ProcessMessage(MESSAGE & message)
 			AIShip * pAIShip = AIShip::FindShip(pCharacter); 
 			if (!pAIShip)
 			{
-				api->BTrace("SeaAI err: SetSailState, can't find ship for character = %s", pCharacter->GetAttribute("id"));
+				api->Trace("SeaAI err: SetSailState, can't find ship for character = %s", pCharacter->GetAttribute("id"));
 				return 0;
 			}
 			api->Send_Message(pAIShip->GetShipEID(), "lf", MSG_SHIP_SET_SAIL_STATE, fSailState);

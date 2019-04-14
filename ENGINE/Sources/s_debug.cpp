@@ -133,7 +133,7 @@ LRESULT CALLBACK DebugWndProc(HWND hwnd,UINT iMsg,WPARAM wParam,LPARAM lParam)
 					CDebug.SetDbgDisplayMode(MODE_ATTRIBUTES_VIEW);
 				break;
 				case ID_OPTIONS_BREAKONERROR:
-					ini = Core.fio->OpenIniFile(PROJECT_NAME);
+					ini = fio->OpenIniFile(PROJECT_NAME);
 					if(!ini) break;
 					if(ini->GetLong("options","break_on_error",0) == 1)
 					{
@@ -223,7 +223,7 @@ LRESULT CALLBACK DebugWndProc(HWND hwnd,UINT iMsg,WPARAM wParam,LPARAM lParam)
 				CDebug.SourceView->SetPosition(CDebug.SourceViewRect);
 			}
 
-			ini = Core.fio->OpenIniFile(PROJECT_NAME);
+			ini = fio->OpenIniFile(PROJECT_NAME);
 			if(ini)
 			{
 				if(ini->GetLong("options","break_on_error",0) == 1)
@@ -555,7 +555,7 @@ uint32_t S_DEBUG::GetLineStatus(const char * _pFileName, uint32_t _linecode)
 bool S_DEBUG::BrowseFile(char * buffer, const char * filter)
 {
 	char DirectoryName[MAX_PATH];
-	Core.fio->_GetCurrentDirectory(sizeof(DirectoryName),DirectoryName);
+	fio->_GetCurrentDirectory(sizeof(DirectoryName),DirectoryName);
 	char file_name[MAX_PATH];
 	OPENFILENAME ofn;
 	BOOL bRes;
@@ -572,7 +572,7 @@ bool S_DEBUG::BrowseFile(char * buffer, const char * filter)
 	ofn.lpstrDefExt = filter;
 	ofn.lpstrTitle = "Open script source file";
 	bRes = GetOpenFileName(&ofn);
-	Core.fio->_SetCurrentDirectory(DirectoryName);
+	fio->_SetCurrentDirectory(DirectoryName);
 	if(bRes) 
 	{
 		strcat_s(DirectoryName,"\\");
@@ -588,7 +588,7 @@ bool S_DEBUG::BrowseFile(char * buffer, const char * filter)
 bool S_DEBUG::BrowseFileWP(char *buffer, const char * filter)
 {
 	char DirectoryName[MAX_PATH];
-	Core.fio->_GetCurrentDirectory(sizeof(DirectoryName),DirectoryName);
+	fio->_GetCurrentDirectory(sizeof(DirectoryName),DirectoryName);
 	char file_name[MAX_PATH];
 	OPENFILENAME ofn;
 	BOOL bRes;
@@ -605,7 +605,7 @@ bool S_DEBUG::BrowseFileWP(char *buffer, const char * filter)
 	ofn.lpstrDefExt = filter;
 	ofn.lpstrTitle = "Open script source file";
 	bRes = GetOpenFileName(&ofn);
-	Core.fio->_SetCurrentDirectory(DirectoryName);
+	fio->_SetCurrentDirectory(DirectoryName);
 	if(bRes) 
 	{
 		strcpy_s(buffer, MAX_PATH, file_name);

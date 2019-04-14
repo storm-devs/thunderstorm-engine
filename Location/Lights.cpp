@@ -49,7 +49,7 @@ bool Lights::Init()
 	if(!rs) STORM_THROW("No service: dx9render");
 	collide = (COLLIDE *)api->CreateService("COLL");
 	//Зачитаем параметры
-	INIFILE * ini = api->fio->OpenIniFile("RESOURCE\\Ini\\lights.ini");
+	INIFILE * ini = fio->OpenIniFile("RESOURCE\\Ini\\lights.ini");
 	if(!ini)
 	{
 		api->Trace("Location lights not inited -> RESOURCES\\Ini\\lights.ini not found");
@@ -512,7 +512,7 @@ void Lights::DelCharacterLights()
 //Обновить типы источников
 void Lights::UpdateLightTypes(long i)
 {
-	INIFILE * ini = api->fio->OpenIniFile("RESOURCE\\Ini\\lights.ini");
+	INIFILE * ini = fio->OpenIniFile("RESOURCE\\Ini\\lights.ini");
 	if(!ini) return;
 	//Имя источника
 	char * lName = types[i].name;

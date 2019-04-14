@@ -956,7 +956,7 @@ long Window::SelPreset()
 		if(lastPreset != ins)
 		{
 			//Подгружаем имя
-			INIFILE * ini = api->fio->OpenIniFile("resource\\ini\\loclighter.ini");
+			INIFILE * ini = fio->OpenIniFile("resource\\ini\\loclighter.ini");
 			if(ini)
 			{
 				char sect[32];
@@ -977,7 +977,7 @@ void Window::SavePreset(long prs)
 {
 	if(prs < 0) return;
 	//Проверяем, будем ли работать
-	INIFILE * ini = api->fio->OpenIniFile("resource\\ini\\loclighter.ini");
+	INIFILE * ini = fio->OpenIniFile("resource\\ini\\loclighter.ini");
 	if(!ini) return;
 	char sect[32];
 	sprintf_s(sect, "prs%i", prs);
@@ -1039,7 +1039,7 @@ void Window::LoadPreset(long prs)
 {
 	if(prs < 0) return;
 	//Проверяем, будем ли работать
-	INIFILE * ini = api->fio->OpenIniFile("resource\\ini\\loclighter.ini");
+	INIFILE * ini = fio->OpenIniFile("resource\\ini\\loclighter.ini");
 	if(!ini) return;
 	char sect[32];
 	sprintf_s(sect, "prs%i", prs);

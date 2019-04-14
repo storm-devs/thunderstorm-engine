@@ -572,9 +572,6 @@
     <ClCompile Include="sources\strings_list.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sources\system_log.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sources\token.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -2477,9 +2474,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sources\sp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\system_log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sources\fs.h">

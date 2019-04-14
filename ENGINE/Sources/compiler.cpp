@@ -17,7 +17,7 @@
 #define INVALID_OFFSET			0xffffffff
 #define DSL_INI_VALUE			0
 //#define IOBUFFER_SIZE			65535
-#define WARNINGS_OFF
+//#define WARNINGS_OFF
 //#define DTRACEOFF
 #define SBUPDATE 4
 #define DEF_COMPILE_EXPRESSIONS
@@ -266,19 +266,19 @@ char * COMPILER::LoadFile(char * file_name, uint32_t & file_size, bool bFullPath
 		}
 		buffer[m] = 0;*/
 
-		fh = Core.fio->_CreateFile(file_name,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
+		fh = fio->_CreateFile(file_name,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 	}
 		else
-	fh = Core.fio->_CreateFile(buffer,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
+	fh = fio->_CreateFile(buffer,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 	
 	if(fh == INVALID_HANDLE_VALUE) return nullptr;
-	fsize = Core.fio->_GetFileSize(fh,nullptr);
-	if(fsize == INVALID_FILE_SIZE) {Core.fio->_CloseHandle(fh); return nullptr;}
+	fsize = fio->_GetFileSize(fh,nullptr);
+	if(fsize == INVALID_FILE_SIZE) {fio->_CloseHandle(fh); return nullptr;}
 	
 	pData = (char *)new char[fsize + 1];
-	Core.fio->_ReadFile(fh,pData,fsize,&dwR);
-	if(fsize != dwR) {delete pData; Core.fio->_CloseHandle(fh); return nullptr;}
-	Core.fio->_CloseHandle(fh);
+	fio->_ReadFile(fh,pData,fsize,&dwR);
+	if(fsize != dwR) {delete pData; fio->_CloseHandle(fh); return nullptr;}
+	fio->_CloseHandle(fh);
 	file_size = fsize;
 	pData[fsize] = 0;
 	return pData;
@@ -290,7 +290,6 @@ void COMPILER::Trace(char * data_PTR, ...)
 #ifdef 	TRACE_OFF
 	return;
 #endif
-	if(bTraceFilesOff) return;
 	//char LogBuffer[MAX_PATH + MAX_PATH];
 	char LogBuffer[4096];
 	if(data_PTR == nullptr) return;
@@ -314,7 +313,6 @@ void COMPILER::DTrace(char * data_PTR, ...)
 	return;
 #endif
 
-	if(bTraceFilesOff) return;
 	//char LogBuffer[MAX_PATH + MAX_PATH];
 	char LogBuffer[4096];
 	if(data_PTR == nullptr) return;
@@ -389,7 +387,6 @@ bool COMPILER::AppendProgram(char * & pBase_program, uint32_t & Base_program_siz
 void COMPILER::SetError(char * data_PTR, ...)
 {
 	if(bDebugExpressionRun) return;
-	if(bTraceFilesOff) return;
 	char LogBuffer[MAX_PATH + MAX_PATH];
 	char ErrorBuffer[MAX_PATH + MAX_PATH];
 	if(data_PTR == nullptr) return;
@@ -433,7 +430,6 @@ void COMPILER::SetWarning(char * data_PTR, ...)
 #ifdef WARNINGS_OFF
 	return;
 #endif
-	if(bTraceFilesOff) return;
 	if(bDebugExpressionRun) return;
 	char LogBuffer[MAX_PATH + MAX_PATH];
 	char ErrorBuffer[MAX_PATH + MAX_PATH];
@@ -478,7 +474,7 @@ void COMPILER::LoadPreprocess()
 {
 	INIFILE * engine_ini;
 
-	engine_ini = api->fio->OpenIniFile(api->EngineIniFileName());
+	engine_ini = fio->OpenIniFile(api->EngineIniFileName());
 	if(engine_ini != nullptr)
 	{
 		if(engine_ini->GetLong("script","debuginfo",0) == 0) 
@@ -510,7 +506,7 @@ void COMPILER::LoadPreprocess()
 		delete engine_ini;
 	}
 #ifndef _XBOX
-	INIFILE * ini = Core.fio->OpenIniFile(PROJECT_NAME);
+	INIFILE * ini = fio->OpenIniFile(PROJECT_NAME);
 	if(ini)
 	{
 		bBreakOnError = (ini->GetLong("options","break_on_error",0)==1);
@@ -525,7 +521,7 @@ bool COMPILER::CreateProgram(char * file_name)
 	bool bRes;
 /*	INIFILE * engine_ini;
 
-	engine_ini = api->fio->OpenIniFile(api->EngineIniFileName());
+	engine_ini = fio->OpenIniFile(api->EngineIniFileName());
 	if(engine_ini != null)
 	{
 		if(engine_ini->GetLong("script","debuginfo",0) == 0) 
@@ -6308,11 +6304,11 @@ bool COMPILER::SetSaveData(char * file_name, void * save_data, long data_size)
 	uint32_t dwFileSize;
 
 	fio->SetDrive(XBOXDRIVE_NONE);
-	HANDLE fh = Core.fio->_CreateFile(file_name, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, OPEN_EXISTING);
+	HANDLE fh = fio->_CreateFile(file_name, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, OPEN_EXISTING);
 	fio->SetDrive();
 	if (fh == INVALID_HANDLE_VALUE) return false;
 
-	dwFileSize = Core.fio->_GetFileSize(fh, nullptr);
+	dwFileSize = fio->_GetFileSize(fh, nullptr);
 	VDATA* pVDat = (VDATA*)api->GetScriptVariable("savefile_info");
 	if( pVDat && pVDat->GetString() )
 		sprintf_s(exdh.sFileInfo,sizeof(exdh.sFileInfo),"%s",pVDat->GetString());
@@ -6387,12 +6383,12 @@ bool COMPILER::SetSaveData(char * file_name, void * save_data, long data_size)
 
 	// open save file
 	fio->SetDrive(XBOXDRIVE_NONE);
-	HANDLE fh = Core.fio->_CreateFile(sFileName,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
+	HANDLE fh = fio->_CreateFile(sFileName,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 	fio->SetDrive();
 	if(fh == INVALID_HANDLE_VALUE) return false;
 
 	// get file size
-	dwFileSize = Core.fio->_GetFileSize(fh,0);
+	dwFileSize = fio->_GetFileSize(fh,0);
 
 	// set global handle
 //	hSaveFileFileHandle = fh;
@@ -6415,18 +6411,18 @@ bool COMPILER::SetSaveData(char * file_name, void * save_data, long data_size)
 	if(pOrgData == 0) 
 	{
 		SetError("no memory");
-		Core.fio->_CloseHandle(fh);
+		fio->_CloseHandle(fh);
 		return false;
 	}
 
 	// buffering org data
 	ReadData(pOrgData,dwOrgDataSize);
 
-	Core.fio->_CloseHandle(fh);
+	fio->_CloseHandle(fh);
 
 	// start flushing data to file
 	fio->SetDrive(XBOXDRIVE_NONE);
-	fh = Core.fio->_CreateFile(sFileName,GENERIC_WRITE,FILE_SHARE_READ,OPEN_EXISTING);
+	fh = fio->_CreateFile(sFileName,GENERIC_WRITE,FILE_SHARE_READ,OPEN_EXISTING);
 	fio->SetDrive();
 	if(fh == INVALID_HANDLE_VALUE) 
 	{
@@ -6484,7 +6480,7 @@ bool COMPILER::SetSaveData(char * file_name, void * save_data, long data_size)
 #endif
 
 	// cleanup
-	Core.fio->_CloseHandle(fh);
+	fio->_CloseHandle(fh);
 	if(pOrgData) delete pOrgData;
 	return true;
 	
@@ -6574,7 +6570,7 @@ void * COMPILER::GetSaveData(char * file_name, long & data_size)
 
 	// open save file
 	fio->SetDrive(XBOXDRIVE_NONE);
-	HANDLE fh = Core.fio->_CreateFile(file_name,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
+	HANDLE fh = fio->_CreateFile(file_name,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 	fio->SetDrive();
 	if(fh == INVALID_HANDLE_VALUE) 
 	{
@@ -6590,17 +6586,17 @@ void * COMPILER::GetSaveData(char * file_name, long & data_size)
 	memset(&exdh,0,sizeof(exdh));
 	if(!ReadData(&exdh,sizeof(exdh)))
 	{
-		Core.fio->_CloseHandle(fh);
+		fio->_CloseHandle(fh);
 		return 0;
 	}
 #ifdef _XBOX
 	if(hSig != INVALID_HANDLE_VALUE) XCalculateSignatureUpdate(hSig,(BYTE *)&exdh,sizeof(exdh));
 #endif
 
-	int fsize = Core.fio->_GetFileSize(fh,0);
+	int fsize = fio->_GetFileSize(fh,0);
 	if( fsize < exdh.dwExtDataOffset+exdh.dwExtDataSize )
 	{ // extern data header is failed
-		Core.fio->_CloseHandle(fh);
+		fio->_CloseHandle(fh);
 		return 0;
 	}
 
@@ -6609,7 +6605,7 @@ void * COMPILER::GetSaveData(char * file_name, long & data_size)
 	if(pExtData == 0) 
 	{
 		SetError("no memory");
-		Core.fio->_CloseHandle(fh);
+		fio->_CloseHandle(fh);
 		return 0;
 	}
 
@@ -6625,7 +6621,7 @@ void * COMPILER::GetSaveData(char * file_name, long & data_size)
 	{
 		SetError("no memory");
 		if(pExtData) delete pExtData;
-		Core.fio->_CloseHandle(fh);
+		fio->_CloseHandle(fh);
 		return 0;
 	}
 	ReadData(pOrgData,dwOrgDataSize);
@@ -6633,7 +6629,7 @@ void * COMPILER::GetSaveData(char * file_name, long & data_size)
 	delete pOrgData;
 #else
 	// move to ext data
-	DWORD dwRes = Core.fio->_SetFilePointer(fh,exdh.dwExtDataOffset,0,FILE_BEGIN);
+	DWORD dwRes = fio->_SetFilePointer(fh,exdh.dwExtDataOffset,0,FILE_BEGIN);
 	if(dwRes == 0xffffffff)
 	{
 		if(pExtData) delete pExtData; pExtData = 0;
@@ -6655,7 +6651,7 @@ void * COMPILER::GetSaveData(char * file_name, long & data_size)
 	if(memcmp(&xsig,&save_xsig,sizeof(xsig))!=0)
 	{
 		// save data broken
-		Core.fio->_CloseHandle(fh);
+		fio->_CloseHandle(fh);
 		SetError("save signature check failed");
 		delete pExtData;
 		data_size = 0;
@@ -6666,7 +6662,7 @@ void * COMPILER::GetSaveData(char * file_name, long & data_size)
 
 
 	// cleanup
-	Core.fio->_CloseHandle(fh);
+	fio->_CloseHandle(fh);
 
 	data_size = exdh.dwExtDataSize;
 	return pExtData;
@@ -6802,17 +6798,17 @@ void COMPILER::FormatAllDialog(char * directory_name)
 	WIN32_FIND_DATA ffd;
 	char sFileName[MAX_PATH];
 	sprintf_s(sFileName,"%s\\*.c",directory_name);
-	fh = Core.fio->_FindFirstFile(sFileName,&ffd);
+	fh = fio->_FindFirstFile(sFileName,&ffd);
 	if(fh != INVALID_HANDLE_VALUE)
 	{
 		sprintf_s(sFileName,"%s\\%s",directory_name,ffd.cFileName);
 		FormatDialog(sFileName);
-		while(Core.fio->_FindNextFile(fh,&ffd))
+		while(fio->_FindNextFile(fh,&ffd))
 		{
 			sprintf_s(sFileName,"%s\\%s",directory_name,ffd.cFileName);
 			FormatDialog(sFileName);
 		}
-		Core.fio->_FindClose(fh);
+		fio->_FindClose(fh);
 	}
 }
 
@@ -6843,19 +6839,19 @@ void COMPILER::FormatDialog(char * file_name)
 	pFileData = LoadFile(file_name,FileSize,true);
 	if(pFileData == nullptr) { return;}
 
-	fh = Core.fio->_CreateFile(sFileName,GENERIC_WRITE,FILE_SHARE_READ,CREATE_ALWAYS);
+	fh = fio->_CreateFile(sFileName,GENERIC_WRITE,FILE_SHARE_READ,CREATE_ALWAYS);
 	if(fh == INVALID_HANDLE_VALUE) return;
 
 	//sprintf_s(sFileName,"PROGRAM\\%s",file_name);
 	strcpy_s(sFileName,file_name);
 	sFileName[strlen(sFileName)-1] = 0;
 	strcat_s(sFileName,"h");
-	fhH = Core.fio->_CreateFile(sFileName,GENERIC_WRITE,FILE_SHARE_READ,CREATE_ALWAYS);
-	if(fhH == INVALID_HANDLE_VALUE) {Core.fio->_CloseHandle(fh); delete pFileData; return;}
+	fhH = fio->_CreateFile(sFileName,GENERIC_WRITE,FILE_SHARE_READ,CREATE_ALWAYS);
+	if(fhH == INVALID_HANDLE_VALUE) {fio->_CloseHandle(fh); delete pFileData; return;}
 
 
 	//pFileData = LoadFile(file_name,FileSize,true);
-	//if(pFileData == 0) {Core.fio->_CloseHandle(fh); Core.fio->_CloseHandle(fhH); return;}
+	//if(pFileData == 0) {fio->_CloseHandle(fh); fio->_CloseHandle(fhH); return;}
 
 	uint32_t nFullNameLen,n;
 	nFullNameLen = strlen(file_name);
@@ -6868,13 +6864,13 @@ void COMPILER::FormatDialog(char * file_name)
 	strcat_s(sFileName,"h");
 	sprintf_s(buffer,"#include \"%s\"",sFileName);
 
-	Core.fio->_WriteFile(fh,buffer,strlen(buffer),&dwR);
-	Core.fio->_WriteFile(fh,sNewLine,strlen(sNewLine),&dwR);
+	fio->_WriteFile(fh,buffer,strlen(buffer),&dwR);
+	fio->_WriteFile(fh,sNewLine,strlen(sNewLine),&dwR);
 
 
 	sprintf_s(buffer,"string DLG_TEXT[0] = {        ");
-	Core.fio->_WriteFile(fhH,buffer,strlen(buffer),&dwR);
-	Core.fio->_WriteFile(fhH,sNewLine,strlen(sNewLine),&dwR);
+	fio->_WriteFile(fhH,buffer,strlen(buffer),&dwR);
+	fio->_WriteFile(fhH,sNewLine,strlen(sNewLine),&dwR);
 
 	
 	Token.SetProgram(pFileData,pFileData);
@@ -6885,7 +6881,7 @@ void COMPILER::FormatDialog(char * file_name)
 		switch(Token_type)
 		{
 		case DOT:
-			Core.fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
+			fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
 			Token_type = Token.FormatGet();
 			if(Token_type != OPEN_BRACKET)
 			{
@@ -6894,12 +6890,12 @@ void COMPILER::FormatDialog(char * file_name)
 					// node text --------------------------------------------
 					if(_stricmp(Token.GetData(),"text")== 0)
 					{
-						Core.fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
+						fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
 
-						//Core.fio->_WriteFile(fhH,sNewLine,strlen(sNewLine),&dwR);
+						//fio->_WriteFile(fhH,sNewLine,strlen(sNewLine),&dwR);
 						//sprintf_s(sFileName,"// [NODE START] ",nTxt); 
-						//Core.fio->_WriteFile(fhH,sFileName,strlen(sFileName),&dwR);
-						//Core.fio->_WriteFile(fhH,sNewLine,strlen(sNewLine),&dwR);
+						//fio->_WriteFile(fhH,sFileName,strlen(sFileName),&dwR);
+						//fio->_WriteFile(fhH,sNewLine,strlen(sNewLine),&dwR);
 
 						size_t newline_len = strlen(sNewLine);
 						do
@@ -6929,22 +6925,22 @@ void COMPILER::FormatDialog(char * file_name)
 								//if(strlen(Token.GetData()) == 3 && Token.GetData()[1] <= 0x39)
 								if(!bExportString)
 								{
-									Core.fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
+									fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
 								}
 								else
 								{
-									Core.fio->_WriteFile(fhH,Token.GetData(),strlen(Token.GetData()),&dwR);
-									Core.fio->_WriteFile(fhH,",",_countof(",")-1,&dwR);
-									Core.fio->_WriteFile(fhH,sNewLine,newline_len,&dwR);
+									fio->_WriteFile(fhH,Token.GetData(),strlen(Token.GetData()),&dwR);
+									fio->_WriteFile(fhH,",",_countof(",")-1,&dwR);
+									fio->_WriteFile(fhH,sNewLine,newline_len,&dwR);
 									sprintf_s(sFileName,"DLG_TEXT[%d]",nTxt);
-									Core.fio->_WriteFile(fh,sFileName,strlen(sFileName),&dwR);
+									fio->_WriteFile(fh,sFileName,strlen(sFileName),&dwR);
 									nTxt++;
 								
 								}
 								
 							} else
 							{
-								Core.fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
+								fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
 							}
 							if(Token_type == END_OF_PROGRAMM) break;
 						} while(Token_type != SEPARATOR);
@@ -6954,30 +6950,30 @@ void COMPILER::FormatDialog(char * file_name)
 			}
 			if(Token.GetData())
 			{
-				Core.fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
+				fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
 			}
 		break;
 		case UNKNOWN:
 			if(Token.GetData())
 			{
-				Core.fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
+				fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
 				if(_stricmp(Token.GetData(),"link")==0)
 				{
 					Token_type = Token.FormatGet();
-					Core.fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
+					fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
 					if(Token_type == DOT)
 					{
 						Token_type = Token.FormatGet();
 						if(Token.GetData())
 						{
-							Core.fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
+							fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
 						}
 						if(Token_type == UNKNOWN)
 						{
 							Token_type = Token.FormatGet();
 							if(Token.GetData())
 							{
-								Core.fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
+								fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
 							}
 							if(Token_type != DOT)
 							{
@@ -7009,21 +7005,21 @@ void COMPILER::FormatDialog(char * file_name)
 										//if(strlen(Token.GetData()) == 3 && Token.GetData()[1] <= 0x39)
 										if(!bExportString)
 										{
-											Core.fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
+											fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
 										}
 										else
 										{
-											Core.fio->_WriteFile(fhH,Token.GetData(),strlen(Token.GetData()),&dwR);
-											Core.fio->_WriteFile(fhH,",",_countof(",")-1,&dwR);
-											Core.fio->_WriteFile(fhH,sNewLine, newline_len,&dwR);
+											fio->_WriteFile(fhH,Token.GetData(),strlen(Token.GetData()),&dwR);
+											fio->_WriteFile(fhH,",",_countof(",")-1,&dwR);
+											fio->_WriteFile(fhH,sNewLine, newline_len,&dwR);
 											sprintf_s(sFileName,"DLG_TEXT[%d]",nTxt);
-											Core.fio->_WriteFile(fh,sFileName,strlen(sFileName),&dwR);
+											fio->_WriteFile(fh,sFileName,strlen(sFileName),&dwR);
 											nTxt++;
 										}
 
 									} else
 									{
-										Core.fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
+										fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
 									}
 									if(Token_type == END_OF_PROGRAMM) break;
 								} while(Token_type != SEPARATOR);
@@ -7043,7 +7039,7 @@ void COMPILER::FormatDialog(char * file_name)
 		default: 
 			if(Token.GetData())
 			{
-				Core.fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
+				fio->_WriteFile(fh,Token.GetData(),strlen(Token.GetData()),&dwR);
 			}
 		break;
 		}
@@ -7053,14 +7049,14 @@ void COMPILER::FormatDialog(char * file_name)
 	delete pFileData;
 
 	sprintf_s(buffer,"};");
-	Core.fio->_WriteFile(fhH,sNewLine,strlen(sNewLine),&dwR);
-	Core.fio->_WriteFile(fhH,buffer,strlen(buffer),&dwR);
-	Core.fio->_SetFilePointer(fhH,0,nullptr,FILE_BEGIN);
+	fio->_WriteFile(fhH,sNewLine,strlen(sNewLine),&dwR);
+	fio->_WriteFile(fhH,buffer,strlen(buffer),&dwR);
+	fio->_SetFilePointer(fhH,0,nullptr,FILE_BEGIN);
 	sprintf_s(buffer,"string DLG_TEXT[%d] = {",nTxt);
-	Core.fio->_WriteFile(fhH,buffer,strlen(buffer),&dwR);
+	fio->_WriteFile(fhH,buffer,strlen(buffer),&dwR);
 	
-	Core.fio->_CloseHandle(fhH);
-	Core.fio->_CloseHandle(fh);
+	fio->_CloseHandle(fhH);
+	fio->_CloseHandle(fh);
 }
 
 void STRING_CODEC::VariableChanged()

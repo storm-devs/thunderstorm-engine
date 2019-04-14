@@ -84,7 +84,7 @@ bool FONT::Init(char * font_name, char * iniName, IDirect3DDevice9 * _device, VD
 	long ltmp;
 	char * pData;
 
-	ini = api->fio->OpenIniFile(iniName);
+	ini = fio->OpenIniFile(iniName);
 	if(ini == nullptr) return false;
 
 	m_fAspectRatioH = 1.f;

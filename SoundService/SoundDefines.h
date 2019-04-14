@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////
 //#define TRACE_INFORMATION
 #ifndef _XBOX
-	#define FIO(a) api->fio->_##a
+	#define FIO(a) fio->_##a
 #else
 	#define FIO(a) a  
 #endif

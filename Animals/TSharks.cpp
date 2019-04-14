@@ -36,7 +36,7 @@ TSharks::~TSharks()
 //--------------------------------------------------------------------
 void TSharks::LoadSettings()
 {
-	INIFILE * ini = api->fio->OpenIniFile(ANIMALS_INI_FILENAME);
+	INIFILE * ini = fio->OpenIniFile(ANIMALS_INI_FILENAME);
 	if (!ini)
 		return;
 

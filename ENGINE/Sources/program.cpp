@@ -134,7 +134,7 @@ void PROGRAM::ClearEvents()
 bool PROGRAM::SaveState(HANDLE fh)
 {
 	uint32_t n;
-	Core.fio->_WriteFile(fh,&ProgramNum,sizeof(ProgramNum),nullptr);
+	fio->_WriteFile(fh,&ProgramNum,sizeof(ProgramNum),nullptr);
 	for(n=0;n<ProgramNum;n++)
 	{
 		ProgramBlock[n]->SaveState(fh);
@@ -146,7 +146,7 @@ bool PROGRAM::LoadState(HANDLE fh)
 {
 	uint32_t n;
 	Release();
-	Core.fio->_ReadFile(fh,&ProgramNum,sizeof(ProgramNum),nullptr);
+	fio->_ReadFile(fh,&ProgramNum,sizeof(ProgramNum),nullptr);
 	ProgramBlock = (COMPILER **)realloc(ProgramBlock,ProgramNum*sizeof(COMPILER *));
 	for(n=0;n<ProgramNum;n++)
 	{

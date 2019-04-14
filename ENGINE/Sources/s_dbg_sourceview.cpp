@@ -424,7 +424,7 @@ SOURCE_VIEW::SOURCE_VIEW(HWND _hMain, HINSTANCE _hInst)
 	//OpenSourceFile("program\\ps.c");
 	//OpenSourceFile("program\\seadogs.c");
 
-	INIFILE * pI = Core.fio->OpenIniFile(PROJECT_NAME);
+	INIFILE * pI = fio->OpenIniFile(PROJECT_NAME);
 	if (pI)
 	{
 		char buffer[1024];
@@ -441,7 +441,7 @@ SOURCE_VIEW::~SOURCE_VIEW()
 {
 	if(pSourceFile) delete pSourceFile;
 
-	INIFILE * pI = Core.fio->OpenIniFile(PROJECT_NAME);
+	INIFILE * pI = fio->OpenIniFile(PROJECT_NAME);
 	if (pI)
 	{
 		pI->DeleteSection("bookmarks");
@@ -500,16 +500,16 @@ bool SOURCE_VIEW::OpenSourceFile(const char * _filename)
 
 
 	char DirectoryName[MAX_PATH];
-	Core.fio->_GetCurrentDirectory(sizeof(DirectoryName),DirectoryName);
+	fio->_GetCurrentDirectory(sizeof(DirectoryName),DirectoryName);
 	
 	strcat_s(DirectoryName,"\\");
 	strcat_s(DirectoryName,ProgramDirectory);
 	strcat_s(DirectoryName,"\\");
 	strcat_s(DirectoryName,_filename);
 
-	fh = Core.fio->_CreateFile(DirectoryName);
+	fh = fio->_CreateFile(DirectoryName);
 	if(fh == INVALID_HANDLE_VALUE) return false;
-	nDataSize = Core.fio->_GetFileSize(fh,nullptr);
+	nDataSize = fio->_GetFileSize(fh,nullptr);
 
 	nTopLine = 0;
 	if(pSourceFile) delete pSourceFile; 
@@ -518,8 +518,8 @@ bool SOURCE_VIEW::OpenSourceFile(const char * _filename)
 	nActiveLine = 0xffffffff;
 
 	pSourceFile = new char[nDataSize + 1];
-	Core.fio->_ReadFile(fh,pSourceFile,nDataSize,&dwR);
-	Core.fio->_CloseHandle(fh);
+	fio->_ReadFile(fh,pSourceFile,nDataSize,&dwR);
+	fio->_CloseHandle(fh);
 	if(dwR != nDataSize)
 	{
 		delete pSourceFile;

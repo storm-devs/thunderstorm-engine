@@ -327,7 +327,6 @@ public:
 
 	void SetNetActive(bool bActive);
 
-	void _cdecl BTrace(const char * Format,...);
 	bool IsNetActive() const;
 
 	bool __declspec(dllexport) __cdecl LoCheck();

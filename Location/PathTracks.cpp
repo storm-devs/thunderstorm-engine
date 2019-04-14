@@ -40,7 +40,7 @@ bool PathTracks::Load(const char * fileName)
 
 	char* data = nullptr;
 	uint32_t size = 0;
-	if( api->fio->LoadFile(fileName,&data,&size)==FALSE || !data )
+	if( fio->LoadFile(fileName,&data,&size)==FALSE || !data )
 	{
 		api->Trace("Camera tracks file %s not loaded...", fileName);
 		return false;

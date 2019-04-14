@@ -28,7 +28,7 @@ bool BLAST::Init()
 
 	//	long n;
 	INIFILE * ini;
-	ini = api->fio->OpenIniFile("resource\\ini\\particles\\particles.ini");
+	ini = fio->OpenIniFile("resource\\ini\\particles\\particles.ini");
 	if(!ini) {api->Trace("not found: resource\\ini\\particles\\particles.ini"); return false;}
 
 	long RandomNum = ini->GetLong("geo", "randomnum", 0);

@@ -52,7 +52,7 @@ IDirect3DTexture9* TextureSequence::Initialize(VDX9RENDER *pRS, const char* cTSf
 	m_pRS = pRS;
 
 	// open ini file
-	INIFILE * ini = api->fio->OpenIniFile((char*)INI_FILENAME);
+	INIFILE * ini = fio->OpenIniFile((char*)INI_FILENAME);
 	if(!ini)
 	{
 		api->Trace("ini file %s not found!",INI_FILENAME);

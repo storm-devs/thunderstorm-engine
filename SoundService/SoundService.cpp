@@ -1187,7 +1187,7 @@ void SoundService::LoadAliasFile (const char *_filename)
 	//api->Trace("Find sound alias file %s", iniName.c_str());
 
 	INIFILE *aliasIni;
-	aliasIni = api->fio->OpenIniFile(iniName.c_str());
+	aliasIni = fio->OpenIniFile(iniName.c_str());
 	if (!aliasIni) return;
 
 	if (aliasIni->GetSectionName(sectionName, SECTION_NAME_LENGTH))
@@ -1209,13 +1209,13 @@ void SoundService::InitAliases ()
 
 	HANDLE foundFile;
 	WIN32_FIND_DATA findData;
-	if ((foundFile = api->fio->_FindFirstFile(iniName.c_str(), &findData)) != INVALID_HANDLE_VALUE)
+	if ((foundFile = fio->_FindFirstFile(iniName.c_str(), &findData)) != INVALID_HANDLE_VALUE)
 	{
 		do
 		LoadAliasFile(findData.cFileName);
-		while (api->fio->_FindNextFile(foundFile, &findData) == TRUE);
+		while (fio->_FindNextFile(foundFile, &findData) == TRUE);
 		if(foundFile != INVALID_HANDLE_VALUE)
-			api->fio->_FindClose(foundFile);
+			fio->_FindClose(foundFile);
 	}
 }
 
@@ -1600,7 +1600,7 @@ bool SoundService::AddScheme (const char *_schemeName)
 {
 	INIFILE *ini;
 	static char tempString[COMMON_STRING_LENGTH];
-	ini = api->fio->OpenIniFile(SCHEME_INI_NAME);
+	ini = fio->OpenIniFile(SCHEME_INI_NAME);
 
 	if (!ini)
 		return false;

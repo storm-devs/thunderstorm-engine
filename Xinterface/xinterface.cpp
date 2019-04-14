@@ -1044,19 +1044,19 @@ uint32_t XINTERFACE::ProcessMessage(MESSAGE & message)
 			else {
 				WIN32_FIND_DATA wfd;
 #ifdef _XBOX
-				api->fio->SetDrive(XBOXDRIVE_NONE);
+				fio->SetDrive(XBOXDRIVE_NONE);
 #endif
-				HANDLE h = api->fio->_FindFirstFile( param,&wfd );
+				HANDLE h = fio->_FindFirstFile( param,&wfd );
 				if(h!=INVALID_HANDLE_VALUE)
 				{
 					FILETIME ftime;
 					FileTimeToLocalFileTime(&wfd.ftLastWriteTime, &ftime);
 					FileTimeToSystemTime(&ftime, &systTime);
-					api->fio->_FindClose(h);
+					fio->_FindClose(h);
 				}
 				else GetLocalTime(&systTime);
 #ifdef _XBOX
-				api->fio->SetDrive();
+				fio->SetDrive();
 #endif
 			}
 			sprintf_s(param2,"%2.2d:%2.2d:%2.2d", systTime.wHour,systTime.wMinute,systTime.wSecond);
@@ -1113,7 +1113,7 @@ void XINTERFACE::LoadIni()
 	char * platform = "XBOX_SCREEN";
 #endif
 	INIFILE * ini;
-	ini = api->fio->OpenIniFile((char*)RESOURCE_FILENAME);
+	ini = fio->OpenIniFile((char*)RESOURCE_FILENAME);
 	if(!ini) THROW("ini file not found!");
 
 	sprintf_s(section,"COMMON");
@@ -1223,14 +1223,14 @@ void XINTERFACE::LoadDialog(char *sFileName)
 
 	// initialize ini file
 	m_sDialogFileName = sFileName;
-	ini = api->fio->OpenIniFile(sFileName);
+	ini = fio->OpenIniFile(sFileName);
 	if(!ini)
 	{
 		api->Trace( "ini file %s not found!", sFileName );
 		api->PostEvent( "exitCancel", 1, nullptr );
 		return;
 	}
-	ownerIni = api->fio->OpenIniFile("RESOURCE\\INI\\INTERFACES\\defaultnode.ini");
+	ownerIni = fio->OpenIniFile("RESOURCE\\INI\\INTERFACES\\defaultnode.ini");
 
 	sprintf_s(section,"MAIN");
 
@@ -1365,14 +1365,14 @@ void XINTERFACE::CreateNode(char *sFileName, char *sNodeType, char *sNodeName, l
 	ini = nullptr;
 	if( sFileName && sFileName[0] )
 	{
-		ini = api->fio->OpenIniFile( sFileName );
+		ini = fio->OpenIniFile( sFileName );
 		if( !ini )
 		{
 			api->Trace( "ini file %s not found!", sFileName );
 			return;
 		}
 	}
-	ownerIni = api->fio->OpenIniFile("RESOURCE\\INI\\INTERFACES\\defaultnode.ini");
+	ownerIni = fio->OpenIniFile("RESOURCE\\INI\\INTERFACES\\defaultnode.ini");
 
 	SFLB_CreateNode( ownerIni, ini, sNodeType, sNodeName, priority );
 
@@ -2664,11 +2664,11 @@ char * XINTERFACE::SaveFileFind(long saveNum, char * buffer, size_t bufSize, lon
 		if(sSavePath== nullptr) sprintf_s(param,"*");
 		else
 		{
-			api->fio->_CreateDirectory(sSavePath,nullptr);
+			fio->_CreateDirectory(sSavePath,nullptr);
 			sprintf_s(param,"%s\\*",sSavePath);
 		}
 		// start save file finding
-		HANDLE h = api->fio->_FindFirstFile(param,&wfd);
+		HANDLE h = fio->_FindFirstFile(param,&wfd);
 		if(h!=INVALID_HANDLE_VALUE)
 		{
 			do
@@ -2676,9 +2676,9 @@ char * XINTERFACE::SaveFileFind(long saveNum, char * buffer, size_t bufSize, lon
 				// folders not be considers
 				if( wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ) continue;
 				AddFindData( wfd.cFileName, 0, wfd.ftLastWriteTime );
-			} while( api->fio->_FindNextFile(h,&wfd)!=0 );
+			} while( fio->_FindNextFile(h,&wfd)!=0 );
 			// close handle for file finding
-			api->fio->_FindClose(h);
+			fio->_FindClose(h);
 		}
 #else
 		int n;
@@ -2761,10 +2761,10 @@ bool XINTERFACE::NewSaveFileName(char * fileName)
 	if(sSavePath== nullptr) sprintf_s(param,"%s",fileName);
 	else sprintf_s(param,"%s\\%s",sSavePath,fileName);
 
-	HANDLE h = api->fio->_FindFirstFile(param,&wfd);
+	HANDLE h = fio->_FindFirstFile(param,&wfd);
 	if (h == INVALID_HANDLE_VALUE) return true;
 
-	api->fio->_FindClose(h);
+	fio->_FindClose(h);
 	return false;
 #endif
 }
@@ -2778,11 +2778,11 @@ void XINTERFACE::DeleteSaveFile(char * fileName)
 	WIN32_FIND_DATA	wfd;
 	if(sSavePath== nullptr) sprintf_s(param,"%s",fileName);
 	else sprintf_s(param,"%s\\%s",sSavePath,fileName);
-	HANDLE h = api->fio->_FindFirstFile(param,&wfd);
+	HANDLE h = fio->_FindFirstFile(param,&wfd);
 	if (INVALID_HANDLE_VALUE != h)
 	{
-		api->fio->_FindClose(h);
-		api->fio->_DeleteFile(param);
+		fio->_FindClose(h);
+		fio->_DeleteFile(param);
 	}
 #else
 	int i,j,startIdx;
@@ -3095,10 +3095,10 @@ void XINTERFACE::SaveOptionsFile(char * fileName, ATTRIBUTES * pAttr)
 	strcpy_s(FullPath,fileName);
 #endif
 
-	api->fio->SetDrive(XBOXDRIVE_NONE);
+	fio->SetDrive(XBOXDRIVE_NONE);
 	PrecreateDirForFile(FullPath);
-	fh = api->fio->_CreateFile(FullPath,GENERIC_WRITE,0,CREATE_ALWAYS);
-	api->fio->SetDrive();
+	fh = fio->_CreateFile(FullPath,GENERIC_WRITE,0,CREATE_ALWAYS);
+	fio->SetDrive();
 	if(fh == INVALID_HANDLE_VALUE) return;
 
 	char * pOutBuffer = nullptr;
@@ -3118,13 +3118,13 @@ void XINTERFACE::SaveOptionsFile(char * fileName, ATTRIBUTES * pAttr)
 		if(hSig != INVALID_HANDLE_VALUE) XCalculateSignatureUpdate(hSig,(uint8_t *)pOutBuffer,strlen(pOutBuffer));
 		if(hSig != INVALID_HANDLE_VALUE) XCalculateSignatureEnd(hSig,&xsig);
 		// save signature
-		api->fio->_WriteFile(fh, &xsig, sizeof(xsig), &dwRealSaved);
+		fio->_WriteFile(fh, &xsig, sizeof(xsig), &dwRealSaved);
 #endif
 
-		api->fio->_WriteFile(fh, pOutBuffer, strlen(pOutBuffer), &dwRealSaved);
+		fio->_WriteFile(fh, pOutBuffer, strlen(pOutBuffer), &dwRealSaved);
 		delete pOutBuffer;
 	}
-	api->fio->_CloseHandle(fh);
+	fio->_CloseHandle(fh);
 }
 
 void XINTERFACE::LoadOptionsFile(char * fileName, ATTRIBUTES * pAttr)
@@ -3153,24 +3153,24 @@ void XINTERFACE::LoadOptionsFile(char * fileName, ATTRIBUTES * pAttr)
 	strcpy_s(FullPath,fileName);
 #endif
 
-	api->fio->SetDrive(XBOXDRIVE_NONE);
-	fh = api->fio->_CreateFile(FullPath,GENERIC_READ,0,OPEN_EXISTING);
-	api->fio->SetDrive();
+	fio->SetDrive(XBOXDRIVE_NONE);
+	fh = fio->_CreateFile(FullPath,GENERIC_READ,0,OPEN_EXISTING);
+	fio->SetDrive();
 	if(fh == INVALID_HANDLE_VALUE) return;
 
 	uint32_t dwRealSize;
-	uint32_t dwSaveSize = api->fio->_GetFileSize(fh,nullptr);
+	uint32_t dwSaveSize = fio->_GetFileSize(fh,nullptr);
 	if(dwSaveSize==0)
 	{
 		api->Event("evntOptionsBreak");
-		api->fio->_CloseHandle(fh);
+		fio->_CloseHandle(fh);
 		return;
 	}
 
 	char * pOutBuffer = new char[dwSaveSize+1];
 	if(pOutBuffer)
 	{
-		api->fio->_ReadFile(fh, pOutBuffer, dwSaveSize, &dwRealSize);
+		fio->_ReadFile(fh, pOutBuffer, dwSaveSize, &dwRealSize);
 		if(pAttr) //~!~
 		{
 			char * pBuf = pOutBuffer;
@@ -3219,7 +3219,7 @@ void XINTERFACE::LoadOptionsFile(char * fileName, ATTRIBUTES * pAttr)
 		delete[] pOutBuffer;
 	}
 
-	api->fio->_CloseHandle(fh);
+	fio->_CloseHandle(fh);
 }
 
 void XINTERFACE::GetContextHelpData()
@@ -3298,17 +3298,17 @@ int XINTERFACE::LoadIsExist()
 	if(sSavePath== nullptr) sprintf_s(param,"*");
 	else
 	{
-		api->fio->_CreateDirectory(sSavePath,nullptr);
+		fio->_CreateDirectory(sSavePath,nullptr);
 		sprintf_s(param,"%s\\*",sSavePath);
 	}
 
-	HANDLE h = api->fio->_FindFirstFile(param,&wfd);
+	HANDLE h = fio->_FindFirstFile(param,&wfd);
 	bool bFindFile = h!=INVALID_HANDLE_VALUE;
 	for(int findQ=0; bFindFile; findQ++)
 	{
 		if( wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY )
 		{
-			bFindFile = api->fio->_FindNextFile(h,&wfd)!=0;
+			bFindFile = fio->_FindNextFile(h,&wfd)!=0;
 			findQ--; continue;
 		}
 
@@ -3326,9 +3326,9 @@ int XINTERFACE::LoadIsExist()
 			if( _stricmp(sCurLngName,&datBuf[i])==0 ) break;
 		}
 
-		bFindFile = api->fio->_FindNextFile(h,&wfd)!=0;
+		bFindFile = fio->_FindNextFile(h,&wfd)!=0;
 	}
-	if(h!=INVALID_HANDLE_VALUE)	api->fio->_FindClose(h);
+	if(h!=INVALID_HANDLE_VALUE)	fio->_FindClose(h);
 	return bFindFile ? 1 : 0;
 #else
 
@@ -3373,7 +3373,7 @@ void XINTERFACE::PrecreateDirForFile(const char* pcFullFileName)
 			break;
 		}
 	if( n>0 )
-		api->fio->_CreateDirectory( path, nullptr );
+		fio->_CreateDirectory( path, nullptr );
 }
 
 // Контейнер контролек

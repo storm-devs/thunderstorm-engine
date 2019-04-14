@@ -768,7 +768,7 @@ bool ISLAND::SaveTga8(char * fname, uint8_t * pBuffer, uint32_t dwSizeX, uint32_
 		api->Trace("Island: Can't create island file! %s", fname);
 		return false;
 	}
-	api->fio->_WriteFile(hFile, &tga_head, sizeof(tga_head), nullptr);
+	fio->_WriteFile(hFile, &tga_head, sizeof(tga_head), nullptr);
 	fio->_WriteFile(hFile, pBuffer, dwSizeX * dwSizeY, nullptr);
 	fio->_CloseHandle(hFile);
 	

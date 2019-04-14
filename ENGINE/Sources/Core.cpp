@@ -6,7 +6,6 @@
 #include "../../Common_h/defines.h"
 #include "externs.h"
 #include "entity_state_R.h"
-#include "system_log.h"
 #include <cinttypes>
 
 #define CORE_DEFAULT_ATOMS_SPACE	128
@@ -391,7 +390,7 @@ static long nOffSearch = 0;
 void CORE::ProcessSystemMessage(UINT iMsg,WPARAM wParam,LPARAM lParam)
 {
 	GUARD(CORE::ProcessSystemMessage)
-	if(SystemMessagesNum >= SYSTEM_MESSAGE_STACK_SIZE) {trace("SMS overflaw");return;}
+	if(SystemMessagesNum >= SYSTEM_MESSAGE_STACK_SIZE) { Trace("SMS overflaw");return;}
 	MessageStack[SystemMessagesNum].iMsg = iMsg;
 	MessageStack[SystemMessagesNum].lParam = lParam;
 	MessageStack[SystemMessagesNum].wParam = wParam;
@@ -739,7 +738,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 	if(id_PTR) memset(id_PTR,0,sizeof(ENTITY_ID));
 	if(Constructor_counter)
 	{
-		trace(class_name);
+		Trace(class_name);
 		VALIDATE_API_CALLS
 	}
 
@@ -846,7 +845,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 	{
 		// xbox
 		// Modules_Table.ModuleReferenceDec(class_search_data.module_code);
-		trace("empty class: %s",class_name);
+		Trace("empty class: %s",class_name);
 		STORM_THROW(invalid class);
 	}
 
@@ -1990,29 +1989,15 @@ void * CORE::CreateService(char * service_name)
 
 }
 
-char buffer_4k[4096];
-
-void _cdecl CORE::BTrace(const char * format, ...)
-{
-	GUARD(CORE::Trace)
-	va_list args;
-	va_start(args,format);
-	_vsnprintf_s(buffer_4k,sizeof(buffer_4k) - 4,format,args);
-	va_end(args);
-	trace(buffer_4k);
-	Beep(2000, 150);
-	UNGUARD
-}
-
 void _cdecl CORE::Trace(const char * format, ...)
 {
-	GUARD(CORE::Trace)
+	static	char buffer_4k[4096];
+
 	va_list args;
 	va_start(args,format);
 	_vsnprintf_s(buffer_4k,sizeof(buffer_4k) - 4,format,args);
 	va_end(args);
-	trace(buffer_4k);
-	UNGUARD
+	spdlog::trace(buffer_4k);
 }
 
 //------------------------------------------------------------------------------------------------
@@ -2555,7 +2540,7 @@ void CORE::ProcessStateLoading()
 	delete State_file_name; State_file_name = nullptr;
 	if(fh == INVALID_HANDLE_VALUE)
 	{
-		trace(State_file_name);
+		Trace(State_file_name);
 		_STORM_THROW(NON_FATAL,cant open state file);
 	}
 
@@ -2991,9 +2976,9 @@ void CORE::DumpEntitiesInfo()
 	char * ptr;
 	VMA * pClass;
 
-	trace("Script commands executed: %" PRIu32, dwNumberScriptCommandsExecuted);
+	Trace("Script commands executed: %" PRIu32, dwNumberScriptCommandsExecuted);
 
-	trace("Entity Dump -----------------------------------");
+	Trace("Entity Dump -----------------------------------");
 	/*trace("Allocated Memory: %f kb in %" PRIu32 " block(s)",
 		(Memory_Service.Allocated_memory_user + Memory_Service.Allocated_memory_system)/1024.0f,//(1024*1024),
 		Memory_Service.Blocks);*/
@@ -3009,14 +2994,14 @@ void CORE::DumpEntitiesInfo()
 			//ptr = Classes_Table.GetString(Atoms_PTR[n]->atom_id.class_code);
 			if(ptr)
 			{
-				trace("Class: %s", ptr);
-				trace("     : Realize:  Cur( %fms ) Max( %fms )", Atoms_PTR[n]->as.Realize_ticks_av/freq, Atoms_PTR[n]->as.Realize_ticks_max/freq);
-				trace("     : Execute:  Cur( %fms ) Max( %fms )", Atoms_PTR[n]->as.Execute_ticks_av/freq, Atoms_PTR[n]->as.Execute_ticks_max/freq);
+				Trace("Class: %s", ptr);
+				Trace("     : Realize:  Cur( %fms ) Max( %fms )", Atoms_PTR[n]->as.Realize_ticks_av/freq, Atoms_PTR[n]->as.Realize_ticks_max/freq);
+				Trace("     : Execute:  Cur( %fms ) Max( %fms )", Atoms_PTR[n]->as.Execute_ticks_av/freq, Atoms_PTR[n]->as.Execute_ticks_max/freq);
 			}
 		}
 	}
 
-	trace(" ------- Running objects ------- ");
+	Trace(" ------- Running objects ------- ");
 	LAYER * l_PTR;
 	ENTITY_ID * eid_PTR;
 	uint32_t flags;
@@ -3028,20 +3013,20 @@ void CORE::DumpEntitiesInfo()
 		flags = l_PTR->ls.Flags & LRFLAG_FROZEN;
 		if(flags != 0)
 		{
-			trace("LAYER: %s frozen -------------------------------------",l_PTR->Name);
+			Trace("LAYER: %s frozen -------------------------------------",l_PTR->Name);
 			continue;
 		}
-		trace("LAYER: %s --------------------------------------",l_PTR->Name);
+		Trace("LAYER: %s --------------------------------------",l_PTR->Name);
 		eid_PTR = l_PTR->GetID();
 		while(eid_PTR)
 		{
-			trace("ENTITY:");
+			Trace("ENTITY:");
 			if(ValidateEntity(eid_PTR))
 			{
 				pClass = FindVMA(Atoms_PTR[eid_PTR->atom_position]->atom_id.class_code);
 				if(pClass) ptr = pClass->GetName();
-				trace("        %s",ptr);
-				if(Atoms_PTR[eid_PTR->atom_position]->as.Deleted) trace("        deleted");
+				Trace("        %s",ptr);
+				if(Atoms_PTR[eid_PTR->atom_position]->as.Deleted) Trace("        deleted");
 
 			}
 			eid_PTR = l_PTR->GetNextID();

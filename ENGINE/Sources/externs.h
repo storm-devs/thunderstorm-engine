@@ -21,7 +21,6 @@ extern bool bDebugWindow, bAcceleration;
 extern bool bNetActive;
 
 extern bool bActive;
-extern bool bTraceFilesOff;
 
 #define SET_ERROR(x) {Error_Flag = true; if(x) strcpy_s(Last_Error,x); }
 #define GET_ERROR Last_Error

@@ -268,7 +268,7 @@ bool FINDFILESINTODIRECTORY::Init()
 		if(maskName) strcat_s(fullName,maskName);
 		else strcat_s(fullName,"*.*");
 		WIN32_FIND_DATA finddat;
-		HANDLE hdl = api->fio->_FindFirstFile( fullName, &finddat );
+		HANDLE hdl = fio->_FindFirstFile( fullName, &finddat );
 		ATTRIBUTES * pA = AttributesPointer->CreateSubAClass(AttributesPointer,"filelist");
 		for(int file_idx=0; hdl!=INVALID_HANDLE_VALUE; file_idx++)
 		{
@@ -276,9 +276,9 @@ bool FINDFILESINTODIRECTORY::Init()
 			sprintf_s(sname,"id%d",file_idx);
 			if(finddat.cFileName)
 				pA->SetAttribute(sname,finddat.cFileName);
-			if( !api->fio->_FindNextFile(hdl, &finddat) ) break;
+			if( !fio->_FindNextFile(hdl, &finddat) ) break;
 		}
-		if(hdl!=INVALID_HANDLE_VALUE) api->fio->_FindClose(hdl);
+		if(hdl!=INVALID_HANDLE_VALUE) fio->_FindClose(hdl);
 		return true;
 	}
 	api->Trace("Attributes Pointer into class FINDFILESINTODIRECTORY = NULL");
@@ -293,18 +293,18 @@ bool FINDDIALOGNODES::Init()
 		ATTRIBUTES * pA = AttributesPointer->CreateSubAClass(AttributesPointer,"nodelist");
 		if(fileName && pA)
 		{
-			HANDLE hfile = api->fio->_CreateFile(fileName,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
+			HANDLE hfile = fio->_CreateFile(fileName,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 			if(hfile==INVALID_HANDLE_VALUE)
 			{
 				api->Trace("WARNING! Can`t dialog file %s",fileName);
 				return false;
 			}
 
-			long filesize = api->fio->_GetFileSize(hfile,nullptr);
+			long filesize = fio->_GetFileSize(hfile,nullptr);
 			if(filesize==0)
 			{
 				api->Trace("Empty dialog file %s",fileName);
-				api->fio->_CloseHandle(hfile);
+				fio->_CloseHandle(hfile);
 				return false;
 			}
 
@@ -312,20 +312,20 @@ bool FINDDIALOGNODES::Init()
 			if(fileBuf== nullptr)
 			{
 				api->Trace("Can`t create buffer for read dialog file %s",fileName);
-				api->fio->_CloseHandle(hfile);
+				fio->_CloseHandle(hfile);
 				return false;
 			}
 
 			uint32_t readsize;
-			if( api->fio->_ReadFile(hfile,fileBuf,filesize,&readsize) == FALSE ||
+			if( fio->_ReadFile(hfile,fileBuf,filesize,&readsize) == FALSE ||
 				readsize!=(uint32_t)filesize )
 			{
 				api->Trace("Can`t read dialog file: %s",fileName);
-				api->fio->_CloseHandle(hfile);
+				fio->_CloseHandle(hfile);
 				delete[] fileBuf;
 				return false;
 			}
-			api->fio->_CloseHandle(hfile);
+			fio->_CloseHandle(hfile);
 			fileBuf[filesize] = 0;
 
 			// теперь есть буфер - начнем его анализировать

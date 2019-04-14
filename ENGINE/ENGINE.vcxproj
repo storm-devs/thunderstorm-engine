@@ -425,7 +425,6 @@
     <ClCompile Include="sources\services_list.cpp" />
     <ClCompile Include="sources\stack.cpp" />
     <ClCompile Include="sources\strings_list.cpp" />
-    <ClCompile Include="sources\system_log.cpp" />
     <ClCompile Include="sources\s_classtab.cpp" />
     <ClCompile Include="sources\s_compress.cpp" />
     <ClCompile Include="sources\s_dbg_breaktable.cpp" />
@@ -739,7 +738,6 @@
     <ClInclude Include="sources\stats.h" />
     <ClInclude Include="sources\strings_list.h" />
     <ClInclude Include="sources\string_codec.h" />
-    <ClInclude Include="sources\system_log.h" />
     <ClInclude Include="sources\s_classtab.h" />
     <ClInclude Include="sources\s_compress.h" />
     <ClInclude Include="sources\s_dbg_breaktable.h" />

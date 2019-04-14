@@ -391,14 +391,14 @@ uint32_t _cdecl MODELR::ProcessMessage(MESSAGE &message)
 				delete root;
 				root = nullptr;
 				api->DeleteEntity(GetID());
-				api->fio->SetDrive();
+				fio->SetDrive();
 				return 0;
 			}
 			//CVECTOR tmp;
 			root->Update(mtx, tmp);
 			return 1;
 #else
-			//api->fio->SetDrive(XBOXDRIVE_CACHE);	// look in cache
+			//fio->SetDrive(XBOXDRIVE_CACHE);	// look in cache
 			message.String(255,str);
 			NODER::gs = GeometyService;
 			NODER::rs = rs;
@@ -406,19 +406,19 @@ uint32_t _cdecl MODELR::ProcessMessage(MESSAGE &message)
 
 			if(!root->Init(LightPath, str, "", CMatrix(0.0f,0.0f,0.0f, 0.0f,0.0f,0.0f), mtx, null, lmPath))
 			{
-				api->fio->SetDrive();	// try on dvd
+				fio->SetDrive();	// try on dvd
 				if(!root->Init(LightPath, str, "", CMatrix(0.0f,0.0f,0.0f, 0.0f,0.0f,0.0f), mtx, null, lmPath))
 				{
 					delete root;
 					root = null;
 					api->DeleteEntity(GetID());
-					api->fio->SetDrive();
+					fio->SetDrive();
 					return 0;
 				}
 			}
 
 			root->Update(mtx, tmp);
-			api->fio->SetDrive();
+			fio->SetDrive();
 			return 1;
 
 #endif

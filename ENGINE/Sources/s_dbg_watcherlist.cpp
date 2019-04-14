@@ -31,7 +31,7 @@ WATCHER_LIST::WATCHER_LIST(HWND hwnd, HINSTANCE hinst)
 	
 	char buffer[256];
 
-	ini = Core.fio->OpenIniFile("project.df");
+	ini = fio->OpenIniFile("project.df");
 	n = 0;
 	if(ini)
 	{
@@ -73,7 +73,7 @@ WATCHER_LIST::WATCHER_LIST(HWND hwnd, HINSTANCE hinst)
 	}
 	else
 	{
-		ini = Core.fio->CreateIniFile("project.df",false);
+		ini = fio->CreateIniFile("project.df",false);
 	}
 
 

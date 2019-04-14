@@ -31,7 +31,7 @@ Lighter::~Lighter()
 bool Lighter::Init()
 {
 	//Проверяем, будем ли работать
-	INIFILE * ini = api->fio->OpenIniFile("resource\\ini\\loclighter.ini");
+	INIFILE * ini = fio->OpenIniFile("resource\\ini\\loclighter.ini");
 	if(!ini) return false;
 	long isLoading = ini->GetLong(nullptr, "loading", 0);	
 	autoTrace = ini->GetLong(nullptr, "autotrace", 0) != 0;

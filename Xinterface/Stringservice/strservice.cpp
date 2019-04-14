@@ -181,7 +181,7 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 	if( m_sLanguage!= nullptr && _stricmp(sLanguage,m_sLanguage)==0 ) return;
 
 	// initialize ini file
-	ini = api->fio->OpenIniFile((char*)sLanguageFile);
+	ini = fio->OpenIniFile((char*)sLanguageFile);
 	if(!ini)
 	{
 		api->Trace("ini file %s not found!",sLanguageFile);
@@ -275,7 +275,7 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 
 	// initialize ini file
 	sprintf_s(param,"resource\\ini\\texts\\%s\\%s",m_sLanguageDir,m_sIniFileName);
-	ini = api->fio->OpenIniFile(param);
+	ini = fio->OpenIniFile(param);
 	if(!ini)
 	{
 		api->Trace("WARNING! ini file \"%s\" not found!",param);
@@ -448,7 +448,7 @@ void STRSERVICE::LoadIni()
 	char		param[256];
 
 	// initialize ini file
-	ini = api->fio->OpenIniFile((char*)sLanguageFile);
+	ini = fio->OpenIniFile((char*)sLanguageFile);
 	if(!ini) {
 		api->Trace("Error: Language ini file not found!");
 		return;
@@ -545,12 +545,12 @@ long STRSERVICE::OpenUsersStringFile(char * fileName)
 	// strings reading
 	char param[512];
 	sprintf_s(param,"resource\\ini\\TEXTS\\%s\\%s",m_sLanguageDir,fileName);
-	HANDLE hfile = api->fio->_CreateFile(param,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
-	long filesize = api->fio->_GetFileSize(hfile,nullptr);
+	HANDLE hfile = fio->_CreateFile(param,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
+	long filesize = fio->_GetFileSize(hfile,nullptr);
 	if(filesize<=0)
 	{
 		api->Trace("WARNING! Strings file \"%s\" not exist/or zero size",fileName);
-		api->fio->_CloseHandle(hfile);
+		fio->_CloseHandle(hfile);
 		delete pUSB;
 		return -1;
 	}
@@ -559,15 +559,15 @@ long STRSERVICE::OpenUsersStringFile(char * fileName)
 	if(fileBuf== nullptr) {STORM_THROW("Allocate memory error")}
 
 	long readsize;
-	if( api->fio->_ReadFile(hfile,fileBuf,filesize,(uint32_t*)&readsize) == FALSE ||
+	if( fio->_ReadFile(hfile,fileBuf,filesize,(uint32_t*)&readsize) == FALSE ||
 		readsize!=filesize )
 	{
 		api->Trace("Can`t read strings file: %s",fileName);
-		api->fio->_CloseHandle(hfile);
+		fio->_CloseHandle(hfile);
 		STORM_DELETE(fileBuf);
 		return -1;
 	}
-	api->fio->_CloseHandle(hfile);
+	fio->_CloseHandle(hfile);
 	fileBuf[readsize]=0;
 
 	pUSB->nref = 1;
@@ -1076,7 +1076,7 @@ uint32_t __cdecl _InterfaceCreateFolder(VS_STACK * pS)
 		pcCurPtr++;
 	}
 	// create self directory
-	long nSuccess = api->fio->_CreateDirectory(sFolderName,nullptr);
+	long nSuccess = fio->_CreateDirectory(sFolderName,nullptr);
 
 	pDat = (VDATA*)pS->Push();	if (!pDat) return IFUNCRESULT_FAILED;
 	pDat->Set( nSuccess );
@@ -1090,10 +1090,10 @@ uint32_t __cdecl _InterfaceCheckFolder(VS_STACK * pS)
 	char *sFolderName = pDat->GetString();
 	long nSuccess = false;
 	WIN32_FIND_DATA wfd;
-	HANDLE h = api->fio->_FindFirstFile(sFolderName,&wfd);
+	HANDLE h = fio->_FindFirstFile(sFolderName,&wfd);
 	if( h != INVALID_HANDLE_VALUE )
 	{
-		api->fio->_FindClose(h);
+		fio->_FindClose(h);
 		nSuccess = true;
 	}
 	pDat = (VDATA*)pS->Push();	if (!pDat) return IFUNCRESULT_FAILED;
@@ -1104,7 +1104,7 @@ uint32_t __cdecl _InterfaceCheckFolder(VS_STACK * pS)
 BOOL DeleteFolderWithCantainment(const char* sFolderName)
 {
 	WIN32_FIND_DATA wfd;
-	HANDLE hff = api->fio->_FindFirstFile( (sFolderName+ std::string("\\*.*")).c_str(), &wfd );
+	HANDLE hff = fio->_FindFirstFile( (sFolderName+ std::string("\\*.*")).c_str(), &wfd );
 	if( hff != INVALID_HANDLE_VALUE ) {
 		do {
 			std::string sFileName = sFolderName + std::string("\\");
@@ -1115,12 +1115,12 @@ BOOL DeleteFolderWithCantainment(const char* sFolderName)
 				if( wfd.cFileName[0]=='.' ) continue;
 				DeleteFolderWithCantainment( sFileName.c_str() );
 			} else {
-				api->fio->_DeleteFile( sFileName.c_str() );
+				fio->_DeleteFile( sFileName.c_str() );
 			}
-		} while( api->fio->_FindNextFile(hff,&wfd) );
-		api->fio->_FindClose( hff );
+		} while( fio->_FindNextFile(hff,&wfd) );
+		fio->_FindClose( hff );
 	}
-	return api->fio->_RemoveDirectory( sFolderName );
+	return fio->_RemoveDirectory( sFolderName );
 }
 
 uint32_t __cdecl _InterfaceDeleteFolder(VS_STACK * pS)
@@ -1128,7 +1128,7 @@ uint32_t __cdecl _InterfaceDeleteFolder(VS_STACK * pS)
 	VDATA * pDat;
 	pDat = (VDATA*)pS->Pop();	if (!pDat) return IFUNCRESULT_FAILED;
 	char *sFolderName = pDat->GetString();
-	//long nSuccess = api->fio->_RemoveDirectory(sFolderName);
+	//long nSuccess = fio->_RemoveDirectory(sFolderName);
 	long nSuccess = DeleteFolderWithCantainment(sFolderName);
 	pDat = (VDATA*)pS->Push();	if (!pDat) return IFUNCRESULT_FAILED;
 	pDat->Set( nSuccess );
@@ -1143,7 +1143,7 @@ uint32_t __cdecl _InterfaceFindFolders(VS_STACK * pS)
 	pDat = (VDATA*)pS->Pop();	if (!pDat) return IFUNCRESULT_FAILED;
 	char *sFindTemplate = pDat->GetString();
 	WIN32_FIND_DATA wfd;
-	HANDLE h = api->fio->_FindFirstFile( sFindTemplate, &wfd );
+	HANDLE h = fio->_FindFirstFile( sFindTemplate, &wfd );
 	long n = 0;
 	if( h!=INVALID_HANDLE_VALUE ) do
 	{
@@ -1156,8 +1156,8 @@ uint32_t __cdecl _InterfaceFindFolders(VS_STACK * pS)
 				pA->SetAttribute( pctmp, wfd.cFileName );
 			}
 		}
-	} while( api->fio->_FindNextFile(h,&wfd) );
-	if( h!=INVALID_HANDLE_VALUE ) api->fio->_FindClose(h);
+	} while( fio->_FindNextFile(h,&wfd) );
+	if( h!=INVALID_HANDLE_VALUE ) fio->_FindClose(h);
 	pDat = (VDATA*)pS->Push();	if (!pDat) return IFUNCRESULT_FAILED;
 	long nSuccess = (pA->GetAttributesNum()>0);
 	pDat->Set( nSuccess );

@@ -33,7 +33,7 @@ void DataCache::CacheSystem (const char* FileName)
 	std::transform(pathStr.begin(), pathStr.end(), pathStr.begin(), ::tolower);
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 
-	HANDLE pSysFile = api->fio->_CreateFile(pathStr.c_str());
+	HANDLE pSysFile = fio->_CreateFile(pathStr.c_str());
 
 	if (pSysFile == INVALID_HANDLE_VALUE)
 	{
@@ -41,10 +41,10 @@ void DataCache::CacheSystem (const char* FileName)
 		return;
 	}
 
-	uint32_t FileSize = api->fio->_GetFileSize(pSysFile, nullptr);
+	uint32_t FileSize = fio->_GetFileSize(pSysFile, nullptr);
 
 	uint8_t* pMemBuffer = new uint8_t[FileSize];
-	api->fio->_ReadFile(pSysFile, pMemBuffer, FileSize, nullptr);
+	fio->_ReadFile(pSysFile, pMemBuffer, FileSize, nullptr);
 
 	//Создаем данные из файла...
 	CreateDataSource (pMemBuffer, FileSize, pathStr.c_str());
@@ -52,7 +52,7 @@ void DataCache::CacheSystem (const char* FileName)
 
 	delete[] pMemBuffer;
 
-	api->fio->_CloseHandle(pSysFile);
+	fio->_CloseHandle(pSysFile);
 }
 
 //Сбросить кэш

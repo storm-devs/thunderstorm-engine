@@ -203,7 +203,7 @@ bool HELPCHOOSER::RunChooser(char * ChooserGroup)
 	AllRelease();
 
 	if(ChooserGroup== nullptr) return false;
-	ini = api->fio->OpenIniFile("resource\\ini\\helpchooser.ini");
+	ini = fio->OpenIniFile("resource\\ini\\helpchooser.ini");
 	if(ini== nullptr)
 	{
 		api->Trace("Can`t open INI file \"resource\\ini\\helpchooser.ini\"");

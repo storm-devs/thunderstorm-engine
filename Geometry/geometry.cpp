@@ -59,7 +59,7 @@ bool GEOMETRY::Init()
 	GSR.SetRenderService(RenderService);
 
 	INIFILE * ini;
-	ini = api->fio->OpenIniFile(api->EngineIniFileName());
+	ini = fio->OpenIniFile(api->EngineIniFileName());
 	if(ini)
 	{
 		geoLog = ini->GetLong(nullptr,"geometry_log",0)==1;
@@ -190,7 +190,7 @@ void GEOM_SERVICE_R::SetRenderService(VDX9RENDER * render_service)
 GEOS::ID GEOM_SERVICE_R::OpenFile(const char *fname)
 {
 	if(RenderService) RenderService->ProgressView();
-	HANDLE fl = api->fio->_CreateFile(fname,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
+	HANDLE fl = fio->_CreateFile(fname,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 	if(fl==INVALID_HANDLE_VALUE)
 		if(_strcmpi(&fname[strlen(fname)-4], ".col")==0);//	api->Trace("geometry::can't open file %s", fname);
 		else	throw "can't open geometry file";
@@ -201,16 +201,16 @@ int GEOM_SERVICE_R::FileSize(GEOS::ID file)
 {
 	if((HANDLE)file==INVALID_HANDLE_VALUE)	return 0;
 	uint32_t sh;
-	return api->fio->_GetFileSize((HANDLE)file, &sh);
+	return fio->_GetFileSize((HANDLE)file, &sh);
 }
 void GEOM_SERVICE_R::ReadFile(GEOS::ID file, void *data, long bytes)
 {
-	api->fio->_ReadFile((HANDLE)file,data,bytes,nullptr);
+	fio->_ReadFile((HANDLE)file,data,bytes,nullptr);
 }
 
 void GEOM_SERVICE_R::CloseFile(GEOS::ID file)
 {
-	api->fio->_CloseHandle((HANDLE)file);
+	fio->_CloseHandle((HANDLE)file);
 }
 
 void * GEOM_SERVICE_R::malloc(long bytes)

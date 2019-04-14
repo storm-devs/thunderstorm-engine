@@ -616,7 +616,7 @@ void CXI_TABLE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = api->fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
+	INIFILE * pIni = fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
 	if( !pIni ) {
 		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
 		return;

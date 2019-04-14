@@ -179,7 +179,7 @@ long AnimationServiceImp::LoadAnimation(const char * animationName)
 	strcat_s(path, animationName);
 	strcat_s(path, ".ani");
 	//Открываем ini файл, описывающий анимацию
-	INIFILE * ani = api->fio->OpenIniFile(path);
+	INIFILE * ani = fio->OpenIniFile(path);
 	if(!ani)
 	{
 		api->Trace("Cannot open animation file %s", path);
@@ -459,7 +459,7 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 {
 	HANDLE fl = INVALID_HANDLE_VALUE;
 	try{
-		fl = api->fio->_CreateFile(fname, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
+		fl = fio->_CreateFile(fname, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
 		if(fl == INVALID_HANDLE_VALUE)
 		{
 			api->Trace("Cannot open file: %s", fname);
@@ -467,10 +467,10 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 		}
 		//Читаем заголовок файла
 		ANFILE::HEADER header;
-		if(!api->fio->_ReadFile(fl, &header, sizeof(ANFILE::HEADER), nullptr) || header.nFrames <= 0 || header.nJoints <= 0 || header.framesPerSec < 0.0f || header.framesPerSec > 1000.0f)
+		if(!fio->_ReadFile(fl, &header, sizeof(ANFILE::HEADER), nullptr) || header.nFrames <= 0 || header.nJoints <= 0 || header.framesPerSec < 0.0f || header.framesPerSec > 1000.0f)
 		{
 			api->Trace("Incorrect file header in animation file: %s", fname);
-			api->fio->_CloseHandle(fl);
+			fio->_CloseHandle(fl);
 			return false;
 		}
 		//Установим время анимации
@@ -481,11 +481,11 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 		info->CreateBones(header.nJoints);
 		//Устанавливаем родителей
 		long * prntIndeces = new long[header.nJoints];
-		if(!api->fio->_ReadFile(fl, prntIndeces, header.nJoints*sizeof(long), nullptr))
+		if(!fio->_ReadFile(fl, prntIndeces, header.nJoints*sizeof(long), nullptr))
 		{
 			api->Trace("Incorrect parent indeces block in animation file: %s", fname);
 			delete[] prntIndeces;
-			api->fio->_CloseHandle(fl);
+			fio->_CloseHandle(fl);
 			return false;
 		}
 		for(long i = 1; i < header.nJoints; i++)
@@ -497,11 +497,11 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 		delete[] prntIndeces;
 		//Стартовые позиции костей
 		CVECTOR * vrt = new CVECTOR[header.nJoints];
-		if(!api->fio->_ReadFile(fl, vrt, header.nJoints*sizeof(CVECTOR), nullptr))
+		if(!fio->_ReadFile(fl, vrt, header.nJoints*sizeof(CVECTOR), nullptr))
 		{
 			api->Trace("Incorrect start joints position block block in animation file: %s", fname);
 			delete[] vrt;
-			api->fio->_CloseHandle(fl);
+			fio->_CloseHandle(fl);
 			return false;
 		}
 		for(long i = 0; i < header.nJoints; i++)
@@ -512,11 +512,11 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 
 		//Позиции рутовой кости
 		vrt = new CVECTOR[header.nFrames];
-		if(!api->fio->_ReadFile(fl, vrt, header.nFrames*sizeof(CVECTOR), nullptr))
+		if(!fio->_ReadFile(fl, vrt, header.nFrames*sizeof(CVECTOR), nullptr))
 		{
 			api->Trace("Incorrect root joint position block block in animation file: %s", fname);
 			delete[] vrt;
-			api->fio->_CloseHandle(fl);
+			fio->_CloseHandle(fl);
 			return false;
 		}
 		info->GetBone(0).SetPositions(vrt, header.nFrames);
@@ -526,10 +526,10 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 		D3DXQUATERNION *ang = new D3DXQUATERNION[header.nFrames];
 		for(long i = 0; i < header.nJoints; i++)
 		{
-			if(!api->fio->_ReadFile(fl, ang, header.nFrames*sizeof(*ang), nullptr))
+			if(!fio->_ReadFile(fl, ang, header.nFrames*sizeof(*ang), nullptr))
 			{
 				api->Trace("Incorrect joint angle block (%i) block in animation file: %s", i, fname);
-				api->fio->_CloseHandle(fl);
+				fio->_CloseHandle(fl);
 				return false;
 			}
 			info->GetBone(i).SetAngles(ang, header.nFrames);
@@ -548,10 +548,10 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 		//-----------------------------------------------
 
 		//Закроем файл
-		api->fio->_CloseHandle(fl);
+		fio->_CloseHandle(fl);
 		return true;
 	}catch(...){
-		if(fl != INVALID_HANDLE_VALUE) api->fio->_CloseHandle(fl);
+		if(fl != INVALID_HANDLE_VALUE) fio->_CloseHandle(fl);
 		api->Trace("Error reading animation file: %s", fname);
 		return false;
 	}

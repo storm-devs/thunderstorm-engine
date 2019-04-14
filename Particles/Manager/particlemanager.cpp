@@ -115,7 +115,7 @@ bool ParticleManager::OpenProject (const char* FileName)
 	//LongFileName.AddExtention(".prj");
 
 
-	INIFILE* IniFile = api->fio->OpenIniFile((char*)pathStr.c_str());
+	INIFILE* IniFile = fio->OpenIniFile((char*)pathStr.c_str());
 	if (!IniFile)
 	{
 		api->Trace("Can't find project '%s'", pathStr.c_str());
@@ -695,15 +695,15 @@ void ParticleManager::OpenDefaultProject ()
 
 	HANDLE foundFile;
 	WIN32_FIND_DATA	findData;
-	if ((foundFile = api->fio->_FindFirstFile("resource\\particles\\*.xps", &findData)) != INVALID_HANDLE_VALUE)
+	if ((foundFile = fio->_FindFirstFile("resource\\particles\\*.xps", &findData)) != INVALID_HANDLE_VALUE)
 	{
 		do
 		{
 			//api->Trace("Cache system - %s", findData.cFileName);
 			pDataCache->CacheSystem(findData.cFileName);
-		}	while (api->fio->_FindNextFile(foundFile, &findData) == TRUE);
+		}	while (fio->_FindNextFile(foundFile, &findData) == TRUE);
 		if(foundFile != INVALID_HANDLE_VALUE)
-			api->fio->_FindClose(foundFile);
+			fio->_FindClose(foundFile);
 	}
 
 	CreateGeomCache();

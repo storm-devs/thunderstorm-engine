@@ -585,7 +585,7 @@ void DIALOG::DrawButtons()
 
 void DIALOG::LoadFromIni()
 {
-	INIFILE* pIni = api->fio->OpenIniFile( "resource\\ini\\dialog.ini" );
+	INIFILE* pIni = fio->OpenIniFile( "resource\\ini\\dialog.ini" );
 	if( !pIni ) {
 		api->Trace("Warning! DIALOG: Can`t open ini file %s", "resource\\ini\\dialog.ini");
 		return;
@@ -774,7 +774,7 @@ bool DIALOG::Init()
 	textViewport.MinZ = 0.0f;
 	textViewport.MaxZ = 1.0f;
 
-	INIFILE *ini = api->fio->OpenIniFile("Resource\\Ini\\dialog.ini");
+	INIFILE *ini = fio->OpenIniFile("Resource\\Ini\\dialog.ini");
 	m_DlgText.Init(RenderService,textViewport,ini);
 	m_DlgLinks.Init(RenderService,textViewport,ini);
 	STORM_DELETE( ini );

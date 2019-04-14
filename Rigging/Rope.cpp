@@ -719,7 +719,7 @@ void ROPE::LoadIni()
     char    param[256];
 
 	INIFILE * ini;
-	ini = api->fio->OpenIniFile("resource\\ini\\rigging.ini");
+	ini = fio->OpenIniFile("resource\\ini\\rigging.ini");
 	if(!ini) THROW("rigging.ini file not found!");
 
 	sprintf_s(section,"ROPES");

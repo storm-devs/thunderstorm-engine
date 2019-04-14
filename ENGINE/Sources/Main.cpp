@@ -30,10 +30,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 	const auto log_path = fs::GetLogsPath() / "system.log";
 	const auto system_log = spdlog::basic_logger_mt("system", log_path.string(), true);
 	set_default_logger(system_log);
+	system_log->set_level(spdlog::level::trace);
 
 	api = &Core;
 	fio = &File_Service;
-	api->fio = &File_Service;
 	//_VSYSTEM_API = &System_Api;
 
 	/* Read config */
@@ -44,7 +44,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 		dwMaxFPS = (uint32_t)ini->GetLong(nullptr, "max_fps", 0);
 		bDebugWindow = ini->GetLong(nullptr, "DebugWindow", 0) == 1;
 		bAcceleration = ini->GetLong(nullptr, "Acceleration", 0) == 1;
-		bTraceFilesOff = ini->GetLong(nullptr, "tracefilesoff", 0) == 1;
 
 		delete ini;
 	}

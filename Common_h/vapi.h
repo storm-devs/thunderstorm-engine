@@ -26,7 +26,6 @@ public:
 	VAPI(){};
 	virtual ~VAPI(){};
 
-	VFILE_SERVICE * fio;
 	CONTROLS * Controls;
 
 //------------------------------------------------------------------------------------------------
@@ -177,7 +176,6 @@ public:
 	virtual void * GetScriptVariable(const char * pVariableName, uint32_t * pdwVarIndex = nullptr)=0;
 	virtual void SetNetActive(bool bActive) = 0;
 
-	virtual void _cdecl BTrace(const char * Format,...) = 0;		// Trace with beep
 	virtual bool IsNetActive() const = 0;
 };
 

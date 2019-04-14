@@ -147,7 +147,7 @@ void BALLSPLASH::Execute(uint32_t _dTime)
 //--------------------------------------------------------------------
 void BALLSPLASH::InitializeSplashes()
 {
-	INIFILE *psIni = api->fio->OpenIniFile("resource\\ini\\particles.ini");
+	INIFILE *psIni = fio->OpenIniFile("resource\\ini\\particles.ini");
 
 	for (int i = 0; i < MAX_SPLASHES; ++i)
 	{
