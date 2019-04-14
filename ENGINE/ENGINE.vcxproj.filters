@@ -536,9 +536,6 @@
     <ClCompile Include="sources\Core.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sources\ctp_names.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sources\entity_state_R.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

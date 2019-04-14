@@ -408,7 +408,6 @@
     <ClCompile Include="sources\classes_table.cpp" />
     <ClCompile Include="sources\compiler.cpp" />
     <ClCompile Include="sources\Core.cpp" />
-    <ClCompile Include="sources\ctp_names.cpp" />
     <ClCompile Include="sources\C_atom.cpp" />
     <ClCompile Include="sources\data.cpp" />
     <ClCompile Include="sources\entity_state_R.cpp" />
