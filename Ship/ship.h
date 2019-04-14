@@ -141,7 +141,6 @@ struct ship_point_t
 	bool		isDead() { return bDead; };
 	bool		isVisible() { return bVisible; };
 
-	VDX9RENDER* rs;
 
 public:
 

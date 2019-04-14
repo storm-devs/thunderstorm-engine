@@ -50,7 +50,6 @@ BATTLE_INTERFACE::BATTLE_INTERFACE()
 	//m_pMessageIcons = null;
 	m_pShipIcon = nullptr;
 	rs = nullptr;
-	BIUtils::idBattleInterface = GetID();
 	m_bShowCommandMenu = true;
 	m_bShowBattleNavigator = true;
 	m_bYesShowAll = false;
@@ -75,6 +74,8 @@ BATTLE_INTERFACE::~BATTLE_INTERFACE()
 
 bool BATTLE_INTERFACE::Init()
 {
+	BIUtils::idBattleInterface = GetID();
+
 	if( (rs=(VDX9RENDER *)api->CreateService("dx9render")) == nullptr )
 	{
 		STORM_THROW("Can`t create render service");

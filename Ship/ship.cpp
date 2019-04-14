@@ -88,8 +88,6 @@ SHIP::~SHIP()
 //##################################################################
 bool SHIP::Init()
 {
-	rs = (VDX9RENDER*)api->CreateService("dx9render");
-
 	ZERO3(State, SP, vPos);
 	ZERO3(vAng, ShipPoints, Strength);
 	fXOffset = fZOffset = 0.f;
@@ -963,8 +961,8 @@ void SHIP::Realize(uint32_t dtime)
 
 	if (bMassaShow)
 	{
-		rs->Print(0, 120, "Massa: %.2f", GetAShip()->GetAttributeAsFloat("Massa"));
-		rs->Print(0, 140, "Volume: %.2f", GetAShip()->GetAttributeAsFloat("Volume"));
+		pRS->Print(0, 120, "Massa: %.2f", GetAShip()->GetAttributeAsFloat("Massa"));
+		pRS->Print(0, 140, "Volume: %.2f", GetAShip()->GetAttributeAsFloat("Volume"));
 	}
 }
 
