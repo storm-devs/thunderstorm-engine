@@ -1,8 +1,11 @@
-#include <Windows.h>
+#include "fs.h"
 #include "Core.h"
 #include "s_debug.h"
 #include "file_service.h"
 #include "externs.h"
+#include <Windows.h>
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/basic_file_sink.h>
 
 S_DEBUG CDebug;
 bool isHold = false;
@@ -15,9 +18,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 	if (!CreateEventA(nullptr, false, false, "Global\\FBBD2286-A9F1-4303-B60C-743C3D7AA7BE")
 		|| GetLastError() == ERROR_ALREADY_EXISTS)
 	{
-		MessageBoxA(0, "Another instance is already running!", "Error", MB_ICONERROR);
+		MessageBoxA(nullptr, "Another instance is already running!", "Error", MB_ICONERROR);
 		return 0;
 	}
+
+	/* Init stash */
+	create_directories(fs::GetLogsPath());
+	create_directories(fs::GetSaveDataPath());
+
+	/* Init system log */
+	const auto log_path = fs::GetLogsPath() / "system.log";
+	const auto system_log = spdlog::basic_logger_mt("system", log_path.string(), true);
+	set_default_logger(system_log);
 
 	api = &Core;
 	fio = &File_Service;
@@ -68,7 +80,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 	{
 		if (PeekMessage(&msg, nullptr, 0U, 0U, PM_REMOVE))
 		{
-			if (msg.message == WM_QUIT) 
+			if (msg.message == WM_QUIT)
 				break;
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
@@ -81,7 +93,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 				{
 					const auto dwMS = 1000u / dwMaxFPS;
 					const auto dwNewTime = GetTickCount();
-					if (dwNewTime - dwOldTime < dwMS) 
+					if (dwNewTime - dwOldTime < dwMS)
 						continue;
 					dwOldTime = dwNewTime;
 				}

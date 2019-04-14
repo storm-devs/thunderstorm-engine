@@ -403,6 +403,7 @@
     <ClCompile Include="..\XINTERFACE\xinterface.cpp" />
     <ClCompile Include="..\XINTERFACE\xiutil.cpp" />
     <ClCompile Include="..\XINTERFACE\xservice.cpp" />
+    <ClCompile Include="sources\fs.cpp" />
     <ClCompile Include="sources\externs.cpp" />
     <ClCompile Include="sources\classes_table.cpp" />
     <ClCompile Include="sources\compiler.cpp" />
@@ -711,8 +712,7 @@
     <ClInclude Include="..\XINTERFACE\vxservice.h" />
     <ClInclude Include="..\XINTERFACE\xinterface.h" />
     <ClInclude Include="..\XINTERFACE\xservice.h" />
-    <ClInclude Include="PROGRAM\BATTLE_INTERFACE\msg_control.h" />
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="sources\fs.h" />
     <ClInclude Include="sources\classes_table.h" />
     <ClInclude Include="sources\common_h.h" />
     <ClInclude Include="sources\compiler.h" />

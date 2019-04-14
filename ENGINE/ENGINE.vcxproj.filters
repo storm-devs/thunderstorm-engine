@@ -1535,6 +1535,9 @@
     <ClCompile Include="sources\externs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="fs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\data.h">
@@ -2507,6 +2510,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sources\system_log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
