@@ -414,7 +414,6 @@
     <ClCompile Include="sources\entity_state_R.cpp" />
     <ClCompile Include="sources\expression.cpp" />
     <ClCompile Include="sources\file_service.cpp" />
-    <ClCompile Include="sources\hashhold.cpp" />
     <ClCompile Include="sources\ifs.cpp" />
     <ClCompile Include="sources\internal_functions.cpp" />
     <ClCompile Include="sources\internal_modules.cpp" />
@@ -724,7 +723,6 @@
     <ClInclude Include="sources\externs.h" />
     <ClInclude Include="sources\file_service.h" />
     <ClInclude Include="sources\fsdata_list.h" />
-    <ClInclude Include="sources\hashhold.h" />
     <ClInclude Include="sources\idwalker.h" />
     <ClInclude Include="sources\ifs.h" />
     <ClInclude Include="sources\internal_functions.h" />

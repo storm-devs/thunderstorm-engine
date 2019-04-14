@@ -545,9 +545,6 @@
     <ClCompile Include="sources\file_service.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sources\hashhold.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sources\ifs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -2318,9 +2315,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sources\fsdata_list.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\hashhold.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sources\idwalker.h">
