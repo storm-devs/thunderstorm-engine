@@ -209,7 +209,7 @@ void ILogAndActions::Realize(uint32_t delta_time)
 			} else if( m_nTimeCounter < 2500 ) {
 				nA = (long)(255.f * (2500-m_nTimeCounter)/500.f);
 			}
-			rs->ExtPrint( m_fontID, ARGB(nA,255,255,255),0, ALIGN_CENTER, false, 3.9f, 800,600, 400,300, "ÂÅÐÑÈß ÄËß ÏÐÅÑÑÛ" );
+			rs->ExtPrint( m_fontID, ARGB(nA,255,255,255),0, PR_ALIGN_CENTER, false, 3.9f, 800,600, 400,300, "ÂÅÐÑÈß ÄËß ÏÐÅÑÑÛ" );
 		}
 	#endif
 	if(api->Controls->GetDebugAsyncKeyState('K')<0) return;
@@ -241,11 +241,11 @@ void ILogAndActions::Realize(uint32_t delta_time)
 	{
 		if(m_sRoot== nullptr) return;
 		STRING_DESCR * ptr = m_sRoot;
-		long nAlign = ALIGN_LEFT;
+		long nAlign = PR_ALIGN_LEFT;
 		long strX = m_nWindowLeft;
 		if( m_nWindowRight>=0 ) {
 			strX = m_nWindowRight;
-			nAlign = ALIGN_RIGHT;
+			nAlign = PR_ALIGN_RIGHT;
 		}
 		long strY = m_nStringBegin;
 		while(ptr!= nullptr)

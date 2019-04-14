@@ -635,13 +635,13 @@ uint32_t XINTERFACE::ProcessMessage(MESSAGE & message)
 			switch(message.Long())
 			{
 			case SCRIPT_ALIGN_RIGHT:
-				m_stringes[l].eAlignment = ALIGN_RIGHT;
+				m_stringes[l].eAlignment = PR_ALIGN_RIGHT;
 				break;
 			case SCRIPT_ALIGN_CENTER:
-				m_stringes[l].eAlignment = ALIGN_CENTER;
+				m_stringes[l].eAlignment = PR_ALIGN_CENTER;
 				break;
 			case SCRIPT_ALIGN_LEFT:
-				m_stringes[l].eAlignment = ALIGN_LEFT;
+				m_stringes[l].eAlignment = PR_ALIGN_LEFT;
 				break;
 			}
             m_stringes[l].fScale = message.Float();
@@ -2935,8 +2935,8 @@ long XINTERFACE::PrintIntoWindow(long wl,long wr, long idFont, uint32_t dwFCol, 
 	}
 
 	long strLeft = left;
-	if(align==ALIGN_RIGHT)	strLeft = left - strWidth;
-	if(align==ALIGN_CENTER)	strLeft = left - strWidth/2;
+	if(align==PR_ALIGN_RIGHT)	strLeft = left - strWidth;
+	if(align==PR_ALIGN_CENTER)	strLeft = left - strWidth/2;
 	long strRight = strLeft + strWidth;
 
 	if(strLeft>=wl && strRight<=wr)
@@ -2970,7 +2970,7 @@ long XINTERFACE::PrintIntoWindow(long wl,long wr, long idFont, uint32_t dwFCol, 
 		if( nEnd>0 ) {
 			char chOld = newStr[nEnd];
 			newStr[nEnd] = 0;
-			strWidth = pRenderService->ExtPrint( idFont, dwFCol, dwBCol, ALIGN_LEFT, shadow, scale, sxs, sys,
+			strWidth = pRenderService->ExtPrint( idFont, dwFCol, dwBCol, PR_ALIGN_LEFT, shadow, scale, sxs, sys,
 				strLeft, top, "%s", newStr );
 			newStr[nEnd] = chOld;
 			return strWidth;
@@ -2978,7 +2978,7 @@ long XINTERFACE::PrintIntoWindow(long wl,long wr, long idFont, uint32_t dwFCol, 
 		return 0;
 	}
 
-	return pRenderService->ExtPrint( idFont, dwFCol, dwBCol, ALIGN_LEFT, shadow, scale, sxs, sys,
+	return pRenderService->ExtPrint( idFont, dwFCol, dwBCol, PR_ALIGN_LEFT, shadow, scale, sxs, sys,
 									strLeft, top, "%s", newStr );
 }
 

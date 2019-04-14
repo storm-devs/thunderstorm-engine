@@ -32,7 +32,7 @@ void CXI_TITLE::Draw(bool bSelected,uint32_t Delta_Time)
 
 		// show title text
         if( m_idString!=-1L )
-		    m_rs->ExtPrint(m_fontID,m_fontColor,m_backColor,ALIGN_CENTER,true,m_fontScale,m_screenSize.x,
+		    m_rs->ExtPrint(m_fontID,m_fontColor,m_backColor,PR_ALIGN_CENTER,true,m_fontScale,m_screenSize.x,
 			    m_screenSize.y,m_StringCenter.x,m_StringCenter.y,"%s",pStringService->GetString(m_idString));
 	}
 }

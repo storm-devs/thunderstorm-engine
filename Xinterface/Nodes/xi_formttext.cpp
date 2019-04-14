@@ -164,11 +164,11 @@ void CXI_FORMATEDTEXT::Draw(bool bSelected,uint32_t Delta_Time)
 					anWidth.push_back( nCurWidth );
 					nAllWidth += nCurWidth;
 				}
-				if( m_nAlignment == ALIGN_CENTER ) nX -= nAllWidth/2;
-				if( m_nAlignment == ALIGN_RIGHT ) nX -= nAllWidth;
+				if( m_nAlignment == PR_ALIGN_CENTER ) nX -= nAllWidth/2;
+				if( m_nAlignment == PR_ALIGN_RIGHT ) nX -= nAllWidth;
 				for( long n=0; n<sd->m_tags.size(); n++ )
 				{
-					m_rs->ExtPrint(m_idFont,sd->m_tags[n].dwColor,0,ALIGN_LEFT,true,m_fFontScale,m_screenSize.x,m_screenSize.y, nX,curY,
+					m_rs->ExtPrint(m_idFont,sd->m_tags[n].dwColor,0,PR_ALIGN_LEFT,true,m_fFontScale,m_screenSize.x,m_screenSize.y, nX,curY,
 						"%s",sd->m_tags[n].str.c_str());
 					nX += anWidth[n];//m_rs->StringWidth( (char*)sd->m_tags[n].str.c_str(), m_idFont, m_fFontScale );
 				}
@@ -331,8 +331,8 @@ void CXI_FORMATEDTEXT::ChangePosition( XYRECT &rNewPos )
 	m_rect = rNewPos;
 
 	m_nCompareWidth = m_rect.right - m_rect.left - m_leftOffset;
-	if(m_nAlignment==ALIGN_CENTER)	m_nPrintLeftOffset = m_leftOffset+long((m_rect.left+m_rect.right-m_leftOffset)*.5f);
-	else if(m_nAlignment==ALIGN_RIGHT)	m_nPrintLeftOffset = m_rect.right-m_leftOffset;
+	if(m_nAlignment==PR_ALIGN_CENTER)	m_nPrintLeftOffset = m_leftOffset+long((m_rect.left+m_rect.right-m_leftOffset)*.5f);
+	else if(m_nAlignment==PR_ALIGN_RIGHT)	m_nPrintLeftOffset = m_rect.right-m_leftOffset;
 	else m_nPrintLeftOffset = m_rect.left+m_leftOffset;
 
 	m_rectCursorPosition.left = m_rect.left;
@@ -438,14 +438,14 @@ void CXI_FORMATEDTEXT::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 	}
 
 	ReadIniString(ini1,name1, ini2,name2, "alignment", param, sizeof(param),"left");
-	if( _stricmp(param,"center")==0 )	m_nAlignment = ALIGN_CENTER;
-	else if( _stricmp(param,"right")==0 )	m_nAlignment = ALIGN_RIGHT;
-	else	m_nAlignment = ALIGN_LEFT;
+	if( _stricmp(param,"center")==0 )	m_nAlignment = PR_ALIGN_CENTER;
+	else if( _stricmp(param,"right")==0 )	m_nAlignment = PR_ALIGN_RIGHT;
+	else	m_nAlignment = PR_ALIGN_LEFT;
 
 	m_leftOffset = GetIniLong(ini1,name1, ini2,name2, "leftoffset");
 	m_nCompareWidth = m_rect.right-m_rect.left-m_leftOffset;
-	if(m_nAlignment==ALIGN_CENTER)	m_nPrintLeftOffset = m_leftOffset+long((m_rect.left+m_rect.right-m_leftOffset)*.5f);
-	else if(m_nAlignment==ALIGN_RIGHT)	m_nPrintLeftOffset = m_rect.right-m_leftOffset;
+	if(m_nAlignment==PR_ALIGN_CENTER)	m_nPrintLeftOffset = m_leftOffset+long((m_rect.left+m_rect.right-m_leftOffset)*.5f);
+	else if(m_nAlignment==PR_ALIGN_RIGHT)	m_nPrintLeftOffset = m_rect.right-m_leftOffset;
 	else m_nPrintLeftOffset = m_rect.left+m_leftOffset;
 
 	m_nUpRectOffset = GetIniLong(ini1,name1, ini2,name2, "upOffset");

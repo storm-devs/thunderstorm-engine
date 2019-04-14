@@ -44,9 +44,9 @@ void CXI_PCEDITBOX::Draw(bool bSelected,uint32_t Delta_Time)
 	if( m_pMiddleImage ) m_pMiddleImage->Draw();
 
 	long x = m_rect.left + m_pntFontOffset.x;
-	if( m_nStringAlign==ALIGN_CENTER ) {
+	if( m_nStringAlign==PR_ALIGN_CENTER ) {
 		x = (m_rect.left + m_rect.right) / 2;
-	} else if( m_nStringAlign==ALIGN_RIGHT ) {
+	} else if( m_nStringAlign==PR_ALIGN_RIGHT ) {
 		x = m_rect.right - m_pntFontOffset.x;
 	}
 
@@ -167,11 +167,11 @@ void CXI_PCEDITBOX::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 	m_nMaxWidth = GetIniLong(ini1,name1, ini2,name2, "stringWidth", -1);
 
 	m_pntFontOffset = GetIniLongPoint(ini1,name1, ini2,name2, "stringoffset", m_pntFontOffset);
-	m_nStringAlign = ALIGN_LEFT;
+	m_nStringAlign = PR_ALIGN_LEFT;
 	if( ReadIniString(ini1,name1, ini2,name2, "stringalign", param, sizeof(param), "center") )
 	{
-		if( _stricmp(param,"center") == 0 ) m_nStringAlign = ALIGN_CENTER;
-		else if( _stricmp(param,"right") == 0 ) m_nStringAlign = ALIGN_RIGHT;
+		if( _stricmp(param,"center") == 0 ) m_nStringAlign = PR_ALIGN_CENTER;
+		else if( _stricmp(param,"right") == 0 ) m_nStringAlign = PR_ALIGN_RIGHT;
 	}
 	//m_pntFontOffset.x += m_rect.left;
 	//m_pntFontOffset.y += m_rect.top;
@@ -351,19 +351,19 @@ void CXI_PCEDITBOX::ShowCursorPosition(std::string & str )
 	strForPosCalculate.erase( m_nEditPos, str.size() );
 	if( m_nFirstShowCharacterIndex<0 || m_nFirstShowCharacterIndex>m_nEditPos ) return;
 	long nPos = m_rs->StringWidth( (char*)strForPosCalculate.c_str()+m_nFirstShowCharacterIndex, m_nFontID, m_fFontScale );
-	if( m_nStringAlign == ALIGN_CENTER )
+	if( m_nStringAlign == PR_ALIGN_CENTER )
 		nPos -= m_rs->StringWidth( (char*)str.c_str()+m_nFirstShowCharacterIndex, m_nFontID, m_fFontScale ) / 2;
-	else if( m_nStringAlign == ALIGN_RIGHT )
+	else if( m_nStringAlign == PR_ALIGN_RIGHT )
 		nPos -= m_rs->StringWidth( (char*)str.c_str()+m_nFirstShowCharacterIndex, m_nFontID, m_fFontScale );
 
 	long x = m_rect.left + m_pntFontOffset.x;
-	if( m_nStringAlign==ALIGN_CENTER ) {
+	if( m_nStringAlign==PR_ALIGN_CENTER ) {
 		x = (m_rect.left + m_rect.right) / 2;
-	} else if( m_nStringAlign==ALIGN_RIGHT ) {
+	} else if( m_nStringAlign==PR_ALIGN_RIGHT ) {
 		x = m_rect.right - m_pntFontOffset.x;
 	}
 
-	m_rs->ExtPrint( m_nFontID,m_dwFontColor,0,ALIGN_LEFT,true,m_fFontScale,m_screenSize.x,m_screenSize.y,x+nPos,m_rect.top+m_pntFontOffset.y,"_");
+	m_rs->ExtPrint( m_nFontID,m_dwFontColor,0,PR_ALIGN_LEFT,true,m_fFontScale,m_screenSize.x,m_screenSize.y,x+nPos,m_rect.top+m_pntFontOffset.y,"_");
 }
 
 void CXI_PCEDITBOX::InsertSymbol(std::string & str, char chr )

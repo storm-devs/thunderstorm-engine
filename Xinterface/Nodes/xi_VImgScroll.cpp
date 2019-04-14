@@ -376,15 +376,15 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 				api->Trace("can not load font:'%s'",param);
 		sprintf_s( param1, sizeof(param1), "dwXOffset%d", i+1 );
 		m_pStrParam[i].m_nStrX = GetIniLong(ini1,name1, ini2,name2, param1, 0);
-		if( m_pStrParam[i].m_nStrX > 0 ) m_pStrParam[i].m_nAlign = ALIGN_RIGHT;
-		else if( m_pStrParam[i].m_nStrX < 0 ) m_pStrParam[i].m_nAlign = ALIGN_LEFT;
-		else m_pStrParam[i].m_nAlign = ALIGN_CENTER;
+		if( m_pStrParam[i].m_nStrX > 0 ) m_pStrParam[i].m_nAlign = PR_ALIGN_RIGHT;
+		else if( m_pStrParam[i].m_nStrX < 0 ) m_pStrParam[i].m_nAlign = PR_ALIGN_LEFT;
+		else m_pStrParam[i].m_nAlign = PR_ALIGN_CENTER;
 		sprintf_s( param1, sizeof(param1), "align%d", i+1 );
 		if( ReadIniString(ini1,name1, ini2,name2, param1, param, sizeof(param),"") )
 		{
-			if( _stricmp(param,"left")==0 ) m_pStrParam[i].m_nAlign = ALIGN_LEFT;
-			else if( _stricmp(param,"right")==0 ) m_pStrParam[i].m_nAlign = ALIGN_RIGHT;
-			else if( _stricmp(param,"center")==0 ) m_pStrParam[i].m_nAlign = ALIGN_CENTER;
+			if( _stricmp(param,"left")==0 ) m_pStrParam[i].m_nAlign = PR_ALIGN_LEFT;
+			else if( _stricmp(param,"right")==0 ) m_pStrParam[i].m_nAlign = PR_ALIGN_RIGHT;
+			else if( _stricmp(param,"center")==0 ) m_pStrParam[i].m_nAlign = PR_ALIGN_CENTER;
 			else api->Trace("Warning! unknown align: %s", param);
 		}
 		sprintf_s( param1, sizeof(param1), "dwYOffset%d", i+1 );

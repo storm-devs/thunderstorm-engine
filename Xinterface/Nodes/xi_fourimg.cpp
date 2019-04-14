@@ -140,11 +140,11 @@ void CXI_FOURIMAGE::Draw(bool bSelected,uint32_t Delta_Time)
 		// out to screen the strings if that needed
 		if( bUseOneString || bUseTwoString )
 		{
-			int nAlignment1=ALIGN_CENTER,nAlignment2=ALIGN_CENTER;
-			if(m_xOneOffset>0) nAlignment1=ALIGN_RIGHT;
-			else if(m_xOneOffset<0) nAlignment1=ALIGN_LEFT;
-			if(m_xTwoOffset>0) nAlignment2=ALIGN_RIGHT;
-			else if(m_xTwoOffset<0) nAlignment2=ALIGN_LEFT;
+			int nAlignment1=PR_ALIGN_CENTER,nAlignment2=PR_ALIGN_CENTER;
+			if(m_xOneOffset>0) nAlignment1=PR_ALIGN_RIGHT;
+			else if(m_xOneOffset<0) nAlignment1=PR_ALIGN_LEFT;
+			if(m_xTwoOffset>0) nAlignment2=PR_ALIGN_RIGHT;
+			else if(m_xTwoOffset<0) nAlignment2=PR_ALIGN_LEFT;
 
 			for(int i=0; i<4; i++)
 			{

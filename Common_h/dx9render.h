@@ -14,9 +14,9 @@
 #define FONT_DEFAULT    0
 
 // define print text alignments
-#define ALIGN_LEFT		0
-#define ALIGN_RIGHT		1
-#define ALIGN_CENTER	2
+#define PR_ALIGN_LEFT		0
+#define PR_ALIGN_RIGHT		1
+#define PR_ALIGN_CENTER	2
 
 #define INVALID_BUFFER_ID	0xFFFFFFFF
 #define INVALID_LIGHT_ID	0xFFFFFFFF

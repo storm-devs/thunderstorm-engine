@@ -421,8 +421,8 @@ void CXI_UTILS::PrintTextIntoWindow(VDX9RENDER* pRender,
 	long right = left + width;
 
 	long nL,nR;
-	if( wAlignment==ALIGN_RIGHT ) nL = x - nStrWidth;
-	else if( wAlignment==ALIGN_CENTER ) nL = x - nStrWidth/2;
+	if( wAlignment==PR_ALIGN_RIGHT ) nL = x - nStrWidth;
+	else if( wAlignment==PR_ALIGN_CENTER ) nL = x - nStrWidth/2;
 	else nL = x;
 	nR = nL + nStrWidth;
 
@@ -453,5 +453,5 @@ void CXI_UTILS::PrintTextIntoWindow(VDX9RENDER* pRender,
 		}
 	}
 
-	pRender->ExtPrint( nFont,dwColor,0,ALIGN_LEFT,bShadow,fScale, scrWidth,scrHeight, nL,y, "%s", pc );
+	pRender->ExtPrint( nFont,dwColor,0,PR_ALIGN_LEFT,bShadow,fScale, scrWidth,scrHeight, nL,y, "%s", pc );
 }

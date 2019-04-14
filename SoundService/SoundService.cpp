@@ -1476,7 +1476,7 @@ void _cdecl SoundService::DebugPrint3D(const CVECTOR & pos3D, float rad, long li
 	if(alpha <= 0.0f) return;
 	color = (uint32_t(alpha*255.0f) << 24) | (color & 0xffffff);
 	//Печатаем текст
-	pRS->ExtPrint(FONT_DEFAULT, color, 0x00000000, ALIGN_CENTER, 0, scale, 0, 0, long(vrt.x), long(vrt.y), buf);
+	pRS->ExtPrint(FONT_DEFAULT, color, 0x00000000, PR_ALIGN_CENTER, 0, scale, 0, 0, long(vrt.x), long(vrt.y), buf);
 }
 
 void SoundService::Draw2DCircle (const CVECTOR& center, uint32_t dwColor, float fRadius, uint32_t dwColor2, float fRadius2)

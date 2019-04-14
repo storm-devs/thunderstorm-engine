@@ -24,7 +24,7 @@ void BIString::Render()
 	if( m_bUpdateString ) {
 		UpdateString();
 	}
-	m_pRS->ExtPrint( m_nFontID, m_dwColor,0, ALIGN_LEFT, true, m_fScale, 0,0,
+	m_pRS->ExtPrint( m_nFontID, m_dwColor,0, PR_ALIGN_LEFT, true, m_fScale, 0,0,
 		m_pntOutPos.x,m_pntOutPos.y, "%s", m_sText.c_str() );
 }
 

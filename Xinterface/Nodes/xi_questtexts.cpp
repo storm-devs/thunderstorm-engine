@@ -179,7 +179,7 @@ void CXI_QUESTTEXTS::Draw(bool bSelected,uint32_t Delta_Time)
 		// отобразить строки
 		uint32_t curColor = sd->complete ? m_dwCompleteColor : m_dwNonCompleteColor;
 		if(sd->lineStr!= nullptr && sd->lineStr[0]!=0)
-			m_rs->ExtPrint( m_idFont,curColor,0,ALIGN_LEFT,true,1.f,m_screenSize.x,m_screenSize.y,
+			m_rs->ExtPrint( m_idFont,curColor,0,PR_ALIGN_LEFT,true,1.f,m_screenSize.x,m_screenSize.y,
 				m_rect.left, curY, "%s",sd->lineStr);
 		curY += m_vertOffset;
 	}

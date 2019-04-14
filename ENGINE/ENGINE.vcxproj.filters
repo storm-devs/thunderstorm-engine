@@ -1535,7 +1535,7 @@
     <ClCompile Include="sources\externs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="fs.cpp">
+    <ClCompile Include="sources\fs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1557,9 +1557,6 @@
     </ClInclude>
     <ClInclude Include="sources\s_debug.h">
       <Filter>Script Files\h</Filter>
-    </ClInclude>
-    <ClInclude Include="PROGRAM\BATTLE_INTERFACE\msg_control.h">
-      <Filter>Modules\BattleInterface\CommonInterface</Filter>
     </ClInclude>
     <ClInclude Include="..\BATTLE_INTERFACE\ActivePerkShower.h">
       <Filter>Modules\BattleInterface\CommonInterface</Filter>
@@ -2503,16 +2500,13 @@
     <ClInclude Include="..\Common_h\v_s_stack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="sources\sp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sources\system_log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="fs.h">
+    <ClInclude Include="sources\fs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -143,7 +143,7 @@ void XI_TableCellDescribe::Draw( float fLeft, float fTop )
 		if( fNewY >= m_pLine->GetLineHeight() ) break; // больше не влазит в таблицу
 
 		CXI_UTILS::PrintTextIntoWindow( m_pTable->m_rs, m_nFontIndex<0?m_nFontID:m_pTable->m_anFontList[m_nFontIndex],
-			m_dwColor, ALIGN_LEFT, true, m_fScale, m_pTable->m_screenSize.x, m_pTable->m_screenSize.y,
+			m_dwColor, PR_ALIGN_LEFT, true, m_fScale, m_pTable->m_screenSize.x, m_pTable->m_screenSize.y,
 			(long)(fLeft+m_aStrings[n].offset.x), (long)(fTop+fY), m_aStrings[n].str.c_str(),
 			(long)fLeft, (long)fTop, m_pTable->m_anColsWidth[m_nColIndex], 20);
 
@@ -204,15 +204,15 @@ void XI_TableCellDescribe::SetData( long nColIndex, ATTRIBUTES* pAttr, bool bHea
 	pcTmpStr = pAttr->GetAttribute( "align" );
 	if( pcTmpStr )
 	{
-		if( _stricmp(pcTmpStr,"left") == 0 ) m_nAlignment = ALIGN_LEFT;
-		if( _stricmp(pcTmpStr,"center") == 0 ) m_nAlignment = ALIGN_CENTER;
-		if( _stricmp(pcTmpStr,"right") == 0 ) m_nAlignment = ALIGN_RIGHT;
+		if( _stricmp(pcTmpStr,"left") == 0 ) m_nAlignment = PR_ALIGN_LEFT;
+		if( _stricmp(pcTmpStr,"center") == 0 ) m_nAlignment = PR_ALIGN_CENTER;
+		if( _stricmp(pcTmpStr,"right") == 0 ) m_nAlignment = PR_ALIGN_RIGHT;
 	}
 	pcTmpStr = pAttr->GetAttribute( "valign" );
 	if( pcTmpStr )
 	{
 		if( _stricmp(pcTmpStr,"top") == 0 ) m_nVAlignment = ALIGN_TOP;
-		if( _stricmp(pcTmpStr,"center") == 0 ) m_nVAlignment = ALIGN_CENTER;
+		if( _stricmp(pcTmpStr,"center") == 0 ) m_nVAlignment = PR_ALIGN_CENTER;
 		if( _stricmp(pcTmpStr,"bottom") == 0 ) m_nVAlignment = ALIGN_BOTTOM;
 	}
 
@@ -234,7 +234,7 @@ void XI_TableCellDescribe::SetData( long nColIndex, ATTRIBUTES* pAttr, bool bHea
 	{
 		float fVOffset = (float)( m_pLine->GetLineHeight() - 2*m_pTable->m_pntSpaceSize.y - m_nTopLineHeight ) -
 						m_fScale * m_pTable->m_rs->CharHeight( m_nFontID ) * asStr.size();
-		if( m_nVAlignment == ALIGN_CENTER )
+		if( m_nVAlignment == PR_ALIGN_CENTER )
 			fVOffset *= .5f;
 		m_TextOffset.y += fVOffset;
 	}
@@ -252,9 +252,9 @@ void XI_TableCellDescribe::SetData( long nColIndex, ATTRIBUTES* pAttr, bool bHea
 
 		m_aStrings[n].offset.y = CXI_UTILS::GetByStrNumFromAttribute_Float( pA, "s",n+1, NOTUSE_OFFSET );
 		m_aStrings[n].offset.x = (float)m_nLeftLineWidth;
-		if( m_nAlignment == ALIGN_CENTER )
+		if( m_nAlignment == PR_ALIGN_CENTER )
 			m_aStrings[n].offset.x += (float)((nWidth - m_pTable->m_rs->StringWidth( (char*)asStr[n].c_str(), m_nFontID, m_fScale)) / 2);
-		else if( m_nAlignment == ALIGN_RIGHT )
+		else if( m_nAlignment == PR_ALIGN_RIGHT )
 			m_aStrings[n].offset.x += (float)(nWidth - m_pTable->m_rs->StringWidth( (char*)asStr[n].c_str(), m_nFontID, m_fScale ));
 	}
 }
@@ -298,11 +298,11 @@ void XI_TableCellDescribe::LoadImageParam(ImgDescribe* pImg,ATTRIBUTES* pA)
 		sscanf( pA->GetAttribute("offset"), "%d,%d", &pImg->offset.x,&pImg->offset.y );
 	if( (pcStr=pA->GetAttribute("valign")) != nullptr ) {
 		nImgAlign = ALIGN_TOP;
-		if( _stricmp(pcStr,"center")==0 ) nImgAlign = ALIGN_CENTER;
+		if( _stricmp(pcStr,"center")==0 ) nImgAlign = PR_ALIGN_CENTER;
 		else if( _stricmp(pcStr,"bottom")==0 ) nImgAlign = ALIGN_BOTTOM;
 		if( nImgAlign!=ALIGN_TOP ) {
 			nH = m_pLine->GetLineHeight() - 2*m_pTable->m_pntSpaceSize.y - m_nTopLineHeight - pImg->pImage->GetHeight();
-			if( nImgAlign==ALIGN_CENTER ) nH /= 2;
+			if( nImgAlign==PR_ALIGN_CENTER ) nH /= 2;
 			pImg->offset.y += nH;
 		}
 	}
@@ -724,16 +724,16 @@ void CXI_TABLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 		m_nFontCellID = m_rs->LoadFont( param );
 	m_dwFontCellColor = GetIniARGB( ini1,name1, ini2,name2, "fontcellcolor", ARGB(255,255,255,255) );
 	m_fFontCellScale = GetIniFloat( ini1,name1, ini2,name2, "fontcellscale", 1.f );
-	m_nFontCellAlignment = ALIGN_LEFT;
+	m_nFontCellAlignment = PR_ALIGN_LEFT;
 	m_nFontCellVAlignment = ALIGN_TOP;
 	if( ReadIniString( ini1,name1, ini2,name2, "fontcellalignment", param, sizeof(param), "" ) )
 	{
-		if( _stricmp(param,"center") == 0 ) m_nFontCellAlignment = ALIGN_CENTER;
-		if( _stricmp(param,"right") == 0 ) m_nFontCellAlignment = ALIGN_RIGHT;
+		if( _stricmp(param,"center") == 0 ) m_nFontCellAlignment = PR_ALIGN_CENTER;
+		if( _stricmp(param,"right") == 0 ) m_nFontCellAlignment = PR_ALIGN_RIGHT;
 	}
 	if( ReadIniString( ini1,name1, ini2,name2, "fontcellvalignment", param, sizeof(param), "" ) )
 	{
-		if( _stricmp(param,"center") == 0 ) m_nFontCellVAlignment = ALIGN_CENTER;
+		if( _stricmp(param,"center") == 0 ) m_nFontCellVAlignment = PR_ALIGN_CENTER;
 		if( _stricmp(param,"bottom") == 0 ) m_nFontCellVAlignment = ALIGN_BOTTOM;
 	}
 
@@ -742,16 +742,16 @@ void CXI_TABLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 		m_nFontTitleID = m_rs->LoadFont( param );
 	m_dwFontTitleColor = GetIniARGB( ini1,name1, ini2,name2, "fonttitlecolor", ARGB(255,255,255,255) );
 	m_fFontTitleScale = GetIniFloat( ini1,name1, ini2,name2, "fonttitlescale", 1.f );
-	m_nFontTitleAlignment = ALIGN_LEFT;
+	m_nFontTitleAlignment = PR_ALIGN_LEFT;
 	m_nFontTitleVAlignment = ALIGN_TOP;
 	if( ReadIniString( ini1,name1, ini2,name2, "fonttitlealignment", param, sizeof(param), "" ) )
 	{
-		if( _stricmp(param,"center") == 0 ) m_nFontTitleAlignment = ALIGN_CENTER;
-		if( _stricmp(param,"right") == 0 ) m_nFontTitleAlignment = ALIGN_RIGHT;
+		if( _stricmp(param,"center") == 0 ) m_nFontTitleAlignment = PR_ALIGN_CENTER;
+		if( _stricmp(param,"right") == 0 ) m_nFontTitleAlignment = PR_ALIGN_RIGHT;
 	}
 	if( ReadIniString( ini1,name1, ini2,name2, "fonttitlevalignment", param, sizeof(param), "" ) )
 	{
-		if( _stricmp(param,"center") == 0 ) m_nFontTitleVAlignment = ALIGN_CENTER;
+		if( _stricmp(param,"center") == 0 ) m_nFontTitleVAlignment = PR_ALIGN_CENTER;
 		if( _stricmp(param,"bottom") == 0 ) m_nFontTitleVAlignment = ALIGN_BOTTOM;
 	}
 

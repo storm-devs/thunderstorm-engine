@@ -119,9 +119,9 @@ long BIUtils::GetAlignmentFromAttr(ATTRIBUTES * pA,const char * name,long nDefAl
 	if( pA && name ) {
 		char * pcTmp = pA->GetAttribute(name);
 		if( pcTmp ) {
-			if( _stricmp(pcTmp,"left")==0 ) return ALIGN_LEFT;
-			if( _stricmp(pcTmp,"center")==0 ) return ALIGN_CENTER;
-			if( _stricmp(pcTmp,"right")==0 ) return ALIGN_RIGHT;
+			if( _stricmp(pcTmp,"left")==0 ) return PR_ALIGN_LEFT;
+			if( _stricmp(pcTmp,"center")==0 ) return PR_ALIGN_CENTER;
+			if( _stricmp(pcTmp,"right")==0 ) return PR_ALIGN_RIGHT;
 		}
 	}
 	return nDefAlign;
@@ -296,7 +296,7 @@ void BITextInfo::Print()
 		if( pARefresh )
 			sText = pARefresh->GetAttribute( "text" );
 		if( !sText.empty() )
-			pRS->ExtPrint( nFont, dwColor, 0, ALIGN_CENTER, bShadow, fScale, 0,0, pos.x,pos.y, "%s", sText.c_str() );
+			pRS->ExtPrint( nFont, dwColor, 0, PR_ALIGN_CENTER, bShadow, fScale, 0,0, pos.x,pos.y, "%s", sText.c_str() );
 	}
 }
 

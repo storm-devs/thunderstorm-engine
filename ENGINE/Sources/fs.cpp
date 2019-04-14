@@ -2,7 +2,7 @@
 #include <ShlObj.h>
 
 namespace fs {
-	auto GetStashPath()
+	path GetStashPath()
 	{
 		static path path;
 		if (path.empty()) {
@@ -15,12 +15,12 @@ namespace fs {
 		return path;
 	}
 
-	auto GetLogsPath()
+	path GetLogsPath()
 	{
 		return GetStashPath() / "Logs";
 	}
 
-	auto GetSaveDataPath()
+	path GetSaveDataPath()
 	{
 		return GetStashPath() / "SaveData";
 	}

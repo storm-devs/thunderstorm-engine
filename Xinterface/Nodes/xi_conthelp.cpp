@@ -41,7 +41,7 @@ void CXI_CONTEXTHELP::Draw(bool bSelected,uint32_t Delta_Time)
         if(m_bBorder)	m_rs->DrawLines(m_pLines,4,"iRectangle");
 
         // вывод строки помощи
-        m_rs->ExtPrint(m_idFont,m_dwFontColor,m_dwColor,ALIGN_CENTER,true,m_fCurScale,
+        m_rs->ExtPrint(m_idFont,m_dwFontColor,m_dwColor,PR_ALIGN_CENTER,true,m_fCurScale,
             m_screenSize.x,m_screenSize.y,(m_rect.left+m_rect.right)/2,m_rect.top+m_offset,
             "%s",GetCurrentHelpString(Delta_Time));
 	}

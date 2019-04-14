@@ -105,14 +105,14 @@ void CXI_BUTTON::Draw(bool bSelected,uint32_t Delta_Time)
 		if(m_idString!=-1L)
 			if(nPressedDelay>0)
 			{
-				m_rs->ExtPrint(m_nFontNum,m_dwFontColor,0,ALIGN_CENTER,false,1.f,m_screenSize.x,
+				m_rs->ExtPrint(m_nFontNum,m_dwFontColor,0,PR_ALIGN_CENTER,false,1.f,m_screenSize.x,
 					m_screenSize.y,	(m_rect.left+m_rect.right)/2+(int)fXDeltaPress,
 					m_rect.top+m_dwStrOffset+(int)fYDeltaPress,
 					"%s",pStringService->GetString(m_idString));
 			}
 			else
 			{
-				m_rs->ExtPrint(m_nFontNum,m_dwFontColor,0,ALIGN_CENTER,false,1.f,m_screenSize.x,
+				m_rs->ExtPrint(m_nFontNum,m_dwFontColor,0,PR_ALIGN_CENTER,false,1.f,m_screenSize.x,
 					m_screenSize.y,	(m_rect.left+m_rect.right)/2, m_rect.top + m_dwStrOffset,
 					"%s",pStringService->GetString(m_idString));
 			}

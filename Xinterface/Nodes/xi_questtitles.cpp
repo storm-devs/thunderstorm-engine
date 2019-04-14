@@ -126,7 +126,7 @@ void CXI_QUESTTITLE::Draw(bool bSelected,uint32_t Delta_Time)
 		if( m_strList[i].dwSpecColor!=0 ) curColor = m_strList[i].dwSpecColor;
 		for(j=0;j<m_strList[i].lineQuantity;j++)
 		{
-			m_rs->ExtPrint(m_idFont,curColor,0,ALIGN_LEFT,true,1.f,m_screenSize.x,m_screenSize.y,
+			m_rs->ExtPrint(m_idFont,curColor,0,PR_ALIGN_LEFT,true,1.f,m_screenSize.x,m_screenSize.y,
 				m_rect.left, curY+m_fontOffset, "%s",m_strList[i].name[j]);
 			curY += m_vertOffset;
 			lineNum++;

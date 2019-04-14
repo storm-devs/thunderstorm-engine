@@ -125,7 +125,7 @@ void CXI_SCROLLBAR::Draw(bool bSelected,uint32_t Delta_Time)
 				char* pcStr = pA->GetAttribute( "str" );
 				if( pcStr )
 				{
-					m_rs->ExtPrint( m_nFontID, m_dwFontColor, 0, ALIGN_CENTER, true, m_fFontScale, m_screenSize.x, m_screenSize.y,
+					m_rs->ExtPrint( m_nFontID, m_dwFontColor, 0, PR_ALIGN_CENTER, true, m_fFontScale, m_screenSize.x, m_screenSize.y,
 						(m_rect.left+m_rect.right)/2 + m_pntFontOffset.x, m_rect.top + m_pntFontOffset.y, "%s", pcStr );
 				}
 			}

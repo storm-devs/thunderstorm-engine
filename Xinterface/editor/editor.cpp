@@ -263,7 +263,7 @@ void GIEditor::DrawSizeBox()
 		// idFont, dwFCol, dwBCol, align, shadow, scale, sxs, sys,
 									//left, top, "%s", str
 		long m_fontID = m_pGIOwner->GetRenderService()->LoadFont("interface_normal");
-		m_pGIOwner->GetRenderService()->ExtPrint( m_fontID, 0xFFFFFFFF, 0, ALIGN_LEFT, false, 1.0, 800, 600,
+		m_pGIOwner->GetRenderService()->ExtPrint( m_fontID, 0xFFFFFFFF, 0, PR_ALIGN_LEFT, false, 1.0, 800, 600,
 									10, 10, "(%d, %d) - (%d, %d) W - %d H - %d",
 									 (int)m_pEditableNode->m_rect.left,
 									 (int)m_pEditableNode->m_rect.top,

@@ -391,9 +391,9 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 			if( (m_nOneStrFont=m_rs->LoadFont(param))==-1 )
 				api->Trace("can not load font:'%s'",param);
 		m_lOneStrX = GetIniLong(ini1,name1, ini2,name2, "dwXOffset1", 0);
-		if(m_lOneStrX>0) m_nOneStrAlign = ALIGN_RIGHT;
-		else if(m_lOneStrX<0) m_nOneStrAlign = ALIGN_LEFT;
-		else m_nOneStrAlign = ALIGN_CENTER;
+		if(m_lOneStrX>0) m_nOneStrAlign = PR_ALIGN_RIGHT;
+		else if(m_lOneStrX<0) m_nOneStrAlign = PR_ALIGN_LEFT;
+		else m_nOneStrAlign = PR_ALIGN_CENTER;
 		m_lOneStrOffset = GetIniLong(ini1,name1, ini2,name2, "dwYOffset1", 0);
 		m_dwOneStrForeColor = GetIniARGB(ini1,name1, ini2,name2, "dwForeColor1", 0xFFFFFFFF);
 		m_dwOneStrBackColor = GetIniARGB(ini1,name1, ini2,name2, "dwBackColor1", 0);
@@ -405,9 +405,9 @@ void CXI_SCROLLIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
 			if( (m_nTwoStrFont=m_rs->LoadFont(param))==-1 )
 				api->Trace("can not load font:'%s'",param);
 		m_lTwoStrX = GetIniLong(ini1,name1, ini2,name2, "dwXOffset2", 0);
-		if(m_lTwoStrX>0) m_nTwoStrAlign = ALIGN_RIGHT;
-		else if(m_lTwoStrX<0) m_nTwoStrAlign = ALIGN_LEFT;
-		else m_nTwoStrAlign = ALIGN_CENTER;
+		if(m_lTwoStrX>0) m_nTwoStrAlign = PR_ALIGN_RIGHT;
+		else if(m_lTwoStrX<0) m_nTwoStrAlign = PR_ALIGN_LEFT;
+		else m_nTwoStrAlign = PR_ALIGN_CENTER;
 		m_lTwoStrOffset = GetIniLong(ini1,name1, ini2,name2, "dwYOffset2", 0);
 		m_dwTwoStrForeColor = GetIniARGB(ini1,name1, ini2,name2, "dwForeColor2", 0xFFFFFFFF);
 		m_dwTwoStrBackColor = GetIniARGB(ini1,name1, ini2,name2, "dwBackColor2", 0);

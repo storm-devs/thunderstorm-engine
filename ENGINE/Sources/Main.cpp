@@ -3,9 +3,9 @@
 #include "s_debug.h"
 #include "file_service.h"
 #include "externs.h"
-#include <Windows.h>
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
+#include <Windows.h>
 
 S_DEBUG CDebug;
 bool isHold = false;

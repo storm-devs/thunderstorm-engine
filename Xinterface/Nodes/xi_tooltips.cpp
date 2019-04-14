@@ -49,7 +49,7 @@ void CXI_ToolTip::Draw()
 	long nY = m_rPos.top+m_pntTextOffset.y;
 	for( long n=0; n<m_aSubText.size(); n++ )
 	{
-		m_rs->ExtPrint( m_nFontID, m_dwFontColor, 0, ALIGN_CENTER, true, m_fFontScale,
+		m_rs->ExtPrint( m_nFontID, m_dwFontColor, 0, PR_ALIGN_CENTER, true, m_fFontScale,
 			m_pntScreenSize.x,m_pntScreenSize.y, nX, nY,
 			"%s", m_aSubText[n].c_str() );
 		nY += (long)(m_rs->CharHeight( m_nFontID ) * m_fFontScale);

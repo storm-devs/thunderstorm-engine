@@ -109,9 +109,9 @@ void CXI_STRCOLLECTION::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *n
 			for(int k=strlen(strState); k>=0; k--)
 			{
 				if(strState[k]=='C' || strState[k]=='c')
-					m_pStrDescr[i].wAlignment = ALIGN_CENTER;
+					m_pStrDescr[i].wAlignment = PR_ALIGN_CENTER;
 				if(strState[k]=='R' || strState[k]=='r')
-					m_pStrDescr[i].wAlignment = ALIGN_RIGHT;
+					m_pStrDescr[i].wAlignment = PR_ALIGN_RIGHT;
 				if(strState[k]=='S' || strState[k]=='s')
 					m_pStrDescr[i].bShadow=true;
 			}
@@ -213,8 +213,8 @@ void CXI_STRCOLLECTION::SaveParametersToIni()
 		char pcState[3];
 		switch( m_pStrDescr[n].wAlignment )
 		{
-		case ALIGN_CENTER: pcState[0]='C'; break;
-		case ALIGN_RIGHT: pcState[0]='R'; break;
+		case PR_ALIGN_CENTER: pcState[0]='C'; break;
+		case PR_ALIGN_RIGHT: pcState[0]='R'; break;
 		default: pcState[0]='L';
 		}
 		if( m_pStrDescr[n].bShadow ) {
@@ -271,13 +271,13 @@ uint32_t _cdecl CXI_STRCOLLECTION::MessageProc(long msgcode, MESSAGE & message)
 			switch(message.Long())				// msg
 			{
 			case SCRIPT_ALIGN_RIGHT:
-				pstr->wAlignment = ALIGN_RIGHT;
+				pstr->wAlignment = PR_ALIGN_RIGHT;
 			break;
 			case SCRIPT_ALIGN_CENTER:
-				pstr->wAlignment = ALIGN_CENTER;
+				pstr->wAlignment = PR_ALIGN_CENTER;
 			break;
 			case SCRIPT_ALIGN_LEFT:
-				pstr->wAlignment = ALIGN_LEFT;
+				pstr->wAlignment = PR_ALIGN_LEFT;
 			break;
 			}
 			pstr->bShadow = message.Long()!=0;	// msg

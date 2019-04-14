@@ -9,7 +9,7 @@ CXI_CHECKBUTTONS::CXI_CHECKBUTTONS()
 {
 	m_bClickable = true;
 	m_nNodeType = NODETYPE_CHECKBUTTONS;
-	m_nFontAlignment = ALIGN_LEFT;
+	m_nFontAlignment = PR_ALIGN_LEFT;
 	m_nFontNum = -1;
 	m_bClickIntoTextActive = false;
 	m_bIndividualPos = false;
@@ -50,7 +50,7 @@ void CXI_CHECKBUTTONS::Draw(bool bSelected,uint32_t Delta_Time)
 		// выведем все строки
 		for( long i=0; i<m_aButton[n]->aStr.size(); i++ )
 		{
-			m_rs->ExtPrint( m_nFontNum, dwColor, 0,ALIGN_LEFT,true,m_fFontScale, m_screenSize.x,m_screenSize.y,
+			m_rs->ExtPrint( m_nFontNum, dwColor, 0,PR_ALIGN_LEFT,true,m_fFontScale, m_screenSize.x,m_screenSize.y,
 						(long)(fX+m_frTextOffset.left+m_aButton[n]->aStr[i].fX), (long)(fY+m_frTextOffset.top),
 						"%s", m_aButton[n]->aStr[i].str.c_str() );
 			fY += m_fTextLineHeight;
@@ -143,11 +143,11 @@ void CXI_CHECKBUTTONS::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 		}
 	}
 
-	m_nFontAlignment = ALIGN_LEFT;
+	m_nFontAlignment = PR_ALIGN_LEFT;
 	if( ReadIniString(ini1,name1, ini2,name2, "alignment", param, sizeof(param),"") )
 	{
-		if( _stricmp(param,"center")==0 ) m_nFontAlignment = ALIGN_CENTER;
-		if( _stricmp(param,"right")==0 ) m_nFontAlignment = ALIGN_RIGHT;
+		if( _stricmp(param,"center")==0 ) m_nFontAlignment = PR_ALIGN_CENTER;
+		if( _stricmp(param,"right")==0 ) m_nFontAlignment = PR_ALIGN_RIGHT;
 	}
 
 	if( m_bExclusiveChoose )
@@ -481,9 +481,9 @@ void CXI_CHECKBUTTONS::UpdateTextInfo( long nButtonNum )
 		long nOffset = m_rs->StringWidth( (char*)asOutStr[n].c_str(), m_nFontNum, m_fFontScale, 0 );
 		switch( m_nFontAlignment )
 		{
-		case ALIGN_LEFT: m_aButton[nButtonNum]->aStr[n].fX = 0.f; break;
-		case ALIGN_CENTER: m_aButton[nButtonNum]->aStr[n].fX = (float)((nWidth - nOffset) / 2); break;
-		case ALIGN_RIGHT: m_aButton[nButtonNum]->aStr[n].fX = (float)(nWidth - nOffset); break;
+		case PR_ALIGN_LEFT: m_aButton[nButtonNum]->aStr[n].fX = 0.f; break;
+		case PR_ALIGN_CENTER: m_aButton[nButtonNum]->aStr[n].fX = (float)((nWidth - nOffset) / 2); break;
+		case PR_ALIGN_RIGHT: m_aButton[nButtonNum]->aStr[n].fX = (float)(nWidth - nOffset); break;
 		}
 	}
 }

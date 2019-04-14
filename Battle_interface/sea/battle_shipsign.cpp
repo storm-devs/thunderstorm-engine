@@ -98,12 +98,12 @@ void BIShipIcon::Draw()
 	for( long n=0; n<m_nShipQuantity; n++ )
 	{
 		if( m_Ship[n].pASailorQuantity ) {
-			m_pRS->ExtPrint( m_idSailorFont, m_dwSailorFontColor, 0, ALIGN_CENTER, true, m_fSailorFontScale, 0,0,  // boal עוםü
+			m_pRS->ExtPrint( m_idSailorFont, m_dwSailorFontColor, 0, PR_ALIGN_CENTER, true, m_fSailorFontScale, 0,0,  // boal עוםü
 				(long)m_Ship[n].pntPos.x + m_SailorFontOffset.x, (long)m_Ship[n].pntPos.y + m_SailorFontOffset.y,
 				"%d", (long)atof(m_Ship[n].pASailorQuantity->GetThisAttr()) );
 		}
 		if( !m_Ship[n].sShipName.empty() ) {
-			m_pRS->ExtPrint( m_idShipNameFont, m_dwShipNameFontColor, 0, ALIGN_CENTER, true, m_fShipNameFontScale, 0,0, // boal עוםü רנטפעא
+			m_pRS->ExtPrint( m_idShipNameFont, m_dwShipNameFontColor, 0, PR_ALIGN_CENTER, true, m_fShipNameFontScale, 0,0, // boal עוםü רנטפעא
 				(long)m_Ship[n].pntPos.x + m_ShipNameFontOffset.x, (long)m_Ship[n].pntPos.y + m_ShipNameFontOffset.y,
 				"%s", m_Ship[n].sShipName.c_str() );
 		}

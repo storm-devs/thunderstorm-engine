@@ -2636,10 +2636,10 @@ long _cdecl DX9RENDER::ExtPrint(long nFontNum, uint32_t foreColor, uint32_t back
 
 	switch (wAlign)
 	{
-	case ALIGN_CENTER:
+	case PR_ALIGN_CENTER:
 		x -= long((pFont->GetStringWidth(Buff_4k) + 1L) / 2L * fScale);
 		break;
-	case ALIGN_RIGHT:
+	case PR_ALIGN_RIGHT:
 		x -= long(pFont->GetStringWidth(Buff_4k)*fScale);
 		break;
 	}

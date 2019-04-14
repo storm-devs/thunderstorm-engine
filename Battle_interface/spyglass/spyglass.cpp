@@ -48,7 +48,7 @@ void ISPYGLASS::TextParam::LoadFromAttr(VDX9RENDER* rs,ATTRIBUTES* pA,const char
 	BIUtils::ReadPosFromAttr(pA,"pos", pos.x,pos.y, nDefXPos,nDefYPos);
 	fScale = BIUtils::GetFloatFromAttr(pA,"scale",1.f);
 	dwColor = BIUtils::GetLongFromAttr(pA,"color",0xFFFFFFFF);
-	nAlign = BIUtils::GetAlignmentFromAttr(pA,"align",ALIGN_LEFT);
+	nAlign = BIUtils::GetAlignmentFromAttr(pA,"align",PR_ALIGN_LEFT);
 	sText = BIUtils::GetStringFromAttr(pA,"text",pcDefText);
 }
 

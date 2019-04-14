@@ -71,20 +71,20 @@ void CXI_EDITBOX::Draw(bool bSelected,uint32_t Delta_Time)
 			switch(m_alpha[m_bUpChrRegistrOffset+idx])
 			{
 			case '*':
-				m_rs->ExtPrint(m_nChrFontNum,0xFFFFFFFF,0,ALIGN_CENTER,true,m_fChrScale*.7f,m_screenSize.x,m_screenSize.y,(long)left,(long)top+3,"Del");
+				m_rs->ExtPrint(m_nChrFontNum,0xFFFFFFFF,0,PR_ALIGN_CENTER,true,m_fChrScale*.7f,m_screenSize.x,m_screenSize.y,(long)left,(long)top+3,"Del");
 				break;
 			case '^': break;
 			case '~':
-				m_rs->ExtPrint(m_nChrFontNum,0xFFFFFFFF,0,ALIGN_CENTER,true,m_fChrScale*.7f,m_screenSize.x,m_screenSize.y,(long)left,(long)top+3,"Ok");
+				m_rs->ExtPrint(m_nChrFontNum,0xFFFFFFFF,0,PR_ALIGN_CENTER,true,m_fChrScale*.7f,m_screenSize.x,m_screenSize.y,(long)left,(long)top+3,"Ok");
 				break;
 			case '`':
-				m_rs->ExtPrint(m_nChrFontNum,0xFFFFFFFF,0,ALIGN_CENTER,true,m_fChrScale*.7f,m_screenSize.x,m_screenSize.y,(long)left,(long)top+3,"Esc");
+				m_rs->ExtPrint(m_nChrFontNum,0xFFFFFFFF,0,PR_ALIGN_CENTER,true,m_fChrScale*.7f,m_screenSize.x,m_screenSize.y,(long)left,(long)top+3,"Esc");
 				break;
 			case '|':
-				m_rs->ExtPrint(m_nChrFontNum,0xFFFFFFFF,0,ALIGN_CENTER,true,m_fChrScale*.6f,m_screenSize.x,m_screenSize.y,(long)left,(long)top+4,"Caps");
+				m_rs->ExtPrint(m_nChrFontNum,0xFFFFFFFF,0,PR_ALIGN_CENTER,true,m_fChrScale*.6f,m_screenSize.x,m_screenSize.y,(long)left,(long)top+4,"Caps");
 				break;
 			default:
-				m_rs->ExtPrint(m_nChrFontNum,0xFFFFFFFF,0,ALIGN_CENTER,true,m_fChrScale,m_screenSize.x,m_screenSize.y,(long)left,(long)top,"%c",m_alpha[m_bUpChrRegistrOffset+idx]);
+				m_rs->ExtPrint(m_nChrFontNum,0xFFFFFFFF,0,PR_ALIGN_CENTER,true,m_fChrScale,m_screenSize.x,m_screenSize.y,(long)left,(long)top,"%c",m_alpha[m_bUpChrRegistrOffset+idx]);
 			}
 			left += m_fHAdd;
 			idx++;
@@ -98,7 +98,7 @@ void CXI_EDITBOX::Draw(bool bSelected,uint32_t Delta_Time)
 	ATTRIBUTES * pA = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
 	char * tmpstr = nullptr;
 	if(pA) tmpstr = pA->GetAttribute("strdata");
-	if(tmpstr) m_rs->ExtPrint(m_nStrFontNum,0xFFFFFFFF,0,ALIGN_CENTER,true,m_fStrScale,m_screenSize.x,m_screenSize.y,(m_rect.left+m_rect.right)/2,m_nTopStringPos,"%s",tmpstr);
+	if(tmpstr) m_rs->ExtPrint(m_nStrFontNum,0xFFFFFFFF,0,PR_ALIGN_CENTER,true,m_fStrScale,m_screenSize.x,m_screenSize.y,(m_rect.left+m_rect.right)/2,m_nTopStringPos,"%s",tmpstr);
 }
 
 bool CXI_EDITBOX::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize)

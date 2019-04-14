@@ -121,7 +121,7 @@ void DIALOG::DlgTextDescribe::Show(long nY)
 	else nEnd = asText.size();
 	for( n=nStartIndex; i<nShowQuantity && n<nEnd; i++,n++ )
 	{
-		rs->ExtPrint( nFontID, dwColor, 0, ALIGN_LEFT,true,fScale,
+		rs->ExtPrint( nFontID, dwColor, 0, PR_ALIGN_LEFT,true,fScale,
 			0,0, offset.x,y, "%s", asText[n].c_str() );
 		y += nLineInterval;
 	}
@@ -237,7 +237,7 @@ void DIALOG::DlgLinkDescribe::Show(long nY)
 	else nEnd = -1;
 	for( i=0; i<nShowQuantity && n<asText.size(); i++,n++ )
 	{
-		rs->ExtPrint( nFontID, (n>=nBeg && n<nEnd)?dwSelColor:dwColor, 0, ALIGN_LEFT,true,fScale,
+		rs->ExtPrint( nFontID, (n>=nBeg && n<nEnd)?dwSelColor:dwColor, 0, PR_ALIGN_LEFT,true,fScale,
 			0,0, offset.x,y, "%s", asText[n].c_str() );
 
 		if(nEditLine!=-1 && (n>=nBeg && n<nEnd) && nSelectLine==nEditLine)
@@ -316,7 +316,7 @@ void __declspec(noinline) __cdecl DIALOG::DlgLinkDescribe::ShowEditMode(long nX,
 			else
 				nW = rs->StringWidth( (char*)asText[nTextIdx].c_str(), nFontID, fScale, 0 );
 		}
-		rs->ExtPrint( nFontID, dwSelColor, 0, ALIGN_LEFT, true, fScale, 0,0, nX+nW,nY, "_" );
+		rs->ExtPrint( nFontID, dwSelColor, 0, PR_ALIGN_LEFT, true, fScale, 0,0, nX+nW,nY, "_" );
 	}
 
 	if( nEditVarIndex>=0 && nEditVarIndex<10 )
@@ -944,7 +944,7 @@ void DIALOG::Realize(uint32_t Delta_Time)
 	DrawBack();
 	DrawButtons();
 
-	RenderService->ExtPrint( m_nCharNameTextFont, m_dwCharNameTextColor, 0, ALIGN_LEFT,true,m_fCharNameTextScale, 0,0,
+	RenderService->ExtPrint( m_nCharNameTextFont, m_dwCharNameTextColor, 0, PR_ALIGN_LEFT,true,m_fCharNameTextScale, 0,0,
 		(long)(m_BackParams.m_frBorderExt.left+m_fpCharNameTextOffset.x),
 		(long)(m_BackParams.m_frBorderExt.top+m_fpCharNameTextOffset.y),
 		"%s", m_sTalkPersName.c_str() );

@@ -208,7 +208,7 @@ bool InfoHandler::DoPreOut()
 				ps = GetCutString(ps,nOutWidth,fScale);
 				if(!ps || ps==oldps) break;
 				StringToBufer(outStr,sizeof(outStr),oldps,ps-oldps);
-				m_rs->ExtPrint( 0,0xFFFFFFFF,0,ALIGN_CENTER,true,fScale,0,0,
+				m_rs->ExtPrint( 0,0xFFFFFFFF,0,PR_ALIGN_CENTER,true,fScale,0,0,
 					desc.Width/2,topY+ntmp*nOutOffset, outStr);
 				ntmp++;
 				if(ntmp>=nRowQ) break;

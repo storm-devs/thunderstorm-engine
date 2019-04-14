@@ -171,8 +171,8 @@ void BATTLE_NAVIGATOR::Draw()
 	}
 
 	// отпечатать скорость ветра и корабля
-	rs->ExtPrint(m_speedFont,0xFFFFFFFF,0,ALIGN_CENTER,true,m_fFontScale,0,0,m_xWindSpeed,m_ySpeedShow,"%.1f",m_fWindStrength);
-	rs->ExtPrint(m_speedFont,0xFFFFFFFF,0,ALIGN_CENTER,true,m_fFontScale,0,0,m_xShipSpeed,m_ySpeedShow,"%.1f",m_fShipSpeed);
+	rs->ExtPrint(m_speedFont,0xFFFFFFFF,0,PR_ALIGN_CENTER,true,m_fFontScale,0,0,m_xWindSpeed,m_ySpeedShow,"%.1f",m_fWindStrength);
+	rs->ExtPrint(m_speedFont,0xFFFFFFFF,0,PR_ALIGN_CENTER,true,m_fFontScale,0,0,m_xShipSpeed,m_ySpeedShow,"%.1f",m_fShipSpeed);
 
 	// показать текущий заряд
 	if(m_curCharge>=0)

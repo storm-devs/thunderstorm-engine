@@ -52,7 +52,7 @@ void BICommandList::Draw()
 		m_pImgRender->Render();
 
 	if( !m_NoteText.empty() )
-		m_pRS->ExtPrint( m_NoteFontID, m_NoteFontColor, 0, ALIGN_CENTER, true, m_NoteFontScale, 0,0,
+		m_pRS->ExtPrint( m_NoteFontID, m_NoteFontColor, 0, PR_ALIGN_CENTER, true, m_NoteFontScale, 0,0,
 			m_NotePos.x, m_NotePos.y, "%s", m_NoteText.c_str() );
 }
 

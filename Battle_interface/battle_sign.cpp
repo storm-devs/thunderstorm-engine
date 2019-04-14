@@ -90,7 +90,7 @@ void BISignIcon::Draw()
 	for( long n=0; n<m_nSignQ; n++ )
 	{
 		if( m_Sign[n].sText.length() > 0 ) {
-			m_pRS->ExtPrint( m_idSignTextFont, m_dwSignTextFontColor, 0, ALIGN_CENTER, false, m_fSignTextFontScale, 0,0,
+			m_pRS->ExtPrint( m_idSignTextFont, m_dwSignTextFontColor, 0, PR_ALIGN_CENTER, false, m_fSignTextFontScale, 0,0,
 				(long)m_Sign[n].pntPos.x + m_SignTextFontOffset.x, (long)m_Sign[n].pntPos.y + m_SignTextFontOffset.y,
 				"%s", m_Sign[n].sText.c_str() );
 		}

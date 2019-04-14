@@ -1866,7 +1866,7 @@ void _cdecl sailPrint(VDX9RENDER *rs, const CVECTOR & pos3D, float rad, long lin
 		dist = 1.0f - (sqrtf(dist) - kDist*rad)/(rad - kDist*rad);
 		color = (uint32_t(dist*255.0f) << 24) | 0xffffff;
 	}
-	rs->ExtPrint(FONT_DEFAULT, color, 0x00000000, ALIGN_CENTER, 0, 1.0f, 0, 0, long(vrt.x), long(vrt.y), buf);
+	rs->ExtPrint(FONT_DEFAULT, color, 0x00000000, PR_ALIGN_CENTER, 0, 1.0f, 0, 0, long(vrt.x), long(vrt.y), buf);
 }
 
 SAILONE * SAIL::FindSailFromData(int gn,char* nodeName,char* grName)
