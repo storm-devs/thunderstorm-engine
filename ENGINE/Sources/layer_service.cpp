@@ -1,6 +1,6 @@
 #include "layer_service.h"
 
-extern uint32_t Exceptions_Mask;
+//extern uint32_t Exceptions_Mask;
 
 LAYER_SERVICE::LAYER_SERVICE()
 {
@@ -207,7 +207,8 @@ void LAYER_SERVICE::SetSleep(char * layer_name,uint32_t sleep_time_ms)
 
 void LAYER_SERVICE::CheckAutoExceptions()
 {
-	if(!(Exceptions_Mask & _X_NO_LAYER)) STORM_THROW(no layer);
+	//if(!(Exceptions_Mask & _X_NO_LAYER)) 
+	STORM_THROW(no layer);
 }
 
 // delete layers, previously marked as deleted

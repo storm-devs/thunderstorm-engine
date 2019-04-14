@@ -7,7 +7,7 @@
 extern CORE Core;
 extern VAPI* api;
 
-extern uint32_t Exceptions_Mask;
+//extern uint32_t Exceptions_Mask;
 extern FILE_SERVICE File_Service;
 extern char Last_Error[512];
 extern bool Error_Flag;

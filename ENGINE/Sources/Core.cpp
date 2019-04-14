@@ -711,7 +711,9 @@ void CORE::ValidateApiCalls()
 
 void CORE::CheckAutoExceptions(uint32_t xflag)
 {
-	if(!(Exceptions_Mask & xflag)) return;
+	spdlog::warn("exception thrown");
+	return;
+	//if(!(Exceptions_Mask & xflag)) return;
 	switch(xflag)
 	{
 		case  _X_NO_MEM:			STORM_THROW(no mem);
@@ -2172,19 +2174,19 @@ void CORE::TraceCurrent()
 // OR operation with core exceptions mask inversion, returned current mask state
 uint32_t CORE::SetExceptions(uint32_t _flags)
 {
-	uint32_t Old_EM;
-	Old_EM = Exceptions_Mask;
-	Exceptions_Mask |= _flags;
-	return Old_EM;
+	//uint32_t Old_EM;
+	//Old_EM = Exceptions_Mask;
+	//Exceptions_Mask |= _flags;
+	return 0;
 }
 
 // AND operation with core exceptions mask, returned current mask state
 uint32_t CORE::ClrExceptions(uint32_t _flags)
 {
 	uint32_t Old_EM;
-	Old_EM = Exceptions_Mask;
-	Exceptions_Mask &= (~_flags);
-	return Old_EM;
+	//Old_EM = Exceptions_Mask;
+	//Exceptions_Mask &= (~_flags);
+	return 0;
 }
 
 // save core state

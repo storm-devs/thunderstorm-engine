@@ -16,4 +16,4 @@ bool Error_Flag = false;
 bool bNetActive;
 char Last_Error[512];
 
-uint32_t Exceptions_Mask;
+//uint32_t Exceptions_Mask;
