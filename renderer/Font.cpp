@@ -69,7 +69,7 @@ bool FONT::MakeLong(char * * pDataPointer, long * result)
 
 		}
 		index++;
-		if(index > 8) STORM_THROW(inf loop);
+		if(index > 8) throw std::exception("inf loop");
 
 	}
 	return false;
@@ -113,15 +113,15 @@ bool FONT::Init(char * font_name, char * iniName, IDirect3DDevice9 * _device, VD
 	if( ini->ReadString(font_name,"Texture",buffer,sizeof(buffer)-1,"") )
     {
 		const auto len = strlen(buffer) + 1;
-        if( (textureName=new char[len]) == nullptr )
-            STORM_THROW("allocate memory error")
+		if ((textureName = new char[len]) == nullptr)
+			throw std::exception("allocate memory error");
         strcpy_s(textureName, len, buffer);
     }
     if( ini->ReadString(font_name,"Techniques",buffer,sizeof(buffer)-1,"") )
     {
 		const auto len = strlen(buffer) + 1;
-        if( (techniqueName=new char[len]) == nullptr )
-            STORM_THROW("allocate memory error")
+		if ((techniqueName = new char[len]) == nullptr)
+			throw std::exception("allocate memory error");
         strcpy_s(techniqueName, len, buffer);
     }
 	Texture_XSize = ini->GetLong(font_name,"Texture_xsize",1);
@@ -150,17 +150,17 @@ bool FONT::Init(char * font_name, char * iniName, IDirect3DDevice9 * _device, VD
 			if(!ini->ReadString(font_name,key_name,buffer,sizeof(buffer),"")) continue;
 		}
 		pData = buffer;
-		if(!MakeLong(&pData,&ltmp)) STORM_THROW(invalid font record);
+		if(!MakeLong(&pData,&ltmp)) throw std::exception("invalid font record");
 		CharT[n].Pos.x1 = 0;
 		CharT[n].Tuv.x1 = (float)(ltmp+.5f)/(float)Texture_XSize;
-		if(!MakeLong(&pData,&ltmp)) STORM_THROW(invalid font record);
+		if(!MakeLong(&pData,&ltmp)) throw std::exception("invalid font record");
 		CharT[n].Pos.y1 = 0.f;
 		CharT[n].Tuv.y1 = (float)(ltmp+.5f)/(float)Texture_YSize;
 
-		if(!MakeLong(&pData,&ltmp)) STORM_THROW(invalid font record);
+		if(!MakeLong(&pData,&ltmp)) throw std::exception("invalid font record");
 		CharT[n].Pos.x2 = (float)((long)(ltmp*m_fAspectRatioH));
 		CharT[n].Tuv.x2 = CharT[n].Tuv.x1 + (float)(ltmp-1.f)/(float)Texture_XSize;
-		if(!MakeLong(&pData,&ltmp)) STORM_THROW(invalid font record);
+		if(!MakeLong(&pData,&ltmp)) throw std::exception("invalid font record");
 		CharT[n].Pos.y1 = (float)(Height-(long)(ltmp*m_fAspectRatioV));
 		CharT[n].Pos.y2 = (float)Height;//((long)(ltmp*m_fAspectRatioV));
 		CharT[n].Tuv.y2 = CharT[n].Tuv.y1 + (float)(ltmp-1.f)/(float)Texture_YSize;
@@ -175,7 +175,7 @@ bool FONT::Init(char * font_name, char * iniName, IDirect3DDevice9 * _device, VD
 
 	IMAGE_VERTEX * pVertex;
 	Device->CreateVertexBuffer(sizeof(IMAGE_VERTEX)*MAX_SYMBOLS*SYM_VERTEXS,D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, IMAGE_FVF, D3DPOOL_SYSTEMMEM, &VBuffer, nullptr);
-	if(VBuffer == nullptr) STORM_THROW(vbuffer error);
+	if(VBuffer == nullptr) throw std::exception("vbuffer error");
 	VBuffer->Lock(0,sizeof(IMAGE_VERTEX)*MAX_SYMBOLS*SYM_VERTEXS,(VOID**)&pVertex,0);
 	for(n=0;n<MAX_SYMBOLS*SYM_VERTEXS;n++)
 	{

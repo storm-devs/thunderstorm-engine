@@ -45,7 +45,7 @@ void TFishSchools::Init()
 
 	renderService = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!renderService)
-		STORM_THROW("!FishSchools: No service 'dx9render'");
+		throw std::exception("!FishSchools: No service 'dx9render'");
 
 	api->FindClass(&seaID, "sea", 0);
 	sea = (SEA_BASE*) api->GetEntityPointer(&seaID);
@@ -75,8 +75,6 @@ void TFishSchools::Init()
 //--------------------------------------------------------------------
 uint32_t TFishSchools::ProcessMessage(long _code, MESSAGE & message)
 {
-	GUARD(TFishSchools::ProcessMessage)
-
 	uint32_t outValue = 0;
 
 	switch (_code)
@@ -92,14 +90,11 @@ uint32_t TFishSchools::ProcessMessage(long _code, MESSAGE & message)
 	}
 
 	return outValue;
-	UNGUARD
 }
 
 //--------------------------------------------------------------------
 void TFishSchools::Execute(uint32_t _dTime)
 {
-	GUARD(ANIMALS::Execute)
-
 	if (!enabled)
 		return;
 
@@ -120,16 +115,11 @@ void TFishSchools::Execute(uint32_t _dTime)
 		fishSchools[i]->Calculate(attractors, MAX_DYNAMIC_OBJECTS,deflectors, MAX_DYNAMIC_OBJECTS, speedK);
 		fishSchools[i]->time += _dTime;
 	}
-
-
-	UNGUARD
 }
 
 //--------------------------------------------------------------------
 void TFishSchools::Realize(uint32_t _dTime)
 {
-	GUARD(ANIMALS::Realize)
-
 	if (!enabled)
 		return;
 /*
@@ -162,8 +152,6 @@ void TFishSchools::Realize(uint32_t _dTime)
 		fishSchool->mtx.BuildMatrix(ang,pos);
 		fishSchool->Realize(_dTime);
 	}
-
-	UNGUARD
 }
 
 //--------------------------------------------------------------------

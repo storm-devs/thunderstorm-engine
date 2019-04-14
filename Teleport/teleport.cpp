@@ -68,7 +68,7 @@ TMPTELEPORT::~TMPTELEPORT()
 bool TMPTELEPORT::Init()
 {
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
-	if(!rs)	STORM_THROW("No service: dx9render");
+	if(!rs)	throw std::exception("No service: dx9render");
 
 	m_leftPos = 20;
 	m_topPos = 80;
@@ -200,7 +200,7 @@ void TMPTELEPORT::SetShowData(ATTRIBUTES * pA)
 	if(m_nStrQuantity==0) return;
 	if((m_descrArray=new TELEPORT_DESCR[m_nStrQuantity])== nullptr)
 	{
-		STORM_THROW("Allocate memory error");
+		throw std::exception("Allocate memory error");
 	}
 
 	for(int i=0;i<m_nStrQuantity;i++)
@@ -212,7 +212,7 @@ void TMPTELEPORT::SetShowData(ATTRIBUTES * pA)
 		const auto len = strlen(tmpStr) + 1;
 		if( (m_descrArray[i].name=new char[len]) == nullptr )
 		{
-			STORM_THROW("Allocate memory error");
+			throw std::exception("Allocate memory error");
 		}
 		memcpy(m_descrArray[i].name,tmpStr,len);
 	}

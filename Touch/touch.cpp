@@ -80,7 +80,7 @@ void TOUCH::Realize(uint32_t DeltaTime)
 
 void TOUCH::Execute(uint32_t dwCoreDeltaTime)
 {
-	GUARD(void TOUCH::Execute(uint32_t dwCoreDeltaTime))
+	//GUARD(void TOUCH::Execute(uint32_t dwCoreDeltaTime))
 	long i;
 	ENTITY_ID ent;
 	if (!pIslandBase && api->FindClass(&ent,"island",0))
@@ -118,7 +118,7 @@ void TOUCH::Execute(uint32_t dwCoreDeltaTime)
 
 	RDTSC_E(dwRdtsc);
 	//api->Trace("%d",dwRdtsc);
-	UNGUARD
+	//UNGUARD
 	return;
 }
 

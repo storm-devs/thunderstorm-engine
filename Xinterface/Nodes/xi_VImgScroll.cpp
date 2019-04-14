@@ -343,7 +343,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 		m_pPicOffset = new long[m_nSlotsQnt];
 		if( !m_dwCurColor || !m_dwNormalColor ||
 			!m_dwSelectColor || !m_pPicOffset ) {
-			STORM_THROW("allocate memory error");
+			throw std::exception("allocate memory error");
 		}
 	}
 
@@ -406,7 +406,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 			const auto len = strlen(sTechnique) + 1;
 			if( (m_sSpecTechniqueName=new char[len])== nullptr )
 			{
-				STORM_THROW("Allocate memory error");
+				throw std::exception("Allocate memory error");
 			}
 			memcpy(m_sSpecTechniqueName,sTechnique,len);
 		}
@@ -437,7 +437,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 				m_sGroupName = new char*[m_nGroupQuantity];
 				if( m_nGroupTex== nullptr || m_sGroupName== nullptr )
 				{
-					STORM_THROW("allocate memory error");
+					throw std::exception("allocate memory error");
 				}
 				for(i=0;i<m_nGroupQuantity;i++)
 				{
@@ -447,7 +447,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 					m_sGroupName[i] = new char[len];
 					if(m_sGroupName[i]== nullptr)
 					{
-						STORM_THROW("allocate memory error");
+						throw std::exception("allocate memory error");
 					}
 					memcpy(m_sGroupName[i],stmp,len);
 					m_nGroupTex[i] = pPictureService->GetTextureID(m_sGroupName[i]);
@@ -461,7 +461,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 			m_idBadTexture = new long[m_nSlotsQnt];
 			m_idBadPic = new long[m_nSlotsQnt];
 			if( !m_idBadTexture || !m_idBadPic ) {
-				STORM_THROW("allocate memory error");
+				throw std::exception("allocate memory error");
 			}
 		}
 		for(n=0; n<m_nSlotsQnt; n++)
@@ -520,7 +520,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 					!m_Image[i].ptex || !m_Image[i].saveName ||
 					!m_Image[i].tex )
 				{
-					STORM_THROW("allocate memory error");
+					throw std::exception("allocate memory error");
 				}
 				for(n=0; n<m_nSlotsQnt; n++)
 				{
@@ -549,8 +549,8 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 					{
 						const auto len = strlen(sStringName);
 						m_Image[i].strSelf[k] = new char[len];
-						if( m_Image[i].strSelf[k] == nullptr )
-							STORM_THROW("allocate memory error")
+						if (m_Image[i].strSelf[k] == nullptr)
+							throw std::exception("allocate memory error");
 						memcpy( m_Image[i].strSelf[k], &(sStringName[1]), len );
 					}
 					else
@@ -567,7 +567,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 					{
 						const auto len = strlen(tmpStr) + 1;
 						if( (m_Image[i].saveName[n]=new char[len])==nullptr )
-							{STORM_THROW("allocate memory error");}
+							{throw std::exception("allocate memory error");}
 						memcpy(m_Image[i].saveName[n],tmpStr, len);
 					}
 					sprintf_s(param,"tex%d",n+1);
@@ -593,8 +593,8 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 	{
 		tmpstr = GetSubStr(param, param1, sizeof(param1));
 		const auto len = strlen(param1) + 1;
-		if( (m_sBorderGroupName = new char[len])== nullptr )
-			STORM_THROW("allocate memory error")
+		if ((m_sBorderGroupName = new char[len]) == nullptr)
+			throw std::exception("allocate memory error");
 		memcpy(m_sBorderGroupName,param1,len);
 		m_texBorder = pPictureService->GetTextureID(m_sBorderGroupName);
 		m_nBorderPicture = pPictureService->GetImageNum(m_sBorderGroupName,tmpstr);
@@ -634,8 +634,8 @@ float CXI_VIMAGESCROLL::ChangeDinamicParameters(float fYDelta)
 		if( pScroll== nullptr )
 		{
 			pScroll = new SCROLLENTITY;
-			if(pScroll== nullptr)
-				STORM_THROW("allocate memory error")
+			if (pScroll == nullptr)
+				throw std::exception("allocate memory error");
 
 			if(pPrevScroll== nullptr)
 				m_pScroll = pScroll;
@@ -1001,8 +1001,8 @@ void CXI_VIMAGESCROLL::ChangeScroll(int nScrollItemNum)
 					{
 						const auto len = strlen(sStringName);
 						m_Image[i].strSelf[n] = new char[len];
-						if(m_Image[i].strSelf[n]== nullptr)
-							STORM_THROW("allocate memory error")
+						if (m_Image[i].strSelf[n] == nullptr)
+							throw std::exception("allocate memory error");
 						memcpy(m_Image[i].strSelf[n],&(sStringName[1]),len);
 					}
 					else
@@ -1018,8 +1018,8 @@ void CXI_VIMAGESCROLL::ChangeScroll(int nScrollItemNum)
 					if(tmpStr!= nullptr)
 					{
 						const auto len = strlen(tmpStr) + 1;
-						if( (m_Image[i].saveName[n]=new char[len])==nullptr )
-							{STORM_THROW("allocate memory error");}
+						if( (m_Image[i].saveName[n]=new char[len])==nullptr)
+							throw std::exception("allocate memory error");
 						memcpy(m_Image[i].saveName[n],tmpStr, len);
 					}
 					sprintf_s(param,"tex%d",n+1);
@@ -1050,7 +1050,8 @@ void CXI_VIMAGESCROLL::DeleteImage(int imgNum)
 
 	IMAGEDESCRIBE * pOldImgs = m_Image;
 	m_Image = new IMAGEDESCRIBE[m_nListSize];
-	if(m_Image== nullptr)	{STORM_THROW("memory allocate error")}
+	if (m_Image == nullptr)
+		throw std::exception("memory allocate error");
 	if(imgNum>0)
 		memcpy(m_Image,pOldImgs,imgNum*sizeof(IMAGEDESCRIBE));
 	if(imgNum<m_nListSize)
@@ -1118,7 +1119,7 @@ void CXI_VIMAGESCROLL::RefreshScroll()
 			const auto len = strlen(sTechnique) + 1;
 			if( (m_sSpecTechniqueName=new char[len])== nullptr )
 			{
-				STORM_THROW("Allocate memory error");
+				throw std::exception("Allocate memory error");
 			}
 			memcpy(m_sSpecTechniqueName,sTechnique,len);
 		}
@@ -1156,7 +1157,7 @@ void CXI_VIMAGESCROLL::RefreshScroll()
 				m_sGroupName = new char*[m_nGroupQuantity];
 				if( m_nGroupTex== nullptr || m_sGroupName== nullptr )
 				{
-					STORM_THROW("allocate memory error");
+					throw std::exception("allocate memory error");
 				}
 				for(i=0;i<m_nGroupQuantity;i++)
 				{
@@ -1166,7 +1167,7 @@ void CXI_VIMAGESCROLL::RefreshScroll()
 					m_sGroupName[i] = new char[len];
 					if(m_sGroupName[i]== nullptr)
 					{
-						STORM_THROW("allocate memory error");
+						throw std::exception("allocate memory error");
 					}
 					memcpy(m_sGroupName[i],stmp,len);
 					m_nGroupTex[i] = pPictureService->GetTextureID(m_sGroupName[i]);
@@ -1230,7 +1231,7 @@ void CXI_VIMAGESCROLL::RefreshScroll()
 					!m_Image[i].ptex || !m_Image[i].saveName ||
 					!m_Image[i].tex )
 				{
-					STORM_THROW("allocate memory error");
+					throw std::exception("allocate memory error");
 				}
 				for(n=0; n<m_nSlotsQnt; n++)
 				{
@@ -1259,8 +1260,8 @@ void CXI_VIMAGESCROLL::RefreshScroll()
 					{
 						const auto len = strlen(sStringName);
 						m_Image[i].strSelf[k] = new char[len];
-						if(m_Image[i].strSelf[k]== nullptr)
-							STORM_THROW("allocate memory error")
+						if (m_Image[i].strSelf[k] == nullptr)
+							throw std::exception("allocate memory error");
 						memcpy(m_Image[i].strSelf[k],&(sStringName[1]),len);
 					}
 					else
@@ -1277,7 +1278,7 @@ void CXI_VIMAGESCROLL::RefreshScroll()
 					{
 						const auto len = strlen(tmpStr) + 1;
 						if( (m_Image[i].saveName[n]=new char[len])==nullptr )
-							{STORM_THROW("allocate memory error");}
+							{throw std::exception("allocate memory error");}
 						memcpy(m_Image[i].saveName[n],tmpStr,len);
 					}
 					sprintf_s(param,"tex%d",n+1);
@@ -1454,7 +1455,7 @@ void CXI_VIMAGESCROLL::UpdateTexturesGroup()
 			m_nGroupTex = new long[m_nGroupQuantity];
 			m_sGroupName = new char*[m_nGroupQuantity];
 			if( m_nGroupTex== nullptr || m_sGroupName== nullptr ) {
-				STORM_THROW("allocate memory error");
+				throw std::exception("allocate memory error");
 			}
 			for(i=0;i<m_nGroupQuantity;i++)
 			{
@@ -1479,7 +1480,7 @@ void CXI_VIMAGESCROLL::UpdateTexturesGroup()
 					const auto len = strlen(stmp) + 1;
 					m_sGroupName[i] = new char[len];
 					if(m_sGroupName[i]== nullptr) {
-						STORM_THROW("allocate memory error");
+						throw std::exception("allocate memory error");
 					}
 					memcpy(m_sGroupName[i],stmp,len);
 					m_nGroupTex[i] = pPictureService->GetTextureID(m_sGroupName[i]);

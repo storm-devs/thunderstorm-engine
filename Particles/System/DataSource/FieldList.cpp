@@ -75,7 +75,7 @@ void FieldList::Load (MemFile* File)
 			}
 			default:
 			{
-				STORM_THROW ("Particles: Unknown field type !!!!");
+				throw std::exception("Particles: Unknown field type !!!!");
 			}
 		}	//switch
 	} // for all fileds
@@ -576,7 +576,7 @@ void FieldList::Convert (DataDescripion* pDataDescriptor)
 				CreateEmptyStringField(NeedFieldName, "###");
 				break;
 			default:
-				THROW ("Unknown Field type !!!");
+				throw std::exception("Unknown Field type !!!");
 			}
 		}
 	}
@@ -638,7 +638,7 @@ void FieldList::DeleteFieldData (const FieldList::FieldDesc& pData)
 		}
 	default:
 		{
-			STORM_THROW ("Particles: Try delete unknown field type !!!!");
+			throw std::exception("Particles: Try delete unknown field type !!!!");
 		}
 	}	//switch
 }
@@ -700,7 +700,7 @@ void FieldList::Write (MemFile* File)
 				}
 			default:
 				{
-					STORM_THROW ("Particles: Unknown field type !!!!");
+					throw std::exception("Particles: Unknown field type !!!!");
 				}
 		}	//switch
 	} // loop

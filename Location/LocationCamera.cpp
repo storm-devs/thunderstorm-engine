@@ -84,7 +84,7 @@ bool LocationCamera::Init()
 {
 	//DX9 render
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
-	if(!rs) STORM_THROW("No service: dx9render");
+	if(!rs) throw std::exception("No service: dx9render");
 
 	api->LayerCreate("execute", true, false);
 	api->LayerSetFlags("execute", LRFLAG_EXECUTE);

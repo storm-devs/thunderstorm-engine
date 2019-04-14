@@ -124,14 +124,14 @@ void SEAFOAM_PS::ProcessOrder(SEAFOAM_PS * * Root,SEAFOAM_PS * * Top)
 
 bool SEAFOAM_PS::Init(INIFILE * ini, char * psname)
 {
-	GUARD(SEAFOAM_PS::Init)
+	//GUARD(SEAFOAM_PS::Init)
 	if(!ini) return false;
 	long n;
 	bool bRes;
 
 	// load render service -----------------------------------------------------
 	RenderService = (VDX9RENDER *)api->CreateService("dx9render");
-	if(!RenderService)	STORM_THROW("No service: dx9render");
+	if(!RenderService)	throw std::exception("No service: dx9render");
 
 	gs = (VGEOMETRY *)api->CreateService("geometry");
 	//if(!gs) return false;
@@ -157,7 +157,7 @@ bool SEAFOAM_PS::Init(INIFILE * ini, char * psname)
 	if(!ini->ReadString(psname,PSKEY_TECHNIQUE,string,sizeof(string),""))
 	{
 		api->Trace("Particle system: %s",psname);
-		STORM_THROW(no technique for particle system);
+		throw std::exception("no technique for particle system");
 	}
 	const auto len = strlen(string) + 1;
 	TechniqueName = new char[len];
@@ -208,7 +208,7 @@ bool SEAFOAM_PS::Init(INIFILE * ini, char * psname)
 
 
 	Particle = (PARTICLE *) new char[ParticlesNum*sizeof(PARTICLE)];
-	if(Particle == nullptr) STORM_THROW(mem error);
+	if(Particle == nullptr) throw std::exception("mem error");
 
 	memset(Particle,0,ParticlesNum*sizeof(PARTICLE));
 
@@ -275,11 +275,11 @@ bool SEAFOAM_PS::Init(INIFILE * ini, char * psname)
 
 	// create vertex buffer
 	RenderService->CreateVertexBuffer(sizeof(PARTICLE_VERTEX)*VERTEXS_ON_PARTICLE*ParticlesNum, D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, PARTICLE_FVF, D3DPOOL_SYSTEMMEM, &VBuffer);
-	if(VBuffer == nullptr) STORM_THROW(vbuffer error);
+	if(VBuffer == nullptr) throw std::exception("vbuffer error");
 
 	UpdateVertexBuffer();
 
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 

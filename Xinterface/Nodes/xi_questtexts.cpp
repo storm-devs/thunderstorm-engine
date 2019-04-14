@@ -11,7 +11,7 @@ CXI_QUESTTEXTS::STRING_DESCRIBER::STRING_DESCRIBER(char* ls)
 	{
 		if( (lineStr=new char[len]) == nullptr )
 		{
-			STORM_THROW("allocate memory error");
+			throw std::exception("allocate memory error");
 		}
 		memcpy(lineStr,ls,len);
 	}
@@ -26,7 +26,7 @@ CXI_QUESTTEXTS::STRING_DESCRIBER* CXI_QUESTTEXTS::STRING_DESCRIBER::Add(char* ls
 	STRING_DESCRIBER* newSD = new STRING_DESCRIBER(ls);
 	if(newSD== nullptr)
 	{
-		STORM_THROW("allocate memory error");
+		throw std::exception("allocate memory error");
 	}
 
 	newSD->complete = complete;
@@ -334,7 +334,7 @@ void CXI_QUESTTEXTS::StartQuestShow(ATTRIBUTES * pA,int qn)
 					{
 						if( (m_listCur=m_listRoot=new STRING_DESCRIBER(newStr)) == nullptr )
 						{
-							STORM_THROW("allocate memory error");
+							throw std::exception("allocate memory error");
 						}
 						m_listCur->complete = cFlag;
 					}

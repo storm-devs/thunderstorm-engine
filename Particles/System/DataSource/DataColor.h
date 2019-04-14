@@ -1,13 +1,9 @@
-#ifndef _PARTICLE_DATA_COLOR_H_
-#define _PARTICLE_DATA_COLOR_H_
+#pragma once
 
-
-#include "../../../Common_h/Exs.h"
 #include "../../ICommon/MemFile.h"
 #include "../../ICommon/ColorVertex.h"
 #include <string>
 #include <vector>
-
 
 class DataColor
 {
@@ -55,6 +51,3 @@ public:
 	const ColorVertex& GetByIndex (uint32_t Index);
 
 };
-
-
-#endif

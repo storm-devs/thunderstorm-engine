@@ -80,7 +80,7 @@ ISPYGLASS::~ISPYGLASS()
 bool ISPYGLASS::Init()
 {
 	if( (rs=(VDX9RENDER *)api->CreateService("dx9render")) == nullptr ) {
-		STORM_THROW("Can`t create render service");
+		throw std::exception("Can`t create render service");
 	}
 
 	m_pImgRender = new BIImageRender( rs );

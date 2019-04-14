@@ -51,9 +51,9 @@ SCRSHOTER::~SCRSHOTER()
 
 bool SCRSHOTER::Init()
 {
-	GUARD(SCRSHOTER::Init())
+	//GUARD(SCRSHOTER::Init())
 	SetDevice();
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
@@ -61,7 +61,8 @@ void SCRSHOTER::SetDevice()
 {
     // получить сервис рендера
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
-	if(!rs){STORM_THROW("No service: dx9render")}
+	if (!rs)
+		throw std::exception("No service: dx9render");
 
 }
 
@@ -132,7 +133,7 @@ bool SCRSHOTER::MakeScreenShot()
 		int * pHorzOff = new int[SS_TEXTURE_WIDTH];
 		int * pVertOff = new int[SS_TEXTURE_HEIGHT];
 		if(!pHorzOff || !pVertOff) {
-			STORM_THROW("allocate memory error");
+			throw std::exception("allocate memory error");
 		}
 		int nHorzSize, nVertSize;
 		if( (float)desc.Width/desc.Height < (float)SS_TEXTURE_WIDTH/SS_TEXTURE_HEIGHT )
@@ -174,7 +175,7 @@ bool SCRSHOTER::MakeScreenShot()
 	// Делаем перевод в смешанную текстуру
 	uint32_t dwTmp = outRect.Pitch*SS_TEXTURE_HEIGHT;
 	//DWORD dwPixelSize = XGBytesPerPixelFromFormat( D3DFMT_A8R8G8B8 );
-	if( (pIn=new char[dwTmp]) == null ) { STORM_THROW("allocate memory error") }
+	if( (pIn=new char[dwTmp]) == null ) { throw std::exception("allocate memory error") }
 	memcpy(pIn,outRect.pBits,dwTmp);
     XGSwizzleRect( pIn, 0, NULL, outRect.pBits,
 				   SS_TEXTURE_WIDTH, SS_TEXTURE_HEIGHT,
@@ -307,13 +308,13 @@ IDirect3DTexture9 * SCRSHOTER::AddSaveTexture(char * dirName, char * fileName)
 	if(rval) return rval;
 	if(_stricmp(fileName,"newsave")==0) return m_pScrShotTex;
 	SAVETEXTURES * ps = new SAVETEXTURES;
-	if(ps== nullptr)	{STORM_THROW("Allocate memory error");}
+	if(ps== nullptr)	{throw std::exception("Allocate memory error");}
 	ps->dataString = nullptr;
 	ps->next = m_list;
 	m_list = ps;
 	const auto len = strlen(fileName) + 1;
 	m_list->fileName = new char[len];
-	if(m_list->fileName== nullptr)	{STORM_THROW("Allocate memory error");}
+	if(m_list->fileName== nullptr)	{throw std::exception("Allocate memory error");}
 	memcpy(m_list->fileName,fileName,len);
 	char param[1024];
 	if(dirName== nullptr || dirName[0] == 0)	sprintf_s(param,"%s",fileName);
@@ -375,7 +376,7 @@ IDirect3DTexture9 * SCRSHOTER::GetTexFromSave(char * fileName, char **pDatStr)
 		{
 			int strLen = startIdx-sizeof(SAVE_DATA_HANDLE);
 			*pDatStr = new char[strLen+1];
-			if(!*pDatStr) {STORM_THROW("allocate memory error");}
+			if(!*pDatStr) {throw std::exception("allocate memory error");}
 			strncpy_s(*pDatStr, strLen+1, &pdat[sizeof(SAVE_DATA_HANDLE)], strLen);
 			(*pDatStr)[strLen] = 0;
 		}

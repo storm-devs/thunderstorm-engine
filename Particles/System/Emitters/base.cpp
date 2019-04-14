@@ -98,7 +98,7 @@ void BaseEmitter::BornParticles (float DeltaTime)
 						//GetMaster()->GetMaster()->GetMDLProcessor()->AddParticle(ParticleTypes[n].pFields);
 						break;
 					default:
-						STORM_THROW("Try to emmit unknown particle type");
+						throw std::exception("Try to emmit unknown particle type");
 					} // switch
 				} // Active < Max
 			} // While Remain
@@ -159,7 +159,7 @@ void BaseEmitter::AttachToDataSource (DataSource::EmitterDesc* pEmitter)
 				CreateModelParticle (pDesc->Fields);
 				break;
 			default:
-				STORM_THROW ("Particles: Unknown particle type !!!!");
+				throw std::exception("Particles: Unknown particle type !!!!");
 		}
 
 	}

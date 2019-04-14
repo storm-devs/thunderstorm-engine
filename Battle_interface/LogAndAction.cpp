@@ -42,7 +42,7 @@ bool ILogAndActions::Init()
 {
 	if( (rs=(VDX9RENDER *)api->CreateService("dx9render")) == nullptr )
 	{
-		STORM_THROW("Can`t create render service");
+		throw std::exception("Can`t create render service");
 	}
 	D3DVIEWPORT9 vp;
 	rs->GetViewport(&vp);
@@ -124,7 +124,7 @@ uint32_t _cdecl ILogAndActions::ProcessMessage(MESSAGE & message)
 					{
 						const auto len = strlen(param) + 1;
 						if( (last->str=new char[len]) == nullptr )
-							{ STORM_THROW("allocate memory error"); }
+							{ throw std::exception("allocate memory error"); }
 						strcpy_s(last->str, len, param);
 					}
 					else
@@ -418,7 +418,7 @@ void ILogAndActions::SetString(char * str, bool immortal)
 	STRING_DESCR * newDescr = new STRING_DESCR;
 	if(newDescr== nullptr)
 	{
-		STORM_THROW("Allocate memory error");
+		throw std::exception("Allocate memory error");
 	}
 	// он будет последним в списке
 	newDescr->next = nullptr;
@@ -426,7 +426,7 @@ void ILogAndActions::SetString(char * str, bool immortal)
 	const auto len = strlen(str) + 1;
 	if( (newDescr->str=new char[len]) == nullptr )
 	{
-		STORM_THROW("Allocate memory error");
+		throw std::exception("Allocate memory error");
 	}
 	strcpy_s(newDescr->str, len, str);
 	// Поставим максимальную видимость

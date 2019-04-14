@@ -54,50 +54,50 @@ MAST::~MAST()
 
 bool MAST::Init()
 {
-	GUARD(MAST::Init())
+	//GUARD(MAST::Init())
 
 	SetDevice();
 
-	UNGUARD
+	//UNGUARD
 	return true;
 }
  
 void MAST::SetDevice()
 {
-	GUARD(MAST::SetDevice())
+	//GUARD(MAST::SetDevice())
 
 	RenderService = (VDX9RENDER *)api->CreateService("dx9render");
-    if(!RenderService) STORM_THROW("No service: dx9render");
+    if(!RenderService) throw std::exception("No service: dx9render");
 
 	pCollide = (COLLIDE*)api->CreateService("COLL");
-	if (!pCollide) STORM_THROW("No service: collide");
+	if (!pCollide) throw std::exception("No service: collide");
 
     LoadIni();
 
-	UNGUARD
+	//UNGUARD
 }
 
 bool MAST::CreateState(ENTITY_STATE_GEN * state_gen)
 {
-	GUARD(bool MAST::CreateState(ENTITY_STATE_GEN * state_gen))
+	//GUARD(bool MAST::CreateState(ENTITY_STATE_GEN * state_gen))
 
 	return true;
-	UNGUARD
+	//UNGUARD
 }
 
 bool MAST::LoadState(ENTITY_STATE * state)
 {
-	GUARD(bool MAST::LoadState(ENTITY_STATE * state))
+	//GUARD(bool MAST::LoadState(ENTITY_STATE * state))
 
 	SetDevice();
 
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
 void MAST::Execute(uint32_t Delta_Time)
 {
-    GUARD(void MAST::Execute(uint32_t Delta_Time))
+    //GUARD(void MAST::Execute(uint32_t Delta_Time))
 
     if(bUse)
     {
@@ -123,13 +123,13 @@ void MAST::Execute(uint32_t Delta_Time)
     {
         api->DeleteEntity(GetID());
     }
-    UNGUARD
+    //UNGUARD
 }
 
 #define D3DLXLINEVERTEX_FORMAT		(D3DFVF_DIFFUSE|D3DFVF_XYZ|D3DFVF_TEX0)
 void MAST::Realize(uint32_t Delta_Time)
 {
-	GUARD(void MAST::Realize(uint32_t Delta_Time))
+	//GUARD(void MAST::Realize(uint32_t Delta_Time))
 
 	if( m_mount_param.pNode ) {
 		Mount( m_mount_param.modelEI, m_mount_param.shipEI, m_mount_param.pNode );
@@ -165,12 +165,12 @@ void MAST::Realize(uint32_t Delta_Time)
         RenderService->DrawPrimitiveUP(D3DPT_LINELIST, D3DLXLINEVERTEX_FORMAT, 2, pVerts, sizeof(LINEVERTEX));*/
     }
 
-	UNGUARD
+	//UNGUARD
 }
 
 uint32_t _cdecl MAST::ProcessMessage(MESSAGE & message)
 {
-	GUARD(uint32_t _cdecl MAST::ProcessMessage(MESSAGE message))
+	//GUARD(uint32_t _cdecl MAST::ProcessMessage(MESSAGE message))
 
 	switch (message.Long())
 	{
@@ -185,7 +185,7 @@ uint32_t _cdecl MAST::ProcessMessage(MESSAGE & message)
         break;
 	}
 
-	UNGUARD
+	//UNGUARD
 	return 0;
 }
 
@@ -384,7 +384,7 @@ void _cdecl MAST::Mount( ENTITY_ID modelEI, ENTITY_ID shipEI, NODE* mastNodePoin
 
 void MAST::LoadIni()
 {
-    GUARD(MAST::LoadIni());
+    //GUARD(MAST::LoadIni());
 	char	section[256];
 
 	INIFILE * ini;
@@ -396,7 +396,7 @@ void MAST::LoadIni()
 		fio->_FindClose(h);
 	}
 	ini = fio->OpenIniFile((char*)MAST_INI_FILE);
-	if(!ini) THROW("mast.ini file not found!");
+	if(!ini) throw std::exception("mast.ini file not found!");
 
 	sprintf_s(section,"MAST");
 
@@ -448,7 +448,7 @@ void MAST::LoadIni()
     MIN_SIGNIFICANT= ini->GetFloat(section,"fAngSignificant",MIN_SIGNIFICANT);
 
     delete ini;
-    UNGUARD
+    //UNGUARD
 }
 
 void MAST::doMove(uint32_t DeltaTime)

@@ -38,9 +38,9 @@ FLAG::~FLAG()
 
 bool FLAG::Init()
 {
-	GUARD(FLAG::FLAG())
+	//GUARD(FLAG::FLAG())
 	SetDevice();
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
@@ -50,7 +50,7 @@ void FLAG::SetDevice()
 	RenderService = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!RenderService)
 	{
-		STORM_THROW("No service: dx9render");
+		throw std::exception("No service: dx9render");
 	}
 	globalWind.ang.x=0.f;
 	globalWind.ang.y=0.f;
@@ -158,7 +158,7 @@ uint32_t _cdecl FLAG::ProcessMessage(MESSAGE & message)
 			{
 				gdata = new GROUPDATA[1];
 				if(gdata==nullptr)
-					STORM_THROW("Not memory allocation");
+					throw std::exception("Not memory allocation");
 
 				groupQuantity=1;
 			}
@@ -167,7 +167,7 @@ uint32_t _cdecl FLAG::ProcessMessage(MESSAGE & message)
 				GROUPDATA *oldgdata=gdata;
 				gdata = new GROUPDATA[groupQuantity+1];
 				if(gdata==nullptr)
-					STORM_THROW("Not memory allocation");
+					throw std::exception("Not memory allocation");
 				memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
 				delete oldgdata; groupQuantity++;
 			}
@@ -375,7 +375,7 @@ void FLAG::AddLabel(GEOS::LABEL &gl, NODE *nod)
         // create new flag
         fd = new FLAGDATA;
         if(fd==nullptr)
-            STORM_THROW("Not memory allocation");
+            throw std::exception("Not memory allocation");
         PZERO(fd,sizeof(FLAGDATA));
         fd->triangle=true; // this is Vimpel
         fd->pMatWorld=&nod->glob_mtx;
@@ -390,7 +390,7 @@ void FLAG::AddLabel(GEOS::LABEL &gl, NODE *nod)
         {
             flist= new FLAGDATA*[1];
             if(flist==nullptr)
-                STORM_THROW("Not memory allocation");
+                throw std::exception("Not memory allocation");
             flagQuantity=1;
         }
         else
@@ -398,7 +398,7 @@ void FLAG::AddLabel(GEOS::LABEL &gl, NODE *nod)
             FLAGDATA **oldflist=flist;
             flist = new FLAGDATA*[flagQuantity+1];
             if(flist==nullptr)
-                STORM_THROW("Not memory allocation");
+                throw std::exception("Not memory allocation");
             memcpy(flist,oldflist,sizeof(FLAGDATA*)*flagQuantity);
             delete oldflist; flagQuantity++;
         }
@@ -462,7 +462,7 @@ void FLAG::SetTreangle()
 
 void FLAG::LoadIni()
 {
-    GUARD(FLAG::LoadIni());
+    //GUARD(FLAG::LoadIni());
 	char	section[256];
     char    param[256];
 
@@ -475,7 +475,7 @@ void FLAG::LoadIni()
 		fio->_FindClose(h);
 	}
 	ini = fio->OpenIniFile("resource\\ini\\rigging.ini");
-	if(!ini) THROW("rigging.ini file not found!");
+	if(!ini) throw std::exception("rigging.ini file not found!");
 
 	sprintf_s(section,"FLAGS");
 
@@ -572,7 +572,7 @@ void FLAG::LoadIni()
     MinSegmentQuantity=ini->GetLong(section,"MinSegQuantity",4);
 
     delete ini;
-    UNGUARD
+    //UNGUARD
 }
 
 void FLAG::FirstRun()
@@ -809,7 +809,7 @@ void FLAG::MoveOtherHost(ENTITY_ID newm_id,long flagNum,ENTITY_ID oldm_id)
         GROUPDATA *oldgdata=gdata;
         gdata = new GROUPDATA[groupQuantity+1];
         if(gdata==nullptr)
-            STORM_THROW("Not memory allocation");
+            throw std::exception("Not memory allocation");
         memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
         delete oldgdata;
         groupQuantity++;

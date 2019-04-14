@@ -53,7 +53,7 @@ void TSharks::Init()
 
 	renderService = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!renderService)
-		STORM_THROW("!Sharks: No service 'dx9render'");
+		throw std::exception("!Sharks: No service 'dx9render'");
 
 	api->FindClass(&seaID, "sea", 0);
 	sea = (SEA_BASE*) api->GetEntityPointer(&seaID);
@@ -101,8 +101,6 @@ void TSharks::Init()
 //--------------------------------------------------------------------
 uint32_t TSharks::ProcessMessage(long _code, MESSAGE & message)
 {
-	GUARD(TSharks::ProcessMessage)
-
 	uint32_t outValue = 0;
 
 	switch (_code)
@@ -118,14 +116,11 @@ uint32_t TSharks::ProcessMessage(long _code, MESSAGE & message)
 	}
 
 	return outValue;
-	UNGUARD
 }
 
 //--------------------------------------------------------------------
 void TSharks::Execute(uint32_t _dTime)
 {
-	GUARD(ANIMALS::Execute)
-
 	if (!enabled)
 		return;
 
@@ -143,16 +138,11 @@ void TSharks::Execute(uint32_t _dTime)
 		sharks[i]->Calculate(attractors, MAX_DYNAMIC_OBJECTS,deflectors, MAX_DYNAMIC_OBJECTS, speedK);
 		sharks[i]->time += _dTime;
 	}
-
-
-	UNGUARD
 }
 
 //--------------------------------------------------------------------
 void TSharks::Realize(uint32_t _dTime)
 {
-	GUARD(ANIMALS::Realize)
-
 	if (!enabled)
 		return;
 /*
@@ -179,8 +169,6 @@ void TSharks::Realize(uint32_t _dTime)
 		shark->mtx.BuildMatrix(ang,pos);
 		shark->Realize(_dTime);
 	}
-
-	UNGUARD
 }
 
 //--------------------------------------------------------------------

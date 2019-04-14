@@ -37,15 +37,15 @@ MODELR::~MODELR()
 
 bool MODELR::Init()
 {
-	GUARD(MODELR::Init)
+	//GUARD(MODELR::Init)
 
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
-	if(!rs)	STORM_THROW("No service: dx9render");
+	if(!rs)	throw std::exception("No service: dx9render");
 
 	GeometyService = (VGEOMETRY *)api->CreateService("geometry");
-	if(!GeometyService) STORM_THROW("No service: geometry");
+	if(!GeometyService) throw std::exception("No service: geometry");
 
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
@@ -207,7 +207,7 @@ void SetChildrenTechnique(NODE *_root, const char *_name)
 GEOS::PLANE ViewPlane[4];
 void MODELR::Realize(uint32_t Delta_Time)
 {
-	GUARD(MODELR::Realize)
+	//GUARD(MODELR::Realize)
 	if(!root) return;
 
 	uint32_t dwOldFogEnable;
@@ -312,7 +312,7 @@ void MODELR::Realize(uint32_t Delta_Time)
 		rs->SetRenderState(D3DRS_FOGDENSITY, F2DW(fOldFogDensity));
 	}
 
-	UNGUARD
+	//UNGUARD
 }
 
 Animation * MODELR::GetAnimation()
@@ -379,7 +379,7 @@ uint32_t _cdecl MODELR::ProcessMessage(MESSAGE &message)
 			alpha2 = message.Float();
 			break;
 		case MSG_MODEL_LOAD_GEO:		// set geometry
-			GUARD(MSG_MODEL_LOAD_GEO)
+			//GUARD(MSG_MODEL_LOAD_GEO)
 
 #ifndef _XBOX
 			message.String(255,str);
@@ -422,7 +422,7 @@ uint32_t _cdecl MODELR::ProcessMessage(MESSAGE &message)
 			return 1;
 
 #endif
-			UNGUARD
+			//UNGUARD
 		break;
 		case MSG_MODEL_LOAD_ANI:		// set animation
 		{
@@ -439,24 +439,24 @@ uint32_t _cdecl MODELR::ProcessMessage(MESSAGE &message)
 			fFogDensity = message.Float();
 		break;
 		case MSG_MODEL_SET_LIGHT_PATH:
-			GUARD(MSG_MODEL_SET_LIGHT_PATH)
+			//GUARD(MSG_MODEL_SET_LIGHT_PATH)
 			message.String(255,LightPath);
-			UNGUARD
+			//UNGUARD
 		break;
 		case MSG_MODEL_SET_LIGHT_LMPATH:
-			GUARD(MSG_MODEL_SET_LIGHT_LMPATH)
+			//GUARD(MSG_MODEL_SET_LIGHT_LMPATH)
 			message.String(255,lmPath);
-			UNGUARD
+			//UNGUARD
 		break;
 		case MSG_MODEL_RELEASE:
-			GUARD(MSG_MODEL_RELEASE)
+			//GUARD(MSG_MODEL_RELEASE)
 			if(root) root->ReleaseGeometry();
-			UNGUARD
+			//UNGUARD
 			break;
 		case MSG_MODEL_RESTORE:
-			GUARD(MSG_MODEL_RESTORE)
+			//GUARD(MSG_MODEL_RESTORE)
 			if(root) root->RestoreGeometry();
-			UNGUARD
+			//UNGUARD
 			break;
 		case MSG_MODEL_SET_DIRPATH:
 			{

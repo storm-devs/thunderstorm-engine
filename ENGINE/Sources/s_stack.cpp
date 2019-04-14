@@ -1,5 +1,4 @@
 #include "s_stack.h"
-#include "../../Common_h/Exs.h"
 #include "../../Common_h/vapi.h"
 
 extern void trace(char * p,...);
@@ -38,7 +37,7 @@ DATA * S_STACK::Push(DATA * pdataclass)
 	{
 		Data_num = Data_num;
 	}
-	if(Data_num > STACK_BUFFER_LIMIT) STORM_THROW(stack overflaw);
+	if(Data_num > STACK_BUFFER_LIMIT) throw std::exception("stack overflaw");
 	if(Data_num >= Buffer_size)
 	{
 		offset = Buffer_size;
@@ -67,7 +66,7 @@ DATA * S_STACK::Push(DATA * pdataclass)
 DATA * S_STACK::Pop()
 {
 	Assert(Data_num);
-	if(Data_num == 0) STORM_THROW(stack 'pop' error);
+	if(Data_num == 0) throw std::exception("stack 'pop' error");
 	Data_num--;
 	//return &pStackData[Data_num];
 
@@ -84,7 +83,7 @@ DATA * S_STACK::Read(uint32_t offset,uint32_t index)
 {
 	if(offset + index >= Data_num) 
 	{
-		STORM_THROW(stack 'read' error);
+		throw std::exception("stack 'read' error");
 	}
 	//return &pStackData[offset + index];
 	return pStackData[offset + index];
@@ -92,7 +91,7 @@ DATA * S_STACK::Read(uint32_t offset,uint32_t index)
 
 DATA * S_STACK::Read()
 {
-	if(Data_num <= 0) STORM_THROW(stack 'read' error);
+	if(Data_num <= 0) throw std::exception("stack 'read' error");
 	//return &pStackData[Data_num - 1];
 	return pStackData[Data_num - 1];
 }

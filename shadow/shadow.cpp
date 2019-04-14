@@ -45,15 +45,15 @@ SHADOW::~SHADOW()
 
 bool SHADOW::Init()
 {
-	GUARD(SHADOW::SHADOW())
+	//GUARD(SHADOW::SHADOW())
 
 	col = (COLLIDE *)api->CreateService("coll");
-	if(col== nullptr)	STORM_THROW("No service: COLLIDE");
+	if(col== nullptr)	throw std::exception("No service: COLLIDE");
 
 	api->LayerAdd("realize",GetID(),900);
 
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
-	if(!rs)	STORM_THROW("No service: dx9render");
+	if(!rs)	throw std::exception("No service: dx9render");
 
 	if(ref==0)
 	{
@@ -69,7 +69,7 @@ bool SHADOW::Init()
 	ref++;
 
 
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 

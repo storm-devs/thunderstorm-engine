@@ -33,7 +33,7 @@ bool WideScreen::Init()
 	api->LayerSetRealize("realize", true);
 	api->LayerAdd("realize", GetID(), -257);
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
-	if(!rs) STORM_THROW("No service: dx9render");
+	if(!rs) throw std::exception("No service: dx9render");
 	D3DVIEWPORT9 vp;
 	rs->GetViewport(&vp);
 	w = float(vp.Width);

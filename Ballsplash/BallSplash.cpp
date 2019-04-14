@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../Shared/messages.h"
-#include "../Common_h/Exs.h"
 #include "../Common_h/Cvector.h"
 //#include "..\SoundService\VSoundService.h"
 #include "BallSplash.H"
@@ -19,15 +18,15 @@ BALLSPLASH::BALLSPLASH()
 //--------------------------------------------------------------------
 BALLSPLASH::~BALLSPLASH()
 {
-	GUARD(BALLSPLASH::~BALLSPLASH)
+	//GUARD(BALLSPLASH::~BALLSPLASH)
 
-	UNGUARD
+	//UNGUARD
 }
 
 //--------------------------------------------------------------------
 bool BALLSPLASH::Init()
 {
-	GUARD(BALLSPLASH::Init)
+	//GUARD(BALLSPLASH::Init)
 
 	ENTITY_ID seaID;
 	api->FindClass(&seaID, "sea", 0);
@@ -40,13 +39,13 @@ bool BALLSPLASH::Init()
 	InitializeSplashes();
 
 	return true;
-	UNGUARD
+	//UNGUARD
 }
 
 //--------------------------------------------------------------------
 uint32_t _cdecl BALLSPLASH::ProcessMessage(MESSAGE & message)
 {
-	GUARD(BALLSPLASH::ProcessMessage)
+	//GUARD(BALLSPLASH::ProcessMessage)
 
 	long code = message.Long();
 	uint32_t outValue = 0;
@@ -75,13 +74,13 @@ uint32_t _cdecl BALLSPLASH::ProcessMessage(MESSAGE & message)
 	}
 
 	return outValue;
-	UNGUARD
+	//UNGUARD
 }
 
 //--------------------------------------------------------------------
 void BALLSPLASH::Realize(uint32_t _dTime)
 {
-	GUARD(BALLSPLASH::Realize)
+	//GUARD(BALLSPLASH::Realize)
 
 	uint64_t ticks;
 	RDTSC_B(ticks);
@@ -133,15 +132,15 @@ void BALLSPLASH::Realize(uint32_t _dTime)
 		}
 	}
 	*/
-	UNGUARD
+	//UNGUARD
 }
 
 //--------------------------------------------------------------------
 void BALLSPLASH::Execute(uint32_t _dTime)
 {
-	GUARD(BALLSPLASH::Execute)
+	//GUARD(BALLSPLASH::Execute)
 
-	UNGUARD
+	//UNGUARD
 }
 
 //--------------------------------------------------------------------

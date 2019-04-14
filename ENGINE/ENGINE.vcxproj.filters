@@ -2425,9 +2425,6 @@
     <ClInclude Include="..\Common_h\entity_state.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common_h\Exs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common_h\input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -2474,6 +2471,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sources\fs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common_h\assert.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -68,7 +68,7 @@ void ParticleSystem::CreateFromDataSource (DataSource* pDataSource)
 				pEmitter = CreatePointEmitter (pEmitterDecription);
 				break;
 			default:
-				STORM_THROW ("Particles: Unknown emitter type !!!!");
+				throw std::exception("Particles: Unknown emitter type !!!!");
 		}
 
 		//Assert (pEmitter);

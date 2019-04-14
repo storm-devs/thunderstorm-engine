@@ -1,6 +1,4 @@
 #include "ifs.h"
-
-#include "../../Common_h/Exs.h"
 #include <cstdio>
 #include "../../Common_h/vmodule_api.h"
 
@@ -38,7 +36,7 @@ void KEY_NODE::SetName(const char * name)
 	name_size = strlen(name) + 1;
 
 	key_name = new char[name_size];
-	if(key_name == nullptr) THROW;
+	if(key_name == nullptr) throw std::exception();
 	strcpy_s(key_name,name_size,name);
 }
 
@@ -49,7 +47,7 @@ void KEY_NODE::SetValue(const char * value)
 	val_size = strlen(value) + 1;
 
 	key_val = new char[val_size];
-	if(key_val == nullptr) THROW;
+	if(key_val == nullptr) throw std::exception();
 	strcpy_s(key_val,val_size,value);
 }
 
@@ -166,7 +164,7 @@ void SECTION::SetName(const char * name)
 	{
 		const auto len = strlen(name) + 1;
 		Name = new char[len];
-		if(Name == nullptr) THROW;
+		if(Name == nullptr) throw std::exception();
 		strcpy_s(Name,len,name);
 	}
 }
@@ -526,7 +524,7 @@ void IFS::Format(char * file_data, long file_size)
 
 bool IFS::FlushFile()
 {
-	GUARD(bool IFS::FlushFile())
+	//GUARD(bool IFS::FlushFile())
 	uint32_t dwR;
 	uint32_t write_size;
 	char  buff[2];
@@ -537,7 +535,7 @@ bool IFS::FlushFile()
 	fs->_SetFileAttributes(FileName,FILE_ATTRIBUTE_NORMAL);
 	fs->_DeleteFile(FileName);
 	fh = fs->_CreateFile(FileName,GENERIC_WRITE,FILE_SHARE_READ,CREATE_ALWAYS);
-	if(fh == INVALID_HANDLE_VALUE) {/*trace("file: (%s)",FileName);*/ STORM_THROW(cant create file);}
+	if(fh == INVALID_HANDLE_VALUE) {/*trace("file: (%s)",FileName);*/ throw std::exception("cant create file");}
 
 	KEY_NODE * node;
 	SECTION * section_node;
@@ -552,17 +550,17 @@ bool IFS::FlushFile()
 		{
 			// write section name -----------------------------------------------------------------
 			buff[0] = SECTION_A; fs->_WriteFile(fh,buff,1,&dwR);
-			if(dwR != 1) { THROW;}
+			if(dwR != 1) { throw std::exception();}
 
 			write_size = strlen(section_node->GetName());
 			fs->_WriteFile(fh,section_node->GetName(),write_size,&dwR);
-			if(dwR != write_size) { THROW;}
+			if(dwR != write_size) { throw std::exception();}
 
 			buff[0] = SECTION_B; fs->_WriteFile(fh,buff,1,&dwR);
-			if(dwR != 1) { THROW;}
+			if(dwR != 1) { throw std::exception();}
 
 			buff[0] = INI_LINEFEED[0]; buff[1] = INI_LINEFEED[1]; fs->_WriteFile(fh,buff,2,&dwR);
-			if(dwR != 2) { THROW;}
+			if(dwR != 2) { throw std::exception();}
 
 		}
 
@@ -575,9 +573,9 @@ bool IFS::FlushFile()
 				// write commented line ---------------------------------------------------------------
 				write_size = strlen(node->GetName());
 				fs->_WriteFile(fh,node->GetName(),write_size,&dwR);
-				if(dwR != write_size) { THROW;}
+				if(dwR != write_size) { throw std::exception();}
 				buff[0] = INI_LINEFEED[0]; buff[1] = INI_LINEFEED[1]; fs->_WriteFile(fh,buff,2,&dwR);
-				if(dwR != 2) { THROW;}
+				if(dwR != 2) { throw std::exception();}
 
 			}
 			else
@@ -586,22 +584,22 @@ bool IFS::FlushFile()
 				// write key -------------------------------------------------------------------------
 				write_size = strlen(node->GetName());
 				fs->_WriteFile(fh,node->GetName(),write_size,&dwR);
-				if(dwR != write_size) { THROW;}
+				if(dwR != write_size) { throw std::exception();}
 				if(node->GetValue() != nullptr)
 				{
 					fs->_WriteFile(fh,&INI_VOIDSYMS[0],1,&dwR);
-					if(dwR != 1) { THROW;}
+					if(dwR != 1) { throw std::exception();}
 					buff[0] = INI_EQUAL; fs->_WriteFile(fh,buff,1,&dwR);
-					if(dwR != 1) { THROW;}
+					if(dwR != 1) { throw std::exception();}
 					fs->_WriteFile(fh,&INI_VOIDSYMS[0],1,&dwR);
-					if(dwR != 1) { THROW;}
+					if(dwR != 1) { throw std::exception();}
 					write_size = strlen(node->GetValue());
 					fs->_WriteFile(fh,node->GetValue(),write_size,&dwR);
-					if(dwR != write_size) { THROW;}
+					if(dwR != write_size) { throw std::exception();}
 
 				}
 				buff[0] = INI_LINEFEED[0]; buff[1] = INI_LINEFEED[1]; fs->_WriteFile(fh,buff,2,&dwR);
-				if(dwR != 2) { THROW;}
+				if(dwR != 2) { throw std::exception();}
 
 			}
 			else throw "invalid key flag";
@@ -610,13 +608,13 @@ bool IFS::FlushFile()
 		section_node = section_node->GetRightNode();
 
 		buff[0] = INI_LINEFEED[0]; buff[1] = INI_LINEFEED[1]; fs->_WriteFile(fh,buff,2,&dwR);
-		if(dwR != 2) { THROW;}
+		if(dwR != 2) { throw std::exception();}
 	}
 
 
 	fs->_CloseHandle(fh);
 
-	UNGUARD
+	//UNGUARD
 	return false;
 }
 
@@ -797,7 +795,7 @@ bool IFS::ReadString(SEARCH_DATA * sd, const char * section_name, const char * k
 		{
 			api->Trace("Warning! IniFile Read String: section=%s, key=%s",section_name,key_name);
 			if(buffer) buffer[0] = 0;
-			//STORM_THROW(string not found);
+			//throw std::exception(string not found);
 		}else
 		if(buffer) strcpy_s(buffer,buffer_size,def_string);
 		return false;
@@ -806,17 +804,17 @@ bool IFS::ReadString(SEARCH_DATA * sd, const char * section_name, const char * k
 	sd->Key = node;
 	sd->Section = FindSection(section_name);
 
-	if(buffer == nullptr) STORM_THROW(zero buffer);
+	if(buffer == nullptr) throw std::exception("zero buffer");
 	char_PTR = node->GetValue();
 	if(char_PTR == nullptr)
 	{
-		if(def_string == nullptr) STORM_THROW(no key value);
+		if(def_string == nullptr) throw std::exception("no key value");
 		strcpy_s(buffer,buffer_size,def_string);
 		return false;
 	}
 
 	write_size = strlen(char_PTR) + 1;
-	//if(write_size > buffer_size) STORM_THROW(buffer size too small); // boal закоменчено по наводке Ёдди, не давало грузить новую ани
+	//if(write_size > buffer_size) throw std::exception(buffer size too small); // boal закоменчено по наводке Ёдди, не давало грузить новую ани
 
 	strcpy_s(buffer,buffer_size,node->GetValue());
 	return true;
@@ -845,18 +843,18 @@ bool IFS::ReadStringNext(SEARCH_DATA * sd, const char * section_name, const char
 			//if(CompareStrings(node->GetName(),key_name) == 0)
 			if(_stricmp(node->GetName(),key_name) == 0)
 			{
-				if(buffer == nullptr) STORM_THROW(zero buffer);
+				if(buffer == nullptr) throw std::exception("zero buffer");
 
 				char_PTR = node->GetValue();
 				if(char_PTR == nullptr)
 				{
 					buffer[0] = 0;
 					return true;
-					//STORM_THROW(no key value);
+					//throw std::exception(no key value);
 				}
 
 				write_size = strlen(char_PTR) + 1;
-				if(write_size > buffer_size) STORM_THROW(buffer size too small);
+				if(write_size > buffer_size) throw std::exception("buffer size too small");
 
 				strcpy_s(buffer,buffer_size,node->GetValue());
 				sd->Key = node;
@@ -952,11 +950,11 @@ void IFS::AddString(const char * section_name, const char * key_name, const char
 	KEY_NODE * node;
 	SECTION * snode;
 
-	if(key_name == nullptr) STORM_THROW(zero key);
+	if(key_name == nullptr) throw std::exception("zero key");
 	snode = FindSection(section_name);
 	if(snode == nullptr) CreateSection(section_name);
 	snode = FindSection(section_name);
-	if(snode == nullptr) STORM_THROW(section create error);
+	if(snode == nullptr) throw std::exception("section create error");
 
 	node = snode->AddNode();
 	node->SetName(key_name);
@@ -970,10 +968,10 @@ void IFS::WriteString(const char * section_name, const char * key_name, const ch
 {
 	KEY_NODE * node;
 	SECTION * snode;
-	if(string == nullptr) STORM_THROW(zero key value);
+	if(string == nullptr) throw std::exception("zero key value");
 
 	snode = CreateSection(section_name);
-	if(snode == nullptr) STORM_THROW(section create error);
+	if(snode == nullptr) throw std::exception("section create error");
 	node = snode->FindKey(key_name);
 	if(node != nullptr)
 	{

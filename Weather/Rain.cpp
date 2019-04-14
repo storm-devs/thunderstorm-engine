@@ -78,7 +78,7 @@ void RAIN::GenerateRain()
 	uint32_t	i;
 
 	ENTITY_ID	ent;
-	if (!api->FindClass(&ent,"Weather",0)) STORM_THROW("No found WEATHER entity!");
+	if (!api->FindClass(&ent,"Weather",0)) throw std::exception("No found WEATHER entity!");
 	pWeather = (WEATHER_BASE*)api->GetEntityPointer(&ent); Assert(pWeather);
 
 	Release();

@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include "../Shared/messages.h"
-#include "../Common_h/Exs.h"
 #include "../Common_h/Cvector.h"
 #include "../Common_h/geos.h"
 #include "../Common_h/dx9render.h"
@@ -38,19 +37,19 @@ SEAFOAM::SEAFOAM()
 //--------------------------------------------------------------------
 SEAFOAM::~SEAFOAM()
 {
-	GUARD(SEAFOAM::~SEAFOAM)
+	//GUARD(SEAFOAM::~SEAFOAM)
 
 	ReleaseShipFoam();
 	delete psIni;
 	if (renderer && (carcassTexture >= 0))
 		renderer->TextureRelease(carcassTexture);
-	UNGUARD
+	//UNGUARD
 }
 
 //--------------------------------------------------------------------
 bool SEAFOAM::Init()
 {
-	GUARD(SEAFOAM::Init)
+	//GUARD(SEAFOAM::Init)
 
 	if (api->IsNetActive())
 	{
@@ -75,7 +74,7 @@ bool SEAFOAM::Init()
 
 	carcassTexture = renderer->TextureCreate("seafoam_2.tga");
 	return true;
-	UNGUARD
+	//UNGUARD
 }
 
 //--------------------------------------------------------------------
@@ -463,7 +462,7 @@ void SEAFOAM::RealizeShipFoam_Mesh(tShipFoamInfo &_shipFoamInfo, uint32_t _dTime
 //--------------------------------------------------------------------
 uint32_t _cdecl SEAFOAM::ProcessMessage(MESSAGE & message)
 {
-	GUARD(SEAFOAM::ProcessMessage)
+	//GUARD(SEAFOAM::ProcessMessage)
 
 	long code = message.Long();
 	uint32_t outValue = 0;
@@ -494,13 +493,13 @@ uint32_t _cdecl SEAFOAM::ProcessMessage(MESSAGE & message)
 	}
 
 	return outValue;
-	UNGUARD
+	//UNGUARD
 }
 
 //--------------------------------------------------------------------
 void SEAFOAM::Realize(uint32_t _dTime)
 {
-	GUARD(SEAFOAM::Realize)
+	//GUARD(SEAFOAM::Realize)
 
 	uint64_t ticks = 0;
 	RDTSC_B(ticks)
@@ -534,13 +533,13 @@ void SEAFOAM::Realize(uint32_t _dTime)
 
 	RDTSC_E(ticks)
 	//api->Trace("Seafoam realize = %d", ticks);
-	UNGUARD
+	//UNGUARD
 }
 
 //--------------------------------------------------------------------
 void SEAFOAM::Execute(uint32_t _dTime)
 {
-	GUARD(SEAFOAM::Execute);
+	//GUARD(SEAFOAM::Execute);
 	tShipFoamInfo *foamInfo = nullptr;
 	float shipSpeed, speedA;
 
@@ -566,7 +565,7 @@ void SEAFOAM::Execute(uint32_t _dTime)
 									  ,speedA);
 	}
 
-	UNGUARD
+	//UNGUARD
 }
 
 //--------------------------------------------------------------------

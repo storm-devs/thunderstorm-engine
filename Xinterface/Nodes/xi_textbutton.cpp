@@ -232,7 +232,7 @@ void CXI_TEXTBUTTON::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
 		const auto len = strlen(param) + 1;
 		m_sGroupName = new char[len];
 		if(m_sGroupName== nullptr)
-			STORM_THROW("allocate memory error")
+			throw std::exception("allocate memory error");
 		memcpy(m_sGroupName,param,len);
 	}
 
@@ -287,7 +287,7 @@ void CXI_TEXTBUTTON::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
 	XI_ONETEX_VERTEX *pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
 	uint16_t *pIndx = (uint16_t*) m_rs->LockIndexBuffer(m_idIBuf);
 	if(pVert== nullptr || pIndx== nullptr)
-		STORM_THROW("can not create the index&vertex buffers")
+		throw std::exception("can not create the index&vertex buffers");
 
 	// fill triangles buffer
 	int i=0;
@@ -566,7 +566,7 @@ uint32_t _cdecl CXI_TEXTBUTTON::MessageProc(long msgcode, MESSAGE & message)
 					const auto len = strlen(param);
 					if ((m_sString = new char[len]) == nullptr)
 					{
-						STORM_THROW("allocate memory error");
+						throw std::exception("allocate memory error");
 					}
 					memcpy(m_sString, &param[1], len);
 				}

@@ -19,7 +19,7 @@ bool BATTLE_LAND_INTERFACE::Init()
 {
 	m_pRS=(VDX9RENDER *)api->CreateService("dx9render");
 	if( !m_pRS ) {
-		STORM_THROW("Can`t create render service");
+		throw std::exception("Can`t create render service");
 	}
 
 	SetShowParameters();

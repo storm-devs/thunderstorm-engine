@@ -42,7 +42,7 @@ bool Lighter::Init()
 	if(!isLoading) return false;
 	//DX9 render
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
-	if(!rs) STORM_THROW("No service: dx9render");
+	if(!rs) throw std::exception("No service: dx9render");
 	//
 	api->LayerCreate("lighter_execute", true, false);
 	api->LayerSetFlags("lighter_execute", LRFLAG_EXECUTE);

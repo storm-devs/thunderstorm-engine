@@ -64,9 +64,9 @@ void TSeagulls::Init()
 	soundService = (VSoundService *)api->CreateService("SoundService");
 
 	if(!renderService)	
-		STORM_THROW("!Seagulls: No service: dx9render");
+		throw std::exception("!Seagulls: No service: dx9render");
 	//if(!soundService)	
-	//	STORM_THROW("!Seagulls: No service: sound");
+	//	throw std::exception("!Seagulls: No service: sound");
 
 	api->CreateEntity(&seagullModel,"MODELR");
 	api->Send_Message(seagullModel,"ls",MSG_MODEL_LOAD_GEO, ANIMALS_SEAGULL_FILENAME);
@@ -75,8 +75,6 @@ void TSeagulls::Init()
 //--------------------------------------------------------------------
 uint32_t TSeagulls::ProcessMessage(long _code, MESSAGE & message)
 {
-	GUARD(TSeagulls::ProcessMessage)
-
 	uint32_t outValue = 0;
 
 	switch (_code)
@@ -100,14 +98,11 @@ uint32_t TSeagulls::ProcessMessage(long _code, MESSAGE & message)
 	}
 
 	return outValue;
-	UNGUARD
 }
 
 //--------------------------------------------------------------------
 void TSeagulls::Execute(uint32_t _dTime)
 {
-	GUARD(ANIMALS::Execute)
-
 	if (!enabled)
 		return;
 
@@ -200,15 +195,11 @@ void TSeagulls::Execute(uint32_t _dTime)
 			}
 		}
 	}
-	
-	UNGUARD
 }
 
 //--------------------------------------------------------------------
 void TSeagulls::Realize(uint32_t _dTime)
 {
-	GUARD(ANIMALS::Realize)
-
 	if (!enabled)
 		return;
 
@@ -237,8 +228,6 @@ void TSeagulls::Realize(uint32_t _dTime)
 		seagull->mtx = CMatrix(ang, pos);
 		seagull->Realize(_dTime);
 	}
-
-	UNGUARD
 }
 
 //--------------------------------------------------------------------

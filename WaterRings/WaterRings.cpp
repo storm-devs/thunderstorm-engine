@@ -26,7 +26,7 @@ WaterRings::~WaterRings()
 //------------------------------------------------------------------------------------
 bool WaterRings::Init()
 {
-	GUARD(WaterRings::Init())
+	//GUARD(WaterRings::Init())
 
 	api->LayerAdd("realize",GetID(),65551);
 
@@ -35,7 +35,7 @@ bool WaterRings::Init()
 	sea = (SEA_BASE*) api->GetEntityPointer(&seaID);
 
 	renderService = (VDX9RENDER *)api->CreateService("dx9render");
-	if(!renderService)	STORM_THROW("No service: dx9render");
+	if(!renderService)	throw std::exception("No service: dx9render");
 
 	ivManager = new TIVBufferManager(renderService 
 									,RING_FVF
@@ -57,7 +57,7 @@ bool WaterRings::Init()
 	}
 
 	return true;
-	UNGUARD
+	//UNGUARD
 }
 
 //------------------------------------------------------------------------------------

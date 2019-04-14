@@ -119,7 +119,7 @@ WorldMap::~WorldMap()
 //Инициализация
 bool WorldMap::Init()
 {
-	GUARD(LocationCamera::Init())
+	//GUARD(LocationCamera::Init())
 	//Layers
 	api->LayerCreate("execute", true, false);
 	api->LayerSetExecute("execute", true);
@@ -130,7 +130,7 @@ bool WorldMap::Init()
 
 	//DX9 render
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
-	if(!rs) STORM_THROW("No service: dx9render");
+	if(!rs) throw std::exception("No service: dx9render");
 	rs->SetPerspective((1.57f + 1.0f)/2);
 	wdmObjects->rs = rs;
 	//GS
@@ -360,7 +360,7 @@ bool WorldMap::Init()
 		}
 	}
 	return true;
-	UNGUARD
+	//UNGUARD
 }
 
 //Исполнение

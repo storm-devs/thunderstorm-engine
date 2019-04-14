@@ -485,7 +485,7 @@
     <ClInclude Include="..\Common_h\entity.h" />
     <ClInclude Include="..\Common_h\entity_id.h" />
     <ClInclude Include="..\Common_h\entity_state.h" />
-    <ClInclude Include="..\Common_h\Exs.h" />
+    <ClInclude Include="..\Common_h\assert.h" />
     <ClInclude Include="..\Common_h\input.h" />
     <ClInclude Include="..\Common_h\key_codes.h" />
     <ClInclude Include="..\Common_h\message.h" />

@@ -8,7 +8,6 @@
 
 #include "../Shared/messages.h"
 #include "../Common_h/defines.h"
-#include "../Common_h/Exs.h"
 #include "../Common_h/Cvector.h"
 #include "../SoundService/VSoundService.h"
 
@@ -32,7 +31,7 @@ SOUND::~SOUND()
 //--------------------------------------------------------------------
 bool SOUND::Init()
 {
-	GUARD(SOUND::Init)
+	//GUARD(SOUND::Init)
 
 	soundService = (VSoundService *)api->CreateService("SoundService");
 	if (!soundService)
@@ -42,13 +41,13 @@ bool SOUND::Init()
 	api->LayerAdd("realize",GetID(),-1);
 
 	return true;
-	UNGUARD
+	//UNGUARD
 }
 
 //--------------------------------------------------------------------
 uint32_t _cdecl SOUND::ProcessMessage(MESSAGE & message)
 {
-	//GUARD(SOUND::ProcessMessage)
+	////GUARD(SOUND::ProcessMessage)
 
 	if (!soundService)
 		return 0;
@@ -225,7 +224,7 @@ uint32_t _cdecl SOUND::ProcessMessage(MESSAGE & message)
 	}
 
 	return outValue;
-	//UNGUARD
+	////UNGUARD
 }
 
 //--------------------------------------------------------------------

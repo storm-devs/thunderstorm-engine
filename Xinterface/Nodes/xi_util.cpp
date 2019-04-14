@@ -208,7 +208,7 @@ void CXI_UTILS::StringDoublicate( const char* pcSrc, char*& pcDst )
 		if( pcDst ) 
 			memcpy( pcDst, pcSrc, len );
 		else 
-			STORM_THROW("allocate memory error");
+			throw std::exception("allocate memory error");
 	}
 }
 

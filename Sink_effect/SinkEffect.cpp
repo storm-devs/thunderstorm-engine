@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../Shared/messages.h"
-#include "../Common_h/Exs.h"
 #include "../Common_h/Cvector.h"
 #include "../SoundService/VSoundService.h"
 #include "SinkEffect.H"
@@ -20,15 +19,15 @@ SINKEFFECT::SINKEFFECT()
 //--------------------------------------------------------------------
 SINKEFFECT::~SINKEFFECT()
 {
-	GUARD(SINKEFFECT::~SINKEFFECT)
+	//GUARD(SINKEFFECT::~SINKEFFECT)
 
-	UNGUARD
+	//UNGUARD
 }
 
 //--------------------------------------------------------------------
 bool SINKEFFECT::Init()
 {
-	GUARD(SINKEFFECT::Init)
+	//GUARD(SINKEFFECT::Init)
 
 	ENTITY_ID seaID;
 	api->FindClass(&seaID, "sea", 0);
@@ -39,13 +38,13 @@ bool SINKEFFECT::Init()
 	InitializeSinks();
 
 	return true;
-	UNGUARD
+	//UNGUARD
 }
 
 //--------------------------------------------------------------------
 uint32_t _cdecl SINKEFFECT::ProcessMessage(MESSAGE & message)
 {
-	GUARD(SINKEFFECT::ProcessMessage)
+	//GUARD(SINKEFFECT::ProcessMessage)
 
 	ENTITY_ID shipID;
 	SHIP_BASE *shipBase;
@@ -85,24 +84,24 @@ uint32_t _cdecl SINKEFFECT::ProcessMessage(MESSAGE & message)
 	}
 
 	return outValue;
-	UNGUARD
+	//UNGUARD
 }
 
 //--------------------------------------------------------------------
 void SINKEFFECT::Realize(uint32_t _dTime)
 {
-	GUARD(SINKEFFECT::Realize)
+	//GUARD(SINKEFFECT::Realize)
 
 	for (int i = 0; i < MAX_SINKS; ++i)
 		sinks[i].Realize(_dTime);
 
-	UNGUARD
+	//UNGUARD
 }
 
 //--------------------------------------------------------------------
 void SINKEFFECT::Execute(uint32_t _dTime)
 {
-	GUARD(SINKEFFECT::Execute)
+	//GUARD(SINKEFFECT::Execute)
 /*
 	if (GetAsyncKeyState('X'))
 	{
@@ -128,7 +127,7 @@ void SINKEFFECT::Execute(uint32_t _dTime)
 	for (int i = 0; i < MAX_SINKS; ++i)
 		sinks[i].Process(_dTime);
 
-	UNGUARD
+	//UNGUARD
 }
 
 //--------------------------------------------------------------------

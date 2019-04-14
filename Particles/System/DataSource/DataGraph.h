@@ -1,7 +1,6 @@
 #ifndef _PARTICLE_DATA_GRAPH_H_
 #define _PARTICLE_DATA_GRAPH_H_
 
-#include "../../../Common_h/Exs.h"
 #include "../../ICommon/MemFile.h"
 
 #include "../../ICommon/GraphVertex.h"

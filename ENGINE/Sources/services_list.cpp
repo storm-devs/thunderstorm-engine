@@ -1,6 +1,6 @@
 #include <cstdint>
 #include "services_list.h"
-#include "../../Common_h/Exs.h"
+#include <exception>
 
 SERVICES_LIST::SERVICES_LIST()
 {
@@ -232,7 +232,7 @@ uint32_t SERVICES_LIST::GetRef(SERVICE * sp)
 {
 	SERVICE_NODE * node_PTR;
 	node_PTR = FindNode(sp);
-	if(node_PTR == nullptr) STORM_THROW(no service);
+	if(node_PTR == nullptr) throw std::exception("no service");
 	return node_PTR->reference;
 }
 
@@ -240,6 +240,6 @@ void SERVICES_LIST::SetRef(SERVICE * sp, uint32_t ref)
 {
 	SERVICE_NODE * node_PTR;
 	node_PTR = FindNode(sp);
-	if(node_PTR == nullptr) STORM_THROW(no service);
+	if(node_PTR == nullptr) throw std::exception("no service");
 	node_PTR->reference = ref;
 }

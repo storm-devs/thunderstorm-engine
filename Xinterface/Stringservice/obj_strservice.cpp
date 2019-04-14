@@ -14,7 +14,8 @@ OBJ_STRSERVICE::~OBJ_STRSERVICE()
 bool OBJ_STRSERVICE::Init()
 {
 	m_pStrService = (VSTRSERVICE *)api->CreateService("STRSERVICE");
-	if(!m_pStrService)	{STORM_THROW("No service: strservice")}
+	if (!m_pStrService)	
+		throw std::exception("No service: strservice");
 
 	return true;
 }

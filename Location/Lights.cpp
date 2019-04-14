@@ -46,7 +46,7 @@ bool Lights::Init()
 {
 	//DX9 render
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
-	if(!rs) STORM_THROW("No service: dx9render");
+	if(!rs) throw std::exception("No service: dx9render");
 	collide = (COLLIDE *)api->CreateService("COLL");
 	//Зачитаем параметры
 	INIFILE * ini = fio->OpenIniFile("RESOURCE\\Ini\\lights.ini");

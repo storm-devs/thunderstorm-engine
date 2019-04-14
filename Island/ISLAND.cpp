@@ -454,7 +454,7 @@ bool ISLAND::CreateShadowMap(char * pDir, char * pName)
 	
 	ENTITY_ID		ent;
 	WEATHER_BASE	* pWeather;
-	if (!api->FindClass(&ent, "Weather",0)) STORM_THROW("No found WEATHER entity!");
+	if (!api->FindClass(&ent, "Weather",0)) throw std::exception("No found WEATHER entity!");
 	pWeather = (WEATHER_BASE*)api->GetEntityPointer(&ent); Assert(pWeather);
 
 	fs::path path = fs::path() / "resource" / "foam" / pDir / AttributesPointer->GetAttribute("LightingPath");

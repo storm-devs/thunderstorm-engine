@@ -10,7 +10,7 @@ LAYER_SERVICE::LAYER_SERVICE()
 // Return index (unical code) of layer by name
 uint32_t LAYER_SERVICE::GetIndex(char * layer_name)
 {
-	GUARD(LAYER_SERVICE::GetIndex)
+	//GUARD(LAYER_SERVICE::GetIndex)
 	uint32_t n;
 	if(layer_name == nullptr) return INVALID_LAYER_CODE;
 	for(n=0;n<=lss.Layer_max_index;n++)
@@ -19,14 +19,14 @@ uint32_t LAYER_SERVICE::GetIndex(char * layer_name)
 		if(Layer_Table[n]->ls.Deleted) continue;
 		if(_stricmp(layer_name,Layer_Table[n]->Name)== 0) return n;
 	}
-	UNGUARD
+	//UNGUARD
 	return INVALID_LAYER_CODE;
 }
 
 // check layer for presence
 bool LAYER_SERVICE::Verify(char * layer_name)
 {
-	GUARD(LAYER_SERVICE::Verify)
+	//GUARD(LAYER_SERVICE::Verify)
 	uint32_t n;
 	if(layer_name == nullptr) return false;
 	for(n=0;n<=lss.Layer_max_index;n++)
@@ -34,26 +34,26 @@ bool LAYER_SERVICE::Verify(char * layer_name)
 		if(Layer_Table[n] == nullptr) continue;
 		if(_stricmp(layer_name,Layer_Table[n]->Name)== 0) return true;
 	}
-	UNGUARD
+	//UNGUARD
 	return false;
 }
 
 void LAYER_SERVICE::Fit(uint32_t index, char * layer_name, LAYER_STATE ls)
 {
-	GUARD(LAYER_SERVICE::FitLayer)
-	if(layer_name == nullptr) STORM_THROW(zero name);
-	if(index > lss.Layer_max_index) STORM_THROW(invalid index);
-	if(Layer_Table[index] != nullptr) THROW;
+	//GUARD(LAYER_SERVICE::FitLayer)
+	if(layer_name == nullptr) throw std::exception("zero name");
+	if(index > lss.Layer_max_index) throw std::exception("invalid index");
+	if(Layer_Table[index] != nullptr)  throw std::exception();
 
 	Layer_Table[index] = new LAYER(layer_name,ls.Ordered,ls.System,ls.System_flags);
-	if(Layer_Table[index] == nullptr) THROW;
+	if(Layer_Table[index] == nullptr) throw std::exception();
 	Layer_Table[index]->ls = ls;
-	UNGUARD
+	//UNGUARD
 }
 
 bool LAYER_SERVICE::Create(char * layer_name, bool ordered, bool fail_if_exist)
 {
-	GUARD(LAYER_SERVICE::Create)
+	//GUARD(LAYER_SERVICE::Create)
 	uint32_t n;
 	if(layer_name == nullptr) return false;
 	for(n=0;n<_MAX_LAYERS;n++)
@@ -75,23 +75,25 @@ bool LAYER_SERVICE::Create(char * layer_name, bool ordered, bool fail_if_exist)
 		}
 
 		Layer_Table[n] = new LAYER(layer_name,ordered,0,0);
-		if(Layer_Table[n] == nullptr) THROW;
+		if(Layer_Table[n] == nullptr) throw std::exception();
 		if(lss.Layer_max_index < n) lss.Layer_max_index = n;
 		lss.Layers_number++;
 		return true;
 	}
 	CheckAutoExceptions();
-	UNGUARD
+	//UNGUARD
 	return false;
 }
 
 void LAYER_SERVICE::Erase(uint32_t index)
 {
-	GUARD(LAYER_SERVICE::EraseLayer)
+	//GUARD(LAYER_SERVICE::EraseLayer)
 	LAYER * l_PTR;
 
-	if(index < 0 || index > lss.Layer_max_index) {_STORM_THROW(NON_FATAL,ghost layer);}
-	l_PTR = Layer_Table[index]; if(l_PTR == nullptr) {_STORM_THROW(NON_FATAL,ghost layer);}
+	if(index < 0 || index > lss.Layer_max_index) 
+		throw std::exception("NON_FATAL,ghost layer");
+	l_PTR = Layer_Table[index]; if(l_PTR == nullptr) 
+		throw std::exception("NON_FATAL,ghost layer");
 
 /*  transfer this block to core
 	if(Scan_Layer_Code == index) Scan_Layer_Code = INVALID_LAYER_CODE;
@@ -107,7 +109,10 @@ void LAYER_SERVICE::Erase(uint32_t index)
 	// delete layer object
 	delete Layer_Table[index];
 	Layer_Table[index] = nullptr;
-	if(lss.Layers_number > 0) lss.Layers_number--; else THROW;
+	if(lss.Layers_number > 0) 
+		lss.Layers_number--;
+	else 
+		throw std::exception();
 	if(index == lss.Layer_max_index)
 	for(index = lss.Layer_max_index;index>0;index--)
 	{
@@ -117,58 +122,58 @@ void LAYER_SERVICE::Erase(uint32_t index)
 			return;
 		}
 	}
-	UNGUARD
+	//UNGUARD
 }
 
 // Mark layer for deletion before next game loop
 void LAYER_SERVICE::Delete(char * layer_name)
 {
-	GUARD(LAYER_SERVICE::Delete)
+	//GUARD(LAYER_SERVICE::Delete)
 	uint32_t index;
 	index = GetIndex(layer_name);	
 	if(index == INVALID_LAYER_CODE)
 	{
-		_STORM_THROW(NON_FATAL,attempt to delete non existing layer);
+		throw std::exception("NON_FATAL,attempt to delete non existing layer");
 	}
 	Layer_Table[index]->ls.Deleted = true;
 	ToClean = true;
 	if(lss.Scan_layer_code == index) lss.Scan_layer_code = INVALID_LAYER_CODE;
-	UNGUARD
+	//UNGUARD
 }
 
 void LAYER_SERVICE::SetFlags(char * layer_name, uint32_t flags)
 {
-	GUARD(LAYER_SERVICE::SetFlags)
+	//GUARD(LAYER_SERVICE::SetFlags)
 	uint32_t index;
 	index = GetIndex(layer_name); if(index == INVALID_LAYER_CODE) return;
 	Layer_Table[index]->SetFlag(flags);
-	UNGUARD
+	//UNGUARD
 }
 
 void LAYER_SERVICE::ClrFlags(char * layer_name, uint32_t flags)
 {
-	GUARD(LAYER_SERVICE::ClrFlags)
+	//GUARD(LAYER_SERVICE::ClrFlags)
 	uint32_t index;
 	index = GetIndex(layer_name); if(index == INVALID_LAYER_CODE) return;
 	Layer_Table[index]->ClrFlag(flags);
-	UNGUARD
+	//UNGUARD
 }
 
 uint32_t LAYER_SERVICE::GetFlags(char * layer_name)
 {
 	uint32_t index;
 	uint32_t flags;
-	GUARD(LAYER_SERVICE::GetFlags)
+	//GUARD(LAYER_SERVICE::GetFlags)
 	index = GetIndex(layer_name); if(index == INVALID_LAYER_CODE) return 0;
 	flags = Layer_Table[index]->ls.Flags;
-	UNGUARD
+	//UNGUARD
 	return flags;
 }
 
 
 bool LAYER_SERVICE::Add(char * layer_name, ENTITY_ID eid, uint32_t priority)
 {
-	GUARD(LAYER_SERVICE::Add)
+	//GUARD(LAYER_SERVICE::Add)
 	uint32_t index;
 	index = GetIndex(layer_name);	if(index == INVALID_LAYER_CODE) return false;
 
@@ -180,15 +185,16 @@ bool LAYER_SERVICE::Add(char * layer_name, ENTITY_ID eid, uint32_t priority)
 	Atoms_PTR[eid.atom_position]->SetLayerAttribute(index);
 */
 	// add object to layer list
-	if(!Layer_Table[index]->Add(eid,priority)) THROW;
+	if(!Layer_Table[index]->Add(eid,priority)) 
+		throw std::exception();
 	
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
 void LAYER_SERVICE::Del(char * layer_name, ENTITY_ID eid)
 {
-	GUARD(LAYER_SERVICE::LayerDel)
+	//GUARD(LAYER_SERVICE::LayerDel)
 	uint32_t index;
 	index = GetIndex(layer_name); if(index == INVALID_LAYER_CODE) return;
 	Layer_Table[index]->Del(eid);
@@ -196,7 +202,7 @@ void LAYER_SERVICE::Del(char * layer_name, ENTITY_ID eid)
 	/* unmark object, T to core
 	if(!ValidateEntity(&eid)) return;
 	Atoms_PTR[eid.atom_position]->ClrLayerAttribute(index);*/
-	UNGUARD
+	//UNGUARD
 }
 
 // set layer sleeping time, layer will skip execution till this time
@@ -208,13 +214,13 @@ void LAYER_SERVICE::SetSleep(char * layer_name,uint32_t sleep_time_ms)
 void LAYER_SERVICE::CheckAutoExceptions()
 {
 	//if(!(Exceptions_Mask & _X_NO_LAYER)) 
-	STORM_THROW(no layer);
+	throw std::exception("no layer");
 }
 
 // delete layers, previously marked as deleted
 void LAYER_SERVICE::Clean()
 {
-	GUARD(LAYER_SERVICE::Clean)
+	//GUARD(LAYER_SERVICE::Clean)
 	uint32_t n;
 	
 	if(!ToClean) return;
@@ -227,19 +233,19 @@ void LAYER_SERVICE::Clean()
 	}
 
 	ToClean = false;
-	UNGUARD
+	//UNGUARD
 }
 
 void LAYER_SERVICE::Release()
 {
-	GUARD(LAYER_SERVICE::Release)
+	//GUARD(LAYER_SERVICE::Release)
 	uint32_t n;
 	for(n=0;n<=lss.Layer_max_index;n++)
 	{
 		if(Layer_Table[n] == nullptr) continue;
 		Erase(n);
 	}
-	UNGUARD
+	//UNGUARD
 }
 
 LAYER * LAYER_SERVICE::GetLayer(char * layer_name)
@@ -258,8 +264,9 @@ LAYER * LAYER_SERVICE::GetLayer(uint32_t index)
 
 bool LAYER_SERVICE::Add(uint32_t index, ENTITY_ID eid, uint32_t priority)
 {
-	if(Layer_Table[index] == nullptr) STORM_THROW(invalid layer index);
-	if(!Layer_Table[index]->Add(eid,priority)) THROW;
+	if(Layer_Table[index] == nullptr) throw std::exception("invalid layer index");
+	if(!Layer_Table[index]->Add(eid,priority)) 
+		throw std::exception();
 	return true;
 }
 

@@ -1,5 +1,5 @@
 #include "file_service.h"
-#include "../../Common_h/Exs.h"
+#include <exception>
 
 #ifdef _XBOX
 bool XProcessFile(const char *_srcDir, const char *_destDir, const char *_mask, const WIN32_FIND_DATA &_findData);
@@ -115,7 +115,7 @@ HANDLE FILE_SERVICE::_CreateFile(const char * lpFileName,uint32_t dwDesiriedAcce
 		//*/
 	}
 #endif
-	//if(fh == INVALID_HANDLE_VALUE) if(Exceptions_Mask & _X_NO_FILE) STORM_THROW(_X_NO_FILE);
+	//if(fh == INVALID_HANDLE_VALUE) if(Exceptions_Mask & _X_NO_FILE) throw std::exception(_X_NO_FILE);
 	return fh;
 }
 void   FILE_SERVICE::_CloseHandle(HANDLE hFile)
@@ -147,7 +147,7 @@ BOOL   FILE_SERVICE::_WriteFile(HANDLE hFile,const void * lpBuffer,uint32_t nNum
 	uint32_t dwR;
 	bRes = WriteFile(hFile,lpBuffer,nNumberOfBytesToWrite,(LPDWORD)&dwR,nullptr);
 	if(lpNumberOfBytesWritten != nullptr) *lpNumberOfBytesWritten = dwR;
-//	if(dwR != nNumberOfBytesToWrite) if(Exceptions_Mask & _X_NO_FILE_WRITE) STORM_THROW(_X_NO_FILE_WRITE);
+//	if(dwR != nNumberOfBytesToWrite) if(Exceptions_Mask & _X_NO_FILE_WRITE) throw std::exception(_X_NO_FILE_WRITE);
 	return bRes;
 }
 BOOL   FILE_SERVICE::_ReadFile(HANDLE hFile,void * lpBuffer,uint32_t nNumberOfBytesToRead,uint32_t * lpNumberOfBytesRead)
@@ -156,7 +156,7 @@ BOOL   FILE_SERVICE::_ReadFile(HANDLE hFile,void * lpBuffer,uint32_t nNumberOfBy
 	uint32_t dwR;
 	bRes = ReadFile(hFile,lpBuffer,nNumberOfBytesToRead,(LPDWORD)&dwR,nullptr);
 	if(lpNumberOfBytesRead != nullptr) *lpNumberOfBytesRead = dwR;
-//	if(dwR != nNumberOfBytesToRead) if(Exceptions_Mask & _X_NO_FILE_READ) STORM_THROW(_X_NO_FILE_READ);
+//	if(dwR != nNumberOfBytesToRead) if(Exceptions_Mask & _X_NO_FILE_READ) throw std::exception(_X_NO_FILE_READ);
 	return bRes;
 }
 HANDLE FILE_SERVICE::_FindFirstFile(const char * lpFileName,LPWIN32_FIND_DATA lpFindFileData)
@@ -293,7 +293,7 @@ INIFILE * FILE_SERVICE::CreateIniFile(const char * file_name, bool fail_if_exist
 
 INIFILE * FILE_SERVICE::OpenIniFile(const char * file_name)
 {
-	//GUARD(FILE_SERVICE::OpenIniFile)
+	////GUARD(FILE_SERVICE::OpenIniFile)
 	INIFILE_T * inifile_T;
 	uint32_t n;
 //	PUSH_CONTROL(0,0,0)	// core control 
@@ -306,7 +306,7 @@ INIFILE * FILE_SERVICE::OpenIniFile(const char * file_name)
 			OpenFiles[n]->IncReference();
 
 			inifile_T = new INIFILE_T(OpenFiles[n]);
-			if(inifile_T == nullptr) THROW;
+			if(inifile_T == nullptr) throw std::exception();
 //			POP_CONTROL(0)
 			return inifile_T;
 		}
@@ -317,7 +317,7 @@ INIFILE * FILE_SERVICE::OpenIniFile(const char * file_name)
 		if(OpenFiles[n] != nullptr) continue;
 
 		OpenFiles[n] = new IFS(this);
-		if(OpenFiles[n] == nullptr) THROW;//(FILE_SERVICE::OpenIniFile : no mem A);
+		if(OpenFiles[n] == nullptr) throw std::exception();//(FILE_SERVICE::OpenIniFile : no mem A);
 		if(!OpenFiles[n]->LoadFile(file_name)) 
 		{
 			delete OpenFiles[n];
@@ -329,28 +329,28 @@ INIFILE * FILE_SERVICE::OpenIniFile(const char * file_name)
 //		POP_CONTROL(0)
 		// INIFILE_T object belonged to entity and must be deleted by entity
 		//OpenFiles[n]->inifile_T = new INIFILE_T(OpenFiles[n]);	
-		//if(OpenFiles[n]->inifile_T == null) THROW;
+		//if(OpenFiles[n]->inifile_T == null) throw std::exception();
 		//return OpenFiles[n]->inifile_T;
 
 
 		inifile_T = new INIFILE_T(OpenFiles[n]);
-		if(inifile_T == nullptr) THROW;
+		if(inifile_T == nullptr) throw std::exception();
 		return inifile_T;
 	}
 //	POP_CONTROL(0)
-	//UNGUARD
+	////UNGUARD
 	return nullptr;
 }
 
 void FILE_SERVICE::RefDec(INIFILE * ini_obj)
 {
-	GUARD(FILE_SERVICE::RefDec)
+	//GUARD(FILE_SERVICE::RefDec)
 	uint32_t n;
 	for(n=0;n<=Max_File_Index;n++)
 	{
 		if(OpenFiles[n] != ini_obj) continue;
 		//OpenFiles[n]->SearchData = &OpenFiles[n]->Search;
-		if(OpenFiles[n]->GetReference() == 0) STORM_THROW(Reference error);
+		if(OpenFiles[n]->GetReference() == 0) throw std::exception("Reference error");
 		OpenFiles[n]->DecReference();
 		if(OpenFiles[n]->GetReference() == 0) 
 		{
@@ -359,8 +359,8 @@ void FILE_SERVICE::RefDec(INIFILE * ini_obj)
 		}
 		return;
 	}
-	STORM_THROW(bad inifile object);
-	UNGUARD
+	throw std::exception("bad inifile object");
+	//UNGUARD
 }
 
 void FILE_SERVICE::Close()

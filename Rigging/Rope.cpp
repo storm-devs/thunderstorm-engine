@@ -61,9 +61,9 @@ ROPE::~ROPE()
 
 bool ROPE::Init()
 {
-	GUARD(ROPE::ROPE())
+	//GUARD(ROPE::ROPE())
 	SetDevice();
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
@@ -73,7 +73,7 @@ void ROPE::SetDevice()
 	RenderService = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!RenderService)
 	{
-		STORM_THROW("No service: dx9render");
+		throw std::exception("No service: dx9render");
 	}
 
     LoadIni();
@@ -205,7 +205,7 @@ uint32_t _cdecl ROPE::ProcessMessage(MESSAGE & message)
 				gdata = new GROUPDATA[groupQuantity+1];
 				if(gdata== nullptr)
 				{
-					STORM_THROW("allocate memory error");
+					throw std::exception("allocate memory error");
 				}
 				memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
 				delete oldgdata; groupQuantity++;
@@ -215,7 +215,7 @@ uint32_t _cdecl ROPE::ProcessMessage(MESSAGE & message)
 				gdata = new GROUPDATA[1]; groupQuantity=1;
 				if(gdata== nullptr)
 				{
-					STORM_THROW("allocate memory error");
+					throw std::exception("allocate memory error");
 				}
 			}
 
@@ -279,7 +279,7 @@ uint32_t _cdecl ROPE::ProcessMessage(MESSAGE & message)
 			gdata[groupQuantity-1].ropeIdx = new int[gdata[groupQuantity-1].ropeQuantity];
 			if( gdata[groupQuantity-1].ropeIdx== nullptr )
 			{
-				STORM_THROW("allocate memory error");
+				throw std::exception("allocate memory error");
 			}
 			int idx=0;
 			for(int rn=wFirstRope; rn<ropeQuantity; rn++)
@@ -714,13 +714,13 @@ void ROPE::GetEndPoint(CVECTOR* cv,int ropenum,ENTITY_ID &mdl_id)
 
 void ROPE::LoadIni()
 {
-    GUARD(ROPE::LoadIni());
+    //GUARD(ROPE::LoadIni());
 	char	section[256];
     char    param[256];
 
 	INIFILE * ini;
 	ini = fio->OpenIniFile("resource\\ini\\rigging.ini");
-	if(!ini) THROW("rigging.ini file not found!");
+	if(!ini) throw std::exception("rigging.ini file not found!");
 
 	sprintf_s(section,"ROPES");
 
@@ -770,7 +770,7 @@ void ROPE::LoadIni()
     VAR_ROTATE_ANGL= ini->GetFloat(section,"fRotateAng",.1f);
 
     delete ini;
-    UNGUARD
+    //UNGUARD
 }
 
 void ROPE::FirstRun()
@@ -891,7 +891,7 @@ void ROPE::SetAdd(int firstNum)
 			api->Trace("Bad rope data for rope: (model=%s) (rope num = %d) (begin group=%d, end group=%d)",
 				pcModlName,rlist[rn]->ropeNum, rlist[rn]->bgnum, rlist[rn]->egnum);
 			api->Trace("Begin pointer = %d? end pointer = %d",rlist[rn]->bMatWorld,rlist[rn]->eMatWorld);
-            //STORM_THROW("Rope error: Not label");
+            //throw std::exception("Rope error: Not label");
             delete rlist[rn];
             ropeQuantity--;
             if(ropeQuantity)

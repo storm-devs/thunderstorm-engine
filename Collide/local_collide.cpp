@@ -5,7 +5,7 @@ LCOLL::LCOLL(const char *layerName, VAPI &_api) : boxRadius(0), api(_api)
 	walker = api.LayerGetWalker((char*)layerName);
 	col = (COLLIDE*)api.CreateService("coll");
 	if (!col)
-	STORM_THROW("No service: collide");
+	throw std::exception("No service: collide");
 }
 
 LCOLL::~LCOLL()

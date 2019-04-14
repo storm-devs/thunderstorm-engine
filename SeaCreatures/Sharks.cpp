@@ -479,7 +479,7 @@ Sharks::~Sharks()
 bool Sharks::Init()
 {
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
-	if(!rs) STORM_THROW("No service: dx9render");
+	if(!rs) throw std::exception("No service: dx9render");
 	for(long i = 0; i < numShakes; i++)
 		if(!shark[i].Init(0.0f, 0.0f)) return false;
 	//Лаера исполнения

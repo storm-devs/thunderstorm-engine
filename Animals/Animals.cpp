@@ -1,6 +1,5 @@
 #include "../Shared/messages.h"
 //#include "..\common_h\defines.h"
-#include "../Common_h/Exs.h"
 #include "../Common_h/Cvector.h"
 #include "../SoundService/VSoundService.h"
 
@@ -24,8 +23,6 @@ ANIMALS::ANIMALS()
 //--------------------------------------------------------------------
 ANIMALS::~ANIMALS()
 {
-	GUARD(ANIMALS::~ANIMALS)
-
 	if (seagulls)
 		delete seagulls;
 	//if (sharks)
@@ -34,15 +31,11 @@ ANIMALS::~ANIMALS()
 		delete fishSchools;
 	if (butterflies)
 		delete butterflies;
-
-	UNGUARD
 }
 
 //--------------------------------------------------------------------
 bool ANIMALS::Init()
 {
-	GUARD(ANIMALS::Init)
-
 	api->LayerAdd("realize",GetID(),77);
 	api->LayerAdd("execute",GetID(),77);
 
@@ -52,14 +45,11 @@ bool ANIMALS::Init()
 	butterflies->Init();
 
 	return true;
-	UNGUARD
 }
 
 //--------------------------------------------------------------------
 uint32_t _cdecl ANIMALS::ProcessMessage(MESSAGE & message)
 {
-	GUARD(ANIMALS::ProcessMessage)
-
 	long code = message.Long();
 	uint32_t outValue = 0;
 
@@ -85,33 +75,24 @@ uint32_t _cdecl ANIMALS::ProcessMessage(MESSAGE & message)
 	}
 
 	return outValue;
-	UNGUARD
 }
 
 //--------------------------------------------------------------------
 void ANIMALS::Realize(uint32_t _dTime)
 {
-	GUARD(ANIMALS::Realize)
-
 	seagulls->Realize(_dTime);
 	//sharks->Realize(_dTime);
 	fishSchools->Realize(_dTime);
 	butterflies->Realize(_dTime);
-
-	UNGUARD
 }
 
 //--------------------------------------------------------------------
 void ANIMALS::Execute(uint32_t _dTime)
 {
-	GUARD(ANIMALS::Execute)
-
 	seagulls->Execute(_dTime);
 	//sharks->Execute(_dTime);
 	fishSchools->Execute(_dTime);
 	butterflies->Execute(_dTime);
-	
-	UNGUARD
 }
 
 //--------------------------------------------------------------------

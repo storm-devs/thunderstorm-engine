@@ -351,7 +351,7 @@ void SailorsPoints :: UpdateLinks(){
 //--------------------------------------------------------------------------------------------------------------
 int SailorsPoints :: WriteToFile(std::string fileName)
 {
-	GUARD(SailorsPoints :: WriteToFile);
+	//GUARD(SailorsPoints :: WriteToFile);
 
 		INIFILE *pIni = fio->OpenIniFile(fileName.c_str());
 		if(!pIni) pIni = fio->CreateIniFile(fileName.c_str(),false);
@@ -390,14 +390,14 @@ int SailorsPoints :: WriteToFile(std::string fileName)
 	delete pIni;
 
 	return 0;
-	UNGUARD
+	//UNGUARD
 };
 
 //--------------------------------------------------------------------------------------------------------------
 
 int SailorsPoints :: ReadFromFile(std::string fileName)
 {
-	GUARD(SailorsPoints :: ReadFromFile);
+	//GUARD(SailorsPoints :: ReadFromFile);
 
 	char param[256];
 	char str[64];
@@ -453,7 +453,7 @@ int SailorsPoints :: ReadFromFile(std::string fileName)
 
 	delete pIni;
 	return 0;
-	UNGUARD
+	//UNGUARD
 };
 
 //--------------------------------------------------------------------------------------------------------------

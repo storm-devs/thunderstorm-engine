@@ -159,8 +159,7 @@ void DataSource::Load (MemFile* pMemFile)
 
 			default:
 			{
-				STORM_THROW ("Particles: Unknown emitter type !");
-				return;
+				throw std::exception("Particles: Unknown emitter type !");
 			}
 		} // switch
 	} // for all saved emitters...
@@ -202,7 +201,7 @@ void DataSource::CreatePointEmitter (MemFile* pMemFile)
 			}
 			default:
 			{
-				STORM_THROW ("Particles: Unknown particle type !!!!");
+				throw std::exception("Particles: Unknown particle type !!!!");
 			}
 		} // SWITCH
 	} // For all particles

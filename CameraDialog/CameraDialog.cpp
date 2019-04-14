@@ -32,18 +32,14 @@ CameraDialog::~CameraDialog()
 
 bool CameraDialog::Init()
 {
-	GUARD(CAMERA::CAMERA())
-
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
-	if(!rs)	STORM_THROW("No service: dx9render");
+	if(!rs)	throw std::exception("No service: dx9render");
 
 	col = (COLLIDE *)api->CreateService("coll");
-	if(!col)	STORM_THROW("No service: collide");
+	if(!col)	throw std::exception("No service: collide");
 
 	api->LayerAdd("execute",GetID(),2);
 	//api->LayerAdd("realize",GetID(),1);
-	
-	UNGUARD
 	return true;
 }
 

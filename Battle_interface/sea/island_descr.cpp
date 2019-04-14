@@ -34,7 +34,7 @@ void ISLAND_DESCRIBER::SetIsland(ATTRIBUTES * pAIsland)
 	if( (m_nLocators=pA->GetAttributesNum()) == 0 ) return;
 	if( (m_pLocators=new LOCATOR_DESCR[m_nLocators])== nullptr )
 	{
-		STORM_THROW("Can`t allocate memory");
+		throw std::exception("Can`t allocate memory");
 	}
 	// пройтись по всем локаторам
 	ATTRIBUTES * pATmp;

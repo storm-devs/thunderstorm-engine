@@ -5,68 +5,68 @@
 
 WATERFLARE::WATERFLARE()
 {
-	GUARD(WATERFLARE::WATERFLARE())
+	//GUARD(WATERFLARE::WATERFLARE())
 	iFlareTex = -1;
 	iFlaresNum = 0;
 	RS = nullptr;
 	pWeather = nullptr;
 	pfAlpha = nullptr;
 	pRSRect = nullptr;
-	UNGUARD
+	//UNGUARD
 }
 
 WATERFLARE::~WATERFLARE()
 {
-	GUARD(WATERFLARE::~WATERFLARE())
+	//GUARD(WATERFLARE::~WATERFLARE())
 	STORM_DELETE(pRSRect);
 	STORM_DELETE(pfAlpha);
-	UNGUARD
+	//UNGUARD
 }
 
 bool WATERFLARE::Init()
 {
-	GUARD(bool WATERFLARE::Init())
+	//GUARD(bool WATERFLARE::Init())
 
 	api->LayerAdd("realize",GetID(),-1);
 	api->LayerAdd("execute",GetID(),-1);
 	
 	SetDevice();
 
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
 void WATERFLARE::SetDevice()
 {
-	GUARD(void WATERFLARE::SetDevice())
+	//GUARD(void WATERFLARE::SetDevice())
 
 	RS = (VDX9RENDER *)api->CreateService("dx9render");
-	if (!RS) STORM_THROW("No service: dx9render");
+	if (!RS) throw std::exception("No service: dx9render");
 
 	ENTITY_ID	ent;
-	if (!api->FindClass(&ent,"Weather",0)) STORM_THROW("No found WEATHER entity!");
+	if (!api->FindClass(&ent,"Weather",0)) throw std::exception("No found WEATHER entity!");
 	pWeather = (WEATHER_BASE*)api->GetEntityPointer(&ent);
 
-	UNGUARD
+	//UNGUARD
 }
 
 bool WATERFLARE::CreateState(ENTITY_STATE_GEN * state_gen)
 {
-	GUARD(bool WATERFLARE::CreateState(ENTITY_STATE_GEN * state_gen))
-	UNGUARD
+	//GUARD(bool WATERFLARE::CreateState(ENTITY_STATE_GEN * state_gen))
+	//UNGUARD
 	return true;
 }
 
 bool WATERFLARE::LoadState(ENTITY_STATE * state)
 {
-	GUARD(bool WATERFLARE::LoadState(ENTITY_STATE * state))
-	UNGUARD
+	//GUARD(bool WATERFLARE::LoadState(ENTITY_STATE * state))
+	//UNGUARD
 	return true;
 }
 
 void WATERFLARE::Execute(uint32_t Delta_Time)
 {
-	GUARD(void WATERFLARE::Execute(uint32_t Delta_Time))
+	//GUARD(void WATERFLARE::Execute(uint32_t Delta_Time))
 
 	/*if (pWeather->GetLong(whi_weather_update)) 
 	{
@@ -78,7 +78,7 @@ void WATERFLARE::Execute(uint32_t Delta_Time)
 		GenerateFlares();
 	}*/
 
-	UNGUARD
+	//UNGUARD
 }
 
 void WATERFLARE::GenerateFlares()
@@ -98,7 +98,7 @@ void WATERFLARE::GenerateFlares()
 
 void WATERFLARE::Realize(uint32_t Delta_Time)
 {
-	GUARD(void WATERFLARE::Realize(uint32_t Delta_Time))
+	//GUARD(void WATERFLARE::Realize(uint32_t Delta_Time))
 
 	for (long i=0;i<iFlaresNum;i++)
 	{
@@ -116,11 +116,11 @@ void WATERFLARE::Realize(uint32_t Delta_Time)
 	RS->TextureSet(0,iFlareTex);
 	RS->DrawRects(pRSRect,iFlaresNum,"waterflare");
 
-	UNGUARD
+	//UNGUARD
 }
 
 void WATERFLARE::ProcessMessage(uint32_t iMsg,uint32_t wParam,uint32_t lParam)
 {
-	GUARD(void WATERFLARE::ProcessMessage(uint32_t iMsg,uint32_t wParam,uint32_t lParam))
-	UNGUARD
+	//GUARD(void WATERFLARE::ProcessMessage(uint32_t iMsg,uint32_t wParam,uint32_t lParam))
+	//UNGUARD
 }

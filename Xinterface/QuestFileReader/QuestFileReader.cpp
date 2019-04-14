@@ -237,7 +237,7 @@ bool QUEST_FILE_READER::InitQuestsQuery()
 			}
 
 			if( m_pFileBuf == nullptr ) {
-				STORM_THROW("allocate memory error");
+				throw std::exception("allocate memory error");
 			}
 
 			uint32_t readsize;

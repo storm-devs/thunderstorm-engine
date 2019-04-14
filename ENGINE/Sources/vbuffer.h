@@ -1,12 +1,6 @@
-#ifndef _VBUFFER_H_
-#define _VBUFFER_H_
+#pragma once
 
-#ifndef _XBOX
-#else
-#include <xtl.h>
-#endif
-
-#include "../../Common_h/Exs.h"
+#include <exception>
 
 class VBUFFER
 {
@@ -17,9 +11,7 @@ public:
 	~VBUFFER() { free(Ptr);}
 	void Size(uint32_t _size)
 	{
-		Ptr = (char*)realloc(Ptr,_size);
-		if(!Ptr) THROW; 
+		Ptr = static_cast<char*>(realloc(Ptr, _size));
+		if(!Ptr) throw std::exception(); 
 		dwSize = _size; };
 };
-
-#endif

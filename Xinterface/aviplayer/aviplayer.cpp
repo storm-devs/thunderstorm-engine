@@ -46,7 +46,7 @@ bool CAviPlayer::Init()
 {
 	if( (rs=(VDX9RENDER *)api->CreateService("dx9render")) == nullptr )
 	{
-		STORM_THROW("Can`t create render service");
+		throw std::exception("Can`t create render service");
 	}
 
 	api->LayerCreate("vRealize",true,false);

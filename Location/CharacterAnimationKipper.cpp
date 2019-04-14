@@ -50,9 +50,9 @@ bool CharacterAnimationKipper::Init()
 		}
 	}
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
-	if(!rs) STORM_THROW("No service: dx9render");
+	if(!rs) throw std::exception("No service: dx9render");
 	AnimationService * asr = (AnimationService *)api->CreateService("AnimationServiceImp");
-	if(!asr) STORM_THROW("Anumation service not created!");
+	if(!asr) throw std::exception("Anumation service not created!");
 	aniMan = asr->CreateAnimation("man");
 	aniWoman = asr->CreateAnimation("towngirl");
 	//LockTexture("dialog\dialog.tga");

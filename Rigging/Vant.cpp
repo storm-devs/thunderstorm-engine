@@ -44,9 +44,9 @@ VANT::~VANT()
 
 bool VANT::Init()
 {
-	GUARD(VANT::VANT())
+	//GUARD(VANT::VANT())
 	SetDevice();
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
@@ -56,7 +56,7 @@ void VANT::SetDevice()
 	RenderService = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!RenderService)
 	{
-		STORM_THROW("No service: dx9render");
+		throw std::exception("No service: dx9render");
 	}
 
     LoadIni();
@@ -148,14 +148,14 @@ uint32_t _cdecl VANT::ProcessMessage(MESSAGE & message)
 			if(gdata==nullptr)
 			{
 				if( (gdata=new GROUPDATA[1]) == nullptr )
-					STORM_THROW("Not memory allocation");
+					throw std::exception("Not memory allocation");
 				groupQuantity = 1;
 			}
 			else
 			{
 				GROUPDATA *oldgdata=gdata;
 				if((gdata=new GROUPDATA[groupQuantity+1]) == nullptr)
-					STORM_THROW("Not memory allocation");
+					throw std::exception("Not memory allocation");
 				memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
 				delete oldgdata; groupQuantity++;
 			}
@@ -165,7 +165,7 @@ uint32_t _cdecl VANT::ProcessMessage(MESSAGE & message)
 			MODEL* mdl;
 			mdl=(MODEL*)api->GetEntityPointer(&gdata[groupQuantity-1].model_id);
 			if(mdl==nullptr)
-				STORM_THROW("Bad Vant INIT");
+				throw std::exception("Bad Vant INIT");
 
 			gdata[groupQuantity-1].pMatWorld=&mdl->mtx;
 			NODE* nod;
@@ -218,7 +218,7 @@ uint32_t _cdecl VANT::ProcessMessage(MESSAGE & message)
 
 			gdata[groupQuantity-1].vantQuantity = vantQuantity-oldvantQuantity;
 			gdata[groupQuantity-1].vantIdx= new int[vantQuantity-oldvantQuantity];
-			if(gdata[groupQuantity-1].vantIdx== nullptr)	{STORM_THROW("allocate memory error");}
+			if(gdata[groupQuantity-1].vantIdx== nullptr)	{throw std::exception("allocate memory error");}
 
 			int idx=0;
 			for(int vn=oldvantQuantity; vn<vantQuantity; vn++)
@@ -453,7 +453,7 @@ void VANT::AddLabel(GEOS::LABEL &lbl,NODE *nod)
         //создаем новый вант
         vd= new VANTDATA;
         if(vd==nullptr)
-            STORM_THROW("Not memory allocate");
+            throw std::exception("Not memory allocate");
         PZERO(vd,sizeof(VANTDATA));
         vd->bDeleted=false;
         vd->vantNum=vantNum;
@@ -470,7 +470,7 @@ void VANT::AddLabel(GEOS::LABEL &lbl,NODE *nod)
             VANTDATA **oldvlist=vlist;
             vlist = new VANTDATA*[vantQuantity+1];
             if(vlist==nullptr)
-                STORM_THROW("Not memory allocate");
+                throw std::exception("Not memory allocate");
             memcpy(vlist,oldvlist,sizeof(VANTDATA*)*vantQuantity);
             delete oldvlist; vantQuantity++;
         }
@@ -555,7 +555,7 @@ void VANT::SetAll()
 
 void VANT::LoadIni()
 {
-    GUARD(VANT::LoadIni());
+    //GUARD(VANT::LoadIni());
 	char	section[256];
     char    param[256];
 
@@ -568,7 +568,7 @@ void VANT::LoadIni()
 		fio->_FindClose(h);
 	}
 	ini = fio->OpenIniFile("resource\\ini\\rigging.ini");
-	if(!ini) THROW("rigging.ini file not found!");
+	if(!ini) throw std::exception("rigging.ini file not found!");
 
 	sprintf_s(section,"VANTS");
 
@@ -631,7 +631,7 @@ void VANT::LoadIni()
     MAXFALL_CMP_VAL=ini->GetFloat(section,"fDisapearValue",5.f);
 
     delete ini;
-    UNGUARD
+    //UNGUARD
 }
 
 void VANT::doMove()

@@ -1,6 +1,4 @@
 #include "entity_state_R.h"
-#include "../../Common_h/Exs.h"
-
 
 const char Signature[] = "ES";
 char Signature_Buff[] = "ES";
@@ -20,17 +18,17 @@ ENTITY_STATE_GEN_R::~ENTITY_STATE_GEN_R()
 
 void ENTITY_STATE_GEN_R::Init(VFILE_SERVICE * _fio,HANDLE _file_handle)
 {
-	GUARD(ENTITY_STATE_GEN_R::Init)
+	//GUARD(ENTITY_STATE_GEN_R::Init)
 	fio = _fio;
-	if(fio == nullptr) THROW;
+	if(fio == nullptr) throw std::exception();
 	file_handle = _file_handle;
-	if(file_handle == INVALID_HANDLE_VALUE) THROW;
-	UNGUARD
+	if(file_handle == INVALID_HANDLE_VALUE) throw std::exception();
+	//UNGUARD
 }
 
 void ENTITY_STATE_GEN_R::CloseState()
 {
-	GUARD(ENTITY_STATE_GEN_R::CloseState)
+	//GUARD(ENTITY_STATE_GEN_R::CloseState)
 	uint32_t sizeofstruct;
 	uint32_t dwR;
 
@@ -40,78 +38,78 @@ void ENTITY_STATE_GEN_R::CloseState()
 	// write signature
 	sizeofstruct = strlen(Signature);
 	fio->_WriteFile(file_handle,Signature,sizeofstruct,&dwR);
-	if(dwR != sizeofstruct) THROW;
+	if(dwR != sizeofstruct) throw std::exception();
 
 	// write size of format string
 	if(Format_string == nullptr) sizeofstruct = 0;
 	else sizeofstruct = strlen(Format_string) + 1;
 	fio->_WriteFile(file_handle,&sizeofstruct,sizeof(sizeofstruct),&dwR);
-	if(dwR != sizeof(sizeofstruct)) THROW;
+	if(dwR != sizeof(sizeofstruct)) throw std::exception();
 	
 	// write format string
 	fio->_WriteFile(file_handle,Format_string,sizeofstruct,&dwR);
-	if(dwR != sizeofstruct) THROW;
+	if(dwR != sizeofstruct) throw std::exception();
 
 	// write data size
 	fio->_WriteFile(file_handle,&Data_size,sizeof(Data_size),&dwR);
-	if(dwR != sizeof(Data_size)) THROW;
+	if(dwR != sizeof(Data_size)) throw std::exception();
 
 	// write data
 	fio->_WriteFile(file_handle,Buffer.data(),Data_size,&dwR);
-	if(dwR != Data_size) THROW;
+	if(dwR != Data_size) throw std::exception();
 
 	// reset buffer pointer and format string
 	Data_size = 0;
 	free(Format_string);
 	Format_string = nullptr;
 
-	UNGUARD
+	//UNGUARD
 }
 
 #define _COPY_DATA(t) {CopyData(sizeof(t));}
 
 void ENTITY_STATE_GEN_R::VerifyFreeSpace(uint32_t add_data_size)
 {
-	GUARD(ENTITY_STATE_GEN_R::VerifyFreeSpace)
+	//GUARD(ENTITY_STATE_GEN_R::VerifyFreeSpace)
 	if((Data_size + add_data_size) >= Buffer_size) 
 	{
 		Buffer_size <<= 1;
 		Buffer.resize(Buffer_size);
 	}
-	UNGUARD
+	//UNGUARD
 }
 
 
 void ENTITY_STATE_GEN_R::CopyData(uint32_t add_data_size)
 {
-	GUARD(ENTITY_STATE_GEN_R::CopyData)
+	//GUARD(ENTITY_STATE_GEN_R::CopyData)
 	VerifyFreeSpace(add_data_size);
 	memcpy(Buffer.data() + Data_size,(char *)args,add_data_size);
 	args += add_data_size;
 	Data_size += add_data_size;
-	UNGUARD
+	//UNGUARD
 }
 
 void _cdecl ENTITY_STATE_GEN_R::SetState(char * Format,...)
 {
-	GUARD(ENTITY_STATE_GEN_R::SetState)
+	//GUARD(ENTITY_STATE_GEN_R::SetState)
 	uint32_t n;
 	char * tcharPTR;
 	uint32_t sizeofstruct;
 
 	// upload or append format string
-	if(!Format) STORM_THROW(empty format string);
+	if(!Format) throw std::exception("empty format string");
 	if(Format_string == nullptr)
 	{
 		const auto len = strlen(Format) + 1;
 		Format_string = (char *)malloc(len);
-		if(Format_string == nullptr) THROW;
+		if(Format_string == nullptr) throw std::exception();
 		memcpy(Format_string,Format,len);
 	} else
 	{
 		const auto len = strlen(Format_string) + strlen(Format) + 1;
 		Format_string = (char *)realloc(Format_string,len);
-		if(Format_string == nullptr) THROW;
+		if(Format_string == nullptr) throw std::exception();
 		strcat_s(Format_string,len,Format);
 	}
 
@@ -166,7 +164,7 @@ void _cdecl ENTITY_STATE_GEN_R::SetState(char * Format,...)
 				Data_size += sizeofstruct;
 				args += ((sizeofstruct + sizeof(int) - 1) & ~(sizeof(int) - 1));
 			break;
-			default: STORM_THROW(invalid format string specificator);
+			default: throw std::exception("invalid format string specificator");
 			break;
 
 		}
@@ -174,7 +172,7 @@ void _cdecl ENTITY_STATE_GEN_R::SetState(char * Format,...)
 	}
 
 	va_end(args);
-	UNGUARD
+	//UNGUARD
 }
 ENTITY_STATE_R::ENTITY_STATE_R()
 {
@@ -194,18 +192,18 @@ void ENTITY_STATE_R::Init(VFILE_SERVICE * _fio,HANDLE _file_handle)
 {
 	//uint32_t sizeofstruct;
 	//uint32_t dwR;
-	GUARD(ENTITY_STATE_R::Init)
+	//GUARD(ENTITY_STATE_R::Init)
 	fio = _fio;
-	if(fio == nullptr) THROW;
+	if(fio == nullptr) throw std::exception();
 	file_handle = _file_handle;
-	if(file_handle == INVALID_HANDLE_VALUE) THROW;
+	if(file_handle == INVALID_HANDLE_VALUE) throw std::exception();
 
-	UNGUARD
+	//UNGUARD
 }
 
 void ENTITY_STATE_R::LoadStateBlock()
 {
-	GUARD(ENTITY_STATE_R::LoadStateBlock)
+	//GUARD(ENTITY_STATE_R::LoadStateBlock)
 	uint32_t format_size;
 	uint32_t sizeofstruct;
 	uint32_t dwR;
@@ -217,26 +215,26 @@ void ENTITY_STATE_R::LoadStateBlock()
 	// read block signature
 	sizeofstruct = strlen(Signature);
 	fio->_ReadFile(file_handle,Signature_Buff,sizeofstruct,&dwR);
-	if(dwR != sizeofstruct) THROW;
-	if(memcmp(Signature,Signature_Buff,strlen(Signature)) != 0) STORM_THROW(invalid signature);
+	if(dwR != sizeofstruct) throw std::exception();
+	if(memcmp(Signature,Signature_Buff,strlen(Signature)) != 0) throw std::exception("invalid signature");
 
 	// read size of format string
 	fio->_ReadFile(file_handle,&format_size,sizeof(format_size),&dwR);
-	if(dwR != sizeof(format_size)) THROW;
-	if(format_size == 0) STORM_THROW(empty block);
+	if(dwR != sizeof(format_size)) throw std::exception();
+	if(format_size == 0) throw std::exception("empty block");
 
 	// allocate mem for format string
 
 	Format_string = (char *)new char[format_size];
-	if(!Format_string) THROW;
+	if(!Format_string) throw std::exception();
 
 	// read format string
 	fio->_ReadFile(file_handle,Format_string,format_size,&dwR);
-	if(dwR != format_size) THROW;
+	if(dwR != format_size) throw std::exception();
 
 	// read data size
 	fio->_ReadFile(file_handle,&Data_size,sizeof(Data_size),&dwR);
-	if(dwR != sizeof(Buffer_size)) THROW;
+	if(dwR != sizeof(Buffer_size)) throw std::exception();
 
 	// allocate or resize mem for data
 	if(Buffer == nullptr)
@@ -244,14 +242,14 @@ void ENTITY_STATE_R::LoadStateBlock()
 		Buffer_size = Data_size;
 
 		Buffer = (char *)malloc(Buffer_size);
-		if(!Buffer) THROW;
+		if(!Buffer) throw std::exception();
 	}
 	else
 	{
 		if(Buffer_size < Data_size)
 		{
 			Buffer = (char *)realloc(Buffer,Data_size);
-			if(!Buffer) THROW;
+			if(!Buffer) throw std::exception();
 			Buffer_size = Data_size;
 		}
 	}
@@ -259,14 +257,14 @@ void ENTITY_STATE_R::LoadStateBlock()
 
 	// read data
 	fio->_ReadFile(file_handle,Buffer,Data_size,&dwR);
-	if(dwR != Data_size) THROW;
+	if(dwR != Data_size) throw std::exception();
 
-	UNGUARD
+	//UNGUARD
 }
 
 void ENTITY_STATE_R::ValidateFormat(char c)
 {
-	GUARD(ENTITY_STATE_R::ValidateFormat)
+	//GUARD(ENTITY_STATE_R::ValidateFormat)
 	if(Format_string)
 	if(Format_index >= strlen(Format_string))
 	{
@@ -274,15 +272,15 @@ void ENTITY_STATE_R::ValidateFormat(char c)
 		Format_index = 0;
 	}
 	if(Format_string == nullptr) LoadStateBlock();
-	if(Format_string == nullptr) STORM_THROW(no state data);
-	if(Format_string[Format_index] != c) STORM_THROW(incorrect state data);
+	if(Format_string == nullptr) throw std::exception("no state data");
+	if(Format_string[Format_index] != c) throw std::exception("incorrect state data");
 	Format_index++;
-	UNGUARD
+	//UNGUARD
 }
 
-//#define RETURN_DATA(t) {Data_index += sizeof(t);if(Data_index > Data_size) STORM_THROW(no data);return (*(t *)(Buffer[Data_index - sizeof(t)]));}
-#define RETURN_DATA(t) {Data_PTR += sizeof(t);if(Data_PTR > (Buffer + Data_size)) STORM_THROW(no data); return (*(t *)(Data_PTR - sizeof(t)));}
-//#define RETURN_DATA2(c,t) {ValidateFormat(#@c);Data_index += sizeof(t);if(Data_index > Data_size) STORM_THROW(no data);return (*(t *)(Buffer[Data_index - sizeof(t)]));}
+//#define RETURN_DATA(t) {Data_index += sizeof(t);if(Data_index > Data_size) throw std::exception(no data);return (*(t *)(Buffer[Data_index - sizeof(t)]));}
+#define RETURN_DATA(t) {Data_PTR += sizeof(t);if(Data_PTR > (Buffer + Data_size)) throw std::exception("no data"); return (*(t *)(Data_PTR - sizeof(t)));}
+//#define RETURN_DATA2(c,t) {ValidateFormat(#@c);Data_index += sizeof(t);if(Data_index > Data_size) throw std::exception(no data);return (*(t *)(Buffer[Data_index - sizeof(t)]));}
 uint8_t ENTITY_STATE_R::Byte()
 {
 	ValidateFormat('b');
@@ -290,7 +288,7 @@ uint8_t ENTITY_STATE_R::Byte()
 	
 	//RETURN_DATA2(b,byte);
 	/*Data_index += sizeof(byte); 
-	if(Data_index > Data_size) STORM_THROW(no data);	
+	if(Data_index > Data_size) throw std::exception(no data);	
 	return (*(byte *)(Buffer[Data_index - sizeof(byte)]));*/
 }
 
@@ -332,48 +330,48 @@ char *	ENTITY_STATE_R::Pointer()
 
 void ENTITY_STATE_R::String(uint32_t dest_buffer_size, char * buffer)
 {
-	GUARD(ENTITY_STATE_R::String)
+	//GUARD(ENTITY_STATE_R::String)
 	uint32_t size;
-	if(buffer == nullptr) STORM_THROW(invalid buffer);
+	if(buffer == nullptr) throw std::exception("invalid buffer");
 	ValidateFormat('s');
 	Data_PTR += sizeof(uint32_t); 
-	if(Data_PTR > (Buffer + Data_size)) STORM_THROW(no data);	
+	if(Data_PTR > (Buffer + Data_size)) throw std::exception("no data");
 	size = (*(uint32_t *)(Data_PTR - sizeof(uint32_t)));
 	Data_PTR += size; 
-	if(size > dest_buffer_size) STORM_THROW(insufficient string buffer);
+	if(size > dest_buffer_size) throw std::exception("insufficient string buffer");
 	memcpy(buffer,(char *)(Data_PTR - size),size);
-	UNGUARD
+	//UNGUARD
 }
 
 void ENTITY_STATE_R::MemoryBlock(uint32_t memsize, char * buffer)
 {
-	GUARD(ENTITY_STATE_R::MemoryBlock)
+	//GUARD(ENTITY_STATE_R::MemoryBlock)
 	uint32_t size;
-	if(buffer == nullptr) STORM_THROW(invalid buffer);
+	if(buffer == nullptr) throw std::exception("invalid buffer");
 	ValidateFormat('m');
 	Data_PTR += sizeof(uint32_t); 
-	if(Data_PTR > (Buffer + Data_size)) STORM_THROW(no data);	
+	if(Data_PTR > (Buffer + Data_size)) throw std::exception("no data");
 	size = (*(uint32_t *)(Data_PTR - sizeof(uint32_t)));
-	if(size != memsize) STORM_THROW(invalid buffer size);
+	if(size != memsize) throw std::exception("invalid buffer size");
 	Data_PTR += size; 
-	if(Data_PTR > (Buffer + Data_size)) STORM_THROW(no data);
+	if(Data_PTR > (Buffer + Data_size)) throw std::exception("no data");
 	memcpy(buffer,(char *)(Data_PTR - size),size);
-	UNGUARD
+	//UNGUARD
 }
 
 void ENTITY_STATE_R::Struct(uint32_t memsize, char * buffer)
 {
-	GUARD(ENTITY_STATE_R::Struct)
+	//GUARD(ENTITY_STATE_R::Struct)
 	uint32_t size;
-	if(buffer == nullptr) STORM_THROW(invalid buffer);
+	if(buffer == nullptr) throw std::exception("invalid buffer");
 	ValidateFormat('v');
 	Data_PTR += sizeof(uint32_t); 
-	if(Data_PTR > (Buffer + Data_size)) STORM_THROW(no data);	
+	if(Data_PTR > (Buffer + Data_size)) throw std::exception("no data");
 	size = (*(uint32_t *)(Data_PTR - sizeof(uint32_t)));
-	if(size != memsize) STORM_THROW(invalid structure size);
+	if(size != memsize) throw std::exception("invalid structure size");
 	Data_PTR += size; 
-	if(Data_PTR > (Buffer + Data_size)) STORM_THROW(no data);
+	if(Data_PTR > (Buffer + Data_size)) throw std::exception("no data");
 	memcpy(buffer,(char *)(Data_PTR - size),size);
-	UNGUARD
+	//UNGUARD
 
 }

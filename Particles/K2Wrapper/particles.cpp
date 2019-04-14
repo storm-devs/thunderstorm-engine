@@ -110,8 +110,7 @@ uint32_t _cdecl PARTICLES::ProcessMessage(MESSAGE & message)
 		}
 	case PS_CREATEX_RIC:
 		{
-			THROW ("Unsupported particle manager command !!!");
-			break;
+			throw std::exception("Unsupported particle manager command !!!");
 		}
 
 	//создать систему
@@ -180,13 +179,11 @@ uint32_t _cdecl PARTICLES::ProcessMessage(MESSAGE & message)
 		}
 	case PS_ADDTRACKPOINT:
 		{
-			THROW ("Unsupported particle manager command !!!");
-			break;
+			throw std::exception("Unsupported particle manager command !!!");
 		}
 	case PS_USESURFACE:
 		{
-			THROW ("Unsupported particle manager command !!!");
-			break;
+			throw std::exception("Unsupported particle manager command !!!");
 		}
 	case PS_VALIDATE_PARTICLE:
 		{

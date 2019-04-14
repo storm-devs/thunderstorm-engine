@@ -32,14 +32,15 @@ void HELPCHOOSER::SetDevice()
 {
     // получить сервис рендера
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
-	if(!rs){STORM_THROW("No service: dx9render")}
+	if(!rs)
+		throw std::exception("No service: dx9render");
 }
 
 bool HELPCHOOSER::Init()
 {
-	GUARD(HELPCHOOSER::Init())
+	//GUARD(HELPCHOOSER::Init())
 	SetDevice();
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
@@ -241,7 +242,7 @@ bool HELPCHOOSER::RunChooser(char * ChooserGroup)
 	{
 		m_pRectList = new FRECT[m_nRectQ];
 		m_psRectName = new char*[m_nRectQ];
-		if(m_pRectList== nullptr || m_psRectName== nullptr)	{THROW("Allocate memory error");}
+		if(m_pRectList== nullptr || m_psRectName== nullptr)	{throw std::exception("Allocate memory error");}
 	}
 	// заполняем все прямоугольники
 	ini->ReadString(ChooserGroup,"rect",param,sizeof(param)-1,"");
@@ -257,7 +258,7 @@ bool HELPCHOOSER::RunChooser(char * ChooserGroup)
 		if(j>0)
 		{
 			m_psRectName[i] = new char[j+2];
-			if(m_psRectName[i]== nullptr) {STORM_THROW("Allocate memory error");}
+			if(m_psRectName[i]== nullptr) {throw std::exception("Allocate memory error");}
 			strcpy_s(m_psRectName[i],j+2,param2);
 		}
 

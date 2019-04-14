@@ -50,7 +50,6 @@ Fader::~Fader()
 //Инициализация
 bool Fader::Init()
 {
-	GUARD(Fader::Init())
 	//Проверим что единственные
 	ENTITY_ID eid;
 	if(api->FindClass(&eid, "Fader", 0))
@@ -74,7 +73,7 @@ bool Fader::Init()
 	api->LayerAdd("fader_execute", GetID(), -256);
 	//DX9 render
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
-	if(!rs) STORM_THROW("No service: dx9render");
+	if(!rs) throw std::exception("No service: dx9render");
 	D3DVIEWPORT9 vp;
 	rs->GetViewport(&vp);
 	w = float(vp.Width);
@@ -93,7 +92,6 @@ bool Fader::Init()
 		if(numberOfTips > 9999) numberOfTips = 9999;
 	}
 	return true;
-	UNGUARD
 }
 
 //Сообщения

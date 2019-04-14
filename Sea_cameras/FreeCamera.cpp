@@ -35,11 +35,11 @@ FREE_CAMERA::~FREE_CAMERA()
 
 bool FREE_CAMERA::Init()
 {
-	GUARD(FREE_CAMERA::FREE_CAMERA())
+	//GUARD(FREE_CAMERA::FREE_CAMERA())
 	api->LayerCreate("realize",true,false);
 	api->LayerAdd("system_messages",GetID(),1);
 	SetDevice();
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 

@@ -78,7 +78,7 @@ bool BATTLE_INTERFACE::Init()
 
 	if( (rs=(VDX9RENDER *)api->CreateService("dx9render")) == nullptr )
 	{
-		STORM_THROW("Can`t create render service");
+		throw std::exception("Can`t create render service");
 	}
 
 	LoadIniFile();
@@ -181,8 +181,6 @@ void BATTLE_INTERFACE::Realize(uint32_t delta_time)
 
 void BATTLE_INTERFACE::LoadIniFile()
 {
-    GUARD(BATTLE_INTERFACE::LoadIniFile)
-
 	m_fBlinkSpeed = .003f;
 	if(AttributesPointer!= nullptr)
 		m_fBlinkSpeed = AttributesPointer->GetAttributeAsFloat("blindSpeed",m_fBlinkSpeed);
@@ -208,7 +206,7 @@ void BATTLE_INTERFACE::LoadIniFile()
 	/*STORM_DELETE( m_pMessageIcons );
 	m_pMessageIcons = new MESSAGE_ICONS;
 	if(m_pMessageIcons==NULL) {
-		THROW("allocate memory error");
+		throw std::exception("allocate memory error");
 	}
 	if(m_pMessageIcons)	m_pMessageIcons->InitData(GetID(),rs,pA);*/
 
@@ -221,8 +219,6 @@ void BATTLE_INTERFACE::LoadIniFile()
 	if( m_pShipInfoImages ) {
 		m_pShipInfoImages->SetVisible(AttributesPointer ? (AttributesPointer->GetAttributeAsDword("ShifInfoVisible",0)!=0) : false);
 	}
-
-    UNGUARD
 }
 
 uint32_t BATTLE_INTERFACE::AttributeChanged(ATTRIBUTES * pAttr)

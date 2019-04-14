@@ -112,7 +112,7 @@ void CXI_BOUNDER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	XI_ONETEX_VERTEX *pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
 	uint16_t *pIndx = (uint16_t*) m_rs->LockIndexBuffer(m_idIBuf);
 	if(pVert== nullptr || pIndx== nullptr)
-		STORM_THROW("can not create the index&vertex buffers")
+		throw std::exception("can not create the index&vertex buffers");
 
 	for(i=0; i<m_nVert; i++)
 	{
@@ -296,8 +296,8 @@ void CXI_BOUNDER::ChangePosition( XYRECT &rNewPos )
 	// Fill buffers
 	XI_ONETEX_VERTEX *pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
 
-	if( pVert == nullptr )
-		STORM_THROW("can not create the index&vertex buffers")
+	if (pVert == nullptr)
+		throw std::exception("can not create the index&vertex buffers");
 
 	long i;
 

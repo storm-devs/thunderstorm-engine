@@ -23,7 +23,7 @@ CREATE_SERVICE(CONTROLS)
 #endif
 // this macro incure, that programm control didnt pass via any entity constructor. Each base api function must
 // be protected by this macro on development stage. On release stage this macro changed to empty block
-#define VALIDATE_API_CALLS {if(Constructor_counter) STORM_THROW(api call from constructor);}	// develop version
+//#define VALIDATE_API_CALLS {if(Constructor_counter) throw std::exception(api call from constructor);}	// develop version
 //#define VALIDATE_API_CALLS {}	// release version
 
 uint32_t dwNumberScriptCommandsExecuted = 0;
@@ -66,7 +66,7 @@ CORE::~CORE()
 //-------------------------------------------------------------------------------------------------
 void CORE::ResetCore()
 {
-	GUARD(CORE::ResetCore)
+	//GUARD(CORE::ResetCore)
 
 	Reset_flag = false;
 	Initialized = false;
@@ -93,12 +93,12 @@ void CORE::ResetCore()
 
 	Root_flag = false;
 
-	UNGUARD
+	//UNGUARD
 }
 
 void CORE::CleanUp()
 {
-	//GUARD(CORE::CleanUp)
+	////GUARD(CORE::CleanUp)
 	uint32_t n;
 
 	Initialized = false;
@@ -155,12 +155,12 @@ void CORE::CleanUp()
 	//Control_Stack.Clear();
 	if(State_file_name) delete State_file_name; State_file_name = nullptr;
 
-	//UNGUARD
+	////UNGUARD
 }
 
 void CORE::ReleaseServices()
 {
-	GUARD(CORE::ReleaseServices)
+	//GUARD(CORE::ReleaseServices)
 //	SERVICE * service_PTR;
 //	uint32_t class_code;
 
@@ -187,7 +187,7 @@ void CORE::ReleaseServices()
 
 		service_PTR = Services_List.GetServiceNext(class_code);
 	}*/
-	UNGUARD
+	//UNGUARD
 }
 
 
@@ -196,7 +196,7 @@ void __declspec(noinline) __cdecl CORE::InitBase()
 	INIFILE * engine_ini;
 	char String[_MAX_PATH];
 
-	GUARD(CORE::InitBase())
+	//GUARD(CORE::InitBase())
 
 	engine_ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
  	if(engine_ini != nullptr)
@@ -216,7 +216,7 @@ void __declspec(noinline) __cdecl CORE::InitBase()
 		delete engine_ini;
 	}
 	LoadClassesTable();					// creating classes table
-	UNGUARD
+	//UNGUARD
 }
 
 void CORE::ReleaseBase()
@@ -237,7 +237,7 @@ bool __declspec(noinline) __cdecl CORE::LoCheck()
 
 bool CORE::Run()
 {
-	GUARD(CORE::Run())
+	//GUARD(CORE::Run())
 
 #ifndef _XBOX
 	if (bDebugWindow && api->Controls && api->Controls->GetDebugAsyncKeyState(VK_F7)<0) DumpEntitiesInfo(); // boal
@@ -356,7 +356,7 @@ bool CORE::Run()
 
 	CommonLayers.Clean();
 
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
@@ -389,14 +389,14 @@ void CORE::ProcessControls()
 static long nOffSearch = 0;
 void CORE::ProcessSystemMessage(UINT iMsg,WPARAM wParam,LPARAM lParam)
 {
-	GUARD(CORE::ProcessSystemMessage)
+	//GUARD(CORE::ProcessSystemMessage)
 	if(SystemMessagesNum >= SYSTEM_MESSAGE_STACK_SIZE) { Trace("SMS overflaw");return;}
 	MessageStack[SystemMessagesNum].iMsg = iMsg;
 	MessageStack[SystemMessagesNum].lParam = lParam;
 	MessageStack[SystemMessagesNum].wParam = wParam;
 	SystemMessagesNum++;
 
-	UNGUARD
+	//UNGUARD
 }//*/
 
 //-------------------------------------------------------------------------------------------------
@@ -419,7 +419,7 @@ bool __declspec(noinline) __cdecl CORE::Initialize()
 
 	//ProcessEngineIniFile();
 
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
@@ -429,12 +429,12 @@ bool CORE::LoadCoreState(CORE_STATE cs)
 
 	// pc/xbox mod - modules loaded on startup only and unloaded when app terminated
 	//Modules_Table.LoadModulesTable();							// creating modules table
-	//if(Modules_Table.GetModulesCount() == 0) STORM_THROW(No modules to Run);
+	//if(Modules_Table.GetModulesCount() == 0) throw std::exception(No modules to Run);
 
 	//LoadClassesTable();											// creating classes table
 
 	// create atoms space
-	if(!CreateAtomsTable(cs.Atoms_space)) THROW;
+	if(!CreateAtomsTable(cs.Atoms_space)) throw std::exception();
 
 	DeleteServicesList.Init(sizeof(CODE_AND_POINTER),8);
 	DeleteEntityList.Init(sizeof(ENTITY_ID),2);
@@ -445,13 +445,13 @@ bool CORE::LoadCoreState(CORE_STATE cs)
 	Initialized = true;
 	bEngineIniProcessed = true;
 
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
 void CORE::ProcessRootObjectCreation()
 {
-	GUARD(CORE::ProcessRootObjectCreation)
+	//GUARD(CORE::ProcessRootObjectCreation)
 
 	//INIFILE * engine_ini;
 	//char string[_MAX_PATH];
@@ -459,23 +459,23 @@ void CORE::ProcessRootObjectCreation()
 	if(Root_flag) return;
 
 	/*engine_ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
-	if(engine_ini == null) STORM_THROW(no 'engine.ini' file);
+	if(engine_ini == null) throw std::exception(no 'engine.ini' file);
 
 	if(!engine_ini->ReadString(0,"root object",string,sizeof(string),0))
 	{
 		delete engine_ini;
-		STORM_THROW(No 'root object' key in engine.ini);
+		throw std::exception(No 'root object' key in engine.ini);
 	}
 	delete engine_ini;
 
 	gdi_display.Print("Root object: %s",string);
-	if(!CreateEntity(0,string)) STORM_THROW(Cant create Root object);//*/
+	if(!CreateEntity(0,string)) throw std::exception(Cant create Root object);//*/
 
 
 	//ProcessEngineIniFile();
 
 	Root_flag = true;
-	UNGUARD
+	//UNGUARD
 }
 
 void CORE::Execute(char * name)
@@ -485,7 +485,7 @@ void CORE::Execute(char * name)
 
 void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 {
-	GUARD(CORE::ProcessEngineIniFile)
+	//GUARD(CORE::ProcessEngineIniFile)
 	char String[_MAX_PATH];
 	INIFILE * engine_ini;
 	bool res;
@@ -493,7 +493,7 @@ void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 	bEngineIniProcessed = true;
 
 	engine_ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
-	if(engine_ini == nullptr) STORM_THROW(no 'engine.ini' file);
+	if(engine_ini == nullptr) throw std::exception("no 'engine.ini' file");
 
 	res = engine_ini->ReadString(nullptr,"program_directory",String,sizeof(String),"");
 	if(res)
@@ -520,15 +520,15 @@ void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 	}
 #else
 	if(!Controls) Controls = (CONTROLS *)MakeClass("xbox_controls");
-	if(!Controls) THROW("no xbox_controls");
+	if(!Controls) throw std::exception("no xbox_controls");
 #endif
 
 	res = engine_ini->ReadString(nullptr,"run",String,sizeof(String),"");
 	if(res)
 	{
-		//if(!Program.RunProgram(String)) STORM_THROW(fail to run program);
-		if(!Compiler.CreateProgram(String)) STORM_THROW(fail to create program);
-		if(!Compiler.Run()) STORM_THROW(fail to run program);
+		//if(!Program.RunProgram(String)) throw std::exception(fail to run program);
+		if(!Compiler.CreateProgram(String)) throw std::exception("fail to create program");
+		if(!Compiler.Run()) throw std::exception("fail to run program");
 		// Тест версии скрипта
 		long iScriptVersion = 0xFFFFFFFF;
 		VDATA * pVScriptVersion = (VDATA *)api->GetScriptVariable("iScriptVersion");
@@ -546,7 +546,7 @@ void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 	if(!res)
 	{
 		//delete engine_ini;
-		//STORM_THROW(no class for loading);
+		//throw std::exception(no class for loading);
 	}
 	while(res)
 	{
@@ -555,7 +555,7 @@ void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 	}
 
 	delete engine_ini;
-	UNGUARD
+	//UNGUARD
 }
 
 bool __declspec(noinline) __cdecl CORE::LoadClassesTable()
@@ -576,7 +576,7 @@ bool __declspec(noinline) __cdecl CORE::LoadClassesTable()
 
 bool __declspec(noinline) __cdecl CORE::CreateAtomsTable(uint32_t _space)
 {
-	GUARD(CORE::CreateAtomsTable)
+	//GUARD(CORE::CreateAtomsTable)
 
 	// allocate space for atoms table
 	CoreState.Atoms_space = _space;
@@ -585,20 +585,20 @@ bool __declspec(noinline) __cdecl CORE::CreateAtomsTable(uint32_t _space)
 	Atoms_PTR.resize(CoreState.Atoms_space);
 	PZERO(&CoreState.Creation_Time,sizeof(CoreState.Creation_Time));
 
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
 void CORE::ReleaseLayers()
 {
-	GUARD(CORE::ReleaseLayers)
+	//GUARD(CORE::ReleaseLayers)
 	CommonLayers.Release();
-	UNGUARD
+	//UNGUARD
 }
 
 void CORE::ReleaseAtoms()
 {
-	GUARD(CORE::ReleaseAtoms)
+	//GUARD(CORE::ReleaseAtoms)
 	uint32_t n;
 	// release atoms and entity objects
 	if(Atoms_PTR.size() > 0)
@@ -615,14 +615,14 @@ void CORE::ReleaseAtoms()
 	CoreState.Atoms_min_free_orbit = 0;
 	Atoms_PTR.clear();
 	PZERO(&CoreState.Creation_Time,sizeof(CoreState.Creation_Time));
-	UNGUARD
+	//UNGUARD
 }
 
 // called from load state function
 void CORE::RestoreEntity(ENTITY_ID entity_id,ATOM_STATE atom_state)
 {
 	/*
-	GUARD(CORE::RestoreEntity)
+	//GUARD(CORE::RestoreEntity)
 	CLASS_SEARCH_DATA class_search_data;
 	C_ATOM * atom_PTR;
 	VMODULE_API * mapi_PTR;
@@ -631,7 +631,7 @@ void CORE::RestoreEntity(ENTITY_ID entity_id,ATOM_STATE atom_state)
 
 	class_code = entity_id.class_code;
 	// access to class informatino
-	if(!Classes_Table.GetStringData(class_code,&class_search_data)) STORM_THROW(invalid class);
+	if(!Classes_Table.GetStringData(class_code,&class_search_data)) throw std::exception(invalid class);
 
 	// xbox
 	if((uint32_t)class_search_data.module_code >= Modules_Table.GetModulesCount())
@@ -639,12 +639,12 @@ void CORE::RestoreEntity(ENTITY_ID entity_id,ATOM_STATE atom_state)
 	//if(Modules_Table.ModuleReferenceInc(class_search_data.module_code) == 0)
 	{
 		//trace("cant load libriary  %s : %s",Modules_Table.GetModuleName(class_search_data.module_code),Classes_Table.GetString(class_code));
-		STORM_THROW(invalid module code);
+		throw std::exception(invalid module code);
 	}
 
 	// create atom structure
 	atom_PTR = FitAtom(entity_id,atom_state);
-	if(atom_PTR == null) STORM_THROW(cant create atom);
+	if(atom_PTR == null) throw std::exception(cant create atom);
 
 	// clear all layers attribute (object will be added via standart function)
 	PZERO(&atom_PTR->as.Layers_mask,sizeof(atom_PTR->as.Layers_mask));
@@ -654,7 +654,7 @@ void CORE::RestoreEntity(ENTITY_ID entity_id,ATOM_STATE atom_state)
 	if(mapi_PTR == null)
 	{
 		trace("invalid module api class  %s : %s",Modules_Table.GetModuleName(class_search_data.module_code),Classes_Table.GetString(class_code));
-		STORM_THROW(invalid module);
+		throw std::exception(invalid module);
 	}
 
 	// set current entity atom id pointer
@@ -683,7 +683,7 @@ void CORE::RestoreEntity(ENTITY_ID entity_id,ATOM_STATE atom_state)
 		TraceCurrent();
 		POP_CONTROL(0)
 		System_Api.entityID_PTR = null;
-		STORM_THROW(RestoreEntity(Constructor));
+		throw std::exception(RestoreEntity(Constructor));
 	}
 	#endif
 
@@ -692,20 +692,20 @@ void CORE::RestoreEntity(ENTITY_ID entity_id,ATOM_STATE atom_state)
 	// Push was made in Entity base class constructor
 	POP_CONTROL(0)
 
-	if(Entity_PTR == null) THROW;
+	if(Entity_PTR == null) throw std::exception();
 
 	// created, but object constructor start self destruct process
-	if(atom_PTR->as.Deleted) STORM_THROW(self destruct on load);
+	if(atom_PTR->as.Deleted) throw std::exception(self destruct on load);
 
-	UNGUARD
+	//UNGUARD
 	//*/
 }
 
 void CORE::ValidateApiCalls()
 {
-	GUARD(CORE::ValidateApiCalls)
-	if(Constructor_counter) STORM_THROW(api call from constructor);
-	UNGUARD
+	//GUARD(CORE::ValidateApiCalls)
+	if(Constructor_counter) throw std::exception("api call from constructor");
+	//UNGUARD
 }
 
 
@@ -714,19 +714,19 @@ void CORE::CheckAutoExceptions(uint32_t xflag)
 	spdlog::warn("exception thrown");
 	return;
 	//if(!(Exceptions_Mask & xflag)) return;
-	switch(xflag)
+	/*switch(xflag)
 	{
-		case  _X_NO_MEM:			STORM_THROW(no mem);
-		case  _X_NO_FILE:			STORM_THROW(no file);
-		case  _X_NO_FILE_READ:		STORM_THROW(cant read from file);
-		case  _X_NO_FILE_WRITE:		STORM_THROW(cant write to file);
-		case  _X_NO_CREATE_ENTITY:	STORM_THROW(cant create object);
-		case  _X_NO_CLASS:			STORM_THROW(cant find class);
-		case  _X_NO_SERVICE:		STORM_THROW(cant create service);
-		case  _X_NO_ENTITY:			STORM_THROW(cant find entity);
-		case  _X_NO_LAYER:			STORM_THROW(no layer);
-		default:					STORM_THROW(invalid exceptions flag);
-	}
+		case  _X_NO_MEM:			throw std::exception("no mem");
+		case  _X_NO_FILE:			throw std::exception("no file");
+		case  _X_NO_FILE_READ:		throw std::exception("cant read from file");
+		case  _X_NO_FILE_WRITE:		throw std::exception("cant write to file");
+		case  _X_NO_CREATE_ENTITY:	throw std::exception("cant create object");
+		case  _X_NO_CLASS:			throw std::exception("cant find class");
+		case  _X_NO_SERVICE:		throw std::exception("cant create service");
+		case  _X_NO_ENTITY:			throw std::exception("cant find entity");
+		case  _X_NO_LAYER:			throw std::exception("no layer");
+		default:					throw std::exception("invalid exceptions flag");
+	}*/
 }
 
 bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name)
@@ -738,14 +738,14 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name)
 bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attributesPTR)
 {
 	if(id_PTR) memset(id_PTR,0,sizeof(ENTITY_ID));
-	if(Constructor_counter)
+	/*if(Constructor_counter)
 	{
 		Trace(class_name);
-		VALIDATE_API_CALLS
-	}
+		//VALIDATE_API_CALLS
+	}*/
 
 	// temporary commented for debug purposes
-	// if(State_loading) STORM_THROW(attempt to create on load state);
+	// if(State_loading) throw std::exception(attempt to create on load state);
 
 	VMA * pClass = nullptr;
 
@@ -763,7 +763,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 	// no class of this type
 	if(!pClass)
 	{
-		CheckAutoExceptions(_X_NO_CREATE_ENTITY);
+		CheckAutoExceptions(0);
 		return false;
 	}
 
@@ -781,7 +781,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 	C_ATOM* atom_PTR = CreateAtom(hash);
 
 	// ... throw() system error
-	if(atom_PTR == nullptr) STORM_THROW(Cant create Atom);
+	if(atom_PTR == nullptr) throw std::exception("Cant create Atom");
 	atom_PTR->atom_id.pName = pClass->GetName();
 
 	// obtain module interface class
@@ -818,7 +818,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 	catch(_EXS xobj)
 	{
 		TraceCurrent();
-		if(!Constructor_counter) THROW;
+		if(!Constructor_counter) throw std::exception();
 		Constructor_counter--;
 		POP_CONTROL(0)
 		System_Api.entityID_PTR = null;
@@ -827,15 +827,15 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 	catch(...)
 	{
 		TraceCurrent();
-		if(!Constructor_counter) THROW;
+		if(!Constructor_counter) throw std::exception();
 		Constructor_counter--;
 		POP_CONTROL(0)
 		System_Api.entityID_PTR = null;
-		STORM_THROW(CreateEntity(Constructor));
+		throw std::exception(CreateEntity(Constructor));
 	}
 	#endif*/
 
-	//if(!Constructor_counter) THROW;
+	//if(!Constructor_counter) throw std::exception();
 	//Constructor_counter--;
 	//System_Api.entityID_PTR = nullptr;
 
@@ -848,7 +848,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 		// xbox
 		// Modules_Table.ModuleReferenceDec(class_search_data.module_code);
 		Trace("empty class: %s",class_name);
-		STORM_THROW(invalid class);
+		throw std::exception("invalid class");
 	}
 
 
@@ -858,7 +858,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 	// created, but object constructor start self destruct process (object will be deleted later)
 	if(atom_PTR->as.Deleted)
 	{
-		CheckAutoExceptions(_X_NO_CREATE_ENTITY);
+		CheckAutoExceptions(0);
 		return false;
 	}
 
@@ -877,7 +877,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 		{
 			//POP_CONTROL(nullptr)
 			MarkEntityAsDeleted(Entity_PTR->GetID());
-			CheckAutoExceptions(_X_NO_CREATE_ENTITY);
+			CheckAutoExceptions(0);
 			return false;
 		}
 	#ifndef EX_OFF
@@ -894,7 +894,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 			TraceCurrent();
 			POP_CONTROL(0)
 			System_Api.entityID_PTR = null;
-			STORM_THROW(CreateEntity(Init));
+			throw std::exception(CreateEntity(Init));
 		}
 	#endif
 
@@ -906,7 +906,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 	{
 		memcpy(id_PTR,&atom_PTR->atom_id,sizeof(ENTITY_ID));
 	}
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
@@ -914,7 +914,7 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attr
 // exception generated at the end of period
 void CORE::CreationTimeInc()
 {
-	GUARD(CORE::CreationTimeInc)
+	//GUARD(CORE::CreationTimeInc)
 	uint32_t n;
 	bool  transfer;
 	n = 0;
@@ -925,13 +925,13 @@ void CORE::CreationTimeInc()
 		CoreState.Creation_Time.time[n]++;
 		n++;
 	} while (transfer && n < CRTM_DWORDS);
-	if(transfer && n >= CRTM_DWORDS) STORM_THROW(Id time overflaw);
-	UNGUARD
+	if(transfer && n >= CRTM_DWORDS) throw std::exception("Id time overflaw");
+	//UNGUARD
 }
 
 C_ATOM * CORE::CreateAtom(uint32_t class_code)
 {
-	GUARD(CORE::CreateAtom)
+	//GUARD(CORE::CreateAtom)
 	uint32_t n;
 
 	if(CoreState.Atoms_number >= CoreState.Atoms_space)
@@ -947,7 +947,7 @@ C_ATOM * CORE::CreateAtom(uint32_t class_code)
 		if(Atoms_PTR[n] != nullptr) continue;
 
 		Atoms_PTR[n] = new C_ATOM;
-		if(Atoms_PTR[n] == nullptr) THROW;
+		if(Atoms_PTR[n] == nullptr) throw std::exception();
 
 		if(CoreState.Atoms_max_orbit < n) CoreState.Atoms_max_orbit = n;
 
@@ -967,45 +967,45 @@ C_ATOM * CORE::CreateAtom(uint32_t class_code)
 		CoreState.Atoms_number++;
 		return Atoms_PTR[n];
 	}
-	UNGUARD
+	//UNGUARD
 	return nullptr;
 }
 
 C_ATOM * CORE::FitAtom(ENTITY_ID entity_id, ATOM_STATE atom_state)
 {
-	GUARD(CORE::FitAtom)
-	if(entity_id.atom_position > CoreState.Atoms_max_orbit) THROW;
-	if(Atoms_PTR[entity_id.atom_position] != nullptr) THROW;
+	//GUARD(CORE::FitAtom)
+	if(entity_id.atom_position > CoreState.Atoms_max_orbit) throw std::exception();
+	if(Atoms_PTR[entity_id.atom_position] != nullptr) throw std::exception();
 
 	Atoms_PTR[entity_id.atom_position] = new C_ATOM;
-	if(Atoms_PTR[entity_id.atom_position] == nullptr) THROW;
+	if(Atoms_PTR[entity_id.atom_position] == nullptr) throw std::exception();
 	Atoms_PTR[entity_id.atom_position]->as = atom_state;
 	Atoms_PTR[entity_id.atom_position]->atom_id = entity_id;
 	Atoms_PTR[entity_id.atom_position]->atom_id.pointer = nullptr;
 	return Atoms_PTR[entity_id.atom_position];
-	UNGUARD
+	//UNGUARD
 	return nullptr;
 }
 
 bool CORE::DeleteAtom(C_ATOM * atom_PTR)
 {
-	GUARD(CORE::DeleteAtom)
+	//GUARD(CORE::DeleteAtom)
 	uint32_t ap;
 	if(atom_PTR == nullptr) return false;
 	ap = atom_PTR->atom_id.atom_position;
-	if(ap >= CoreState.Atoms_space) THROW;
-	if(Atoms_PTR[ap] != atom_PTR) THROW;
+	if(ap >= CoreState.Atoms_space) throw std::exception();
+	if(Atoms_PTR[ap] != atom_PTR) throw std::exception();
 	delete Atoms_PTR[ap];
 	Atoms_PTR[ap] = nullptr;
 	CoreState.Atoms_number--;
 	if(CoreState.Atoms_min_free_orbit > ap) CoreState.Atoms_min_free_orbit = ap;
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
 void CORE::CheckMemoryLeak_Classes()
 {/*
-	GUARD(CORE::CheckMemoryLeak_Classes)
+	//GUARD(CORE::CheckMemoryLeak_Classes)
 	void * mcheck_PTR;
 //	MEM_EXE_STATE mes;
 	uint32_t lost_blocks;
@@ -1048,7 +1048,7 @@ void CORE::CheckMemoryLeak_Classes()
 		Memory_Leak_flag = true;
 	}
 
-	UNGUARD*/
+	//UNGUARD*/
 }
 
 uint32_t CORE::Class_Name2Code(char * class_name)
@@ -1059,7 +1059,7 @@ uint32_t CORE::Class_Name2Code(char * class_name)
 
 bool CORE::FindClass(ENTITY_ID * id_PTR,char * class_name,uint32_t class_code)
 {
-	GUARD(CORE::FindClass)
+	//GUARD(CORE::FindClass)
 
 	uint32_t n;
 	uint32_t hash;
@@ -1083,14 +1083,14 @@ bool CORE::FindClass(ENTITY_ID * id_PTR,char * class_name,uint32_t class_code)
 
 	if(id_PTR) *id_PTR = ENTITY_ID();
 
-	UNGUARD
+	//UNGUARD
 	return false;
 }
 
 bool CORE::FindClassNext(ENTITY_ID * id_PTR)
 {
-	GUARD(CORE::FindClassNext)
-	VALIDATE_API_CALLS // no necessary
+	//GUARD(CORE::FindClassNext)
+	//VALIDATE_API_CALLS // no necessary
 	uint32_t n;
 
 	for(n=(Atom_Search_Position + 1);n<=CoreState.Atoms_max_orbit;n++)
@@ -1106,24 +1106,24 @@ bool CORE::FindClassNext(ENTITY_ID * id_PTR)
 		}
 	}
 	if(id_PTR) *id_PTR = ENTITY_ID();
-	UNGUARD
+	//UNGUARD
 	return false;
 }
 
 bool CORE::CompareID(ENTITY_ID * ida_PTR,ENTITY_ID * idb_PTR)
 {
-	GUARD(CORE::CompareID)
-	VALIDATE_API_CALLS // no necessary
+	//GUARD(CORE::CompareID)
+	//VALIDATE_API_CALLS // no necessary
 	if(ida_PTR == nullptr || idb_PTR == nullptr) return false;
 	if(memcmp(ida_PTR,idb_PTR,sizeof(ENTITY_ID)) == 0) return true;
-	UNGUARD
+	//UNGUARD
 	return false;
 }
 
 bool CORE::GetEntity(ENTITY_ID * id_PTR)
 {
-	GUARD(CORE::GetEntity)
-	VALIDATE_API_CALLS // no necessary
+	//GUARD(CORE::GetEntity)
+	//VALIDATE_API_CALLS // no necessary
 	if(id_PTR == nullptr) return false;
 
 	// scan all entities
@@ -1160,14 +1160,14 @@ bool CORE::GetEntity(ENTITY_ID * id_PTR)
 		}
 		return false;
 	}
-	UNGUARD
+	//UNGUARD
 	return false;
 }
 
 bool CORE::GetEntityNext(ENTITY_ID * id_PTR)
 {
-	GUARD(CORE::GetEntityNext)
-	VALIDATE_API_CALLS // no necessary
+	//GUARD(CORE::GetEntityNext)
+	//VALIDATE_API_CALLS // no necessary
 	if(id_PTR == nullptr) return false;
 
 	if(Scan_Layer_Code == INVALID_LAYER_CODE)
@@ -1204,29 +1204,29 @@ bool CORE::GetEntityNext(ENTITY_ID * id_PTR)
 		return false;
 	}
 
-	UNGUARD
+	//UNGUARD
 	return false;
 }
 
 bool CORE::SetEntityScanLayer(char * layer_name)
 {
-	GUARD(CORE::SetEntityScanLayer)
+	//GUARD(CORE::SetEntityScanLayer)
 	Scan_Layer_Code = CommonLayers.GetIndex(layer_name);
 	//Scan_Layer_Code = GetLayerIndex(layer_name);
 	if(Scan_Layer_Code == INVALID_LAYER_CODE) return false;
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
 ENTITY * CORE::GetEntityPointer(ENTITY_ID * id_PTR)
 {
 	ENTITY * ep;
-	GUARD(CORE::GetEntityPointer)
-	VALIDATE_API_CALLS
+	//GUARD(CORE::GetEntityPointer)
+	//VALIDATE_API_CALLS
 	if(!ValidateEntity(id_PTR)) return nullptr;
 	ep = (ENTITY *)Atoms_PTR[id_PTR->atom_position]->atom_id.pointer;
 	if(Atoms_PTR[id_PTR->atom_position]->as.Deleted) return nullptr;
-	UNGUARD
+	//UNGUARD
 	return ep;
 }
 
@@ -1235,7 +1235,7 @@ ENTITY * CORE::GetEntityPointer(ENTITY_ID * id_PTR)
 //
 bool CORE::ValidateEntity(ENTITY_ID * id_PTR)
 {
-	GUARD(CORE::ValidateEntity)
+	//GUARD(CORE::ValidateEntity)
 	//VALIDATE_API_CALLS
 	uint32_t pos;
 	if(id_PTR) id_PTR->pointer = nullptr;
@@ -1245,7 +1245,7 @@ bool CORE::ValidateEntity(ENTITY_ID * id_PTR)
 	if(Atoms_PTR[pos] == nullptr) return false;
 	if(Atoms_PTR[pos]->atom_id.pointer == nullptr)
 	{
-		CheckAutoExceptions(_X_NO_ENTITY);
+		CheckAutoExceptions(0);
 		return false;
 	}
 
@@ -1261,7 +1261,7 @@ bool CORE::ValidateEntity(ENTITY_ID * id_PTR)
 
 
 
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
@@ -1270,13 +1270,13 @@ bool CORE::ValidateEntity(ENTITY_ID * id_PTR)
 //
 bool CORE::MarkEntityAsDeleted(ENTITY_ID entity_id)
 {
-	GUARD(CORE::MarkEntityAsDeleted(ENTITY_ID))
+	//GUARD(CORE::MarkEntityAsDeleted(ENTITY_ID))
 	//PUSH_CONTROL(0,0,0)
 	if(!ValidateEntity(&entity_id)) return false;
 	Atoms_PTR[entity_id.atom_position]->as.Deleted = true;
 	DeleteEntityList.AddData(&entity_id);
 	//POP_CONTROL(nullptr)
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
@@ -1285,11 +1285,11 @@ bool CORE::MarkEntityAsDeleted(ENTITY_ID entity_id)
 //
 bool CORE::MarkEntityAsDeleted(void * entity_PTR)
 {
-	GUARD(CORE::MarkEntityAsDeleted(void *))
+	//GUARD(CORE::MarkEntityAsDeleted(void *))
 	ENTITY_ID entity_id;
 	if(!Convert_Pointer2ID(entity_PTR,&entity_id)) return false;
 	MarkEntityAsDeleted(entity_id);
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
@@ -1298,13 +1298,13 @@ bool CORE::MarkEntityAsDeleted(void * entity_PTR)
 //
 void CORE::ProcessDeleteList()
 {
-	GUARD(CORE::ProcessDeleteList())
+	//GUARD(CORE::ProcessDeleteList())
 
 	uint32_t deleted_num,n,dwcode;
 	ENTITY_ID entity_id;
 
 	// delete entity, added to delete list -------------------------
-	GUARD(deleting entities)
+	//GUARD(deleting entities)
 	deleted_num = DeleteEntityList.DataNum();
 	if(deleted_num != 0)
 	{
@@ -1317,11 +1317,11 @@ void CORE::ProcessDeleteList()
 		}
 		DeleteEntityList.Clear();
 	}
-	UNGUARD
+	//UNGUARD
 	//--------------------------------------------------------------
 
 	// delete common layers, added to delete list ------------------
-	GUARD(deleting layers)
+	//GUARD(deleting layers)
 	deleted_num = DeleteLayerList.DataNum();
 	if(deleted_num != 0)
 	{
@@ -1334,10 +1334,10 @@ void CORE::ProcessDeleteList()
 		}
 		DeleteLayerList.Clear();
 	}
-	UNGUARD
+	//UNGUARD
 	//-------------------------------------------------------------
 
-	GUARD(deleting services)
+	//GUARD(deleting services)
 	SERVICE * service_PTR;
 	CODE_AND_POINTER data;
 	deleted_num = DeleteServicesList.DataNum();
@@ -1347,7 +1347,7 @@ void CORE::ProcessDeleteList()
 		{
 			if(!DeleteServicesList.GetData(n,&data)) continue;
 			service_PTR = (SERVICE *)data.pointer;
-			if(!service_PTR) STORM_THROW(invalid service);
+			if(!service_PTR) throw std::exception("invalid service");
 			#ifndef EX_OFF
 			try {
 			#endif
@@ -1360,7 +1360,7 @@ void CORE::ProcessDeleteList()
 				TraceCurrent();
 				Memory_Service.Free(service_PTR);
 				//Modules_Table.ModuleReferenceDec(data.code);
-				STORM_THROW(invalid service);
+				throw std::exception(invalid service);
 			}
 			#endif
 
@@ -1370,18 +1370,18 @@ void CORE::ProcessDeleteList()
 		}
 		DeleteServicesList.Clear();
 	}
-	UNGUARD
+	//UNGUARD
 
 
 
-	UNGUARD
+	//UNGUARD
 }
 //-------------------------------------------------------------------------------------------------
 // Delete entity
 //
 bool CORE::EraseEntity(ENTITY_ID entity_id)
 {
-	GUARD(CORE::EraseEntity)
+	//GUARD(CORE::EraseEntity)
 //	CLASS_SEARCH_DATA class_search_data;
 
 	if(!ValidateEntity(&entity_id)) return false;
@@ -1413,7 +1413,7 @@ bool CORE::EraseEntity(ENTITY_ID entity_id)
 
 		TraceCurrent();
 //		POP_CONTROL(0)
-		STORM_THROW(EraseEntity);
+		throw std::exception(EraseEntity);
 	}
 	#endif
 //	POP_CONTROL(0);
@@ -1446,7 +1446,7 @@ bool CORE::EraseEntity(ENTITY_ID entity_id)
 			break;
 		}
 	}
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
@@ -1457,16 +1457,16 @@ bool CORE::EraseEntity(ENTITY_ID entity_id)
 //
 bool CORE::Convert_Pointer2ID(void * _entity_pointer,ENTITY_ID * id_PTR)
 {
-	GUARD(CORE::Convert_Pointer2ID)
+	//GUARD(CORE::Convert_Pointer2ID)
 	ENTITY * entity_PTR;
 	ENTITY_ID eid;
 	entity_PTR = (ENTITY *)_entity_pointer;
 	eid = entity_PTR->GetID();
-	if(eid.atom_position > CoreState.Atoms_max_orbit) THROW;
-	if(Atoms_PTR[eid.atom_position] == nullptr) THROW;
-	if(Atoms_PTR[eid.atom_position]->atom_id.pointer != _entity_pointer) THROW;
+	if(eid.atom_position > CoreState.Atoms_max_orbit) throw std::exception();
+	if(Atoms_PTR[eid.atom_position] == nullptr) throw std::exception();
+	if(Atoms_PTR[eid.atom_position]->atom_id.pointer != _entity_pointer) throw std::exception();
 	if(id_PTR != nullptr) memcpy(id_PTR,&Atoms_PTR[eid.atom_position]->atom_id,sizeof(ENTITY_ID));
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
@@ -1475,7 +1475,7 @@ bool CORE::Convert_Pointer2ID(void * _entity_pointer,ENTITY_ID * id_PTR)
 //
 uint32_t CORE::GetLayerIndex(char * layer_name)
 {
-	GUARD(CORE::GetLayerIndex)
+	//GUARD(CORE::GetLayerIndex)
 	return CommonLayers.GetIndex(layer_name);
 /*	uint32_t n;
 	if(layer_name == null) return INVALID_LAYER_CODE;
@@ -1484,14 +1484,14 @@ uint32_t CORE::GetLayerIndex(char * layer_name)
 		if(Layer_Table[n] == null) continue;
 		if(_stricmp(layer_name,Layer_Table[n]->Name)== 0) return n;
 	}*/
-	UNGUARD
+	//UNGUARD
 	return INVALID_LAYER_CODE;
 }
 
 
 bool CORE::VerifyLayer(char * layer_name)
 {
-	GUARD(CORE::VerifyLayer)
+	//GUARD(CORE::VerifyLayer)
 	//VALIDATE_API_CALLS // no necessary
 	return CommonLayers.Verify(layer_name);
 /*	uint32_t n;
@@ -1502,38 +1502,38 @@ bool CORE::VerifyLayer(char * layer_name)
 		if(Layer_Table[n] == null) continue;
 		if(_stricmp(layer_name,Layer_Table[n]->Name)== 0) return true;
 	}*/
-	UNGUARD
+	//UNGUARD
 	return false;
 }
 
 bool CORE::LayerCreate(char * layer_name, bool ordered, bool fail_if_exist)
 {
-	GUARD(CORE::CreateLayer)
-	VALIDATE_API_CALLS
+	//GUARD(CORE::CreateLayer)
+	//VALIDATE_API_CALLS
 	return CommonLayers.Create(layer_name,ordered,fail_if_exist);
 	//return LayerCreate(layer_name,ordered,fail_if_exist,false,0);
-	UNGUARD
+	//UNGUARD
 	return false;
 }
 
 // fit common layer
 void CORE::FitLayer(uint32_t index,char * layer_name, LAYER_STATE ls)
 {
-	GUARD(CORE::FitLayer)
+	//GUARD(CORE::FitLayer)
 	CommonLayers.Fit(index,layer_name,ls);
-	UNGUARD
+	//UNGUARD
 }
 
 bool CORE::LayerCreate(char * layer_name, bool ordered, bool fail_if_exist, bool system, uint32_t system_flags)
 {
-	GUARD(CORE::CreateLayer)
+	//GUARD(CORE::CreateLayer)
 	if(system)
 	{
 
 	}
 	else
 	return CommonLayers.Create(layer_name,ordered,fail_if_exist);
-	UNGUARD
+	//UNGUARD
 	return false;
 }
 
@@ -1548,7 +1548,7 @@ C_ATOM * CORE::GetAtom(ENTITY_ID * id_PTR)
 //
 void CORE::LayerSTORM_DELETE(char * layer_name)
 {
-	GUARD(CORE::DeleteLayer)
+	//GUARD(CORE::DeleteLayer)
 
 	if(CommonLayers.Verify(layer_name))
 	{
@@ -1569,21 +1569,21 @@ void CORE::LayerSTORM_DELETE(char * layer_name)
 	}
 
 	CommonLayers.Delete(layer_name);
-	UNGUARD
+	//UNGUARD
 }
 
 void CORE::LayerSetFlags(char * layer_name, uint32_t flags)
 {
-	GUARD(CORE::SetLayerFlags)
+	//GUARD(CORE::SetLayerFlags)
 	CommonLayers.SetFlags(layer_name,flags);
-	UNGUARD
+	//UNGUARD
 }
 
 void CORE::LayerClrFlags(char * layer_name, uint32_t flags)
 {
-	GUARD(CORE::ClrLayerFlags)
+	//GUARD(CORE::ClrLayerFlags)
 	CommonLayers.ClrFlags(layer_name,flags);
-	UNGUARD
+	//UNGUARD
 }
 
 uint32_t CORE::LayerGetFlags(char * layer_name)
@@ -1599,7 +1599,7 @@ bool CORE::LayerAdd(const char * layer_name, ENTITY_ID eid, uint32_t priority)
 
 bool CORE::LayerAdd(const char * pLayerName, ENTITY_ID eid, uint32_t priority, bool system)
 {
-	GUARD(CORE::LayerAdd)
+	//GUARD(CORE::LayerAdd)
 	uint32_t index;
 
 	char * layer_name = (char*)pLayerName;
@@ -1618,7 +1618,7 @@ bool CORE::LayerAdd(const char * pLayerName, ENTITY_ID eid, uint32_t priority, b
 		if(!CommonLayers.Add(index,eid,priority)) return false;
 		Atoms_PTR[eid.atom_position]->SetLayerAttribute(index,false);
 	}
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
@@ -1629,7 +1629,7 @@ void CORE::LayerDel(const char * layer_name, ENTITY_ID eid)
 
 void CORE::LayerDel(const char * pLayerName, ENTITY_ID eid,bool system)
 {
-	GUARD(CORE::LayerDel)
+	//GUARD(CORE::LayerDel)
 	uint32_t index;
 
 	char * layer_name = (char*)pLayerName;
@@ -1644,12 +1644,12 @@ void CORE::LayerDel(const char * pLayerName, ENTITY_ID eid,bool system)
 		if(!ValidateEntity(&eid)) return;
 		Atoms_PTR[eid.atom_position]->ClrLayerAttribute(index,false);
 	}
-	UNGUARD
+	//UNGUARD
 }
 
 bool CORE::LayerDeleteContent(char * layer_name)
 {
-	GUARD(CORE::DeleteLayerContent)
+	//GUARD(CORE::DeleteLayerContent)
 
 	if(CommonLayers.Verify(layer_name))
 	{
@@ -1667,7 +1667,7 @@ bool CORE::LayerDeleteContent(char * layer_name)
 		}
 	}
 
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
@@ -1722,33 +1722,33 @@ HINSTANCE CORE::GetAppInstance(){return hInstance;}
 //
 bool CORE::DeleteEntity(ENTITY_ID entity_id)
 {
-	GUARD(CORE::DeleteEntity)
-	VALIDATE_API_CALLS
+	//GUARD(CORE::DeleteEntity)
+	//VALIDATE_API_CALLS
 	if(!ValidateEntity(&entity_id)) return false;
 	return MarkEntityAsDeleted(entity_id);
-	UNGUARD
+	//UNGUARD
 	return false;
 }
 
 void * CORE::GetUserData(long * data_size)
 {
-	VALIDATE_API_CALLS
+	//VALIDATE_API_CALLS
 	return nullptr;
 }
 
 void * CORE::SetUserData(void * ud_PTR,long data_size)
 {
-	VALIDATE_API_CALLS
+	//VALIDATE_API_CALLS
 	return nullptr;
 }
 void CORE::SetTimeScale(float _scale)
 {
-	VALIDATE_API_CALLS
+	//VALIDATE_API_CALLS
 	fTimeScale = _scale;
 }
 float CORE::GetTimeScale()
 {
-	VALIDATE_API_CALLS
+	//VALIDATE_API_CALLS
 	return fTimeScale;
 }
 
@@ -1758,8 +1758,8 @@ float CORE::GetTimeScale()
 uint32_t _cdecl CORE::Send_Message(ENTITY_ID Destination,char * Format,...)
 {
 	uint32_t rc;
-	GUARD(CORE::Send_Message)
-	VALIDATE_API_CALLS
+	//GUARD(CORE::Send_Message)
+	//VALIDATE_API_CALLS
 	MESSAGE message;
 	//CONTROL_BLOCK cb;
 	if(!ValidateEntity(&Destination)) return 0;				// check for valid destination
@@ -1777,7 +1777,7 @@ uint32_t _cdecl CORE::Send_Message(ENTITY_ID Destination,char * Format,...)
 	rc = ((ENTITY *)Destination.pointer)->ProcessMessage(message);	// transfer control
 	//POP_CONTROL(nullptr)	// pop from stack entity
 	va_end(message.args);
-	UNGUARD
+	//UNGUARD
 	return rc;
 }
 
@@ -1850,7 +1850,7 @@ uint32_t _cdecl CORE::PostEvent(char * Event_name, uint32_t post_time, char * Fo
 VDATA * _cdecl CORE::Event(char * Event_name, char * Format,...)
 {
 	VDATA * pVD;
-	GUARD(CORE::Event)
+	//GUARD(CORE::Event)
 	//PUSH_CONTROL(0,0,0)
 
 
@@ -1870,7 +1870,7 @@ VDATA * _cdecl CORE::Event(char * Event_name, char * Format,...)
 
 	va_end(message.args);
 	//POP_CONTROL(nullptr)
-	UNGUARD
+	//UNGUARD
 	return pVD;
 }
 
@@ -1879,7 +1879,7 @@ VDATA * _cdecl CORE::Event(char * Event_name, char * Format,...)
 //
 void CORE::FreeService(char * service_name)
 {
-	GUARD(CORE::FreeService)
+	//GUARD(CORE::FreeService)
 
 	VMA * pClass;
 	pClass = FindVMA(service_name);
@@ -1888,7 +1888,7 @@ void CORE::FreeService(char * service_name)
 		//pClass->RefDec();
 	}
 
-	UNGUARD
+	//UNGUARD
 }
 
 void * CORE::MakeClass(char * class_name)
@@ -1938,18 +1938,18 @@ void * CORE::CreateService(char * service_name)
 //	VMODULE_API * mapi_PTR;
 	VMA * pClass;
 
-	GUARD(CORE::CreateService)
+	//GUARD(CORE::CreateService)
 
 	pClass = FindVMA(service_name);
 	if(pClass == nullptr)
 	{
-		CheckAutoExceptions(_X_NO_SERVICE);
+		CheckAutoExceptions(0);
 		return nullptr;
 	}
 
 	if(pClass->GetHash() == 0)
 	{
-		CheckAutoExceptions(_X_NO_SERVICE);
+		CheckAutoExceptions(0);
 		return nullptr;
 	}
 
@@ -1967,7 +1967,7 @@ void * CORE::CreateService(char * service_name)
 	#endif
 		if(!service_PTR->Init())
 		{
-			CheckAutoExceptions(_X_NO_SERVICE);
+			CheckAutoExceptions(0);
 		}
 	#ifndef EX_OFF
 	}
@@ -1977,7 +1977,7 @@ void * CORE::CreateService(char * service_name)
 	}
 	catch(...)
 	{
-		TraceCurrent();	POP_CONTROL(0); STORM_THROW(CreateService: Init func);
+		TraceCurrent();	POP_CONTROL(0); throw std::exception(CreateService: Init func);
 	}
 	#endif
 	//POP_CONTROL(nullptr)
@@ -1986,7 +1986,7 @@ void * CORE::CreateService(char * service_name)
 	Services_List.Add(class_code,class_code,service_PTR);
 	//POP_CONTROL(nullptr)
 
-	UNGUARD
+	//UNGUARD
 	return service_PTR;
 
 }
@@ -2007,7 +2007,7 @@ void _cdecl CORE::Trace(const char * format, ...)
 //
 void CORE::ProcessExecute()
 {
-	GUARD(CORE::ProcessExecute())
+	//GUARD(CORE::ProcessExecute())
 	uint64_t ticks;
 	ATOM_STATE * pAs;
 
@@ -2059,7 +2059,7 @@ void CORE::ProcessExecute()
 	}
 //*/
 	ProcessRunEnd(SECTION_EXECUTE);
-	UNGUARD
+	//UNGUARD
 }
 
 //------------------------------------------------------------------------------------------------
@@ -2067,7 +2067,7 @@ void CORE::ProcessExecute()
 //
 void CORE::ProcessRealize()
 {
-	GUARD(CORE::ProcessRealize())
+	//GUARD(CORE::ProcessRealize())
 	uint64_t ticks;
 	ATOM_STATE * pAs;
 	ProcessRunStart(SECTION_REALIZE);
@@ -2109,12 +2109,12 @@ void CORE::ProcessRealize()
 	}
 //	*/
 	ProcessRunEnd(SECTION_REALIZE);
-	UNGUARD
+	//UNGUARD
 }
 
 void CORE::ProcessSystemMessagesBuffer()
 {
-	GUARD(CORE::ProcessSystemMessagesBuffer())
+	//GUARD(CORE::ProcessSystemMessagesBuffer())
 	ProcessRunStart(SECTION_PROCESS_MESSAGE_SYSTEM);
 
 	LAYER * l_PTR;
@@ -2146,12 +2146,12 @@ void CORE::ProcessSystemMessagesBuffer()
 
 	ProcessRunEnd(SECTION_PROCESS_MESSAGE_SYSTEM);
 
-	UNGUARD
+	//UNGUARD
 }
 
 void CORE::TraceCurrent()
 {
-	/*GUARD(CORE::TraceCurrent)
+	/*//GUARD(CORE::TraceCurrent)
 	CONTROL_BLOCK cb;
 	VMA * pClass;
 	if(Control_Stack.Read(&cb))
@@ -2168,7 +2168,7 @@ void CORE::TraceCurrent()
 		}
 	}
 	trace("Object: CORE");
-	UNGUARD*/
+	//UNGUARD*/
 }
 
 // OR operation with core exceptions mask inversion, returned current mask state
@@ -2313,9 +2313,9 @@ bool CORE::SaveState(char * file_name)
 	uint32_t Priority;
 	uint32_t layer_objects;
 
-	GUARD(CORE::SaveState)
+	//GUARD(CORE::SaveState)
 
-	VALIDATE_API_CALLS
+	//VALIDATE_API_CALLS
 
 	fh = fio->_CreateFile(PathBuffer,GENERIC_WRITE,FILE_SHARE_READ,CREATE_ALWAYS);
 	if(fh == INVALID_HANDLE_VALUE) return false;
@@ -2338,7 +2338,7 @@ bool CORE::SaveState(char * file_name)
 /*	for(n=0;n<Classes_Table.GetStringsCount();n++)
 	{
 		char_PTR = Classes_Table.GetString(n);
-		if(char_PTR == null) THROW;
+		if(char_PTR == null) throw std::exception();
 		esg.SetState("s",char_PTR);
 	}
 */
@@ -2349,8 +2349,8 @@ bool CORE::SaveState(char * file_name)
 	// write objects id and atoms states
 	for(n=0;n<CoreState.Atoms_number;n++)
 	{
-		if(n == 0) { if(!GetEntity(&id)) THROW;	}
-		else  { if(!GetEntityNext(&id)) THROW;	}
+		if(n == 0) { if(!GetEntity(&id)) throw std::exception();	}
+		else  { if(!GetEntityNext(&id)) throw std::exception();	}
 		esg.SetState("m",sizeof(id),&id);
 		esg.SetState("m",sizeof(Atoms_PTR[id.atom_position]->as),&Atoms_PTR[id.atom_position]->as);
 		esg.CloseState();
@@ -2372,7 +2372,7 @@ bool CORE::SaveState(char * file_name)
 		{
 			if(n == 0) { id_PTR = CommonLayers.Layer_Table[i]->GetID(&Priority);	}
 			else { id_PTR = CommonLayers.Layer_Table[i]->GetNextID(&Priority);	}
-			if(id_PTR == nullptr) THROW;
+			if(id_PTR == nullptr) throw std::exception();
 			// save object priority and id
 			esg.SetState("um",Priority,sizeof(ENTITY_ID),id_PTR);
 		}
@@ -2391,14 +2391,14 @@ bool CORE::SaveState(char * file_name)
 	{
 		if(i == 0) service_PTR = Services_List.GetService(&class_code);
 		else service_PTR = Services_List.GetNextService(&class_code);
-		if(service_PTR == null) THROW;
+		if(service_PTR == null) throw std::exception();
 		esg.SetState("u",class_code);
 	}
 	for(i=0;i<Services_List.GetCount();i++)
 	{
 		if(i == 0) service_PTR = Services_List.GetService(&class_code);
 		else service_PTR = Services_List.GetNextService(&class_code);
-		if(service_PTR == null) THROW;
+		if(service_PTR == null) throw std::exception();
 		esg.SetState("uu",class_code,Services_List.GetRef(service_PTR));
 		service_PTR->CreateState(&esg);
 
@@ -2410,12 +2410,12 @@ bool CORE::SaveState(char * file_name)
 	// write objects id and objects data
 	for(n=0;n<CoreState.Atoms_number;n++)
 	{
-		if(n == 0) { if(!GetEntity(&id)) THROW;	}
-		else { if(!GetEntityNext(&id)) THROW;	}
+		if(n == 0) { if(!GetEntity(&id)) throw std::exception();	}
+		else { if(!GetEntityNext(&id)) throw std::exception();	}
 		// save objects id
 		esg.SetState("m",sizeof(id),&id);
 		entity_PTR = GetEntityPointer(&id);
-		if(entity_PTR == nullptr) THROW;
+		if(entity_PTR == nullptr) throw std::exception();
 		// transfer control to entity, for saving objects data
 		//PUSH_CONTROL(entity_PTR,id.class_code,CTP_CREATESTATE)
 		entity_PTR->CreateState(&esg);
@@ -2426,16 +2426,16 @@ bool CORE::SaveState(char * file_name)
 	esg.CloseState();
 
 	fio->_CloseHandle(fh);
-	UNGUARD
+	//UNGUARD
 	return false;
 }
 
 // force core to load state file at the start of next game loop, return false if no state file
 bool CORE::InitiateStateLoading(char * file_name)
 {
-	GUARD(CORE::InitiateStateLoading)
+	//GUARD(CORE::InitiateStateLoading)
 
-	VALIDATE_API_CALLS // no necessary
+	//VALIDATE_API_CALLS // no necessary
 
 	HANDLE fh;
 	//PUSH_CONTROL(0,0,0)
@@ -2448,19 +2448,19 @@ bool CORE::InitiateStateLoading(char * file_name)
 
 	const auto len = strlen(file_name) + 1;
 	State_file_name = (char *)new char[len];
-	if(State_file_name == nullptr) THROW;
+	if(State_file_name == nullptr) throw std::exception();
 	strcpy_s(State_file_name, len, file_name);
 	//POP_CONTROL(nullptr)
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
 
 void CORE::ProcessStateLoading()
 {
-	GUARD(CORE::ProcessStateLoading)
+	//GUARD(CORE::ProcessStateLoading)
 
-	VALIDATE_API_CALLS
+	//VALIDATE_API_CALLS
 
 	HANDLE fh;
 	ENTITY_STATE_R es;
@@ -2518,7 +2518,7 @@ void CORE::ProcessStateLoading()
 	nPackedSize = fio->_GetFileSize(pfh,nullptr);
 	if(nPackedSize == INVALID_FILE_SIZE) { fio->_CloseHandle(pfh); return;}
 	pDestination = (char *)malloc(nPackedSize);
-	if(pDestination == nullptr) THROW;
+	if(pDestination == nullptr) throw std::exception();
 	fio->_ReadFile(pfh,pDestination,nPackedSize,&dwR);
 	fio->_CloseHandle(pfh);
 
@@ -2531,9 +2531,9 @@ void CORE::ProcessStateLoading()
 		{
 			fio->_WriteFile(pfh,pUnpacked,nUnpackedSize,&dwR);
 			fio->_CloseHandle(pfh);
-		} else THROW;
+		} else throw std::exception();
 		free(pUnpacked);
-	} else THROW;
+	} else throw std::exception();
 	free(pDestination);
 
 	// open state file
@@ -2543,7 +2543,7 @@ void CORE::ProcessStateLoading()
 	if(fh == INVALID_HANDLE_VALUE)
 	{
 		Trace(State_file_name);
-		_STORM_THROW(NON_FATAL,cant open state file);
+		throw std::exception("NON_FATAL,cant open state file");
 	}
 
 	//Program.LoadState(fh);
@@ -2565,10 +2565,10 @@ void CORE::ProcessStateLoading()
 	es.MemoryBlock(sizeof(cs),(char *)&cs);
 
 	// check engine version
-	if(cs.engine_version != CoreState.engine_version) STORM_THROW(incorrect state file);
+	if(cs.engine_version != CoreState.engine_version) throw std::exception("incorrect state file");
 
 	// validate space size
-	if(cs.Atoms_max_orbit >= cs.Atoms_space) THROW;
+	if(cs.Atoms_max_orbit >= cs.Atoms_space) throw std::exception();
 
 	// reset core state and load new
 	LoadCoreState(cs);
@@ -2580,20 +2580,20 @@ void CORE::ProcessStateLoading()
 	classes_count = es.Dword();
 
 	// verify class table size
-//	if(classes_count != Classes_Table.GetStringsCount()) STORM_THROW(incorrect state file);
+//	if(classes_count != Classes_Table.GetStringsCount()) throw std::exception(incorrect state file);
 
 	// verify class table
 /*	for(n=0;n<Classes_Table.GetStringsCount();n++)
 	{
 		// get pointer to loaded class name
 		char_PTR = Classes_Table.GetString(n);
-		if(char_PTR == null) THROW;
+		if(char_PTR == null) throw std::exception();
 		// set buffer size
 		v_Buff.Size(strlen(char_PTR) + 1);
 		// read save class name
 		es.String(strlen(char_PTR) + 1,v_Buff.Ptr);
 		// compare saved class name with currently loaded
-		if(_stricmp(v_Buff.Ptr,char_PTR) != 0) STORM_THROW(incorrect state file);
+		if(_stricmp(v_Buff.Ptr,char_PTR) != 0) throw std::exception(incorrect state file);
 	}
 */
 	// restore atom structure and recreate objects
@@ -2653,7 +2653,7 @@ void CORE::ProcessStateLoading()
 		es.MemoryBlock(sizeof(entity_id),(char *)&entity_id);
 		// obtain entity pointer
 		entity_PTR = GetEntityPointer(&entity_id);
-		if(entity_PTR == nullptr) THROW;
+		if(entity_PTR == nullptr) throw std::exception();
 		#ifndef EX_OFF
 		try {
 		#endif
@@ -2664,7 +2664,7 @@ void CORE::ProcessStateLoading()
 			{
 				// state load error, detected by object
 				TraceCurrent();
-				STORM_THROW(state loading error);
+				throw std::exception("state loading error");
 			}
 			//POP_CONTROL(nullptr)
 		#ifndef EX_OFF
@@ -2679,7 +2679,7 @@ void CORE::ProcessStateLoading()
 		{
 			TraceCurrent();
 			POP_CONTROL(0)
-			STORM_THROW(LoadState);
+			throw std::exception(LoadState);
 		}
 		#endif
 	}
@@ -2690,12 +2690,12 @@ void CORE::ProcessStateLoading()
 	Root_flag = true;
 	// state loading complete
 	State_loading = false;
-	UNGUARD
+	//UNGUARD
 }
 
 void CORE::ProcessRunStart(uint32_t section_code)
 {
-	GUARD(CORE::ProcessRunStart)
+	//GUARD(CORE::ProcessRunStart)
 	SERVICE * service_PTR;
 	uint32_t class_code;
 	uint32_t section;
@@ -2712,12 +2712,12 @@ void CORE::ProcessRunStart(uint32_t section_code)
 		}
 		service_PTR = Services_List.GetServiceNext(class_code);
 	}
-	UNGUARD
+	//UNGUARD
 }
 
 void CORE::ProcessRunEnd(uint32_t section_code)
 {
-	GUARD(CORE::ProcessRunEnd)
+	//GUARD(CORE::ProcessRunEnd)
 	SERVICE * service_PTR;
 	uint32_t class_code;
 	uint32_t section;
@@ -2733,7 +2733,7 @@ void CORE::ProcessRunEnd(uint32_t section_code)
 		}
 		service_PTR = Services_List.GetServiceNext(class_code);
 	}
-	UNGUARD
+	//UNGUARD
 }
 
 uint32_t CORE::EngineFps()
@@ -2745,7 +2745,7 @@ bool CORE::InitObject(ENTITY_ID eid)
 {
 	ENTITY_ID entity_id;
 	ENTITY *  Entity_PTR;
-	GUARD(CORE::InitObject)
+	//GUARD(CORE::InitObject)
 
 	entity_id = eid;
 	if(!ValidateEntity(&entity_id)) return false;
@@ -2759,7 +2759,7 @@ bool CORE::InitObject(ENTITY_ID eid)
 		if(!Entity_PTR->Init())
 		{
 			MarkEntityAsDeleted(Entity_PTR->GetID());
-			CheckAutoExceptions(_X_NO_CREATE_ENTITY);
+			CheckAutoExceptions(0);
 			return false;
 		}
 	#ifndef EX_OFF
@@ -2776,12 +2776,12 @@ bool CORE::InitObject(ENTITY_ID eid)
 		TraceCurrent();
 		POP_CONTROL(0)
 		System_Api.entityID_PTR = null;
-		STORM_THROW(cant init);
+		throw std::exception(cant init);
 	}
 	#endif
 	//POP_CONTROL(nullptr)
 
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 

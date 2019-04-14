@@ -345,7 +345,7 @@ static float fSin = 0.0f;
 
 bool  DX9RENDER::Init()
 {
-	GUARD(DX9RENDER::Init)
+	//GUARD(DX9RENDER::Init)
 		char str[256];
 	for (long i = 0; i<MAX_STEXTURES; i++) Textures[i].ref = NULL;
 
@@ -398,7 +398,7 @@ bool  DX9RENDER::Init()
 		}
 		const auto len = strlen(str) + 1;
 		if ((fontIniFileName = new char[len]) == nullptr)
-			STORM_THROW("allocate memory error");
+			throw std::exception("allocate memory error");
 		strcpy_s(fontIniFileName, len, str);
 		// get start font quantity
 		if (!ini->ReadString(nullptr, "font", str, sizeof(str) - 1, ""))
@@ -483,7 +483,7 @@ bool  DX9RENDER::Init()
 		}
 	}
 
-	UNGUARD
+	//UNGUARD
 		return true;
 }
 
@@ -626,7 +626,7 @@ bool getBestVideoMode(IDirect3D9 *d3, D3DPRESENT_PARAMETERS &d3dpp, bool bpp32)
 
 bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 {
-	GUARD(DX9RENDER::InitDevice)
+	//GUARD(DX9RENDER::InitDevice)
 
 		aniVBuffer = nullptr;
 	numAniVerteces = 0;
@@ -659,7 +659,8 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 	if (windowed)
 	{
 		D3DDISPLAYMODE d3ddm;
-		if (FAILED(d3d->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &d3ddm))) THROW;
+		if (FAILED(d3d->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &d3ddm))) 
+			throw std::exception("failed to GetAdapterDisplayMode");
 		d3dpp.BackBufferFormat = d3ddm.Format;
 		if (d3dpp.BackBufferFormat == D3DFMT_R5G6B5) d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
 		else d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
@@ -862,7 +863,7 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 	}
 #endif
 
-	UNGUARD
+	//UNGUARD
 		return true;
 }
 
@@ -1336,7 +1337,7 @@ long DX9RENDER::TextureCreate(const char *fname)
 
 		const auto len = strlen(_fname) + 1;
 		if ((Textures[t].name = new char[len]) == nullptr)
-			STORM_THROW("allocate memory error");
+			throw std::exception("allocate memory error");
 		strcpy_s(Textures[t].name, len, _fname);
 		Textures[t].isCubeMap = false;
 		Textures[t].loaded = false;
@@ -2265,14 +2266,14 @@ bool DX9RENDER::CreateState(ENTITY_STATE_GEN * state_gen)
 
 bool DX9RENDER::LoadState(ENTITY_STATE * state)
 {
-	GUARD(DX9RENDER::Init)
+	//GUARD(DX9RENDER::Init)
 		//for(long t=0; t<MAX_STEXTURES; t++)	Textures[t].d3dtex = NULL;
 		//d3d = NULL;
 		//d3d9 = NULL;
 		//state->Struct(sizeof(screen_size),(char *)&screen_size);
 		//state->MemoryBlock(sizeof(bool),(char *)&window);
 		//InitDevice(window,api->GetAppHWND(),screen_size.x,screen_size.y);
-		UNGUARD
+		//UNGUARD
 		return true;
 
 }
@@ -2534,7 +2535,7 @@ char Buff_4k[4096];
 
 long _cdecl DX9RENDER::Print(long x, long y, char * format, ...)
 {
-	GUARD(DX9RENDER::Print)
+	//GUARD(DX9RENDER::Print)
 		if (idFontCurrent<0 || idFontCurrent >= nFontQuantity) return 0;
 	if (FontList[idFontCurrent].font == nullptr || FontList[idFontCurrent].ref == 0) return 0;
 
@@ -2544,12 +2545,12 @@ long _cdecl DX9RENDER::Print(long x, long y, char * format, ...)
 	va_end(args);
 
 	return FontList[idFontCurrent].font->Print(x, y, Buff_4k);
-	UNGUARD
+	//UNGUARD
 }
 
 long _cdecl DX9RENDER::Print(long nFontNum, uint32_t color, long x, long y, char * format, ...)
 {
-	GUARD(DX9RENDER::Print)
+	//GUARD(DX9RENDER::Print)
 		if (nFontNum<0 || nFontNum >= nFontQuantity) return 0;
 	if (FontList[nFontNum].font == nullptr || FontList[nFontNum].ref == 0) return 0;
 
@@ -2563,7 +2564,7 @@ long _cdecl DX9RENDER::Print(long nFontNum, uint32_t color, long x, long y, char
 	long retVal = FontList[nFontNum].font->Print(x, y, Buff_4k);
 	FontList[nFontNum].font->RestoreFontParameters();
 	return retVal;
-	UNGUARD
+	//UNGUARD
 }
 
 long DX9RENDER::StringWidth(char * string, long nFontNum, float fScale, long scrWidth)
@@ -2603,7 +2604,7 @@ long _cdecl DX9RENDER::ExtPrint(long nFontNum, uint32_t foreColor, uint32_t back
 	bool bShadow, float fScale, long scrWidth, long scrHeight,
 	long x, long y, char * format, ...)
 {
-	GUARD(DX9RENDER::ExtPrint)
+	//GUARD(DX9RENDER::ExtPrint)
 
 		if (nFontNum<0 || nFontNum >= nFontQuantity) return 0;
 	FONT * pFont = FontList[nFontNum].font;
@@ -2651,7 +2652,7 @@ long _cdecl DX9RENDER::ExtPrint(long nFontNum, uint32_t foreColor, uint32_t back
 
 	pFont->RestoreFontParameters();
 	return retVal;
-	UNGUARD
+	//UNGUARD
 }
 
 long DX9RENDER::LoadFont(char * fontName)
@@ -2680,10 +2681,10 @@ long DX9RENDER::LoadFont(char * fontName)
 			}
 			return i;
 		}
-	if (nFontQuantity<MAX_FONTS)
+	if (nFontQuantity < MAX_FONTS)
 	{
 		if ((FontList[i].font = new FONT) == nullptr)
-			STORM_THROW("allocate memory error");
+			throw std::exception("allocate memory error");
 		if (!FontList[i].font->Init(fontName, fontIniFileName, d3d9, this))
 		{
 			delete FontList[i].font;
@@ -2694,12 +2695,12 @@ long DX9RENDER::LoadFont(char * fontName)
 		FontList[i].ref = 1;
 		const auto len = strlen(fontName) + 1;
 		if ((FontList[i].name = new char[len]) == nullptr)
-			STORM_THROW("allocate memory error");
+			throw std::exception("allocate memory error");
 		strcpy_s(FontList[i].name, len, fontName);
 		nFontQuantity++;
 	}
 	else
-		STORM_THROW("maximal font quantity exceeded")
+		throw std::exception("maximal font quantity exceeded");
 		return i;
 }
 
@@ -2795,7 +2796,7 @@ bool DX9RENDER::SetFontIniFileName(char * iniName)
 	{
 		const auto len = strlen(iniName) + 1;
 		if ((fontIniFileName = new char[len]) == nullptr)
-			STORM_THROW("allocate memory error")
+			throw std::exception("allocate memory error");
 			strcpy_s(fontIniFileName, len, iniName);
 	}
 
@@ -2805,7 +2806,7 @@ bool DX9RENDER::SetFontIniFileName(char * iniName)
 			delete FontList[n].font;
 		}
 		if ((FontList[n].font = new FONT) == nullptr)
-			STORM_THROW("allocate memory error")
+			throw std::exception("allocate memory error");
 			FontList[n].font->Init(FontList[n].name, fontIniFileName, d3d9, this);
 		if (FontList[n].ref == 0) FontList[n].font->TempUnload();
 	}
@@ -2949,7 +2950,7 @@ void DX9RENDER::SaveShoot()
 
 void DX9RENDER::MakeScreenShot()
 {
-	GUARD(DX9RENDER::MakeScreenShot)
+	//GUARD(DX9RENDER::MakeScreenShot)
 		static long file_number = 0;
 	static TGA_H Dhdr = { 0,0,2,0,0,0,0,0,0,0,0,0,0,0,32 };
 	char file_name[_MAX_PATH];
@@ -3028,7 +3029,7 @@ void DX9RENDER::MakeScreenShot()
 	surface->Release();
 	fio->_CloseHandle(fh);
 
-	UNGUARD
+	//UNGUARD
 }
 
 PLANE * DX9RENDER::GetPlanes()
@@ -3533,14 +3534,14 @@ CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
 	// create new video texture
 	pVTLcur = new VideoTextureEntity;
 	if (pVTLcur == nullptr)
-		STORM_THROW("memory allocate error");
+		throw std::exception("memory allocate error");
 	pVTLcur->next = pVTL;
 	pVTLcur->VideoTexture = nullptr;
 	pVTLcur->hash = newHash;
 	pVTLcur->ref = 1;
 	const auto len = strlen(sVideoName) + 1;
 	if ((pVTLcur->name = new char[len]) == nullptr)
-		STORM_THROW("memory allocate error");
+		throw std::exception("memory allocate error");
 	strcpy_s(pVTLcur->name, len, sVideoName);
 	ENTITY_ID ei;
 	api->CreateEntity(&ei, "TextureSequence");

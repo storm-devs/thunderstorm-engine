@@ -165,11 +165,11 @@ SAIL::~SAIL()
 
 bool SAIL::Init()
 {
-	GUARD(SAIL::SAIL())
+	//GUARD(SAIL::SAIL())
 
     SetDevice();
 
-    UNGUARD
+    //UNGUARD
 	return true;
 }
 
@@ -184,7 +184,7 @@ void SAIL::SetDevice()
 	RenderService = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!RenderService)
 	{
-		STORM_THROW("No service: dx9render");
+		throw std::exception("No service: dx9render");
 	}
 
     LoadSailIni();
@@ -197,7 +197,7 @@ void SAIL::SetDevice()
             for( i=0; i<WINDVECTOR_QUANTITY; i++ )
                 WindVect[i]=sinf((float)i/(float)(WINDVECTOR_QUANTITY)*2.f*PI);
         else
-			{STORM_THROW("No memory allocation: WindVect");}
+			{throw std::exception("No memory allocation: WindVect");}
     }
 }
 
@@ -296,7 +296,7 @@ void SAIL::Execute(uint32_t Delta_Time)
                             WindVect[i]=sinf((float)i/(float)(WINDVECTOR_QUANTITY)*2.f*PI);
                     else
                     {
-                        STORM_THROW("No memory allocation: WindVect");
+                        throw std::exception("No memory allocation: WindVect");
                     }
                 }
                 for(i=0; i<sailQuantity; i++)
@@ -554,7 +554,7 @@ void SAIL::Realize(uint32_t Delta_Time)
 
 uint32_t _cdecl SAIL::ProcessMessage(MESSAGE & message)
 {
-    GUARD(uint32_t _cdecl SAIL::ProcessMessage(MESSAGE message))
+    //GUARD(uint32_t _cdecl SAIL::ProcessMessage(MESSAGE message))
     ENTITY_ID tmpEI;
     int i;
 
@@ -887,7 +887,7 @@ uint32_t _cdecl SAIL::ProcessMessage(MESSAGE & message)
 			int slen = strlen(param);
 			if(slen>0)
 				if( (m_sMastName=new char[slen+1]) == nullptr )
-					{STORM_THROW("allocate memory error");}
+					{throw std::exception("allocate memory error");}
 				else strcpy_s(m_sMastName,slen+1,param);
 		}
 	break;
@@ -903,7 +903,7 @@ uint32_t _cdecl SAIL::ProcessMessage(MESSAGE & message)
 	break;
     }
 
-    UNGUARD
+    //UNGUARD
     return 0;
 }
 
@@ -1032,7 +1032,7 @@ void SAIL::SetAllSails(int groupNum)
             }
             else
             {
-                //STORM_THROW("SAIL: Null size");
+                //throw std::exception("SAIL: Null size");
 				api->Trace("SAIL: Can`t init sail");
                 STORM_DELETE(slist[i]);
                 sailQuantity--;
@@ -1189,7 +1189,7 @@ void SAIL::SetAllSails()
 
 void SAIL::LoadSailIni()
 {
-    GUARD(SAIL::LoadSailIni());
+    //GUARD(SAIL::LoadSailIni());
 	char	section[256],param[256];
 
 	INIFILE * ini;
@@ -1201,7 +1201,7 @@ void SAIL::LoadSailIni()
 		fio->_FindClose(h);
 	}
 	ini = fio->OpenIniFile("resource\\ini\\rigging.ini");
-	if(!ini) THROW("rigging.ini file not found!");
+	if(!ini) throw std::exception("rigging.ini file not found!");
 
 	sprintf_s(section,"SAILS");
 
@@ -1289,7 +1289,7 @@ void SAIL::LoadSailIni()
 
     delete ini;
 
-    UNGUARD
+    //UNGUARD
 }
 
 float SAIL::Trace(const CVECTOR &src,const CVECTOR &dst)
@@ -1532,7 +1532,7 @@ void SAIL::DoSailToNewHost(ENTITY_ID newModelEI, ENTITY_ID newHostEI, int grNum,
 		GROUPDATA *oldgdata=gdata;
         gdata= new GROUPDATA[groupQuantity+1];
         if(gdata==nullptr)
-            STORM_THROW("Not memory allocation");
+            throw std::exception("Not memory allocation");
         memcpy(gdata,oldgdata,sizeof(GROUPDATA)*groupQuantity);
 		gdata[gn].bYesShip = false;
         gdata[gn].bDeleted=false;
@@ -1576,7 +1576,7 @@ void SAIL::DoSailToNewHost(ENTITY_ID newModelEI, ENTITY_ID newHostEI, int grNum,
 		{
 			int* oldIdx=gdata[gn].sailIdx;
 			if((gdata[gn].sailIdx= new int[gdata[gn].sailQuantity+1])==nullptr)
-				{STORM_THROW("Not memory allocation");}
+				{throw std::exception("Not memory allocation");}
 			memcpy(gdata[gn].sailIdx,oldIdx,sizeof(int)*gdata[gn].sailQuantity);
 			delete oldIdx; gdata[gn].sailQuantity++;
 		}
@@ -1658,7 +1658,7 @@ void SAIL::DeleteSailGroup()
 	{
 		slist = new SAILONE*[sailQuantity];
 		gdata = new GROUPDATA[groupQuantity];
-		if(slist== nullptr || gdata== nullptr)	{STORM_THROW("allocate memory error");}
+		if(slist== nullptr || gdata== nullptr)	{throw std::exception("allocate memory error");}
 
 		groupQuantity = 0;
 		sailQuantity = 0;
@@ -1671,7 +1671,7 @@ void SAIL::DeleteSailGroup()
 			if(nsn==0) continue;
 			//  в новом месте создаем запись о группе парусов
 			memcpy(&gdata[groupQuantity],&oldgdata[gn],sizeof(GROUPDATA));
-			if( (gdata[groupQuantity].sailIdx=new int[nsn]) == nullptr )	{STORM_THROW("allocate memory error");}
+			if( (gdata[groupQuantity].sailIdx=new int[nsn]) == nullptr )	{throw std::exception("allocate memory error");}
 			gdata[groupQuantity].sailQuantity = nsn;
 			// заполняем список парусов для группы и общий
 			for( sn=0,nsn=0; sn<old_sailQuantity; sn++ )
@@ -1756,7 +1756,7 @@ void SAIL::SetAddSails(int firstSail)
         RenderService->UnLockVertexBuffer(sg.vertBuf);
     }
     else
-        STORM_THROW("Vertex buffer error");
+        throw std::exception("Vertex buffer error");
 }
 
 void SAIL::DoNoRopeSailToNewHost(ENTITY_ID newModel, ENTITY_ID newHost, ENTITY_ID oldHost)

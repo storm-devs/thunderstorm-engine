@@ -1,9 +1,7 @@
-#ifndef DATA_DESCRIPTION_CLASS
-#define DATA_DESCRIPTION_CLASS
+#pragma once
 
-#include "../../../Common_h/Exs.h"
 #include "../../ICommon/Types.h"
-
+#include <cstdint>
 
 #define MAX_DESC_COUNT 128
 
@@ -68,6 +66,3 @@ DataDescripion__##Name  Name;													\
 #define DATA_POSITION(name)		AddField(FIELD_POSITION, name);
 #define DATA_UV(name)					AddField(FIELD_UV, name);
 #define DATA_STRING(name)			AddField(FIELD_STRING, name);
-
-
-#endif

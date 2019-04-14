@@ -85,7 +85,7 @@ void CXI_SLIDEPICTURE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 		{	
 			strTechniqueName = new char[len];
 			if(strTechniqueName== nullptr)
-			{	STORM_THROW("allocate memory error");
+			{	throw std::exception("allocate memory error");
 			}
 			memcpy(strTechniqueName,param,len);
 		}
@@ -140,7 +140,7 @@ void CXI_SLIDEPICTURE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 	if(nSlideListSize>0)
 	{
 		pSlideSpeedList = new SLIDE_SPEED[nSlideListSize];
-		if(pSlideSpeedList== nullptr)	{STORM_THROW("allocate memory error");}
+		if(pSlideSpeedList== nullptr)	{throw std::exception("allocate memory error");}
 	}
 
 	// заполняем таблицу скоростей

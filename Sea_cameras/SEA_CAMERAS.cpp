@@ -23,7 +23,7 @@ SEA_CAMERAS::~SEA_CAMERAS()
 
 void SEA_CAMERAS::ProcessMessage(uint32_t iMsg,uint32_t wParam,uint32_t lParam)
 {
-/*	GUARD(SEA_CAMERAS::ProcessMessage(uint32_t,uint32_t,uint32_t))
+/*	//GUARD(SEA_CAMERAS::ProcessMessage(uint32_t,uint32_t,uint32_t))
 	switch(iMsg)
 	{
 		case WM_ACTIVATE: 
@@ -34,7 +34,7 @@ void SEA_CAMERAS::ProcessMessage(uint32_t iMsg,uint32_t wParam,uint32_t lParam)
 		}
 		break;
 	}
-	UNGUARD*/
+	//UNGUARD*/
 }
 
 uint32_t SEA_CAMERAS::ProcessMessage(MESSAGE & message)

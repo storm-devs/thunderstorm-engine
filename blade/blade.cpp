@@ -209,17 +209,17 @@ BLADE::~BLADE()
 
 bool BLADE::Init()
 {
-	GUARD(BLADE::BLADE())
+	//GUARD(BLADE::BLADE())
 
 	col = (COLLIDE *)api->CreateService("coll");
-	if(col== nullptr)	STORM_THROW("No service: COLLIDE");
+	if(col== nullptr)	throw std::exception("No service: COLLIDE");
 
 	api->LayerAdd("realize",GetID(),65550);
 
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
-	if(!rs)	STORM_THROW("No service: dx9render");
+	if(!rs)	throw std::exception("No service: dx9render");
 	
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 

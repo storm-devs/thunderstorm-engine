@@ -5,7 +5,6 @@
 #include "../DataSource/DataColor.h"
 #include "../DataSource/DataUV.h"
 #include "../../../Common_h/dx9render.h"
-#include "../../../Common_h/Exs.h"
 #include "../../../Common_h/math3D.h"
 #include "../ParticleSystem/particlesystem.h"
 #include "physic.h"

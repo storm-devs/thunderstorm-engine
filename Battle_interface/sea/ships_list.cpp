@@ -34,7 +34,7 @@ void TMP_LONG_STACK::Push(long data)
 		}
 		long *pold = ldat;
 		ldat = new long[datsize+sizeIncr];
-		if(ldat== nullptr)	{STORM_THROW("allocate memory error");}
+		if(ldat== nullptr)	{throw std::exception("allocate memory error");}
 		if(pold!= nullptr)
 		{
 			memcpy(ldat,pold,sizeof(long)*datsize);
@@ -151,7 +151,7 @@ void SHIP_DESCRIBE_LIST::Add(long mainChrIndex, long chIdx, ATTRIBUTES * pChAttr
 	SHIP_DESCR * pr = new SHIP_DESCR;
 	if(pr== nullptr)
 	{
-		STORM_THROW("Can`t allocate memory");
+		throw std::exception("Can`t allocate memory");
 	}
 	pr->characterIndex = chIdx;
 	pr->maxCrew = pShipAttr->GetAttributeAsDword("MaxCrew");

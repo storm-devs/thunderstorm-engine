@@ -170,7 +170,7 @@ void CXI_SCROLLBAR::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 		const auto len = strlen(param)+1;
 		m_sGroupName = new char[len];
 		if(m_sGroupName== nullptr)
-			STORM_THROW("allocate memory error")
+			throw std::exception("allocate memory error");
 		memcpy(m_sGroupName,param,len);
 		m_idTex = pPictureService->GetTextureID(param);
 	}
@@ -199,7 +199,7 @@ void CXI_SCROLLBAR::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 	XI_ONETEX_VERTEX *pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
 	uint16_t *pIndx = (uint16_t*) m_rs->LockIndexBuffer(m_idIBuf);
 	if(pVert== nullptr || pIndx== nullptr)
-		STORM_THROW("can not create the index&vertex buffers")
+		throw std::exception("can not create the index&vertex buffers");
 
 	// fill triangles buffer
 	int i=0;

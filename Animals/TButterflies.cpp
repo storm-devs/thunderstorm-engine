@@ -48,11 +48,11 @@ void TButterflies::Init()
 
 	renderService = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!renderService)	
-		STORM_THROW("!Butterflies: No service 'dx9render'");
+		throw std::exception("!Butterflies: No service 'dx9render'");
 
 	collide = (COLLIDE *)api->CreateService("coll");
 	if (!collide)	
-		STORM_THROW("!Butterflies: No service COLLIDE");
+		throw std::exception("!Butterflies: No service COLLIDE");
 
 	walker = api->LayerGetWalker("shadow");
 
@@ -70,8 +70,6 @@ void TButterflies::Init()
 //--------------------------------------------------------------------
 uint32_t TButterflies::ProcessMessage(long _code, MESSAGE & message)
 {
-	GUARD(TButterflies::ProcessMessage)
-
 	uint32_t outValue = 0;
 	switch (_code)
 	{
@@ -97,14 +95,11 @@ uint32_t TButterflies::ProcessMessage(long _code, MESSAGE & message)
 
 	}
 	return outValue;
-	UNGUARD
 }
 
 //--------------------------------------------------------------------
 void TButterflies::Execute(uint32_t _dTime)
 {
-	GUARD(ANIMALS::Execute)
-
 	if (!enabled)
 		return;
 
@@ -150,15 +145,11 @@ void TButterflies::Execute(uint32_t _dTime)
 	}
 
 	ivManager->UnlockBuffers();
-
-	UNGUARD
 }
 
 //--------------------------------------------------------------------
 void TButterflies::Realize(uint32_t _dTime)
 {
-	GUARD(ANIMALS::Realize)
-
 	if (!enabled)
 		return;
 
@@ -169,8 +160,6 @@ void TButterflies::Realize(uint32_t _dTime)
 	//for (int i = 0; i<butterfliesCount; i++)
 	//	butterflies[i].Draw(renderService, butterfly);
 	ivManager->DrawBuffers("Butterfly");
-
-	UNGUARD
 }
 
 //--------------------------------------------------------------------

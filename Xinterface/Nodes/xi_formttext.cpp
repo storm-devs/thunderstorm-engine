@@ -29,7 +29,7 @@ CXI_FORMATEDTEXT::STRING_DESCRIBER::STRING_DESCRIBER(char* ls) : color(0)
 	{
 		if ((lineStr = new char[len]) == nullptr)
 		{
-			STORM_THROW("allocate memory error");
+			throw std::exception("allocate memory error");
 		}
 		memcpy(lineStr, ls,len);
 	}
@@ -46,7 +46,7 @@ CXI_FORMATEDTEXT::STRING_DESCRIBER* CXI_FORMATEDTEXT::STRING_DESCRIBER::Add(char
 	STRING_DESCRIBER* newSD = new STRING_DESCRIBER(ls);
 	if(newSD== nullptr)
 	{
-		STORM_THROW("allocate memory error");
+		throw std::exception("allocate memory error");
 	}
 
 	newSD->prev = this;
@@ -801,7 +801,7 @@ long CXI_FORMATEDTEXT::AddFormatedText(const char * str)
 		{
 			if( (dscrTmp=m_listRoot=new STRING_DESCRIBER(newStr)) == nullptr )
 			{
-				STORM_THROW("allocate memory error");
+				throw std::exception("allocate memory error");
 			}
 			dscrTmp->color = m_dwColor;
 		}
@@ -821,7 +821,7 @@ long CXI_FORMATEDTEXT::AddFormatedText(const char * str)
 			{
 				if( (dscrTmp=m_listRoot=new STRING_DESCRIBER(newStr)) == nullptr )
 				{
-					STORM_THROW("allocate memory error");
+					throw std::exception("allocate memory error");
 				}
 				dscrTmp->color = m_dwColor;
 			}
@@ -1394,7 +1394,7 @@ void CXI_FORMATEDTEXT::InsertStringBefore( STRING_DESCRIBER * pNextDescr, const 
 	while( GetLineNext(m_idFont,pstr,newStr,sizeof(newStr)) )
 	{
 		STRING_DESCRIBER * pNewDescr = new STRING_DESCRIBER(newStr);
-		if( !pNewDescr ) {STORM_THROW("allocate memory error");}
+		if( !pNewDescr ) {throw std::exception("allocate memory error");}
 
 		pNewDescr->strNum = -1;
 		pNewDescr->strGroup = nGrpNum;

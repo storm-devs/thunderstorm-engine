@@ -1,5 +1,4 @@
 #include <math.h>
-#include "../Common_h/Exs.h"
 #include "../Common_h/Matrix.h"
 #include "../Common_h/defines.h"
 #include "../Common_h/rands.h"

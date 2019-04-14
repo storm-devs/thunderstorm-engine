@@ -3715,7 +3715,7 @@ bool COMPILER::BC_CallFunction(uint32_t func_code, uint32_t & ip, DATA * & pVRes
 
 bool COMPILER::BC_Execute(uint32_t function_code, DATA * & pVReturnResult, char * pDbgExpSource)
 {
-	GUARD(BC_Execute)
+	//GUARD(BC_Execute)
 	uint32_t inout;
 	uint32_t segment_index;
 	uint32_t token_data_size;
@@ -5293,7 +5293,7 @@ bool COMPILER::BC_Execute(uint32_t function_code, DATA * & pVReturnResult, char 
 	} while(Token_type != END_OF_PROGRAMM && bExit != true);
 	
 	if(Token_type == END_OF_PROGRAMM && inout != 0) SetError("Unexpected end of programm");
-	UNGUARD
+	//UNGUARD
 	return false;
 }
 

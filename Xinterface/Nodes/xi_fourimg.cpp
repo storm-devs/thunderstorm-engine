@@ -93,7 +93,7 @@ int CXI_FOURIMAGE::CommandExecute(int wActCode)
 
 void CXI_FOURIMAGE::Draw(bool bSelected,uint32_t Delta_Time)
 {
-	GUARD(void CXI_FOURIMAGE::Draw())
+	//GUARD(void CXI_FOURIMAGE::Draw())
 
 	if(m_bUse)
 	{
@@ -179,7 +179,7 @@ void CXI_FOURIMAGE::Draw(bool bSelected,uint32_t Delta_Time)
 		}
 	}
 
-	UNGUARD
+	//UNGUARD
 }
 
 bool CXI_FOURIMAGE::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize)
@@ -304,7 +304,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 			m_sGroupName = new char*[m_nTexturesQuantity];
 			if(m_sGroupName== nullptr || m_nTextureId== nullptr)
 			{
-				STORM_THROW("Allocate memory error");
+				throw std::exception("Allocate memory error");
 			}
 			for(i=0; i<m_nTexturesQuantity; i++)
 			{
@@ -315,7 +315,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 					const auto len = strlen(stmp) + 1;
 					if( (m_sGroupName[i]=new char[len])== nullptr )
 					{
-						STORM_THROW("Allocate memory error");
+						throw std::exception("Allocate memory error");
 					}
 					memcpy(m_sGroupName[i],stmp,len);
 				}
@@ -342,7 +342,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 				{
 					const auto len = strlen(tmps);
 					if( (m_pOneStr[i]=new char[len]) == nullptr )
-						STORM_THROW("allocate memory error");
+						throw std::exception("allocate memory error");
 					memcpy(m_pOneStr[i],&tmps[1],len);
 					m_oneStr[i] = -1L;
 				}
@@ -356,7 +356,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 				{
 					const auto len = strlen(tmps);
 					if( (m_pTwoStr[i]=new char[len]) == nullptr )
-						STORM_THROW("allocate memory error");
+						throw std::exception("allocate memory error");
 					memcpy(m_pTwoStr[i],&tmps[1],len);
 					m_twoStr[i] = -1L;
 				}
@@ -396,7 +396,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 	{
 		tmpstr = GetSubStr(param, param1, sizeof(param1));
 		if( (m_sBorderGroupName = new char[sizeof param1])== nullptr )
-			STORM_THROW("allocate memory error")
+			throw std::exception("allocate memory error");
 		strcpy_s(m_sBorderGroupName,sizeof param1,param1);
 		m_texBorder = pPictureService->GetTextureID(m_sBorderGroupName);
 		m_nBorderPicture = pPictureService->GetImageNum(m_sBorderGroupName,tmpstr);
@@ -686,7 +686,7 @@ void CXI_FOURIMAGE::ChangeItem(int nItemNum)
 					const auto len = strlen(sptr);
 					if ((m_pOneStr[i] = new char[len]) == nullptr)
 					{
-						STORM_THROW("allocate memory error")
+						throw std::exception("allocate memory error");
 					}
 					memcpy(m_pOneStr[i], &sptr[1], len);
 				}
@@ -698,7 +698,7 @@ void CXI_FOURIMAGE::ChangeItem(int nItemNum)
 					const auto len = strlen(sptr);
 					if ((m_pTwoStr[i] = new char[len]) == nullptr)
 					{
-						STORM_THROW("allocate memory error")
+						throw std::exception("allocate memory error");
 					}
 					memcpy(m_pTwoStr[i], &sptr[1], len);
 				}

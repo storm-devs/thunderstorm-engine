@@ -49,17 +49,17 @@ Blots::~Blots()
 //Инициализация
 bool Blots::Init()
 {
-	GUARD(Blots::Init())
+	//GUARD(Blots::Init())
 	//DX9 render
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
-	if(!rs) STORM_THROW("No service: dx9render");
+	if(!rs) throw std::exception("No service: dx9render");
 	//Layers
 	//api->LayerCreate("realize", true, false);
 	//api->LayerSetRealize("realize", true);
 	//api->LayerAdd("realize", GetID(), 1000);
 	textureID = rs->TextureCreate("blot.tga");
 	return true;
-	UNGUARD
+	//UNGUARD
 }
 
 //Сообщения

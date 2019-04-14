@@ -145,7 +145,7 @@ void CXI_LRCHANGER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 		const auto len = strlen(param)+1;
 		m_sGroupName = new char[len];
 		if(m_sGroupName== nullptr)
-			STORM_THROW("allocate memory error")
+			throw std::exception("allocate memory error");
 		memcpy(m_sGroupName,param,len);
 		m_idTex = pPictureService->GetTextureID(param);
 	}

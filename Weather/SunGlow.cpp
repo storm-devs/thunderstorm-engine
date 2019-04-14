@@ -55,7 +55,7 @@ void SUNGLOW::SetDevice()
 	pRS = (VDX9RENDER *)api->CreateService("dx9render"); Assert(pRS);
 	pCollide = (COLLIDE*)api->CreateService("COLL"); Assert(pCollide);
 
-	if (!api->FindClass(&ent,"Weather",0)) STORM_THROW("No found WEATHER entity!");
+	if (!api->FindClass(&ent,"Weather",0)) throw std::exception("No found WEATHER entity!");
 	pWeather = (WEATHER_BASE*)api->GetEntityPointer(&ent); Assert(pWeather);
 
 	if ( api->FindClass(&ent,"SKY",0) ) pSky = (SKY*)api->GetEntityPointer(&ent);

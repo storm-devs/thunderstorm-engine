@@ -1,5 +1,4 @@
 #include "layer.h"
-#include "../../Common_h/Exs.h"
 
 LAYER::LAYER(char * name,bool ordered,bool system,uint32_t system_flags)
 {
@@ -48,7 +47,7 @@ bool LAYER::Add(ENTITY_ID eid)
 
 bool LAYER::Add(ENTITY_ID eid, uint32_t priority)
 {
-	GUARD(LAYER::Add(ENTITY_ID,uint32_t))
+	//GUARD(LAYER::Add(ENTITY_ID,uint32_t))
 	LAYER_NODE * ln_PTR;
 	LAYER_NODE * scanln_PTR;
 	
@@ -93,8 +92,8 @@ bool LAYER::Add(ENTITY_ID eid, uint32_t priority)
 		}
 		scanln_PTR = scanln_PTR->link_L;
 	} 
-	STORM_THROW(cant add to layer);
-	UNGUARD
+	throw std::exception("cant add to layer");
+	//UNGUARD
 	return false;
 }
 

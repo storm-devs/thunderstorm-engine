@@ -1,5 +1,6 @@
 #include "strings_list.h"
-#include "../../Common_h/Exs.h"
+#include <exception>
+#include <cstring>
 
 STRINGS_LIST::STRINGS_LIST()
 {
@@ -35,8 +36,8 @@ char * STRINGS_LIST::GetString(uint32_t code)
 
 bool STRINGS_LIST::AddString(char * _char_PTR)
 {
-	GUARD(STRINGS_LIST::AddString)
-	if(_char_PTR == nullptr) STORM_THROW(zero string);
+	//GUARD(STRINGS_LIST::AddString)
+	if(_char_PTR == nullptr) throw std::exception("zero string");
 	uint32_t hash;
 	hash = MakeHashValue(_char_PTR);	
 	if(String_Table_PTR == nullptr)	// first time
@@ -58,13 +59,13 @@ bool STRINGS_LIST::AddString(char * _char_PTR)
 	*((uint32_t *)(String_Table_PTR[Strings])) = hash;
 	memcpy(String_Table_PTR[Strings] + used_data_size + sizeof(uint32_t), _char_PTR, len);
 	Strings++;
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 
 void STRINGS_LIST::Release()
 {
-	GUARD(STRINGS_LIST::Release)
+	//GUARD(STRINGS_LIST::Release)
 	uint32_t n;
 	if(Strings <= 0 || String_Table_PTR == nullptr) return;
 	for(n = 0; n < Strings; n++) delete String_Table_PTR[n];
@@ -74,12 +75,12 @@ void STRINGS_LIST::Release()
 	String_Table_PTR = nullptr;		
 	for(n=0;n<CACHE_SIZE;n++) Cache[n] = INVALID_ORDINAL_NUMBER;
 	Cache_Pos = 0;
-	UNGUARD
+	//UNGUARD
 }
 
 uint32_t STRINGS_LIST::GetStringCode(char * _char_PTR)
 {
-	GUARD(STRINGS_LIST::GetStringCode)
+	//GUARD(STRINGS_LIST::GetStringCode)
 	uint32_t n;
 	uint32_t hash;
 
@@ -92,7 +93,7 @@ uint32_t STRINGS_LIST::GetStringCode(char * _char_PTR)
 	/*for(n=0;n<CACHE_SIZE;n++) 
 	{
 		if(Cache[n] == INVALID_ORDINAL_NUMBER) break;
-		if(Cache[n] >= Strings) STORM_THROW(cache error);
+		if(Cache[n] >= Strings) throw std::exception(cache error);
 		if(hash == *((DWORD *)String_Table_PTR[Cache[n]]))
 		{
 			//return Cache[n];
@@ -111,7 +112,7 @@ uint32_t STRINGS_LIST::GetStringCode(char * _char_PTR)
 			}
 		}
 	}
-	UNGUARD
+	//UNGUARD
 	return INVALID_ORDINAL_NUMBER;
 
 /*	
@@ -119,7 +120,7 @@ uint32_t STRINGS_LIST::GetStringCode(char * _char_PTR)
 	for(n=0;n<CACHE_SIZE;n++) 
 	{
 		if(Cache[n] == INVALID_ORDINAL_NUMBER) break;
-		if(Cache[n] >= Strings) STORM_THROW(cache error);
+		if(Cache[n] >= Strings) throw std::exception(cache error);
 		if(_stricmp(String_Table_PTR[Cache[n]] + used_data_size + sizeof(DWORD),_char_PTR) == 0) return Cache[n];
 	}
 	
@@ -131,7 +132,7 @@ uint32_t STRINGS_LIST::GetStringCode(char * _char_PTR)
 			return n;
 		}
 	}
-	UNGUARD
+	//UNGUARD
 	return INVALID_ORDINAL_NUMBER;*/
 }
 
@@ -150,10 +151,10 @@ bool STRINGS_LIST::GetStringData(uint32_t code,void * data_PTR)
 
 bool STRINGS_LIST::SetStringData(uint32_t code,void * data_PTR)
 {
-	GUARD(STRINGS_LIST::SetStringData)
+	//GUARD(STRINGS_LIST::SetStringData)
 	if(code >= Strings || String_Table_PTR == nullptr || data_PTR == nullptr) return false;
 	memcpy(String_Table_PTR[code] + sizeof(uint32_t),data_PTR,used_data_size);
-	UNGUARD
+	//UNGUARD
 	return true;
 }
 

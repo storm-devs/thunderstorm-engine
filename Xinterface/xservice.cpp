@@ -220,7 +220,7 @@ void XSERVICE::LoadAllPicturesInfo()
 	if (INVALID_HANDLE_VALUE != h)
 		fio->_FindClose(h);
 	ini = fio->OpenIniFile((char*)LISTS_INIFILE);
-	if(!ini) THROW("ini file not found!");
+	if(!ini) throw std::exception("ini file not found!");
 
 	m_dwListQuantity=0;
 	m_dwImageQuantity=0;
@@ -233,7 +233,7 @@ void XSERVICE::LoadAllPicturesInfo()
 	{
 		m_pList = new IMAGELISTDESCR[m_dwListQuantity];
 		if(m_pList== nullptr)
-			STORM_THROW("memory allocate error")
+			throw std::exception("memory allocate error");
 	}
 
 	// fill lists
@@ -264,8 +264,8 @@ void XSERVICE::LoadAllPicturesInfo()
 			// resize image list
 			PICTUREDESCR *oldpImage = m_pImage;
 			m_pImage = new PICTUREDESCR[m_dwImageQuantity + m_pList[i].pictureQuantity];
-			if(m_pImage== nullptr)
-				STORM_THROW("allocate memory error")
+			if (m_pImage == nullptr)
+				throw std::exception("allocate memory error");
 			if(oldpImage!= nullptr)
 			{
 				memcpy(m_pImage,oldpImage,m_dwImageQuantity*sizeof(PICTUREDESCR));
