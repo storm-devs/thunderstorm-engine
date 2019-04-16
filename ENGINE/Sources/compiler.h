@@ -6,7 +6,6 @@
 #include "message_script.h"
 #include "token.h"
 #include "data.h"
-#include "loopstack.h"
 #include "strings_list.h"
 #include "s_functab.h"
 #include "s_vartab.h"

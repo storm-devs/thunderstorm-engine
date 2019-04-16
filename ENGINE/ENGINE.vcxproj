@@ -417,7 +417,6 @@
     <ClCompile Include="sources\internal_functions.cpp" />
     <ClCompile Include="sources\layer.cpp" />
     <ClCompile Include="sources\layer_service.cpp" />
-    <ClCompile Include="sources\loopstack.cpp" />
     <ClCompile Include="sources\Main.cpp" />
     <ClCompile Include="sources\pcinput.cpp" />
     <ClCompile Include="sources\program.cpp" />
@@ -724,7 +723,6 @@
     <ClInclude Include="sources\internal_functions.h" />
     <ClInclude Include="sources\layer.h" />
     <ClInclude Include="sources\layer_service.h" />
-    <ClInclude Include="sources\loopstack.h" />
     <ClInclude Include="sources\messages.h" />
     <ClInclude Include="sources\message_script.h" />
     <ClInclude Include="sources\pcinput.h" />

@@ -3,8 +3,7 @@
 
 uint32_t CLASSES_TABLE::GetClassCode(char * class_name)
 {
-	uint32_t class_code;
-	class_code = GetStringCode(class_name);
+	uint32_t class_code = GetStringCode(class_name);
 	if(class_code == INVALID_CLASS_CODE) //if(Exceptions_Mask &_X_NO_CLASS) 
 		throw std::exception("cant find class");
 	return class_code;

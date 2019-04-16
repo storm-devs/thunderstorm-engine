@@ -551,9 +551,6 @@
     <ClCompile Include="sources\layer_service.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sources\loopstack.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sources\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -2318,9 +2315,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sources\layer_service.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\loopstack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sources\message_script.h">
