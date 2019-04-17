@@ -35,9 +35,6 @@ CORE::CORE()
 	nSplitScreenshotGrid = 4;
 }
 
-//-------------------------------------------------------------------------------------------------
-// external entry points
-//-------------------------------------------------------------------------------------------------
 void CORE::ResetCore()
 {
 	Reset_flag = false;
@@ -54,7 +51,6 @@ void CORE::ResetCore()
 	DeleteServicesList.Release();
 	Services_List.Release();
 	DeleteLayerList.Release();
-	//Control_Stack.Clear();
 
 	SystemMessagesNum = 0;
 	Scan_Layer_Code = INVALID_LAYER_CODE;
@@ -71,98 +67,33 @@ void CORE::CleanUp()
 	Initialized = false;
 	bEngineIniProcessed = false;
 
-	//Control_Stack.Clear();
-
-	//Program.Release();
-
-	if(Atoms_PTR.size() > 0)
+	if(!Atoms_PTR.empty())
 	{
 		for(uint32_t n = 0;n<=CoreState.Atoms_max_orbit;n++)
 		{
 			if(Atoms_PTR[n] == nullptr) continue;
-			// if(Atoms_PTR[n]->as.Service) continue;
-
-//			PUSH_CONTROL(Atoms_PTR[n]->atom_id.pointer,Atoms_PTR[n]->atom_id.class_code,CTP_DESTRUCTOR)
-			/*#ifndef EX_OFF
-			try {
-			#endif*/
-				EraseEntity(Atoms_PTR[n]->atom_id);
-			/*#ifndef EX_OFF
-			}
-			catch(...)
-			{
-				TraceCurrent();
-				Memory_Service.Free(Atoms_PTR[n]->atom_id.pointer);
-				if(Atoms_PTR[n]) delete Atoms_PTR[n];
-			}
-			#endif*/
+			EraseEntity(Atoms_PTR[n]->atom_id);
 		}
 	}
 
 	ProcessDeleteList();
-
-	//if(Controls) delete Controls; Controls = 0;
 	ReleaseServices();
 	ReleaseLayers();
-	//Program.Release();
 	Compiler.Release();
-
-
-
-
 	Atoms_PTR.clear();
-
-
 	Services_List.Release();
 	CheckMemoryLeak_Classes();
 	DeleteEntityList.Release();
 	DeleteServicesList.Release();
 	Services_List.Release();
 	DeleteLayerList.Release();
-	//Control_Stack.Clear();
-	if(State_file_name) delete State_file_name; State_file_name = nullptr;
-
-	////UNGUARD
+	delete State_file_name;
 }
 
-void CORE::ReleaseServices()
-{
-	//GUARD(CORE::ReleaseServices)
-//	SERVICE * service_PTR;
-//	uint32_t class_code;
-
-	FreeServices();
-
-/*	service_PTR = Services_List.GetService(class_code);
-	while(service_PTR)
-	{
-		//PUSH_CONTROL(service_PTR,class_code,CTP_DESTRUCTOR)
-		#ifndef EX_OFF
-		try {
-		#endif
-			delete service_PTR;
-		#ifndef EX_OFF
-		}
-		catch(...)
-		{
-			trace("service release error");
-			TraceCurrent();
-			Memory_Service.Free(service_PTR);
-		}
-		#endif
-		//POP_CONTROL(0)
-
-		service_PTR = Services_List.GetServiceNext(class_code);
-	}*/
-	//UNGUARD
-}
-
-
-void __declspec(noinline) __cdecl CORE::InitBase()
+void CORE::InitBase()
 {
 	char String[_MAX_PATH];
 
-	//GUARD(CORE::InitBase())
 
 	INIFILE* engine_ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
  	if(engine_ini != nullptr)
@@ -1817,7 +1748,7 @@ void * CORE::MakeClass(char * class_name)
 }
 
 
-void CORE::FreeServices()
+void CORE::ReleaseServices()
 {
 	for(const auto c : _pModuleClassRoot)
 		if (c->Service())

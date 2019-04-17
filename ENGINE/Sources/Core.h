@@ -170,7 +170,6 @@ public:
 	uint32_t MakeHashValue(const char * string);
 	VMA * FindVMA(char * class_name);
 	VMA * FindVMA(long hash);
-	void FreeServices();
 //------------------------------------------------------------------------------------------------
 // API functions : (virtual API)
 
