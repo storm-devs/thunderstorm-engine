@@ -76,7 +76,6 @@ void CORE::CleanUp()
 	Compiler.Release();
 	Atoms_PTR.clear();
 	Services_List.Release();
-	CheckMemoryLeak_Classes();
 	DeleteEntityList.Release();
 	DeleteServicesList.Release();
 	Services_List.Release();
@@ -303,9 +302,8 @@ void CORE::Execute(char * name)
 	//Program.RunProgram(name);
 }
 
-void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
+void CORE::ProcessEngineIniFile()
 {
-	//GUARD(CORE::ProcessEngineIniFile)
 	char String[_MAX_PATH];
 
 	bEngineIniProcessed = true;
@@ -317,10 +315,8 @@ void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 	if(res)
 	{
 		Compiler.SetProgramDirectory(String);
-		//Program.SetProgramDirectory(String);
 	}
 
-#ifndef _XBOX
 	res = engine_ini->ReadString(nullptr,"controls",String,sizeof(String),"");
 	if(res)
 	{
@@ -336,10 +332,6 @@ void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 
 		api->Controls = new CONTROLS;
 	}
-#else
-	if(!Controls) Controls = (CONTROLS *)MakeClass("xbox_controls");
-	if(!Controls) throw std::exception("no xbox_controls");
-#endif
 
 	res = engine_ini->ReadString(nullptr,"run",String,sizeof(String),"");
 	if(res)
@@ -361,11 +353,6 @@ void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 	}
 
 	res = engine_ini->ReadString(nullptr,"load class",String,sizeof(String),"");
-	if(!res)
-	{
-		//delete engine_ini;
-		//throw std::exception(no class for loading);
-	}
 	while(res)
 	{
 		CreateEntity(nullptr,String);
@@ -373,10 +360,9 @@ void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 	}
 
 	delete engine_ini;
-	//UNGUARD
 }
 
-bool __declspec(noinline) __cdecl CORE::LoadClassesTable()
+bool CORE::LoadClassesTable()
 {
 	for(auto c : _pModuleClassRoot)
 	{
@@ -392,26 +378,20 @@ bool __declspec(noinline) __cdecl CORE::LoadClassesTable()
 }
 
 
-bool __declspec(noinline) __cdecl CORE::CreateAtomsTable(uint32_t _space)
+bool CORE::CreateAtomsTable(uint32_t _space)
 {
-	//GUARD(CORE::CreateAtomsTable)
-
 	// allocate space for atoms table
 	CoreState.Atoms_space = _space;
 
-	//Atoms_PTR = (C_ATOM * *)new char[CoreState.Atoms_space*sizeof(C_ATOM*)];
 	Atoms_PTR.resize(CoreState.Atoms_space);
 	PZERO(&CoreState.Creation_Time,sizeof(CoreState.Creation_Time));
 
-	//UNGUARD
 	return true;
 }
 
 void CORE::ReleaseLayers()
 {
-	//GUARD(CORE::ReleaseLayers)
 	CommonLayers.Release();
-	//UNGUARD
 }
 
 void CORE::ReleaseAtoms()
@@ -422,7 +402,6 @@ void CORE::ReleaseAtoms()
 		for(uint32_t n = 0;n<=CoreState.Atoms_max_orbit;n++)
 		{
 			if(Atoms_PTR[n] == nullptr) continue;
-			//if(Atoms_PTR[n]->as.Service) continue; // free services later
 			EraseEntity(Atoms_PTR[n]->atom_id);
 		}
 	}
@@ -431,118 +410,12 @@ void CORE::ReleaseAtoms()
 	CoreState.Atoms_min_free_orbit = 0;
 	Atoms_PTR.clear();
 	PZERO(&CoreState.Creation_Time,sizeof(CoreState.Creation_Time));
-	//UNGUARD
-}
-
-// called from load state function
-void CORE::RestoreEntity(ENTITY_ID entity_id,ATOM_STATE atom_state)
-{
-	/*
-	//GUARD(CORE::RestoreEntity)
-	CLASS_SEARCH_DATA class_search_data;
-	C_ATOM * atom_PTR;
-	VMODULE_API * mapi_PTR;
-	ENTITY * Entity_PTR;
-	uint32_t class_code;
-
-	class_code = entity_id.class_code;
-	// access to class informatino
-	if(!Classes_Table.GetStringData(class_code,&class_search_data)) throw std::exception(invalid class);
-
-	// xbox
-	if((uint32_t)class_search_data.module_code >= Modules_Table.GetModulesCount())
-	// load module
-	//if(Modules_Table.ModuleReferenceInc(class_search_data.module_code) == 0)
-	{
-		//trace("cant load libriary  %s : %s",Modules_Table.GetModuleName(class_search_data.module_code),Classes_Table.GetString(class_code));
-		throw std::exception(invalid module code);
-	}
-
-	// create atom structure
-	atom_PTR = FitAtom(entity_id,atom_state);
-	if(atom_PTR == null) throw std::exception(cant create atom);
-
-	// clear all layers attribute (object will be added via standart function)
-	PZERO(&atom_PTR->as.Layers_mask,sizeof(atom_PTR->as.Layers_mask));
-
-	// obtain module interface class
-	mapi_PTR = Modules_Table.GetModuleAPI(class_search_data.module_code);
-	if(mapi_PTR == null)
-	{
-		trace("invalid module api class  %s : %s",Modules_Table.GetModuleName(class_search_data.module_code),Classes_Table.GetString(class_code));
-		throw std::exception(invalid module);
-	}
-
-	// set current entity atom id pointer
-	System_Api.entityID_PTR = &atom_PTR->atom_id;
-
-	// notify entrance to object constructor
-	// PUSH_CONTROL push control operation code will made on base object (entity) constructor
-
-	// create new class, object constructor would be called
-	Entity_PTR = null;
-	#ifndef EX_OFF
-	try {
-	#endif
-		Entity_PTR = (ENTITY*)mapi_PTR->CreateClass(class_search_data.module_class_id,false);
-	#ifndef EX_OFF
-	}
-	catch(_EXS xobj)
-	{
-		TraceCurrent();
-		POP_CONTROL(0)
-		System_Api.entityID_PTR = null;
-		throw;
-	}
-	catch(...)
-	{
-		TraceCurrent();
-		POP_CONTROL(0)
-		System_Api.entityID_PTR = null;
-		throw std::exception(RestoreEntity(Constructor));
-	}
-	#endif
-
-	System_Api.entityID_PTR = null;
-
-	// Push was made in Entity base class constructor
-	POP_CONTROL(0)
-
-	if(Entity_PTR == null) throw std::exception();
-
-	// created, but object constructor start self destruct process
-	if(atom_PTR->as.Deleted) throw std::exception(self destruct on load);
-
-	//UNGUARD
-	//*/
-}
-
-void CORE::ValidateApiCalls()
-{
-	//GUARD(CORE::ValidateApiCalls)
-	if(Constructor_counter) throw std::exception("api call from constructor");
-	//UNGUARD
 }
 
 
-void CORE::CheckAutoExceptions(uint32_t xflag)
+void CORE::CheckAutoExceptions(uint32_t = 0)
 {
 	spdlog::warn("exception thrown");
-	return;
-	//if(!(Exceptions_Mask & xflag)) return;
-	/*switch(xflag)
-	{
-		case  _X_NO_MEM:			throw std::exception("no mem");
-		case  _X_NO_FILE:			throw std::exception("no file");
-		case  _X_NO_FILE_READ:		throw std::exception("cant read from file");
-		case  _X_NO_FILE_WRITE:		throw std::exception("cant write to file");
-		case  _X_NO_CREATE_ENTITY:	throw std::exception("cant create object");
-		case  _X_NO_CLASS:			throw std::exception("cant find class");
-		case  _X_NO_SERVICE:		throw std::exception("cant create service");
-		case  _X_NO_ENTITY:			throw std::exception("cant find entity");
-		case  _X_NO_LAYER:			throw std::exception("no layer");
-		default:					throw std::exception("invalid exceptions flag");
-	}*/
 }
 
 bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name)
@@ -553,176 +426,55 @@ bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name)
 //bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name)
 bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attributesPTR)
 {
-	if(id_PTR) memset(id_PTR,0,sizeof(ENTITY_ID));
-	/*if(Constructor_counter)
-	{
-		Trace(class_name);
-		//VALIDATE_API_CALLS
-	}*/
-
-	// temporary commented for debug purposes
-	// if(State_loading) throw std::exception(attempt to create on load state);
+	if(id_PTR) 
+		memset(id_PTR,0,sizeof(ENTITY_ID));
 
 	VMA * pClass = nullptr;
 
-	long hash = MakeHashValue(class_name);
+	const long hash = MakeHashValue(class_name);
 	if(hash == 0) return false;
 
 	for (const auto c : _pModuleClassRoot)
+	{
 		if (c->GetHash() == hash && _stricmp(class_name, c->GetName()) == 0)
 		{
 			pClass = c;
 			break;
 		}
+	}
 
-
-	// no class of this type
 	if(!pClass)
 	{
 		CheckAutoExceptions(0);
 		return false;
 	}
 
-	// infinite loop
-	//if(Control_Stack.ScanClassCTP(class_code,CTP_CONSTRUCTOR))
-	//{
-	//	trace("INFINITE LOOP BREAKED");
-	//	trace("( attempt to create same object from constructor ) : %s",class_name);
-	//	CheckAutoExceptions(_X_NO_CREATE_ENTITY);
-	//	return false;
-	//}
-
-	// create atom structure
-	//atom_PTR = CreateAtom(class_code);
 	C_ATOM* atom_PTR = CreateAtom(hash);
 
-	// ... throw() system error
 	if(atom_PTR == nullptr) throw std::exception("Cant create Atom");
 	atom_PTR->atom_id.pName = pClass->GetName();
-
-	// obtain module interface class
-	//mapi_PTR = Modules_Table.GetModuleAPI(class_search_data.module_code);
-
-	// ... throw() system error, mark invalid class
-	//if(mapi_PTR == null)
-	//{
-	//	trace("INVALID MODULE");
-	//	trace("( can't create module api class ) ? %s : %s",Modules_Table.GetModuleName(class_search_data.module_code),class_name);
-	//	DeleteAtom(atom_PTR);
-	//	CheckAutoExceptions(_X_NO_CREATE_ENTITY);
-	//	return false;
-	//}
-
-	// set current entity atom id pointer
-	//System_Api.entityID_PTR = &atom_PTR->atom_id;
-
-	// notify entrance to object constructor
-	// PUSH_CONTROL push control operation code will made on base object (entity) constructor
-
-	// create new class, object constructor would be called
-	//Entity_PTR = nullptr;
-
-	//Constructor_counter++;
-	//#ifndef EX_OFF
-	//try {
-	//#endif
-		//Entity_PTR = (ENTITY*)mapi_PTR->CreateClass(class_search_data.module_class_id,false);
-	ENTITY* Entity_PTR = (ENTITY*)pClass->CreateClass();
-	Entity_PTR->SetEntityID(atom_PTR->atom_id);
-	//#ifndef EX_OFF
-	/*}
-	catch(_EXS xobj)
-	{
-		TraceCurrent();
-		if(!Constructor_counter) throw std::exception();
-		Constructor_counter--;
-		POP_CONTROL(0)
-		System_Api.entityID_PTR = null;
-		throw;
-	}
-	catch(...)
-	{
-		TraceCurrent();
-		if(!Constructor_counter) throw std::exception();
-		Constructor_counter--;
-		POP_CONTROL(0)
-		System_Api.entityID_PTR = null;
-		throw std::exception(CreateEntity(Constructor));
-	}
-	#endif*/
-
-	//if(!Constructor_counter) throw std::exception();
-	//Constructor_counter--;
-	//System_Api.entityID_PTR = nullptr;
-
-	// Push was made in Entity base class constructor
-	//POP_CONTROL(nullptr)
-
-	// class description already exist, but class not implemented ... write to log
+	auto* Entity_PTR = static_cast<ENTITY*>(pClass->CreateClass());
+	
 	if(Entity_PTR == nullptr)
 	{
-		// xbox
-		// Modules_Table.ModuleReferenceDec(class_search_data.module_code);
 		Trace("empty class: %s",class_name);
 		throw std::exception("invalid class");
 	}
+	Entity_PTR->SetEntityID(atom_PTR->atom_id);
+	Entity_PTR->AttributesPointer = attributesPTR;
 
-
-	// mark, class object is connected to atom
 	atom_PTR->as.Connected = true;
 
-	// created, but object constructor start self destruct process (object will be deleted later)
-	if(atom_PTR->as.Deleted)
+	if(!Entity_PTR->Init())
 	{
+		MarkEntityAsDeleted(Entity_PTR->GetID());
 		CheckAutoExceptions(0);
 		return false;
 	}
 
-	if(attributesPTR)
-	{
-		Entity_PTR->AttributesPointer = attributesPTR;
-	}
-	// call to entity initialize function
-	//PUSH_CONTROL(Entity_PTR,class_code,CTP_INIT)
-	//PUSH_CONTROL(Entity_PTR,hash,CTP_INIT)
-	#ifndef EX_OFF
-		try {
-	#endif
-
-		if(!Entity_PTR->Init())
-		{
-			//POP_CONTROL(nullptr)
-			MarkEntityAsDeleted(Entity_PTR->GetID());
-			CheckAutoExceptions(0);
-			return false;
-		}
-	#ifndef EX_OFF
-		}
-		catch(_EXS xobj)
-		{
-			TraceCurrent();
-			POP_CONTROL(0)
-			System_Api.entityID_PTR = null;
-			throw;
-		}
-		catch(...)
-		{
-			TraceCurrent();
-			POP_CONTROL(0)
-			System_Api.entityID_PTR = null;
-			throw std::exception(CreateEntity(Init));
-		}
-	#endif
-
-	//POP_CONTROL(nullptr)
-
-
-
 	if(id_PTR)
-	{
 		memcpy(id_PTR,&atom_PTR->atom_id,sizeof(ENTITY_ID));
-	}
-	//UNGUARD
+
 	return true;
 }
 
@@ -810,57 +562,8 @@ bool CORE::DeleteAtom(C_ATOM * atom_PTR)
 	return true;
 }
 
-void CORE::CheckMemoryLeak_Classes()
-{/*
-	//GUARD(CORE::CheckMemoryLeak_Classes)
-	void * mcheck_PTR;
-//	MEM_EXE_STATE mes;
-	uint32_t lost_blocks;
-	uint32_t lost_mem;
-	VMA * pClass;
-
-	lost_blocks = 0;
-	lost_mem = 0;
-
-	mcheck_PTR = Memory_Service.GetFirstPointer();
-	do
-	{
-		if(mcheck_PTR)
-		{
-			if(Memory_Service.GetPointerState(mcheck_PTR,&mes))
-			{
-				if(mes.ctp != CTP_CORE)
-				{
-					pClass = FindVMA(mes.class_code);
-					if(pClass) strcpy_s(gstring,pClass->GetName());
-					gdi_display.Print("Memory leak %d byte(s):",Memory_Service.GetBlockSize(mcheck_PTR));
-					gdi_display.Print("(%x) %s -> %s",
-						(uint32_t)mcheck_PTR,gstring,CTP_NAME(mes.ctp));
-					//MEM_BLOCK * Mem_link = (MEM_BLOCK *)((char *)mcheck_PTR - sizeof(MEM_BLOCK));
-					gdi_display.Print("file: %s, line: %d",
-						Memory_Service.GetFileName(mcheck_PTR),Memory_Service.GetFileLineCode(mcheck_PTR));
-
-						//Mem_link->cs.pFileName,Mem_link->cs.line);
-					lost_blocks++;
-					lost_mem += Memory_Service.GetBlockSize(mcheck_PTR);
-				}
-			}
-		}
-		mcheck_PTR = Memory_Service.GetNextPointer();
-	} while(mcheck_PTR != null);
-
-	if(lost_blocks)
-	{
-		gdi_display.Print("%d byte(s) memory in %d block(s) lost",lost_mem,lost_blocks);
-		Memory_Leak_flag = true;
-	}
-
-	//UNGUARD*/
-}
-
 uint32_t CORE::Class_Name2Code(char * class_name)
 {
-	//VALIDATE_API_CALLS // no necessary
 	return MakeHashValue(class_name);
 }
 
@@ -1078,11 +781,9 @@ bool CORE::MarkEntityAsDeleted(ENTITY_ID entity_id)
 //
 bool CORE::MarkEntityAsDeleted(void * entity_PTR)
 {
-	//GUARD(CORE::MarkEntityAsDeleted(void *))
-	ENTITY_ID entity_id;
-	if(!Convert_Pointer2ID(entity_PTR,&entity_id)) return false;
+	//if(!Convert_Pointer2ID(entity_PTR,&entity_id)) return false;
+	const auto entity_id = static_cast<ENTITY*>(entity_PTR)->GetID();
 	MarkEntityAsDeleted(entity_id);
-	//UNGUARD
 	return true;
 }
 
@@ -1236,7 +937,6 @@ bool CORE::EraseEntity(ENTITY_ID entity_id)
 			break;
 		}
 	}
-	//UNGUARD
 	return true;
 }
 
@@ -1247,68 +947,29 @@ bool CORE::EraseEntity(ENTITY_ID entity_id)
 //
 bool CORE::Convert_Pointer2ID(void * _entity_pointer,ENTITY_ID * id_PTR)
 {
-	ENTITY* entity_PTR = (ENTITY *)_entity_pointer;
+	auto* entity_PTR = static_cast<ENTITY *>(_entity_pointer);
 	ENTITY_ID eid = entity_PTR->GetID();
 	if(eid.atom_position > CoreState.Atoms_max_orbit) throw std::exception();
 	if(Atoms_PTR[eid.atom_position] == nullptr) throw std::exception();
 	if(Atoms_PTR[eid.atom_position]->atom_id.pointer != _entity_pointer) throw std::exception();
 	if(id_PTR != nullptr) memcpy(id_PTR,&Atoms_PTR[eid.atom_position]->atom_id,sizeof(ENTITY_ID));
-	//UNGUARD
 	return true;
 }
 
-//-------------------------------------------------------------------------------------------------
-// Return index (unical code) of layer by name
-//
-uint32_t CORE::GetLayerIndex(char * layer_name)
+uint32_t CORE::GetLayerIndex(char* layer_name)
 {
-	//GUARD(CORE::GetLayerIndex)
 	return CommonLayers.GetIndex(layer_name);
-/*	uint32_t n;
-	if(layer_name == null) return INVALID_LAYER_CODE;
-	for(n=0;n<=CoreState.Layer_max_index;n++)
-	{
-		if(Layer_Table[n] == null) continue;
-		if(_stricmp(layer_name,Layer_Table[n]->Name)== 0) return n;
-	}*/
-	//UNGUARD
-	return INVALID_LAYER_CODE;
 }
 
 
 bool CORE::VerifyLayer(char * layer_name)
 {
-	//GUARD(CORE::VerifyLayer)
-	//VALIDATE_API_CALLS // no necessary
 	return CommonLayers.Verify(layer_name);
-/*	uint32_t n;
-
-	if(layer_name == null) return false;
-	for(n=0;n<=CoreState.Layer_max_index;n++)
-	{
-		if(Layer_Table[n] == null) continue;
-		if(_stricmp(layer_name,Layer_Table[n]->Name)== 0) return true;
-	}*/
-	//UNGUARD
-	return false;
 }
 
 bool CORE::LayerCreate(char * layer_name, bool ordered, bool fail_if_exist)
 {
-	//GUARD(CORE::CreateLayer)
-	//VALIDATE_API_CALLS
 	return CommonLayers.Create(layer_name,ordered,fail_if_exist);
-	//return LayerCreate(layer_name,ordered,fail_if_exist,false,0);
-	//UNGUARD
-	return false;
-}
-
-// fit common layer
-void CORE::FitLayer(uint32_t index, char* layer_name, LAYER_STATE ls)
-{
-	//GUARD(CORE::FitLayer)
-	CommonLayers.Fit(index, layer_name, ls);
-	//UNGUARD
 }
 
 bool CORE::LayerCreate(char * layer_name, bool ordered, bool fail_if_exist, bool system, uint32_t system_flags)
@@ -1991,66 +1652,9 @@ uint32_t CORE::EngineFps()
 	return Timer.fps;
 }
 
-bool CORE::InitObject(ENTITY_ID eid)
-{
-	ENTITY_ID entity_id;
-	//GUARD(CORE::InitObject)
-
-	entity_id = eid;
-	if(!ValidateEntity(&entity_id)) return false;
-
-	ENTITY* Entity_PTR = (ENTITY *)entity_id.pointer;
-
-	//PUSH_CONTROL(Entity_PTR,entity_id.class_code,CTP_INIT)
-	#ifndef EX_OFF
-	try {
-	#endif
-		if(!Entity_PTR->Init())
-		{
-			MarkEntityAsDeleted(Entity_PTR->GetID());
-			CheckAutoExceptions(0);
-			return false;
-		}
-	#ifndef EX_OFF
-	}
-	catch(_EXS xobj)
-	{
-		TraceCurrent();
-		POP_CONTROL(0)
-		System_Api.entityID_PTR = null;
-		throw;
-	}
-	catch(...)
-	{
-		TraceCurrent();
-		POP_CONTROL(0)
-		System_Api.entityID_PTR = null;
-		throw std::exception(cant init);
-	}
-	#endif
-	//POP_CONTROL(nullptr)
-
-	//UNGUARD
-	return true;
-}
-
-uint32_t CORE::SetTimer(uint32_t elapse,ENTITY_ID id)
-{
-	//SetTimer
-	return 0;
-}
-
 void CORE::SetDeltaTime(long delta_time)
 {
 	Timer.SetDelta(delta_time);
-}
-
-void CORE::SystemMessages(ENTITY_ID eid, bool on)
-{
-/*	LayerCreate(SYSTEMMESSAGES_LAYER,false,false);
-	LayerSetFlags(SYSTEMMESSAGES_LAYER,LRFLAG_SYS_MESSAGES);
-	if(on) LayerAdd(SYSTEMMESSAGES_LAYER,eid,0);
-	else LayerDel(SYSTEMMESSAGES_LAYER,eid);*/
 }
 
 uint32_t CORE::GetDeltaTime()
@@ -2061,12 +1665,6 @@ uint32_t CORE::GetDeltaTime()
 uint32_t CORE::GetRDeltaTime()
 {
 	return Timer.rDelta_Time;
-}
-
-float CORE::GetKeyState(uint32_t key_code, uint32_t * value)
-{
-	return 0;
-	//return Input->GetKeyState(key_code,value);
 }
 
 ATTRIBUTES * CORE::Entity_GetAttributeClass(ENTITY_ID * id_PTR, char * name)
@@ -2169,7 +1767,6 @@ void CORE::DeleteEntities()
 
 void CORE::ClearEvents()
 {
-	//Program.ClearEvents();
 	Compiler.ClearEvents();
 }
 
@@ -2206,19 +1803,16 @@ void CORE::DumpEntitiesInfo()
 {
 	LARGE_INTEGER li;
 	if (!QueryPerformanceFrequency(&li))
-		throw nullptr;
-	double freq = double(li.QuadPart)/1000.0;
+		throw std::exception();
+
+	const auto freq = double(li.QuadPart)/1000.0;
 
 	uint32_t n;
 	char * ptr;
 	VMA * pClass;
 
 	Trace("Script commands executed: %" PRIu32, dwNumberScriptCommandsExecuted);
-
 	Trace("Entity Dump -----------------------------------");
-	/*trace("Allocated Memory: %f kb in %" PRIu32 " block(s)",
-		(Memory_Service.Allocated_memory_user + Memory_Service.Allocated_memory_system)/1024.0f,//(1024*1024),
-		Memory_Service.Blocks);*/
 
 	for(n=0;n<=CoreState.Atoms_max_orbit;n++)
 	{
@@ -2228,7 +1822,6 @@ void CORE::DumpEntitiesInfo()
 		if(pClass)
 		{
 			ptr = pClass->GetName();
-			//ptr = Classes_Table.GetString(Atoms_PTR[n]->atom_id.class_code);
 			if(ptr)
 			{
 				Trace("Class: %s", ptr);
@@ -2306,14 +1899,13 @@ void * CORE::GetScriptVariable(const char * pVariableName, uint32_t * pdwVarInde
 {
 	VARINFO vi;
 
-	uint32_t dwVarIndex = Compiler.VarTab.FindVar(pVariableName);
-	if(dwVarIndex == INVALID_VAR_CODE) return nullptr;
-
-	if(!Compiler.VarTab.GetVar(vi,dwVarIndex))
-	{
+	const auto dwVarIndex = Compiler.VarTab.FindVar(pVariableName);
+	if(dwVarIndex == INVALID_VAR_CODE || !Compiler.VarTab.GetVar(vi, dwVarIndex))
 		return nullptr;
-	}
-	if(pdwVarIndex) *pdwVarIndex = dwVarIndex;
+
+	if(pdwVarIndex) 
+		*pdwVarIndex = dwVarIndex;
+
 	return vi.pDClass;
 }
 

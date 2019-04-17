@@ -33,7 +33,7 @@ SHIP_CAMERA::~SHIP_CAMERA()
 
 bool SHIP_CAMERA::Init()
 {
-	api->SystemMessages(GetID(),true);
+	//api->SystemMessages(GetID(),true);
 
 	iLockX = 0;
 	iLockY = 0;

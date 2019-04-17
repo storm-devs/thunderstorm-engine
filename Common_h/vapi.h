@@ -139,17 +139,11 @@ public:
 
 	// return current fps
 	virtual uint32_t EngineFps()= 0;
-	// set timer
-	virtual uint32_t SetTimer(uint32_t elapse,ENTITY_ID)= 0;
 	// set fixed delta time mode, (-1) - off
 	virtual void SetDeltaTime(long delta_time)= 0;
-	// on/off system messages
-	virtual void SystemMessages(ENTITY_ID eid, bool on)= 0;
 	// return time delta from prevoius frame
 	virtual uint32_t GetDeltaTime()= 0;
 
-	// return key state for predefined game keys
-	virtual float GetKeyState(uint32_t key_code, uint32_t * value = nullptr)= 0;
 	// declare event
 	virtual VDATA * _cdecl Event(char * Event_name, char * Format = nullptr,...)= 0;
 

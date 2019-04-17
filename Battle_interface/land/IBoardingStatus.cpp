@@ -19,7 +19,7 @@ bool IBoardingStatus::Init()
 		throw std::exception("Can`t create render service");
 	}
 
-	api->SystemMessages(GetID(),true);
+	//api->SystemMessages(GetID(),true);
 	api->LayerAdd("realize",GetID(),0xFFFFFFFF);
 
 	return true;

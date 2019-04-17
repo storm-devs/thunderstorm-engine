@@ -240,7 +240,7 @@ void XINTERFACE::SetDevice()
 	api->LayerCreate("iRealize",true,false);
 	api->LayerSetRealize("iRealize",true);
 
-	api->SystemMessages(GetID(),true);
+	//api->SystemMessages(GetID(),true);
 
 	if(AttributesPointer)
 	{
