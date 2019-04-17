@@ -1,33 +1,12 @@
 #include "Core.h"
-#include "../../Common_h/vmodule_api.h"
-#include "vbuffer.h"
-
-#include "../../Common_h/dx9render.h"
-#include "../../Common_h/defines.h"
 #include "externs.h"
 #include "entity_state_R.h"
 #include <cinttypes>
 
-#define CORE_DEFAULT_ATOMS_SPACE	128
-#define SYSTEM_CRUSH				"SYSTEM_CRUSH"
-#define SERVICE_REFERENCE_TRACK		"SRT"
-//#define STATE_COMPRESSION_ON
-//#define ENGINE_INI_FILE_NAME			"engine.ini"
-
-//extern VMA * _pModuleClassRoot;
-#define SERVICES_REFERENCE_FLAGS	0x1
-
 CREATE_SERVICE(CONTROLS)
-#ifdef _XBOX
-//uint32_t ATTRIBUTES::nMemSize = 0;
-#endif
-// this macro incure, that programm control didnt pass via any entity constructor. Each base api function must
-// be protected by this macro on development stage. On release stage this macro changed to empty block
-//#define VALIDATE_API_CALLS {if(Constructor_counter) throw std::exception(api call from constructor);}	// develop version
-//#define VALIDATE_API_CALLS {}	// release version
 
-uint32_t dwNumberScriptCommandsExecuted = 0;
-
+extern uint32_t dwNumberScriptCommandsExecuted = 0;
+auto constexpr CORE_DEFAULT_ATOMS_SPACE = 128;
 
 typedef struct
 {
