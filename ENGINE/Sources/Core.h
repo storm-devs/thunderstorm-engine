@@ -58,7 +58,6 @@ public:
 	bool LoadCoreState(CORE_STATE cs);
 	void ResetCore();
 	bool Run();
-	void ProcessSystemMessage(UINT iMsg,WPARAM wParam,LPARAM lParam);
 	bool __declspec(dllexport) __cdecl LoadClassesTable();
 	bool __declspec(dllexport) __cdecl CreateAtomsTable(uint32_t _space);
 	C_ATOM * CreateAtom(uint32_t class_code);
@@ -74,7 +73,6 @@ public:
 	void ProcessExecute();
 	void ProcessRealize();
 	void ProcessSystemMessagesBuffer();
-	void ProcessRootObjectCreation();
 	void ProcessStateLoading();
 	void ProcessRunStart(uint32_t section_code);
 	void ProcessRunEnd(uint32_t section_code);
@@ -115,7 +113,6 @@ public:
 
 	bool bAppActive{};
 	bool Memory_Leak_flag;			// true if core detected memory leak
-	bool Reset_flag;
 	bool Root_flag;
 	bool Exit_flag;					// true if the program closing 
 	bool Initialized;				// initialized flag (false at startup or after Reset())
@@ -174,11 +171,9 @@ public:
 // API functions : (virtual API)
 
 	// common programm control
-	
+
 	// shutdown core, delete all objects and close programm
 	void Exit();
-	// restart core
-	void Reset();
 	// return application handle
 	HWND GetAppHWND();
 	HINSTANCE GetAppInstance();

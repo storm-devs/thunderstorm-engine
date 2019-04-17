@@ -16,14 +16,12 @@ typedef struct
 
 CORE::CORE()
 {
-	Reset_flag = false;
 	Initialized = false;
 	bEngineIniProcessed = false;
 	App_Hwnd = nullptr;
 	State_file_name = nullptr;
 	PZERO(&CoreState,sizeof(CoreState));
 	CoreState.engine_version = ENGINE_VERSION;
-	Root_flag = false;
 	SystemMessagesNum = 0;
 	Exit_flag = false;
 	State_loading = false;
@@ -37,7 +35,6 @@ CORE::CORE()
 
 void CORE::ResetCore()
 {
-	Reset_flag = false;
 	Initialized = false;
 	bEngineIniProcessed = false;
 
@@ -58,8 +55,6 @@ void CORE::ResetCore()
 	STORM_DELETE(State_file_name); 
 
 	Constructor_counter = 0;
-
-	Root_flag = false;
 }
 
 void CORE::CleanUp()
@@ -94,7 +89,6 @@ void CORE::InitBase()
 {
 	char String[_MAX_PATH];
 
-
 	INIFILE* engine_ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
  	if(engine_ini != nullptr)
 	{
@@ -113,7 +107,7 @@ void CORE::InitBase()
 		delete engine_ini;
 	}
 	LoadClassesTable();					// creating classes table
-	//UNGUARD
+
 }
 
 void CORE::ReleaseBase()
@@ -122,11 +116,13 @@ void CORE::ReleaseBase()
 	ClassesOff.Release();
 }
 
-bool __declspec(noinline) __cdecl CORE::LoCheck()
+bool CORE::LoCheck()
 {
+	// ~!~
 	ENTITY_ID test_eid;
-	if (!CreateEntity(&test_eid, "LocationP")) return false;
-	ENTITY * pE = (ENTITY *)test_eid.pointer;
+	if (!CreateEntity(&test_eid, "LocationP"))
+		return false;
+	auto* pE = static_cast<ENTITY *>(test_eid.pointer);
 	pE->Execute(ENGINE_SCRIPT_VERSION);
 	DeleteEntity(test_eid);
 	return true;
@@ -134,64 +130,50 @@ bool __declspec(noinline) __cdecl CORE::LoCheck()
 
 bool CORE::Run()
 {
-	//GUARD(CORE::Run())
-
-#ifndef _XBOX
-	if (bDebugWindow && api->Controls && api->Controls->GetDebugAsyncKeyState(VK_F7)<0) DumpEntitiesInfo(); // boal
+	if (bDebugWindow && api->Controls && api->Controls->GetDebugAsyncKeyState(VK_F7)<0) 
+		DumpEntitiesInfo();
 	dwNumberScriptCommandsExecuted = 0;
-#endif
 
 	if (bDebugWindow)
-		for(uint32_t n=0;n<CoreState.Atoms_max_orbit;n++)
+	{
+		for (uint32_t n = 0; n < CoreState.Atoms_max_orbit; n++)
 		{
-			if(Atoms_PTR[n] == nullptr) continue;
+			if (Atoms_PTR[n] == nullptr) 
+				continue;
 			Atoms_PTR[n]->as.Execute_ticks_av = 0;
 			Atoms_PTR[n]->as.Realize_ticks_av = 0;
 		}
-
-/*
-	CONTROL_STATE cs;
-
-	if(Controls && Controls->GetControlState("dump",cs))
-	{
-		if(cs.state == CST_ACTIVATED) Memory_Service.DumpMemoryState();
 	}
-*/
-		//trace("Allocated Memory: %f kb in %d block(s)",
-	//	(Memory_Service.Allocated_memory_user + Memory_Service.Allocated_memory_system)/1024.0f,Memory_Service.Blocks);
 
-	if(Exit_flag) return false;				// exit
-	if(Reset_flag) ResetCore();				// reset to initial state
-	Timer.Run();							// calc delta time and programm fps
+	if (Exit_flag) return false;				// exit
 
-	VDATA * pVCTime = (VDATA *)api->GetScriptVariable("iRealDeltaTime");
-	if (pVCTime) pVCTime->Set((long)GetRDeltaTime());
+	Timer.Run(); // calc delta time
 
-	// setup current real computer time
-	{
-		SYSTEMTIME st;
-		GetLocalTime(&st);
+	auto pVCTime = static_cast<VDATA *>(api->GetScriptVariable("iRealDeltaTime"));
+	if (pVCTime) 
+		pVCTime->Set(static_cast<long>(GetRDeltaTime()));
 
-		VDATA * pVYear = (VDATA *)api->GetScriptVariable("iRealYear");
-		VDATA * pVMonth = (VDATA *)api->GetScriptVariable("iRealMonth");
-		VDATA * pVDay = (VDATA *)api->GetScriptVariable("iRealDay");
+	SYSTEMTIME st;
+	GetLocalTime(&st);
 
-		if (pVYear) pVYear->Set(long(st.wYear));
-		if (pVMonth) pVMonth->Set(long(st.wMonth));
-		if (pVDay) pVDay->Set(long(st.wDay));
-	}
+	auto pVYear = static_cast<VDATA *>(api->GetScriptVariable("iRealYear"));
+	auto* pVMonth = static_cast<VDATA *>(api->GetScriptVariable("iRealMonth"));
+	auto* pVDay = static_cast<VDATA *>(api->GetScriptVariable("iRealDay"));
+
+	if (pVYear) pVYear->Set(long(st.wYear));
+	if (pVMonth) pVMonth->Set(long(st.wMonth));
+	if (pVDay) pVDay->Set(long(st.wDay));
 
 	if (!bNetActive)
 	{
-#ifndef _XBOX
 		if(bAcceleration && Controls && Controls->GetDebugAsyncKeyState('R')<0) Timer.Delta_Time *= 10;
-		if(bAcceleration && Controls && Controls->GetDebugAsyncKeyState('Y')<0) Timer.Delta_Time = (uint32_t)(Timer.Delta_Time * 0.2f);
-#endif
-		Timer.Delta_Time = (uint32_t)(Timer.Delta_Time * fTimeScale);
+		if(bAcceleration && Controls && Controls->GetDebugAsyncKeyState('Y')<0) Timer.Delta_Time = static_cast<uint32_t>(Timer.Delta_Time * 0.2f);
+
+		Timer.Delta_Time = static_cast<uint32_t>(Timer.Delta_Time * fTimeScale);
 		Timer.fDeltaTime *= fTimeScale;
 	}
 
-	VDATA * pVData = (VDATA *)GetScriptVariable("fHighPrecisionDeltaTime", nullptr);
+	auto* pVData = static_cast<VDATA *>(GetScriptVariable("fHighPrecisionDeltaTime", nullptr));
 	if (pVData) pVData->Set(Timer.fDeltaTime * 0.001f);
 
 	if(!Initialized)
@@ -205,7 +187,6 @@ bool CORE::Run()
 	Compiler.ProcessFrame(Timer.GetDeltaTime());
 	Compiler.ProcessEvent("frame");
 
-
 	ProcessStateLoading();
 
 	ProcessRunStart(SECTION_ALL);
@@ -215,16 +196,14 @@ bool CORE::Run()
 	if (Controls && bActive)
 		Controls->Update(Timer.rDelta_Time);
 
-	ProcessSystemMessagesBuffer();			// transfer control to objects via ProcessMessage() function
+	//ProcessSystemMessagesBuffer();			// transfer control to objects via ProcessMessage() function
 	ProcessDeleteList();					// delete objects marked for deletion
 
 	if (Controls && bActive) ProcessControls();
 
-//	Compiler.ProcessFrame(Timer.Delta_Time);
-//	Compiler.ProcessEvent("frame");
-
 	ProcessRunEnd(SECTION_ALL);
 
+	// ~!~
 	if( Controls && Controls->GetDebugAsyncKeyState(VK_F8)<0 &&
 		Controls->GetDebugAsyncKeyState(VK_SHIFT)<0 &&
 		Controls->GetDebugAsyncKeyState(VK_CONTROL)<0 )
@@ -232,7 +211,7 @@ bool CORE::Run()
 		Timer.Delta_Time = 0;
 		Timer.fDeltaTime = 0.f;
 
-		VDX9RENDER* pRender = (VDX9RENDER*)CreateService("DX9RENDER");
+		auto* pRender = (VDX9RENDER*)CreateService("DX9RENDER");
 		CVECTOR pos,ang{};
 		float fPersp;
 		pRender->GetCamera(pos,ang,fPersp);
@@ -253,7 +232,6 @@ bool CORE::Run()
 
 	CommonLayers.Clean();
 
-	//UNGUARD
 	return true;
 }
 
@@ -262,7 +240,8 @@ void CORE::ProcessControls()
 	CONTROL_STATE cs;
 	USER_CONTROL  uc;
 
-	if(!Controls) return;
+	if(!Controls) 
+		return;
 
 	for(long n = 0;n<Controls->GetControlsNum();n++)
 	{
@@ -282,23 +261,10 @@ void CORE::ProcessControls()
 	}
 }
 
-static long nOffSearch = 0;
-void CORE::ProcessSystemMessage(UINT iMsg,WPARAM wParam,LPARAM lParam)
-{
-	//GUARD(CORE::ProcessSystemMessage)
-	if(SystemMessagesNum >= SYSTEM_MESSAGE_STACK_SIZE) { Trace("SMS overflaw");return;}
-	MessageStack[SystemMessagesNum].iMsg = iMsg;
-	MessageStack[SystemMessagesNum].lParam = lParam;
-	MessageStack[SystemMessagesNum].wParam = wParam;
-	SystemMessagesNum++;
-
-	//UNGUARD
-}//*/
-
 //-------------------------------------------------------------------------------------------------
 // internal functions
 //-------------------------------------------------------------------------------------------------
-bool __declspec(noinline) __cdecl CORE::Initialize()
+bool CORE::Initialize()
 {
 	ResetCore();
 
@@ -311,23 +277,12 @@ bool __declspec(noinline) __cdecl CORE::Initialize()
 
 	Initialized = true;
 
-	//ProcessRootObjectCreation();
-
-	//ProcessEngineIniFile();
-
-	//UNGUARD
 	return true;
 }
 
 bool CORE::LoadCoreState(CORE_STATE cs)
 {
 	ResetCore();
-
-	// pc/xbox mod - modules loaded on startup only and unloaded when app terminated
-	//Modules_Table.LoadModulesTable();							// creating modules table
-	//if(Modules_Table.GetModulesCount() == 0) throw std::exception(No modules to Run);
-
-	//LoadClassesTable();											// creating classes table
 
 	// create atoms space
 	if(!CreateAtomsTable(cs.Atoms_space)) throw std::exception();
@@ -341,37 +296,7 @@ bool CORE::LoadCoreState(CORE_STATE cs)
 	Initialized = true;
 	bEngineIniProcessed = true;
 
-	//UNGUARD
 	return true;
-}
-
-void CORE::ProcessRootObjectCreation()
-{
-	//GUARD(CORE::ProcessRootObjectCreation)
-
-	//INIFILE * engine_ini;
-	//char string[_MAX_PATH];
-
-	if(Root_flag) return;
-
-	/*engine_ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
-	if(engine_ini == null) throw std::exception(no 'engine.ini' file);
-
-	if(!engine_ini->ReadString(0,"root object",string,sizeof(string),0))
-	{
-		delete engine_ini;
-		throw std::exception(No 'root object' key in engine.ini);
-	}
-	delete engine_ini;
-
-	gdi_display.Print("Root object: %s",string);
-	if(!CreateEntity(0,string)) throw std::exception(Cant create Root object);//*/
-
-
-	//ProcessEngineIniFile();
-
-	Root_flag = true;
-	//UNGUARD
 }
 
 void CORE::Execute(char * name)
@@ -431,7 +356,7 @@ void __declspec(noinline) __cdecl CORE::ProcessEngineIniFile()
 		if (iScriptVersion != ENGINE_SCRIPT_VERSION)
 		{
 			ShowCursor(true);
-			MessageBox(GetAppHWND(), "Wrong script version", "Error", MB_OK);
+			MessageBoxA(nullptr, "Wrong script version", "Error", MB_OK);
 			Compiler.ExitProgram();
 		}
 	}
@@ -1389,15 +1314,7 @@ void CORE::FitLayer(uint32_t index, char* layer_name, LAYER_STATE ls)
 
 bool CORE::LayerCreate(char * layer_name, bool ordered, bool fail_if_exist, bool system, uint32_t system_flags)
 {
-	//GUARD(CORE::CreateLayer)
-	if(system)
-	{
-
-	}
-	else
 	return CommonLayers.Create(layer_name,ordered,fail_if_exist);
-	//UNGUARD
-	return false;
 }
 
 C_ATOM * CORE::GetAtom(ENTITY_ID * id_PTR)
@@ -1461,21 +1378,14 @@ bool CORE::LayerAdd(const char * pLayerName, ENTITY_ID eid, uint32_t priority, b
 {
 	char * layer_name = (char*)pLayerName;
 
-	if(system)
-	{
+	LayerCreate(layer_name,true,false,false,0);
+	uint32_t index = CommonLayers.GetIndex(layer_name);
+	if(index == INVALID_LAYER_CODE) return false;
+	if(!ValidateEntity(&eid)) return false;
+	if(Atoms_PTR[eid.atom_position]->TstLayerAttribute(index,false)) return true;
+	if(!CommonLayers.Add(index,eid,priority)) return false;
+	Atoms_PTR[eid.atom_position]->SetLayerAttribute(index,false);
 
-	}
-	else
-	{
-		LayerCreate(layer_name,true,false,false,0);
-		uint32_t index = CommonLayers.GetIndex(layer_name);
-		if(index == INVALID_LAYER_CODE) return false;
-		if(!ValidateEntity(&eid)) return false;
-		if(Atoms_PTR[eid.atom_position]->TstLayerAttribute(index,false)) return true;
-		if(!CommonLayers.Add(index,eid,priority)) return false;
-		Atoms_PTR[eid.atom_position]->SetLayerAttribute(index,false);
-	}
-	//UNGUARD
 	return true;
 }
 
@@ -1487,18 +1397,10 @@ void CORE::LayerDel(const char * layer_name, ENTITY_ID eid)
 void CORE::LayerDel(const char * pLayerName, ENTITY_ID eid,bool system)
 {
 	char * layer_name = (char*)pLayerName;
-	if(system)
-	{
-
-	}
-	else
-	{
-		uint32_t index = CommonLayers.GetIndex(layer_name);
-		CommonLayers.Del(index,eid);
-		if(!ValidateEntity(&eid)) return;
-		Atoms_PTR[eid.atom_position]->ClrLayerAttribute(index,false);
-	}
-	//UNGUARD
+	uint32_t index = CommonLayers.GetIndex(layer_name);
+	CommonLayers.Del(index,eid);
+	if(!ValidateEntity(&eid)) return;
+	Atoms_PTR[eid.atom_position]->ClrLayerAttribute(index,false);
 }
 
 bool CORE::LayerDeleteContent(char * layer_name)
@@ -1556,17 +1458,13 @@ VIDWALKER * CORE::LayerGetWalker(char * layer_name)
 	return pl->GetWalker();
 }
 
-//-------------------------------------------------------------------------------------------------
-// exit to system
-//
-void CORE::Exit()	{	Exit_flag = true;	}
-void CORE::Reset()	{	Reset_flag = true;	}
+void CORE::Exit() { Exit_flag = true; }
 
 //------------------------------------------------------------------------------------------------
 // return application window handle
 //
 HWND CORE::GetAppHWND() { return App_Hwnd; }
-HINSTANCE CORE::GetAppInstance(){return hInstance;}
+HINSTANCE CORE::GetAppInstance() { return hInstance; }
 
 //------------------------------------------------------------------------------------------------
 // Mark entity for following deletion
@@ -1941,40 +1839,6 @@ void CORE::ProcessRealize()
 	}
 //	*/
 	ProcessRunEnd(SECTION_REALIZE);
-	//UNGUARD
-}
-
-void CORE::ProcessSystemMessagesBuffer()
-{
-	//GUARD(CORE::ProcessSystemMessagesBuffer())
-	ProcessRunStart(SECTION_PROCESS_MESSAGE_SYSTEM);
-
-	for(uint32_t n = 0;n<=CommonLayers.lss.Layer_max_index;n++)
-	{
-		LAYER* l_PTR = CommonLayers.Layer_Table[n];
-		if(l_PTR == nullptr) continue;
-		uint32_t flags = l_PTR->ls.Flags & LRFLAG_FROZEN; if(flags != 0) continue;	// skip frozen layers
-		flags = l_PTR->ls.Flags & LRFLAG_SYS_MESSAGES; if(flags == 0) continue;	// skip layers
-		ENTITY_ID* eid_PTR = l_PTR->GetID();
-		while(eid_PTR)
-		{
-			if(ValidateEntity(eid_PTR))
-			{
-				if(!Atoms_PTR[eid_PTR->atom_position]->as.Deleted)
-				for(uint32_t i = 0;i<SystemMessagesNum;i++)
-				{
-					//PUSH_CONTROL(eid_PTR->pointer,eid_PTR->class_code,CTP_MESSAGE_SYSTEM)
-					((ENTITY *)eid_PTR->pointer)->ProcessMessage(MessageStack[i].iMsg,MessageStack[i].wParam,MessageStack[i].lParam);
-					//POP_CONTROL(nullptr)
-				}
-			}
-			eid_PTR = l_PTR->GetNextID();
-		}
-	}
-	SystemMessagesNum = 0;
-
-	ProcessRunEnd(SECTION_PROCESS_MESSAGE_SYSTEM);
-
 	//UNGUARD
 }
 
@@ -2514,8 +2378,6 @@ void CORE::ProcessStateLoading()
 
 	// close state file
 	CloseHandle(fh);
-	// inform system, that there is no need to load root object
-	Root_flag = true;
 	// state loading complete
 	State_loading = false;
 	//UNGUARD

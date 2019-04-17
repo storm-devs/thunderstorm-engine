@@ -30,16 +30,11 @@ public:
 
 //------------------------------------------------------------------------------------------------
 // API functions : (virtual API)
-
-	// common programm control
-	
 	// shutdown core, delete all objects and close programm
-	virtual void Exit()= 0;
-	// restart core
-	virtual void Reset()= 0;
+	virtual void Exit() = 0;
 	// return application handle
-	virtual HWND GetAppHWND()= 0;
-	virtual HINSTANCE GetAppInstance()= 0;
+	virtual HWND GetAppHWND() = 0;
+	virtual HINSTANCE GetAppInstance() = 0;
 	// return pointer to user data
 	virtual void * GetUserData(long * data_size)= 0;
 	// copy into system user data
