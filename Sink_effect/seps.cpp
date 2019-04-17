@@ -124,7 +124,7 @@ SEPS_PS::~SEPS_PS()
 	if(RenderService)
 	{
 		for(n=0;n<TexturesNum;n++) RenderService->TextureRelease(TextureID[n]);
-		api->FreeService("dx9render");
+		//api->FreeService("dx9render");
 	}
 	if(Particle) delete Particle; Particle = nullptr;
 	if(pFlowTrack) delete pFlowTrack; pFlowTrack = nullptr;

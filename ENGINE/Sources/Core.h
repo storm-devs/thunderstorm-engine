@@ -83,7 +83,7 @@ public:
 	bool LayerCreate(char * layer_name, bool ordered, bool fail_if_exist, bool system, uint32_t system_flags);
 	
 	uint32_t GetLayerIndex(char * layer_name);
-	void CheckAutoExceptions(uint32_t xflag);
+	void CheckAutoExceptions(uint32_t xflag) const;
 	void LayerDel(const char * layer_name, ENTITY_ID eid,bool system);
 	bool LayerAdd(const char * layer_name, ENTITY_ID eid, uint32_t priority, bool system);
 	void ReleaseServices();
@@ -170,12 +170,6 @@ public:
 	// write message to system log file
 	void _cdecl Trace(const char * Format,...) override;
 	// OR operation with core exceptions mask, returned current mask state
-	uint32_t SetExceptions(uint32_t _flags) override;
-	// AND operation with core exceptions mask, returned current mask state
-	uint32_t ClrExceptions(uint32_t _flags) override;
-	// switch on/off engine gdi display 
-
-
 
 	// work with objects classes
 	
@@ -191,9 +185,6 @@ public:
 
 	// return service object pointer; 
 	void * CreateService(char * service_name) override;
-	// free service (unload module)
-	void FreeService(char * service_name) override;
-	
 
 	// entity managment
 	
@@ -251,8 +242,6 @@ public:
 	void LayerDel(const char * layer_name, ENTITY_ID eid) override;
 	// delete layer content, delete all objects referenced in this layer; layer doesn't deleted
 	bool LayerDeleteContent(char * layer_name) override;
-	// set layer sleeping time, layer will skip execution till this time
-	void LayerSetSleep(char * layer_name,uint32_t sleep_time_ms) override;
 	// on/off execute
 	void LayerSetExecute(char * layer_name, bool on) override;
 	// on/off realize
@@ -275,8 +264,6 @@ public:
 	//
 	VDATA * _cdecl Event(char * Event_name, char * Format,...) override;
 	uint32_t _cdecl PostEvent(char * Event_name, uint32_t post_time, char * Format,...) override;
-	//
-	void Execute(char * name) override;
 
 	void * GetSaveData(char * file_name, long & data_size) override;
 	

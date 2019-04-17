@@ -1,13 +1,5 @@
-#ifndef _VAPI_H_
-#define _VAPI_H_
-
-
-#ifndef _XBOX 
+#pragma once
 #include <Windows.h>
-#else
-#include <xtl.h>
-#endif
-
 #include "entity.h"
 #include "vfile_service.h"
 #include "vidwalker.h"
@@ -46,9 +38,6 @@ public:
 	// write message to system log file
 	virtual void _cdecl Trace(const char * Format,...)= 0;
 	// OR operation with core exceptions mask, return current mask state
-	virtual uint32_t SetExceptions(uint32_t _flags)= 0;
-	// AND operation with core exceptions mask inversion, return current mask state
-	virtual uint32_t ClrExceptions(uint32_t _flags)= 0;
 
 	// work with objects classes
 	
@@ -64,8 +53,6 @@ public:
 
 	// return service object pointer; 
 	virtual void * CreateService(char * service_name)= 0;
-	// free service (unload module)
-	virtual void FreeService(char * service_name)= 0;
 	
 
 	// entity managment
@@ -121,16 +108,12 @@ public:
 	virtual void LayerDel(const char * layer_name, ENTITY_ID eid)= 0;
 	// delete layer content, delete all objects referenced in this layer; layer doesn't deleted
 	virtual bool LayerDeleteContent(char * layer_name)= 0;
-	// set layer sleeping time, layer will skip execution till this time
-	virtual void LayerSetSleep(char * layer_name,uint32_t sleep_time_ms)= 0;
 	// on/off execute
 	virtual void LayerSetExecute(char * layer_name, bool on)= 0;
 	// on/off realize
 	virtual void LayerSetRealize(char * layer_name, bool on)= 0;
 	// get id walker object
 	virtual VIDWALKER * LayerGetWalker(char * layer_name)= 0;
-		
-
 
 	// save core state
 	virtual bool SaveState(char * file_name)= 0;
@@ -148,8 +131,6 @@ public:
 	virtual VDATA * _cdecl Event(char * Event_name, char * Format = nullptr,...)= 0;
 
 	virtual uint32_t _cdecl PostEvent(char * Event_name, uint32_t post_time, char * Format,...)= 0;
-	// execute script
-	virtual void Execute(char * name)=0;
 
 	virtual uint32_t GetRDeltaTime()= 0;
 
@@ -167,6 +148,3 @@ public:
 
 	virtual bool IsNetActive() const = 0;
 };
-
-
-#endif

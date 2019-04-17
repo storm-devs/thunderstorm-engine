@@ -25,7 +25,7 @@ CameraDialog::CameraDialog(): rs(nullptr), col(nullptr), frames(0)
 
 CameraDialog::~CameraDialog()
 {
-	api->FreeService("coll");
+	//api->FreeService("coll");
 //	ShowCursor(true);
 	if(track)	delete track;
 }

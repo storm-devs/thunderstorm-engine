@@ -21,7 +21,7 @@ enum FUNCTION_CODE
 	FUNC_SET_EVENT_HANDLER,
 	FUNC_EXIT_PROGRAM,
 	FUNC_GET_EVENTDATA,
-	FUNC_EXECUTE,
+	//FUNC_EXECUTE,
 	FUNC_STOP,
 	FUNC_SEND_MESSAGE,
 	FUNC_LOAD_SEGMENT,
@@ -122,7 +122,7 @@ INTFUNCDESC IntFuncTable[]=
 	3,"SetEventHandler",TVOID,
 	0,"ExitProgram",TVOID,
 	0,"GetEventData",UNKNOWN,
-	1,"Execute",TVOID,
+	//1,"Execute",TVOID,
 	0,"Stop",TVOID,
 	0,"SendMessage",VAR_INTEGER,
 	1,"LoadSegment",VAR_INTEGER,
@@ -1358,11 +1358,11 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 				return nullptr;
 			}
 		break;
-		case FUNC_EXECUTE:
+		/*case FUNC_EXECUTE:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV->Get(pChar);
 			api->Execute(pChar);
-		break;
+		break;*/
 		case FUNC_LOAD_SEGMENT:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			Access.Copy(pV);
