@@ -1135,7 +1135,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 		case FUNC_LAYER_DELETE:
 			pV = SStack.Pop(); if(!pV) {SetError(INVALID_FA); break;};
 			pV->Get(pChar);
-			api->LayerSTORM_DELETE(pChar);
+			api->LayerDelete(pChar);
 		break;
 		case FUNC_LAYER_DELETE_CONTENT:
 			pV = SStack.Pop(); if(!pV) {SetError(INVALID_FA); break;};

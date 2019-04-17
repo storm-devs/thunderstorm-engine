@@ -264,7 +264,7 @@ public:
 	// create layer with name pointed by layer_name; layer may be ordered
 	bool LayerCreate(char * layer_name, bool ordered, bool fail_if_exist);
 	// delete layer (no objects will be deleted)
-	void LayerSTORM_DELETE(char * layer_name);
+	void LayerDelete(char * layer_name);
 	// set flags to layer
 	void LayerSetFlags(char * layer_name, uint32_t flags);
 	// clear flags for layer

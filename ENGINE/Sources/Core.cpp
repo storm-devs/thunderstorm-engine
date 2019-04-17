@@ -1517,10 +1517,10 @@ bool CORE::LayerCreate(char * layer_name, bool ordered, bool fail_if_exist)
 }
 
 // fit common layer
-void CORE::FitLayer(uint32_t index,char * layer_name, LAYER_STATE ls)
+void CORE::FitLayer(uint32_t index, char* layer_name, LAYER_STATE ls)
 {
 	//GUARD(CORE::FitLayer)
-	CommonLayers.Fit(index,layer_name,ls);
+	CommonLayers.Fit(index, layer_name, ls);
 	//UNGUARD
 }
 
@@ -1546,7 +1546,7 @@ C_ATOM * CORE::GetAtom(ENTITY_ID * id_PTR)
 //------------------------------------------------------------------------------------------------
 // Mark layer for deletion before next game loop
 //
-void CORE::LayerSTORM_DELETE(char * layer_name)
+void CORE::LayerDelete(char * layer_name)
 {
 	//GUARD(CORE::DeleteLayer)
 
