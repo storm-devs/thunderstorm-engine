@@ -536,9 +536,6 @@
     <ClCompile Include="sources\Core.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sources\entity_state_R.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sources\file_service.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -2288,9 +2285,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sources\dstring_codec.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\entity_state_R.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sources\externs.h">

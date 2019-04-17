@@ -412,7 +412,6 @@
     <ClCompile Include="sources\Core.cpp" />
     <ClCompile Include="sources\C_atom.cpp" />
     <ClCompile Include="sources\data.cpp" />
-    <ClCompile Include="sources\entity_state_R.cpp" />
     <ClCompile Include="sources\expression.cpp" />
     <ClCompile Include="sources\file_service.cpp" />
     <ClCompile Include="sources\ifs.cpp" />
@@ -716,7 +715,6 @@
     <ClInclude Include="sources\C_atom.h" />
     <ClInclude Include="sources\data.h" />
     <ClInclude Include="sources\dstring_codec.h" />
-    <ClInclude Include="sources\entity_state_R.h" />
     <ClInclude Include="sources\externs.h" />
     <ClInclude Include="sources\file_service.h" />
     <ClInclude Include="sources\fsdata_list.h" />

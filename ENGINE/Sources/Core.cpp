@@ -1,11 +1,10 @@
 #include "Core.h"
 #include "externs.h"
-#include "entity_state_R.h"
 #include <cinttypes>
 
 CREATE_SERVICE(CONTROLS)
 
-extern uint32_t dwNumberScriptCommandsExecuted = 0;
+uint32_t dwNumberScriptCommandsExecuted = 0;
 auto constexpr CORE_DEFAULT_ATOMS_SPACE = 128;
 
 typedef struct
@@ -1885,242 +1884,20 @@ uint32_t CORE::ClrExceptions(uint32_t _flags)
 // save core state
 bool CORE::SaveState(char * file_name)
 {
-	uint32_t n,i;
-	HANDLE fh;
-	ENTITY_STATE_GEN_R esg;
-	char FullPath[MAX_PATH];
-	char PathBuffer[MAX_PATH];
-
-	if(!file_name) return false;
-
-#ifdef _XBOX
-
-	if(file_name[0] == 'U' && file_name[1] ==':')
-	{
-		strcpy_s(FullPath,file_name);
-
-	}
-	else
-	{
-		uint16_t FileBuffer[MAX_PATH];
-		for(n=0;file_name[n];n++)
-		{
-			FileBuffer[n] = file_name[n];
-		}
-		FileBuffer[n] = 0;
-		if(XCreateSaveGame("U:\\",FileBuffer,OPEN_ALWAYS,0,PathBuffer,sizeof(PathBuffer)) != ERROR_SUCCESS)
-		{
-			trace("cant create save game");
-		}
-		strcpy_s(FullPath,PathBuffer);
-		strcat_s(FullPath,file_name);
-	}
-
-#else
-	strcpy_s(FullPath,file_name);
-#endif
+	if(!file_name)
+		return false;
 
 	fio->SetDrive(XBOXDRIVE_NONE);
-	fh = fio->_CreateFile(FullPath,GENERIC_WRITE|GENERIC_READ,0,CREATE_ALWAYS);
+	HANDLE fh = fio->_CreateFile(file_name,GENERIC_WRITE | GENERIC_READ, 0,CREATE_ALWAYS);
 	fio->SetDrive();
 
-	if(fh == INVALID_HANDLE_VALUE) return false;
+	if(fh == INVALID_HANDLE_VALUE) 
+		return false;
+
 	Compiler.SaveState(fh);
 	fio->_CloseHandle(fh);
 
-#ifdef _XBOX
-	strcat_s(PathBuffer,"saveimage.xbx");
-	CopyFile("d:\\resource\\textures\\saveimage.xbx",PathBuffer,FALSE);
-#endif
-
-#ifndef STATE_COMPRESSION_ON
 	return true;
-#endif
-//*/
-	//----------------------------------------------------------------------------------------------
-	// compression
-	fh = fio->_CreateFile("tempout.tmp",GENERIC_WRITE|GENERIC_READ,FILE_SHARE_READ,CREATE_ALWAYS);
-	if(fh == INVALID_HANDLE_VALUE) return false;
-	Compiler.SaveState(fh);
-	uint32_t dwR;
-	HANDLE pfh;
-	char * pSource;
-	char * pDestination;
-
-	uint32_t nSourceSize;
-	uint32_t nPackedSize;
-	char sPfname[MAX_PATH];
-
-	strcpy_s(sPfname,PathBuffer);
-	strcat_s(sPfname,"p");
-	nSourceSize = fio->_GetFileSize(fh,nullptr);
-
-
-	pSource = (char *)malloc(nSourceSize);
-	pDestination = nullptr;
-	nPackedSize = 0;
-
-	fio->_SetFilePointer(fh,0,nullptr,FILE_BEGIN);
-	fio->_ReadFile(fh,pSource,nSourceSize,&dwR);
-	if(pSource)
-	{
-		if(Compiler.Compress.Pack(pSource,nSourceSize,pDestination,nPackedSize))
-		{
-			pfh = fio->_CreateFile(PathBuffer,GENERIC_WRITE,FILE_SHARE_READ,CREATE_ALWAYS);
-
-			if(fh != INVALID_HANDLE_VALUE)
-			{
-				fio->_WriteFile(pfh,pDestination,nPackedSize,&dwR);
-				fio->_CloseHandle(pfh);
-			}
-			free(pDestination);
-		}
-		free(pSource);
-	}
-	fio->_CloseHandle(fh);
-	fio->_DeleteFile("tempout.tmp");
-
-
-	return true;
-//============================================================================================================
-
-	esg.Init(fio,fh);
-
-	// write core state structure
-	esg.SetState("m",sizeof(CoreState),&CoreState); esg.CloseState();
-
-
-//============================================================================================================
-	fio->_CloseHandle(fh);
-	return true;
-
-
-	ENTITY_ID id;
-	ENTITY_ID * id_PTR;
-	ENTITY * entity_PTR;
-//	ENTITY_STATE_GEN_R esg;
-
-
-
-//	char * char_PTR;
-	uint32_t Priority;
-	uint32_t layer_objects;
-
-	//GUARD(CORE::SaveState)
-
-	//VALIDATE_API_CALLS
-
-	fh = fio->_CreateFile(PathBuffer,GENERIC_WRITE,FILE_SHARE_READ,CREATE_ALWAYS);
-	if(fh == INVALID_HANDLE_VALUE) return false;
-
-	CoreState.engine_version = ENGINE_VERSION;
-
-	esg.Init(fio,fh);
-
-	// write core state
-	esg.SetState("m",sizeof(CoreState),&CoreState);
-	esg.CloseState();
-
-	// write classes count
-
-
-
-
-//	esg.SetState("u",Classes_Table.GetStringsCount());
-	// write classes table
-/*	for(n=0;n<Classes_Table.GetStringsCount();n++)
-	{
-		char_PTR = Classes_Table.GetString(n);
-		if(char_PTR == null) throw std::exception();
-		esg.SetState("s",char_PTR);
-	}
-*/
-	esg.CloseState();
-
-	// switch on all engine objects
-	SetEntityScanLayer(nullptr);
-	// write objects id and atoms states
-	for(n=0;n<CoreState.Atoms_number;n++)
-	{
-		if(n == 0) { if(!GetEntity(&id)) throw std::exception();	}
-		else  { if(!GetEntityNext(&id)) throw std::exception();	}
-		esg.SetState("m",sizeof(id),&id);
-		esg.SetState("m",sizeof(Atoms_PTR[id.atom_position]->as),&Atoms_PTR[id.atom_position]->as);
-		esg.CloseState();
-	}
-	// write common layers info ------------------------------------------------------------------------------
-	esg.SetState("u",CommonLayers.lss.Layers_number); esg.CloseState();
-	esg.SetState("m",sizeof(CommonLayers.lss),&CommonLayers.lss);
-	for(i=0;i<_MAX_LAYERS;i++)
-	{
-		if(CommonLayers.Layer_Table[i] == nullptr) continue;
-		// save layers index, name length, name and layer state
-		esg.SetState("uusm",i,strlen(CommonLayers.Layer_Table[i]->Name) + 1,CommonLayers.Layer_Table[i]->Name,
-			sizeof(CommonLayers.Layer_Table[i]->ls),&CommonLayers.Layer_Table[i]->ls);
-		layer_objects = CommonLayers.Layer_Table[i]->Count;
-		// save layer objects count
-		esg.SetState("u",layer_objects);
-		// save layer objects ids
-		for(n=0;n<layer_objects;n++)
-		{
-			if(n == 0) { id_PTR = CommonLayers.Layer_Table[i]->GetID(&Priority);	}
-			else { id_PTR = CommonLayers.Layer_Table[i]->GetNextID(&Priority);	}
-			if(id_PTR == nullptr) throw std::exception();
-			// save object priority and id
-			esg.SetState("um",Priority,sizeof(ENTITY_ID),id_PTR);
-		}
-		esg.CloseState();
-	}
-	//---------------------------------------------------------------------------------------------------------
-
-
-/*
-	// at this time services doesnt store/restore data
-	// write services --------------------------------------------------
-	uint32_t class_code;
-	SERVICE * service_PTR;
-	esg.SetState("u",Services_List.GetCount());
-	for(i=0;i<Services_List.GetCount();i++)
-	{
-		if(i == 0) service_PTR = Services_List.GetService(&class_code);
-		else service_PTR = Services_List.GetNextService(&class_code);
-		if(service_PTR == null) throw std::exception();
-		esg.SetState("u",class_code);
-	}
-	for(i=0;i<Services_List.GetCount();i++)
-	{
-		if(i == 0) service_PTR = Services_List.GetService(&class_code);
-		else service_PTR = Services_List.GetNextService(&class_code);
-		if(service_PTR == null) throw std::exception();
-		esg.SetState("uu",class_code,Services_List.GetRef(service_PTR));
-		service_PTR->CreateState(&esg);
-
-	}
-	//-------------------------------------------------------------------
-*/
-
-
-	// write objects id and objects data
-	for(n=0;n<CoreState.Atoms_number;n++)
-	{
-		if(n == 0) { if(!GetEntity(&id)) throw std::exception();	}
-		else { if(!GetEntityNext(&id)) throw std::exception();	}
-		// save objects id
-		esg.SetState("m",sizeof(id),&id);
-		entity_PTR = GetEntityPointer(&id);
-		if(entity_PTR == nullptr) throw std::exception();
-		// transfer control to entity, for saving objects data
-		//PUSH_CONTROL(entity_PTR,id.class_code,CTP_CREATESTATE)
-		entity_PTR->CreateState(&esg);
-		//POP_CONTROL(nullptr)
-		esg.CloseState();
-	}
-
-	esg.CloseState();
-
-	fio->_CloseHandle(fh);
-	//UNGUARD
-	return false;
 }
 
 // force core to load state file at the start of next game loop, return false if no state file
@@ -2136,7 +1913,7 @@ bool CORE::InitiateStateLoading(char * file_name)
 	fio->SetDrive();
 	if(fh == INVALID_HANDLE_VALUE) return false;
 	fio->_CloseHandle(fh);
-	if(State_file_name) delete State_file_name;
+	delete State_file_name;
 
 	const auto len = strlen(file_name) + 1;
 	State_file_name = (char *)new char[len];
@@ -2154,233 +1931,22 @@ void CORE::ProcessStateLoading()
 
 	//VALIDATE_API_CALLS
 
-	HANDLE fh;
-	ENTITY_STATE_R es;
-	CORE_STATE cs;
-	std::vector<char> v_Buff;
-	ATOM_STATE atom_state;
-	ENTITY_ID entity_id;
-	ENTITY * entity_PTR;
-	LAYER_STATE ls;
-
-	uint32_t classes_count;
-	uint32_t entities_in_state;
-	uint32_t n,i;
-//	char * char_PTR;
-	uint32_t Priority;
-	uint32_t layers_num;
-	uint32_t size;
-	uint32_t layer_index;
-	uint32_t layer_objects;
-
-
-	if(!State_file_name) return;
+	if(!State_file_name) 
+		return;
 
 	State_loading = true;
 	EraseEntities();
 
-
-	char * pUnpacked;
-	uint32_t nUnpackedSize;
-	char * pDestination;
-	uint32_t nPackedSize;
-	HANDLE pfh;
-	uint32_t dwR;
-#ifndef STATE_COMPRESSION_ON
-
 	fio->SetDrive(XBOXDRIVE_NONE);
-	fh = fio->_CreateFile(State_file_name,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
+	HANDLE fh = fio->_CreateFile(State_file_name,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 	fio->SetDrive();
 	if(fh == INVALID_HANDLE_VALUE) return;
 	Compiler.LoadState(fh);
 	fio->_CloseHandle(fh);
 
-	if(State_file_name) delete State_file_name; State_file_name = nullptr;
+	delete State_file_name; 
+	State_file_name = nullptr;
 	State_loading = false;
-
-	return;
-#endif
-
-//*/
-
-	//------------------------------------------------------------------------------------
-	// decompression
-	pfh = fio->_CreateFile(State_file_name,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
-	if(pfh == INVALID_HANDLE_VALUE) return;
-	nPackedSize = fio->_GetFileSize(pfh,nullptr);
-	if(nPackedSize == INVALID_FILE_SIZE) { fio->_CloseHandle(pfh); return;}
-	pDestination = (char *)malloc(nPackedSize);
-	if(pDestination == nullptr) throw std::exception();
-	fio->_ReadFile(pfh,pDestination,nPackedSize,&dwR);
-	fio->_CloseHandle(pfh);
-
-	pUnpacked = nullptr;
-	nUnpackedSize = 0;
-	if(Compiler.Compress.Unpack(pDestination,nPackedSize,pUnpacked,nUnpackedSize))
-	{
-		pfh = fio->_CreateFile("tempout.tmp",GENERIC_WRITE,FILE_SHARE_READ,CREATE_ALWAYS);
-		if(pfh != INVALID_HANDLE_VALUE)
-		{
-			fio->_WriteFile(pfh,pUnpacked,nUnpackedSize,&dwR);
-			fio->_CloseHandle(pfh);
-		} else throw std::exception();
-		free(pUnpacked);
-	} else throw std::exception();
-	free(pDestination);
-
-	// open state file
-	//fh = fio->_CreateFile(State_file_name,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
-	fh = fio->_CreateFile("tempout.tmp",GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
-	delete State_file_name; State_file_name = nullptr;
-	if(fh == INVALID_HANDLE_VALUE)
-	{
-		Trace(State_file_name);
-		throw std::exception("NON_FATAL,cant open state file");
-	}
-
-	//Program.LoadState(fh);
-	Compiler.LoadState(fh);
-	fio->_CloseHandle(fh);
-	fio->_DeleteFile("tempout.tmp");
-
-	if(State_file_name) delete State_file_name; State_file_name = nullptr;
-	State_loading = false;
-
-	return;
-
-//====================================================================================
-
-	// init state reader object
-	es.Init(fio,fh);
-
-	// read core state
-	es.MemoryBlock(sizeof(cs),(char *)&cs);
-
-	// check engine version
-	if(cs.engine_version != CoreState.engine_version) throw std::exception("incorrect state file");
-
-	// validate space size
-	if(cs.Atoms_max_orbit >= cs.Atoms_space) throw std::exception();
-
-	// reset core state and load new
-	LoadCoreState(cs);
-
-	// memorize number of entities in state
-	entities_in_state = cs.Atoms_number;
-
-	// loaded saved classes count
-	classes_count = es.Dword();
-
-	// verify class table size
-//	if(classes_count != Classes_Table.GetStringsCount()) throw std::exception(incorrect state file);
-
-	// verify class table
-/*	for(n=0;n<Classes_Table.GetStringsCount();n++)
-	{
-		// get pointer to loaded class name
-		char_PTR = Classes_Table.GetString(n);
-		if(char_PTR == null) throw std::exception();
-		// set buffer size
-		v_Buff.Size(strlen(char_PTR) + 1);
-		// read save class name
-		es.String(strlen(char_PTR) + 1,v_Buff.Ptr);
-		// compare saved class name with currently loaded
-		if(_stricmp(v_Buff.Ptr,char_PTR) != 0) throw std::exception(incorrect state file);
-	}
-*/
-	// restore atom structure and recreate objects
-	for(n=0;n<entities_in_state;n++)
-	{
-		// read atom id
-		es.MemoryBlock(sizeof(entity_id),(char *)&entity_id);
-		// read atom state
-		es.MemoryBlock(sizeof(atom_state),(char *)&atom_state);
-		// restore atom and entity
-		RestoreEntity(entity_id,atom_state);
-	}
-
-
-
-	// create common layers and read layers data --------------------------------------------------------------
-	layers_num = es.Dword();
-	es.MemoryBlock(sizeof(CommonLayers.lss),(char *)&CommonLayers.lss);
-	for(i=0;i<layers_num;i++)
-	{
-		// read layer index
-		layer_index = es.Dword();
-		// read layer name length
-		size = es.Dword();
-		v_Buff.resize(size);
-		// read layer name
-		es.String(size,&v_Buff[0]);
-		// read layer state
-		es.MemoryBlock(sizeof(ls),(char *)&ls);
-		// recreate layer
-		CommonLayers.Fit(layer_index,&v_Buff[0],ls);
-		layer_objects = es.Dword();
-		// restore objects information
-		for(n=0;n<layer_objects;n++)
-		{
-			// read object priority
-			Priority = es.Dword();
-			// read object id
-			es.MemoryBlock(sizeof(ENTITY_ID),(char*)&entity_id);
-			// assign object to layer
-			LayerAdd(&v_Buff[0],entity_id,Priority,false);
-		}
-	}
-	//---------------------------------------------------------------------------------------------------------
-
-
-
-	// restore services --------------------------------------------------
-	// at this time services doesnt store/restore data
-	//-------------------------------------------------------------------
-
-
-	// upload objects states
-	for(n=0;n<entities_in_state;n++)
-	{
-		// read entity id
-		es.MemoryBlock(sizeof(entity_id),(char *)&entity_id);
-		// obtain entity pointer
-		entity_PTR = GetEntityPointer(&entity_id);
-		if(entity_PTR == nullptr) throw std::exception();
-		#ifndef EX_OFF
-		try {
-		#endif
-			// prepare to transfer control to object
-			//PUSH_CONTROL(entity_PTR,entity_id.class_code,CTP_LOADSTATE)
-			// transfer control for loading object state
-			if(!entity_PTR->LoadState(&es))
-			{
-				// state load error, detected by object
-				TraceCurrent();
-				throw std::exception("state loading error");
-			}
-			//POP_CONTROL(nullptr)
-		#ifndef EX_OFF
-		}
-		catch(_EXS xobj)
-		{
-			TraceCurrent();
-			POP_CONTROL(0)
-			throw;
-		}
-		catch(...)
-		{
-			TraceCurrent();
-			POP_CONTROL(0)
-			throw std::exception(LoadState);
-		}
-		#endif
-	}
-
-	// close state file
-	CloseHandle(fh);
-	// state loading complete
-	State_loading = false;
-	//UNGUARD
 }
 
 void CORE::ProcessRunStart(uint32_t section_code)
