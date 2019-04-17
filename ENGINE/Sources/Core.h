@@ -46,7 +46,7 @@ class CORE : public VAPI
 {
 public:
 	CORE();
-	~CORE();
+	~CORE() = default;
 	
 
 	void __declspec(dllexport) __cdecl InitBase();
@@ -113,7 +113,7 @@ public:
 
 	C_ATOM * GetAtom(ENTITY_ID * id_PTR);
 
-	bool bAppActive;
+	bool bAppActive{};
 	bool Memory_Leak_flag;			// true if core detected memory leak
 	bool Reset_flag;
 	bool Root_flag;
@@ -121,22 +121,22 @@ public:
 	bool Initialized;				// initialized flag (false at startup or after Reset())
 	bool bEngineIniProcessed;
 	HWND App_Hwnd;					// application handle
-	char gstring[_MAX_PATH];		// general purpose string 
+	char gstring[_MAX_PATH]{};		// general purpose string 
 	bool State_loading;
-	bool bEnableTimeScale;
+	bool bEnableTimeScale{};
 	
 	SERVICES_LIST Services_List;	// list for subsequent calls RunStart/RunEnd service functions
 	
-	HINSTANCE hInstance;
+	HINSTANCE hInstance{};
 
-	CORE_STATE CoreState;
+	CORE_STATE CoreState{};
 	char * State_file_name;
 
 	std::vector<C_ATOM*> Atoms_PTR;
-	uint32_t Atom_Search_Position;		// first version
-	uint32_t Atom_Search_Class_Code;	// first version
-	uint32_t Atom_Get_Position;		// first version
-	uint32_t Scan_Layer_Code;
+	uint32_t Atom_Search_Position{};		// first version
+	uint32_t Atom_Search_Class_Code{};	// first version
+	uint32_t Atom_Get_Position{};		// first version
+	uint32_t Scan_Layer_Code{};
 	uint32_t Constructor_counter;
 
 	FSDATA_LIST DeleteEntityList;
@@ -147,7 +147,7 @@ public:
 	LAYER_SERVICE CommonLayers;
 
 	TIMER Timer;
-	SYSTEM_MESSAGE MessageStack[SYSTEM_MESSAGE_STACK_SIZE];
+	SYSTEM_MESSAGE MessageStack[SYSTEM_MESSAGE_STACK_SIZE]{};
 	uint32_t SystemMessagesNum;
 
 	//INPUT * Input;
