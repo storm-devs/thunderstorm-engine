@@ -2392,9 +2392,6 @@
     <ClInclude Include="Sources\token.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\vbuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Sources\C_atom.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -2465,7 +2465,7 @@ void CORE::ProcessStateLoading()
 	HANDLE fh;
 	ENTITY_STATE_R es;
 	CORE_STATE cs;
-	VBUFFER v_Buff;
+	std::vector<char> v_Buff;
 	ATOM_STATE atom_state;
 	ENTITY_ID entity_id;
 	ENTITY * entity_PTR;
@@ -2618,13 +2618,13 @@ void CORE::ProcessStateLoading()
 		layer_index = es.Dword();
 		// read layer name length
 		size = es.Dword();
-		v_Buff.Size(size);
+		v_Buff.resize(size);
 		// read layer name
-		es.String(size,v_Buff.Ptr);
+		es.String(size,&v_Buff[0]);
 		// read layer state
 		es.MemoryBlock(sizeof(ls),(char *)&ls);
 		// recreate layer
-		CommonLayers.Fit(layer_index,v_Buff.Ptr,ls);
+		CommonLayers.Fit(layer_index,&v_Buff[0],ls);
 		layer_objects = es.Dword();
 		// restore objects information
 		for(n=0;n<layer_objects;n++)
@@ -2634,7 +2634,7 @@ void CORE::ProcessStateLoading()
 			// read object id
 			es.MemoryBlock(sizeof(ENTITY_ID),(char*)&entity_id);
 			// assign object to layer
-			LayerAdd(v_Buff.Ptr,entity_id,Priority,false);
+			LayerAdd(&v_Buff[0],entity_id,Priority,false);
 		}
 	}
 	//---------------------------------------------------------------------------------------------------------

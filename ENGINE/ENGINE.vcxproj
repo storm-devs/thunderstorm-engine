@@ -756,7 +756,6 @@
     <ClInclude Include="sources\timer.h" />
     <ClInclude Include="sources\tm_list.h" />
     <ClInclude Include="sources\token.h" />
-    <ClInclude Include="sources\vbuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="REsOURCE\Textures\Weather\Astronomy\Planets\jupiter.tga.tx" />
