@@ -813,7 +813,7 @@ bool CORE::EraseEntity(ENTITY_ID entity_id)
 	for(uint32_t n = 0;n<=CommonLayers.lss.Layer_max_index;n++)
 	{
 		if(CommonLayers.Layer_Table[n] == nullptr) continue;
-		if(Atoms_PTR[entity_id.atom_position]->TstLayerAttribute(n,false))
+		if(Atoms_PTR[entity_id.atom_position]->TstLayerAttribute(n))
 			CommonLayers.Layer_Table[n]->Del(entity_id);
 	}
 
@@ -887,7 +887,7 @@ void CORE::LayerDelete(char * layer_name)
 			while(id_PTR)
 			{
 				C_ATOM* atom_PTR = GetAtom(id_PTR);
-				if(atom_PTR) atom_PTR->ClrLayerAttribute(CommonLayers.GetIndex(layer_name),false);
+				if(atom_PTR) atom_PTR->ClrLayerAttribute(CommonLayers.GetIndex(layer_name));
 				id_PTR = layer_PTR->GetNextID();
 			}
 		}
@@ -925,9 +925,9 @@ bool CORE::LayerAdd(const char * pLayerName, ENTITY_ID eid, uint32_t priority, b
 	uint32_t index = CommonLayers.GetIndex(layer_name);
 	if(index == INVALID_LAYER_CODE) return false;
 	if(!ValidateEntity(&eid)) return false;
-	if(Atoms_PTR[eid.atom_position]->TstLayerAttribute(index,false)) return true;
+	if(Atoms_PTR[eid.atom_position]->TstLayerAttribute(index)) return true;
 	if(!CommonLayers.Add(index,eid,priority)) return false;
-	Atoms_PTR[eid.atom_position]->SetLayerAttribute(index,false);
+	Atoms_PTR[eid.atom_position]->SetLayerAttribute(index);
 
 	return true;
 }
@@ -943,7 +943,7 @@ void CORE::LayerDel(const char * pLayerName, ENTITY_ID eid,bool system)
 	uint32_t index = CommonLayers.GetIndex(layer_name);
 	CommonLayers.Del(index,eid);
 	if(!ValidateEntity(&eid)) return;
-	Atoms_PTR[eid.atom_position]->ClrLayerAttribute(index,false);
+	Atoms_PTR[eid.atom_position]->ClrLayerAttribute(index);
 }
 
 bool CORE::LayerDeleteContent(char * layer_name)

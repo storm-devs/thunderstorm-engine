@@ -551,9 +551,6 @@
     <ClCompile Include="sources\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sources\pcinput.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sources\services_list.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -2309,9 +2306,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sources\messages.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\pcinput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sources\program.h">

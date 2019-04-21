@@ -419,7 +419,6 @@
     <ClCompile Include="sources\layer.cpp" />
     <ClCompile Include="sources\layer_service.cpp" />
     <ClCompile Include="sources\Main.cpp" />
-    <ClCompile Include="sources\pcinput.cpp" />
     <ClCompile Include="sources\program.cpp" />
     <ClCompile Include="sources\services_list.cpp" />
     <ClCompile Include="sources\strings_list.cpp" />
@@ -723,7 +722,6 @@
     <ClInclude Include="sources\layer_service.h" />
     <ClInclude Include="sources\messages.h" />
     <ClInclude Include="sources\message_script.h" />
-    <ClInclude Include="sources\pcinput.h" />
     <ClInclude Include="sources\program.h" />
     <ClInclude Include="sources\resource.h" />
     <ClInclude Include="sources\services_list.h" />

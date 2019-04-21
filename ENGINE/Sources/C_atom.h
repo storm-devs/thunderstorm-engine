@@ -21,9 +21,7 @@ struct ATOM_STATE
 	;
 	bool Connected;
 	bool Deleted;
-	//bool Service;
 	uint32_t Layers_mask[_LAYERS_BITMASK_DWORDS];
-	uint32_t SysLayers_mask[_LAYERS_BITMASK_DWORDS];
 
 	uint64_t Realize_ticks_av;
 	uint64_t Realize_ticks_max;
@@ -38,9 +36,9 @@ class C_ATOM
 {
 public:
 	C_ATOM();
-	void SetLayerAttribute(uint32_t index,bool system);
-	void ClrLayerAttribute(uint32_t index,bool system);
-	bool TstLayerAttribute(uint32_t index,bool system);
+	void SetLayerAttribute(uint32_t index);
+	void ClrLayerAttribute(uint32_t index);
+	bool TstLayerAttribute(uint32_t index);
 
 	ENTITY_ID atom_id;
 	ATOM_STATE as;
