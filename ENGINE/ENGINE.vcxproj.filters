@@ -2272,9 +2272,6 @@
     <ClInclude Include="Sources\compiler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\control_stack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Sources\Core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -2371,9 +2368,6 @@
     <ClInclude Include="Sources\classes_table.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\common_h.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common_h\controls.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -2419,9 +2413,6 @@
     <ClInclude Include="..\Common_h\vidwalker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common_h\vmemory_service.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common_h\vmodule_api.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -2429,9 +2420,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Common_h\v_s_stack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\sp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sources\fs.h">

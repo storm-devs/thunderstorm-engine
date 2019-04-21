@@ -501,7 +501,6 @@
     <ClInclude Include="..\Common_h\vdata.h" />
     <ClInclude Include="..\Common_h\vfile_service.h" />
     <ClInclude Include="..\Common_h\vidwalker.h" />
-    <ClInclude Include="..\Common_h\vmemory_service.h" />
     <ClInclude Include="..\Common_h\vmodule_api.h" />
     <ClInclude Include="..\Common_h\vstring_codec.h" />
     <ClInclude Include="..\Common_h\v_s_stack.h" />
@@ -706,9 +705,7 @@
     <ClInclude Include="..\XINTERFACE\xservice.h" />
     <ClInclude Include="sources\fs.h" />
     <ClInclude Include="sources\classes_table.h" />
-    <ClInclude Include="sources\common_h.h" />
     <ClInclude Include="sources\compiler.h" />
-    <ClInclude Include="sources\control_stack.h" />
     <ClInclude Include="sources\Core.h" />
     <ClInclude Include="sources\C_atom.h" />
     <ClInclude Include="sources\data.h" />
@@ -725,7 +722,6 @@
     <ClInclude Include="sources\program.h" />
     <ClInclude Include="sources\resource.h" />
     <ClInclude Include="sources\services_list.h" />
-    <ClInclude Include="sources\sp.h" />
     <ClInclude Include="sources\sstring.h" />
     <ClInclude Include="sources\stats.h" />
     <ClInclude Include="sources\strings_list.h" />
