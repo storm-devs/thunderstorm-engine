@@ -557,15 +557,6 @@
     <ClCompile Include="sources\services_list.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sources\stack.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\strings_list.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\token.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sources\compiler.cpp">
       <Filter>Script Files</Filter>
     </ClCompile>
@@ -1517,6 +1508,12 @@
     <ClCompile Include="sources\fs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sources\token.cpp">
+      <Filter>Script Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\strings_list.cpp">
+      <Filter>Script Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\data.h">
@@ -2302,9 +2299,6 @@
     <ClInclude Include="Sources\ifs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\internal_functions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Sources\layer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -2362,16 +2356,10 @@
     <ClInclude Include="Sources\sstring.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\stack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Sources\stats.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sources\string_codec.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\strings_list.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sources\tclass_list.h">
@@ -2381,9 +2369,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sources\tm_list.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\token.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sources\C_atom.h">
@@ -2460,6 +2445,12 @@
     </ClInclude>
     <ClInclude Include="..\Common_h\assert.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\token.h">
+      <Filter>Script Files\h</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\strings_list.h">
+      <Filter>Script Files\h</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

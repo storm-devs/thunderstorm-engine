@@ -422,7 +422,6 @@
     <ClCompile Include="sources\pcinput.cpp" />
     <ClCompile Include="sources\program.cpp" />
     <ClCompile Include="sources\services_list.cpp" />
-    <ClCompile Include="sources\stack.cpp" />
     <ClCompile Include="sources\strings_list.cpp" />
     <ClCompile Include="sources\s_classtab.cpp" />
     <ClCompile Include="sources\s_compress.cpp" />
@@ -720,7 +719,6 @@
     <ClInclude Include="sources\fsdata_list.h" />
     <ClInclude Include="sources\idwalker.h" />
     <ClInclude Include="sources\ifs.h" />
-    <ClInclude Include="sources\internal_functions.h" />
     <ClInclude Include="sources\layer.h" />
     <ClInclude Include="sources\layer_service.h" />
     <ClInclude Include="sources\messages.h" />
@@ -731,7 +729,6 @@
     <ClInclude Include="sources\services_list.h" />
     <ClInclude Include="sources\sp.h" />
     <ClInclude Include="sources\sstring.h" />
-    <ClInclude Include="sources\stack.h" />
     <ClInclude Include="sources\stats.h" />
     <ClInclude Include="sources\strings_list.h" />
     <ClInclude Include="sources\string_codec.h" />
