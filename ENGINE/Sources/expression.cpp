@@ -6,13 +6,12 @@ bool COMPILER::BC_ProcessExpression(DATA * value)
 {
 	DATA * pV;
 	DATA value2;
-	bool check_equal;
-	
+
 	value2.SetVCompiler(this);
 	value->SetVCompiler(this);
 	value->ClearType();
 
-	check_equal = false;
+	bool check_equal = false;
 
 	while(BC_TokenGet() == DEBUG_LINE_CODE){};
 	if(TokenType() == SEPARATOR)	{ SetError("Invalid expression"); return false; }
@@ -20,14 +19,12 @@ bool COMPILER::BC_ProcessExpression(DATA * value)
 	//--------------------------------------------------------------------------
 	if(TokenIs(AND))
 	{
-		S_TOKEN_TYPE Token_type;
-		uint32_t var_code; 
 		VARINFO vi;
 
-		Token_type = BC_TokenGet();
+		S_TOKEN_TYPE Token_type = BC_TokenGet();
 		if(TokenType() != VARIABLE)	{if(TokenType() != LOCAL_VARIABLE) { SetError("invalid '&'"); return false; }}
 
-		var_code = *((uint32_t *)&pRunCodeBase[TLR_DataOffset]);
+		uint32_t var_code = *((uint32_t *)&pRunCodeBase[TLR_DataOffset]);
 		if(TokenType() == VARIABLE)
 		{
 			if(!VarTab.GetVar(vi,var_code))	{ SetError("Global variable not found"); return false; }
@@ -112,7 +109,6 @@ bool COMPILER::BC_ProcessExpression(DATA * value)
 // logical
 void COMPILER::BC_ProcessExpression_L0(DATA * value)
 {
-	S_TOKEN_TYPE op;
 	long lRes;
 	DATA value2;
 	value2.SetVCompiler(this);
@@ -120,7 +116,7 @@ void COMPILER::BC_ProcessExpression_L0(DATA * value)
 	BC_ProcessExpression_L1(value);
 	while(TokenIs(OP_BOOL_AND) || TokenIs(OP_BOOL_OR))
 	{
-		op = TokenType();
+		S_TOKEN_TYPE op = TokenType();
 		switch(op)
 		{
 			case SQUARE_CLOSE_BRACKET: break;
@@ -169,7 +165,6 @@ void COMPILER::BC_ProcessExpression_L0(DATA * value)
 // logical
 void COMPILER::BC_ProcessExpression_L1(DATA * value, bool bSkip)
 {
-	S_TOKEN_TYPE op;
 	DATA value2;
 	value2.SetVCompiler(this);
 
@@ -177,7 +172,7 @@ void COMPILER::BC_ProcessExpression_L1(DATA * value, bool bSkip)
 	while(TokenIs(OP_NOT_EQUAL) || TokenIs(OP_LESSER_OR_EQUAL) ||
 		  TokenIs(OP_LESSER) || TokenIs(OP_GREATER_OR_EQUAL) || TokenIs(OP_GREATER) || TokenIs(OP_BOOL_EQUAL))
 	{
-		op = TokenType();
+		S_TOKEN_TYPE op = TokenType();
 		switch(op)
 		{
 			case SQUARE_CLOSE_BRACKET: break;
@@ -216,11 +211,10 @@ void COMPILER::BC_ProcessExpression_L2(DATA * value, bool bSkip)
 {
 	DATA TempVal;
 	TempVal.SetVCompiler(this);
-	S_TOKEN_TYPE op;
 	BC_ProcessExpression_L3(value,bSkip);
 	while(TokenIs(OP_PLUS) || TokenIs(OP_MINUS))
 	{
-		op = TokenType();
+		S_TOKEN_TYPE op = TokenType();
 		while(BC_TokenGet() == DEBUG_LINE_CODE){};
 		TempVal.ClearType();
 		BC_ProcessExpression_L3(&TempVal,bSkip);
@@ -241,14 +235,13 @@ void COMPILER::BC_ProcessExpression_L2(DATA * value, bool bSkip)
 // '*' and '/' operations
 void COMPILER::BC_ProcessExpression_L3(DATA * value, bool bSkip)
 {
-	S_TOKEN_TYPE op;
 	DATA TempVal;
 	TempVal.SetVCompiler(this);
 
 	BC_ProcessExpression_L4(value,bSkip);
 	while(TokenIs(OP_MULTIPLY) || TokenIs(OP_DIVIDE) || TokenIs(OP_MODUL))
 	{
-		op = TokenType();
+		S_TOKEN_TYPE op = TokenType();
 		while(BC_TokenGet() == DEBUG_LINE_CODE){};
 		BC_ProcessExpression_L4(&TempVal,bSkip);
 		if(!bSkip)
@@ -294,8 +287,7 @@ void COMPILER::BC_ProcessExpression_L4(DATA * value, bool bSkip)
 // sign
 void COMPILER::BC_ProcessExpression_L5(DATA * value, bool bSkip)
 {
-	S_TOKEN_TYPE op;
-	op = TokenType();
+	S_TOKEN_TYPE op = TokenType();
 	if(TokenIs(OP_PLUS) || TokenIs(OP_MINUS) || TokenIs(OP_BOOL_NEG))
 	{
 		while(BC_TokenGet() == DEBUG_LINE_CODE){};
@@ -689,28 +681,25 @@ void COMPILER::BC_ProcessExpression_L7(DATA * value, bool bSkip)
 // test for makeref
 bool COMPILER::CompileExpression(SEGMENT_DESC& Segment)
 {
-	S_TOKEN_TYPE sttTokenType;
-	S_TOKEN_TYPE sttVariableType;
-	S_TOKEN_TYPE Token_type;
 	uint32_t dwVarCode; 
 	VARINFO vi;
 	LVARINFO lvi;
 
-	Token_type = CompileAuxiliaryTokens(Segment);
+	S_TOKEN_TYPE Token_type = CompileAuxiliaryTokens(Segment);
 	if(Token_type == SEPARATOR) { SetError(ERR_INVALID_EXPRESSION); return false; }
 
 	if(Token_type == AND)
 	{
 		// make reference operation
 
-		sttVariableType = Token.Get();
+		S_TOKEN_TYPE sttVariableType = Token.Get();
 
 		if(sttVariableType != UNKNOWN) { SetError("invalid '&' usage"); return false; }
 
 		sttVariableType = DetectUnknown(dwVarCode);
 		if(!(sttVariableType == VARIABLE || sttVariableType == LOCAL_VARIABLE)) { SetError("variable not found"); return false; }
 
-		sttTokenType = Token.Get();
+		S_TOKEN_TYPE sttTokenType = Token.Get();
 
 		// alloc for result
 		CompileToken(Segment,STACK_ALLOC);
@@ -787,15 +776,12 @@ bool COMPILER::CompileExpression(SEGMENT_DESC& Segment)
 // logical operators (OR,AND)
 bool COMPILER::CompileExpression_L0(SEGMENT_DESC& Segment)
 {
-	S_TOKEN_TYPE sttOpType;
-	uint32_t dwUpdateOffset1;
-	uint32_t dwUpdateOffset2;
 	uint32_t dwJumpOffset1;
 	uint32_t dwJumpOffset2;
 
 	if(!CompileExpression_L1(Segment)) { SetError(ERR_INVALID_EXPRESSION); return false;}
 
-	sttOpType = Token.GetType();
+	S_TOKEN_TYPE sttOpType = Token.GetType();
 
 	while(sttOpType == OP_BOOL_AND || sttOpType == OP_BOOL_OR)
 	{
@@ -812,7 +798,7 @@ bool COMPILER::CompileExpression_L0(SEGMENT_DESC& Segment)
 		CompileToken(Segment,EX);
 
 		// save jump update position
-		dwUpdateOffset1 = Segment.BCode_Program_size + 2;
+		uint32_t dwUpdateOffset1 = Segment.BCode_Program_size + 2;
 		// point of jump not determined yet
 		dwJumpOffset1 = 0;
 		// compile jump command
@@ -837,7 +823,7 @@ bool COMPILER::CompileExpression_L0(SEGMENT_DESC& Segment)
 		CompileToken(Segment,AX);
 
 		// skip next section - proceed to jump2
-		dwUpdateOffset2 = Segment.BCode_Program_size + 2;
+		uint32_t dwUpdateOffset2 = Segment.BCode_Program_size + 2;
 		dwJumpOffset2 = 0;
 		CompileToken(Segment,JUMP,1,(char *)&dwJumpOffset2,sizeof(uint32_t));
 
@@ -860,11 +846,9 @@ bool COMPILER::CompileExpression_L0(SEGMENT_DESC& Segment)
 // logical compare (>,<,==,>=,<=,!=)
 bool COMPILER::CompileExpression_L1(SEGMENT_DESC& Segment)
 {
-	S_TOKEN_TYPE sttOpType;
-
 	if(!CompileExpression_L2(Segment)) { SetError(ERR_INVALID_EXPRESSION); return false;}
 
-	sttOpType = Token.GetType();
+	S_TOKEN_TYPE sttOpType = Token.GetType();
 
 	while(sttOpType == OP_NOT_EQUAL || sttOpType == OP_LESSER_OR_EQUAL || sttOpType == OP_LESSER || 
 		sttOpType == OP_GREATER_OR_EQUAL || sttOpType == OP_GREATER || sttOpType == OP_BOOL_EQUAL)
@@ -890,11 +874,9 @@ bool COMPILER::CompileExpression_L1(SEGMENT_DESC& Segment)
 // '+' and '-' operators
 bool COMPILER::CompileExpression_L2(SEGMENT_DESC& Segment)
 {
-	S_TOKEN_TYPE sttOpType;
-
 	if(!CompileExpression_L3(Segment)) { SetError(ERR_INVALID_EXPRESSION); return false;}
 	
-	sttOpType = Token.GetType();
+	S_TOKEN_TYPE sttOpType = Token.GetType();
 
 	while(sttOpType == OP_PLUS || sttOpType == OP_MINUS)
 	{
@@ -918,11 +900,9 @@ bool COMPILER::CompileExpression_L2(SEGMENT_DESC& Segment)
 // '*' and '/' operators
 bool COMPILER::CompileExpression_L3(SEGMENT_DESC& Segment)
 {
-	S_TOKEN_TYPE sttOpType;
-
 	if(!CompileExpression_L4(Segment)) { SetError(ERR_INVALID_EXPRESSION); return false;}
 
-	sttOpType = Token.GetType();
+	S_TOKEN_TYPE sttOpType = Token.GetType();
 	
 	while(sttOpType == OP_MULTIPLY || sttOpType == OP_DIVIDE || sttOpType == OP_MODUL)
 	{
@@ -965,8 +945,7 @@ bool COMPILER::CompileExpression_L4(SEGMENT_DESC& Segment)
 // sign
 bool COMPILER::CompileExpression_L5(SEGMENT_DESC& Segment)
 {
-	S_TOKEN_TYPE sttOpType;
-	sttOpType = Token.GetType();
+	S_TOKEN_TYPE sttOpType = Token.GetType();
 	if(sttOpType == OP_PLUS || sttOpType == OP_MINUS || sttOpType == OP_BOOL_NEG) CompileAuxiliaryTokens(Segment);
 	
 	if(!CompileExpression_L6(Segment)) { SetError(ERR_INVALID_EXPRESSION); return false;};
@@ -1011,9 +990,8 @@ bool COMPILER::CompileExpression_L7(SEGMENT_DESC& Segment)
 	VARINFO vi;
 	LVARINFO lvi;
 	FUNCINFO fi;
-	bool bDynamicCall;
 
-	bDynamicCall = false;
+	bool bDynamicCall = false;
 	switch(Token.GetType())
 	{
 		case SEPARATOR:

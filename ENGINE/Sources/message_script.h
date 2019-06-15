@@ -113,9 +113,8 @@ public:
 	}
 	void String(uint32_t dest_buffer_size, char * buffer)
 	{
-		uint32_t size;
 		ValidateFormat('s');
-		size = strlen(ReadPointer) + 1;
+		uint32_t size = strlen(ReadPointer) + 1;
 		if(size >= dest_buffer_size)
 		{
 				memcpy(buffer,ReadPointer,dest_buffer_size);

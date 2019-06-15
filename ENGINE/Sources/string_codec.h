@@ -37,12 +37,11 @@ public:
 
 	void Release()
 	{
-		uint32_t n, m;
-		for (m=0; m<HASH_TABLE_SIZE; m++)
+		for (uint32_t m = 0; m<HASH_TABLE_SIZE; m++)
 		{
 			if (HTable[m].pElements)
 			{
-				for (n=0; n<HTable[m].nStringsNum; n++) delete HTable[m].pElements[n].pStr;
+				for (uint32_t n = 0; n<HTable[m].nStringsNum; n++) delete HTable[m].pElements[n].pStr;
 				free(HTable[m].pElements);
 			}
 			HTable[m].pElements = nullptr; 
@@ -76,13 +75,11 @@ public:
 
 	uint32_t Convert(const char * pString, bool & bNew)
 	{
-		uint32_t nHash;
-		uint32_t nTableIndex;
 		uint32_t nStringCode;
 		uint32_t n;
 		if (pString == nullptr) return 0xffffffff;
-		nHash = MakeHashValue(pString);
-		nTableIndex = nHash & (HASH_TABLE_SIZE - 1);
+		uint32_t nHash = MakeHashValue(pString);
+		uint32_t nTableIndex = nHash & (HASH_TABLE_SIZE - 1);
 
 		HTELEMENT * pE = &HTable[nTableIndex];
 
@@ -115,14 +112,12 @@ public:
 
 	char * Convert(uint32_t code)
 	{
-		uint32_t nTableIndex;
-		uint32_t n;
-		nTableIndex = code>>16;
+		uint32_t nTableIndex = code >> 16;
 		if (nTableIndex >= HASH_TABLE_SIZE)
 		{
 			return "ERROR: invalid SCCT index";
 		}
-		n = code & 0xffff;
+		uint32_t n = code & 0xffff;
 		if (n >= HTable[nTableIndex].nStringsNum) 
 		{
 			return "INVALID SCC";
@@ -133,14 +128,12 @@ public:
 	uint32_t MakeHashValue(const char * ps)
 	{
 		uint32_t hval = 0;
-		uint32_t g;
-		char v;
 		while(*ps != 0)
 		{
-			v = *ps++;
+			char v = *ps++;
 			if('A' <= v && v <= 'Z') v += 'a' - 'A';	// case independent
 			hval = (hval<<4) + (unsigned long int)v;
-			g = hval & ((unsigned long int) 0xf << (32 - 4));
+			uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
 			if(g != 0)
 			{
 				hval ^= g >> (32 - 8);

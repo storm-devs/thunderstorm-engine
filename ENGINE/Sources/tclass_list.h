@@ -11,10 +11,9 @@ public:
 	~TCLASS_LIST(){Release();};
 	void Release()
 	{
-		uint32_t n;
 		if(pTable)
 		{
-			for(n=0;n<nClassesNum;n++) delete pTable[n];
+			for(uint32_t n = 0;n<nClassesNum;n++) delete pTable[n];
 			free(pTable);
 			pTable = 0;
 		}
@@ -22,18 +21,16 @@ public:
 	};
 	void Add(ClassType * pClass)
 	{
-		uint32_t n;
-		n = nClassesNum;
+		uint32_t n = nClassesNum;
 		nClassesNum++;
 		pTable = (ClassType**)realloc(pTable,nClassesNum*sizeof(ClassType*));
 		pTable[n] = pClass;
 	};
 	void Del(uint32_t _n)
 	{
-		uint32_t n;
 		if(_n >= nClassesNum) return;
 		delete pTable[_n];
-		for(n=_n;n<(nClassesNum-1);n++) pTable[n] = pTable[n+1];
+		for(uint32_t n = _n;n<(nClassesNum-1);n++) pTable[n] = pTable[n+1];
 		nClassesNum--;
 	}
 	ClassType * Read(uint32_t _n)

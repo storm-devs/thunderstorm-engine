@@ -39,14 +39,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 	/* Read config */
 	uint32_t dwMaxFPS = 0;
 	INIFILE* ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
-	if (ini)
+	/*if (ini)
 	{
 		dwMaxFPS = (uint32_t)ini->GetLong(nullptr, "max_fps", 0);
 		bDebugWindow = ini->GetLong(nullptr, "DebugWindow", 0) == 1;
 		bAcceleration = ini->GetLong(nullptr, "Acceleration", 0) == 1;
 
 		delete ini;
-	}
+	}*/
 
 	/* Register and show window */
 	const auto windowName = "Thunderstorm";
@@ -147,7 +147,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_KEYDOWN:
-		if (bDebugWindow && wParam == VK_F5)
+		if (wParam == VK_F5) // && bDebugWindow
 		{
 			if (!CDebug.IsDebug())
 				CDebug.OpenDebugWindow(Core.hInstance);

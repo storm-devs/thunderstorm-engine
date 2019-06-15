@@ -484,10 +484,7 @@ void SOURCE_VIEW::ProcessMessage(uint32_t iMsg, uint32_t wParam, uint32_t lParam
 
 bool SOURCE_VIEW::OpenSourceFile(const char * _filename)
 {
-	uint32_t nDataSize;
 	uint32_t dwR;
-	HANDLE fh;
-	uint32_t n;
 
 	ShowWindow(hMain,SW_NORMAL);
 
@@ -507,9 +504,9 @@ bool SOURCE_VIEW::OpenSourceFile(const char * _filename)
 	strcat_s(DirectoryName,"\\");
 	strcat_s(DirectoryName,_filename);
 
-	fh = fio->_CreateFile(DirectoryName);
+	HANDLE fh = fio->_CreateFile(DirectoryName);
 	if(fh == INVALID_HANDLE_VALUE) return false;
-	nDataSize = fio->_GetFileSize(fh,nullptr);
+	uint32_t nDataSize = fio->_GetFileSize(fh, nullptr);
 
 	nTopLine = 0;
 	if(pSourceFile) delete pSourceFile; 
@@ -533,7 +530,7 @@ bool SOURCE_VIEW::OpenSourceFile(const char * _filename)
 	pLineOffset.resize(nLinesNum);
 	pLineOffset[0] = 0;
 
-	for(n=0;n<nDataSize;n++)
+	for(uint32_t n = 0;n<nDataSize;n++)
 	{
 		if(pSourceFile[n] == 0xd)
 		{
@@ -577,17 +574,13 @@ void SOURCE_VIEW::UpdateGDIControls()
 
 void SOURCE_VIEW::OnPaint()
 {
-	HDC dc;
 	PAINTSTRUCT PS;
-	HGDIOBJ hFont_old;
-	uint32_t n;
-	uint32_t x,y;
 	uint32_t nFrom,nTo;
 
 	std::string sSourceFileName = SourceFileName;
 
-	dc = BeginPaint(hOwn,&PS);
-	hFont_old = SelectObject(dc,hFont);
+	HDC dc = BeginPaint(hOwn, &PS);
+	HGDIOBJ hFont_old = SelectObject(dc, hFont);
 
 	HBRUSH hControlBrush = CreateSolidBrush(WRGB(255,255,0));
 	HBRUSH hBreakBrush = CreateSolidBrush(WRGB(255,104,104));
@@ -610,13 +603,12 @@ void SOURCE_VIEW::OnPaint()
 	}
 	
 	uint32_t nTextLen;
-	uint32_t nLineStatus;
 	if(pSourceFile)
 	{
-		x = X_OFFSET; 
-		y = 0;
+		uint32_t x = X_OFFSET; 
+		uint32_t y = 0;
 		//for(n=nTopLine;n<nLinesNum;n++)
-		for(n=nTopLine;n<nTopLine + nClientLinesSize + 1;n++)
+		for(uint32_t n = nTopLine;n<nTopLine + nClientLinesSize + 1;n++)
 		{
 			if(n >= nLinesNum) break;
 			if(n == nLinesNum - 1) nTextLen = nSourceFileSize - pLineOffset[n];
@@ -628,7 +620,7 @@ void SOURCE_VIEW::OnPaint()
 			}
 
 			{
-			nLineStatus = CDebug.GetLineStatus(SourceFileName,n);
+			uint32_t nLineStatus = CDebug.GetLineStatus(SourceFileName, n);
 			RECT SelectionRect;
 			SelectionRect = Pos;
 			SelectionRect.top = y;
@@ -661,11 +653,10 @@ void SOURCE_VIEW::OnPaint()
 			{
 				if(nStartSelection < nEndSelection) { nFrom = nStartSelection; nTo = nEndSelection; }
 				else { nFrom = nEndSelection; nTo = nStartSelection; }
-				
-				uint32_t nPosted;
+
 				long w;
 				
-				nPosted = 0;
+				uint32_t nPosted = 0;
 				
 				if(nFrom > 0)
 				{
@@ -762,13 +753,12 @@ void SOURCE_VIEW::SetActiveLine(uint32_t line)
 	SelectionRect.bottom = SelectionRect.top + nFontHeight;
 	InvalidateRect(hOwn,&SelectionRect,true);
 
-	long newtopline;
 	nActiveLine = line;
 	if(nActiveLine >= nLinesNum) nActiveLine = 0;
 
 	if(nActiveLine < nTopLine || nActiveLine >= nTopLine + nClientLinesSize)
 	{
-		newtopline = (long)nActiveLine - (long)nClientLinesSize/2;
+		long newtopline = (long)nActiveLine - (long)nClientLinesSize / 2;
 		if(newtopline < 0) newtopline = 0;
 		if(newtopline + nClientLinesSize >= nLinesNum) newtopline = nLinesNum - nClientLinesSize;
 		nTopLine = newtopline;
@@ -793,12 +783,6 @@ void SOURCE_VIEW::SetActiveLine(uint32_t line)
 
 void SOURCE_VIEW::StartSelection(uint32_t x_pos)
 {
-	uint32_t nLen;
-	uint32_t nSymNum;
-	HDC dc;
-	char * pLine;
-	HGDIOBJ hFont_old;
-	HRGN r;
 	RECT RR;
 
 	nStartSelection = 0;
@@ -806,14 +790,14 @@ void SOURCE_VIEW::StartSelection(uint32_t x_pos)
 
 	if(nActiveLine >= nLinesNum) return;
 	
-	dc = GetDC(hOwn);
-	hFont_old = SelectObject(dc,hFont);
+	HDC dc = GetDC(hOwn);
+	HGDIOBJ hFont_old = SelectObject(dc, hFont);
 	SetBkMode(dc,TRANSPARENT);
 
-	pLine = pSourceFile + pLineOffset[nActiveLine];
+	char* pLine = pSourceFile + pLineOffset[nActiveLine];
 	
-	nLen = 0;
-	nSymNum = 0;
+	uint32_t nLen = 0;
+	uint32_t nSymNum = 0;
 
 	while(!(pLine[nSymNum] == 0xd || pLine[nSymNum] == 0xa  || pLine[nSymNum] == 0))
 	{
@@ -823,7 +807,7 @@ void SOURCE_VIEW::StartSelection(uint32_t x_pos)
 		BeginPath(dc);
 		TabbedTextOut(dc,X_OFFSET,0,pLine,nSymNum+1,0,nullptr,0);
 		EndPath(dc);
-		r = PathToRegion(dc); 
+		HRGN r = PathToRegion(dc); 
 		if(r) 
 		{
 			GetRgnBox(r,&RR); 
@@ -845,24 +829,18 @@ void SOURCE_VIEW::StartSelection(uint32_t x_pos)
 
 void SOURCE_VIEW::MoveSelection(uint32_t x_pos)
 {
-	uint32_t nLen;
-	uint32_t nSymNum;
-	HDC dc;
-	char * pLine;
-	HGDIOBJ hFont_old;
-	HRGN r;
 	RECT RR;
 
 	if(nActiveLine >= nLinesNum) return;
 	
-	dc = GetDC(hOwn);
-	hFont_old = SelectObject(dc,hFont);
+	HDC dc = GetDC(hOwn);
+	HGDIOBJ hFont_old = SelectObject(dc, hFont);
 	SetBkMode(dc,TRANSPARENT);
 
-	pLine = pSourceFile + pLineOffset[nActiveLine];
+	char* pLine = pSourceFile + pLineOffset[nActiveLine];
 	
-	nLen = 0;
-	nSymNum = 0;
+	uint32_t nLen = 0;
+	uint32_t nSymNum = 0;
 
 	while(!(pLine[nSymNum] == 0xd || pLine[nSymNum] == 0xa  || pLine[nSymNum] == 0))
 	{
@@ -871,7 +849,7 @@ void SOURCE_VIEW::MoveSelection(uint32_t x_pos)
 		BeginPath(dc);
 		TabbedTextOut(dc,X_OFFSET,0,pLine,nSymNum+1,0,nullptr,0);
 		EndPath(dc);
-		r = PathToRegion(dc); 
+		HRGN r = PathToRegion(dc); 
 		if(r) 
 		{
 			GetRgnBox(r,&RR); 
@@ -892,23 +870,19 @@ void SOURCE_VIEW::MoveSelection(uint32_t x_pos)
 
 void SOURCE_VIEW::InvalidateLineSection(uint32_t line, uint32_t r1, uint32_t r2)
 {
-	HGDIOBJ hFont_old;
 	uint32_t from,to;
-//	DWORD x1,x2;
-	HDC dc;
-	char * pLine;
-//	long x_diff;
+	//	long x_diff;
 
 	if(line >= nLinesNum) return;
 	if(r1 == r2) return;
 	if(r1 > r2) {from = r2; to = r1;}
 	else {from = r1; to = r2;}
 
-	dc = GetDC(hOwn);
-	hFont_old = SelectObject(dc,hFont);
+	HDC dc = GetDC(hOwn);
+	HGDIOBJ hFont_old = SelectObject(dc, hFont);
 	SetBkMode(dc,TRANSPARENT);
 
-	pLine = pSourceFile + pLineOffset[line];// + old_pos.collumn;
+	char* pLine = pSourceFile + pLineOffset[line];// + old_pos.collumn;
 
 	uint32_t nSymNum = 0;
 	uint32_t nLen = 0;
@@ -931,21 +905,17 @@ void SOURCE_VIEW::InvalidateLineSection(uint32_t line, uint32_t r1, uint32_t r2)
 // work only for active line yet
 void SOURCE_VIEW::DetCursorPos(uint32_t x_pos, uint32_t y_pos)
 {
-	HGDIOBJ hFont_old;
-	CURSOR_POS old_pos;
-	HDC dc;
-	char * pLine;
-//	long x_diff;
+	//	long x_diff;
 
 	if(nActiveLine >= nLinesNum) return;
 
-	old_pos = Cursor;
+	CURSOR_POS old_pos = Cursor;
 
-	dc = GetDC(hOwn);
-	hFont_old = SelectObject(dc,hFont);
+	HDC dc = GetDC(hOwn);
+	HGDIOBJ hFont_old = SelectObject(dc, hFont);
 	SetBkMode(dc,TRANSPARENT);
 
-	pLine = pSourceFile + pLineOffset[nActiveLine];// + old_pos.collumn;
+	char* pLine = pSourceFile + pLineOffset[nActiveLine];// + old_pos.collumn;
 
 	uint32_t nSymNum = 0;
 	uint32_t nLen = 0;

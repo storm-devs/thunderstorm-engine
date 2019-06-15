@@ -237,8 +237,7 @@ TOKEN::TOKEN()
 
 void TOKEN::Release()
 {
-	uint32_t n;
-	for(n=0;n<TOKENHASHTABLE_SIZE;n++)
+	for(uint32_t n = 0;n<TOKENHASHTABLE_SIZE;n++)
 	{
 		if(KeywordsHash[n].pIndex) free(KeywordsHash[n].pIndex);
 		KeywordsHash[n].pIndex = nullptr;
@@ -321,7 +320,6 @@ char * TOKEN::GetTypeName(S_TOKEN_TYPE code)
 
 S_TOKEN_TYPE TOKEN::Get(bool bKeepData)
 {
-	char sym;
 	char * pBase;
 	uint32_t counter;
 
@@ -331,7 +329,7 @@ S_TOKEN_TYPE TOKEN::Get(bool bKeepData)
 	CacheToken(Program);
 
 	Lines_in_token = 0;
-	sym = *Program;
+	char sym = *Program;
 	switch(sym)
 	{
 		// end of program
@@ -425,8 +423,7 @@ S_TOKEN_TYPE TOKEN::Get(bool bKeepData)
 			eTokenType = INVALID_TOKEN;
 		return eTokenType;
 	}
-	S_TOKEN_TYPE stt;
-	stt = ProcessToken(Program,bKeepData);
+	S_TOKEN_TYPE stt = ProcessToken(Program, bKeepData);
 	if(stt == HOLD_COMPILATION)
 	{
 		__debugbreak();
@@ -563,9 +560,8 @@ S_TOKEN_TYPE TOKEN::FormatGet()
 // copy argument data to buffer and close the termination 0
 long TOKEN::SetTokenData(char * pointer, bool bKeepControlSymbols)
 {
-	long Data_size;
 	//if(!IsOperator(pointer,Data_size))
-		Data_size = StopArgument(pointer,bKeepControlSymbols);
+		long Data_size = StopArgument(pointer, bKeepControlSymbols);
 	if(Data_size == 0)
 	{
 		if(pTokenData) pTokenData[0] = 0;
@@ -605,16 +601,12 @@ long TOKEN::SetNTokenData(char * pointer, long Data_size)
 // return number of significant symbols
 long TOKEN::StopArgument(char * pointer, bool bKeepControlSymbols)
 {
-	long size;
-	char sym;
-	bool bOnlyDigit;
-	bool bDot;
-	size = 0;
-	bDot = false;
-	bOnlyDigit = true;
+	long size = 0;
+	bool bDot = false;
+	bool bOnlyDigit = true;
 	do
 	{
-		sym = *pointer;
+		char sym = *pointer;
 
 		if(sym == '.') bDot = true;
 
@@ -804,10 +796,9 @@ long TOKEN::StopArgument(char * pointer, bool bKeepControlSymbols)
 // advance program pointer until not found significant argument symbol
 void TOKEN::StartArgument(char* & pointer, bool bKeepControlSymbols)
 {
-	char sym;
 	do
 	{
-		sym = *pointer;
+		char sym = *pointer;
 		if(sym == 0) return;
 		if(sym == 0xa || sym == 0xd) return;
 		if(bKeepControlSymbols)
@@ -821,9 +812,8 @@ void TOKEN::StartArgument(char* & pointer, bool bKeepControlSymbols)
 
 bool TOKEN::IsNumber(char * pointer)
 {
-	uint32_t n;
 	if(pointer == nullptr) return false;
-	for(n=0;pointer[n];n++)
+	for(uint32_t n = 0;pointer[n];n++)
 	{
 		if(pointer[n] < 0x20 && n > 0) return true;				// end on white space
 		if(pointer[n] < 0x30 || pointer[n] > 0x39) return false;// not digit symbol
@@ -834,9 +824,8 @@ bool TOKEN::IsNumber(char * pointer)
 // this function can interpreted integer as float, so always check using IsNumber function
 bool TOKEN::IsFloatNumber(char * pointer)
 {
-	uint32_t n;
 	if(pointer == nullptr) return false;
-	for(n=0;pointer[n];n++)
+	for(uint32_t n = 0;pointer[n];n++)
 	{
 		if(pointer[n] == '.')
 		{
@@ -919,8 +908,7 @@ void TOKEN::CacheToken(char * pointer)
 		ProgramStepsNum++;
 		return;
 	}
-	uint32_t n;
-	for(n=0;n<(PROGRAM_STEPS_CACHE - 1);n++)
+	for(uint32_t n = 0;n<(PROGRAM_STEPS_CACHE - 1);n++)
 	{
 		ProgramSteps[n] = ProgramSteps[n + 1];
 	}
@@ -1102,12 +1090,10 @@ S_TOKEN_TYPE TOKEN::Keyword2TokenType(char * pString)
 	}
 	return UNKNOWN;//*/
 
-	uint32_t n;
-	uint32_t index;
-	uint32_t hash = MakeHashValue(pString,4)%TOKENHASHTABLE_SIZE;
-	for(n=0;n<KeywordsHash[hash].dwNum;n++)
+uint32_t hash = MakeHashValue(pString,4)%TOKENHASHTABLE_SIZE;
+	for(uint32_t n = 0;n<KeywordsHash[hash].dwNum;n++)
 	{
-		index = KeywordsHash[hash].pIndex[n];
+		uint32_t index = KeywordsHash[hash].pIndex[n];
 		if(_stricmp(pString,Keywords[index].name) == 0)
 		{
 			return Keywords[index].type;
@@ -1123,14 +1109,12 @@ uint32_t TOKEN::MakeHashValue(const char * string, uint32_t max_syms)
 	//else return string[0];
 	//return (DWORD)string[0];
 	uint32_t hval = 0;
-	uint32_t g;
-	char v;
 	while(*string != 0)
 	{
-		v = *string++;
+		char v = *string++;
 		if ('A' <= v && v <= 'Z') v += 'a' - 'A';	// case independent
 		hval = (hval<<4) + (unsigned long int)v;
-		g = hval & ((unsigned long int) 0xf << (32 - 4));
+		uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
 		if(g != 0)
 		{
 			hval ^= g >> (32 - 8);
@@ -1155,11 +1139,9 @@ bool TOKEN::InitializeHashTable()
 	//	return false;
 	//}
 
-	uint32_t n;
-	uint32_t hash;
-	for(n=0;n<dwKeywordsNum;n++)
+	for(uint32_t n = 0;n<dwKeywordsNum;n++)
 	{
-		hash = MakeHashValue(Keywords[n].name,4)%TOKENHASHTABLE_SIZE;
+		uint32_t hash = MakeHashValue(Keywords[n].name, 4) % TOKENHASHTABLE_SIZE;
 
 		KeywordsHash[hash].dwNum++;
 		KeywordsHash[hash].pIndex = (uint8_t*)realloc(KeywordsHash[hash].pIndex,KeywordsHash[hash].dwNum);

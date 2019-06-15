@@ -163,11 +163,10 @@ void TM_LIST::UpdatePosition()
 {
 	if(!hOwn) return;
 
-	uint32_t width,height;
 	RECT r;
 	GetClientRect(hMain,&r);
-	width = r.right - r.left;
-	height = r.bottom - r.top;
+	uint32_t width = r.right - r.left;
+	uint32_t height = r.bottom - r.top;
 	//MoveWindow(hOwn,Pos.left,Pos.top,width - Pos.left,height - Pos.top,true);
 
 	if(Bind_Mask & BM_BIND_LEFT) Pos.left = 0;
@@ -180,8 +179,7 @@ void TM_LIST::UpdatePosition()
 
 char * TM_LIST::GetSelectedName()
 {
-	long index;
-	index  = ListView_GetSelectionMark(hOwn);
+	long index = ListView_GetSelectionMark(hOwn);
 	if(index < 0) return nullptr;
 	ListView_GetItemText(hOwn,index,0,TM_LIST_Buffer,sizeof(TM_LIST_Buffer));
 	return TM_LIST_Buffer;
@@ -189,11 +187,9 @@ char * TM_LIST::GetSelectedName()
 
 void TM_LIST::SelectItem(char * name)
 {
-	long n;
-	long items;
 	if(!name) return;
-	items = GetItemsCount();
-	for(n=0;n<items;n++)
+	long items = GetItemsCount();
+	for(long n = 0;n<items;n++)
 	{
 		GetItemText(n,0,SearchName,sizeof(SearchName));
 		if(_stricmp(SearchName,name)==0)
@@ -211,15 +207,9 @@ void TM_LIST::ProcessMessageBase(uint32_t iMsg, uint32_t wParam, uint32_t lParam
 	//POINT point;
 	//HMENU hSubMenu;
 	LPNMLISTVIEW lpnmlv;
-	//DWORD item_spacing;
-	uint32_t subitem_spacing;
-	RECT list_rect;
 	RECT item_rect;
-	long n,chars;
 	uint32_t NotifyCode;
-	uint32_t lines;
 	char TextEditBuffer[MAX_STR_SIZE];
-	uint32_t bitres;
 	uint16_t vKey;
 	
 	RECT EditPos;
@@ -262,7 +252,7 @@ void TM_LIST::ProcessMessageBase(uint32_t iMsg, uint32_t wParam, uint32_t lParam
 					
 					if(hEdit == (HWND)lParam)
 					{
-						lines = SendMessage(hEdit,EM_GETLINECOUNT,0,0);
+						uint32_t lines = SendMessage(hEdit,EM_GETLINECOUNT, 0, 0);
 						if(lines > 1)
 						{
 							if(edit_item >= 0 && edit_subitem >= 0)
@@ -273,7 +263,7 @@ void TM_LIST::ProcessMessageBase(uint32_t iMsg, uint32_t wParam, uint32_t lParam
 								{
 									PZERO(&TextEditBuffer[0], MAX_STR_SIZE);
 									*(uint16_t*)TextEditBuffer = MAX_STR_SIZE - 2;
-									chars = SendMessage(hEdit,EM_GETLINE,i,(LPARAM)(LPCSTR)TextEditBuffer);
+									long chars = SendMessage(hEdit,EM_GETLINE, i, (LPARAM)(LPCSTR)TextEditBuffer);
 									TextEditBuffer[chars] = 0;
 									if (chars) sTmpBuffer += TextEditBuffer;
 								}
@@ -321,7 +311,7 @@ void TM_LIST::ProcessMessageBase(uint32_t iMsg, uint32_t wParam, uint32_t lParam
 						{
 							edit_item = lpnmlv->iItem;
 							edit_subitem = lpnmlv->iSubItem;
-							bitres = 0x1 << edit_subitem;
+							uint32_t bitres = 0x1 << edit_subitem;
 							bitres = EditMask & bitres;
 							if(bitres == 0) break;
 
@@ -330,15 +320,15 @@ void TM_LIST::ProcessMessageBase(uint32_t iMsg, uint32_t wParam, uint32_t lParam
 							
 							EditPos.top = item_rect.top;
 							EditPos.bottom = EditPos.top + item_rect.bottom - item_rect.top - 1;
-							subitem_spacing = 0;
-							for(n=0;n<lpnmlv->iSubItem;n++)
+							uint32_t subitem_spacing = 0;
+							for(long n = 0;n<lpnmlv->iSubItem;n++)
 							{
 								subitem_spacing += ListView_GetColumnWidth(GetWindowHandle(),n);
 							}
 							EditPos.left += subitem_spacing;
 							subitem_spacing = ListView_GetColumnWidth(GetWindowHandle(),lpnmlv->iSubItem);
 							EditPos.right = EditPos.left + subitem_spacing - 1;
-							list_rect = GetPosition();
+							RECT list_rect = GetPosition();
 							OffsetRect(&EditPos,list_rect.left + 2,list_rect.top + 2);
 							if(EditPos.right + 2 > list_rect.right) EditPos.right = list_rect.right - 2;
 							GetItemText(lpnmlv->iItem,lpnmlv->iSubItem,TextEditBuffer,sizeof(TextEditBuffer));

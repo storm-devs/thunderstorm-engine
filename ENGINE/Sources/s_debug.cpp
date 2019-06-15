@@ -60,9 +60,8 @@ LRESULT CALLBACK DebugWndProc(HWND hwnd,UINT iMsg,WPARAM wParam,LPARAM lParam)
 	char buffer[MAX_PATH];
 	char wintext[MAX_PATH];
 	BROWSEINFO bi;
-	uint32_t n;
 
-	if(CDebug.WatcherList) 
+if(CDebug.WatcherList) 
 	{
 		CDebug.WatcherList->ProcessMessage(iMsg,wParam,lParam);
 	}
@@ -80,11 +79,10 @@ LRESULT CALLBACK DebugWndProc(HWND hwnd,UINT iMsg,WPARAM wParam,LPARAM lParam)
 			hMenu = GetMenu(CDebug.hMain);
 			if(hMenu)
 			{
-				HMENU hFileSubMenu;
 				MENUITEMINFO mii;
-				hFileSubMenu = GetSubMenu(hMenu,0);
+				HMENU hFileSubMenu = GetSubMenu(hMenu, 0);
 			
-				for(n=0;n<(uint32_t)GetMenuItemCount(hFileSubMenu);n++)
+				for(uint32_t n = 0;n<(uint32_t)GetMenuItemCount(hFileSubMenu);n++)
 				{
 					if(GetMenuItemID(hFileSubMenu,n) == LOWORD(wParam))
 					{
@@ -386,9 +384,8 @@ bool S_DEBUG::OpenDebugWindow_NT(HINSTANCE hInstance)
 	wndclass.hIconSm = LoadIcon(nullptr,IDI_APPLICATION);
 	RegisterClassEx(&wndclass);
 
-	long xs,ys;
-	xs = GetSystemMetrics(SM_CXSCREEN);
-	ys = GetSystemMetrics(SM_CYSCREEN);
+	long xs = GetSystemMetrics(SM_CXSCREEN);
+	long ys = GetSystemMetrics(SM_CYSCREEN);
 	//MoveWindow(hMain,(xs - DBGWIN_WIDTH)/2,(ys - DBGWIN_HEIGHT)/2,DBGWIN_WIDTH,DBGWIN_HEIGHT,false);
 
 	hMain = CreateWindow(DClass,DClass,
@@ -558,7 +555,6 @@ bool S_DEBUG::BrowseFile(char * buffer, const char * filter)
 	fio->_GetCurrentDirectory(sizeof(DirectoryName),DirectoryName);
 	char file_name[MAX_PATH];
 	OPENFILENAME ofn;
-	BOOL bRes;
 	file_name[0] = 0;
 	PZERO(&ofn,sizeof(ofn));
 	ofn.lStructSize = sizeof(ofn);
@@ -571,7 +567,7 @@ bool S_DEBUG::BrowseFile(char * buffer, const char * filter)
 	ofn.nMaxFile = MAX_PATH;
 	ofn.lpstrDefExt = filter;
 	ofn.lpstrTitle = "Open script source file";
-	bRes = GetOpenFileName(&ofn);
+	BOOL bRes = GetOpenFileName(&ofn);
 	fio->_SetCurrentDirectory(DirectoryName);
 	if(bRes) 
 	{
@@ -591,7 +587,6 @@ bool S_DEBUG::BrowseFileWP(char *buffer, const char * filter)
 	fio->_GetCurrentDirectory(sizeof(DirectoryName),DirectoryName);
 	char file_name[MAX_PATH];
 	OPENFILENAME ofn;
-	BOOL bRes;
 	file_name[0] = 0;
 	PZERO(&ofn,sizeof(ofn));
 	ofn.lStructSize = sizeof(ofn);
@@ -604,7 +599,7 @@ bool S_DEBUG::BrowseFileWP(char *buffer, const char * filter)
 	ofn.nMaxFile = MAX_PATH;
 	ofn.lpstrDefExt = filter;
 	ofn.lpstrTitle = "Open script source file";
-	bRes = GetOpenFileName(&ofn);
+	BOOL bRes = GetOpenFileName(&ofn);
 	fio->_SetCurrentDirectory(DirectoryName);
 	if(bRes) 
 	{
@@ -784,7 +779,6 @@ bool S_DEBUG::ProcessRegistry_Open()
 	char buffer[MAX_PATH];
 	char kn[MAX_PATH];
 	uint32_t dwSize;
-	long nRes;
 	uint32_t n;
 
 	nRecentFilesNum = 0;
@@ -793,7 +787,8 @@ bool S_DEBUG::ProcessRegistry_Open()
 	if(!hKey) if(RegCreateKey(HKEY_CURRENT_USER,"SDIIDEBUGGER",&hKey) != ERROR_SUCCESS) return false;
 
 	dwSize = sizeof(uint32_t);
-	nRes = RegQueryValueEx(hKey,"Recent Files Num",nullptr,nullptr,(unsigned char *)&nRecentFilesNum,(LPDWORD)&dwSize);
+	long nRes = RegQueryValueEx(hKey, "Recent Files Num", nullptr, nullptr, (unsigned char *)&nRecentFilesNum,
+	                            (LPDWORD)&dwSize);
 	if(nRes != ERROR_SUCCESS)
 	{
 		// write default value
@@ -811,16 +806,13 @@ bool S_DEBUG::ProcessRegistry_Open()
 		// write default value
 		RegSetValueEx(hKey,"Recent Files Index",0,REG_DWORD,(const unsigned char *)&nRecentFilesIndex,sizeof(DWORD));	
 	}
-*/	
+*/
 
-//	char sb[MAX_PATH];
-	HMENU hMenu;
-	hMenu = GetMenu(hMain);
+	HMENU hMenu = GetMenu(hMain);
 	if(hMenu)
 	{
-		HMENU hFileSubMenu;
 		MENUITEMINFO mii;
-		hFileSubMenu = GetSubMenu(hMenu,0);
+		HMENU hFileSubMenu = GetSubMenu(hMenu, 0);
 	
 		for(n=0;n<(uint32_t)GetMenuItemCount(hFileSubMenu);n++)
 		{

@@ -18,8 +18,7 @@ S_STACK::~S_STACK()
 
 void S_STACK::Release()
 {
-	uint32_t n;
-	for(n=0;n<Buffer_size;n++)
+	for(uint32_t n = 0;n<Buffer_size;n++)
 	{
 		delete pStackData[n];
 		//pStackData[n].~DATA();
@@ -31,8 +30,6 @@ void S_STACK::Release()
 
 DATA * S_STACK::Push(DATA * pdataclass)
 {
-	uint32_t offset,n;
-
 	if(Data_num > 1000)
 	{
 		Data_num = Data_num;
@@ -40,11 +37,11 @@ DATA * S_STACK::Push(DATA * pdataclass)
 	if(Data_num > STACK_BUFFER_LIMIT) throw std::exception("stack overflaw");
 	if(Data_num >= Buffer_size)
 	{
-		offset = Buffer_size;
+		uint32_t offset = Buffer_size;
 		Buffer_size += STACK_BUFFER_BLOCK_SIZE;
 		pStackData.resize(Buffer_size);
 		//trace("stack: %d",Buffer_size);
-		for(n=offset;n<Buffer_size;n++)
+		for(uint32_t n = offset;n<Buffer_size;n++)
 		{
 			//new(&pStackData[n]) DATA;
 			pStackData[n] = new DATA;

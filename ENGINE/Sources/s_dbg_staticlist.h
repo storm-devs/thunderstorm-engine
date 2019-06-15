@@ -15,19 +15,15 @@ public:
 	~SDBG_STATICLIST(){};
 	bool Init(long lines, RECT rParent, RECT rChild, HINSTANCE hInstance, HWND _hmain)
 	{
-		long n;
-		long height;
-		long line_y;
-
 		if(lines == 0) return false;
 
 		hMain = _hmain;
 		
 		hOwn.resize(lines);
-		height = (rChild.bottom - rChild.top)/lines;
-		line_y = rChild.top;
+		long height = (rChild.bottom - rChild.top) / lines;
+		long line_y = rChild.top;
 		
-		for(n=0;n<lines;n++)
+		for(long n = 0;n<lines;n++)
 		{
 			hOwn[n] = CreateWindow("STATIC","",WS_CHILD|WS_VISIBLE|WS_BORDER,
 				rChild.left,line_y,

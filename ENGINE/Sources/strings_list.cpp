@@ -8,8 +8,7 @@ STRINGS_LIST::STRINGS_LIST()
 	Strings = 0;
 	String_Table_PTR = nullptr;
 	used_data_size = 0;
-	uint32_t n;
-	for(n=0;n<CACHE_SIZE;n++) Cache[n] = INVALID_ORDINAL_NUMBER;
+	for(uint32_t n = 0;n<CACHE_SIZE;n++) Cache[n] = INVALID_ORDINAL_NUMBER;
 	Cache_Pos = 0;
 }
 
@@ -38,8 +37,7 @@ bool STRINGS_LIST::AddString(char * _char_PTR)
 {
 	//GUARD(STRINGS_LIST::AddString)
 	if(_char_PTR == nullptr) throw std::exception("zero string");
-	uint32_t hash;
-	hash = MakeHashValue(_char_PTR);	
+	uint32_t hash = MakeHashValue(_char_PTR);	
 	if(String_Table_PTR == nullptr)	// first time
 	{
 
@@ -80,15 +78,11 @@ void STRINGS_LIST::Release()
 
 uint32_t STRINGS_LIST::GetStringCode(char * _char_PTR)
 {
-	//GUARD(STRINGS_LIST::GetStringCode)
-	uint32_t n;
-	uint32_t hash;
-
 	if(Strings <= 0 || String_Table_PTR == nullptr  || _char_PTR == nullptr)
 	{
 		return INVALID_ORDINAL_NUMBER;
 	}
-	hash = MakeHashValue(_char_PTR);
+	uint32_t hash = MakeHashValue(_char_PTR);
 
 	/*for(n=0;n<CACHE_SIZE;n++) 
 	{
@@ -101,7 +95,7 @@ uint32_t STRINGS_LIST::GetStringCode(char * _char_PTR)
 		}
 	}*/
 	
-	for(n = 0; n < Strings; n++) 
+	for(uint32_t n = 0; n < Strings; n++) 
 	{
 		if(hash == *((uint32_t *)String_Table_PTR[n]))
 		{
@@ -186,16 +180,14 @@ void STRINGS_LIST::DeleteString(uint32_t code)
 uint32_t STRINGS_LIST::MakeHashValue(const char * string)
 {
   uint32_t hval = 0;
-  uint32_t g;
-  char v;
 
   while(*string != 0)
   {
-	v = *string++;
+	char v = *string++;
 	if ('A' <= v && v <= 'Z') v += 'a' - 'A';
 
     hval = (hval<<4) + (unsigned long int)v;
-    g = hval & ((unsigned long int) 0xf << (32 - 4));
+    uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
     if(g != 0)
 		{
 			hval ^= g >> (32 - 8);

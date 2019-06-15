@@ -12,9 +12,7 @@ S_FUNCTAB::S_FUNCTAB()
 {
 	Buffer_size = 0;
 	Func_num = 0;
-	//bKeepName = false;
-	uint32_t n;
-	for(n=0;n<HASHT_SIZE;n++)
+	for(uint32_t n = 0;n<HASHT_SIZE;n++)
 	{
 		HashLine[n].nNumElements = 0;
 	}
@@ -27,11 +25,11 @@ S_FUNCTAB::~S_FUNCTAB()
 
 void  S_FUNCTAB::Release()
 {
-	uint32_t n,i;
+	uint32_t n;
 	for(n=0;n<Func_num;n++)
 	{
 		delete pTable[n].name;
-		for(i=0;i<pTable[n].var_num;i++)
+		for(uint32_t i = 0;i<pTable[n].var_num;i++)
 		{
 			delete pTable[n].pLocal[i].name;
 		}
@@ -77,15 +75,11 @@ bool S_FUNCTAB::GetFuncX(FUNCINFO& fi,uint32_t func_code)
 
 uint32_t S_FUNCTAB::AddFunc(FUNCINFO& fi)
 {
-	uint32_t n;
-	uint32_t hash;
-	uint32_t hash_index;
-
 	if(fi.name == nullptr) return INVALID_FUNC_CODE;
-	hash = MakeHashValue(fi.name);
-	hash_index = MAKEHASHINDEX(hash);
+	uint32_t hash = MakeHashValue(fi.name);
+	uint32_t hash_index = MAKEHASHINDEX(hash);
 
-	for(n=0;n<Func_num;n++)
+	for(uint32_t n = 0;n<Func_num;n++)
 	{
 		if(pTable[n].hash != hash) continue;
 		if(_stricmp(pTable[n].name,fi.name)!=0) continue;
@@ -168,14 +162,12 @@ uint32_t S_FUNCTAB::AddFunc(FUNCINFO& fi)
 uint32_t S_FUNCTAB::MakeHashValue(const char * string)
 {
 	uint32_t hval = 0;
-	uint32_t g;
-	char v;
 	while(*string != 0)
 	{
-		v = *string++;
+		char v = *string++;
 		if ('A' <= v && v <= 'Z') v += 'a' - 'A';	// case independent
 		hval = (hval<<4) + (unsigned long int)v;
-		g = hval & ((unsigned long int) 0xf << (32 - 4));
+		uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
 		if(g != 0)
 		{
 			hval ^= g >> (32 - 8);
@@ -187,13 +179,12 @@ uint32_t S_FUNCTAB::MakeHashValue(const char * string)
 
 void S_FUNCTAB::InvalidateBySegmentID(uint32_t segment_id)
 {
-	uint32_t n,i;
-	for(n=0;n<Func_num;n++)
+	for(uint32_t n = 0;n<Func_num;n++)
 	{
 		if(pTable[n].segment_id != segment_id) continue;
 		UpdateHashTable(n,pTable[n].hash,false);
 		pTable[n].offset = INVALID_FUNC_OFFSET;
-		for(i=0;i<pTable[n].var_num;i++)
+		for(uint32_t i = 0;i<pTable[n].var_num;i++)
 		{
 			if(pTable[n].pLocal[i].name) delete pTable[n].pLocal[i].name;
 		}
@@ -208,14 +199,12 @@ void S_FUNCTAB::InvalidateBySegmentID(uint32_t segment_id)
 
 void S_FUNCTAB::InvalidateFunction(uint32_t nFuncHandle)
 {
-	uint32_t n,i;
-
 	if(nFuncHandle < Func_num)
 	{
-		n = nFuncHandle;
+		uint32_t n = nFuncHandle;
 		UpdateHashTable(n,pTable[n].hash,false);
 		pTable[n].offset = INVALID_FUNC_OFFSET;
-		for(i=0;i<pTable[n].var_num;i++)
+		for(uint32_t i = 0;i<pTable[n].var_num;i++)
 		{
 			if(pTable[n].pLocal[i].name) delete pTable[n].pLocal[i].name;
 		}
@@ -230,17 +219,14 @@ void S_FUNCTAB::InvalidateFunction(uint32_t nFuncHandle)
 
 uint32_t S_FUNCTAB::FindFunc(char * func_name)
 {
-	uint32_t n;
-	uint32_t hash;
 	if(func_name == nullptr) return INVALID_FUNC_CODE;
-	hash = MakeHashValue(func_name);
+	uint32_t hash = MakeHashValue(func_name);
 
-	uint32_t hash_index,nNum,ni;
-	hash_index = MAKEHASHINDEX(hash);
-	nNum = HashLine[hash_index].nNumElements;
-	for(n=0;n<nNum;n++)
+	uint32_t hash_index = MAKEHASHINDEX(hash);
+	uint32_t nNum = HashLine[hash_index].nNumElements;
+	for(uint32_t n = 0;n<nNum;n++)
 	{
-		ni = HashLine[hash_index].pElements[n];
+		uint32_t ni = HashLine[hash_index].pElements[n];
 		if(pTable[ni].hash == hash)
 		if(_stricmp(pTable[ni].name,func_name)== 0) return ni;
 	}
@@ -256,8 +242,7 @@ uint32_t S_FUNCTAB::FindFunc(char * func_name)
 
 bool S_FUNCTAB::SetFuncOffset(char * func_name, uint32_t offset)
 {
-	uint32_t n;
-	n = FindFunc(func_name);
+	uint32_t n = FindFunc(func_name);
 	if(n == INVALID_FUNC_CODE) return false;
 	pTable[n].offset = offset;
 	return true;
@@ -279,20 +264,17 @@ bool S_FUNCTAB::SetFuncOffset(char * func_name, uint32_t offset)
 
 bool S_FUNCTAB::AddFuncVar(uint32_t func_code, LVARINFO & lvi)
 {
-	uint32_t vindex;
-	uint32_t hash;
-	uint32_t n;
 	if(func_code >= Func_num) return false;
 	if(lvi.name == nullptr) return false;
 
-	hash = MakeHashValue(lvi.name);
-	for(n=0;n<pTable[func_code].var_num;n++)
+	uint32_t hash = MakeHashValue(lvi.name);
+	for(uint32_t n = 0;n<pTable[func_code].var_num;n++)
 	{
 		if(hash == pTable[func_code].pLocal[n].hash) //return false;
 		if(_stricmp(pTable[func_code].pLocal[n].name,lvi.name)==0) return false;
 	}
 
-	vindex = pTable[func_code].var_num;
+	uint32_t vindex = pTable[func_code].var_num;
 	pTable[func_code].var_num++;
 	pTable[func_code].pLocal.resize(pTable[func_code].var_num);
 	pTable[func_code].pLocal[vindex].name = nullptr;
@@ -323,12 +305,10 @@ bool S_FUNCTAB::AddFuncArg(uint32_t func_code, LVARINFO & lvi, bool bExt)
 
 uint32_t S_FUNCTAB::FindVar(uint32_t func_code, char * var_name)
 {
-	uint32_t hash;
-	uint32_t n;
 	if(var_name == nullptr) return INVALID_VAR_CODE;
 	if(func_code >= Func_num) return INVALID_VAR_CODE;
-	hash = MakeHashValue(var_name);
-	for(n=0;n<pTable[func_code].var_num;n++)
+	uint32_t hash = MakeHashValue(var_name);
+	for(uint32_t n = 0;n<pTable[func_code].var_num;n++)
 	{
 		if(hash == pTable[func_code].pLocal[n].hash) //return n;
 		if(_stricmp(var_name,pTable[func_code].pLocal[n].name)==0) return n;
@@ -364,11 +344,9 @@ void  S_FUNCTAB::AddCall(uint32_t func_code)
 
 void S_FUNCTAB::UpdateHashTable(uint32_t code, uint32_t hash, bool in)
 {
-	uint32_t n;
-	uint32_t hash_index;
-	hash_index = MAKEHASHINDEX(hash);
+	uint32_t hash_index = MAKEHASHINDEX(hash);
 
-	for(n=0;n<HashLine[hash_index].nNumElements;n++)
+	for(uint32_t n = 0;n<HashLine[hash_index].nNumElements;n++)
 	{
 		if(HashLine[hash_index].pElements[n] != code) continue;
 		if(!in)

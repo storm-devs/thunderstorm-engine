@@ -15,13 +15,12 @@ LAYER::LAYER(char * name,bool ordered,bool system,uint32_t system_flags)
 
 LAYER::~LAYER()
 {
-	VIDWALKER * pInterface;
 	while(Base_Link) {Del(Base_Link->id);}
 	for(uint32_t n=0;n<walkers_num;n++)
 	{
 		if(walkers[n]) 
 		{
-			pInterface = walkers[n]->pInterface;
+			VIDWALKER* pInterface = walkers[n]->pInterface;
 			if(pInterface) pInterface->Invalidate();
 			delete walkers[n];
 		}
@@ -30,10 +29,7 @@ LAYER::~LAYER()
 
 bool LAYER::Add(ENTITY_ID eid)
 {
-	LAYER_NODE * ln_PTR;
-	
-
-	ln_PTR = (LAYER_NODE *)new LAYER_NODE;
+	LAYER_NODE* ln_PTR = (LAYER_NODE *)new LAYER_NODE;
 	if(ln_PTR == nullptr) return false;
 	ln_PTR->id = eid;
 	ln_PTR->link_R = nullptr;
@@ -47,14 +43,10 @@ bool LAYER::Add(ENTITY_ID eid)
 
 bool LAYER::Add(ENTITY_ID eid, uint32_t priority)
 {
-	//GUARD(LAYER::Add(ENTITY_ID,uint32_t))
-	LAYER_NODE * ln_PTR;
-	LAYER_NODE * scanln_PTR;
-	
 	if(!ls.Ordered) return Add(eid);
 
 
-	ln_PTR = (LAYER_NODE *)new LAYER_NODE;
+	LAYER_NODE* ln_PTR = (LAYER_NODE *)new LAYER_NODE;
 	if(ln_PTR == nullptr) return false;
 	ln_PTR->id = eid;
 	ln_PTR->priority = priority;
@@ -69,7 +61,7 @@ bool LAYER::Add(ENTITY_ID eid, uint32_t priority)
 		return true;
 	}
 	
-	scanln_PTR = Base_Link;
+	LAYER_NODE* scanln_PTR = Base_Link;
 	while(scanln_PTR)
 	{
 		if(scanln_PTR->priority >= priority)
@@ -99,20 +91,15 @@ bool LAYER::Add(ENTITY_ID eid, uint32_t priority)
 
 bool LAYER::Del(ENTITY_ID eid)
 {
-	LAYER_NODE * ln_PTR;
-
-	LAYER_NODE * link_L;
-	LAYER_NODE * link_R;
-
-	ln_PTR = Base_Link;
+	LAYER_NODE* ln_PTR = Base_Link;
 	do
 	{
 		if(ln_PTR) 
 		{
 			if(memcmp(&ln_PTR->id,&eid,sizeof(ENTITY_ID)) == 0)
 			{
-				link_L = ln_PTR->link_L;
-				link_R = ln_PTR->link_R;
+				LAYER_NODE* link_L = ln_PTR->link_L;
+				LAYER_NODE* link_R = ln_PTR->link_R;
 
 				if(link_L) link_L->link_R = link_R;
 				if(link_R) link_R->link_L = link_L;
@@ -140,8 +127,7 @@ bool LAYER::Del(ENTITY_ID eid)
 
 uint32_t LAYER::GetPriority(ENTITY_ID eid)
 {
-	LAYER_NODE * ln_PTR;
-	ln_PTR = Base_Link;
+	LAYER_NODE* ln_PTR = Base_Link;
 	do
 	{
 		if(ln_PTR)
@@ -167,11 +153,10 @@ ENTITY_ID * LAYER::WalkerGetID(LPBYTE& sl)
 
 ENTITY_ID * LAYER::WalkerGetNextID(LPBYTE& sl)
 {
-	LAYER_NODE * ln_PTR;
 	if(ls.Deleted) return nullptr;
 	if(sl)
 	{
-		ln_PTR = (LAYER_NODE *)sl;
+		LAYER_NODE* ln_PTR = (LAYER_NODE *)sl;
 		sl = (LPBYTE)ln_PTR->link_L;
 		ln_PTR = (LAYER_NODE *)sl;
 		if(sl == nullptr) return nullptr;
@@ -245,13 +230,11 @@ void LAYER::ClrFlag(uint32_t flag)
 
 VIDWALKER * LAYER::GetWalker()
 {
-	TIDWALKER * tidw;
-
 	walkers.resize(walkers_num + 1); 
 
 	walkers[walkers_num] = new IDWALKER;
 
-	tidw = (TIDWALKER *)new TIDWALKER(walkers[walkers_num]);
+	TIDWALKER* tidw = (TIDWALKER *)new TIDWALKER(walkers[walkers_num]);
 	walkers[walkers_num]->SetLayer((void *)this);
 	walkers[walkers_num]->SetInterface((void *)tidw);
 	walkers_num++;
@@ -261,8 +244,7 @@ VIDWALKER * LAYER::GetWalker()
 
 void LAYER::DelWalker(void * pw)
 {
-	uint32_t n;
-	for(n=0;n<walkers_num;n++)
+	for(uint32_t n = 0;n<walkers_num;n++)
 	{
 		if((void *)walkers[n] == pw)
 		{

@@ -19,10 +19,9 @@ PROGRAM::~PROGRAM()
 void PROGRAM::Release()
 {
 	if(ProgramDirectory) delete ProgramDirectory; ProgramDirectory = nullptr;
-	uint32_t n;
 	if(ProgramBlock)
 	{
-		for(n=0;n<ProgramNum;n++)
+		for(uint32_t n = 0;n<ProgramNum;n++)
 		{
 			ProgramBlock[n]->Release();
 			delete ProgramBlock[n];
@@ -34,10 +33,8 @@ void PROGRAM::Release()
 
 bool PROGRAM::RunProgram(char * program_name)
 {
-	uint32_t code;
-
 	if(Running(program_name)) return true;
-	code = ProgramNum;
+	uint32_t code = ProgramNum;
 	ProgramNum++;
 	ProgramBlock = (COMPILER **)realloc(ProgramBlock,ProgramNum*sizeof(COMPILER *));
 
@@ -55,8 +52,7 @@ bool PROGRAM::RunProgram(char * program_name)
 
 bool PROGRAM::Running(char * program_name)
 {
-	uint32_t n;
-	for(n=0;n<ProgramNum;n++)
+	for(uint32_t n = 0;n<ProgramNum;n++)
 	{
 		if(strcmp(ProgramBlock[n]->GetName(),program_name)==0) return true;
 	}
@@ -80,9 +76,8 @@ void PROGRAM::SetProgramDirectory(char * dir_name)
 }
 VDATA * PROGRAM::ProcessEvent(char * event_name, MESSAGE message)
 {
-	uint32_t n;
 	VDATA * pVD;
-	for(n=0;n<ProgramNum;n++)
+	for(uint32_t n = 0;n<ProgramNum;n++)
 	{
 		message.Move2Start();
 		pVD = ProgramBlock[n]->ProcessEvent(event_name,message);
@@ -93,8 +88,7 @@ VDATA * PROGRAM::ProcessEvent(char * event_name, MESSAGE message)
 VDATA *  PROGRAM::ProcessEvent(char * event_name)
 {
 	VDATA * pVD;
-	uint32_t n;
-	for(n=0;n<ProgramNum;n++)
+	for(uint32_t n = 0;n<ProgramNum;n++)
 	{
 		pVD = ProgramBlock[n]->ProcessEvent(event_name);
 	}
@@ -103,16 +97,14 @@ VDATA *  PROGRAM::ProcessEvent(char * event_name)
 
 void PROGRAM::ProcessFrame(uint32_t DeltaTime)
 {
-	uint32_t n,i,old_size;
-	
-	old_size = ProgramNum; 
-	for(n=0;n<ProgramNum;n++)
+	uint32_t old_size = ProgramNum; 
+	for(uint32_t n = 0;n<ProgramNum;n++)
 	{
 		ProgramBlock[n]->ProcessFrame(DeltaTime);
 		if(!ProgramBlock[n]->Completed()) continue;
 		ProgramBlock[n]->Release();
 		delete ProgramBlock[n];
-		for(i=n;i<(ProgramNum - 1);i++)
+		for(uint32_t i = n;i<(ProgramNum - 1);i++)
 		{
 			ProgramBlock[i] = ProgramBlock[i + 1];
 		}
@@ -124,8 +116,7 @@ void PROGRAM::ProcessFrame(uint32_t DeltaTime)
 
 void PROGRAM::ClearEvents()
 {
-	uint32_t n;
-	for(n=0;n<ProgramNum;n++)
+	for(uint32_t n = 0;n<ProgramNum;n++)
 	{
 		ProgramBlock[n]->ClearEvents();
 	}
@@ -133,9 +124,8 @@ void PROGRAM::ClearEvents()
 
 bool PROGRAM::SaveState(HANDLE fh)
 {
-	uint32_t n;
 	fio->_WriteFile(fh,&ProgramNum,sizeof(ProgramNum),nullptr);
-	for(n=0;n<ProgramNum;n++)
+	for(uint32_t n = 0;n<ProgramNum;n++)
 	{
 		ProgramBlock[n]->SaveState(fh);
 	}
@@ -144,11 +134,10 @@ bool PROGRAM::SaveState(HANDLE fh)
 
 bool PROGRAM::LoadState(HANDLE fh)
 {
-	uint32_t n;
 	Release();
 	fio->_ReadFile(fh,&ProgramNum,sizeof(ProgramNum),nullptr);
 	ProgramBlock = (COMPILER **)realloc(ProgramBlock,ProgramNum*sizeof(COMPILER *));
-	for(n=0;n<ProgramNum;n++)
+	for(uint32_t n = 0;n<ProgramNum;n++)
 	{
 
 		ProgramBlock[n] = new COMPILER;
@@ -159,8 +148,7 @@ bool PROGRAM::LoadState(HANDLE fh)
 
 bool PROGRAM::OnLoad()
 {
-	uint32_t n;
-	for(n=0;n<ProgramNum;n++)
+	for(uint32_t n = 0;n<ProgramNum;n++)
 	{
 		ProgramBlock[n]->OnLoad();
 	}
@@ -169,8 +157,7 @@ bool PROGRAM::OnLoad()
 
 void PROGRAM::AddPostEvent(S_EVENTMSG * pEM)
 {
-	uint32_t n;
-	for(n=0;n<ProgramNum;n++)
+	for(uint32_t n = 0;n<ProgramNum;n++)
 	{
 		ProgramBlock[n]->AddPostEvent(pEM);
 	}

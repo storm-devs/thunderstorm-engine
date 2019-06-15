@@ -43,12 +43,11 @@ public:
 
 	void Release()
 	{
-		uint32_t n,m;
-		for(m=0;m<DHASH_TABLE_SIZE;m++)
+		for(uint32_t m = 0;m<DHASH_TABLE_SIZE;m++)
 		{
 			if(HTable[m].ppDat)
 			{
-				for(n=0;n<HTable[m].nStringsNum;n++) delete HTable[m].ppDat[n].pDString;
+				for(uint32_t n = 0;n<HTable[m].nStringsNum;n++) delete HTable[m].ppDat[n].pDString;
 				free(HTable[m].ppDat);
 			}
 			HTable[m].ppDat = nullptr; HTable[m].nStringsNum = 0;
@@ -57,8 +56,6 @@ public:
 
 	uint32_t Convert(const char * pString, uint32_t nDataSize, bool & bNew)
 	{
-		uint32_t nHash;
-		uint32_t nTableIndex;
 		uint32_t nStringCode;
 		uint32_t n;
 		if(pString == nullptr) return 0xffffffff;
@@ -75,8 +72,8 @@ public:
 			return nStringCode;
 		}
 
-		nHash = MakeHashValue(pString,nDataSize);
-		nTableIndex = nHash%DHASH_TABLE_SIZE;
+		uint32_t nHash = MakeHashValue(pString, nDataSize);
+		uint32_t nTableIndex = nHash % DHASH_TABLE_SIZE;
 
 
 		for(n=0;n<HTable[nTableIndex].nStringsNum;n++)
@@ -111,10 +108,8 @@ public:
 	}
 	char * Convert(uint32_t code, uint32_t & nSize)
 	{
-		uint32_t nTableIndex;
-		uint32_t n;
 		//nTableIndex = code>>16;
-		nTableIndex = code & 0xff;
+		uint32_t nTableIndex = code & 0xff;
 		if(nTableIndex == DHASH_SINGLESYM)
 		{
 			nSize = 1;
@@ -127,7 +122,7 @@ public:
 			return nullptr;
 		}
 		//n = code & 0xffff;
-		n = code >> 8;
+		uint32_t n = code >> 8;
 		if(n >= HTable[nTableIndex].nStringsNum)
 		{
 			return nullptr;
@@ -138,15 +133,13 @@ public:
 	uint32_t MakeHashValue(const char * ps, uint32_t nSize)
 	{
 		uint32_t hval = 0;
-		uint32_t g;
 		uint32_t n = 0;
-		char v;
 		//while(*ps != 0)
 		for(n=0;n<nSize;n++)
 		{
-			v = ps[n];
+			char v = ps[n];
 			hval = (hval<<4) + (unsigned long int)v;
-			g = hval & ((unsigned long int) 0xf << (32 - 4));
+			uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
 			if(g != 0)
 			{
 				hval ^= g >> (32 - 8);

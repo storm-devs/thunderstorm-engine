@@ -88,11 +88,9 @@ DATA::DATA(uint32_t _num_of_elements, S_TOKEN_TYPE _element_type)
 //	bRef = false;
 	pReference = nullptr;
 	AttributesClass = nullptr;
-	
-	uint32_t n;
 
 	ArrayPTR.reserve(Number_of_elements);
-	for(n=0;n<Number_of_elements;n++)
+	for(uint32_t n = 0;n<Number_of_elements;n++)
 	{
 		ArrayPTR.emplace_back(_element_type);
 		//ArrayPTR[n] = 
@@ -410,11 +408,10 @@ bool DATA::Get(char * attribute_name, char * & value)
 		Error(UNINIT_REF);
 		return false;
 	}
-	char * pAValue;
 	if(bArray) {Error(NO_INDEX); return false;}
 	if(AttributesClass == nullptr) return false;
 	//pAValue = Attributes.GetAttribute(attribute_name);
-	pAValue = AttributesClass->GetAttribute(attribute_name);
+	char* pAValue = AttributesClass->GetAttribute(attribute_name);
 	if(pAValue == nullptr) return false;
 	value = pAValue;
 	return true;
@@ -695,7 +692,6 @@ void DATA::ClearType()
 
 void DATA::SetType(S_TOKEN_TYPE _element_type, uint32_t array_size)
 {
-	uint32_t n;
 	ClearType();
 	Data_type = _element_type;
 	bArray = false;
@@ -716,7 +712,7 @@ void DATA::SetType(S_TOKEN_TYPE _element_type, uint32_t array_size)
 		ArrayPTR.clear();
 		Number_of_elements = array_size;
 		ArrayPTR.reserve(Number_of_elements);
-		for(n=0;n<Number_of_elements;n++)
+		for(uint32_t n = 0;n<Number_of_elements;n++)
 		{
 			//ArrayPTR[n] = new DATA(_element_type);
 			//ArrayPTR[n]->SetVCompiler(pVCompiler);
@@ -1649,8 +1645,7 @@ bool DATA::Copy(DATA * pV)
 		Error(UNINIT_REF);
 		return false;
 	}
-	uint32_t copy_size;
-//	DWORD n;
+	//	DWORD n;
 //	char * * ppChar;
 //	char * * ppCharpV;
 
@@ -1704,7 +1699,7 @@ bool DATA::Copy(DATA * pV)
 			Error("Can't copy two arrays with different size");
 			return false;
 		}
-		copy_size = Number_of_elements * sizeof(DATA *);
+		uint32_t copy_size = Number_of_elements * sizeof(DATA *);
 		memcpy(ArrayPTR.data(),pV->ArrayPTR.data(),copy_size); //~!~
 		//ArrayPTR = pV->ArrayPTR;
 
@@ -1733,8 +1728,7 @@ bool DATA::Copy(DATA * pV)
 
 			if(Data_type == VAR_REFERENCE)
 			{
-				DATA * pVV;
-				pVV = GetVarPointer();
+				DATA* pVV = GetVarPointer();
 				if(pVV == nullptr)
 				{
 					Error(UNINIT_REF);
@@ -2016,11 +2010,10 @@ DATA * DATA::GetArrayElement(uint32_t index)
 
 void  DATA::SetVCompiler(VIRTUAL_COMPILER * pVC) 
 {
-	uint32_t n;
 	pVCompiler = pVC;
 	if(bArray)
 	{
-		for(n=0;n<Number_of_elements;n++)
+		for(uint32_t n = 0;n<Number_of_elements;n++)
 		{
 			ArrayPTR[n].SetVCompiler(pVC);
 		}
@@ -2292,8 +2285,7 @@ bool DATA::RefConvert()
 	if(Data_type != VAR_REFERENCE) return false;
 	if(IsArray()) return false;
 	if(!pReference) { Error(UNINIT_REF); return false;}
-	DATA * pV;
-	pV = pReference->GetVarPointer();
+	DATA* pV = pReference->GetVarPointer();
 	if(!pV) { Error(UNINIT_REF); return false;}
 	ClearType();
 	Copy(pV);

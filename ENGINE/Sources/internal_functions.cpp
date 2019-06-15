@@ -436,12 +436,10 @@ bool COMPILER::IsIntFuncVarArgsNum(uint32_t code)
 
 uint32_t COMPILER::GetIntFunctionCode(char * func_name)
 {
-	uint32_t functions_num;
-	uint32_t n;
 	//functions_num = sizeof(FuncNameTable)/sizeof(char *);
-	functions_num = sizeof(IntFuncTable)/sizeof(INTFUNCDESC);
+	uint32_t functions_num = sizeof(IntFuncTable) / sizeof(INTFUNCDESC);
 
-	for(n=0;n<functions_num;n++)
+	for(uint32_t n = 0;n<functions_num;n++)
 	{
 		//if(strcmp(func_name,FuncNameTable[n])==0) return n;
 		if(strcmp(func_name,IntFuncTable[n].pName)==0) return n;
@@ -1855,13 +1853,12 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 void COMPILER::DumpAttributes(ATTRIBUTES * pA, long level)
 {
 	char buffer[128];
-	uint32_t n;
 	if(pA == nullptr) return;
 
 	if(level >= 128) level = 127;
 	if(level != 0) memset(buffer,' ',level); buffer[level] = 0;
 
-	for(n=0;n<pA->GetAttributesNum();n++)
+	for(uint32_t n = 0;n<pA->GetAttributesNum();n++)
 	{
 		DTrace("%s%s = %s",buffer,pA->GetAttributeName(n),pA->GetAttribute(n));
 		DumpAttributes(pA->GetAttributeClass(pA->GetAttributeName(n)), level + 2);
@@ -1878,13 +1875,11 @@ bool COMPILER::CreateMessage(MESSAGE_SCRIPT * pMs, uint32_t s_off, uint32_t var_
 	ATTRIBUTES * pA;
 	char * Format_string;
 	char * pChar;
-	DATA * pV;
-	uint32_t n;
 
 	if(pMs == nullptr) return false;
 
 	// read format string
-	pV = SStack.Read(s_off,var_offset); if(!pV){SetError(INVALID_FA); return false;};
+	DATA* pV = SStack.Read(s_off, var_offset); if(!pV){SetError(INVALID_FA); return false;};
 	var_offset++;
 	// set pointer to format string
 	pV->Get(Format_string);
@@ -1895,7 +1890,7 @@ bool COMPILER::CreateMessage(MESSAGE_SCRIPT * pMs, uint32_t s_off, uint32_t var_
 	// reset message class data
 	pMs->Reset(Format_string);
 	// scan format string
-	n = 0;
+	uint32_t n = 0;
 	while(Format_string[n])
 	{
 		// read stack data

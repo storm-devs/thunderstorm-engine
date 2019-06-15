@@ -7,9 +7,7 @@ S_DEFTAB::S_DEFTAB()
 {
 	Buffer_size = 0;
 	Def_num = 0;
-//	bKeepName = false;
-	uint32_t n;
-	for(n=0;n<DTHASHT_SIZE;n++)
+	for(uint32_t n = 0;n<DTHASHT_SIZE;n++)
 	{
 		HashLine[n].nNumElements = 0;
 	}
@@ -60,11 +58,10 @@ bool S_DEFTAB::GetDefX(DEFINFO& di,uint32_t def_code)
 uint32_t S_DEFTAB::AddDef(DEFINFO& di)
 {
 	uint32_t n;
-	uint32_t hash;
 
 
 	if(di.name == nullptr) return INVALID_DEF_CODE;
-	hash = MakeHashValue(di.name);
+	uint32_t hash = MakeHashValue(di.name);
 	
 	for(n=0;n<Def_num;n++)
 	{
@@ -121,14 +118,12 @@ uint32_t S_DEFTAB::AddDef(DEFINFO& di)
 uint32_t S_DEFTAB::MakeHashValue(const char * string)
 {
 	uint32_t hval = 0;
-	uint32_t g;
-	char v;
 	while(*string != 0)
 	{
-		v = *string++;
+		char v = *string++;
 		if ('A' <= v && v <= 'Z') v += 'a' - 'A';	// case independent
 		hval = (hval<<4) + (unsigned long int)v;
-		g = hval & ((unsigned long int) 0xf << (32 - 4));
+		uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
 		if(g != 0)
 		{
 			hval ^= g >> (32 - 8);
@@ -140,8 +135,7 @@ uint32_t S_DEFTAB::MakeHashValue(const char * string)
 
 void S_DEFTAB::InvalidateBySegmentID(uint32_t segment_id)
 {
-	uint32_t n;
-	for(n=0;n<Def_num;n++)
+	for(uint32_t n = 0;n<Def_num;n++)
 	{
 		if(pTable[n].segment_id != segment_id) continue;
 		UpdateHashTable(n,pTable[n].hash,false);
@@ -159,16 +153,13 @@ void S_DEFTAB::InvalidateBySegmentID(uint32_t segment_id)
 
 uint32_t S_DEFTAB::FindDef(char * def_name)
 {
-	uint32_t n;
-	uint32_t hash;
 	if(def_name == nullptr) return INVALID_DEF_CODE;
-	hash = MakeHashValue(def_name);
-	
-	uint32_t hash_index,ni;
-	hash_index = DTMAKEHASHINDEX(hash);
-	for(n=0;n<HashLine[hash_index].nNumElements;n++)
+	uint32_t hash = MakeHashValue(def_name);
+
+	uint32_t hash_index = DTMAKEHASHINDEX(hash);
+	for(uint32_t n = 0;n<HashLine[hash_index].nNumElements;n++)
 	{
-		ni = HashLine[hash_index].pElements[n];
+		uint32_t ni = HashLine[hash_index].pElements[n];
 		if(pTable[ni].hash == hash) //return n;
 		if(_stricmp(pTable[ni].name,def_name)==0) return ni;
 	}
@@ -184,11 +175,9 @@ uint32_t S_DEFTAB::FindDef(char * def_name)
 
 void S_DEFTAB::UpdateHashTable(uint32_t code, uint32_t hash, bool in)
 {
-	uint32_t n;
-	uint32_t hash_index;
-	hash_index = DTMAKEHASHINDEX(hash);
+	uint32_t hash_index = DTMAKEHASHINDEX(hash);
 
-	for(n=0;n<HashLine[hash_index].nNumElements;n++)
+	for(uint32_t n = 0;n<HashLine[hash_index].nNumElements;n++)
 	{
 		if(HashLine[hash_index].pElements[n] != code) continue;
 		if(!in)

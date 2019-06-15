@@ -143,18 +143,16 @@ BOOL   FILE_SERVICE::_DeleteFile(const char * lpFileName)
 }
 BOOL   FILE_SERVICE::_WriteFile(HANDLE hFile,const void * lpBuffer,uint32_t nNumberOfBytesToWrite,uint32_t * lpNumberOfBytesWritten)
 {
-	BOOL bRes;
 	uint32_t dwR;
-	bRes = WriteFile(hFile,lpBuffer,nNumberOfBytesToWrite,(LPDWORD)&dwR,nullptr);
+	BOOL bRes = WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, (LPDWORD)&dwR, nullptr);
 	if(lpNumberOfBytesWritten != nullptr) *lpNumberOfBytesWritten = dwR;
 //	if(dwR != nNumberOfBytesToWrite) if(Exceptions_Mask & _X_NO_FILE_WRITE) throw std::exception(_X_NO_FILE_WRITE);
 	return bRes;
 }
 BOOL   FILE_SERVICE::_ReadFile(HANDLE hFile,void * lpBuffer,uint32_t nNumberOfBytesToRead,uint32_t * lpNumberOfBytesRead)
 {
-	BOOL bRes;
 	uint32_t dwR;
-	bRes = ReadFile(hFile,lpBuffer,nNumberOfBytesToRead,(LPDWORD)&dwR,nullptr);
+	BOOL bRes = ReadFile(hFile, lpBuffer, nNumberOfBytesToRead, (LPDWORD)&dwR, nullptr);
 	if(lpNumberOfBytesRead != nullptr) *lpNumberOfBytesRead = dwR;
 //	if(dwR != nNumberOfBytesToRead) if(Exceptions_Mask & _X_NO_FILE_READ) throw std::exception(_X_NO_FILE_READ);
 	return bRes;
@@ -264,8 +262,7 @@ BOOL   FILE_SERVICE::_SetFileAttributes(const char * lpFileName,uint32_t dwFileA
 
 BOOL FILE_SERVICE::FileExist(const char * file_name)
 {
-	HANDLE fh;
-	fh = _CreateFile(file_name);
+	HANDLE fh = _CreateFile(file_name);
 	if(fh == INVALID_HANDLE_VALUE) return false;
 	CloseHandle(fh);
 	return true;
@@ -277,8 +274,7 @@ BOOL FILE_SERVICE::FileExist(const char * file_name)
 
 INIFILE * FILE_SERVICE::CreateIniFile(const char * file_name, bool fail_if_exist)
 {
-	HANDLE fh;
-	fh = _CreateFile(file_name,GENERIC_READ,0,OPEN_EXISTING);	
+	HANDLE fh = _CreateFile(file_name,GENERIC_READ, 0,OPEN_EXISTING);	
 	if(fh != INVALID_HANDLE_VALUE && fail_if_exist) 
 	{
 		_CloseHandle(fh);
@@ -344,9 +340,7 @@ INIFILE * FILE_SERVICE::OpenIniFile(const char * file_name)
 
 void FILE_SERVICE::RefDec(INIFILE * ini_obj)
 {
-	//GUARD(FILE_SERVICE::RefDec)
-	uint32_t n;
-	for(n=0;n<=Max_File_Index;n++)
+	for(uint32_t n = 0;n<=Max_File_Index;n++)
 	{
 		if(OpenFiles[n] != ini_obj) continue;
 		//OpenFiles[n]->SearchData = &OpenFiles[n]->Search;
@@ -365,8 +359,7 @@ void FILE_SERVICE::RefDec(INIFILE * ini_obj)
 
 void FILE_SERVICE::Close()
 {
-	uint32_t n;
-	for(n=0;n<_MAX_OPEN_INI_FILES;n++)
+	for(uint32_t n = 0;n<_MAX_OPEN_INI_FILES;n++)
 	{
 		if(OpenFiles[n] == nullptr) continue;
 		delete OpenFiles[n];
@@ -608,14 +601,12 @@ bool XProcessFileSTORM_DELETE(const char *_srcDir, const char *_mask, const WIN3
 uint32_t FILE_SERVICE::MakeHashValue(const char * string)
 {
 	uint32_t hval = 0;
-	uint32_t g;
-	char v;
 	while(*string != 0)
 	{
-		v = *string++;
+		char v = *string++;
 		if ('A' <= v && v <= 'Z') v += 'a' - 'A';	// case independent
 		hval = (hval<<4) + (unsigned long int)v;
-		g = hval & ((unsigned long int) 0xf << (32 - 4));
+		uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
 		if(g != 0)
 		{
 			hval ^= g >> (32 - 8);

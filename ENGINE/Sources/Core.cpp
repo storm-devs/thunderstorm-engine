@@ -28,7 +28,7 @@ CORE::CORE()
 	Memory_Leak_flag = false;
 	Controls = nullptr;
 	fTimeScale = 1.0f;
-	bNetActive = false;
+	//bNetActive = false;
 	nSplitScreenshotGrid = 4;
 }
 
@@ -128,6 +128,7 @@ bool CORE::LoCheck()
 
 bool CORE::Run()
 {
+	bool bDebugWindow = true;
 	if (bDebugWindow && api->Controls && api->Controls->GetDebugAsyncKeyState(VK_F7)<0) 
 		DumpEntitiesInfo();
 	dwNumberScriptCommandsExecuted = 0;
@@ -162,10 +163,10 @@ bool CORE::Run()
 	if (pVMonth) pVMonth->Set(long(st.wMonth));
 	if (pVDay) pVDay->Set(long(st.wDay));
 
-	if (!bNetActive)
+	//if (!bNetActive)
 	{
-		if(bAcceleration && Controls && Controls->GetDebugAsyncKeyState('R')<0) Timer.Delta_Time *= 10;
-		if(bAcceleration && Controls && Controls->GetDebugAsyncKeyState('Y')<0) Timer.Delta_Time = static_cast<uint32_t>(Timer.Delta_Time * 0.2f);
+		if(Controls && Controls->GetDebugAsyncKeyState('R')<0) Timer.Delta_Time *= 10;
+		if(Controls && Controls->GetDebugAsyncKeyState('Y')<0) Timer.Delta_Time = static_cast<uint32_t>(Timer.Delta_Time * 0.2f);
 
 		Timer.Delta_Time = static_cast<uint32_t>(Timer.Delta_Time * fTimeScale);
 		Timer.fDeltaTime *= fTimeScale;
@@ -1631,10 +1632,10 @@ void * CORE::GetScriptVariable(const char * pVariableName, uint32_t * pdwVarInde
 
 void CORE::SetNetActive(bool bActive)
 {
-	bNetActive = bActive;
+	//bNetActive = bActive;
 }
 
 bool CORE::IsNetActive() const
 {
-	return bNetActive;
+	//return bNetActive;
 }

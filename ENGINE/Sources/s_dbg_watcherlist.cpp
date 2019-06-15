@@ -16,9 +16,8 @@ WATCHER_LIST::WATCHER_LIST(HWND hwnd, HINSTANCE hinst)
 	hMenu = nullptr;
 	Initialize(hwnd,hinst,0,0,0);
 	SetBindMask(BM_BIND_RIGHT|BM_BIND_BOTTOM);
-	
-	long xs;
-	xs = GetSystemMetrics(SM_CXSCREEN);
+
+	long xs = GetSystemMetrics(SM_CXSCREEN);
 
 	AddColumn("Name",(3*xs)/5 - 20);
 	AddColumn("Value",xs - (3*xs)/5 - 20);
@@ -115,8 +114,7 @@ void WATCHER_LIST::ItemChanged(long Item_index, long Subitem_index)
 void WATCHER_LIST::Refresh()
 {
 	char String[MAX_PATH];
-	long n;
-	for(n=0;n<GetItemsCount();n++)
+	for(long n = 0;n<GetItemsCount();n++)
 	{
 		GetItemText(n,0,String,sizeof(String));
 		SetItemText(n,1,CDebug.ProcessExpression(String));
@@ -127,7 +125,6 @@ void WATCHER_LIST::ProcessMessage(uint32_t iMsg, uint32_t wParam, uint32_t lPara
 {
 	LPNMHDR pnmh;
 	LPNMLISTVIEW lpnmlv;
-	long item,subitem;
 
 	ProcessMessageBase(iMsg,wParam,lParam);
 
@@ -154,8 +151,8 @@ void WATCHER_LIST::ProcessMessage(uint32_t iMsg, uint32_t wParam, uint32_t lPara
 					{
 						if(lpnmlv->iItem >= 0 ) 
 						{
-							item = lpnmlv->iItem;
-							subitem = lpnmlv->iSubItem;
+							long item = lpnmlv->iItem;
+							long subitem = lpnmlv->iSubItem;
 							
 						} else
 						{

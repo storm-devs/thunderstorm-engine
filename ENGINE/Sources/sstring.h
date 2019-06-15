@@ -61,7 +61,6 @@ class SSTRING
 	};
 	void operator +=(const char * p)
 	{
-		char * pp;
 		if(p == nullptr) return;
 		if(pDataPointer == nullptr)
 		{
@@ -71,7 +70,7 @@ class SSTRING
 			return;
 		}
 		const auto len = strlen(pDataPointer) + strlen(p) + 1;
-		pp = new char[len];
+		char* pp = new char[len];
 		strcpy_s(pp, len, pDataPointer);
 		strcat_s(pp, len, p);
 		delete pDataPointer;
@@ -79,8 +78,6 @@ class SSTRING
 	};
 	void operator +=(const char sym)
 	{
-		char * pp;
-		uint32_t nLen;
 		if(pDataPointer == nullptr)
 		{
 			pDataPointer = new char[2]; 
@@ -88,8 +85,8 @@ class SSTRING
 			pDataPointer[1] = sym;
 			return;
 		}
-		nLen = strlen(pDataPointer);
-		pp = new char[nLen + 2];
+		uint32_t nLen = strlen(pDataPointer);
+		char* pp = new char[nLen + 2];
 		strcpy_s(pp, nLen + 2, pDataPointer);
 		pp[nLen] = sym;
 		pp[nLen + 1] = 0;
