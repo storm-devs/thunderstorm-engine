@@ -703,6 +703,7 @@
     <ClInclude Include="..\XINTERFACE\vxservice.h" />
     <ClInclude Include="..\XINTERFACE\xinterface.h" />
     <ClInclude Include="..\XINTERFACE\xservice.h" />
+    <ClInclude Include="EntityManager.h" />
     <ClInclude Include="sources\fs.h" />
     <ClInclude Include="sources\classes_table.h" />
     <ClInclude Include="sources\compiler.h" />

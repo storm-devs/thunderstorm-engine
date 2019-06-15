@@ -2434,6 +2434,9 @@
     <ClInclude Include="sources\strings_list.h">
       <Filter>Script Files\h</Filter>
     </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="REsOURCE\Textures\Weather\Astronomy\Planets\jupiter.tga.tx">
