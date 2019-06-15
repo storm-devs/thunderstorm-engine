@@ -60,7 +60,7 @@ public:
   bool Init ();
 
 
-	uint32_t _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t ProcessMessage(MESSAGE & message);
 
 	void Realize(uint32_t Delta_Time);
 	void Execute(uint32_t Delta_Time);

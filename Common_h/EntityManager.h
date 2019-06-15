@@ -1,6 +1,6 @@
 #pragma once
-#include "../Common_h/message.h"
-#include "../Common_h/vmodule_api.h"
+#include "message.h"
+#include "vmodule_api.h"
 #include <cstdint>
 #include <vector>
 #include <chrono>
@@ -50,7 +50,7 @@ public:
 
 	virtual void ProcessStage(Stage stage) = 0;
 
-	virtual void ProcessMessage(MESSAGE & msg) = 0;
+	virtual uint32_t ProcessMessage(MESSAGE & msg) = 0;
 
 private:
 	entid_t id_ = -1u;

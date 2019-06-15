@@ -79,7 +79,7 @@ public:
 	void Realize(uint32_t Delta_Time);
 	bool CreateState(ENTITY_STATE_GEN * state_gen);
 	bool LoadState(ENTITY_STATE * state);
-    uint32_t _cdecl ProcessMessage(MESSAGE & message);
+    uint32_t ProcessMessage(MESSAGE & message);
 	uint32_t AttributeChanged(ATTRIBUTES* patr);
 
 	void CreateNode(char *sFileName, char *sNodeType, char *sNodeName, long priority=80);
@@ -324,7 +324,7 @@ public:
 	~CONTROLS_CONTAINER();
 	bool Init();
 	void Execute(uint32_t delta_time);
-    uint32_t _cdecl ProcessMessage(MESSAGE & message);
+    uint32_t ProcessMessage(MESSAGE & message);
 
 protected:
 	bool CreateConteinerList(ATTRIBUTES * pA);

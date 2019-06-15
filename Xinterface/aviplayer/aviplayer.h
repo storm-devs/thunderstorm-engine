@@ -24,7 +24,7 @@ public:
 	bool	Init();
 	void	Execute(uint32_t delta_time);
 	void	Realize(uint32_t delta_time);
-    uint32_t _cdecl ProcessMessage(MESSAGE & message);
+    uint32_t ProcessMessage(MESSAGE & message);
 
 	void SetShowVideo(bool bShowVideo) {m_bShowVideo=bShowVideo;}
 	IDirect3DTexture9 * GetCurrentVideoTexture() {return pTex;}

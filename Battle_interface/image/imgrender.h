@@ -10,7 +10,7 @@ public:
 	~BIImageRender();
 
 	void Render();
-    uint32_t _cdecl ProcessMessage(MESSAGE & message);
+    uint32_t ProcessMessage(MESSAGE & message);
 
 	IBIImage* CreateImage( BIImageType type, const char* pcTextureName, uint32_t color, FRECT& uv, long nLeft,long nTop, long nRight,long nBottom, long nPrior=ImagePrioritet_DefaultValue, const char* pcTechniqueName=nullptr );
 	IBIImage* CreateImage( BIImageType type, const char* pcTextureName, uint32_t color, FRECT& uv, RECT& pos, long nPrior=ImagePrioritet_DefaultValue, const char* pcTechniqueName=nullptr );

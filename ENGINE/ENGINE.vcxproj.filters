@@ -2434,7 +2434,7 @@
     <ClInclude Include="sources\strings_list.h">
       <Filter>Script Files\h</Filter>
     </ClInclude>
-    <ClInclude Include="EntityManager.h">
+    <ClInclude Include="..\Common_h\EntityManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

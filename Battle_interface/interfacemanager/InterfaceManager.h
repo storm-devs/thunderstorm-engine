@@ -16,7 +16,7 @@ public:
 	bool Init();
 	void Execute(uint32_t delta_time);
 	void Realize(uint32_t delta_time);
-    uint32_t _cdecl ProcessMessage(MESSAGE & message);
+    uint32_t ProcessMessage(MESSAGE & message);
 
 	virtual BI_ManagerNodeBase* CreateImageNode(const char* texture, const FRECT& uv, const RECT& pos, uint32_t color, long nPrioritet);
 	virtual BI_ManagerNodeBase* CreateStringNode(const char* text, const char* font, uint32_t color, float scale, const RECT& pos, long nHAlign, long nVAlign, long prioritet);

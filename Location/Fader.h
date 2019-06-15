@@ -26,7 +26,7 @@ public:
 	//Инициализация
 	bool Init();
 	//Сообщения
-	uint32_t _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t ProcessMessage(MESSAGE & message);
 	//Работа
 	void Execute(uint32_t delta_time);
 	void Realize(uint32_t delta_time);

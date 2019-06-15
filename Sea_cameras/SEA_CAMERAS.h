@@ -13,7 +13,7 @@ public:
 	virtual ~SEA_CAMERAS();
 
 	void ProcessMessage(uint32_t iMsg,uint32_t wParam,uint32_t lParam);
-	uint32_t _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t ProcessMessage(MESSAGE & message);
 };
 /*
 API_MODULE_START("SEA_CAMERAS")

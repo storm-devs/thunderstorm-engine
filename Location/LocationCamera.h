@@ -50,7 +50,7 @@ public:
 	void Execute(uint32_t delta_time);
 	void Realize(uint32_t delta_time);
 	//Сообщения
-	uint32_t _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t ProcessMessage(MESSAGE & message);
 	//Изменение атрибута
 	uint32_t AttributeChanged(ATTRIBUTES * apnt);
 

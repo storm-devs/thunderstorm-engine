@@ -8,7 +8,7 @@ model binded to an animated locator
 ******************************************************************************/
 #pragma once
 
-#include "../Common_h/vmodule_api.h"
+#include "../Common_h/EntityManager.h"
 #include "../Common_h/dx9render.h"
 #include "../Common_h/collide.h"
 #include "../Common_h/model.h"
@@ -16,7 +16,7 @@ model binded to an animated locator
 #define BLADE_INFO_QUANTITY	2
 #define ITEMS_INFO_QUANTITY 10
 
-class BLADE : public ENTITY
+class BLADE : public Entity
 {
 	#define FVF (D3DFVF_XYZ|D3DFVF_DIFFUSE)
 	struct VERTEX

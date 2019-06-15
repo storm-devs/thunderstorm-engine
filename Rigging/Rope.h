@@ -57,7 +57,7 @@ public:
 	void Execute(uint32_t Delta_Time);
 	bool CreateState(ENTITY_STATE_GEN * state_gen);
 	bool LoadState(ENTITY_STATE * state);
-    uint32_t _cdecl ProcessMessage(MESSAGE & message);
+    uint32_t ProcessMessage(MESSAGE & message);
     // Service Function
     void GetEndPoint(CVECTOR* cv,int ropenum,ENTITY_ID &mdl_id);
     bool IsAbsentRope(ENTITY_ID &mdl_id, int ropenum);

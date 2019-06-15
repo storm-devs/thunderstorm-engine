@@ -10,7 +10,7 @@ public:
 	OBJ_STRSERVICE();
 	~OBJ_STRSERVICE();
 	bool	Init();
-    uint32_t _cdecl ProcessMessage(MESSAGE & message);
+    uint32_t ProcessMessage(MESSAGE & message);
 };
 
 #endif

@@ -33,7 +33,7 @@ public:
 	void Realize(uint32_t delta_time);
 
 	//Сообщения
-	uint32_t _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t ProcessMessage(MESSAGE & message);
 
 //--------------------------------------------------------------------------------------------
 private:

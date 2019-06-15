@@ -481,6 +481,7 @@
     <ClInclude Include="..\Common_h\controls.h" />
     <ClInclude Include="..\Common_h\dx9render.h" />
     <ClInclude Include="..\Common_h\entity.h" />
+    <ClInclude Include="..\Common_h\EntityManager.h" />
     <ClInclude Include="..\Common_h\entity_id.h" />
     <ClInclude Include="..\Common_h\entity_state.h" />
     <ClInclude Include="..\Common_h\assert.h" />
@@ -703,7 +704,6 @@
     <ClInclude Include="..\XINTERFACE\vxservice.h" />
     <ClInclude Include="..\XINTERFACE\xinterface.h" />
     <ClInclude Include="..\XINTERFACE\xservice.h" />
-    <ClInclude Include="EntityManager.h" />
     <ClInclude Include="sources\fs.h" />
     <ClInclude Include="sources\classes_table.h" />
     <ClInclude Include="sources\compiler.h" />

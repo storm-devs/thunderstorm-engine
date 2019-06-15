@@ -20,7 +20,7 @@ public:
 	void	Realize(uint32_t Delta_Time);
 	void	Execute(uint32_t Delta_Time);
 	uint32_t	AttributeChanged(ATTRIBUTES * pAttribute);
-	uint32_t	_cdecl ProcessMessage(MESSAGE & message);
+	uint32_t	ProcessMessage(MESSAGE & message);
 
 	void	DrawSunMoon();
 

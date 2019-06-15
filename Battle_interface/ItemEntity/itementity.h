@@ -18,7 +18,7 @@ public:
 
 	bool Init();
 	void Realize(uint32_t delta_time);
-	uint32_t _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t ProcessMessage(MESSAGE & message);
 
 protected:
 	bool ReadAndCreate();

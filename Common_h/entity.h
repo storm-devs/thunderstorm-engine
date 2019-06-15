@@ -74,7 +74,7 @@ public:
 	virtual void Execute(uint32_t Delta_Time)						{};
 	virtual void Realize(uint32_t Delta_Time)						{};
 	virtual void ProcessMessage(uint32_t,uint32_t,uint32_t)				{};
-	virtual uint32_t _cdecl ProcessMessage(MESSAGE & message)		{return 0;};
+	virtual uint32_t ProcessMessage(MESSAGE & message)		{return 0;};
 	virtual bool LoadState(ENTITY_STATE * state)				{return true;};
 	virtual bool CreateState(ENTITY_STATE_GEN * state_gen)		{return true;};
 	virtual uint32_t AttributeChanged(ATTRIBUTES *)				{return 0;};

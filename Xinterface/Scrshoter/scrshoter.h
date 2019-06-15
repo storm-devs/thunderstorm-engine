@@ -22,7 +22,7 @@ public:
 	bool Init();
     void Execute(uint32_t Delta_Time);
 	void Realize(uint32_t Delta_Time);
-    uint32_t _cdecl ProcessMessage(MESSAGE & message);
+    uint32_t ProcessMessage(MESSAGE & message);
 
 private:
 	bool MakeScreenShot();
