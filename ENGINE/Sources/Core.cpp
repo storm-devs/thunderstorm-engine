@@ -1637,5 +1637,6 @@ void CORE::SetNetActive(bool bActive)
 
 bool CORE::IsNetActive() const
 {
+	return false;
 	//return bNetActive;
 }
