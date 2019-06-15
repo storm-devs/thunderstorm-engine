@@ -1,12 +1,35 @@
 #pragma once
 #include "../Common_h/message.h"
+#include "../Common_h/vmodule_api.h"
 #include <cstdint>
 #include <vector>
 #include <chrono>
 
+/* TODO: REMOVE THIS.... */
+inline uint32_t MakeHashValue(const char* string)
+{
+	uint32_t hval = 0;
+
+	while (*string != 0)
+	{
+		char v = *string++;
+		if ('A' <= v && v <= 'Z') v += 'a' - 'A';
+
+		hval = (hval << 4) + (unsigned long int)v;
+		uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
+		if (g != 0)
+		{
+			hval ^= g >> (32 - 8);
+			hval ^= g;
+		}
+	}
+	return hval;
+}
+
 using entid_t = uint64_t;
 
 class Entity {
+	friend class EntityManager;
 public:
 	enum class Stage : uint_fast8_t {
 		EXECUTE,
@@ -44,9 +67,39 @@ public:
 		return instance;
 	}
 
-	entid_t CreateEntity(const char* ent) {
-		entptr_t ptr = nullptr; //////// TODO:
-		return CreateEntity(ptr);
+
+	entid_t CreateEntity(const char* name)
+	{
+		/* FIND VMA */
+		const long hash = MakeHashValue(name);
+		if (hash == 0) {
+			throw std::exception("null hash");
+		}
+		VMA* pClass = nullptr;
+		for (const auto c : _pModuleClassRoot) {
+			if (c->GetHash() == hash && _stricmp(name, c->GetName()) == 0) {
+				pClass = c;
+				break;
+			}
+		}
+		if (pClass == nullptr) {
+			throw std::exception("invalid entity name");
+		}
+
+		/* CREATE ENTITY */
+		auto* ptr = static_cast<Entity*>(pClass->CreateClass());
+		if (ptr == nullptr)	{
+			throw std::exception("CreateClass returned nullptr");
+		}
+
+		/* INIT ENTITY */
+		if (!ptr->Init()) {
+			return INVALID_ENTITY_ID;
+		}
+		const auto id = PushEntity(ptr);
+		ptr->id_ = id;
+
+		return id;
 	}
 
 	void EraseEntity(const entid_t entity) {
@@ -75,7 +128,7 @@ private:
 		entities_.reserve(ENTITY_INITIAL_SIZE);
 	}
 
-	entid_t CreateEntity(entptr_t ptr) {
+	entid_t PushEntity(entptr_t ptr) {
 		const auto size = entities_.size();
 		/* double the space */
 		if (size == entities_.capacity()) {
@@ -100,6 +153,7 @@ private:
 
 	/* constants */
 	const entities_t::size_type ENTITY_INITIAL_SIZE = 10240u;
+	const entities_t::size_type INVALID_ENTITY_ID = 1u;
 
 	/* members */
 	entities_t entities_; /* entity container */
