@@ -66,10 +66,7 @@ public:
 	bool EraseEntity(entid_t entid_t);
 	bool MarkEntityAsDeleted(entid_t entid_t);
 	bool MarkEntityAsDeleted(void *);
-	void CreationTimeInc();
-	C_ATOM * FitAtom(entid_t entid_t, ATOM_STATE atom_state);
-	
-	void ReleaseLayers();
+
 	bool LayerCreate(char * layer_name, bool ordered, bool fail_if_exist, bool system, uint32_t system_flags);
 	
 	uint32_t GetLayerIndex(char * layer_name);

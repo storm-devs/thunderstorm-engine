@@ -46,6 +46,8 @@ public:
 		return id_;
 	}
 
+	virtual ~Entity() = default;
+
 	virtual bool Init() = 0;
 
 	virtual void ProcessStage(Stage stage, uint32_t delta) = 0;
