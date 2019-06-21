@@ -48,7 +48,7 @@ public:
 
 	virtual bool Init() = 0;
 
-	virtual void ProcessStage(Stage stage) = 0;
+	virtual void ProcessStage(Stage stage, uint32_t delta) = 0;
 
 	virtual uint32_t ProcessMessage(MESSAGE & msg) = 0;
 
@@ -112,11 +112,14 @@ public:
 
 	entptr_t GetEntity(const entid_t entity) {
 		const auto index = static_cast<index_t>(entity);
-		const auto stamp = static_cast<stamp_t>(entity << 32);
 
 		const auto entptr = entities_[index];
 
-		//const auto entid = entptr->GetId();
+		/* check if valid */
+		const auto entid = entptr->GetId();
+		if (entity != entid) {
+			return nullptr;
+		}
 
 		return entities_[index];
 	}
@@ -152,9 +155,10 @@ private:
 	using entities_t = std::vector<entptr_t>;
 
 	/* constants */
-	const entities_t::size_type ENTITY_INITIAL_SIZE = 10240u;
-	const entities_t::size_type INVALID_ENTITY_ID = 1u;
-
+	static const entities_t::size_type ENTITY_INITIAL_SIZE = 10240u;
+public:
+	static const entid_t INVALID_ENTITY_ID = 1u;
+private:
 	/* members */
 	entities_t entities_; /* entity container */
 
@@ -162,3 +166,9 @@ private:
 	static_assert(sizeof entities_t::size_type == sizeof index_t); /* size_type equal exactly index_t */
 	static_assert(sizeof std::chrono::milliseconds == sizeof stamp_t * 2); /* we are ok with half-precision */
 };
+
+
+inline bool EntityFound(entid_t id)
+{
+	return id != EntityManager::INVALID_ENTITY_ID;
+}

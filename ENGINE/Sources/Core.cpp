@@ -24,7 +24,6 @@ CORE::CORE()
 	SystemMessagesNum = 0;
 	Exit_flag = false;
 	State_loading = false;
-	Constructor_counter = 0;
 	Memory_Leak_flag = false;
 	Controls = nullptr;
 	fTimeScale = 1.0f;
@@ -37,91 +36,47 @@ void CORE::ResetCore()
 	Initialized = false;
 	bEngineIniProcessed = false;
 
-	ReleaseAtoms();
 	ReleaseServices();
 	ReleaseLayers();
 
 	Services_List.Release();
 
-	DeleteEntityList.Release();
-	DeleteServicesList.Release();
-	Services_List.Release();
-	DeleteLayerList.Release();
-
 	SystemMessagesNum = 0;
-	Scan_Layer_Code = INVALID_LAYER_CODE;
 
 	STORM_DELETE(State_file_name); 
-
-	Constructor_counter = 0;
 }
 
 void CORE::CleanUp()
 {
 	Initialized = false;
 	bEngineIniProcessed = false;
-
-	if(!Atoms_PTR.empty())
-	{
-		for(uint32_t n = 0;n<=CoreState.Atoms_max_orbit;n++)
-		{
-			if(Atoms_PTR[n] == nullptr) continue;
-			EraseEntity(Atoms_PTR[n]->atom_id);
-		}
-	}
-
 	ProcessDeleteList();
 	ReleaseServices();
 	ReleaseLayers();
 	Compiler.Release();
-	Atoms_PTR.clear();
 	Services_List.Release();
-	DeleteEntityList.Release();
-	DeleteServicesList.Release();
 	Services_List.Release();
-	DeleteLayerList.Release();
 	delete State_file_name;
 }
 
 void CORE::InitBase()
 {
-	char String[_MAX_PATH];
-
-	INIFILE* engine_ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
- 	if(engine_ini != nullptr)
-	{
-
-		if(engine_ini->ReadString(nullptr,"offclass",String,sizeof(String),""))
-		{
-			ClassesOff.AddString(String);
-			while(engine_ini->ReadStringNext(nullptr,"offclass",String,sizeof(String)))
-			{
-				ClassesOff.AddString(String);
-			}
-		}
-
-		nSplitScreenshotGrid = engine_ini->GetLong( nullptr, "SplitScreenShotGrid", 4 );
-
-		delete engine_ini;
-	}
-	LoadClassesTable();					// creating classes table
-
+	LoadClassesTable();
 }
 
 void CORE::ReleaseBase()
 {
 	Compiler.Token.Release();
-	ClassesOff.Release();
 }
 
 bool CORE::LoCheck()
 {
 	// ~!~
-	ENTITY_ID test_eid;
-	if (!CreateEntity(&test_eid, "LocationP"))
+	entid_t test_eid = CreateEntity("LocationP");
+	if (!EntityFound(test_eid))
 		return false;
-	auto* pE = static_cast<ENTITY *>(test_eid.pointer);
-	pE->Execute(ENGINE_SCRIPT_VERSION);
+	auto* pE = entityManager.GetEntity(test_eid);
+	pE->ProcessStage(Entity::Stage::EXECUTE, ENGINE_SCRIPT_VERSION);
 	DeleteEntity(test_eid);
 	return true;
 }
@@ -132,17 +87,6 @@ bool CORE::Run()
 	if (bDebugWindow && api->Controls && api->Controls->GetDebugAsyncKeyState(VK_F7)<0) 
 		DumpEntitiesInfo();
 	dwNumberScriptCommandsExecuted = 0;
-
-	if (bDebugWindow)
-	{
-		for (uint32_t n = 0; n < CoreState.Atoms_max_orbit; n++)
-		{
-			if (Atoms_PTR[n] == nullptr) 
-				continue;
-			Atoms_PTR[n]->as.Execute_ticks_av = 0;
-			Atoms_PTR[n]->as.Realize_ticks_av = 0;
-		}
-	}
 
 	if (Exit_flag) return false;				// exit
 
@@ -228,8 +172,6 @@ bool CORE::Run()
 		pRender->SetCamera(&pos,&ang,fPersp);
 	}
 
-	CommonLayers.Clean();
-
 	return true;
 }
 
@@ -266,13 +208,6 @@ bool CORE::Initialize()
 {
 	ResetCore();
 
-	// create atoms space
-	if(!CreateAtomsTable(CORE_DEFAULT_ATOMS_SPACE)) return false;
-
-	DeleteServicesList.Init(sizeof(CODE_AND_POINTER),8);
-	DeleteEntityList.Init(sizeof(ENTITY_ID),2);
-	DeleteLayerList.Init(sizeof(uint32_t),8);
-
 	Initialized = true;
 
 	return true;
@@ -281,13 +216,6 @@ bool CORE::Initialize()
 bool CORE::LoadCoreState(CORE_STATE cs)
 {
 	ResetCore();
-
-	// create atoms space
-	if(!CreateAtomsTable(cs.Atoms_space)) throw std::exception();
-
-	DeleteServicesList.Init(sizeof(CODE_AND_POINTER),8);
-	DeleteEntityList.Init(sizeof(ENTITY_ID),2);
-	DeleteLayerList.Init(sizeof(uint32_t),8);
 
 	CoreState = cs;
 
@@ -344,13 +272,6 @@ void CORE::ProcessEngineIniFile()
 		}
 	}
 
-	res = engine_ini->ReadString(nullptr,"load class",String,sizeof(String),"");
-	while(res)
-	{
-		CreateEntity(nullptr,String);
-		res = engine_ini->ReadStringNext(nullptr,"load class",String,sizeof(String));
-	}
-
 	delete engine_ini;
 }
 
@@ -358,116 +279,21 @@ bool CORE::LoadClassesTable()
 {
 	for(auto c : _pModuleClassRoot)
 	{
-		auto hash = MakeHashValue(c->GetName());
-
-		if (ClassesOff.GetStringCode(c->GetName()) != INVALID_ORDINAL_NUMBER)
-			hash = 0;
-
+		const auto hash = MakeHashValue(c->GetName());
 		c->SetHash(hash);
 	}
 
 	return true;
 }
 
-
-bool CORE::CreateAtomsTable(uint32_t _space)
-{
-	// allocate space for atoms table
-	CoreState.Atoms_space = _space;
-
-	Atoms_PTR.resize(CoreState.Atoms_space);
-	PZERO(&CoreState.Creation_Time,sizeof(CoreState.Creation_Time));
-
-	return true;
-}
-
-void CORE::ReleaseLayers()
-{
-	CommonLayers.Release();
-}
-
-void CORE::ReleaseAtoms()
-{
-	// release atoms and entity objects
-	if(!Atoms_PTR.empty())
-	{
-		for(uint32_t n = 0;n<=CoreState.Atoms_max_orbit;n++)
-		{
-			if(Atoms_PTR[n] == nullptr) continue;
-			EraseEntity(Atoms_PTR[n]->atom_id);
-		}
-	}
-	CoreState.Atoms_number = 0;
-	CoreState.Atoms_max_orbit = 0;
-	CoreState.Atoms_min_free_orbit = 0;
-	Atoms_PTR.clear();
-	PZERO(&CoreState.Creation_Time,sizeof(CoreState.Creation_Time));
-}
-
-
 void CORE::CheckAutoExceptions(uint32_t = 0) const
 {
 	spdlog::warn("exception thrown");
 }
 
-bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name)
+entid_t CORE::CreateEntity(char * name)
 {
-	return CreateEntity(id_PTR,class_name,nullptr);
-}
-
-//bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name)
-bool CORE::CreateEntity(ENTITY_ID * id_PTR, char * class_name, ATTRIBUTES * attributesPTR)
-{
-	if(id_PTR) 
-		memset(id_PTR,0,sizeof(ENTITY_ID));
-
-	VMA * pClass = nullptr;
-
-	const long hash = MakeHashValue(class_name);
-	if(hash == 0) return false;
-
-	for (const auto c : _pModuleClassRoot)
-	{
-		if (c->GetHash() == hash && _stricmp(class_name, c->GetName()) == 0)
-		{
-			pClass = c;
-			break;
-		}
-	}
-
-	if(!pClass)
-	{
-		CheckAutoExceptions(0);
-		return false;
-	}
-
-	C_ATOM* atom_PTR = CreateAtom(hash);
-
-	if(atom_PTR == nullptr) throw std::exception("Cant create Atom");
-	atom_PTR->atom_id.pName = pClass->GetName();
-	auto* Entity_PTR = static_cast<ENTITY*>(pClass->CreateClass());
-	
-	if(Entity_PTR == nullptr)
-	{
-		Trace("empty class: %s",class_name);
-		throw std::exception("invalid class");
-	}
-	Entity_PTR->SetEntityID(atom_PTR->atom_id);
-	Entity_PTR->AttributesPointer = attributesPTR;
-
-	atom_PTR->as.Connected = true;
-
-	if(!Entity_PTR->Init())
-	{
-		MarkEntityAsDeleted(Entity_PTR->GetID());
-		CheckAutoExceptions(0);
-		return false;
-	}
-
-	if(id_PTR)
-		memcpy(id_PTR,&atom_PTR->atom_id,sizeof(ENTITY_ID));
-
-	return true;
+	return entityManager.CreateEntity(name);
 }
 
 // continuously increasing creation time structure making unical time stamp for entity
@@ -485,74 +311,12 @@ void CORE::CreationTimeInc()
 	if(transfer && n >= CRTM_DWORDS) throw std::exception("Id time overflaw");
 }
 
-C_ATOM * CORE::CreateAtom(uint32_t class_code)
-{
-	if(CoreState.Atoms_number >= CoreState.Atoms_space)
-	{
-		uint32_t new_space = 2 * CoreState.Atoms_space;
-		Atoms_PTR.resize(new_space);
-		CoreState.Atoms_space = new_space;
-	}
-
-	for(uint32_t n = CoreState.Atoms_min_free_orbit;n<CoreState.Atoms_space;n++)
-	{
-		if(Atoms_PTR[n] != nullptr) continue;
-
-		Atoms_PTR[n] = new C_ATOM;
-		if(Atoms_PTR[n] == nullptr) throw std::exception();
-
-		if(CoreState.Atoms_max_orbit < n) CoreState.Atoms_max_orbit = n;
-
-		Atoms_PTR[n]->atom_id.atom_position = n;
-		if(CoreState.Atoms_min_free_orbit == n)
-		for(;CoreState.Atoms_min_free_orbit<CoreState.Atoms_space;CoreState.Atoms_min_free_orbit++)
-		{
-			if(Atoms_PTR[CoreState.Atoms_min_free_orbit] == nullptr) break;
-		}
-
-		Atoms_PTR[n]->atom_id.creation_time = CoreState.Creation_Time;
-		CreationTimeInc();
-		Atoms_PTR[n]->atom_id.class_code = class_code;
-		Atoms_PTR[n]->as.Deleted = false;
-		Atoms_PTR[n]->atom_id.pointer = nullptr;
-		CoreState.Atoms_number++;
-		return Atoms_PTR[n];
-	}
-	return nullptr;
-}
-
-C_ATOM * CORE::FitAtom(ENTITY_ID entity_id, ATOM_STATE atom_state)
-{
-	if(entity_id.atom_position > CoreState.Atoms_max_orbit) throw std::exception();
-	if(Atoms_PTR[entity_id.atom_position] != nullptr) throw std::exception();
-
-	Atoms_PTR[entity_id.atom_position] = new C_ATOM;
-	if(Atoms_PTR[entity_id.atom_position] == nullptr) throw std::exception();
-	Atoms_PTR[entity_id.atom_position]->as = atom_state;
-	Atoms_PTR[entity_id.atom_position]->atom_id = entity_id;
-	Atoms_PTR[entity_id.atom_position]->atom_id.pointer = nullptr;
-	return Atoms_PTR[entity_id.atom_position];
-}
-
-bool CORE::DeleteAtom(C_ATOM * atom_PTR)
-{
-	if(atom_PTR == nullptr) return false;
-	uint32_t ap = atom_PTR->atom_id.atom_position;
-	if(ap >= CoreState.Atoms_space) throw std::exception();
-	if(Atoms_PTR[ap] != atom_PTR) throw std::exception();
-	delete Atoms_PTR[ap];
-	Atoms_PTR[ap] = nullptr;
-	CoreState.Atoms_number--;
-	if(CoreState.Atoms_min_free_orbit > ap) CoreState.Atoms_min_free_orbit = ap;
-	return true;
-}
-
 uint32_t CORE::Class_Name2Code(char * class_name)
 {
 	return MakeHashValue(class_name);
 }
 
-bool CORE::FindClass(ENTITY_ID * id_PTR,char * class_name,uint32_t class_code)
+bool CORE::FindClass(entid_t * id_PTR,char * class_name,uint32_t class_code)
 {
 	uint32_t hash;
 
@@ -568,17 +332,17 @@ bool CORE::FindClass(ENTITY_ID * id_PTR,char * class_name,uint32_t class_code)
 			// class found
 			Atom_Search_Position = n;
 			Atom_Search_Class_Code = hash;
-			if(id_PTR) memcpy(id_PTR,&Atoms_PTR[n]->atom_id,sizeof(ENTITY_ID));
+			if(id_PTR) memcpy(id_PTR,&Atoms_PTR[n]->atom_id,sizeof(entid_t));
 			return true;
 		}
 	}
 
-	if(id_PTR) *id_PTR = ENTITY_ID();
+	if(id_PTR) *id_PTR = entid_t();
 
 	return false;
 }
 
-bool CORE::FindClassNext(ENTITY_ID * id_PTR)
+bool CORE::FindClassNext(entid_t * id_PTR)
 {
 	for(uint32_t n = (Atom_Search_Position + 1);n<=CoreState.Atoms_max_orbit;n++)
 	{
@@ -588,22 +352,22 @@ bool CORE::FindClassNext(ENTITY_ID * id_PTR)
 		{
 			// class found
 			Atom_Search_Position = n;
-			if(id_PTR) memcpy(id_PTR,&Atoms_PTR[n]->atom_id,sizeof(ENTITY_ID));
+			if(id_PTR) memcpy(id_PTR,&Atoms_PTR[n]->atom_id,sizeof(entid_t));
 			return true;
 		}
 	}
-	if(id_PTR) *id_PTR = ENTITY_ID();
+	if(id_PTR) *id_PTR = entid_t();
 	return false;
 }
 
-bool CORE::CompareID(ENTITY_ID * ida_PTR,ENTITY_ID * idb_PTR)
+bool CORE::CompareID(entid_t * ida_PTR,entid_t * idb_PTR)
 {
 	if(ida_PTR == nullptr || idb_PTR == nullptr) return false;
-	if(memcmp(ida_PTR,idb_PTR,sizeof(ENTITY_ID)) == 0) return true;
+	if(memcmp(ida_PTR,idb_PTR,sizeof(entid_t)) == 0) return true;
 	return false;
 }
 
-bool CORE::GetEntity(ENTITY_ID * id_PTR)
+bool CORE::GetEntity(entid_t * id_PTR)
 {
 	if(id_PTR == nullptr) return false;
 
@@ -618,7 +382,7 @@ bool CORE::GetEntity(ENTITY_ID * id_PTR)
 			{
 				if(!Atoms_PTR[Atom_Get_Position]->as.Deleted)
 				{
-					memcpy(id_PTR,&Atoms_PTR[Atom_Get_Position]->atom_id,sizeof(ENTITY_ID));
+					memcpy(id_PTR,&Atoms_PTR[Atom_Get_Position]->atom_id,sizeof(entid_t));
 					return true;
 				}
 			}
@@ -630,10 +394,10 @@ bool CORE::GetEntity(ENTITY_ID * id_PTR)
 		LAYER* lPTR = CommonLayers.GetLayer(Scan_Layer_Code);
 		if(lPTR)
 		{
-			ENTITY_ID* eid_PTR = lPTR->GetID();
+			entid_t* eid_PTR = lPTR->GetID();
 			if(eid_PTR)
 			{
-				memcpy(id_PTR,eid_PTR,sizeof(ENTITY_ID));
+				memcpy(id_PTR,eid_PTR,sizeof(entid_t));
 				return true;
 			}
 		}
@@ -642,7 +406,7 @@ bool CORE::GetEntity(ENTITY_ID * id_PTR)
 	return false;
 }
 
-bool CORE::GetEntityNext(ENTITY_ID * id_PTR)
+bool CORE::GetEntityNext(entid_t * id_PTR)
 {
 	if(id_PTR == nullptr) return false;
 
@@ -656,7 +420,7 @@ bool CORE::GetEntityNext(ENTITY_ID * id_PTR)
 			{
 				if(!Atoms_PTR[Atom_Get_Position]->as.Deleted)
 				{
-					memcpy(id_PTR,&Atoms_PTR[Atom_Get_Position]->atom_id,sizeof(ENTITY_ID));
+					memcpy(id_PTR,&Atoms_PTR[Atom_Get_Position]->atom_id,sizeof(entid_t));
 					return true;
 				}
 			}
@@ -667,10 +431,10 @@ bool CORE::GetEntityNext(ENTITY_ID * id_PTR)
 		LAYER* lPTR = CommonLayers.GetLayer(Scan_Layer_Code);
 		if(lPTR)
 		{
-			ENTITY_ID* eid_PTR = lPTR->GetNextID();
+			entid_t* eid_PTR = lPTR->GetNextID();
 			if(eid_PTR)
 			{
-				memcpy(id_PTR,eid_PTR,sizeof(ENTITY_ID));
+				memcpy(id_PTR,eid_PTR,sizeof(entid_t));
 				return true;
 			}
 		}
@@ -687,7 +451,7 @@ bool CORE::SetEntityScanLayer(char * layer_name)
 	return true;
 }
 
-ENTITY * CORE::GetEntityPointer(ENTITY_ID * id_PTR)
+ENTITY * CORE::GetEntityPointer(entid_t * id_PTR)
 {
 	if(!ValidateEntity(id_PTR)) return nullptr;
 	ENTITY* ep = (ENTITY *)Atoms_PTR[id_PTR->atom_position]->atom_id.pointer;
@@ -698,7 +462,7 @@ ENTITY * CORE::GetEntityPointer(ENTITY_ID * id_PTR)
 //-------------------------------------------------------------------------------------------------
 // Return true, if entity with id pointed by id_PTR exist and false otherwise
 //
-bool CORE::ValidateEntity(ENTITY_ID * id_PTR)
+bool CORE::ValidateEntity(entid_t * id_PTR)
 {
 	if(id_PTR) id_PTR->pointer = nullptr;
 	if(id_PTR == nullptr) return false;
@@ -715,7 +479,7 @@ bool CORE::ValidateEntity(ENTITY_ID * id_PTR)
 	id_PTR->pointer = Atoms_PTR[pos]->atom_id.pointer;
 
 	// compare id structure
-	if(memcmp(&Atoms_PTR[pos]->atom_id,id_PTR,sizeof(ENTITY_ID)) != 0)
+	if(memcmp(&Atoms_PTR[pos]->atom_id,id_PTR,sizeof(entid_t)) != 0)
 	{
 		id_PTR->pointer = nullptr;
 		return false;
@@ -727,11 +491,11 @@ bool CORE::ValidateEntity(ENTITY_ID * id_PTR)
 //-------------------------------------------------------------------------------------------------
 // Mark entity for further deleting using id
 //
-bool CORE::MarkEntityAsDeleted(ENTITY_ID entity_id)
+bool CORE::MarkEntityAsDeleted(entid_t entid_t)
 {
-	if(!ValidateEntity(&entity_id)) return false;
-	Atoms_PTR[entity_id.atom_position]->as.Deleted = true;
-	DeleteEntityList.AddData(&entity_id);
+	if(!ValidateEntity(&entid_t)) return false;
+	Atoms_PTR[entid_t.atom_position]->as.Deleted = true;
+	DeleteEntityList.AddData(&entid_t);
 	return true;
 }
 
@@ -740,8 +504,8 @@ bool CORE::MarkEntityAsDeleted(ENTITY_ID entity_id)
 //
 bool CORE::MarkEntityAsDeleted(void * entity_PTR)
 {
-	const auto entity_id = static_cast<ENTITY*>(entity_PTR)->GetID();
-	MarkEntityAsDeleted(entity_id);
+	const auto entid_t = static_cast<ENTITY*>(entity_PTR)->GetID();
+	MarkEntityAsDeleted(entid_t);
 	return true;
 }
 
@@ -751,7 +515,7 @@ bool CORE::MarkEntityAsDeleted(void * entity_PTR)
 void CORE::ProcessDeleteList()
 {
 	uint32_t n,dwcode;
-	ENTITY_ID entity_id;
+	entid_t entid_t;
 
 	// delete entity, added to delete list -------------------------
 	uint32_t deleted_num = DeleteEntityList.DataNum();
@@ -759,8 +523,8 @@ void CORE::ProcessDeleteList()
 	{
 		for(n=0;n<deleted_num;n++)
 		{
-			if(!DeleteEntityList.GetData(n,&entity_id)) continue;
-			EraseEntity(entity_id);
+			if(!DeleteEntityList.GetData(n,&entid_t)) continue;
+			EraseEntity(entid_t);
 			deleted_num = DeleteEntityList.DataNum();
 			//DeleteEntityList.ShiftLeft();
 		}
@@ -804,25 +568,25 @@ void CORE::ProcessDeleteList()
 //-------------------------------------------------------------------------------------------------
 // Delete entity
 //
-bool CORE::EraseEntity(ENTITY_ID entity_id)
+bool CORE::EraseEntity(entid_t entid_t)
 {
-	if(!ValidateEntity(&entity_id)) return false;
+	if(!ValidateEntity(&entid_t)) return false;
 
-	delete (ENTITY *)Atoms_PTR[entity_id.atom_position]->atom_id.pointer;
+	delete (ENTITY *)Atoms_PTR[entid_t.atom_position]->atom_id.pointer;
 
 
 	for(uint32_t n = 0;n<=CommonLayers.lss.Layer_max_index;n++)
 	{
 		if(CommonLayers.Layer_Table[n] == nullptr) continue;
-		if(Atoms_PTR[entity_id.atom_position]->TstLayerAttribute(n))
-			CommonLayers.Layer_Table[n]->Del(entity_id);
+		if(Atoms_PTR[entid_t.atom_position]->TstLayerAttribute(n))
+			CommonLayers.Layer_Table[n]->Del(entid_t);
 	}
 
-	DeleteAtom(Atoms_PTR[entity_id.atom_position]);
+	DeleteAtom(Atoms_PTR[entid_t.atom_position]);
 
-	if(CoreState.Atoms_max_orbit == entity_id.atom_position)
+	if(CoreState.Atoms_max_orbit == entid_t.atom_position)
 	{
-		for(CoreState.Atoms_max_orbit = entity_id.atom_position; CoreState.Atoms_max_orbit > 0;CoreState.Atoms_max_orbit--)
+		for(CoreState.Atoms_max_orbit = entid_t.atom_position; CoreState.Atoms_max_orbit > 0;CoreState.Atoms_max_orbit--)
 		{
 			if(Atoms_PTR[CoreState.Atoms_max_orbit] == nullptr) continue;
 			break;
@@ -834,16 +598,16 @@ bool CORE::EraseEntity(ENTITY_ID entity_id)
 //-------------------------------------------------------------------------------------------------
 // function scan all entities untill entity with memory pointer equal to _entity_pointer
 // if such entity found function return true
-// if id_PTR not null, function fill pointed structure by entity_id
+// if id_PTR not null, function fill pointed structure by entid_t
 //
-bool CORE::Convert_Pointer2ID(void * _entity_pointer,ENTITY_ID * id_PTR)
+bool CORE::Convert_Pointer2ID(void * _entity_pointer,entid_t * id_PTR)
 {
 	auto* entity_PTR = static_cast<ENTITY *>(_entity_pointer);
-	ENTITY_ID eid = entity_PTR->GetID();
+	entid_t eid = entity_PTR->GetID();
 	if(eid.atom_position > CoreState.Atoms_max_orbit) throw std::exception();
 	if(Atoms_PTR[eid.atom_position] == nullptr) throw std::exception();
 	if(Atoms_PTR[eid.atom_position]->atom_id.pointer != _entity_pointer) throw std::exception();
-	if(id_PTR != nullptr) memcpy(id_PTR,&Atoms_PTR[eid.atom_position]->atom_id,sizeof(ENTITY_ID));
+	if(id_PTR != nullptr) memcpy(id_PTR,&Atoms_PTR[eid.atom_position]->atom_id,sizeof(entid_t));
 	return true;
 }
 
@@ -868,7 +632,7 @@ bool CORE::LayerCreate(char * layer_name, bool ordered, bool fail_if_exist, bool
 	return CommonLayers.Create(layer_name,ordered,fail_if_exist);
 }
 
-C_ATOM * CORE::GetAtom(ENTITY_ID * id_PTR)
+C_ATOM * CORE::GetAtom(entid_t * id_PTR)
 {
 	if(!ValidateEntity(id_PTR)) return nullptr;
 	return Atoms_PTR[id_PTR->atom_position];
@@ -884,7 +648,7 @@ void CORE::LayerDelete(char * layer_name)
 		LAYER* layer_PTR = CommonLayers.GetLayer(layer_name);
 		if(layer_PTR)
 		{
-			ENTITY_ID* id_PTR = layer_PTR->GetID();
+			entid_t* id_PTR = layer_PTR->GetID();
 			while(id_PTR)
 			{
 				C_ATOM* atom_PTR = GetAtom(id_PTR);
@@ -913,12 +677,12 @@ uint32_t CORE::LayerGetFlags(char * layer_name)
 }
 
 
-bool CORE::LayerAdd(const char * layer_name, ENTITY_ID eid, uint32_t priority)
+bool CORE::LayerAdd(const char * layer_name, entid_t eid, uint32_t priority)
 {
 	return LayerAdd((char *)layer_name,eid,priority,false);
 }
 
-bool CORE::LayerAdd(const char * pLayerName, ENTITY_ID eid, uint32_t priority, bool system)
+bool CORE::LayerAdd(const char * pLayerName, entid_t eid, uint32_t priority, bool system)
 {
 	char * layer_name = (char*)pLayerName;
 
@@ -933,12 +697,12 @@ bool CORE::LayerAdd(const char * pLayerName, ENTITY_ID eid, uint32_t priority, b
 	return true;
 }
 
-void CORE::LayerDel(const char * layer_name, ENTITY_ID eid)
+void CORE::LayerDel(const char * layer_name, entid_t eid)
 {
 	LayerDel((char*)layer_name,eid,false);
 }
 
-void CORE::LayerDel(const char * pLayerName, ENTITY_ID eid,bool system)
+void CORE::LayerDel(const char * pLayerName, entid_t eid,bool system)
 {
 	char * layer_name = (char*)pLayerName;
 	uint32_t index = CommonLayers.GetIndex(layer_name);
@@ -956,7 +720,7 @@ bool CORE::LayerDeleteContent(char * layer_name)
 		LAYER* layer_PTR = CommonLayers.GetLayer(layer_name);
 		if(layer_PTR)
 		{
-			ENTITY_ID* id_PTR = layer_PTR->GetID();
+			entid_t* id_PTR = layer_PTR->GetID();
 			while(id_PTR)
 			{
 				MarkEntityAsDeleted(*id_PTR);
@@ -1004,10 +768,10 @@ HINSTANCE CORE::GetAppInstance() { return hInstance; }
 //------------------------------------------------------------------------------------------------
 // Mark entity for following deletion
 //
-bool CORE::DeleteEntity(ENTITY_ID entity_id)
+bool CORE::DeleteEntity(entid_t entid_t)
 {
-	if(!ValidateEntity(&entity_id)) return false;
-	return MarkEntityAsDeleted(entity_id);
+	if(!ValidateEntity(&entid_t)) return false;
+	return MarkEntityAsDeleted(entid_t);
 }
 
 void * CORE::GetUserData(long * data_size)
@@ -1031,12 +795,12 @@ float CORE::GetTimeScale()
 //------------------------------------------------------------------------------------------------
 // transfer message arguments and program control to entity, specified by Destination id
 //
-uint32_t _cdecl CORE::Send_Message(ENTITY_ID Destination,char * Format,...)
+uint32_t _cdecl CORE::Send_Message(entid_t Destination,char * Format,...)
 {
 	MESSAGE message;
 	if(!ValidateEntity(&Destination)) return 0;				// check for valid destination
 	message.Reset(Format);									// reset message class
-	PZERO(&message.Sender_ID,sizeof(ENTITY_ID));
+	PZERO(&message.Sender_ID,sizeof(entid_t));
 	va_start(message.args,Format);
 	uint32_t rc = ((ENTITY *)Destination.pointer)->ProcessMessage(message);	// transfer control
 	va_end(message.args);
@@ -1048,7 +812,7 @@ uint32_t _cdecl CORE::PostEvent(char * Event_name, uint32_t post_time, char * Fo
 	MESSAGE_SCRIPT * pMS;
 	MESSAGE message;
 
-	ENTITY_ID id;
+	entid_t id;
 
 	if(Format != nullptr)
 	{
@@ -1223,7 +987,7 @@ void CORE::ProcessExecute()
 		if(l_PTR == nullptr) continue;
 		uint32_t flags = l_PTR->ls.Flags & LRFLAG_FROZEN; if(flags != 0) continue;	// skip frozen layers
 		flags = l_PTR->ls.Flags & LRFLAG_EXECUTE; if(flags == 0) continue;	// skip non execute layers
-		ENTITY_ID* eid_PTR = l_PTR->GetID();
+		entid_t* eid_PTR = l_PTR->GetID();
 		while(eid_PTR)
 		{
 			if(ValidateEntity(eid_PTR))
@@ -1259,7 +1023,7 @@ void CORE::ProcessRealize()
 		if(l_PTR == nullptr) continue;
 		uint32_t flags = l_PTR->ls.Flags & LRFLAG_FROZEN; if(flags != 0) continue;	// skip frozen layers
 		flags = l_PTR->ls.Flags & LRFLAG_REALIZE; if(flags == 0) continue;	// skip non realize layers
-		ENTITY_ID* eid_PTR = l_PTR->GetID();
+		entid_t* eid_PTR = l_PTR->GetID();
 		while(eid_PTR)
 		{
 			if(ValidateEntity(eid_PTR))
@@ -1390,7 +1154,7 @@ uint32_t CORE::GetRDeltaTime()
 	return Timer.rDelta_Time;
 }
 
-ATTRIBUTES * CORE::Entity_GetAttributeClass(ENTITY_ID * id_PTR, char * name)
+ATTRIBUTES * CORE::Entity_GetAttributeClass(entid_t * id_PTR, char * name)
 {
 	ENTITY* pE = GetEntityPointer(id_PTR);
 	if(pE == nullptr) return nullptr;
@@ -1398,7 +1162,7 @@ ATTRIBUTES * CORE::Entity_GetAttributeClass(ENTITY_ID * id_PTR, char * name)
 	return pE->AttributesPointer->FindAClass(pE->AttributesPointer,name);
 }
 
-char *	CORE::Entity_GetAttribute(ENTITY_ID * id_PTR, char * name)
+char *	CORE::Entity_GetAttribute(entid_t * id_PTR, char * name)
 {
 	ENTITY* pE = GetEntityPointer(id_PTR);
 	if(pE == nullptr) return nullptr;
@@ -1406,7 +1170,7 @@ char *	CORE::Entity_GetAttribute(ENTITY_ID * id_PTR, char * name)
 	return pE->AttributesPointer->GetAttribute(name);
 }
 
-uint32_t	CORE::Entity_GetAttributeAsDword(ENTITY_ID * id_PTR, char * name, uint32_t def)
+uint32_t	CORE::Entity_GetAttributeAsDword(entid_t * id_PTR, char * name, uint32_t def)
 {
 	ENTITY* pE = GetEntityPointer(id_PTR);
 	if(pE == nullptr) return def;
@@ -1415,7 +1179,7 @@ uint32_t	CORE::Entity_GetAttributeAsDword(ENTITY_ID * id_PTR, char * name, uint3
 
 }
 
-FLOAT	CORE::Entity_GetAttributeAsFloat(ENTITY_ID * id_PTR, char * name, FLOAT def)
+FLOAT	CORE::Entity_GetAttributeAsFloat(entid_t * id_PTR, char * name, FLOAT def)
 {
 	ENTITY* pE = GetEntityPointer(id_PTR);
 	if(pE == nullptr) return def;
@@ -1423,7 +1187,7 @@ FLOAT	CORE::Entity_GetAttributeAsFloat(ENTITY_ID * id_PTR, char * name, FLOAT de
 	return pE->AttributesPointer->GetAttributeAsFloat(name,def);
 }
 
-BOOL	CORE::Entity_SetAttribute(ENTITY_ID * id_PTR, char * name, char * attribute)
+BOOL	CORE::Entity_SetAttribute(entid_t * id_PTR, char * name, char * attribute)
 {
 	ENTITY* pE = GetEntityPointer(id_PTR);
 	if(pE == nullptr) return false;
@@ -1431,7 +1195,7 @@ BOOL	CORE::Entity_SetAttribute(ENTITY_ID * id_PTR, char * name, char * attribute
 	return pE->AttributesPointer->SetAttribute(name,attribute);
 }
 
-BOOL	CORE::Entity_SetAttributeUseDword(ENTITY_ID * id_PTR, char * name, uint32_t val)
+BOOL	CORE::Entity_SetAttributeUseDword(entid_t * id_PTR, char * name, uint32_t val)
 {
 	ENTITY* pE = GetEntityPointer(id_PTR);
 	if(pE == nullptr) return false;
@@ -1439,7 +1203,7 @@ BOOL	CORE::Entity_SetAttributeUseDword(ENTITY_ID * id_PTR, char * name, uint32_t
 	return pE->AttributesPointer->SetAttributeUseDword(name,val);
 }
 
-BOOL	CORE::Entity_SetAttributeUseFloat(ENTITY_ID * id_PTR, char * name, FLOAT val)
+BOOL	CORE::Entity_SetAttributeUseFloat(entid_t * id_PTR, char * name, FLOAT val)
 {
 	ENTITY* pE = GetEntityPointer(id_PTR);
 	if(pE == nullptr) return false;
@@ -1447,21 +1211,21 @@ BOOL	CORE::Entity_SetAttributeUseFloat(ENTITY_ID * id_PTR, char * name, FLOAT va
 	return pE->AttributesPointer->SetAttributeUseFloat(name,val);
 }
 
-void CORE::Entity_SetAttributePointer(ENTITY_ID * id_PTR, ATTRIBUTES * pA)
+void CORE::Entity_SetAttributePointer(entid_t * id_PTR, ATTRIBUTES * pA)
 {
 	ENTITY* pE = GetEntityPointer(id_PTR);
 	if(pE == nullptr) return;
 	pE->AttributesPointer = pA;
 }
 
-uint32_t	CORE::Entity_AttributeChanged(ENTITY_ID * id_PTR, ATTRIBUTES * pA)
+uint32_t	CORE::Entity_AttributeChanged(entid_t * id_PTR, ATTRIBUTES * pA)
 {
 	ENTITY* pE = GetEntityPointer(id_PTR);
 	if(pE == nullptr) return 0;
 	return pE->AttributeChanged(pA);
 }
 
-ATTRIBUTES * CORE::Entity_GetAttributePointer(ENTITY_ID * id_PTR)
+ATTRIBUTES * CORE::Entity_GetAttributePointer(entid_t * id_PTR)
 {
 	ENTITY* pE = GetEntityPointer(id_PTR);
 	if(pE == nullptr) return nullptr;
@@ -1522,7 +1286,7 @@ uint32_t CORE::MakeHashValue(const char * string)
 
 void CORE::DumpEntitiesInfo()
 {
-	LARGE_INTEGER li;
+	/*LARGE_INTEGER li;
 	if (!QueryPerformanceFrequency(&li))
 		throw std::exception();
 
@@ -1565,7 +1329,7 @@ void CORE::DumpEntitiesInfo()
 			continue;
 		}
 		Trace("LAYER: %s --------------------------------------",l_PTR->Name);
-		ENTITY_ID* eid_PTR = l_PTR->GetID();
+		entid_t* eid_PTR = l_PTR->GetID();
 		while(eid_PTR)
 		{
 			Trace("ENTITY:");
@@ -1581,7 +1345,7 @@ void CORE::DumpEntitiesInfo()
 		}
 	}
 
-	Sleep(200);
+	Sleep(200);*/
 }
 
 void * CORE::GetSaveData(char * file_name, long & data_size)

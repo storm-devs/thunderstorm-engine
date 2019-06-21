@@ -214,7 +214,7 @@ bool BLADE::Init()
 	col = (COLLIDE *)api->CreateService("coll");
 	if(col== nullptr)	throw std::exception("No service: COLLIDE");
 
-	api->LayerAdd("realize",GetID(),65550);
+	api->LayerAdd("realize", GetId(),65550);
 
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs)	throw std::exception("No service: dx9render");

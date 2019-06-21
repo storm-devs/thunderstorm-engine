@@ -5,6 +5,7 @@
 #include "vidwalker.h"
 #include "controls.h"
 #include "s_import_func.h"
+#include "EntityManager.h"
 
 struct MSTATE
 {
@@ -44,9 +45,9 @@ public:
 	// converting class name to static code (constant until next restart)
 	virtual uint32_t Class_Name2Code(char * class_name)= 0;
 	// find first entity with pointed class
-	virtual bool FindClass(ENTITY_ID * id_PTR, char * class_name, uint32_t class_code)= 0;
+	virtual bool FindClass(entid_t * id_PTR, char * class_name, uint32_t class_code)= 0;
 	// continue searching process, started by FindClass(...) function
-	virtual bool FindClassNext(ENTITY_ID * id_PTR)= 0;
+	virtual bool FindClassNext(entid_t * id_PTR)= 0;
 
 
 	// service managment
@@ -58,37 +59,37 @@ public:
 	// entity managment
 	
 	// compare two entity ids, return true if ids is identical
-	virtual bool CompareID(ENTITY_ID * ida_PTR,ENTITY_ID * idb_PTR)= 0;
+	virtual bool CompareID(entid_t * ida_PTR,entid_t * idb_PTR)= 0;
 	// return true if entity with that id exist
-	virtual bool ValidateEntity(ENTITY_ID * id_PTR)= 0;
+	virtual bool ValidateEntity(entid_t * id_PTR)= 0;
 	// create entity with class type "class_name"; if id_PTR no null - fill this structure with entity id
-	virtual bool CreateEntity(ENTITY_ID * id_PTR, char * class_name)= 0;
+	virtual entid_t CreateEntity(char * name)= 0;
 	// delete entity; this function can be called even if programm control still in this object
-	virtual bool DeleteEntity(ENTITY_ID entity_id)= 0;
+	virtual bool DeleteEntity(entid_t entid_t)= 0;
 	// return entity object pointer, if this entity exist
-	virtual ENTITY * GetEntityPointer(ENTITY_ID * id_PTR)= 0;
+	virtual ENTITY * GetEntityPointer(entid_t * id_PTR)= 0;
 	
 	// find first entity id, depending on layer configuration
-	virtual bool GetEntity(ENTITY_ID * id_PTR)= 0;
+	virtual bool GetEntity(entid_t * id_PTR)= 0;
 	// continue enumerating entities; process started by GetEntity(...)
-	virtual bool GetEntityNext(ENTITY_ID * id_PTR)= 0;
+	virtual bool GetEntityNext(entid_t * id_PTR)= 0;
 	// if layer_name isnt null, functions GetEntity and GetEntityNext work with entity in pointed layer, otherwise - with all entities
 	virtual bool SetEntityScanLayer(char * layer_name)= 0;
 
-	virtual ATTRIBUTES * Entity_GetAttributeClass(ENTITY_ID * id_PTR, char * name)=0;
-	virtual char *	Entity_GetAttribute(ENTITY_ID * id_PTR, char * name)=0;
-	virtual uint32_t	Entity_GetAttributeAsDword(ENTITY_ID * id_PTR, char * name, uint32_t def = 0)=0;
-	virtual FLOAT	Entity_GetAttributeAsFloat(ENTITY_ID * id_PTR, char * name, FLOAT def = 0)=0;
-	virtual BOOL	Entity_SetAttribute(ENTITY_ID * id_PTR, char * name, char * attribute)=0;
-	virtual BOOL	Entity_SetAttributeUseDword(ENTITY_ID * id_PTR, char * name, uint32_t val)=0;
-	virtual BOOL	Entity_SetAttributeUseFloat(ENTITY_ID * id_PTR, char * name, FLOAT val)=0;
-	virtual void	Entity_SetAttributePointer(ENTITY_ID * id_PTR, ATTRIBUTES * pA)=0;
-	//virtual uint32_t	Entity_AttributeChanged(ENTITY_ID * id_PTR, ATTRIBUTES * pA)=0;
-	virtual ATTRIBUTES * Entity_GetAttributePointer(ENTITY_ID * id_PTR)=0;
+	virtual ATTRIBUTES * Entity_GetAttributeClass(entid_t * id_PTR, char * name)=0;
+	virtual char *	Entity_GetAttribute(entid_t * id_PTR, char * name)=0;
+	virtual uint32_t	Entity_GetAttributeAsDword(entid_t * id_PTR, char * name, uint32_t def = 0)=0;
+	virtual FLOAT	Entity_GetAttributeAsFloat(entid_t * id_PTR, char * name, FLOAT def = 0)=0;
+	virtual BOOL	Entity_SetAttribute(entid_t * id_PTR, char * name, char * attribute)=0;
+	virtual BOOL	Entity_SetAttributeUseDword(entid_t * id_PTR, char * name, uint32_t val)=0;
+	virtual BOOL	Entity_SetAttributeUseFloat(entid_t * id_PTR, char * name, FLOAT val)=0;
+	virtual void	Entity_SetAttributePointer(entid_t * id_PTR, ATTRIBUTES * pA)=0;
+	//virtual uint32_t	Entity_AttributeChanged(entid_t * id_PTR, ATTRIBUTES * pA)=0;
+	virtual ATTRIBUTES * Entity_GetAttributePointer(entid_t * id_PTR)=0;
 	// messeges system
 
 	// send message to an object
-	virtual uint32_t _cdecl Send_Message(ENTITY_ID Destination,char * Format,...)= 0;
+	virtual uint32_t _cdecl Send_Message(entid_t Destination,char * Format,...)= 0;
 	
 	// layer managment 
 	
@@ -103,9 +104,9 @@ public:
 	// get current flags configuration
 	virtual uint32_t LayerGetFlags(char * layer_name)= 0;
 	// insert object into layer list
-	virtual bool LayerAdd(const char * layer_name, ENTITY_ID eid, uint32_t priority)= 0;
+	virtual bool LayerAdd(const char * layer_name, entid_t eid, uint32_t priority)= 0;
 	// remove object from layer list
-	virtual void LayerDel(const char * layer_name, ENTITY_ID eid)= 0;
+	virtual void LayerDel(const char * layer_name, entid_t eid)= 0;
 	// delete layer content, delete all objects referenced in this layer; layer doesn't deleted
 	virtual bool LayerDeleteContent(char * layer_name)= 0;
 	// on/off execute
