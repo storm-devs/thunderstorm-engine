@@ -4,6 +4,28 @@
 
 #define INTERFACE_FUNCTION
 
+
+/* TODO: REMOVE THIS.... */
+inline uint32_t MakeHashValue(const char* string)
+{
+	uint32_t hval = 0;
+
+	while (*string != 0)
+	{
+		char v = *string++;
+		if ('A' <= v && v <= 'Z') v += 'a' - 'A';
+
+		hval = (hval << 4) + (unsigned long int)v;
+		uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
+		if (g != 0)
+		{
+			hval ^= g >> (32 - 8);
+			hval ^= g;
+		}
+	}
+	return hval;
+}
+
 class VMA;
 
 //extern VMA* _pModuleClassRoot;

@@ -4,27 +4,8 @@
 #include <cstdint>
 #include <vector>
 #include <chrono>
-
-/* TODO: REMOVE THIS.... */
-inline uint32_t MakeHashValue(const char* string)
-{
-	uint32_t hval = 0;
-
-	while (*string != 0)
-	{
-		char v = *string++;
-		if ('A' <= v && v <= 'Z') v += 'a' - 'A';
-
-		hval = (hval << 4) + (unsigned long int)v;
-		uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
-		if (g != 0)
-		{
-			hval ^= g >> (32 - 8);
-			hval ^= g;
-		}
-	}
-	return hval;
-}
+#include <unordered_map>
+#include <map>
 
 using entid_t = uint64_t;
 
@@ -61,6 +42,16 @@ private:
 using entptr_t = Entity *;
 
 class EntityManager {
+private:
+	/* typedefs */
+	using index_t = uint32_t;
+	using stamp_t = uint32_t;
+
+	using layer_t = std::multimap<index_t, entid_t>;
+
+	using entities_t = std::vector<entptr_t>;
+	using layers_t = std::unordered_map<std::string, layer_t>;
+
 public:
 	/* meyers singleton */
 	static EntityManager & GetInstance()
@@ -68,7 +59,6 @@ public:
 		static EntityManager instance;
 		return instance;
 	}
-
 
 	entid_t CreateEntity(const char* name)
 	{
@@ -126,8 +116,25 @@ public:
 		return entities_[index];
 	}
 
-private:
+	void AddEntityLayer(entid_t entity, std::string layer, index_t priority)
+	{
+		if (GetEntity(entity) == nullptr)
+			return; /* ~!@ */
 
+		auto & targetLayer = layers_[std::move(layer)];
+		targetLayer.insert(std::make_pair(priority, entity));
+	}
+
+	void ClearEntityLayer(entid_t entity, std::string layer)
+	{
+		/* TODO: NEED TO OPTIMIZE */
+		if (GetEntity(entity) == nullptr)
+			return; /* ~!@ */
+
+		auto & targetLayer = layers_[std::move(layer)];
+	}
+
+private:
 	EntityManager()
 	{
 		entities_.reserve(ENTITY_INITIAL_SIZE);
@@ -151,11 +158,6 @@ private:
 		return static_cast<entid_t>(stamp) << 32 | index;
 	}
 
-	/* typedefs */
-	using index_t = uint32_t;
-	using stamp_t = uint32_t;
-	using entities_t = std::vector<entptr_t>;
-
 	/* constants */
 	static const entities_t::size_type ENTITY_INITIAL_SIZE = 10240u;
 public:
@@ -163,6 +165,7 @@ public:
 private:
 	/* members */
 	entities_t entities_; /* entity container */
+	layers_t layers_; /* layers container */
 
 	/* static asserts */
 	static_assert(sizeof entities_t::size_type == sizeof index_t); /* size_type equal exactly index_t */
