@@ -37,7 +37,6 @@ void CORE::ResetCore()
 	bEngineIniProcessed = false;
 
 	ReleaseServices();
-	ReleaseLayers();
 
 	Services_List.Release();
 
@@ -52,7 +51,6 @@ void CORE::CleanUp()
 	bEngineIniProcessed = false;
 	ProcessDeleteList();
 	ReleaseServices();
-	ReleaseLayers();
 	Compiler.Release();
 	Services_List.Release();
 	Services_List.Release();

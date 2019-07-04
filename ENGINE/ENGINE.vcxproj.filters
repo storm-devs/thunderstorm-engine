@@ -525,6 +525,9 @@
     <Filter Include="Modules\XINTERFACE\templates">
       <UniqueIdentifier>{bd1b938c-6278-4d05-8863-4823e67e06bb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shared">
+      <UniqueIdentifier>{f5d915ce-f720-4aa3-9fac-26386046cf84}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\C_atom.cpp">
@@ -2413,9 +2416,6 @@
     <ClInclude Include="..\Common_h\vidwalker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common_h\vmodule_api.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common_h\vstring_codec.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -2434,8 +2434,11 @@
     <ClInclude Include="sources\strings_list.h">
       <Filter>Script Files\h</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common_h\vmodule_api.h">
+      <Filter>Shared</Filter>
+    </ClInclude>
     <ClInclude Include="..\Common_h\EntityManager.h">
-      <Filter>Header Files</Filter>
+      <Filter>Shared</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
