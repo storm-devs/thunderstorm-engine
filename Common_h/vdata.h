@@ -2,6 +2,7 @@
 #define _VDATA_H_
 
 //#include "token.h"
+#include "Entity.h"
 #include "attributes.h"
 #include "defines.h"
 

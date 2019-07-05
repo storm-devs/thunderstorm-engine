@@ -3,15 +3,13 @@
 
 #include "Cvector.h"
 #include "vdata.h"
-#
-
-using entid_t = uint64_t;
 
 //	#define _INTSIZEOF(n)   ( (sizeof(n) + sizeof(int) - 1) & ~(sizeof(int) - 1) )
 //	#define va_arg(ap,t)    ( *(t *)((ap += _INTSIZEOF(t)) - _INTSIZEOF(t)) )
 
 class MESSAGE 
 {
+	using entid_t = uint64_t;
 protected:
 	char * format;
 	long index;

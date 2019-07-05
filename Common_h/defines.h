@@ -28,10 +28,6 @@ namespace TOREMOVE
 #include "math3D.h"
 
 
-
-using entid_t = uint64_t;
-
-
 #define _FILE_				__FILE__
 #define _L				__LINE__
 #define _FL_			__FILE__, __LINE__
