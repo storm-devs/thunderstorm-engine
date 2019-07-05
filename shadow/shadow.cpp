@@ -176,7 +176,7 @@ void SHADOW::Realize(uint32_t Delta_Time)
 
 	CVECTOR hdest = headPos + !(headPos - light_pos)*100.0f;
 	walker_t walker = api->LayerGetWalker("shadow");
-	float ray = col->Trace(*walker, headPos, hdest, nullptr, 0);
+	float ray = col->Trace(walker, headPos, hdest, nullptr, 0);
 	CVECTOR cen;
 	float radius;
 	if(ray<=1.0f)
@@ -210,7 +210,7 @@ void SHADOW::Realize(uint32_t Delta_Time)
 	{
 		CVECTOR ps = ObjPos;
 		ps.y += gi.radius*0.111f*float(it);
-		if(col->Trace(*walker, ps, lightPos, nullptr, 0)>1.0f)
+		if(col->Trace(walker, ps, lightPos, nullptr, 0)>1.0f)
 			minVal += 0.1f;
 	}
 
@@ -338,7 +338,7 @@ void SHADOW::Realize(uint32_t Delta_Time)
 #else
 	rs->VBLock(vbuff, 0, 0, (uint8_t**)&shadvert, 0);
 #endif
-	col->Clip(*walker, &planes[0], 5, cen, radius, AddPoly, &entity, 1);
+	col->Clip(walker, &planes[0], 5, cen, radius, AddPoly, &entity, 1);
 
 
 	delete walker;

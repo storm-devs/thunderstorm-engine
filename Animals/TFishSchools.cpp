@@ -69,7 +69,7 @@ void TFishSchools::Init()
 
 	TDynamicSystem::AddAttractor(&cameraObject);
 
-	api->CreateEntity(&fishSchoolModel,"MODELR");
+	fishSchoolModel = api->CreateEntity("MODELR");
 	api->Send_Message(fishSchoolModel,"ls",MSG_MODEL_LOAD_GEO, ANIMALS_FISHSCHOOL_FILENAME);
 }
 

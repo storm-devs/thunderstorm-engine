@@ -19,7 +19,7 @@ struct EntityData
 
 class EntityManager {
 public:
-	static const entid_t INVALID_entid_t = 1u;
+	static const entid_t INVALID_entid_t = 0ull;
 	enum class LayerFlags : uint_fast8_t {
 		ACTIVE,
 		EXECUTE,

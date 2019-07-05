@@ -3,6 +3,8 @@
 #include "../image/imgrender.h"
 #include "../image/image.h"
 #include "BaseManager.h"
+#include "../../Common_h/vmodule_api.h"
+#include "../../Common_h/assert.h"
 
 #define BI_MOUSECURSOR_ICON_ORDER	35000
 

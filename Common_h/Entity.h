@@ -34,7 +34,7 @@ public:
 	virtual uint32_t ProcessMessage(MESSAGE & msg) = 0;
 
 private:
-	entid_t id_ = -1u;
+	entid_t id_ = 0ull;
 };
 
 using entptr_t = Entity *;

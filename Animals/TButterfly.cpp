@@ -113,7 +113,7 @@ void TButterfly::Calculate (long _dTime, COLLIDE *_collide, walker_t _walker)
 	//trace and change velocity if needed
 	if ((activeTime < fullActiveTime) || (fabsf(centerPosition.y - minY) > (yDeltaAbs + MIN_Y_DELTA)))
 	{
-		float ray = _collide->Trace(*_walker, centerPosition, 
+		float ray = _collide->Trace(_walker, centerPosition, 
 											  centerPosition + CVECTOR(velocityDelta * centerVelocity.x, 0.f, velocityDelta * centerVelocity.z), 
 											  nullptr, 0);
 		if (ray <= 1.0f)

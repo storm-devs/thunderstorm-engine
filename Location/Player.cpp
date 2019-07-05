@@ -719,7 +719,7 @@ void Player::FireFromShootgun()
 		CVECTOR dst = mtx*CVECTOR(r*sinf(a), r*cosf(a), 25.0f);
 		if(walker && collide)
 		{
-			float dist = collide->Trace(*walker, src, dst, &GetId(), 0);
+			float dist = collide->Trace(walker, src, dst, &GetId(), 0);
 			if(dist <= 1.0f && dist > (0.2f/25.0f))
 			{
 				CVECTOR dir = !(src - dst);

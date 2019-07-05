@@ -55,7 +55,8 @@ void TSharks::Init()
 	if(!renderService)
 		throw std::exception("!Sharks: No service 'dx9render'");
 
-	api->FindClass(&seaID, "sea", 0);
+	auto walker = api->GetEntityIdWalker("sea");
+	seaID = walker();
 	sea = (SEA_BASE*) api->GetEntityPointer(seaID);
 	if (!sea)
 	{
@@ -75,26 +76,20 @@ void TSharks::Init()
 
 	entid_t shipID;
 	shipsCount = 0;
-	if (api->FindClass(&shipID, "ship", 0))
+	walker = api->GetEntityIdWalker("ship");
+	while(shipID = walker())
 	{
 		ships[shipsCount] = new TShip();
 		ships[shipsCount]->ship = (SHIP_BASE*) api->GetEntityPointer(shipID);
-		TDynamicSystem::AddDeflector(ships[i]);
+		TDynamicSystem::AddDeflector(ships[i]); // ~!@ was only for the first
 		++shipsCount;
-		while (api->FindClassNext(&shipID))
-		{
-			ships[shipsCount] = new TShip();
-			ships[shipsCount]->ship = (SHIP_BASE*) api->GetEntityPointer(shipID);
-			//TDynamicSystem::AddDeflector(ships[i]);
-			++shipsCount;
-			if (++shipsCount == SHARK_MAX_SHIPS)
-				break;
-		}
+		if (++shipsCount == SHARK_MAX_SHIPS)
+			break;
 	}
 
 	TDynamicSystem::AddAttractor(&cameraObject);
 
-	api->CreateEntity(&sharkModel,"MODELR");
+	sharkModel = api->CreateEntity("MODELR");
 	api->Send_Message(sharkModel,"ls",MSG_MODEL_LOAD_GEO, ANIMALS_SHARK_FILENAME);
 }
 
@@ -167,7 +162,7 @@ void TSharks::Realize(uint32_t _dTime)
 		pos.z = sharkPos.z + OSC_AMPLITUDE*sinf(sharkAngle + PId2)*sinf(sharkTime);
 		pos.y = sea->WaveXZ(pos.x, pos.z) - sharks[i]->depth;
 		shark->mtx.BuildMatrix(ang,pos);
-		shark->Realize(_dTime);
+		shark->ProcessStage(Entity::Stage::REALIZE, _dTime);
 	}
 }
 

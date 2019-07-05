@@ -226,7 +226,7 @@ void TSeagulls::Realize(uint32_t _dTime)
 		pos.z = seagulls[i].center.z + cosf(seagulls[i].a) * seagulls[i].radius;
 		pos.y = seagulls[i].height;
 		seagull->mtx = CMatrix(ang, pos);
-		seagull->Realize(_dTime);
+		seagull->ProcessStage(Entity::Stage::REALIZE, _dTime);
 	}
 }
 

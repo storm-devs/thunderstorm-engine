@@ -5,7 +5,6 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 
-#include "../Common_h/vmodule_api.h"
 #include "../Common_h/types3d.h"
 #include "../Common_h/Matrix.h"
 #include "../Common_h/VideoTexture.h"

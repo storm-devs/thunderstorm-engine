@@ -82,7 +82,7 @@ long LCOLL::SetBox(const CVECTOR &boxSize, const CMatrix &transform, bool testOn
 	//F0(v0,v1,v2), F1(v0,v1,v2,v3)...
 	addVerts = nullptr;
 
-	col->Clip(*walker, &plane[0], 6, boxCenter, boxRadius, AddPolyColl, nullptr, 0);
+	col->Clip(walker, &plane[0], 6, boxCenter, boxRadius, AddPolyColl, nullptr, 0);
 	return 0;
 }
 

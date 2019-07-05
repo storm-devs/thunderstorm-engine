@@ -28,8 +28,8 @@ bool BALLSPLASH::Init()
 {
 	//GUARD(BALLSPLASH::Init)
 
-	entid_t seaID;
-	api->FindClass(&seaID, "sea", 0);
+	const auto walker = api->GetEntityIdWalker("sea");
+	entid_t seaID = walker();
 	sea = (SEA_BASE*) api->GetEntityPointer(seaID);
 
 	renderer = (VDX9RENDER *) api->CreateService("dx9render");

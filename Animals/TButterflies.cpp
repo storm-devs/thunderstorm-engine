@@ -9,7 +9,6 @@
 TButterflies::TButterflies()
 	:enabled(false)
 	,yDefineTime(0)
-	,walker(nullptr)
 {
 }
 
@@ -18,11 +17,7 @@ TButterflies::~TButterflies()
 {
 	renderService->TextureRelease(texture);
 
-	if (walker)
-		delete walker;
-
-	if (ivManager)
-		delete ivManager;
+	delete ivManager;
 }
 
 //--------------------------------------------------------------------
@@ -125,7 +120,7 @@ void TButterflies::Execute(uint32_t _dTime)
 			topVector.y = ALL_Y;
 			bottomVector.y = -ALL_Y;
 
-			float ray = collide->Trace(*walker, topVector, bottomVector, nullptr, 0);
+			float ray = collide->Trace(walker, topVector, bottomVector, nullptr, 0);
 			if (ray <= 1.0f)
 				butterflies[i].SetMinY(-ALL_Y+(1.f - ray)*2.f*ALL_Y);
 			else

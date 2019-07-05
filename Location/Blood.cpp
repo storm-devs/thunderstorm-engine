@@ -155,7 +155,7 @@ void Blood::AddBlood(const CVECTOR& pos)
 
 	CVECTOR src = pos; src.y += 1.f;
 	CVECTOR dst = pos; dst.y -= 10.f;
-	float fTrace = pCol->Trace(*walker,src,dst,nullptr,0);
+	float fTrace = pCol->Trace(walker,src,dst,nullptr,0);
 	if( fTrace <=1.f )
 		cpos.y = src.y + (dst.y-src.y)*fTrace;
 
@@ -171,7 +171,7 @@ void Blood::AddBlood(const CVECTOR& pos)
 
 		src = cpos; src.y += 1.5f;
 		dst = cpos; dst.y -= 10.f;
-		fTrace = pCol->Trace(*walker,src,dst,nullptr,0);
+		fTrace = pCol->Trace(walker,src,dst,nullptr,0);
 		if( fTrace <=1.f )
 			cpos.y = src.y + (dst.y-src.y)*fTrace;
 	}

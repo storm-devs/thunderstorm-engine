@@ -219,7 +219,7 @@ void Lights::Realize(uint32_t delta_time)
 		walker_t walker = api->LayerGetWalker("sun_trace");
 		if(walker && collide)
 		{
-			float dist = collide->Trace(*walker, pos, CVECTOR(ls.pos.x, ls.pos.y, ls.pos.z), lampModels, numLampModels);
+			float dist = collide->Trace(walker, pos, CVECTOR(ls.pos.x, ls.pos.y, ls.pos.z), lampModels, numLampModels);
 			isVisible = dist > 1.0f;
 			delete walker;
 		}
