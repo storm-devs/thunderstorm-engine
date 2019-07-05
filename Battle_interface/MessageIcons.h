@@ -8,7 +8,7 @@
 class MESSAGE_ICONS
 {
 	VDX9RENDER *rs;
-	ENTITY_ID  m_idHost;
+	entid_t  m_idHost;
 
 public:
 	MESSAGE_ICONS();
@@ -18,7 +18,7 @@ public:
 	void Draw();
 	void SetShowMsg(bool bShow) {m_bShowMsgIcon = m_vMsgIconBufID>=0 ? bShow : false;}
 	void StartData(ATTRIBUTES * pAData[MESSAGE_ICONS_COLUMN_QUANTITY], long pLeft[MESSAGE_ICONS_COLUMN_QUANTITY]);
-	bool InitData(ENTITY_ID & host_eid, VDX9RENDER * _rs, ATTRIBUTES * pARoot);
+	bool InitData(entid_t & host_eid, VDX9RENDER * _rs, ATTRIBUTES * pARoot);
 
 protected:
 	// иконки сообщений

@@ -2396,7 +2396,7 @@ void DX9RENDER::RecompileEffects()
 
 bool DX9RENDER::ResetDevice()
 {
-	ENTITY_ID eid;
+	entid_t eid;
 
 	api->SetEntityScanLayer(nullptr);
 	if (api->GetEntity(&eid)) do { ((ENTITY*)eid.pointer)->LostRender(); } while (api->GetEntityNext(&eid));
@@ -3543,7 +3543,7 @@ CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
 	if ((pVTLcur->name = new char[len]) == nullptr)
 		throw std::exception("memory allocate error");
 	strcpy_s(pVTLcur->name, len, sVideoName);
-	ENTITY_ID ei;
+	entid_t ei;
 	api->CreateEntity(&ei, "TextureSequence");
 	pVTLcur->VideoTexture = (CVideoTexture*)api->GetEntityPointer(&ei);
 	if (pVTLcur->VideoTexture != nullptr)

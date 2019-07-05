@@ -27,7 +27,7 @@ LAYER::~LAYER()
 	}
 }
 
-bool LAYER::Add(ENTITY_ID eid)
+bool LAYER::Add(entid_t eid)
 {
 	LAYER_NODE* ln_PTR = (LAYER_NODE *)new LAYER_NODE;
 	if(ln_PTR == nullptr) return false;
@@ -41,7 +41,7 @@ bool LAYER::Add(ENTITY_ID eid)
 	return true;
 }
 
-bool LAYER::Add(ENTITY_ID eid, uint32_t priority)
+bool LAYER::Add(entid_t eid, uint32_t priority)
 {
 	if(!ls.Ordered) return Add(eid);
 
@@ -89,14 +89,14 @@ bool LAYER::Add(ENTITY_ID eid, uint32_t priority)
 	return false;
 }
 
-bool LAYER::Del(ENTITY_ID eid)
+bool LAYER::Del(entid_t eid)
 {
 	LAYER_NODE* ln_PTR = Base_Link;
 	do
 	{
 		if(ln_PTR) 
 		{
-			if(memcmp(&ln_PTR->id,&eid,sizeof(ENTITY_ID)) == 0)
+			if(memcmp(&ln_PTR->id,&eid,sizeof(entid_t)) == 0)
 			{
 				LAYER_NODE* link_L = ln_PTR->link_L;
 				LAYER_NODE* link_R = ln_PTR->link_R;
@@ -125,21 +125,21 @@ bool LAYER::Del(ENTITY_ID eid)
 	return false;
 }
 
-uint32_t LAYER::GetPriority(ENTITY_ID eid)
+uint32_t LAYER::GetPriority(entid_t eid)
 {
 	LAYER_NODE* ln_PTR = Base_Link;
 	do
 	{
 		if(ln_PTR)
 		{
-			if(memcmp(&ln_PTR->id,&eid,sizeof(ENTITY_ID)) == 0) return ln_PTR->priority;
+			if(memcmp(&ln_PTR->id,&eid,sizeof(entid_t)) == 0) return ln_PTR->priority;
 			ln_PTR = ln_PTR->link_L;
 		}
 	} while(ln_PTR);
 	return 0;
 }
 
-ENTITY_ID * LAYER::WalkerGetID(LPBYTE& sl)
+entid_t * LAYER::WalkerGetID(LPBYTE& sl)
 {
 	if(ls.Deleted) return nullptr;
 	if(Base_Link)
@@ -151,7 +151,7 @@ ENTITY_ID * LAYER::WalkerGetID(LPBYTE& sl)
 	return nullptr;
 }
 
-ENTITY_ID * LAYER::WalkerGetNextID(LPBYTE& sl)
+entid_t * LAYER::WalkerGetNextID(LPBYTE& sl)
 {
 	if(ls.Deleted) return nullptr;
 	if(sl)
@@ -167,7 +167,7 @@ ENTITY_ID * LAYER::WalkerGetNextID(LPBYTE& sl)
 
 
 
-ENTITY_ID * LAYER::GetID()
+entid_t * LAYER::GetID()
 {
 	if(ls.Deleted) return nullptr;
 	if(Base_Link)
@@ -179,7 +179,7 @@ ENTITY_ID * LAYER::GetID()
 	return nullptr;
 }
 
-ENTITY_ID * LAYER::GetNextID()
+entid_t * LAYER::GetNextID()
 {
 	if(ls.Deleted) return nullptr;
 	if(Search_Link)
@@ -191,7 +191,7 @@ ENTITY_ID * LAYER::GetNextID()
 	return nullptr;
 }
 
-ENTITY_ID * LAYER::GetID(uint32_t * priority_PTR)
+entid_t * LAYER::GetID(uint32_t * priority_PTR)
 {
 	if(ls.Deleted) return nullptr;
 	if(Base_Link)
@@ -204,7 +204,7 @@ ENTITY_ID * LAYER::GetID(uint32_t * priority_PTR)
 	return nullptr;
 }
 
-ENTITY_ID * LAYER::GetNextID(uint32_t * priority_PTR)
+entid_t * LAYER::GetNextID(uint32_t * priority_PTR)
 {
 	if(ls.Deleted) return nullptr;
 	if(Search_Link)
@@ -271,13 +271,13 @@ void IDWALKER::Invalidate()
 	if(pLayer) ((LAYER *)pLayer)->DelWalker((void *)this);
 }
 
-ENTITY_ID * IDWALKER::GetID()
+entid_t * IDWALKER::GetID()
 {
 	if(pLayer) return ((LAYER *)pLayer)->WalkerGetID(Search_Link);
 	return nullptr;
 }
 
-ENTITY_ID * IDWALKER::GetIDNext()
+entid_t * IDWALKER::GetIDNext()
 {
 	if(pLayer) return ((LAYER *)pLayer)->WalkerGetNextID(Search_Link);
 	return nullptr;

@@ -203,7 +203,7 @@ void Lighter::MsgAddModel(MESSAGE & message)
 		api->Trace("Location lighter: no model name, skip it!");
 		return;
 	}
-	ENTITY_ID model = message.EntityID();
+	entid_t model = message.EntityID();
 	geometry.AddObject(name, model);
 }
 

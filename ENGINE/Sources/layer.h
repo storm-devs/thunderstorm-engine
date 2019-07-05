@@ -1,7 +1,7 @@
 #ifndef _LAYER_H_
 #define _LAYER_H_
 
-#include "../../Common_h/entity_id.h"
+#include "../../Common_h/entid_t.h"
 #include "idwalker.h"
 #include <vector>
 
@@ -22,7 +22,7 @@ public:
 	 LAYER_NODE(){};
 	~LAYER_NODE(){};
 
-	ENTITY_ID	id;
+	entid_t	id;
 	LAYER_NODE * link_L;
 	LAYER_NODE * link_R;
 	uint32_t		priority;
@@ -33,16 +33,16 @@ class LAYER
 public:
 	 LAYER(char * name, bool ordered,bool system,uint32_t system_flags);
 	~LAYER();
-	bool Add(ENTITY_ID eid, uint32_t priority);
-	bool Add(ENTITY_ID eid);
-	bool Del(ENTITY_ID eid);
-	ENTITY_ID * GetID();
-	ENTITY_ID * GetNextID();
-	ENTITY_ID * GetID(uint32_t * priority_PTR);
-	ENTITY_ID * GetNextID(uint32_t * priority_PTR);
+	bool Add(entid_t eid, uint32_t priority);
+	bool Add(entid_t eid);
+	bool Del(entid_t eid);
+	entid_t * GetID();
+	entid_t * GetNextID();
+	entid_t * GetID(uint32_t * priority_PTR);
+	entid_t * GetNextID(uint32_t * priority_PTR);
 	void SetFlag(uint32_t flag);
 	void ClrFlag(uint32_t flag);
-	uint32_t GetPriority(ENTITY_ID eid);
+	uint32_t GetPriority(entid_t eid);
 
 	uint32_t Count;
 	LAYER_STATE ls;
@@ -55,8 +55,8 @@ public:
 	std::vector<IDWALKER*> walkers;
 	uint32_t walkers_num;
 
-	ENTITY_ID * WalkerGetID(LPBYTE& sl);
-	ENTITY_ID * WalkerGetNextID(LPBYTE& sl);
+	entid_t * WalkerGetID(LPBYTE& sl);
+	entid_t * WalkerGetNextID(LPBYTE& sl);
 
 	
 };

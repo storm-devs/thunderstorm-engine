@@ -77,7 +77,7 @@ private:
 	bool activatedDialog;
 	bool isSpecialMode;
 	bool isSetBlock;
-	ENTITY_ID baterfl;
+	entid_t baterfl;
 #ifndef _XBOX
 	bool shootgunMode;
 	float kSMReload;

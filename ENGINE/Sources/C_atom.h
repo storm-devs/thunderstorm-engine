@@ -2,7 +2,7 @@
 #define _C_ATOM_H_
 
 #include <cstdint>
-#include "../../Common_h/entity_id.h"
+#include "../../Common_h/entid_t.h"
 
 #define _LAYERS_BITMASK_DWORDS	4
 #define _MAX_LAYERS				(_LAYERS_BITMASK_DWORDS*32)
@@ -40,7 +40,7 @@ public:
 	void ClrLayerAttribute(uint32_t index);
 	bool TstLayerAttribute(uint32_t index);
 
-	ENTITY_ID atom_id;
+	entid_t atom_id;
 	ATOM_STATE as;
 };
 

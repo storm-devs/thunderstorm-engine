@@ -3,7 +3,7 @@
 #include "image/imgrender.h"
 
 // extern data
-ENTITY_ID BIUtils::idBattleInterface;
+entid_t BIUtils::idBattleInterface;
 uint32_t BIUtils::g_dwBlinkColor;
 
 long BIUtils::GetLongFromAttr(ATTRIBUTES * pA, const char * name, long defVal)

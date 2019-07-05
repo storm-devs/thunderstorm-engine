@@ -29,7 +29,7 @@ bool SINKEFFECT::Init()
 {
 	//GUARD(SINKEFFECT::Init)
 
-	ENTITY_ID seaID;
+	entid_t seaID;
 	api->FindClass(&seaID, "sea", 0);
 	sea = (SEA_BASE*) api->GetEntityPointer(&seaID);
 
@@ -46,7 +46,7 @@ uint32_t _cdecl SINKEFFECT::ProcessMessage(MESSAGE & message)
 {
 	//GUARD(SINKEFFECT::ProcessMessage)
 
-	ENTITY_ID shipID;
+	entid_t shipID;
 	SHIP_BASE *shipBase;
 	long code = message.Long();
 	uint32_t outValue = 0;

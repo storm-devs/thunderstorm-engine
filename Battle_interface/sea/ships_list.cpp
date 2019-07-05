@@ -173,7 +173,7 @@ void SHIP_DESCRIBE_LIST::Add(long mainChrIndex, long chIdx, ATTRIBUTES * pChAttr
 	pr->next = nullptr;
 
 	// find this ship
-	ENTITY_ID ei;
+	entid_t ei;
 	if(api->FindClass(&ei,"ship",0)) do
 	{
 		VAI_OBJBASE * vob = (VAI_OBJBASE*)api->GetEntityPointer(&ei);
@@ -239,7 +239,7 @@ void SHIP_DESCRIBE_LIST::Refresh()
 	ReleaseAll();
 
 	TMP_LONG_STACK tls;
-	ENTITY_ID ei;
+	entid_t ei;
 //	tls.Push(-1);
 
 	if( api->FindClass(&ei,"ship",0) ) do

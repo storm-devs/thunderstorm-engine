@@ -16,7 +16,7 @@
 INTERFACE_FUNCTION
 CREATE_CLASS(SEAFOAM)
 
-//ENTITY_ID arrowModel;
+//entid_t arrowModel;
 
 #define U_SPEED_K 24e-4f
 #define V_SPEED_K 10e-5f
@@ -80,8 +80,8 @@ bool SEAFOAM::Init()
 //--------------------------------------------------------------------
 void SEAFOAM::InitializeShipFoam()
 {
-	ENTITY_ID shipID;
-	std::vector<ENTITY_ID> aShipsID;
+	entid_t shipID;
+	std::vector<entid_t> aShipsID;
 
 	if (api->FindClass(&shipID, "ship", 0)) do
 	{
@@ -92,7 +92,7 @@ void SEAFOAM::InitializeShipFoam()
 		AddShip(&aShipsID[i]);
 }
 
-void SEAFOAM::AddShip(ENTITY_ID * pShipEID)
+void SEAFOAM::AddShip(entid_t * pShipEID)
 {
 	tShipFoamInfo * foamInfo = &shipFoamInfo[shipsCount++];
 
@@ -583,7 +583,7 @@ uint32_t SEAFOAM::AttributeChanged(ATTRIBUTES * pA)
 
 	if (_stricmp(nm, "AddNetShip") == 0)
 	{
-		ENTITY_ID shipID;
+		entid_t shipID;
 		uint32_t dwShipNetID = pA->GetAttributeAsDword();
 		if (api->IsNetActive())
 		{

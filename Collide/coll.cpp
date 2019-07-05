@@ -4,7 +4,7 @@
 INTERFACE_FUNCTION
 CREATE_SERVICE(COLL)
 
-ENTITY_ID last_trace_eid;
+entid_t last_trace_eid;
 
 COLL::COLL()
 {
@@ -23,7 +23,7 @@ LOCAL_COLLIDE *COLL::CreateLocalCollide(const char *layerName)
 //----------------------------------------------------------------------------------
 //Ray tracing
 //----------------------------------------------------------------------------------
-float COLL::Trace(ENTITY_ID &entity, const CVECTOR &src, const CVECTOR &dst)
+float COLL::Trace(entid_t &entity, const CVECTOR &src, const CVECTOR &dst)
 {
 	COLLISION_OBJECT *cob = static_cast<COLLISION_OBJECT*>(api->GetEntityPointer(&entity));
 	if(static_cast<ENTITY*>(cob)== nullptr)	return 2.0f;
@@ -35,10 +35,10 @@ float COLL::Trace(ENTITY_ID &entity, const CVECTOR &src, const CVECTOR &dst)
 //----------------------------------------------------------------------------------
 //with enclusion list
 //----------------------------------------------------------------------------------
-float COLL::Trace(VIDWALKER &walker, const CVECTOR &src, const CVECTOR &dst, const ENTITY_ID *exclude_list, long entities)
+float COLL::Trace(VIDWALKER &walker, const CVECTOR &src, const CVECTOR &dst, const entid_t *exclude_list, long entities)
 {
 	float best_res = 2.0f;
-	ENTITY_ID *eid = walker.GetID();
+	entid_t *eid = walker.GetID();
 	while (eid != nullptr)
 	{
 		long e;
@@ -69,11 +69,11 @@ float COLL::Trace(VIDWALKER &walker, const CVECTOR &src, const CVECTOR &dst, con
 //
 //----------------------------------------------------------------------------------
 bool COLL::Clip(VIDWALKER &walker, const PLANE *planes, long nplanes, const CVECTOR &center, float radius,
-	ADD_POLYGON_FUNC addpoly, const ENTITY_ID *exclude_list, long entities)
+	ADD_POLYGON_FUNC addpoly, const entid_t *exclude_list, long entities)
 {
 	bool retval = false;
 
-	ENTITY_ID *eid = walker.GetID();
+	entid_t *eid = walker.GetID();
 	while(eid!=nullptr)
 	{
 		long e;
@@ -100,7 +100,7 @@ bool COLL::Clip(VIDWALKER &walker, const PLANE *planes, long nplanes, const CVEC
 //----------------------------------------------------------------------------------
 //get last trace entity id
 //----------------------------------------------------------------------------------
-ENTITY_ID COLL::GetObjectID()
+entid_t COLL::GetObjectID()
 {
 	return last_trace_eid;
 }

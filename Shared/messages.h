@@ -8,7 +8,7 @@
 
 #define MSG_MODEL_LOAD_GEO			20500		// "ls", string
 #define MSG_MODEL_LOAD_ANI			20501
-#define MSG_MODEL_SET_PARENT		20502		// "li", entity_id
+#define MSG_MODEL_SET_PARENT		20502		// "li", entid_t
 #define MSG_MODEL_SET_LIGHT_PATH	20503
 #define MSG_MODEL_RELEASE			20504
 #define MSG_MODEL_RESTORE			20505

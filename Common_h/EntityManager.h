@@ -55,7 +55,7 @@ struct EntityData
 
 class EntityManager {
 public:
-	static const entid_t INVALID_ENTITY_ID = 1u;
+	static const entid_t INVALID_entid_t = 1u;
 	enum class LayerFlags : uint_fast8_t {
 		ACTIVE,
 		EXECUTE,
@@ -107,7 +107,7 @@ public:
 
 		/* INIT ENTITY */
 		if (!ptr->Init()) {
-			return INVALID_ENTITY_ID;
+			return INVALID_entid_t;
 		}
 		const auto id = PushEntity(ptr, name);
 		ptr->id_ = id;
@@ -158,7 +158,7 @@ public:
 					return entData->id;
 				}
 			}
-			return INVALID_ENTITY_ID;
+			return INVALID_entid_t;
 		};
 	}
 
@@ -319,5 +319,5 @@ private:
 
 inline bool EntityFound(entid_t id)
 {
-	return id != EntityManager::INVALID_ENTITY_ID;
+	return id != EntityManager::INVALID_entid_t;
 }

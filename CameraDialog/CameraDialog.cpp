@@ -123,7 +123,7 @@ void CameraDialog::Realize(uint32_t Delta_Time)
 	if(mdl==nullptr)	return;
 	//-------------------------------------------------------
 	static bool inited = false;
-	static ENTITY_ID sMod[2];
+	static entid_t sMod[2];
 	if(!inited)
 	{
 		api->CreateEntity(&sMod[0], "modelr");

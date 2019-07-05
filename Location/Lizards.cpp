@@ -26,7 +26,7 @@ Lizards::~Lizards()
 bool Lizards::Init()
 {
 	//”казатель на локацию
-	ENTITY_ID loc;
+	entid_t loc;
 	api->FindClass(&loc, "location", 0);
 	Location * location = (Location *)api->GetEntityPointer(&loc);
 	if(!location) return false;

@@ -74,7 +74,7 @@ private:
 
 private:
 	Pillar & pillar;
-	ENTITY_ID seaID;
+	entid_t seaID;
 	float galpha;
 	CMatrix camMtx;
 	GroundParticle groundPrt[128];

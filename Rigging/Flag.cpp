@@ -92,7 +92,7 @@ void FLAG::Execute(uint32_t Delta_Time)
 	    }
 
         // получим значение ветра
-        ENTITY_ID ei;
+        entid_t ei;
         if( api->FindClass(&ei,"weather",0) )
         {
             WEATHER_BASE *wb = (WEATHER_BASE*)api->GetEntityPointer(&ei);
@@ -145,7 +145,7 @@ uint32_t _cdecl FLAG::ProcessMessage(MESSAGE & message)
     //----------------------
     case MSG_FLAG_INIT:
 		{
-			ENTITY_ID eidModel = message.EntityID();
+			entid_t eidModel = message.EntityID();
 			long nNation = message.Long();
 
 			MODEL *host_mdl;
@@ -202,9 +202,9 @@ uint32_t _cdecl FLAG::ProcessMessage(MESSAGE & message)
 
     case MSG_FLAG_TO_NEWHOST: // format "lili" (msg_code,oldmodel_id,groupNum,newmodel_id)
 		{
-			ENTITY_ID oldModelID = message.EntityID();
+			entid_t oldModelID = message.EntityID();
 			long flagGroupNum = message.Long();
-			ENTITY_ID newModelID = message.EntityID();
+			entid_t newModelID = message.EntityID();
 			MoveOtherHost(newModelID, flagGroupNum, oldModelID);
 		}
         break;
@@ -601,7 +601,7 @@ void FLAG::FirstRun()
     wFlagLast=flagQuantity;
 }
 
-void FLAG::GroupSTORM_DELETE(ENTITY_ID m_id)
+void FLAG::GroupSTORM_DELETE(entid_t m_id)
 {
     // найдем группу соответствующую полученной модели
     for(int gn=0; gn<groupQuantity; gn++)
@@ -789,7 +789,7 @@ void FLAG::SetAdd(int flagNum)
     INDEX_BUFFER_RELEASE(RenderService,iBuf);
 }
 
-void FLAG::MoveOtherHost(ENTITY_ID newm_id,long flagNum,ENTITY_ID oldm_id)
+void FLAG::MoveOtherHost(entid_t newm_id,long flagNum,entid_t oldm_id)
 {
     // найдем старую группу
 	int oldgn;

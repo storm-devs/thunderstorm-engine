@@ -853,7 +853,7 @@ void SEPS_PS::SetEmitter(CVECTOR p, CVECTOR a)
 	*/
 }
 
-void SEPS_PS::LinkToObject(ENTITY_ID id, CVECTOR _LinkPos)
+void SEPS_PS::LinkToObject(entid_t id, CVECTOR _LinkPos)
 {
 	long n;
 	bLinkEmitter = true;
@@ -906,7 +906,7 @@ void SEPS_PS::SetFlowTrack(uint32_t index)
 }
 
 
-void SEPS_PS::UseSurface(ENTITY_ID surface_id)
+void SEPS_PS::UseSurface(entid_t surface_id)
 {
 	bLayOnSurface = true;
 	SurfaceID = surface_id;

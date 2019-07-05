@@ -69,7 +69,7 @@ DATA * S_STACK::Pop()
 
 	/*if(pStackData[Data_num]->GetType() == VAR_OBJECT)
 	{
-		ENTITY_ID id;
+		entid_t id;
 		pStackData[Data_num]->Get(id);
 		api->Entity_SetAttributePointer(&id,0);
 	}//*/

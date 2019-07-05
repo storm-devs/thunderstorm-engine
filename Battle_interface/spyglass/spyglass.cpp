@@ -649,7 +649,7 @@ void ISPYGLASS::FillUVArrayFromAttributes( std::vector<FRECT> & m_aUV, ATTRIBUTE
 VAI_OBJBASE* ISPYGLASS::GetFort()
 {
 	if( !m_pFortObj ) {
-		ENTITY_ID ei;
+		entid_t ei;
 		api->FindClass( &ei, "AIFORT", 0 );
 		m_pFortObj = (VAI_OBJBASE*)api->GetEntityPointer(&ei);
 	}

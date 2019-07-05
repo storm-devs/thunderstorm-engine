@@ -70,7 +70,7 @@ public:
 	// add new ship to group
 		ATTRIBUTES	* GetCommanderACharacter();
 		AIShip		* GetMainShip();
-		void		AddShip(ENTITY_ID _eidShip, ATTRIBUTES * pACharacter, ATTRIBUTES *pAShip);
+		void		AddShip(entid_t _eidShip, ATTRIBUTES * pACharacter, ATTRIBUTES *pAShip);
 		void		Unload() {};
 
 	// execute/realize function (on each frame)

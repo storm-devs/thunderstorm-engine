@@ -75,7 +75,7 @@ SHIP::~SHIP()
 	api->Send_Message(vant_id, "li", MSG_VANT_DEL_GROUP, GetModelEID());
 	api->DeleteEntity(blots_id);
 
-	ENTITY_ID eidTmp;
+	entid_t eidTmp;
 	if (api->FindClass(&eidTmp, "ShipTracks", 0))
 	{
 		ShipTracks * pST = (ShipTracks*)api->GetEntityPointer(&eidTmp); 
@@ -108,7 +108,7 @@ bool SHIP::Init()
 
 void SHIP::LoadServices()
 {
-	ENTITY_ID ent;
+	entid_t ent;
 
 	//api->LayerDel(sRealizeLayer,model_id);		// delete from realize
 
@@ -841,7 +841,7 @@ void SHIP::MastFall(mast_t * pM)
 {
 	if (pM && pM->pNode && pM->fDamage >= 1.0f) 
 	{
-		ENTITY_ID ent;
+		entid_t ent;
 		api->CreateEntity(&ent, "mast");
 		api->Send_Message(ent, "lpii", MSG_MAST_SETGEOMETRY, pM->pNode, GetID(), GetModelEID());
 		api->LayerAdd((char*)sExecuteLayer.c_str(), ent, iShipPriorityExecute+1);
@@ -1014,7 +1014,7 @@ long SHIP::AddStrength(STRENGTH *strength)
 
 uint32_t _cdecl SHIP::ProcessMessage(MESSAGE & message)
 {
-	ENTITY_ID	entity_id;
+	entid_t	entid_t;
 	CVECTOR		cpos, cang;
 	float		fov;
 	long		code = message.Long();
@@ -1079,7 +1079,7 @@ uint32_t _cdecl SHIP::ProcessMessage(MESSAGE & message)
 		break;
 		case MSG_SHIP_RESET_TRACK:
 		{
-			ENTITY_ID eidTmp;
+			entid_t eidTmp;
 			if (api->FindClass(&eidTmp, "ShipTracks", 0))
 			{
 				ShipTracks * pST = (ShipTracks*)api->GetEntityPointer(&eidTmp); 
@@ -1235,7 +1235,7 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 
 	LoadShipParameters();
 
-	ENTITY_ID temp_id = GetID();
+	entid_t temp_id = GetID();
 	api->Send_Message(touch_id,"li",MSG_SHIP_CREATE,temp_id);
 	api->Send_Message(sea_id,"lic",MSG_SHIP_CREATE,temp_id,CVECTOR(State.vPos.x+fXOffset,State.vPos.y,State.vPos.z+fZOffset));
 
@@ -1291,7 +1291,7 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 	}
 
 	// Add lights and flares
-	ENTITY_ID eidTmp;
+	entid_t eidTmp;
 	if (api->FindClass(&eidTmp, "shiplights", 0))
 	{
 		pShipsLights = (IShipLights*)api->GetEntityPointer(&eidTmp); 
@@ -1318,7 +1318,7 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 	}
 
 	// create model upper ship if needed
-	ENTITY_ID model_uppership_id;
+	entid_t model_uppership_id;
 	ATTRIBUTES * pAUpperShipModel = GetACharacter()->FindAClass(GetACharacter(), "ship.upper_model");
 	if (pAUpperShipModel)
 	{
@@ -1501,7 +1501,7 @@ uint32_t SHIP::AttributeChanged(ATTRIBUTES * pAttribute)
 }
 
 CVECTOR		SHIP::GetBoxsize()				{ return State.vBoxSize; };
-ENTITY_ID	SHIP::GetModelEID()				{ return model_id; }
+entid_t	SHIP::GetModelEID()				{ return model_id; }
 MODEL *		SHIP::GetModel()				{ Assert(api->ValidateEntity(&GetModelEID())); return (MODEL*)api->GetEntityPointer(&GetModelEID()); }
 CMatrix *	SHIP::GetMatrix()				{ return &GetModel()->mtx; }
 void		SHIP::SetMatrix(CMatrix & mtx)	{ GetModel()->mtx = mtx; }

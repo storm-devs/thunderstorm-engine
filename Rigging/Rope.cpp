@@ -183,14 +183,14 @@ void ROPE::Realize(uint32_t Delta_Time)
 uint32_t _cdecl ROPE::ProcessMessage(MESSAGE & message)
 {
 	long code = message.Long();
-    ENTITY_ID tmp_id;
+    entid_t tmp_id;
 
 	switch (code)
     {
     case MSG_ROPE_INIT:
 		{
-			ENTITY_ID tmp_shipEI = message.EntityID();
-			ENTITY_ID tmp_modelEI = message.EntityID();
+			entid_t tmp_shipEI = message.EntityID();
+			entid_t tmp_modelEI = message.EntityID();
 			MODEL* mdl = (MODEL*)api->GetEntityPointer(&tmp_modelEI);
 			if( mdl== nullptr )
 			{
@@ -300,7 +300,7 @@ uint32_t _cdecl ROPE::ProcessMessage(MESSAGE & message)
                     rlist[i]->bDeleted=true;
                     bYesDeleted=true;
                     //rlist[i]->bUse=false;
-                    /*ENTITY_ID sailEI;
+                    /*entid_t sailEI;
                     if(api->FindClass(&sailEI,"sail",0))
                         if(rlist[i]->btie || rlist[i]->etie) // отвяжем парус от веревки
                             api->Send_Message(sailEI,"ll",MSG_SAIL_ROPE_UNTIE,rope_number);*/
@@ -661,7 +661,7 @@ void ROPE::AddLabel(GEOS::LABEL &lbl,NODE *nod, bool bDontSage)
 			rd->angRot=0.f;
 			rd->vDeep=0.f;
 
-			ENTITY_ID sailEI;
+			entid_t sailEI;
 			if(api->FindClass(&sailEI,"sail",0))
 			{
 				MODEL* mdl=(MODEL*)api->GetEntityPointer(&gdata[rd->HostGroup].modelEI);
@@ -687,7 +687,7 @@ void ROPE::AddLabel(GEOS::LABEL &lbl,NODE *nod, bool bDontSage)
 }
 
 // получить конечную точку веревки в координатах начальной точки
-void ROPE::GetEndPoint(CVECTOR* cv,int ropenum,ENTITY_ID &mdl_id)
+void ROPE::GetEndPoint(CVECTOR* cv,int ropenum,entid_t &mdl_id)
 {
     int rn;
 
@@ -1049,7 +1049,7 @@ void ROPE::DoSTORM_DELETE()
     bUse = ropeQuantity>0;
 }
 
-bool ROPE::IsAbsentRope(ENTITY_ID &mdl_id, int ropenum)
+bool ROPE::IsAbsentRope(entid_t &mdl_id, int ropenum)
 {
     bool retVal=true;
 
@@ -1070,7 +1070,7 @@ bool ROPE::IsAbsentRope(ENTITY_ID &mdl_id, int ropenum)
     return retVal;
 }
 
-void ROPE::DoDeleteUntie(ENTITY_ID &mdl_id, NODE *rnod, int gNum)
+void ROPE::DoDeleteUntie(entid_t &mdl_id, NODE *rnod, int gNum)
 {
 	int gn;
     for(gn=0; gn<groupQuantity; gn++)

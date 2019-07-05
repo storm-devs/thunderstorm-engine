@@ -36,7 +36,7 @@ void AISeaGoods::SetDevice()
 
 void AISeaGoods::Execute(uint32_t dwDeltaTime)
 {
-	ENTITY_ID	EID;
+	entid_t	EID;
 
 	float fDeltaTime = float(dwDeltaTime) * 0.001f;
 

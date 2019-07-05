@@ -56,7 +56,7 @@ long ModelArray::CreateModel(const char * modelName, const char * technique, lon
 		model.resize(maxModels);
 	}
 	//Создаём модельку
-	ENTITY_ID id,idModelRealizer;
+	entid_t id,idModelRealizer;
 	if(!api->CreateEntity(&id, "modelr")) return -1;
 	if(!api->CreateEntity(&idModelRealizer, "LocModelRealizer")) {api->DeleteEntity(id); return -1;}
 	api->Send_Message(idModelRealizer,"lil",1,id,(long)pLights);
@@ -192,13 +192,13 @@ long ModelArray::Models()
 }
 
 //Получение ID модели по индексу
-ENTITY_ID & ModelArray::ID(long modelIndex)
+entid_t & ModelArray::ID(long modelIndex)
 {
 	Assert(modelIndex >= 0 && modelIndex < numModels);
 	return model[modelIndex].id;
 }
 
-ENTITY_ID & ModelArray::RealizerID(long modelIndex)
+entid_t & ModelArray::RealizerID(long modelIndex)
 {
 	Assert(modelIndex >= 0 && modelIndex < numModels);
 	return model[modelIndex].modelrealizer;

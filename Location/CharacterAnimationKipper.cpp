@@ -40,7 +40,7 @@ CharacterAnimationKipper::~CharacterAnimationKipper()
 bool CharacterAnimationKipper::Init()
 {
 	//Проверим что единственные
-	ENTITY_ID eid;
+	entid_t eid;
 	if(api->FindClass(&eid, "CharacterAnimationKipper", 0))
 	{
 		if(api->GetEntityPointer(&eid) != this || api->FindClassNext(&eid))

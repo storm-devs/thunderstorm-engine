@@ -94,7 +94,7 @@ public:
 	//Добавить источник в локацию
 	void AddLight(long index, const CVECTOR & pos);
 	//Добавить модельку фонарей
-	bool AddLampModel(const ENTITY_ID & lampModel);
+	bool AddLampModel(const entid_t & lampModel);
 	//
 	void DelAllLights();
 
@@ -136,7 +136,7 @@ private:
 	std::vector<MovingLight> aMovingLight;
 
 	//Модельки фонарей
-	ENTITY_ID lampModels[16];
+	entid_t lampModels[16];
 	long numLampModels;
 
 	Vertex buf[6*1];

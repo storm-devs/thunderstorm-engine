@@ -106,7 +106,7 @@ bool SEA::SunRoad_Render2()
 
 		//rs->SetView(mView);
 
-		ENTITY_ID ent_id;
+		entid_t ent_id;
 		// Render scene here.
 		if (api->SetEntityScanLayer("sea_sunroad") && api->GetEntity(&ent_id))
 			do 
@@ -202,7 +202,7 @@ bool SEA::EnvMap_Render2()
 		//api->Trace("sea: %.3f, %.3f, %.3f", mView.m[3][0], mView.m[3][1], mView.m[3][2]);
 		//rs->SetView(mView);
 
-		ENTITY_ID ent_id;
+		entid_t ent_id;
 
 		// Render scene here.
 		if (api->SetEntityScanLayer("sea_reflection") && api->GetEntity(&ent_id)) do 
@@ -275,7 +275,7 @@ bool SEA::SunRoad_Render()
 
 		rs->SetView(mView);
 
-		ENTITY_ID ent_id;
+		entid_t ent_id;
 		// Render scene here.
 		if (api->SetEntityScanLayer("sea_sunroad") && api->GetEntity(&ent_id))
 			do 
@@ -331,7 +331,7 @@ bool SEA::EnvMap_Render()
 		//api->Trace("sea: %.3f, %.3f, %.3f", mView.m[3][0], mView.m[3][1], mView.m[3][2]);
 		rs->SetView(mView);
 
-		ENTITY_ID ent_id;
+		entid_t ent_id;
 
 		// Render scene here.
 		if (api->SetEntityScanLayer("sea_reflection") && api->GetEntity(&ent_id)) do 

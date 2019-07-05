@@ -14,7 +14,7 @@ uint32_t __cdecl _ShipSailState(VS_STACK * pS)
 	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
 
 	// find sail class
-	ENTITY_ID eid;
+	entid_t eid;
 	if( api->FindClass(&eid,"SAIL",0) || NetFindClass(true,&eid,"NetSail") )
 	{
 		long n = ((SAIL*)eid.pointer)->GetSailStateForCharacter(nChrIdx);
@@ -143,7 +143,7 @@ uint32_t __cdecl _RandomHole2Sail(VS_STACK * pS)
 	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
 
 	SAILONE_BASE * pSail = nullptr;
-	ENTITY_ID	ei;
+	entid_t	ei;
 	if( api->FindClass(&ei,"sail",0) || NetFindClass(true,&ei,"NetSail") )
 	{
 		pSail = ((SAIL_BASE*)api->GetEntityPointer(&ei))->FindSailForCharacter(_chrIdx, _reyName, _groupNum);
@@ -198,7 +198,7 @@ uint32_t __cdecl _DeleteOneSailHole(VS_STACK * pS)
 	sscanf(_groupName,"%d",&_groupNum);
 
 	SAILONE_BASE * pSail = nullptr;
-	ENTITY_ID	ei;
+	entid_t	ei;
 	if( api->FindClass(&ei,"sail",0) || NetFindClass(true,&ei,"NetSail") )
 	{
 		pSail = ((SAIL_BASE*)api->GetEntityPointer(&ei))->FindSailForCharacter(_chrIdx, _reyName, _groupNum);

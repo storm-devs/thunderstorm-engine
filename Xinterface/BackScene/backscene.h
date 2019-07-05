@@ -34,7 +34,7 @@ class InterfaceBackScene : public ENTITY
 		float fRangePeriod;
 
 		MODEL* pModel;
-		ENTITY_ID eiModel;
+		entid_t eiModel;
 
 		CVECTOR vLightPos;
 		NODE* pLightSrcNode;
@@ -56,9 +56,9 @@ public:
 protected:
 	VDX9RENDER* m_pRS;
 
-	ENTITY_ID m_eiModel;
+	entid_t m_eiModel;
 	MODEL* m_pModel;
-	ENTITY_ID m_eiLocators;
+	entid_t m_eiLocators;
 	MODEL* m_pLocators;
 
 	FXYPOINT m_pntOldMouse;
@@ -71,9 +71,9 @@ protected:
 	struct MenuDescr
 	{
 		bool bSelectable;
-		ENTITY_ID eiActive;
+		entid_t eiActive;
 		MODEL* pActive;
-		ENTITY_ID eiPassive;
+		entid_t eiPassive;
 		MODEL* pPassive;
 		std::string sEventName;
 
@@ -111,7 +111,7 @@ protected:
 
 	struct AniModelDescr
 	{
-		ENTITY_ID ei;
+		entid_t ei;
 		MODEL* pModel;
 
 		bool bUseTFactor;

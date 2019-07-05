@@ -70,7 +70,7 @@ public:
 		float say;						//Радиус на котором персонаж может сообщить соседним об опасности
 		long priority;					//Преоритет защиты
 		Relation * relations;			//Список отношений - размер соответствует индексу группы в списке
-		ENTITY_ID c[MAX_CHARACTERS];	//Список персонажей находящихся в группе
+		entid_t c[MAX_CHARACTERS];	//Список персонажей находящихся в группе
 		long numChr;					//Количество персонажей в группе
 	};
 
@@ -153,7 +153,7 @@ private:
 	void UnloadCharacter(MESSAGE & message);
 
 	//Исключить персонажа из всех групп
-	void RemoveCharacterFromAllGroups(ENTITY_ID * chr);
+	void RemoveCharacterFromAllGroups(entid_t * chr);
 public:
 	//Получить группу из сообщения
 	Group * GetGroup(MESSAGE & message, bool isRegistry = true);

@@ -49,8 +49,8 @@ class ModelArray
 
 	struct LocationModel
 	{
-		ENTITY_ID modelrealizer;		//Отрисовщик модели
-		ENTITY_ID id;					//Модель
+		entid_t modelrealizer;		//Отрисовщик модели
+		entid_t id;					//Модель
 		uint32_t hash;						//Хэшь значение для быстрого поиска
 		union
 		{
@@ -91,13 +91,13 @@ public:
 	//Количество моделий
 	long Models();
 	//Получение ID модели по индексу
-	ENTITY_ID & ID(long modelIndex);
+	entid_t & ID(long modelIndex);
 	//Получение модели по индексу
 	MODEL * operator [](long modelIndex);
 	//Получение анимации по индексу
 	Animation * GetAnimation(long modelIndex);
 	//Получение ID отрисовщика по индексу
-	ENTITY_ID & RealizerID(long modelIndex);
+	entid_t & RealizerID(long modelIndex);
 
 	//Установить модельке анимацию скольжения uv
 	void SetUVSlide(long modelIndex, float u0, float v0, float u1, float v1);

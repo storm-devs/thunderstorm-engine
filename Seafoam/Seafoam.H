@@ -57,10 +57,10 @@ private:
 	void CreateTracePoints(tShipFoamInfo *_shipFoamInfo);
 	void InterpolateLeftParticle(tShipFoamInfo &_shipFoamInfo, int z, uint32_t _dTime);
 	void InterpolateRightParticle(tShipFoamInfo &_shipFoamInfo, int z, uint32_t _dTime);
-	void AddShip(ENTITY_ID * pShipEID);
+	void AddShip(entid_t * pShipEID);
 
 	VDX9RENDER *renderer;
-	ENTITY_ID seaID;
+	entid_t seaID;
 	SEA_BASE *sea;
 	tShipFoamInfo shipFoamInfo[MAX_SHIPS]{};
 	int shipsCount;

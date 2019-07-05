@@ -1,8 +1,6 @@
 #pragma once
 #include <Windows.h>
-#include "entity.h"
 #include "vfile_service.h"
-#include "vidwalker.h"
 #include "controls.h"
 #include "s_import_func.h"
 #include <functional>

@@ -133,7 +133,7 @@ private:
 	DTimer			dtFireTime, dtCheckSituation, dtUpdateSeaAIAttributes;
 
 	std::string			sGroupName;
-	ENTITY_ID		eidShip;
+	entid_t		eidShip;
 
 	float fAbordageDistance, fFollowDistance, fAttackDistance;
 
@@ -203,8 +203,8 @@ public:
 		virtual float		GetMaxFireDistance() { return GetCannonController()->GetFireDistance(true); };
 		virtual float		GetMinFireDistance() { return GetCannonController()->GetFireDistance(false); };
 
-	// ENTITY_ID functions
-		ENTITY_ID		GetShipEID() const { return eidShip; };
+	// entid_t functions
+		entid_t		GetShipEID() const { return eidShip; };
 		ENTITY			* GetShipPointer() const { return api->GetEntityPointer(&GetShipEID()); };
 		SHIP_BASE		* GetShipBasePointer() const { return (SHIP_BASE*)GetShipPointer(); };
 		VAI_OBJBASE		* GetAIObjShipPointer() const { return (VAI_OBJBASE*)GetShipPointer(); };
@@ -212,7 +212,7 @@ public:
 	// inherit functions from VAI_OBJBASE
 		CMatrix		* GetMatrix()	const { return GetAIObjShipPointer()->GetMatrix(); };
 		MODEL		* GetModel()	const { return GetAIObjShipPointer()->GetModel(); };
-		ENTITY_ID	GetModelEID()	const { return GetAIObjShipPointer()->GetModelEID(); };
+		entid_t	GetModelEID()	const { return GetAIObjShipPointer()->GetModelEID(); };
 
 		CVECTOR		GetBoxsize()	const { return GetAIObjShipPointer()->GetBoxsize(); };
 		CVECTOR		GetPos()		const { return GetAIObjShipPointer()->GetPos(); };
@@ -234,7 +234,7 @@ public:
 		virtual ~AIShip();
 
 		void	Unload();
-		void	CreateShip(ENTITY_ID _eidShip, ATTRIBUTES * _pACharacter, ATTRIBUTES * _pAShip, CVECTOR * vInitPos);
+		void	CreateShip(entid_t _eidShip, ATTRIBUTES * _pACharacter, ATTRIBUTES * _pAShip, CVECTOR * vInitPos);
 		void	CheckStartPosition();
 		bool	isCanPlace(CVECTOR vNewPos) const;
 

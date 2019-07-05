@@ -173,7 +173,7 @@ uint32_t __cdecl slNativeFindLaodLocation(VS_STACK * pS)
 	VDATA * pReturn = (VDATA*)pS->Push();
 	if (!pReturn) return IFUNCRESULT_FAILED;
 	//Èùèì ëîêàöèş
-	ENTITY_ID loc;
+	entid_t loc;
 	if(!api->FindClass(&loc, "Location", 0))
 	{
 		pReturn->Set(-1L);

@@ -208,8 +208,8 @@ private:
 	static void GetPointFromIni( INIFILE* ini, const char* pcSection, const char* pcKey, FPOINT& fpoint );
 
 	VSoundService *snd;
-	ENTITY_ID charId, persId;
-	ENTITY_ID charMdl, persMdl;
+	entid_t charId, persId;
+	entid_t charMdl, persMdl;
 	D3DVIEWPORT9 textViewport;
 
 	long curSnd;

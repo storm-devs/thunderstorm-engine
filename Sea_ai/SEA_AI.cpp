@@ -104,7 +104,7 @@ uint32_t _cdecl SEA_AI::ProcessMessage(MESSAGE & message)
 		break;
 		case AI_MESSAGE_ADD_SHIP:
 		{
-			ENTITY_ID  eidShip = message.EntityID();
+			entid_t  eidShip = message.EntityID();
 			ATTRIBUTES * pACharacter = message.AttributePointer();
 			ATTRIBUTES * pAShip = message.AttributePointer();
 			AddShip(eidShip, pACharacter, pAShip);
@@ -372,7 +372,7 @@ void SEA_AI::Save(const char * pStr)
 	SL.CreateWrite();
 
 	Helper.Save(&SL);
-	ENTITY_ID eidCamera;
+	entid_t eidCamera;
 	api->FindClass(&eidCamera, "SEA_CAMERAS", 0);
 	api->Send_Message(eidCamera, "lp", AI_MESSAGE_SEASAVE, &SL);
 
@@ -393,7 +393,7 @@ void SEA_AI::Load(const char * pStr)
 	SL.CreateLoad();
 
 	Helper.Load(&SL);
-	ENTITY_ID eidCamera;
+	entid_t eidCamera;
 	api->FindClass(&eidCamera, "SEA_CAMERAS", 0);
 	api->Send_Message(eidCamera, "lp", AI_MESSAGE_SEALOAD, &SL);
 
@@ -430,7 +430,7 @@ uint32_t SEA_AI::AttributeChanged(ATTRIBUTES * pAttribute)
 	return 0;
 }
 
-void SEA_AI::AddShip(ENTITY_ID eidShip, ATTRIBUTES * pCharacter, ATTRIBUTES * pAShip)
+void SEA_AI::AddShip(entid_t eidShip, ATTRIBUTES * pCharacter, ATTRIBUTES * pAShip)
 {
 	Assert(pCharacter && pAShip);
 	ATTRIBUTES * pG = pCharacter->FindAClass(pCharacter,"SeaAI.Group");	Assert(pG);

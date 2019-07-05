@@ -696,7 +696,7 @@ void ShipWalk::CreateNewMan(SailorsPoints &sailorsPoints)
 
 	if (crewCount >= 50 || !sailorsPoints.points.count) return;
 
-	ENTITY_ID manID;
+	entid_t manID;
 	shipMan.push_back(ShipMan{});
 
 	int current = shipMan.size()- 1;
@@ -760,7 +760,7 @@ void ShipWalk::DeleteMan(int Index)
 	//UN//GUARD_SAILORS
 };
 //------------------------------------------------------------------------------------
-void ShipWalk::Init(ENTITY_ID &_shipID, int editorMode, char *shipType)
+void ShipWalk::Init(entid_t &_shipID, int editorMode, char *shipType)
 {
 	//GUARD_SAILORS(ShipWalk::Init())
 
@@ -768,7 +768,7 @@ void ShipWalk::Init(ENTITY_ID &_shipID, int editorMode, char *shipType)
 	bHide = false;
 	shipID = _shipID;
 
-	ENTITY_ID seaID;
+	entid_t seaID;
 	api->FindClass(&seaID, "sea", 0);
 	shipState.sea = (SEA_BASE*) api->GetEntityPointer(&seaID);
 
@@ -1118,7 +1118,7 @@ uint32_t Sailors :: ProcessMessage(MESSAGE &message)
 
 	long code = message.Long();
 	uint32_t outValue = 0;
-	ENTITY_ID shipID;
+	entid_t shipID;
 	char c[20];
 
 	switch (code)

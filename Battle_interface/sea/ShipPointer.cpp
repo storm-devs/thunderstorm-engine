@@ -151,7 +151,7 @@ VAI_OBJBASE * SHIPPOINTER::FindShipByChrIndex(long chrIdx)
 {
 	if(chrIdx==-1)	return nullptr;
 
-	ENTITY_ID ei;
+	entid_t ei;
 	if( api->FindClass(&ei,"ship",0) ) do
 	{
 		VAI_OBJBASE * ps = (VAI_OBJBASE*)api->GetEntityPointer(&ei);

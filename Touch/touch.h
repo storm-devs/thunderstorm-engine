@@ -17,7 +17,7 @@ typedef struct
 
 struct TOUCH_SHIP
 {
-	ENTITY_ID		eID;					// ship id
+	entid_t		eID;					// ship id
 	CVECTOR			vContourTemp[2][128];	// temporary storage / must be deleted
 	TOUCH_PARAMS	TP[2];					// touch params	for collision
 	SHIP_BASE		*pShip;					// ship pointer

@@ -20,9 +20,9 @@ class SailorsEditor : public ENTITY
 
 
 	VDX9RENDER * rs;
-	ENTITY_ID sailors;
-	ENTITY_ID shipID;
-	ENTITY_ID pointID;
+	entid_t sailors;
+	entid_t shipID;
+	entid_t pointID;
 
 
 	MODEL * model;

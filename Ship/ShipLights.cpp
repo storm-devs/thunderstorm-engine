@@ -36,7 +36,7 @@ ShipLights::~ShipLights()
 
 bool ShipLights::Init()
 {
-	ENTITY_ID sea_id;
+	entid_t sea_id;
 
 	pRS = (VDX9RENDER *)api->CreateService("dx9render");	Assert(pRS);
 	pCollide = (COLLIDE *)api->CreateService("coll");		Assert(pCollide);

@@ -290,7 +290,7 @@ void DECK_CAMERA::Move(uint32_t DeltaTime)
 
 void DECK_CAMERA::SetCharacter(ATTRIBUTES *_pACharacter)
 {
-	ENTITY_ID eidTemp;
+	entid_t eidTemp;
 
 	pACharacter = _pACharacter;
 }

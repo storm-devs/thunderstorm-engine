@@ -90,7 +90,7 @@ void Astronomy::PLANETS::Realize(double dDeltaTime, double dHour)
 	{
 		if(	(fFadeTime>0.f && fPlanetFade<1.f) || (fFadeTime<0.f && fPlanetFade>0.f) )
 		{
-			ENTITY_ID eid;
+			entid_t eid;
 			if( api->FindClass( &eid, "Weather", 0) )
 			{
 				float fTime = ((WEATHER_BASE*)eid.pointer)->GetFloat(whf_time_counter);

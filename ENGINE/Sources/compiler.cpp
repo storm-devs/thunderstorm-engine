@@ -3693,7 +3693,7 @@ bool COMPILER::BC_Execute(uint32_t function_code, DATA * & pVReturnResult, char 
 //	long array_index;
 //	DATA * pRef;
 	DATA * pVar;
-	ENTITY_ID eid;
+	entid_t eid;
 //	ATTRIBUTES * pRoot;
 	ATTRIBUTES * pLeftOperandAClass;
 	bool bDebugWaitForThisFunc;
@@ -5680,7 +5680,7 @@ bool COMPILER::ReadVariable(char * name,/* DWORD code,*/ bool bDim, uint32_t a_i
 	VARINFO viRef;
 	DATA * pV;
 	DATA * pVRef;
-	ENTITY_ID eid;
+	entid_t eid;
 	uint32_t var_code;
 	bool bSkipVariable;
 
@@ -5848,7 +5848,7 @@ void COMPILER::SaveVariable(DATA * pV, bool bdim)
 	uint32_t  n;
 	ATTRIBUTES * pA;
 	S_TOKEN_TYPE eType;
-	ENTITY_ID eid;
+	entid_t eid;
 
 	if(pV == nullptr)
 	{

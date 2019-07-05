@@ -25,7 +25,7 @@ protected:
 
 	uint32_t	m_dwColor;
 	FXYRECT	m_rectTex;
-	ENTITY_ID m_eiVideo;
+	entid_t m_eiVideo;
 };
 
 #endif

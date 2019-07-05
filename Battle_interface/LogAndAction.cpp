@@ -3,7 +3,7 @@
 #include "../Shared/battle_interface/log_msg.h"
 #include "LogAndAction.h"
 
-static ENTITY_ID g_ILogAndActions;
+static entid_t g_ILogAndActions;
 
 #define BI_FAST_COMMANDS	"BIFastCommand"
 

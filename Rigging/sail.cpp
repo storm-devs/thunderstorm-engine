@@ -241,7 +241,7 @@ void SAIL::Execute(uint32_t Delta_Time)
 				NODE* nod = pTmpMdl->FindNode(pcTmpMastName);
 				if(nod)
 				{
-					ENTITY_ID eiMastTmp;
+					entid_t eiMastTmp;
 					if( api->CreateEntity( &eiMastTmp, "MAST" ) )
 					{
 						api->Send_Message( eiMastTmp, "lpii", MSG_MAST_SETGEOMETRY, nod, gdata[0].shipEI, gdata[0].modelEI );
@@ -312,7 +312,7 @@ void SAIL::Execute(uint32_t Delta_Time)
 	    }
 
         // получим значение ветра
-        ENTITY_ID ei;
+        entid_t ei;
         if( api->FindClass(&ei,"weather",0) )
         {
             WEATHER_BASE *wb = (WEATHER_BASE*)api->GetEntityPointer(&ei);
@@ -555,7 +555,7 @@ void SAIL::Realize(uint32_t Delta_Time)
 uint32_t _cdecl SAIL::ProcessMessage(MESSAGE & message)
 {
     //GUARD(uint32_t _cdecl SAIL::ProcessMessage(MESSAGE message))
-    ENTITY_ID tmpEI;
+    entid_t tmpEI;
     int i;
 
 	switch (message.Long())
@@ -812,7 +812,7 @@ uint32_t _cdecl SAIL::ProcessMessage(MESSAGE & message)
 
     case MSG_SAIL_GET_PARAMS: // "lip"
         {
-            ENTITY_ID shipEI = message.EntityID();
+            entid_t shipEI = message.EntityID();
             float *pMaxSpeed = (float*)message.Pointer();
             // найдем нужную группу парусов
 			int gn;
@@ -829,20 +829,20 @@ uint32_t _cdecl SAIL::ProcessMessage(MESSAGE & message)
     // перебросить парус в другую группу
     case MSG_SAIL_TO_NEWHOST:
 		{
-			ENTITY_ID oldModelEI = message.EntityID();
+			entid_t oldModelEI = message.EntityID();
 			NODE * nod = (NODE*)message.Pointer();
 			long groupNum = message.Long();
-			ENTITY_ID newHostEI = message.EntityID();
-			ENTITY_ID newModelEI = message.EntityID();
+			entid_t newHostEI = message.EntityID();
+			entid_t newModelEI = message.EntityID();
 			DoSailToNewHost(newModelEI, newHostEI, groupNum,
 							nod, oldModelEI);
 		}
     break;
     case MSG_SAIL_CHECK:
 		{
-			ENTITY_ID oldHostEI = message.EntityID();
-			ENTITY_ID newHostEI = message.EntityID();
-			ENTITY_ID newModelEI = message.EntityID();
+			entid_t oldHostEI = message.EntityID();
+			entid_t newHostEI = message.EntityID();
+			entid_t newModelEI = message.EntityID();
 			DoNoRopeSailToNewHost(newModelEI, newHostEI, oldHostEI);
 		}
     break;
@@ -1412,7 +1412,7 @@ void SAIL::FirstRun()
     if(wFirstIndx)       SetAddSails(wFirstIndx);
     else       SetAllSails();
 
-    ENTITY_ID ropeEI;
+    entid_t ropeEI;
     if(api->FindClass(&ropeEI,"rope",0))
     // расчет позиции согласно положения веревок
     for(sn=wFirstIndx; sn<sailQuantity; sn++)
@@ -1499,7 +1499,7 @@ float SAIL::Cannon_Trace(long iBallOwner, const CVECTOR &src,const CVECTOR &dst)
     return retVal;
 }
 
-void SAIL::DoSailToNewHost(ENTITY_ID newModelEI, ENTITY_ID newHostEI, int grNum, NODE *nod, ENTITY_ID oldModelEI)
+void SAIL::DoSailToNewHost(entid_t newModelEI, entid_t newHostEI, int grNum, NODE *nod, entid_t oldModelEI)
 {
     if(groupQuantity<1 || sailQuantity<1) return;
 
@@ -1759,9 +1759,9 @@ void SAIL::SetAddSails(int firstSail)
         throw std::exception("Vertex buffer error");
 }
 
-void SAIL::DoNoRopeSailToNewHost(ENTITY_ID newModel, ENTITY_ID newHost, ENTITY_ID oldHost)
+void SAIL::DoNoRopeSailToNewHost(entid_t newModel, entid_t newHost, entid_t oldHost)
 {
-    ENTITY_ID rope_id;
+    entid_t rope_id;
     if( !api->FindClass(&rope_id,"rope",0) ) return; // нет веревок нет концерта
     ROPE_BASE *rb = (ROPE_BASE*)api->GetEntityPointer(&rope_id);
     if(rb== nullptr) return;

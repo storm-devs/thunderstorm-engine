@@ -60,9 +60,9 @@ struct ship_point_t
 
 	float			fRockingY, fRockingAZ;
 
-// entity_id section
-	ENTITY_ID		model_id, sphere[36];
-	ENTITY_ID		sail_id, rope_id, flag_id, cannon_id,
+// entid_t section
+	entid_t		model_id, sphere[36];
+	entid_t		sail_id, rope_id, flag_id, cannon_id,
 					vant_id, touch_id, sea_id, blots_id;
 
 	static VDX9RENDER		* pRS;
@@ -201,7 +201,7 @@ public:
 	CMatrix *	GetMatrix();
 	void		SetMatrix(CMatrix & mtx);
 	MODEL *		GetModel();
-	ENTITY_ID	GetModelEID();
+	entid_t	GetModelEID();
 	CVECTOR		GetPos();
 	CVECTOR		GetAng();
 	CVECTOR		GetBoxsize();

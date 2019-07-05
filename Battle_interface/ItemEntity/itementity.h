@@ -27,23 +27,23 @@ protected:
 
 	void SetModelToPosition(const CMatrix& mtx);
 	void SetTechnique( const char* pcTechnique );
-	bool TieToLocator(ENTITY_ID& mdlEID, const char* pcLocName);
+	bool TieToLocator(entid_t& mdlEID, const char* pcLocName);
 	void UnTieFromLocator();
 	void EndEventProcess();
 
 	void DrawIntoLocator();
 
-	void SetEventListener(ENTITY_ID& mdlEID, ENTITY_ID& mdlToTieEID,const char* pcLocName, const char* pcStartEvent,const char* pcEndEvent);
-	ENTITY_ID GetModelEIDFromCharacterEID(ENTITY_ID& chrEID);
+	void SetEventListener(entid_t& mdlEID, entid_t& mdlToTieEID,const char* pcLocName, const char* pcStartEvent,const char* pcEndEvent);
+	entid_t GetModelEIDFromCharacterEID(entid_t& chrEID);
 
 protected: // data
 	bool m_bVisible;
-	ENTITY_ID m_eidModel;
+	entid_t m_eidModel;
 	MODEL* m_pModel;
 	CMatrix m_mtxpos;
 
 	bool m_bTieToLocator;
-	ENTITY_ID m_eidTieModel;
+	entid_t m_eidTieModel;
 	NODE* m_pMdlNode;
 	std::string m_sTieLocName;
 
@@ -57,8 +57,8 @@ protected: // data
 		std::string m_sStartEvent;
 		std::string m_sEndEvent;
 		bool m_bStartWaiting;
-		ENTITY_ID m_eidListenedModel;
-		ENTITY_ID m_eidToTieModel;
+		entid_t m_eidListenedModel;
+		entid_t m_eidToTieModel;
 		std::string m_sToTieLocator;
 	};
 	friend EventListener;

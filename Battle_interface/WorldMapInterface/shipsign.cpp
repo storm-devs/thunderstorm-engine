@@ -1,7 +1,7 @@
 #include "shipsign.h"
 #include "../Utils.h"
 
-WMShipIcon::WMShipIcon( ENTITY_ID& BIEntityID, VDX9RENDER* pRS ) :
+WMShipIcon::WMShipIcon( entid_t& BIEntityID, VDX9RENDER* pRS ) :
 	BISignIcon(BIEntityID, pRS)
 {
 }

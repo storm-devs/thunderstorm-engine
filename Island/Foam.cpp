@@ -76,7 +76,7 @@ void CoastFoam::Realize(uint32_t Delta_Time)
 {
 	pFrustumPlanes = rs->GetPlanes();
 
-	ENTITY_ID sea_id;
+	entid_t sea_id;
 	if (!pSea && api->FindClass(&sea_id, "sea", 0)) 
 	{
 		pSea = (SEA_BASE*)api->GetEntityPointer(&sea_id);

@@ -567,7 +567,7 @@ protected:
 	float camRotMax;				//Максимальное время поворота
 	float strafeAngle;				//Угол стрейфа
 	float strafeVel;				//Стрейф на месте
-	ENTITY_ID enemyAttack;			//На кого ориентируемся во время атаки
+	entid_t enemyAttack;			//На кого ориентируемся во время атаки
 
 	//Таблица возможности смены одного действия другим
 	static uint8_t fightTbl[fgt_max][fgt_max];
@@ -586,25 +586,25 @@ protected:
 
 
 	//Моделька персонажа
-	ENTITY_ID mdl;
+	entid_t mdl;
 	//Тень
-	ENTITY_ID shadow;
+	entid_t shadow;
 	//Сабля
-	ENTITY_ID blade;
+	entid_t blade;
 	bool isBladeSet;
 	bool isGunSet;
 	//Море
-	ENTITY_ID sea;
+	entid_t sea;
 
-	ENTITY_ID effects;
+	entid_t effects;
 	//Моделька привязанного знака
-	ENTITY_ID sign;
+	entid_t sign;
 	std::string signName;
 	std::string signTechniqueName;
 
 
 	//Круги на воде
-	ENTITY_ID waterrings;
+	entid_t waterrings;
 	float stepsRate;
 
 	//Если установлен, то не удаляться из supervisor
@@ -651,7 +651,7 @@ public:
 	//Информация для групп
 	struct GrpTarget
 	{
-		ENTITY_ID chr;		//Идентификатор цели
+		entid_t chr;		//Идентификатор цели
 		float time;			//Время потери цели из виду
 		float timemax;		//Максимальное время удержания цели
 	};

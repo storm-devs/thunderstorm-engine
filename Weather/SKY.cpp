@@ -301,7 +301,7 @@ void SKY::Realize(uint32_t Delta_Time)
 
 		if( Delta_Time != 0 )
 		{
-			ENTITY_ID eid;
+			entid_t eid;
 
 			if( !pAstronomy )
 				if( api->FindClass(&eid,"Astronomy",0) )
@@ -433,7 +433,7 @@ void SKY::UpdateTimeFactor()
 	long nPrev = (long)fTimeFactor;
 
 	//fTimeFactor += api->GetDeltaTime() * 0.00005f;
-	ENTITY_ID eid;
+	entid_t eid;
 	if( !api->FindClass( &eid, "Weather", 0 ) ) return;
 	fTimeFactor = ((WEATHER_BASE*)eid.pointer)->GetFloat(whf_time_counter);
 	fTimeFactor *= (1.f / 24.f) * aSkyDirArray.size();

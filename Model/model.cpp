@@ -338,7 +338,7 @@ uint32_t _cdecl MODELR::ProcessMessage(MESSAGE &message)
 		break;
 		case MSG_MODEL_SET_PARENT:
 		{
-			/*ENTITY_ID ParentID = message.EntityID();
+			/*entid_t ParentID = message.EntityID();
 			if (api->ValidateEntity(&ParentID))
 			{
 				parent = (MODEL*)ParentID.pointer;

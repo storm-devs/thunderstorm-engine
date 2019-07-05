@@ -21,7 +21,7 @@ public:
 		Command_ForceDword = 0xffffffff
 	};
 
-	BISignIcon( ENTITY_ID& BIEntityID, VDX9RENDER* pRS );
+	BISignIcon( entid_t& BIEntityID, VDX9RENDER* pRS );
 	virtual ~BISignIcon();
 
 	virtual void Draw();
@@ -93,7 +93,7 @@ protected:
 
 	ATTRIBUTES* m_pARoot;
 	ATTRIBUTES* m_pAData;
-	ENTITY_ID m_idHostEntity;
+	entid_t m_idHostEntity;
 
 	struct SignDescr
 	{

@@ -62,7 +62,7 @@ protected:
 
 	std::vector<BloodInfo> aBlood;
 
-	std::vector<ENTITY_ID> aModels;
+	std::vector<entid_t> aModels;
 
 	static ClipTriangle clipT[MAX_CLIPPING_TRIANGLES];
 	static long nClipTQ;

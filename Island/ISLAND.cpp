@@ -229,7 +229,7 @@ bool ISLAND::GetDepth(FRECT * pRect, float * fMinH, float * fMaxH)
 
 uint32_t _cdecl ISLAND::ProcessMessage(MESSAGE & message)
 {
-	ENTITY_ID	eID;
+	entid_t	eID;
 	char		str[256], idstr[256];
 	switch (message.Long())
 	{
@@ -283,7 +283,7 @@ bool ISLAND::GetShadow(float x, float z, float * fRes)
 	return true;
 }
 
-void ISLAND::AddLocationModel(ENTITY_ID & eid, char * pIDStr, char * pDir)
+void ISLAND::AddLocationModel(entid_t & eid, char * pIDStr, char * pDir)
 {
 	Assert(pDir && pIDStr);
 	bForeignModels = true;
@@ -398,7 +398,7 @@ bool ISLAND::ActivateCamomileTrace(CVECTOR & vSrc)
 void ISLAND::CalcBoxParameters(CVECTOR & _vBoxCenter, CVECTOR & _vBoxSize)
 {
 	GEOS::INFO	ginfo;
-	ENTITY_ID	* pEID;
+	entid_t	* pEID;
 	float		x1 = 1e+8f, x2 = -1e+8f, z1 = 1e+8f, z2 = -1e+8f;
 	
 	pEID = pIslandTraceWalker->GetID();
@@ -452,7 +452,7 @@ bool ISLAND::CreateShadowMap(char * pDir, char * pName)
 {
 	std::string	sDir;
 	
-	ENTITY_ID		ent;
+	entid_t		ent;
 	WEATHER_BASE	* pWeather;
 	if (!api->FindClass(&ent, "Weather",0)) throw std::exception("No found WEATHER entity!");
 	pWeather = (WEATHER_BASE*)api->GetEntityPointer(&ent); Assert(pWeather);
@@ -775,9 +775,9 @@ bool ISLAND::SaveTga8(char * fname, uint8_t * pBuffer, uint32_t dwSizeX, uint32_
 	return true;
 }
 
-bool ISLAND::Mount(char * fname, char * fdir, ENTITY_ID * eID)
+bool ISLAND::Mount(char * fname, char * fdir, entid_t * eID)
 {
-	ENTITY_ID	lighter_id;
+	entid_t	lighter_id;
 	//std::string		sRealFileName;
 	std::string		sModelPath, sLightPath;
 
@@ -830,7 +830,7 @@ bool ISLAND::Mount(char * fname, char * fdir, ENTITY_ID * eID)
 
 	/*for (uint32_t i=0;i<AIPath.GetNumPoints();i++)
 	{
-		ENTITY_ID eid;
+		entid_t eid;
 		api->CreateEntity(&eid,"MODELR");
 		api->Send_Message(eid,"ls",MSG_MODEL_LOAD_GEO,"mirror");
 		api->LayerAdd("sea_realize",eid,10000);

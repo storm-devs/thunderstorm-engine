@@ -10,7 +10,7 @@ class CameraDialog : public ENTITY
 	COLLIDE *col;
 	CVECTOR pos, ang;
 	float fov;
-	ENTITY_ID person, personId;
+	entid_t person, personId;
 
 	float time;
 	struct ANIFRAME

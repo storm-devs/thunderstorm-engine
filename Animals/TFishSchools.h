@@ -41,7 +41,7 @@ private:
 	void LoadSettings();
 
 	VDX9RENDER *renderService;
-	ENTITY_ID  fishSchoolModel;
+	entid_t  fishSchoolModel;
 	TFishSchool *fishSchools[FISHSCHOOL_COUNT];
 	long shipsCount;
 	long fishSchoolsCount;
@@ -50,7 +50,7 @@ private:
 	float maxDistance;
 	
 	bool enabled;
-	ENTITY_ID seaID;
+	entid_t seaID;
 	SEA_BASE *sea;
 };
 

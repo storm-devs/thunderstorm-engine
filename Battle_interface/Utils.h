@@ -110,7 +110,7 @@ public: // functions
 	//---------------------------------------
 	//---------------------------------------
 public: // data
-	static ENTITY_ID idBattleInterface;
+	static entid_t idBattleInterface;
 	static uint32_t g_dwBlinkColor;
 	//---------------------------------------
 };

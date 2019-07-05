@@ -56,7 +56,7 @@ protected:
 	float speed;
 private:
 	Location * location;
-	ENTITY_ID model;
+	entid_t model;
 	long node;
 	float ay;
 	CVECTOR pos;

@@ -8,7 +8,7 @@ class Lights;
 
 class LocModelRealizer : public ENTITY
 {
-	ENTITY_ID eid_model;
+	entid_t eid_model;
 	Lights* lights;
 	VDX9RENDER* rs;
 	VGEOMETRY* gs;

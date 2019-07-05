@@ -12,7 +12,7 @@ private:
 
 	float			fPerspective;
 
-	ENTITY_ID		eidObject;
+	entid_t		eidObject;
 	VAI_OBJBASE		* pAIObj;
 
 protected:
@@ -22,7 +22,7 @@ public:
 	bool FindShip()
 	{
 		Assert(pACharacter);
-		ENTITY_ID eidTemp;
+		entid_t eidTemp;
 		// get entity id from loaded ships
 		if (api->FindClass(&eidTemp,"ship",0)) do
 		{
@@ -45,8 +45,8 @@ public:
 	}
 	void		SetAIObj(VAI_OBJBASE * _pAIObj) { pAIObj = _pAIObj; }
 	VAI_OBJBASE * GetAIObj() { return pAIObj; }
-	void		SetEID(ENTITY_ID *pEID) { eidObject = *pEID; };
-	ENTITY_ID	GetEID() { return eidObject; };
+	void		SetEID(entid_t *pEID) { eidObject = *pEID; };
+	entid_t	GetEID() { return eidObject; };
 	
 	virtual void SetCharacter(ATTRIBUTES *_pACharacter) { pACharacter = _pACharacter; };
 

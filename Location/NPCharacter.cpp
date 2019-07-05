@@ -411,7 +411,7 @@ bool NPCharacter::SetNewTask(NPCTask tsk, MESSAGE & message)
 	return false;
 }
 
-bool NPCharacter::InitFollowChartacter(ENTITY_ID & eid)
+bool NPCharacter::InitFollowChartacter(entid_t & eid)
 {
 	task.target = eid;
 	Character * c = (Character *)api->GetEntityPointer(&eid);
@@ -423,7 +423,7 @@ bool NPCharacter::InitFollowChartacter(ENTITY_ID & eid)
 	return true;
 }
 
-bool NPCharacter::InitFightChartacter(ENTITY_ID & eid)
+bool NPCharacter::InitFightChartacter(entid_t & eid)
 {
 	enemyFgtType = fgt_none;
 	isFgtChanged = false;

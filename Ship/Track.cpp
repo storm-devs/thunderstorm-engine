@@ -22,7 +22,7 @@ ShipTracks::~ShipTracks()
 
 bool ShipTracks::Init()
 {
-	ENTITY_ID sea_id;
+	entid_t sea_id;
 
 	ShipTrack::pRS = (VDX9RENDER *)api->CreateService("dx9render");	Assert(ShipTrack::pRS);
 	if (api->FindClass(&sea_id, "sea", 0)) ShipTrack::pSea = (SEA_BASE*)api->GetEntityPointer(&sea_id);

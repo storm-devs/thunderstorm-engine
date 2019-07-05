@@ -40,10 +40,10 @@ class ISLAND : public ISLAND_BASE
 {
 private:
 	std::string				sIslandName;
-	std::vector<ENTITY_ID>	aSpheres;
-	std::vector<ENTITY_ID>	aForts;
+	std::vector<entid_t>	aSpheres;
+	std::vector<entid_t>	aForts;
 	AIFlowGraph			AIPath;
-	ENTITY_ID			AIFortEID;
+	entid_t			AIFortEID;
 
 	FRECT				rIsland;
 	bool				bForeignModels;
@@ -52,7 +52,7 @@ private:
 	float				fShadowMapSize, fShadowMapStep;
 	CVECTOR				vBoxSize, vBoxCenter, vRealBoxSize;
 	uint32_t				iDMapSize, iDMapSizeShift;
-	ENTITY_ID			model_id, seabed_id;
+	entid_t			model_id, seabed_id;
 
 	bool				bFirstRealize;
 
@@ -87,7 +87,7 @@ private:
 	inline float	GetDepthCheck(uint32_t iX, uint32_t iZ);
 	inline float	GetDepthNoCheck(uint32_t iX, uint32_t iZ);
 
-	bool	Mount(char *fname, char * fdir, ENTITY_ID *eID);
+	bool	Mount(char *fname, char * fdir, entid_t *eID);
 	void	Uninit();
 
 	void	CalcBoxParameters(CVECTOR & vBoxCenter, CVECTOR & vBoxSize);
@@ -97,7 +97,7 @@ private:
 	void	SetName(char * pIslandName) { sIslandName = pIslandName; };
 	char	* GetName() { return (char*)sIslandName.c_str(); };
 
-	void	AddLocationModel(ENTITY_ID & eid, char * pIDStr, char * pStr);
+	void	AddLocationModel(entid_t & eid, char * pIDStr, char * pStr);
 
 	// debug
 	void	DoZapSuperGenerator();
@@ -127,8 +127,8 @@ public:
 // inherit functions ISLAND_BASE
 	bool		GetMovePoint(CVECTOR & vSrc, CVECTOR & vDst, CVECTOR & vRes);
 
-	ENTITY_ID	GetModelEID() { return model_id; };
-	ENTITY_ID	GetSeabedEID() { return seabed_id; };
+	entid_t	GetModelEID() { return model_id; };
+	entid_t	GetSeabedEID() { return seabed_id; };
 
 	bool		Check2DBoxDepth(CVECTOR vPos, CVECTOR vSize, float fAngY, float fMinDepth);
 	bool		GetDepth(float x, float z, float * fRes = nullptr);

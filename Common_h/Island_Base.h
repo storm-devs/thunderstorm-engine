@@ -7,7 +7,7 @@
 class ISLAND_BASE : public CANNON_TRACE_BASE
 {
 public:
-	virtual ENTITY_ID GetModelEID() = 0;
+	virtual entid_t GetModelEID() = 0;
 
 	virtual bool Check2DBoxDepth(CVECTOR vPos, CVECTOR vSize, float fAngY, float fMinDepth) = 0;
 	virtual bool GetDepth(float x, float z, float * fRes = nullptr) = 0;
@@ -18,7 +18,7 @@ public:
 
 	virtual bool GetMovePoint(CVECTOR & vSrc, CVECTOR & vDst, CVECTOR & vRes) = 0;
 
-	virtual ENTITY_ID GetSeabedEID() = 0;
+	virtual entid_t GetSeabedEID() = 0;
 
 	virtual float GetCurrentImmersion() = 0;
 };

@@ -28,7 +28,7 @@ bool BALLSPLASH::Init()
 {
 	//GUARD(BALLSPLASH::Init)
 
-	ENTITY_ID seaID;
+	entid_t seaID;
 	api->FindClass(&seaID, "sea", 0);
 	sea = (SEA_BASE*) api->GetEntityPointer(&seaID);
 

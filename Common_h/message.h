@@ -1,7 +1,7 @@
 #ifndef _MESSAGE_H_
 #define _MESSAGE_H_
 
-#include "entity_id.h"
+#include "entid_t.h"
 #include "Cvector.h"
 #include "vdata.h"
 #
@@ -19,7 +19,7 @@ protected:
 	va_list args_start;
 	
 public:
-	ENTITY_ID Sender_ID;
+	entid_t Sender_ID;
 	va_list args;
 	virtual void Move2Start() {args = args_start;index = 0;};
 	virtual uint8_t Byte()			{ ValidateFormat('b'); return va_arg(args,uint8_t); }

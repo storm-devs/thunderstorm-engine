@@ -238,7 +238,7 @@ uint32_t _cdecl VANT::ProcessMessage(MESSAGE & message)
 
     case MSG_VANT_DEL_GROUP:
 		{
-			ENTITY_ID tmp_id=message.EntityID();
+			entid_t tmp_id=message.EntityID();
 			for(int i=0; i<groupQuantity; i++)
 				if(gdata[i].model_id==tmp_id)
 				{
@@ -251,7 +251,7 @@ uint32_t _cdecl VANT::ProcessMessage(MESSAGE & message)
 
 	case MSG_VANT_DEL_MAST:
 		{
-			ENTITY_ID tmp_id = message.EntityID();
+			entid_t tmp_id = message.EntityID();
 			NODE * mastNode = (NODE*)message.Pointer();
 			if(mastNode== nullptr) break;
 			for(int i=0; i<groupQuantity; i++)

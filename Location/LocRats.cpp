@@ -31,7 +31,7 @@ LocRats::~LocRats()
 bool LocRats::Init()
 {
 	//”казатель на локацию
-	ENTITY_ID loc;
+	entid_t loc;
 	api->FindClass(&loc, "location", 0);
 	Location * location = (Location *)api->GetEntityPointer(&loc);
 	if(!location) return false;
@@ -49,7 +49,7 @@ uint32_t _cdecl LocRats::ProcessMessage(MESSAGE & message)
 	if(num < 1) num = 1;
 	if(num > sizeof(rat)/sizeof(LocRat)) num = sizeof(rat)/sizeof(LocRat);
 	//”казатель на локацию
-	ENTITY_ID loc;
+	entid_t loc;
 	api->FindClass(&loc, "location", 0);
 	Location * location = (Location *)api->GetEntityPointer(&loc);
 	if(!location) return 0;

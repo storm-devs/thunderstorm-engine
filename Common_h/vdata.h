@@ -2,8 +2,8 @@
 #define _VDATA_H_
 
 //#include "token.h"
-#include "entity_id.h"
 #include "attributes.h"
+#include "defines.h"
 
 class DATA;
 
@@ -34,10 +34,8 @@ public:
 	virtual bool Get(char * & value, uint32_t index)=0;
 	virtual bool Set(char * attribute_name, char * attribute_value, uint32_t index)=0;
 	virtual bool Get(char * attribute_name, char * & value, uint32_t index)=0;
-	virtual void Set(ENTITY_ID eid)=0;
-	virtual void Get(ENTITY_ID & eid)=0;
-	virtual bool Set(ENTITY_ID eid, uint32_t index)=0;
-	virtual bool Get(ENTITY_ID & eid, uint32_t index)=0;
+	virtual void Set(entid_t eid)=0;
+	virtual bool Set(entid_t eid, uint32_t index)=0;
 
 	virtual ATTRIBUTES * GetAClass()=0;
 	virtual ATTRIBUTES * GetAClass(uint32_t index)=0;
@@ -48,7 +46,7 @@ public:
 	virtual bool IsReference()=0;
 	virtual bool IsAReference()=0;
 	virtual DATA * GetVarPointer()=0;
-	virtual ENTITY_ID * GetObjectIDPTR()=0;
+	virtual entid_t* GetObjectIDPTR()=0;
 
 	// operations
 	virtual bool Inc()=0;
@@ -73,7 +71,7 @@ public:
 	virtual long  GetLong()=0;
 	virtual float GetFloat()=0;
 	virtual char * GetString()=0;
-	virtual ENTITY_ID GetEntityID()=0;
+	virtual entid_t GetEntityID()=0;
 };
 
 #endif

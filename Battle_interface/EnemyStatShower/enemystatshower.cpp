@@ -30,7 +30,7 @@ uint32_t _cdecl EnemyStatShower::ProcessMessage(MESSAGE & message)
 	{
 	case 0: // add character for shower
 		{
-			//ENTITY_ID mdlEID = GetModelEIDFromCharacterEID( message.EntityID() );
+			//entid_t mdlEID = GetModelEIDFromCharacterEID( message.EntityID() );
 		}
 	break;
 }
@@ -51,9 +51,9 @@ void EnemyStatShower::Release()
 {
 }
 
-ENTITY_ID EnemyStatShower::GetModelEIDFromCharacterEID(ENTITY_ID& chrEID)
+entid_t EnemyStatShower::GetModelEIDFromCharacterEID(entid_t& chrEID)
 {
-	ENTITY_ID eid;
+	entid_t eid;
 	VDATA* pvdat = (VDATA*)api->GetScriptVariable("g_TmpModelVariable");
 	if( pvdat ) {
 		api->Send_Message( chrEID, "le", MSG_CHARACTER_GETMODEL, pvdat );

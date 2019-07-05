@@ -91,8 +91,8 @@ private:
         long sIndx,nIndx;
 
         CMatrix *pMatWorld;
-        ENTITY_ID model_id;
-		ENTITY_ID shipEI;
+        entid_t model_id;
+		entid_t shipEI;
     };
     int groupQuantity;
     GROUPDATA *gdata;

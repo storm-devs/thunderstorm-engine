@@ -554,7 +554,7 @@ void Sharks::Execute(uint32_t delta_time)
 	for(long i = 0; i < num - 1; i++)
 		for(long j = i + 1; j < num; j++) shark[i].Repulsion(shark[j]);
 	//Учитываем корабли
-	ENTITY_ID id;
+	entid_t id;
 	bool res = api->FindClass(&id, nullptr, shipcode);
 	for(; res; res = api->FindClassNext(&id))
 	{

@@ -23,7 +23,7 @@ public:
 	virtual ~PARTICLE_SYSTEM();
 	virtual void	Stop();
 	virtual void	SetEmitter(CVECTOR p, CVECTOR a);
-	virtual void	LinkToObject(ENTITY_ID id, CVECTOR _LinkPos);
+	virtual void	LinkToObject(entid_t id, CVECTOR _LinkPos);
 	virtual void	SetDelay(long _delay);
 	virtual void	SetLifeTime(uint32_t time);
 	virtual void	StopEmitter();

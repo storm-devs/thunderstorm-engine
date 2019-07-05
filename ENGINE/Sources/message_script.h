@@ -1,7 +1,7 @@
 #ifndef _MESSAGE_SCRIPT_H_
 #define _MESSAGE_SCRIPT_H_
 
-#include "../../Common_h/entity_id.h"
+#include "../../Common_h/entid_t.h"
 #include "../../Common_h/Cvector.h"
 #include "../../Common_h/message.h"
 #include "../../Common_h/vdata.h"
@@ -23,7 +23,7 @@ protected:
 public:
 	 MESSAGE_SCRIPT(){format = nullptr; index = 0; pData = nullptr; Data_size = 0; ReadPointer = nullptr;};
 	~MESSAGE_SCRIPT(){ delete format; free(pData);};
-	ENTITY_ID Sender_ID;
+	entid_t Sender_ID;
 	void Move2Start() {ResetIndex();};
 	//va_list args;
 	bool Set(char * data)
@@ -42,7 +42,7 @@ public:
 				else arg_size = strlen(data) + 1; 
 			break;
 			case 'i':
-				arg_size = sizeof(ENTITY_ID); 
+				arg_size = sizeof(entid_t); 
 			break;
 			case 'e':
 				arg_size = sizeof(DATA *); 
@@ -95,12 +95,12 @@ public:
 		ReadPointer += sizeof(float);
 		return tFloat; 
 	}
-	ENTITY_ID EntityID()
+	entid_t EntityID()
 	{ 
-		ENTITY_ID id;
+		entid_t id;
 		ValidateFormat('i'); 
-		memcpy(&id,ReadPointer,sizeof(ENTITY_ID));
-		ReadPointer += sizeof(ENTITY_ID);
+		memcpy(&id,ReadPointer,sizeof(entid_t));
+		ReadPointer += sizeof(entid_t);
 		return id; 
 	}
 	VDATA * ScriptVariablePointer()

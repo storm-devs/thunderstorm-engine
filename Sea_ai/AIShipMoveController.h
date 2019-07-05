@@ -13,7 +13,7 @@ class AIShip;
 class AIShipMoveController
 {
 private:
-	ENTITY_ID		eidSphere;
+	entid_t		eidSphere;
 
 	AIShip			*pOurAIShip;	// our AI ship pointer
 

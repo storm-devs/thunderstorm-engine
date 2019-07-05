@@ -50,7 +50,7 @@ bool SUNGLOW::Init()
 
 void SUNGLOW::SetDevice()
 {
-	ENTITY_ID	ent;
+	entid_t	ent;
 
 	pRS = (VDX9RENDER *)api->CreateService("dx9render"); Assert(pRS);
 	pCollide = (COLLIDE*)api->CreateService("COLL"); Assert(pCollide);
@@ -579,7 +579,7 @@ float SUNGLOW::GetSunFadeoutFactor(const CVECTOR& vSunPos,float fSunSize)
 {
 	// получим указатель на небо
 	if( !pSky ) {
-		ENTITY_ID ent;
+		entid_t ent;
 		if ( api->FindClass(&ent,"SKY",0) )
 			pSky = (SKY*)api->GetEntityPointer(&ent);
 	}

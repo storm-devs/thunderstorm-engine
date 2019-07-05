@@ -141,7 +141,7 @@ void Debris::AddModel(const char * modelName, float prt, float spd)
 {
 	if(numModels > _countof(mdl)) return;
 	//Создаём модельку
-	ENTITY_ID id;
+	entid_t id;
 	if(!api->CreateEntity(&id, "modelr")) return;
 	MODEL * m = (MODEL *)api->GetEntityPointer(&id);
 	if(!m) return;
@@ -198,7 +198,7 @@ MODEL * Debris::SelectModel(float & maxSpd)
 
 bool Debris::IsShip()
 {
-	ENTITY_ID id;
+	entid_t id;
 	bool res = api->FindClass(&id, nullptr, shipcode);
 	if(!res) return false;
 	CVECTOR p(pillar.GetX(0.0f), 0.0f, pillar.GetZ(0.0f));

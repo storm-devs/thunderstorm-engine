@@ -302,7 +302,7 @@ void DATA::Set(char * attribute_name, char * attribute_value)
 	//Attributes.SetAttribute(attribute_name,attribute_value);
 }
 
-void DATA::Set(ENTITY_ID eid)
+void DATA::Set(entid_t eid)
 {
 	//if(bRef) 
 	if(Data_type == VAR_REFERENCE)
@@ -318,15 +318,15 @@ void DATA::Set(ENTITY_ID eid)
 	if(bArray) {Error(NO_INDEX); return;}
 	if(Data_type == VAR_AREFERENCE)
 	{
-		memcpy(&object_id,&eid,sizeof(ENTITY_ID));
+		memcpy(&object_id,&eid,sizeof(entid_t));
 		return;
 	}
 	Data_type = VAR_OBJECT;
-	memcpy(&object_id,&eid,sizeof(ENTITY_ID));
+	memcpy(&object_id,&eid,sizeof(entid_t));
 	bEntity = true;
 }
 
-void DATA::Get(ENTITY_ID & eid)
+void DATA::Get(entid_t & eid)
 {
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
@@ -622,7 +622,7 @@ bool DATA::Get(char * attribute_name, char * & value, uint32_t index)
 	return true;*/
 }
 
-bool DATA::Set(ENTITY_ID eid, uint32_t index)
+bool DATA::Set(entid_t eid, uint32_t index)
 {
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
@@ -644,11 +644,11 @@ bool DATA::Set(ENTITY_ID eid, uint32_t index)
 	OBJECT_DESC * pOD;
 	pOD = (OBJECT_DESC *)ArrayPointer;
 	pOD[index].object_id = eid;
-	//memcpy(&pOD[index].object_id,&eid,sizeof(ENTITY_ID));
+	//memcpy(&pOD[index].object_id,&eid,sizeof(entid_t));
 	return true;*/
 }
 
-bool DATA::Get(ENTITY_ID & eid, uint32_t index)
+bool DATA::Get(entid_t & eid, uint32_t index)
 {
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
@@ -670,7 +670,7 @@ bool DATA::Get(ENTITY_ID & eid, uint32_t index)
 	OBJECT_DESC * pOD;
 	pOD = (OBJECT_DESC *)ArrayPointer;
 	eid = pOD[index].object_id;
-	//memcpy(&eid,&pOD[index].object_id,sizeof(ENTITY_ID));
+	//memcpy(&eid,&pOD[index].object_id,sizeof(entid_t));
 	return true;*/
 }
 
@@ -2313,7 +2313,7 @@ char * DATA::GetString()
 	return sValue;
 }
 
-ENTITY_ID DATA::GetEntityID()
+entid_t DATA::GetEntityID()
 {
 	return object_id;
 }

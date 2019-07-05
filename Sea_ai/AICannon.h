@@ -12,7 +12,7 @@ class AICannon
 {
 private:
 	AIAttributesHolder	* pAHolder;
-	ENTITY_ID	eidParent;				// parent for cannon (ship, or fort entity)
+	entid_t	eidParent;				// parent for cannon (ship, or fort entity)
 	CVECTOR		vPos, vDir;				// Cannon position and direction(relative to parent)
 	float		fTime2Action;			// timeout before action(calculated in script)
 	float		fTotalTime2Action;		// total timeout before action(calculated in script)(unchangeable)
@@ -45,13 +45,13 @@ public:
 	AICannon();
 	virtual ~AICannon();
 
-	void	Init(AIAttributesHolder	* _pAHolder, const ENTITY_ID & eid, GEOS::LABEL & lbl);
+	void	Init(AIAttributesHolder	* _pAHolder, const entid_t & eid, GEOS::LABEL & lbl);
 
 	void	Execute(float fDeltaTime);
 
 	static float	CalcMaxFireDistance(float fFireHeight, float fSpeedV0, float fAngle);
 
-	ENTITY_ID		GetParentEID() const { return eidParent; };
+	entid_t		GetParentEID() const { return eidParent; };
 	VAI_OBJBASE		* GetAIObjPointer() const;
 
 	float	CalcHeightFireAngle(float _fSpeedV0, CVECTOR & vOur, CVECTOR & vEnemy);
@@ -81,7 +81,7 @@ public:
 	inline bool isRecharged() { return bRecharged; }
 
 	void Save(CSaveLoad * pSL);
-	void Load(CSaveLoad * pSL, AIAttributesHolder * _pAHolder, const ENTITY_ID & eid);
+	void Load(CSaveLoad * pSL, AIAttributesHolder * _pAHolder, const entid_t & eid);
 
 private:
 	CANNONTYPE	CannonType;

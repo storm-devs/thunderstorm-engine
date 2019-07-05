@@ -571,7 +571,7 @@ Character::~Character()
 	m_nHandLightID = -1;
 
 	//Удаляемся из групп
-	ENTITY_ID grps;
+	entid_t grps;
 	api->FindClass(&grps, "CharactersGroups", 0);
 	api->Send_Message(grps, "si", "UnloadCharacter", GetID());
 
@@ -593,7 +593,7 @@ Character::~Character()
 bool Character::Init()
 {
 	//Указатель на локацию
-	ENTITY_ID loc;
+	entid_t loc;
 	api->FindClass(&loc, "location", 0);
 	location = (Location *)api->GetEntityPointer(&loc);
 	if(!location) return false;
@@ -616,7 +616,7 @@ bool Character::Init()
 	characterID = new char[len];
 	strcpy_s(characterID, len, id);
 	//Добавим в группу
-	ENTITY_ID grps;
+	entid_t grps;
 	api->FindClass(&grps, "CharactersGroups", 0);
 	api->Send_Message(grps, "sis", "MoveCharacter", GetID(), group);
 	SetSignModel();
@@ -1441,7 +1441,7 @@ void Character::Hit(FightAction type)
 {
 	/*
 	//!!!
-	ENTITY_ID eid;
+	entid_t eid;
 	if(_stricmp(characterID, "Blaze") == 0)
 	{
 		api->FindClass(&eid, "ILogAndActions", 0);
@@ -2379,7 +2379,7 @@ void Character::ActionEvent(Animation * animation, long playerIndex, const char 
 					isFired = true;
 					float kDist;
 					Character * chr = FindGunTarget(kDist);
-					ENTITY_ID enemy;
+					entid_t enemy;
 					if(chr)
 					{
 						enemy = chr->GetID();
@@ -2810,7 +2810,7 @@ bool Character::zTurnByLoc(MESSAGE & message)
 
 bool Character::zTurnByChr(MESSAGE & message)
 {
-	ENTITY_ID chr = message.EntityID();
+	entid_t chr = message.EntityID();
 	Character * c = (Character *)api->GetEntityPointer(&chr);
 	if(!c) return false;
 	Turn(c->curPos.x - curPos.x, c->curPos.z - curPos.z);
@@ -2828,7 +2828,7 @@ bool Character::zTurnByPoint(MESSAGE & message)
 
 bool Character::zDistByCharacter(MESSAGE & message, bool is2D)
 {
-	ENTITY_ID chr = message.EntityID();
+	entid_t chr = message.EntityID();
 	Character * c = (Character *)api->GetEntityPointer(&chr);
 	if(!c) return false;
 	float dx = curPos.x - c->curPos.x;
@@ -3626,7 +3626,7 @@ void Character::UpdateAnimation()
 /*
 				if(_stricmp(characterID, "Blaze") == 0)
 				{
-					ENTITY_ID eid;
+					entid_t eid;
 					api->FindClass(&eid, "ILogAndActions", 0);
 					char sbuf[256];
 					sprintf_s(sbuf, "Set act: %s", fightNamesTbl[fgtSetType]);
@@ -4278,7 +4278,7 @@ inline void Character::CheckAttackHit()
 //Найти персонажа в которого попали из пистолета
 Character * Character::FindGunTarget(float & kDist, bool bOnlyEnemyTest)
 {
-	ENTITY_ID grps;
+	entid_t grps;
 	CharactersGroups * chrGroup;
 	long grp;
 	if (bOnlyEnemyTest)

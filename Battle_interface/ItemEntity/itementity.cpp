@@ -36,7 +36,7 @@ uint32_t _cdecl ItemEntity::ProcessMessage(MESSAGE & message)
 	case 0: // Tie item to moving locator
 		{
 			DeleteParticle();
-			ENTITY_ID mdlEID = GetModelEIDFromCharacterEID( message.EntityID() );
+			entid_t mdlEID = GetModelEIDFromCharacterEID( message.EntityID() );
 			char locName[255];
 			message.String( sizeof(locName)-1, locName );
 			m_bTieToLocator = TieToLocator( mdlEID, locName );
@@ -82,8 +82,8 @@ uint32_t _cdecl ItemEntity::ProcessMessage(MESSAGE & message)
 	case 5:
 		{
 			DeleteParticle();
-			ENTITY_ID mdlID = GetModelEIDFromCharacterEID( message.EntityID() );
-			ENTITY_ID mdlToTieID = GetModelEIDFromCharacterEID( message.EntityID() );
+			entid_t mdlID = GetModelEIDFromCharacterEID( message.EntityID() );
+			entid_t mdlToTieID = GetModelEIDFromCharacterEID( message.EntityID() );
 			char sLocName[255];			message.String( sizeof(sLocName)-1, sLocName );
 			char sStartEvntName[255];	message.String( sizeof(sStartEvntName)-1, sStartEvntName );
 			char sEndEvntName[255];		message.String( sizeof(sEndEvntName)-1, sEndEvntName );
@@ -154,7 +154,7 @@ void ItemEntity::SetTechnique( const char* pcTechnique )
 	}
 }
 
-bool ItemEntity::TieToLocator(ENTITY_ID& mdlEID, const char* pcLocName)
+bool ItemEntity::TieToLocator(entid_t& mdlEID, const char* pcLocName)
 {
 	m_eidTieModel = mdlEID;
 	m_sTieLocName = pcLocName;
@@ -233,9 +233,9 @@ void ItemEntity::DrawIntoLocator()
 	}
 }
 
-ENTITY_ID ItemEntity::GetModelEIDFromCharacterEID(ENTITY_ID& chrEID)
+entid_t ItemEntity::GetModelEIDFromCharacterEID(entid_t& chrEID)
 {
-	ENTITY_ID eid;
+	entid_t eid;
 	VDATA* pvdat = (VDATA*)api->GetScriptVariable("g_TmpModelVariable");
 	if( pvdat ) {
 		api->Send_Message( chrEID, "le", MSG_CHARACTER_GETMODEL, pvdat );
@@ -244,7 +244,7 @@ ENTITY_ID ItemEntity::GetModelEIDFromCharacterEID(ENTITY_ID& chrEID)
 	return eid;
 }
 
-void ItemEntity::SetEventListener(ENTITY_ID& mdlEID, ENTITY_ID& mdlToTieEID,const char* pcLocName, const char* pcStartEvent,const char* pcEndEvent )
+void ItemEntity::SetEventListener(entid_t& mdlEID, entid_t& mdlToTieEID,const char* pcLocName, const char* pcStartEvent,const char* pcEndEvent )
 {
 	MODEL* pMdl = (MODEL*)api->GetEntityPointer(&mdlEID);
 	if( !pMdl ) return;
@@ -289,7 +289,7 @@ bool ItemEntity::CreateParticle()
 		char* pcParticleName = BIUtils::GetStringFromAttr(AttributesPointer,"particle","");
 		if( pcParticleName && pcParticleName[0] )
 		{
-			ENTITY_ID eidParticle;
+			entid_t eidParticle;
 			if( api->FindClass(&eidParticle, "particles", 0) )
 			{
 				CVECTOR vPos = m_mtxpos.Pos();
@@ -304,7 +304,7 @@ bool ItemEntity::CreateParticle()
 void ItemEntity::DeleteParticle()
 {
 	if( m_pParticle ) {
-		ENTITY_ID eidParticle;
+		entid_t eidParticle;
 		if( api->FindClass(&eidParticle, "particles", 0) )
 		{
 			if( api->Send_Message(eidParticle, "ll", PS_VALIDATE_PARTICLE, (long)m_pParticle) )

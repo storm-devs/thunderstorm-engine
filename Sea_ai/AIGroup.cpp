@@ -24,7 +24,7 @@ AIGroup::~AIGroup()
 	aGroupShips.clear();
 }
 
-void AIGroup::AddShip(ENTITY_ID eidShip, ATTRIBUTES * pACharacter, ATTRIBUTES * pAShip)
+void AIGroup::AddShip(entid_t eidShip, ATTRIBUTES * pACharacter, ATTRIBUTES * pAShip)
 {
 	ATTRIBUTES * pAMode = pACharacter->FindAClass(pACharacter, "Ship.Mode");
 	AIShip * pShip = nullptr;
@@ -209,7 +209,7 @@ void AIGroup::SailMainGroup(CVECTOR vPos, float fAngle, ATTRIBUTES * pACharacter
 	AIGroup * pMG = FindMainGroup(); Assert(pMG);
 	AIGroup * pG1 = FindGroup(pACharacter);
 
-	ENTITY_ID	eidSea;
+	entid_t	eidSea;
 	api->FindClass(&eidSea, "sea", 0);
 
 	for (uint32_t i=0; i<pMG->aGroupShips.size(); i++)

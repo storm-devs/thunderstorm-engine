@@ -226,7 +226,7 @@ void AIShip::SetACharacter(ATTRIBUTES * pAP)
 	GetAIObjShipPointer()->SetACharacter(GetACharacter());
 }
 
-void AIShip::CreateShip(ENTITY_ID _eidShip, ATTRIBUTES * _pACharacter, ATTRIBUTES * _pAShipBase, CVECTOR * vInitPos)
+void AIShip::CreateShip(entid_t _eidShip, ATTRIBUTES * _pACharacter, ATTRIBUTES * _pAShipBase, CVECTOR * vInitPos)
 {
 	Assert(_pACharacter && _pAShipBase);
 	pAShipBase = _pAShipBase;
@@ -661,7 +661,7 @@ void AIShip::Load(CSaveLoad * pSL)
 	ObjType = (AI_OBJTYPE)pSL->LoadDword();
 	bDead = pSL->LoadDword() != 0;
 
-	// set entity_id to character 
+	// set entid_t to character 
 	VDATA * pVCharacter = (VDATA *)api->GetScriptVariable("Characters");
 	pVCharacter->Set(eidShip, GetIndex(GetACharacter()));
 

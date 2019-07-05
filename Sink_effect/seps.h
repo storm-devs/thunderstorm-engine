@@ -158,8 +158,8 @@ class SEPS_PS
 	float CurrentEmissionTimeRand;
 	bool bLayOnSurface;
 	void LayOnSurface(uint32_t index);
-	ENTITY_ID SurfaceID;
-	void UseSurface(ENTITY_ID surface_id);
+	entid_t SurfaceID;
+	void UseSurface(entid_t surface_id);
 	float fSurfaceOffset;
 	char * TechniqueName;
 	uint32_t ParticleColor;
@@ -185,7 +185,7 @@ class SEPS_PS
 	SEPS_PS * l_PTR;
 	SEPS_PS * r_PTR;
 
-	ENTITY_ID LinkObject;
+	entid_t LinkObject;
 	CVECTOR LinkPos;
 	CVECTOR LinkDir;
 	CVECTOR LinkDirPos;
@@ -210,7 +210,7 @@ public:
 	float GetTrackValue(TRACK_EVENT * Track, long Time);
 	bool  BuildTrack(INIFILE * ini, TRACK_EVENT * Track, char * psname, char * key_name);
 	void  SetEmitter(CVECTOR p, CVECTOR a);
-	void  LinkToObject(ENTITY_ID id, CVECTOR _LinkPos);
+	void  LinkToObject(entid_t id, CVECTOR _LinkPos);
 	void  SetDelay(long _delay);
 	void  TryEmitParticle();
 

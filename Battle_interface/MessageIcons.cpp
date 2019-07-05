@@ -160,7 +160,7 @@ void MESSAGE_ICONS::StartData(ATTRIBUTES * pAData[MESSAGE_ICONS_COLUMN_QUANTITY]
 	}
 }
 
-bool MESSAGE_ICONS::InitData(ENTITY_ID & host_eid, VDX9RENDER * _rs, ATTRIBUTES * pARoot)
+bool MESSAGE_ICONS::InitData(entid_t & host_eid, VDX9RENDER * _rs, ATTRIBUTES * pARoot)
 {
 	m_idHost = host_eid;
 	rs = _rs;

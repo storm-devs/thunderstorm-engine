@@ -15,7 +15,7 @@ CREATE_CLASS(TOUCH)
 
 void TOUCH::SetDevices()
 {
-	ENTITY_ID ent;
+	entid_t ent;
 
 	pRS = (VDX9RENDER*)api->CreateService("dx9render");
 }
@@ -82,7 +82,7 @@ void TOUCH::Execute(uint32_t dwCoreDeltaTime)
 {
 	//GUARD(void TOUCH::Execute(uint32_t dwCoreDeltaTime))
 	long i;
-	ENTITY_ID ent;
+	entid_t ent;
 	if (!pIslandBase && api->FindClass(&ent,"island",0))
 		pIslandBase = (ISLAND_BASE*)api->GetEntityPointer(&ent);
 

@@ -57,7 +57,7 @@ void LGeometry::SetLightPath(const char * lPath)
 }
 
 //Добавить объект
-void LGeometry::AddObject(const char * name, ENTITY_ID & model)
+void LGeometry::AddObject(const char * name, entid_t & model)
 {
 	if(numObjects >= maxObjects)
 	{

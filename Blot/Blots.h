@@ -80,7 +80,7 @@ private:
 private:
 	
 	VDX9RENDER * rs;	
-	ENTITY_ID model;
+	entid_t model;
 	long textureID;
 	ATTRIBUTES * blotsInfo;
 	ATTRIBUTES * pCharAttributeRoot;

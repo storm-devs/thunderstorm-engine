@@ -24,10 +24,10 @@ public:
 	bool Create(char * layer_name, bool ordered, bool fail_if_exist);
 	bool Verify(char * layer_name);
 	void Delete(char * layer_name);
-	bool Add(char * layer_name, ENTITY_ID eid, uint32_t priority);
-	void Del(char * layer_name, ENTITY_ID eid);
-	bool Add(uint32_t index, ENTITY_ID eid, uint32_t priority);
-	void Del(uint32_t index, ENTITY_ID eid);
+	bool Add(char * layer_name, entid_t eid, uint32_t priority);
+	void Del(char * layer_name, entid_t eid);
+	bool Add(uint32_t index, entid_t eid, uint32_t priority);
+	void Del(uint32_t index, entid_t eid);
 	void Fit(uint32_t pos,char * layer_name,LAYER_STATE ls);
 	void Erase(uint32_t dwcode);
 	bool DeleteContent(char * layer_name);

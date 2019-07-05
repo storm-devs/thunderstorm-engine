@@ -77,7 +77,7 @@ void RAIN::GenerateRain()
 {
 	uint32_t	i;
 
-	ENTITY_ID	ent;
+	entid_t	ent;
 	if (!api->FindClass(&ent,"Weather",0)) throw std::exception("No found WEATHER entity!");
 	pWeather = (WEATHER_BASE*)api->GetEntityPointer(&ent); Assert(pWeather);
 
@@ -218,7 +218,7 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 
 	vCamPos = mView.Pos();
 
-	ENTITY_ID sea_id;
+	entid_t sea_id;
 	SEA_BASE * pSea = nullptr;
 	if (api->FindClass(&sea_id, "sea", 0)) pSea = (SEA_BASE*)api->GetEntityPointer(&sea_id);
 
@@ -266,7 +266,7 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 			fTest = fTest1;
 
 			//проверим - если это корабль
-			ENTITY_ID eid = cs->GetObjectID();
+			entid_t eid = cs->GetObjectID();
 			if (eid.class_code == dwShipName)
 			{
 				pShip = (SHIP_BASE*)eid.pointer;

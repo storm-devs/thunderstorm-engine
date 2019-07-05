@@ -33,7 +33,7 @@ private:
 	COLLIDE *collide;
 	VIDWALKER *walker;
 	TIVBufferManager *ivManager;
-	ENTITY_ID  butterflyModel;
+	entid_t  butterflyModel;
 	TButterfly butterflies[BUTTERFLY_COUNT];
 	long butterfliesCount;
 

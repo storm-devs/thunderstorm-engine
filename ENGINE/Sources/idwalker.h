@@ -10,8 +10,8 @@ class IDWALKER : VIDWALKER
 public:
 	 IDWALKER(){pInterface = nullptr; pLayer = nullptr;Search_Link = nullptr;};
 	~IDWALKER(){if(pInterface) pInterface->Invalidate();};
-	ENTITY_ID * GetID();
-	ENTITY_ID * GetIDNext();
+	entid_t * GetID();
+	entid_t * GetIDNext();
 	void Invalidate();
 	void SetLayer(void * pl){pLayer = pl;};
 	void SetInterface(void * pi){pInterface = (VIDWALKER *)pi;};
@@ -34,12 +34,12 @@ public:
 	{
 		pReal->Invalidate();
 	};
-	ENTITY_ID * GetID()
+	entid_t * GetID()
 	{ 
 		if(Invalide) return nullptr;
 		return pReal->GetID();
 	};
-	ENTITY_ID * GetIDNext()
+	entid_t * GetIDNext()
 	{
 		if(Invalide) return nullptr;
 		return pReal->GetIDNext();

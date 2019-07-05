@@ -25,7 +25,7 @@ public:
 	void Execute(uint32_t delta_time);
 
 
-	ENTITY_ID mdl;
+	entid_t mdl;
 	CVECTOR cnt;
 	float kTime, time;
 	float y, dltY;

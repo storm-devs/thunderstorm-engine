@@ -787,7 +787,7 @@ void SEAFOAM_PS::SetEmitter(CVECTOR p, CVECTOR a)
 	*/
 }
 
-void SEAFOAM_PS::LinkToObject(ENTITY_ID id, CVECTOR _LinkPos)
+void SEAFOAM_PS::LinkToObject(entid_t id, CVECTOR _LinkPos)
 {
 	long n;
 	bLinkEmitter = true;
@@ -839,7 +839,7 @@ void SEAFOAM_PS::SetFlowTrack(uint32_t index)
 }
 
 
-void SEAFOAM_PS::UseSurface(ENTITY_ID surface_id)
+void SEAFOAM_PS::UseSurface(entid_t surface_id)
 {
 	bLayOnSurface = true;
 	SurfaceID = surface_id;

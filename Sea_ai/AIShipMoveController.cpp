@@ -26,7 +26,7 @@ bool AIShipMoveController::Init()
 void AIShipMoveController::Execute(float fDeltaTime) 
 {
 	//return;
-	//ENTITY_ID	eid;
+	//entid_t	eid;
 	//api->FindClass(&eid,"sea",0);
 	//SEA_BASE * pSea = (SEA_BASE*)api->GetEntityPointer(&eid);
 	//MODEL* pModel = (MODEL*)api->GetEntityPointer(&eidSphere);

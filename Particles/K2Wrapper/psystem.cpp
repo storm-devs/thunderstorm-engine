@@ -32,7 +32,7 @@ void	PARTICLE_SYSTEM::SetEmitter(CVECTOR p, CVECTOR a)
 	pSystem->SetTransform(mTransform);
 }
 
-void	PARTICLE_SYSTEM::LinkToObject(ENTITY_ID id, CVECTOR _LinkPos)
+void	PARTICLE_SYSTEM::LinkToObject(entid_t id, CVECTOR _LinkPos)
 {
 }
 

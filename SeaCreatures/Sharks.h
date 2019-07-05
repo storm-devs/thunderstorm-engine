@@ -62,7 +62,7 @@ class Sharks : public ENTITY
 		float speed;		//Скорость перемещения
 		float shipY;		//Ограничение кораблём
 		float vBase;		//Смещение трека акулы
-		ENTITY_ID model;	//Моделька акулы		
+		entid_t model;	//Моделька акулы		
 		//Анимация
 		float aniTime;		//Время проигрывания текущей анимации
 		float jumpTime;		//Время до следующего выпрыгивания
@@ -76,7 +76,7 @@ class Sharks : public ENTITY
 		CVECTOR pos;
 		float ay;
 		float time;
-		ENTITY_ID model;
+		entid_t model;
 	};
 
 //--------------------------------------------------------------------------------------------
@@ -107,8 +107,8 @@ private:
 	float waitPTime;
 	CVECTOR camPos;
 	long shipcode;
-	ENTITY_ID sea;
-	ENTITY_ID island;
+	entid_t sea;
+	entid_t island;
 	long trackTx;
 	uint16_t indeces[7*10*3];
 	Vertex vrt[7*10];

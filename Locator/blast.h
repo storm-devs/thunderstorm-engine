@@ -26,11 +26,11 @@ class BLAST : public ENTITY
 	VGEOMETRY * gs;
 	std::vector<GEOPARTICLE> Item;
 	CANNON_TRACE_BASE * pSea;
-	ENTITY_ID sea_eid;
+	entid_t sea_eid;
 	float AngleDeviation;
 	uint32_t ItemsNum;
 	CMatrix Center;
-	ENTITY_ID Splash;
+	entid_t Splash;
 public:
 	~BLAST();
 	 BLAST();

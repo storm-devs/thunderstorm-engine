@@ -73,7 +73,7 @@ void TSharks::Init()
 		TDynamicSystem::AddDeflector(sharks[i]);
 	}
 
-	ENTITY_ID shipID;
+	entid_t shipID;
 	shipsCount = 0;
 	if (api->FindClass(&shipID, "ship", 0))
 	{

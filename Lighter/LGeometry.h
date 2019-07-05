@@ -28,7 +28,7 @@ class LGeometry
 		char * name;			//Путь то col файла
 		char * nameReal;		//Имя модельки
 		MODEL * m;				//Указатель на модельку
-		ENTITY_ID model;		//Моделька
+		entid_t model;		//Моделька
 		long lBufSize;			//Размер буфера цветов для этой модельки
 	};
 
@@ -44,7 +44,7 @@ public:
 	//Установить путь для текущей погоды
 	void SetLightPath(const char * lPath);
 	//Добавить объект
-	void AddObject(const char * name, ENTITY_ID & model);
+	void AddObject(const char * name, entid_t & model);
 	//Обработать данные
 	bool Process(VDX9RENDER * rs, long numLights);
 	//Нарисовать нормали

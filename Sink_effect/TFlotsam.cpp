@@ -5,7 +5,7 @@
 int		  TFlotsam::modelsInitialized = 0;
 MODEL *   TFlotsam::models[FLOTSAM_MODELS_COUNT];
 char	  TFlotsam::modelNames[FLOTSAM_MODELS_COUNT][128];
-ENTITY_ID TFlotsam::modelIDs[FLOTSAM_MODELS_COUNT];
+entid_t TFlotsam::modelIDs[FLOTSAM_MODELS_COUNT];
 
 //--------------------------------------------------------------------
 TFlotsam::TFlotsam()

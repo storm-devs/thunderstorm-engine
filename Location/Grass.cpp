@@ -348,7 +348,7 @@ void Grass::Realize(uint32_t delta_time)
 	//Туман
 	uint32_t dwOldFogDensity;
 	rs->GetRenderState(D3DRS_FOGDENSITY, &dwOldFogDensity);
-	ENTITY_ID eidIsland;
+	entid_t eidIsland;
 	if( api->FindClass( &eidIsland, "ISLAND", 0 ) )
 	{
 		float fIslandFogDensity = (float)dwOldFogDensity;

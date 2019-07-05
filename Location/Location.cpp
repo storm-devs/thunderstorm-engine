@@ -543,7 +543,7 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 	}else
 	if(_stricmp(name, "AddFlys") == 0)
 	{
-		ENTITY_ID effects;
+		entid_t effects;
 		api->FindClass(&effects, "LocationEffects", 0);
 		float x = message.Float();
 		float y = message.Float();
@@ -553,7 +553,7 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 	}else
 	if(_stricmp(name, "DelFlys") == 0)
 	{
-		ENTITY_ID effects;
+		entid_t effects;
 		api->FindClass(&effects, "LocationEffects", 0);
 		api->Send_Message(effects, "s", "DelFlys");
 		return true;

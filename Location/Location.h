@@ -157,28 +157,28 @@ private:
 	ModelArray model;
 
 	//“рава
-	ENTITY_ID grass;
+	entid_t grass;
 	//ќрЄл
-	ENTITY_ID eagle;
+	entid_t eagle;
 	//ящерецы
-	ENTITY_ID lizards;
+	entid_t lizards;
 	// рысы
-	ENTITY_ID rats;
+	entid_t rats;
 	// ровь
-	ENTITY_ID blood;
+	entid_t blood;
 	
-	ENTITY_ID lightsid;
+	entid_t lightsid;
 	Lights * lights;	//”казатель дл€ текущего кадра
 
-	ENTITY_ID loceffectsid;
+	entid_t loceffectsid;
 
 	SphVertex * sphereVertex;
 	long sphereNumTrgs;
 
 	float locationTimeUpdate;
 
-	ENTITY_ID lighter;
-	ENTITY_ID cubeShotMaker;
+	entid_t lighter;
+	entid_t cubeShotMaker;
 
 	DmgMessage message[32];
 	long curMessage;

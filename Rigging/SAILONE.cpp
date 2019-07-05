@@ -66,7 +66,7 @@ SAILONE::SAILONE()
 SAILONE::~SAILONE()
 {
 	ROPE_BASE * prb = nullptr;
-	ENTITY_ID eid;
+	entid_t eid;
 	if( api->FindClass(&eid,"ROPE",0) )	prb = (ROPE_BASE*)eid.pointer;
 	if( prb!= nullptr && (sailtrope.pnttie[0] || sailtrope.pnttie[1] || sailtrope.pnttie[2] || sailtrope.pnttie[3]) )
 		prb->DoDeleteUntie(pp->gdata[HostNum].modelEI,hostNode,groupNum);
@@ -1099,7 +1099,7 @@ void SAILONE::TurnSail(float fTurnStep)
     //windAng*=pp->MAXTURNANGL;
 	if(windAng<0) windAng*=m_fMinAngle;
 	else	windAng*=m_fMaxAngle;
-    ENTITY_ID ropeEI;
+    entid_t ropeEI;
     windAng-=oldWindAngl;
 
     // если угол достаточной величины для поворота
@@ -1786,7 +1786,7 @@ void SAILONE::SetTurnLimits()
 	if(ss.eSailType!=SAIL_TREANGLE) return;
 	if(!ss.turningSail) return;
 	if(sailtrope.rrs[0]== nullptr) return;
-	ENTITY_ID ropeEI;
+	entid_t ropeEI;
 	if( !api->FindClass(&ropeEI,"ROPE",0) ) return;
 	ROPE_BASE * prbase = (ROPE_BASE*)api->GetEntityPointer(&ropeEI);
 	if(prbase== nullptr) return;

@@ -490,9 +490,9 @@ void NODER::Link(NODE *node)
 //-------------------------------------------------------------------
 //unlink node to model
 //-------------------------------------------------------------------
-ENTITY_ID NODER::Unlink2Model()
+entid_t NODER::Unlink2Model()
 {
-	ENTITY_ID id;
+	entid_t id;
 	api->CreateEntity(&id, "modelr");
 	MODELR *mdl = (MODELR*)api->GetEntityPointer(&id);
 
@@ -520,7 +520,7 @@ ENTITY_ID NODER::Unlink2Model()
 //-------------------------------------------------------------------
 //link model to node
 //-------------------------------------------------------------------
-void NODER::Link(ENTITY_ID id, bool transform)
+void NODER::Link(entid_t id, bool transform)
 {
 	MODELR *mdl = (MODELR*)api->GetEntityPointer(&id);
 	if(mdl==nullptr)	return;

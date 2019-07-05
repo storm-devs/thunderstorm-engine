@@ -154,7 +154,7 @@ uint32_t LAYER_SERVICE::GetFlags(char * layer_name)
 }
 
 
-bool LAYER_SERVICE::Add(char * layer_name, ENTITY_ID eid, uint32_t priority)
+bool LAYER_SERVICE::Add(char * layer_name, entid_t eid, uint32_t priority)
 {
 	uint32_t index = GetIndex(layer_name);	if(index == INVALID_LAYER_CODE) return false;
 
@@ -173,7 +173,7 @@ bool LAYER_SERVICE::Add(char * layer_name, ENTITY_ID eid, uint32_t priority)
 	return true;
 }
 
-void LAYER_SERVICE::Del(char * layer_name, ENTITY_ID eid)
+void LAYER_SERVICE::Del(char * layer_name, entid_t eid)
 {
 	uint32_t index = GetIndex(layer_name); if(index == INVALID_LAYER_CODE) return;
 	Layer_Table[index]->Del(eid);
@@ -235,7 +235,7 @@ LAYER * LAYER_SERVICE::GetLayer(uint32_t index)
 	return Layer_Table[index];
 }
 
-bool LAYER_SERVICE::Add(uint32_t index, ENTITY_ID eid, uint32_t priority)
+bool LAYER_SERVICE::Add(uint32_t index, entid_t eid, uint32_t priority)
 {
 	if(Layer_Table[index] == nullptr) throw std::exception("invalid layer index");
 	if(!Layer_Table[index]->Add(eid,priority)) 
@@ -243,7 +243,7 @@ bool LAYER_SERVICE::Add(uint32_t index, ENTITY_ID eid, uint32_t priority)
 	return true;
 }
 
-void LAYER_SERVICE::Del(uint32_t index, ENTITY_ID eid)
+void LAYER_SERVICE::Del(uint32_t index, entid_t eid)
 {
 	if(Layer_Table[index] != nullptr) Layer_Table[index]->Del(eid);
 }

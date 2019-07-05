@@ -187,7 +187,7 @@ struct XI_THREETEX_VERTEX
 #define FONT_RELEASE(rs,font) if(rs!=NULL && font!=-1) {rs->UnloadFont(font); font=-1;}
 #define VIDEOTEXTURE_RELEASE(rs,tex) if(rs!=NULL && tex!=NULL) {rs->ReleaseVideoTexture(tex); tex=NULL;}
 
-extern ENTITY_ID g_idInterface;
+extern entid_t g_idInterface;
 
 extern uint32_t ColorInterpolate(uint32_t sCol,uint32_t dCol,float m);
 extern void DublicateString( char* &pDstStr, const char* pSrcStr );

@@ -30,7 +30,7 @@ bool WaterRings::Init()
 
 	api->LayerAdd("realize",GetID(),65551);
 
-	ENTITY_ID seaID;
+	entid_t seaID;
 	api->FindClass(&seaID, "sea", 0);
 	sea = (SEA_BASE*) api->GetEntityPointer(&seaID);
 

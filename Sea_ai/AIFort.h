@@ -33,7 +33,7 @@ public:
 			virtual CMatrix * GetMatrix() { return &GetModel()->mtx; };
 
 			virtual MODEL *		GetModel() { return pFort->GetModel(); };
-			virtual ENTITY_ID	GetModelEID() { return pFort->GetModelEID(); };
+			virtual entid_t	GetModelEID() { return pFort->GetModelEID(); };
 
 			virtual void Save(CSaveLoad * pSL) {};
 			virtual void Load(CSaveLoad * pSL) {};	
@@ -46,8 +46,8 @@ public:
 			virtual bool GetCollideTriangle(TRIANGLE & triangle) { return false; };
 		};
 
-		ENTITY_ID			eidModel;
-		ENTITY_ID			eidBlot;
+		entid_t			eidModel;
+		entid_t			eidBlot;
 					
 
 	public:
@@ -63,10 +63,10 @@ public:
 		uint32_t				dwCannonType, dwCulverinType, dwMortarType;
 
 		MODEL *		GetModel() { Assert(api->ValidateEntity(&GetModelEID())); return (MODEL*)api->GetEntityPointer(&GetModelEID()); }
-		void		SetModelEID(ENTITY_ID _eidModel) { eidModel = _eidModel; } 
-		ENTITY_ID	GetModelEID() { return eidModel; } 
-		void		SetBlotEID(ENTITY_ID _eidBlot) { eidBlot = _eidBlot; } 
-		ENTITY_ID	GetBlotEID() { return eidBlot; } 
+		void		SetModelEID(entid_t _eidModel) { eidModel = _eidModel; } 
+		entid_t	GetModelEID() { return eidModel; } 
+		void		SetBlotEID(entid_t _eidBlot) { eidBlot = _eidBlot; } 
+		entid_t	GetBlotEID() { return eidBlot; } 
 		uint32_t		GetAllCannonsNum() const { return aCannons.size() + aCulverins.size() + aMortars.size(); }
 		uint32_t		GetCannonType(uint32_t dwCannonIndex) 
 		{ 
@@ -121,7 +121,7 @@ public:
 		virtual float		GetMinFireDistance() { return 0.0f; };
 
 		void Save(CSaveLoad * pSL);
-		void Load(CSaveLoad * pSL, ENTITY_ID eid);
+		void Load(CSaveLoad * pSL, entid_t eid);
 	};
 
 	uint32_t		GetNumForts() { return aForts.size(); }
@@ -146,8 +146,8 @@ private:
 	void	AddFortHit(long iCharacterIndex, CVECTOR & vHitPos);
 	float	GetSpeedV0(uint32_t dwFortIndex);
 	bool	ScanFortForCannons(AI_FORT * pFort, char * pModelsDir, char * pLocatorsName);
-	bool	AddFort(ATTRIBUTES * pIslandAP, ATTRIBUTES * pFortAP, ATTRIBUTES * pFortCharacter, ENTITY_ID eidModel, ENTITY_ID eidBlot);
-	AI_FORT * FindFort(ENTITY_ID eidModel);
+	bool	AddFort(ATTRIBUTES * pIslandAP, ATTRIBUTES * pFortAP, ATTRIBUTES * pFortCharacter, entid_t eidModel, entid_t eidBlot);
+	AI_FORT * FindFort(entid_t eidModel);
 
 public:
 	static AIFort			* pAIFort;
@@ -189,7 +189,7 @@ public:
 
 		CMatrix		* GetMatrix() { return &mtxFort; };
 		MODEL		* GetModel() { return nullptr; };
-		ENTITY_ID	GetModelEID() { ENTITY_ID eid; return eid; };
+		entid_t	GetModelEID() { entid_t eid; return eid; };
 		CVECTOR		GetPos() { return CVECTOR(0.0f,0.0f,0.0f); };
 		CVECTOR		GetAng() { return CVECTOR(0.0f,0.0f,0.0f); };
 

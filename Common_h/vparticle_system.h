@@ -10,7 +10,7 @@ public:
 	virtual ~VPARTICLE_SYSTEM(){};
 	virtual void	Stop() = 0;
 	virtual void	SetEmitter(CVECTOR p, CVECTOR a) = 0;
-	virtual void	LinkToObject(ENTITY_ID id, CVECTOR _LinkPos) = 0;
+	virtual void	LinkToObject(entid_t id, CVECTOR _LinkPos) = 0;
 	virtual void	SetDelay(long _delay) = 0;
 	virtual void	SetLifeTime(uint32_t time) = 0;
 	virtual void	StopEmitter(){};

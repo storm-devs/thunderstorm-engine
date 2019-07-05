@@ -46,7 +46,7 @@ struct ShipState{
 class ShipMan
 {
 public:
-	ENTITY_ID modelID;
+	entid_t modelID;
 	MODEL * model;
 
 	CVECTOR pos, ang; //Текущее положение
@@ -105,7 +105,7 @@ public:
 
 	bool bHide;
 
-	ENTITY_ID shipID;
+	entid_t shipID;
 
 	SailorsPoints sailorsPoints; //Точки
 
@@ -116,7 +116,7 @@ public:
 	void CreateNewMan(SailorsPoints &sailorsPoints);
 	void DeleteMan(int Index);
 
-	void Init(ENTITY_ID &_shipID, int editorMode, char *shipType);
+	void Init(entid_t &_shipID, int editorMode, char *shipType);
 	void CheckPosition(uint32_t &dltTime);
 	void SetMastBroken(int iMastIndex);
 	void OnHullHit(CVECTOR &v);

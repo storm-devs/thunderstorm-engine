@@ -48,7 +48,7 @@ void SHIP_CAMERA::SetDevices()
 	pRS = (VDX9RENDER *)api->CreateService("dx9render");
 	Assert(pRS);
 
-	ENTITY_ID sea_id;
+	entid_t sea_id;
 	if (api->FindClass(&sea_id, "sea", 0)) pSea = (SEA_BASE*)api->GetEntityPointer(&sea_id);
 	//Assert(pSea);
 }
@@ -173,7 +173,7 @@ void SHIP_CAMERA::Realize(uint32_t dwDeltaTime)
 
 void SHIP_CAMERA::SetCharacter(ATTRIBUTES * _pACharacter) 
 { 
-	ENTITY_ID eidTemp;
+	entid_t eidTemp;
 
 	pACharacter = _pACharacter; 
 }
@@ -199,7 +199,7 @@ uint32_t SHIP_CAMERA::AttributeChanged(ATTRIBUTES * pAttr)
 
 void SHIP_CAMERA::ShipsCollision(CVECTOR & pos)
 {
-	ENTITY_ID id;
+	entid_t id;
 	bool res = api->FindClass(&id, nullptr, shipcode);
 	if(!res) return;
 	CVECTOR p;
@@ -243,7 +243,7 @@ bool SHIP_CAMERA::IslandCollision(CVECTOR & pos)
 	{
 		if(lIlsInitCnt < 10)
 		{
-			ENTITY_ID island_id;
+			entid_t island_id;
 			if (api->FindClass(&island_id,"island",0)) pIsland = (ISLAND_BASE*)api->GetEntityPointer(&island_id);
 			lIlsInitCnt++;
 			if(pIsland == nullptr) return false;

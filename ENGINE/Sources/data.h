@@ -14,7 +14,7 @@ public:
 
 /*struct OBJECT_DESC
 {
-	ENTITY_ID    object_id;
+	entid_t    object_id;
 	ATTRIBUTES * pAttributes;
 };*/
 
@@ -35,7 +35,7 @@ friend COMPILER;
 	char * sValue;
 	
 	bool   bEntity;
-	ENTITY_ID object_id;
+	entid_t object_id;
 	uint32_t Segment_id;
 
 	DATA * pReference;
@@ -81,11 +81,11 @@ public:
 	bool Set(char * attribute_name, char * attribute_value, uint32_t index);
 	bool Get(char * attribute_name, char * & value, uint32_t index);
 
-	void Set(ENTITY_ID eid);
-	void Get(ENTITY_ID & eid);
+	void Set(entid_t eid);
+	void Get(entid_t & eid);
 
-	bool Set(ENTITY_ID eid, uint32_t index);
-	bool Get(ENTITY_ID & eid, uint32_t index);
+	bool Set(entid_t eid, uint32_t index);
+	bool Get(entid_t & eid, uint32_t index);
 
 	ATTRIBUTES * GetAClass();
 	ATTRIBUTES * GetAClass(uint32_t index);
@@ -104,7 +104,7 @@ public:
 	DATA * GetVarPointer();
 	void ClearType();
 
-	ENTITY_ID * GetObjectIDPTR() {return &object_id;}
+	entid_t * GetObjectIDPTR() {return &object_id;}
 
 	// operations
 	bool Inc();
@@ -134,7 +134,7 @@ public:
 	long  GetLong();
 	float GetFloat();
 	char * GetString();
-	ENTITY_ID GetEntityID();
+	entid_t GetEntityID();
 	void SetGlobalVarTableIndex(uint32_t index){nGlobalVarTableIndex = index;};
 
 	void Release();

@@ -616,7 +616,7 @@ void Window::Reset(bool isActive)
 {
 	isList = false;
 	isVisible = isActive;
-	ENTITY_ID loc;
+	entid_t loc;
 	if(api->FindClass(&loc, "Location", 0))
 	{
 		api->Send_Message(loc, "ll", MSG_LOCATION_PAUSE, long(isActive));

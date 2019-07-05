@@ -107,7 +107,7 @@ private:
     struct GROUPDATA
     {
         int nation;
-        ENTITY_ID model_id;
+        entid_t model_id;
         bool bDeleted;
     };
     int groupQuantity;
@@ -120,10 +120,10 @@ private:
     void AddLabel(GEOS::LABEL &gl, NODE *nod);
     void SetAll();
     void LoadIni();
-    void GroupSTORM_DELETE(ENTITY_ID m_id);
+    void GroupSTORM_DELETE(entid_t m_id);
     void DoSTORM_DELETE();
     void SetAdd(int flagNum);
-    void MoveOtherHost(ENTITY_ID newm_id,long flagNum,ENTITY_ID oldm_id);
+    void MoveOtherHost(entid_t newm_id,long flagNum,entid_t oldm_id);
 
     FLAGLXVERTEX* vertBuf;
     uint16_t* indxBuf;

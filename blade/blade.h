@@ -28,7 +28,7 @@ class BLADE : public Entity
 
 	struct BLADE_INFO
 	{
-		ENTITY_ID eid;
+		entid_t eid;
 		long color[2];//	color of the blade
 		float defLifeTime, lifeTime;	//
 		float time;	//current time
@@ -46,7 +46,7 @@ class BLADE : public Entity
 	struct TIEITEM_INFO
 	{
 		long nItemIndex;
-		ENTITY_ID eid;
+		entid_t eid;
 		char * locatorName;
 
 		TIEITEM_INFO() {nItemIndex=-1; locatorName=nullptr;}
@@ -58,12 +58,12 @@ class BLADE : public Entity
 
 	VDX9RENDER * rs;
 	COLLIDE *col;
-	ENTITY_ID man;
+	entid_t man;
 	unsigned int blendValue;
 
 	BLADE_INFO blade[BLADE_INFO_QUANTITY];
 
-	ENTITY_ID gun;
+	entid_t gun;
 	const char *gunLocName;
 
 	TIEITEM_INFO items[ITEMS_INFO_QUANTITY];

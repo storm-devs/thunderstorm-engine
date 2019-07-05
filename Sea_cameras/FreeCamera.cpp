@@ -7,7 +7,7 @@
 #define SENSITIVITY		0.0015f
 #define FOV				1.285f
 
-ENTITY_ID	sphere;
+entid_t	sphere;
 COLLIDE		*pCollide;
 
 FREE_CAMERA::FREE_CAMERA()
@@ -75,7 +75,7 @@ void FREE_CAMERA::Execute(uint32_t Delta_Time)
 
 	SetPerspective(AttributesPointer->GetAttributeAsFloat("Perspective"));
 
-	ENTITY_ID ent;
+	entid_t ent;
 	if (!pIslandBase && api->FindClass(&ent,"island",0))
 		pIslandBase = (ISLAND_BASE*)api->GetEntityPointer(&ent);
 
@@ -137,7 +137,7 @@ void FREE_CAMERA::Move(uint32_t DeltaTime)
 	else 
 	{
 		vRes = vPos + fRes * (vDst - vPos);
-		ENTITY_ID ent = pCollide->GetObjectID();
+		entid_t ent = pCollide->GetObjectID();
 		MODELR *pEntity = (MODELR*)api->GetEntityPointer(&ent);
 	}
 

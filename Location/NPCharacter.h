@@ -34,7 +34,7 @@ protected:
 	{
 		NPCTask task;
 		CVECTOR to;
-		ENTITY_ID target;
+		entid_t target;
 		union
 		{
 			uint32_t flags;
@@ -82,8 +82,8 @@ public:
 	//Установить новую задачу
 	bool SetNewTask(NPCTask tsk, MESSAGE & message);
 	
-	bool InitFollowChartacter(ENTITY_ID & eid);
-	bool InitFightChartacter(ENTITY_ID & eid);
+	bool InitFollowChartacter(entid_t & eid);
+	bool InitFightChartacter(entid_t & eid);
 
 
 //--------------------------------------------------------------------------------------------
@@ -155,7 +155,7 @@ private:
 	long stackPointer;	//Указатель стека
 
 	//Объект групп
-	ENTITY_ID charactersGroups;
+	entid_t charactersGroups;
 
 	//Система боя
 	float fightLevel;	//Уровень поведения в бою 0..1

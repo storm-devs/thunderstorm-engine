@@ -47,11 +47,11 @@ public:
 	//unlink node
 	NODE *Unlink();
 	//unlink node to model
-	ENTITY_ID Unlink2Model();
+	entid_t Unlink2Model();
 	//link node to node
 	void Link(NODE *node);
 	//link model to node
-	void Link(ENTITY_ID model, bool transform = true);
+	void Link(entid_t model, bool transform = true);
 
 	void SetTechnique(const char *name);
 	const char *GetTechnique();

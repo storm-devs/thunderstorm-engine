@@ -46,7 +46,7 @@ private:
 	void LoadSettings();
 
 	VDX9RENDER *renderService;
-	ENTITY_ID  sharkModel;
+	entid_t  sharkModel;
 	TShark *sharks[SHARK_COUNT];
 	TShip  *ships[SHARK_MAX_SHIPS];
 	long shipsCount;
@@ -56,7 +56,7 @@ private:
 	float maxDistance;
 	
 	bool enabled;
-	ENTITY_ID seaID;
+	entid_t seaID;
 	SEA_BASE *sea;
 };
 

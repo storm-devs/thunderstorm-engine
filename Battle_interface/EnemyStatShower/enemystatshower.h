@@ -22,11 +22,11 @@ protected:
 	void SetBeginData();
 	void Release();
 
-	ENTITY_ID GetModelEIDFromCharacterEID(ENTITY_ID& chrEID);
+	entid_t GetModelEIDFromCharacterEID(entid_t& chrEID);
 
 protected: // data
 	bool m_bVisible;
-	ENTITY_ID m_eidChrEID;
+	entid_t m_eidChrEID;
 	MODEL* m_pModel;
 };
 

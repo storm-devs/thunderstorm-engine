@@ -105,7 +105,7 @@ void AIFort::Execute(uint32_t Delta_Time)
 
 void AIFort::Realize(uint32_t Delta_Time)
 {
-	/*ENTITY_ID eidIsland;
+	/*entid_t eidIsland;
 	float fCurrentImmersion = 0.0f;
 	if (api->FindClass(&eidIsland, "Island", 0))
 	{
@@ -155,7 +155,7 @@ void AIFort::Realize(uint32_t Delta_Time)
 bool AIFort::CreateState(ENTITY_STATE_GEN * state_gen) { return true; }
 bool AIFort::LoadState(ENTITY_STATE * state) { return true; }
 
-bool AIFort::AddFort(ATTRIBUTES * pIslandAP, ATTRIBUTES * pFortLabelAP, ATTRIBUTES * pFortCharacter, ENTITY_ID eidModel, ENTITY_ID eidBlot)
+bool AIFort::AddFort(ATTRIBUTES * pIslandAP, ATTRIBUTES * pFortLabelAP, ATTRIBUTES * pFortCharacter, entid_t eidModel, entid_t eidBlot)
 {
 	Assert(pFortLabelAP);
 
@@ -192,7 +192,7 @@ bool AIFort::AddFort(ATTRIBUTES * pIslandAP, ATTRIBUTES * pFortLabelAP, ATTRIBUT
 	bool bLights = (pALights) ? pALights->GetAttributeAsDword() != 0 : false;
 	bool bFlares = (pAFlares) ? pAFlares->GetAttributeAsDword() != 0 : false;
 
-	ENTITY_ID eidTmp;
+	entid_t eidTmp;
 	api->FindClass(&eidTmp, "shiplights", 0);
 	pShipsLights = (IShipLights*)api->GetEntityPointer(&eidTmp); Assert(pShipsLights);
 
@@ -230,7 +230,7 @@ void AIFort::AddFortHit(long iCharacterIndex, CVECTOR & vHitPos)
 	}
 }
 
-AIFort::AI_FORT * AIFort::FindFort(ENTITY_ID eidModel)
+AIFort::AI_FORT * AIFort::FindFort(entid_t eidModel)
 {
 	for (long i=0; i<aForts.size(); i++)
 	{
@@ -243,7 +243,7 @@ uint32_t AIFort::ProcessMessage(MESSAGE & message)
 {
 	CVECTOR		vHit;
 	long		iCharacterIndex;
-	ENTITY_ID	eidFortModel, eidBlot;
+	entid_t	eidFortModel, eidBlot;
 	ATTRIBUTES	* pFortAPLabel, * pCharacter, * pIslandAP;
 	AI_FORT		* pFort = nullptr;
 
@@ -289,7 +289,7 @@ bool AIFort::Mount(ATTRIBUTES * pAttribute)
 
 bool AIFort::ScanFortForCannons(AI_FORT * pFort, char * pModelsDir, char * pLocatorsName)
 {
-	ENTITY_ID	model_id;
+	entid_t	model_id;
 	GEOS::LABEL	label;
 	GEOS::INFO	info;
 	NODE		* pNode;
@@ -465,7 +465,7 @@ void AIFort::AI_FORT::Save(CSaveLoad * pSL)
 	for (i=0; i<aMortars.size(); i++) aMortars[i].Save(pSL);
 }
 
-void AIFort::AI_FORT::Load(CSaveLoad * pSL, ENTITY_ID eid)
+void AIFort::AI_FORT::Load(CSaveLoad * pSL, entid_t eid)
 {
 	vPos = pSL->LoadVector();
 

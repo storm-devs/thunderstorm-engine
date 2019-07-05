@@ -97,7 +97,7 @@ public:
 	bool GetCollideTriangle(TRIANGLE &triangle);
 	bool Clip(const PLANE *planes, long nplanes, const CVECTOR &center, float radius, ADD_POLYGON_FUNC addpoly);
     float Cannon_Trace(long iBallOwner, const CVECTOR &src,const CVECTOR &dst);
-    ENTITY_ID GetShipID() {return gdata[LastTraceGroup].shipEI;}
+    entid_t GetShipID() {return gdata[LastTraceGroup].shipEI;}
 	SAILONE_BASE * FindSailForCharacter(int chrIdx,char* nodeName,int grNum);
 	uint32_t AttributeChanged(ATTRIBUTES * pAttr);
 
@@ -119,8 +119,8 @@ private:
     {
         bool bDeleted;
 		bool bYesShip;
-        ENTITY_ID shipEI;
-        ENTITY_ID modelEI;
+        entid_t shipEI;
+        entid_t modelEI;
         int   sailQuantity;
         int*  sailIdx;
         // ограничительный гробик
@@ -151,8 +151,8 @@ private:
     void	SetAllSails();
     void	SetAddSails(int firstSail);
     void	LoadSailIni();
-    void	DoSailToNewHost(ENTITY_ID newMdlEI, ENTITY_ID hewHostEI, int grNum, NODE *nod, ENTITY_ID oldmodelEI);
-    void	DoNoRopeSailToNewHost(ENTITY_ID newModel, ENTITY_ID newHost, ENTITY_ID oldHost);
+    void	DoSailToNewHost(entid_t newMdlEI, entid_t hewHostEI, int grNum, NODE *nod, entid_t oldmodelEI);
+    void	DoNoRopeSailToNewHost(entid_t newModel, entid_t newHost, entid_t oldHost);
     void	DeleteSailGroup();
 	int		FindGroupForCharacter(int chrIdx);
 	int		GetCharacterForGroup(int grNum);

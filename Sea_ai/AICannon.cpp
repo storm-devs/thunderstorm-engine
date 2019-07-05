@@ -217,7 +217,7 @@ float AICannon::CalcMaxFireDistance(float fFireHeight, float fSpeedV0, float fAn
 	return fDistance;
 }
 
-void AICannon::Init(AIAttributesHolder * _pAHolder, const ENTITY_ID & eid, GEOS::LABEL & lbl)
+void AICannon::Init(AIAttributesHolder * _pAHolder, const entid_t & eid, GEOS::LABEL & lbl)
 {
 	pAHolder = _pAHolder;
 	eidParent = eid;
@@ -247,7 +247,7 @@ void AICannon::Save(CSaveLoad * pSL)
 	pSL->SaveDword(bCanRecharge);
 }
 
-void AICannon::Load(CSaveLoad * pSL, AIAttributesHolder * _pAHolder, const ENTITY_ID & eid)
+void AICannon::Load(CSaveLoad * pSL, AIAttributesHolder * _pAHolder, const entid_t & eid)
 {
 	pAHolder = _pAHolder;
 	eidParent = eid;

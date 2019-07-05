@@ -44,7 +44,7 @@ private:
 	void LoadSettings();
 	void Frighten();
 
-	ENTITY_ID  seagullModel;
+	entid_t  seagullModel;
 	tSeagull seagulls[SEAGULL_COUNT];
 	VDX9RENDER *renderService;
 	VSoundService *soundService;

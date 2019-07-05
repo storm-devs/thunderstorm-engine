@@ -190,7 +190,7 @@ uint32_t _cdecl MAST::ProcessMessage(MESSAGE & message)
 }
 
 #define ADD_MINIMUM .01f
-void _cdecl MAST::Mount( ENTITY_ID modelEI, ENTITY_ID shipEI, NODE* mastNodePointer )
+void _cdecl MAST::Mount( entid_t modelEI, entid_t shipEI, NODE* mastNodePointer )
 {
 	m_pMastNode = mastNodePointer;
 	if(mastNodePointer== nullptr) return;
@@ -199,13 +199,13 @@ void _cdecl MAST::Mount( ENTITY_ID modelEI, ENTITY_ID shipEI, NODE* mastNodePoin
     oldmodel_id=modelEI;
     ship_id=shipEI;
 
-    ENTITY_ID ropeEI; bool bRope;
+    entid_t ropeEI; bool bRope;
     bRope = api->FindClass(&ropeEI,"rope",0);
-    ENTITY_ID sailEI; bool bSail;
+    entid_t sailEI; bool bSail;
     bSail = api->FindClass(&sailEI,"sail",0);
-    ENTITY_ID flagEI; bool bFlag;
+    entid_t flagEI; bool bFlag;
     bFlag = api->FindClass(&flagEI,"flag",0);
-    ENTITY_ID vantEI; bool bVant;
+    entid_t vantEI; bool bVant;
     bVant = api->FindClass(&vantEI,"vant",0);
 
 	// найдем аттрибуты
@@ -297,7 +297,7 @@ void _cdecl MAST::Mount( ENTITY_ID modelEI, ENTITY_ID shipEI, NODE* mastNodePoin
         mm.dang = CVECTOR(MIN_X_DANG + VAR_X_DANG*(float)rand()/(float)RAND_MAX,
                           0.f, MIN_Z_DANG + VAR_Z_DANG*(float)rand()/(float)RAND_MAX);
         // найдем ближайший корабль
-        ENTITY_ID tmpEI;
+        entid_t tmpEI;
         float minDist=10000.f;
         SHIP_BASE *minDstShip;
         if(api->FindClass(&tmpEI,"ship",0)) do
@@ -488,7 +488,7 @@ void MAST::doMove(uint32_t DeltaTime)
             CVECTOR rp; // координата правой точки реи (суммарная)
             bool bNextClass = (wMoveCounter <= MAX_MOVE_CICLES); // продожаем коллизию, определенное число раз
             bool bStopRotate = false; // по умалчанию не останавливаем вращение мачты при падении
-            ENTITY_ID modEI,findEI;
+            entid_t modEI,findEI;
             bp = mtx*mm.bp;
             ep = mtx*mm.ep;
             lp = mtx*mm.brey;
@@ -571,7 +571,7 @@ void MAST::doMove(uint32_t DeltaTime)
     }
 }
 
-int MAST::GetSlide(ENTITY_ID &mod, CVECTOR &pbeg, CVECTOR &pend, CVECTOR &dp, CVECTOR &lrey, CVECTOR &rrey, float &angl)
+int MAST::GetSlide(entid_t &mod, CVECTOR &pbeg, CVECTOR &pend, CVECTOR &dp, CVECTOR &lrey, CVECTOR &rrey, float &angl)
 {
     int retVal=0;
 
@@ -644,7 +644,7 @@ int MAST::GetSlide(ENTITY_ID &mod, CVECTOR &pbeg, CVECTOR &pend, CVECTOR &dp, CV
 
 void MAST::AllRelease()
 {
-    ENTITY_ID tmp_id;
+    entid_t tmp_id;
 
 	if( m_mount_param.pNode ) {
 		Mount( m_mount_param.modelEI, m_mount_param.shipEI, m_mount_param.pNode );

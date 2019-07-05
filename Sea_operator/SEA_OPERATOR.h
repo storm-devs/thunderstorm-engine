@@ -55,8 +55,8 @@ protected:
 private:
 	void FirstInit();
 	bool IsTimeToActivate(bool _testControls = true);
-	void SetIfMyShip (ENTITY_ID &_shipID);
-	void HandleShipFire (ENTITY_ID &_shipID, char *_bortName, const CVECTOR &_destination, const CVECTOR &_direction);
+	void SetIfMyShip (entid_t &_shipID);
+	void HandleShipFire (entid_t &_shipID, char *_bortName, const CVECTOR &_destination, const CVECTOR &_direction);
 	void HandleShipHit();
 	void HandleShipIdle();
 	void StartNewAction();

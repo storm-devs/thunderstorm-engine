@@ -40,7 +40,7 @@ Player::Player()
 Player::~Player()
 {
 #ifndef _XBOX
-	ENTITY_ID peid;
+	entid_t peid;
 	if(api->FindClass(&peid, "ShootGunParticles", 0)) api->DeleteEntity(peid);
 #endif
 }
@@ -68,7 +68,7 @@ void Player::Move(float dltTime)
 	if(kSMReload > 1.0f) kSMReload = 1.0f;
 	if(!locCam)
 	{
-		ENTITY_ID lcam;
+		entid_t lcam;
 		if(api->FindClass(&lcam, "LocationCamera", 0))
 		{
 			locCam = (LocationCamera *)api->GetEntityPointer(&lcam);
@@ -304,7 +304,7 @@ void Player::Update(float dltTime)
 	activatedDialog = aDialog;
 	api->Send_Message(baterfl, "lff", MSG_ANIMALS_BUTTERFLIES_XYZ, curPos.x, curPos.z);
 	//ѕеребираем персонажей в поисках врагов к игроку
-	ENTITY_ID eid;
+	entid_t eid;
 	if(api->FindClass(&eid, nullptr, chrGroups))
 	{
 		for(long i = 0; i < location->supervisor.numCharacters; i++)
@@ -651,7 +651,7 @@ Player * Player::FindAttackCharacter()
 		//Ќевражеских пропускаем
 		if(!isEnemy) //~!~
 		{
-			ENTITY_ID eid;
+			entid_t eid;
 			if(api->FindClass(&eid, nullptr, chrGroups))
 			{
 				if(!api->Send_Message(eid, "sii", "IsEnemy", GetID(), chr->GetID())) continue;
@@ -683,7 +683,7 @@ void Player::FireFromShootgun()
 {
 #ifndef _XBOX
 	kSMReload = 0.0f;
-	ENTITY_ID peid;
+	entid_t peid;
 	if(api->FindClass(&peid, "sound", 0))
 	{
 		api->Send_Message(peid, "lsllll", MSG_SOUND_PLAY, "OBJECTS\\sgboom.wav", 4, false, false, false);

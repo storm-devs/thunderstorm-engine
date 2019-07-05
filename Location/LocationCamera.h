@@ -87,7 +87,7 @@ private:
 private:
 	VDX9RENDER * rs;
 	//Море
-	ENTITY_ID sea;
+	entid_t sea;
 	//Параметры камеры
 	float ax;					//Угол наклона камеры
 	float lAx;
@@ -103,7 +103,7 @@ private:
 	bool isLockFPMode;
 	bool isViewExecute;
 
-	ENTITY_ID loc;
+	entid_t loc;
 	Location * location;
 
 	//Режим работы
@@ -118,8 +118,8 @@ private:
 	float kMorph;				//Текущий коэфициент морфинга
 
 	//Модельки
-	ENTITY_ID chr;				//Персонаж
-	ENTITY_ID patchMdl;			//Патч для камеры
+	entid_t chr;				//Персонаж
+	entid_t patchMdl;			//Патч для камеры
 
 	CameraFollow cf;			//Камера следующая за персонажем
 

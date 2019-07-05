@@ -30,7 +30,7 @@ public:
 	virtual CVECTOR		GetBoxsize() { return 0.0f; };
 
 	virtual MODEL *		GetModel() = 0;
-	virtual ENTITY_ID	GetModelEID() = 0;
+	virtual entid_t	GetModelEID() = 0;
 
 	virtual void Save(CSaveLoad * pSL) = 0;
 	virtual void Load(CSaveLoad * pSL) = 0;	

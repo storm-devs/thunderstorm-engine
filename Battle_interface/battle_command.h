@@ -20,7 +20,7 @@ class BIImageRender;
 class BICommandList
 {
 public:
-	BICommandList( ENTITY_ID& eid, ATTRIBUTES* pA, VDX9RENDER* rs );
+	BICommandList( entid_t& eid, ATTRIBUTES* pA, VDX9RENDER* rs );
 	virtual ~BICommandList();
 
 	void Draw();
@@ -48,7 +48,7 @@ public:
 	void AddAdditiveToIconList( long nTextureNum, long nPictureNum, float fDist, float fWidth, float fHeight );
 
 protected:
-	ENTITY_ID m_idHostObj;
+	entid_t m_idHostObj;
 	ATTRIBUTES* m_pARoot;
 	VDX9RENDER* m_pRS;
 

@@ -37,7 +37,7 @@ class RAIN : public ENTITY
 {
 struct ship_t
 {
-	ENTITY_ID	eid;
+	entid_t	eid;
 	SHIP_BASE	* pShip;
 };
 

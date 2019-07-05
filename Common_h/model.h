@@ -40,11 +40,11 @@ public:
 	//unlink node
 	virtual NODE *Unlink() = 0;
 	//unlink node to model
-	virtual ENTITY_ID Unlink2Model() = 0;
+	virtual entid_t Unlink2Model() = 0;
 	//link node to node
 	virtual void Link(NODE *node) = 0;
 	//link model to node
-	virtual void Link(ENTITY_ID model, bool transform = true) = 0;
+	virtual void Link(entid_t model, bool transform = true) = 0;
 
 	virtual void SetTechnique(const char *name) = 0;
 	virtual const char *GetTechnique() = 0;

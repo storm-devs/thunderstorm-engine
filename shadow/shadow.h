@@ -12,7 +12,7 @@ class SHADOW : public ENTITY
 	COLLIDE *col;
 	void FindPlanes(const CMatrix &view, const CMatrix &proj);
 	PLANE planes[6];
-	ENTITY_ID entity;
+	entid_t entity;
 	void Smooth();
 	float shading;
 	unsigned long blendValue;

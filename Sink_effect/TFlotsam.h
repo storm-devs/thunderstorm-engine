@@ -35,12 +35,12 @@ private:
 	uint32_t floatTime, maxFloatTime;
 	bool enabled;
 	//MODEL *model;
-	ENTITY_ID ModelID;
+	entid_t ModelID;
 
 	static MODEL * models[FLOTSAM_MODELS_COUNT];
 	static char modelNames[FLOTSAM_MODELS_COUNT][128];
 	static int modelsInitialized;
-	static ENTITY_ID modelIDs[FLOTSAM_MODELS_COUNT];
+	static entid_t modelIDs[FLOTSAM_MODELS_COUNT];
 };
 
 #endif

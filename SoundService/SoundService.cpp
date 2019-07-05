@@ -1222,14 +1222,14 @@ void SoundService::InitAliases ()
 
 void SoundService::CreateEntityIfNeed ()
 {
-	ENTITY_ID DebugEntity_id;
-	bool bResult = api->FindClass(&DebugEntity_id, "SoundVisualisationEntity", 0);
+	entid_t Debugentid_t;
+	bool bResult = api->FindClass(&Debugentid_t, "SoundVisualisationEntity", 0);
 	if (!bResult)
 	{
-		api->CreateEntity(&DebugEntity_id, "SoundVisualisationEntity");
+		api->CreateEntity(&Debugentid_t, "SoundVisualisationEntity");
 	}
 
-	SoundVisualisationEntity* pDebugEntity = (SoundVisualisationEntity*)api->GetEntityPointer(&DebugEntity_id);
+	SoundVisualisationEntity* pDebugEntity = (SoundVisualisationEntity*)api->GetEntityPointer(&Debugentid_t);
 	pDebugEntity->SetMasterSoundService(this);
 	pDebugEntity->Wakeup();
 

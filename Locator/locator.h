@@ -23,7 +23,7 @@ class LOCATOR : public ENTITY
 	GEOS * geo;
 	long groupID;
 	long stringIndex;
-	ENTITY_ID ParticlesID;
+	entid_t ParticlesID;
 
 	void	LocateForI(VDATA * pData);
 	void	LocateForI_L2(ATTRIBUTES * pA,GEOS * g, GEOS::LABEL & label);

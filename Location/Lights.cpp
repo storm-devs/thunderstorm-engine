@@ -335,7 +335,7 @@ void Lights::AddLight(long index, const CVECTOR & pos)
 
 #ifndef _XBOX
 	//Отправим сообщение лайтеру
-	ENTITY_ID eid;
+	entid_t eid;
 	if(api->FindClass(&eid, nullptr, lighter_code))
 	{
 		api->Send_Message(eid, "sffffffffffs", "AddLight",
@@ -357,9 +357,9 @@ void Lights::AddLight(long index, const CVECTOR & pos)
 }
 
 //Добавить модельку фонарей
-bool Lights::AddLampModel(const ENTITY_ID & lampModel)
+bool Lights::AddLampModel(const entid_t & lampModel)
 {
-	if(numLampModels >= sizeof(lampModels)/sizeof(ENTITY_ID)) return false;
+	if(numLampModels >= sizeof(lampModels)/sizeof(entid_t)) return false;
 	lampModels[numLampModels++] = lampModel;
 	return true;
 }

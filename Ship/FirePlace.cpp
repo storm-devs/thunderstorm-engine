@@ -3,7 +3,7 @@
 #include "../Shared/messages.h"
 #include "../Common_h/Sd2_h/SaveLoad.h"
 
-ENTITY_ID	FirePlace::eidSound;
+entid_t	FirePlace::eidSound;
 
 FirePlace::FirePlace()
 {
@@ -22,7 +22,7 @@ FirePlace::~FirePlace()
 
 bool FirePlace::CreateParticle(const char * pParticleSmokeName, const char * pParticleFireName)
 {
-	ENTITY_ID eidParticle;
+	entid_t eidParticle;
 	if (api->FindClass(&eidParticle, "particles", 0))
 	{
 		CVECTOR vPos = GetPos();
@@ -35,7 +35,7 @@ bool FirePlace::CreateParticle(const char * pParticleSmokeName, const char * pPa
 
 void FirePlace::DeleteParticle()
 {
-	ENTITY_ID eidParticle;
+	entid_t eidParticle;
 	if (api->FindClass(&eidParticle, "particles", 0))
 	{
 		if(pParticleSmoke && api->Send_Message(eidParticle,"ll",PS_VALIDATE_PARTICLE,pParticleSmoke))

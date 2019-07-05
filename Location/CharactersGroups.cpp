@@ -117,7 +117,7 @@ long CharactersGroups::String::GetLen(const char * str)
 bool CharactersGroups::Init()
 {
 	//Указатель на локацию
-	ENTITY_ID loc;
+	entid_t loc;
 	api->FindClass(&loc, "location", 0);
 	location = (Location *)api->GetEntityPointer(&loc);
 	if(!location) return false;
@@ -484,8 +484,8 @@ uint32_t CharactersGroups::AttributeChanged(ATTRIBUTES * apnt)
 //Проверить на действительность цель
 bool CharactersGroups::MsgIsValidateTarget(MESSAGE & message)
 {
-	ENTITY_ID chr = message.EntityID();
-	ENTITY_ID trg = message.EntityID();
+	entid_t chr = message.EntityID();
+	entid_t trg = message.EntityID();
 	Character * c = (Character *)api->GetEntityPointer(&chr);
 	if(!c) return false;
 	Character * en = (Character *)api->GetEntityPointer(&trg);
@@ -501,7 +501,7 @@ bool CharactersGroups::MsgIsValidateTarget(MESSAGE & message)
 //Найти оптимальную цель
 bool CharactersGroups::MsgGetOptimalTarget(MESSAGE & message)
 {
-	ENTITY_ID chr = message.EntityID();
+	entid_t chr = message.EntityID();
 	Character * c = (Character *)api->GetEntityPointer(&chr);
 	if(!c) return false;
 	VDATA * vd = message.ScriptVariablePointer();
@@ -605,7 +605,7 @@ void CharactersGroups::MsgAttack(MESSAGE & message)
 void CharactersGroups::MsgAddTarget(MESSAGE & message)
 {
 	//Получаем персонажей
-	ENTITY_ID eid = message.EntityID();
+	entid_t eid = message.EntityID();
 	Character * chr = (Character *)api->GetEntityPointer(&eid);
 	eid = message.EntityID();
 	Character * enemy = (Character *)api->GetEntityPointer(&eid);
@@ -640,7 +640,7 @@ void CharactersGroups::MsgAddTarget(MESSAGE & message)
 //Обновить цели у данного персонажа
 void CharactersGroups::MsgUpdChrTrg(MESSAGE & message)
 {
-	ENTITY_ID eid = message.EntityID();
+	entid_t eid = message.EntityID();
 	Character * chr = (Character *)api->GetEntityPointer(&eid);
 	if(chr) CharacterVisibleCheck(chr);
 }
@@ -810,7 +810,7 @@ bool CharactersGroups::MsgSetAlarmDown(MESSAGE & message)
 //Добавить в группу персонажа
 bool CharactersGroups::MoveCharacterToGroup(MESSAGE & message)
 {
-	ENTITY_ID eid = message.EntityID();
+	entid_t eid = message.EntityID();
 	Character * chr = (Character *)api->GetEntityPointer(&eid);
 	if(!chr) return false;
 	//Создадим группу
@@ -913,14 +913,14 @@ void CharactersGroups::MsgSetAlarmReaction(MESSAGE & message)
 }
 
 //Исключить персонажа из всех групп
-void CharactersGroups::RemoveCharacterFromAllGroups(ENTITY_ID * chr)
+void CharactersGroups::RemoveCharacterFromAllGroups(entid_t * chr)
 {
 	Character * ch = chr != nullptr ? (Character *)api->GetEntityPointer(chr) : nullptr;
 	//Удалим персонажа из предыдущей группы
 	for(long i = 0; i < numGroups; i++)
 	{
 		Group * g = groups[i];
-		ENTITY_ID * cid  = g->c;
+		entid_t * cid  = g->c;
 		for(long j = 0; j < g->numChr; )
 		{
 			Character * c = (Character *)api->GetEntityPointer(&cid[j]);
@@ -935,7 +935,7 @@ void CharactersGroups::RemoveCharacterFromAllGroups(ENTITY_ID * chr)
 //Выгрузка персонажа
 void CharactersGroups::UnloadCharacter(MESSAGE & message)
 {
-	ENTITY_ID eid = message.EntityID();
+	entid_t eid = message.EntityID();
 	RemoveCharacterFromAllGroups(&eid);
 }
 

@@ -37,7 +37,7 @@ LocEagle::~LocEagle()
 bool LocEagle::Init()
 {
 	//Точка, вокруг которой летаем
-	ENTITY_ID loc;
+	entid_t loc;
 	api->FindClass(&loc, "location", 0);
 	Location * location = (Location *)api->GetEntityPointer(&loc);
 	if(!location) return false;

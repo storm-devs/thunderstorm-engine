@@ -35,7 +35,7 @@ public:
 	void Save(CSaveLoad * pSL);
 	void Load(CSaveLoad * pSL);	
 
-	static ENTITY_ID	eidSound;
+	static entid_t	eidSound;
 
 private:
 	

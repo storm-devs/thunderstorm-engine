@@ -408,7 +408,7 @@ void BLADE::GunFire()
 			resm.EqMultiply(perMtx, *(CMatrix*)&lb.m);
 			CVECTOR rp = perMtx*CVECTOR(lb.m[3][0], lb.m[3][1], lb.m[3][2]);
 
-			ENTITY_ID prt;
+			entid_t prt;
 			api->FindClass(&prt, "particles", 0);
 			api->Send_Message(prt, "lsffffffl", PS_CREATEX, "gunfire", rp.x, rp.y, rp.z, 
 				resm.Vz().x, resm.Vz().y, resm.Vz().z, 0);

@@ -1,7 +1,7 @@
 #ifndef _ENTITY_H_
 #define _ENTITY_H_
 
-#include "entity_id.h"
+#include "entid_t.h"
 #include "attributes.h"
 #include "message.h"
 #include "entity_state.h"
@@ -38,7 +38,7 @@ class ENTITY
 {
 friend CORE;
 private: 
-	ENTITY_ID Entity_ID;
+	entid_t entid_t;
 	bool bServer, bFirstTestServer;
 	VGEOMETRY * __pGeoService;
 	VDX9RENDER * __pRenderService;
@@ -47,13 +47,13 @@ private:
 
 public:
 	ATTRIBUTES * AttributesPointer;
-	ENTITY_ID GetID(){return Entity_ID;}
+	entid_t GetID(){return entid_t;}
 	ENTITY()
 	{
 		AttributesPointer = nullptr;
 		//_VSYSTEM_API->SetEntityPointer(this);
-		//Entity_ID = _VSYSTEM_API->GetEntityID();
-		//_VSYSTEM_API->Push(Entity_ID.pointer,Entity_ID.class_code);
+		//entid_t = _VSYSTEM_API->GetEntityID();
+		//_VSYSTEM_API->Push(entid_t.pointer,entid_t.class_code);
 
 		__pGeoService = nullptr;
 		__pRenderService = nullptr;
@@ -64,11 +64,11 @@ public:
 	};
 	virtual ~ENTITY()
 	{
-	//	_VSYSTEM_API->Pop(Entity_ID.pointer);
+	//	_VSYSTEM_API->Pop(entid_t.pointer);
 	};
-	virtual void SetEntityID(ENTITY_ID & id) final {
+	virtual void SetEntityID(entid_t & id) final {
 		id.pointer = this; 
-		Entity_ID = id;
+		entid_t = id;
 	}
 	virtual bool Init()											{return true;};
 	virtual void Execute(uint32_t Delta_Time)						{};

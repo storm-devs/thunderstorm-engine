@@ -109,7 +109,7 @@ void Blood::Realize(uint32_t delta_time)
 
 uint32_t _cdecl Blood::ProcessMessage(MESSAGE &message)
 {
-	ENTITY_ID eid;
+	entid_t eid;
 	CVECTOR cv;
 
 	switch( message.Long() )
@@ -186,7 +186,7 @@ void Blood::AddBlood(const CVECTOR& pos)
 	p[5].Nx = -1.0f; p[5].Ny = 0.0f; p[5].Nz = 0.0f; p[5].D = -(cpos.x - BLOOD_RADIUS);
 
 	// бегаем по лееру
-	for(ENTITY_ID *pEID=walker->GetID(); pEID; pEID=walker->GetIDNext())
+	for(entid_t *pEID=walker->GetID(); pEID; pEID=walker->GetIDNext())
 	{
 		MODEL * m = (MODEL *)api->GetEntityPointer(pEID);
 		if(!m) continue;

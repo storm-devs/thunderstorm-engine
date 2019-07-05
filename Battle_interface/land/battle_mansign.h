@@ -12,7 +12,7 @@ class BIManCommandList;
 class BIManSign
 {
 public:
-	BIManSign( ENTITY_ID& BIEntityID, VDX9RENDER* pRS );
+	BIManSign( entid_t& BIEntityID, VDX9RENDER* pRS );
 	~BIManSign();
 
 	void Draw();
@@ -60,7 +60,7 @@ protected:
 	VDX9RENDER* m_pRS;
 	ATTRIBUTES* m_pARoot;
 	BIManCommandList* m_pCommandList;
-	ENTITY_ID m_idHostEntity;
+	entid_t m_idHostEntity;
 	long m_nCommandMode;
 
 	long m_nVBufID;

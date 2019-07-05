@@ -143,7 +143,7 @@ void AIBalls::AddBall(ATTRIBUTES * pABall)
 
 	if (aBallTypes[i].sParticleName.size())
 	{
-		ENTITY_ID eidParticle;
+		entid_t eidParticle;
 		if (api->FindClass(&eidParticle,"particles",0))
 		{
 			pBall->pParticle = (VPARTICLE_SYSTEM *)api->Send_Message(eidParticle,"lsffffffl",PS_CREATE_RIC,(char*)aBallTypes[i].sParticleName.c_str(),pBall->vPos.x,pBall->vPos.y,pBall->vPos.z,0.0f,1.0f,0.0f,100000);
@@ -155,7 +155,7 @@ void AIBalls::Execute(uint32_t Delta_Time)
 {
 	uint32_t						i, j;
 	CVECTOR						vSrc, vDst;
-	ENTITY_ID					EID, *pEID;
+	entid_t					EID, *pEID;
 
 	if (!pIsland && api->FindClass(&EID,"island", 0))
 		pIsland = (CANNON_TRACE_BASE*)api->GetEntityPointer(&EID);
@@ -433,7 +433,7 @@ void AIBalls::Load(CSaveLoad * pSL)
 			if (pB->pParticle)
 			{
 				pB->pParticle = nullptr;
-				ENTITY_ID eidParticle;
+				entid_t eidParticle;
 				if (api->FindClass(&eidParticle,"particles",0))
 				{
 					pB->pParticle = (VPARTICLE_SYSTEM *)api->Send_Message(eidParticle,"lsffffffl",PS_CREATE_RIC,(char*)aBallTypes[i].sParticleName.c_str(),pB->vPos.x,pB->vPos.y,pB->vPos.z,0.0f,1.0f,0.0f,100000);

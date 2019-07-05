@@ -47,7 +47,7 @@ bool AIHelper::Init()
 {
 	pIsland = nullptr;
 
-	ENTITY_ID eidIsland;
+	entid_t eidIsland;
 	if (api->FindClass(&eidIsland, "island", 0))
 		pIsland = (ISLAND_BASE*)api->GetEntityPointer(&eidIsland);
 

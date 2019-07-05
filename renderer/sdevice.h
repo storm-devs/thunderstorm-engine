@@ -68,7 +68,7 @@ struct VideoTextureEntity
 	char				* name;
 	unsigned long		hash;
     long				ref;
-	ENTITY_ID			videoTexture_id;
+	entid_t			videoTexture_id;
 	CVideoTexture		* VideoTexture;
 	VideoTextureEntity	* next;
 };

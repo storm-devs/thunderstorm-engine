@@ -1128,7 +1128,7 @@ long BATTLE_NAVIGATOR::SetRectangleSegVertexTex(BI_ONETEXTURE_VERTEX *v, float x
 
 void BATTLE_NAVIGATOR::SetIsland()
 {
-	ENTITY_ID ei;
+	entid_t ei;
 	MODEL * pM= nullptr;
 	CVECTOR posCenter;
 	float islSize = 0;
@@ -1296,7 +1296,7 @@ void BATTLE_NAVIGATOR::UpdateCurrentCharge()
 void BATTLE_NAVIGATOR::UpdateWindParam()
 {
 	if( !m_wb && !m_pAWeather ) {
-		ENTITY_ID ei;
+		entid_t ei;
 		if( api->FindClass(&ei,"weather",0) )
 			m_wb = (WEATHER_BASE*)api->GetEntityPointer(&ei);
 		if( api->IsNetActive() && !m_wb && m_pOwnerEI ) {
