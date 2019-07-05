@@ -1,5 +1,6 @@
 #include "Foam.h"
 #include "../Common_h/math3d/Plane.h"
+#include "../Common_h/inlines.h"
 
 CoastFoam::CoastFoam()
 {
@@ -77,7 +78,7 @@ void CoastFoam::Realize(uint32_t Delta_Time)
 	pFrustumPlanes = rs->GetPlanes();
 
 	entid_t sea_id;
-	if (!pSea && api->FindClass(&sea_id, "sea", 0)) 
+	if (!pSea && (sea_id = api->GetEntityIdWalker("sea")()))
 	{
 		pSea = (SEA_BASE*)api->GetEntityPointer(sea_id);
 		if (!pSea) return;

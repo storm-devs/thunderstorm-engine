@@ -41,8 +41,6 @@ ISLAND::ISLAND()
 ISLAND::~ISLAND()
 {
 	Uninit();
-
-	STORM_DELETE(pIslandTraceWalker);
 }
 
 void ISLAND::Uninit()

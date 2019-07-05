@@ -572,7 +572,7 @@ Character::~Character()
 
 	//Удаляемся из групп
 	entid_t grps;
-	api->FindClass(&grps, "CharactersGroups", 0);
+	grps = api->GetEntityIdWalker("CharactersGroups")();
 	api->Send_Message(grps, "si", "UnloadCharacter", GetId());
 
 	//Анализируем детекторы
@@ -593,11 +593,10 @@ Character::~Character()
 bool Character::Init()
 {
 	//Указатель на локацию
-	entid_t loc;
-	api->FindClass(&loc, "location", 0);
+	entid_t loc = api->GetEntityIdWalker("location")();
 	location = (Location *)api->GetEntityPointer(loc);
 	if(!location) return false;
-	api->FindClass(&effects, "LocationEffects", 0);
+	effects = api->GetEntityIdWalker("LocationEffects")();
 	soundService = (VSoundService *)api->CreateService("SoundService");
 	//Регестрируем своё попадание в локацию
 	if(location->supervisor.numCharacters >= MAX_CHARACTERS)
@@ -607,7 +606,7 @@ bool Character::Init()
 	}
 	location->supervisor.AddCharacter(this);
 	//Море
-	api->FindClass(&sea, "sea", 0);
+	sea = api->GetEntityIdWalker("sea")();
 	//Сохраним идентификатор
 	const char * id = nullptr;
 	if(AttributesPointer) id = AttributesPointer->GetAttribute("id");
@@ -616,8 +615,7 @@ bool Character::Init()
 	characterID = new char[len];
 	strcpy_s(characterID, len, id);
 	//Добавим в группу
-	entid_t grps;
-	api->FindClass(&grps, "CharactersGroups", 0);
+	const auto grps = api->GetEntityIdWalker("CharactersGroups")();
 	api->Send_Message(grps, "sis", "MoveCharacter", GetId(), group);
 	SetSignModel();
 	SetSignTechnique();
@@ -908,7 +906,7 @@ void Character::SetSignModel()
 	std::string path = "quest_signs\\";
 	path += signModelName;
 	//Создаём и загружаем модельку
-	if(!api->CreateEntity(&sign, "modelr"))
+	if(!(sign = api->CreateEntity("modelr")))
 	{
 		if(gs) gs->SetTexturePath("");
 		return;
@@ -2601,7 +2599,7 @@ bool Character::zLoadModel(MESSAGE & message)
 	strcpy_s(mpath, "characters\\");
 	strcat_s(mpath, name);
 	//Создаём и загружаем модельку
-	if(!api->CreateEntity(&mdl, "modelr"))
+	if(!(mdl = api->CreateEntity("modelr")))
 	{
 		if(gs) gs->SetTexturePath("");
 		return false;
@@ -2640,15 +2638,15 @@ bool Character::zLoadModel(MESSAGE & message)
 	m->SetRenderTuner(&tuner);
 	api->LayerAdd("realize", mdl, 20);
 	api->LayerAdd("sun_trace", mdl, 10);
-	if(api->CreateEntity(&shadow, "shadow"))
+	if(shadow = api->CreateEntity("shadow"))
 	{
 		api->Send_Message(shadow, "li", 0, mdl);
 	}else{
 		api->Trace("Shadow not created!");
 	}
-	if(api->FindClass(nullptr, "sea", 0))
+	if(api->GetEntityIdWalker("sea")())
 	{
-		api->CreateEntity(&waterrings, "waterrings");
+		waterrings = api->CreateEntity("waterrings");
 	}
 	UpdateActionsData();
 	return true;
@@ -2759,7 +2757,7 @@ bool Character::zSetBlade(MESSAGE & message)
 	long e = message.Long();
 	if(!api->GetEntityPointer(blade))
 	{
-		if(!api->CreateEntity(&blade, "blade")) return false;
+		if(!(blade = api->CreateEntity("blade"))) return false;
 	}
 	api->Send_Message(blade, "llisfll", MSG_BLADE_SET, nBladeIdx, mdl, name, t, s, e);
 	UpdateWeapons();
@@ -2777,7 +2775,7 @@ bool Character::zSetGun(MESSAGE & message)
 	if(!name[0]) isGunSet = false;
 	if(!api->GetEntityPointer(blade))
 	{
-		if(!api->CreateEntity(&blade, "blade")) return false;
+		if (!(blade = api->CreateEntity("blade"))) return false;
 	}
 	api->Send_Message(blade, "lis", MSG_BLADE_GUNSET, mdl, name);
 	UpdateWeapons();
@@ -2862,7 +2860,7 @@ uint32_t Character::zExMessage(MESSAGE & message)
 		message.String(sizeof(locatorName),locatorName);
 		if(!api->GetEntityPointer(blade))
 		{
-			if(!api->CreateEntity(&blade, "blade")) return 0;
+			if (!(blade = api->CreateEntity("blade"))) return 0;
 			UpdateWeapons();
 		}
 		api->Send_Message(blade, "lilss", 1001, mdl,i,modelName,locatorName);
@@ -4283,7 +4281,7 @@ Character * Character::FindGunTarget(float & kDist, bool bOnlyEnemyTest)
 	long grp;
 	if (bOnlyEnemyTest)
 	{
-		api->FindClass(&grps, "CharactersGroups", 0);
+		grps = api->GetEntityIdWalker("CharactersGroups")();
 		chrGroup = (CharactersGroups *)api->GetEntityPointer(grps);
 		grp = chrGroup->FindGroupIndex(group);
 	}
