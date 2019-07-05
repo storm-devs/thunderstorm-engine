@@ -34,8 +34,8 @@ public:
 	void            Move();
     void            Execute(uint32_t Delta_Time);
 	void            Realize(uint32_t Delta_Time);
-	bool            CreateState(Entity_STATE_GEN * state_gen);
-	bool            LoadState(Entity_STATE * state);
+	bool            CreateState(ENTITY_STATE_GEN * state_gen);
+	bool            LoadState(ENTITY_STATE * state);
 	uint32_t    ProcessMessage(MESSAGE & message);
 protected:
     void            AllRelease();

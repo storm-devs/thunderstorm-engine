@@ -55,13 +55,13 @@ void FREE_CAMERA::SetDevice()
 	api->LayerAdd("realize",sphere,10000);*/
 }
 
-bool FREE_CAMERA::CreateState(Entity_STATE_GEN * state_gen)
+bool FREE_CAMERA::CreateState(ENTITY_STATE_GEN * state_gen)
 {
 	state_gen->SetState("vv",sizeof(vPos),vPos,sizeof(vAng),vAng);
 	return true;
 }
 
-bool FREE_CAMERA::LoadState(Entity_STATE * state)
+bool FREE_CAMERA::LoadState(ENTITY_STATE * state)
 {
 	SetDevice();
 	state->Struct(sizeof(vPos),(char *)&vPos);

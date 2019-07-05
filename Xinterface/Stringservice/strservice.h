@@ -28,8 +28,8 @@ public:
 	~STRSERVICE();
 
 	bool	Init();
-	bool	LoadState(Entity_STATE *state);
-	bool	CreateState(Entity_STATE_GEN *state_gen);
+	bool	LoadState(ENTITY_STATE *state);
+	bool	CreateState(ENTITY_STATE_GEN *state_gen);
 	void	RunStart();
 	void	RunEnd();
 

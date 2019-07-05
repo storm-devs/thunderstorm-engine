@@ -35,12 +35,12 @@ void LIGHTNING::SetDevice()
 	pCollide = (COLLIDE*)api->CreateService("COLL"); Assert(pCollide);
 }
 
-bool LIGHTNING::CreateState(Entity_STATE_GEN * state_gen)
+bool LIGHTNING::CreateState(ENTITY_STATE_GEN * state_gen)
 {
 	return true;
 }
 
-bool LIGHTNING::LoadState(Entity_STATE * state)
+bool LIGHTNING::LoadState(ENTITY_STATE * state)
 {
 	return true;
 }

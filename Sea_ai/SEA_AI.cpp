@@ -68,12 +68,12 @@ void SEA_AI::Realize(uint32_t Delta_Time)
 	//AIHelper::pRS->Print(0,90,"%d",dwRDTSC);//dwTotal);
 }
 
-bool SEA_AI::CreateState(Entity_STATE_GEN * state_gen)
+bool SEA_AI::CreateState(ENTITY_STATE_GEN * state_gen)
 {
 	return true;
 }
 
-bool SEA_AI::LoadState(Entity_STATE * state)
+bool SEA_AI::LoadState(ENTITY_STATE * state)
 {
 	return true;
 }

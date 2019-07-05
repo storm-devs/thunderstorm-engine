@@ -152,8 +152,8 @@ void AIFort::Realize(uint32_t Delta_Time)
 */
 }
 
-bool AIFort::CreateState(Entity_STATE_GEN * state_gen) { return true; }
-bool AIFort::LoadState(Entity_STATE * state) { return true; }
+bool AIFort::CreateState(ENTITY_STATE_GEN * state_gen) { return true; }
+bool AIFort::LoadState(ENTITY_STATE * state) { return true; }
 
 bool AIFort::AddFort(ATTRIBUTES * pIslandAP, ATTRIBUTES * pFortLabelAP, ATTRIBUTES * pFortCharacter, entid_t eidModel, entid_t eidBlot)
 {

@@ -157,12 +157,12 @@ void WEATHER::UpdateSunMoonPos()
 	}
 }
 
-bool WEATHER::CreateState(Entity_STATE_GEN * state_gen)
+bool WEATHER::CreateState(ENTITY_STATE_GEN * state_gen)
 {
 	return true;
 }
 
-bool WEATHER::LoadState(Entity_STATE * state)
+bool WEATHER::LoadState(ENTITY_STATE * state)
 {
 	return true;
 }

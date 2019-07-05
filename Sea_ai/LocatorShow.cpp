@@ -168,12 +168,12 @@ void SeaLocatorShow::Execute(uint32_t Delta_Time)
 	if (!pALocators) return;
 }
 	
-bool SeaLocatorShow::CreateState(Entity_STATE_GEN * state_gen)
+bool SeaLocatorShow::CreateState(ENTITY_STATE_GEN * state_gen)
 {
 	return true;
 }
 
-bool SeaLocatorShow::LoadState(Entity_STATE * state)
+bool SeaLocatorShow::LoadState(ENTITY_STATE * state)
 {
 	return true;
 }

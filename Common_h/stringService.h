@@ -8,8 +8,8 @@ class VSTRSERVICE : public SERVICE
 {
 public:
 	virtual bool	Init() = 0;
-	virtual bool	LoadState(Entity_STATE *state) = 0;
-	virtual bool	CreateState(Entity_STATE_GEN *state_gen) = 0;
+	virtual bool	LoadState(ENTITY_STATE *state) = 0;
+	virtual bool	CreateState(ENTITY_STATE_GEN *state_gen) = 0;
 	virtual void	RunStart() = 0;
 	virtual void	RunEnd() = 0;
 

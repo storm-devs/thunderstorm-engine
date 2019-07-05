@@ -2258,13 +2258,13 @@ void DX9RENDER::GetTransform(long type, D3DMATRIX *mtx)
 	}
 }
 
-bool DX9RENDER::CreateState(Entity_STATE_GEN * state_gen)
+bool DX9RENDER::CreateState(ENTITY_STATE_GEN * state_gen)
 {
 	//state_gen->SetState("vm",sizeof(screen_size),screen_size,sizeof(bool),&window);
 	return true;
 }
 
-bool DX9RENDER::LoadState(Entity_STATE * state)
+bool DX9RENDER::LoadState(ENTITY_STATE * state)
 {
 	//GUARD(DX9RENDER::Init)
 		//for(long t=0; t<MAX_STEXTURES; t++)	Textures[t].d3dtex = NULL;

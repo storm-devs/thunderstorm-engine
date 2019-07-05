@@ -448,8 +448,8 @@ public:
 	void  RunStart() override;
 	void  RunEnd() override;
 	uint32_t RunSection() override {return SECTION_REALIZE;};
-	bool  LoadState(Entity_STATE * state) override;
-	bool  CreateState(Entity_STATE_GEN * state_gen) override;
+	bool  LoadState(ENTITY_STATE * state) override;
+	bool  CreateState(ENTITY_STATE_GEN * state_gen) override;
 
 	void ProcessScriptPosAng(CVECTOR & vPos, CVECTOR & vAng);
 	void FindPlanes(IDirect3DDevice9 * d3dDevice);
@@ -546,8 +546,8 @@ public:
 	void  RunStart();
 	void  RunEnd();
 	uint32_t RunSection(){return SECTION_REALIZE;};
-	bool  LoadState(Entity_STATE * state);
-	bool  CreateState(Entity_STATE_GEN * state_gen);
+	bool  LoadState(ENTITY_STATE * state);
+	bool  CreateState(ENTITY_STATE_GEN * state_gen);
 
 	//
 	void MakeScreenShot();

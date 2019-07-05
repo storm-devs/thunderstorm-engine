@@ -249,12 +249,12 @@ void SKY::LoadTextures()
 	fAngleY = 0.0f;
 }
 
-bool SKY::CreateState(Entity_STATE_GEN * state_gen)
+bool SKY::CreateState(ENTITY_STATE_GEN * state_gen)
 {
 	return true;
 }
 
-bool SKY::LoadState(Entity_STATE * state)
+bool SKY::LoadState(ENTITY_STATE * state)
 {
 	SetDevice();
 	return true;

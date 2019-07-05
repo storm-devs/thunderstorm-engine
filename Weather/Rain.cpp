@@ -181,12 +181,12 @@ bool RAIN::Init()
 	return true;
 }
 
-bool RAIN::CreateState(Entity_STATE_GEN * state_gen)
+bool RAIN::CreateState(ENTITY_STATE_GEN * state_gen)
 {
 	return true;
 }
 
-bool RAIN::LoadState(Entity_STATE * state)
+bool RAIN::LoadState(ENTITY_STATE * state)
 {
 	return true;
 }

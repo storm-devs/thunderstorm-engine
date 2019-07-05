@@ -40,12 +40,12 @@ void DECK_CAMERA::SetDevice()
 	Assert(RenderService);
 }
 
-bool DECK_CAMERA::CreateState(Entity_STATE_GEN * state_gen)
+bool DECK_CAMERA::CreateState(ENTITY_STATE_GEN * state_gen)
 {
 	return true;
 }
 
-bool DECK_CAMERA::LoadState(Entity_STATE * state)
+bool DECK_CAMERA::LoadState(ENTITY_STATE * state)
 {
 	SetDevice();
 	return true;

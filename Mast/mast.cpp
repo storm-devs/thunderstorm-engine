@@ -77,17 +77,17 @@ void MAST::SetDevice()
 	//UNGUARD
 }
 
-bool MAST::CreateState(Entity_STATE_GEN * state_gen)
+bool MAST::CreateState(ENTITY_STATE_GEN * state_gen)
 {
-	//GUARD(bool MAST::CreateState(Entity_STATE_GEN * state_gen))
+	//GUARD(bool MAST::CreateState(ENTITY_STATE_GEN * state_gen))
 
 	return true;
 	//UNGUARD
 }
 
-bool MAST::LoadState(Entity_STATE * state)
+bool MAST::LoadState(ENTITY_STATE * state)
 {
-	//GUARD(bool MAST::LoadState(Entity_STATE * state))
+	//GUARD(bool MAST::LoadState(ENTITY_STATE * state))
 
 	SetDevice();
 

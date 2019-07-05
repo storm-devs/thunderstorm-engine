@@ -201,12 +201,12 @@ void SAIL::SetDevice()
     }
 }
 
-bool SAIL::CreateState(Entity_STATE_GEN * state_gen)
+bool SAIL::CreateState(ENTITY_STATE_GEN * state_gen)
 {
     return true;
 }
 
-bool SAIL::LoadState(Entity_STATE * state)
+bool SAIL::LoadState(ENTITY_STATE * state)
 {
 	return true;
 }

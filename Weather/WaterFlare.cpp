@@ -50,16 +50,16 @@ void WATERFLARE::SetDevice()
 	//UNGUARD
 }
 
-bool WATERFLARE::CreateState(Entity_STATE_GEN * state_gen)
+bool WATERFLARE::CreateState(ENTITY_STATE_GEN * state_gen)
 {
-	//GUARD(bool WATERFLARE::CreateState(Entity_STATE_GEN * state_gen))
+	//GUARD(bool WATERFLARE::CreateState(ENTITY_STATE_GEN * state_gen))
 	//UNGUARD
 	return true;
 }
 
-bool WATERFLARE::LoadState(Entity_STATE * state)
+bool WATERFLARE::LoadState(ENTITY_STATE * state)
 {
-	//GUARD(bool WATERFLARE::LoadState(Entity_STATE * state))
+	//GUARD(bool WATERFLARE::LoadState(ENTITY_STATE * state))
 	//UNGUARD
 	return true;
 }

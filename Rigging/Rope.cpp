@@ -81,12 +81,12 @@ void ROPE::SetDevice()
     texl=RenderService->TextureCreate(TextureName);
 }
 
-bool ROPE::CreateState(Entity_STATE_GEN * state_gen)
+bool ROPE::CreateState(ENTITY_STATE_GEN * state_gen)
 {
 	return true;
 }
 
-bool ROPE::LoadState(Entity_STATE * state)
+bool ROPE::LoadState(ENTITY_STATE * state)
 {
 	return true;
 }

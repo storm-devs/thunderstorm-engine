@@ -260,12 +260,12 @@ void XINTERFACE::SetDevice()
 	//UNGUARD
 }
 
-bool XINTERFACE::CreateState(Entity_STATE_GEN * state_gen)
+bool XINTERFACE::CreateState(ENTITY_STATE_GEN * state_gen)
 {
 	return true;
 }
 
-bool XINTERFACE::LoadState(Entity_STATE * state)
+bool XINTERFACE::LoadState(ENTITY_STATE * state)
 {
 	return true;
 }
