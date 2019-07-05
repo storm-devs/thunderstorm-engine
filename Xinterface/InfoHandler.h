@@ -3,7 +3,7 @@
 
 #include "../Common_h/dx9render.h"
 
-class InfoHandler : public ENTITY
+class InfoHandler : public Entity
 {
 	VDX9RENDER * m_rs;
 

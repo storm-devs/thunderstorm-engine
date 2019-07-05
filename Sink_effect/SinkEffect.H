@@ -12,7 +12,7 @@
 // CLASS DEFINITION
 ///////////////////////////////////////////////////////////////////
 
-class SINKEFFECT: public ENTITY
+class SINKEFFECT: public Entity
 {
 public:
 	SINKEFFECT();

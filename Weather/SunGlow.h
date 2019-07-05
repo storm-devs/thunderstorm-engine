@@ -8,7 +8,7 @@
 
 class SKY;
 
-class SUNGLOW : public ENTITY 
+class SUNGLOW : public Entity 
 {
 public:
 

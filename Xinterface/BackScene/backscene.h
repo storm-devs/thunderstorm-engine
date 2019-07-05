@@ -9,7 +9,7 @@ class MODEL;
 class NODE;
 class CMatrix;
 
-class InterfaceBackScene : public ENTITY
+class InterfaceBackScene : public Entity
 {
 	struct LightParam
 	{

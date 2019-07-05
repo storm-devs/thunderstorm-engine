@@ -17,7 +17,7 @@
 #include "../Common_h/collide.h"
 #include <vector>
 
-class Lights : public ENTITY
+class Lights : public Entity
 {
 	//Описание источника освещения
 	struct LightType

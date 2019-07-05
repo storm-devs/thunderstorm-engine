@@ -7,7 +7,7 @@
 
 #define MAX_LIGHTNING_TEXTURES		2
 
-class LIGHTNING : public ENTITY
+class LIGHTNING : public Entity
 {
 	struct flash_t
 	{

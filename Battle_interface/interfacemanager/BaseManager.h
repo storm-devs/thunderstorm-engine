@@ -31,7 +31,7 @@ public:
 	virtual bool IsMouseMoveReaction() = 0;
 };
 
-class BI_ManagerBase : public ENTITY
+class BI_ManagerBase : public Entity
 {
 public:
 	BI_ManagerBase(){}

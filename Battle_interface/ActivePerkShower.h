@@ -4,7 +4,7 @@
 #include "../Common_h/dx9render.h"
 #include "../Common_h/defines.h"
 
-class	ActivePerkShower : public ENTITY
+class	ActivePerkShower : public Entity
 {
 	VDX9RENDER *rs;
 

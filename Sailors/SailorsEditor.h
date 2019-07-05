@@ -7,7 +7,7 @@
 
 
 
-class SailorsEditor : public ENTITY
+class SailorsEditor : public Entity
 {
 	public:
 

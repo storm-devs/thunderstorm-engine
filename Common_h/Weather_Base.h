@@ -82,7 +82,7 @@
 #define whs_sunglow_texture		0
 #define whs_rainbow_texture		1
 
-class WEATHER_BASE : public ENTITY
+class WEATHER_BASE : public Entity
 {
 public:
 	WEATHER_BASE(){};

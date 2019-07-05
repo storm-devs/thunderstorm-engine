@@ -6,7 +6,7 @@
 
 class Lights;
 
-class LocModelRealizer : public ENTITY
+class LocModelRealizer : public Entity
 {
 	entid_t eid_model;
 	Lights* lights;

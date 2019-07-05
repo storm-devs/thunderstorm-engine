@@ -4,7 +4,7 @@
 #include "Typedef.h"
 #include "../common_h/Weather_base.h"
 
-class WATERFLARE : public ENTITY
+class WATERFLARE : public Entity
 {
 	RS_RECT			*pRSRect;
 	float			*pfAlpha;

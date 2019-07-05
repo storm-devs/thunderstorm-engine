@@ -3,7 +3,7 @@
 
 #include "../../Common_h/stringService.h"
 
-class OBJ_STRSERVICE : public ENTITY
+class OBJ_STRSERVICE : public Entity
 {
 	VSTRSERVICE * m_pStrService;
 public:

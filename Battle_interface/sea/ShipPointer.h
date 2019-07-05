@@ -5,7 +5,7 @@
 #include "../../Common_h/defines.h"
 #include "../../Common_h/Sd2_h/VAI_ObjBase.h"
 
-class SHIPPOINTER : public ENTITY
+class SHIPPOINTER : public Entity
 {
 	VDX9RENDER *rs;
 

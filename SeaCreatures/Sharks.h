@@ -18,7 +18,7 @@
 #include "../Common_h/Island_Base.h"
 #include "../Common_h/Animation.h"
 
-class Sharks : public ENTITY  
+class Sharks : public Entity  
 {
 	struct Vertex
 	{

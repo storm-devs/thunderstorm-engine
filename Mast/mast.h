@@ -9,7 +9,7 @@
 #define SR_STOPROTATE   2
 #define SR_YROTATE      4
 
-class MAST : public ENTITY
+class MAST : public Entity
 {
 	struct MountData {
 		NODE * pNode;

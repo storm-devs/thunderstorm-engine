@@ -126,7 +126,7 @@ public:
 };
 
 
-class Sailors : public ENTITY
+class Sailors : public Entity
 {
 public:
 

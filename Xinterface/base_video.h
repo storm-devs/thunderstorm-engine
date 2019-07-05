@@ -4,7 +4,7 @@
 #include "../../Common_h/vmodule_api.h"
 #include "../../Common_h/dx9render.h"
 
-class xiBaseVideo : public ENTITY
+class xiBaseVideo : public Entity
 {
 public:
 	virtual void SetShowVideo(bool bShowVideo) {}

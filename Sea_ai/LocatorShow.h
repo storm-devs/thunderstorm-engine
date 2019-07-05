@@ -3,7 +3,7 @@
 
 #include "AIHelper.h"
 
-class SeaLocatorShow : public ENTITY
+class SeaLocatorShow : public Entity
 {
 	ATTRIBUTES	* pALocators;
 	bool		bShow;

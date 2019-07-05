@@ -23,7 +23,7 @@
 class MODEL;
 class Lights;
 
-class Location : public ENTITY
+class Location : public Entity
 {
 	struct SphVertex
 	{

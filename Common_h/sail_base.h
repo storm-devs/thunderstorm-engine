@@ -23,7 +23,7 @@ class SAIL_BASE : public CANNON_TRACE_BASE
 
 //==================================================
 //==================================================
-class ROPE_BASE : public ENTITY
+class ROPE_BASE : public Entity
 {
 	public:
         // service function

@@ -7,7 +7,7 @@
 class MODEL;
 class NODE;
 
-class EnemyStatShower : public ENTITY
+class EnemyStatShower : public Entity
 {
 public:
 	EnemyStatShower();

@@ -7,7 +7,7 @@
 class WMShipIcon;
 class WMShipCommandList;
 
-class WM_INTERFACE : public ENTITY
+class WM_INTERFACE : public Entity
 {
 	VDX9RENDER *rs;
 

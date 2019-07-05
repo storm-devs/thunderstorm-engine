@@ -301,7 +301,7 @@ protected:
 	CINODE * m_pCurToolTipNode;
 };
 
-class CONTROLS_CONTAINER : public ENTITY
+class CONTROLS_CONTAINER : public Entity
 {
 	struct CONTEINER_DESCR {
 		float fMaxVal;

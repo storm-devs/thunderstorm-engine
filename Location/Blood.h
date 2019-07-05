@@ -11,7 +11,7 @@
 #define ON_LIVETIME_BLOOD_TRIANGLES	(MAX_BLOOD_TRIANGLES*3/4)
 #define MAX_CLIPPING_TRIANGLES		64
 
-class Blood : public ENTITY
+class Blood : public Entity
 {
 	struct BloodVertex
 	{

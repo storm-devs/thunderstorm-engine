@@ -28,7 +28,7 @@ struct TOUCH_SHIP
 	long			iNumVContour;			// num points in contour
 };
 
-class TOUCH : public ENTITY
+class TOUCH : public Entity
 {
 protected:
 	VDX9RENDER	* pRS;

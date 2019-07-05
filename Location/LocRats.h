@@ -17,7 +17,7 @@
 #include "LocRat.h"
 
 
-class LocRats : public ENTITY  
+class LocRats : public Entity  
 {
 public:
 	LocRats();

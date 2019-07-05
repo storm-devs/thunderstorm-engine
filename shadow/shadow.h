@@ -6,7 +6,7 @@
 #include "../common_h/collide.h"
 #include "../common_h/model.h"
 
-class SHADOW : public ENTITY
+class SHADOW : public Entity
 {
 	VDX9RENDER * rs;
 	COLLIDE *col;

@@ -5,7 +5,7 @@
 // Name: class VideoToTexture
 // Desc: play video into texture
 //-----------------------------------------------------------------------------
-class CVideoTexture : public ENTITY
+class CVideoTexture : public Entity
 {
 public:
     virtual IDirect3DTexture9* Initialize(VDX9RENDER *pRS,const char* sFileName, bool bCicled) = 0;

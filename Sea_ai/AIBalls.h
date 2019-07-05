@@ -48,7 +48,7 @@ struct BALL_TYPE
 // Master class AIBalls
 // Contains functions of balls : drawing, physics and collision
 // ============================================================================
-class AIBalls : public ENTITY
+class AIBalls : public Entity
 {
 private:
 	CANNON_TRACE_BASE	* pSail, * pSea, * pFort, * pIsland;

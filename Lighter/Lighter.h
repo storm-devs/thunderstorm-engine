@@ -14,7 +14,7 @@
 #include "LightProcessor.h"
 
 
-class Lighter : public ENTITY  
+class Lighter : public Entity  
 {
 //--------------------------------------------------------------------------------------------
 //Конструирование, деструктурирование

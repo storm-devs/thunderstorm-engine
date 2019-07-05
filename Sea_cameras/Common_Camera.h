@@ -4,7 +4,7 @@
 #include "../Common_h/vmodule_api.h"
 #include "../Common_h/Sd2_h/VAI_ObjBase.h"
 
-class COMMON_CAMERA : public ENTITY
+class COMMON_CAMERA : public Entity
 {
 private:
 	bool			bActive;

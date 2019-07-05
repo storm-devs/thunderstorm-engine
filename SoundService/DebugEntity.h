@@ -7,7 +7,7 @@
 
 class SoundService;
 
-class SoundVisualisationEntity : public ENTITY
+class SoundVisualisationEntity : public Entity
 {
 	SoundService* pSound;
 

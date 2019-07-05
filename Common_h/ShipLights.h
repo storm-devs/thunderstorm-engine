@@ -3,7 +3,7 @@
 
 #include "ship_base.h"
 
-class IShipLights : public ENTITY
+class IShipLights : public Entity
 {
 public:
 	IShipLights() {};

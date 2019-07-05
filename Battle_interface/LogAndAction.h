@@ -4,7 +4,7 @@
 #include "defines.h"
 #include "Utils.h"
 
-class ILogAndActions : public ENTITY
+class ILogAndActions : public Entity
 {
 	VDX9RENDER *rs;
 	struct STRING_DESCR

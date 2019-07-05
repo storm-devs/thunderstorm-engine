@@ -18,7 +18,7 @@ struct VANTVERTEX
 	float tu, tv;
 };
 
-class VANT : public ENTITY
+class VANT : public Entity
 {
     // параметры получаемые из INI-файла //
     //-------------------------------------

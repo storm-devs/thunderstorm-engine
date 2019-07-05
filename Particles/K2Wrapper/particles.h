@@ -12,7 +12,7 @@ class IParticleSystem;
 class PARTICLE_SYSTEM;
 
 
-class PARTICLES : public ENTITY
+class PARTICLES : public Entity
 {
 	bool CreationCapture;
 	bool bSystemDelete;

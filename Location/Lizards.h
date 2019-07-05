@@ -18,7 +18,7 @@
 #include "Lizard.h"
 
 
-class Lizards : public ENTITY
+class Lizards : public Entity
 {
 public:
 	Lizards();

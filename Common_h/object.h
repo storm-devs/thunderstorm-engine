@@ -7,7 +7,7 @@
 
 typedef bool (*ADD_POLYGON_FUNC)(const CVECTOR *v, long nv);
 
-class COLLISION_OBJECT : public ENTITY
+class COLLISION_OBJECT : public Entity
 {
 public:
 	virtual ~COLLISION_OBJECT(){};

@@ -76,7 +76,7 @@ class CXI_ToolTip;
 
 class CINODE;
 
-class XINTERFACE_BASE : public ENTITY
+class XINTERFACE_BASE : public Entity
 {
 public:
 	virtual QUEST_FILE_READER * QuestFileReader() = 0;

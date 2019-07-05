@@ -14,7 +14,7 @@ struct FLAGLXVERTEX
 	float tu, tv;
 };
 
-class FLAG : public ENTITY
+class FLAG : public Entity
 {
     // параметры получаемые из INI-файла //
     //-------------------------------------

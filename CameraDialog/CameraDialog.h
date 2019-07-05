@@ -4,7 +4,7 @@
 #include "../Common_h/dx9render.h"
 #include "../Common_h/collide.h"
 
-class CameraDialog : public ENTITY
+class CameraDialog : public Entity
 {
 	VDX9RENDER * rs;
 	COLLIDE *col;

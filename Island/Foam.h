@@ -16,7 +16,7 @@ enum FOAMTYPE
 	FOAM_MODE_FORCEDWORD = 0x7FFFFFFF
 };
 
-class CoastFoam : public ENTITY 
+class CoastFoam : public Entity 
 {
 public:
 	CoastFoam();

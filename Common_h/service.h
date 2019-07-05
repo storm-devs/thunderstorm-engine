@@ -21,7 +21,7 @@
 #define SD_SERVERMESSAGE		(WM_USER + 0)
 #define SD_CLIENTMESSAGE		(WM_USER + 1)
 
-class SERVICE// : public ENTITY 
+class SERVICE// : public Entity 
 {
 public:
 	SERVICE(){};

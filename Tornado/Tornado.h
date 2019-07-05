@@ -15,7 +15,7 @@
 #include "NoiseCloud.h"
 #include "Debris.h"
 
-class Tornado : public ENTITY  
+class Tornado : public Entity  
 {
 //--------------------------------------------------------------------------------------------
 //Конструирование, деструктурирование

@@ -4,7 +4,7 @@
 #include "../Common_h/vmodule_api.h"
 #include "../Common_h/dx9render.h"
 
-class TMPTELEPORT : public ENTITY
+class TMPTELEPORT : public Entity
 {
 	VDX9RENDER * rs;
 
@@ -41,7 +41,7 @@ protected:
 	long m_nShowType;
 };
 
-class FINDFILESINTODIRECTORY : public ENTITY
+class FINDFILESINTODIRECTORY : public Entity
 {
 public:
 	FINDFILESINTODIRECTORY() {}
@@ -49,7 +49,7 @@ public:
 	bool Init();
 };
 
-class FINDDIALOGNODES : public ENTITY
+class FINDDIALOGNODES : public Entity
 {
 public:
 	FINDDIALOGNODES() {}

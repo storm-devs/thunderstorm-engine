@@ -8,7 +8,7 @@
 class BIImageRender;
 class IBIImage;
 
-class BITimer : public ENTITY
+class BITimer : public Entity
 {
 public:
 	BITimer();

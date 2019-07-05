@@ -23,7 +23,7 @@
 #define BLOTS_DIST		150.0f	//Дистанция видимости в метрах
 
 
-class Blots : public ENTITY  
+class Blots : public Entity  
 {
 
 #pragma pack(push, 1)

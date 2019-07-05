@@ -14,7 +14,7 @@
 #include "../Common_h/vmodule_api.h"
 #include "../Common_h/dx9render.h"
 
-class Fader : public ENTITY  
+class Fader : public Entity  
 {
 //--------------------------------------------------------------------------------------------
 //Конструирование, деструктурирование

@@ -37,7 +37,7 @@ struct tShipFoamInfo
 	bool enabled;
 };
  
-class SEAFOAM: public ENTITY
+class SEAFOAM: public Entity
 {
 public:
 	SEAFOAM();

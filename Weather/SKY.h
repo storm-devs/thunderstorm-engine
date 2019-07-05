@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-class SKY : public ENTITY
+class SKY : public Entity
 {
 public:
 	 SKY();

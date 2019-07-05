@@ -5,7 +5,7 @@
 #include "../../Common_h/defines.h"
 #include "../defines.h"
 
-class IBoardingStatus : public ENTITY
+class IBoardingStatus : public Entity
 {
 	VDX9RENDER *rs;
 public:

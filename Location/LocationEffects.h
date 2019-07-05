@@ -19,7 +19,7 @@ class VDX9RENDER;
 
 #define LFX_SPLASHES_SECT	16
 
-class LocationEffects : public ENTITY  
+class LocationEffects : public Entity  
 {
 
 #pragma pack(push, 1)

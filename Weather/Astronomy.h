@@ -4,7 +4,7 @@
 #include "typedef.h"
 #include <vector>
 
-class Astronomy : public ENTITY
+class Astronomy : public Entity
 {
 public:
 	static VDX9RENDER * pRS;

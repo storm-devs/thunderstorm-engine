@@ -7,7 +7,7 @@
 #include "../Common_h/ship_base.h"
 #include "../Common_h/dtimer.h"
 
-class AISeaGoods : public ENTITY
+class AISeaGoods : public Entity
 {
 private:
 	struct item_t

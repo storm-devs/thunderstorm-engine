@@ -30,7 +30,7 @@ class VSoundService;
 #define CHARACTER_BLOCK_ANG			50.0f	//ћаксимальный угл срабатывани€ блока (градусы)
 #define CHARACTER_MAX_JMP_STEPS		50
 
-class Character : public ENTITY  
+class Character : public Entity  
 {
 	float hScale;
 	float wScale;

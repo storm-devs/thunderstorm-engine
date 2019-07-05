@@ -14,7 +14,7 @@
 #include "../Common_h/vmodule_api.h"
 #include "../Common_h/dx9render.h"
 
-class WideScreen : public ENTITY  
+class WideScreen : public Entity  
 {
 //--------------------------------------------------------------------------------------------
 //Конструирование, деструктурирование

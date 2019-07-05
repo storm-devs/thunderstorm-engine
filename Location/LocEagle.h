@@ -13,7 +13,7 @@
 
 #include "../Common_h/model.h"
 
-class LocEagle : public ENTITY  
+class LocEagle : public Entity  
 {
 public:
 	LocEagle();

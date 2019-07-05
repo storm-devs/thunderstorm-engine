@@ -24,7 +24,7 @@ class GEOS;
 
 class Character;
 
-class Grass : public ENTITY
+class Grass : public Entity
 {
 #pragma pack(push, 1)
 

@@ -20,7 +20,7 @@
 class Location;
 class Character;
 
-class CharactersGroups : public ENTITY
+class CharactersGroups : public Entity
 {
 public:
 	struct String

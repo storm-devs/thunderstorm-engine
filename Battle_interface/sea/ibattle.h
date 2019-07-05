@@ -9,7 +9,7 @@
 class BIShipIcon;
 class ShipInfoImages;
 
-class BATTLE_INTERFACE : public ENTITY
+class BATTLE_INTERFACE : public Entity
 {
 	VDX9RENDER *rs;
 

@@ -29,7 +29,7 @@
 
 #define	LOCATION_SCRIPT_VERSION		54128
 
-class LocationP : public ENTITY
+class LocationP : public Entity
 {
 public:
 	LocationP();

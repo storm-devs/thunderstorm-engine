@@ -6,7 +6,7 @@
 #include "../Common_h/sea_base.h"
 #include <vector>
 
-class ShipTracks : public ENTITY
+class ShipTracks : public Entity
 {
 public:
 	ShipTracks();

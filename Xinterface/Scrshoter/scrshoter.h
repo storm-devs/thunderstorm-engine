@@ -3,7 +3,7 @@
 
 #include "../../Common_h/dx9render.h"
 
-class SCRSHOTER : public ENTITY
+class SCRSHOTER : public Entity
 {
 	VDX9RENDER  *rs;
 

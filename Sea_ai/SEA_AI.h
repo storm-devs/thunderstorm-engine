@@ -5,7 +5,7 @@
 #include "AIFort.h"
 #include "AIBalls.h"
 
-class SEA_AI : public ENTITY
+class SEA_AI : public Entity
 {
 private:
 	bool		bFirstInit;

@@ -36,7 +36,7 @@ struct tRing
 	float cosA, sinA;
 };
 
-class WaterRings : public ENTITY
+class WaterRings : public Entity
 {
 public:
 	WaterRings();

@@ -10,7 +10,7 @@
 class MODEL;
 class NODE;
 
-class ItemEntity : public ENTITY
+class ItemEntity : public Entity
 {
 public:
 	ItemEntity();

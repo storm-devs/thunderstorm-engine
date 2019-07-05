@@ -34,7 +34,7 @@ enum BORT_TYPE
 };
 
 //--------------------------------------------------------------------
-class SEA_OPERATOR: public ENTITY
+class SEA_OPERATOR: public Entity
 {
 public:
 	SEA_OPERATOR();

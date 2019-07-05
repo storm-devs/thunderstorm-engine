@@ -25,7 +25,7 @@ class MODEL;
 class Character;
 class Location;
 
-class LocationCamera : public ENTITY  
+class LocationCamera : public Entity  
 {
 	friend CameraFollow;
 

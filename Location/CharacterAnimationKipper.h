@@ -17,7 +17,7 @@
 
 class VDX9RENDER;
 
-class CharacterAnimationKipper : public ENTITY
+class CharacterAnimationKipper : public Entity
 {
 //--------------------------------------------------------------------------------------------
 //Конструирование, деструктурирование

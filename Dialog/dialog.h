@@ -31,7 +31,7 @@ struct XI_TEX_VERTEX
 
 class VSoundService;
 
-class DIALOG : public ENTITY
+class DIALOG : public Entity
 {
 	static VDX9RENDER * RenderService;
 public:

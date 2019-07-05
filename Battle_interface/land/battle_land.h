@@ -7,7 +7,7 @@
 
 class BIManSign;
 
-class BATTLE_LAND_INTERFACE : public ENTITY
+class BATTLE_LAND_INTERFACE : public Entity
 {
 	// metods
 public:

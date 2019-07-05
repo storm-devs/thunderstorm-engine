@@ -12,7 +12,7 @@
 // CLASS DEFINITION
 ///////////////////////////////////////////////////////////////////
 
-class BALLSPLASH: public ENTITY
+class BALLSPLASH: public Entity
 {
 public:
 	BALLSPLASH();

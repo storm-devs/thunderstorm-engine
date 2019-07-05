@@ -4,7 +4,7 @@
 #include "ShipCamera.h"
 #include <vector>
 
-class SEA_CAMERAS : public ENTITY
+class SEA_CAMERAS : public Entity
 {
 	std::vector<COMMON_CAMERA*>	CamerasArray;
 	bool	bActive;

@@ -20,7 +20,7 @@ typedef struct
 	bool bEffect;
 } GEOPARTICLE;
 
-class BLAST : public ENTITY 
+class BLAST : public Entity 
 {
 	VDX9RENDER * rs;
 	VGEOMETRY * gs;

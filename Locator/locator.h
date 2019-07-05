@@ -6,7 +6,7 @@
 #include "../Common_h/geometry.h"
 #include "blast.h"
 
-class LOCATOR : public ENTITY 
+class LOCATOR : public Entity 
 {
 	enum
 	{

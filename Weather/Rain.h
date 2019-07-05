@@ -33,7 +33,7 @@ typedef struct
 	CVECTOR		vAng;
 } rainblock_t;
 
-class RAIN : public ENTITY
+class RAIN : public Entity
 {
 struct ship_t
 {

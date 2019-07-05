@@ -26,7 +26,7 @@ class WdmCamera;
 class WdmEventWindow;
 class WdmWaitMenu;
 
-class WorldMap : public ENTITY
+class WorldMap : public Entity
 {
 	struct RObject
 	{
