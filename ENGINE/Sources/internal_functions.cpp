@@ -452,7 +452,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 {
 //	char Format_string[MAX_PATH];
 	char Message_string[2*MAX_PATH];
-	ENTITY_ID entity_id;
+	entid_t entid_t;
 	uint32_t functions_num;
 
 	//functions_num = sizeof(FuncNameTable)/sizeof(char *);
@@ -475,8 +475,8 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 	long  TempLong;
 	char * pChar;
 	char * pChar2;
-	ENTITY_ID TempEid;
-	ENTITY_ID * pEid;
+	entid_t TempEid;
+	entid_t * pEid;
 	uint32_t n;
 	ATTRIBUTES * pA;
 	ATTRIBUTES * pRoot;
@@ -692,14 +692,14 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV->Get(pChar);
 
 			//api->SetEntityScanLayer(0)//pChar);
-			api->FindClass(&entity_id,pChar,0);
+			api->FindClass(&entid_t,pChar,0);
 
 			pV2 = pV2->GetVarPointer();
-			pV2->Set(entity_id);
+			pV2->Set(entid_t);
 			pV2->SetType(VAR_AREFERENCE);
-			pV2->SetAReference(api->Entity_GetAttributePointer(&entity_id));
+			pV2->SetAReference(api->Entity_GetAttributePointer(&entid_t));
 
-			if(api->ValidateEntity(&entity_id)) TempLong1 = 1;
+			if(api->ValidateEntity(&entid_t)) TempLong1 = 1;
 			else TempLong1 = 0;
 			pV = SStack.Push();
 			pV->Set(TempLong1);
@@ -708,13 +708,13 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 
 		case FUNC_FINDCLASSNEXT:
 			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
-			api->FindClassNext(&entity_id);
+			api->FindClassNext(&entid_t);
 			pV2 = pV2->GetVarPointer();
-			pV2->Set(entity_id);
+			pV2->Set(entid_t);
 			pV2->SetType(VAR_AREFERENCE);
-			pV2->SetAReference(api->Entity_GetAttributePointer(&entity_id));
+			pV2->SetAReference(api->Entity_GetAttributePointer(&entid_t));
 
-			if(api->ValidateEntity(&entity_id)) TempLong1 = 1;
+			if(api->ValidateEntity(&entid_t)) TempLong1 = 1;
 			else TempLong1 = 0;
 			pV = SStack.Push();
 			pV->Set(TempLong1);
@@ -790,10 +790,10 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV->Get(pChar);
 
 
-			if(Core.FindClass(&entity_id,pChar,0))
+			if(Core.FindClass(&entid_t,pChar,0))
 			{
-				Core.DeleteEntity(entity_id);
-				while(Core.FindClassNext(&entity_id)) {Core.DeleteEntity(entity_id);}
+				Core.DeleteEntity(entid_t);
+				while(Core.FindClassNext(&entid_t)) {Core.DeleteEntity(entid_t);}
 			}
 		break;
 		case FUNC_SHL:
@@ -1010,10 +1010,10 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 
 		case FUNC_GETENTITYNAME:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(entity_id);
+			pV->Get(entid_t);
 			pV = SStack.Push();
 			VMA * pClass;
-			pClass = Core.FindVMA(entity_id.class_code);
+			pClass = Core.FindVMA(entid_t.class_code);
 			if(pClass) pV->Set(pClass->GetName());
 			else pV->Set("unknown class");
 			pVResult = pV;
@@ -1026,27 +1026,27 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV->Get(pChar);
 
 			api->SetEntityScanLayer(pChar);
-			api->GetEntity(&entity_id);
+			api->GetEntity(&entid_t);
 
 			pV2 = pV2->GetVarPointer();
-			pV2->Set(entity_id);
+			pV2->Set(entid_t);
 			pV2->SetType(VAR_AREFERENCE);
-			pV2->SetAReference(api->Entity_GetAttributePointer(&entity_id));
+			pV2->SetAReference(api->Entity_GetAttributePointer(&entid_t));
 
-			if(api->ValidateEntity(&entity_id)) TempLong1 = 1;
+			if(api->ValidateEntity(&entid_t)) TempLong1 = 1;
 			else TempLong1 = 0;
 			pV = SStack.Push();
 			pV->Set(TempLong1);
 			pVResult = pV;
 		return pV;
 		case FUNC_GETENTITYNEXT:
-			api->GetEntityNext(&entity_id);
+			api->GetEntityNext(&entid_t);
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV->GetVarPointer();
-			pV->Set(entity_id);
+			pV->Set(entid_t);
 			pV->SetType(VAR_AREFERENCE);
-			pV->SetAReference(api->Entity_GetAttributePointer(&entity_id));
-			if(api->ValidateEntity(&entity_id)) TempLong1 = 1;
+			pV->SetAReference(api->Entity_GetAttributePointer(&entid_t));
+			if(api->ValidateEntity(&entid_t)) TempLong1 = 1;
 			else TempLong1 = 0;
 			pV = SStack.Push();
 			pV->Set(TempLong1);
@@ -1236,10 +1236,10 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			if(!pV) { SetError(MISSING_PARAMETER); break; }
 
 			pV2->Get(pChar);
-			if(Core.CreateEntity(&entity_id,pChar,pV->GetAClass()))
+			if(Core.CreateEntity(&entid_t,pChar,pV->GetAClass()))
 			{
-				//api->Entity_SetAttributePointer(&entity_id,pV->GetAClass());
-				pV->Set(entity_id);
+				//api->Entity_SetAttributePointer(&entid_t,pV->GetAClass());
+				pV->Set(entid_t);
 				SStack.Pop();
 				pV = SStack.Push();
 				pV->Set((long)1);
@@ -1259,10 +1259,10 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 		case FUNC_CREATE_CLASS:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV->Get(pChar);
-			if(api->CreateEntity(&entity_id,pChar))
+			if(api->CreateEntity(&entid_t,pChar))
 			{
 				pV = SStack.Push();
-				pV->Set(entity_id);
+				pV->Set(entid_t);
 				pVResult = pV;
 				return pV;
 
@@ -1272,8 +1272,8 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 		//
 		case FUNC_DELETE_ENTITY:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(entity_id);
-			api->DeleteEntity(entity_id);
+			pV->Get(entid_t);
+			api->DeleteEntity(entid_t);
 		break;
 		//
 		case FUNC_DEL_EVENT_HANDLER:
@@ -1338,9 +1338,9 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 				case 'i':
 					pResult = SStack.Push();
 					pResult->SetType(VAR_AREFERENCE);
-					entity_id = pEventMessage->EntityID();
-					pResult->Set(entity_id);
-					pResult->SetAReference(api->Entity_GetAttributePointer(&entity_id));
+					entid_t = pEventMessage->EntityID();
+					pResult->Set(entid_t);
+					pResult->SetAReference(api->Entity_GetAttributePointer(&entid_t));
 
 					pVResult = pResult;
 				return pResult;
@@ -1429,13 +1429,13 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 
 
 			pV = SStack.Read(s_off,0); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(entity_id);
+			pV->Get(entid_t);
 
 			CreateMessage(&ms,s_off,1);
 
 			uint32_t mresult;
 			mresult = 0;
-			pE = api->GetEntityPointer(&entity_id);
+			pE = api->GetEntityPointer(&entid_t);
 			if(pE)
 			{
 				ms.ResetIndex();
@@ -1871,7 +1871,7 @@ bool COMPILER::CreateMessage(MESSAGE_SCRIPT * pMs, uint32_t s_off, uint32_t var_
 {
 	long  TempLong1;
 	float TempFloat1;
-	ENTITY_ID TempEid;
+	entid_t TempEid;
 	ATTRIBUTES * pA;
 	char * Format_string;
 	char * pChar;
