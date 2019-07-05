@@ -4,12 +4,8 @@
 
 #include "../../Common_h/EntityManager.h"
 
-#include "C_atom.h"
-#include "fsdata_list.h"
-#include "layer.h"
 #include "timer.h"
 #include "services_list.h"
-#include "layer_service.h"
 #include "compiler.h"
 #include <vector>
 //#include "program.h"
@@ -31,7 +27,7 @@ typedef struct
 	uint32_t Atoms_min_free_orbit;
 	uint32_t Atoms_number;
 	uint32_t Atoms_space;
-	Entity_CREATION_TIME Creation_Time;
+	//ENTITY_CREATION_TIME Creation_Time;
 
 } CORE_STATE;
 
@@ -72,7 +68,7 @@ public:
 	void ReleaseServices();
 	void __declspec(dllexport) _ProcessEngineIniFile();
 
-	C_ATOM * GetAtom(entid_t id_PTR);
+	//C_ATOM * GetAtom(entid_t id_PTR);
 
 	bool bAppActive{};
 	bool Memory_Leak_flag;			// true if core detected memory leak
@@ -145,8 +141,8 @@ public:
 	// converting class name to static code (constant until next restart)
 	uint32_t Class_Name2Code(char * class_name) override;
 
-	std::function<entid_t()> GetEntityIdWalker(const char* class_name, uint32_t class_code) override;
-	std::function<entid_t()> GetEntityIdWalker(const char* class_name, uint32_t class_code, const char* layer) override;
+	walker_t GetEntityIdWalker(const char* class_name, uint32_t class_code = 0) override;
+	walker_t GetEntityIdWalker(const char* class_name, const char* layer, uint32_t class_code = 0) override;
 
 	// service managment
 
@@ -235,10 +231,6 @@ public:
 	uint32_t AttributeName2Code(const char * pAttributeName) override;
 
 	void * GetScriptVariable(const char * pVariableName, uint32_t * pdwVarIndex) override;
-
-	void SetNetActive(bool bActive) override;
-
-	bool IsNetActive() const override;
 
 	bool __declspec(dllexport) _LoCheck();
 };

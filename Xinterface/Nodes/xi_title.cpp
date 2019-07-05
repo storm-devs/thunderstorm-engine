@@ -118,7 +118,7 @@ void CXI_TITLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	m_StringCenter.y = m_rect.top + GetIniLong(ini1,name1, ini2,name2, "stringOffset", 0);
 
 	// get title string
-	char * pChar = api->Entity_GetAttribute(&g_idInterface,"title");
+	char * pChar = api->Entity_GetAttribute(g_idInterface,"title");
 	if(pChar!= nullptr && pChar[0]!='#')
 		m_idString = pStringService->GetStringNum(pChar);
 	else

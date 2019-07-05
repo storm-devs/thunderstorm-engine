@@ -68,7 +68,7 @@ private:
 	VDX9RENDER			* pRS;
 	VGEOMETRY			* pGS;
 	COLLIDE				* pCollide;
-	VIDWALKER			* pIslandTraceWalker;
+	walker_t			pIslandTraceWalker;
 
 	CMatrix				mIslandOld, mSeaBedOld;
 	float				fImmersionDepth, fImmersionDistance;
@@ -109,7 +109,22 @@ public:
 	~ISLAND();
 	bool			Init();
 	void			Realize(uint32_t Delta_Time);
-	uint32_t _cdecl	ProcessMessage(MESSAGE & message);
+	uint32_t	ProcessMessage(MESSAGE & message);
+	void ProcessStage(Stage stage, uint32_t delta) override
+	{
+		switch (stage)
+		{
+		//case Stage::EXECUTE:
+		//	Execute(delta); break;
+		case Stage::REALIZE:
+			Realize(delta); break;
+			/*case Stage::LOST_RENDER:
+				LostRender(delta); break;
+			case Stage::RESTORE_RENDER:
+				RestoreRender(delta); break;*/
+		}
+	}
+
 
 	void			Move();
 	void			SetDevice();

@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <map>
 #include "entity.h"
+#include "vmodule_api.h"
 
 using index_t = uint32_t;
 /* ALPHA v0.0000001*/
@@ -210,17 +211,17 @@ public:
 		return static_cast<bool>(layer.second & (1u << static_cast<std::underlying_type_t<decltype(flag)>>(flag)));
 	}
 
-	auto constexpr checkLayerFlag(const std::string& layer, LayerFlags flag)
+	auto checkLayerFlag(const std::string& layer, LayerFlags flag)
 	{
 		return checkLayerFlag(layers_.at(layer), flag);
 	}
 
-	void constexpr setLayerFlag(const std::string& layer, LayerFlags flag)
+	void setLayerFlag(const std::string& layer, LayerFlags flag)
 	{
 		layers_.at(layer).second |= (1u << static_cast<std::underlying_type_t<decltype(flag)>>(flag));
 	}
 
-	void constexpr clearLayerFlag(const std::string& layer, LayerFlags flag)
+	void clearLayerFlag(const std::string& layer, LayerFlags flag)
 	{
 		layers_.at(layer).second &= ~(1u << static_cast<std::underlying_type_t<decltype(flag)>>(flag));
 	}

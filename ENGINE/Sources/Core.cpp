@@ -296,13 +296,13 @@ uint32_t CORE::Class_Name2Code(char * class_name)
 	return MakeHashValue(class_name);
 }
 
-std::function<entid_t()> CORE::GetEntityIdWalker(const char * class_name, uint32_t class_code)
+walker_t CORE::GetEntityIdWalker(const char * class_name, uint32_t class_code)
 {
 	const auto hash = class_name ? MakeHashValue(class_name) : class_code;
 	return entityManager.GetEntityIdWalker(hash);
 }
 
-std::function<entid_t()> CORE::GetEntityIdWalker(const char* class_name, uint32_t class_code, const char * layer)
+walker_t CORE::GetEntityIdWalker(const char* class_name, const char * layer, uint32_t class_code)
 {
 	const auto hash = class_name ? MakeHashValue(class_name) : class_code;
 	return entityManager.GetEntityIdWalker(hash, layer);

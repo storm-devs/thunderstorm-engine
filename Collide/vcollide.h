@@ -3,7 +3,6 @@
 
 
 #include "../Common_h/collide.h"
-#include "../Common_h/vidwalker.h"
 
 #pragma pack(push)
 #pragma pack(1)

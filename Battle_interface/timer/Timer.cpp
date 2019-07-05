@@ -1,6 +1,7 @@
 #include "Timer.h"
 #include "../image/imgrender.h"
 #include "../Utils.h"
+#include "../../Common_h/vmodule_api.h"
 
 BITimer::BITimer()
 {

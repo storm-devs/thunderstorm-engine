@@ -90,7 +90,7 @@ void BLADE::BLADE_INFO::DrawBlade(VDX9RENDER * rs,unsigned int blendValue,MODEL 
 			perMtx = mbn*mdl->mtx;
 		}
 		obj->mtx = perMtx;
-		obj->Realize(0);
+		obj->ProcessStage(Entity::Stage::REALIZE, 0);
 
 		//--------------------------------------------------------------------------
 		rs->SetTexture(0, nullptr);
@@ -178,7 +178,7 @@ bool BLADE::BLADE_INFO::LoadBladeModel(MESSAGE &message)
 		VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
 		if(gs) gs->SetTexturePath("Ammo\\");
 		//Создаём модельку
-		api->CreateEntity(&eid, "modelr");
+		eid = api->CreateEntity("modelr");
 		if(!api->Send_Message(eid, "ls", MSG_MODEL_LOAD_GEO, path))
 		{
 			api->DeleteEntity(eid);
@@ -294,7 +294,7 @@ void BLADE::Realize(uint32_t Delta_Time)
 		}
 		obj->mtx = perMtx;
 
-		obj->Realize(0);
+		obj->ProcessStage(Entity::Stage::REALIZE, 0);
 	}
 
 	//------------------------------------------------------
@@ -345,7 +345,7 @@ bool BLADE::LoadGunModel(MESSAGE &message)
 		VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
 		if(gs) gs->SetTexturePath("Ammo\\");
 		//Создаём модельку
-		api->CreateEntity(&gun, "modelr");
+		gun = api->CreateEntity("modelr");
 		if(!api->Send_Message(gun, "ls", MSG_MODEL_LOAD_GEO, path))
 		{
 			api->DeleteEntity(gun);
@@ -409,7 +409,7 @@ void BLADE::GunFire()
 			CVECTOR rp = perMtx*CVECTOR(lb.m[3][0], lb.m[3][1], lb.m[3][2]);
 
 			entid_t prt;
-			api->FindClass(&prt, "particles", 0);
+			prt = api->GetEntityIdWalker("particles")();
 			api->Send_Message(prt, "lsffffffl", PS_CREATEX, "gunfire", rp.x, rp.y, rp.z, 
 				resm.Vz().x, resm.Vz().y, resm.Vz().z, 0);
 		}
@@ -614,7 +614,7 @@ void BLADE::TIEITEM_INFO::DrawItem(VDX9RENDER * rs,unsigned int blendValue,MODEL
 			perMtx = mbn*mdl->mtx;
 		}
 		obj->mtx = perMtx;
-		obj->Realize(0);
+		obj->ProcessStage(Entity::Stage::REALIZE, 0);
 	}
 }
 bool BLADE::TIEITEM_INFO::LoadItemModel(const char* mdlName, const char* locName)
@@ -637,7 +637,7 @@ bool BLADE::TIEITEM_INFO::LoadItemModel(const char* mdlName, const char* locName
 	VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
 	if(gs) gs->SetTexturePath("Ammo\\");
 	//Создаём модельку
-	api->CreateEntity(&eid, "modelr");
+	eid = api->CreateEntity("modelr");
 	if(!api->Send_Message(eid, "ls", MSG_MODEL_LOAD_GEO, path))
 	{
 		api->DeleteEntity(eid);

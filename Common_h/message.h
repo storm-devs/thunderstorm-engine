@@ -10,7 +10,6 @@ class VDATA;
 
 class MESSAGE 
 {
-	using entid_t = uint64_t;
 protected:
 	char * format;
 	long index;

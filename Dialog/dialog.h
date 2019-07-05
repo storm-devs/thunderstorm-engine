@@ -42,6 +42,20 @@ public:
 	void Realize(uint32_t Delta_Time);
 	uint32_t AttributeChanged(ATTRIBUTES * pA);
 	uint32_t ProcessMessage(MESSAGE & message);
+	void ProcessStage(Stage stage, uint32_t delta) override
+	{
+		switch (stage)
+		{
+		//case Stage::EXECUTE:
+		//	Execute(delta); break;
+		case Stage::REALIZE:
+			Realize(delta); break;
+			/*case Stage::LOST_RENDER:
+				LostRender(delta); break;
+			case Stage::RESTORE_RENDER:
+				RestoreRender(delta); break;*/
+		}
+	}
 
 	static void AddToStringArrayLimitedByWidth(const char* pcSrcText, long nFontID,float fScale,long nLimitWidth, std::vector<std::string> & asOutTextList, std::vector<long>* panPageIndices, long nPageSize);
 
@@ -86,8 +100,8 @@ private:
 
 		virtual ~DlgTextDescribe() {Release();}
 		virtual void Release() {TextDescribe::Release();}
-		void __declspec(dllexport) _ChangeText(const char* pcText);
-		void __declspec(dllexport) _Init(VDX9RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni);
+		void ChangeText(const char* pcText);
+		void Init(VDX9RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni);
 		long GetShowHeight();
 		void Show(long nY);
 		bool IsLastPage();
@@ -109,11 +123,11 @@ private:
 		DlgLinkDescribe() : TextDescribe() {pDlg=nullptr;}
 		virtual ~DlgLinkDescribe() {Release();}
 		virtual void Release() {TextDescribe::Release();}
-		void __declspec(dllexport) _ChangeText(ATTRIBUTES* pALinks);
-		void __declspec(dllexport) _Init(VDX9RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni);
+		void ChangeText(ATTRIBUTES* pALinks);
+		void Init(VDX9RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni);
 		long GetShowHeight();
 		void Show(long nY);
-		void __declspec(dllexport) _ShowEditMode(long nX, long nY, long nTextIdx);
+		void ShowEditMode(long nX, long nY, long nTextIdx);
 		void SetDlg(DIALOG* _pDlg) {pDlg=_pDlg;}
 	};
 	DlgLinkDescribe m_DlgLinks;
@@ -193,7 +207,7 @@ private:
 	static float GetScrWidth( float fX ) {return fX*m_frScreenData.right;}
 	static float GetScrHeight( float fY ) {return fY*m_frScreenData.bottom;}
 
-	void __declspec(dllexport) _CreateBack();
+	void __declspec(dllexport) CreateBack();
 	void FillBack();
 	void FillDivider();
 	void DrawBack();

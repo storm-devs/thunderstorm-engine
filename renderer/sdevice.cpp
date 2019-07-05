@@ -4,6 +4,7 @@
 #include "../Common_h/filesystem.h"
 #include "texture.h"
 #include "../Common_h/script_libriary.h"
+#include "../Common_h/v_s_stack.h"
 #include <DxErr.h>
 #include <io.h>
 
@@ -27,7 +28,7 @@ CREATE_SCRIPTLIBRIARY(DX9RENDER_SCRIPT_LIBRIARY)
 
 DX9RENDER * DX9RENDER::pRS = nullptr;
 
-uint32_t _DX9SetTexturePath(VS_STACK * pS)
+uint32_t DX9SetTexturePath(VS_STACK * pS)
 {
 	VDATA * pString = (VDATA*)pS->Pop();
 	VDATA * pNumber = (VDATA*)pS->Pop();
@@ -56,7 +57,7 @@ uint32_t _DX9SetTexturePath(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-uint32_t _RPrint(VS_STACK * pS)
+uint32_t RPrint(VS_STACK * pS)
 {
 	VDATA * pString = (VDATA*)pS->Pop();
 	long y = ((VDATA*)pS->Pop())->GetLong();
@@ -68,7 +69,7 @@ uint32_t _RPrint(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-uint32_t _SetGlowParams(VS_STACK * pS)
+uint32_t SetGlowParams(VS_STACK * pS)
 {
 	float fBlurBrushSize = ((VDATA*)pS->Pop())->GetFloat();
 	long Intensivity = ((VDATA*)pS->Pop())->GetLong();

@@ -173,18 +173,19 @@ void SHIP_DESCRIBE_LIST::Add(long mainChrIndex, long chIdx, ATTRIBUTES * pChAttr
 	pr->next = nullptr;
 
 	// find this ship
+	const auto walker = api->GetEntityIdWalker("ship");
 	entid_t ei;
-	if(api->FindClass(&ei,"ship",0)) do
+	while(ei = walker())
 	{
-		VAI_OBJBASE * vob = (VAI_OBJBASE*)api->GetEntityPointer(ei);
-		if(vob== nullptr) continue;
-		ATTRIBUTES *pA = vob->GetACharacter();
-		if((long)pA->GetAttributeAsDword("index")==chIdx)
+		VAI_OBJBASE* vob = (VAI_OBJBASE*)api->GetEntityPointer(ei);
+		if (vob == nullptr) continue;
+		ATTRIBUTES* pA = vob->GetACharacter();
+		if ((long)pA->GetAttributeAsDword("index") == chIdx)
 		{
 			pr->pShip = vob;
 			break;
 		}
-	} while( api->FindClassNext(&ei) );
+	}
 	if( NetFindClass(false,&ei,"netship") ) do
 	{
 		VAI_OBJBASE * vob = (VAI_OBJBASE*)api->GetEntityPointer(ei);
@@ -239,17 +240,20 @@ void SHIP_DESCRIBE_LIST::Refresh()
 	ReleaseAll();
 
 	TMP_LONG_STACK tls;
+
+	const auto walker = api->GetEntityIdWalker("ship");
 	entid_t ei;
 //	tls.Push(-1);
 
-	if( api->FindClass(&ei,"ship",0) ) do
+	while(ei = walker())
 	{
-		VAI_OBJBASE * vob = (VAI_OBJBASE*)api->GetEntityPointer(ei);
-		if(vob== nullptr) continue;
-		ATTRIBUTES * pA= vob->GetACharacter();
-		if(pA== nullptr) continue;
+		VAI_OBJBASE* vob = (VAI_OBJBASE*)api->GetEntityPointer(ei);
+		if (vob == nullptr) continue;
+		ATTRIBUTES* pA = vob->GetACharacter();
+		if (pA == nullptr) continue;
 		tls.Push((long)pA->GetAttributeAsDword("index"));
-	} while(api->FindClassNext(&ei));
+	}
+
 	if( NetFindClass(false,&ei,"NetShip") ) do
 	{
 		VAI_OBJBASE * vob = (VAI_OBJBASE*)api->GetEntityPointer(ei);

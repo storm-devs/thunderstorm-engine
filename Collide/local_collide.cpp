@@ -10,7 +10,6 @@ LCOLL::LCOLL(const char *layerName, VAPI &_api) : boxRadius(0), api(_api)
 
 LCOLL::~LCOLL()
 {
-	delete walker;
 }
 
 #define REALLOC_QUANT 1024	//mast be power of to due to AND

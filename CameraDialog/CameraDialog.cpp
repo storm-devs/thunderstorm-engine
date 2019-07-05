@@ -126,11 +126,11 @@ void CameraDialog::Realize(uint32_t Delta_Time)
 	static entid_t sMod[2];
 	if(!inited)
 	{
-		api->CreateEntity(&sMod[0], "modelr");
+		sMod[0] = api->CreateEntity("modelr");
 		api->LayerAdd("execute",sMod[0],100);
 		api->LayerAdd("realize",sMod[0],100);
 		api->Send_Message(sMod[0], "ls", MSG_MODEL_LOAD_GEO, "sabel");
-		api->CreateEntity(&sMod[1], "modelr");
+		sMod[1] = api->CreateEntity("modelr");
 		api->LayerAdd("execute",sMod[1],100);
 		api->LayerAdd("realize",sMod[1],100);
 		api->Send_Message(sMod[1], "ls", MSG_MODEL_LOAD_GEO, "sabel");

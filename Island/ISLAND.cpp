@@ -5,6 +5,7 @@
 #include "../Common_h/Weather_Base.h"
 #include "../Common_h/filesystem.h"
 #include "../Common_h/tga.h"
+#include "../Common_h/inlines.h"
 #include "../Shared/messages.h"
 
 INTERFACE_FUNCTION
@@ -137,9 +138,9 @@ void ISLAND::Realize(uint32_t Delta_Time)
 
 	fIslandFogDensity = AttributesPointer->GetAttributeAsFloat("FogDensity", 0.0f);
 
-	if (aForts.size() && !AIFortEID.pointer)
+	if (aForts.size() && !AIFortEID) //~!@
 	{
-		api->FindClass(&AIFortEID, "AIFort", 0);
+		AIFortEID = api->GetEntityIdWalker("AIFort")();
 	}
 
 	pRS->GetRenderState(D3DRS_FOGDENSITY, (uint32_t*)&fOldFogDensity);
@@ -149,7 +150,7 @@ void ISLAND::Realize(uint32_t Delta_Time)
 	{
 		if (j != 0) pRS->SetRenderState(D3DRS_ZWRITEENABLE, false);
 		pRS->SetNearFarPlane((j==0) ? fOldNear : fOldFar * float(j), fOldFar * float(j + 1));
-		pModel->Realize(Delta_Time);
+		pModel->ProcessStage(Entity::Stage::REALIZE, Delta_Time);
 		pRS->SetRenderState(D3DRS_LIGHTING, true);
 		D3DLIGHT9 lt, ltold; ZERO(lt);
 		lt.Type = D3DLIGHT_POINT;
@@ -163,14 +164,15 @@ void ISLAND::Realize(uint32_t Delta_Time)
 		pRS->SetLight(0, &lt);
 		for (uint32_t k=0; k<aForts.size(); k++)
 		{
-			CMatrix mOld = ((MODEL*)aForts[k].pointer)->mtx;
-			((MODEL*)aForts[k].pointer)->mtx = mOld * mTemp;
+			const auto ent = api->GetEntityPointer(aForts[k]);
+			CMatrix mOld = ((MODEL*)ent)->mtx;
+			((MODEL*)ent)->mtx = mOld * mTemp;
 
 			api->Send_Message(AIFortEID, "li", AI_MESSAGE_FORT_SET_LIGHTS, aForts[k]);
-			((Entity*)aForts[k].pointer)->Realize(Delta_Time);
+			((Entity*)ent)->ProcessStage(Entity::Stage::REALIZE, Delta_Time);
 			api->Send_Message(AIFortEID, "li", AI_MESSAGE_FORT_UNSET_LIGHTS, aForts[k]);
 
-			((MODEL*)aForts[k].pointer)->mtx = mOld;
+			((MODEL*)ent)->mtx = mOld;
 		}
 		pRS->SetLight(0, &ltold);
 		pRS->SetRenderState(D3DRS_LIGHTING, false);
@@ -185,7 +187,8 @@ void ISLAND::Realize(uint32_t Delta_Time)
 		//pRS->SetRenderState(D3DRS_AMBIENT, RGB(dwAmbient/4,dwAmbient/4,dwAmbient/4));
 
 		MODEL * pSeaBed = (MODEL*)api->GetEntityPointer(seabed_id);
-		if (pSeaBed) pSeaBed->Realize(Delta_Time);
+		if (pSeaBed)
+			pSeaBed->ProcessStage(Entity::Stage::REALIZE, Delta_Time);
 	}
 
 	pRS->SetNearFarPlane(fOldNear, fOldFar);
@@ -401,14 +404,13 @@ void ISLAND::CalcBoxParameters(CVECTOR & _vBoxCenter, CVECTOR & _vBoxSize)
 	entid_t	* pEID;
 	float		x1 = 1e+8f, x2 = -1e+8f, z1 = 1e+8f, z2 = -1e+8f;
 	
-	pEID = pIslandTraceWalker->GetId();
-	if (pEID) do
+	while (const auto pEID = pIslandTraceWalker())
 	{
-		MODEL * pM = (MODEL*)api->GetEntityPointer(pEID); Assert(pM);
+		MODEL* pM = (MODEL*)api->GetEntityPointer(pEID); Assert(pM);
 		uint32_t i = 0;
 		while (true)
 		{
-			NODE * pN = pM->GetNode(i); i++;
+			NODE* pN = pM->GetNode(i); i++;
 			if (!pN) break;
 			pN->geo->GetInfo(ginfo);
 			CVECTOR vGlobPos = pN->glob_mtx.Pos();
@@ -420,7 +422,7 @@ void ISLAND::CalcBoxParameters(CVECTOR & _vBoxCenter, CVECTOR & _vBoxSize)
 			if (vBC.z + vBS.z > z2) z2 = vBC.z + vBS.z;
 		}
 
-	} while (pEID = pIslandTraceWalker->GetIDNext());
+	}
 	_vBoxCenter	= CVECTOR((x1 + x2) / 2.0f, 0.0f, (z1 + z2) / 2.0f);
 	_vBoxSize	= CVECTOR(x2 - x1, 0.0f, z2 - z1);
 }
@@ -454,7 +456,8 @@ bool ISLAND::CreateShadowMap(char * pDir, char * pName)
 	
 	entid_t		ent;
 	WEATHER_BASE	* pWeather;
-	if (!api->FindClass(&ent, "Weather",0)) throw std::exception("No found WEATHER entity!");
+	if ((ent = api->GetEntityIdWalker("Weather")()) == 0)
+		throw std::exception("No found WEATHER entity!");
 	pWeather = (WEATHER_BASE*)api->GetEntityPointer(ent); Assert(pWeather);
 
 	fs::path path = fs::path() / "resource" / "foam" / pDir / AttributesPointer->GetAttribute("LightingPath");
@@ -790,7 +793,7 @@ bool ISLAND::Mount(char * fname, char * fdir, entid_t * eID)
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 	//sRealFileName.Format("%s\\%s", fdir, fname); sRealFileName.CheckPath();
 	
-	api->CreateEntity(&model_id, "MODELR");
+	model_id = api->CreateEntity("MODELR");
 	api->Send_Message(model_id, "ls", MSG_MODEL_SET_LIGHT_PATH, AttributesPointer->GetAttribute("LightingPath"));
 	api->Send_Message(model_id, "ls", MSG_MODEL_LOAD_GEO, (char*)pathStr.c_str());
 
@@ -811,7 +814,7 @@ bool ISLAND::Mount(char * fname, char * fdir, entid_t * eID)
 	mIslandOld = pModel->mtx;
 	if (pSeaBedModel) mSeaBedOld = pSeaBedModel->mtx;
 
-	api->FindClass(&lighter_id, "lighter", 0);
+	lighter_id = api->GetEntityIdWalker("lighter")();
 	/*sModelPath.Format("islands\\%s\\", fname); sModelPath.CheckPath();
 	api->Send_Message(lighter_id, "ss", "ModelsPath", (char*)sModelPath);
 	sLightPath.Format("%s", AttributesPointer->GetAttribute("LightingPath")); sLightPath.CheckPath();
@@ -856,7 +859,7 @@ float ISLAND::Cannon_Trace(long iBallOwner, const CVECTOR & vSrc, const CVECTOR 
 
 float ISLAND::Trace(const CVECTOR & vSrc, const CVECTOR & vDst)
 {
-	return pCollide->Trace(*pIslandTraceWalker, vSrc, vDst, nullptr, 0);
+	return pCollide->Trace(pIslandTraceWalker, vSrc, vDst, nullptr, 0);
 }
 
 // Path section
