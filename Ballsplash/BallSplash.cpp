@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "../Shared/messages.h"
 #include "../Common_h/Cvector.h"
-//#include "..\SoundService\VSoundService.h"
+#include "../Common_h/message.h"
 #include "BallSplash.H"
 
 INTERFACE_FUNCTION

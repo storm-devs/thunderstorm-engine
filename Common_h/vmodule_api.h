@@ -1,6 +1,8 @@
 #pragma once
-#include "vapi.h"
 #include <vector>
+#include "vapi.h"
+#include "../Common_h//vfile_service.h"
+#include "../Common_h//attributes.h"
 
 #define INTERFACE_FUNCTION
 

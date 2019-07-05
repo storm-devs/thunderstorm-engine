@@ -1,10 +1,11 @@
 #ifndef _ATTRIBUTES_H_
 #define _ATTRIBUTES_H_
 
+#include <Windows.h>
 #include <cstdint>
 #include <cstdio>
-#include "vstring_codec.h"
 #include <vector>
+#include "vstring_codec.h"
 
 #define INVALID_ATTRIBUTE_HANDLE	0xffffffff
 //--------------------------------------------------------------------------------------------------------------

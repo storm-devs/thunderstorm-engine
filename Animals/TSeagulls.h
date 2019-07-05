@@ -4,6 +4,7 @@
 #include "../Common_h/Matrix.h"
 #include "../Common_h/geometry.h"
 #include "../Common_h/dx9render.h"
+#include "../Common_h/message.h"
 #include "../SoundService/VSoundService.h"
 #include "AnimalsDefines.h"
 

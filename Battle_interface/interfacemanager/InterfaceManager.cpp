@@ -3,11 +3,14 @@
 #include "../image/image.h"
 #include "../Utils.h"
 #include "MousePointer.h"
-#include "../../Shared/bimanager/messages.h"
 #include "interfacenode/AllNodes.h"
 
 #include "interfacegroup/BaseGroup.h"
 #include "interfacegroup/SeaGroup.h"
+
+#include "../../Shared/bimanager/messages.h"
+#include "../../Common_h/assert.h"
+#include "../../Common_h/vmodule_api.h"
 
 BI_InterfaceManager::BI_InterfaceManager()
 {

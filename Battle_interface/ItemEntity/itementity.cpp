@@ -229,7 +229,7 @@ void ItemEntity::DrawIntoLocator()
 		}
 
 		m_pModel->mtx = perMtx;
-		m_pModel->Realize(0);
+		m_pModel->ProcessStage(Entity::Stage::REALIZE, 0);
 	}
 }
 
@@ -289,8 +289,9 @@ bool ItemEntity::CreateParticle()
 		char* pcParticleName = BIUtils::GetStringFromAttr(AttributesPointer,"particle","");
 		if( pcParticleName && pcParticleName[0] )
 		{
-			entid_t eidParticle;
-			if( api->FindClass(&eidParticle, "particles", 0) )
+			const auto walker = api->GetEntityIdWalker("particles");
+			const entid_t eidParticle = walker();
+			if(eidParticle)
 			{
 				CVECTOR vPos = m_mtxpos.Pos();
 				m_pParticle = (VPARTICLE_SYSTEM*)api->Send_Message(eidParticle, "lsffffffl", PS_CREATE_RIC, pcParticleName, vPos.x, vPos.y, vPos.z, 0.0f, 1.0f, 0.0f, 0);
@@ -304,8 +305,9 @@ bool ItemEntity::CreateParticle()
 void ItemEntity::DeleteParticle()
 {
 	if( m_pParticle ) {
-		entid_t eidParticle;
-		if( api->FindClass(&eidParticle, "particles", 0) )
+		const auto walker = api->GetEntityIdWalker("particles");
+		const entid_t eidParticle = walker();
+		if(eidParticle)
 		{
 			if( api->Send_Message(eidParticle, "ll", PS_VALIDATE_PARTICLE, (long)m_pParticle) )
 				m_pParticle->Pause(true);

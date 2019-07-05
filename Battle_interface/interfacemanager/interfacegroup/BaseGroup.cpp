@@ -1,4 +1,5 @@
 #include "BaseGroup.h"
+#include "../../../Common_h/assert.h"
 
 BI_BaseGroup::BI_BaseGroup( BI_ManagerBase* pManager )
 {

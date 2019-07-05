@@ -4,6 +4,7 @@
 #include <assert.h>
 #include "../Common_h/dx9render.h"
 #include "../Common_h/defines.h"
+#include "../Common_h/vdata.h"
 
 #define INI_FILE_NAME	"resource\\ini\\interfaces\\battle_interface.ini"
 

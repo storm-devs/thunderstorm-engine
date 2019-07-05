@@ -1,8 +1,12 @@
 #pragma once
 #include <cstdint>
-#include "message.h"
-#include "vmodule_api.h"
+#include "attributes.h" // TODO: REMOVE
 
+/* typedefs */
+class Entity;
+class MESSAGE;
+class ATTRIBUTES;
+using entptr_t = Entity *;
 using entid_t = uint64_t;
 
 /* Entity base class */
@@ -16,7 +20,7 @@ public:
 		RESTORE_RENDER
 	};
 
-	void* AttributesPointer = nullptr; // TODO: CHANGE!
+	ATTRIBUTES* AttributesPointer = nullptr; // TODO: CHANGE!
 
 	[[nodiscard]] 
 	entid_t GetId() const 
@@ -38,4 +42,3 @@ private:
 	entid_t id_ = 0ull;
 };
 
-using entptr_t = Entity *;
