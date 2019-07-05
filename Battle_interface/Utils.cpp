@@ -157,7 +157,7 @@ bool BIUtils::ComparePoint(POINT& p1,POINT& p2)
 	return ((p1.x==p2.x) && (p1.y==p2.y));
 }
 
-ATTRIBUTES * _cdecl BIUtils::GetAttributesFromPath(ATTRIBUTES * pA,...)
+ATTRIBUTES * BIUtils::GetAttributesFromPath(ATTRIBUTES * pA,...)
 {
 	va_list arglist;
 
