@@ -216,7 +216,7 @@ void Lights::Realize(uint32_t delta_time)
 		bool isVisible = d < l.coronaRange2;
 		if(!isVisible) continue;
 		//Видимость
-		VIDWALKER * walker = api->LayerGetWalker("sun_trace");
+		walker_t walker = api->LayerGetWalker("sun_trace");
 		if(walker && collide)
 		{
 			float dist = collide->Trace(*walker, pos, CVECTOR(ls.pos.x, ls.pos.y, ls.pos.z), lampModels, numLampModels);

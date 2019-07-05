@@ -415,8 +415,8 @@ void ShipLights::Execute(uint32_t dwDeltaTime)
 {
 	float fDeltaTime = float(dwDeltaTime) * 0.001f;
 
-	VIDWALKER * vwSunTrace = api->LayerGetWalker("sun_trace");
-	VIDWALKER * vwSailsTrace = api->LayerGetWalker("sails_trace");
+	walker_t vwSunTrace = api->LayerGetWalker("sun_trace");
+	walker_t vwSailsTrace = api->LayerGetWalker("sails_trace");
 
 	float fFov;
 	CVECTOR vCamPos, vCamAng;

@@ -1,7 +1,6 @@
 #ifndef _MESSAGE_H_
 #define _MESSAGE_H_
 
-#include "entid_t.h"
 #include "Cvector.h"
 #include "vdata.h"
 #
@@ -31,7 +30,7 @@ public:
 	virtual char * Pointer()	{ ValidateFormat('p'); return va_arg(args,char*); }
 	virtual ATTRIBUTES * AttributePointer(){ ValidateFormat('a'); return va_arg(args,ATTRIBUTES *); }
 	virtual entid_t EntityID(){ ValidateFormat('i'); return va_arg(args, entid_t); }
-	virtual VDATA * ScriptVariablePointer(){ ValidateFormat('e'); return va_arg(args,VDATA*); }
+	virtual VDATA* ScriptVariablePointer(){ ValidateFormat('e'); return va_arg(args,VDATA*); }
 	virtual CVECTOR CVector()	{ ValidateFormat('c'); return va_arg(args,CVECTOR); }
 	virtual void String(uint32_t dest_buffer_size, char * buffer)
 	{

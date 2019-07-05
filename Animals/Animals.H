@@ -25,8 +25,21 @@ public:
 	virtual void Realize(uint32_t _dTime);
 	virtual void Execute(uint32_t _dTime);
 	uint32_t AttributeChanged(ATTRIBUTES * pA);
-	//virtual bool CreateState(ENTITY_STATE_GEN * state_gen);
-	//virtual bool LoadState(ENTITY_STATE * state);
+	
+	void ProcessStage(Stage stage, uint32_t delta) override
+	{
+		switch (stage)
+		{
+		case Stage::EXECUTE:
+			Execute(delta); break;
+		case Stage::REALIZE:
+			Realize(delta); break;
+		/*case Stage::LOST_RENDER:
+			LostRender(delta); break;
+		case Stage::RESTORE_RENDER:
+			RestoreRender(delta); break;*/
+		}
+	}
 
 private:
 	TSeagulls    *seagulls;

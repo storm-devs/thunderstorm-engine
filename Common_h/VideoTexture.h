@@ -1,5 +1,5 @@
-#ifndef _VIDEOTEXTURE_H
-#define _VIDEOTEXTURE_H
+#pragma once
+#include "Entity.h"
 
 //-----------------------------------------------------------------------------
 // Name: class VideoToTexture
@@ -15,5 +15,3 @@ public:
 	operator IDirect3DTexture9* () {return m_pTexture;}
 	operator IDirect3DBaseTexture9* () {return m_pTexture;}
 };
-
-#endif

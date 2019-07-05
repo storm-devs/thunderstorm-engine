@@ -228,7 +228,7 @@ void LAYER::ClrFlag(uint32_t flag)
 }
 
 
-VIDWALKER * LAYER::GetWalker()
+walker_t LAYER::GetWalker()
 {
 	walkers.resize(walkers_num + 1); 
 

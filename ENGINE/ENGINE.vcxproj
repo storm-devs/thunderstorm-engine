@@ -481,10 +481,8 @@
     <ClInclude Include="..\BATTLE_INTERFACE\WorldMapInterface\shipsign.h" />
     <ClInclude Include="..\Common_h\controls.h" />
     <ClInclude Include="..\Common_h\dx9render.h" />
-    <ClInclude Include="..\Common_h\entity.h" />
+    <ClInclude Include="..\Common_h\Entity.h" />
     <ClInclude Include="..\Common_h\EntityManager.h" />
-    <ClInclude Include="..\Common_h\entity_id.h" />
-    <ClInclude Include="..\Common_h\entity_state.h" />
     <ClInclude Include="..\Common_h\assert.h" />
     <ClInclude Include="..\Common_h\input.h" />
     <ClInclude Include="..\Common_h\key_codes.h" />

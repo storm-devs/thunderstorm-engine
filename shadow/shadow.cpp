@@ -175,7 +175,7 @@ void SHADOW::Realize(uint32_t Delta_Time)
 	FindPlanes(visView, visPoj);
 
 	CVECTOR hdest = headPos + !(headPos - light_pos)*100.0f;
-	VIDWALKER *walker = api->LayerGetWalker("shadow");
+	walker_t walker = api->LayerGetWalker("shadow");
 	float ray = col->Trace(*walker, headPos, hdest, nullptr, 0);
 	CVECTOR cen;
 	float radius;

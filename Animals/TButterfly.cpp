@@ -54,7 +54,7 @@ void TButterfly::Initialize (const CVECTOR &_center, float _radius, long _buffer
 }
 
 //--------------------------------------------------------------------
-void TButterfly::Calculate (long _dTime, COLLIDE *_collide, VIDWALKER *_walker)
+void TButterfly::Calculate (long _dTime, COLLIDE *_collide, walker_t _walker)
 {
 	if (!active)
 	{

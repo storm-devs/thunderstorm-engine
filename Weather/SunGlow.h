@@ -110,7 +110,7 @@ private:
 
 	float			fBottomClip;
 
-	float	LayerTrace(CVECTOR & vSrc, VIDWALKER * pVW);
+	float	LayerTrace(CVECTOR & vSrc, walker_t pVW);
 	void	GenerateSunGlow();
 	void	DrawReflection();
 	void	Release();

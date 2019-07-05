@@ -44,7 +44,7 @@ public:
 	virtual ~TButterfly();
 
 	void Initialize (const CVECTOR &_center, float _radius, long _bufferIndex, int _tI, int _tJ);
-	void Calculate (long _dTime, COLLIDE *_collide, VIDWALKER *_walker);
+	void Calculate (long _dTime, COLLIDE *_collide, walker_t _walker);
 	void Effect(const CVECTOR &_position);
 	static void SetCenter(const CVECTOR &_center) { center = _center; };
 

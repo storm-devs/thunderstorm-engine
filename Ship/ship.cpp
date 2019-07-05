@@ -687,8 +687,8 @@ void SHIP::Execute(uint32_t DeltaTime)
 	// activate mast tracer
 	if (dtMastTrace.Update(fDeltaTime))
 	{
-		VIDWALKER * pVWShip = api->LayerGetWalker("mast_ship_trace");
-		VIDWALKER * pVWIsland = api->LayerGetWalker("mast_island_trace");
+		walker_t pVWShip = api->LayerGetWalker("mast_ship_trace");
+		walker_t pVWIsland = api->LayerGetWalker("mast_island_trace");
 		if (pVWShip || pVWIsland) 
 		{
 			for (long i=0; i<iNumMasts; i++) if (!pMasts[i].bBroken)

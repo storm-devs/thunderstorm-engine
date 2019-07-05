@@ -222,7 +222,7 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 	SEA_BASE * pSea = nullptr;
 	if (api->FindClass(&sea_id, "sea", 0)) pSea = (SEA_BASE*)api->GetEntityPointer(&sea_id);
 
-	VIDWALKER * pVW = api->LayerGetWalker("rain_drops");
+	walker_t pVW = api->LayerGetWalker("rain_drops");
 
 	fDropsDeltaTime += fDeltaTime;
 

@@ -150,7 +150,7 @@ void Blood::AddBlood(const CVECTOR& pos)
 	normal = CVECTOR(0.f,1.f,0.f);
 
 	CVECTOR cpos = pos;
-	VIDWALKER *walker = api->LayerGetWalker("blood");
+	walker_t walker = api->LayerGetWalker("blood");
 	if( !walker ) return;
 
 	CVECTOR src = pos; src.y += 1.f;

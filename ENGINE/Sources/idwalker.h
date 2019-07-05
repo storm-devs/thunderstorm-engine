@@ -14,8 +14,8 @@ public:
 	entid_t * GetIDNext();
 	void Invalidate();
 	void SetLayer(void * pl){pLayer = pl;};
-	void SetInterface(void * pi){pInterface = (VIDWALKER *)pi;};
-	VIDWALKER * pInterface;
+	void SetInterface(void * pi){pInterface = (walker_t)pi;};
+	walker_t pInterface;
 	LPBYTE Search_Link;
 	bool Validate() { return true; };
 };

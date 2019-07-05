@@ -4,45 +4,9 @@
 #include <chrono>
 #include <unordered_map>
 #include <map>
-#include "message.h"
-#include "vmodule_api.h"
+#include "entity.h"
 
-/* Entity base class */
-class Entity {
-	friend class EntityManager;
-public:
-	enum class Stage : uint_fast8_t {
-		EXECUTE,
-		REALIZE,
-		LOST_RENDER,
-		RESTORE_RENDER
-	};
-
-	void* AttributesPointer = nullptr; // TODO: CHANGE!
-
-	[[nodiscard]] 
-	entid_t GetId() const 
-	{
-		return id_;
-	}
-
-	Entity(const Entity&) = delete;
-	Entity(Entity&&) = delete;
-	Entity& operator=(const Entity&) = delete;
-	virtual ~Entity() = default;
-
-	virtual bool Init() = 0;
-	virtual void ProcessStage(Stage stage, uint32_t delta) = 0;
-	virtual uint32_t ProcessMessage(MESSAGE & msg) = 0;
-
-private:
-	entid_t id_ = -1u;
-};
-
-using entptr_t = Entity *;
 using index_t = uint32_t;
-
-
 /* ALPHA v0.0000001*/
 struct EntityData
 {
@@ -140,8 +104,8 @@ public:
 
 	/* assemble requested walker (generator) */
 	template <bool IsEntData, typename Iterable>
-	constexpr auto generator(Iterable& iterable, long hash = 0) {
-		return[this, hash, &iterable, it = std::begin(iterable)]() mutable {
+	constexpr auto&& generator(Iterable& iterable, long hash = 0) {
+		return std::move([this, hash, &iterable, it = std::begin(iterable)]() mutable {
 			for (; it != std::end(iterable); ++it)
 			{
 				EntityData* entData;
@@ -159,7 +123,7 @@ public:
 				}
 			}
 			return INVALID_entid_t;
-		};
+		});
 	}
 
 	entptr_t GetEntity(const entid_t entity) {
@@ -187,15 +151,15 @@ public:
 
 	/* matreshka */
 	template <LayerFlags...Flags>
-	auto GetLayerWalker() {
-		return [this, it = std::begin(layers_)]() mutable {
+	auto&& GetLayerWalker() {
+		return std::move([this, it = std::begin(layers_)]() mutable {
 			for (; it != std::end(layers_); ++it) {
 				if((checkLayerFlag(*it, Flags) & ...)) {
 					return GetEntityIdWalker(it->first);
 				}
 			}
 			GetEntityIdWalker({});
-		};
+		});
 	}
 
 	void AddToLayer(entid_t entity, std::string layer, index_t priority)

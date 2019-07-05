@@ -4,9 +4,11 @@
 #include "controls.h"
 #include "s_import_func.h"
 #include <functional>
+#include "entity.h"
 
-
-using entid_t = uint64_t;
+//class Entity;
+//using entid_t = uint64_t;
+//using entptr_t = Entity *;
 
 struct MSTATE
 {
@@ -63,7 +65,7 @@ public:
 	// delete entity; this function can be called even if programm control still in this object
 	virtual bool DeleteEntity(entid_t entid_t)= 0;
 	// return entity object pointer, if this entity exist
-	virtual ENTITY * GetEntityPointer(entid_t id_PTR)= 0;
+	virtual entptr_t GetEntityPointer(entid_t id_PTR)= 0;
 
 	virtual ATTRIBUTES * Entity_GetAttributeClass(entid_t id_PTR, char * name)=0;
 	virtual char *	Entity_GetAttribute(entid_t id_PTR, char * name)=0;

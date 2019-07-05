@@ -696,7 +696,7 @@ void Player::FireFromShootgun()
 	mtx.Transposition();
 	CVECTOR src = mtx.Pos() + mtx.Vz()*0.7f;
 	api->Send_Message(effects, "sffffff", "SGFireParticles", src.x, src.y - 0.35f, src.z, mtx.Vz().x, mtx.Vz().y, mtx.Vz().z);
-	VIDWALKER * walker = api->LayerGetWalker("sun_trace");
+	walker_t walker = api->LayerGetWalker("sun_trace");
 	COLLIDE * collide = (COLLIDE *)api->CreateService("COLL");
 	if(!walker) return;
 	if(!collide)

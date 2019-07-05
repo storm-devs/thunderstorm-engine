@@ -127,7 +127,7 @@ void SUNGLOW::Execute(uint32_t Delta_Time)
 	}
 }
 
-float SUNGLOW::LayerTrace(CVECTOR & vSrc, VIDWALKER * pVW)
+float SUNGLOW::LayerTrace(CVECTOR & vSrc, walker_t pVW)
 {
 	CVECTOR vDst;
 
@@ -181,7 +181,7 @@ void SUNGLOW::Realize(uint32_t Delta_Time)
 		fMinAlphaValue = 0.2f;
 	}
 
-	/*VIDWALKER * pVW = api->LayerGetWalker("sun_trace");
+	/*walker_t pVW = api->LayerGetWalker("sun_trace");
 	if (pVW) 
 	{
 		vSrc = vCamPos;

@@ -131,7 +131,7 @@ void FREE_CAMERA::Move(uint32_t DeltaTime)
 	CVECTOR vRes;
 	CVECTOR vDst = vPos + 2000.0f*CVECTOR(s0*c1, -s1, c0*c1);
 
-	VIDWALKER *pVW = api->LayerGetWalker("sun_trace");
+	walker_tpVW = api->LayerGetWalker("sun_trace");
 	float fRes = pCollide->Trace(*pVW,vPos,vDst,nullptr,0);
 	if (fRes > 1.0f) vRes = vDst;
 	else 

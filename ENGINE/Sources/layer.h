@@ -50,7 +50,7 @@ public:
 	LAYER_NODE * Base_Link;
 	LAYER_NODE * Search_Link;
 
-	VIDWALKER * GetWalker();
+	walker_t GetWalker();
 	void DelWalker(void *);
 	std::vector<IDWALKER*> walkers;
 	uint32_t walkers_num;

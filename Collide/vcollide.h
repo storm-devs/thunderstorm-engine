@@ -12,7 +12,7 @@
 class LCOLL : public LOCAL_COLLIDE
 {
 	PLANE plane[6];
-	VIDWALKER *walker;
+	walker_t walker;
 	CVECTOR boxCenter;
 	float boxRadius;
 	COLLIDE *col;
