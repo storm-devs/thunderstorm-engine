@@ -158,11 +158,11 @@ void AIBalls::Execute(uint32_t Delta_Time)
 	entid_t					EID, *pEID;
 
 	if (!pIsland && api->FindClass(&EID,"island", 0))
-		pIsland = (CANNON_TRACE_BASE*)api->GetEntityPointer(&EID);
+		pIsland = (CANNON_TRACE_BASE*)api->GetEntityPointer(EID);
 	if (!pSail && api->FindClass(&EID,"sail", 0))
-		pSail = (CANNON_TRACE_BASE*)api->GetEntityPointer(&EID);
+		pSail = (CANNON_TRACE_BASE*)api->GetEntityPointer(EID);
 	if (!pSea && api->FindClass(&EID,"sea", 0))
-		pSea = (CANNON_TRACE_BASE*)api->GetEntityPointer(&EID);
+		pSea = (CANNON_TRACE_BASE*)api->GetEntityPointer(EID);
 
 	aBallRects.clear();
 

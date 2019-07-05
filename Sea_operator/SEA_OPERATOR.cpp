@@ -66,7 +66,7 @@ uint32_t _cdecl SEA_OPERATOR::ProcessMessage(MESSAGE & message)
 			if (!IsTimeToActivate(false))
 				break;
 			entid_t firedShip = message.EntityID();
-			if (myShip != (SHIP_BASE *) api->GetEntityPointer(&firedShip))
+			if (myShip != (SHIP_BASE *) api->GetEntityPointer(firedShip))
 				break;
 
 			char bortName[256];
@@ -173,7 +173,7 @@ void SEA_OPERATOR::FirstInit()
 {
 	entid_t seaID;
 	if (api->FindClass(&seaID,"sea",0))
-		sea = (SEA_BASE*) api->GetEntityPointer(&seaID);
+		sea = (SEA_BASE*) api->GetEntityPointer(seaID);
 
 	entid_t shipID;
 	if (api->FindClass(&shipID,"ship",0))
@@ -241,7 +241,7 @@ void SEA_OPERATOR::StartNewAction()
 //--------------------------------------------------------------------
 void SEA_OPERATOR::SetIfMyShip (entid_t _shipID)
 {
-	SHIP_BASE *ship = (SHIP_BASE *) api->GetEntityPointer(&_shipID);
+	SHIP_BASE *ship = (SHIP_BASE *) api->GetEntityPointer(_shipID);
 	if (!ship)
 		return;
 	ATTRIBUTES *attr = ship->GetACharacter();
@@ -281,7 +281,7 @@ void SEA_OPERATOR::HandleShipIdle()
 void SEA_OPERATOR::HandleShipFire (entid_t _shipID, char *_bortName, const CVECTOR &_destination, const CVECTOR &_direction)
 {
 	BORT_TYPE bort = BORT_FRONT;
-	SHIP_BASE * ship = (SHIP_BASE *) api->GetEntityPointer(&_shipID);
+	SHIP_BASE * ship = (SHIP_BASE *) api->GetEntityPointer(_shipID);
 
 	if (!strcmp(_bortName, "cannonf"))
 		bort = BORT_FRONT;

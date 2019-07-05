@@ -43,7 +43,7 @@ bool CharacterAnimationKipper::Init()
 	entid_t eid;
 	if(api->FindClass(&eid, "CharacterAnimationKipper", 0))
 	{
-		if(api->GetEntityPointer(&eid) != this || api->FindClassNext(&eid))
+		if(api->GetEntityPointer(eid) != this || api->FindClassNext(&eid))
 		{
 			api->Trace("CharacterAnimationKipper::Init() -> CharacterAnimationKipper already created");
 			return false;

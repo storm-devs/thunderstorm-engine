@@ -95,7 +95,7 @@ void FLAG::Execute(uint32_t Delta_Time)
         entid_t ei;
         if( api->FindClass(&ei,"weather",0) )
         {
-            WEATHER_BASE *wb = (WEATHER_BASE*)api->GetEntityPointer(&ei);
+            WEATHER_BASE *wb = (WEATHER_BASE*)api->GetEntityPointer(ei);
             globalWind.ang.x=wb->GetFloat(whf_wind_angle);
             globalWind.ang.z=cosf(globalWind.ang.x);
             globalWind.ang.x=sinf(globalWind.ang.x);
@@ -149,7 +149,7 @@ uint32_t _cdecl FLAG::ProcessMessage(MESSAGE & message)
 			long nNation = message.Long();
 
 			MODEL *host_mdl;
-			host_mdl=(MODEL*)api->GetEntityPointer(&eidModel);
+			host_mdl=(MODEL*)api->GetEntityPointer(eidModel);
 			if( host_mdl==nullptr ) {
 				api->Trace("Missing INIT message to FLAG: bad MODEL");
 			}

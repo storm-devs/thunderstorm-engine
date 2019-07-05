@@ -163,7 +163,7 @@ uint32_t _cdecl VANT::ProcessMessage(MESSAGE & message)
 			gdata[groupQuantity-1].shipEI = message.EntityID();
 			gdata[groupQuantity-1].model_id = message.EntityID();
 			MODEL* mdl;
-			mdl=(MODEL*)api->GetEntityPointer(&gdata[groupQuantity-1].model_id);
+			mdl=(MODEL*)api->GetEntityPointer(gdata[groupQuantity-1].model_id);
 			if(mdl==nullptr)
 				throw std::exception("Bad Vant INIT");
 

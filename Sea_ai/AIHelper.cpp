@@ -49,7 +49,7 @@ bool AIHelper::Init()
 
 	entid_t eidIsland;
 	if (api->FindClass(&eidIsland, "island", 0))
-		pIsland = (ISLAND_BASE*)api->GetEntityPointer(&eidIsland);
+		pIsland = (ISLAND_BASE*)api->GetEntityPointer(eidIsland);
 
 	return true;
 }

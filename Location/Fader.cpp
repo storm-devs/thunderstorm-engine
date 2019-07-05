@@ -54,9 +54,9 @@ bool Fader::Init()
 	entid_t eid;
 	if(api->FindClass(&eid, "Fader", 0))
 	{
-		if(api->GetEntityPointer(&eid) != this || api->FindClassNext(&eid))
+		if(api->GetEntityPointer(eid) != this || api->FindClassNext(&eid))
 		{
-			if(fadeIn == ((Fader *)api->GetEntityPointer(&eid))->fadeIn)
+			if(fadeIn == ((Fader *)api->GetEntityPointer(eid))->fadeIn)
 			{
 				api->Trace("Fader::Init() -> Fader already created, %s", fadeIn ? "fade in phase" : "fade out phase");
 			}

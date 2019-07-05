@@ -60,7 +60,7 @@ void TFlotsam::Initialize(SEA_BASE *_sea)
 		{
 			api->CreateEntity(&modelIDs[i],"MODELR");
 			api->Send_Message(modelIDs[i],"ls",MSG_MODEL_LOAD_GEO, modelNames[i]);
-			models[i] = (MODEL*)api->GetEntityPointer(&modelIDs[i]);
+			models[i] = (MODEL*)api->GetEntityPointer(modelIDs[i]);
 		}
 	}
 
@@ -117,7 +117,7 @@ void TFlotsam::Realize(uint32_t _dTime)
 		pos.y = y;
 	CVECTOR ang(0.0f, angY, 0.0f);
 	MODEL * model;
-	model = (MODEL *)api->GetEntityPointer(&ModelID);
+	model = (MODEL *)api->GetEntityPointer(ModelID);
 	if(model)
 	{
 		model->mtx.BuildMatrix(ang, pos);

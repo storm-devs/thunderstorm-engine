@@ -109,7 +109,7 @@ void BLAST::ProcessTime(uint32_t DT)
 	if(!api->ValidateEntity(&sea_eid))
 	{
 		api->FindClass(&sea_eid,"sea",0);
-		pSea = (CANNON_TRACE_BASE *)api->GetEntityPointer(&sea_eid);
+		pSea = (CANNON_TRACE_BASE *)api->GetEntityPointer(sea_eid);
 	}
 
 	float Delta_Time = (float)DT;//*0.1;

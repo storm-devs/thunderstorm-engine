@@ -191,7 +191,7 @@ uint32_t _cdecl ROPE::ProcessMessage(MESSAGE & message)
 		{
 			entid_t tmp_shipEI = message.EntityID();
 			entid_t tmp_modelEI = message.EntityID();
-			MODEL* mdl = (MODEL*)api->GetEntityPointer(&tmp_modelEI);
+			MODEL* mdl = (MODEL*)api->GetEntityPointer(tmp_modelEI);
 			if( mdl== nullptr )
 			{
 				api->Trace("WARNING!!! Missing INIT message to ROPE - bad ship model");
@@ -664,7 +664,7 @@ void ROPE::AddLabel(GEOS::LABEL &lbl,NODE *nod, bool bDontSage)
 			entid_t sailEI;
 			if(api->FindClass(&sailEI,"sail",0))
 			{
-				MODEL* mdl=(MODEL*)api->GetEntityPointer(&gdata[rd->HostGroup].modelEI);
+				MODEL* mdl=(MODEL*)api->GetEntityPointer(gdata[rd->HostGroup].modelEI);
 				if(mdl==nullptr)
 					rd->btie=rd->etie=false;
 				else for(int i=0; i<10000; i++)
@@ -884,7 +884,7 @@ void ROPE::SetAdd(int firstNum)
         {
 			long gn = rlist[rn]->HostGroup;
 			const char* pcModlName = nullptr;
-			MODEL* pMdl = (MODEL*)api->GetEntityPointer(&gdata[gn].modelEI);
+			MODEL* pMdl = (MODEL*)api->GetEntityPointer(gdata[gn].modelEI);
 			if( pMdl && pMdl->GetNode(0) )
 				pcModlName = pMdl->GetNode(0)->GetName();
 

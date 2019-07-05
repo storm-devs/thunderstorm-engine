@@ -48,7 +48,7 @@ bool SailorsEditor :: Init()
 	api->Send_Message(shipID,"ls",MSG_MODEL_LOAD_GEO, _shipName);
 
 	api->LayerAdd("editor_realize", shipID, 100000);
-	model = (MODEL*)api->GetEntityPointer(&shipID);
+	model = (MODEL*)api->GetEntityPointer(shipID);
 
 
 
@@ -60,7 +60,7 @@ bool SailorsEditor :: Init()
 	api->Controls->MapControl(ctrl, 257);
 
 
-	menu.sailrs= (Sailors *)api->GetEntityPointer(&sailors);
+	menu.sailrs= (Sailors *)api->GetEntityPointer(sailors);
 
 	menu.sailrs->editorMode= true;
 

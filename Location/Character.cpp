@@ -595,7 +595,7 @@ bool Character::Init()
 	//”казатель на локацию
 	entid_t loc;
 	api->FindClass(&loc, "location", 0);
-	location = (Location *)api->GetEntityPointer(&loc);
+	location = (Location *)api->GetEntityPointer(loc);
 	if(!location) return false;
 	api->FindClass(&effects, "LocationEffects", 0);
 	soundService = (VSoundService *)api->CreateService("SoundService");
@@ -980,7 +980,7 @@ void Character::ReadFightActions(ATTRIBUTES * at, ActionCharacter actions[4], lo
 
 MODEL * Character::Model()
 {
-	return (MODEL *)api->GetEntityPointer(&mdl);
+	return (MODEL *)api->GetEntityPointer(mdl);
 }
 
 //ѕереместить модельку в точку x, y, z
@@ -1681,7 +1681,7 @@ void Character::Move(float dltTime)
 	{
 		if(fgtCurType >= fgt_attack_fast && fgtCurType <= fgt_attack_feintc)
 		{
-			Character * eAttack = (Character *)api->GetEntityPointer(&enemyAttack);
+			Character * eAttack = (Character *)api->GetEntityPointer(enemyAttack);
 			if(eAttack)
 			{
 				isTurnLock = false;
@@ -1828,7 +1828,7 @@ void Character::Move(float dltTime)
 		curJumpFallTime += dltTime;
 		if(isJumpSnd && priorityAction.name)
 		{
-			SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(&sea);
+			SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(sea);
 			if(sb && location->IsSwimming())
 			{
 				seaY = sb->WaveXZ(curPos.x, curPos.z, nullptr);
@@ -1896,7 +1896,7 @@ void Character::Move(float dltTime)
 	if(swimChange <= 0.0f && location->IsSwimming())
 	{
 		bool old = isSwim;
-		SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(&sea);
+		SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(sea);
 		isSwim = false;
 		isRunDisable = false;
 		if(sb)
@@ -2117,7 +2117,7 @@ void Character::Update(float dltTime)
 	}
 	soundGrass = false;
 	//
-	MODEL * signMdl = (MODEL *)api->GetEntityPointer(&sign);
+	MODEL * signMdl = (MODEL *)api->GetEntityPointer(sign);
 	if(signMdl)
 	{
 		CVECTOR dir = camPos - curPos; dir.y = 0.0f;
@@ -2203,7 +2203,7 @@ void Character::ActionEvent(const char * actionName, Animation * animation, long
 			animation->Player(0).SetPosition(1.0f);
 
 			// проверим куда упали и проиграем анимацию после падени€ на землю и в воду.
-			SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(&sea);
+			SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(sea);
 			if(sb)
 			{
 				if( sb->WaveXZ(curPos.x, curPos.z, nullptr) - curPos.y > CHARACTER_SEA_SWIM )
@@ -2431,7 +2431,7 @@ void Character::PlayStep()
 {
 	if(!soundService) return;
 	if(isSwim) return;
-	SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(&sea);
+	SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(sea);
 	if(sb && location->IsSwimming())
 	{
 		//ѕроверим высоту мор€
@@ -2625,7 +2625,7 @@ bool Character::zLoadModel(MESSAGE & message)
 		api->DeleteEntity(mdl);
 		return false;
 	}
-	MODEL * m = (MODEL *)api->GetEntityPointer(&mdl);
+	MODEL * m = (MODEL *)api->GetEntityPointer(mdl);
 	if(!m)
 	{
 		api->DeleteEntity(mdl);
@@ -2757,7 +2757,7 @@ bool Character::zSetBlade(MESSAGE & message)
 	float t = message.Float();
 	long s = message.Long();
 	long e = message.Long();
-	if(!api->GetEntityPointer(&blade))
+	if(!api->GetEntityPointer(blade))
 	{
 		if(!api->CreateEntity(&blade, "blade")) return false;
 	}
@@ -2775,7 +2775,7 @@ bool Character::zSetGun(MESSAGE & message)
 	name[sizeof(name) - 1] = 0;
 	isGunSet = true;
 	if(!name[0]) isGunSet = false;
-	if(!api->GetEntityPointer(&blade))
+	if(!api->GetEntityPointer(blade))
 	{
 		if(!api->CreateEntity(&blade, "blade")) return false;
 	}
@@ -2811,7 +2811,7 @@ bool Character::zTurnByLoc(MESSAGE & message)
 bool Character::zTurnByChr(MESSAGE & message)
 {
 	entid_t chr = message.EntityID();
-	Character * c = (Character *)api->GetEntityPointer(&chr);
+	Character * c = (Character *)api->GetEntityPointer(chr);
 	if(!c) return false;
 	Turn(c->curPos.x - curPos.x, c->curPos.z - curPos.z);
 	return true;
@@ -2829,7 +2829,7 @@ bool Character::zTurnByPoint(MESSAGE & message)
 bool Character::zDistByCharacter(MESSAGE & message, bool is2D)
 {
 	entid_t chr = message.EntityID();
-	Character * c = (Character *)api->GetEntityPointer(&chr);
+	Character * c = (Character *)api->GetEntityPointer(chr);
 	if(!c) return false;
 	float dx = curPos.x - c->curPos.x;
 	float dz = curPos.z - c->curPos.z;
@@ -2860,7 +2860,7 @@ uint32_t Character::zExMessage(MESSAGE & message)
 		message.String(sizeof(modelName),modelName);
 		char locatorName[128];
 		message.String(sizeof(locatorName),locatorName);
-		if(!api->GetEntityPointer(&blade))
+		if(!api->GetEntityPointer(blade))
 		{
 			if(!api->CreateEntity(&blade, "blade")) return 0;
 			UpdateWeapons();
@@ -4284,7 +4284,7 @@ Character * Character::FindGunTarget(float & kDist, bool bOnlyEnemyTest)
 	if (bOnlyEnemyTest)
 	{
 		api->FindClass(&grps, "CharactersGroups", 0);
-		chrGroup = (CharactersGroups *)api->GetEntityPointer(&grps);
+		chrGroup = (CharactersGroups *)api->GetEntityPointer(grps);
 		grp = chrGroup->FindGroupIndex(group);
 	}
 
@@ -4388,7 +4388,7 @@ void Character::FindNearCharacters(MESSAGE & message)
 //ѕроверить видимость
 bool Character::CharactersVisibleTest(MESSAGE & message)
 {
-	Character * chr = (Character *)api->GetEntityPointer(&message.EntityID());
+	Character * chr = (Character *)api->GetEntityPointer(message.EntityID());
 	if(!chr) return false;
 	return VisibleTest(chr);
 }
@@ -4423,7 +4423,7 @@ void Character::UpdateWeapons()
 //ѕолучить направление на противника дл€ подскока при ударе
 CVECTOR Character::GetEnemyDirForImpulse()
 {
-	Character * chr = (Character *)api->GetEntityPointer(&enemyAttack);
+	Character * chr = (Character *)api->GetEntityPointer(enemyAttack);
 	if(!chr) return CVECTOR(0.0f);
 	CVECTOR dir = chr->curPos - curPos;
 	dir.y = 0.0f;

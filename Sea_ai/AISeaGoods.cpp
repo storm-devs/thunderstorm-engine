@@ -41,7 +41,7 @@ void AISeaGoods::Execute(uint32_t dwDeltaTime)
 	float fDeltaTime = float(dwDeltaTime) * 0.001f;
 
 	if (!pSea && api->FindClass(&EID, "sea", 0))
-		pSea = (SEA_BASE*)api->GetEntityPointer(&EID);
+		pSea = (SEA_BASE*)api->GetEntityPointer(EID);
 	
 	if (!pSea) return;
 
@@ -73,7 +73,7 @@ void AISeaGoods::Execute(uint32_t dwDeltaTime)
 			// enumerate ships
 			if (api->FindClass(&EID, "ship", 0)) do
 			{
-				aShips.push_back((SHIP_BASE*)api->GetEntityPointer(&EID));
+				aShips.push_back((SHIP_BASE*)api->GetEntityPointer(EID));
 			} while (api->FindClassNext(&EID));
 
 			// check ships

@@ -1229,7 +1229,7 @@ void SoundService::CreateEntityIfNeed ()
 		api->CreateEntity(&Debugentid_t, "SoundVisualisationEntity");
 	}
 
-	SoundVisualisationEntity* pDebugEntity = (SoundVisualisationEntity*)api->GetEntityPointer(&Debugentid_t);
+	SoundVisualisationEntity* pDebugEntity = (SoundVisualisationEntity*)api->GetEntityPointer(Debugentid_t);
 	pDebugEntity->SetMasterSoundService(this);
 	pDebugEntity->Wakeup();
 

@@ -3545,7 +3545,7 @@ CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
 	strcpy_s(pVTLcur->name, len, sVideoName);
 	entid_t ei;
 	api->CreateEntity(&ei, "TextureSequence");
-	pVTLcur->VideoTexture = (CVideoTexture*)api->GetEntityPointer(&ei);
+	pVTLcur->VideoTexture = (CVideoTexture*)api->GetEntityPointer(ei);
 	if (pVTLcur->VideoTexture != nullptr)
 	{
 		pVTLcur->videoTexture_id = ei;

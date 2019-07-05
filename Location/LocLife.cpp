@@ -63,7 +63,7 @@ bool LocLife::Init(Location * loc)
 	FindPos();
 	ay = rand()*(6.28f/RAND_MAX);
 	//Анимация
-	MODEL * m = (MODEL *)api->GetEntityPointer(&model);
+	MODEL * m = (MODEL *)api->GetEntityPointer(model);
 	if(!m){ location = nullptr; return false; }
 	NODE * node = m->GetNode(0);
 	if(node) node->SetTechnique("DLightModel");
@@ -82,7 +82,7 @@ void LocLife::Update(float dltTime)
 		location->DrawLine(pos, 0xff00ff00, pos + CVECTOR(sinf(ay), 0.0f, cosf(ay))*0.5f, 0xff00ff00);
 	}
 	//Информация о модели и локации
-	MODEL * m = (MODEL *)api->GetEntityPointer(&model);
+	MODEL * m = (MODEL *)api->GetEntityPointer(model);
 	if(!m) return;
 	Animation * ani = m->GetAnimation();
 	if(!ani) return;
@@ -135,7 +135,7 @@ void LocLife::Update(float dltTime)
 
 long LocLife::FindPos()
 {
-	MODEL * m = (MODEL *)api->GetEntityPointer(&model);
+	MODEL * m = (MODEL *)api->GetEntityPointer(model);
 	if(!m) return -1;
 	PtcData & ptc = location->GetPtcData();
 	//Направление
@@ -169,7 +169,7 @@ long LocLife::FindPos()
 void LocLife::StartMove()
 {
 	//Модель
-	MODEL * m = (MODEL *)api->GetEntityPointer(&model);
+	MODEL * m = (MODEL *)api->GetEntityPointer(model);
 	if(!m) return;
 	//Запускаем проигрывание анимации
 	Animation * ani = m->GetAnimation();
@@ -181,7 +181,7 @@ void LocLife::StartMove()
 void LocLife::StopMove()
 {
 	node = -1;
-	MODEL * m = (MODEL *)api->GetEntityPointer(&model);
+	MODEL * m = (MODEL *)api->GetEntityPointer(model);
 	if(!m) return;
 	//Запускаем проигрывание анимации
 	Animation * ani = m->GetAnimation();

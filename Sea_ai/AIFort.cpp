@@ -109,7 +109,7 @@ void AIFort::Realize(uint32_t Delta_Time)
 	float fCurrentImmersion = 0.0f;
 	if (api->FindClass(&eidIsland, "Island", 0))
 	{
-		ISLAND_BASE * pIsland = (ISLAND_BASE *)api->GetEntityPointer(&eidIsland);
+		ISLAND_BASE * pIsland = (ISLAND_BASE *)api->GetEntityPointer(eidIsland);
 		fCurrentImmersion = pIsland->GetCurrentImmersion();
 	}*/
 
@@ -194,7 +194,7 @@ bool AIFort::AddFort(ATTRIBUTES * pIslandAP, ATTRIBUTES * pFortLabelAP, ATTRIBUT
 
 	entid_t eidTmp;
 	api->FindClass(&eidTmp, "shiplights", 0);
-	pShipsLights = (IShipLights*)api->GetEntityPointer(&eidTmp); Assert(pShipsLights);
+	pShipsLights = (IShipLights*)api->GetEntityPointer(eidTmp); Assert(pShipsLights);
 
 	pShipsLights->AddLights(&pFort->tmpObject, pFort->GetModel(), bLights, bFlares);
 	pShipsLights->Execute(0);
@@ -302,7 +302,7 @@ bool AIFort::ScanFortForCannons(AI_FORT * pFort, char * pModelsDir, char * pLoca
 	api->CreateEntity(&model_id, "MODELR");
 	api->Send_Message(model_id, "ls", MSG_MODEL_LOAD_GEO, (char*)pathStr.c_str());
 
-	MODEL * pModel = (MODEL*)api->GetEntityPointer(&model_id); Assert(pModel);
+	MODEL * pModel = (MODEL*)api->GetEntityPointer(model_id); Assert(pModel);
 
 	// search and add cannons & culverins
 	uint32_t dwIdx = 0;
@@ -374,7 +374,7 @@ float AIFort::Trace(const CVECTOR & vSrc, const CVECTOR & vDst)
 	float fBestDistance = 1e10f; 
 	for (uint32_t i=0; i<GetNumForts(); i++)
 	{
-		MODEL * pModel = (MODEL*)api->GetEntityPointer(&GetFort(i)->GetModelEID()); Assert(pModel);
+		MODEL * pModel = (MODEL*)api->GetEntityPointer(GetFort(i)->GetModelEID()); Assert(pModel);
 		float fRes = pModel->Trace(vSrc, vDst);
 		if (fRes > 1.0f) continue;
 		float fDistance = fRes * sqrtf(~(vDst - vSrc));
@@ -394,7 +394,7 @@ float AIFort::Cannon_Trace(long iBallOwner, const CVECTOR & vSrc, const CVECTOR 
 	float fBestRes = 2.0;
 	for (uint32_t i=0; i<GetNumForts(); i++)
 	{
-		MODEL * pModel = (MODEL*)api->GetEntityPointer(&GetFort(i)->GetModelEID());
+		MODEL * pModel = (MODEL*)api->GetEntityPointer(GetFort(i)->GetModelEID());
 
 		float fRes = pModel->Trace(vSrc, vDst);
 		if (fRes < fBestRes) fBestRes = fRes;

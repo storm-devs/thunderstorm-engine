@@ -71,7 +71,7 @@ void Player::Move(float dltTime)
 		entid_t lcam;
 		if(api->FindClass(&lcam, "LocationCamera", 0))
 		{
-			locCam = (LocationCamera *)api->GetEntityPointer(&lcam);
+			locCam = (LocationCamera *)api->GetEntityPointer(lcam);
 		}
 	}else{
 		locCam->LockFPMode(shootgunMode);
@@ -627,7 +627,7 @@ Player * Player::FindAttackCharacter()
 		if(isEnemy) //~!~
 		{
 			if(chr->task.task != npct_fight ||
-				api->GetEntityPointer(&chr->task.target) != this) continue;
+				api->GetEntityPointer(chr->task.target) != this) continue;
 		}else{
 			if(isFgt)
 			{
@@ -641,7 +641,7 @@ Player * Player::FindAttackCharacter()
 			}
 			/*
 			if(chr->task.task == npct_fight &&
-				api->GetEntityPointer(&chr->task.target) == this)
+				api->GetEntityPointer(chr->task.target) == this)
 			{
 				j = -1;
 				isEnemy = true;
@@ -725,7 +725,7 @@ void Player::FireFromShootgun()
 				CVECTOR dir = !(src - dst);
 				dst = src + (dst - src)*dist;
 				//Куда то попали
-				ENTITY * e = api->GetEntityPointer(&collide->GetObjectID());
+				ENTITY * e = api->GetEntityPointer(collide->GetObjectID());
 				if(e && e != this)
 				{
 					long n, nm;

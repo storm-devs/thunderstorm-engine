@@ -143,7 +143,7 @@ void Debris::AddModel(const char * modelName, float prt, float spd)
 	//Создаём модельку
 	entid_t id;
 	if(!api->CreateEntity(&id, "modelr")) return;
-	MODEL * m = (MODEL *)api->GetEntityPointer(&id);
+	MODEL * m = (MODEL *)api->GetEntityPointer(id);
 	if(!m) return;
 	//Путь для текстур
 	VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
@@ -206,7 +206,7 @@ bool Debris::IsShip()
 	for(; res; res = api->FindClassNext(&id))
 	{
 		//Указатель на объект
-		VAI_OBJBASE * ship = (VAI_OBJBASE *)api->GetEntityPointer(&id);
+		VAI_OBJBASE * ship = (VAI_OBJBASE *)api->GetEntityPointer(id);
 		if(!ship) break;
 		//Позиция торнадо в системе корабля
 		Assert(ship->GetMatrix());

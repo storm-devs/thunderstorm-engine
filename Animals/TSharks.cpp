@@ -56,7 +56,7 @@ void TSharks::Init()
 		throw std::exception("!Sharks: No service 'dx9render'");
 
 	api->FindClass(&seaID, "sea", 0);
-	sea = (SEA_BASE*) api->GetEntityPointer(&seaID);
+	sea = (SEA_BASE*) api->GetEntityPointer(seaID);
 	if (!sea)
 	{
 		enabled = false;
@@ -78,13 +78,13 @@ void TSharks::Init()
 	if (api->FindClass(&shipID, "ship", 0))
 	{
 		ships[shipsCount] = new TShip();
-		ships[shipsCount]->ship = (SHIP_BASE*) api->GetEntityPointer(&shipID);
+		ships[shipsCount]->ship = (SHIP_BASE*) api->GetEntityPointer(shipID);
 		TDynamicSystem::AddDeflector(ships[i]);
 		++shipsCount;
 		while (api->FindClassNext(&shipID))
 		{
 			ships[shipsCount] = new TShip();
-			ships[shipsCount]->ship = (SHIP_BASE*) api->GetEntityPointer(&shipID);
+			ships[shipsCount]->ship = (SHIP_BASE*) api->GetEntityPointer(shipID);
 			//TDynamicSystem::AddDeflector(ships[i]);
 			++shipsCount;
 			if (++shipsCount == SHARK_MAX_SHIPS)
@@ -150,7 +150,7 @@ void TSharks::Realize(uint32_t _dTime)
 	float   cameraPersp;
 	renderService->GetCamera(cameraPos, cameraAng, cameraPersp);
 */
-	MODEL *shark = (MODEL*) api->GetEntityPointer(&sharkModel);
+	MODEL *shark = (MODEL*) api->GetEntityPointer(sharkModel);
 	if (!shark)
 		return;
 

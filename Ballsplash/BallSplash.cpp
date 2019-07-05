@@ -30,7 +30,7 @@ bool BALLSPLASH::Init()
 
 	entid_t seaID;
 	api->FindClass(&seaID, "sea", 0);
-	sea = (SEA_BASE*) api->GetEntityPointer(&seaID);
+	sea = (SEA_BASE*) api->GetEntityPointer(seaID);
 
 	renderer = (VDX9RENDER *) api->CreateService("dx9render");
 

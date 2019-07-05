@@ -78,7 +78,7 @@ SHIP::~SHIP()
 	entid_t eidTmp;
 	if (api->FindClass(&eidTmp, "ShipTracks", 0))
 	{
-		ShipTracks * pST = (ShipTracks*)api->GetEntityPointer(&eidTmp); 
+		ShipTracks * pST = (ShipTracks*)api->GetEntityPointer(eidTmp); 
 		if (pST) pST->DelShip(this);
 	}
 
@@ -123,8 +123,8 @@ void SHIP::LoadServices()
 
 	api->FindClass(&touch_id, "touch", 0);
 
-	if (api->FindClass(&ent, "island", 0)) pIsland = (ISLAND_BASE*)api->GetEntityPointer(&ent);
-	if (api->FindClass(&sea_id, "sea", 0)) pSea = (SEA_BASE*)api->GetEntityPointer(&sea_id);
+	if (api->FindClass(&ent, "island", 0)) pIsland = (ISLAND_BASE*)api->GetEntityPointer(ent);
+	if (api->FindClass(&sea_id, "sea", 0)) pSea = (SEA_BASE*)api->GetEntityPointer(sea_id);
 
 	api->FindClass(&FirePlace::eidSound, "sound", 0);	
 }
@@ -707,7 +707,7 @@ void SHIP::Execute(uint32_t DeltaTime)
 					if (fShipRes <= 1.0f) 
 					{
 						ATTRIBUTES * pACollideCharacter = GetACharacter();
-						SHIP * pShip = (SHIP*)api->GetEntityPointer(&pCollide->GetObjectID());
+						SHIP * pShip = (SHIP*)api->GetEntityPointer(pCollide->GetObjectID());
 						if (pShip) pACollideCharacter = pShip->GetACharacter();
 						pV = api->Event(SHIP_MAST_DAMAGE, "llffffaa", SHIP_MAST_TOUCH_SHIP, pM->iMastNum, v1.x, v1.y, v1.z, pM->fDamage, GetACharacter(), pACollideCharacter);
 						pM->fDamage = Clamp(pV->GetFloat());
@@ -1082,7 +1082,7 @@ uint32_t _cdecl SHIP::ProcessMessage(MESSAGE & message)
 			entid_t eidTmp;
 			if (api->FindClass(&eidTmp, "ShipTracks", 0))
 			{
-				ShipTracks * pST = (ShipTracks*)api->GetEntityPointer(&eidTmp); 
+				ShipTracks * pST = (ShipTracks*)api->GetEntityPointer(eidTmp); 
 				pST->ResetTrack(this);
 			}
 		}
@@ -1294,7 +1294,7 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 	entid_t eidTmp;
 	if (api->FindClass(&eidTmp, "shiplights", 0))
 	{
-		pShipsLights = (IShipLights*)api->GetEntityPointer(&eidTmp); 
+		pShipsLights = (IShipLights*)api->GetEntityPointer(eidTmp); 
 
 		pShipsLights->AddLights(this, GetModel(), bLights, bFlares);
 		pShipsLights->Execute(0);
@@ -1330,7 +1330,7 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 		bModelUpperShip = true;
 		api->CreateEntity(&model_uppership_id, "MODELR");
 		api->Send_Message(model_uppership_id, "ls", MSG_MODEL_LOAD_GEO, temp_str);
-		pModelUpperShip = (MODEL*)api->GetEntityPointer(&model_uppership_id);
+		pModelUpperShip = (MODEL*)api->GetEntityPointer(model_uppership_id);
 	}
 
 	// event to script
@@ -1340,7 +1340,7 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 	// add to ship tracks
 	if (api->FindClass(&eidTmp, "ShipTracks", 0))
 	{
-		ShipTracks * pST = (ShipTracks*)api->GetEntityPointer(&eidTmp); 
+		ShipTracks * pST = (ShipTracks*)api->GetEntityPointer(eidTmp); 
 		if (pST) pST->AddShip(this);
 	}
 
@@ -1502,7 +1502,7 @@ uint32_t SHIP::AttributeChanged(ATTRIBUTES * pAttribute)
 
 CVECTOR		SHIP::GetBoxsize()				{ return State.vBoxSize; };
 entid_t	SHIP::GetModelEID()				{ return model_id; }
-MODEL *		SHIP::GetModel()				{ Assert(api->ValidateEntity(&GetModelEID())); return (MODEL*)api->GetEntityPointer(&GetModelEID()); }
+MODEL *		SHIP::GetModel()				{ Assert(api->ValidateEntity(&GetModelEID())); return (MODEL*)api->GetEntityPointer(GetModelEID()); }
 CMatrix *	SHIP::GetMatrix()				{ return &GetModel()->mtx; }
 void		SHIP::SetMatrix(CMatrix & mtx)	{ GetModel()->mtx = mtx; }
 CVECTOR		SHIP::GetAng()					{ return State.vAng; }

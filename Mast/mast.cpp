@@ -116,7 +116,7 @@ void MAST::Execute(uint32_t Delta_Time)
             }
 	    }
         doMove(Delta_Time);
-        MODEL* mdl=(MODEL*)api->GetEntityPointer(&model_id);
+        MODEL* mdl=(MODEL*)api->GetEntityPointer(model_id);
         if(mdl) mdl->Update();
     }
     else
@@ -137,7 +137,7 @@ void MAST::Realize(uint32_t Delta_Time)
 	}
 
     MODEL *mdl;
-    if( (mdl=(MODEL*)api->GetEntityPointer(&model_id))!=nullptr )
+    if( (mdl=(MODEL*)api->GetEntityPointer(model_id))!=nullptr )
     {
 		RenderService->SetRenderState(D3DRS_LIGHTING,true);
         mdl->Realize(Delta_Time);
@@ -194,7 +194,7 @@ void _cdecl MAST::Mount( entid_t modelEI, entid_t shipEI, NODE* mastNodePointer 
 {
 	m_pMastNode = mastNodePointer;
 	if(mastNodePointer== nullptr) return;
-    MODEL * oldmdl=(MODEL*)api->GetEntityPointer(&modelEI);
+    MODEL * oldmdl=(MODEL*)api->GetEntityPointer(modelEI);
     if(oldmdl==nullptr) return; // ничего не валим, если нет старой модели
     oldmodel_id=modelEI;
     ship_id=shipEI;
@@ -209,7 +209,7 @@ void _cdecl MAST::Mount( entid_t modelEI, entid_t shipEI, NODE* mastNodePointer 
     bVant = api->FindClass(&vantEI,"vant",0);
 
 	// найдем аттрибуты
-	VAI_OBJBASE * pVAI = nullptr;	pVAI = (VAI_OBJBASE*)api->GetEntityPointer(&shipEI);
+	VAI_OBJBASE * pVAI = nullptr;	pVAI = (VAI_OBJBASE*)api->GetEntityPointer(shipEI);
 	ATTRIBUTES * pA = nullptr;	if(pVAI!= nullptr) pA = pVAI->GetACharacter();
 
 	ATTRIBUTES * pAMasts = nullptr; if(pA!= nullptr) pAMasts = pA->FindAClass(pA,"Ship.Masts");
@@ -233,7 +233,7 @@ void _cdecl MAST::Mount( entid_t modelEI, entid_t shipEI, NODE* mastNodePointer 
 
         // пройдем по всем веревкам данной мачты и отключим их
 		if(bVant) api->Send_Message(vantEI, "lip", MSG_VANT_DEL_MAST, modelEI, mastNodePointer);
-		MODEL * mdl = (MODEL*)api->GetEntityPointer(&model_id);
+		MODEL * mdl = (MODEL*)api->GetEntityPointer(model_id);
 		if(mdl!= nullptr)	for(i=0; i<10000; i++)
 		{
 			NODE* nod=mdl->GetNode(i);
@@ -273,7 +273,7 @@ void _cdecl MAST::Mount( entid_t modelEI, entid_t shipEI, NODE* mastNodePointer 
 		if(bSail) api->Send_Message(sailEI, "ll", MSG_SAIL_MAST_PROCESSING, -1);
 
         // установим первоначальные параметры движения мачты
-        SHIP_BASE *sb; sb=(SHIP_BASE*)api->GetEntityPointer(&shipEI);
+        SHIP_BASE *sb; sb=(SHIP_BASE*)api->GetEntityPointer(shipEI);
         if(sb)
         {
             mm.ang= sb->State.vAng;
@@ -303,7 +303,7 @@ void _cdecl MAST::Mount( entid_t modelEI, entid_t shipEI, NODE* mastNodePointer 
         if(api->FindClass(&tmpEI,"ship",0)) do
         {
             if(tmpEI==ship_id) continue;
-            SHIP_BASE *sb = (SHIP_BASE*)api->GetEntityPointer(&tmpEI);
+            SHIP_BASE *sb = (SHIP_BASE*)api->GetEntityPointer(tmpEI);
             float tmpDist = ~(sb->State.vPos-mm.mov);
             if(tmpDist<minDist)
             {
@@ -458,7 +458,7 @@ void MAST::doMove(uint32_t DeltaTime)
     float dtime=DELTA_TIME((float)DeltaTime);
     float rtime=DELTA_TIME_ROTATE((float)DeltaTime);
 
-    MODEL* mdl = (MODEL*)api->GetEntityPointer(&model_id); // это модель геометрии мачты
+    MODEL* mdl = (MODEL*)api->GetEntityPointer(model_id); // это модель геометрии мачты
     if(mdl!=nullptr)
     {
         if(bFallUnderWater) // если мачта уже тонет
@@ -502,9 +502,9 @@ void MAST::doMove(uint32_t DeltaTime)
             {
                 bNextClass=false;
 				// коллизим с островом
-                if( api->FindClass(&findEI,"ISLAND",0) && api->GetEntityPointer(&findEI)!= nullptr )
+                if( api->FindClass(&findEI,"ISLAND",0) && api->GetEntityPointer(findEI)!= nullptr )
 				{
-					modEI = ((ISLAND_BASE*)api->GetEntityPointer(&findEI))->GetModelEID();
+					modEI = ((ISLAND_BASE*)api->GetEntityPointer(findEI))->GetModelEID();
 
                     CVECTOR dp;
                     int tmp;
@@ -527,8 +527,8 @@ void MAST::doMove(uint32_t DeltaTime)
 				// коллизим с кораблем
 				if(api->FindClass(&findEI,"SHIP",0))	do
                 {
-					if( api->GetEntityPointer(&findEI)== nullptr ) continue;
-					modEI = ((VAI_OBJBASE*)api->GetEntityPointer(&findEI))->GetModelEID();
+					if( api->GetEntityPointer(findEI)== nullptr ) continue;
+					modEI = ((VAI_OBJBASE*)api->GetEntityPointer(findEI))->GetModelEID();
                     CVECTOR dp;
                     int tmp;
                     float yAng;
@@ -610,7 +610,7 @@ int MAST::GetSlide(entid_t mod, CVECTOR &pbeg, CVECTOR &pend, CVECTOR &dp, CVECT
                 if(sVal>MAX_SLIDING_LENGHT) return (retVal&(~SR_MOVE));
                 dp.y-=hVal;  vb.y-=hVal;  ve.y-=hVal;
                 hVal=0;
-                MODEL* pmdl=(MODEL*)api->GetEntityPointer(&mod);
+                MODEL* pmdl=(MODEL*)api->GetEntityPointer(mod);
                 if(pmdl)
                 {
                     NODE* pnod = pmdl->GetCollideNode();

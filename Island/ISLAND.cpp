@@ -104,7 +104,7 @@ void ISLAND::Realize(uint32_t Delta_Time)
 
 	if (bForeignModels) return;
 
-	MODEL * pModel = (MODEL*)api->GetEntityPointer(&model_id); Assert(pModel);
+	MODEL * pModel = (MODEL*)api->GetEntityPointer(model_id); Assert(pModel);
 
 	uint32_t bFogEnable;
 	uint32_t bLighting;
@@ -184,7 +184,7 @@ void ISLAND::Realize(uint32_t Delta_Time)
 		pRS->SetRenderState(D3DRS_FOGENABLE, false);
 		//pRS->SetRenderState(D3DRS_AMBIENT, RGB(dwAmbient/4,dwAmbient/4,dwAmbient/4));
 
-		MODEL * pSeaBed = (MODEL*)api->GetEntityPointer(&seabed_id);
+		MODEL * pSeaBed = (MODEL*)api->GetEntityPointer(seabed_id);
 		if (pSeaBed) pSeaBed->Realize(Delta_Time);
 	}
 
@@ -198,7 +198,7 @@ void ISLAND::Realize(uint32_t Delta_Time)
 	uint32_t i;
 	for (i=0; i<aSpheres.size(); i++)
 	{
-		MODEL * pModel = (MODEL*)api->GetEntityPointer(&aSpheres[i]);
+		MODEL * pModel = (MODEL*)api->GetEntityPointer(aSpheres[i]);
 		CVECTOR vPos = AIPath.GetPointPos(i);
 		if (pModel)
 			pModel->mtx.BuildPosition(vPos.x,5.0f,vPos.z);
@@ -384,7 +384,7 @@ bool ISLAND::ActivateCamomileTrace(CVECTOR & vSrc)
 		vDst = vSrc + CVECTOR(fCos * fRadius, 0.0f, fSin * fRadius);
 		fRes = Trace(vSrc, vDst);
 		if (fRes > 1.0f) continue;
-		MODEL * pEnt = (MODEL*)api->GetEntityPointer(&pCollide->GetObjectID()); Assert(pEnt);
+		MODEL * pEnt = (MODEL*)api->GetEntityPointer(pCollide->GetObjectID()); Assert(pEnt);
 		pEnt->GetCollideTriangle(trg);
 		vCross = !((trg.vrt[1] - trg.vrt[0]) ^ (trg.vrt[2] - trg.vrt[0]));
 		fRes = vCross | (!(vDst - vSrc));
@@ -455,7 +455,7 @@ bool ISLAND::CreateShadowMap(char * pDir, char * pName)
 	entid_t		ent;
 	WEATHER_BASE	* pWeather;
 	if (!api->FindClass(&ent, "Weather",0)) throw std::exception("No found WEATHER entity!");
-	pWeather = (WEATHER_BASE*)api->GetEntityPointer(&ent); Assert(pWeather);
+	pWeather = (WEATHER_BASE*)api->GetEntityPointer(ent); Assert(pWeather);
 
 	fs::path path = fs::path() / "resource" / "foam" / pDir / AttributesPointer->GetAttribute("LightingPath");
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
@@ -795,7 +795,7 @@ bool ISLAND::Mount(char * fname, char * fdir, entid_t * eID)
 	api->Send_Message(model_id, "ls", MSG_MODEL_LOAD_GEO, (char*)pathStr.c_str());
 
 	// extract subobject(sea_bed) to another model
-	MODEL * pModel = (MODEL*)api->GetEntityPointer(&model_id);
+	MODEL * pModel = (MODEL*)api->GetEntityPointer(model_id);
 	NODE * pNode = pModel->FindNode(SEA_BED_NODE_NAME);
 	if (pNode)
 		seabed_id = pNode->Unlink2Model();
@@ -806,7 +806,7 @@ bool ISLAND::Mount(char * fname, char * fdir, entid_t * eID)
 	api->LayerAdd("island_trace", seabed_id, 10);
 	api->LayerAdd("rain_drops", model_id, 100);
 
-	MODEL * pSeaBedModel = (MODEL*)api->GetEntityPointer(&seabed_id);
+	MODEL * pSeaBedModel = (MODEL*)api->GetEntityPointer(seabed_id);
 
 	mIslandOld = pModel->mtx;
 	if (pSeaBedModel) mSeaBedOld = pSeaBedModel->mtx;

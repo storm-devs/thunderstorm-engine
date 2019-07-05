@@ -258,7 +258,7 @@ void NPCharacter::Update(float dltTime)
 		if(AttributesPointer) id = AttributesPointer->GetAttribute("id");
 		if(!id) id = "<none>";
 		const char * fid = nullptr;
-		Character * chr = (Character *)api->GetEntityPointer(&task.target);
+		Character * chr = (Character *)api->GetEntityPointer(task.target);
 		if(chr)
 		{
 			if(chr->AttributesPointer) fid = chr->AttributesPointer->GetAttribute("id");
@@ -402,7 +402,7 @@ bool NPCharacter::SetNewTask(NPCTask tsk, MESSAGE & message)
 		SetFightMode(false);
 		SetRunMode(true);
 		task.target = message.EntityID();
-		return (api->GetEntityPointer(&task.target) != nullptr);
+		return (api->GetEntityPointer(task.target) != nullptr);
 	case npct_dead:
 		CmdStay();
 		Dead();
@@ -414,7 +414,7 @@ bool NPCharacter::SetNewTask(NPCTask tsk, MESSAGE & message)
 bool NPCharacter::InitFollowChartacter(entid_t  eid)
 {
 	task.target = eid;
-	Character * c = (Character *)api->GetEntityPointer(&eid);
+	Character * c = (Character *)api->GetEntityPointer(eid);
 	if(c)
 	{
 		const char * id = c->AttributesPointer->GetAttribute("id");
@@ -441,7 +441,7 @@ bool NPCharacter::InitFightChartacter(entid_t  eid)
 void NPCharacter::UpdateFollowCharacter(float dltTime)
 {
 	//Цель
-	NPCharacter * c = (NPCharacter *)api->GetEntityPointer(&task.target);
+	NPCharacter * c = (NPCharacter *)api->GetEntityPointer(task.target);
 	if(!c || c->deadName != nullptr || c->liveValue < 0)
 	{
 		NPCTask tsk = task.task;
@@ -477,7 +477,7 @@ void NPCharacter::UpdateFollowCharacter(float dltTime)
 void NPCharacter::UpdateEscapeCharacter(float dltTime)
 {
 	//Персонаж от которого убегаем
-	NPCharacter * c = (NPCharacter *)api->GetEntityPointer(&task.target);
+	NPCharacter * c = (NPCharacter *)api->GetEntityPointer(task.target);
 	if(!c || c->deadName != nullptr || c->liveValue < 0)
 	{
 		NPCTask tsk = task.task;
@@ -506,7 +506,7 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 
 	SetFightMode(true);
 	//Цель
-	NPCharacter * c = (NPCharacter *)api->GetEntityPointer(&task.target);
+	NPCharacter * c = (NPCharacter *)api->GetEntityPointer(task.target);
 	if(!c || c->deadName != nullptr || c->liveValue < 0 || c == this)
 	{
 		NPCTask tsk = task.task;
@@ -778,7 +778,7 @@ void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter * enemy)
 	VDATA * vd = api->Event("NPC_Event_AdaptiveTargetSelect", "i", GetId());
 	if(vd) vd->Get(isAdaptive);
 	//Коректируем с учётом наличия групп
-	CharactersGroups * chrGroup = (CharactersGroups *)api->GetEntityPointer(&charactersGroups);
+	CharactersGroups * chrGroup = (CharactersGroups *)api->GetEntityPointer(charactersGroups);
 	if(!chrGroup) isAdaptive = false;
 	//Если хотим бить и режим не адаптивный, то просто бьём
 	if(wishAttact && !isAdaptive)

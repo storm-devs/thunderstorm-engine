@@ -56,9 +56,9 @@ void SUNGLOW::SetDevice()
 	pCollide = (COLLIDE*)api->CreateService("COLL"); Assert(pCollide);
 
 	if (!api->FindClass(&ent,"Weather",0)) throw std::exception("No found WEATHER entity!");
-	pWeather = (WEATHER_BASE*)api->GetEntityPointer(&ent); Assert(pWeather);
+	pWeather = (WEATHER_BASE*)api->GetEntityPointer(ent); Assert(pWeather);
 
-	if ( api->FindClass(&ent,"SKY",0) ) pSky = (SKY*)api->GetEntityPointer(&ent);
+	if ( api->FindClass(&ent,"SKY",0) ) pSky = (SKY*)api->GetEntityPointer(ent);
 	else pSky = nullptr;
 
 	if( idRectBuf==-1 )
@@ -581,7 +581,7 @@ float SUNGLOW::GetSunFadeoutFactor(const CVECTOR& vSunPos,float fSunSize)
 	if( !pSky ) {
 		entid_t ent;
 		if ( api->FindClass(&ent,"SKY",0) )
-			pSky = (SKY*)api->GetEntityPointer(&ent);
+			pSky = (SKY*)api->GetEntityPointer(ent);
 	}
 	return pSky ? pSky->CalculateAlphaForSun(vSunPos,fSunSize) : 1.0f;
 }

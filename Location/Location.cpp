@@ -117,7 +117,7 @@ void Location::Execute(uint32_t delta_time)
 		message[i].alpha -= dltTime*0.4f;
 	}
 	//ќбновление данных дл€ травы
-	Grass * grs = (Grass *)api->GetEntityPointer(&grass);
+	Grass * grs = (Grass *)api->GetEntityPointer(grass);
 	if(grs)
 	{
 		for(long i = 0; i < supervisor.numCharacters; i++)
@@ -186,7 +186,7 @@ void Location::Realize(uint32_t delta_time)
 
 void Location::Update(uint32_t delta_time)
 {
-	lights = (Lights *)api->GetEntityPointer(&lightsid);
+	lights = (Lights *)api->GetEntityPointer(lightsid);
 
 	const uint32_t max_delta_time = 500;
 	const float maxDltTime = 0.1f;
@@ -265,7 +265,7 @@ uint32_t _cdecl Location::ProcessMessage(MESSAGE & message)
 		return 1;
 	case MSG_LOCATION_MODEL_LAMPS:
 		if(lastLoadStaticModel < 0) return 0;
-		lights = (Lights *)api->GetEntityPointer(&lightsid);
+		lights = (Lights *)api->GetEntityPointer(lightsid);
 		if(!lights) return 0;
 		return lights->AddLampModel(model.ID(lastLoadStaticModel));
 	case MSG_LOCATION_MODEL_REFLECTION:
@@ -383,7 +383,7 @@ uint32_t _cdecl Location::ProcessMessage(MESSAGE & message)
 		supervisor.DelSavePositions(false);
 		break;
 	case MSG_LOCATION_ADD_LIGHT:
-		lights = (Lights *)api->GetEntityPointer(&lightsid);
+		lights = (Lights *)api->GetEntityPointer(lightsid);
 		if(!lights) return false;
 		message.String(sizeof(name), name);
 		name[sizeof(name) - 1] = 0;
@@ -415,7 +415,7 @@ LocatorArray * Location::FindLocatorsGroup(const char * gName)
 
 long Location::LoadStaticModel(const char * modelName, const char * tech, long level, bool useDynamicLights)
 {
-	lights = (Lights *)api->GetEntityPointer(&lightsid);
+	lights = (Lights *)api->GetEntityPointer(lightsid);
 	long im = model.CreateModel(modelName, tech, level, true, useDynamicLights?GetLights():nullptr);
 	if(im < 0) return -1;
 	//”казатель на геометрию
@@ -520,7 +520,7 @@ bool __declspec(dllexport) __cdecl Location::LoadGrass(const char * modelName, c
 	api->DeleteEntity(grass);
 	if(!modelName || !modelName[0]) return true;
 	api->CreateEntity(&grass, "Grass");
-	Grass * grs = (Grass *)api->GetEntityPointer(&grass);
+	Grass * grs = (Grass *)api->GetEntityPointer(grass);
 	if(!grs) return false;
 	if(texture && texture[0]) grs->SetTexture(texture);
 	char nm[512];

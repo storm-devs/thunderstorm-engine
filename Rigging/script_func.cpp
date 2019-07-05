@@ -146,7 +146,7 @@ uint32_t __cdecl _RandomHole2Sail(VS_STACK * pS)
 	entid_t	ei;
 	if( api->FindClass(&ei,"sail",0) || NetFindClass(true,&ei,"NetSail") )
 	{
-		pSail = ((SAIL_BASE*)api->GetEntityPointer(&ei))->FindSailForCharacter(_chrIdx, _reyName, _groupNum);
+		pSail = ((SAIL_BASE*)api->GetEntityPointer(ei))->FindSailForCharacter(_chrIdx, _reyName, _groupNum);
 	}
 
 	int holeArraySize = 0;
@@ -201,7 +201,7 @@ uint32_t __cdecl _DeleteOneSailHole(VS_STACK * pS)
 	entid_t	ei;
 	if( api->FindClass(&ei,"sail",0) || NetFindClass(true,&ei,"NetSail") )
 	{
-		pSail = ((SAIL_BASE*)api->GetEntityPointer(&ei))->FindSailForCharacter(_chrIdx, _reyName, _groupNum);
+		pSail = ((SAIL_BASE*)api->GetEntityPointer(ei))->FindSailForCharacter(_chrIdx, _reyName, _groupNum);
 	}
 
 	int holeArraySize = 0;

@@ -63,7 +63,7 @@ long ModelArray::CreateModel(const char * modelName, const char * technique, lon
 	//if(isVisible) api->LayerAdd("realize", idModelRealizer, level);
 	api->LayerAdd("realize", idModelRealizer, level);
 	api->Send_Message(idModelRealizer,"ll",2,isVisible);
-	MODEL * m = (MODEL *)api->GetEntityPointer(&id);
+	MODEL * m = (MODEL *)api->GetEntityPointer(id);
 	if(!m)
 	{
 		gs->SetTexturePath("");
@@ -208,14 +208,14 @@ entid_t  ModelArray::RealizerID(long modelIndex)
 MODEL * ModelArray::operator [](long modelIndex)
 {
 	Assert(modelIndex >= 0 && modelIndex < numModels);
-	return (MODEL *)api->GetEntityPointer(&model[modelIndex].id);
+	return (MODEL *)api->GetEntityPointer(model[modelIndex].id);
 }
 
 //Получение анимации по индексу
 Animation * ModelArray::GetAnimation(long modelIndex)
 {
 	Assert(modelIndex >= 0 && modelIndex < numModels);
-	MODEL * m = (MODEL *)api->GetEntityPointer(&model[modelIndex].id);
+	MODEL * m = (MODEL *)api->GetEntityPointer(model[modelIndex].id);
 	if(!m) return nullptr;
 	return m->GetAnimation();
 }
@@ -281,7 +281,7 @@ void ModelArray::Update(float dltTime)
 		if(model[i].rotator)
 		{
 			CMatrix mtr(model[i].rotator->rx*dltTime, model[i].rotator->ry*dltTime, model[i].rotator->rz*dltTime);
-			MODEL * mdl = (MODEL *)api->GetEntityPointer(&model[i].id);
+			MODEL * mdl = (MODEL *)api->GetEntityPointer(model[i].id);
 			if(mdl) mdl->mtx = CMatrix(mtr, mdl->mtx);
 		}
 	}
@@ -389,7 +389,7 @@ bool ModelArray::VisibleTest(const CVECTOR & p1, const CVECTOR & p2)
 	{
 		if(model[i].isVisible)
 		{
-			MODEL * mdl = (MODEL *)api->GetEntityPointer(&model[i].id);
+			MODEL * mdl = (MODEL *)api->GetEntityPointer(model[i].id);
 			if(mdl->Trace(p1, p2) < 1.0f) return false;
 		}
 	}
@@ -405,7 +405,7 @@ float ModelArray::Trace(const CVECTOR & src, const CVECTOR & dst)
 	{
 		if(model[i].isVisible)
 		{
-			MODEL * mdl = (MODEL *)api->GetEntityPointer(&model[i].id);
+			MODEL * mdl = (MODEL *)api->GetEntityPointer(model[i].id);
 			float km = mdl->Trace(src, dst);
 			if(k > km)
 			{
@@ -429,7 +429,7 @@ void ModelArray::Clip(PLANE * p, long numPlanes, CVECTOR & cnt, float rad, bool 
 	{
 		if(model[i].isVisible)
 		{
-			MODEL * mdl = (MODEL *)api->GetEntityPointer(&model[i].id);
+			MODEL * mdl = (MODEL *)api->GetEntityPointer(model[i].id);
 			mdl->Clip(p, numPlanes, cnt, rad, fnc);
 		}
 	}

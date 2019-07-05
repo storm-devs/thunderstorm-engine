@@ -114,7 +114,7 @@ bool Sharks::Shark::Init(float vp_x, float vp_z, bool isLoadModel)
 		return false;
 	}
 	//Ставим анимацию по умолчанию
-	MODEL * mdl = (MODEL *)api->GetEntityPointer(&model);
+	MODEL * mdl = (MODEL *)api->GetEntityPointer(model);
 	if(!mdl || !mdl->GetAnimation()) return false;
 	mdl->GetAnimation()->SetEvent(ae_end, 0, this);
 	mdl->GetAnimation()->Player(0).SetAction("stand");
@@ -181,7 +181,7 @@ inline void Sharks::Shark::ShipApply(float x, float z, float r2)
 inline void Sharks::Shark::Coordination(float cam_x, float cam_z, float dltTime, SEA_BASE * sb, ISLAND_BASE * ib)
 {
 	//Получим модельку
-	MODEL * mdl = (MODEL *)api->GetEntityPointer(&model);
+	MODEL * mdl = (MODEL *)api->GetEntityPointer(model);
 	if(!mdl) return;
 	//Сила расталкивания
 	float l = ~force;
@@ -339,7 +339,7 @@ inline void Sharks::Shark::IslandCollision(ISLAND_BASE * ib, long numPnt, float 
 	float step = 2.0f*SHARK_PI/numPnt;
 	float vx = 0.0f;
 	float vz = 0.0f;
-	MODEL * mdl = (MODEL *)api->GetEntityPointer(&ib->GetSeabedEID());
+	MODEL * mdl = (MODEL *)api->GetEntityPointer(ib->GetSeabedEID());
 	if(!mdl) return;
 	for(long i = 0; i < numPnt; i++)
 	{
@@ -407,7 +407,7 @@ void Sharks::Shark::Event(Animation * animation, long index, long eventID, Anima
 long Sharks::Shark::GenerateTrack(uint16_t * inds, Vertex * vrt, uint16_t base, SEA_BASE * sb)
 {
 	//Получим модельку
-	MODEL * mdl = (MODEL *)api->GetEntityPointer(&model);
+	MODEL * mdl = (MODEL *)api->GetEntityPointer(model);
 	if(!mdl) return 0;
 	float k = mdl->mtx.Pos().y;
 	if(k <= -1.2f) return 0;
@@ -559,7 +559,7 @@ void Sharks::Execute(uint32_t delta_time)
 	for(; res; res = api->FindClassNext(&id))
 	{
 		//Указатель на объект
-		VAI_OBJBASE * ship = (VAI_OBJBASE *)api->GetEntityPointer(&id);
+		VAI_OBJBASE * ship = (VAI_OBJBASE *)api->GetEntityPointer(id);
 		if(!ship) break;
 		//Позиция корабля
 		CVECTOR shipPos = ship->GetMatrix()->Pos();
@@ -570,13 +570,13 @@ void Sharks::Execute(uint32_t delta_time)
 		for(long i = 0; i < num; i++) shark[i].ShipApply(shipPos.x, shipPos.z, rd2);
 	}
 	//Море
-	SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(&sea);
+	SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(sea);
 	if(!sb)
 	{
 		api->FindClass(&sea, "sea", 0);
 		if(!sb) return;
 	}
-	ISLAND_BASE * ib = (ISLAND_BASE *)api->GetEntityPointer(&island);
+	ISLAND_BASE * ib = (ISLAND_BASE *)api->GetEntityPointer(island);
 	if(!ib)
 	{
 		api->FindClass(&island, "island", 0);
@@ -596,7 +596,7 @@ void Sharks::Execute(uint32_t delta_time)
 				periscope.pos.y += 2.0f*dltTime;
 				if(periscope.pos.y > 0.0f) periscope.pos.y = 0.0f;
 			}
-			MODEL * mdl = (MODEL *)api->GetEntityPointer(&periscope.model);
+			MODEL * mdl = (MODEL *)api->GetEntityPointer(periscope.model);
 			if(mdl)
 			{
 				mdl->mtx.BuildMatrix(CVECTOR(0.0f, periscope.ay, 0.0f), periscope.pos + CVECTOR(0.0f, 1.0f, 0.0f));
@@ -642,7 +642,7 @@ bool Sharks::LoadPeriscopeModel()
 		return false;
 	}
 	gs->SetTexturePath("");
-	MODEL * mdl = (MODEL *)api->GetEntityPointer(&periscope.model);
+	MODEL * mdl = (MODEL *)api->GetEntityPointer(periscope.model);
 	if(!mdl)
 	{
 		api->DeleteEntity(periscope.model);
@@ -654,7 +654,7 @@ bool Sharks::LoadPeriscopeModel()
 
 void Sharks::Realize(uint32_t delta_time)
 {
-	SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(&sea);
+	SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(sea);
 	if(!sb) return;
 	long num = 0;
 	for(long i = 0; i < numShakes; i++)
@@ -670,7 +670,7 @@ void Sharks::Realize(uint32_t delta_time)
 	}
 
 	/*
-	ISLAND_BASE * ib = (ISLAND_BASE *)api->GetEntityPointer(&island);
+	ISLAND_BASE * ib = (ISLAND_BASE *)api->GetEntityPointer(island);
 	if(!ib) return;
 	float maxRad = 0.0f;
 	long s = 30;

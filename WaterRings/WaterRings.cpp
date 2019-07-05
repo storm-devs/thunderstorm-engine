@@ -32,7 +32,7 @@ bool WaterRings::Init()
 
 	entid_t seaID;
 	api->FindClass(&seaID, "sea", 0);
-	sea = (SEA_BASE*) api->GetEntityPointer(&seaID);
+	sea = (SEA_BASE*) api->GetEntityPointer(seaID);
 
 	renderService = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!renderService)	throw std::exception("No service: dx9render");

@@ -727,7 +727,7 @@ void ShipWalk::CreateNewMan(SailorsPoints &sailorsPoints)
 
 	api->Send_Message(shipMan[current].modelID,"ls",MSG_MODEL_LOAD_ANI, "Lo_Man");
 
-	shipMan[current].model = (MODEL*)api->GetEntityPointer(&shipMan[current].modelID);
+	shipMan[current].model = (MODEL*)api->GetEntityPointer(shipMan[current].modelID);
 	shipMan[current].SetAnimation(0, shipState);
 
 	if (sailorsPoints.points.count)
@@ -770,12 +770,12 @@ void ShipWalk::Init(entid_t _shipID, int editorMode, char *shipType)
 
 	entid_t seaID;
 	api->FindClass(&seaID, "sea", 0);
-	shipState.sea = (SEA_BASE*) api->GetEntityPointer(&seaID);
+	shipState.sea = (SEA_BASE*) api->GetEntityPointer(seaID);
 
 	if (!editorMode)
 	{ //Режим игры - создан корабль
 
-		ship = (SHIP_BASE *)api->GetEntityPointer(&_shipID);
+		ship = (SHIP_BASE *)api->GetEntityPointer(_shipID);
 		shipModel = ship->GetModel();
 
 		//Загрузить точки

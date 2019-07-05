@@ -1194,7 +1194,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV = pV->GetVarPointer();
 			pV->Get(TempEid);
 			pV = SStack.Push();
-			if(Core.GetEntityPointer(&TempEid) != nullptr) TempLong1 = 1;
+			if(Core.GetEntityPointer(TempEid) != nullptr) TempLong1 = 1;
 			else TempLong1 = 0;
 			pV->Set(TempLong1);
 			pVResult = pV;
@@ -1435,7 +1435,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 
 			uint32_t mresult;
 			mresult = 0;
-			pE = api->GetEntityPointer(&entid_t);
+			pE = api->GetEntityPointer(entid_t);
 			if(pE)
 			{
 				ms.ResetIndex();

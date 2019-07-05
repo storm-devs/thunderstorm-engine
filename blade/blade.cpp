@@ -46,7 +46,7 @@ BLADE::BLADE_INFO::~BLADE_INFO()
 
 void BLADE::BLADE_INFO::DrawBlade(VDX9RENDER * rs,unsigned int blendValue,MODEL *mdl,NODE *manNode)
 {
-	MODEL *obj = (MODEL*)api->GetEntityPointer(&eid);
+	MODEL *obj = (MODEL*)api->GetEntityPointer(eid);
 	if(obj!=nullptr)
 	{
 		CMatrix perMtx;
@@ -231,7 +231,7 @@ void BLADE::Realize(uint32_t Delta_Time)
 {
 	blade[0].time += 0.001f*(Delta_Time);
 
-	MODEL *mdl = (MODEL*)api->GetEntityPointer(&man);
+	MODEL *mdl = (MODEL*)api->GetEntityPointer(man);
 	if(!mdl) return;
 
 	NODE *manNode = mdl->GetNode(0);
@@ -252,7 +252,7 @@ void BLADE::Realize(uint32_t Delta_Time)
 	//draw gun
 	CMatrix perMtx;
 	long sti;
-	MODEL *obj = (MODEL*)api->GetEntityPointer(&gun);
+	MODEL *obj = (MODEL*)api->GetEntityPointer(gun);
 	if(obj!=nullptr)
 	{
 		NODE *gunNode = obj->GetNode(0);
@@ -359,7 +359,7 @@ bool BLADE::LoadGunModel(MESSAGE &message)
 
 void BLADE::GunFire()
 {
-	MODEL *mdl = (MODEL*)api->GetEntityPointer(&man);
+	MODEL *mdl = (MODEL*)api->GetEntityPointer(man);
 	NODE *manNode = mdl->GetNode(0);
 
 	//------------------------------------------------------
@@ -367,9 +367,9 @@ void BLADE::GunFire()
 	CMatrix perMtx;
 	long sti;
 
-	MODEL *obj = (MODEL*)api->GetEntityPointer(&gun);
+	MODEL *obj = (MODEL*)api->GetEntityPointer(gun);
 	if( obj==nullptr ) // нет пистолета - посмотрим на саблю-пистолет
-		obj = (MODEL*)api->GetEntityPointer(&blade[1].eid);
+		obj = (MODEL*)api->GetEntityPointer(blade[1].eid);
 
 	if(obj!=nullptr)
 	{
@@ -570,7 +570,7 @@ void BLADE::TIEITEM_INFO::Release()
 }
 void BLADE::TIEITEM_INFO::DrawItem(VDX9RENDER * rs,unsigned int blendValue,MODEL *mdl,NODE *manNode)
 {
-	MODEL *obj = (MODEL*)api->GetEntityPointer(&eid);
+	MODEL *obj = (MODEL*)api->GetEntityPointer(eid);
 	if(obj!=nullptr)
 	{
 		CMatrix perMtx;

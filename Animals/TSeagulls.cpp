@@ -68,7 +68,7 @@ void TSeagulls::Init()
 	//if(!soundService)	
 	//	throw std::exception("!Seagulls: No service: sound");
 
-	api->CreateEntity(&seagullModel,"MODELR");
+	seagullModel = api->CreateEntity("MODELR");
 	api->Send_Message(seagullModel,"ls",MSG_MODEL_LOAD_GEO, ANIMALS_SEAGULL_FILENAME);
 }
 
@@ -208,7 +208,7 @@ void TSeagulls::Realize(uint32_t _dTime)
 	if (!count)
 		Add(cameraPos.x,cameraPos.y,cameraPos.z);
 
-	MODEL *seagull = (MODEL*)api->GetEntityPointer(&seagullModel);
+	MODEL *seagull = (MODEL*)api->GetEntityPointer(seagullModel);
 	if (!seagull)
 		return;
 

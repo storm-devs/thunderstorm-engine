@@ -47,8 +47,9 @@ void TFishSchools::Init()
 	if(!renderService)
 		throw std::exception("!FishSchools: No service 'dx9render'");
 
-	api->FindClass(&seaID, "sea", 0);
-	sea = (SEA_BASE*) api->GetEntityPointer(&seaID);
+	auto walker = api->GetEntityIdWalker("sea");
+	seaID = walker();
+	sea = (SEA_BASE*) api->GetEntityPointer(seaID);
 	if (!sea)
 	{
 		enabled = false;
@@ -127,14 +128,14 @@ void TFishSchools::Realize(uint32_t _dTime)
 	float   cameraPersp;
 	renderService->GetCamera(cameraPos, cameraAng, cameraPersp);
 */
-	sea = (SEA_BASE*) api->GetEntityPointer(&seaID);
+	sea = (SEA_BASE*) api->GetEntityPointer(seaID);
 	if (!sea)
 	{
 		enabled = false;
 		return;
 	}
 
-	MODEL *fishSchool = (MODEL*) api->GetEntityPointer(&fishSchoolModel);
+	MODEL *fishSchool = (MODEL*) api->GetEntityPointer(fishSchoolModel);
 	if (!fishSchool)
 		return;
 
@@ -150,7 +151,7 @@ void TFishSchools::Realize(uint32_t _dTime)
 		pos.z = fishSchoolPos.z + fishSchools[i]->amplitude*sinf(fishSchoolAngle + PId2)*sinf(fishSchoolTime);
 		pos.y = sea->WaveXZ(pos.x, pos.z) - fishSchools[i]->depth;
 		fishSchool->mtx.BuildMatrix(ang,pos);
-		fishSchool->Realize(_dTime);
+		fishSchool->ProcessStage(Entity::Stage::REALIZE, _dTime);
 	}
 }
 

@@ -77,7 +77,7 @@ void FREE_CAMERA::Execute(uint32_t Delta_Time)
 
 	entid_t ent;
 	if (!pIslandBase && api->FindClass(&ent,"island",0))
-		pIslandBase = (ISLAND_BASE*)api->GetEntityPointer(&ent);
+		pIslandBase = (ISLAND_BASE*)api->GetEntityPointer(ent);
 
 	Move(api->GetDeltaTime());
 }
@@ -138,11 +138,11 @@ void FREE_CAMERA::Move(uint32_t DeltaTime)
 	{
 		vRes = vPos + fRes * (vDst - vPos);
 		entid_t ent = pCollide->GetObjectID();
-		MODELR *pEntity = (MODELR*)api->GetEntityPointer(&ent);
+		MODELR *pEntity = (MODELR*)api->GetEntityPointer(ent);
 	}
 
 
-	MODEL* pModel = (MODEL*)api->GetEntityPointer(&sphere);
+	MODEL* pModel = (MODEL*)api->GetEntityPointer(sphere);
 	pModel->mtx.BuildPosition(vRes.x,vRes.y,vRes.z);
 	delete pVW;
 }

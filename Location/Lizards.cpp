@@ -28,7 +28,7 @@ bool Lizards::Init()
 	//Указатель на локацию
 	entid_t loc;
 	api->FindClass(&loc, "location", 0);
-	Location * location = (Location *)api->GetEntityPointer(&loc);
+	Location * location = (Location *)api->GetEntityPointer(loc);
 	if(!location) return false;
 	//Заводим ящерец
 	for(long i = 0; i < num; i++) lizard[i].Init(location);

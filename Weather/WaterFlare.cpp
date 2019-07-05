@@ -45,7 +45,7 @@ void WATERFLARE::SetDevice()
 
 	entid_t	ent;
 	if (!api->FindClass(&ent,"Weather",0)) throw std::exception("No found WEATHER entity!");
-	pWeather = (WEATHER_BASE*)api->GetEntityPointer(&ent);
+	pWeather = (WEATHER_BASE*)api->GetEntityPointer(ent);
 
 	//UNGUARD
 }

@@ -651,7 +651,7 @@ VAI_OBJBASE* ISPYGLASS::GetFort()
 	if( !m_pFortObj ) {
 		entid_t ei;
 		api->FindClass( &ei, "AIFORT", 0 );
-		m_pFortObj = (VAI_OBJBASE*)api->GetEntityPointer(&ei);
+		m_pFortObj = (VAI_OBJBASE*)api->GetEntityPointer(ei);
 	}
 	return m_pFortObj;
 }

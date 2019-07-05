@@ -26,7 +26,7 @@ public:
 		// get entity id from loaded ships
 		if (api->FindClass(&eidTemp,"ship",0)) do
 		{
-			VAI_OBJBASE * pObj = (VAI_OBJBASE*)api->GetEntityPointer(&eidTemp);
+			VAI_OBJBASE * pObj = (VAI_OBJBASE*)api->GetEntityPointer(eidTemp);
 			if (pObj->GetACharacter() == pACharacter)
 			{
 				SetEID(&pObj->GetModelEID());

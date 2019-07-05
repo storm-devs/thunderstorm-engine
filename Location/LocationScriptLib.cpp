@@ -179,7 +179,7 @@ uint32_t __cdecl slNativeFindLaodLocation(VS_STACK * pS)
 		pReturn->Set(-1L);
 		return IFUNCRESULT_OK;
 	}
-	ENTITY * l = api->GetEntityPointer(&loc);
+	ENTITY * l = api->GetEntityPointer(loc);
 	if(!l || !l->AttributesPointer)
 	{
 		pReturn->Set(-1L);

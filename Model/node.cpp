@@ -494,7 +494,7 @@ entid_t NODER::Unlink2Model()
 {
 	entid_t id;
 	api->CreateEntity(&id, "modelr");
-	MODELR *mdl = (MODELR*)api->GetEntityPointer(&id);
+	MODELR *mdl = (MODELR*)api->GetEntityPointer(id);
 
 	//link node to as root
 	mdl->root = this;
@@ -522,7 +522,7 @@ entid_t NODER::Unlink2Model()
 //-------------------------------------------------------------------
 void NODER::Link(entid_t id, bool transform)
 {
-	MODELR *mdl = (MODELR*)api->GetEntityPointer(&id);
+	MODELR *mdl = (MODELR*)api->GetEntityPointer(id);
 	if(mdl==nullptr)	return;
 
 	//increment number of children

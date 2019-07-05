@@ -58,7 +58,7 @@ void TornadoParticles::Update(float dltTime)
 	float seaLevel = 0.0f;
 	if(txtGroundPrts >= 0 || txtPillarPrts >= 0)
 	{
-		SEA_BASE * sea = (SEA_BASE *)api->GetEntityPointer(&seaID);
+		SEA_BASE * sea = (SEA_BASE *)api->GetEntityPointer(seaID);
 		if(sea)
 		{
 			seaLevel = sea->WaveXZ(pillar.GetX(0.0f), pillar.GetZ(0.0f));

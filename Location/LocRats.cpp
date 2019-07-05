@@ -33,7 +33,7 @@ bool LocRats::Init()
 	//Указатель на локацию
 	entid_t loc;
 	api->FindClass(&loc, "location", 0);
-	Location * location = (Location *)api->GetEntityPointer(&loc);
+	Location * location = (Location *)api->GetEntityPointer(loc);
 	if(!location) return false;
 	//Исполнение
 	api->LayerCreate("realize", true, false);
@@ -51,7 +51,7 @@ uint32_t _cdecl LocRats::ProcessMessage(MESSAGE & message)
 	//Указатель на локацию
 	entid_t loc;
 	api->FindClass(&loc, "location", 0);
-	Location * location = (Location *)api->GetEntityPointer(&loc);
+	Location * location = (Location *)api->GetEntityPointer(loc);
 	if(!location) return 0;
 	//Заводим крыс
 	for(long i = 0; i < num; i++) rat[i].Init(location);

@@ -28,8 +28,8 @@ void AIShipMoveController::Execute(float fDeltaTime)
 	//return;
 	//entid_t	eid;
 	//api->FindClass(&eid,"sea",0);
-	//SEA_BASE * pSea = (SEA_BASE*)api->GetEntityPointer(&eid);
-	//MODEL* pModel = (MODEL*)api->GetEntityPointer(&eidSphere);
+	//SEA_BASE * pSea = (SEA_BASE*)api->GetEntityPointer(eid);
+	//MODEL* pModel = (MODEL*)api->GetEntityPointer(eidSphere);
 	//pModel->mtx.BuildPosition(100.0f,pSea->WaveXZ(100.0f,200.0f),200.0f);
 	//pModel->mtx.m[3][3] = 1.0f / 0.1f;
 
