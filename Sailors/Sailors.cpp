@@ -760,7 +760,7 @@ void ShipWalk::DeleteMan(int Index)
 	//UN//GUARD_SAILORS
 };
 //------------------------------------------------------------------------------------
-void ShipWalk::Init(entid_t &_shipID, int editorMode, char *shipType)
+void ShipWalk::Init(entid_t _shipID, int editorMode, char *shipType)
 {
 	//GUARD_SAILORS(ShipWalk::Init())
 

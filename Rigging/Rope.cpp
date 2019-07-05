@@ -687,7 +687,7 @@ void ROPE::AddLabel(GEOS::LABEL &lbl,NODE *nod, bool bDontSage)
 }
 
 // получить конечную точку веревки в координатах начальной точки
-void ROPE::GetEndPoint(CVECTOR* cv,int ropenum,entid_t &mdl_id)
+void ROPE::GetEndPoint(CVECTOR* cv,int ropenum,entid_t mdl_id)
 {
     int rn;
 
@@ -1049,7 +1049,7 @@ void ROPE::DoSTORM_DELETE()
     bUse = ropeQuantity>0;
 }
 
-bool ROPE::IsAbsentRope(entid_t &mdl_id, int ropenum)
+bool ROPE::IsAbsentRope(entid_t mdl_id, int ropenum)
 {
     bool retVal=true;
 
@@ -1070,7 +1070,7 @@ bool ROPE::IsAbsentRope(entid_t &mdl_id, int ropenum)
     return retVal;
 }
 
-void ROPE::DoDeleteUntie(entid_t &mdl_id, NODE *rnod, int gNum)
+void ROPE::DoDeleteUntie(entid_t mdl_id, NODE *rnod, int gNum)
 {
 	int gn;
     for(gn=0; gn<groupQuantity; gn++)

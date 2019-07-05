@@ -59,9 +59,9 @@ public:
 	bool LoadState(ENTITY_STATE * state);
     uint32_t ProcessMessage(MESSAGE & message);
     // Service Function
-    void GetEndPoint(CVECTOR* cv,int ropenum,entid_t &mdl_id);
-    bool IsAbsentRope(entid_t &mdl_id, int ropenum);
-    void DoDeleteUntie(entid_t &mdl_id, NODE *rnod, int gNum);
+    void GetEndPoint(CVECTOR* cv,int ropenum,entid_t mdl_id);
+    bool IsAbsentRope(entid_t mdl_id, int ropenum);
+    void DoDeleteUntie(entid_t mdl_id, NODE *rnod, int gNum);
 
 private:
     ROPEVERTEX* vertBuf;

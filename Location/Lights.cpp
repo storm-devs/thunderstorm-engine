@@ -357,7 +357,7 @@ void Lights::AddLight(long index, const CVECTOR & pos)
 }
 
 //Добавить модельку фонарей
-bool Lights::AddLampModel(const entid_t & lampModel)
+bool Lights::AddLampModel(const entid_t  lampModel)
 {
 	if(numLampModels >= sizeof(lampModels)/sizeof(entid_t)) return false;
 	lampModels[numLampModels++] = lampModel;

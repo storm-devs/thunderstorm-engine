@@ -82,8 +82,8 @@ public:
 	//Установить новую задачу
 	bool SetNewTask(NPCTask tsk, MESSAGE & message);
 	
-	bool InitFollowChartacter(entid_t & eid);
-	bool InitFightChartacter(entid_t & eid);
+	bool InitFollowChartacter(entid_t  eid);
+	bool InitFightChartacter(entid_t  eid);
 
 
 //--------------------------------------------------------------------------------------------

@@ -571,7 +571,7 @@ void MAST::doMove(uint32_t DeltaTime)
     }
 }
 
-int MAST::GetSlide(entid_t &mod, CVECTOR &pbeg, CVECTOR &pend, CVECTOR &dp, CVECTOR &lrey, CVECTOR &rrey, float &angl)
+int MAST::GetSlide(entid_t mod, CVECTOR &pbeg, CVECTOR &pend, CVECTOR &dp, CVECTOR &lrey, CVECTOR &rrey, float &angl)
 {
     int retVal=0;
 

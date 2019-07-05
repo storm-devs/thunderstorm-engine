@@ -23,7 +23,7 @@ LOCAL_COLLIDE *COLL::CreateLocalCollide(const char *layerName)
 //----------------------------------------------------------------------------------
 //Ray tracing
 //----------------------------------------------------------------------------------
-float COLL::Trace(entid_t &entity, const CVECTOR &src, const CVECTOR &dst)
+float COLL::Trace(entid_t entity, const CVECTOR &src, const CVECTOR &dst)
 {
 	COLLISION_OBJECT *cob = static_cast<COLLISION_OBJECT*>(api->GetEntityPointer(&entity));
 	if(static_cast<ENTITY*>(cob)== nullptr)	return 2.0f;
@@ -35,7 +35,7 @@ float COLL::Trace(entid_t &entity, const CVECTOR &src, const CVECTOR &dst)
 //----------------------------------------------------------------------------------
 //with enclusion list
 //----------------------------------------------------------------------------------
-float COLL::Trace(VIDWALKER &walker, const CVECTOR &src, const CVECTOR &dst, const entid_t *exclude_list, long entities)
+float COLL::Trace(walker_t walker, const CVECTOR &src, const CVECTOR &dst, const entid_t *exclude_list, long entities)
 {
 	float best_res = 2.0f;
 	entid_t *eid = walker.GetID();
@@ -68,7 +68,7 @@ float COLL::Trace(VIDWALKER &walker, const CVECTOR &src, const CVECTOR &dst, con
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-bool COLL::Clip(VIDWALKER &walker, const PLANE *planes, long nplanes, const CVECTOR &center, float radius,
+bool COLL::Clip(walker_t walker, const PLANE *planes, long nplanes, const CVECTOR &center, float radius,
 	ADD_POLYGON_FUNC addpoly, const entid_t *exclude_list, long entities)
 {
 	bool retval = false;

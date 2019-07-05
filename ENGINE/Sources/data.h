@@ -82,10 +82,10 @@ public:
 	bool Get(char * attribute_name, char * & value, uint32_t index);
 
 	void Set(entid_t eid);
-	void Get(entid_t & eid);
+	void Get(entid_t  eid);
 
 	bool Set(entid_t eid, uint32_t index);
-	bool Get(entid_t & eid, uint32_t index);
+	bool Get(entid_t  eid, uint32_t index);
 
 	ATTRIBUTES * GetAClass();
 	ATTRIBUTES * GetAClass(uint32_t index);

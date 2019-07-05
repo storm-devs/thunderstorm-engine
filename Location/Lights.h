@@ -94,7 +94,7 @@ public:
 	//Добавить источник в локацию
 	void AddLight(long index, const CVECTOR & pos);
 	//Добавить модельку фонарей
-	bool AddLampModel(const entid_t & lampModel);
+	bool AddLampModel(const entid_t  lampModel);
 	//
 	void DelAllLights();
 

@@ -116,7 +116,7 @@ public:
 	void CreateNewMan(SailorsPoints &sailorsPoints);
 	void DeleteMan(int Index);
 
-	void Init(entid_t &_shipID, int editorMode, char *shipType);
+	void Init(entid_t _shipID, int editorMode, char *shipType);
 	void CheckPosition(uint32_t &dltTime);
 	void SetMastBroken(int iMastIndex);
 	void OnHullHit(CVECTOR &v);

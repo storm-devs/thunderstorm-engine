@@ -45,7 +45,7 @@ public:
 	AICannon();
 	virtual ~AICannon();
 
-	void	Init(AIAttributesHolder	* _pAHolder, const entid_t & eid, GEOS::LABEL & lbl);
+	void	Init(AIAttributesHolder	* _pAHolder, const entid_t  eid, GEOS::LABEL & lbl);
 
 	void	Execute(float fDeltaTime);
 
@@ -81,7 +81,7 @@ public:
 	inline bool isRecharged() { return bRecharged; }
 
 	void Save(CSaveLoad * pSL);
-	void Load(CSaveLoad * pSL, AIAttributesHolder * _pAHolder, const entid_t & eid);
+	void Load(CSaveLoad * pSL, AIAttributesHolder * _pAHolder, const entid_t  eid);
 
 private:
 	CANNONTYPE	CannonType;

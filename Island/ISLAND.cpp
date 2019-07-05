@@ -283,7 +283,7 @@ bool ISLAND::GetShadow(float x, float z, float * fRes)
 	return true;
 }
 
-void ISLAND::AddLocationModel(entid_t & eid, char * pIDStr, char * pDir)
+void ISLAND::AddLocationModel(entid_t  eid, char * pIDStr, char * pDir)
 {
 	Assert(pDir && pIDStr);
 	bForeignModels = true;

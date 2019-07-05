@@ -27,9 +27,9 @@ class ROPE_BASE : public Entity
 {
 	public:
         // service function
-    virtual void GetEndPoint(CVECTOR* cv,int ropenum,entid_t &mdl_id)=0;
-    virtual bool IsAbsentRope(entid_t &mdl_id, int ropenum)=0;
-    virtual void DoDeleteUntie(entid_t &mdl_id, NODE *rnod, int gNum)=0;
+    virtual void GetEndPoint(CVECTOR* cv,int ropenum,entid_t mdl_id)=0;
+    virtual bool IsAbsentRope(entid_t mdl_id, int ropenum)=0;
+    virtual void DoDeleteUntie(entid_t mdl_id, NODE *rnod, int gNum)=0;
 };
 
 #endif

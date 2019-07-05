@@ -239,7 +239,7 @@ void SEA_OPERATOR::StartNewAction()
 }
 
 //--------------------------------------------------------------------
-void SEA_OPERATOR::SetIfMyShip (entid_t &_shipID)
+void SEA_OPERATOR::SetIfMyShip (entid_t _shipID)
 {
 	SHIP_BASE *ship = (SHIP_BASE *) api->GetEntityPointer(&_shipID);
 	if (!ship)
@@ -278,7 +278,7 @@ void SEA_OPERATOR::HandleShipIdle()
 }
 
 //--------------------------------------------------------------------
-void SEA_OPERATOR::HandleShipFire (entid_t &_shipID, char *_bortName, const CVECTOR &_destination, const CVECTOR &_direction)
+void SEA_OPERATOR::HandleShipFire (entid_t _shipID, char *_bortName, const CVECTOR &_destination, const CVECTOR &_direction)
 {
 	BORT_TYPE bort = BORT_FRONT;
 	SHIP_BASE * ship = (SHIP_BASE *) api->GetEntityPointer(&_shipID);

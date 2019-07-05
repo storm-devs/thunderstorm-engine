@@ -44,7 +44,7 @@ public:
 	//Установить путь для текущей погоды
 	void SetLightPath(const char * lPath);
 	//Добавить объект
-	void AddObject(const char * name, entid_t & model);
+	void AddObject(const char * name, entid_t  model);
 	//Обработать данные
 	bool Process(VDX9RENDER * rs, long numLights);
 	//Нарисовать нормали

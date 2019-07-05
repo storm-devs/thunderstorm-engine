@@ -97,7 +97,7 @@ private:
 	void	SetName(char * pIslandName) { sIslandName = pIslandName; };
 	char	* GetName() { return (char*)sIslandName.c_str(); };
 
-	void	AddLocationModel(entid_t & eid, char * pIDStr, char * pStr);
+	void	AddLocationModel(entid_t  eid, char * pIDStr, char * pStr);
 
 	// debug
 	void	DoZapSuperGenerator();

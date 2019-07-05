@@ -192,13 +192,13 @@ long ModelArray::Models()
 }
 
 //Получение ID модели по индексу
-entid_t & ModelArray::ID(long modelIndex)
+entid_t  ModelArray::ID(long modelIndex)
 {
 	Assert(modelIndex >= 0 && modelIndex < numModels);
 	return model[modelIndex].id;
 }
 
-entid_t & ModelArray::RealizerID(long modelIndex)
+entid_t  ModelArray::RealizerID(long modelIndex)
 {
 	Assert(modelIndex >= 0 && modelIndex < numModels);
 	return model[modelIndex].modelrealizer;

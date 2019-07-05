@@ -91,13 +91,13 @@ public:
 	//Количество моделий
 	long Models();
 	//Получение ID модели по индексу
-	entid_t & ID(long modelIndex);
+	entid_t  ID(long modelIndex);
 	//Получение модели по индексу
 	MODEL * operator [](long modelIndex);
 	//Получение анимации по индексу
 	Animation * GetAnimation(long modelIndex);
 	//Получение ID отрисовщика по индексу
-	entid_t & RealizerID(long modelIndex);
+	entid_t  RealizerID(long modelIndex);
 
 	//Установить модельке анимацию скольжения uv
 	void SetUVSlide(long modelIndex, float u0, float v0, float u1, float v1);
