@@ -369,7 +369,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER *RenderService,Entity* pOwnerEI)
 	//
 	m_fShipSpeedScale = api->Entity_GetAttributeAsFloat(&BIUtils::idBattleInterface,"ShipSpeedScaler",1.f);
 
-	ATTRIBUTES * pARoot = api->Entity_GetAttributeClass(&BIUtils::idBattleInterface,"navigation");
+	ATTRIBUTES * pARoot = api->Entity_GetAttributeClass(BIUtils::idBattleInterface,"navigation");
 
 	m_fAspectRatio = BIUtils::GetFloatFromAttr(pARoot, "aspectRatio", 1.f);
 

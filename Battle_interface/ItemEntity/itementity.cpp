@@ -103,7 +103,7 @@ bool ItemEntity::ReadAndCreate()
 	char* pcModelName = BIUtils::GetStringFromAttr(AttributesPointer,"model","");
 	char* pcTechnique = BIUtils::GetStringFromAttr(AttributesPointer,"technique","");
 	if( pcModelName ) {
-		if( api->CreateEntity(&m_eidModel,"modelr") ) {
+		if(m_eidModel = api->CreateEntity("modelr") ) {
 			api->Send_Message(m_eidModel,"ls",MSG_MODEL_LOAD_GEO,pcModelName);
 			m_pModel = (MODEL*)api->GetEntityPointer(m_eidModel);
 			SetModelToPosition(m_mtxpos);
@@ -158,7 +158,7 @@ bool ItemEntity::TieToLocator(entid_t mdlEID, const char* pcLocName)
 {
 	m_eidTieModel = mdlEID;
 	m_sTieLocName = pcLocName;
-	MODEL* pMdl = (MODEL*)api->GetEntityPointer( &mdlEID );
+	MODEL* pMdl = (MODEL*)api->GetEntityPointer( mdlEID );
 	if( pMdl ) {
 		m_pMdlNode = pMdl->GetNode(0);
 		if( m_pMdlNode )

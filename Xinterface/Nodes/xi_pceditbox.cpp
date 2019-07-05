@@ -246,11 +246,11 @@ void CXI_PCEDITBOX::UpdateString(std::string & str )
 	str = "";
 	m_nFirstShowCharacterIndex=0;
 
-	ATTRIBUTES * pA = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
+	ATTRIBUTES * pA = api->Entity_GetAttributeClass(g_idInterface,m_nodeName);
 	if( !pA )
 	{
 		api->Entity_SetAttribute(&g_idInterface,m_nodeName,"");
-		pA = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
+		pA = api->Entity_GetAttributeClass(g_idInterface,m_nodeName);
 	}
 	if( !pA ) return;
 	str = pA->GetAttribute("str");

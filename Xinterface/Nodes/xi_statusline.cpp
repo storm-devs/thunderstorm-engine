@@ -77,7 +77,7 @@ void CXI_STATUSLINE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
         // get lenght of filled status line
         m_fLineOffset = GetIniFloat(ini1,name1, ini2,name2, "lineOffset", 0.f);
         float fMediumX = float(m_rect.right-m_rect.left)-m_fLineOffset*2.f;
-        ATTRIBUTES *pAttr = api->Entity_GetAttributeClass(&g_idInterface,"StatusLine");
+        ATTRIBUTES *pAttr = api->Entity_GetAttributeClass(g_idInterface,"StatusLine");
         if(pAttr!= nullptr)	pAttr = pAttr->GetAttributeClass(m_nodeName);
         if(pAttr!= nullptr)
         {
@@ -176,7 +176,7 @@ void CXI_STATUSLINE::Refresh()
 	if(m_vBuf==-1) return;
 	XI_ONLYONETEX_VERTEX *pVBuf = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_vBuf);
 
-    ATTRIBUTES *pAttr = api->Entity_GetAttributeClass(&g_idInterface,"StatusLine");
+    ATTRIBUTES *pAttr = api->Entity_GetAttributeClass(g_idInterface,"StatusLine");
     if(pAttr!= nullptr)	pAttr = pAttr->GetAttributeClass(m_nodeName);
     if(pAttr!= nullptr)
 	{

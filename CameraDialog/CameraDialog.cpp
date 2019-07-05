@@ -86,7 +86,7 @@ void CameraDialog::Execute(uint32_t Delta_Time)
 
 	CMatrix perMtx = mdl->mtx;
 
-	ATTRIBUTES *atr = api->Entity_GetAttributeClass(&personId,"act.type");
+	ATTRIBUTES *atr = api->Entity_GetAttributeClass(personId,"act.type");
 	if(atr==nullptr)	perMtx.Pos().y += HDISP1;
 	else
 	{

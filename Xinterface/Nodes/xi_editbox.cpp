@@ -95,7 +95,7 @@ void CXI_EDITBOX::Draw(bool bSelected,uint32_t Delta_Time)
 	}
 
 	// show out string
-	ATTRIBUTES * pA = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
+	ATTRIBUTES * pA = api->Entity_GetAttributeClass(g_idInterface,m_nodeName);
 	char * tmpstr = nullptr;
 	if(pA) tmpstr = pA->GetAttribute("strdata");
 	if(tmpstr) m_rs->ExtPrint(m_nStrFontNum,0xFFFFFFFF,0,PR_ALIGN_CENTER,true,m_fStrScale,m_screenSize.x,m_screenSize.y,(m_rect.left+m_rect.right)/2,m_nTopStringPos,"%s",tmpstr);
@@ -137,7 +137,7 @@ int CXI_EDITBOX::CommandExecute(int wActCode)
         case ACTION_MOUSECLICK:
 			{
 				if(m_nCurAlphaNum<0 || m_nCurAlphaNum>=m_nAlphaQuantity) break;
-				ATTRIBUTES * pA = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
+				ATTRIBUTES * pA = api->Entity_GetAttributeClass(g_idInterface,m_nodeName);
 				if(pA== nullptr) break;
 				char param[256];	param[0] = 0;
 				char * tmpstr = pA->GetAttribute("strdata");

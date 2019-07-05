@@ -2,6 +2,8 @@
 #define _VPARTICLE_SYSTEM_H_
 
 //#include <windows.h>
+#include "Entity.h"
+#include "Cvector.h"
 
 class VPARTICLE_SYSTEM
 {

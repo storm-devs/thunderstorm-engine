@@ -146,7 +146,7 @@ void CXI_CHANGER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
     m_pTexVert[6].tv = m_pTexVert[7].tv =	m_pTexVert[2].tv = m_pTexVert[3].tv = 0.f;
 
     m_nCurrentPos = 0;
-	ATTRIBUTES* pAttr = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
+	ATTRIBUTES* pAttr = api->Entity_GetAttributeClass(g_idInterface,m_nodeName);
     if(pAttr!= nullptr) m_nCurrentPos = pAttr->GetAttributeAsDword("current",0);
 
     SetRectanglesToPosition(0);
@@ -201,7 +201,7 @@ int CXI_CHANGER::CommandExecute(int wActCode)
         {
             SetRectanglesToPosition(m_nCurrentPos);
             // set attribute to new position
-            ATTRIBUTES* pAttr = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
+            ATTRIBUTES* pAttr = api->Entity_GetAttributeClass(g_idInterface,m_nodeName);
             if(pAttr!= nullptr)
                 pAttr->SetAttributeUseDword("current",m_nCurrentPos);
         }
@@ -303,7 +303,7 @@ uint32_t CXI_CHANGER::MessageProc(long msgcode, MESSAGE & message)
 				m_nCurrentPos = n;
 				SetRectanglesToPosition(m_nCurrentPos);
 				// set attribute to new position
-				ATTRIBUTES* pAttr = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
+				ATTRIBUTES* pAttr = api->Entity_GetAttributeClass(g_idInterface,m_nodeName);
 				if(pAttr!= nullptr)	pAttr->SetAttributeUseDword("current",m_nCurrentPos);
 			}
 		}

@@ -189,7 +189,7 @@ uint32_t CXI_SLIDELINE::MessageProc(long msgcode, MESSAGE & message)
 		{
 			m_nGrateQuantity = message.Long();
 			if( m_nGrateQuantity < 2 ) m_nGrateQuantity = 2;
-			ATTRIBUTES* pA = api->Entity_GetAttributeClass(&g_idInterface,"nodes");
+			ATTRIBUTES* pA = api->Entity_GetAttributeClass(g_idInterface,"nodes");
 			if( pA ) pA = pA->GetAttributeClass(m_nodeName);
 			if( pA ) {
 				m_nMinValue = pA->GetAttributeAsDword("minLimit",-1);
@@ -237,7 +237,7 @@ void CXI_SLIDELINE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 	m_nSpeedSlide = GetIniLong(ini1,name1, ini2,name2, "speedSlide", 1);
 
 	m_nCurValue = 0;
-	ATTRIBUTES * pA = api->Entity_GetAttributeClass(&g_idInterface,"nodes");
+	ATTRIBUTES * pA = api->Entity_GetAttributeClass(g_idInterface,"nodes");
 	if(pA!= nullptr) pA = pA->GetAttributeClass(m_nodeName);
 	if(pA!= nullptr) m_nCurValue = long(pA->GetAttributeAsFloat("value",0.f)*m_nGrateQuantity);
 	m_nMinValue = m_nMaxValue = -1;
@@ -297,7 +297,7 @@ void CXI_SLIDELINE::SetNewValue(long newValue)
 		m_rs->UnLockVertexBuffer(m_idVBuf);
 	}
 
-	ATTRIBUTES * pA = api->Entity_GetAttributeClass(&g_idInterface,"nodes");
+	ATTRIBUTES * pA = api->Entity_GetAttributeClass(g_idInterface,"nodes");
 	if(pA!= nullptr) pA = pA->GetAttributeClass(m_nodeName);
 	if(pA!= nullptr) pA->SetAttributeUseFloat("value",(float)m_nCurValue/m_nGrateQuantity);
 	api->PostEvent("eSlideChange", 0, "slf", m_nodeName, m_nCurValue, (float)m_nCurValue/m_nGrateQuantity);

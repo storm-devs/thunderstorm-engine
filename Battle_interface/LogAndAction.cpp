@@ -2,6 +2,7 @@
 #include "../Common_h/Matrix.h"
 #include "../Shared/battle_interface/log_msg.h"
 #include "LogAndAction.h"
+#include "../Common_h/vmodule_api.h"
 
 static entid_t g_ILogAndActions;
 
@@ -269,7 +270,7 @@ void ILogAndActions::Create(bool bFastComShow, bool bLogStringShow)
 	m_bShowLogStrings = bLogStringShow;
 
 	// Установить параметры для иконки активного действия
-	ATTRIBUTES * pA = api->Entity_GetAttributeClass(&g_ILogAndActions,"ActiveActions");
+	ATTRIBUTES * pA = api->Entity_GetAttributeClass(g_ILogAndActions,"ActiveActions");
 	if(pA!= nullptr)
 	{
 		m_idIconTexture = rs->TextureCreate(pA->GetAttribute("TextureName"));
@@ -306,7 +307,7 @@ void ILogAndActions::Create(bool bFastComShow, bool bLogStringShow)
 	m_IconVertex[1].tv = m_IconVertex[3].tv = 1.f/(float)m_vertDiv;
 
 	// установить параметры для строк прошедших действий
-	pA = api->Entity_GetAttributeClass(&g_ILogAndActions,"Log");
+	pA = api->Entity_GetAttributeClass(g_ILogAndActions,"Log");
 	if(pA!= nullptr)
 	{
 		m_nWindowWidth = pA->GetAttributeAsDword("width",200);
@@ -348,7 +349,7 @@ void ILogAndActions::ActionChange(bool bFastComShow, bool bLogStringShow)
 	TEXTURE_RELEASE(rs,m_idIconTexture);
 
 	// Установить параметры для иконки активного действия
-	ATTRIBUTES * pA = api->Entity_GetAttributeClass(&g_ILogAndActions,"ActiveActions");
+	ATTRIBUTES * pA = api->Entity_GetAttributeClass(g_ILogAndActions,"ActiveActions");
 	if(pA!= nullptr)
 	{
 		m_idIconTexture = rs->TextureCreate(pA->GetAttribute("TextureName"));
@@ -473,7 +474,7 @@ void ILogAndActions::SetAction(char * actionName)
 		api->Trace("Action name: %s  - overup size of name");
 		return;
 	}
-	pA = api->Entity_GetAttributeClass(&g_ILogAndActions,"ActiveActions");
+	pA = api->Entity_GetAttributeClass(g_ILogAndActions,"ActiveActions");
 	if(pA!= nullptr) pA = pA->GetAttributeClass(actionName);
 	if(pA== nullptr) return;
 	strcpy_s(m_sActionName,actionName);
@@ -493,7 +494,7 @@ void ILogAndActions::SetAction(char * actionName)
 	m_IconVertex[0].tv = m_IconVertex[2].tv = texRect.top;
 	m_IconVertex[1].tv = m_IconVertex[3].tv = texRect.bottom;
 
-	pA = api->Entity_GetAttributeClass(&g_ILogAndActions,"ActiveActions");
+	pA = api->Entity_GetAttributeClass(g_ILogAndActions,"ActiveActions");
 	if(pA)
 	{
 		m_ActionHint1.Init(rs,pA->GetAttributeClass("text1"));

@@ -68,7 +68,7 @@ void CXI_VIMAGESCROLL::Draw(bool bSelected,uint32_t Delta_Time)
 				m_bDoMove = false;
 
 				// Set new current image
-				ATTRIBUTES* tmpAttr = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
+				ATTRIBUTES* tmpAttr = api->Entity_GetAttributeClass(g_idInterface,m_nodeName);
 				if(tmpAttr!= nullptr)
 					tmpAttr->SetAttributeUseDword("current",m_nCurImage);
 
@@ -395,7 +395,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *na
 		m_pStrParam[i].m_dwBackColor = GetIniARGB(ini1,name1, ini2,name2, param1, 0);
 	}
 
-	ATTRIBUTES * pAttribute = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
+	ATTRIBUTES * pAttribute = api->Entity_GetAttributeClass(g_idInterface,m_nodeName);
 	if(pAttribute!= nullptr)
 	{
 		// get special technique name and color
@@ -960,7 +960,7 @@ void CXI_VIMAGESCROLL::SaveParametersToIni()
 
 void CXI_VIMAGESCROLL::ChangeScroll(int nScrollItemNum)
 {
-    ATTRIBUTES * pAttr = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
+    ATTRIBUTES * pAttr = api->Entity_GetAttributeClass(g_idInterface,m_nodeName);
     if(pAttr!= nullptr)
     {
 		// проверим может весь список надо менять
@@ -1060,7 +1060,7 @@ void CXI_VIMAGESCROLL::DeleteImage(int imgNum)
 
 	if(m_nCurImage>=m_nListSize-m_nNotUsedQuantity) m_nCurImage=m_nListSize-m_nNotUsedQuantity-1;
 	if(m_nCurImage<0) m_nCurImage=0;
-	ATTRIBUTES * pA = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
+	ATTRIBUTES * pA = api->Entity_GetAttributeClass(g_idInterface,m_nodeName);
 	if(pA!= nullptr) {
 		pA->SetAttributeUseDword("current",m_nCurImage);
 	}
@@ -1108,7 +1108,7 @@ void CXI_VIMAGESCROLL::RefreshScroll()
 
 	m_nListSize=0;	m_nNotUsedQuantity=0;
 
-	ATTRIBUTES * pAttribute = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
+	ATTRIBUTES * pAttribute = api->Entity_GetAttributeClass(g_idInterface,m_nodeName);
 	if(pAttribute!= nullptr)
 	{
 		// get special technique name and color
@@ -1296,7 +1296,7 @@ void CXI_VIMAGESCROLL::RefreshScroll()
 
 	if(m_nCurImage>=m_nListSize-m_nNotUsedQuantity) m_nCurImage=m_nListSize-m_nNotUsedQuantity-1;
 	if(m_nCurImage<0) m_nCurImage=0;
-	ATTRIBUTES * pA = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
+	ATTRIBUTES * pA = api->Entity_GetAttributeClass(g_idInterface,m_nodeName);
 	if(pA!= nullptr) {
 		pA->SetAttributeUseDword("current",m_nCurImage);
 	}
@@ -1443,7 +1443,7 @@ void CXI_VIMAGESCROLL::UpdateTexturesGroup()
 	int nPrevQ = m_nGroupQuantity;
 
 	// get textures
-	ATTRIBUTES * pAttribute = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
+	ATTRIBUTES * pAttribute = api->Entity_GetAttributeClass(g_idInterface,m_nodeName);
 	if(pAttribute== nullptr) return;
 
 	ATTRIBUTES * pA = pAttribute->GetAttributeClass("ImagesGroup");

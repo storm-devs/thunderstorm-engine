@@ -85,7 +85,7 @@ int CXI_FOURIMAGE::CommandExecute(int wActCode)
 			m_nSelectItem = newSelectItem;
 
 		// set new current item
-		ATTRIBUTES * tmpAttr = api->Entity_GetAttributeClass(&g_idInterface,"FourImage");
+		ATTRIBUTES * tmpAttr = api->Entity_GetAttributeClass(g_idInterface,"FourImage");
 		tmpAttr->SetAttributeUseDword("current",m_nSelectItem);
 	}
 	return retVal;
@@ -281,7 +281,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 		m_xTwoOffset = 0;
 	}
 
-	ATTRIBUTES * pAttribute = api->Entity_GetAttributeClass(&g_idInterface,"FourImage");
+	ATTRIBUTES * pAttribute = api->Entity_GetAttributeClass(g_idInterface,"FourImage");
 	if(pAttribute!= nullptr)
 	{
 		m_nSelectItem = pAttribute->GetAttributeAsDword("current",0);
@@ -653,7 +653,7 @@ void CXI_FOURIMAGE::SaveParametersToIni()
 void CXI_FOURIMAGE::ChangeItem(int nItemNum)
 {
     char param[256];
-	ATTRIBUTES * pAttribute = api->Entity_GetAttributeClass(&g_idInterface,"FourImage");
+	ATTRIBUTES * pAttribute = api->Entity_GetAttributeClass(g_idInterface,"FourImage");
 	if(pAttribute!= nullptr)
 	{
 		for(int i=(nItemNum==-1?0:nItemNum);i<(nItemNum==-1?4:nItemNum+1);i++)

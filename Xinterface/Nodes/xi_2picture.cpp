@@ -162,7 +162,7 @@ bool CXI_TWOPICTURE::IsClick(int buttonID,long xPos,long yPos)
 
 void CXI_TWOPICTURE::UpdateRectangles()
 {
-	ATTRIBUTES * pA = api->Entity_GetAttributeClass(&g_idInterface,m_nodeName);
+	ATTRIBUTES * pA = api->Entity_GetAttributeClass(g_idInterface,m_nodeName);
 	if(m_bLeftSelect)
 	{
 		SetRectanglePos(m_vOne,m_leftPicCenter+m_PressOffset,m_picSize);

@@ -393,7 +393,7 @@ void XINTERFACE::Realize(uint32_t Delta_Time)
 	// Show dinamic stringes
 	if(m_nStringQuantity>0)
 	{
-		ATTRIBUTES * tmpAttr = api->Entity_GetAttributeClass(&g_idInterface,"strings");
+		ATTRIBUTES * tmpAttr = api->Entity_GetAttributeClass(g_idInterface,"strings");
 
 		if(tmpAttr!= nullptr) for(int i=0; i<m_nStringQuantity; i++)
 			if(m_stringes[i].bUsed)
