@@ -21,7 +21,7 @@ public:
 		Command_ForceDword = 0xffffffff
 	};
 
-	BISignIcon( entid_t& BIEntityID, VDX9RENDER* pRS );
+	BISignIcon( entid_t BIEntityID, VDX9RENDER* pRS );
 	virtual ~BISignIcon();
 
 	virtual void Draw();

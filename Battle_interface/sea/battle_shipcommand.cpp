@@ -3,7 +3,7 @@
 #include "island_descr.h"
 #include "../../Shared/battle_interface/msg_control.h"
 
-BIShipCommandList::BIShipCommandList( entid_t& eid, ATTRIBUTES* pA, VDX9RENDER* rs ) :
+BIShipCommandList::BIShipCommandList( entid_t eid, ATTRIBUTES* pA, VDX9RENDER* rs ) :
 	BICommandList(eid,pA,rs)
 {
 	Init();

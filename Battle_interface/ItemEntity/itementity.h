@@ -5,6 +5,7 @@
 #include "../../Common_h/defines.h"
 #include "../../Common_h/Animation.h"
 #include "../../Common_h/vparticle_system.h"
+#include "../../Common_h/Entity.h"
 #include <string>
 
 class MODEL;
@@ -27,14 +28,14 @@ protected:
 
 	void SetModelToPosition(const CMatrix& mtx);
 	void SetTechnique( const char* pcTechnique );
-	bool TieToLocator(entid_t& mdlEID, const char* pcLocName);
+	bool TieToLocator(entid_t mdlEID, const char* pcLocName);
 	void UnTieFromLocator();
 	void EndEventProcess();
 
 	void DrawIntoLocator();
 
-	void SetEventListener(entid_t& mdlEID, entid_t& mdlToTieEID,const char* pcLocName, const char* pcStartEvent,const char* pcEndEvent);
-	entid_t GetModelEIDFromCharacterEID(entid_t& chrEID);
+	void SetEventListener(entid_t mdlEID, entid_t mdlToTieEID,const char* pcLocName, const char* pcStartEvent,const char* pcEndEvent);
+	entid_t GetModelEIDFromCharacterEID(entid_t chrEID);
 
 protected: // data
 	bool m_bVisible;

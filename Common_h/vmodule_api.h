@@ -2,9 +2,10 @@
 #include <vector>
 #include "vapi.h"
 #include "../Common_h//vfile_service.h"
+#include "assert.h"
+#include "message.h"
 
 #define INTERFACE_FUNCTION
-
 
 /* TODO: REMOVE THIS.... */
 inline uint32_t MakeHashValue(const char* string)

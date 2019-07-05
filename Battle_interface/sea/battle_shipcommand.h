@@ -6,7 +6,7 @@
 class BIShipCommandList : public BICommandList
 {
 public:
-	BIShipCommandList( entid_t& eid, ATTRIBUTES* pA, VDX9RENDER* rs );
+	BIShipCommandList( entid_t eid, ATTRIBUTES* pA, VDX9RENDER* rs );
 	virtual ~BIShipCommandList();
 
 	virtual void FillIcons();

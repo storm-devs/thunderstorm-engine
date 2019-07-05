@@ -25,7 +25,7 @@ public:
 		Command_ForceDword = 0xffffffff
 	};
 
-	BIShipIcon( entid_t& BIEntityID, VDX9RENDER* pRS );
+	BIShipIcon( entid_t BIEntityID, VDX9RENDER* pRS );
 	~BIShipIcon();
 
 	void Draw();

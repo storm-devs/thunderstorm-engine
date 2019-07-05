@@ -9,7 +9,7 @@
 class WMShipIcon : public BISignIcon
 {
 public:
-	WMShipIcon( entid_t& BIEntityID, VDX9RENDER* pRS );
+	WMShipIcon( entid_t BIEntityID, VDX9RENDER* pRS );
 	~WMShipIcon();
 
 	virtual void ExecuteCommand( CommandType command );

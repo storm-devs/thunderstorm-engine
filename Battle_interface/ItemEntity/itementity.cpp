@@ -25,7 +25,7 @@ void ItemEntity::Realize(uint32_t delta_time)
 		if( m_bTieToLocator )
 			DrawIntoLocator();
 		else
-			m_pModel->Realize( delta_time );
+			m_pModel->ProcessStage(Entity::Stage::REALIZE, delta_time);
 }
 
 uint32_t ItemEntity::ProcessMessage(MESSAGE & message)
@@ -154,7 +154,7 @@ void ItemEntity::SetTechnique( const char* pcTechnique )
 	}
 }
 
-bool ItemEntity::TieToLocator(entid_t& mdlEID, const char* pcLocName)
+bool ItemEntity::TieToLocator(entid_t mdlEID, const char* pcLocName)
 {
 	m_eidTieModel = mdlEID;
 	m_sTieLocName = pcLocName;
@@ -233,7 +233,7 @@ void ItemEntity::DrawIntoLocator()
 	}
 }
 
-entid_t ItemEntity::GetModelEIDFromCharacterEID(entid_t& chrEID)
+entid_t ItemEntity::GetModelEIDFromCharacterEID(entid_t chrEID)
 {
 	entid_t eid;
 	VDATA* pvdat = (VDATA*)api->GetScriptVariable("g_TmpModelVariable");
@@ -244,7 +244,7 @@ entid_t ItemEntity::GetModelEIDFromCharacterEID(entid_t& chrEID)
 	return eid;
 }
 
-void ItemEntity::SetEventListener(entid_t& mdlEID, entid_t& mdlToTieEID,const char* pcLocName, const char* pcStartEvent,const char* pcEndEvent )
+void ItemEntity::SetEventListener(entid_t mdlEID, entid_t mdlToTieEID,const char* pcLocName, const char* pcStartEvent,const char* pcEndEvent )
 {
 	MODEL* pMdl = (MODEL*)api->GetEntityPointer(mdlEID);
 	if( !pMdl ) return;

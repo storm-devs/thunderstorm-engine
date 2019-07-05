@@ -1,11 +1,12 @@
 #ifndef _MESSAGE_H_
 #define _MESSAGE_H_
 
+#include <cstring>
+#include <cstdlib>
 #include "Cvector.h"
-#include "vdata.h"
+#include "Entity.h"
 
-//	#define _INTSIZEOF(n)   ( (sizeof(n) + sizeof(int) - 1) & ~(sizeof(int) - 1) )
-//	#define va_arg(ap,t)    ( *(t *)((ap += _INTSIZEOF(t)) - _INTSIZEOF(t)) )
+class VDATA;
 
 class MESSAGE 
 {

@@ -4,7 +4,7 @@
 #include "Utils.h"
 #include "../Shared/battle_interface/msg_control.h"
 
-BICommandList::BICommandList( entid_t& eid, ATTRIBUTES* pA, VDX9RENDER* rs )
+BICommandList::BICommandList( entid_t eid, ATTRIBUTES* pA, VDX9RENDER* rs )
 {
 	m_idHostObj = eid;
 	m_pARoot = pA;

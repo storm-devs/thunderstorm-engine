@@ -3,6 +3,7 @@
 
 #include "../../common_h/dx9render.h"
 #include "../../common_h/defines.h"
+#include "../../common_h/Entity.h"
 
 class MODEL;
 class NODE;
@@ -22,7 +23,7 @@ protected:
 	void SetBeginData();
 	void Release();
 
-	entid_t GetModelEIDFromCharacterEID(entid_t& chrEID);
+	entid_t GetModelEIDFromCharacterEID(entid_t chrEID);
 
 protected: // data
 	bool m_bVisible;

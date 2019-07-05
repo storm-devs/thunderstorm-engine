@@ -4,7 +4,7 @@
 #include "../Utils.h"
 #include "../../Shared/battle_interface/msg_control.h"
 
-BIShipIcon::BIShipIcon( entid_t& BIEntityID, VDX9RENDER* pRS )
+BIShipIcon::BIShipIcon( entid_t BIEntityID, VDX9RENDER* pRS )
 {
 	Assert( pRS );
 

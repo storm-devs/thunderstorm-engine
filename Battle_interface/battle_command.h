@@ -20,7 +20,7 @@ class BIImageRender;
 class BICommandList
 {
 public:
-	BICommandList( entid_t& eid, ATTRIBUTES* pA, VDX9RENDER* rs );
+	BICommandList( entid_t eid, ATTRIBUTES* pA, VDX9RENDER* rs );
 	virtual ~BICommandList();
 
 	void Draw();

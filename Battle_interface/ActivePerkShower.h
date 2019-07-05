@@ -7,8 +7,6 @@
 
 class	ActivePerkShower : public Entity
 {
-	class ATTRIBUTES;
-
 	VDX9RENDER *rs;
 
 public:

@@ -3,6 +3,7 @@
 
 #include "../../Common_h/dx9render.h"
 #include "../../Common_h/defines.h"
+#include "../../Common_h/Entity.h"
 
 class BIImageRender;
 class BI_ManagerBase;
