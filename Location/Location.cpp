@@ -83,11 +83,11 @@ bool Location::Init()
 
 	api->LayerCreate("execute", true, false);
 	api->LayerSetFlags("execute", LRFLAG_EXECUTE);
-	api->LayerAdd("execute", GetID(), 10);
+	api->LayerAdd("execute", GetId(), 10);
 
 	api->LayerCreate("realize", true, false);
 	api->LayerSetFlags("realize", LRFLAG_REALIZE);
-	api->LayerAdd("realize", GetID(), 100000);
+	api->LayerAdd("realize", GetId(), 100000);
 
 	api->CreateEntity(&lightsid, "Lights");
 	api->CreateEntity(&loceffectsid, "LocationEffects");
@@ -438,10 +438,10 @@ long Location::LoadStaticModel(const char * modelName, const char * tech, long l
 		return -1;
 	}
 	//Добавим модельку в специальные слои
-	api->LayerAdd("shadow", mdl->GetID(), 10);
-	api->LayerAdd("sun_trace", mdl->GetID(), 10);
-	api->LayerAdd("blood", mdl->GetID(), 100);
-	api->LayerAdd("rain_drops", mdl->GetID(), 100);
+	api->LayerAdd("shadow", mdl->GetId(), 10);
+	api->LayerAdd("sun_trace", mdl->GetId(), 10);
+	api->LayerAdd("blood", mdl->GetId(), 100);
+	api->LayerAdd("rain_drops", mdl->GetId(), 100);
 	//Зачитываем все локаторы
 	GEOS::INFO ginfo;
 	GEOS::LABEL label;
@@ -486,7 +486,7 @@ long Location::LoadStaticModel(const char * modelName, const char * tech, long l
 	}
 
 #ifndef _XBOX
-	api->Send_Message(lighter, "ssi", "AddModel", modelName, mdl->GetID());
+	api->Send_Message(lighter, "ssi", "AddModel", modelName, mdl->GetId());
 #endif
 
 	return im;

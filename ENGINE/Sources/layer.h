@@ -36,7 +36,7 @@ public:
 	bool Add(entid_t eid, uint32_t priority);
 	bool Add(entid_t eid);
 	bool Del(entid_t eid);
-	entid_t * GetID();
+	entid_t * GetId();
 	entid_t * GetNextID();
 	entid_t * GetID(uint32_t * priority_PTR);
 	entid_t * GetNextID(uint32_t * priority_PTR);

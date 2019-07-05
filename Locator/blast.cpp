@@ -164,7 +164,7 @@ void BLAST::ProcessTime(uint32_t DT)
 		}*/
 	}
 
-	if(bStop) api->DeleteEntity(GetID());
+	if(bStop) api->DeleteEntity(GetId());
 }
 
 uint32_t _cdecl BLAST::ProcessMessage(MESSAGE & message)

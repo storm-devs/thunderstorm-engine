@@ -135,10 +135,10 @@ bool Lights::Init()
 	//Начнём исполняться
 	api->LayerCreate("execute", true, false);
 	api->LayerSetFlags("execute", LRFLAG_EXECUTE);
-	api->LayerAdd("execute", GetID(), 10);
+	api->LayerAdd("execute", GetId(), 10);
 	api->LayerCreate("realize", true, false);
 	api->LayerSetFlags("realize", LRFLAG_REALIZE);
-	api->LayerAdd("realize", GetID(), 1001000);
+	api->LayerAdd("realize", GetId(), 1001000);
 	return true;
 }
 

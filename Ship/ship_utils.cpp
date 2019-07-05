@@ -200,7 +200,7 @@ bool SHIP::BuildMasts()
 				pM->bBroken = true;
 				entid_t ent;
 				api->CreateEntity(&ent,"mast");
-				api->Send_Message(ent,"lpii", MSG_MAST_SETGEOMETRY, pNode, GetID(), GetModelEID());
+				api->Send_Message(ent,"lpii", MSG_MAST_SETGEOMETRY, pNode, GetId(), GetModelEID());
 				api->DeleteEntity(ent);
 				//iIdx--;
 			}

@@ -234,7 +234,7 @@ void AIBalls::Execute(uint32_t Delta_Time)
 				pSail->Cannon_Trace(pBall->iBallOwner, vSrc, vDst);
 
 			// ship trace
-			if (pVWShips && (pEID = pVWShips->GetID()) != nullptr) do
+			if (pVWShips && (pEID = pVWShips->GetId()) != nullptr) do
 			{
 				CANNON_TRACE_BASE * pShip = (CANNON_TRACE_BASE*)api->GetEntityPointer(pEID);
 				fRes = pShip->Cannon_Trace(pBall->iBallOwner, vSrc, vDst);

@@ -297,9 +297,9 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 				if (k == aShips.size())
 				{
 					//ship_t & ship = aShips[aShips.Add()];
-					//ship.eid = pShip->GetID();
+					//ship.eid = pShip->GetId();
 					//ship.pShip = pShip;
-					aShips.push_back(ship_t{ pShip->GetID(), pShip });
+					aShips.push_back(ship_t{ pShip->GetId(), pShip });
 				}
 				CMatrix mShip = *pShip->GetMatrix();
 				mShip.Transposition();

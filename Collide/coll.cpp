@@ -38,7 +38,7 @@ float COLL::Trace(entid_t entity, const CVECTOR &src, const CVECTOR &dst)
 float COLL::Trace(walker_t walker, const CVECTOR &src, const CVECTOR &dst, const entid_t *exclude_list, long entities)
 {
 	float best_res = 2.0f;
-	entid_t *eid = walker.GetID();
+	entid_t *eid = walker.GetId();
 	while (eid != nullptr)
 	{
 		long e;
@@ -73,7 +73,7 @@ bool COLL::Clip(walker_t walker, const PLANE *planes, long nplanes, const CVECTO
 {
 	bool retval = false;
 
-	entid_t *eid = walker.GetID();
+	entid_t *eid = walker.GetId();
 	while(eid!=nullptr)
 	{
 		long e;

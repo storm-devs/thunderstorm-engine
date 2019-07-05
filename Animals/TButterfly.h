@@ -1,7 +1,7 @@
 #ifndef _TBUTTERFLY_H_
 #define _TBUTTERFLY_H_
 
-//#include <windows.h>
+#include "../Common_h/Walker.h"
 #include "../Common_h/Cvector.h"
 #include "../Common_h/model.h"
 #include "../Common_h/collide.h"

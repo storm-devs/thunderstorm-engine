@@ -38,8 +38,8 @@ bool CameraDialog::Init()
 	col = (COLLIDE *)api->CreateService("coll");
 	if(!col)	throw std::exception("No service: collide");
 
-	api->LayerAdd("execute",GetID(),2);
-	//api->LayerAdd("realize",GetID(),1);
+	api->LayerAdd("execute",GetId(),2);
+	//api->LayerAdd("realize",GetId(),1);
 	return true;
 }
 

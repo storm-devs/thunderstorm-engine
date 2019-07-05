@@ -312,7 +312,7 @@ void Player::Update(float dltTime)
 			Character * chr = location->supervisor.character[i].c;
 			if(chr != this && chr)
 			{
-				chr->isPlayerEnemy = (api->Send_Message(eid, "sii", "IsEnemy", GetID(), chr->GetID()) != 0);
+				chr->isPlayerEnemy = (api->Send_Message(eid, "sii", "IsEnemy", GetId(), chr->GetId()) != 0);
 			}
 		}
 	}
@@ -654,7 +654,7 @@ Player * Player::FindAttackCharacter()
 			entid_t eid;
 			if(api->FindClass(&eid, nullptr, chrGroups))
 			{
-				if(!api->Send_Message(eid, "sii", "IsEnemy", GetID(), chr->GetID())) continue;
+				if(!api->Send_Message(eid, "sii", "IsEnemy", GetId(), chr->GetId())) continue;
 			}
 		}
 		//Этот гад на нас лезет
@@ -719,7 +719,7 @@ void Player::FireFromShootgun()
 		CVECTOR dst = mtx*CVECTOR(r*sinf(a), r*cosf(a), 25.0f);
 		if(walker && collide)
 		{
-			float dist = collide->Trace(*walker, src, dst, &GetID(), 0);
+			float dist = collide->Trace(*walker, src, dst, &GetId(), 0);
 			if(dist <= 1.0f && dist > (0.2f/25.0f))
 			{
 				CVECTOR dir = !(src - dst);
@@ -762,7 +762,7 @@ void Player::FireFromShootgun()
 	delete walker;
 	for(long i = 0; i < numChrs; i++)
 	{
-		api->Event("Location_CharacterSGFire", "iif", GetID(), chrs[i].chr->GetID(), chrs[i].dmg);
+		api->Event("Location_CharacterSGFire", "iif", GetId(), chrs[i].chr->GetId(), chrs[i].dmg);
 	}
 #endif
 }

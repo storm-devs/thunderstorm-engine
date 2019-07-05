@@ -19,8 +19,8 @@ bool IBoardingStatus::Init()
 		throw std::exception("Can`t create render service");
 	}
 
-	//api->SystemMessages(GetID(),true);
-	api->LayerAdd("realize",GetID(),0xFFFFFFFF);
+	//api->SystemMessages(GetId(),true);
+	api->LayerAdd("realize",GetId(),0xFFFFFFFF);
 
 	return true;
 }
@@ -54,7 +54,7 @@ void IBoardingStatus::Realize(uint32_t delta_time)
 void IBoardingStatus::Create()
 {
 	// Установить параметры для иконки активного действия
-	ATTRIBUTES * pA = api->Entity_GetAttributePointer(&GetID());
+	ATTRIBUTES * pA = api->Entity_GetAttributePointer(&GetId());
 	if(pA!= nullptr)
 	{
 		m_myPos.x = (float)pA->GetAttributeAsDword("myLeft",10);

@@ -29,7 +29,7 @@ Debris::Debris(Pillar & _pillar) : pillar(_pillar)
 
 Debris::~Debris()
 {
-	for(long i = 0; i < numModels; i++) api->DeleteEntity(mdl[i].mdl->GetID());
+	for(long i = 0; i < numModels; i++) api->DeleteEntity(mdl[i].mdl->GetId());
 }
 
 void Debris::Init()

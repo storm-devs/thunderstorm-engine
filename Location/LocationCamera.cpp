@@ -88,11 +88,11 @@ bool LocationCamera::Init()
 
 	api->LayerCreate("execute", true, false);
 	api->LayerSetFlags("execute", LRFLAG_EXECUTE);
-	api->LayerAdd("execute", GetID(), 0);
+	api->LayerAdd("execute", GetId(), 0);
 
 	api->LayerCreate("realize", true, false);
 	api->LayerSetFlags("realize", LRFLAG_REALIZE);
-	api->LayerAdd("realize", GetID(), 100000);
+	api->LayerAdd("realize", GetId(), 100000);
 	
 	//Море
 	api->FindClass(&sea, "sea", 0);
@@ -355,7 +355,7 @@ uint32_t _cdecl LocationCamera::ProcessMessage(MESSAGE & message)
 	case MSG_CAMERA_TOPOS:		
 		/*if(lockAx)
 		{
-			api->Send_Message(GetID(), "l", MSG_CAMERA_FOLLOW);
+			api->Send_Message(GetId(), "l", MSG_CAMERA_FOLLOW);
 			return 1;
 		}*/
 		fromLook.x = message.Float();

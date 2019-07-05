@@ -256,7 +256,7 @@ long WdmPlayerShip::TestInStorm()
 			}else{
 				wdmObjects->wm->AttributesPointer->SetAttribute("stormWhithTornado", "0");
 			}
-			wdmObjects->wm->AttributesPointer->SetAttribute("stormId", wdmObjects->storms[i]->GetID());
+			wdmObjects->wm->AttributesPointer->SetAttribute("stormId", wdmObjects->storms[i]->GetId());
 			return i;
 		}
 		float x, z;

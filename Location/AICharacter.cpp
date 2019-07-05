@@ -304,7 +304,7 @@ void AICharacter::CmdProcessGotoPoint(float dltTime)
 						StopMove();
 						FailureCommand();
 					}else{
-						api->Event("Location_CharacterBusyPos", "ifff", GetID(), command.pnt.x, command.pnt.y, command.pnt.z);
+						api->Event("Location_CharacterBusyPos", "ifff", GetId(), command.pnt.x, command.pnt.y, command.pnt.z);
 						command.cnt++;
 						command.isWait = true;
 						command.waitTime = 2.0f + rand()*2.0f/RAND_MAX;

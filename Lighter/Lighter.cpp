@@ -46,10 +46,10 @@ bool Lighter::Init()
 	//
 	api->LayerCreate("lighter_execute", true, false);
 	api->LayerSetFlags("lighter_execute", LRFLAG_EXECUTE);
-	api->LayerAdd("lighter_execute", GetID(), 1000);
+	api->LayerAdd("lighter_execute", GetId(), 1000);
 	api->LayerCreate("lighter_realize", true, false);
 	api->LayerSetFlags("lighter_realize", LRFLAG_REALIZE);
-	api->LayerAdd("lighter_realize", GetID(), 1000);
+	api->LayerAdd("lighter_realize", GetId(), 1000);
 	//
 	lightProcessor.SetParams(&geometry, &window, &lights, &octTree, rs);
 	//оконная система

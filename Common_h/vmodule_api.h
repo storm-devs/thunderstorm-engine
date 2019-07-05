@@ -52,7 +52,7 @@ public:
 	;
 	VMA * Next(){return pNext;}
 	virtual ~VMA(){};
-	long Build_Version() {return ENGINE_VERSION;};
+	long Build_Version() {return -1;};
 	void SetHash(long _hash) {nHash = _hash;}
 	long GetHash() {return nHash;}
 	void Set(VMA * _p){pNext = _p;};

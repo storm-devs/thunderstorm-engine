@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include "dx9render.h"
 
 //-----------------------------------------------------------------------------
 // Name: class VideoToTexture

@@ -121,7 +121,7 @@ void MAST::Execute(uint32_t Delta_Time)
     }
     else
     {
-        api->DeleteEntity(GetID());
+        api->DeleteEntity(GetId());
     }
     //UNGUARD
 }
@@ -255,7 +255,7 @@ void _cdecl MAST::Mount( entid_t modelEI, entid_t shipEI, NODE* mastNodePointer 
 				else if(!strncmp(gl.name,"sail",4))
 				{
 					if(bSail)
-						api->Send_Message(sailEI,"liplii",MSG_SAIL_TO_NEWHOST,modelEI,nod,atoi(&gl.group_name[5]), GetID(),model_id);
+						api->Send_Message(sailEI,"liplii",MSG_SAIL_TO_NEWHOST,modelEI,nod,atoi(&gl.group_name[5]), GetId(),model_id);
 				}
 				else if(!strncmp(gl.group_name,"flag",4))
 				{
@@ -266,8 +266,8 @@ void _cdecl MAST::Mount( entid_t modelEI, entid_t shipEI, NODE* mastNodePointer 
 			// валим также паруса связанные с данной мачтой
 			if(bSail)
 			{
-				api->Send_Message(sailEI,"liii",MSG_SAIL_CHECK,shipEI,GetID(),model_id);
-				api->Send_Message(sailEI,"li",MSG_SAIL_FREE_GROUP,GetID());
+				api->Send_Message(sailEI,"liii",MSG_SAIL_CHECK,shipEI,GetId(),model_id);
+				api->Send_Message(sailEI,"li",MSG_SAIL_FREE_GROUP,GetId());
 			}
 		}
 		if(bSail) api->Send_Message(sailEI, "ll", MSG_SAIL_MAST_PROCESSING, -1);
@@ -653,7 +653,7 @@ void MAST::AllRelease()
 
     // удалить группу парусов
     if(api->FindClass(&tmp_id,"sail",0))
-        api->Send_Message(tmp_id,"li",MSG_SAIL_DEL_GROUP,GetID());
+        api->Send_Message(tmp_id,"li",MSG_SAIL_DEL_GROUP,GetId());
 
     // удалить группу флагов
     if(api->FindClass(&tmp_id,"flag",0))

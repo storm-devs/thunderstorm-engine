@@ -71,7 +71,7 @@ bool LocEagle::Init()
 	//Включаем в список исполнения
 	api->LayerCreate("execute", true, false);
 	api->LayerSetFlags("execute", LRFLAG_EXECUTE);
-	api->LayerAdd("execute", GetID(), 10);
+	api->LayerAdd("execute", GetId(), 10);
 	return true;	
 }
 

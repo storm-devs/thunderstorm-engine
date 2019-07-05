@@ -60,7 +60,7 @@ void ISLAND::Uninit()
 
 bool ISLAND::Init()
 {
-	api->LayerAdd("system_messages", GetID(), 1);
+	api->LayerAdd("system_messages", GetId(), 1);
 	SetDevice();
 
 	// calc optimization
@@ -401,7 +401,7 @@ void ISLAND::CalcBoxParameters(CVECTOR & _vBoxCenter, CVECTOR & _vBoxSize)
 	entid_t	* pEID;
 	float		x1 = 1e+8f, x2 = -1e+8f, z1 = 1e+8f, z2 = -1e+8f;
 	
-	pEID = pIslandTraceWalker->GetID();
+	pEID = pIslandTraceWalker->GetId();
 	if (pEID) do
 	{
 		MODEL * pM = (MODEL*)api->GetEntityPointer(pEID); Assert(pM);

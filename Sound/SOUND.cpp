@@ -38,7 +38,7 @@ bool SOUND::Init()
 		api->Trace("!SOUND: Can`t create sound service");
 
 	renderer = (VDX9RENDER *) api->CreateService("dx9render");
-	api->LayerAdd("realize",GetID(),-1);
+	api->LayerAdd("realize",GetId(),-1);
 
 	return true;
 	//UNGUARD

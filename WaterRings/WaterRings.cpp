@@ -28,7 +28,7 @@ bool WaterRings::Init()
 {
 	//GUARD(WaterRings::Init())
 
-	api->LayerAdd("realize",GetID(),65551);
+	api->LayerAdd("realize",GetId(),65551);
 
 	entid_t seaID;
 	api->FindClass(&seaID, "sea", 0);

@@ -67,10 +67,10 @@ bool Fader::Init()
 	//Layers
 	api->LayerCreate("fader_realize", true, false);
 	api->LayerSetRealize("fader_realize", true);
-	api->LayerAdd("fader_realize", GetID(), -256);
+	api->LayerAdd("fader_realize", GetId(), -256);
 	api->LayerCreate("fader_execute", true, false);
 	api->LayerSetExecute("fader_execute", true);
-	api->LayerAdd("fader_execute", GetID(), -256);
+	api->LayerAdd("fader_execute", GetId(), -256);
 	//DX9 render
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs) throw std::exception("No service: dx9render");
@@ -180,17 +180,17 @@ void Fader::Execute(uint32_t delta_time)
 	if(deleteMe)
 	{
 		deleteMe++;
-		if(deleteMe >= 3) api->DeleteEntity(GetID());
+		if(deleteMe >= 3) api->DeleteEntity(GetId());
 	}
 	if(eventStart)
 	{
 		eventStart = false;
 		if(!fadeIn)
 		{
-			api->PostEvent("FaderEvent_StartFade", 0, "li", fadeIn, GetID());
+			api->PostEvent("FaderEvent_StartFade", 0, "li", fadeIn, GetId());
 			//api->Trace("FaderEvent_StartFade");
 		}else{
-			api->PostEvent("FaderEvent_StartFadeIn", 0, "li", fadeIn, GetID());
+			api->PostEvent("FaderEvent_StartFadeIn", 0, "li", fadeIn, GetId());
 		//	api->Trace("FaderEvent_StartFadeIn");
 		}
 	}
@@ -200,10 +200,10 @@ void Fader::Execute(uint32_t delta_time)
 		deleteMe = isAutodelete;
 		if(!fadeIn)
 		{
-			api->PostEvent("FaderEvent_EndFade", 0, "li", fadeIn, GetID());
+			api->PostEvent("FaderEvent_EndFade", 0, "li", fadeIn, GetId());
 			//api->Trace("FaderEvent_EndFade");
 		}else{
-			api->PostEvent("FaderEvent_EndFadeIn", 0, "li", fadeIn, GetID());
+			api->PostEvent("FaderEvent_EndFadeIn", 0, "li", fadeIn, GetId());
 		//	api->Trace("FaderEvent_EndFadeIn");
 		}
 	}

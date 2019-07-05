@@ -390,7 +390,7 @@ uint32_t _cdecl MODELR::ProcessMessage(MESSAGE &message)
 			{
 				delete root;
 				root = nullptr;
-				api->DeleteEntity(GetID());
+				api->DeleteEntity(GetId());
 				fio->SetDrive();
 				return 0;
 			}
@@ -411,7 +411,7 @@ uint32_t _cdecl MODELR::ProcessMessage(MESSAGE &message)
 				{
 					delete root;
 					root = null;
-					api->DeleteEntity(GetID());
+					api->DeleteEntity(GetId());
 					fio->SetDrive();
 					return 0;
 				}

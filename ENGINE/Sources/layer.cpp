@@ -167,7 +167,7 @@ entid_t * LAYER::WalkerGetNextID(LPBYTE& sl)
 
 
 
-entid_t * LAYER::GetID()
+entid_t * LAYER::GetId()
 {
 	if(ls.Deleted) return nullptr;
 	if(Base_Link)
@@ -271,7 +271,7 @@ void IDWALKER::Invalidate()
 	if(pLayer) ((LAYER *)pLayer)->DelWalker((void *)this);
 }
 
-entid_t * IDWALKER::GetID()
+entid_t * IDWALKER::GetId()
 {
 	if(pLayer) return ((LAYER *)pLayer)->WalkerGetID(Search_Link);
 	return nullptr;

@@ -89,7 +89,7 @@ void LAYER_SERVICE::Erase(uint32_t index)
 /*  transfer this block to core
 	if(Scan_Layer_Code == index) Scan_Layer_Code = INVALID_LAYER_CODE;
 	// clear layer flag for objects
-	eid_PTR = l_PTR->GetID();
+	eid_PTR = l_PTR->GetId();
 	while(eid_PTR)
 	{
 		if(ValidateEntity(eid_PTR)) Atoms_PTR[eid_PTR->atom_position]->ClrLayerAttribute(index);

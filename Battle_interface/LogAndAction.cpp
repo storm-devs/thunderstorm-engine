@@ -52,7 +52,7 @@ bool ILogAndActions::Init()
 	api->Event("SetWindowSize","lll",vp.Width,vp.Height,true);
 #endif
 
-	g_ILogAndActions = GetID();
+	g_ILogAndActions = GetId();
 	return true;
 }
 

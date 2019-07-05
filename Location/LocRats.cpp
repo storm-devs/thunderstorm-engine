@@ -38,7 +38,7 @@ bool LocRats::Init()
 	//Исполнение
 	api->LayerCreate("realize", true, false);
 	api->LayerSetFlags("realize", LRFLAG_REALIZE);
-	api->LayerAdd("realize", GetID(), 100000);
+	api->LayerAdd("realize", GetId(), 100000);
 	return true;
 }
 

@@ -495,8 +495,8 @@ bool Sharks::Init()
 	long eprt = AttributesPointer->GetAttributeAsDword("executeParticles", 77);
 	long rprt = AttributesPointer->GetAttributeAsDword("realizeParticles", 100000);
 	//Установим уровни исполнения
-	api->LayerAdd(execute, GetID(), eprt);
-	api->LayerAdd(realize, GetID(), rprt);
+	api->LayerAdd(execute, GetId(), eprt);
+	api->LayerAdd(realize, GetId(), rprt);
 	for(long i = 0; i < numShakes; i++)
 	{
 		api->LayerAdd(execute, shark[i].model, emdl);

@@ -334,7 +334,7 @@ bool AIFort::ScanFortForCannons(AI_FORT * pFort, char * pModelsDir, char * pLoca
 
 			if (pCannon) 
 			{
-				pCannon->Init(pFort, GetID(), label);
+				pCannon->Init(pFort, GetId(), label);
 				pCannon->QuickRecharge(true);
 			}
 		}
@@ -452,7 +452,7 @@ void AIFort::Save(CSaveLoad * pSL)
 void AIFort::Load(CSaveLoad * pSL)
 {
 	fMinCannonDamageDistance = pSL->LoadFloat();
-	for (uint32_t i=0; i<aForts.size(); i++) aForts[i]->Load(pSL, GetID());
+	for (uint32_t i=0; i<aForts.size(); i++) aForts[i]->Load(pSL, GetId());
 }
 
 void AIFort::AI_FORT::Save(CSaveLoad * pSL)

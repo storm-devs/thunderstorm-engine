@@ -51,11 +51,11 @@ bool CAviPlayer::Init()
 
 	api->LayerCreate("vRealize",true,false);
 	api->LayerSetRealize("vRealize",true);
-	api->LayerAdd("vRealize",GetID(),-1);
+	api->LayerAdd("vRealize",GetId(),-1);
 
 	api->LayerCreate("vExecute",true,false);
 	api->LayerSetExecute("vExecute",true);
-	api->LayerAdd("vExecute",GetID(),1);
+	api->LayerAdd("vExecute",GetId(),1);
 
 	if(!GetInterfaces())
 	{

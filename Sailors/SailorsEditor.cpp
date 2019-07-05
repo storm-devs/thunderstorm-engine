@@ -36,11 +36,11 @@ bool SailorsEditor :: Init()
 
 	api->LayerCreate("execute", true, false);
 	api->LayerSetFlags("execute", LRFLAG_EXECUTE);
-	api->LayerAdd("execute", GetID(), 0);
+	api->LayerAdd("execute", GetId(), 0);
 
 	api->LayerCreate("editor_realize", true, false);
 	api->LayerSetFlags("editor_realize", LRFLAG_REALIZE);
-	api->LayerAdd("editor_realize", GetID(), 100000);
+	api->LayerAdd("editor_realize", GetId(), 100000);
 
 	LoadFromIni("SailorsEditor.ini");
 

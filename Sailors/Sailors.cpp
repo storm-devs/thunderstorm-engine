@@ -1015,7 +1015,7 @@ bool Sailors::Init()
 
 	api->LayerCreate("sea_realize", true, false);
 	api->LayerSetFlags("sea_realize", LRFLAG_REALIZE);
-	api->LayerAdd("sea_realize", GetID(), 65530);
+	api->LayerAdd("sea_realize", GetId(), 65530);
 
 	//UN//GUARD_SAILORS
 

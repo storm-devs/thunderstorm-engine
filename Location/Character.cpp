@@ -225,21 +225,21 @@ void Character::Detector::Check(float dltTime, Character * ch)
 				if(lastEventTime > 1.0f)
 				{
 					lastEventTime = 0.0f;
-					api->Event("Location_CharacterInLocator", "iissff", ch->location->GetID(), ch->GetID(), la->GetGroupName(), la->Name(lastLocator), dist, timeInLocator);
+					api->Event("Location_CharacterInLocator", "iissff", ch->location->GetId(), ch->GetId(), la->GetGroupName(), la->Name(lastLocator), dist, timeInLocator);
 				}else lastEventTime += dltTime;
 				return;
 			}else{
-				api->Event("Location_CharacterExitFromLocator", "iissff", ch->location->GetID(), ch->GetID(), la->GetGroupName(), la->Name(lastLocator), dist, timeInLocator);
+				api->Event("Location_CharacterExitFromLocator", "iissff", ch->location->GetId(), ch->GetId(), la->GetGroupName(), la->Name(lastLocator), dist, timeInLocator);
 			}
 		}
 		timeInLocator = 0.0f;
 		lastEventTime = 0.0f;
 		lastLocator = lIndex;
-		api->Event("Location_CharacterEntryToLocator", "iissf", ch->location->GetID(), ch->GetID(), la->GetGroupName(), la->Name(lastLocator), dist);
+		api->Event("Location_CharacterEntryToLocator", "iissf", ch->location->GetId(), ch->GetId(), la->GetGroupName(), la->Name(lastLocator), dist);
 	}else{
 		if(lastLocator >= 0)
 		{
-			api->Event("Location_CharacterExitFromLocator", "iissf", ch->location->GetID(), ch->GetID(), la->GetGroupName(), la->Name(lastLocator), timeInLocator + dltTime);
+			api->Event("Location_CharacterExitFromLocator", "iissf", ch->location->GetId(), ch->GetId(), la->GetGroupName(), la->Name(lastLocator), timeInLocator + dltTime);
 			lastLocator = -1;
 		}
 	}
@@ -249,7 +249,7 @@ void Character::Detector::Exit(Character * ch)
 {
 	if(lastLocator >= 0)
 	{
-		api->Event("Location_CharacterExitFromLocator", "iissf", ch->location->GetID(), ch->GetID(), la->GetGroupName(), la->Name(lastLocator), timeInLocator);
+		api->Event("Location_CharacterExitFromLocator", "iissf", ch->location->GetId(), ch->GetId(), la->GetGroupName(), la->Name(lastLocator), timeInLocator);
 	}
 	timeInLocator = 0.0f;
 	lastEventTime = 0.0f;
@@ -573,7 +573,7 @@ Character::~Character()
 	//Удаляемся из групп
 	entid_t grps;
 	api->FindClass(&grps, "CharactersGroups", 0);
-	api->Send_Message(grps, "si", "UnloadCharacter", GetID());
+	api->Send_Message(grps, "si", "UnloadCharacter", GetId());
 
 	//Анализируем детекторы
 //	for(long i = 0; i < numDetectors; i++) detector[i]->Exit(this);
@@ -618,7 +618,7 @@ bool Character::Init()
 	//Добавим в группу
 	entid_t grps;
 	api->FindClass(&grps, "CharactersGroups", 0);
-	api->Send_Message(grps, "sis", "MoveCharacter", GetID(), group);
+	api->Send_Message(grps, "sis", "MoveCharacter", GetId(), group);
 	SetSignModel();
 	SetSignTechnique();
 	return PostInit();
@@ -1223,7 +1223,7 @@ bool Character::SetFightMode(bool _isFight, bool isPlayAni)
 bool Character::IsFightEnable()
 {
 	//Спросим у скрипта о возможности стрельбы
-	VDATA * vd = api->Event("Location_CharacterIsFight", "i", GetID());
+	VDATA * vd = api->Event("Location_CharacterIsFight", "i", GetId());
 	long res = 0;
 	if(vd && vd->Get(res))
 	{
@@ -1253,7 +1253,7 @@ void Character::Attack(Character * enemy, FightAction type)
 	//if(!fightTbl[fgtCurType][type]) return;
 	if(enemy)
 	{
-		enemyAttack = enemy->GetID();
+		enemyAttack = enemy->GetId();
 		float dx = enemy->curPos.x - curPos.x;
 		float dz = enemy->curPos.z - curPos.z;
 		float cs = dx*dx + dz*dz;
@@ -1331,7 +1331,7 @@ void Character::Attack(Character * enemy, FightAction type)
 	}
 	if(aname) //~!~
 	{
-		res = api->Event("ChrAttackAction", "is", GetID(), aname);
+		res = api->Event("ChrAttackAction", "is", GetId(), aname);
 		if(res)
 		{
 			long isEnable = 1;
@@ -1555,7 +1555,7 @@ bool Character::IsGunLoad()
 	if(!isGunSet) return false;
 	if(!isFight || liveValue < 0 || deadName) return false;
 	//Спросим у скрипта о возможности стрельбы
-	VDATA * vd = api->Event("Location_CharacterIsFire", "i", GetID());
+	VDATA * vd = api->Event("Location_CharacterIsFire", "i", GetId());
 	long res = 0;
 	if(vd && vd->Get(res))
 	{
@@ -1633,7 +1633,7 @@ void Character::Dead()
 	Assert(i < num);
 	//Ставим действие
 	deadName = dead[i].name;
-	api->Event("Event_ChrSnd_Dead", "i", GetID());
+	api->Event("Event_ChrSnd_Dead", "i", GetId());
 }
 
 //Заход в локацию
@@ -1950,7 +1950,7 @@ void Character::Update(float dltTime)
 		float hp = 0.5f;
 		float energy = 0.5f;
 		//Получим параметры жизни и энергии
-		VDATA * retVal = api->Event("NpcEvtHP", "i", GetID());
+		VDATA * retVal = api->Event("NpcEvtHP", "i", GetId());
 		if(retVal)
 		{
 			if(!retVal->Get(hp))
@@ -1958,7 +1958,7 @@ void Character::Update(float dltTime)
 				hp = 0.5f;
 			}
 		}
-		retVal = api->Event("NpcEvtEny", "i", GetID());
+		retVal = api->Event("NpcEvtEny", "i", GetId());
 		if(retVal)
 		{
 			if(!retVal->Get(energy))
@@ -2077,7 +2077,7 @@ void Character::Update(float dltTime)
 			{
 				tuner.alpha = 1.0f;
 				liveValue = 0.0f;
-				api->Event("Location_CharacterEntryToLocation", "e", GetID());
+				api->Event("Location_CharacterEntryToLocation", "e", GetId());
 			}
 		}else{
 			if(tuner.alpha <= 0.0f)
@@ -2085,11 +2085,11 @@ void Character::Update(float dltTime)
 				tuner.alpha = 0.0f;
 				if(deadName)
 				{
-					api->Event("Location_CharacterDead", "e", GetID());
+					api->Event("Location_CharacterDead", "e", GetId());
 				}else{
-					api->Event("Location_CharacterExitFromLocation", "e", GetID());
+					api->Event("Location_CharacterExitFromLocation", "e", GetId());
 				}
-				api->DeleteEntity(GetID());
+				api->DeleteEntity(GetId());
 			}
 		}
 	}
@@ -2194,7 +2194,7 @@ void Character::ActionEvent(const char * actionName, Animation * animation, long
 		{
 			animation->Player(0).Pause();
 			animation->Player(0).SetPosition(1.0f);
-			api->Event("Location_Character_Dead", "i", GetID());
+			api->Event("Location_Character_Dead", "i", GetId());
 		}else
 		if( PriorityActionIsJump() )
 		{
@@ -2224,7 +2224,7 @@ void Character::ActionEvent(const char * actionName, Animation * animation, long
 	if(userIdle.name)
 	{
 		if(_stricmp(actionName, userIdle.name) != 0) return;
-		api->Event("Location_Character_EndAction", "i", GetID());
+		api->Event("Location_Character_EndAction", "i", GetId());
 	}
 }
 
@@ -2330,7 +2330,7 @@ void Character::ActionEvent(Animation * animation, long playerIndex, const char 
 	}else */
 	if(_stricmp(eventName, "Death sound") == 0)
 	{
-		api->Event("Event_ChrSnd_Body", "i", GetID());
+		api->Event("Event_ChrSnd_Body", "i", GetId());
 	}else
 	if((alliace=GetValueByPrefix(eventName, "itemaction_")) != nullptr)
 	{
@@ -2346,7 +2346,7 @@ void Character::ActionEvent(Animation * animation, long playerIndex, const char 
 				nIdx = atoi(&alliace[5]);
 		}
 		if( pcActionName )
-			api->Event("Location_CharacterItemAction", "isl", GetID(), pcActionName, nIdx);
+			api->Event("Location_CharacterItemAction", "isl", GetId(), pcActionName, nIdx);
 	}else
 	if(priorityAction.name && _stricmp(actionName, priorityAction.name) == 0)
 	{
@@ -2382,10 +2382,10 @@ void Character::ActionEvent(Animation * animation, long playerIndex, const char 
 					entid_t enemy;
 					if(chr)
 					{
-						enemy = chr->GetID();
+						enemy = chr->GetId();
 						chr->Hit(fgt_hit_fire);
 					}
-					api->Event("Location_CharacterFire", "iifl", GetID(), enemy, kDist, chr != nullptr);
+					api->Event("Location_CharacterFire", "iifl", GetId(), enemy, kDist, chr != nullptr);
 				}
 			}
 		}else
@@ -2411,7 +2411,7 @@ void Character::ActionEvent(Animation * animation, long playerIndex, const char 
 						api->Send_Message(blade, "l", MSG_BLADE_GUNHAND);
 					} else if(_stricmp(eventName, CHARACTER_FIGHT_GUNFIRE) == 0) {
 						api->Send_Message(blade, "l", MSG_BLADE_GUNFIRE);
-						api->Event("ActorMakeShot","i",GetID());
+						api->Event("ActorMakeShot","i",GetId());
 					}
 				}
 			}
@@ -3652,8 +3652,8 @@ void Character::UpdateAnimation()
 						api->Trace("Character animation: not set fast attack action: \"%s\"", attackFast[fgtSetIndex].name);
 					}else{
 						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
-						api->Event("Event_ChrSnd_Attack", "is", GetID(), "fast");
-						// boal перенос в момент удара api->Event("ChrFgtActApply", "is", GetID(), FGT_ATTACK_FAST);
+						api->Event("Event_ChrSnd_Attack", "is", GetId(), "fast");
+						// boal перенос в момент удара api->Event("ChrFgtActApply", "is", GetId(), FGT_ATTACK_FAST);
 						camRotWait = camRotMax = 0.3f;
 						impulse += 5.0f*GetEnemyDirForImpulse();
 					}
@@ -3668,8 +3668,8 @@ void Character::UpdateAnimation()
 						api->Trace("Character animation: not set force attack action: \"%s\"", attackForce[fgtSetIndex].name);
 					}else{
 						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
-						api->Event("Event_ChrSnd_Attack", "is", GetID(), "force");
-						// boal перенос в момент удара api->Event("ChrFgtActApply", "is", GetID(), FGT_ATTACK_FORCE);
+						api->Event("Event_ChrSnd_Attack", "is", GetId(), "force");
+						// boal перенос в момент удара api->Event("ChrFgtActApply", "is", GetId(), FGT_ATTACK_FORCE);
 						camRotWait = camRotMax = 0.3f;
 						impulse += 2.5f*GetEnemyDirForImpulse();
 					}
@@ -3680,8 +3680,8 @@ void Character::UpdateAnimation()
 						api->Trace("Character animation: not set round attack action: \"%s\"", attackRound[fgtSetIndex].name);
 					}else{
 						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
-						api->Event("Event_ChrSnd_Attack", "is", GetID(), "round");
-						// boal перенос в момент удара api->Event("ChrFgtActApply", "is", GetID(), FGT_ATTACK_ROUND);
+						api->Event("Event_ChrSnd_Attack", "is", GetId(), "round");
+						// boal перенос в момент удара api->Event("ChrFgtActApply", "is", GetId(), FGT_ATTACK_ROUND);
 						camRotWait = camRotMax = 0.8f;
 					}
 					break;
@@ -3691,8 +3691,8 @@ void Character::UpdateAnimation()
 						api->Trace("Character animation: not set break attack action: \"%s\"", attackBreak[fgtSetIndex].name);
 					}else{
 						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
-						api->Event("Event_ChrSnd_Attack", "is", GetID(), "break");
-						// boal перенос в момент удара api->Event("ChrFgtActApply", "is", GetID(), FGT_ATTACK_BREAK);
+						api->Event("Event_ChrSnd_Attack", "is", GetId(), "break");
+						// boal перенос в момент удара api->Event("ChrFgtActApply", "is", GetId(), FGT_ATTACK_BREAK);
 						camRotWait = camRotMax = 0.3f;
 						impulse += 1.0f*GetEnemyDirForImpulse();
 					}
@@ -3703,8 +3703,8 @@ void Character::UpdateAnimation()
 						api->Trace("Character animation: not set feint action: \"%s\"", attackFeint[fgtSetIndex].name);
 					}else{
 						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
-						api->Event("Event_ChrSnd_Attack", "is", GetID(), "feint");
-						api->Event("ChrFgtActApply", "is", GetID(), FGT_ATTACK_FEINT);
+						api->Event("Event_ChrSnd_Attack", "is", GetId(), "feint");
+						api->Event("ChrFgtActApply", "is", GetId(), FGT_ATTACK_FEINT);
 						camRotWait = camRotMax = 0.3f;
 					}
 					break;
@@ -3714,8 +3714,8 @@ void Character::UpdateAnimation()
 						api->Trace("Character animation: not set feint action: \"%s\"", attackFeintC[fgtSetIndex].name);
 					}else{
 						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
-						api->Event("Event_ChrSnd_Attack", "is", GetID(), "feintc");
-						api->Event("ChrFgtActApply", "is", GetID(), "feintc"); // boal жрем энергию за успех
+						api->Event("Event_ChrSnd_Attack", "is", GetId(), "feintc");
+						api->Event("ChrFgtActApply", "is", GetId(), "feintc"); // boal жрем энергию за успех
 						camRotWait = camRotMax = 0.3f;
 					}
 					break;
@@ -3760,7 +3760,7 @@ void Character::UpdateAnimation()
 					{
 						api->Trace("Character animation: not set fight parry hit action: \"%s\"", hitParry.name);
 					}
-					api->Event("ChrFgtActApply", "is", GetID(), "hit_parry"); // boal баг фикс FGT_ATTACK_PARRY);
+					api->Event("ChrFgtActApply", "is", GetId(), "hit_parry"); // boal баг фикс FGT_ATTACK_PARRY);
 					break;
 				case fgt_hit_round:		//Реакция отталкивание круговым ударом
 					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
@@ -4255,15 +4255,15 @@ inline void Character::CheckAttackHit()
 				if(isHrrrSound && (rand() & 3))
 				{
 					isHrrrSound = false;
-					api->Event("Event_ChrSnd_Hit", "i", fc.c->GetID());
+					api->Event("Event_ChrSnd_Hit", "i", fc.c->GetId());
 				}
 			}
 			fc.c->Hit(hitReaction);
-			api->Event("Location_CharacterAttack", "iisl", GetID(), fc.c->GetID(), aname, (long)isBlocked);
+			api->Event("Location_CharacterAttack", "iisl", GetId(), fc.c->GetId(), aname, (long)isBlocked);
 			// boal 12.09.06 отжор энергии по факту удара -->
 			if (isUseEnergy && fgtCurType != fgt_attack_feintc)
 			{// для fgt_attack_feintc идет отжор в анимации, а тут будет "финт", а он стоит 0
-				api->Event("ChrFgtActApply", "is", GetID(), aname);
+				api->Event("ChrFgtActApply", "is", GetId(), aname);
 				isUseEnergy = false;
 			}
 			// boal <--

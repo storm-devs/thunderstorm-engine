@@ -69,7 +69,7 @@ SHIP::SHIP()
 SHIP::~SHIP()
 {
 	api->DeleteEntity(GetModelEID());
-	api->Send_Message(sail_id, "li", MSG_SAIL_DEL_GROUP, GetID());
+	api->Send_Message(sail_id, "li", MSG_SAIL_DEL_GROUP, GetId());
 	api->Send_Message(rope_id, "li", MSG_ROPE_DEL_GROUP, GetModelEID());
 	api->Send_Message(flag_id, "li", MSG_FLAG_DEL_GROUP, GetModelEID());
 	api->Send_Message(vant_id, "li", MSG_VANT_DEL_GROUP, GetModelEID());
@@ -465,7 +465,7 @@ void SHIP::SetDead()
 		vCurDeadDir = 0.0f;
 
 		bDead = true;
-		api->LayerDel("sea_reflection2", GetID());
+		api->LayerDel("sea_reflection2", GetId());
 
 		if (pShipsLights)
 			pShipsLights->SetDead(this);
@@ -558,7 +558,7 @@ void SHIP::Execute(uint32_t DeltaTime)
 	//if (DeltaTime==0) _asm int 3
 	CalculateImmersion();		// 
 
-    api->Send_Message(sail_id, "lipf", MSG_SAIL_GET_SPEED, GetID(), &Strength[STRENGTH_MAIN].vSpeed.z, fSailState);
+    api->Send_Message(sail_id, "lipf", MSG_SAIL_GET_SPEED, GetId(), &Strength[STRENGTH_MAIN].vSpeed.z, fSailState);
 	if (isDead()) Strength[STRENGTH_MAIN].vSpeed.z = 0.0f;
 
 	vPos = State.vPos;
@@ -600,14 +600,14 @@ void SHIP::Execute(uint32_t DeltaTime)
 			for (uint32_t i=0; i<aFirePlaces.size(); i++) aFirePlaces[i].Stop();
 
 			// del vant,flags,sail and ropes
-			api->Send_Message(sail_id, "li", MSG_SAIL_DEL_GROUP, GetID());
+			api->Send_Message(sail_id, "li", MSG_SAIL_DEL_GROUP, GetId());
 			api->Send_Message(rope_id, "li", MSG_ROPE_DEL_GROUP, GetModelEID());
 			api->Send_Message(flag_id, "li", MSG_FLAG_DEL_GROUP, GetModelEID());
 			api->Send_Message(vant_id, "li", MSG_VANT_DEL_GROUP, GetModelEID());
 
-			api->LayerDel((char*)sRealizeLayer.c_str(), GetID());
-			api->LayerDel("ship_cannon_trace", GetID());
-			api->Event(SHIP_DELETE, "li", GetIndex(GetACharacter()), GetID());
+			api->LayerDel((char*)sRealizeLayer.c_str(), GetId());
+			api->LayerDel("ship_cannon_trace", GetId());
+			api->Event(SHIP_DELETE, "li", GetIndex(GetACharacter()), GetId());
 		}
 
 		if (vPos.y < -100.0f) vPos.y = -1000.0f;
@@ -653,14 +653,14 @@ void SHIP::Execute(uint32_t DeltaTime)
 			for (uint32_t i=0; i<aFirePlaces.size(); i++) aFirePlaces[i].Stop();
 
 			// del vant,flags,sail and ropes
-			api->Send_Message(sail_id, "li", MSG_SAIL_DEL_GROUP, GetID());
+			api->Send_Message(sail_id, "li", MSG_SAIL_DEL_GROUP, GetId());
 			api->Send_Message(rope_id, "li", MSG_ROPE_DEL_GROUP, GetModelEID());
 			api->Send_Message(flag_id, "li", MSG_FLAG_DEL_GROUP, GetModelEID());
 			api->Send_Message(vant_id, "li", MSG_VANT_DEL_GROUP, GetModelEID());
 
-			api->LayerDel((char*)sRealizeLayer.c_str(), GetID());
-			api->LayerDel("ship_cannon_trace", GetID());
-			api->Event(SHIP_DELETE, "li", GetIndex(GetACharacter()), GetID());
+			api->LayerDel((char*)sRealizeLayer.c_str(), GetId());
+			api->LayerDel("ship_cannon_trace", GetId());
+			api->Event(SHIP_DELETE, "li", GetIndex(GetACharacter()), GetId());
 		}
 	}
 	else
@@ -703,7 +703,7 @@ void SHIP::Execute(uint32_t DeltaTime)
 				
 				if (pVWShip)	// from ship damage
 				{
-					fShipRes = pCollide->Trace(*pVWShip, v1, v2, &GetID(), 1);
+					fShipRes = pCollide->Trace(*pVWShip, v1, v2, &GetId(), 1);
 					if (fShipRes <= 1.0f) 
 					{
 						ATTRIBUTES * pACollideCharacter = GetACharacter();
@@ -843,7 +843,7 @@ void SHIP::MastFall(mast_t * pM)
 	{
 		entid_t ent;
 		api->CreateEntity(&ent, "mast");
-		api->Send_Message(ent, "lpii", MSG_MAST_SETGEOMETRY, pM->pNode, GetID(), GetModelEID());
+		api->Send_Message(ent, "lpii", MSG_MAST_SETGEOMETRY, pM->pNode, GetId(), GetModelEID());
 		api->LayerAdd((char*)sExecuteLayer.c_str(), ent, iShipPriorityExecute+1);
 		api->LayerAdd((char*)sRealizeLayer.c_str(), ent, iShipPriorityRealize+1);
 
@@ -1161,16 +1161,16 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 	long iIndex = GetIndex(pAShip);
 
 	api->Event("Ship_StartLoad", "a", GetACharacter());
-	api->Event(SEA_GET_LAYERS, "i", GetID());
+	api->Event(SEA_GET_LAYERS, "i", GetId());
 	Assert(sRealizeLayer.size() != 0 && sExecuteLayer.size() != 0);
 
-	api->LayerAdd("sea_reflection2", GetID(), 100);
-	api->LayerAdd("rain_drops", GetID(), 100);
+	api->LayerAdd("sea_reflection2", GetId(), 100);
+	api->LayerAdd("rain_drops", GetId(), 100);
 
-	api->LayerAdd((char *)sRealizeLayer.c_str(), GetID(), iShipPriorityRealize);
-	api->LayerAdd((char *)sExecuteLayer.c_str(), GetID(), iShipPriorityExecute);
+	api->LayerAdd((char *)sRealizeLayer.c_str(), GetId(), iShipPriorityRealize);
+	api->LayerAdd((char *)sExecuteLayer.c_str(), GetId(), iShipPriorityExecute);
 
-	api->LayerAdd("ship_cannon_trace", GetID(), iShipPriorityExecute);
+	api->LayerAdd("ship_cannon_trace", GetId(), iShipPriorityExecute);
 
 	char * pName = GetAShip()->GetAttribute("Name");
 	if (!pName)
@@ -1207,15 +1207,15 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 	api->Send_Message(GetModelEID(),"ls",MSG_MODEL_LOAD_GEO,temp_str);
 	api->LayerAdd("hull_trace",GetModelEID(),10);
 	api->LayerAdd("sun_trace",GetModelEID(),10);
-	api->LayerAdd("mast_ship_trace",GetID(),10);
+	api->LayerAdd("mast_ship_trace",GetId(),10);
 
 	// sails
 	if (api->FindClass(&sail_id,"sail",0))
-		api->Send_Message(sail_id,"liil",MSG_SAIL_INIT,GetID(),GetModelEID(), GetSpeed() ? 1 : 0); 
+		api->Send_Message(sail_id,"liil",MSG_SAIL_INIT,GetId(),GetModelEID(), GetSpeed() ? 1 : 0); 
     
 	// ropes
 	if (api->FindClass(&rope_id,"rope",0))
-		api->Send_Message(rope_id,"lii",MSG_ROPE_INIT,GetID(),GetModelEID()); 
+		api->Send_Message(rope_id,"lii",MSG_ROPE_INIT,GetId(),GetModelEID()); 
 
 	// flags
 	if (api->FindClass(&flag_id,"flag",0))
@@ -1223,7 +1223,7 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 
 	// vants
 	if (api->FindClass(&vant_id,"vant",0))
-		api->Send_Message(vant_id,"lii",MSG_VANT_INIT,GetID(),GetModelEID()); 
+		api->Send_Message(vant_id,"lii",MSG_VANT_INIT,GetId(),GetModelEID()); 
 	
 	// blots
 	if (api->CreateEntity(&blots_id,"blots"))
@@ -1235,7 +1235,7 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 
 	LoadShipParameters();
 
-	entid_t temp_id = GetID();
+	entid_t temp_id = GetId();
 	api->Send_Message(touch_id,"li",MSG_SHIP_CREATE,temp_id);
 	api->Send_Message(sea_id,"lic",MSG_SHIP_CREATE,temp_id,CVECTOR(State.vPos.x+fXOffset,State.vPos.y,State.vPos.z+fZOffset));
 
@@ -1334,7 +1334,7 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 	}
 
 	// event to script
-	api->Event(SHIP_CREATE,"li",GetACharacter()->GetAttributeAsDword("index"),GetID());
+	api->Event(SHIP_CREATE,"li",GetACharacter()->GetAttributeAsDword("index"),GetId());
 	api->Event("Ship_EndLoad", "a", GetACharacter());
 
 	// add to ship tracks
@@ -1489,7 +1489,7 @@ float SHIP::Cannon_Trace(long iBallOwner, const CVECTOR &vSrc, const CVECTOR &vD
 				iBestIndex = i;
 			}
 		}
-		api->Event(SHIP_HULL_HIT, "illffflf", GetID(), iBallOwner, iOurIndex, vTemp.x, vTemp.y, vTemp.z, iBestIndex, fMinDistance);
+		api->Event(SHIP_HULL_HIT, "illffflf", GetId(), iBallOwner, iOurIndex, vTemp.x, vTemp.y, vTemp.z, iBestIndex, fMinDistance);
 		api->Send_Message(blots_id, "lffffff", MSG_BLOTS_HIT, vTemp.x, vTemp.y, vTemp.z, vDir.x, vDir.y, vDir.z);
 	}
 	return fRes; 
@@ -1532,7 +1532,7 @@ void SHIP::SetACharacter(ATTRIBUTES * pAP)
 	{
 		VDATA* pVDat = (VDATA*)api->GetScriptVariable("Characters");
 		if( pVDat )
-			pVDat->Set(GetID(),pAP->GetAttributeAsDword("index",0));
+			pVDat->Set(GetId(),pAP->GetAttributeAsDword("index",0));
 	}
 
 	if (bMounted)

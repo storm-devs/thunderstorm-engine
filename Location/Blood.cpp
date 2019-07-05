@@ -186,7 +186,7 @@ void Blood::AddBlood(const CVECTOR& pos)
 	p[5].Nx = -1.0f; p[5].Ny = 0.0f; p[5].Nz = 0.0f; p[5].D = -(cpos.x - BLOOD_RADIUS);
 
 	// бегаем по лееру
-	for(entid_t *pEID=walker->GetID(); pEID; pEID=walker->GetIDNext())
+	for(entid_t *pEID=walker->GetId(); pEID; pEID=walker->GetIDNext())
 	{
 		MODEL * m = (MODEL *)api->GetEntityPointer(pEID);
 		if(!m) continue;

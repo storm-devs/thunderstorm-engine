@@ -28,7 +28,7 @@ DECK_CAMERA::~DECK_CAMERA()
 bool DECK_CAMERA::Init()
 {
 	//GUARD(DECK_CAMERA::Init())
-	//api->SystemMessages(GetID(),true);
+	//api->SystemMessages(GetId(),true);
 	SetDevice();
 	//UNGUARD
 	return true;

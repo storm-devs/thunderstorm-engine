@@ -191,7 +191,7 @@ void XINTERFACE::SetDevice()
 {
 	//GUARD(XINTERFACE::SetDevice())
 
-	g_idInterface = GetID();
+	g_idInterface = GetId();
 	m_UtilContainer.Init();
 
     // получить сервис рендера
@@ -240,7 +240,7 @@ void XINTERFACE::SetDevice()
 	api->LayerCreate("iRealize",true,false);
 	api->LayerSetRealize("iRealize",true);
 
-	//api->SystemMessages(GetID(),true);
+	//api->SystemMessages(GetId(),true);
 
 	if(AttributesPointer)
 	{

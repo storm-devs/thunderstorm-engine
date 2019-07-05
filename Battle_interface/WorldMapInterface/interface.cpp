@@ -85,7 +85,7 @@ uint32_t WM_INTERFACE::AttributeChanged(ATTRIBUTES * pAttr)
 
 void WM_INTERFACE::LoadIniFile()
 {
-	m_pShipIcon = new WMShipIcon(GetID(), rs);
+	m_pShipIcon = new WMShipIcon(GetId(), rs);
 	Assert(m_pShipIcon);
 	ATTRIBUTES* pA = AttributesPointer ? AttributesPointer->GetAttributeClass("wm_sign") : nullptr;
 	m_pShipIcon->Init( AttributesPointer, pA );
@@ -93,7 +93,7 @@ void WM_INTERFACE::LoadIniFile()
 
 	m_nMainCharIndex = AttributesPointer ? AttributesPointer->GetAttributeAsDword("maincharindex",-1) : -1;
 
-	m_pCommandList = new WMShipCommandList(GetID(), AttributesPointer, rs);
+	m_pCommandList = new WMShipCommandList(GetId(), AttributesPointer, rs);
 	Assert(m_pCommandList);
 
 	UpdateCommandList();

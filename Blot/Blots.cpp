@@ -56,7 +56,7 @@ bool Blots::Init()
 	//Layers
 	//api->LayerCreate("realize", true, false);
 	//api->LayerSetRealize("realize", true);
-	//api->LayerAdd("realize", GetID(), 1000);
+	//api->LayerAdd("realize", GetId(), 1000);
 	textureID = rs->TextureCreate("blot.tga");
 	return true;
 	//UNGUARD

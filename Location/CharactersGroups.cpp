@@ -124,7 +124,7 @@ bool CharactersGroups::Init()
 	RegistryGroup("");
 	api->LayerCreate("execute", true, false);
 	api->LayerSetFlags("execute", LRFLAG_EXECUTE);
-	api->LayerAdd("execute", GetID(), 10);
+	api->LayerAdd("execute", GetId(), 10);
 	return true;
 }
 
@@ -306,7 +306,7 @@ bool CharactersGroups::AddEnemyTarget(Character * chr, Character * enemy, float 
 	//Добавим новую цель
 	Assert(_stricmp(chr->group, enemy->group) != 0);
 	Character::GrpTarget & trg = chr->grpTargets[chr->numTargets++];
-	trg.chr = enemy->GetID();
+	trg.chr = enemy->GetId();
 	trg.time = 0.0f;
 	if(maxtime < 0.0f) trg.timemax = 3.0f + (rand() & 7); else trg.timemax = maxtime;
 	return true;

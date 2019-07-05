@@ -74,7 +74,7 @@ BATTLE_INTERFACE::~BATTLE_INTERFACE()
 
 bool BATTLE_INTERFACE::Init()
 {
-	BIUtils::idBattleInterface = GetID();
+	BIUtils::idBattleInterface = GetId();
 
 	if( (rs=(VDX9RENDER *)api->CreateService("dx9render")) == nullptr )
 	{
@@ -208,10 +208,10 @@ void BATTLE_INTERFACE::LoadIniFile()
 	if(m_pMessageIcons==NULL) {
 		throw std::exception("allocate memory error");
 	}
-	if(m_pMessageIcons)	m_pMessageIcons->InitData(GetID(),rs,pA);*/
+	if(m_pMessageIcons)	m_pMessageIcons->InitData(GetId(),rs,pA);*/
 
 	STORM_DELETE( m_pShipIcon );
-	m_pShipIcon = new BIShipIcon( GetID(), rs );
+	m_pShipIcon = new BIShipIcon( GetId(), rs );
 	Assert( m_pShipIcon );
 	m_pShipIcon->Init( AttributesPointer, AttributesPointer ? AttributesPointer->GetAttributeClass("ShipIcon") : nullptr );
 

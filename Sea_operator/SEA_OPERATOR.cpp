@@ -32,9 +32,9 @@ SEA_OPERATOR::~SEA_OPERATOR()
 //--------------------------------------------------------------------
 bool SEA_OPERATOR::Init()
 {
-	api->LayerAdd("realize", GetID(), 1);
-	api->LayerAdd("execute", GetID(), 0);
-	//api->SystemMessages(GetID(),true);
+	api->LayerAdd("realize", GetId(), 1);
+	api->LayerAdd("execute", GetId(), 0);
+	//api->SystemMessages(GetId(),true);
 
 	renderer = (VDX9RENDER *)api->CreateService("dx9render");
 

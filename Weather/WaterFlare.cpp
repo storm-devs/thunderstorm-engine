@@ -27,8 +27,8 @@ bool WATERFLARE::Init()
 {
 	//GUARD(bool WATERFLARE::Init())
 
-	api->LayerAdd("realize",GetID(),-1);
-	api->LayerAdd("execute",GetID(),-1);
+	api->LayerAdd("realize",GetId(),-1);
+	api->LayerAdd("execute",GetId(),-1);
 	
 	SetDevice();
 

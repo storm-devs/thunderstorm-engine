@@ -48,7 +48,7 @@ bool SHIPPOINTER::Init()
 		rs->UnLockVertexBuffer(m_idVBuf);
 	}
 
-	ATTRIBUTES * pA = api->Entity_GetAttributeClass(&GetID(),"textures");
+	ATTRIBUTES * pA = api->Entity_GetAttributeClass(&GetId(),"textures");
 	if( pA== nullptr )
 	{
 		api->Trace("WARNING! object SHIPPOINTER hav`t attribute TEXTURES");
