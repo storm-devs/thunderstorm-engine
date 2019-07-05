@@ -7,8 +7,6 @@
 #include "message.h"
 #include "vmodule_api.h"
 
-using entid_t = uint64_t;
-
 /* Entity base class */
 class Entity {
 	friend class EntityManager;
@@ -44,27 +42,36 @@ private:
 using entptr_t = Entity *;
 using index_t = uint32_t;
 
-class Layer
-{
-};
 
 /* ALPHA v0.0000001*/
 struct EntityData
 {
-	const char* name;
+	long hash;
+	entid_t id;
 	entptr_t ptr;
 	std::vector<std::pair<std::string, index_t>> layers; // !@# TODO: use custom allocator
+	const char* name;
 };
 
 class EntityManager {
+public:
+	static const entid_t INVALID_ENTITY_ID = 1u;
+	enum class LayerFlags : uint_fast8_t {
+		ACTIVE,
+		EXECUTE,
+		REALIZE,
+	};
+
 private:
 	/* typedefs */
 	using stamp_t = uint32_t;
 
+	using flags_t = uint32_t;
 	using layer_t = std::multimap<index_t, entid_t>;
 
 	using entities_t = std::vector<EntityData>;
-	using layers_t = std::unordered_map<std::string, layer_t>;
+	using layer_with_flags_t = std::pair<layer_t, flags_t>;
+	using layers_t = std::unordered_map<std::string, layer_with_flags_t>;
 
 public:
 	/* meyers singleton */
@@ -102,34 +109,105 @@ public:
 		if (!ptr->Init()) {
 			return INVALID_ENTITY_ID;
 		}
-		const auto id = PushEntity(ptr);
+		const auto id = PushEntity(ptr, name);
 		ptr->id_ = id;
 
 		return id;
 	}
 
+	void _erase(const EntityData & data) {
+		for (auto [name, _] : data.layers) {
+			RemoveFromLayer(data.id, name);
+		}
+		delete data.ptr;
+	}
+
 	void EraseEntity(const entid_t entity) {
 		const auto index = static_cast<index_t>(entity);
 		//// TODO: entities_.at
-		entities_[index]; // release
+		_erase(entities_[index]); // release
+		
 		entities_[index] = entities_[entities_.size() - 1];
 		entities_.pop_back();
+	}
+
+	void EraseAll()	{
+		for(auto entity : entities_) {
+			_erase(entity); // release
+		}
+		entities_.clear();
+	}
+
+	/* assemble requested walker (generator) */
+	template <bool IsEntData, typename Iterable>
+	constexpr auto generator(Iterable& iterable, long hash = 0) {
+		return[this, hash, &iterable, it = std::begin(iterable)]() mutable {
+			for (; it != std::end(iterable); ++it)
+			{
+				EntityData* entData;
+
+				if constexpr (IsEntData) {
+					entData = &*it;
+				}
+				else {
+					auto [priority, entid] = *it;
+					entData = &GetEntityData(entid);
+				}
+
+				if (hash == 0 || entData->hash == hash) {
+					return entData->id;
+				}
+			}
+			return INVALID_ENTITY_ID;
+		};
 	}
 
 	entptr_t GetEntity(const entid_t entity) {
 		return GetEntityData(entity).ptr;
 	}
 
+	auto GetEntityIdWalker() {
+		return generator<true>(entities_);
+	}
+
+	auto GetEntityIdWalker(long hash) {
+		return generator<true>(entities_, hash);
+	}
+
+	auto GetEntityIdWalker(long hash, const std::string& layer) {
+
+		const auto targetLayer = layers_.find(layer);
+		return generator<false>(targetLayer->first, hash);
+	}
+
+	auto GetEntityIdWalker(const std::string& layer) {
+		const auto targetLayer = layers_.find(layer);
+		return generator<false>(targetLayer->first);
+	}
+
+	/* matreshka */
+	template <LayerFlags...Flags>
+	auto GetLayerWalker() {
+		return [this, it = std::begin(layers_)]() mutable {
+			for (; it != std::end(layers_); ++it) {
+				if((checkLayerFlag(*it, Flags) & ...)) {
+					return GetEntityIdWalker(it->first);
+				}
+			}
+			GetEntityIdWalker({});
+		};
+	}
+
 	void AddToLayer(entid_t entity, std::string layer, index_t priority)
 	{
 		auto entData = GetEntityData(entity);
 		if (entData.ptr == nullptr) {
-			return; /* ~!@ */
+			throw std::exception(); /* ~!@ */
 		}
 
 		/* add to layer */
 		auto & targetLayer = layers_[std::move(layer)];
-		targetLayer.insert(std::make_pair(priority, entity)); /* ~!@ TODO: duplicates*/
+		targetLayer.first.insert(std::make_pair(priority, entity)); /* ~!@ TODO: duplicates*/
 
 		/* write down layer data into entity data */
 		entData.layers.emplace_back(layer, priority);
@@ -139,7 +217,7 @@ public:
 	{
 		auto entData = GetEntityData(entity);
 		if (entData.ptr == nullptr) {
-			return; /* ~!@ */
+			throw std::exception(); /* ~!@ */
 		}
 		auto & targetLayer = layers_[layer];
 		for (auto it = std::begin(entData.layers); it != std::end(entData.layers); ++it) {
@@ -147,10 +225,10 @@ public:
 
 			/* fast erase from layer */
 			if (layer_hash == layer) {
-				const auto itpair = targetLayer.equal_range(priority);
-				for(auto it = itpair.first; it != itpair.second; ++it) {
+				const auto rangeIt = targetLayer.first.equal_range(priority);
+				for(auto it = rangeIt.first; it != rangeIt.second; ++it) {
 					if(it->second == entity) {
-						targetLayer.erase(it);
+						targetLayer.first.erase(it);
 						break; /* should be exactly one */
 					}
 				}
@@ -160,7 +238,27 @@ public:
 			entData.layers.erase(it);
 			break;
 		}
+	}
 
+
+	static auto constexpr checkLayerFlag(const layer_with_flags_t& layer, LayerFlags flag)
+	{
+		return static_cast<bool>(layer.second & (1u << static_cast<std::underlying_type_t<decltype(flag)>>(flag)));
+	}
+
+	auto constexpr checkLayerFlag(const std::string& layer, LayerFlags flag)
+	{
+		return checkLayerFlag(layers_.at(layer), flag);
+	}
+
+	void constexpr setLayerFlag(const std::string& layer, LayerFlags flag)
+	{
+		layers_.at(layer).second |= (1u << static_cast<std::underlying_type_t<decltype(flag)>>(flag));
+	}
+
+	void constexpr clearLayerFlag(const std::string& layer, LayerFlags flag)
+	{
+		layers_.at(layer).second &= ~(1u << static_cast<std::underlying_type_t<decltype(flag)>>(flag));
 	}
 
 private:
@@ -185,14 +283,12 @@ private:
 		return entities_[index];
 	}
 
-	entid_t PushEntity(entptr_t ptr) {
+	entid_t PushEntity(entptr_t ptr, const char * name) {
 		const auto size = entities_.size();
 		/* double the space */
 		if (size == entities_.capacity()) {
 			entities_.reserve(size * 2);
 		}
-		/* push ptr */
-		entities_.push_back({ nullptr, ptr });
 
 		/* calculating stamp */
 		const auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
@@ -200,13 +296,16 @@ private:
 		/* assembling entity id */
 		const stamp_t stamp = ms.count();
 		const index_t index = size;
-		return static_cast<entid_t>(stamp) << 32 | index;
+		const entid_t id = static_cast<entid_t>(stamp) << 32 | index;
+
+		/* push ptr */
+		entities_.push_back({ MakeHashValue(name), id, ptr, {}, name });
+
+		return id;
 	}
 
 	/* constants */
 	static const entities_t::size_type ENTITY_INITIAL_SIZE = 10240u;
-public:
-	static const entid_t INVALID_ENTITY_ID = 1u;
 private:
 	/* members */
 	entities_t entities_; /* entity container */

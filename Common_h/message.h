@@ -27,7 +27,7 @@ public:
 	virtual double Double()		{ ValidateFormat('d'); return va_arg(args,double); }
 	virtual char * Pointer()	{ ValidateFormat('p'); return va_arg(args,char*); }
 	virtual ATTRIBUTES * AttributePointer(){ ValidateFormat('a'); return va_arg(args,ATTRIBUTES *); }
-	virtual ENTITY_ID EntityID(){ ValidateFormat('i'); return va_arg(args,ENTITY_ID); }
+	virtual entid_t EntityID(){ ValidateFormat('i'); return va_arg(args,ENTITY_ID); }
 	virtual VDATA * ScriptVariablePointer(){ ValidateFormat('e'); return va_arg(args,VDATA*); }
 	virtual CVECTOR CVector()	{ ValidateFormat('c'); return va_arg(args,CVECTOR); }
 	virtual void String(uint32_t dest_buffer_size, char * buffer)

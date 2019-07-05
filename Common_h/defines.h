@@ -1,5 +1,5 @@
-#ifndef DEFINES_HPP
-#define DEFINES_HPP
+#pragma once
+
 
 namespace TOREMOVE
 {
@@ -26,6 +26,11 @@ namespace TOREMOVE
 #include <cstdint>
 #include <cstring>
 #include "math3D.h"
+
+
+
+using entid_t = uint64_t;
+
 
 #define _FILE_				__FILE__
 #define _L				__LINE__
@@ -119,5 +124,3 @@ template<class T> T Max(T t1, T t2) { return ((t1 > t2) ? t1 : t2); };
 template<class T> T Sqr(T t1) { return (t1 * t1); };
 
 #include "inlines.h"
-
-#endif

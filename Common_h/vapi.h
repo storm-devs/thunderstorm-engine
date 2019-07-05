@@ -5,7 +5,10 @@
 #include "vidwalker.h"
 #include "controls.h"
 #include "s_import_func.h"
-#include "EntityManager.h"
+#include <functional>
+
+
+using entid_t = uint64_t;
 
 struct MSTATE
 {
@@ -45,47 +48,35 @@ public:
 	// converting class name to static code (constant until next restart)
 	virtual uint32_t Class_Name2Code(char * class_name)= 0;
 	// find first entity with pointed class
-	virtual bool FindClass(entid_t * id_PTR, char * class_name, uint32_t class_code)= 0;
-	// continue searching process, started by FindClass(...) function
-	virtual bool FindClassNext(entid_t * id_PTR)= 0;
-
-
+	virtual std::function<entid_t()> GetEntityIdWalker(const char* class_name, uint32_t class_code);
+	virtual std::function<entid_t()> GetEntityIdWalker(const char* class_name, uint32_t class_code, const char* layer);
 	// service managment
 
 	// return service object pointer; 
-	virtual void * CreateService(char * service_name)= 0;
+	virtual void *CreateService(char * service_name)= 0;
 	
 
 	// entity managment
 	
 	// compare two entity ids, return true if ids is identical
 	virtual bool CompareID(entid_t * ida_PTR,entid_t * idb_PTR)= 0;
-	// return true if entity with that id exist
-	virtual bool ValidateEntity(entid_t * id_PTR)= 0;
 	// create entity with class type "class_name"; if id_PTR no null - fill this structure with entity id
 	virtual entid_t CreateEntity(char * name)= 0;
 	// delete entity; this function can be called even if programm control still in this object
 	virtual bool DeleteEntity(entid_t entid_t)= 0;
 	// return entity object pointer, if this entity exist
-	virtual ENTITY * GetEntityPointer(entid_t * id_PTR)= 0;
-	
-	// find first entity id, depending on layer configuration
-	virtual bool GetEntity(entid_t * id_PTR)= 0;
-	// continue enumerating entities; process started by GetEntity(...)
-	virtual bool GetEntityNext(entid_t * id_PTR)= 0;
-	// if layer_name isnt null, functions GetEntity and GetEntityNext work with entity in pointed layer, otherwise - with all entities
-	virtual bool SetEntityScanLayer(char * layer_name)= 0;
+	virtual ENTITY * GetEntityPointer(entid_t id_PTR)= 0;
 
-	virtual ATTRIBUTES * Entity_GetAttributeClass(entid_t * id_PTR, char * name)=0;
-	virtual char *	Entity_GetAttribute(entid_t * id_PTR, char * name)=0;
-	virtual uint32_t	Entity_GetAttributeAsDword(entid_t * id_PTR, char * name, uint32_t def = 0)=0;
-	virtual FLOAT	Entity_GetAttributeAsFloat(entid_t * id_PTR, char * name, FLOAT def = 0)=0;
-	virtual BOOL	Entity_SetAttribute(entid_t * id_PTR, char * name, char * attribute)=0;
-	virtual BOOL	Entity_SetAttributeUseDword(entid_t * id_PTR, char * name, uint32_t val)=0;
-	virtual BOOL	Entity_SetAttributeUseFloat(entid_t * id_PTR, char * name, FLOAT val)=0;
-	virtual void	Entity_SetAttributePointer(entid_t * id_PTR, ATTRIBUTES * pA)=0;
-	//virtual uint32_t	Entity_AttributeChanged(entid_t * id_PTR, ATTRIBUTES * pA)=0;
-	virtual ATTRIBUTES * Entity_GetAttributePointer(entid_t * id_PTR)=0;
+	virtual ATTRIBUTES * Entity_GetAttributeClass(entid_t id_PTR, char * name)=0;
+	virtual char *	Entity_GetAttribute(entid_t id_PTR, char * name)=0;
+	virtual uint32_t	Entity_GetAttributeAsDword(entid_t id_PTR, char * name, uint32_t def = 0)=0;
+	virtual FLOAT	Entity_GetAttributeAsFloat(entid_t id_PTR, char * name, FLOAT def = 0)=0;
+	virtual BOOL	Entity_SetAttribute(entid_t id_PTR, char * name, char * attribute)=0;
+	virtual BOOL	Entity_SetAttributeUseDword(entid_t id_PTR, char * name, uint32_t val)=0;
+	virtual BOOL	Entity_SetAttributeUseFloat(entid_t id_PTR, char * name, FLOAT val)=0;
+	virtual void	Entity_SetAttributePointer(entid_t id_PTR, ATTRIBUTES * pA)=0;
+	//virtual uint32_t	Entity_AttributeChanged(entid_t id_PTR, ATTRIBUTES * pA)=0;
+	virtual ATTRIBUTES * Entity_GetAttributePointer(entid_t id_PTR)=0;
 	// messeges system
 
 	// send message to an object
@@ -114,7 +105,7 @@ public:
 	// on/off realize
 	virtual void LayerSetRealize(char * layer_name, bool on)= 0;
 	// get id walker object
-	virtual VIDWALKER * LayerGetWalker(char * layer_name)= 0;
+	virtual std::function<entid_t()> LayerGetWalker(char * layer_name)= 0;
 
 	// save core state
 	virtual bool SaveState(char * file_name)= 0;
@@ -145,7 +136,4 @@ public:
 	virtual uint32_t AttributeName2Code(const char * pAttributeName)=0;
 
 	virtual void * GetScriptVariable(const char * pVariableName, uint32_t * pdwVarIndex = nullptr)=0;
-	virtual void SetNetActive(bool bActive) = 0;
-
-	virtual bool IsNetActive() const = 0;
 };

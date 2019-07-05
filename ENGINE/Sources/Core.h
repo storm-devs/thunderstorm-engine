@@ -54,18 +54,14 @@ public:
 	void ResetCore();
 	bool Run();
 	bool LoadClassesTable();
-	bool Convert_Pointer2ID(void * _entity_pointer,entid_t * id_PTR);
 
-	void ProcessDeleteList();
 	void ProcessExecute();
 	void ProcessRealize();
 	void ProcessStateLoading();
 	void ProcessRunStart(uint32_t section_code);
 	void ProcessRunEnd(uint32_t section_code);
 
-	bool EraseEntity(entid_t entid_t);
-	bool MarkEntityAsDeleted(entid_t entid_t);
-	bool MarkEntityAsDeleted(void *);
+	bool EraseEntity(entid_t id);
 
 	bool LayerCreate(char * layer_name, bool ordered, bool fail_if_exist, bool system, uint32_t system_flags);
 	
@@ -76,7 +72,7 @@ public:
 	void ReleaseServices();
 	void __declspec(dllexport) __cdecl ProcessEngineIniFile();
 
-	C_ATOM * GetAtom(entid_t * id_PTR);
+	C_ATOM * GetAtom(entid_t id_PTR);
 
 	bool bAppActive{};
 	bool Memory_Leak_flag;			// true if core detected memory leak
@@ -147,12 +143,10 @@ public:
 	// work with objects classes
 	
 	// converting class name to static code (constant until next restart)
-	uint32_t Class_Name2Code(char * class_name) override;	 
-	// find first entity with pointed class
-	bool FindClass(entid_t * id_PTR, char * class_name, uint32_t class_code) override;
-	// continue searching process, started by FindClass(...) function
-	bool FindClassNext(entid_t * id_PTR) override;
+	uint32_t Class_Name2Code(char * class_name) override;
 
+	std::function<entid_t()> GetEntityIdWalker(const char* class_name, uint32_t class_code) override;
+	std::function<entid_t()> GetEntityIdWalker(const char* class_name, uint32_t class_code, const char* layer) override;
 
 	// service managment
 
@@ -161,33 +155,24 @@ public:
 
 	// entity managment
 	
-	// compare two entity ids, return true if ids is identical
-	bool CompareID(entid_t * ida_PTR,entid_t * idb_PTR) override;
-	// return true if entity with that id exist
-	bool ValidateEntity(entid_t * id_PTR) override;
 	// create entity with class type "class_name"; if id_PTR no null - fill this structure with entity id
 	entid_t CreateEntity(char * name) override;
 	// delete entity; this function can be called even if programm control still in this object
 	bool DeleteEntity(entid_t entid_t) override;
 	// return entity object pointer, if this entity exist
-	ENTITY * GetEntityPointer(entid_t * id_PTR) override;
+	ENTITY * GetEntityPointer(entid_t id_PTR) override;
 	// find first entity id, depending on layer configuration
-	bool GetEntity(entid_t * id_PTR) override;
-	// continue enumerating entities; process started by GetEntity(...)
-	bool GetEntityNext(entid_t * id_PTR) override;
-	// if layer_name isnt null, functions GetEntity and GetEntityNext work with entity in pointed layer, otherwise - with all entities
-	bool SetEntityScanLayer(char * layer_name) override;
 
-	ATTRIBUTES * Entity_GetAttributeClass(entid_t * id_PTR, char * name) override;
-	char *	Entity_GetAttribute(entid_t * id_PTR, char * name) override;
-	uint32_t	Entity_GetAttributeAsDword(entid_t * id_PTR, char * name, uint32_t def = 0) override;
-	FLOAT	Entity_GetAttributeAsFloat(entid_t * id_PTR, char * name, FLOAT def = 0) override;
-	BOOL	Entity_SetAttribute(entid_t * id_PTR, char * name, char * attribute) override;
-	BOOL	Entity_SetAttributeUseDword(entid_t * id_PTR, char * name, uint32_t val) override;
-	BOOL	Entity_SetAttributeUseFloat(entid_t * id_PTR, char * name, FLOAT val) override;
-	void	Entity_SetAttributePointer(entid_t * id_PTR, ATTRIBUTES * pA) override;
-	uint32_t	Entity_AttributeChanged(entid_t * id_PTR, ATTRIBUTES *);
-	ATTRIBUTES * Entity_GetAttributePointer(entid_t * id_PTR) override;
+	ATTRIBUTES * Entity_GetAttributeClass(entid_t id_PTR, char * name) override;
+	char *	Entity_GetAttribute(entid_t id_PTR, char * name) override;
+	uint32_t	Entity_GetAttributeAsDword(entid_t id_PTR, char * name, uint32_t def = 0) override;
+	FLOAT	Entity_GetAttributeAsFloat(entid_t id_PTR, char * name, FLOAT def = 0) override;
+	BOOL	Entity_SetAttribute(entid_t id_PTR, char * name, char * attribute) override;
+	BOOL	Entity_SetAttributeUseDword(entid_t id_PTR, char * name, uint32_t val) override;
+	BOOL	Entity_SetAttributeUseFloat(entid_t id_PTR, char * name, FLOAT val) override;
+	void	Entity_SetAttributePointer(entid_t id_PTR, ATTRIBUTES * pA) override;
+	uint32_t	Entity_AttributeChanged(entid_t id_PTR, ATTRIBUTES *);
+	ATTRIBUTES * Entity_GetAttributePointer(entid_t id_PTR) override;
 	
 	// messeges system
 
@@ -219,7 +204,7 @@ public:
 	// on/off realize
 	void LayerSetRealize(char * layer_name, bool on) override;
 	// get id walker object
-	VIDWALKER * LayerGetWalker(char * layer_name) override;
+	std::function<entid_t()> LayerGetWalker(char * layer_name) override;
 
 	
 	// save core state
