@@ -26,7 +26,7 @@ AIShip::AIShip(AI_OBJTYPE shiptype)
 
 AIShip::~AIShip()
 {
-	DELETE_ENTITY(eidShip);
+	DELETE_Entity(eidShip);
 	
 	STORM_DELETE(pMoveController);
 	STORM_DELETE(pTaskController);

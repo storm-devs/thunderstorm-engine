@@ -154,7 +154,7 @@ void CXI_SCROLLIMAGE::Draw(bool bSelected,uint32_t Delta_Time)
 
 		int j=0;
 		FXYRECT rectTex;
-		SCROLLENTITY * pScroll;
+		SCROLLEntity * pScroll;
 		int curShowOrder = m_nShowOrder;
 		//if(m_bLockStatus) curShowOrder = m_nSlotsQnt-1;
 		if(curShowOrder>=m_nSlotsQnt) curShowOrder = m_nSlotsQnt-1;
@@ -638,8 +638,8 @@ float CXI_SCROLLIMAGE::ChangeDinamicParameters(float fXDelta)
 	int		newCurImage = m_nCurImage;
 	float	fNewCurCenter = curXCenter;
 
-	SCROLLENTITY * pPrevScroll = nullptr;
-	SCROLLENTITY * pScroll = m_pScroll;
+	SCROLLEntity * pPrevScroll = nullptr;
+	SCROLLEntity * pScroll = m_pScroll;
 
 	long aDeleteImageIndex[200];
 	long nDeleteImageQuantity = 0;
@@ -648,7 +648,7 @@ float CXI_SCROLLIMAGE::ChangeDinamicParameters(float fXDelta)
 	{
 		if( pScroll== nullptr )
 		{
-			pScroll = new SCROLLENTITY;
+			pScroll = new SCROLLEntity;
 			if(pScroll== nullptr)
 				throw std::exception("allocate memory error");
 
@@ -682,7 +682,7 @@ float CXI_SCROLLIMAGE::ChangeDinamicParameters(float fXDelta)
 				memcpy( &m_Image[curImage], &m_Image[curImage+1], sizeof(IMAGEDESCRIBE)*(m_nListSize-1-curImage) );
 			m_nListSize--;
 			// Передвинем все уже используемые картинки
-			for(SCROLLENTITY * pSTmp = m_pScroll; pSTmp!= nullptr && pSTmp!=pScroll; pSTmp=pSTmp->next)
+			for(SCROLLEntity * pSTmp = m_pScroll; pSTmp!= nullptr && pSTmp!=pScroll; pSTmp=pSTmp->next)
 				if(pSTmp->imageNum>curImage)
 					pSTmp->imageNum--;
 			if(!bIncrement)
@@ -772,7 +772,7 @@ float CXI_SCROLLIMAGE::ChangeDinamicParameters(float fXDelta)
 
 	if(pScroll->next!= nullptr)
 	{
-		SCROLLENTITY * pScr = pScroll->next;
+		SCROLLEntity * pScr = pScroll->next;
 		pScroll->next = nullptr;
 		while(pScr!= nullptr)
 		{
@@ -840,7 +840,7 @@ void CXI_SCROLLIMAGE::ReleaseAll()
 
 	while(m_pScroll!= nullptr)
 	{
-		SCROLLENTITY * rootScroll = m_pScroll;
+		SCROLLEntity * rootScroll = m_pScroll;
 		m_pScroll = m_pScroll->next;
 		delete rootScroll;
 	}
@@ -1130,7 +1130,7 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 
 	while(m_pScroll!= nullptr)
 	{
-		SCROLLENTITY * rootScroll = m_pScroll;
+		SCROLLEntity * rootScroll = m_pScroll;
 		m_pScroll = m_pScroll->next;
 		delete rootScroll;
 	}
@@ -1347,7 +1347,7 @@ int CXI_SCROLLIMAGE::FindClickedImageNum()
 	int i = 0;
 
 	FXYPOINT fp = ptrOwner->GetMousePoint();
-	SCROLLENTITY* pscroll;
+	SCROLLEntity* pscroll;
 	for(pscroll=m_pScroll; pscroll!= nullptr; pscroll = pscroll->next)
 	{
 		float flx = .5f*pscroll->fCurScale*m_ImageSize.x;
@@ -1385,7 +1385,7 @@ int CXI_SCROLLIMAGE::GetRightQuantity()
 {
 	if(m_pScroll== nullptr || m_Image== nullptr) return 0;
 	int q=0;
-	for(SCROLLENTITY* pscr=m_pScroll; pscr!= nullptr; pscr=pscr->next) q++;
+	for(SCROLLEntity* pscr=m_pScroll; pscr!= nullptr; pscr=pscr->next) q++;
 
 	int i = m_pScroll->imageNum;
 	int n;
@@ -1409,7 +1409,7 @@ int CXI_SCROLLIMAGE::GetLeftQuantity()
 {
 	if(m_pScroll== nullptr || m_Image== nullptr) return 0;
 	int q=0;
-	for(SCROLLENTITY* pscr=m_pScroll; pscr!= nullptr; pscr=pscr->next) q++;
+	for(SCROLLEntity* pscr=m_pScroll; pscr!= nullptr; pscr=pscr->next) q++;
 
 	int i = m_pScroll->imageNum;
 	int n;
@@ -1436,8 +1436,8 @@ float CXI_SCROLLIMAGE::GetShiftDistance(int shiftIdx)
 
 	bool bNoFindRight = true;
 	float fright = (float)m_pCenter.x;
-	SCROLLENTITY* pprev = m_pScroll;
-	SCROLLENTITY* pscr;
+	SCROLLEntity* pprev = m_pScroll;
+	SCROLLEntity* pscr;
 	for(pscr=m_pScroll; pscr!= nullptr; pscr=pscr->next)
 	{
 		if(pscr->pCenter.x >= m_pCenter.x)	pprev = pscr;

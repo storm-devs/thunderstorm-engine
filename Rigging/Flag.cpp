@@ -60,12 +60,12 @@ void FLAG::SetDevice()
     texl=RenderService->TextureCreate(TextureName);
 }
 
-bool FLAG::CreateState(ENTITY_STATE_GEN * state_gen)
+bool FLAG::CreateState(Entity_STATE_GEN * state_gen)
 {
 	return true;
 }
 
-bool FLAG::LoadState(ENTITY_STATE * state)
+bool FLAG::LoadState(Entity_STATE * state)
 {
 	return true;
 }

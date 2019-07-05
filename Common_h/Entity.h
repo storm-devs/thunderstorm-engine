@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include "message.h"
+#include "vmodule_api.h"
 
 using entid_t = uint64_t;
 

@@ -41,7 +41,7 @@ __forceinline bool NetFindClass(bool bServer, entid_t * pEID, const char * pClas
 	bool bFind = api->FindClass(pEID, (char *)pClassName, 0);
 	if (bFind) do
 	{
-		ENTITY * pE = (ENTITY *)pEID->pointer;
+		Entity * pE = (Entity *)pEID->pointer;
 		if (pE->IsServer() == bServer) return true;
 	} while (api->FindClassNext(pEID));
 
@@ -53,7 +53,7 @@ __forceinline bool NetFindClassNext(bool bServer, entid_t * pEID)
 	Assert(pEID);
 	while (api->FindClassNext(pEID))
 	{
-		ENTITY * pE = (ENTITY *)pEID->pointer;
+		Entity * pE = (Entity *)pEID->pointer;
 		if (pE->IsServer() == bServer) return true;
 	}
 	return false;

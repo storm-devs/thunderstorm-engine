@@ -160,15 +160,15 @@ public:
 		bool		isDead();		// is group dead?
 		float		GetPower();
 
-	// inherit functions ENTITY
+	// inherit functions Entity
 		bool Init();
 		void SetDevice();
 
 		void Realize(uint32_t Delta_Time);
 		void Execute(uint32_t Delta_Time);
 		
-		bool CreateState(ENTITY_STATE_GEN * state_gen);
-		bool LoadState(ENTITY_STATE * state);
+		bool CreateState(Entity_STATE_GEN * state_gen);
+		bool LoadState(Entity_STATE * state);
 		
 		uint32_t ProcessMessage(MESSAGE & message);
 

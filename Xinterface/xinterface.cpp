@@ -260,12 +260,12 @@ void XINTERFACE::SetDevice()
 	//UNGUARD
 }
 
-bool XINTERFACE::CreateState(ENTITY_STATE_GEN * state_gen)
+bool XINTERFACE::CreateState(Entity_STATE_GEN * state_gen)
 {
 	return true;
 }
 
-bool XINTERFACE::LoadState(ENTITY_STATE * state)
+bool XINTERFACE::LoadState(Entity_STATE * state)
 {
 	return true;
 }
@@ -290,7 +290,7 @@ void XINTERFACE::Execute(uint32_t Delta_Time)
         api->Event(m_pEvents->sEventName,"ls",m_pEvents->nCommandIndex,m_pEvents->sNodeName);
         if(m_pEvents!= nullptr)
         {
-            EVENT_ENTITY * pE = m_pEvents;
+            EVENT_Entity * pE = m_pEvents;
             m_pEvents = m_pEvents->next;
             delete pE;
         }
@@ -353,7 +353,7 @@ void XINTERFACE::Realize(uint32_t Delta_Time)
 	// show dinamic pictures
 	XI_ONLYONETEX_VERTEX pV[4];
 	for(int i=0;i<4;i++)	pV[i].pos.z = 1.f;
-	IMAGE_ENTITY * pImg = m_imgLists;
+	IMAGE_Entity * pImg = m_imgLists;
 	uint32_t oldTFactor;
 	pRenderService->GetRenderState(D3DRS_TEXTUREFACTOR,&oldTFactor);
 	while(pImg!= nullptr)
@@ -579,7 +579,7 @@ uint32_t XINTERFACE::ProcessMessage(MESSAGE & message)
 			message.String(sizeof(nodeName)-1,nodeName);
 			long nCommand = message.Long();
 			//
-            EVENT_ENTITY * pEvent = new EVENT_ENTITY;
+            EVENT_Entity * pEvent = new EVENT_Entity;
             if(pEvent== nullptr)	throw std::exception("allocate memory error");
             pEvent->next = m_pEvents;
             m_pEvents = pEvent;
@@ -684,7 +684,7 @@ uint32_t XINTERFACE::ProcessMessage(MESSAGE & message)
 			char param[256];
 			message.String(sizeof(param)-1,param);
 			// find image
-			IMAGE_ENTITY * pImg = m_imgLists;
+			IMAGE_Entity * pImg = m_imgLists;
 			while(pImg!= nullptr)
 			{
 				if( pImg->sImageName!= nullptr && _stricmp(pImg->sImageName,param)==0 ) break;
@@ -904,7 +904,7 @@ uint32_t XINTERFACE::ProcessMessage(MESSAGE & message)
 			char param[256];
 			message.String(sizeof(param)-1,param);
 			// find image
-			IMAGE_ENTITY * pImg = m_imgLists;
+			IMAGE_Entity * pImg = m_imgLists;
 			while(pImg!= nullptr)
 			{
 				if( pImg->sImageName!= nullptr && _stricmp(pImg->sImageName,param)==0 ) break;
@@ -1309,7 +1309,7 @@ void XINTERFACE::LoadDialog(char *sFileName)
     // set help data
     if( m_pContHelp!= nullptr )
     {
-        HELPENTITY* pHlist = ((CXI_CONTEXTHELP*)m_pContHelp)->m_pHelpList;
+        HELPEntity* pHlist = ((CXI_CONTEXTHELP*)m_pContHelp)->m_pHelpList;
         long nListSize = ((CXI_CONTEXTHELP*)m_pContHelp)->m_helpQuantity;
         for(int n=0; n<nListSize; n++)
             pHlist[n].pNode = m_pNodes->FindNode(pHlist[n].nodeName);
@@ -2423,7 +2423,7 @@ void XINTERFACE::ReleaseOld()
 
     while(m_pEvents!= nullptr)
     {
-        EVENT_ENTITY * ei = m_pEvents;
+        EVENT_Entity * ei = m_pEvents;
         m_pEvents = m_pEvents->next;
         delete ei;
     }
@@ -2445,7 +2445,7 @@ void XINTERFACE::ReleaseOld()
 		STORM_DELETE(m_imgLists->sImageListName);
 		STORM_DELETE(m_imgLists->sImageName);
 		STORM_DELETE(m_imgLists->sPicture);
-		IMAGE_ENTITY * pCur = m_imgLists;
+		IMAGE_Entity * pCur = m_imgLists;
 		m_imgLists = m_imgLists->next;
 		delete pCur;
 	};
@@ -2476,16 +2476,16 @@ uint32_t XINTERFACE::AttributeChanged(ATTRIBUTES *patr)
 		char * sImageName = patr->GetParent()->GetThisName();
 		if(sImageName== nullptr) return 0;
 		// find this picture
-		IMAGE_ENTITY * pImList = m_imgLists;
+		IMAGE_Entity * pImList = m_imgLists;
 		while(pImList!= nullptr)
 			if(pImList->sImageName!= nullptr && _stricmp(pImList->sImageName,sImageName)==0) break;
 			else pImList=pImList->next;
 		// no this picture / create new
 		if(pImList== nullptr)
 		{
-			pImList = new IMAGE_ENTITY;
+			pImList = new IMAGE_Entity;
 			if(pImList== nullptr)	{throw std::exception("Allocation memory error");}
-			PZERO(pImList,sizeof(IMAGE_ENTITY));
+			PZERO(pImList,sizeof(IMAGE_Entity));
 			const auto len = strlen(sImageName) + 1;
 			if( (pImList->sImageName=new char[len]) == nullptr )
 				{throw std::exception("Allocate memory error");}
@@ -2864,8 +2864,8 @@ void XINTERFACE::ReleaseDinamicPic(char * sPicName)
 {
 	if(sPicName== nullptr) return;
 
-	IMAGE_ENTITY * prevImg = nullptr;
-	IMAGE_ENTITY * findImg;
+	IMAGE_Entity * prevImg = nullptr;
+	IMAGE_Entity * findImg;
 	for(findImg=m_imgLists; findImg!= nullptr; findImg=findImg->next)
 	{
 		if(findImg->sImageName!= nullptr && _stricmp(findImg->sImageName,sPicName)==0)	break;

@@ -75,7 +75,7 @@ void GEOMETRY::SetCausticMode(bool bSet)
 }
 
 
-bool GEOMETRY::LoadState(ENTITY_STATE * state)
+bool GEOMETRY::LoadState(Entity_STATE * state)
 {
 	return true;
 }

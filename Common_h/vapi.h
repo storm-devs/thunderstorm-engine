@@ -4,7 +4,7 @@
 #include "controls.h"
 #include "s_import_func.h"
 #include <functional>
-#include "entity.h"
+#include "Entity.h"
 
 //class Entity;
 //using entid_t = uint64_t;

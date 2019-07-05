@@ -50,7 +50,7 @@ uint32_t TOUCH::ProcessMessage(MESSAGE & message)
 			pShips[iNumShips]->eID = message.EntityID();
 			iNumShips++;
 		break;
-/*				case EVENT_ENTITY_DELETED:
+/*				case EVENT_Entity_DELETED:
 					GET_DATA(temp_long,pTemp);	GET_DATA(id,pTemp);
 					for(i=0; i<iNumShips; i++) if(pShips[i]->eID == id)
 					{

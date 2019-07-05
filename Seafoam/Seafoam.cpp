@@ -589,7 +589,7 @@ uint32_t SEAFOAM::AttributeChanged(ATTRIBUTES * pA)
 		{
 			if (NetFindClass(false, &shipID, "NetShip")) do
 			{
-				ENTITY * pE = api->GetEntityPointer(shipID);
+				Entity * pE = api->GetEntityPointer(shipID);
 				if (pE->GetNetID() == dwShipNetID)
 				{
 					AddShip(&shipID);

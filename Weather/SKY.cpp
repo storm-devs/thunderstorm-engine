@@ -249,12 +249,12 @@ void SKY::LoadTextures()
 	fAngleY = 0.0f;
 }
 
-bool SKY::CreateState(ENTITY_STATE_GEN * state_gen)
+bool SKY::CreateState(Entity_STATE_GEN * state_gen)
 {
 	return true;
 }
 
-bool SKY::LoadState(ENTITY_STATE * state)
+bool SKY::LoadState(Entity_STATE * state)
 {
 	SetDevice();
 	return true;
@@ -305,11 +305,11 @@ void SKY::Realize(uint32_t Delta_Time)
 
 			if( !pAstronomy )
 				if( api->FindClass(&eid,"Astronomy",0) )
-					pAstronomy = (ENTITY*)eid.pointer;
+					pAstronomy = (Entity*)eid.pointer;
 
 			if( !pSunGlow )
 				if( api->FindClass(&eid,"SUNGLOW",0) )
-					pSunGlow = (ENTITY*)eid.pointer;
+					pSunGlow = (Entity*)eid.pointer;
 
 			if( pAstronomy || pSunGlow )
 			{

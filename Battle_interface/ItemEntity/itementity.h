@@ -1,5 +1,5 @@
-#ifndef _BI_ITEM_ENTITY_H_
-#define _BI_ITEM_ENTITY_H_
+#ifndef _BI_ITEM_Entity_H_
+#define _BI_ITEM_Entity_H_
 
 #include "../../Common_h/dx9render.h"
 #include "../../Common_h/defines.h"

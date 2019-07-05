@@ -201,12 +201,12 @@ void SAIL::SetDevice()
     }
 }
 
-bool SAIL::CreateState(ENTITY_STATE_GEN * state_gen)
+bool SAIL::CreateState(Entity_STATE_GEN * state_gen)
 {
     return true;
 }
 
-bool SAIL::LoadState(ENTITY_STATE * state)
+bool SAIL::LoadState(Entity_STATE * state)
 {
 	return true;
 }
@@ -849,7 +849,7 @@ uint32_t SAIL::ProcessMessage(MESSAGE & message)
 
     // удалить группу парусов
     case MSG_SAIL_DEL_GROUP:
-        tmpEI=message.EntityID(); // получим ENTITY хоз€ина группы
+        tmpEI=message.EntityID(); // получим Entity хоз€ина группы
         for(i=0; i<groupQuantity; i++)
             if(tmpEI==gdata[i].shipEI)
             {
@@ -861,7 +861,7 @@ uint32_t SAIL::ProcessMessage(MESSAGE & message)
 
     // освоботить от стандартного надувани€ группу парусов
     case MSG_SAIL_FREE_GROUP:
-        tmpEI=message.EntityID(); // ENTITY хоз€ина группы
+        tmpEI=message.EntityID(); // Entity хоз€ина группы
         for(i=0; i<groupQuantity; i++)
             if(tmpEI==gdata[i].shipEI)
             {

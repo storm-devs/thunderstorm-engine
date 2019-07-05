@@ -30,8 +30,8 @@ public:
 	virtual void  RunEnd(){};
 	virtual uint32_t RunSection(){return SECTION_ALL;};
 	virtual bool Init(){return true;};
-	virtual bool LoadState(ENTITY_STATE * state) {return true;};
-	virtual bool CreateState(ENTITY_STATE_GEN * state_gen) {return true;};
+	virtual bool LoadState(Entity_STATE * state) {return true;};
+	virtual bool CreateState(Entity_STATE_GEN * state_gen) {return true;};
 };
 
 #endif

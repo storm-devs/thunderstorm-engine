@@ -725,7 +725,7 @@ void Player::FireFromShootgun()
 				CVECTOR dir = !(src - dst);
 				dst = src + (dst - src)*dist;
 				//Куда то попали
-				ENTITY * e = api->GetEntityPointer(collide->GetObjectID());
+				Entity * e = api->GetEntityPointer(collide->GetObjectID());
 				if(e && e != this)
 				{
 					long n, nm;

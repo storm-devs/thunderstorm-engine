@@ -16,8 +16,8 @@ enum FUNCTION_CODE
 	FUNC_RAND,
 	FUNC_FRAND,
 	FUNC_CREATE_CLASS,
-	FUNC_CREATE_ENTITY,
-	FUNC_DELETE_ENTITY,
+	FUNC_CREATE_Entity,
+	FUNC_DELETE_Entity,
 	FUNC_SET_EVENT_HANDLER,
 	FUNC_EXIT_PROGRAM,
 	FUNC_GET_EVENTDATA,
@@ -52,8 +52,8 @@ enum FUNCTION_CODE
 	FUNC_GET_ATTRIBUTE_BYN,
 	FUNC_GET_ATTRIBUTE_NAME,
 	FUNC_DEL_EVENT_HANDLER,
-	FUNC_ENTITY_UPDATE,
-	FUNC_IS_ENTITY_LOADED,
+	FUNC_Entity_UPDATE,
+	FUNC_IS_Entity_LOADED,
 	FUNC_DUMP_ATTRIBUTES,
 	FUNC_STI,
 	FUNC_STF,
@@ -73,9 +73,9 @@ enum FUNCTION_CODE
 	FUNC_BREAKPOINT,
 	FUNC_POW,
 	FUNC_COPYATTRIBUTES,
-	FUNC_GETENTITY,
-	FUNC_GETENTITYNEXT,
-	FUNC_GETENTITYNAME,
+	FUNC_GETEntity,
+	FUNC_GETEntityNEXT,
+	FUNC_GETEntityNAME,
 	FUNC_STRCUT,
 	FUNC_FINDSUBSTR,
 	FUNC_CLEARREF,
@@ -93,7 +93,7 @@ enum FUNCTION_CODE
 	FUNC_DELETE_CONTROL,
 	FUNC_MAP_CONTROL,
 	FUNC_SET_CONTROL_FLAGS,
-	FUNC_CLEAR_ENTITY_AP,
+	FUNC_CLEAR_Entity_AP,
 	FUNC_GET_ARRAY_SIZE,
 	FUNC_GETTARGETPLATFORM,
 	FUNC_FINDCLASS,
@@ -480,7 +480,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 	uint32_t n;
 	ATTRIBUTES * pA;
 	ATTRIBUTES * pRoot;
-	ENTITY * pE;
+	Entity * pE;
 	MESSAGE_SCRIPT ms;
 	uint32_t s_off;
 
@@ -732,7 +732,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pVResult = pV;
 		return pV;
 
-		case FUNC_CLEAR_ENTITY_AP:
+		case FUNC_CLEAR_Entity_AP:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA); break;}
 			pV->Get(TempEid);
 			Core.Entity_SetAttributePointer(&TempEid,nullptr);
@@ -1008,7 +1008,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pVResult = pV;
 		return pV;
 
-		case FUNC_GETENTITYNAME:
+		case FUNC_GETEntityNAME:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV->Get(entid_t);
 			pV = SStack.Push();
@@ -1018,7 +1018,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			else pV->Set("unknown class");
 			pVResult = pV;
 		return pV;
-		case FUNC_GETENTITY:
+		case FUNC_GETEntity:
 			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
 
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
@@ -1039,7 +1039,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV->Set(TempLong1);
 			pVResult = pV;
 		return pV;
-		case FUNC_GETENTITYNEXT:
+		case FUNC_GETEntityNEXT:
 			api->GetEntityNext(&entid_t);
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV->GetVarPointer();
@@ -1189,7 +1189,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			else api->LayerSetFlags(pChar,LRFLAG_FROZEN);
 		break;
 
-		case FUNC_IS_ENTITY_LOADED:
+		case FUNC_IS_Entity_LOADED:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV = pV->GetVarPointer();
 			pV->Get(TempEid);
@@ -1200,7 +1200,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pVResult = pV;
 		return pV;
 
-		case FUNC_ENTITY_UPDATE:
+		case FUNC_Entity_UPDATE:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV->Get(TempLong1);
 			if(TempLong1) bEntityUpdate = true;
@@ -1227,7 +1227,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 		return pV;
 
 		// create entity
-		case FUNC_CREATE_ENTITY:
+		case FUNC_CREATE_Entity:
 
 			pV2 = SStack.Pop();	// class name
 			if(!pV2) { SetError(MISSING_PARAMETER); break; }
@@ -1270,7 +1270,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			SetError("Cant create class: %s",pChar);
 		break;
 		//
-		case FUNC_DELETE_ENTITY:
+		case FUNC_DELETE_Entity:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV->Get(entid_t);
 			api->DeleteEntity(entid_t);

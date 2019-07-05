@@ -2258,13 +2258,13 @@ void DX9RENDER::GetTransform(long type, D3DMATRIX *mtx)
 	}
 }
 
-bool DX9RENDER::CreateState(ENTITY_STATE_GEN * state_gen)
+bool DX9RENDER::CreateState(Entity_STATE_GEN * state_gen)
 {
 	//state_gen->SetState("vm",sizeof(screen_size),screen_size,sizeof(bool),&window);
 	return true;
 }
 
-bool DX9RENDER::LoadState(ENTITY_STATE * state)
+bool DX9RENDER::LoadState(Entity_STATE * state)
 {
 	//GUARD(DX9RENDER::Init)
 		//for(long t=0; t<MAX_STEXTURES; t++)	Textures[t].d3dtex = NULL;
@@ -2399,7 +2399,7 @@ bool DX9RENDER::ResetDevice()
 	entid_t eid;
 
 	api->SetEntityScanLayer(nullptr);
-	if (api->GetEntity(&eid)) do { ((ENTITY*)eid.pointer)->LostRender(); } while (api->GetEntityNext(&eid));
+	if (api->GetEntity(&eid)) do { ((Entity*)eid.pointer)->LostRender(); } while (api->GetEntityNext(&eid));
 	LostRender();
 
 	if (CHECKD3DERR(d3d9->Reset(&d3dpp)))
@@ -2407,7 +2407,7 @@ bool DX9RENDER::ResetDevice()
 
 	RestoreRender();
 	api->SetEntityScanLayer(nullptr);
-	if (api->GetEntity(&eid)) do { ((ENTITY*)eid.pointer)->RestoreRender(); } while (api->GetEntityNext(&eid));
+	if (api->GetEntity(&eid)) do { ((Entity*)eid.pointer)->RestoreRender(); } while (api->GetEntityNext(&eid));
 	return true;
 }
 

@@ -6,13 +6,13 @@
 // scroll image
 class CXI_SCROLLIMAGE : public CINODE
 {
-	struct SCROLLENTITY
+	struct SCROLLEntity
 	{
 		FXYPOINT pCenter;
 		float    fCurScale;
 		int		 imageNum;
 		float    colorMul;
-		SCROLLENTITY * next;
+		SCROLLEntity * next;
 	};
 	long	m_nSlotsQnt;
 	struct IMAGEDESCRIBE
@@ -123,7 +123,7 @@ protected:
 	uint32_t    m_dwTwoStrForeColor; // Font foreground color for second string
 	uint32_t    m_dwTwoStrBackColor; // Font background color for second string
 
-	SCROLLENTITY	*m_pScroll;
+	SCROLLEntity	*m_pScroll;
 	int				m_nCurImage;
 	int				m_nListSize;
 	IMAGEDESCRIBE	*m_Image;

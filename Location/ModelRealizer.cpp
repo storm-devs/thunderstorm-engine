@@ -39,7 +39,7 @@ void LocModelRealizer::Execute(uint32_t delta_time)
 void LocModelRealizer::Realize(uint32_t delta_time)
 {
 	if( !bShow ) return;
-	ENTITY* pE = api->GetEntityPointer( &eid_model );
+	Entity* pE = api->GetEntityPointer( &eid_model );
 	if( pE ) {
 		BOOL bLight0Enable;
 		uint32_t dwLighting;

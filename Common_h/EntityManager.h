@@ -63,13 +63,13 @@ public:
 			throw std::exception("invalid entity name");
 		}
 
-		/* CREATE ENTITY */
+		/* CREATE Entity */
 		auto* ptr = static_cast<Entity*>(pClass->CreateClass());
 		if (ptr == nullptr)	{
 			throw std::exception("CreateClass returned nullptr");
 		}
 
-		/* INIT ENTITY */
+		/* INIT Entity */
 		if (!ptr->Init()) {
 			return INVALID_entid_t;
 		}
@@ -228,7 +228,7 @@ public:
 private:
 	EntityManager()
 	{
-		entities_.reserve(ENTITY_INITIAL_SIZE);
+		entities_.reserve(Entity_INITIAL_SIZE);
 	}
 
 	EntityData& GetEntityData(const entid_t entity) {
@@ -269,7 +269,7 @@ private:
 	}
 
 	/* constants */
-	static const entities_t::size_type ENTITY_INITIAL_SIZE = 10240u;
+	static const entities_t::size_type Entity_INITIAL_SIZE = 10240u;
 private:
 	/* members */
 	entities_t entities_; /* entity container */

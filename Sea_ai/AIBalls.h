@@ -70,7 +70,7 @@ private:
 
 	void	AddBall(ATTRIBUTES * pABall);
 
-	// inherited functions from ENTITY
+	// inherited functions from Entity
 	bool	Init();
 	void	SetDevice();
 

@@ -31,7 +31,7 @@ typedef struct
 	uint32_t Atoms_min_free_orbit;
 	uint32_t Atoms_number;
 	uint32_t Atoms_space;
-	ENTITY_CREATION_TIME Creation_Time;
+	Entity_CREATION_TIME Creation_Time;
 
 } CORE_STATE;
 
@@ -160,7 +160,7 @@ public:
 	// delete entity; this function can be called even if programm control still in this object
 	bool DeleteEntity(entid_t entid_t) override;
 	// return entity object pointer, if this entity exist
-	ENTITY * GetEntityPointer(entid_t id_PTR) override;
+	Entity * GetEntityPointer(entid_t id_PTR) override;
 	// find first entity id, depending on layer configuration
 
 	ATTRIBUTES * Entity_GetAttributeClass(entid_t id_PTR, char * name) override;

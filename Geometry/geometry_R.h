@@ -14,7 +14,7 @@ class GEOMETRY final : public VGEOMETRY
 public:
 	GEOMETRY();
 	bool Init();
-	bool LoadState(ENTITY_STATE * state);
+	bool LoadState(Entity_STATE * state);
 	GEOS * CreateGeometry(const char * file_name,const char * light_file_name, long flags, const char *lmPath);
 	void DeleteGeometry(GEOS *);
 	ANIMATION *LoadAnimation(const char *anim);

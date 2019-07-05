@@ -55,8 +55,8 @@ public:
 	bool Init();
 	void Realize(uint32_t Delta_Time);
 	void Execute(uint32_t Delta_Time);
-	bool CreateState(ENTITY_STATE_GEN * state_gen);
-	bool LoadState(ENTITY_STATE * state);
+	bool CreateState(Entity_STATE_GEN * state_gen);
+	bool LoadState(Entity_STATE * state);
     uint32_t ProcessMessage(MESSAGE & message);
     // Service Function
     void GetEndPoint(CVECTOR* cv,int ropenum,entid_t mdl_id);

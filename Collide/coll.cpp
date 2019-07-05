@@ -26,7 +26,7 @@ LOCAL_COLLIDE *COLL::CreateLocalCollide(const char *layerName)
 float COLL::Trace(entid_t entity, const CVECTOR &src, const CVECTOR &dst)
 {
 	COLLISION_OBJECT *cob = static_cast<COLLISION_OBJECT*>(api->GetEntityPointer(entity));
-	if(static_cast<ENTITY*>(cob)== nullptr)	return 2.0f;
+	if(static_cast<Entity*>(cob)== nullptr)	return 2.0f;
 
 	last_trace_eid = entity;
 	return cob->Trace(src, dst);

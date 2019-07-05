@@ -210,7 +210,7 @@ public:
 
 	bool		Mount(ATTRIBUTES*);
 
-// inherit functions ENTITY
+// inherit functions Entity
 	bool	Init();
 	void	Realize(uint32_t Delta_Time);
 	void	Execute(uint32_t Delta_Time);

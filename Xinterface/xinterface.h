@@ -77,8 +77,8 @@ public:
 	bool Init();
     void Execute(uint32_t Delta_Time);
 	void Realize(uint32_t Delta_Time);
-	bool CreateState(ENTITY_STATE_GEN * state_gen);
-	bool LoadState(ENTITY_STATE * state);
+	bool CreateState(Entity_STATE_GEN * state_gen);
+	bool LoadState(Entity_STATE * state);
     uint32_t ProcessMessage(MESSAGE & message);
 	uint32_t AttributeChanged(ATTRIBUTES* patr);
 
@@ -236,7 +236,7 @@ protected:
 	SAVE_FIND_DATA * GetSaveDataByIndex(int n);
 
 	// dinamic strings data
-	struct STRING_ENTITY
+	struct STRING_Entity
 	{
 		bool	bUsed;
 		int		fontNum;
@@ -246,11 +246,11 @@ protected:
 		int		eAlignment;
 		float	fScale;
 	};
-	std::vector<STRING_ENTITY> m_stringes;
+	std::vector<STRING_Entity> m_stringes;
 	int		m_nStringQuantity;
 
 	// dinamic images data
-	struct IMAGE_ENTITY
+	struct IMAGE_Entity
 	{
 		XYRECT			position;
 		char			*sImageListName;
@@ -262,22 +262,22 @@ protected:
 		bool			doBlind;
 		uint32_t			argbBlindMin;
 		uint32_t			argbBlindMax;
-		IMAGE_ENTITY	*next;
+		IMAGE_Entity	*next;
 	};
-	IMAGE_ENTITY *	m_imgLists;
+	IMAGE_Entity *	m_imgLists;
 
     // send events data
-    struct EVENT_ENTITY
+    struct EVENT_Entity
     {
         char* sEventName;
 		char* sNodeName;
 		long nCommandIndex;
-        EVENT_ENTITY * next;
+        EVENT_Entity * next;
 
-		EVENT_ENTITY() {sEventName=nullptr; sNodeName=nullptr; nCommandIndex=0;}
-		~EVENT_ENTITY() {STORM_DELETE(sEventName); STORM_DELETE(sNodeName); nCommandIndex=0;}
+		EVENT_Entity() {sEventName=nullptr; sNodeName=nullptr; nCommandIndex=0;}
+		~EVENT_Entity() {STORM_DELETE(sEventName); STORM_DELETE(sNodeName); nCommandIndex=0;}
     };
-    EVENT_ENTITY * m_pEvents;
+    EVENT_Entity * m_pEvents;
 
 	// previouse texture & draw to texturer data
 	bool	m_bShowPrevTexture; // exchange one interface to other

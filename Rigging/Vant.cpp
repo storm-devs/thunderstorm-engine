@@ -64,12 +64,12 @@ void VANT::SetDevice()
     if(texl==-1) texl=RenderService->TextureCreate(TextureName);
 }
 
-bool VANT::CreateState(ENTITY_STATE_GEN * state_gen)
+bool VANT::CreateState(Entity_STATE_GEN * state_gen)
 {
 	return true;
 }
 
-bool VANT::LoadState(ENTITY_STATE * state)
+bool VANT::LoadState(Entity_STATE * state)
 {
 	return true;
 }

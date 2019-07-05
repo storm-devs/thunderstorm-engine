@@ -3,7 +3,7 @@
 
 #include "../inode.h"
 
-struct HELPENTITY
+struct HELPEntity
 {
     char * nodeName;
     CINODE * pNode;
@@ -29,7 +29,7 @@ public:
     void    SetTempHelp(const char * string);
 
     long    m_helpQuantity;
-    HELPENTITY * m_pHelpList;
+    HELPEntity * m_pHelpList;
 
 protected:
 	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);
@@ -43,7 +43,7 @@ protected:
     long    m_offset;
     long    m_nHelpWidth;
 
-    HELPENTITY * m_curHelp;
+    HELPEntity * m_curHelp;
     long    m_defaultString;
 
     long    m_nMaxDelayCounter;

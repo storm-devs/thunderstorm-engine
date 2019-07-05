@@ -309,7 +309,7 @@ std::function<entid_t()> CORE::GetEntityIdWalker(const char* class_name, uint32_
 }
 
 
-ENTITY * CORE::GetEntityPointer(entid_t id_PTR)
+Entity * CORE::GetEntityPointer(entid_t id_PTR)
 {
 	entityManager.GetEntity(id_PTR);
 }
@@ -351,7 +351,7 @@ uint32_t CORE::Send_Message(entid_t Destination,char * Format,...)
 	message.Reset(Format);									// reset message class
 	PZERO(&message.Sender_ID,sizeof(entid_t));
 	va_start(message.args,Format);
-	uint32_t rc = ((ENTITY *)ptr)->ProcessMessage(message);	// transfer control
+	uint32_t rc = ((Entity *)ptr)->ProcessMessage(message);	// transfer control
 	va_end(message.args);
 	return rc;
 }
@@ -533,7 +533,7 @@ void CORE::ProcessExecute()
 	while(auto id = layerWalker()())
 	{
 		if(EntityFound(id))	{
-			((ENTITY*)entityManager.GetEntity(id))->Execute(deltatime);
+			((Entity*)entityManager.GetEntity(id))->Execute(deltatime);
 		}
 	}
 
@@ -550,7 +550,7 @@ void CORE::ProcessRealize()
 	while (auto id = layerWalker()())
 	{
 		if (EntityFound(id)) {
-			((ENTITY*)entityManager.GetEntity(id))->Realize(deltatime);
+			((Entity*)entityManager.GetEntity(id))->Realize(deltatime);
 		}
 	}
 
@@ -667,7 +667,7 @@ uint32_t CORE::GetRDeltaTime()
 
 ATTRIBUTES * CORE::Entity_GetAttributeClass(entid_t  id_PTR, char * name)
 {
-	ENTITY* pE = GetEntityPointer(id_PTR);
+	Entity* pE = GetEntityPointer(id_PTR);
 	if(pE == nullptr) return nullptr;
 	if(pE->AttributesPointer == nullptr) return nullptr;
 	return pE->AttributesPointer->FindAClass(pE->AttributesPointer,name);
@@ -675,7 +675,7 @@ ATTRIBUTES * CORE::Entity_GetAttributeClass(entid_t  id_PTR, char * name)
 
 char *	CORE::Entity_GetAttribute(entid_t  id_PTR, char * name)
 {
-	ENTITY* pE = GetEntityPointer(id_PTR);
+	Entity* pE = GetEntityPointer(id_PTR);
 	if(pE == nullptr) return nullptr;
 	if(pE->AttributesPointer == nullptr) return nullptr;
 	return pE->AttributesPointer->GetAttribute(name);
@@ -683,7 +683,7 @@ char *	CORE::Entity_GetAttribute(entid_t  id_PTR, char * name)
 
 uint32_t	CORE::Entity_GetAttributeAsDword(entid_t  id_PTR, char * name, uint32_t def)
 {
-	ENTITY* pE = GetEntityPointer(id_PTR);
+	Entity* pE = GetEntityPointer(id_PTR);
 	if(pE == nullptr) return def;
 	if(pE->AttributesPointer == nullptr) return def;
 	return pE->AttributesPointer->GetAttributeAsDword(name,def);
@@ -692,7 +692,7 @@ uint32_t	CORE::Entity_GetAttributeAsDword(entid_t  id_PTR, char * name, uint32_t
 
 FLOAT	CORE::Entity_GetAttributeAsFloat(entid_t  id_PTR, char * name, FLOAT def)
 {
-	ENTITY* pE = GetEntityPointer(id_PTR);
+	Entity* pE = GetEntityPointer(id_PTR);
 	if(pE == nullptr) return def;
 	if(pE->AttributesPointer == nullptr) return def;
 	return pE->AttributesPointer->GetAttributeAsFloat(name,def);
@@ -700,7 +700,7 @@ FLOAT	CORE::Entity_GetAttributeAsFloat(entid_t  id_PTR, char * name, FLOAT def)
 
 BOOL	CORE::Entity_SetAttribute(entid_t  id_PTR, char * name, char * attribute)
 {
-	ENTITY* pE = GetEntityPointer(id_PTR);
+	Entity* pE = GetEntityPointer(id_PTR);
 	if(pE == nullptr) return false;
 	if(pE->AttributesPointer == nullptr) return false;
 	return pE->AttributesPointer->SetAttribute(name,attribute);
@@ -708,7 +708,7 @@ BOOL	CORE::Entity_SetAttribute(entid_t  id_PTR, char * name, char * attribute)
 
 BOOL	CORE::Entity_SetAttributeUseDword(entid_t  id_PTR, char * name, uint32_t val)
 {
-	ENTITY* pE = GetEntityPointer(id_PTR);
+	Entity* pE = GetEntityPointer(id_PTR);
 	if(pE == nullptr) return false;
 	if(pE->AttributesPointer == nullptr) return false;
 	return pE->AttributesPointer->SetAttributeUseDword(name,val);
@@ -716,7 +716,7 @@ BOOL	CORE::Entity_SetAttributeUseDword(entid_t  id_PTR, char * name, uint32_t va
 
 BOOL	CORE::Entity_SetAttributeUseFloat(entid_t  id_PTR, char * name, FLOAT val)
 {
-	ENTITY* pE = GetEntityPointer(id_PTR);
+	Entity* pE = GetEntityPointer(id_PTR);
 	if(pE == nullptr) return false;
 	if(pE->AttributesPointer == nullptr) return false;
 	return pE->AttributesPointer->SetAttributeUseFloat(name,val);
@@ -724,21 +724,21 @@ BOOL	CORE::Entity_SetAttributeUseFloat(entid_t  id_PTR, char * name, FLOAT val)
 
 void CORE::Entity_SetAttributePointer(entid_t  id_PTR, ATTRIBUTES * pA)
 {
-	ENTITY* pE = GetEntityPointer(id_PTR);
+	Entity* pE = GetEntityPointer(id_PTR);
 	if(pE == nullptr) return;
 	pE->AttributesPointer = pA;
 }
 
 uint32_t	CORE::Entity_AttributeChanged(entid_t  id_PTR, ATTRIBUTES * pA)
 {
-	ENTITY* pE = GetEntityPointer(id_PTR);
+	Entity* pE = GetEntityPointer(id_PTR);
 	if(pE == nullptr) return 0;
 	return pE->AttributeChanged(pA);
 }
 
 ATTRIBUTES * CORE::Entity_GetAttributePointer(entid_t  id_PTR)
 {
-	ENTITY* pE = GetEntityPointer(id_PTR);
+	Entity* pE = GetEntityPointer(id_PTR);
 	if(pE == nullptr) return nullptr;
 	return pE->AttributesPointer;
 }
@@ -831,7 +831,7 @@ void CORE::DumpEntitiesInfo()
 		entid_t* eid_PTR = l_PTR->GetId();
 		while(eid_PTR)
 		{
-			Trace("ENTITY:");
+			Trace("Entity:");
 			if(ValidateEntity(eid_PTR))
 			{
 				pClass = FindVMA(Atoms_PTR[eid_PTR->atom_position]->atom_id.class_code);

@@ -110,9 +110,9 @@ void CXI_CONTEXTHELP::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *nam
     // Create help stringes array
 	if(m_helpQuantity>0)
 	{
-		if( (m_pHelpList=new HELPENTITY[m_helpQuantity]) == nullptr )
+		if( (m_pHelpList=new HELPEntity[m_helpQuantity]) == nullptr )
 			throw std::exception("allocate memory error");
-		PZERO(m_pHelpList,sizeof(HELPENTITY)*m_helpQuantity);
+		PZERO(m_pHelpList,sizeof(HELPEntity)*m_helpQuantity);
 		ini1->ReadString(name1,"helpstr",param,sizeof(param)-1,"");
 		char nodeName[sizeof(param)], stringName[sizeof(param)];
 		for(i=0; i<m_helpQuantity; i++)

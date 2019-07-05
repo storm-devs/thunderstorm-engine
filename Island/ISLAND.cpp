@@ -167,7 +167,7 @@ void ISLAND::Realize(uint32_t Delta_Time)
 			((MODEL*)aForts[k].pointer)->mtx = mOld * mTemp;
 
 			api->Send_Message(AIFortEID, "li", AI_MESSAGE_FORT_SET_LIGHTS, aForts[k]);
-			((ENTITY*)aForts[k].pointer)->Realize(Delta_Time);
+			((Entity*)aForts[k].pointer)->Realize(Delta_Time);
 			api->Send_Message(AIFortEID, "li", AI_MESSAGE_FORT_UNSET_LIGHTS, aForts[k]);
 
 			((MODEL*)aForts[k].pointer)->mtx = mOld;

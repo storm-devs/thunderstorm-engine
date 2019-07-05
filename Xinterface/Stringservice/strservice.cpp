@@ -145,12 +145,12 @@ bool STRSERVICE::Init()
 	return true;
 }
 
-bool STRSERVICE::LoadState(ENTITY_STATE *state)
+bool STRSERVICE::LoadState(Entity_STATE *state)
 {
 	return true;
 }
 
-bool STRSERVICE::CreateState(ENTITY_STATE_GEN *state_gen)
+bool STRSERVICE::CreateState(Entity_STATE_GEN *state_gen)
 {
 	return true;
 }

@@ -14,8 +14,8 @@ public:
 	bool	Init();
 	void	SetDevice();
 	void	Realize(uint32_t Delta_Time);
-	bool	CreateState(ENTITY_STATE_GEN * state_gen);
-	bool	LoadState(ENTITY_STATE * state);
+	bool	CreateState(Entity_STATE_GEN * state_gen);
+	bool	LoadState(Entity_STATE * state);
 	uint32_t	AttributeChanged(ATTRIBUTES * pAttribute);
 	uint32_t ProcessMessage(MESSAGE & message);
 
@@ -59,8 +59,8 @@ private:
 	long		iSkyVertsID, iSkyIndexID;
 	long		iFogVertsID, iFogIndexID, iFogNumVerts, iFogNumTrgs;
 
-	ENTITY*		pAstronomy;
-	ENTITY*		pSunGlow;
+	Entity*		pAstronomy;
+	Entity*		pSunGlow;
 
 	// sky section
 	void	GenerateSky();
