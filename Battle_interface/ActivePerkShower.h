@@ -1,6 +1,7 @@
 #ifndef _ACTIVEPERKSHOWER_H_
 #define _ACTIVEPERKSHOWER_H_
 
+#include "../Common_h/Entity.h"
 #include "../Common_h/dx9render.h"
 #include "../Common_h/defines.h"
 

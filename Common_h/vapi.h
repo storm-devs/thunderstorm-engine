@@ -3,7 +3,6 @@
 #include <functional>
 #include "controls.h"
 #include "s_import_func.h"
-#include "Entity.h"
 #include "Walker.h"
 
 //class Entity;

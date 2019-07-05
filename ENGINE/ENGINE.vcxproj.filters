@@ -5,15 +5,8 @@
       <UniqueIdentifier>{992742c3-48e0-45f2-ab80-2e00cd8e7be1}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{d541b1cc-3eaa-439b-acb0-da58e2868029}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl</Extensions>
-    </Filter>
     <Filter Include="Script Files">
       <UniqueIdentifier>{23b77efd-bf6c-476a-9148-addf3606df6a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script Files\h">
-      <UniqueIdentifier>{49ef7dae-6974-48c4-96cb-49f4a66b85a0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Modules">
       <UniqueIdentifier>{189ba191-8f7f-45e7-88b1-bc3264e77c30}</UniqueIdentifier>
@@ -525,17 +518,11 @@
     <Filter Include="Modules\XINTERFACE\templates">
       <UniqueIdentifier>{bd1b938c-6278-4d05-8863-4823e67e06bb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shared">
+    <Filter Include="Headers">
       <UniqueIdentifier>{f5d915ce-f720-4aa3-9fac-26386046cf84}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sources\C_atom.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\classes_table.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sources\Core.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -543,12 +530,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sources\ifs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\layer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\layer_service.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sources\Main.cpp">
@@ -1516,24 +1497,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sources\data.h">
-      <Filter>Script Files\h</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\s_dbg_breaktable.h">
-      <Filter>Script Files\h</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\s_dbg_sourceview.h">
-      <Filter>Script Files\h</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\s_dbg_staticlist.h">
-      <Filter>Script Files\h</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\s_dbg_watcherlist.h">
-      <Filter>Script Files\h</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\s_debug.h">
-      <Filter>Script Files\h</Filter>
-    </ClInclude>
     <ClInclude Include="..\BATTLE_INTERFACE\ActivePerkShower.h">
       <Filter>Modules\BattleInterface\CommonInterface</Filter>
     </ClInclude>
@@ -2272,167 +2235,14 @@
     <ClInclude Include="..\XINTERFACE\templates\TDynArray.h">
       <Filter>Modules\XINTERFACE\templates</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\compiler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\Core.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\dstring_codec.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\externs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\file_service.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\fsdata_list.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\idwalker.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\ifs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\layer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\layer_service.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\message_script.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\messages.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\program.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\s_classtab.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\s_compress.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\s_deftab.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\s_eventmsg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\s_eventtab.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\s_functab.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\s_postevents.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\s_stack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\s_tstack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\s_vartab.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\services_list.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\sstring.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\stats.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\string_codec.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\tclass_list.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\timer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\tm_list.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\C_atom.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\classes_table.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\controls.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\dx9render.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\input.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\key_codes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\message.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\script_libriary.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\service.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\s_import_func.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\vapi.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\vdata.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\vfile_service.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\vidwalker.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\vstring_codec.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\v_s_stack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\fs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common_h\assert.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\token.h">
-      <Filter>Script Files\h</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\strings_list.h">
-      <Filter>Script Files\h</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common_h\vmodule_api.h">
-      <Filter>Shared</Filter>
+      <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\Common_h\EntityManager.h">
-      <Filter>Shared</Filter>
+      <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\Common_h\Entity.h">
-      <Filter>Shared</Filter>
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

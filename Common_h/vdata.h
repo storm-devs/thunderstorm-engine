@@ -1,12 +1,8 @@
 #ifndef _VDATA_H_
 #define _VDATA_H_
-#include "attributes.h"
 #include "Entity.h"
 
-//#include "token.h"
-
 class DATA;
-
 
 class VDATA
 {

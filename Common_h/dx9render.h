@@ -1,5 +1,4 @@
-#ifndef __DX9RENDER_H__
-#define __DX9RENDER_H__
+#pragma once
 
 #include <cstdint>
 #include <d3d9.h>
@@ -7,7 +6,6 @@
 
 #include "../Common_h/types3d.h"
 #include "../Common_h/Matrix.h"
-#include "../Common_h/VideoTexture.h"
 #include "service.h"
 
 #define FONT_DEFAULT    0
@@ -61,17 +59,7 @@ struct RS_LINE2D
 	uint32_t		dwColor;
 };
 
-class IBaseTexture
-{
-};
-
-class ITexture
-{
-};
-
-class ICubeTexture
-{
-};
+class CVideoTexture;
 
 class VDX9RENDER : public SERVICE
 {
@@ -299,5 +287,3 @@ public:
 
 		virtual IDirect3DBaseTexture9* GetTextureFromID(long nTextureID) = 0;
 };
-
-#endif
