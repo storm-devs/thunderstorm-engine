@@ -5,7 +5,6 @@
 /* typedefs */
 class Entity;
 class MESSAGE;
-class ATTRIBUTES;
 using entptr_t = Entity *;
 using entid_t = uint64_t;
 

@@ -9,8 +9,6 @@
 #define USE_AXIS_AS_INVERSEBUTTON		0x2
 #define INVERSE_CONTROL					0x4
 
-
-
 struct DEVICE_DESC
 {
 	char * name;

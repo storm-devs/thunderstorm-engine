@@ -4,6 +4,7 @@
 #include "controls.h"
 #include "s_import_func.h"
 #include "Walker.h"
+#include "vdata.h"
 
 //class Entity;
 //using entid_t = uint64_t;

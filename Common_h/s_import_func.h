@@ -1,13 +1,12 @@
 #ifndef _S_IMPORT_FUNC_H_
 #define _S_IMPORT_FUNC_H_
 
-#include "v_s_stack.h"
-
 #define IFUNCRESULT_OK		0
 #define IFUNCRESULT_FAILED	0xffffffff
 
 #define INVALID_FUNCHANDLE	0xffffffff
 
+class VS_STACK;
 typedef uint32_t (* SIMPORTFUNC)(VS_STACK *);
 
 struct IFUNCINFO

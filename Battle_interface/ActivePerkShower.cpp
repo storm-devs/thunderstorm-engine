@@ -33,8 +33,12 @@ bool ActivePerkShower::Init()
 		throw std::exception("Can`t create render service");
 	}
 
-	if( AttributesPointer== nullptr ) return false;
-	if( !CreateTextures(AttributesPointer->GetAttributeClass("Textures")) ) return false;
+	if( AttributesPointer== nullptr ) 
+		return false;
+
+	if( !CreateTextures(AttributesPointer->GetAttributeClass("Textures")) ) 
+		return false;
+
 	if( !CreateShowPlaces(AttributesPointer->GetAttributeClass("ShowParam")) )
 	{
 		ReleaseAll();
