@@ -10,7 +10,7 @@ class BIImageRender;
 class BIImage;
 class VAI_OBJBASE;
 
-class ISPYGLASS : public ENTITY
+class ISPYGLASS : public Entity
 {
 	struct ImageParam
 	{
