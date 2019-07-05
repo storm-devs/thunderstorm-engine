@@ -68,7 +68,7 @@ void BI_InterfaceManager::Realize(uint32_t delta_time)
 	m_pImgRender->Render();
 }
 
-uint32_t _cdecl BI_InterfaceManager::ProcessMessage(MESSAGE & message)
+uint32_t BI_InterfaceManager::ProcessMessage(MESSAGE & message)
 {
 	switch( message.Long() )
 	{

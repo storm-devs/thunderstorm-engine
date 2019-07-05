@@ -171,7 +171,7 @@ public:
 	virtual bool	GetInternalNameList( std::vector<std::string>& aStr ) {return false;}
 	virtual void	SetInternalName(std::string& sName ) {}
 
-	virtual uint32_t _cdecl MessageProc(long msgcode, MESSAGE & message);
+	virtual uint32_t MessageProc(long msgcode, MESSAGE & message);
 
 	void			SetGlowCursor(bool bShowFlag) {m_bShowGlowCursor=bShowFlag;}
 	void			SetGlowCursorToBack(bool bBackFlag) {m_bGlowCursorBack=bBackFlag;}

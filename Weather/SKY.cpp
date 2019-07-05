@@ -374,7 +374,7 @@ uint32_t SKY::AttributeChanged(ATTRIBUTES * pAttribute)
 	return 0;
 }
 
-uint32_t _cdecl SKY::ProcessMessage(MESSAGE & message)
+uint32_t SKY::ProcessMessage(MESSAGE & message)
 {
 	if (message.Long() == MSG_SEA_REFLECTION_DRAW) Realize(0);
 	return 0;

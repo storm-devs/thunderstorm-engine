@@ -24,7 +24,7 @@ public:
 	void	MouseThis(float fX, float fY) {}
 	void	ChangePosition( XYRECT &rNewPos );
 	void	SaveParametersToIni();
-	uint32_t _cdecl MessageProc(long msgcode, MESSAGE & message);
+	uint32_t MessageProc(long msgcode, MESSAGE & message);
     void    ChangeNode(CINODE * pNode);
     void    SetTempHelp(const char * string);
 

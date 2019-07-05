@@ -163,7 +163,7 @@ void HELPCHOOSER::Realize(uint32_t Delta_Time)
 	}
 }
 
-uint32_t _cdecl HELPCHOOSER::ProcessMessage(MESSAGE & message)
+uint32_t HELPCHOOSER::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{

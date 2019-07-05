@@ -45,7 +45,7 @@ bool SOUND::Init()
 }
 
 //--------------------------------------------------------------------
-uint32_t _cdecl SOUND::ProcessMessage(MESSAGE & message)
+uint32_t SOUND::ProcessMessage(MESSAGE & message)
 {
 	////GUARD(SOUND::ProcessMessage)
 

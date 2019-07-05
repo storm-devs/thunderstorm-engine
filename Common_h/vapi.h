@@ -40,7 +40,7 @@ public:
 	// get curretn value of time scale; default 1.0f
 	virtual float GetTimeScale()= 0;
 	// write message to system log file
-	virtual void _cdecl Trace(const char * Format,...)= 0;
+	virtual void Trace(const char * Format,...)= 0;
 	// OR operation with core exceptions mask, return current mask state
 
 	// work with objects classes
@@ -80,7 +80,7 @@ public:
 	// messeges system
 
 	// send message to an object
-	virtual uint32_t _cdecl Send_Message(entid_t Destination,char * Format,...)= 0;
+	virtual uint32_t Send_Message(entid_t Destination,char * Format,...)= 0;
 	
 	// layer managment 
 	
@@ -120,9 +120,9 @@ public:
 	virtual uint32_t GetDeltaTime()= 0;
 
 	// declare event
-	virtual VDATA * _cdecl Event(char * Event_name, char * Format = nullptr,...)= 0;
+	virtual VDATA * Event(char * Event_name, char * Format = nullptr,...)= 0;
 
-	virtual uint32_t _cdecl PostEvent(char * Event_name, uint32_t post_time, char * Format,...)= 0;
+	virtual uint32_t PostEvent(char * Event_name, uint32_t post_time, char * Format,...)= 0;
 
 	virtual uint32_t GetRDeltaTime()= 0;
 

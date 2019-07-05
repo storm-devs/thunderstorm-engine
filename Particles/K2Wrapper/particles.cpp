@@ -34,7 +34,7 @@ bool PARTICLES::Init ()
 }
 
 
-uint32_t _cdecl PARTICLES::ProcessMessage(MESSAGE & message)
+uint32_t PARTICLES::ProcessMessage(MESSAGE & message)
 {
 	long code = message.Long();
 

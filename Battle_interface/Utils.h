@@ -96,7 +96,7 @@ public: // functions
 
 	static bool ComparePoint(POINT& p1,POINT& p2);
 
-	static ATTRIBUTES * _cdecl GetAttributesFromPath(ATTRIBUTES * pA,...);
+	static ATTRIBUTES * GetAttributesFromPath(ATTRIBUTES * pA,...);
 
 	static uint32_t GetIntervalColor(uint32_t minV,uint32_t maxV, float fpar);
 	static bool GetIntervalRect(float fk, const FRECT& r1, const FRECT& r2, FRECT& rOut);

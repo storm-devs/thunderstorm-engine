@@ -42,7 +42,7 @@ bool SINKEFFECT::Init()
 }
 
 //--------------------------------------------------------------------
-uint32_t _cdecl SINKEFFECT::ProcessMessage(MESSAGE & message)
+uint32_t SINKEFFECT::ProcessMessage(MESSAGE & message)
 {
 	//GUARD(SINKEFFECT::ProcessMessage)
 

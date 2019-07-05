@@ -161,7 +161,7 @@ void Lighter::Realize(uint32_t delta_time)
 }
 
 //Сообщения
-uint32_t _cdecl Lighter::ProcessMessage(MESSAGE & message)
+uint32_t Lighter::ProcessMessage(MESSAGE & message)
 {
 	char command[32];
 	message.String(31, command);

@@ -647,7 +647,7 @@ void CXI_TABLE::SaveParametersToIni()
 	delete pIni;
 }
 
-uint32_t _cdecl CXI_TABLE::MessageProc(long msgcode, MESSAGE & message)
+uint32_t CXI_TABLE::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

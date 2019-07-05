@@ -161,7 +161,7 @@ private:
 	void	DoRandomsSailsDmg(int chrIdx, int gn, float fDmg);
 
 	// обработка скриптовых запросов
-	uint32_t _cdecl ScriptProcessing(char * name, MESSAGE & message);
+	uint32_t ScriptProcessing(char * name, MESSAGE & message);
 
     bool bFirstRun;
     int  wFirstIndx;

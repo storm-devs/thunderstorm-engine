@@ -14,7 +14,7 @@ enum GIEditorStates
 class GIEditorEventHandler;
 class GIEditorObject;
 
-typedef void (_cdecl GIEditorObject::*GIEditorEvent)();
+typedef void (GIEditorObject::*GIEditorEvent)();
 
 
 class GIEditorObject

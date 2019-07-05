@@ -90,7 +90,7 @@ void WaterRings::Realize(uint32_t _dTime)
 
 
 //------------------------------------------------------------------------------------
-uint32_t _cdecl WaterRings::ProcessMessage(MESSAGE &message)
+uint32_t WaterRings::ProcessMessage(MESSAGE &message)
 {
 	//add new ring
 	for (int i=0; i<MAX_RINGS;i++)

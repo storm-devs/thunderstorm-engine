@@ -291,7 +291,7 @@ XYRECT CXI_CHANGER::GetCursorRect()
 	return rectPos;
 }
 
-uint32_t _cdecl CXI_CHANGER::MessageProc(long msgcode, MESSAGE & message)
+uint32_t CXI_CHANGER::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

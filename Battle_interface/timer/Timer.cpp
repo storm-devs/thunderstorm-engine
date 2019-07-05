@@ -33,7 +33,7 @@ void BITimer::Realize(uint32_t delta_time)
 	}
 }
 
-uint32_t _cdecl BITimer::ProcessMessage(MESSAGE & message)
+uint32_t BITimer::ProcessMessage(MESSAGE & message)
 {
 	long nMsgCod = message.Long();
 	switch( nMsgCod )

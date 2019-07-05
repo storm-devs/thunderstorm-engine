@@ -162,7 +162,7 @@ void CXI_STATUSLINE::SaveParametersToIni()
 	delete pIni;
 }
 
-uint32_t _cdecl CXI_STATUSLINE::MessageProc(long msgcode, MESSAGE & message)
+uint32_t CXI_STATUSLINE::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

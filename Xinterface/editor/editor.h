@@ -46,8 +46,8 @@ public:
 	VDX9RENDER* m_pRS;
 	XINTERFACE* m_pGIOwner;
 
-	void _cdecl ChangeNodeName();
-	void _cdecl ChangeSubNodeName();
+	void ChangeNodeName();
+	void ChangeSubNodeName();
 };
 
 #endif

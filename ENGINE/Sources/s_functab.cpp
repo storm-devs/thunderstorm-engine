@@ -1,7 +1,7 @@
 #include "s_functab.h"
 #include <cstring>
 
-/*DWORD __cdecl testfunc(VS_STACK * ps)
+/*DWORD _testfunc(VS_STACK * ps)
 {
 	return 7;
 }*/

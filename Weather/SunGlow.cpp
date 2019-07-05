@@ -416,7 +416,7 @@ void SUNGLOW::DrawReflection()
 	pRS->DrawRects(&r_spr, 1, Reflection.sTechnique.c_str(), 0, 0, (bSimpleSea) ? fCoeffX : 1.0f, (bSimpleSea) ? fCoeffY : 1.0f);
 }
 
-uint32_t _cdecl SUNGLOW::ProcessMessage(MESSAGE & message)
+uint32_t SUNGLOW::ProcessMessage(MESSAGE & message)
 {
 	long iCode = message.Long();
 

@@ -124,8 +124,8 @@ public:
 //--------------------------------------------------------------------------------------------
 private:
 	bool IsShipInArea(long islIndex, CVECTOR & pos);
-	static bool _cdecl AddEdges(const GEOS::VERTEX * vrt, long numVrt);
-	static bool _cdecl FindNearPoint(const GEOS::VERTEX * vrt, long numVrt);
+	static bool AddEdges(const GEOS::VERTEX * vrt, long numVrt);
+	static bool FindNearPoint(const GEOS::VERTEX * vrt, long numVrt);
 	void LabelsReadIconParams(ATTRIBUTES * apnt);
 	long LabelsFind(const char * id, uint32_t hash);
 	bool LabelsFindLocator(const char * name, CVECTOR & pos);

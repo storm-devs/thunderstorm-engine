@@ -1551,7 +1551,7 @@ void CXI_VIMAGESCROLL::IMAGEDESCRIBE::Clear(int nQnt, int nStr)
 	}
 }
 
-uint32_t _cdecl CXI_VIMAGESCROLL::MessageProc(long msgcode, MESSAGE & message)
+uint32_t CXI_VIMAGESCROLL::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

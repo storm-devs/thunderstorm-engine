@@ -182,7 +182,7 @@ void SeaLocatorShow::ProcessMessage(uint32_t iMsg,uint32_t wParam,uint32_t lPara
 {
 }
 
-uint32_t _cdecl SeaLocatorShow::ProcessMessage(MESSAGE & message)
+uint32_t SeaLocatorShow::ProcessMessage(MESSAGE & message)
 {
 	pALocators = message.AttributePointer();
 	return 0;

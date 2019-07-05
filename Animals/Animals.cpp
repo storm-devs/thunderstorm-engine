@@ -48,7 +48,7 @@ bool ANIMALS::Init()
 }
 
 //--------------------------------------------------------------------
-uint32_t _cdecl ANIMALS::ProcessMessage(MESSAGE & message)
+uint32_t ANIMALS::ProcessMessage(MESSAGE & message)
 {
 	long code = message.Long();
 	uint32_t outValue = 0;

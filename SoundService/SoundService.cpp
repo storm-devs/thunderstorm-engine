@@ -1439,7 +1439,7 @@ int SoundService::GetFromCache (const char* szName, eSoundType _type)
 
 
 //Написать текст
-void _cdecl SoundService::DebugPrint3D(const CVECTOR & pos3D, float rad, long line, float alpha, uint32_t color, float scale, const char * format, ...)
+void SoundService::DebugPrint3D(const CVECTOR & pos3D, float rad, long line, float alpha, uint32_t color, float scale, const char * format, ...)
 {
 
 	static char buf[256];

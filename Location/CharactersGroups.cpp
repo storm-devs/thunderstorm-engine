@@ -361,7 +361,7 @@ bool CharactersGroups::RemoveInvalidTargets(Character * chr, Character * check)
 }
 
 //Сообщения
-uint32_t _cdecl CharactersGroups::ProcessMessage(MESSAGE & message)
+uint32_t CharactersGroups::ProcessMessage(MESSAGE & message)
 {
 	char cmd[64];
 	message.String(sizeof(cmd), cmd); cmd[sizeof(cmd) - 1] = 0;

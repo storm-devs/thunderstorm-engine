@@ -239,7 +239,7 @@ void CXI_CHECKBUTTONS::SaveParametersToIni()
 	delete pIni;
 }
 
-uint32_t _cdecl CXI_CHECKBUTTONS::MessageProc(long msgcode, MESSAGE & message)
+uint32_t CXI_CHECKBUTTONS::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

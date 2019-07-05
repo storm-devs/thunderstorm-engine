@@ -344,7 +344,7 @@ float CORE::GetTimeScale()
 //------------------------------------------------------------------------------------------------
 // transfer message arguments and program control to entity, specified by Destination id
 //
-uint32_t _cdecl CORE::Send_Message(entid_t Destination,char * Format,...)
+uint32_t CORE::Send_Message(entid_t Destination,char * Format,...)
 {
 	MESSAGE message;
 	entptr_t ptr = entityManager.GetEntity(Destination); // check for valid destination
@@ -356,7 +356,7 @@ uint32_t _cdecl CORE::Send_Message(entid_t Destination,char * Format,...)
 	return rc;
 }
 
-uint32_t _cdecl CORE::PostEvent(char * Event_name, uint32_t post_time, char * Format,...)
+uint32_t CORE::PostEvent(char * Event_name, uint32_t post_time, char * Format,...)
 {
 	MESSAGE_SCRIPT * pMS;
 	MESSAGE message;
@@ -420,7 +420,7 @@ uint32_t _cdecl CORE::PostEvent(char * Event_name, uint32_t post_time, char * Fo
 	return 0;
 }
 
-VDATA * _cdecl CORE::Event(char * Event_name, char * Format,...)
+VDATA * CORE::Event(char * Event_name, char * Format,...)
 {
 	VDATA* pVD = nullptr;
 	if(Format == nullptr)
@@ -508,7 +508,7 @@ void * CORE::CreateService(char * service_name)
 
 }
 
-void _cdecl CORE::Trace(const char * format, ...)
+void CORE::Trace(const char * format, ...)
 {
 	static	char buffer_4k[4096];
 

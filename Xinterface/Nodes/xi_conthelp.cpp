@@ -270,7 +270,7 @@ char * CXI_CONTEXTHELP::GetCurrentHelpString(uint32_t deltaTime)
     return pStringService->GetString(m_defaultString);
 }
 
-uint32_t _cdecl CXI_CONTEXTHELP::MessageProc(long msgcode, MESSAGE & message)
+uint32_t CXI_CONTEXTHELP::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

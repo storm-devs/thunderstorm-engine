@@ -98,7 +98,7 @@ public:
 	VDX9RENDER * GetRS();
 	void DrawLine(const CVECTOR & s, uint32_t cs, const CVECTOR & d, uint32_t cd, bool useZ = true);
 	//Написать текст
-	void _cdecl Print(const CVECTOR & pos3D, float rad, long line, float alpha, uint32_t color, float scale, const char * format, ...);
+	void Print(const CVECTOR & pos3D, float rad, long line, float alpha, uint32_t color, float scale, const char * format, ...);
 
 	bool IsDebugView();
 	bool IsExDebugView();
@@ -124,8 +124,8 @@ private:
 	long LoadStaticModel(const char * modelName, const char * tech, long level, bool useDynamicLights);
 	bool LoadCharacterPatch(const char * ptcName);
 	void LoadCaustic();
-	bool __declspec(dllexport) __cdecl LoadJumpPatch(const char * modelName);
-	bool __declspec(dllexport) __cdecl LoadGrass(const char * modelName, const char * texture);
+	bool __declspec(dllexport) _LoadJumpPatch(const char * modelName);
+	bool __declspec(dllexport) _LoadGrass(const char * modelName, const char * texture);
 	bool MessageEx(const char * name, MESSAGE & message);
 	void UpdateLocators();
 	void DrawLocators(LocatorArray * la);

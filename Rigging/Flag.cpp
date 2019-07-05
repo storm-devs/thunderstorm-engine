@@ -134,7 +134,7 @@ void FLAG::Realize(uint32_t Delta_Time)
     }
 }
 
-uint32_t _cdecl FLAG::ProcessMessage(MESSAGE & message)
+uint32_t FLAG::ProcessMessage(MESSAGE & message)
 {
 	long code = message.Long();
 

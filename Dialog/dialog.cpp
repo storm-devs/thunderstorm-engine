@@ -39,7 +39,7 @@ inline void SetVerticesForSquare(XI_TEX_VERTEX* pV, FRECT uv, float left,float t
 	pV[3].u = uv.right; pV[3].v = uv.bottom;
 }
 
-void __declspec(noinline) __cdecl DIALOG::DlgTextDescribe::ChangeText(const char* pcText)
+void __declspec(noinline) _DIALOG::DlgTextDescribe::ChangeText(const char* pcText)
 {
 	asText.clear();
 	anPageEndIndex.clear();
@@ -70,7 +70,7 @@ void __declspec(noinline) __cdecl DIALOG::DlgTextDescribe::ChangeText(const char
 	nSelectLine = -1;
 }
 
-void __declspec(noinline) __cdecl DIALOG::DlgTextDescribe::Init(VDX9RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni)
+void __declspec(noinline) _DIALOG::DlgTextDescribe::Init(VDX9RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni)
 {
 	Assert(pRS);
 	rs = pRS;
@@ -154,7 +154,7 @@ void DIALOG::DlgTextDescribe::NextPage()
 		nStartIndex = anPageEndIndex[n];
 }
 
-void __declspec(noinline) __cdecl DIALOG::DlgLinkDescribe::ChangeText(ATTRIBUTES* pALinks)
+void __declspec(noinline) _DIALOG::DlgLinkDescribe::ChangeText(ATTRIBUTES* pALinks)
 {
 	nEditLine = -1;
 	asText.clear();
@@ -184,7 +184,7 @@ void __declspec(noinline) __cdecl DIALOG::DlgLinkDescribe::ChangeText(ATTRIBUTES
 	fCursorCurrentTime = 0.f;
 }
 
-void __declspec(noinline) __cdecl DIALOG::DlgLinkDescribe::Init(VDX9RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni)
+void __declspec(noinline) _DIALOG::DlgLinkDescribe::Init(VDX9RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni)
 {
 	Assert(pRS);
 	rs = pRS;
@@ -251,7 +251,7 @@ void DIALOG::DlgLinkDescribe::Show(long nY)
 	}
 }
 
-void __declspec(noinline) __cdecl DIALOG::DlgLinkDescribe::ShowEditMode(long nX, long nY, long nTextIdx)
+void __declspec(noinline) _DIALOG::DlgLinkDescribe::ShowEditMode(long nX, long nY, long nTextIdx)
 {
 	long nKeyQ = api->Controls->GetKeyBufferLength();
 	if( nKeyQ > 0 )
@@ -371,7 +371,7 @@ DIALOG::~DIALOG()
 	if( m_nCharNameTextFont != -1 ) RenderService->UnloadFont( m_nCharNameTextFont ); m_nCharNameTextFont = -1;
 }
 
-void __declspec(noinline) __cdecl DIALOG::CreateBack()
+void __declspec(noinline) _DIALOG::CreateBack()
 {
 	long nSquareQuantity = 9 + 3 + 1; // 9-for back, 3-for name & 1-for divider
 	m_nIQntBack = 6 * nSquareQuantity; // 6 индексов в одном прямоугольнике
@@ -986,7 +986,7 @@ uint32_t DIALOG::AttributeChanged(ATTRIBUTES * pA)
 }
 
 //--------------------------------------------------------------------
-uint32_t _cdecl DIALOG::ProcessMessage(MESSAGE & message)
+uint32_t DIALOG::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{

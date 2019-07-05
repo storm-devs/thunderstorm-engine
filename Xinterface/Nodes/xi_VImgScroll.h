@@ -48,7 +48,7 @@ public:
 	void	ChangePosition( XYRECT &rNewPos );
 	void	SaveParametersToIni();
 	XYRECT	GetCursorRect();
-	uint32_t _cdecl MessageProc(long msgcode, MESSAGE & message);
+	uint32_t MessageProc(long msgcode, MESSAGE & message);
 
     void    ChangeScroll(int nScrollItemNum);
 	void	DeleteImage(int imgNum);

@@ -20,7 +20,7 @@ public:
 	void	SaveParametersToIni();
 	void	NotUsingTime(uint32_t Delta_Time) {nPressedDelay=0;}
 	void	SetUsing(bool bUsing);
-	uint32_t _cdecl MessageProc(long msgcode, MESSAGE & message);
+	uint32_t MessageProc(long msgcode, MESSAGE & message);
 
 protected:
 	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);

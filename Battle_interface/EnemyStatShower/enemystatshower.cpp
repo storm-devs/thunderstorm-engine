@@ -23,7 +23,7 @@ void EnemyStatShower::Realize(uint32_t delta_time)
 {
 }
 
-uint32_t _cdecl EnemyStatShower::ProcessMessage(MESSAGE & message)
+uint32_t EnemyStatShower::ProcessMessage(MESSAGE & message)
 {
 	long nMsgCod = message.Long();
 	switch( nMsgCod )

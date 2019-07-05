@@ -78,7 +78,7 @@ void InfoHandler::Realize(uint32_t delta_time)
 	}
 }
 
-uint32_t _cdecl InfoHandler::ProcessMessage(MESSAGE & message)
+uint32_t InfoHandler::ProcessMessage(MESSAGE & message)
 {
 	long nMsgCode = message.Long();
 	switch( nMsgCode )

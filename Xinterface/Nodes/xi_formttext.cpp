@@ -921,7 +921,7 @@ void CXI_FORMATEDTEXT::MakeTagChecking( bool& tagState, uint32_t& tagColor, uint
 	}
 }
 
-uint32_t _cdecl CXI_FORMATEDTEXT::MessageProc(long msgcode, MESSAGE & message)
+uint32_t CXI_FORMATEDTEXT::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

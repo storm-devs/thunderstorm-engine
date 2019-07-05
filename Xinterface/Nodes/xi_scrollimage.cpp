@@ -1582,7 +1582,7 @@ void CXI_SCROLLIMAGE::IMAGEDESCRIBE::Clear(int nQnt)
 	STORM_DELETE(string2);
 }
 
-uint32_t _cdecl CXI_SCROLLIMAGE::MessageProc(long msgcode, MESSAGE & message)
+uint32_t CXI_SCROLLIMAGE::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

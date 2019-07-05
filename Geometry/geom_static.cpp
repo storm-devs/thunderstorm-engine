@@ -11,7 +11,7 @@ Import library main file
 #include <cstring>
 
 //create geometry func
-GEOS* _cdecl CreateGeometry(const char *fname, const char *lightname, GEOM_SERVICE &srv, long flags)
+GEOS* CreateGeometry(const char *fname, const char *lightname, GEOM_SERVICE &srv, long flags)
 {
 	return new GEOM(fname, lightname, srv, flags);
 }

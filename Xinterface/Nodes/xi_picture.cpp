@@ -231,7 +231,7 @@ void CXI_PICTURE::SetNewPictureByGroup( char* groupName, char* picName )
 	}
 }
 
-uint32_t _cdecl CXI_PICTURE::MessageProc(long msgcode, MESSAGE & message)
+uint32_t CXI_PICTURE::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

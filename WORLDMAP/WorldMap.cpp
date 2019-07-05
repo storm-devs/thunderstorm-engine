@@ -503,7 +503,7 @@ void WorldMap::Realize(uint32_t delta_time)
 }
 
 //Сообщения
-uint32_t _cdecl WorldMap::ProcessMessage(MESSAGE & message)
+uint32_t WorldMap::ProcessMessage(MESSAGE & message)
 {
 	char buf[256];
 	char sName[256];

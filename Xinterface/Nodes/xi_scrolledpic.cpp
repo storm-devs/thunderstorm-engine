@@ -150,7 +150,7 @@ void CXI_SCROLLEDPICTURE::SetNewPictureFromDir(char * dirName)
 	CXI_PICTURE::SetNewPictureFromDir(dirName);
 }
 
-uint32_t _cdecl CXI_SCROLLEDPICTURE::MessageProc(long msgcode, MESSAGE & message)
+uint32_t CXI_SCROLLEDPICTURE::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

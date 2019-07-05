@@ -27,7 +27,7 @@ void BIImageRender::Render()
 	} while( GetNextPrioritetRange() );
 }
 
-uint32_t _cdecl BIImageRender::ProcessMessage(MESSAGE & message)
+uint32_t BIImageRender::ProcessMessage(MESSAGE & message)
 {
 	return 0;
 }

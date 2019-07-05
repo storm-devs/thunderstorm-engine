@@ -351,7 +351,7 @@ char * CINODE::GetDataStr(char * inStr, char * strOrder, ...)
 	return inStr;
 }
 
-uint32_t _cdecl CINODE::MessageProc(long msgcode, MESSAGE & message)
+uint32_t CINODE::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

@@ -57,7 +57,7 @@ void WM_INTERFACE::Realize(uint32_t delta_time)
 	}
 }
 
-uint32_t _cdecl WM_INTERFACE::ProcessMessage(MESSAGE & message)
+uint32_t WM_INTERFACE::ProcessMessage(MESSAGE & message)
 {
 	switch (message.Long())
 	{

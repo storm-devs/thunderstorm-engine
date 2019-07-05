@@ -293,6 +293,6 @@ enum GEOS_LOADING_FLAGS
 	LOAD_FORCEDWORD = 0x7FFFFFFF
 };
 
-GEOS* _cdecl CreateGeometry(const char *fname, const char *lightname, GEOM_SERVICE &srv, long flags);
+GEOS* CreateGeometry(const char *fname, const char *lightname, GEOM_SERVICE &srv, long flags);
 
 #endif

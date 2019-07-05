@@ -14,7 +14,7 @@
 
 #define WIND_SPEED_MAX 12.f
 
-void _cdecl sailPrint(VDX9RENDER *rs, const CVECTOR & pos3D, float rad, long line, const char * format, ...);
+void sailPrint(VDX9RENDER *rs, const CVECTOR & pos3D, float rad, long line, const char * format, ...);
 int traceSail = -1;
 long g_iBallOwnerIdx = -1;
 
@@ -552,9 +552,9 @@ void SAIL::Realize(uint32_t Delta_Time)
     }
 }
 
-uint32_t _cdecl SAIL::ProcessMessage(MESSAGE & message)
+uint32_t SAIL::ProcessMessage(MESSAGE & message)
 {
-    //GUARD(uint32_t _cdecl SAIL::ProcessMessage(MESSAGE message))
+    //GUARD(uint32_t SAIL::ProcessMessage(MESSAGE message))
     entid_t tmpEI;
     int i;
 
@@ -1835,7 +1835,7 @@ void SAIL::DoNoRopeSailToNewHost(entid_t newModel, entid_t newHost, entid_t oldH
     }
 }
 
-void _cdecl sailPrint(VDX9RENDER *rs, const CVECTOR & pos3D, float rad, long line, const char * format, ...)
+void sailPrint(VDX9RENDER *rs, const CVECTOR & pos3D, float rad, long line, const char * format, ...)
 {
 	static char buf[256];
 	//Печатаем в буфер
@@ -2031,7 +2031,7 @@ int SAIL::GetSailStateForCharacter(int chrIdx)
 	return 0;
 }
 
-uint32_t _cdecl SAIL::ScriptProcessing(char * name, MESSAGE & message)
+uint32_t SAIL::ScriptProcessing(char * name, MESSAGE & message)
 {
 	if( name== nullptr ) return 0;
 

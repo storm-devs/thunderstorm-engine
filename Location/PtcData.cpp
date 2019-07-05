@@ -121,7 +121,7 @@ bool PtcData::Load(const char * path)
 
 //Функция защиты
 #ifndef _XBOX
-void __declspec(dllexport) __cdecl PtcData::SFLB_PotectionLoad()
+void __declspec(dllexport) _PtcData::SFLB_PotectionLoad()
 #else
 void PtcData::SFLB_PotectionLoad()
 #endif

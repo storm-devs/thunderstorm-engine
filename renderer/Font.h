@@ -80,7 +80,7 @@ public:
 	void SetShadow(bool s);
 	void SetCenter(bool c);
 	bool MakeLong(char * * pDataPointer, long * result);
-	long _cdecl Printf(long x, long y, char * Text, ...);
+	long Printf(long x, long y, char * Text, ...);
 	long Print(long x, long y, char * Text);
 	long UpdateVertexBuffer(long x, long y, char * data_PTR);
 	long GetStringWidth(const char * Text);

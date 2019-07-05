@@ -86,8 +86,8 @@ private:
 
 		virtual ~DlgTextDescribe() {Release();}
 		virtual void Release() {TextDescribe::Release();}
-		void __declspec(dllexport) __cdecl ChangeText(const char* pcText);
-		void __declspec(dllexport) __cdecl Init(VDX9RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni);
+		void __declspec(dllexport) _ChangeText(const char* pcText);
+		void __declspec(dllexport) _Init(VDX9RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni);
 		long GetShowHeight();
 		void Show(long nY);
 		bool IsLastPage();
@@ -109,11 +109,11 @@ private:
 		DlgLinkDescribe() : TextDescribe() {pDlg=nullptr;}
 		virtual ~DlgLinkDescribe() {Release();}
 		virtual void Release() {TextDescribe::Release();}
-		void __declspec(dllexport) __cdecl ChangeText(ATTRIBUTES* pALinks);
-		void __declspec(dllexport) __cdecl Init(VDX9RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni);
+		void __declspec(dllexport) _ChangeText(ATTRIBUTES* pALinks);
+		void __declspec(dllexport) _Init(VDX9RENDER* pRS, D3DVIEWPORT9& vp, INIFILE* pIni);
 		long GetShowHeight();
 		void Show(long nY);
-		void __declspec(dllexport) __cdecl ShowEditMode(long nX, long nY, long nTextIdx);
+		void __declspec(dllexport) _ShowEditMode(long nX, long nY, long nTextIdx);
 		void SetDlg(DIALOG* _pDlg) {pDlg=_pDlg;}
 	};
 	DlgLinkDescribe m_DlgLinks;
@@ -193,7 +193,7 @@ private:
 	static float GetScrWidth( float fX ) {return fX*m_frScreenData.right;}
 	static float GetScrHeight( float fY ) {return fY*m_frScreenData.bottom;}
 
-	void __declspec(dllexport) __cdecl CreateBack();
+	void __declspec(dllexport) _CreateBack();
 	void FillBack();
 	void FillDivider();
 	void DrawBack();

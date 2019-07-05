@@ -82,7 +82,7 @@ void SEA_AI::ProcessMessage(uint32_t iMsg, uint32_t wParam, uint32_t lParam)
 {
 }
 
-uint32_t _cdecl SEA_AI::ProcessMessage(MESSAGE & message)
+uint32_t SEA_AI::ProcessMessage(MESSAGE & message)
 {
 	char	cGroupName[256], cOtherGroupName[256], cTemp[256];
 

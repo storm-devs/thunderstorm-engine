@@ -36,10 +36,10 @@ public:
 	void            Realize(uint32_t Delta_Time);
 	bool            CreateState(ENTITY_STATE_GEN * state_gen);
 	bool            LoadState(ENTITY_STATE * state);
-	uint32_t _cdecl    ProcessMessage(MESSAGE & message);
+	uint32_t    ProcessMessage(MESSAGE & message);
 protected:
     void            AllRelease();
-    void _cdecl     Mount( entid_t modelEI, entid_t shipEI, NODE* mastNodePointer );
+    void     Mount( entid_t modelEI, entid_t shipEI, NODE* mastNodePointer );
     void            LoadIni();
     void            doMove(uint32_t DeltaTime);
     int             GetSlide(entid_t mod, CVECTOR &pbeg, CVECTOR &pend, CVECTOR &dp, CVECTOR &lrey, CVECTOR &rrey, float &angl);

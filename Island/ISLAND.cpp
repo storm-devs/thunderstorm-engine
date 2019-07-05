@@ -227,7 +227,7 @@ bool ISLAND::GetDepth(FRECT * pRect, float * fMinH, float * fMaxH)
 	return false;
 }
 
-uint32_t _cdecl ISLAND::ProcessMessage(MESSAGE & message)
+uint32_t ISLAND::ProcessMessage(MESSAGE & message)
 {
 	entid_t	eID;
 	char		str[256], idstr[256];

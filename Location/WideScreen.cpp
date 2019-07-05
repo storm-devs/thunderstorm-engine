@@ -43,7 +43,7 @@ bool WideScreen::Init()
 }
 
 //Сообщения
-uint32_t _cdecl WideScreen::ProcessMessage(MESSAGE & message)
+uint32_t WideScreen::ProcessMessage(MESSAGE & message)
 {
 	dlt = -1.0f;
 	return 0;

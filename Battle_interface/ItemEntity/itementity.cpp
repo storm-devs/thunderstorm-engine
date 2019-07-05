@@ -28,7 +28,7 @@ void ItemEntity::Realize(uint32_t delta_time)
 			m_pModel->Realize( delta_time );
 }
 
-uint32_t _cdecl ItemEntity::ProcessMessage(MESSAGE & message)
+uint32_t ItemEntity::ProcessMessage(MESSAGE & message)
 {
 	long nMsgCod = message.Long();
 	switch( nMsgCod )

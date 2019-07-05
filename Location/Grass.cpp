@@ -546,7 +546,7 @@ void Grass::Realize(uint32_t delta_time)
 	}
 }
 
-uint32_t _cdecl Grass::ProcessMessage(MESSAGE &message)
+uint32_t Grass::ProcessMessage(MESSAGE &message)
 {
 	char ctmp[MAX_PATH];
 	switch( message.Long() )

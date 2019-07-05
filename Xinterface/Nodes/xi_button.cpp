@@ -268,7 +268,7 @@ void CXI_BUTTON::SetUsing(bool bUsing)
 	nPressedDelay = 0;
 }
 
-uint32_t _cdecl CXI_BUTTON::MessageProc(long msgcode, MESSAGE & message)
+uint32_t CXI_BUTTON::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

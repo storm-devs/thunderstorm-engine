@@ -18,7 +18,7 @@ public:
 	void	MouseThis(float fX, float fY) {}
 	void	ChangePosition( XYRECT &rNewPos );
 	void	SaveParametersToIni();
-	uint32_t _cdecl MessageProc(long msgcode, MESSAGE & message);
+	uint32_t MessageProc(long msgcode, MESSAGE & message);
 	void	NotUsingTime(uint32_t Delta_Time) {m_nPressedDelay=0;}
 	void	SetUsing(bool bUsing);
 	void	MakeLClickPreaction();

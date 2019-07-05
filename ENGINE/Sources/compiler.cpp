@@ -198,7 +198,7 @@ void COMPILER::Release()
 	//Token.Release();
 }
 
-void __declspec(noinline) __cdecl COMPILER::SetProgramDirectory(char * dir_name)
+void __declspec(noinline) _COMPILER::SetProgramDirectory(char * dir_name)
 {
 	if(ProgramDirectory) delete ProgramDirectory; ProgramDirectory = nullptr;
 	if(dir_name)
@@ -554,7 +554,7 @@ bool COMPILER::CreateProgram(char * file_name)
 	return bRes;
 }
 
-bool __declspec(noinline) __cdecl COMPILER::Run()
+bool __declspec(noinline) _COMPILER::Run()
 {
 	pRun_fi = nullptr;
 	uint32_t function_code = FuncTab.FindFunc("Main");

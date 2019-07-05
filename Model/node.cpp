@@ -28,7 +28,7 @@ GEOS *sphere=0;
 //-------------------------------------------------------------------
 CMatrix *backtrans;
 CVECTOR clip_v[256];
-bool _cdecl AddPolygon(const GEOS::VERTEX *vr, long nv)
+bool AddPolygon(const GEOS::VERTEX *vr, long nv)
 {
 	//!!! must be transformed
 	for(long p=0; p<nv; p++)

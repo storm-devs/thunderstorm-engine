@@ -168,9 +168,9 @@ void MAST::Realize(uint32_t Delta_Time)
 	//UNGUARD
 }
 
-uint32_t _cdecl MAST::ProcessMessage(MESSAGE & message)
+uint32_t MAST::ProcessMessage(MESSAGE & message)
 {
-	//GUARD(uint32_t _cdecl MAST::ProcessMessage(MESSAGE message))
+	//GUARD(uint32_t MAST::ProcessMessage(MESSAGE message))
 
 	switch (message.Long())
 	{
@@ -190,7 +190,7 @@ uint32_t _cdecl MAST::ProcessMessage(MESSAGE & message)
 }
 
 #define ADD_MINIMUM .01f
-void _cdecl MAST::Mount( entid_t modelEI, entid_t shipEI, NODE* mastNodePointer )
+void MAST::Mount( entid_t modelEI, entid_t shipEI, NODE* mastNodePointer )
 {
 	m_pMastNode = mastNodePointer;
 	if(mastNodePointer== nullptr) return;

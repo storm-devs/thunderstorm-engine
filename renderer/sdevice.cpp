@@ -27,7 +27,7 @@ CREATE_SCRIPTLIBRIARY(DX9RENDER_SCRIPT_LIBRIARY)
 
 DX9RENDER * DX9RENDER::pRS = nullptr;
 
-uint32_t __cdecl DX9SetTexturePath(VS_STACK * pS)
+uint32_t _DX9SetTexturePath(VS_STACK * pS)
 {
 	VDATA * pString = (VDATA*)pS->Pop();
 	VDATA * pNumber = (VDATA*)pS->Pop();
@@ -56,7 +56,7 @@ uint32_t __cdecl DX9SetTexturePath(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-uint32_t __cdecl RPrint(VS_STACK * pS)
+uint32_t _RPrint(VS_STACK * pS)
 {
 	VDATA * pString = (VDATA*)pS->Pop();
 	long y = ((VDATA*)pS->Pop())->GetLong();
@@ -68,7 +68,7 @@ uint32_t __cdecl RPrint(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-uint32_t __cdecl SetGlowParams(VS_STACK * pS)
+uint32_t _SetGlowParams(VS_STACK * pS)
 {
 	float fBlurBrushSize = ((VDATA*)pS->Pop())->GetFloat();
 	long Intensivity = ((VDATA*)pS->Pop())->GetLong();
@@ -2533,7 +2533,7 @@ void DX9RENDER::RunEnd()
 
 char Buff_4k[4096];
 
-long _cdecl DX9RENDER::Print(long x, long y, char * format, ...)
+long DX9RENDER::Print(long x, long y, char * format, ...)
 {
 	//GUARD(DX9RENDER::Print)
 		if (idFontCurrent<0 || idFontCurrent >= nFontQuantity) return 0;
@@ -2548,7 +2548,7 @@ long _cdecl DX9RENDER::Print(long x, long y, char * format, ...)
 	//UNGUARD
 }
 
-long _cdecl DX9RENDER::Print(long nFontNum, uint32_t color, long x, long y, char * format, ...)
+long DX9RENDER::Print(long nFontNum, uint32_t color, long x, long y, char * format, ...)
 {
 	//GUARD(DX9RENDER::Print)
 		if (nFontNum<0 || nFontNum >= nFontQuantity) return 0;
@@ -2600,7 +2600,7 @@ long DX9RENDER::CharHeight(long fontID)
 	return FontList[fontID].font->GetHeight();
 }
 
-long _cdecl DX9RENDER::ExtPrint(long nFontNum, uint32_t foreColor, uint32_t backColor, int wAlign,
+long DX9RENDER::ExtPrint(long nFontNum, uint32_t foreColor, uint32_t backColor, int wAlign,
 	bool bShadow, float fScale, long scrWidth, long scrHeight,
 	long x, long y, char * format, ...)
 {
@@ -3085,7 +3085,7 @@ void DX9RENDER::FindPlanes(IDirect3DDevice9 * d3dDevice)
 	viewplane[3].D = (pos.x*viewplane[3].Nx + pos.y*viewplane[3].Ny + pos.z*viewplane[3].Nz);
 }
 
-bool _cdecl DX9RENDER::TechniqueExecuteStart(const char *cBlockName)
+bool DX9RENDER::TechniqueExecuteStart(const char *cBlockName)
 {
 	if (!cBlockName) return false;
 	return effects_.begin(cBlockName);

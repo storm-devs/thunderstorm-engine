@@ -1380,7 +1380,7 @@ void XINTERFACE::CreateNode(char *sFileName, char *sNodeType, char *sNodeName, l
 	if(ownerIni)	delete ownerIni;
 }
 
-void __declspec(dllexport) __cdecl XINTERFACE::SFLB_CreateNode(INIFILE* pOwnerIni, INIFILE* pUserIni, char *sNodeType, char *sNodeName, long priority)
+void __declspec(dllexport) _XINTERFACE::SFLB_CreateNode(INIFILE* pOwnerIni, INIFILE* pUserIni, char *sNodeType, char *sNodeName, long priority)
 {
 	if( !sNodeType || !sNodeType[0] )
 	{
@@ -2528,7 +2528,7 @@ uint32_t XINTERFACE::AttributeChanged(ATTRIBUTES *patr)
 	return 0;
 }
 
-bool __declspec(dllexport) __cdecl XINTERFACE::SFLB_DoSaveFileData(char * saveName, char * saveData)
+bool __declspec(dllexport) _XINTERFACE::SFLB_DoSaveFileData(char * saveName, char * saveData)
 {
 	if(saveName== nullptr || saveData== nullptr) return false;
 	long slen = strlen(saveData)+1;
@@ -2570,7 +2570,7 @@ bool __declspec(dllexport) __cdecl XINTERFACE::SFLB_DoSaveFileData(char * saveNa
 	return true;
 }
 
-bool __declspec(dllexport) __cdecl XINTERFACE::SFLB_GetSaveFileData(char * saveName, long bufSize, char * buf)
+bool __declspec(dllexport) _XINTERFACE::SFLB_GetSaveFileData(char * saveName, long bufSize, char * buf)
 {
 	if(buf== nullptr || bufSize<=0) return false;
 	long allDatSize = 0;
@@ -3470,7 +3470,7 @@ void CONTROLS_CONTAINER::Execute(uint32_t delta_time)
 	}
 }
 
-uint32_t _cdecl CONTROLS_CONTAINER::ProcessMessage(MESSAGE & message)
+uint32_t CONTROLS_CONTAINER::ProcessMessage(MESSAGE & message)
 {
 	return 0;
 }

@@ -167,7 +167,7 @@ void BLAST::ProcessTime(uint32_t DT)
 	if(bStop) api->DeleteEntity(GetId());
 }
 
-uint32_t _cdecl BLAST::ProcessMessage(MESSAGE & message)
+uint32_t BLAST::ProcessMessage(MESSAGE & message)
 {
 	long code;
 	CVECTOR ang;

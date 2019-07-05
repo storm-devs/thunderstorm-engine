@@ -326,7 +326,7 @@ void MODELR::AniRender()
 }
 
 
-uint32_t _cdecl MODELR::ProcessMessage(MESSAGE &message)
+uint32_t MODELR::ProcessMessage(MESSAGE &message)
 {
 	char str[256];
 	long code = message.Long();
@@ -504,7 +504,7 @@ ADD_POLYGON_FUNC clip_ap;
 GEOS::ADD_POLYGON_FUNC clip_geosap;
 long clip_nps;
 
-bool _cdecl AddPolygon(const GEOS::VERTEX *vr, long nv);
+bool AddPolygon(const GEOS::VERTEX *vr, long nv);
 //-------------------------------------------------------------------
 bool MODELR::Clip(const PLANE *planes, long nplanes, const CVECTOR &center, float radius, ADD_POLYGON_FUNC addpoly)
 {

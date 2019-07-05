@@ -206,7 +206,7 @@ void FONT::SetColor(uint32_t color)
 }
 
 
-long _cdecl FONT::Printf(long x, long y, char * data_PTR, ...)
+long FONT::Printf(long x, long y, char * data_PTR, ...)
 {
 	va_list args;
 	va_start(args,data_PTR);

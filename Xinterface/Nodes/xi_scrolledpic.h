@@ -17,7 +17,7 @@ public:
 	void	MouseThis(float fX, float fY) {}
 	void	ChangePosition( XYRECT &rNewPos );
 	void	SaveParametersToIni();
-	uint32_t _cdecl MessageProc(long msgcode, MESSAGE & message);
+	uint32_t MessageProc(long msgcode, MESSAGE & message);
 	void	MoveMouseOutScreen( float fX, float fY );
 	virtual void ChangeUV( FXYRECT &frNewUV );
 

@@ -104,7 +104,7 @@ void CXI_LINECOLLECTION::SaveParametersToIni()
 	delete pIni;
 }
 
-uint32_t _cdecl CXI_LINECOLLECTION::MessageProc(long msgcode, MESSAGE & message)
+uint32_t CXI_LINECOLLECTION::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

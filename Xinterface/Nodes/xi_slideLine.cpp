@@ -176,7 +176,7 @@ void CXI_SLIDELINE::DoMouseControl()
 	}
 }
 
-uint32_t _cdecl CXI_SLIDELINE::MessageProc(long msgcode, MESSAGE & message)
+uint32_t CXI_SLIDELINE::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

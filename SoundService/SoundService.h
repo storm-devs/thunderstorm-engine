@@ -186,7 +186,7 @@ public:
 
 	SoundService();
 	virtual ~SoundService();
-	bool __declspec(dllexport) __cdecl SFLB_SetScheme(const char *_schemeName);
+	bool __declspec(dllexport) _SFLB_SetScheme(const char *_schemeName);
 	virtual bool Init();
 	virtual uint32_t RunSection()
 	{
@@ -236,7 +236,7 @@ public:
 
 	void DebugDraw ();
 
-	void _cdecl DebugPrint3D(const CVECTOR & pos3D, float rad, long line, float alpha, uint32_t color, float scale, const char * format, ...);
+	void DebugPrint3D(const CVECTOR & pos3D, float rad, long line, float alpha, uint32_t color, float scale, const char * format, ...);
 	void Draw2DCircle (const CVECTOR& center, uint32_t dwColor, float fRadius, uint32_t dwColor2, float fRadius2);
 
 

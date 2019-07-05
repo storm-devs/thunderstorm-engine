@@ -66,7 +66,7 @@ void ActivePerkShower::Realize(uint32_t delta_time)
 	}
 }
 
-uint32_t _cdecl ActivePerkShower::ProcessMessage(MESSAGE & message)
+uint32_t ActivePerkShower::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{

@@ -181,7 +181,7 @@ private:
 	long				iBlocksDoneNum;
 
 	static uint32_t	ThreadExecute(long iThreadIndex);
-	void __declspec(dllexport) __cdecl SFLB_CreateBuffers();
+	void __declspec(dllexport) _SFLB_CreateBuffers();
 	void CreateVertexDeclaration();
 public:
 

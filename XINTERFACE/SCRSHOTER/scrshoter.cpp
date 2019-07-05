@@ -248,7 +248,7 @@ bool SCRSHOTER::MakeScreenShot()
 	return hr==D3D_OK;
 }
 
-uint32_t _cdecl SCRSHOTER::ProcessMessage(MESSAGE & message)
+uint32_t SCRSHOTER::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{

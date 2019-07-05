@@ -205,7 +205,7 @@ void Location::Update(uint32_t delta_time)
 }
 
 //Сообщения
-uint32_t _cdecl Location::ProcessMessage(MESSAGE & message)
+uint32_t Location::ProcessMessage(MESSAGE & message)
 {
 	long i;
 	float u0, v0, u1, v1;
@@ -506,7 +506,7 @@ bool Location::LoadCharacterPatch(const char * ptcName)
 	return result;
 }
 
-bool __declspec(dllexport) __cdecl Location::LoadJumpPatch(const char * modelName)
+bool __declspec(dllexport) _Location::LoadJumpPatch(const char * modelName)
 {
 	if(patchJump >= 0) model.DeleteModel(patchJump);
 	patchJump = -1;
@@ -515,7 +515,7 @@ bool __declspec(dllexport) __cdecl Location::LoadJumpPatch(const char * modelNam
 	return patchJump >= 0;
 }
 
-bool __declspec(dllexport) __cdecl Location::LoadGrass(const char * modelName, const char * texture)
+bool __declspec(dllexport) _Location::LoadGrass(const char * modelName, const char * texture)
 {
 	api->DeleteEntity(grass);
 	if(!modelName || !modelName[0]) return true;
@@ -922,7 +922,7 @@ bool Location::IsDebugView()
 #include <stdio.h>
 
 //Написать текст
-void _cdecl Location::Print(const CVECTOR & pos3D, float rad, long line, float alpha, uint32_t color, float scale, const char * format, ...)
+void Location::Print(const CVECTOR & pos3D, float rad, long line, float alpha, uint32_t color, float scale, const char * format, ...)
 {
 	static char buf[256];
 	scale *= 2.0f;

@@ -625,7 +625,7 @@ bool Character::Init()
 }
 
 //Сообщения
-uint32_t _cdecl Character::ProcessMessage(MESSAGE & message)
+uint32_t Character::ProcessMessage(MESSAGE & message)
 {
 	if(message.GetCurrentFormatType() == 's')
 	{

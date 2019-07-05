@@ -20,7 +20,7 @@ public:
 	void	SetInternalName(std::string& sName );
 	void	ChangePosition( XYRECT &rNewPos );
 	void	SaveParametersToIni();
-	uint32_t _cdecl MessageProc(long msgcode, MESSAGE & message);
+	uint32_t MessageProc(long msgcode, MESSAGE & message);
 
 	void	ChangeString(long num, const char* sValue);
 	void	ChangeStringColor(long num, uint32_t dwColor);

@@ -355,7 +355,7 @@ void CXI_BORDER::WriteVertexForSquare( XI_ONETEX_VERTEX* pV, FXYRECT& UVRect, ui
 	pV[3].tv = UVRect.bottom;
 }
 
-uint32_t _cdecl CXI_BORDER::MessageProc(long msgcode, MESSAGE & message)
+uint32_t CXI_BORDER::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

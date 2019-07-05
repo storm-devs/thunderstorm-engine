@@ -87,7 +87,7 @@ void LocModelRealizer::Realize(uint32_t delta_time)
 }
 
 //Сообщения
-uint32_t _cdecl LocModelRealizer::ProcessMessage(MESSAGE & message)
+uint32_t LocModelRealizer::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{

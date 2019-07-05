@@ -17,7 +17,7 @@ public:
 	void		MouseThis(float fX, float fY);
 	void		ChangePosition( XYRECT &rNewPos );
 	void		SaveParametersToIni();
-	uint32_t _cdecl MessageProc(long msgcode, MESSAGE & message);
+	uint32_t MessageProc(long msgcode, MESSAGE & message);
 
 protected:
 	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);

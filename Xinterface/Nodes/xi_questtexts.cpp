@@ -367,7 +367,7 @@ void CXI_QUESTTEXTS::ScrollerChanged(float fPos)
 			m_listCur = m_listCur->next;
 }
 
-uint32_t _cdecl CXI_QUESTTEXTS::MessageProc(long msgcode, MESSAGE & message)
+uint32_t CXI_QUESTTEXTS::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

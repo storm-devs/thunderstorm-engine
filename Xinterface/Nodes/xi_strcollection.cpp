@@ -247,7 +247,7 @@ void CXI_STRCOLLECTION::SaveParametersToIni()
 	delete pIni;
 }
 
-uint32_t _cdecl CXI_STRCOLLECTION::MessageProc(long msgcode, MESSAGE & message)
+uint32_t CXI_STRCOLLECTION::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

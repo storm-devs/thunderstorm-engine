@@ -2,7 +2,7 @@
 #include "../Common_h/s_import_func.h"
 #include "../Common_h/defines.h"
 
-uint32_t __cdecl _RDTSC_B(VS_STACK * pS)
+uint32_t __RDTSC_B(VS_STACK * pS)
 {
 	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
 	uint64_t dwRDTSC;
@@ -11,7 +11,7 @@ uint32_t __cdecl _RDTSC_B(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-uint32_t __cdecl _RDTSC_E(VS_STACK * pS)
+uint32_t __RDTSC_E(VS_STACK * pS)
 {
 	VDATA * pValue = (VDATA*)pS->Pop();
 	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
@@ -21,7 +21,7 @@ uint32_t __cdecl _RDTSC_E(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-uint32_t __cdecl _Clampf(VS_STACK * pS)
+uint32_t __Clampf(VS_STACK * pS)
 {
 	VDATA * pValue = (VDATA*)pS->Pop();
 	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
@@ -30,7 +30,7 @@ uint32_t __cdecl _Clampf(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-uint32_t __cdecl _Degree2Radian(VS_STACK * pS)
+uint32_t __Degree2Radian(VS_STACK * pS)
 {
 	VDATA * pValue = (VDATA*)pS->Pop();
 	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
@@ -40,7 +40,7 @@ uint32_t __cdecl _Degree2Radian(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-uint32_t __cdecl _Bring2Range(VS_STACK * pS)
+uint32_t __Bring2Range(VS_STACK * pS)
 {
 	VDATA * pValue = (VDATA*)pS->Pop();
 	VDATA * pMax2 = (VDATA*)pS->Pop();
@@ -54,7 +54,7 @@ uint32_t __cdecl _Bring2Range(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-uint32_t __cdecl _Bring2RangeNoCheck(VS_STACK * pS)
+uint32_t __Bring2RangeNoCheck(VS_STACK * pS)
 {
 	VDATA * pValue = (VDATA*)pS->Pop();
 	VDATA * pMax2 = (VDATA*)pS->Pop();

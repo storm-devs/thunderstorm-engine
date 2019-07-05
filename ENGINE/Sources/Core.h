@@ -44,7 +44,7 @@ public:
 	~CORE() = default;
 	
 
-	void __declspec(dllexport) __cdecl InitBase();
+	void __declspec(dllexport) _InitBase();
 	void ReleaseBase();
 
 	void CleanUp();
@@ -70,7 +70,7 @@ public:
 	void LayerDel(const char * layer_name, entid_t eid,bool system);
 	bool LayerAdd(const char * layer_name, entid_t eid, uint32_t priority, bool system);
 	void ReleaseServices();
-	void __declspec(dllexport) __cdecl ProcessEngineIniFile();
+	void __declspec(dllexport) _ProcessEngineIniFile();
 
 	C_ATOM * GetAtom(entid_t id_PTR);
 
@@ -137,7 +137,7 @@ public:
 	// get curretn value of time scale; default 1.0f
 	float GetTimeScale() override;
 	// write message to system log file
-	void _cdecl Trace(const char * Format,...) override;
+	void Trace(const char * Format,...) override;
 	// OR operation with core exceptions mask, returned current mask state
 
 	// work with objects classes
@@ -177,7 +177,7 @@ public:
 	// messeges system
 
 	// send message to an object
-	uint32_t _cdecl Send_Message(entid_t Destination,char * Format,...) override;
+	uint32_t Send_Message(entid_t Destination,char * Format,...) override;
 	
 	// layer managment 
 	
@@ -219,8 +219,8 @@ public:
 	uint32_t GetDeltaTime() override;
 	uint32_t GetRDeltaTime() override;
 	//
-	VDATA * _cdecl Event(char * Event_name, char * Format,...) override;
-	uint32_t _cdecl PostEvent(char * Event_name, uint32_t post_time, char * Format,...) override;
+	VDATA * Event(char * Event_name, char * Format,...) override;
+	uint32_t PostEvent(char * Event_name, uint32_t post_time, char * Format,...) override;
 
 	void * GetSaveData(char * file_name, long & data_size) override;
 	
@@ -240,5 +240,5 @@ public:
 
 	bool IsNetActive() const override;
 
-	bool __declspec(dllexport) __cdecl LoCheck();
+	bool __declspec(dllexport) _LoCheck();
 };

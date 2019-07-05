@@ -240,7 +240,7 @@ bool WdmIslands::CollisionTest(CMatrix & objMtx, float length, float width, bool
 	return false;
 }
 
-bool _cdecl WdmIslands::AddEdges(const GEOS::VERTEX * vrt, long numVrt)
+bool WdmIslands::AddEdges(const GEOS::VERTEX * vrt, long numVrt)
 {
 	//Пропустим кривые данные
 	if(numVrt < 3) return true;
@@ -829,7 +829,7 @@ void WdmIslands::GetNearPointToArea(const char * islandName, float & x, float & 
 	}
 }
 
-bool _cdecl WdmIslands::FindNearPoint(const GEOS::VERTEX * vrt, long numVrt)
+bool WdmIslands::FindNearPoint(const GEOS::VERTEX * vrt, long numVrt)
 {
 	//Пропустим кривые данные
 	for(long i = 0; i < numVrt; i++)

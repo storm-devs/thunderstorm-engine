@@ -59,7 +59,7 @@ void BATTLE_LAND_INTERFACE::Realize(uint32_t delta_time)
 	}
 }
 
-uint32_t _cdecl BATTLE_LAND_INTERFACE::ProcessMessage(MESSAGE & message)
+uint32_t BATTLE_LAND_INTERFACE::ProcessMessage(MESSAGE & message)
 {
 	switch (message.Long())
 	{

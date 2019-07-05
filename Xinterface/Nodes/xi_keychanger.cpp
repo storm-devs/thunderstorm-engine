@@ -80,7 +80,7 @@ void CXI_KEYCHANGER::SaveParametersToIni()
 	delete pIni;
 }
 
-uint32_t _cdecl CXI_KEYCHANGER::MessageProc(long msgcode, MESSAGE & message)
+uint32_t CXI_KEYCHANGER::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

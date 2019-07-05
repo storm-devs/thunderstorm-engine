@@ -25,7 +25,7 @@ bool IBoardingStatus::Init()
 	return true;
 }
 
-uint32_t _cdecl IBoardingStatus::ProcessMessage(MESSAGE & message)
+uint32_t IBoardingStatus::ProcessMessage(MESSAGE & message)
 {
 	switch (message.Long())
 	{

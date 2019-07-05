@@ -460,7 +460,7 @@ void SEAFOAM::RealizeShipFoam_Mesh(tShipFoamInfo &_shipFoamInfo, uint32_t _dTime
 }
 
 //--------------------------------------------------------------------
-uint32_t _cdecl SEAFOAM::ProcessMessage(MESSAGE & message)
+uint32_t SEAFOAM::ProcessMessage(MESSAGE & message)
 {
 	//GUARD(SEAFOAM::ProcessMessage)
 

@@ -198,9 +198,9 @@ public:
 
 
 	void	ProcessFrame(uint32_t DeltaTime);
-	bool	__declspec(dllexport) __cdecl Run();
+	bool	__declspec(dllexport) _Run();
 	void	Release();
-	void	__declspec(dllexport) __cdecl SetProgramDirectory(char * dir_name);
+	void	__declspec(dllexport) _SetProgramDirectory(char * dir_name);
 	VDATA *	ProcessEvent(char * event_name, MESSAGE message);
 	VDATA * ProcessEvent(char * event_name);
 	void	SetEventHandler(char * event_name, char * func_name,long flag, bool bStatic = false);

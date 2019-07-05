@@ -355,7 +355,7 @@ void CXI_IMGCOLLECTION::SaveParametersToIni()
 	delete pIni;
 }
 
-uint32_t _cdecl CXI_IMGCOLLECTION::MessageProc(long msgcode, MESSAGE & message)
+uint32_t CXI_IMGCOLLECTION::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

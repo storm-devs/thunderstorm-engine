@@ -452,7 +452,7 @@ void SHADOW::Smooth()
 	rs->EndScene();
 }
 
-uint32_t _cdecl SHADOW::ProcessMessage(MESSAGE &message)
+uint32_t SHADOW::ProcessMessage(MESSAGE &message)
 {
 	long code = message.Long();
 	switch (code)

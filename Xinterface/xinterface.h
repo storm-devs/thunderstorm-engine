@@ -83,7 +83,7 @@ public:
 	uint32_t AttributeChanged(ATTRIBUTES* patr);
 
 	void CreateNode(char *sFileName, char *sNodeType, char *sNodeName, long priority=80);
-	void __declspec(dllexport) __cdecl SFLB_CreateNode(INIFILE* pOwnerIni, INIFILE* pUserIni, char *sNodeType, char *sNodeName, long priority);
+	void __declspec(dllexport) _SFLB_CreateNode(INIFILE* pOwnerIni, INIFILE* pUserIni, char *sNodeType, char *sNodeName, long priority);
 	void DeleteNode(const char *pcNodeName);
 	CINODE* NewNode(const char* pcNodType);
 
@@ -176,8 +176,8 @@ protected:
 	void		ReleaseOld();
 	void		ReleaseDinamicPic(char * sPicName);
 	// save load functions
-	bool __declspec(dllexport) __cdecl SFLB_DoSaveFileData(char * saveName, char * saveData);
-	bool __declspec(dllexport) __cdecl SFLB_GetSaveFileData(char * saveName, long bufSize, char * buf);
+	bool __declspec(dllexport) _SFLB_DoSaveFileData(char * saveName, char * saveData);
+	bool __declspec(dllexport) _SFLB_GetSaveFileData(char * saveName, long bufSize, char * buf);
 	char *		SaveFileFind(long saveNum, char * buffer, size_t bufSize, long & fileSize);
 	bool		NewSaveFileName(char * fileName);
 	void		DeleteSaveFile(char * fileName);

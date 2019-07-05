@@ -372,7 +372,7 @@ XYRECT CXI_SCROLLBAR::GetCursorRect()
 	return retRect;
 }
 
-uint32_t _cdecl CXI_SCROLLBAR::MessageProc(long msgcode, MESSAGE & message)
+uint32_t CXI_SCROLLBAR::MessageProc(long msgcode, MESSAGE & message)
 {
 	switch(msgcode)
 	{

@@ -6,7 +6,7 @@
 #include "rigging_define.h"
 #include <stdio.h>
 
-extern void _cdecl sailPrint(VDX9RENDER *rs, const CVECTOR & pos3D, float rad, long line, const char * format, ...);
+extern void sailPrint(VDX9RENDER *rs, const CVECTOR & pos3D, float rad, long line, const char * format, ...);
 
 ROPE::ROPE()
 {
@@ -180,7 +180,7 @@ void ROPE::Realize(uint32_t Delta_Time)
     }
 }
 
-uint32_t _cdecl ROPE::ProcessMessage(MESSAGE & message)
+uint32_t ROPE::ProcessMessage(MESSAGE & message)
 {
 	long code = message.Long();
     entid_t tmp_id;

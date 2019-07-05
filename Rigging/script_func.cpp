@@ -6,7 +6,7 @@
 extern float g_fSailHoleDepend;
 //extern float GetSailSpeed(int holeQ,int holeMax,float maxSpeed,float fSailHoleDepend);
 
-uint32_t __cdecl _ShipSailState(VS_STACK * pS)
+uint32_t __ShipSailState(VS_STACK * pS)
 {
 	VDATA * pChrIdx = (VDATA*)pS->Pop(); if(!pChrIdx) return IFUNCRESULT_FAILED;
 	long nChrIdx = pChrIdx->GetLong();
@@ -25,7 +25,7 @@ uint32_t __cdecl _ShipSailState(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-uint32_t __cdecl _GetAssembledString(VS_STACK * pS)
+uint32_t __GetAssembledString(VS_STACK * pS)
 {
 	VDATA * pAttrPnt = (VDATA*)pS->Pop();	if (!pAttrPnt) return IFUNCRESULT_FAILED;
 	ATTRIBUTES * pAttr = pAttrPnt->GetAClass();
@@ -106,7 +106,7 @@ uint32_t __cdecl _GetAssembledString(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-uint32_t __cdecl _funcGetSailSpeed(VS_STACK * pS)
+uint32_t __funcGetSailSpeed(VS_STACK * pS)
 {
 	VDATA * pSailPow = (VDATA*)pS->Pop();
 	float fSailPow = pSailPow->GetFloat();
@@ -123,7 +123,7 @@ uint32_t __cdecl _funcGetSailSpeed(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-uint32_t __cdecl _RandomHole2Sail(VS_STACK * pS)
+uint32_t __RandomHole2Sail(VS_STACK * pS)
 {
 	VDATA * pData;
 
@@ -177,7 +177,7 @@ uint32_t __cdecl _RandomHole2Sail(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-uint32_t __cdecl _DeleteOneSailHole(VS_STACK * pS)
+uint32_t __DeleteOneSailHole(VS_STACK * pS)
 {
 	VDATA * pData;
 
