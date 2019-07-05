@@ -3,6 +3,7 @@
 #include "../defines.h"
 #include "../Utils.h"
 #include "../../Shared/battle_interface/msg_control.h"
+#include "../../Common_h/vmodule_api.h"
 
 BATTLE_LAND_INTERFACE::BATTLE_LAND_INTERFACE() : m_bShowCommandos(false)
 {

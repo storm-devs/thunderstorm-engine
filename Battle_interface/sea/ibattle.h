@@ -22,8 +22,23 @@ public:
     uint32_t ProcessMessage(MESSAGE & message);
 	uint32_t AttributeChanged(ATTRIBUTES * pAttr);
 
-	void LostRender() override { BattleNavigator.LostRender(); };
-	void RestoreRender() override { BattleNavigator.RestoreRender(); };
+	void ProcessStage(Stage stage, uint32_t delta) override
+	{
+		switch (stage)
+		{
+		case Stage::EXECUTE:
+			Execute(delta); break;
+		case Stage::REALIZE:
+			Realize(delta); break;
+		case Stage::LOST_RENDER:
+			LostRender(); break;
+		case Stage::RESTORE_RENDER:
+			RestoreRender(); break;
+		}
+	}
+
+	void LostRender() { BattleNavigator.LostRender(); };
+	void RestoreRender() { BattleNavigator.RestoreRender(); };
 
 protected:
 	BATTLE_NAVIGATOR	BattleNavigator; // навигационные иконки

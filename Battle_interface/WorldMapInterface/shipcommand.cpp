@@ -1,5 +1,6 @@
 #include "shipcommand.h"
 #include "../../Shared/battle_interface/msg_control.h"
+#include "../../Common_h/vmodule_api.h"
 
 WMShipCommandList::WMShipCommandList( entid_t eid, ATTRIBUTES* pA, VDX9RENDER* rs ) :
 	BICommandList(eid,pA,rs)

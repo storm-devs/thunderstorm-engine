@@ -1,5 +1,6 @@
 #include "string.h"
 #include "imgrender.h"
+#include "../../Common_h/assert.h"
 
 BIString::BIString( BIImageRender* pImgRender, VDX9RENDER* rs )
 {

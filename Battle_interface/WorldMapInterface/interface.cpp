@@ -2,6 +2,7 @@
 #include "shipsign.h"
 #include "shipcommand.h"
 #include "../../Shared/battle_interface/msg_control.h"
+#include "../../Common_h/vmodule_api.h"
 
 WM_INTERFACE::WM_INTERFACE(): rs(nullptr)
 {

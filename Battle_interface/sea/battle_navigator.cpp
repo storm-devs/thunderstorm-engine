@@ -363,11 +363,11 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER *RenderService,Entity* pOwnerEI)
 	m_dwDamagedCannon = ARGB(255,64,64,64);
 
 	// максимальная скорость ветра
-	m_fWindMaxStrength = api->Entity_GetAttributeAsFloat(&BIUtils::idBattleInterface,"MaxWind",30.f);
+	m_fWindMaxStrength = api->Entity_GetAttributeAsFloat(BIUtils::idBattleInterface,"MaxWind",30.f);
 	// и корабля
-	m_fMaxShipSpeed = api->Entity_GetAttributeAsFloat(&BIUtils::idBattleInterface,"MaxShipSpeed",20.f);
+	m_fMaxShipSpeed = api->Entity_GetAttributeAsFloat(BIUtils::idBattleInterface,"MaxShipSpeed",20.f);
 	//
-	m_fShipSpeedScale = api->Entity_GetAttributeAsFloat(&BIUtils::idBattleInterface,"ShipSpeedScaler",1.f);
+	m_fShipSpeedScale = api->Entity_GetAttributeAsFloat(BIUtils::idBattleInterface,"ShipSpeedScaler",1.f);
 
 	ATTRIBUTES * pARoot = api->Entity_GetAttributeClass(BIUtils::idBattleInterface,"navigation");
 
@@ -1132,8 +1132,10 @@ void BATTLE_NAVIGATOR::SetIsland()
 	MODEL * pM= nullptr;
 	CVECTOR posCenter;
 	float islSize = 0;
-	if( api->FindClass(&ei,"ISLAND",0) ||
-		api->FindClass(&ei,"NetIsland",0) )
+
+
+	const auto walker1 = api->GetEntityIdWalker("ISLAND"), walker2 = api->GetEntityIdWalker("NetIsland");
+	if((ei = walker1()) || (ei = walker2()))
 	{
 		ISLAND_BASE * pIsl = (ISLAND_BASE*)api->GetEntityPointer(ei);
 		if(pIsl!= nullptr)
@@ -1197,7 +1199,7 @@ void BATTLE_NAVIGATOR::SetIsland()
 						// show island
 						if( rs->TechniqueExecuteStart("battle_island_gettexture") )
 						{
-							pM->Realize(1);
+							pM->ProcessStage(Entity::Stage::REALIZE, 1);
 							while(rs->TechniqueExecuteNext());
 						}
 						rs->SetRenderTarget(pOldRenderTarg,pStencil);
@@ -1297,12 +1299,12 @@ void BATTLE_NAVIGATOR::UpdateWindParam()
 {
 	if( !m_wb && !m_pAWeather ) {
 		entid_t ei;
-		if( api->FindClass(&ei,"weather",0) )
+		if( (ei = api->GetEntityIdWalker("weather")()) )
 			m_wb = (WEATHER_BASE*)api->GetEntityPointer(ei);
-		if( api->IsNetActive() && !m_wb && m_pOwnerEI ) {
+		/*if( api->IsNetActive() && !m_wb && m_pOwnerEI ) {
 			VDATA * pSVWeather = (VDATA*)api->GetScriptVariable((m_pOwnerEI->IsServer()) ? "NSWeather" : "NCWeather"); Assert(pSVWeather);
 			m_pAWeather = pSVWeather->GetAClass(); Assert(m_pAWeather);
-		}
+		}*/
 	}
 
 	if( m_wb ) {

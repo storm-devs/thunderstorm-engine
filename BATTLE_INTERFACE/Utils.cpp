@@ -1,6 +1,7 @@
 #include "Utils.h"
 #include "../Common_h/defines.h"
 #include "image/imgrender.h"
+#include "../Common_h/vmodule_api.h"
 
 // extern data
 entid_t BIUtils::idBattleInterface;

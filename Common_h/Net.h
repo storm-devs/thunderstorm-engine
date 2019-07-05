@@ -37,25 +37,25 @@
 
 __forceinline bool NetFindClass(bool bServer, entid_t * pEID, const char * pClassName)
 {
-	Assert(pEID);
+	/*Assert(pEID);
 	bool bFind = api->FindClass(pEID, (char *)pClassName, 0);
 	if (bFind) do
 	{
 		Entity * pE = (Entity *)pEID->pointer;
 		if (pE->IsServer() == bServer) return true;
 	} while (api->FindClassNext(pEID));
-
+	*/
 	return false;
 }
 
 __forceinline bool NetFindClassNext(bool bServer, entid_t * pEID)
 {
-	Assert(pEID);
+	/*Assert(pEID);
 	while (api->FindClassNext(pEID))
 	{
 		Entity * pE = (Entity *)pEID->pointer;
 		if (pE->IsServer() == bServer) return true;
-	}
+	}*/
 	return false;
 }
 

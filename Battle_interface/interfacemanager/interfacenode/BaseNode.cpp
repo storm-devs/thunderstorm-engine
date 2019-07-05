@@ -1,4 +1,5 @@
 #include "BaseNode.h"
+#include "../../../Common_h/assert.h"
 
 BI_BaseNode::BI_BaseNode( BI_ManagerBase* pManager ): m_pRS(nullptr)
 {

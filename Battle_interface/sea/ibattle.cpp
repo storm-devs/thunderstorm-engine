@@ -314,10 +314,10 @@ void BATTLE_INTERFACE::CheckSeaState()
 	if(main_sd== nullptr) return;
 
 	long nReloadTargetIndex=-1;
-	float sqrRadius = api->Entity_GetAttributeAsFloat(&BIUtils::idBattleInterface,"boardRadius",0.f);
+	float sqrRadius = api->Entity_GetAttributeAsFloat(BIUtils::idBattleInterface,"boardRadius",0.f);
 	sqrRadius *= sqrRadius;
 	float minReloadRadius=sqrRadius;
-	float sqrFreeDistance = api->Entity_GetAttributeAsFloat(&BIUtils::idBattleInterface,"freeDistance",500.f);
+	float sqrFreeDistance = api->Entity_GetAttributeAsFloat(BIUtils::idBattleInterface,"freeDistance",500.f);
 	sqrFreeDistance *= sqrFreeDistance;
 
 	bool bSailTo=false,	bLandTroops=false,	bMap=true;

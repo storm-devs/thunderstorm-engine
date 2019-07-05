@@ -1,5 +1,6 @@
 #include "battle_sign.h"
 #include "Utils.h"
+#include "../Common_h/vmodule_api.h"
 
 BISignIcon::BISignIcon( entid_t BIEntityID, VDX9RENDER* pRS )
 {

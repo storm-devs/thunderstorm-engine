@@ -2,6 +2,7 @@
 #include "../../Common_h/Matrix.h"
 #include "../../Shared/battle_interface/log_msg.h"
 #include "IBoardingStatus.h"
+#include "../../Common_h/vmodule_api.h"
 
 IBoardingStatus::IBoardingStatus()
 {
@@ -54,7 +55,7 @@ void IBoardingStatus::Realize(uint32_t delta_time)
 void IBoardingStatus::Create()
 {
 	// Установить параметры для иконки активного действия
-	ATTRIBUTES * pA = api->Entity_GetAttributePointer(&GetId());
+	ATTRIBUTES * pA = api->Entity_GetAttributePointer(GetId());
 	if(pA!= nullptr)
 	{
 		m_myPos.x = (float)pA->GetAttributeAsDword("myLeft",10);
