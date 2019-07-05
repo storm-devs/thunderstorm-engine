@@ -33,7 +33,7 @@ public:
 	~LOCATOR();
 	 LOCATOR();
 	bool Init();
-	uint32_t _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t ProcessMessage(MESSAGE & message);
 	uint32_t AttributeChanged(ATTRIBUTES *);
 	bool VerifyParticles();
 };

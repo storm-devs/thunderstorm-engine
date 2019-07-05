@@ -43,7 +43,7 @@ public:
 	~WaterRings();
 	bool Init();
 	void Realize(uint32_t _dTime);
-	uint32_t _cdecl ProcessMessage(MESSAGE &message);
+	uint32_t ProcessMessage(MESSAGE &message);
 
 private:
 	void UpdateGrid(int _ringI, uint16_t *iPointer, RING_VERTEX *vPointer, long vOffset);

@@ -135,7 +135,7 @@ public:
 	bool Init();
 	void Execute(uint32_t dwDeltaTime);
 	void Realize(uint32_t dwDeltaTime);
-	uint32_t _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t ProcessMessage(MESSAGE & message);
 };
 
 #endif

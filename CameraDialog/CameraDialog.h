@@ -26,7 +26,7 @@ public:
 	bool Init();
 	void Execute(uint32_t Delta_Time);
 	void Realize(uint32_t Delta_Time);
-	uint32_t _cdecl ProcessMessage(MESSAGE &msg);
+	uint32_t ProcessMessage(MESSAGE &msg);
 };
 
 

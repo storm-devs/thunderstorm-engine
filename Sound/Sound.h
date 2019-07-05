@@ -28,7 +28,7 @@ public:
 	virtual ~SOUND();
 
 	virtual bool Init();
-	virtual uint32_t _cdecl ProcessMessage(MESSAGE & message);
+	virtual uint32_t ProcessMessage(MESSAGE & message);
 	virtual void Realize(uint32_t _dTime);
 
 private:

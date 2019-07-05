@@ -41,7 +41,7 @@ public:
 	bool Init();
 	void Realize(uint32_t Delta_Time);
 	uint32_t AttributeChanged(ATTRIBUTES * pA);
-	uint32_t _cdecl ProcessMessage(MESSAGE & message);
+	uint32_t ProcessMessage(MESSAGE & message);
 
 	static void AddToStringArrayLimitedByWidth(const char* pcSrcText, long nFontID,float fScale,long nLimitWidth, std::vector<std::string> & asOutTextList, std::vector<long>* panPageIndices, long nPageSize);
 

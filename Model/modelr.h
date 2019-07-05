@@ -101,7 +101,7 @@ public:
 	virtual ~MODELR(); 
 	bool Init();
 	void Realize(uint32_t Delta_Time);
-	uint32_t _cdecl ProcessMessage(MESSAGE &message);
+	uint32_t ProcessMessage(MESSAGE &message);
 	void LostRender();
 	void RestoreRender();
 
