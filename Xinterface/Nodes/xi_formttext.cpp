@@ -1307,7 +1307,7 @@ void CXI_FORMATEDTEXT::ControlSyncronouseNodes()
 {
 	for( long n=0; n<(long)m_asSyncNodes.size(); n++ )
 	{
-		CINODE * pNode = ((XINTERFACE*)g_idInterface.pointer)->FindNode( m_asSyncNodes[n].c_str(), nullptr );
+		CINODE * pNode = ((XINTERFACE*)api->GetEntityPointer(g_idInterface))->FindNode( m_asSyncNodes[n].c_str(), nullptr );
 		if( !pNode ) continue;
 		switch( pNode->m_nNodeType )
 		{
@@ -1446,7 +1446,7 @@ void CXI_FORMATEDTEXT::SetCurLine(STRING_DESCRIBER* pNewCurLine)
 void CXI_FORMATEDTEXT::ScrollerUpdate()
 {
 	if( !m_sScrollerName ) return;
-	CINODE * pNode = ((XINTERFACE*)g_idInterface.pointer)->FindNode( m_sScrollerName, nullptr );
+	CINODE * pNode = ((XINTERFACE*)api->GetEntityPointer(g_idInterface))->FindNode( m_sScrollerName, nullptr );
 	if( !pNode ) return;
 
 	if( pNode->m_nNodeType != NODETYPE_SCROLLER )

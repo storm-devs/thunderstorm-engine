@@ -249,7 +249,7 @@ void CXI_PCEDITBOX::UpdateString(std::string & str )
 	ATTRIBUTES * pA = api->Entity_GetAttributeClass(g_idInterface,m_nodeName);
 	if( !pA )
 	{
-		api->Entity_SetAttribute(&g_idInterface,m_nodeName,"");
+		api->Entity_SetAttribute(g_idInterface,m_nodeName,"");
 		pA = api->Entity_GetAttributeClass(g_idInterface,m_nodeName);
 	}
 	if( !pA ) return;

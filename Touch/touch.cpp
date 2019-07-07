@@ -84,7 +84,7 @@ void TOUCH::Execute(uint32_t dwCoreDeltaTime)
 	//GUARD(void TOUCH::Execute(uint32_t dwCoreDeltaTime))
 	long i;
 	entid_t ent;
-	if (!pIslandBase && api->FindClass(&ent,"island",0))
+	if (!pIslandBase && (ent = api->GetEntityIdWalker("island")()))
 		pIslandBase = (ISLAND_BASE*)api->GetEntityPointer(ent);
 
 	//Sleep(150);

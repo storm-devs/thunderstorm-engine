@@ -7,6 +7,7 @@
 #include "../Common_h/v_s_stack.h"
 #include <DxErr.h>
 #include <io.h>
+#include "../Common_h/inlines.h"
 
 #define POST_PROCESS_FVF (D3DFVF_XYZRHW | D3DFVF_TEX4)
 
@@ -1319,7 +1320,7 @@ long DX9RENDER::TextureCreate(const char *fname)
 
 		_strupr(_fname);
 
-		unsigned long hf = hash_string(_fname);
+		unsigned long hf = TOREMOVE::HashNoCase(_fname);
 
 		long t;
 		for (t = 0; t<MAX_STEXTURES; t++)
@@ -2397,18 +2398,22 @@ void DX9RENDER::RecompileEffects()
 
 bool DX9RENDER::ResetDevice()
 {
-	entid_t eid;
-
-	api->SetEntityScanLayer(nullptr);
-	if (api->GetEntity(&eid)) do { ((Entity*)eid.pointer)->LostRender(); } while (api->GetEntityNext(&eid));
+	
+	auto walker = api->LayerGetWalker();
+	while (const entid_t eid = walker()) {
+		static_cast<Entity*>(api->GetEntityPointer(eid))->ProcessStage(Entity::Stage::LOST_RENDER);
+	}
 	LostRender();
 
 	if (CHECKD3DERR(d3d9->Reset(&d3dpp)))
 		return false;
 
 	RestoreRender();
-	api->SetEntityScanLayer(nullptr);
-	if (api->GetEntity(&eid)) do { ((Entity*)eid.pointer)->RestoreRender(); } while (api->GetEntityNext(&eid));
+	walker = api->LayerGetWalker();
+	while (const entid_t eid = walker()) {
+		static_cast<Entity*>(api->GetEntityPointer(eid))->ProcessStage(Entity::Stage::RESTORE_RENDER);
+	}
+
 	return true;
 }
 
@@ -3518,7 +3523,7 @@ CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
 	{
 		if (pVTLcur->hash == newHash && _stricmp(pVTLcur->name, sVideoName) == 0)
 		{
-			if (api->ValidateEntity(&pVTLcur->videoTexture_id))
+			if (api->GetEntityPointer(pVTLcur->videoTexture_id))
 			{
 				pVTLcur->ref++;
 				return pVTLcur->VideoTexture;
@@ -3544,8 +3549,7 @@ CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
 	if ((pVTLcur->name = new char[len]) == nullptr)
 		throw std::exception("memory allocate error");
 	strcpy_s(pVTLcur->name, len, sVideoName);
-	entid_t ei;
-	api->CreateEntity(&ei, "TextureSequence");
+	entid_t ei = api->CreateEntity("TextureSequence");
 	pVTLcur->VideoTexture = (CVideoTexture*)api->GetEntityPointer(ei);
 	if (pVTLcur->VideoTexture != nullptr)
 	{
@@ -3597,7 +3601,7 @@ void DX9RENDER::PlayToTexture()
 	VideoTextureEntity *cur = pVTL;
 	while (cur != nullptr)
 	{
-		if (api->ValidateEntity(&pVTL->videoTexture_id))
+		if (api->GetEntityPointer(pVTL->videoTexture_id))
 		{
 			cur->VideoTexture->FrameUpdate();
 			cur = cur->next;

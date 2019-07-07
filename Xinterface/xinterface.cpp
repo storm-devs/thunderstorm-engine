@@ -1380,7 +1380,7 @@ void XINTERFACE::CreateNode(char *sFileName, char *sNodeType, char *sNodeName, l
 	if(ownerIni)	delete ownerIni;
 }
 
-void __declspec(dllexport) XINTERFACE::SFLB_CreateNode(INIFILE* pOwnerIni, INIFILE* pUserIni, char *sNodeType, char *sNodeName, long priority)
+void XINTERFACE::SFLB_CreateNode(INIFILE* pOwnerIni, INIFILE* pUserIni, char *sNodeType, char *sNodeName, long priority)
 {
 	if( !sNodeType || !sNodeType[0] )
 	{

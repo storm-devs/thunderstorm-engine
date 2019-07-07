@@ -59,8 +59,6 @@ public:
 
 	// entity managment
 	
-	// compare two entity ids, return true if ids is identical
-	virtual bool CompareID(entid_t  ida_PTR,entid_t  idb_PTR)= 0;
 	// create entity with class type "class_name"; if id_PTR no null - fill this structure with entity id
 	virtual entid_t CreateEntity(char * name)= 0;
 	// delete entity; this function can be called even if programm control still in this object
@@ -97,8 +95,6 @@ public:
 	virtual void LayerAdd(const char * layer_name, entid_t eid, uint32_t priority)= 0;
 	// remove object from layer list
 	virtual void LayerDel(const char * layer_name, entid_t eid)= 0;
-	// delete layer content, delete all objects referenced in this layer; layer doesn't deleted
-	virtual bool LayerDeleteContent(char * layer_name)= 0;
 	// on/off execute
 	virtual void LayerSetExecute(char * layer_name, bool on)= 0;
 	// on/off realize
@@ -106,7 +102,7 @@ public:
 	// on/off freeze
 	virtual void LayerSetFreeze(char* layer_name, bool on) = 0;
 	// get id walker object
-	virtual walker_t LayerGetWalker(char * layer_name)= 0;
+	virtual walker_t LayerGetWalker(char * layer_name = nullptr)= 0;
 
 	// save core state
 	virtual bool SaveState(char * file_name)= 0;

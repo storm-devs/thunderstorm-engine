@@ -426,8 +426,6 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 		rs->UnLockVertexBuffer(iVBSeaDrops);
 		rs->DrawBuffer(iVBSeaDrops, sizeof(SEADROPVERTEX), iIBSeaDrops, 0, n * 4, 0, n * 2, "sea_rain_drops");
 	}
-
-	delete pVW;
 }
 
 void RAIN::Realize(uint32_t Delta_Time)

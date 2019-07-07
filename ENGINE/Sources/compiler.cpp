@@ -554,7 +554,7 @@ bool COMPILER::CreateProgram(char * file_name)
 	return bRes;
 }
 
-bool __declspec(noinline) _COMPILER::Run()
+bool COMPILER::Run()
 {
 	pRun_fi = nullptr;
 	uint32_t function_code = FuncTab.FindFunc("Main");
@@ -4857,7 +4857,7 @@ bool COMPILER::BC_Execute(uint32_t function_code, DATA * & pVReturnResult, char 
 					pVDst->Get(eid);
 					if(bEntityUpdate)
 					{
-						Core.Entity_AttributeChanged(&eid,pLeftOperandAClass);
+						Core.Entity_AttributeChanged(eid,pLeftOperandAClass);
 					}
 					break;
 				}

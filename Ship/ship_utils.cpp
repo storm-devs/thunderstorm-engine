@@ -15,7 +15,7 @@ BOOL SHIP::BuildContour(CVECTOR * vContour,long & iNumVContour)
 			fZMax, fZMin, fZStep, fZMinStep;
 
 	bool bDefaultContour = false;
-	bool bRes = api->ValidateEntity(&model_id); Assert(bRes);
+	bool bRes = api->GetEntityPointer(model_id); Assert(bRes);
 
 	CMatrix		mTemp;
 	pEnt->mtx = mTemp;
@@ -199,7 +199,7 @@ bool SHIP::BuildMasts()
 				pM->fDamage = 1.0f;
 				pM->bBroken = true;
 				entid_t ent;
-				api->CreateEntity(&ent,"mast");
+				ent = api->CreateEntity("mast");
 				api->Send_Message(ent,"lpii", MSG_MAST_SETGEOMETRY, pNode, GetId(), GetModelEID());
 				api->DeleteEntity(ent);
 				//iIdx--;

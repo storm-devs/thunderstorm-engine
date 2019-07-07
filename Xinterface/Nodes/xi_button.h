@@ -1,7 +1,7 @@
 #ifndef __XI_BUTTON_H__
 #define __XI_BUTTON_H__
 
-#include "..//inode.h"
+#include "../inode.h"
 
 // picture
 class CXI_BUTTON : public CINODE

@@ -44,7 +44,7 @@ void WATERFLARE::SetDevice()
 	if (!RS) throw std::exception("No service: dx9render");
 
 	entid_t	ent;
-	if (!api->FindClass(&ent,"Weather",0)) throw std::exception("No found WEATHER entity!");
+	if (!(ent = api->GetEntityIdWalker("Weather")())) throw std::exception("No found WEATHER entity!");
 	pWeather = (WEATHER_BASE*)api->GetEntityPointer(ent);
 
 	//UNGUARD

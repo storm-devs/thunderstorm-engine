@@ -13,6 +13,7 @@
 #include "WdmSea.h"
 #include "WdmShip.h"
 #include "../Common_h/defines.h"
+#include "../Common_h/assert.h"
 
 //============================================================================================
 

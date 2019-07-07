@@ -9,6 +9,7 @@
 //============================================================================================
 
 #include "WdmRenderObject.h"
+#include "../Common_h/assert.h"
 
 WdmRenderObject * WdmRenderObject::firstObject = nullptr;
 

@@ -49,7 +49,7 @@ TornadoParticles::~TornadoParticles()
 
 void TornadoParticles::SetSea()
 {
-	api->FindClass(&seaID, "sea", 0);
+	seaID = api->GetEntityIdWalker("sea")();
 }
 
 void TornadoParticles::Update(float dltTime)

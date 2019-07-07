@@ -73,6 +73,9 @@ public:
 	FINDDIALOGNODES() {}
 	~FINDDIALOGNODES() {}
 	bool Init();
+	void ProcessStage(Stage, uint32_t) override
+	{
+	}
 };
 
 #endif

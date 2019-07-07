@@ -18,9 +18,9 @@ void CXI_VIDEORECT::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(m_bUse)
 	{
-		if( api->ValidateEntity(&m_eiVideo) )
+		if( auto ptr = api->GetEntityPointer(m_eiVideo) )
 		{
-			IDirect3DTexture9 * pTex = ((xiBaseVideo*)m_eiVideo.pointer)->GetCurrentVideoTexture();
+			IDirect3DTexture9 * pTex = ((xiBaseVideo*)ptr)->GetCurrentVideoTexture();
 			if(pTex!= nullptr)
 			{
 				// Create rectangle
@@ -109,17 +109,17 @@ uint32_t CXI_VIDEORECT::MessageProc(long msgcode, MESSAGE & message)
 
 void CXI_VIDEORECT::StartVideoPlay(char * videoFileName)
 {
-	if( api->ValidateEntity(&m_eiVideo) ) {
+	if( api->GetEntityPointer(m_eiVideo) ) {
 		api->DeleteEntity(m_eiVideo);
 	}
 	if(videoFileName== nullptr) return;
 
 #ifndef _XBOX
-	api->CreateEntity( &m_eiVideo, "CAviPlayer" );
+	m_eiVideo = api->CreateEntity("CAviPlayer" );
 	m_rectTex.bottom = 1.f - m_rectTex.bottom;
 	m_rectTex.top = 1.f - m_rectTex.top;
-	if(api->ValidateEntity(&m_eiVideo))
-		((xiBaseVideo*)m_eiVideo.pointer)->SetShowVideo(false);
+	if(auto ptr = api->GetEntityPointer(m_eiVideo))
+		((xiBaseVideo*)ptr)->SetShowVideo(false);
 	api->Send_Message(m_eiVideo, "ls", MSG_SET_VIDEO_PLAY, videoFileName);
 
 

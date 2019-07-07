@@ -351,7 +351,9 @@ void CORE::LayerSetFreeze(char* layer_name, bool on)
 
 walker_t CORE::LayerGetWalker(char * layer_name)
 {
-	return entityManager.GetEntityIdWalker(layer_name);
+	if(layer_name != nullptr)
+		return entityManager.GetEntityIdWalker(layer_name);
+	return entityManager.GetEntityIdWalker();
 }
 
 void CORE::Exit() { Exit_flag = true; }

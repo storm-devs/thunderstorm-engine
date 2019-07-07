@@ -3,6 +3,7 @@
 
 #include "../../Common_h/defines.h"
 #include "../defines.h"
+#include "../../Common_h/dx9render.h"
 
 class VXSERVICE;
 

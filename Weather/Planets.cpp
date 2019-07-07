@@ -91,9 +91,9 @@ void Astronomy::PLANETS::Realize(double dDeltaTime, double dHour)
 		if(	(fFadeTime>0.f && fPlanetFade<1.f) || (fFadeTime<0.f && fPlanetFade>0.f) )
 		{
 			entid_t eid;
-			if( api->FindClass( &eid, "Weather", 0) )
+			if(eid = api->GetEntityIdWalker("Weather")())
 			{
-				float fTime = ((WEATHER_BASE*)eid.pointer)->GetFloat(whf_time_counter);
+				float fTime = ((WEATHER_BASE*)api->GetEntityPointer(eid))->GetFloat(whf_time_counter);
 				if( fFadeTime > 0.f ) fPlanetFade = (fTime-fFadeTimeStart) / fFadeTime;
 				if( fFadeTime < 0.f ) fPlanetFade = 1.f + (fTime-fFadeTimeStart) / fFadeTime;
 				if( fPlanetFade < 0.f ) fPlanetFade = 0.f;

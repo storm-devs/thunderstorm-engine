@@ -194,7 +194,7 @@ public:
 	// on/off realize
 	void LayerSetFreeze(char* layer_name, bool on) override;
 	// get id walker object
-	walker_t LayerGetWalker(char * layer_name) override;
+	walker_t LayerGetWalker(char * layer_name = nullptr) override;
 
 	
 	// save core state

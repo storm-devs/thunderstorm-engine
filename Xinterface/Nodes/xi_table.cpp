@@ -1066,7 +1066,7 @@ void CXI_TABLE::WriteSquare( XI_ONETEX_VERTEX* pV, long nImgID, uint32_t dwCol, 
 void CXI_TABLE::UpdateTableCells()
 {
 	// Set new current image
-	ATTRIBUTES* pARoot = api->Entity_GetAttributeClass( &g_idInterface, m_nodeName );
+	ATTRIBUTES* pARoot = api->Entity_GetAttributeClass( g_idInterface, m_nodeName );
 	if( !pARoot ) {
 		m_nLineQuantity = 0;
 		return;
@@ -1272,7 +1272,7 @@ void CXI_TABLE::SetTopIndexForSelect( long nSelIndex )
 void CXI_TABLE::UpdateLineQuantity()
 {
 	m_nLineQuantity = 0;
-	ATTRIBUTES* pARoot = api->Entity_GetAttributeClass( &g_idInterface, m_nodeName );
+	ATTRIBUTES* pARoot = api->Entity_GetAttributeClass( g_idInterface, m_nodeName );
 	if( !pARoot ) return;
 
 	if( !pARoot->GetAttributeClass( "tr1" ) ) return; // нет ни одного
@@ -1312,7 +1312,7 @@ void CXI_TABLE::UpdateLineQuantity()
 void CXI_TABLE::SetTopIndex( long nTopIndex )
 {
 	m_nTopIndex = nTopIndex;
-	ATTRIBUTES* pA = api->Entity_GetAttributeClass( &g_idInterface, m_nodeName );
+	ATTRIBUTES* pA = api->Entity_GetAttributeClass( g_idInterface, m_nodeName );
 	if( pA ) pA->SetAttributeUseDword( "top", nTopIndex );
 }
 

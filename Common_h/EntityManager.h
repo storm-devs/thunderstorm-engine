@@ -138,12 +138,12 @@ public:
 	auto GetEntityIdWalker(long hash, const std::string& layer) {
 
 		const auto targetLayer = layers_.find(layer);
-		return generator<false>(targetLayer->second, hash);
+		return generator<false>(targetLayer->second.first, hash);
 	}
 
 	auto GetEntityIdWalker(const std::string& layer) {
 		const auto targetLayer = layers_.find(layer);
-		return generator<false>(targetLayer->first);
+		return generator<false>(targetLayer->second.first);
 	}
 
 	/* matreshka */
@@ -152,7 +152,7 @@ public:
 		return std::move([this, it = std::begin(layers_)]() mutable {
 			for (; it != std::end(layers_); ++it) {
 				if((checkLayerFlag(*it, Flags) & ...)) {
-					return GetEntityIdWalker(it->first);
+					return GetEntityIdWalker(it->second.first);
 				}
 			}
 			GetEntityIdWalker({});
