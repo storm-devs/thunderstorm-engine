@@ -13,6 +13,7 @@
 
 
 #include "../Common_h/dx9render.h"
+#include "../Common_h/attributes.h"
 
 class WdmRenderObject
 {

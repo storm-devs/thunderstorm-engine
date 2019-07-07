@@ -315,6 +315,10 @@ Entity * CORE::GetEntityPointer(entid_t id_PTR)
 	entityManager.GetEntity(id_PTR);
 }
 
+uint32_t CORE::GetEntityClassCode(entid_t entity){
+	return entityManager.GetClassCode(entity);
+}
+
 bool CORE::EraseEntity(entid_t id)
 {
 	entityManager.EraseEntity(id);
@@ -345,7 +349,7 @@ void CORE::LayerSetFreeze(char* layer_name, bool on)
 }
 
 
-std::function<entid_t()> CORE::LayerGetWalker(char * layer_name)
+walker_t CORE::LayerGetWalker(char * layer_name)
 {
 	return entityManager.GetEntityIdWalker(layer_name);
 }

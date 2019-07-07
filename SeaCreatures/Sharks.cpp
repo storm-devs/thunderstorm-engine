@@ -90,7 +90,7 @@ bool Sharks::Shark::Init(float vp_x, float vp_z, bool isLoadModel)
 	angs.y = SHARK_PI*rand()*(2.0f/RAND_MAX);
 	if(!isLoadModel) return true;
 	//Загружаем модельку
-	if(!api->CreateEntity(&model, "modelr")) return false;
+	if(!(model = api->CreateEntity("modelr"))) return false;
 	//Путь для текстур
 	VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
 	if(!gs)
@@ -554,9 +554,9 @@ void Sharks::Execute(uint32_t delta_time)
 	for(long i = 0; i < num - 1; i++)
 		for(long j = i + 1; j < num; j++) shark[i].Repulsion(shark[j]);
 	//Учитываем корабли
-	entid_t id;
-	bool res = api->FindClass(&id, nullptr, shipcode);
-	for(; res; res = api->FindClassNext(&id))
+	
+	const auto walker = api->GetEntityIdWalker(nullptr, shipcode);
+	for(entid_t id = walker(); id; id = walker())
 	{
 		//Указатель на объект
 		VAI_OBJBASE * ship = (VAI_OBJBASE *)api->GetEntityPointer(id);
@@ -573,13 +573,13 @@ void Sharks::Execute(uint32_t delta_time)
 	SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(sea);
 	if(!sb)
 	{
-		api->FindClass(&sea, "sea", 0);
+		sea = api->GetEntityIdWalker("sea")();
 		if(!sb) return;
 	}
 	ISLAND_BASE * ib = (ISLAND_BASE *)api->GetEntityPointer(island);
 	if(!ib)
 	{
-		api->FindClass(&island, "island", 0);
+		sea = api->GetEntityIdWalker("island")();
 	}
 	//Расчитываем новые позиции
 	for(long i = 0; i < num; i++) shark[i].Coordination(camPos.x, camPos.z, dltTime, sb, ib);
@@ -631,7 +631,7 @@ void Sharks::Execute(uint32_t delta_time)
 
 bool Sharks::LoadPeriscopeModel()
 {
-	if(!api->CreateEntity(&periscope.model, "modelr")) return false;
+	if(!(periscope.model = api->CreateEntity("modelr"))) return false;
 	VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
 	if(!gs) return false;
 	gs->SetTexturePath("Animals\\");

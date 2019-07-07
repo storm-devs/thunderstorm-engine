@@ -64,9 +64,11 @@ public:
 	// create entity with class type "class_name"; if id_PTR no null - fill this structure with entity id
 	virtual entid_t CreateEntity(char * name)= 0;
 	// delete entity; this function can be called even if programm control still in this object
-	virtual bool DeleteEntity(entid_t entid_t)= 0;
+	virtual bool DeleteEntity(entid_t entity)= 0;
 	// return entity object pointer, if this entity exist
 	virtual entptr_t GetEntityPointer(entid_t id_PTR)= 0;
+
+	virtual uint32_t GetEntityClassCode(entid_t entity) = 0;
 
 	virtual ATTRIBUTES * Entity_GetAttributeClass(entid_t id_PTR, char * name)=0;
 	virtual char *	Entity_GetAttribute(entid_t id_PTR, char * name)=0;

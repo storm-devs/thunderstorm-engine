@@ -31,20 +31,20 @@ bool SailorsEditor :: Init()
 {
 	rs = (VDX9RENDER *) api->CreateService("dx9render");
 
-	bool result= api->CreateEntity(&sailors, "Sailors");
+	sailors = api->CreateEntity("Sailors");
 
 
 	api->LayerCreate("execute", true, false);
-	api->LayerSetFlags("execute", LRFLAG_EXECUTE);
+	api->LayerSetExecute("execute", true);
 	api->LayerAdd("execute", GetId(), 0);
 
 	api->LayerCreate("editor_realize", true, false);
-	api->LayerSetFlags("editor_realize", LRFLAG_REALIZE);
+	api->LayerSetRealize("editor_realize", true);
 	api->LayerAdd("editor_realize", GetId(), 100000);
 
 	LoadFromIni("SailorsEditor.ini");
 
-	api->CreateEntity(&shipID,"MODELR");
+	shipID = api->CreateEntity("MODELR");
 	api->Send_Message(shipID,"ls",MSG_MODEL_LOAD_GEO, _shipName);
 
 	api->LayerAdd("editor_realize", shipID, 100000);
@@ -68,7 +68,7 @@ bool SailorsEditor :: Init()
 
 	menu.Update(menu.sailrs->shipWalk[0].sailorsPoints);
 
-	return result;
+	return true;
 };
 
 

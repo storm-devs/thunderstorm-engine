@@ -3,6 +3,7 @@
 #include <windows.h>
 
 #include "../../Common_h/EntityManager.h"
+#include "../../Common_h/vapi.h"
 
 #include "timer.h"
 #include "services_list.h"
@@ -157,7 +158,8 @@ public:
 	bool DeleteEntity(entid_t entid_t) override;
 	// return entity object pointer, if this entity exist
 	Entity * GetEntityPointer(entid_t id_PTR) override;
-	// find first entity id, depending on layer configuration
+
+	uint32_t GetEntityClassCode(entid_t entity);
 
 	ATTRIBUTES * Entity_GetAttributeClass(entid_t id_PTR, char * name) override;
 	char *	Entity_GetAttribute(entid_t id_PTR, char * name) override;

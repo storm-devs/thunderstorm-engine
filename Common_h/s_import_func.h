@@ -7,7 +7,7 @@
 #define INVALID_FUNCHANDLE	0xffffffff
 
 class VS_STACK;
-typedef uint32_t (* SIMPORTFUNC)(VS_STACK *);
+typedef uint32_t (*SIMPORTFUNC)(VS_STACK *);
 
 struct IFUNCINFO
 {

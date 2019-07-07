@@ -45,7 +45,7 @@ bool BLAST::Init()
 
 	delete ini;
 
-	api->FindClass(&Splash,"BallSplash",0);
+	Splash = api->GetEntityIdWalker("BallSplash")();
 
 	return true;
 }
@@ -106,9 +106,9 @@ void BLAST::ProcessTime(uint32_t DT)
 	float res;
 	
 	
-	if(!api->ValidateEntity(&sea_eid))
+	if(!api->GetEntityPointer(sea_eid))
 	{
-		api->FindClass(&sea_eid,"sea",0);
+		sea_eid = api->GetEntityIdWalker("sea")();
 		pSea = (CANNON_TRACE_BASE *)api->GetEntityPointer(sea_eid);
 	}
 

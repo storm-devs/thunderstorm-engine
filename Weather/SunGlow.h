@@ -107,7 +107,7 @@ private:
 	WEATHER_BASE	* pWeather;
 	SKY				* pSky;
 	VDX9RENDER		* pRS;
-	VIDWALKER		* pVWSunTrace, * pVWSailsTrace;
+	walker_t		pVWSunTrace, pVWSailsTrace;
 	long			idRectBuf;
 
 	std::vector<RS_RECT>	aRSR;

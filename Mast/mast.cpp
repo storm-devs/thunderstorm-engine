@@ -140,7 +140,7 @@ void MAST::Realize(uint32_t Delta_Time)
     if( (mdl=(MODEL*)api->GetEntityPointer(model_id))!=nullptr )
     {
 		RenderService->SetRenderState(D3DRS_LIGHTING,true);
-        mdl->Realize(Delta_Time);
+        mdl->ProcessStage(Entity::Stage::REALIZE, Delta_Time);
 		RenderService->SetRenderState(D3DRS_LIGHTING,false);
 
 /*        CVECTOR bp=mdl->mtx*mm.bp;
@@ -199,14 +199,10 @@ void MAST::Mount( entid_t modelEI, entid_t shipEI, NODE* mastNodePointer )
     oldmodel_id=modelEI;
     ship_id=shipEI;
 
-    entid_t ropeEI; bool bRope;
-    bRope = api->FindClass(&ropeEI,"rope",0);
-    entid_t sailEI; bool bSail;
-    bSail = api->FindClass(&sailEI,"sail",0);
-    entid_t flagEI; bool bFlag;
-    bFlag = api->FindClass(&flagEI,"flag",0);
-    entid_t vantEI; bool bVant;
-    bVant = api->FindClass(&vantEI,"vant",0);
+    entid_t ropeEI = api->GetEntityIdWalker("rope")();
+    entid_t sailEI = api->GetEntityIdWalker("sail")();
+    entid_t flagEI = api->GetEntityIdWalker("flag")();
+    entid_t vantEI = api->GetEntityIdWalker("vant")();
 
 	// найдем аттрибуты
 	VAI_OBJBASE * pVAI = nullptr;	pVAI = (VAI_OBJBASE*)api->GetEntityPointer(shipEI);
@@ -221,7 +217,7 @@ void MAST::Mount( entid_t modelEI, entid_t shipEI, NODE* mastNodePointer )
 	api->Event("EventMastFall", "lsl", chrIdx, mastNodePointer->GetName(), fMastDamage<1.f);
 	if(fMastDamage<1.f)
 	{
-		if(bSail) api->Send_Message(sailEI, "lls", MSG_SAIL_MAST_PROCESSING, chrIdx, mastNodePointer->GetName());
+		if(sailEI) api->Send_Message(sailEI, "lls", MSG_SAIL_MAST_PROCESSING, chrIdx, mastNodePointer->GetName());
 	}
 
     if(mastNodePointer!= nullptr) //~!~
@@ -232,7 +228,7 @@ void MAST::Mount( entid_t modelEI, entid_t shipEI, NODE* mastNodePointer )
         bModel=true; model_id = mastNodePointer->Unlink2Model();
 
         // пройдем по всем веревкам данной мачты и отключим их
-		if(bVant) api->Send_Message(vantEI, "lip", MSG_VANT_DEL_MAST, modelEI, mastNodePointer);
+		if(vantEI) api->Send_Message(vantEI, "lip", MSG_VANT_DEL_MAST, modelEI, mastNodePointer);
 		MODEL * mdl = (MODEL*)api->GetEntityPointer(model_id);
 		if(mdl!= nullptr)	for(i=0; i<10000; i++)
 		{
@@ -244,33 +240,33 @@ void MAST::Mount( entid_t modelEI, entid_t shipEI, NODE* mastNodePointer )
 				GEOS::LABEL gl; nod->geo->GetLabel(j,gl);
 				if(!strncmp(gl.name,"rope",4))
 				{
-					if(bRope)
+					if(ropeEI)
 						api->Send_Message(ropeEI,"lil",MSG_ROPE_DELETE,modelEI,atoi(&gl.name[5]));
 				}
 				if(!strncmp(gl.name,"fal",3))
 				{
-					if(bRope)
+					if(ropeEI)
 						api->Send_Message(ropeEI,"lil",MSG_ROPE_DELETE,modelEI,atoi(&gl.name[4])+1000);
 				}
 				else if(!strncmp(gl.name,"sail",4))
 				{
-					if(bSail)
+					if(sailEI)
 						api->Send_Message(sailEI,"liplii",MSG_SAIL_TO_NEWHOST,modelEI,nod,atoi(&gl.group_name[5]), GetId(),model_id);
 				}
 				else if(!strncmp(gl.group_name,"flag",4))
 				{
-					if(bFlag)
+					if(flagEI)
 						api->Send_Message(flagEI,"lili",MSG_FLAG_TO_NEWHOST,modelEI,atoi(&gl.group_name[4]),model_id);
 				}
 			}
 			// валим также паруса св€занные с данной мачтой
-			if(bSail)
+			if(sailEI)
 			{
 				api->Send_Message(sailEI,"liii",MSG_SAIL_CHECK,shipEI,GetId(),model_id);
 				api->Send_Message(sailEI,"li",MSG_SAIL_FREE_GROUP,GetId());
 			}
 		}
-		if(bSail) api->Send_Message(sailEI, "ll", MSG_SAIL_MAST_PROCESSING, -1);
+		if(sailEI) api->Send_Message(sailEI, "ll", MSG_SAIL_MAST_PROCESSING, -1);
 
         // установим первоначальные параметры движени€ мачты
         SHIP_BASE *sb; sb=(SHIP_BASE*)api->GetEntityPointer(shipEI);
@@ -300,7 +296,8 @@ void MAST::Mount( entid_t modelEI, entid_t shipEI, NODE* mastNodePointer )
         entid_t tmpEI;
         float minDist=10000.f;
         SHIP_BASE *minDstShip;
-        if(api->FindClass(&tmpEI,"ship",0)) do
+		const auto walker = api->GetEntityIdWalker("ship");
+        if(tmpEI = walker()) do
         {
             if(tmpEI==ship_id) continue;
             SHIP_BASE *sb = (SHIP_BASE*)api->GetEntityPointer(tmpEI);
@@ -310,7 +307,7 @@ void MAST::Mount( entid_t modelEI, entid_t shipEI, NODE* mastNodePointer )
                 minDist = tmpDist;
                 minDstShip = sb;
             }
-        } while(api->FindClassNext(&tmpEI));
+        } while(tmpEI = walker());
         if(minDist<4000.f) // если ближайший корабль близко к нам, то валим мачту в противоположную сторону
         {
             CVECTOR vect;
@@ -502,7 +499,7 @@ void MAST::doMove(uint32_t DeltaTime)
             {
                 bNextClass=false;
 				// коллизим с островом
-                if( api->FindClass(&findEI,"ISLAND",0) && api->GetEntityPointer(findEI)!= nullptr )
+                if(findEI = api->GetEntityIdWalker("ISLAND")() && api->GetEntityPointer(findEI)!= nullptr )
 				{
 					modEI = ((ISLAND_BASE*)api->GetEntityPointer(findEI))->GetModelEID();
 
@@ -525,7 +522,8 @@ void MAST::doMove(uint32_t DeltaTime)
                     }
 				}
 				// коллизим с кораблем
-				if(api->FindClass(&findEI,"SHIP",0))	do
+				const auto walker = api->GetEntityIdWalker("SHIP");
+				if(findEI = walker())	do
                 {
 					if( api->GetEntityPointer(findEI)== nullptr ) continue;
 					modEI = ((VAI_OBJBASE*)api->GetEntityPointer(findEI))->GetModelEID();
@@ -546,7 +544,7 @@ void MAST::doMove(uint32_t DeltaTime)
                             break;
                         }
                     }
-                }while(api->FindClassNext(&findEI));
+                }while(findEI = walker());
             }
 
             if(bp.y<=-MAST_WIDTH || ep.y<=-MAST_WIDTH)
@@ -652,11 +650,11 @@ void MAST::AllRelease()
 	}
 
     // удалить группу парусов
-    if(api->FindClass(&tmp_id,"sail",0))
+    if(tmp_id = api->GetEntityIdWalker("sea")())
         api->Send_Message(tmp_id,"li",MSG_SAIL_DEL_GROUP,GetId());
 
     // удалить группу флагов
-    if(api->FindClass(&tmp_id,"flag",0))
+	if (tmp_id = api->GetEntityIdWalker("flag")())
         api->Send_Message(tmp_id,"li",MSG_FLAG_DEL_GROUP,model_id);
 
 	// объ€вим фларикам что мы сваливаем...

@@ -121,12 +121,12 @@ void SHIP::LoadServices()
 	pRS = (VDX9RENDER *)api->CreateService("dx9render");	Assert(pRS);
 	pCollide = (COLLIDE *)api->CreateService("coll");						Assert(pCollide);
 
-	api->FindClass(&touch_id, "touch", 0);
+	touch_id = api->GetEntityIdWalker("touch")();
 
-	if (api->FindClass(&ent, "island", 0)) pIsland = (ISLAND_BASE*)api->GetEntityPointer(ent);
-	if (api->FindClass(&sea_id, "sea", 0)) pSea = (SEA_BASE*)api->GetEntityPointer(sea_id);
+	if (ent = api->GetEntityIdWalker("island")()) pIsland = (ISLAND_BASE*)api->GetEntityPointer(ent);
+	if (sea_id = api->GetEntityIdWalker("sea")()) pSea = (SEA_BASE*)api->GetEntityPointer(sea_id);
 
-	api->FindClass(&FirePlace::eidSound, "sound", 0);	
+	FirePlace::eidSound = api->GetEntityIdWalker("sound")();
 }
 
 CVECTOR SHIP::ShipRocking(float fDeltaTime)
@@ -703,7 +703,8 @@ void SHIP::Execute(uint32_t DeltaTime)
 				
 				if (pVWShip)	// from ship damage
 				{
-					fShipRes = pCollide->Trace(*pVWShip, v1, v2, &GetId(), 1);
+					auto id = GetId();
+					fShipRes = pCollide->Trace(pVWShip, v1, v2, &id, 1);
 					if (fShipRes <= 1.0f) 
 					{
 						ATTRIBUTES * pACollideCharacter = GetACharacter();
@@ -715,7 +716,8 @@ void SHIP::Execute(uint32_t DeltaTime)
 				}
 				if (pVWIsland)	// from island damage
 				{
-					fIslRes	= pCollide->Trace(*pVWIsland, v1, v2, &GetModelEID(), 1);
+					auto id = GetModelEID();
+					fIslRes	= pCollide->Trace(pVWIsland, v1, v2, &id, 1);
 					if (fIslRes <= 1.0f)	
 					{
 						pV = api->Event(SHIP_MAST_DAMAGE, "llffffa", SHIP_MAST_TOUCH_ISLAND, pM->iMastNum, v1.x, v1.y, v1.z, pM->fDamage, GetACharacter());
@@ -726,8 +728,6 @@ void SHIP::Execute(uint32_t DeltaTime)
 				MastFall(pM);
 			}
 		}
-		STORM_DELETE(pVWShip);
-		STORM_DELETE(pVWIsland);
 	}
 
 // key states
@@ -842,7 +842,7 @@ void SHIP::MastFall(mast_t * pM)
 	if (pM && pM->pNode && pM->fDamage >= 1.0f) 
 	{
 		entid_t ent;
-		api->CreateEntity(&ent, "mast");
+		ent = api->CreateEntity("mast");
 		api->Send_Message(ent, "lpii", MSG_MAST_SETGEOMETRY, pM->pNode, GetId(), GetModelEID());
 		api->LayerAdd((char*)sExecuteLayer.c_str(), ent, iShipPriorityExecute+1);
 		api->LayerAdd((char*)sRealizeLayer.c_str(), ent, iShipPriorityRealize+1);
@@ -1500,7 +1500,7 @@ uint32_t SHIP::AttributeChanged(ATTRIBUTES * pAttribute)
 }
 
 CVECTOR		SHIP::GetBoxsize()				{ return State.vBoxSize; };
-entid_t	SHIP::GetModelEID()				{ return model_id; }
+entid_t 	SHIP::GetModelEID()				{ return model_id; }
 MODEL *		SHIP::GetModel()				{ Assert(api->GetEntityPointer(GetModelEID())); return (MODEL*)api->GetEntityPointer(GetModelEID()); }
 CMatrix *	SHIP::GetMatrix()				{ return &GetModel()->mtx; }
 void		SHIP::SetMatrix(CMatrix & mtx)	{ GetModel()->mtx = mtx; }

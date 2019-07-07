@@ -78,7 +78,7 @@ void RAIN::GenerateRain()
 	uint32_t	i;
 
 	entid_t	ent;
-	if (!api->FindClass(&ent,"Weather",0)) throw std::exception("No found WEATHER entity!");
+	if (!(ent = api->GetEntityIdWalker("Weather")())) throw std::exception("No found WEATHER entity!");
 	pWeather = (WEATHER_BASE*)api->GetEntityPointer(ent); Assert(pWeather);
 
 	Release();
@@ -220,7 +220,8 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 
 	entid_t sea_id;
 	SEA_BASE * pSea = nullptr;
-	if (api->FindClass(&sea_id, "sea", 0)) pSea = (SEA_BASE*)api->GetEntityPointer(sea_id);
+	if (sea_id = api->GetEntityIdWalker("sea")()) 
+		pSea = (SEA_BASE*)api->GetEntityPointer(sea_id);
 
 	walker_t pVW = api->LayerGetWalker("rain_drops");
 
@@ -251,7 +252,7 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 		vSrc = CVECTOR(vCamPos.x + fR * sinf(fA), vCamPos.y + 75.0f, vCamPos.z + fR * cosf(fA));
 		vDst = CVECTOR(vSrc.x, vCamPos.y - 75.0f, vSrc.z);
 
-		float fTest1 = cs->Trace(*pVW, vSrc, vDst, nullptr, 0);
+		float fTest1 = cs->Trace(pVW, vSrc, vDst, nullptr, 0);
 		float fTest2 = 2.0f;
 
 		if (pSea) 
@@ -267,9 +268,9 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 
 			//проверим - если это корабль
 			entid_t eid = cs->GetObjectID();
-			if (eid.class_code == dwShipName)
+			if (api->GetEntityClassCode(eid) == dwShipName)
 			{
-				pShip = (SHIP_BASE*)eid.pointer;
+				pShip = (SHIP_BASE*)api->GetEntityPointer(eid);
 			}
 		}
 		else if (fTest2 <= 1.0f)
@@ -313,7 +314,7 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 
 	for (long i=0; i<aShips.size(); i++)
 	{
-		if (!api->ValidateEntity(&aShips[i].eid))
+		if (!api->GetEntityPointer(aShips[i].eid))
 		{
 			aShips[i].pShip = nullptr;
 		}

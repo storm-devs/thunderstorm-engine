@@ -1,6 +1,7 @@
 #include "AIShip.h"
 #include "AIFort.h"
 #include "../Common_h/ship_base.h"
+#include "../Common_h/inlines.h"
 
 std::vector<AIShip*> AIShip::AIShips;
 std::vector<AIShip::can_fire_t>	AIShip::aShipFire;
@@ -231,7 +232,7 @@ void AIShip::CreateShip(entid_t _eidShip, ATTRIBUTES * _pACharacter, ATTRIBUTES 
 	Assert(_pACharacter && _pAShipBase);
 	pAShipBase = _pAShipBase;
 
-	eidShip = _eidShip; Assert(api->ValidateEntity(&eidShip));
+	eidShip = _eidShip; Assert(api->GetEntityPointer(eidShip));
 	VAI_OBJBASE * pObj = GetAIObjShipPointer(); Assert(pObj);
 	SetACharacter(_pACharacter);
 	pObj->SetACharacter(GetACharacter());
@@ -654,7 +655,7 @@ void AIShip::Save(CSaveLoad * pSL)
 void AIShip::Load(CSaveLoad * pSL)
 {
 	// create ship
-	api->CreateEntity(&eidShip, "Ship");
+	eidShip = api->CreateEntity("Ship");
 	GetShipBasePointer()->Load(pSL);
 	
 	SetACharacter(pSL->LoadAPointer("character"));

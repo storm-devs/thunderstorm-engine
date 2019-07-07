@@ -22,30 +22,29 @@ public:
 	bool FindShip()
 	{
 		Assert(pACharacter);
+		const auto walker = api->GetEntityIdWalker("ship");
 		entid_t eidTemp;
 		// get entity id from loaded ships
-		if (api->FindClass(&eidTemp,"ship",0)) do
+		if (eidTemp = walker()) do
 		{
 			VAI_OBJBASE * pObj = (VAI_OBJBASE*)api->GetEntityPointer(eidTemp);
 			if (pObj->GetACharacter() == pACharacter)
 			{
-				SetEID(&pObj->GetModelEID());
+				SetEID(pObj->GetModelEID());
 				SetAIObj(pObj);
 				return true;
 			}
-		} while (api->FindClassNext(&eidTemp));
+		} while (eidTemp = walker());
 		return false;
 	}
 
 	MODEL *GetModelPointer()
 	{
-		Assert(api->ValidateEntity(&eidObject));
-		Assert(eidObject.pointer);
-		return (MODEL*)eidObject.pointer;
+		return (MODEL*)api->GetEntityPointer(eidObject);
 	}
 	void		SetAIObj(VAI_OBJBASE * _pAIObj) { pAIObj = _pAIObj; }
 	VAI_OBJBASE * GetAIObj() { return pAIObj; }
-	void		SetEID(entid_t pEID) { eidObject = *pEID; };
+	void		SetEID(entid_t pEID) { eidObject = pEID; };
 	entid_t	GetEID() { return eidObject; };
 	
 	virtual void SetCharacter(ATTRIBUTES *_pACharacter) { pACharacter = _pACharacter; };

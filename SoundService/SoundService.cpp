@@ -1222,11 +1222,10 @@ void SoundService::InitAliases ()
 
 void SoundService::CreateEntityIfNeed ()
 {
-	entid_t Debugentid_t;
-	bool bResult = api->FindClass(&Debugentid_t, "SoundVisualisationEntity", 0);
-	if (!bResult)
+	entid_t Debugentid_t = api->GetEntityIdWalker("SoundVisualisationEntity")();
+	if (!Debugentid_t)
 	{
-		api->CreateEntity(&Debugentid_t, "SoundVisualisationEntity");
+		Debugentid_t = api->CreateEntity("SoundVisualisationEntity");
 	}
 
 	SoundVisualisationEntity* pDebugEntity = (SoundVisualisationEntity*)api->GetEntityPointer(Debugentid_t);

@@ -136,7 +136,7 @@ void TSharks::Execute(uint32_t _dTime)
 }
 
 //--------------------------------------------------------------------
-void TSharks::Realize(uint32_t dTime)
+void TSharks::Realize(uint32_t _dTime)
 {
 	if (!enabled)
 		return;

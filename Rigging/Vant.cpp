@@ -121,14 +121,14 @@ void VANT::Realize(uint32_t Delta_Time)
         for(int gn=0; gn<groupQuantity; gn++)
 			if( gdata[gn].nIndx && nVert && (~(gdata[gn].pMatWorld->Pos() - cp))*pr<fVantMaxDist )
             {
-				((SHIP_BASE*)gdata[gn].shipEI.pointer)->SetLightAndFog(true);
-				((SHIP_BASE*)gdata[gn].shipEI.pointer)->SetLights();
+				((SHIP_BASE*)api->GetEntityPointer(gdata[gn].shipEI))->SetLightAndFog(true);
+				((SHIP_BASE*)api->GetEntityPointer(gdata[gn].shipEI))->SetLights();
 
                 RenderService->SetTransform(D3DTS_WORLD,(D3DXMATRIX*)gdata[gn].pMatWorld);
 			    RenderService->DrawBuffer(vBuf, sizeof(VANTVERTEX), iBuf, 0, nVert, gdata[gn].sIndx, gdata[gn].nIndx);
 
-				((SHIP_BASE*)gdata[gn].shipEI.pointer)->UnSetLights();
-				((SHIP_BASE*)gdata[gn].shipEI.pointer)->RestoreLightAndFog();
+				((SHIP_BASE*)api->GetEntityPointer(gdata[gn].shipEI))->UnSetLights();
+				((SHIP_BASE*)api->GetEntityPointer(gdata[gn].shipEI))->RestoreLightAndFog();
 				//_asm rdtsc  _asm sub eax,rtm _asm mov rtm,eax
 			}
 		while (RenderService->TechniqueExecuteNext()) {};

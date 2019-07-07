@@ -55,10 +55,10 @@ void SUNGLOW::SetDevice()
 	pRS = (VDX9RENDER *)api->CreateService("dx9render"); Assert(pRS);
 	pCollide = (COLLIDE*)api->CreateService("COLL"); Assert(pCollide);
 
-	if (!api->FindClass(&ent,"Weather",0)) throw std::exception("No found WEATHER entity!");
+	if (!(ent = api->GetEntityIdWalker("WEATHER")())) throw std::exception("No found WEATHER entity!");
 	pWeather = (WEATHER_BASE*)api->GetEntityPointer(ent); Assert(pWeather);
 
-	if ( api->FindClass(&ent,"SKY",0) ) pSky = (SKY*)api->GetEntityPointer(ent);
+	if (ent = api->GetEntityIdWalker("SKY")()) pSky = (SKY*)api->GetEntityPointer(ent);
 	else pSky = nullptr;
 
 	if( idRectBuf==-1 )
@@ -74,9 +74,6 @@ void SUNGLOW::Release()
 	if (iFlareTex>=0)		pRS->TextureRelease(iFlareTex);		iFlareTex = -1;
 	if (iOverflowTex>=0)	pRS->TextureRelease(iOverflowTex);	iOverflowTex = -1;
 	if (iReflTexture>=0)	pRS->TextureRelease(iReflTexture);	iReflTexture = -1;
-	
-	STORM_DELETE(pVWSunTrace);
-	STORM_DELETE(pVWSailsTrace);
 }
 
 void SUNGLOW::GenerateSunGlow()
@@ -135,7 +132,7 @@ float SUNGLOW::LayerTrace(CVECTOR & vSrc, walker_t pVW)
 
 	pWeather->GetVector(whv_sun_pos, &vDst);
 	vDst = vSrc + (!vDst) * 10000.0f;
-	return pCollide->Trace(*pVW, vSrc, vDst, nullptr, 0);
+	return pCollide->Trace(pVW, vSrc, vDst, nullptr, 0);
 }
 
 void SUNGLOW::Realize(uint32_t Delta_Time)
@@ -580,7 +577,7 @@ float SUNGLOW::GetSunFadeoutFactor(const CVECTOR& vSunPos,float fSunSize)
 	// получим указатель на небо
 	if( !pSky ) {
 		entid_t ent;
-		if ( api->FindClass(&ent,"SKY",0) )
+		if (ent = api->GetEntityIdWalker("SKY")())
 			pSky = (SKY*)api->GetEntityPointer(ent);
 	}
 	return pSky ? pSky->CalculateAlphaForSun(vSunPos,fSunSize) : 1.0f;

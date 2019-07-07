@@ -10,6 +10,10 @@ typedef bool (*ADD_POLYGON_FUNC)(const CVECTOR *v, long nv);
 class COLLISION_OBJECT : public Entity
 {
 public:
+	bool Init()
+	{
+		return true;
+	}
 	void ProcessStage(Stage, uint32_t) override
 	{
 	}

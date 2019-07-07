@@ -201,6 +201,11 @@ public:
 		}
 	}
 
+	// временный костыль
+	uint32_t GetClassCode(entid_t entity){
+		const auto entData = GetEntityData(entity);
+		return entData.hash;
+	}
 
 	static auto constexpr checkLayerFlag(const layer_with_flags_t& layer, LayerFlags flag)
 	{

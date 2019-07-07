@@ -94,7 +94,7 @@ uint32_t TFishSchools::ProcessMessage(long _code, MESSAGE & message)
 }
 
 //--------------------------------------------------------------------
-void TFishSchools::Execute(uint32_t dTime)
+void TFishSchools::Execute(uint32_t _dTime)
 {
 	if (!enabled)
 		return;
