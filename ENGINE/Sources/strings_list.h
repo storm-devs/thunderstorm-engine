@@ -38,7 +38,7 @@ public:
 
 	bool GetStringData(uint32_t code,void * data_PTR);
 	bool SetStringData(uint32_t code,void * data_PTR);
-	void SetStringDataSize(uint32_t _size);
+	void SetStringDataSize(uint32_t size);
 
 	void CacheString(uint32_t code);
 	uint32_t MakeHashValue(const char * string);

@@ -51,10 +51,11 @@ Fader::~Fader()
 bool Fader::Init()
 {
 	//Проверим что единственные
-	entid_t eid;
-	if(api->FindClass(&eid, "Fader", 0))
+
+	const auto walker = api->GetEntityIdWalker("Fader");
+	if(entid_t eid = walker(); eid)
 	{
-		if(api->GetEntityPointer(eid) != this || api->FindClassNext(&eid))
+		if(api->GetEntityPointer(eid) != this || walker())
 		{
 			if(fadeIn == ((Fader *)api->GetEntityPointer(eid))->fadeIn)
 			{

@@ -13,6 +13,7 @@
 
 #include "WdmRenderObject.h"
 
+class ATTRIBUTES;
 class WdmCloud;
 
 class WdmStorm : public WdmRenderObject

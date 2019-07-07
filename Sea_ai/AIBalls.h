@@ -60,7 +60,7 @@ private:
 	std::string				sTextureName;				// texture name
 	uint32_t				dwTextureIndex;				// texture index
 	uint32_t				dwSubTexX, dwSubTexY;		// all balls must be in one texture
-	VIDWALKER			* pVWForts, * pVWShips;		// 
+	walker_t			 pVWForts, pVWShips;		// 
 	uint32_t				dwFireBallFromCameraTime;
 
 	std::vector<BALL_TYPE>	aBallTypes;					// Balls types container
@@ -81,7 +81,7 @@ private:
 
 	uint32_t	AttributeChanged(ATTRIBUTES * pAttributeChanged);
 
-	uint32_t _cdecl	ProcessMessage(MESSAGE & message);
+	uint32_t cdecl	ProcessMessage(MESSAGE & message);
 
 public:
 	static AIBalls * pAIBalls;

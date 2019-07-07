@@ -491,8 +491,8 @@ public:
 
 	void RenderAnimation(long ib, void * src, long numVrts, long minv, long numv,  long startidx, long numtrg, bool isUpdateVB);
 
-	bool TechniqueSetParamsAndStart(char *cBlockName = 0, uint32_t _dwNumParams = 0, void *pParams = 0);
-	bool TechniqueExecuteStart(char *cBlockName = 0, uint32_t _dwNumParams = 0, ...);
+	bool TechniqueSetParamsAndStart(char *cBlockName = 0, uint32_t dwNumParams = 0, void *pParams = 0);
+	bool TechniqueExecuteStart(char *cBlockName = 0, uint32_t dwNumParams = 0, ...);
 	bool TechniqueExecuteNext();
 
 	void* LockVertexBuffer(long id, uint32_t dwFlags = 0);

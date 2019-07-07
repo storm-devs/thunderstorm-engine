@@ -20,8 +20,8 @@ public:
 
 	virtual bool Init();
 	virtual uint32_t ProcessMessage(MESSAGE & message);
-	virtual void Realize(uint32_t _dTime);
-	virtual void Execute(uint32_t _dTime);
+	virtual void Realize(uint32_t dTime);
+	virtual void Execute(uint32_t dTime);
 	void BALLSPLASH::ProcessStage(Stage stage, uint32_t delta) override
 	{
 		switch (stage)

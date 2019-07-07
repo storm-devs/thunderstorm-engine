@@ -37,8 +37,7 @@ LocEagle::~LocEagle()
 bool LocEagle::Init()
 {
 	//Точка, вокруг которой летаем
-	entid_t loc;
-	api->FindClass(&loc, "location", 0);
+	entid_t loc = api->GetEntityIdWalker("location")();
 	Location * location = (Location *)api->GetEntityPointer(loc);
 	if(!location) return false;
 	cnt = location->GetPtcData().middle + CVECTOR(0.0f, 30.0f, 0.0f);
@@ -50,7 +49,7 @@ bool LocEagle::Init()
 		return false;
 	}
 	//Моделька
-	if(!api->CreateEntity(&mdl, "modelr")) return false;
+	if(!(mdl = api->CreateEntity("modelr"))) return false;
 	api->LayerAdd("realize", mdl, 20);
 	gs->SetTexturePath("Animals\\");
 	if(!api->Send_Message(mdl, "ls", MSG_MODEL_LOAD_GEO, "Animals\\eagle"))
@@ -70,7 +69,7 @@ bool LocEagle::Init()
 	if(!ani->Player(0).Play()) return false;
 	//Включаем в список исполнения
 	api->LayerCreate("execute", true, false);
-	api->LayerSetFlags("execute", LRFLAG_EXECUTE);
+	api->LayerSetExecute("execute", true);
 	api->LayerAdd("execute", GetId(), 10);
 	return true;	
 }

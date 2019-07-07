@@ -66,11 +66,11 @@ bool LocationEffects::Init()
 	if(!rs) throw std::exception("No service: dx9render");
 
 	api->LayerCreate("execute", true, false);
-	api->LayerSetFlags("execute", LRFLAG_EXECUTE);
+	api->LayerSetExecute("execute", true);
 	api->LayerAdd("execute", GetId(), 10);
 
 	api->LayerCreate("realize", true, false);
-	api->LayerSetFlags("realize", LRFLAG_REALIZE);
+	api->LayerSetRealize("realize", true);
 	api->LayerAdd("realize", GetId(), 1000000);
 
 	splashesTxt = rs->TextureCreate("LocEfx\\chrsplprt.tga");

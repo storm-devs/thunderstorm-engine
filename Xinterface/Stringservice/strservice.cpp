@@ -1266,7 +1266,7 @@ uint32_t _RegistryExitKey(VS_STACK * pS)
 		XINTERFACE::pThis->RegistryExitKey( strKeyName );
 	return IFUNCRESULT_OK;
 }
-
+	
 uint32_t _AddControlTreeNode(VS_STACK * pS)
 {
 	VDATA * pDat = (VDATA*)pS->Pop();	if (!pDat) return IFUNCRESULT_FAILED;

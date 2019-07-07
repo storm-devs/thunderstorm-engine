@@ -45,10 +45,10 @@ bool Lighter::Init()
 	if(!rs) throw std::exception("No service: dx9render");
 	//
 	api->LayerCreate("lighter_execute", true, false);
-	api->LayerSetFlags("lighter_execute", LRFLAG_EXECUTE);
+	api->LayerSetExecute("lighter_execute", true);
 	api->LayerAdd("lighter_execute", GetId(), 1000);
 	api->LayerCreate("lighter_realize", true, false);
-	api->LayerSetFlags("lighter_realize", LRFLAG_REALIZE);
+	api->LayerSetRealize("lighter_realize", true);
 	api->LayerAdd("lighter_realize", GetId(), 1000);
 	//
 	lightProcessor.SetParams(&geometry, &window, &lights, &octTree, rs);

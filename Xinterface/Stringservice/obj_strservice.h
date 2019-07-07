@@ -11,6 +11,9 @@ public:
 	~OBJ_STRSERVICE();
 	bool	Init();
     uint32_t ProcessMessage(MESSAGE & message);
+	void ProcessStage(Stage, uint32_t) override
+	{
+	}
 };
 
 #endif

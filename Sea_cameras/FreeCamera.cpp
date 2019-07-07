@@ -76,7 +76,7 @@ void FREE_CAMERA::Execute(uint32_t Delta_Time)
 	SetPerspective(AttributesPointer->GetAttributeAsFloat("Perspective"));
 
 	entid_t ent;
-	if (!pIslandBase && api->FindClass(&ent,"island",0))
+	if (!pIslandBase && (ent = api->GetEntityIdWalker("island")()))
 		pIslandBase = (ISLAND_BASE*)api->GetEntityPointer(ent);
 
 	Move(api->GetDeltaTime());
@@ -128,7 +128,7 @@ void FREE_CAMERA::Move(uint32_t DeltaTime)
 
 	return; //~!~
 
-	CVECTOR vRes;
+	/*CVECTOR vRes;
 	CVECTOR vDst = vPos + 2000.0f*CVECTOR(s0*c1, -s1, c0*c1);
 
 	walker_tpVW = api->LayerGetWalker("sun_trace");
@@ -144,7 +144,7 @@ void FREE_CAMERA::Move(uint32_t DeltaTime)
 
 	MODEL* pModel = (MODEL*)api->GetEntityPointer(sphere);
 	pModel->mtx.BuildPosition(vRes.x,vRes.y,vRes.z);
-	delete pVW;
+	delete pVW;*/
 }
 
 void FREE_CAMERA::Save(CSaveLoad * pSL)

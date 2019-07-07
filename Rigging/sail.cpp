@@ -242,7 +242,7 @@ void SAIL::Execute(uint32_t Delta_Time)
 				if(nod)
 				{
 					entid_t eiMastTmp;
-					if( api->CreateEntity( &eiMastTmp, "MAST" ) )
+					if(eiMastTmp =  api->CreateEntity("MAST" ) )
 					{
 						api->Send_Message( eiMastTmp, "lpii", MSG_MAST_SETGEOMETRY, nod, gdata[0].shipEI, gdata[0].modelEI );
 					}
@@ -312,8 +312,7 @@ void SAIL::Execute(uint32_t Delta_Time)
 	    }
 
         // получим значение ветра
-        entid_t ei;
-        if( api->FindClass(&ei,"weather",0) )
+        if(entid_t ei = api->GetEntityIdWalker("weather")(); ei)
         {
             WEATHER_BASE *wb = (WEATHER_BASE*)api->GetEntityPointer(ei);
             globalWind.ang.x=wb->GetFloat(whf_wind_angle);
@@ -405,7 +404,7 @@ void SAIL::Execute(uint32_t Delta_Time)
 			// звук подъема спуска паруса
 			if( gdata[i].bFinalSailDoOld != gdata[i].bFinalSailDo ) {
 				if( gdata[i].bYesShip ) {
-					ATTRIBUTES* pA = ((VAI_OBJBASE*)gdata[i].shipEI.pointer)->GetACharacter();
+					ATTRIBUTES* pA = ((VAI_OBJBASE*)api->GetEntityPointer(gdata[i].shipEI))->GetACharacter();
 					api->Event( "Ship_SailsMoveSound", "al", pA, (long)gdata[i].bFinalSailDo );
 				}
 			}
@@ -524,8 +523,8 @@ void SAIL::Realize(uint32_t Delta_Time)
 					RenderService->UnLockIndexBuffer(sg.indxBuf);
 					if( gdata[j].bYesShip )
 					{
-						((SHIP_BASE*)gdata[j].shipEI.pointer)->SetLightAndFog(true);
-						((SHIP_BASE*)gdata[j].shipEI.pointer)->SetLights();
+						((SHIP_BASE*)api->GetEntityPointer(gdata[j].shipEI))->SetLightAndFog(true);
+						((SHIP_BASE*)api->GetEntityPointer(gdata[j].shipEI))->SetLights();
 					}
 					if(slist[i]->ss.nholeIndx!=0) {
 						RenderService->DrawBuffer(sg.vertBuf, sizeof(SAILVERTEX), sg.indxBuf,
@@ -539,8 +538,8 @@ void SAIL::Realize(uint32_t Delta_Time)
 					}
 					if( gdata[j].bYesShip )
 					{
-						((SHIP_BASE*)gdata[j].shipEI.pointer)->UnSetLights();
-						((SHIP_BASE*)gdata[j].shipEI.pointer)->RestoreLightAndFog();
+						((SHIP_BASE*)api->GetEntityPointer(gdata[j].shipEI))->UnSetLights();
+						((SHIP_BASE*)api->GetEntityPointer(gdata[j].shipEI))->RestoreLightAndFog();
 					}
 				}
 				RenderService->SetRenderState(D3DRS_TEXTUREFACTOR,dwOldTextureFactor);
@@ -665,7 +664,7 @@ uint32_t SAIL::ProcessMessage(MESSAGE & message)
 
                 CVECTOR epos;
                 if(so->ss.turningSail && posNum!=0) // установка только для поворачивающихся парусов
-                if(api->FindClass(&tmpEI,"rope",0))
+                if(tmpEI = api->GetEntityIdWalker("rope")())
                 if(so->sailtrope.rrs[0]==nullptr)
                 {
                     so->sailtrope.rrs[0]=new ROTATEROPEDSAIL;
@@ -1062,7 +1061,7 @@ void SAIL::SetAllSails(int groupNum)
 		// Посмотрим наличие дырочек
 		if(gdata[groupNum].bYesShip && !gdata[groupNum].bDeleted)
 		{
-			ATTRIBUTES * pACh = ((VAI_OBJBASE*)gdata[groupNum].shipEI.pointer)->GetACharacter();
+			ATTRIBUTES * pACh = ((VAI_OBJBASE*)api->GetEntityPointer(gdata[groupNum].shipEI))->GetACharacter();
 			ATTRIBUTES * pA = nullptr;
 			// Запустим установку текстур на паруса
 			SetSailTextures( groupNum, api->Event("GetSailTextureData","l",pACh->GetAttributeAsDword("index",-1)) );
@@ -1413,7 +1412,7 @@ void SAIL::FirstRun()
     else       SetAllSails();
 
     entid_t ropeEI;
-    if(api->FindClass(&ropeEI,"rope",0))
+    if(ropeEI = api->GetEntityIdWalker("rope")())
     // расчет позиции согласно положения веревок
     for(sn=wFirstIndx; sn<sailQuantity; sn++)
     {
@@ -1762,7 +1761,7 @@ void SAIL::SetAddSails(int firstSail)
 void SAIL::DoNoRopeSailToNewHost(entid_t newModel, entid_t newHost, entid_t oldHost)
 {
     entid_t rope_id;
-    if( !api->FindClass(&rope_id,"rope",0) ) return; // нет веревок нет концерта
+    if( !(rope_id = api->GetEntityIdWalker("rope")()) ) return; // нет веревок нет концерта
     ROPE_BASE *rb = (ROPE_BASE*)api->GetEntityPointer(rope_id);
     if(rb== nullptr) return;
 
@@ -1937,7 +1936,7 @@ int SAIL::FindGroupForCharacter(int chrIdx)
 	for(int gn=0; gn<groupQuantity; gn++)
 	{
 		if( gdata[gn].bDeleted || !gdata[gn].bYesShip ) continue;
-		ATTRIBUTES* pA = ((VAI_OBJBASE*)gdata[gn].shipEI.pointer)->GetACharacter();
+		ATTRIBUTES* pA = ((VAI_OBJBASE*)api->GetEntityPointer(gdata[gn].shipEI))->GetACharacter();
 		if(pA!= nullptr)
 			if( (int)pA->GetAttributeAsDword("index",-1) == chrIdx )
 				return gn;
@@ -1949,7 +1948,7 @@ int SAIL::GetCharacterForGroup(int grNum)
 {
 	ATTRIBUTES* pA = nullptr;
 	if( gdata[grNum].bYesShip )
-		pA = ((VAI_OBJBASE*)gdata[grNum].shipEI.pointer)->GetACharacter();
+		pA = ((VAI_OBJBASE*)api->GetEntityPointer(gdata[grNum].shipEI))->GetACharacter();
 	if(pA!= nullptr) return (int)pA->GetAttributeAsDword("index",-1);
 	return -1;
 }

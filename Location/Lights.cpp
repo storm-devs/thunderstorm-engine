@@ -134,10 +134,10 @@ bool Lights::Init()
 	}
 	//Начнём исполняться
 	api->LayerCreate("execute", true, false);
-	api->LayerSetFlags("execute", LRFLAG_EXECUTE);
+	api->LayerSetExecute("execute", true);
 	api->LayerAdd("execute", GetId(), 10);
 	api->LayerCreate("realize", true, false);
-	api->LayerSetFlags("realize", LRFLAG_REALIZE);
+	api->LayerSetRealize("realize", true);
 	api->LayerAdd("realize", GetId(), 1001000);
 	return true;
 }
@@ -221,7 +221,6 @@ void Lights::Realize(uint32_t delta_time)
 		{
 			float dist = collide->Trace(walker, pos, CVECTOR(ls.pos.x, ls.pos.y, ls.pos.z), lampModels, numLampModels);
 			isVisible = dist > 1.0f;
-			delete walker;
 		}
 		ls.corona += isVisible ? 0.008f*delta_time : -0.008f*delta_time;
 		if(ls.corona <= 0.0f){ ls.corona = 0.0f; continue; }
@@ -335,8 +334,8 @@ void Lights::AddLight(long index, const CVECTOR & pos)
 
 #ifndef _XBOX
 	//Отправим сообщение лайтеру
-	entid_t eid;
-	if(api->FindClass(&eid, nullptr, lighter_code))
+	
+	if(entid_t eid = api->GetEntityIdWalker(nullptr, lighter_code)(); eid)
 	{
 		api->Send_Message(eid, "sffffffffffs", "AddLight",
 			pos.x,

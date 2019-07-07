@@ -15,7 +15,7 @@ public:
 	bool bProcess;
 	bool bInvalide;
 	S_EVENTMSG(){bInvalide = false; bProcess = false; pMessageClass = nullptr; nTime = 0; nPeriod = 0;pEventName = nullptr;};
-	S_EVENTMSG(char * _name,MESSAGE_SCRIPT * _pc, uint32_t _period) 
+	S_EVENTMSG(char * _name,MESSAGE_SCRIPT * _pc, uint32_t _period)
 	{
 		bInvalide = false;
 		bProcess = false;

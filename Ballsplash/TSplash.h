@@ -35,12 +35,12 @@ public:
 	void Initialize(INIFILE * _ini, IDirect3DDevice9 *_device, SEA_BASE *sea, VDX9RENDER *_renderer);
 	void Release();
 	void Start(const CVECTOR &_pos, const CVECTOR &_dir);
-	bool Process(uint32_t _dTime);
-	bool Process2(uint32_t _dTime);
+	bool Process(uint32_t dTime);
+	bool Process2(uint32_t dTime);
 	void PostProcess();
 	void PostProcess2();
-	void Realize(uint32_t _dTime);
-	void Realize2(uint32_t _dTime);
+	void Realize(uint32_t dTime);
+	void Realize2(uint32_t dTime);
 	bool Enabled();
 
 	static bool startRender;
@@ -48,7 +48,7 @@ public:
 	static uint32_t processCount, topIndex, topIndex2;
 
 private:
-	float HeightF(uint32_t _time, float _r, float _k);
+	float HeightF(uint32_t time, float _r, float _k);
 
 	bool enabled;
 

@@ -84,7 +84,7 @@ public:
 private:
 	//Функция защиты
 #ifndef _XBOX
-	void __declspec(dllexport) _SFLB_PotectionLoad();
+	void SFLB_PotectionLoad();
 #else
 	void SFLB_PotectionLoad();
 #endif

@@ -30,8 +30,7 @@ bool WaterRings::Init()
 
 	api->LayerAdd("realize",GetId(),65551);
 
-	entid_t seaID;
-	api->FindClass(&seaID, "sea", 0);
+	entid_t seaID = api->GetEntityIdWalker("sea")();
 	sea = (SEA_BASE*) api->GetEntityPointer(seaID);
 
 	renderService = (VDX9RENDER *)api->CreateService("dx9render");

@@ -38,12 +38,12 @@ public:
 	void InitCircleMeasure(float _d, float _kx, float _ky);
 	bool Initialize();
 	void Uninitialize();
-	void Execute(uint32_t _dTime, CMatrix &_mtx, const CVECTOR *_starts);
+	void Execute(uint32_t dTime, CMatrix &_mtx, const CVECTOR *_starts);
 	void Realize(const char *_technique);
 
 	void SetSpeed(float _uSpeed, float _vSpeed, float _speedA);
 private:
-	void RebuildLevels(tCarcassVertex *_vBuffer, bool _firstDraw, uint32_t _dTime);
+	void RebuildLevels(tCarcassVertex *_vBuffer, bool _firstDraw, uint32_t dTime);
 	void RebuildIndexes(uint16_t *_iBuffer);
 
 	bool     normalsInverted;

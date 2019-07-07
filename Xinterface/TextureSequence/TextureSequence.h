@@ -35,6 +35,17 @@ public:
 	void Release();
 	void LostRender();
 	void RestoreRender();
+	void ProcessStage(Stage stage, uint32_t delta) override
+	{
+		switch (stage)
+		{
+		case Stage::LOST_RENDER:
+			LostRender(); break;
+		case Stage::RESTORE_RENDER:
+			RestoreRender(); break;
+		}
+	}
+	bool Init() { return true; }
 };
 
 #endif

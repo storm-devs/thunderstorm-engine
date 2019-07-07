@@ -39,7 +39,7 @@ void LocModelRealizer::Execute(uint32_t delta_time)
 void LocModelRealizer::Realize(uint32_t delta_time)
 {
 	if( !bShow ) return;
-	Entity* pE = api->GetEntityPointer( &eid_model );
+	Entity* pE = api->GetEntityPointer( eid_model );
 	if( pE ) {
 		BOOL bLight0Enable;
 		uint32_t dwLighting;
@@ -51,8 +51,7 @@ void LocModelRealizer::Realize(uint32_t delta_time)
 			rs->LightEnable(0, TRUE);
 		}
 
-		pE->Realize(delta_time);
-
+		pE->ProcessStage(Entity::Stage::REALIZE, delta_time);
 		if (lights) {
 			lights->DelCharacterLights();
 			rs->SetRenderState(D3DRS_LIGHTING, dwLighting);
@@ -80,7 +79,7 @@ void LocModelRealizer::Realize(uint32_t delta_time)
 
 			// рисуем каустики
 			gs->SetCausticMode(true);
-			pE->Realize(0);
+			pE->ProcessStage(Entity::Stage::REALIZE, 0);;
 			gs->SetCausticMode(false);
 		}
 	}

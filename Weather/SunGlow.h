@@ -21,7 +21,20 @@ public:
 	void	Execute(uint32_t Delta_Time);
 	uint32_t	AttributeChanged(ATTRIBUTES * pAttribute);
 	uint32_t	ProcessMessage(MESSAGE & message);
-
+	void ProcessStage(Stage stage, uint32_t delta) override
+	{
+		switch (stage)
+		{
+		case Stage::EXECUTE:
+			Execute(delta); break;
+		case Stage::REALIZE:
+			Realize(delta); break;
+			/*case Stage::LOST_RENDER:
+				LostRender(delta); break;
+			case Stage::RESTORE_RENDER:
+				RestoreRender(delta); break;*/
+		}
+	}
 	void	DrawSunMoon();
 
 private:

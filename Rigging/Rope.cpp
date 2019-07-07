@@ -156,13 +156,13 @@ void ROPE::Realize(uint32_t Delta_Time)
 					if (!gdata[i].bDeleted && gdata[i].nt != 0 && nVert != 0)
 						if ((~(gdata[i].pMatWorld->Pos() - cp))*pr < fMaxRopeDist) // если расстояние до корабля не больше максимального
 						{
-							((SHIP_BASE*)gdata[i].shipEI.pointer)->SetLightAndFog(true);
+							((SHIP_BASE*)api->GetEntityPointer(gdata[i].shipEI))->SetLightAndFog(true);
 							RenderService->SetTransform(D3DTS_WORLD, (D3DXMATRIX*)gdata[i].pMatWorld);
 
 							RenderService->TextureSet(0, texl);
 							RenderService->SetMaterial(mat);
 							RenderService->DrawBuffer(vBuf, sizeof(ROPEVERTEX), iBuf, 0, nVert, gdata[i].st, gdata[i].nt);
-							((SHIP_BASE*)gdata[i].shipEI.pointer)->RestoreLightAndFog();
+							((SHIP_BASE*)api->GetEntityPointer(gdata[i].shipEI))->RestoreLightAndFog();
 						}
 				while (RenderService->TechniqueExecuteNext()) {};
 			}
@@ -661,8 +661,8 @@ void ROPE::AddLabel(GEOS::LABEL &lbl,NODE *nod, bool bDontSage)
 			rd->angRot=0.f;
 			rd->vDeep=0.f;
 
-			entid_t sailEI;
-			if(api->FindClass(&sailEI,"sail",0))
+			;
+			if(entid_t sailEI = api->GetEntityIdWalker("sail")(); sailEI)
 			{
 				MODEL* mdl=(MODEL*)api->GetEntityPointer(gdata[rd->HostGroup].modelEI);
 				if(mdl==nullptr)

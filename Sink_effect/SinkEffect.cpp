@@ -29,8 +29,7 @@ bool SINKEFFECT::Init()
 {
 	//GUARD(SINKEFFECT::Init)
 
-	entid_t seaID;
-	api->FindClass(&seaID, "sea", 0);
+	entid_t seaID = api->GetEntityIdWalker("sea")();
 	sea = (SEA_BASE*) api->GetEntityPointer(seaID);
 
 	renderer = (VDX9RENDER *) api->CreateService("dx9render");
@@ -58,7 +57,8 @@ uint32_t SINKEFFECT::ProcessMessage(MESSAGE & message)
 			ATTRIBUTES *attrs = message.AttributePointer();
 			if (attrs)
 			{
-				if (api->FindClass(&shipID, "ship", 0))
+				const auto walker = api->GetEntityIdWalker("ship");
+				if(shipID = walker())
 				{
 					/*
 					shipBase = (SHIP_BASE *) api->GetEntityPointer(shipID);
@@ -76,7 +76,7 @@ uint32_t SINKEFFECT::ProcessMessage(MESSAGE & message)
 							TryToAddSink(shipBase->GetPos(), shipBase->GetBoxsize().z / 2.0f);
 							return outValue;
 						}
-					} while (api->FindClassNext(&shipID));
+					} while (shipID = walker());
 				}//if (FindClass)
 			}//if (attrs)
 		}//case

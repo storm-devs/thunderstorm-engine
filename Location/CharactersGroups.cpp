@@ -117,13 +117,12 @@ long CharactersGroups::String::GetLen(const char * str)
 bool CharactersGroups::Init()
 {
 	//Указатель на локацию
-	entid_t loc;
-	api->FindClass(&loc, "location", 0);
+	entid_t loc = api->GetEntityIdWalker("location")();;
 	location = (Location *)api->GetEntityPointer(loc);
 	if(!location) return false;
 	RegistryGroup("");
 	api->LayerCreate("execute", true, false);
-	api->LayerSetFlags("execute", LRFLAG_EXECUTE);
+	api->LayerSetExecute("execute", true);
 	api->LayerAdd("execute", GetId(), 10);
 	return true;
 }
@@ -821,7 +820,7 @@ bool CharactersGroups::MoveCharacterToGroup(MESSAGE & message)
 	grp = FindGroup(grpName);
 	Assert(grp);
 	//Удалим персонажа из предыдущей группы
-	RemoveCharacterFromAllGroups(&eid);
+	RemoveCharacterFromAllGroups(eid);
 	//Проверим на свободное место в группе
 	// boal fix for intel cpp if(grp->numChr >= sizeof(CharactersGroups::Group::c)/sizeof(Character *)) return false;
 	if(grp->numChr >= MAX_CHARACTERS) return false;//fix
@@ -913,9 +912,9 @@ void CharactersGroups::MsgSetAlarmReaction(MESSAGE & message)
 }
 
 //Исключить персонажа из всех групп
-void CharactersGroups::RemoveCharacterFromAllGroups(entid_t * chr)
+void CharactersGroups::RemoveCharacterFromAllGroups(entid_t chr)
 {
-	Character * ch = chr != nullptr ? (Character *)api->GetEntityPointer(chr) : nullptr;
+	Character * ch = chr ? (Character *)api->GetEntityPointer(chr) : nullptr;
 	//Удалим персонажа из предыдущей группы
 	for(long i = 0; i < numGroups; i++)
 	{
@@ -936,7 +935,7 @@ void CharactersGroups::RemoveCharacterFromAllGroups(entid_t * chr)
 void CharactersGroups::UnloadCharacter(MESSAGE & message)
 {
 	entid_t eid = message.EntityID();
-	RemoveCharacterFromAllGroups(&eid);
+	RemoveCharacterFromAllGroups(eid);
 }
 
 

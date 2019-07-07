@@ -476,7 +476,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 	char * pChar;
 	char * pChar2;
 	entid_t TempEid;
-	entid_t * pEid;
+	entid_t  pEid;
 	uint32_t n;
 	ATTRIBUTES * pA;
 	ATTRIBUTES * pRoot;

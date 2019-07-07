@@ -161,7 +161,6 @@ void Blood::AddBlood(const CVECTOR& pos)
 
 	long nThisBloodQ = CheckBloodQuantityInRadius(cpos,BLOOD_RADIUS,4);
 	if( nThisBloodQ>=4 ) { // уже много крови в этом месте
-		delete walker;
 		return;
 	}
 	if( nThisBloodQ>0 ) {
@@ -186,14 +185,13 @@ void Blood::AddBlood(const CVECTOR& pos)
 	p[5].Nx = -1.0f; p[5].Ny = 0.0f; p[5].Nz = 0.0f; p[5].D = -(cpos.x - BLOOD_RADIUS);
 
 	// бегаем по лееру
-	for(entid_t *pEID=walker->GetId(); pEID; pEID=walker->GetIDNext())
+	for(entid_t pEID=walker(); pEID; pEID=walker())
 	{
 		MODEL * m = (MODEL *)api->GetEntityPointer(pEID);
 		if(!m) continue;
 		NODE * root = m->GetNode(0);
 		m->Clip(p, 6, cpos, BLOOD_RADIUS, AddClipPoligon);
 	}
-	delete walker;
 
 	// бегаем по массиву моделек
 	for(long n=0; n<aModels.size(); n++)

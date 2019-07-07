@@ -35,7 +35,7 @@ float COLL::Trace(entid_t entity, const CVECTOR &src, const CVECTOR &dst)
 //----------------------------------------------------------------------------------
 //with enclusion list
 //----------------------------------------------------------------------------------
-float COLL::Trace(walker_t walker, const CVECTOR &src, const CVECTOR &dst, const entid_t *exclude_list, long entities)
+float COLL::Trace(walker_t walker, const CVECTOR &src, const CVECTOR &dst, const entid_t exclude_list, long entities)
 {
 	float best_res = 2.0f;
 	while (const auto eid = walker())
@@ -66,7 +66,7 @@ float COLL::Trace(walker_t walker, const CVECTOR &src, const CVECTOR &dst, const
 //
 //----------------------------------------------------------------------------------
 bool COLL::Clip(walker_t walker, const PLANE *planes, long nplanes, const CVECTOR &center, float radius,
-	ADD_POLYGON_FUNC addpoly, const entid_t *exclude_list, long entities)
+	ADD_POLYGON_FUNC addpoly, const entid_t exclude_list, long entities)
 {
 	bool retval = false;
 

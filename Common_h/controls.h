@@ -88,7 +88,7 @@ public:
 	virtual long CreateControl(char * control_name){return 0;};
 	virtual long GetControlsNum(){return 0;};
 	virtual bool GetControlDesc(long code, USER_CONTROL & _user_desc_struct){return false;};
-	virtual bool SetControlFlags(long code, uint32_t _flags){return true;}
+	virtual bool SetControlFlags(long code, uint32_t flags){return true;}
 
 	virtual long GetDevicesNum(){return 0;};
 	virtual bool GetDeviceDesc(long code, DEVICE_DESC & _device_desc){return false;};

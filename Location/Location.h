@@ -71,8 +71,20 @@ public:
 	void Realize(uint32_t delta_time);
 	//Сообщения
 	uint32_t ProcessMessage(MESSAGE & message);
-
-	
+	void ProcessStage(Stage stage, uint32_t delta) override
+	{
+		switch (stage)
+		{
+		case Stage::EXECUTE:
+			Execute(delta); break;
+		case Stage::REALIZE:
+			Realize(delta); break;
+			/*case Stage::LOST_RENDER:
+				LostRender(delta); break;
+			case Stage::RESTORE_RENDER:
+				RestoreRender(delta); break;*/
+		}
+	}
 //--------------------------------------------------------------------------------------------
 //Location
 //--------------------------------------------------------------------------------------------
@@ -124,8 +136,8 @@ private:
 	long LoadStaticModel(const char * modelName, const char * tech, long level, bool useDynamicLights);
 	bool LoadCharacterPatch(const char * ptcName);
 	void LoadCaustic();
-	bool __declspec(dllexport) _LoadJumpPatch(const char * modelName);
-	bool __declspec(dllexport) _LoadGrass(const char * modelName, const char * texture);
+	bool LoadJumpPatch(const char * modelName);
+	bool LoadGrass(const char * modelName, const char * texture);
 	bool MessageEx(const char * name, MESSAGE & message);
 	void UpdateLocators();
 	void DrawLocators(LocatorArray * la);

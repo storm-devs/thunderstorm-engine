@@ -51,14 +51,14 @@ bool SEAFOAM::Init()
 {
 	//GUARD(SEAFOAM::Init)
 
-	if (api->IsNetActive())
+	/*if (api->IsNetActive())
 	{
 		NetFindClass(false, &seaID, "NetSea");
 		sea = (SEA_BASE*) api->GetEntityPointer(seaID);
 	}
-	else
+	else*/
 	{
-		api->FindClass(&seaID, "sea", 0);
+		seaID = api->GetEntityIdWalker("sea")();
 		sea = (SEA_BASE*) api->GetEntityPointer(seaID);
 	}
 
@@ -83,16 +83,17 @@ void SEAFOAM::InitializeShipFoam()
 	entid_t shipID;
 	std::vector<entid_t> aShipsID;
 
-	if (api->FindClass(&shipID, "ship", 0)) do
+	const auto walker = api->GetEntityIdWalker("ship");
+	if (shipID = walker()) do
 	{
 		aShipsID.push_back(shipID);
-	} while (api->FindClassNext(&shipID));
+	} while (shipID = walker());
 
 	for (long i=0; i<aShipsID.size(); i++) 
-		AddShip(&aShipsID[i]);
+		AddShip(aShipsID[i]);
 }
 
-void SEAFOAM::AddShip(entid_t * pShipEID)
+void SEAFOAM::AddShip(entid_t  pShipEID)
 {
 	tShipFoamInfo * foamInfo = &shipFoamInfo[shipsCount++];
 
@@ -222,7 +223,7 @@ void SEAFOAM::CreateTracePoints(tShipFoamInfo *_shipFoamInfo)
 }
 
 //--------------------------------------------------------------------
-void SEAFOAM::InterpolateLeftParticle(tShipFoamInfo &_shipFoamInfo, int z, uint32_t _dTime)
+void SEAFOAM::InterpolateLeftParticle(tShipFoamInfo &_shipFoamInfo, int z, uint32_t dTime)
 {
 	CVECTOR testPoint{};
 	float seaY, interpK;
@@ -293,7 +294,7 @@ void SEAFOAM::InterpolateLeftParticle(tShipFoamInfo &_shipFoamInfo, int z, uint3
 }
 
 //--------------------------------------------------------------------
-void SEAFOAM::InterpolateRightParticle(tShipFoamInfo &_shipFoamInfo, int z, uint32_t _dTime)
+void SEAFOAM::InterpolateRightParticle(tShipFoamInfo &_shipFoamInfo, int z, uint32_t dTime)
 {
 	float interpK;
 	CVECTOR lowPoint, highPoint;
@@ -537,7 +538,7 @@ void SEAFOAM::Realize(uint32_t _dTime)
 }
 
 //--------------------------------------------------------------------
-void SEAFOAM::Execute(uint32_t _dTime)
+void SEAFOAM::Execute(uint32_t dTime)
 {
 	//GUARD(SEAFOAM::Execute);
 	tShipFoamInfo *foamInfo = nullptr;
@@ -581,7 +582,7 @@ uint32_t SEAFOAM::AttributeChanged(ATTRIBUTES * pA)
 			isStorm = false;
 	}
 
-	if (_stricmp(nm, "AddNetShip") == 0)
+	/*if (_stricmp(nm, "AddNetShip") == 0)
 	{
 		entid_t shipID;
 		uint32_t dwShipNetID = pA->GetAttributeAsDword();
@@ -597,7 +598,7 @@ uint32_t SEAFOAM::AttributeChanged(ATTRIBUTES * pA)
 				}
 			} while (NetFindClassNext(false, &shipID));
 		}
-	}
+	}*/
 
 	return 0;
 }

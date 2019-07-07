@@ -776,7 +776,7 @@ bool ISLAND::SaveTga8(char * fname, uint8_t * pBuffer, uint32_t dwSizeX, uint32_
 	return true;
 }
 
-bool ISLAND::Mount(char * fname, char * fdir, entid_t * eID)
+bool ISLAND::Mount(char * fname, char * fdir, entid_t  eID)
 {
 	entid_t	lighter_id;
 	//std::string		sRealFileName;

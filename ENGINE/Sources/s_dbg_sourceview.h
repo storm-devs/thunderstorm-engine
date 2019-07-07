@@ -61,7 +61,7 @@ public:
 	void SetFont(HFONT);
 	void OnPaint();
 	bool OpenSourceFile(const char * _filename);
-	void LineUpDown(bool down,uint32_t _nlines = 1);
+	void LineUpDown(bool down,uint32_t nlines = 1);
 	void UpdateGDIControls();
 	void SetProgramDirectory(char * dir_name);
 	void SetActiveLine(uint32_t line);

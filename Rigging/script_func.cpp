@@ -2,11 +2,12 @@
 #include "../Common_h/sail_base.h"
 #include "sail.h"
 #include "../Common_h/Net.h"
+#include "../Common_h/v_s_stack.h"
 
 extern float g_fSailHoleDepend;
 //extern float GetSailSpeed(int holeQ,int holeMax,float maxSpeed,float fSailHoleDepend);
 
-uint32_t __ShipSailState(VS_STACK * pS)
+uint32_t _ShipSailState(VS_STACK * pS)
 {
 	VDATA * pChrIdx = (VDATA*)pS->Pop(); if(!pChrIdx) return IFUNCRESULT_FAILED;
 	long nChrIdx = pChrIdx->GetLong();
@@ -15,9 +16,9 @@ uint32_t __ShipSailState(VS_STACK * pS)
 
 	// find sail class
 	entid_t eid;
-	if( api->FindClass(&eid,"SAIL",0) || NetFindClass(true,&eid,"NetSail") )
+	if(eid = api->GetEntityIdWalker("SAIL")())
 	{
-		long n = ((SAIL*)eid.pointer)->GetSailStateForCharacter(nChrIdx);
+		long n = ((SAIL*)api->GetEntityPointer(eid))->GetSailStateForCharacter(nChrIdx);
 		pVR->Set( n );
 	}
 	else pVR->Set( (long)0 );
@@ -25,7 +26,7 @@ uint32_t __ShipSailState(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-uint32_t __GetAssembledString(VS_STACK * pS)
+uint32_t _GetAssembledString(VS_STACK * pS)
 {
 	VDATA * pAttrPnt = (VDATA*)pS->Pop();	if (!pAttrPnt) return IFUNCRESULT_FAILED;
 	ATTRIBUTES * pAttr = pAttrPnt->GetAClass();
@@ -106,7 +107,7 @@ uint32_t __GetAssembledString(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-uint32_t __funcGetSailSpeed(VS_STACK * pS)
+uint32_t _funcGetSailSpeed(VS_STACK * pS)
 {
 	VDATA * pSailPow = (VDATA*)pS->Pop();
 	float fSailPow = pSailPow->GetFloat();
@@ -123,7 +124,7 @@ uint32_t __funcGetSailSpeed(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-uint32_t __RandomHole2Sail(VS_STACK * pS)
+uint32_t _RandomHole2Sail(VS_STACK * pS)
 {
 	VDATA * pData;
 
@@ -144,7 +145,7 @@ uint32_t __RandomHole2Sail(VS_STACK * pS)
 
 	SAILONE_BASE * pSail = nullptr;
 	entid_t	ei;
-	if( api->FindClass(&ei,"sail",0) || NetFindClass(true,&ei,"NetSail") )
+	if(ei = api->GetEntityIdWalker("ShipsailTracks")())
 	{
 		pSail = ((SAIL_BASE*)api->GetEntityPointer(ei))->FindSailForCharacter(_chrIdx, _reyName, _groupNum);
 	}
@@ -177,7 +178,7 @@ uint32_t __RandomHole2Sail(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-uint32_t __DeleteOneSailHole(VS_STACK * pS)
+uint32_t _DeleteOneSailHole(VS_STACK * pS)
 {
 	VDATA * pData;
 
@@ -199,7 +200,7 @@ uint32_t __DeleteOneSailHole(VS_STACK * pS)
 
 	SAILONE_BASE * pSail = nullptr;
 	entid_t	ei;
-	if( api->FindClass(&ei,"sail",0) || NetFindClass(true,&ei,"NetSail") )
+	if( ei = api->GetEntityIdWalker("sail")())
 	{
 		pSail = ((SAIL_BASE*)api->GetEntityPointer(ei))->FindSailForCharacter(_chrIdx, _reyName, _groupNum);
 	}

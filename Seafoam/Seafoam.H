@@ -46,18 +46,32 @@ public:
 	virtual bool Init();
 	uint32_t AttributeChanged(ATTRIBUTES * pA);
 	virtual uint32_t ProcessMessage(MESSAGE & message);
-	virtual void Realize(uint32_t _dTime);
-	virtual void Execute(uint32_t _dTime);
+	virtual void Realize(uint32_t dTime);
+	virtual void Execute(uint32_t dTime);
 
+	void ProcessStage(Stage stage, uint32_t delta) override
+	{
+		switch (stage)
+		{
+		case Stage::EXECUTE:
+			Execute(delta); break;
+		case Stage::REALIZE:
+			Realize(delta); break;
+			/*case Stage::LOST_RENDER:
+				LostRender(delta); break;
+			case Stage::RESTORE_RENDER:
+				RestoreRender(delta); break;*/
+		}
+	}
 private:
 	void InitializeShipFoam();
 	void ReleaseShipFoam();
-	void RealizeShipFoam_Particles(tShipFoamInfo &_shipFoamInfo, uint32_t _dTime);
-	void RealizeShipFoam_Mesh(tShipFoamInfo &_shipFoamInfo, uint32_t _dTime);
+	void RealizeShipFoam_Particles(tShipFoamInfo &_shipFoamInfo, uint32_t dTime);
+	void RealizeShipFoam_Mesh(tShipFoamInfo &_shipFoamInfo, uint32_t dTime);
 	void CreateTracePoints(tShipFoamInfo *_shipFoamInfo);
-	void InterpolateLeftParticle(tShipFoamInfo &_shipFoamInfo, int z, uint32_t _dTime);
-	void InterpolateRightParticle(tShipFoamInfo &_shipFoamInfo, int z, uint32_t _dTime);
-	void AddShip(entid_t * pShipEID);
+	void InterpolateLeftParticle(tShipFoamInfo &_shipFoamInfo, int z, uint32_t dTime);
+	void InterpolateRightParticle(tShipFoamInfo &_shipFoamInfo, int z, uint32_t dTime);
+	void AddShip(entid_t  pShipEID);
 
 	VDX9RENDER *renderer;
 	entid_t seaID;

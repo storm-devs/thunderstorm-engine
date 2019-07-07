@@ -304,16 +304,16 @@ void SKY::Realize(uint32_t Delta_Time)
 			entid_t eid;
 
 			if( !pAstronomy )
-				if( api->FindClass(&eid,"Astronomy",0) )
-					pAstronomy = (Entity*)eid.pointer;
+				if(eid = api->GetEntityIdWalker("Astronomy")())
+					pAstronomy = (Entity*)api->GetEntityPointer(eid);
 
 			if( !pSunGlow )
-				if( api->FindClass(&eid,"SUNGLOW",0) )
-					pSunGlow = (Entity*)eid.pointer;
+				if (eid = api->GetEntityIdWalker("SUNGLOW")())
+					pSunGlow = (Entity*)api->GetEntityPointer(eid);
 
 			if( pAstronomy || pSunGlow )
 			{
-				if( pAstronomy ) pAstronomy->Realize(Delta_Time);
+				if( pAstronomy ) pAstronomy->ProcessStage(Entity::Stage::REALIZE, Delta_Time);
 				if( pSunGlow ) ((SUNGLOW*)pSunGlow)->DrawSunMoon();
 
 				pRS->SetTransform(D3DTS_WORLD, &pMatWorld);
@@ -434,8 +434,8 @@ void SKY::UpdateTimeFactor()
 
 	//fTimeFactor += api->GetDeltaTime() * 0.00005f;
 	entid_t eid;
-	if( !api->FindClass( &eid, "Weather", 0 ) ) return;
-	fTimeFactor = ((WEATHER_BASE*)eid.pointer)->GetFloat(whf_time_counter);
+	if( !(eid = api->GetEntityIdWalker("Weather")())) return;
+	fTimeFactor = ((WEATHER_BASE*)api->GetEntityPointer(eid))->GetFloat(whf_time_counter);
 	fTimeFactor *= (1.f / 24.f) * aSkyDirArray.size();
 
 	if( (long)fTimeFactor >= (long)aSkyDirArray.size() ) fTimeFactor -= aSkyDirArray.size();

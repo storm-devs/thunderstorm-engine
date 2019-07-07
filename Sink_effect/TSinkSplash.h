@@ -26,13 +26,13 @@ public:
 	void Initialize(INIFILE * _ini, SEA_BASE *sea);
 	void Release();
 	void Start(const CVECTOR &_pos, uint16_t *_indexes, SINK_VERTEX *_vertexes, long vOffset);
-	void Process(uint32_t _dTime, uint16_t *_indexes, SINK_VERTEX *_vertexes);
+	void Process(uint32_t dTime, uint16_t *_indexes, SINK_VERTEX *_vertexes);
 	bool Enabled();
 	void Reset(uint16_t *_indexes, SINK_VERTEX *_vertexes);
-	void AdditionalRealize(uint32_t _dTime);
+	void AdditionalRealize(uint32_t dTime);
 
 private:
-	float HeightF(uint32_t _time, float _r, float _k);
+	float HeightF(uint32_t time, float _r, float _k);
 
 	SEPS_PS *ps;
 	bool enabled;

@@ -87,18 +87,18 @@ bool LocationCamera::Init()
 	if(!rs) throw std::exception("No service: dx9render");
 
 	api->LayerCreate("execute", true, false);
-	api->LayerSetFlags("execute", LRFLAG_EXECUTE);
+	api->LayerSetExecute("execute", true);
 	api->LayerAdd("execute", GetId(), 0);
 
 	api->LayerCreate("realize", true, false);
-	api->LayerSetFlags("realize", LRFLAG_REALIZE);
+	api->LayerSetRealize("realize", true);
 	api->LayerAdd("realize", GetId(), 100000);
 	
 	//Море
-	api->FindClass(&sea, "sea", 0);
+	sea = api->GetEntityIdWalker("sea")();
 	
 	//Попробуем получить локацию
-	api->FindClass(&loc, "location", 0);
+	loc = api->GetEntityIdWalker("location")();
 
 	rs->SetPerspective(LOCATIONCAMERA_PERSPECTIVE);
 	//rs->SetPerspective(1.0f);

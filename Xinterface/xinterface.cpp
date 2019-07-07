@@ -1380,7 +1380,7 @@ void XINTERFACE::CreateNode(char *sFileName, char *sNodeType, char *sNodeName, l
 	if(ownerIni)	delete ownerIni;
 }
 
-void __declspec(dllexport) _XINTERFACE::SFLB_CreateNode(INIFILE* pOwnerIni, INIFILE* pUserIni, char *sNodeType, char *sNodeName, long priority)
+void __declspec(dllexport) XINTERFACE::SFLB_CreateNode(INIFILE* pOwnerIni, INIFILE* pUserIni, char *sNodeType, char *sNodeName, long priority)
 {
 	if( !sNodeType || !sNodeType[0] )
 	{
@@ -2528,7 +2528,7 @@ uint32_t XINTERFACE::AttributeChanged(ATTRIBUTES *patr)
 	return 0;
 }
 
-bool __declspec(dllexport) _XINTERFACE::SFLB_DoSaveFileData(char * saveName, char * saveData)
+bool XINTERFACE::SFLB_DoSaveFileData(char * saveName, char * saveData)
 {
 	if(saveName== nullptr || saveData== nullptr) return false;
 	long slen = strlen(saveData)+1;
@@ -2536,7 +2536,7 @@ bool __declspec(dllexport) _XINTERFACE::SFLB_DoSaveFileData(char * saveName, cha
 		return false;
 
 	entid_t ei;
-	if( !api->FindClass(&ei,"SCRSHOTER",0) ) return false;
+	if( !(ei = api->GetEntityIdWalker("SCRSHOTER")()) ) return false;
 	IDirect3DTexture9 * ptex = (IDirect3DTexture9*)api->Send_Message(ei,"l",MSG_SCRSHOT_MAKE);
 	if(ptex== nullptr) return false;
 
@@ -2570,7 +2570,7 @@ bool __declspec(dllexport) _XINTERFACE::SFLB_DoSaveFileData(char * saveName, cha
 	return true;
 }
 
-bool __declspec(dllexport) _XINTERFACE::SFLB_GetSaveFileData(char * saveName, long bufSize, char * buf)
+bool XINTERFACE::SFLB_GetSaveFileData(char * saveName, long bufSize, char * buf)
 {
 	if(buf== nullptr || bufSize<=0) return false;
 	long allDatSize = 0;

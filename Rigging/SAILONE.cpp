@@ -66,8 +66,8 @@ SAILONE::SAILONE()
 SAILONE::~SAILONE()
 {
 	ROPE_BASE * prb = nullptr;
-	entid_t eid;
-	if( api->FindClass(&eid,"ROPE",0) )	prb = (ROPE_BASE*)eid.pointer;
+	entid_t eid = api->GetEntityIdWalker("ROPE")();
+	if(eid)	prb = (ROPE_BASE*)api->GetEntityPointer(eid);
 	if( prb!= nullptr && (sailtrope.pnttie[0] || sailtrope.pnttie[1] || sailtrope.pnttie[2] || sailtrope.pnttie[3]) )
 		prb->DoDeleteUntie(pp->gdata[HostNum].modelEI,hostNode,groupNum);
 
@@ -1121,7 +1121,7 @@ void SAILONE::TurnSail(float fTurnStep)
 			if(sailtrope.pnttie[2])	*sailtrope.pPos[2] = ss.hardPoints[0];
 			if(sailtrope.pnttie[3])	*sailtrope.pPos[3] = ss.hardPoints[1];
 		}
-		else if(api->FindClass(&ropeEI,"rope",0))
+		else if(ropeEI = api->GetEntityIdWalker("rope")())
         {
             bool bChange=false;
             for(int i=0; i<2; i++)
@@ -1786,8 +1786,8 @@ void SAILONE::SetTurnLimits()
 	if(ss.eSailType!=SAIL_TREANGLE) return;
 	if(!ss.turningSail) return;
 	if(sailtrope.rrs[0]== nullptr) return;
-	entid_t ropeEI;
-	if( !api->FindClass(&ropeEI,"ROPE",0) ) return;
+	entid_t ropeEI = api->GetEntityIdWalker("rope")();
+	if( !ropeEI ) return;
 	ROPE_BASE * prbase = (ROPE_BASE*)api->GetEntityPointer(ropeEI);
 	if(prbase== nullptr) return;
 

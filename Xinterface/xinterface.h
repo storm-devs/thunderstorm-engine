@@ -81,9 +81,24 @@ public:
 	bool LoadState(ENTITY_STATE * state);
     uint32_t ProcessMessage(MESSAGE & message);
 	uint32_t AttributeChanged(ATTRIBUTES* patr);
+	void ProcessStage(Stage stage, uint32_t delta) override
+	{
+		switch (stage)
+		{
+		case Stage::EXECUTE:
+			Execute(delta); break;
+		case Stage::REALIZE:
+			Realize(delta); break;
+			/*case Stage::LOST_RENDER:
+				LostRender(delta); break;
+			case Stage::RESTORE_RENDER:
+				RestoreRender(delta); break;*/
+		}
+	}
+
 
 	void CreateNode(char *sFileName, char *sNodeType, char *sNodeName, long priority=80);
-	void __declspec(dllexport) _SFLB_CreateNode(INIFILE* pOwnerIni, INIFILE* pUserIni, char *sNodeType, char *sNodeName, long priority);
+	void SFLB_CreateNode(INIFILE* pOwnerIni, INIFILE* pUserIni, char *sNodeType, char *sNodeName, long priority);
 	void DeleteNode(const char *pcNodeName);
 	CINODE* NewNode(const char* pcNodType);
 
@@ -176,8 +191,8 @@ protected:
 	void		ReleaseOld();
 	void		ReleaseDinamicPic(char * sPicName);
 	// save load functions
-	bool __declspec(dllexport) _SFLB_DoSaveFileData(char * saveName, char * saveData);
-	bool __declspec(dllexport) _SFLB_GetSaveFileData(char * saveName, long bufSize, char * buf);
+	bool SFLB_DoSaveFileData(char * saveName, char * saveData);
+	bool SFLB_GetSaveFileData(char * saveName, long bufSize, char * buf);
 	char *		SaveFileFind(long saveNum, char * buffer, size_t bufSize, long & fileSize);
 	bool		NewSaveFileName(char * fileName);
 	void		DeleteSaveFile(char * fileName);
@@ -325,6 +340,21 @@ public:
 	bool Init();
 	void Execute(uint32_t delta_time);
     uint32_t ProcessMessage(MESSAGE & message);
+	void ProcessStage(Stage stage, uint32_t delta) override
+	{
+		switch (stage)
+		{
+		case Stage::EXECUTE:
+			Execute(delta); break;
+		//case Stage::REALIZE:
+		//	Realize(delta); break;
+			/*case Stage::LOST_RENDER:
+				LostRender(delta); break;
+			case Stage::RESTORE_RENDER:
+				RestoreRender(delta); break;*/
+		}
+	}
+
 
 protected:
 	bool CreateConteinerList(ATTRIBUTES * pA);

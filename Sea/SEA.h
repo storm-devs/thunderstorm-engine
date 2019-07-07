@@ -181,7 +181,7 @@ private:
 	long				iBlocksDoneNum;
 
 	static uint32_t	ThreadExecute(long iThreadIndex);
-	void __declspec(dllexport) _SFLB_CreateBuffers();
+	void SFLB_CreateBuffers();
 	void CreateVertexDeclaration();
 public:
 
@@ -202,14 +202,27 @@ public:
 	bool EditMode_Update();
 
 	uint32_t AttributeChanged(ATTRIBUTES * pAttribute);
-
-	void LostRender() override;
-	void RestoreRender() override;
+	void ProcessStage(Stage stage, uint32_t delta) override
+	{
+		switch (stage)
+		{
+		//case Stage::EXECUTE:
+		//	Execute(delta); break;
+		case Stage::REALIZE:
+			Realize(delta); break;
+			case Stage::LOST_RENDER:
+				LostRender(); break;
+			case Stage::RESTORE_RENDER:
+				RestoreRender(); break;
+		}
+	}
+	void LostRender();
+	void RestoreRender();
 
 	//bool			Init();
 	//void			Realize(uint32_t Delta_Time);
 	//void			Execute(uint32_t Delta_Time);
-	//uint32_t _cdecl	ProcessMessage(MESSAGE & message);
+	//uint32_t cdecl	ProcessMessage(MESSAGE & message);
 };
 
 #endif

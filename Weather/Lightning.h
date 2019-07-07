@@ -45,7 +45,7 @@ class LIGHTNING : public Entity
 	WEATHER_BASE	* pWeather;
 	VDX9RENDER		* pRS;
 	COLLIDE			* pCollide;
-	VIDWALKER		* pVWSunTrace;
+	walker_t	    pVWSunTrace;
 
 	void			Release();
 	void			CalcFlashPower(lightning_t * pL);
@@ -62,6 +62,20 @@ public:
 	bool	LoadState(ENTITY_STATE * state);
 	uint32_t	ProcessMessage(MESSAGE & message);
 	uint32_t	AttributeChanged(ATTRIBUTES * pAttributeChanged);
+	void ProcessStage(Stage stage, uint32_t delta) override
+	{
+		switch (stage)
+		{
+		case Stage::EXECUTE:
+			Execute(delta); break;
+		case Stage::REALIZE:
+			Realize(delta); break;
+			/*case Stage::LOST_RENDER:
+				LostRender(delta); break;
+			case Stage::RESTORE_RENDER:
+				RestoreRender(delta); break;*/
+		}
+	}
 };
 
 #endif

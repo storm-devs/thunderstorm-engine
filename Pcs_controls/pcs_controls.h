@@ -54,7 +54,7 @@ public:
 	long CreateControl(char * control_name);
 	long GetControlsNum();
 	bool GetControlDesc(long code, USER_CONTROL & _user_desc_struct);
-	bool SetControlFlags(long code, uint32_t _flags);
+	bool SetControlFlags(long code, uint32_t flags);
 
 	long GetDevicesNum();
 	bool GetDeviceDesc(long code, DEVICE_DESC & _device_desc);

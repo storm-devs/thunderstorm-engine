@@ -136,7 +136,7 @@ void BALLSPLASH::Realize(uint32_t _dTime)
 }
 
 //--------------------------------------------------------------------
-void BALLSPLASH::Execute(uint32_t _dTime)
+void BALLSPLASH::Execute(uint32_t dTime)
 {
 	//GUARD(BALLSPLASH::Execute)
 

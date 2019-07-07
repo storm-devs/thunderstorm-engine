@@ -34,8 +34,8 @@ public:
 
 	uint32_t ProcessMessage(long _code, MESSAGE & message);
 	void Init();
-	void Realize(uint32_t _dTime);
-	void Execute(uint32_t _dTime);
+	void Realize(uint32_t dTime);
+	void Execute(uint32_t dTime);
 
 private:
 	void LoadSettings();

@@ -80,7 +80,7 @@ public:
 	bool IsDebug();
 	char * ProcessExpression(char * pExpression);
 	bool SetOnDebugExpression(char * pLValue, char * pRValue);
-	uint32_t GetLineStatus(const char * _pFileName, uint32_t _linecode);
+	uint32_t GetLineStatus(const char * _pFileName, uint32_t linecode);
 	bool BrowseFile(char * buffer, const char * filter);
 	void Release();
 	void SetProgramDirectory(char * dir_name);
@@ -89,7 +89,7 @@ public:
 	uint32_t GetTraceMode();
 	void SetTraceMode(uint32_t tmode);
 	void BreakOn(char * filename,uint32_t line);
-	void SetTraceLine(uint32_t _l){nTraceLine = _l;};
+	void SetTraceLine(uint32_t l){nTraceLine = l;};
 	void SetDbgDisplayMode(DBG_DISPLAY_MODE mode);
 	bool BrowseFileWP(char * buffer, const char * filter);
 

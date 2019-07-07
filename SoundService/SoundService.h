@@ -186,7 +186,7 @@ public:
 
 	SoundService();
 	virtual ~SoundService();
-	bool __declspec(dllexport) _SFLB_SetScheme(const char *_schemeName);
+	bool SFLB_SetScheme(const char *_schemeName);
 	virtual bool Init();
 	virtual uint32_t RunSection()
 	{

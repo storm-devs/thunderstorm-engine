@@ -59,7 +59,7 @@ public:
 	DATA(DATA&&) noexcept(false);
 	DATA & operator=(const DATA&) = delete;
 	DATA(S_TOKEN_TYPE _element_type);
-	DATA(uint32_t _num_of_elements, S_TOKEN_TYPE _element_type);
+	DATA(uint32_t num_of_elements, S_TOKEN_TYPE _element_type);
 	~DATA();
 	void Set(long value);
 	void Set(float value);
@@ -97,14 +97,14 @@ public:
 
 	S_TOKEN_TYPE GetType(){return Data_type;};
 	uint32_t GetElementsNum();
-	void  SetElementsNum(uint32_t _asize);
+	void  SetElementsNum(uint32_t asize);
 	bool IsArray() {return bArray;};
 	bool IsReference();
 	bool IsAReference();
 	DATA * GetVarPointer();
 	void ClearType();
 
-	entid_t * GetObjectIDPTR() {return &object_id;}
+	entid_t  GetObjectIDPTR() {return &object_id;}
 
 	// operations
 	bool Inc();

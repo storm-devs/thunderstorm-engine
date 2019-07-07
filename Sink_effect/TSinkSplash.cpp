@@ -183,7 +183,7 @@ void TSinkSplash::Reset(uint16_t *_indexes, SINK_VERTEX *_vertexes)
 }
 
 //--------------------------------------------------------------------
-void TSinkSplash::AdditionalRealize(uint32_t _dTime)
+void TSinkSplash::AdditionalRealize(uint32_t dTime)
 {
 	//ps->Realize(_dTime);
 }

@@ -42,7 +42,7 @@ public:
 	virtual bool IsReference()=0;
 	virtual bool IsAReference()=0;
 	virtual DATA * GetVarPointer()=0;
-	virtual entid_t* GetObjectIDPTR()=0;
+	virtual entid_t  GetObjectIDPTR()=0;
 
 	// operations
 	virtual bool Inc()=0;
@@ -62,7 +62,7 @@ public:
 	virtual bool Neg()=0;
 //	virtual bool CompareAndSetResult(DATA * pV,S_TOKEN_TYPE op)=0;
 
-	virtual void  SetElementsNum(uint32_t _asize)= 0;
+	virtual void  SetElementsNum(uint32_t asize)= 0;
 
 	virtual long  GetLong()=0;
 	virtual float GetFloat()=0;

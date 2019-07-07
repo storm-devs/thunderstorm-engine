@@ -14,6 +14,13 @@ public:
 
 	void ProcessMessage(uint32_t iMsg,uint32_t wParam,uint32_t lParam);
 	uint32_t ProcessMessage(MESSAGE & message);
+	bool Init() override
+	{
+		return true;
+	}
+	void ProcessStage(Stage, uint32_t) override
+	{
+	}
 };
 /*
 API_MODULE_START("SEA_CAMERAS")

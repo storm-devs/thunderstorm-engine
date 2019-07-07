@@ -45,7 +45,7 @@ public:
 	}
 	void		SetAIObj(VAI_OBJBASE * _pAIObj) { pAIObj = _pAIObj; }
 	VAI_OBJBASE * GetAIObj() { return pAIObj; }
-	void		SetEID(entid_t *pEID) { eidObject = *pEID; };
+	void		SetEID(entid_t pEID) { eidObject = *pEID; };
 	entid_t	GetEID() { return eidObject; };
 	
 	virtual void SetCharacter(ATTRIBUTES *_pACharacter) { pACharacter = _pACharacter; };

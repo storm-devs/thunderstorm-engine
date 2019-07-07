@@ -58,7 +58,7 @@ void TFlotsam::Initialize(SEA_BASE *_sea)
 
 		for (int i=0; i<FLOTSAM_MODELS_COUNT; i++)
 		{
-			api->CreateEntity(&modelIDs[i],"MODELR");
+			modelIDs[i] = api->CreateEntity("MODELR");
 			api->Send_Message(modelIDs[i],"ls",MSG_MODEL_LOAD_GEO, modelNames[i]);
 			models[i] = (MODEL*)api->GetEntityPointer(modelIDs[i]);
 		}
@@ -121,7 +121,7 @@ void TFlotsam::Realize(uint32_t _dTime)
 	if(model)
 	{
 		model->mtx.BuildMatrix(ang, pos);
-		model->Realize(_dTime);
+		model->ProcessStage(Entity::Stage::REALIZE, _dTime);
 	}
 }
 

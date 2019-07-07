@@ -133,7 +133,7 @@ void Debris::Draw(VDX9RENDER * rs)
 		for(long a = 0; a < 3; a++)
 			for(long b = 0; b < 3; b++) fly[i].mdl->mtx.m[a][b] *= fly[i].scale;
 		rs->SetRenderState(D3DRS_TEXTUREFACTOR, (long(fly[i].alpha*galpha) << 24) | 0xffffff);
-		fly[i].mdl->Realize(10);
+		fly[i].mdl->ProcessStage(Entity::Stage::REALIZE, 10);
 	}
 }
 
@@ -142,7 +142,7 @@ void Debris::AddModel(const char * modelName, float prt, float spd)
 	if(numModels > _countof(mdl)) return;
 	//Создаём модельку
 	entid_t id;
-	if(!api->CreateEntity(&id, "modelr")) return;
+	if(!(id = api->CreateEntity("modelr"))) return;
 	MODEL * m = (MODEL *)api->GetEntityPointer(id);
 	if(!m) return;
 	//Путь для текстур
@@ -198,12 +198,11 @@ MODEL * Debris::SelectModel(float & maxSpd)
 
 bool Debris::IsShip()
 {
-	entid_t id;
-	bool res = api->FindClass(&id, nullptr, shipcode);
-	if(!res) return false;
+	const auto walker = api->GetEntityIdWalker(nullptr, shipcode);
+	
 	CVECTOR p(pillar.GetX(0.0f), 0.0f, pillar.GetZ(0.0f));
 	CVECTOR pos;
-	for(; res; res = api->FindClassNext(&id))
+	for(entid_t id = walker(); id; id = walker())
 	{
 		//Указатель на объект
 		VAI_OBJBASE * ship = (VAI_OBJBASE *)api->GetEntityPointer(id);

@@ -17,8 +17,8 @@ public:
   virtual ~SoundVisualisationEntity();
 
 	virtual bool Init();
-	virtual void Realize(uint32_t _dTime);
-  virtual void Execute(uint32_t _dTime);
+	virtual void Realize(uint32_t dTime);
+  virtual void Execute(uint32_t dTime);
 
 
 	void SetMasterSoundService (SoundService* pSoundService);

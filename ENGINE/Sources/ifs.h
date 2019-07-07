@@ -32,7 +32,7 @@ public:
 	void Add(KEY_NODE * * Root,KEY_NODE * * Top);
 	void AttachTo(KEY_NODE * node, KEY_NODE * * Top); // left - root, order - from left to right
 	void Deattach(KEY_NODE * * Root,KEY_NODE * * Top);
-	uint32_t SetFlags(uint32_t _flags);
+	uint32_t SetFlags(uint32_t flags);
 
 };
 

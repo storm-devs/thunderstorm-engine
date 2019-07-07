@@ -701,7 +701,7 @@ void ShipWalk::CreateNewMan(SailorsPoints &sailorsPoints)
 
 	int current = shipMan.size()- 1;
 
-	api->CreateEntity(&shipMan[current].modelID,"MODELR");
+	shipMan[current].modelID = api->CreateEntity("MODELR");
 
 	switch (rand() % 6) // 6 different character types
 	{
@@ -768,8 +768,7 @@ void ShipWalk::Init(entid_t _shipID, int editorMode, char *shipType)
 	bHide = false;
 	shipID = _shipID;
 
-	entid_t seaID;
-	api->FindClass(&seaID, "sea", 0);
+	entid_t seaID = api->GetEntityIdWalker("sea")();
 	shipState.sea = (SEA_BASE*) api->GetEntityPointer(seaID);
 
 	if (!editorMode)
@@ -1014,7 +1013,7 @@ bool Sailors::Init()
 	rs = (VDX9RENDER *) api->CreateService("dx9render");
 
 	api->LayerCreate("sea_realize", true, false);
-	api->LayerSetFlags("sea_realize", LRFLAG_REALIZE);
+	api->LayerSetRealize("sea_realize", true);
 	api->LayerAdd("sea_realize", GetId(), 65530);
 
 	//UN//GUARD_SAILORS
@@ -1066,7 +1065,7 @@ void Sailors::Realize(uint32_t dltTime)
 			shipWalk[m].shipMan[i].SetPos(shipWalk[m].shipModel,shipWalk[m].ship,dltTime, shipWalk[m].shipState);
 
 			if(!shipWalk[m].bHide)
-			shipWalk[m].shipMan[i].model->Realize(dltTime);
+			shipWalk[m].shipMan[i].model->ProcessStage(Entity::Stage::REALIZE, dltTime);
 		}
 
 		for (int i= 0; i< shipWalk[m].shipMan.size(); i++)

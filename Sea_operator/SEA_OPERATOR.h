@@ -42,9 +42,23 @@ public:
 
 	virtual bool Init();
 	virtual uint32_t ProcessMessage(MESSAGE & message);
-	virtual void Realize(uint32_t _dTime);
-	virtual void Execute(uint32_t _dTime);
+	virtual void Realize(uint32_t dTime);
+	virtual void Execute(uint32_t dTime);
 	virtual uint32_t AttributeChanged(ATTRIBUTES *_newAttr);
+	void ProcessStage(Stage stage, uint32_t delta) override
+	{
+		switch (stage)
+		{
+		case Stage::EXECUTE:
+			Execute(delta); break;
+		case Stage::REALIZE:
+			Realize(delta); break;
+			/*case Stage::LOST_RENDER:
+				LostRender(delta); break;
+			case Stage::RESTORE_RENDER:
+				RestoreRender(delta); break;*/
+		}
+	}
 
 protected:
 	void ShowAttackerBort(tAction *_action);
@@ -60,7 +74,7 @@ private:
 	void HandleShipHit();
 	void HandleShipIdle();
 	void StartNewAction();
-	void ProcessActions(uint32_t _dTime);
+	void ProcessActions(uint32_t dTime);
 
 	bool enabled, active;
 	SEA_BASE *sea;

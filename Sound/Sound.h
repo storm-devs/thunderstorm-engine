@@ -29,7 +29,7 @@ public:
 
 	virtual bool Init();
 	virtual uint32_t ProcessMessage(MESSAGE & message);
-	virtual void Realize(uint32_t _dTime);
+	virtual void Realize(uint32_t dTime);
 
 private:
 	VSoundService *soundService;

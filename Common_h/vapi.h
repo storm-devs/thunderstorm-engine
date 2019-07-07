@@ -60,7 +60,7 @@ public:
 	// entity managment
 	
 	// compare two entity ids, return true if ids is identical
-	virtual bool CompareID(entid_t * ida_PTR,entid_t * idb_PTR)= 0;
+	virtual bool CompareID(entid_t  ida_PTR,entid_t  idb_PTR)= 0;
 	// create entity with class type "class_name"; if id_PTR no null - fill this structure with entity id
 	virtual entid_t CreateEntity(char * name)= 0;
 	// delete entity; this function can be called even if programm control still in this object

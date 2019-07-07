@@ -228,7 +228,7 @@ uint32_t SOUND::ProcessMessage(MESSAGE & message)
 }
 
 //--------------------------------------------------------------------
-void SOUND::Realize(uint32_t _dTime)
+void SOUND::Realize(uint32_t dTime)
 {
 	if (!soundService)
 		return;

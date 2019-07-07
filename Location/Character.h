@@ -175,6 +175,9 @@ public:
 	Character();
 	virtual ~Character();
 
+	void ProcessStage(Stage, uint32_t) override
+	{
+	}
 	//Инициализация
 	bool Init();
 	//Сообщения

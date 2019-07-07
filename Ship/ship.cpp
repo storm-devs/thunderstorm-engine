@@ -8,6 +8,7 @@
 #include "../Common_h/sail_msg.h"
 #include "../Common_h/mast_msg.h"
 #include "../Common_h/ship_msg.h"
+#include "../Common_h/inlines.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(SHIP)
@@ -75,8 +76,7 @@ SHIP::~SHIP()
 	api->Send_Message(vant_id, "li", MSG_VANT_DEL_GROUP, GetModelEID());
 	api->DeleteEntity(blots_id);
 
-	entid_t eidTmp;
-	if (api->FindClass(&eidTmp, "ShipTracks", 0))
+	if (entid_t eidTmp = api->GetEntityIdWalker("ShipTracks")(); eidTmp)
 	{
 		ShipTracks * pST = (ShipTracks*)api->GetEntityPointer(eidTmp); 
 		if (pST) pST->DelShip(this);
@@ -944,7 +944,7 @@ void SHIP::Realize(uint32_t dtime)
 	SetLights();
 
 	pRS->SetRenderState(D3DRS_LIGHTING, true);
-	pM->Realize(dtime);
+	pM->ProcessStage(Entity::Stage::REALIZE, dtime);
 	pRS->SetRenderState(D3DRS_LIGHTING, false);
 
 	UnSetLights();
@@ -956,7 +956,7 @@ void SHIP::Realize(uint32_t dtime)
 		CMatrix m1;
 		m1.BuildMatrix(0.0f, fUpperShipAY, 0.0f, State.vPos.x+fXOffset, State.vPos.y + fUpperShipY, State.vPos.z+fZOffset);
 		pModelUpperShip->mtx = m1; 
-		pModelUpperShip->Realize(dtime);
+		pModelUpperShip->ProcessStage(Entity::Stage::REALIZE, dtime);
 	}
 
 	if (bMassaShow)
@@ -1014,7 +1014,7 @@ long SHIP::AddStrength(STRENGTH *strength)
 
 uint32_t SHIP::ProcessMessage(MESSAGE & message)
 {
-	entid_t	entid_t;
+	entid_t	entity;
 	CVECTOR		cpos, cang;
 	float		fov;
 	long		code = message.Long();
@@ -1079,8 +1079,7 @@ uint32_t SHIP::ProcessMessage(MESSAGE & message)
 		break;
 		case MSG_SHIP_RESET_TRACK:
 		{
-			entid_t eidTmp;
-			if (api->FindClass(&eidTmp, "ShipTracks", 0))
+			if (entid_t eidTmp = api->GetEntityIdWalker("ShipTracks")(); eidTmp)
 			{
 				ShipTracks * pST = (ShipTracks*)api->GetEntityPointer(eidTmp); 
 				pST->ResetTrack(this);
@@ -1133,7 +1132,7 @@ uint32_t SHIP::ProcessMessage(MESSAGE & message)
 		// boal 20.08.06 перерисовка флага -->
 		case MSG_SHIP_FLAG_REFRESH:
             api->Send_Message(flag_id, "li", MSG_FLAG_DEL_GROUP, GetModelEID());
-			if (api->FindClass(&flag_id,"flag",0))
+			if (flag_id = api->GetEntityIdWalker("flag")())
 				api->Send_Message(flag_id,"lil",MSG_FLAG_INIT,GetModelEID(),GetNation(GetACharacter()));
 		break;
 		// boal 20.08.06 перерисовка флага <--
@@ -1203,30 +1202,30 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 	char temp_str[1024];
 	sprintf_s(temp_str,"ships\\%s\\%s",cShipIniName,cShipIniName);
 
-	api->CreateEntity(&model_id,"MODELR");
+	model_id = api->CreateEntity("MODELR");
 	api->Send_Message(GetModelEID(),"ls",MSG_MODEL_LOAD_GEO,temp_str);
 	api->LayerAdd("hull_trace",GetModelEID(),10);
 	api->LayerAdd("sun_trace",GetModelEID(),10);
 	api->LayerAdd("mast_ship_trace",GetId(),10);
 
 	// sails
-	if (api->FindClass(&sail_id,"sail",0))
+	if(sail_id = api->GetEntityIdWalker("sail")())
 		api->Send_Message(sail_id,"liil",MSG_SAIL_INIT,GetId(),GetModelEID(), GetSpeed() ? 1 : 0); 
     
 	// ropes
-	if (api->FindClass(&rope_id,"rope",0))
+	if (rope_id = api->GetEntityIdWalker("rope")())
 		api->Send_Message(rope_id,"lii",MSG_ROPE_INIT,GetId(),GetModelEID()); 
 
 	// flags
-	if (api->FindClass(&flag_id,"flag",0))
+	if (flag_id = api->GetEntityIdWalker("flag")())
 		api->Send_Message(flag_id,"lil",MSG_FLAG_INIT,GetModelEID(),GetNation(GetACharacter())); 
 
 	// vants
-	if (api->FindClass(&vant_id,"vant",0))
+	if (vant_id = api->GetEntityIdWalker("vant")())
 		api->Send_Message(vant_id,"lii",MSG_VANT_INIT,GetId(),GetModelEID()); 
 	
 	// blots
-	if (api->CreateEntity(&blots_id,"blots"))
+	if (blots_id = api->CreateEntity("blots"))
 	{
 		api->Send_Message(blots_id, "lia", MSG_BLOTS_SETMODEL, GetModelEID(), GetACharacter()); 
 		api->LayerAdd(sRealizeLayer.c_str(), blots_id, iShipPriorityRealize + 4);
@@ -1292,12 +1291,12 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 
 	// Add lights and flares
 	entid_t eidTmp;
-	if (api->FindClass(&eidTmp, "shiplights", 0))
+	if (eidTmp = api->GetEntityIdWalker("shiplights")())
 	{
 		pShipsLights = (IShipLights*)api->GetEntityPointer(eidTmp); 
 
 		pShipsLights->AddLights(this, GetModel(), bLights, bFlares);
-		pShipsLights->Execute(0);
+		pShipsLights->ProcessStage(Entity::Stage::EXECUTE, 0);
 	}
 	Assert(pShipsLights);
 
@@ -1328,7 +1327,7 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 		strcpy_s(temp_str, pAUpperShipModel->GetThisAttr());
 
 		bModelUpperShip = true;
-		api->CreateEntity(&model_uppership_id, "MODELR");
+		model_uppership_id = api->CreateEntity("MODELR");
 		api->Send_Message(model_uppership_id, "ls", MSG_MODEL_LOAD_GEO, temp_str);
 		pModelUpperShip = (MODEL*)api->GetEntityPointer(model_uppership_id);
 	}
@@ -1338,7 +1337,7 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 	api->Event("Ship_EndLoad", "a", GetACharacter());
 
 	// add to ship tracks
-	if (api->FindClass(&eidTmp, "ShipTracks", 0))
+	if (eidTmp = api->GetEntityIdWalker("ShipTracks")())
 	{
 		ShipTracks * pST = (ShipTracks*)api->GetEntityPointer(eidTmp); 
 		if (pST) pST->AddShip(this);
@@ -1502,7 +1501,7 @@ uint32_t SHIP::AttributeChanged(ATTRIBUTES * pAttribute)
 
 CVECTOR		SHIP::GetBoxsize()				{ return State.vBoxSize; };
 entid_t	SHIP::GetModelEID()				{ return model_id; }
-MODEL *		SHIP::GetModel()				{ Assert(api->ValidateEntity(&GetModelEID())); return (MODEL*)api->GetEntityPointer(GetModelEID()); }
+MODEL *		SHIP::GetModel()				{ Assert(api->GetEntityPointer(GetModelEID())); return (MODEL*)api->GetEntityPointer(GetModelEID()); }
 CMatrix *	SHIP::GetMatrix()				{ return &GetModel()->mtx; }
 void		SHIP::SetMatrix(CMatrix & mtx)	{ GetModel()->mtx = mtx; }
 CVECTOR		SHIP::GetAng()					{ return State.vAng; }
@@ -1538,7 +1537,7 @@ void SHIP::SetACharacter(ATTRIBUTES * pAP)
 	if (bMounted)
 	{
 		api->DeleteEntity(blots_id);
-		api->CreateEntity(&blots_id,"blots");
+		blots_id = api->CreateEntity("blots");
 		api->Send_Message(blots_id, "lia", MSG_BLOTS_SETMODEL, GetModelEID(), GetACharacter()); 
 		api->LayerAdd((char *)sRealizeLayer.c_str(), blots_id, iShipPriorityRealize + 4);
 		api->LayerAdd((char *)sExecuteLayer.c_str(), blots_id, iShipPriorityExecute + 4);

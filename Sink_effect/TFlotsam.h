@@ -24,8 +24,8 @@ public:
 
 	void Start(float _x, float _z, float _radius);
 	void Initialize(SEA_BASE *_sea);
-	void Process(uint32_t _dTime);
-	void Realize(uint32_t _dTime);
+	void Process(uint32_t dTime);
+	void Realize(uint32_t dTime);
 	bool Enabled();
 private:
 	SEA_BASE *sea;

@@ -1,6 +1,7 @@
 #include "AIBalls.h"
 #include "AIFort.h"
 #include "../Shared/messages.h"
+#include "../Common_h/inlines.h"
 
 AIBalls * AIBalls::pAIBalls = nullptr;
 
@@ -10,9 +11,6 @@ AIBalls::AIBalls()
 	pSea = nullptr;
 	pFort = nullptr;
 	pIsland = nullptr;
-
-	pVWShips = nullptr;
-	//pVWForts = null;
 	pAIBalls = this;
 
 	fBallFlySoundDistance = 1.0f;
@@ -44,8 +42,6 @@ AIBalls::~AIBalls()
 		aBallTypes[i].Balls.clear();
 	}
 	aBallTypes.clear();
-
-	STORM_DELETE(pVWShips);
 }
 
 bool AIBalls::Init()
@@ -144,7 +140,7 @@ void AIBalls::AddBall(ATTRIBUTES * pABall)
 	if (aBallTypes[i].sParticleName.size())
 	{
 		entid_t eidParticle;
-		if (api->FindClass(&eidParticle,"particles",0))
+		if (eidParticle = api->GetEntityIdWalker("particles")())
 		{
 			pBall->pParticle = (VPARTICLE_SYSTEM *)api->Send_Message(eidParticle,"lsffffffl",PS_CREATE_RIC,(char*)aBallTypes[i].sParticleName.c_str(),pBall->vPos.x,pBall->vPos.y,pBall->vPos.z,0.0f,1.0f,0.0f,100000);
 		}
@@ -155,19 +151,19 @@ void AIBalls::Execute(uint32_t Delta_Time)
 {
 	uint32_t						i, j;
 	CVECTOR						vSrc, vDst;
-	entid_t					EID, *pEID;
+	entid_t					EID, pEID;
 
-	if (!pIsland && api->FindClass(&EID,"island", 0))
+	if (!pIsland && (EID = api->GetEntityIdWalker("island")()))
 		pIsland = (CANNON_TRACE_BASE*)api->GetEntityPointer(EID);
-	if (!pSail && api->FindClass(&EID,"sail", 0))
+	if (!pSail && (EID = api->GetEntityIdWalker("sail")()))
 		pSail = (CANNON_TRACE_BASE*)api->GetEntityPointer(EID);
-	if (!pSea && api->FindClass(&EID,"sea", 0))
+	if (!pSea && (EID = api->GetEntityIdWalker("sea")()))
 		pSea = (CANNON_TRACE_BASE*)api->GetEntityPointer(EID);
 
 	aBallRects.clear();
 
 	//if (!pVWForts) pVWForts = (VIDWALKER*)api->LayerGetWalker("fort_cannon_trace");
-	if (!pVWShips) pVWShips = (VIDWALKER*)api->LayerGetWalker("ship_cannon_trace");
+	if (!pVWShips) pVWShips = api->LayerGetWalker("ship_cannon_trace");
 
 	CMatrix mView = rs->GetView();
 
@@ -234,12 +230,12 @@ void AIBalls::Execute(uint32_t Delta_Time)
 				pSail->Cannon_Trace(pBall->iBallOwner, vSrc, vDst);
 
 			// ship trace
-			if (pVWShips && (pEID = pVWShips->GetId()) != nullptr) do
+			if (pVWShips && (pEID = pVWShips())) do
 			{
 				CANNON_TRACE_BASE * pShip = (CANNON_TRACE_BASE*)api->GetEntityPointer(pEID);
 				fRes = pShip->Cannon_Trace(pBall->iBallOwner, vSrc, vDst);
 				if (fRes <= 1.0f) break;
-			} while (pEID = pVWShips->GetIDNext());
+			} while (pEID = pVWShips());
 
 			// fort trace
 			if (fRes > 1.0f && AIFort::pAIFort)
@@ -434,7 +430,7 @@ void AIBalls::Load(CSaveLoad * pSL)
 			{
 				pB->pParticle = nullptr;
 				entid_t eidParticle;
-				if (api->FindClass(&eidParticle,"particles",0))
+				if (eidParticle = api->GetEntityIdWalker("particles")())
 				{
 					pB->pParticle = (VPARTICLE_SYSTEM *)api->Send_Message(eidParticle,"lsffffffl",PS_CREATE_RIC,(char*)aBallTypes[i].sParticleName.c_str(),pB->vPos.x,pB->vPos.y,pB->vPos.z,0.0f,1.0f,0.0f,100000);
 				}

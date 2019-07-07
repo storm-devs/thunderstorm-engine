@@ -134,7 +134,7 @@ uint32_t SEA_OPERATOR::ProcessMessage(MESSAGE & message)
 }
 
 //--------------------------------------------------------------------
-void SEA_OPERATOR::Realize(uint32_t _dTime)
+void SEA_OPERATOR::Realize(uint32_t dTime)
 {
 	//renderer->Print(0, 90, "lastControlTime: %d", api->Controls->LastControlTime());
 
@@ -172,14 +172,15 @@ void SEA_OPERATOR::Execute(uint32_t _dTime)
 void SEA_OPERATOR::FirstInit()
 {
 	entid_t seaID;
-	if (api->FindClass(&seaID,"sea",0))
+	if (seaID = api->GetEntityIdWalker("sea")())
 		sea = (SEA_BASE*) api->GetEntityPointer(seaID);
 
+	const auto walker = api->GetEntityIdWalker("ship");
 	entid_t shipID;
-	if (api->FindClass(&shipID,"ship",0))
+	if (shipID = walker())
 		do
 			SetIfMyShip(shipID);
-		while (api->FindClassNext(&shipID));
+		while (shipID = walker());
 
 
 	enabled = this->AttributesPointer->GetAttributeAsDword("Enabled") != 0;

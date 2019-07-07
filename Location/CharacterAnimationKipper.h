@@ -29,6 +29,9 @@ public:
 	//Инициализация
 	bool Init();
 	void LockTexture(const char * texture);
+	void ProcessStage(Stage, uint32_t) override
+	{
+	}
 
 //--------------------------------------------------------------------------------------------
 //Инкапсуляция

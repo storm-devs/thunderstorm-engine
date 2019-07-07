@@ -40,10 +40,11 @@ CharacterAnimationKipper::~CharacterAnimationKipper()
 bool CharacterAnimationKipper::Init()
 {
 	//Проверим что единственные
-	entid_t eid;
-	if(api->FindClass(&eid, "CharacterAnimationKipper", 0))
+	;
+	const auto walker = api->GetEntityIdWalker("CharacterAnimationKipper");
+	if(entid_t eid = walker(); eid)
 	{
-		if(api->GetEntityPointer(eid) != this || api->FindClassNext(&eid))
+		if(api->GetEntityPointer(eid) != this || walker())
 		{
 			api->Trace("CharacterAnimationKipper::Init() -> CharacterAnimationKipper already created");
 			return false;

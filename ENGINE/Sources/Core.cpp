@@ -874,7 +874,7 @@ void CORE::DumpEntitiesInfo()
 			continue;
 		}
 		Trace("LAYER: %s --------------------------------------",l_PTR->Name);
-		entid_t* eid_PTR = l_PTR->GetId();
+		entid_t  eid_PTR = l_PTR->GetId();
 		while(eid_PTR)
 		{
 			Trace("Entity:");

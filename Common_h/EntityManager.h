@@ -209,17 +209,20 @@ public:
 
 	auto checkLayerFlag(const std::string& layer, LayerFlags flag)
 	{
-		return checkLayerFlag(layers_.at(layer), flag);
+		return checkLayerFlag(layers_[layer], flag);
+		//return checkLayerFlag(layers_.at(layer), flag);
 	}
 
 	void setLayerFlag(const std::string& layer, LayerFlags flag)
 	{
-		layers_.at(layer).second |= (1u << static_cast<std::underlying_type_t<decltype(flag)>>(flag));
+		layers_[layer].second |= (1u << static_cast<std::underlying_type_t<decltype(flag)>>(flag));
+	//	layers_.at(layer).second |= (1u << static_cast<std::underlying_type_t<decltype(flag)>>(flag));
 	}
 
 	void clearLayerFlag(const std::string& layer, LayerFlags flag)
 	{
-		layers_.at(layer).second &= ~(1u << static_cast<std::underlying_type_t<decltype(flag)>>(flag));
+		layers_[layer].second &= ~(1u << static_cast<std::underlying_type_t<decltype(flag)>>(flag));
+		//layers_.at(layer).second &= ~(1u << static_cast<std::underlying_type_t<decltype(flag)>>(flag));
 	}
 
 private:

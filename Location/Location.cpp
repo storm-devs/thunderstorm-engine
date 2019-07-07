@@ -82,21 +82,21 @@ bool Location::Init()
 	rs->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	api->LayerCreate("execute", true, false);
-	api->LayerSetFlags("execute", LRFLAG_EXECUTE);
+	api->LayerSetExecute("execute", true);
 	api->LayerAdd("execute", GetId(), 10);
 
 	api->LayerCreate("realize", true, false);
-	api->LayerSetFlags("realize", LRFLAG_REALIZE);
+	api->LayerSetRealize("realize", true);
 	api->LayerAdd("realize", GetId(), 100000);
 
-	api->CreateEntity(&lightsid, "Lights");
-	api->CreateEntity(&loceffectsid, "LocationEffects");
+	lightsid = api->CreateEntity("Lights");
+	loceffectsid = api->CreateEntity("LocationEffects");
 
 	enemyBarsTexture = rs->TextureCreate("LocEfx\\state_bars.tga");
 
 #ifndef _XBOX
-	api->CreateEntity(&lighter, "Lighter");
-	api->CreateEntity(&cubeShotMaker, "CubeShotMakerCam");
+	lighter = api->CreateEntity("Lighter");
+	cubeShotMaker = api->CreateEntity("CubeShotMakerCam");
 #endif
 	return true;
 }
@@ -229,7 +229,7 @@ uint32_t Location::ProcessMessage(MESSAGE & message)
 	case MSG_LOCATION_GET_MODEL:
 		if(lastLoadStaticModel < 0) return 0;
 		if(!model.IsValidateIndex(lastLoadStaticModel)) return 0;
-		if(!api->ValidateEntity(&model.ID(lastLoadStaticModel))) return 0;
+		if(!api->GetEntityPointer(model.ID(lastLoadStaticModel))) return 0;
 		message.ScriptVariablePointer()->Set(model.ID(lastLoadStaticModel));
 		return 1;
 	case MSG_LOCATION_MODEL_SET_POS:
@@ -506,7 +506,7 @@ bool Location::LoadCharacterPatch(const char * ptcName)
 	return result;
 }
 
-bool __declspec(dllexport) _Location::LoadJumpPatch(const char * modelName)
+bool Location::LoadJumpPatch(const char * modelName)
 {
 	if(patchJump >= 0) model.DeleteModel(patchJump);
 	patchJump = -1;
@@ -515,11 +515,11 @@ bool __declspec(dllexport) _Location::LoadJumpPatch(const char * modelName)
 	return patchJump >= 0;
 }
 
-bool __declspec(dllexport) _Location::LoadGrass(const char * modelName, const char * texture)
+bool Location::LoadGrass(const char * modelName, const char * texture)
 {
 	api->DeleteEntity(grass);
 	if(!modelName || !modelName[0]) return true;
-	api->CreateEntity(&grass, "Grass");
+	grass = api->CreateEntity("Grass");
 	Grass * grs = (Grass *)api->GetEntityPointer(grass);
 	if(!grs) return false;
 	if(texture && texture[0]) grs->SetTexture(texture);
@@ -543,8 +543,7 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 	}else
 	if(_stricmp(name, "AddFlys") == 0)
 	{
-		entid_t effects;
-		api->FindClass(&effects, "LocationEffects", 0);
+		entid_t effects = api->GetEntityIdWalker("LocationEffects")();
 		float x = message.Float();
 		float y = message.Float();
 		float z = message.Float();
@@ -553,8 +552,7 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 	}else
 	if(_stricmp(name, "DelFlys") == 0)
 	{
-		entid_t effects;
-		api->FindClass(&effects, "LocationEffects", 0);
+		entid_t effects = api->GetEntityIdWalker("LocationEffects")();
 		api->Send_Message(effects, "s", "DelFlys");
 		return true;
 	}else
@@ -573,17 +571,17 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 	}else
 	if(_stricmp(name, "AddEagle") == 0)
 	{
-		api->CreateEntity(&eagle, "LocEagle");
+		eagle = api->CreateEntity("LocEagle");
 		return true;
 	}else
 	if(_stricmp(name, "AddLizards") == 0)
 	{
-		api->CreateEntity(&lizards, "Lizards");
+		lizards = api->CreateEntity("Lizards");
 		return true;
 	}else
 	if(_stricmp(name, "AddRats") == 0)
 	{
-		api->CreateEntity(&rats, "LocRats");
+		rats = api->CreateEntity("LocRats");
 		if(!api->Send_Message(rats, "l", message.Long()))
 		{
 			api->DeleteEntity(rats);
@@ -593,8 +591,8 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 	}else
 	if(_stricmp(name, "AddBlood") == 0)
 	{
-		if( !api->ValidateEntity(&blood) ) {
-			api->CreateEntity(&blood, "Blood");
+		if( !api->GetEntityPointer(blood) ) {
+			blood = api->CreateEntity("Blood");
 			api->LayerAdd("execute", blood, 65540);
 			api->LayerAdd("realize", blood, 65540);
 		}

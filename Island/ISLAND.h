@@ -87,7 +87,7 @@ private:
 	inline float	GetDepthCheck(uint32_t iX, uint32_t iZ);
 	inline float	GetDepthNoCheck(uint32_t iX, uint32_t iZ);
 
-	bool	Mount(char *fname, char * fdir, entid_t *eID);
+	bool	Mount(char *fname, char * fdir, entid_t eID);
 	void	Uninit();
 
 	void	CalcBoxParameters(CVECTOR & vBoxCenter, CVECTOR & vBoxSize);

@@ -5,8 +5,6 @@ LIGHTNING::LIGHTNING()
 {
 	iLightningTexture = -1;
 	iFlashTexture = -1;
-	
-	pVWSunTrace = nullptr;
 }
 
 LIGHTNING::~LIGHTNING()
@@ -18,8 +16,6 @@ void LIGHTNING::Release()
 {
 	pRS->TextureRelease(iLightningTexture);
 	pRS->TextureRelease(iFlashTexture);
-
-	STORM_DELETE(pVWSunTrace);
 }
 
 bool LIGHTNING::Init()
@@ -171,7 +167,7 @@ void LIGHTNING::CalcFlashPower(lightning_t * pL)
 
 	for (uint32_t i=0; i<3; i++)
 	{
-		float fRes = pCollide->Trace(*pVWSunTrace, vCamPos, vTrace[i], nullptr, 0);
+		float fRes = pCollide->Trace(pVWSunTrace, vCamPos, vTrace[i], nullptr, 0);
 		if (fRes <= 1.0f) fPower -= 0.31f;
 	}
 	pL->fPower = fPower;

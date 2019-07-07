@@ -70,8 +70,8 @@ public:
 
 	AITask	* GetCurrentTask() { return (Secondary.isActive()) ? &Secondary : &Primary; };
 
-	void SetNewTask(uint32_t dwPriority, uint32_t _dwNewTaskType, CVECTOR & vPnt);
-	void SetNewTask(uint32_t dwPriority, uint32_t _dwNewTaskType, ATTRIBUTES * _pATaskCharacter);
+	void SetNewTask(uint32_t dwPriority, uint32_t dwNewTaskType, CVECTOR & vPnt);
+	void SetNewTask(uint32_t dwPriority, uint32_t dwNewTaskType, ATTRIBUTES * _pATaskCharacter);
 
 	// controller execute 
 	void	Execute(float);

@@ -31,13 +31,12 @@ LocRats::~LocRats()
 bool LocRats::Init()
 {
 	//Указатель на локацию
-	entid_t loc;
-	api->FindClass(&loc, "location", 0);
+	entid_t loc = api->GetEntityIdWalker("location")();
 	Location * location = (Location *)api->GetEntityPointer(loc);
 	if(!location) return false;
 	//Исполнение
 	api->LayerCreate("realize", true, false);
-	api->LayerSetFlags("realize", LRFLAG_REALIZE);
+	api->LayerSetRealize("realize", true);
 	api->LayerAdd("realize", GetId(), 100000);
 	return true;
 }
@@ -49,8 +48,7 @@ uint32_t LocRats::ProcessMessage(MESSAGE & message)
 	if(num < 1) num = 1;
 	if(num > sizeof(rat)/sizeof(LocRat)) num = sizeof(rat)/sizeof(LocRat);
 	//Указатель на локацию
-	entid_t loc;
-	api->FindClass(&loc, "location", 0);
+	entid_t loc = api->GetEntityIdWalker("location")();
 	Location * location = (Location *)api->GetEntityPointer(loc);
 	if(!location) return 0;
 	//Заводим крыс

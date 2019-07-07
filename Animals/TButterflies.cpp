@@ -143,7 +143,7 @@ void TButterflies::Execute(uint32_t _dTime)
 }
 
 //--------------------------------------------------------------------
-void TButterflies::Realize(uint32_t _dTime)
+void TButterflies::Realize(uint32_t dTime)
 {
 	if (!enabled)
 		return;
