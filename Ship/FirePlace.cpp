@@ -23,7 +23,7 @@ FirePlace::~FirePlace()
 bool FirePlace::CreateParticle(const char * pParticleSmokeName, const char * pParticleFireName)
 {
 	entid_t eidParticle;
-	if (api->FindClass(&eidParticle, "particles", 0))
+	if (eidParticle = api->GetEntityIdWalker("particles")())
 	{
 		CVECTOR vPos = GetPos();
 		pParticleSmoke = (VPARTICLE_SYSTEM*)api->Send_Message(eidParticle, "lsffffffl", PS_CREATE_RIC, pParticleSmokeName, vPos.x, vPos.y, vPos.z, 0.0f, 1.0f, 0.0f, 0);
@@ -36,7 +36,7 @@ bool FirePlace::CreateParticle(const char * pParticleSmokeName, const char * pPa
 void FirePlace::DeleteParticle()
 {
 	entid_t eidParticle;
-	if (api->FindClass(&eidParticle, "particles", 0))
+	if (eidParticle = api->GetEntityIdWalker("particles")())
 	{
 		if(pParticleSmoke && api->Send_Message(eidParticle,"ll",PS_VALIDATE_PARTICLE,pParticleSmoke))
 		{

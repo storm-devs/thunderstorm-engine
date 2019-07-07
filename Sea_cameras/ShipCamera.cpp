@@ -49,7 +49,7 @@ void SHIP_CAMERA::SetDevices()
 	Assert(pRS);
 
 	entid_t sea_id;
-	if (api->FindClass(&sea_id, "sea", 0)) pSea = (SEA_BASE*)api->GetEntityPointer(sea_id);
+	if (sea_id = api->GetEntityIdWalker("sea")()) pSea = (SEA_BASE*)api->GetEntityPointer(sea_id);
 	//Assert(pSea);
 }
 
@@ -199,11 +199,9 @@ uint32_t SHIP_CAMERA::AttributeChanged(ATTRIBUTES * pAttr)
 
 void SHIP_CAMERA::ShipsCollision(CVECTOR & pos)
 {
-	entid_t id;
-	bool res = api->FindClass(&id, nullptr, shipcode);
-	if(!res) return;
+	const auto walker = api->GetEntityIdWalker(nullptr, shipcode);
 	CVECTOR p;
-	for(; res; res = api->FindClassNext(&id))
+	for(entid_t id = walker(); id; id = walker())
 	{
 		//Указатель на объект
 		VAI_OBJBASE * ship = (VAI_OBJBASE *)api->GetEntityPointer(id);
@@ -244,7 +242,8 @@ bool SHIP_CAMERA::IslandCollision(CVECTOR & pos)
 		if(lIlsInitCnt < 10)
 		{
 			entid_t island_id;
-			if (api->FindClass(&island_id,"island",0)) pIsland = (ISLAND_BASE*)api->GetEntityPointer(island_id);
+			if (island_id = api->GetEntityIdWalker("island")()) 
+				pIsland = (ISLAND_BASE*)api->GetEntityPointer(island_id);
 			lIlsInitCnt++;
 			if(pIsland == nullptr) return false;
 		}else return false;

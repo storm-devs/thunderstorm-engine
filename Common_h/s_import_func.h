@@ -6,6 +6,8 @@
 
 #define INVALID_FUNCHANDLE	0xffffffff
 
+#include <cstdint>
+
 class VS_STACK;
 typedef uint32_t (*SIMPORTFUNC)(VS_STACK *);
 

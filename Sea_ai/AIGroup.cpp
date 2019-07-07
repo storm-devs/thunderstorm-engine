@@ -210,7 +210,7 @@ void AIGroup::SailMainGroup(CVECTOR vPos, float fAngle, ATTRIBUTES * pACharacter
 	AIGroup * pG1 = FindGroup(pACharacter);
 
 	entid_t	eidSea;
-	api->FindClass(&eidSea, "sea", 0);
+	eidSea = api->GetEntityIdWalker("sea")();
 
 	for (uint32_t i=0; i<pMG->aGroupShips.size(); i++)
 	{

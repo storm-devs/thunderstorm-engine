@@ -163,7 +163,7 @@ VAI_OBJBASE * SHIPPOINTER::FindShipByChrIndex(long chrIdx)
 		}
 	}
 
-	if( NetFindClass(false,&ei,"netship") ) do
+	/*if( NetFindClass(false,&ei,"netship") ) do
 	{
 		VAI_OBJBASE * ps = (VAI_OBJBASE*)api->GetEntityPointer(ei);
 		if(ps!= nullptr && ps->GetACharacter()!= nullptr)
@@ -171,7 +171,7 @@ VAI_OBJBASE * SHIPPOINTER::FindShipByChrIndex(long chrIdx)
 			if( (long)ps->GetACharacter()->GetAttributeAsDword("id",-2) == chrIdx )
 				return ps;
 		}
-	} while( NetFindClassNext(false,&ei) );
+	} while( NetFindClassNext(false,&ei) );*/
 
 	return nullptr;
 }

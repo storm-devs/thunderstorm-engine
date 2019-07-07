@@ -39,7 +39,7 @@ LocLife::~LocLife()
 bool LocLife::Init(Location * loc)
 {
 	Assert(loc);
-	if(!api->CreateEntity(&model, "modelr")) return false;
+	if(!(model = api->CreateEntity("modelr"))) return false;
 	api->LayerAdd("realize", model, 20);
 	//Путь для текстур
 	VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");

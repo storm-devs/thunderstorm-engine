@@ -1,5 +1,6 @@
 #include "AICannon.h"
 #include "../Shared/sea_ai/Script_defines.h"
+#include "../Common_h/inlines.h"
 
 uint64_t dwTmpRDTSC;
 

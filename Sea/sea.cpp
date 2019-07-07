@@ -3,6 +3,7 @@
 #include "../Shared/sea_ai/Script_defines.h"
 #include "SSE.h"
 #include <algorithm>
+#include "../Common_h/inlines.h"
 
 //#define OLD_WORLD_POS
 

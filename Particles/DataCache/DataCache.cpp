@@ -2,6 +2,7 @@
 #include "../../Common_h/particles.h"
 #include "../../Common_h/filesystem.h"
 #include "../ICommon/MemFile.h"
+#include "../../Common_h/vmodule_api.h"
 
 bool ReadingAlreadyComplete;
 

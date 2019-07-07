@@ -1,6 +1,7 @@
 #include "Track.h"
 #include "../Common_h/defines.h"
 #include <string>
+#include "../Common_h/inlines.h"
 
 VDX9RENDER * ShipTracks::ShipTrack::pRS = nullptr;
 SEA_BASE * ShipTracks::ShipTrack::pSea = nullptr;
@@ -25,7 +26,8 @@ bool ShipTracks::Init()
 	entid_t sea_id;
 
 	ShipTrack::pRS = (VDX9RENDER *)api->CreateService("dx9render");	Assert(ShipTrack::pRS);
-	if (api->FindClass(&sea_id, "sea", 0)) ShipTrack::pSea = (SEA_BASE*)api->GetEntityPointer(sea_id);
+	if (sea_id = api->GetEntityIdWalker("sea")()) 
+		ShipTrack::pSea = (SEA_BASE*)api->GetEntityPointer(sea_id);
 	return true;
 }
 

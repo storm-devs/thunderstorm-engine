@@ -93,7 +93,7 @@ void FLAG::Execute(uint32_t Delta_Time)
 
         // получим значение ветра
         entid_t ei;
-        if( api->FindClass(&ei,"weather",0) )
+        if( ei = api->GetEntityIdWalker("weather")())
         {
             WEATHER_BASE *wb = (WEATHER_BASE*)api->GetEntityPointer(ei);
             globalWind.ang.x=wb->GetFloat(whf_wind_angle);

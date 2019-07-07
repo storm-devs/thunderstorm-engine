@@ -40,7 +40,7 @@ void AISeaGoods::Execute(uint32_t dwDeltaTime)
 
 	float fDeltaTime = float(dwDeltaTime) * 0.001f;
 
-	if (!pSea && api->FindClass(&EID, "sea", 0))
+	if (!pSea && (EID = api->GetEntityIdWalker("sea")()))
 		pSea = (SEA_BASE*)api->GetEntityPointer(EID);
 	
 	if (!pSea) return;
@@ -71,10 +71,11 @@ void AISeaGoods::Execute(uint32_t dwDeltaTime)
 			aShips.clear();
 
 			// enumerate ships
-			if (api->FindClass(&EID, "ship", 0)) do
+			const auto walker = api->GetEntityIdWalker("ship");
+			if (EID = walker()) do
 			{
 				aShips.push_back((SHIP_BASE*)api->GetEntityPointer(EID));
-			} while (api->FindClassNext(&EID));
+			} while (EID = walker());
 
 			// check ships
 			for (uint32_t k=0; k<aShips.size(); k++)

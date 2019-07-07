@@ -189,7 +189,7 @@ public:
 
 		CMatrix		* GetMatrix() { return &mtxFort; };
 		MODEL		* GetModel() { return nullptr; };
-		entid_t	GetModelEID() { entid_t eid; return eid; };
+		entid_t	GetModelEID() { return {}; };
 		CVECTOR		GetPos() { return CVECTOR(0.0f,0.0f,0.0f); };
 		CVECTOR		GetAng() { return CVECTOR(0.0f,0.0f,0.0f); };
 

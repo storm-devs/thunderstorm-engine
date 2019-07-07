@@ -6,6 +6,7 @@
 
 #include "../Common_h/types3d.h"
 #include "../Common_h/Matrix.h"
+#include "../Common_h/Entity.h"
 #include "service.h"
 
 #define FONT_DEFAULT    0

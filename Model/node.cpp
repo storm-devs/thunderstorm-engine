@@ -492,8 +492,7 @@ void NODER::Link(NODE *node)
 //-------------------------------------------------------------------
 entid_t NODER::Unlink2Model()
 {
-	entid_t id;
-	api->CreateEntity(&id, "modelr");
+	entid_t id = api->CreateEntity( "modelr");
 	MODELR *mdl = (MODELR*)api->GetEntityPointer(id);
 
 	//link node to as root

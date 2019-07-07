@@ -41,7 +41,8 @@ Player::~Player()
 {
 #ifndef _XBOX
 	entid_t peid;
-	if(api->FindClass(&peid, "ShootGunParticles", 0)) api->DeleteEntity(peid);
+	if(peid = api->GetEntityIdWalker("ShootGunParticles")())
+		api->DeleteEntity(peid);
 #endif
 }
 
@@ -49,7 +50,7 @@ bool Player::PostInit()
 {
 	chrGroups = api->Class_Name2Code("CharactersGroups");
 	if(!location->supervisor.player) location->supervisor.player = this;
-	api->FindClass(&baterfl, "Animals", 0);
+	baterfl = api->GetEntityIdWalker("Animals")();
 	return NPCharacter::PostInit();
 }
 
@@ -69,7 +70,7 @@ void Player::Move(float dltTime)
 	if(!locCam)
 	{
 		entid_t lcam;
-		if(api->FindClass(&lcam, "LocationCamera", 0))
+		if(lcam = api->GetEntityIdWalker("LocationCamera")())
 		{
 			locCam = (LocationCamera *)api->GetEntityPointer(lcam);
 		}
@@ -305,7 +306,7 @@ void Player::Update(float dltTime)
 	api->Send_Message(baterfl, "lff", MSG_ANIMALS_BUTTERFLIES_XYZ, curPos.x, curPos.z);
 	//ѕеребираем персонажей в поисках врагов к игроку
 	entid_t eid;
-	if(api->FindClass(&eid, nullptr, chrGroups))
+	if(eid = api->GetEntityIdWalker(nullptr, chrGroups)())
 	{
 		for(long i = 0; i < location->supervisor.numCharacters; i++)
 		{
@@ -652,7 +653,7 @@ Player * Player::FindAttackCharacter()
 		if(!isEnemy) //~!~
 		{
 			entid_t eid;
-			if(api->FindClass(&eid, nullptr, chrGroups))
+			if(eid = api->GetEntityIdWalker(nullptr, chrGroups)())
 			{
 				if(!api->Send_Message(eid, "sii", "IsEnemy", GetId(), chr->GetId())) continue;
 			}
@@ -684,7 +685,7 @@ void Player::FireFromShootgun()
 #ifndef _XBOX
 	kSMReload = 0.0f;
 	entid_t peid;
-	if(api->FindClass(&peid, "sound", 0))
+	if(peid = api->GetEntityIdWalker("sound")())
 	{
 		api->Send_Message(peid, "lsllll", MSG_SOUND_PLAY, "OBJECTS\\sgboom.wav", 4, false, false, false);
 	}
@@ -701,7 +702,6 @@ void Player::FireFromShootgun()
 	if(!walker) return;
 	if(!collide)
 	{
-		delete walker;
 		return;
 	}
 	struct ChrsDmg
@@ -719,7 +719,8 @@ void Player::FireFromShootgun()
 		CVECTOR dst = mtx*CVECTOR(r*sinf(a), r*cosf(a), 25.0f);
 		if(walker && collide)
 		{
-			float dist = collide->Trace(walker, src, dst, &GetId(), 0);
+			auto id = GetId();
+			float dist = collide->Trace(walker, src, dst, &id, 0);
 			if(dist <= 1.0f && dist > (0.2f/25.0f))
 			{
 				CVECTOR dir = !(src - dst);
@@ -759,7 +760,6 @@ void Player::FireFromShootgun()
 			}
 		}
 	}
-	delete walker;
 	for(long i = 0; i < numChrs; i++)
 	{
 		api->Event("Location_CharacterSGFire", "iif", GetId(), chrs[i].chr->GetId(), chrs[i].dmg);

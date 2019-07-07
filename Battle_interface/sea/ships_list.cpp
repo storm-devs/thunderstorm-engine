@@ -186,7 +186,7 @@ void SHIP_DESCRIBE_LIST::Add(long mainChrIndex, long chIdx, ATTRIBUTES * pChAttr
 			break;
 		}
 	}
-	if( NetFindClass(false,&ei,"netship") ) do
+	/*if( NetFindClass(false,&ei,"netship") ) do
 	{
 		VAI_OBJBASE * vob = (VAI_OBJBASE*)api->GetEntityPointer(ei);
 		if(vob== nullptr) continue;
@@ -196,7 +196,7 @@ void SHIP_DESCRIBE_LIST::Add(long mainChrIndex, long chIdx, ATTRIBUTES * pChAttr
 			pr->pShip = vob;
 			break;
 		}
-	} while( NetFindClassNext(false,&ei) );
+	} while( NetFindClassNext(false,&ei) );*/
 
 	SHIP_DESCR * ptmp = root;
 	if(ptmp== nullptr)	root = pr;
@@ -254,14 +254,14 @@ void SHIP_DESCRIBE_LIST::Refresh()
 		tls.Push((long)pA->GetAttributeAsDword("index"));
 	}
 
-	if( NetFindClass(false,&ei,"NetShip") ) do
+	/*if( NetFindClass(false,&ei,"NetShip") ) do
 	{
 		VAI_OBJBASE * vob = (VAI_OBJBASE*)api->GetEntityPointer(ei);
 		if(vob== nullptr) continue;
 		ATTRIBUTES * pA= vob->GetACharacter();
 		if(pA== nullptr) continue;
 		tls.Push((long)pA->GetAttributeAsDword("id"));
-	} while( NetFindClassNext(false,&ei) );
+	} while( NetFindClassNext(false,&ei) );*/
 	tls.Push(-1);
 
 	for(long chrIdx = tls.GetFore(); chrIdx>=0; chrIdx = tls.GetFore())

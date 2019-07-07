@@ -57,8 +57,8 @@ long ModelArray::CreateModel(const char * modelName, const char * technique, lon
 	}
 	//Создаём модельку
 	entid_t id,idModelRealizer;
-	if(!api->CreateEntity(&id, "modelr")) return -1;
-	if(!api->CreateEntity(&idModelRealizer, "LocModelRealizer")) {api->DeleteEntity(id); return -1;}
+	if(!(id = api->CreateEntity("modelr"))) return -1;
+	if(!(idModelRealizer = api->CreateEntity("LocModelRealizer"))) {api->DeleteEntity(id); return -1;}
 	api->Send_Message(idModelRealizer,"lil",1,id,(long)pLights);
 	//if(isVisible) api->LayerAdd("realize", idModelRealizer, level);
 	api->LayerAdd("realize", idModelRealizer, level);

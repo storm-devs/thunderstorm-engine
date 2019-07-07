@@ -29,9 +29,9 @@ bool LOCATOR::Init()
 
 bool LOCATOR::VerifyParticles()
 {
-	if(!api->FindClass(&ParticlesID,"particles",0))
+	if(!(ParticlesID = api->GetEntityIdWalker("location")()))
 	{
-		if(!api->CreateEntity(&ParticlesID,"particles")) return false;
+		if(!(ParticlesID = api->CreateEntity("particles"))) return false;
 	}
 	return true;
 }
