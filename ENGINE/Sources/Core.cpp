@@ -1,6 +1,7 @@
 #include "Core.h"
 #include "externs.h"
 #include <cinttypes>
+#include "../../Common_h/dx9render.h"
 
 CREATE_SERVICE(CONTROLS)
 
@@ -20,7 +21,7 @@ CORE::CORE()
 	App_Hwnd = nullptr;
 	State_file_name = nullptr;
 	PZERO(&CoreState,sizeof(CoreState));
-	CoreState.engine_version = ENGINE_VERSION;
+	CoreState.engine_version = 00000000;
 	SystemMessagesNum = 0;
 	Exit_flag = false;
 	State_loading = false;
@@ -533,7 +534,7 @@ void CORE::ProcessExecute()
 	while(auto id = layerWalker()())
 	{
 		if(EntityFound(id))	{
-			((Entity*)entityManager.GetEntity(id))->Execute(deltatime);
+			((Entity*)entityManager.GetEntity(id))->ProcessStage(Entity::Stage::EXECUTE, deltatime);
 		}
 	}
 
@@ -550,7 +551,7 @@ void CORE::ProcessRealize()
 	while (auto id = layerWalker()())
 	{
 		if (EntityFound(id)) {
-			((Entity*)entityManager.GetEntity(id))->Realize(deltatime);
+			((Entity*)entityManager.GetEntity(id))->ProcessStage(Entity::Stage::REALIZE, deltatime);
 		}
 	}
 
@@ -892,7 +893,7 @@ void * CORE::GetScriptVariable(const char * pVariableName, uint32_t * pdwVarInde
 
 	return vi.pDClass;
 }
-
+/*
 void CORE::SetNetActive(bool bActive)
 {
 	//bNetActive = bActive;
@@ -903,3 +904,4 @@ bool CORE::IsNetActive() const
 	return false;
 	//return bNetActive;
 }
+*/

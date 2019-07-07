@@ -142,7 +142,7 @@ public:
 	auto GetEntityIdWalker(long hash, const std::string& layer) {
 
 		const auto targetLayer = layers_.find(layer);
-		return generator<false>(targetLayer->first, hash);
+		return generator<false>(targetLayer->second, hash);
 	}
 
 	auto GetEntityIdWalker(const std::string& layer) {

@@ -40,7 +40,7 @@ public:
 	~CORE() = default;
 	
 
-	void __declspec(dllexport) _InitBase();
+	void InitBase();
 	void ReleaseBase();
 
 	void CleanUp();
@@ -66,7 +66,7 @@ public:
 	void LayerDel(const char * layer_name, entid_t eid,bool system);
 	bool LayerAdd(const char * layer_name, entid_t eid, uint32_t priority, bool system);
 	void ReleaseServices();
-	void __declspec(dllexport) _ProcessEngineIniFile();
+	void ProcessEngineIniFile();
 
 	//C_ATOM * GetAtom(entid_t id_PTR);
 
@@ -232,5 +232,5 @@ public:
 
 	void * GetScriptVariable(const char * pVariableName, uint32_t * pdwVarIndex) override;
 
-	bool __declspec(dllexport) _LoCheck();
+	bool LoCheck();
 };
