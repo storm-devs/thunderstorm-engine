@@ -320,6 +320,31 @@ bool CORE::EraseEntity(entid_t id)
 	entityManager.EraseEntity(id);
 }
 
+void CORE::LayerSetExecute(char* layer_name, bool on)
+{
+	if(on)
+		entityManager.setLayerFlag(layer_name, LayerFlags::EXECUTE);
+	else
+		entityManager.clearLayerFlag(layer_name, LayerFlags::EXECUTE);
+}
+
+void CORE::LayerSetRealize(char* layer_name, bool on)
+{
+	if (on)
+		entityManager.setLayerFlag(layer_name, LayerFlags::REALIZE);
+	else
+		entityManager.clearLayerFlag(layer_name, LayerFlags::REALIZE);
+}
+
+void CORE::LayerSetFreeze(char* layer_name, bool on)
+{
+	if (on)
+		entityManager.setLayerFlag(layer_name, LayerFlags::FROZEN);
+	else
+		entityManager.clearLayerFlag(layer_name, LayerFlags::FROZEN);
+}
+
+
 std::function<entid_t()> CORE::LayerGetWalker(char * layer_name)
 {
 	return entityManager.GetEntityIdWalker(layer_name);
@@ -355,6 +380,26 @@ uint32_t CORE::Send_Message(entid_t Destination,char * Format,...)
 	uint32_t rc = ((Entity *)ptr)->ProcessMessage(message);	// transfer control
 	va_end(message.args);
 	return rc;
+}
+
+bool CORE::LayerCreate(char* layer_name, bool ordered, bool fail_if_exist)
+{
+	return true;
+}
+
+bool CORE::LayerCheck(char* layer_name, LayerFlags flag)
+{
+	return entityManager.checkLayerFlag(layer_name, flag);
+}
+
+void CORE::LayerAdd(const char* layer_name, entid_t eid, uint32_t priority)
+{
+	entityManager.AddToLayer(eid, layer_name, priority);
+}
+
+void CORE::LayerDel(const char* layer_name, entid_t eid)
+{
+	entityManager.RemoveFromLayer(eid, layer_name);
 }
 
 uint32_t CORE::PostEvent(char * Event_name, uint32_t post_time, char * Format,...)
@@ -530,7 +575,7 @@ void CORE::ProcessExecute()
 	ProcessRunStart(SECTION_EXECUTE);
 
 	uint32_t deltatime = Timer.GetDeltaTime();
-	auto layerWalker = entityManager.GetLayerWalker<EntityManager::LayerFlags::ACTIVE, EntityManager::LayerFlags::EXECUTE>();
+	auto layerWalker = entityManager.GetLayerWalker<LayerFlags::FROZEN, LayerFlags::EXECUTE>();
 	while(auto id = layerWalker()())
 	{
 		if(EntityFound(id))	{
@@ -547,7 +592,7 @@ void CORE::ProcessRealize()
 	ProcessRunStart(SECTION_REALIZE);
 
 	uint32_t deltatime = Timer.GetDeltaTime();
-	auto layerWalker = entityManager.GetLayerWalker<EntityManager::LayerFlags::ACTIVE, EntityManager::LayerFlags::REALIZE>();
+	auto layerWalker = entityManager.GetLayerWalker<LayerFlags::FROZEN, LayerFlags::REALIZE>();
 	while (auto id = layerWalker()())
 	{
 		if (EntityFound(id)) {

@@ -5,6 +5,7 @@
 #include "s_import_func.h"
 #include "Walker.h"
 #include "vdata.h"
+#include "Layer.h"
 
 //class Entity;
 //using entid_t = uint64_t;
@@ -83,19 +84,15 @@ public:
 	virtual uint32_t Send_Message(entid_t Destination,char * Format,...)= 0;
 	
 	// layer managment 
-	
-	// create layer with name pointed by layer_name; layer may be ordered
-	virtual bool LayerCreate(char * layer_name, bool ordered, bool fail_if_exist)= 0;
-	// delete layer (no objects will be deleted)
-	virtual void LayerDelete(char * layer_name)= 0;
+
+	// STUB
+	virtual bool LayerCreate(char* layer_name, bool ordered, bool fail_if_exist) { return true; }
+
+
 	// set flags to layer
-	virtual void LayerSetFlags(char * layer_name, uint32_t flags)= 0;
-	// clear flags for layer
-	virtual void LayerClrFlags(char * layer_name, uint32_t flags)= 0;
+	virtual bool LayerCheck(char* layer_name, LayerFlags flag) = 0;
 	// get current flags configuration
-	virtual uint32_t LayerGetFlags(char * layer_name)= 0;
-	// insert object into layer list
-	virtual bool LayerAdd(const char * layer_name, entid_t eid, uint32_t priority)= 0;
+	virtual void LayerAdd(const char * layer_name, entid_t eid, uint32_t priority)= 0;
 	// remove object from layer list
 	virtual void LayerDel(const char * layer_name, entid_t eid)= 0;
 	// delete layer content, delete all objects referenced in this layer; layer doesn't deleted
@@ -104,8 +101,10 @@ public:
 	virtual void LayerSetExecute(char * layer_name, bool on)= 0;
 	// on/off realize
 	virtual void LayerSetRealize(char * layer_name, bool on)= 0;
+	// on/off freeze
+	virtual void LayerSetFreeze(char* layer_name, bool on) = 0;
 	// get id walker object
-	virtual std::function<entid_t()> LayerGetWalker(char * layer_name)= 0;
+	virtual walker_t LayerGetWalker(char * layer_name)= 0;
 
 	// save core state
 	virtual bool SaveState(char * file_name)= 0;

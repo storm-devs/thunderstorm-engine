@@ -177,30 +177,22 @@ public:
 	
 	// layer managment 
 	
-	// return true if this layer exist
-	bool VerifyLayer(char * layer_name);
 	// create layer with name pointed by layer_name; layer may be ordered
 	bool LayerCreate(char * layer_name, bool ordered, bool fail_if_exist) override;
-	// delete layer (no objects will be deleted)
-	void LayerDelete(char * layer_name) override;
-	// set flags to layer
-	void LayerSetFlags(char * layer_name, uint32_t flags) override;
-	// clear flags for layer
-	void LayerClrFlags(char * layer_name, uint32_t flags) override;
 	// get current flags configuration
-	uint32_t LayerGetFlags(char * layer_name) override;
+	bool LayerCheck(char * layer_name, LayerFlags flag) override;
 	// insert object into layer list
-	bool LayerAdd(const char * layer_name, entid_t eid, uint32_t priority) override;
+	void LayerAdd(const char * layer_name, entid_t eid, uint32_t priority) override;
 	// remove object from layer list
 	void LayerDel(const char * layer_name, entid_t eid) override;
-	// delete layer content, delete all objects referenced in this layer; layer doesn't deleted
-	bool LayerDeleteContent(char * layer_name) override;
 	// on/off execute
 	void LayerSetExecute(char * layer_name, bool on) override;
 	// on/off realize
 	void LayerSetRealize(char * layer_name, bool on) override;
+	// on/off realize
+	void LayerSetFreeze(char* layer_name, bool on) override;
 	// get id walker object
-	std::function<entid_t()> LayerGetWalker(char * layer_name) override;
+	walker_t LayerGetWalker(char * layer_name) override;
 
 	
 	// save core state

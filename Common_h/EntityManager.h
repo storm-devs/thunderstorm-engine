@@ -4,8 +4,9 @@
 #include <chrono>
 #include <unordered_map>
 #include <map>
-#include "entity.h"
+#include "Entity.h"
 #include "vmodule_api.h"
+#include "Layer.h"
 
 using index_t = uint32_t;
 /* ALPHA v0.0000001*/
@@ -20,12 +21,7 @@ struct EntityData
 
 class EntityManager {
 public:
-	static const entid_t INVALID_entid_t = 0ull;
-	enum class LayerFlags : uint_fast8_t {
-		ACTIVE,
-		EXECUTE,
-		REALIZE,
-	};
+	static const entid_t INVALID_ENTITY = 0ull;
 
 private:
 	/* typedefs */
@@ -72,7 +68,7 @@ public:
 
 		/* INIT Entity */
 		if (!ptr->Init()) {
-			return INVALID_entid_t;
+			return INVALID_ENTITY;
 		}
 		const auto id = PushEntity(ptr, name);
 		ptr->id_ = id;
@@ -123,7 +119,7 @@ public:
 					return entData->id;
 				}
 			}
-			return INVALID_entid_t;
+			return INVALID_ENTITY;
 		});
 	}
 
@@ -284,5 +280,5 @@ private:
 
 inline bool EntityFound(entid_t id)
 {
-	return id != EntityManager::INVALID_entid_t;
+	return id != EntityManager::INVALID_ENTITY;
 }

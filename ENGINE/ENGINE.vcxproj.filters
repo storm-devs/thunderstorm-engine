@@ -2244,6 +2244,9 @@
     <ClInclude Include="..\Common_h\Entity.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common_h\Layer.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="REsOURCE\Textures\Weather\Astronomy\Planets\jupiter.tga.tx">
