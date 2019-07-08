@@ -8,9 +8,6 @@ class IShipLights : public Entity
 public:
 	IShipLights() {};
 	virtual ~IShipLights(){};
-	void ProcessStage(Stage, uint32_t) override
-	{
-	}
 	virtual void Release(VAI_OBJBASE * pObject) = 0;
 
 	virtual void AddLights(VAI_OBJBASE * pObject, MODEL * pModel, bool bLights, bool bFlares) = 0;

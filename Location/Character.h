@@ -175,15 +175,15 @@ public:
 	Character();
 	virtual ~Character();
 
-	void ProcessStage(Stage, uint32_t) override
-	{
-	}
 	//Инициализация
 	bool Init();
 	//Сообщения
 	uint32_t ProcessMessage(MESSAGE & message);
 	//Изменение атрибута
 	uint32_t AttributeChanged(ATTRIBUTES * apnt);
+	void ProcessStage(Stage, uint32_t) override
+	{
+	}
 	void SetSignModel();
 	void SetSignTechnique();
 	void ReadFightActions(ATTRIBUTES * at, ActionCharacter actions[4], long & counter);

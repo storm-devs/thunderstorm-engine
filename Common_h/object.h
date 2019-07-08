@@ -14,9 +14,6 @@ public:
 	{
 		return true;
 	}
-	void ProcessStage(Stage, uint32_t) override
-	{
-	}
 	virtual ~COLLISION_OBJECT(){};
 	CMatrix mtx;
 

@@ -203,6 +203,13 @@ public:
 
 		/* add to layer */
 		auto & targetLayer = layers_[layer];
+		const auto rangeIt = targetLayer.first.equal_range(priority);
+		for (auto it = rangeIt.first; it != rangeIt.second; ++it) {
+			if(it->second == entity)
+			{
+				return;
+			}
+		}
 		targetLayer.first.insert(std::make_pair(priority, entity)); /* ~!@ TODO: duplicates*/
 
 		/* write down layer data into entity data */

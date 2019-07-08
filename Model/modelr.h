@@ -104,6 +104,20 @@ public:
 	uint32_t ProcessMessage(MESSAGE &message);
 	void LostRender();
 	void RestoreRender();
+	void ProcessStage(Stage stage, uint32_t delta) override
+	{
+		switch (stage)
+		{
+		//case Stage::EXECUTE:
+		//	Execute(delta); break;
+		case Stage::REALIZE:
+			Realize(delta); break;
+		case Stage::LOST_RENDER:
+			LostRender(); break;
+		case Stage::RESTORE_RENDER:
+			RestoreRender(); break;
+		}
+	}
 
 	virtual NODE *GetNode(long n);
 	virtual NODE *FindNode(const char *cNodeName);

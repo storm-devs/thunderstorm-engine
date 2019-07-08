@@ -44,6 +44,9 @@ public:
 			virtual bool Clip(const PLANE * planes, long nplanes, const CVECTOR & vCenter, float radius, ADD_POLYGON_FUNC addpoly) { return false; };
 			virtual const char * GetCollideMaterialName() { return nullptr; };
 			virtual bool GetCollideTriangle(TRIANGLE & triangle) { return false; };
+			void ProcessStage(Stage, uint32_t) override
+			{
+			}
 		};
 
 		entid_t			eidModel;
@@ -166,7 +169,20 @@ public:
 
 		void Realize(uint32_t Delta_Time);
 		void Execute(uint32_t Delta_Time);
-		
+		void ProcessStage(Stage stage, uint32_t delta) override
+		{
+			switch (stage)
+			{
+			case Stage::EXECUTE:
+				Execute(delta); break;
+			case Stage::REALIZE:
+				Realize(delta); break;
+				/*case Stage::LOST_RENDER:
+					LostRender(delta); break;
+				case Stage::RESTORE_RENDER:
+					RestoreRender(delta); break;*/
+			}
+		}
 		bool CreateState(ENTITY_STATE_GEN * state_gen);
 		bool LoadState(ENTITY_STATE * state);
 		
