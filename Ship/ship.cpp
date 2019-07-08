@@ -936,7 +936,8 @@ void SHIP::Realize(uint32_t dtime)
 	//if (dtime)
 	//	ShipRocking2(float(dtime) * 0.001f);
 
-	MODEL * pM = GetModel(); Assert(pM);
+	MODEL * pM = GetModel(); 
+	Assert(pM);
 
 	bSetLightAndFog = false;
 
