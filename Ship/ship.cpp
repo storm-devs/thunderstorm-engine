@@ -1501,7 +1501,7 @@ uint32_t SHIP::AttributeChanged(ATTRIBUTES * pAttribute)
 
 CVECTOR		SHIP::GetBoxsize()				{ return State.vBoxSize; };
 entid_t 	SHIP::GetModelEID()				{ return model_id; }
-MODEL *		SHIP::GetModel()				{ Assert(api->GetEntityPointer(GetModelEID())); return (MODEL*)api->GetEntityPointer(GetModelEID()); }
+MODEL *		SHIP::GetModel()				{ return (MODEL*)api->GetEntityPointer(GetModelEID()); }
 CMatrix *	SHIP::GetMatrix()				{ return &GetModel()->mtx; }
 void		SHIP::SetMatrix(CMatrix & mtx)	{ GetModel()->mtx = mtx; }
 CVECTOR		SHIP::GetAng()					{ return State.vAng; }
