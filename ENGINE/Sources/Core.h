@@ -58,14 +58,14 @@ public:
 	void ProcessRunStart(uint32_t section_code);
 	void ProcessRunEnd(uint32_t section_code);
 
-	bool EraseEntity(entid_t id);
+	void EraseEntity(entid_t id);
 
-	bool LayerCreate(char * layer_name, bool ordered, bool fail_if_exist, bool system, uint32_t system_flags);
+	//bool LayerCreate(char * layer_name, bool ordered, bool fail_if_exist, bool system, uint32_t system_flags);
 	
-	uint32_t GetLayerIndex(char * layer_name);
+	//uint32_t GetLayerIndex(char * layer_name);
 	void CheckAutoExceptions(uint32_t xflag) const;
-	void LayerDel(const char * layer_name, entid_t eid,bool system);
-	bool LayerAdd(const char * layer_name, entid_t eid, uint32_t priority, bool system);
+	//void LayerDel(const char * layer_name, entid_t eid,bool system);
+//	bool LayerAdd(const char * layer_name, entid_t eid, uint32_t priority, bool system);
 	void ReleaseServices();
 	void ProcessEngineIniFile();
 

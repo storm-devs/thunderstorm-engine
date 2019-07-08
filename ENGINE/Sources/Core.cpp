@@ -312,14 +312,14 @@ walker_t CORE::GetEntityIdWalker(const char* class_name, const char * layer, uin
 
 Entity * CORE::GetEntityPointer(entid_t id_PTR)
 {
-	entityManager.GetEntity(id_PTR);
+	return entityManager.GetEntity(id_PTR);
 }
 
 uint32_t CORE::GetEntityClassCode(entid_t entity){
 	return entityManager.GetClassCode(entity);
 }
 
-bool CORE::EraseEntity(entid_t id)
+void CORE::EraseEntity(entid_t id)
 {
 	entityManager.EraseEntity(id);
 }
