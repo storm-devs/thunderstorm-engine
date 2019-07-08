@@ -4,6 +4,7 @@
 #include <chrono>
 #include <unordered_map>
 #include <map>
+#include <set>
 #include "Entity.h"
 #include "vmodule_api.h"
 #include "Layer.h"
@@ -276,7 +277,7 @@ public:
 				_erase(entities_[index]); // release
 
 				entities_[index] = {};//entities_[entities_.size() - 1];
-				freeIndices.push_back(index);
+				freeIndices.insert(index);
 				//entities_.pop_back();
 			}
 		}
@@ -314,8 +315,7 @@ private:
 	entid_t PushEntity(entptr_t ptr, const char * name) {
 		index_t idx;
 		if(!freeIndices.empty()) {
-			idx = freeIndices.back();
-			freeIndices.pop_back();
+			idx = freeIndices.extract(freeIndices.begin()).value();
 		}
 		else {
 			idx = entities_.size();
@@ -348,7 +348,7 @@ private:
 	entities_t entities_; /* entity container */
 	layers_t layers_; /* layers container */
 
-	std::vector<index_t> freeIndices;
+	std::set<index_t> freeIndices;
 
 	/* static asserts */
 	static_assert(sizeof entities_t::size_type == sizeof index_t); /* size_type equal exactly index_t */
