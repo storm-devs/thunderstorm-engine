@@ -56,7 +56,7 @@ public:
 	// entity managment
 	
 	// create entity with class type "class_name"; if id_PTR no null - fill this structure with entity id
-	virtual entid_t CreateEntity(char * name)= 0;
+	virtual entid_t CreateEntity(char* name, ATTRIBUTES* attr = nullptr) = 0;
 
 	virtual void EraseEntity(entid_t id) = 0;
 

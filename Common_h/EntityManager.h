@@ -43,7 +43,7 @@ public:
 		return instance;
 	}
 
-	entid_t CreateEntity(const char* name)
+	entid_t CreateEntity(const char* name, ATTRIBUTES* attr = nullptr)
 	{
 		/* FIND VMA */
 		const long hash = MakeHashValue(name);
@@ -71,6 +71,7 @@ public:
 		// set id first
 		const auto id = PushEntity(ptr, name);
 		ptr->id_ = id;
+		ptr->AttributesPointer = attr;
 
 		// then init
 		if (!ptr->Init()) {

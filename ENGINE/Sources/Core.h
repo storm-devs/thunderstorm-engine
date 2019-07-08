@@ -146,7 +146,8 @@ public:
 	// entity managment
 	
 	// create entity with class type "class_name"; if id_PTR no null - fill this structure with entity id
-	entid_t CreateEntity(char * name) override;
+	entid_t CreateEntity(char* name, ATTRIBUTES * attr = nullptr) override;
+
 	// return entity object pointer, if this entity exist
 	Entity * GetEntityPointer(entid_t id_PTR) override;
 

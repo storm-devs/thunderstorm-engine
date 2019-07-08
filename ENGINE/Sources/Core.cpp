@@ -289,9 +289,9 @@ void CORE::CheckAutoExceptions(uint32_t = 0) const
 	spdlog::warn("exception thrown");
 }
 
-entid_t CORE::CreateEntity(char * name)
+entid_t CORE::CreateEntity(char* name, ATTRIBUTES* ptr)
 {
-	return entityManager.CreateEntity(name);
+	return entityManager.CreateEntity(name, ptr);
 }
 
 uint32_t CORE::Class_Name2Code(char * class_name)
@@ -382,6 +382,9 @@ uint32_t CORE::Send_Message(entid_t Destination,char * Format,...)
 {
 	MESSAGE message;
 	entptr_t ptr = entityManager.GetEntity(Destination); // check for valid destination
+	if (!ptr)
+		return 0;
+
 	message.Reset(Format);									// reset message class
 	PZERO(&message.Sender_ID,sizeof(entid_t));
 	va_start(message.args,Format);

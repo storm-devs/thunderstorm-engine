@@ -1234,9 +1234,8 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			if(!pV) { SetError(MISSING_PARAMETER); break; }
 
 			pV2->Get(pChar);
-			if(ent = Core.CreateEntity(pChar))
+			if(ent = Core.CreateEntity(pChar, pV->GetAClass()))
 			{
-				Core.GetEntityPointer(ent)->AttributesPointer = pV->GetAClass();
 				//api->Entity_SetAttributePointer(&entid_t,pV->GetAClass());
 				pV->Set(ent);
 				SStack.Pop();
