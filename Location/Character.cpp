@@ -303,7 +303,7 @@ void Character::RTuner::Set(MODEL * model, VDX9RENDER * rs)
 			n->SetTechnique("AnimationBlend");
 		}
 	}
-	Lights * ls = character->location->GetLights();
+ 	Lights * ls = character->location->GetLights();
 	if(ls) ls->SetCharacterLights(&character->curPos);
 }
 

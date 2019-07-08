@@ -807,7 +807,7 @@ bool  SoundService::SoundIsPlaying (TSD_ID _id)
 //--------------------------------------------------------------------
 void SoundService::SoundResume (TSD_ID _id, long _time/* = 0*/)
 {
-	if (_id == 0 || _id == 1)
+	if (_id == 0 || _id == 1 || _id == -1)
 	{
 		for (int i = 0; i < MAX_SOUNDS_SLOTS; i++)
 		{
