@@ -1321,7 +1321,7 @@ long DX9RENDER::TextureCreate(const char *fname)
 
 		_strupr(_fname);
 
-		unsigned long hf = TOREMOVE::HashNoCase(_fname);
+		unsigned long hf = hash_string(_fname);
 
 		long t;
 		for (t = 0; t<MAX_STEXTURES; t++)
