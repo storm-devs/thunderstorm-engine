@@ -134,6 +134,9 @@ public:
 					entData = &GetEntityData(entid);
 				}
 
+				if (entData->id == INVALID_ENTITY)
+					continue; /* YES THIS IS OK TOO */
+
 				if (hash == 0 || entData->hash == hash) {
 					++it;
 					return entData->id;
