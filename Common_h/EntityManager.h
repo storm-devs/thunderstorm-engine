@@ -271,8 +271,9 @@ public:
 
 				_erase(entities_[index]); // release
 
-				entities_[index] = entities_[entities_.size() - 1];
-				entities_.pop_back();
+				entities_[index] = {};//entities_[entities_.size() - 1];
+				freeIndices.push_back(index);
+				//entities_.pop_back();
 			}
 		}
 
@@ -294,6 +295,9 @@ private:
 
 		const auto entptr = entities_[index];
 
+		if (entptr.ptr == nullptr)
+			return null; /* THIS IS ALSO FUCKING OK */
+
 		/* check if valid */
 		const auto entid = entptr.ptr->GetId();
 		if (entity != entid) {
@@ -304,10 +308,17 @@ private:
 	}
 
 	entid_t PushEntity(entptr_t ptr, const char * name) {
-		const auto size = entities_.size();
-		/* double the space */
-		if (size == entities_.capacity()) {
-			entities_.reserve(size * 2);
+		index_t idx;
+		if(!freeIndices.empty()) {
+			idx = freeIndices.back();
+			freeIndices.pop_back();
+		}
+		else {
+			idx = entities_.size();
+			/* double the space */
+			if (idx == entities_.capacity()) {
+				entities_.reserve(idx * 2);
+			}
 		}
 
 		/* calculating stamp */
@@ -315,7 +326,7 @@ private:
 
 		/* assembling entity id */
 		const stamp_t stamp = ms.count();
-		const index_t index = size;
+		const index_t index = idx;
 		const entid_t id = static_cast<entid_t>(stamp) << 32 | index;
 
 		/* push ptr */
@@ -330,6 +341,8 @@ private:
 	/* members */
 	entities_t entities_; /* entity container */
 	layers_t layers_; /* layers container */
+
+	std::vector<index_t> freeIndices;
 
 	/* static asserts */
 	static_assert(sizeof entities_t::size_type == sizeof index_t); /* size_type equal exactly index_t */
