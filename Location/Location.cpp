@@ -56,7 +56,7 @@ Location::~Location()
 	ATTRIBUTES * atr = AttributesPointer->FindAClass(AttributesPointer, "locators");
 	if(atr) AttributesPointer->DeleteAttributeClassX(atr);
 #ifndef _XBOX
-	api->EraseEntity(cubeShotMaker);
+	//api->EraseEntity(cubeShotMaker);
 	api->EraseEntity(lighter);
 #endif
 	api->EraseEntity(lizards);
@@ -96,7 +96,7 @@ bool Location::Init()
 
 #ifndef _XBOX
 	lighter = api->CreateEntity("Lighter");
-	cubeShotMaker = api->CreateEntity("CubeShotMakerCam");
+	//cubeShotMaker = api->CreateEntity("CubeShotMakerCam");
 #endif
 	return true;
 }

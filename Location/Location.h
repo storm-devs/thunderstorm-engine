@@ -190,7 +190,7 @@ private:
 	float locationTimeUpdate;
 
 	entid_t lighter;
-	entid_t cubeShotMaker;
+	//entid_t cubeShotMaker;
 
 	DmgMessage message[32];
 	long curMessage;
