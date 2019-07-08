@@ -312,7 +312,7 @@ void SAIL::Execute(uint32_t Delta_Time)
 	    }
 
         // получим значение ветра
-        if(entid_t ei = api->GetEntityIdWalker("weather")(); ei)
+        if(entid_t ei = api->GetEntityIdWalker("weather")())
         {
             WEATHER_BASE *wb = (WEATHER_BASE*)api->GetEntityPointer(ei);
             globalWind.ang.x=wb->GetFloat(whf_wind_angle);

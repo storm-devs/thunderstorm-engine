@@ -101,6 +101,10 @@ public:
 		const auto index = static_cast<index_t>(entity);
 		// TODO: entities_.at
 
+		// validate 
+		if (entData.ptr->GetId() != entity) 
+			return; /* already replaced by another entity */
+
 		entities_[index].deleted = true;
 		/*_erase(entities_[index]); // release
 		
