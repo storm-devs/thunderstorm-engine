@@ -12,7 +12,7 @@ using index_t = uint32_t;
 /* ALPHA v0.0000001*/
 struct EntityData
 {
-	long hash;
+	uint32_t hash; // temporary kostil'
 	entid_t id;
 	entptr_t ptr;
 	std::vector<std::pair<std::string, index_t>> layers; // !@# TODO: use custom allocator
@@ -146,16 +146,17 @@ public:
 		return generator<false>(targetLayer->second.first);
 	}
 
-	/* matreshka */
-	template <LayerFlags...Flags>
-	auto&& GetLayerWalker() {
-		return std::move([this, it = std::begin(layers_)]() mutable {
+	auto&& GetLayerWalker(const LayerFlags flag, bool includeFrozen = false) {
+		return std::move([this, flag, includeFrozen, it = std::begin(layers_)]() mutable -> walker_t  {
 			for (; it != std::end(layers_); ++it) {
-				if((checkLayerFlag(*it, Flags) & ...)) {
-					return GetEntityIdWalker(it->second.first);
+				if (!includeFrozen && checkLayerFlag(it->second, LayerFlags::FROZEN))
+					continue;
+
+				if(checkLayerFlag(it->second, flag)) {
+					return GetEntityIdWalker(it->first); // TODO: optimize
 				}
 			}
-			GetEntityIdWalker({});
+			return {nullptr};
 		});
 	}
 
@@ -207,7 +208,7 @@ public:
 		return entData.hash;
 	}
 
-	static auto constexpr checkLayerFlag(const layer_with_flags_t& layer, LayerFlags flag)
+	static auto constexpr checkLayerFlag(const layer_with_flags_t& layer, LayerFlags flag) -> bool
 	{
 		return static_cast<bool>(layer.second & (1u << static_cast<std::underlying_type_t<decltype(flag)>>(flag)));
 	}

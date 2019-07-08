@@ -581,11 +581,13 @@ void CORE::ProcessExecute()
 	ProcessRunStart(SECTION_EXECUTE);
 
 	uint32_t deltatime = Timer.GetDeltaTime();
-	auto layerWalker = entityManager.GetLayerWalker<LayerFlags::FROZEN, LayerFlags::EXECUTE>();
-	while(auto id = layerWalker()())
+	auto layerWalker = entityManager.GetLayerWalker(LayerFlags::EXECUTE);
+	for(auto walker = layerWalker(); walker != nullptr; walker = layerWalker())
 	{
-		if(EntityFound(id))	{
-			((Entity*)entityManager.GetEntity(id))->ProcessStage(Entity::Stage::EXECUTE, deltatime);
+		for (auto id = walker(); id; id = walker()) {
+			if (EntityFound(id)) {
+				((Entity*)entityManager.GetEntity(id))->ProcessStage(Entity::Stage::EXECUTE, deltatime);
+			}
 		}
 	}
 
@@ -598,11 +600,13 @@ void CORE::ProcessRealize()
 	ProcessRunStart(SECTION_REALIZE);
 
 	uint32_t deltatime = Timer.GetDeltaTime();
-	auto layerWalker = entityManager.GetLayerWalker<LayerFlags::FROZEN, LayerFlags::REALIZE>();
-	while (auto id = layerWalker()())
+	auto layerWalker = entityManager.GetLayerWalker(LayerFlags::REALIZE);
+	for (auto walker = layerWalker(); walker != nullptr; walker = layerWalker())
 	{
-		if (EntityFound(id)) {
-			((Entity*)entityManager.GetEntity(id))->ProcessStage(Entity::Stage::REALIZE, deltatime);
+		for (auto id = walker(); id; id = walker()) {
+			if (EntityFound(id)) {
+				((Entity*)entityManager.GetEntity(id))->ProcessStage(Entity::Stage::REALIZE, deltatime);
+			}
 		}
 	}
 

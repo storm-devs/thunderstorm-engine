@@ -104,7 +104,7 @@ public:
 	DATA * GetVarPointer();
 	void ClearType();
 
-	entid_t  GetObjectIDPTR() {return &object_id;}
+	entid_t  GetObjectIDPTR() {return object_id;}
 
 	// operations
 	bool Inc();

@@ -28,9 +28,22 @@ public:
 	bool Init();
 	void Realize(uint32_t Delta_Time);
 	uint32_t ProcessMessage(MESSAGE &message);
-
-	void LostRender() override;
-	void RestoreRender() override;
+	void ProcessStage(Stage stage, uint32_t delta) override
+	{
+		switch (stage)
+		{
+		//case Stage::EXECUTE:
+		//	Execute(delta); break;
+		case Stage::REALIZE:
+			Realize(delta); break;
+		case Stage::LOST_RENDER:
+			LostRender(); break;
+		case Stage::RESTORE_RENDER:
+			RestoreRender(); break;
+		}
+	}
+	void LostRender();
+	void RestoreRender();
 };
 
 

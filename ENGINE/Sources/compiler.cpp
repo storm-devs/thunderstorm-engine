@@ -198,7 +198,7 @@ void COMPILER::Release()
 	//Token.Release();
 }
 
-void __declspec(noinline) _COMPILER::SetProgramDirectory(char * dir_name)
+void COMPILER::SetProgramDirectory(char * dir_name)
 {
 	if(ProgramDirectory) delete ProgramDirectory; ProgramDirectory = nullptr;
 	if(dir_name)

@@ -200,7 +200,6 @@ void SHADOW::Realize(uint32_t Delta_Time)
 	}
 	if(p<4)
 	{
-		delete walker;
 		return;
 	}
 
@@ -227,7 +226,6 @@ void SHADOW::Realize(uint32_t Delta_Time)
 		float dist = sqrtf(~(cen-camPos));
 		if(dist>farBlend)	//too far
 		{
-			delete walker;
 			return;
 		}
 		else
@@ -287,7 +285,7 @@ void SHADOW::Realize(uint32_t Delta_Time)
 	node->flags &= ~NODE::VISIBLE_TREE;
 
 	rs->SetRenderState(D3DRS_ZENABLE, FALSE);
-	obj->Realize(0);
+	obj->ProcessStage(Entity::Stage::REALIZE, 0);
 	rs->SetRenderState(D3DRS_ZENABLE, TRUE);
 
 	node->flags |= NODE::VISIBLE_TREE;
@@ -340,8 +338,6 @@ void SHADOW::Realize(uint32_t Delta_Time)
 #endif
 	col->Clip(walker, &planes[0], 5, cen, radius, AddPoly, &entity, 1);
 
-
-	delete walker;
 	rs->VBUnlock(vbuff);
 
 	if(tot_verts >= 3 && rs->TechniqueExecuteStart("shadow_draw"))
