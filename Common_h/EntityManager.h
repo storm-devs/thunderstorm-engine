@@ -263,6 +263,9 @@ public:
 			if (entity.deleted)
 			{
 				const auto index = static_cast<index_t>(entity.id);
+				if (index >= entities_.size())
+					continue;
+
 				_erase(entities_[index]); // release
 
 				entities_[index] = entities_[entities_.size() - 1];

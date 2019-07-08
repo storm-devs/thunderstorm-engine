@@ -591,7 +591,8 @@ void CORE::ProcessExecute()
 	{
 		for (auto id = walker(); id; id = walker()) {
 			if (EntityFound(id)) {
-				((Entity*)entityManager.GetEntity(id))->ProcessStage(Entity::Stage::EXECUTE, deltatime);
+				if(auto ptr = (Entity*)entityManager.GetEntity(id))
+					ptr->ProcessStage(Entity::Stage::EXECUTE, deltatime);
 			}
 		}
 	}
@@ -610,7 +611,8 @@ void CORE::ProcessRealize()
 	{
 		for (auto id = walker(); id; id = walker()) {
 			if (EntityFound(id)) {
-				((Entity*)entityManager.GetEntity(id))->ProcessStage(Entity::Stage::REALIZE, deltatime);
+				if (auto ptr = (Entity*)entityManager.GetEntity(id))
+					ptr->ProcessStage(Entity::Stage::REALIZE, deltatime);
 			}
 		}
 	}
