@@ -139,6 +139,8 @@ bool CORE::Run()
 
 	if (Controls && bActive) ProcessControls();
 
+	entityManager.NewLifecycle();
+
 	ProcessRunEnd(SECTION_ALL);
 
 	// ~!~

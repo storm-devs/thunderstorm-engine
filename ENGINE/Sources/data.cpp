@@ -326,7 +326,7 @@ void DATA::Set(entid_t eid)
 	bEntity = true;
 }
 
-void DATA::Get(entid_t  eid)
+void DATA::Get(entid_t & eid)
 {
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)
@@ -648,7 +648,7 @@ bool DATA::Set(entid_t eid, uint32_t index)
 	return true;*/
 }
 
-bool DATA::Get(entid_t  eid, uint32_t index)
+bool DATA::Get(entid_t & eid, uint32_t index)
 {
 	//if(bRef)
 	if(Data_type == VAR_REFERENCE)

@@ -12,6 +12,7 @@ using index_t = uint32_t;
 /* ALPHA v0.0000001*/
 struct EntityData
 {
+	bool deleted;
 	uint32_t hash; // temporary kostil'
 	entid_t id;
 	entptr_t ptr;
@@ -50,7 +51,7 @@ public:
 			throw std::exception("null hash");
 		}
 		VMA* pClass = nullptr;
-		for (const auto c : _pModuleClassRoot) {
+		for (const auto &c : _pModuleClassRoot) {
 			if (c->GetHash() == hash && _stricmp(name, c->GetName()) == 0) {
 				pClass = c;
 				break;
@@ -77,32 +78,37 @@ public:
 	}
 
 	void _erase(const EntityData & data) {
-		for (auto [name, _] : data.layers) {
-			RemoveFromLayer(data.id, name);
+		for (auto &[name, _] : data.layers) {
+			RemoveFromLayer(data.id, name); // TODO: optimize
 		}
 		delete data.ptr;
 	}
 
 	void EraseEntity(const entid_t entity) {
 		const auto index = static_cast<index_t>(entity);
-		//// TODO: entities_.at
-		_erase(entities_[index]); // release
+		// TODO: entities_.at
+
+		entities_[index].deleted = true;
+		/*_erase(entities_[index]); // release
 		
 		entities_[index] = entities_[entities_.size() - 1];
-		entities_.pop_back();
+		entities_.pop_back();*/
 	}
 
 	void EraseAll()	{
-		for(auto entity : entities_) {
+		/*for(auto entity : entities_) {
 			_erase(entity); // release
 		}
-		entities_.clear();
+		entities_.clear();*/
+		for (auto & entity : entities_) {
+			entity.deleted = true;
+		}
 	}
 
 	/* assemble requested walker (generator) */
 	template <bool IsEntData, typename Iterable>
-	constexpr auto&& generator(Iterable& iterable, long hash = 0) {
-		return std::move([this, hash, &iterable, it = std::begin(iterable)]() mutable {
+	constexpr auto generator(Iterable& iterable, long hash = 0) {
+		return[this, hash, &iterable, it = std::begin(iterable)]() mutable {
 			for (; it != std::end(iterable); ++it)
 			{
 				EntityData* entData;
@@ -120,11 +126,12 @@ public:
 				}
 			}
 			return INVALID_ENTITY;
-		});
+		};
 	}
 
 	entptr_t GetEntity(const entid_t entity) {
-		return GetEntityData(entity).ptr;
+		const auto entData = GetEntityData(entity);
+		return entData.deleted ? nullptr : entData.ptr;
 	}
 
 	auto GetEntityIdWalker() {
@@ -146,18 +153,18 @@ public:
 		return generator<false>(targetLayer->second.first);
 	}
 
-	auto&& GetLayerWalker(const LayerFlags flag, bool includeFrozen = false) {
-		return std::move([this, flag, includeFrozen, it = std::begin(layers_)]() mutable -> walker_t  {
+	auto GetLayerWalker(const LayerFlags flag, bool includeFrozen = false) {
+		return[this, flag, includeFrozen, it = std::begin(layers_)]() mutable->walker_t  {
 			for (; it != std::end(layers_); ++it) {
 				if (!includeFrozen && checkLayerFlag(it->second, LayerFlags::FROZEN))
 					continue;
 
-				if(checkLayerFlag(it->second, flag)) {
+				if (checkLayerFlag(it->second, flag)) {
 					return GetEntityIdWalker(it->first); // TODO: optimize
 				}
 			}
-			return {nullptr};
-		});
+			return { nullptr };
+		};
 	}
 
 	void AddToLayer(entid_t entity, std::string layer, index_t priority)
@@ -231,6 +238,21 @@ public:
 		//layers_.at(layer).second &= ~(1u << static_cast<std::underlying_type_t<decltype(flag)>>(flag));
 	}
 
+	void NewLifecycle()
+	{
+		for (const auto& entity : entities_) {
+			if (entity.deleted)
+			{
+				const auto index = static_cast<index_t>(entity.id);
+				_erase(entities_[index]); // release
+
+				entities_[index] = entities_[entities_.size() - 1];
+				entities_.pop_back();
+			}
+		}
+
+	}
+
 private:
 	EntityManager()
 	{
@@ -243,7 +265,7 @@ private:
 		const auto index = static_cast<index_t>(entity);
 
 		if (index >= entities_.size())
-			__debugbreak();
+			return null;
 
 		const auto entptr = entities_[index];
 
@@ -272,7 +294,7 @@ private:
 		const entid_t id = static_cast<entid_t>(stamp) << 32 | index;
 
 		/* push ptr */
-		entities_.push_back({ MakeHashValue(name), id, ptr, {}, name });
+		entities_.push_back({false, MakeHashValue(name), id, ptr, {}, name });
 
 		return id;
 	}
