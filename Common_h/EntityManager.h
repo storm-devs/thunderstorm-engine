@@ -68,11 +68,18 @@ public:
 		}
 
 		/* INIT Entity */
-		if (!ptr->Init()) {
-			return INVALID_ENTITY;
-		}
+		// set id first
 		const auto id = PushEntity(ptr, name);
 		ptr->id_ = id;
+
+		// then init
+		if (!ptr->Init()) {
+			// mark as deleted if fail 
+			const auto index = static_cast<index_t>(id);
+			entities_[index].deleted = false;
+			return INVALID_ENTITY;
+		}
+		// why so? cuz fuck yourself
 
 		return id;
 	}
@@ -122,6 +129,7 @@ public:
 				}
 
 				if (hash == 0 || entData->hash == hash) {
+					++it;
 					return entData->id;
 				}
 			}
@@ -160,14 +168,14 @@ public:
 					continue;
 
 				if (checkLayerFlag(it->second, flag)) {
-					return GetEntityIdWalker(it->first); // TODO: optimize
+					return GetEntityIdWalker(it++->first); // TODO: optimize
 				}
 			}
 			return { nullptr };
 		};
 	}
 
-	void AddToLayer(entid_t entity, std::string layer, index_t priority)
+	void AddToLayer(entid_t entity, const std::string & layer, index_t priority)
 	{
 		auto entData = GetEntityData(entity);
 		if (entData.ptr == nullptr) {
@@ -175,7 +183,7 @@ public:
 		}
 
 		/* add to layer */
-		auto & targetLayer = layers_[std::move(layer)];
+		auto & targetLayer = layers_[layer];
 		targetLayer.first.insert(std::make_pair(priority, entity)); /* ~!@ TODO: duplicates*/
 
 		/* write down layer data into entity data */
