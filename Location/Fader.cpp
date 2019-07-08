@@ -53,9 +53,9 @@ bool Fader::Init()
 	//Проверим что единственные
 
 	const auto walker = api->GetEntityIdWalker("Fader");
-	if(entid_t eid = walker(); eid)
+	if(entid_t eid = walker())
 	{
-		if(api->GetEntityPointer(eid) != this || walker())
+		if(eid != GetId() || (eid = walker()))
 		{
 			if(fadeIn == ((Fader *)api->GetEntityPointer(eid))->fadeIn)
 			{

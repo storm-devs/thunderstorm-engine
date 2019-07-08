@@ -326,11 +326,13 @@ private:
 
 		/* assembling entity id */
 		const stamp_t stamp = ms.count();
-		const index_t index = idx;
-		const entid_t id = static_cast<entid_t>(stamp) << 32 | index;
+		const entid_t id = static_cast<entid_t>(stamp) << 32 | idx;
 
 		/* push ptr */
-		entities_.push_back({false, MakeHashValue(name), id, ptr, {}, _strdup(name) });
+		if (idx == entities_.size())
+			entities_.push_back({ false, MakeHashValue(name), id, ptr, {}, _strdup(name) });
+		else
+			entities_[idx] = { false, MakeHashValue(name), id, ptr, {}, _strdup(name) };
 
 		return id;
 	}

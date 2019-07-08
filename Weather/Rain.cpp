@@ -78,8 +78,10 @@ void RAIN::GenerateRain()
 	uint32_t	i;
 
 	entid_t	ent;
-	if (!(ent = api->GetEntityIdWalker("Weather")())) throw std::exception("No found WEATHER entity!");
-	pWeather = (WEATHER_BASE*)api->GetEntityPointer(ent); Assert(pWeather);
+	if (!(ent = api->GetEntityIdWalker("Weather")())) 
+		throw std::exception("No found WEATHER entity!");
+	pWeather = (WEATHER_BASE*)api->GetEntityPointer(ent); 
+	Assert(pWeather);
 
 	Release();
 
