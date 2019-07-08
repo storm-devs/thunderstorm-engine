@@ -88,10 +88,15 @@ public:
 		for (auto &[name, _] : data.layers) {
 			RemoveFromLayer(data.id, name); // TODO: optimize
 		}
+		free((void*)data.name);
 		delete data.ptr;
 	}
 
 	void EraseEntity(const entid_t entity) {
+		const auto & entData = GetEntityData(entity);
+		if (entData.ptr == nullptr)
+			return;
+
 		const auto index = static_cast<index_t>(entity);
 		// TODO: entities_.at
 
@@ -138,7 +143,7 @@ public:
 	}
 
 	entptr_t GetEntity(const entid_t entity) {
-		const auto entData = GetEntityData(entity);
+		const auto &entData = GetEntityData(entity);
 		return entData.deleted ? nullptr : entData.ptr;
 	}
 
@@ -150,14 +155,20 @@ public:
 		return generator<true>(entities_, hash);
 	}
 
-	auto GetEntityIdWalker(long hash, const std::string& layer) {
+	auto GetEntityIdWalker(long hash, const std::string& layer) -> walker_t {
 
-		const auto targetLayer = layers_.find(layer);
+		const auto &targetLayer = layers_.find(layer);
+		if (targetLayer == std::end(layers_))
+			return [] {return INVALID_ENTITY; };
+
 		return generator<false>(targetLayer->second.first, hash);
 	}
 
-	auto GetEntityIdWalker(const std::string& layer) {
-		const auto targetLayer = layers_.find(layer);
+	auto GetEntityIdWalker(const std::string& layer) -> walker_t {
+		const auto& targetLayer = layers_.find(layer);
+		if (targetLayer == std::end(layers_))
+			return [] {return INVALID_ENTITY; };
+
 		return generator<false>(targetLayer->second.first);
 	}
 
@@ -177,10 +188,9 @@ public:
 
 	void AddToLayer(entid_t entity, const std::string & layer, index_t priority)
 	{
-		auto entData = GetEntityData(entity);
-		if (entData.ptr == nullptr) {
-			throw std::exception(); /* ~!@ */
-		}
+		auto & entData = GetEntityData(entity);
+		if (entData.ptr == nullptr)
+			return; /* this is probably also ok... */
 
 		/* add to layer */
 		auto & targetLayer = layers_[layer];
@@ -192,10 +202,10 @@ public:
 
 	void RemoveFromLayer(entid_t entity, const std::string & layer)
 	{
-		auto entData = GetEntityData(entity);
-		if (entData.ptr == nullptr) {
-			throw std::exception(); /* ~!@ */
-		}
+		auto & entData = GetEntityData(entity);
+		if (entData.ptr == nullptr)
+			return; /* this is probably also ok... */
+
 		auto & targetLayer = layers_[layer];
 		for (auto it = std::begin(entData.layers); it != std::end(entData.layers); ++it) {
 			auto [layer_hash, priority] = *it;
@@ -219,7 +229,7 @@ public:
 
 	// временный костыль
 	uint32_t GetClassCode(entid_t entity){
-		const auto entData = GetEntityData(entity);
+		const auto & entData = GetEntityData(entity);
 		return entData.hash;
 	}
 
@@ -248,7 +258,7 @@ public:
 
 	void NewLifecycle()
 	{
-		for (const auto& entity : entities_) {
+		for (const auto & entity : entities_) {
 			if (entity.deleted)
 			{
 				const auto index = static_cast<index_t>(entity.id);
@@ -272,7 +282,7 @@ private:
 
 		const auto index = static_cast<index_t>(entity);
 
-		if (index >= entities_.size())
+		if (index >= entities_.size()) /* calm down it's ok... */
 			return null;
 
 		const auto entptr = entities_[index];
@@ -302,7 +312,7 @@ private:
 		const entid_t id = static_cast<entid_t>(stamp) << 32 | index;
 
 		/* push ptr */
-		entities_.push_back({false, MakeHashValue(name), id, ptr, {}, name });
+		entities_.push_back({false, MakeHashValue(name), id, ptr, {}, _strdup(name) });
 
 		return id;
 	}

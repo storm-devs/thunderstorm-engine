@@ -347,6 +347,7 @@ static float fSin = 0.0f;
 
 bool  DX9RENDER::Init()
 {
+	bDeviceLost = false;
 	//GUARD(DX9RENDER::Init)
 		char str[256];
 	for (long i = 0; i<MAX_STEXTURES; i++) Textures[i].ref = NULL;
