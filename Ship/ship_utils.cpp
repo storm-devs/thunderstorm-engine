@@ -201,7 +201,7 @@ bool SHIP::BuildMasts()
 				entid_t ent;
 				ent = api->CreateEntity("mast");
 				api->Send_Message(ent,"lpii", MSG_MAST_SETGEOMETRY, pNode, GetId(), GetModelEID());
-				api->DeleteEntity(ent);
+				api->EraseEntity(ent);
 				//iIdx--;
 			}
 			else

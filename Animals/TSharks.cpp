@@ -30,7 +30,7 @@ TSharks::~TSharks()
 			delete ships[i];
 	}
 
-	api->DeleteEntity(sharkModel);
+	api->EraseEntity(sharkModel);
 }
 
 //--------------------------------------------------------------------

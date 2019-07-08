@@ -22,7 +22,7 @@ TFishSchools::~TFishSchools()
 			delete fishSchools[i];
 	}
 
-	api->DeleteEntity(fishSchoolModel);
+	api->EraseEntity(fishSchoolModel);
 }
 
 //--------------------------------------------------------------------

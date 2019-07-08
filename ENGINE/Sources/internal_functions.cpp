@@ -792,7 +792,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 
 			walker = Core.GetEntityIdWalker("pChar");
 			while(ent = walker()) {
-				Core.DeleteEntity(ent);
+				Core.EraseEntity(ent);
 			}
 		break;
 		case FUNC_SHL:
@@ -1272,7 +1272,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 		case FUNC_DELETE_Entity:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV->Get(ent);
-			api->DeleteEntity(ent);
+			api->EraseEntity(ent);
 		break;
 		//
 		case FUNC_DEL_EVENT_HANDLER:

@@ -11,7 +11,7 @@ InterfaceBackScene::LightParam::~LightParam()
 {
 	bUse=false;
 	if( pModel ) {
-		api->DeleteEntity( eiModel );
+		api->EraseEntity( eiModel );
 		pModel = nullptr;
 	}
 }
@@ -66,9 +66,9 @@ void InterfaceBackScene::LightParam::UpdateParams( float fTime )
 
 InterfaceBackScene::MenuDescr::~MenuDescr()
 {
-	api->DeleteEntity(eiActive);
+	api->EraseEntity(eiActive);
 	pActive = nullptr;
-	api->DeleteEntity(eiPassive);
+	api->EraseEntity(eiPassive);
 	pPassive = nullptr;
 }
 
@@ -135,8 +135,8 @@ InterfaceBackScene::InterfaceBackScene()
 InterfaceBackScene::~InterfaceBackScene()
 {
 	RestoreLight();
-	api->DeleteEntity( m_eiModel );
-	api->DeleteEntity( m_eiLocators );
+	api->EraseEntity( m_eiModel );
+	api->EraseEntity( m_eiLocators );
 	m_pLocators = nullptr;
 	m_pModel = nullptr;
 	ReleaseMenuList();
@@ -355,11 +355,11 @@ void InterfaceBackScene::LoadModel( const char* pcModelName )
 {
 	// delete all
 	if( m_pModel ) {
-		api->DeleteEntity( m_eiModel );
+		api->EraseEntity( m_eiModel );
 		m_pModel = nullptr;
 	}
 	if( m_pLocators ) {
-		api->DeleteEntity( m_eiLocators );
+		api->EraseEntity( m_eiLocators );
 		m_pLocators = nullptr;
 	}
 	VGEOMETRY* pGeo = (VGEOMETRY*)api->CreateService("Geometry");

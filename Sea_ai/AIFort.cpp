@@ -340,7 +340,7 @@ bool AIFort::ScanFortForCannons(AI_FORT * pFort, char * pModelsDir, char * pLoca
 		dwIdx++;
 	}
 
-	api->DeleteEntity(model_id);
+	api->EraseEntity(model_id);
 	return true;
 }
 

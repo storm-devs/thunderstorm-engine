@@ -29,7 +29,7 @@ LocLife::LocLife()
 
 LocLife::~LocLife()
 {
-	api->DeleteEntity(model);
+	api->EraseEntity(model);
 }
 
 

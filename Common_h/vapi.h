@@ -32,10 +32,6 @@ public:
 	// return application handle
 	virtual HWND GetAppHWND() = 0;
 	virtual HINSTANCE GetAppInstance() = 0;
-	// return pointer to user data
-	virtual void * GetUserData(long * data_size)= 0;
-	// copy into system user data
-	virtual void * SetUserData(void * ud_PTR,long data_size)= 0;
 	// set time scale; affect on std entity functions DeltaTime parameter
 	virtual void  SetTimeScale(float _scale)= 0;
 	// get curretn value of time scale; default 1.0f
@@ -49,8 +45,8 @@ public:
 	// converting class name to static code (constant until next restart)
 	virtual uint32_t Class_Name2Code(char * class_name)= 0;
 	// find first entity with pointed class
-	virtual walker_t GetEntityIdWalker(const char* class_name, uint32_t class_code = 0);
-	virtual walker_t GetEntityIdWalker(const char* class_name, const char* layer, uint32_t class_code = 0);
+	virtual walker_t GetEntityIdWalker(const char* class_name, uint32_t class_code)=0;
+	virtual walker_t GetEntityIdWalker(const char* class_name, const char* layer, uint32_t class_code)=0;
 	// service managment
 
 	// return service object pointer; 
@@ -61,8 +57,6 @@ public:
 	
 	// create entity with class type "class_name"; if id_PTR no null - fill this structure with entity id
 	virtual entid_t CreateEntity(char * name)= 0;
-	// delete entity; this function can be called even if programm control still in this object
-	virtual bool DeleteEntity(entid_t entity)= 0;
 	// return entity object pointer, if this entity exist
 	virtual entptr_t GetEntityPointer(entid_t id_PTR)= 0;
 

@@ -58,7 +58,7 @@ long ModelArray::CreateModel(const char * modelName, const char * technique, lon
 	//Создаём модельку
 	entid_t id,idModelRealizer;
 	if(!(id = api->CreateEntity("modelr"))) return -1;
-	if(!(idModelRealizer = api->CreateEntity("LocModelRealizer"))) {api->DeleteEntity(id); return -1;}
+	if(!(idModelRealizer = api->CreateEntity("LocModelRealizer"))) {api->EraseEntity(id); return -1;}
 	api->Send_Message(idModelRealizer,"lil",1,id,(long)pLights);
 	//if(isVisible) api->LayerAdd("realize", idModelRealizer, level);
 	api->LayerAdd("realize", idModelRealizer, level);
@@ -67,8 +67,8 @@ long ModelArray::CreateModel(const char * modelName, const char * technique, lon
 	if(!m)
 	{
 		gs->SetTexturePath("");
-		api->DeleteEntity(id);
-		api->DeleteEntity(idModelRealizer);
+		api->EraseEntity(id);
+		api->EraseEntity(idModelRealizer);
 		return -1;
 	}
 	//Загружаем
@@ -86,8 +86,8 @@ long ModelArray::CreateModel(const char * modelName, const char * technique, lon
 							resPath))
 	{
 		gs->SetTexturePath("");
-		api->DeleteEntity(id);
-		api->DeleteEntity(idModelRealizer);
+		api->EraseEntity(id);
+		api->EraseEntity(idModelRealizer);
 		return -1;
 	}
 	gs->SetTexturePath("");
@@ -140,8 +140,8 @@ void ModelArray::DeleteModel(long modelIndex)
 	if(model[modelIndex].reflection) delete model[modelIndex].reflection;
 	model[modelIndex].reflection = nullptr;
 	//Удаляем модельку
-	api->DeleteEntity(model[modelIndex].modelrealizer);
-	api->DeleteEntity(model[modelIndex].id);
+	api->EraseEntity(model[modelIndex].modelrealizer);
+	api->EraseEntity(model[modelIndex].id);
 	numModels--;
 	if(modelIndex != numModels) model[modelIndex] = model[numModels];
 }

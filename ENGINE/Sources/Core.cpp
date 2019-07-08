@@ -75,7 +75,7 @@ bool CORE::LoCheck()
 		return false;
 	auto* pE = entityManager.GetEntity(test_eid);
 	pE->ProcessStage(Entity::Stage::EXECUTE, ENGINE_SCRIPT_VERSION);
-	DeleteEntity(test_eid);
+	EraseEntity(test_eid);
 	return true;
 }
 

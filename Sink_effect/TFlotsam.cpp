@@ -22,7 +22,7 @@ TFlotsam::~TFlotsam()
 
 	if (!modelsInitialized)
 		for (int i=0; i<FLOTSAM_MODELS_COUNT; i++)
-			api->DeleteEntity(modelIDs[i]);
+			api->EraseEntity(modelIDs[i]);
 }
 
 //--------------------------------------------------------------------

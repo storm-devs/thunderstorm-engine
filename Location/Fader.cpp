@@ -181,7 +181,7 @@ void Fader::Execute(uint32_t delta_time)
 	if(deleteMe)
 	{
 		deleteMe++;
-		if(deleteMe >= 3) api->DeleteEntity(GetId());
+		if(deleteMe >= 3) api->EraseEntity(GetId());
 	}
 	if(eventStart)
 	{

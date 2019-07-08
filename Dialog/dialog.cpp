@@ -250,7 +250,7 @@ void DIALOG::DlgLinkDescribe::Show(long nY)
 	}
 }
 
-void __declspec(noinline) DIALOG::DlgLinkDescribe::ShowEditMode(long nX, long nY, long nTextIdx)
+void DIALOG::DlgLinkDescribe::ShowEditMode(long nX, long nY, long nTextIdx)
 {
 	long nKeyQ = api->Controls->GetKeyBufferLength();
 	if( nKeyQ > 0 )
@@ -370,7 +370,7 @@ DIALOG::~DIALOG()
 	if( m_nCharNameTextFont != -1 ) RenderService->UnloadFont( m_nCharNameTextFont ); m_nCharNameTextFont = -1;
 }
 
-void __declspec(noinline) DIALOG::CreateBack()
+void DIALOG::CreateBack()
 {
 	long nSquareQuantity = 9 + 3 + 1; // 9-for back, 3-for name & 1-for divider
 	m_nIQntBack = 6 * nSquareQuantity; // 6 индексов в одном прямоугольнике

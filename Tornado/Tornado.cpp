@@ -103,7 +103,7 @@ void Tornado::Execute(uint32_t delta_time)
 		{
 			galhpa = 0.0f;
 			api->Event("TornadoDelete", nullptr);
-			api->DeleteEntity(GetId());
+			api->EraseEntity(GetId());
 		}
 	}else liveTime -= dltTime;	
 	if(soundService && sID != SOUND_INVALID_ID)

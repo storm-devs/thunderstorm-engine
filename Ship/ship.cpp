@@ -69,12 +69,12 @@ SHIP::SHIP()
 
 SHIP::~SHIP()
 {
-	api->DeleteEntity(GetModelEID());
+	api->EraseEntity(GetModelEID());
 	api->Send_Message(sail_id, "li", MSG_SAIL_DEL_GROUP, GetId());
 	api->Send_Message(rope_id, "li", MSG_ROPE_DEL_GROUP, GetModelEID());
 	api->Send_Message(flag_id, "li", MSG_FLAG_DEL_GROUP, GetModelEID());
 	api->Send_Message(vant_id, "li", MSG_VANT_DEL_GROUP, GetModelEID());
-	api->DeleteEntity(blots_id);
+	api->EraseEntity(blots_id);
 
 	if (entid_t eidTmp = api->GetEntityIdWalker("ShipTracks")(); eidTmp)
 	{
@@ -1536,7 +1536,7 @@ void SHIP::SetACharacter(ATTRIBUTES * pAP)
 
 	if (bMounted)
 	{
-		api->DeleteEntity(blots_id);
+		api->EraseEntity(blots_id);
 		blots_id = api->CreateEntity("blots");
 		api->Send_Message(blots_id, "lia", MSG_BLOTS_SETMODEL, GetModelEID(), GetACharacter()); 
 		api->LayerAdd((char *)sRealizeLayer.c_str(), blots_id, iShipPriorityRealize + 4);

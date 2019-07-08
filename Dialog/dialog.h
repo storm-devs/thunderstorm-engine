@@ -207,7 +207,7 @@ private:
 	static float GetScrWidth( float fX ) {return fX*m_frScreenData.right;}
 	static float GetScrHeight( float fY ) {return fY*m_frScreenData.bottom;}
 
-	void __declspec(dllexport) CreateBack();
+	void CreateBack();
 	void FillBack();
 	void FillDivider();
 	void DrawBack();

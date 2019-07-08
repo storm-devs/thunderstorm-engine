@@ -29,7 +29,7 @@ LocEagle::LocEagle()
 
 LocEagle::~LocEagle()
 {
-	api->DeleteEntity(mdl);
+	api->EraseEntity(mdl);
 }
 
 

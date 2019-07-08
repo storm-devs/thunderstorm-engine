@@ -581,11 +581,11 @@ Character::~Character()
 	for(long i = 0; i < numDetectors; i++) delete detector[i];
 	//
 	if(location && !isDeleted) location->supervisor.DelCharacter(this);
-	api->DeleteEntity(shadow);
-	api->DeleteEntity(waterrings);
-	api->DeleteEntity(mdl);
-	api->DeleteEntity(blade);
-	api->DeleteEntity(sign);
+	api->EraseEntity(shadow);
+	api->EraseEntity(waterrings);
+	api->EraseEntity(mdl);
+	api->EraseEntity(blade);
+	api->EraseEntity(sign);
 	if(characterID) delete characterID;
 }
 
@@ -894,7 +894,7 @@ void Character::SetSignModel()
 		return;
 	}
 	signName = signModelName;
-	api->DeleteEntity(sign);
+	api->EraseEntity(sign);
 	if(!signModelName[0])
 	{
 		return;
@@ -2087,7 +2087,7 @@ void Character::Update(float dltTime)
 				}else{
 					api->Event("Location_CharacterExitFromLocation", "e", GetId());
 				}
-				api->DeleteEntity(GetId());
+				api->EraseEntity(GetId());
 			}
 		}
 	}
@@ -2585,9 +2585,9 @@ bool Character::zLoadModel(MESSAGE & message)
 	char name[256];
 	char ani[256];
 	char mpath[300];
-	api->DeleteEntity(shadow);
-	api->DeleteEntity(waterrings);
-	api->DeleteEntity(mdl);
+	api->EraseEntity(shadow);
+	api->EraseEntity(waterrings);
+	api->EraseEntity(mdl);
 	message.String(256, name);
 	name[255] = 0;
 	message.String(256, ani);
@@ -2620,13 +2620,13 @@ bool Character::zLoadModel(MESSAGE & message)
 									ani) != 0)
 	{
 		api->Trace("Character animation '%s' not loaded", ani);
-		api->DeleteEntity(mdl);
+		api->EraseEntity(mdl);
 		return false;
 	}
 	MODEL * m = (MODEL *)api->GetEntityPointer(mdl);
 	if(!m)
 	{
-		api->DeleteEntity(mdl);
+		api->EraseEntity(mdl);
 		return false;
 	}
 	Animation * a = m->GetAnimation();

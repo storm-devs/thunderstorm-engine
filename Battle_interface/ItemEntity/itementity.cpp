@@ -127,7 +127,7 @@ void ItemEntity::SetBeginData()
 void ItemEntity::Release()
 {
 	if( m_pModel ) {
-		api->DeleteEntity( m_eidModel );
+		api->EraseEntity( m_eidModel );
 		m_pModel = nullptr;
 	}
 	DeleteParticle();

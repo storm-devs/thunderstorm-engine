@@ -75,7 +75,7 @@ Sharks::Shark::Shark()
 
 Sharks::Shark::~Shark()
 {
-	api->DeleteEntity(model);
+	api->EraseEntity(model);
 }
 
 bool Sharks::Shark::Init(float vp_x, float vp_z, bool isLoadModel)
@@ -103,14 +103,14 @@ bool Sharks::Shark::Init(float vp_x, float vp_z, bool isLoadModel)
 	{
 		gs->SetTexturePath("");
 		api->Trace("Shark model 'shark' not loaded");
-		api->DeleteEntity(model);
+		api->EraseEntity(model);
 		return false;
 	}
 	gs->SetTexturePath("");
 	if(!api->Send_Message(model, "ls", MSG_MODEL_LOAD_ANI, "shark"))
 	{
 		api->Trace("Shark animation 'shark' not loaded");
-		api->DeleteEntity(model);
+		api->EraseEntity(model);
 		return false;
 	}
 	//Ставим анимацию по умолчанию
@@ -471,7 +471,7 @@ Sharks::Sharks()
 
 Sharks::~Sharks()
 {
-	api->DeleteEntity(periscope.model);
+	api->EraseEntity(periscope.model);
 	if(rs) rs->TextureRelease(trackTx);
 }
 
@@ -606,7 +606,7 @@ void Sharks::Execute(uint32_t delta_time)
 			if(periscope.time < 0.0f)
 			{
 				periscope.time = -1.0f;
-				api->DeleteEntity(periscope.model);
+				api->EraseEntity(periscope.model);
 			}
 		}else{
 			if(waitPTime > 0.0f)
@@ -638,14 +638,14 @@ bool Sharks::LoadPeriscopeModel()
 	if(!api->Send_Message(periscope.model, "ls", MSG_MODEL_LOAD_GEO, "Animals\\periscope"))
 	{
 		gs->SetTexturePath("");
-		api->DeleteEntity(periscope.model);
+		api->EraseEntity(periscope.model);
 		return false;
 	}
 	gs->SetTexturePath("");
 	MODEL * mdl = (MODEL *)api->GetEntityPointer(periscope.model);
 	if(!mdl)
 	{
-		api->DeleteEntity(periscope.model);
+		api->EraseEntity(periscope.model);
 		return false;
 	}
 	api->LayerAdd("sea_realize", periscope.model, 10);

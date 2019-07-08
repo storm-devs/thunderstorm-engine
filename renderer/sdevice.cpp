@@ -3556,7 +3556,7 @@ CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
 		pVTLcur->videoTexture_id = ei;
 		if (pVTLcur->VideoTexture->Initialize(this, sVideoName, true) == nullptr) {
 			delete pVTLcur;
-			api->DeleteEntity(ei);
+			api->EraseEntity(ei);
 		}
 		else {
 			pVTL = pVTLcur;
@@ -3566,7 +3566,7 @@ CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
 	else
 	{
 		delete pVTLcur;
-		api->DeleteEntity(ei);
+		api->EraseEntity(ei);
 	}
 
 	return retVal;
@@ -3587,7 +3587,7 @@ void DX9RENDER::ReleaseVideoTexture(CVideoTexture* pVTexture)
 				pVTL = cur->next;
 			else
 				prev->next = cur->next;
-			api->DeleteEntity(cur->videoTexture_id);
+			api->EraseEntity(cur->videoTexture_id);
 			if (cur->name != nullptr) delete cur->name;
 			delete cur;
 			break;

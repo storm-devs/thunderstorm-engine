@@ -31,7 +31,7 @@ Supervisor::~Supervisor()
 	for(long i = 0; i < numCharacters; i++)
 	{
 		character[i].c->AlreadySTORM_DELETE();
-		api->DeleteEntity(character[i].c->GetId());
+		api->EraseEntity(character[i].c->GetId());
 	}
 
 }

@@ -22,8 +22,8 @@ SailorsEditor :: SailorsEditor(): rs(nullptr), model(nullptr)
 
 SailorsEditor :: ~SailorsEditor()
 {
-	api->DeleteEntity(sailors);	
-	api->DeleteEntity(shipID);
+	api->EraseEntity(sailors);	
+	api->EraseEntity(shipID);
 };
 
 

@@ -17,7 +17,7 @@ TSeagulls::TSeagulls()
 //--------------------------------------------------------------------
 TSeagulls::~TSeagulls()
 {
-	api->DeleteEntity(seagullModel);
+	api->EraseEntity(seagullModel);
 }
 
 //--------------------------------------------------------------------

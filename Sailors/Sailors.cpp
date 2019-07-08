@@ -42,7 +42,7 @@ void ShipMan::Free()
 {
 	//GUARD_SAILORS(ShipMan::Free())
 
-	api->DeleteEntity(this->modelID);
+	api->EraseEntity(this->modelID);
 
 	//UN//GUARD_SAILORS
 };

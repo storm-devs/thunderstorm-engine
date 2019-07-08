@@ -65,7 +65,7 @@ public:
 	//uint32_t GetLayerIndex(char * layer_name);
 	void CheckAutoExceptions(uint32_t xflag) const;
 	//void LayerDel(const char * layer_name, entid_t eid,bool system);
-//	bool LayerAdd(const char * layer_name, entid_t eid, uint32_t priority, bool system);
+	bool LayerAdd(const char * layer_name, entid_t eid, uint32_t priority, bool system);
 	void ReleaseServices();
 	void ProcessEngineIniFile();
 
@@ -105,7 +105,6 @@ public:
 	long nSplitScreenshotGrid;
 
 	void DumpEntitiesInfo();
-	void DeleteEntities();
 	void EraseEntities();
 	void ClearEvents();
 	void * MakeClass(char * class_name);
@@ -123,12 +122,6 @@ public:
 	// return application handle
 	HWND GetAppHWND() override;
 	HINSTANCE GetAppInstance() override;
-	// add path where core will search for modules; default: \MODULES
-	bool AddModulesPath(char * _path);
-	// return pointer to user data
-	void * GetUserData(long * data_size) override;
-	// copy into system user data
-	void * SetUserData(void * ud_PTR,long data_size) override;
 	// set time scale; affect on std entity functions DeltaTime parameter
 	void  SetTimeScale(float _scale) override;
 	// get curretn value of time scale; default 1.0f
@@ -154,8 +147,6 @@ public:
 	
 	// create entity with class type "class_name"; if id_PTR no null - fill this structure with entity id
 	entid_t CreateEntity(char * name) override;
-	// delete entity; this function can be called even if programm control still in this object
-	bool DeleteEntity(entid_t entid_t) override;
 	// return entity object pointer, if this entity exist
 	Entity * GetEntityPointer(entid_t id_PTR) override;
 

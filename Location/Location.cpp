@@ -56,16 +56,16 @@ Location::~Location()
 	ATTRIBUTES * atr = AttributesPointer->FindAClass(AttributesPointer, "locators");
 	if(atr) AttributesPointer->DeleteAttributeClassX(atr);
 #ifndef _XBOX
-	api->DeleteEntity(cubeShotMaker);
-	api->DeleteEntity(lighter);
+	api->EraseEntity(cubeShotMaker);
+	api->EraseEntity(lighter);
 #endif
-	api->DeleteEntity(lizards);
-	api->DeleteEntity(rats);
-	api->DeleteEntity(eagle);
-	api->DeleteEntity(grass);
-	api->DeleteEntity(lightsid);
-	api->DeleteEntity(loceffectsid);
-	api->DeleteEntity(blood);
+	api->EraseEntity(lizards);
+	api->EraseEntity(rats);
+	api->EraseEntity(eagle);
+	api->EraseEntity(grass);
+	api->EraseEntity(lightsid);
+	api->EraseEntity(loceffectsid);
+	api->EraseEntity(blood);
 
 	for(long i = 0; i < numLocators; i++) 
 		delete locators[i];
@@ -517,7 +517,7 @@ bool Location::LoadJumpPatch(const char * modelName)
 
 bool Location::LoadGrass(const char * modelName, const char * texture)
 {
-	api->DeleteEntity(grass);
+	api->EraseEntity(grass);
 	if(!modelName || !modelName[0]) return true;
 	grass = api->CreateEntity("Grass");
 	Grass * grs = (Grass *)api->GetEntityPointer(grass);
@@ -531,7 +531,7 @@ bool Location::LoadGrass(const char * modelName, const char * texture)
 	long ll = strlen(nm);
 	if(grs->LoadData(nm)) return true;
 	api->Trace("Can't load grass data file: %s", nm);
-	api->DeleteEntity(grass);
+	api->EraseEntity(grass);
 	return false;
 }
 
@@ -584,7 +584,7 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 		rats = api->CreateEntity("LocRats");
 		if(!api->Send_Message(rats, "l", message.Long()))
 		{
-			api->DeleteEntity(rats);
+			api->EraseEntity(rats);
 			return false;
 		}
 		return true;

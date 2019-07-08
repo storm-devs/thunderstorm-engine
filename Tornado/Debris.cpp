@@ -29,7 +29,7 @@ Debris::Debris(Pillar & _pillar) : pillar(_pillar)
 
 Debris::~Debris()
 {
-	for(long i = 0; i < numModels; i++) api->DeleteEntity(mdl[i].mdl->GetId());
+	for(long i = 0; i < numModels; i++) api->EraseEntity(mdl[i].mdl->GetId());
 }
 
 void Debris::Init()
@@ -158,7 +158,7 @@ void Debris::AddModel(const char * modelName, float prt, float spd)
 								modelName);
 	}catch(...){
 		gs->SetTexturePath("");
-		api->DeleteEntity(id);
+		api->EraseEntity(id);
 		return;
 	}
 	gs->SetTexturePath("");

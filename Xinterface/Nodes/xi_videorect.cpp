@@ -61,7 +61,7 @@ void CXI_VIDEORECT::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 
 void CXI_VIDEORECT::ReleaseAll()
 {
-	api->DeleteEntity(m_eiVideo);
+	api->EraseEntity(m_eiVideo);
 }
 
 void CXI_VIDEORECT::ChangePosition( XYRECT &rNewPos )
@@ -110,7 +110,7 @@ uint32_t CXI_VIDEORECT::MessageProc(long msgcode, MESSAGE & message)
 void CXI_VIDEORECT::StartVideoPlay(char * videoFileName)
 {
 	if( api->GetEntityPointer(m_eiVideo) ) {
-		api->DeleteEntity(m_eiVideo);
+		api->EraseEntity(m_eiVideo);
 	}
 	if(videoFileName== nullptr) return;
 

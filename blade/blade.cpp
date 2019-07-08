@@ -41,7 +41,7 @@ BLADE::BLADE_INFO::BLADE_INFO()
 
 BLADE::BLADE_INFO::~BLADE_INFO()
 {
-	api->DeleteEntity(eid);
+	api->EraseEntity(eid);
 }
 
 void BLADE::BLADE_INFO::DrawBlade(VDX9RENDER * rs,unsigned int blendValue,MODEL *mdl,NODE *manNode)
@@ -162,7 +162,7 @@ void BLADE::BLADE_INFO::DrawBlade(VDX9RENDER * rs,unsigned int blendValue,MODEL 
 
 bool BLADE::BLADE_INFO::LoadBladeModel(MESSAGE &message)
 {
-	api->DeleteEntity(eid);
+	api->EraseEntity(eid);
 
 	//Имя модельки
 	char mdlName[200];
@@ -181,7 +181,7 @@ bool BLADE::BLADE_INFO::LoadBladeModel(MESSAGE &message)
 		eid = api->CreateEntity("modelr");
 		if(!api->Send_Message(eid, "ls", MSG_MODEL_LOAD_GEO, path))
 		{
-			api->DeleteEntity(eid);
+			api->EraseEntity(eid);
 			if(gs) gs->SetTexturePath("");
 			return false;
 		}
@@ -202,7 +202,7 @@ BLADE::BLADE()
 
 BLADE::~BLADE()
 {
-	api->DeleteEntity(gun);
+	api->EraseEntity(gun);
 
 	for( long i=0; i<ITEMS_INFO_QUANTITY; i++ ) items[i].Release();
 }
@@ -329,7 +329,7 @@ bool BLADE::LoadBladeModel(MESSAGE &message)
 
 bool BLADE::LoadGunModel(MESSAGE &message)
 {
-	api->DeleteEntity(gun);
+	api->EraseEntity(gun);
 	man = message.EntityID();
 	//Имя модельки
 	char mdlName[200];
@@ -348,7 +348,7 @@ bool BLADE::LoadGunModel(MESSAGE &message)
 		gun = api->CreateEntity("modelr");
 		if(!api->Send_Message(gun, "ls", MSG_MODEL_LOAD_GEO, path))
 		{
-			api->DeleteEntity(gun);
+			api->EraseEntity(gun);
 			if(gs) gs->SetTexturePath("");
 			return false;
 		}
@@ -564,7 +564,7 @@ void BLADE::TIEITEM_INFO::Release()
 	if( nItemIndex!=-1 )
 	{
 		nItemIndex = -1;
-		api->DeleteEntity(eid);
+		api->EraseEntity(eid);
 		if(locatorName) delete locatorName; locatorName=nullptr;
 	}
 }
@@ -619,7 +619,7 @@ void BLADE::TIEITEM_INFO::DrawItem(VDX9RENDER * rs,unsigned int blendValue,MODEL
 }
 bool BLADE::TIEITEM_INFO::LoadItemModel(const char* mdlName, const char* locName)
 {
-	api->DeleteEntity(eid);
+	api->EraseEntity(eid);
 	if(locatorName) delete locatorName; locatorName=nullptr;
 
 	if( !locName || !mdlName ) return false;
@@ -640,7 +640,7 @@ bool BLADE::TIEITEM_INFO::LoadItemModel(const char* mdlName, const char* locName
 	eid = api->CreateEntity("modelr");
 	if(!api->Send_Message(eid, "ls", MSG_MODEL_LOAD_GEO, path))
 	{
-		api->DeleteEntity(eid);
+		api->EraseEntity(eid);
 		if(gs) gs->SetTexturePath("");
 		return false;
 	}

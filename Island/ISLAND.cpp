@@ -45,15 +45,15 @@ ISLAND::~ISLAND()
 
 void ISLAND::Uninit()
 {
-	for (uint32_t i=0; i<aSpheres.size(); i++) api->DeleteEntity(aSpheres[i]);
+	for (uint32_t i=0; i<aSpheres.size(); i++) api->EraseEntity(aSpheres[i]);
 	aSpheres.clear();
 	STORM_DELETE(pDepthMap);
 	STORM_DELETE(pShadowMap);
 
 	if (!bForeignModels) 
 	{
-		api->DeleteEntity(model_id);
-		api->DeleteEntity(seabed_id);
+		api->EraseEntity(model_id);
+		api->EraseEntity(seabed_id);
 	}
 }
 

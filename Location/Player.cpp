@@ -42,7 +42,7 @@ Player::~Player()
 #ifndef _XBOX
 	entid_t peid;
 	if(peid = api->GetEntityIdWalker("ShootGunParticles")())
-		api->DeleteEntity(peid);
+		api->EraseEntity(peid);
 #endif
 }
 

@@ -540,7 +540,7 @@ void NODER::Link(entid_t id, bool transform)
 	//prevent self-deleting
 	mdl->root = nullptr;
 	//delete model
-	api->DeleteEntity(id);
+	api->EraseEntity(id);
 }
 
 //-------------------------------------------------------------------

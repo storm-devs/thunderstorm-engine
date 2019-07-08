@@ -121,7 +121,7 @@ void MAST::Execute(uint32_t Delta_Time)
     }
     else
     {
-        api->DeleteEntity(GetId());
+        api->EraseEntity(GetId());
     }
     //UNGUARD
 }
@@ -661,6 +661,6 @@ void MAST::AllRelease()
 	api->Send_Message(ship_id,"lp",MSG_MAST_DELGEOMETRY,m_pMastNode);
 
     // удалить модель
-    api->DeleteEntity(model_id);
+    api->EraseEntity(model_id);
 	m_pMastNode = nullptr;
 }
