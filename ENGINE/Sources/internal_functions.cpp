@@ -1822,7 +1822,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pVResult = pV;
 		return pVResult;
 		case FUNC_DELETE_ENTITIES:
-			Core.DeleteEntities();
+			Core.EraseEntities();
 		break;
 		case FUNC_CLEAR_EVENTS:
 			Core.ClearEvents();

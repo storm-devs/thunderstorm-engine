@@ -45,8 +45,8 @@ public:
 	// converting class name to static code (constant until next restart)
 	virtual uint32_t Class_Name2Code(char * class_name)= 0;
 	// find first entity with pointed class
-	virtual walker_t GetEntityIdWalker(const char* class_name, uint32_t class_code)=0;
-	virtual walker_t GetEntityIdWalker(const char* class_name, const char* layer, uint32_t class_code)=0;
+	virtual walker_t GetEntityIdWalker(const char* class_name, uint32_t class_code = 0) = 0;
+	virtual walker_t GetEntityIdWalker(const char* class_name, const char* layer, uint32_t class_code = 0) = 0;
 	// service managment
 
 	// return service object pointer; 
@@ -57,6 +57,9 @@ public:
 	
 	// create entity with class type "class_name"; if id_PTR no null - fill this structure with entity id
 	virtual entid_t CreateEntity(char * name)= 0;
+
+	virtual void EraseEntity(entid_t id) = 0;
+
 	// return entity object pointer, if this entity exist
 	virtual entptr_t GetEntityPointer(entid_t id_PTR)= 0;
 
