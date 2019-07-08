@@ -242,6 +242,9 @@ private:
 
 		const auto index = static_cast<index_t>(entity);
 
+		if (index >= entities_.size())
+			__debugbreak();
+
 		const auto entptr = entities_[index];
 
 		/* check if valid */
