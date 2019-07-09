@@ -68,7 +68,6 @@ private:
 	VDX9RENDER			* pRS;
 	VGEOMETRY			* pGS;
 	COLLIDE				* pCollide;
-	walker_t			pIslandTraceWalker;
 
 	CMatrix				mIslandOld, mSeaBedOld;
 	float				fImmersionDepth, fImmersionDistance;

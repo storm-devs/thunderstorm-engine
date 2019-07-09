@@ -32,7 +32,6 @@ private:
 
 	VDX9RENDER *renderService;
 	COLLIDE *collide;
-	walker_t walker;
 	TIVBufferManager *ivManager;
 	entid_t  butterflyModel;
 	TButterfly butterflies[BUTTERFLY_COUNT];

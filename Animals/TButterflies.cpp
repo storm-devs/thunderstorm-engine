@@ -49,8 +49,6 @@ void TButterflies::Init()
 	if (!collide)	
 		throw std::exception("!Butterflies: No service COLLIDE");
 
-	walker = api->LayerGetWalker("shadow");
-
 	ivManager = new TIVBufferManager(renderService, 
 									 BUTTERFLY_VERTEX_TYPE, 
 									 sizeof(tButterflyVertex), 
@@ -109,8 +107,7 @@ void TButterflies::Execute(uint32_t _dTime)
 	yDefineTime += _dTime;
 	if (yDefineTime > Y_REDEFINE_TIME)
 	{
-		if (!walker)
-			walker = api->LayerGetWalker("shadow");
+		const auto walker = api->LayerGetWalker("shadow");
 
 		for (i = 0; i<butterfliesCount; i++)
 		{
@@ -134,6 +131,7 @@ void TButterflies::Execute(uint32_t _dTime)
 
 	for (i = 0; i<butterfliesCount; i++)
 	{
+		const auto walker = api->LayerGetWalker("shadow");
 		butterflies[i].Calculate(_dTime, collide, walker);
 		butterflies[i].Draw(ivManager);
 		//butterflies[i].Draw(renderService);

@@ -16,9 +16,6 @@ SUNGLOW::SUNGLOW()
 	iOverflowTex = -1;
 	iReflTexture = -1;
 
-	pVWSunTrace = nullptr;
-	pVWSailsTrace = nullptr;
-
 	bMoon = false;
 
 	bSimpleSea = false;
@@ -165,8 +162,8 @@ void SUNGLOW::Realize(uint32_t Delta_Time)
 	bVisible = true;
 	fMinAlphaValue = 0.0f;
 
-	if (!pVWSunTrace)	pVWSunTrace = api->LayerGetWalker("sun_trace");
-	if (!pVWSailsTrace) pVWSailsTrace = api->LayerGetWalker("sails_trace");
+	const auto pVWSunTrace = api->LayerGetWalker("sun_trace");
+	const auto pVWSailsTrace = api->LayerGetWalker("sails_trace");
 
 	float fSunTrace = LayerTrace(vCamPos, pVWSunTrace);
 	float fSailTrace = LayerTrace(vCamPos, pVWSailsTrace);

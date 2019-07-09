@@ -60,7 +60,6 @@ private:
 	std::string				sTextureName;				// texture name
 	uint32_t				dwTextureIndex;				// texture index
 	uint32_t				dwSubTexX, dwSubTexY;		// all balls must be in one texture
-	walker_t			 pVWForts, pVWShips;		// 
 	uint32_t				dwFireBallFromCameraTime;
 
 	std::vector<BALL_TYPE>	aBallTypes;					// Balls types container

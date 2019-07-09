@@ -10,8 +10,8 @@
 
 class LCOLL : public LOCAL_COLLIDE
 {
+	std::string layerName_;
 	PLANE plane[6];
-	walker_t walker;
 	CVECTOR boxCenter;
 	float boxRadius;
 	COLLIDE *col;

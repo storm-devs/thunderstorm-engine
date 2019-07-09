@@ -45,7 +45,6 @@ class LIGHTNING : public Entity
 	WEATHER_BASE	* pWeather;
 	VDX9RENDER		* pRS;
 	COLLIDE			* pCollide;
-	walker_t	    pVWSunTrace;
 
 	void			Release();
 	void			CalcFlashPower(lightning_t * pL);

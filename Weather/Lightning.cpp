@@ -44,8 +44,6 @@ bool LIGHTNING::LoadState(ENTITY_STATE * state)
 void LIGHTNING::Execute(uint32_t Delta_Time)
 {
 	float fDeltaTime = float(Delta_Time) * 0.001f;
-
-	if (!pVWSunTrace) pVWSunTrace = api->LayerGetWalker("sun_trace");
 	
 	for (uint32_t i=0; i<aLightnings.size(); i++)
 	{
@@ -167,7 +165,8 @@ void LIGHTNING::CalcFlashPower(lightning_t * pL)
 
 	for (uint32_t i=0; i<3; i++)
 	{
-		float fRes = pCollide->Trace(pVWSunTrace, vCamPos, vTrace[i], nullptr, 0);
+		const auto walker = api->LayerGetWalker("sun_trace");
+		float fRes = pCollide->Trace(walker, vCamPos, vTrace[i], nullptr, 0);
 		if (fRes <= 1.0f) fPower -= 0.31f;
 	}
 	pL->fPower = fPower;

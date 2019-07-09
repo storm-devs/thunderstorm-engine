@@ -163,7 +163,6 @@ void AIBalls::Execute(uint32_t Delta_Time)
 	aBallRects.clear();
 
 	//if (!pVWForts) pVWForts = (VIDWALKER*)api->LayerGetWalker("fort_cannon_trace");
-	if (!pVWShips) pVWShips = api->LayerGetWalker("ship_cannon_trace");
 
 	CMatrix mView = rs->GetView();
 
@@ -229,13 +228,14 @@ void AIBalls::Execute(uint32_t Delta_Time)
 			if (pSail)
 				pSail->Cannon_Trace(pBall->iBallOwner, vSrc, vDst);
 
+			const auto walker = api->LayerGetWalker("ship_cannon_trace");
 			// ship trace
-			if (pVWShips && (pEID = pVWShips())) do
+			while (pEID = walker())
 			{
 				CANNON_TRACE_BASE * pShip = (CANNON_TRACE_BASE*)api->GetEntityPointer(pEID);
 				fRes = pShip->Cannon_Trace(pBall->iBallOwner, vSrc, vDst);
 				if (fRes <= 1.0f) break;
-			} while (pEID = pVWShips());
+			}
 
 			// fort trace
 			if (fRes > 1.0f && AIFort::pAIFort)

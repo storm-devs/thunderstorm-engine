@@ -2,7 +2,7 @@
 
 LCOLL::LCOLL(const char *layerName, VAPI &_api) : boxRadius(0), api(_api)
 {
-	walker = api.LayerGetWalker((char*)layerName);
+	layerName_ = layerName;
 	col = (COLLIDE*)api.CreateService("coll");
 	if (!col)
 	throw std::exception("No service: collide");
@@ -81,6 +81,7 @@ long LCOLL::SetBox(const CVECTOR &boxSize, const CMatrix &transform, bool testOn
 	//F0(v0,v1,v2), F1(v0,v1,v2,v3)...
 	addVerts = nullptr;
 
+	const auto walker = api.LayerGetWalker((char*)layerName_.c_str());
 	col->Clip(walker, &plane[0], 6, boxCenter, boxRadius, AddPolyColl, nullptr, 0);
 	return 0;
 }

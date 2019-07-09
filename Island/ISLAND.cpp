@@ -30,7 +30,6 @@ ISLAND::ISLAND()
 	pGS = nullptr;
 	pDepthMap = nullptr;
 	pShadowMap = nullptr;
-	pIslandTraceWalker = nullptr;
 	bDrawReflections = false;
 
 	fCurrentImmersion = 0.0f;
@@ -79,7 +78,6 @@ void ISLAND::SetDevice()
 	pCollide = (COLLIDE*)api->CreateService("COLL"); Assert(pCollide);
 	pRS = (VDX9RENDER*)api->CreateService("dx9render"); Assert(pRS);
 	pGS = (VGEOMETRY *)api->CreateService("geometry"); Assert(pGS);
-	pIslandTraceWalker = api->LayerGetWalker("island_trace"); Assert(pIslandTraceWalker);
 }
 
 bool bView = false;
@@ -401,8 +399,9 @@ void ISLAND::CalcBoxParameters(CVECTOR & _vBoxCenter, CVECTOR & _vBoxSize)
 	GEOS::INFO	ginfo;
 	entid_t	* pEID;
 	float		x1 = 1e+8f, x2 = -1e+8f, z1 = 1e+8f, z2 = -1e+8f;
-	
-	while (const auto pEID = pIslandTraceWalker())
+
+	const auto walker = api->LayerGetWalker("island_trace");
+	while (const auto pEID = walker())
 	{
 		MODEL* pM = (MODEL*)api->GetEntityPointer(pEID); Assert(pM);
 		uint32_t i = 0;
@@ -857,7 +856,7 @@ float ISLAND::Cannon_Trace(long iBallOwner, const CVECTOR & vSrc, const CVECTOR 
 
 float ISLAND::Trace(const CVECTOR & vSrc, const CVECTOR & vDst)
 {
-	return pCollide->Trace(pIslandTraceWalker, vSrc, vDst, nullptr, 0);
+	return pCollide->Trace(api->LayerGetWalker("island_trace"), vSrc, vDst, nullptr, 0);
 }
 
 // Path section
