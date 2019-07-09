@@ -49,6 +49,7 @@ Player::~Player()
 bool Player::PostInit()
 {
 	chrGroups = api->Class_Name2Code("CharactersGroups");
+	const auto location = GetLocation();
 	if(!location->supervisor.player) location->supervisor.player = this;
 	baterfl = api->GetEntityIdWalker("Animals")();
 	return NPCharacter::PostInit();
@@ -308,6 +309,7 @@ void Player::Update(float dltTime)
 	entid_t eid;
 	if(eid = api->GetEntityIdWalker(nullptr, chrGroups)())
 	{
+		const auto location = GetLocation();
 		for(long i = 0; i < location->supervisor.numCharacters; i++)
 		{
 			Character * chr = location->supervisor.character[i].c;
@@ -358,6 +360,7 @@ void Player::Rotate(float dltTime)
 			{
 				//Повернём вектор относительно камеры
 				CMatrix mtx;
+				const auto location = GetLocation();
 				location->GetRS()->GetTransform(D3DTS_VIEW, mtx);
 				mtx.Transposition3X3();
 				mtx.Vy() = CVECTOR(0.0f, 1.0f, 0.0f);
@@ -601,6 +604,7 @@ bool Player::IsChangeFightMode()
 //Найти атакующего противника
 Player * Player::FindAttackCharacter()
 {
+	const auto location = GetLocation();
 	//Найдём окружающих персонажей
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
 	static long num = 0;
@@ -693,6 +697,7 @@ void Player::FireFromShootgun()
 	float dx = sinf(ay);
 	float dz = cosf(ay);
 	CMatrix mtx;
+	const auto location = GetLocation();
 	location->GetRS()->GetTransform(D3DTS_VIEW, mtx);
 	mtx.Transposition();
 	CVECTOR src = mtx.Pos() + mtx.Vz()*0.7f;

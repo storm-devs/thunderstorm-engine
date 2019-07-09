@@ -248,6 +248,7 @@ void NPCharacter::Update(float dltTime)
 		break;
 	};
 	AICharacter::Update(dltTime);
+	const auto location = GetLocation();
 	//Напишем отладочную информацию
 	if(location->IsDebugView())
 	{
@@ -789,6 +790,7 @@ void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter * enemy)
 	//Собираем всех окружающих
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
 	static long num = 0;
+	const auto location = GetLocation();
 	if(!location->supervisor.FindCharacters(fndCharacter, num, this, CHARACTER_ATTACK_DIST, 0.0f, 0.01f, 0.0f, false)) return;
 	if(!num) return;
 	//Наша группа

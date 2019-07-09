@@ -413,8 +413,6 @@ public:
 	static const char * GetValueByPrefix(const char * str, const char * pref);
 
 protected:
-	//Локация в которой находится персонаж
-	Location * location;
 	//
 	VSoundService * soundService;
 	//Размеры персонажа
@@ -646,6 +644,8 @@ protected:
 	bool CheckObstacle(float fx,float fz, float fzlen);
 	long GetRandomIndexByObstacle(ObstacleZone* pZone, long num);
 
+	Location* GetLocation();
+
 public:	
 
 	bool isPlayerEnemy;
@@ -663,6 +663,10 @@ public:
 	long numTargets;			//Количество целей
 	long groupID;				//Индекс группы для ускорения поиска
 	char group[128];			//Имя текущей группы
+
+private:
+	//Локация в которой находится персонаж
+	entid_t loc_id;
 };
 
 inline void Character::AlreadySTORM_DELETE()
