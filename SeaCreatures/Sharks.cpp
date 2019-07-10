@@ -574,12 +574,16 @@ void Sharks::Execute(uint32_t delta_time)
 	if(!sb)
 	{
 		sea = api->GetEntityIdWalker("sea")();
+		sb = (SEA_BASE*)api->GetEntityPointer(sea);
 		if(!sb) return;
 	}
 	ISLAND_BASE * ib = (ISLAND_BASE *)api->GetEntityPointer(island);
 	if(!ib)
 	{
-		sea = api->GetEntityIdWalker("island")();
+		island = api->GetEntityIdWalker("island")();
+		ib = (ISLAND_BASE*)api->GetEntityPointer(island);
+		if (!ib)
+			return;
 	}
 	//Расчитываем новые позиции
 	for(long i = 0; i < num; i++) shark[i].Coordination(camPos.x, camPos.z, dltTime, sb, ib);

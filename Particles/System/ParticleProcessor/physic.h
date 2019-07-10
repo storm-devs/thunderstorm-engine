@@ -11,7 +11,7 @@
 /// UMass - fabsf(Массы)
 /// Drag - сопротивление среды (0 нет сопротивления .. 1 полная остановка)
 /// TimeScale - скалирование времени...
-void SolvePhysic (Vector& Position, Vector& Velocity, const Vector& Forces, float UMass, float Drag, float TimeScale)
+inline void SolvePhysic (Vector& Position, Vector& Velocity, const Vector& Forces, float UMass, float Drag, float TimeScale)
 {
 /*
 	Drag = 1.0f - Drag;
@@ -27,7 +27,7 @@ void SolvePhysic (Vector& Position, Vector& Velocity, const Vector& Forces, floa
 }
 
 /// Добавить к текущим силам силу гравитации...
-void AddGravityForce (Vector& Forces, float Mass, float GravK)
+inline void AddGravityForce (Vector& Forces, float Mass, float GravK)
 {
 	GravK *= 0.01f;
 	if (GravK < 0) GravK = 0.0f;

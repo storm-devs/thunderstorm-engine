@@ -4,7 +4,7 @@
 // espkk # remove inline asm # 30/Dec/2017
 #include <intrin.h>
 
-//#define iinline		inline
+//#define inline		inline
 
 #define HWD_MT_BIT         0x10000000     // EDX[28]  Bit 28 is set if HT or multi-core is supported
 #define NUM_LOGICAL_BITS   0x00FF0000     // EBX[23:16] Bit 16-23 in ebx contains the number of logical
@@ -41,7 +41,7 @@ public:
 	uint8_t CPUCount(uint32_t *TotAvailLogical, uint32_t * TotAvailCore, uint32_t * PhysicalNum);
 };
 
-iinline uint8_t GetAPIC_ID(void)
+inline uint8_t GetAPIC_ID(void)
 {
 	int cpuInfo[4];
 	__cpuid(cpuInfo, 1);
@@ -59,7 +59,7 @@ iinline uint8_t GetAPIC_ID(void)
 	return (byte) ((Regebx & INITIAL_APIC_ID_BITS) >> 24);*/
 }
 
-iinline uint32_t find_maskwidth(uint32_t CountItem)
+inline uint32_t find_maskwidth(uint32_t CountItem)
 {
 	if (CountItem == 0)
 		return 1;
@@ -86,7 +86,7 @@ next:
 	return MaskWidth;*/
 }
 
-iinline uint8_t GetNzbSubID(uint8_t FullID, uint8_t MaxSubIDValue, uint8_t ShiftCount)
+inline uint8_t GetNzbSubID(uint8_t FullID, uint8_t MaxSubIDValue, uint8_t ShiftCount)
 {
 	uint32_t MaskWidth;
 	uint8_t MaskBits;
@@ -98,7 +98,7 @@ iinline uint8_t GetNzbSubID(uint8_t FullID, uint8_t MaxSubIDValue, uint8_t Shift
 	return (FullID & MaskBits);
 }
 
-iinline bool Intel::IsSSE()
+inline bool Intel::IsSSE()
 {
 	if (IsIntelCPU())
 	{
@@ -144,7 +144,7 @@ iinline bool Intel::IsSSE()
 	return bSSE;*/
 }
 
-iinline bool Intel::IsIntelCPU()
+inline bool Intel::IsIntelCPU()
 {
 	int cpuInfo[4];
 	__cpuid(cpuInfo, 0);
@@ -177,7 +177,7 @@ iinline bool Intel::IsIntelCPU()
 
 }
 
-iinline uint32_t Intel::CpuIDSupported(void)
+inline uint32_t Intel::CpuIDSupported(void)
 {
 	int cpuInfo[4];
 	__cpuid(cpuInfo, 0);
@@ -203,7 +203,7 @@ iinline uint32_t Intel::CpuIDSupported(void)
 	return MaxInputValue;*/
 }
 
-iinline uint32_t Intel::HWD_MTSupported(void)
+inline uint32_t Intel::HWD_MTSupported(void)
 {
 	int cpuInfo[4];
 	__cpuid(cpuInfo, 1);
@@ -227,7 +227,7 @@ iinline uint32_t Intel::HWD_MTSupported(void)
 
 }
 
-iinline uint32_t Intel::MaxLogicalProcPerPhysicalProc(void)
+inline uint32_t Intel::MaxLogicalProcPerPhysicalProc(void)
 {
 	int cpuInfo[4];
 	__cpuid(cpuInfo, 1);
@@ -246,7 +246,7 @@ iinline uint32_t Intel::MaxLogicalProcPerPhysicalProc(void)
 		return (uint32_t) ((Regebx & NUM_LOGICAL_BITS) >> 16);*/
 }
 
-iinline uint32_t Intel::MaxCorePerPhysicalProc(void)
+inline uint32_t Intel::MaxCorePerPhysicalProc(void)
 {
 	if (!HWD_MTSupported() || CpuIDSupported() < 4)
 		return 1;
@@ -283,7 +283,7 @@ multi_core:
 
 }
 
-iinline uint8_t Intel::CPUCount(uint32_t *TotAvailLogical, uint32_t * TotAvailCore, uint32_t * PhysicalNum)
+inline uint8_t Intel::CPUCount(uint32_t *TotAvailLogical, uint32_t * TotAvailCore, uint32_t * PhysicalNum)
 {
 	uint8_t StatusFlag = 0;
 	uint32_t dwProcessAffinity, dwSystemAffinity;

@@ -7,7 +7,7 @@
 class SEA_BASE : public CANNON_TRACE_BASE
 {
 public:
-	virtual float WaveXZ(float x, float z, CVECTOR * vNormal = nullptr) { return 0.0f; };
+	virtual float WaveXZ(float x, float z, CVECTOR* vNormal = nullptr) = 0;
 };
 
 #endif
