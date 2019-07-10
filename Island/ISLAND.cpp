@@ -58,7 +58,7 @@ void ISLAND::Uninit()
 
 bool ISLAND::Init()
 {
-	api->LayerAdd("system_messages", GetId(), 1);
+	//api->LayerAdd("system_messages", GetId(), 1);
 	SetDevice();
 
 	// calc optimization

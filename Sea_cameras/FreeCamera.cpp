@@ -37,7 +37,7 @@ bool FREE_CAMERA::Init()
 {
 	//GUARD(FREE_CAMERA::FREE_CAMERA())
 	api->LayerCreate("realize",true,false);
-	api->LayerAdd("system_messages",GetId(),1);
+	//api->LayerAdd("system_messages",GetId(),1);
 	SetDevice();
 	//UNGUARD
 	return true;
