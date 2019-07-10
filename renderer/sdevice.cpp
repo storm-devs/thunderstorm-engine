@@ -3148,7 +3148,7 @@ void DX9RENDER::DrawRects(RS_RECT *pRSR, uint32_t dwRectsNum, const char *cBlock
 		if (rectsVBuffer->Lock(0, drawCount * 6 * sizeof(RECT_VERTEX), (VOID**)&data, D3DLOCK_DISCARD) != D3D_OK) return;
 		if (!data) return;
 		//Заполняем буфер
-		for (uint32_t i = 0; i < drawCount; i++)
+		for (uint32_t i = 0; i < drawCount && cnt < dwRectsNum; i++)
 		{
 			//Локальный массив партикла
 			RECT_VERTEX * buffer = &data[i * 6];
