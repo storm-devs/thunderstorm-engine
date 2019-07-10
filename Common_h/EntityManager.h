@@ -195,6 +195,25 @@ public:
 		};
 	}
 
+	auto GetEntitySet(const LayerFlags flag) {
+		layer_t concatLayers;
+
+		for (auto it = std::begin(layers_); it != std::end(layers_); ++it) {
+			if (checkLayerFlag(it->second, LayerFlags::FROZEN))
+				continue;
+
+			if (checkLayerFlag(it->second, flag)) {
+				concatLayers.insert(std::begin(it->second.first), std::end(it->second.first));
+			}
+		}
+
+		std::vector<entid_t> result;
+		for (const auto [_, entid] : concatLayers)
+			result.push_back(entid);
+
+		return result;
+	}
+
 	void AddToLayer(entid_t entity, const std::string & layer, index_t priority)
 	{
 		auto & entData = GetEntityData(entity);

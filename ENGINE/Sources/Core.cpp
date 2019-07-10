@@ -586,7 +586,7 @@ void CORE::ProcessExecute()
 	ProcessRunStart(SECTION_EXECUTE);
 
 	uint32_t deltatime = Timer.GetDeltaTime();
-	auto layerWalker = entityManager.GetLayerWalker(LayerFlags::EXECUTE);
+	/*auto layerWalker = entityManager.GetLayerWalker(LayerFlags::EXECUTE);
 	for(auto walker = layerWalker(); walker != nullptr; walker = layerWalker())
 	{
 		for (auto id = walker(); id; id = walker()) {
@@ -594,6 +594,12 @@ void CORE::ProcessExecute()
 					ptr->ProcessStage(Entity::Stage::EXECUTE, deltatime);
 			}
         }
+	}*/
+	auto entIds = entityManager.GetEntitySet(LayerFlags::EXECUTE);
+	for (auto id : entIds) {
+		if (auto ptr = entityManager.GetEntity(id)) {
+			ptr->ProcessStage(Entity::Stage::EXECUTE, deltatime);
+		}
 	}
 
 	ProcessRunEnd(SECTION_EXECUTE);
@@ -605,7 +611,7 @@ void CORE::ProcessRealize()
 	ProcessRunStart(SECTION_REALIZE);
 
 	uint32_t deltatime = Timer.GetDeltaTime();
-	auto layerWalker = entityManager.GetLayerWalker(LayerFlags::REALIZE);
+	/*auto layerWalker = entityManager.GetLayerWalker(LayerFlags::REALIZE);
 	for (auto walker = layerWalker(); walker != nullptr; walker = layerWalker())
 	{
 		for (auto id = walker(); id; id = walker()) {
@@ -614,9 +620,16 @@ void CORE::ProcessRealize()
 					ptr->ProcessStage(Entity::Stage::REALIZE, deltatime);
 			}
 		}
+	}*/
+
+	auto entIds = entityManager.GetEntitySet(LayerFlags::REALIZE);
+	for (auto id : entIds) {
+		if (auto ptr = entityManager.GetEntity(id)) {
+			ptr->ProcessStage(Entity::Stage::REALIZE, deltatime);
+		}
 	}
 
-		ProcessRunEnd(SECTION_REALIZE);
+	ProcessRunEnd(SECTION_REALIZE);
 }
 
 // save core state
