@@ -16,7 +16,7 @@ class GMXQSort
 	
 public:
 	
-	__forceinline void QSort(int (*compare_f)(TYPE,TYPE), TYPE* ArrayToSort, int uCount)
+	void QSort(int (*compare_f)(TYPE,TYPE), TYPE* ArrayToSort, int uCount)
 	{
 		if (uCount <= 0) return;
 		QSortRecursive (compare_f, ArrayToSort, 0, (uCount-1));
@@ -24,7 +24,7 @@ public:
 	
 protected:
 	
-	__forceinline void QSortRecursive(int (*compare_func)(TYPE,TYPE),  TYPE* pArr, int d, int h)
+	void QSortRecursive(int (*compare_func)(TYPE,TYPE),  TYPE* pArr, int d, int h)
 	{
 		int i,j;
 		TYPE str;

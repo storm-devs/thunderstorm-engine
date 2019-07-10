@@ -29,7 +29,7 @@ WdmClouds::Cloud::Cloud()
 	count = 0;
 }
 
-__forceinline bool WdmClouds::Cloud::Reset(bool isFirstTime)
+bool WdmClouds::Cloud::Reset(bool isFirstTime)
 {
 	if(count > 0) return false;
 	//Определяем количество
@@ -79,7 +79,7 @@ __forceinline bool WdmClouds::Cloud::Reset(bool isFirstTime)
 }
 
 //Расчёты
-__forceinline void WdmClouds::Cloud::Update(float dltTime)
+void WdmClouds::Cloud::Update(float dltTime)
 {
 	if(count <= 0) return;
 	const float minDist = WdmCloudsCloudRad*0.5f;
@@ -186,7 +186,7 @@ __forceinline void WdmClouds::Cloud::Update(float dltTime)
 	}
 }
 
-__forceinline long WdmClouds::Cloud::FillRects(RS_RECT * rects, long cnt, float galpha)
+long WdmClouds::Cloud::FillRects(RS_RECT * rects, long cnt, float galpha)
 {
 	for(long i = 0; i < count; i++)
 	{
@@ -210,7 +210,7 @@ __forceinline long WdmClouds::Cloud::FillRects(RS_RECT * rects, long cnt, float 
 }
 
 //Получить центр сферы и радиус
-__forceinline float WdmClouds::Cloud::GetBound(CVECTOR & _center)
+float WdmClouds::Cloud::GetBound(CVECTOR & _center)
 {
 	if(!count)
 	{
@@ -222,7 +222,7 @@ __forceinline float WdmClouds::Cloud::GetBound(CVECTOR & _center)
 }
 
 //Запустить механизм удаления облака если есть пересечение
-__forceinline void WdmClouds::Cloud::Kill(const Cloud & cld)
+void WdmClouds::Cloud::Kill(const Cloud & cld)
 {
 	if(count && cld.count)
 	{

@@ -50,12 +50,12 @@ protected:
 
 	void CheckDataChange();
 
-	__forceinline bool LongACompare(ATTRIBUTES* pA, const char* attrName, long & nCompareVal);
-	__forceinline bool FloatACompare(ATTRIBUTES* pA, const char* attrName, float & fCompareVal);
-	__forceinline bool StringACompare(ATTRIBUTES* pA, const char* attrName, std::string & sCompareVal);
-	__forceinline bool FRectACompare(ATTRIBUTES* pA, const char* attrName, FRECT & rCompareVal);
-	__forceinline bool BoolACompare(ATTRIBUTES* pA, const char* attrName, bool & bCompareVal);
-	__forceinline uint32_t GetColorByFactor(uint32_t dwLowColor,uint32_t dwHighColor, float fFactor);
+	bool LongACompare(ATTRIBUTES* pA, const char* attrName, long & nCompareVal);
+	bool FloatACompare(ATTRIBUTES* pA, const char* attrName, float & fCompareVal);
+	bool StringACompare(ATTRIBUTES* pA, const char* attrName, std::string & sCompareVal);
+	bool FRectACompare(ATTRIBUTES* pA, const char* attrName, FRECT & rCompareVal);
+	bool BoolACompare(ATTRIBUTES* pA, const char* attrName, bool & bCompareVal);
+	uint32_t GetColorByFactor(uint32_t dwLowColor,uint32_t dwHighColor, float fFactor);
 
 	VDX9RENDER* m_pRS;
 	ATTRIBUTES* m_pARoot;
@@ -138,21 +138,21 @@ protected:
 	bool m_bActive;
 };
 
-__forceinline bool BIManSign::LongACompare(ATTRIBUTES* pA, const char* attrName, long & nCompareVal)
+inline bool BIManSign::LongACompare(ATTRIBUTES* pA, const char* attrName, long & nCompareVal)
 {
 	long tmp = nCompareVal;
 	nCompareVal = pA->GetAttributeAsDword(attrName);
 	return (nCompareVal != tmp);
 }
 
-__forceinline bool BIManSign::FloatACompare(ATTRIBUTES* pA, const char* attrName, float & fCompareVal)
+inline bool BIManSign::FloatACompare(ATTRIBUTES* pA, const char* attrName, float & fCompareVal)
 {
 	float tmp = fCompareVal;
 	fCompareVal = pA->GetAttributeAsFloat(attrName);
 	return (fCompareVal != tmp);
 }
 
-__forceinline bool BIManSign::StringACompare(ATTRIBUTES* pA, const char* attrName, std::string & sCompareVal)
+inline bool BIManSign::StringACompare(ATTRIBUTES* pA, const char* attrName, std::string & sCompareVal)
 {
 	char* pVal = pA->GetAttribute(attrName);
 	if( sCompareVal == pVal ) return false;
@@ -160,7 +160,7 @@ __forceinline bool BIManSign::StringACompare(ATTRIBUTES* pA, const char* attrNam
 	return true;
 }
 
-__forceinline bool BIManSign::FRectACompare(ATTRIBUTES* pA, const char* attrName, FRECT & rCompareVal)
+inline bool BIManSign::FRectACompare(ATTRIBUTES* pA, const char* attrName, FRECT & rCompareVal)
 {
 	char* pVal = pA->GetAttribute(attrName);
 	if( !pVal ) return false;
@@ -175,14 +175,14 @@ __forceinline bool BIManSign::FRectACompare(ATTRIBUTES* pA, const char* attrName
 	return true;
 }
 
-__forceinline bool BIManSign::BoolACompare(ATTRIBUTES* pA, const char* attrName, bool & bCompareVal)
+inline bool BIManSign::BoolACompare(ATTRIBUTES* pA, const char* attrName, bool & bCompareVal)
 {
 	bool tmp = bCompareVal;
 	bCompareVal = pA->GetAttributeAsDword(attrName,bCompareVal?1:0)!=0;
 	return (bCompareVal != tmp);
 }
 
-__forceinline uint32_t BIManSign::GetColorByFactor(uint32_t dwLowColor,uint32_t dwHighColor, float fFactor)
+inline uint32_t BIManSign::GetColorByFactor(uint32_t dwLowColor,uint32_t dwHighColor, float fFactor)
 {
 	long asrc = (dwLowColor>>24) & 0xFF;
 	long rsrc = (dwLowColor>>16) & 0xFF;

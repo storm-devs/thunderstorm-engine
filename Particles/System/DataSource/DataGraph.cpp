@@ -10,13 +10,13 @@ extern uint32_t GraphRead;
 
 
 //Ћинейна€ интерпол€ци€
-__forceinline float Lerp (float val1, float val2, float lerp_k)
+float Lerp (float val1, float val2, float lerp_k)
 {
 	return (val1 + (val2 - val1) * lerp_k);
 }
 
 //¬з€ть случайное число из диапазона
-__forceinline float RandomRange (float Min, float Max)      
+float RandomRange (float Min, float Max)      
 {
 	float Temp;
 	if (Min>Max)

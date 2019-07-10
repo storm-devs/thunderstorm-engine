@@ -3,7 +3,7 @@
 
 // INTEL COMMENT:
 // This function simply gathers 4 floats and places them on a __m128 variable.
-static __forceinline void SSE_GatherFourFloats( float* pf0, float* pf1, float* pf2, float* pf3, __m128* pm128Result )
+static inline void SSE_GatherFourFloats( float* pf0, float* pf1, float* pf2, float* pf3, __m128* pm128Result )
 {
 	__m128 xmm0 = _mm_load_ss( pf0 ); // 0 0 0 pf0
 	__m128 xmm1 = _mm_load_ss( pf1 ); // 0 0 0 pf1
@@ -18,7 +18,7 @@ static __forceinline void SSE_GatherFourFloats( float* pf0, float* pf1, float* p
 
 // INTEL COMMENT:
 // This function simply scatters the contents of a __m128 variable on to 4 floats.
-static __forceinline void SSE_ScatterFourFloats( float* pf0, float* pf1, float* pf2, float* pf3, __m128 m128Value )
+static inline void SSE_ScatterFourFloats( float* pf0, float* pf1, float* pf2, float* pf3, __m128 m128Value )
 {
 	__m128 xmm1 = _mm_shuffle_ps( m128Value, m128Value, _MM_SHUFFLE( 3, 2, 1, 1 ) ); // 3 2 1 1
 	__m128 xmm2 = _mm_movehl_ps( _mm_setzero_ps(), m128Value ); // 0 0 3 2
@@ -32,7 +32,7 @@ static __forceinline void SSE_ScatterFourFloats( float* pf0, float* pf1, float* 
 
 // INTEL COMMENT:
 // This function performs the maths of a normalise using SSE instructions - 4 normalises in 9 instructions - very fast.
-static __forceinline void SSE_Normalise( __m128 m128X, __m128 m128Y, __m128 m128Z, __m128* pm128X, __m128* pm128Y, __m128* pm128Z )
+static inline void SSE_Normalise( __m128 m128X, __m128 m128Y, __m128 m128Z, __m128* pm128X, __m128* pm128Y, __m128* pm128Z )
 {
 	__m128 xmm0 = _mm_mul_ps( m128X, m128X ); // X * X
 	__m128 xmm1 = _mm_mul_ps( m128Y, m128Y ); // Y * Y
@@ -48,7 +48,7 @@ static __forceinline void SSE_Normalise( __m128 m128X, __m128 m128Y, __m128 m128
 	*pm128Z = _mm_mul_ps( m128Z, xmm0 ); // RecipLength * Z
 }
 
-static __forceinline void GatherFourFloats( float* pf0, float* pf1, float* pf2, float* pf3, __m128* pm128Result )
+static inline void GatherFourFloats( float* pf0, float* pf1, float* pf2, float* pf3, __m128* pm128Result )
 {
 	__m128 xmm0 = _mm_load_ss( pf0 ); // 0 0 0 pf0
 	__m128 xmm1 = _mm_load_ss( pf1 ); // 0 0 0 pf1
@@ -61,7 +61,7 @@ static __forceinline void GatherFourFloats( float* pf0, float* pf1, float* pf2, 
 	*pm128Result = _mm_or_ps( xmm0, xmm1 ); // pf3 pf2 pf1 pf0
 }
 
-static __forceinline void ScatterFourFloats( float* pf0, float* pf1, float* pf2, float* pf3, __m128 m128Value )
+static inline void ScatterFourFloats( float* pf0, float* pf1, float* pf2, float* pf3, __m128 m128Value )
 {
 	__m128 xmm1 = _mm_shuffle_ps( m128Value, m128Value, _MM_SHUFFLE( 3, 2, 1, 1 ) ); // 3 2 1 1
 	__m128 xmm2 = _mm_movehl_ps( _mm_setzero_ps(), m128Value ); // 0 0 3 2
@@ -73,7 +73,7 @@ static __forceinline void ScatterFourFloats( float* pf0, float* pf1, float* pf2,
 	_mm_store_ss( pf3, xmm3 ); // 3 2 1 3
 }
 
-static __forceinline void Normalise( __m128 m128X, __m128 m128Y, __m128 m128Z, __m128* pm128X, __m128* pm128Y, __m128* pm128Z )
+static inline void Normalise( __m128 m128X, __m128 m128Y, __m128 m128Z, __m128* pm128X, __m128* pm128Y, __m128* pm128Z )
 {
 	__m128 xmm0 = _mm_mul_ps( m128X, m128X ); // X * X
 	__m128 xmm1 = _mm_mul_ps( m128Y, m128Y ); // Y * Y

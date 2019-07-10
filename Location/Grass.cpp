@@ -577,7 +577,7 @@ uint32_t Grass::ProcessMessage(MESSAGE &message)
 }
 
 //Отрисовать блок с координатами на миникарте
-__forceinline void Grass::RenderBlock(const CVECTOR & camPos, PLANE * plane, long numPlanes, long mx, long mz)
+void Grass::RenderBlock(const CVECTOR & camPos, PLANE * plane, long numPlanes, long mx, long mz)
 {
 	//Рисуем буфер, если переполнен
 	if(numPoints >= GRASS_MAX_POINTS - (GRASS_CNT_MIN + GRASS_CNT_DLT)*3)
@@ -789,7 +789,7 @@ inline void Grass::RenderBlock(GRSMiniMapElement & mme, float kLod)
 }
 
 //Нарисовать содержимое буфера
-__forceinline void Grass::DrawBuffer()
+void Grass::DrawBuffer()
 {
 	if(vbuffer)
 	{
@@ -813,7 +813,7 @@ __forceinline void Grass::DrawBuffer()
 	}
 }
 
-__forceinline long Grass::GetColor(CVECTOR color)
+long Grass::GetColor(CVECTOR color)
 {
 	if(color.x > 1.0f) color.x = 1.0f;
 	if(color.x < 0.0f) color.x = 0.0f;

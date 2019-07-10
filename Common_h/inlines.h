@@ -66,7 +66,7 @@ inline bool IntersectLines2D(const CVECTOR & v1, const CVECTOR & v2, const CVECT
 	return true;
 }
 
-__forceinline void FillRectVertex(RS_RECT & pV, float x, float y, float z, float fSize, float fAngle = 0.0f, uint32_t dwColor = 0xFFFFFF, uint32_t dwSubTexture = 0)
+inline void FillRectVertex(RS_RECT & pV, float x, float y, float z, float fSize, float fAngle = 0.0f, uint32_t dwColor = 0xFFFFFF, uint32_t dwSubTexture = 0)
 {
 	pV.vPos.x = x; pV.vPos.y = y; pV.vPos.z = z;
 	pV.dwColor = dwColor;
@@ -75,7 +75,7 @@ __forceinline void FillRectVertex(RS_RECT & pV, float x, float y, float z, float
 	pV.fSize = fSize;
 }
 
-__forceinline void FillSpriteVertex(RS_SPRITE & pV, float x, float y, float z = 1.0f, uint32_t dwColor = 0xFFFFFF, float tu = 0.0f, float tv = 0.0f)
+inline void FillSpriteVertex(RS_SPRITE & pV, float x, float y, float z = 1.0f, uint32_t dwColor = 0xFFFFFF, float tu = 0.0f, float tv = 0.0f)
 {
 	pV.vPos.x = x; pV.vPos.y = y; pV.vPos.z = z;
 	pV.dwColor = dwColor;

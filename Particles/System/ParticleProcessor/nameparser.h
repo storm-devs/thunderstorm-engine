@@ -19,7 +19,7 @@ public:
 	//~GeomNameParser () {};
  
  
- __forceinline const char* GetRandomName (const char* names)
+ const char* GetRandomName (const char* names)
  {
 	 Tokenize (names);
 	 if (Tokens.size() == 0) return nullptr;
@@ -28,17 +28,17 @@ public:
  }
 
 
- __forceinline uint32_t GetTokensCount ()
+ uint32_t GetTokensCount ()
  {
 	 return Tokens.size();
  }
 
- __forceinline const char* GetTokenByIndex (uint32_t Index)
+ const char* GetTokenByIndex (uint32_t Index)
  {
 	 return Tokens[Index];
  }
  
- __forceinline void Tokenize (const char* names)
+ void Tokenize (const char* names)
  {
 	Tokens.clear();
 	strncpy_s(NamesString, names, MAX_STRING_SIZE);

@@ -4,7 +4,7 @@
 // espkk # remove inline asm # 30/Dec/2017
 #include <intrin.h>
 
-#define iinline		__forceinline
+//#define iinline		inline
 
 #define HWD_MT_BIT         0x10000000     // EDX[28]  Bit 28 is set if HT or multi-core is supported
 #define NUM_LOGICAL_BITS   0x00FF0000     // EBX[23:16] Bit 16-23 in ebx contains the number of logical

@@ -32,7 +32,7 @@ class WindField
 	{
 		float x, z;
 
-		void __forceinline Lerp(const Wind & w1, const Wind & w2, float k)
+		void Lerp(const Wind & w1, const Wind & w2, float k)
 		{
 			x = w1.x + (w2.x - w1.x)*k;
 			z = w1.z + (w2.z - w1.z)*k;
@@ -114,7 +114,7 @@ public:
 	}
 
 	//Сделать шаг вычислений
-	__forceinline void Step(float dltTime)
+	void Step(float dltTime)
 	{
 		switch(step)
 		{
@@ -135,7 +135,7 @@ public:
 	}
 
 	//Получить ветер в заданной точке
-	__forceinline void GetWind(float x, float z, float & wx, float & wz)
+	void GetWind(float x, float z, float & wx, float & wz)
 	{
 		//Получаем координаты в системе поля
 		x = (x - baseX)*kX + 1.0f;

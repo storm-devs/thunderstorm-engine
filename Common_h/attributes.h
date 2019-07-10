@@ -83,12 +83,12 @@ public:
 		Release();
 	};
 
-	__forceinline void SetBreak(bool bBreak)
+	void SetBreak(bool bBreak)
 	{
 		this->bBreak = bBreak;
 	}
 
-	__forceinline ATTRIBUTES * GetParent()
+	ATTRIBUTES * GetParent()
 	{
 		return pParent;
 	};
@@ -99,14 +99,14 @@ public:
 		return _stricmp(pVStringCodec->Convert(nNameCode), str) == 0;
 	};
 
-	__forceinline char * GetThisName()
+	char * GetThisName()
 	{
 		return pVStringCodec->Convert(nNameCode);
 	}
 
-	__forceinline char * GetThisAttr() { return Attribute; };
+	char * GetThisAttr() { return Attribute; };
 
-	__forceinline void SetName(const char * _name)
+	void SetName(const char * _name)
 	{
 		if (_name) nNameCode = pVStringCodec->Convert(_name);
 	};
@@ -165,7 +165,7 @@ public:
 		return nullptr;
 	};
 
-	__forceinline ATTRIBUTES * GetAttributeClass(uint32_t n)
+	ATTRIBUTES * GetAttributeClass(uint32_t n)
 	{
 		return n >= pAttributes.size() ? nullptr : pAttributes[n];
 	};
@@ -176,12 +176,12 @@ public:
 		return (pTemp) ? pTemp : CreateAttribute(name, "");
 	};
 
-	__forceinline char * GetAttribute(uint32_t n)
+	char * GetAttribute(uint32_t n)
 	{
 		return n >= pAttributes.size() ? nullptr : pAttributes[n]->Attribute;
 	};
 
-	__forceinline char * GetAttributeName(uint32_t n)
+	char * GetAttributeName(uint32_t n)
 	{
 		return n >= pAttributes.size() ? nullptr : pAttributes[n]->GetThisName();
 	};
@@ -372,7 +372,7 @@ public:
 		return nullptr;
 	};
 
-	__forceinline ATTRIBUTES * GetAttributeClassByCode(uint32_t name_code)
+	ATTRIBUTES * GetAttributeClassByCode(uint32_t name_code)
 	{
 		for (const auto & attribute : pAttributes)
 			if(name_code == attribute->nNameCode) 
@@ -404,12 +404,12 @@ public:
 		return attr;
 	};
 
-	__forceinline uint32_t GetALen(uint32_t dwLen)
+	uint32_t GetALen(uint32_t dwLen)
 	{
 		return (pParent) ? (1 + dwLen / 2) * 2 : (1 + dwLen / 8) * 8;
 	}
 
-	__forceinline uint32_t GetLen(uint32_t dwLen, uint32_t dwAlign = 8)
+	uint32_t GetLen(uint32_t dwLen, uint32_t dwAlign = 8)
 	{
 		return (1 + dwLen / dwAlign) * dwAlign;
 	}
@@ -457,11 +457,11 @@ public:
 		return pAttributes.size() - 1;
 	};
 
-	__forceinline uint32_t GetThisNameCode()
+	uint32_t GetThisNameCode()
 	{
 		return nNameCode;
 	}
-	__forceinline void SetNameCode(uint32_t n)
+	void SetNameCode(uint32_t n)
 	{
 		nNameCode = n;
 	}

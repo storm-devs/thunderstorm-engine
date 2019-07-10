@@ -35,7 +35,7 @@
 #include "..\common_h\math3d.h"
 #include "..\common_h\ShipLights.h"
 
-__forceinline bool NetFindClass(bool bServer, entid_t  pEID, const char * pClassName)
+inline bool NetFindClass(bool bServer, entid_t  pEID, const char * pClassName)
 {
 	/*Assert(pEID);
 	bool bFind = api->FindClass(pEID, (char *)pClassName, 0);
@@ -48,7 +48,7 @@ __forceinline bool NetFindClass(bool bServer, entid_t  pEID, const char * pClass
 	return false;
 }
 
-__forceinline bool NetFindClassNext(bool bServer, entid_t  pEID)
+inline bool NetFindClassNext(bool bServer, entid_t  pEID)
 {
 	/*Assert(pEID);
 	while (api->FindClassNext(pEID))

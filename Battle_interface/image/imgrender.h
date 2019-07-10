@@ -25,7 +25,7 @@ public:
 	void MaterialSorting();
 	void ChangeMaterialPosByPrioritet(BIImageMaterial* pMat);
 
-	__forceinline void TranslateBasePosToRealPos(float fXBase, float fYBase, float& fXReal, float& fYReal);
+	void TranslateBasePosToRealPos(float fXBase, float fYBase, float& fXReal, float& fYReal);
 
 	IBIString* CreateString( const char* text, const char* font_name, float font_scale, uint32_t font_color, long valign, long halign, long nLeft, long nTop, long nRight, long nBottom, long nPrior=ImagePrioritet_DefaultValue);
 	IBIString* CreateString( const char* text, const char* font_name, float font_scale, uint32_t font_color, long valign, long halign, RECT& pos, long nPrior=ImagePrioritet_DefaultValue);
@@ -51,7 +51,7 @@ protected:
 	float m_fHOffset, m_fVOffset;
 };
 
-__forceinline void BIImageRender::TranslateBasePosToRealPos(float fXBase, float fYBase, float& fXReal, float& fYReal)
+inline void BIImageRender::TranslateBasePosToRealPos(float fXBase, float fYBase, float& fXReal, float& fYReal)
 {
 	fXReal = (m_fHOffset + fXBase) * m_fHScale;
 	fYReal = (m_fVOffset + fYBase) * m_fVScale;
