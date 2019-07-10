@@ -53,7 +53,7 @@ uint16_t Sharks::Shark::indeces[] = {
 };
 
 
-Sharks::Shark::Shark()
+Sharks::Shark::Shark(): fforce(), spos(), angs(), vBase(0), model(0)
 {
 	pos = 0.0f;
 	vel = 0.0f;
@@ -62,10 +62,10 @@ Sharks::Shark::Shark()
 	dirTime = 0.0f;
 	turn = 0.0f;
 	imspd = 0.0f;
-	speed = (SHARK_MAX_SPEED + SHARK_MIN_SPEED)*0.5f;
+	speed = (SHARK_MAX_SPEED + SHARK_MIN_SPEED) * 0.5f;
 	aniTime = 0.0f;
-	jumpTime = 10.0f + rand()*30.0f/RAND_MAX;
-	accs = 0.007f + rand()*0.008f/RAND_MAX;
+	jumpTime = 10.0f + rand() * 30.0f / RAND_MAX;
+	accs = 0.007f + rand() * 0.008f / RAND_MAX;
 	rForce = 0.0f;
 	rTime = 0.0f;
 	shipY = 0.0f;
@@ -458,7 +458,7 @@ long Sharks::Shark::GenerateTrack(uint16_t * inds, Vertex * vrt, uint16_t base, 
 //Конструирование, деструктурирование
 //============================================================================================
 
-Sharks::Sharks()
+Sharks::Sharks(): sea(0), island(0), indeces{}, vrt{}
 {
 	rs = nullptr;
 	camPos = 0.0f;

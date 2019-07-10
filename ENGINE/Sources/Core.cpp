@@ -587,14 +587,11 @@ void CORE::ProcessExecute()
 
 	uint32_t deltatime = Timer.GetDeltaTime();
 	auto layerWalker = entityManager.GetLayerWalker(LayerFlags::EXECUTE);
-	auto c = 0;
 	for(auto walker = layerWalker(); walker != nullptr; walker = layerWalker())
 	{
 		for (auto id = walker(); id; id = walker()) {
-			if (EntityFound(id)) {
-				if(auto ptr = (Entity*)entityManager.GetEntity(id))
+				if (auto ptr = entityManager.GetEntity(id)) {
 					ptr->ProcessStage(Entity::Stage::EXECUTE, deltatime);
-				c++;
 			}
         }
 	}

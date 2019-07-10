@@ -90,7 +90,7 @@ class SSTRING
 		strcpy_s(pp, nLen + 2, pDataPointer);
 		pp[nLen] = sym;
 		pp[nLen + 1] = 0;
-		delete pDataPointer;
+		delete[] pDataPointer;
 		pDataPointer = pp;
 	};
 	SSTRING& format(const char * format_string,...)

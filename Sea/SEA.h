@@ -145,7 +145,7 @@ private:
 	CMatrix	mTexProjection;
 
 	void				SSE_WaveXZ(SeaVertex * * pArray);
-	float __fastcall	WaveXZ(float x, float z, CVECTOR * pNormal = nullptr);
+	float			WaveXZ(float x, float z, CVECTOR * pNormal = nullptr);
 
 	void			AddBlock(long iTX, long iTY, long iSize, long iLOD);
 	void			BuildTree(long iTX, long iTY, long iLev);

@@ -116,7 +116,7 @@ public:
 	//Transposition
 	void Transposition();
 	void Transposition3X3();
-	CMatrix & __fastcall Transposition4x4();
+	CMatrix & Transposition4x4();
 
 	//Rotate
 	void RotateX(float ang);
@@ -520,7 +520,7 @@ __forceinline void CMatrix::Transposition3X3()
 	}*/
 }
 
-__forceinline CMatrix & __fastcall CMatrix::Transposition4x4()
+CMatrix & CMatrix::Transposition4x4()
 {
 	float tmp;
 	tmp = matrix[1];

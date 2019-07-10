@@ -36,7 +36,7 @@ friend LRESULT CALLBACK SourceViewWndProc(HWND,UINT,WPARAM,LPARAM);
 	uint32_t nLinesNum;
 	uint32_t nSourceFileSize;
 	uint32_t nTopLine;
-	uint32_t nClientLinesSize;
+	int32_t nClientLinesSize;
 	uint32_t nActiveLine;
 	uint32_t nControlLine;
 	char SourceFileName[MAX_PATH];

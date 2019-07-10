@@ -847,7 +847,7 @@ void SEA::SSE_WaveXZ(SeaVertex * * pArray)
 	}
 }
 
-float __fastcall SEA::WaveXZ(float x, float z, CVECTOR * pNormal)
+float SEA::WaveXZ(float x, float z, CVECTOR * pNormal)
 {
 	long iX11, iX12, iX21, iX22, iY11, iY12, iY21, iY22;
 

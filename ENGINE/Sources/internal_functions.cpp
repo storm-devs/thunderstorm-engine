@@ -73,9 +73,9 @@ enum FUNCTION_CODE
 	FUNC_BREAKPOINT,
 	FUNC_POW,
 	FUNC_COPYATTRIBUTES,
-	FUNC_GETEntity,
-	FUNC_GETEntityNEXT,
-	FUNC_GETEntityNAME,
+	//FUNC_GETEntity,
+	//FUNC_GETEntityNEXT,
+	//FUNC_GETEntityNAME,
 	FUNC_STRCUT,
 	FUNC_FINDSUBSTR,
 	FUNC_CLEARREF,
@@ -174,9 +174,9 @@ INTFUNCDESC IntFuncTable[]=
 	0,"Breakpoint",TVOID,
 	2,"Pow",VAR_FLOAT,
 	2,"CopyAttributes",TVOID,
-	2,"GetEntity",VAR_INTEGER,
-	1,"GetEntityNext",VAR_INTEGER,
-	1,"GetEntityName",VAR_STRING,
+	//2,"GetEntity",VAR_INTEGER,
+	//1,"GetEntityNext",VAR_INTEGER,
+	//1,"GetEntityName",VAR_STRING,
 	3,"strcut",VAR_STRING,
 	3,"findSubStr",VAR_STRING,
 	1,"ClearRef",TVOID,
@@ -693,8 +693,9 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV->Get(pChar);
 
 			//api->SetEntityScanLayer(0)//pChar);
-			ent = api->GetEntityIdWalker(pChar)();
-
+			walker = api->GetEntityIdWalker(pChar);
+			ent = walker();
+			 
 			pV2 = pV2->GetVarPointer();
 			pV2->Set(ent);
 			pV2->SetType(VAR_AREFERENCE);
@@ -709,7 +710,9 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 
 		case FUNC_FINDCLASSNEXT:
 			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
-			api->GetEntityPointer(ent);
+
+			ent = walker();
+
 			pV2 = pV2->GetVarPointer();
 			pV2->Set(ent);
 			pV2->SetType(VAR_AREFERENCE);
@@ -1007,7 +1010,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pVResult = pV;
 		return pV;
 
-		case FUNC_GETEntityNAME:
+		/*case FUNC_GETEntityNAME:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV->Get(ent);
 			pV = SStack.Push();
@@ -1024,7 +1027,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV->Convert(VAR_STRING);
 			pV->Get(pChar);
 
-			walker = api->LayerGetWalker("pChar");
+			walker = api->LayerGetWalker(pChar);
 			ent = walker();
 
 			pV2 = pV2->GetVarPointer();
@@ -1050,7 +1053,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV = SStack.Push();
 			pV->Set(TempLong1);
 			pVResult = pV;
-		return pV;
+		return pV;*/
 		case FUNC_POW:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV->Convert(VAR_FLOAT);
