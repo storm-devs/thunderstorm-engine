@@ -485,7 +485,7 @@ void MAST::doMove(uint32_t DeltaTime)
             CVECTOR rp; // координата правой точки реи (суммарная)
             bool bNextClass = (wMoveCounter <= MAX_MOVE_CICLES); // продожаем коллизию, определенное число раз
             bool bStopRotate = false; // по умалчанию не останавливаем вращение мачты при падении
-            entid_t modEI,findEI;
+           
             bp = mtx*mm.bp;
             ep = mtx*mm.ep;
             lp = mtx*mm.brey;
@@ -499,9 +499,10 @@ void MAST::doMove(uint32_t DeltaTime)
             {
                 bNextClass=false;
 				// коллизим с островом
-                if(findEI = api->GetEntityIdWalker("ISLAND")() && api->GetEntityPointer(findEI)!= nullptr )
+				entid_t findEI = api->GetEntityIdWalker("ISLAND")();
+                if(findEI && api->GetEntityPointer(findEI) != nullptr)
 				{
-					modEI = ((ISLAND_BASE*)api->GetEntityPointer(findEI))->GetModelEID();
+					auto modEI = ((ISLAND_BASE*)api->GetEntityPointer(findEI))->GetModelEID();
 
                     CVECTOR dp;
                     int tmp;
@@ -526,7 +527,7 @@ void MAST::doMove(uint32_t DeltaTime)
 				if(findEI = walker())	do
                 {
 					if( api->GetEntityPointer(findEI)== nullptr ) continue;
-					modEI = ((VAI_OBJBASE*)api->GetEntityPointer(findEI))->GetModelEID();
+					auto modEI = ((VAI_OBJBASE*)api->GetEntityPointer(findEI))->GetModelEID();
                     CVECTOR dp;
                     int tmp;
                     float yAng;
