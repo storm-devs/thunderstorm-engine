@@ -1,7 +1,4 @@
 #pragma once
-
-enum class LayerFlags : uint_fast8_t {
-	FROZEN,
-	EXECUTE,
-	REALIZE
-};
+#include <cstdint>
+#include <array>
+#include <cassert>

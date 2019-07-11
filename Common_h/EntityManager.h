@@ -3,48 +3,110 @@
 #include <vector>
 #include <chrono>
 #include <unordered_map>
-#include <map>
 #include <set>
+#include <algorithm>
 #include "Entity.h"
 #include "vmodule_api.h"
 #include "Layer.h"
 
-using index_t = uint32_t;
-/* ALPHA v0.0000001*/
-struct EntityData
-{
-	bool deleted;
-	uint32_t hash; // temporary kostil'
-	entid_t id;
-	entptr_t ptr;
-	std::vector<std::pair<std::string, index_t>> layers; // !@# TODO: use custom allocator
-	const char* name;
-};
 
 class EntityManager {
-public:
-	static const entid_t INVALID_ENTITY = 0ull;
-
-private:
 	/* typedefs */
-	using stamp_t = uint32_t;
+	using entid_index_t = uint32_t; /* 16 bits are enough tho' */
+	using entid_stamp_t = uint32_t;
 
-	using flags_t = uint32_t;
-	using layer_t = std::multimap<index_t, entid_t>;
+	using layer_index_t = uint8_t;
+	using priority_t = uint16_t;
 
-	using entities_t = std::vector<EntityData>;
-	using layer_with_flags_t = std::pair<layer_t, flags_t>;
-	using layers_t = std::unordered_map<std::string, layer_with_flags_t>;
+	using entity_index_t = uint16_t;
+
+	/* layer structure */
+	struct Layer
+	{
+		enum Type : uint8_t {
+			COMMON,
+			EXECUTE,
+			REALIZE
+		};
+
+		std::array<std::pair<priority_t, entid_t>, max_ent_in_layer> entities {};
+		entity_index_t actual_size {};
+		Type type {};
+		bool frozen;
+	};
+
+	/* entity structure */
+	struct EntityInternalData {
+		using layer_mask_t = uint32_t;
+
+		bool deleted;
+		layer_mask_t mask;
+		priority_t priorities[max_layers_num];
+		entptr_t ptr;
+		entid_t id;		
+	};
+
+	/* static array of layers */
+	static inline std::array<Layer, max_layers_num> layers_;
+
+	/* static array of entities and actual size */
+	static inline std::pair<std::array<EntityInternalData, max_ent_num>, entity_index_t> entities_;
+
+	/* stack for indices of erased entities: static array and top counter */
+	static inline std::pair<std::array<entity_index_t, max_ent_num>, entity_index_t> freeIndices_;
 
 public:
-	/* meyers singleton */
-	static EntityManager & GetInstance()
-	{
-		static EntityManager instance;
-		return instance;
+	/* layer functioning is fully static */
+	static void AddToLayer(const layer_index_t index, const entid_t id, const priority_t priority) {
+		assert(index < max_layers_num); // valid index
+		assert(entities_.first[static_cast<entid_index_t>(id)].mask & (1 << index)); // mask shall be set
+
+		auto& layer = layers_[index];
+		auto& arr = layer.entities;
+		auto& size = layer.actual_size;
+
+		assert(size < max_ent_in_layer);
+
+		// TODO: investigate if duplicate check is needed
+
+		const auto targetIdx = std::upper_bound(std::begin(arr), std::begin(arr) + size, priority,
+			[](auto& lhs, auto& rhs) { return lhs.first < rhs.first; }) - std::begin(arr);
+
+		// if this is not last element
+		if (targetIdx != size) {
+			// shift array
+			for (auto i = size; i < targetIdx; --i) {
+				arr[i] = arr[i - 1];
+			}
+		}
+
+		arr[targetIdx] = { priority, id };
+		++size;
 	}
 
-	entid_t CreateEntity(const char* name, ATTRIBUTES* attr = nullptr)
+	static void RemoveFromLayer(const layer_index_t index, const entid_t id, const priority_t priority) {
+		assert(index < max_layers_num);
+
+		auto& layer = layers_[index];
+		auto& arr = layer.entities;
+		auto& size = layer.actual_size;
+
+		const auto lowerIdx = std::lower_bound(std::begin(arr), std::begin(arr) + size, priority,
+			[](auto& lhs, auto& rhs) { return lhs.first < rhs.first; }) - std::begin(arr);
+
+		assert(lowerIdx < size); // is this ok?
+
+		for (auto i = lowerIdx; i < size && arr[i].first == priority; ++i) {
+			if (arr[i].second == id) {
+				// shift array
+				for (auto j = i; j < size; ++j) {
+					arr[i] = arr[i + 1];
+				}
+			}
+		}
+	}
+
+	static entid_t CreateEntity(const char* name, ATTRIBUTES* attr = nullptr)
 	{
 		/* FIND VMA */
 		const long hash = MakeHashValue(name);
@@ -71,131 +133,62 @@ public:
 		/* INIT Entity */
 		// set id first
 		const auto id = PushEntity(ptr, name);
-		ptr->id_ = id;
+		ptr->data_.id = id;
 		ptr->AttributesPointer = attr;
 
 		// then init
 		if (!ptr->Init()) {
 			// mark as deleted if fail 
-			const auto index = static_cast<index_t>(id);
-			entities_[index].deleted = false;
-			return INVALID_ENTITY;
+			const auto index = static_cast<entid_index_t>(id);
+			auto& entityData = entities_.first[index];
+			entityData.deleted = true;
+			return invalid_entity;
 		}
-		// why so? cuz fuck yourself
 
+		// return entid_t if success
 		return id;
 	}
 
-	void _erase(const EntityData & data) {
-		for (auto &[name, _] : data.layers) {
-			RemoveFromLayer(data.id, name); // TODO: optimize
+	static void _erase(const EntityInternalData & data) {
+		auto mask = data.mask;
+
+		// remove from layers
+		for(unsigned i = 0; i < sizeof(mask) * 8; ++i) {
+			if ((mask >> i) & 1) {
+				RemoveFromLayer(i, data.id, data.priorities[i]);
+			}
 		}
-		free((void*)data.name);
+
 		delete data.ptr;
 	}
 
-	void EraseEntity(const entid_t entity) {
+	static void EraseEntity(const entid_t entity) {
 		const auto & entData = GetEntityData(entity);
 		if (entData.ptr == nullptr)
 			return;
-
-		const auto index = static_cast<index_t>(entity);
-		// TODO: entities_.at
+	
 
 		// validate 
 		if (entData.ptr->GetId() != entity) 
 			return; /* already replaced by another entity */
 
-		entities_[index].deleted = true;
-		/*_erase(entities_[index]); // release
-		
-		entities_[index] = entities_[entities_.size() - 1];
-		entities_.pop_back();*/
+		// TODO: entities_.at
+		const auto index = static_cast<entid_index_t>(entity);
+		entities_.first[index].deleted = true;
 	}
 
-	void EraseAll()	{
-		/*for(auto entity : entities_) {
-			_erase(entity); // release
-		}
-		entities_.clear();*/
-		for (auto & entity : entities_) {
+	static void EraseAll()	{
+		for (auto & entity : entities_.first) {
 			entity.deleted = true;
 		}
 	}
-
-	/* assemble requested walker (generator) */
-	template <bool IsEntData, typename Iterable>
-	constexpr auto generator(Iterable& iterable, long hash = 0) {
-		return[this, hash, &iterable, it = std::begin(iterable)]() mutable {
-			for (; it != std::end(iterable); ++it)
-			{
-				EntityData* entData;
-
-				if constexpr (IsEntData) {
-					entData = &*it;
-				}
-				else {
-					auto [priority, entid] = *it;
-					entData = &GetEntityData(entid);
-				}
-
-				if (entData->id == INVALID_ENTITY)
-					continue; /* YES THIS IS OK TOO */
-
-				if (hash == 0 || entData->hash == hash) {
-					++it;
-					return entData->id;
-				}
-			}
-			return INVALID_ENTITY;
-		};
-	}
-
-	entptr_t GetEntity(const entid_t entity) {
+	static entptr_t GetEntityPointer(const entid_t entity) {
 		const auto &entData = GetEntityData(entity);
 		return entData.deleted ? nullptr : entData.ptr;
 	}
 
-	auto GetEntityIdWalker() {
-		return generator<true>(entities_);
-	}
 
-	auto GetEntityIdWalker(long hash) {
-		return generator<true>(entities_, hash);
-	}
-
-	auto GetEntityIdWalker(long hash, const std::string& layer) -> walker_t {
-
-		const auto &targetLayer = layers_.find(layer);
-		if (targetLayer == std::end(layers_))
-			return [] {return INVALID_ENTITY; };
-
-		return generator<false>(targetLayer->second.first, hash);
-	}
-
-	auto GetEntityIdWalker(const std::string& layer) -> walker_t {
-		const auto& targetLayer = layers_.find(layer);
-		if (targetLayer == std::end(layers_))
-			return [] {return INVALID_ENTITY; };
-
-		return generator<false>(targetLayer->second.first);
-	}
-
-	auto GetLayerWalker(const LayerFlags flag, bool includeFrozen = false) {
-		return[this, flag, includeFrozen, it = std::begin(layers_)]() mutable->walker_t  {
-			for (; it != std::end(layers_); ++it) {
-				if (!includeFrozen && checkLayerFlag(it->second, LayerFlags::FROZEN))
-					continue;
-
-				if (checkLayerFlag(it->second, flag)) {
-					return GetEntityIdWalker(it++->first); // TODO: optimize
-				}
-			}
-			return { nullptr };
-		};
-	}
-
-	auto GetEntitySet(const LayerFlags flag) {
+	/*auto GetEntityIdWalker(const  flag) {
 		layer_t concatLayers;
 
 		for (auto it = std::begin(layers_); it != std::end(layers_); ++it) {
@@ -212,177 +205,111 @@ public:
 			result.push_back(entid);
 
 		return result;
-	}
-
-	void AddToLayer(entid_t entity, const std::string & layer, index_t priority)
-	{
-		auto & entData = GetEntityData(entity);
-		if (entData.ptr == nullptr)
-			return; /* this is probably also ok... */
-
-		/* add to layer */
-		auto & targetLayer = layers_[layer];
-		const auto rangeIt = targetLayer.first.equal_range(priority);
-		for (auto it = rangeIt.first; it != rangeIt.second; ++it) {
-			if(it->second == entity)
-			{
-				return;
-			}
-		}
-		targetLayer.first.insert(std::make_pair(priority, entity)); /* ~!@ TODO: duplicates*/
-
-		/* write down layer data into entity data */
-		entData.layers.emplace_back(layer, priority);
-	}
-
-	void RemoveFromLayer(entid_t entity, const std::string & layer)
-	{
-		auto & entData = GetEntityData(entity);
-		if (entData.ptr == nullptr)
-			return; /* this is probably also ok... */
-
-		auto & targetLayer = layers_[layer];
-		for (auto it = std::begin(entData.layers); it != std::end(entData.layers); ++it) {
-			auto [layer_hash, priority] = *it;
-
-			/* fast erase from layer */
-			if (layer_hash == layer) {
-				const auto rangeIt = targetLayer.first.equal_range(priority);
-				for(auto it = rangeIt.first; it != rangeIt.second; ++it) {
-					if(it->second == entity) {
-						targetLayer.first.erase(it);
-						break; /* should be exactly one */
-					}
-				}
-			}
-
-			/* now erase this it from entity data */
-			entData.layers.erase(it);
-			break;
-		}
-	}
+	}*/
 
 	// временный костыль
-	uint32_t GetClassCode(entid_t entity){
-		const auto & entData = GetEntityData(entity);
-		return entData.hash;
+
+	static auto GetLayerType(const layer_index_t index)
+	{
+		assert(index < max_layers_num);
+
+		return layers_[index].type;
 	}
 
-	static auto constexpr checkLayerFlag(const layer_with_flags_t& layer, LayerFlags flag) -> bool
+	static void SetLayerType(const layer_index_t index, const Layer::Type type)
 	{
-		return static_cast<bool>(layer.second & (1u << static_cast<std::underlying_type_t<decltype(flag)>>(flag)));
+		assert(index < max_layers_num);
+
+		layers_[index].type = type;
 	}
 
-	auto checkLayerFlag(const std::string& layer, LayerFlags flag)
-	{
-		return checkLayerFlag(layers_[layer], flag);
-		//return checkLayerFlag(layers_.at(layer), flag);
+	static void SetLayerFrozen(const layer_index_t index, const bool freeze) {
+		assert(index < max_layers_num);
+
+		layers_[index].frozen = freeze;
 	}
 
-	void setLayerFlag(const std::string& layer, LayerFlags flag)
-	{
-		layers_[layer].second |= (1u << static_cast<std::underlying_type_t<decltype(flag)>>(flag));
-	//	layers_.at(layer).second |= (1u << static_cast<std::underlying_type_t<decltype(flag)>>(flag));
+	static void PushFreeIndex(entity_index_t index) {
+		auto& stack = freeIndices_.first;
+		auto& top = freeIndices_.second;
+		
+		assert(top < max_ent_num);
+
+		stack[top++] = index;
 	}
 
-	void clearLayerFlag(const std::string& layer, LayerFlags flag)
+	/* new lifecycle is started at the end of each frame. it's time to cleanup */
+	static void NewLifecycle()
 	{
-		layers_[layer].second &= ~(1u << static_cast<std::underlying_type_t<decltype(flag)>>(flag));
-		//layers_.at(layer).second &= ~(1u << static_cast<std::underlying_type_t<decltype(flag)>>(flag));
-	}
-
-	void NewLifecycle()
-	{
-		for (const auto & entity : entities_) {
-			if (entity.deleted)
+		auto & arr = entities_.first;
+		const auto size = entities_.second;
+		for (const auto & entityData : arr) {
+			if (entityData.deleted)
 			{
-				const auto index = static_cast<index_t>(entity.id);
-				if (index >= entities_.size())
+				const auto index = static_cast<entid_index_t>(entityData.id);
+				if (index >= size)
 					continue;
 
-				_erase(entities_[index]); // release
-
-				entities_[index] = {};//entities_[entities_.size() - 1];
-				freeIndices.insert(index);
-				//entities_.pop_back();
+				_erase(arr[index]); // release
+				arr[index] = {}; // erase entity data
+				PushFreeIndex(index); // push free index to stack instead of shifting
 			}
 		}
 
 	}
 
 private:
-	EntityManager()
-	{
-		entities_.reserve(Entity_INITIAL_SIZE);
-	}
+	EntityManager() = default;
 
-	EntityData& GetEntityData(const entid_t entity) {
-		static EntityData null;
+	static EntityInternalData& GetEntityData(const entid_t entity) {
+		static EntityInternalData null;
 
-		const auto index = static_cast<index_t>(entity);
+		const auto index = static_cast<entid_index_t>(entity);
 
-		if (index >= entities_.size()) /* calm down it's ok... */
+		if (index >= entities_.second) /* calm down it's ok... */
 			return null;
 
-		const auto entptr = entities_[index];
+		auto & data = entities_.first[index];
 
-		if (entptr.ptr == nullptr)
+		if (data.ptr == nullptr)
 			return null; /* THIS IS ALSO FUCKING OK */
 
 		/* check if valid */
-		const auto entid = entptr.ptr->GetId();
+		const auto entid = data.ptr->GetId();
 		if (entity != entid) {
 			return null;
 		}
 
-		return entities_[index];
+		return data;
 	}
 
-	entid_t PushEntity(entptr_t ptr, const char * name) {
-		index_t idx;
-		if(!freeIndices.empty()) {
-			idx = freeIndices.extract(freeIndices.begin()).value();
-		}
-		else {
-			idx = entities_.size();
-			/* double the space */
-			if (idx == entities_.capacity()) {
-				entities_.reserve(idx * 2);
-			}
-		}
+	static entid_t PushEntity(entptr_t ptr) {
+		auto& arr = entities_.first;
+		auto& size = entities_.second;
 
-		/* calculating stamp */
+		assert(size < max_ent_num);
+
+		auto& stack = freeIndices_.first;
+		auto& top = freeIndices_.second;
+
+		/* check if free indices available */
+		entid_index_t idx = top != 0 ? stack[--top] : size;
+
+		/* calculate stamp */
 		const auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
 
-		/* assembling entity id */
-		const stamp_t stamp = ms.count();
+		/* assemble entity id */
+		const entid_stamp_t stamp = ms.count();
 		const entid_t id = static_cast<entid_t>(stamp) << 32 | idx;
 
-		/* push ptr */
-		if (idx == entities_.size())
-			entities_.push_back({ false, MakeHashValue(name), id, ptr, {}, _strdup(name) });
-		else
-			entities_[idx] = { false, MakeHashValue(name), id, ptr, {}, _strdup(name) };
-
+		/* push entity data */
+		arr[idx] = { {}, {}, {}, ptr, id };
+		++size;
+		
 		return id;
 	}
-
-	/* constants */
-	static const entities_t::size_type Entity_INITIAL_SIZE = 10240u;
 private:
-	/* members */
-	entities_t entities_; /* entity container */
-	layers_t layers_; /* layers container */
-
-	std::set<index_t> freeIndices;
 
 	/* static asserts */
-	static_assert(sizeof entities_t::size_type == sizeof index_t); /* size_type equal exactly index_t */
-	static_assert(sizeof std::chrono::milliseconds == sizeof stamp_t * 2); /* we are ok with half-precision */
+	static_assert(sizeof std::chrono::milliseconds == sizeof entid_stamp_t * 2); /* we are ok with half-precision */
 };
-
-
-inline bool EntityFound(entid_t id)
-{
-	return id != EntityManager::INVALID_ENTITY;
-}

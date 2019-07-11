@@ -8,10 +8,24 @@ class MESSAGE;
 using entptr_t = Entity *;
 using entid_t = uint64_t;
 
+constexpr auto max_ent_in_layer = 1024;
+constexpr auto max_layers_num = 32;
+constexpr auto max_ent_num = max_ent_in_layer * max_layers_num;
+constexpr entid_t invalid_entity = 0;
+
 /* Entity base class */
 class Entity {
 	friend class EntityManager;
 public:
+	struct EntitySelfData {
+		using hash_t = uint64_t;
+
+		const char* name;
+		hash_t hash;
+
+		entid_t id;
+	};
+
 	enum class Stage : uint_fast8_t {
 		EXECUTE,
 		REALIZE,
@@ -21,10 +35,20 @@ public:
 
 	ATTRIBUTES* AttributesPointer = nullptr; // TODO: CHANGE!
 
-	[[nodiscard]] 
-	entid_t GetId() const 
+	[[nodiscard]]
+	auto GetId() const
 	{
-		return id_;
+		return data_.id;
+	}
+	[[nodiscard]]
+	auto GetCode() const
+	{
+		return data_.hash;
+	}
+	[[nodiscard]]
+	auto GetName() const
+	{
+		return data_.name;
 	}
 
 	Entity() = default;
@@ -40,6 +64,5 @@ public:
 
 
 private:
-	entid_t id_ = 0ull;
+	EntitySelfData data_ {};
 };
-

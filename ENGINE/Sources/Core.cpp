@@ -73,7 +73,7 @@ bool CORE::LoCheck()
 	entid_t test_eid = CreateEntity("LocationP");
 	if (!EntityFound(test_eid))
 		return false;
-	auto* pE = entityManager.GetEntity(test_eid);
+	auto* pE = entityManager.GetEntityPointer(test_eid);
 	pE->ProcessStage(Entity::Stage::EXECUTE, ENGINE_SCRIPT_VERSION);
 	EraseEntity(test_eid);
 	return true;
@@ -314,7 +314,7 @@ walker_t CORE::GetEntityIdWalker(const char* class_name, const char * layer, uin
 
 Entity * CORE::GetEntityPointer(entid_t id_PTR)
 {
-	return entityManager.GetEntity(id_PTR);
+	return entityManager.GetEntityPointer(id_PTR);
 }
 
 uint32_t CORE::GetEntityClassCode(entid_t entity){
@@ -381,7 +381,7 @@ float CORE::GetTimeScale()
 uint32_t CORE::Send_Message(entid_t Destination,char * Format,...)
 {
 	MESSAGE message;
-	entptr_t ptr = entityManager.GetEntity(Destination); // check for valid destination
+	entptr_t ptr = entityManager.GetEntityPointer(Destination); // check for valid destination
 	if (!ptr)
 		return 0;
 
@@ -590,14 +590,14 @@ void CORE::ProcessExecute()
 	for(auto walker = layerWalker(); walker != nullptr; walker = layerWalker())
 	{
 		for (auto id = walker(); id; id = walker()) {
-				if (auto ptr = entityManager.GetEntity(id)) {
+				if (auto ptr = entityManager.GetEntityPointer(id)) {
 					ptr->ProcessStage(Entity::Stage::EXECUTE, deltatime);
 			}
         }
 	}*/
 	auto entIds = entityManager.GetEntitySet(LayerFlags::EXECUTE);
 	for (auto id : entIds) {
-		if (auto ptr = entityManager.GetEntity(id)) {
+		if (auto ptr = entityManager.GetEntityPointer(id)) {
 			ptr->ProcessStage(Entity::Stage::EXECUTE, deltatime);
 		}
 	}
@@ -616,7 +616,7 @@ void CORE::ProcessRealize()
 	{
 		for (auto id = walker(); id; id = walker()) {
 			if (EntityFound(id)) {
-				if (auto ptr = (Entity*)entityManager.GetEntity(id))
+				if (auto ptr = (Entity*)entityManager.GetEntityPointer(id))
 					ptr->ProcessStage(Entity::Stage::REALIZE, deltatime);
 			}
 		}
@@ -624,7 +624,7 @@ void CORE::ProcessRealize()
 
 	auto entIds = entityManager.GetEntitySet(LayerFlags::REALIZE);
 	for (auto id : entIds) {
-		if (auto ptr = entityManager.GetEntity(id)) {
+		if (auto ptr = entityManager.GetEntityPointer(id)) {
 			ptr->ProcessStage(Entity::Stage::REALIZE, deltatime);
 		}
 	}
