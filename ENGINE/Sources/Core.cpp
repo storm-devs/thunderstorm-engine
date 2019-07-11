@@ -326,30 +326,6 @@ void CORE::EraseEntity(entid_t id)
 	EntityManager::EraseEntity(id);
 }
 
-void CORE::LayerSetExecute(char* layer_name)
-{
-	EntityManager::SetLayerType(EntityManager::Layer::Type::EXECUTE);
-}
-
-void CORE::LayerSetRealize(char* layer_name)
-{
-	EntityManager::SetLayerType(EntityManager::Layer::Type::REALIZE);
-}
-
-void CORE::LayerSetFreeze(char* layer_name, bool freeze)
-{
-	EntityManager::SetLayerFrozen(freeze);
-}
-
-
-auto CORE::GetEntityIdIterators(char * layer_name)
-{
-	if (layer_name == nullptr)
-		__debugbreak();
-
-	return EntityManager::GetEntityIdIterators(layer_name);
-}
-
 void CORE::Exit() { Exit_flag = true; }
 
 //------------------------------------------------------------------------------------------------
@@ -383,25 +359,6 @@ uint32_t CORE::Send_Message(entid_t Destination,char * Format,...)
 	uint32_t rc = ((Entity *)ptr)->ProcessMessage(message);	// transfer control
 	va_end(message.args);
 	return rc;
-}
-
-bool CORE::LayerCreate(char* layer_name, bool ordered, bool fail_if_exist)
-{
-	return true;
-}
-auto CORE::GetLayerType(char* layer_name)
-{
-	return EntityManager::GetLayerType(layer_name);
-}
-
-void CORE::LayerAdd(const char* layer_name, entid_t eid, uint32_t priority)
-{
-	EntityManager::AddToLayer(eid, layer_name, priority);
-}
-
-void CORE::LayerDel(const char* layer_name, entid_t eid)
-{
-	EntityManager::RemoveFromLayer(eid, layer_name);
 }
 
 uint32_t CORE::PostEvent(char * Event_name, uint32_t post_time, char * Format,...)

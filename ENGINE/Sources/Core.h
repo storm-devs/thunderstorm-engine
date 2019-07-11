@@ -169,23 +169,40 @@ public:
 	
 	// layer managment 
 	
-	// create layer with name pointed by layer_name; layer may be ordered
-	bool LayerCreate(char * layer_name, bool ordered, bool fail_if_exist) override;
-	// get current flags configuration
-	bool LayerCheck(char * layer_name, LayerFlags flag) override;
-	// insert object into layer list
-	void LayerAdd(const char * layer_name, entid_t eid, uint32_t priority) override;
-	// remove object from layer list
-	void LayerDel(const char * layer_name, entid_t eid) override;
-	// on/off execute
-	void LayerSetExecute(char * layer_name) override;
-	// on/off realize
-	void LayerSetRealize(char * layer_name) override;
-	// on/off realize
-	void LayerSetFreeze(char* layer_name, bool freeze) override;
-	// get id walker object
-	walker_t LayerGetWalker(char * layer_name = nullptr) override;
+	auto CORE::GetLayerType(const EntityManager::layer_index_t index)
+	{
+		return EntityManager::GetLayerType(index);
+	}
 
+	void CORE::LayerAdd(const EntityManager::layer_index_t index, entid_t eid, uint32_t priority)
+	{
+		EntityManager::AddToLayer(index, eid, priority);
+	}
+
+	void CORE::LayerDel(const EntityManager::layer_index_t index, entid_t eid)
+	{
+		EntityManager::RemoveFromLayer(index, eid);
+	}
+
+	void CORE::LayerSetExecute(const EntityManager::layer_index_t index)
+	{
+		EntityManager::SetLayerType(index, EntityManager::Layer::Type::EXECUTE);
+	}
+
+	void CORE::LayerSetRealize(const EntityManager::layer_index_t index)
+	{
+		EntityManager::SetLayerType(index, EntityManager::Layer::Type::REALIZE);
+	}
+
+	void CORE::LayerSetFreeze(const EntityManager::layer_index_t index, bool freeze)
+	{
+		EntityManager::SetLayerFrozen(index, freeze);
+	}
+
+	auto CORE::GetEntityIdIterators(const EntityManager::layer_index_t index)
+	{
+		return EntityManager::GetEntityIdIterators(index);
+	}
 	
 	// save core state
 	bool SaveState(char * file_name) override;

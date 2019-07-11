@@ -5,11 +5,6 @@
 #include "s_import_func.h"
 #include "Walker.h"
 #include "vdata.h"
-#include "Layer.h"
-
-//class Entity;
-//using entid_t = uint64_t;
-//using entptr_t = Entity *;
 
 struct MSTATE
 {

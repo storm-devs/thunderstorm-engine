@@ -13,7 +13,6 @@ class EntityManager final {
 	using entid_index_t = uint32_t; /* 16 bits are enough tho' */
 	using entid_stamp_t = uint32_t;
 
-	using layer_index_t = uint8_t;
 	using priority_t = uint16_t;
 
 	using entity_index_t = uint16_t;
@@ -33,6 +32,8 @@ class EntityManager final {
 	};
 
 public:
+	using layer_index_t = uint8_t;
+
 	/* layer structure */
 	struct Layer
 	{
