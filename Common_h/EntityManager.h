@@ -2,15 +2,13 @@
 #include <cstdint>
 #include <vector>
 #include <chrono>
-#include <unordered_map>
 #include <set>
 #include <algorithm>
 #include "Entity.h"
 #include "vmodule_api.h"
 #include "Layer.h"
 
-
-class EntityManager {
+class EntityManager final {
 	/* typedefs */
 	using entid_index_t = uint32_t; /* 16 bits are enough tho' */
 	using entid_stamp_t = uint32_t;
@@ -20,20 +18,7 @@ class EntityManager {
 
 	using entity_index_t = uint16_t;
 
-	/* layer structure */
-	struct Layer
-	{
-		enum Type : uint8_t {
-			COMMON,
-			EXECUTE,
-			REALIZE
-		};
-
-		std::array<std::pair<priority_t, entid_t>, max_ent_in_layer> entities {};
-		entity_index_t actual_size {};
-		Type type {};
-		bool frozen;
-	};
+	using hash_t = uint32_t;
 
 	/* entity structure */
 	struct EntityInternalData {
@@ -43,8 +28,27 @@ class EntityManager {
 		layer_mask_t mask;
 		priority_t priorities[max_layers_num];
 		entptr_t ptr;
-		entid_t id;		
+		entid_t id;
+		hash_t hash;
 	};
+
+public:
+	/* layer structure */
+	struct Layer
+	{
+		enum Type : uint8_t {
+			COMMON,
+			EXECUTE,
+			REALIZE
+		};
+
+		std::array<std::pair<priority_t, entid_t>, max_ent_in_layer> entities;
+		entity_index_t actual_size;
+		Type type;
+		bool frozen;
+	};
+
+private:
 
 	/* static array of layers */
 	static inline std::array<Layer, max_layers_num> layers_;
@@ -56,6 +60,15 @@ class EntityManager {
 	static inline std::pair<std::array<entity_index_t, max_ent_num>, entity_index_t> freeIndices_;
 
 public:
+	/* fully static class */
+	EntityManager() = delete;
+
+	static auto GetClassCode(const entid_t id) {
+		const auto& entData = GetEntityData(id);
+
+		return entData.hash;
+	}
+
 	/* layer functioning is fully static */
 	static void AddToLayer(const layer_index_t index, const entid_t id, const priority_t priority) {
 		assert(index < max_layers_num); // valid index
@@ -84,6 +97,11 @@ public:
 		++size;
 	}
 
+	static void RemoveFromLayer(const layer_index_t index, const entid_t id) {
+		const auto& entData = GetEntityData(id);
+		return RemoveFromLayer(index, id, entData.priorities[index]);
+	}
+
 	static void RemoveFromLayer(const layer_index_t index, const entid_t id, const priority_t priority) {
 		assert(index < max_layers_num);
 
@@ -109,7 +127,7 @@ public:
 	static entid_t CreateEntity(const char* name, ATTRIBUTES* attr = nullptr)
 	{
 		/* FIND VMA */
-		const long hash = MakeHashValue(name);
+		const auto hash = MakeHashValue(name);
 		if (hash == 0) {
 			throw std::exception("null hash");
 		}
@@ -132,7 +150,7 @@ public:
 
 		/* INIT Entity */
 		// set id first
-		const auto id = PushEntity(ptr, name);
+		const auto id = PushEntity(ptr, hash);
 		ptr->data_.id = id;
 		ptr->AttributesPointer = attr;
 
@@ -167,12 +185,10 @@ public:
 		if (entData.ptr == nullptr)
 			return;
 	
-
 		// validate 
 		if (entData.ptr->GetId() != entity) 
 			return; /* already replaced by another entity */
 
-		// TODO: entities_.at
 		const auto index = static_cast<entid_index_t>(entity);
 		entities_.first[index].deleted = true;
 	}
@@ -182,32 +198,66 @@ public:
 			entity.deleted = true;
 		}
 	}
+
 	static entptr_t GetEntityPointer(const entid_t entity) {
 		const auto &entData = GetEntityData(entity);
 		return entData.deleted ? nullptr : entData.ptr;
 	}
 
-
-	/*auto GetEntityIdWalker(const  flag) {
-		layer_t concatLayers;
+	static auto GetEntityIdVector(const Layer::Type type) {
+		std::vector<entid_t> result;
+		result.reserve(max_ent_num); // TODO: investigate memory consumption
 
 		for (auto it = std::begin(layers_); it != std::end(layers_); ++it) {
-			if (checkLayerFlag(it->second, LayerFlags::FROZEN))
+			if (it->frozen)
 				continue;
 
-			if (checkLayerFlag(it->second, flag)) {
-				concatLayers.insert(std::begin(it->second.first), std::end(it->second.first));
+			if (it->type == type) {
+				result.insert(std::end(result), std::begin(it->entities), std::begin(it->entities) + it->actual_size);
 			}
 		}
 
+		return result;
+	}
+
+	static auto GetEntityIdIterators(const layer_index_t index) {
+		assert(index < max_layers_num);
+
+		auto& layer = layers_[index];
+
+	
+		return std::pair { std::begin(layer.entities), std::begin(layer.entities) + layer.actual_size };
+	}
+
+	static auto GetEntityId(const uint32_t hash) {
+		const auto& arr = entities_.first;
+		const auto size = entities_.second;
+
+		for (auto it = std::begin(arr); it != std::begin(arr) + size; ++it) {
+			if (it->hash == hash && !it->deleted) {
+				return it->id;
+			}
+		}
+
+		return invalid_entity;
+	}
+
+	// TODO: hash...
+	static auto GetEntityIdVector(const uint32_t hash) {
 		std::vector<entid_t> result;
-		for (const auto [_, entid] : concatLayers)
-			result.push_back(entid);
+		result.reserve(max_ent_num); // TODO: investigate memory consumption
+
+		const auto& arr = entities_.first;
+		const auto size = entities_.second;
+
+		for (auto it = std::begin(arr); it != std::begin(arr) + size; ++it) {
+			if(it->hash == hash && !it->deleted) {
+				result.push_back(it->id);
+			}
+		}
 
 		return result;
-	}*/
-
-	// временный костыль
+	}
 
 	static auto GetLayerType(const layer_index_t index)
 	{
@@ -258,9 +308,6 @@ public:
 
 	}
 
-private:
-	EntityManager() = default;
-
 	static EntityInternalData& GetEntityData(const entid_t entity) {
 		static EntityInternalData null;
 
@@ -283,7 +330,7 @@ private:
 		return data;
 	}
 
-	static entid_t PushEntity(entptr_t ptr) {
+	static entid_t PushEntity(entptr_t ptr, hash_t hash) {
 		auto& arr = entities_.first;
 		auto& size = entities_.second;
 
@@ -303,12 +350,11 @@ private:
 		const entid_t id = static_cast<entid_t>(stamp) << 32 | idx;
 
 		/* push entity data */
-		arr[idx] = { {}, {}, {}, ptr, id };
+		arr[idx] = { {}, {}, {}, ptr, id, hash };
 		++size;
 		
 		return id;
 	}
-private:
 
 	/* static asserts */
 	static_assert(sizeof std::chrono::milliseconds == sizeof entid_stamp_t * 2); /* we are ok with half-precision */

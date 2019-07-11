@@ -18,11 +18,7 @@ class Entity {
 	friend class EntityManager;
 public:
 	struct EntitySelfData {
-		using hash_t = uint64_t;
-
-		const char* name;
-		hash_t hash;
-
+		//const char* name;
 		entid_t id;
 	};
 
@@ -40,16 +36,11 @@ public:
 	{
 		return data_.id;
 	}
-	[[nodiscard]]
-	auto GetCode() const
-	{
-		return data_.hash;
-	}
-	[[nodiscard]]
+	/*[[nodiscard]]
 	auto GetName() const
 	{
 		return data_.name;
-	}
+	}*/
 
 	Entity() = default;
 	Entity(const Entity&) = delete;

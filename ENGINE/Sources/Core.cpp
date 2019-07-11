@@ -71,9 +71,9 @@ bool CORE::LoCheck()
 {
 	// ~!~
 	entid_t test_eid = CreateEntity("LocationP");
-	if (!EntityFound(test_eid))
+	if (!test_eid)
 		return false;
-	auto* pE = entityManager.GetEntityPointer(test_eid);
+	auto* pE = GetEntityPointer(test_eid);
 	pE->ProcessStage(Entity::Stage::EXECUTE, ENGINE_SCRIPT_VERSION);
 	EraseEntity(test_eid);
 	return true;
@@ -139,7 +139,7 @@ bool CORE::Run()
 
 	if (Controls && bActive) ProcessControls();
 
-	entityManager.NewLifecycle();
+	EntityManager::NewLifecycle();
 
 	ProcessRunEnd(SECTION_ALL);
 
@@ -291,7 +291,7 @@ void CORE::CheckAutoExceptions(uint32_t = 0) const
 
 entid_t CORE::CreateEntity(char* name, ATTRIBUTES* ptr)
 {
-	return entityManager.CreateEntity(name, ptr);
+	return EntityManager::CreateEntity(name, ptr);
 }
 
 uint32_t CORE::Class_Name2Code(char * class_name)
@@ -299,63 +299,55 @@ uint32_t CORE::Class_Name2Code(char * class_name)
 	return MakeHashValue(class_name);
 }
 
-walker_t CORE::GetEntityIdWalker(const char * class_name, uint32_t class_code)
+entid_t CORE::GetEntityId(const char * class_name, uint32_t class_code)
 {
 	const auto hash = class_name ? MakeHashValue(class_name) : class_code;
-	return entityManager.GetEntityIdWalker(hash);
+	return EntityManager::GetEntityId(hash);
 }
 
-walker_t CORE::GetEntityIdWalker(const char* class_name, const char * layer, uint32_t class_code)
+std::vector<entid_t> CORE::GetEntityIdVector(const char* class_name, uint32_t class_code)
 {
 	const auto hash = class_name ? MakeHashValue(class_name) : class_code;
-	return entityManager.GetEntityIdWalker(hash, layer);
+	return EntityManager::GetEntityIdVector(hash);
 }
 
 
 Entity * CORE::GetEntityPointer(entid_t id_PTR)
 {
-	return entityManager.GetEntityPointer(id_PTR);
+	return EntityManager::GetEntityPointer(id_PTR);
 }
 
 uint32_t CORE::GetEntityClassCode(entid_t entity){
-	return entityManager.GetClassCode(entity);
+	return EntityManager::GetClassCode(entity);
 }
 
 void CORE::EraseEntity(entid_t id)
 {
-	entityManager.EraseEntity(id);
+	EntityManager::EraseEntity(id);
 }
 
-void CORE::LayerSetExecute(char* layer_name, bool on)
+void CORE::LayerSetExecute(char* layer_name)
 {
-	if(on)
-		entityManager.setLayerFlag(layer_name, LayerFlags::EXECUTE);
-	else
-		entityManager.clearLayerFlag(layer_name, LayerFlags::EXECUTE);
+	EntityManager::SetLayerType(EntityManager::Layer::Type::EXECUTE);
 }
 
-void CORE::LayerSetRealize(char* layer_name, bool on)
+void CORE::LayerSetRealize(char* layer_name)
 {
-	if (on)
-		entityManager.setLayerFlag(layer_name, LayerFlags::REALIZE);
-	else
-		entityManager.clearLayerFlag(layer_name, LayerFlags::REALIZE);
+	EntityManager::SetLayerType(EntityManager::Layer::Type::REALIZE);
 }
 
-void CORE::LayerSetFreeze(char* layer_name, bool on)
+void CORE::LayerSetFreeze(char* layer_name, bool freeze)
 {
-	if (on)
-		entityManager.setLayerFlag(layer_name, LayerFlags::FROZEN);
-	else
-		entityManager.clearLayerFlag(layer_name, LayerFlags::FROZEN);
+	EntityManager::SetLayerFrozen(freeze);
 }
 
 
-walker_t CORE::LayerGetWalker(char * layer_name)
+auto CORE::GetEntityIdIterators(char * layer_name)
 {
-	if(layer_name != nullptr)
-		return entityManager.GetEntityIdWalker(layer_name);
-	return entityManager.GetEntityIdWalker();
+	if (layer_name == nullptr)
+		__debugbreak();
+
+	return EntityManager::GetEntityIdIterators(layer_name);
 }
 
 void CORE::Exit() { Exit_flag = true; }
@@ -381,7 +373,7 @@ float CORE::GetTimeScale()
 uint32_t CORE::Send_Message(entid_t Destination,char * Format,...)
 {
 	MESSAGE message;
-	entptr_t ptr = entityManager.GetEntityPointer(Destination); // check for valid destination
+	entptr_t ptr = GetEntityPointer(Destination); // check for valid destination
 	if (!ptr)
 		return 0;
 
@@ -397,20 +389,19 @@ bool CORE::LayerCreate(char* layer_name, bool ordered, bool fail_if_exist)
 {
 	return true;
 }
-
-bool CORE::LayerCheck(char* layer_name, LayerFlags flag)
+auto CORE::GetLayerType(char* layer_name)
 {
-	return entityManager.checkLayerFlag(layer_name, flag);
+	return EntityManager::GetLayerType(layer_name);
 }
 
 void CORE::LayerAdd(const char* layer_name, entid_t eid, uint32_t priority)
 {
-	entityManager.AddToLayer(eid, layer_name, priority);
+	EntityManager::AddToLayer(eid, layer_name, priority);
 }
 
 void CORE::LayerDel(const char* layer_name, entid_t eid)
 {
-	entityManager.RemoveFromLayer(eid, layer_name);
+	EntityManager::RemoveFromLayer(eid, layer_name);
 }
 
 uint32_t CORE::PostEvent(char * Event_name, uint32_t post_time, char * Format,...)
@@ -586,18 +577,9 @@ void CORE::ProcessExecute()
 	ProcessRunStart(SECTION_EXECUTE);
 
 	uint32_t deltatime = Timer.GetDeltaTime();
-	/*auto layerWalker = entityManager.GetLayerWalker(LayerFlags::EXECUTE);
-	for(auto walker = layerWalker(); walker != nullptr; walker = layerWalker())
-	{
-		for (auto id = walker(); id; id = walker()) {
-				if (auto ptr = entityManager.GetEntityPointer(id)) {
-					ptr->ProcessStage(Entity::Stage::EXECUTE, deltatime);
-			}
-        }
-	}*/
-	auto entIds = entityManager.GetEntitySet(LayerFlags::EXECUTE);
+	auto entIds = EntityManager::GetEntityIdVector(EntityManager::Layer::Type::EXECUTE);
 	for (auto id : entIds) {
-		if (auto ptr = entityManager.GetEntityPointer(id)) {
+		if (auto ptr = EntityManager::GetEntityPointer(id)) {
 			ptr->ProcessStage(Entity::Stage::EXECUTE, deltatime);
 		}
 	}
@@ -611,20 +593,9 @@ void CORE::ProcessRealize()
 	ProcessRunStart(SECTION_REALIZE);
 
 	uint32_t deltatime = Timer.GetDeltaTime();
-	/*auto layerWalker = entityManager.GetLayerWalker(LayerFlags::REALIZE);
-	for (auto walker = layerWalker(); walker != nullptr; walker = layerWalker())
-	{
-		for (auto id = walker(); id; id = walker()) {
-			if (EntityFound(id)) {
-				if (auto ptr = (Entity*)entityManager.GetEntityPointer(id))
-					ptr->ProcessStage(Entity::Stage::REALIZE, deltatime);
-			}
-		}
-	}*/
-
-	auto entIds = entityManager.GetEntitySet(LayerFlags::REALIZE);
+	auto entIds = EntityManager::GetEntityIdVector(EntityManager::Layer::Type::REALIZE);
 	for (auto id : entIds) {
-		if (auto ptr = entityManager.GetEntityPointer(id)) {
+		if (auto ptr = EntityManager::GetEntityPointer(id)) {
 			ptr->ProcessStage(Entity::Stage::REALIZE, deltatime);
 		}
 	}
@@ -820,7 +791,7 @@ ATTRIBUTES * CORE::Entity_GetAttributePointer(entid_t  id_PTR)
 
 void CORE::EraseEntities()
 {
-	entityManager.EraseAll();
+	EntityManager::EraseAll();
 }
 
 

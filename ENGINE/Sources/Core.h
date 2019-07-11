@@ -35,8 +35,6 @@ typedef struct
 class CORE : public VAPI
 {
 public:
-	EntityManager entityManager = EntityManager::GetInstance();
-
 	CORE();
 	~CORE() = default;
 	
@@ -135,8 +133,8 @@ public:
 	// converting class name to static code (constant until next restart)
 	uint32_t Class_Name2Code(char * class_name) override;
 
-	walker_t GetEntityIdWalker(const char* class_name, uint32_t class_code = 0) override;
-	walker_t GetEntityIdWalker(const char* class_name, const char* layer, uint32_t class_code = 0) override;
+	entid_t GetEntityId(const char* class_name, uint32_t class_code = 0) override;
+	std::vector<entid_t> GetEntityIdVector(const char* class_name, uint32_t class_code = 0) override;
 
 	// service managment
 
@@ -180,11 +178,11 @@ public:
 	// remove object from layer list
 	void LayerDel(const char * layer_name, entid_t eid) override;
 	// on/off execute
-	void LayerSetExecute(char * layer_name, bool on) override;
+	void LayerSetExecute(char * layer_name) override;
 	// on/off realize
-	void LayerSetRealize(char * layer_name, bool on) override;
+	void LayerSetRealize(char * layer_name) override;
 	// on/off realize
-	void LayerSetFreeze(char* layer_name, bool on) override;
+	void LayerSetFreeze(char* layer_name, bool freeze) override;
 	// get id walker object
 	walker_t LayerGetWalker(char * layer_name = nullptr) override;
 

@@ -45,8 +45,8 @@ public:
 	// converting class name to static code (constant until next restart)
 	virtual uint32_t Class_Name2Code(char * class_name)= 0;
 	// find first entity with pointed class
-	virtual walker_t GetEntityIdWalker(const char* class_name, uint32_t class_code = 0) = 0;
-	virtual walker_t GetEntityIdWalker(const char* class_name, const char* layer, uint32_t class_code = 0) = 0;
+	virtual entid_t GetEntityId(const char* class_name, uint32_t class_code = 0) = 0;
+	virtual std::vector<entid_t> GetEntityIdVector(const char* class_name, uint32_t class_code = 0) = 0;
 	// service managment
 
 	// return service object pointer; 

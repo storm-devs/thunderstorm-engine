@@ -477,7 +477,6 @@
     <ClInclude Include="..\BATTLE_INTERFACE\WorldMapInterface\shipsign.h" />
     <ClInclude Include="..\Common_h\Entity.h" />
     <ClInclude Include="..\Common_h\EntityManager.h" />
-    <ClInclude Include="..\Common_h\Layer.h" />
     <ClInclude Include="..\Common_h\templates\Array.h" />
     <ClInclude Include="..\Common_h\templates\dtimer.h" />
     <ClInclude Include="..\Common_h\templates\HTable.h" />
