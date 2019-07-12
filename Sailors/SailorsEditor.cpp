@@ -34,20 +34,18 @@ bool SailorsEditor :: Init()
 	sailors = EntityManager::CreateEntity("Sailors");
 
 
-	//api->LayerCreate("execute", true, false);
 	EntityManager::SetLayerType(EXECUTE, EntityManager::Layer::Type::execute);
 	EntityManager::AddToLayer(EXECUTE, GetId(), 0);
 
-	//api->LayerCreate("editor_realize", true, false);
-	api->LayerSetRealize("editor_realize", true);
-	EntityManager::AddToLayer("editor_realize", GetId(), 100000);
+	EntityManager::SetLayerType(EDITOR_REALIZE, EntityManager::Layer::Type::realize);
+	EntityManager::AddToLayer(EDITOR_REALIZE, GetId(), 100000);
 
 	LoadFromIni("SailorsEditor.ini");
 
 	shipID = EntityManager::CreateEntity("MODELR");
 	api->Send_Message(shipID,"ls",MSG_MODEL_LOAD_GEO, _shipName);
 
-	EntityManager::AddToLayer("editor_realize", shipID, 100000);
+	EntityManager::AddToLayer(EDITOR_REALIZE, shipID, 100000);
 	model = (MODEL*)EntityManager::GetEntityPointer(shipID);
 
 

@@ -80,17 +80,10 @@ bool SEAFOAM::Init()
 //--------------------------------------------------------------------
 void SEAFOAM::InitializeShipFoam()
 {
-	entid_t shipID;
-	std::vector<entid_t> aShipsID;
-
-	const auto walker = api->GetEntityIdWalker("ship");
-	if (shipID = walker()) do
-	{
-		aShipsID.push_back(shipID);
-	} while (shipID = walker());
-
-	for (long i=0; i<aShipsID.size(); i++) 
-		AddShip(aShipsID[i]);
+	auto& entities = EntityManager::GetEntityIdVector("ship");
+	for (auto ent : entities) {
+		AddShip(ent);
+	};
 }
 
 void SEAFOAM::AddShip(entid_t  pShipEID)

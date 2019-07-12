@@ -12,7 +12,7 @@
 #include "../Shared/messages.h"
 #include "../Common_h/model.h"
 #include "../Common_h/geometry.h"
-
+#include "../Common_h/EntityManager.h"
 
 //============================================================================================
 //Fish
@@ -462,7 +462,6 @@ Sharks::Sharks(): sea(0), island(0), indeces{}, vrt{}
 {
 	rs = nullptr;
 	camPos = 0.0f;
-	shipcode = api->Class_Name2Code("ship");
 	numShakes = 3 + (GetTickCount() & 3);
 	trackTx = -1;
 	periscope.time = -1.0;
@@ -495,12 +494,12 @@ bool Sharks::Init()
 	long eprt = AttributesPointer->GetAttributeAsDword("executeParticles", 77);
 	long rprt = AttributesPointer->GetAttributeAsDword("realizeParticles", 100000);
 	//Установим уровни исполнения
-	EntityManager::AddToLayer(execute, GetId(), eprt);
-	EntityManager::AddToLayer(realize, GetId(), rprt);
+	EntityManager::AddToLayer(EXECUTE, GetId(), eprt);
+	EntityManager::AddToLayer(REALIZE, GetId(), rprt);
 	for(long i = 0; i < numShakes; i++)
 	{
-		EntityManager::AddToLayer(execute, shark[i].model, emdl);
-		EntityManager::AddToLayer(realize, shark[i].model, rmdl);
+		EntityManager::AddToLayer(EXECUTE, shark[i].model, emdl);
+		EntityManager::AddToLayer(REALIZE, shark[i].model, rmdl);
 	}
 	//Загрузим текстуру
 	trackTx = rs->TextureCreate("Animals\\SharkTrack.tga");
@@ -555,11 +554,10 @@ void Sharks::Execute(uint32_t delta_time)
 		for(long j = i + 1; j < num; j++) shark[i].Repulsion(shark[j]);
 	//Учитываем корабли
 	
-	const auto walker = api->GetEntityIdWalker(nullptr, shipcode);
-	for(entid_t id = walker(); id; id = walker())
-	{
+	auto& entities = EntityManager::GetEntityIdVector("ship");
+	for (auto ent : entities) {
 		//Указатель на объект
-		VAI_OBJBASE * ship = (VAI_OBJBASE *)EntityManager::GetEntityPointer(id);
+		VAI_OBJBASE * ship = (VAI_OBJBASE *)EntityManager::GetEntityPointer(ent);
 		if(!ship) break;
 		//Позиция корабля
 		CVECTOR shipPos = ship->GetMatrix()->Pos();
@@ -573,14 +571,14 @@ void Sharks::Execute(uint32_t delta_time)
 	SEA_BASE * sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
 	if(!sb)
 	{
-		sea = api->GetEntityIdWalker("sea")();
+		sea = EntityManager::GetEntityId("sea");
 		sb = (SEA_BASE*)EntityManager::GetEntityPointer(sea);
 		if(!sb) return;
 	}
 	ISLAND_BASE * ib = (ISLAND_BASE *)EntityManager::GetEntityPointer(island);
 	if(!ib)
 	{
-		island = api->GetEntityIdWalker("island")();
+		island = EntityManager::GetEntityId("island");
 		ib = (ISLAND_BASE*)EntityManager::GetEntityPointer(island);
 		if (!ib)
 			return;
@@ -652,7 +650,7 @@ bool Sharks::LoadPeriscopeModel()
 		EntityManager::EraseEntity(periscope.model);
 		return false;
 	}
-	EntityManager::AddToLayer("sea_realize", periscope.model, 10);
+	EntityManager::AddToLayer(SEA_REALIZE, periscope.model, 10);
 	return true;
 }
 

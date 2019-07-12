@@ -1,5 +1,6 @@
 #include "sea.h"
 #include "../Shared/messages.h"
+#include "../Common_h/EntityManager.h"
 
 void SEA::EnvMap_GetSideMatrix(D3DCUBEMAP_FACES Face, CMatrix & mView)
 {
@@ -77,13 +78,6 @@ bool SEA::SunRoad_Render2()
 	D3DXPlaneTransform(&plane, &plane, &mInv);
 	rs->SetClipPlane (0, (FLOAT *)&plane);
 
-	uint32_t dwSkyCode = api->Class_Name2Code("sky");
-	uint32_t dwIslandCode = api->Class_Name2Code("island");
-	uint32_t dwShipCode = api->Class_Name2Code("ship");
-	uint32_t dwSailCode = api->Class_Name2Code("sail");
-
-	bool bLayerFrozen = api->LayerCheck("sea_reflection2", LayerFlags::FROZEN);
-
 	uint32_t Colors[6] = {0xd934c8, 0x2FFF1F, 0x0000FF, 0xFF00, 0xb28e11, 0x0};
 	//for (uint32_t i=0; i<6; i++) 
 	{
@@ -106,18 +100,19 @@ bool SEA::SunRoad_Render2()
 
 		//rs->SetView(mView);
 
-		entid_t ent_id;
 		// Render scene here.
-		const auto walker = api->LayerGetWalker("sea_sunroad");
-		if (ent_id = walker())
-			do 
-			{
-				uint32_t dwCCode = api->GetEntityClassCode(ent_id);
-				if (!bLayerFrozen || (dwCCode != dwShipCode && dwCCode != dwSailCode && dwCCode != dwIslandCode)) 
-				{
+		//uint32_t dwSkyCode = MakeHashValue("sky");
+
+		if (!EntityManager::IsLayerFrozen(SEA_REFLECTION2)) {
+			const auto its = EntityManager::GetEntityIdIterators(SEA_SUNROAD);
+			for (auto it = its.first; it != its.second; ++it) {
+				const auto ent_id = it->second;
+				const auto hash = EntityManager::GetClassCode(ent_id);
+				if (hash != dwShipCode && hash != dwSailCode && hash != dwIslandCode) {
 					api->Send_Message(ent_id, "ll", MSG_SEA_SUNROAD_DRAW, long(bSimpleSea));
 				}
-			} while (ent_id = walker());
+			}
+		}
 
 		rs->EndScene();
 		pReflectionSurface->Release();
@@ -176,8 +171,6 @@ bool SEA::EnvMap_Render2()
 	//Event("SeaReflection");
 
 
-	bool bLayerFrozen = api->LayerCheck("sea_reflection2", LayerFlags::FROZEN);
-
 	uint32_t Colors[6] = {0xd934c8, 0x2FFF1F, 0x0000FF, 0xFF00, 0xb28e11, 0x0};
 	//for (uint32_t i=0; i<6; i++) 
 	{
@@ -203,20 +196,16 @@ bool SEA::EnvMap_Render2()
 		//api->Trace("sea: %.3f, %.3f, %.3f", mView.m[3][0], mView.m[3][1], mView.m[3][2]);
 		//rs->SetView(mView);
 
-		entid_t ent_id;
-
 		// Render scene here.
-		auto walker = api->LayerGetWalker("sea_reflection");
-		if (ent_id = walker()) do
-		{
-			api->Send_Message(ent_id, "ll", MSG_SEA_REFLECTION_DRAW, long(bSimpleSea));
-		} while (ent_id = walker());
+		auto its = EntityManager::GetEntityIdIterators(SEA_REFLECTION);
+		for (auto it = its.first; it != its.second; ++it) {
+			api->Send_Message(it->second, "ll", MSG_SEA_REFLECTION_DRAW, long(bSimpleSea));
+		}
 
-		walker = api->LayerGetWalker("sea_reflection2");
-		if (!bLayerFrozen && (ent_id = walker())) do
-		{
-			api->Send_Message(ent_id, "ll", MSG_SEA_REFLECTION_DRAW, long(bSimpleSea));
-		} while (ent_id = walker());
+		its = EntityManager::GetEntityIdIterators(SEA_REFLECTION2);
+		for (auto it = its.first; it != its.second; ++it) {
+			api->Send_Message(it->second, "ll", MSG_SEA_REFLECTION_DRAW, long(bSimpleSea));
+		}
 
 		rs->EndScene();
 		pReflectionSurface->Release();
@@ -253,13 +242,6 @@ bool SEA::SunRoad_Render()
 
 	rs->SetProjection( CMatrix().BuildProjectionMatrix(PI / 2.0f, 256.0f, 256.0f, 1.0f, 4000.0f) );
 
-	uint32_t dwSkyCode = api->Class_Name2Code("sky");
-	uint32_t dwIslandCode = api->Class_Name2Code("island");
-	uint32_t dwShipCode = api->Class_Name2Code("ship");
-	uint32_t dwSailCode = api->Class_Name2Code("sail");
-
-	bool bLayerFrozen = api->LayerCheck("sea_reflection2", LayerFlags::FROZEN);
-
 	uint32_t Colors[6] = {0xd934c8, 0x2FFF1F, 0x0000FF, 0xFF00, 0xb28e11, 0x0};
 	for (uint32_t i=0; i<6; i++) 
 	{
@@ -278,18 +260,17 @@ bool SEA::SunRoad_Render()
 
 		rs->SetView(mView);
 
-		entid_t ent_id;
 		// Render scene here.
-		const auto walker = api->LayerGetWalker("sea_sunroad");
-		if (ent_id = walker())
-			do 
-			{
-				uint32_t dwCCode = api->GetEntityClassCode(ent_id);
-				if (!bLayerFrozen || (dwCCode != dwShipCode && dwCCode != dwSailCode && dwCCode != dwIslandCode)) 
-				{
+		if (!EntityManager::IsLayerFrozen(SEA_REFLECTION2)) {
+			const auto its = EntityManager::GetEntityIdIterators(SEA_SUNROAD);
+			for (auto it = its.first; it != its.second; ++it) {
+				const auto ent_id = it->second;
+				const auto hash = EntityManager::GetClassCode(ent_id);
+				if (hash != dwShipCode && hash != dwSailCode && hash != dwIslandCode) {
 					api->Send_Message(ent_id, "ll", MSG_SEA_SUNROAD_DRAW, long(bSimpleSea));
 				}
-			} while (ent_id = walker());
+			}
+		}
 
 		rs->EndScene();
 	}
@@ -313,8 +294,6 @@ bool SEA::EnvMap_Render()
 
 	rs->SetProjection( CMatrix().BuildProjectionMatrix(PI / 2.0f, 256.0f, 256.0f, 1.0f, 4000.0f) );
 
-	bool bLayerFrozen = api->LayerCheck("sea_reflection2", LayerFlags::FROZEN);
-
 	uint32_t Colors[6] = {0xd934c8, 0x2FFF1F, 0x0000FF, 0xFF00, 0xb28e11, 0x0};
 	for (uint32_t i=0; i<6; i++) 
 	{
@@ -335,20 +314,16 @@ bool SEA::EnvMap_Render()
 		//api->Trace("sea: %.3f, %.3f, %.3f", mView.m[3][0], mView.m[3][1], mView.m[3][2]);
 		rs->SetView(mView);
 
-		entid_t ent_id;
-
 		// Render scene here.
-		auto walker = api->LayerGetWalker("sea_reflection");
-		if (ent_id = walker()) do
-		{
-			api->Send_Message(ent_id, "ll", MSG_SEA_REFLECTION_DRAW, long(bSimpleSea));
-		} while (ent_id = walker());
+		auto its = EntityManager::GetEntityIdIterators(SEA_REFLECTION);
+		for (auto it = its.first; it != its.second; ++it) {
+			api->Send_Message(it->second, "ll", MSG_SEA_REFLECTION_DRAW, long(bSimpleSea));
+		}
 
-		walker = api->LayerGetWalker("sea_reflection2");
-		if (!bLayerFrozen && (ent_id = walker())) do
-		{
-			api->Send_Message(ent_id, "ll", MSG_SEA_REFLECTION_DRAW, long(bSimpleSea));
-		} while (ent_id = walker());
+		its = EntityManager::GetEntityIdIterators(SEA_REFLECTION2);
+		for (auto it = its.first; it != its.second; ++it) {
+			api->Send_Message(it->second, "ll", MSG_SEA_REFLECTION_DRAW, long(bSimpleSea));
+		}
 
 		rs->EndScene();
 	}

@@ -16,6 +16,11 @@
 class SEA : public SEA_BASE
 {
 private:
+	//uint32_t dwSkyCode = MakeHashValue("sky");
+	uint32_t dwIslandCode = MakeHashValue("island");
+	uint32_t dwShipCode = MakeHashValue("ship");
+	uint32_t dwSailCode = MakeHashValue("sail");
+
 	static IDirect3DVertexDeclaration9 * vertexDecl_;
 
 	struct SeaVertex

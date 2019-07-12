@@ -120,7 +120,6 @@ private:
 	Periscope periscope;
 	float waitPTime;
 	CVECTOR camPos;
-	long shipcode;
 	entid_t sea;
 	entid_t island;
 	long trackTx;

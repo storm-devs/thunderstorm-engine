@@ -8,7 +8,7 @@
 #define INTERFACE_FUNCTION
 
 /* TODO: REMOVE THIS.... */
-inline uint32_t MakeHashValue(const char* string)
+constexpr uint32_t MakeHashValue(const char* string)
 {
 	uint32_t hval = 0;
 

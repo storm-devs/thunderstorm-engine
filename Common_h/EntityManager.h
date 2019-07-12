@@ -298,6 +298,12 @@ public:
 		layers_[index].frozen = freeze;
 	}
 
+	static constexpr bool IsLayerFrozen(const layer_index_t index) {
+		assert(index < max_layers_num);
+
+		return layers_[index].frozen;
+	}
+
 	static constexpr void PushFreeIndex(entity_index_t index) {
 		auto& stack = freeIndices_.first;
 		auto& top = freeIndices_.second;

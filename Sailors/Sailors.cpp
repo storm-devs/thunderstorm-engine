@@ -768,7 +768,7 @@ void ShipWalk::Init(entid_t _shipID, int editorMode, char *shipType)
 	bHide = false;
 	shipID = _shipID;
 
-	entid_t seaID = api->GetEntityIdWalker("sea")();
+	const auto seaID = EntityManager::GetEntityId("sea");
 	shipState.sea = (SEA_BASE*) EntityManager::GetEntityPointer(seaID);
 
 	if (!editorMode)
@@ -1012,9 +1012,8 @@ bool Sailors::Init()
 
 	rs = (VDX9RENDER *) api->CreateService("dx9render");
 
-	//api->LayerCreate("sea_realize", true, false);
-	api->LayerSetRealize("sea_realize", true);
-	EntityManager::AddToLayer("sea_realize", GetId(), 65530);
+	EntityManager::SetLayerType(SEA_REALIZE, EntityManager::Layer::Type::realize);
+	EntityManager::AddToLayer(SEA_REALIZE, GetId(), 65530);
 
 	//UN//GUARD_SAILORS
 
