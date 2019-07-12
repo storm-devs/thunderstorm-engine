@@ -2,6 +2,7 @@
 #include "../Common_h/dx9render.h"
 #include "../Common_h/v_s_stack.h"
 #include "Fader.h"
+#include "../Common_h/EntityManager.h"
 
 //============================================================================================
 
@@ -170,7 +171,7 @@ uint32_t slNativeFindLaodLocation(VS_STACK * pS)
 	VDATA * pReturn = (VDATA*)pS->Push();
 	if (!pReturn) return IFUNCRESULT_FAILED;
 	//Èùèì ëîêàöèş
-	entid_t loc = api->GetEntityIdWalker("location")();
+	const auto loc = EntityManager::GetEntityId("location");
 	if(!loc)
 	{
 		pReturn->Set(-1L);

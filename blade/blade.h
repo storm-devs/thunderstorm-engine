@@ -90,10 +90,10 @@ public:
 		case Stage::realize:
 			Realize(delta);
 			break;
-		//case Stage::LOST_RENDER:
+		//case Stage::lost_render:
 		//	LostRender();
 		//	break;
-		//case Stage::RESTORE_RENDER:
+		//case Stage::restore_render:
 		//	RestoreRender();
 		//	break;
 		}
