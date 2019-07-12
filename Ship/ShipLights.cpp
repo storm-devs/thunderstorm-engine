@@ -36,11 +36,9 @@ ShipLights::~ShipLights()
 
 bool ShipLights::Init()
 {
-	entid_t sea_id;
-
 	pRS = (VDX9RENDER *)api->CreateService("dx9render");	Assert(pRS);
 	pCollide = (COLLIDE *)api->CreateService("coll");		Assert(pCollide);
-	if (sea_id = api->GetEntityIdWalker("sea")()) pSea = (SEA_BASE*)EntityManager::GetEntityPointer(sea_id);
+	pSea = (SEA_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("sea"));
 	return true;
 }
 
@@ -415,9 +413,6 @@ void ShipLights::Execute(uint32_t dwDeltaTime)
 {
 	float fDeltaTime = float(dwDeltaTime) * 0.001f;
 
-	walker_t vwSunTrace = api->LayerGetWalker("sun_trace");
-	walker_t vwSailsTrace = api->LayerGetWalker("sails_trace");
-
 	float fFov;
 	CVECTOR vCamPos, vCamAng;
 	pRS->GetCamera(vCamPos, vCamAng, fFov);
@@ -464,25 +459,20 @@ void ShipLights::Execute(uint32_t dwDeltaTime)
 		{
 			L.bVisible = true;
 
-			if (vwSailsTrace)
+			float fDistance = pCollide->Trace(EntityManager::GetEntityIdIterators(SAILS_TRACE), L.vCurPos, vCamPos, nullptr, 0);
+			L.fFlareAlphaMax = (fDistance >= 1.0f) ? 1.0f : 0.2f;
+
+			const auto its = EntityManager::GetEntityIdIterators(SUN_TRACE);
+			fDistance = pCollide->Trace(its, L.vCurPos, vCamPos, nullptr, 0);
+			float fLen = fDistance * sqrtf(~(vCamPos - L.vCurPos));
+			L.bVisible = fDistance >= 1.0f || (fLen < 0.6f);
+
+			if (!L.bOff && L.bVisible)
 			{
-				float fDistance = pCollide->Trace(vwSailsTrace, L.vCurPos, vCamPos, nullptr, 0);
-				L.fFlareAlphaMax = (fDistance >= 1.0f) ? 1.0f : 0.2f;
-			}
+				float fDistance = pCollide->Trace(its, vCamPos, L.vCurPos, nullptr, 0);
+				float fLen = (1.0f - fDistance) * sqrtf(~(vCamPos - L.vCurPos));
 
-			if (vwSunTrace)
-			{
-				float fDistance = pCollide->Trace(vwSunTrace, L.vCurPos, vCamPos, nullptr, 0);
-				float fLen = fDistance * sqrtf(~(vCamPos - L.vCurPos));
-				L.bVisible = fDistance >= 1.0f || (fLen < 0.6f);
-
-				if (!L.bOff && L.bVisible)
-				{
-					float fDistance = pCollide->Trace(vwSunTrace, vCamPos, L.vCurPos, nullptr, 0);
-					float fLen = (1.0f - fDistance) * sqrtf(~(vCamPos - L.vCurPos));
-
-					L.bVisible = fLen < 0.6f;
-				}
+				L.bVisible = fLen < 0.6f;
 			}
 		}
 

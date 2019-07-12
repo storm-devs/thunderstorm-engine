@@ -1,5 +1,6 @@
 #include "seps.h"
 #include "../Common_h/object.h"
+#include "../Common_h/EntityManager.h"
 
 SEPS_PS::SEPS_PS()
 {

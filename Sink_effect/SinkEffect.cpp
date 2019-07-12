@@ -5,8 +5,8 @@
 #include "../SoundService/VSoundService.h"
 #include "SinkEffect.H"
 #include "../Common_h/ship_base.h"
+#include "../Common_h/EntityManager.h"
 
-INTERFACE_FUNCTION
 CREATE_CLASS(SINKEFFECT)
 
 //--------------------------------------------------------------------
@@ -29,8 +29,7 @@ bool SINKEFFECT::Init()
 {
 	//GUARD(SINKEFFECT::Init)
 
-	entid_t seaID = api->GetEntityIdWalker("sea")();
-	sea = (SEA_BASE*) EntityManager::GetEntityPointer(seaID);
+	sea = (SEA_BASE*) EntityManager::GetEntityPointer(EntityManager::GetEntityId("sea"));
 
 	renderer = (VDX9RENDER *) api->CreateService("dx9render");
 
@@ -45,8 +44,6 @@ uint32_t SINKEFFECT::ProcessMessage(MESSAGE & message)
 {
 	//GUARD(SINKEFFECT::ProcessMessage)
 
-	entid_t shipID;
-	SHIP_BASE *shipBase;
 	long code = message.Long();
 	uint32_t outValue = 0;
 
@@ -57,9 +54,8 @@ uint32_t SINKEFFECT::ProcessMessage(MESSAGE & message)
 			ATTRIBUTES *attrs = message.AttributePointer();
 			if (attrs)
 			{
-				const auto walker = api->GetEntityIdWalker("ship");
-				if(shipID = walker())
-				{
+				auto& entities = EntityManager::GetEntityIdVector("ship");
+				for (auto ent : entities) {
 					/*
 					shipBase = (SHIP_BASE *) EntityManager::GetEntityPointer(shipID);
 					if (shipBase->GetACharacter() == attrs)
@@ -68,15 +64,12 @@ uint32_t SINKEFFECT::ProcessMessage(MESSAGE & message)
 						return outValue;
 					}*/
 
-					do 
+					SHIP_BASE* shipBase = (SHIP_BASE *)EntityManager::GetEntityPointer(ent);
+					if (shipBase->GetACharacter() == attrs)
 					{
-						shipBase = (SHIP_BASE *) EntityManager::GetEntityPointer(shipID);
-						if (shipBase->GetACharacter() == attrs)
-						{
-							TryToAddSink(shipBase->GetPos(), shipBase->GetBoxsize().z / 2.0f);
-							return outValue;
-						}
-					} while (shipID = walker());
+						TryToAddSink(shipBase->GetPos(), shipBase->GetBoxsize().z / 2.0f);
+						return outValue;
+					}
 				}//if (FindClass)
 			}//if (attrs)
 		}//case

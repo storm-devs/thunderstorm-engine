@@ -2,6 +2,7 @@
 #include "../Common_h/defines.h"
 #include <string>
 #include "../Common_h/inlines.h"
+#include "../Common_h/EntityManager.h"
 
 VDX9RENDER * ShipTracks::ShipTrack::pRS = nullptr;
 SEA_BASE * ShipTracks::ShipTrack::pSea = nullptr;
@@ -9,10 +10,6 @@ long ShipTracks::ShipTrack::iRefCount = 0;
 uint32_t ShipTracks::ShipTrack::dwMaxBufferSize1 = 0, ShipTracks::ShipTrack::dwMaxBufferSize2 = 0;
 long ShipTracks::ShipTrack::iVTmpBuffer1 = -1, ShipTracks::ShipTrack::iVTmpBuffer2 = -1;
 long ShipTracks::ShipTrack::iITmpBuffer1 = -1, ShipTracks::ShipTrack::iITmpBuffer2 = -1;
-
-ShipTracks::ShipTracks()
-{
-}
 
 ShipTracks::~ShipTracks()
 {
@@ -26,7 +23,7 @@ bool ShipTracks::Init()
 	entid_t sea_id;
 
 	ShipTrack::pRS = (VDX9RENDER *)api->CreateService("dx9render");	Assert(ShipTrack::pRS);
-	if (sea_id = api->GetEntityIdWalker("sea")()) 
+	if (sea_id = EntityManager::GetEntityId("sea"))
 		ShipTrack::pSea = (SEA_BASE*)EntityManager::GetEntityPointer(sea_id);
 	return true;
 }

@@ -1,14 +1,14 @@
-#include <math.h>
 #include "../Common_h/Matrix.h"
 #include "../Common_h/defines.h"
 #include "../Common_h/rands.h"
 #include "SoundService.h"
-
+#include "../Common_h/EntityManager.h"
 
 //для debug
 #include "../Common_h/dx9render.h"
 #include "DebugEntity.h"
 #include "../Common_h/math3d/Color.h"
+
 VDX9RENDER* pRS = nullptr;
 
 INTERFACE_FUNCTION
@@ -1222,7 +1222,7 @@ void SoundService::InitAliases ()
 
 void SoundService::CreateEntityIfNeed ()
 {
-	entid_t Debugentid_t = api->GetEntityIdWalker("SoundVisualisationEntity")();
+	auto Debugentid_t = EntityManager::GetEntityId("SoundVisualisationEntity");
 	if (!Debugentid_t)
 	{
 		Debugentid_t = EntityManager::CreateEntity("SoundVisualisationEntity");

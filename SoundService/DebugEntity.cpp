@@ -1,8 +1,6 @@
 #include "DebugEntity.h"
 #include "SoundService.h"
-
-
-
+#include "../Common_h/EntityManager.h"
 
 SoundVisualisationEntity::SoundVisualisationEntity()
 {
@@ -36,6 +34,6 @@ void SoundVisualisationEntity::SetMasterSoundService (SoundService* pSoundServic
 void SoundVisualisationEntity::Wakeup()
 {
 	//api->LayerCreate("sound_debug_realize", true , false);
-	api->LayerSetRealize("sound_debug_realize", true);
-	EntityManager::AddToLayer("sound_debug_realize", GetId(), -1);
+	EntityManager::SetLayerType(SOUND_DEBUG_REALIZE, EntityManager::Layer::Type::realize);
+	EntityManager::AddToLayer(SOUND_DEBUG_REALIZE, GetId(), -1);
 }
