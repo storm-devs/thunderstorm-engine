@@ -30,7 +30,7 @@ bool SINKEFFECT::Init()
 	//GUARD(SINKEFFECT::Init)
 
 	entid_t seaID = api->GetEntityIdWalker("sea")();
-	sea = (SEA_BASE*) api->GetEntityPointer(seaID);
+	sea = (SEA_BASE*) EntityManager::GetEntityPointer(seaID);
 
 	renderer = (VDX9RENDER *) api->CreateService("dx9render");
 
@@ -61,7 +61,7 @@ uint32_t SINKEFFECT::ProcessMessage(MESSAGE & message)
 				if(shipID = walker())
 				{
 					/*
-					shipBase = (SHIP_BASE *) api->GetEntityPointer(shipID);
+					shipBase = (SHIP_BASE *) EntityManager::GetEntityPointer(shipID);
 					if (shipBase->GetACharacter() == attrs)
 					{
 						TryToAddSink(shipBase->GetPos(), shipBase->GetBoxsize().z / 2.0f);
@@ -70,7 +70,7 @@ uint32_t SINKEFFECT::ProcessMessage(MESSAGE & message)
 
 					do 
 					{
-						shipBase = (SHIP_BASE *) api->GetEntityPointer(shipID);
+						shipBase = (SHIP_BASE *) EntityManager::GetEntityPointer(shipID);
 						if (shipBase->GetACharacter() == attrs)
 						{
 							TryToAddSink(shipBase->GetPos(), shipBase->GetBoxsize().z / 2.0f);

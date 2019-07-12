@@ -41,12 +41,12 @@ BLADE::BLADE_INFO::BLADE_INFO()
 
 BLADE::BLADE_INFO::~BLADE_INFO()
 {
-	api->EraseEntity(eid);
+	EntityManager::EraseEntity(eid);
 }
 
 void BLADE::BLADE_INFO::DrawBlade(VDX9RENDER * rs,unsigned int blendValue,MODEL *mdl,NODE *manNode)
 {
-	MODEL *obj = (MODEL*)api->GetEntityPointer(eid);
+	MODEL *obj = (MODEL*)EntityManager::GetEntityPointer(eid);
 	if(obj!=nullptr)
 	{
 		CMatrix perMtx;
@@ -162,7 +162,7 @@ void BLADE::BLADE_INFO::DrawBlade(VDX9RENDER * rs,unsigned int blendValue,MODEL 
 
 bool BLADE::BLADE_INFO::LoadBladeModel(MESSAGE &message)
 {
-	api->EraseEntity(eid);
+	EntityManager::EraseEntity(eid);
 
 	//Имя модельки
 	char mdlName[200];
@@ -178,10 +178,10 @@ bool BLADE::BLADE_INFO::LoadBladeModel(MESSAGE &message)
 		VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
 		if(gs) gs->SetTexturePath("Ammo\\");
 		//Создаём модельку
-		eid = api->CreateEntity("modelr");
+		eid = EntityManager::CreateEntity("modelr");
 		if(!api->Send_Message(eid, "ls", MSG_MODEL_LOAD_GEO, path))
 		{
-			api->EraseEntity(eid);
+			EntityManager::EraseEntity(eid);
 			if(gs) gs->SetTexturePath("");
 			return false;
 		}
@@ -202,7 +202,7 @@ BLADE::BLADE()
 
 BLADE::~BLADE()
 {
-	api->EraseEntity(gun);
+	EntityManager::EraseEntity(gun);
 
 	for( long i=0; i<ITEMS_INFO_QUANTITY; i++ ) items[i].Release();
 }
@@ -214,7 +214,7 @@ bool BLADE::Init()
 	col = (COLLIDE *)api->CreateService("coll");
 	if(col== nullptr)	throw std::exception("No service: COLLIDE");
 
-	api->LayerAdd("realize", GetId(),65550);
+	EntityManager::AddToLayer(REALIZE, GetId(),65550);
 
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs)	throw std::exception("No service: dx9render");
@@ -231,7 +231,7 @@ void BLADE::Realize(uint32_t Delta_Time)
 {
 	blade[0].time += 0.001f*(Delta_Time);
 
-	MODEL *mdl = (MODEL*)api->GetEntityPointer(man);
+	MODEL *mdl = (MODEL*)EntityManager::GetEntityPointer(man);
 	if(!mdl) return;
 
 	NODE *manNode = mdl->GetNode(0);
@@ -252,7 +252,7 @@ void BLADE::Realize(uint32_t Delta_Time)
 	//draw gun
 	CMatrix perMtx;
 	long sti;
-	MODEL *obj = (MODEL*)api->GetEntityPointer(gun);
+	MODEL *obj = (MODEL*)EntityManager::GetEntityPointer(gun);
 	if(obj!=nullptr)
 	{
 		NODE *gunNode = obj->GetNode(0);
@@ -329,7 +329,7 @@ bool BLADE::LoadBladeModel(MESSAGE &message)
 
 bool BLADE::LoadGunModel(MESSAGE &message)
 {
-	api->EraseEntity(gun);
+	EntityManager::EraseEntity(gun);
 	man = message.EntityID();
 	//Имя модельки
 	char mdlName[200];
@@ -345,10 +345,10 @@ bool BLADE::LoadGunModel(MESSAGE &message)
 		VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
 		if(gs) gs->SetTexturePath("Ammo\\");
 		//Создаём модельку
-		gun = api->CreateEntity("modelr");
+		gun = EntityManager::CreateEntity("modelr");
 		if(!api->Send_Message(gun, "ls", MSG_MODEL_LOAD_GEO, path))
 		{
-			api->EraseEntity(gun);
+			EntityManager::EraseEntity(gun);
 			if(gs) gs->SetTexturePath("");
 			return false;
 		}
@@ -359,7 +359,7 @@ bool BLADE::LoadGunModel(MESSAGE &message)
 
 void BLADE::GunFire()
 {
-	MODEL *mdl = (MODEL*)api->GetEntityPointer(man);
+	MODEL *mdl = (MODEL*)EntityManager::GetEntityPointer(man);
 	NODE *manNode = mdl->GetNode(0);
 
 	//------------------------------------------------------
@@ -367,9 +367,9 @@ void BLADE::GunFire()
 	CMatrix perMtx;
 	long sti;
 
-	MODEL *obj = (MODEL*)api->GetEntityPointer(gun);
+	MODEL *obj = (MODEL*)EntityManager::GetEntityPointer(gun);
 	if( obj==nullptr ) // нет пистолета - посмотрим на саблю-пистолет
-		obj = (MODEL*)api->GetEntityPointer(blade[1].eid);
+		obj = (MODEL*)EntityManager::GetEntityPointer(blade[1].eid);
 
 	if(obj!=nullptr)
 	{
@@ -564,13 +564,13 @@ void BLADE::TIEITEM_INFO::Release()
 	if( nItemIndex!=-1 )
 	{
 		nItemIndex = -1;
-		api->EraseEntity(eid);
+		EntityManager::EraseEntity(eid);
 		if(locatorName) delete locatorName; locatorName=nullptr;
 	}
 }
 void BLADE::TIEITEM_INFO::DrawItem(VDX9RENDER * rs,unsigned int blendValue,MODEL *mdl,NODE *manNode)
 {
-	MODEL *obj = (MODEL*)api->GetEntityPointer(eid);
+	MODEL *obj = (MODEL*)EntityManager::GetEntityPointer(eid);
 	if(obj!=nullptr)
 	{
 		CMatrix perMtx;
@@ -619,7 +619,7 @@ void BLADE::TIEITEM_INFO::DrawItem(VDX9RENDER * rs,unsigned int blendValue,MODEL
 }
 bool BLADE::TIEITEM_INFO::LoadItemModel(const char* mdlName, const char* locName)
 {
-	api->EraseEntity(eid);
+	EntityManager::EraseEntity(eid);
 	if(locatorName) delete locatorName; locatorName=nullptr;
 
 	if( !locName || !mdlName ) return false;
@@ -637,10 +637,10 @@ bool BLADE::TIEITEM_INFO::LoadItemModel(const char* mdlName, const char* locName
 	VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
 	if(gs) gs->SetTexturePath("Ammo\\");
 	//Создаём модельку
-	eid = api->CreateEntity("modelr");
+	eid = EntityManager::CreateEntity("modelr");
 	if(!api->Send_Message(eid, "ls", MSG_MODEL_LOAD_GEO, path))
 	{
-		api->EraseEntity(eid);
+		EntityManager::EraseEntity(eid);
 		if(gs) gs->SetTexturePath("");
 		return false;
 	}

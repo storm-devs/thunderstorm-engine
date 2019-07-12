@@ -49,7 +49,7 @@ bool AIHelper::Init()
 
 	entid_t eidIsland;
 	eidIsland = api->GetEntityIdWalker("island")();
-		pIsland = (ISLAND_BASE*)api->GetEntityPointer(eidIsland);
+		pIsland = (ISLAND_BASE*)EntityManager::GetEntityPointer(eidIsland);
 
 	return true;
 }

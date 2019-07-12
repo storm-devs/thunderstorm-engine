@@ -2402,7 +2402,7 @@ bool DX9RENDER::ResetDevice()
 	
 	auto walker = api->LayerGetWalker();
 	while (const entid_t eid = walker()) {
-		static_cast<Entity*>(api->GetEntityPointer(eid))->ProcessStage(Entity::Stage::LOST_RENDER);
+		static_cast<Entity*>(EntityManager::GetEntityPointer(eid))->ProcessStage(Entity::Stage::LOST_RENDER);
 	}
 	LostRender();
 
@@ -2412,7 +2412,7 @@ bool DX9RENDER::ResetDevice()
 	RestoreRender();
 	walker = api->LayerGetWalker();
 	while (const entid_t eid = walker()) {
-		static_cast<Entity*>(api->GetEntityPointer(eid))->ProcessStage(Entity::Stage::RESTORE_RENDER);
+		static_cast<Entity*>(EntityManager::GetEntityPointer(eid))->ProcessStage(Entity::Stage::RESTORE_RENDER);
 	}
 
 	return true;
@@ -3524,7 +3524,7 @@ CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
 	{
 		if (pVTLcur->hash == newHash && _stricmp(pVTLcur->name, sVideoName) == 0)
 		{
-			if (api->GetEntityPointer(pVTLcur->videoTexture_id))
+			if (EntityManager::GetEntityPointer(pVTLcur->videoTexture_id))
 			{
 				pVTLcur->ref++;
 				return pVTLcur->VideoTexture;
@@ -3550,14 +3550,14 @@ CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
 	if ((pVTLcur->name = new char[len]) == nullptr)
 		throw std::exception("memory allocate error");
 	strcpy_s(pVTLcur->name, len, sVideoName);
-	entid_t ei = api->CreateEntity("TextureSequence");
-	pVTLcur->VideoTexture = (CVideoTexture*)api->GetEntityPointer(ei);
+	entid_t ei = EntityManager::CreateEntity("TextureSequence");
+	pVTLcur->VideoTexture = (CVideoTexture*)EntityManager::GetEntityPointer(ei);
 	if (pVTLcur->VideoTexture != nullptr)
 	{
 		pVTLcur->videoTexture_id = ei;
 		if (pVTLcur->VideoTexture->Initialize(this, sVideoName, true) == nullptr) {
 			delete pVTLcur;
-			api->EraseEntity(ei);
+			EntityManager::EraseEntity(ei);
 		}
 		else {
 			pVTL = pVTLcur;
@@ -3567,7 +3567,7 @@ CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
 	else
 	{
 		delete pVTLcur;
-		api->EraseEntity(ei);
+		EntityManager::EraseEntity(ei);
 	}
 
 	return retVal;
@@ -3588,7 +3588,7 @@ void DX9RENDER::ReleaseVideoTexture(CVideoTexture* pVTexture)
 				pVTL = cur->next;
 			else
 				prev->next = cur->next;
-			api->EraseEntity(cur->videoTexture_id);
+			EntityManager::EraseEntity(cur->videoTexture_id);
 			if (cur->name != nullptr) delete cur->name;
 			delete cur;
 			break;
@@ -3602,7 +3602,7 @@ void DX9RENDER::PlayToTexture()
 	VideoTextureEntity *cur = pVTL;
 	while (cur != nullptr)
 	{
-		if (api->GetEntityPointer(pVTL->videoTexture_id))
+		if (EntityManager::GetEntityPointer(pVTL->videoTexture_id))
 		{
 			cur->VideoTexture->FrameUpdate();
 			cur = cur->next;

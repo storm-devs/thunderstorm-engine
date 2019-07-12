@@ -18,7 +18,7 @@ uint32_t _ShipSailState(VS_STACK * pS)
 	entid_t eid;
 	if(eid = api->GetEntityIdWalker("SAIL")())
 	{
-		long n = ((SAIL*)api->GetEntityPointer(eid))->GetSailStateForCharacter(nChrIdx);
+		long n = ((SAIL*)EntityManager::GetEntityPointer(eid))->GetSailStateForCharacter(nChrIdx);
 		pVR->Set( n );
 	}
 	else pVR->Set( (long)0 );
@@ -147,7 +147,7 @@ uint32_t _RandomHole2Sail(VS_STACK * pS)
 	entid_t	ei;
 	if(ei = api->GetEntityIdWalker("ShipsailTracks")())
 	{
-		pSail = ((SAIL_BASE*)api->GetEntityPointer(ei))->FindSailForCharacter(_chrIdx, _reyName, _groupNum);
+		pSail = ((SAIL_BASE*)EntityManager::GetEntityPointer(ei))->FindSailForCharacter(_chrIdx, _reyName, _groupNum);
 	}
 
 	int holeArraySize = 0;
@@ -202,7 +202,7 @@ uint32_t _DeleteOneSailHole(VS_STACK * pS)
 	entid_t	ei;
 	if( ei = api->GetEntityIdWalker("sail")())
 	{
-		pSail = ((SAIL_BASE*)api->GetEntityPointer(ei))->FindSailForCharacter(_chrIdx, _reyName, _groupNum);
+		pSail = ((SAIL_BASE*)EntityManager::GetEntityPointer(ei))->FindSailForCharacter(_chrIdx, _reyName, _groupNum);
 	}
 
 	int holeArraySize = 0;

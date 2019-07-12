@@ -581,9 +581,7 @@ Character::~Character()
 	m_nHandLightID = -1;
 
 	//Удаляемся из групп
-	entid_t grps;
-	grps = api->GetEntityIdWalker("CharactersGroups")();
-	api->Send_Message(grps, "si", "UnloadCharacter", GetId());
+	api->Send_Message(EntityManager::GetEntityId("CharactersGroups"), "si", "UnloadCharacter", GetId());
 
 	//Анализируем детекторы
 //	for(long i = 0; i < numDetectors; i++) detector[i]->Exit(this);
@@ -591,11 +589,11 @@ Character::~Character()
 	for(long i = 0; i < numDetectors; i++) delete detector[i];
 	//
 	if(location && !isDeleted) location->supervisor.DelCharacter(this);
-	api->EraseEntity(shadow);
-	api->EraseEntity(waterrings);
-	api->EraseEntity(mdl);
-	api->EraseEntity(blade);
-	api->EraseEntity(sign);
+	EntityManager::EraseEntity(shadow);
+	EntityManager::EraseEntity(waterrings);
+	EntityManager::EraseEntity(mdl);
+	EntityManager::EraseEntity(blade);
+	EntityManager::EraseEntity(sign);
 	if(characterID) delete characterID;
 }
 
@@ -605,7 +603,7 @@ bool Character::Init()
 	//Указатель на локацию
 	const auto location = GetLocation();
 	if(!location) return false;
-	effects = api->GetEntityIdWalker("LocationEffects")();
+	effects = EntityManager::GetEntityId("LocationEffects");
 	soundService = (VSoundService *)api->CreateService("SoundService");
 	//Регестрируем своё попадание в локацию
 	if(location->supervisor.numCharacters >= MAX_CHARACTERS)
@@ -615,7 +613,7 @@ bool Character::Init()
 	}
 	location->supervisor.AddCharacter(this);
 	//Море
-	sea = api->GetEntityIdWalker("sea")();
+	sea = EntityManager::GetEntityId("sea");
 	//Сохраним идентификатор
 	const char * id = nullptr;
 	if(AttributesPointer) id = AttributesPointer->GetAttribute("id");
@@ -624,8 +622,7 @@ bool Character::Init()
 	characterID = new char[len];
 	strcpy_s(characterID, len, id);
 	//Добавим в группу
-	const auto grps = api->GetEntityIdWalker("CharactersGroups")();
-	api->Send_Message(grps, "sis", "MoveCharacter", GetId(), group);
+	api->Send_Message(EntityManager::GetEntityId("CharactersGroups"), "sis", "MoveCharacter", GetId(), group);
 	SetSignModel();
 	SetSignTechnique();
 	return PostInit();
@@ -904,7 +901,7 @@ void Character::SetSignModel()
 		return;
 	}
 	signName = signModelName;
-	api->EraseEntity(sign);
+	EntityManager::EraseEntity(sign);
 	if(!signModelName[0])
 	{
 		return;
@@ -916,7 +913,7 @@ void Character::SetSignModel()
 	std::string path = "quest_signs\\";
 	path += signModelName;
 	//Создаём и загружаем модельку
-	if(!(sign = api->CreateEntity("modelr")))
+	if(!(sign = EntityManager::CreateEntity("modelr")))
 	{
 		if(gs) gs->SetTexturePath("");
 		return;
@@ -937,8 +934,8 @@ void Character::SetSignModel()
 	}
 
 	if(gs) gs->SetTexturePath("");
-	api->LayerAdd("realize", sign, 20000);
-	api->LayerAdd("sun_trace", sign, 10);
+	EntityManager::AddToLayer(REALIZE, sign, 20000);
+	EntityManager::AddToLayer("sun_trace", sign, 10);
 }
 
 void Character::SetSignTechnique()
@@ -988,7 +985,7 @@ void Character::ReadFightActions(ATTRIBUTES * at, ActionCharacter actions[4], lo
 
 MODEL * Character::Model()
 {
-	return (MODEL *)api->GetEntityPointer(mdl);
+	return (MODEL *)EntityManager::GetEntityPointer(mdl);
 }
 
 //Переместить модельку в точку x, y, z
@@ -1695,7 +1692,7 @@ void Character::Move(float dltTime)
 	{
 		if(fgtCurType >= fgt_attack_fast && fgtCurType <= fgt_attack_feintc)
 		{
-			Character * eAttack = (Character *)api->GetEntityPointer(enemyAttack);
+			Character * eAttack = (Character *)EntityManager::GetEntityPointer(enemyAttack);
 			if(eAttack)
 			{
 				isTurnLock = false;
@@ -1842,7 +1839,7 @@ void Character::Move(float dltTime)
 		curJumpFallTime += dltTime;
 		if(isJumpSnd && priorityAction.name)
 		{
-			SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(sea);
+			SEA_BASE * sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
 			if(sb && location->IsSwimming())
 			{
 				seaY = sb->WaveXZ(curPos.x, curPos.z, nullptr);
@@ -1910,7 +1907,7 @@ void Character::Move(float dltTime)
 	if(swimChange <= 0.0f && location->IsSwimming())
 	{
 		bool old = isSwim;
-		SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(sea);
+		SEA_BASE * sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
 		isSwim = false;
 		isRunDisable = false;
 		if(sb)
@@ -2105,7 +2102,7 @@ void Character::Update(float dltTime)
 				}else{
 					api->Event("Location_CharacterExitFromLocation", "e", GetId());
 				}
-				api->EraseEntity(GetId());
+				EntityManager::EraseEntity(GetId());
 			}
 		}
 	}
@@ -2133,7 +2130,7 @@ void Character::Update(float dltTime)
 	}
 	soundGrass = false;
 	//
-	MODEL * signMdl = (MODEL *)api->GetEntityPointer(sign);
+	MODEL * signMdl = (MODEL *)EntityManager::GetEntityPointer(sign);
 	if(signMdl)
 	{
 		CVECTOR dir = camPos - curPos; dir.y = 0.0f;
@@ -2219,7 +2216,7 @@ void Character::ActionEvent(const char * actionName, Animation * animation, long
 			animation->Player(0).SetPosition(1.0f);
 
 			// проверим куда упали и проиграем анимацию после падения на землю и в воду.
-			SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(sea);
+			SEA_BASE * sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
 			if(sb)
 			{
 				if( sb->WaveXZ(curPos.x, curPos.z, nullptr) - curPos.y > CHARACTER_SEA_SWIM )
@@ -2447,7 +2444,7 @@ void Character::PlayStep()
 {
 	if(!soundService) return;
 	if(isSwim) return;
-	SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(sea);
+	SEA_BASE * sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
 	const auto location = GetLocation();
 	if(sb && location->IsSwimming())
 	{
@@ -2605,9 +2602,9 @@ bool Character::zLoadModel(MESSAGE & message)
 	char name[256];
 	char ani[256];
 	char mpath[300];
-	api->EraseEntity(shadow);
-	api->EraseEntity(waterrings);
-	api->EraseEntity(mdl);
+	EntityManager::EraseEntity(shadow);
+	EntityManager::EraseEntity(waterrings);
+	EntityManager::EraseEntity(mdl);
 	message.String(256, name);
 	name[255] = 0;
 	message.String(256, ani);
@@ -2619,7 +2616,7 @@ bool Character::zLoadModel(MESSAGE & message)
 	strcpy_s(mpath, "characters\\");
 	strcat_s(mpath, name);
 	//Создаём и загружаем модельку
-	if(!(mdl = api->CreateEntity("modelr")))
+	if(!(mdl = EntityManager::CreateEntity("modelr")))
 	{
 		if(gs) gs->SetTexturePath("");
 		return false;
@@ -2640,13 +2637,13 @@ bool Character::zLoadModel(MESSAGE & message)
 									ani) != 0)
 	{
 		api->Trace("Character animation '%s' not loaded", ani);
-		api->EraseEntity(mdl);
+		EntityManager::EraseEntity(mdl);
 		return false;
 	}
-	MODEL * m = (MODEL *)api->GetEntityPointer(mdl);
+	MODEL * m = (MODEL *)EntityManager::GetEntityPointer(mdl);
 	if(!m)
 	{
-		api->EraseEntity(mdl);
+		EntityManager::EraseEntity(mdl);
 		return false;
 	}
 	Animation * a = m->GetAnimation();
@@ -2656,9 +2653,9 @@ bool Character::zLoadModel(MESSAGE & message)
 		a->SetEvent(ae_end, 0, &eventListener);
 	}
 	m->SetRenderTuner(&tuner);
-	api->LayerAdd("realize", mdl, 20);
-	api->LayerAdd("sun_trace", mdl, 10);
-	if(shadow = api->CreateEntity("shadow"))
+	EntityManager::AddToLayer(REALIZE, mdl, 20);
+	EntityManager::AddToLayer("sun_trace", mdl, 10);
+	if(shadow = EntityManager::CreateEntity("shadow"))
 	{
 		api->Send_Message(shadow, "li", 0, mdl);
 	}else{
@@ -2666,7 +2663,7 @@ bool Character::zLoadModel(MESSAGE & message)
 	}
 	if(api->GetEntityIdWalker("sea")())
 	{
-		waterrings = api->CreateEntity("waterrings");
+		waterrings = EntityManager::CreateEntity("waterrings");
 	}
 	UpdateActionsData();
 	return true;
@@ -2776,9 +2773,9 @@ bool Character::zSetBlade(MESSAGE & message)
 	float t = message.Float();
 	long s = message.Long();
 	long e = message.Long();
-	if(!api->GetEntityPointer(blade))
+	if(!EntityManager::GetEntityPointer(blade))
 	{
-		if(!(blade = api->CreateEntity("blade"))) return false;
+		if(!(blade = EntityManager::CreateEntity("blade"))) return false;
 	}
 	api->Send_Message(blade, "llisfll", MSG_BLADE_SET, nBladeIdx, mdl, name, t, s, e);
 	UpdateWeapons();
@@ -2794,9 +2791,9 @@ bool Character::zSetGun(MESSAGE & message)
 	name[sizeof(name) - 1] = 0;
 	isGunSet = true;
 	if(!name[0]) isGunSet = false;
-	if(!api->GetEntityPointer(blade))
+	if(!EntityManager::GetEntityPointer(blade))
 	{
-		if (!(blade = api->CreateEntity("blade"))) return false;
+		if (!(blade = EntityManager::CreateEntity("blade"))) return false;
 	}
 	api->Send_Message(blade, "lis", MSG_BLADE_GUNSET, mdl, name);
 	UpdateWeapons();
@@ -2831,7 +2828,7 @@ bool Character::zTurnByLoc(MESSAGE & message)
 bool Character::zTurnByChr(MESSAGE & message)
 {
 	entid_t chr = message.EntityID();
-	Character * c = (Character *)api->GetEntityPointer(chr);
+	Character * c = (Character *)EntityManager::GetEntityPointer(chr);
 	if(!c) return false;
 	Turn(c->curPos.x - curPos.x, c->curPos.z - curPos.z);
 	return true;
@@ -2849,7 +2846,7 @@ bool Character::zTurnByPoint(MESSAGE & message)
 bool Character::zDistByCharacter(MESSAGE & message, bool is2D)
 {
 	entid_t chr = message.EntityID();
-	Character * c = (Character *)api->GetEntityPointer(chr);
+	Character * c = (Character *)EntityManager::GetEntityPointer(chr);
 	if(!c) return false;
 	float dx = curPos.x - c->curPos.x;
 	float dz = curPos.z - c->curPos.z;
@@ -2880,9 +2877,9 @@ uint32_t Character::zExMessage(MESSAGE & message)
 		message.String(sizeof(modelName),modelName);
 		char locatorName[128];
 		message.String(sizeof(locatorName),locatorName);
-		if(!api->GetEntityPointer(blade))
+		if(!EntityManager::GetEntityPointer(blade))
 		{
-			if (!(blade = api->CreateEntity("blade"))) return 0;
+			if (!(blade = EntityManager::CreateEntity("blade"))) return 0;
 			UpdateWeapons();
 		}
 		api->Send_Message(blade, "lilss", 1001, mdl,i,modelName,locatorName);
@@ -4310,7 +4307,7 @@ Character * Character::FindGunTarget(float & kDist, bool bOnlyEnemyTest)
 	if (bOnlyEnemyTest)
 	{
 		grps = api->GetEntityIdWalker("CharactersGroups")();
-		chrGroup = (CharactersGroups *)api->GetEntityPointer(grps);
+		chrGroup = (CharactersGroups *)EntityManager::GetEntityPointer(grps);
 		grp = chrGroup->FindGroupIndex(group);
 	}
 
@@ -4416,7 +4413,7 @@ void Character::FindNearCharacters(MESSAGE & message)
 //Проверить видимость
 bool Character::CharactersVisibleTest(MESSAGE & message)
 {
-	Character * chr = (Character *)api->GetEntityPointer(message.EntityID());
+	Character * chr = (Character *)EntityManager::GetEntityPointer(message.EntityID());
 	if(!chr) return false;
 	return VisibleTest(chr);
 }
@@ -4444,7 +4441,7 @@ void Character::UpdateWeapons()
 	{
 		api->LayerDel("realize", blade);
 	}else{
-		api->LayerAdd("realize", blade, 65550);
+		EntityManager::AddToLayer(REALIZE, blade, 65550);
 	}
 }
 
@@ -4452,7 +4449,7 @@ void Character::UpdateWeapons()
 //Получить направление на противника для подскока при ударе
 CVECTOR Character::GetEnemyDirForImpulse()
 {
-	Character * chr = (Character *)api->GetEntityPointer(enemyAttack);
+	Character * chr = (Character *)EntityManager::GetEntityPointer(enemyAttack);
 	if(!chr) return CVECTOR(0.0f);
 	CVECTOR dir = chr->curPos - curPos;
 	dir.y = 0.0f;
@@ -4632,10 +4629,11 @@ long Character::GetRandomIndexByObstacle(ObstacleZone* pZone, long num)
 
 Location* Character::GetLocation()
 {
-	const auto location = static_cast<Location*>(api->GetEntityPointer(loc_id));
+	const auto location = static_cast<Location*>(EntityManager::GetEntityPointer(loc_id));
+
 	if (location)
 		return location;
 
-	loc_id = api->GetEntityIdWalker("location")();
-	return static_cast<Location*>(api->GetEntityPointer(loc_id));
+	loc_id = EntityManager::GetEntityId("location");
+	return static_cast<Location*>(EntityManager::GetEntityPointer(loc_id));
 }

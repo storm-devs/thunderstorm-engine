@@ -22,8 +22,8 @@ SailorsEditor :: SailorsEditor(): rs(nullptr), model(nullptr)
 
 SailorsEditor :: ~SailorsEditor()
 {
-	api->EraseEntity(sailors);	
-	api->EraseEntity(shipID);
+	EntityManager::EraseEntity(sailors);	
+	EntityManager::EraseEntity(shipID);
 };
 
 
@@ -31,24 +31,24 @@ bool SailorsEditor :: Init()
 {
 	rs = (VDX9RENDER *) api->CreateService("dx9render");
 
-	sailors = api->CreateEntity("Sailors");
+	sailors = EntityManager::CreateEntity("Sailors");
 
 
 	//api->LayerCreate("execute", true, false);
 	api->LayerSetExecute("execute", true);
-	api->LayerAdd("execute", GetId(), 0);
+	EntityManager::AddToLayer(EXECUTE, GetId(), 0);
 
 	//api->LayerCreate("editor_realize", true, false);
 	api->LayerSetRealize("editor_realize", true);
-	api->LayerAdd("editor_realize", GetId(), 100000);
+	EntityManager::AddToLayer("editor_realize", GetId(), 100000);
 
 	LoadFromIni("SailorsEditor.ini");
 
-	shipID = api->CreateEntity("MODELR");
+	shipID = EntityManager::CreateEntity("MODELR");
 	api->Send_Message(shipID,"ls",MSG_MODEL_LOAD_GEO, _shipName);
 
-	api->LayerAdd("editor_realize", shipID, 100000);
-	model = (MODEL*)api->GetEntityPointer(shipID);
+	EntityManager::AddToLayer("editor_realize", shipID, 100000);
+	model = (MODEL*)EntityManager::GetEntityPointer(shipID);
 
 
 
@@ -60,7 +60,7 @@ bool SailorsEditor :: Init()
 	api->Controls->MapControl(ctrl, 257);
 
 
-	menu.sailrs= (Sailors *)api->GetEntityPointer(sailors);
+	menu.sailrs= (Sailors *)EntityManager::GetEntityPointer(sailors);
 
 	menu.sailrs->editorMode= true;
 

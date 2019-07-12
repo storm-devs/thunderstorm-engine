@@ -27,7 +27,7 @@ bool ShipTracks::Init()
 
 	ShipTrack::pRS = (VDX9RENDER *)api->CreateService("dx9render");	Assert(ShipTrack::pRS);
 	if (sea_id = api->GetEntityIdWalker("sea")()) 
-		ShipTrack::pSea = (SEA_BASE*)api->GetEntityPointer(sea_id);
+		ShipTrack::pSea = (SEA_BASE*)EntityManager::GetEntityPointer(sea_id);
 	return true;
 }
 

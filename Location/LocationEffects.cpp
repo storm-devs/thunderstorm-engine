@@ -67,11 +67,11 @@ bool LocationEffects::Init()
 
 	//api->LayerCreate("execute", true, false);
 	api->LayerSetExecute("execute", true);
-	api->LayerAdd("execute", GetId(), 10);
+	EntityManager::AddToLayer(EXECUTE, GetId(), 10);
 
 	//api->LayerCreate("realize", true, false);
 	api->LayerSetRealize("realize", true);
-	api->LayerAdd("realize", GetId(), 1000000);
+	EntityManager::AddToLayer(REALIZE, GetId(), 1000000);
 
 	splashesTxt = rs->TextureCreate("LocEfx\\chrsplprt.tga");
 	flyTex = rs->TextureCreate("LocEfx\\firefly.tga");

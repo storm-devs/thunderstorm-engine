@@ -80,7 +80,7 @@ void RAIN::GenerateRain()
 	entid_t	ent;
 	if (!(ent = api->GetEntityIdWalker("Weather")())) 
 		throw std::exception("No found WEATHER entity!");
-	pWeather = (WEATHER_BASE*)api->GetEntityPointer(ent); 
+	pWeather = (WEATHER_BASE*)EntityManager::GetEntityPointer(ent); 
 	Assert(pWeather);
 
 	Release();
@@ -223,7 +223,7 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 	entid_t sea_id;
 	SEA_BASE * pSea = nullptr;
 	if (sea_id = api->GetEntityIdWalker("sea")()) 
-		pSea = (SEA_BASE*)api->GetEntityPointer(sea_id);
+		pSea = (SEA_BASE*)EntityManager::GetEntityPointer(sea_id);
 
 	walker_t pVW = api->LayerGetWalker("rain_drops");
 
@@ -272,7 +272,7 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 			entid_t eid = cs->GetObjectID();
 			if (api->GetEntityClassCode(eid) == dwShipName)
 			{
-				pShip = (SHIP_BASE*)api->GetEntityPointer(eid);
+				pShip = (SHIP_BASE*)EntityManager::GetEntityPointer(eid);
 			}
 		}
 		else if (fTest2 <= 1.0f)
@@ -316,7 +316,7 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 
 	for (long i=0; i<aShips.size(); i++)
 	{
-		if (!api->GetEntityPointer(aShips[i].eid))
+		if (!EntityManager::GetEntityPointer(aShips[i].eid))
 		{
 			aShips[i].pShip = nullptr;
 		}

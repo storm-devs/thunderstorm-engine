@@ -156,13 +156,13 @@ void ROPE::Realize(uint32_t Delta_Time)
 					if (!gdata[i].bDeleted && gdata[i].nt != 0 && nVert != 0)
 						if ((~(gdata[i].pMatWorld->Pos() - cp))*pr < fMaxRopeDist) // если расстояние до корабля не больше максимального
 						{
-							((SHIP_BASE*)api->GetEntityPointer(gdata[i].shipEI))->SetLightAndFog(true);
+							((SHIP_BASE*)EntityManager::GetEntityPointer(gdata[i].shipEI))->SetLightAndFog(true);
 							RenderService->SetTransform(D3DTS_WORLD, (D3DXMATRIX*)gdata[i].pMatWorld);
 
 							RenderService->TextureSet(0, texl);
 							RenderService->SetMaterial(mat);
 							RenderService->DrawBuffer(vBuf, sizeof(ROPEVERTEX), iBuf, 0, nVert, gdata[i].st, gdata[i].nt);
-							((SHIP_BASE*)api->GetEntityPointer(gdata[i].shipEI))->RestoreLightAndFog();
+							((SHIP_BASE*)EntityManager::GetEntityPointer(gdata[i].shipEI))->RestoreLightAndFog();
 						}
 				while (RenderService->TechniqueExecuteNext()) {};
 			}
@@ -191,7 +191,7 @@ uint32_t ROPE::ProcessMessage(MESSAGE & message)
 		{
 			entid_t tmp_shipEI = message.EntityID();
 			entid_t tmp_modelEI = message.EntityID();
-			MODEL* mdl = (MODEL*)api->GetEntityPointer(tmp_modelEI);
+			MODEL* mdl = (MODEL*)EntityManager::GetEntityPointer(tmp_modelEI);
 			if( mdl== nullptr )
 			{
 				api->Trace("WARNING!!! Missing INIT message to ROPE - bad ship model");
@@ -664,7 +664,7 @@ void ROPE::AddLabel(GEOS::LABEL &lbl,NODE *nod, bool bDontSage)
 			;
 			if(entid_t sailEI = api->GetEntityIdWalker("sail")(); sailEI)
 			{
-				MODEL* mdl=(MODEL*)api->GetEntityPointer(gdata[rd->HostGroup].modelEI);
+				MODEL* mdl=(MODEL*)EntityManager::GetEntityPointer(gdata[rd->HostGroup].modelEI);
 				if(mdl==nullptr)
 					rd->btie=rd->etie=false;
 				else for(int i=0; i<10000; i++)
@@ -884,7 +884,7 @@ void ROPE::SetAdd(int firstNum)
         {
 			long gn = rlist[rn]->HostGroup;
 			const char* pcModlName = nullptr;
-			MODEL* pMdl = (MODEL*)api->GetEntityPointer(gdata[gn].modelEI);
+			MODEL* pMdl = (MODEL*)EntityManager::GetEntityPointer(gdata[gn].modelEI);
 			if( pMdl && pMdl->GetNode(0) )
 				pcModlName = pMdl->GetNode(0)->GetName();
 

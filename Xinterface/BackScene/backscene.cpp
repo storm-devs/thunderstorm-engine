@@ -11,7 +11,7 @@ InterfaceBackScene::LightParam::~LightParam()
 {
 	bUse=false;
 	if( pModel ) {
-		api->EraseEntity( eiModel );
+		EntityManager::EraseEntity( eiModel );
 		pModel = nullptr;
 	}
 }
@@ -66,9 +66,9 @@ void InterfaceBackScene::LightParam::UpdateParams( float fTime )
 
 InterfaceBackScene::MenuDescr::~MenuDescr()
 {
-	api->EraseEntity(eiActive);
+	EntityManager::EraseEntity(eiActive);
 	pActive = nullptr;
-	api->EraseEntity(eiPassive);
+	EntityManager::EraseEntity(eiPassive);
 	pPassive = nullptr;
 }
 
@@ -83,9 +83,9 @@ void InterfaceBackScene::MenuDescr::Set( CMatrix* pMtx, const char* pcActiveName
 	// create active model
 	if( pcActiveName )
 	{
-		eiActive = api->CreateEntity( "MODELR" );
+		eiActive = EntityManager::CreateEntity( "MODELR" );
 		api->Send_Message( eiActive, "ls", MSG_MODEL_LOAD_GEO, pcActiveName );
-		pActive = (MODEL*)api->GetEntityPointer( eiActive );
+		pActive = (MODEL*)EntityManager::GetEntityPointer( eiActive );
 		if( pActive && pMtx )
 		{
 			pActive->mtx = *pMtx;
@@ -98,9 +98,9 @@ void InterfaceBackScene::MenuDescr::Set( CMatrix* pMtx, const char* pcActiveName
 	// create passive model
 	if( pcPassiveName )
 	{
-		eiPassive = api->CreateEntity( "MODELR" );
+		eiPassive = EntityManager::CreateEntity( "MODELR" );
 		api->Send_Message( eiPassive, "ls", MSG_MODEL_LOAD_GEO, pcPassiveName );
-		pPassive = (MODEL*)api->GetEntityPointer( eiPassive );
+		pPassive = (MODEL*)EntityManager::GetEntityPointer( eiPassive );
 		if( pPassive && pMtx )
 		{
 			pPassive->mtx = *pMtx;
@@ -135,8 +135,8 @@ InterfaceBackScene::InterfaceBackScene()
 InterfaceBackScene::~InterfaceBackScene()
 {
 	RestoreLight();
-	api->EraseEntity( m_eiModel );
-	api->EraseEntity( m_eiLocators );
+	EntityManager::EraseEntity( m_eiModel );
+	EntityManager::EraseEntity( m_eiLocators );
 	m_pLocators = nullptr;
 	m_pModel = nullptr;
 	ReleaseMenuList();
@@ -355,27 +355,27 @@ void InterfaceBackScene::LoadModel( const char* pcModelName )
 {
 	// delete all
 	if( m_pModel ) {
-		api->EraseEntity( m_eiModel );
+		EntityManager::EraseEntity( m_eiModel );
 		m_pModel = nullptr;
 	}
 	if( m_pLocators ) {
-		api->EraseEntity( m_eiLocators );
+		EntityManager::EraseEntity( m_eiLocators );
 		m_pLocators = nullptr;
 	}
 	VGEOMETRY* pGeo = (VGEOMETRY*)api->CreateService("Geometry");
 	if( pGeo ) pGeo->SetTexturePath((std::string("MainMenu\\")+XINTERFACE::pThis->StringService()->GetLanguage()+"\\").c_str());
 	// create model
-	m_eiModel = api->CreateEntity("MODELR" );
+	m_eiModel = EntityManager::CreateEntity("MODELR" );
 	api->Send_Message( m_eiModel, "ls", MSG_MODEL_LOAD_GEO, pcModelName );
-	m_pModel = (MODEL*)api->GetEntityPointer( m_eiModel );
+	m_pModel = (MODEL*)EntityManager::GetEntityPointer( m_eiModel );
 	if( pGeo ) pGeo->SetTexturePath("");
-	api->LayerAdd( "sun_trace", m_eiModel, 0 );
-	api->LayerAdd("rain_drops", m_eiModel, 100);
+	EntityManager::AddToLayer( "sun_trace", m_eiModel, 0 );
+	EntityManager::AddToLayer("rain_drops", m_eiModel, 100);
 	// create locators
-	m_eiLocators = api->CreateEntity( "MODELR" );
+	m_eiLocators = EntityManager::CreateEntity( "MODELR" );
 	std::string sLocName = std::string(pcModelName) + "_locators";
 	api->Send_Message( m_eiLocators, "ls", MSG_MODEL_LOAD_GEO, sLocName.c_str() );
-	m_pLocators = (MODEL*)api->GetEntityPointer( m_eiLocators );
+	m_pLocators = (MODEL*)EntityManager::GetEntityPointer( m_eiLocators );
 }
 
 void InterfaceBackScene::SetCameraPosition( const char* pcLocatorName )
@@ -633,9 +633,9 @@ void InterfaceBackScene::InitLight( ATTRIBUTES* pAParam )
 		VGEOMETRY* pGeo = (VGEOMETRY*)api->CreateService("Geometry");
 		if( pGeo ) pGeo->SetTexturePath("MainMenu\\");
 		// create model
-		pLight->eiModel = api->CreateEntity( "MODELR" );
+		pLight->eiModel = EntityManager::CreateEntity( "MODELR" );
 		api->Send_Message( pLight->eiModel, "ls", MSG_MODEL_LOAD_GEO, pcFonarModel );
-		pLight->pModel = (MODEL*)api->GetEntityPointer( pLight->eiModel );
+		pLight->pModel = (MODEL*)EntityManager::GetEntityPointer( pLight->eiModel );
 		if( pGeo ) pGeo->SetTexturePath("");
 		if( pLight->pModel )
 		{
@@ -811,9 +811,9 @@ void InterfaceBackScene::InitAniModel( ATTRIBUTES* pAParam )
 	VGEOMETRY* pGeo = (VGEOMETRY*)api->CreateService("Geometry");
 	if( pGeo ) pGeo->SetTexturePath("MainMenu\\");
 	// create model
-	pObj->ei = api->CreateEntity( "MODELR" );
+	pObj->ei = EntityManager::CreateEntity( "MODELR" );
 	api->Send_Message( pObj->ei, "ls", MSG_MODEL_LOAD_GEO, pcMdlName );
-	pObj->pModel = (MODEL*)api->GetEntityPointer( pObj->ei );
+	pObj->pModel = (MODEL*)EntityManager::GetEntityPointer( pObj->ei );
 	if( pGeo ) pGeo->SetTexturePath("");
 
 	if( pObj->pModel )
@@ -854,9 +854,9 @@ void InterfaceBackScene::InitStaticModel( ATTRIBUTES* pAParam )
 	VGEOMETRY* pGeo = (VGEOMETRY*)api->CreateService("Geometry");
 	if( pGeo ) pGeo->SetTexturePath("MainMenu\\");
 	// create model
-	pObj->ei = api->CreateEntity( "MODELR" );
+	pObj->ei = EntityManager::CreateEntity( "MODELR" );
 	api->Send_Message( pObj->ei, "ls", MSG_MODEL_LOAD_GEO, pcMdlName );
-	pObj->pModel = (MODEL*)api->GetEntityPointer( pObj->ei );
+	pObj->pModel = (MODEL*)EntityManager::GetEntityPointer( pObj->ei );
 	if( pGeo ) pGeo->SetTexturePath("");
 
 	if( pAParam->GetAttribute("tfactor") ) {

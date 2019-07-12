@@ -54,12 +54,12 @@ bool SEAFOAM::Init()
 	/*if (api->IsNetActive())
 	{
 		NetFindClass(false, &seaID, "NetSea");
-		sea = (SEA_BASE*) api->GetEntityPointer(seaID);
+		sea = (SEA_BASE*) EntityManager::GetEntityPointer(seaID);
 	}
 	else*/
 	{
 		seaID = api->GetEntityIdWalker("sea")();
-		sea = (SEA_BASE*) api->GetEntityPointer(seaID);
+		sea = (SEA_BASE*) EntityManager::GetEntityPointer(seaID);
 	}
 
 	renderer = (VDX9RENDER *)api->CreateService("dx9render");
@@ -69,7 +69,7 @@ bool SEAFOAM::Init()
 
 	InitializeShipFoam();
 
-	//api->CreateEntity(&arrowModel,"MODELR");
+	//EntityManager::CreateEntity(&arrowModel,"MODELR");
 	//api->Send_Message(arrowModel,"ls",MSG_MODEL_LOAD_GEO, "fish01");
 
 	carcassTexture = renderer->TextureCreate("seafoam_2.tga");
@@ -97,7 +97,7 @@ void SEAFOAM::AddShip(entid_t  pShipEID)
 {
 	tShipFoamInfo * foamInfo = &shipFoamInfo[shipsCount++];
 
-	foamInfo->ship = (SHIP_BASE*) api->GetEntityPointer(pShipEID);
+	foamInfo->ship = (SHIP_BASE*) EntityManager::GetEntityPointer(pShipEID);
 	foamInfo->shipModel = foamInfo->ship->GetModel();
 	foamInfo->shipModel->GetNode(0)->geo->GetInfo(foamInfo->hullInfo);
 	foamInfo->enabled = true;
@@ -364,7 +364,7 @@ void SEAFOAM::InterpolateRightParticle(tShipFoamInfo &_shipFoamInfo, int z, uint
 //--------------------------------------------------------------------
 void SEAFOAM::RealizeShipFoam_Particles(tShipFoamInfo &_shipFoamInfo, uint32_t _dTime)
 {
-	//MODEL *arrow = (MODEL*)api->GetEntityPointer(arrowModel);
+	//MODEL *arrow = (MODEL*)EntityManager::GetEntityPointer(arrowModel);
 
 	for (int z = 0; z < TRACE_STEPS_Z; ++z)
 	{
@@ -590,7 +590,7 @@ uint32_t SEAFOAM::AttributeChanged(ATTRIBUTES * pA)
 		{
 			if (NetFindClass(false, &shipID, "NetShip")) do
 			{
-				Entity * pE = api->GetEntityPointer(shipID);
+				Entity * pE = EntityManager::GetEntityPointer(shipID);
 				if (pE->GetNetID() == dwShipNetID)
 				{
 					AddShip(&shipID);

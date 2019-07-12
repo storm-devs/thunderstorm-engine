@@ -106,10 +106,10 @@ void BLAST::ProcessTime(uint32_t DT)
 	float res;
 	
 	
-	if(!api->GetEntityPointer(sea_eid))
+	if(!EntityManager::GetEntityPointer(sea_eid))
 	{
 		sea_eid = api->GetEntityIdWalker("sea")();
-		pSea = (CANNON_TRACE_BASE *)api->GetEntityPointer(sea_eid);
+		pSea = (CANNON_TRACE_BASE *)EntityManager::GetEntityPointer(sea_eid);
 	}
 
 	float Delta_Time = (float)DT;//*0.1;
@@ -164,7 +164,7 @@ void BLAST::ProcessTime(uint32_t DT)
 		}*/
 	}
 
-	if(bStop) api->EraseEntity(GetId());
+	if(bStop) EntityManager::EraseEntity(GetId());
 }
 
 uint32_t BLAST::ProcessMessage(MESSAGE & message)

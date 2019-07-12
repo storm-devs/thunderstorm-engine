@@ -38,8 +38,8 @@ bool CameraDialog::Init()
 	col = (COLLIDE *)api->CreateService("coll");
 	if(!col)	throw std::exception("No service: collide");
 
-	api->LayerAdd("execute",GetId(),2);
-	//api->LayerAdd("realize",GetId(),1);
+	EntityManager::AddToLayer(EXECUTE,GetId(),2);
+	//EntityManager::AddToLayer(REALIZE,GetId(),1);
 	return true;
 }
 
@@ -81,7 +81,7 @@ void CameraDialog::Execute(uint32_t Delta_Time)
 	CVECTOR prevPos = pos;
 	CVECTOR prevAng = ang;
 
-	MODEL *mdl = (MODEL*)api->GetEntityPointer(person);
+	MODEL *mdl = (MODEL*)EntityManager::GetEntityPointer(person);
 	if(mdl==nullptr)	return;
 
 	CMatrix perMtx = mdl->mtx;
@@ -119,20 +119,20 @@ void CameraDialog::Execute(uint32_t Delta_Time)
 
 void CameraDialog::Realize(uint32_t Delta_Time)
 {
-	MODEL *mdl = (MODEL*)api->GetEntityPointer(person);
+	MODEL *mdl = (MODEL*)EntityManager::GetEntityPointer(person);
 	if(mdl==nullptr)	return;
 	//-------------------------------------------------------
 	static bool inited = false;
 	static entid_t sMod[2];
 	if(!inited)
 	{
-		sMod[0] = api->CreateEntity("modelr");
-		api->LayerAdd("execute",sMod[0],100);
-		api->LayerAdd("realize",sMod[0],100);
+		sMod[0] = EntityManager::CreateEntity("modelr");
+		EntityManager::AddToLayer(EXECUTE,sMod[0],100);
+		EntityManager::AddToLayer(REALIZE,sMod[0],100);
 		api->Send_Message(sMod[0], "ls", MSG_MODEL_LOAD_GEO, "sabel");
-		sMod[1] = api->CreateEntity("modelr");
-		api->LayerAdd("execute",sMod[1],100);
-		api->LayerAdd("realize",sMod[1],100);
+		sMod[1] = EntityManager::CreateEntity("modelr");
+		EntityManager::AddToLayer(EXECUTE,sMod[1],100);
+		EntityManager::AddToLayer(REALIZE,sMod[1],100);
 		api->Send_Message(sMod[1], "ls", MSG_MODEL_LOAD_GEO, "sabel");
 		inited = true;
 	}
@@ -160,7 +160,7 @@ void CameraDialog::Realize(uint32_t Delta_Time)
 		mbn.Vy().x *= -1.0f;
 		mbn.Vz().x *= -1.0f;
 		CMatrix perMtx = mbn*mdl->mtx;
-		MODEL *smdl = (MODEL*)api->GetEntityPointer(sMod[0]);
+		MODEL *smdl = (MODEL*)EntityManager::GetEntityPointer(sMod[0]);
 		smdl->mtx = perMtx;
 	}
 
@@ -186,7 +186,7 @@ void CameraDialog::Realize(uint32_t Delta_Time)
 		mbn.Vy().x *= -1.0f;
 		mbn.Vz().x *= -1.0f;
 		CMatrix perMtx = mbn*mdl->mtx;
-		MODEL *smdl = (MODEL*)api->GetEntityPointer(sMod[1]);
+		MODEL *smdl = (MODEL*)EntityManager::GetEntityPointer(sMod[1]);
 		smdl->mtx = perMtx;
 	}
 

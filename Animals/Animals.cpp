@@ -36,8 +36,8 @@ ANIMALS::~ANIMALS()
 //--------------------------------------------------------------------
 bool ANIMALS::Init()
 {
-	api->LayerAdd("realize",GetId(),77);
-	api->LayerAdd("execute", GetId(),77);
+	EntityManager::AddToLayer(REALIZE,GetId(),77);
+	EntityManager::AddToLayer(EXECUTE, GetId(),77);
 
 	seagulls->Init();
 	//sharks->Init();

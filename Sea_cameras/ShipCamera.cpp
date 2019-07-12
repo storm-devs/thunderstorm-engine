@@ -49,7 +49,7 @@ void SHIP_CAMERA::SetDevices()
 	Assert(pRS);
 
 	entid_t sea_id;
-	if (sea_id = api->GetEntityIdWalker("sea")()) pSea = (SEA_BASE*)api->GetEntityPointer(sea_id);
+	if (sea_id = api->GetEntityIdWalker("sea")()) pSea = (SEA_BASE*)EntityManager::GetEntityPointer(sea_id);
 	//Assert(pSea);
 }
 
@@ -204,7 +204,7 @@ void SHIP_CAMERA::ShipsCollision(CVECTOR & pos)
 	for(entid_t id = walker(); id; id = walker())
 	{
 		//Указатель на объект
-		VAI_OBJBASE * ship = (VAI_OBJBASE *)api->GetEntityPointer(id);
+		VAI_OBJBASE * ship = (VAI_OBJBASE *)EntityManager::GetEntityPointer(id);
 		if(!ship) break;
 		if(ship == GetAIObj()) continue;
 		//Позиция камеры в системе корабля
@@ -243,13 +243,13 @@ bool SHIP_CAMERA::IslandCollision(CVECTOR & pos)
 		{
 			entid_t island_id;
 			if (island_id = api->GetEntityIdWalker("island")()) 
-				pIsland = (ISLAND_BASE*)api->GetEntityPointer(island_id);
+				pIsland = (ISLAND_BASE*)EntityManager::GetEntityPointer(island_id);
 			lIlsInitCnt++;
 			if(pIsland == nullptr) return false;
 		}else return false;
 	}
 	//Model
-	MODEL * mdl = (MODEL*)api->GetEntityPointer(pIsland->GetModelEID());
+	MODEL * mdl = (MODEL*)EntityManager::GetEntityPointer(pIsland->GetModelEID());
 	if(mdl == nullptr) return false;
 	//Find direction, distance
 	CVECTOR dir = pos - vCenter;

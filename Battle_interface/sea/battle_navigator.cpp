@@ -1137,10 +1137,10 @@ void BATTLE_NAVIGATOR::SetIsland()
 	const auto walker1 = api->GetEntityIdWalker("ISLAND"), walker2 = api->GetEntityIdWalker("NetIsland");
 	if((ei = walker1()) || (ei = walker2()))
 	{
-		ISLAND_BASE * pIsl = (ISLAND_BASE*)api->GetEntityPointer(ei);
+		ISLAND_BASE * pIsl = (ISLAND_BASE*)EntityManager::GetEntityPointer(ei);
 		if(pIsl!= nullptr)
 		{
-			pM = (MODEL*)api->GetEntityPointer(pIsl->GetModelEID());
+			pM = (MODEL*)EntityManager::GetEntityPointer(pIsl->GetModelEID());
 		}
 	}
 	if(pM!= nullptr)
@@ -1300,7 +1300,7 @@ void BATTLE_NAVIGATOR::UpdateWindParam()
 	if( !m_wb && !m_pAWeather ) {
 		entid_t ei;
 		if( (ei = api->GetEntityIdWalker("weather")()) )
-			m_wb = (WEATHER_BASE*)api->GetEntityPointer(ei);
+			m_wb = (WEATHER_BASE*)EntityManager::GetEntityPointer(ei);
 		/*if( api->IsNetActive() && !m_wb && m_pOwnerEI ) {
 			VDATA * pSVWeather = (VDATA*)api->GetScriptVariable((m_pOwnerEI->IsServer()) ? "NSWeather" : "NCWeather"); Assert(pSVWeather);
 			m_pAWeather = pSVWeather->GetAClass(); Assert(m_pAWeather);

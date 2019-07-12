@@ -56,16 +56,16 @@ Location::~Location()
 	ATTRIBUTES * atr = AttributesPointer->FindAClass(AttributesPointer, "locators");
 	if(atr) AttributesPointer->DeleteAttributeClassX(atr);
 #ifndef _XBOX
-	//api->EraseEntity(cubeShotMaker);
-	api->EraseEntity(lighter);
+	//EntityManager::EraseEntity(cubeShotMaker);
+	EntityManager::EraseEntity(lighter);
 #endif
-	api->EraseEntity(lizards);
-	api->EraseEntity(rats);
-	api->EraseEntity(eagle);
-	api->EraseEntity(grass);
-	api->EraseEntity(lightsid);
-	api->EraseEntity(loceffectsid);
-	api->EraseEntity(blood);
+	EntityManager::EraseEntity(lizards);
+	EntityManager::EraseEntity(rats);
+	EntityManager::EraseEntity(eagle);
+	EntityManager::EraseEntity(grass);
+	EntityManager::EraseEntity(lightsid);
+	EntityManager::EraseEntity(loceffectsid);
+	EntityManager::EraseEntity(blood);
 
 	for(long i = 0; i < numLocators; i++) 
 		delete locators[i];
@@ -83,20 +83,20 @@ bool Location::Init()
 
 	//api->LayerCreate("execute", true, false);
 	api->LayerSetExecute("execute", true);
-	api->LayerAdd("execute", GetId(), 10);
+	EntityManager::AddToLayer(EXECUTE, GetId(), 10);
 
 	//api->LayerCreate("realize", true, false);
 	api->LayerSetRealize("realize", true);
-	api->LayerAdd("realize", GetId(), 100000);
+	EntityManager::AddToLayer(REALIZE, GetId(), 100000);
 
-	lightsid = api->CreateEntity("Lights");
-	loceffectsid = api->CreateEntity("LocationEffects");
+	lightsid = EntityManager::CreateEntity("Lights");
+	loceffectsid = EntityManager::CreateEntity("LocationEffects");
 
 	enemyBarsTexture = rs->TextureCreate("LocEfx\\state_bars.tga");
 
 #ifndef _XBOX
-	lighter = api->CreateEntity("Lighter");
-	//cubeShotMaker = api->CreateEntity("CubeShotMakerCam");
+	lighter = EntityManager::CreateEntity("Lighter");
+	//cubeShotMaker = EntityManager::CreateEntity("CubeShotMakerCam");
 #endif
 	return true;
 }
@@ -117,7 +117,7 @@ void Location::Execute(uint32_t delta_time)
 		message[i].alpha -= dltTime*0.4f;
 	}
 	//Обновление данных для травы
-	Grass * grs = (Grass *)api->GetEntityPointer(grass);
+	Grass * grs = (Grass *)EntityManager::GetEntityPointer(grass);
 	if(grs)
 	{
 		for(long i = 0; i < supervisor.numCharacters; i++)
@@ -186,7 +186,7 @@ void Location::Realize(uint32_t delta_time)
 
 void Location::Update(uint32_t delta_time)
 {
-	lights = (Lights *)api->GetEntityPointer(lightsid);
+	lights = (Lights *)EntityManager::GetEntityPointer(lightsid);
 
 	const uint32_t max_delta_time = 500;
 	const float maxDltTime = 0.1f;
@@ -229,7 +229,7 @@ uint32_t Location::ProcessMessage(MESSAGE & message)
 	case MSG_LOCATION_GET_MODEL:
 		if(lastLoadStaticModel < 0) return 0;
 		if(!model.IsValidateIndex(lastLoadStaticModel)) return 0;
-		if(!api->GetEntityPointer(model.ID(lastLoadStaticModel))) return 0;
+		if(!EntityManager::GetEntityPointer(model.ID(lastLoadStaticModel))) return 0;
 		message.ScriptVariablePointer()->Set(model.ID(lastLoadStaticModel));
 		return 1;
 	case MSG_LOCATION_MODEL_SET_POS:
@@ -265,7 +265,7 @@ uint32_t Location::ProcessMessage(MESSAGE & message)
 		return 1;
 	case MSG_LOCATION_MODEL_LAMPS:
 		if(lastLoadStaticModel < 0) return 0;
-		lights = (Lights *)api->GetEntityPointer(lightsid);
+		lights = (Lights *)EntityManager::GetEntityPointer(lightsid);
 		if(!lights) return 0;
 		return lights->AddLampModel(model.ID(lastLoadStaticModel));
 	case MSG_LOCATION_MODEL_REFLECTION:
@@ -383,7 +383,7 @@ uint32_t Location::ProcessMessage(MESSAGE & message)
 		supervisor.DelSavePositions(false);
 		break;
 	case MSG_LOCATION_ADD_LIGHT:
-		lights = (Lights *)api->GetEntityPointer(lightsid);
+		lights = (Lights *)EntityManager::GetEntityPointer(lightsid);
 		if(!lights) return false;
 		message.String(sizeof(name), name);
 		name[sizeof(name) - 1] = 0;
@@ -415,7 +415,7 @@ LocatorArray * Location::FindLocatorsGroup(const char * gName)
 
 long Location::LoadStaticModel(const char * modelName, const char * tech, long level, bool useDynamicLights)
 {
-	lights = (Lights *)api->GetEntityPointer(lightsid);
+	lights = (Lights *)EntityManager::GetEntityPointer(lightsid);
 	long im = model.CreateModel(modelName, tech, level, true, useDynamicLights?GetLights():nullptr);
 	if(im < 0) return -1;
 	//Указатель на геометрию
@@ -438,10 +438,10 @@ long Location::LoadStaticModel(const char * modelName, const char * tech, long l
 		return -1;
 	}
 	//Добавим модельку в специальные слои
-	api->LayerAdd("shadow", mdl->GetId(), 10);
-	api->LayerAdd("sun_trace", mdl->GetId(), 10);
-	api->LayerAdd("blood", mdl->GetId(), 100);
-	api->LayerAdd("rain_drops", mdl->GetId(), 100);
+	EntityManager::AddToLayer("shadow", mdl->GetId(), 10);
+	EntityManager::AddToLayer("sun_trace", mdl->GetId(), 10);
+	EntityManager::AddToLayer("blood", mdl->GetId(), 100);
+	EntityManager::AddToLayer("rain_drops", mdl->GetId(), 100);
 	//Зачитываем все локаторы
 	GEOS::INFO ginfo;
 	GEOS::LABEL label;
@@ -517,10 +517,10 @@ bool Location::LoadJumpPatch(const char * modelName)
 
 bool Location::LoadGrass(const char * modelName, const char * texture)
 {
-	api->EraseEntity(grass);
+	EntityManager::EraseEntity(grass);
 	if(!modelName || !modelName[0]) return true;
-	grass = api->CreateEntity("Grass");
-	Grass * grs = (Grass *)api->GetEntityPointer(grass);
+	grass = EntityManager::CreateEntity("Grass");
+	Grass * grs = (Grass *)EntityManager::GetEntityPointer(grass);
 	if(!grs) return false;
 	if(texture && texture[0]) grs->SetTexture(texture);
 	char nm[512];
@@ -531,7 +531,7 @@ bool Location::LoadGrass(const char * modelName, const char * texture)
 	long ll = strlen(nm);
 	if(grs->LoadData(nm)) return true;
 	api->Trace("Can't load grass data file: %s", nm);
-	api->EraseEntity(grass);
+	EntityManager::EraseEntity(grass);
 	return false;
 }
 
@@ -571,30 +571,30 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 	}else
 	if(_stricmp(name, "AddEagle") == 0)
 	{
-		eagle = api->CreateEntity("LocEagle");
+		eagle = EntityManager::CreateEntity("LocEagle");
 		return true;
 	}else
 	if(_stricmp(name, "AddLizards") == 0)
 	{
-		lizards = api->CreateEntity("Lizards");
+		lizards = EntityManager::CreateEntity("Lizards");
 		return true;
 	}else
 	if(_stricmp(name, "AddRats") == 0)
 	{
-		rats = api->CreateEntity("LocRats");
+		rats = EntityManager::CreateEntity("LocRats");
 		if(!api->Send_Message(rats, "l", message.Long()))
 		{
-			api->EraseEntity(rats);
+			EntityManager::EraseEntity(rats);
 			return false;
 		}
 		return true;
 	}else
 	if(_stricmp(name, "AddBlood") == 0)
 	{
-		if( !api->GetEntityPointer(blood) ) {
-			blood = api->CreateEntity("Blood");
-			api->LayerAdd("execute", blood, 65540);
-			api->LayerAdd("realize", blood, 65540);
+		if( !EntityManager::GetEntityPointer(blood) ) {
+			blood = EntityManager::CreateEntity("Blood");
+			EntityManager::AddToLayer(EXECUTE, blood, 65540);
+			EntityManager::AddToLayer(REALIZE, blood, 65540);
 		}
 		CVECTOR vPos;
 		vPos.x = message.Float();
@@ -632,7 +632,7 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 		long layer = message.Long();
 		long n = model.FindModel( modelname );
 		if( n>=0 )
-			//api->LayerAdd("realize", model.RealizerID(n), layer);
+			//EntityManager::AddToLayer(REALIZE, model.RealizerID(n), layer);
 			api->Send_Message(model.RealizerID(n),"ll",2,1);
 	} else
 	if(_stricmp(name, "SetGrassParams") == 0)

@@ -65,7 +65,7 @@ public:
 
 		uint32_t				dwCannonType, dwCulverinType, dwMortarType;
 
-		MODEL *		GetModel() { return (MODEL*)api->GetEntityPointer(GetModelEID()); }
+		MODEL *		GetModel() { return (MODEL*)EntityManager::GetEntityPointer(GetModelEID()); }
 		void		SetModelEID(entid_t _eidModel) { eidModel = _eidModel; } 
 		entid_t	GetModelEID() { return eidModel; } 
 		void		SetBlotEID(entid_t _eidBlot) { eidBlot = _eidBlot; } 

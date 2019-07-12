@@ -18,7 +18,7 @@ void CXI_VIDEORECT::Draw(bool bSelected,uint32_t Delta_Time)
 {
 	if(m_bUse)
 	{
-		if( auto ptr = api->GetEntityPointer(m_eiVideo) )
+		if( auto ptr = EntityManager::GetEntityPointer(m_eiVideo) )
 		{
 			IDirect3DTexture9 * pTex = ((xiBaseVideo*)ptr)->GetCurrentVideoTexture();
 			if(pTex!= nullptr)
@@ -61,7 +61,7 @@ void CXI_VIDEORECT::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 
 void CXI_VIDEORECT::ReleaseAll()
 {
-	api->EraseEntity(m_eiVideo);
+	EntityManager::EraseEntity(m_eiVideo);
 }
 
 void CXI_VIDEORECT::ChangePosition( XYRECT &rNewPos )
@@ -109,22 +109,22 @@ uint32_t CXI_VIDEORECT::MessageProc(long msgcode, MESSAGE & message)
 
 void CXI_VIDEORECT::StartVideoPlay(char * videoFileName)
 {
-	if( api->GetEntityPointer(m_eiVideo) ) {
-		api->EraseEntity(m_eiVideo);
+	if( EntityManager::GetEntityPointer(m_eiVideo) ) {
+		EntityManager::EraseEntity(m_eiVideo);
 	}
 	if(videoFileName== nullptr) return;
 
 #ifndef _XBOX
-	m_eiVideo = api->CreateEntity("CAviPlayer" );
+	m_eiVideo = EntityManager::CreateEntity("CAviPlayer" );
 	m_rectTex.bottom = 1.f - m_rectTex.bottom;
 	m_rectTex.top = 1.f - m_rectTex.top;
-	if(auto ptr = api->GetEntityPointer(m_eiVideo))
+	if(auto ptr = EntityManager::GetEntityPointer(m_eiVideo))
 		((xiBaseVideo*)ptr)->SetShowVideo(false);
 	api->Send_Message(m_eiVideo, "ls", MSG_SET_VIDEO_PLAY, videoFileName);
 
 
 #else
-	api->CreateEntity( &m_eiVideo, "WMVideoPlay" );
+	EntityManager::CreateEntity( &m_eiVideo, "WMVideoPlay" );
 	api->Send_Message(m_eiVideo, "ls", MSG_SET_VIDEO_PLAY, videoFileName);
 	float fScrW = (float)m_screenSize.x;
 	float fScrH = (float)m_screenSize.y;

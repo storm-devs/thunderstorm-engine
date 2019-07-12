@@ -134,10 +134,10 @@ bool Lights::Init()
 	//Начнём исполняться
 	//api->LayerCreate("execute", true, false);
 	api->LayerSetExecute("execute", true);
-	api->LayerAdd("execute", GetId(), 10);
+	EntityManager::AddToLayer(EXECUTE, GetId(), 10);
 	//api->LayerCreate("realize", true, false);
 	api->LayerSetRealize("realize", true);
-	api->LayerAdd("realize", GetId(), 1001000);
+	EntityManager::AddToLayer(REALIZE, GetId(), 1001000);
 	return true;
 }
 

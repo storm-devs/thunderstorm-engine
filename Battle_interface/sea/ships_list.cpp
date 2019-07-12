@@ -177,7 +177,7 @@ void SHIP_DESCRIBE_LIST::Add(long mainChrIndex, long chIdx, ATTRIBUTES * pChAttr
 	entid_t ei;
 	while(ei = walker())
 	{
-		VAI_OBJBASE* vob = (VAI_OBJBASE*)api->GetEntityPointer(ei);
+		VAI_OBJBASE* vob = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ei);
 		if (vob == nullptr) continue;
 		ATTRIBUTES* pA = vob->GetACharacter();
 		if ((long)pA->GetAttributeAsDword("index") == chIdx)
@@ -188,7 +188,7 @@ void SHIP_DESCRIBE_LIST::Add(long mainChrIndex, long chIdx, ATTRIBUTES * pChAttr
 	}
 	/*if( NetFindClass(false,&ei,"netship") ) do
 	{
-		VAI_OBJBASE * vob = (VAI_OBJBASE*)api->GetEntityPointer(ei);
+		VAI_OBJBASE * vob = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ei);
 		if(vob== nullptr) continue;
 		ATTRIBUTES *pA = vob->GetACharacter();
 		if((long)pA->GetAttributeAsDword("id")==chIdx)
@@ -247,7 +247,7 @@ void SHIP_DESCRIBE_LIST::Refresh()
 
 	while(ei = walker())
 	{
-		VAI_OBJBASE* vob = (VAI_OBJBASE*)api->GetEntityPointer(ei);
+		VAI_OBJBASE* vob = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ei);
 		if (vob == nullptr) continue;
 		ATTRIBUTES* pA = vob->GetACharacter();
 		if (pA == nullptr) continue;
@@ -256,7 +256,7 @@ void SHIP_DESCRIBE_LIST::Refresh()
 
 	/*if( NetFindClass(false,&ei,"NetShip") ) do
 	{
-		VAI_OBJBASE * vob = (VAI_OBJBASE*)api->GetEntityPointer(ei);
+		VAI_OBJBASE * vob = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ei);
 		if(vob== nullptr) continue;
 		ATTRIBUTES * pA= vob->GetACharacter();
 		if(pA== nullptr) continue;

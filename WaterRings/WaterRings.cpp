@@ -28,10 +28,10 @@ bool WaterRings::Init()
 {
 	//GUARD(WaterRings::Init())
 
-	api->LayerAdd("realize",GetId(),65551);
+	EntityManager::AddToLayer(REALIZE,GetId(),65551);
 
 	entid_t seaID = api->GetEntityIdWalker("sea")();
-	sea = (SEA_BASE*) api->GetEntityPointer(seaID);
+	sea = (SEA_BASE*) EntityManager::GetEntityPointer(seaID);
 
 	renderService = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!renderService)	throw std::exception("No service: dx9render");

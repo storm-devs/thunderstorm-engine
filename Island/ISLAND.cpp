@@ -44,21 +44,21 @@ ISLAND::~ISLAND()
 
 void ISLAND::Uninit()
 {
-	for (uint32_t i=0; i<aSpheres.size(); i++) api->EraseEntity(aSpheres[i]);
+	for (uint32_t i=0; i<aSpheres.size(); i++) EntityManager::EraseEntity(aSpheres[i]);
 	aSpheres.clear();
 	STORM_DELETE(pDepthMap);
 	STORM_DELETE(pShadowMap);
 
 	if (!bForeignModels) 
 	{
-		api->EraseEntity(model_id);
-		api->EraseEntity(seabed_id);
+		EntityManager::EraseEntity(model_id);
+		EntityManager::EraseEntity(seabed_id);
 	}
 }
 
 bool ISLAND::Init()
 {
-	//api->LayerAdd("system_messages", GetId(), 1);
+	//EntityManager::AddToLayer("system_messages", GetId(), 1);
 	SetDevice();
 
 	// calc optimization
@@ -101,7 +101,7 @@ void ISLAND::Realize(uint32_t Delta_Time)
 
 	if (bForeignModels) return;
 
-	MODEL * pModel = (MODEL*)api->GetEntityPointer(model_id); Assert(pModel);
+	MODEL * pModel = (MODEL*)EntityManager::GetEntityPointer(model_id); Assert(pModel);
 
 	uint32_t bFogEnable;
 	uint32_t bLighting;
@@ -160,7 +160,7 @@ void ISLAND::Realize(uint32_t Delta_Time)
 		pRS->SetLight(0, &lt);
 		for (uint32_t k=0; k<aForts.size(); k++)
 		{
-			const auto ent = api->GetEntityPointer(aForts[k]);
+			const auto ent = EntityManager::GetEntityPointer(aForts[k]);
 			CMatrix mOld = ((MODEL*)ent)->mtx;
 			((MODEL*)ent)->mtx = mOld * mTemp;
 
@@ -182,7 +182,7 @@ void ISLAND::Realize(uint32_t Delta_Time)
 		pRS->SetRenderState(D3DRS_FOGENABLE, false);
 		//pRS->SetRenderState(D3DRS_AMBIENT, RGB(dwAmbient/4,dwAmbient/4,dwAmbient/4));
 
-		MODEL * pSeaBed = (MODEL*)api->GetEntityPointer(seabed_id);
+		MODEL * pSeaBed = (MODEL*)EntityManager::GetEntityPointer(seabed_id);
 		if (pSeaBed)
 			pSeaBed->ProcessStage(Entity::Stage::REALIZE, Delta_Time);
 	}
@@ -197,7 +197,7 @@ void ISLAND::Realize(uint32_t Delta_Time)
 	uint32_t i;
 	for (i=0; i<aSpheres.size(); i++)
 	{
-		MODEL * pModel = (MODEL*)api->GetEntityPointer(aSpheres[i]);
+		MODEL * pModel = (MODEL*)EntityManager::GetEntityPointer(aSpheres[i]);
 		CVECTOR vPos = AIPath.GetPointPos(i);
 		if (pModel)
 			pModel->mtx.BuildPosition(vPos.x,5.0f,vPos.z);
@@ -288,7 +288,7 @@ void ISLAND::AddLocationModel(entid_t  eid, char * pIDStr, char * pDir)
 	bForeignModels = true;
 	strcpy_s(cModelsDir, pDir);
 	strcpy_s(cModelsID, pIDStr);
-	api->LayerAdd("island_trace", eid, 10);
+	EntityManager::AddToLayer("island_trace", eid, 10);
 }
 
 inline float ISLAND::GetDepthNoCheck(uint32_t iX, uint32_t iZ)
@@ -383,7 +383,7 @@ bool ISLAND::ActivateCamomileTrace(CVECTOR & vSrc)
 		vDst = vSrc + CVECTOR(fCos * fRadius, 0.0f, fSin * fRadius);
 		fRes = Trace(vSrc, vDst);
 		if (fRes > 1.0f) continue;
-		MODEL * pEnt = (MODEL*)api->GetEntityPointer(pCollide->GetObjectID()); Assert(pEnt);
+		MODEL * pEnt = (MODEL*)EntityManager::GetEntityPointer(pCollide->GetObjectID()); Assert(pEnt);
 		pEnt->GetCollideTriangle(trg);
 		vCross = !((trg.vrt[1] - trg.vrt[0]) ^ (trg.vrt[2] - trg.vrt[0]));
 		fRes = vCross | (!(vDst - vSrc));
@@ -403,7 +403,7 @@ void ISLAND::CalcBoxParameters(CVECTOR & _vBoxCenter, CVECTOR & _vBoxSize)
 	const auto walker = api->LayerGetWalker("island_trace");
 	while (const auto pEID = walker())
 	{
-		MODEL* pM = (MODEL*)api->GetEntityPointer(pEID); Assert(pM);
+		MODEL* pM = (MODEL*)EntityManager::GetEntityPointer(pEID); Assert(pM);
 		uint32_t i = 0;
 		while (true)
 		{
@@ -455,7 +455,7 @@ bool ISLAND::CreateShadowMap(char * pDir, char * pName)
 	WEATHER_BASE	* pWeather;
 	if ((ent = api->GetEntityIdWalker("Weather")()) == 0)
 		throw std::exception("No found WEATHER entity!");
-	pWeather = (WEATHER_BASE*)api->GetEntityPointer(ent); Assert(pWeather);
+	pWeather = (WEATHER_BASE*)EntityManager::GetEntityPointer(ent); Assert(pWeather);
 
 	fs::path path = fs::path() / "resource" / "foam" / pDir / AttributesPointer->GetAttribute("LightingPath");
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
@@ -790,23 +790,23 @@ bool ISLAND::Mount(char * fname, char * fdir, entid_t * eID)
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 	//sRealFileName.Format("%s\\%s", fdir, fname); sRealFileName.CheckPath();
 	
-	model_id = api->CreateEntity("MODELR");
+	model_id = EntityManager::CreateEntity("MODELR");
 	api->Send_Message(model_id, "ls", MSG_MODEL_SET_LIGHT_PATH, AttributesPointer->GetAttribute("LightingPath"));
 	api->Send_Message(model_id, "ls", MSG_MODEL_LOAD_GEO, (char*)pathStr.c_str());
 
 	// extract subobject(sea_bed) to another model
-	MODEL * pModel = (MODEL*)api->GetEntityPointer(model_id);
+	MODEL * pModel = (MODEL*)EntityManager::GetEntityPointer(model_id);
 	NODE * pNode = pModel->FindNode(SEA_BED_NODE_NAME);
 	if (pNode)
 		seabed_id = pNode->Unlink2Model();
 	else 
 		api->Trace("Island: island %s has no sea bed, check me!", fname);
 
-	api->LayerAdd("island_trace", model_id, 10);
-	api->LayerAdd("island_trace", seabed_id, 10);
-	api->LayerAdd("rain_drops", model_id, 100);
+	EntityManager::AddToLayer("island_trace", model_id, 10);
+	EntityManager::AddToLayer("island_trace", seabed_id, 10);
+	EntityManager::AddToLayer("rain_drops", model_id, 100);
 
-	MODEL * pSeaBedModel = (MODEL*)api->GetEntityPointer(seabed_id);
+	MODEL * pSeaBedModel = (MODEL*)EntityManager::GetEntityPointer(seabed_id);
 
 	mIslandOld = pModel->mtx;
 	if (pSeaBedModel) mSeaBedOld = pSeaBedModel->mtx;
@@ -831,9 +831,9 @@ bool ISLAND::Mount(char * fname, char * fdir, entid_t * eID)
 	/*for (uint32_t i=0;i<AIPath.GetNumPoints();i++)
 	{
 		entid_t eid;
-		api->CreateEntity(&eid,"MODELR");
+		EntityManager::CreateEntity(&eid,"MODELR");
 		api->Send_Message(eid,"ls",MSG_MODEL_LOAD_GEO,"mirror");
-		api->LayerAdd("sea_realize",eid,10000);
+		EntityManager::AddToLayer("sea_realize",eid,10000);
 		aSpheres.Add(eid);
 	}*/
 

@@ -22,7 +22,7 @@ TFishSchools::~TFishSchools()
 			delete fishSchools[i];
 	}
 
-	api->EraseEntity(fishSchoolModel);
+	EntityManager::EraseEntity(fishSchoolModel);
 }
 
 //--------------------------------------------------------------------
@@ -49,7 +49,7 @@ void TFishSchools::Init()
 
 	auto walker = api->GetEntityIdWalker("sea");
 	seaID = walker();
-	sea = (SEA_BASE*) api->GetEntityPointer(seaID);
+	sea = (SEA_BASE*) EntityManager::GetEntityPointer(seaID);
 	if (!sea)
 	{
 		enabled = false;
@@ -69,7 +69,7 @@ void TFishSchools::Init()
 
 	TDynamicSystem::AddAttractor(&cameraObject);
 
-	fishSchoolModel = api->CreateEntity("MODELR");
+	fishSchoolModel = EntityManager::CreateEntity("MODELR");
 	api->Send_Message(fishSchoolModel,"ls",MSG_MODEL_LOAD_GEO, ANIMALS_FISHSCHOOL_FILENAME);
 }
 
@@ -128,14 +128,14 @@ void TFishSchools::Realize(uint32_t _dTime)
 	float   cameraPersp;
 	renderService->GetCamera(cameraPos, cameraAng, cameraPersp);
 */
-	sea = (SEA_BASE*) api->GetEntityPointer(seaID);
+	sea = (SEA_BASE*) EntityManager::GetEntityPointer(seaID);
 	if (!sea)
 	{
 		enabled = false;
 		return;
 	}
 
-	MODEL *fishSchool = (MODEL*) api->GetEntityPointer(fishSchoolModel);
+	MODEL *fishSchool = (MODEL*) EntityManager::GetEntityPointer(fishSchoolModel);
 	if (!fishSchool)
 		return;
 

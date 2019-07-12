@@ -31,7 +31,7 @@ Supervisor::~Supervisor()
 	for(long i = 0; i < numCharacters; i++)
 	{
 		character[i].c->AlreadySTORM_DELETE();
-		api->EraseEntity(character[i].c->GetId());
+		EntityManager::EraseEntity(character[i].c->GetId());
 	}
 
 }
@@ -208,7 +208,7 @@ void Supervisor::PostUpdate(float dltTime)
 			if(curUpdate >= numCharacters) break;
 			float dlt = time - character[curUpdate].lastTime;
 			character[curUpdate].lastTime = time;
-			if(api->GetEntityPointer(character[curUpdate].c->GetId()))
+			if(EntityManager::GetEntityPointer(character[curUpdate].c->GetId()))
 			{
 				api->Event("CharacterUpdate", "if", character[curUpdate].c->GetId(), dlt);
 			}

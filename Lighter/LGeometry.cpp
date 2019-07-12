@@ -88,7 +88,7 @@ void LGeometry::AddObject(const char * name, entid_t  model)
 		str[d++] = str[s];
 	}
 	object[numObjects].model = model;
-	object[numObjects].m = (MODEL *)api->GetEntityPointer(model);
+	object[numObjects].m = (MODEL *)EntityManager::GetEntityPointer(model);
 	if(!object[numObjects].m)
 	{
 		api->Trace("Location lighter: can't get pointer to model %s", name);
@@ -106,7 +106,7 @@ bool LGeometry::Process(VDX9RENDER * rs, long numLights)
 		//Индекс в конечном файле
 		long cindex = 0;
 		//Проверочка
-		if(object[i].m != (MODEL *)api->GetEntityPointer(object[i].model))
+		if(object[i].m != (MODEL *)EntityManager::GetEntityPointer(object[i].model))
 		{
 			api->Trace("Location lighter: lost model!!!");
 			return false;

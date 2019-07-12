@@ -67,7 +67,7 @@ SAILONE::~SAILONE()
 {
 	ROPE_BASE * prb = nullptr;
 	entid_t eid = api->GetEntityIdWalker("ROPE")();
-	if(eid)	prb = (ROPE_BASE*)api->GetEntityPointer(eid);
+	if(eid)	prb = (ROPE_BASE*)EntityManager::GetEntityPointer(eid);
 	if( prb!= nullptr && (sailtrope.pnttie[0] || sailtrope.pnttie[1] || sailtrope.pnttie[2] || sailtrope.pnttie[3]) )
 		prb->DoDeleteUntie(pp->gdata[HostNum].modelEI,hostNode,groupNum);
 
@@ -1129,7 +1129,7 @@ void SAILONE::TurnSail(float fTurnStep)
                 {
                     int tieNum=sailtrope.rrs[i]->tiePoint;
                     CVECTOR endVect;
-                    ((ROPE_BASE*)api->GetEntityPointer(ropeEI))->GetEndPoint(&endVect,sailtrope.rrs[i]->ropenum,pp->gdata[HostNum].modelEI);
+                    ((ROPE_BASE*)EntityManager::GetEntityPointer(ropeEI))->GetEndPoint(&endVect,sailtrope.rrs[i]->ropenum,pp->gdata[HostNum].modelEI);
                     CVECTOR medVect;
                     medVect=ss.hardPoints[tieNum];
                     CVECTOR begVect;
@@ -1504,7 +1504,7 @@ float SAILONE::SSailTrace(CVECTOR &src,CVECTOR &dst,bool bCannonTrace)
 		SetGeometry();
 		if( pp->gdata[HostNum].bDeleted != true && pp->gdata[HostNum].bYesShip )
 		{
-			VAI_OBJBASE * pVai = (VAI_OBJBASE*)api->GetEntityPointer(pp->gdata[HostNum].shipEI);
+			VAI_OBJBASE * pVai = (VAI_OBJBASE*)EntityManager::GetEntityPointer(pp->gdata[HostNum].shipEI);
 			int charIdx = -1;
 			if(pVai!= nullptr && pVai->GetACharacter()!= nullptr)
 				charIdx = pVai->GetACharacter()->GetAttributeAsDword("index");
@@ -1559,7 +1559,7 @@ float SAILONE::TSailTrace(CVECTOR &src,CVECTOR &dst,bool bCannonTrace)
         CalculateMirrorSailIndex(); // новая триангуляция для отражения паруса
 		if( pp->gdata[HostNum].bDeleted != true && pp->gdata[HostNum].bYesShip )
 		{
-			VAI_OBJBASE * pVai = (VAI_OBJBASE*)api->GetEntityPointer(pp->gdata[HostNum].shipEI);
+			VAI_OBJBASE * pVai = (VAI_OBJBASE*)EntityManager::GetEntityPointer(pp->gdata[HostNum].shipEI);
 			int charIdx = -1;
 			if(pVai!= nullptr && pVai->GetACharacter()!= nullptr)
 				charIdx = pVai->GetACharacter()->GetAttributeAsDword("index");
@@ -1788,7 +1788,7 @@ void SAILONE::SetTurnLimits()
 	if(sailtrope.rrs[0]== nullptr) return;
 	entid_t ropeEI = api->GetEntityIdWalker("rope")();
 	if( !ropeEI ) return;
-	ROPE_BASE * prbase = (ROPE_BASE*)api->GetEntityPointer(ropeEI);
+	ROPE_BASE * prbase = (ROPE_BASE*)EntityManager::GetEntityPointer(ropeEI);
 	if(prbase== nullptr) return;
 
 	CVECTOR cv1,cv0;

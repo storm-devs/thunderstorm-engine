@@ -42,7 +42,7 @@ void ShipMan::Free()
 {
 	//GUARD_SAILORS(ShipMan::Free())
 
-	api->EraseEntity(this->modelID);
+	EntityManager::EraseEntity(this->modelID);
 
 	//UN//GUARD_SAILORS
 };
@@ -701,7 +701,7 @@ void ShipWalk::CreateNewMan(SailorsPoints &sailorsPoints)
 
 	int current = shipMan.size()- 1;
 
-	shipMan[current].modelID = api->CreateEntity("MODELR");
+	shipMan[current].modelID = EntityManager::CreateEntity("MODELR");
 
 	switch (rand() % 6) // 6 different character types
 	{
@@ -727,7 +727,7 @@ void ShipWalk::CreateNewMan(SailorsPoints &sailorsPoints)
 
 	api->Send_Message(shipMan[current].modelID,"ls",MSG_MODEL_LOAD_ANI, "Lo_Man");
 
-	shipMan[current].model = (MODEL*)api->GetEntityPointer(shipMan[current].modelID);
+	shipMan[current].model = (MODEL*)EntityManager::GetEntityPointer(shipMan[current].modelID);
 	shipMan[current].SetAnimation(0, shipState);
 
 	if (sailorsPoints.points.count)
@@ -769,12 +769,12 @@ void ShipWalk::Init(entid_t _shipID, int editorMode, char *shipType)
 	shipID = _shipID;
 
 	entid_t seaID = api->GetEntityIdWalker("sea")();
-	shipState.sea = (SEA_BASE*) api->GetEntityPointer(seaID);
+	shipState.sea = (SEA_BASE*) EntityManager::GetEntityPointer(seaID);
 
 	if (!editorMode)
 	{ //Режим игры - создан корабль
 
-		ship = (SHIP_BASE *)api->GetEntityPointer(_shipID);
+		ship = (SHIP_BASE *)EntityManager::GetEntityPointer(_shipID);
 		shipModel = ship->GetModel();
 
 		//Загрузить точки
@@ -1014,7 +1014,7 @@ bool Sailors::Init()
 
 	//api->LayerCreate("sea_realize", true, false);
 	api->LayerSetRealize("sea_realize", true);
-	api->LayerAdd("sea_realize", GetId(), 65530);
+	EntityManager::AddToLayer("sea_realize", GetId(), 65530);
 
 	//UN//GUARD_SAILORS
 

@@ -80,7 +80,7 @@ void CoastFoam::Realize(uint32_t Delta_Time)
 	entid_t sea_id;
 	if (!pSea && (sea_id = api->GetEntityIdWalker("sea")()))
 	{
-		pSea = (SEA_BASE*)api->GetEntityPointer(sea_id);
+		pSea = (SEA_BASE*)EntityManager::GetEntityPointer(sea_id);
 		if (!pSea) return;
 	}
 

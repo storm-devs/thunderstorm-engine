@@ -132,7 +132,7 @@ protected:
 		uint32_t dwTFactor;
 
 		AniModelDescr() {pModel=nullptr;bUseTFactor=false;}
-		~AniModelDescr() {api->EraseEntity(ei); pModel=nullptr;}
+		~AniModelDescr() {EntityManager::EraseEntity(ei); pModel=nullptr;}
 	};
 	std::vector<AniModelDescr*> m_apAniModel;
 

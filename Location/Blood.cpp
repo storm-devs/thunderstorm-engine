@@ -187,7 +187,7 @@ void Blood::AddBlood(const CVECTOR& pos)
 	// бегаем по лееру
 	for(entid_t pEID=walker(); pEID; pEID=walker())
 	{
-		MODEL * m = (MODEL *)api->GetEntityPointer(pEID);
+		MODEL * m = (MODEL *)EntityManager::GetEntityPointer(pEID);
 		if(!m) continue;
 		NODE * root = m->GetNode(0);
 		m->Clip(p, 6, cpos, BLOOD_RADIUS, AddClipPoligon);
@@ -196,7 +196,7 @@ void Blood::AddBlood(const CVECTOR& pos)
 	// бегаем по массиву моделек
 	for(long n=0; n<aModels.size(); n++)
 	{
-		MODEL * m = (MODEL *)api->GetEntityPointer(aModels[n]);
+		MODEL * m = (MODEL *)EntityManager::GetEntityPointer(aModels[n]);
 		if(!m) continue;
 		NODE * root = m->GetNode(0);
 		m->Clip(p, 6, cpos, BLOOD_RADIUS, AddClipPoligon);

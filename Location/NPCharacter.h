@@ -201,7 +201,7 @@ private:
 inline Character * NPCharacter::GetAttackedCharacter()
 {
 	if(task.task != npct_fight) return nullptr;
-	return (Character *)api->GetEntityPointer(task.target);
+	return (Character *)EntityManager::GetEntityPointer(task.target);
 }
 
 //Проверить событие

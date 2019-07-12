@@ -27,14 +27,14 @@ bool Lizards::Init()
 {
 	//Указатель на локацию
 	entid_t loc = api->GetEntityIdWalker("location")();
-	Location * location = (Location *)api->GetEntityPointer(loc);
+	Location * location = (Location *)EntityManager::GetEntityPointer(loc);
 	if(!location) return false;
 	//Заводим ящерец
 	for(long i = 0; i < num; i++) lizard[i].Init(location);
 	//Исполнение
 	//api->LayerCreate("realize", true, false);
 	api->LayerSetRealize("realize", true);
-	api->LayerAdd("realize", GetId(), 100000);
+	EntityManager::AddToLayer(REALIZE, GetId(), 100000);
 	return true;
 }
 

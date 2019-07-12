@@ -31,7 +31,7 @@ bool WideScreen::Init()
 	//Layers
 	//api->LayerCreate("realize", true, false);
 	api->LayerSetRealize("realize", true);
-	api->LayerAdd("realize", GetId(), -257);
+	EntityManager::AddToLayer(REALIZE, GetId(), -257);
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs) throw std::exception("No service: dx9render");
 	D3DVIEWPORT9 vp;
@@ -54,7 +54,7 @@ void WideScreen::Realize(uint32_t delta_time)
 {
 	//Текущее состояние
 	state += dlt*delta_time*0.001f;
-	if(state < 0.0f){ api->EraseEntity(GetId()); return; }
+	if(state < 0.0f){ EntityManager::EraseEntity(GetId()); return; }
 	if(state > 1.0f){ state = 1.0f; dlt = 0.0f; }
 	//Рисуем
 	static struct{ float x, y, z, rhw; } buf[12];

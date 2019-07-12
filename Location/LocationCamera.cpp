@@ -88,11 +88,11 @@ bool LocationCamera::Init()
 
 	//api->LayerCreate("execute", true, false);
 	api->LayerSetExecute("execute", true);
-	api->LayerAdd("execute", GetId(), 0);
+	EntityManager::AddToLayer(EXECUTE, GetId(), 0);
 
 	//api->LayerCreate("realize", true, false);
 	api->LayerSetRealize("realize", true);
-	api->LayerAdd("realize", GetId(), 100000);
+	EntityManager::AddToLayer(REALIZE, GetId(), 100000);
 	
 	//Море
 	sea = api->GetEntityIdWalker("sea")();
@@ -294,7 +294,7 @@ void LocationCamera::Realize(uint32_t delta_time)
 		isTeleport = false;
 	}	
 	CVECTOR realPos = camPos;
-	SEA_BASE * sb = (SEA_BASE *)api->GetEntityPointer(sea);
+	SEA_BASE * sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
 	if(sb && wmode != cwm_free && location->IsSwimming())
 	{
 		float seaY = sb->WaveXZ(camPos.x, camPos.z) + 1.0f;
@@ -337,7 +337,7 @@ uint32_t LocationCamera::ProcessMessage(MESSAGE & message)
 	{
 	case MSG_CAMERA_SETTARGET:
 		chr = message.EntityID();
-		if(api->GetEntityPointer(chr) == nullptr)
+		if(EntityManager::GetEntityPointer(chr) == nullptr)
 		{
 			api->Trace("LocationCamera -> MSG_CAMERA_SETTARGET -> invalidate character id");
 			return 0;
@@ -423,7 +423,7 @@ uint32_t LocationCamera::AttributeChanged(ATTRIBUTES * apnt)
 bool LocationCamera::Set()
 {
 	//Указатель на персонажа
-	Character * c = (Character *)api->GetEntityPointer(chr);
+	Character * c = (Character *)EntityManager::GetEntityPointer(chr);
 	if(!c) return false;
 	//Характеристики персонажа
 	c->GetPosition(pos);
@@ -432,7 +432,7 @@ bool LocationCamera::Set()
 	lheight = height*lookHeight;
 	chradius = c->GetRadius();
 	character = c;
-	location = (Location *)api->GetEntityPointer(loc);
+	location = (Location *)EntityManager::GetEntityPointer(loc);
 	return location != nullptr;
 }
 

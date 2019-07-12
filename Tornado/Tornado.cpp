@@ -54,8 +54,8 @@ bool Tornado::Init()
 	api->LayerSetExecute("execute", true);	
 	//api->LayerCreate("realize", true, false);
 	api->LayerSetRealize("realize", true);
-	api->LayerAdd("execute", GetId(), 70000);
-	api->LayerAdd("realize", GetId(), 70000);
+	EntityManager::AddToLayer(EXECUTE, GetId(), 70000);
+	EntityManager::AddToLayer(REALIZE, GetId(), 70000);
 
 	//DX9 render
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
@@ -103,7 +103,7 @@ void Tornado::Execute(uint32_t delta_time)
 		{
 			galhpa = 0.0f;
 			api->Event("TornadoDelete", nullptr);
-			api->EraseEntity(GetId());
+			EntityManager::EraseEntity(GetId());
 		}
 	}else liveTime -= dltTime;	
 	if(soundService && sID != SOUND_INVALID_ID)

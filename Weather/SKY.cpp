@@ -305,11 +305,11 @@ void SKY::Realize(uint32_t Delta_Time)
 
 			if( !pAstronomy )
 				if(eid = api->GetEntityIdWalker("Astronomy")())
-					pAstronomy = (Entity*)api->GetEntityPointer(eid);
+					pAstronomy = (Entity*)EntityManager::GetEntityPointer(eid);
 
 			if( !pSunGlow )
 				if (eid = api->GetEntityIdWalker("SUNGLOW")())
-					pSunGlow = (Entity*)api->GetEntityPointer(eid);
+					pSunGlow = (Entity*)EntityManager::GetEntityPointer(eid);
 
 			if( pAstronomy || pSunGlow )
 			{
@@ -435,7 +435,7 @@ void SKY::UpdateTimeFactor()
 	//fTimeFactor += api->GetDeltaTime() * 0.00005f;
 	entid_t eid;
 	if( !(eid = api->GetEntityIdWalker("Weather")())) return;
-	fTimeFactor = ((WEATHER_BASE*)api->GetEntityPointer(eid))->GetFloat(whf_time_counter);
+	fTimeFactor = ((WEATHER_BASE*)EntityManager::GetEntityPointer(eid))->GetFloat(whf_time_counter);
 	fTimeFactor *= (1.f / 24.f) * aSkyDirArray.size();
 
 	if( (long)fTimeFactor >= (long)aSkyDirArray.size() ) fTimeFactor -= aSkyDirArray.size();

@@ -651,7 +651,7 @@ VAI_OBJBASE* ISPYGLASS::GetFort()
 	if( !m_pFortObj ) {
 		const auto walker = api->GetEntityIdWalker("ship");
 		entid_t ei = walker();
-		m_pFortObj = (VAI_OBJBASE*)api->GetEntityPointer(ei);
+		m_pFortObj = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ei);
 	}
 	return m_pFortObj;
 }

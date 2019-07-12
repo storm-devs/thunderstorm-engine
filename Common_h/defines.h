@@ -83,7 +83,7 @@ inline int ftoi(float f)
 	return _mm_cvt_ss2si(_mm_load_ss(&f));
 }
 #define STORM_DELETE(x)			{ delete x; x=0; }
-#define DELETE_Entity(x)	{ api->EraseEntity(x); }
+#define DELETE_Entity(x)	{ EntityManager::EraseEntity(x); }
 #define RELEASE(x)			{ if (x) x->Release(); x = 0; }
 #define SQR(a)				( (a)*(a) )
 #define FRAND(x)			( (x) * (float)rand()/(float)RAND_MAX  )

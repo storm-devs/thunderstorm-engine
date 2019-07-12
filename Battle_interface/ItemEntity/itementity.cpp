@@ -103,9 +103,9 @@ bool ItemEntity::ReadAndCreate()
 	char* pcModelName = BIUtils::GetStringFromAttr(AttributesPointer,"model","");
 	char* pcTechnique = BIUtils::GetStringFromAttr(AttributesPointer,"technique","");
 	if( pcModelName ) {
-		if(m_eidModel = api->CreateEntity("modelr") ) {
+		if(m_eidModel = EntityManager::CreateEntity("modelr") ) {
 			api->Send_Message(m_eidModel,"ls",MSG_MODEL_LOAD_GEO,pcModelName);
-			m_pModel = (MODEL*)api->GetEntityPointer(m_eidModel);
+			m_pModel = (MODEL*)EntityManager::GetEntityPointer(m_eidModel);
 			SetModelToPosition(m_mtxpos);
 			SetTechnique( pcTechnique );
 		}
@@ -127,7 +127,7 @@ void ItemEntity::SetBeginData()
 void ItemEntity::Release()
 {
 	if( m_pModel ) {
-		api->EraseEntity( m_eidModel );
+		EntityManager::EraseEntity( m_eidModel );
 		m_pModel = nullptr;
 	}
 	DeleteParticle();
@@ -158,7 +158,7 @@ bool ItemEntity::TieToLocator(entid_t mdlEID, const char* pcLocName)
 {
 	m_eidTieModel = mdlEID;
 	m_sTieLocName = pcLocName;
-	MODEL* pMdl = (MODEL*)api->GetEntityPointer( mdlEID );
+	MODEL* pMdl = (MODEL*)EntityManager::GetEntityPointer( mdlEID );
 	if( pMdl ) {
 		m_pMdlNode = pMdl->GetNode(0);
 		if( m_pMdlNode )
@@ -187,7 +187,7 @@ void ItemEntity::EndEventProcess()
 
 void ItemEntity::DrawIntoLocator()
 {
-	MODEL* pMdl = (MODEL*)api->GetEntityPointer(m_eidTieModel);
+	MODEL* pMdl = (MODEL*)EntityManager::GetEntityPointer(m_eidTieModel);
 	if( !pMdl ) {
 		UnTieFromLocator();
 		return;
@@ -246,7 +246,7 @@ entid_t ItemEntity::GetModelEIDFromCharacterEID(entid_t chrEID)
 
 void ItemEntity::SetEventListener(entid_t mdlEID, entid_t mdlToTieEID,const char* pcLocName, const char* pcStartEvent,const char* pcEndEvent )
 {
-	MODEL* pMdl = (MODEL*)api->GetEntityPointer(mdlEID);
+	MODEL* pMdl = (MODEL*)EntityManager::GetEntityPointer(mdlEID);
 	if( !pMdl ) return;
 	Animation * a = pMdl->GetAnimation();
 	if( a )
@@ -271,7 +271,7 @@ void ItemEntity::EventListener::Event(Animation * animation, long playerIndex, c
 		return;
 	}
 	if( !m_bStartWaiting && m_sEndEvent==eventName ) {
-		MODEL* pMdl = (MODEL*)api->GetEntityPointer(m_eidListenedModel);
+		MODEL* pMdl = (MODEL*)EntityManager::GetEntityPointer(m_eidListenedModel);
 		if( pMdl ) {
 			Animation * a = pMdl->GetAnimation();
 			if( a ) a->SetEventListener(nullptr);

@@ -27,8 +27,8 @@ bool WATERFLARE::Init()
 {
 	//GUARD(bool WATERFLARE::Init())
 
-	api->LayerAdd("realize",GetId(),-1);
-	api->LayerAdd("execute",GetId(),-1);
+	EntityManager::AddToLayer(REALIZE,GetId(),-1);
+	EntityManager::AddToLayer(EXECUTE,GetId(),-1);
 	
 	SetDevice();
 
@@ -45,7 +45,7 @@ void WATERFLARE::SetDevice()
 
 	entid_t	ent;
 	if (!(ent = api->GetEntityIdWalker("Weather")())) throw std::exception("No found WEATHER entity!");
-	pWeather = (WEATHER_BASE*)api->GetEntityPointer(ent);
+	pWeather = (WEATHER_BASE*)EntityManager::GetEntityPointer(ent);
 
 	//UNGUARD
 }

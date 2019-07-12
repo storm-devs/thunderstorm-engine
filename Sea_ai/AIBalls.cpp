@@ -154,11 +154,11 @@ void AIBalls::Execute(uint32_t Delta_Time)
 	entid_t					EID, pEID;
 
 	if (!pIsland && (EID = api->GetEntityIdWalker("island")()))
-		pIsland = (CANNON_TRACE_BASE*)api->GetEntityPointer(EID);
+		pIsland = (CANNON_TRACE_BASE*)EntityManager::GetEntityPointer(EID);
 	if (!pSail && (EID = api->GetEntityIdWalker("sail")()))
-		pSail = (CANNON_TRACE_BASE*)api->GetEntityPointer(EID);
+		pSail = (CANNON_TRACE_BASE*)EntityManager::GetEntityPointer(EID);
 	if (!pSea && (EID = api->GetEntityIdWalker("sea")()))
-		pSea = (CANNON_TRACE_BASE*)api->GetEntityPointer(EID);
+		pSea = (CANNON_TRACE_BASE*)EntityManager::GetEntityPointer(EID);
 
 	aBallRects.clear();
 
@@ -232,7 +232,7 @@ void AIBalls::Execute(uint32_t Delta_Time)
 			// ship trace
 			while (pEID = walker())
 			{
-				CANNON_TRACE_BASE * pShip = (CANNON_TRACE_BASE*)api->GetEntityPointer(pEID);
+				CANNON_TRACE_BASE * pShip = (CANNON_TRACE_BASE*)EntityManager::GetEntityPointer(pEID);
 				fRes = pShip->Cannon_Trace(pBall->iBallOwner, vSrc, vDst);
 				if (fRes <= 1.0f) break;
 			}

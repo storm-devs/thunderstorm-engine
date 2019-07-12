@@ -44,7 +44,7 @@ bool CharacterAnimationKipper::Init()
 	const auto walker = api->GetEntityIdWalker("CharacterAnimationKipper");
 	if(entid_t eid = walker(); eid)
 	{
-		if(api->GetEntityPointer(eid) != this || walker())
+		if(EntityManager::GetEntityPointer(eid) != this || walker())
 		{
 			api->Trace("CharacterAnimationKipper::Init() -> CharacterAnimationKipper already created");
 			return false;

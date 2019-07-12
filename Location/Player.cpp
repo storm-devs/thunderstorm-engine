@@ -42,7 +42,7 @@ Player::~Player()
 #ifndef _XBOX
 	entid_t peid;
 	if(peid = api->GetEntityIdWalker("ShootGunParticles")())
-		api->EraseEntity(peid);
+		EntityManager::EraseEntity(peid);
 #endif
 }
 
@@ -72,7 +72,7 @@ void Player::Move(float dltTime)
 		entid_t lcam;
 		if(lcam = api->GetEntityIdWalker("LocationCamera")())
 		{
-			locCam = (LocationCamera *)api->GetEntityPointer(lcam);
+			locCam = (LocationCamera *)EntityManager::GetEntityPointer(lcam);
 		}
 	}else{
 		locCam->LockFPMode(shootgunMode);
@@ -631,7 +631,7 @@ Player * Player::FindAttackCharacter()
 		if(isEnemy) //~!~
 		{
 			if(chr->task.task != npct_fight ||
-				api->GetEntityPointer(chr->task.target) != this) continue;
+				EntityManager::GetEntityPointer(chr->task.target) != this) continue;
 		}else{
 			if(isFgt)
 			{
@@ -645,7 +645,7 @@ Player * Player::FindAttackCharacter()
 			}
 			/*
 			if(chr->task.task == npct_fight &&
-				api->GetEntityPointer(chr->task.target) == this)
+				EntityManager::GetEntityPointer(chr->task.target) == this)
 			{
 				j = -1;
 				isEnemy = true;
@@ -730,7 +730,7 @@ void Player::FireFromShootgun()
 				CVECTOR dir = !(src - dst);
 				dst = src + (dst - src)*dist;
 				//Куда то попали
-				Entity * e = api->GetEntityPointer(collide->GetObjectID());
+				Entity * e = EntityManager::GetEntityPointer(collide->GetObjectID());
 				if(e && e != this)
 				{
 					long n, nm;

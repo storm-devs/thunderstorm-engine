@@ -50,7 +50,7 @@ bool SHADOW::Init()
 	col = (COLLIDE *)api->CreateService("coll");
 	if(col== nullptr)	throw std::exception("No service: COLLIDE");
 
-	api->LayerAdd("realize",GetId(),900);
+	EntityManager::AddToLayer(REALIZE,GetId(),900);
 
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs)	throw std::exception("No service: dx9render");
@@ -125,7 +125,7 @@ bool AddPoly(const CVECTOR *vr, long nverts)
 //------------------------------------------------------------------------------------
 void SHADOW::Realize(uint32_t Delta_Time)
 {
-	MODEL *obj = (MODEL*)api->GetEntityPointer(entity);
+	MODEL *obj = (MODEL*)EntityManager::GetEntityPointer(entity);
 	if(!obj) return;
 
 	VDATA *pV = api->Event("EWhr_GetShadowDensity");
@@ -138,7 +138,7 @@ void SHADOW::Realize(uint32_t Delta_Time)
 	pV = api->Event("EWhr_GetFogDensity");
 	float fogDensity = pV->GetFloat();
 
-	//MODEL *obj = (MODEL*)api->GetEntityPointer(entity);
+	//MODEL *obj = (MODEL*)EntityManager::GetEntityPointer(entity);
 	NODE *node = obj->GetNode(0);
 	GEOS::INFO gi;
 	node->geo->GetInfo(gi);

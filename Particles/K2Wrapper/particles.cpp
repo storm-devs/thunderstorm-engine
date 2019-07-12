@@ -22,8 +22,8 @@ PARTICLES::~PARTICLES()
 
 bool PARTICLES::Init ()
 {
-	api->LayerAdd("realize",GetId(),0xfffff);
-	api->LayerAdd("execute",GetId(),0);
+	EntityManager::AddToLayer(REALIZE,GetId(),0xfffff);
+	EntityManager::AddToLayer(EXECUTE,GetId(),0);
 	api->LayerSetExecute("execute",true);
 
 	pService = (IParticleService*)api->CreateService("ParticleService");

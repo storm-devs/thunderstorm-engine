@@ -29,7 +29,7 @@ LocEagle::LocEagle()
 
 LocEagle::~LocEagle()
 {
-	api->EraseEntity(mdl);
+	EntityManager::EraseEntity(mdl);
 }
 
 
@@ -38,7 +38,7 @@ bool LocEagle::Init()
 {
 	//Точка, вокруг которой летаем
 	entid_t loc = api->GetEntityIdWalker("location")();
-	Location * location = (Location *)api->GetEntityPointer(loc);
+	Location * location = (Location *)EntityManager::GetEntityPointer(loc);
 	if(!location) return false;
 	cnt = location->GetPtcData().middle + CVECTOR(0.0f, 30.0f, 0.0f);
 	//Путь для текстур
@@ -49,8 +49,8 @@ bool LocEagle::Init()
 		return false;
 	}
 	//Моделька
-	if(!(mdl = api->CreateEntity("modelr"))) return false;
-	api->LayerAdd("realize", mdl, 20);
+	if(!(mdl = EntityManager::CreateEntity("modelr"))) return false;
+	EntityManager::AddToLayer(REALIZE, mdl, 20);
 	gs->SetTexturePath("Animals\\");
 	if(!api->Send_Message(mdl, "ls", MSG_MODEL_LOAD_GEO, "Animals\\eagle"))
 	{
@@ -61,7 +61,7 @@ bool LocEagle::Init()
 	//Анимация
 	if(!api->Send_Message(mdl, "ls", MSG_MODEL_LOAD_ANI, "eagle")) return false;
 	//Запускаем проигрывание анимации
-	MODEL * m = (MODEL *)api->GetEntityPointer(mdl);
+	MODEL * m = (MODEL *)EntityManager::GetEntityPointer(mdl);
 	if(!m) return false;
 	Animation * ani = m->GetAnimation();
 	if(!ani) return false;
@@ -70,7 +70,7 @@ bool LocEagle::Init()
 	//Включаем в список исполнения
 	//api->LayerCreate("execute", true, false);
 	api->LayerSetExecute("execute", true);
-	api->LayerAdd("execute", GetId(), 10);
+	EntityManager::AddToLayer(EXECUTE, GetId(), 10);
 	return true;	
 }
 
@@ -78,7 +78,7 @@ bool LocEagle::Init()
 void LocEagle::Execute(uint32_t delta_time)
 {
 	//Моделька
-	MODEL * m = (MODEL *)api->GetEntityPointer(mdl);
+	MODEL * m = (MODEL *)EntityManager::GetEntityPointer(mdl);
 	if(!m) return;
 	//Обновляем позицию
 	float dltTime = delta_time*0.001f;

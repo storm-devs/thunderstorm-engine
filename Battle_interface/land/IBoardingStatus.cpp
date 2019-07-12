@@ -21,7 +21,7 @@ bool IBoardingStatus::Init()
 	}
 
 	//api->SystemMessages(GetId(),true);
-	api->LayerAdd("realize",GetId(),0xFFFFFFFF);
+	EntityManager::AddToLayer(REALIZE,GetId(),0xFFFFFFFF);
 
 	return true;
 }

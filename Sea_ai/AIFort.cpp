@@ -109,7 +109,7 @@ void AIFort::Realize(uint32_t Delta_Time)
 	float fCurrentImmersion = 0.0f;
 	if (api->FindClass(&eidIsland, "Island", 0))
 	{
-		ISLAND_BASE * pIsland = (ISLAND_BASE *)api->GetEntityPointer(eidIsland);
+		ISLAND_BASE * pIsland = (ISLAND_BASE *)EntityManager::GetEntityPointer(eidIsland);
 		fCurrentImmersion = pIsland->GetCurrentImmersion();
 	}*/
 
@@ -193,7 +193,7 @@ bool AIFort::AddFort(ATTRIBUTES * pIslandAP, ATTRIBUTES * pFortLabelAP, ATTRIBUT
 	bool bFlares = (pAFlares) ? pAFlares->GetAttributeAsDword() != 0 : false;
 
 	entid_t eidTmp = api->GetEntityIdWalker("shiplights")();
-	pShipsLights = (IShipLights*)api->GetEntityPointer(eidTmp); Assert(pShipsLights);
+	pShipsLights = (IShipLights*)EntityManager::GetEntityPointer(eidTmp); Assert(pShipsLights);
 
 	pShipsLights->AddLights(&pFort->tmpObject, pFort->GetModel(), bLights, bFlares);
 	pShipsLights->ProcessStage(Entity::Stage::EXECUTE, 0);
@@ -233,7 +233,7 @@ AIFort::AI_FORT * AIFort::FindFort(entid_t eidModel)
 {
 	for (long i=0; i<aForts.size(); i++)
 	{
-		if (api->GetEntityPointer(aForts[i]->GetModelEID()) == api->GetEntityPointer(eidModel)) return aForts[i];
+		if (EntityManager::GetEntityPointer(aForts[i]->GetModelEID()) == EntityManager::GetEntityPointer(eidModel)) return aForts[i];
 	}
 	return nullptr;
 }
@@ -298,10 +298,10 @@ bool AIFort::ScanFortForCannons(AI_FORT * pFort, char * pModelsDir, char * pLoca
 	std::string pathStr = path.string();
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 	//sLocatorsName.Format("%s\\%s", pModelsDir, pLocatorsName);
-	model_id = api->CreateEntity("MODELR");
+	model_id = EntityManager::CreateEntity("MODELR");
 	api->Send_Message(model_id, "ls", MSG_MODEL_LOAD_GEO, (char*)pathStr.c_str());
 
-	MODEL * pModel = (MODEL*)api->GetEntityPointer(model_id); Assert(pModel);
+	MODEL * pModel = (MODEL*)EntityManager::GetEntityPointer(model_id); Assert(pModel);
 
 	// search and add cannons & culverins
 	uint32_t dwIdx = 0;
@@ -340,7 +340,7 @@ bool AIFort::ScanFortForCannons(AI_FORT * pFort, char * pModelsDir, char * pLoca
 		dwIdx++;
 	}
 
-	api->EraseEntity(model_id);
+	EntityManager::EraseEntity(model_id);
 	return true;
 }
 
@@ -373,7 +373,7 @@ float AIFort::Trace(const CVECTOR & vSrc, const CVECTOR & vDst)
 	float fBestDistance = 1e10f; 
 	for (uint32_t i=0; i<GetNumForts(); i++)
 	{
-		MODEL * pModel = (MODEL*)api->GetEntityPointer(GetFort(i)->GetModelEID()); Assert(pModel);
+		MODEL * pModel = (MODEL*)EntityManager::GetEntityPointer(GetFort(i)->GetModelEID()); Assert(pModel);
 		float fRes = pModel->Trace(vSrc, vDst);
 		if (fRes > 1.0f) continue;
 		float fDistance = fRes * sqrtf(~(vDst - vSrc));
@@ -393,7 +393,7 @@ float AIFort::Cannon_Trace(long iBallOwner, const CVECTOR & vSrc, const CVECTOR 
 	float fBestRes = 2.0;
 	for (uint32_t i=0; i<GetNumForts(); i++)
 	{
-		MODEL * pModel = (MODEL*)api->GetEntityPointer(GetFort(i)->GetModelEID());
+		MODEL * pModel = (MODEL*)EntityManager::GetEntityPointer(GetFort(i)->GetModelEID());
 
 		float fRes = pModel->Trace(vSrc, vDst);
 		if (fRes < fBestRes) fBestRes = fRes;

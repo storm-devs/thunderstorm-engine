@@ -32,8 +32,8 @@ SEA_OPERATOR::~SEA_OPERATOR()
 //--------------------------------------------------------------------
 bool SEA_OPERATOR::Init()
 {
-	api->LayerAdd("realize", GetId(), 1);
-	api->LayerAdd("execute", GetId(), 0);
+	EntityManager::AddToLayer(REALIZE, GetId(), 1);
+	EntityManager::AddToLayer(EXECUTE, GetId(), 0);
 	//api->SystemMessages(GetId(),true);
 
 	renderer = (VDX9RENDER *)api->CreateService("dx9render");
@@ -66,7 +66,7 @@ uint32_t SEA_OPERATOR::ProcessMessage(MESSAGE & message)
 			if (!IsTimeToActivate(false))
 				break;
 			entid_t firedShip = message.EntityID();
-			if (myShip != (SHIP_BASE *) api->GetEntityPointer(firedShip))
+			if (myShip != (SHIP_BASE *) EntityManager::GetEntityPointer(firedShip))
 				break;
 
 			char bortName[256];
@@ -173,7 +173,7 @@ void SEA_OPERATOR::FirstInit()
 {
 	entid_t seaID;
 	if (seaID = api->GetEntityIdWalker("sea")())
-		sea = (SEA_BASE*) api->GetEntityPointer(seaID);
+		sea = (SEA_BASE*) EntityManager::GetEntityPointer(seaID);
 
 	const auto walker = api->GetEntityIdWalker("ship");
 	entid_t shipID;
@@ -242,7 +242,7 @@ void SEA_OPERATOR::StartNewAction()
 //--------------------------------------------------------------------
 void SEA_OPERATOR::SetIfMyShip (entid_t _shipID)
 {
-	SHIP_BASE *ship = (SHIP_BASE *) api->GetEntityPointer(_shipID);
+	SHIP_BASE *ship = (SHIP_BASE *) EntityManager::GetEntityPointer(_shipID);
 	if (!ship)
 		return;
 	ATTRIBUTES *attr = ship->GetACharacter();
@@ -282,7 +282,7 @@ void SEA_OPERATOR::HandleShipIdle()
 void SEA_OPERATOR::HandleShipFire (entid_t _shipID, char *_bortName, const CVECTOR &_destination, const CVECTOR &_direction)
 {
 	BORT_TYPE bort = BORT_FRONT;
-	SHIP_BASE * ship = (SHIP_BASE *) api->GetEntityPointer(_shipID);
+	SHIP_BASE * ship = (SHIP_BASE *) EntityManager::GetEntityPointer(_shipID);
 
 	if (!strcmp(_bortName, "cannonf"))
 		bort = BORT_FRONT;

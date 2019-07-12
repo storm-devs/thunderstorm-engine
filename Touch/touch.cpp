@@ -85,7 +85,7 @@ void TOUCH::Execute(uint32_t dwCoreDeltaTime)
 	long i;
 	entid_t ent;
 	if (!pIslandBase && (ent = api->GetEntityIdWalker("island")()))
-		pIslandBase = (ISLAND_BASE*)api->GetEntityPointer(ent);
+		pIslandBase = (ISLAND_BASE*)EntityManager::GetEntityPointer(ent);
 
 	//Sleep(150);
 
@@ -94,7 +94,7 @@ void TOUCH::Execute(uint32_t dwCoreDeltaTime)
 	if (dwCoreDeltaTime==0) return;
  	for (i=0;i<iNumShips;i++) 
 	{
-		pShips[i]->pShip = (SHIP_BASE*)api->GetEntityPointer(pShips[i]->eID);
+		pShips[i]->pShip = (SHIP_BASE*)EntityManager::GetEntityPointer(pShips[i]->eID);
 		if (pShips[i]->pShip && !pShips[i]->iNumVContour) 
 		{
 			pShips[i]->pShip->BuildContour(&pShips[i]->vContour[0],pShips[i]->iNumVContour);

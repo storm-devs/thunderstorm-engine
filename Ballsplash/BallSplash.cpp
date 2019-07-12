@@ -30,11 +30,11 @@ bool BALLSPLASH::Init()
 
 	const auto walker = api->GetEntityIdWalker("sea");
 	entid_t seaID = walker();
-	sea = (SEA_BASE*) api->GetEntityPointer(seaID);
+	sea = (SEA_BASE*) EntityManager::GetEntityPointer(seaID);
 
 	renderer = (VDX9RENDER *) api->CreateService("dx9render");
 
-	//api->CreateEntity(&arrowModel,"MODELR");
+	//EntityManager::CreateEntity(&arrowModel,"MODELR");
 	//api->Send_Message(arrowModel,"ls",MSG_MODEL_LOAD_GEO, "fish01");
 	InitializeSplashes();
 

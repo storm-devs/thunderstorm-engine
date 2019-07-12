@@ -30,7 +30,7 @@ TSharks::~TSharks()
 			delete ships[i];
 	}
 
-	api->EraseEntity(sharkModel);
+	EntityManager::EraseEntity(sharkModel);
 }
 
 //--------------------------------------------------------------------
@@ -57,7 +57,7 @@ void TSharks::Init()
 
 	auto walker = api->GetEntityIdWalker("sea");
 	seaID = walker();
-	sea = (SEA_BASE*) api->GetEntityPointer(seaID);
+	sea = (SEA_BASE*) EntityManager::GetEntityPointer(seaID);
 	if (!sea)
 	{
 		enabled = false;
@@ -80,7 +80,7 @@ void TSharks::Init()
 	while(shipID = walker())
 	{
 		ships[shipsCount] = new TShip();
-		ships[shipsCount]->ship = (SHIP_BASE*) api->GetEntityPointer(shipID);
+		ships[shipsCount]->ship = (SHIP_BASE*) EntityManager::GetEntityPointer(shipID);
 		TDynamicSystem::AddDeflector(ships[i]); // ~!@ was only for the first
 		++shipsCount;
 		if (++shipsCount == SHARK_MAX_SHIPS)
@@ -89,7 +89,7 @@ void TSharks::Init()
 
 	TDynamicSystem::AddAttractor(&cameraObject);
 
-	sharkModel = api->CreateEntity("MODELR");
+	sharkModel = EntityManager::CreateEntity("MODELR");
 	api->Send_Message(sharkModel,"ls",MSG_MODEL_LOAD_GEO, ANIMALS_SHARK_FILENAME);
 }
 
@@ -145,7 +145,7 @@ void TSharks::Realize(uint32_t _dTime)
 	float   cameraPersp;
 	renderService->GetCamera(cameraPos, cameraAng, cameraPersp);
 */
-	MODEL *shark = (MODEL*) api->GetEntityPointer(sharkModel);
+	MODEL *shark = (MODEL*) EntityManager::GetEntityPointer(sharkModel);
 	if (!shark)
 		return;
 

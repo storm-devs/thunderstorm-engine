@@ -10,6 +10,7 @@
 
 #include "Fader.h"
 #include "../Shared/messages.h"
+#include "../Common_h/EntityManager.h"
 
 //============================================================================================
 //Конструирование, деструктурирование
@@ -52,26 +53,24 @@ bool Fader::Init()
 {
 	//Проверим что единственные
 
-	const auto walker = api->GetEntityIdWalker("Fader");
-	if(entid_t eid = walker())
-	{
-		if(eid != GetId() || (eid = walker()))
+	auto entities = EntityManager::GetEntityIdVector("Fader");
+	for(auto eid : entities) {
+		if (eid != GetId())
+			continue;
+
+		if(fadeIn == ((Fader *)EntityManager::GetEntityPointer(eid))->fadeIn)
 		{
-			if(fadeIn == ((Fader *)api->GetEntityPointer(eid))->fadeIn)
-			{
-				api->Trace("Fader::Init() -> Fader already created, %s", fadeIn ? "fade in phase" : "fade out phase");
-			}
-			//!!!
-			//return false;
+			api->Trace("Fader::Init() -> Fader already created, %s", fadeIn ? "fade in phase" : "fade out phase");
 		}
+		//!!!
+		//return false;
 	}
 	//Layers
-	//api->LayerCreate("fader_realize", true, false);
-	api->LayerSetRealize("fader_realize", true);
-	api->LayerAdd("fader_realize", GetId(), -256);
-	//api->LayerCreate("fader_execute", true, false);
-	api->LayerSetExecute("fader_execute", true);
-	api->LayerAdd("fader_execute", GetId(), -256);
+	EntityManager::SetLayerType(FADER_REALIZE, EntityManager::Layer::Type::realize);
+	EntityManager::AddToLayer(FADER_REALIZE, GetId(), -256);
+	EntityManager::SetLayerType(FADER_EXECUTE, EntityManager::Layer::Type::execute);
+	EntityManager::AddToLayer(FADER_EXECUTE, GetId(), -256);
+
 	//DX9 render
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs) throw std::exception("No service: dx9render");
@@ -181,7 +180,7 @@ void Fader::Execute(uint32_t delta_time)
 	if(deleteMe)
 	{
 		deleteMe++;
-		if(deleteMe >= 3) api->EraseEntity(GetId());
+		if(deleteMe >= 3) EntityManager::EraseEntity(GetId());
 	}
 	if(eventStart)
 	{

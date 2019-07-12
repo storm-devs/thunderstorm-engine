@@ -29,7 +29,7 @@ Debris::Debris(Pillar & _pillar) : pillar(_pillar)
 
 Debris::~Debris()
 {
-	for(long i = 0; i < numModels; i++) api->EraseEntity(mdl[i].mdl->GetId());
+	for(long i = 0; i < numModels; i++) EntityManager::EraseEntity(mdl[i].mdl->GetId());
 }
 
 void Debris::Init()
@@ -142,8 +142,8 @@ void Debris::AddModel(const char * modelName, float prt, float spd)
 	if(numModels > _countof(mdl)) return;
 	//Создаём модельку
 	entid_t id;
-	if(!(id = api->CreateEntity("modelr"))) return;
-	MODEL * m = (MODEL *)api->GetEntityPointer(id);
+	if(!(id = EntityManager::CreateEntity("modelr"))) return;
+	MODEL * m = (MODEL *)EntityManager::GetEntityPointer(id);
 	if(!m) return;
 	//Путь для текстур
 	VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
@@ -158,7 +158,7 @@ void Debris::AddModel(const char * modelName, float prt, float spd)
 								modelName);
 	}catch(...){
 		gs->SetTexturePath("");
-		api->EraseEntity(id);
+		EntityManager::EraseEntity(id);
 		return;
 	}
 	gs->SetTexturePath("");
@@ -205,7 +205,7 @@ bool Debris::IsShip()
 	for(entid_t id = walker(); id; id = walker())
 	{
 		//Указатель на объект
-		VAI_OBJBASE * ship = (VAI_OBJBASE *)api->GetEntityPointer(id);
+		VAI_OBJBASE * ship = (VAI_OBJBASE *)EntityManager::GetEntityPointer(id);
 		if(!ship) break;
 		//Позиция торнадо в системе корабля
 		Assert(ship->GetMatrix());

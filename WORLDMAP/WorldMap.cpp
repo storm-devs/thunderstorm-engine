@@ -125,8 +125,8 @@ bool WorldMap::Init()
 	api->LayerSetExecute("execute", true);
 	//api->LayerCreate("realize", true, false);
 	api->LayerSetRealize("realize", true);
-	api->LayerAdd("execute", GetId(), 10000);
-	api->LayerAdd("realize", GetId(), 10000);
+	EntityManager::AddToLayer(EXECUTE, GetId(), 10000);
+	EntityManager::AddToLayer(REALIZE, GetId(), 10000);
 
 	//DX9 render
 	rs = (VDX9RENDER *)api->CreateService("dx9render");

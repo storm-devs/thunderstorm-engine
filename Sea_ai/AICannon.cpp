@@ -83,7 +83,7 @@ float AICannon::CalcHeightFireAngle(float _fSpeedV0, CVECTOR & vOur, CVECTOR & v
 
 VAI_OBJBASE	* AICannon::GetAIObjPointer() const
 {
-	return (VAI_OBJBASE*)api->GetEntityPointer(GetParentEID());
+	return (VAI_OBJBASE*)EntityManager::GetEntityPointer(GetParentEID());
 }
 
 float AICannon::GetDirY()

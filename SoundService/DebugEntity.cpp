@@ -37,5 +37,5 @@ void SoundVisualisationEntity::Wakeup()
 {
 	//api->LayerCreate("sound_debug_realize", true , false);
 	api->LayerSetRealize("sound_debug_realize", true);
-	api->LayerAdd("sound_debug_realize", GetId(), -1);
+	EntityManager::AddToLayer("sound_debug_realize", GetId(), -1);
 }

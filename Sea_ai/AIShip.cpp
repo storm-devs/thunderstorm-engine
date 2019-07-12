@@ -232,7 +232,7 @@ void AIShip::CreateShip(entid_t _eidShip, ATTRIBUTES * _pACharacter, ATTRIBUTES 
 	Assert(_pACharacter && _pAShipBase);
 	pAShipBase = _pAShipBase;
 
-	eidShip = _eidShip; Assert(api->GetEntityPointer(eidShip));
+	eidShip = _eidShip; Assert(EntityManager::GetEntityPointer(eidShip));
 	VAI_OBJBASE * pObj = GetAIObjShipPointer(); Assert(pObj);
 	SetACharacter(_pACharacter);
 	pObj->SetACharacter(GetACharacter());
@@ -655,7 +655,7 @@ void AIShip::Save(CSaveLoad * pSL)
 void AIShip::Load(CSaveLoad * pSL)
 {
 	// create ship
-	eidShip = api->CreateEntity("Ship");
+	eidShip = EntityManager::CreateEntity("Ship");
 	GetShipBasePointer()->Load(pSL);
 	
 	SetACharacter(pSL->LoadAPointer("character"));

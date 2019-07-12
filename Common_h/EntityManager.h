@@ -6,6 +6,7 @@
 #include <algorithm>
 #include "Entity.h"
 #include "vmodule_api.h"
+#include "../Shared/layers.h"
 
 class EntityManager final {
 	/* typedefs */
@@ -37,9 +38,9 @@ public:
 	struct Layer
 	{
 		enum Type : uint8_t {
-			COMMON,
-			EXECUTE,
-			REALIZE
+			common,
+			execute,
+			realize
 		};
 
 		std::array<std::pair<priority_t, entid_t>, max_ent_in_layer> entities;
@@ -223,6 +224,10 @@ public:
 	}
 
 	// TODO: hash...
+	static auto GetEntityIdVector(const char * name) -> EntityVector {
+		return GetEntityIdVector(MakeHashValue(name));
+	}
+
 	static auto GetEntityIdVector(const uint32_t hash) -> EntityVector {
 		std::vector<entid_t> result;
 		result.reserve(max_ent_num); // TODO: investigate memory consumption
@@ -245,6 +250,10 @@ public:
 		auto& layer = layers_[index];
 
 		return std::pair { std::begin(layer.entities), std::begin(layer.entities) + layer.actual_size };
+	}
+
+	static auto GetEntityId(const char * name) -> entid_t {
+		return GetEntityId(MakeHashValue(name));
 	}
 
 	static auto GetEntityId(const uint32_t hash) -> entid_t {

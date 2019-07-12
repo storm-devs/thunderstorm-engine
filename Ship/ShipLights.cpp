@@ -40,7 +40,7 @@ bool ShipLights::Init()
 
 	pRS = (VDX9RENDER *)api->CreateService("dx9render");	Assert(pRS);
 	pCollide = (COLLIDE *)api->CreateService("coll");		Assert(pCollide);
-	if (sea_id = api->GetEntityIdWalker("sea")()) pSea = (SEA_BASE*)api->GetEntityPointer(sea_id);
+	if (sea_id = api->GetEntityIdWalker("sea")()) pSea = (SEA_BASE*)EntityManager::GetEntityPointer(sea_id);
 	return true;
 }
 

@@ -56,7 +56,7 @@ bool Blots::Init()
 	//Layers
 	////api->LayerCreate("realize", true, false);
 	//api->LayerSetRealize("realize", true);
-	//api->LayerAdd("realize", GetId(), 1000);
+	//EntityManager::AddToLayer(REALIZE, GetId(), 1000);
 	textureID = rs->TextureCreate("blot.tga");
 	return true;
 	//UNGUARD
@@ -89,7 +89,7 @@ uint32_t Blots::ProcessMessage(MESSAGE & message)
 void Blots::Hit(MESSAGE & message)
 {
 	//Моделька коробля
-	MODEL * m = (MODEL *)api->GetEntityPointer(model);
+	MODEL * m = (MODEL *)EntityManager::GetEntityPointer(model);
 	if(!m) return;
 	//Позиция
 	CVECTOR pos;
@@ -124,7 +124,7 @@ void Blots::Hit(MESSAGE & message)
 void Blots::AddBlot(long i, long rnd, const CVECTOR & lpos, const CVECTOR & dir, float time)
 {
 	//Моделька коробля
-	MODEL * m = (MODEL *)api->GetEntityPointer(model);
+	MODEL * m = (MODEL *)EntityManager::GetEntityPointer(model);
 	if(!m) return;
 	blot[i].isUsed = false;
 	CVECTOR pos = m->mtx*CVECTOR(lpos);
@@ -291,7 +291,7 @@ void Blots::Realize(uint32_t delta_time)
 	if(updateBlot >= BLOTS_MAX) updateBlot = 0;
 	SaveBlot(updateBlot);
 	//Моделька коробля
-	MODEL * m = (MODEL *)api->GetEntityPointer(model);
+	MODEL * m = (MODEL *)EntityManager::GetEntityPointer(model);
 	if(!m) return;
 	//Расстояние от камеры
 	CVECTOR pos, ang;

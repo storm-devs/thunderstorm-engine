@@ -46,10 +46,10 @@ bool Lighter::Init()
 	//
 	//api->LayerCreate("lighter_execute", true, false);
 	api->LayerSetExecute("lighter_execute", true);
-	api->LayerAdd("lighter_execute", GetId(), 1000);
+	EntityManager::AddToLayer("lighter_execute", GetId(), 1000);
 	//api->LayerCreate("lighter_realize", true, false);
 	api->LayerSetRealize("lighter_realize", true);
-	api->LayerAdd("lighter_realize", GetId(), 1000);
+	EntityManager::AddToLayer("lighter_realize", GetId(), 1000);
 	//
 	lightProcessor.SetParams(&geometry, &window, &lights, &octTree, rs);
 	//оконная система

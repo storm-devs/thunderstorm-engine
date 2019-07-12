@@ -31,7 +31,7 @@ bool LOCATOR::VerifyParticles()
 {
 	if(!(ParticlesID = api->GetEntityIdWalker("location")()))
 	{
-		if(!(ParticlesID = api->CreateEntity("particles"))) return false;
+		if(!(ParticlesID = EntityManager::CreateEntity("particles"))) return false;
 	}
 	return true;
 }
@@ -323,7 +323,7 @@ uint32_t LOCATOR::ProcessMessage(MESSAGE & message)
 			{
 				if(!api->FindClass(&ParticlesID,"particles",0))
 				{
-					if(!api->CreateEntity(&ParticlesID,"particles")) return 0;
+					if(!EntityManager::CreateEntity(&ParticlesID,"particles")) return 0;
 				}
 				for(stringIndex = 0; (stringIndex = geo->FindLabelG(stringIndex, groupID)) >= 0; stringIndex++)
 				{
@@ -338,7 +338,7 @@ uint32_t LOCATOR::ProcessMessage(MESSAGE & message)
 			{
 				if(!api->FindClass(&ParticlesID,"particles",0))
 				{
-					if(!api->CreateEntity(&ParticlesID,"particles")) return 0;
+					if(!EntityManager::CreateEntity(&ParticlesID,"particles")) return 0;
 				}
 				for(stringIndex = 0; (stringIndex = geo->FindLabelG(stringIndex, groupID)) >= 0; stringIndex++)
 				{

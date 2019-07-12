@@ -176,7 +176,7 @@ uint32_t slNativeFindLaodLocation(VS_STACK * pS)
 		pReturn->Set(-1L);
 		return IFUNCRESULT_OK;
 	}
-	Entity * l = api->GetEntityPointer(loc);
+	Entity * l = EntityManager::GetEntityPointer(loc);
 	if(!l || !l->AttributesPointer)
 	{
 		pReturn->Set(-1L);

@@ -27,7 +27,7 @@ public:
 		// get entity id from loaded ships
 		if (eidTemp = walker()) do
 		{
-			VAI_OBJBASE * pObj = (VAI_OBJBASE*)api->GetEntityPointer(eidTemp);
+			VAI_OBJBASE * pObj = (VAI_OBJBASE*)EntityManager::GetEntityPointer(eidTemp);
 			if (pObj->GetACharacter() == pACharacter)
 			{
 				SetEID(pObj->GetModelEID());
@@ -40,7 +40,7 @@ public:
 
 	MODEL *GetModelPointer()
 	{
-		return (MODEL*)api->GetEntityPointer(eidObject);
+		return (MODEL*)EntityManager::GetEntityPointer(eidObject);
 	}
 	void		SetAIObj(VAI_OBJBASE * _pAIObj) { pAIObj = _pAIObj; }
 	VAI_OBJBASE * GetAIObj() { return pAIObj; }
