@@ -10,6 +10,7 @@
 
 #include "CharacterAnimationKipper.h"
 #include "../Common_h/dx9render.h"
+#include "../Common_h/EntityManager.h"
 
 //============================================================================================
 //Конструирование, деструктурирование
@@ -40,16 +41,15 @@ CharacterAnimationKipper::~CharacterAnimationKipper()
 bool CharacterAnimationKipper::Init()
 {
 	//Проверим что единственные
-	;
-	const auto walker = api->GetEntityIdWalker("CharacterAnimationKipper");
-	if(entid_t eid = walker(); eid)
-	{
-		if(EntityManager::GetEntityPointer(eid) != this || walker())
-		{
-			api->Trace("CharacterAnimationKipper::Init() -> CharacterAnimationKipper already created");
-			return false;
-		}
+	auto& entities = EntityManager::GetEntityIdVector("CharacterAnimationKipper");
+	for (auto eid : entities) {
+		if (EntityManager::GetEntityPointer(eid) == this)
+			continue;
+
+		api->Trace("CharacterAnimationKipper::Init() -> CharacterAnimationKipper already created");
+		return false;
 	}
+
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs) throw std::exception("No service: dx9render");
 	AnimationService * asr = (AnimationService *)api->CreateService("AnimationServiceImp");

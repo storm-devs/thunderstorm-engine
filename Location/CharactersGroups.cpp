@@ -117,7 +117,7 @@ long CharactersGroups::String::GetLen(const char * str)
 bool CharactersGroups::Init()
 {
 	//”казатель на локацию
-	entid_t loc = api->GetEntityIdWalker("location")();;
+	const auto loc = EntityManager::GetEntityId("location");;
 	location = (Location *)EntityManager::GetEntityPointer(loc);
 	if(!location) return false;
 	RegistryGroup("");

@@ -13,6 +13,7 @@
 #include "../Common_h/Matrix.h"
 #include "../Common_h/defines.h"
 #include "Character.h"
+#include "../Common_h/EntityManager.h"
 
 //============================================================================================
 
@@ -348,7 +349,7 @@ void Grass::Realize(uint32_t delta_time)
 	//Туман
 	uint32_t dwOldFogDensity;
 	rs->GetRenderState(D3DRS_FOGDENSITY, &dwOldFogDensity);
-	entid_t eidIsland = api->GetEntityIdWalker("ISLAND")();
+	entid_t eidIsland = EntityManager::GetEntityId("ISLAND");
 	if(eidIsland)
 	{
 		float fIslandFogDensity = (float)dwOldFogDensity;
