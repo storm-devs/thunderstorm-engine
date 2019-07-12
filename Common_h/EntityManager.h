@@ -50,30 +50,30 @@ public:
 	};
 
 private:
-	/* static array of layers */
+	/* static constexpr array of layers */
 	static inline std::array<Layer, max_layers_num> layers_;
 
-	/* static array of entities and actual size */
+	/* static constexpr array of entities and actual size */
 	static inline std::pair<std::array<EntityInternalData, max_ent_num>, entity_index_t> entities_;
 
-	/* stack for indices of erased entities: static array and top counter */
+	/* stack for indices of erased entities: static constexpr array and top counter */
 	static inline std::pair<std::array<entity_index_t, max_ent_num>, entity_index_t> freeIndices_;
 
 public:
 	using EntityVector = const std::vector<entid_t>;
 	using LayerIterators = std::pair<decltype(Layer::entities)::const_iterator, decltype(Layer::entities)::const_iterator>;
 
-	/* fully static class */
+	/* fully static constexpr class */
 	EntityManager() = delete;
 
-	static auto GetClassCode(const entid_t id) {
+	static constexpr auto GetClassCode(const entid_t id) {
 		const auto& entData = GetEntityData(id);
 
 		return entData.hash;
 	}
 
-	/* layer functioning is fully static */
-	static void AddToLayer(const layer_index_t index, const entid_t id, const priority_t priority) {
+	/* layer functioning is fully static constexpr */
+	static constexpr void AddToLayer(const layer_index_t index, const entid_t id, const priority_t priority) {
 		assert(index < max_layers_num); // valid index
 		assert(entities_.first[static_cast<entid_index_t>(id)].mask & (1 << index)); // mask shall be set
 
@@ -101,12 +101,12 @@ public:
 		++size;
 	}
 
-	static void RemoveFromLayer(const layer_index_t index, const entid_t id) {
+	static constexpr void RemoveFromLayer(const layer_index_t index, const entid_t id) {
 		const auto& entData = GetEntityData(id);
 		return RemoveFromLayer(index, id, entData.priorities[index]);
 	}
 
-	static void RemoveFromLayer(const layer_index_t index, const entid_t id, const priority_t priority) {
+	static constexpr void RemoveFromLayer(const layer_index_t index, const entid_t id, const priority_t priority) {
 		assert(index < max_layers_num);
 
 		auto& layer = layers_[index];
@@ -128,7 +128,7 @@ public:
 		}
 	}
 
-	static entid_t CreateEntity(const char* name, ATTRIBUTES* attr = nullptr)
+	static constexpr entid_t CreateEntity(const char* name, ATTRIBUTES* attr = nullptr)
 	{
 		/* FIND VMA */
 		const auto hash = MakeHashValue(name);
@@ -171,7 +171,7 @@ public:
 		return id;
 	}
 
-	static void _erase(const EntityInternalData & data) {
+	static constexpr void _erase(const EntityInternalData & data) {
 		auto mask = data.mask;
 
 		// remove from layers
@@ -184,7 +184,7 @@ public:
 		delete data.ptr;
 	}
 
-	static void EraseEntity(const entid_t entity) {
+	static constexpr void EraseEntity(const entid_t entity) {
 		const auto & entData = GetEntityData(entity);
 		if (entData.ptr == nullptr)
 			return;
@@ -197,13 +197,13 @@ public:
 		entities_.first[index].deleted = true;
 	}
 
-	static void EraseAll()	{
+	static constexpr void EraseAll()	{
 		for (auto & entity : entities_.first) {
 			entity.deleted = true;
 		}
 	}
 
-	static entptr_t GetEntityPointer(const entid_t entity) {
+	static constexpr entptr_t GetEntityPointer(const entid_t entity) {
 		const auto &entData = GetEntityData(entity);
 		return entData.deleted ? nullptr : entData.ptr;
 	}
@@ -245,7 +245,7 @@ public:
 		return result;
 	}
 
-	static auto GetEntityIdIterators(const layer_index_t index) -> LayerIterators {
+	static constexpr auto GetEntityIdIterators(const layer_index_t index) -> LayerIterators {
 		assert(index < max_layers_num);
 
 		auto& layer = layers_[index];
@@ -253,11 +253,11 @@ public:
 		return std::pair { std::begin(layer.entities), std::begin(layer.entities) + layer.actual_size };
 	}
 
-	static auto GetEntityId(const char * name) -> entid_t {
+	static constexpr auto GetEntityId(const char * name) -> entid_t {
 		return GetEntityId(MakeHashValue(name));
 	}
 
-	static auto GetEntityId(const uint32_t hash) -> entid_t {
+	static constexpr auto GetEntityId(const uint32_t hash) -> entid_t {
 		const auto& arr = entities_.first;
 		const auto size = entities_.second;
 
@@ -270,27 +270,27 @@ public:
 		return invalid_entity;
 	}
 
-	static auto GetLayerType(const layer_index_t index)
+	static constexpr auto GetLayerType(const layer_index_t index)
 	{
 		assert(index < max_layers_num);
 
 		return layers_[index].type;
 	}
 
-	static void SetLayerType(const layer_index_t index, const Layer::Type type)
+	static constexpr void SetLayerType(const layer_index_t index, const Layer::Type type)
 	{
 		assert(index < max_layers_num);
 
 		layers_[index].type = type;
 	}
 
-	static void SetLayerFrozen(const layer_index_t index, const bool freeze) {
+	static constexpr void SetLayerFrozen(const layer_index_t index, const bool freeze) {
 		assert(index < max_layers_num);
 
 		layers_[index].frozen = freeze;
 	}
 
-	static void PushFreeIndex(entity_index_t index) {
+	static constexpr void PushFreeIndex(entity_index_t index) {
 		auto& stack = freeIndices_.first;
 		auto& top = freeIndices_.second;
 		
@@ -300,7 +300,7 @@ public:
 	}
 
 	/* new lifecycle is started at the end of each frame. it's time to cleanup */
-	static void NewLifecycle()
+	static constexpr void NewLifecycle()
 	{
 		auto & arr = entities_.first;
 		const auto size = entities_.second;
@@ -341,7 +341,7 @@ public:
 		return data;
 	}
 
-	static entid_t PushEntity(entptr_t ptr, hash_t hash) {
+	static constexpr entid_t PushEntity(entptr_t ptr, hash_t hash) {
 		auto& arr = entities_.first;
 		auto& size = entities_.second;
 
@@ -367,6 +367,6 @@ public:
 		return id;
 	}
 
-	/* static asserts */
+	/* static constexpr asserts */
 	static_assert(sizeof std::chrono::milliseconds == sizeof entid_stamp_t * 2); /* we are ok with half-precision */
 };
