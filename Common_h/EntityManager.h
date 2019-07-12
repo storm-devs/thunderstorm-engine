@@ -13,7 +13,7 @@ class EntityManager final {
 	using entid_index_t = uint32_t; /* 16 bits are enough tho' */
 	using entid_stamp_t = uint32_t;
 
-	using priority_t = uint16_t;
+	using priority_t = uint32_t;
 
 	using entity_index_t = uint16_t;
 

@@ -10,7 +10,7 @@
 
 #include "Lighter.h"
 #include "Lights.h"
-
+#include "../Common_h/EntityManager.h"
 //============================================================================================
 //Конструирование, деструктурирование
 //============================================================================================
@@ -44,12 +44,10 @@ bool Lighter::Init()
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs) throw std::exception("No service: dx9render");
 	//
-	//api->LayerCreate("lighter_execute", true, false);
-	api->LayerSetExecute("lighter_execute", true);
-	EntityManager::AddToLayer("lighter_execute", GetId(), 1000);
-	//api->LayerCreate("lighter_realize", true, false);
-	api->LayerSetRealize("lighter_realize", true);
-	EntityManager::AddToLayer("lighter_realize", GetId(), 1000);
+	EntityManager::SetLayerType(LIGHTER_EXECUTE, EntityManager::Layer::Type::execute);
+	EntityManager::AddToLayer(LIGHTER_EXECUTE, GetId(), 1000);
+	EntityManager::SetLayerType(LIGHTER_REALIZE, EntityManager::Layer::Type::realize);
+	EntityManager::AddToLayer(LIGHTER_REALIZE, GetId(), 1000);
 	//
 	lightProcessor.SetParams(&geometry, &window, &lights, &octTree, rs);
 	//оконная система

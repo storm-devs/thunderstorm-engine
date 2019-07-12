@@ -29,12 +29,12 @@ public:
 class COLLIDE : public SERVICE
 {
 public:
-	
-	//creates LocalCollide object which must be deleted after use
-	virtual LOCAL_COLLIDE *CreateLocalCollide(const char *layerName) = 0;
+	virtual ~COLLIDE() = default;
 
-	virtual ~COLLIDE(){};
-	virtual float Trace(entid_t entity, const CVECTOR &src, const CVECTOR &dst) = 0;
+	//creates LocalCollide object which must be deleted after use
+	virtual LOCAL_COLLIDE* CreateLocalCollide(EntityManager::layer_index_t idx) = 0;
+
+	virtual float Trace(entid_t entity, const CVECTOR& src, const CVECTOR& dst) = 0;
 
 	virtual float Trace(EntityManager::LayerIterators its, const CVECTOR &src, const CVECTOR &dst, const entid_t * exclude_list, long entities) = 0;
 

@@ -30,7 +30,7 @@ class COLL  : public COLLIDE
 {
 public:
 	COLL();
-	virtual LOCAL_COLLIDE *CreateLocalCollide(const char *layerName);
+	virtual LOCAL_COLLIDE* CreateLocalCollide(EntityManager::layer_index_t idx);
 	virtual ~COLL();
 	virtual float Trace(entid_t entity, const CVECTOR &src, const CVECTOR &dst);
 	virtual float Trace(EntityManager::LayerIterators its, const CVECTOR &src, const CVECTOR &dst, const entid_t * exclude_list, long entities);

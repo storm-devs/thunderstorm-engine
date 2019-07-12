@@ -12,6 +12,7 @@
 #include "Window.h"
 #include "Lights.h"
 #include "../Shared/messages.h"
+#include "../Common_h/EntityManager.h"
 
 //============================================================================================
 //Конструирование, деструктурирование
@@ -616,10 +617,7 @@ void Window::Reset(bool isActive)
 	isList = false;
 	isVisible = isActive;
 	entid_t loc;
-	if(const auto loc = api->GetEntityIdWalker("Location")())
-	{
-		api->Send_Message(loc, "ll", MSG_LOCATION_PAUSE, long(isActive));
-	}
+	api->Send_Message(EntityManager::GetEntityId("location"), "ll", MSG_LOCATION_PAUSE, long(isActive));
 	slidID = -1;
 	isPikerActive = false;
 	isActiveMouseState = false;

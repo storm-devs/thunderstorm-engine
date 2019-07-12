@@ -935,7 +935,7 @@ void Character::SetSignModel()
 
 	if(gs) gs->SetTexturePath("");
 	EntityManager::AddToLayer(REALIZE, sign, 20000);
-	EntityManager::AddToLayer("sun_trace", sign, 10);
+	EntityManager::AddToLayer(SUN_TRACE, sign, 10);
 }
 
 void Character::SetSignTechnique()
@@ -2654,14 +2654,14 @@ bool Character::zLoadModel(MESSAGE & message)
 	}
 	m->SetRenderTuner(&tuner);
 	EntityManager::AddToLayer(REALIZE, mdl, 20);
-	EntityManager::AddToLayer("sun_trace", mdl, 10);
+	EntityManager::AddToLayer(SUN_TRACE, mdl, 10);
 	if(shadow = EntityManager::CreateEntity("shadow"))
 	{
 		api->Send_Message(shadow, "li", 0, mdl);
 	}else{
 		api->Trace("Shadow not created!");
 	}
-	if(api->GetEntityIdWalker("sea")())
+	if(!EntityManager::GetEntityId("waterrings"))
 	{
 		waterrings = EntityManager::CreateEntity("waterrings");
 	}
@@ -4301,13 +4301,11 @@ inline void Character::CheckAttackHit()
 //Ќайти персонажа в которого попали из пистолета
 Character * Character::FindGunTarget(float & kDist, bool bOnlyEnemyTest)
 {
-	entid_t grps;
 	CharactersGroups * chrGroup;
 	long grp;
 	if (bOnlyEnemyTest)
 	{
-		grps = api->GetEntityIdWalker("CharactersGroups")();
-		chrGroup = (CharactersGroups *)EntityManager::GetEntityPointer(grps);
+		chrGroup = (CharactersGroups *)EntityManager::GetEntityPointer(EntityManager::GetEntityId("CharactersGroups"));
 		grp = chrGroup->FindGroupIndex(group);
 	}
 
@@ -4439,7 +4437,7 @@ void Character::UpdateWeapons()
 {
 	if(isFightWOWps)
 	{
-		api->LayerDel("realize", blade);
+		EntityManager::RemoveFromLayer(REALIZE, blade);
 	}else{
 		EntityManager::AddToLayer(REALIZE, blade, 65550);
 	}

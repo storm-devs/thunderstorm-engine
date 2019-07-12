@@ -150,12 +150,12 @@ void Blood::AddBlood(const CVECTOR& pos)
 	normal = CVECTOR(0.f,1.f,0.f);
 
 	CVECTOR cpos = pos;
-	walker_t walker = api->LayerGetWalker("blood");
-	if( !walker ) return;
+
+	const auto its = EntityManager::GetEntityIdIterators(BLOOD);
 
 	CVECTOR src = pos; src.y += 1.f;
 	CVECTOR dst = pos; dst.y -= 10.f;
-	float fTrace = pCol->Trace(walker,src,dst,nullptr,0);
+	float fTrace = pCol->Trace(its,src,dst,nullptr,0);
 	if( fTrace <=1.f )
 		cpos.y = src.y + (dst.y-src.y)*fTrace;
 
@@ -170,7 +170,7 @@ void Blood::AddBlood(const CVECTOR& pos)
 
 		src = cpos; src.y += 1.5f;
 		dst = cpos; dst.y -= 10.f;
-		fTrace = pCol->Trace(walker,src,dst,nullptr,0);
+		fTrace = pCol->Trace(its,src,dst,nullptr,0);
 		if( fTrace <=1.f )
 			cpos.y = src.y + (dst.y-src.y)*fTrace;
 	}
@@ -185,9 +185,8 @@ void Blood::AddBlood(const CVECTOR& pos)
 	p[5].Nx = -1.0f; p[5].Ny = 0.0f; p[5].Nz = 0.0f; p[5].D = -(cpos.x - BLOOD_RADIUS);
 
 	// бегаем по лееру
-	for(entid_t pEID=walker(); pEID; pEID=walker())
-	{
-		MODEL * m = (MODEL *)EntityManager::GetEntityPointer(pEID);
+	for (auto it = its.first; it != its.second; ++it) {
+		MODEL * m = (MODEL *)EntityManager::GetEntityPointer(it->second);
 		if(!m) continue;
 		NODE * root = m->GetNode(0);
 		m->Clip(p, 6, cpos, BLOOD_RADIUS, AddClipPoligon);
