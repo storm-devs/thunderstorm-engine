@@ -27,7 +27,6 @@ Lights::Lights()
 	maxLights = 0;
 	for(long i = 0; i < 8; i++) {lt[i].light = -1; lt[i].set = false;}
 	numLampModels = 0;
-	lighter_code = api->Class_Name2Code("Lighter");
 }
 
 Lights::~Lights()
@@ -335,7 +334,7 @@ void Lights::AddLight(long index, const CVECTOR & pos)
 #ifndef _XBOX
 	//Отправим сообщение лайтеру
 	
-	if(entid_t eid = api->GetEntityIdWalker(nullptr, lighter_code)(); eid)
+	if(entid_t eid = api->GetEntityIdWalker("Lighter")(); eid)
 	{
 		api->Send_Message(eid, "sffffffffffs", "AddLight",
 			pos.x,

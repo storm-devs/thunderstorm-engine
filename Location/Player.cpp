@@ -48,7 +48,6 @@ Player::~Player()
 
 bool Player::PostInit()
 {
-	chrGroups = api->Class_Name2Code("CharactersGroups");
 	const auto location = GetLocation();
 	if(!location->supervisor.player) location->supervisor.player = this;
 	baterfl = api->GetEntityIdWalker("Animals")();
@@ -307,7 +306,7 @@ void Player::Update(float dltTime)
 	api->Send_Message(baterfl, "lff", MSG_ANIMALS_BUTTERFLIES_XYZ, curPos.x, curPos.z);
 	//ѕеребираем персонажей в поисках врагов к игроку
 	entid_t eid;
-	if(eid = api->GetEntityIdWalker(nullptr, chrGroups)())
+	if(eid = api->GetEntityIdWalker("CharactersGroups")())
 	{
 		const auto location = GetLocation();
 		for(long i = 0; i < location->supervisor.numCharacters; i++)

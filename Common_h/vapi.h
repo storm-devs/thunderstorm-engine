@@ -28,27 +28,16 @@ public:
 	virtual HWND GetAppHWND() = 0;
 	virtual HINSTANCE GetAppInstance() = 0;
 	// set time scale; affect on std entity functions DeltaTime parameter
-	virtual void  SetTimeScale(float _scale)= 0;
-	// get curretn value of time scale; default 1.0f
-	virtual float GetTimeScale()= 0;
+	virtual void SetTimeScale(float _scale)= 0;
 	// write message to system log file
 	virtual void Trace(const char * Format,...)= 0;
-	// OR operation with core exceptions mask, return current mask state
 
-	// work with objects classes
-	
-	// converting class name to static code (constant until next restart)
 	virtual uint32_t Class_Name2Code(char * class_name)= 0;
-	// find first entity with pointed class
 	virtual entid_t GetEntityId(const char* class_name, uint32_t class_code = 0) = 0;
 	virtual std::vector<entid_t> GetEntityIdVector(const char* class_name, uint32_t class_code = 0) = 0;
-	// service managment
 
 	// return service object pointer; 
 	virtual void *CreateService(char * service_name)= 0;
-	
-
-	// entity managment
 	
 	// create entity with class type "class_name"; if id_PTR no null - fill this structure with entity id
 	virtual entid_t CreateEntity(char* name, ATTRIBUTES* attr = nullptr) = 0;
