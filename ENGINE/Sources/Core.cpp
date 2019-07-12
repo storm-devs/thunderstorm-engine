@@ -75,7 +75,8 @@ bool CORE::LoCheck()
 		return false;
 	auto* pE = EntityManager::GetEntityPointer(test_eid);
 	pE->ProcessStage(Entity::Stage::execute, ENGINE_SCRIPT_VERSION);
-	EraseEntity(test_eid);
+
+	EntityManager::EraseEntity(test_eid);
 	return true;
 }
 

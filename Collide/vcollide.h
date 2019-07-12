@@ -29,9 +29,9 @@ public:
 class COLL  : public COLLIDE
 {
 public:
-	COLL();
+	COLL() = default;
+	virtual ~COLL() = default;
 	virtual LOCAL_COLLIDE* CreateLocalCollide(EntityManager::layer_index_t idx);
-	virtual ~COLL();
 	virtual float Trace(entid_t entity, const CVECTOR &src, const CVECTOR &dst);
 	virtual float Trace(EntityManager::LayerIterators its, const CVECTOR &src, const CVECTOR &dst, const entid_t * exclude_list, long entities);
 	virtual bool Clip(EntityManager::LayerIterators its, const PLANE *planes, long nplanes, const CVECTOR &center,

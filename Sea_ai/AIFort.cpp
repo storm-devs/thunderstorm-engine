@@ -192,7 +192,7 @@ bool AIFort::AddFort(ATTRIBUTES * pIslandAP, ATTRIBUTES * pFortLabelAP, ATTRIBUT
 	bool bLights = (pALights) ? pALights->GetAttributeAsDword() != 0 : false;
 	bool bFlares = (pAFlares) ? pAFlares->GetAttributeAsDword() != 0 : false;
 
-	entid_t eidTmp = api->GetEntityIdWalker("shiplights")();
+	entid_t eidTmp = EntityManager::GetEntityId("shiplights");
 	pShipsLights = (IShipLights*)EntityManager::GetEntityPointer(eidTmp); Assert(pShipsLights);
 
 	pShipsLights->AddLights(&pFort->tmpObject, pFort->GetModel(), bLights, bFlares);

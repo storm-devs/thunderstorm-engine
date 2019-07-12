@@ -9,7 +9,7 @@
 class ShipTracks : public Entity
 {
 public:
-	ShipTracks();
+	ShipTracks() = default;
 	~ShipTracks();
 
 	bool Init();

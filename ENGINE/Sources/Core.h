@@ -56,8 +56,6 @@ public:
 	void ProcessRunStart(uint32_t section_code);
 	void ProcessRunEnd(uint32_t section_code);
 
-	void EraseEntity(entid_t id);
-
 	void CheckAutoExceptions(uint32_t xflag) const;
 	void ReleaseServices();
 	void ProcessEngineIniFile();
