@@ -103,12 +103,12 @@ void TButterflies::Execute(uint32_t _dTime)
 	butterflies[0].SetCenter(pos);
 	int i;
 
+	const auto its = EntityManager::GetEntityIdIterators(SHADOW);
+
 	// redefine minY
 	yDefineTime += _dTime;
 	if (yDefineTime > Y_REDEFINE_TIME)
 	{
-		const auto walker = api->LayerGetWalker("shadow");
-
 		for (i = 0; i<butterfliesCount; i++)
 		{
 			static const float ALL_Y = 1000.0f;
@@ -117,7 +117,7 @@ void TButterflies::Execute(uint32_t _dTime)
 			topVector.y = ALL_Y;
 			bottomVector.y = -ALL_Y;
 
-			float ray = collide->Trace(walker, topVector, bottomVector, nullptr, 0);
+			float ray = collide->Trace(its, topVector, bottomVector, nullptr, 0);
 			if (ray <= 1.0f)
 				butterflies[i].SetMinY(-ALL_Y+(1.f - ray)*2.f*ALL_Y);
 			else
@@ -131,8 +131,7 @@ void TButterflies::Execute(uint32_t _dTime)
 
 	for (i = 0; i<butterfliesCount; i++)
 	{
-		const auto walker = api->LayerGetWalker("shadow");
-		butterflies[i].Calculate(_dTime, collide, walker);
+		butterflies[i].Calculate(_dTime, collide, its);
 		butterflies[i].Draw(ivManager);
 		//butterflies[i].Draw(renderService);
 	}

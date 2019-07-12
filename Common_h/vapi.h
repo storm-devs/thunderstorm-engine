@@ -21,10 +21,6 @@ public:
 
 	virtual void Trace(const char * Format,...)= 0;
 
-	virtual uint32_t Class_Name2Code(char * class_name)= 0;
-	virtual entid_t GetEntityId(const char* class_name, uint32_t class_code = 0) = 0;
-	virtual std::vector<entid_t> GetEntityIdVector(const char* class_name, uint32_t class_code = 0) = 0;
-
 	virtual void *CreateService(char * service_name)= 0;
 
 	virtual ATTRIBUTES * Entity_GetAttributeClass(entid_t id_PTR, char * name)=0;

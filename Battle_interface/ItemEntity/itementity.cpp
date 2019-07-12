@@ -2,6 +2,7 @@
 #include "../Utils.h"
 #include "../../Common_h/model.h"
 #include "../../Shared/messages.h"
+#include "../../Common_h/EntityManager.h"
 
 ItemEntity::ItemEntity()
 {
@@ -289,8 +290,7 @@ bool ItemEntity::CreateParticle()
 		char* pcParticleName = BIUtils::GetStringFromAttr(AttributesPointer,"particle","");
 		if( pcParticleName && pcParticleName[0] )
 		{
-			const auto walker = api->GetEntityIdWalker("particles");
-			const entid_t eidParticle = walker();
+			const auto eidParticle = EntityManager::GetEntityId("particles");
 			if(eidParticle)
 			{
 				CVECTOR vPos = m_mtxpos.Pos();
@@ -305,8 +305,7 @@ bool ItemEntity::CreateParticle()
 void ItemEntity::DeleteParticle()
 {
 	if( m_pParticle ) {
-		const auto walker = api->GetEntityIdWalker("particles");
-		const entid_t eidParticle = walker();
+		const auto eidParticle = EntityManager::GetEntityId("particles");
 		if(eidParticle)
 		{
 			if( api->Send_Message(eidParticle, "ll", PS_VALIDATE_PARTICLE, (long)m_pParticle) )

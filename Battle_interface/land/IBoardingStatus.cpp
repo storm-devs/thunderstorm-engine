@@ -3,6 +3,7 @@
 #include "../../Shared/battle_interface/log_msg.h"
 #include "IBoardingStatus.h"
 #include "../../Common_h/vmodule_api.h"
+#include "../../Common_h/EntityManager.h"
 
 IBoardingStatus::IBoardingStatus()
 {

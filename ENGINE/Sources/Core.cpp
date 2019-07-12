@@ -498,7 +498,7 @@ void CORE::ProcessExecute()
 	ProcessRunStart(SECTION_EXECUTE);
 
 	uint32_t deltatime = Timer.GetDeltaTime();
-	auto entIds = EntityManager::GetEntityIdVector(EntityManager::Layer::Type::execute);
+	auto& entIds = EntityManager::GetEntityIdVector(EntityManager::Layer::Type::execute);
 	for (auto id : entIds) {
 		if (auto ptr = EntityManager::GetEntityPointer(id)) {
 			ptr->ProcessStage(Entity::Stage::execute, deltatime);
@@ -514,7 +514,7 @@ void CORE::ProcessRealize()
 	ProcessRunStart(SECTION_REALIZE);
 
 	uint32_t deltatime = Timer.GetDeltaTime();
-	auto entIds = EntityManager::GetEntityIdVector(EntityManager::Layer::Type::realize);
+	auto& entIds = EntityManager::GetEntityIdVector(EntityManager::Layer::Type::realize);
 	for (auto id : entIds) {
 		if (auto ptr = EntityManager::GetEntityPointer(id)) {
 			ptr->ProcessStage(Entity::Stage::realize, deltatime);

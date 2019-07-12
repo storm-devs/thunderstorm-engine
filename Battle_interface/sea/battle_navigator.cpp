@@ -7,6 +7,7 @@
 #include "ships_list.h"
 #include "../Utils.h"
 #include "../../Shared/battle_interface/msg_control.h"
+#include "../../Common_h/EntityManager.h"
 
 #define NAVBACKGROUND_SIZESCALE	1.3f
 
@@ -1129,19 +1130,16 @@ long BATTLE_NAVIGATOR::SetRectangleSegVertexTex(BI_ONETEXTURE_VERTEX *v, float x
 void BATTLE_NAVIGATOR::SetIsland()
 {
 	entid_t ei;
-	MODEL * pM= nullptr;
+	
 	CVECTOR posCenter;
 	float islSize = 0;
 
 
-	const auto walker1 = api->GetEntityIdWalker("ISLAND"), walker2 = api->GetEntityIdWalker("NetIsland");
-	if((ei = walker1()) || (ei = walker2()))
+	MODEL* pM = nullptr;
+	ISLAND_BASE * pIsl = (ISLAND_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("ISLAND"));
+	if(pIsl != nullptr)
 	{
-		ISLAND_BASE * pIsl = (ISLAND_BASE*)EntityManager::GetEntityPointer(ei);
-		if(pIsl!= nullptr)
-		{
-			pM = (MODEL*)EntityManager::GetEntityPointer(pIsl->GetModelEID());
-		}
+		pM = (MODEL*)EntityManager::GetEntityPointer(pIsl->GetModelEID());
 	}
 	if(pM!= nullptr)
 	{
@@ -1298,9 +1296,7 @@ void BATTLE_NAVIGATOR::UpdateCurrentCharge()
 void BATTLE_NAVIGATOR::UpdateWindParam()
 {
 	if( !m_wb && !m_pAWeather ) {
-		entid_t ei;
-		if( (ei = api->GetEntityIdWalker("weather")()) )
-			m_wb = (WEATHER_BASE*)EntityManager::GetEntityPointer(ei);
+			m_wb = (WEATHER_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("weather"));
 		/*if( api->IsNetActive() && !m_wb && m_pOwnerEI ) {
 			VDATA * pSVWeather = (VDATA*)api->GetScriptVariable((m_pOwnerEI->IsServer()) ? "NSWeather" : "NCWeather"); Assert(pSVWeather);
 			m_pAWeather = pSVWeather->GetAClass(); Assert(m_pAWeather);

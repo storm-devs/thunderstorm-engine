@@ -296,7 +296,7 @@ void MAST::Mount( entid_t modelEI, entid_t shipEI, NODE* mastNodePointer )
         float minDist=10000.f;
         SHIP_BASE *minDstShip;
 
-		const auto ships = EntityManager::GetEntityIdVector("ship");
+		auto& ships = EntityManager::GetEntityIdVector("ship");
 		for(auto ship : ships) {
             if(ship==ship_id) 
 				continue;
@@ -524,7 +524,7 @@ void MAST::doMove(uint32_t DeltaTime)
                     }
 				}
 				// коллизим с кораблем
-				const auto ships = EntityManager::GetEntityIdVector("ship");
+				auto& ships = EntityManager::GetEntityIdVector("ship");
 				for (auto ship : ships) {
 					if( EntityManager::GetEntityPointer(ship)== nullptr ) continue;
 					auto modEI = ((VAI_OBJBASE*)EntityManager::GetEntityPointer(ship))->GetModelEID();

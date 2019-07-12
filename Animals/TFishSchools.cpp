@@ -3,8 +3,7 @@
 #include "../Common_h/rands.h"
 #include "../Shared/messages.h"
 #include "../Common_h/defines.h"
-
-#pragma warning (disable : 4244)
+#include "../Common_h/EntityManager.h"
 
 //--------------------------------------------------------------------
 TFishSchools::TFishSchools()
@@ -47,9 +46,7 @@ void TFishSchools::Init()
 	if(!renderService)
 		throw std::exception("!FishSchools: No service 'dx9render'");
 
-	auto walker = api->GetEntityIdWalker("sea");
-	seaID = walker();
-	sea = (SEA_BASE*) EntityManager::GetEntityPointer(seaID);
+	sea = (SEA_BASE*) EntityManager::GetEntityPointer(EntityManager::GetEntityId("sea"));
 	if (!sea)
 	{
 		enabled = false;

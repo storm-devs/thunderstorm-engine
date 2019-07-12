@@ -85,8 +85,9 @@ public:
 
 		// TODO: investigate if duplicate check is needed
 
-		const auto targetIdx = std::upper_bound(std::begin(arr), std::begin(arr) + size, priority,
-			[](auto& lhs, auto& rhs) { return lhs.first < rhs.first; }) - std::begin(arr);
+		const auto targetIt = std::upper_bound(std::begin(arr), std::begin(arr) + size, priority,
+			[](auto& lhs, auto& rhs) { return lhs.first < rhs.first; });
+		const auto targetIdx = targetIt - std::begin(arr);
 
 		// if this is not last element
 		if (targetIdx != size) {

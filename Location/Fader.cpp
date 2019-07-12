@@ -53,7 +53,7 @@ bool Fader::Init()
 {
 	//Проверим что единственные
 
-	auto entities = EntityManager::GetEntityIdVector("Fader");
+	auto& entities = EntityManager::GetEntityIdVector("Fader");
 	for(auto eid : entities) {
 		if (eid != GetId())
 			continue;

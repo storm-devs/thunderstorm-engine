@@ -151,11 +151,9 @@ VAI_OBJBASE * SHIPPOINTER::FindShipByChrIndex(long chrIdx)
 {
 	if(chrIdx==-1)	return nullptr;
 
-	const auto walker = api->GetEntityIdWalker("ship");
-	entid_t ei;
-	while (ei = walker())
-	{
-		VAI_OBJBASE* ps = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ei);
+	auto& entities = EntityManager::GetEntityIdVector("ship");
+	for(auto ship : entities) {
+		VAI_OBJBASE* ps = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ship);
 		if (ps != nullptr && ps->GetACharacter() != nullptr)
 		{
 			if ((long)ps->GetACharacter()->GetAttributeAsDword("index", -2) == chrIdx)
