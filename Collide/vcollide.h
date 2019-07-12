@@ -33,8 +33,8 @@ public:
 	virtual LOCAL_COLLIDE *CreateLocalCollide(const char *layerName);
 	virtual ~COLL();
 	virtual float Trace(entid_t entity, const CVECTOR &src, const CVECTOR &dst);
-	virtual float Trace(walker_t walker, const CVECTOR &src, const CVECTOR &dst, const entid_t * exclude_list, long entities);
-	virtual bool Clip(walker_t walker, const PLANE *planes, long nplanes, const CVECTOR &center,
+	virtual float Trace(EntityManager::LayerIterators its, const CVECTOR &src, const CVECTOR &dst, const entid_t * exclude_list, long entities);
+	virtual bool Clip(EntityManager::LayerIterators its, const PLANE *planes, long nplanes, const CVECTOR &center,
 		float radius, ADD_POLYGON_FUNC addpoly, const entid_t * exclude_list, long entities);
 	virtual entid_t GetObjectID();
 };

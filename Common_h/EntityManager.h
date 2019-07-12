@@ -49,7 +49,6 @@ public:
 	};
 
 private:
-
 	/* static array of layers */
 	static inline std::array<Layer, max_layers_num> layers_;
 
@@ -60,6 +59,9 @@ private:
 	static inline std::pair<std::array<entity_index_t, max_ent_num>, entity_index_t> freeIndices_;
 
 public:
+	using EntityVector = const std::vector<entid_t>;
+	using LayerIterators = std::pair<decltype(Layer::entities)::const_iterator, decltype(Layer::entities)::const_iterator>;
+
 	/* fully static class */
 	EntityManager() = delete;
 
@@ -204,7 +206,7 @@ public:
 		return entData.deleted ? nullptr : entData.ptr;
 	}
 
-	static auto GetEntityIdVector(const Layer::Type type) {
+	static auto GetEntityIdVector(const Layer::Type type) -> EntityVector {
 		std::vector<entid_t> result;
 		result.reserve(max_ent_num); // TODO: investigate memory consumption
 
@@ -220,16 +222,32 @@ public:
 		return result;
 	}
 
-	static auto GetEntityIdIterators(const layer_index_t index) {
+	// TODO: hash...
+	static auto GetEntityIdVector(const uint32_t hash) -> EntityVector {
+		std::vector<entid_t> result;
+		result.reserve(max_ent_num); // TODO: investigate memory consumption
+
+		const auto& arr = entities_.first;
+		const auto size = entities_.second;
+
+		for (auto it = std::begin(arr); it != std::begin(arr) + size; ++it) {
+			if (it->hash == hash && !it->deleted) {
+				result.push_back(it->id);
+			}
+		}
+
+		return result;
+	}
+
+	static auto GetEntityIdIterators(const layer_index_t index) -> LayerIterators {
 		assert(index < max_layers_num);
 
 		auto& layer = layers_[index];
 
-	
 		return std::pair { std::begin(layer.entities), std::begin(layer.entities) + layer.actual_size };
 	}
 
-	static auto GetEntityId(const uint32_t hash) {
+	static auto GetEntityId(const uint32_t hash) -> entid_t {
 		const auto& arr = entities_.first;
 		const auto size = entities_.second;
 
@@ -240,23 +258,6 @@ public:
 		}
 
 		return invalid_entity;
-	}
-
-	// TODO: hash...
-	static auto GetEntityIdVector(const uint32_t hash) {
-		std::vector<entid_t> result;
-		result.reserve(max_ent_num); // TODO: investigate memory consumption
-
-		const auto& arr = entities_.first;
-		const auto size = entities_.second;
-
-		for (auto it = std::begin(arr); it != std::begin(arr) + size; ++it) {
-			if(it->hash == hash && !it->deleted) {
-				result.push_back(it->id);
-			}
-		}
-
-		return result;
 	}
 
 	static auto GetLayerType(const layer_index_t index)

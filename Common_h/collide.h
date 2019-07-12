@@ -7,6 +7,7 @@
 #include "../Common_h/vmodule_api.h"
 #include "../Common_h/types3d.h"
 #include "../Common_h/object.h"
+#include "../Common_h/EntityManager.h"
 
 
 class LOCAL_COLLIDE
@@ -35,9 +36,9 @@ public:
 	virtual ~COLLIDE(){};
 	virtual float Trace(entid_t entity, const CVECTOR &src, const CVECTOR &dst) = 0;
 
-	virtual float Trace(walker_t walker, const CVECTOR &src, const CVECTOR &dst, const entid_t * exclude_list, long entities) = 0;
+	virtual float Trace(EntityManager::LayerIterators its, const CVECTOR &src, const CVECTOR &dst, const entid_t * exclude_list, long entities) = 0;
 
-	virtual bool Clip(walker_t walker, const PLANE *planes, long nplanes, const CVECTOR &center, float radius,
+	virtual bool Clip(EntityManager::LayerIterators its, const PLANE *planes, long nplanes, const CVECTOR &center, float radius,
 		ADD_POLYGON_FUNC addpoly, const entid_t * exclude_list, long entities) = 0;
 
 	virtual entid_t GetObjectID() = 0;

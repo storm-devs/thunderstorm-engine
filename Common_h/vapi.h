@@ -2,7 +2,6 @@
 #include <Windows.h>
 #include "controls.h"
 #include "s_import_func.h"
-#include "Walker.h"
 #include "vdata.h"
 
 class VAPI

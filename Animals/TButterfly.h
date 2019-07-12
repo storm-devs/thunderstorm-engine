@@ -1,11 +1,11 @@
 #ifndef _TBUTTERFLY_H_
 #define _TBUTTERFLY_H_
 
-#include "../Common_h/Walker.h"
 #include "../Common_h/Cvector.h"
 #include "../Common_h/model.h"
 #include "../Common_h/collide.h"
 #include "../Common_h/TIVBufferManager.h"
+#include "../Common_h/EntityManager.h"
 
 ///////////////////////////////////////////////////////////////////
 // DEFINES & TYPES
@@ -44,7 +44,7 @@ public:
 	virtual ~TButterfly();
 
 	void Initialize (const CVECTOR &_center, float _radius, long _bufferIndex, int _tI, int _tJ);
-	void Calculate (long _dTime, COLLIDE *_collide, walker_t _walker);
+	void Calculate (long _dTime, COLLIDE *_collide, EntityManager::LayerIterators its);
 	void Effect(const CVECTOR &_position);
 	static void SetCenter(const CVECTOR &_center) { center = _center; };
 
