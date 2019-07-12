@@ -50,9 +50,9 @@ Tornado::~Tornado()
 //Инициализация
 bool Tornado::Init()
 {
-	api->LayerCreate("execute", true, false);
+	//api->LayerCreate("execute", true, false);
 	api->LayerSetExecute("execute", true);	
-	api->LayerCreate("realize", true, false);
+	//api->LayerCreate("realize", true, false);
 	api->LayerSetRealize("realize", true);
 	api->LayerAdd("execute", GetId(), 70000);
 	api->LayerAdd("realize", GetId(), 70000);

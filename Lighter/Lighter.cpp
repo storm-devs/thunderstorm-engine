@@ -44,10 +44,10 @@ bool Lighter::Init()
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs) throw std::exception("No service: dx9render");
 	//
-	api->LayerCreate("lighter_execute", true, false);
+	//api->LayerCreate("lighter_execute", true, false);
 	api->LayerSetExecute("lighter_execute", true);
 	api->LayerAdd("lighter_execute", GetId(), 1000);
-	api->LayerCreate("lighter_realize", true, false);
+	//api->LayerCreate("lighter_realize", true, false);
 	api->LayerSetRealize("lighter_realize", true);
 	api->LayerAdd("lighter_realize", GetId(), 1000);
 	//

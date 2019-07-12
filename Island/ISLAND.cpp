@@ -73,7 +73,7 @@ bool ISLAND::Init()
  
 void ISLAND::SetDevice()
 {
-	api->LayerCreate("island_trace", true, false);
+	//api->LayerCreate("island_trace", true, false);
 
 	pCollide = (COLLIDE*)api->CreateService("COLL"); Assert(pCollide);
 	pRS = (VDX9RENDER*)api->CreateService("dx9render"); Assert(pRS);

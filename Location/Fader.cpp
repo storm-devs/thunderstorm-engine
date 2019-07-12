@@ -66,10 +66,10 @@ bool Fader::Init()
 		}
 	}
 	//Layers
-	api->LayerCreate("fader_realize", true, false);
+	//api->LayerCreate("fader_realize", true, false);
 	api->LayerSetRealize("fader_realize", true);
 	api->LayerAdd("fader_realize", GetId(), -256);
-	api->LayerCreate("fader_execute", true, false);
+	//api->LayerCreate("fader_execute", true, false);
 	api->LayerSetExecute("fader_execute", true);
 	api->LayerAdd("fader_execute", GetId(), -256);
 	//DX9 render

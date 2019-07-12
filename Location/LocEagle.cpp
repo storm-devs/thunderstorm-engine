@@ -68,7 +68,7 @@ bool LocEagle::Init()
 	if(!ani->Player(0).SetAction("flight")) return false;
 	if(!ani->Player(0).Play()) return false;
 	//Включаем в список исполнения
-	api->LayerCreate("execute", true, false);
+	//api->LayerCreate("execute", true, false);
 	api->LayerSetExecute("execute", true);
 	api->LayerAdd("execute", GetId(), 10);
 	return true;	

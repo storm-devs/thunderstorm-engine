@@ -96,10 +96,10 @@ Grass::~Grass()
 bool Grass::Init()
 {
 	//Layers
-	api->LayerCreate("execute", true, false);
+	//api->LayerCreate("execute", true, false);
 	api->LayerSetExecute("execute", true);
 	api->LayerAdd("execute", GetId(), 1000);
-	api->LayerCreate("realize", true, false);
+	//api->LayerCreate("realize", true, false);
 	api->LayerSetRealize("realize", true);
 	api->LayerAdd("realize", GetId(), 1000);
 

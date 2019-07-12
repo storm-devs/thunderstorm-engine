@@ -29,7 +29,7 @@ WideScreen::~WideScreen()
 bool WideScreen::Init()
 {
 	//Layers
-	api->LayerCreate("realize", true, false);
+	//api->LayerCreate("realize", true, false);
 	api->LayerSetRealize("realize", true);
 	api->LayerAdd("realize", GetId(), -257);
 	rs = (VDX9RENDER *)api->CreateService("dx9render");

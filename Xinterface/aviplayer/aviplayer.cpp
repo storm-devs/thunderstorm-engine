@@ -49,11 +49,11 @@ bool CAviPlayer::Init()
 		throw std::exception("Can`t create render service");
 	}
 
-	api->LayerCreate("vRealize",true,false);
+	//api->LayerCreate("vRealize",true,false);
 	api->LayerSetRealize("vRealize",true);
 	api->LayerAdd("vRealize",GetId(),-1);
 
-	api->LayerCreate("vExecute",true,false);
+	//api->LayerCreate("vExecute",true,false);
 	api->LayerSetExecute("vExecute",true);
 	api->LayerAdd("vExecute",GetId(),1);
 

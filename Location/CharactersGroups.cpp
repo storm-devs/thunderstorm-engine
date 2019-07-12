@@ -121,7 +121,7 @@ bool CharactersGroups::Init()
 	location = (Location *)api->GetEntityPointer(loc);
 	if(!location) return false;
 	RegistryGroup("");
-	api->LayerCreate("execute", true, false);
+	//api->LayerCreate("execute", true, false);
 	api->LayerSetExecute("execute", true);
 	api->LayerAdd("execute", GetId(), 10);
 	return true;

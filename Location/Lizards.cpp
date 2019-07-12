@@ -32,7 +32,7 @@ bool Lizards::Init()
 	//Заводим ящерец
 	for(long i = 0; i < num; i++) lizard[i].Init(location);
 	//Исполнение
-	api->LayerCreate("realize", true, false);
+	//api->LayerCreate("realize", true, false);
 	api->LayerSetRealize("realize", true);
 	api->LayerAdd("realize", GetId(), 100000);
 	return true;

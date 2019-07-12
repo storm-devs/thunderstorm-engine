@@ -34,11 +34,11 @@ bool SailorsEditor :: Init()
 	sailors = api->CreateEntity("Sailors");
 
 
-	api->LayerCreate("execute", true, false);
+	//api->LayerCreate("execute", true, false);
 	api->LayerSetExecute("execute", true);
 	api->LayerAdd("execute", GetId(), 0);
 
-	api->LayerCreate("editor_realize", true, false);
+	//api->LayerCreate("editor_realize", true, false);
 	api->LayerSetRealize("editor_realize", true);
 	api->LayerAdd("editor_realize", GetId(), 100000);
 

@@ -81,11 +81,11 @@ bool Location::Init()
 	if(!rs) throw std::exception("No service: dx9render");
 	rs->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-	api->LayerCreate("execute", true, false);
+	//api->LayerCreate("execute", true, false);
 	api->LayerSetExecute("execute", true);
 	api->LayerAdd("execute", GetId(), 10);
 
-	api->LayerCreate("realize", true, false);
+	//api->LayerCreate("realize", true, false);
 	api->LayerSetRealize("realize", true);
 	api->LayerAdd("realize", GetId(), 100000);
 

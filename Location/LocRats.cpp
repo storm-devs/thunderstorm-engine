@@ -35,7 +35,7 @@ bool LocRats::Init()
 	Location * location = (Location *)api->GetEntityPointer(loc);
 	if(!location) return false;
 	//Исполнение
-	api->LayerCreate("realize", true, false);
+	//api->LayerCreate("realize", true, false);
 	api->LayerSetRealize("realize", true);
 	api->LayerAdd("realize", GetId(), 100000);
 	return true;

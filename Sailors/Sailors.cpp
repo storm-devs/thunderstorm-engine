@@ -1012,7 +1012,7 @@ bool Sailors::Init()
 
 	rs = (VDX9RENDER *) api->CreateService("dx9render");
 
-	api->LayerCreate("sea_realize", true, false);
+	//api->LayerCreate("sea_realize", true, false);
 	api->LayerSetRealize("sea_realize", true);
 	api->LayerAdd("sea_realize", GetId(), 65530);
 
