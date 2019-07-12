@@ -289,11 +289,6 @@ void CORE::CheckAutoExceptions(uint32_t = 0) const
 	spdlog::warn("exception thrown");
 }
 
-void CORE::EraseEntity(entid_t id)
-{
-	EntityManager::EraseEntity(id);
-}
-
 void CORE::Exit() { Exit_flag = true; }
 
 //------------------------------------------------------------------------------------------------

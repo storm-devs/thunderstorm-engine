@@ -2,6 +2,7 @@
 #include "aviplayer.h"
 #include "../../Common_h/defines.h"
 #include "../../Shared/interface/messages.h"
+#include "../../Common_h/EntityManager.h"
 
 #pragma comment(lib,"amstrmid.lib")
 #pragma comment(lib,"ddraw.lib")
@@ -50,12 +51,12 @@ bool CAviPlayer::Init()
 	}
 
 	//api->LayerCreate("vRealize",true,false);
-	api->LayerSetRealize("vRealize",true);
-	EntityManager::AddToLayer("vRealize",GetId(),-1);
+	EntityManager::SetLayerType(VIDEO_REALIZE, EntityManager::Layer::Type::realize);
+	EntityManager::AddToLayer(VIDEO_REALIZE,GetId(),-1);
 
 	//api->LayerCreate("vExecute",true,false);
-	api->LayerSetExecute("vExecute",true);
-	EntityManager::AddToLayer("vExecute",GetId(),1);
+	EntityManager::SetLayerType(VIDEO_EXECUTE, EntityManager::Layer::Type::execute);
+	EntityManager::AddToLayer(VIDEO_EXECUTE,GetId(),1);
 
 	if(!GetInterfaces())
 	{

@@ -221,7 +221,7 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 		if( (fFadeTime>0.f && fFadeValue<1.f) || (fFadeTime<0.f && fFadeValue>0.f) )
 		{
 			entid_t eid;
-			if(eid = api->GetEntityIdWalker("Weather")())
+			if(eid = EntityManager::GetEntityId("weather"))
 			{
 				float fTime = ((WEATHER_BASE*)EntityManager::GetEntityPointer(eid))->GetFloat(whf_time_counter);
 				if( fTime > fFadeTimeStart )

@@ -122,7 +122,7 @@ private:
 
 	float			fBottomClip;
 
-	float	LayerTrace(CVECTOR & vSrc, walker_t pVW);
+	float	LayerTrace(CVECTOR & vSrc, EntityManager::LayerIterators its);
 	void	GenerateSunGlow();
 	void	DrawReflection();
 	void	Release();

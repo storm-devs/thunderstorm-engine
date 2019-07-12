@@ -23,6 +23,7 @@
 #include "WdmWindUI.h"
 #include "WdmIcon.h"
 #include "../Common_h/defines.h"
+#include "../Common_h/EntityManager.h"
 
 //============================================================================================
 

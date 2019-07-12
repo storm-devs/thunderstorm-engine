@@ -5,6 +5,7 @@
 #include "../xinterface.h"
 #include "xi_scroller.h"
 #include "../../Common_h/defines.h"
+#include "../../Common_h/EntityManager.h"
 
 static void SubRightWord(char* buf,int fontNum,int width,VDX9RENDER *rs)
 {

@@ -4,6 +4,7 @@
 #include "../../Common_h/dx9render.h"
 #include "../../Common_h/Matrix.h"
 #include "../defines.h"
+#include "../../Common_h/EntityManager.h"
 
 class MODEL;
 class NODE;

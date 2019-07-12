@@ -5,6 +5,7 @@
 #include "xi_table.h"
 #include "xi_questtexts.h"
 #include "xi_questtitles.h"
+#include "../../Common_h/EntityManager.h"
 
 void SetVertexRectangleTex(XI_ONLYONETEX_VERTEX * pv,FXYRECT & texRect)
 {

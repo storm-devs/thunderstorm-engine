@@ -52,10 +52,10 @@ void SUNGLOW::SetDevice()
 	pRS = (VDX9RENDER *)api->CreateService("dx9render"); Assert(pRS);
 	pCollide = (COLLIDE*)api->CreateService("COLL"); Assert(pCollide);
 
-	if (!(ent = api->GetEntityIdWalker("WEATHER")())) throw std::exception("No found WEATHER entity!");
+	if (!(ent = EntityManager::GetEntityId("weather"))) throw std::exception("No found WEATHER entity!");
 	pWeather = (WEATHER_BASE*)EntityManager::GetEntityPointer(ent); Assert(pWeather);
 
-	if (ent = api->GetEntityIdWalker("SKY")()) pSky = (SKY*)EntityManager::GetEntityPointer(ent);
+	if (ent = EntityManager::GetEntityId("sky")) pSky = (SKY*)EntityManager::GetEntityPointer(ent);
 	else pSky = nullptr;
 
 	if( idRectBuf==-1 )
@@ -121,15 +121,15 @@ void SUNGLOW::Execute(uint32_t Delta_Time)
 	}
 }
 
-float SUNGLOW::LayerTrace(CVECTOR & vSrc, walker_t pVW)
+float SUNGLOW::LayerTrace(CVECTOR & vSrc, EntityManager::LayerIterators its)
 {
+	if (its.first == its.second) 
+		return 2.0f;
+
 	CVECTOR vDst;
-
-	if (!pVW) return 2.0f;
-
 	pWeather->GetVector(whv_sun_pos, &vDst);
 	vDst = vSrc + (!vDst) * 10000.0f;
-	return pCollide->Trace(pVW, vSrc, vDst, nullptr, 0);
+	return pCollide->Trace(its, vSrc, vDst, nullptr, 0);
 }
 
 void SUNGLOW::Realize(uint32_t Delta_Time)
@@ -162,11 +162,8 @@ void SUNGLOW::Realize(uint32_t Delta_Time)
 	bVisible = true;
 	fMinAlphaValue = 0.0f;
 
-	const auto pVWSunTrace = api->LayerGetWalker("sun_trace");
-	const auto pVWSailsTrace = api->LayerGetWalker("sails_trace");
-
-	float fSunTrace = LayerTrace(vCamPos, pVWSunTrace);
-	float fSailTrace = LayerTrace(vCamPos, pVWSailsTrace);
+	float fSunTrace = LayerTrace(vCamPos, EntityManager::GetEntityIdIterators(SUN_TRACE));
+	float fSailTrace = LayerTrace(vCamPos, EntityManager::GetEntityIdIterators(SAILS_TRACE));
 
 	if (fSunTrace<=1.0f || fSailTrace<=1.0f) bVisible = false;
 	if (fSailTrace<=1.0f && fSunTrace>1.0f)  
@@ -573,9 +570,7 @@ float SUNGLOW::GetSunFadeoutFactor(const CVECTOR& vSunPos,float fSunSize)
 {
 	// получим указатель на небо
 	if( !pSky ) {
-		entid_t ent;
-		if (ent = api->GetEntityIdWalker("SKY")())
-			pSky = (SKY*)EntityManager::GetEntityPointer(ent);
+		pSky = (SKY*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("sky"));
 	}
 	return pSky ? pSky->CalculateAlphaForSun(vSunPos,fSunSize) : 1.0f;
 }

@@ -369,8 +369,8 @@ void InterfaceBackScene::LoadModel( const char* pcModelName )
 	api->Send_Message( m_eiModel, "ls", MSG_MODEL_LOAD_GEO, pcModelName );
 	m_pModel = (MODEL*)EntityManager::GetEntityPointer( m_eiModel );
 	if( pGeo ) pGeo->SetTexturePath("");
-	EntityManager::AddToLayer( "sun_trace", m_eiModel, 0 );
-	EntityManager::AddToLayer("rain_drops", m_eiModel, 100);
+	EntityManager::AddToLayer(SUN_TRACE, m_eiModel, 0 );
+	EntityManager::AddToLayer(RAIN_DROPS, m_eiModel, 100);
 	// create locators
 	m_eiLocators = EntityManager::CreateEntity( "MODELR" );
 	std::string sLocName = std::string(pcModelName) + "_locators";
