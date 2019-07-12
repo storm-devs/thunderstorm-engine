@@ -2401,7 +2401,7 @@ bool DX9RENDER::ResetDevice()
 {
 	const auto its = EntityManager::GetEntityIdIterators();
 	for (auto it = its.first; it != its.second; ++it) {
-		if (it->ptr != nullptr) {
+		if (!it->deleted && it->ptr != nullptr) {
 			static_cast<Entity*>(it->ptr)->ProcessStage(Entity::Stage::lost_render);
 		}
 	}
@@ -2412,7 +2412,7 @@ bool DX9RENDER::ResetDevice()
 
 	RestoreRender();
 	for (auto it = its.first; it != its.second; ++it) {
-		if (it->ptr != nullptr) {
+		if (!it->deleted && it->ptr != nullptr) {
 			static_cast<Entity*>(it->ptr)->ProcessStage(Entity::Stage::restore_render);
 		}
 	}
