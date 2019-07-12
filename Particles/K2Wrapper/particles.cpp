@@ -4,7 +4,7 @@
 #include "../../Common_h/defines.h"
 #include "../../Common_h/filesystem.h"
 #include "../../Shared/messages.h"
-
+#include "../../Common_h/EntityManager.h"
 
 PARTICLES::PARTICLES()
 {
@@ -24,7 +24,6 @@ bool PARTICLES::Init ()
 {
 	EntityManager::AddToLayer(REALIZE,GetId(),0xfffff);
 	EntityManager::AddToLayer(EXECUTE,GetId(),0);
-	api->LayerSetExecute("execute",true);
 
 	pService = (IParticleService*)api->CreateService("ParticleService");
 	Assert (pService);

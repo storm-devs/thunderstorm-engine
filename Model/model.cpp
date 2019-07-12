@@ -1,6 +1,7 @@
 #include "modelr.h"
 #include "../Shared/messages.h"
 #include "../Common_h/defines.h"
+#include "../Common_h/EntityManager.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(MODELR)
