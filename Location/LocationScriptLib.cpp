@@ -50,8 +50,6 @@ struct LocationFindCacheElement
 LocationFindCacheElement charactersFindCache[16];
 LocationFindCacheElement locationsFindCache[8];
 LocationFindCacheElement charactersFindBuf;
-uint32_t locationFindCodeID = -1;
-
 
 inline bool CheckID(VDATA * vd, const char * id, bool & res)
 {
@@ -59,7 +57,7 @@ inline bool CheckID(VDATA * vd, const char * id, bool & res)
 	if(!vd || !id || !id[0]) return false;
 	ATTRIBUTES * a = vd->GetAClass();
 	if(!a) return false;
-	a = a->GetAttributeClassByCode(locationFindCodeID);
+	a = a->GetAttributeClass("id");
 	if(!a) return true;
 	char * attr = a->GetThisAttr();
 	if(!attr) return true;
@@ -280,8 +278,6 @@ uint32_t slNativeSetReloadNextTipsImage(VS_STACK * pS)
 
 bool ScriptLocationLibrary::Init()
 {
-	locationFindCodeID = api->AttributeName2Code("id");
-
 	IFUNCINFO sIFuncInfo;
 	sIFuncInfo.nArguments = 2;
 	sIFuncInfo.pFuncName = "NativeFindCharacter";

@@ -122,8 +122,6 @@ public:
 	HINSTANCE GetAppInstance() override;
 	// set time scale; affect on std entity functions DeltaTime parameter
 	void  SetTimeScale(float _scale) override;
-	// get curretn value of time scale; default 1.0f
-	float GetTimeScale() override;
 	// write message to system log file
 	void Trace(const char * Format,...) override;
 	// OR operation with core exceptions mask, returned current mask state
@@ -225,11 +223,7 @@ public:
 
 	uint32_t SetScriptFunction(IFUNCINFO * pFuncInfo) override;
 
-	void DeleteScriptFunction(uint32_t nFuncHandle) override;
-
 	char * EngineIniFileName() override;
-
-	uint32_t AttributeName2Code(const char * pAttributeName) override;
 
 	void * GetScriptVariable(const char * pVariableName, uint32_t * pdwVarIndex) override;
 
