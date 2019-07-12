@@ -6,11 +6,10 @@
 #include "../Common_h/ship_base.h"
 #include "../Common_h/Sd2_h/VAI_ObjBase.h"
 #include "rigging_define.h"
-#include <stdio.h>
 #include "../Common_h/mast_msg.h"
-
 #include "../Shared/sea_ai/Script_defines.h"
 #include "../Shared/battle_interface/msg_control.h"
+#include "../Common_h/EntityManager.h"
 
 #define WIND_SPEED_MAX 12.f
 
@@ -312,7 +311,7 @@ void SAIL::Execute(uint32_t Delta_Time)
 	    }
 
         // получим значение ветра
-        if(entid_t ei = api->GetEntityIdWalker("weather")())
+        if(const auto ei = EntityManager::GetEntityId("weather"))
         {
             WEATHER_BASE *wb = (WEATHER_BASE*)EntityManager::GetEntityPointer(ei);
             globalWind.ang.x=wb->GetFloat(whf_wind_angle);
@@ -664,7 +663,7 @@ uint32_t SAIL::ProcessMessage(MESSAGE & message)
 
                 CVECTOR epos;
                 if(so->ss.turningSail && posNum!=0) // установка только для поворачивающихся парусов
-                if(tmpEI = api->GetEntityIdWalker("rope")())
+                if(tmpEI = EntityManager::GetEntityId("rope"))
                 if(so->sailtrope.rrs[0]==nullptr)
                 {
                     so->sailtrope.rrs[0]=new ROTATEROPEDSAIL;
@@ -1412,7 +1411,7 @@ void SAIL::FirstRun()
     else       SetAllSails();
 
     entid_t ropeEI;
-    if(ropeEI = api->GetEntityIdWalker("rope")())
+    if(ropeEI = EntityManager::GetEntityId("rope"))
     // расчет позиции согласно положения веревок
     for(sn=wFirstIndx; sn<sailQuantity; sn++)
     {
@@ -1761,7 +1760,7 @@ void SAIL::SetAddSails(int firstSail)
 void SAIL::DoNoRopeSailToNewHost(entid_t newModel, entid_t newHost, entid_t oldHost)
 {
     entid_t rope_id;
-    if( !(rope_id = api->GetEntityIdWalker("rope")()) ) return; // нет веревок нет концерта
+    if( !(rope_id = EntityManager::GetEntityId("rope")) ) return; // нет веревок нет концерта
     ROPE_BASE *rb = (ROPE_BASE*)EntityManager::GetEntityPointer(rope_id);
     if(rb== nullptr) return;
 

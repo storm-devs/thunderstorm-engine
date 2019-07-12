@@ -4,7 +4,7 @@
 #include "../Common_h/model.h"
 #include "../Common_h/ship_base.h"
 #include "rigging_define.h"
-#include <stdio.h>
+#include "../Common_h/EntityManager.h"
 
 VANT::VANT()
 {

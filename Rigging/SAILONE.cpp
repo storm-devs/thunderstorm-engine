@@ -10,6 +10,8 @@
 #include "../Common_h/Sd2_h/VAI_ObjBase.h"
 #include "rigging_define.h"
 #include "sail.h"
+#include "../Common_h/EntityManager.h"
+
 
 extern long g_iBallOwnerIdx;
 
@@ -66,7 +68,7 @@ SAILONE::SAILONE()
 SAILONE::~SAILONE()
 {
 	ROPE_BASE * prb = nullptr;
-	entid_t eid = api->GetEntityIdWalker("ROPE")();
+	const auto eid = EntityManager::GetEntityId("rope");
 	if(eid)	prb = (ROPE_BASE*)EntityManager::GetEntityPointer(eid);
 	if( prb!= nullptr && (sailtrope.pnttie[0] || sailtrope.pnttie[1] || sailtrope.pnttie[2] || sailtrope.pnttie[3]) )
 		prb->DoDeleteUntie(pp->gdata[HostNum].modelEI,hostNode,groupNum);
@@ -1121,7 +1123,7 @@ void SAILONE::TurnSail(float fTurnStep)
 			if(sailtrope.pnttie[2])	*sailtrope.pPos[2] = ss.hardPoints[0];
 			if(sailtrope.pnttie[3])	*sailtrope.pPos[3] = ss.hardPoints[1];
 		}
-		else if(ropeEI = api->GetEntityIdWalker("rope")())
+		else if(ropeEI = EntityManager::GetEntityId("rope"))
         {
             bool bChange=false;
             for(int i=0; i<2; i++)
@@ -1786,7 +1788,7 @@ void SAILONE::SetTurnLimits()
 	if(ss.eSailType!=SAIL_TREANGLE) return;
 	if(!ss.turningSail) return;
 	if(sailtrope.rrs[0]== nullptr) return;
-	entid_t ropeEI = api->GetEntityIdWalker("rope")();
+	const auto ropeEI = EntityManager::GetEntityId("rope");
 	if( !ropeEI ) return;
 	ROPE_BASE * prbase = (ROPE_BASE*)EntityManager::GetEntityPointer(ropeEI);
 	if(prbase== nullptr) return;

@@ -15,8 +15,7 @@ uint32_t _ShipSailState(VS_STACK * pS)
 	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
 
 	// find sail class
-	entid_t eid;
-	if(eid = api->GetEntityIdWalker("SAIL")())
+	if(const auto eid = EntityManager::GetEntityId("SAIL"))
 	{
 		long n = ((SAIL*)EntityManager::GetEntityPointer(eid))->GetSailStateForCharacter(nChrIdx);
 		pVR->Set( n );
@@ -144,8 +143,7 @@ uint32_t _RandomHole2Sail(VS_STACK * pS)
 	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
 
 	SAILONE_BASE * pSail = nullptr;
-	entid_t	ei;
-	if(ei = api->GetEntityIdWalker("ShipsailTracks")())
+	if(const auto ei = EntityManager::GetEntityId("ShipsailTracks"))
 	{
 		pSail = ((SAIL_BASE*)EntityManager::GetEntityPointer(ei))->FindSailForCharacter(_chrIdx, _reyName, _groupNum);
 	}
@@ -199,8 +197,7 @@ uint32_t _DeleteOneSailHole(VS_STACK * pS)
 	sscanf(_groupName,"%d",&_groupNum);
 
 	SAILONE_BASE * pSail = nullptr;
-	entid_t	ei;
-	if( ei = api->GetEntityIdWalker("sail")())
+	if(const auto ei = EntityManager::GetEntityId("sail"))
 	{
 		pSail = ((SAIL_BASE*)EntityManager::GetEntityPointer(ei))->FindSailForCharacter(_chrIdx, _reyName, _groupNum);
 	}

@@ -3,7 +3,7 @@
 #include "../Common_h/sail_msg.h"
 #include "../Common_h/Weather_Base.h"
 #include "rigging_define.h"
-#include <stdio.h>
+#include "../Common_h/EntityManager.h"
 
 FLAG::FLAG()
 {
@@ -92,8 +92,7 @@ void FLAG::Execute(uint32_t Delta_Time)
 	    }
 
         // получим значение ветра
-        entid_t ei;
-        if( ei = api->GetEntityIdWalker("weather")())
+        if(const auto ei = EntityManager::GetEntityId("weather"))
         {
             WEATHER_BASE *wb = (WEATHER_BASE*)EntityManager::GetEntityPointer(ei);
             globalWind.ang.x=wb->GetFloat(whf_wind_angle);

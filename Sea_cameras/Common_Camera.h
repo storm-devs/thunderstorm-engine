@@ -3,6 +3,7 @@
 
 #include "../Common_h/vmodule_api.h"
 #include "../Common_h/Sd2_h/VAI_ObjBase.h"
+#include "../Common_h/EntityManager.h"
 
 class COMMON_CAMERA : public Entity
 {
@@ -22,19 +23,17 @@ public:
 	bool FindShip()
 	{
 		Assert(pACharacter);
-		const auto walker = api->GetEntityIdWalker("ship");
-		entid_t eidTemp;
 		// get entity id from loaded ships
-		if (eidTemp = walker()) do
-		{
-			VAI_OBJBASE * pObj = (VAI_OBJBASE*)EntityManager::GetEntityPointer(eidTemp);
+		auto& entities = EntityManager::GetEntityIdVector("ship");
+		for (auto ship : entities) {
+			VAI_OBJBASE * pObj = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ship);
 			if (pObj->GetACharacter() == pACharacter)
 			{
 				SetEID(pObj->GetModelEID());
 				SetAIObj(pObj);
 				return true;
 			}
-		} while (eidTemp = walker());
+		}
 		return false;
 	}
 
