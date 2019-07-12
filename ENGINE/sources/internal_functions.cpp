@@ -701,7 +701,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV2->SetType(VAR_AREFERENCE);
 			pV2->SetAReference(api->Entity_GetAttributePointer(ent));
 
-			if(api->GetEntityPointer(ent)) TempLong1 = 1;
+			if(EntityManager::GetEntityPointer(ent)) TempLong1 = 1;
 			else TempLong1 = 0;
 			pV = SStack.Push();
 			pV->Set(TempLong1);
@@ -718,7 +718,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV2->SetType(VAR_AREFERENCE);
 			pV2->SetAReference(api->Entity_GetAttributePointer(ent));
 
-			if(api->GetEntityPointer(ent)) TempLong1 = 1;
+			if(EntityManager::GetEntityPointer(ent)) TempLong1 = 1;
 			else TempLong1 = 0;
 			pV = SStack.Push();
 			pV->Set(TempLong1);
@@ -1035,7 +1035,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV2->SetType(VAR_AREFERENCE);
 			pV2->SetAReference(api->Entity_GetAttributePointer(ent));
 
-			if(api->GetEntityPointer(ent)) TempLong1 = 1;
+			if(EntityManager::GetEntityPointer(ent)) TempLong1 = 1;
 			else TempLong1 = 0;
 			pV = SStack.Push();
 			pV->Set(TempLong1);
@@ -1048,7 +1048,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV->Set(ent);
 			pV->SetType(VAR_AREFERENCE);
 			pV->SetAReference(api->Entity_GetAttributePointer(ent));
-			if(api->GetEntityPointer(ent)) TempLong1 = 1;
+			if(EntityManager::GetEntityPointer(ent)) TempLong1 = 1;
 			else TempLong1 = 0;
 			pV = SStack.Push();
 			pV->Set(TempLong1);
@@ -1173,7 +1173,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV->Get(pChar);
 			pV2->Get(TempEid);
 			pV3->Get(TempLong1);
-			api->LayerAdd(pChar,TempEid,TempLong1);
+			EntityManager::AddToLayer(pChar,TempEid,TempLong1);
 		break;
 		case FUNC_LAYER_DELOBJECT:
 			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
@@ -1260,7 +1260,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 		case FUNC_CREATE_CLASS:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV->Get(pChar);
-			if(ent = api->CreateEntity(pChar))
+			if(ent = EntityManager::CreateEntity(pChar))
 			{
 				pV = SStack.Push();
 				pV->Set(ent);
@@ -1274,7 +1274,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 		case FUNC_DELETE_Entity:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV->Get(ent);
-			api->EraseEntity(ent);
+			EntityManager::EraseEntity(ent);
 		break;
 		//
 		case FUNC_DEL_EVENT_HANDLER:
@@ -1436,7 +1436,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 
 			uint32_t mresult;
 			mresult = 0;
-			pE = api->GetEntityPointer(ent);
+			pE = EntityManager::GetEntityPointer(ent);
 			if(pE)
 			{
 				ms.ResetIndex();
