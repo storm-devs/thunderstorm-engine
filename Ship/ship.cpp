@@ -15,9 +15,6 @@ CREATE_CLASS(SHIP)
 CREATE_CLASS(ShipLights)
 CREATE_CLASS(ShipTracks)
 
-std::string	SHIP::sExecuteLayer;
-std::string	SHIP::sRealizeLayer;
-
 VDX9RENDER					* SHIP::pRS = nullptr;
 SEA_BASE					* SHIP::pSea = nullptr;
 ISLAND_BASE					* SHIP::pIsland = nullptr;
@@ -76,7 +73,7 @@ SHIP::~SHIP()
 	api->Send_Message(vant_id, "li", MSG_VANT_DEL_GROUP, GetModelEID());
 	EntityManager::EraseEntity(blots_id);
 
-	if (entid_t eidTmp = api->GetEntityIdWalker("ShipTracks")(); eidTmp)
+	if (const auto eidTmp = EntityManager::GetEntityId("ShipTracks"))
 	{
 		ShipTracks * pST = (ShipTracks*)EntityManager::GetEntityPointer(eidTmp); 
 		if (pST) pST->DelShip(this);
@@ -108,10 +105,6 @@ bool SHIP::Init()
 
 void SHIP::LoadServices()
 {
-	entid_t ent;
-
-	//api->LayerDel(sRealizeLayer,model_id);		// delete from realize
-
 	pIsland = nullptr;
 	pSea = nullptr;
 	pRS = nullptr;
@@ -121,12 +114,13 @@ void SHIP::LoadServices()
 	pRS = (VDX9RENDER *)api->CreateService("dx9render");	Assert(pRS);
 	pCollide = (COLLIDE *)api->CreateService("coll");						Assert(pCollide);
 
-	touch_id = api->GetEntityIdWalker("touch")();
+	touch_id = EntityManager::GetEntityId("touch");
 
-	if (ent = api->GetEntityIdWalker("island")()) pIsland = (ISLAND_BASE*)EntityManager::GetEntityPointer(ent);
-	if (sea_id = api->GetEntityIdWalker("sea")()) pSea = (SEA_BASE*)EntityManager::GetEntityPointer(sea_id);
+	pIsland = (ISLAND_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("island"));
+	if (sea_id = EntityManager::GetEntityId("sea"))
+		pSea = (SEA_BASE*)EntityManager::GetEntityPointer(sea_id);
 
-	FirePlace::eidSound = api->GetEntityIdWalker("sound")();
+	FirePlace::eidSound = EntityManager::GetEntityId("sound");
 }
 
 CVECTOR SHIP::ShipRocking(float fDeltaTime)
@@ -465,7 +459,7 @@ void SHIP::SetDead()
 		vCurDeadDir = 0.0f;
 
 		bDead = true;
-		api->LayerDel("sea_reflection2", GetId());
+		EntityManager::RemoveFromLayer(SEA_REFLECTION2, GetId());
 
 		if (pShipsLights)
 			pShipsLights->SetDead(this);
@@ -658,8 +652,8 @@ void SHIP::Execute(uint32_t DeltaTime)
 			api->Send_Message(flag_id, "li", MSG_FLAG_DEL_GROUP, GetModelEID());
 			api->Send_Message(vant_id, "li", MSG_VANT_DEL_GROUP, GetModelEID());
 
-			api->LayerDel((char*)sRealizeLayer.c_str(), GetId());
-			api->LayerDel("ship_cannon_trace", GetId());
+			EntityManager::RemoveFromLayer(RealizeLayer, GetId());
+			EntityManager::RemoveFromLayer(SHIP_CANNON_TRACE, GetId());
 			api->Event(SHIP_DELETE, "li", GetIndex(GetACharacter()), GetId());
 		}
 	}
@@ -687,46 +681,36 @@ void SHIP::Execute(uint32_t DeltaTime)
 	// activate mast tracer
 	if (dtMastTrace.Update(fDeltaTime))
 	{
-		walker_t pVWShip = api->LayerGetWalker("mast_ship_trace");
-		walker_t pVWIsland = api->LayerGetWalker("mast_island_trace");
-		if (pVWShip || pVWIsland) 
+		for (long i=0; i<iNumMasts; i++) if (!pMasts[i].bBroken)
 		{
-			for (long i=0; i<iNumMasts; i++) if (!pMasts[i].bBroken)
+			CVECTOR		v1, v2;
+			VDATA		* pV;
+			float		fShipRes = 2.0f, fIslRes = 2.0f;
+
+			mast_t * pM = &pMasts[i];
+			v1 = matrix * pM->vSrc;
+			v2 = matrix * pM->vDst;
+			
+			auto id = GetId();
+			fShipRes = pCollide->Trace(EntityManager::GetEntityIdIterators(MAST_SHIP_TRACE), v1, v2, &id, 1);
+			if (fShipRes <= 1.0f) 
 			{
-				CVECTOR		v1, v2;
-				VDATA		* pV;
-				float		fShipRes = 2.0f, fIslRes = 2.0f;
-
-				mast_t * pM = &pMasts[i];
-				v1 = matrix * pM->vSrc;
-				v2 = matrix * pM->vDst;
-				
-				if (pVWShip)	// from ship damage
-				{
-					auto id = GetId();
-					fShipRes = pCollide->Trace(pVWShip, v1, v2, &id, 1);
-					if (fShipRes <= 1.0f) 
-					{
-						ATTRIBUTES * pACollideCharacter = GetACharacter();
-						SHIP * pShip = (SHIP*)EntityManager::GetEntityPointer(pCollide->GetObjectID());
-						if (pShip) pACollideCharacter = pShip->GetACharacter();
-						pV = api->Event(SHIP_MAST_DAMAGE, "llffffaa", SHIP_MAST_TOUCH_SHIP, pM->iMastNum, v1.x, v1.y, v1.z, pM->fDamage, GetACharacter(), pACollideCharacter);
-						pM->fDamage = Clamp(pV->GetFloat());
-					}
-				}
-				if (pVWIsland)	// from island damage
-				{
-					auto id = GetModelEID();
-					fIslRes	= pCollide->Trace(pVWIsland, v1, v2, &id, 1);
-					if (fIslRes <= 1.0f)	
-					{
-						pV = api->Event(SHIP_MAST_DAMAGE, "llffffa", SHIP_MAST_TOUCH_ISLAND, pM->iMastNum, v1.x, v1.y, v1.z, pM->fDamage, GetACharacter());
-						pM->fDamage = Clamp(pV->GetFloat());
-					}
-				}
-
-				MastFall(pM);
+				ATTRIBUTES * pACollideCharacter = GetACharacter();
+				SHIP * pShip = (SHIP*)EntityManager::GetEntityPointer(pCollide->GetObjectID());
+				if (pShip) pACollideCharacter = pShip->GetACharacter();
+				pV = api->Event(SHIP_MAST_DAMAGE, "llffffaa", SHIP_MAST_TOUCH_SHIP, pM->iMastNum, v1.x, v1.y, v1.z, pM->fDamage, GetACharacter(), pACollideCharacter);
+				pM->fDamage = Clamp(pV->GetFloat());
 			}
+
+			id = GetModelEID();
+			fIslRes	= pCollide->Trace(EntityManager::GetEntityIdIterators(MAST_ISLAND_TRACE), v1, v2, &id, 1);
+			if (fIslRes <= 1.0f)	
+			{
+				pV = api->Event(SHIP_MAST_DAMAGE, "llffffa", SHIP_MAST_TOUCH_ISLAND, pM->iMastNum, v1.x, v1.y, v1.z, pM->fDamage, GetACharacter());
+				pM->fDamage = Clamp(pV->GetFloat());
+			}
+
+			MastFall(pM);
 		}
 	}
 
@@ -844,8 +828,8 @@ void SHIP::MastFall(mast_t * pM)
 		entid_t ent;
 		ent = EntityManager::CreateEntity("mast");
 		api->Send_Message(ent, "lpii", MSG_MAST_SETGEOMETRY, pM->pNode, GetId(), GetModelEID());
-		EntityManager::AddToLayer((char*)sExecuteLayer.c_str(), ent, iShipPriorityExecute+1);
-		EntityManager::AddToLayer((char*)sRealizeLayer.c_str(), ent, iShipPriorityRealize+1);
+		EntityManager::AddToLayer(ExecuteLayer, ent, iShipPriorityExecute+1);
+		EntityManager::AddToLayer(RealizeLayer, ent, iShipPriorityRealize+1);
 
 		pShipsLights->KillMast(this, pM->pNode, false);
 
@@ -1027,8 +1011,8 @@ uint32_t SHIP::ProcessMessage(MESSAGE & message)
 			Realize(0);
 		break;
 		case AI_MESSAGE_SET_LAYERS:
-			message.String(sizeof(str), str); sExecuteLayer = str;
-			message.String(sizeof(str), str); sRealizeLayer = str;
+			ExecuteLayer = message.Dword();
+			RealizeLayer = message.Dword();
 		break;
 		case MSG_SHIP_CREATE:
 			SetACharacter(message.AttributePointer());
@@ -1080,7 +1064,7 @@ uint32_t SHIP::ProcessMessage(MESSAGE & message)
 		break;
 		case MSG_SHIP_RESET_TRACK:
 		{
-			if (entid_t eidTmp = api->GetEntityIdWalker("ShipTracks")(); eidTmp)
+			if (const auto eidTmp = EntityManager::GetEntityId("ShipTracks"))
 			{
 				ShipTracks * pST = (ShipTracks*)EntityManager::GetEntityPointer(eidTmp); 
 				pST->ResetTrack(this);
@@ -1133,7 +1117,7 @@ uint32_t SHIP::ProcessMessage(MESSAGE & message)
 		// boal 20.08.06 перерисовка флага -->
 		case MSG_SHIP_FLAG_REFRESH:
             api->Send_Message(flag_id, "li", MSG_FLAG_DEL_GROUP, GetModelEID());
-			if (flag_id = api->GetEntityIdWalker("flag")())
+			if (flag_id = EntityManager::GetEntityId("flag"))
 				api->Send_Message(flag_id,"lil",MSG_FLAG_INIT,GetModelEID(),GetNation(GetACharacter()));
 		break;
 		// boal 20.08.06 перерисовка флага <--
@@ -1162,15 +1146,14 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 
 	api->Event("Ship_StartLoad", "a", GetACharacter());
 	api->Event(SEA_GET_LAYERS, "i", GetId());
-	Assert(sRealizeLayer.size() != 0 && sExecuteLayer.size() != 0);
 
-	EntityManager::AddToLayer("sea_reflection2", GetId(), 100);
-	EntityManager::AddToLayer("rain_drops", GetId(), 100);
+	EntityManager::AddToLayer(SEA_REFLECTION2, GetId(), 100);
+	EntityManager::AddToLayer(RAIN_DROPS, GetId(), 100);
 
-	EntityManager::AddToLayer((char *)sRealizeLayer.c_str(), GetId(), iShipPriorityRealize);
-	EntityManager::AddToLayer((char *)sExecuteLayer.c_str(), GetId(), iShipPriorityExecute);
+	EntityManager::AddToLayer(RealizeLayer, GetId(), iShipPriorityRealize);
+	EntityManager::AddToLayer(ExecuteLayer, GetId(), iShipPriorityExecute);
 
-	EntityManager::AddToLayer("ship_cannon_trace", GetId(), iShipPriorityExecute);
+	EntityManager::AddToLayer(SHIP_CANNON_TRACE, GetId(), iShipPriorityExecute);
 
 	char * pName = GetAShip()->GetAttribute("Name");
 	if (!pName)
@@ -1205,32 +1188,32 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 
 	model_id = EntityManager::CreateEntity("MODELR");
 	api->Send_Message(GetModelEID(),"ls",MSG_MODEL_LOAD_GEO,temp_str);
-	EntityManager::AddToLayer("hull_trace",GetModelEID(),10);
-	EntityManager::AddToLayer("sun_trace",GetModelEID(),10);
-	EntityManager::AddToLayer("mast_ship_trace",GetId(),10);
+	EntityManager::AddToLayer(HULL_TRACE,GetModelEID(),10);
+	EntityManager::AddToLayer(SUN_TRACE,GetModelEID(),10);
+	EntityManager::AddToLayer(MAST_SHIP_TRACE,GetId(),10);
 
 	// sails
-	if(sail_id = api->GetEntityIdWalker("sail")())
+	if(sail_id = EntityManager::GetEntityId("sail"))
 		api->Send_Message(sail_id,"liil",MSG_SAIL_INIT,GetId(),GetModelEID(), GetSpeed() ? 1 : 0); 
     
 	// ropes
-	if (rope_id = api->GetEntityIdWalker("rope")())
+	if (rope_id = EntityManager::GetEntityId("rope"))
 		api->Send_Message(rope_id,"lii",MSG_ROPE_INIT,GetId(),GetModelEID()); 
 
 	// flags
-	if (flag_id = api->GetEntityIdWalker("flag")())
+	if (flag_id = EntityManager::GetEntityId("flag"))
 		api->Send_Message(flag_id,"lil",MSG_FLAG_INIT,GetModelEID(),GetNation(GetACharacter())); 
 
 	// vants
-	if (vant_id = api->GetEntityIdWalker("vant")())
+	if (vant_id = EntityManager::GetEntityId("vant"))
 		api->Send_Message(vant_id,"lii",MSG_VANT_INIT,GetId(),GetModelEID()); 
 	
 	// blots
 	if (blots_id = EntityManager::CreateEntity("blots"))
 	{
 		api->Send_Message(blots_id, "lia", MSG_BLOTS_SETMODEL, GetModelEID(), GetACharacter()); 
-		EntityManager::AddToLayer(sRealizeLayer.c_str(), blots_id, iShipPriorityRealize + 4);
-		EntityManager::AddToLayer(sExecuteLayer.c_str(), blots_id, iShipPriorityExecute + 4);
+		EntityManager::AddToLayer(RealizeLayer, blots_id, iShipPriorityRealize + 4);
+		EntityManager::AddToLayer(ExecuteLayer, blots_id, iShipPriorityExecute + 4);
 	}
 
 	LoadShipParameters();
@@ -1291,8 +1274,7 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 	}
 
 	// Add lights and flares
-	entid_t eidTmp;
-	if (eidTmp = api->GetEntityIdWalker("shiplights")())
+	if (const auto eidTmp = EntityManager::GetEntityId("shiplights"))
 	{
 		pShipsLights = (IShipLights*)EntityManager::GetEntityPointer(eidTmp); 
 
@@ -1338,7 +1320,7 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 	api->Event("Ship_EndLoad", "a", GetACharacter());
 
 	// add to ship tracks
-	if (eidTmp = api->GetEntityIdWalker("ShipTracks")())
+	if (const auto eidTmp = EntityManager::GetEntityId("ShipTracks"))
 	{
 		ShipTracks * pST = (ShipTracks*)EntityManager::GetEntityPointer(eidTmp); 
 		if (pST) pST->AddShip(this);
@@ -1540,8 +1522,8 @@ void SHIP::SetACharacter(ATTRIBUTES * pAP)
 		EntityManager::EraseEntity(blots_id);
 		blots_id = EntityManager::CreateEntity("blots");
 		api->Send_Message(blots_id, "lia", MSG_BLOTS_SETMODEL, GetModelEID(), GetACharacter()); 
-		EntityManager::AddToLayer((char *)sRealizeLayer.c_str(), blots_id, iShipPriorityRealize + 4);
-		EntityManager::AddToLayer((char *)sExecuteLayer.c_str(), blots_id, iShipPriorityExecute + 4);
+		EntityManager::AddToLayer(RealizeLayer, blots_id, iShipPriorityRealize + 4);
+		EntityManager::AddToLayer(ExecuteLayer, blots_id, iShipPriorityExecute + 4);
 	}
 }
 
@@ -1551,8 +1533,8 @@ void SHIP::Save(CSaveLoad * pSL)
 
 	pSL->SaveAPointer("character", GetACharacter());
 	pSL->SaveAPointer("ship", pAShip);
-	pSL->SaveString(sRealizeLayer);
-	pSL->SaveString(sExecuteLayer);
+	pSL->SaveDword(RealizeLayer);
+	pSL->SaveDword(ExecuteLayer);
 	pSL->SaveString(std::string(cShipIniName));
 	pSL->SaveLong(iShipPriorityExecute);
 	pSL->SaveFloat(fGravity);
@@ -1605,8 +1587,8 @@ void SHIP::Load(CSaveLoad * pSL)
 	SetACharacter(pSL->LoadAPointer("character"));
 	pAShip = pSL->LoadAPointer("ship");
 
-	sRealizeLayer = pSL->LoadString();
-	sExecuteLayer = pSL->LoadString();
+	RealizeLayer = pSL->LoadDword();
+	ExecuteLayer = pSL->LoadDword();
 	std::string sTmp = pSL->LoadString();
 	strcpy_s(cShipIniName, sTmp.c_str());
 	pSL->LoadLong();

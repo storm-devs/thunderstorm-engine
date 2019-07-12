@@ -53,7 +53,7 @@ struct ship_point_t
 };
 
 // init parameters
-	static std::string	sRealizeLayer, sExecuteLayer;
+	inline static EntityManager::layer_index_t	RealizeLayer, ExecuteLayer;
 	char			cShipIniName[256];
 	long			iShipPriorityExecute, iShipPriorityRealize;
 	float			fGravity;

@@ -2,6 +2,7 @@
 #include "../Shared/sound.h"
 #include "../Shared/messages.h"
 #include "../Common_h/Sd2_h/SaveLoad.h"
+#include "../Common_h/EntityManager.h"
 
 entid_t	FirePlace::eidSound;
 
@@ -22,8 +23,7 @@ FirePlace::~FirePlace()
 
 bool FirePlace::CreateParticle(const char * pParticleSmokeName, const char * pParticleFireName)
 {
-	entid_t eidParticle;
-	if (eidParticle = api->GetEntityIdWalker("particles")())
+	if (const auto eidParticle = EntityManager::GetEntityId("particles"))
 	{
 		CVECTOR vPos = GetPos();
 		pParticleSmoke = (VPARTICLE_SYSTEM*)api->Send_Message(eidParticle, "lsffffffl", PS_CREATE_RIC, pParticleSmokeName, vPos.x, vPos.y, vPos.z, 0.0f, 1.0f, 0.0f, 0);
@@ -35,8 +35,7 @@ bool FirePlace::CreateParticle(const char * pParticleSmokeName, const char * pPa
 
 void FirePlace::DeleteParticle()
 {
-	entid_t eidParticle;
-	if (eidParticle = api->GetEntityIdWalker("particles")())
+	if (const auto eidParticle = EntityManager::GetEntityId("particles"))
 	{
 		if(pParticleSmoke && api->Send_Message(eidParticle,"ll",PS_VALIDATE_PARTICLE,pParticleSmoke))
 		{
