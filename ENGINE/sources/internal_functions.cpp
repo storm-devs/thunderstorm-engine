@@ -498,8 +498,6 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 	char sVarName[64];
 	char sBuff2[2];
 
-	static EntityManager::LayerIterators its;
-
 	switch(func_code)
 	{
 		case FUNC_GETENGINEVERSION:
@@ -820,10 +818,11 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 		case FUNC_DELETEENTITIESBYTYPE:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;}
 			pV->Get(pChar);
-
-			const auto entities = EntityManager::GetEntityIdVector(pChar);
-			for (auto ent : entities) {
-				EntityManager::EraseEntity(ent);
+			{
+				const auto entities = EntityManager::GetEntityIdVector(pChar);
+				for (auto ent : entities) {
+					EntityManager::EraseEntity(ent);
+				}
 			}
 		break;
 		case FUNC_SHL:
