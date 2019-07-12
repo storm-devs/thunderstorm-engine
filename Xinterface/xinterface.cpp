@@ -10,6 +10,7 @@
 #include "HelpChooser/HelpChooser.h"
 #include "InfoHandler.h"
 #include "BackScene/backscene.h"
+#include "../Common_h/EntityManager.h"
 
 #include <direct.h>
 
@@ -235,11 +236,8 @@ void XINTERFACE::SetDevice()
 		}
 	}
 
-	//api->LayerCreate("iExecute",true,false);
-	api->LayerSetExecute("iExecute",true);
-	//api->LayerCreate("iRealize",true,false);
-	api->LayerSetRealize("iRealize",true);
-
+	EntityManager::SetLayerType(INTERFACE_EXECUTE, EntityManager::Layer::Type::execute);
+	EntityManager::SetLayerType(INTERFACE_REALIZE, EntityManager::Layer::Type::realize);
 	//api->SystemMessages(GetId(),true);
 
 	if(AttributesPointer)
@@ -2536,7 +2534,7 @@ bool XINTERFACE::SFLB_DoSaveFileData(char * saveName, char * saveData)
 		return false;
 
 	entid_t ei;
-	if( !(ei = api->GetEntityIdWalker("SCRSHOTER")()) ) return false;
+	if( !(ei = EntityManager::GetEntityId("SCRSHOTER")) ) return false;
 	IDirect3DTexture9 * ptex = (IDirect3DTexture9*)api->Send_Message(ei,"l",MSG_SCRSHOT_MAKE);
 	if(ptex== nullptr) return false;
 

@@ -29,8 +29,8 @@ enum FUNCTION_CODE
 	FUNC_TRACE,
 	FUNC_MAKE_INT,
 	FUNC_MAKE_FLOAT,
-	FUNC_LAYER_CREATE,
-	FUNC_LAYER_DELETE,
+	//FUNC_LAYER_CREATE,
+	//FUNC_LAYER_DELETE,
 	FUNC_LAYER_DELETE_CONTENT,
 	FUNC_LAYER_SET_REALIZE,
 	FUNC_LAYER_SET_EXECUTE,
@@ -96,12 +96,13 @@ enum FUNCTION_CODE
 	FUNC_CLEAR_Entity_AP,
 	FUNC_GET_ARRAY_SIZE,
 	FUNC_GETTARGETPLATFORM,
-	FUNC_FINDCLASS,
+	FUNC_GETENTITY,
+	FUNC_FINDENTITY,
+	FUNC_FINDENTITYNEXT,
 	FUNC_GETSYMBOL,
 	FUNC_ISDIGIT,
 	FUNC_SAVEVARIABLE,
 	FUNC_LOADVARIABLE,
-	FUNC_FINDCLASSNEXT,
 	FUNC_SET_CONTROL_TRESHOLD,
 	FUNC_LOCK_CONTROL,
 	FUNC_TEST_REF,
@@ -130,10 +131,10 @@ INTFUNCDESC IntFuncTable[]=
 	1,"Trace",TVOID,
 	1,"MakeInt",VAR_INTEGER,
 	1,"MakeFloat",VAR_FLOAT,
-	2,"LayerCreate",TVOID,
-	1,"LayerDelete",TVOID,
+	//2,"LayerCreate",TVOID,
+	//1,"LayerDelete",TVOID,
 	1,"LayerDeleteContent",TVOID,
-	2,"LayerSetRealize",TVOID,
+	1,"LayerSetRealize",TVOID,
 	2,"LayerSetExecute",TVOID,
 	2,"LayerSetMessages",TVOID,
 	3,"LayerAddObject",TVOID,
@@ -196,11 +197,11 @@ INTFUNCDESC IntFuncTable[]=
 	1,"GetArraySize",VAR_INTEGER,
 	0,"GetTargetPlatform",VAR_STRING,
 	2,"FindClass",VAR_INTEGER,
+	1,"FindClassNext",VAR_INTEGER,
 	2,"GetSymbol",VAR_STRING,
 	2,"IsDigit",VAR_INTEGER,
 	2,"SaveVariable",VAR_INTEGER,
 	2,"LoadVariable",VAR_INTEGER,
-	1,"FindClassNext",VAR_INTEGER,
 	2,"SetControlTreshold",TVOID,
 	2,"LockControl",TVOID,
 	1,"TestRef",VAR_INTEGER,
@@ -484,6 +485,9 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 	MESSAGE_SCRIPT ms;
 	uint32_t s_off;
 
+	static EntityManager::EntityVector * entVec;
+	static EntityManager::EntityVector::const_iterator it;
+
 	pResult = nullptr;
 	TempFloat1 = 0;
 	TempLong1 = 0;
@@ -494,7 +498,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 	char sVarName[64];
 	char sBuff2[2];
 
-	static walker_t walker = nullptr;
+	static EntityManager::LayerIterators its;
 
 	switch(func_code)
 	{
@@ -683,8 +687,27 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pVResult = pV;
 		return pV;
 
+		case FUNC_GETENTITY:
+			pV = SStack.Pop(); if (!pV) { SetError(INVALID_FA); break; };
+			pV2 = SStack.Pop(); if (!pV2) { SetError(INVALID_FA); break; };
+			ent = EntityManager::GetEntityId(pChar);
 
-		case FUNC_FINDCLASS:
+			pV2 = pV2->GetVarPointer();
+			pV2->Set(ent);
+			pV2->SetType(VAR_AREFERENCE);
+			pV2->SetAReference(api->Entity_GetAttributePointer(ent));
+
+			if (EntityManager::GetEntityPointer(ent)) 
+				TempLong1 = 1;
+			else 
+				TempLong1 = 0;
+
+			pV = SStack.Push();
+			pV->Set(TempLong1);
+			pVResult = pV;
+		return pV;
+
+		case FUNC_FINDENTITY:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
 
@@ -692,9 +715,10 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV->Convert(VAR_STRING);
 			pV->Get(pChar);
 
-			//api->SetEntityScanLayer(0)//pChar);
-			walker = api->GetEntityIdWalker(pChar);
-			ent = walker();
+			delete entVec;
+			entVec = new EntityManager::EntityVector(EntityManager::GetEntityIdVector(pChar));
+			it = entVec->begin();
+			ent = *it;
 			 
 			pV2 = pV2->GetVarPointer();
 			pV2->Set(ent);
@@ -708,18 +732,22 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pVResult = pV;
 		return pV;
 
-		case FUNC_FINDCLASSNEXT:
+		case FUNC_FINDENTITYNEXT:
 			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
-
-			ent = walker();
+			
+			++it;
+			ent = it != entVec->end() ? *it : invalid_entity;
 
 			pV2 = pV2->GetVarPointer();
 			pV2->Set(ent);
 			pV2->SetType(VAR_AREFERENCE);
 			pV2->SetAReference(api->Entity_GetAttributePointer(ent));
 
-			if(EntityManager::GetEntityPointer(ent)) TempLong1 = 1;
-			else TempLong1 = 0;
+			if(EntityManager::GetEntityPointer(ent)) 
+				TempLong1 = 1;
+			else 
+				TempLong1 = 0;
+
 			pV = SStack.Push();
 			pV->Set(TempLong1);
 			pVResult = pV;
@@ -793,9 +821,9 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;}
 			pV->Get(pChar);
 
-			walker = Core.GetEntityIdWalker("pChar");
-			while(ent = walker()) {
-				Core.EraseEntity(ent);
+			const auto entities = EntityManager::GetEntityIdVector(pChar);
+			for (auto ent : entities) {
+				EntityManager::EraseEntity(ent);
 			}
 		break;
 		case FUNC_SHL:
@@ -1123,7 +1151,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 		return pV;
 
 
-		case FUNC_LAYER_CREATE:
+		/*case FUNC_LAYER_CREATE:
 
 			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
@@ -1131,7 +1159,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV2->Get(TempLong1);
 			if(TempLong1 == 0) //api->LayerCreate(pChar,false,false);
 			else //api->LayerCreate(pChar,true,false);
-		break;
+		break;*/
 		/*case FUNC_LAYER_DELETE:
 			pV = SStack.Pop(); if(!pV) {SetError(INVALID_FA); break;};
 			pV->Get(pChar);
@@ -1143,20 +1171,22 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			api->LayerDeleteContent(pChar);*/
 		break;
 		case FUNC_LAYER_SET_REALIZE:
-			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
+			//pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(pChar);
-			pV2->Get(TempLong1);
-			if(TempLong1 == 0) api->LayerSetRealize(pChar,false);
-			else api->LayerSetRealize(pChar,true);
+			pV->Get(TempLong1);
+			//pV2->Get(TempLong1);
+			//if(TempLong1 == 0) api->LayerSetRealize(pChar,false);
+			//else api->LayerSetRealize(pChar,true);
+			EntityManager::SetLayerType(TempLong1, EntityManager::Layer::Type::realize);
 		break;
 		case FUNC_LAYER_SET_EXECUTE:
-			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
+			//pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(pChar);
-			pV2->Get(TempLong1);
-			if(TempLong1 == 0) api->LayerSetExecute(pChar,false);
-			else api->LayerSetExecute(pChar,true);
+			pV->Get(TempLong1);
+			//pV2->Get(TempLong1);
+			//if(TempLong1 == 0) api->LayerSetExecute(pChar,false);
+			//else api->LayerSetExecute(pChar,true);
+			EntityManager::SetLayerType(TempLong1, EntityManager::Layer::Type::execute);
 		break;
 		/*case FUNC_LAYER_SET_MESSAGES:
 			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
@@ -1170,24 +1200,24 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV3 = SStack.Pop(); if(!pV3){SetError(INVALID_FA);break;};
 			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(pChar);
+			pV->Get(TempLong2);
 			pV2->Get(TempEid);
 			pV3->Get(TempLong1);
-			EntityManager::AddToLayer(pChar,TempEid,TempLong1);
+			EntityManager::AddToLayer(TempLong2,TempEid,TempLong1);
 		break;
 		case FUNC_LAYER_DELOBJECT:
 			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(pChar);
+			pV->Get(TempLong2);
 			pV2->Get(TempEid);
-			api->LayerDel(pChar,TempEid);
+			EntityManager::RemoveFromLayer(TempLong2,TempEid);
 		break;
 		case FUNC_LAYER_FREEZE:
 			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(pChar);
+			pV->Get(TempLong2);
 			pV2->Get(TempLong1);
-			api->LayerSetFreeze(pChar, bool(TempLong1));
+			EntityManager::SetLayerFrozen(TempLong2, TempLong1);
 		break;
 
 		case FUNC_IS_Entity_LOADED:
@@ -1195,7 +1225,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV = pV->GetVarPointer();
 			pV->Get(TempEid);
 			pV = SStack.Push();
-			if(Core.GetEntityPointer(TempEid) != nullptr) TempLong1 = 1;
+			if(EntityManager::GetEntityPointer(TempEid) != nullptr) TempLong1 = 1;
 			else TempLong1 = 0;
 			pV->Set(TempLong1);
 			pVResult = pV;
@@ -1237,7 +1267,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			if(!pV) { SetError(MISSING_PARAMETER); break; }
 
 			pV2->Get(pChar);
-			if(ent = Core.CreateEntity(pChar, pV->GetAClass()))
+			if(ent = EntityManager::CreateEntity(pChar, pV->GetAClass()))
 			{
 				//api->Entity_SetAttributePointer(&entid_t,pV->GetAClass());
 				pV->Set(ent);
