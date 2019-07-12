@@ -66,14 +66,14 @@ public:
 	/* fully static constexpr class */
 	EntityManager() = delete;
 
-	static constexpr auto GetClassCode(const entid_t id) {
+	static auto GetClassCode(const entid_t id) {
 		const auto& entData = GetEntityData(id);
 
 		return entData.hash;
 	}
 
 	/* layer functioning is fully static constexpr */
-	static constexpr void AddToLayer(const layer_index_t index, const entid_t id, const priority_t priority) {
+	static void AddToLayer(const layer_index_t index, const entid_t id, const priority_t priority) {
 		assert(index < max_layers_num); // valid index
 		assert(entities_.first[static_cast<entid_index_t>(id)].mask & (1 << index)); // mask shall be set
 
@@ -85,9 +85,8 @@ public:
 
 		// TODO: investigate if duplicate check is needed
 
-		const auto targetIt = std::upper_bound(std::begin(arr), std::begin(arr) + size, priority,
-			[](auto& lhs, auto& rhs) { return lhs.first < rhs.first; });
-		const auto targetIdx = targetIt - std::begin(arr);
+		const auto targetIdx = std::upper_bound(std::begin(arr), std::begin(arr) + size, std::pair<priority_t, entid_t>{ priority, {} },
+			[](auto& lhs, auto& rhs) { return lhs.first < rhs.first; }) - std::begin(arr);
 
 		// if this is not last element
 		if (targetIdx != size) {
@@ -101,19 +100,19 @@ public:
 		++size;
 	}
 
-	static constexpr void RemoveFromLayer(const layer_index_t index, const entid_t id) {
+	static void RemoveFromLayer(const layer_index_t index, const entid_t id) {
 		const auto& entData = GetEntityData(id);
 		return RemoveFromLayer(index, id, entData.priorities[index]);
 	}
 
-	static constexpr void RemoveFromLayer(const layer_index_t index, const entid_t id, const priority_t priority) {
+	static void RemoveFromLayer(const layer_index_t index, const entid_t id, const priority_t priority) {
 		assert(index < max_layers_num);
 
 		auto& layer = layers_[index];
 		auto& arr = layer.entities;
 		auto& size = layer.actual_size;
 
-		const auto lowerIdx = std::lower_bound(std::begin(arr), std::begin(arr) + size, priority,
+		const auto lowerIdx = std::lower_bound(std::begin(arr), std::begin(arr) + size,  std::pair<priority_t, entid_t>{ priority, {} },
 			[](auto& lhs, auto& rhs) { return lhs.first < rhs.first; }) - std::begin(arr);
 
 		assert(lowerIdx < size); // is this ok?
@@ -128,7 +127,7 @@ public:
 		}
 	}
 
-	static constexpr entid_t CreateEntity(const char* name, ATTRIBUTES* attr = nullptr)
+	static entid_t CreateEntity(const char* name, ATTRIBUTES* attr = nullptr)
 	{
 		/* FIND VMA */
 		const auto hash = MakeHashValue(name);
@@ -171,7 +170,7 @@ public:
 		return id;
 	}
 
-	static constexpr void _erase(const EntityInternalData & data) {
+	static void _erase(const EntityInternalData & data) {
 		auto mask = data.mask;
 
 		// remove from layers
@@ -184,7 +183,7 @@ public:
 		delete data.ptr;
 	}
 
-	static constexpr void EraseEntity(const entid_t entity) {
+	static void EraseEntity(const entid_t entity) {
 		const auto & entData = GetEntityData(entity);
 		if (entData.ptr == nullptr)
 			return;
@@ -203,7 +202,7 @@ public:
 		}
 	}
 
-	static constexpr entptr_t GetEntityPointer(const entid_t entity) {
+	static entptr_t GetEntityPointer(const entid_t entity) {
 		const auto &entData = GetEntityData(entity);
 		return entData.deleted ? nullptr : entData.ptr;
 	}
