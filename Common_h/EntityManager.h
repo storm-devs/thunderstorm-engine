@@ -19,6 +19,7 @@ class EntityManager final {
 
 	using hash_t = uint32_t;
 
+public: // TODO: this is a workaround. i need to implement specific iterator returning only id
 	/* entity structure */
 	struct EntityInternalData {
 		using layer_mask_t = uint32_t;
@@ -62,6 +63,7 @@ private:
 public:
 	using EntityVector = const std::vector<entid_t>;
 	using LayerIterators = std::pair<decltype(Layer::entities)::const_iterator, decltype(Layer::entities)::const_iterator>;
+	using AllEntIterators = std::pair<decltype(entities_.first)::const_iterator, decltype(entities_.first)::const_iterator>;
 
 	/* fully static constexpr class */
 	EntityManager() = delete;
@@ -252,6 +254,11 @@ public:
 		auto& layer = layers_[index];
 
 		return std::pair { std::begin(layer.entities), std::begin(layer.entities) + layer.actual_size };
+	}
+
+	/* this is (temporary) workaround solution */
+	static constexpr auto GetEntityIdIterators() -> AllEntIterators{
+		return std::pair{ std::begin(entities_.first), std::begin(entities_.first) + entities_.second };
 	}
 
 	static constexpr auto GetEntityId(const char * name) -> entid_t {

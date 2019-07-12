@@ -1,5 +1,4 @@
 #include "sdevice.h"
-#include "stdio.h"
 #include "../Common_h/Matrix.h"
 #include "../Common_h/filesystem.h"
 #include "texture.h"
@@ -8,6 +7,7 @@
 #include <DxErr.h>
 #include <io.h>
 #include "../Common_h/inlines.h"
+#include "../Common_h/EntityManager.h"
 
 #define POST_PROCESS_FVF (D3DFVF_XYZRHW | D3DFVF_TEX4)
 
@@ -2399,10 +2399,11 @@ void DX9RENDER::RecompileEffects()
 
 bool DX9RENDER::ResetDevice()
 {
-	
-	auto walker = api->LayerGetWalker();
-	while (const entid_t eid = walker()) {
-		static_cast<Entity*>(EntityManager::GetEntityPointer(eid))->ProcessStage(Entity::Stage::lost_render);
+	const auto its = EntityManager::GetEntityIdIterators();
+	for (auto it = its.first; it != its.second; ++it) {
+		if (it->ptr != nullptr) {
+			static_cast<Entity*>(it->ptr)->ProcessStage(Entity::Stage::lost_render);
+		}
 	}
 	LostRender();
 
@@ -2410,9 +2411,10 @@ bool DX9RENDER::ResetDevice()
 		return false;
 
 	RestoreRender();
-	walker = api->LayerGetWalker();
-	while (const entid_t eid = walker()) {
-		static_cast<Entity*>(EntityManager::GetEntityPointer(eid))->ProcessStage(Entity::Stage::restore_render);
+	for (auto it = its.first; it != its.second; ++it) {
+		if (it->ptr != nullptr) {
+			static_cast<Entity*>(it->ptr)->ProcessStage(Entity::Stage::restore_render);
+		}
 	}
 
 	return true;

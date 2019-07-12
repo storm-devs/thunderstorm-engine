@@ -408,9 +408,7 @@ void BLADE::GunFire()
 			resm.EqMultiply(perMtx, *(CMatrix*)&lb.m);
 			CVECTOR rp = perMtx*CVECTOR(lb.m[3][0], lb.m[3][1], lb.m[3][2]);
 
-			entid_t prt;
-			prt = api->GetEntityIdWalker("particles")();
-			api->Send_Message(prt, "lsffffffl", PS_CREATEX, "gunfire", rp.x, rp.y, rp.z, 
+			api->Send_Message(EntityManager::GetEntityId("particles"), "lsffffffl", PS_CREATEX, "gunfire", rp.x, rp.y, rp.z,
 				resm.Vz().x, resm.Vz().y, resm.Vz().z, 0);
 		}
 		else api->Trace("MSG_BLADE_GUNFIRE Can't find gun_fire locator");
