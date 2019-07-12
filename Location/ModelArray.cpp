@@ -13,6 +13,7 @@
 #include "ModelArray.h"
 #include "../Shared/messages.h"
 #include "../Common_h/model.h"
+#include "../Common_h/EntityManager.h"
 
 //============================================================================================
 //Конструирование, деструктурирование
@@ -60,7 +61,7 @@ long ModelArray::CreateModel(const char * modelName, const char * technique, lon
 	if(!(id = EntityManager::CreateEntity("modelr"))) return -1;
 	if(!(idModelRealizer = EntityManager::CreateEntity("LocModelRealizer"))) {EntityManager::EraseEntity(id); return -1;}
 	api->Send_Message(idModelRealizer,"lil",1,id,(long)pLights);
-	//if(isVisible) EntityManager::AddToLayer(REALIZE, idModelRealizer, level);
+	//if(isVisible) EntityManager::AddToLayer(realize, idModelRealizer, level);
 	EntityManager::AddToLayer(REALIZE, idModelRealizer, level);
 	api->Send_Message(idModelRealizer,"ll",2,isVisible);
 	MODEL * m = (MODEL *)EntityManager::GetEntityPointer(id);

@@ -10,6 +10,7 @@
 			
 
 #include "LocRats.h"
+#include "../Common_h/EntityManager.h"
 
 //============================================================================================
 
@@ -31,7 +32,7 @@ LocRats::~LocRats()
 bool LocRats::Init()
 {
 	//Указатель на локацию
-	entid_t loc = api->GetEntityIdWalker("location")();
+	const auto loc = EntityManager::GetEntityId("location");
 	Location * location = (Location *)EntityManager::GetEntityPointer(loc);
 	if(!location) return false;
 	//Исполнение
@@ -48,7 +49,7 @@ uint32_t LocRats::ProcessMessage(MESSAGE & message)
 	if(num < 1) num = 1;
 	if(num > sizeof(rat)/sizeof(LocRat)) num = sizeof(rat)/sizeof(LocRat);
 	//Указатель на локацию
-	entid_t loc = api->GetEntityIdWalker("location")();
+	const auto loc = EntityManager::GetEntityId("location");
 	Location * location = (Location *)EntityManager::GetEntityPointer(loc);
 	if(!location) return 0;
 	//Заводим крыс

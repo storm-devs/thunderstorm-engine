@@ -133,7 +133,7 @@ void Debris::Draw(VDX9RENDER * rs)
 		for(long a = 0; a < 3; a++)
 			for(long b = 0; b < 3; b++) fly[i].mdl->mtx.m[a][b] *= fly[i].scale;
 		rs->SetRenderState(D3DRS_TEXTUREFACTOR, (long(fly[i].alpha*galpha) << 24) | 0xffffff);
-		fly[i].mdl->ProcessStage(Entity::Stage::REALIZE, 10);
+		fly[i].mdl->ProcessStage(Entity::Stage::realize, 10);
 	}
 }
 

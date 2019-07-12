@@ -162,7 +162,7 @@ void TSharks::Realize(uint32_t _dTime)
 		pos.z = sharkPos.z + OSC_AMPLITUDE*sinf(sharkAngle + PId2)*sinf(sharkTime);
 		pos.y = sea->WaveXZ(pos.x, pos.z) - sharks[i]->depth;
 		shark->mtx.BuildMatrix(ang,pos);
-		shark->ProcessStage(Entity::Stage::REALIZE, _dTime);
+		shark->ProcessStage(Entity::Stage::realize, _dTime);
 	}
 }
 

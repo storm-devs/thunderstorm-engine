@@ -23,10 +23,10 @@ public:
 	};
 
 	enum class Stage : uint_fast8_t {
-		EXECUTE,
-		REALIZE,
-		LOST_RENDER,
-		RESTORE_RENDER
+		execute,
+		realize,
+		lost_render,
+		restore_render
 	};
 
 	ATTRIBUTES* AttributesPointer = nullptr; // TODO: CHANGE!

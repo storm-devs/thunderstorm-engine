@@ -10,6 +10,7 @@
 
 #include "Lizards.h"
 #include "Location.h"
+#include "../Common_h/EntityManager.h"
 
 
 Lizards::Lizards()
@@ -26,7 +27,7 @@ Lizards::~Lizards()
 bool Lizards::Init()
 {
 	//Указатель на локацию
-	entid_t loc = api->GetEntityIdWalker("location")();
+	auto loc = EntityManager::GetEntityId("location");
 	Location * location = (Location *)EntityManager::GetEntityPointer(loc);
 	if(!location) return false;
 	//Заводим ящерец

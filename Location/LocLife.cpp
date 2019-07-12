@@ -15,7 +15,7 @@
 #include "Location.h"
 #include "Character.h"
 #include "../Shared/messages.h"
-
+#include "../Common_h/EntityManager.h"
 
 //============================================================================================
 

@@ -52,7 +52,7 @@ void FREE_CAMERA::SetDevice()
 
 	/*EntityManager::CreateEntity(&sphere,"modelr");
 	api->Send_Message(sphere,"ls",MSG_MODEL_LOAD_GEO,"mirror");
-	EntityManager::AddToLayer(REALIZE,sphere,10000);*/
+	EntityManager::AddToLayer(realize,sphere,10000);*/
 }
 
 bool FREE_CAMERA::CreateState(ENTITY_STATE_GEN * state_gen)

@@ -121,7 +121,7 @@ void TFlotsam::Realize(uint32_t _dTime)
 	if(model)
 	{
 		model->mtx.BuildMatrix(ang, pos);
-		model->ProcessStage(Entity::Stage::REALIZE, _dTime);
+		model->ProcessStage(Entity::Stage::realize, _dTime);
 	}
 }
 

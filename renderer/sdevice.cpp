@@ -2402,7 +2402,7 @@ bool DX9RENDER::ResetDevice()
 	
 	auto walker = api->LayerGetWalker();
 	while (const entid_t eid = walker()) {
-		static_cast<Entity*>(EntityManager::GetEntityPointer(eid))->ProcessStage(Entity::Stage::LOST_RENDER);
+		static_cast<Entity*>(EntityManager::GetEntityPointer(eid))->ProcessStage(Entity::Stage::lost_render);
 	}
 	LostRender();
 
@@ -2412,7 +2412,7 @@ bool DX9RENDER::ResetDevice()
 	RestoreRender();
 	walker = api->LayerGetWalker();
 	while (const entid_t eid = walker()) {
-		static_cast<Entity*>(EntityManager::GetEntityPointer(eid))->ProcessStage(Entity::Stage::RESTORE_RENDER);
+		static_cast<Entity*>(EntityManager::GetEntityPointer(eid))->ProcessStage(Entity::Stage::restore_render);
 	}
 
 	return true;

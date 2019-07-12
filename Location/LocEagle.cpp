@@ -12,6 +12,7 @@
 #include "Location.h"
 #include "../Common_h/geometry.h"
 #include "../Shared/messages.h"
+#include "../Common_h/EntityManager.h"
 
 
 LocEagle::LocEagle()
@@ -37,7 +38,7 @@ LocEagle::~LocEagle()
 bool LocEagle::Init()
 {
 	//Точка, вокруг которой летаем
-	entid_t loc = api->GetEntityIdWalker("location")();
+	const auto loc = EntityManager::GetEntityId("location");
 	Location * location = (Location *)EntityManager::GetEntityPointer(loc);
 	if(!location) return false;
 	cnt = location->GetPtcData().middle + CVECTOR(0.0f, 30.0f, 0.0f);

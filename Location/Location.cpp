@@ -438,10 +438,10 @@ long Location::LoadStaticModel(const char * modelName, const char * tech, long l
 		return -1;
 	}
 	//Добавим модельку в специальные слои
-	EntityManager::AddToLayer("shadow", mdl->GetId(), 10);
-	EntityManager::AddToLayer("sun_trace", mdl->GetId(), 10);
-	EntityManager::AddToLayer("blood", mdl->GetId(), 100);
-	EntityManager::AddToLayer("rain_drops", mdl->GetId(), 100);
+	EntityManager::AddToLayer(SHADOW, mdl->GetId(), 10);
+	EntityManager::AddToLayer(SUN_TRACE, mdl->GetId(), 10);
+	EntityManager::AddToLayer(BLOOD, mdl->GetId(), 100);
+	EntityManager::AddToLayer(RAIN_DROPS, mdl->GetId(), 100);
 	//Зачитываем все локаторы
 	GEOS::INFO ginfo;
 	GEOS::LABEL label;
@@ -543,7 +543,7 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 	}else
 	if(_stricmp(name, "AddFlys") == 0)
 	{
-		entid_t effects = api->GetEntityIdWalker("LocationEffects")();
+		const auto effects = EntityManager::GetEntityId("LocationEffects");
 		float x = message.Float();
 		float y = message.Float();
 		float z = message.Float();
@@ -552,7 +552,7 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 	}else
 	if(_stricmp(name, "DelFlys") == 0)
 	{
-		entid_t effects = api->GetEntityIdWalker("LocationEffects")();
+		const auto effects = EntityManager::GetEntityId("LocationEffects");
 		api->Send_Message(effects, "s", "DelFlys");
 		return true;
 	}else
@@ -632,7 +632,7 @@ bool Location::MessageEx(const char * name, MESSAGE & message)
 		long layer = message.Long();
 		long n = model.FindModel( modelname );
 		if( n>=0 )
-			//EntityManager::AddToLayer(REALIZE, model.RealizerID(n), layer);
+			//EntityManager::AddToLayer(realize, model.RealizerID(n), layer);
 			api->Send_Message(model.RealizerID(n),"ll",2,1);
 	} else
 	if(_stricmp(name, "SetGrassParams") == 0)

@@ -1199,7 +1199,7 @@ void BATTLE_NAVIGATOR::SetIsland()
 						// show island
 						if( rs->TechniqueExecuteStart("battle_island_gettexture") )
 						{
-							pM->ProcessStage(Entity::Stage::REALIZE, 1);
+							pM->ProcessStage(Entity::Stage::realize, 1);
 							while(rs->TechniqueExecuteNext());
 						}
 						rs->SetRenderTarget(pOldRenderTarg,pStencil);

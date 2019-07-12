@@ -213,10 +213,9 @@ void Lights::Realize(uint32_t delta_time)
 		bool isVisible = d < l.coronaRange2;
 		if(!isVisible) continue;
 		//Видимость
-		walker_t walker = api->LayerGetWalker("sun_trace");
-		if(walker && collide)
+		if(collide)
 		{
-			float dist = collide->Trace(walker, pos, CVECTOR(ls.pos.x, ls.pos.y, ls.pos.z), lampModels, numLampModels);
+			float dist = collide->Trace(EntityManager::GetEntityIdIterators(SUN_TRACE), pos, CVECTOR(ls.pos.x, ls.pos.y, ls.pos.z), lampModels, numLampModels);
 			isVisible = dist > 1.0f;
 		}
 		ls.corona += isVisible ? 0.008f*delta_time : -0.008f*delta_time;
@@ -332,7 +331,7 @@ void Lights::AddLight(long index, const CVECTOR & pos)
 #ifndef _XBOX
 	//Отправим сообщение лайтеру
 	
-	if(entid_t eid = api->GetEntityIdWalker("Lighter")(); eid)
+	if(const auto eid = EntityManager::GetEntityId("Lighter"))
 	{
 		api->Send_Message(eid, "sffffffffffs", "AddLight",
 			pos.x,

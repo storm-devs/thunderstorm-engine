@@ -151,7 +151,7 @@ void TFishSchools::Realize(uint32_t _dTime)
 		pos.z = fishSchoolPos.z + fishSchools[i]->amplitude*sinf(fishSchoolAngle + PId2)*sinf(fishSchoolTime);
 		pos.y = sea->WaveXZ(pos.x, pos.z) - fishSchools[i]->depth;
 		fishSchool->mtx.BuildMatrix(ang,pos);
-		fishSchool->ProcessStage(Entity::Stage::REALIZE, _dTime);
+		fishSchool->ProcessStage(Entity::Stage::realize, _dTime);
 	}
 }
 

@@ -85,13 +85,13 @@ public:
 	{
 		switch (stage)
 		{
-		case Stage::EXECUTE:
+		case Stage::execute:
 			Execute(delta); break;
-		case Stage::REALIZE:
+		case Stage::realize:
 			Realize(delta); break;
-			/*case Stage::LOST_RENDER:
+			/*case Stage::lost_render:
 				LostRender(delta); break;
-			case Stage::RESTORE_RENDER:
+			case Stage::restore_render:
 				RestoreRender(delta); break;*/
 		}
 	}
@@ -344,13 +344,13 @@ public:
 	{
 		switch (stage)
 		{
-		case Stage::EXECUTE:
+		case Stage::execute:
 			Execute(delta); break;
-		//case Stage::REALIZE:
+		//case Stage::realize:
 		//	Realize(delta); break;
-			/*case Stage::LOST_RENDER:
+			/*case Stage::lost_render:
 				LostRender(delta); break;
-			case Stage::RESTORE_RENDER:
+			case Stage::restore_render:
 				RestoreRender(delta); break;*/
 		}
 	}

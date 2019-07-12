@@ -13,7 +13,7 @@
 #include "Character.h"
 #include "../Common_h/sea_base.h"
 #include "../Shared/messages.h"
-
+#include "../Common_h/EntityManager.h"
 
 
 //#define CAMERA_VIEW_TEST_ENABLE
@@ -95,10 +95,10 @@ bool LocationCamera::Init()
 	EntityManager::AddToLayer(REALIZE, GetId(), 100000);
 	
 	//Море
-	sea = api->GetEntityIdWalker("sea")();
-	
+	sea = EntityManager::GetEntityId("sea");
+
 	//Попробуем получить локацию
-	loc = api->GetEntityIdWalker("location")();
+	loc = EntityManager::GetEntityId("location");
 
 	rs->SetPerspective(LOCATIONCAMERA_PERSPECTIVE);
 	//rs->SetPerspective(1.0f);

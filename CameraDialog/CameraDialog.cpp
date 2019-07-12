@@ -39,7 +39,7 @@ bool CameraDialog::Init()
 	if(!col)	throw std::exception("No service: collide");
 
 	EntityManager::AddToLayer(EXECUTE,GetId(),2);
-	//EntityManager::AddToLayer(REALIZE,GetId(),1);
+	//EntityManager::AddToLayer(realize,GetId(),1);
 	return true;
 }
 

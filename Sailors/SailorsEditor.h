@@ -25,9 +25,9 @@ class SailorsEditor : public Entity
 			Execute(delta); break;
 		case Stage::REALIZE:
 			Realize(delta); break;
-			/*case Stage::LOST_RENDER:
+			/*case Stage::lost_render:
 				LostRender(delta); break;
-			case Stage::RESTORE_RENDER:
+			case Stage::restore_render:
 				RestoreRender(delta); break;*/
 		}
 	}

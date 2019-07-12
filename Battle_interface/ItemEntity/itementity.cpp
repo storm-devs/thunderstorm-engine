@@ -25,7 +25,7 @@ void ItemEntity::Realize(uint32_t delta_time)
 		if( m_bTieToLocator )
 			DrawIntoLocator();
 		else
-			m_pModel->ProcessStage(Entity::Stage::REALIZE, delta_time);
+			m_pModel->ProcessStage(Entity::Stage::realize, delta_time);
 }
 
 uint32_t ItemEntity::ProcessMessage(MESSAGE & message)
@@ -229,7 +229,7 @@ void ItemEntity::DrawIntoLocator()
 		}
 
 		m_pModel->mtx = perMtx;
-		m_pModel->ProcessStage(Entity::Stage::REALIZE, 0);
+		m_pModel->ProcessStage(Entity::Stage::realize, 0);
 	}
 }
 

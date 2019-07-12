@@ -237,11 +237,11 @@ void InterfaceBackScene::Realize(uint32_t Delta_Time)
 	{
 		SetLight();
 		m_pRS->SetRenderState(D3DRS_LIGHTING, true);
-		m_pModel->ProcessStage(Entity::Stage::REALIZE, Delta_Time);
+		m_pModel->ProcessStage(Entity::Stage::realize, Delta_Time);
 		for( n=0; n<m_aLights.size(); n++ ) // показать все фонари
 			if( m_aLights[n]->pModel )
 			{
-				m_aLights[n]->pModel->ProcessStage(Entity::Stage::REALIZE, Delta_Time);
+				m_aLights[n]->pModel->ProcessStage(Entity::Stage::realize, Delta_Time);
 				FlareShow(n);
 			}
 		for( n=0; n<m_apAniModel.size(); n++ )
@@ -251,7 +251,7 @@ void InterfaceBackScene::Realize(uint32_t Delta_Time)
 				m_pRS->GetRenderState(D3DRS_TEXTUREFACTOR,&dwTFactor);
 				if( m_apAniModel[n]->bUseTFactor )
 					m_pRS->SetRenderState(D3DRS_TEXTUREFACTOR,m_apAniModel[n]->dwTFactor);
-				m_apAniModel[n]->pModel->ProcessStage(Entity::Stage::REALIZE, Delta_Time);
+				m_apAniModel[n]->pModel->ProcessStage(Entity::Stage::realize, Delta_Time);
 				m_pRS->SetRenderState(D3DRS_TEXTUREFACTOR,dwTFactor);
 			}
 		}
@@ -263,9 +263,9 @@ void InterfaceBackScene::Realize(uint32_t Delta_Time)
 	for( n=0; n<m_aMenuDescr.size(); n++ )
 	{
 		if( n==m_nSelectMenuIndex && m_aMenuDescr[n]->pActive )
-			m_aMenuDescr[n]->pActive->ProcessStage(Entity::Stage::REALIZE, Delta_Time);
+			m_aMenuDescr[n]->pActive->ProcessStage(Entity::Stage::realize, Delta_Time);
 		else if( m_aMenuDescr[n]->pPassive )
-			m_aMenuDescr[n]->pPassive->ProcessStage(Entity::Stage::REALIZE, Delta_Time);
+			m_aMenuDescr[n]->pPassive->ProcessStage(Entity::Stage::realize, Delta_Time);
 	}
 }
 
