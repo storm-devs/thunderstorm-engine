@@ -235,9 +235,9 @@ void XINTERFACE::SetDevice()
 		}
 	}
 
-	api->LayerCreate("iExecute",true,false);
+	//api->LayerCreate("iExecute",true,false);
 	api->LayerSetExecute("iExecute",true);
-	api->LayerCreate("iRealize",true,false);
+	//api->LayerCreate("iRealize",true,false);
 	api->LayerSetRealize("iRealize",true);
 
 	//api->SystemMessages(GetId(),true);

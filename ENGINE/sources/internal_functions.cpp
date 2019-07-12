@@ -1129,8 +1129,8 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV->Get(pChar);
 			pV2->Get(TempLong1);
-			if(TempLong1 == 0) api->LayerCreate(pChar,false,false);
-			else api->LayerCreate(pChar,true,false);
+			if(TempLong1 == 0) //api->LayerCreate(pChar,false,false);
+			else //api->LayerCreate(pChar,true,false);
 		break;
 		/*case FUNC_LAYER_DELETE:
 			pV = SStack.Pop(); if(!pV) {SetError(INVALID_FA); break;};
