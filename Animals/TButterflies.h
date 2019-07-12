@@ -9,7 +9,6 @@
 #include "../Common_h/dx9render.h"
 #include "../Common_h/collide.h"
 #include "../Common_h/TIVBufferManager.h"
-#include "../Common_h/Walker.h"
 
 #define Y_REDEFINE_TIME		250
 

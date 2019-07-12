@@ -4,6 +4,7 @@
 #include "../Common_h/Cvector.h"
 #include "../Common_h/message.h"
 #include "BallSplash.H"
+#include "../Common_h/EntityManager.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(BALLSPLASH)
@@ -28,9 +29,7 @@ bool BALLSPLASH::Init()
 {
 	//GUARD(BALLSPLASH::Init)
 
-	const auto walker = api->GetEntityIdWalker("sea");
-	entid_t seaID = walker();
-	sea = (SEA_BASE*) EntityManager::GetEntityPointer(seaID);
+	sea = (SEA_BASE*) EntityManager::GetEntityPointer(EntityManager::GetEntityId("sea"));
 
 	renderer = (VDX9RENDER *) api->CreateService("dx9render");
 
