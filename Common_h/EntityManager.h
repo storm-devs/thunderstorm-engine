@@ -102,7 +102,7 @@ public:
 		// if this is not last element
 		if (targetIdx != size) {
 			// shift array
-			for (auto i = size; i < targetIdx; --i) {
+			for (auto i = size; i > targetIdx; --i) {
 				arr[i] = arr[i - 1];
 			}
 		}

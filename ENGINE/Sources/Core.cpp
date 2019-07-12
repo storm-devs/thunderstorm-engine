@@ -30,6 +30,24 @@ CORE::CORE()
 	fTimeScale = 1.0f;
 	//bNetActive = false;
 	nSplitScreenshotGrid = 4;
+
+
+	/* TODO: place this outside CORE */
+	EntityManager::SetLayerType(EXECUTE, EntityManager::Layer::Type::execute);
+	EntityManager::SetLayerType(REALIZE, EntityManager::Layer::Type::realize);
+	EntityManager::SetLayerType(SEA_EXECUTE, EntityManager::Layer::Type::execute);
+	EntityManager::SetLayerType(SEA_REALIZE, EntityManager::Layer::Type::realize);
+	EntityManager::SetLayerType(INTERFACE_EXECUTE, EntityManager::Layer::Type::execute);
+	EntityManager::SetLayerType(INTERFACE_REALIZE, EntityManager::Layer::Type::realize);
+	EntityManager::SetLayerType(FADER_EXECUTE, EntityManager::Layer::Type::execute);
+	EntityManager::SetLayerType(FADER_REALIZE, EntityManager::Layer::Type::realize);
+	EntityManager::SetLayerType(LIGHTER_EXECUTE, EntityManager::Layer::Type::execute);
+	EntityManager::SetLayerType(LIGHTER_REALIZE, EntityManager::Layer::Type::realize);
+	EntityManager::SetLayerType(VIDEO_EXECUTE, EntityManager::Layer::Type::execute);
+	EntityManager::SetLayerType(VIDEO_REALIZE, EntityManager::Layer::Type::realize);
+	EntityManager::SetLayerType(EDITOR_REALIZE, EntityManager::Layer::Type::realize);
+	EntityManager::SetLayerType(INFO_REALIZE, EntityManager::Layer::Type::realize);
+	EntityManager::SetLayerType(SOUND_DEBUG_REALIZE, EntityManager::Layer::Type::realize);
 }
 
 void CORE::ResetCore()
