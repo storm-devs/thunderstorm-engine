@@ -30,7 +30,7 @@ bool WideScreen::Init()
 {
 	//Layers
 	//api->LayerCreate("realize", true, false);
-	api->LayerSetRealize("realize", true);
+	EntityManager::SetLayerType(REALIZE, EntityManager::Layer::Type::realize);
 	EntityManager::AddToLayer(REALIZE, GetId(), -257);
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(!rs) throw std::exception("No service: dx9render");

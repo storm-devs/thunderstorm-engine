@@ -35,7 +35,7 @@ bool SailorsEditor :: Init()
 
 
 	//api->LayerCreate("execute", true, false);
-	api->LayerSetExecute("execute", true);
+	EntityManager::SetLayerType(EXECUTE, EntityManager::Layer::Type::execute);
 	EntityManager::AddToLayer(EXECUTE, GetId(), 0);
 
 	//api->LayerCreate("editor_realize", true, false);

@@ -55,7 +55,7 @@ bool Blots::Init()
 	if(!rs) throw std::exception("No service: dx9render");
 	//Layers
 	////api->LayerCreate("realize", true, false);
-	//api->LayerSetRealize("realize", true);
+	//EntityManager::SetLayerType(REALIZE, EntityManager::Layer::Type::realize);
 	//EntityManager::AddToLayer(REALIZE, GetId(), 1000);
 	textureID = rs->TextureCreate("blot.tga");
 	return true;

@@ -97,10 +97,10 @@ bool Grass::Init()
 {
 	//Layers
 	//api->LayerCreate("execute", true, false);
-	api->LayerSetExecute("execute", true);
+	EntityManager::SetLayerType(EXECUTE, EntityManager::Layer::Type::execute);
 	EntityManager::AddToLayer(EXECUTE, GetId(), 1000);
 	//api->LayerCreate("realize", true, false);
-	api->LayerSetRealize("realize", true);
+	EntityManager::SetLayerType(REALIZE, EntityManager::Layer::Type::realize);
 	EntityManager::AddToLayer(REALIZE, GetId(), 1000);
 
     // boal выбор шайдера -->

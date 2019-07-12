@@ -36,7 +36,7 @@ bool LocRats::Init()
 	if(!location) return false;
 	//Исполнение
 	//api->LayerCreate("realize", true, false);
-	api->LayerSetRealize("realize", true);
+	EntityManager::SetLayerType(REALIZE, EntityManager::Layer::Type::realize);
 	EntityManager::AddToLayer(REALIZE, GetId(), 100000);
 	return true;
 }

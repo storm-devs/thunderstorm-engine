@@ -122,7 +122,7 @@ bool CharactersGroups::Init()
 	if(!location) return false;
 	RegistryGroup("");
 	//api->LayerCreate("execute", true, false);
-	api->LayerSetExecute("execute", true);
+	EntityManager::SetLayerType(EXECUTE, EntityManager::Layer::Type::execute);
 	EntityManager::AddToLayer(EXECUTE, GetId(), 10);
 	return true;
 }

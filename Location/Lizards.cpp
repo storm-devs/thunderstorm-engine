@@ -33,7 +33,7 @@ bool Lizards::Init()
 	for(long i = 0; i < num; i++) lizard[i].Init(location);
 	//Исполнение
 	//api->LayerCreate("realize", true, false);
-	api->LayerSetRealize("realize", true);
+	EntityManager::SetLayerType(REALIZE, EntityManager::Layer::Type::realize);
 	EntityManager::AddToLayer(REALIZE, GetId(), 100000);
 	return true;
 }

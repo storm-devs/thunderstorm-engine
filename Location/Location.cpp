@@ -82,11 +82,11 @@ bool Location::Init()
 	rs->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	//api->LayerCreate("execute", true, false);
-	api->LayerSetExecute("execute", true);
+	EntityManager::SetLayerType(EXECUTE, EntityManager::Layer::Type::execute);
 	EntityManager::AddToLayer(EXECUTE, GetId(), 10);
 
 	//api->LayerCreate("realize", true, false);
-	api->LayerSetRealize("realize", true);
+	EntityManager::SetLayerType(REALIZE, EntityManager::Layer::Type::realize);
 	EntityManager::AddToLayer(REALIZE, GetId(), 100000);
 
 	lightsid = EntityManager::CreateEntity("Lights");
