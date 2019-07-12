@@ -78,10 +78,11 @@ void CoastFoam::Realize(uint32_t Delta_Time)
 	pFrustumPlanes = rs->GetPlanes();
 
 	entid_t sea_id;
-	if (!pSea && (sea_id = api->GetEntityIdWalker("sea")()))
+	if (pSea == nullptr)
 	{
-		pSea = (SEA_BASE*)EntityManager::GetEntityPointer(sea_id);
-		if (!pSea) return;
+		pSea = (SEA_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("sea"));
+		if (pSea == nullptr)
+			return;
 	}
 
 	float fDeltaTime = float(Delta_Time) * 0.001f;

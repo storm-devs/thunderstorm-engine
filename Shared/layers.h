@@ -18,8 +18,9 @@
 #define MAST_ISLAND_TRACE 15
 #define SHIP_CANNON_TRACE 16
 #define FORT_CANNON_TRACE 17
-#define SHADOW 18
-#define BLOOD 19
-#define RAIN_DROPS 20
+#define ISLAND_TRACE 18
+#define SHADOW 19
+#define BLOOD 20
+#define RAIN_DROPS 21
 
 #endif

@@ -173,11 +173,9 @@ void SHIP_DESCRIBE_LIST::Add(long mainChrIndex, long chIdx, ATTRIBUTES * pChAttr
 	pr->next = nullptr;
 
 	// find this ship
-	const auto walker = api->GetEntityIdWalker("ship");
-	entid_t ei;
-	while(ei = walker())
-	{
-		VAI_OBJBASE* vob = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ei);
+	auto& entities = EntityManager::GetEntityIdVector("ship");
+	for (auto ship : entities) {
+		VAI_OBJBASE* vob = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ship);
 		if (vob == nullptr) continue;
 		ATTRIBUTES* pA = vob->GetACharacter();
 		if ((long)pA->GetAttributeAsDword("index") == chIdx)
@@ -241,13 +239,9 @@ void SHIP_DESCRIBE_LIST::Refresh()
 
 	TMP_LONG_STACK tls;
 
-	const auto walker = api->GetEntityIdWalker("ship");
-	entid_t ei;
-//	tls.Push(-1);
-
-	while(ei = walker())
-	{
-		VAI_OBJBASE* vob = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ei);
+	auto& entities = EntityManager::GetEntityIdVector("ship");
+	for (auto ship : entities) {
+		VAI_OBJBASE* vob = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ship);
 		if (vob == nullptr) continue;
 		ATTRIBUTES* pA = vob->GetACharacter();
 		if (pA == nullptr) continue;

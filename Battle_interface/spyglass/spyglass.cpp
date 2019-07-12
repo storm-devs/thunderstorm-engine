@@ -7,6 +7,7 @@
 #include "../sea/ships_list.h"
 #include "../../Shared/battle_interface/msg_control.h"
 #include "../../Common_h/math3d/Sphere.h"
+#include "../../Common_h/EntityManager.h"
 
 void ISPYGLASS::ImageParam::Release()
 {
@@ -649,9 +650,7 @@ void ISPYGLASS::FillUVArrayFromAttributes( std::vector<FRECT> & m_aUV, ATTRIBUTE
 VAI_OBJBASE* ISPYGLASS::GetFort()
 {
 	if( !m_pFortObj ) {
-		const auto walker = api->GetEntityIdWalker("ship");
-		entid_t ei = walker();
-		m_pFortObj = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ei);
+		m_pFortObj = (VAI_OBJBASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("ship"));
 	}
 	return m_pFortObj;
 }

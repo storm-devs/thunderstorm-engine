@@ -136,7 +136,7 @@ void ISLAND::Realize(uint32_t Delta_Time)
 
 	if (aForts.size() && !AIFortEID) //~!@
 	{
-		AIFortEID = api->GetEntityIdWalker("AIFort")();
+		AIFortEID = EntityManager::GetEntityId("AIFort");
 	}
 
 	pRS->GetRenderState(D3DRS_FOGDENSITY, (uint32_t*)&fOldFogDensity);
@@ -288,7 +288,7 @@ void ISLAND::AddLocationModel(entid_t  eid, char * pIDStr, char * pDir)
 	bForeignModels = true;
 	strcpy_s(cModelsDir, pDir);
 	strcpy_s(cModelsID, pIDStr);
-	EntityManager::AddToLayer("island_trace", eid, 10);
+	EntityManager::AddToLayer(ISLAND_TRACE, eid, 10);
 }
 
 inline float ISLAND::GetDepthNoCheck(uint32_t iX, uint32_t iZ)
@@ -397,13 +397,11 @@ bool ISLAND::ActivateCamomileTrace(CVECTOR & vSrc)
 void ISLAND::CalcBoxParameters(CVECTOR & _vBoxCenter, CVECTOR & _vBoxSize)
 {
 	GEOS::INFO	ginfo;
-	entid_t	* pEID;
 	float		x1 = 1e+8f, x2 = -1e+8f, z1 = 1e+8f, z2 = -1e+8f;
 
-	const auto walker = api->LayerGetWalker("island_trace");
-	while (const auto pEID = walker())
-	{
-		MODEL* pM = (MODEL*)EntityManager::GetEntityPointer(pEID); Assert(pM);
+	auto its = EntityManager::GetEntityIdIterators(ISLAND_TRACE);
+	for(auto it = its.first; it!= its.second; ++it) {
+		MODEL* pM = (MODEL*)EntityManager::GetEntityPointer(it->second); Assert(pM);
 		uint32_t i = 0;
 		while (true)
 		{
@@ -450,12 +448,9 @@ void ISLAND::CreateDirectories(char * pDir)
 bool ISLAND::CreateShadowMap(char * pDir, char * pName)
 {
 	std::string	sDir;
-	
-	entid_t		ent;
-	WEATHER_BASE	* pWeather;
-	if ((ent = api->GetEntityIdWalker("Weather")()) == 0)
+	const auto pWeather = (WEATHER_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("Weather"));
+	if(pWeather == nullptr)
 		throw std::exception("No found WEATHER entity!");
-	pWeather = (WEATHER_BASE*)EntityManager::GetEntityPointer(ent); Assert(pWeather);
 
 	fs::path path = fs::path() / "resource" / "foam" / pDir / AttributesPointer->GetAttribute("LightingPath");
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
@@ -777,7 +772,6 @@ bool ISLAND::SaveTga8(char * fname, uint8_t * pBuffer, uint32_t dwSizeX, uint32_
 
 bool ISLAND::Mount(char * fname, char * fdir, entid_t * eID)
 {
-	entid_t	lighter_id;
 	//std::string		sRealFileName;
 	std::string		sModelPath, sLightPath;
 
@@ -802,21 +796,22 @@ bool ISLAND::Mount(char * fname, char * fdir, entid_t * eID)
 	else 
 		api->Trace("Island: island %s has no sea bed, check me!", fname);
 
-	EntityManager::AddToLayer("island_trace", model_id, 10);
-	EntityManager::AddToLayer("island_trace", seabed_id, 10);
-	EntityManager::AddToLayer("rain_drops", model_id, 100);
+	EntityManager::AddToLayer(ISLAND_TRACE, model_id, 10);
+	EntityManager::AddToLayer(ISLAND_TRACE, seabed_id, 10);
+	EntityManager::AddToLayer(RAIN_DROPS, model_id, 100);
 
 	MODEL * pSeaBedModel = (MODEL*)EntityManager::GetEntityPointer(seabed_id);
 
 	mIslandOld = pModel->mtx;
 	if (pSeaBedModel) mSeaBedOld = pSeaBedModel->mtx;
 
-	lighter_id = api->GetEntityIdWalker("lighter")();
+	
 	/*sModelPath.Format("islands\\%s\\", fname); sModelPath.CheckPath();
 	api->Send_Message(lighter_id, "ss", "ModelsPath", (char*)sModelPath);
 	sLightPath.Format("%s", AttributesPointer->GetAttribute("LightingPath")); sLightPath.CheckPath();
 	api->Send_Message(lighter_id, "ss", "LightPath", (char*)sLightPath);*/
-	
+
+	const auto lighter_id = EntityManager::GetEntityId("lighter");
 	api->Send_Message(lighter_id, "ssi", "AddModel", fname, model_id);
 	std::string sSeaBedName = std::string(fname) + "_seabed";
 	api->Send_Message(lighter_id, "ssi", "AddModel", (char*)sSeaBedName.c_str(), seabed_id);
@@ -856,7 +851,7 @@ float ISLAND::Cannon_Trace(long iBallOwner, const CVECTOR & vSrc, const CVECTOR 
 
 float ISLAND::Trace(const CVECTOR & vSrc, const CVECTOR & vDst)
 {
-	return pCollide->Trace(api->LayerGetWalker("island_trace"), vSrc, vDst, nullptr, 0);
+	return pCollide->Trace(EntityManager::GetEntityIdIterators(ISLAND_TRACE), vSrc, vDst, nullptr, 0);
 }
 
 // Path section

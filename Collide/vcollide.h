@@ -10,7 +10,7 @@
 
 class LCOLL : public LOCAL_COLLIDE
 {
-	std::string layerName_;
+	EntityManager::layer_index_t layerIndex_;
 	PLANE plane[6];
 	CVECTOR boxCenter;
 	float boxRadius;
@@ -18,7 +18,7 @@ class LCOLL : public LOCAL_COLLIDE
 	VAPI &api;
 
 public:
-	LCOLL(const char *layerName, VAPI &_api);
+	LCOLL(EntityManager::layer_index_t idx, VAPI& _ap);
 	virtual ~LCOLL();
 	virtual long SetBox(const CVECTOR &boxSize, const CMatrix &transform, bool testOnly = false);
 	virtual const CVECTOR *GetFace(long &numVertices);
