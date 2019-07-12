@@ -1,5 +1,6 @@
 #include "locator.h"
 #include "../Shared/messages.h"
+#include "../Common_h/EntityManager.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(LOCATOR)
@@ -29,11 +30,11 @@ bool LOCATOR::Init()
 
 bool LOCATOR::VerifyParticles()
 {
-	if(!(ParticlesID = api->GetEntityIdWalker("location")()))
-	{
-		if(!(ParticlesID = EntityManager::CreateEntity("particles"))) return false;
-	}
-	return true;
+	ParticlesID = EntityManager::GetEntityId("particles");
+	if (!ParticlesID)
+		ParticlesID = EntityManager::CreateEntity("particles");
+
+	return bool(ParticlesID);
 }
 
 

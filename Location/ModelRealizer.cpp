@@ -51,7 +51,7 @@ void LocModelRealizer::Realize(uint32_t delta_time)
 			rs->LightEnable(0, TRUE);
 		}
 
-		pE->ProcessStage(Entity::Stage::REALIZE, delta_time);
+		pE->ProcessStage(Entity::Stage::realize, delta_time);
 		if (lights) {
 			lights->DelCharacterLights();
 			rs->SetRenderState(D3DRS_LIGHTING, dwLighting);
@@ -79,7 +79,7 @@ void LocModelRealizer::Realize(uint32_t delta_time)
 
 			// рисуем каустики
 			gs->SetCausticMode(true);
-			pE->ProcessStage(Entity::Stage::REALIZE, 0);;
+			pE->ProcessStage(Entity::Stage::realize, 0);;
 			gs->SetCausticMode(false);
 		}
 	}

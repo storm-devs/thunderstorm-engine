@@ -1065,7 +1065,7 @@ void Sailors::Realize(uint32_t dltTime)
 			shipWalk[m].shipMan[i].SetPos(shipWalk[m].shipModel,shipWalk[m].ship,dltTime, shipWalk[m].shipState);
 
 			if(!shipWalk[m].bHide)
-			shipWalk[m].shipMan[i].model->ProcessStage(Entity::Stage::REALIZE, dltTime);
+			shipWalk[m].shipMan[i].model->ProcessStage(Entity::Stage::realize, dltTime);
 		}
 
 		for (int i= 0; i< shipWalk[m].shipMan.size(); i++)

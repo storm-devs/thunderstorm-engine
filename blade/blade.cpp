@@ -90,7 +90,7 @@ void BLADE::BLADE_INFO::DrawBlade(VDX9RENDER * rs,unsigned int blendValue,MODEL 
 			perMtx = mbn*mdl->mtx;
 		}
 		obj->mtx = perMtx;
-		obj->ProcessStage(Entity::Stage::REALIZE, 0);
+		obj->ProcessStage(Entity::Stage::realize, 0);
 
 		//--------------------------------------------------------------------------
 		rs->SetTexture(0, nullptr);
@@ -294,7 +294,7 @@ void BLADE::Realize(uint32_t Delta_Time)
 		}
 		obj->mtx = perMtx;
 
-		obj->ProcessStage(Entity::Stage::REALIZE, 0);
+		obj->ProcessStage(Entity::Stage::realize, 0);
 	}
 
 	//------------------------------------------------------
@@ -614,7 +614,7 @@ void BLADE::TIEITEM_INFO::DrawItem(VDX9RENDER * rs,unsigned int blendValue,MODEL
 			perMtx = mbn*mdl->mtx;
 		}
 		obj->mtx = perMtx;
-		obj->ProcessStage(Entity::Stage::REALIZE, 0);
+		obj->ProcessStage(Entity::Stage::realize, 0);
 	}
 }
 bool BLADE::TIEITEM_INFO::LoadItemModel(const char* mdlName, const char* locName)

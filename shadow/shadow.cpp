@@ -285,7 +285,7 @@ void SHADOW::Realize(uint32_t Delta_Time)
 	node->flags &= ~NODE::VISIBLE_TREE;
 
 	rs->SetRenderState(D3DRS_ZENABLE, FALSE);
-	obj->ProcessStage(Entity::Stage::REALIZE, 0);
+	obj->ProcessStage(Entity::Stage::realize, 0);
 	rs->SetRenderState(D3DRS_ZENABLE, TRUE);
 
 	node->flags |= NODE::VISIBLE_TREE;

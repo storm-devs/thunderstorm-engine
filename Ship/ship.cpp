@@ -945,7 +945,7 @@ void SHIP::Realize(uint32_t dtime)
 	SetLights();
 
 	pRS->SetRenderState(D3DRS_LIGHTING, true);
-	pM->ProcessStage(Entity::Stage::REALIZE, dtime);
+	pM->ProcessStage(Entity::Stage::realize, dtime);
 	pRS->SetRenderState(D3DRS_LIGHTING, false);
 
 	UnSetLights();
@@ -957,7 +957,7 @@ void SHIP::Realize(uint32_t dtime)
 		CMatrix m1;
 		m1.BuildMatrix(0.0f, fUpperShipAY, 0.0f, State.vPos.x+fXOffset, State.vPos.y + fUpperShipY, State.vPos.z+fZOffset);
 		pModelUpperShip->mtx = m1; 
-		pModelUpperShip->ProcessStage(Entity::Stage::REALIZE, dtime);
+		pModelUpperShip->ProcessStage(Entity::Stage::realize, dtime);
 	}
 
 	if (bMassaShow)
@@ -1297,7 +1297,7 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 		pShipsLights = (IShipLights*)EntityManager::GetEntityPointer(eidTmp); 
 
 		pShipsLights->AddLights(this, GetModel(), bLights, bFlares);
-		pShipsLights->ProcessStage(Entity::Stage::EXECUTE, 0);
+		pShipsLights->ProcessStage(Entity::Stage::execute, 0);
 	}
 	Assert(pShipsLights);
 

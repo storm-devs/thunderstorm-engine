@@ -70,11 +70,11 @@ void CORE::ReleaseBase()
 bool CORE::LoCheck()
 {
 	// ~!~
-	entid_t test_eid = CreateEntity("LocationP");
+	entid_t test_eid = EntityManager::CreateEntity("LocationP");
 	if (!test_eid)
 		return false;
-	auto* pE = GetEntityPointer(test_eid);
-	pE->ProcessStage(Entity::Stage::EXECUTE, ENGINE_SCRIPT_VERSION);
+	auto* pE = EntityManager::GetEntityPointer(test_eid);
+	pE->ProcessStage(Entity::Stage::execute, ENGINE_SCRIPT_VERSION);
 	EraseEntity(test_eid);
 	return true;
 }
@@ -289,38 +289,6 @@ void CORE::CheckAutoExceptions(uint32_t = 0) const
 	spdlog::warn("exception thrown");
 }
 
-entid_t CORE::CreateEntity(char* name, ATTRIBUTES* ptr)
-{
-	return EntityManager::CreateEntity(name, ptr);
-}
-
-uint32_t CORE::Class_Name2Code(char * class_name)
-{
-	return MakeHashValue(class_name);
-}
-
-entid_t CORE::GetEntityId(const char * class_name, uint32_t class_code)
-{
-	const auto hash = class_name ? MakeHashValue(class_name) : class_code;
-	return EntityManager::GetEntityId(hash);
-}
-
-std::vector<entid_t> CORE::GetEntityIdVector(const char* class_name, uint32_t class_code)
-{
-	const auto hash = class_name ? MakeHashValue(class_name) : class_code;
-	return EntityManager::GetEntityIdVector(hash);
-}
-
-
-Entity * CORE::GetEntityPointer(entid_t id_PTR)
-{
-	return EntityManager::GetEntityPointer(id_PTR);
-}
-
-uint32_t CORE::GetEntityClassCode(entid_t entity){
-	return EntityManager::GetClassCode(entity);
-}
-
 void CORE::EraseEntity(entid_t id)
 {
 	EntityManager::EraseEntity(id);
@@ -338,10 +306,6 @@ void CORE::SetTimeScale(float _scale)
 {
 	fTimeScale = _scale;
 }
-float CORE::GetTimeScale()
-{
-	return fTimeScale;
-}
 
 //------------------------------------------------------------------------------------------------
 // transfer message arguments and program control to entity, specified by Destination id
@@ -349,7 +313,7 @@ float CORE::GetTimeScale()
 uint32_t CORE::Send_Message(entid_t Destination,char * Format,...)
 {
 	MESSAGE message;
-	entptr_t ptr = GetEntityPointer(Destination); // check for valid destination
+	entptr_t ptr = EntityManager::GetEntityPointer(Destination); // check for valid destination
 	if (!ptr)
 		return 0;
 
@@ -534,10 +498,10 @@ void CORE::ProcessExecute()
 	ProcessRunStart(SECTION_EXECUTE);
 
 	uint32_t deltatime = Timer.GetDeltaTime();
-	auto entIds = EntityManager::GetEntityIdVector(EntityManager::Layer::Type::EXECUTE);
+	auto entIds = EntityManager::GetEntityIdVector(EntityManager::Layer::Type::execute);
 	for (auto id : entIds) {
 		if (auto ptr = EntityManager::GetEntityPointer(id)) {
-			ptr->ProcessStage(Entity::Stage::EXECUTE, deltatime);
+			ptr->ProcessStage(Entity::Stage::execute, deltatime);
 		}
 	}
 
@@ -550,10 +514,10 @@ void CORE::ProcessRealize()
 	ProcessRunStart(SECTION_REALIZE);
 
 	uint32_t deltatime = Timer.GetDeltaTime();
-	auto entIds = EntityManager::GetEntityIdVector(EntityManager::Layer::Type::REALIZE);
+	auto entIds = EntityManager::GetEntityIdVector(EntityManager::Layer::Type::realize);
 	for (auto id : entIds) {
 		if (auto ptr = EntityManager::GetEntityPointer(id)) {
-			ptr->ProcessStage(Entity::Stage::REALIZE, deltatime);
+			ptr->ProcessStage(Entity::Stage::realize, deltatime);
 		}
 	}
 
@@ -670,7 +634,7 @@ uint32_t CORE::GetRDeltaTime()
 
 ATTRIBUTES * CORE::Entity_GetAttributeClass(entid_t  id_PTR, char * name)
 {
-	Entity* pE = GetEntityPointer(id_PTR);
+	Entity* pE = EntityManager::GetEntityPointer(id_PTR);
 	if(pE == nullptr) return nullptr;
 	if(pE->AttributesPointer == nullptr) return nullptr;
 	return pE->AttributesPointer->FindAClass(pE->AttributesPointer,name);
@@ -678,7 +642,7 @@ ATTRIBUTES * CORE::Entity_GetAttributeClass(entid_t  id_PTR, char * name)
 
 char *	CORE::Entity_GetAttribute(entid_t  id_PTR, char * name)
 {
-	Entity* pE = GetEntityPointer(id_PTR);
+	Entity* pE = EntityManager::GetEntityPointer(id_PTR);
 	if(pE == nullptr) return nullptr;
 	if(pE->AttributesPointer == nullptr) return nullptr;
 	return pE->AttributesPointer->GetAttribute(name);
@@ -686,7 +650,7 @@ char *	CORE::Entity_GetAttribute(entid_t  id_PTR, char * name)
 
 uint32_t	CORE::Entity_GetAttributeAsDword(entid_t  id_PTR, char * name, uint32_t def)
 {
-	Entity* pE = GetEntityPointer(id_PTR);
+	Entity* pE = EntityManager::GetEntityPointer(id_PTR);
 	if(pE == nullptr) return def;
 	if(pE->AttributesPointer == nullptr) return def;
 	return pE->AttributesPointer->GetAttributeAsDword(name,def);
@@ -695,7 +659,7 @@ uint32_t	CORE::Entity_GetAttributeAsDword(entid_t  id_PTR, char * name, uint32_t
 
 FLOAT	CORE::Entity_GetAttributeAsFloat(entid_t  id_PTR, char * name, FLOAT def)
 {
-	Entity* pE = GetEntityPointer(id_PTR);
+	Entity* pE = EntityManager::GetEntityPointer(id_PTR);
 	if(pE == nullptr) return def;
 	if(pE->AttributesPointer == nullptr) return def;
 	return pE->AttributesPointer->GetAttributeAsFloat(name,def);
@@ -703,7 +667,7 @@ FLOAT	CORE::Entity_GetAttributeAsFloat(entid_t  id_PTR, char * name, FLOAT def)
 
 BOOL	CORE::Entity_SetAttribute(entid_t  id_PTR, char * name, char * attribute)
 {
-	Entity* pE = GetEntityPointer(id_PTR);
+	Entity* pE = EntityManager::GetEntityPointer(id_PTR);
 	if(pE == nullptr) return false;
 	if(pE->AttributesPointer == nullptr) return false;
 	return pE->AttributesPointer->SetAttribute(name,attribute);
@@ -711,7 +675,7 @@ BOOL	CORE::Entity_SetAttribute(entid_t  id_PTR, char * name, char * attribute)
 
 BOOL	CORE::Entity_SetAttributeUseDword(entid_t  id_PTR, char * name, uint32_t val)
 {
-	Entity* pE = GetEntityPointer(id_PTR);
+	Entity* pE = EntityManager::GetEntityPointer(id_PTR);
 	if(pE == nullptr) return false;
 	if(pE->AttributesPointer == nullptr) return false;
 	return pE->AttributesPointer->SetAttributeUseDword(name,val);
@@ -719,7 +683,7 @@ BOOL	CORE::Entity_SetAttributeUseDword(entid_t  id_PTR, char * name, uint32_t va
 
 BOOL	CORE::Entity_SetAttributeUseFloat(entid_t  id_PTR, char * name, FLOAT val)
 {
-	Entity* pE = GetEntityPointer(id_PTR);
+	Entity* pE = EntityManager::GetEntityPointer(id_PTR);
 	if(pE == nullptr) return false;
 	if(pE->AttributesPointer == nullptr) return false;
 	return pE->AttributesPointer->SetAttributeUseFloat(name,val);
@@ -727,21 +691,21 @@ BOOL	CORE::Entity_SetAttributeUseFloat(entid_t  id_PTR, char * name, FLOAT val)
 
 void CORE::Entity_SetAttributePointer(entid_t  id_PTR, ATTRIBUTES * pA)
 {
-	Entity* pE = GetEntityPointer(id_PTR);
+	Entity* pE = EntityManager::GetEntityPointer(id_PTR);
 	if(pE == nullptr) return;
 	pE->AttributesPointer = pA;
 }
 
 uint32_t	CORE::Entity_AttributeChanged(entid_t  id_PTR, ATTRIBUTES * pA)
 {
-	Entity* pE = GetEntityPointer(id_PTR);
+	Entity* pE = EntityManager::GetEntityPointer(id_PTR);
 	if(pE == nullptr) return 0;
 	return pE->AttributeChanged(pA);
 }
 
 ATTRIBUTES * CORE::Entity_GetAttributePointer(entid_t  id_PTR)
 {
-	Entity* pE = GetEntityPointer(id_PTR);
+	Entity* pE = EntityManager::GetEntityPointer(id_PTR);
 	if(pE == nullptr) return nullptr;
 	return pE->AttributesPointer;
 }
@@ -867,19 +831,9 @@ uint32_t CORE::SetScriptFunction(IFUNCINFO * pFuncInfo)
 	return Compiler.SetScriptFunction(pFuncInfo);
 }
 
-void CORE::DeleteScriptFunction(uint32_t nFuncHandle)
-{
-	Compiler.DeleteScriptFunction(nFuncHandle);
-}
-
 char * CORE::EngineIniFileName()
 {
 	return ENGINE_INI_FILE_NAME;
-}
-
-uint32_t CORE::AttributeName2Code(const char * pAttributeName)
-{
-	return Compiler.SCodec.Convert(pAttributeName);
 }
 
 void * CORE::GetScriptVariable(const char * pVariableName, uint32_t * pdwVarIndex)

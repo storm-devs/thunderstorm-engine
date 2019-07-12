@@ -73,7 +73,6 @@ private:
 
 private:
 	float lastChange;
-	long chrGroups;
 	bool activatedDialog;
 	bool isSpecialMode;
 	bool isSetBlock;

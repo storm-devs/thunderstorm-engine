@@ -313,7 +313,7 @@ void SKY::Realize(uint32_t Delta_Time)
 
 			if( pAstronomy || pSunGlow )
 			{
-				if( pAstronomy ) pAstronomy->ProcessStage(Entity::Stage::REALIZE, Delta_Time);
+				if( pAstronomy ) pAstronomy->ProcessStage(Entity::Stage::realize, Delta_Time);
 				if( pSunGlow ) ((SUNGLOW*)pSunGlow)->DrawSunMoon();
 
 				pRS->SetTransform(D3DTS_WORLD, &pMatWorld);

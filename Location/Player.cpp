@@ -22,7 +22,6 @@
 
 Player::Player()
 {
-	chrGroups = -1;
 	lastChange = 10.0f;
 	task.task = npct_none;
 	activatedDialog = false;
@@ -41,7 +40,7 @@ Player::~Player()
 {
 #ifndef _XBOX
 	entid_t peid;
-	if(peid = api->GetEntityIdWalker("ShootGunParticles")())
+	if(peid = EntityManager::GetEntityId("ShootGunParticles"))
 		EntityManager::EraseEntity(peid);
 #endif
 }
@@ -50,7 +49,7 @@ bool Player::PostInit()
 {
 	const auto location = GetLocation();
 	if(!location->supervisor.player) location->supervisor.player = this;
-	baterfl = api->GetEntityIdWalker("Animals")();
+	baterfl = EntityManager::GetEntityId("Animals");
 	return NPCharacter::PostInit();
 }
 
@@ -70,7 +69,7 @@ void Player::Move(float dltTime)
 	if(!locCam)
 	{
 		entid_t lcam;
-		if(lcam = api->GetEntityIdWalker("LocationCamera")())
+		if(lcam = EntityManager::GetEntityId("LocationCamera"))
 		{
 			locCam = (LocationCamera *)EntityManager::GetEntityPointer(lcam);
 		}
@@ -305,8 +304,7 @@ void Player::Update(float dltTime)
 	activatedDialog = aDialog;
 	api->Send_Message(baterfl, "lff", MSG_ANIMALS_BUTTERFLIES_XYZ, curPos.x, curPos.z);
 	//Перебираем персонажей в поисках врагов к игроку
-	entid_t eid;
-	if(eid = api->GetEntityIdWalker("CharactersGroups")())
+	if(const auto eid = EntityManager::GetEntityId("CharactersGroups"))
 	{
 		const auto location = GetLocation();
 		for(long i = 0; i < location->supervisor.numCharacters; i++)
@@ -655,8 +653,7 @@ Player * Player::FindAttackCharacter()
 		//Невражеских пропускаем
 		if(!isEnemy) //~!~
 		{
-			entid_t eid;
-			if(eid = api->GetEntityIdWalker(nullptr, chrGroups)())
+			if(const auto eid = EntityManager::GetEntityId("CharactersGroups"))
 			{
 				if(!api->Send_Message(eid, "sii", "IsEnemy", GetId(), chr->GetId())) continue;
 			}
@@ -687,8 +684,7 @@ void Player::FireFromShootgun()
 {
 #ifndef _XBOX
 	kSMReload = 0.0f;
-	entid_t peid;
-	if(peid = api->GetEntityIdWalker("sound")())
+	if(const auto peid = EntityManager::GetEntityId("sound"))
 	{
 		api->Send_Message(peid, "lsllll", MSG_SOUND_PLAY, "OBJECTS\\sgboom.wav", 4, false, false, false);
 	}
@@ -701,9 +697,8 @@ void Player::FireFromShootgun()
 	mtx.Transposition();
 	CVECTOR src = mtx.Pos() + mtx.Vz()*0.7f;
 	api->Send_Message(effects, "sffffff", "SGFireParticles", src.x, src.y - 0.35f, src.z, mtx.Vz().x, mtx.Vz().y, mtx.Vz().z);
-	walker_t walker = api->LayerGetWalker("sun_trace");
+
 	COLLIDE * collide = (COLLIDE *)api->CreateService("COLL");
-	if(!walker) return;
 	if(!collide)
 	{
 		return;
@@ -715,16 +710,18 @@ void Player::FireFromShootgun()
 	};
 	ChrsDmg chrs[16];
 	long numChrs = 0;
+
+	auto ids = EntityManager::GetEntityIdIterators(SUN_TRACE);
 	for(long i = 0; i < 6; i++)
 	{
 		//Получим позицию куда попадёт картечина
 		float r = rand()*3.0f/RAND_MAX;
 		float a = rand()*6.283185307f/(RAND_MAX + 1);
 		CVECTOR dst = mtx*CVECTOR(r*sinf(a), r*cosf(a), 25.0f);
-		if(walker && collide)
+		if(collide)
 		{
 			auto id = GetId();
-			float dist = collide->Trace(walker, src, dst, &id, 0);
+			float dist = collide->Trace(ids, src, dst, &id, 0);
 			if(dist <= 1.0f && dist > (0.2f/25.0f))
 			{
 				CVECTOR dir = !(src - dst);

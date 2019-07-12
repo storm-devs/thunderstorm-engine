@@ -196,7 +196,7 @@ bool AIFort::AddFort(ATTRIBUTES * pIslandAP, ATTRIBUTES * pFortLabelAP, ATTRIBUT
 	pShipsLights = (IShipLights*)EntityManager::GetEntityPointer(eidTmp); Assert(pShipsLights);
 
 	pShipsLights->AddLights(&pFort->tmpObject, pFort->GetModel(), bLights, bFlares);
-	pShipsLights->ProcessStage(Entity::Stage::EXECUTE, 0);
+	pShipsLights->ProcessStage(Entity::Stage::execute, 0);
 
 	api->Event(FORT_CREATE, "al", pFortCharacter, pFort->GetAllCannonsNum());
 

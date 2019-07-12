@@ -92,7 +92,7 @@ NPCharacter::~NPCharacter()
 
 bool NPCharacter::PostInit()
 {
-	charactersGroups = api->GetEntityIdWalker("CharactersGroups")();
+	charactersGroups = EntityManager::GetEntityId("CharactersGroups");
 	float tmp;
 	long tmpBool;
 	VDATA * vd;

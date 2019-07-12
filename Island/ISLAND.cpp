@@ -146,7 +146,7 @@ void ISLAND::Realize(uint32_t Delta_Time)
 	{
 		if (j != 0) pRS->SetRenderState(D3DRS_ZWRITEENABLE, false);
 		pRS->SetNearFarPlane((j==0) ? fOldNear : fOldFar * float(j), fOldFar * float(j + 1));
-		pModel->ProcessStage(Entity::Stage::REALIZE, Delta_Time);
+		pModel->ProcessStage(Entity::Stage::realize, Delta_Time);
 		pRS->SetRenderState(D3DRS_LIGHTING, true);
 		D3DLIGHT9 lt, ltold; ZERO(lt);
 		lt.Type = D3DLIGHT_POINT;
@@ -165,7 +165,7 @@ void ISLAND::Realize(uint32_t Delta_Time)
 			((MODEL*)ent)->mtx = mOld * mTemp;
 
 			api->Send_Message(AIFortEID, "li", AI_MESSAGE_FORT_SET_LIGHTS, aForts[k]);
-			((Entity*)ent)->ProcessStage(Entity::Stage::REALIZE, Delta_Time);
+			((Entity*)ent)->ProcessStage(Entity::Stage::realize, Delta_Time);
 			api->Send_Message(AIFortEID, "li", AI_MESSAGE_FORT_UNSET_LIGHTS, aForts[k]);
 
 			((MODEL*)ent)->mtx = mOld;
@@ -184,7 +184,7 @@ void ISLAND::Realize(uint32_t Delta_Time)
 
 		MODEL * pSeaBed = (MODEL*)EntityManager::GetEntityPointer(seabed_id);
 		if (pSeaBed)
-			pSeaBed->ProcessStage(Entity::Stage::REALIZE, Delta_Time);
+			pSeaBed->ProcessStage(Entity::Stage::realize, Delta_Time);
 	}
 
 	pRS->SetNearFarPlane(fOldNear, fOldFar);

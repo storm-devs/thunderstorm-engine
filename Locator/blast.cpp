@@ -1,5 +1,6 @@
 #include "blast.h"
 #include "../Shared/messages.h"
+#include "../Common_h/EntityManager.h"
 
 #define ANGLESPEED_MUL	0.2f
 
@@ -45,7 +46,7 @@ bool BLAST::Init()
 
 	delete ini;
 
-	Splash = api->GetEntityIdWalker("BallSplash")();
+	Splash = EntityManager::GetEntityId("BallSplash");
 
 	return true;
 }
@@ -108,7 +109,7 @@ void BLAST::ProcessTime(uint32_t DT)
 	
 	if(!EntityManager::GetEntityPointer(sea_eid))
 	{
-		sea_eid = api->GetEntityIdWalker("sea")();
+		sea_eid = EntityManager::GetEntityId("sea");
 		pSea = (CANNON_TRACE_BASE *)EntityManager::GetEntityPointer(sea_eid);
 	}
 
