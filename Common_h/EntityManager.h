@@ -216,8 +216,10 @@ public:
 	}
 
 	static constexpr void EraseAll()	{
-		for (auto & entity : entities_.first) {
-			entity.deleted = true;
+		auto& arr = entities_.first;
+		const auto size = entities_.second;
+		for(auto it = std::begin(arr); it != std::begin(arr) + size; ++it) {
+			it->deleted = true;
 		}
 	}
 
@@ -227,7 +229,7 @@ public:
 	}
 
 	static auto GetEntityIdVector(const Layer::Type type) -> EntityVector {
-		std::vector<entid_t> result;
+		std::vector<entid_t> result; // should be vector of layer iterators actually... special iterator would be cool here too.
 		result.reserve(max_ent_num); // TODO: investigate memory consumption
 
 		for (auto it = std::begin(layers_); it != std::end(layers_); ++it) {
@@ -333,12 +335,12 @@ public:
 	/* new lifecycle is started at the end of each frame. it's time to cleanup */
 	static constexpr void NewLifecycle()
 	{
-		auto & arr = entities_.first;
+		auto& arr = entities_.first;
 		const auto size = entities_.second;
-		for (const auto & entityData : arr) {
-			if (entityData.deleted)
+		for (auto it = std::begin(arr); it != std::begin(arr) + size; ++it) {
+			if (it->deleted)
 			{
-				const auto index = static_cast<entid_index_t>(entityData.id);
+				const auto index = static_cast<entid_index_t>(it->id);
 				if (index >= size)
 					continue;
 
@@ -382,7 +384,7 @@ public:
 		auto& top = freeIndices_.second;
 
 		/* check if free indices available */
-		entid_index_t idx = top != 0 ? stack[--top] : size;
+		const entid_index_t idx = top != 0 ? stack[--top] : size;
 
 		/* calculate stamp */
 		const auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
