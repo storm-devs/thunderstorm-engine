@@ -41,7 +41,7 @@ public:
 	{
 		switch (stage)
 		{
-		case Stage::EXECUTE:
+		case Stage::execute:
 			Execute(delta); break;
 		//case Stage::realize:
 		//	Realize(delta); break;

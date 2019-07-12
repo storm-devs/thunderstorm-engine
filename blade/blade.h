@@ -84,10 +84,10 @@ public:
 	void ProcessStage(Stage stage, uint32_t delta) override	{
 		switch(stage)
 		{
-		//case Stage::EXECUTE:
+		//case Stage::execute:
 		//	Execute(delta);
 		//	break;
-		case Stage::REALIZE:
+		case Stage::realize:
 			Realize(delta);
 			break;
 		//case Stage::LOST_RENDER:

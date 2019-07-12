@@ -616,9 +616,6 @@
     <ClCompile Include="..\Animals\TSeagulls.cpp">
       <Filter>Modules\Animals</Filter>
     </ClCompile>
-    <ClCompile Include="..\Animals\TSharks.cpp">
-      <Filter>Modules\Animals</Filter>
-    </ClCompile>
     <ClCompile Include="..\Animation\ActionInfo.cpp">
       <Filter>Modules\Animation</Filter>
     </ClCompile>

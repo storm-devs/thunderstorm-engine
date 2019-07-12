@@ -2,7 +2,7 @@
 #include "../Common_h/rands.h"
 #include "../Common_h/model.h"
 #include "../Shared/messages.h"
-
+#include "../Common_h/EntityManager.h"
 //#pragma warning (disable : 4244)
 
 //--------------------------------------------------------------------

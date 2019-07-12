@@ -117,7 +117,6 @@
     <ClCompile Include="..\Animals\TDynamicSystem.cpp" />
     <ClCompile Include="..\Animals\TFishSchools.cpp" />
     <ClCompile Include="..\Animals\TSeagulls.cpp" />
-    <ClCompile Include="..\Animals\TSharks.cpp" />
     <ClCompile Include="..\Animation\ActionInfo.cpp" />
     <ClCompile Include="..\Animation\ActionPlayerImp.cpp" />
     <ClCompile Include="..\Animation\AnimationImp.cpp" />

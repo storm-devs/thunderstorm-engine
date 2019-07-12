@@ -151,7 +151,7 @@ public:
 		{
 		//case Stage::execute:
 		//	Execute(delta); break;
-		case Stage::REALIZE:
+		case Stage::realize:
 			Realize(delta); break;
 			/*case Stage::lost_render:
 				LostRender(delta); break;

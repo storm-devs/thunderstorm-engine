@@ -140,9 +140,9 @@ public:
 	{
 		switch (stage)
 		{
-		case Stage::EXECUTE:
+		case Stage::execute:
 			Execute(delta); break;
-		case Stage::REALIZE:
+		case Stage::realize:
 			Realize(delta); break;
 		}
 	}
