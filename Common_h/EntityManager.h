@@ -142,7 +142,7 @@ public:
 			if (arr[i].second == id) {
 				// found. shift array and decrement size
 				for (auto j = i; j < size; ++j) {
-					arr[i] = arr[i + 1];
+					arr[j] = arr[j + 1];
 				}
 				--size;
 				break;
@@ -198,7 +198,7 @@ public:
 
 		// remove from layers
 		for(unsigned i = 0; i < sizeof(mask) * 8; ++i) {
-				RemoveFromLayer(i, data);
+			RemoveFromLayer(i, data);
 		}
 
 		delete data.ptr;
