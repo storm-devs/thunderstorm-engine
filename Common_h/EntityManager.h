@@ -216,7 +216,9 @@ public:
 				continue;
 
 			if (it->type == type) {
-				result.insert(std::end(result), std::begin(it->entities), std::begin(it->entities) + it->actual_size);
+				const auto end = std::begin(it->entities) + it->actual_size;
+				for (const auto ent_it = std::begin(it->entities); ent_it != end; ++it)
+					result.push_back(ent_it->second);
 			}
 		}
 
