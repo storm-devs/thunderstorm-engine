@@ -1,11 +1,10 @@
-#include <math.h>
-#include <stdio.h>
 #include <crtdbg.h>
 #include "touch.h"
 #include "../Common_h/Character.h"
 #include "../Shared/sea_ai/Script_defines.h"
 #include "../Shared/messages.h"
 #include "../Common_h/inlines.h"
+#include "../Common_h/EntityManager.h"
 
 #define ISLAND_CODE			-1
 #define INVALID_SHIP_IDX	0xACACAC
@@ -84,8 +83,8 @@ void TOUCH::Execute(uint32_t dwCoreDeltaTime)
 	//GUARD(void TOUCH::Execute(uint32_t dwCoreDeltaTime))
 	long i;
 	entid_t ent;
-	if (!pIslandBase && (ent = api->GetEntityIdWalker("island")()))
-		pIslandBase = (ISLAND_BASE*)EntityManager::GetEntityPointer(ent);
+	if (!pIslandBase)
+		pIslandBase = (ISLAND_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("island"));
 
 	//Sleep(150);
 

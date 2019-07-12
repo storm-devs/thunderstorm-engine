@@ -9,6 +9,7 @@
 //============================================================================================
 
 #include "TornadoParticles.h"
+#include "../Common_h/EntityManager.h"
 
 //============================================================================================
 //Конструирование, деструктурирование
@@ -49,7 +50,7 @@ TornadoParticles::~TornadoParticles()
 
 void TornadoParticles::SetSea()
 {
-	seaID = api->GetEntityIdWalker("sea")();
+	seaID = EntityManager::GetEntityId("sea");
 }
 
 void TornadoParticles::Update(float dltTime)

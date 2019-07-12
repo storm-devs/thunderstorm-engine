@@ -1,15 +1,8 @@
-#include <stdio.h>
-
-#ifndef _XBOX
-	#include <Windows.h>
-#else
-	#include <xtl.h>
-#endif
-
 #include "../Shared/messages.h"
 #include "../Common_h/defines.h"
 #include "../Common_h/Cvector.h"
 #include "../SoundService/VSoundService.h"
+#include "../Common_h/EntityManager.h"
 
 #include "SOUND.H"
 #include "../Common_h/vdata.h"

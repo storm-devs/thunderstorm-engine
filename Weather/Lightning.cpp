@@ -165,8 +165,7 @@ void LIGHTNING::CalcFlashPower(lightning_t * pL)
 
 	for (uint32_t i=0; i<3; i++)
 	{
-		const auto walker = api->LayerGetWalker("sun_trace");
-		float fRes = pCollide->Trace(walker, vCamPos, vTrace[i], nullptr, 0);
+		float fRes = pCollide->Trace(EntityManager::GetEntityIdIterators(SUN_TRACE), vCamPos, vTrace[i], nullptr, 0);
 		if (fRes <= 1.0f) fPower -= 0.31f;
 	}
 	pL->fPower = fPower;

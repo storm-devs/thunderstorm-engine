@@ -30,7 +30,7 @@ bool WaterRings::Init()
 
 	EntityManager::AddToLayer(REALIZE,GetId(),65551);
 
-	entid_t seaID = api->GetEntityIdWalker("sea")();
+	const auto seaID = EntityManager::GetEntityId("sea");
 	sea = (SEA_BASE*) EntityManager::GetEntityPointer(seaID);
 
 	renderService = (VDX9RENDER *)api->CreateService("dx9render");

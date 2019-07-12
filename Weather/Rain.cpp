@@ -78,7 +78,7 @@ void RAIN::GenerateRain()
 	uint32_t	i;
 
 	entid_t	ent;
-	if (!(ent = api->GetEntityIdWalker("Weather")())) 
+	if (!(ent = EntityManager::GetEntityId("weather")))
 		throw std::exception("No found WEATHER entity!");
 	pWeather = (WEATHER_BASE*)EntityManager::GetEntityPointer(ent); 
 	Assert(pWeather);
@@ -209,7 +209,7 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 {
 	float fDeltaTime = float(Delta_Time) * 0.001f;
 
-	uint32_t dwShipName = api->Class_Name2Code("SHIP");
+	static uint32_t dwShipName = MakeHashValue("SHIP");
 
 	CMatrix mView;
 	rs->GetTransform(D3DTS_VIEW, (D3DXMATRIX*)&mView);
@@ -222,10 +222,8 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 
 	entid_t sea_id;
 	SEA_BASE * pSea = nullptr;
-	if (sea_id = api->GetEntityIdWalker("sea")()) 
+	if (sea_id = EntityManager::GetEntityId("sea"))
 		pSea = (SEA_BASE*)EntityManager::GetEntityPointer(sea_id);
-
-	walker_t pVW = api->LayerGetWalker("rain_drops");
 
 	fDropsDeltaTime += fDeltaTime;
 
@@ -234,80 +232,83 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 	fDropsDeltaTime -= float(double(iNumNewDrops1 + iNumNewDrops2) / double(dwDropsNearNum + dwDropsFarNum));
 	if (fDropsDeltaTime < 0.0f) fDropsDeltaTime = 0.0f;
 
-	if (pVW) for (long i=0; i<iNumNewDrops1 + iNumNewDrops2; i++)
-	{
-		SHIP_BASE * pShip = nullptr;
-		float fA, fS, fR;
-		CVECTOR vSrc, vDst;
-
-		fS = 0.0f;
-		fR = fDropsNearRadius;
-		if (i >= iNumNewDrops1)
+	const auto its = EntityManager::GetEntityIdIterators(RAIN_DROPS);
+	if (its.first != its.second) {
+		for (long i = 0; i < iNumNewDrops1 + iNumNewDrops2; i++)
 		{
-			fS = fDropsNearRadius;
-			fR = fDropsFarRadius;
-		}
+			SHIP_BASE* pShip = nullptr;
+			float fA, fS, fR;
+			CVECTOR vSrc, vDst;
 
-		fA = FRAND(PIm2);
-		fR = fS + FRAND(fR);
-		
-		vSrc = CVECTOR(vCamPos.x + fR * sinf(fA), vCamPos.y + 75.0f, vCamPos.z + fR * cosf(fA));
-		vDst = CVECTOR(vSrc.x, vCamPos.y - 75.0f, vSrc.z);
-
-		float fTest1 = cs->Trace(pVW, vSrc, vDst, nullptr, 0);
-		float fTest2 = 2.0f;
-
-		if (pSea) 
-		{
-			float y = pSea->WaveXZ(vSrc.x, vSrc.z);
-			if (y >= vDst.y && y <= vSrc.y)
-				fTest2 = (vSrc.y - y) / (vSrc.y - vDst.y);
-		}
-		float fTest = fTest2;
-		if (fTest1 <= 1.0f && fTest1 < fTest2) 
-		{
-			fTest = fTest1;
-
-			//проверим - если это корабль
-			entid_t eid = cs->GetObjectID();
-			if (api->GetEntityClassCode(eid) == dwShipName)
+			fS = 0.0f;
+			fR = fDropsNearRadius;
+			if (i >= iNumNewDrops1)
 			{
-				pShip = (SHIP_BASE*)EntityManager::GetEntityPointer(eid);
+				fS = fDropsNearRadius;
+				fR = fDropsFarRadius;
 			}
-		}
-		else if (fTest2 <= 1.0f)
-		{
-			//seadrop_t & sea_drop = aSeaDrops[aSeaDrops.Add()];
-			//sea_drop.vPos = vSrc + fTest * (vDst - vSrc);
-			//sea_drop.fTime = 1.0f;
-			//sea_drop.fLifeTime = 1.0f;
-			aSeaDrops.push_back(seadrop_t{ vSrc + fTest * (vDst - vSrc), 1.0f, 1.0f });
-		}
 
-		if (fTest <= 1.0f)
-		{
-			// ƒобавл€ем каплю
-			aDrops.push_back(drop_t{});
-			//drop_t & drop = aDrops[aDrops.Add()];
-			drop_t & drop = aDrops.back();
-			drop.vPos = vSrc + fTest * (vDst - vSrc);
-			drop.fLifeTime = fDropsLifeTime + fDeltaTime;
-			drop.iShip = -1;
-			if (pShip)
+			fA = FRAND(PIm2);
+			fR = fS + FRAND(fR);
+
+			vSrc = CVECTOR(vCamPos.x + fR * sinf(fA), vCamPos.y + 75.0f, vCamPos.z + fR * cosf(fA));
+			vDst = CVECTOR(vSrc.x, vCamPos.y - 75.0f, vSrc.z);
+
+			float fTest1 = cs->Trace(its, vSrc, vDst, nullptr, 0);
+			float fTest2 = 2.0f;
+
+			if (pSea)
 			{
-				long k;
-				for (k=0; k<aShips.size(); k++) if (aShips[k].pShip == pShip) break;
-				if (k == aShips.size())
+				float y = pSea->WaveXZ(vSrc.x, vSrc.z);
+				if (y >= vDst.y && y <= vSrc.y)
+					fTest2 = (vSrc.y - y) / (vSrc.y - vDst.y);
+			}
+			float fTest = fTest2;
+			if (fTest1 <= 1.0f && fTest1 < fTest2)
+			{
+				fTest = fTest1;
+
+				//проверим - если это корабль
+				entid_t eid = cs->GetObjectID();
+				if (EntityManager::GetClassCode(eid) == dwShipName)
 				{
-					//ship_t & ship = aShips[aShips.Add()];
-					//ship.eid = pShip->GetId();
-					//ship.pShip = pShip;
-					aShips.push_back(ship_t{ pShip->GetId(), pShip });
+					pShip = (SHIP_BASE*)EntityManager::GetEntityPointer(eid);
 				}
-				CMatrix mShip = *pShip->GetMatrix();
-				mShip.Transposition();
-				drop.iShip = k;
-				drop.vPos = mShip * drop.vPos;
+			}
+			else if (fTest2 <= 1.0f)
+			{
+				//seadrop_t & sea_drop = aSeaDrops[aSeaDrops.Add()];
+				//sea_drop.vPos = vSrc + fTest * (vDst - vSrc);
+				//sea_drop.fTime = 1.0f;
+				//sea_drop.fLifeTime = 1.0f;
+				aSeaDrops.push_back(seadrop_t{ vSrc + fTest * (vDst - vSrc), 1.0f, 1.0f });
+			}
+
+			if (fTest <= 1.0f)
+			{
+				// ƒобавл€ем каплю
+				aDrops.push_back(drop_t{});
+				//drop_t & drop = aDrops[aDrops.Add()];
+				drop_t& drop = aDrops.back();
+				drop.vPos = vSrc + fTest * (vDst - vSrc);
+				drop.fLifeTime = fDropsLifeTime + fDeltaTime;
+				drop.iShip = -1;
+				if (pShip)
+				{
+					long k;
+					for (k = 0; k < aShips.size(); k++) if (aShips[k].pShip == pShip) break;
+					if (k == aShips.size())
+					{
+						//ship_t & ship = aShips[aShips.Add()];
+						//ship.eid = pShip->GetId();
+						//ship.pShip = pShip;
+						aShips.push_back(ship_t{ pShip->GetId(), pShip });
+					}
+					CMatrix mShip = *pShip->GetMatrix();
+					mShip.Transposition();
+					drop.iShip = k;
+					drop.vPos = mShip * drop.vPos;
+				}
 			}
 		}
 	}

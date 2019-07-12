@@ -12,6 +12,7 @@
 #include "../Common_h/geometry.h"
 #include "../Common_h/ship_base.h"
 #include "../Shared/messages.h"
+#include "../Common_h/EntityManager.h"
 
 //============================================================================================
 //Конструирование, деструктурирование
@@ -21,7 +22,6 @@ Debris::Debris(Pillar & _pillar) : pillar(_pillar)
 {
 	numModels = 0;
 	flyCounter = 0;
-	shipcode = api->Class_Name2Code("ship");
 	SetGlobalAlpha(1.0f);
 	soundService = nullptr;
 	lastPlayTime = 0.0f;
@@ -29,7 +29,8 @@ Debris::Debris(Pillar & _pillar) : pillar(_pillar)
 
 Debris::~Debris()
 {
-	for(long i = 0; i < numModels; i++) EntityManager::EraseEntity(mdl[i].mdl->GetId());
+	for(long i = 0; i < numModels; i++) 
+		EntityManager::EraseEntity(mdl[i].mdl->GetId());
 }
 
 void Debris::Init()
@@ -198,22 +199,24 @@ MODEL * Debris::SelectModel(float & maxSpd)
 
 bool Debris::IsShip()
 {
-	const auto walker = api->GetEntityIdWalker(nullptr, shipcode);
-	
 	CVECTOR p(pillar.GetX(0.0f), 0.0f, pillar.GetZ(0.0f));
 	CVECTOR pos;
-	for(entid_t id = walker(); id; id = walker())
-	{
+	auto& entities = EntityManager::GetEntityIdVector("ship");
+	for (auto id : entities) {
 		//Указатель на объект
 		VAI_OBJBASE * ship = (VAI_OBJBASE *)EntityManager::GetEntityPointer(id);
-		if(!ship) break;
+		if(!ship)
+			break;
 		//Позиция торнадо в системе корабля
 		Assert(ship->GetMatrix());
 		ship->GetMatrix()->MulToInv(p, pos);
 		//Проверим попадание в бокс
 		CVECTOR s = ship->GetBoxsize();
-		if(pos.x < -s.x - 6.0f || pos.x > s.x + 6.0f) continue;
-		if(pos.z < -s.z - 6.0f || pos.z > s.z + 6.0f) continue;
+		if(pos.x < -s.x - 6.0f || pos.x > s.x + 6.0f) 
+			continue;
+		if(pos.z < -s.z - 6.0f || pos.z > s.z + 6.0f) 
+			continue;
+
 		return true;
 	}
 	return false;

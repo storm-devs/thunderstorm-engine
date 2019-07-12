@@ -69,8 +69,6 @@ private:
 
 	ModelInfo fly[64];	//Летящии модельки
 	long flyCounter;	//Количество летящих моделек
-
-	uint32_t shipcode;
 };
 
 #endif
