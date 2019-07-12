@@ -28,11 +28,6 @@ public:
 
 	virtual void *CreateService(char * service_name)= 0;
 
-	virtual entid_t CreateEntity(char* name, ATTRIBUTES* attr = nullptr) = 0;
-	virtual void EraseEntity(entid_t id) = 0;
-	virtual entptr_t GetEntityPointer(entid_t id_PTR)= 0;
-	virtual uint32_t GetEntityClassCode(entid_t entity) = 0;
-
 	virtual ATTRIBUTES * Entity_GetAttributeClass(entid_t id_PTR, char * name)=0;
 	virtual char *	Entity_GetAttribute(entid_t id_PTR, char * name)=0;
 	virtual uint32_t	Entity_GetAttributeAsDword(entid_t id_PTR, char * name, uint32_t def = 0)=0;
@@ -44,13 +39,6 @@ public:
 	virtual ATTRIBUTES * Entity_GetAttributePointer(entid_t id_PTR)=0;
 
 	virtual uint32_t Send_Message(entid_t Destination,char * Format,...)= 0;
-
-	virtual bool LayerCheck(char* layer_name, LayerFlags flag) = 0;
-	virtual void LayerAdd(const char * layer_name, entid_t eid, uint32_t priority)= 0;
-	virtual void LayerDel(const char * layer_name, entid_t eid)= 0;
-	virtual void LayerSetExecute(char * layer_name, bool on)= 0;
-	virtual void LayerSetRealize(char * layer_name, bool on)= 0;
-	virtual void LayerSetFreeze(char* layer_name, bool on) = 0;
 
 	virtual bool SaveState(char * file_name)= 0;
 	virtual bool InitiateStateLoading(char * file_name)= 0;

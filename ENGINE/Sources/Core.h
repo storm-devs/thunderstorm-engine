@@ -117,30 +117,9 @@ public:
 	void  SetTimeScale(float _scale) override;
 	// write message to system log file
 	void Trace(const char * Format,...) override;
-	// OR operation with core exceptions mask, returned current mask state
-
-	// work with objects classes
-	
-	// converting class name to static code (constant until next restart)
-	uint32_t Class_Name2Code(char * class_name) override;
-
-	entid_t GetEntityId(const char* class_name, uint32_t class_code = 0) override;
-	std::vector<entid_t> GetEntityIdVector(const char* class_name, uint32_t class_code = 0) override;
-
-	// service managment
 
 	// return service object pointer; 
 	void * CreateService(char * service_name) override;
-
-	// entity managment
-	
-	// create entity with class type "class_name"; if id_PTR no null - fill this structure with entity id
-	entid_t CreateEntity(char* name, ATTRIBUTES * attr = nullptr) override;
-
-	// return entity object pointer, if this entity exist
-	Entity * GetEntityPointer(entid_t id_PTR) override;
-
-	uint32_t GetEntityClassCode(entid_t entity);
 
 	ATTRIBUTES * Entity_GetAttributeClass(entid_t id_PTR, char * name) override;
 	char *	Entity_GetAttribute(entid_t id_PTR, char * name) override;
@@ -157,43 +136,6 @@ public:
 
 	// send message to an object
 	uint32_t Send_Message(entid_t Destination,char * Format,...) override;
-	
-	// layer managment 
-	
-	auto CORE::GetLayerType(const EntityManager::layer_index_t index)
-	{
-		return EntityManager::GetLayerType(index);
-	}
-
-	void CORE::LayerAdd(const EntityManager::layer_index_t index, entid_t eid, uint32_t priority)
-	{
-		EntityManager::AddToLayer(index, eid, priority);
-	}
-
-	void CORE::LayerDel(const EntityManager::layer_index_t index, entid_t eid)
-	{
-		EntityManager::RemoveFromLayer(index, eid);
-	}
-
-	void CORE::LayerSetExecute(const EntityManager::layer_index_t index)
-	{
-		EntityManager::SetLayerType(index, EntityManager::Layer::Type::EXECUTE);
-	}
-
-	void CORE::LayerSetRealize(const EntityManager::layer_index_t index)
-	{
-		EntityManager::SetLayerType(index, EntityManager::Layer::Type::REALIZE);
-	}
-
-	void CORE::LayerSetFreeze(const EntityManager::layer_index_t index, bool freeze)
-	{
-		EntityManager::SetLayerFrozen(index, freeze);
-	}
-
-	auto CORE::GetEntityIdIterators(const EntityManager::layer_index_t index)
-	{
-		return EntityManager::GetEntityIdIterators(index);
-	}
 	
 	// save core state
 	bool SaveState(char * file_name) override;

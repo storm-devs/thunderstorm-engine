@@ -6,7 +6,6 @@
 #include <algorithm>
 #include "Entity.h"
 #include "vmodule_api.h"
-#include "Layer.h"
 
 class EntityManager final {
 	/* typedefs */
