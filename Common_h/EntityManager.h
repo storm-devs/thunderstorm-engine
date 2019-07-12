@@ -119,14 +119,6 @@ public:
 	static void RemoveFromLayer(const layer_index_t index, const entid_t id, const priority_t priority) {
 		assert(index < max_layers_num);
 
-		auto& entData = GetEntityData(id);
-		// check if entity is in layer
-		if (!(entData.mask & (1 << index)))
-			return;
-
-		// clear info about layer
-		entData.mask &= ~(1 << index);
-
 		auto& layer = layers_[index];
 		auto& arr = layer.entities;
 		auto& size = layer.actual_size;
@@ -134,7 +126,10 @@ public:
 		const auto lowerIdx = std::lower_bound(std::begin(arr), std::begin(arr) + size,  std::pair<priority_t, entid_t>{ priority, {} },
 			[](auto& lhs, auto& rhs) { return lhs.first < rhs.first; }) - std::begin(arr);
 
-		assert(lowerIdx < size); // is this ok?
+		//assert(lowerIdx < size); // is this ok?
+		if(lowerIdx >= size) {
+			return;
+		}
 
 		for (auto i = lowerIdx; i < size && arr[i].first == priority; ++i) {
 			if (arr[i].second == id) {
@@ -144,6 +139,8 @@ public:
 				}
 			}
 		}
+
+		--size;
 	}
 
 	static entid_t CreateEntity(const char* name, ATTRIBUTES* attr = nullptr)
@@ -189,13 +186,14 @@ public:
 		return id;
 	}
 
-	static void _erase(const EntityInternalData & data) {
-		auto mask = data.mask;
+	static void _erase(EntityInternalData & data) {
+		auto& mask = data.mask;
 
 		// remove from layers
 		for(unsigned i = 0; i < sizeof(mask) * 8; ++i) {
-			if ((mask >> i) & 1) {
+			if (mask & (1 << i)) {
 				RemoveFromLayer(i, data.id, data.priorities[i]);
+				mask &= ~(1 << i);
 			}
 		}
 
@@ -324,7 +322,7 @@ public:
 	}
 
 	static constexpr void PushFreeIndex(entity_index_t index) {
-		auto& stack = freeIndices_.first;
+ 		auto& stack = freeIndices_.first;
 		auto& top = freeIndices_.second;
 		
 		assert(top < max_ent_num);
@@ -338,7 +336,7 @@ public:
 		auto& arr = entities_.first;
 		const auto size = entities_.second;
 		for (auto it = std::begin(arr); it != std::begin(arr) + size; ++it) {
-			if (it->deleted)
+			if (it->deleted && it->id)
 			{
 				const auto index = static_cast<entid_index_t>(it->id);
 				if (index >= size)
