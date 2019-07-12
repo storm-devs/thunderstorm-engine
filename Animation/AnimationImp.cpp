@@ -327,12 +327,12 @@ void AnimationImp::BuildAnimationMatrices()
 //Разослать события
 void AnimationImp::SendEvent(AnimationEvent event, long index)
 {
-	for(long i = 0; i < ANIIMP_MAXLISTENERS; i++)
+	/*for(long i = 0; i < ANIIMP_MAXLISTENERS; i++)
 	{
 		if(ae_listeners[event][i])
 		{
 			ae_listeners[event][i]->Event(this, index, (event << 16) | i, event);
 		}
-	}
+	}*/
 }
 

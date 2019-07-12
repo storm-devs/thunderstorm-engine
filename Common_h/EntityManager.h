@@ -112,35 +112,42 @@ public:
 	}
 
 	static void RemoveFromLayer(const layer_index_t index, const entid_t id) {
-		const auto& entData = GetEntityData(id);
-		return RemoveFromLayer(index, id, entData.priorities[index]);
+		return RemoveFromLayer(index, GetEntityData(id));
 	}
 
-	static void RemoveFromLayer(const layer_index_t index, const entid_t id, const priority_t priority) {
+	static void RemoveFromLayer(const layer_index_t index, EntityInternalData& data) {
 		assert(index < max_layers_num);
+
+		auto& mask = data.mask;
+		// check if entity is in layer
+		if (!(mask & (1 << index)))
+			return;
+
+		const auto priority = data.priorities[index];
+		const auto id = data.id;
 
 		auto& layer = layers_[index];
 		auto& arr = layer.entities;
 		auto& size = layer.actual_size;
 
+		// clear layer flag
+		mask &= ~(1 << index);
+
 		const auto lowerIdx = std::lower_bound(std::begin(arr), std::begin(arr) + size,  std::pair<priority_t, entid_t>{ priority, {} },
 			[](auto& lhs, auto& rhs) { return lhs.first < rhs.first; }) - std::begin(arr);
 
-		//assert(lowerIdx < size); // is this ok?
-		if(lowerIdx >= size) {
-			return;
-		}
+		assert(lowerIdx < size); // is this ok?
 
 		for (auto i = lowerIdx; i < size && arr[i].first == priority; ++i) {
 			if (arr[i].second == id) {
-				// shift array
+				// found. shift array and decrement size
 				for (auto j = i; j < size; ++j) {
 					arr[i] = arr[i + 1];
 				}
+				--size;
+				break;
 			}
 		}
-
-		--size;
 	}
 
 	static entid_t CreateEntity(const char* name, ATTRIBUTES* attr = nullptr)
@@ -191,10 +198,7 @@ public:
 
 		// remove from layers
 		for(unsigned i = 0; i < sizeof(mask) * 8; ++i) {
-			if (mask & (1 << i)) {
-				RemoveFromLayer(i, data.id, data.priorities[i]);
-				mask &= ~(1 << i);
-			}
+				RemoveFromLayer(i, data);
 		}
 
 		delete data.ptr;
