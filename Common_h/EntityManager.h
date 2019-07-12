@@ -236,7 +236,7 @@ public:
 
 			if (it->type == type) {
 				const auto end = std::begin(it->entities) + it->actual_size;
-				for (const auto ent_it = std::begin(it->entities); ent_it != end; ++it)
+				for (auto ent_it = std::begin(it->entities); ent_it != end; ++ent_it)
 					result.push_back(ent_it->second);
 			}
 		}
