@@ -140,7 +140,7 @@ void AIBalls::AddBall(ATTRIBUTES * pABall)
 	if (aBallTypes[i].sParticleName.size())
 	{
 		entid_t eidParticle;
-		if (eidParticle = api->GetEntityIdWalker("particles")())
+		if (eidParticle = EntityManager::GetEntityId("particles"))
 		{
 			pBall->pParticle = (VPARTICLE_SYSTEM *)api->Send_Message(eidParticle,"lsffffffl",PS_CREATE_RIC,(char*)aBallTypes[i].sParticleName.c_str(),pBall->vPos.x,pBall->vPos.y,pBall->vPos.z,0.0f,1.0f,0.0f,100000);
 		}
@@ -151,13 +151,13 @@ void AIBalls::Execute(uint32_t Delta_Time)
 {
 	uint32_t						i, j;
 	CVECTOR						vSrc, vDst;
-	entid_t					EID, pEID;
+	entid_t					EID;
 
-	if (!pIsland && (EID = api->GetEntityIdWalker("island")()))
+	if (!pIsland && (EID = EntityManager::GetEntityId("island")))
 		pIsland = (CANNON_TRACE_BASE*)EntityManager::GetEntityPointer(EID);
-	if (!pSail && (EID = api->GetEntityIdWalker("sail")()))
+	if (!pSail && (EID = EntityManager::GetEntityId("sail")))
 		pSail = (CANNON_TRACE_BASE*)EntityManager::GetEntityPointer(EID);
-	if (!pSea && (EID = api->GetEntityIdWalker("sea")()))
+	if (!pSea && (EID = EntityManager::GetEntityId("sea")))
 		pSea = (CANNON_TRACE_BASE*)EntityManager::GetEntityPointer(EID);
 
 	aBallRects.clear();
@@ -228,11 +228,9 @@ void AIBalls::Execute(uint32_t Delta_Time)
 			if (pSail)
 				pSail->Cannon_Trace(pBall->iBallOwner, vSrc, vDst);
 
-			const auto walker = api->LayerGetWalker("ship_cannon_trace");
-			// ship trace
-			while (pEID = walker())
-			{
-				CANNON_TRACE_BASE * pShip = (CANNON_TRACE_BASE*)EntityManager::GetEntityPointer(pEID);
+			const auto its = EntityManager::GetEntityIdIterators(SHIP_CANNON_TRACE);
+			for (auto it = its.first; it != its.second; ++it) {
+				CANNON_TRACE_BASE * pShip = (CANNON_TRACE_BASE*)EntityManager::GetEntityPointer(it->second);
 				fRes = pShip->Cannon_Trace(pBall->iBallOwner, vSrc, vDst);
 				if (fRes <= 1.0f) break;
 			}
@@ -430,7 +428,7 @@ void AIBalls::Load(CSaveLoad * pSL)
 			{
 				pB->pParticle = nullptr;
 				entid_t eidParticle;
-				if (eidParticle = api->GetEntityIdWalker("particles")())
+				if (eidParticle = EntityManager::GetEntityId("particles"))
 				{
 					pB->pParticle = (VPARTICLE_SYSTEM *)api->Send_Message(eidParticle,"lsffffffl",PS_CREATE_RIC,(char*)aBallTypes[i].sParticleName.c_str(),pB->vPos.x,pB->vPos.y,pB->vPos.z,0.0f,1.0f,0.0f,100000);
 				}

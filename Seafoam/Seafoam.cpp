@@ -58,7 +58,7 @@ bool SEAFOAM::Init()
 	}
 	else*/
 	{
-		seaID = api->GetEntityIdWalker("sea")();
+		seaID = EntityManager::GetEntityId("sea");
 		sea = (SEA_BASE*) EntityManager::GetEntityPointer(seaID);
 	}
 

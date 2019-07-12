@@ -17,7 +17,7 @@ static const float nearBlend = 8.0f;
 static const float farBlend = 16.0f;
 
 INTERFACE_FUNCTION
-CREATE_CLASS(SHADOW)
+CREATE_CLASS(Shadow)
 
 static const long vbuff_size = 1024;
 static long ref=0;
@@ -26,13 +26,13 @@ IDirect3DTexture9 *shTex = nullptr, *blurTex = nullptr;
 IDirect3DVertexBuffer9 *vbuff;
 
 
-SHADOW::SHADOW()
+Shadow::Shadow()
 {
 	shading = 1.0f;
 	blendValue = 0xFFFFFFFF;
 }
 
-SHADOW::~SHADOW()
+Shadow::~Shadow()
 {
 	ref--;
 	if(ref==0)
@@ -43,9 +43,9 @@ SHADOW::~SHADOW()
 	}
 }
 
-bool SHADOW::Init()
+bool Shadow::Init()
 {
-	//GUARD(SHADOW::SHADOW())
+	//GUARD(Shadow::SHADOW())
 
 	col = (COLLIDE *)api->CreateService("coll");
 	if(col== nullptr)	throw std::exception("No service: COLLIDE");
@@ -76,7 +76,7 @@ bool SHADOW::Init()
 
 CMatrix trans;
 float perspective, atten_start, atten_end;
-SHADOW::SHADOW_VERTEX *shadvert;
+Shadow::SHADOW_VERTEX *shadvert;
 long tot_verts;
 CVECTOR lightPos, ObjPos, objPos;
 CVECTOR camPos;
@@ -123,7 +123,7 @@ bool AddPoly(const CVECTOR *vr, long nverts)
 //------------------------------------------------------------------------------------
 //realize
 //------------------------------------------------------------------------------------
-void SHADOW::Realize(uint32_t Delta_Time)
+void Shadow::Realize(uint32_t Delta_Time)
 {
 	MODEL *obj = (MODEL*)EntityManager::GetEntityPointer(entity);
 	if(!obj) return;
@@ -174,9 +174,10 @@ void SHADOW::Realize(uint32_t Delta_Time)
 	rs->GetTransform(D3DTS_PROJECTION, visPoj);
 	FindPlanes(visView, visPoj);
 
+	const auto its = EntityManager::GetEntityIdIterators(SHADOW);
+
 	CVECTOR hdest = headPos + !(headPos - light_pos)*100.0f;
-	walker_t walker = api->LayerGetWalker("shadow");
-	float ray = col->Trace(walker, headPos, hdest, nullptr, 0);
+	float ray = col->Trace(its, headPos, hdest, nullptr, 0);
 	CVECTOR cen;
 	float radius;
 	if(ray<=1.0f)
@@ -209,7 +210,7 @@ void SHADOW::Realize(uint32_t Delta_Time)
 	{
 		CVECTOR ps = ObjPos;
 		ps.y += gi.radius*0.111f*float(it);
-		if(col->Trace(walker, ps, lightPos, nullptr, 0)>1.0f)
+		if(col->Trace(its, ps, lightPos, nullptr, 0)>1.0f)
 			minVal += 0.1f;
 	}
 
@@ -336,7 +337,7 @@ void SHADOW::Realize(uint32_t Delta_Time)
 #else
 	rs->VBLock(vbuff, 0, 0, (uint8_t**)&shadvert, 0);
 #endif
-	col->Clip(walker, &planes[0], 5, cen, radius, AddPoly, &entity, 1);
+	col->Clip(its, &planes[0], 5, cen, radius, AddPoly, &entity, 1);
 
 	rs->VBUnlock(vbuff);
 
@@ -348,7 +349,7 @@ void SHADOW::Realize(uint32_t Delta_Time)
 	rs->SetViewport(&vp);
 }
 
-void SHADOW::FindPlanes(const CMatrix &view, const CMatrix &proj)
+void Shadow::FindPlanes(const CMatrix &view, const CMatrix &proj)
 {
 	CVECTOR v[4];
 	//left
@@ -398,7 +399,7 @@ void SHADOW::FindPlanes(const CMatrix &view, const CMatrix &proj)
 
 }
 
-void SHADOW::Smooth()
+void Shadow::Smooth()
 {
 	struct SMOOTHVRT
 	{
@@ -448,7 +449,7 @@ void SHADOW::Smooth()
 	rs->EndScene();
 }
 
-uint32_t SHADOW::ProcessMessage(MESSAGE &message)
+uint32_t Shadow::ProcessMessage(MESSAGE &message)
 {
 	long code = message.Long();
 	switch (code)
@@ -464,7 +465,7 @@ uint32_t SHADOW::ProcessMessage(MESSAGE &message)
 	return 0;
 }
 
-void SHADOW::LostRender()
+void Shadow::LostRender()
 {
 	if (--ref == 0)
 	{
@@ -474,7 +475,7 @@ void SHADOW::LostRender()
 	}
 }
 
-void SHADOW::RestoreRender()
+void Shadow::RestoreRender()
 {
 	if (ref++ == 0)
 	{

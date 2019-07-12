@@ -6,7 +6,7 @@
 #include "../common_h/collide.h"
 #include "../common_h/model.h"
 
-class SHADOW : public Entity
+class Shadow : public Entity
 {
 	VDX9RENDER * rs;
 	COLLIDE *col;
@@ -23,8 +23,8 @@ public:
 		CVECTOR pos;
 		float tu,tv;
 	};
-	SHADOW();
-	~SHADOW();
+	Shadow();
+	~Shadow();
 	bool Init();
 	void Realize(uint32_t Delta_Time);
 	uint32_t ProcessMessage(MESSAGE &message);

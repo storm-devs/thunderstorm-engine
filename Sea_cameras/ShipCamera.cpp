@@ -19,7 +19,6 @@ SHIP_CAMERA::SHIP_CAMERA()
 
 	fDistanceDlt = 0.0f;
 	fAngleXDlt = fAngleYDlt = 0.0f;
-	shipcode = api->Class_Name2Code("ship");
 	fModelAy = 0.0f;
 
 	fDistanceInertia = 15.0f;
@@ -48,8 +47,7 @@ void SHIP_CAMERA::SetDevices()
 	pRS = (VDX9RENDER *)api->CreateService("dx9render");
 	Assert(pRS);
 
-	entid_t sea_id;
-	if (sea_id = api->GetEntityIdWalker("sea")()) pSea = (SEA_BASE*)EntityManager::GetEntityPointer(sea_id);
+	pSea = (SEA_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("sea"));
 	//Assert(pSea);
 }
 
@@ -199,12 +197,11 @@ uint32_t SHIP_CAMERA::AttributeChanged(ATTRIBUTES * pAttr)
 
 void SHIP_CAMERA::ShipsCollision(CVECTOR & pos)
 {
-	const auto walker = api->GetEntityIdWalker(nullptr, shipcode);
 	CVECTOR p;
-	for(entid_t id = walker(); id; id = walker())
-	{
+	auto& entities = EntityManager::GetEntityIdVector("ship");
+	for (auto ent : entities) {
 		//Указатель на объект
-		VAI_OBJBASE * ship = (VAI_OBJBASE *)EntityManager::GetEntityPointer(id);
+		VAI_OBJBASE * ship = (VAI_OBJBASE *)EntityManager::GetEntityPointer(ent);
 		if(!ship) break;
 		if(ship == GetAIObj()) continue;
 		//Позиция камеры в системе корабля
@@ -241,12 +238,14 @@ bool SHIP_CAMERA::IslandCollision(CVECTOR & pos)
 	{
 		if(lIlsInitCnt < 10)
 		{
-			entid_t island_id;
-			if (island_id = api->GetEntityIdWalker("island")()) 
+			if (const auto island_id = EntityManager::GetEntityId("island"))
 				pIsland = (ISLAND_BASE*)EntityManager::GetEntityPointer(island_id);
 			lIlsInitCnt++;
-			if(pIsland == nullptr) return false;
-		}else return false;
+			if(pIsland == nullptr) 
+				return false;
+		}
+		else 
+			return false;
 	}
 	//Model
 	MODEL * mdl = (MODEL*)EntityManager::GetEntityPointer(pIsland->GetModelEID());
@@ -312,7 +311,6 @@ void SHIP_CAMERA::Save(CSaveLoad * pSL)
 	pSL->SaveVector(vCenter);
 	pSL->SaveVector(vAng);
 	pSL->SaveFloat(fModelAy);
-	pSL->SaveLong(shipcode);
 	pSL->SaveLong(lIlsInitCnt);
 
 	pSL->SaveDword(isOn());
@@ -347,7 +345,6 @@ void SHIP_CAMERA::Load(CSaveLoad * pSL)
 	vCenter = pSL->LoadVector();
 	vAng = pSL->LoadVector();
 	fModelAy = pSL->LoadFloat();
-	shipcode = pSL->LoadLong();
 	lIlsInitCnt = pSL->LoadLong();
 
 	SetOn(pSL->LoadDword() != 0);

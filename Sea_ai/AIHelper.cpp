@@ -45,11 +45,7 @@ bool AIHelper::SetDevice()
 
 bool AIHelper::Init()
 {
-	pIsland = nullptr;
-
-	entid_t eidIsland;
-	eidIsland = api->GetEntityIdWalker("island")();
-		pIsland = (ISLAND_BASE*)EntityManager::GetEntityPointer(eidIsland);
+	pIsland = (ISLAND_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("island"));
 
 	return true;
 }

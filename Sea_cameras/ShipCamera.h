@@ -30,7 +30,6 @@ private:
 	float		fInvertMouseX, fInvertMouseY;
 	CVECTOR		vCenter, vAng;
 	float		fModelAy;
-	long		shipcode;
 
 	//long minHeightOnSea,maxHeightOnSea;
 

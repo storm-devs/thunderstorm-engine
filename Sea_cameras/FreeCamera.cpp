@@ -75,9 +75,11 @@ void FREE_CAMERA::Execute(uint32_t Delta_Time)
 
 	SetPerspective(AttributesPointer->GetAttributeAsFloat("Perspective"));
 
-	entid_t ent;
-	if (!pIslandBase && (ent = api->GetEntityIdWalker("island")()))
-		pIslandBase = (ISLAND_BASE*)EntityManager::GetEntityPointer(ent);
+	if (!pIslandBase)
+		pIslandBase = (ISLAND_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("island"));
+
+	if (!pIslandBase)
+		return;
 
 	Move(api->GetDeltaTime());
 }

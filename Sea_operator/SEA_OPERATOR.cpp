@@ -1,10 +1,10 @@
 #include  "SEA_OPERATOR.h"
-
 #include "../Common_h/defines.h"
 #include "../Common_h/rands.h"
 #include "../Shared/messages.h"
+#include "../Common_h/EntityManager.h"
 
-INTERFACE_FUNCTION
+
 CREATE_CLASS(SEA_OPERATOR)
 
 char dbgs[1024];
@@ -171,16 +171,12 @@ void SEA_OPERATOR::Execute(uint32_t _dTime)
 
 void SEA_OPERATOR::FirstInit()
 {
-	entid_t seaID;
-	if (seaID = api->GetEntityIdWalker("sea")())
-		sea = (SEA_BASE*) EntityManager::GetEntityPointer(seaID);
+	sea = (SEA_BASE*) EntityManager::GetEntityPointer(EntityManager::GetEntityId("sea"));
 
-	const auto walker = api->GetEntityIdWalker("ship");
-	entid_t shipID;
-	if (shipID = walker())
-		do
-			SetIfMyShip(shipID);
-		while (shipID = walker());
+	auto& entities = EntityManager::GetEntityIdVector("ship");
+	for (auto ent : entities) {
+		SetIfMyShip(ent);
+	}
 
 
 	enabled = this->AttributesPointer->GetAttributeAsDword("Enabled") != 0;

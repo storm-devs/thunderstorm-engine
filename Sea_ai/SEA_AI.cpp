@@ -371,10 +371,7 @@ void SEA_AI::Save(const char * pStr)
 
 	SL.CreateWrite();
 
-	Helper.Save(&SL);
-	entid_t eidCamera;
-	eidCamera = api->GetEntityIdWalker("SEA_CAMERAS")();
-	api->Send_Message(eidCamera, "lp", AI_MESSAGE_SEASAVE, &SL);
+	api->Send_Message(EntityManager::GetEntityId("SEA_CAMERAS"), "lp", AI_MESSAGE_SEASAVE, &SL);
 
 	AIBalls::pAIBalls->Save(&SL);
 	
@@ -393,9 +390,7 @@ void SEA_AI::Load(const char * pStr)
 	SL.CreateLoad();
 
 	Helper.Load(&SL);
-	entid_t eidCamera;
-	eidCamera = api->GetEntityIdWalker("SEA_CAMERAS")();
-	api->Send_Message(eidCamera, "lp", AI_MESSAGE_SEALOAD, &SL);
+	api->Send_Message(EntityManager::GetEntityId("SEA_CAMERAS"), "lp", AI_MESSAGE_SEALOAD, &SL);
 
 	AIBalls::pAIBalls->Load(&SL);
 	

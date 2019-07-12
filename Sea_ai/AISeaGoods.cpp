@@ -36,12 +36,10 @@ void AISeaGoods::SetDevice()
 
 void AISeaGoods::Execute(uint32_t dwDeltaTime)
 {
-	entid_t	EID;
-
 	float fDeltaTime = float(dwDeltaTime) * 0.001f;
 
-	if (!pSea && (EID = api->GetEntityIdWalker("sea")()))
-		pSea = (SEA_BASE*)EntityManager::GetEntityPointer(EID);
+	if (!pSea)
+		pSea = (SEA_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("sea"));
 	
 	if (!pSea) return;
 
@@ -71,11 +69,10 @@ void AISeaGoods::Execute(uint32_t dwDeltaTime)
 			aShips.clear();
 
 			// enumerate ships
-			const auto walker = api->GetEntityIdWalker("ship");
-			if (EID = walker()) do
-			{
-				aShips.push_back((SHIP_BASE*)EntityManager::GetEntityPointer(EID));
-			} while (EID = walker());
+			auto& entities = EntityManager::GetEntityIdVector("ship");
+			for (auto ent : entities) {
+				aShips.push_back((SHIP_BASE*)EntityManager::GetEntityPointer(ent));
+			};
 
 			// check ships
 			for (uint32_t k=0; k<aShips.size(); k++)
