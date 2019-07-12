@@ -77,7 +77,16 @@ public:
 	/* layer functioning is fully static constexpr */
 	static void AddToLayer(const layer_index_t index, const entid_t id, const priority_t priority) {
 		assert(index < max_layers_num); // valid index
-		assert(entities_.first[static_cast<entid_index_t>(id)].mask & (1 << index)); // mask shall be set
+		//assert(entities_.first[static_cast<entid_index_t>(id)].mask & (1 << index)); // mask shall be set
+
+		auto& entData = GetEntityData(id);
+		// check if entity is already in layer
+		if (entData.mask & (1 << index))
+			return;
+
+		// set info about layer
+		entData.mask |= 1 << index;
+		entData.priorities[index] = priority;
 
 		auto& layer = layers_[index];
 		auto& arr = layer.entities;
@@ -109,6 +118,14 @@ public:
 
 	static void RemoveFromLayer(const layer_index_t index, const entid_t id, const priority_t priority) {
 		assert(index < max_layers_num);
+
+		auto& entData = GetEntityData(id);
+		// check if entity is in layer
+		if (!(entData.mask & (1 << index)))
+			return;
+
+		// clear info about layer
+		entData.mask &= ~(1 << index);
 
 		auto& layer = layers_[index];
 		auto& arr = layer.entities;

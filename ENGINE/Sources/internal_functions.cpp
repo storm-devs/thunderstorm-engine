@@ -135,7 +135,7 @@ INTFUNCDESC IntFuncTable[]=
 	//1,"LayerDelete",TVOID,
 	1,"LayerDeleteContent",TVOID,
 	1,"LayerSetRealize",TVOID,
-	2,"LayerSetExecute",TVOID,
+	1,"LayerSetExecute",TVOID,
 	2,"LayerSetMessages",TVOID,
 	3,"LayerAddObject",TVOID,
 	2,"LayerDelObject",TVOID,
@@ -689,6 +689,10 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 		case FUNC_GETENTITY:
 			pV = SStack.Pop(); if (!pV) { SetError(INVALID_FA); break; };
 			pV2 = SStack.Pop(); if (!pV2) { SetError(INVALID_FA); break; };
+
+			pV->Convert(VAR_STRING);
+			pV->Get(pChar);
+
 			ent = EntityManager::GetEntityId(pChar);
 
 			pV2 = pV2->GetVarPointer();
@@ -709,7 +713,6 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 		case FUNC_FINDENTITY:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
-
 
 			pV->Convert(VAR_STRING);
 			pV->Get(pChar);

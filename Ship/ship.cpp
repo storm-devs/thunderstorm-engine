@@ -1011,8 +1011,8 @@ uint32_t SHIP::ProcessMessage(MESSAGE & message)
 			Realize(0);
 		break;
 		case AI_MESSAGE_SET_LAYERS:
-			ExecuteLayer = message.Dword();
-			RealizeLayer = message.Dword();
+			ExecuteLayer = message.Long();
+			RealizeLayer = message.Long();
 		break;
 		case MSG_SHIP_CREATE:
 			SetACharacter(message.AttributePointer());
