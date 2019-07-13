@@ -4194,15 +4194,17 @@ bool COMPILER::BC_Execute(uint32_t function_code, DATA * & pVReturnResult, char 
 				if(pDbgExpSource == nullptr)	// skip test for dbg expression process
 				if(fi.return_type != pV->GetType())
 				{
-					if (fi.return_type == VAR_INTEGER && pV->GetType() == VAR_PTR)
+					if (fi.return_type == VAR_INTEGER && pV->GetType() == VAR_PTR) {
+						pV->Convert(VAR_INTEGER);
 						return true;
-
+					}
+						
 					SetError("%s function return %s value",
 						Token.GetTypeName(fi.return_type),
 						Token.GetTypeName(pV->GetType())); 
 					return false;
 				}
-
+				return true;
 				/*if(BC_ProcessExpression(&ExpressionResult))
 				{
 					if(pDbgExpSource == 0)	// skip stack unwind for dbg expression process
@@ -4230,7 +4232,8 @@ bool COMPILER::BC_Execute(uint32_t function_code, DATA * & pVReturnResult, char 
 
 				
 				
-			return true;
+			
+
 			//case PROCESS_EXPRESSION:
 				//BC_ProcessExpression(&ExpressionResult);
 			//break;
