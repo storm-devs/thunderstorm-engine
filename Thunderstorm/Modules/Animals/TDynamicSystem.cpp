@@ -1,11 +1,12 @@
 #include <memory.h>
 #include "TDynamicSystem.h"
+#include <algorithm>
 
 //--------------------------------------------------------------------
 TDynamicSystem::TDynamicSystem()
 {
-	memset(attractors, 0, MAX_DYNAMIC_OBJECTS << 2);
-	memset(deflectors, 0, MAX_DYNAMIC_OBJECTS << 2);
+	std::fill(attractors, attractors + MAX_DYNAMIC_OBJECTS, nullptr);
+	std::fill(deflectors, deflectors + MAX_DYNAMIC_OBJECTS, nullptr);
 }
 
 //--------------------------------------------------------------------

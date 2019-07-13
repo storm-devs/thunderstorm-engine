@@ -371,6 +371,7 @@ void SEA_AI::Save(const char * pStr)
 
 	SL.CreateWrite();
 
+	Helper.Save(&SL);
 	api->Send_Message(EntityManager::GetEntityId("SEA_CAMERAS"), "lp", AI_MESSAGE_SEASAVE, &SL);
 
 	AIBalls::pAIBalls->Save(&SL);

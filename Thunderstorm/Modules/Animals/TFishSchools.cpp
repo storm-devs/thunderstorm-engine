@@ -125,7 +125,7 @@ void TFishSchools::Realize(uint32_t _dTime)
 	float   cameraPersp;
 	renderService->GetCamera(cameraPos, cameraAng, cameraPersp);
 */
-	sea = (SEA_BASE*) EntityManager::GetEntityPointer(seaID);
+	sea = (SEA_BASE*) EntityManager::GetEntityPointer(EntityManager::GetEntityId("sea"));
 	if (!sea)
 	{
 		enabled = false;

@@ -50,7 +50,6 @@ private:
 	float maxDistance;
 	
 	bool enabled;
-	entid_t seaID;
 	SEA_BASE *sea;
 };
 

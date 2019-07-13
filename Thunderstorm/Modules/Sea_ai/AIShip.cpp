@@ -641,9 +641,8 @@ void AIShip::Save(CSaveLoad * pSL)
 	pSL->SaveAPointer("character", GetACharacter());
 	pSL->SaveDword(ObjType);
 	pSL->SaveDword(bDead);
-
 	pCannonController->Save(pSL);
-	pSL->SaveQword((uintptr_t)pCameraController);
+	pSL->SaveDword(pCameraController != nullptr);
 	if (pCameraController) pCameraController->Save(pSL);
 	pMoveController->Save(pSL);
 	pRotateController->Save(pSL);
@@ -678,10 +677,10 @@ void AIShip::Load(CSaveLoad * pSL)
 
 	// Load controllers
 	pCannonController->Load(pSL);
-	bool bCameraController = pSL->LoadQword() != 0;
-	if (bCameraController) 
+	if (pSL->LoadDword())
 	{
-		pCameraController = new AIShipCameraController(this); 
+		if(pCameraController == nullptr)
+			pCameraController = new AIShipCameraController(this); 
 		pCameraController->Load(pSL);
 	}
 	pMoveController->Load(pSL);
