@@ -85,7 +85,7 @@
 // AI Section
 
 // Nation section
-#define RELATION_UNKNOWN		-1
+#define RELATION_UNKNOWN		3
 #define RELATION_FRIEND			0
 #define RELATION_NEUTRAL		1
 #define RELATION_ENEMY			2
