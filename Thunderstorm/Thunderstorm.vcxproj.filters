@@ -592,892 +592,892 @@
     <ClCompile Include="sources\tm_list.cpp">
       <Filter>Script Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Animals\Animals.cpp">
+    <ClCompile Include="Modules\Animals\Animals.cpp">
       <Filter>Modules\Animals</Filter>
     </ClCompile>
-    <ClCompile Include="..\Animals\AnimalsDefines.cpp">
+    <ClCompile Include="Modules\Animals\AnimalsDefines.cpp">
       <Filter>Modules\Animals</Filter>
     </ClCompile>
-    <ClCompile Include="..\Animals\TButterflies.cpp">
+    <ClCompile Include="Modules\Animals\TButterflies.cpp">
       <Filter>Modules\Animals</Filter>
     </ClCompile>
-    <ClCompile Include="..\Animals\TButterfly.cpp">
+    <ClCompile Include="Modules\Animals\TButterfly.cpp">
       <Filter>Modules\Animals</Filter>
     </ClCompile>
-    <ClCompile Include="..\Animals\TDynamicObject.cpp">
+    <ClCompile Include="Modules\Animals\TDynamicObject.cpp">
       <Filter>Modules\Animals</Filter>
     </ClCompile>
-    <ClCompile Include="..\Animals\TDynamicSystem.cpp">
+    <ClCompile Include="Modules\Animals\TDynamicSystem.cpp">
       <Filter>Modules\Animals</Filter>
     </ClCompile>
-    <ClCompile Include="..\Animals\TFishSchools.cpp">
+    <ClCompile Include="Modules\Animals\TFishSchools.cpp">
       <Filter>Modules\Animals</Filter>
     </ClCompile>
-    <ClCompile Include="..\Animals\TSeagulls.cpp">
+    <ClCompile Include="Modules\Animals\TSeagulls.cpp">
       <Filter>Modules\Animals</Filter>
     </ClCompile>
-    <ClCompile Include="..\Animation\ActionInfo.cpp">
+    <ClCompile Include="Modules\Animation\ActionInfo.cpp">
       <Filter>Modules\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="..\Animation\ActionPlayerImp.cpp">
+    <ClCompile Include="Modules\Animation\ActionPlayerImp.cpp">
       <Filter>Modules\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="..\Animation\AnimationImp.cpp">
+    <ClCompile Include="Modules\Animation\AnimationImp.cpp">
       <Filter>Modules\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="..\Animation\AnimationInfo.cpp">
+    <ClCompile Include="Modules\Animation\AnimationInfo.cpp">
       <Filter>Modules\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="..\Animation\AnimationServiceImp.cpp">
+    <ClCompile Include="Modules\Animation\AnimationServiceImp.cpp">
       <Filter>Modules\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="..\Animation\AnimationTimerImp.cpp">
+    <ClCompile Include="Modules\Animation\AnimationTimerImp.cpp">
       <Filter>Modules\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="..\Animation\Bone.cpp">
+    <ClCompile Include="Modules\Animation\Bone.cpp">
       <Filter>Modules\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="..\BALLSPLASH\BallSplash.cpp">
+    <ClCompile Include="Modules\BALLSPLASH\BallSplash.cpp">
       <Filter>Modules\BallSplash</Filter>
     </ClCompile>
-    <ClCompile Include="..\BALLSPLASH\TSplash.cpp">
+    <ClCompile Include="Modules\BALLSPLASH\TSplash.cpp">
       <Filter>Modules\BallSplash</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\ActivePerkShower.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\ActivePerkShower.cpp">
       <Filter>Modules\BattleInterface\CommonInterface</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\battle_command.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\battle_command.cpp">
       <Filter>Modules\BattleInterface\CommonInterface</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\battle_sign.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\battle_sign.cpp">
       <Filter>Modules\BattleInterface\CommonInterface</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\LogAndAction.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\LogAndAction.cpp">
       <Filter>Modules\BattleInterface\CommonInterface</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\MessageIcons.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\MessageIcons.cpp">
       <Filter>Modules\BattleInterface\CommonInterface</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\Utils.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\Utils.cpp">
       <Filter>Modules\BattleInterface\CommonInterface</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\EnemyStatShower\enemystatshower.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\EnemyStatShower\enemystatshower.cpp">
       <Filter>Modules\BattleInterface\EnemyStatShower</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\image\image.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\image\image.cpp">
       <Filter>Modules\BattleInterface\image</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\image\imgrender.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\image\imgrender.cpp">
       <Filter>Modules\BattleInterface\image</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\image\material.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\image\material.cpp">
       <Filter>Modules\BattleInterface\image</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\image\string.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\image\string.cpp">
       <Filter>Modules\BattleInterface\image</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceManager.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\InterfaceManager\InterfaceManager.cpp">
       <Filter>Modules\BattleInterface\InterfaceManager</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\InterfaceManager\MousePointer.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\InterfaceManager\MousePointer.cpp">
       <Filter>Modules\BattleInterface\InterfaceManager</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceNode\BaseNode.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\InterfaceManager\InterfaceNode\BaseNode.cpp">
       <Filter>Modules\BattleInterface\InterfaceManager\InterfaceNode</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceNode\ImageNode.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\InterfaceManager\InterfaceNode\ImageNode.cpp">
       <Filter>Modules\BattleInterface\InterfaceManager\InterfaceNode</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceNode\StringNode.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\InterfaceManager\InterfaceNode\StringNode.cpp">
       <Filter>Modules\BattleInterface\InterfaceManager\InterfaceNode</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceGroup\BaseGroup.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\InterfaceManager\InterfaceGroup\BaseGroup.cpp">
       <Filter>Modules\BattleInterface\InterfaceManager\InterfaceGroup</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceGroup\SeaGroup.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\InterfaceManager\InterfaceGroup\SeaGroup.cpp">
       <Filter>Modules\BattleInterface\InterfaceManager\InterfaceGroup</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\ItemEntity\itementity.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\ItemEntity\itementity.cpp">
       <Filter>Modules\BattleInterface\ItemEntity</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\land\battle_land.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\land\battle_land.cpp">
       <Filter>Modules\BattleInterface\LandInterface</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\land\battle_mancommand.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\land\battle_mancommand.cpp">
       <Filter>Modules\BattleInterface\LandInterface</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\land\battle_mansign.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\land\battle_mansign.cpp">
       <Filter>Modules\BattleInterface\LandInterface</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\land\IBoardingStatus.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\land\IBoardingStatus.cpp">
       <Filter>Modules\BattleInterface\LandInterface</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\sea\battle_navigator.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\sea\battle_navigator.cpp">
       <Filter>Modules\BattleInterface\SeaInterface</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\sea\battle_shipcommand.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\sea\battle_shipcommand.cpp">
       <Filter>Modules\BattleInterface\SeaInterface</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\sea\battle_shipsign.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\sea\battle_shipsign.cpp">
       <Filter>Modules\BattleInterface\SeaInterface</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\sea\ibattle.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\sea\ibattle.cpp">
       <Filter>Modules\BattleInterface\SeaInterface</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\sea\island_descr.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\sea\island_descr.cpp">
       <Filter>Modules\BattleInterface\SeaInterface</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\sea\ShipInfoImages.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\sea\ShipInfoImages.cpp">
       <Filter>Modules\BattleInterface\SeaInterface</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\sea\ShipPointer.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\sea\ShipPointer.cpp">
       <Filter>Modules\BattleInterface\SeaInterface</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\sea\ships_list.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\sea\ships_list.cpp">
       <Filter>Modules\BattleInterface\SeaInterface</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\spyglass\spyglass.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\spyglass\spyglass.cpp">
       <Filter>Modules\BattleInterface\Spyglass</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\timer\Timer.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\timer\Timer.cpp">
       <Filter>Modules\BattleInterface\Timer</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\WorldMapInterface\interface.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\WorldMapInterface\interface.cpp">
       <Filter>Modules\BattleInterface\WorldMapInterface</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\WorldMapInterface\shipcommand.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\WorldMapInterface\shipcommand.cpp">
       <Filter>Modules\BattleInterface\WorldMapInterface</Filter>
     </ClCompile>
-    <ClCompile Include="..\BATTLE_INTERFACE\WorldMapInterface\shipsign.cpp">
+    <ClCompile Include="Modules\BATTLE_INTERFACE\WorldMapInterface\shipsign.cpp">
       <Filter>Modules\BattleInterface\WorldMapInterface</Filter>
     </ClCompile>
-    <ClCompile Include="..\blade\blade.cpp">
+    <ClCompile Include="Modules\blade\blade.cpp">
       <Filter>Modules\Blade</Filter>
     </ClCompile>
-    <ClCompile Include="..\Blot\Blots.cpp">
+    <ClCompile Include="Modules\Blot\Blots.cpp">
       <Filter>Modules\Blot</Filter>
     </ClCompile>
-    <ClCompile Include="..\CameraDialog\CameraDialog.cpp">
+    <ClCompile Include="Modules\CameraDialog\CameraDialog.cpp">
       <Filter>Modules\CameraDialog</Filter>
     </ClCompile>
-    <ClCompile Include="..\Collide\coll.cpp">
+    <ClCompile Include="Modules\Collide\coll.cpp">
       <Filter>Modules\Collide</Filter>
     </ClCompile>
-    <ClCompile Include="..\Collide\local_collide.cpp">
+    <ClCompile Include="Modules\Collide\local_collide.cpp">
       <Filter>Modules\Collide</Filter>
     </ClCompile>
-    <ClCompile Include="..\Dialog\dialog.cpp">
+    <ClCompile Include="Modules\Dialog\dialog.cpp">
       <Filter>Modules\Dialog</Filter>
     </ClCompile>
-    <ClCompile Include="..\Geometry\collide.cpp">
+    <ClCompile Include="Modules\Geometry\collide.cpp">
       <Filter>Modules\Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="..\Geometry\geom_static.cpp">
+    <ClCompile Include="Modules\Geometry\geom_static.cpp">
       <Filter>Modules\Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="..\Geometry\geometry.cpp">
+    <ClCompile Include="Modules\Geometry\geometry.cpp">
       <Filter>Modules\Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="..\Island\Foam.cpp">
+    <ClCompile Include="Modules\Island\Foam.cpp">
       <Filter>Modules\Island</Filter>
     </ClCompile>
-    <ClCompile Include="..\Island\ISLAND.cpp">
+    <ClCompile Include="Modules\Island\ISLAND.cpp">
       <Filter>Modules\Island</Filter>
     </ClCompile>
-    <ClCompile Include="..\Island\MapZipper.cpp">
+    <ClCompile Include="Modules\Island\MapZipper.cpp">
       <Filter>Modules\Island</Filter>
     </ClCompile>
-    <ClCompile Include="..\Island\ZapSuperGenerator.cpp">
+    <ClCompile Include="Modules\Island\ZapSuperGenerator.cpp">
       <Filter>Modules\Island</Filter>
     </ClCompile>
-    <ClCompile Include="..\Lighter\LGeometry.cpp">
+    <ClCompile Include="Modules\Lighter\LGeometry.cpp">
       <Filter>Modules\Lighter</Filter>
     </ClCompile>
-    <ClCompile Include="..\Lighter\Lighter.cpp">
+    <ClCompile Include="Modules\Lighter\Lighter.cpp">
       <Filter>Modules\Lighter</Filter>
     </ClCompile>
-    <ClCompile Include="..\Lighter\LighterMain.cpp">
+    <ClCompile Include="Modules\Lighter\LighterMain.cpp">
       <Filter>Modules\Lighter</Filter>
     </ClCompile>
-    <ClCompile Include="..\Lighter\LightProcessor.cpp">
+    <ClCompile Include="Modules\Lighter\LightProcessor.cpp">
       <Filter>Modules\Lighter</Filter>
     </ClCompile>
-    <ClCompile Include="..\Lighter\LObject.cpp">
+    <ClCompile Include="Modules\Lighter\LObject.cpp">
       <Filter>Modules\Lighter</Filter>
     </ClCompile>
-    <ClCompile Include="..\Lighter\OctTree.cpp">
+    <ClCompile Include="Modules\Lighter\OctTree.cpp">
       <Filter>Modules\Lighter</Filter>
     </ClCompile>
-    <ClCompile Include="..\Lighter\Window.cpp">
+    <ClCompile Include="Modules\Lighter\Window.cpp">
       <Filter>Modules\Lighter</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\LocRat.cpp">
+    <ClCompile Include="Modules\Location\LocRat.cpp">
       <Filter>Modules\Location\Animals\Rats</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\LocRats.cpp">
+    <ClCompile Include="Modules\Location\LocRats.cpp">
       <Filter>Modules\Location\Animals\Rats</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\LocEagle.cpp">
+    <ClCompile Include="Modules\Location\LocEagle.cpp">
       <Filter>Modules\Location\Animals\Eagle</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\LocLife.cpp">
+    <ClCompile Include="Modules\Location\LocLife.cpp">
       <Filter>Modules\Location\Animals\LocLife</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\Lizard.cpp">
+    <ClCompile Include="Modules\Location\Lizard.cpp">
       <Filter>Modules\Location\Animals\Lizards</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\Lizards.cpp">
+    <ClCompile Include="Modules\Location\Lizards.cpp">
       <Filter>Modules\Location\Animals\Lizards</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\CameraFollow.cpp">
+    <ClCompile Include="Modules\Location\CameraFollow.cpp">
       <Filter>Modules\Location\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\LocationCamera.cpp">
+    <ClCompile Include="Modules\Location\LocationCamera.cpp">
       <Filter>Modules\Location\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\PathTracks.cpp">
+    <ClCompile Include="Modules\Location\PathTracks.cpp">
       <Filter>Modules\Location\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\Character.cpp">
+    <ClCompile Include="Modules\Location\Character.cpp">
       <Filter>Modules\Location\Character\Character</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\AICharacter.cpp">
+    <ClCompile Include="Modules\Location\AICharacter.cpp">
       <Filter>Modules\Location\Character\AICharacter</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\NPCharacter.cpp">
+    <ClCompile Include="Modules\Location\NPCharacter.cpp">
       <Filter>Modules\Location\Character\NPCharacter</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\Player.cpp">
+    <ClCompile Include="Modules\Location\Player.cpp">
       <Filter>Modules\Location\Character\Player</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\CharactersGroups.cpp">
+    <ClCompile Include="Modules\Location\CharactersGroups.cpp">
       <Filter>Modules\Location\Character\CharactersGroups</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\Supervisor.cpp">
+    <ClCompile Include="Modules\Location\Supervisor.cpp">
       <Filter>Modules\Location\Character\Supervisor</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\Fader.cpp">
+    <ClCompile Include="Modules\Location\Fader.cpp">
       <Filter>Modules\Location\Effects\Fader</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\WideScreen.cpp">
+    <ClCompile Include="Modules\Location\WideScreen.cpp">
       <Filter>Modules\Location\Effects\WideScreen</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\Grass.cpp">
+    <ClCompile Include="Modules\Location\Grass.cpp">
       <Filter>Modules\Location\Effects\Grass</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\CharacterAnimationKipper.cpp">
+    <ClCompile Include="Modules\Location\CharacterAnimationKipper.cpp">
       <Filter>Modules\Location\Effects\CharacterAnimationKipper</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\Blood.cpp">
+    <ClCompile Include="Modules\Location\Blood.cpp">
       <Filter>Modules\Location\Effects\Blood</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\LocationMain.cpp">
+    <ClCompile Include="Modules\Location\LocationMain.cpp">
       <Filter>Modules\Location\Location</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\Location.cpp">
+    <ClCompile Include="Modules\Location\Location.cpp">
       <Filter>Modules\Location\Location\Location</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\ModelArray.cpp">
+    <ClCompile Include="Modules\Location\ModelArray.cpp">
       <Filter>Modules\Location\Location\ModelArray</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\ModelRealizer.cpp">
+    <ClCompile Include="Modules\Location\ModelRealizer.cpp">
       <Filter>Modules\Location\Location\ModelArray</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\LocatorArray.cpp">
+    <ClCompile Include="Modules\Location\LocatorArray.cpp">
       <Filter>Modules\Location\Location\LocatorArray</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\LocationEffects.cpp">
+    <ClCompile Include="Modules\Location\LocationEffects.cpp">
       <Filter>Modules\Location\Location\LocationEffects</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\Lights.cpp">
+    <ClCompile Include="Modules\Location\Lights.cpp">
       <Filter>Modules\Location\Location\Lights</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\PtcData.cpp">
+    <ClCompile Include="Modules\Location\PtcData.cpp">
       <Filter>Modules\Location\Location\Ptc</Filter>
     </ClCompile>
-    <ClCompile Include="..\Location\LocationScriptLib.cpp">
+    <ClCompile Include="Modules\Location\LocationScriptLib.cpp">
       <Filter>Modules\Location\Location\LocationScriptLib</Filter>
     </ClCompile>
-    <ClCompile Include="..\Locator\blast.cpp">
+    <ClCompile Include="Modules\Locator\blast.cpp">
       <Filter>Modules\Locator</Filter>
     </ClCompile>
-    <ClCompile Include="..\Locator\locator.cpp">
+    <ClCompile Include="Modules\Locator\locator.cpp">
       <Filter>Modules\Locator</Filter>
     </ClCompile>
-    <ClCompile Include="..\Mast\MAST.cpp">
+    <ClCompile Include="Modules\Mast\MAST.cpp">
       <Filter>Modules\Mast</Filter>
     </ClCompile>
-    <ClCompile Include="..\Model\model.cpp">
+    <ClCompile Include="Modules\Model\model.cpp">
       <Filter>Modules\Model</Filter>
     </ClCompile>
-    <ClCompile Include="..\Model\node.cpp">
+    <ClCompile Include="Modules\Model\node.cpp">
       <Filter>Modules\Model</Filter>
     </ClCompile>
-    <ClCompile Include="..\PARTICLES\DataCache\DataCache.cpp">
+    <ClCompile Include="Modules\PARTICLES\DataCache\DataCache.cpp">
       <Filter>Modules\Particles\DataCache</Filter>
     </ClCompile>
-    <ClCompile Include="..\PARTICLES\GeomCache\GeomCache.cpp">
+    <ClCompile Include="Modules\PARTICLES\GeomCache\GeomCache.cpp">
       <Filter>Modules\Particles\GeomCache</Filter>
     </ClCompile>
-    <ClCompile Include="..\PARTICLES\K2Wrapper\particles.cpp">
+    <ClCompile Include="Modules\PARTICLES\K2Wrapper\particles.cpp">
       <Filter>Modules\Particles\K2Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="..\PARTICLES\K2Wrapper\psystem.cpp">
+    <ClCompile Include="Modules\PARTICLES\K2Wrapper\psystem.cpp">
       <Filter>Modules\Particles\K2Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="..\PARTICLES\Manager\particlemanager.cpp">
+    <ClCompile Include="Modules\PARTICLES\Manager\particlemanager.cpp">
       <Filter>Modules\Particles\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="..\PARTICLES\Service\particleservice.cpp">
+    <ClCompile Include="Modules\PARTICLES\Service\particleservice.cpp">
       <Filter>Modules\Particles\Service</Filter>
     </ClCompile>
-    <ClCompile Include="..\PARTICLES\System\DataDesc\data_desc.cpp">
+    <ClCompile Include="Modules\PARTICLES\System\DataDesc\data_desc.cpp">
       <Filter>Modules\Particles\System\DataDesc</Filter>
     </ClCompile>
-    <ClCompile Include="..\PARTICLES\System\DataSource\DataBool.cpp">
+    <ClCompile Include="Modules\PARTICLES\System\DataSource\DataBool.cpp">
       <Filter>Modules\Particles\System\DataSource</Filter>
     </ClCompile>
-    <ClCompile Include="..\PARTICLES\System\DataSource\DataColor.cpp">
+    <ClCompile Include="Modules\PARTICLES\System\DataSource\DataColor.cpp">
       <Filter>Modules\Particles\System\DataSource</Filter>
     </ClCompile>
-    <ClCompile Include="..\PARTICLES\System\DataSource\DataFloat.cpp">
+    <ClCompile Include="Modules\PARTICLES\System\DataSource\DataFloat.cpp">
       <Filter>Modules\Particles\System\DataSource</Filter>
     </ClCompile>
-    <ClCompile Include="..\PARTICLES\System\DataSource\DataGraph.cpp">
+    <ClCompile Include="Modules\PARTICLES\System\DataSource\DataGraph.cpp">
       <Filter>Modules\Particles\System\DataSource</Filter>
     </ClCompile>
-    <ClCompile Include="..\PARTICLES\System\DataSource\DataPosition.cpp">
+    <ClCompile Include="Modules\PARTICLES\System\DataSource\DataPosition.cpp">
       <Filter>Modules\Particles\System\DataSource</Filter>
     </ClCompile>
-    <ClCompile Include="..\PARTICLES\System\DataSource\DataSource.cpp">
+    <ClCompile Include="Modules\PARTICLES\System\DataSource\DataSource.cpp">
       <Filter>Modules\Particles\System\DataSource</Filter>
     </ClCompile>
-    <ClCompile Include="..\PARTICLES\System\DataSource\DataString.cpp">
+    <ClCompile Include="Modules\PARTICLES\System\DataSource\DataString.cpp">
       <Filter>Modules\Particles\System\DataSource</Filter>
     </ClCompile>
-    <ClCompile Include="..\PARTICLES\System\DataSource\DataUV.cpp">
+    <ClCompile Include="Modules\PARTICLES\System\DataSource\DataUV.cpp">
       <Filter>Modules\Particles\System\DataSource</Filter>
     </ClCompile>
-    <ClCompile Include="..\PARTICLES\System\DataSource\FieldList.cpp">
+    <ClCompile Include="Modules\PARTICLES\System\DataSource\FieldList.cpp">
       <Filter>Modules\Particles\System\DataSource</Filter>
     </ClCompile>
-    <ClCompile Include="..\PARTICLES\System\Emitters\base.cpp">
+    <ClCompile Include="Modules\PARTICLES\System\Emitters\base.cpp">
       <Filter>Modules\Particles\System\Emitters</Filter>
     </ClCompile>
-    <ClCompile Include="..\PARTICLES\System\Emitters\point.cpp">
+    <ClCompile Include="Modules\PARTICLES\System\Emitters\point.cpp">
       <Filter>Modules\Particles\System\Emitters</Filter>
     </ClCompile>
-    <ClCompile Include="..\PARTICLES\System\ParticleProcessor\bb_processor.cpp">
+    <ClCompile Include="Modules\PARTICLES\System\ParticleProcessor\bb_processor.cpp">
       <Filter>Modules\Particles\System\ParticleProcessor</Filter>
     </ClCompile>
-    <ClCompile Include="..\PARTICLES\System\ParticleProcessor\mdl_processor.cpp">
+    <ClCompile Include="Modules\PARTICLES\System\ParticleProcessor\mdl_processor.cpp">
       <Filter>Modules\Particles\System\ParticleProcessor</Filter>
     </ClCompile>
-    <ClCompile Include="..\PARTICLES\System\ParticleSystem\particlesystem.cpp">
+    <ClCompile Include="Modules\PARTICLES\System\ParticleSystem\particlesystem.cpp">
       <Filter>Modules\Particles\System\ParticleSystem</Filter>
     </ClCompile>
-    <ClCompile Include="..\PCS_CONTROLS\ControlTree.cpp">
+    <ClCompile Include="Modules\PCS_CONTROLS\ControlTree.cpp">
       <Filter>Modules\PcsControls</Filter>
     </ClCompile>
-    <ClCompile Include="..\PCS_CONTROLS\KeyBuffer.cpp">
+    <ClCompile Include="Modules\PCS_CONTROLS\KeyBuffer.cpp">
       <Filter>Modules\PcsControls</Filter>
     </ClCompile>
-    <ClCompile Include="..\PCS_CONTROLS\pcs_controls.cpp">
+    <ClCompile Include="Modules\PCS_CONTROLS\pcs_controls.cpp">
       <Filter>Modules\PcsControls</Filter>
     </ClCompile>
-    <ClCompile Include="..\renderer\Effects.cpp">
+    <ClCompile Include="Modules\renderer\Effects.cpp">
       <Filter>Modules\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\renderer\Font.cpp">
+    <ClCompile Include="Modules\renderer\Font.cpp">
       <Filter>Modules\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\renderer\Screenshot.cpp">
+    <ClCompile Include="Modules\renderer\Screenshot.cpp">
       <Filter>Modules\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\renderer\sdevice.cpp">
+    <ClCompile Include="Modules\renderer\sdevice.cpp">
       <Filter>Modules\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Rigging\Flag.cpp">
+    <ClCompile Include="Modules\Rigging\Flag.cpp">
       <Filter>Modules\Rigging\Flag</Filter>
     </ClCompile>
-    <ClCompile Include="..\Rigging\rigging_main.cpp">
+    <ClCompile Include="Modules\Rigging\rigging_main.cpp">
       <Filter>Modules\Rigging\rig</Filter>
     </ClCompile>
-    <ClCompile Include="..\Rigging\Rope.cpp">
+    <ClCompile Include="Modules\Rigging\Rope.cpp">
       <Filter>Modules\Rigging\Rope</Filter>
     </ClCompile>
-    <ClCompile Include="..\Rigging\sail.cpp">
+    <ClCompile Include="Modules\Rigging\sail.cpp">
       <Filter>Modules\Rigging\Sail</Filter>
     </ClCompile>
-    <ClCompile Include="..\Rigging\SAILONE.cpp">
+    <ClCompile Include="Modules\Rigging\SAILONE.cpp">
       <Filter>Modules\Rigging\Sail</Filter>
     </ClCompile>
-    <ClCompile Include="..\Rigging\script_func.cpp">
+    <ClCompile Include="Modules\Rigging\script_func.cpp">
       <Filter>Modules\Rigging\ScriptFunctions</Filter>
     </ClCompile>
-    <ClCompile Include="..\Rigging\Vant.cpp">
+    <ClCompile Include="Modules\Rigging\Vant.cpp">
       <Filter>Modules\Rigging\Vant</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sailors\Sailors.cpp">
+    <ClCompile Include="Modules\Sailors\Sailors.cpp">
       <Filter>Modules\Sailors\Sailors</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sailors\SailorsMain.cpp">
+    <ClCompile Include="Modules\Sailors\SailorsMain.cpp">
       <Filter>Modules\Sailors\Sailors</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sailors\SailorsEditor.cpp">
+    <ClCompile Include="Modules\Sailors\SailorsEditor.cpp">
       <Filter>Modules\Sailors\SailorsEditor</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sailors\SailorsMenu.cpp">
+    <ClCompile Include="Modules\Sailors\SailorsMenu.cpp">
       <Filter>Modules\Sailors\SailorsEditor</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sailors\SailorsWayPoints.cpp">
+    <ClCompile Include="Modules\Sailors\SailorsWayPoints.cpp">
       <Filter>Modules\Sailors\SailorsEditor</Filter>
     </ClCompile>
-    <ClCompile Include="..\SCRIPT_LIBRIARY\vano_files.cpp">
+    <ClCompile Include="Modules\SCRIPT_LIBRIARY\vano_files.cpp">
       <Filter>Modules\ScriptLibrary\Users\Vano Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\SCRIPT_LIBRIARY\script_libriary_test.cpp">
+    <ClCompile Include="Modules\SCRIPT_LIBRIARY\script_libriary_test.cpp">
       <Filter>Modules\ScriptLibrary\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sea\EnvMap.cpp">
+    <ClCompile Include="Modules\Sea\EnvMap.cpp">
       <Filter>Modules\Sea</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sea\sea.cpp">
+    <ClCompile Include="Modules\Sea\sea.cpp">
       <Filter>Modules\Sea</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sea_ai\SeaSaveLoad.cpp">
+    <ClCompile Include="Modules\Sea_ai\SeaSaveLoad.cpp">
       <Filter>Modules\SeaAi\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sea_ai\SEA_AI.cpp">
+    <ClCompile Include="Modules\Sea_ai\SEA_AI.cpp">
       <Filter>Modules\SeaAi\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sea_ai\AIShip.cpp">
+    <ClCompile Include="Modules\Sea_ai\AIShip.cpp">
       <Filter>Modules\SeaAi\Ship Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sea_ai\AIShipBoat.cpp">
+    <ClCompile Include="Modules\Sea_ai\AIShipBoat.cpp">
       <Filter>Modules\SeaAi\Ship Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sea_ai\AIShipTrade.cpp">
+    <ClCompile Include="Modules\Sea_ai\AIShipTrade.cpp">
       <Filter>Modules\SeaAi\Ship Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sea_ai\AIShipWar.cpp">
+    <ClCompile Include="Modules\Sea_ai\AIShipWar.cpp">
       <Filter>Modules\SeaAi\Ship Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sea_ai\AIShipTaskController.cpp">
+    <ClCompile Include="Modules\Sea_ai\AIShipTaskController.cpp">
       <Filter>Modules\SeaAi\Ship Files\AIShip Controller Files\AIShipTask Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sea_ai\AIShipCannonController.cpp">
+    <ClCompile Include="Modules\Sea_ai\AIShipCannonController.cpp">
       <Filter>Modules\SeaAi\Ship Files\AIShip Controller Files\AIShipCannon Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sea_ai\AIShipCameraController.cpp">
+    <ClCompile Include="Modules\Sea_ai\AIShipCameraController.cpp">
       <Filter>Modules\SeaAi\Ship Files\AIShip Controller Files\AIShipCamera Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sea_ai\AIShipTouchController.cpp">
+    <ClCompile Include="Modules\Sea_ai\AIShipTouchController.cpp">
       <Filter>Modules\SeaAi\Ship Files\AIShip Controller Files\AIShipTouch Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sea_ai\AIShipMoveController.cpp">
+    <ClCompile Include="Modules\Sea_ai\AIShipMoveController.cpp">
       <Filter>Modules\SeaAi\Ship Files\AIShip Controller Files\AIShipMove Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sea_ai\AIShipRotateController.cpp">
+    <ClCompile Include="Modules\Sea_ai\AIShipRotateController.cpp">
       <Filter>Modules\SeaAi\Ship Files\AIShip Controller Files\AIShipRotate Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sea_ai\AIShipSpeedController.cpp">
+    <ClCompile Include="Modules\Sea_ai\AIShipSpeedController.cpp">
       <Filter>Modules\SeaAi\Ship Files\AIShip Controller Files\AIShipSpeed Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sea_ai\AIBalls.cpp">
+    <ClCompile Include="Modules\Sea_ai\AIBalls.cpp">
       <Filter>Modules\SeaAi\Balls Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sea_ai\AICannon.cpp">
+    <ClCompile Include="Modules\Sea_ai\AICannon.cpp">
       <Filter>Modules\SeaAi\Cannon Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sea_ai\AIFort.cpp">
+    <ClCompile Include="Modules\Sea_ai\AIFort.cpp">
       <Filter>Modules\SeaAi\Fort Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sea_ai\AISeaGoods.cpp">
+    <ClCompile Include="Modules\Sea_ai\AISeaGoods.cpp">
       <Filter>Modules\SeaAi\Goods Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sea_ai\AIGroup.cpp">
+    <ClCompile Include="Modules\Sea_ai\AIGroup.cpp">
       <Filter>Modules\SeaAi\Group Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sea_ai\AIHelper.cpp">
+    <ClCompile Include="Modules\Sea_ai\AIHelper.cpp">
       <Filter>Modules\SeaAi\Helper Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sea_ai\LocatorShow.cpp">
+    <ClCompile Include="Modules\Sea_ai\LocatorShow.cpp">
       <Filter>Modules\SeaAi\SeaLocatorShow Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\SEA_CAMERAS\SEA_CAMERAS.cpp">
+    <ClCompile Include="Modules\SEA_CAMERAS\SEA_CAMERAS.cpp">
       <Filter>Modules\SeaCameras\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\SEA_CAMERAS\FreeCamera.cpp">
+    <ClCompile Include="Modules\SEA_CAMERAS\FreeCamera.cpp">
       <Filter>Modules\SeaCameras\FreeCamera Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\SEA_CAMERAS\ShipCamera.cpp">
+    <ClCompile Include="Modules\SEA_CAMERAS\ShipCamera.cpp">
       <Filter>Modules\SeaCameras\ShipCamera Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\SEA_CAMERAS\DeckCamera.cpp">
+    <ClCompile Include="Modules\SEA_CAMERAS\DeckCamera.cpp">
       <Filter>Modules\SeaCameras\DeckCamera</Filter>
     </ClCompile>
-    <ClCompile Include="..\SEA_OPERATOR\SEA_OPERATOR.cpp">
+    <ClCompile Include="Modules\SEA_OPERATOR\SEA_OPERATOR.cpp">
       <Filter>Modules\SeaOperator</Filter>
     </ClCompile>
-    <ClCompile Include="..\SeaCreatures\SeaCreaturesMain.cpp">
+    <ClCompile Include="Modules\SeaCreatures\SeaCreaturesMain.cpp">
       <Filter>Modules\SeaCreatures</Filter>
     </ClCompile>
-    <ClCompile Include="..\SeaCreatures\Sharks.cpp">
+    <ClCompile Include="Modules\SeaCreatures\Sharks.cpp">
       <Filter>Modules\SeaCreatures</Filter>
     </ClCompile>
-    <ClCompile Include="..\Seafoam\Seafoam.cpp">
+    <ClCompile Include="Modules\Seafoam\Seafoam.cpp">
       <Filter>Modules\Seafoam</Filter>
     </ClCompile>
-    <ClCompile Include="..\Seafoam\seafoam_ps.cpp">
+    <ClCompile Include="Modules\Seafoam\seafoam_ps.cpp">
       <Filter>Modules\Seafoam</Filter>
     </ClCompile>
-    <ClCompile Include="..\Seafoam\TCarcass.cpp">
+    <ClCompile Include="Modules\Seafoam\TCarcass.cpp">
       <Filter>Modules\Seafoam</Filter>
     </ClCompile>
-    <ClCompile Include="..\shadow\shadow.cpp">
+    <ClCompile Include="Modules\shadow\shadow.cpp">
       <Filter>Modules\Shadow</Filter>
     </ClCompile>
-    <ClCompile Include="..\Ship\FirePlace.cpp">
+    <ClCompile Include="Modules\Ship\FirePlace.cpp">
       <Filter>Modules\Ship</Filter>
     </ClCompile>
-    <ClCompile Include="..\Ship\ship.cpp">
+    <ClCompile Include="Modules\Ship\ship.cpp">
       <Filter>Modules\Ship</Filter>
     </ClCompile>
-    <ClCompile Include="..\Ship\ship_utils.cpp">
+    <ClCompile Include="Modules\Ship\ship_utils.cpp">
       <Filter>Modules\Ship</Filter>
     </ClCompile>
-    <ClCompile Include="..\Ship\ShipLights.cpp">
+    <ClCompile Include="Modules\Ship\ShipLights.cpp">
       <Filter>Modules\Ship</Filter>
     </ClCompile>
-    <ClCompile Include="..\Ship\Track.cpp">
+    <ClCompile Include="Modules\Ship\Track.cpp">
       <Filter>Modules\Ship</Filter>
     </ClCompile>
-    <ClCompile Include="..\SINK_EFFECT\seps.cpp">
+    <ClCompile Include="Modules\SINK_EFFECT\seps.cpp">
       <Filter>Modules\SinkEffect</Filter>
     </ClCompile>
-    <ClCompile Include="..\SINK_EFFECT\SinkEffect.cpp">
+    <ClCompile Include="Modules\SINK_EFFECT\SinkEffect.cpp">
       <Filter>Modules\SinkEffect</Filter>
     </ClCompile>
-    <ClCompile Include="..\SINK_EFFECT\TFlotsam.cpp">
+    <ClCompile Include="Modules\SINK_EFFECT\TFlotsam.cpp">
       <Filter>Modules\SinkEffect</Filter>
     </ClCompile>
-    <ClCompile Include="..\SINK_EFFECT\TSink.cpp">
+    <ClCompile Include="Modules\SINK_EFFECT\TSink.cpp">
       <Filter>Modules\SinkEffect</Filter>
     </ClCompile>
-    <ClCompile Include="..\SINK_EFFECT\TSinkSplash.cpp">
+    <ClCompile Include="Modules\SINK_EFFECT\TSinkSplash.cpp">
       <Filter>Modules\SinkEffect</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sound\SOUND.cpp">
+    <ClCompile Include="Modules\Sound\SOUND.cpp">
       <Filter>Modules\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="..\SoundService\DebugEntity.cpp">
+    <ClCompile Include="Modules\SoundService\DebugEntity.cpp">
       <Filter>Modules\SoundService\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\SoundService\SoundService.cpp">
+    <ClCompile Include="Modules\SoundService\SoundService.cpp">
       <Filter>Modules\SoundService\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\SoundService\VSoundService.cpp">
+    <ClCompile Include="Modules\SoundService\VSoundService.cpp">
       <Filter>Modules\SoundService\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Teleport\teleport.cpp">
+    <ClCompile Include="Modules\Teleport\teleport.cpp">
       <Filter>Modules\Teleport</Filter>
     </ClCompile>
-    <ClCompile Include="..\Tornado\Debris.cpp">
+    <ClCompile Include="Modules\Tornado\Debris.cpp">
       <Filter>Modules\Tornado</Filter>
     </ClCompile>
-    <ClCompile Include="..\Tornado\NoiseCloud.cpp">
+    <ClCompile Include="Modules\Tornado\NoiseCloud.cpp">
       <Filter>Modules\Tornado</Filter>
     </ClCompile>
-    <ClCompile Include="..\Tornado\Pillar.cpp">
+    <ClCompile Include="Modules\Tornado\Pillar.cpp">
       <Filter>Modules\Tornado</Filter>
     </ClCompile>
-    <ClCompile Include="..\Tornado\Tornado.cpp">
+    <ClCompile Include="Modules\Tornado\Tornado.cpp">
       <Filter>Modules\Tornado</Filter>
     </ClCompile>
-    <ClCompile Include="..\Tornado\TornadoParticles.cpp">
+    <ClCompile Include="Modules\Tornado\TornadoParticles.cpp">
       <Filter>Modules\Tornado</Filter>
     </ClCompile>
-    <ClCompile Include="..\Touch\touch.cpp">
+    <ClCompile Include="Modules\Touch\touch.cpp">
       <Filter>Modules\Touch</Filter>
     </ClCompile>
-    <ClCompile Include="..\WaterRings\WaterRings.cpp">
+    <ClCompile Include="Modules\WaterRings\WaterRings.cpp">
       <Filter>Modules\Waterrings</Filter>
     </ClCompile>
-    <ClCompile Include="..\Weather\Astronomy.cpp">
+    <ClCompile Include="Modules\Weather\Astronomy.cpp">
       <Filter>Modules\Weather\Astronomy</Filter>
     </ClCompile>
-    <ClCompile Include="..\Weather\Planets.cpp">
+    <ClCompile Include="Modules\Weather\Planets.cpp">
       <Filter>Modules\Weather\Astronomy</Filter>
     </ClCompile>
-    <ClCompile Include="..\Weather\Stars.cpp">
+    <ClCompile Include="Modules\Weather\Stars.cpp">
       <Filter>Modules\Weather\Astronomy</Filter>
     </ClCompile>
-    <ClCompile Include="..\Weather\Lightning.cpp">
+    <ClCompile Include="Modules\Weather\Lightning.cpp">
       <Filter>Modules\Weather\Lighting Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Weather\Rain.cpp">
+    <ClCompile Include="Modules\Weather\Rain.cpp">
       <Filter>Modules\Weather\Rain Folder</Filter>
     </ClCompile>
-    <ClCompile Include="..\Weather\SKY.cpp">
+    <ClCompile Include="Modules\Weather\SKY.cpp">
       <Filter>Modules\Weather\Sky Folder</Filter>
     </ClCompile>
-    <ClCompile Include="..\Weather\Weather.cpp">
+    <ClCompile Include="Modules\Weather\Weather.cpp">
       <Filter>Modules\Weather\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Weather\SunGlow.cpp">
+    <ClCompile Include="Modules\Weather\SunGlow.cpp">
       <Filter>Modules\Weather\SunGlow Folder</Filter>
     </ClCompile>
-    <ClCompile Include="..\Weather\WaterFlare.cpp">
+    <ClCompile Include="Modules\Weather\WaterFlare.cpp">
       <Filter>Modules\Weather\WaterFlare Folder</Filter>
     </ClCompile>
-    <ClCompile Include="..\WORLDMAP\WoldMapMain.cpp">
+    <ClCompile Include="Modules\WORLDMAP\WoldMapMain.cpp">
       <Filter>Modules\Worldmap\Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\WORLDMAP\WorldMap.cpp">
+    <ClCompile Include="Modules\WORLDMAP\WorldMap.cpp">
       <Filter>Modules\Worldmap\Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\WORLDMAP\WdmRenderModel.cpp">
+    <ClCompile Include="Modules\WORLDMAP\WdmRenderModel.cpp">
       <Filter>Modules\Worldmap\Base\Base objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\WORLDMAP\WdmRenderObject.cpp">
+    <ClCompile Include="Modules\WORLDMAP\WdmRenderObject.cpp">
       <Filter>Modules\Worldmap\Base\Base objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\WORLDMAP\WdmObjects.cpp">
+    <ClCompile Include="Modules\WORLDMAP\WdmObjects.cpp">
       <Filter>Modules\Worldmap\Base\Global</Filter>
     </ClCompile>
-    <ClCompile Include="..\WORLDMAP\WdmCamera.cpp">
+    <ClCompile Include="Modules\WORLDMAP\WdmCamera.cpp">
       <Filter>Modules\Worldmap\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="..\WORLDMAP\WdmCameraStdCtrl.cpp">
+    <ClCompile Include="Modules\WORLDMAP\WdmCameraStdCtrl.cpp">
       <Filter>Modules\Worldmap\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="..\WORLDMAP\WdmClouds.cpp">
+    <ClCompile Include="Modules\WORLDMAP\WdmClouds.cpp">
       <Filter>Modules\Worldmap\Clouds</Filter>
     </ClCompile>
-    <ClCompile Include="..\WORLDMAP\WdmCloud.cpp">
+    <ClCompile Include="Modules\WORLDMAP\WdmCloud.cpp">
       <Filter>Modules\Worldmap\Clouds\Storm</Filter>
     </ClCompile>
-    <ClCompile Include="..\WORLDMAP\WdmStorm.cpp">
+    <ClCompile Include="Modules\WORLDMAP\WdmStorm.cpp">
       <Filter>Modules\Worldmap\Clouds\Storm</Filter>
     </ClCompile>
-    <ClCompile Include="..\WORLDMAP\WdmInterfaceObject.cpp">
+    <ClCompile Include="Modules\WORLDMAP\WdmInterfaceObject.cpp">
       <Filter>Modules\Worldmap\Interface\Base interface</Filter>
     </ClCompile>
-    <ClCompile Include="..\WORLDMAP\WdmIcon.cpp">
+    <ClCompile Include="Modules\WORLDMAP\WdmIcon.cpp">
       <Filter>Modules\Worldmap\Interface\Icon</Filter>
     </ClCompile>
-    <ClCompile Include="..\WORLDMAP\WdmCounter.cpp">
+    <ClCompile Include="Modules\WORLDMAP\WdmCounter.cpp">
       <Filter>Modules\Worldmap\Interface\Counter</Filter>
     </ClCompile>
-    <ClCompile Include="..\WORLDMAP\WdmWindRose.cpp">
+    <ClCompile Include="Modules\WORLDMAP\WdmWindRose.cpp">
       <Filter>Modules\Worldmap\Interface\Wind rose</Filter>
     </ClCompile>
-    <ClCompile Include="..\WORLDMAP\WdmWindUI.cpp">
+    <ClCompile Include="Modules\WORLDMAP\WdmWindUI.cpp">
       <Filter>Modules\Worldmap\Interface\Wind UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\WORLDMAP\WdmIslands.cpp">
+    <ClCompile Include="Modules\WORLDMAP\WdmIslands.cpp">
       <Filter>Modules\Worldmap\Islands</Filter>
     </ClCompile>
-    <ClCompile Include="..\WORLDMAP\WdmSea.cpp">
+    <ClCompile Include="Modules\WORLDMAP\WdmSea.cpp">
       <Filter>Modules\Worldmap\Sea</Filter>
     </ClCompile>
-    <ClCompile Include="..\WORLDMAP\WdmShip.cpp">
+    <ClCompile Include="Modules\WORLDMAP\WdmShip.cpp">
       <Filter>Modules\Worldmap\Ships\Base ship</Filter>
     </ClCompile>
-    <ClCompile Include="..\WORLDMAP\WdmPlayerShip.cpp">
+    <ClCompile Include="Modules\WORLDMAP\WdmPlayerShip.cpp">
       <Filter>Modules\Worldmap\Ships\Player ship</Filter>
     </ClCompile>
-    <ClCompile Include="..\WORLDMAP\WdmEnemyShip.cpp">
+    <ClCompile Include="Modules\WORLDMAP\WdmEnemyShip.cpp">
       <Filter>Modules\Worldmap\Ships\Encounter ships\Base enc. ship</Filter>
     </ClCompile>
-    <ClCompile Include="..\WORLDMAP\WdmMerchantShip.cpp">
+    <ClCompile Include="Modules\WORLDMAP\WdmMerchantShip.cpp">
       <Filter>Modules\Worldmap\Ships\Encounter ships\Merchant</Filter>
     </ClCompile>
-    <ClCompile Include="..\WORLDMAP\WdmFollowShip.cpp">
+    <ClCompile Include="Modules\WORLDMAP\WdmFollowShip.cpp">
       <Filter>Modules\Worldmap\Ships\Encounter ships\Follow</Filter>
     </ClCompile>
-    <ClCompile Include="..\WORLDMAP\WdmWarringShip.cpp">
+    <ClCompile Include="Modules\WORLDMAP\WdmWarringShip.cpp">
       <Filter>Modules\Worldmap\Ships\Encounter ships\Warring</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\TextureSequence\TextureSequence.cpp">
+    <ClCompile Include="Modules\XINTERFACE\TextureSequence\TextureSequence.cpp">
       <Filter>Modules\XINTERFACE\TextureSequence</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\aviplayer\aviplayer.cpp">
+    <ClCompile Include="Modules\XINTERFACE\aviplayer\aviplayer.cpp">
       <Filter>Modules\XINTERFACE\aviplayer</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\editor\defines.cpp">
+    <ClCompile Include="Modules\XINTERFACE\editor\defines.cpp">
       <Filter>Modules\XINTERFACE\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\editor\editor.cpp">
+    <ClCompile Include="Modules\XINTERFACE\editor\editor.cpp">
       <Filter>Modules\XINTERFACE\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\editor\list.cpp">
+    <ClCompile Include="Modules\XINTERFACE\editor\list.cpp">
       <Filter>Modules\XINTERFACE\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\HelpChooser\HelpChooser.cpp">
+    <ClCompile Include="Modules\XINTERFACE\HelpChooser\HelpChooser.cpp">
       <Filter>Modules\XINTERFACE\HelpChooser</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\InfoHandler.cpp">
+    <ClCompile Include="Modules\XINTERFACE\InfoHandler.cpp">
       <Filter>Modules\XINTERFACE\InfoShower</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\BackScene\backscene.cpp">
+    <ClCompile Include="Modules\XINTERFACE\BackScene\backscene.cpp">
       <Filter>Modules\XINTERFACE\InterfaceBackScene</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\inode.cpp">
+    <ClCompile Include="Modules\XINTERFACE\inode.cpp">
       <Filter>Modules\XINTERFACE\main</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\xinterface.cpp">
+    <ClCompile Include="Modules\XINTERFACE\xinterface.cpp">
       <Filter>Modules\XINTERFACE\main</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\xiutil.cpp">
+    <ClCompile Include="Modules\XINTERFACE\xiutil.cpp">
       <Filter>Modules\XINTERFACE\main</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\xservice.cpp">
+    <ClCompile Include="Modules\XINTERFACE\xservice.cpp">
       <Filter>Modules\XINTERFACE\main</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_2picture.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_2picture.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_border.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_border.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_bounder.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_bounder.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_button.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_button.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_changer.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_changer.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_checkbuttons.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_checkbuttons.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_conthelp.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_conthelp.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_editbox.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_editbox.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_formttext.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_formttext.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_fourimg.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_fourimg.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_glowCursor.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_glowCursor.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_glower.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_glower.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_image.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_image.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_imgcollection.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_imgcollection.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_keychanger.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_keychanger.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_linecollection.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_linecollection.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_lrchanger.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_lrchanger.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_pceditbox.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_pceditbox.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_picture.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_picture.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_questtexts.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_questtexts.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_questtitles.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_questtitles.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_rectangle.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_rectangle.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_scrollbar.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_scrollbar.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_scrolledpic.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_scrolledpic.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_scroller.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_scroller.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_scrollimage.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_scrollimage.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_scrolltext.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_scrolltext.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_slideLine.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_slideLine.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_slidepicture.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_slidepicture.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_statusline.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_statusline.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_strcollection.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_strcollection.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_table.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_table.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_tabsection.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_tabsection.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_textbutton.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_textbutton.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_title.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_title.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_tooltips.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_tooltips.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_util.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_util.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_video.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_video.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_videorect.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_videorect.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_VImgScroll.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_VImgScroll.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\nodes\xi_window.cpp">
+    <ClCompile Include="Modules\XINTERFACE\nodes\xi_window.cpp">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\QuestFileReader\QuestFileReader.cpp">
+    <ClCompile Include="Modules\XINTERFACE\QuestFileReader\QuestFileReader.cpp">
       <Filter>Modules\XINTERFACE\QuestFileReader</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\SCRSHOTER\scrshoter.cpp">
+    <ClCompile Include="Modules\XINTERFACE\SCRSHOTER\scrshoter.cpp">
       <Filter>Modules\XINTERFACE\scrshoter</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\STRINGSERVICE\obj_strservice.cpp">
+    <ClCompile Include="Modules\XINTERFACE\STRINGSERVICE\obj_strservice.cpp">
       <Filter>Modules\XINTERFACE\StringService</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\STRINGSERVICE\strservice.cpp">
+    <ClCompile Include="Modules\XINTERFACE\STRINGSERVICE\strservice.cpp">
       <Filter>Modules\XINTERFACE\StringService</Filter>
     </ClCompile>
-    <ClCompile Include="..\Lighter\LighterLights.cpp">
+    <ClCompile Include="Modules\Lighter\LighterLights.cpp">
       <Filter>Modules\Lighter</Filter>
     </ClCompile>
-    <ClCompile Include="..\XINTERFACE\editor\xfont.cpp">
+    <ClCompile Include="Modules\XINTERFACE\editor\xfont.cpp">
       <Filter>Modules\XINTERFACE\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="..\renderer\TIVBufferManager.cpp">
+    <ClCompile Include="Modules\renderer\TIVBufferManager.cpp">
       <Filter>Modules\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="sources\externs.cpp">
@@ -1494,785 +1494,752 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\BATTLE_INTERFACE\ActivePerkShower.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\ActivePerkShower.h">
       <Filter>Modules\BattleInterface\CommonInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\battle_command.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\battle_command.h">
       <Filter>Modules\BattleInterface\CommonInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\battle_sign.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\battle_sign.h">
       <Filter>Modules\BattleInterface\CommonInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\defines.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\defines.h">
       <Filter>Modules\BattleInterface\CommonInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\LogAndAction.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\LogAndAction.h">
       <Filter>Modules\BattleInterface\CommonInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\MessageIcons.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\MessageIcons.h">
       <Filter>Modules\BattleInterface\CommonInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\Utils.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\Utils.h">
       <Filter>Modules\BattleInterface\CommonInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\EnemyStatShower\enemystatshower.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\EnemyStatShower\enemystatshower.h">
       <Filter>Modules\BattleInterface\EnemyStatShower</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\image\defines.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\image\defines.h">
       <Filter>Modules\BattleInterface\image</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\image\image.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\image\image.h">
       <Filter>Modules\BattleInterface\image</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\image\imgrender.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\image\imgrender.h">
       <Filter>Modules\BattleInterface\image</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\image\material.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\image\material.h">
       <Filter>Modules\BattleInterface\image</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\image\string.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\image\string.h">
       <Filter>Modules\BattleInterface\image</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\InterfaceManager\BaseManager.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\InterfaceManager\BaseManager.h">
       <Filter>Modules\BattleInterface\InterfaceManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceManager.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\InterfaceManager\InterfaceManager.h">
       <Filter>Modules\BattleInterface\InterfaceManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\InterfaceManager\MousePointer.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\InterfaceManager\MousePointer.h">
       <Filter>Modules\BattleInterface\InterfaceManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceNode\AllNodes.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\InterfaceManager\InterfaceNode\AllNodes.h">
       <Filter>Modules\BattleInterface\InterfaceManager\InterfaceNode</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceNode\BaseNode.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\InterfaceManager\InterfaceNode\BaseNode.h">
       <Filter>Modules\BattleInterface\InterfaceManager\InterfaceNode</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceNode\ImageNode.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\InterfaceManager\InterfaceNode\ImageNode.h">
       <Filter>Modules\BattleInterface\InterfaceManager\InterfaceNode</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceNode\StringNode.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\InterfaceManager\InterfaceNode\StringNode.h">
       <Filter>Modules\BattleInterface\InterfaceManager\InterfaceNode</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceGroup\BaseGroup.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\InterfaceManager\InterfaceGroup\BaseGroup.h">
       <Filter>Modules\BattleInterface\InterfaceManager\InterfaceGroup</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\InterfaceManager\InterfaceGroup\SeaGroup.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\InterfaceManager\InterfaceGroup\SeaGroup.h">
       <Filter>Modules\BattleInterface\InterfaceManager\InterfaceGroup</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\ItemEntity\itementity.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\ItemEntity\itementity.h">
       <Filter>Modules\BattleInterface\ItemEntity</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\land\battle_land.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\land\battle_land.h">
       <Filter>Modules\BattleInterface\LandInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\land\battle_mancommand.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\land\battle_mancommand.h">
       <Filter>Modules\BattleInterface\LandInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\land\battle_mansign.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\land\battle_mansign.h">
       <Filter>Modules\BattleInterface\LandInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\land\IBoardingStatus.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\land\IBoardingStatus.h">
       <Filter>Modules\BattleInterface\LandInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\sea\battle_navigator.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\sea\battle_navigator.h">
       <Filter>Modules\BattleInterface\SeaInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\sea\battle_shipcommand.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\sea\battle_shipcommand.h">
       <Filter>Modules\BattleInterface\SeaInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\sea\battle_shipsign.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\sea\battle_shipsign.h">
       <Filter>Modules\BattleInterface\SeaInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\sea\ibattle.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\sea\ibattle.h">
       <Filter>Modules\BattleInterface\SeaInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\sea\island_descr.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\sea\island_descr.h">
       <Filter>Modules\BattleInterface\SeaInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\sea\ShipInfoImages.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\sea\ShipInfoImages.h">
       <Filter>Modules\BattleInterface\SeaInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\sea\ShipPointer.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\sea\ShipPointer.h">
       <Filter>Modules\BattleInterface\SeaInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\sea\ships_list.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\sea\ships_list.h">
       <Filter>Modules\BattleInterface\SeaInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\spyglass\spyglass.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\spyglass\spyglass.h">
       <Filter>Modules\BattleInterface\Spyglass</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\timer\Timer.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\timer\Timer.h">
       <Filter>Modules\BattleInterface\Timer</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\WorldMapInterface\interface.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\WorldMapInterface\interface.h">
       <Filter>Modules\BattleInterface\WorldMapInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\WorldMapInterface\shipcommand.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\WorldMapInterface\shipcommand.h">
       <Filter>Modules\BattleInterface\WorldMapInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\BATTLE_INTERFACE\WorldMapInterface\shipsign.h">
+    <ClInclude Include="Modules\BATTLE_INTERFACE\WorldMapInterface\shipsign.h">
       <Filter>Modules\BattleInterface\WorldMapInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\LocRat.h">
+    <ClInclude Include="Modules\Location\LocRat.h">
       <Filter>Modules\Location\Animals\Rats</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\LocRats.h">
+    <ClInclude Include="Modules\Location\LocRats.h">
       <Filter>Modules\Location\Animals\Rats</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\LocEagle.h">
+    <ClInclude Include="Modules\Location\LocEagle.h">
       <Filter>Modules\Location\Animals\Eagle</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\LocLife.h">
+    <ClInclude Include="Modules\Location\LocLife.h">
       <Filter>Modules\Location\Animals\LocLife</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\Lizard.h">
+    <ClInclude Include="Modules\Location\Lizard.h">
       <Filter>Modules\Location\Animals\Lizards</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\Lizards.h">
+    <ClInclude Include="Modules\Location\Lizards.h">
       <Filter>Modules\Location\Animals\Lizards</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\CameraFollow.h">
+    <ClInclude Include="Modules\Location\CameraFollow.h">
       <Filter>Modules\Location\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\CameraTracksFile.h">
+    <ClInclude Include="Modules\Location\CameraTracksFile.h">
       <Filter>Modules\Location\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\LocationCamera.h">
+    <ClInclude Include="Modules\Location\LocationCamera.h">
       <Filter>Modules\Location\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\PathTracks.h">
+    <ClInclude Include="Modules\Location\PathTracks.h">
       <Filter>Modules\Location\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\Character.h">
+    <ClInclude Include="Modules\Location\Character.h">
       <Filter>Modules\Location\Character\Character</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\AICharacter.h">
+    <ClInclude Include="Modules\Location\AICharacter.h">
       <Filter>Modules\Location\Character\AICharacter</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\NPCharacter.h">
+    <ClInclude Include="Modules\Location\NPCharacter.h">
       <Filter>Modules\Location\Character\NPCharacter</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\Player.h">
+    <ClInclude Include="Modules\Location\Player.h">
       <Filter>Modules\Location\Character\Player</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\CharactersGroups.h">
+    <ClInclude Include="Modules\Location\CharactersGroups.h">
       <Filter>Modules\Location\Character\CharactersGroups</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\Supervisor.h">
+    <ClInclude Include="Modules\Location\Supervisor.h">
       <Filter>Modules\Location\Character\Supervisor</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\Fader.h">
+    <ClInclude Include="Modules\Location\Fader.h">
       <Filter>Modules\Location\Effects\Fader</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\WideScreen.h">
+    <ClInclude Include="Modules\Location\WideScreen.h">
       <Filter>Modules\Location\Effects\WideScreen</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\Grass.h">
+    <ClInclude Include="Modules\Location\Grass.h">
       <Filter>Modules\Location\Effects\Grass</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\grs.h">
+    <ClInclude Include="Modules\Location\grs.h">
       <Filter>Modules\Location\Effects\Grass</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\CharacterAnimationKipper.h">
+    <ClInclude Include="Modules\Location\CharacterAnimationKipper.h">
       <Filter>Modules\Location\Effects\CharacterAnimationKipper</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\Blood.h">
+    <ClInclude Include="Modules\Location\Blood.h">
       <Filter>Modules\Location\Effects\Blood</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\Location.h">
+    <ClInclude Include="Modules\Location\Location.h">
       <Filter>Modules\Location\Location\Location</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\ModelArray.h">
+    <ClInclude Include="Modules\Location\ModelArray.h">
       <Filter>Modules\Location\Location\ModelArray</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\ModelRealizer.h">
+    <ClInclude Include="Modules\Location\ModelRealizer.h">
       <Filter>Modules\Location\Location\ModelArray</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\LocatorArray.h">
+    <ClInclude Include="Modules\Location\LocatorArray.h">
       <Filter>Modules\Location\Location\LocatorArray</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\LocationEffects.h">
+    <ClInclude Include="Modules\Location\LocationEffects.h">
       <Filter>Modules\Location\Location\LocationEffects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\Lights.h">
+    <ClInclude Include="Modules\Location\Lights.h">
       <Filter>Modules\Location\Location\Lights</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\ptc.h">
+    <ClInclude Include="Modules\Location\ptc.h">
       <Filter>Modules\Location\Location\Ptc</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\PtcData.h">
+    <ClInclude Include="Modules\Location\PtcData.h">
       <Filter>Modules\Location\Location\Ptc</Filter>
     </ClInclude>
-    <ClInclude Include="..\Location\LocationScriptLib.h">
+    <ClInclude Include="Modules\Location\LocationScriptLib.h">
       <Filter>Modules\Location\Location\LocationScriptLib</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\DataCache\DataCache.h">
+    <ClInclude Include="Modules\PARTICLES\DataCache\DataCache.h">
       <Filter>Modules\Particles\DataCache</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\GeomCache\GeomCache.h">
+    <ClInclude Include="Modules\PARTICLES\GeomCache\GeomCache.h">
       <Filter>Modules\Particles\GeomCache</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\ICommon\BillBoard.h">
+    <ClInclude Include="Modules\PARTICLES\ICommon\BillBoard.h">
       <Filter>Modules\Particles\ICommon</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\ICommon\ColorVertex.h">
+    <ClInclude Include="Modules\PARTICLES\ICommon\ColorVertex.h">
       <Filter>Modules\Particles\ICommon</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\ICommon\EditorTypes.h">
+    <ClInclude Include="Modules\PARTICLES\ICommon\EditorTypes.h">
       <Filter>Modules\Particles\ICommon</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\ICommon\GraphTime.h">
+    <ClInclude Include="Modules\PARTICLES\ICommon\GraphTime.h">
       <Filter>Modules\Particles\ICommon</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\ICommon\GraphVertex.h">
+    <ClInclude Include="Modules\PARTICLES\ICommon\GraphVertex.h">
       <Filter>Modules\Particles\ICommon</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\ICommon\IEmitter.h">
+    <ClInclude Include="Modules\PARTICLES\ICommon\IEmitter.h">
       <Filter>Modules\Particles\ICommon</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\ICommon\MemFile.h">
+    <ClInclude Include="Modules\PARTICLES\ICommon\MemFile.h">
       <Filter>Modules\Particles\ICommon</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\ICommon\Names.h">
+    <ClInclude Include="Modules\PARTICLES\ICommon\Names.h">
       <Filter>Modules\Particles\ICommon</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\ICommon\Particle.h">
+    <ClInclude Include="Modules\PARTICLES\ICommon\Particle.h">
       <Filter>Modules\Particles\ICommon</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\ICommon\Types.h">
+    <ClInclude Include="Modules\PARTICLES\ICommon\Types.h">
       <Filter>Modules\Particles\ICommon</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\K2Wrapper\particles.h">
+    <ClInclude Include="Modules\PARTICLES\K2Wrapper\particles.h">
       <Filter>Modules\Particles\K2Wrapper</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\K2Wrapper\psystem.h">
+    <ClInclude Include="Modules\PARTICLES\K2Wrapper\psystem.h">
       <Filter>Modules\Particles\K2Wrapper</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\Manager\particlemanager.h">
+    <ClInclude Include="Modules\PARTICLES\Manager\particlemanager.h">
       <Filter>Modules\Particles\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\Service\particleservice.h">
+    <ClInclude Include="Modules\PARTICLES\Service\particleservice.h">
       <Filter>Modules\Particles\Service</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\System\DataDesc\data_desc.h">
+    <ClInclude Include="Modules\PARTICLES\System\DataDesc\data_desc.h">
       <Filter>Modules\Particles\System\DataDesc</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\System\DataSource\DataBool.h">
+    <ClInclude Include="Modules\PARTICLES\System\DataSource\DataBool.h">
       <Filter>Modules\Particles\System\DataSource</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\System\DataSource\DataColor.h">
+    <ClInclude Include="Modules\PARTICLES\System\DataSource\DataColor.h">
       <Filter>Modules\Particles\System\DataSource</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\System\DataSource\DataFloat.h">
+    <ClInclude Include="Modules\PARTICLES\System\DataSource\DataFloat.h">
       <Filter>Modules\Particles\System\DataSource</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\System\DataSource\DataGraph.h">
+    <ClInclude Include="Modules\PARTICLES\System\DataSource\DataGraph.h">
       <Filter>Modules\Particles\System\DataSource</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\System\DataSource\DataPosition.h">
+    <ClInclude Include="Modules\PARTICLES\System\DataSource\DataPosition.h">
       <Filter>Modules\Particles\System\DataSource</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\System\DataSource\DataSource.h">
+    <ClInclude Include="Modules\PARTICLES\System\DataSource\DataSource.h">
       <Filter>Modules\Particles\System\DataSource</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\System\DataSource\DataString.h">
+    <ClInclude Include="Modules\PARTICLES\System\DataSource\DataString.h">
       <Filter>Modules\Particles\System\DataSource</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\System\DataSource\DataUV.h">
+    <ClInclude Include="Modules\PARTICLES\System\DataSource\DataUV.h">
       <Filter>Modules\Particles\System\DataSource</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\System\DataSource\FieldList.h">
+    <ClInclude Include="Modules\PARTICLES\System\DataSource\FieldList.h">
       <Filter>Modules\Particles\System\DataSource</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\System\Emitters\base.h">
+    <ClInclude Include="Modules\PARTICLES\System\Emitters\base.h">
       <Filter>Modules\Particles\System\Emitters</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\System\Emitters\point.h">
+    <ClInclude Include="Modules\PARTICLES\System\Emitters\point.h">
       <Filter>Modules\Particles\System\Emitters</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\System\ParticleProcessor\bb_processor.h">
+    <ClInclude Include="Modules\PARTICLES\System\ParticleProcessor\bb_processor.h">
       <Filter>Modules\Particles\System\ParticleProcessor</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\System\ParticleProcessor\mdl_processor.h">
+    <ClInclude Include="Modules\PARTICLES\System\ParticleProcessor\mdl_processor.h">
       <Filter>Modules\Particles\System\ParticleProcessor</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\System\ParticleProcessor\nameparser.h">
+    <ClInclude Include="Modules\PARTICLES\System\ParticleProcessor\nameparser.h">
       <Filter>Modules\Particles\System\ParticleProcessor</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\System\ParticleProcessor\physic.h">
+    <ClInclude Include="Modules\PARTICLES\System\ParticleProcessor\physic.h">
       <Filter>Modules\Particles\System\ParticleProcessor</Filter>
     </ClInclude>
-    <ClInclude Include="..\PARTICLES\System\ParticleSystem\particlesystem.h">
+    <ClInclude Include="Modules\PARTICLES\System\ParticleSystem\particlesystem.h">
       <Filter>Modules\Particles\System\ParticleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\Rigging\Flag.h">
+    <ClInclude Include="Modules\Rigging\Flag.h">
       <Filter>Modules\Rigging\Flag</Filter>
     </ClInclude>
-    <ClInclude Include="..\Rigging\rigging_define.h">
+    <ClInclude Include="Modules\Rigging\rigging_define.h">
       <Filter>Modules\Rigging\rig</Filter>
     </ClInclude>
-    <ClInclude Include="..\Rigging\Rope.h">
+    <ClInclude Include="Modules\Rigging\Rope.h">
       <Filter>Modules\Rigging\Rope</Filter>
     </ClInclude>
-    <ClInclude Include="..\Rigging\sail.h">
+    <ClInclude Include="Modules\Rigging\sail.h">
       <Filter>Modules\Rigging\Sail</Filter>
     </ClInclude>
-    <ClInclude Include="..\Rigging\SAILONE.h">
+    <ClInclude Include="Modules\Rigging\SAILONE.h">
       <Filter>Modules\Rigging\Sail</Filter>
     </ClInclude>
-    <ClInclude Include="..\Rigging\script_func.h">
+    <ClInclude Include="Modules\Rigging\script_func.h">
       <Filter>Modules\Rigging\ScriptFunctions</Filter>
     </ClInclude>
-    <ClInclude Include="..\Rigging\Vant.h">
+    <ClInclude Include="Modules\Rigging\Vant.h">
       <Filter>Modules\Rigging\Vant</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sailors\Sailors.h">
+    <ClInclude Include="Modules\Sailors\Sailors.h">
       <Filter>Modules\Sailors\Sailors</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sailors\SailorsEditor.h">
+    <ClInclude Include="Modules\Sailors\SailorsEditor.h">
       <Filter>Modules\Sailors\SailorsEditor</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sailors\SailorsMenu.h">
+    <ClInclude Include="Modules\Sailors\SailorsMenu.h">
       <Filter>Modules\Sailors\SailorsEditor</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sailors\SailorsWayPoints.h">
+    <ClInclude Include="Modules\Sailors\SailorsWayPoints.h">
       <Filter>Modules\Sailors\SailorsEditor</Filter>
     </ClInclude>
-    <ClInclude Include="..\SCRIPT_LIBRIARY\vano_files.h">
+    <ClInclude Include="Modules\SCRIPT_LIBRIARY\vano_files.h">
       <Filter>Modules\ScriptLibrary\Users\Vano Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sea_ai\AIShip.h">
+    <ClInclude Include="Modules\Sea_ai\AIShip.h">
       <Filter>Modules\SeaAi\Ship Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sea_ai\AIShipTaskController.h">
+    <ClInclude Include="Modules\Sea_ai\AIShipTaskController.h">
       <Filter>Modules\SeaAi\Ship Files\AIShip Controller Files\AIShipTask Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sea_ai\AIShipCannonController.h">
+    <ClInclude Include="Modules\Sea_ai\AIShipCannonController.h">
       <Filter>Modules\SeaAi\Ship Files\AIShip Controller Files\AIShipCannon Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sea_ai\AIShipCameraController.h">
+    <ClInclude Include="Modules\Sea_ai\AIShipCameraController.h">
       <Filter>Modules\SeaAi\Ship Files\AIShip Controller Files\AIShipCamera Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sea_ai\AIShipTouchController.h">
+    <ClInclude Include="Modules\Sea_ai\AIShipTouchController.h">
       <Filter>Modules\SeaAi\Ship Files\AIShip Controller Files\AIShipTouch Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sea_ai\AIShipMoveController.h">
+    <ClInclude Include="Modules\Sea_ai\AIShipMoveController.h">
       <Filter>Modules\SeaAi\Ship Files\AIShip Controller Files\AIShipMove Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sea_ai\AIShipRotateController.h">
+    <ClInclude Include="Modules\Sea_ai\AIShipRotateController.h">
       <Filter>Modules\SeaAi\Ship Files\AIShip Controller Files\AIShipRotate Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sea_ai\AIShipSpeedController.h">
+    <ClInclude Include="Modules\Sea_ai\AIShipSpeedController.h">
       <Filter>Modules\SeaAi\Ship Files\AIShip Controller Files\AIShipSpeed Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sea_ai\AIBalls.h">
+    <ClInclude Include="Modules\Sea_ai\AIBalls.h">
       <Filter>Modules\SeaAi\Balls Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sea_ai\AICannon.h">
+    <ClInclude Include="Modules\Sea_ai\AICannon.h">
       <Filter>Modules\SeaAi\Cannon Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sea_ai\AIFort.h">
+    <ClInclude Include="Modules\Sea_ai\AIFort.h">
       <Filter>Modules\SeaAi\Fort Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sea_ai\AISeaGoods.h">
+    <ClInclude Include="Modules\Sea_ai\AISeaGoods.h">
       <Filter>Modules\SeaAi\Goods Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sea_ai\AIGroup.h">
+    <ClInclude Include="Modules\Sea_ai\AIGroup.h">
       <Filter>Modules\SeaAi\Group Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sea_ai\AIHelper.h">
+    <ClInclude Include="Modules\Sea_ai\AIHelper.h">
       <Filter>Modules\SeaAi\Helper Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sea_ai\LocatorShow.h">
+    <ClInclude Include="Modules\Sea_ai\LocatorShow.h">
       <Filter>Modules\SeaAi\SeaLocatorShow Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\SEA_CAMERAS\Common_Camera.h">
+    <ClInclude Include="Modules\SEA_CAMERAS\Common_Camera.h">
       <Filter>Modules\SeaCameras\Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\SEA_CAMERAS\SEA_CAMERAS.h">
+    <ClInclude Include="Modules\SEA_CAMERAS\SEA_CAMERAS.h">
       <Filter>Modules\SeaCameras\Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\SEA_CAMERAS\FreeCamera.h">
+    <ClInclude Include="Modules\SEA_CAMERAS\FreeCamera.h">
       <Filter>Modules\SeaCameras\FreeCamera Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\SEA_CAMERAS\ShipCamera.h">
+    <ClInclude Include="Modules\SEA_CAMERAS\ShipCamera.h">
       <Filter>Modules\SeaCameras\ShipCamera Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\SEA_CAMERAS\DeckCamera.h">
+    <ClInclude Include="Modules\SEA_CAMERAS\DeckCamera.h">
       <Filter>Modules\SeaCameras\DeckCamera</Filter>
     </ClInclude>
-    <ClInclude Include="..\SoundService\Fmod4\api\inc\fmod.h">
+    <ClInclude Include="Modules\SoundService\Fmod4\api\inc\fmod.h">
       <Filter>Modules\SoundService\FMOD</Filter>
     </ClInclude>
-    <ClInclude Include="..\SoundService\Fmod4\api\inc\fmod.hpp">
+    <ClInclude Include="Modules\SoundService\Fmod4\api\inc\fmod.hpp">
       <Filter>Modules\SoundService\FMOD</Filter>
     </ClInclude>
-    <ClInclude Include="..\SoundService\Fmod4\api\inc\fmod_codec.h">
+    <ClInclude Include="Modules\SoundService\Fmod4\api\inc\fmod_codec.h">
       <Filter>Modules\SoundService\FMOD</Filter>
     </ClInclude>
-    <ClInclude Include="..\SoundService\Fmod4\api\inc\fmod_dsp.h">
+    <ClInclude Include="Modules\SoundService\Fmod4\api\inc\fmod_dsp.h">
       <Filter>Modules\SoundService\FMOD</Filter>
     </ClInclude>
-    <ClInclude Include="..\SoundService\Fmod4\api\inc\fmod_errors.h">
+    <ClInclude Include="Modules\SoundService\Fmod4\api\inc\fmod_errors.h">
       <Filter>Modules\SoundService\FMOD</Filter>
     </ClInclude>
-    <ClInclude Include="..\SoundService\Fmod4\api\inc\fmod_output.h">
+    <ClInclude Include="Modules\SoundService\Fmod4\api\inc\fmod_output.h">
       <Filter>Modules\SoundService\FMOD</Filter>
     </ClInclude>
-    <ClInclude Include="..\SoundService\DebugEntity.h">
+    <ClInclude Include="Modules\SoundService\DebugEntity.h">
       <Filter>Modules\SoundService\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\SoundService\SoundDefines.h">
+    <ClInclude Include="Modules\SoundService\SoundDefines.h">
       <Filter>Modules\SoundService\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\SoundService\SoundService.h">
+    <ClInclude Include="Modules\SoundService\SoundService.h">
       <Filter>Modules\SoundService\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\SoundService\VSound.h">
+    <ClInclude Include="Modules\SoundService\VSound.h">
       <Filter>Modules\SoundService\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\SoundService\VSoundService.h">
+    <ClInclude Include="Modules\SoundService\VSoundService.h">
       <Filter>Modules\SoundService\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Weather\Astronomy.h">
+    <ClInclude Include="Modules\Weather\Astronomy.h">
       <Filter>Modules\Weather\Astronomy</Filter>
     </ClInclude>
-    <ClInclude Include="..\Weather\Lightning.h">
+    <ClInclude Include="Modules\Weather\Lightning.h">
       <Filter>Modules\Weather\Lighting Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Weather\Rain.h">
+    <ClInclude Include="Modules\Weather\Rain.h">
       <Filter>Modules\Weather\Rain Folder</Filter>
     </ClInclude>
-    <ClInclude Include="..\Weather\SKY.h">
+    <ClInclude Include="Modules\Weather\SKY.h">
       <Filter>Modules\Weather\Sky Folder</Filter>
     </ClInclude>
-    <ClInclude Include="..\Weather\SunGlow.h">
+    <ClInclude Include="Modules\Weather\SunGlow.h">
       <Filter>Modules\Weather\SunGlow Folder</Filter>
     </ClInclude>
-    <ClInclude Include="..\Weather\WaterFlare.h">
+    <ClInclude Include="Modules\Weather\WaterFlare.h">
       <Filter>Modules\Weather\WaterFlare Folder</Filter>
     </ClInclude>
-    <ClInclude Include="..\WORLDMAP\WorldMap.h">
+    <ClInclude Include="Modules\WORLDMAP\WorldMap.h">
       <Filter>Modules\Worldmap\Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\WORLDMAP\WdmRenderModel.h">
+    <ClInclude Include="Modules\WORLDMAP\WdmRenderModel.h">
       <Filter>Modules\Worldmap\Base\Base objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\WORLDMAP\WdmRenderObject.h">
+    <ClInclude Include="Modules\WORLDMAP\WdmRenderObject.h">
       <Filter>Modules\Worldmap\Base\Base objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\WORLDMAP\WdmObjects.h">
+    <ClInclude Include="Modules\WORLDMAP\WdmObjects.h">
       <Filter>Modules\Worldmap\Base\Global</Filter>
     </ClInclude>
-    <ClInclude Include="..\WORLDMAP\WdmObjectsWind.h">
+    <ClInclude Include="Modules\WORLDMAP\WdmObjectsWind.h">
       <Filter>Modules\Worldmap\Base\Global</Filter>
     </ClInclude>
-    <ClInclude Include="..\WORLDMAP\WdmCamera.h">
+    <ClInclude Include="Modules\WORLDMAP\WdmCamera.h">
       <Filter>Modules\Worldmap\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="..\WORLDMAP\WdmCameraStdCtrl.h">
+    <ClInclude Include="Modules\WORLDMAP\WdmCameraStdCtrl.h">
       <Filter>Modules\Worldmap\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="..\WORLDMAP\WdmClouds.h">
+    <ClInclude Include="Modules\WORLDMAP\WdmClouds.h">
       <Filter>Modules\Worldmap\Clouds</Filter>
     </ClInclude>
-    <ClInclude Include="..\WORLDMAP\WdmCloud.h">
+    <ClInclude Include="Modules\WORLDMAP\WdmCloud.h">
       <Filter>Modules\Worldmap\Clouds\Storm</Filter>
     </ClInclude>
-    <ClInclude Include="..\WORLDMAP\WdmStorm.h">
+    <ClInclude Include="Modules\WORLDMAP\WdmStorm.h">
       <Filter>Modules\Worldmap\Clouds\Storm</Filter>
     </ClInclude>
-    <ClInclude Include="..\WORLDMAP\WdmInterfaceObject.h">
+    <ClInclude Include="Modules\WORLDMAP\WdmInterfaceObject.h">
       <Filter>Modules\Worldmap\Interface\Base interface</Filter>
     </ClInclude>
-    <ClInclude Include="..\WORLDMAP\WdmIcon.h">
+    <ClInclude Include="Modules\WORLDMAP\WdmIcon.h">
       <Filter>Modules\Worldmap\Interface\Icon</Filter>
     </ClInclude>
-    <ClInclude Include="..\WORLDMAP\WdmCounter.h">
+    <ClInclude Include="Modules\WORLDMAP\WdmCounter.h">
       <Filter>Modules\Worldmap\Interface\Counter</Filter>
     </ClInclude>
-    <ClInclude Include="..\WORLDMAP\WdmWindRose.h">
+    <ClInclude Include="Modules\WORLDMAP\WdmWindRose.h">
       <Filter>Modules\Worldmap\Interface\Wind rose</Filter>
     </ClInclude>
-    <ClInclude Include="..\WORLDMAP\WdmWindUI.h">
+    <ClInclude Include="Modules\WORLDMAP\WdmWindUI.h">
       <Filter>Modules\Worldmap\Interface\Wind UI</Filter>
     </ClInclude>
-    <ClInclude Include="..\WORLDMAP\WdmIslands.h">
+    <ClInclude Include="Modules\WORLDMAP\WdmIslands.h">
       <Filter>Modules\Worldmap\Islands</Filter>
     </ClInclude>
-    <ClInclude Include="..\WORLDMAP\WdmSea.h">
+    <ClInclude Include="Modules\WORLDMAP\WdmSea.h">
       <Filter>Modules\Worldmap\Sea</Filter>
     </ClInclude>
-    <ClInclude Include="..\WORLDMAP\WdmShip.h">
+    <ClInclude Include="Modules\WORLDMAP\WdmShip.h">
       <Filter>Modules\Worldmap\Ships\Base ship</Filter>
     </ClInclude>
-    <ClInclude Include="..\WORLDMAP\WdmPlayerShip.h">
+    <ClInclude Include="Modules\WORLDMAP\WdmPlayerShip.h">
       <Filter>Modules\Worldmap\Ships\Player ship</Filter>
     </ClInclude>
-    <ClInclude Include="..\WORLDMAP\WdmEnemyShip.h">
+    <ClInclude Include="Modules\WORLDMAP\WdmEnemyShip.h">
       <Filter>Modules\Worldmap\Ships\Encounter ships\Base enc. ship</Filter>
     </ClInclude>
-    <ClInclude Include="..\WORLDMAP\WdmMerchantShip.h">
+    <ClInclude Include="Modules\WORLDMAP\WdmMerchantShip.h">
       <Filter>Modules\Worldmap\Ships\Encounter ships\Merchant</Filter>
     </ClInclude>
-    <ClInclude Include="..\WORLDMAP\WdmFollowShip.h">
+    <ClInclude Include="Modules\WORLDMAP\WdmFollowShip.h">
       <Filter>Modules\Worldmap\Ships\Encounter ships\Follow</Filter>
     </ClInclude>
-    <ClInclude Include="..\WORLDMAP\WdmWarringShip.h">
+    <ClInclude Include="Modules\WORLDMAP\WdmWarringShip.h">
       <Filter>Modules\Worldmap\Ships\Encounter ships\Warring</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common_h\templates\Array.h">
+    <ClInclude Include="Modules\Common_h\templates\Array.h">
       <Filter>Modules\Worldmap\templates</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common_h\templates\dtimer.h">
+    <ClInclude Include="Modules\Common_h\templates\dtimer.h">
       <Filter>Modules\Worldmap\templates</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common_h\templates\HTable.h">
+    <ClInclude Include="Modules\Common_h\templates\HTable.h">
       <Filter>Modules\Worldmap\templates</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common_h\templates\map.h">
+    <ClInclude Include="Modules\Common_h\templates\map.h">
       <Filter>Modules\Worldmap\templates</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common_h\templates\stack.h">
+    <ClInclude Include="Modules\Common_h\templates\stack.h">
       <Filter>Modules\Worldmap\templates</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common_h\templates\string.h">
+    <ClInclude Include="Modules\Common_h\templates\string.h">
       <Filter>Modules\Worldmap\templates</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common_h\templates\tcommon.h">
+    <ClInclude Include="Modules\Common_h\templates\tcommon.h">
       <Filter>Modules\Worldmap\templates</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\TextureSequence\TextureSequence.h">
+    <ClInclude Include="Modules\XINTERFACE\TextureSequence\TextureSequence.h">
       <Filter>Modules\XINTERFACE\TextureSequence</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\aviplayer\aviplayer.h">
+    <ClInclude Include="Modules\XINTERFACE\aviplayer\aviplayer.h">
       <Filter>Modules\XINTERFACE\aviplayer</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\editor\defines.h">
+    <ClInclude Include="Modules\XINTERFACE\editor\defines.h">
       <Filter>Modules\XINTERFACE\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\editor\editor.h">
+    <ClInclude Include="Modules\XINTERFACE\editor\editor.h">
       <Filter>Modules\XINTERFACE\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\editor\font.h">
+    <ClInclude Include="Modules\XINTERFACE\editor\font.h">
       <Filter>Modules\XINTERFACE\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\editor\list.h">
+    <ClInclude Include="Modules\XINTERFACE\editor\list.h">
       <Filter>Modules\XINTERFACE\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\helpchooser\HelpChooser.h">
+    <ClInclude Include="Modules\XINTERFACE\helpchooser\HelpChooser.h">
       <Filter>Modules\XINTERFACE\HelpChooser</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\InfoHandler.h">
+    <ClInclude Include="Modules\XINTERFACE\InfoHandler.h">
       <Filter>Modules\XINTERFACE\InfoShower</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\BackScene\backscene.h">
+    <ClInclude Include="Modules\XINTERFACE\BackScene\backscene.h">
       <Filter>Modules\XINTERFACE\InterfaceBackScene</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\base_video.h">
+    <ClInclude Include="Modules\XINTERFACE\base_video.h">
       <Filter>Modules\XINTERFACE\main</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\defines.h">
+    <ClInclude Include="Modules\XINTERFACE\defines.h">
       <Filter>Modules\XINTERFACE\main</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\inode.h">
+    <ClInclude Include="Modules\XINTERFACE\inode.h">
       <Filter>Modules\XINTERFACE\main</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\NODES\all_xinode.h">
+    <ClInclude Include="Modules\XINTERFACE\NODES\all_xinode.h">
       <Filter>Modules\XINTERFACE\main</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\vxservice.h">
+    <ClInclude Include="Modules\XINTERFACE\vxservice.h">
       <Filter>Modules\XINTERFACE\main</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\xinterface.h">
+    <ClInclude Include="Modules\XINTERFACE\xinterface.h">
       <Filter>Modules\XINTERFACE\main</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\xservice.h">
+    <ClInclude Include="Modules\XINTERFACE\xservice.h">
       <Filter>Modules\XINTERFACE\main</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_2picture.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_2picture.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_border.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_border.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_bounder.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_bounder.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_button.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_button.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_changer.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_changer.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_checkbuttons.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_checkbuttons.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_conthelp.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_conthelp.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_editbox.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_editbox.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_formttext.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_formttext.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_fourimg.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_fourimg.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_glowCursor.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_glowCursor.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_glower.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_glower.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_image.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_image.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_imgcollection.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_imgcollection.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_keychanger.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_keychanger.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_linecollection.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_linecollection.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_lrchanger.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_lrchanger.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_pceditbox.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_pceditbox.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_picture.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_picture.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_questtexts.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_questtexts.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_questtitles.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_questtitles.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_rectangle.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_rectangle.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_scrollbar.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_scrollbar.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_scrolledpic.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_scrolledpic.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_scroller.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_scroller.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_scrollimage.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_scrollimage.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_scrolltext.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_scrolltext.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_slideLine.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_slideLine.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_slidepicture.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_slidepicture.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_statusline.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_statusline.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_strcollection.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_strcollection.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_table.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_table.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_tabsection.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_tabsection.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_textbutton.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_textbutton.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_title.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_title.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_tooltips.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_tooltips.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_util.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_util.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_video.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_video.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_videorect.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_videorect.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_VImgScroll.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_VImgScroll.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\nodes\xi_window.h">
+    <ClInclude Include="Modules\XINTERFACE\nodes\xi_window.h">
       <Filter>Modules\XINTERFACE\nodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\QuestFileReader\QuestFileReader.h">
+    <ClInclude Include="Modules\XINTERFACE\QuestFileReader\QuestFileReader.h">
       <Filter>Modules\XINTERFACE\QuestFileReader</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\SCRSHOTER\scrshoter.h">
+    <ClInclude Include="Modules\XINTERFACE\SCRSHOTER\scrshoter.h">
       <Filter>Modules\XINTERFACE\scrshoter</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\STRINGSERVICE\obj_strservice.h">
+    <ClInclude Include="Modules\XINTERFACE\STRINGSERVICE\obj_strservice.h">
       <Filter>Modules\XINTERFACE\StringService</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\STRINGSERVICE\strservice.h">
+    <ClInclude Include="Modules\XINTERFACE\STRINGSERVICE\strservice.h">
       <Filter>Modules\XINTERFACE\StringService</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\templates\ctext.h">
+    <ClInclude Include="Modules\XINTERFACE\templates\ctext.h">
       <Filter>Modules\XINTERFACE\templates</Filter>
     </ClInclude>
-    <ClInclude Include="..\XINTERFACE\templates\TDynArray.h">
+    <ClInclude Include="Modules\XINTERFACE\templates\TDynArray.h">
       <Filter>Modules\XINTERFACE\templates</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common_h\vmodule_api.h">
+    <ClInclude Include="Modules\Common_h\vmodule_api.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common_h\EntityManager.h">
+    <ClInclude Include="Modules\Common_h\EntityManager.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common_h\Entity.h">
+    <ClInclude Include="Modules\Common_h\Entity.h">
       <Filter>Headers</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="REsOURCE\Textures\Weather\Astronomy\Planets\jupiter.tga.tx">
-      <Filter>Modules\Weather\Textures</Filter>
-    </None>
-    <None Include="REsOURCE\Textures\Weather\Astronomy\Planets\mars.tga.tx">
-      <Filter>Modules\Weather\Textures</Filter>
-    </None>
-    <None Include="REsOURCE\Textures\Weather\Astronomy\Planets\mercury.tga.tx">
-      <Filter>Modules\Weather\Textures</Filter>
-    </None>
-    <None Include="REsOURCE\Textures\Weather\Astronomy\Planets\neptune.tga.tx">
-      <Filter>Modules\Weather\Textures</Filter>
-    </None>
-    <None Include="REsOURCE\Textures\Weather\Astronomy\Planets\saturn.tga.tx">
-      <Filter>Modules\Weather\Textures</Filter>
-    </None>
-    <None Include="REsOURCE\Textures\Weather\Astronomy\Planets\uranus.tga.tx">
-      <Filter>Modules\Weather\Textures</Filter>
-    </None>
-    <None Include="REsOURCE\Textures\Weather\Astronomy\Planets\venus.tga.tx">
-      <Filter>Modules\Weather\Textures</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\SoundService\Fmod4\api\lib\which library do I use.txt">
-      <Filter>Modules\SoundService\FMOD</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\SoundService\Fmod4\api\lib\fmodex_vc.lib">
-      <Filter>Modules\SoundService\FMOD</Filter>
-    </Library>
   </ItemGroup>
 </Project>
