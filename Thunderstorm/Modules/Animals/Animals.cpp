@@ -16,7 +16,7 @@ ANIMALS::ANIMALS()
 {	
 	seagulls = new TSeagulls();
 	//sharks = new TSharks();
-	fishSchools = new TFishSchools();
+	//fishSchools = new TFishSchools();
 	butterflies = new TButterflies();
 }
 
@@ -27,8 +27,8 @@ ANIMALS::~ANIMALS()
 		delete seagulls;
 	//if (sharks)
 	//	delete sharks;
-	if (fishSchools)
-		delete fishSchools;
+	//if (fishSchools)
+	//	delete fishSchools;
 	if (butterflies)
 		delete butterflies;
 }
@@ -82,7 +82,7 @@ void ANIMALS::Realize(uint32_t _dTime)
 {
 	seagulls->Realize(_dTime);
 	//sharks->Realize(_dTime);
-	fishSchools->Realize(_dTime);
+	//fishSchools->Realize(_dTime);
 	butterflies->Realize(_dTime);
 }
 
@@ -91,7 +91,7 @@ void ANIMALS::Execute(uint32_t _dTime)
 {
 	seagulls->Execute(_dTime);
 	//sharks->Execute(_dTime);
-	fishSchools->Execute(_dTime);
+	//fishSchools->Execute(_dTime);
 	butterflies->Execute(_dTime);
 }
 
