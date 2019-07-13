@@ -1541,6 +1541,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 		case VAR_AREFERENCE:
 		case VAR_REFERENCE:
 		case VAR_INTEGER:
+		case VAR_PTR:
 		case VAR_FLOAT:
 		case VAR_STRING:
 		case VAR_OBJECT:
@@ -2955,6 +2956,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, uint32
 		case VAR_REFERENCE:
 		case VAR_AREFERENCE:
 		case VAR_INTEGER:	// create global variable
+		case VAR_PTR:
 		case VAR_FLOAT:
 		case VAR_STRING:
 		case VAR_OBJECT:
@@ -2986,6 +2988,7 @@ bool COMPILER::CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, uint32
 					switch(Token_type)
 					{
 						case VAR_INTEGER:
+						case VAR_PTR:
 						case VAR_STRING:
 						case VAR_FLOAT:
 						case VAR_OBJECT:
@@ -4190,10 +4193,12 @@ bool COMPILER::BC_Execute(uint32_t function_code, DATA * & pVReturnResult, char 
 				if(pDbgExpSource == nullptr)	// skip test for dbg expression process
 				if(fi.return_type != pV->GetType())
 				{
+					if (fi.return_type == VAR_INTEGER && pV->GetType() == VAR_PTR)
+						return true;
+
 					SetError("%s function return %s value",
 						Token.GetTypeName(fi.return_type),
 						Token.GetTypeName(pV->GetType())); 
-					
 					return false;
 				}
 
@@ -4596,6 +4601,7 @@ bool COMPILER::BC_Execute(uint32_t function_code, DATA * & pVReturnResult, char 
 			case VAR_STRING:
 			case VAR_FLOAT:
 			case VAR_INTEGER:
+			case VAR_PTR:
 			break;
 			case OPEN_BRACKET:
 			break;
@@ -5669,6 +5675,7 @@ char * COMPILER::ReadString()
 bool COMPILER::ReadVariable(char * name,/* DWORD code,*/ bool bDim, uint32_t a_index)
 {
 	long   nLongValue;
+	uintptr_t ptrValue;
 	float  fFloatValue;
 	char * pString;
 	uint32_t  var_index;
@@ -5756,6 +5763,11 @@ bool COMPILER::ReadVariable(char * name,/* DWORD code,*/ bool bDim, uint32_t a_i
 			if(bSkipVariable) break;
 			pV->Set(nLongValue);
 		break;
+		case VAR_PTR:
+			ReadData(&ptrValue, sizeof(ptrValue));
+			if (bSkipVariable) break;
+			pV->SetPtr(ptrValue);
+			break;
 		case VAR_FLOAT:
 			ReadData(&fFloatValue, sizeof(fFloatValue));
 			if(bSkipVariable) break;
@@ -5841,6 +5853,7 @@ bool COMPILER::ReadVariable(char * name,/* DWORD code,*/ bool bDim, uint32_t a_i
 void COMPILER::SaveVariable(DATA * pV, bool bdim)
 {
 	long   nLongValue;
+	uintptr_t ptrValue;
 	float  fFloatValue;
 	char * pString;
 	uint32_t  var_index;
@@ -5882,7 +5895,11 @@ void COMPILER::SaveVariable(DATA * pV, bool bdim)
 		case VAR_INTEGER:
 			pV->Get(nLongValue);
 			SaveData(&nLongValue, sizeof(nLongValue));
-		break;
+			break;
+		case VAR_PTR:
+			pV->GetPtr(ptrValue);
+			SaveData(&ptrValue, sizeof(ptrValue));
+			break;
 		case VAR_FLOAT:
 			pV->Get(fFloatValue);
 			SaveData(&fFloatValue, sizeof(fFloatValue));
@@ -6651,6 +6668,7 @@ uint32_t COMPILER::SetScriptFunction(IFUNCINFO * pFuncInfo)
 		{
 			case TVOID:
 			case VAR_INTEGER:
+			case VAR_PTR:
 			case VAR_FLOAT:
 			case VAR_STRING:
 			case VAR_OBJECT:

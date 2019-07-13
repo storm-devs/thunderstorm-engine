@@ -334,7 +334,7 @@ uint64_t CORE::Send_Message(entid_t Destination,char * Format,...)
 	message.Reset(Format);									// reset message class
 	PZERO(&message.Sender_ID,sizeof(entid_t));
 	va_start(message.args,Format);
-	uint32_t rc = ((Entity *)ptr)->ProcessMessage(message);	// transfer control
+	uint64_t rc = ((Entity *)ptr)->ProcessMessage(message);	// transfer control
 	va_end(message.args);
 	return rc;
 }

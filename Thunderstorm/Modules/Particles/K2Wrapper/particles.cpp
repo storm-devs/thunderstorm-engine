@@ -189,7 +189,7 @@ uint64_t PARTICLES::ProcessMessage(MESSAGE & message)
 		}
 	case PS_VALIDATE_PARTICLE:
 		{
-			uintptr_t SystemID = message.Qword();
+			auto SystemID = message.Pointer();
 			for (uint32_t n = 0; n < CreatedSystems.size(); n++)
 				if (CreatedSystems[n].pSystem == (PARTICLE_SYSTEM*)SystemID)
 					return 1;

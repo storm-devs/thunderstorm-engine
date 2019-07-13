@@ -16,6 +16,7 @@ public:
 	virtual void  SetAReference(ATTRIBUTES * pARef)=0;
 	virtual void Set(long value)=0;
 	virtual void SetPtr(uintptr_t value) = 0;
+	virtual bool GetPtr(uintptr_t& value) = 0;
 	virtual void Set(float value)=0;
 	virtual void Set(char * value)=0;
 	virtual void Set(char * attribute_name, char * attribute_value)=0;

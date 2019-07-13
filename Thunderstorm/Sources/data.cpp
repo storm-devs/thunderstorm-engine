@@ -211,6 +211,25 @@ void DATA::SetAReference(ATTRIBUTES * pARef)
 	ReferenceIndex = reference_index;
 }*/
 
+void DATA::SetPtr(uintptr_t value)
+{
+	//if(bRef) 
+	if (Data_type == VAR_REFERENCE)
+	{
+		if (pReference)
+		{
+			pReference->SetPtr(value);
+			return;
+		}
+		Error(UNINIT_REF);
+		return;
+	}
+
+	if (bArray) { Error(NO_INDEX); return; }
+	Data_type = VAR_PTR;
+	pValue = value;
+}
+
 void DATA::Set(long value)
 {
 	//if(bRef) 
@@ -229,26 +248,6 @@ void DATA::Set(long value)
 	Data_type = VAR_INTEGER;
 	lValue = value;
 }
-
-void DATA::SetPtr(uintptr_t value)
-{
-	//if(bRef) 
-	if (Data_type == VAR_REFERENCE)
-	{
-		if (pReference)
-		{
-			pReference->Set(value);
-			return;
-		}
-		Error(UNINIT_REF);
-		return;
-	}
-
-	if (bArray) { Error(NO_INDEX); return; }
-	Data_type = VAR_INTEGER;
-	pValue = value;
-}
-
 
 void DATA::Set(float value)
 {
@@ -362,6 +361,23 @@ void DATA::Get(entid_t & eid)
 	if(bArray) {Error(NO_INDEX); return;}
 	if(!(Data_type == VAR_OBJECT || Data_type == VAR_AREFERENCE)) {Error("Not object"); return;}
 	eid = object_id;
+}
+
+bool DATA::GetPtr(uintptr_t& value)
+{
+	//if(bRef)
+	if (Data_type == VAR_REFERENCE)
+	{
+		if (pReference)
+		{
+			return pReference->GetPtr(value);
+		}
+		Error(UNINIT_REF);
+		return false;
+	}
+	if (bArray) { Error(NO_INDEX); return false; }
+	if (Data_type == VAR_PTR) { value = pValue; return true; }
+	return false;
 }
 
 bool DATA::Get(long & value)
@@ -770,6 +786,7 @@ bool DATA::Convert(S_TOKEN_TYPE type)
 		switch(type)
 		{
 			case VAR_INTEGER: return true;
+			case VAR_PTR: Data_type = type; pValue = lValue; return true;
 			case VAR_FLOAT: Data_type = type; fValue = (float)lValue; return true;
 			case VAR_STRING:
 				Data_type = type;
@@ -856,6 +873,13 @@ bool DATA::Convert(S_TOKEN_TYPE type)
 			
 		}
 	break;
+	case VAR_PTR:
+		switch (type)
+		{
+		case VAR_PTR: return true;
+		case VAR_INTEGER: Data_type = type; lValue = (long)pValue; return true;
+		default: Error(INVALID_CONVERSATION); return false;
+		}
 	}
 	return false;
 }
@@ -954,6 +978,7 @@ bool DATA::Neg()
 	{
 		case VAR_FLOAT:
 			Convert(VAR_INTEGER);
+		case VAR_PTR:
 		case VAR_INTEGER:
 			if(lValue != 0) lValue = 0;
 			else lValue = 1;
@@ -1387,6 +1412,26 @@ bool DATA::Plus(DATA * pV)
 					Set(sTemp);
 					delete sTemp;
 				break;
+				case VAR_PTR:
+					_ui64toa_s(pV->pValue, buffer, sizeof(buffer), 16);
+					if (sValue != nullptr)
+					{
+						size = strlen(sValue) + strlen(buffer) + 1;
+
+						sTemp = new char[size];
+						strcpy_s(sTemp, size, sValue);
+						strcat_s(sTemp, size, buffer);
+					}
+					else
+					{
+						size = strlen(buffer) + 1;
+
+						sTemp = new char[size];
+						strcpy_s(sTemp, size, buffer);
+					}
+					Set(sTemp);
+					delete sTemp;
+					break;
 				default: return false;
 			}
 		break;
@@ -1735,6 +1780,9 @@ bool DATA::Copy(DATA * pV)
 	{
 		case VAR_INTEGER:
 			Set(pV->lValue);
+		break;
+		case VAR_PTR:
+			SetPtr(pV->pValue);
 		break;
 		case VAR_FLOAT:
 			Set(pV->fValue);
@@ -2292,6 +2340,9 @@ bool DATA::BoolConvert()
 			if(sValue == nullptr ) { Set((long)0);  break; }
 			if(sValue[0] == 0 ) { Set((long)0);  break; }
 			Set((long)1);
+		break;
+		case VAR_PTR:
+			if (pValue != 0) Set((long)1); else Set((long)0);
 		break;
 		default: 
 

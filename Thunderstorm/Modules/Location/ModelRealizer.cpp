@@ -92,7 +92,7 @@ uint64_t LocModelRealizer::ProcessMessage(MESSAGE & message)
 	{
 	case 1:
 		eid_model = message.EntityID();
-		lights = (Lights*)message.Qword();
+		lights = (Lights*)message.Pointer();
 	break;
 	case 2:
 		bShow = message.Long()!=0;

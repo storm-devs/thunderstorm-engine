@@ -64,6 +64,8 @@ public:
 	~DATA();
 	void Set(long value);
 	void SetPtr(uintptr_t value);
+	bool GetPtr(uintptr_t& value);
+
 	void Set(float value);
 	void Set(char * value);
 	void Set(char * attribute_name, char * attribute_value);

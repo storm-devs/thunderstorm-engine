@@ -34,6 +34,9 @@ public:
 			case 'l': 
 				arg_size = sizeof(long); 
 			break;
+			case 'p':
+				arg_size = sizeof(uintptr_t);
+				break;
 			case 'f': 
 				arg_size = sizeof(float); 
 			break;
@@ -67,7 +70,7 @@ public:
 	uint16_t Word()			{ throw "Invalid MESSAGE_SCRIPT data type"; }
 	long Dword()		{ throw "Invalid MESSAGE_SCRIPT data type"; }
 	double Double()		{ throw "Invalid MESSAGE_SCRIPT data type"; }
-	char * Pointer()	{ throw "Invalid MESSAGE_SCRIPT data type"; }
+	//char * Pointer()	{ throw "Invalid MESSAGE_SCRIPT data type"; }
 	CVECTOR CVector()	{ throw "Invalid MESSAGE_SCRIPT data type"; }
 	void MemoryBlock(uint32_t memsize, char * buffer){	throw "Invalid MESSAGE_SCRIPT data type";	}
 	void Struct(uint32_t sizeofstruct, char * s) { throw "Invalid MESSAGE_SCRIPT data type";}
@@ -86,6 +89,14 @@ public:
 		memcpy(&tLong,ReadPointer,sizeof(long));
 		ReadPointer += sizeof(long);
 		return tLong; 
+	}
+	char * Pointer()
+	{
+		char * tPtr;
+		ValidateFormat('p');
+		memcpy(&tPtr, ReadPointer, sizeof(tPtr));
+		ReadPointer += sizeof(tPtr);
+		return tPtr;
 	}
 	float Float()		
 	{ 

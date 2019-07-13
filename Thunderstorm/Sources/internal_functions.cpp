@@ -125,7 +125,7 @@ INTFUNCDESC IntFuncTable[]=
 	0,"GetEventData",UNKNOWN,
 	//1,"Execute",TVOID,
 	0,"Stop",TVOID,
-	0,"SendMessage",VAR_INTEGER,
+	0,"SendMessage",VAR_PTR,
 	1,"LoadSegment",VAR_INTEGER,
 	1,"UnloadSegment",TVOID,
 	1,"Trace",TVOID,
@@ -1467,8 +1467,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 
 			CreateMessage(&ms,s_off,1);
 
-			uint32_t mresult;
-			mresult = 0;
+			uint64_t mresult;
 			pE = EntityManager::GetEntityPointer(ent);
 			if(pE)
 			{
@@ -1478,7 +1477,7 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			for(n=0;n<arguments;n++){SStack.Pop();}	// set stack pointer to correct position (vars in stack remain valid)
 
 			pV = SStack.Push();
-			pV->Set((long)mresult);
+			pV->SetPtr(mresult); // SendMessage returns uint64_t, could be truncated to 32
 			pVResult = pV;
 
 		return pV;
@@ -1903,6 +1902,7 @@ void COMPILER::DumpAttributes(ATTRIBUTES * pA, long level)
 // assume first param - format string
 bool COMPILER::CreateMessage(MESSAGE_SCRIPT * pMs, uint32_t s_off, uint32_t var_offset, bool s2s)
 {
+	uintptr_t TempPtr;
 	long  TempLong1;
 	float TempFloat1;
 	entid_t TempEid;
@@ -1943,6 +1943,16 @@ bool COMPILER::CreateMessage(MESSAGE_SCRIPT * pMs, uint32_t s_off, uint32_t var_
 				pV->Get(TempLong1);
 				pMs->Set((char *)&TempLong1);
 			break;
+			case 'p':
+				pV = pV->GetVarPointer();
+				if (pV->GetType() != VAR_PTR)
+				{
+					SetError("CreateMessage: Invalid Data");
+					return false;
+				}
+				pV->GetPtr(TempPtr);
+				pMs->Set((char*)&TempPtr);
+				break;
 			case 'f':
 				pV = pV->GetVarPointer();
 				if(pV->GetType() != VAR_FLOAT)

@@ -155,7 +155,7 @@ long BI_InterfaceManager::MsgCreateString(MESSAGE & message)
 
 long BI_InterfaceManager::MsgDeleteNode(MESSAGE & message)
 {
-	BI_ManagerNodeBase* pNod = (BI_ManagerNodeBase*)message.Qword();
+	BI_ManagerNodeBase* pNod = (BI_ManagerNodeBase*)message.Pointer();
 	if( !pNod ) 
 		return 0;
 

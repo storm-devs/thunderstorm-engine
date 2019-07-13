@@ -304,7 +304,7 @@ uint32_t CXI_PICTURE::MessageProc(long msgcode, MESSAGE & message)
 
 	case 7: // set new picture by pointer to IDirect3DTexture9
 		{
-			IDirect3DBaseTexture9* pTex = (IDirect3DBaseTexture9*)message.Qword();
+			IDirect3DBaseTexture9* pTex = (IDirect3DBaseTexture9*)message.Pointer();
 			SetNewPictureByPointer( pTex );
 		}
 		break;
