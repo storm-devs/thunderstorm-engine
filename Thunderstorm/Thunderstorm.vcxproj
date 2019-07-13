@@ -58,10 +58,10 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <AdditionalIncludeDirectories>C:\Users\espkk\source\repos\stormengine\Thunderstorm\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Include;External;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>fmodex_vc.lib;legacy_stdio_definitions.lib;d3d9.lib;d3dx9.lib;dxerr.lib;odbc32.lib;odbccp32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmod_vc.lib;legacy_stdio_definitions.lib;d3d9.lib;d3dx9.lib;dxerr.lib;odbc32.lib;odbccp32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
@@ -90,11 +90,11 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\espkk\source\repos\stormengine\Thunderstorm\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Include;External;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalOptions>/LTCG %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>fmodex_vc.lib;legacy_stdio_definitions.lib;d3d9.lib;d3dx9.lib;dxerr.lib;odbc32.lib;odbccp32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmod_vc.lib;legacy_stdio_definitions.lib;d3d9.lib;d3dx9.lib;dxerr.lib;odbc32.lib;odbccp32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
     <Midl>
@@ -665,12 +665,6 @@
     <ClInclude Include="Modules\SEA_CAMERAS\SEA_CAMERAS.h" />
     <ClInclude Include="Modules\SEA_CAMERAS\ShipCamera.h" />
     <ClInclude Include="Modules\SoundService\DebugEntity.h" />
-    <ClInclude Include="Modules\SoundService\Fmod4\api\inc\fmod.h" />
-    <ClInclude Include="Modules\SoundService\Fmod4\api\inc\fmod.hpp" />
-    <ClInclude Include="Modules\SoundService\Fmod4\api\inc\fmod_codec.h" />
-    <ClInclude Include="Modules\SoundService\Fmod4\api\inc\fmod_dsp.h" />
-    <ClInclude Include="Modules\SoundService\Fmod4\api\inc\fmod_errors.h" />
-    <ClInclude Include="Modules\SoundService\Fmod4\api\inc\fmod_output.h" />
     <ClInclude Include="Modules\SoundService\SoundDefines.h" />
     <ClInclude Include="Modules\SoundService\SoundService.h" />
     <ClInclude Include="Modules\SoundService\VSound.h" />

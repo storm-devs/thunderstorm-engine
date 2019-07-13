@@ -7,9 +7,9 @@
 #include "SoundDefines.h"
 #include "VSoundService.h"
 #include "Cvector.h"
-#include "./Fmod4/api/inc/fmod.hpp"
-#include "./Fmod4/api/inc/fmod_errors.h"
+#include <FMOD/fmod.hpp>
 #include <string>
+#include <dx9render.h>
 
 
 #define MAX_SOUNDS_SLOTS 512
@@ -23,12 +23,14 @@ class SoundVisualisationEntity;
 ///////////////////////////////////////////////////////////////////
 class SoundService: public VSoundService
 {
+	static FMOD_RESULT ErrorHandler(const FMOD_RESULT result, const char* file, unsigned line, const char* func, const char* expr);
+	VDX9RENDER* rs = nullptr;
+
 	bool bShowDebugInfo;
-	FMOD_RESULT status;
 
-	bool bInited;
+	bool initialized;
 
-	FMOD::System* fmod_system;
+	FMOD::System* system;
 
 	FMOD::Sound* OGG_sound[2];
 

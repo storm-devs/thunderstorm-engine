@@ -377,9 +377,6 @@
     <Filter Include="Modules\SeaCameras\DeckCamera">
       <UniqueIdentifier>{0f765102-2590-40a1-8db2-acb8ddd18d6f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Modules\SoundService\FMOD">
-      <UniqueIdentifier>{85daa9d8-b9d4-4cdf-a752-a8820145cc4f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Modules\SoundService\Header Files">
       <UniqueIdentifier>{6929674e-70f0-42c1-bd3e-b7ece78c9927}</UniqueIdentifier>
     </Filter>
@@ -1895,24 +1892,6 @@
     </ClInclude>
     <ClInclude Include="Modules\SEA_CAMERAS\DeckCamera.h">
       <Filter>Modules\SeaCameras\DeckCamera</Filter>
-    </ClInclude>
-    <ClInclude Include="Modules\SoundService\Fmod4\api\inc\fmod.h">
-      <Filter>Modules\SoundService\FMOD</Filter>
-    </ClInclude>
-    <ClInclude Include="Modules\SoundService\Fmod4\api\inc\fmod.hpp">
-      <Filter>Modules\SoundService\FMOD</Filter>
-    </ClInclude>
-    <ClInclude Include="Modules\SoundService\Fmod4\api\inc\fmod_codec.h">
-      <Filter>Modules\SoundService\FMOD</Filter>
-    </ClInclude>
-    <ClInclude Include="Modules\SoundService\Fmod4\api\inc\fmod_dsp.h">
-      <Filter>Modules\SoundService\FMOD</Filter>
-    </ClInclude>
-    <ClInclude Include="Modules\SoundService\Fmod4\api\inc\fmod_errors.h">
-      <Filter>Modules\SoundService\FMOD</Filter>
-    </ClInclude>
-    <ClInclude Include="Modules\SoundService\Fmod4\api\inc\fmod_output.h">
-      <Filter>Modules\SoundService\FMOD</Filter>
     </ClInclude>
     <ClInclude Include="Modules\SoundService\DebugEntity.h">
       <Filter>Modules\SoundService\Header Files</Filter>

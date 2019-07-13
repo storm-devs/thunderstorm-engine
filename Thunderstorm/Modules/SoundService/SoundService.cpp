@@ -3,38 +3,29 @@
 #include "rands.h"
 #include "SoundService.h"
 #include "EntityManager.h"
+#include <FMOD/fmod_errors.h>
 
 //дл€ debug
-#include "dx9render.h"
 #include "DebugEntity.h"
 #include "math3d/Color.h"
 
-VDX9RENDER* pRS = nullptr;
 
-INTERFACE_FUNCTION
 CREATE_SERVICE(SoundService)	
 CREATE_CLASS(SoundVisualisationEntity)
-
 
 #define DISTANCEFACTOR 1.0f
 
 //#define FADE_TIME 4.0f
 
-
-
-void FMOD_ERROR(const char* szFromWhere, FMOD_RESULT result)
+#define CHECKFMODERR(expr) ErrorHandler(expr, __FILE__, __LINE__, __func__, #expr)
+FMOD_RESULT SoundService::ErrorHandler(const FMOD_RESULT result, const char * file, unsigned line, const char* func, const char *expr)
 {
-	if (result != FMOD_OK)
-	{
-		char* szTxtError = FMOD_ErrorString(result);
-		api->Trace("%s error! (%d) %s", szFromWhere, result, szTxtError);
+	if (result != FMOD_OK) {
+		api->Trace("[%s:%s:%d] %s (%s)", file, func, line, FMOD_ErrorString(result), expr);
 	}
+	return result;
 }
 
-
-//////////////////////////////////////////////////////////////////////
-// CLASS IMPLEMENTATION
-//////////////////////////////////////////////////////////////////////
 SoundService::SoundService()
 {
 	fFXVolume = 0.5f;
@@ -45,8 +36,8 @@ SoundService::SoundService()
 	bShowDebugInfo = false;
 	OGG_sound[0] = nullptr;
 	OGG_sound[1] = nullptr;
-	fmod_system = nullptr;
-	bInited = false;
+	system = nullptr;
+	initialized = false;
 
 	vListenerPos.x = 0.0f;
 	vListenerPos.y = 0.0f;
@@ -64,81 +55,49 @@ SoundService::SoundService()
 
 }
 
-//--------------------------------------------------------------------
 SoundService::~SoundService()
 {
-
-	if (bInited)
-	{
-		status = fmod_system->close();
-		FMOD_ERROR("FMOD:Close", status);
-		status = fmod_system->release();
-		FMOD_ERROR("FMOD:Release", status);
+	if (initialized) {
+		CHECKFMODERR(system->close());
+		CHECKFMODERR(system->release());
 	}
-	bInited = false;
 }
 
-
-//--------------------------------------------------------------------
-//static TSD_ID i5 = 0;
 bool SoundService::Init()
 {
-	pRS = (VDX9RENDER *) api->CreateService("DX9RENDER");
+	initialized = false;
 
-	status = FMOD::System_Create(&fmod_system);
-	FMOD_ERROR("FMOD:System_Create", status);
+	rs = (VDX9RENDER *) api->CreateService("DX9RENDER");
 
-	unsigned int version;
-	status = fmod_system->getVersion(&version);
-	FMOD_ERROR("FMOD:getVersion", status);
-	
+	CHECKFMODERR(FMOD::System_Create(&system));
+	unsigned version;
+	CHECKFMODERR(system->getVersion(&version));
 
-	bInited = false;
-	if (version < FMOD_VERSION)
-	{
+	if (version < FMOD_VERSION) {
 		api->Trace("Error : You are using old FMOD version %08x !\n", version);
 		return false;
-	} else
-	{
-		api->Trace("Using FMOD %08x", FMOD_VERSION);
 	}
+	api->Trace("Using FMOD %08x", FMOD_VERSION);
+
+	CHECKFMODERR(system->init(MAX_SOUNDS_SLOTS, FMOD_INIT_NORMAL, nullptr));
+	CHECKFMODERR(system->set3DSettings(1.0, DISTANCEFACTOR, 1.0f));
+
+	InitAliases();
+	CreateEntityIfNeed();
+
+	initialized = true;
+	return true;
 
 	//32 звука мы слышим
-	status = fmod_system->setSoftwareChannels(32);
-	FMOD_ERROR("FMOD:setSoftwareChannels", status);
-
-
-	//fmod_system->setDriver()
-
-	//status = fmod_system->setSpeakerMode(FMOD_SPEAKERMODE_STEREO);
-	//FMOD_ERROR("FMOD:setSpeakerMode", status);
-
+	//CHECKFMODERR(system->setSoftwareChannels(32));
+	//FMOD_CHECK("FMOD:setSoftwareChannels", status);
+	//system->setDriver()
+	//status = system->setSpeakerMode(FMOD_SPEAKERMODE_STEREO);
+	//FMOD_CHECK("FMOD:setSpeakerMode", status);
 	//всего MAX_SOUNDS_SLOTS можно звуков завести
-
-	INIFILE * pEngineIni = fio->OpenIniFile(api->EngineIniFileName());
-	if (pEngineIni)
-	{
-		bool bUseMMDevice = pEngineIni->GetLong("Sound", "UseMM", 0) == 1;
-		if (bUseMMDevice)
-	{
-	status = fmod_system->setOutput(FMOD_OUTPUTTYPE_WINMM);
-	FMOD_ERROR("FMOD:setOutput", status);
-	}
-		STORM_DELETE(pEngineIni);
-	}
-
-	status = fmod_system->init(MAX_SOUNDS_SLOTS, FMOD_INIT_NORMAL, api->GetAppHWND());
-	FMOD_ERROR("FMOD:init", status);
-	status = fmod_system->set3DSettings(1.0, DISTANCEFACTOR, 1.0f);
-	FMOD_ERROR("FMOD:set3DSettings", status);
-
-	bInited = true;
-	api->Trace("Sound inited ok !!!");
-
-
-	FMOD_SPEAKERMODE speaker_mode;
-	status = fmod_system->getSpeakerMode(&speaker_mode);
-	FMOD_ERROR("FMOD:getSpeakerMode", status);
+	/*FMOD_SPEAKERMODE speaker_mode;
+	status = system->getSpeakerMode(&speaker_mode);
+	FMOD_CHECK("FMOD:getSpeakerMode", status);
 
 	std::string TextSpkMode = "RAW";
 	switch (speaker_mode)
@@ -160,19 +119,10 @@ bool SoundService::Init()
 		break;
 
 	}
-	api->Trace("FMOD: Speaker mode %s", TextSpkMode.c_str());
-
-	InitAliases();
-
-
+	api->Trace("FMOD: Speaker mode %s", TextSpkMode.c_str());*/
 	//FMOD_REVERB_PROPERTIES revProp = FMOD_PRESET_CONCERTHALL;
-	//status = fmod_system->setReverbProperties(&revProp);
-	//FMOD_ERROR("FMOD:setReverbProperties",status);
-
-
-	CreateEntityIfNeed();
-
-	return true;
+	//status = system->setReverbProperties(&revProp);
+	//FMOD_CHECK("FMOD:setReverbProperties",status);
 }
 
 //--------------------------------------------------------------------
@@ -180,8 +130,7 @@ void  SoundService::RunEnd()
 {
 	CreateEntityIfNeed();
 	//¬нутреннее обновление FMOD
-	status = fmod_system->update();
-	FMOD_ERROR("FMOD:update",status);
+	CHECKFMODERR(system->update());
 }
 
 
@@ -241,12 +190,12 @@ void  SoundService::RunStart()
 {
 	CreateEntityIfNeed();
 
-	if (pRS)
+	if (rs)
 	{
 		static CVECTOR pos, ang, nose, head;
 		static CMatrix view;
 
-		pRS->GetTransform(D3DTS_VIEW, view);
+		rs->GetTransform(D3DTS_VIEW, view);
 		view.Transposition();
 		nose = view.Vz();
 		head = view.Vy();
@@ -271,21 +220,20 @@ void  SoundService::RunStart()
 		//≈сли просто на паузе стоит, трогать его не надо...
 
 		bool paused;
-		status = PlayingSounds[i].channel->getPaused(&paused);
+		auto status = CHECKFMODERR(PlayingSounds[i].channel->getPaused(&paused));
 		if (status != FMOD_OK)
 		{
 			PlayingSounds[i].bFree = true;
 			continue;
 		}
 
-		//FMOD_ERROR(status);
+		//FMOD_CHECK(status);
 
 		if (paused) continue;
 
 
 		bool is_playing;
-		status = PlayingSounds[i].channel->isPlaying(&is_playing);
-		FMOD_ERROR("FMOD_SOUND:isplaying", status);
+		status = CHECKFMODERR(PlayingSounds[i].channel->isPlaying(&is_playing));
 
 		if (!is_playing || status != FMOD_OK)
 		{
@@ -294,14 +242,12 @@ void  SoundService::RunStart()
 
 			if (i == 0 && OGG_sound[0] != nullptr)
 			{
-				status = OGG_sound[0]->release();
-				FMOD_ERROR("FMOD_SOUND:release", status);
+				CHECKFMODERR(OGG_sound[0]->release());
 				OGG_sound[0] = nullptr;
 			}
 			if (i == 1 && OGG_sound[1] != nullptr)
 			{
-				status = OGG_sound[1]->release();
-				FMOD_ERROR("FMOD_SOUND:release", status);
+				CHECKFMODERR(OGG_sound[1]->release());
 				OGG_sound[1] = nullptr;
 			}
 			
@@ -424,11 +370,10 @@ TSD_ID  SoundService::SoundPlay (const char *_name,
 
 			uint32_t dwMode = FMOD_LOOP_OFF;
 			if (_looped) dwMode = FMOD_LOOP_NORMAL;
-			status = fmod_system->createStream(SoundName.c_str(), FMOD_HARDWARE | FMOD_2D | dwMode, nullptr, &sound);
-			FMOD_ERROR("FMOD_SOUND:createStream", status);
+			const auto status = CHECKFMODERR(system->createStream(SoundName.c_str(), FMOD_CREATESAMPLE | FMOD_2D | dwMode, nullptr, &sound));
 			if (status != FMOD_OK)
 			{
-				api->Trace("fmod_system->createStream(%s, FMOD_HARDWARE | FMOD_2D | dwMode, 0, &sound)", SoundName.c_str());
+				api->Trace("system->createStream(%s, FMOD_HARDWARE | FMOD_2D | dwMode, 0, &sound)", SoundName.c_str());
 				return 0;
 			}
 
@@ -460,10 +405,10 @@ TSD_ID  SoundService::SoundPlay (const char *_name,
 			SoundStop(OldMusicIdx+1, _time);
 			/*
 			status = PlayingSounds[OldMusicIdx].channel->stop();
-			FMOD_ERROR("FMOD_SOUND:stop",status);
+			FMOD_CHECK("FMOD_SOUND:stop",status);
 			PlayingSounds[OldMusicIdx].channel = NULL;
 			status = OGG_sound[OldMusicIdx]->release();
-			FMOD_ERROR("FMOD_SOUND:release",status);
+			FMOD_CHECK("FMOD_SOUND:release",status);
 			*/
 //			PlayingSounds[OldMusicIdx].fFaderNeedVolume = 0.0f ;
 //			PlayingSounds[OldMusicIdx].fFaderCurrentVolume = _volume;
@@ -511,12 +456,10 @@ TSD_ID  SoundService::SoundPlay (const char *_name,
 	PlayingSounds[SoundIdx].fSoundVolume = _volume;
 
 	//Ќачинаем проигрывать звук, правда запауженный...
-	status = fmod_system->playSound(FMOD_CHANNEL_FREE, sound, true, &PlayingSounds[SoundIdx].channel);
-	FMOD_ERROR("FMOD_SOUND:playSound", status);
-
+	const auto status = CHECKFMODERR(system->playSound(sound, nullptr, true, &PlayingSounds[SoundIdx].channel));
 	if (status != FMOD_OK)
 	{
-		api->Trace("fmod_system->playSound(FMOD_CHANNEL_FREE, sound, true, &PlayingSounds[%d].channel)", SoundIdx);
+		api->Trace("system->playSound(FMOD_CHANNEL_FREE, sound, true, &PlayingSounds[%d].channel)", SoundIdx);
 	}
 
 
@@ -547,16 +490,14 @@ TSD_ID  SoundService::SoundPlay (const char *_name,
 		if (_minDistance < 0.0f) _minDistance = 0.0f;
 		if (_maxDistance < 0.0f) _maxDistance = 0.0f;
 		//FMOD_Sound_Set3DMinMaxDistance(PlayingSounds[SoundIdx].sound, _minDistance * DISTANCEFACTOR, _maxDistance * DISTANCEFACTOR);
-		status = PlayingSounds[SoundIdx].channel->set3DMinMaxDistance(_minDistance * DISTANCEFACTOR, _maxDistance * DISTANCEFACTOR);
-		FMOD_ERROR("FMOD_SOUND:set3DMinMaxDistance",status);
+		CHECKFMODERR(PlayingSounds[SoundIdx].channel->set3DMinMaxDistance(_minDistance * DISTANCEFACTOR, _maxDistance * DISTANCEFACTOR));
 
 		FMOD_VECTOR vVelocity = { 0.0f, 0.0f, 0.0f };
 		FMOD_VECTOR vPosition;
 		vPosition.x = _startPosition->x;
 		vPosition.y = _startPosition->y;
 		vPosition.z = _startPosition->z;
-		status = PlayingSounds[SoundIdx].channel->set3DAttributes(&vPosition, &vVelocity);
-		FMOD_ERROR("FMOD_SOUND:set3DAttributes",status);
+		CHECKFMODERR(PlayingSounds[SoundIdx].channel->set3DAttributes(&vPosition, &vVelocity));
 	}
 
 	switch (_volumeType)
@@ -578,12 +519,10 @@ TSD_ID  SoundService::SoundPlay (const char *_name,
 
 	if (_time <= 0)
 	{
-		status = PlayingSounds[SoundIdx].channel->setVolume(_volume);
-		FMOD_ERROR("FMOD_SOUND:setVolume",status);
+		CHECKFMODERR(PlayingSounds[SoundIdx].channel->setVolume(_volume));
 	} else
 	{
-		status = PlayingSounds[SoundIdx].channel->setVolume(0);
-		FMOD_ERROR("FMOD_SOUND:setVolume",status);
+		CHECKFMODERR(PlayingSounds[SoundIdx].channel->setVolume(0));
 	}
 
 	PlayingSounds[SoundIdx].Name = std::move(SoundName);
@@ -599,12 +538,10 @@ TSD_ID  SoundService::SoundPlay (const char *_name,
 	//≈сли не просто кеширование.... то снимаем с паузы...
 	if (!_simpleCache)
 	{
-		status = PlayingSounds[SoundIdx].channel->setPaused(false);
-		FMOD_ERROR("FMOD_SOUND:setPaused",status);
+		CHECKFMODERR(PlayingSounds[SoundIdx].channel->setPaused(false));
 	} else
 	{
-		status = PlayingSounds[SoundIdx].channel->setPaused(true);
-		FMOD_ERROR("FMOD_SOUND:setPaused",status);
+		CHECKFMODERR(PlayingSounds[SoundIdx].channel->setPaused(true));
 	}
 
 	PlayingSounds[SoundIdx].bFree = false;
@@ -613,18 +550,12 @@ TSD_ID  SoundService::SoundPlay (const char *_name,
 	//Ћупинг задаем..
 	if (_looped)
 	{
-		status = PlayingSounds[SoundIdx].channel->setMode(FMOD_LOOP_NORMAL);
+		CHECKFMODERR(PlayingSounds[SoundIdx].channel->setMode(FMOD_LOOP_NORMAL));
 	}
 	else
 	{
-		status = PlayingSounds[SoundIdx].channel->setMode(FMOD_LOOP_OFF);
+		CHECKFMODERR(PlayingSounds[SoundIdx].channel->setMode(FMOD_LOOP_OFF));
 	}
-
-	FMOD_ERROR("FMOD_SOUND:setMode",status);
-
-
-
-
 
 	//---------- пробегаем по всем звукам ищем с таким же channel --------------
 
@@ -663,8 +594,7 @@ void  SoundService::SoundSet3DParam  (TSD_ID _id, eSoundMessage _message, const 
 		{
 			float maxDistance;
 			maxDistance= *((float *) _op);
-			status = PlayingSounds[_id].channel->set3DMinMaxDistance(NULL, maxDistance);
-			FMOD_ERROR("FMOD_SOUND:set3DMinMaxDistance",status);
+			CHECKFMODERR(PlayingSounds[_id].channel->set3DMinMaxDistance(NULL, maxDistance));
 			break;
 		}
 	
@@ -672,8 +602,7 @@ void  SoundService::SoundSet3DParam  (TSD_ID _id, eSoundMessage _message, const 
 		{
 			float minDistance;
 			minDistance= *((float *) _op);
-			status = PlayingSounds[_id].channel->set3DMinMaxDistance(minDistance, NULL);
-			FMOD_ERROR("FMOD_SOUND:set3DMinMaxDistance",status);
+			CHECKFMODERR(PlayingSounds[_id].channel->set3DMinMaxDistance(minDistance, NULL));
 			break;
 		}
 
@@ -685,8 +614,7 @@ void  SoundService::SoundSet3DParam  (TSD_ID _id, eSoundMessage _message, const 
 			pos.y = *(fPtr + 1);
 			pos.z = *(fPtr + 2);
 			FMOD_VECTOR vVelocity = { 0.0f, 0.0f, 0.0f };
-			status = PlayingSounds[_id].channel->set3DAttributes(&pos, &vVelocity);
-			FMOD_ERROR("FMOD_SOUND:set3DAttributes",status);
+			CHECKFMODERR(PlayingSounds[_id].channel->set3DAttributes(&pos, &vVelocity));
 			break;
 		}
 	}
@@ -747,8 +675,7 @@ void  SoundService::SoundSetVolume (TSD_ID _id, float _volume)
 				PlayingSounds[i].fFaderCurrentVolume = PlayingSounds[i].fFaderNeedVolume;
 			}
 
-			status = PlayingSounds[i].channel->setVolume(_volume);
-			FMOD_ERROR("FMOD_SOUND:setVolume",status);
+			CHECKFMODERR(PlayingSounds[i].channel->setVolume(_volume));
 		}
 		return;
 	}
@@ -791,8 +718,7 @@ void  SoundService::SoundSetVolume (TSD_ID _id, float _volume)
 	}
 
 
-	status = PlayingSounds[_id].channel->setVolume(_volume);
-	FMOD_ERROR("FMOD_SOUND:setVolume",status);
+	CHECKFMODERR(PlayingSounds[_id].channel->setVolume(_volume));
 
 }
 
@@ -812,8 +738,7 @@ void SoundService::SoundResume (TSD_ID _id, long _time/* = 0*/)
 		for (int i = 0; i < MAX_SOUNDS_SLOTS; i++)
 		{
 			if (PlayingSounds[i].bFree) continue;
-			status = PlayingSounds[i].channel->setPaused(false);
-			FMOD_ERROR("FMOD_SOUND:setPaused",status);
+			CHECKFMODERR(PlayingSounds[i].channel->setPaused(false));
 		}
 		return;
 
@@ -826,8 +751,7 @@ void SoundService::SoundResume (TSD_ID _id, long _time/* = 0*/)
 		return;
 	}
 	
-	status = PlayingSounds[_id].channel->setPaused(false);
-	FMOD_ERROR("FMOD_SOUND:setPaused",status);
+	CHECKFMODERR(PlayingSounds[_id].channel->setPaused(false));
 	//PlayingSounds[_id].bCacheOnly = false;
 }
 
@@ -839,8 +763,7 @@ float SoundService::SoundGetPosition (TSD_ID _id)
 	if (PlayingSounds[_id].bFree) return 0;
 
 	unsigned int SoundPositionInMilisecond;
-	status = PlayingSounds[_id].channel->getPosition(&SoundPositionInMilisecond, FMOD_TIMEUNIT_MS);
-	FMOD_ERROR("FMOD_SOUND:getPosition",status);
+	CHECKFMODERR(PlayingSounds[_id].channel->getPosition(&SoundPositionInMilisecond, FMOD_TIMEUNIT_MS));
 	return 0;
 }
 
@@ -852,8 +775,7 @@ void SoundService::SetCameraPosition (const CVECTOR &_cameraPosition)
 	vListenerPos.y = _cameraPosition.y;
 	vListenerPos.z = _cameraPosition.z;
 
-	status = fmod_system->set3DListenerAttributes(0, &vListenerPos, nullptr, &vListenerForward, &vListenerTop);
-	FMOD_ERROR("FMOD:set3DListenerAttributes",status);
+	CHECKFMODERR(system->set3DListenerAttributes(0, &vListenerPos, nullptr, &vListenerForward, &vListenerTop));
 }
 
 //--------------------------------------------------------------------
@@ -870,8 +792,7 @@ void SoundService::SetCameraOrientation (const CVECTOR &_nose, const CVECTOR &_h
 	vListenerTop.y = head.y;
 	vListenerTop.z = head.z;
 
-	status = fmod_system->set3DListenerAttributes(0, &vListenerPos, nullptr, &vListenerForward, &vListenerTop);
-	FMOD_ERROR("FMOD:set3DListenerAttributes",status);
+	CHECKFMODERR(system->set3DListenerAttributes(0, &vListenerPos, nullptr, &vListenerForward, &vListenerTop));
 }
 
 //--------------------------------------------------------------------
@@ -926,13 +847,13 @@ void  SoundService::SetMasterVolume (float _fxVolume, float _musicVolume, float 
 			break;
 		}
 
-		status = PlayingSounds[i].channel->setVolume(_volume);
+		const auto status = CHECKFMODERR(PlayingSounds[i].channel->setVolume(_volume));
 		if (status != FMOD_OK)
 		{
 			PlayingSounds[i].bFree = true;
 			continue;
 		}
-		//FMOD_ERROR("FMOD_SOUND:setVolume",status);
+		//FMOD_CHECK("FMOD_SOUND:setVolume",status);
 
 		
 	}
@@ -982,7 +903,7 @@ void SoundService::SoundStop (TSD_ID _id, long _time)
 
 			if (PlayingSounds[0].fFaderDeltaInSec <= 0.00001f)
 			{
-				status = OGG_sound[0]->release();
+				CHECKFMODERR(OGG_sound[0]->release());
 				OGG_sound[0] = nullptr;
 			}
 
@@ -994,7 +915,7 @@ void SoundService::SoundStop (TSD_ID _id, long _time)
 
 			if (PlayingSounds[1].fFaderDeltaInSec <= 0.00001f)
 			{
-				status = OGG_sound[1]->release();
+				CHECKFMODERR(OGG_sound[1]->release());
 				OGG_sound[1] = nullptr;
 			}
 
@@ -1018,15 +939,14 @@ void SoundService::SoundStop (TSD_ID _id, long _time)
 			}
 
 
-			status = PlayingSounds[i].channel->isPlaying(&is_playing);
+			const auto status = CHECKFMODERR(PlayingSounds[i].channel->isPlaying(&is_playing));
 			if (!is_playing || status != FMOD_OK) // boal fix
 			{
 			    PlayingSounds[i].bFree = true;
 			}
 			else
 			{
-				status = PlayingSounds[i].channel->stop();
-				FMOD_ERROR("FMOD_SOUND:stop",status);
+				CHECKFMODERR(PlayingSounds[i].channel->stop());
 			}
 		}
 
@@ -1034,15 +954,13 @@ void SoundService::SoundStop (TSD_ID _id, long _time)
 		{
 			if (OGG_sound[0])
 			{
-				status = OGG_sound[0]->release();
-				FMOD_ERROR("FMOD_SOUND:release",status);
+				CHECKFMODERR(OGG_sound[0]->release());
 			}
 			OGG_sound[0] = nullptr;
 
 			if (OGG_sound[1])
 			{
-				status = OGG_sound[1]->release();
-				FMOD_ERROR("FMOD_SOUND:release",status);
+				CHECKFMODERR(OGG_sound[1]->release());
 			}
 			OGG_sound[1] = nullptr;
 		}
@@ -1073,31 +991,29 @@ void SoundService::SoundStop (TSD_ID _id, long _time)
 			SetOGGPosition(PlayingSounds[_id].Name.c_str(), OGGpos);
 		}
 
+		auto status = FMOD_OK;
         if (!PlayingSounds[_id].bFree) // boal fix
         {
-            status = PlayingSounds[_id].channel->isPlaying(&is_playing);
+            status = CHECKFMODERR(PlayingSounds[_id].channel->isPlaying(&is_playing));
 			if (!is_playing || status != FMOD_OK) // boal fix
 			{
 			    PlayingSounds[_id].bFree = true;
 			}
 			else
 			{
-				status = PlayingSounds[_id].channel->stop();
-				FMOD_ERROR("FMOD_SOUND:stop",status);
+				status = CHECKFMODERR(PlayingSounds[_id].channel->stop());
 			}
 		}
 
 		if (_id == 0 && OGG_sound[0] && status == FMOD_OK)
 		{
-			status = OGG_sound[0]->release();
-			FMOD_ERROR("FMOD_SOUND:release",status);
+			CHECKFMODERR(OGG_sound[0]->release());
 			OGG_sound[0] = nullptr;
 		}
 
 		if (_id == 1 && OGG_sound[1] && status == FMOD_OK)
 		{
-			status = OGG_sound[1]->release();
-			FMOD_ERROR("FMOD_SOUND:release",status);
+			CHECKFMODERR(OGG_sound[1]->release());
 			OGG_sound[1] = nullptr;
 		}
 	}
@@ -1241,7 +1157,7 @@ void SoundService::DebugDraw ()
 	}
 
 	if (!bShowDebugInfo) return;
-//	pRS->Print(0, 0, "sound debug draw !!!!");
+//	rs->Print(0, 0, "sound debug draw !!!!");
 
 
 	bool bShowDistances = true;
@@ -1251,13 +1167,13 @@ void SoundService::DebugDraw ()
 	int RealCount = 0;
 
 	FMOD_VECTOR lpos, lvel, lforward, lup; 
-	fmod_system->get3DListenerAttributes(0, &lpos, &lvel, &lforward, &lup);
+	system->get3DListenerAttributes(0, &lpos, &lvel, &lforward, &lup);
 
 	CVECTOR vListener = CVECTOR (lpos.x, lpos.y, lpos.z);
 
 
 	float fTotal;
-	fmod_system->getCPUUsage(nullptr, nullptr, nullptr, &fTotal);
+	system->getCPUUsage(nullptr, nullptr, nullptr, nullptr, &fTotal);
 	int CurrentAlloc, PeakAlloc;
 	FMOD::Memory_GetStats(&CurrentAlloc, &PeakAlloc);
 
@@ -1265,14 +1181,14 @@ void SoundService::DebugDraw ()
 	list_pos.x = lpos.x;
 	list_pos.y = lpos.y;
 	list_pos.z = lpos.z;
-	//pRS->DrawSphere(list_pos, 4.0f, 0xFF008000);
+	//rs->DrawSphere(list_pos, 4.0f, 0xFF008000);
 
-	pRS->Print(0, 0, "CPU Usage %3.2f Mem: %3.2f Kb, MemPeak %3.2f Kb, Cached %d sounds", fTotal, CurrentAlloc/1024.0f, PeakAlloc/1024.0f, SoundCache.size());
-	pRS->Print(0, 16, "position  %3.2f, %3.2f, %3.2f, forward %3.2f, %3.2f, %3.2f, up %3.2f, %3.2f, %3.2f", lpos.x, lpos.y, lpos.z, lforward.x, lforward.y, lforward.z, lup.x, lup.y, lup.z);
+	rs->Print(0, 0, "CPU Usage %3.2f Mem: %3.2f Kb, MemPeak %3.2f Kb, Cached %d sounds", fTotal, CurrentAlloc/1024.0f, PeakAlloc/1024.0f, SoundCache.size());
+	rs->Print(0, 16, "position  %3.2f, %3.2f, %3.2f, forward %3.2f, %3.2f, %3.2f, up %3.2f, %3.2f, %3.2f", lpos.x, lpos.y, lpos.z, lforward.x, lforward.y, lforward.z, lup.x, lup.y, lup.z);
 
 	CMatrix ind;
 	ind.SetIdentity();
-	pRS->SetWorld(ind);
+	rs->SetWorld(ind);
 
 
 
@@ -1342,11 +1258,11 @@ void SoundService::DebugDraw ()
 			vec_pos.x = pos.x;
 			vec_pos.y = pos.y;
 			vec_pos.z = pos.z;
-			pRS->DrawSphere(vec_pos, 0.2f, drawColor.GetDword());
+			rs->DrawSphere(vec_pos, 0.2f, drawColor.GetDword());
 
 			if (bShowDistances && audib > 0.001f)
 			{
-				pRS->SetWorld(ind);
+				rs->SetWorld(ind);
 				Draw2DCircle(vec_pos, drawColor.GetDword(), fMin, drawColor.GetDword(), fMax);
 			}
 
@@ -1357,28 +1273,28 @@ void SoundService::DebugDraw ()
 			DebugPrint3D(vec_pos, 30.0f, 4, 1.0f, drawColor.GetDword(), 1.0f, "prior: %d", prior);
 		} else
 		{
-			pRS->Print(0, Ypos, "[%d] [vol:%f] [Pos:%d] [Loop:%d] [Play:%d] sound [Pause:%d][Vir:%d][Aud:%f] '%s' 0x%08X", i, fVol, position, bIsLooped, bPlaying, paused, bVirtual, audib, PlayingSounds[i].Name.c_str(), PlayingSounds[i].channel);
+			rs->Print(0, Ypos, "[%d] [vol:%f] [Pos:%d] [Loop:%d] [Play:%d] sound [Pause:%d][Vir:%d][Aud:%f] '%s' 0x%08X", i, fVol, position, bIsLooped, bPlaying, paused, bVirtual, audib, PlayingSounds[i].Name.c_str(), PlayingSounds[i].channel);
 			Ypos += 16;
 		}
 
-		//pRS->Print(0, Ypos, "pos %f, %f, %f", pos.x, pos.y, pos.z);
+		//rs->Print(0, Ypos, "pos %f, %f, %f", pos.x, pos.y, pos.z);
 		//Ypos += 16;
-		//pRS->Print(0, Ypos, "min %f,  max %f", fMin, fMax);
+		//rs->Print(0, Ypos, "min %f,  max %f", fMin, fMax);
 		//Ypos += 16;
 
 		
 
-		//pRS->DrawSphere(vec_pos, fMax, 0xFFFF0000);
+		//rs->DrawSphere(vec_pos, fMax, 0xFFFF0000);
 	}
 
-	pRS->Print(0, 32, "Real sounds %d, Total sounds %d", RealCount, Count);
+	rs->Print(0, 32, "Real sounds %d, Total sounds %d", RealCount, Count);
 
 
-	pRS->Print(500, 0, "Sound schemes %d", SoundSchemeChannels.size());
+	rs->Print(500, 0, "Sound schemes %d", SoundSchemeChannels.size());
 	Ypos = 16;
 	for (uint32_t i = 0; i < SoundSchemeChannels.size(); i++)
 	{
-		pRS->Print(510, Ypos, "[%d] %s", i, SoundSchemeChannels[i].soundName.c_str());
+		rs->Print(510, Ypos, "[%d] %s", i, SoundSchemeChannels[i].soundName.c_str());
 		Ypos += 16;
 	}
 
@@ -1403,7 +1319,7 @@ int SoundService::GetFromCache (const char* szName, eSoundType _type)
 	}
 
 
-	FMOD_MODE mode =  FMOD_SOFTWARE;
+	FMOD_MODE mode = FMOD_DEFAULT;
 	if (_type == PCM_3D)
 	{
 		mode = mode | FMOD_3D | FMOD_3D_LINEARROLLOFF;
@@ -1416,8 +1332,8 @@ int SoundService::GetFromCache (const char* szName, eSoundType _type)
 
 
 	tSoundCache Cache;
-	status = fmod_system->createSound(szName, mode, nullptr, &Cache.sound);
-	//FMOD_ERROR("FMOD_SOUND:createSound",status);
+	CHECKFMODERR(system->createSound(szName, mode, nullptr, &Cache.sound));
+	//FMOD_CHECK("FMOD_SOUND:createSound",status);
 
 	if (Cache.sound == nullptr)
 	{
@@ -1447,18 +1363,18 @@ void SoundService::DebugPrint3D(const CVECTOR & pos3D, float rad, long line, flo
 	static CMatrix mtx, view, prj;
 	static D3DVIEWPORT9 vp;
 	MTX_PRJ_VECTOR vrt;
-	pRS->GetTransform(D3DTS_VIEW, view);
-	pRS->GetTransform(D3DTS_PROJECTION, prj);
+	rs->GetTransform(D3DTS_VIEW, view);
+	rs->GetTransform(D3DTS_PROJECTION, prj);
 	mtx.EqMultiply(view, prj);
 	view.Transposition();
 	float dist = ~(pos3D - view.Pos());
 	if(dist >= rad*rad) return;
 	float d = view.Vz() | view.Pos();
 	if((pos3D | view.Vz()) < d) return;
-	pRS->GetViewport(&vp);
+	rs->GetViewport(&vp);
 	mtx.Projection((CVECTOR *)&pos3D, &vrt, 1, vp.Width*0.5f, vp.Height*0.5f, sizeof(CVECTOR), sizeof(MTX_PRJ_VECTOR));
 	//»щем позицию
-	long fh = pRS->CharHeight(FONT_DEFAULT)/2;
+	long fh = rs->CharHeight(FONT_DEFAULT)/2;
 	vrt.y -= (line + 0.5f)*fh;
 	//ѕрозрачность	
 	const float kDist = 0.75f;
@@ -1472,7 +1388,7 @@ void SoundService::DebugPrint3D(const CVECTOR & pos3D, float rad, long line, flo
 	if(alpha <= 0.0f) return;
 	color = (uint32_t(alpha*255.0f) << 24) | (color & 0xffffff);
 	//ѕечатаем текст
-	pRS->ExtPrint(FONT_DEFAULT, color, 0x00000000, PR_ALIGN_CENTER, 0, scale, 0, 0, long(vrt.x), long(vrt.y), buf);
+	rs->ExtPrint(FONT_DEFAULT, color, 0x00000000, PR_ALIGN_CENTER, 0, scale, 0, 0, long(vrt.x), long(vrt.y), buf);
 }
 
 void SoundService::Draw2DCircle (const CVECTOR& center, uint32_t dwColor, float fRadius, uint32_t dwColor2, float fRadius2)
@@ -1497,8 +1413,8 @@ void SoundService::Draw2DCircle (const CVECTOR& center, uint32_t dwColor, float 
 		line[0].dwColor = dwColor;
 		line[1].vPos = vEnd;
 		line[1].dwColor = dwColor;
-		pRS->DrawLines(line, 1, "Line");
-		//pRS->DrawVector(vStart, vEnd, dwColor);
+		rs->DrawLines(line, 1, "Line");
+		//rs->DrawVector(vStart, vEnd, dwColor);
 		vStartPoint = vPoint;
 	}
 
@@ -1510,7 +1426,7 @@ void SoundService::Draw2DCircle (const CVECTOR& center, uint32_t dwColor, float 
 	line[0].dwColor = dwColor;
 	line[1].vPos = vEnd;
 	line[1].dwColor = dwColor;
-	pRS->DrawLines(line, 1, "Line");
+	rs->DrawLines(line, 1, "Line");
 
 
 	vStartPoint = CVECTOR(cosf(0)*fRadius2, 0.0f, sinf(0)*fRadius2);
@@ -1527,8 +1443,8 @@ void SoundService::Draw2DCircle (const CVECTOR& center, uint32_t dwColor, float 
 		line[0].dwColor = dwColor2;
 		line[1].vPos = vEnd;
 		line[1].dwColor = dwColor2;
-		pRS->DrawLines(line, 1, "Line");
-		//pRS->DrawVector(vStart, vEnd, dwColor);
+		rs->DrawLines(line, 1, "Line");
+		//rs->DrawVector(vStart, vEnd, dwColor);
 		vStartPoint = vPoint;
 	}
 
@@ -1540,36 +1456,36 @@ void SoundService::Draw2DCircle (const CVECTOR& center, uint32_t dwColor, float 
 	line[0].dwColor = dwColor2;
 	line[1].vPos = vEnd;
 	line[1].dwColor = dwColor2;
-	pRS->DrawLines(line, 1, "Line");
+	rs->DrawLines(line, 1, "Line");
 
 
 	line[0].vPos = CVECTOR (fRadius, 0.0f, 0.0f) + center;
 	line[0].dwColor = dwColor;
 	line[1].vPos = CVECTOR (fRadius2, 0.0f, 0.0f) + center;
 	line[1].dwColor = dwColor;
-	pRS->DrawLines(line, 1, "Line");
+	rs->DrawLines(line, 1, "Line");
 
 
 	line[0].vPos = CVECTOR (-fRadius, 0.0f, 0.0f) + center;
 	line[0].dwColor = dwColor;
 	line[1].vPos = CVECTOR (-fRadius2, 0.0f, 0.0f) + center;
 	line[1].dwColor = dwColor;
-	pRS->DrawLines(line, 1, "Line");
+	rs->DrawLines(line, 1, "Line");
 
 
 	line[0].vPos = CVECTOR (0.0f, 0.0f, fRadius) + center;
 	line[0].dwColor = dwColor;
 	line[1].vPos = CVECTOR (0.0f, 0.0f, fRadius2) + center;
 	line[1].dwColor = dwColor;
-	pRS->DrawLines(line, 1, "Line");
+	rs->DrawLines(line, 1, "Line");
 
 	line[0].vPos = CVECTOR (0.0f, 0.0f, -fRadius) + center;
 	line[0].dwColor = dwColor;
 	line[1].vPos = CVECTOR (0.0f, 0.0f, -fRadius2) + center;
 	line[1].dwColor = dwColor;
-	pRS->DrawLines(line, 1, "Line");
+	rs->DrawLines(line, 1, "Line");
 
-	//pRS->DrawVector(vStart, vEnd, dwColor);
+	//rs->DrawVector(vStart, vEnd, dwColor);
 }
 
 
