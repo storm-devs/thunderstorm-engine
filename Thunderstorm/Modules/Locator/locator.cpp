@@ -40,15 +40,11 @@ bool LOCATOR::VerifyParticles()
 
 void LOCATOR::LocateForI_L2(ATTRIBUTES * pA,GEOS * g, GEOS::LABEL & label)
 {
-	long groupID;
-	long stringIndex;
-	long n;
 	char name[16];
-	ATTRIBUTES * pAA;
 	GEOS::LABEL label2;
 
-	groupID = g->FindName(label.name);
-	if(groupID < 0)
+	const auto groupID = g->FindName(label.name);
+	if(groupID == -1)
 	{
 		api->Trace("?void LOCATOR::LocateForI_L2(...)");
 		return;
@@ -56,12 +52,12 @@ void LOCATOR::LocateForI_L2(ATTRIBUTES * pA,GEOS * g, GEOS::LABEL & label)
 	
 	pA = pA->CreateSubAClass(pA,"ships");
 
-	n = 0;
-	for(stringIndex = 0; (stringIndex = g->FindLabelG(stringIndex, groupID))>=0; stringIndex++)
+	long n = 0;
+	for(long stringIndex = 0; (stringIndex = g->FindLabelG(stringIndex, groupID))>=0; stringIndex++)
 	{
 		g->GetLabel(stringIndex, label2);
 		sprintf_s(name,"l%d",n);
-		pAA = pA->CreateSubAClass(pA,name);
+		ATTRIBUTES* pAA = pA->CreateSubAClass(pA, name);
 		pAA->SetAttributeUseFloat("x",label2.m[3][0]);
 		pAA->SetAttributeUseFloat("y",label2.m[3][1]);
 		pAA->SetAttributeUseFloat("z",label2.m[3][2]);
@@ -77,7 +73,6 @@ void LOCATOR::LocateForI(VDATA * pData)
 	ATTRIBUTES	* pAA;
 	GEOS		* g;
 	GEOS::LABEL label;
-	long		groupID;
 	long		i, n;
 
 	if(pData == nullptr)
@@ -108,10 +103,10 @@ void LOCATOR::LocateForI(VDATA * pData)
 		return;
 	}
 	
-	groupID = g->FindName("reload");
-	if(groupID >= 0)
+	auto groupID = g->FindName("reload");
+	if(groupID != -1)
 	{
-		for(i=0; (i = g->FindLabelG(i, groupID))>=0; i++)
+		for(long i=0; (i = g->FindLabelG(i, groupID))>=0; i++)
 		{
 			g->GetLabel(i, label);
 			pAA = pA->FindAClass(pA,"reload");
@@ -150,7 +145,7 @@ void LOCATOR::LocateForI(VDATA * pData)
 
 
 	groupID = g->FindName("quest_ships");
-	if(groupID >= 0)
+	if(groupID != -1)
 	{
 		pAA = pA->FindAClass(pA,"Quest_ships");
 		if (!pAA) pAA = pA->CreateAttribute("Quest_ships","");
@@ -159,7 +154,7 @@ void LOCATOR::LocateForI(VDATA * pData)
 	}
 
 	groupID = g->FindName("net_deathmatch");
-	if(groupID >= 0)
+	if(groupID != -1)
 	{
 		pAA = pA->CreateAttribute("net_deathmatch","");
 		if (pAA)
@@ -167,7 +162,7 @@ void LOCATOR::LocateForI(VDATA * pData)
 	}
 
 	groupID = g->FindName("net_team");
-	if(groupID >= 0)
+	if(groupID != -1)
 	{
 		pAA = pA->CreateAttribute("net_team","");
 		if (pAA)
@@ -175,7 +170,7 @@ void LOCATOR::LocateForI(VDATA * pData)
 	}
 
 	groupID = g->FindName("net_convoy");
-	if(groupID >= 0)
+	if(groupID != -1)
 	{
 		pAA = pA->CreateAttribute("net_convoy","");
 		if (pAA)
@@ -183,7 +178,7 @@ void LOCATOR::LocateForI(VDATA * pData)
 	}
 
 	groupID = g->FindName("net_fort");
-	if(groupID >= 0)
+	if(groupID != -1)
 	{
 		pAA = pA->CreateAttribute("net_fort","");
 		if (pAA)
@@ -191,7 +186,7 @@ void LOCATOR::LocateForI(VDATA * pData)
 	}
 
 	groupID = g->FindName("fire");
-	if(groupID >= 0)
+	if(groupID != -1)
 	{
 		pAA = pA->FindAClass(pA,"fire");
 		if (!pAA) pAA = pA->CreateAttribute("fire","");
@@ -207,7 +202,7 @@ void LOCATOR::LocateForI(VDATA * pData)
 		if (!pLoadGroupName) continue;
 
 		groupID = g->FindName(pLoadGroupName);
-		if (groupID < 0) continue;
+		if (groupID != -1) continue;
 
 		pAA = pA->FindAClass(pA, pLoadGroupName);
 		if (!pAA) pAA = pA->CreateAttribute(pLoadGroupName, "");

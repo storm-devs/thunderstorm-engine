@@ -139,7 +139,7 @@ void CameraDialog::Realize(uint32_t Delta_Time)
 	//draw locators
 	NODE *root = mdl->GetNode(0);
 	long sti = -1;
-	long idSiber = root->geo->FindName("fall");
+	auto idSiber = root->geo->FindName("fall");
 	if((sti = root->geo->FindLabelN(sti+1, idSiber))>-1)
 	{
 		Animation *ani = mdl->GetAnimation();

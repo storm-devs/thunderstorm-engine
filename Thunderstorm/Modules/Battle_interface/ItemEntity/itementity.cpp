@@ -199,7 +199,7 @@ void ItemEntity::DrawIntoLocator()
 	if( m_pModel )
 	{
 		sti = -1;
-		long idLoc = m_pMdlNode->geo->FindName(m_sTieLocName.c_str());
+		auto idLoc = m_pMdlNode->geo->FindName(m_sTieLocName.c_str());
 
 		if((sti = m_pMdlNode->geo->FindLabelN(sti+1, idLoc))>-1)
 		{

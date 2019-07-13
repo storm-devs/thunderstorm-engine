@@ -59,8 +59,7 @@ void BLADE::BLADE_INFO::DrawBlade(VDX9RENDER * rs,unsigned int blendValue,MODEL 
 			bladeNode->SetTechnique("AnimationBlend");
 		}
 		long sti = -1;
-		long idBlade;
-		idBlade = manNode->geo->FindName(locatorName);
+		auto idBlade = manNode->geo->FindName(locatorName);
 
 		if((sti = manNode->geo->FindLabelN(sti+1, idBlade))>-1)
 		{
@@ -263,7 +262,7 @@ void BLADE::Realize(uint32_t Delta_Time)
 			gunNode->SetTechnique("AnimationBlend");
 		}
 		sti = -1;
-		long idGun = manNode->geo->FindName(gunLocName);
+		auto idGun = manNode->geo->FindName(gunLocName);
 
 		if((sti = manNode->geo->FindLabelN(sti+1, idGun))>-1)
 		{
@@ -375,7 +374,7 @@ void BLADE::GunFire()
 	{
 		NODE *gunNode = obj->GetNode(0);
 		sti = -1;
-		long idGun = manNode->geo->FindName(gunLocName);
+		auto idGun = manNode->geo->FindName(gunLocName);
 
 		if((sti = manNode->geo->FindLabelN(sti+1, idGun))>-1)
 		{
@@ -581,8 +580,7 @@ void BLADE::TIEITEM_INFO::DrawItem(VDX9RENDER * rs,unsigned int blendValue,MODEL
 			mdlNode->SetTechnique("AnimationBlend");
 		}
 		long sti = -1;
-		long idLoc;
-		idLoc = manNode->geo->FindName(locatorName);
+		auto idLoc = manNode->geo->FindName(locatorName);
 
 		if((sti = manNode->geo->FindLabelN(sti+1, idLoc))>-1)
 		{

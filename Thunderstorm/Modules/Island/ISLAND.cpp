@@ -401,7 +401,10 @@ void ISLAND::CalcBoxParameters(CVECTOR & _vBoxCenter, CVECTOR & _vBoxSize)
 
 	auto its = EntityManager::GetEntityIdIterators(ISLAND_TRACE);
 	for(auto it = its.first; it!= its.second; ++it) {
-		MODEL* pM = (MODEL*)EntityManager::GetEntityPointer(it->second); Assert(pM);
+		MODEL* pM = (MODEL*)EntityManager::GetEntityPointer(it->second);
+		if (pM == nullptr)
+			continue;
+
 		uint32_t i = 0;
 		while (true)
 		{

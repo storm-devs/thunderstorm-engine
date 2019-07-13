@@ -41,7 +41,7 @@ bool ANIMALS::Init()
 
 	seagulls->Init();
 	//sharks->Init();
-	fishSchools->Init();
+	//fishSchools->Init();
 	butterflies->Init();
 
 	return true;

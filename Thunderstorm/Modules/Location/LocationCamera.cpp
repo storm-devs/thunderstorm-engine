@@ -460,7 +460,7 @@ void LocationCamera::ExecuteLook(float dltTime)
 	if(!node || !node->geo) return;
 	Animation * ani = mdl->GetAnimation();
 	long strIndex = -1;
-	long idCamera = node->geo->FindName("camera");
+	auto idCamera = node->geo->FindName("camera");
 	if(ani && (strIndex = node->geo->FindLabelN(strIndex+1, idCamera)) > -1)
 	{
 		GEOS::LABEL lb;

@@ -4498,8 +4498,7 @@ CVECTOR Character::GetHandLightPos()
 	if( mdlNode )
 	{
 		long sti = -1;
-		long idLocator;
-		idLocator = mdlNode->geo->FindName(m_pcHandLightLocator);
+		auto idLocator = mdlNode->geo->FindName(m_pcHandLightLocator);
 
 		if((sti = mdlNode->geo->FindLabelN(sti+1, idLocator))>-1)
 		{
