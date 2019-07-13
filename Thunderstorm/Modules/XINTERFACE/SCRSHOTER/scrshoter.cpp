@@ -1,4 +1,4 @@
-﻿#include "../defines.h"
+﻿#include "../xdefines.h"
 #include "scrshoter.h"
 
 #define SS_TEXTURE_WIDTH		128
