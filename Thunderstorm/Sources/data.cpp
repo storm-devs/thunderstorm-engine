@@ -979,6 +979,7 @@ bool DATA::Neg()
 		case VAR_FLOAT:
 			Convert(VAR_INTEGER);
 		case VAR_PTR:
+			Convert(VAR_INTEGER);
 		case VAR_INTEGER:
 			if(lValue != 0) lValue = 0;
 			else lValue = 1;
@@ -2134,12 +2135,16 @@ bool DATA::CompareAndSetResult(DATA * pV,S_TOKEN_TYPE op)
 
 	switch(Data_type)
 	{
+		case VAR_PTR:
+			Convert(VAR_INTEGER);
 		case VAR_INTEGER:
 			switch(pV->GetType())
 			{
 				case VAR_INTEGER:
 					switch(op)
 					{
+						case VAR_PTR:
+						pV->Convert(VAR_INTEGER);
 						case OP_BOOL_EQUAL:
 							if(lValue == pV->lValue) Set((long)1); else Set((long)0);
 						break;
