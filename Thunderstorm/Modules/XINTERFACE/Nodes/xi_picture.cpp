@@ -1,6 +1,5 @@
-#include <stdio.h>
 #include "xi_picture.h"
-#include "../../Common_h/defines.h"
+#include "../xdefines.h"
 
 CXI_PICTURE::CXI_PICTURE()
 {

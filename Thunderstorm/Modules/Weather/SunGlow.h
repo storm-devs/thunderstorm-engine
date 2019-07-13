@@ -2,7 +2,7 @@
 #define SUN_GLOW_HPP
 
 #include "Typedef.h"
-#include "../common_h/Weather_base.h"
+#include "Weather_base.h"
 #include <string>
 #include <vector>
 

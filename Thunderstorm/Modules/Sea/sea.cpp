@@ -1,9 +1,9 @@
 #include "sea.h"
-#include "../Common_h/tga.h"
-#include "../Shared/sea_ai/Script_defines.h"
+#include "tga.h"
+#include "../../Shared/sea_ai/Script_defines.h"
 #include "SSE.h"
 #include <algorithm>
-#include "../Common_h/inlines.h"
+#include "inlines.h"
 
 //#define OLD_WORLD_POS
 

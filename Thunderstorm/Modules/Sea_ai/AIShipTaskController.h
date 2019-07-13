@@ -1,6 +1,6 @@
 #ifndef AISHIPTASKCONTROLLER_HPP
 #define AISHIPTASKCONTROLLER_HPP
-#include "../Shared/sea_ai/Script_defines.h"
+#include "../../Shared/sea_ai/Script_defines.h"
 
 // ============================================================================
 // master class AIShipTaskController

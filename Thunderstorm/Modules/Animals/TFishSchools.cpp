@@ -1,9 +1,9 @@
 #include "TFishSchools.h"
-#include "../Common_h/ship_base.h"
-#include "../Common_h/rands.h"
-#include "../Shared/messages.h"
-#include "../Common_h/defines.h"
-#include "../Common_h/EntityManager.h"
+#include "ship_base.h"
+#include "rands.h"
+#include "../../Shared/messages.h"
+#include "defines.h"
+#include "EntityManager.h"
 
 //--------------------------------------------------------------------
 TFishSchools::TFishSchools()

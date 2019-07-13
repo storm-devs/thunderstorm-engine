@@ -2,8 +2,8 @@
 #define _SOUND_VISUALISATION_H_
 
 
-#include "../Common_h/dx9render.h"
-#include "../Common_h/entity.h"
+#include "dx9render.h"
+#include "entity.h"
 
 class SoundService;
 

@@ -1,5 +1,5 @@
 #include "teleport.h"
-#include "../Common_h/defines.h"
+#include "defines.h"
 #include "../Pcs_controls/pcs_controls.h"
 
 #define DELETE_PTR(x)	if(x) delete x; x=0;

@@ -1,6 +1,5 @@
-#include <stdio.h>
 #include "xi_changer.h"
-#include "../../Common_h/defines.h"
+#include "../xdefines.h"
 
 CXI_CHANGER::CXI_CHANGER()
 {

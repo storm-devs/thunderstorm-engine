@@ -1,10 +1,13 @@
 #include "particles.h"
 #include "psystem.h"
-#include "../../Common_h/particles.h"
-#include "../../Common_h/defines.h"
-#include "../../Common_h/filesystem.h"
-#include "../../Shared/messages.h"
-#include "../../Common_h/EntityManager.h"
+#include "defines.h"
+#include "filesystem.h"
+#include "EntityManager.h"
+#include "../../../Shared/messages.h"
+#include "particles/iparticlemanager.h"
+#include "particles/iparticlesservice.h"
+#include "particles/iparticlesystem.h"
+#include "storm_assert.h"
 
 PARTICLES::PARTICLES()
 {

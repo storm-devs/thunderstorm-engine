@@ -1,6 +1,5 @@
 #include "xi_conthelp.h"
-#include <stdio.h>
-#include "../../Common_h/defines.h"
+#include "../xdefines.h"
 
 CXI_CONTEXTHELP::CXI_CONTEXTHELP()
 {

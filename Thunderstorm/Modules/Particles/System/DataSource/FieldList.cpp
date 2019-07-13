@@ -1,5 +1,4 @@
-#include "../../../Common_h/vmodule_api.h"
-#include "../../../Common_h/defines.h"
+#include "defines.h"
 #include "FieldList.h"
 #include "DataBool.h"
 #include "DataColor.h"

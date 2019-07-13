@@ -1,8 +1,8 @@
 #ifndef _SOUND_H_
 #define _SOUND_H_
 
-#include "../common_h/entity.h"
-#include "../common_h/dx9render.h"
+#include "entity.h"
+#include "dx9render.h"
 
 ///////////////////////////////////////////////////////////////////
 // DEFINES & TYPES

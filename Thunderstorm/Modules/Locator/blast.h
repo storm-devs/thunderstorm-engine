@@ -1,12 +1,12 @@
 #ifndef _BLAST_H_
 #define _BLAST_H_
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/geometry.h"
-#include "../Common_h/dx9render.h"
-#include "../Common_h/Matrix.h"
+#include "vmodule_api.h"
+#include "geometry.h"
+#include "dx9render.h"
+#include "Matrix.h"
 #include "blast.h"
-#include "../Common_h/Sd2_h/CannonTrace.h"
+#include "Sd2_h/CannonTrace.h"
 
 typedef struct
 {

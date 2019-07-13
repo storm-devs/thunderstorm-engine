@@ -1,7 +1,7 @@
 #include "AIShip.h"
 #include "AIFort.h"
-#include "../Common_h/ship_base.h"
-#include "../Common_h/inlines.h"
+#include "ship_base.h"
+#include "inlines.h"
 
 std::vector<AIShip*> AIShip::AIShips;
 std::vector<AIShip::can_fire_t>	AIShip::aShipFire;

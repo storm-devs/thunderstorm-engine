@@ -1,8 +1,8 @@
 #ifndef _CONTROLTREE_H_
 #define _CONTROLTREE_H_
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/controls.h"
+#include "vmodule_api.h"
+#include "controls.h"
 #include <string>
 #include <vector>
 

@@ -1,8 +1,8 @@
-#include <stdio.h>
 #include "xservice.h"
-#include "../Common_h/dx9render.h"
-#include "../Common_h/defines.h"
+#include "dx9render.h"
+#include "xdefines.h"
 #include "vxservice.h"
+#include "defines.h"
 
 #define ERROR_MUL	1.0f
 

@@ -11,8 +11,8 @@
 #ifndef _TornadoParticles_H_
 #define _TornadoParticles_H_
 
-#include "../Common_h/Matrix.h"
-#include "../Common_h/sea_base.h"
+#include "Matrix.h"
+#include "sea_base.h"
 #include "Pillar.h"
 
 class TornadoParticles

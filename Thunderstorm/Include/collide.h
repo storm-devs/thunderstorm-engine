@@ -4,10 +4,10 @@
 
 #include "Cvector.h"
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/types3d.h"
-#include "../Common_h/object.h"
-#include "../Common_h/EntityManager.h"
+#include "vmodule_api.h"
+#include "types3d.h"
+#include "object.h"
+#include "EntityManager.h"
 
 
 class LOCAL_COLLIDE

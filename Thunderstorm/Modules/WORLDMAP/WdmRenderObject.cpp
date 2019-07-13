@@ -9,7 +9,7 @@
 //============================================================================================
 
 #include "WdmRenderObject.h"
-#include "../Common_h/assert.h"
+#include "storm_assert.h"
 
 WdmRenderObject * WdmRenderObject::firstObject = nullptr;
 

@@ -1,7 +1,7 @@
 #ifndef _TextureSequence_H
 #define _TextureSequence_H
 
-#include "../../Common_h/VideoTexture.h"
+#include "../VideoTexture.h"
 
 //-----------------------------------------------------------------------------
 // Name: class VideoToTexture

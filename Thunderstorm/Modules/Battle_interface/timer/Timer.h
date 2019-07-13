@@ -1,10 +1,9 @@
 #ifndef _BI_TIMER_H_
 #define _BI_TIMER_H_
 
-#include "../../common_h/dx9render.h"
-#include "../../common_h/defines.h"
 #include <string>
-#include "../../Common_h/Entity.h"
+#include "Entity.h"
+#include "../bi_defines.h"
 
 class BIImageRender;
 class IBIImage;

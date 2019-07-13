@@ -12,7 +12,7 @@
 #include "WorldMap.h"
 #include "WdmCamera.h"
 #include "WdmShip.h"
-#include "../Common_h/defines.h"
+#include "defines.h"
 
 //============================================================================================
 //Данные для коллижена

@@ -1,9 +1,9 @@
 
-#include "../Common_h/dx9render.h"
-#include "../Common_h/Matrix.h"
+#include "dx9render.h"
+#include "Matrix.h"
 #include <vector>
 #include <string>
-#include "../Common_h/defines.h"
+#include "defines.h"
 
 
 const int MAX_POINTS= 100;

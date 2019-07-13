@@ -1,6 +1,6 @@
 #ifndef _SCRIPT_LIBRIARY_TEST_H_
 #define _SCRIPT_LIBRIARY_TEST_H_
-#include "../Common_h/script_libriary.h"
+#include "script_libriary.h"
 
 class SCRIPT_LIBRIARY_TEST : public SCRIPT_LIBRIARY
 {

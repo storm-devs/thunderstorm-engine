@@ -1,6 +1,6 @@
 #include "data_desc.h"
-#include "../../../Common_h/assert.h"
-	 
+#include "storm_assert.h"
+
 DataDescripion::DataDescripion ()
 {
 	ItemsCount = 0;

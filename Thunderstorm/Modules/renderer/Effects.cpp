@@ -1,5 +1,5 @@
 #include "Effects.h"
-#include "../Common_h/vmodule_api.h"
+#include "vmodule_api.h"
 #include <DxErr.h>
 
 #define CHECKD3DERR(expr) ErrorHandler(expr, __FILE__, __LINE__, __func__, #expr)

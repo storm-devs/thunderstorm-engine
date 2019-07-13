@@ -1,13 +1,13 @@
-#include "../Common_h/Matrix.h"
-#include "../Common_h/defines.h"
-#include "../Common_h/rands.h"
+#include "Matrix.h"
+#include "defines.h"
+#include "rands.h"
 #include "SoundService.h"
-#include "../Common_h/EntityManager.h"
+#include "EntityManager.h"
 
 //для debug
-#include "../Common_h/dx9render.h"
+#include "dx9render.h"
 #include "DebugEntity.h"
-#include "../Common_h/math3d/Color.h"
+#include "math3d/Color.h"
 
 VDX9RENDER* pRS = nullptr;
 

@@ -2,8 +2,8 @@
 #define _LOCATOR_H_
 
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/geometry.h"
+#include "vmodule_api.h"
+#include "geometry.h"
 #include "blast.h"
 
 class LOCATOR : public Entity 

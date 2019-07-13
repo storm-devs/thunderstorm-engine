@@ -1,9 +1,9 @@
 #ifndef _TOUCH_H_
 #define _TOUCH_H_
 
-#include "../Common_h/ship_base.h"
-#include "../Common_h/dx9render.h"
-#include "../Common_h/Island_Base.h"
+#include "ship_base.h"
+#include "dx9render.h"
+#include "Island_Base.h"
 #include <vector>
 
 #define D3DTLVERTEX_FORMAT	(D3DFVF_XYZRHW|D3DFVF_DIFFUSE)

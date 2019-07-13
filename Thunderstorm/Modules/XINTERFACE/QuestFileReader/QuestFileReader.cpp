@@ -1,6 +1,6 @@
 #include <assert.h>
 #include "QuestFileReader.h"
-#include "../../Common_h/defines.h"
+#include "../defines.h"
 
 
 #define INVALID_LONG 0

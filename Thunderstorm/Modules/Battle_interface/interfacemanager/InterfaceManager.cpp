@@ -8,9 +8,9 @@
 #include "interfacegroup/BaseGroup.h"
 #include "interfacegroup/SeaGroup.h"
 
-#include "../../Shared/bimanager/messages.h"
-#include "../../Common_h/assert.h"
-#include "../../Common_h/vmodule_api.h"
+#include "../../../Shared/bimanager/messages.h"
+#include "storm_assert.h"
+#include "../vmodule_api.h"
 
 BI_InterfaceManager::BI_InterfaceManager()
 {

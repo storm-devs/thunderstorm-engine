@@ -1,9 +1,9 @@
 #ifndef _SEA_OPERATOR_H_
 #define _SEA_OPERATOR_H_
 
-#include "../Common_h/dx9render.h"
-#include "../Common_h/sea_base.h"
-#include "../Common_h/ship_base.h"
+#include "dx9render.h"
+#include "sea_base.h"
+#include "ship_base.h"
 #include "TFIFOBuffer.h"
 
 #define ACTION_TIME			 1000

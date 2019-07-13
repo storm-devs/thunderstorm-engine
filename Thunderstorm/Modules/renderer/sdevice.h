@@ -2,10 +2,10 @@
 #define __SDEVICE_H__
 
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/dx9render.h"
-#include "../Common_h/defines.h"
-#include "../Common_h/VideoTexture.h"
+#include "vmodule_api.h"
+#include "dx9render.h"
+#include "defines.h"
+#include "VideoTexture.h"
 #include "Font.h"
 #include "Effects.h"
 #include <vector>

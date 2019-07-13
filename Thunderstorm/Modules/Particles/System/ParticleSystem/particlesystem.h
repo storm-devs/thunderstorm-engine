@@ -1,8 +1,8 @@
 #ifndef _PARTICLE_SYSTEM_H_
 #define _PARTICLE_SYSTEM_H_
 
-#include "../../../Common_h/vmodule_api.h"
-#include "../../../Common_h/particles/iparticlesystem.h"
+#include "vmodule_api.h"
+#include "particles/iparticlesystem.h"
 #include "../../ICommon/Types.h"
 #include "../../Manager/particlemanager.h"
 #include "../DataSource/DataSource.h"

@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
 #include "vapi.h"
-#include "../Common_h//vfile_service.h"
-#include "assert.h"
+#include "vfile_service.h"
+#include "storm_assert.h"
 #include "message.h"
 
 #define INTERFACE_FUNCTION

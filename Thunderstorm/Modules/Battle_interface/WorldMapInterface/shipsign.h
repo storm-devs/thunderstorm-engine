@@ -1,7 +1,7 @@
 #ifndef _WM_SHIPSIGN_H
 #define _WM_SHIPSIGN_H
 
-#include "../defines.h"
+#include "../bi_defines.h"
 #include "../battle_sign.h"
 
 #define MAX_SHIP_QUANTITY	8

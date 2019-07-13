@@ -2,8 +2,8 @@
 #include "../DataSource/DataColor.h"
 #include "../DataSource/DataGraph.h"
 #include "../DataSource/DataString.h"
-#include "../../../Common_h/vmodule_api.h"
-#include "../../../Common_h/math3d/Quaternion.h"
+#include "vmodule_api.h"
+#include "math3d/Quaternion.h"
 #include "../../ICommon/Names.h"
 
 #define INTERPOLATION_STEPS 32.0f

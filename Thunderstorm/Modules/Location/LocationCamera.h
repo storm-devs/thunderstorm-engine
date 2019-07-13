@@ -12,9 +12,9 @@
 #define _LocationCamera_H_
 
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/dx9render.h"
-#include "../Common_h/Matrix.h"
+#include "vmodule_api.h"
+#include "dx9render.h"
+#include "Matrix.h"
 #include <vector>
 #include <string>
 #include "PathTracks.h"

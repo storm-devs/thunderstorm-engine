@@ -1,10 +1,10 @@
 #ifndef _TSEAGULLS_H_
 #define _TSEAGULLS_H_
 
-#include "../Common_h/Matrix.h"
-#include "../Common_h/geometry.h"
-#include "../Common_h/dx9render.h"
-#include "../Common_h/message.h"
+#include "Matrix.h"
+#include "geometry.h"
+#include "dx9render.h"
+#include "message.h"
 #include "../SoundService/VSoundService.h"
 #include "AnimalsDefines.h"
 

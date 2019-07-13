@@ -8,8 +8,8 @@
 #ifndef MODEL_PARTICLE_PROCESSOR
 #define MODEL_PARTICLE_PROCESSOR
 
-#include "../../../Common_h/dx9render.h"
-#include "../../../Common_h/math3d/Matrix.h"
+#include "dx9render.h"
+#include "math3d/Matrix.h"
 
 #include "../../ICommon/Particle.h"
 #include "../DataSource/FieldList.h"

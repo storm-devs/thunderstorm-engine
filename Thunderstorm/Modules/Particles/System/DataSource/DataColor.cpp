@@ -1,7 +1,7 @@
 #include "DataColor.h"
 #include "../../ICommon/GraphTime.h"
 #include "../../ICommon/MemFile.h"
-#include "../../../Common_h/vmodule_api.h"
+#include "vmodule_api.h"
 
 //конструктор/деструктор
 DataColor::DataColor () : ZeroColor(0xFFFFFFFF)

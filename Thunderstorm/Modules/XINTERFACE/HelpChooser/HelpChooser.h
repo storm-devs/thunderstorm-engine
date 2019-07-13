@@ -1,10 +1,9 @@
 #ifndef _HELPCHOOSER_H_
 #define _HELPCHOOSER_H_
 
-#include "../../Common_h/dx9render.h"
-#include "../../Common_h/defines.h"
-#include "../../Common_h/Entity.h"
-
+#include "dx9render.h"
+#include "Entity.h"
+#include <defines.h>
 
 class HELPCHOOSER : public Entity
 {

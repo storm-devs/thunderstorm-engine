@@ -1,6 +1,6 @@
 #include "Font.h"
 #include <stdio.h>
-#include "../Common_h/defines.h"
+#include "defines.h"
 
 static char Buffer1024[1024];
 

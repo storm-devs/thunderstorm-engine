@@ -11,7 +11,7 @@
 #ifndef _AnimationImp_H_
 #define _AnimationImp_H_
 
-#include "../Common_h/Animation.h"
+#include "Animation.h"
 
 class AnimationImp;
 class ActionInfo;

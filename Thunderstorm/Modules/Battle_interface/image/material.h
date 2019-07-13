@@ -1,7 +1,7 @@
 #ifndef BI_IMAGEMATERIAL_H
 #define BI_IMAGEMATERIAL_H
 
-#include "defines.h"
+#include "image_defines.h"
 #include <string>
 #include <vector>
 

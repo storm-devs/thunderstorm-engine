@@ -2,9 +2,9 @@
 #define WEATHER_RAIN_HPP
 
 #include "typedef.h"
-#include "../Common_h/Weather_Base.h"
-#include "../Common_h/sea_base.h"
-#include "../Common_h/ship_base.h"
+#include "Weather_Base.h"
+#include "sea_base.h"
+#include "ship_base.h"
 #include <vector>
 #include <string>
 

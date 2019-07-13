@@ -2,7 +2,7 @@
 #define InterfaceManager_h
 
 #include "BaseManager.h"
-#include "../../Common_h/defines.h"
+#include "../bi_defines.h"
 #include <vector>
 
 class BI_BaseGroup;

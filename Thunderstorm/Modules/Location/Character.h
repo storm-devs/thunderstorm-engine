@@ -12,9 +12,9 @@
 #define _Character_H_
 
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/Matrix.h"
-#include "../Common_h/model.h"
+#include "vmodule_api.h"
+#include "Matrix.h"
+#include "model.h"
 #include <string>
 
 class Location;

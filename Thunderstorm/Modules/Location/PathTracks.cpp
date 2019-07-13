@@ -9,8 +9,8 @@
 
 #include "PathTracks.h"
 #include "CameraTracksFile.h"
-#include "../Common_h/assert.h"
-#include "../Common_h/vmodule_api.h"
+#include "storm_assert.h"
+#include "vmodule_api.h"
 
 //============================================================================================
 

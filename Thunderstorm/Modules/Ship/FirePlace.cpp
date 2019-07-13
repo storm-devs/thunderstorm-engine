@@ -1,8 +1,8 @@
 #include "FirePlace.h"
-#include "../Shared/sound.h"
-#include "../Shared/messages.h"
-#include "../Common_h/Sd2_h/SaveLoad.h"
-#include "../Common_h/EntityManager.h"
+#include "../../Shared/sound.h"
+#include "../../Shared/messages.h"
+#include "Sd2_h/SaveLoad.h"
+#include "EntityManager.h"
 
 entid_t	FirePlace::eidSound;
 

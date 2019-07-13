@@ -1,9 +1,9 @@
 #ifndef __SHIP_TRACKS_HPP
 #define __SHIP_TRACKS_HPP
 
-#include "../Common_h/dx9render.h"
-#include "../Common_h/ship_base.h"
-#include "../Common_h/sea_base.h"
+#include "dx9render.h"
+#include "ship_base.h"
+#include "sea_base.h"
 #include <vector>
 
 class ShipTracks : public Entity

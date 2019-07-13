@@ -9,7 +9,7 @@
 #include "AIShipTouchController.h"
 #include "AIShipRotateController.h"
 #include "AIShipSpeedController.h"
-#include "../Common_h/ship_base.h"
+#include "ship_base.h"
 //#include "AITemplate.h"
 #include "AIFlowGraph.h"
 #include "AIHelper.h"

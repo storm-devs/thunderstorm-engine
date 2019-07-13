@@ -1,11 +1,11 @@
 #ifndef _TBUTTERFLY_H_
 #define _TBUTTERFLY_H_
 
-#include "../Common_h/Cvector.h"
-#include "../Common_h/model.h"
-#include "../Common_h/collide.h"
-#include "../Common_h/TIVBufferManager.h"
-#include "../Common_h/EntityManager.h"
+#include "Cvector.h"
+#include "model.h"
+#include "collide.h"
+#include "TIVBufferManager.h"
+#include "EntityManager.h"
 
 ///////////////////////////////////////////////////////////////////
 // DEFINES & TYPES

@@ -2,11 +2,11 @@
 #define _SAIL_H_
 
 #include "SAILONE.h"
-#include "../common_h/vmodule_api.h"
-#include "../common_h/dx9render.h"
-#include "../common_h/sail_base.h"
-#include "../common_h/geos.h"
-#include "../common_h/model.h"
+#include "vmodule_api.h"
+#include "dx9render.h"
+#include "sail_base.h"
+#include "geos.h"
+#include "model.h"
 
 struct SAILGROUP {
     uint32_t nVert,nIndx;

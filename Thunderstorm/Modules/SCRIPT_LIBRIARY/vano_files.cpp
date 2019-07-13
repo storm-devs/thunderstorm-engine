@@ -1,9 +1,9 @@
 #include "vano_files.h"
-#include "../Common_h/s_import_func.h"
-#include "../Common_h/defines.h"
-#include "../Common_h/vdata.h"
-#include "../Common_h/v_s_stack.h"
-#include "../Common_h/vmodule_api.h"
+#include "s_import_func.h"
+#include "defines.h"
+#include "vdata.h"
+#include "v_s_stack.h"
+#include "vmodule_api.h"
 
 uint32_t _RDTSC_B(VS_STACK * pS)
 {

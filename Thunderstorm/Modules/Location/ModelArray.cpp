@@ -8,12 +8,12 @@
 //	Хранение информации о моделях
 //============================================================================================
 
-#include "../Common_h/geometry.h"
+#include "geometry.h"
 
 #include "ModelArray.h"
-#include "../Shared/messages.h"
-#include "../Common_h/model.h"
-#include "../Common_h/EntityManager.h"
+#include "../../Shared/messages.h"
+#include "model.h"
+#include "EntityManager.h"
 
 //============================================================================================
 //Конструирование, деструктурирование

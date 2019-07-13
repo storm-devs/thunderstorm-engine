@@ -1,11 +1,11 @@
 #ifndef _SHIP_FIRE_PLACE_HPP
 #define _SHIP_FIRE_PLACE_HPP
 
-#include "../Common_h/ship_base.h"
-#include "../Common_h/sea_base.h"
-#include "../Common_h/dx9render.h"
-#include "../Common_h/model.h"
-#include "../Common_h/vparticle_system.h"
+#include "ship_base.h"
+#include "sea_base.h"
+#include "dx9render.h"
+#include "model.h"
+#include "vparticle_system.h"
 
 #include <string>
 

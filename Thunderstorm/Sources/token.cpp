@@ -2,8 +2,8 @@
 #include <cstring>
 #include "token.h"
 
-#include "../../Common_h/vapi.h"
-#include "../../Common_h/defines.h"
+#include "vapi.h"
+#include "defines.h"
 
 extern VAPI * api;
 #define DISCARD_DATABUFFER {if(pTokenData) pTokenData[0] = 0;}

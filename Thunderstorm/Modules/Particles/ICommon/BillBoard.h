@@ -2,7 +2,7 @@
 #define _BILLBOARD_H_
 
 
-#include "../../Common_h/math3D.h"
+#include "../math3D.h"
 
 //Партикл
 struct ParticleBillboard

@@ -1,7 +1,7 @@
 #ifndef _BATTLE_SHIPSIGN_H
 #define _BATTLE_SHIPSIGN_H
 
-#include "../defines.h"
+#include "../bi_defines.h"
 #include "ships_list.h"
 #include <vector>
 #include <string>

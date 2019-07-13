@@ -2,11 +2,11 @@
 #include <cstdint>
 #include <vector>
 #include <chrono>
-#include <set>
+#include <array>
 #include <algorithm>
 #include "Entity.h"
 #include "vmodule_api.h"
-#include "../Shared/layers.h"
+#include "../../Shared/layers.h"
 
 class EntityManager final {
 	/* typedefs */

@@ -2,8 +2,8 @@
 
 #include <windows.h>
 
-#include "../../Common_h/EntityManager.h"
-#include "../../Common_h/vapi.h"
+#include "../EntityManager.h"
+#include "../vapi.h"
 
 #include "timer.h"
 #include "services_list.h"

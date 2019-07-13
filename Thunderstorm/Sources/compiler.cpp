@@ -3,7 +3,7 @@
 #include "Core.h"
 #include "sstring.h"
 #include "s_debug.h"
-#include "../../Common_h/defines.h"
+#include "defines.h"
 #include "externs.h"
 
 //#define STARFORCE_PROTECTION
@@ -23,11 +23,11 @@
 #define DEF_COMPILE_EXPRESSIONS
 
 #include "zlib.h"
-#include "../../Common_h/vapi.h"
+#include "../vapi.h"
 #include "file_service.h"
 
 #ifdef _XBOX
-#include "..\..\common_h\dx9render.h"
+#include "..\dx9render.h"
 #include "..\..\soundservice\vsoundservice.h"
 #endif
 

@@ -1,9 +1,9 @@
 #ifndef _XINTERFACE_H_
 #define _XINTERFACE_H_
 
-#include "../Common_h/dx9render.h"
-#include "../Common_h/Matrix.h"
-#include "../Common_h/vmodule_api.h"
+#include "dx9render.h"
+#include "Matrix.h"
+#include "vmodule_api.h"
 #include "QuestFileReader//QuestFileReader.h"
 #include "Nodes/xi_util.h"
 #include "editor/editor.h"

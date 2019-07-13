@@ -1,7 +1,7 @@
 #ifndef _BATTLE_SIGN_H
 #define _BATTLE_SIGN_H
 
-#include "defines.h"
+#include "bi_defines.h"
 #include <string>
 
 #define MAX_SIGN_QUANTITY	8

@@ -8,7 +8,7 @@
 //
 //============================================================================================
 
-#include "../Shared/messages.h"
+#include "../../Shared/messages.h"
 #include "WorldMap.h"
 #include "WdmCameraStdCtrl.h"
 #include "WdmSea.h"
@@ -22,8 +22,8 @@
 #include "WdmWarringShip.h"
 #include "WdmWindUI.h"
 #include "WdmIcon.h"
-#include "../Common_h/defines.h"
-#include "../Common_h/EntityManager.h"
+#include "defines.h"
+#include "EntityManager.h"
 
 //============================================================================================
 

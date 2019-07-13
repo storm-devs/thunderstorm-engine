@@ -1,6 +1,6 @@
 #include "blast.h"
-#include "../Shared/messages.h"
-#include "../Common_h/EntityManager.h"
+#include "../../Shared/messages.h"
+#include "EntityManager.h"
 
 #define ANGLESPEED_MUL	0.2f
 

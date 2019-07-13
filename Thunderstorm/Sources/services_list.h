@@ -1,7 +1,7 @@
 #ifndef _SERVICES_LIST_H_
 #define _SERVICES_LIST_H_
 
-#include "../../Common_h/service.h"
+#include "../service.h"
 
 typedef struct
 {

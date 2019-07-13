@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include "battle_navigator.h"
-#include "../../Common_h/Sd2_h/VAI_ObjBase.h"
-#include "../../Common_h/ship_base.h"
-#include "../../Common_h/Weather_Base.h"
-#include "../../Common_h/Island_Base.h"
+#include "../Sd2_h/VAI_ObjBase.h"
+#include "../ship_base.h"
+#include "../Weather_Base.h"
+#include "../Island_Base.h"
 #include "ships_list.h"
 #include "../Utils.h"
-#include "../../Shared/battle_interface/msg_control.h"
-#include "../../Common_h/EntityManager.h"
+#include "../../../Shared/battle_interface/msg_control.h"
+#include "../EntityManager.h"
 
 #define NAVBACKGROUND_SIZESCALE	1.3f
 

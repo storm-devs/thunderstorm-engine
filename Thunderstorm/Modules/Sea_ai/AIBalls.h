@@ -1,10 +1,10 @@
 #ifndef SEA_BALLS_AI_HPP
 #define SEA_BALLS_AI_HPP
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/Character.h"
-#include "../Common_h/Sd2_h/CannonTrace.h"
-#include "../Common_h/vparticle_system.h"
+#include "vmodule_api.h"
+#include "Character.h"
+#include "Sd2_h/CannonTrace.h"
+#include "vparticle_system.h"
 #include "AIHelper.h"
 
 struct BALL_PARAMS

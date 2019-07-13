@@ -1,8 +1,8 @@
 #include "Blood.h"
-#include "../Common_h/geometry.h"
-#include "../Common_h/Matrix.h"
+#include "geometry.h"
+#include "Matrix.h"
 #include "Character.h"
-#include "../Common_h/defines.h"
+#include "defines.h"
 
 #define BLOOD_RADIUS		1.f		// размер пятна крови
 #define BLOOD_LIVE_TIME		5.5f	// сек

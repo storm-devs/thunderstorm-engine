@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #include "sdevice.h"
-#include "../Common_h/tga.h"
+#include "tga.h"
 
 void DX9RENDER::PrepareCapture()
 {

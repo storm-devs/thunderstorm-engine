@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/dx9render.h"
-#include "../Common_h/collide.h"
-#include "../Common_h/model.h"
-#include "../Common_h/sea_base.h"
+#include "vmodule_api.h"
+#include "dx9render.h"
+#include "collide.h"
+#include "model.h"
+#include "sea_base.h"
 //#include "..\geom_lib\geos.h"
-#include "../Common_h/TIVBufferManager.h"
+#include "TIVBufferManager.h"
 
 #define MAX_RINGS     25
 #define FADE_IN_TIME  200

@@ -9,11 +9,11 @@
 //============================================================================================
 
 #include "Grass.h"
-#include "../Common_h/geometry.h"
-#include "../Common_h/Matrix.h"
-#include "../Common_h/defines.h"
+#include "geometry.h"
+#include "Matrix.h"
+#include "defines.h"
 #include "Character.h"
-#include "../Common_h/EntityManager.h"
+#include "EntityManager.h"
 
 //============================================================================================
 

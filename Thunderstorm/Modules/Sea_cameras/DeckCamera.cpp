@@ -1,9 +1,9 @@
 #include "DeckCamera.h"
-#include "../Common_h/ship_base.h"
-#include "../Common_h/geos.h"
-#include "../Common_h/defines.h"
-#include "../Shared/messages.h"
-#include "../Common_h/Sd2_h/SaveLoad.h"
+#include "ship_base.h"
+#include "geos.h"
+#include "defines.h"
+#include "../../Shared/messages.h"
+#include "Sd2_h/SaveLoad.h"
 
 #define DISCR_F_VAL 0.00001f
 #define EQU_FLOAT(x,y) (x)-(y)>DISCR_F_VAL ? false : (y)-(x)>DISCR_F_VAL ? false : true

@@ -11,8 +11,8 @@
 #ifndef _Debris_H_
 #define _Debris_H_
 
-#include "../Common_h/Matrix.h"
-#include "../Common_h/model.h"
+#include "Matrix.h"
+#include "model.h"
 #include "../SoundService/VSoundService.h"
 #include "Pillar.h"
 

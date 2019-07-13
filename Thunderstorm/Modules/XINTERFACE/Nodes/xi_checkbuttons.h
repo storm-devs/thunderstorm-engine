@@ -3,7 +3,7 @@
 
 #include "../inode.h"
 #include "xi_image.h"
-#include "../../Common_h/defines.h"
+#include "../xdefines.h"
 
 struct ButtonDescribe
 {

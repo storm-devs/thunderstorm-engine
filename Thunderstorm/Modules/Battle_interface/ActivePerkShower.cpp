@@ -1,8 +1,8 @@
 #include <exception>
-#include "../Shared/battle_interface/msg_control.h"
-#include "../Common_h/vmodule_api.h"
+#include "../../Shared/battle_interface/msg_control.h"
+#include "vmodule_api.h"
 #include "ActivePerkShower.h"
-#include "defines.h"
+#include "bi_defines.h"
 
 ActivePerkShower::ActivePerkShower()
 {

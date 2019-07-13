@@ -1,7 +1,7 @@
 #include "particlemanager.h"
-#include "../../Common_h/dx9render.h"
-#include "../../Common_h/vapi.h"
-#include "../../Common_h/filesystem.h"
+#include "dx9render.h"
+#include "vapi.h"
+#include "filesystem.h"
 
 #include "../DataCache/DataCache.h"
 #include "../GeomCache/GeomCache.h"
@@ -12,7 +12,7 @@
 #include "../ICommon/IEmitter.h"
 #include "../System/DataSource/DataString.h"
 #include "../ICommon/Names.h"
-#include "../../Common_h/defines.h"
+#include "defines.h"
 
 
 uint32_t GraphRead = 0;

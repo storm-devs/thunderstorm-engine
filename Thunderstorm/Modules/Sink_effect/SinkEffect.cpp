@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../Shared/messages.h"
-#include "../Common_h/Cvector.h"
+#include "../../Shared/messages.h"
+#include "Cvector.h"
 #include "../SoundService/VSoundService.h"
 #include "SinkEffect.H"
-#include "../Common_h/ship_base.h"
-#include "../Common_h/EntityManager.h"
+#include "ship_base.h"
+#include "EntityManager.h"
 
 CREATE_CLASS(SINKEFFECT)
 

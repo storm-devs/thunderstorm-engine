@@ -4,7 +4,7 @@
 #include "AICannon.h"
 #include "AIShip.h"
 
-#include "../Common_h/ShipLights.h"
+#include "ShipLights.h"
 
 // ============================================================================
 // Master class AIFort

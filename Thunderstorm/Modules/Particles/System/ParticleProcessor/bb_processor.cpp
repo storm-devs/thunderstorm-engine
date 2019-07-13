@@ -4,11 +4,12 @@
 #include "../DataSource/DataGraph.h"
 #include "../DataSource/DataColor.h"
 #include "../DataSource/DataUV.h"
-#include "../../../Common_h/dx9render.h"
-#include "../../../Common_h/math3D.h"
+#include "dx9render.h"
+#include "math3D.h"
 #include "../ParticleSystem/particlesystem.h"
 #include "physic.h"
-#include "../../../Common_h/defines.h"
+#include "defines.h"
+#include "vmodule_api.h"
 
 //Сколько всего может быть плашек
 #define MAX_BILLBOARDS 4096

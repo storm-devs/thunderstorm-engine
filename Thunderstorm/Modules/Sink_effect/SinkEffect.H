@@ -1,10 +1,10 @@
 #ifndef _SINKEFFECT_H_
 #define _SINKEFFECT_H_
 
-#include "../common_h/geometry.h"
-#include "../common_h/dx9render.h"
-#include "../common_h/sea_base.h"
-#include "../common_h/CVECTOR.h"
+#include "geometry.h"
+#include "dx9render.h"
+#include "sea_base.h"
+#include "CVECTOR.h"
 #include "SinkSplashDefines.h"
 #include "TSink.h"
 

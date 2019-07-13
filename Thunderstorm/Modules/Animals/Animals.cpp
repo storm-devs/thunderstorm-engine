@@ -1,6 +1,6 @@
-#include "../Shared/messages.h"
-//#include "..\common_h\defines.h"
-#include "../Common_h/Cvector.h"
+#include "../../Shared/messages.h"
+//#include defines.h"
+#include "Cvector.h"
 #include "../SoundService/VSoundService.h"
 
 #include "Animals.H"

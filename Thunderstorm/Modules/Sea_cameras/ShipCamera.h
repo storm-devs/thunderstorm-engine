@@ -1,10 +1,10 @@
 #ifndef SEA_SHIP_CAMERA_HPP
 #define SEA_SHIP_CAMERA_HPP
 
-#include "../Common_h/dx9render.h"
-#include "../Common_h/sea_base.h"
-#include "../Common_h/model.h"
-#include "../Common_h/Island_Base.h"
+#include "dx9render.h"
+#include "sea_base.h"
+#include "model.h"
+#include "Island_Base.h"
 #include "Common_Camera.h"
 
 #define MIN_DIST	70.f

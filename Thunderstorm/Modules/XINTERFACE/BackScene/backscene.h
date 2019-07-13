@@ -1,10 +1,10 @@
 #ifndef _XI_BACK_SCENE_H
 #define _XI_BACK_SCENE_H
 
-#include "../../Common_h/dx9render.h"
-#include "../../Common_h/Matrix.h"
-#include "../defines.h"
-#include "../../Common_h/EntityManager.h"
+#include "../dx9render.h"
+#include "../Matrix.h"
+#include "../EntityManager.h"
+#include "../xdefines.h"
 
 class MODEL;
 class NODE;

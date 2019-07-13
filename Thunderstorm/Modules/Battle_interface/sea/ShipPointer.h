@@ -1,9 +1,7 @@
 #ifndef _SHIPPOINTER_H_
 #define _SHIPPOINTER_H_
 
-#include "../../Common_h/dx9render.h"
-#include "../../Common_h/defines.h"
-#include "../../Common_h/Sd2_h/VAI_ObjBase.h"
+#include "Sd2_h/VAI_ObjBase.h"
 
 class SHIPPOINTER : public Entity
 {

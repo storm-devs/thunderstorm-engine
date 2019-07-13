@@ -1,7 +1,7 @@
 #include "ship.h"
 #include "ShipLights.h"
 #include <algorithm>
-#include "../Shared/messages.h"
+#include "../../Shared/messages.h"
 
 VDX9RENDER * ShipLights::pRS = nullptr;
 COLLIDE * ShipLights::pCollide = nullptr;

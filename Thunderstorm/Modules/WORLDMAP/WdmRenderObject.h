@@ -12,8 +12,8 @@
 #define _WdmRenderObject_H_
 
 
-#include "../Common_h/dx9render.h"
-#include "../Common_h/attributes.h"
+#include "dx9render.h"
+#include "attributes.h"
 
 class WdmRenderObject
 {

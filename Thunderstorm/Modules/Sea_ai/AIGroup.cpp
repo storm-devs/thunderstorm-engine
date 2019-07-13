@@ -1,6 +1,6 @@
 #include "AIGroup.h"
 #include "AIFort.h"
-#include "../Shared/messages.h"
+#include "../../Shared/messages.h"
 
 std::vector<AIGroup*> AIGroup::AIGroups;
 float AIGroup::fDistanceBetweenGroupShips = 250.0f;

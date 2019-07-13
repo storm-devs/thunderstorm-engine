@@ -1,5 +1,5 @@
 #include "vcollide.h"
-#include "../Common_h/object.h"
+#include "object.h"
 
 CREATE_SERVICE(COLL)
 

@@ -1,4 +1,4 @@
-#include "../../Common_h/vfile_service.h"
+#include "../vfile_service.h"
 
 #define KNF_KEY				0x1
 #define KNF_COMMENTARY		0x2

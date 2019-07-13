@@ -1,8 +1,8 @@
 #ifndef AI_FLOW_GRAPH_HPP
 #define AI_FLOW_GRAPH_HPP
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/defines.h"
+#include "vmodule_api.h"
+#include "defines.h"
 #include <vector>
 #include <string>
 #include <algorithm>

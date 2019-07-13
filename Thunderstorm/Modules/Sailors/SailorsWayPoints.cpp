@@ -1,6 +1,6 @@
 #include <d3dx9math.h>
 #include "SailorsWayPoints.h"
-#include "../Common_h/vmodule_api.h"
+#include "vmodule_api.h"
 
 //--------------------------------------------------------------------------------------------------------------
 

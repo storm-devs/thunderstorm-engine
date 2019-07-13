@@ -1,7 +1,6 @@
-#include <stdio.h>
 #include "xi_border.h"
 #include "xi_image.h"
-#include "../../Common_h/defines.h"
+#include <defines.h>
 
 CXI_BORDER::CXI_BORDER()
 {

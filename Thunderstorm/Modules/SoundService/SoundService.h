@@ -3,10 +3,10 @@
 
 //#include <mmreg.h>
 //#include <dxerr8.h>
-#include "../Common_h/vmodule_api.h"
+#include "vmodule_api.h"
 #include "SoundDefines.h"
 #include "VSoundService.h"
-#include "../Common_h/Cvector.h"
+#include "Cvector.h"
 #include "./Fmod4/api/inc/fmod.hpp"
 #include "./Fmod4/api/inc/fmod_errors.h"
 #include <string>

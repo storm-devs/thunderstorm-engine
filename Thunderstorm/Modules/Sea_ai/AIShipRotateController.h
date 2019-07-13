@@ -1,8 +1,8 @@
 #ifndef AISHIPROTATECONTROLLER_HPP
 #define AISHIPROTATECONTROLLER_HPP
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/Sd2_h/VAI_ObjBase.h"
+#include "vmodule_api.h"
+#include "Sd2_h/VAI_ObjBase.h"
 
 // ============================================================================
 // master class AIShipRotateController

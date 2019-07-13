@@ -9,7 +9,7 @@
 //============================================================================================
 
 #include "WdmCameraStdCtrl.h"
-#include "../Common_h/vmodule_api.h"
+#include "vmodule_api.h"
 
 #define WDM_CAMERASTDCTRL_MAXDLT	400
 

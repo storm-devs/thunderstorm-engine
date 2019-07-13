@@ -12,8 +12,8 @@
 #define _LocationEffects_H_
 
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/Matrix.h"
+#include "vmodule_api.h"
+#include "Matrix.h"
 
 class VDX9RENDER;
 

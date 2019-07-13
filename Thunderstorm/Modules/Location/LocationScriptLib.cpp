@@ -1,8 +1,8 @@
 #include "LocationScriptLib.h"
-#include "../Common_h/dx9render.h"
-#include "../Common_h/v_s_stack.h"
+#include "dx9render.h"
+#include "v_s_stack.h"
 #include "Fader.h"
-#include "../Common_h/EntityManager.h"
+#include "EntityManager.h"
 
 //============================================================================================
 

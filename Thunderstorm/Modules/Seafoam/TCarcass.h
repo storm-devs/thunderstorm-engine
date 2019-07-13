@@ -1,10 +1,10 @@
 #ifndef _TCARCASS_H_
 #define _TCARCASS_H_
 
-#include "../Common_h/Matrix.h"
-#include "../Common_h/geometry.h"
-#include "../Common_h/dx9render.h"
-#include "../Common_h/Cvector.h"
+#include "Matrix.h"
+#include "geometry.h"
+#include "dx9render.h"
+#include "Cvector.h"
 
 #define MAX_MEASURE_POINTS 10
 #define MAX_LEVELS		   20

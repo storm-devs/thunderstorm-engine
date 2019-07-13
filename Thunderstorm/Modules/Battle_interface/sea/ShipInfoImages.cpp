@@ -1,6 +1,6 @@
 #include "ShipInfoImages.h"
 #include "../image/imgrender.h"
-#include "../../Common_h/ship_base.h"
+#include "../ship_base.h"
 #include "../Utils.h"
 
 // определим вертексы

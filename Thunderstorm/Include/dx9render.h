@@ -4,9 +4,9 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 
-#include "../Common_h/types3d.h"
-#include "../Common_h/Matrix.h"
-#include "../Common_h/Entity.h"
+#include "types3d.h"
+#include "Matrix.h"
+#include "Entity.h"
 #include "service.h"
 
 #define FONT_DEFAULT    0

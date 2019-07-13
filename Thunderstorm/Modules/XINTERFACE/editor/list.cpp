@@ -1,8 +1,8 @@
-#include "list.h"
+#include <defines.h>
 #include "../Nodes/xi_image.h"
+#include "editor_defines.h"
+#include "list.h"
 #include "font.h"
-#include "defines.h"
-#include "../../Common_h/defines.h"
 
 GIEditorList::GIEditorList(GIEditor* pEditor)
 {

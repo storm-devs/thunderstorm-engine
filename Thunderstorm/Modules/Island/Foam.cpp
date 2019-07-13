@@ -1,6 +1,6 @@
 #include "Foam.h"
-#include "../Common_h/math3d/Plane.h"
-#include "../Common_h/inlines.h"
+#include "math3d/Plane.h"
+#include "inlines.h"
 
 CoastFoam::CoastFoam()
 {

@@ -1,4 +1,4 @@
-#include "../../Common_h/defines.h"
+#include "defines.h"
 #include "resource.h"
 #ifndef _XBOX
 #include "s_dbg_sourceview.h"

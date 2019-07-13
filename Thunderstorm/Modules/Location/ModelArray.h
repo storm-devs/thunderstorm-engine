@@ -11,8 +11,8 @@
 #ifndef _ModelArray_H_
 #define _ModelArray_H_
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/model.h"
+#include "vmodule_api.h"
+#include "model.h"
 
 class Animation;
 

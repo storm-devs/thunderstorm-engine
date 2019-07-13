@@ -9,8 +9,8 @@
 //============================================================================================
 
 #include "Blots.h"
-#include "../Shared/messages.h"
-#include "../Common_h/EntityManager.h"
+#include "../../Shared/messages.h"
+#include "EntityManager.h"
 
 //============================================================================================
 

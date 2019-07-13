@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include "aviplayer.h"
-#include "../../Common_h/defines.h"
-#include "../../Shared/interface/messages.h"
-#include "../../Common_h/EntityManager.h"
+#include "defines.h"
+#include "../../../Shared/interface/messages.h"
+#include "../EntityManager.h"
 
 #pragma comment(lib,"amstrmid.lib")
 #pragma comment(lib,"ddraw.lib")

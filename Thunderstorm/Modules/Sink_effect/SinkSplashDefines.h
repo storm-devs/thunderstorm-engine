@@ -2,7 +2,7 @@
 #define _SINKSPLASHDEFINES_
 
 #include <stdlib.h>
-#include "../Common_h/rands.h"
+#include "rands.h"
 
 #define SINK_SPLASH_TRACE_INFORMATION
 

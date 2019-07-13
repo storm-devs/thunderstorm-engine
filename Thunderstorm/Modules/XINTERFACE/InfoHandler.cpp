@@ -1,5 +1,5 @@
 #include "InfoHandler.h"
-#include "../Common_h/vmodule_api.h"
+#include "vmodule_api.h"
 
 InfoHandler::InfoHandler()
 {

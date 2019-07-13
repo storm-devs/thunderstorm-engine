@@ -1,7 +1,7 @@
 #include "TButterflies.h"
-#include "../Common_h/message.h"
-#include "../Common_h/ship_base.h"
-#include "../Shared/messages.h"
+#include "message.h"
+#include "ship_base.h"
+#include "../../Shared/messages.h"
 
 #pragma warning (disable : 4244)
 

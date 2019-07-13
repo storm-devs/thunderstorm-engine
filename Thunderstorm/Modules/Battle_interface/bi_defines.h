@@ -1,10 +1,10 @@
 #ifndef __DEFINES_BATTLE_INTERFACE_H_
 #define __DEFINES_BATTLE_INTERFACE_H_
 
-#include <assert.h>
-#include "../Common_h/dx9render.h"
-#include "../Common_h/defines.h"
-#include "../Common_h/vdata.h"
+#include "dx9render.h"
+#include "defines.h"
+#include "vdata.h"
+#include "storm_assert.h"
 
 #define INI_FILE_NAME	"resource\\ini\\interfaces\\battle_interface.ini"
 
@@ -124,7 +124,7 @@ inline FRECT & GetTexRectFromPosition(FRECT & fr, int posNum, int hq, int vq, bo
 
 inline void SetRectanglePos(BI_ONETEXTURE_VERTEX * pv, FRECT & tr)
 {
-	assert(pv!=NULL);
+	Assert(pv!=NULL);
 	pv[0].pos.x = pv[1].pos.x = tr.left;
 	pv[0].pos.y = pv[2].pos.y = tr.top;
 	pv[2].pos.x = pv[3].pos.x = tr.right;
@@ -132,7 +132,7 @@ inline void SetRectanglePos(BI_ONETEXTURE_VERTEX * pv, FRECT & tr)
 }
 inline void SetRectangleTexture(BI_ONETEXTURE_VERTEX * pv, FRECT & tr)
 {
-	assert(pv!=NULL);
+	Assert(pv!=NULL);
 	pv[0].tu = pv[1].tu = tr.left;
 	pv[0].tv = pv[2].tv = tr.top;
 	pv[2].tu = pv[3].tu = tr.right;
@@ -141,7 +141,7 @@ inline void SetRectangleTexture(BI_ONETEXTURE_VERTEX * pv, FRECT & tr)
 
 inline void SetRectanglePos(BI_COLOR_VERTEX * pv, FRECT & tr)
 {
-	assert(pv!=NULL);
+	Assert(pv!=NULL);
 	pv[0].pos.x = pv[1].pos.x = tr.left;
 	pv[0].pos.y = pv[2].pos.y = tr.top;
 	pv[2].pos.x = pv[3].pos.x = tr.right;
@@ -149,7 +149,7 @@ inline void SetRectanglePos(BI_COLOR_VERTEX * pv, FRECT & tr)
 }
 inline void SetRectanglePos(BI_COLOR_VERTEX * pv, float fl,float ft, float fr,float fb)
 {
-	assert(pv!=NULL);
+	Assert(pv!=NULL);
 	pv[0].pos.x = pv[1].pos.x = fl;
 	pv[0].pos.y = pv[2].pos.y = ft;
 	pv[2].pos.x = pv[3].pos.x = fr;
@@ -157,7 +157,7 @@ inline void SetRectanglePos(BI_COLOR_VERTEX * pv, float fl,float ft, float fr,fl
 }
 inline void SetRectangleTexture(BI_COLOR_VERTEX * pv, FRECT & tr)
 {
-	assert(pv!=NULL);
+	Assert(pv!=NULL);
 	pv[0].tu = pv[1].tu = tr.left;
 	pv[0].tv = pv[2].tv = tr.top;
 	pv[2].tu = pv[3].tu = tr.right;
@@ -165,7 +165,7 @@ inline void SetRectangleTexture(BI_COLOR_VERTEX * pv, FRECT & tr)
 }
 inline void SetRectangleTexture(BI_COLOR_VERTEX * pv, float fl,float ft, float fr,float fb)
 {
-	assert(pv!=NULL);
+	Assert(pv!=NULL);
 	pv[0].tu = pv[1].tu = fl;
 	pv[0].tv = pv[2].tv = ft;
 	pv[2].tu = pv[3].tu = fr;

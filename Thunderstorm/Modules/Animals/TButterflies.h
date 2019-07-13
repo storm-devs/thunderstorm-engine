@@ -3,12 +3,12 @@
 
 #include "AnimalsDefines.h"
 #include "TButterfly.h"
-#include "../Common_h/Matrix.h"
-#include "../Common_h/Animation.h"
-#include "../Common_h/geometry.h"
-#include "../Common_h/dx9render.h"
-#include "../Common_h/collide.h"
-#include "../Common_h/TIVBufferManager.h"
+#include "Matrix.h"
+#include "Animation.h"
+#include "geometry.h"
+#include "dx9render.h"
+#include "collide.h"
+#include "TIVBufferManager.h"
 
 #define Y_REDEFINE_TIME		250
 

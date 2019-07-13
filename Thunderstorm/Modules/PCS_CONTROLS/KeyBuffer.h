@@ -1,8 +1,8 @@
 #ifndef _CONTROL_KEYBUFFER_H_
 #define _CONTROL_KEYBUFFER_H_
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/controls.h"
+#include "vmodule_api.h"
+#include "controls.h"
 
 struct ControlKeyBuffer
 {

@@ -8,12 +8,12 @@
 //
 //============================================================================================
 
-#include "../Common_h/Matrix.h"
+#include "Matrix.h"
 #include <stdio.h>
 #include "WdmSea.h"
 #include "WdmShip.h"
-#include "../Common_h/defines.h"
-#include "../Common_h/assert.h"
+#include "defines.h"
+#include "storm_assert.h"
 
 //============================================================================================
 

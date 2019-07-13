@@ -12,7 +12,7 @@
 #define _ActionInfo_H_
 
 #include "Bone.h"
-#include "../Common_h/Animation.h"
+#include "Animation.h"
 #include <unordered_map>
 #include <string>
 

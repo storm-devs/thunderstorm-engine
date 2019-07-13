@@ -1,7 +1,7 @@
 #ifndef _BI_COMMANDLIST_H_
 #define _BI_COMMANDLIST_H_
 
-#include "defines.h"
+#include "bi_defines.h"
 #include <string>
 #include <vector>
 

@@ -1,9 +1,9 @@
 #ifndef _INODE_H
 #define _INODE_H
 
-#include "../Common_h/dx9render.h"
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/VideoTexture.h"
+#include "dx9render.h"
+#include "vmodule_api.h"
+#include "VideoTexture.h"
 #include "defines.h"
 #include "Nodes/xi_tooltips.h"
 #include "vxservice.h"

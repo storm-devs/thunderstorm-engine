@@ -1,6 +1,6 @@
 #include "s_stack.h"
-#include "../../Common_h/vapi.h"
-#include "../../Common_h/assert.h"
+#include "vapi.h"
+#include "storm_assert.h"
 
 extern void trace(char * p,...);
 extern VAPI * api;

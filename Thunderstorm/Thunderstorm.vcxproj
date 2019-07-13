@@ -42,11 +42,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(ProjectDir)Lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(ProjectDir)Lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -58,9 +58,10 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <AdditionalIncludeDirectories>C:\Users\espkk\source\repos\stormengine\Thunderstorm\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>legacy_stdio_definitions.lib;d3d9.lib;d3dx9.lib;dxerr.lib;odbc32.lib;odbccp32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmodex_vc.lib;legacy_stdio_definitions.lib;d3d9.lib;d3dx9.lib;dxerr.lib;odbc32.lib;odbccp32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
@@ -89,10 +90,11 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\espkk\source\repos\stormengine\Thunderstorm\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalOptions>/LTCG %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>legacy_stdio_definitions.lib;d3d9.lib;d3dx9.lib;dxerr.lib;odbc32.lib;odbccp32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmodex_vc.lib;legacy_stdio_definitions.lib;d3d9.lib;d3dx9.lib;dxerr.lib;odbc32.lib;odbccp32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
     <Midl>
@@ -219,8 +221,8 @@
     <ClCompile Include="Modules\Model\node.cpp" />
     <ClCompile Include="Modules\PARTICLES\DataCache\DataCache.cpp" />
     <ClCompile Include="Modules\PARTICLES\GeomCache\GeomCache.cpp" />
-    <ClCompile Include="Modules\PARTICLES\K2Wrapper\particles.cpp" />
-    <ClCompile Include="Modules\PARTICLES\K2Wrapper\psystem.cpp" />
+    <ClCompile Include="Modules\Particles\K2Wrapper\particles.cpp" />
+    <ClCompile Include="Modules\Particles\K2Wrapper\psystem.cpp" />
     <ClCompile Include="Modules\PARTICLES\Manager\particlemanager.cpp" />
     <ClCompile Include="Modules\PARTICLES\Service\particleservice.cpp" />
     <ClCompile Include="Modules\PARTICLES\System\DataDesc\data_desc.cpp" />
@@ -349,8 +351,8 @@
     <ClCompile Include="Modules\WORLDMAP\WorldMap.cpp" />
     <ClCompile Include="Modules\XINTERFACE\aviplayer\aviplayer.cpp" />
     <ClCompile Include="Modules\XINTERFACE\BackScene\backscene.cpp" />
-    <ClCompile Include="Modules\XINTERFACE\editor\defines.cpp" />
     <ClCompile Include="Modules\XINTERFACE\editor\editor.cpp" />
+    <ClCompile Include="Modules\XINTERFACE\editor\editor_defines.cpp" />
     <ClCompile Include="Modules\XINTERFACE\editor\xfont.cpp" />
     <ClCompile Include="Modules\XINTERFACE\editor\list.cpp" />
     <ClCompile Include="Modules\XINTERFACE\HelpChooser\HelpChooser.cpp" />
@@ -434,6 +436,91 @@
     <ClCompile Include="sources\token.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Animation.h" />
+    <ClInclude Include="Include\attributes.h" />
+    <ClInclude Include="Include\Character.h" />
+    <ClInclude Include="Include\collide.h" />
+    <ClInclude Include="Include\controls.h" />
+    <ClInclude Include="Include\Cvector.h" />
+    <ClInclude Include="Include\CVector4.h" />
+    <ClInclude Include="Include\defines.h" />
+    <ClInclude Include="Include\dtimer.h" />
+    <ClInclude Include="Include\dx9render.h" />
+    <ClInclude Include="Include\Entity.h" />
+    <ClInclude Include="Include\EntityManager.h" />
+    <ClInclude Include="Include\entity_state.h" />
+    <ClInclude Include="Include\filesystem.h" />
+    <ClInclude Include="Include\geometry.h" />
+    <ClInclude Include="Include\geos.h" />
+    <ClInclude Include="Include\hash.h" />
+    <ClInclude Include="Include\inlines.h" />
+    <ClInclude Include="Include\input.h" />
+    <ClInclude Include="Include\Intel.h" />
+    <ClInclude Include="Include\Island_Base.h" />
+    <ClInclude Include="Include\key_codes.h" />
+    <ClInclude Include="Include\light.h" />
+    <ClInclude Include="Include\mast_msg.h" />
+    <ClInclude Include="Include\math3D.h" />
+    <ClInclude Include="Include\math3d\Box.h" />
+    <ClInclude Include="Include\math3d\Capsule.h" />
+    <ClInclude Include="Include\math3d\Color.h" />
+    <ClInclude Include="Include\math3d\Line.h" />
+    <ClInclude Include="Include\math3d\Matrix.h" />
+    <ClInclude Include="Include\math3d\Plane.h" />
+    <ClInclude Include="Include\math3d\Quaternion.h" />
+    <ClInclude Include="Include\math3d\Sphere.h" />
+    <ClInclude Include="Include\math3d\Triangle.h" />
+    <ClInclude Include="Include\math3d\Vector.h" />
+    <ClInclude Include="Include\math3d\Vector4.h" />
+    <ClInclude Include="Include\Matrix.h" />
+    <ClInclude Include="Include\message.h" />
+    <ClInclude Include="Include\model.h" />
+    <ClInclude Include="Include\Net.h" />
+    <ClInclude Include="Include\object.h" />
+    <ClInclude Include="Include\particles.h" />
+    <ClInclude Include="Include\particles\gmx_QSort.h" />
+    <ClInclude Include="Include\particles\iparticlemanager.h" />
+    <ClInclude Include="Include\particles\iparticlesservice.h" />
+    <ClInclude Include="Include\particles\iparticlesystem.h" />
+    <ClInclude Include="Include\rands.h" />
+    <ClInclude Include="Include\sail_base.h" />
+    <ClInclude Include="Include\sail_msg.h" />
+    <ClInclude Include="Include\script_libriary.h" />
+    <ClInclude Include="Include\Sd2_h\AIMessages.h" />
+    <ClInclude Include="Include\Sd2_h\CannonTrace.h" />
+    <ClInclude Include="Include\Sd2_h\SaveLoad.h" />
+    <ClInclude Include="Include\Sd2_h\VAI_ObjBase.h" />
+    <ClInclude Include="Include\sea_base.h" />
+    <ClInclude Include="Include\service.h" />
+    <ClInclude Include="Include\ShipLights.h" />
+    <ClInclude Include="Include\ship_base.h" />
+    <ClInclude Include="Include\ship_msg.h" />
+    <ClInclude Include="Include\storm_assert.h" />
+    <ClInclude Include="Include\stringService.h" />
+    <ClInclude Include="Include\strutils.h" />
+    <ClInclude Include="Include\s_import_func.h" />
+    <ClInclude Include="Include\tga.h" />
+    <ClInclude Include="Include\TIVBufferManager.h" />
+    <ClInclude Include="Include\triangle.h" />
+    <ClInclude Include="Include\types3d.h" />
+    <ClInclude Include="Include\vapi.h" />
+    <ClInclude Include="Include\vblast.h" />
+    <ClInclude Include="Include\vcontrols.h" />
+    <ClInclude Include="Include\vcube_service.h" />
+    <ClInclude Include="Include\vdata.h" />
+    <ClInclude Include="Include\vevent.h" />
+    <ClInclude Include="Include\vfile_service.h" />
+    <ClInclude Include="Include\VideoTexture.h" />
+    <ClInclude Include="Include\vmapi.h" />
+    <ClInclude Include="Include\vmodule_api.h" />
+    <ClInclude Include="Include\vparticles_system.h" />
+    <ClInclude Include="Include\vparticle_system.h" />
+    <ClInclude Include="Include\vsail.h" />
+    <ClInclude Include="Include\vship.h" />
+    <ClInclude Include="Include\vstring_codec.h" />
+    <ClInclude Include="Include\v_s_stack.h" />
+    <ClInclude Include="Include\v_udp_transport.h" />
+    <ClInclude Include="Include\Weather_Base.h" />
     <ClInclude Include="Modules\BATTLE_INTERFACE\ActivePerkShower.h" />
     <ClInclude Include="Modules\BATTLE_INTERFACE\battle_command.h" />
     <ClInclude Include="Modules\BATTLE_INTERFACE\battle_sign.h" />
@@ -474,8 +561,6 @@
     <ClInclude Include="Modules\BATTLE_INTERFACE\WorldMapInterface\interface.h" />
     <ClInclude Include="Modules\BATTLE_INTERFACE\WorldMapInterface\shipcommand.h" />
     <ClInclude Include="Modules\BATTLE_INTERFACE\WorldMapInterface\shipsign.h" />
-    <ClInclude Include="Modules\Common_h\Entity.h" />
-    <ClInclude Include="Modules\Common_h\EntityManager.h" />
     <ClInclude Include="Modules\Common_h\templates\Array.h" />
     <ClInclude Include="Modules\Common_h\templates\dtimer.h" />
     <ClInclude Include="Modules\Common_h\templates\HTable.h" />
@@ -483,7 +568,6 @@
     <ClInclude Include="Modules\Common_h\templates\stack.h" />
     <ClInclude Include="Modules\Common_h\templates\string.h" />
     <ClInclude Include="Modules\Common_h\templates\tcommon.h" />
-    <ClInclude Include="Modules\Common_h\vmodule_api.h" />
     <ClInclude Include="Modules\Location\AICharacter.h" />
     <ClInclude Include="Modules\Location\Blood.h" />
     <ClInclude Include="Modules\Location\CameraFollow.h" />
@@ -527,8 +611,8 @@
     <ClInclude Include="Modules\PARTICLES\ICommon\Names.h" />
     <ClInclude Include="Modules\PARTICLES\ICommon\Particle.h" />
     <ClInclude Include="Modules\PARTICLES\ICommon\Types.h" />
-    <ClInclude Include="Modules\PARTICLES\K2Wrapper\particles.h" />
-    <ClInclude Include="Modules\PARTICLES\K2Wrapper\psystem.h" />
+    <ClInclude Include="Modules\Particles\K2Wrapper\particles.h" />
+    <ClInclude Include="Modules\Particles\K2Wrapper\psystem.h" />
     <ClInclude Include="Modules\PARTICLES\Manager\particlemanager.h" />
     <ClInclude Include="Modules\PARTICLES\Service\particleservice.h" />
     <ClInclude Include="Modules\PARTICLES\System\DataDesc\data_desc.h" />
@@ -624,8 +708,8 @@
     <ClInclude Include="Modules\XINTERFACE\BackScene\backscene.h" />
     <ClInclude Include="Modules\XINTERFACE\base_video.h" />
     <ClInclude Include="Modules\XINTERFACE\defines.h" />
-    <ClInclude Include="Modules\XINTERFACE\editor\defines.h" />
     <ClInclude Include="Modules\XINTERFACE\editor\editor.h" />
+    <ClInclude Include="Modules\XINTERFACE\editor\editor_defines.h" />
     <ClInclude Include="Modules\XINTERFACE\editor\font.h" />
     <ClInclude Include="Modules\XINTERFACE\editor\list.h" />
     <ClInclude Include="Modules\XINTERFACE\helpchooser\HelpChooser.h" />

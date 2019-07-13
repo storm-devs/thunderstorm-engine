@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include "typedef.h"
-#include "../Common_h/Weather_Base.h"
+#include "Weather_Base.h"
 #include "Rain.h"
 #include "SKY.h"
 

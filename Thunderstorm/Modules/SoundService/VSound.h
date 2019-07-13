@@ -3,7 +3,7 @@
 
 #include "SoundDefines.h"
 
-#include "../Common_h/Cvector.h"
+#include "Cvector.h"
 #include <cstdint>
 
 ///////////////////////////////////////////////////////////////////

@@ -10,7 +10,7 @@
 			
 
 #include "LocRats.h"
-#include "../Common_h/EntityManager.h"
+#include "EntityManager.h"
 
 //============================================================================================
 

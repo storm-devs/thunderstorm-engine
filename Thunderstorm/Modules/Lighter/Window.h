@@ -13,7 +13,7 @@
 
 #include "LTypes.h"
 #include "Lights.h"
-#include "../Common_h/dx9render.h"
+#include "dx9render.h"
 
 class Window  
 {

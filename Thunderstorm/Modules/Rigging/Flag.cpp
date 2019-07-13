@@ -1,9 +1,9 @@
 #include "Flag.h"
-#include "../Common_h/defines.h"
-#include "../Common_h/sail_msg.h"
-#include "../Common_h/Weather_Base.h"
+#include "defines.h"
+#include "sail_msg.h"
+#include "Weather_Base.h"
 #include "rigging_define.h"
-#include "../Common_h/EntityManager.h"
+#include "EntityManager.h"
 
 FLAG::FLAG()
 {

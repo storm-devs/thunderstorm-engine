@@ -1,7 +1,7 @@
 #ifndef _SCRSHOTER_H_
 #define _SCRSHOTER_H_
 
-#include "../../Common_h/dx9render.h"
+#include "../dx9render.h"
 
 class SCRSHOTER : public Entity
 {

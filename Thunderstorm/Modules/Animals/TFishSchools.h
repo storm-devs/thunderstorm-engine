@@ -1,11 +1,11 @@
 #ifndef _TFISHSCHOOLS_H_
 #define _TFISHSCHOOLS_H_
 
-#include "../Common_h/Matrix.h"
-#include "../Common_h/geometry.h"
-#include "../Common_h/dx9render.h"
-#include "../Common_h/sea_base.h"
-#include "../Common_h/ship_base.h"
+#include "Matrix.h"
+#include "geometry.h"
+#include "dx9render.h"
+#include "sea_base.h"
+#include "ship_base.h"
 #include "AnimalsDefines.h"
 #include "TDynamicObject.h"
 #include "TDynamicSystem.h"

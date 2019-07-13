@@ -11,8 +11,8 @@
 #ifndef _CharactersGroups_H_
 #define _CharactersGroups_H_
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/Matrix.h"
+#include "vmodule_api.h"
+#include "Matrix.h"
 
 #include "Location.h"
 #include "Character.h"

@@ -11,8 +11,8 @@
 #ifndef _AnimationServiceImp_H_
 #define _AnimationServiceImp_H_
 
-#include "../Common_h/Animation.h"
-#include "../Common_h/vmodule_api.h"
+#include "Animation.h"
+#include "vmodule_api.h"
 #include "AnimationInfo.h"
 
 //============================================================================================

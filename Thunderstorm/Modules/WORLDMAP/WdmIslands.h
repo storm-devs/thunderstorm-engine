@@ -12,7 +12,7 @@
 #define _WdmIslands_H_
 
 #include "WdmRenderModel.h"
-#include "../Common_h/geometry.h"
+#include "geometry.h"
 #include "PtcData.h"
 
 class WdmIslandWaves : public WdmRenderModel

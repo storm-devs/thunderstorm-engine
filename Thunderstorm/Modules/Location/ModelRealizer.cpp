@@ -1,5 +1,5 @@
 #include "ModelRealizer.h"
-#include "../Common_h/CVector4.h"
+#include "CVector4.h"
 #include "Lights.h"
 #include "Character.h"
 

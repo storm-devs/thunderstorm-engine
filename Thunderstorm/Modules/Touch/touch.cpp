@@ -1,10 +1,10 @@
 #include <crtdbg.h>
 #include "touch.h"
-#include "../Common_h/Character.h"
-#include "../Shared/sea_ai/Script_defines.h"
-#include "../Shared/messages.h"
-#include "../Common_h/inlines.h"
-#include "../Common_h/EntityManager.h"
+#include "Character.h"
+#include "../../Shared/sea_ai/Script_defines.h"
+#include "../../Shared/messages.h"
+#include "inlines.h"
+#include "EntityManager.h"
 
 #define ISLAND_CODE			-1
 #define INVALID_SHIP_IDX	0xACACAC

@@ -1,7 +1,7 @@
 #ifndef _GI_EDITOR_H
 #define _GI_EDITOR_H
 
-#include "defines.h"
+#include "editor_defines.h"
 
 class XINTERFACE;
 class CXI_IMAGE;

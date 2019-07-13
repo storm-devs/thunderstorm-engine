@@ -1,5 +1,5 @@
 #include "AIShip.h"
-#include "../Common_h/inlines.h"
+#include "inlines.h"
 
 AIShipTouchController::AIShipTouchController(AIShip * _pAIShip)
 {

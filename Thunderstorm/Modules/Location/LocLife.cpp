@@ -10,12 +10,12 @@
 			
 
 
-#include "../Common_h/geometry.h"
+#include "geometry.h"
 #include "LocLife.h"
 #include "Location.h"
 #include "Character.h"
-#include "../Shared/messages.h"
-#include "../Common_h/EntityManager.h"
+#include "../../Shared/messages.h"
+#include "EntityManager.h"
 
 //============================================================================================
 

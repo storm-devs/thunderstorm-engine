@@ -2,7 +2,7 @@
 #define _BALLSPLASHDEFINES_
 
 #include <stdlib.h>
-#include "../Common_h/rands.h"
+#include "rands.h"
 
 #define BALLSPLASH_TRACE_INFORMATION
 

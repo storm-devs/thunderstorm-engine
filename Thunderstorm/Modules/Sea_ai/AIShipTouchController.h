@@ -1,8 +1,8 @@
 #ifndef AISHIPTOUCHCONTROLLER_HPP
 #define AISHIPTOUCHCONTROLLER_HPP
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/dtimer.h"
+#include "vmodule_api.h"
+#include "dtimer.h"
 
 class AIShip;
 class AIShipTouchController

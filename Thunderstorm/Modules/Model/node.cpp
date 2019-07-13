@@ -2,7 +2,7 @@
 
 #include "modelr.h"
 #include <stdio.h>
-#include "../Common_h/EntityManager.h"
+#include "EntityManager.h"
 
 VGEOMETRY *NODER::gs=nullptr;
 VDX9RENDER *NODER::rs=nullptr;

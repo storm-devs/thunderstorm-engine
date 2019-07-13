@@ -1,5 +1,5 @@
 #include "Astronomy.h"
-#include "../Common_h/Weather_Base.h"
+#include "Weather_Base.h"
 #include <string>
 
 Astronomy::PLANETS::PLANETS()

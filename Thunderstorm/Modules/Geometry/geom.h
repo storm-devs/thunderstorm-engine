@@ -10,7 +10,7 @@ Import library class
 #ifndef _GEOM_H_
 #define _GEOM_H_
 
-#include "../Common_h/geos.h"
+#include "geos.h"
 #include "Rdf.h"
 
 #define EPSILON 4e-7

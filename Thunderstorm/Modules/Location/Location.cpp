@@ -13,10 +13,10 @@
 #include "Lights.h"
 #include "Character.h"
 
-#include "../Common_h/model.h"
-#include "../Common_h/CVector4.h"
-#include "../Common_h/defines.h"
-#include "../Shared/messages.h"
+#include "model.h"
+#include "CVector4.h"
+#include "defines.h"
+#include "../../Shared/messages.h"
 
 float		fCausticScale, fCausticDelta, fFogDensity, fCausticDistance;
 CVECTOR4	v4CausticColor;

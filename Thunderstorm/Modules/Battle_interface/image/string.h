@@ -1,7 +1,7 @@
 #ifndef BI_STRING_H
 #define BI_STRING_H
 
-#include "defines.h"
+#include "image_defines.h"
 #include <string>
 
 class BIImageRender;

@@ -1,6 +1,6 @@
 #include "CameraDialog.h"
-#include "../Common_h/model.h"
-#include "../Shared/messages.h"
+#include "model.h"
+#include "../../Shared/messages.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(CameraDialog)
@@ -8,7 +8,7 @@ CREATE_CLASS(CameraDialog)
 #define HDISP1	1.5f
 #define FOV				2.25f
 
-#include "../Common_h/Matrix.h"
+#include "Matrix.h"
 PLANE planes[6];
 void FindPlanes(const CMatrix &view, const CMatrix &proj);
 

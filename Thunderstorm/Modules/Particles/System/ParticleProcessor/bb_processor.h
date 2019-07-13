@@ -8,11 +8,9 @@
 #ifndef BILLBOARD_PARTICLE_PROCESSOR
 #define BILLBOARD_PARTICLE_PROCESSOR
 
-#include <stdarg.h>
-#include <stdio.h>
-#include "../../../Common_h/dx9render.h"
-#include "../../../Common_h/particles/gmx_QSort.h"
-#include "../../../Common_h/math3d/Matrix.h"
+#include "dx9render.h"
+#include "particles/gmx_QSort.h"
+#include "math3d/Matrix.h"
 
 #include "../../ICommon/Particle.h"
 #include "../DataSource/FieldList.h"

@@ -1,5 +1,5 @@
 #include "AIShip.h"
-#include "../Common_h/sea_base.h"
+#include "sea_base.h"
 
 AIShipMoveController::AIShipMoveController(AIShip *pShip)
 {

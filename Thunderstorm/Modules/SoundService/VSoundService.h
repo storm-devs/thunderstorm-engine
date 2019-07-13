@@ -4,8 +4,8 @@
 #include "SoundDefines.h"
 #include "VSoundService.h"
 #include "VSound.h"
-#include "../Common_h/Cvector.h"
-#include "../Common_h/service.h"
+#include "Cvector.h"
+#include "service.h"
 #include <vector>
 
 ///////////////////////////////////////////////////////////////////

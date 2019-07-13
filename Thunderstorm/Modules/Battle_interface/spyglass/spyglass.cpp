@@ -2,12 +2,12 @@
 #include "../image/imgrender.h"
 #include "../image/image.h"
 #include "../Utils.h"
-#include "../../Shared/messages.h"
-#include "../../Shared/events.h"
+#include "../../../Shared/messages.h"
+#include "../../../Shared/events.h"
 #include "../sea/ships_list.h"
-#include "../../Shared/battle_interface/msg_control.h"
-#include "../../Common_h/math3d/Sphere.h"
-#include "../../Common_h/EntityManager.h"
+#include "../../../Shared/battle_interface/msg_control.h"
+#include "../math3d/Sphere.h"
+#include "../EntityManager.h"
 
 void ISPYGLASS::ImageParam::Release()
 {

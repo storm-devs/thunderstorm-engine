@@ -1,8 +1,8 @@
 #include  "SEA_OPERATOR.h"
-#include "../Common_h/defines.h"
-#include "../Common_h/rands.h"
-#include "../Shared/messages.h"
-#include "../Common_h/EntityManager.h"
+#include "defines.h"
+#include "rands.h"
+#include "../../Shared/messages.h"
+#include "EntityManager.h"
 
 
 CREATE_CLASS(SEA_OPERATOR)

@@ -1,7 +1,5 @@
-#include <stdio.h>
 #include "strservice.h"
-#include "../../Common_h/defines.h"
-#include "../../Common_h/v_s_stack.h"
+#include "v_s_stack.h"
 #include "../xinterface.h"
 
 #define USER_BLOCK_BEGINER	'{'

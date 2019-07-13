@@ -1,13 +1,13 @@
 #include "sdevice.h"
-#include "../Common_h/Matrix.h"
-#include "../Common_h/filesystem.h"
+#include "Matrix.h"
+#include "filesystem.h"
 #include "texture.h"
-#include "../Common_h/script_libriary.h"
-#include "../Common_h/v_s_stack.h"
+#include "script_libriary.h"
+#include "v_s_stack.h"
 #include <DxErr.h>
 #include <io.h>
-#include "../Common_h/inlines.h"
-#include "../Common_h/EntityManager.h"
+#include "inlines.h"
+#include "EntityManager.h"
 
 #define POST_PROCESS_FVF (D3DFVF_XYZRHW | D3DFVF_TEX4)
 

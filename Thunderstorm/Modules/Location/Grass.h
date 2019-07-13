@@ -11,8 +11,8 @@
 #ifndef _Grass_H_
 #define _Grass_H_
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/dx9render.h"
+#include "vmodule_api.h"
+#include "dx9render.h"
 #include "grs.h"
 #include "Supervisor.h"
 

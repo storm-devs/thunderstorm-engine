@@ -1,5 +1,5 @@
-#include "../Common_h/defines.h"
-#include "../Common_h/model.h"
+#include "defines.h"
+#include "model.h"
 #include "../SoundService/VSoundService.h"
 #include "dialog.h"
 

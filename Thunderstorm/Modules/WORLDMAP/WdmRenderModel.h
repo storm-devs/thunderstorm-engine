@@ -15,7 +15,7 @@
 #include "WdmRenderObject.h"
 #include "WdmObjects.h"
 
-#include "../Common_h/Matrix.h"
+#include "Matrix.h"
 
 class GEOS;
 class VGEOMETRY;

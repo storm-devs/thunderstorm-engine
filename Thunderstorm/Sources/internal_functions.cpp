@@ -1,6 +1,6 @@
 #include "compiler.h"
 #include "strings_list.h"
-#include "../../Common_h/vapi.h"
+#include "../vapi.h"
 #include "Core.h"
 
 #define INVALID_FA	"Invalid function argument"

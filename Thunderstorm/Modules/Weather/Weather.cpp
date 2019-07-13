@@ -3,7 +3,7 @@
 #include "SunGlow.h"
 #include "WaterFlare.h"
 #include "Astronomy.h"
-#include "../Common_h/inlines.h"
+#include "inlines.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(WEATHER)

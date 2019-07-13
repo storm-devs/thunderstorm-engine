@@ -2,7 +2,7 @@
 #define __VCOLLIDE_H__
 
 
-#include "../Common_h/collide.h"
+#include "collide.h"
 
 #pragma pack(push)
 #pragma pack(1)

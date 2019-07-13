@@ -1,9 +1,9 @@
 #ifndef SEA_COMMON_CAMERA_HPP
 #define SEA_COMMON_CAMERA_HPP
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/Sd2_h/VAI_ObjBase.h"
-#include "../Common_h/EntityManager.h"
+#include "vmodule_api.h"
+#include "Sd2_h/VAI_ObjBase.h"
+#include "EntityManager.h"
 
 class COMMON_CAMERA : public Entity
 {

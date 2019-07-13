@@ -1,7 +1,7 @@
 #include "Core.h"
 #include "externs.h"
 #include <cinttypes>
-#include "../../Common_h/dx9render.h"
+#include "../dx9render.h"
 
 CREATE_SERVICE(CONTROLS)
 

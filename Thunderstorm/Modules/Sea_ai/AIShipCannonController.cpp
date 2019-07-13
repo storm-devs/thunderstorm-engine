@@ -1,5 +1,5 @@
 #include "AIShip.h"
-#include "../Common_h/inlines.h"
+#include "inlines.h"
 
 float AIShipCannonController::fMaxCannonDamageDistance = 1.0f;
 float AIShipCannonController::fMaxCannonDamageRadiusPoint = 1.0f;

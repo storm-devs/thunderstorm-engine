@@ -1,9 +1,9 @@
 #ifndef _PathTracks_h_
 #define _PathTracks_h_
 
-#include "../Common_h/dx9render.h"
-#include "../Common_h/math3D.h"
-#include "../Common_h/math3d/Quaternion.h"
+#include "dx9render.h"
+#include "math3D.h"
+#include "math3d/Quaternion.h"
 
 class PathTracks  
 {

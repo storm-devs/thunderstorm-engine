@@ -1,8 +1,8 @@
 #include "script_func.h"
-#include "../Common_h/sail_base.h"
+#include "sail_base.h"
 #include "sail.h"
-#include "../Common_h/Net.h"
-#include "../Common_h/v_s_stack.h"
+#include "v_s_stack.h"
+#include <EntityManager.h>
 
 extern float g_fSailHoleDepend;
 //extern float GetSailSpeed(int holeQ,int holeMax,float maxSpeed,float fSailHoleDepend);

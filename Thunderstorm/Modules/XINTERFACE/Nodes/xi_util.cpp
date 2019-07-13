@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "../../Common_h/vmodule_api.h"
-#include "../../Common_h/defines.h"
+#include "../vmodule_api.h"
+#include "../xdefines.h"
 #include "xi_util.h"
 #include "../inode.h"
 

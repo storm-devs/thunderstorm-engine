@@ -1,6 +1,6 @@
 #include "SKY.h"
 #include "SunGlow.h"
-#include "../Common_h/Weather_Base.h"
+#include "Weather_Base.h"
 
 SKY::SKY()
 {

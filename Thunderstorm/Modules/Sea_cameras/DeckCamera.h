@@ -4,9 +4,9 @@
 #ifndef _DECK_CAMERA_H_
 #define _DECK_CAMERA_H_
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/dx9render.h"
-#include "../Common_h/model.h"
+#include "vmodule_api.h"
+#include "dx9render.h"
+#include "model.h"
 #include "Common_Camera.h"
 
 #define D3DFVF_VERTEX (D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1)

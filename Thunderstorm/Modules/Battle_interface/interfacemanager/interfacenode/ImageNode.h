@@ -2,7 +2,7 @@
 #define BIManager_ImageNode_H
 
 #include "BaseNode.h"
-#include "../../../Common_h/defines.h"
+#include "../../bi_defines.h"
 
 class IBIImage;
 

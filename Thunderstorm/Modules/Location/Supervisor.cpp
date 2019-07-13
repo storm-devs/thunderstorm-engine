@@ -11,7 +11,7 @@
 #include "Supervisor.h"
 #include "Character.h"
 #include "LocatorArray.h"
-#include "../Common_h/EntityManager.h"
+#include "EntityManager.h"
 
 //============================================================================================
 //Конструирование, деструктурирование

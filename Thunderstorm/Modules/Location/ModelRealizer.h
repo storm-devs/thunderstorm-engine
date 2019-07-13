@@ -1,9 +1,9 @@
 #ifndef _ModelWraper_H_
 #define _ModelWraper_H_
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/geometry.h"
-#include "../Common_h/dx9render.h"
+#include "vmodule_api.h"
+#include "geometry.h"
+#include "dx9render.h"
 
 class Lights;
 

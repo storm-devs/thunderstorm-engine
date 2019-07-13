@@ -2,7 +2,7 @@
 #define SAVE_LOAD_HPP
 
 #include <string>
-#include "../../Common_h/defines.h"
+#include "../defines.h"
 
 class CSaveLoad
 {

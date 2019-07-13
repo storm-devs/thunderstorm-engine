@@ -11,8 +11,8 @@
 #ifndef _CameraFollow_H_
 #define _CameraFollow_H_
 
-#include "../Common_h/Matrix.h"
-#include "../Common_h/model.h"
+#include "Matrix.h"
+#include "model.h"
 
 class LocationCamera;
 

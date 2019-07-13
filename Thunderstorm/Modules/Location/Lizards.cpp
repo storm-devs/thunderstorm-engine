@@ -10,7 +10,7 @@
 
 #include "Lizards.h"
 #include "Location.h"
-#include "../Common_h/EntityManager.h"
+#include "EntityManager.h"
 
 
 Lizards::Lizards()

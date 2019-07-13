@@ -1,5 +1,5 @@
 #include "TDynamicObject.h"
-#include "../Common_h/rands.h"
+#include "rands.h"
 
 #define PI 3.1415926
 #define PId2 (PI/2.0)

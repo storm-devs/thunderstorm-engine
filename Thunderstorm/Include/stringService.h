@@ -1,8 +1,8 @@
 #ifndef __VSTRINGSERVICE_H__
 #define __VSTRINGSERVICE_H__
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/service.h"
+#include "vmodule_api.h"
+#include "service.h"
 
 class VSTRSERVICE : public SERVICE
 {

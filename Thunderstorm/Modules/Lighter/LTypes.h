@@ -3,8 +3,8 @@
 #define _LighterTypes_H_
 
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/Matrix.h"
+#include "vmodule_api.h"
+#include "Matrix.h"
 
 
 struct Light

@@ -9,10 +9,10 @@
 //============================================================================================
 
 #include "Debris.h"
-#include "../Common_h/geometry.h"
-#include "../Common_h/ship_base.h"
-#include "../Shared/messages.h"
-#include "../Common_h/EntityManager.h"
+#include "geometry.h"
+#include "ship_base.h"
+#include "../../Shared/messages.h"
+#include "EntityManager.h"
 
 //============================================================================================
 //Конструирование, деструктурирование

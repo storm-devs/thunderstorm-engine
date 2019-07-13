@@ -1,8 +1,8 @@
 #ifndef _TELEPORT_H_
 #define _TELEPORT_H_
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/dx9render.h"
+#include "vmodule_api.h"
+#include "dx9render.h"
 
 class TMPTELEPORT : public Entity
 {

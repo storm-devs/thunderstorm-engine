@@ -1,4 +1,4 @@
-#include "../Common_h/TIVBufferManager.h"
+#include "TIVBufferManager.h"
 
 //--------------------------------------------------------------------
 TIVBufferManager::TIVBufferManager(VDX9RENDER *_renderer, long _vType, long _vSize, long _iCount, long _vCount, long _count)

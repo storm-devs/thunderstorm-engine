@@ -15,11 +15,11 @@
 #include "CharactersGroups.h"
 
 
-#include "../Common_h/geometry.h"
-#include "../Common_h/sea_base.h"
+#include "geometry.h"
+#include "sea_base.h"
 #include "../SoundService/VSoundService.h"
-#include "../Common_h/defines.h"
-#include "../Shared/messages.h"
+#include "defines.h"
+#include "../../Shared/messages.h"
 
 //============================================================================================
 

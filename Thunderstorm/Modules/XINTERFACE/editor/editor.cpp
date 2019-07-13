@@ -2,8 +2,7 @@
 #include "../xinterface.h"
 #include "../Nodes/xi_image.h"
 #include "list.h"
-#include "defines.h"
-#include "../../Common_h/defines.h"
+#include "storm_assert.h"
 
 GIEditor::GIEditor(XINTERFACE* pInterface)
 {

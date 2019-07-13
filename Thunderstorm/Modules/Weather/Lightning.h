@@ -2,7 +2,7 @@
 #define LIGHTNING_HPP
 
 #include "Typedef.h"
-#include "../common_h/Weather_base.h"
+#include "Weather_base.h"
 #include <vector>
 
 #define MAX_LIGHTNING_TEXTURES		2

@@ -2,10 +2,10 @@
 #define AI_SEA_GOODS_HPP
 
 #include "AIHelper.h"
-#include "../Common_h/geometry.h"
-#include "../Common_h/sea_base.h"
-#include "../Common_h/ship_base.h"
-#include "../Common_h/dtimer.h"
+#include "geometry.h"
+#include "sea_base.h"
+#include "ship_base.h"
+#include "dtimer.h"
 
 class AISeaGoods : public Entity
 {

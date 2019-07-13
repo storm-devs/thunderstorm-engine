@@ -1,11 +1,11 @@
 #ifndef _COAST_FOAM_HPP_
 #define _COAST_FOAM_HPP_
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/collide.h"
-#include "../Common_h/Island_Base.h"
-#include "../Common_h/model.h"
-#include "../Common_h/sea_base.h"
+#include "vmodule_api.h"
+#include "collide.h"
+#include "Island_Base.h"
+#include "model.h"
+#include "sea_base.h"
 #include "../Sea_ai/AIFlowGraph.h"
 
 enum FOAMTYPE

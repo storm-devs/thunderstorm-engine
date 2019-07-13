@@ -1,6 +1,6 @@
 #include "island_descr.h"
-#include "../../Common_h/model.h"
-#include "../../Shared/battle_interface/msg_control.h"
+#include "model.h"
+#include "../../../Shared/battle_interface/msg_control.h"
 
 ISLAND_DESCRIBER::ISLAND_DESCRIBER(): m_lastFindIdx(0), m_nFindType(0)
 {

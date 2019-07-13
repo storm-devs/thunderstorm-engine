@@ -1,9 +1,9 @@
 #include "battle_land.h"
 #include "battle_mansign.h"
-#include "../defines.h"
+#include "../bi_defines.h"
 #include "../Utils.h"
-#include "../../Shared/battle_interface/msg_control.h"
-#include "../../Common_h/vmodule_api.h"
+#include "../../../Shared/battle_interface/msg_control.h"
+#include "../vmodule_api.h"
 
 BATTLE_LAND_INTERFACE::BATTLE_LAND_INTERFACE() : m_bShowCommandos(false)
 {

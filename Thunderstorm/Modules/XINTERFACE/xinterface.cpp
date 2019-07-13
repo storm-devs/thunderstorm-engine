@@ -10,7 +10,7 @@
 #include "HelpChooser/HelpChooser.h"
 #include "InfoHandler.h"
 #include "BackScene/backscene.h"
-#include "../Common_h/EntityManager.h"
+#include "EntityManager.h"
 
 #include <direct.h>
 

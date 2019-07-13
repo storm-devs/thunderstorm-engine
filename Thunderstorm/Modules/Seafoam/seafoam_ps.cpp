@@ -1,6 +1,6 @@
 #include "seafoam_ps.h"
-#include "../Common_h/object.h"
-#include "../Common_h/EntityManager.h"
+#include "object.h"
+#include "EntityManager.h"
 
 SEAFOAM_PS::SEAFOAM_PS()
 	:enableEmit(true)

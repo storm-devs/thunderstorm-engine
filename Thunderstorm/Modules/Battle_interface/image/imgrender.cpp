@@ -1,6 +1,6 @@
 #include "imgrender.h"
 #include "string.h"
-#include "../../Common_h/assert.h"
+#include "storm_assert.h"
 
 BIImageRender::BIImageRender(VDX9RENDER* pRS)
 {

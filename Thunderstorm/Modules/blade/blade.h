@@ -8,10 +8,10 @@ model binded to an animated locator
 ******************************************************************************/
 #pragma once
 
-#include "../Common_h/EntityManager.h"
-#include "../Common_h/dx9render.h"
-#include "../Common_h/collide.h"
-#include "../Common_h/model.h"
+#include "EntityManager.h"
+#include "dx9render.h"
+#include "collide.h"
+#include "model.h"
 
 #define BLADE_INFO_QUANTITY	2
 #define ITEMS_INFO_QUANTITY 10

@@ -1,5 +1,5 @@
 #include "AISeaGoods.h"
-#include "../Shared/sea_ai/Script_defines.h"
+#include "../../Shared/sea_ai/Script_defines.h"
 
 AISeaGoods::AISeaGoods()
 {

@@ -2,8 +2,8 @@
 #ifndef VBLAST_H
 #define VBLAST_H
 
-#include "../Common_h/collide.h"
-#include "../Common_h/Cvector.h"
+#include "collide.h"
+#include "Cvector.h"
 
 class VBLAST_PACK : public ENTITY
 	{

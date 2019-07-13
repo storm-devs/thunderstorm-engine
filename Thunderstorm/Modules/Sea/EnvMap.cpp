@@ -1,6 +1,6 @@
 #include "sea.h"
-#include "../Shared/messages.h"
-#include "../Common_h/EntityManager.h"
+#include "../../Shared/messages.h"
+#include "EntityManager.h"
 
 void SEA::EnvMap_GetSideMatrix(D3DCUBEMAP_FACES Face, CMatrix & mView)
 {

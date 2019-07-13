@@ -2,7 +2,7 @@
 #define EMITTER_INTERFACE
 
 
-#include "../../common_h/math3d/Matrix.h"
+#include "../math3d/Matrix.h"
 #include "../system/DataSource/FieldList.h"
 
 

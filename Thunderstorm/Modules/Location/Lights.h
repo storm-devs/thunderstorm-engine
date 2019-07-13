@@ -11,10 +11,10 @@
 #ifndef _Lights_H_
 #define _Lights_H_
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/Matrix.h"
-#include "../Common_h/dx9render.h"
-#include "../Common_h/collide.h"
+#include "vmodule_api.h"
+#include "Matrix.h"
+#include "dx9render.h"
+#include "collide.h"
 #include <vector>
 
 class Lights : public Entity

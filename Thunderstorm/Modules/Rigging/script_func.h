@@ -1,6 +1,6 @@
 #ifndef SCRIPT_RIGGING_FILES_HPP
 #define SCRIPT_RIGGING_FILES_HPP
-#include "../Common_h/script_libriary.h"
+#include "script_libriary.h"
 
 class SCRIPT_RIGGING_FILES  : public SCRIPT_LIBRIARY
 {

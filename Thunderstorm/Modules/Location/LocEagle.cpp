@@ -10,9 +10,9 @@
 
 #include "LocEagle.h"
 #include "Location.h"
-#include "../Common_h/geometry.h"
-#include "../Shared/messages.h"
-#include "../Common_h/EntityManager.h"
+#include "geometry.h"
+#include "../../Shared/messages.h"
+#include "EntityManager.h"
 
 
 LocEagle::LocEagle()

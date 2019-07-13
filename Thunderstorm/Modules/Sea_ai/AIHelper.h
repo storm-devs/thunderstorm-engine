@@ -1,11 +1,11 @@
 #ifndef AIHELPER_HPP
 #define AIHELPER_HPP
 
-#include "../Common_h/dx9render.h"
-#include "../Common_h/Island_Base.h"
-#include "../Common_h/collide.h"
-#include "../Common_h/Character.h"
-#include "../Common_h/Sd2_h/SaveLoad.h"
+#include "dx9render.h"
+#include "Island_Base.h"
+#include "collide.h"
+#include "Character.h"
+#include "Sd2_h/SaveLoad.h"
 #include <vector>
 
 class AIAttributesHolder

@@ -10,7 +10,7 @@
 
 #include <stdarg.h>
 #include <stdio.h>
-#include "../../Common_h/particles/iparticlemanager.h"
+#include "../particles/iparticlemanager.h"
 
 #include "../System/ParticleProcessor/mdl_processor.h"
 #include "../System/ParticleProcessor/bb_processor.h"

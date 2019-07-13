@@ -1,9 +1,9 @@
 #include <stdio.h>
-#include "../../Common_h/Matrix.h"
-#include "../../Shared/battle_interface/log_msg.h"
+#include "../Matrix.h"
+#include "../../../Shared/battle_interface/log_msg.h"
 #include "IBoardingStatus.h"
-#include "../../Common_h/vmodule_api.h"
-#include "../../Common_h/EntityManager.h"
+#include "../vmodule_api.h"
+#include "../EntityManager.h"
 
 IBoardingStatus::IBoardingStatus()
 {

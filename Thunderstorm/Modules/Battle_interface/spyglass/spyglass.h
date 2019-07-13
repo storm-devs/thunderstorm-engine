@@ -1,11 +1,11 @@
 #ifndef _SPYGLASS_H_
 #define _SPYGLASS_H_
 
-#include "../../Common_h/dx9render.h"
-#include "../../Common_h/defines.h"
+
 #include <string>
 #include <vector>
-#include "../../Common_h/Entity.h"
+#include "Entity.h"
+#include "../bi_defines.h"
 
 class BIImageRender;
 class BIImage;

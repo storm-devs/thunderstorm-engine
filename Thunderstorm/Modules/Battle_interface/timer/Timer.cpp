@@ -1,7 +1,8 @@
 #include "Timer.h"
 #include "../image/imgrender.h"
 #include "../Utils.h"
-#include "../../Common_h/vmodule_api.h"
+#include "vmodule_api.h"
+#include "storm_assert.h"
 
 BITimer::BITimer()
 {

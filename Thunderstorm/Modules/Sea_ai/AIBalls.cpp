@@ -1,7 +1,7 @@
 #include "AIBalls.h"
 #include "AIFort.h"
-#include "../Shared/messages.h"
-#include "../Common_h/inlines.h"
+#include "../../Shared/messages.h"
+#include "inlines.h"
 
 AIBalls * AIBalls::pAIBalls = nullptr;
 

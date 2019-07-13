@@ -1,11 +1,11 @@
 #ifndef _SEPS_H_
 #define _SEPS_H_
 
-#include "../Common_h/vmodule_api.h"
-#include "../Common_h/dx9render.h"
-#include "../Common_h/geometry.h"
-#include "../Common_h/vfile_service.h"
-#include "../Common_h/Matrix.h"
+#include "vmodule_api.h"
+#include "dx9render.h"
+#include "geometry.h"
+#include "vfile_service.h"
+#include "Matrix.h"
 
 
 #define MAX_PS_TEXTURES		8

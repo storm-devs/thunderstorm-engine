@@ -1,6 +1,5 @@
-#include <stdio.h>
 #include "xi_imgcollection.h"
-#include "../../Common_h/defines.h"
+#include "../xdefines.h"
 
 CXI_IMGCOLLECTION::CXI_IMGCOLLECTION()
 {

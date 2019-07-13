@@ -1,7 +1,7 @@
 #include "AIFort.h"
 #include "AIShip.h"
-#include "../Common_h/filesystem.h"
-#include "../Shared/messages.h"
+#include "filesystem.h"
+#include "../../Shared/messages.h"
 
 AIFort	* AIFort::pAIFort = nullptr;
 

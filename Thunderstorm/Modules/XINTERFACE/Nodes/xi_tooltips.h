@@ -1,9 +1,8 @@
 #ifndef _XI_TOOLTIP_H_
 #define _XI_TOOLTIP_H_
 
-#include "../../Common_h/defines.h"
-#include "../defines.h"
-#include "../../Common_h/dx9render.h"
+#include "../xdefines.h"
+#include "../dx9render.h"
 
 class VXSERVICE;
 

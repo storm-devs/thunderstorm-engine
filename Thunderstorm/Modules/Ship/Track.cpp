@@ -1,8 +1,8 @@
 #include "Track.h"
-#include "../Common_h/defines.h"
+#include "defines.h"
 #include <string>
-#include "../Common_h/inlines.h"
-#include "../Common_h/EntityManager.h"
+#include "inlines.h"
+#include "EntityManager.h"
 
 VDX9RENDER * ShipTracks::ShipTrack::pRS = nullptr;
 SEA_BASE * ShipTracks::ShipTrack::pSea = nullptr;

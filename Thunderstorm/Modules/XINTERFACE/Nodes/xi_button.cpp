@@ -1,6 +1,5 @@
-#include <stdio.h>
 #include "xi_button.h"
-#include "../../Common_h/defines.h"
+#include <defines.h>
 
 CXI_BUTTON::CXI_BUTTON()
 {

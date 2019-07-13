@@ -1,17 +1,14 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include "../Shared/messages.h"
-#include "../Common_h/Cvector.h"
-#include "../Common_h/geos.h"
-#include "../Common_h/dx9render.h"
-#include "../Common_h/ship_base.h"
-#include "../Common_h/model.h"
-#include "../Common_h/sea_base.h"
-#include "../Common_h/Net.h"
+#include "../../Shared/messages.h"
+#include "Cvector.h"
+#include "geos.h"
+#include "dx9render.h"
+#include "ship_base.h"
+#include "model.h"
+#include "sea_base.h"
 #include "SeafoamDefines.h"
-
-#include "Seafoam.H"
+#include "Seafoam.h"
+#include <EntityManager.h>
+#include "defines.h"
 
 INTERFACE_FUNCTION
 CREATE_CLASS(SEAFOAM)

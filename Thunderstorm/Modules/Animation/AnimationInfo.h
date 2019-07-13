@@ -13,7 +13,7 @@
 
 #include "ActionInfo.h"
 #include "Bone.h"
-#include "../Common_h/assert.h"
+#include "storm_assert.h"
 #include <vector>
 #include <string>
 

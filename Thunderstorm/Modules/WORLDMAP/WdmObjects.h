@@ -11,8 +11,8 @@
 #ifndef _WdmObjects_H_
 #define _WdmObjects_H_
 
-#include "../Common_h/dx9render.h"
-#include "../Common_h/Matrix.h"
+#include "dx9render.h"
+#include "Matrix.h"
 
 #include "WdmObjectsWind.h"
 
