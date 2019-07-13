@@ -237,7 +237,7 @@ inline void AnimationImp::AteTimerstop(long index)
 //Внешние событие
 inline void AnimationImp::AteExtern(long plIndex, const char * evt)
 {
-	//if(ae_listenersExt) ae_listenersExt->Event(this, plIndex, evt);
+	if(ae_listenersExt) ae_listenersExt->Event(this, plIndex, evt);
 }
 
 #endif
