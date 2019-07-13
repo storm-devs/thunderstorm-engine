@@ -143,7 +143,7 @@ public:
 	virtual bool Init();
 	virtual void Realize(uint32_t dltTime);
 
-	virtual uint32_t ProcessMessage(MESSAGE &message);
+	virtual uint64_t ProcessMessage(MESSAGE &message);
 	virtual uint32_t AttributeChanged(ATTRIBUTES *_newAttr);
 	void ProcessStage(Stage stage, uint32_t delta) override
 	{

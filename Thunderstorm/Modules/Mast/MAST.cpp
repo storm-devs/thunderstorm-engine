@@ -168,7 +168,7 @@ void MAST::Realize(uint32_t Delta_Time)
 	//UNGUARD
 }
 
-uint32_t MAST::ProcessMessage(MESSAGE & message)
+uint64_t MAST::ProcessMessage(MESSAGE & message)
 {
 	//GUARD(uint32_t MAST::ProcessMessage(MESSAGE message))
 

@@ -133,7 +133,7 @@ public:
 	// messeges system
 
 	// send message to an object
-	uint32_t Send_Message(entid_t Destination,char * Format,...) override;
+	uint64_t Send_Message(entid_t Destination,char * Format,...) override;
 	
 	// save core state
 	bool SaveState(char * file_name) override;

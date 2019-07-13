@@ -71,7 +71,7 @@ void TFishSchools::Init()
 }
 
 //--------------------------------------------------------------------
-uint32_t TFishSchools::ProcessMessage(long _code, MESSAGE & message)
+uint64_t TFishSchools::ProcessMessage(long _code, MESSAGE & message)
 {
 	uint32_t outValue = 0;
 

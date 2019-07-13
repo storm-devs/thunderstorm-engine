@@ -268,14 +268,14 @@ char * TOKEN::GetProgramControl()
 	return Program;
 }
 
-uint32_t TOKEN::GetProgramOffset()
+ptrdiff_t TOKEN::GetProgramOffset()
 {
-	return (uint32_t)Program - (uint32_t)ProgramBase;
+	return Program - ProgramBase;
 }
 
 void TOKEN::Reset()
 {
-	if(pTokenData) delete pTokenData;
+	delete pTokenData;
 	pTokenData = nullptr;
 	eTokenType = UNKNOWN;
 	TokenDataBufferSize = 0;
@@ -321,7 +321,7 @@ char * TOKEN::GetTypeName(S_TOKEN_TYPE code)
 S_TOKEN_TYPE TOKEN::Get(bool bKeepData)
 {
 	char * pBase;
-	uint32_t counter;
+	ptrdiff_t counter;
 
 	eTokenType = UNKNOWN;
 
@@ -372,7 +372,7 @@ S_TOKEN_TYPE TOKEN::Get(bool bKeepData)
 					sym = Program[1];
 					if(sym == '/')
 					{
-						SetNTokenData(pBase,(uint32_t)Program - (uint32_t)pBase);
+						SetNTokenData(pBase,Program - pBase);
 						eTokenType = COMMENT;
 						Program++;
 						Program++;
@@ -396,7 +396,7 @@ S_TOKEN_TYPE TOKEN::Get(bool bKeepData)
 				Program++;
 
 			} while(sym != 0);
-			counter = (uint32_t)Program - (uint32_t)pBase;
+			counter = Program - pBase;
 			if(counter > INVALID_ARG_DCHARS) counter = INVALID_ARG_DCHARS;
 			SetNTokenData(pBase,counter);
 			eTokenType = INVALID_TOKEN;
@@ -410,14 +410,14 @@ S_TOKEN_TYPE TOKEN::Get(bool bKeepData)
 				if(sym == '"')
 				{
 
-					SetNTokenData(pBase,(uint32_t)Program - (uint32_t)pBase);
+					SetNTokenData(pBase,Program - pBase);
 					eTokenType = STRING;
 					Program++;
 					return eTokenType;
 				}
 				Program++;
 			} while(sym != 0);
-			counter = (uint32_t)Program - (uint32_t)pBase;
+			counter = Program - pBase;
 			if(counter > INVALID_ARG_DCHARS) counter = INVALID_ARG_DCHARS;
 			SetNTokenData(pBase,counter);
 			eTokenType = INVALID_TOKEN;
@@ -436,7 +436,7 @@ S_TOKEN_TYPE TOKEN::FormatGet()
 {
 	char sym;
 	char * pBase;
-	uint32_t counter;
+	ptrdiff_t counter;
 
 	eTokenType = UNKNOWN;
 
@@ -504,7 +504,7 @@ S_TOKEN_TYPE TOKEN::FormatGet()
 						eTokenType = COMMENT;
 						Program++;
 						Program++;
-						SetNTokenData(pBase,(uint32_t)Program - (uint32_t)pBase);
+						SetNTokenData(pBase,Program - pBase);
 						return eTokenType;
 					}
 				}
@@ -525,7 +525,7 @@ S_TOKEN_TYPE TOKEN::FormatGet()
 				Program++;
 
 			} while(sym != 0);
-			counter = (uint32_t)Program - (uint32_t)pBase;
+			counter = Program - pBase;
 			if(counter > INVALID_ARG_DCHARS) counter = INVALID_ARG_DCHARS;
 			SetNTokenData(pBase,counter);
 			eTokenType = INVALID_TOKEN;
@@ -540,14 +540,14 @@ S_TOKEN_TYPE TOKEN::FormatGet()
 				if(sym == '"')
 				{
 					Program++;
-					SetNTokenData(pBase,(uint32_t)Program - (uint32_t)pBase);
+					SetNTokenData(pBase,Program - pBase);
 					eTokenType = STRING;
 					//Program++;
 					return eTokenType;
 				}
 				Program++;
 			} while(sym != 0);
-			counter = (uint32_t)Program - (uint32_t)pBase;
+			counter = Program - pBase;
 			if(counter > INVALID_ARG_DCHARS) counter = INVALID_ARG_DCHARS;
 			SetNTokenData(pBase,counter);
 			eTokenType = INVALID_TOKEN;
@@ -580,12 +580,12 @@ long TOKEN::SetTokenData(char * pointer, bool bKeepControlSymbols)
 }
 
 // copy exact nymber of argument data to buffer and close the termination 0
-long TOKEN::SetNTokenData(char * pointer, long Data_size)
+ptrdiff_t TOKEN::SetNTokenData(char * pointer, ptrdiff_t Data_size)
 {
 	if(Data_size == 0) { pTokenData[0] = 0; return 0; }
 	if(Data_size >= TokenDataBufferSize)
 	{
-		if(pTokenData) delete pTokenData;
+		delete pTokenData;
 
 		pTokenData = new char[Data_size + 1];
 		TokenDataBufferSize = Data_size + 1;
@@ -904,7 +904,7 @@ void TOKEN::CacheToken(char * pointer)
 {
 	if(ProgramStepsNum < PROGRAM_STEPS_CACHE)
 	{
-		ProgramSteps[ProgramStepsNum] = (uint32_t)pointer - (uint32_t)ProgramBase;
+		ProgramSteps[ProgramStepsNum] = pointer - ProgramBase;
 		ProgramStepsNum++;
 		return;
 	}
@@ -912,7 +912,7 @@ void TOKEN::CacheToken(char * pointer)
 	{
 		ProgramSteps[n] = ProgramSteps[n + 1];
 	}
-	ProgramSteps[PROGRAM_STEPS_CACHE - 1] = (uint32_t)pointer - (uint32_t)ProgramBase;
+	ProgramSteps[PROGRAM_STEPS_CACHE - 1] = pointer - ProgramBase;
 }
 
 // set pointer to previous (processed) token, return false if no pointers in cache
@@ -996,7 +996,7 @@ S_TOKEN_TYPE TOKEN::ProcessToken(char* & pointer, bool bKeepData)
 				if(sym == 0xd || sym == 0xa) break;
 
 			} while (sym != 0);
-			SetNTokenData(pBase,(uint32_t)Program - (uint32_t)pBase);
+			SetNTokenData(pBase, Program - pBase);
 		break;
 		case CALL:
 		case IMPORT:

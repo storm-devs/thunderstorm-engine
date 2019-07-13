@@ -201,7 +201,7 @@ void TM_LIST::SelectItem(char * name)
 	ListView_SetItemState(GetWindowHandle(),0,LVIS_SELECTED|LVIS_FOCUSED,LVIS_SELECTED|LVIS_FOCUSED);
 }
 
-void TM_LIST::ProcessMessageBase(uint32_t iMsg, uint32_t wParam, uint32_t lParam)
+void TM_LIST::ProcessMessageBase(uint64_t iMsg, uint64_t wParam, uint64_t lParam)
 {
 	LPNMHDR pnmh;
 	//POINT point;
@@ -373,7 +373,7 @@ void TM_LIST::StartEditSelectedItem()
 		nmlv.iItem = iSelected;
 		nmlv.iSubItem = 0;
 
-		ProcessMessageBase(WM_NOTIFY, (WPARAM)0, (LPARAM)&nmlv);
+		ProcessMessageBase(WM_NOTIFY, 0, (uintptr_t)&nmlv);
 	}
 }
 

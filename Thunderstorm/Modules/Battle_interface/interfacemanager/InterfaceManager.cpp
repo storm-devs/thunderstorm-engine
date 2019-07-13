@@ -71,7 +71,7 @@ void BI_InterfaceManager::Realize(uint32_t delta_time)
 	m_pImgRender->Render();
 }
 
-uint32_t BI_InterfaceManager::ProcessMessage(MESSAGE & message)
+uint64_t BI_InterfaceManager::ProcessMessage(MESSAGE & message)
 {
 	switch( message.Long() )
 	{
@@ -155,7 +155,7 @@ long BI_InterfaceManager::MsgCreateString(MESSAGE & message)
 
 long BI_InterfaceManager::MsgDeleteNode(MESSAGE & message)
 {
-	BI_ManagerNodeBase* pNod = (BI_ManagerNodeBase*)message.Long();
+	BI_ManagerNodeBase* pNod = (BI_ManagerNodeBase*)message.Qword();
 	if( !pNod ) 
 		return 0;
 

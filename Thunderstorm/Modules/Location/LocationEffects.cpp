@@ -94,7 +94,7 @@ void LocationEffects::Realize(uint32_t delta_time)
 }
 
 //Сообщения
-uint32_t LocationEffects::ProcessMessage(MESSAGE & message)
+uint64_t LocationEffects::ProcessMessage(MESSAGE & message)
 {
 	char buf[32];
 	message.String(32, buf);

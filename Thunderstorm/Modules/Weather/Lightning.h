@@ -59,7 +59,7 @@ public:
 	void	Execute(uint32_t Delta_Time);
 	bool	CreateState(ENTITY_STATE_GEN * state_gen);
 	bool	LoadState(ENTITY_STATE * state);
-	uint32_t	ProcessMessage(MESSAGE & message);
+	uint64_t	ProcessMessage(MESSAGE & message);
 	uint32_t	AttributeChanged(ATTRIBUTES * pAttributeChanged);
 	void ProcessStage(Stage stage, uint32_t delta) override
 	{

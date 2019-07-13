@@ -29,7 +29,7 @@ void ItemEntity::Realize(uint32_t delta_time)
 			m_pModel->ProcessStage(Entity::Stage::realize, delta_time);
 }
 
-uint32_t ItemEntity::ProcessMessage(MESSAGE & message)
+uint64_t ItemEntity::ProcessMessage(MESSAGE & message)
 {
 	long nMsgCod = message.Long();
 	switch( nMsgCod )
@@ -308,7 +308,7 @@ void ItemEntity::DeleteParticle()
 		const auto eidParticle = EntityManager::GetEntityId("particles");
 		if(eidParticle)
 		{
-			if( api->Send_Message(eidParticle, "ll", PS_VALIDATE_PARTICLE, (long)m_pParticle) )
+			if( api->Send_Message(eidParticle, "lx", PS_VALIDATE_PARTICLE, m_pParticle) )
 				m_pParticle->Pause(true);
 		}
 		m_pParticle = nullptr;

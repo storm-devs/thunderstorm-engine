@@ -26,7 +26,7 @@ public:
 	//Инициализация
 	bool Init();
 	//Сообщения
-	uint32_t ProcessMessage(MESSAGE & message);
+	uint64_t ProcessMessage(MESSAGE & message);
 	void ProcessStage(Stage stage, uint32_t delta) override
 	{
 		switch (stage)

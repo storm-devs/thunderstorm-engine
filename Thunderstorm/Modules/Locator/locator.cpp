@@ -236,7 +236,7 @@ void LOCATOR::LocateForI_Locators(ATTRIBUTES * pA, GEOS * geo, long iGroupID, ui
 
 }
 
-uint32_t LOCATOR::ProcessMessage(MESSAGE & message)
+uint64_t LOCATOR::ProcessMessage(MESSAGE & message)
 {
 	long message_code;
 	char name[MAX_PATH];

@@ -23,6 +23,7 @@ public:
 	virtual uint16_t Word()			{ ValidateFormat('w'); return va_arg(args,uint16_t); }
 	virtual long Long()			{ ValidateFormat('l'); return va_arg(args,long); }
 	virtual long Dword()		{ ValidateFormat('u'); return va_arg(args,uint32_t); }
+	virtual uint64_t Qword()		{ ValidateFormat('x'); return va_arg(args, uint64_t); }
 	virtual float Float()		{ ValidateFormat('f'); return (float)va_arg(args,double); }
 	virtual double Double()		{ ValidateFormat('d'); return va_arg(args,double); }
 	virtual char * Pointer()	{ ValidateFormat('p'); return va_arg(args,char*); }

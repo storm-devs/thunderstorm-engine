@@ -62,25 +62,25 @@ public:
 	GEOM(const char *fname, const char *lightname, GEOM_SERVICE &srv, long flags);
 	virtual ~GEOM();
 
-	virtual long FindName(const char *name) const;
+	virtual uintptr_t FindName(const char *name) const;
 
-	virtual long FindLabelN(long start_index, long name_id);
-	virtual long FindLabelG(long start_index, long group_name_id);
+	virtual long FindLabelN(long start_index, uintptr_t name_id);
+	virtual long FindLabelG(long start_index, uintptr_t group_name_id);
 	virtual void GetLabel(long l, LABEL &lb) const;
 	virtual void SetLabel(long l, const LABEL &lb);
 
-	virtual long FindObjN(long start_index, long name_id);
-	virtual long FindObjG(long start_index, long group_name_id);
+	virtual long FindObjN(long start_index, uintptr_t name_id);
+	virtual long FindObjG(long start_index, uintptr_t group_name_id);
 	virtual void GetObj(long o, OBJECT &ob) const;
 	virtual void SetObj(long o, const OBJECT &ob);
 
-	virtual long FindMaterialN(long start_index, long name_id);
-	virtual long FindMaterialG(long start_index, long group_name_id);
+	virtual long FindMaterialN(long start_index, uintptr_t name_id);
+	virtual long FindMaterialG(long start_index, uintptr_t group_name_id);
 	virtual void GetMaterial(long m, MATERIAL &mt) const;
 	virtual void SetMaterial(long m, const MATERIAL &mt);
 
-	virtual long FindLightN(long start_index, long name_id);
-	virtual long FindLightG(long start_index, long group_name_id);
+	virtual long FindLightN(long start_index, uintptr_t name_id);
+	virtual long FindLightG(long start_index, uintptr_t group_name_id);
 	virtual void GetLight(long l, LIGHT &lt) const;
 	virtual void SetLight(long l, const LIGHT &lt);
 
@@ -91,7 +91,7 @@ public:
 	virtual bool Clip(const PLANE *planes, long nplanes, const VERTEX &center, float radius, ADD_POLYGON_FUNC addpoly);
 	virtual bool GetCollisionDetails(TRACE_INFO &ti) const;
 
-	virtual long FindTexture(long start_index, long name_id);
+	virtual long FindTexture(long start_index, uintptr_t name_id);
 	virtual long GetTexture(long tx) const;
 	virtual const char *GetTextureName(long tx) const;
 

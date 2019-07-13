@@ -42,7 +42,7 @@ bool BALLSPLASH::Init()
 }
 
 //--------------------------------------------------------------------
-uint32_t BALLSPLASH::ProcessMessage(MESSAGE & message)
+uint64_t BALLSPLASH::ProcessMessage(MESSAGE & message)
 {
 	//GUARD(BALLSPLASH::ProcessMessage)
 

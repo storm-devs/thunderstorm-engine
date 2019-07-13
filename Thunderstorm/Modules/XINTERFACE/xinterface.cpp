@@ -431,7 +431,7 @@ void XINTERFACE::Realize(uint32_t Delta_Time)
 }
 
 long oldCurNum = -1L;
-uint32_t XINTERFACE::ProcessMessage(MESSAGE & message)
+uint64_t XINTERFACE::ProcessMessage(MESSAGE & message)
 {
 	long cod = message.Long();
 
@@ -3468,7 +3468,7 @@ void CONTROLS_CONTAINER::Execute(uint32_t delta_time)
 	}
 }
 
-uint32_t CONTROLS_CONTAINER::ProcessMessage(MESSAGE & message)
+uint64_t CONTROLS_CONTAINER::ProcessMessage(MESSAGE & message)
 {
 	return 0;
 }

@@ -136,7 +136,7 @@ void VANT::Realize(uint32_t Delta_Time)
     }
 }
 
-uint32_t VANT::ProcessMessage(MESSAGE & message)
+uint64_t VANT::ProcessMessage(MESSAGE & message)
 {
 	long code = message.Long();
 

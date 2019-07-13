@@ -11,10 +11,12 @@ Import library main header
 #ifndef _GEOLIB_I_H_
 #define _GEOLIB_I_H_
 
+#include <cstdint>
+
 class GEOS
 {
 public:
-	typedef unsigned long ID;	//this used w/o any checking
+	typedef uintptr_t ID;	//this used w/o any checking
 
 	struct VERTEX
 	{
@@ -62,7 +64,7 @@ public:
 		float tu0, tv0;
 	};
 
-	virtual long FindName(const char *name) const = 0;
+	virtual uintptr_t FindName(const char *name) const = 0;
 
 	//-----------------------------------------
 	//get info of entire object
@@ -97,8 +99,8 @@ public:
 		long bones[4];
 		float weight[4];
 	};
-	virtual long FindLabelN(long start_index, long name_id) = 0;
-	virtual long FindLabelG(long start_index, long group_name_id) = 0;
+	virtual long FindLabelN(long start_index, uintptr_t name_id) = 0;
+	virtual long FindLabelG(long start_index, uintptr_t group_name_id) = 0;
 	virtual void GetLabel(long l, LABEL &lb) const = 0;
 	virtual void SetLabel(long l, const LABEL &lb) = 0;
 
@@ -123,8 +125,8 @@ public:
 		char *group_name;
 		char *name;
 	};
-	virtual long FindMaterialN(long start_index, long name_id) = 0;
-	virtual long FindMaterialG(long start_index, long group_name_id) = 0;
+	virtual long FindMaterialN(long start_index, uintptr_t name_id) = 0;
+	virtual long FindMaterialG(long start_index, uintptr_t group_name_id) = 0;
 	virtual void GetMaterial(long m, MATERIAL &mt) const = 0;
 	virtual void SetMaterial(long m, const MATERIAL &mt) = 0;
 	typedef void (*MATERIAL_FUNC)(const MATERIAL &mt);
@@ -158,8 +160,8 @@ public:
 		long start_vertex, num_vertices;
 		long bones[4];
 	};
-	virtual long FindObjN(long start_index, long name_id) = 0;
-	virtual long FindObjG(long start_index, long group_name_id) = 0;
+	virtual long FindObjN(long start_index, uintptr_t name_id) = 0;
+	virtual long FindObjG(long start_index, uintptr_t group_name_id) = 0;
 	virtual void GetObj(long o, OBJECT &ob) const = 0;
 	virtual void SetObj(long o, const OBJECT &ob) = 0;
 
@@ -192,8 +194,8 @@ public:
 		float inner, outer, falloff;
 		VERTEX dir;
 	};
-	virtual long FindLightN(long start_index, long name_id) = 0;
-	virtual long FindLightG(long start_index, long group_name_id) = 0;
+	virtual long FindLightN(long start_index, uintptr_t name_id) = 0;
+	virtual long FindLightG(long start_index, uintptr_t group_name_id) = 0;
 	virtual void GetLight(long l, LIGHT &lt) const = 0;
 	virtual void SetLight(long l, const LIGHT &lt) = 0;
 
@@ -232,7 +234,7 @@ public:
 	//-----------------------------------------
 
 	//Get ID of texture
-	virtual long FindTexture(long start_index, long name_id) = 0;
+	virtual long FindTexture(long start_index, uintptr_t name_id) = 0;
 	virtual long GetTexture(long tx) const = 0;
 	virtual const char *GetTextureName(long tx) const = 0;
 

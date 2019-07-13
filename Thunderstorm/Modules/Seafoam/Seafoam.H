@@ -45,7 +45,7 @@ public:
 
 	virtual bool Init();
 	uint32_t AttributeChanged(ATTRIBUTES * pA);
-	virtual uint32_t ProcessMessage(MESSAGE & message);
+	virtual uint64_t ProcessMessage(MESSAGE & message);
 	virtual void Realize(uint32_t dTime);
 	virtual void Execute(uint32_t dTime);
 

@@ -163,10 +163,10 @@ class TOKEN
 {
 	THLINE KeywordsHash[TOKENHASHTABLE_SIZE];
 	S_TOKEN_TYPE eTokenType;
-	long   TokenDataBufferSize;
+	ptrdiff_t   TokenDataBufferSize;
 	long   Lines_in_token;
 	char * pTokenData;
-	uint32_t  ProgramSteps[PROGRAM_STEPS_CACHE];
+	ptrdiff_t  ProgramSteps[PROGRAM_STEPS_CACHE];
 	long   ProgramStepsNum;
 	char * Program;
 	char * ProgramBase;
@@ -181,7 +181,7 @@ public:
 	void SetProgramControl(char * pProgramControl);
 	char * GetProgramControl();
 	char * GetProgramBase(){return ProgramBase;};
-	uint32_t  GetProgramOffset();
+	ptrdiff_t  GetProgramOffset();
 
 	S_TOKEN_TYPE Get(bool bKeepData = false);
 	S_TOKEN_TYPE ProcessToken(char* & pointer, bool bKeepData = false);
@@ -189,7 +189,7 @@ public:
 	void CacheToken(char * pointer);
 	bool StepBack();
 	long SetTokenData(char * pointer, bool bKeepControlSymbols = false);
-	long SetNTokenData(char * pointer, long Data_size);
+	ptrdiff_t SetNTokenData(char * pointer, ptrdiff_t Data_size);
 	long StopArgument(char * pointer, bool bKeepControlSymbols = false);
 	void StartArgument(char* & pointer, bool bKeepControlSymbols = false);
 	char * GetTypeName(S_TOKEN_TYPE code);

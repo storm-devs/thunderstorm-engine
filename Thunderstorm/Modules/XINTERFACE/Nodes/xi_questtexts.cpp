@@ -130,7 +130,7 @@ bool CXI_QUESTTEXTS::GetLineNext(int fontNum,char* &pInStr,char* buf,int bufSize
 		else if(bYesEOL) break;
 		pInStr++;
 	}
-	long lineSize = (long)pInStr-(long)pStart;
+	size_t lineSize = pInStr-pStart;
 	if(lineSize==0) return false;
 	if(lineSize>bufSize-1) lineSize=bufSize-1;
 

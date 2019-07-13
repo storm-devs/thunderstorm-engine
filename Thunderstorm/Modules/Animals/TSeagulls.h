@@ -34,7 +34,7 @@ public:
 	TSeagulls();
 	virtual ~TSeagulls();
 
-	uint32_t ProcessMessage(long _code, MESSAGE & message);
+	uint64_t ProcessMessage(long _code, MESSAGE & message);
 	void Init();
 	void Add(float _x, float _y, float _z);
 	void Realize(uint32_t dTime);

@@ -102,7 +102,7 @@ void ILogAndActions::Execute(uint32_t delta_time)
 	}
 }
 
-uint32_t ILogAndActions::ProcessMessage(MESSAGE & message)
+uint64_t ILogAndActions::ProcessMessage(MESSAGE & message)
 {
 	switch (message.Long())
 	{

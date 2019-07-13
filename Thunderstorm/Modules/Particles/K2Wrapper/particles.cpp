@@ -36,7 +36,7 @@ bool PARTICLES::Init ()
 }
 
 
-uint32_t PARTICLES::ProcessMessage(MESSAGE & message)
+uint64_t PARTICLES::ProcessMessage(MESSAGE & message)
 {
 	long code = message.Long();
 
@@ -106,7 +106,7 @@ uint32_t PARTICLES::ProcessMessage(MESSAGE & message)
 			pSystem->SetEmitter(pos,angles);
 			pSystem->SetDelay(0);
 			pSystem->SetLifeTime(lifetime);
-			return (long)pSystem;
+			return (uintptr_t)pSystem;
 
 			break;
 		}
@@ -135,7 +135,7 @@ uint32_t PARTICLES::ProcessMessage(MESSAGE & message)
 			pSystem->SetEmitter(pos,angles);
 			pSystem->SetDelay(0);
 			pSystem->SetLifeTime(lifetime);
-			return (long)pSystem;
+			return (uintptr_t)pSystem;
 
 			break;
 		}
@@ -175,7 +175,7 @@ uint32_t PARTICLES::ProcessMessage(MESSAGE & message)
 			pSystem->SetEmitter(pos, angles);
 			pSystem->SetDelay(0);
 			pSystem->SetLifeTime(lifetime);
-			return (long)pSystem;
+			return (uintptr_t)pSystem;
 
 			break;
 		}
@@ -189,7 +189,7 @@ uint32_t PARTICLES::ProcessMessage(MESSAGE & message)
 		}
 	case PS_VALIDATE_PARTICLE:
 		{
-			long SystemID = message.Long();
+			uintptr_t SystemID = message.Qword();
 			for (uint32_t n = 0; n < CreatedSystems.size(); n++)
 				if (CreatedSystems[n].pSystem == (PARTICLE_SYSTEM*)SystemID)
 					return 1;
@@ -242,14 +242,14 @@ PARTICLE_SYSTEM* PARTICLES::CreateSystem (const char* pFileName, uint32_t LifeTi
 
 	if (CreationCapture)
 	{
-		CaptureBuffer.push_back((long)pNewPS);
+		CaptureBuffer.push_back((uintptr_t)pNewPS);
 	}
 
 
 	return pNewPS;
 }
 
-void PARTICLES::DeleteSystem (long SystemID)
+void PARTICLES::DeleteSystem (uintptr_t SystemID)
 {
 	bSystemDelete = true;
 	for (uint32_t n = 0; n < CreatedSystems.size(); n++)

@@ -19,7 +19,7 @@ public:
 	bool Init();
 	void Execute(uint32_t delta_time);
 	void Realize(uint32_t delta_time);
-    uint32_t ProcessMessage(MESSAGE & message);
+    uint64_t ProcessMessage(MESSAGE & message);
 	uint32_t AttributeChanged(ATTRIBUTES * pAttr);
 
 	void ProcessStage(Stage stage, uint32_t delta) override

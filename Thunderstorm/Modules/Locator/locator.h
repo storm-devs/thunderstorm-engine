@@ -33,7 +33,7 @@ public:
 	~LOCATOR();
 	 LOCATOR();
 	bool Init();
-	uint32_t ProcessMessage(MESSAGE & message);
+	uint64_t ProcessMessage(MESSAGE & message);
 	uint32_t AttributeChanged(ATTRIBUTES *);
 	void ProcessStage(Stage, uint32_t) override
 	{

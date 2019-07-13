@@ -248,11 +248,11 @@ bool SCRSHOTER::MakeScreenShot()
 	return hr==D3D_OK;
 }
 
-uint32_t SCRSHOTER::ProcessMessage(MESSAGE & message)
+uint64_t SCRSHOTER::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{
-	case MSG_SCRSHOT_MAKE:	return (uint32_t)m_pScrShotTex;	break;
+	case MSG_SCRSHOT_MAKE:	return (uintptr_t)m_pScrShotTex;	break;
 	case MSG_SCRSHOT_READ:
 		{
 			char param[512],param2[256];
@@ -267,7 +267,7 @@ uint32_t SCRSHOTER::ProcessMessage(MESSAGE & message)
 			if(pvdat)
 				if(!strDat) pvdat->Set("\0");
 				else pvdat->Set(strDat);
-			return (uint32_t)pRetTex;
+			return (uintptr_t)pRetTex;
 		}
 		break;
 	case MSG_SCRSHOT_RELEASE:

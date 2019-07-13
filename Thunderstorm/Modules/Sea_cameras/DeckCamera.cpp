@@ -312,7 +312,7 @@ bool DECK_CAMERA::FindPath()
 	return true;
 }
 
-uint32_t DECK_CAMERA::ProcessMessage(MESSAGE & message)
+uint64_t DECK_CAMERA::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{

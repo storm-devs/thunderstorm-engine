@@ -108,7 +108,7 @@ public:
 	~ISLAND();
 	bool			Init();
 	void			Realize(uint32_t Delta_Time);
-	uint32_t	ProcessMessage(MESSAGE & message);
+	uint64_t	ProcessMessage(MESSAGE & message);
 	void ProcessStage(Stage stage, uint32_t delta) override
 	{
 		switch (stage)

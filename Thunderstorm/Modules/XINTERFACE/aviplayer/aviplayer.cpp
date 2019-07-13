@@ -134,7 +134,7 @@ void CAviPlayer::Realize(uint32_t delta_time)
 	}
 }
 
-uint32_t CAviPlayer::ProcessMessage(MESSAGE & message)
+uint64_t CAviPlayer::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{

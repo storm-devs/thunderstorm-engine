@@ -1268,7 +1268,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 	uint32_t bracket_inout;
 	uint32_t n;
 	uint32_t file_code;
-	uint32_t Control_offset;
+	ptrdiff_t Control_offset;
 	uint32_t Current_line;
 	uint32_t Append_file_size;
 	STRINGS_LIST BlockTable;
@@ -1431,7 +1431,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 			if(Segment.Files_list->AddUnicalString(Token.GetData()))
 			{
 				file_code = Segment.Files_list->GetStringCode(Token.GetData());
-				Control_offset = (uint32_t)Token.GetProgramControl() - (uint32_t)Token.GetProgramBase();	// store program scan point
+				Control_offset = Token.GetProgramControl() - Token.GetProgramBase();	// store program scan point
 				pApend_file = LoadFile(Token.GetData(),Append_file_size);
 				if(pApend_file == nullptr) 
 				{
@@ -1489,7 +1489,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 					case STRING:
 					{
 						const auto len = strlen(Token.GetData()) + 1;
-						di.data4b = (uint32_t)new char[len];
+						di.data4b = (uintptr_t)new char[len];
 						memcpy((void *)di.data4b, Token.GetData(), len);
 						break;
 					}					

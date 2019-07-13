@@ -135,7 +135,7 @@ public:
 	bool Init();
 	void Execute(uint32_t dwDeltaTime);
 	void Realize(uint32_t dwDeltaTime);
-	uint32_t ProcessMessage(MESSAGE & message);
+	uint64_t ProcessMessage(MESSAGE & message);
 	void ProcessStage(Stage stage, uint32_t delta) override
 	{
 		switch (stage)

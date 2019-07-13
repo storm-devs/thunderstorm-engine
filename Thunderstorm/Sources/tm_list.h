@@ -47,7 +47,7 @@ public:
 	void SetBindMask(uint32_t bind_mask) {Bind_Mask = bind_mask;};
 	long GetItemsCount();
 	char * GetSelectedName();
-	void ProcessMessageBase(uint32_t,uint32_t,uint32_t);
+	void ProcessMessageBase(uint64_t, uint64_t, uint64_t);
 	void SetCharID(char * text);
 	char * GetCharID();
 	void SelectItem(char * name);

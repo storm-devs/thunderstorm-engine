@@ -51,7 +51,7 @@ uint32_t SEA_OPERATOR::AttributeChanged(ATTRIBUTES *_newAttr)
 }
 
 //--------------------------------------------------------------------
-uint32_t SEA_OPERATOR::ProcessMessage(MESSAGE & message)
+uint64_t SEA_OPERATOR::ProcessMessage(MESSAGE & message)
 {
 	if (!enabled)
 		return 0;

@@ -73,7 +73,7 @@ void TSeagulls::Init()
 }
 
 //--------------------------------------------------------------------
-uint32_t TSeagulls::ProcessMessage(long _code, MESSAGE & message)
+uint64_t TSeagulls::ProcessMessage(long _code, MESSAGE & message)
 {
 	uint32_t outValue = 0;
 

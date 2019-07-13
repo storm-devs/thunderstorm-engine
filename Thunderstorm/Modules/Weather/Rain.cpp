@@ -499,7 +499,7 @@ void RAIN::Realize(uint32_t Delta_Time)
 	}
 }
 
-uint32_t RAIN::ProcessMessage(MESSAGE & message)
+uint64_t RAIN::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{

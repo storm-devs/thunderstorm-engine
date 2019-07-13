@@ -48,7 +48,7 @@ public:
 	bool LoadState(ENTITY_STATE * state);
 	
 	void ProcessMessage(uint32_t iMsg,uint32_t wParam,uint32_t lParam);
-	uint32_t ProcessMessage(MESSAGE & message);
+	uint64_t ProcessMessage(MESSAGE & message);
 	void ProcessStage(Stage stage, uint32_t delta) override
 	{
 		switch (stage)

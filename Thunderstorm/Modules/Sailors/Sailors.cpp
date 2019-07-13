@@ -1110,7 +1110,7 @@ void Sailors::DeleteShip(int i)
 	//UN//GUARD_SAILORS
 }
 //------------------------------------------------------------------------------------
-uint32_t Sailors :: ProcessMessage(MESSAGE &message)
+uint64_t Sailors :: ProcessMessage(MESSAGE &message)
 {
 	//GUARD_SAILORS(Sailors::ProcessMessage())
 

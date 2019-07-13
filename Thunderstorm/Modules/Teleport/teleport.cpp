@@ -173,7 +173,7 @@ void TMPTELEPORT::ReleaseAll()
 	m_nShowType = 0;
 }
 
-uint32_t TMPTELEPORT::ProcessMessage(MESSAGE &message)
+uint64_t TMPTELEPORT::ProcessMessage(MESSAGE &message)
 {
 	switch(message.Long())
 	{

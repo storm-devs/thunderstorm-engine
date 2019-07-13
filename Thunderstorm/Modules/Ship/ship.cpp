@@ -997,7 +997,7 @@ long SHIP::AddStrength(STRENGTH *strength)
 	return -1;
 }
 
-uint32_t SHIP::ProcessMessage(MESSAGE & message)
+uint64_t SHIP::ProcessMessage(MESSAGE & message)
 {
 	entid_t	entity;
 	CVECTOR		cpos, cang;

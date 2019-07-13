@@ -47,7 +47,7 @@ public:
 	}
 
 	//Сообщения
-	uint32_t ProcessMessage(MESSAGE & message);
+	uint64_t ProcessMessage(MESSAGE & message);
 
 //--------------------------------------------------------------------------------------------
 private:

@@ -331,7 +331,7 @@ void LocationCamera::Execute(uint32_t delta_time)
 }
 
 //Сообщения
-uint32_t LocationCamera::ProcessMessage(MESSAGE & message)
+uint64_t LocationCamera::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{

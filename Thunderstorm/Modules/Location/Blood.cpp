@@ -107,7 +107,7 @@ void Blood::Realize(uint32_t delta_time)
 	}
 }
 
-uint32_t Blood::ProcessMessage(MESSAGE &message)
+uint64_t Blood::ProcessMessage(MESSAGE &message)
 {
 	entid_t eid;
 	CVECTOR cv;

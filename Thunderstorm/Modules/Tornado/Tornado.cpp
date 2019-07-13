@@ -134,7 +134,7 @@ void Tornado::Realize(uint32_t delta_time)
 	particles.Draw(rs);
 }
 
-uint32_t Tornado::ProcessMessage(MESSAGE & message)
+uint64_t Tornado::ProcessMessage(MESSAGE & message)
 {
 	liveTime = message.Float();
 	if(liveTime < 5.0f) liveTime = 5.0f;

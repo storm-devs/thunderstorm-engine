@@ -33,7 +33,7 @@ public:
 	virtual void	Entity_SetAttributePointer(entid_t id_PTR, ATTRIBUTES * pA)=0;
 	virtual ATTRIBUTES * Entity_GetAttributePointer(entid_t id_PTR)=0;
 
-	virtual uint32_t Send_Message(entid_t Destination,char * Format,...)= 0;
+	virtual uint64_t Send_Message(entid_t Destination,char * Format,...)= 0;
 
 	virtual bool SaveState(char * file_name)= 0;
 	virtual bool InitiateStateLoading(char * file_name)= 0;

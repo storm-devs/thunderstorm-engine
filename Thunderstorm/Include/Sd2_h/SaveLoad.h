@@ -102,6 +102,11 @@ public:
 		Write(&dwValue, sizeof(dwValue));
 	}
 
+	void SaveQword(uint64_t dwValue)
+	{
+		Write(&dwValue, sizeof(dwValue));
+	}
+
 	void SaveFloat(float fValue)
 	{
 		Write(&fValue, sizeof(fValue));
@@ -158,6 +163,13 @@ public:
 		uint32_t dwValue;
 		Read(&dwValue, sizeof(dwValue));
 		return dwValue;
+	}
+
+	uint64_t LoadQword()
+	{
+		uint64_t qwValue;
+		Read(&qwValue, sizeof(qwValue));
+		return qwValue;
 	}
 
 	float LoadFloat()

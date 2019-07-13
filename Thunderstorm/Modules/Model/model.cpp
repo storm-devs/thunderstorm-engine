@@ -327,7 +327,7 @@ void MODELR::AniRender()
 }
 
 
-uint32_t MODELR::ProcessMessage(MESSAGE &message)
+uint64_t MODELR::ProcessMessage(MESSAGE &message)
 {
 	char str[256];
 	long code = message.Long();

@@ -168,7 +168,7 @@ void BLAST::ProcessTime(uint32_t DT)
 	if(bStop) EntityManager::EraseEntity(GetId());
 }
 
-uint32_t BLAST::ProcessMessage(MESSAGE & message)
+uint64_t BLAST::ProcessMessage(MESSAGE & message)
 {
 	long code;
 	CVECTOR ang;

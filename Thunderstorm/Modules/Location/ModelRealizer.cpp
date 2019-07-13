@@ -86,13 +86,13 @@ void LocModelRealizer::Realize(uint32_t delta_time)
 }
 
 //Сообщения
-uint32_t LocModelRealizer::ProcessMessage(MESSAGE & message)
+uint64_t LocModelRealizer::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{
 	case 1:
 		eid_model = message.EntityID();
-		lights = (Lights*)message.Long();
+		lights = (Lights*)message.Qword();
 	break;
 	case 2:
 		bShow = message.Long()!=0;

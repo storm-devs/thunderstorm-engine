@@ -286,7 +286,7 @@ multi_core:
 inline uint8_t Intel::CPUCount(uint32_t *TotAvailLogical, uint32_t * TotAvailCore, uint32_t * PhysicalNum)
 {
 	uint8_t StatusFlag = 0;
-	uint32_t dwProcessAffinity, dwSystemAffinity;
+	DWORD_PTR dwProcessAffinity, dwSystemAffinity;
 	uint32_t dwAffinityMask;
 	uint32_t numLPEnabled = 0;
 	int j = 0, MaxLPPerCore;
@@ -295,9 +295,7 @@ inline uint8_t Intel::CPUCount(uint32_t *TotAvailLogical, uint32_t * TotAvailCor
 	*TotAvailCore = 1;
 	*PhysicalNum  = 1;
 
-	GetProcessAffinityMask(GetCurrentProcess(),
-						   (PDWORD_PTR)&dwProcessAffinity,
-						   (PDWORD_PTR)&dwSystemAffinity);
+	GetProcessAffinityMask(GetCurrentProcess(), &dwProcessAffinity, &dwSystemAffinity);
 
 	if (dwProcessAffinity != dwSystemAffinity)  // not all CPUs are enabled
 	{

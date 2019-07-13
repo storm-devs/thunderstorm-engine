@@ -43,7 +43,7 @@ bool LocRats::Init()
 }
 
 //Сообщения
-uint32_t LocRats::ProcessMessage(MESSAGE & message)
+uint64_t LocRats::ProcessMessage(MESSAGE & message)
 {
 	long num = message.Long();
 	if(num < 1) num = 1;

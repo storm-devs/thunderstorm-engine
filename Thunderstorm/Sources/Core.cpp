@@ -324,7 +324,7 @@ void CORE::SetTimeScale(float _scale)
 //------------------------------------------------------------------------------------------------
 // transfer message arguments and program control to entity, specified by Destination id
 //
-uint32_t CORE::Send_Message(entid_t Destination,char * Format,...)
+uint64_t CORE::Send_Message(entid_t Destination,char * Format,...)
 {
 	MESSAGE message;
 	entptr_t ptr = EntityManager::GetEntityPointer(Destination); // check for valid destination

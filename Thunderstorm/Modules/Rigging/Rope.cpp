@@ -180,7 +180,7 @@ void ROPE::Realize(uint32_t Delta_Time)
     }
 }
 
-uint32_t ROPE::ProcessMessage(MESSAGE & message)
+uint64_t ROPE::ProcessMessage(MESSAGE & message)
 {
 	long code = message.Long();
     entid_t tmp_id;

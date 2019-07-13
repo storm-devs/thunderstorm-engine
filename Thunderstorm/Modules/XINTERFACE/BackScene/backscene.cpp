@@ -268,7 +268,7 @@ void InterfaceBackScene::Realize(uint32_t Delta_Time)
 	}
 }
 
-uint32_t InterfaceBackScene::ProcessMessage(MESSAGE & message)
+uint64_t InterfaceBackScene::ProcessMessage(MESSAGE & message)
 {
 	long nMsgCode = message.Long();
 	char param[1024];

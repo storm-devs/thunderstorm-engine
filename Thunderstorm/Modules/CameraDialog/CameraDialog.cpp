@@ -194,7 +194,7 @@ void CameraDialog::Realize(uint32_t Delta_Time)
 
 
 #include <stdio.h>
-uint32_t CameraDialog::ProcessMessage(MESSAGE &msg)
+uint64_t CameraDialog::ProcessMessage(MESSAGE &msg)
 {
 	switch(msg.Long())
 	{

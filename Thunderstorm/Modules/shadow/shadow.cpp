@@ -449,7 +449,7 @@ void Shadow::Smooth()
 	rs->EndScene();
 }
 
-uint32_t Shadow::ProcessMessage(MESSAGE &message)
+uint64_t Shadow::ProcessMessage(MESSAGE &message)
 {
 	long code = message.Long();
 	switch (code)

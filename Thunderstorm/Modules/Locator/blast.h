@@ -35,7 +35,7 @@ public:
 	~BLAST();
 	 BLAST();
 	bool Init();
-	uint32_t ProcessMessage(MESSAGE & message);
+	uint64_t ProcessMessage(MESSAGE & message);
 	uint32_t AttributeChanged(ATTRIBUTES *);
 	void Realize(uint32_t Delta_Time);
 	void ProcessTime(uint32_t Delta_Time);

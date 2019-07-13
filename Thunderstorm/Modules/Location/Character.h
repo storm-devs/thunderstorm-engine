@@ -178,7 +178,7 @@ public:
 	//Инициализация
 	bool Init();
 	//Сообщения
-	uint32_t ProcessMessage(MESSAGE & message);
+	uint64_t ProcessMessage(MESSAGE & message);
 	//Изменение атрибута
 	uint32_t AttributeChanged(ATTRIBUTES * apnt);
 	void ProcessStage(Stage, uint32_t) override

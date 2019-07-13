@@ -73,7 +73,7 @@ public:
 
 	bool CreateState(ENTITY_STATE_GEN * state_gen);
 	bool LoadState(ENTITY_STATE * state);
-    uint32_t ProcessMessage(MESSAGE & message);
+    uint64_t ProcessMessage(MESSAGE & message);
     // Service Function
     void GetEndPoint(CVECTOR* cv,int ropenum,entid_t mdl_id);
     bool IsAbsentRope(entid_t mdl_id, int ropenum);

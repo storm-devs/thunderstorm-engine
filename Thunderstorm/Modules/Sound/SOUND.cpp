@@ -40,7 +40,7 @@ bool SOUND::Init()
 }
 
 //--------------------------------------------------------------------
-uint32_t SOUND::ProcessMessage(MESSAGE & message)
+uint64_t SOUND::ProcessMessage(MESSAGE & message)
 {
 	////GUARD(SOUND::ProcessMessage)
 

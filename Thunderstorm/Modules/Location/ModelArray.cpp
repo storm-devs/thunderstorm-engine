@@ -60,7 +60,7 @@ long ModelArray::CreateModel(const char * modelName, const char * technique, lon
 	entid_t id,idModelRealizer;
 	if(!(id = EntityManager::CreateEntity("modelr"))) return -1;
 	if(!(idModelRealizer = EntityManager::CreateEntity("LocModelRealizer"))) {EntityManager::EraseEntity(id); return -1;}
-	api->Send_Message(idModelRealizer,"lil",1,id,(long)pLights);
+	api->Send_Message(idModelRealizer,"lxx",1,id,pLights);
 	//if(isVisible) EntityManager::AddToLayer(realize, idModelRealizer, level);
 	EntityManager::AddToLayer(REALIZE, idModelRealizer, level);
 	api->Send_Message(idModelRealizer,"ll",2,isVisible);

@@ -16,7 +16,7 @@ struct DEFINFO
 	char * name;
 	uint32_t segment_id;
 	uint32_t hash;
-	uint32_t data4b;
+	uintptr_t data4b;
 	uint32_t deftype;
 };
 

@@ -605,7 +605,7 @@ void ShipLights::UnSetLights(VAI_OBJBASE * pObject)
 	iMaxLight = -1;
 }
 
-uint32_t ShipLights::ProcessMessage(MESSAGE & message)
+uint64_t ShipLights::ProcessMessage(MESSAGE & message)
 {
 	switch (message.Long())
 	{

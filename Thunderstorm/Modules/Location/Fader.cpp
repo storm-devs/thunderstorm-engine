@@ -95,7 +95,7 @@ bool Fader::Init()
 }
 
 //Сообщения
-uint32_t Fader::ProcessMessage(MESSAGE & message)
+uint64_t Fader::ProcessMessage(MESSAGE & message)
 {
 	char _name[MAX_PATH];
 	switch(message.Long())

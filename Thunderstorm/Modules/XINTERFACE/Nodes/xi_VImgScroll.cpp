@@ -658,7 +658,7 @@ float CXI_VIMAGESCROLL::ChangeDinamicParameters(float fYDelta)
 					}
 				}
 			}
-			if( n==m_nSlotsQnt || (uint32_t)m_Image[curImage].ptex[n]!=0xFFFFFFFF ) break;
+			if( n==m_nSlotsQnt || (uintptr_t)m_Image[curImage].ptex[n]!=-1 ) break;
 
 			// delete current save from list
 			m_Image[curImage].Release(m_nSlotsQnt,m_nStringQuantity);

@@ -24,7 +24,7 @@ long GetToken(const char* &ps);
 static long GetLongFromString(char* &pInStr);
 static void GetSubStringFromString(const char* &pInStr,char* pOutBuf,int bufSize);
 static const char* GetNextString(const char* &pInStr);
-static char * GetTitleString(char* buf, char* &ptr, int &slen);
+static char * GetTitleString(char* buf, char* &ptr, size_t &slen);
 
 
 
@@ -49,7 +49,7 @@ long GetToken(const char* &ps)
 	const char *ptoken = ps;
 	while(*ps!=0 && (unsigned)*ps>0x20 && *ps!=0x0D && *ps!=0x0A)
 		ps++;
-	size_t tokensize = (long)ps-(long)ptoken;
+	size_t tokensize = ps-ptoken;
 	if(tokensize==0) return TOKEN_VOID;
 
 	for(int i=0; i<TOKENTABLE_SIZE; i++)
@@ -146,7 +146,7 @@ static const char* GetNextString(const char* &pInStr)
 	return nullptr;
 }
 
-static const char * GetTitleString(char* buf, const char* &ptr, int &slen)
+static const char * GetTitleString(char* buf, const char* &ptr, size_t &slen)
 {
 	if(buf== nullptr) {slen=0;return nullptr;}
 	buf[0]=0;
@@ -175,7 +175,7 @@ static const char * GetTitleString(char* buf, const char* &ptr, int &slen)
 					if(tmpstr==ptr) break;
 				}
 				if(ptr!=tmpstr)
-					slen = (long)ptr-(long)retVal;
+					slen = ptr-retVal;
 				else
 					if(retVal!= nullptr)
 						slen = strlen(retVal);

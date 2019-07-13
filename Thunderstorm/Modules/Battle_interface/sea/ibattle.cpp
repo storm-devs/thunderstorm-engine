@@ -226,7 +226,7 @@ uint32_t BATTLE_INTERFACE::AttributeChanged(ATTRIBUTES * pAttr)
 	return 0;
 }
 
-uint32_t BATTLE_INTERFACE::ProcessMessage(MESSAGE & message)
+uint64_t BATTLE_INTERFACE::ProcessMessage(MESSAGE & message)
 {
 	switch (message.Long())
 	{

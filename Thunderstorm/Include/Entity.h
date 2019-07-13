@@ -50,7 +50,7 @@ public:
 
 	virtual bool Init() = 0;
 	virtual void ProcessStage(Stage stage, uint32_t delta = 0) = 0;
-	virtual uint32_t ProcessMessage(MESSAGE& msg) { return {}; };
+	virtual uint64_t ProcessMessage(MESSAGE& msg) { return {}; };
 	virtual uint32_t AttributeChanged(ATTRIBUTES*) { return {}; };
 
 

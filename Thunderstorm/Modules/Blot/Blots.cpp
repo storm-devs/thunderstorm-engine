@@ -64,7 +64,7 @@ bool Blots::Init()
 }
 
 //Сообщения
-uint32_t Blots::ProcessMessage(MESSAGE & message)
+uint64_t Blots::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{

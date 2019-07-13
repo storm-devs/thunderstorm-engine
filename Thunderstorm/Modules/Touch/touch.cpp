@@ -40,7 +40,7 @@ TOUCH::~TOUCH()
 	for (long i=0;i<iNumShips;i++) STORM_DELETE(pShips[i]);
 }
 
-uint32_t TOUCH::ProcessMessage(MESSAGE & message)
+uint64_t TOUCH::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{

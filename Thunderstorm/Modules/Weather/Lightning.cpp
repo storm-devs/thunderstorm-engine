@@ -112,7 +112,7 @@ void LIGHTNING::Realize(uint32_t Delta_Time)
 	}
 }
 
-uint32_t LIGHTNING::ProcessMessage(MESSAGE & message)
+uint64_t LIGHTNING::ProcessMessage(MESSAGE & message)
 {
 
 	switch (message.Long())

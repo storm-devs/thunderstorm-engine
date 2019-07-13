@@ -760,8 +760,8 @@ inline void CMatrix::Projection(CVECTOR * srcArray, MTX_PRJ_VECTOR * dstArray, l
 
 		dstArray->rhw = k;
 
-		srcArray = (CVECTOR *)((long)srcArray + srcStrcSize);
-		dstArray = (MTX_PRJ_VECTOR *)((long)dstArray + dstStrcSize);
+		srcArray = (CVECTOR*)((char*)(srcArray) + srcStrcSize);
+		dstArray = (MTX_PRJ_VECTOR*)((char*)(dstArray) + dstStrcSize);
 	}
 }
 

@@ -38,13 +38,13 @@ class PARTICLES : public Entity
 
 
 	PARTICLE_SYSTEM* CreateSystem (const char* pFileName, uint32_t LifeTime);
-	void DeleteSystem (long SystemID);
+	void DeleteSystem (uintptr_t SystemID);
 	void DeleteAll ();
 
 	void PauseAllActive (bool bPaused);
 
 
-	std::vector<long> CaptureBuffer;
+	std::vector<uintptr_t> CaptureBuffer;
 
 	void DeleteCaptured ();
 
@@ -60,7 +60,7 @@ public:
   bool Init ();
 
 
-	uint32_t ProcessMessage(MESSAGE & message);
+	uint64_t ProcessMessage(MESSAGE & message);
 
 	void Realize(uint32_t Delta_Time);
 	void Execute(uint32_t Delta_Time);

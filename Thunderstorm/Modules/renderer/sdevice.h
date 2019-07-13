@@ -237,7 +237,7 @@ class DX9RENDER  : public VDX9RENDER
 
 	bool			bTrace;
 	long			iSetupPath;
-	uint32_t			dwSetupNumber;
+	uint64_t		dwSetupNumber;
 	texpaths_t		TexPaths[4];
 
 	bool			bDropVideoConveyor;

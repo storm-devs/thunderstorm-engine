@@ -238,7 +238,7 @@ AIFort::AI_FORT * AIFort::FindFort(entid_t eidModel)
 	return nullptr;
 }
 
-uint32_t AIFort::ProcessMessage(MESSAGE & message)
+uint64_t AIFort::ProcessMessage(MESSAGE & message)
 {
 	CVECTOR		vHit;
 	long		iCharacterIndex;

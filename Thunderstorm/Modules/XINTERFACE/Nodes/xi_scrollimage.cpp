@@ -6,7 +6,7 @@
 IDirect3DTexture9 * GetTexFromEvent(VDATA * vdat)
 {
 	if(vdat== nullptr) return nullptr;
-	uint32_t dwTmp = vdat->GetLong();
+	uintptr_t dwTmp = vdat->GetLong();
 	return (IDirect3DTexture9*)dwTmp;
 }
 
@@ -673,7 +673,7 @@ float CXI_SCROLLIMAGE::ChangeDinamicParameters(float fXDelta)
 					}
 				}
 			}
-			if( n==m_nSlotsQnt || (uint32_t)m_Image[curImage].ptex[n]!=0xFFFFFFFF ) break;
+			if( n==m_nSlotsQnt || (uintptr_t)m_Image[curImage].ptex[n]!=-1 ) break;
 
 			// delete current save from list
 			m_Image[curImage].Release(m_nSlotsQnt);

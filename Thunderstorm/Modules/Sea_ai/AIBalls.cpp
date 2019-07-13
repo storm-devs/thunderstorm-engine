@@ -380,7 +380,7 @@ uint32_t AIBalls::AttributeChanged(ATTRIBUTES * pAttributeChanged)
 	return 0;
 }
 
-uint32_t AIBalls::ProcessMessage(MESSAGE & message)
+uint64_t AIBalls::ProcessMessage(MESSAGE & message)
 {
 	if (message.Long() == MSG_MODEL_RELEASE)
 	{

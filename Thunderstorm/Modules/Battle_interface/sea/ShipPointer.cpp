@@ -87,7 +87,7 @@ void SHIPPOINTER::Realize(uint32_t delta_time)
 	rs->DrawPrimitive(D3DPT_TRIANGLESTRIP,m_idVBuf,sizeof(SPV_VERTEX),0,2,"battle_shippointer");
 }
 
-uint32_t SHIPPOINTER::ProcessMessage(MESSAGE & message)
+uint64_t SHIPPOINTER::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{

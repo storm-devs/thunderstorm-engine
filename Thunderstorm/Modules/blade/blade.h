@@ -99,5 +99,5 @@ public:
 		}
 	}
 	void Realize(uint32_t Delta_Time);
-	uint32_t ProcessMessage(MESSAGE &message) override;
+	uint64_t ProcessMessage(MESSAGE &message) override;
 };

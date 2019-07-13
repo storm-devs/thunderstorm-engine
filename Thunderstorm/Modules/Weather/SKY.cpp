@@ -374,7 +374,7 @@ uint32_t SKY::AttributeChanged(ATTRIBUTES * pAttribute)
 	return 0;
 }
 
-uint32_t SKY::ProcessMessage(MESSAGE & message)
+uint64_t SKY::ProcessMessage(MESSAGE & message)
 {
 	if (message.Long() == MSG_SEA_REFLECTION_DRAW) Realize(0);
 	return 0;
@@ -604,7 +604,7 @@ uint32_t SKY::GetPixelColor(IDirect3DTexture9* pTex, float fu, float fv)
 	D3DLOCKED_RECT lockRect;
 	if ( (hok=pRS->LockRect(pTex, 0, &lockRect, nullptr, D3DLOCK_READONLY)) == D3D_OK )
 	{
-		uint32_t * pLine = (uint32_t*)( (uint32_t)lockRect.pBits + y * lockRect.Pitch );
+		uint32_t * pLine = (uint32_t*)( (uint8_t*)lockRect.pBits + y * lockRect.Pitch );
 		dwCol = pLine[x];
 		pRS->UnlockRect( pTex, 0 );
 	}

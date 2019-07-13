@@ -509,9 +509,6 @@
     <Filter Include="Modules\XINTERFACE\StringService">
       <UniqueIdentifier>{d7bf4bbe-a87f-45e7-8c69-2dc3c1b22b8f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Modules\XINTERFACE\templates">
-      <UniqueIdentifier>{bd1b938c-6278-4d05-8863-4823e67e06bb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Headers">
       <UniqueIdentifier>{f5d915ce-f720-4aa3-9fac-26386046cf84}</UniqueIdentifier>
     </Filter>
@@ -2195,12 +2192,6 @@
     </ClInclude>
     <ClInclude Include="Modules\XINTERFACE\STRINGSERVICE\strservice.h">
       <Filter>Modules\XINTERFACE\StringService</Filter>
-    </ClInclude>
-    <ClInclude Include="Modules\XINTERFACE\templates\ctext.h">
-      <Filter>Modules\XINTERFACE\templates</Filter>
-    </ClInclude>
-    <ClInclude Include="Modules\XINTERFACE\templates\TDynArray.h">
-      <Filter>Modules\XINTERFACE\templates</Filter>
     </ClInclude>
     <ClInclude Include="Include\math3d\Box.h">
       <Filter>Headers</Filter>

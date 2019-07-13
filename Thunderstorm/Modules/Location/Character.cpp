@@ -629,7 +629,7 @@ bool Character::Init()
 }
 
 //Сообщения
-uint32_t Character::ProcessMessage(MESSAGE & message)
+uint64_t Character::ProcessMessage(MESSAGE & message)
 {
 	if(message.GetCurrentFormatType() == 's')
 	{

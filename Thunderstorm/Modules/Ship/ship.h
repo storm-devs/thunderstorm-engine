@@ -214,7 +214,7 @@ public:
 	bool	Init();
 	void	Realize(uint32_t Delta_Time);
 	void	Execute(uint32_t Delta_Time);
-	uint32_t ProcessMessage(MESSAGE & message);
+	uint64_t ProcessMessage(MESSAGE & message);
 	uint32_t	AttributeChanged(ATTRIBUTES * pAttribute);
 	void ProcessStage(Stage stage, uint32_t delta) override
 	{

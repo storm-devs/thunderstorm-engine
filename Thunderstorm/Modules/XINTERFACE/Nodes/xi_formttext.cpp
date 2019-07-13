@@ -607,7 +607,7 @@ bool CXI_FORMATEDTEXT::GetLineNext(int fontNum,char* &pInStr,char* buf,int bufSi
 		else if(bYesEOL>0) break;
 		pInStr++;
 	}
-	long lineSize = (long)pInStr - (long)pStart;
+	size_t lineSize = pInStr - pStart;
 	if( lineSize > 0 ) {
 		// заполним буфер без тагов
 		long i,j;
@@ -680,7 +680,7 @@ void CXI_FORMATEDTEXT::GetOneLine(int fontNum,char* pStr,char* buf,int bufSize)
 		else if(bYesEOL>0) break;
 		pStr++;
 	}
-	long lineSize = (long)pStr-(long)pStart;
+	size_t lineSize = pStr-pStart;
 	if(lineSize==0) return;
 	if(lineSize>bufSize-1) lineSize=bufSize-1;
 
@@ -860,7 +860,7 @@ void CXI_FORMATEDTEXT::MakeTagChecking( bool& tagState, uint32_t& tagColor, uint
 {
 	const char* str = pStrDescr->lineStr;
 	const char* tagBegin = str;
-	long q = 0; // размер готового тэга
+	size_t q = 0; // размер готового тэга
 	while( str && str[0] )
 	{
 		q = 0;
@@ -871,7 +871,7 @@ void CXI_FORMATEDTEXT::MakeTagChecking( bool& tagState, uint32_t& tagColor, uint
 				if( _strnicmp(str,"</color>",8)==0 )
 				{
 					tagState = false;
-					q = (long)str-(long)tagBegin;
+					q = str-tagBegin;
 					str += 8;
 				}
 			} else {
@@ -881,7 +881,7 @@ void CXI_FORMATEDTEXT::MakeTagChecking( bool& tagState, uint32_t& tagColor, uint
 					long a=255,r=255,g=255,b=255;
 					sscanf( &str[7], "%d,%d,%d,%d", &a,&r,&g,&b );
 					tagColor = ARGB(a,r,g,b);
-					q = (long)str-(long)tagBegin;
+					q = str-tagBegin;
 					while(str && str[0] && str[0]!='>') str++;
 					if( str[0] == '>' ) str++;
 				}

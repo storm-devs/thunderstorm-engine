@@ -415,7 +415,7 @@ void BLADE::GunFire()
 	}
 }
 
-uint32_t BLADE::ProcessMessage(MESSAGE &message)
+uint64_t BLADE::ProcessMessage(MESSAGE &message)
 {
 	long n;
 

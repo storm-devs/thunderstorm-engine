@@ -34,7 +34,7 @@ uint32_t DX9SetTexturePath(VS_STACK * pS)
 	VDATA * pString = (VDATA*)pS->Pop();
 	VDATA * pNumber = (VDATA*)pS->Pop();
 
-	long iNumber = pNumber->GetLong();
+	uintptr_t iNumber = pNumber->GetLong();
 	char * pStr = pString->GetString();
 
 	if (!DX9RENDER::pRS)
@@ -1240,7 +1240,7 @@ static int totSize = 0;
 long DX9RENDER::TextureCreate(const char *fname)
 {
 	// start add texture path
-	if (uint32_t(fname) == -1)
+	if ((uintptr_t)fname == -1)
 	{
 		iSetupPath = 1;
 		return -1;
@@ -1251,7 +1251,7 @@ long DX9RENDER::TextureCreate(const char *fname)
 	{
 		if (iSetupPath == 1)
 		{
-			dwSetupNumber = uint32_t(fname);
+			dwSetupNumber = (uintptr_t)(fname);
 			iSetupPath = 2;
 			return -1;
 		}

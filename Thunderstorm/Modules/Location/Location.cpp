@@ -205,7 +205,7 @@ void Location::Update(uint32_t delta_time)
 }
 
 //Сообщения
-uint32_t Location::ProcessMessage(MESSAGE & message)
+uint64_t Location::ProcessMessage(MESSAGE & message)
 {
 	long i;
 	float u0, v0, u1, v1;

@@ -28,7 +28,7 @@ public:
 	virtual ~SOUND();
 
 	virtual bool Init();
-	virtual uint32_t ProcessMessage(MESSAGE & message);
+	virtual uint64_t ProcessMessage(MESSAGE & message);
 	virtual void Realize(uint32_t dTime);
 
 	void ProcessStage(Stage stage, uint32_t delta) override

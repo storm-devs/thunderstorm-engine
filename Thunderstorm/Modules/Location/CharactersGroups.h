@@ -86,7 +86,7 @@ public:
 	//Исполнение
 	void Execute(uint32_t delta_time);
 	//Сообщения
-	uint32_t ProcessMessage(MESSAGE & message);
+	uint64_t ProcessMessage(MESSAGE & message);
 	//Изменение атрибута
 	uint32_t AttributeChanged(ATTRIBUTES * apnt);
 	void ProcessStage(Stage stage, uint32_t delta) override

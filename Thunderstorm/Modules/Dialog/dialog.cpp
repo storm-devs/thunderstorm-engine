@@ -985,7 +985,7 @@ uint32_t DIALOG::AttributeChanged(ATTRIBUTES * pA)
 }
 
 //--------------------------------------------------------------------
-uint32_t DIALOG::ProcessMessage(MESSAGE & message)
+uint64_t DIALOG::ProcessMessage(MESSAGE & message)
 {
 	switch(message.Long())
 	{

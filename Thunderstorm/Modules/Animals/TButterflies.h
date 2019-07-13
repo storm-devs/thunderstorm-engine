@@ -21,7 +21,7 @@ public:
 	TButterflies();
 	virtual ~TButterflies();
 
-	uint32_t ProcessMessage(long _code, MESSAGE & message);
+	uint64_t ProcessMessage(long _code, MESSAGE & message);
 	void Init();
 	void Realize(uint32_t dTime);
 	void Execute(uint32_t dTime);

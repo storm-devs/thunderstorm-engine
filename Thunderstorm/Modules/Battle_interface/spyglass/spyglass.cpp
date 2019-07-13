@@ -185,7 +185,7 @@ void ISPYGLASS::Realize(uint32_t delta_time)
 	}
 }
 
-uint32_t ISPYGLASS::ProcessMessage(MESSAGE & message)
+uint64_t ISPYGLASS::ProcessMessage(MESSAGE & message)
 {
 	char param[512];
 	long nMsgCode = message.Long();

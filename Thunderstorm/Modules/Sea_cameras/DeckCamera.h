@@ -70,7 +70,7 @@ public:
 	bool CreateState(ENTITY_STATE_GEN * state_gen);
 	bool LoadState(ENTITY_STATE * state);
 	uint32_t AttributeChanged(ATTRIBUTES * pAttr);
-	uint32_t ProcessMessage(MESSAGE & message);
+	uint64_t ProcessMessage(MESSAGE & message);
 	void ProcessStage(Stage stage, uint32_t delta) override
 	{
 		switch (stage)

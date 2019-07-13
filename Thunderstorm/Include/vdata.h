@@ -15,6 +15,7 @@ public:
 	virtual void  SetReference(DATA * pRef)=0;
 	virtual void  SetAReference(ATTRIBUTES * pARef)=0;
 	virtual void Set(long value)=0;
+	virtual void SetPtr(uintptr_t value) = 0;
 	virtual void Set(float value)=0;
 	virtual void Set(char * value)=0;
 	virtual void Set(char * attribute_name, char * attribute_value)=0;
@@ -65,6 +66,7 @@ public:
 	virtual void  SetElementsNum(uint32_t asize)= 0;
 
 	virtual long  GetLong()=0;
+	virtual uintptr_t  GetPtr() = 0;
 	virtual float GetFloat()=0;
 	virtual char * GetString()=0;
 	virtual entid_t GetEntityID()=0;

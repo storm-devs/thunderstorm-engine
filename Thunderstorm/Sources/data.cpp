@@ -230,6 +230,26 @@ void DATA::Set(long value)
 	lValue = value;
 }
 
+void DATA::SetPtr(uintptr_t value)
+{
+	//if(bRef) 
+	if (Data_type == VAR_REFERENCE)
+	{
+		if (pReference)
+		{
+			pReference->Set(value);
+			return;
+		}
+		Error(UNINIT_REF);
+		return;
+	}
+
+	if (bArray) { Error(NO_INDEX); return; }
+	Data_type = VAR_INTEGER;
+	pValue = value;
+}
+
+
 void DATA::Set(float value)
 {
 	//if(bRef) 
@@ -2302,6 +2322,11 @@ void DATA::BadIndex(uint32_t index, uint32_t array_size)
 long DATA::GetLong()
 {
 	return lValue;
+}
+
+uintptr_t DATA::GetPtr()
+{
+	return pValue;
 }
 	
 float DATA::GetFloat()

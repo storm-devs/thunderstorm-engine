@@ -61,7 +61,7 @@ void TButterflies::Init()
 }
 
 //--------------------------------------------------------------------
-uint32_t TButterflies::ProcessMessage(long _code, MESSAGE & message)
+uint64_t TButterflies::ProcessMessage(long _code, MESSAGE & message)
 {
 	uint32_t outValue = 0;
 	switch (_code)

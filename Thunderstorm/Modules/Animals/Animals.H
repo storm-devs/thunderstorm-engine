@@ -21,7 +21,7 @@ public:
 	virtual ~ANIMALS();
 
 	virtual bool Init();
-	virtual uint32_t ProcessMessage(MESSAGE & message);
+	virtual uint64_t ProcessMessage(MESSAGE & message);
 	virtual void Realize(uint32_t dTime);
 	virtual void Execute(uint32_t dTime);
 	uint32_t AttributeChanged(ATTRIBUTES * pA);

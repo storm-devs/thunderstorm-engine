@@ -9,6 +9,7 @@ Import library main file
 ******************************************************************************/
 #include "geom.h"
 #include <cstring>
+#include <cstdint>
 
 //create geometry func
 GEOS* CreateGeometry(const char *fname, const char *lightname, GEOM_SERVICE &srv, long flags)
@@ -151,7 +152,7 @@ GEOM::GEOM(const char *fname, const char *lightname, GEOM_SERVICE &_srv, long fl
 		srv.ReadFile(file, vrt, vbuff[v].size);
 		for(long vr=0; vr<vbuff[v].nverts; vr++)
 		{
-			RDF_VERTEX0 *prv = (RDF_VERTEX0*)(long(vrt) + vbuff[v].stride*vr);
+			RDF_VERTEX0 *prv = (RDF_VERTEX0*)((uint8_t*)(vrt) + vbuff[v].stride*vr);
 			if(lightname!= nullptr)	prv->color = *_colData++;
 			//prv->norm.x = 0.0f;
 		}
@@ -383,28 +384,28 @@ const char *GEOM::GetTextureName(long tx) const
 }
 
 
-long GEOM::FindName(const char *name) const
+uintptr_t GEOM::FindName(const char *name) const
 {
 	for(long n=0; n<rhead.names; n++)
 		if(_strcmpi(&globname[names[n]], name)==0)
-			return long(&globname[names[n]]);
+			return uintptr_t(&globname[names[n]]);
 	return -1;
 }
 
 //--------------------------------------------------
 //label functions
 //--------------------------------------------------
-long GEOM::FindLabelN(long start_index, long name_id)
+long GEOM::FindLabelN(long start_index, uintptr_t name_id)
 {
 	for(; start_index<rhead.nlabels; start_index++)
-		if(long(label[start_index].name)==name_id)
+		if(uintptr_t(label[start_index].name)==name_id)
 			return start_index;
 	return -1;
 }
-long GEOM::FindLabelG(long start_index, long name_id)
+long GEOM::FindLabelG(long start_index, uintptr_t name_id)
 {
 	for(; start_index<rhead.nlabels; start_index++)
-		if(long(label[start_index].group_name)==name_id)
+		if(uintptr_t(label[start_index].group_name)==name_id)
 			return start_index;
 	return -1;
 }
@@ -428,45 +429,45 @@ void GEOM::SetLabel(long l, const LABEL &lb)
 //--------------------------------------------------
 //object functions
 //--------------------------------------------------
-long GEOM::FindObjN(long start_index, long name_id)
+long GEOM::FindObjN(long start_index, uintptr_t name_id)
 {
 	for(; start_index<rhead.nobjects; start_index++)
-		if(long(object[start_index].name)==name_id)
+		if(uintptr_t(object[start_index].name)==name_id)
 			return start_index;
 	return -1;
 }
-long GEOM::FindObjG(long start_index, long name_id)
+long GEOM::FindObjG(long start_index, uintptr_t name_id)
 {
 	for(; start_index<rhead.nobjects; start_index++)
-		if(long(object[start_index].group_name)==name_id)
+		if(uintptr_t(object[start_index].group_name)==name_id)
 			return start_index;
 	return -1;
 }
-long GEOM::FindMaterialN(long start_index, long name_id)
+long GEOM::FindMaterialN(long start_index, uintptr_t name_id)
 {
 	for(; start_index<rhead.nmaterials; start_index++)
-		if(long(material[start_index].name)==name_id)
+		if(uintptr_t(material[start_index].name)==name_id)
 			return start_index;
 	return -1;
 }
-long GEOM::FindMaterialG(long start_index, long name_id)
+long GEOM::FindMaterialG(long start_index, uintptr_t name_id)
 {
 	for(; start_index<rhead.nmaterials; start_index++)
-		if(long(material[start_index].group_name)==name_id)
+		if(uintptr_t(material[start_index].group_name)==name_id)
 			return start_index;
 	return -1;
 }
-long GEOM::FindLightN(long start_index, long name_id)
+long GEOM::FindLightN(long start_index, uintptr_t name_id)
 {
 	for(; start_index<rhead.nlights; start_index++)
-		if(long(light[start_index].name)==name_id)
+		if(uintptr_t(light[start_index].name)==name_id)
 			return start_index;
 	return -1;
 }
-long GEOM::FindLightG(long start_index, long name_id)
+long GEOM::FindLightG(long start_index, uintptr_t name_id)
 {
 	for(; start_index<rhead.nlights; start_index++)
-		if(long(light[start_index].group_name)==name_id)
+		if(uintptr_t(light[start_index].group_name)==name_id)
 			return start_index;
 	return -1;
 }
@@ -484,10 +485,10 @@ void GEOM::SetLight(long l, const LIGHT &lt)
 	light[l].type = lt.type;
 
 }
-long GEOM::FindTexture(long start_index, long name_id)
+long GEOM::FindTexture(long start_index, uintptr_t name_id)
 {
 	for(; start_index<rhead.ntextures; start_index++)
-		if(long(globname[tlookup[start_index]])==name_id)
+		if(uintptr_t(globname[tlookup[start_index]])==name_id)
 			return start_index;
 	return -1;
 }
