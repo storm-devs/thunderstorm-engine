@@ -646,6 +646,8 @@ protected:
 
 	Location* GetLocation();
 
+	long eventId = {};
+
 public:	
 
 	bool isPlayerEnemy;

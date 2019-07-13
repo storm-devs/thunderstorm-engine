@@ -574,6 +574,17 @@ Character::Character()
 
 Character::~Character()
 {
+	MODEL* m = (MODEL*)EntityManager::GetEntityPointer(mdl);
+	if (m) {
+		Animation* a = m->GetAnimation();
+		if (a) {
+			a->SetEventListener(nullptr);
+			if (eventId) {
+				a->DelEvent(eventId);
+			}
+		}
+	}
+
 	const auto location = GetLocation();
 	// удаляем источник в руке
 	if( m_nHandLightID >= 0 && location && !isDeleted )
@@ -2650,7 +2661,7 @@ bool Character::zLoadModel(MESSAGE & message)
 	if(a)
 	{
 		a->SetEventListener(&eventListener);
-		a->SetEvent(ae_end, 0, &eventListener);
+		eventId = a->SetEvent(ae_end, 0, &eventListener);
 	}
 	m->SetRenderTuner(&tuner);
 	EntityManager::AddToLayer(REALIZE, mdl, 20);
