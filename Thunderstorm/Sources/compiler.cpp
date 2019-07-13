@@ -1474,6 +1474,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 					Token.Get();
 					di.deftype = Token.GetType();
 				}
+				di.data4b = {};
 				switch(Token.GetType())
 				{
 					case NUMBER:

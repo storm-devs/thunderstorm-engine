@@ -1894,7 +1894,7 @@ void SAIL::SetSailTextures(long grNum, VDATA* pvd)
 	// основная текстура
 	char* pcNormalName = pA->GetAttribute("normalTex");
 	// герб текстуры
-	IDirect3DTexture9* pGeraldTexture = (IDirect3DTexture9*)pA->GetAttributeAsQword("geraldTexPointer",0);
+	IDirect3DTexture9* pGeraldTexture = (IDirect3DTexture9*)pA->GetAttributeAsPointer("geraldTexPointer",0);
 	char* pcGeraldName = pA->GetAttribute("geraldTex");
 	//
 	gdata[grNum].dwSailsColor = pA->GetAttributeAsDword("sailscolor",0xFFFFFFFF);

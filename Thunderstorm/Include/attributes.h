@@ -212,21 +212,21 @@ public:
 		return vDword;
 	};
 
-	uint32_t GetAttributeAsQword(const char* name = nullptr, uint64_t def = 0)
+	uint32_t GetAttributeAsPointer(const char* name = nullptr, uintptr_t def = 0)
 	{
-		uint32_t qDword;
+		uintptr_t ptr;
 		char* pAttribute;
-		qDword = def;
+		ptr = def;
 		if (name)
 		{
 			pAttribute = GetAttribute(name);
-			if (pAttribute) qDword = atoll(pAttribute);
+			if (pAttribute) ptr = atoll(pAttribute);
 		}
 		else
 		{
-			qDword = atoll(Attribute);
+			ptr = atoll(Attribute);
 		}
-		return qDword;
+		return ptr;
 	};
 
 	FLOAT GetAttributeAsFloat(const char * name = nullptr, FLOAT def = 0)
