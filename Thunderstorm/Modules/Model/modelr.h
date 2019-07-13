@@ -15,7 +15,7 @@ class NODER : public NODE
 	bool isReleaed;
 
 	static long depth, node;
-	long idGeoGroup;	//id of "geometry" string
+	uintptr_t idGeoGroup;	//id of "geometry" string
 	char technique[256], name[256];
 
 	//local radius and center of geometry

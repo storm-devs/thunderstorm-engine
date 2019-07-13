@@ -20,12 +20,11 @@ GEOS* CreateGeometry(const char *fname, const char *lightname, GEOM_SERVICE &srv
 //geometry constructor does all init
 GEOM::GEOM(const char *fname, const char *lightname, GEOM_SERVICE &_srv, long flags) : srv(_srv)
 {
-	long ltfl;
 	unsigned int *colData=nullptr;
 	int flsz = 0;
 	if(lightname!= nullptr)
 	{
-		ltfl = srv.OpenFile(lightname);
+		auto ltfl = srv.OpenFile(lightname);
 		flsz = srv.FileSize(ltfl);
 		if(flsz>0)
 		{
@@ -36,7 +35,7 @@ GEOM::GEOM(const char *fname, const char *lightname, GEOM_SERVICE &_srv, long fl
 		srv.CloseFile(ltfl);
 	}
 
-	long file = srv.OpenFile(fname);
+	auto file = srv.OpenFile(fname);
 	//read header
 	srv.ReadFile(file, &rhead, sizeof RDF_HEAD);
 	if(rhead.version!=RDF_VERSION)	throw "invalid version";

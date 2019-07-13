@@ -13,10 +13,12 @@ Import library main header
 
 #include <cstdint>
 
+using HANDLE = void*;
+
 class GEOS
 {
 public:
-	typedef uintptr_t ID;	//this used w/o any checking
+	typedef long ID;	//this used w/o any checking
 
 	struct VERTEX
 	{
@@ -256,10 +258,10 @@ class GEOM_SERVICE
 {
 public:
 	virtual ~GEOM_SERVICE(){};
-	virtual GEOS::ID OpenFile(const char *fname) = 0;
-	virtual void ReadFile(GEOS::ID file, void *data, long bytes) = 0;
-	virtual int FileSize(GEOS::ID file) = 0;
-	virtual void CloseFile(GEOS::ID file) = 0;
+	virtual HANDLE OpenFile(const char *fname) = 0;
+	virtual void ReadFile(HANDLE file, void *data, long bytes) = 0;
+	virtual int FileSize(HANDLE file) = 0;
+	virtual void CloseFile(HANDLE file) = 0;
 	virtual void *malloc(long bytes) = 0;
 	virtual void free(void *ptr) = 0;
 

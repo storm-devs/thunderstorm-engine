@@ -42,10 +42,10 @@ class GEOM_SERVICE_R final : public GEOM_SERVICE
 public:
 	void SetRenderService(VDX9RENDER * render_service);
 
-	GEOS::ID OpenFile(const char *fname);
-	int FileSize(GEOS::ID file);
-	void ReadFile(GEOS::ID file, void *data, long bytes);
-	void CloseFile(GEOS::ID file);
+	HANDLE OpenFile(const char *fname);
+	int FileSize(HANDLE file);
+	void ReadFile(HANDLE file, void *data, long bytes);
+	void CloseFile(HANDLE file);
 	void *malloc(long bytes);
 	void free(void *ptr);
 

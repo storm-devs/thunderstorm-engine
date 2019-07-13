@@ -227,7 +227,7 @@ bool NODER::Init(const char *lightPath, const char *pname, const char *oname, CM
 	parent = par;
 	if(parent==nullptr)	strcpy_s(name, pname);
 	//calculate number of labels
-	long idGeo = geo->FindName("geometry");
+	auto idGeo = geo->FindName("geometry");
 	nnext = 0;
 	long sti = -1;
 	while((sti = geo->FindLabelG(sti+1, idGeo))>-1)	nnext++;
