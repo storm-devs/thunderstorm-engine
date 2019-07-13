@@ -61,9 +61,9 @@ uint64_t ANIMALS::ProcessMessage(MESSAGE & message)
 		outValue = seagulls->ProcessMessage(code, message);
 		if (outValue)
 			return outValue;
-		outValue = fishSchools->ProcessMessage(code, message);
-		if (outValue)
-			return outValue;
+		//outValue = fishSchools->ProcessMessage(code, message);
+		//if (outValue)
+		//	return outValue;
 		//outValue = sharks->ProcessMessage(code, message);
 		//if (outValue)
 		//	return outValue;
