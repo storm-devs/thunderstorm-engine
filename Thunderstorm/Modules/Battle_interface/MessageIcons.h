@@ -55,7 +55,8 @@ protected:
 	struct COLUMN_DESCRIBER
 	{
 		COLUMN_DESCRIBER()	{pRow= nullptr;}
-		~COLUMN_DESCRIBER()	{if(pRow) delete[] pRow; pRow= nullptr;}
+		~COLUMN_DESCRIBER()	{
+			delete[] pRow; pRow= nullptr;}
 
 		struct ROW_DESCR
 		{

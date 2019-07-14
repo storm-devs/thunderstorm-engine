@@ -562,7 +562,7 @@ void BLADE::TIEITEM_INFO::Release()
 	{
 		nItemIndex = -1;
 		EntityManager::EraseEntity(eid);
-		if(locatorName) delete locatorName; locatorName=nullptr;
+		delete locatorName; locatorName=nullptr;
 	}
 }
 void BLADE::TIEITEM_INFO::DrawItem(VDX9RENDER * rs,unsigned int blendValue,MODEL *mdl,NODE *manNode)
@@ -616,7 +616,7 @@ void BLADE::TIEITEM_INFO::DrawItem(VDX9RENDER * rs,unsigned int blendValue,MODEL
 bool BLADE::TIEITEM_INFO::LoadItemModel(const char* mdlName, const char* locName)
 {
 	EntityManager::EraseEntity(eid);
-	if(locatorName) delete locatorName; locatorName=nullptr;
+	delete locatorName; locatorName=nullptr;
 
 	if( !locName || !mdlName ) return false;
 

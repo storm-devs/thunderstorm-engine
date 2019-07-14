@@ -1348,8 +1348,8 @@ void XINTERFACE::LoadDialog(char *sFileName)
 	// set cripted data
 	api->Event("CriptData","s",crData);
 
-	if(ini)	delete ini;
-	if(ownerIni)	delete ownerIni;
+    delete ini;
+    delete ownerIni;
 	//UNGUARD
 }
 
@@ -1374,8 +1374,8 @@ void XINTERFACE::CreateNode(char *sFileName, char *sNodeType, char *sNodeName, l
 
 	SFLB_CreateNode( ownerIni, ini, sNodeType, sNodeName, priority );
 
-	if(ini)	delete ini;
-	if(ownerIni)	delete ownerIni;
+	delete ini;
+	delete ownerIni;
 }
 
 void XINTERFACE::SFLB_CreateNode(INIFILE* pOwnerIni, INIFILE* pUserIni, char *sNodeType, char *sNodeName, long priority)
@@ -3048,7 +3048,7 @@ char * AddAttributesStringsToBuffer(char * inBuffer, char * prevStr, ATTRIBUTES 
 			strcat_s(pNew,nadd,"=");
 			strcat_s(pNew,nadd,attrVal);
 
-			if(inBuffer)	delete inBuffer;
+			delete inBuffer;
 			inBuffer = pNew;
 		}
 

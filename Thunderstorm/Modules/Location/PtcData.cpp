@@ -46,10 +46,10 @@ PtcData::PtcData()
 
 PtcData::~PtcData()
 {
-	if(data) delete data;
-	if(ctriangle) delete ctriangle;
-	if(dbgTriangles) delete dbgTriangles;
-	if(dbgEdges) delete dbgEdges;
+	delete data;
+	delete ctriangle;
+	delete dbgTriangles;
+	delete dbgEdges;
 }
 
 bool PtcData::Load(const char * path)
@@ -68,7 +68,7 @@ bool PtcData::Load(const char * path)
 	if(!buf || size < sizeof(PtcHeader))
 	{
 		api->Trace("Ptc(\"%s\") -> invalide file size", path);
-		if(buf) delete buf;
+		delete buf;
 		return false;
 	}
 	PtcHeader & hdr = *(PtcHeader *)buf;

@@ -266,7 +266,7 @@ void CORE::ProcessEngineIniFile()
 	}
 	else
 	{
-		if(Controls) delete Controls; Controls = nullptr;
+		delete Controls; Controls = nullptr;
 
 		api->Controls = new CONTROLS;
 	}

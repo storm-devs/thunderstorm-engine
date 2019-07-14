@@ -43,7 +43,7 @@ SCRSHOTER::~SCRSHOTER()
 	{
 		pst = m_list;
 		m_list = pst->next;
-		if(pst->fileName!= nullptr) delete pst->fileName;
+		delete pst->fileName;
 		if(pst->m_pTex!= nullptr && rs!= nullptr) rs->Release(pst->m_pTex);
 		delete pst;
 	}
@@ -333,8 +333,8 @@ void SCRSHOTER::DelSaveTexture(char * fileName)
 		{
 			if(oldps) oldps->next = ps->next;
 			else m_list = ps->next;
-			if(ps->fileName!= nullptr)	delete ps->fileName;
-			if(ps->dataString!= nullptr)	delete ps->dataString;
+			delete ps->fileName;
+			delete ps->dataString;
 			if(ps->m_pTex!= nullptr && rs!= nullptr) rs->Release(ps->m_pTex);
 			delete ps;
 			return;

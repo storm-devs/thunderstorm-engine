@@ -97,7 +97,7 @@ uint32_t S_FUNCTAB::AddFunc(FUNCINFO& fi)
 			pTable[n].decl_line = fi.decl_line;
 			pTable[n].pImportedFunc = fi.pImportedFunc;
 
-			if(pTable[n].decl_file_name) delete pTable[n].decl_file_name;
+			delete pTable[n].decl_file_name;
 
 			const auto len = strlen(fi.decl_file_name) + 1;
 			pTable[n].decl_file_name = new char[len];
@@ -186,12 +186,12 @@ void S_FUNCTAB::InvalidateBySegmentID(uint32_t segment_id)
 		pTable[n].offset = INVALID_FUNC_OFFSET;
 		for(uint32_t i = 0;i<pTable[n].var_num;i++)
 		{
-			if(pTable[n].pLocal[i].name) delete pTable[n].pLocal[i].name;
+			delete pTable[n].pLocal[i].name;
 		}
 		pTable[n].pLocal.clear();
 		pTable[n].var_num = 0;
 		pTable[n].arguments = 0;
-		if(pTable[n].decl_file_name) delete pTable[n].decl_file_name;
+		delete pTable[n].decl_file_name;
 		pTable[n].decl_file_name = nullptr;
 
 	}
@@ -206,12 +206,12 @@ void S_FUNCTAB::InvalidateFunction(uint32_t nFuncHandle)
 		pTable[n].offset = INVALID_FUNC_OFFSET;
 		for(uint32_t i = 0;i<pTable[n].var_num;i++)
 		{
-			if(pTable[n].pLocal[i].name) delete pTable[n].pLocal[i].name;
+			delete pTable[n].pLocal[i].name;
 		}
 		pTable[n].pLocal.clear();
 		//pTable[n].var_num = 0;
 		//pTable[n].arguments = 0;
-		if(pTable[n].decl_file_name) delete pTable[n].decl_file_name;
+		delete pTable[n].decl_file_name;
 		pTable[n].decl_file_name = nullptr;
 		pTable[n].pImportedFunc = nullptr;
 	}

@@ -509,16 +509,15 @@ DX9RENDER::~DX9RENDER()
 	S_RELEASE(rectsVBuffer, 8);
 
 
-	if (progressImage) delete progressImage; progressImage = nullptr;
+	delete progressImage; progressImage = nullptr;
 	for (int i = 0; i<nFontQuantity; i++)
 	{
-		if (FontList[i].font != nullptr)
-			delete FontList[i].font;
-		if (FontList[i].name != nullptr)
-			delete FontList[i].name;
+		delete FontList[i].font;
+
+		delete FontList[i].name;
 	}
 	nFontQuantity = 0;
-	if (fontIniFileName != nullptr) delete fontIniFileName;
+	delete fontIniFileName;
 
 	STORM_DELETE(DX9sphereVertex);
 	ReleaseDevice();
@@ -888,7 +887,7 @@ bool DX9RENDER::ReleaseDevice()
 		{
 			if (CHECKD3DERR(Textures[t].d3dtex->Release()) == false)	res = false;
 			Textures[t].ref = NULL;
-			if (Textures[t].name != nullptr)	delete Textures[t].name;
+			delete Textures[t].name;
 		}
 
 	if (d3d9) d3d9->SetGammaRamp(0, D3DSGR_NO_CALIBRATION, &DefaultRamp);
@@ -2794,8 +2793,8 @@ char * DX9RENDER::GetFontIniFileName()
 bool DX9RENDER::SetFontIniFileName(char * iniName)
 {
 	if (fontIniFileName != nullptr && iniName != nullptr && _stricmp(fontIniFileName, iniName) == 0) return true;
-	if (fontIniFileName != nullptr)
-		delete fontIniFileName;
+
+	delete fontIniFileName;
 	if (iniName == nullptr)
 	{
 		fontIniFileName = nullptr;
@@ -2811,9 +2810,8 @@ bool DX9RENDER::SetFontIniFileName(char * iniName)
 
 	for (int n = 0; n<nFontQuantity; n++)
 	{
-		if (FontList[n].font != nullptr) {
-			delete FontList[n].font;
-		}
+		delete FontList[n].font;
+
 		if ((FontList[n].font = new FONT) == nullptr)
 			throw std::exception("allocate memory error");
 			FontList[n].font->Init(FontList[n].name, fontIniFileName, d3d9, this);
@@ -3533,7 +3531,7 @@ CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
 			}
 			VideoTextureEntity *pVTmp = pVTLcur;
 			pVTLcur = pVTLcur->next;
-			if (pVTmp->name) delete pVTmp->name;
+			delete pVTmp->name;
 			delete pVTmp;
 			continue;
 		}
@@ -3591,7 +3589,7 @@ void DX9RENDER::ReleaseVideoTexture(CVideoTexture* pVTexture)
 			else
 				prev->next = cur->next;
 			EntityManager::EraseEntity(cur->videoTexture_id);
-			if (cur->name != nullptr) delete cur->name;
+			delete cur->name;
 			delete cur;
 			break;
 		}
@@ -3612,7 +3610,7 @@ void DX9RENDER::PlayToTexture()
 		else
 		{
 			api->Trace("ERROR: void DX9RENDER::PlayToTexture()");
-			if (cur->name != nullptr) delete cur->name;
+			delete cur->name;
 			VideoTextureEntity * pcur = cur;
 			cur = cur->next;
 			if (pVTL == pcur) pVTL = cur;
@@ -3705,7 +3703,7 @@ void DX9RENDER::SetProgressImage(const char * image)
 	if (s > progressImageSize)
 	{
 		progressImageSize = s;
-		if (progressImage) delete progressImage;
+		delete progressImage;
 		progressImage = new char[progressImageSize];
 	}
 	strcpy_s(progressImage, s, image);
@@ -3722,7 +3720,7 @@ void DX9RENDER::SetTipsImage(const char * image)
 	if (s > progressTipsImageSize)
 	{
 		progressTipsImageSize = s;
-		if (progressTipsImage) delete progressTipsImage;
+		delete progressTipsImage;
 		progressTipsImage = new char[progressTipsImageSize];
 	}
 	memcpy(progressTipsImage, image, s);

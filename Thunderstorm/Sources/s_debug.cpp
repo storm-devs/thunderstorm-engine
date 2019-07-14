@@ -350,9 +350,9 @@ S_DEBUG::~S_DEBUG()
 void S_DEBUG::Release()
 {
 	Breaks.Release();
-	if(WatcherList) delete WatcherList; WatcherList = nullptr;
-	if(SourceView) delete SourceView; SourceView = nullptr;
-	if(pExpResBuffer) delete pExpResBuffer; pExpResBuffer = nullptr;
+	delete WatcherList; WatcherList = nullptr;
+	delete SourceView; SourceView = nullptr;
+	delete pExpResBuffer; pExpResBuffer = nullptr;
 }
 
 bool S_DEBUG::OpenDebugWindow(HINSTANCE hInstance)
@@ -445,7 +445,7 @@ bool S_DEBUG::OpenDebugWindow_NT(HINSTANCE hInstance)
 	SourceViewRect.bottom = DBGWIN_HEIGHT;
 	SourceViewRect.right = DBGWIN_WIDTH;
 
-	if(WatcherList) delete WatcherList; WatcherList = nullptr;
+	delete WatcherList; WatcherList = nullptr;
 
 	WatcherList = new WATCHER_LIST(hMain,hInstance);
 	if(WatcherList)
@@ -453,7 +453,7 @@ bool S_DEBUG::OpenDebugWindow_NT(HINSTANCE hInstance)
 		SendMessage(WatcherList->GetWindowHandle(),WM_SETFONT,(WPARAM)hFont,0);
 		WatcherList->SetFont(hFont);
 	}
-	if(SourceView) delete SourceView; SourceView = nullptr;
+	delete SourceView; SourceView = nullptr;
 
 	SourceView = new SOURCE_VIEW(hMain,hInstance);
 	if(SourceView)
@@ -491,8 +491,8 @@ void S_DEBUG::CloseDebugWindow()
 {
 	if(hMain) DestroyWindow(hMain);	
 	hMain = nullptr;
-	if(WatcherList) delete WatcherList; WatcherList = nullptr;
-	if(SourceView) delete SourceView; SourceView = nullptr;
+	delete WatcherList; WatcherList = nullptr;
+	delete SourceView; SourceView = nullptr;
 	SetTraceMode(TMODE_CLOSE);
 	BreakFileName[0] = 0;
 }

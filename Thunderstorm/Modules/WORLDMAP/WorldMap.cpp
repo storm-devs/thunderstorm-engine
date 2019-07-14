@@ -106,7 +106,7 @@ WorldMap::~WorldMap()
 	{
 		delete object[firstObject].ro;
 	}*/
-	if(camera) delete camera;
+	delete camera;
 	WdmRenderObject::DeleteAllObjects();
 	wdmObjects->Clear();
 

@@ -16,7 +16,8 @@ class TMP_LONG_STACK
 	long defReturn;
 public:
 	TMP_LONG_STACK() {sizeIncr=100;ldat= nullptr;datsize=0;curidx=0;defReturn=-1;}
-	~TMP_LONG_STACK() {if(ldat!= nullptr) delete ldat; ldat= nullptr;}
+	~TMP_LONG_STACK() {
+		delete ldat; ldat= nullptr;}
 	void Push(long data);
 	long Pop();
 	long GetFore();

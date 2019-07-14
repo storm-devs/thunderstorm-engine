@@ -277,14 +277,14 @@ NODER::~NODER()
 	}
 #endif
 
-	if(geo) delete geo;
+	delete geo;
 	for(long l=0; l<nnext; l++)
 		if(next[l]!=nullptr)	delete next[l];
 	if(nnext>0)	free(next);
-	if(sys_modelName) delete sys_modelName;
-	if(sys_LightPath) delete sys_LightPath;
-	if(sys_lmPath) delete sys_lmPath;
-	if(sys_TexPath) delete sys_TexPath;
+	delete sys_modelName;
+	delete sys_LightPath;
+	delete sys_lmPath;
+	delete sys_TexPath;
 }
 
 void NODER::ReleaseGeometry()

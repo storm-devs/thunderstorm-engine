@@ -129,7 +129,7 @@ STRSERVICE::~STRSERVICE()
 			delete pUSB->psString;
 			pUSB->psString= nullptr;
 		}
-		if(pUSB->fileName!= nullptr) delete pUSB->fileName;
+		delete pUSB->fileName;
 		pUSB->nStringsQuantity=0;
 		delete pUSB;
 		pUSB = nullptr;

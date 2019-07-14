@@ -19,7 +19,7 @@ struct LocationFindCacheElement
 
 	~LocationFindCacheElement()
 	{
-		if(name) delete name;
+		delete name;
 	};
 
 	inline long Cmp(const LocationFindCacheElement & v)
@@ -35,7 +35,7 @@ struct LocationFindCacheElement
 		if(size > max)
 		{
 			max = (size + 15) & ~15;
-			if(name) delete name;
+			delete name;
 			name = new char[max];
 		}
 		memcpy(name, str, size);

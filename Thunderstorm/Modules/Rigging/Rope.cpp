@@ -971,8 +971,7 @@ void ROPE::DoSTORM_DELETE()
         // если группа удалена, то пропускаем ее
         if(gdata[gn].bDeleted)
         {
-            if(gdata[gn].ropeIdx)
-                delete gdata[gn].ropeIdx;
+	        delete gdata[gn].ropeIdx;
             continue;
         }
 
@@ -1000,8 +999,7 @@ void ROPE::DoSTORM_DELETE()
         // если группа стала пустой, то удаляем ее физически
         if(rq==0)
         {
-            if(gdata[gn].ropeIdx)
-                delete gdata[gn].ropeIdx;
+	        delete gdata[gn].ropeIdx;
             continue;
         }
 

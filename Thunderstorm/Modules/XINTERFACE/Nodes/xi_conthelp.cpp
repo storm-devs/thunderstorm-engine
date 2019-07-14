@@ -223,8 +223,8 @@ void CXI_CONTEXTHELP::SetTempHelp(const char * pStr)
     if(pStr== nullptr) return;
 
     // удалим старую временную строку
-    if(m_sTempString!= nullptr)
-        delete m_sTempString;
+
+    delete m_sTempString;
     m_sTempString = nullptr;
 
 	long nCurStrWidth = 0;
@@ -275,8 +275,7 @@ uint32_t CXI_CONTEXTHELP::MessageProc(long msgcode, MESSAGE & message)
 	{
 	case 0: // удалим старую временную строку
 		{
-			if(m_sTempString!= nullptr)
-				delete m_sTempString;
+			delete m_sTempString;
 			m_sTempString = nullptr;
 			m_idTempString = -1;
 		}

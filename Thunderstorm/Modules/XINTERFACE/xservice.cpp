@@ -309,10 +309,10 @@ void XSERVICE::ReleaseAll()
 			if(m_pList[i].textureQuantity!=0)
 				m_pRS->TextureRelease(m_pList[i].textureID);
 
-			if(m_pList[i].sImageListName!= nullptr)
-				delete m_pList[i].sImageListName;
-			if(m_pList[i].sTextureName!= nullptr)
-				delete m_pList[i].sTextureName;
+
+			delete m_pList[i].sImageListName;
+
+			delete m_pList[i].sTextureName;
 		}
 
 		delete m_pList;
@@ -322,8 +322,7 @@ void XSERVICE::ReleaseAll()
 	{
 		for(int i=0; i<m_dwImageQuantity; i++)
 		{
-			if(m_pImage[i].sPictureName!= nullptr)
-				delete m_pImage[i].sPictureName;
+			delete m_pImage[i].sPictureName;
 		}
 
 		delete m_pImage;

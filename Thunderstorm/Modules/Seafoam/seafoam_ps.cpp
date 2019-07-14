@@ -64,9 +64,9 @@ SEAFOAM_PS::~SEAFOAM_PS()
 		for(n=0;n<TexturesNum;n++) RenderService->TextureRelease(TextureID[n]);
 		//api->FreeService("dx9render");
 	}
-	if(Particle) delete Particle; Particle = nullptr;
-	if(pFlowTrack) delete pFlowTrack; pFlowTrack = nullptr;
-	if(TechniqueName) delete TechniqueName; TechniqueName = nullptr;
+	delete Particle; Particle = nullptr;
+	delete pFlowTrack; pFlowTrack = nullptr;
+	delete TechniqueName; TechniqueName = nullptr;
 
 }
 

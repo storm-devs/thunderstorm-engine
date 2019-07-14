@@ -101,10 +101,7 @@ void ParticleSystem::DeleteAllEmitters ()
 {
 	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
-		if (Emitters[n].pEmitter)
-		{
-			delete Emitters[n].pEmitter;
-		}
+		delete Emitters[n].pEmitter;
 	}
 
 	Emitters.clear();

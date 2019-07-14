@@ -18,7 +18,7 @@ PROGRAM::~PROGRAM()
 
 void PROGRAM::Release()
 {
-	if(ProgramDirectory) delete ProgramDirectory; ProgramDirectory = nullptr;
+	delete ProgramDirectory; ProgramDirectory = nullptr;
 	if(ProgramBlock)
 	{
 		for(uint32_t n = 0;n<ProgramNum;n++)
@@ -66,7 +66,7 @@ void PROGRAM::StopProgram(char * program_name)
 
 void PROGRAM::SetProgramDirectory(char * dir_name)
 {
-	if(ProgramDirectory) delete ProgramDirectory; ProgramDirectory = nullptr;
+	delete ProgramDirectory; ProgramDirectory = nullptr;
 	if(dir_name)
 	{
 		const auto len = strlen(dir_name) + 1;

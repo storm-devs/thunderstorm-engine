@@ -387,7 +387,7 @@ CXI_STRCOLLECTION::STRINGDESCR * CXI_STRCOLLECTION::CreateNewDinamicString(char 
 	m_pStrDescr = new STRINGDESCR[m_nStr];
 	if( m_pStrDescr == nullptr )	{throw std::exception("allocate memory error");}
 	if( pOld && i )	memcpy(m_pStrDescr,pOld,sizeof(STRINGDESCR)*i);
-	if( pOld ) delete pOld;
+	delete pOld;
 	PZERO( &m_pStrDescr[i], sizeof(STRINGDESCR) );
 	m_pStrDescr[i].nFontNum = -1;
 	const auto len1 = strlen(strID) + 1;

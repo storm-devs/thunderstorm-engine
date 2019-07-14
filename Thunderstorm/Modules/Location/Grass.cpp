@@ -76,8 +76,8 @@ Grass::Grass()
 
 Grass::~Grass()
 {
-	if(miniMap) delete miniMap;
-	if(block) delete block;
+	delete miniMap;
+	delete block;
 	if(rs)
 	{
 		if(texture >= 0) rs->TextureRelease(texture);
@@ -164,8 +164,8 @@ bool Grass::LoadData(const char * patchName)
 	//Текстура травы
 	texture = rs->TextureCreate(textureName);
 	//Уталим старое
-	if(miniMap) delete miniMap; miniMap = nullptr;
-	if(block) delete block; block = nullptr;
+	delete miniMap; miniMap = nullptr;
+	delete block; block = nullptr;
 	//Загружаем файл с данными
 	uint8_t * load = nullptr;
 	uint32_t size = 0;
@@ -234,8 +234,8 @@ bool Grass::LoadData(const char * patchName)
 		}
 	}catch(const char * error){
 		api->Trace("Grass: incorrect grs file %s (%s)", patchName, error);
-		if(miniMap) delete miniMap; miniMap = nullptr;
-		if(block) delete block; block = nullptr;
+		delete miniMap; miniMap = nullptr;
+		delete block; block = nullptr;
 	}
 	delete load;
 	return true;

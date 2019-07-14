@@ -16,7 +16,7 @@ LOCATOR::LOCATOR()
 
 LOCATOR::~LOCATOR()
 {
-	if(geo) delete geo; geo = nullptr;
+	delete geo; geo = nullptr;
 }
 
 bool LOCATOR::Init() 
@@ -296,7 +296,7 @@ uint64_t LOCATOR::ProcessMessage(MESSAGE & message)
 
 		case LM_SET_GEOMETRY:
 			message.String(sizeof(name),name);
-			if(geo) delete geo; geo = nullptr;
+			delete geo; geo = nullptr;
 			rs->SetLoadTextureEnable(false);
 			geo = gs->CreateGeometry(name,"",0);
 			rs->SetLoadTextureEnable(true);

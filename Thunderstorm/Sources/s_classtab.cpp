@@ -153,7 +153,7 @@ void S_CLASSTAB::InvalidateBySegmentID(uint32_t segment_id)
 	for(uint32_t n = 0;n<nClassesNum;n++)
 	{
 		if(pTable[n].segment_id != segment_id) continue;
-		if(pTable[n].pComponent) delete pTable[n].pComponent;
+		delete pTable[n].pComponent;
 		pTable[n].pComponent = nullptr;
 		pTable[n].nComponentsNum = 0;
 		pTable[n].bClassRegistredOnly = true;

@@ -28,8 +28,8 @@ CharacterAnimationKipper::CharacterAnimationKipper()
 
 CharacterAnimationKipper::~CharacterAnimationKipper()
 {
-	if(aniMan) delete aniMan;
-	if(aniWoman) delete aniWoman;
+	delete aniMan;
+	delete aniWoman;
 	if(rs)
 	{
 		for(long i = 0; i < sizeof(lockTextures)/sizeof(long); i++) 

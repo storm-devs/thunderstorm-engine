@@ -23,8 +23,8 @@ void  S_DEFTAB::Release()
 {
 	uint32_t n;
 	for(n=0;n<Def_num;n++)	
-	{ 
-		if(pTable[n].name) delete pTable[n].name;	
+	{
+		delete pTable[n].name;	
 		if(pTable[n].deftype == STRING) 
 		{
 			if(pTable[n].data4b != 0) delete ((char *)pTable[n].data4b);

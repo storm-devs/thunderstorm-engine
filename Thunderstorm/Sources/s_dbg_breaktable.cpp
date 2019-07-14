@@ -159,7 +159,7 @@ void BREAKPOINTS_TABLE::DelBreakPoint(const char * filename, uint32_t line)
 		if(pTable[n].nLineNumber != line) continue;
 		if(_stricmp(pTable[n].pFileName,filename) != 0) continue;
 
-		if(pTable[n].pFileName) delete pTable[n].pFileName;
+		delete pTable[n].pFileName;
 
 		for(;n<(nPoints - 1);n++)
 		{

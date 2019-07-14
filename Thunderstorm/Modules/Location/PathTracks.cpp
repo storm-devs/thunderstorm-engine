@@ -22,7 +22,7 @@ PathTracks::PathTracks()
 
 PathTracks::~PathTracks()
 {
-	if(point) delete point;
+	delete point;
 	point = nullptr;
 	numPoints = 0;
 }
@@ -36,7 +36,7 @@ bool PathTracks::Load(const char * fileName)
 	//Загружаем файл в память
 	Assert(sizeof(AntFileTrackElement) == sizeof(Point));
 
-	if(point) delete point;
+	delete point;
 	point = nullptr;
 	numPoints = 0;
 

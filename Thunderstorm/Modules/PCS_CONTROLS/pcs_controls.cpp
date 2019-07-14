@@ -65,7 +65,7 @@ void PCS_CONTROLS::Release()
 	long n;
 	for(n=0;n<nControlsNum;n++)
 	{
-		if(pUserControls[n].name) delete pUserControls[n].name;
+		delete pUserControls[n].name;
 	}
 	
 	nControlsNum = 0;

@@ -155,9 +155,9 @@ void COMPILER::Release()
 
 	for(uint32_t n = 0;n<SegmentsNum;n++)
 	{
-		if(SegmentTable[n].name) delete SegmentTable[n].name;
-		if(SegmentTable[n].pData) delete SegmentTable[n].pData;
-		if(SegmentTable[n].pCode) delete SegmentTable[n].pCode;
+		delete SegmentTable[n].name;
+		delete SegmentTable[n].pData;
+		delete SegmentTable[n].pCode;
 		if(SegmentTable[n].Files_list) 
 		{
 			SegmentTable[n].Files_list->Release();
@@ -171,9 +171,9 @@ void COMPILER::Release()
 	LabelTable.Release();
 	LabelUpdateTable.Release();
 	Token.Reset();
-	if(ProgramDirectory) delete ProgramDirectory; ProgramDirectory = nullptr;
+	delete ProgramDirectory; ProgramDirectory = nullptr;
 	RunningSegmentID = INVALID_SEGMENT_INDEX;
-	if(pCompileTokenTempBuffer) delete pCompileTokenTempBuffer; pCompileTokenTempBuffer = nullptr;
+	delete pCompileTokenTempBuffer; pCompileTokenTempBuffer = nullptr;
 
 	FuncTab.Release();
 	VarTab.Release();
@@ -185,7 +185,7 @@ void COMPILER::Release()
 	SCodec.Release();
 	LibriaryFuncs.Release();
 
-	if(pDebExpBuffer) delete pDebExpBuffer; pDebExpBuffer = nullptr;
+	delete pDebExpBuffer; pDebExpBuffer = nullptr;
 	nDebExpBufferSize = 0;
 
 	
@@ -200,7 +200,7 @@ void COMPILER::Release()
 
 void COMPILER::SetProgramDirectory(char * dir_name)
 {
-	if(ProgramDirectory) delete ProgramDirectory; ProgramDirectory = nullptr;
+	delete ProgramDirectory; ProgramDirectory = nullptr;
 	if(dir_name)
 	{
 		const auto len = strlen(dir_name) + strlen("\\") + 1;
@@ -1021,7 +1021,7 @@ bool COMPILER::ProcessDebugExpression0(char * pExpression, DATA & Result)
 	
 	if(!bRes)
 	{
-		if(Segment.pCode) delete Segment.pCode;
+		delete Segment.pCode;
 		bDebugExpressionRun = false;
 		return false;
 	}
@@ -1062,7 +1062,7 @@ bool COMPILER::ProcessDebugExpression0(char * pExpression, DATA & Result)
 	//RunningSegmentID = pRun_fi->segment_id;
 	pRunCodeBase = mem_codebase;
 
-	if(Segment.pCode) delete Segment.pCode;
+	delete Segment.pCode;
 
 	if(pResult) 
 	{
@@ -1083,10 +1083,10 @@ void COMPILER::ProcessFrame(uint32_t DeltaTime)
 	{
 		if(!SegmentTable[n].bUnload) continue;
 		// unload segment of program
-		if(SegmentTable[n].pData) delete SegmentTable[n].pData;
-		if(SegmentTable[n].pCode) delete SegmentTable[n].pCode;
-		if(SegmentTable[n].name) delete SegmentTable[n].name;
-		if(SegmentTable[n].Files_list) delete SegmentTable[n].Files_list;
+		delete SegmentTable[n].pData;
+		delete SegmentTable[n].pCode;
+		delete SegmentTable[n].name;
+		delete SegmentTable[n].Files_list;
 		SegmentTable[n].Files_list = nullptr;
 
 		for(uint32_t i = n;i<(SegmentsNum-1);i++)
@@ -2001,7 +2001,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 			if (SkipAuxiliaryTokens() != SEPARATOR) { SetError("missed ';'"); return false; }
 			ClassTab.AddClass(ci);
 
-			if (ci.pComponent) delete ci.pComponent;
+			delete ci.pComponent;
 			delete ci.name;
 
 			break;
@@ -2068,7 +2068,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char * pInternalCode, uint32_t pIn
 
 	if(pInternalCode == nullptr)	
 	{
-		if(Segment.pData) delete Segment.pData;	Segment.pData = nullptr;
+		delete Segment.pData;	Segment.pData = nullptr;
 	}
 	HANDLE fh;
 	uint32_t dwR;
@@ -5826,12 +5826,12 @@ bool COMPILER::ReadVariable(char * name,/* DWORD code,*/ bool bDim, uint32_t a_i
 			pString = ReadString();
 			if(bSkipVariable) 
 			{
-				if(pString) delete pString;
+				delete pString;
 				break;
 			}
 			if(!VarTab.GetVarX(viRef,var_index)) 
 			{
-				if(pString) delete pString;
+				delete pString;
 				SetError("State read error");
 				return false;
 			}
@@ -5958,20 +5958,20 @@ void COMPILER::SaveVariable(DATA * pV, bool bdim)
 			if(pA == nullptr)
 			{
 				WriteVDword(0xffffffff);
-				if(pString) delete pString;
+				delete pString;
 				break;
 			}
 			if(!FindReferencedVariableByRootA(pA,var_index,array_index))
 			{
 				SetError("Ghost A reference");
 				WriteVDword(0xffffffff);
-				if(pString) delete pString;
+				delete pString;
 				break;
 			}
 			WriteVDword(var_index);
 			WriteVDword(array_index);
 			SaveString(pString);
-			if(pString) delete pString;
+			delete pString;
 		break;
 	}
 }
@@ -5989,7 +5989,7 @@ bool COMPILER::SaveState(HANDLE fh)
 	uint32_t n;
 	VARINFO vi;
 
-	if (pBuffer) delete pBuffer;
+	delete pBuffer;
 	pBuffer = nullptr;
 
 	dwCurPointer = 0;
@@ -6062,7 +6062,7 @@ bool COMPILER::SaveState(HANDLE fh)
 		delete[] pDst;
 	}
 
-	if (pBuffer) delete pBuffer;
+	delete pBuffer;
 	pBuffer = nullptr;
 
 	return true;
@@ -6076,7 +6076,7 @@ bool COMPILER::LoadState(HANDLE fh)
 	if(fh == INVALID_HANDLE_VALUE) return false;
 	//hSaveFileFileHandle = fh;
 
-	if (pBuffer) delete pBuffer;
+	delete pBuffer;
 	pBuffer = nullptr;
 
 	EXTDATA_HEADER exdh;
@@ -6137,7 +6137,7 @@ bool COMPILER::LoadState(HANDLE fh)
 	{
 		char* pSegmentName = ReadString();
 		if(!BC_LoadSegment(pSegmentName)) return false;
-		if(pSegmentName) delete pSegmentName;
+		delete pSegmentName;
 	}
 
 
@@ -6159,7 +6159,7 @@ bool COMPILER::LoadState(HANDLE fh)
 	// call to script function "OnLoad()"
 	OnLoad();
 
-	if (pBuffer) delete pBuffer;
+	delete pBuffer;
 	pBuffer = nullptr;
 
 	return true;
@@ -6182,7 +6182,7 @@ void COMPILER::ReadAttributesData(ATTRIBUTES * pRoot, ATTRIBUTES * pParent)
 		pValue = ReadString();
 		pParent->SetAttribute(nNameCode,pValue);
 		pRoot = pParent->GetAttributeClassByCode(nNameCode);
-		if(pValue) delete pValue;
+		delete pValue;
 		for(n=0;n<nSubClassesNum;n++)
 		{
 			ReadAttributesData(nullptr,pRoot);
@@ -6207,7 +6207,7 @@ void COMPILER::ReadAttributesData(ATTRIBUTES * pRoot, ATTRIBUTES * pParent)
 
 
 	//if(pName) delete pName;
-	if(pValue) delete pValue;
+	delete pValue;
 
 }
 

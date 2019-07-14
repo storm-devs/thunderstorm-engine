@@ -40,8 +40,8 @@ LGeometry::~LGeometry()
 		delete object[i].name;
 		delete object[i].nameReal;
 	}
-	if(shadows) delete shadows;
-	if(drawbuf) delete drawbuf;
+	delete shadows;
+	delete drawbuf;
 }
 
 //Установить путь до моделек

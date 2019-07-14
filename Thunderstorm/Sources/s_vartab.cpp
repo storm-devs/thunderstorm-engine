@@ -24,9 +24,9 @@ void  S_VARTAB::Release()
 {
 	uint32_t n;
 	for(n=0;n<Var_num;n++)	
-	{ 
-		if(pTable[n].pDClass) delete pTable[n].pDClass;
-		if(pTable[n].name) delete pTable[n].name;	
+	{
+		delete pTable[n].pDClass;
+		delete pTable[n].name;	
 	}
 	pTable.clear();
 	Buffer_size = 0;
@@ -79,7 +79,7 @@ uint32_t S_VARTAB::AddVar(VARINFO& vi)
 				// name the same, but type or dimension different - recreate (keep old name and hash)
 				pTable[n].elements = vi.elements;
 				pTable[n].type = vi.type;
-				if(pTable[n].pDClass) delete pTable[n].pDClass;
+				delete pTable[n].pDClass;
 				
 				pTable[n].pDClass = new DATA;
 				pTable[n].pDClass->SetVCompiler(pVCompiler);

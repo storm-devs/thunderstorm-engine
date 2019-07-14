@@ -199,7 +199,7 @@ uint32_t CXI_UTILS::StringGetColor( const char* pcARGBString )
 
 void CXI_UTILS::StringDoublicate( const char* pcSrc, char*& pcDst )
 {
-	if( pcDst ) delete pcDst;
+	delete pcDst;
 	pcDst = nullptr;
 	if( pcSrc )
 	{

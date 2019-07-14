@@ -439,7 +439,7 @@ SOURCE_VIEW::SOURCE_VIEW(HWND _hMain, HINSTANCE _hInst)
 
 SOURCE_VIEW::~SOURCE_VIEW()
 {
-	if(pSourceFile) delete pSourceFile;
+	delete pSourceFile;
 
 	INIFILE * pI = fio->OpenIniFile(PROJECT_NAME);
 	if (pI)
@@ -509,7 +509,7 @@ bool SOURCE_VIEW::OpenSourceFile(const char * _filename)
 	uint32_t nDataSize = fio->_GetFileSize(fh, nullptr);
 
 	nTopLine = 0;
-	if(pSourceFile) delete pSourceFile; 
+	delete pSourceFile; 
 	nSourceFileSize = 0;
 	nLinesNum = 0;
 	nActiveLine = 0xffffffff;

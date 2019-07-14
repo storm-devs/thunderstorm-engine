@@ -26,16 +26,16 @@ Bone::Bone()
 
 Bone::~Bone()
 {
-	if(ang) delete ang;
-	if(pos) delete pos;
+	delete ang;
+	delete pos;
 }
 
 
 //Сказать сколько будет кадров анимации
 void Bone::SetNumFrames(long num, CVECTOR & sPos, bool isRoot)
 {
-	if(ang) delete ang;
-	if(pos) delete pos;
+	delete ang;
+	delete pos;
 	ang = nullptr;
 	pos = nullptr;
 	numFrames = num;

@@ -571,7 +571,7 @@ long TOKEN::SetTokenData(char * pointer, bool bKeepControlSymbols)
 	}
 	if(Data_size >= TokenDataBufferSize)
 	{
-		if(pTokenData) delete pTokenData;
+		delete pTokenData;
 
 		pTokenData = new char[Data_size + 1];
 		TokenDataBufferSize = Data_size + 1;

@@ -159,7 +159,7 @@ ANIMATION *GEOMETRY::LoadAnimation(const char *anim)
 
 void GEOMETRY::DeleteGeometry(GEOS * gid)
 {
-	if(gid) delete gid;
+	delete gid;
 }
 
 
@@ -221,7 +221,7 @@ void * GEOM_SERVICE_R::malloc(long bytes)
 
 void GEOM_SERVICE_R::free(void *ptr)
 {
-	if(ptr)	delete ptr;
+	delete ptr;
 }
 
 GEOS::ID GEOM_SERVICE_R::CreateTexture(const char *fname)

@@ -65,7 +65,7 @@ CharactersGroups::String::String(const char * str)
 
 CharactersGroups::String::~String()
 {
-	if(name) delete name;
+	delete name;
 }
 
 void CharactersGroups::String::operator = (const char * str)
@@ -79,7 +79,7 @@ void CharactersGroups::String::operator = (const char * str)
 		len = strlen(str);
 		if(len + 1 > max)
 		{
-			if(name) delete name;
+			delete name;
 			max = (len + 16) & ~15;
 			name = new char[max];
 		}

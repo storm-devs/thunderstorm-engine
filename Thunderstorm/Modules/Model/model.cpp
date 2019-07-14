@@ -28,12 +28,12 @@ CMatrix *bones;
 MODELR::~MODELR()
 {
 	if(d3dDestVB!=nullptr)	d3dDestVB->Release();
-	if(root) delete root;
+	delete root;
 	for(int i = 0; i < MODEL_ANI_MAXBUFFERS; i++)
-		if(aniVerts[i].v) delete aniVerts[i].v;
-	if(ani) delete ani;
+		delete aniVerts[i].v;
+	delete ani;
 
-	if(idxBuff!=nullptr)	delete idxBuff;
+	delete idxBuff;
 }
 
 bool MODELR::Init()

@@ -115,7 +115,7 @@ public:
 	{
 		if(_val == nullptr)
 		{
-			if(Attribute) delete Attribute;
+			delete Attribute;
 			Attribute = nullptr;
 			return;
 		}
@@ -451,10 +451,8 @@ public:
 				}
 				else
 				{
-					if(pAttributes[n]->Attribute)
-					{
-						delete[] pAttributes[n]->Attribute;
-					}
+					delete[] pAttributes[n]->Attribute;
+
 					pAttributes[n]->Attribute = nullptr;
 				}
 				return n;

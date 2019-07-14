@@ -126,7 +126,7 @@ bool DATA::IsAReference()
 void DATA::Release()
 {
 	uint32_t n;
-	if(sValue) delete sValue; sValue = nullptr;
+	delete sValue; sValue = nullptr;
 	if(bArray)
 	{
 		/*for(n=0;n<Number_of_elements;n++)
@@ -283,7 +283,7 @@ void DATA::Set(char * value)
 	}
 	if(bArray) {Error(NO_INDEX); return;}
 	Data_type = VAR_STRING;
-	if(sValue) delete sValue;
+	delete sValue;
 	sValue = nullptr;
 	if(value == nullptr) return;
 
@@ -715,12 +715,9 @@ void DATA::ClearType()
 {
 	if(Data_type != VAR_AREFERENCE) 
 	{
-		if(AttributesClass) 
-		{
-			delete AttributesClass; 
-		}
+		delete AttributesClass;
 	}
-	if(sValue) delete sValue; sValue = nullptr;
+	delete sValue; sValue = nullptr;
 	AttributesClass = nullptr;
 	Data_type = UNKNOWN;
 	pReference = nullptr;
@@ -1774,7 +1771,7 @@ bool DATA::Copy(DATA * pV)
 
 	if(Data_type == VAR_STRING)
 	{
-		if(sValue) delete sValue; sValue = nullptr;
+		delete sValue; sValue = nullptr;
 	}
 
 	switch(pV->Data_type)

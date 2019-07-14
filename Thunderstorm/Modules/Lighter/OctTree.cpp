@@ -24,7 +24,7 @@ OctTree::OTNode::OTNode(CVECTOR & _min, CVECTOR & _max)
 
 OctTree::OTNode::~OTNode()
 {
-	if(vrt) delete vrt;
+	delete vrt;
 	for(long i = 0; i < 8; i++) if(node[i]) delete node[i];
 }
 

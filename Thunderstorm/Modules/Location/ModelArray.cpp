@@ -134,11 +134,11 @@ void ModelArray::DeleteModel(long modelIndex)
 {
 	Assert(modelIndex >= 0 && modelIndex < numModels);
 	//Удаляем эфекты
-	if(model[modelIndex].slider) delete model[modelIndex].slider;
+	delete model[modelIndex].slider;
 	model[modelIndex].slider = nullptr;
-	if(model[modelIndex].rotator) delete model[modelIndex].rotator;
+	delete model[modelIndex].rotator;
 	model[modelIndex].rotator = nullptr;
-	if(model[modelIndex].reflection) delete model[modelIndex].reflection;
+	delete model[modelIndex].reflection;
 	model[modelIndex].reflection = nullptr;
 	//Удаляем модельку
 	EntityManager::EraseEntity(model[modelIndex].modelrealizer);

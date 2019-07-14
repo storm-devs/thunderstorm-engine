@@ -27,7 +27,7 @@ CameraDialog::~CameraDialog()
 {
 	//api->FreeService("coll");
 //	ShowCursor(true);
-	if(track)	delete track;
+	delete track;
 }
 
 bool CameraDialog::Init()
@@ -210,7 +210,7 @@ uint64_t CameraDialog::ProcessMessage(MESSAGE &msg)
 			time = 0.0f;
 			char trackName[256];
 			msg.String(sizeof trackName, trackName);
-			if(track!=nullptr)	delete track;
+			delete track;
 
 			char fname[256];
 			strcpy_s(fname, "resource\\animation\\");

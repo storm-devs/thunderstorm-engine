@@ -31,10 +31,9 @@ TIVBufferManager::TIVBufferManager(VDX9RENDER *_renderer, long _vType, long _vSi
 //--------------------------------------------------------------------
 TIVBufferManager::~TIVBufferManager()
 {
-	if (used)
-		delete[] used;
-	if (ivIndexes)
-		delete[] ivIndexes;
+	delete[] used;
+
+	delete[] ivIndexes;
 	if (vBuffer)
 		renderer->ReleaseVertexBuffer(vBuffer);
 	if (iBuffer)

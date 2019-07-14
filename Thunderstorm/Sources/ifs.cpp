@@ -23,8 +23,8 @@ KEY_NODE::KEY_NODE()
 
 KEY_NODE::~KEY_NODE()
 {
-	if(key_name) delete key_name;
-	if(key_val) delete key_val;
+	delete key_name;
+	delete key_val;
 	//if(l_PTR) delete l_PTR;
 	//if(r_PTR) delete r_PTR;
 }
@@ -32,7 +32,7 @@ KEY_NODE::~KEY_NODE()
 void KEY_NODE::SetName(const char * name)
 {
 	if(name == nullptr) return;
-	if(key_name) delete key_name; key_name = nullptr;
+	delete key_name; key_name = nullptr;
 	name_size = strlen(name) + 1;
 
 	key_name = new char[name_size];
@@ -43,7 +43,7 @@ void KEY_NODE::SetName(const char * name)
 void KEY_NODE::SetValue(const char * value)
 {
 	if(value == nullptr) return;
-	if(key_val) delete key_val; key_val = nullptr;
+	delete key_val; key_val = nullptr;
 	val_size = strlen(value) + 1;
 
 	key_val = new char[val_size];
@@ -148,12 +148,12 @@ SECTION::~SECTION()
 		Root->Deattach(&Root,&Top);
 		delete old_root;
 	}
-	if(Name) delete Name;
+	delete Name;
 }
 
 void SECTION::SetName(const char * name)
 {
-	if(Name) delete Name;
+	delete Name;
 	if(name == nullptr)
 	{
 		Name = nullptr;
@@ -299,7 +299,7 @@ IFS::IFS(VFILE_SERVICE * _fs)
 IFS::~IFS()
 {
 	FlushFile();
-	if(FileName) delete FileName;
+	delete FileName;
 	while(SectionRoot)
 	{
 		SECTION* old_root = SectionRoot;

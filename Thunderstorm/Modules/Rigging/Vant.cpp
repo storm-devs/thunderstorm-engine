@@ -842,8 +842,7 @@ void VANT::DoSTORM_DELETE()
         // если группа пустая, то удалим ее
         if(gs==0)
         {
-            if(gdata[gn].vantIdx)
-                delete gdata[gn].vantIdx;
+	        delete gdata[gn].vantIdx;
             continue;
         }
 

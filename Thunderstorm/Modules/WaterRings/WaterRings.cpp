@@ -19,8 +19,7 @@ WaterRings::WaterRings()
 //------------------------------------------------------------------------------------
 WaterRings::~WaterRings()
 {
-	if (ivManager)
-		delete ivManager;
+	delete ivManager;
 	renderService->TextureRelease(ringTexture);
 }
 
