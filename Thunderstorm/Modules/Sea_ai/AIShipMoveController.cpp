@@ -36,7 +36,7 @@ void AIShipMoveController::Execute(float fDeltaTime)
 	fMoveTime -= fDeltaTime;
 
 	if (isStopped() || GetAIShip()->isMainCharacter()) return;
-	SHIP_BASE *pShip = (SHIP_BASE*)GetAIShip()->GetShipPointer();
+	auto*pShip = (SHIP_BASE*)GetAIShip()->GetShipPointer();
 	Assert(pShip);
 
 	CVECTOR vCurPos = GetAIShip()->GetPos();

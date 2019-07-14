@@ -39,7 +39,7 @@ void ShipTracks::ResetTrack(SHIP_BASE * pShip)
 
 void ShipTracks::AddShip(SHIP_BASE * pShip)
 {
-	ShipTrack * pST = new ShipTrack;
+	auto* pST = new ShipTrack;
 	
 	if (pST->Update(pShip))
 		aShips.push_back(pST);
@@ -175,7 +175,7 @@ bool ShipTracks::ShipTrack::Reserve1(uint32_t dwSize)
 		return false;
 	}
 
-	uint16_t * pI = (uint16_t*)pRS->LockIndexBuffer(iITmpBuffer1);
+	auto* pI = (uint16_t*)pRS->LockIndexBuffer(iITmpBuffer1);
 	for (uint32_t y=0; y<dwNewSize; y++)
 		for (uint32_t x=0; x<dwTrackStep1 - 1; x++)
 		{
@@ -214,7 +214,7 @@ bool ShipTracks::ShipTrack::Reserve2(uint32_t dwSize)
 		return false;
 	}
 
-	uint16_t * pI = (uint16_t*)pRS->LockIndexBuffer(iITmpBuffer2);
+	auto* pI = (uint16_t*)pRS->LockIndexBuffer(iITmpBuffer2);
 	for (uint32_t y=0; y<dwNewSize; y++)
 		for (uint32_t x=0; x<dwTrackStep2 - 1; x++)
 		{
@@ -318,7 +318,7 @@ void ShipTracks::ShipTrack::Execute(float fDeltaTime)
 	if (Reserve1(aTrack1.size()))
 		if (aTrack1.size() > 1) 
 		{
-			TrackVertex * pV = (TrackVertex *)pRS->LockVertexBuffer(iVTmpBuffer1, D3DLOCK_DISCARD);
+			auto* pV = (TrackVertex *)pRS->LockVertexBuffer(iVTmpBuffer1, D3DLOCK_DISCARD);
 			for (long i=0; i<aTrack1.size(); i++)
 			{
 				Track & T = aTrack1[i];
@@ -360,7 +360,7 @@ void ShipTracks::ShipTrack::Execute(float fDeltaTime)
 	if (Reserve2(aTrack2.size()))
 		if (aTrack2.size() > 1)
 		{
-			TrackVertex * pV = (TrackVertex *)pRS->LockVertexBuffer(iVTmpBuffer2, D3DLOCK_DISCARD);
+			auto* pV = (TrackVertex *)pRS->LockVertexBuffer(iVTmpBuffer2, D3DLOCK_DISCARD);
 			for (long i=0; i<aTrack2.size(); i++)
 			{
 				Track & T = aTrack2[i];

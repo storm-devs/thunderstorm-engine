@@ -124,7 +124,7 @@ void WdmWindUI::LRender(VDX9RENDER * rs)
 	wdmObjects->playerShip->GetPosition(x, y, ay);
 	CVECTOR windDir;
 	float widForce = wdmObjects->GetWind(x, y, windDir);
-	float ang = (float)atan2(windDir.x, windDir.z);
+	auto ang = (float)atan2(windDir.x, windDir.z);
 	//Параметры экрана
 	float w, h;
 	wdmObjects->GetVPSize(w, h);

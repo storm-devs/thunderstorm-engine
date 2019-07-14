@@ -67,7 +67,7 @@ bool Tornado::Init()
 	if(ib < 0) return false;
 	vb = rs->CreateVertexBuffer(D3DFVF_XYZ | D3DFVF_DIFFUSE, pillar.GetNumVerteces()*sizeof(Pillar::Vertex), D3DUSAGE_WRITEONLY);
 	if(vb < 0) return false;
-	uint16_t * ibpnt = (uint16_t *)rs->LockIndexBuffer(ib);
+	auto* ibpnt = (uint16_t *)rs->LockIndexBuffer(ib);
 	if(!ibpnt) return false;
 	pillar.FillIndexBuffer(ibpnt);
 	rs->UnLockIndexBuffer(ib);
@@ -123,7 +123,7 @@ void Tornado::Realize(uint32_t delta_time)
 	//Облака
 	noiseCloud.Draw(rs);
 	//Столб
-	Pillar::Vertex * vrt = (Pillar::Vertex *)rs->LockVertexBuffer(vb);
+	auto* vrt = (Pillar::Vertex *)rs->LockVertexBuffer(vb);
 	if(!vrt) return;
 	rs->TextureSet(0, -1);
 	pillar.FillVertexBuffer(vrt);

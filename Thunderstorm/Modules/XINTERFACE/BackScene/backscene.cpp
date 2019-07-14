@@ -500,7 +500,7 @@ void InterfaceBackScene::CreateMenuList( long nStartIndex, ATTRIBUTES* pAMenu )
 		{
 			api->Trace( "Warning! Interface Back scene: Can`t find locator %s", pA->GetAttribute("locname") );
 		}
-		MenuDescr* pMD = new MenuDescr;
+		auto* pMD = new MenuDescr;
 		Assert(pMD);;
 		pMD->Set( &mtx, pA->GetAttribute("sel"), pA->GetAttribute("norm"), pA->GetAttribute("event"), pA->GetAttribute("path"), pA->GetAttribute("technique") );
 		m_aMenuDescr.push_back( pMD );
@@ -552,7 +552,7 @@ void InterfaceBackScene::ExecuteMenu( long nMenuIndex )
 long InterfaceBackScene::CheckMousePos( float fX, float fY )
 {
 	float fW = (float)XINTERFACE::pThis->GetScreenWidth();
-	float fH = (float)XINTERFACE::pThis->GetScreenHeight();
+	auto fH = (float)XINTERFACE::pThis->GetScreenHeight();
 	float fRelX = 2.f * fX / fW - 1.f;
 	float fRelY = 2.f * fY / fH - 1.f;
 
@@ -583,7 +583,7 @@ void InterfaceBackScene::InitLight( ATTRIBUTES* pAParam )
 {
 	if( !pAParam ) return;
 
-	LightParam* pLight = new LightParam();
+	auto* pLight = new LightParam();
 	Assert(pLight);
 
 	m_aLights.push_back(pLight);
@@ -803,11 +803,11 @@ void InterfaceBackScene::InitAniModel( ATTRIBUTES* pAParam )
 	CMatrix mtx;
 	if( !FindLocator( pAParam->GetAttribute("locator"), &mtx, nullptr, nullptr ) ) mtx.SetIdentity();
 
-	AniModelDescr* pObj = new AniModelDescr;
+	auto* pObj = new AniModelDescr;
 	Assert(pObj);
 
-	ANIMATION* pAniService = (ANIMATION*)api->CreateService("AnimationServiceImp");
-	VGEOMETRY* pGeo = (VGEOMETRY*)api->CreateService("Geometry");
+	auto* pAniService = (ANIMATION*)api->CreateService("AnimationServiceImp");
+	auto* pGeo = (VGEOMETRY*)api->CreateService("Geometry");
 	if( pGeo ) pGeo->SetTexturePath("MainMenu\\");
 	// create model
 	pObj->ei = EntityManager::CreateEntity( "MODELR" );
@@ -847,10 +847,10 @@ void InterfaceBackScene::InitStaticModel( ATTRIBUTES* pAParam )
 	CMatrix mtx;
 	if( !FindLocator( pAParam->GetAttribute("locator"), &mtx, nullptr, nullptr ) ) mtx.SetIdentity();
 
-	AniModelDescr* pObj = new AniModelDescr;
+	auto* pObj = new AniModelDescr;
 	Assert(pObj);
 
-	VGEOMETRY* pGeo = (VGEOMETRY*)api->CreateService("Geometry");
+	auto* pGeo = (VGEOMETRY*)api->CreateService("Geometry");
 	if( pGeo ) pGeo->SetTexturePath("MainMenu\\");
 	// create model
 	pObj->ei = EntityManager::CreateEntity( "MODELR" );
@@ -990,7 +990,7 @@ void InterfaceBackScene::DrawParticles(void * prts, long num, long size, long te
 	long n = 0;
 	for(long i = 0; i < num; i++)
 	{
-		Particle * parts = (Particle *)prts;
+		auto* parts = (Particle *)prts;
 		prts = (char *)prts + size;
 		CVECTOR pos = camMtx*parts->pos;
 		float size = parts->size*0.5f;

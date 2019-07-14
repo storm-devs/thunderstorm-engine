@@ -248,7 +248,7 @@ void CXI_SLIDELINE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 
 	m_dwDisableColor = GetIniARGB(ini1,name1, ini2,name2, "disablecolor", 0xA04C4C4C);
 
-	XI_ONLYONETEX_VERTEX *pv = (XI_ONLYONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
+	auto*pv = (XI_ONLYONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
 	if(pv)
 	{
 		for(i=0; i<8; i++) pv[i].pos.z = 1.f;
@@ -263,7 +263,7 @@ void CXI_SLIDELINE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 		pv[0].pos.y = pv[2].pos.y = (float)m_rect.top;
 		pv[1].pos.y = pv[3].pos.y = (float)m_rect.bottom;
 
-		float left = (float)(m_rect.left + m_nBaseLeft - m_nPointerLeft);
+		auto left = (float)(m_rect.left + m_nBaseLeft - m_nPointerLeft);
 		float right = (float)(m_rect.right - m_nBaseLeft + m_nPointerLeft - m_nPointerWidth);
 		left = left + (right-left)/m_nGrateQuantity*m_nCurValue;
 
@@ -285,11 +285,11 @@ void CXI_SLIDELINE::SetNewValue(long newValue)
 	if(newValue<0 || m_nCurValue==newValue || newValue>m_nGrateQuantity) return;
 	m_nCurValue=newValue;
 
-	float left = (float)(m_rect.left + m_nBaseLeft - m_nPointerLeft);
-	float right = (float)(m_rect.right - m_nBaseLeft + m_nPointerLeft - m_nPointerWidth);
+	auto left = (float)(m_rect.left + m_nBaseLeft - m_nPointerLeft);
+	auto right = (float)(m_rect.right - m_nBaseLeft + m_nPointerLeft - m_nPointerWidth);
 	left = left + (right-left)/m_nGrateQuantity*m_nCurValue;
 
-	XI_ONLYONETEX_VERTEX *pv = (XI_ONLYONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
+	auto*pv = (XI_ONLYONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
 	if(pv)
 	{
 		pv[4].pos.x = pv[5].pos.x = left;

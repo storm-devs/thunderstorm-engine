@@ -107,12 +107,12 @@ bool Window::Init(VDX9RENDER * rs)
 		D3DLOCKED_RECT lockedRect;
 		if(rs->LockRect(pickerTexture, 0, &lockedRect, nullptr, 0) == D3D_OK)
 		{
-			uint8_t * pnt = (uint8_t *)lockedRect.pBits;
+			auto* pnt = (uint8_t *)lockedRect.pBits;
 			for(long y = 0; y < 256; y++)
 				for(long x = 0; x < 256; x++, pnt += 4)
 				{
-					float r = float(x);
-					float g = float(y);
+					auto r = float(x);
+					auto g = float(y);
 					float b = float(255 - x);
 					float k = r > g ? r : g;
 					if(k < b) k = b;

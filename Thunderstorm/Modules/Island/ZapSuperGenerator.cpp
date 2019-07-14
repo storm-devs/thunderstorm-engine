@@ -10,7 +10,7 @@ bool ISLAND::DoZapSuperGeneratorDecodeFile(char * sname)
 
 		fio->_ReadFile(hFile, &tga_head, sizeof(tga_head), nullptr);
 		uint32_t dwSize = tga_head.width;
-		uint8_t * pTempMap = new uint8_t[dwSize * dwSize];
+		auto* pTempMap = new uint8_t[dwSize * dwSize];
 		fio->_ReadFile(hFile, pTempMap, dwSize * dwSize, nullptr);
 		fio->_CloseHandle(hFile);
 

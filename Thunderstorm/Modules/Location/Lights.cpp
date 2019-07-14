@@ -243,7 +243,7 @@ void Lights::Realize(uint32_t delta_time)
 		//Позиция
 		CVECTOR pos = camMtx*CVECTOR(ls.pos.x, ls.pos.y, ls.pos.z);
 		//Цвет
-		uint32_t c = uint32_t(alpha); c |= (c << 24) | (c << 16) | (c << 8);
+		auto c = uint32_t(alpha); c |= (c << 24) | (c << 16) | (c << 8);
 		//Угол поворота
 		float cs, sn;
 		if(dist > 0.0f)

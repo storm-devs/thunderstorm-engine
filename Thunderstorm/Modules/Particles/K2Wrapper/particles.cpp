@@ -151,7 +151,7 @@ uint64_t PARTICLES::ProcessMessage(MESSAGE & message)
 			normal.x = message.Float();
 			normal.y = message.Float();
 			normal.z = message.Float();
-			double fLen = (double)normal.Normalize();
+			auto fLen = (double)normal.Normalize();
 
 			if (fLen)
 			{
@@ -227,7 +227,7 @@ PARTICLE_SYSTEM* PARTICLES::CreateSystem (const char* pFileName, uint32_t LifeTi
 
 	pSys->AutoDelete(false);
 
-	PARTICLE_SYSTEM* pNewPS = new PARTICLE_SYSTEM(pSys);
+	auto* pNewPS = new PARTICLE_SYSTEM(pSys);
 	pNewPS->SetManager(this);
 
 

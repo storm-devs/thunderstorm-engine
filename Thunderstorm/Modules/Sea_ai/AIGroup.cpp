@@ -174,7 +174,7 @@ float AIGroup::GetPower()
 AIGroup * AIGroup::CreateNewGroup(const char * pGroupName)
 {
 	Assert(pGroupName);
-	AIGroup * pAIGroup = new AIGroup(pGroupName);
+	auto* pAIGroup = new AIGroup(pGroupName);
 	AIGroup::AIGroups.push_back(pAIGroup);
 
 	return pAIGroup;

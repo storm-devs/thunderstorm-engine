@@ -349,7 +349,7 @@ void ParticleManager::DeleteAllSystems ()
 
 ParticleSystem* ParticleManager::CreateParticleSystemFromDataSource (DataSource* pDataSource)
 {
-	ParticleSystem* pSys = new ParticleSystem(this);
+	auto* pSys = new ParticleSystem(this);
 	pSys->CreateFromDataSource(pDataSource);
 
 	SystemDesc SysDesc;

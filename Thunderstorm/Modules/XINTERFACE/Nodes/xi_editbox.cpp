@@ -241,9 +241,9 @@ void CXI_EDITBOX::ChangePosition( XYRECT &rNewPos )
 	m_rect = rNewPos;
 
 	// fills this buffers
-	float fBottomOff = (float)m_nTopOffset;
+	auto fBottomOff = (float)m_nTopOffset;
 	m_nTopStringPos = m_rect.top + m_nTopOffset;
-	XI_NOTEX_VERTEX* pv = (XI_NOTEX_VERTEX*)m_rs->LockVertexBuffer(m_idVBRect);
+	auto* pv = (XI_NOTEX_VERTEX*)m_rs->LockVertexBuffer(m_idVBRect);
 	pv[0].color = pv[1].color = pv[2].color = pv[3].color = m_dwBorderColor;
 	pv[4].color = pv[5].color = pv[6].color = pv[7].color = m_dwEditBoxColor;
 	pv[0].pos.z = pv[1].pos.z = pv[2].pos.z = pv[3].pos.z =
@@ -258,8 +258,8 @@ void CXI_EDITBOX::ChangePosition( XYRECT &rNewPos )
 	m_nTopOffset = long(pv[5].pos.y = pv[7].pos.y = (float)m_rect.top+m_nTopOffset + m_rs->CharHeight(m_nStrFontNum)*1.06f) + 4;
 	m_rs->UnLockVertexBuffer(m_idVBRect);
 
-	XI_ONLYONETEX_VERTEX* pvt = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVB);
-	float topButtons = (float)m_nTopOffset;
+	auto* pvt = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVB);
+	auto topButtons = (float)m_nTopOffset;
 	idx = 0;
 	for(j=0; j<m_nVert; j++)
 	{
@@ -382,9 +382,9 @@ void CXI_EDITBOX::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 		throw std::exception("Can't create buffers");
 
 	// fills this buffers
-	float fBottomOff = (float)m_nTopOffset;
+	auto fBottomOff = (float)m_nTopOffset;
 	m_nTopStringPos = m_rect.top + m_nTopOffset;
-	XI_NOTEX_VERTEX* pv = (XI_NOTEX_VERTEX*)m_rs->LockVertexBuffer(m_idVBRect);
+	auto* pv = (XI_NOTEX_VERTEX*)m_rs->LockVertexBuffer(m_idVBRect);
 	pv[0].color = pv[1].color = pv[2].color = pv[3].color = m_dwBorderColor;
 	pv[4].color = pv[5].color = pv[6].color = pv[7].color = m_dwEditBoxColor;
 	pv[0].pos.z = pv[1].pos.z = pv[2].pos.z = pv[3].pos.z =
@@ -407,11 +407,11 @@ void CXI_EDITBOX::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	m_fHAdd = (float)(m_rect.right-m_rect.left - m_nLeftOffset*2)/m_nHorz;
 
 	XI_ONLYONETEX_VERTEX* pvt = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVB);
-	float topButtons = (float)m_nTopOffset;
+	auto topButtons = (float)m_nTopOffset;
 	idx=0;
 	for(j=0; j<m_nVert; j++)
 	{
-		float left = float(m_rect.left + m_nLeftOffset);
+		auto left = float(m_rect.left + m_nLeftOffset);
 		for(i=0; i<m_nHorz; i++)
 		{
 			pvt[idx].pos.z = pvt[idx+1].pos.z = pvt[idx+2].pos.z = pvt[idx+3].pos.z = 1.f;
@@ -432,7 +432,7 @@ void CXI_EDITBOX::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	}
 	m_rs->UnLockVertexBuffer(m_idVB);
 
-	uint16_t * pt = (uint16_t*)m_rs->LockIndexBuffer(m_idIB);
+	auto* pt = (uint16_t*)m_rs->LockIndexBuffer(m_idIB);
 	for(j=i=0; i<idx; i+=4,j+=6)
 	{
 		pt[j] = i;	pt[j+1] = i+1;	pt[j+2] = i+2;
@@ -453,7 +453,7 @@ void CXI_EDITBOX::SetNewCurSymbol(int h, int v)
 	if(newNum>=m_nAlphaQuantity) newNum = h;
 	if(newNum>=m_nAlphaQuantity) newNum = -1;
 	if(m_nCurAlphaNum==newNum) return;
-	XI_ONLYONETEX_VERTEX* pvt = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVB);
+	auto* pvt = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVB);
 	int idx;
 	if(m_nCurAlphaNum>=0)
 	{

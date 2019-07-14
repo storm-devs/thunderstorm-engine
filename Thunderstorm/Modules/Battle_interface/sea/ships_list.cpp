@@ -149,7 +149,7 @@ void SHIP_DESCRIBE_LIST::Add(long mainChrIndex, long chIdx, ATTRIBUTES * pChAttr
 {
 	assert(pChAttr!=NULL);
 	assert(pShipAttr!=NULL);
-	SHIP_DESCR * pr = new SHIP_DESCR;
+	auto* pr = new SHIP_DESCR;
 	if(pr== nullptr)
 	{
 		throw std::exception("Can`t allocate memory");

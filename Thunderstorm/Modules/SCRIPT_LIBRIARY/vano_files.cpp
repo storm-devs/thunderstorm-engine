@@ -7,7 +7,7 @@
 
 uint32_t _RDTSC_B(VS_STACK * pS)
 {
-	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
+	auto* pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
 	uint64_t dwRDTSC;
 	RDTSC_B(dwRDTSC);
 	pVR->Set((long)dwRDTSC);
@@ -16,8 +16,8 @@ uint32_t _RDTSC_B(VS_STACK * pS)
 
 uint32_t _RDTSC_E(VS_STACK * pS)
 {
-	VDATA * pValue = (VDATA*)pS->Pop();
-	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
+	auto* pValue = (VDATA*)pS->Pop();
+	auto* pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
 	uint64_t dwRDTSC =	(uint32_t)pValue->GetLong();
 	RDTSC_E(dwRDTSC);
 	pVR->Set((long)dwRDTSC);
@@ -26,8 +26,8 @@ uint32_t _RDTSC_E(VS_STACK * pS)
 
 uint32_t _Clampf(VS_STACK * pS)
 {
-	VDATA * pValue = (VDATA*)pS->Pop();
-	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
+	auto* pValue = (VDATA*)pS->Pop();
+	auto* pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
 	pVR->Set(Clamp(pValue->GetFloat()));
 
 	return IFUNCRESULT_OK;
@@ -35,7 +35,7 @@ uint32_t _Clampf(VS_STACK * pS)
 
 uint32_t _Degree2Radian(VS_STACK * pS)
 {
-	VDATA * pValue = (VDATA*)pS->Pop();
+	auto* pValue = (VDATA*)pS->Pop();
 	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
 
 	pVR->Set(PIm2 * pValue->GetFloat() / 360.0f);
@@ -51,7 +51,7 @@ uint32_t _Bring2Range(VS_STACK * pS)
 	VDATA * pMax1 = (VDATA*)pS->Pop();
 	VDATA * pMin1 = (VDATA*)pS->Pop();
 
-	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
+	auto* pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
 	pVR->Set(Bring2Range(pMin1->GetFloat(), pMax1->GetFloat(), pMin2->GetFloat(), pMax2->GetFloat(), pValue->GetFloat()));
 
 	return IFUNCRESULT_OK;
@@ -59,13 +59,13 @@ uint32_t _Bring2Range(VS_STACK * pS)
 
 uint32_t _Bring2RangeNoCheck(VS_STACK * pS)
 {
-	VDATA * pValue = (VDATA*)pS->Pop();
-	VDATA * pMax2 = (VDATA*)pS->Pop();
+	auto* pValue = (VDATA*)pS->Pop();
+	auto* pMax2 = (VDATA*)pS->Pop();
 	VDATA * pMin2 = (VDATA*)pS->Pop();
-	VDATA * pMax1 = (VDATA*)pS->Pop();
-	VDATA * pMin1 = (VDATA*)pS->Pop();
+	auto* pMax1 = (VDATA*)pS->Pop();
+	auto* pMin1 = (VDATA*)pS->Pop();
 
-	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
+	auto* pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
 	pVR->Set(Bring2RangeNoCheck(pMin1->GetFloat(), pMax1->GetFloat(), pMin2->GetFloat(), pMax2->GetFloat(), pValue->GetFloat()));
 
 	return IFUNCRESULT_OK;

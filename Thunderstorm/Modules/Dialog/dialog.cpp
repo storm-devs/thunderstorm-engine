@@ -473,7 +473,7 @@ void DIALOG::FillDivider()
 	if( !m_BackParams.bShowDivider ) return;
 
 	XI_TEX_VERTEX * pV = (XI_TEX_VERTEX*)RenderService->LockVertexBuffer( m_idVBufBack );
-	float fDividerY = (float)(textViewport.Y + m_BackParams.nDividerOffsetY);
+	auto fDividerY = (float)(textViewport.Y + m_BackParams.nDividerOffsetY);
 	SetVerticesForSquare( &pV[m_nVQntBack-4], m_BackParams.m_frDividerUV,
 		m_BackParams.m_frBorderInt.left+m_BackParams.nDividerOffsetX, fDividerY,
 		m_BackParams.m_frBorderInt.right-m_BackParams.nDividerOffsetX, fDividerY + m_BackParams.nDividerHeight );
@@ -499,7 +499,7 @@ void DIALOG::CreateButtons()
 	if( m_idIBufButton == -1 )
 		m_idIBufButton = RenderService->CreateIndexBuffer( m_nIQntButton * sizeof(uint16_t) );
 
-	uint16_t * pI = (uint16_t*)RenderService->LockIndexBuffer( m_idIBufButton );
+	auto* pI = (uint16_t*)RenderService->LockIndexBuffer( m_idIBufButton );
 	if( pI )
 	{
 		for( long n=0; n<2; n++ )

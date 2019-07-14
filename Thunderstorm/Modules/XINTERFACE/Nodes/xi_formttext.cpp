@@ -44,7 +44,7 @@ CXI_FORMATEDTEXT::STRING_DESCRIBER* CXI_FORMATEDTEXT::STRING_DESCRIBER::Add(char
 {
 	if(ls== nullptr)
 		return nullptr;
-	STRING_DESCRIBER* newSD = new STRING_DESCRIBER(ls);
+	auto* newSD = new STRING_DESCRIBER(ls);
 	if(newSD== nullptr)
 	{
 		throw std::exception("allocate memory error");
@@ -1220,7 +1220,7 @@ void CXI_FORMATEDTEXT::CheckScrollButtons()
 	if( m_idUpEnableTexture==-1 && m_idUpDisableTexture==-1 &&
 		m_idDownEnableTexture==-1 && m_idDownDisableTexture==-1 ) return;
 
-	XI_ONLYONETEX_VERTEX * pv = (XI_ONLYONETEX_VERTEX *)m_rs->LockVertexBuffer(m_idVBuf);
+	auto* pv = (XI_ONLYONETEX_VERTEX *)m_rs->LockVertexBuffer(m_idVBuf);
 	if(pv!= nullptr)
 	{
 		if(oldUp!=m_bUpEnable )
@@ -1394,7 +1394,7 @@ void CXI_FORMATEDTEXT::InsertStringBefore( STRING_DESCRIBER * pNextDescr, const 
 	// разложим полученную строку на строки влезающие в область вывода
 	while( GetLineNext(m_idFont,pstr,newStr,sizeof(newStr)) )
 	{
-		STRING_DESCRIBER * pNewDescr = new STRING_DESCRIBER(newStr);
+		auto* pNewDescr = new STRING_DESCRIBER(newStr);
 		if( !pNewDescr ) {throw std::exception("allocate memory error");}
 
 		pNewDescr->strNum = -1;

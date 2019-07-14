@@ -90,7 +90,7 @@ uint64_t Blots::ProcessMessage(MESSAGE & message)
 void Blots::Hit(MESSAGE & message)
 {
 	//Моделька коробля
-	MODEL * m = (MODEL *)EntityManager::GetEntityPointer(model);
+	auto* m = (MODEL *)EntityManager::GetEntityPointer(model);
 	if(!m) return;
 	//Позиция
 	CVECTOR pos;
@@ -125,7 +125,7 @@ void Blots::Hit(MESSAGE & message)
 void Blots::AddBlot(long i, long rnd, const CVECTOR & lpos, const CVECTOR & dir, float time)
 {
 	//Моделька коробля
-	MODEL * m = (MODEL *)EntityManager::GetEntityPointer(model);
+	auto* m = (MODEL *)EntityManager::GetEntityPointer(model);
 	if(!m) return;
 	blot[i].isUsed = false;
 	CVECTOR pos = m->mtx*CVECTOR(lpos);
@@ -292,7 +292,7 @@ void Blots::Realize(uint32_t delta_time)
 	if(updateBlot >= BLOTS_MAX) updateBlot = 0;
 	SaveBlot(updateBlot);
 	//Моделька коробля
-	MODEL * m = (MODEL *)EntityManager::GetEntityPointer(model);
+	auto* m = (MODEL *)EntityManager::GetEntityPointer(model);
 	if(!m) return;
 	//Расстояние от камеры
 	CVECTOR pos, ang;

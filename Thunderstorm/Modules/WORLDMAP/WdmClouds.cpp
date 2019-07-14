@@ -192,7 +192,7 @@ long WdmClouds::Cloud::FillRects(RS_RECT * rects, long cnt, float galpha)
 	{
 		Cld & c = cloud[i];
 		//Вычисляем альфу
-		float a = float(uint8_t(c.color >> 24));
+		auto a = float(uint8_t(c.color >> 24));
 		a *= alpha;
 		a *= 0.1f + c.alpha*0.9f;
 		long la = long(a*galpha);

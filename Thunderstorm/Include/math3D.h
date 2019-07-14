@@ -139,7 +139,7 @@ inline float NormAnglePI(float angle)
 //ѕосчитать acos с ограничением диапазона
 inline float safeACos(float ang)
 {
-	double d = (double)ang;
+	auto d = (double)ang;
 	if(d < -1.0) d = -1.0;
 	if(d > 1.0) d = 1.0;
 	d = acos(d);
@@ -149,7 +149,7 @@ inline float safeACos(float ang)
 //ѕосчитать asin с ограничением диапазона
 inline float safeASin(float ang)
 {
-	double d = (double)ang;
+	auto d = (double)ang;
 	if(d < -1.0) d = -1.0;
 	if(d > 1.0) d = 1.0;
 	d = acos(d);

@@ -380,7 +380,7 @@ void CXI_QUESTTITLE::ScrollerChanged( float fPos )
 void CXI_QUESTTITLE::MouseThis(float fX, float fY)
 {
 	float left = (float)m_rect.left-m_selectOffset;
-	float right = (float)m_rect.right;
+	auto right = (float)m_rect.right;
 	if(fX<left || fX>right) return;
 
 	float top,bottom;

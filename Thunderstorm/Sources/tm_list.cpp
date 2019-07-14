@@ -361,7 +361,7 @@ void TM_LIST::ProcessMessageBase(uint64_t iMsg, uint64_t wParam, uint64_t lParam
 void TM_LIST::StartEditSelectedItem()
 {
 	NMLISTVIEW nmlv;
-	NMHDR * nmhdr = (NMHDR *)&nmlv;
+	auto* nmhdr = (NMHDR *)&nmlv;
 
 	nmhdr->code = NM_DBLCLK;
 	nmhdr->hwndFrom = GetWindowHandle();

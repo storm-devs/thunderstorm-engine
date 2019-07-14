@@ -790,7 +790,7 @@ uint32_t _Language_OpenFile(VS_STACK * pS)
 		// получим ID для заданного файла
 	long nLngFileID = g_StringServicePointer->OpenUsersStringFile(strLngFileName);
 
-	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
+	auto* pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
 	pVR->Set(nLngFileID);
 
 	return IFUNCRESULT_OK;
@@ -813,7 +813,7 @@ uint32_t _Language_ConvertString(VS_STACK * pS)
 	VDATA * pInStr = (VDATA*)pS->Pop();	if (!pInStr) return IFUNCRESULT_FAILED;
 	char * strInStr=nullptr;	pInStr->Get(strInStr);
 
-	VDATA * pLngFileID = (VDATA*)pS->Pop();	if (!pLngFileID) return IFUNCRESULT_FAILED;
+	auto* pLngFileID = (VDATA*)pS->Pop();	if (!pLngFileID) return IFUNCRESULT_FAILED;
 	long nLngFileID=-1;	pLngFileID->Get(nLngFileID);
 
 	char * strOutStr = g_StringServicePointer->TranslateFromUsers(nLngFileID,strInStr);
@@ -828,12 +828,12 @@ uint32_t _Language_ConvertString(VS_STACK * pS)
 	// Интерпретировать строку используя общий языковый файл
 uint32_t _XI_ConvertString(VS_STACK * pS)
 {
-	VDATA * pInStr = (VDATA*)pS->Pop();	if (!pInStr) return IFUNCRESULT_FAILED;
+	auto* pInStr = (VDATA*)pS->Pop();	if (!pInStr) return IFUNCRESULT_FAILED;
 	char * strInStr=nullptr;	pInStr->Get(strInStr);
 
 	char * strOutStr = g_StringServicePointer->GetString(strInStr);
 
-	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
+	auto* pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
 	if(strOutStr)	pVR->Set(strOutStr);
 	else pVR->Set("\0");
 
@@ -854,7 +854,7 @@ uint32_t _Language_SetLanguage(VS_STACK * pS)
 	// Получить ID Глобального языкового файла
 uint32_t _GlobalLngFileID(VS_STACK * pS)
 {
-	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
+	auto* pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
 	pVR->Set(g_idGlobLanguageFileID);
 
 	return IFUNCRESULT_OK;
@@ -886,7 +886,7 @@ uint32_t _LanguageGetFaderPic(VS_STACK * pS)
 		}
 	}
 
-	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
+	auto* pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
 	if(newPicName)	pVR->Set(newPicName);
 	else pVR->Set("\0");
 
@@ -903,7 +903,7 @@ uint32_t _SetColorCorrection(VS_STACK * pS)
 	VDATA * pGamma = (VDATA*)pS->Pop();	if (!pGamma) return IFUNCRESULT_FAILED;
 	float fGamma = 1.f;	pGamma->Get(fGamma);
 
-	VDATA * pContrast = (VDATA*)pS->Pop();	if (!pContrast) return IFUNCRESULT_FAILED;
+	auto* pContrast = (VDATA*)pS->Pop();	if (!pContrast) return IFUNCRESULT_FAILED;
 	float fContrast = 1.f;	pContrast->Get(fContrast);
 
 	VDX9RENDER * pVR = (VDX9RENDER *)api->CreateService("dx9render");
@@ -916,10 +916,10 @@ uint32_t _SetColorCorrection(VS_STACK * pS)
 // Установить чувствительность мыши
 uint32_t _SetMouseSensitivity(VS_STACK * pS)
 {
-	VDATA * pYSens = (VDATA*)pS->Pop();	if (!pYSens) return IFUNCRESULT_FAILED;
+	auto* pYSens = (VDATA*)pS->Pop();	if (!pYSens) return IFUNCRESULT_FAILED;
 	float fYSens = 1.f;	pYSens->Get(fYSens);
 
-	VDATA * pXSens = (VDATA*)pS->Pop();	if (!pXSens) return IFUNCRESULT_FAILED;
+	auto* pXSens = (VDATA*)pS->Pop();	if (!pXSens) return IFUNCRESULT_FAILED;
 	float fXSens = 1.f;	pXSens->Get(fXSens);
 
 	CONTROLS * pCntrl = (CONTROLS *)api->CreateService("PCS_CONTROLS");
@@ -934,7 +934,7 @@ uint32_t _SetMouseSensitivity(VS_STACK * pS)
 // Установить инвертность на клавишу
 uint32_t _ControlMakeInvert(VS_STACK * pS)
 {
-	VDATA * pControlFlag = (VDATA*)pS->Pop();	if (!pControlFlag) return IFUNCRESULT_FAILED;
+	auto* pControlFlag = (VDATA*)pS->Pop();	if (!pControlFlag) return IFUNCRESULT_FAILED;
 	long nControlFlag = 0;	pControlFlag->Get(nControlFlag);
 
 	VDATA * pControlName = (VDATA*)pS->Pop();	if (!pControlName) return IFUNCRESULT_FAILED;
@@ -1258,7 +1258,7 @@ uint32_t _IsKeyPressed(VS_STACK * pS)
 uint32_t _RegistryExitKey(VS_STACK * pS)
 {
 	// get input data
-	VDATA * pDat = (VDATA*)pS->Pop();	if (!pDat) return IFUNCRESULT_FAILED;
+	auto* pDat = (VDATA*)pS->Pop();	if (!pDat) return IFUNCRESULT_FAILED;
 	char * strKeyName=nullptr;	pDat->Get(strKeyName);
 	if( XINTERFACE::pThis != nullptr )
 		XINTERFACE::pThis->RegistryExitKey( strKeyName );

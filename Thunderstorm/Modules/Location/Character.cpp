@@ -574,7 +574,7 @@ Character::Character()
 
 Character::~Character()
 {
-	MODEL* m = (MODEL*)EntityManager::GetEntityPointer(mdl);
+	auto* m = (MODEL*)EntityManager::GetEntityPointer(mdl);
 	if (m) {
 		Animation* a = m->GetAnimation();
 		if (a) {
@@ -1703,7 +1703,7 @@ void Character::Move(float dltTime)
 	{
 		if(fgtCurType >= fgt_attack_fast && fgtCurType <= fgt_attack_feintc)
 		{
-			Character * eAttack = (Character *)EntityManager::GetEntityPointer(enemyAttack);
+			auto* eAttack = (Character *)EntityManager::GetEntityPointer(enemyAttack);
 			if(eAttack)
 			{
 				isTurnLock = false;
@@ -1850,7 +1850,7 @@ void Character::Move(float dltTime)
 		curJumpFallTime += dltTime;
 		if(isJumpSnd && priorityAction.name)
 		{
-			SEA_BASE * sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
+			auto* sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
 			if(sb && location->IsSwimming())
 			{
 				seaY = sb->WaveXZ(curPos.x, curPos.z, nullptr);
@@ -1918,7 +1918,7 @@ void Character::Move(float dltTime)
 	if(swimChange <= 0.0f && location->IsSwimming())
 	{
 		bool old = isSwim;
-		SEA_BASE * sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
+		auto* sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
 		isSwim = false;
 		isRunDisable = false;
 		if(sb)
@@ -2455,7 +2455,7 @@ void Character::PlayStep()
 {
 	if(!soundService) return;
 	if(isSwim) return;
-	SEA_BASE * sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
+	auto* sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
 	const auto location = GetLocation();
 	if(sb && location->IsSwimming())
 	{
@@ -2621,7 +2621,7 @@ bool Character::zLoadModel(MESSAGE & message)
 	message.String(256, ani);
 	ani[255] = 0;
 	//Путь до текстур
-	VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
+	auto* gs = (VGEOMETRY *)api->CreateService("geometry");
 	if(gs) gs->SetTexturePath("characters\\");
 	//Путь до модельки
 	strcpy_s(mpath, "characters\\");
@@ -2651,7 +2651,7 @@ bool Character::zLoadModel(MESSAGE & message)
 		EntityManager::EraseEntity(mdl);
 		return false;
 	}
-	MODEL * m = (MODEL *)EntityManager::GetEntityPointer(mdl);
+	auto* m = (MODEL *)EntityManager::GetEntityPointer(mdl);
 	if(!m)
 	{
 		EntityManager::EraseEntity(mdl);
@@ -2839,7 +2839,7 @@ bool Character::zTurnByLoc(MESSAGE & message)
 bool Character::zTurnByChr(MESSAGE & message)
 {
 	entid_t chr = message.EntityID();
-	Character * c = (Character *)EntityManager::GetEntityPointer(chr);
+	auto* c = (Character *)EntityManager::GetEntityPointer(chr);
 	if(!c) return false;
 	Turn(c->curPos.x - curPos.x, c->curPos.z - curPos.z);
 	return true;
@@ -2857,7 +2857,7 @@ bool Character::zTurnByPoint(MESSAGE & message)
 bool Character::zDistByCharacter(MESSAGE & message, bool is2D)
 {
 	entid_t chr = message.EntityID();
-	Character * c = (Character *)EntityManager::GetEntityPointer(chr);
+	auto* c = (Character *)EntityManager::GetEntityPointer(chr);
 	if(!c) return false;
 	float dx = curPos.x - c->curPos.x;
 	float dz = curPos.z - c->curPos.z;
@@ -4404,7 +4404,7 @@ void Character::FindNearCharacters(MESSAGE & message)
 		//Обновим колшичество
 		nn++;
 		//Элемент массива
-		VDATA * e = (VDATA *)array->GetArrayElement(i);
+		auto* e = (VDATA *)array->GetArrayElement(i);
 		//Устанавливаем поля
 		e->Set("index", fc.c->AttributesPointer->GetAttribute("index"));
 		sprintf_s(buf, "%f", sqrtf(fc.d2));
@@ -4422,7 +4422,7 @@ void Character::FindNearCharacters(MESSAGE & message)
 //Проверить видимость
 bool Character::CharactersVisibleTest(MESSAGE & message)
 {
-	Character * chr = (Character *)EntityManager::GetEntityPointer(message.EntityID());
+	auto* chr = (Character *)EntityManager::GetEntityPointer(message.EntityID());
 	if(!chr) return false;
 	return VisibleTest(chr);
 }
@@ -4458,7 +4458,7 @@ void Character::UpdateWeapons()
 //Получить направление на противника для подскока при ударе
 CVECTOR Character::GetEnemyDirForImpulse()
 {
-	Character * chr = (Character *)EntityManager::GetEntityPointer(enemyAttack);
+	auto* chr = (Character *)EntityManager::GetEntityPointer(enemyAttack);
 	if(!chr) return CVECTOR(0.0f);
 	CVECTOR dir = chr->curPos - curPos;
 	dir.y = 0.0f;

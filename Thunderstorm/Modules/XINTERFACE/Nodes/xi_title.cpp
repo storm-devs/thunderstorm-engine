@@ -237,7 +237,7 @@ void CXI_TITLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 	pVert[6].tv = pVert[7].tv = pVert[10].tv = pVert[11].tv = mediumRect.bottom;
 	int idx = 12;
 	// fill left tiled rectangles
-	float xpos = float(m_StringCenter.x - tmp2);
+	auto xpos = float(m_StringCenter.x - tmp2);
 	float xposDelta = (xpos-(float)m_rect.left)/m_nTiledQuantity;
 	for(i=0; i<m_nTiledQuantity; i++)
 	{
@@ -274,7 +274,7 @@ void CXI_TITLE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 void CXI_TITLE::FillVertexBuffer()
 {
 	long i;
-	XI_ONETEX_VERTEX* pVert = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVBuf);
+	auto* pVert = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVBuf);
 	if( pVert != nullptr )
 	{
 		// fill center rectangle (were string is showing)
@@ -299,7 +299,7 @@ void CXI_TITLE::FillVertexBuffer()
 
 		int idx = 12;
 		// fill left tiled rectangles
-		float xpos = float(m_StringCenter.x - tmp2);
+		auto xpos = float(m_StringCenter.x - tmp2);
 		float xposDelta = (xpos-(float)m_rect.left)/m_nTiledQuantity;
 		for(i=0; i<m_nTiledQuantity; i++)
 		{

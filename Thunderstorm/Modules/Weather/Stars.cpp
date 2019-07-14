@@ -148,7 +148,7 @@ void Astronomy::STARS::Init(ATTRIBUTES * pAP)
 		iVertexBufferColors = Astronomy::pRS->CreateVertexBuffer(0, dwSize * sizeof(uint32_t), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
 
 		CVECTOR * pVPos = (CVECTOR *)Astronomy::pRS->LockVertexBuffer(iVertexBuffer);
-		uint32_t * pVColors = (uint32_t *)Astronomy::pRS->LockVertexBuffer(iVertexBufferColors);
+		auto* pVColors = (uint32_t *)Astronomy::pRS->LockVertexBuffer(iVertexBufferColors);
 
 		bool bRecalculateData = true;
 		HANDLE hOutFile = fio->_CreateFile("resource\\star.dat");
@@ -267,7 +267,7 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 		fTmpK[3] = 0.8f + 0.2f * sinf(m_fTwinklingTime*5.f);
 		fTmpK[4] = 0.85f + 0.15f * sinf(m_fTwinklingTime*7.f);
 		for (long n=0; n<7; n++) fTmpRnd[n] = 0.8f + FRAND(0.2f);
-		uint32_t * pVColors = (uint32_t *)Astronomy::pRS->LockVertexBuffer(iVertexBufferColors, D3DLOCK_DISCARD);
+		auto* pVColors = (uint32_t *)Astronomy::pRS->LockVertexBuffer(iVertexBufferColors, D3DLOCK_DISCARD);
 		size_t size = aStars.size();
 		for (uint32_t i=0; i<size; i++)
 		{
@@ -429,7 +429,7 @@ void Astronomy::STARS::TimeUpdate(ATTRIBUTES * pAP)
 		return;
 	}
 
-	CVECTOR * pVPos = (CVECTOR *)Astronomy::pRS->LockVertexBuffer(iVertexBuffer);
+	auto* pVPos = (CVECTOR *)Astronomy::pRS->LockVertexBuffer(iVertexBuffer);
 	if( !pVPos ) {
 		bEnable=false;
 		return;

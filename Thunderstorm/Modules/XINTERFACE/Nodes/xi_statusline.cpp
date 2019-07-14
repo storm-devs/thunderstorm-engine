@@ -68,7 +68,7 @@ void CXI_STATUSLINE::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
 
 	// Lock vertex and index buffers and get pointers to this
 	XI_ONLYONETEX_VERTEX *pVBuf = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_vBuf);
-	uint16_t				 *pIBuf = (uint16_t*)m_rs->LockIndexBuffer(m_iBuf);
+	auto*pIBuf = (uint16_t*)m_rs->LockIndexBuffer(m_iBuf);
 
 	if(pVBuf!= nullptr && pIBuf!= nullptr)
 	{
@@ -174,7 +174,7 @@ uint32_t CXI_STATUSLINE::MessageProc(long msgcode, MESSAGE & message)
 void CXI_STATUSLINE::Refresh()
 {
 	if(m_vBuf==-1) return;
-	XI_ONLYONETEX_VERTEX *pVBuf = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_vBuf);
+	auto*pVBuf = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_vBuf);
 
     ATTRIBUTES *pAttr = api->Entity_GetAttributeClass(g_idInterface,"StatusLine");
     if(pAttr!= nullptr)	pAttr = pAttr->GetAttributeClass(m_nodeName);

@@ -28,7 +28,7 @@ bool Lizards::Init()
 {
 	//Указатель на локацию
 	auto loc = EntityManager::GetEntityId("location");
-	Location * location = (Location *)EntityManager::GetEntityPointer(loc);
+	auto* location = (Location *)EntityManager::GetEntityPointer(loc);
 	if(!location) return false;
 	//Заводим ящерец
 	for(long i = 0; i < num; i++) lizard[i].Init(location);

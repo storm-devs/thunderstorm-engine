@@ -465,8 +465,8 @@ void CoastFoam::ExecuteFoamType2(Foam * pF, float fDeltaTime)
 
 		pF->fMove[k] += pF->fSpeed[k] * fDeltaTime;
 
-		FoamVertex * pFV = (FoamVertex *)rs->LockVertexBuffer(iVBuffer, D3DLOCK_DISCARD);
-		uint16_t * pI = (uint16_t *)rs->LockIndexBuffer(iIBuffer, D3DLOCK_DISCARD);
+		auto* pFV = (FoamVertex *)rs->LockVertexBuffer(iVBuffer, D3DLOCK_DISCARD);
+		auto* pI = (uint16_t *)rs->LockIndexBuffer(iIBuffer, D3DLOCK_DISCARD);
 
 		long iNumVertices = 0;
 
@@ -571,8 +571,8 @@ void CoastFoam::ExecuteFoamType1(Foam * pF, float fDeltaTime)
 
 	if (IsClipped(pF)) return;
 
-	FoamVertex * pFV = (FoamVertex *)rs->LockVertexBuffer(iVBuffer, D3DLOCK_DISCARD);
-	uint16_t * pI = (uint16_t *)rs->LockIndexBuffer(iIBuffer, D3DLOCK_DISCARD);
+	auto* pFV = (FoamVertex *)rs->LockVertexBuffer(iVBuffer, D3DLOCK_DISCARD);
+	auto* pI = (uint16_t *)rs->LockIndexBuffer(iIBuffer, D3DLOCK_DISCARD);
 
 	long iNumVertices = 0;
 

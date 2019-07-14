@@ -109,7 +109,7 @@ void WATERFLARE::Realize(uint32_t Delta_Time)
 			pfAlpha[i] = 0.0f;
 			pRSRect[i].vPos = CVECTOR(FRAND(200.0f),0.0f,FRAND(200.0f));
 		}
-		uint32_t dwAlpha = uint32_t(255.0f * ((pfAlpha[i]>1.0f) ? 2.0f - pfAlpha[i] : pfAlpha[i]));
+		auto dwAlpha = uint32_t(255.0f * ((pfAlpha[i]>1.0f) ? 2.0f - pfAlpha[i] : pfAlpha[i]));
 		pRSRect[i].dwColor = RGB(dwAlpha,dwAlpha,dwAlpha);
 	}
 

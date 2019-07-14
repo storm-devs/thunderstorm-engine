@@ -520,7 +520,7 @@ bool Location::LoadGrass(const char * modelName, const char * texture)
 	EntityManager::EraseEntity(grass);
 	if(!modelName || !modelName[0]) return true;
 	grass = EntityManager::CreateEntity("Grass");
-	Grass * grs = (Grass *)EntityManager::GetEntityPointer(grass);
+	auto* grs = (Grass *)EntityManager::GetEntityPointer(grass);
 	if(!grs) return false;
 	if(texture && texture[0]) grs->SetTexture(texture);
 	char nm[512];

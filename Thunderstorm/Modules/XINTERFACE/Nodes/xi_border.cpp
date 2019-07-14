@@ -252,7 +252,7 @@ void CXI_BORDER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
 void CXI_BORDER::FillIndexBuffers()
 {
 	if( m_idIBuf < 0 ) return;
-	uint16_t * pI = (uint16_t*) m_rs->LockIndexBuffer( m_idIBuf );
+	auto* pI = (uint16_t*) m_rs->LockIndexBuffer( m_idIBuf );
 
 	for( long n=0; n<m_nSquareQ; n++ )
 	{
@@ -271,7 +271,7 @@ void CXI_BORDER::FillIndexBuffers()
 void CXI_BORDER::FillVertexBuffers()
 {
 	if( m_idVBuf < 0 ) return;
-	XI_ONETEX_VERTEX *pV = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer( m_idVBuf );
+	auto*pV = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer( m_idVBuf );
 
 	for( long n=0; n<m_nSquareQ*4; n++ )
 	{

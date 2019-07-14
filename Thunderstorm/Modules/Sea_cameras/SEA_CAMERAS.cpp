@@ -45,7 +45,7 @@ uint64_t SEA_CAMERAS::ProcessMessage(MESSAGE & message)
 		case AI_CAMERAS_ADD_CAMERA:
 		{
 			entid_t eidCamera = message.EntityID();
-			COMMON_CAMERA * pCamera = (COMMON_CAMERA*)EntityManager::GetEntityPointer(eidCamera);
+			auto* pCamera = (COMMON_CAMERA*)EntityManager::GetEntityPointer(eidCamera);
 			//if (CamerasArray.Find(pCamera) == INVALID_ARRAY_INDEX) CamerasArray.Add(pCamera);
 			const auto it = std::find(CamerasArray.begin(), CamerasArray.end(), pCamera);
 			if (it == CamerasArray.end())
@@ -58,7 +58,7 @@ uint64_t SEA_CAMERAS::ProcessMessage(MESSAGE & message)
 		{
 			entid_t eidCamera = message.EntityID();
 			ATTRIBUTES * pACharacter = message.AttributePointer();
-			COMMON_CAMERA * pCamera = (COMMON_CAMERA*)EntityManager::GetEntityPointer(eidCamera);
+			auto* pCamera = (COMMON_CAMERA*)EntityManager::GetEntityPointer(eidCamera);
 			//if (CamerasArray.Find(pCamera) == INVALID_ARRAY_INDEX) CamerasArray.Add(pCamera);
 			const auto it = std::find(CamerasArray.begin(), CamerasArray.end(), pCamera);
 			if (it == CamerasArray.end())
@@ -71,13 +71,13 @@ uint64_t SEA_CAMERAS::ProcessMessage(MESSAGE & message)
 		break;
 		case AI_MESSAGE_SEASAVE:
 		{
-			CSaveLoad * pSL = (CSaveLoad*)message.Pointer();
+			auto* pSL = (CSaveLoad*)message.Pointer();
 			for (i=0; i<CamerasArray.size();i++) CamerasArray[i]->Save(pSL);
 		}
 		break;
 		case AI_MESSAGE_SEALOAD:
 		{
-			CSaveLoad * pSL = (CSaveLoad*)message.Pointer();
+			auto* pSL = (CSaveLoad*)message.Pointer();
 			for (i=0; i<CamerasArray.size();i++) CamerasArray[i]->Load(pSL);
 		}
 		break;

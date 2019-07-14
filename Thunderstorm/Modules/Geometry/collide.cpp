@@ -266,7 +266,7 @@ rec_loop:;
 	//trace all faces
  	if(ssrc*ssrc < radius*radius)
 	{
-		unsigned char *pface = (unsigned char*)&node->face;
+		auto*pface = (unsigned char*)&node->face;
 		for(unsigned long f=0; f<node->nfaces; f++)
 		{
 			long face = (long(*(pface+2))<<16)|(long(*(pface+1))<<8)|(long(*(pface+0))<<0);

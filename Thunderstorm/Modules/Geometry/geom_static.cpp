@@ -147,11 +147,11 @@ GEOM::GEOM(const char *fname, const char *lightname, GEOM_SERVICE &_srv, long fl
 	}
 	for(v=0; v<rhead.nvrtbuffs; v++)
 	{
-		RDF_VERTEX0 *vrt = (RDF_VERTEX0*)srv.LockVertexBuffer(vbuff[v].dev_buff);
+		auto*vrt = (RDF_VERTEX0*)srv.LockVertexBuffer(vbuff[v].dev_buff);
 		srv.ReadFile(file, vrt, vbuff[v].size);
 		for(long vr=0; vr<vbuff[v].nverts; vr++)
 		{
-			RDF_VERTEX0 *prv = (RDF_VERTEX0*)((uint8_t*)(vrt) + vbuff[v].stride*vr);
+			auto*prv = (RDF_VERTEX0*)((uint8_t*)(vrt) + vbuff[v].stride*vr);
 			if(lightname!= nullptr)	prv->color = *_colData++;
 			//prv->norm.x = 0.0f;
 		}

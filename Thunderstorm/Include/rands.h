@@ -5,7 +5,7 @@
 inline float rand(float r)
 // returns random float
 {
-	static const float randMax = (float) RAND_MAX;
+	static const auto randMax = (float) RAND_MAX;
 	return r * (((float) rand()) / randMax);
 }
 

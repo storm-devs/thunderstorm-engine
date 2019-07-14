@@ -447,7 +447,7 @@ void AICharacter::CalcRepulsionForces()
 		const auto location = GetLocation();
 		Supervisor::CharacterInfo & ci = location->supervisor.colchr[startColCharacter + i];
 		if(ci.d == 0.0f) continue;
-		AICharacter * c = (AICharacter *)ci.c;
+		auto* c = (AICharacter *)ci.c;
 		if(command.exch == c || c->command.exch == this) continue;
 		float dx = c->curPos.x - curPos.x;
 		float dz = c->curPos.z - curPos.z;

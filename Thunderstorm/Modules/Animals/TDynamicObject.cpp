@@ -48,7 +48,7 @@ void TDynamicObject::Calculate(TDynamicObject **a, int aCount, TDynamicObject **
 
 		CVECTOR delta;
 		delta = (*effectObject)->pos - pos;
-		float d = (float) sqrt(~delta);
+		auto d = (float) sqrt(~delta);
 		if (d < 1e-10f)
 			d=1e-10f;
 		dEffect += DEFLECT_FACTOR * !delta / d;

@@ -416,7 +416,7 @@ void ILogAndActions::SetString(char * str, bool immortal)
 	if(last!= nullptr && last->str!= nullptr && _stricmp(last->str,str)==0 ) return;
 
 	// создать новый дескриптор строки
-	STRING_DESCR * newDescr = new STRING_DESCR;
+	auto* newDescr = new STRING_DESCR;
 	if(newDescr== nullptr)
 	{
 		throw std::exception("Allocate memory error");

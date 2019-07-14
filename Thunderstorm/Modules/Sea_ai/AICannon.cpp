@@ -54,7 +54,7 @@ float AICannon::CalcHeightFireAngle(float _fSpeedV0, CVECTOR & vOur, CVECTOR & v
 {
 	CVECTOR vTemp = vOur - vEnemy; vTemp.y = 0.0f;
 	double fDistance = sqrtf(~vTemp);
-	double g = double(AIHelper::fGravity);
+	auto g = double(AIHelper::fGravity);
 	double a, b, c, d;
 	double fHeight = (vEnemy.y - vOur.y);
 	a = SQR(g) / 4.0f;

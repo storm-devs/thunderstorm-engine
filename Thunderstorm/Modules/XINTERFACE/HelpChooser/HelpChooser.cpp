@@ -132,7 +132,7 @@ void HELPCHOOSER::Execute(uint32_t Delta_Time)
 	}
 
 	if(m_idVBuf==-1) return;
-	HCHOOSER_VERTEX * pv = (HCHOOSER_VERTEX *)rs->LockVertexBuffer(m_idVBuf);
+	auto* pv = (HCHOOSER_VERTEX *)rs->LockVertexBuffer(m_idVBuf);
 	if(pv== nullptr) return;
 	pv[14].pos.x = pv[15].pos.x = m_fCurMouseX - m_nMouseCornerX;
 	pv[16].pos.x = pv[17].pos.x = m_fCurMouseX - m_nMouseCornerX + m_nMouseWidth;
@@ -291,7 +291,7 @@ bool HELPCHOOSER::RunChooser(char * ChooserGroup)
 	if(m_idVBuf==-1)	api->Trace("WARNING! Can`t create vertex buffer for help chooser");
 	else
 	{
-		HCHOOSER_VERTEX * pv = (HCHOOSER_VERTEX *)rs->LockVertexBuffer(m_idVBuf);
+		auto* pv = (HCHOOSER_VERTEX *)rs->LockVertexBuffer(m_idVBuf);
 		if(pv!= nullptr)
 		{
 			for(i=0; i<18; i++)
@@ -337,7 +337,7 @@ void HELPCHOOSER::SetRectangle(long newRectNum)
 		return;
 	}
 	if(m_idVBuf==-1) return;
-	HCHOOSER_VERTEX * pv = (HCHOOSER_VERTEX *)rs->LockVertexBuffer(m_idVBuf);
+	auto* pv = (HCHOOSER_VERTEX *)rs->LockVertexBuffer(m_idVBuf);
 	if(pv== nullptr) return;
 	m_nCurRect = newRectNum;
 

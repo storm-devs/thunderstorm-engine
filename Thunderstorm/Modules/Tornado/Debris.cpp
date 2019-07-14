@@ -144,10 +144,10 @@ void Debris::AddModel(const char * modelName, float prt, float spd)
 	//Создаём модельку
 	entid_t id;
 	if(!(id = EntityManager::CreateEntity("modelr"))) return;
-	MODEL * m = (MODEL *)EntityManager::GetEntityPointer(id);
+	auto* m = (MODEL *)EntityManager::GetEntityPointer(id);
 	if(!m) return;
 	//Путь для текстур
-	VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
+	auto* gs = (VGEOMETRY *)api->CreateService("geometry");
 	if(!gs) return;
 	gs->SetTexturePath("Tornado\\");
 	//Загружаем
@@ -204,7 +204,7 @@ bool Debris::IsShip()
 	auto& entities = EntityManager::GetEntityIdVector("ship");
 	for (auto id : entities) {
 		//Указатель на объект
-		VAI_OBJBASE * ship = (VAI_OBJBASE *)EntityManager::GetEntityPointer(id);
+		auto* ship = (VAI_OBJBASE *)EntityManager::GetEntityPointer(id);
 		if(!ship)
 			break;
 		//Позиция торнадо в системе корабля

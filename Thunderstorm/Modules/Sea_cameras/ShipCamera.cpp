@@ -201,7 +201,7 @@ void SHIP_CAMERA::ShipsCollision(CVECTOR & pos)
 	auto& entities = EntityManager::GetEntityIdVector("ship");
 	for (auto ent : entities) {
 		//Указатель на объект
-		VAI_OBJBASE * ship = (VAI_OBJBASE *)EntityManager::GetEntityPointer(ent);
+		auto* ship = (VAI_OBJBASE *)EntityManager::GetEntityPointer(ent);
 		if(!ship) break;
 		if(ship == GetAIObj()) continue;
 		//Позиция камеры в системе корабля
@@ -248,7 +248,7 @@ bool SHIP_CAMERA::IslandCollision(CVECTOR & pos)
 			return false;
 	}
 	//Model
-	MODEL * mdl = (MODEL*)EntityManager::GetEntityPointer(pIsland->GetModelEID());
+	auto* mdl = (MODEL*)EntityManager::GetEntityPointer(pIsland->GetModelEID());
 	if(mdl == nullptr) return false;
 	//Find direction, distance
 	CVECTOR dir = pos - vCenter;

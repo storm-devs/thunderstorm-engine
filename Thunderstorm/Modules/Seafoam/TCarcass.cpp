@@ -179,8 +179,8 @@ void TCarcass::Execute(uint32_t _dTime, CMatrix &_mtx, const CVECTOR *_starts)
 	for (int level=0; level<levelsCount; level++)
 		levelStarts[level] = _starts[level];
 
-	tCarcassVertex *vBufferPointer = (tCarcassVertex *) renderer->LockVertexBuffer(vBuffer);
-	uint16_t		   *iBufferPointer = (uint16_t *) renderer->LockIndexBuffer(iBuffer);
+	auto*vBufferPointer = (tCarcassVertex *) renderer->LockVertexBuffer(vBuffer);
+	auto*iBufferPointer = (uint16_t *) renderer->LockIndexBuffer(iBuffer);
 
 	if (indexesCreated)
 		RebuildLevels(vBufferPointer, false, _dTime);

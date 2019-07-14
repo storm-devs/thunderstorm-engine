@@ -194,7 +194,7 @@ void MAST::Mount( entid_t modelEI, entid_t shipEI, NODE* mastNodePointer )
 {
 	m_pMastNode = mastNodePointer;
 	if(mastNodePointer== nullptr) return;
-    MODEL * oldmdl=(MODEL*)EntityManager::GetEntityPointer(modelEI);
+	auto* oldmdl=(MODEL*)EntityManager::GetEntityPointer(modelEI);
     if(oldmdl==nullptr) return; // ничего не валим, если нет старой модели
     oldmodel_id=modelEI;
     ship_id=shipEI;
@@ -301,7 +301,7 @@ void MAST::Mount( entid_t modelEI, entid_t shipEI, NODE* mastNodePointer )
             if(ship==ship_id) 
 				continue;
 
-            SHIP_BASE *sb = (SHIP_BASE*)EntityManager::GetEntityPointer(ship);
+            auto*sb = (SHIP_BASE*)EntityManager::GetEntityPointer(ship);
             float tmpDist = ~(sb->State.vPos-mm.mov);
             if(tmpDist<minDist)
             {
@@ -456,7 +456,7 @@ void MAST::doMove(uint32_t DeltaTime)
     float dtime=DELTA_TIME((float)DeltaTime);
     float rtime=DELTA_TIME_ROTATE((float)DeltaTime);
 
-    MODEL* mdl = (MODEL*)EntityManager::GetEntityPointer(model_id); // это модель геометрии мачты
+    auto* mdl = (MODEL*)EntityManager::GetEntityPointer(model_id); // это модель геометрии мачты
     if(mdl!=nullptr)
     {
         if(bFallUnderWater) // если мачта уже тонет
@@ -609,7 +609,7 @@ int MAST::GetSlide(entid_t mod, CVECTOR &pbeg, CVECTOR &pend, CVECTOR &dp, CVECT
                 if(sVal>MAX_SLIDING_LENGHT) return (retVal&(~SR_MOVE));
                 dp.y-=hVal;  vb.y-=hVal;  ve.y-=hVal;
                 hVal=0;
-                MODEL* pmdl=(MODEL*)EntityManager::GetEntityPointer(mod);
+                auto* pmdl=(MODEL*)EntityManager::GetEntityPointer(mod);
                 if(pmdl)
                 {
                     NODE* pnod = pmdl->GetCollideNode();

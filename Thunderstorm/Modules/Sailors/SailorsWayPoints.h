@@ -160,7 +160,7 @@ inline bool Dest( const CVECTOR &_v1, const CVECTOR &_v2, float d){
 
 inline float Vector2Angle(const CVECTOR &_v)
 {
-	float result= (float) atan2(_v.x, _v.z);
+	auto result= (float) atan2(_v.x, _v.z);
 
 	while (result>= PI*2) result-= PI*2;
 	while (result<  0)    result+= PI*2;

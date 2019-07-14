@@ -113,7 +113,7 @@ void BLAST::ProcessTime(uint32_t DT)
 		pSea = (CANNON_TRACE_BASE *)EntityManager::GetEntityPointer(sea_eid);
 	}
 
-	float Delta_Time = (float)DT;//*0.1;
+	auto Delta_Time = (float)DT;//*0.1;
 	bool bStop = true;
 	for(n=0;n<ItemsNum;n++)
 	{

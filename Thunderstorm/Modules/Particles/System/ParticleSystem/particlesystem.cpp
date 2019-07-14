@@ -82,7 +82,7 @@ IEmitter* ParticleSystem::CreatePointEmitter (DataSource::EmitterDesc* pEmitter)
 
 	
 //	api->Trace("Create 'Point' emitter\n");
-	PointEmitter* pNewEmitter = new PointEmitter(this);
+auto* pNewEmitter = new PointEmitter(this);
 	pNewEmitter->AttachToDataSource(pEmitter);
 	pNewEmitter->SetGUID (EmitterID);
 

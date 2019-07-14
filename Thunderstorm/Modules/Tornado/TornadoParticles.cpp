@@ -59,7 +59,7 @@ void TornadoParticles::Update(float dltTime)
 	float seaLevel = 0.0f;
 	if(txtGroundPrts >= 0 || txtPillarPrts >= 0)
 	{
-		SEA_BASE * sea = (SEA_BASE *)EntityManager::GetEntityPointer(seaID);
+		auto* sea = (SEA_BASE *)EntityManager::GetEntityPointer(seaID);
 		if(sea)
 		{
 			seaLevel = sea->WaveXZ(pillar.GetX(0.0f), pillar.GetZ(0.0f));
@@ -141,7 +141,7 @@ inline void TornadoParticles::DrawParticles(VDX9RENDER * rs, void * prts, long n
 	long n = 0;
 	for(long i = 0; i < num; i++)
 	{
-		Particle * parts = (Particle *)prts;
+		auto* parts = (Particle *)prts;
 		prts = (char *)prts + size;
 		CVECTOR pos = camMtx*parts->pos;
 		float size = parts->size*0.5f;

@@ -9,10 +9,10 @@ extern float g_fSailHoleDepend;
 
 uint32_t _ShipSailState(VS_STACK * pS)
 {
-	VDATA * pChrIdx = (VDATA*)pS->Pop(); if(!pChrIdx) return IFUNCRESULT_FAILED;
+	auto* pChrIdx = (VDATA*)pS->Pop(); if(!pChrIdx) return IFUNCRESULT_FAILED;
 	long nChrIdx = pChrIdx->GetLong();
 
-	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
+	auto* pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
 
 	// find sail class
 	if(const auto eid = EntityManager::GetEntityId("SAIL"))
@@ -101,23 +101,23 @@ uint32_t _GetAssembledString(VS_STACK * pS)
 		}
 	}
 
-	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
+	auto* pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
 	pVR->Set(retString);
 	return IFUNCRESULT_OK;
 }
 
 uint32_t _funcGetSailSpeed(VS_STACK * pS)
 {
-	VDATA * pSailPow = (VDATA*)pS->Pop();
+	auto* pSailPow = (VDATA*)pS->Pop();
 	float fSailPow = pSailPow->GetFloat();
 
-	VDATA * pHoleMax = (VDATA*)pS->Pop();
+	auto* pHoleMax = (VDATA*)pS->Pop();
 	long nHoleMax = pHoleMax->GetLong();
 
-	VDATA * pHoleQ = (VDATA*)pS->Pop();
+	auto* pHoleQ = (VDATA*)pS->Pop();
 	long nHoleQ = pHoleQ->GetLong();
 
-	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
+	auto* pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
 	pVR->Set( fSailPow - GetSailSpeed(nHoleQ, nHoleMax, fSailPow) );
 
 	return IFUNCRESULT_OK;
@@ -140,7 +140,7 @@ uint32_t _RandomHole2Sail(VS_STACK * pS)
 	if ( !(pData=(VDATA*)pS->Pop()) ) return IFUNCRESULT_FAILED;
 	int _chrIdx = pData->GetLong();
 
-	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
+	auto* pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
 
 	SAILONE_BASE * pSail = nullptr;
 	if(const auto ei = EntityManager::GetEntityId("ShipsailTracks"))
@@ -191,7 +191,7 @@ uint32_t _DeleteOneSailHole(VS_STACK * pS)
 	if ( !(pData=(VDATA*)pS->Pop()) ) return IFUNCRESULT_FAILED;
 	int _chrIdx = pData->GetLong();
 
-	VDATA * pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
+	auto* pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
 
 	int _groupNum;
 	sscanf(_groupName,"%d",&_groupNum);

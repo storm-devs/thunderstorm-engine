@@ -86,7 +86,7 @@ void CXI_BOUNDER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
     m_fAngleWidth = float(rectTmp.right - rectTmp.left+1);
     m_fAngleHeight = float(rectTmp.bottom - rectTmp.top+1);
     pPictureService->GetTexturePos(m_idHorzLine,rectTmp);
-    float fLineWidth = float(rectTmp.right-rectTmp.left+1);
+	auto fLineWidth = float(rectTmp.right-rectTmp.left+1);
 
     float fBoxWidth = float(m_rect.right - m_rect.left) - m_fAngleWidth*2.f;
     float fBoxHeight = float(m_rect.bottom - m_rect.top) - m_fAngleHeight*2.f;
@@ -109,8 +109,8 @@ void CXI_BOUNDER::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
     m_idIBuf = m_rs->CreateIndexBuffer(m_nIndx*3*2);
 
 	// Fill buffers
-	XI_ONETEX_VERTEX *pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
-	uint16_t *pIndx = (uint16_t*) m_rs->LockIndexBuffer(m_idIBuf);
+	auto*pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
+	auto*pIndx = (uint16_t*) m_rs->LockIndexBuffer(m_idIBuf);
 	if(pVert== nullptr || pIndx== nullptr)
 		throw std::exception("can not create the index&vertex buffers");
 
@@ -294,7 +294,7 @@ bool CXI_BOUNDER::IsClick(int buttonID,long xPos,long yPos)
 void CXI_BOUNDER::ChangePosition( XYRECT &rNewPos )
 {
 	// Fill buffers
-	XI_ONETEX_VERTEX *pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
+	auto*pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
 
 	if (pVert == nullptr)
 		throw std::exception("can not create the index&vertex buffers");

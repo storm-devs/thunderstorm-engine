@@ -283,7 +283,7 @@ long CXI_UTILS::SplitStringByWidth( const char* pcText, long nFontID, float fFon
 	long nMaxUsingWidth = 0;
 	const char * pcSrcStr = pcText;
 	if( pcSrcStr == nullptr ) return nMaxUsingWidth;
-	VDX9RENDER * rs = (VDX9RENDER*)api->CreateService("dx9render");
+	auto* rs = (VDX9RENDER*)api->CreateService("dx9render");
 	asOutStr.clear();
 
 	long nSrc = 0;

@@ -205,9 +205,9 @@ void CXI_GLOWCURSOR::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
 
 void CXI_GLOWCURSOR::SetRectanglesToPosition(XYRECT & rectXY)
 {
-	float fW = (float)(rectXY.right-rectXY.left);
+	auto fW = (float)(rectXY.right-rectXY.left);
 	if(fW<1.f)	m_bShowGlow = false;
-	float fH = (float)(rectXY.bottom-rectXY.top);
+	auto fH = (float)(rectXY.bottom-rectXY.top);
 	if(fH<1.f) m_bShowGlow = false;
 	if(!m_bShowGlow) return;
 

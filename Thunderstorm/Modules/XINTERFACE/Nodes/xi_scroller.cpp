@@ -278,7 +278,7 @@ void CXI_SCROLLER::SetRollerPos(float pos)
 	m_rollerCur.top = m_rollerPlace.top + m_fPos*(m_rollerPlace.bottom - m_rollerPlace.top - m_rollerHeight);
 	m_rollerCur.bottom = m_rollerCur.top+m_rollerHeight;
 
-	XI_ONLYONETEX_VERTEX * pV = (XI_ONLYONETEX_VERTEX *)m_rs->LockVertexBuffer(m_idVBuf);
+	auto* pV = (XI_ONLYONETEX_VERTEX *)m_rs->LockVertexBuffer(m_idVBuf);
 	if(pV!= nullptr)
 	{
 		SetVertexRectanglePos(&pV[12],m_rollerCur);
@@ -295,7 +295,7 @@ void CXI_SCROLLER::LinkNodeChanged(float fPos)
 
 void CXI_SCROLLER::FillVertexBuffer()
 {
-	XI_ONLYONETEX_VERTEX * pV = (XI_ONLYONETEX_VERTEX *)m_rs->LockVertexBuffer(m_idVBuf);
+	auto* pV = (XI_ONLYONETEX_VERTEX *)m_rs->LockVertexBuffer(m_idVBuf);
 	if(pV!= nullptr)
 	{
 		for(int i=0;i<16;i++)

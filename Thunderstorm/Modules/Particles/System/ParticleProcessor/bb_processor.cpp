@@ -52,7 +52,7 @@ BillBoardProcessor::BillBoardProcessor ()
 
 	pIBuffer = pRS->CreateIndexBuffer(MAX_BILLBOARDS * 6 * sizeof(uint16_t));
 	Assert (pIBuffer != -1);
-	uint16_t * pTrgs = (uint16_t*)pRS->LockIndexBuffer(pIBuffer);
+	auto* pTrgs = (uint16_t*)pRS->LockIndexBuffer(pIBuffer);
 	Assert(pTrgs != NULL);
 
 	for (long i = 0; i < MAX_BILLBOARDS; i++)
@@ -335,7 +335,7 @@ void BillBoardProcessor::Draw()
 	if (CalcDistanceToCamera() == 0)	return;
 	ParticleSorter.QSort(CompareFunction, &Particles[0], Particles.size());
 
-	RECT_VERTEX * pVerts = (RECT_VERTEX*)pRS->LockVertexBuffer(pVBuffer, D3DLOCK_DISCARD);
+	auto* pVerts = (RECT_VERTEX*)pRS->LockVertexBuffer(pVBuffer, D3DLOCK_DISCARD);
 	//RECT_VERTEX * pVerts = (RECT_VERTEX*)pVBuffer->Lock(0, 0, D3DLOCK_DISCARD);
 	//RECT_VERTEX * pVerts = (RECT_VERTEX*)pVBuffer->Lock();
 

@@ -357,7 +357,7 @@ void CXI_TABLE::Draw(bool bSelected,uint32_t Delta_Time)
 	}
 
 	// отрисовка спец цвета
-	float fY = (float)m_rect.top;
+	auto fY = (float)m_rect.top;
 	if( m_pHeader )
 	{
 		m_pHeader->DrawSpecColor( fY );
@@ -940,7 +940,7 @@ void CXI_TABLE::UpdateBorders()
 		m_idBorderIBuf = m_rs->CreateIndexBuffer( q * 6 * sizeof(uint16_t) );
 		Assert( m_idBorderIBuf != -1 );
 		// заполняем
-		uint16_t* pT = (uint16_t*)m_rs->LockIndexBuffer( m_idBorderIBuf );
+		auto* pT = (uint16_t*)m_rs->LockIndexBuffer( m_idBorderIBuf );
 		for( n=0; n<q; n++ )
 		{
 			pT[n*6 + 0] = (uint16_t)(n*4 + 0);
@@ -958,7 +958,7 @@ void CXI_TABLE::UpdateBorders()
 	}
 
 	// заполняем вертекс буфер
-	XI_ONETEX_VERTEX* pV = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer( m_idBorderVBuf );
+	auto* pV = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer( m_idBorderVBuf );
 	// horizontal lines
 	nTop = m_rect.top;
 	for( r=0,n=0; r<m_nRowQuantity-1; r++ )
@@ -1321,7 +1321,7 @@ void CXI_TABLE::UpdateScroller()
 	if( m_sScrollerName.empty() ) return;
 	CINODE* pNode = ptrOwner->FindNode( m_sScrollerName.c_str(), nullptr );
 	if( !pNode || pNode->m_nNodeType != NODETYPE_SCROLLER ) return;
-	CXI_SCROLLER* pScroll = (CXI_SCROLLER*)pNode;
+	auto* pScroll = (CXI_SCROLLER*)pNode;
 
 	if( m_nLineQuantity <= 1 )
 		pScroll->SetRollerPos( 0.f );

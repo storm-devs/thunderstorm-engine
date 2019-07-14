@@ -273,7 +273,7 @@ void ActivePerkShower::FillVIBuffers()
 {
 	int pi,ti,start_idx;
 
-	BI_ONETEXTURE_VERTEX * pvb = (BI_ONETEXTURE_VERTEX*)rs->LockVertexBuffer(m_idVBuf);
+	auto* pvb = (BI_ONETEXTURE_VERTEX*)rs->LockVertexBuffer(m_idVBuf);
 	if(pvb== nullptr) return;
 
 	start_idx = 0;
@@ -297,7 +297,7 @@ void ActivePerkShower::FillVIBuffers()
 void ActivePerkShower::FillRectData(void * vbuf,FRECT & rectPos,FRECT & rectTex)
 {
 	if(vbuf== nullptr) return;
-	BI_ONETEXTURE_VERTEX * ptmp = (BI_ONETEXTURE_VERTEX*)vbuf;
+	auto* ptmp = (BI_ONETEXTURE_VERTEX*)vbuf;
 	ptmp[0].pos.x = rectPos.left;		ptmp[0].pos.y = rectPos.top;
 	ptmp[1].pos.x = rectPos.left;		ptmp[1].pos.y = rectPos.bottom;
 	ptmp[2].pos.x = rectPos.right;		ptmp[2].pos.y = rectPos.top;
@@ -331,7 +331,7 @@ bool ActivePerkShower::InitCommonBuffers()
 	if(m_idIBuf==-1 || m_idVBuf==-1) return false;
 
 	int i;
-	uint16_t * pibuf = (uint16_t*)rs->LockIndexBuffer(m_idIBuf);
+	auto* pibuf = (uint16_t*)rs->LockIndexBuffer(m_idIBuf);
 	for(i=0; i<m_nShowPlaceQ; i++)
 	{
 		pibuf[i*6+0] = i*4 + 0;
@@ -343,7 +343,7 @@ bool ActivePerkShower::InitCommonBuffers()
 	}
 	rs->UnLockIndexBuffer(m_idIBuf);
 
-	BI_ONETEXTURE_VERTEX * pvbuf = (BI_ONETEXTURE_VERTEX*)rs->LockVertexBuffer(m_idVBuf);
+	auto* pvbuf = (BI_ONETEXTURE_VERTEX*)rs->LockVertexBuffer(m_idVBuf);
 	for(i=0; i<m_nShowPlaceQ*4; i++)
 	{
 		pvbuf[i].pos.z = 1.f;

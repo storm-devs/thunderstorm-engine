@@ -157,7 +157,7 @@ bool SCRSHOTER::MakeScreenShot()
 		for ( vi=0; vi<SS_TEXTURE_HEIGHT; vi++ )
 		{
 			uint8_t * pInPxl = (uint8_t*)pIn + inRect.Pitch * pVertOff[vi];
-			uint32_t * pOutPxl = (uint32_t*) ( (uint8_t*)pOut + outRect.Pitch * vi );
+			auto* pOutPxl = (uint32_t*) ( (uint8_t*)pOut + outRect.Pitch * vi );
 			for( hi=0; hi<SS_TEXTURE_WIDTH; hi++ )
 			{
 				pOutPxl[hi] = GetA8R8G8B8_FromFMT( &pInPxl[pHorzOff[hi]], desc.Format );
@@ -307,7 +307,7 @@ IDirect3DTexture9 * SCRSHOTER::AddSaveTexture(char * dirName, char * fileName)
 	IDirect3DTexture9 * rval = FindSaveTexture(fileName);
 	if(rval) return rval;
 	if(_stricmp(fileName,"newsave")==0) return m_pScrShotTex;
-	SAVETEXTURES * ps = new SAVETEXTURES;
+	auto* ps = new SAVETEXTURES;
 	if(ps== nullptr)	{throw std::exception("Allocate memory error");}
 	ps->dataString = nullptr;
 	ps->next = m_list;

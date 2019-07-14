@@ -124,7 +124,7 @@ bool Grass::Init()
 	//Индексы, адресующие вершины
 	ib = rs->CreateIndexBuffer(GRASS_MAX_POINTS*6*sizeof(uint16_t));
 	if(ib < 0) return false;
-	uint16_t * index = (uint16_t *)rs->LockIndexBuffer(ib);
+	auto* index = (uint16_t *)rs->LockIndexBuffer(ib);
 	if(!index) return false;
 	for(long i = 0, point = 0; i < GRASS_MAX_POINTS; i++, index += 6, point += 4)
 	{
@@ -352,7 +352,7 @@ void Grass::Realize(uint32_t delta_time)
 	entid_t eidIsland = EntityManager::GetEntityId("ISLAND");
 	if(eidIsland)
 	{
-		float fIslandFogDensity = (float)dwOldFogDensity;
+		auto fIslandFogDensity = (float)dwOldFogDensity;
 		ATTRIBUTES* pA = api->Entity_GetAttributePointer( eidIsland );
 		if( pA ) fIslandFogDensity = pA->GetAttributeAsFloat("FogDensity", 0.0f);
 		rs->SetRenderState(D3DRS_FOGDENSITY, F2DW(fIslandFogDensity));
@@ -461,7 +461,7 @@ void Grass::Realize(uint32_t delta_time)
 	CMatrix view, prj;
 	rs->GetTransform(D3DTS_VIEW, view);
 	rs->GetTransform(D3DTS_PROJECTION, prj);
-	CMatrix & cmtx = (CMatrix &)consts[32];
+	auto& cmtx = (CMatrix &)consts[32];
 	cmtx.EqMultiply(view, prj);
 	//Параметры источника
 	consts[36].x = lDir.x;

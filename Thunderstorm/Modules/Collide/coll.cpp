@@ -78,7 +78,7 @@ bool COLL::Clip(EntityManager::LayerIterators its, const PLANE *planes, long npl
 
 		if(e==entities)
 		{
-			COLLISION_OBJECT *cob = static_cast<COLLISION_OBJECT*>(EntityManager::GetEntityPointer(eid));
+			auto*cob = static_cast<COLLISION_OBJECT*>(EntityManager::GetEntityPointer(eid));
 			if(cob!= nullptr)
 			{
 				last_trace_eid = eid;

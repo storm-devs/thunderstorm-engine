@@ -447,7 +447,7 @@ void CXI_FOURIMAGE::ReleaseAll()
 
 void CXI_FOURIMAGE::FillVertex()
 {
-	XI_ONETEX_VERTEX* pVert = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(vBuf);
+	auto* pVert = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(vBuf);
 	if(pVert!= nullptr)
 	{
 		FXYRECT textRect1,textRect2;
@@ -516,7 +516,7 @@ void CXI_FOURIMAGE::FillVertex()
 void CXI_FOURIMAGE::Update(bool bSelected,uint32_t DeltaTime)
 {
 	//
-	XI_ONETEX_VERTEX* pVert = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(vBuf);
+	auto* pVert = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(vBuf);
 	if(pVert!= nullptr)
 	{
 		int idx = 0;

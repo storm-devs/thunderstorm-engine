@@ -462,7 +462,7 @@ void BIBorderInfo::Init(VDX9RENDER* rs, ATTRIBUTES *pA)
 void BIBorderInfo::Draw()
 {
 	if( !bUsed || nVBuf<0 ) return;
-	BI_COLOR_VERTEX* pV = (BI_COLOR_VERTEX*)pRS->LockVertexBuffer( nVBuf );
+	auto* pV = (BI_COLOR_VERTEX*)pRS->LockVertexBuffer( nVBuf );
 	if( !pV ) return;
 
 	if( bUp ) {

@@ -609,7 +609,7 @@ void  SoundService::SoundSet3DParam  (TSD_ID _id, eSoundMessage _message, const 
 	case SM_POSITION:
 		{
 			FMOD_VECTOR pos;
-			float* fPtr = (float *) _op;
+			auto* fPtr = (float *) _op;
 			pos.x = *(fPtr + 0);
 			pos.y = *(fPtr + 1);
 			pos.z = *(fPtr + 2);
@@ -1142,7 +1142,7 @@ void SoundService::CreateEntityIfNeed ()
 	if (!Debugentid_t)
 	{
 		Debugentid_t = EntityManager::CreateEntity("SoundVisualisationEntity");
-		SoundVisualisationEntity* pDebugEntity = (SoundVisualisationEntity*)EntityManager::GetEntityPointer(Debugentid_t);
+		auto* pDebugEntity = (SoundVisualisationEntity*)EntityManager::GetEntityPointer(Debugentid_t);
 		pDebugEntity->SetMasterSoundService(this);
 		pDebugEntity->Wakeup();
 	}
@@ -1248,8 +1248,8 @@ void SoundService::DebugDraw ()
 			if (!bVirtual)
 			{
 				//морфируем между желтым audib 0 и зеленыи audib 1 цветами
-				Color Zero = Color(0xFFFFFF00);
-				Color Full = Color(0xFF00FF00);
+				auto Zero = Color(0xFFFFFF00);
+				auto Full = Color(0xFF00FF00);
 				drawColor.Lerp(Zero, Full, audib);
 			}
 

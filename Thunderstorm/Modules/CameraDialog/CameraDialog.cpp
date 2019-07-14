@@ -119,7 +119,7 @@ void CameraDialog::Execute(uint32_t Delta_Time)
 
 void CameraDialog::Realize(uint32_t Delta_Time)
 {
-	MODEL *mdl = (MODEL*)EntityManager::GetEntityPointer(person);
+	auto*mdl = (MODEL*)EntityManager::GetEntityPointer(person);
 	if(mdl==nullptr)	return;
 	//-------------------------------------------------------
 	static bool inited = false;
@@ -160,7 +160,7 @@ void CameraDialog::Realize(uint32_t Delta_Time)
 		mbn.Vy().x *= -1.0f;
 		mbn.Vz().x *= -1.0f;
 		CMatrix perMtx = mbn*mdl->mtx;
-		MODEL *smdl = (MODEL*)EntityManager::GetEntityPointer(sMod[0]);
+		auto*smdl = (MODEL*)EntityManager::GetEntityPointer(sMod[0]);
 		smdl->mtx = perMtx;
 	}
 
@@ -186,7 +186,7 @@ void CameraDialog::Realize(uint32_t Delta_Time)
 		mbn.Vy().x *= -1.0f;
 		mbn.Vz().x *= -1.0f;
 		CMatrix perMtx = mbn*mdl->mtx;
-		MODEL *smdl = (MODEL*)EntityManager::GetEntityPointer(sMod[1]);
+		auto*smdl = (MODEL*)EntityManager::GetEntityPointer(sMod[1]);
 		smdl->mtx = perMtx;
 	}
 

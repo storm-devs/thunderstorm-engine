@@ -66,7 +66,7 @@ void Blood::Execute(uint32_t delta_time)
 		}
 		if( aBlood[n].fLiveTime < BLOOD_BLENDOUT_TIME )
 		{
-			uint32_t dwCol = (uint32_t)(255.f/BLOOD_BLENDOUT_TIME * aBlood[n].fLiveTime);
+			auto dwCol = (uint32_t)(255.f/BLOOD_BLENDOUT_TIME * aBlood[n].fLiveTime);
 			if( dwCol > 255 ) dwCol = 255;
 			dwCol = (dwCol<<24) | 0xFFFFFF;
 			for(long i=0,m=aBlood[n].nStartIdx; i<aBlood[n].nIdxQ; i++,m++)
@@ -186,7 +186,7 @@ void Blood::AddBlood(const CVECTOR& pos)
 
 	// бегаем по лееру
 	for (auto it = its.first; it != its.second; ++it) {
-		MODEL * m = (MODEL *)EntityManager::GetEntityPointer(it->second);
+		auto* m = (MODEL *)EntityManager::GetEntityPointer(it->second);
 		if(!m) continue;
 		NODE * root = m->GetNode(0);
 		m->Clip(p, 6, cpos, BLOOD_RADIUS, AddClipPoligon);
@@ -195,7 +195,7 @@ void Blood::AddBlood(const CVECTOR& pos)
 	// бегаем по массиву моделек
 	for(long n=0; n<aModels.size(); n++)
 	{
-		MODEL * m = (MODEL *)EntityManager::GetEntityPointer(aModels[n]);
+		auto* m = (MODEL *)EntityManager::GetEntityPointer(aModels[n]);
 		if(!m) continue;
 		NODE * root = m->GetNode(0);
 		m->Clip(p, 6, cpos, BLOOD_RADIUS, AddClipPoligon);

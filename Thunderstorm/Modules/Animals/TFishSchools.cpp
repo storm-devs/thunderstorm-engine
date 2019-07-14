@@ -132,7 +132,7 @@ void TFishSchools::Realize(uint32_t _dTime)
 		return;
 	}
 
-	MODEL *fishSchool = (MODEL*) EntityManager::GetEntityPointer(fishSchoolModel);
+	auto*fishSchool = (MODEL*) EntityManager::GetEntityPointer(fishSchoolModel);
 	if (!fishSchool)
 		return;
 

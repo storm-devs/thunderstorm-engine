@@ -32,7 +32,7 @@ ParticleService::~ParticleService ()
 
 IParticleManager* ParticleService::CreateManagerEx (const char* ProjectName, const char* File, int Line)
 {
-	ParticleManager* pManager = new ParticleManager (this);
+	auto* pManager = new ParticleManager (this);
 
 	CreatedManager manager;
 	manager.pManager = pManager;

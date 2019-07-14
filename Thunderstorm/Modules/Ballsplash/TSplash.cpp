@@ -303,7 +303,7 @@ bool TSplash::Process2(uint32_t _dTime)
 	if (u > (1.f-dU))
 		u = 1.f-dU;
 
-	uint32_t alpha = (uint32_t) ((((float) (time % SPLASH_FRAME_DELAY)) / SPLASH_FRAME_DELAY) * 0xFF);
+	auto alpha = (uint32_t) ((((float) (time % SPLASH_FRAME_DELAY)) / SPLASH_FRAME_DELAY) * 0xFF);
 	alpha = (alpha << 24) | (0x00FFFFFF & ambientColor);
 
 	float a = 0.f;

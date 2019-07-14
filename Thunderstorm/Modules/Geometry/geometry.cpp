@@ -503,7 +503,7 @@ void GEOM_SERVICE_R::DrawIndexedPrimitive(long minv, long numv, long vrtsize, lo
 	{
 		VGEOMETRY::ANIMATION_VB *cavb = &avb[CurentVertexBuffer-SHIFT_VALUE];
 
-		IDirect3DVertexBuffer9 *transformed_vb = (IDirect3DVertexBuffer9*)transform_func(cavb->buff, minv, numv, cavb->nvertices);
+		auto*transformed_vb = (IDirect3DVertexBuffer9*)transform_func(cavb->buff, minv, numv, cavb->nvertices);
 		if (!bCaustic)
 		{
 			RenderService->SetStreamSource(0, transformed_vb, cavb->stride);

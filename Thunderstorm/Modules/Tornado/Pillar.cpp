@@ -118,7 +118,7 @@ void Pillar::FillIndexBuffer(uint16_t * buffer)
 	//По секциям
 	for(long i = 0; i < TRND_NUMSEC - 1; i++)
 	{
-		uint16_t base = uint16_t(i*TRND_SEGMENTS);
+		auto base = uint16_t(i*TRND_SEGMENTS);
 		uint16_t * buf = buffer + base*2*3;
 		//По сегментам
 		for(uint16_t j = 0; j < TRND_SEGMENTS; j++)

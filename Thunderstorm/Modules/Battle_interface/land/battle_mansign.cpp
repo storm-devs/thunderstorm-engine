@@ -433,7 +433,7 @@ void BIManSign::UpdateBuffers( long nShipQ )
 void BIManSign::FillIndexBuffer()
 {
 	if( m_nIBufID < 0 ) return;
-	uint16_t* pI = (uint16_t*)m_pRS->LockIndexBuffer( m_nIBufID );
+	auto* pI = (uint16_t*)m_pRS->LockIndexBuffer( m_nIBufID );
 	if( pI )
 	{
 		for( long n=0; n<m_nMaxSquareQ; n++ )
@@ -454,7 +454,7 @@ void BIManSign::FillVertexBuffer()
 {
 	long n;
 	if( m_nVBufID < 0 ) return;
-	BI_COLOR_VERTEX* pV = (BI_COLOR_VERTEX*)m_pRS->LockVertexBuffer( m_nVBufID );
+	auto* pV = (BI_COLOR_VERTEX*)m_pRS->LockVertexBuffer( m_nVBufID );
 	if( pV )
 	{
 		long vn = 0;
@@ -495,8 +495,8 @@ long BIManSign::WriteSquareToVBuff( BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t col
 {
 	if( !pv ) return 0;
 
-	float fLeft = (float)(center.x - size.x/2);
-	float fTop = (float)(center.y - size.y/2);
+	auto fLeft = (float)(center.x - size.x/2);
+	auto fTop = (float)(center.y - size.y/2);
 	float fRight = fLeft + size.x;
 	float fBottom = fTop + size.y;
 
@@ -539,8 +539,8 @@ long BIManSign::WriteSquareToVBuffWithProgress( BI_COLOR_VERTEX* pv, FRECT& uv, 
 {
 	if( !pv ) return 0;
 
-	float fLeft = (float)(center.x - size.x/2);
-	float fTop = (float)(center.y - size.y/2);
+	auto fLeft = (float)(center.x - size.x/2);
+	auto fTop = (float)(center.y - size.y/2);
 	float fRight = fLeft + size.x;
 	float fBottom = fTop + size.y;
 

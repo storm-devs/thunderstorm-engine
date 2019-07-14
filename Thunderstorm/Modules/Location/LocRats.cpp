@@ -33,7 +33,7 @@ bool LocRats::Init()
 {
 	//Указатель на локацию
 	const auto loc = EntityManager::GetEntityId("location");
-	Location * location = (Location *)EntityManager::GetEntityPointer(loc);
+	auto* location = (Location *)EntityManager::GetEntityPointer(loc);
 	if(!location) return false;
 	//Исполнение
 	//api->LayerCreate("realize", true, false);
@@ -50,7 +50,7 @@ uint64_t LocRats::ProcessMessage(MESSAGE & message)
 	if(num > sizeof(rat)/sizeof(LocRat)) num = sizeof(rat)/sizeof(LocRat);
 	//Указатель на локацию
 	const auto loc = EntityManager::GetEntityId("location");
-	Location * location = (Location *)EntityManager::GetEntityPointer(loc);
+	auto* location = (Location *)EntityManager::GetEntityPointer(loc);
 	if(!location) return 0;
 	//Заводим крыс
 	for(long i = 0; i < num; i++) rat[i].Init(location);

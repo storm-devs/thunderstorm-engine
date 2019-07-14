@@ -46,7 +46,7 @@ BLADE::BLADE_INFO::~BLADE_INFO()
 
 void BLADE::BLADE_INFO::DrawBlade(VDX9RENDER * rs,unsigned int blendValue,MODEL *mdl,NODE *manNode)
 {
-	MODEL *obj = (MODEL*)EntityManager::GetEntityPointer(eid);
+	auto*obj = (MODEL*)EntityManager::GetEntityPointer(eid);
 	if(obj!=nullptr)
 	{
 		CMatrix perMtx;
@@ -109,13 +109,13 @@ void BLADE::BLADE_INFO::DrawBlade(VDX9RENDER * rs,unsigned int blendValue,MODEL 
 
 			float blend = (time-vrtTime[v+1])/lifeTime;
 
-			float fcol0 = float((color[0]>>24)&0xFF);
-			float fcol1 = float((color[1]>>24)&0xFF);
-			unsigned long a = (unsigned long)(fcol0 + blend*(fcol1-fcol0));
+			auto fcol0 = float((color[0]>>24)&0xFF);
+			auto fcol1 = float((color[1]>>24)&0xFF);
+			auto a = (unsigned long)(fcol0 + blend*(fcol1-fcol0));
 
 			fcol0 = float((color[0]>>16)&0xFF);
 			fcol1 = float((color[1]>>16)&0xFF);
-			unsigned long r = (unsigned long)(fcol0 + blend*(fcol1-fcol0));
+			auto r = (unsigned long)(fcol0 + blend*(fcol1-fcol0));
 
 			fcol0 = float((color[0]>>8)&0xFF);
 			fcol1 = float((color[1]>>8)&0xFF);
@@ -174,7 +174,7 @@ bool BLADE::BLADE_INFO::LoadBladeModel(MESSAGE &message)
 		strcpy_s(path, "Ammo\\");
 		strcat_s(path, mdlName);
 		//Путь до текстур
-		VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
+		auto* gs = (VGEOMETRY *)api->CreateService("geometry");
 		if(gs) gs->SetTexturePath("Ammo\\");
 		//Создаём модельку
 		eid = EntityManager::CreateEntity("modelr");
@@ -341,7 +341,7 @@ bool BLADE::LoadGunModel(MESSAGE &message)
 		strcpy_s(path, "Ammo\\");
 		strcat_s(path, mdlName);
 		//Путь до текстур
-		VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
+		auto* gs = (VGEOMETRY *)api->CreateService("geometry");
 		if(gs) gs->SetTexturePath("Ammo\\");
 		//Создаём модельку
 		gun = EntityManager::CreateEntity("modelr");
@@ -358,7 +358,7 @@ bool BLADE::LoadGunModel(MESSAGE &message)
 
 void BLADE::GunFire()
 {
-	MODEL *mdl = (MODEL*)EntityManager::GetEntityPointer(man);
+	auto*mdl = (MODEL*)EntityManager::GetEntityPointer(man);
 	NODE *manNode = mdl->GetNode(0);
 
 	//------------------------------------------------------
@@ -366,7 +366,7 @@ void BLADE::GunFire()
 	CMatrix perMtx;
 	long sti;
 
-	MODEL *obj = (MODEL*)EntityManager::GetEntityPointer(gun);
+	auto*obj = (MODEL*)EntityManager::GetEntityPointer(gun);
 	if( obj==nullptr ) // нет пистолета - посмотрим на саблю-пистолет
 		obj = (MODEL*)EntityManager::GetEntityPointer(blade[1].eid);
 
@@ -567,7 +567,7 @@ void BLADE::TIEITEM_INFO::Release()
 }
 void BLADE::TIEITEM_INFO::DrawItem(VDX9RENDER * rs,unsigned int blendValue,MODEL *mdl,NODE *manNode)
 {
-	MODEL *obj = (MODEL*)EntityManager::GetEntityPointer(eid);
+	auto*obj = (MODEL*)EntityManager::GetEntityPointer(eid);
 	if(obj!=nullptr)
 	{
 		CMatrix perMtx;
@@ -630,7 +630,7 @@ bool BLADE::TIEITEM_INFO::LoadItemModel(const char* mdlName, const char* locName
 	strcpy_s(path, "Ammo\\");
 	strcat_s(path, mdlName);
 	//Путь до текстур
-	VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
+	auto* gs = (VGEOMETRY *)api->CreateService("geometry");
 	if(gs) gs->SetTexturePath("Ammo\\");
 	//Создаём модельку
 	eid = EntityManager::CreateEntity("modelr");

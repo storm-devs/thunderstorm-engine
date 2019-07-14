@@ -195,7 +195,7 @@ long AnimationServiceImp::LoadAnimation(const char * animationName)
 		return -1;
 	}
 	//Описатель онимации
-	AnimationInfo * info = new AnimationInfo(animationName);
+	auto* info = new AnimationInfo(animationName);
 	//Зачитаем кости
 	if(!LoadAN(path, info))
 	{
@@ -496,7 +496,7 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 		}
 		delete[] prntIndeces;
 		//Стартовые позиции костей
-		CVECTOR * vrt = new CVECTOR[header.nJoints];
+		auto* vrt = new CVECTOR[header.nJoints];
 		if(!fio->_ReadFile(fl, vrt, header.nJoints*sizeof(CVECTOR), nullptr))
 		{
 			api->Trace("Incorrect start joints position block block in animation file: %s", fname);
@@ -523,7 +523,7 @@ bool AnimationServiceImp::LoadAN(const char * fname, AnimationInfo * info)
 		delete[] vrt;
 
 		//Углы
-		D3DXQUATERNION *ang = new D3DXQUATERNION[header.nFrames];
+		auto*ang = new D3DXQUATERNION[header.nFrames];
 		for(long i = 0; i < header.nJoints; i++)
 		{
 			if(!fio->_ReadFile(fl, ang, header.nFrames*sizeof(*ang), nullptr))

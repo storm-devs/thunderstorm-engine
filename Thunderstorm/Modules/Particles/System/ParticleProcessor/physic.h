@@ -18,7 +18,7 @@ inline void SolvePhysic (Vector& Position, Vector& Velocity, const Vector& Force
 	if (Drag < 0.0f) Drag = 0.0f;
 	if (Drag > 1.0f) Drag = 1.0f;
 */
-	Vector Acceleration = Vector (0.0f);
+auto Acceleration = Vector (0.0f);
 	if (UMass) Acceleration = (Forces / UMass);
 
 	Velocity += Acceleration * TimeScale;

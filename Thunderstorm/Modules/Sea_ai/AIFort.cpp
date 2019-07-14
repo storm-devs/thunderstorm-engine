@@ -168,7 +168,7 @@ bool AIFort::AddFort(ATTRIBUTES * pIslandAP, ATTRIBUTES * pFortLabelAP, ATTRIBUT
 	char * pLocatorsName = pLocatorsAP->GetThisAttr(); Assert(pLocatorsName);
 	char * pModelsDir = pModelsDirAP->GetThisAttr(); Assert(pModelsDir);
 
-	AI_FORT * pFort = new AI_FORT(pFortLabelAP);
+	auto* pFort = new AI_FORT(pFortLabelAP);
 	pFort->SetACharacter(pFortCharacter);
 	pFort->SetModelEID(eidModel);
 	pFort->SetBlotEID(eidBlot);
@@ -301,7 +301,7 @@ bool AIFort::ScanFortForCannons(AI_FORT * pFort, char * pModelsDir, char * pLoca
 	model_id = EntityManager::CreateEntity("MODELR");
 	api->Send_Message(model_id, "ls", MSG_MODEL_LOAD_GEO, (char*)pathStr.c_str());
 
-	MODEL * pModel = (MODEL*)EntityManager::GetEntityPointer(model_id); Assert(pModel);
+	auto* pModel = (MODEL*)EntityManager::GetEntityPointer(model_id); Assert(pModel);
 
 	// search and add cannons & culverins
 	uint32_t dwIdx = 0;
@@ -373,7 +373,7 @@ float AIFort::Trace(const CVECTOR & vSrc, const CVECTOR & vDst)
 	float fBestDistance = 1e10f; 
 	for (uint32_t i=0; i<GetNumForts(); i++)
 	{
-		MODEL * pModel = (MODEL*)EntityManager::GetEntityPointer(GetFort(i)->GetModelEID()); Assert(pModel);
+		auto* pModel = (MODEL*)EntityManager::GetEntityPointer(GetFort(i)->GetModelEID()); Assert(pModel);
 		float fRes = pModel->Trace(vSrc, vDst);
 		if (fRes > 1.0f) continue;
 		float fDistance = fRes * sqrtf(~(vDst - vSrc));
@@ -393,7 +393,7 @@ float AIFort::Cannon_Trace(long iBallOwner, const CVECTOR & vSrc, const CVECTOR 
 	float fBestRes = 2.0;
 	for (uint32_t i=0; i<GetNumForts(); i++)
 	{
-		MODEL * pModel = (MODEL*)EntityManager::GetEntityPointer(GetFort(i)->GetModelEID());
+		auto* pModel = (MODEL*)EntityManager::GetEntityPointer(GetFort(i)->GetModelEID());
 
 		float fRes = pModel->Trace(vSrc, vDst);
 		if (fRes < fBestRes) fBestRes = fRes;

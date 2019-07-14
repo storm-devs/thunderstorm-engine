@@ -336,7 +336,7 @@ void VANT::SetVertexes()
     uint32_t iv;
     CVECTOR uPos, lPos, rPos;
 
-    VANTVERTEX* pv=(VANTVERTEX*)RenderService->LockVertexBuffer(vBuf);
+    auto* pv=(VANTVERTEX*)RenderService->LockVertexBuffer(vBuf);
     if(pv)
     {
         for(int vn=0; vn<vantQuantity; vn++)
@@ -366,7 +366,7 @@ void VANT::SetVertexes()
             pv[iv+2].tu=treangXr; pv[iv+2].tv=treangYd;
             //
             float fh=sqrtf(~((rPos+lPos)*.5f-uPos));
-            float ftmp=(float)(int)(fh/hRopeHeight + .5f);
+			auto ftmp=(float)(int)(fh/hRopeHeight + .5f);
             pv[iv+3].tu=ropeXl; pv[iv+3].tv=0.f;
             pv[iv+4].tu=ropeXr; pv[iv+4].tv=0.f;
             pv[iv+5].tu=ropeXl; pv[iv+5].tv=ftmp;
@@ -640,7 +640,7 @@ void VANT::doMove()
     uint32_t iv;
     CVECTOR uPos, lPos, rPos;
 
-    VANTVERTEX* pv=(VANTVERTEX*)RenderService->LockVertexBuffer(vBuf);
+    auto* pv=(VANTVERTEX*)RenderService->LockVertexBuffer(vBuf);
     if(pv)
     {
         for(int vn=0; vn<vantQuantity; vn++)

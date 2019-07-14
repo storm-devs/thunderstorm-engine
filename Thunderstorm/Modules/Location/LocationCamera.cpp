@@ -423,7 +423,7 @@ uint32_t LocationCamera::AttributeChanged(ATTRIBUTES * apnt)
 bool LocationCamera::Set()
 {
 	//Указатель на персонажа
-	Character * c = (Character *)EntityManager::GetEntityPointer(chr);
+	auto* c = (Character *)EntityManager::GetEntityPointer(chr);
 	if(!c) return false;
 	//Характеристики персонажа
 	c->GetPosition(pos);

@@ -598,8 +598,8 @@ void WdmIslands::LRender(VDX9RENDER * rs)
 	//Получим текущие размеры vp
 	static D3DVIEWPORT9 vp;
 	rs->GetViewport(&vp);
-	float w = (float)vp.Width;
-	float h = (float)vp.Height;
+	auto w = (float)vp.Width;
+	auto h = (float)vp.Height;
 	//Получим высоту камеры
 	float cameraHeight = wdmObjects->camera->realHeight;
 	float dAlpha = api->GetDeltaTime()*(0.001f*1.5f*255.0f);

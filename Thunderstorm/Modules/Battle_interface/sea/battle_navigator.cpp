@@ -205,7 +205,7 @@ void BATTLE_NAVIGATOR::Update()
 	UpdateCurrentCharge();
 
 	// change compas buffer
-	BI_ONETEXTURE_VERTEX * pV = (BI_ONETEXTURE_VERTEX *)rs->LockVertexBuffer(m_idEmptyVBuf);
+	auto* pV = (BI_ONETEXTURE_VERTEX *)rs->LockVertexBuffer(m_idEmptyVBuf);
 	if(pV!= nullptr)
 	{
 		SetRectangleVertexPos(&pV[4],(float)m_XNavigator,(float)m_YNavigator,(float)m_NavigationWidth,(float)m_NavigationWidth,-m_fAngle);
@@ -309,7 +309,7 @@ void BATTLE_NAVIGATOR::Update()
 
 void BATTLE_NAVIGATOR::UpdateFireRangeBuffer()
 {
-	BI_NOTEXTURE_VERTEX *pv = (BI_NOTEXTURE_VERTEX *)rs->LockVertexBuffer(m_idFireZoneVBuf);
+	auto*pv = (BI_NOTEXTURE_VERTEX *)rs->LockVertexBuffer(m_idFireZoneVBuf);
 	if(pv== nullptr) return;
 
 	SHIP_DESCRIBE_LIST::SHIP_DESCR * psd = g_ShipList.GetMainCharacterShip();
@@ -606,7 +606,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER *RenderService,Entity* pOwnerEI)
 		rs->UnLockVertexBuffer(m_idMapVBuf);
 	}
 	// зона поражения пушками
-	BI_NOTEXTURE_VERTEX *pv = (BI_NOTEXTURE_VERTEX*)rs->LockVertexBuffer(m_idFireZoneVBuf);
+	auto*pv = (BI_NOTEXTURE_VERTEX*)rs->LockVertexBuffer(m_idFireZoneVBuf);
 	if(pv!= nullptr)
 	{
 		CVECTOR vCenter = CVECTOR((float)m_XNavigator,(float)m_YNavigator,1.f);
@@ -618,7 +618,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER *RenderService,Entity* pOwnerEI)
 		rs->UnLockVertexBuffer(m_idFireZoneVBuf);
 	}
 	// корабли на карте
-	BI_COLORONLY_VERTEX * pcv = (BI_COLORONLY_VERTEX*)rs->LockVertexBuffer(m_idShipsVBuf);
+	auto* pcv = (BI_COLORONLY_VERTEX*)rs->LockVertexBuffer(m_idShipsVBuf);
 	if(pcv!= nullptr)
 	{
 		for(i=0; i<MAX_ENEMY_SHIP_QUANTITY*3; i++)
@@ -873,7 +873,7 @@ void BATTLE_NAVIGATOR::SetMainCharacterData()
 
 void BATTLE_NAVIGATOR::SetAnotherShip()
 {
-	BI_COLORONLY_VERTEX * pv = (BI_COLORONLY_VERTEX*)rs->LockVertexBuffer(m_idShipsVBuf);
+	auto* pv = (BI_COLORONLY_VERTEX*)rs->LockVertexBuffer(m_idShipsVBuf);
 	if(pv== nullptr) return;
 	SHIP_DESCRIBE_LIST::SHIP_DESCR *pMainCharacter=g_ShipList.GetMainCharacterShip();
 	int idx=0;
@@ -1136,7 +1136,7 @@ void BATTLE_NAVIGATOR::SetIsland()
 
 
 	MODEL* pM = nullptr;
-	ISLAND_BASE * pIsl = (ISLAND_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("ISLAND"));
+	auto* pIsl = (ISLAND_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("ISLAND"));
 	if(pIsl != nullptr)
 	{
 		pM = (MODEL*)EntityManager::GetEntityPointer(pIsl->GetModelEID());
@@ -1228,7 +1228,7 @@ void BATTLE_NAVIGATOR::UpdateMiniMap()
 	y = .5f - (m_fYPos-m_fYIsland)/m_fIslandHeight;
 	radius=m_fWorldRad*m_fCurScale/m_fIslandRadius;
 
-	BI_ONETEXTURE_VERTEX * pV = (BI_ONETEXTURE_VERTEX *)rs->LockVertexBuffer(m_idMapVBuf);
+	auto* pV = (BI_ONETEXTURE_VERTEX *)rs->LockVertexBuffer(m_idMapVBuf);
 	if(pV!= nullptr)
 	{
 		SetCircleVertexTex(pV,x,y,radius,-m_fAngle);
@@ -1261,7 +1261,7 @@ void BATTLE_NAVIGATOR::UpdateCurrentCharge()
 	if(m_curWindPic<0) m_curWindPic = 0;
 	if(m_curPowder<0) m_curPowder = 0;
 
-	BI_ONETEXTURE_VERTEX * pV = (BI_ONETEXTURE_VERTEX*)rs->LockVertexBuffer(m_idCurChargeVBuf);
+	auto* pV = (BI_ONETEXTURE_VERTEX*)rs->LockVertexBuffer(m_idCurChargeVBuf);
 	if(pV!= nullptr)
 	{
 		FRECT texRect;

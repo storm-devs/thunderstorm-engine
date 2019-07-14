@@ -65,7 +65,7 @@ uint32_t RPrint(VS_STACK * pS)
 	long x = ((VDATA*)pS->Pop())->GetLong();
 
 	if (pString->GetString()) DX9RENDER::pRS->Print(x, y, pString->GetString());
-	VDATA * pVR = (VDATA*)pS->Push();
+	auto* pVR = (VDATA*)pS->Push();
 	pVR->Set(long(0));
 	return IFUNCRESULT_OK;
 }
@@ -78,7 +78,7 @@ uint32_t SetGlowParams(VS_STACK * pS)
 
 	DX9RENDER::pRS->SetGLOWParams(fBlurBrushSize, Intensivity, BlurPasses);
 
-	VDATA * pVR = (VDATA*)pS->Push();
+	auto* pVR = (VDATA*)pS->Push();
 	pVR->Set(long(0));
 	return IFUNCRESULT_OK;
 }
@@ -451,7 +451,7 @@ bool  DX9RENDER::Init()
 #endif
 
 		CreateSphere();
-		VDATA * pScriptRender = (VDATA *)api->GetScriptVariable("Render");
+		auto* pScriptRender = (VDATA *)api->GetScriptVariable("Render");
 		ATTRIBUTES * pARender = pScriptRender->GetAClass();
 
 		pARender->SetAttributeUseDword("full_screen", !bWindow);
@@ -1011,7 +1011,7 @@ void DX9RENDER::BlurGlowTexture()
 void DX9RENDER::CopyGlowToScreen()
 {
 	FLOAT sx = (FLOAT)screen_size.x;
-	FLOAT sy = (FLOAT)screen_size.y;
+	auto sy = (FLOAT)screen_size.y;
 	//Рендерим на экран
 	PostProcessQuad[0].vPos = Vector4(0, sy, 0.0f, 1.0f);
 	PostProcessQuad[1].vPos = Vector4(0, 0, 0.0f, 1.0f);
@@ -1044,7 +1044,7 @@ void DX9RENDER::CopyGlowToScreen()
 void DX9RENDER::CopyPostProcessToScreen()
 {
 	FLOAT sx = (FLOAT)screen_size.x;
-	FLOAT sy = (FLOAT)screen_size.y;
+	auto sy = (FLOAT)screen_size.y;
 	PostProcessQuad[0].vPos = Vector4(0, sy, 0.0f, 1.0f);
 	PostProcessQuad[1].vPos = Vector4(0, 0, 0.0f, 1.0f);
 	PostProcessQuad[2].vPos = Vector4(sx, sy, 0.0f, 1.0f);
@@ -2430,7 +2430,7 @@ void DX9RENDER::RunStart()
 {
 	bDeviceLost = true;
 
-	VDATA * pScriptRender = (VDATA *)api->GetScriptVariable("Render");
+	auto* pScriptRender = (VDATA *)api->GetScriptVariable("Render");
 	ATTRIBUTES * pARender = pScriptRender->GetAClass();
 
 	bSeaEffect = pARender->GetAttributeAsDword("SeaEffect", 0) != 0;
@@ -2442,10 +2442,10 @@ void DX9RENDER::RunStart()
 	{
 		fSin += float(api->GetRDeltaTime()) * 0.001f * fSeaEffectSpeed;
 
-		float sx = (float)screen_size.x;
-		float sy = (float)screen_size.y;
+		auto sx = (float)screen_size.x;
+		auto sy = (float)screen_size.y;
 
-		float fDX = float(long(sx * fSeaEffectSize));
+		auto fDX = float(long(sx * fSeaEffectSize));
 		float fDY = float(long(sy * fSeaEffectSize));
 
 		float sx2 = sx + fDX * 2.0f;
@@ -3217,7 +3217,7 @@ void DX9RENDER::DrawSprites(RS_SPRITE * pRSS, uint32_t dwSpritesNum, const char 
 #define RS_SPRITE_VERTEX_FORMAT	(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1)
 	if (dwSpritesNum == 0) return;
 
-	uint16_t * pIndices = new uint16_t[dwSpritesNum * 6];
+	auto* pIndices = new uint16_t[dwSpritesNum * 6];
 
 	for (i = 0; i<dwSpritesNum; i++)
 	{
@@ -3965,7 +3965,7 @@ IDirect3DBaseTexture9 * DX9RENDER::CreateTextureFromFileInMemory(const char * pF
 	if (!pFile || !dwSize) return nullptr;
 
 	IDirect3DTexture9 * pTexture = nullptr;
-	TGA_H * pTga = (TGA_H *)pFile;
+	auto* pTga = (TGA_H *)pFile;
 	D3DFORMAT d3dFormat = (pTga->bpp == 16) ? D3DFMT_DXT1 : D3DFMT_DXT3;
 	D3DXCreateTextureFromFileInMemoryEx((LPDIRECT3DDEVICE9)GetD3DDevice(), pFile, dwSize, D3DX_DEFAULT, D3DX_DEFAULT, 1, 0, d3dFormat, D3DPOOL_MANAGED, D3DX_DEFAULT, D3DX_DEFAULT, 0, nullptr, nullptr, &pTexture);
 

@@ -177,7 +177,7 @@ void TOUCH::DrawShips()
 	ss.x = 800;
 	ss.y = 600;
 
-	SHIP_BASE *pOur = (SHIP_BASE*)pShips[0]->pShip;
+	auto*pOur = (SHIP_BASE*)pShips[0]->pShip;
 	if (!pOur) return;
 	float center_x = pOur->State.vPos.x;
 	float center_z = pOur->State.vPos.z;
@@ -187,7 +187,7 @@ void TOUCH::DrawShips()
 
 	for (i=0;i<iNumShips;i++) if (pShips[i])
 	{
-		SHIP_BASE * o3d = (SHIP_BASE*)pShips[i]->pShip;
+		auto* o3d = (SHIP_BASE*)pShips[i]->pShip;
 		pShips[i]->TP[0].vPos = o3d->State.vPos;
 		pShips[i]->TP[0].vAng = o3d->State.vAng;
 		BuildContour(i);

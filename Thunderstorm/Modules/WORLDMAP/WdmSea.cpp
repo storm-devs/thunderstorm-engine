@@ -59,7 +59,7 @@ WdmSea::WdmSea()
 	vb = wdmObjects->rs->CreateVertexBuffer(D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, (WDM_SEA_NV + 4)*sizeof(Vertex), D3DUSAGE_WRITEONLY);
 	Assert(ib >= 0 && vb >= 0);
 	//Индексы
-	Triangle * triangle = (Triangle *)wdmObjects->rs->LockIndexBuffer(ib);
+	auto* triangle = (Triangle *)wdmObjects->rs->LockIndexBuffer(ib);
 	Assert(triangle);
 	for(long j = 0, p = 0; j < WDM_SEA_SECTIONS_Z; j++)
 	{
@@ -77,7 +77,7 @@ WdmSea::WdmSea()
 	}
 	wdmObjects->rs->UnLockIndexBuffer(ib);
 	//Вершины
-	Vertex * vertex = (Vertex *)wdmObjects->rs->LockVertexBuffer(vb);
+	auto* vertex = (Vertex *)wdmObjects->rs->LockVertexBuffer(vb);
 	Assert(vertex);
 	//Море
 	for(long z=0,p=0; z <= WDM_SEA_SECTIONS_Z; z++)

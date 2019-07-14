@@ -145,7 +145,7 @@ bool WorldMap::Init()
 	//
 	rs->ProgressView();
 	//Создаём море
-	WdmSea * sea = new WdmSea();
+	auto* sea = new WdmSea();
 	AddObject(sea);
 	AddPObject(sea, 10);
 	AddLObject(sea, -1);
@@ -256,7 +256,7 @@ bool WorldMap::Init()
 	//Создаём элементы интерфейса
 
 	//Дата
-	WdmWindUI * windUI = new WdmWindUI();
+	auto* windUI = new WdmWindUI();
 	windUI->SetAttributes(AttributesPointer);
 	AddLObject(AddObject(windUI, 1001), 10100);
 
@@ -824,7 +824,7 @@ WdmRenderObject * WorldMap::CreateModel(WdmRenderModel * rm, const char * modelN
 bool WorldMap::CreateStorm(bool isTornado, float time, ATTRIBUTES * save)
 {
 	if(wdmObjects->storms.size() >= WDM_MAX_STORMS) return false;
-	WdmStorm * s = new WdmStorm();
+	auto* s = new WdmStorm();
 	AddLObject(s, 800);
 	if(!AddObject(s)) return false;
 	if(time > 0.0f)
@@ -982,13 +982,13 @@ bool WorldMap::CreateWarringShips(const char * modelName1, const char * modelNam
 {
 	static const float pi = 3.14159265359f;
 	//Создаём кораблики
-	WdmWarringShip * ship1 = new WdmWarringShip();
+	auto* ship1 = new WdmWarringShip();
 	if(ship1->killMe) {
 		delete ship1;
 		return false;
 	}
 	if(!CreateModel(ship1, modelName1)) return false;
-	WdmWarringShip * ship2 = new WdmWarringShip();
+	auto* ship2 = new WdmWarringShip();
 	if(ship2->killMe) {
 		delete ship2;
 		return false;

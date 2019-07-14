@@ -367,7 +367,7 @@ void SAIL::Execute(uint32_t Delta_Time)
 			gdata[slist[i]->HostNum].curHole+=slist[i]->GetMaxHoleCount() - slist[i]->ss.holeCount;
         }
 
-        SAILVERTEX* pv=(SAILVERTEX*)RenderService->LockVertexBuffer(sg.vertBuf);
+        auto* pv=(SAILVERTEX*)RenderService->LockVertexBuffer(sg.vertBuf);
         if( pv )
         {
             for(i=0; i<sailQuantity; i++)
@@ -429,7 +429,7 @@ void SAIL::Execute(uint32_t Delta_Time)
 
 			if(gdata[i].bYesShip)
 			{
-				VAI_OBJBASE * pVai = (VAI_OBJBASE *)EntityManager::GetEntityPointer(gdata[i].shipEI);
+				auto* pVai = (VAI_OBJBASE *)EntityManager::GetEntityPointer(gdata[i].shipEI);
 				if(pVai!= nullptr && pVai->GetACharacter()!= nullptr)
 				{
 					ATTRIBUTES * pA = pVai->GetACharacter()->GetAttributeClass("Ship");
@@ -514,7 +514,7 @@ void SAIL::Realize(uint32_t Delta_Time)
 					RenderService->SetSamplerState(2,D3DSAMP_ADDRESSU,D3DTADDRESS_MIRROR);
 					//slist[i]->FillIndex(pt);
 					#ifndef _XBOX
-					uint16_t* pt=(uint16_t*)RenderService->LockIndexBuffer(sg.indxBuf,D3DLOCK_DISCARD);
+					auto* pt=(uint16_t*)RenderService->LockIndexBuffer(sg.indxBuf,D3DLOCK_DISCARD);
 					#else
 					uint16_t* pt=(uint16_t*)RenderService->LockIndexBuffer(sg.indxBuf,0);
 					#endif
@@ -1485,7 +1485,7 @@ float SAIL::Cannon_Trace(long iBallOwner, const CVECTOR &src,const CVECTOR &dst)
 		if( !slist[traceSail]->bFreeSail && !gdata[slist[traceSail]->HostNum].bDeleted )
 		{
 			CVECTOR damagePoint = src+(dst-src)*retVal;
-			VAI_OBJBASE * pvai = (VAI_OBJBASE *)EntityManager::GetEntityPointer(gdata[slist[traceSail]->HostNum].shipEI);
+			auto* pvai = (VAI_OBJBASE *)EntityManager::GetEntityPointer(gdata[slist[traceSail]->HostNum].shipEI);
 			ATTRIBUTES * pA = nullptr;
 			if(pvai!= nullptr) pA=pvai->GetACharacter();
 			long charIdx=-1;
@@ -1588,7 +1588,7 @@ void SAIL::DoSailToNewHost(entid_t newModelEI, entid_t newHostEI, int grNum, NOD
     // единственный парус убираем вместе с группой
     {
 		// дл€ корабл€ записываем значение состо€ни€ парусов = 0
-		VAI_OBJBASE * pVai = (VAI_OBJBASE *)EntityManager::GetEntityPointer(gdata[oldg].shipEI);
+		auto* pVai = (VAI_OBJBASE *)EntityManager::GetEntityPointer(gdata[oldg].shipEI);
 		if(pVai && pVai->GetACharacter())
 		{
 			ATTRIBUTES * pA = pVai->GetACharacter()->GetAttributeClass("Ship");
@@ -1761,7 +1761,7 @@ void SAIL::DoNoRopeSailToNewHost(entid_t newModel, entid_t newHost, entid_t oldH
 {
     entid_t rope_id;
     if( !(rope_id = EntityManager::GetEntityId("rope")) ) return; // нет веревок нет концерта
-    ROPE_BASE *rb = (ROPE_BASE*)EntityManager::GetEntityPointer(rope_id);
+    auto*rb = (ROPE_BASE*)EntityManager::GetEntityPointer(rope_id);
     if(rb== nullptr) return;
 
     // найдем группу старого хоз€ина
@@ -1776,7 +1776,7 @@ void SAIL::DoNoRopeSailToNewHost(entid_t newModel, entid_t newHost, entid_t oldH
     NODE *nroot = nmdl->GetNode(0);
     if(nroot== nullptr) return;
 
-    MODEL *omdl = (MODEL*)EntityManager::GetEntityPointer(gdata[ogn].modelEI);
+    auto*omdl = (MODEL*)EntityManager::GetEntityPointer(gdata[ogn].modelEI);
     if(omdl== nullptr) return;
 
     // в найденной группе пройдемс€ по парусам
@@ -1894,7 +1894,7 @@ void SAIL::SetSailTextures(long grNum, VDATA* pvd)
 	// основна€ текстура
 	char* pcNormalName = pA->GetAttribute("normalTex");
 	// герб текстуры
-	IDirect3DTexture9* pGeraldTexture = (IDirect3DTexture9*)pA->GetAttributeAsPointer("geraldTexPointer",0);
+	auto* pGeraldTexture = (IDirect3DTexture9*)pA->GetAttributeAsPointer("geraldTexPointer",0);
 	char* pcGeraldName = pA->GetAttribute("geraldTex");
 	//
 	gdata[grNum].dwSailsColor = pA->GetAttributeAsDword("sailscolor",0xFFFFFFFF);
@@ -1985,7 +1985,7 @@ void SAIL::RestoreRender()
 	sg.indxBuf = RenderService->CreateIndexBuffer( sg.nIndx*2, D3DUSAGE_DYNAMIC );
 
 	// Set triangle buffer for sea mirror
-	uint16_t* pt = (uint16_t*)RenderService->LockIndexBuffer(sg.indxBuf);
+	auto* pt = (uint16_t*)RenderService->LockIndexBuffer(sg.indxBuf);
 	if( pt )
 	{
 		for(int i=0; i<sailQuantity; i++)

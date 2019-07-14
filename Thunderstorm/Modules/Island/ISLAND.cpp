@@ -101,7 +101,7 @@ void ISLAND::Realize(uint32_t Delta_Time)
 
 	if (bForeignModels) return;
 
-	MODEL * pModel = (MODEL*)EntityManager::GetEntityPointer(model_id); Assert(pModel);
+	auto* pModel = (MODEL*)EntityManager::GetEntityPointer(model_id); Assert(pModel);
 
 	uint32_t bFogEnable;
 	uint32_t bLighting;
@@ -383,7 +383,7 @@ bool ISLAND::ActivateCamomileTrace(CVECTOR & vSrc)
 		vDst = vSrc + CVECTOR(fCos * fRadius, 0.0f, fSin * fRadius);
 		fRes = Trace(vSrc, vDst);
 		if (fRes > 1.0f) continue;
-		MODEL * pEnt = (MODEL*)EntityManager::GetEntityPointer(pCollide->GetObjectID()); Assert(pEnt);
+		auto* pEnt = (MODEL*)EntityManager::GetEntityPointer(pCollide->GetObjectID()); Assert(pEnt);
 		pEnt->GetCollideTriangle(trg);
 		vCross = !((trg.vrt[1] - trg.vrt[0]) ^ (trg.vrt[2] - trg.vrt[0]));
 		fRes = vCross | (!(vDst - vSrc));
@@ -792,7 +792,7 @@ bool ISLAND::Mount(char * fname, char * fdir, entid_t * eID)
 	api->Send_Message(model_id, "ls", MSG_MODEL_LOAD_GEO, (char*)pathStr.c_str());
 
 	// extract subobject(sea_bed) to another model
-	MODEL * pModel = (MODEL*)EntityManager::GetEntityPointer(model_id);
+	auto* pModel = (MODEL*)EntityManager::GetEntityPointer(model_id);
 	NODE * pNode = pModel->FindNode(SEA_BED_NODE_NAME);
 	if (pNode)
 		seabed_id = pNode->Unlink2Model();
@@ -803,7 +803,7 @@ bool ISLAND::Mount(char * fname, char * fdir, entid_t * eID)
 	EntityManager::AddToLayer(ISLAND_TRACE, seabed_id, 10);
 	EntityManager::AddToLayer(RAIN_DROPS, model_id, 100);
 
-	MODEL * pSeaBedModel = (MODEL*)EntityManager::GetEntityPointer(seabed_id);
+	auto* pSeaBedModel = (MODEL*)EntityManager::GetEntityPointer(seabed_id);
 
 	mIslandOld = pModel->mtx;
 	if (pSeaBedModel) mSeaBedOld = pSeaBedModel->mtx;

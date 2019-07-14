@@ -44,7 +44,7 @@ void DataCache::CacheSystem (const char* FileName)
 
 	uint32_t FileSize = fio->_GetFileSize(pSysFile, nullptr);
 
-	uint8_t* pMemBuffer = new uint8_t[FileSize];
+	auto* pMemBuffer = new uint8_t[FileSize];
 	fio->_ReadFile(pSysFile, pMemBuffer, FileSize, nullptr);
 
 	//Создаем данные из файла...
@@ -109,7 +109,7 @@ void DataCache::CreateDataSource (void* pBuffer, uint32_t BufferSize, const char
 
   //api->Trace("\nCreate data source for file %s", SourceFileName);
 
-	MemFile* ReadFile = new MemFile;
+	auto* ReadFile = new MemFile;
 	ReadFile->OpenRead(pBuffer, BufferSize);
 	NewDataSource.pData->Load(ReadFile);
 	ReadFile->Close();

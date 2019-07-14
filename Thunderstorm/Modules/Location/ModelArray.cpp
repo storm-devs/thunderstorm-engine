@@ -43,7 +43,7 @@ long ModelArray::CreateModel(const char * modelName, const char * technique, lon
 	strcpy_s(resPath, modelspath);
 	strcat_s(resPath, modelName);
 	//Путь для текстур
-	VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
+	auto* gs = (VGEOMETRY *)api->CreateService("geometry");
 	if(!gs)
 	{
 		api->Trace("Can't create geometry service!");
@@ -64,7 +64,7 @@ long ModelArray::CreateModel(const char * modelName, const char * technique, lon
 	//if(isVisible) EntityManager::AddToLayer(realize, idModelRealizer, level);
 	EntityManager::AddToLayer(REALIZE, idModelRealizer, level);
 	api->Send_Message(idModelRealizer,"ll",2,isVisible);
-	MODEL * m = (MODEL *)EntityManager::GetEntityPointer(id);
+	auto* m = (MODEL *)EntityManager::GetEntityPointer(id);
 	if(!m)
 	{
 		gs->SetTexturePath("");
@@ -216,7 +216,7 @@ MODEL * ModelArray::operator [](long modelIndex)
 Animation * ModelArray::GetAnimation(long modelIndex)
 {
 	Assert(modelIndex >= 0 && modelIndex < numModels);
-	MODEL * m = (MODEL *)EntityManager::GetEntityPointer(model[modelIndex].id);
+	auto* m = (MODEL *)EntityManager::GetEntityPointer(model[modelIndex].id);
 	if(!m) return nullptr;
 	return m->GetAnimation();
 }
@@ -252,7 +252,7 @@ void ModelArray::SetReflection(long modelIndex, float scale)
 	if(!model[modelIndex].reflection) model[modelIndex].reflection = new Relection();
 	if(scale < 0.0f) scale = 0.0f;
 	if(scale > 1.0f) scale = 1.0f;
-	uint32_t alpha = uint32_t(scale*255.0f);
+	auto alpha = uint32_t(scale*255.0f);
 	model[modelIndex].reflection->tfactor = (alpha << 24) | 0x00ffffff;
 	MODEL * mdl = (*this)[modelIndex];
 	if(mdl) mdl->SetRenderTuner(model[modelIndex].reflection); else api->Trace("Location: Can't get model pointer for set RenderTuner");
@@ -282,7 +282,7 @@ void ModelArray::Update(float dltTime)
 		if(model[i].rotator)
 		{
 			CMatrix mtr(model[i].rotator->rx*dltTime, model[i].rotator->ry*dltTime, model[i].rotator->rz*dltTime);
-			MODEL * mdl = (MODEL *)EntityManager::GetEntityPointer(model[i].id);
+			auto* mdl = (MODEL *)EntityManager::GetEntityPointer(model[i].id);
 			if(mdl) mdl->mtx = CMatrix(mtr, mdl->mtx);
 		}
 	}
@@ -390,7 +390,7 @@ bool ModelArray::VisibleTest(const CVECTOR & p1, const CVECTOR & p2)
 	{
 		if(model[i].isVisible)
 		{
-			MODEL * mdl = (MODEL *)EntityManager::GetEntityPointer(model[i].id);
+			auto* mdl = (MODEL *)EntityManager::GetEntityPointer(model[i].id);
 			if(mdl->Trace(p1, p2) < 1.0f) return false;
 		}
 	}
@@ -406,7 +406,7 @@ float ModelArray::Trace(const CVECTOR & src, const CVECTOR & dst)
 	{
 		if(model[i].isVisible)
 		{
-			MODEL * mdl = (MODEL *)EntityManager::GetEntityPointer(model[i].id);
+			auto* mdl = (MODEL *)EntityManager::GetEntityPointer(model[i].id);
 			float km = mdl->Trace(src, dst);
 			if(k > km)
 			{
@@ -430,7 +430,7 @@ void ModelArray::Clip(PLANE * p, long numPlanes, CVECTOR & cnt, float rad, bool 
 	{
 		if(model[i].isVisible)
 		{
-			MODEL * mdl = (MODEL *)EntityManager::GetEntityPointer(model[i].id);
+			auto* mdl = (MODEL *)EntityManager::GetEntityPointer(model[i].id);
 			mdl->Clip(p, numPlanes, cnt, rad, fnc);
 		}
 	}

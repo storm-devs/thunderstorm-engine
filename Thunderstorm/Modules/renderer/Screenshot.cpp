@@ -10,7 +10,7 @@ void DX9RENDER::PrepareCapture()
 	hCaptureDC = CreateCompatibleDC(hDesktopDC);
 	hCaptureBitmap = CreateCompatibleBitmap(hDesktopDC, screen_size.x, screen_size.y);
 
-	HBITMAP OldBmp = (HBITMAP)SelectObject(hCaptureDC, hCaptureBitmap);
+	auto OldBmp = (HBITMAP)SelectObject(hCaptureDC, hCaptureBitmap);
 	lpbi = (LPBITMAPINFO)(new char[sizeof(BITMAPINFOHEADER) + 256 * sizeof(RGBQUAD)]);
 	PZERO(lpbi, sizeof(BITMAPINFO));
 	lpbi->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
@@ -64,7 +64,7 @@ bool DX9RENDER::MakeCapture()
 		Beep(5000, 150);
 	}
 
-	HBITMAP OldBmp = (HBITMAP)SelectObject(hCaptureDC, hCaptureBitmap);
+	auto OldBmp = (HBITMAP)SelectObject(hCaptureDC, hCaptureBitmap);
 	BitBlt(hCaptureDC, 0, 0, screen_size.x, screen_size.y, hDesktopDC, 0, 0, SRCCOPY);
 	SelectObject(hCaptureDC, OldBmp);
 	GetDIBits(hCaptureDC, hCaptureBitmap, 0, screen_size.y, aCaptureBuffers[dwCaptureBuffersReady], lpbi, DIB_RGB_COLORS);

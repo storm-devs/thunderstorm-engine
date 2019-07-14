@@ -259,7 +259,7 @@ void NPCharacter::Update(float dltTime)
 		if(AttributesPointer) id = AttributesPointer->GetAttribute("id");
 		if(!id) id = "<none>";
 		const char * fid = nullptr;
-		Character * chr = (Character *)EntityManager::GetEntityPointer(task.target);
+		auto* chr = (Character *)EntityManager::GetEntityPointer(task.target);
 		if(chr)
 		{
 			if(chr->AttributesPointer) fid = chr->AttributesPointer->GetAttribute("id");
@@ -442,7 +442,7 @@ bool NPCharacter::InitFightChartacter(entid_t  eid)
 void NPCharacter::UpdateFollowCharacter(float dltTime)
 {
 	//Цель
-	NPCharacter * c = (NPCharacter *)EntityManager::GetEntityPointer(task.target);
+	auto* c = (NPCharacter *)EntityManager::GetEntityPointer(task.target);
 	if(!c || c->deadName != nullptr || c->liveValue < 0)
 	{
 		NPCTask tsk = task.task;
@@ -478,7 +478,7 @@ void NPCharacter::UpdateFollowCharacter(float dltTime)
 void NPCharacter::UpdateEscapeCharacter(float dltTime)
 {
 	//Персонаж от которого убегаем
-	NPCharacter * c = (NPCharacter *)EntityManager::GetEntityPointer(task.target);
+	auto* c = (NPCharacter *)EntityManager::GetEntityPointer(task.target);
 	if(!c || c->deadName != nullptr || c->liveValue < 0)
 	{
 		NPCTask tsk = task.task;
@@ -507,7 +507,7 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 
 	SetFightMode(true);
 	//Цель
-	NPCharacter * c = (NPCharacter *)EntityManager::GetEntityPointer(task.target);
+	auto* c = (NPCharacter *)EntityManager::GetEntityPointer(task.target);
 	if(!c || c->deadName != nullptr || c->liveValue < 0 || c == this)
 	{
 		NPCTask tsk = task.task;
@@ -661,7 +661,7 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 						{
 							l = 1.0/sqrt(l);
 							dx *= l; dz *= l;
-							float ang = float(acos(dz));
+							auto ang = float(acos(dz));
 							if(dx < 0) ang = -ang;
 							if(dx*sinf(ay) + dz*cosf(ay) > 0.65f)
 							{

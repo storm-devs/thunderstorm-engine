@@ -171,7 +171,7 @@ inline void LocationEffects::DrawParticles(void * prts, long num, long size, lon
 	long n = 0;
 	for(long i = 0; i < num; i++)
 	{
-		Particle * parts = (Particle *)prts;
+		auto* parts = (Particle *)prts;
 		prts = (char *)prts + size;
 		CVECTOR pos = camMtx*parts->pos;
 		float size = parts->size*0.5f;

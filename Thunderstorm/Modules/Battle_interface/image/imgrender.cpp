@@ -127,7 +127,7 @@ void BIImageRender::ChangeMaterialPosByPrioritet(BIImageMaterial* pMat)
 
 IBIString* BIImageRender::CreateString( const char* text, const char* font_name, float font_scale, uint32_t font_color, long valign, long halign, long nLeft, long nTop, long nRight, long nBottom, long nPrior)
 {
-	BIString* pStr = new BIString(this,m_pRS);
+	auto* pStr = new BIString(this,m_pRS);
 	if( !pStr ) return pStr;
 
 	pStr->SetFont( font_name );

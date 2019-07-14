@@ -1061,7 +1061,7 @@ bool SOURCE_VIEW::SetVariableOnChange(const char * pString, bool bSet)
 		{
 			return false;
 		}
-		VDATA * pV = (VDATA *)api->GetScriptVariable(sVarName.c_str(), nullptr); if (!pV) return false;
+		auto* pV = (VDATA *)api->GetScriptVariable(sVarName.c_str(), nullptr); if (!pV) return false;
 		sscanf(sDigit.c_str(), "%d", &iDigit);
 		pObject = pV->GetArrayElement(iDigit);
 		pStr = GetToken(pStr, sToken);

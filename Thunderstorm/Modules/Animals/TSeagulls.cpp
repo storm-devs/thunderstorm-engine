@@ -208,7 +208,7 @@ void TSeagulls::Realize(uint32_t _dTime)
 	if (!count)
 		Add(cameraPos.x,cameraPos.y,cameraPos.z);
 
-	MODEL *seagull = (MODEL*)EntityManager::GetEntityPointer(seagullModel);
+	auto*seagull = (MODEL*)EntityManager::GetEntityPointer(seagullModel);
 	if (!seagull)
 		return;
 

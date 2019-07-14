@@ -26,7 +26,7 @@ public:
 		// get entity id from loaded ships
 		auto& entities = EntityManager::GetEntityIdVector("ship");
 		for (auto ship : entities) {
-			VAI_OBJBASE * pObj = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ship);
+			auto* pObj = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ship);
 			if (pObj->GetACharacter() == pACharacter)
 			{
 				SetEID(pObj->GetModelEID());

@@ -57,7 +57,7 @@ void  S_EVENTTAB::Release()
 
 bool S_EVENTTAB::GetEvent(EVENTINFO& ei, uint32_t event_code)
 {
-	uint8_t ti = HASHT_INDEX(event_code);
+	auto ti = HASHT_INDEX(event_code);
 	uint32_t tc = HASHT_CODE(event_code);
 	if(tc >= Event_num[ti]) return false;
 	ei = pTable[ti][tc];
@@ -70,7 +70,7 @@ uint32_t S_EVENTTAB::AddEventHandler(char * event_name, uint32_t func_code, uint
 
 	uint32_t hash = MakeHashValue(event_name);
 
-	uint8_t ti = HASH2INDEX(hash);
+	auto ti = HASH2INDEX(hash);
 
 	for(uint32_t n = 0;n<Event_num[ti];n++)
 	{
@@ -162,8 +162,8 @@ bool S_EVENTTAB::DelEventHandler(char * event_name, uint32_t func_code)
 {
 	if(event_name == nullptr) return false;
 	uint32_t hash = MakeHashValue(event_name);
-	
-	uint8_t ti = HASH2INDEX(hash);
+
+	auto ti = HASH2INDEX(hash);
 
 	for(uint32_t n = 0;n<Event_num[ti];n++)
 	{
@@ -182,7 +182,7 @@ void S_EVENTTAB::SetStatus(char * event_name, uint32_t func_code, uint32_t statu
 	if(event_name == nullptr) return;
 
 	uint32_t hash = MakeHashValue(event_name);
-	uint8_t ti = HASH2INDEX(hash);
+	auto ti = HASH2INDEX(hash);
 
 	for(uint32_t n = 0;n<Event_num[ti];n++)
 	{
@@ -242,7 +242,7 @@ uint32_t S_EVENTTAB::FindEvent(char * event_name)
 {
 	if(event_name == nullptr) return INVALID_EVENT_CODE;
 	uint32_t hash = MakeHashValue(event_name);
-	uint8_t ti = HASH2INDEX(hash);
+	auto ti = HASH2INDEX(hash);
 	for(uint32_t n = 0;n<Event_num[ti];n++)
 	{
 		if(pTable[ti][n].hash == hash) 

@@ -121,7 +121,7 @@ uint32_t slNativeFastFind(VS_STACK * pS, LocationFindCacheElement * cache, long 
 			cache[i].index = -1;
 			continue;
 		}
-		VDATA * vd = (VDATA *)pArray->GetArrayElement(cache[i].index);
+		auto* vd = (VDATA *)pArray->GetArrayElement(cache[i].index);
 		if(!CheckID(vd, charactersFindBuf.name, res))
 		{
 			cache[i].index = -1;
@@ -219,7 +219,7 @@ uint32_t slNativeReloadProgressUpdate(VS_STACK * pS)
 
 uint32_t slNativeReloadProgressEnd(VS_STACK * pS)
 {
-	VDX9RENDER * rs = (VDX9RENDER *)api->CreateService("dx9render");
+	auto* rs = (VDX9RENDER *)api->CreateService("dx9render");
 	if(rs) rs->EndProgressView();
 	return IFUNCRESULT_OK;
 }
@@ -227,7 +227,7 @@ uint32_t slNativeReloadProgressEnd(VS_STACK * pS)
 uint32_t slNativeSleep(VS_STACK * pS)
 {
 	//Получить строки
-	VDATA * pInt = (VDATA*)pS->Pop();
+	auto* pInt = (VDATA*)pS->Pop();
 	long delay = 1;
 	if(!pInt || !pInt->Get(delay)) return IFUNCRESULT_FAILED;
 	if(delay < 1) delay = 1;
@@ -244,7 +244,7 @@ uint32_t slNativeExecuteTechnique(VS_STACK * pS)
 	//Исполить технику
 	if(nm && nm[0])
 	{
-		VDX9RENDER * rs = (VDX9RENDER *)api->CreateService("dx9render");
+		auto* rs = (VDX9RENDER *)api->CreateService("dx9render");
 		rs->TechniqueExecuteStart(nm);
 		while(rs->TechniqueExecuteNext());
 	}
@@ -255,7 +255,7 @@ uint32_t slNativeExecuteTechnique(VS_STACK * pS)
 uint32_t slGetNextLineString(VS_STACK * pS)
 {
 	//Возвращаемое значение
-	VDATA * pReturn = (VDATA*)pS->Push();
+	auto* pReturn = (VDATA*)pS->Push();
 	if(!pReturn) return IFUNCRESULT_FAILED;
 	pReturn->Set("\r\n");
 	return IFUNCRESULT_OK;

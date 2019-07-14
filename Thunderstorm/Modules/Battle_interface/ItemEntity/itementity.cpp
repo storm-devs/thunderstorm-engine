@@ -159,7 +159,7 @@ bool ItemEntity::TieToLocator(entid_t mdlEID, const char* pcLocName)
 {
 	m_eidTieModel = mdlEID;
 	m_sTieLocName = pcLocName;
-	MODEL* pMdl = (MODEL*)EntityManager::GetEntityPointer( mdlEID );
+	auto* pMdl = (MODEL*)EntityManager::GetEntityPointer( mdlEID );
 	if( pMdl ) {
 		m_pMdlNode = pMdl->GetNode(0);
 		if( m_pMdlNode )
@@ -188,7 +188,7 @@ void ItemEntity::EndEventProcess()
 
 void ItemEntity::DrawIntoLocator()
 {
-	MODEL* pMdl = (MODEL*)EntityManager::GetEntityPointer(m_eidTieModel);
+	auto* pMdl = (MODEL*)EntityManager::GetEntityPointer(m_eidTieModel);
 	if( !pMdl ) {
 		UnTieFromLocator();
 		return;
@@ -237,7 +237,7 @@ void ItemEntity::DrawIntoLocator()
 entid_t ItemEntity::GetModelEIDFromCharacterEID(entid_t chrEID)
 {
 	entid_t eid;
-	VDATA* pvdat = (VDATA*)api->GetScriptVariable("g_TmpModelVariable");
+	auto* pvdat = (VDATA*)api->GetScriptVariable("g_TmpModelVariable");
 	if( pvdat ) {
 		api->Send_Message( chrEID, "le", MSG_CHARACTER_GETMODEL, pvdat );
 		eid = pvdat->GetEntityID();
@@ -247,7 +247,7 @@ entid_t ItemEntity::GetModelEIDFromCharacterEID(entid_t chrEID)
 
 void ItemEntity::SetEventListener(entid_t mdlEID, entid_t mdlToTieEID,const char* pcLocName, const char* pcStartEvent,const char* pcEndEvent )
 {
-	MODEL* pMdl = (MODEL*)EntityManager::GetEntityPointer(mdlEID);
+	auto* pMdl = (MODEL*)EntityManager::GetEntityPointer(mdlEID);
 	if( !pMdl ) return;
 	Animation * a = pMdl->GetAnimation();
 	if( a )
@@ -272,7 +272,7 @@ void ItemEntity::EventListener::Event(Animation * animation, long playerIndex, c
 		return;
 	}
 	if( !m_bStartWaiting && m_sEndEvent==eventName ) {
-		MODEL* pMdl = (MODEL*)EntityManager::GetEntityPointer(m_eidListenedModel);
+		auto* pMdl = (MODEL*)EntityManager::GetEntityPointer(m_eidListenedModel);
 		if( pMdl ) {
 			Animation * a = pMdl->GetAnimation();
 			if( a ) a->SetEventListener(nullptr);

@@ -392,7 +392,7 @@ const char * WdmObjects::GetWindSaveString(std::string & windData)
 	AddDataToString(windData, uint8_t(size >> 8));
 	AddDataToString(windData, uint8_t(size >> 16));
 	AddDataToString(windData, uint8_t(size >> 24));
-	const uint8_t * buf = (const uint8_t *)&windField;
+	const auto* buf = (const uint8_t *)&windField;
 	for(long i = 0; i < size; i++)
 	{
 		AddDataToString(windData, buf[i]);
@@ -425,7 +425,7 @@ void WdmObjects::SetWindSaveString(const char * str)
 		windField.Reinit();
 		return;
 	}
-	uint8_t * buf = (uint8_t *)&windField;
+	auto* buf = (uint8_t *)&windField;
 	for(long i = 0; i < size; i++)
 	{
 		long data = GetDataFromString(str);

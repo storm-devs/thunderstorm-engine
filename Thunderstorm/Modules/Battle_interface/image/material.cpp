@@ -46,7 +46,7 @@ void BIImageMaterial::Render(long nBegPrior, long nEndPrior)
 
 const BIImage* BIImageMaterial::CreateImage( BIImageType type, uint32_t color, FRECT& uv, long nLeft,long nTop, long nRight,long nBottom, long nPrior )
 {
-	BIImage* pImg = new BIImage( m_pRS, this );
+	auto* pImg = new BIImage( m_pRS, this );
 	Assert( pImg );
 	pImg->SetColor( color );
 	pImg->SetPosition( nLeft, nTop, nRight, nBottom );
@@ -114,8 +114,8 @@ void BIImageMaterial::UpdateImageBuffers( long nStartIdx, long nEndIdx )
 	if( nStartIdx >= (long)m_apImage.size() ) return;
 	if( nEndIdx >= (long)m_apImage.size() ) nEndIdx = m_apImage.size() - 1;
 
-	uint16_t* pT = (uint16_t*)m_pRS->LockIndexBuffer( m_nIBufID );
-	BI_IMAGE_VERTEX* pV = (BI_IMAGE_VERTEX*)m_pRS->LockVertexBuffer( m_nVBufID );
+	auto* pT = (uint16_t*)m_pRS->LockIndexBuffer( m_nIBufID );
+	auto* pV = (BI_IMAGE_VERTEX*)m_pRS->LockVertexBuffer( m_nVBufID );
 
 	// get before
 	long nV = 0;

@@ -278,7 +278,7 @@ void CORE::ProcessEngineIniFile()
 		if(!Compiler.Run()) throw std::exception("fail to run program");
 		// Тест версии скрипта
 		long iScriptVersion = 0xFFFFFFFF;
-		VDATA * pVScriptVersion = (VDATA *)api->GetScriptVariable("iScriptVersion");
+		auto* pVScriptVersion = (VDATA *)api->GetScriptVariable("iScriptVersion");
 		if (pVScriptVersion) pVScriptVersion->Get(iScriptVersion);
 
 		if (iScriptVersion != ENGINE_SCRIPT_VERSION)
@@ -397,7 +397,7 @@ uint32_t CORE::PostEvent(char * Event_name, uint32_t post_time, char * Format,..
 		va_end(message.args);
 	} else pMS = nullptr;
 
-	S_EVENTMSG* pEM = new S_EVENTMSG(Event_name, pMS, post_time);
+	auto* pEM = new S_EVENTMSG(Event_name, pMS, post_time);
 	pEM->bProcess = true;
 	Compiler.AddPostEvent(pEM);
 	return 0;
@@ -477,7 +477,7 @@ void * CORE::CreateService(char * service_name)
 
 	if(pClass->GetReference() > 0) return pClass->CreateClass();
 
-	SERVICE* service_PTR = (SERVICE *)pClass->CreateClass();
+	auto* service_PTR = (SERVICE *)pClass->CreateClass();
 
 	uint32_t class_code = MakeHashValue(service_name);
 	pClass->SetHash(class_code);

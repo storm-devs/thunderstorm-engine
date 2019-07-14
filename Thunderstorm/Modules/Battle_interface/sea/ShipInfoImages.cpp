@@ -145,7 +145,7 @@ void ShipInfoImages::CheckAndRecreateBuffers(long nShipQ)
 
 		// fill there index buffers
 		long n;
-		uint16_t* pIB = (uint16_t*)pRS->LockIndexBuffer( m_ibRelation );
+		auto* pIB = (uint16_t*)pRS->LockIndexBuffer( m_ibRelation );
 		if( pIB ) {
 			for(n=0; n<nShipQ; n++)
 			{

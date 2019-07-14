@@ -106,7 +106,7 @@ void AIShipTouchController::Execute(float fDeltaTime)
 
 	if (GetAIShip()->isMainCharacter()) return;
 
-	SHIP_BASE * pShip = (SHIP_BASE*)GetAIShip()->GetShipPointer(); Assert(pShip);
+	auto* pShip = (SHIP_BASE*)GetAIShip()->GetShipPointer(); Assert(pShip);
 
 	vBoxSize = GetAIShip()->GetBoxsize() / 2.0f;
 	float fSpeed = KNOTS2METERS(pShip->State.vSpeed.z);

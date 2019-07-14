@@ -119,7 +119,7 @@ void CXI_IMGCOLLECTION::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *n
 		nIndx/=3;
 
 		// Lock vertex and index buffers and get pointers to this
-		XI_ONETEX_VERTEX *pVBuf = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(vBuf);
+		auto*pVBuf = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(vBuf);
 		uint16_t	*pIBuf = (uint16_t*)m_rs->LockIndexBuffer(iBuf);
 
 		if(pVBuf!= nullptr && pIBuf!= nullptr)

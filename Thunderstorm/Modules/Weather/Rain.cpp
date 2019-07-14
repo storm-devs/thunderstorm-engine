@@ -446,7 +446,7 @@ void RAIN::Realize(uint32_t Delta_Time)
 
 		if (bDraw) for (i=0;i<dwNumRainBlocks;i++)
 		{
-			uint32_t dwAlpha = uint32_t(255.0f * float(pRainBlocks[i].dwTime) / float(dwRainTimeBlend));
+			auto dwAlpha = uint32_t(255.0f * float(pRainBlocks[i].dwTime) / float(dwRainTimeBlend));
 			if (dwAlpha>dwRainMaxBlend) dwAlpha = dwRainMaxBlend;
 			uint32_t dwColor = ARGB(dwAlpha,dwRainR,dwRainG,dwRainB);
 			rs->SetRenderState(D3DRS_TEXTUREFACTOR,dwColor);

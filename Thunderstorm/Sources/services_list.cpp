@@ -21,7 +21,7 @@ SERVICE * SERVICES_LIST::Add(uint32_t module_code,uint32_t class_code,SERVICE * 
 	if(Pointer) return Pointer;
 
 
-	SERVICE_NODE* node_PTR = (SERVICE_NODE *)new char[sizeof(SERVICE_NODE)];
+	auto* node_PTR = (SERVICE_NODE *)new char[sizeof(SERVICE_NODE)];
 	memset(node_PTR,0,sizeof(SERVICE_NODE));
 	node_PTR->module_code = module_code;
 	node_PTR->class_code = class_code;
@@ -114,9 +114,9 @@ uint32_t SERVICES_LIST::Release(uint32_t module_code, uint32_t class_code)
 				ref = node_PTR->reference;
 				if(node_PTR->reference == 0)
 				{
-					SERVICE* pointer = node_PTR->pointer; 
-					SERVICE_NODE* node_L = (SERVICE_NODE *)node_PTR->linkL;
-					SERVICE_NODE* node_R = (SERVICE_NODE *)node_PTR->linkR;
+					SERVICE* pointer = node_PTR->pointer;
+					auto* node_L = (SERVICE_NODE *)node_PTR->linkL;
+					auto* node_R = (SERVICE_NODE *)node_PTR->linkR;
 					if(node_L) node_L->linkR = node_R;
 					if(node_R) node_R->linkL = node_L;
 					if(node_PTR == List) List = node_L;
@@ -162,7 +162,7 @@ SERVICE * SERVICES_LIST::GetServiceNext()
 	{
 		if(node_PTR->module_code == Search_module_code)
 		{
-			SERVICE_NODE* node_L = (SERVICE_NODE *)node_PTR->linkL;
+			auto* node_L = (SERVICE_NODE *)node_PTR->linkL;
 			if(node_L)
 			{
 				Search_module_code = node_L->module_code;
@@ -194,7 +194,7 @@ SERVICE * SERVICES_LIST::GetServiceNext(uint32_t & class_code)
 	{
 		if(node_PTR->module_code == Search_module_code)
 		{
-			SERVICE_NODE* node_L = (SERVICE_NODE *)node_PTR->linkL;
+			auto* node_L = (SERVICE_NODE *)node_PTR->linkL;
 			if(node_L)
 			{
 				Search_module_code = node_L->module_code;

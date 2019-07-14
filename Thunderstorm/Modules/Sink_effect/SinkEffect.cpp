@@ -64,7 +64,7 @@ uint64_t SINKEFFECT::ProcessMessage(MESSAGE & message)
 						return outValue;
 					}*/
 
-					SHIP_BASE* shipBase = (SHIP_BASE *)EntityManager::GetEntityPointer(ent);
+					auto* shipBase = (SHIP_BASE *)EntityManager::GetEntityPointer(ent);
 					if (shipBase->GetACharacter() == attrs)
 					{
 						TryToAddSink(shipBase->GetPos(), shipBase->GetBoxsize().z / 2.0f);

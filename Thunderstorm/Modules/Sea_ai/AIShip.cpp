@@ -120,7 +120,7 @@ void AIShip::Execute(float fDeltaTime)
 			if (dtFireTime.Update(fDeltaTime)) Fire(true);
 		}
 	}
-	SHIP_BASE * pShip = (SHIP_BASE*)GetShipPointer(); Assert(pShip);
+	auto* pShip = (SHIP_BASE*)GetShipPointer(); Assert(pShip);
 
 	ATTRIBUTES * pASeaAIU = GetACharacter()->FindAClass(GetACharacter(),"SeaAI.Update");
 	if (pASeaAIU) GetACharacter()->DeleteAttributeClassX(pASeaAIU);
@@ -237,7 +237,7 @@ void AIShip::CreateShip(entid_t _eidShip, ATTRIBUTES * _pACharacter, ATTRIBUTES 
 	SetACharacter(_pACharacter);
 	pObj->SetACharacter(GetACharacter());
 	pObj->Mount(pAShipBase);
-	SHIP_BASE * pShip = (SHIP_BASE *)pObj;
+	auto* pShip = (SHIP_BASE *)pObj;
 	if (vInitPos) 
 	{
 		pObj->SetPos(CVECTOR(vInitPos->x, 0.0f, vInitPos->z));
@@ -662,7 +662,7 @@ void AIShip::Load(CSaveLoad * pSL)
 	bDead = pSL->LoadDword() != 0;
 
 	// set entid_t to character 
-	VDATA * pVCharacter = (VDATA *)api->GetScriptVariable("Characters");
+	auto* pVCharacter = (VDATA *)api->GetScriptVariable("Characters");
 	pVCharacter->Set(eidShip, GetIndex(GetACharacter()));
 
 	// create controllers

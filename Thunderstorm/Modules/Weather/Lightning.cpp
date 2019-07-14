@@ -84,7 +84,7 @@ void LIGHTNING::Realize(uint32_t Delta_Time)
 			lightning_t * pL = &aLightnings[i];
 			RS_RECT		* pR = &rs_rect;
 
-			uint32_t dwAlpha = uint32_t(255.0f * pL->fAlpha);
+			auto dwAlpha = uint32_t(255.0f * pL->fAlpha);
 			pR->dwSubTexture = pL->dwSubTexture;
 			pR->dwColor = RGB(dwAlpha, dwAlpha, dwAlpha);
 			pR->vPos = pL->vPos;
@@ -102,7 +102,7 @@ void LIGHTNING::Realize(uint32_t Delta_Time)
 			lightning_t * pL = &aLightnings[i];
 			RS_RECT		* pR = &rs_rect;
 
-			uint32_t dwAlpha = uint32_t(255.0f * pL->fAlpha * pL->fPower);
+			auto dwAlpha = uint32_t(255.0f * pL->fAlpha * pL->fPower);
 			pR->dwColor = RGB(dwAlpha, dwAlpha, dwAlpha);
 			pR->vPos = pL->vPos;
 			pR->fSize = pL->Flash.fSize;

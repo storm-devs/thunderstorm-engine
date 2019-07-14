@@ -361,7 +361,7 @@ void SEA::BuildVolumeTexture()
 		uint32_t * pBuffer = new uint32_t[XWIDTH * YWIDTH];
 		aNormals.push_back(pBuffer);
 
-		CVECTOR * pVectors = new CVECTOR[XWIDTH * YWIDTH];
+		auto* pVectors = new CVECTOR[XWIDTH * YWIDTH];
 		aVectors.push_back(pVectors);
 
 		for (uint32_t y=0; y<YWIDTH; y++)
@@ -439,7 +439,7 @@ void SEA::BuildVolumeTexture()
 				(*pBumpMap)->GetLevelDesc(lev, &d3dsd);
 				(*pBumpMap)->LockRect(lev, &d3dlr, nullptr, 0);
 
-				uint32_t * pDstT = (uint32_t*)pDst;
+				auto* pDstT = (uint32_t*)pDst;
 				for(uint32_t y=0; y<d3dsd.Height; y++)
 				{
 					for(uint32_t x=0; x<d3dsd.Width; x++)
@@ -475,7 +475,7 @@ void SEA::BuildVolumeTexture()
 
 	for (j=1; j<4; j++)
 	{
-		CVECTOR * pVectors = new CVECTOR[(XWIDTH >> j) * (YWIDTH >> j)];
+		auto* pVectors = new CVECTOR[(XWIDTH >> j) * (YWIDTH >> j)];
 
 		for (i=0; i<FRAMES >> j; i++)
 		{

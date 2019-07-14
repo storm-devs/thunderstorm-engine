@@ -22,7 +22,7 @@ CXI_QUESTTEXTS::STRING_DESCRIBER::STRING_DESCRIBER(char* ls)
 CXI_QUESTTEXTS::STRING_DESCRIBER* CXI_QUESTTEXTS::STRING_DESCRIBER::Add(char* ls,bool complete)
 {
 	if(ls== nullptr) return nullptr;
-	STRING_DESCRIBER* newSD = new STRING_DESCRIBER(ls);
+	auto* newSD = new STRING_DESCRIBER(ls);
 	if(newSD== nullptr)
 	{
 		throw std::exception("allocate memory error");

@@ -1506,7 +1506,7 @@ float SAILONE::SSailTrace(CVECTOR &src,CVECTOR &dst,bool bCannonTrace)
 		SetGeometry();
 		if( pp->gdata[HostNum].bDeleted != true && pp->gdata[HostNum].bYesShip )
 		{
-			VAI_OBJBASE * pVai = (VAI_OBJBASE*)EntityManager::GetEntityPointer(pp->gdata[HostNum].shipEI);
+			auto* pVai = (VAI_OBJBASE*)EntityManager::GetEntityPointer(pp->gdata[HostNum].shipEI);
 			int charIdx = -1;
 			if(pVai!= nullptr && pVai->GetACharacter()!= nullptr)
 				charIdx = pVai->GetACharacter()->GetAttributeAsDword("index");
@@ -1561,7 +1561,7 @@ float SAILONE::TSailTrace(CVECTOR &src,CVECTOR &dst,bool bCannonTrace)
         CalculateMirrorSailIndex(); // новая триангуляция для отражения паруса
 		if( pp->gdata[HostNum].bDeleted != true && pp->gdata[HostNum].bYesShip )
 		{
-			VAI_OBJBASE * pVai = (VAI_OBJBASE*)EntityManager::GetEntityPointer(pp->gdata[HostNum].shipEI);
+			auto* pVai = (VAI_OBJBASE*)EntityManager::GetEntityPointer(pp->gdata[HostNum].shipEI);
 			int charIdx = -1;
 			if(pVai!= nullptr && pVai->GetACharacter()!= nullptr)
 				charIdx = pVai->GetACharacter()->GetAttributeAsDword("index");
@@ -1790,7 +1790,7 @@ void SAILONE::SetTurnLimits()
 	if(sailtrope.rrs[0]== nullptr) return;
 	const auto ropeEI = EntityManager::GetEntityId("rope");
 	if( !ropeEI ) return;
-	ROPE_BASE * prbase = (ROPE_BASE*)EntityManager::GetEntityPointer(ropeEI);
+	auto* prbase = (ROPE_BASE*)EntityManager::GetEntityPointer(ropeEI);
 	if(prbase== nullptr) return;
 
 	CVECTOR cv1,cv0;

@@ -1237,8 +1237,8 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 	SP.fWidth = State.vBoxSize.x;
 	fGravity = 9.81f;
 
-	float fCapacity = (float)SP.iCapacity; 
-	float fLength = (float)30;
+	auto fCapacity = (float)SP.iCapacity;
+	auto fLength = (float)30;
 	
 	float maxw = 10000.0f;
 	float min_inertia = 0.28f; 
@@ -1322,7 +1322,7 @@ bool SHIP::Mount(ATTRIBUTES * _pAShip)
 	// add to ship tracks
 	if (const auto eidTmp = EntityManager::GetEntityId("ShipTracks"))
 	{
-		ShipTracks * pST = (ShipTracks*)EntityManager::GetEntityPointer(eidTmp); 
+		auto* pST = (ShipTracks*)EntityManager::GetEntityPointer(eidTmp); 
 		if (pST) pST->AddShip(this);
 	}
 

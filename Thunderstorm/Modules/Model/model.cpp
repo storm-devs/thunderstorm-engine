@@ -57,7 +57,7 @@ void *VBTransform(void *vb, long startVrt, long nVerts, long totVerts)
 	alreadyTransformed = true;
 	if(!totVerts) return dest_vb;
 
-	GEOS::AVERTEX0 *src = (GEOS::AVERTEX0*)vb;
+	auto*src = (GEOS::AVERTEX0*)vb;
 
 	GEOS::VERTEX0 *dst;
 #ifndef _XBOX
@@ -570,7 +570,7 @@ float MODELR::Trace(const CVECTOR &src, const CVECTOR &dst)
 		//load indices
 		if(idxBuff==nullptr)
 		{
-			unsigned short *idx = (unsigned short*)rs->LockIndexBuffer(root->geo->GetIndexBuffer());
+			auto*idx = (unsigned short*)rs->LockIndexBuffer(root->geo->GetIndexBuffer());
 			if (idx == nullptr)
 				return 0.;
 
@@ -580,7 +580,7 @@ float MODELR::Trace(const CVECTOR &src, const CVECTOR &dst)
 			{
 				long avb = root->geo->GetVertexBuffer(vb);
 				VGEOMETRY::ANIMATION_VB gavb = GeometyService->GetAnimationVBDesc(avb);
-				GEOS::AVERTEX0 *gsrc = (GEOS::AVERTEX0*)gavb.buff;
+				auto*gsrc = (GEOS::AVERTEX0*)gavb.buff;
 
 				//for all objects that refers to this vertexBuffer
 				for(long o=0; o<gi.nobjects; o++)
@@ -598,7 +598,7 @@ float MODELR::Trace(const CVECTOR &src, const CVECTOR &dst)
 			{
 				long avb = root->geo->GetVertexBuffer(vb);
 				VGEOMETRY::ANIMATION_VB gavb = GeometyService->GetAnimationVBDesc(avb);
-				GEOS::AVERTEX0 *gsrc = (GEOS::AVERTEX0*)gavb.buff;
+				auto*gsrc = (GEOS::AVERTEX0*)gavb.buff;
 
 				//for all objects that refers to this vertexBuffer
 				for(long o=0; o<gi.nobjects; o++)
@@ -628,7 +628,7 @@ float MODELR::Trace(const CVECTOR &src, const CVECTOR &dst)
 		{
 			long avb = root->geo->GetVertexBuffer(vb);
 			VGEOMETRY::ANIMATION_VB gavb = GeometyService->GetAnimationVBDesc(avb);
-			GEOS::AVERTEX0 *gsrc = (GEOS::AVERTEX0*)gavb.buff;
+			auto*gsrc = (GEOS::AVERTEX0*)gavb.buff;
 
 			//transform vertices and trace
 			for(long v=0; v<gavb.nvertices; v++)

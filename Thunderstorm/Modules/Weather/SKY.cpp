@@ -62,14 +62,14 @@ void SKY::CreateFogSphere()
 	iNumLevels = 64;
 	iNumAngles = 8;
 	iFogNumVerts = iNumAngles * iNumLevels + 1;
-	FOGVERTEX * pVerts = new FOGVERTEX[iFogNumVerts];
+	auto* pVerts = new FOGVERTEX[iFogNumVerts];
 	iFogVertsID = pRS->CreateVertexBuffer(FOGVERTEX_FORMAT,iFogNumVerts * sizeof(SKYVERTEX),D3DUSAGE_WRITEONLY);
-	FOGVERTEX * pVertBuf = (FOGVERTEX*)pRS->LockVertexBuffer(iFogVertsID);
+	auto* pVertBuf = (FOGVERTEX*)pRS->LockVertexBuffer(iFogVertsID);
 
 	iFogNumTrgs = 3 * (iNumAngles + (iNumLevels - 1) * iNumAngles * 2);
 	iFogIndexID = pRS->CreateIndexBuffer(iFogNumTrgs * 2);
 
-	uint16_t * pTrgs = (uint16_t*)pRS->LockIndexBuffer(iFogIndexID);
+	auto* pTrgs = (uint16_t*)pRS->LockIndexBuffer(iFogIndexID);
 	for (y=0; y<iNumLevels; y++)
 	{
 		float h = y * R / iNumLevels;
@@ -211,11 +211,11 @@ void SKY::GenerateSky()
 	}
 	iSkyVertsID = pRS->CreateVertexBuffer(SKYVERTEX_FORMAT, SKY_NUM_VERTEX * sizeof(SKYVERTEX), D3DUSAGE_WRITEONLY);
 	iSkyIndexID = pRS->CreateIndexBuffer(20 * 3 * 2);
-	SKYVERTEX * pVertBuf = (SKYVERTEX*)pRS->LockVertexBuffer(iSkyVertsID);
+	auto* pVertBuf = (SKYVERTEX*)pRS->LockVertexBuffer(iSkyVertsID);
 	if (pVertBuf) memcpy(pVertBuf, &Verts[0], sizeof(Verts));
 	pRS->UnLockVertexBuffer(iSkyVertsID);
 
-	uint16_t * pTrgs = (uint16_t*)pRS->LockIndexBuffer(iSkyIndexID);
+	auto* pTrgs = (uint16_t*)pRS->LockIndexBuffer(iSkyIndexID);
 	for (i=0;i<10;i++)
 	{
 		*pTrgs++ = (uint16_t)(i*4) + 0; *pTrgs++ = (uint16_t)(i*4) + 1; *pTrgs++ = (uint16_t)(i*4) + 2;
@@ -604,7 +604,7 @@ uint32_t SKY::GetPixelColor(IDirect3DTexture9* pTex, float fu, float fv)
 	D3DLOCKED_RECT lockRect;
 	if ( (hok=pRS->LockRect(pTex, 0, &lockRect, nullptr, D3DLOCK_READONLY)) == D3D_OK )
 	{
-		uint32_t * pLine = (uint32_t*)( (uint8_t*)lockRect.pBits + y * lockRect.Pitch );
+		auto* pLine = (uint32_t*)( (uint8_t*)lockRect.pBits + y * lockRect.Pitch );
 		dwCol = pLine[x];
 		pRS->UnlockRect( pTex, 0 );
 	}

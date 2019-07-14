@@ -467,7 +467,7 @@ uint64_t XINTERFACE::ProcessMessage(MESSAGE & message)
         break;
 	case MSG_INTERFACE_SET_CURRENT_NODE:
 		{
-			CINODE * pNewCurNode = (CINODE*)message.Pointer();
+			auto* pNewCurNode = (CINODE*)message.Pointer();
 			if(pNewCurNode!= nullptr)
                 SetCurNode(pNewCurNode);
 		}
@@ -577,7 +577,7 @@ uint64_t XINTERFACE::ProcessMessage(MESSAGE & message)
 			message.String(sizeof(nodeName)-1,nodeName);
 			long nCommand = message.Long();
 			//
-            EVENT_Entity * pEvent = new EVENT_Entity;
+            auto* pEvent = new EVENT_Entity;
             if(pEvent== nullptr)	throw std::exception("allocate memory error");
             pEvent->next = m_pEvents;
             m_pEvents = pEvent;
@@ -1462,7 +1462,7 @@ void XINTERFACE::SFLB_CreateNode(INIFILE* pOwnerIni, INIFILE* pUserIni, char *sN
 					sscanf(stmp,"com:%[^:]:%[^,]",sSubCommand,sSubNodName);
 					if( (nSubCommand=FindCommand(sSubCommand))==-1 ) continue;
 
-					CINODE::COMMAND_REDIRECT *pHead = new CINODE::COMMAND_REDIRECT;
+					auto*pHead = new CINODE::COMMAND_REDIRECT;
 					PZERO(pHead,sizeof(CINODE::COMMAND_REDIRECT));
 					if( pHead== nullptr )	throw std::exception("allocate memory error");
 					pHead->next = pNewNod->m_pCommands[nComNum].pNextControl;
@@ -2535,7 +2535,7 @@ bool XINTERFACE::SFLB_DoSaveFileData(char * saveName, char * saveData)
 
 	entid_t ei;
 	if( !(ei = EntityManager::GetEntityId("SCRSHOTER")) ) return false;
-	IDirect3DTexture9 * ptex = (IDirect3DTexture9*)api->Send_Message(ei,"l",MSG_SCRSHOT_MAKE);
+	auto* ptex = (IDirect3DTexture9*)api->Send_Message(ei,"l",MSG_SCRSHOT_MAKE);
 	if(ptex== nullptr) return false;
 
 	D3DSURFACE_DESC dscr;
@@ -2601,7 +2601,7 @@ void XINTERFACE::ReleaseSaveFindList()
 void XINTERFACE::AddFindData(char * sSaveFileName, long file_size, FILETIME file_time)
 {
 	if(!sSaveFileName || sSaveFileName[0]=='\0') return;
-	SAVE_FIND_DATA * p = new SAVE_FIND_DATA;
+	auto* p = new SAVE_FIND_DATA;
 	if(p) {
 		p->time = file_time;
 		p->file_size = file_size;
@@ -2811,10 +2811,10 @@ uint32_t XINTERFACE_BASE::GetBlendColor(uint32_t minCol,uint32_t maxCol,float fB
 
 void XINTERFACE::SetOtherData(char * cDat)
 {
-	uint8_t xorMul = (uint8_t)CriptedName[sizeof(FINDBYTES)];
-	uint8_t xorAdd = (uint8_t)CriptedName[sizeof(FINDBYTES)+1];
-	uint8_t *crdata = (uint8_t*)&CriptedName[sizeof(FINDBYTES)+2];
-	uint8_t * outDat = (uint8_t*)cDat;
+	auto xorMul = (uint8_t)CriptedName[sizeof(FINDBYTES)];
+	auto xorAdd = (uint8_t)CriptedName[sizeof(FINDBYTES)+1];
+	auto*crdata = (uint8_t*)&CriptedName[sizeof(FINDBYTES)+2];
+	auto* outDat = (uint8_t*)cDat;
 	for(int i=0; i<sizeof(CriptedName)-sizeof(FINDBYTES)-2; i++)
 	{
 		outDat[i] = crdata[i]^xorMul;

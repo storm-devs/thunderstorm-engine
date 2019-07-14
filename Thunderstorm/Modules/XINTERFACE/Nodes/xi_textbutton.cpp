@@ -47,7 +47,7 @@ void CXI_TEXTBUTTON::Draw(bool bSelected,uint32_t Delta_Time)
 	{
 		if(bSelected^m_bCurrentSelected)
 		{
-			XI_ONETEX_VERTEX *pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
+			auto*pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
 			if(pVert!= nullptr)
 			{
 				FXYRECT texRect;
@@ -283,8 +283,8 @@ void CXI_TEXTBUTTON::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
 	m_idVBuf = m_rs->CreateVertexBuffer(XI_ONETEX_FVF,m_nVert*sizeof(XI_ONETEX_VERTEX),D3DUSAGE_WRITEONLY);
 
 	// Lock buffers for write
-	XI_ONETEX_VERTEX *pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
-	uint16_t *pIndx = (uint16_t*) m_rs->LockIndexBuffer(m_idIBuf);
+	auto*pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
+	auto*pIndx = (uint16_t*) m_rs->LockIndexBuffer(m_idIBuf);
 	if(pVert== nullptr || pIndx== nullptr)
 		throw std::exception("can not create the index&vertex buffers");
 
@@ -358,7 +358,7 @@ void CXI_TEXTBUTTON::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name
 		m_idUnSelectLeft = pPictureService->GetImageNum(m_sGroupName,param);
 	pPictureService->GetTexturePos(m_idUnSelectLeft,texRect);
 	pPictureService->GetTexturePos(m_idUnSelectLeft,natureRect);
-	float fLeftMiddle = float(m_rect.left + natureRect.right-natureRect.left);
+	auto fLeftMiddle = float(m_rect.left + natureRect.right-natureRect.left);
 	pVert[0].tu = pVert[12].tu = pVert[24].tu = pVert[36].tu = texRect.left;
 	pVert[0].tv = pVert[12].tv = pVert[24].tv = pVert[36].tv = texRect.top;
 	pVert[1].tu = pVert[13].tu = pVert[25].tu = pVert[37].tu = texRect.right;
@@ -608,7 +608,7 @@ void CXI_TEXTBUTTON::FillPositionIntoVertices()
 	FXYRECT	texRect;
 	XYRECT	natureRect;
 
-	XI_ONETEX_VERTEX *pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
+	auto*pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
 
 	if(m_idShadowTex>=0)
 	{

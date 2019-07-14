@@ -60,7 +60,7 @@ void CXI_SCROLLBAR::Draw(bool bSelected,uint32_t Delta_Time)
 	{
 		if(bSelected^m_bPrevSelectStatus)
 		{
-			XI_ONETEX_VERTEX *pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
+			auto*pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
 			if(pVert!= nullptr)
 			{
 				m_bPrevSelectStatus = bSelected;
@@ -195,8 +195,8 @@ void CXI_SCROLLBAR::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2
 	m_idVBuf = m_rs->CreateVertexBuffer(XI_ONETEX_FVF,m_nVert*sizeof(XI_ONETEX_VERTEX),D3DUSAGE_WRITEONLY);
 
 	// Lock buffers for write
-	XI_ONETEX_VERTEX *pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
-	uint16_t *pIndx = (uint16_t*) m_rs->LockIndexBuffer(m_idIBuf);
+	auto*pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
+	auto*pIndx = (uint16_t*) m_rs->LockIndexBuffer(m_idIBuf);
 	if(pVert== nullptr || pIndx== nullptr)
 		throw std::exception("can not create the index&vertex buffers");
 
@@ -392,7 +392,7 @@ uint32_t CXI_SCROLLBAR::MessageProc(long msgcode, MESSAGE & message)
 
 void CXI_SCROLLBAR::UpdatePosition()
 {
-	XI_ONETEX_VERTEX *pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
+	auto*pVert = (XI_ONETEX_VERTEX*) m_rs->LockVertexBuffer(m_idVBuf);
 
 	int idx=0;
 	int sideWidth = m_nSideWidth;

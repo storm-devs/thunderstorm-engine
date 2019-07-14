@@ -94,7 +94,7 @@ void FLAG::Execute(uint32_t Delta_Time)
         // получим значение ветра
         if(const auto ei = EntityManager::GetEntityId("weather"))
         {
-            WEATHER_BASE *wb = (WEATHER_BASE*)EntityManager::GetEntityPointer(ei);
+	        auto*wb = (WEATHER_BASE*)EntityManager::GetEntityPointer(ei);
             globalWind.ang.x=wb->GetFloat(whf_wind_angle);
             globalWind.ang.z=cosf(globalWind.ang.x);
             globalWind.ang.x=sinf(globalWind.ang.x);
@@ -220,7 +220,7 @@ void FLAG::SetTextureCoordinate()
         float stu,addtu,dtu;
         float stv,dtv;
 
-        FLAGLXVERTEX* pv=(FLAGLXVERTEX*)RenderService->LockVertexBuffer(vBuf);
+        auto* pv=(FLAGLXVERTEX*)RenderService->LockVertexBuffer(vBuf);
         if(pv)
         {
             for(int fn=0; fn<flagQuantity; fn++)
@@ -440,7 +440,7 @@ void FLAG::SetTreangle()
 {
     int i,idx;
 
-    uint16_t *pt=(uint16_t*)RenderService->LockIndexBuffer(iBuf);
+    auto*pt=(uint16_t*)RenderService->LockIndexBuffer(iBuf);
     if( pt )
     {
         for(int fn=0; fn<flagQuantity; fn++)

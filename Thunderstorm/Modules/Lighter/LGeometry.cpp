@@ -191,9 +191,9 @@ bool LGeometry::Process(VDX9RENDER * rs, long numLights)
 			}
 			for(long v = 0; v < num; v++)
 			{
-				CVECTOR * pos = (CVECTOR *)(pnt + v*stride);
+				auto* pos = (CVECTOR *)(pnt + v*stride);
 				vrt[numVrt].p = *pos;
-				CVECTOR * nrm = (CVECTOR *)(pnt + v*stride + 3*sizeof(float));
+				auto* nrm = (CVECTOR *)(pnt + v*stride + 3*sizeof(float));
 				vrt[numVrt].n = *nrm;
 				uint32_t color = *(uint32_t *)(pnt + v*stride + 6*sizeof(float));
 				float l = ~vrt[numVrt].n;
@@ -227,7 +227,7 @@ bool LGeometry::Process(VDX9RENDER * rs, long numLights)
 		object[i].lBufSize = cindex;
 		//Треугольники--------------------------------------------------------------------------------
 		long ibID = g->GetIndexBuffer();
-		uint16_t * idx = (uint16_t *)rs->LockIndexBuffer(ibID);
+		auto* idx = (uint16_t *)rs->LockIndexBuffer(ibID);
 		if(!idx)
 		{
 			api->Trace("Location lighter: index buffer no locked, model %s", object[i].nameReal);
@@ -411,7 +411,7 @@ bool LGeometry::Save()
 	//Сохраняем объекты
 	bool result = true;
 	long bufSize = 16384;
-	uint32_t * buf = new uint32_t[bufSize];
+	auto* buf = new uint32_t[bufSize];
 	for(long i = 0, pnt = 0; i < numObjects; i++)
 	{
 		if(object[i].lBufSize <= 0) continue;

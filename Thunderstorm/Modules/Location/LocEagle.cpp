@@ -39,7 +39,7 @@ bool LocEagle::Init()
 {
 	//Точка, вокруг которой летаем
 	const auto loc = EntityManager::GetEntityId("location");
-	Location * location = (Location *)EntityManager::GetEntityPointer(loc);
+	auto* location = (Location *)EntityManager::GetEntityPointer(loc);
 	if(!location) return false;
 	cnt = location->GetPtcData().middle + CVECTOR(0.0f, 30.0f, 0.0f);
 	//Путь для текстур
@@ -62,7 +62,7 @@ bool LocEagle::Init()
 	//Анимация
 	if(!api->Send_Message(mdl, "ls", MSG_MODEL_LOAD_ANI, "eagle")) return false;
 	//Запускаем проигрывание анимации
-	MODEL * m = (MODEL *)EntityManager::GetEntityPointer(mdl);
+	auto* m = (MODEL *)EntityManager::GetEntityPointer(mdl);
 	if(!m) return false;
 	Animation * ani = m->GetAnimation();
 	if(!ani) return false;
@@ -79,7 +79,7 @@ bool LocEagle::Init()
 void LocEagle::Execute(uint32_t delta_time)
 {
 	//Моделька
-	MODEL * m = (MODEL *)EntityManager::GetEntityPointer(mdl);
+	auto* m = (MODEL *)EntityManager::GetEntityPointer(mdl);
 	if(!m) return;
 	//Обновляем позицию
 	float dltTime = delta_time*0.001f;

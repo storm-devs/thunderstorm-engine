@@ -175,7 +175,7 @@ char * SECTION::GetName()
 
 KEY_NODE * SECTION::AddNode()
 {
-	KEY_NODE* node = new KEY_NODE;
+	auto* node = new KEY_NODE;
 	if(node == nullptr) throw "node creation error";
 	node->Add(&Root,&Top);
 	return node;

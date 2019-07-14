@@ -57,7 +57,7 @@ void AIBalls::SetDevice()
 
 void AIBalls::FireBallFromCamera()
 {
-	VDATA * pMainCharIndex = (VDATA *)api->GetScriptVariable("nMainCharacterIndex"); if (!pMainCharIndex) return;
+	auto* pMainCharIndex = (VDATA *)api->GetScriptVariable("nMainCharacterIndex"); if (!pMainCharIndex) return;
 	long iMainCharIndex = pMainCharIndex->GetLong(); if (iMainCharIndex < 0) return;
 	VDATA * pMainCharacter = (VDATA *)api->GetScriptVariable("Characters"); if (!pMainCharacter) return;
 	ATTRIBUTES * pAMainCharacter = pMainCharacter->GetAClass(iMainCharIndex); if (!pAMainCharacter) return;
@@ -230,7 +230,7 @@ void AIBalls::Execute(uint32_t Delta_Time)
 
 			const auto its = EntityManager::GetEntityIdIterators(SHIP_CANNON_TRACE);
 			for (auto it = its.first; it != its.second; ++it) {
-				CANNON_TRACE_BASE * pShip = (CANNON_TRACE_BASE*)EntityManager::GetEntityPointer(it->second);
+				auto* pShip = (CANNON_TRACE_BASE*)EntityManager::GetEntityPointer(it->second);
 				fRes = pShip->Cannon_Trace(pBall->iBallOwner, vSrc, vDst);
 				if (fRes <= 1.0f) break;
 			}

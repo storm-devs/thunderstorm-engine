@@ -253,8 +253,8 @@ void SUNGLOW::Realize(uint32_t Delta_Time)
 		{
 			flare_t * pF = &Flares.aFlares[i];
 			uint32_t r = uint32_t(fFadeout * fAlpha * fAlphaFlare * float((pF->dwColor&0xFF0000)>>16L));
-			uint32_t g = uint32_t(fFadeout * fAlpha * fAlphaFlare * float((pF->dwColor&0xFF00)>>8L));
-			uint32_t b = uint32_t(fFadeout * fAlpha * fAlphaFlare * float((pF->dwColor&0xFF)>>0L));
+			auto g = uint32_t(fFadeout * fAlpha * fAlphaFlare * float((pF->dwColor&0xFF00)>>8L));
+			auto b = uint32_t(fFadeout * fAlpha * fAlphaFlare * float((pF->dwColor&0xFF)>>0L));
 			//RS_RECT * pRSR = &aRSR[aRSR.Add()];
 			RS_RECT rect;
 			rect.dwColor = RGB(r,g,b);
@@ -439,7 +439,7 @@ void SUNGLOW::DrawRect(uint32_t dwColor,const CVECTOR& pos,float fSize,float fAn
 	vp4 = pos + vx + vy;
 
 	long nv = 0;
-	SUNGLOWVERTEX * pV = (SUNGLOWVERTEX*)pRS->LockVertexBuffer( idRectBuf );
+	auto* pV = (SUNGLOWVERTEX*)pRS->LockVertexBuffer( idRectBuf );
 	if( pV )
 	{
 		// добавляем первую точку (левый верхний угол)

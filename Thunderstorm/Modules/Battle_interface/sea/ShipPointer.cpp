@@ -38,7 +38,7 @@ bool SHIPPOINTER::Init()
 	m_idVBuf = rs->CreateVertexBuffer(SPV_FORMAT,4 * sizeof(SPV_VERTEX),D3DUSAGE_WRITEONLY);
 	if(m_idVBuf<0) return false;
 
-	SPV_VERTEX * pv = (SPV_VERTEX*)rs->LockVertexBuffer(m_idVBuf);
+	auto* pv = (SPV_VERTEX*)rs->LockVertexBuffer(m_idVBuf);
 	if(pv!= nullptr)
 	{
 		pv[0].tu = 0.f;		pv[0].tv = 0.f;
@@ -122,7 +122,7 @@ void SHIPPOINTER::UpdateShipPointer()
 	if(!m_bVisible)	return;
 	if(m_pShip== nullptr) return;
 
-	SPV_VERTEX * pv = (SPV_VERTEX*)rs->LockVertexBuffer(m_idVBuf);
+	auto* pv = (SPV_VERTEX*)rs->LockVertexBuffer(m_idVBuf);
 	if(pv!= nullptr)
 	{
 		CVECTOR campos,camang;

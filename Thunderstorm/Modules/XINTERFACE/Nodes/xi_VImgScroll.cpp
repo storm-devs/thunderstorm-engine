@@ -1395,7 +1395,7 @@ float CXI_VIMAGESCROLL::GetShiftDistance(int shiftIdx)
 	int n = shiftIdx<0 ? -shiftIdx : shiftIdx;
 
 	bool bNoFindBottom = true;
-	float fbottom = (float)m_pCenter.y;
+	auto fbottom = (float)m_pCenter.y;
 	SCROLLEntity* pprev = m_pScroll;
 	SCROLLEntity* pscr;
 	for(pscr =m_pScroll; pscr!= nullptr; pscr=pscr->next)

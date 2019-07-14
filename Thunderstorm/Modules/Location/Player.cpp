@@ -621,7 +621,7 @@ Player * Player::FindAttackCharacter()
 		Supervisor::FindCharacter & fc = fndCharacter[i];
 		//Невоюющих не смотрим
 		//if(!fc.c->IsFight()) continue;
-		Player * chr = (Player *)fc.c;
+		auto* chr = (Player *)fc.c;
 		if(chr == this) continue;
 		//Мёртвых пропускаем
 		if(chr->liveValue < 0 || chr->deadName) continue;
@@ -698,7 +698,7 @@ void Player::FireFromShootgun()
 	CVECTOR src = mtx.Pos() + mtx.Vz()*0.7f;
 	api->Send_Message(effects, "sffffff", "SGFireParticles", src.x, src.y - 0.35f, src.z, mtx.Vz().x, mtx.Vz().y, mtx.Vz().z);
 
-	COLLIDE * collide = (COLLIDE *)api->CreateService("COLL");
+	auto* collide = (COLLIDE *)api->CreateService("COLL");
 	if(!collide)
 	{
 		return;
@@ -733,7 +733,7 @@ void Player::FireFromShootgun()
 					long n, nm;
 					for(n = 0, nm = location->supervisor.numCharacters; n < nm; n++)
 					{
-						Player * c = (Player *)location->supervisor.character[n].c;
+						auto* c = (Player *)location->supervisor.character[n].c;
 						if(c->Model() == e)
 						{
 							api->Send_Message(effects, "sffffff", "SGBloodParticles", dst.x, dst.y, dst.z, dir.x, dir.y, dir.z);

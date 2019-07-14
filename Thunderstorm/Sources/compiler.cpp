@@ -6001,7 +6001,7 @@ bool COMPILER::SaveState(HANDLE fh)
 		BC_Execute(function_code, pResult);
 
 	EXTDATA_HEADER edh;
-	VDATA* pVDat = (VDATA*)api->GetScriptVariable("savefile_info");
+	auto* pVDat = (VDATA*)api->GetScriptVariable("savefile_info");
 	if( pVDat && pVDat->GetString() )
 		sprintf_s(edh.sFileInfo,sizeof(edh.sFileInfo),"%s",pVDat->GetString());
 	else sprintf_s(edh.sFileInfo,sizeof(edh.sFileInfo),"save");
@@ -6250,7 +6250,7 @@ bool COMPILER::SetSaveData(char * file_name, void * save_data, long data_size)
 	if (fh == INVALID_HANDLE_VALUE) return false;
 
 	uint32_t dwFileSize = fio->_GetFileSize(fh, nullptr);
-	VDATA* pVDat = (VDATA*)api->GetScriptVariable("savefile_info");
+	auto* pVDat = (VDATA*)api->GetScriptVariable("savefile_info");
 	if( pVDat && pVDat->GetString() )
 		sprintf_s(exdh.sFileInfo,sizeof(exdh.sFileInfo),"%s",pVDat->GetString());
 	else sprintf_s(exdh.sFileInfo,sizeof(exdh.sFileInfo),"save");

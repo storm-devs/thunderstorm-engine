@@ -304,7 +304,7 @@ uint32_t CXI_PICTURE::MessageProc(long msgcode, MESSAGE & message)
 
 	case 7: // set new picture by pointer to IDirect3DTexture9
 		{
-			IDirect3DBaseTexture9* pTex = (IDirect3DBaseTexture9*)message.Pointer();
+			auto* pTex = (IDirect3DBaseTexture9*)message.Pointer();
 			SetNewPictureByPointer( pTex );
 		}
 		break;
@@ -313,12 +313,12 @@ uint32_t CXI_PICTURE::MessageProc(long msgcode, MESSAGE & message)
 		{
 			char srcNodeName[256];
 			message.String( sizeof(srcNodeName), srcNodeName );
-			CINODE* pNod = (CINODE*)ptrOwner->FindNode(srcNodeName,nullptr);
+			auto* pNod = (CINODE*)ptrOwner->FindNode(srcNodeName,nullptr);
 			if( pNod->m_nNodeType != NODETYPE_PICTURE ) {
 				api->Trace("Warning! XINTERFACE:: node with name %s have not picture type.", srcNodeName);
 			} else {
 				ReleasePicture();
-				CXI_PICTURE* pOtherPic = (CXI_PICTURE*)pNod;
+				auto* pOtherPic = (CXI_PICTURE*)pNod;
 				if( pOtherPic->m_pD3D8Texture ) {
 					SetNewPictureByPointer( pOtherPic->m_pD3D8Texture );
 				}

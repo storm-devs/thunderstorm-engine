@@ -1434,7 +1434,7 @@ float CXI_SCROLLIMAGE::GetShiftDistance(int shiftIdx)
 	int n = shiftIdx<0 ? -shiftIdx : shiftIdx;
 
 	bool bNoFindRight = true;
-	float fright = (float)m_pCenter.x;
+	auto fright = (float)m_pCenter.x;
 	SCROLLEntity* pprev = m_pScroll;
 	SCROLLEntity* pscr;
 	for(pscr=m_pScroll; pscr!= nullptr; pscr=pscr->next)

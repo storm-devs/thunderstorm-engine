@@ -25,7 +25,7 @@ void MESSAGE_ICONS::Update(uint32_t deltaTime)
 	int i,j,n,q;
 	if(m_bShowMsgIcon)
 	{
-		BI_COLOR_VERTEX *pVBuf = (BI_COLOR_VERTEX*)rs->LockVertexBuffer(m_vMsgIconBufID);
+		auto*pVBuf = (BI_COLOR_VERTEX*)rs->LockVertexBuffer(m_vMsgIconBufID);
 		if(!pVBuf) return;
 
 		// Расчет цвета мигания
@@ -55,7 +55,7 @@ void MESSAGE_ICONS::Update(uint32_t deltaTime)
 					m_pMsgColumns[i].pRow[j].color = BIUtils::GetIntervalColor(ARGB(0,128,128,128), ARGB(255,128,128,128), m_pMsgColumns[i].pRow[j].curTime/m_fBlendTime);
 				}
 				// осадка иконок вниз
-				float fBottonLimit = (float)m_nBottomY;
+				auto fBottonLimit = (float)m_nBottomY;
 				if(j>0)	fBottonLimit = m_pMsgColumns[i].pRow[j-1].bottom - m_nMsgIconHeight - m_nMsgIconDist;
 				if( m_pMsgColumns[i].pRow[j].bottom < fBottonLimit )
 				{
@@ -202,7 +202,7 @@ bool MESSAGE_ICONS::InitData(entid_t  host_eid, VDX9RENDER * _rs, ATTRIBUTES * p
 		}
 	}
 
-	BI_COLOR_VERTEX * pVBuf = (BI_COLOR_VERTEX*)rs->LockVertexBuffer(m_vMsgIconBufID);
+	auto* pVBuf = (BI_COLOR_VERTEX*)rs->LockVertexBuffer(m_vMsgIconBufID);
 	if(pVBuf!= nullptr)
 	{
 		for(i=0; i<m_nMsgIconRowQnt*MESSAGE_ICONS_COLUMN_QUANTITY*4; i++)
@@ -214,7 +214,7 @@ bool MESSAGE_ICONS::InitData(entid_t  host_eid, VDX9RENDER * _rs, ATTRIBUTES * p
 		rs->UnLockVertexBuffer(m_vMsgIconBufID);
 	}
 
-	uint16_t * pIBuf = (uint16_t*)rs->LockIndexBuffer(m_iMsgIconBufID);
+	auto* pIBuf = (uint16_t*)rs->LockIndexBuffer(m_iMsgIconBufID);
 	if(pIBuf!= nullptr)
 	{
 		for(i=0; i<m_nMsgIconRowQnt*MESSAGE_ICONS_COLUMN_QUANTITY; i++)

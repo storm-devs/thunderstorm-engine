@@ -40,7 +40,7 @@ bool ActionInfo::AddEvent(const char * ename, float frame, ExtAnimationEventType
 	if(numEvents >= ANI_MAX_EVENTS || ename[0] == 0) return false;
 	//Расчитаем относительное время
 	if(frame > float(endFrame)) frame = float(endFrame);
-	float t = float(frame - startFrame);
+	auto t = float(frame - startFrame);
 	if(t < 0.0f) t = 0.0f;
 	if(t > 0.0f) t /= endFrame - startFrame;
 	if(t > 1.0f) t = 1.0f;
