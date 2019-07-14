@@ -1,5 +1,4 @@
 #include "script_func.h"
-#include "sail_base.h"
 #include "sail.h"
 #include "v_s_stack.h"
 #include <EntityManager.h>

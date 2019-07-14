@@ -1,5 +1,4 @@
 #include "s_functab.h"
-#include <cstring>
 
 /*DWORD _testfunc(VS_STACK * ps)
 {

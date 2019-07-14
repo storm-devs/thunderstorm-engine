@@ -1,6 +1,5 @@
 #include "rands.h"
 #include "WaterRings.h"
-#include "storm_assert.h"
 
 #define PI		3.14159265358979323846f
 #define PIm2	(PI * 2.0f)

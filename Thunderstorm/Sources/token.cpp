@@ -1,5 +1,4 @@
 #include <cstdio>
-#include <cstring>
 #include "token.h"
 
 #include "vapi.h"

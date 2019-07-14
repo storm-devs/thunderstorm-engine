@@ -7,7 +7,6 @@
 #include "particles/iparticlemanager.h"
 #include "particles/iparticlesservice.h"
 #include "particles/iparticlesystem.h"
-#include "storm_assert.h"
 
 PARTICLES::PARTICLES()
 {

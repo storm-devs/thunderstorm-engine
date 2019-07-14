@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "aviplayer.h"
-#include "defines.h"
 #include "../../../Shared/interface/messages.h"
 #include "../EntityManager.h"
 

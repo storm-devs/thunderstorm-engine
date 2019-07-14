@@ -1,11 +1,9 @@
 #include "sdevice.h"
-#include "Matrix.h"
 #include "filesystem.h"
 #include "texture.h"
 #include "script_libriary.h"
 #include "v_s_stack.h"
 #include <DxErr.h>
-#include <io.h>
 #include "inlines.h"
 #include "EntityManager.h"
 

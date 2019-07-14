@@ -1,13 +1,11 @@
 #include "DataSource.h"
 
-#include "DataBool.h"
 #include "DataColor.h"
 #include "DataFloat.h"
 #include "DataGraph.h"
 #include "DataString.h"
 
 
-#include "../../ICommon/MemFile.h"
 #include "vmodule_api.h"
 #include "../../ICommon/Names.h"
 

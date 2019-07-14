@@ -8,7 +8,6 @@ CREATE_CLASS(CameraDialog)
 #define HDISP1	1.5f
 #define FOV				2.25f
 
-#include "Matrix.h"
 PLANE planes[6];
 void FindPlanes(const CMatrix &view, const CMatrix &proj);
 
@@ -193,7 +192,6 @@ void CameraDialog::Realize(uint32_t Delta_Time)
 }
 
 
-#include <stdio.h>
 uint64_t CameraDialog::ProcessMessage(MESSAGE &msg)
 {
 	switch(msg.Long())

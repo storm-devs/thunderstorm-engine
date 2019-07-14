@@ -2,7 +2,6 @@
 #include "xinterface.h"
 #include "SCRSHOTER/scrshoter.h"
 #include "Nodes/all_xinode.h"
-#include "defines.h"
 #include "xservice.h"
 #include "Stringservice/strservice.h"
 #include "Stringservice/obj_strservice.h"
@@ -10,7 +9,6 @@
 #include "HelpChooser/HelpChooser.h"
 #include "InfoHandler.h"
 #include "BackScene/backscene.h"
-#include "EntityManager.h"
 
 #include <direct.h>
 

@@ -9,8 +9,6 @@
 //============================================================================================
 
 #include "Grass.h"
-#include "geometry.h"
-#include "Matrix.h"
 #include "defines.h"
 #include "Character.h"
 #include "EntityManager.h"

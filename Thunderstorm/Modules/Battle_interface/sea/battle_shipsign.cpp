@@ -1,5 +1,4 @@
 #include "battle_shipsign.h"
-#include "ships_list.h"
 #include "battle_shipcommand.h"
 #include "../Utils.h"
 #include "../../../Shared/battle_interface/msg_control.h"

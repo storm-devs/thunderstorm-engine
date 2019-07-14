@@ -1,6 +1,5 @@
 #include "xi_videorect.h"
 #include "../base_video.h"
-#include "../xdefines.h"
 #include "EntityManager.h"
 
 CXI_VIDEORECT::CXI_VIDEORECT()

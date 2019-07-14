@@ -1,6 +1,5 @@
 #include "xdefines.h"
 #include <defines.h>
-#include "storm_assert.h"
 
 //////////////////////////////////////////////
 ///    DEFINE GLOBAL DATA                 ////

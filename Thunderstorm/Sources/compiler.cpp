@@ -1,9 +1,6 @@
 #include <cstdio>
 #include "compiler.h"
-#include "Core.h"
-#include "sstring.h"
 #include "s_debug.h"
-#include "defines.h"
 #include "externs.h"
 
 //#define STARFORCE_PROTECTION
@@ -23,8 +20,6 @@
 #define DEF_COMPILE_EXPRESSIONS
 
 #include "zlib.h"
-#include "../vapi.h"
-#include "file_service.h"
 
 #ifdef _XBOX
 #include "..\dx9render.h"
@@ -6795,7 +6790,6 @@ void COMPILER::FormatDialog(char * file_name)
 	sprintf_s(sFileName,"DIALOGS%s",(char *)(file_name + n));
 	sFileName[strlen(sFileName)-1] = 0;
 	strcat_s(sFileName,"h");
-	sprintf_s(buffer,"#include \"%s\"",sFileName);
 
 	fio->_WriteFile(fh,buffer,strlen(buffer),&dwR);
 	fio->_WriteFile(fh,sNewLine,strlen(sNewLine),&dwR);

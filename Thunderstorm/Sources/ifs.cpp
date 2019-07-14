@@ -1,5 +1,4 @@
 #include "ifs.h"
-#include <cstdio>
 #include "../vmodule_api.h"
 
 #define		COMMENT			';'

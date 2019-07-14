@@ -1,11 +1,4 @@
 #include "../../Shared/messages.h"
-#include "Cvector.h"
-#include "geos.h"
-#include "dx9render.h"
-#include "ship_base.h"
-#include "model.h"
-#include "sea_base.h"
-#include "SeafoamDefines.h"
 #include "Seafoam.h"
 #include <EntityManager.h>
 #include "defines.h"

@@ -1,5 +1,4 @@
 #include "xi_VImgScroll.h"
-#include "../xdefines.h"
 
 #define MAXIMAGEQUANTITY 100
 

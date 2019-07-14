@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include "battle_navigator.h"
-#include "../Sd2_h/VAI_ObjBase.h"
 #include "../ship_base.h"
-#include "../Weather_Base.h"
 #include "../Island_Base.h"
 #include "ships_list.h"
 #include "../Utils.h"

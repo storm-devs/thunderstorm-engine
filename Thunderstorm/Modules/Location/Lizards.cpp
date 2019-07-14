@@ -9,7 +9,6 @@
 //============================================================================================
 
 #include "Lizards.h"
-#include "Location.h"
 #include "EntityManager.h"
 
 

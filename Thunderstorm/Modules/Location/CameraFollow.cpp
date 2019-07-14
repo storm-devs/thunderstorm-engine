@@ -10,7 +10,6 @@
 
 #include "CameraFollow.h"
 #include "LocationCamera.h"
-#include "model.h"
 #include "Character.h"
 
 

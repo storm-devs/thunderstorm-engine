@@ -1,6 +1,4 @@
 #include "particlemanager.h"
-#include "dx9render.h"
-#include "vapi.h"
 #include "filesystem.h"
 
 #include "../DataCache/DataCache.h"
@@ -8,7 +6,6 @@
 #include "../System/ParticleSystem/particlesystem.h"
 #include "../Service/particleservice.h"
 
-#include "../System/ParticleProcessor/nameparser.h"
 #include "../ICommon/IEmitter.h"
 #include "../System/DataSource/DataString.h"
 #include "../ICommon/Names.h"

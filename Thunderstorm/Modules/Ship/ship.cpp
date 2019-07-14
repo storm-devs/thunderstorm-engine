@@ -1,5 +1,4 @@
 #include "ship.h" 
-#include "ShipLights.h" 
 #include "Track.h" 
 #include "../../Shared/sea_ai/Script_defines.h"
 #include "../../Shared/sound.h"
@@ -7,7 +6,6 @@
 #include "../../Shared/messages.h"
 #include "sail_msg.h"
 #include "mast_msg.h"
-#include "ship_msg.h"
 #include "inlines.h"
 
 INTERFACE_FUNCTION

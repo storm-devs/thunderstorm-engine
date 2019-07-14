@@ -10,7 +10,6 @@
 
 #include "Sharks.h"
 #include "../../Shared/messages.h"
-#include "model.h"
 #include "geometry.h"
 #include "EntityManager.h"
 

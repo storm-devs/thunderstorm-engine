@@ -2,7 +2,6 @@
 #include "../image/imgrender.h"
 #include "../Utils.h"
 #include "vmodule_api.h"
-#include "storm_assert.h"
 
 BITimer::BITimer()
 {

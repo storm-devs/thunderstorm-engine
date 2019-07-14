@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "xi_strcollection.h"
-#include "../xdefines.h"
 
 CXI_STRCOLLECTION::CXI_STRCOLLECTION()
 {

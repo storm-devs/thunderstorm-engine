@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "xi_linecollection.h"
-#include "..//defines.h"
 
 CXI_LINECOLLECTION::CXI_LINECOLLECTION()
 {

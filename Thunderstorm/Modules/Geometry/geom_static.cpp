@@ -9,7 +9,6 @@ Import library main file
 ******************************************************************************/
 #include "geom.h"
 #include <cstring>
-#include <cstdint>
 
 //create geometry func
 GEOS* CreateGeometry(const char *fname, const char *lightname, GEOM_SERVICE &srv, long flags)

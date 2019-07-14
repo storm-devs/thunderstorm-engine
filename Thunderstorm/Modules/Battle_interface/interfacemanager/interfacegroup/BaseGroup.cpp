@@ -1,5 +1,4 @@
 #include "BaseGroup.h"
-#include "storm_assert.h"
 
 BI_BaseGroup::BI_BaseGroup( BI_ManagerBase* pManager )
 {

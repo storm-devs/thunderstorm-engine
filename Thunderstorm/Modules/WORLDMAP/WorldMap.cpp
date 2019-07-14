@@ -12,7 +12,6 @@
 #include "WorldMap.h"
 #include "WdmCameraStdCtrl.h"
 #include "WdmSea.h"
-#include "WdmRenderModel.h"
 #include "WdmIslands.h"
 #include "WdmClouds.h"
 #include "WdmStorm.h"

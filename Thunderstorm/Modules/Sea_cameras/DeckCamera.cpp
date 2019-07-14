@@ -1,7 +1,4 @@
 #include "DeckCamera.h"
-#include "ship_base.h"
-#include "geos.h"
-#include "defines.h"
 #include "../../Shared/messages.h"
 #include "Sd2_h/SaveLoad.h"
 

@@ -1,6 +1,4 @@
 #include "Blood.h"
-#include "geometry.h"
-#include "Matrix.h"
 #include "Character.h"
 #include "defines.h"
 

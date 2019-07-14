@@ -1,5 +1,4 @@
 #include <io.h>
-#include <stdio.h>
 
 #include "sdevice.h"
 #include "tga.h"

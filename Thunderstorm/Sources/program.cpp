@@ -1,5 +1,4 @@
 #include "program.h"
-#include "Core.h"
 
 extern CORE Core;
 

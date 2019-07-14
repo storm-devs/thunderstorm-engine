@@ -12,7 +12,6 @@
 
 #include "ModelArray.h"
 #include "../../Shared/messages.h"
-#include "model.h"
 #include "EntityManager.h"
 
 //============================================================================================

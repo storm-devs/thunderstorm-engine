@@ -1,10 +1,7 @@
 #include <stdio.h>
-#include <assert.h>
 #include "xi_formttext.h"
-#include "..//defines.h"
 #include "../xinterface.h"
 #include "xi_scroller.h"
-#include "../defines.h"
 #include "../EntityManager.h"
 
 static void SubRightWord(char* buf,int fontNum,int width,VDX9RENDER *rs)

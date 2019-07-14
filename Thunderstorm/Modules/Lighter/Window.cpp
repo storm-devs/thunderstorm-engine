@@ -10,7 +10,6 @@
 
 #include <cstdint>
 #include "Window.h"
-#include "Lights.h"
 #include "../../Shared/messages.h"
 #include "EntityManager.h"
 

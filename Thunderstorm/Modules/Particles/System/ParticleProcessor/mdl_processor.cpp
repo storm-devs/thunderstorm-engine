@@ -2,13 +2,10 @@
 #include "../../ICommon/Names.h"
 #include "../../ICommon/IEmitter.h"
 #include "../DataSource/DataGraph.h"
-#include "dx9render.h"
 #include "geos.h"
 #include "../ParticleSystem/particlesystem.h"
-#include "../../Manager/particlemanager.h"
 #include "physic.h"
 #include "defines.h"
-#include "vmodule_api.h"
 
 
 //Сколько всего может быть моделей

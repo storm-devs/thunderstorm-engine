@@ -1,5 +1,4 @@
 #include "LocationScriptLib.h"
-#include "dx9render.h"
 #include "v_s_stack.h"
 #include "Fader.h"
 #include "EntityManager.h"

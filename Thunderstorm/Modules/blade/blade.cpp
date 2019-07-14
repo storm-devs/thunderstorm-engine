@@ -7,7 +7,6 @@ Comments:
 model binded to an animated locator
 ******************************************************************************/
 #include "blade.h"
-#include "model.h"
 #include "geometry.h"
 #include "../../Shared/messages.h"
 static const char *handName = "Saber_hand";

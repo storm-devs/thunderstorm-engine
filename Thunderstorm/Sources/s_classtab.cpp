@@ -1,5 +1,4 @@
 #include "s_classtab.h"
-#include <cstring>
 
 S_CLASSTAB::S_CLASSTAB()
 {

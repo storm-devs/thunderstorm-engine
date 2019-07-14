@@ -1,10 +1,8 @@
 #include "MAST.h"
 #include "mast_msg.h"
 #include "sail_msg.h"
-#include "geos.h"
 #include "ship_base.h"
 #include "Island_Base.h"
-#include <stdio.h>
 
 #define DELTA_TIME(x)			((x) * 0.001f)
 #define DELTA_TIME_ROTATE(x)	((x) * 0.01f)

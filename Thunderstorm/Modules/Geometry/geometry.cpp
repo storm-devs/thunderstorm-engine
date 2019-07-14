@@ -1,5 +1,4 @@
 #include "geometry_R.h"
-#include "geos.h"
 
 INTERFACE_FUNCTION
 CREATE_SERVICE(GEOMETRY)
@@ -80,7 +79,6 @@ bool GEOMETRY::LoadState(ENTITY_STATE * state)
 	return true;
 }
 
-#include <stdio.h>
 char lightPath[256];
 int vrtSize;
 GEOS * GEOMETRY::CreateGeometry(const char * file_name,const char * light_file_name, long flags, const char *lmPath)

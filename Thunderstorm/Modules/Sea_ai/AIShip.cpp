@@ -1,6 +1,5 @@
 #include "AIShip.h"
 #include "AIFort.h"
-#include "ship_base.h"
 #include "inlines.h"
 
 std::vector<AIShip*> AIShip::AIShips;

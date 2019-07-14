@@ -1,15 +1,11 @@
 #include "InterfaceManager.h"
 #include "../image/imgrender.h"
-#include "../image/image.h"
-#include "../Utils.h"
 #include "MousePointer.h"
 #include "interfacenode/AllNodes.h"
 
-#include "interfacegroup/BaseGroup.h"
 #include "interfacegroup/SeaGroup.h"
 
 #include "../../../Shared/bimanager/messages.h"
-#include "storm_assert.h"
 #include "../vmodule_api.h"
 
 BI_InterfaceManager::BI_InterfaceManager()

@@ -1,5 +1,4 @@
 #include "AIHelper.h"
-#include "AIShip.h"
 #include "AIFort.h"
 #include "../../Shared/events.h"
 

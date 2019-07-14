@@ -1,5 +1,4 @@
 #include "ShipInfoImages.h"
-#include "../image/imgrender.h"
 #include "../ship_base.h"
 #include "../Utils.h"
 

@@ -1,6 +1,4 @@
 #include <stdio.h>
-#include "../vmodule_api.h"
-#include "../xdefines.h"
 #include "xi_util.h"
 #include "../inode.h"
 

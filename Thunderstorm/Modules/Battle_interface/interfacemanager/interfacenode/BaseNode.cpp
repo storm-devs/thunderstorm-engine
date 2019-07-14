@@ -1,5 +1,4 @@
 #include "BaseNode.h"
-#include "storm_assert.h"
 
 BI_BaseNode::BI_BaseNode( BI_ManagerBase* pManager ): m_pRS(nullptr)
 {

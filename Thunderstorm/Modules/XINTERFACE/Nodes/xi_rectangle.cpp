@@ -1,5 +1,4 @@
 #include "xi_rectangle.h"
-#include "../xdefines.h"
 
 CXI_RECTANGLE::CXI_RECTANGLE()
 {

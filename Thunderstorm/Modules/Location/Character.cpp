@@ -10,7 +10,6 @@
 
 
 #include "Character.h"
-#include "Location.h"
 #include "Lights.h"
 #include "CharactersGroups.h"
 
@@ -4366,7 +4365,6 @@ Character * Character::FindGunTarget(float & kDist, bool bOnlyEnemyTest)
 	return nullptr;
 }
 
-#include <stdio.h>
 
 void Character::FindNearCharacters(MESSAGE & message)
 {

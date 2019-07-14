@@ -1,6 +1,5 @@
 #include "vmodule_api.h"
 #include "defines.h"
-#include "Matrix.h"
 #include "TextureSequence.h"
 
 #define FILE_PATH "TextureSequence\\%s.tga"

@@ -1,5 +1,4 @@
 #include "xi_scrollbar.h"
-#include "../xdefines.h"
 
 #define CLICK_TYPE_CENTER	0
 #define CLICK_TYPE_LEFT		1

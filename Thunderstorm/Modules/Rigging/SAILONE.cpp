@@ -4,9 +4,6 @@
 
 #include "SAILONE.h"
 #include "defines.h"
-#include "Matrix.h"
-#include "model.h"
-#include "sail_base.h"
 #include "Sd2_h/VAI_ObjBase.h"
 #include "rigging_define.h"
 #include "sail.h"

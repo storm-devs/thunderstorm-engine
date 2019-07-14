@@ -1,6 +1,5 @@
 #include "xi_image.h"
 #include "../xinterface.h"
-#include "../xdefines.h"
 
 #define DEFAULT_IMAGE_OBJECT_WIDTH	32
 #define DEFAULT_IMAGE_OBJECT_HEIGHT	32

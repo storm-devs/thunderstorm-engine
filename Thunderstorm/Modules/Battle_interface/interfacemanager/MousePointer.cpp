@@ -1,9 +1,7 @@
 #include "MousePointer.h"
 #include "../Utils.h"
 #include "../image/imgrender.h"
-#include "BaseManager.h"
 #include "../vmodule_api.h"
-#include "storm_assert.h"
 
 #define BI_MOUSECURSOR_ICON_ORDER	35000
 

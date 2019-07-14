@@ -9,10 +9,7 @@
 #include "Sailors.h"
 
 #include "../../Shared/messages.h"
-#include "types3d.h"
 #include "../../Shared/sea_ai/Script_defines.h"
-#include "../../Shared/sea_ai/SeaPeople.h"
-#include "../Ship/ship.h"
 
 //#define //GUARD_SAILORS(block)	{ static const TCHAR block_name[] = TEXT(#block); try {
 //#define //UN//GUARD_SAILORS			} catch(...) { api->Trace("ERROR in Sailors.dll : block '%s'", (char*)block_name); throw _EXS(FATAL,"unknown"); }}

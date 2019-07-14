@@ -9,7 +9,6 @@
 //============================================================================================
 
 #include "NPCharacter.h"
-#include "Location.h"
 #include "CharactersGroups.h"
 #include "defines.h"
 #include "../../Shared/messages.h"

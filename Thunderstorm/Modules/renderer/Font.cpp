@@ -1,5 +1,4 @@
 #include "Font.h"
-#include <stdio.h>
 #include "defines.h"
 
 static char Buffer1024[1024];

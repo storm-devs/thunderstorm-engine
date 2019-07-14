@@ -1,7 +1,5 @@
 #include "battle_land.h"
 #include "battle_mansign.h"
-#include "../bi_defines.h"
-#include "../Utils.h"
 #include "../../../Shared/battle_interface/msg_control.h"
 #include "../vmodule_api.h"
 

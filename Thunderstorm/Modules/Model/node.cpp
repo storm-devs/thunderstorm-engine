@@ -1,7 +1,6 @@
 //#define SHOW_SPHERES 'Q'
 
 #include "modelr.h"
-#include <stdio.h>
 #include "EntityManager.h"
 
 VGEOMETRY *NODER::gs=nullptr;

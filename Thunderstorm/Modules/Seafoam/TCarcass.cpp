@@ -1,5 +1,4 @@
 #include "TCarcass.h"
-#include "defines.h"
 #include "SeafoamDefines.h"
 
 #define FRONT_FADE_LEVEL 3

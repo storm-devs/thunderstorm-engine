@@ -1,8 +1,5 @@
 #include <stdio.h>
-#include <assert.h>
 #include "xi_fourimg.h"
-#include "..//defines.h"
-#include "../defines.h"
 
 CXI_FOURIMAGE::CXI_FOURIMAGE()
 {

@@ -163,7 +163,6 @@ void Bone::BuildStartMatrix()
 //Работа с костью
 //--------------------------------------------------------------------------------------------
 
-#include "AnimationServiceImp.h"
 
 //Добавить кадры анимации
 void Bone::BlendFrame(long frame, float kBlend, D3DXQUATERNION & res)

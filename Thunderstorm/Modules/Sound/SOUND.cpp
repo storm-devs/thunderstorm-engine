@@ -1,12 +1,8 @@
 #include "../../Shared/messages.h"
-#include "defines.h"
-#include "Cvector.h"
 #include "../SoundService/VSoundService.h"
 #include "EntityManager.h"
 
 #include "SOUND.H"
-#include "vdata.h"
-#include "vmodule_api.h"
 
 #define MSG_SOUND_ALIAS_ADD					77017   //"s"		  alias_name
 

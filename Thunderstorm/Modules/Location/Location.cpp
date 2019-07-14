@@ -13,7 +13,6 @@
 #include "Lights.h"
 #include "Character.h"
 
-#include "model.h"
 #include "CVector4.h"
 #include "defines.h"
 #include "../../Shared/messages.h"
@@ -917,7 +916,6 @@ bool Location::IsDebugView()
 #endif
 }
 
-#include <stdio.h>
 
 //Написать текст
 void Location::Print(const CVECTOR & pos3D, float rad, long line, float alpha, uint32_t color, float scale, const char * format, ...)

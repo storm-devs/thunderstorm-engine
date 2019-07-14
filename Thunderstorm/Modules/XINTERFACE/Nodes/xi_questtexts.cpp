@@ -1,5 +1,4 @@
 #include "xi_questtexts.h"
-#include "../xdefines.h"
 
 CXI_QUESTTEXTS::STRING_DESCRIBER::STRING_DESCRIBER(char* ls)
 {

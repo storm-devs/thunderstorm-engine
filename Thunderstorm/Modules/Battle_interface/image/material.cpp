@@ -1,7 +1,6 @@
 #include "material.h"
 #include "image.h"
 #include "imgrender.h"
-#include "storm_assert.h"
 #include "../bi_defines.h"
 
 BIImageMaterial::BIImageMaterial( VDX9RENDER* pRS, BIImageRender* pImgRender )

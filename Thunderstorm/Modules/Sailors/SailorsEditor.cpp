@@ -2,7 +2,6 @@
 #include "SailorsEditor.h"
 
 #include "../../Shared/sea_ai/Script_defines.h"
-#include "math3d/Matrix.h"
 #include "../../Shared/messages.h"
 
 

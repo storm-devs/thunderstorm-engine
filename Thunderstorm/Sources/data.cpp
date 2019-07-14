@@ -1,6 +1,5 @@
 #include "data.h"
 #include "Core.h"
-#include <cfloat>
 
 char * UNINIT_REF = {"Using reference variable without initializing"};
 char * INVALID_REF_OP = {"Invalid operation on reference object"};

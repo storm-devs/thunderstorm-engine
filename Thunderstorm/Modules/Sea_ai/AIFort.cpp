@@ -1,5 +1,4 @@
 #include "AIFort.h"
-#include "AIShip.h"
 #include "filesystem.h"
 #include "../../Shared/messages.h"
 

@@ -2,7 +2,6 @@
 #include "battle_mancommand.h"
 #include "../Utils.h"
 #include "../../../Shared/battle_interface/msg_control.h"
-#include "../controls.h"
 #include "../vmodule_api.h"
 
 BIManSign::BIManSign( entid_t BIEntityID, VDX9RENDER* pRS )

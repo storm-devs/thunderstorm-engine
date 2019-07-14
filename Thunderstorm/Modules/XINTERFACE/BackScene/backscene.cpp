@@ -4,7 +4,6 @@
 #include "../xinterface.h"
 #include "math3d/Matrix.h"
 #include "../../Shared/messages.h"
-#include "storm_assert.h"
 
 InterfaceBackScene::LightParam::~LightParam()
 {

@@ -1,6 +1,5 @@
 #include "ship.h"
 #include "ShipLights.h"
-#include <algorithm>
 #include "../../Shared/messages.h"
 
 VDX9RENDER * ShipLights::pRS = nullptr;

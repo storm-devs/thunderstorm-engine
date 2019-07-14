@@ -1,5 +1,4 @@
 #include "xi_button.h"
-#include <defines.h>
 
 CXI_BUTTON::CXI_BUTTON()
 {

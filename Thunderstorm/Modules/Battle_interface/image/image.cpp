@@ -1,5 +1,4 @@
 #include "image.h"
-#include "material.h"
 #include "imgrender.h"
 
 BIImage::BIImage( VDX9RENDER* rs, BIImageMaterial* pMaterial )

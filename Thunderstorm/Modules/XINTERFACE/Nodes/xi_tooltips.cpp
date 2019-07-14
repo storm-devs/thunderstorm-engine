@@ -1,6 +1,5 @@
 #include "xi_tooltips.h"
 #include "../xinterface.h"
-#include "../xdefines.h"
 #include "../strutils.h"
 
 CXI_ToolTip::CXI_ToolTip( VXSERVICE* pPicService, VSTRSERVICE* pStrService, XYPOINT& pntScrSize )

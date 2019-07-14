@@ -9,9 +9,6 @@
 //============================================================================================
 
 #include "WdmClouds.h"
-#include "WdmCloud.h"
-#include "WorldMap.h"
-#include "WdmCamera.h"
 #include "../Sink_effect/SinkSplashDefines.h"
 #include "WdmObjects.h"
 

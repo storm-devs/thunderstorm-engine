@@ -2,7 +2,6 @@
 #include "../Nodes/xi_image.h"
 #include "editor_defines.h"
 #include "list.h"
-#include "font.h"
 
 GIEditorList::GIEditorList(GIEditor* pEditor)
 {

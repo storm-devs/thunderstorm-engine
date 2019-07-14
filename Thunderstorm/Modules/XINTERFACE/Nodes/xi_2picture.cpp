@@ -1,5 +1,4 @@
 #include "xi_2picture.h"
-#include "../xdefines.h"
 
 void SetRectanglePos(XI_ONETEX_VERTEX v[4],FXYPOINT & center,FXYPOINT &size)
 {

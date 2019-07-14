@@ -1,5 +1,4 @@
 #include "xi_scrollimage.h"
-#include "../xdefines.h"
 
 #define MAXIMAGEQUANTITY 100
 

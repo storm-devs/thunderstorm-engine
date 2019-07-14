@@ -9,10 +9,8 @@
 //============================================================================================
 
 #include "Location.h"
-#include "Character.h"
 #include "Player.h"
 #include "LocationCamera.h"
-#include "NPCharacter.h"
 #include "Fader.h"
 #include "Grass.h"
 #include "Lights.h"

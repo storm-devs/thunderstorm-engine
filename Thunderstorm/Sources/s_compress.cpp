@@ -1,5 +1,4 @@
 #include "s_compress.h"
-#include <cstdlib>
 
 #define BYTEBITS	8
 

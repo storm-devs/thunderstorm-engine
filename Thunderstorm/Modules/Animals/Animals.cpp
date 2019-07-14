@@ -1,6 +1,4 @@
 #include "../../Shared/messages.h"
-#include "Cvector.h"
-#include "../SoundService/VSoundService.h"
 
 #include "Animals.H"
 

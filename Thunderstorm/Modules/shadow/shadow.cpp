@@ -8,7 +8,6 @@ Comments:
 dynamic shadow cpp file
 ******************************************************************************/
 #include "shadow.h"
-#include "model.h"
 #include "../../Shared/messages.h"
 
 static unsigned long HEAD_DENSITY = 0xFF606060;

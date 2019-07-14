@@ -1,7 +1,6 @@
 #include "Vant.h"
 #include "defines.h"
 #include "sail_msg.h"
-#include "model.h"
 #include "ship_base.h"
 #include "rigging_define.h"
 #include "EntityManager.h"

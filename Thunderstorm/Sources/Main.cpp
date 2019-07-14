@@ -1,11 +1,7 @@
 #include "fs.h"
-#include "Core.h"
 #include "s_debug.h"
-#include "file_service.h"
 #include "externs.h"
-#include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
-#include <Windows.h>
 
 S_DEBUG CDebug;
 bool isHold = false;

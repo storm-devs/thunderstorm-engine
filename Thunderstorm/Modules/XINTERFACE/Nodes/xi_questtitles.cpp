@@ -1,5 +1,4 @@
 #include "xi_questtitles.h"
-#include "../xdefines.h"
 
 void SubRightWord(char* buf,int fontNum,int width,VDX9RENDER *rs)
 {

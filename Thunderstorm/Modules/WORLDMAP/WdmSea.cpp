@@ -9,7 +9,6 @@
 //============================================================================================
 
 #include "Matrix.h"
-#include <stdio.h>
 #include "WdmSea.h"
 #include "WdmShip.h"
 #include "defines.h"

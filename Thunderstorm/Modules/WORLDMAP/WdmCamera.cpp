@@ -10,7 +10,6 @@
 
 #include "WdmCamera.h"
 #include "WdmPlayerShip.h"
-#include "WdmObjects.h"
 
 
 //============================================================================================

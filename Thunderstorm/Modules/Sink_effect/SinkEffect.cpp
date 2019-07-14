@@ -1,8 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include "../../Shared/messages.h"
-#include "Cvector.h"
-#include "../SoundService/VSoundService.h"
 #include "SinkEffect.H"
 #include "ship_base.h"
 #include "EntityManager.h"

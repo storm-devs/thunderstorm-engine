@@ -1,7 +1,5 @@
 #include "FreeCamera.h"
 #include "collide.h"
-#include "../Model/modelr.h"
-#include "defines.h"
 #include "Sd2_h/SaveLoad.h"
 
 #define SENSITIVITY		0.0015f

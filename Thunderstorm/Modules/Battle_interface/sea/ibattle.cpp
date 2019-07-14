@@ -1,7 +1,6 @@
 #include <stdio.h>
 
 #include "ibattle.h"
-#include "ships_list.h"
 #include "island_descr.h"
 #include "ShipPointer.h"
 #include "battle_shipsign.h"
@@ -12,7 +11,6 @@
 #include "../LogAndAction.h"
 #include "../spyglass/spyglass.h"
 #include "../ActivePerkShower.h"
-#include "../Utils.h"
 #include "../timer/Timer.h"
 #include "../ItemEntity/itementity.h"
 #include "../WorldMapInterface/interface.h"

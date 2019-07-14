@@ -1,5 +1,4 @@
 #include "xi_conthelp.h"
-#include "../xdefines.h"
 
 CXI_CONTEXTHELP::CXI_CONTEXTHELP()
 {
