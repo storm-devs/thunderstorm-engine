@@ -330,7 +330,7 @@ void ItemEntity::DeleteParticle()
 		const auto eidParticle = EntityManager::GetEntityId("particles");
 		if (eidParticle)
 		{
-			if (api->Send_Message(eidParticle, "lx", PS_VALIDATE_PARTICLE, m_pParticle))
+			if (api->Send_Message(eidParticle, "lp", PS_VALIDATE_PARTICLE, m_pParticle))
 				m_pParticle->Pause(true);
 		}
 		m_pParticle = nullptr;
