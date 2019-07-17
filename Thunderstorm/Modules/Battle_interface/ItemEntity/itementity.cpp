@@ -16,7 +16,8 @@ ItemEntity::~ItemEntity()
 
 bool ItemEntity::Init()
 {
-	return ReadAndCreate();
+	if (!ReadAndCreate()) return false;
+	return true;
 }
 
 void ItemEntity::Realize(uint32_t delta_time)
@@ -249,22 +250,21 @@ void ItemEntity::DrawIntoLocator()
 
 entid_t ItemEntity::GetModelEIDFromCharacterEID(entid_t chrEID)
 {
-	auto* pvdat = (VDATA*)api->GetScriptVariable("g_TmpModelVariable");
-	if (pvdat)
+	if (auto data = (VDATA*)api->GetScriptVariable("g_TmpModelVariable"))
 	{
-		api->Send_Message(chrEID, "le", MSG_CHARACTER_GETMODEL, pvdat);
-		return pvdat->GetEntityID();
+		api->Send_Message(chrEID, "le", MSG_CHARACTER_GETMODEL, data);
+		return data->GetEntityID();
 	}
-	else
-		return invalid_entity;
+
+	return invalid_entity;
 }
 
 void ItemEntity::SetEventListener(entid_t mdlEID, entid_t mdlToTieEID, const char* pcLocName, const char* pcStartEvent,
                                   const char* pcEndEvent)
 {
-	auto* pMdl = (MODEL*)EntityManager::GetEntityPointer(mdlEID);
+	auto pMdl = (MODEL*)EntityManager::GetEntityPointer(mdlEID);
 	if (!pMdl) return;
-	Animation* a = pMdl->GetAnimation();
+	auto a = pMdl->GetAnimation();
 	if (a)
 	{
 		m_eventListener.item = this;
@@ -289,7 +289,7 @@ void ItemEntity::EventListener::Event(Animation* animation, long playerIndex, co
 	}
 	if (!m_bStartWaiting && m_sEndEvent == eventName)
 	{
-		auto* pMdl = (MODEL*)EntityManager::GetEntityPointer(m_eidListenedModel);
+		auto pMdl = (MODEL*)EntityManager::GetEntityPointer(m_eidListenedModel);
 		if (pMdl)
 		{
 			Animation* a = pMdl->GetAnimation();
@@ -305,13 +305,13 @@ bool ItemEntity::CreateParticle()
 
 	if (m_bVisible)
 	{
-		char* pcParticleName = BIUtils::GetStringFromAttr(AttributesPointer, "particle", "");
+		const auto pcParticleName = BIUtils::GetStringFromAttr(AttributesPointer, "particle", "");
 		if (pcParticleName && pcParticleName[0])
 		{
 			const auto eidParticle = EntityManager::GetEntityId("particles");
 			if (eidParticle)
 			{
-				CVECTOR vPos = m_mtxpos.Pos();
+				auto vPos = m_mtxpos.Pos();
 				m_pParticle = (VPARTICLE_SYSTEM*)api->Send_Message(eidParticle, "lsffffffl", PS_CREATE_RIC,
 				                                                   pcParticleName, vPos.x, vPos.y, vPos.z, 0.0f, 1.0f,
 				                                                   0.0f, 0);
